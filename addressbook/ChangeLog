@@ -1,3 +1,11 @@
+2004-11-25  Hao Sheng  <hao.sheng@sun.com>
+
+	* gui/contact-editor/contact-editor.glade:
+	add "labelled by" between entry and label,
+	make accessbility work.
+	* gui/contact-editor/e-contact-editor.c:
+	(e_contact_editor_create_web): add accessible name to e_url_entry.
+
 2004-11-22  Joan Sanfeliu  <joan@fibranet.com>
 
 	* gui/component/apps_evolution_addressbook.schemas.in.in:

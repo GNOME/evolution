@@ -3367,6 +3367,12 @@ e_contact_editor_create_web(gchar *name,
 			    gint int1, gint int2)
 {
 	GtkWidget *widget = e_url_entry_new ();
+	AtkObject *a11y = gtk_widget_get_accessible (e_url_entry_get_entry (widget));
+
+	if (a11y != NULL) {
+		atk_object_set_name (a11y, string1);
+	}
+	
 	gtk_widget_show (widget);
 	return widget;
 }

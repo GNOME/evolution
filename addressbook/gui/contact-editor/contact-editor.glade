@@ -10,6 +10,11 @@
   <property name="modal">False</property>
   <property name="resizable">True</property>
   <property name="destroy_with_parent">False</property>
+  <property name="decorated">True</property>
+  <property name="skip_taskbar_hint">False</property>
+  <property name="skip_pager_hint">False</property>
+  <property name="type_hint">GDK_WINDOW_TYPE_HINT_DIALOG</property>
+  <property name="gravity">GDK_GRAVITY_NORTH_WEST</property>
   <property name="has_separator">False</property>
 
   <child internal-child="vbox">
@@ -31,6 +36,7 @@
 	      <property name="label">gtk-help</property>
 	      <property name="use_stock">True</property>
 	      <property name="relief">GTK_RELIEF_NORMAL</property>
+	      <property name="focus_on_click">True</property>
 	      <property name="response_id">-11</property>
 	    </widget>
 	  </child>
@@ -43,6 +49,7 @@
 	      <property name="label">gtk-cancel</property>
 	      <property name="use_stock">True</property>
 	      <property name="relief">GTK_RELIEF_NORMAL</property>
+	      <property name="focus_on_click">True</property>
 	      <property name="response_id">-6</property>
 	    </widget>
 	  </child>
@@ -56,6 +63,7 @@
 	      <property name="label">gtk-ok</property>
 	      <property name="use_stock">True</property>
 	      <property name="relief">GTK_RELIEF_NORMAL</property>
+	      <property name="focus_on_click">True</property>
 	      <property name="response_id">-5</property>
 	    </widget>
 	  </child>
@@ -97,6 +105,7 @@
 		      <property name="visible">True</property>
 		      <property name="can_focus">True</property>
 		      <property name="relief">GTK_RELIEF_NORMAL</property>
+		      <property name="focus_on_click">True</property>
 
 		      <child>
 			<widget class="Custom" id="image-chooser">
@@ -161,6 +170,9 @@
 			  <property name="has_frame">True</property>
 			  <property name="invisible_char" translatable="yes">*</property>
 			  <property name="activates_default">False</property>
+			  <accessibility>
+			    <atkrelation target="button-fullname" type="labelled-by"/>
+			  </accessibility>
 			</widget>
 			<packing>
 			  <property name="left_attach">1</property>
@@ -227,6 +239,7 @@
 			  <property name="label" translatable="yes">_Categories</property>
 			  <property name="use_underline">True</property>
 			  <property name="relief">GTK_RELIEF_NORMAL</property>
+			  <property name="focus_on_click">True</property>
 			</widget>
 			<packing>
 			  <property name="left_attach">0</property>
@@ -249,6 +262,9 @@
 			  <property name="has_frame">True</property>
 			  <property name="invisible_char" translatable="yes">*</property>
 			  <property name="activates_default">False</property>
+			  <accessibility>
+			    <atkrelation target="button-categories" type="labelled-by"/>
+			  </accessibility>
 			</widget>
 			<packing>
 			  <property name="left_attach">1</property>
@@ -288,6 +304,9 @@
 			  <property name="case_sensitive">False</property>
 			  <property name="enable_arrow_keys">True</property>
 			  <property name="enable_arrows_always">False</property>
+			  <accessibility>
+			    <atkrelation target="accellabel-fileas" type="labelled-by"/>
+			  </accessibility>
 
 			  <child internal-child="entry">
 			    <widget class="GtkEntry" id="entry-file-as">
@@ -344,6 +363,7 @@
 			  <property name="label" translatable="yes">Full _Name...</property>
 			  <property name="use_underline">True</property>
 			  <property name="relief">GTK_RELIEF_NORMAL</property>
+			  <property name="focus_on_click">True</property>
 			</widget>
 			<packing>
 			  <property name="left_attach">0</property>
@@ -492,6 +512,9 @@
 			      <property name="has_frame">True</property>
 			      <property name="invisible_char" translatable="yes">*</property>
 			      <property name="activates_default">False</property>
+			      <accessibility>
+				<atkrelation target="optionmenu-email-2" type="labelled-by"/>
+			      </accessibility>
 			    </widget>
 			    <packing>
 			      <property name="left_attach">1</property>
@@ -591,6 +614,9 @@
 			      <property name="has_frame">True</property>
 			      <property name="invisible_char" translatable="yes">*</property>
 			      <property name="activates_default">False</property>
+			      <accessibility>
+				<atkrelation target="optionmenu-email-1" type="labelled-by"/>
+			      </accessibility>
 			    </widget>
 			    <packing>
 			      <property name="left_attach">1</property>
@@ -612,6 +638,9 @@
 			      <property name="has_frame">True</property>
 			      <property name="invisible_char" translatable="yes">*</property>
 			      <property name="activates_default">False</property>
+			      <accessibility>
+				<atkrelation target="optionmenu-email-3" type="labelled-by"/>
+			      </accessibility>
 			    </widget>
 			    <packing>
 			      <property name="left_attach">3</property>
@@ -633,6 +662,9 @@
 			      <property name="has_frame">True</property>
 			      <property name="invisible_char" translatable="yes">*</property>
 			      <property name="activates_default">False</property>
+			      <accessibility>
+				<atkrelation target="optionmenu-email-4" type="labelled-by"/>
+			      </accessibility>
 			    </widget>
 			    <packing>
 			      <property name="left_attach">3</property>
@@ -650,6 +682,7 @@
 			      <property name="label" translatable="yes">Wants to receive HTML mail</property>
 			      <property name="use_underline">True</property>
 			      <property name="relief">GTK_RELIEF_NORMAL</property>
+			      <property name="focus_on_click">True</property>
 			      <property name="active">False</property>
 			      <property name="inconsistent">False</property>
 			      <property name="draw_indicator">True</property>
@@ -732,6 +765,9 @@
 				      <property name="has_frame">True</property>
 				      <property name="invisible_char" translatable="yes">*</property>
 				      <property name="activates_default">False</property>
+				      <accessibility>
+					<atkrelation target="optionmenu-phone-1" type="labelled-by"/>
+				      </accessibility>
 				    </widget>
 				    <packing>
 				      <property name="left_attach">1</property>
@@ -753,6 +789,9 @@
 				      <property name="has_frame">True</property>
 				      <property name="invisible_char" translatable="yes">*</property>
 				      <property name="activates_default">False</property>
+				      <accessibility>
+					<atkrelation target="optionmenu-phone-2" type="labelled-by"/>
+				      </accessibility>
 				    </widget>
 				    <packing>
 				      <property name="left_attach">1</property>
@@ -774,6 +813,9 @@
 				      <property name="has_frame">True</property>
 				      <property name="invisible_char" translatable="yes">*</property>
 				      <property name="activates_default">False</property>
+				      <accessibility>
+					<atkrelation target="optionmenu-phone-4" type="labelled-by"/>
+				      </accessibility>
 				    </widget>
 				    <packing>
 				      <property name="left_attach">3</property>
@@ -795,6 +837,9 @@
 				      <property name="has_frame">True</property>
 				      <property name="invisible_char" translatable="yes">*</property>
 				      <property name="activates_default">False</property>
+				      <accessibility>
+					<atkrelation target="optionmenu-phone-3" type="labelled-by"/>
+				      </accessibility>
 				    </widget>
 				    <packing>
 				      <property name="left_attach">3</property>
@@ -1065,6 +1110,9 @@
 				      <property name="has_frame">True</property>
 				      <property name="invisible_char" translatable="yes">*</property>
 				      <property name="activates_default">False</property>
+				      <accessibility>
+					<atkrelation target="optionmenu-phone-5" type="labelled-by"/>
+				      </accessibility>
 				    </widget>
 				    <packing>
 				      <property name="left_attach">1</property>
@@ -1086,6 +1134,9 @@
 				      <property name="has_frame">True</property>
 				      <property name="invisible_char" translatable="yes">*</property>
 				      <property name="activates_default">False</property>
+				      <accessibility>
+					<atkrelation target="optionmenu-phone-6" type="labelled-by"/>
+				      </accessibility>
 				    </widget>
 				    <packing>
 				      <property name="left_attach">1</property>
@@ -1185,6 +1236,9 @@
 				      <property name="has_frame">True</property>
 				      <property name="invisible_char" translatable="yes">*</property>
 				      <property name="activates_default">False</property>
+				      <accessibility>
+					<atkrelation target="optionmenu-phone-7" type="labelled-by"/>
+				      </accessibility>
 				    </widget>
 				    <packing>
 				      <property name="left_attach">3</property>
@@ -1206,6 +1260,9 @@
 				      <property name="has_frame">True</property>
 				      <property name="invisible_char" translatable="yes">*</property>
 				      <property name="activates_default">False</property>
+				      <accessibility>
+					<atkrelation target="optionmenu-phone-8" type="labelled-by"/>
+				      </accessibility>
 				    </widget>
 				    <packing>
 				      <property name="left_attach">3</property>
@@ -1259,6 +1316,7 @@
 				  <property name="visible">True</property>
 				  <property name="can_focus">True</property>
 				  <property name="relief">GTK_RELIEF_NONE</property>
+				  <property name="focus_on_click">True</property>
 
 				  <child>
 				    <widget class="GtkArrow" id="arrow-phone-expand">
@@ -1374,6 +1432,9 @@
 			      <property name="has_frame">True</property>
 			      <property name="invisible_char" translatable="yes">*</property>
 			      <property name="activates_default">False</property>
+			      <accessibility>
+				<atkrelation target="optionmenu-im-service-1" type="labelled-by"/>
+			      </accessibility>
 			    </widget>
 			    <packing>
 			      <property name="left_attach">1</property>
@@ -1443,6 +1504,9 @@
 			      <property name="has_frame">True</property>
 			      <property name="invisible_char" translatable="yes">*</property>
 			      <property name="activates_default">False</property>
+			      <accessibility>
+				<atkrelation target="optionmenu-im-service-2" type="labelled-by"/>
+			      </accessibility>
 			    </widget>
 			    <packing>
 			      <property name="left_attach">1</property>
@@ -1512,6 +1576,9 @@
 			      <property name="has_frame">True</property>
 			      <property name="invisible_char" translatable="yes">*</property>
 			      <property name="activates_default">False</property>
+			      <accessibility>
+				<atkrelation target="optionmenu-im-service-3" type="labelled-by"/>
+			      </accessibility>
 			    </widget>
 			    <packing>
 			      <property name="left_attach">3</property>
@@ -1581,6 +1648,9 @@
 			      <property name="has_frame">True</property>
 			      <property name="invisible_char" translatable="yes">*</property>
 			      <property name="activates_default">False</property>
+			      <accessibility>
+				<atkrelation target="optionmenu-im-service-4" type="labelled-by"/>
+			      </accessibility>
 			    </widget>
 			    <packing>
 			      <property name="left_attach">3</property>
@@ -1775,6 +1845,7 @@
 			<widget class="Custom" id="entry-homepage">
 			  <property name="visible">True</property>
 			  <property name="creation_function">e_contact_editor_create_web</property>
+			  <property name="string1">Home Page:</property>
 			  <property name="int1">0</property>
 			  <property name="int2">0</property>
 			  <property name="last_modification_time">Tue, 13 Apr 2004 22:04:21 GMT</property>
@@ -1792,6 +1863,7 @@
 			<widget class="Custom" id="entry-caluri">
 			  <property name="visible">True</property>
 			  <property name="creation_function">e_contact_editor_create_web</property>
+			  <property name="string1">Calendar:</property>
 			  <property name="int1">0</property>
 			  <property name="int2">0</property>
 			  <property name="last_modification_time">Tue, 13 Apr 2004 22:04:51 GMT</property>
@@ -1809,6 +1881,7 @@
 			<widget class="Custom" id="entry-fburl">
 			  <property name="visible">True</property>
 			  <property name="creation_function">e_contact_editor_create_web</property>
+			  <property name="string1">Free/Busy:</property>
 			  <property name="int1">0</property>
 			  <property name="int2">0</property>
 			  <property name="last_modification_time">Tue, 13 Apr 2004 22:05:05 GMT</property>
@@ -1826,6 +1899,7 @@
 			<widget class="Custom" id="entry-videourl">
 			  <property name="visible">True</property>
 			  <property name="creation_function">e_contact_editor_create_web</property>
+			  <property name="string1">Video Chat:</property>
 			  <property name="int1">0</property>
 			  <property name="int2">0</property>
 			  <property name="last_modification_time">Tue, 13 Apr 2004 22:05:30 GMT</property>
@@ -1867,6 +1941,7 @@
 			<widget class="Custom" id="entry-weblog">
 			  <property name="visible">True</property>
 			  <property name="creation_function">e_contact_editor_create_web</property>
+			  <property name="string1">Web Log:</property>
 			  <property name="int1">0</property>
 			  <property name="int2">0</property>
 			  <property name="last_modification_time">Tue, 13 Apr 2004 22:04:21 GMT</property>
@@ -1961,6 +2036,9 @@
 			  <property name="has_frame">True</property>
 			  <property name="invisible_char" translatable="yes">*</property>
 			  <property name="activates_default">False</property>
+			  <accessibility>
+			    <atkrelation target="label-profession" type="labelled-by"/>
+			  </accessibility>
 			</widget>
 			<packing>
 			  <property name="left_attach">1</property>
@@ -2006,6 +2084,9 @@
 			  <property name="has_frame">True</property>
 			  <property name="invisible_char" translatable="yes">*</property>
 			  <property name="activates_default">False</property>
+			  <accessibility>
+			    <atkrelation target="label-jobtitle" type="labelled-by"/>
+			  </accessibility>
 			</widget>
 			<packing>
 			  <property name="left_attach">3</property>
@@ -2051,6 +2132,9 @@
 			  <property name="has_frame">True</property>
 			  <property name="invisible_char" translatable="yes">*</property>
 			  <property name="activates_default">False</property>
+			  <accessibility>
+			    <atkrelation target="label-company" type="labelled-by"/>
+			  </accessibility>
 			</widget>
 			<packing>
 			  <property name="left_attach">1</property>
@@ -2096,6 +2180,9 @@
 			  <property name="has_frame">True</property>
 			  <property name="invisible_char" translatable="yes">*</property>
 			  <property name="activates_default">False</property>
+			  <accessibility>
+			    <atkrelation target="label-department" type="labelled-by"/>
+			  </accessibility>
 			</widget>
 			<packing>
 			  <property name="left_attach">3</property>
@@ -2141,6 +2228,9 @@
 			  <property name="has_frame">True</property>
 			  <property name="invisible_char" translatable="yes">*</property>
 			  <property name="activates_default">False</property>
+			  <accessibility>
+			    <atkrelation target="label-manager" type="labelled-by"/>
+			  </accessibility>
 			</widget>
 			<packing>
 			  <property name="left_attach">1</property>
@@ -2186,6 +2276,9 @@
 			  <property name="has_frame">True</property>
 			  <property name="invisible_char" translatable="yes">*</property>
 			  <property name="activates_default">False</property>
+			  <accessibility>
+			    <atkrelation target="label-assistant" type="labelled-by"/>
+			  </accessibility>
 			</widget>
 			<packing>
 			  <property name="left_attach">3</property>
@@ -2256,6 +2349,8 @@
 			      <property name="visible">True</property>
 			      <property name="can_focus">True</property>
 			      <property name="editable">True</property>
+			      <property name="overwrite">False</property>
+			      <property name="accepts_tab">True</property>
 			      <property name="justification">GTK_JUSTIFY_LEFT</property>
 			      <property name="wrap_mode">GTK_WRAP_NONE</property>
 			      <property name="cursor_visible">True</property>
@@ -2266,6 +2361,9 @@
 			      <property name="right_margin">0</property>
 			      <property name="indent">0</property>
 			      <property name="text" translatable="yes"></property>
+			      <accessibility>
+				<atkrelation target="label-comments" type="labelled-by"/>
+			      </accessibility>
 			    </widget>
 			  </child>
 			</widget>
@@ -2360,6 +2458,9 @@
 			  <property name="has_frame">True</property>
 			  <property name="invisible_char" translatable="yes">*</property>
 			  <property name="activates_default">False</property>
+			  <accessibility>
+			    <atkrelation target="label-office" type="labelled-by"/>
+			  </accessibility>
 			</widget>
 			<packing>
 			  <property name="left_attach">1</property>
@@ -2381,6 +2482,9 @@
 			  <property name="has_frame">True</property>
 			  <property name="invisible_char" translatable="yes">*</property>
 			  <property name="activates_default">False</property>
+			  <accessibility>
+			    <atkrelation target="label-spouse" type="labelled-by"/>
+			  </accessibility>
 			</widget>
 			<packing>
 			  <property name="left_attach">1</property>
@@ -2587,6 +2691,9 @@
 			  <property name="has_frame">True</property>
 			  <property name="invisible_char" translatable="yes">*</property>
 			  <property name="activates_default">False</property>
+			  <accessibility>
+			    <atkrelation target="label-home-city" type="labelled-by"/>
+			  </accessibility>
 			</widget>
 			<packing>
 			  <property name="left_attach">3</property>
@@ -2632,6 +2739,9 @@
 			  <property name="has_frame">True</property>
 			  <property name="invisible_char" translatable="yes">*</property>
 			  <property name="activates_default">False</property>
+			  <accessibility>
+			    <atkrelation target="label-home-zip" type="labelled-by"/>
+			  </accessibility>
 			</widget>
 			<packing>
 			  <property name="left_attach">3</property>
@@ -2677,6 +2787,9 @@
 			  <property name="has_frame">True</property>
 			  <property name="invisible_char" translatable="yes">*</property>
 			  <property name="activates_default">False</property>
+			  <accessibility>
+			    <atkrelation target="label-home-state" type="labelled-by"/>
+			  </accessibility>
 			</widget>
 			<packing>
 			  <property name="left_attach">3</property>
@@ -2722,6 +2835,9 @@
 			  <property name="has_frame">True</property>
 			  <property name="invisible_char" translatable="yes">*</property>
 			  <property name="activates_default">False</property>
+			  <accessibility>
+			    <atkrelation target="label-home-country" type="labelled-by"/>
+			  </accessibility>
 			</widget>
 			<packing>
 			  <property name="left_attach">3</property>
@@ -2770,6 +2886,8 @@
 			      <property name="visible">True</property>
 			      <property name="can_focus">True</property>
 			      <property name="editable">True</property>
+			      <property name="overwrite">False</property>
+			      <property name="accepts_tab">True</property>
 			      <property name="justification">GTK_JUSTIFY_LEFT</property>
 			      <property name="wrap_mode">GTK_WRAP_NONE</property>
 			      <property name="cursor_visible">True</property>
@@ -2780,6 +2898,9 @@
 			      <property name="right_margin">0</property>
 			      <property name="indent">0</property>
 			      <property name="text" translatable="yes"></property>
+			      <accessibility>
+				<atkrelation target="label-home-address" type="labelled-by"/>
+			      </accessibility>
 			    </widget>
 			  </child>
 			</widget>
@@ -2803,6 +2924,9 @@
 			  <property name="has_frame">True</property>
 			  <property name="invisible_char" translatable="yes">*</property>
 			  <property name="activates_default">False</property>
+			  <accessibility>
+			    <atkrelation target="label-home-pobox" type="labelled-by"/>
+			  </accessibility>
 			</widget>
 			<packing>
 			  <property name="left_attach">1</property>
@@ -2917,6 +3041,9 @@
 			  <property name="has_frame">True</property>
 			  <property name="invisible_char" translatable="yes">*</property>
 			  <property name="activates_default">False</property>
+			  <accessibility>
+			    <atkrelation target="label-work-city" type="labelled-by"/>
+			  </accessibility>
 			</widget>
 			<packing>
 			  <property name="left_attach">3</property>
@@ -2962,6 +3089,9 @@
 			  <property name="has_frame">True</property>
 			  <property name="invisible_char" translatable="yes">*</property>
 			  <property name="activates_default">False</property>
+			  <accessibility>
+			    <atkrelation target="label-work-state" type="labelled-by"/>
+			  </accessibility>
 			</widget>
 			<packing>
 			  <property name="left_attach">3</property>
@@ -3007,6 +3137,9 @@
 			  <property name="has_frame">True</property>
 			  <property name="invisible_char" translatable="yes">*</property>
 			  <property name="activates_default">False</property>
+			  <accessibility>
+			    <atkrelation target="label-work-zip" type="labelled-by"/>
+			  </accessibility>
 			</widget>
 			<packing>
 			  <property name="left_attach">3</property>
@@ -3052,6 +3185,9 @@
 			  <property name="has_frame">True</property>
 			  <property name="invisible_char" translatable="yes">*</property>
 			  <property name="activates_default">False</property>
+			  <accessibility>
+			    <atkrelation target="label-work-country" type="labelled-by"/>
+			  </accessibility>
 			</widget>
 			<packing>
 			  <property name="left_attach">3</property>
@@ -3100,6 +3236,8 @@
 			      <property name="visible">True</property>
 			      <property name="can_focus">True</property>
 			      <property name="editable">True</property>
+			      <property name="overwrite">False</property>
+			      <property name="accepts_tab">True</property>
 			      <property name="justification">GTK_JUSTIFY_LEFT</property>
 			      <property name="wrap_mode">GTK_WRAP_NONE</property>
 			      <property name="cursor_visible">True</property>
@@ -3110,6 +3248,9 @@
 			      <property name="right_margin">0</property>
 			      <property name="indent">0</property>
 			      <property name="text" translatable="yes"></property>
+			      <accessibility>
+				<atkrelation target="label-work-address" type="labelled-by"/>
+			      </accessibility>
 			    </widget>
 			  </child>
 			</widget>
@@ -3133,6 +3274,9 @@
 			  <property name="has_frame">True</property>
 			  <property name="invisible_char" translatable="yes">*</property>
 			  <property name="activates_default">False</property>
+			  <accessibility>
+			    <atkrelation target="label-work-pobox" type="labelled-by"/>
+			  </accessibility>
 			</widget>
 			<packing>
 			  <property name="left_attach">1</property>
@@ -3247,6 +3391,9 @@
 			  <property name="has_frame">True</property>
 			  <property name="invisible_char" translatable="yes">*</property>
 			  <property name="activates_default">False</property>
+			  <accessibility>
+			    <atkrelation target="label-other-city" type="labelled-by"/>
+			  </accessibility>
 			</widget>
 			<packing>
 			  <property name="left_attach">3</property>
@@ -3292,6 +3439,9 @@
 			  <property name="has_frame">True</property>
 			  <property name="invisible_char" translatable="yes">*</property>
 			  <property name="activates_default">False</property>
+			  <accessibility>
+			    <atkrelation target="label-other-state" type="labelled-by"/>
+			  </accessibility>
 			</widget>
 			<packing>
 			  <property name="left_attach">3</property>
@@ -3361,6 +3511,9 @@
 			  <property name="has_frame">True</property>
 			  <property name="invisible_char" translatable="yes">*</property>
 			  <property name="activates_default">False</property>
+			  <accessibility>
+			    <atkrelation target="label-other-zip" type="labelled-by"/>
+			  </accessibility>
 			</widget>
 			<packing>
 			  <property name="left_attach">3</property>
@@ -3406,6 +3559,9 @@
 			  <property name="has_frame">True</property>
 			  <property name="invisible_char" translatable="yes">*</property>
 			  <property name="activates_default">False</property>
+			  <accessibility>
+			    <atkrelation target="label-other-country" type="labelled-by"/>
+			  </accessibility>
 			</widget>
 			<packing>
 			  <property name="left_attach">3</property>
@@ -3430,6 +3586,8 @@
 			      <property name="visible">True</property>
 			      <property name="can_focus">True</property>
 			      <property name="editable">True</property>
+			      <property name="overwrite">False</property>
+			      <property name="accepts_tab">True</property>
 			      <property name="justification">GTK_JUSTIFY_LEFT</property>
 			      <property name="wrap_mode">GTK_WRAP_NONE</property>
 			      <property name="cursor_visible">True</property>
@@ -3440,6 +3598,9 @@
 			      <property name="right_margin">0</property>
 			      <property name="indent">0</property>
 			      <property name="text" translatable="yes"></property>
+			      <accessibility>
+				<atkrelation target="label-other-address" type="labelled-by"/>
+			      </accessibility>
 			    </widget>
 			  </child>
 			</widget>
@@ -3463,6 +3624,9 @@
 			  <property name="has_frame">True</property>
 			  <property name="invisible_char" translatable="yes">*</property>
 			  <property name="activates_default">False</property>
+			  <accessibility>
+			    <atkrelation target="label-other-pobox" type="labelled-by"/>
+			  </accessibility>
 			</widget>
 			<packing>
 			  <property name="left_attach">1</property>
