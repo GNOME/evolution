@@ -63,7 +63,8 @@ Calendar:
 
 Addressbook:
 
-  - Miscellaneous bug fixes.  (Trow, Toshok, Clahey, JP)
+  - Miscellaneous bug fixes.  (Trow, Chris Toshok, Chris Lahey, JP,
+    Peter Williams)
 
   - Better handling of addresses containing commas or other special
     characters.  (Trow)
@@ -72,6 +73,16 @@ Addressbook:
     inside a message.  (Trow)
 
   - Auto-completion now matches against contact nicknames.  (Trow)
+
+  - Added help text and generally cleaned up the contact editor.
+    (Anna)
+
+  - Handle multiple wombats properly.  (Chris Toshok)
+
+  - Made which book to use for address completion configurable (no gui
+    for this yet.)  (Chris Toshok)
+
+  - Made Print Preview work in addressbook.  (Chris Lahey)
 
 Pilot:
 

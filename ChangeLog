@@ -1,3 +1,7 @@
+2001-10-01  Christopher James Lahey  <clahey@ximian.com>
+
+	* NEWS (Addressbook): Added more news.
+
 2001-09-30  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* configure.in (nspr_libs): Order the linkline to be the same as
