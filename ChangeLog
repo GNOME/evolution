@@ -1,3 +1,17 @@
+2000-01-12    <clahey@galapagos.helixcode.com>
+
+	* widgets/e-minicard.c, widgets/e-minicard.h: Added a resize
+	signal for when the card changes height.  Made it so that when you
+	press tab inside of a field, it goes to the next field.
+
+	* widgets/e-minicard-label.c, widgets/e-minicard-label.h: Added a
+	resize signal for when the label changes height.
+
+	* widgets/e-text.c, widgets/e-text.h: Added a resize signal for
+	multiple lines.  Added scrolling based on cursor position.
+
+	* widgets/Makefile.am: Removed an extraneous build target.
+
 2000-01-11    <clahey@galapagos.helixcode.com>
 
 	* widgets/e-text-event-processor-emacs-like.c: Blocked the tab key

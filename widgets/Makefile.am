@@ -26,8 +26,7 @@ libevolutionwidgets_a_SOURCES = 		\
 
 noinst_PROGRAMS =	\
 	minicard-label-test	\
-	minicard-test		\
-	focus-test
+	minicard-test
 
 minicard_label_test_SOURCES = 	\
 	test-minicard-label.c
@@ -42,9 +41,3 @@ minicard_test_SOURCES = 	\
 minicard_test_LDADD =	\
 	$(EXTRA_GNOME_LIBS)	\
 	libevolutionwidgets.a	
-
-focus_test_SOURCES = 	\
-	test-focus.c
-
-focus_test_LDADD =	\
-	$(EXTRA_GNOME_LIBS)

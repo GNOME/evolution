@@ -66,7 +66,9 @@ struct _EMinicardLabel
 
 struct _EMinicardLabelClass
 {
-  GnomeCanvasGroupClass parent_class;
+	GnomeCanvasGroupClass parent_class;
+
+	void (* resize) (EMinicardLabel *text);
 };
 
 

@@ -164,6 +164,9 @@ struct _EText {
 
 struct _ETextClass {
 	GnomeCanvasItemClass parent_class;
+
+	void (* resize) (EText *text);
+	void (* change) (EText *text);
 };
 
 

@@ -51,23 +51,25 @@ typedef struct _EMinicardClass  EMinicardClass;
 
 struct _EMinicard
 {
-  GnomeCanvasGroup parent;
-
-  /* item specific fields */
-  /*  ECard *card; */
-
-  GnomeCanvasItem *rect;
-  GnomeCanvasItem *header_rect;
-  GnomeCanvasItem *header_text;
-  GList *fields; /* Of type GnomeCanvasItem. */
-
-  double width;
-  double height;
+	GnomeCanvasGroup parent;
+	
+	/* item specific fields */
+	/*  ECard *card; */
+	
+	GnomeCanvasItem *rect;
+	GnomeCanvasItem *header_rect;
+	GnomeCanvasItem *header_text;
+	GList *fields; /* Of type GnomeCanvasItem. */
+	
+	double width;
+	double height;
 };
 
 struct _EMinicardClass
 {
-  GnomeCanvasGroupClass parent_class;
+	GnomeCanvasGroupClass parent_class;
+
+	void (* resize) (EMinicard *text);
 };
 
 

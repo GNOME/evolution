@@ -27,6 +27,14 @@
 
 #include "e-text-event-processor-emacs-like.h"
 
+enum {
+	E_TEXT_RESIZE,
+	E_TEXT_CHANGE,
+	E_TEXT_LAST_SIGNAL
+};
+
+static guint e_text_signals[E_TEXT_LAST_SIGNAL] = { 0 };
+
 
 
 /* This defines a line of text */
@@ -130,16 +138,36 @@ e_text_get_type (void)
 
 /* Class initialization function for the text item */
 static void
-e_text_class_init (ETextClass *class)
+e_text_class_init (ETextClass *klass)
 {
 	GtkObjectClass *object_class;
 	GnomeCanvasItemClass *item_class;
 
-	object_class = (GtkObjectClass *) class;
-	item_class = (GnomeCanvasItemClass *) class;
+	object_class = (GtkObjectClass *) klass;
+	item_class = (GnomeCanvasItemClass *) klass;
 
 	parent_class = gtk_type_class (gnome_canvas_item_get_type ());
 
+	e_text_signals[E_TEXT_RESIZE] =
+		gtk_signal_new ("resize",
+				GTK_RUN_LAST,
+				object_class->type,
+				GTK_SIGNAL_OFFSET (ETextClass, resize),
+				gtk_marshal_NONE__NONE,
+				GTK_TYPE_NONE, 0);
+
+
+	e_text_signals[E_TEXT_CHANGE] =
+		gtk_signal_new ("change",
+				GTK_RUN_LAST,
+				object_class->type,
+				GTK_SIGNAL_OFFSET (ETextClass, change),
+				gtk_marshal_NONE__NONE,
+				GTK_TYPE_NONE, 0);
+
+
+	gtk_object_class_add_signals (object_class, e_text_signals, E_TEXT_LAST_SIGNAL);
+  
 	gtk_object_add_arg_type ("EText::text",
 				 GTK_TYPE_STRING, GTK_ARG_READWRITE, ARG_TEXT);
 	gtk_object_add_arg_type ("EText::x",
@@ -184,6 +212,9 @@ e_text_class_init (ETextClass *class)
 				 GTK_TYPE_BOOL, GTK_ARG_READWRITE, ARG_USE_ELLIPSIS);
 	gtk_object_add_arg_type ("EText::ellipsis",
 				 GTK_TYPE_STRING, GTK_ARG_READWRITE, ARG_ELLIPSIS);
+
+	klass->resize = NULL;
+	klass->change = NULL;
 
 	object_class->destroy = e_text_destroy;
 	object_class->set_arg = e_text_set_arg;
@@ -277,6 +308,7 @@ get_bounds_item_relative (EText *text, double *px1, double *py1, double *px2, do
 	GnomeCanvasItem *item;
 	double x, y;
 	double clip_x, clip_y;
+	int old_height;
 
 	item = GNOME_CANVAS_ITEM (text);
 
@@ -288,10 +320,15 @@ get_bounds_item_relative (EText *text, double *px1, double *py1, double *px2, do
 
 	/* Calculate text dimensions */
 
+	old_height = text->height;
+
 	if (text->text && text->font)
 		text->height = (text->font->ascent + text->font->descent) * text->num_lines;
 	else
 		text->height = 0;
+
+	if (old_height != text->height)
+		gtk_signal_emit_by_name (GTK_OBJECT (text), "resize");
 
 	/* Anchor text */
 
@@ -358,6 +395,7 @@ get_bounds (EText *text, double *px1, double *py1, double *px2, double *py2)
 {
 	GnomeCanvasItem *item;
 	double wx, wy;
+	int old_height;
 
 	item = GNOME_CANVAS_ITEM (text);
 
@@ -376,10 +414,15 @@ get_bounds (EText *text, double *px1, double *py1, double *px2, double *py2)
 
 	/* Calculate text dimensions */
 
+	old_height = text->height;
+
 	if (text->text && text->font)
 		text->height = (text->font->ascent + text->font->descent) * text->num_lines;
 	else
 		text->height = 0;
+
+	if (old_height != text->height)
+		gtk_signal_emit_by_name (GTK_OBJECT (text), "resize");
 
 	/* Anchor text */
 
@@ -552,17 +595,18 @@ split_into_lines (EText *text)
 	len = 0;
 
 	for (p = text->text; *p; p++) {
+		if (len == 0)
+			lines->text = p;
 		if (*p == '\n') {
 			lines->length = len;
 			lines++;
 			len = 0;
-		} else if (len == 0) {
-			len++;
-			lines->text = p;
 		} else
 			len++;
 	}
 
+	if (len == 0)
+		lines->text = p;
 	lines->length = len;
 
 	calc_line_widths (text);
@@ -1517,8 +1561,8 @@ _blink_scroll_timeout (gpointer data)
 		if (text->lastx - text->clip_cx > text->clip_cwidth &&
 		    text->xofs_edit < text->max_width - text->clip_cwidth) {
 			text->xofs_edit += 4;
-			if (text->xofs_edit > text->max_width - text->clip_cwidth)
-				text->xofs_edit = text->max_width - text->clip_cwidth;
+			if (text->xofs_edit > text->max_width - text->clip_cwidth + 1)
+				text->xofs_edit = text->max_width - text->clip_cwidth + 1;
 			redraw = TRUE;
 		}
 		if (text->lastx - text->clip_cx < 0 &&
@@ -1826,6 +1870,31 @@ e_text_command(ETextEventProcessor *tep, ETextEventProcessorCommand *command, gp
 	case E_TEP_NOP:
 		break;
 	}
+
+	if (!text->button_down) {
+		int x;
+		int i;
+		struct line *lines = text->lines;
+		for (lines = text->lines, i = 0; i < text->num_lines ; i++, lines ++) {
+			if (lines->text - text->text > text->selection_end) {
+				break;
+			}
+		}
+		lines --;
+		x = gdk_text_width(text->font,
+				   lines->text, 
+				   text->selection_end - (lines->text - text->text));
+		
+
+		if (x < text->xofs_edit) {
+			text->xofs_edit = x;
+		}
+
+		if (2 + x - text->clip_width > text->xofs_edit) {
+			text->xofs_edit = 2 + x - text->clip_width;
+		}
+	}
+
 	gnome_canvas_item_request_update (GNOME_CANVAS_ITEM(text));
 }
 
