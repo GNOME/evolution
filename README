@@ -29,6 +29,11 @@ GNOME is the only released version that is new enough. If you don't
 have that, you should check out ORBit from GNOME CVS with the option
 "-r orbit-stable-0-5" to get the recent stable branch.
 
+The Palm-synchronization code requires the pilot-utils package. There
+is most likely a package for this in your OS of choice (the name may
+be "pilot-utils" or "libpisock"). If not, you can get the source at
+ftp://ryeham.ee.ryerson.ca/pub/PalmOS/
+
 
 The layout of the source tree is:
 
