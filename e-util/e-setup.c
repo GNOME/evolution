@@ -38,7 +38,8 @@ e_setup_base_dir (void)
 				  _("Evolution detected that the file `%s' is a not a directory.\n"
 				    "\n"
 				    "Evolution can rename the file, delete the file or shutdown and\n"
-				    "let you fix the problem."));
+				    "let you fix the problem."),
+				  evolution_dir);
 			return FALSE;
 		}
 	}
