@@ -1,3 +1,8 @@
+2004-07-29  Sivaiah Nallagatla <snallagatla@novell.com>
+
+	* mail-errors.xml : add the error message needed for groupwise 
+	account setup
+
 2004-07-28  Not Zed  <NotZed@Ximian.com>
 
 	** See #61958.

@@ -311,5 +311,9 @@ You can choose to ignore this folder, overwrite or append its contents, or quit.
   <button label="_Append" response="GTK_RESPONSE_OK"/>
  </error>
 
+ <error id="gw-accountsetup-error" type="error">
+ <primary>Could not connect to {0}. Groupwise account setup is incomplete. You may need to setup  the account again</primary>
+</error>
+
 </error-list>
 
