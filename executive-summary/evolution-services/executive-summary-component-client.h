@@ -25,7 +25,7 @@
 #define _EXECUTIVE_SUMMARY_COMPONENT_CLIENT_H__
 
 #include <bonobo.h>
-#include <executive-summary.h>
+#include <evolution-services/executive-summary.h>
 
 #define EXECUTIVE_SUMMARY_COMPONENT_CLIENT_TYPE (executive_summary_component_client_get_type ())
 #define EXECUTIVE_SUMMARY_COMPONENT_CLIENT(obj) (GTK_CHECK_CAST ((obj), EXECUTIVE_SUMMARY_COMPONENT_CLIENT_TYPE, ExecutiveSummaryComponentClient))

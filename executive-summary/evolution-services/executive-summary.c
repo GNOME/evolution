@@ -38,14 +38,19 @@ static void executive_summary_init (ExecutiveSummary *es);
 
 #define PARENT_TYPE (bonobo_object_get_type ())
 
+enum {
+	UPDATE,
+	SET_TITLE,
+	SET_ICON,
+	FLASH,
+	LAST_SIGNAL
+};
+
+static guint32 summary_signals [LAST_SIGNAL] = { 0 };
 static BonoboObjectClass *parent_class;
 
 struct _ExecutiveSummaryPrivate {
-	EvolutionServicesSetTitleFn set_title;
-	EvolutionServicesFlashFn flash;
-	EvolutionServicesUpdateFn update;
-
-	void *closure;
+	int dummy;
 };
 
 /* CORBA interface implementation */
@@ -76,53 +81,64 @@ create_servant (void)
 
 static void
 impl_Evolution_Summary_set_title (PortableServer_Servant servant,
-				  const Evolution_SummaryComponent component,
+				  CORBA_long id,
 				  const CORBA_char *title,
 				  CORBA_Environment *ev)
 {
 	BonoboObject *bonobo_object;
 	ExecutiveSummary *summary;
-	ExecutiveSummaryPrivate *priv;
 
 	bonobo_object = bonobo_object_from_servant (servant);
 	summary = EXECUTIVE_SUMMARY (bonobo_object);
-	priv = summary->private;
 
-	(* priv->set_title) (summary, component, title, priv->closure);
+	gtk_signal_emit (GTK_OBJECT (summary), summary_signals[SET_TITLE], 
+			 id, title);
+}
+
+static void
+impl_Evolution_Summary_set_icon (PortableServer_Servant servant,
+				 CORBA_long id,
+				 const CORBA_char *title,
+				 CORBA_Environment *ev)
+{
+	BonoboObject *bonobo_object;
+	ExecutiveSummary *summary;
+
+	bonobo_object = bonobo_object_from_servant (servant);
+	summary = EXECUTIVE_SUMMARY (bonobo_object);
+
+	gtk_signal_emit (GTK_OBJECT (summary), summary_signals[SET_ICON],
+			 id, title);
 }
 
 static void
 impl_Evolution_Summary_flash (PortableServer_Servant servant,
-			      const Evolution_SummaryComponent component,
+			      CORBA_long id,
 			      CORBA_Environment *ev)
 {
 	BonoboObject *bonobo_object;
 	ExecutiveSummary *summary;
-	ExecutiveSummaryPrivate *priv;
 
 	bonobo_object = bonobo_object_from_servant (servant);
 	summary = EXECUTIVE_SUMMARY (bonobo_object);
-	priv = summary->private;
 
-	(* priv->flash) (summary, component, priv->closure);
+	gtk_signal_emit (GTK_OBJECT (summary), summary_signals[FLASH], id);
 }
 
 static void
-impl_Evolution_Summary_update_html_component (PortableServer_Servant servant,
-					      const Evolution_SummaryComponent component,
-					      CORBA_char *html,
-					      CORBA_Environment *ev)
+impl_Evolution_Summary_update_component (PortableServer_Servant servant,
+					 CORBA_long id,
+					 CORBA_char *html,
+					 CORBA_Environment *ev)
 {
 	BonoboObject *bonobo_object;
 	ExecutiveSummary *summary;
-	ExecutiveSummaryPrivate *priv;
-	struct _queuedata *qd;
 
 	bonobo_object = bonobo_object_from_servant (servant);
 	summary = EXECUTIVE_SUMMARY (bonobo_object);
-	priv = summary->private;
 
-	(*priv->update) (summary, component, html, priv->closure);
+	gtk_signal_emit (GTK_OBJECT (summary), summary_signals[UPDATE],
+			 id, html);
 }
 
 /* GtkObject methods */
@@ -158,8 +174,9 @@ corba_class_init (void)
 
 	epv = g_new0 (POA_Evolution_Summary__epv, 1);
 	epv->set_title = impl_Evolution_Summary_set_title;
+	epv->set_icon = impl_Evolution_Summary_set_icon;
 	epv->flash = impl_Evolution_Summary_flash;
-	epv->update_html_component = impl_Evolution_Summary_update_html_component;
+	epv->update_component = impl_Evolution_Summary_update_component;
 
 	vepv = &Summary_vepv;
 	vepv->_base_epv = base_epv;
@@ -177,6 +194,40 @@ executive_summary_class_init (ExecutiveSummaryClass *es_class)
 	object_class->destroy = executive_summary_destroy;
 	
 	parent_class = gtk_type_class (PARENT_TYPE);
+
+	summary_signals[UPDATE] = gtk_signal_new ("update",
+						  GTK_RUN_LAST,
+						  object_class->type,
+						  GTK_SIGNAL_OFFSET (ExecutiveSummaryClass, update),
+						  gtk_marshal_NONE__POINTER_POINTER,
+						  GTK_TYPE_NONE, 2,
+						  GTK_TYPE_POINTER,
+						  GTK_TYPE_POINTER);
+	summary_signals[SET_TITLE] = gtk_signal_new ("set_title",
+						     GTK_RUN_LAST,
+						     object_class->type,
+						     GTK_SIGNAL_OFFSET (ExecutiveSummaryClass, set_title),
+						     gtk_marshal_NONE__POINTER_POINTER,
+						     GTK_TYPE_NONE, 2,
+						     GTK_TYPE_POINTER,
+						     GTK_TYPE_POINTER);
+	summary_signals[SET_ICON] = gtk_signal_new ("set_icon",
+						    GTK_RUN_LAST,
+						    object_class->type,
+						    GTK_SIGNAL_OFFSET (ExecutiveSummaryClass, set_icon),
+						    gtk_marshal_NONE__POINTER_POINTER,
+						    GTK_TYPE_NONE, 2,
+						    GTK_TYPE_POINTER,
+						    GTK_TYPE_POINTER);
+	summary_signals[FLASH] = gtk_signal_new ("flash",
+						 GTK_RUN_LAST,
+						 object_class->type,
+						 GTK_SIGNAL_OFFSET (ExecutiveSummaryClass, flash),
+						 gtk_marshal_NONE__POINTER,
+						 GTK_TYPE_NONE, 1,
+						 GTK_TYPE_POINTER);
+	gtk_object_class_add_signals (object_class, summary_signals, LAST_SIGNAL);
+
 	corba_class_init ();
 }
 
@@ -184,13 +235,9 @@ static void
 executive_summary_init (ExecutiveSummary *es)
 {
 	ExecutiveSummaryPrivate *priv;
-	
-	priv = g_new0 (ExecutiveSummaryPrivate, 1);
-	es->private = priv;
 
-	priv->set_title = NULL;
-	priv->flash = NULL;
-	priv->closure = NULL;
+	priv = g_new (ExecutiveSummaryPrivate, 1);
+	es->private = priv;
 }
 
 E_MAKE_TYPE (executive_summary, "ExecutiveSummary", ExecutiveSummary,
@@ -198,28 +245,13 @@ E_MAKE_TYPE (executive_summary, "ExecutiveSummary", ExecutiveSummary,
 
 void
 executive_summary_construct (ExecutiveSummary *es,
-			     Evolution_Summary corba_object,
-			     EvolutionServicesSetTitleFn set_title,
-			     EvolutionServicesFlashFn flash,
-			     EvolutionServicesUpdateFn update,
-			     void *closure)
+			     Evolution_Summary corba_object)
 {
-	ExecutiveSummaryPrivate *priv;
-	
 	bonobo_object_construct (BONOBO_OBJECT (es), corba_object);
-	
-	priv = es->private;
-	priv->set_title = set_title;
-	priv->flash = flash;
-	priv->update = update;
-	priv->closure = closure;
 }
 
 BonoboObject *
-executive_summary_new (EvolutionServicesSetTitleFn set_title,
-		       EvolutionServicesFlashFn flash,
-		       EvolutionServicesUpdateFn update,
-		       void *closure)
+executive_summary_new (void)
 {
 	POA_Evolution_Summary *servant;
 	Evolution_Summary corba_object;
@@ -233,10 +265,7 @@ executive_summary_new (EvolutionServicesSetTitleFn set_title,
 	
 	corba_object = bonobo_object_activate_servant (BONOBO_OBJECT (es), 
 						       servant);
-	executive_summary_construct (es, corba_object, set_title, flash,
-				     update, closure);
+	executive_summary_construct (es, corba_object);
 	
 	return BONOBO_OBJECT (es);
-}
-
-  
+}  

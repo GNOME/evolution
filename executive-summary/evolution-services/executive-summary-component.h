@@ -37,14 +37,10 @@ typedef struct _ExecutiveSummaryComponentPrivate ExecutiveSummaryComponentPrivat
 typedef struct _ExecutiveSummaryComponent ExecutiveSummaryComponent;
 typedef struct _ExecutiveSummaryComponentClass ExecutiveSummaryComponentClass;
 
-typedef BonoboObject *(* EvolutionServicesCreateBonoboViewFn) (ExecutiveSummaryComponent *component,
-							       char **title,
-							       char **icon,
-							       void *closure);
-typedef char *(* EvolutionServicesCreateHtmlViewFn) (ExecutiveSummaryComponent *component,
-						     char **title,
-						     char **icon,
-						     void *closure);
+/* view is a ExecutiveSummaryComponentView * */
+typedef void (* EvolutionServicesCreateViewFn) (ExecutiveSummaryComponent *component,
+						gpointer view,
+						void *closure);
 typedef void (* EvolutionServicesConfigureFn) (ExecutiveSummaryComponent *component,
 					       void *closure);
 
@@ -60,13 +56,18 @@ struct _ExecutiveSummaryComponentClass {
 
 GtkType executive_summary_component_get_type (void);
 
-BonoboObject *executive_summary_component_new (EvolutionServicesCreateBonoboViewFn create_bonobo,
-					       EvolutionServicesCreateHtmlViewFn create_html,
+BonoboObject *executive_summary_component_new (EvolutionServicesCreateViewFn create_view,
 					       EvolutionServicesConfigureFn configure,
 					       void *closure);
 void executive_summary_component_set_title (ExecutiveSummaryComponent *component,
-					    const char *title);
-void executive_summary_component_flash (ExecutiveSummaryComponent *component);
+					    gpointer view);
+void executive_summary_component_set_icon (ExecutiveSummaryComponent *component,
+					   gpointer view);
+
+void executive_summary_component_flash (ExecutiveSummaryComponent *component,
+					gpointer view);
 void executive_summary_component_update (ExecutiveSummaryComponent *component,
-					 char *html);
+					 gpointer view);
+int executive_summary_component_create_unique_id (void);
+
 #endif

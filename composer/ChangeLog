@@ -1,3 +1,9 @@
+2000-10-25  Iain Holmes  <iain@helixcode.com>
+
+	* e-msg-composer-select-file.c (create_file_selection): Set the
+	wmclass and wmclass_name for the file selectors so that Sawfish
+	doesn't make the dialogs the same size as the parent.
+
 2000-10-25  Dan Winship  <danw@helixcode.com>
 
 	* evolution-composer.c (init): Attach send/postpone signal

@@ -38,38 +38,30 @@ typedef struct _ExecutiveSummaryPrivate ExecutiveSummaryPrivate;
 typedef struct _ExecutiveSummary ExecutiveSummary;
 typedef struct _ExecutiveSummaryClass ExecutiveSummaryClass;
 
-typedef void (* EvolutionServicesSetTitleFn) (ExecutiveSummary *summary,
-					      const Evolution_SummaryComponent component,
-					      const char *title,
-					      void *closure);
-typedef void (* EvolutionServicesFlashFn) (ExecutiveSummary *summary,
-					   const Evolution_SummaryComponent component,
-					   void *closure);
-typedef void (* EvolutionServicesUpdateFn) (ExecutiveSummary *summary,
-					    const Evolution_SummaryComponent component,
-					    const char *html,
-					    void *closure);
-
 struct _ExecutiveSummary {
-  BonoboObject parent;
-
-  ExecutiveSummaryPrivate *private;
+	BonoboObject parent;
+	
+	ExecutiveSummaryPrivate *private;
 };
 
 struct _ExecutiveSummaryClass {
-  BonoboObjectClass parent_class;
+	BonoboObjectClass parent_class;
+
+	void (* update) (ExecutiveSummary *summary,
+			 const Evolution_SummaryComponent component,
+			 const char *html);
+	void (* set_title) (ExecutiveSummary *summary,
+			    const Evolution_SummaryComponent component,
+			    const char *title);
+	void (* set_icon) (ExecutiveSummary *summary,
+			   const Evolution_SummaryComponent component,
+			   const char *icon);
+	void (* flash) (ExecutiveSummary *summary,
+			const Evolution_SummaryComponent component);
 };
 
 GtkType executive_summary_get_type (void);
 void executive_summary_construct (ExecutiveSummary *es,
-				  Evolution_Summary corba_object,
-				  EvolutionServicesSetTitleFn set_title,
-				  EvolutionServicesFlashFn flash,
-				  EvolutionServicesUpdateFn update,
-				  void *closure);
-BonoboObject *executive_summary_new (EvolutionServicesSetTitleFn set_title,
-				     EvolutionServicesFlashFn flash,
-				     EvolutionServicesUpdateFn update,
-				     void *closure);
-
+				  Evolution_Summary corba_object);
+BonoboObject *executive_summary_new (void);
 #endif

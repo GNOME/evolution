@@ -29,7 +29,7 @@
 
 #include "camel.h"
 #include <gnome.h>
-#include "mail.h"		/* YUCK FIXME */
+#include "mail.h"
 #include "mail-tools.h"
 #include "mail-ops.h"
 #include "mail-vfolder.h"
@@ -41,7 +41,8 @@
 
 #include "filter/vfolder-context.h"
 
-#include <executive-summary/evolution-services/executive-summary-component.h>
+#include <evolution-services/executive-summary-component.h>
+#include <evolution-services/executive-summary-component-view.h>
 
 typedef struct {
 	CamelFolder *folder;
@@ -52,12 +53,11 @@ typedef struct {
 
 typedef struct {
 	ExecutiveSummaryComponent *component;
+	ExecutiveSummaryComponentView *view;
 
 	GHashTable *folder_to_summary;
 	FolderSummary **folders;
 	int numfolders;
-
-	char *html;
 } MailSummary;
 
 #define SUMMARY_IN() g_print ("IN: %s: %d\n", __FUNCTION__, __LINE__);
@@ -125,6 +125,33 @@ check_compipes (void)
 	}
 }
 
+static void
+folder_free (FolderSummary *folder)
+{
+	g_free (folder->name);
+}
+
+static void
+summary_free (MailSummary *summary)
+{
+	int i;
+
+	for (i = 0; i < summary->numfolders; i++){
+		folder_free (summary->folders[i]);
+	}
+
+	g_free (summary->folders);
+	g_hash_table_destroy (summary->folder_to_summary);
+}
+
+static void
+view_destroy_cb (GtkObject *object,
+		 MailSummary *summary)
+{
+	summary_free (summary);
+	g_free (summary);
+}
+
 static char *
 generate_html_summary (MailSummary *summary)
 {
@@ -167,7 +194,7 @@ do_changed (MailSummary *summary)
 	char *ret_html;
 
 	ret_html = generate_html_summary (summary);
-	executive_summary_component_update (summary->component, ret_html);
+	executive_summary_component_view_set_html(summary->view, ret_html);
 	g_free (ret_html);
 }
 
@@ -252,7 +279,7 @@ generate_folder_summarys (MailSummary *summary)
 	g_free (system);
 
 	rule = NULL;
-	while ((rule = rule_context_next_rule ((RuleContext *)context, rule))){
+	while ((rule = rule_context_next_rule ((RuleContext *)context, rule, NULL))){
 		g_print ("rule->name: %s\n", rule->name);
 		numfolders++;
 	}
@@ -285,7 +312,7 @@ generate_folder_summarys (MailSummary *summary)
 
 		ex = camel_exception_new ();
 		fs = summary->folders[i] = g_new (FolderSummary, 1);
-		rule = rule_context_next_rule ((RuleContext *)context, rule);
+		rule = rule_context_next_rule ((RuleContext *)context, rule, NULL);
 		fs->name = g_strdup (rule->name);
 
 		uri = g_strconcat ("vfolder:", rule->name, NULL);
@@ -315,28 +342,29 @@ generate_folder_summarys (MailSummary *summary)
 	gtk_object_destroy (GTK_OBJECT (context));
 }
 
-char *
+void
 create_summary_view (ExecutiveSummaryComponent *component,
-		     char **title,
-		     char **icon,
+		     ExecutiveSummaryComponentView *view,
 		     void *closure)
 {
-	char *ret_html;
+	char *html;
 	MailSummary *summary;
-
-	/* Strdup the title and icon */
-	*title = g_strdup ("Mailbox summary");
-	*icon = g_strdup ("envelope.png");
 
 	summary = g_new (MailSummary, 1);
 	summary->component = component;
 	summary->folder_to_summary = g_hash_table_new (NULL, NULL);
+	summary->view = view;
 
 	generate_folder_summarys (summary);
 
-	ret_html = generate_html_summary (summary);
+	html = generate_html_summary (summary);
 
 	check_compipes ();
 
-	return ret_html;
+	executive_summary_component_view_construct (view, component, NULL, html,
+						    _("Mailbox summary"),
+						    "envelope.png");
+	gtk_signal_connect (GTK_OBJECT (view), "destroy",
+			    GTK_SIGNAL_FUNC (view_destroy_cb), summary);
+	g_free (html);
 }

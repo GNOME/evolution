@@ -576,6 +576,12 @@ po/Makefile.in
 e-util/Makefile
 e-util/ename/Makefile
 libibex/Makefile
+executive-summary/Makefile
+executive-summary/evolution-services/Makefile
+executive-summary/widgets/Makefile
+executive-summary/idl/Makefile
+executive-summary/component/Makefile
+executive-summary/test-service/Makefile
 camel/Makefile
 camel/providers/Makefile
 camel/providers/mbox/Makefile

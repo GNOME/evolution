@@ -1,11 +1,11 @@
 lib_LTLIBRARIES = libevolution-services.la
 
 INCLUDES = \
-	-I$(top_srcdir)/widgets				\
-	-I$(top_srcdir)/widgets/e-text			\
 	-I$(top_srcdir)					\
 	-I$(top_builddir)/shell				\
 	-I$(top_srcdir)/shell				\
+	-I$(top_srcdir)/executive-summary		\
+	-I$(top_builddir)/executive-summary		\
 	$(EXTRA_GNOME_CFLAGS)				\
 	$(GNOME_VFS_CFLAGS)				\
 	$(UNICODE_CFLAGS)				\
@@ -43,7 +43,9 @@ libevolution_services_la_SOURCES =		\
 	executive-summary-component.c	\
 	executive-summary-component.h	\
 	executive-summary-component-client.c	\
-	executive-summary-component-client.h
+	executive-summary-component-client.h	\
+	executive-summary-component-view.c	\
+	executive-summary-component-view.h
 
 libevolution_services_la_LIBADD = 					\
 	$(top_builddir)/e-util/libeutil.la		\

@@ -33,6 +33,7 @@
 #include "Executive-Summary.h"
 #include "executive-summary.h"
 #include "executive-summary-component.h"
+#include "executive-summary-component-view.h"
 #include "executive-summary-client.h"
 
 static void executive_summary_component_destroy (GtkObject *object);
@@ -44,13 +45,14 @@ static void executive_summary_component_class_init (ExecutiveSummaryComponentCla
 static BonoboObjectClass *parent_class;
 
 struct _ExecutiveSummaryComponentPrivate {
-	EvolutionServicesCreateBonoboViewFn create_bonobo_view;
-	EvolutionServicesCreateHtmlViewFn create_html_view;
+	EvolutionServicesCreateViewFn create_view;
 	EvolutionServicesConfigureFn configure;
 	
 	ExecutiveSummaryClient *owner_client;
 	
 	void *closure;
+
+	GHashTable *id_to_view;
 };
 
 /* CORBA interface */
@@ -78,6 +80,7 @@ create_servant (void)
 	return servant;
 }
 
+#if 0
 static void
 impl_Evolution_SummaryComponent_supports (PortableServer_Servant servant,
 					  CORBA_boolean *html,
@@ -95,6 +98,7 @@ impl_Evolution_SummaryComponent_supports (PortableServer_Servant servant,
 	*html = (priv->create_html_view != NULL);
 	*bonobo = (priv->create_bonobo_view != NULL);
 }
+#endif
 
 static void
 impl_Evolution_SummaryComponent_set_owner (PortableServer_Servant servant,
@@ -139,34 +143,56 @@ impl_Evolution_SummaryComponent_unset_owner (PortableServer_Servant servant,
 	priv->owner_client = NULL;
 }
 
-static Bonobo_Control
-impl_Evolution_SummaryComponent_create_bonobo_view (PortableServer_Servant servant,
-						    CORBA_char **title,
-						    CORBA_char **icon,
-						    CORBA_Environment *ev)
+static CORBA_long
+impl_Evolution_SummaryComponent_create_view (PortableServer_Servant servant,
+					     Bonobo_Control *control,
+					     CORBA_char **html,
+					     CORBA_char **title,
+					     CORBA_char **icon,
+					     CORBA_Environment *ev)
 {
+	ExecutiveSummaryComponentView *view;
 	BonoboObject *bonobo_object;
 	ExecutiveSummaryComponent *component;
 	ExecutiveSummaryComponentPrivate *priv;
-	BonoboControl *control;
-	char *initial_title, *initial_icon;
+	BonoboObject *initial_control;
+	const char *initial_title, *initial_icon, *initial_html;
+	int id;
 	
 	bonobo_object = bonobo_object_from_servant (servant);
 	component = EXECUTIVE_SUMMARY_COMPONENT (bonobo_object);
 	priv = component->private;
 	
-	control = (* priv->create_bonobo_view) (component, &initial_title,
-						&initial_icon,
-						priv->closure);
+	view = gtk_type_new (executive_summary_component_view_get_type ());
+	id = executive_summary_component_create_unique_id ();
+	executive_summary_component_view_set_id (view, id);
+
+	(* priv->create_view) (component, view, priv->closure);
 	
+	/* Extract the values */
+	initial_title = executive_summary_component_view_get_title (view);
+	initial_icon = executive_summary_component_view_get_icon (view);
+	initial_html = executive_summary_component_view_get_html (view);
+	initial_control = executive_summary_component_view_get_control (view);
+
+	/* Put the view in the hash table so it can be found later */
+	g_hash_table_insert (priv->id_to_view, GINT_TO_POINTER (id), view);
+
+	/* Duplicate the values */
+	if (initial_control != NULL) {
+		*control = bonobo_object_corba_objref (BONOBO_OBJECT (initial_control));
+	} else {
+		*control = NULL;
+	}
+
+	*html = CORBA_string_dup (initial_html ? initial_html:"");
 	*title = CORBA_string_dup (initial_title ? initial_title:"");
 	*icon = CORBA_string_dup (initial_icon ? initial_icon:"");
-	g_free (initial_title);
-	g_free (initial_icon);
 
-	return bonobo_object_corba_objref (BONOBO_OBJECT (control));
+	return id;
 }
 
+#if 0
 static CORBA_char *
 impl_Evolution_SummaryComponent_create_html_view (PortableServer_Servant servant,
 						  CORBA_char **title,
@@ -197,7 +223,33 @@ impl_Evolution_SummaryComponent_create_html_view (PortableServer_Servant servant
 	g_free (ret_html);
 	return ret_str;
 }
-	
+#endif	
+
+static void
+impl_Evolution_SummaryComponent_destroy_view (PortableServer_Servant servant,
+					      CORBA_long id,
+					      CORBA_Environment *ev)
+{
+	BonoboObject *bonobo_object;
+	ExecutiveSummaryComponent *component;
+	ExecutiveSummaryComponentPrivate *priv;
+	ExecutiveSummaryComponentView *view;
+
+	g_print ("%s\n", __FUNCTION__);
+	bonobo_object = bonobo_object_from_servant (servant);
+	component = EXECUTIVE_SUMMARY_COMPONENT (bonobo_object);
+	priv = component->private;
+
+	view = g_hash_table_lookup (priv->id_to_view, GINT_TO_POINTER (id));
+	if (view == NULL) {
+		g_warning ("Unknown view: %d. Emit exception", id);
+		return;
+	}
+
+	/* Destroy the view */
+	gtk_object_unref (GTK_OBJECT (view));
+}
+
 static void
 impl_Evolution_SummaryComponent_configure (PortableServer_Servant servant,
 					   CORBA_Environment *ev)
@@ -255,11 +307,10 @@ corba_class_init (void)
 	base_epv->default_POA = NULL;
 	
 	epv = g_new0 (POA_Evolution_SummaryComponent__epv, 1);
-	epv->supports = impl_Evolution_SummaryComponent_supports;
 	epv->set_owner = impl_Evolution_SummaryComponent_set_owner;
 	epv->unset_owner = impl_Evolution_SummaryComponent_unset_owner;
-	epv->create_bonobo_view = impl_Evolution_SummaryComponent_create_bonobo_view;
-	epv->create_html_view = impl_Evolution_SummaryComponent_create_html_view;
+	epv->create_view = impl_Evolution_SummaryComponent_create_view;
+	epv->destroy_view = impl_Evolution_SummaryComponent_destroy_view;
 	epv->configure = impl_Evolution_SummaryComponent_configure;
 	
 	vepv = &SummaryComponent_vepv;
@@ -275,7 +326,7 @@ executive_summary_component_class_init (ExecutiveSummaryComponentClass *klass)
 	
 	object_class = GTK_OBJECT_CLASS (klass);
 	object_class->destroy = executive_summary_component_destroy;
-	
+
 	parent_class = gtk_type_class (PARENT_TYPE);
 	
 	corba_class_init ();
@@ -288,21 +339,20 @@ executive_summary_component_init (ExecutiveSummaryComponent *component)
 	
 	priv = g_new0 (ExecutiveSummaryComponentPrivate, 1);
 	
-	priv->create_bonobo_view = NULL;
-	priv->create_html_view = NULL;
+	priv->create_view = NULL;
 	priv->configure = NULL;
 	
 	priv->owner_client = NULL;
 	priv->closure = NULL;
-	
+
+	priv->id_to_view = g_hash_table_new (NULL, NULL);
 	component->private = priv;
 }
 
-void
+static void
 executive_summary_component_construct (ExecutiveSummaryComponent *component,
 				       Evolution_SummaryComponent corba_object,
-				       EvolutionServicesCreateBonoboViewFn create_bonobo,
-				       EvolutionServicesCreateHtmlViewFn create_html,
+				       EvolutionServicesCreateViewFn create_view,
 				       EvolutionServicesConfigureFn configure,
 				       void *closure)
 {
@@ -315,16 +365,14 @@ executive_summary_component_construct (ExecutiveSummaryComponent *component,
 	
 	priv = component->private;
 	
-	priv->create_bonobo_view = create_bonobo;
-	priv->create_html_view = create_html;
+	priv->create_view = create_view;
 	priv->configure = configure;
 	
 	priv->closure = closure;
 }
 
 BonoboObject *
-executive_summary_component_new (EvolutionServicesCreateBonoboViewFn create_bonobo,
-				 EvolutionServicesCreateHtmlViewFn create_html,
+executive_summary_component_new (EvolutionServicesCreateViewFn create_view,
 				 EvolutionServicesConfigureFn configure,
 				 void *closure)
 {
@@ -341,8 +389,7 @@ executive_summary_component_new (EvolutionServicesCreateBonoboViewFn create_bono
 						       servant);
 	
 	executive_summary_component_construct (component, corba_object,
-					       create_bonobo, create_html, 
-					       configure, closure);
+					       create_view, configure, closure);
 	
 	return BONOBO_OBJECT (component);
 }
@@ -353,9 +400,11 @@ E_MAKE_TYPE (executive_summary_component, "ExecutiveSummaryComponent",
 
 void
 executive_summary_component_set_title (ExecutiveSummaryComponent *component,
-				       const char *title)
+				       gpointer view)
 {
 	ExecutiveSummaryComponentPrivate *priv;
+	int id;
+	const char *title;
 
 	g_return_if_fail (component != NULL);
 	g_return_if_fail (IS_EXECUTIVE_SUMMARY_COMPONENT (component));
@@ -367,14 +416,19 @@ executive_summary_component_set_title (ExecutiveSummaryComponent *component,
 		return;
 	}
 
-	executive_summary_client_set_title (priv->owner_client, component,
-					    title);
+	id = executive_summary_component_view_get_id (EXECUTIVE_SUMMARY_COMPONENT_VIEW (view));
+	title = executive_summary_component_view_get_title (EXECUTIVE_SUMMARY_COMPONENT_VIEW (view));
+
+	executive_summary_client_set_title (priv->owner_client, id, title);
 }
 
 void
-executive_summary_component_flash (ExecutiveSummaryComponent *component)
+executive_summary_component_set_icon (ExecutiveSummaryComponent *component,
+				      gpointer view)
 {
 	ExecutiveSummaryComponentPrivate *priv;
+	int id;
+	const char *icon;
 
 	g_return_if_fail (component != NULL);
 	g_return_if_fail (IS_EXECUTIVE_SUMMARY_COMPONENT (component));
@@ -386,14 +440,41 @@ executive_summary_component_flash (ExecutiveSummaryComponent *component)
 		return;
 	}
 
-	executive_summary_client_flash (priv->owner_client, component);
+	id = executive_summary_component_view_get_id (EXECUTIVE_SUMMARY_COMPONENT_VIEW (view));
+	icon = executive_summary_component_view_get_icon (EXECUTIVE_SUMMARY_COMPONENT_VIEW (view));
+
+	executive_summary_client_set_icon (priv->owner_client, id, icon);
+}
+
+void
+executive_summary_component_flash (ExecutiveSummaryComponent *component,
+				   gpointer view)
+{
+	ExecutiveSummaryComponentPrivate *priv;
+	int id;
+
+	g_return_if_fail (component != NULL);
+	g_return_if_fail (IS_EXECUTIVE_SUMMARY_COMPONENT (component));
+
+	priv = component->private;
+
+	if (priv->owner_client == NULL) {
+		g_warning ("Component not owned!");
+		return;
+	}
+
+	id = executive_summary_component_view_get_id (EXECUTIVE_SUMMARY_COMPONENT_VIEW (view));
+
+	executive_summary_client_flash (priv->owner_client, id);
 }
 
 void
 executive_summary_component_update (ExecutiveSummaryComponent *component,
-				    char *html)
+				    gpointer view)
 {
 	ExecutiveSummaryComponentPrivate *priv;
+	int id;
+	const char *html;
 
 	g_return_if_fail (component != NULL);
 	g_return_if_fail (IS_EXECUTIVE_SUMMARY_COMPONENT (component));
@@ -405,5 +486,17 @@ executive_summary_component_update (ExecutiveSummaryComponent *component,
 		return;
 	}
 
-	executive_summary_client_update (priv->owner_client, component, html);
+	id = executive_summary_component_view_get_id (EXECUTIVE_SUMMARY_COMPONENT_VIEW (view));
+	html = executive_summary_component_view_get_html (EXECUTIVE_SUMMARY_COMPONENT_VIEW (view));
+
+	executive_summary_client_update (priv->owner_client, id, html);
+}
+
+int
+executive_summary_component_create_unique_id (void)
+{
+	static int id = 0;
+
+	id++;
+	return id;
 }

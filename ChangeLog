@@ -1,3 +1,9 @@
+2000-10-25  Iain Holmes  <iain@helixcode.com>
+
+	* configure.in: Added executive-summary stuff
+
+	* Makefile.am: Added the executive-summary subdirs.
+
 2000-10-23  Dan Winship  <danw@helixcode.com>
 
 	* notes/Makefile.am (INCLUDES): Update EVOLUTION_LOCALEDIR

@@ -27,8 +27,8 @@
 #include <gtk/gtksignal.h>
 #include <gtkhtml/gtkhtml.h>
 #include <gtk/gtkvbox.h>
-#include <executive-summary.h>
-#include <executive-summary-component-client.h>
+#include <evolution-services/executive-summary.h>
+#include <evolution-services/executive-summary-component-client.h>
 
 #include "shell/Evolution.h"
 

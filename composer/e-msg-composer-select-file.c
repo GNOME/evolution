@@ -106,6 +106,8 @@ create_file_selection (EMsgComposer *composer)
 	info = g_new (FileSelectionInfo, 1);
 
 	widget        = gtk_file_selection_new (NULL);
+	gtk_window_set_wmclass (GTK_WINDOW (widget), "fileselection", 
+				"Evolution:composer");
 	ok_button     = GTK_FILE_SELECTION (widget)->ok_button;
 	cancel_button = GTK_FILE_SELECTION (widget)->cancel_button;
 

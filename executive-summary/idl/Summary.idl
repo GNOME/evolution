@@ -11,8 +11,6 @@
 #include <Bonobo.idl>
 
 module Evolution {
-	interface SummaryComponent;
-
 	interface Summary: Bonobo::Unknown {
 		exception NoSubWindow {};
 		
@@ -24,8 +22,12 @@ module Evolution {
 		 * Sets the title of the subwindow that displays @component
 		 * to @title
 		 */
-		void set_title (in SummaryComponent component, 
+		void set_title (in long id, 
 				in string title)
+			raises (NoSubWindow);
+
+		void set_icon (in long id,
+			       in string icon)
 			raises (NoSubWindow);
 
 		/**
@@ -34,7 +36,7 @@ module Evolution {
 		 *
 		 * Flashes the subwindow that displays @component.
 		 */
-		 void flash (in SummaryComponent component)
+		 void flash (in long id)
 			raises (NoSubWindow);
 
 		/**
@@ -45,8 +47,8 @@ module Evolution {
 		 * Requests that the html that displays @component is changed
 		 * to @html.
 		 */
-		void update_html_component (in SummaryComponent component,
-					    in string html)
+		void update_component (in long id,
+				       in string html)
 			raises (NoSubWindow);
 	};
 };

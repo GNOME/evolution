@@ -43,10 +43,8 @@
 
 #include "component-factory.h"
 
-#ifdef WANT_THE_EXECUTIVE_SUMMARY
 #include <executive-summary/evolution-services/executive-summary-component.h>
 #include "mail-summary.h"
-#endif
 
 CamelFolder *drafts_folder = NULL;
 CamelFolder *outbox_folder = NULL;
@@ -182,17 +180,15 @@ factory_destroy (BonoboEmbeddable *embeddable,
 	gtk_main_quit ();
 }
 
-#ifdef WANT_THE_EXECUTIVE_SUMMARY
 static BonoboObject *
 summary_fn (BonoboGenericFactory *factory, void *closure)
 {
 	ExecutiveSummaryComponent *summary_component;
 
-	summary_component = executive_summary_component_new (
-		NULL, create_summary_view, NULL, NULL);
+	summary_component = executive_summary_component_new (create_summary_view, 
+							     NULL, NULL);
 	return BONOBO_OBJECT (summary_component);
 }
-#endif
 
 static BonoboObject *
 factory_fn (BonoboGenericFactory *factory, void *closure)
@@ -225,9 +221,7 @@ component_factory_init (void)
 		return;
 
 	factory = bonobo_generic_factory_new (COMPONENT_FACTORY_ID, factory_fn, NULL);
-#ifdef WANT_THE_EXECUTIVE_SUMMARY
 	summary_factory = bonobo_generic_factory_new (SUMMARY_FACTORY_ID, summary_fn, NULL);
-#endif
 
 	storages_hash = g_hash_table_new (g_str_hash, g_str_equal);
 
@@ -237,12 +231,11 @@ component_factory_init (void)
 		exit (1);
 	}
 
-#ifdef WANT_THE_EXECUTIVE_SUMMARY
 	if (summary_factory == NULL) {
 		e_notice (NULL, GNOME_MESSAGE_BOX_ERROR,
 			  _("Cannot initialize Evolution's mail summary component."));
 	}
-#endif
+
 	if (storages_hash == NULL) {
 		e_notice (NULL, GNOME_MESSAGE_BOX_ERROR,
 			  _("Cannot initialize Evolution's mail storage hash."));

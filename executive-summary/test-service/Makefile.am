@@ -3,7 +3,7 @@ bin_PROGRAMS = test-service
 CFLAGS += -g 
 INCLUDES = \
 	-I$(top_srcdir)			\
-	-I$(srcdir)/../evolution-services	\
+	-I$(top_srcdir)/executive-summary	\
 	$(EXTRA_GNOME_CFLAGS)		\
 	$(BONOBO_HTML_GNOME_CFLAGS)	\
 	$(UNICODE_CFLAGS)

@@ -33,6 +33,7 @@
 
 #include <Executive-Summary.h>
 #include "executive-summary-component-client.h"
+#include "executive-summary-component-view.h"
 #include "executive-summary.h"
 
 #define PARENT_TYPE BONOBO_OBJECT_CLIENT_TYPE
@@ -173,6 +174,7 @@ executive_summary_component_client_unset_owner (ExecutiveSummaryComponentClient 
 	return;
 }
 
+#if 0
 void
 executive_summary_component_client_supports (ExecutiveSummaryComponentClient *client,
 					     gboolean *bonobo,
@@ -196,35 +198,52 @@ executive_summary_component_client_supports (ExecutiveSummaryComponentClient *cl
 	CORBA_exception_free (&ev);
 	return;
 }
+#endif
 
-Bonobo_Control
-executive_summary_component_client_create_bonobo_view (ExecutiveSummaryComponentClient *client,
-						       char **title,
-						       char **icon)
+ExecutiveSummaryComponentView *
+executive_summary_component_client_create_view (ExecutiveSummaryComponentClient *client)
 {
-	Bonobo_Control control;
+	ExecutiveSummaryComponentView *view;
 	Evolution_SummaryComponent component;
+	char *html, *title, *icon;
+	Bonobo_Control control;
+	BonoboControl *bc;
+	int id;
 	CORBA_Environment ev;
-
-	g_return_val_if_fail (client != NULL, CORBA_OBJECT_NIL);
+	
+	g_return_val_if_fail (client != NULL, NULL);
 	g_return_val_if_fail (IS_EXECUTIVE_SUMMARY_COMPONENT_CLIENT (client),
-			      CORBA_OBJECT_NIL);
-
+			      NULL);
+	
 	CORBA_exception_init (&ev);
 	component = bonobo_object_corba_objref (BONOBO_OBJECT (client));
-	control = Evolution_SummaryComponent_create_bonobo_view (component, title, icon, &ev);
 
+	/* Get all the details about the view */
+	id = Evolution_SummaryComponent_create_view (component, &control, 
+						     &html, &title, &icon, &ev);
 	if (ev._major != CORBA_NO_EXCEPTION) {
 		g_warning ("Error creating view");
 		CORBA_exception_free (&ev);
-		return CORBA_OBJECT_NIL;
+		return NULL;
 	}
 
 	CORBA_exception_free (&ev);
+
+	/* Create a local copy of the remote view */
+	if (control != CORBA_OBJECT_NIL) {
+		bc = BONOBO_CONTROL (bonobo_widget_new_control_from_objref (control, NULL));
+	} else {
+		bc = NULL;
+	}
+
+	view = executive_summary_component_view_new (NULL, bc, html, title,
+						     icon);
+	executive_summary_component_view_set_id (view, id);
 	
-	return control;
+	return view;
 }
 
+#if 0
 char *
 executive_summary_component_client_create_html_view (ExecutiveSummaryComponentClient *client,
 						     char **title,
@@ -253,6 +272,7 @@ executive_summary_component_client_create_html_view (ExecutiveSummaryComponentCl
 
 	return (char *)g_strdup (ret_html);
 }
+#endif
 
 void
 executive_summary_component_client_configure (ExecutiveSummaryComponentClient *client)
@@ -276,6 +296,33 @@ executive_summary_component_client_configure (ExecutiveSummaryComponentClient *c
 
 	CORBA_exception_free (&ev);
 	
+	return;
+}
+
+void
+executive_summary_component_client_destroy_view (ExecutiveSummaryComponentClient *client,
+						 ExecutiveSummaryComponentView *view) {
+	int id;
+	Evolution_SummaryComponent component;
+	CORBA_Environment ev;
+
+	g_return_if_fail (client != NULL);
+	g_return_if_fail (IS_EXECUTIVE_SUMMARY_COMPONENT_CLIENT (client));
+	g_return_if_fail (view != NULL);
+	g_return_if_fail (IS_EXECUTIVE_SUMMARY_COMPONENT_VIEW (view));
+
+	id = executive_summary_component_view_get_id (view);
+
+	CORBA_exception_init (&ev);
+	component = bonobo_object_corba_objref (BONOBO_OBJECT (client));
+	Evolution_SummaryComponent_destroy_view (component, id, &ev);
+
+	if (ev._major != CORBA_NO_EXCEPTION) {
+		g_warning ("Error destroying view #%d", id);
+	}
+
+	CORBA_exception_free (&ev);
+
 	return;
 }
 

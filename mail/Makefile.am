@@ -12,6 +12,8 @@ INCLUDES = \
 	-I$(top_srcdir)/camel				\
 	-I$(top_builddir)/shell				\
 	-I$(top_srcdir)/shell				\
+	-I$(top_builddir)/executive-summary		\
+	-I$(top_srcdir)/executive-summary		\
 	$(EXTRA_GNOME_CFLAGS)				\
 	$(BONOBO_HTML_GNOME_CFLAGS)			\
 	$(GNOME_VFS_CFLAGS)				\
@@ -67,6 +69,8 @@ evolution_mail_SOURCES =		\
 	mail-ops.h			\
 	mail-search-dialogue.c		\
 	mail-search-dialogue.h		\
+	mail-summary.c			\
+	mail-summary.h			\
 	mail-threads.c			\
 	mail-threads.h			\
 	mail-tools.c			\
@@ -95,6 +99,7 @@ evolution_mail_LDADD = 					\
 	$(top_builddir)/e-util/ename/libename.la	\
 	$(top_builddir)/libibex/libibex.la		\
 	$(top_builddir)/filter/libfilter.la		\
+	$(top_builddir)/executive-summary/evolution-services/libevolution-services.la	\
 	$(BONOBO_VFS_GNOME_LIBS)			\
 	$(EXTRA_GNOME_LIBS)				\
 	$(GTKHTML_LIBS)					\

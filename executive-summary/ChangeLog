@@ -1,3 +1,55 @@
+2000-10-25  Iain Holmes  <iain@helixcode.com>
+
+	* test-service/main.c: Store each individual views data with the view.
+	Add comments to explain everything.
+
+	* evolution-services/executive-summary-component.c 
+	(impl_Evolution_SummaryComponent_create_view): Only try to create a 
+	control if the returned control != NULL.
+
+2000-10-25  Iain Holmes  <iain@helixcode.com>
+
+	* evolution-services/executive-summary-component.c 
+	(impl_Evolution_SummaryComponent_create_view): Set the UID of the view 
+	before passing it to the create_view method.
+
+2000-10-25  Iain Holmes  <iain@helixcode.com>
+
+	* idl/Summary.idl: Added set_icon method, and changed update_html_component
+	to update_component. Made all methods take a long ID instead of an
+	SummaryComponent.
+
+	* idl/SummaryComponent.idl: Combined the create_bonobo_view and 
+	create_html_view into create_view.
+	Added a destroy_view method.
+
+	* evolution-services/Makefile.am: Added the 2 new files.
+
+	* evolution-services/executive-summary-component-view.[ch]: New
+	files implementing a view of an ExecutiveSummaryComponent.
+
+	* evolution-services/executive-summary.[ch]
+	* evolution-services/executive-summary-client.[ch]
+	* evolution-services/executive-summary-component.[ch]
+	* evolution-services/executive-summary-component-client.[ch]:
+	* component/e-summary-factory.c
+	* component/e-summary.c
+	* test-service/main.c:
+	Updated to use new methods and the new ExecutiveSummaryComponentView
+	object.
+
+2000-10-16  Iain Holmes  <iain@helixcode.com>
+
+	* evolution-services/executive-summary.c (executive_summary_class_init):
+	Implement the update, set_title and flash functionality as signals
+	instead of methods.
+	(impl_Evolution_Summary_set_title): Emit signal.
+	(impl_Evolution_Summary_flash): Emit signal.
+	(impl_Evolution_Summary_update_html_component): Emit signal.
+	(executive_summary_new): Don't need the methods anymore.
+	(executive_summary_construct): Same.
+	(executive_summary_init): Remove the private initialisation.
+
 2000-10-23  Dan Winship  <danw@helixcode.com>
 
 	* idl/Makefile.am (INCLUDES): 

@@ -95,18 +95,16 @@ E_MAKE_TYPE (executive_summary_client, "ExecutiveSummaryClient",
 
 void
 executive_summary_client_set_title (ExecutiveSummaryClient *client,
-				    ExecutiveSummaryComponent *component,
+				    int id,
 				    const char *title)
 {
 	Evolution_Summary summary;
-	Evolution_SummaryComponent corba_object;
 	CORBA_Environment ev;
 
 	CORBA_exception_init (&ev);
 	summary = bonobo_object_corba_objref (BONOBO_OBJECT (client));
-	corba_object = bonobo_object_corba_objref (BONOBO_OBJECT (component));
 
-	Evolution_Summary_set_title (summary, corba_object, title, &ev);
+	Evolution_Summary_set_title (summary, id, title, &ev);
 
 	if (ev._major != CORBA_NO_EXCEPTION) {
 		g_warning ("Error setting title to %s:%s", title, CORBA_exception_id (&ev));
@@ -116,18 +114,36 @@ executive_summary_client_set_title (ExecutiveSummaryClient *client,
 }
 
 void
-executive_summary_client_flash (ExecutiveSummaryClient *client,
-				ExecutiveSummaryComponent *component)
+executive_summary_client_set_icon (ExecutiveSummaryClient *client,
+				   int id,
+				   const char *icon)
 {
 	Evolution_Summary summary;
-	Evolution_SummaryComponent corba_object;
 	CORBA_Environment ev;
 
 	CORBA_exception_init (&ev);
 	summary = bonobo_object_corba_objref (BONOBO_OBJECT (client));
-	corba_object = bonobo_object_corba_objref (BONOBO_OBJECT (component));
 
-	Evolution_Summary_flash (summary, corba_object, &ev);
+	Evolution_Summary_set_icon (summary, id, icon, &ev);
+
+	if (ev._major != CORBA_NO_EXCEPTION) {
+		g_warning ("Error setting icon to %s:%s", icon, CORBA_exception_id (&ev));
+	}
+
+	CORBA_exception_free (&ev);
+}
+
+void
+executive_summary_client_flash (ExecutiveSummaryClient *client,
+				int id)
+{
+	Evolution_Summary summary;
+	CORBA_Environment ev;
+
+	CORBA_exception_init (&ev);
+	summary = bonobo_object_corba_objref (BONOBO_OBJECT (client));
+
+	Evolution_Summary_flash (summary, id, &ev);
 
 	if (ev._major != CORBA_NO_EXCEPTION) {
 		g_warning ("Error flashing");
@@ -138,19 +154,16 @@ executive_summary_client_flash (ExecutiveSummaryClient *client,
 
 void
 executive_summary_client_update (ExecutiveSummaryClient *client,
-				 ExecutiveSummaryComponent *component,
-				 char *html)
+				 int id,
+				 const char *html)
 {
 	Evolution_Summary summary;
-	Evolution_SummaryComponent corba_object;
 	CORBA_Environment ev;
 
 	CORBA_exception_init (&ev);
 	summary = bonobo_object_corba_objref (BONOBO_OBJECT (client));
-	corba_object = bonobo_object_corba_objref (BONOBO_OBJECT (component));
 
-	Evolution_Summary_update_html_component (summary, corba_object, 
-						 html, &ev);
+	Evolution_Summary_update_component (summary, id, html, &ev);
 	if (ev._major != CORBA_NO_EXCEPTION) {
 		g_warning ("Error updating the component");
 	}

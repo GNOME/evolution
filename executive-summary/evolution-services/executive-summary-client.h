@@ -21,11 +21,11 @@
  * Boston, MA 02111-1307, USA.
  */
 
-#ifndef _EXECUTIVE_SUMMARY_COMPONENT_CLIENT_H__
-#define _EXECUTIVE_SUMMARY_COMPONENT_CLIENT_H__
+#ifndef _EXECUTIVE_SUMMARY_CLIENT_H__
+#define _EXECUTIVE_SUMMARY_CLIENT_H__
 
 #include <bonobo.h>
-#include "executive-summary-component.h"
+#include <evolution-services/executive-summary-component.h>
 
 #define EXECUTIVE_SUMMARY_CLIENT_TYPE (executive_summary_client_get_type ())
 #define EXECUTIVE_SUMMARY_CLIENT(obj) (GTK_CHECK_CAST ((obj), EXECUTIVE_SUMMARY_CLIENT_TYPE, ExecutiveSummaryClient))
@@ -51,12 +51,15 @@ GtkType executive_summary_client_get_type (void);
 void executive_summary_client_construct (ExecutiveSummaryClient *client,
 					 CORBA_Object object);
 void executive_summary_client_set_title (ExecutiveSummaryClient *client,
-					 ExecutiveSummaryComponent *component,
+					 int id,
 					 const char *title);
+void executive_summary_client_set_icon (ExecutiveSummaryClient *client,
+					int id,
+					const char *icon);
 void executive_summary_client_flash (ExecutiveSummaryClient *client,
-				     ExecutiveSummaryComponent *component);
+				     int id);
 void executive_summary_client_update (ExecutiveSummaryClient *client,
-				      ExecutiveSummaryComponent *component,
-				      char *html);
+				      int id,
+				      const char *html);
 
 #endif

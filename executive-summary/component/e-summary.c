@@ -32,10 +32,10 @@
 #include <gtkhtml/gtkhtml-stream.h>
 #include <gtk/gtkvbox.h>
 #include <gal/util/e-util.h>
-#include <e-summary-subwindow.h>
 
-#include <executive-summary.h>
-#include <executive-summary-component-client.h>
+#include <evolution-services/executive-summary.h>
+#include <evolution-services/executive-summary-component-client.h>
+#include <evolution-services/executive-summary-component-view.h>
 
 #include <libgnomevfs/gnome-vfs.h>
 #include "e-summary.h"
@@ -48,6 +48,7 @@ struct _ESummaryPrivate {
 	GtkWidget *html_scroller;
 	GtkWidget *html;
 
+	GHashTable *id_to_view;
 	GHashTable *summary_to_window;
 	GList *window_list;
 
@@ -56,21 +57,9 @@ struct _ESummaryPrivate {
 	GtkHTMLStream *stream;
 };
 
-typedef enum {
-	E_SUMMARY_WINDOW_BONOBO,
-	E_SUMMARY_WINDOW_HTML
-} ESummaryWindowType;
-
 typedef struct _ESummaryWindow {
 	ExecutiveSummary *summary;
-	ExecutiveSummaryComponentClient *client;
-	char *title;
-	char *icon;
-	
-	ESummaryWindowType type;
-
-	char *html;
-	GtkWidget *control;
+	ExecutiveSummaryComponentView *view;
 } ESummaryWindow;
 
 static gboolean on_object_requested (GtkHTML *html,
@@ -86,6 +75,7 @@ s2w_foreach (gpointer *key,
 	     gpointer *value,
 	     ESummaryPrivate *priv)
 {
+	g_print ("%s\n", __FUNCTION__);
 	e_summary_window_free ((ESummaryWindow *) value, priv);
 	g_free (value);
 }
@@ -95,7 +85,8 @@ e_summary_destroy (GtkObject *object)
 {
 	ESummary *esummary = E_SUMMARY (object);
 	ESummaryPrivate *priv;
-	
+
+	g_print ("Destroy\n");
 	priv = esummary->private;
 	if (priv == NULL)
 		return;
@@ -103,6 +94,7 @@ e_summary_destroy (GtkObject *object)
 	g_hash_table_foreach (priv->summary_to_window, 
 			      s2w_foreach, priv);
 	g_hash_table_destroy (priv->summary_to_window);
+	g_hash_table_destroy (priv->id_to_view);
 
 	g_free (esummary->private);
 	esummary->private = NULL;
@@ -218,7 +210,7 @@ static void
 e_summary_start_load (ESummary *summary)
 {
 	ESummaryPrivate *priv;
-	char *header = "<html><body>";
+	char *header = "<html><body bgcolor=\"#ffffff\">";
 
 	priv = summary->private;
 	priv->stream = gtk_html_begin (GTK_HTML (priv->html));
@@ -273,12 +265,12 @@ e_summary_init (ESummary *esummary)
 					GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
 	priv->html = gtk_html_new ();
 	gtk_html_set_editable (GTK_HTML (priv->html), FALSE);
+	gtk_html_set_default_background_color (GTK_HTML (priv->html), &bgcolour);
 	gtk_signal_connect (GTK_OBJECT (priv->html), "url-requested",
 			    GTK_SIGNAL_FUNC (request_cb), NULL);
   	gtk_signal_connect (GTK_OBJECT (priv->html), "object-requested", 
   			    GTK_SIGNAL_FUNC (on_object_requested), esummary); 
 	
-	gtk_html_set_default_background_color (GTK_HTML (priv->html), &bgcolour);
 	gtk_container_add (GTK_CONTAINER (priv->html_scroller), priv->html);
 	gtk_widget_show_all (priv->html_scroller);
 
@@ -288,8 +280,9 @@ e_summary_init (ESummary *esummary)
 	gtk_box_pack_start (GTK_BOX (esummary), priv->html_scroller, 
 			    TRUE, TRUE, 0);
 
-	/* Init hashtable */
+	/* Init hashtables */
 	priv->summary_to_window = g_hash_table_new (NULL, NULL);
+	priv->id_to_view = g_hash_table_new (NULL, NULL);
 }
 
 E_MAKE_TYPE (e_summary, "ESummary", ESummary, e_summary_class_init,
@@ -324,15 +317,7 @@ on_object_requested (GtkHTML *html,
 		break;
 
 	case 2:
-		gtk_widget_show (window->control);
-
-		gtk_widget_ref (GTK_WIDGET (window->control));
-		if (window->control->parent != NULL) {
-			gtk_container_remove (GTK_CONTAINER (window->control->parent), window->control);
-		}
-		gtk_container_add (GTK_CONTAINER (eb), window->control);
-
-		gtk_widget_unref (GTK_WIDGET (window->control));
+		g_warning ("Bonobo services are not supported in this version.");
 		break;
 
 	default:
@@ -349,46 +334,45 @@ e_summary_display_window (ESummary *esummary,
 {
 	ESummaryPrivate *priv;
 	char *footer = "</td></tr></table>";
-	char *title_cid, *body_cid;
+	char *title_html;
 	char *colour[2] = {"e6e8e4", 
 			   "edeeeb"};
 	char *title_colour[2] = {"bac1b6", 
 				 "cdd1c7"};
+	const char *title, *icon, *html;
 
 	priv = esummary->private;
 
+	title = executive_summary_component_view_get_title (window->view);
+	icon = executive_summary_component_view_get_icon (window->view);
+	html = executive_summary_component_view_get_html (window->view);
+
 	/** FIXME: Make this faster by caching it? */
-	title_cid = g_strdup_printf ("<table cellspacing=\"0\" "
-				     "cellpadding=\"0\" border=\"0\" width=\"100%%\" height=\"100%%\">"
-				     "<tr><td bgcolor=\"#%s\">"
-				     "<table width=\"100%%\"><tr><td>"
-				     "<img src=\"%s\"></td>"
-                                     "<td nowrap align=\"center\" width=\"100%%\">"
-				     "<b>%s</b></td></tr></table></td></tr><tr>"
-				     "<td bgcolor=\"#%s\" height=\"100%%\">", 
-				     title_colour[col % 2],
-				     window->icon,
-				     window->title,
-				     colour[col % 2]);
-
-	gtk_html_write (GTK_HTML (priv->html), priv->stream, title_cid,
-			strlen (title_cid));
-	g_free (title_cid);
+	title_html = g_strdup_printf ("<table cellspacing=\"0\" "
+				      "cellpadding=\"0\" border=\"0\" width=\"100%%\" height=\"100%%\">"
+				      "<tr><td bgcolor=\"#%s\">"
+				      "<table width=\"100%%\"><tr><td>"
+				      "<img src=\"%s\"></td>"
+				      "<td nowrap align=\"center\" width=\"100%%\">"
+				      "<b>%s</b></td></tr></table></td></tr><tr>"
+				      "<td bgcolor=\"#%s\" height=\"100%%\">", 
+				      title_colour[col % 2], icon, title,
+				      colour[col % 2]);
 	
-	switch (window->type) {
-	case E_SUMMARY_WINDOW_HTML:
+	gtk_html_write (GTK_HTML (priv->html), priv->stream, title_html,
+			strlen (title_html));
+	g_free (title_html);
+	
+	if (html != NULL && *html != '\0') {
 		gtk_html_write (GTK_HTML (priv->html), priv->stream,
-				window->html, strlen (window->html));
-		break;
-
-	case E_SUMMARY_WINDOW_BONOBO:
+				html, strlen (html));
+	} else {
+		g_warning ("Bonobo executive summary components are not supported at this time.");
+#if 0
 		body_cid = g_strdup_printf ("<object classid=\"cid:2-%p\"></object>", window);
 		gtk_html_write (GTK_HTML (priv->html), priv->stream,
 				body_cid, strlen (body_cid));
-		break;
-
-	default:
-		break;
+#endif
 	}
 
 	gtk_html_write (GTK_HTML (priv->html), priv->stream,
@@ -451,6 +435,37 @@ e_summary_rebuild_page (ESummary *esummary)
 }
 
 void
+e_summary_add_service (ESummary *esummary,
+		       ExecutiveSummary *summary,
+		       ExecutiveSummaryComponentView *view)
+{
+	ESummaryWindow *window;
+	ESummaryPrivate *priv;
+	int id;
+
+	g_return_if_fail (esummary != NULL);
+	g_return_if_fail (IS_E_SUMMARY (esummary));
+	g_return_if_fail (summary != NULL);
+	g_return_if_fail (IS_EXECUTIVE_SUMMARY (summary));
+	g_return_if_fail (view != NULL);
+	g_return_if_fail (IS_EXECUTIVE_SUMMARY_COMPONENT_VIEW (view));
+
+	window = g_new0 (ESummaryWindow, 1);
+	window->summary = summary;
+
+	window->view = view;
+
+	priv = esummary->private;
+	priv->window_list = g_list_append (priv->window_list, window);
+	g_hash_table_insert (priv->summary_to_window, summary, window);
+	
+	id = executive_summary_component_view_get_id (view);
+	g_print ("--%d: %p\n", id, view);
+	g_hash_table_insert (priv->id_to_view, GINT_TO_POINTER (id), view);
+}
+
+#if 0
+void
 e_summary_add_html_service (ESummary *esummary,
 			    ExecutiveSummary *summary,
 			    ExecutiveSummaryComponentClient *client,
@@ -501,22 +516,17 @@ e_summary_add_bonobo_service (ESummary *esummary,
 
 	g_hash_table_insert (priv->summary_to_window, summary, window);
 }
+#endif
 
 static void
 e_summary_window_free (ESummaryWindow *window,
 		       ESummaryPrivate *priv)
 {
-	g_free (window->title);
-	g_free (window->icon);
-	if (window->type == E_SUMMARY_WINDOW_BONOBO)
-		gtk_widget_unref (window->control);
-	else
-		g_free (window->html);
-
+	g_print ("%s\n", __FUNCTION__);
 	priv->window_list = g_list_remove (priv->window_list, window);
 
 	bonobo_object_unref (BONOBO_OBJECT (window->summary));
-	bonobo_object_unref (BONOBO_OBJECT (window->client));
+	gtk_object_unref (GTK_OBJECT (window->view));
 }
 
 /* Call this before e_summary_window_free, execpt when you are freeing
@@ -533,25 +543,34 @@ e_summary_update_window (ESummary *esummary,
 			 ExecutiveSummary *summary,
 			 const char *html)
 {
-	ESummaryWindow *window;
 	ESummaryPrivate *priv;
-
+	
 	g_return_if_fail (esummary != NULL);
 	g_return_if_fail (IS_E_SUMMARY (esummary));
 	g_return_if_fail (summary != NULL);
-
+	
 	priv = esummary->private;
-
-	window = g_hash_table_lookup (priv->summary_to_window, summary);
-
-	g_return_if_fail (window != NULL);
-
-	g_free (window->html);
-	window->html = g_strdup (html);
-
+	
 	if (priv->idle != 0)
 		return;
-
+	
 	priv->idle = g_idle_add (e_summary_rebuild_page, esummary);
 }
-     
+
+ExecutiveSummaryComponentView *
+e_summary_view_from_id (ESummary *esummary,
+			int id)
+{
+	ESummaryPrivate *priv;
+	ExecutiveSummaryComponentView *view;
+
+	g_return_val_if_fail (esummary != NULL, NULL);
+	g_return_val_if_fail (IS_E_SUMMARY (esummary), NULL);
+	g_return_val_if_fail (id > 0, NULL);
+
+	priv = esummary->private;
+	view = g_hash_table_lookup (priv->id_to_view, GINT_TO_POINTER (id));
+
+	g_print ("%d: %p\n", id, view);
+	return view;
+}

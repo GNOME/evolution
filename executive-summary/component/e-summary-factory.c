@@ -42,27 +42,16 @@
 #include "e-summary.h"
 #include "Evolution.h"
 
-#include <executive-summary-component-client.h>
-#include <Executive-Summary.h>
-
-#include <executive-summary.h>
-#include <executive-summary-component.h>
+#include <evolution-services/executive-summary-component-client.h>
+#include <evolution-services/Executive-Summary.h>
+#include <evolution-services/executive-summary.h>
+#include <evolution-services/executive-summary-component.h>
+#include <evolution-services/executive-summary-component-view.h>
 
 static GList *control_list = NULL;
 
 GtkWidget* embed_service (GtkWidget *widget,
 			  ESummary *esummary);
-static void update (ExecutiveSummary *summary,
-		    const Evolution_SummaryComponent component,
-		    const char *html,
-		    ESummary *esummary);
-static void set_title (ExecutiveSummary *summary,
-		       const Evolution_SummaryComponent component,
-		       const char *title,
-		       void *closure);
-static void flash (ExecutiveSummary *summary,
-		   const Evolution_SummaryComponent component,
-		   void *closure);
 
 BonoboUIVerb verbs[] = {
 	BONOBO_UI_UNSAFE_VERB ("AddService", embed_service),
@@ -153,28 +142,45 @@ control_destroy_cb (BonoboControl *control,
 
 static void 
 update (ExecutiveSummary *summary,
-	const Evolution_SummaryComponent component,
+	int id,
 	const char *html,
 	ESummary *esummary)
 {
+	ExecutiveSummaryComponentView *view;
+	g_print ("OI!\n");
+
+	view = e_summary_view_from_id (esummary, id);
+	executive_summary_component_view_set_html (view, html);
 	e_summary_update_window (esummary, summary, html);
 }
 
 static void
 set_title (ExecutiveSummary *summary,
-	   const Evolution_SummaryComponent component,
+	   int id,
 	   const char *title,
-	   void *closure)
+	   gpointer user_data)
 {
 	g_print ("Setting title to %s\n", title);
 }
 
 static void
 flash (ExecutiveSummary *summary,
-       const Evolution_SummaryComponent component,
-       void *closure)
+       int id,
+       gpointer user_data)
 {
 	g_print ("FLASH!\n");
+}
+
+static void
+view_destroyed (ExecutiveSummaryComponentView *view,
+		ExecutiveSummaryComponentClient *client)
+{
+	int id;
+
+	g_print ("%s\n", __FUNCTION__);
+	id = executive_summary_component_view_get_id (view);
+	g_print ("%d\n", id);
+	executive_summary_component_client_destroy_view (client, view);
 }
 
 /* A ********very********
@@ -186,6 +192,7 @@ embed_service (GtkWidget *widget,
 {
 	ExecutiveSummaryComponentClient *client;
 	ExecutiveSummary *summary;
+	ExecutiveSummaryComponentView *view;
 	char *required_interfaces[2] = {"IDL:Evolution:SummaryComponent:1.0",
 					NULL};
 	char *obj_id;
@@ -204,14 +211,21 @@ embed_service (GtkWidget *widget,
 		return NULL;
 
 	/* Set the owner */
-	summary = executive_summary_new (set_title, flash, update, esummary);
+	summary = executive_summary_new ();
 	executive_summary_component_client_set_owner (client, summary);
+	gtk_signal_connect (GTK_OBJECT (summary), "flash",
+			    GTK_SIGNAL_FUNC (flash), NULL);
+	gtk_signal_connect (GTK_OBJECT (summary), "set_title",
+			    GTK_SIGNAL_FUNC (set_title), NULL);
+	gtk_signal_connect (GTK_OBJECT (summary), "update",
+			    GTK_SIGNAL_FUNC (update), esummary);
 
 	/* Create view */
-	html = executive_summary_component_client_create_html_view (client, &title, &icon);
-	e_summary_add_html_service (esummary, summary, client, html, title, icon);
-	g_free (html);
+	view = executive_summary_component_client_create_view (client);
+	gtk_signal_connect (GTK_OBJECT (view), "destroy",
+			    GTK_SIGNAL_FUNC (view_destroyed), client);
 
+	e_summary_add_service (esummary, summary, view);
 	e_summary_rebuild_page (esummary);
 	return NULL;
 }
