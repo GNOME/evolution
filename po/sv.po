@@ -5,13 +5,13 @@
 # Christian Rose <menthos@menthos.com>, 2000, 2001.
 # Martin Norbäck <d95mback@dtek.chalmers.se>, 2001.
 #
-# $Id: sv.po,v 1.101 2001/08/11 18:40:47 menthos Exp $
+# $Id: sv.po,v 1.102 2001/08/13 17:18:33 menthos Exp $
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
-"POT-Creation-Date: 2001-08-11 20:36+0200\n"
-"PO-Revision-Date: 2001-08-11 20:40+0200\n"
+"POT-Creation-Date: 2001-08-13 19:16+0200\n"
+"PO-Revision-Date: 2001-08-13 19:17+0200\n"
 "Last-Translator: Christian Rose <menthos@menthos.com>\n"
 "Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -1359,7 +1359,7 @@ msgstr "Lyckades"
 
 #: addressbook/gui/widgets/e-addressbook-util.c:35
 #: camel/providers/imap/camel-imap-command.c:340 shell/e-shell.c:1619
-#: shell/e-storage.c:501
+#: shell/e-storage.c:503
 msgid "Unknown error"
 msgstr "Okänt fel"
 
@@ -2077,7 +2077,7 @@ msgstr "Odefinierad"
 #: calendar/gui/dialogs/meeting-page.c:368
 #: calendar/gui/dialogs/meeting-page.glade.h:1 mail/mail-account-gui.c:1404
 #: mail/mail-accounts.c:134 mail/mail-accounts.c:374
-#: mail/mail-config.glade.h:47 shell/e-shell-view.c:1380
+#: mail/mail-config.glade.h:47 shell/e-shell-view.c:1386
 #: widgets/misc/e-cell-date-edit.c:240 widgets/misc/e-dateedit.c:437
 #: widgets/misc/e-dateedit.c:1356 widgets/misc/e-dateedit.c:1471
 msgid "None"
@@ -3706,8 +3706,8 @@ msgid "Sa"
 msgstr "Lö"
 
 #: calendar/gui/print.c:1707 my-evolution/e-summary-tasks.c:212
-#: my-evolution/e-summary-tasks.c:228 shell/e-shortcuts.c:1025
-#: views/tasks/galview.xml.h:1
+#: my-evolution/e-summary-tasks.c:228 shell/e-local-storage.c:179
+#: shell/e-shortcuts.c:1025 views/tasks/galview.xml.h:1
 msgid "Tasks"
 msgstr "Uppgifter"
 
@@ -4623,7 +4623,7 @@ msgstr "Kontrollerar ny e-post"
 msgid "Check for new messages in all folders"
 msgstr "Kontrollerar nya meddelanden i alla mappar"
 
-#: camel/providers/imap/camel-imap-provider.c:48 shell/e-shell-view.c:653
+#: camel/providers/imap/camel-imap-provider.c:48 shell/e-shell-view.c:655
 msgid "Folders"
 msgstr "Mappar"
 
@@ -4946,13 +4946,13 @@ msgstr "Mappen \"%s\" är inte tom. Den togs inte bort."
 #. it should try and merge the summary info's.  This is a bit tricky.
 #: camel/providers/local/camel-mbox-summary.c:249
 #: camel/providers/local/camel-spool-summary.c:379
-msgid "Summarising folder"
+msgid "Summarizing folder"
 msgstr "Sammanfattar mapp"
 
 #: camel/providers/local/camel-mbox-summary.c:254
 #: camel/providers/local/camel-spool-summary.c:384
 #, c-format
-msgid "Could not open folder: %s: summarising from position %ld: %s"
+msgid "Could not open folder: %s: summarizing from position %ld: %s"
 msgstr "Kunde inte öppna mapp: %s: sammanfattar från position %ld: %s"
 
 #: camel/providers/local/camel-mbox-summary.c:296
@@ -4962,9 +4962,8 @@ msgid "Fatal mail parser error near position %ld in folder %s"
 msgstr "Ödesdigert e-posttolkningsfel nära position %ld i mappen %s"
 
 #: camel/providers/local/camel-mbox-summary.c:371
-#: camel/providers/local/camel-spool-summary.c:498
 #, c-format
-msgid "Cannot summarise folder: %s: %s"
+msgid "Cannot summarize folder: %s: %s"
 msgstr "Kan inte sammanfatta mapp: %s: %s"
 
 #: camel/providers/local/camel-mbox-summary.c:502
@@ -4976,11 +4975,9 @@ msgstr "Synkroniserar mapp"
 
 #: camel/providers/local/camel-mbox-summary.c:507
 #: camel/providers/local/camel-mbox-summary.c:708
-#: camel/providers/local/camel-spool-summary.c:649
-#: camel/providers/local/camel-spool-summary.c:936
 #, c-format
-msgid "Could not open folder to summarise: %s: %s"
-msgstr "Kunde inte öppna mapp för att sammanfatta: %s: %s"
+msgid "Could not open folder to summarize: %s: %s"
+msgstr "Kunde inte öppna mapp att sammanfatta: %s: %s"
 
 #: camel/providers/local/camel-mbox-summary.c:524
 #: camel/providers/local/camel-spool-summary.c:673
@@ -5081,6 +5078,17 @@ msgstr "Spool-mappar kan inte bytas namn på"
 #: camel/providers/local/camel-spool-store.c:230
 msgid "Spool folders cannot be deleted"
 msgstr "Spool-mappar kan inte tas bort"
+
+#: camel/providers/local/camel-spool-summary.c:498
+#, c-format
+msgid "Cannot summarise folder: %s: %s"
+msgstr "Kan inte sammanfatta mapp: %s: %s"
+
+#: camel/providers/local/camel-spool-summary.c:649
+#: camel/providers/local/camel-spool-summary.c:936
+#, c-format
+msgid "Could not open folder to summarise: %s: %s"
+msgstr "Kunde inte öppna mapp för att sammanfatta: %s: %s"
 
 #: camel/providers/local/camel-spool-summary.c:784
 #: camel/providers/local/camel-spool-summary.c:793
@@ -6054,7 +6062,7 @@ msgstr "en tid som är relativ till aktuell tid"
 msgid "Compare against"
 msgstr "Jämför med"
 
-#: filter/filter-datespec.c:546 filter/filter-datespec.c:712
+#: filter/filter-datespec.c:546 filter/filter-datespec.c:725
 msgid "now"
 msgstr "nu"
 
@@ -6066,7 +6074,11 @@ msgstr " sedan"
 msgid "ago"
 msgstr " sedan"
 
-#: filter/filter-datespec.c:709
+#: filter/filter-datespec.c:711 mail/message-list.c:929
+msgid "%b %d %l:%M %p"
+msgstr "%d %b %H.%M"
+
+#: filter/filter-datespec.c:722
 msgid "<click here to select a date>"
 msgstr "<klicka här för att välja ett datum>"
 
@@ -6583,9 +6595,9 @@ msgstr "Filtrera på _mottagare"
 msgid "Filter on _Mailing List"
 msgstr "Filtrera på sä_ndlista"
 
-#: mail/folder-browser.c:1280
-msgid "R_esend..."
-msgstr "Skicka _om..."
+#: mail/folder-browser.c:1280 ui/evolution-mail-message.xml.h:89
+msgid "_Edit as New Message..."
+msgstr "_Redigera som nytt meddelande..."
 
 #: mail/folder-browser.c:1282 ui/evolution-mail-message.xml.h:96
 #: ui/evolution-tasks.xml.h:18
@@ -7098,7 +7110,7 @@ msgstr "Digitala ID..."
 msgid "Done"
 msgstr "Klar"
 
-#: mail/mail-config.glade.h:28
+#: mail/mail-config.glade.h:28 shell/e-local-storage.c:175
 msgid "Drafts"
 msgstr "Mallar"
 
@@ -7247,6 +7259,7 @@ msgid "Sending Mail"
 msgstr "Skickande av post"
 
 #: mail/mail-config.glade.h:71 mail/message-list.etspec.h:6
+#: shell/e-local-storage.c:178
 msgid "Sent"
 msgstr "Skickat"
 
@@ -7723,7 +7736,7 @@ msgid "Scanning folders in \"%s\""
 msgstr "Genomsöker mappar i \"%s\""
 
 #. Fill in the new fields
-#: mail/mail-ops.c:1074 mail/mail-ops.c:1075
+#: mail/mail-ops.c:1074 mail/mail-ops.c:1075 shell/e-local-storage.c:180
 msgid "Trash"
 msgstr "Papperskorg"
 
@@ -7957,10 +7970,6 @@ msgstr "Igår %H.%M"
 msgid "%a %l:%M %p"
 msgstr "%a %H.%M"
 
-#: mail/message-list.c:929
-msgid "%b %d %l:%M %p"
-msgstr "%d %b %H.%M"
-
 #: mail/message-list.c:931
 msgid "%b %d %Y"
 msgstr "%d %b %Y"
@@ -8017,6 +8026,38 @@ msgstr "Ingen server har valts"
 #: mail/subscribe-dialog.c:1489
 msgid "Please select a server."
 msgstr "Välj en server."
+
+#: mail/subscribe-dialog.glade.h:1
+msgid " _Refresh List "
+msgstr " _Uppdatera lista "
+
+#: mail/subscribe-dialog.glade.h:2
+msgid "All folders"
+msgstr "Alla mappar"
+
+#: mail/subscribe-dialog.glade.h:3
+msgid "Display options"
+msgstr "Visa alternativ"
+
+#: mail/subscribe-dialog.glade.h:4
+msgid "Folders whose names begin with:"
+msgstr "Mappar vars namn börjar med:"
+
+#: mail/subscribe-dialog.glade.h:5
+msgid "Manage Subscriptions"
+msgstr "Hantera prenumerationer"
+
+#: mail/subscribe-dialog.glade.h:6
+msgid "Show _folders from server: "
+msgstr "Visa _mappar från server: "
+
+#: mail/subscribe-dialog.glade.h:7
+msgid "_Subscribe"
+msgstr "_Prenumerera"
+
+#: mail/subscribe-dialog.glade.h:8
+msgid "_Unsubscribe"
+msgstr "_Säg upp prenumeration"
 
 #: my-evolution/GNOME_Evolution_Summary.oaf.in.h:1
 msgid "Evolution component for the executive summary."
@@ -9288,7 +9329,8 @@ msgstr "Alla _mappar:"
 msgid "All news _feeds:"
 msgstr "Alla nyhets_källor:"
 
-#: my-evolution/my-evolution.glade.h:6 shell/e-shortcuts.c:1024
+#: my-evolution/my-evolution.glade.h:6 shell/e-local-storage.c:173
+#: shell/e-shortcuts.c:1024
 msgid "Calendar"
 msgstr "Kalender"
 
@@ -9400,7 +9442,21 @@ msgstr "Visa detaljer"
 msgid "Cancel Operation"
 msgstr "Avbryt åtgärd"
 
-#: shell/e-local-storage.c:551
+#: shell/e-local-storage.c:174 shell/e-shortcuts.c:1026
+msgid "Contacts"
+msgstr "Kontakter"
+
+#. FIXME: Inbox shortcut should point to something else for
+#. people who won't care about using /Local Folders/Inbox
+#: shell/e-local-storage.c:176 shell/e-shortcuts.c:1023
+msgid "Inbox"
+msgstr "Inkorg"
+
+#: shell/e-local-storage.c:177
+msgid "Outbox"
+msgstr "Utkorg"
+
+#: shell/e-local-storage.c:593
 msgid "Local Folders"
 msgstr "Lokala mappar"
 
@@ -9520,30 +9576,39 @@ msgstr "Ange en mapp att flytta mappen \"%s\" till:"
 msgid "Move folder"
 msgstr "Flyttningsmapp"
 
-#: shell/e-shell-folder-commands.c:367
+#: shell/e-shell-folder-commands.c:357
+#, c-format
+msgid ""
+"Cannot delete folder:\n"
+"%s"
+msgstr ""
+"Kan inte ta bort mapp:\n"
+"%s"
+
+#: shell/e-shell-folder-commands.c:373
 #, c-format
 msgid "Delete folder '%s'"
 msgstr "Ta bort mappen \"%s\""
 
 #. "Are you sure..." label
-#: shell/e-shell-folder-commands.c:377
+#: shell/e-shell-folder-commands.c:383
 #, c-format
 msgid "Are you sure you want to remove the '%s' folder?"
 msgstr "Är du säker på att du vill ta bort mappen \"%s\"?"
 
 #. Popup a dialog asking what the user would like to rename
 #. the folder to
-#: shell/e-shell-folder-commands.c:452
+#: shell/e-shell-folder-commands.c:458
 #, c-format
 msgid "Rename folder '%s'"
 msgstr "Byt namn på mappen \"%s\""
 
-#: shell/e-shell-folder-commands.c:456 shell/e-shortcuts-view.c:383
+#: shell/e-shell-folder-commands.c:462 shell/e-shortcuts-view.c:383
 msgid "Rename"
 msgstr "Byt namn"
 
 #. Make, pack the label
-#: shell/e-shell-folder-commands.c:464
+#: shell/e-shell-folder-commands.c:470
 #: shell/glade/e-shell-folder-creation-dialog.glade.h:1
 msgid "Folder name:"
 msgstr "Mappnamn:"
@@ -9733,30 +9798,30 @@ msgstr "Arbeta ansluten"
 msgid "Work Offline"
 msgstr "Arbeta frånkopplad"
 
-#: shell/e-shell-view.c:177
+#: shell/e-shell-view.c:178
 msgid "(No folder displayed)"
 msgstr "(Ingen mapp visas)"
 
-#: shell/e-shell-view.c:1385
+#: shell/e-shell-view.c:1391
 #, c-format
 msgid "%s - Evolution %s"
 msgstr "%s - Evolution %s"
 
-#: shell/e-shell-view.c:1387
+#: shell/e-shell-view.c:1393
 #, c-format
 msgid "%s - Evolution %s [%s]"
 msgstr "%s - Evolution %s [%s]"
 
-#: shell/e-shell-view.c:1425
+#: shell/e-shell-view.c:1431
 msgid "Evolution is currently online.  Click on this button to work offline."
 msgstr ""
 "Evolution är just nu ansluten. Klicka på denna knapp för att koppla från."
 
-#: shell/e-shell-view.c:1432
+#: shell/e-shell-view.c:1438
 msgid "Evolution is in the process of going offline."
 msgstr "Evolution håller på att koppla från."
 
-#: shell/e-shell-view.c:1438
+#: shell/e-shell-view.c:1444
 msgid "Evolution is currently offline.  Click on this button to work online."
 msgstr ""
 "Evolution är just nu frånkopplad. Klicka på denna knapp för att ansluta."
@@ -9908,16 +9973,6 @@ msgstr "Fel vid sparande av genvägar."
 msgid "Shortcuts"
 msgstr "Genvägar"
 
-#. FIXME: Inbox shortcut should point to something else for
-#. people who won't care about using /Local Folders/Inbox
-#: shell/e-shortcuts.c:1023
-msgid "Inbox"
-msgstr "Inkorg"
-
-#: shell/e-shortcuts.c:1026
-msgid "Contacts"
-msgstr "Kontakter"
-
 #: shell/e-storage-set-view.c:1464 shell/e-summary-storage.c:78
 msgid "My Evolution"
 msgstr "Mitt Evolution"
@@ -9961,6 +10016,10 @@ msgstr "Åtgärden stöds inte"
 #: shell/e-storage.c:499
 msgid "The specified type is not supported in this storage"
 msgstr "Den angivna typen stöds inte i detta lager"
+
+#: shell/e-storage.c:501
+msgid "The specified folder cannot be modified or removed"
+msgstr "Den angivna mappen kan inte ändras eller tas bort"
 
 #: shell/e-task-widget.c:170
 #, c-format
@@ -10222,7 +10281,8 @@ msgstr "_Markera allt"
 
 #: ui/evolution-addressbook.xml.h:40 ui/evolution-calendar.xml.h:37
 #: ui/evolution-mail-global.xml.h:25 ui/evolution-mail-message.xml.h:97
-#: ui/evolution-mail-messagedisplay.xml.h:8
+#: ui/evolution-mail-messagedisplay.xml.h:8 ui/evolution-tasks.xml.h:20
+#: ui/my-evolution.xml.h:6
 msgid "_Tools"
 msgstr "_Verktyg"
 
@@ -11015,29 +11075,25 @@ msgstr "_Kopiera till mapp"
 msgid "_Create Filter From Message"
 msgstr "_Skapa filter från meddelande"
 
-#: ui/evolution-mail-message.xml.h:89
+#: ui/evolution-mail-message.xml.h:90
 msgid "_Forward Message"
 msgstr "_Vidarebefordra meddelande"
 
-#: ui/evolution-mail-message.xml.h:90
+#: ui/evolution-mail-message.xml.h:91
 msgid "_Message Display"
 msgstr "M_eddelandevisning"
 
-#: ui/evolution-mail-message.xml.h:91
+#: ui/evolution-mail-message.xml.h:92
 msgid "_Move to Folder"
 msgstr "_Flytta till mapp"
 
-#: ui/evolution-mail-message.xml.h:92
+#: ui/evolution-mail-message.xml.h:93
 msgid "_Normal Display"
 msgstr "_Normal visning"
 
-#: ui/evolution-mail-message.xml.h:93
+#: ui/evolution-mail-message.xml.h:94
 msgid "_Open Message"
 msgstr "_Öppna meddelande"
-
-#: ui/evolution-mail-message.xml.h:94
-msgid "_Re-send Message"
-msgstr "Skicka _om meddelande"
 
 #: ui/evolution-mail-messagedisplay.xml.h:2 ui/evolution.xml.h:5
 msgid "Close this window"
@@ -11787,6 +11843,12 @@ msgstr "init_corba(): kunde inte initiera GNOME"
 msgid "init_bonobo(): could not initialize Bonobo"
 msgstr "init_bonobo(): kunde inte initiera Bonobo"
 
+#~ msgid "R_esend..."
+#~ msgstr "Skicka _om..."
+
+#~ msgid "_Re-send Message"
+#~ msgstr "Skicka _om meddelande"
+
 #~ msgid "Category contains"
 #~ msgstr "Kategorin innehåller"
 
@@ -12008,9 +12070,6 @@ msgstr "init_bonobo(): kunde inte initiera Bonobo"
 
 #~ msgid "Getting store for \"%s\""
 #~ msgstr "Hämtar lagringsutrymme för \"%s\""
-
-#~ msgid "Manage Subscriptions"
-#~ msgstr "Hantera prenumerationer"
 
 #~ msgid "_Contact Group"
 #~ msgstr "_Kontaktgrupp"
