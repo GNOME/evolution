@@ -257,7 +257,7 @@ filter_element_new_type_name (const char *type)
 		return (FilterElement *)filter_code_new ();
 	} else if (!strcmp (type, "colour")) {
 		return (FilterElement *)filter_colour_new ();
-	} else if (!strcmp (type, "optionlist")) {
+	} else if (!strcmp (type, "optionlist") || !strcmp (type, "system-flag")) {
 		return (FilterElement *)filter_option_new ();
 	} else if (!strcmp (type, "datespec")) {
 		return (FilterElement *)filter_datespec_new ();

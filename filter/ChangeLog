@@ -1,5 +1,10 @@
 2001-03-17  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* filter-element.c (filter_element_new_type_name): If the filter
+	type is a "system-flag", use the optionlist type as type
+	system-flag has been removed. This should allow backward
+	compatability.
+
 	* filter-editor.c (filter_editor_construct): Remove the menu that
 	is in the glade file because we want to replace it with our menu,
 	not append items to that menu.
