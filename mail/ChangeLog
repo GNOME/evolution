@@ -1,3 +1,24 @@
+2000-10-16  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* folder-browser.c (search_full_clicked): Un #if 0'd out
+	(search_full): Same.
+	(folder_browser_gui_init): Connect search_full and search_activate.
+	(search_set): Uncomment search_full()
+
+	* Makefile.am: Re-add `mail-search-dialogue.h' and
+	`mail-search-dialogue.c'.
+
+2000-10-16  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* mail-format.c (mail_generate_reply): Decode recipient names so
+	that they display nicely in the To and Cc fields.
+	(write_field_to_stream): Now takes another argument
+	'value_is_encoded' so that we know if we should decode that string
+	before proceding onward. Since the message subject is already
+	decoded before it's passed in, we don't want to decode it again
+	(wasted cpu time and/or any 8bit chars will be assumed to be
+	latin1 encoded and thus the decoded value will be corrupt).
+
 2000-10-16  Chris Toshok  <toshok@helixcode.com>
 
 	* mail-config-gui.c (service_page_get_url): only set the url->user

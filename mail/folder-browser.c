@@ -27,7 +27,7 @@
 #include "filter/filter-option.h"
 #include "filter/filter-input.h"
 
-/* #include "mail-search-dialogue.h" */
+#include "mail-search-dialogue.h"
 
 #include "mail-local.h"
 #include "mail-config.h"
@@ -156,7 +156,6 @@ static char * search_string[] = {
 };
 #define CUSTOM_SEARCH_ID (5)
 
-#if 0
 static void
 search_full_clicked(MailSearchDialogue *msd, guint button, FolderBrowser *fb)
 {
@@ -201,7 +200,6 @@ search_full(GtkWidget *w, FolderBrowser *fb)
 	gtk_signal_connect((GtkObject *)msd, "clicked", search_full_clicked, fb);
 	gtk_widget_show((GtkWidget*)msd);
 }
-#endif
 
 static void
 search_set(FolderBrowser *fb)
@@ -215,7 +213,7 @@ search_set(FolderBrowser *fb)
 	widget = gtk_menu_get_active (GTK_MENU(GTK_OPTION_MENU(fb->search_menu)->menu));
 	index = (int)gtk_object_get_data((GtkObject *)widget, "search_option");
 	if (index == CUSTOM_SEARCH_ID) {
-		/* search_full(NULL, fb); */
+		search_full(NULL, fb);
 		return;
 	}
 	gtk_widget_set_sensitive(fb->search_entry, TRUE);
@@ -484,7 +482,7 @@ folder_browser_gui_init (FolderBrowser *fb)
 	fb->search_entry = gtk_entry_new();
 	gtk_widget_show(fb->search_entry);
 	gtk_signal_connect(GTK_OBJECT (fb->search_entry), "activate", search_activate, fb);
-	/* gtk_signal_connect(fb->search_entry, "changed", search_activate, fb); */
+	gtk_signal_connect(GTK_OBJECT (fb->search_entry), "changed", search_activate, fb);
 	searchbutton = (GtkButton *)gtk_button_new_with_label(_("Full Search"));
 	gtk_widget_show((GtkWidget *)searchbutton);
 	label = gtk_label_new(_("Search"));
@@ -493,7 +491,7 @@ folder_browser_gui_init (FolderBrowser *fb)
 	button = (GtkButton *)gtk_button_new_with_label(_("Save"));
 	gtk_widget_show((GtkWidget *)button);
 	gtk_signal_connect((GtkObject *)button, "clicked", search_save, fb);
-	/* gtk_signal_connect((GtkObject *)searchbutton, "clicked", search_full, fb); */
+	gtk_signal_connect((GtkObject *)searchbutton, "clicked", search_full, fb);
 	gtk_box_pack_end((GtkBox *)hbox, (GtkWidget *)button, FALSE, FALSE, 3);
 	gtk_box_pack_end((GtkBox *)hbox, fb->search_entry, FALSE, FALSE, 3);
 	gtk_box_pack_end((GtkBox *)hbox, fb->search_menu, FALSE, FALSE, 3);
