@@ -1,3 +1,15 @@
+2002-04-08  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* GNOME_Evolution_Mail.oaf.in: Re-added the config wizard
+	interfaces. Ettore accidently removed them thinking they were
+	duplicates of the new mail-config interfaces.
+
+	* mail-config.glade: Remove the OK, Apply, Cancel buttons from the
+	keyboard shortcut tab in the composer_prefs dialog.
+
+	* mail-account-gui.c: No need to check gui->source before using
+	gui->source->url, since gui->source *has* to exist.
+
 2002-04-06  JP Rosevear  <jpr@ximian.com>
 
 	* GNOME_Evolution_Mail.oaf.in: add config_item:type

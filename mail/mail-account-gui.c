@@ -1826,14 +1826,14 @@ mail_account_gui_save (MailAccountGui *gui)
 	account->id->name = e_utf8_gtk_entry_get_text (gui->full_name);
 	account->id->address = e_utf8_gtk_entry_get_text (gui->email_address);
 	account->id->organization = e_utf8_gtk_entry_get_text (gui->organization);
-
+	
 	sig_set_and_write (gui);
-
+	
 	old_enabled = account->source && account->source->enabled;
 	service_destroy (account->source);
 	account->source = g_new0 (MailConfigService, 1);
 	save_service (&gui->source, gui->extra_config, account->source);
-	if (account->source && account->source->url) {
+	if (account->source->url) {
 		provider = camel_session_get_provider (session, account->source->url, NULL);
 		source_url = provider ? camel_url_new (account->source->url, NULL) : NULL;
 		
