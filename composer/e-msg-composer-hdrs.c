@@ -947,7 +947,7 @@ e_msg_composer_hdrs_set_to (EMsgComposerHdrs *hdrs,
 	g_return_if_fail (E_IS_MSG_COMPOSER_HDRS (hdrs));
 	
 	str = e_destination_exportv (to_destv);
-	bonobo_widget_set_property (BONOBO_WIDGET (hdrs->priv->to.entry), "destinations", TC_CORBA_string, str, NULL); 
+	bonobo_widget_set_property (BONOBO_WIDGET (hdrs->priv->to.entry), "destinations", TC_CORBA_string, str ? str : "", NULL); 
 	g_free (str);
 }
 
@@ -960,7 +960,7 @@ e_msg_composer_hdrs_set_cc (EMsgComposerHdrs *hdrs,
 	g_return_if_fail (E_IS_MSG_COMPOSER_HDRS (hdrs));
 	
 	str = e_destination_exportv (cc_destv);
-	bonobo_widget_set_property (BONOBO_WIDGET (hdrs->priv->cc.entry), "destinations", TC_CORBA_string, str, NULL);
+	bonobo_widget_set_property (BONOBO_WIDGET (hdrs->priv->cc.entry), "destinations", TC_CORBA_string, str ? str :"", NULL);
 	if (str && *str)
 		set_pair_visibility (hdrs, &hdrs->priv->cc, TRUE);
 	g_free (str);
@@ -975,7 +975,7 @@ e_msg_composer_hdrs_set_bcc (EMsgComposerHdrs *hdrs,
 	g_return_if_fail (E_IS_MSG_COMPOSER_HDRS (hdrs));
 	
 	str = e_destination_exportv (bcc_destv);
-	bonobo_widget_set_property (BONOBO_WIDGET (hdrs->priv->bcc.entry), "destinations", TC_CORBA_string, str, NULL); 
+	bonobo_widget_set_property (BONOBO_WIDGET (hdrs->priv->bcc.entry), "destinations", TC_CORBA_string, str ? str : "", NULL); 
 	if (str && *str)
 		set_pair_visibility (hdrs, &hdrs->priv->bcc, TRUE);
 	g_free (str);

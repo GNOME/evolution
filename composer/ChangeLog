@@ -1,5 +1,12 @@
 2003-01-09  Chris Toshok  <toshok@ximian.com>
 
+	* e-msg-composer-hdrs.c (e_msg_composer_hdrs_set_to): don't pass
+	NULL to bonobo_widget_set_property.
+	(e_msg_composer_hdrs_set_cc): same.
+	(e_msg_composer_hdrs_set_bcc): same.
+
+2003-01-09  Chris Toshok  <toshok@ximian.com>
+
 	* e-msg-composer-hdrs.c (e_msg_composer_hdrs_new): need to
 	ref/sink "new" so that the g_object_unref doesn't spew a warning.
 
