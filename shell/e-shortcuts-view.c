@@ -520,7 +520,7 @@ item_selected (EShortcutBar *shortcut_bar,
 
 static void
 get_shortcut_info (EShortcutsView *shortcuts_view,
-		   const char *item_url,
+		   const char *item_uri,
 		   int *unread_count_return,
 		   const char **type_return,
 		   const char **custom_icon_name_return)
@@ -528,18 +528,21 @@ get_shortcut_info (EShortcutsView *shortcuts_view,
 	EShortcutsViewPrivate *priv;
 	EStorageSet *storage_set;
 	EFolder *folder;
-	const char *path;
+	EShell *shell;
+	char *path;
 
 	priv = shortcuts_view->priv;
 
-	if (strncmp (item_url, E_SHELL_URI_PREFIX, E_SHELL_URI_PREFIX_LEN) != 0) {
+	shell = e_shortcuts_get_shell (priv->shortcuts);
+
+	if (! e_shell_parse_uri (shell, item_uri, &path, NULL)) {
 		*unread_count_return = 0;
 		*type_return = NULL;
+		*custom_icon_name_return = NULL;
 		return;
 	}
 
-	path = strchr (item_url, E_PATH_SEPARATOR);
-	storage_set = e_shell_get_storage_set (e_shortcuts_get_shell (priv->shortcuts));
+	storage_set = e_shell_get_storage_set (shell);
 
 	folder = e_storage_set_get_folder (storage_set, path);
 	if (folder != NULL) {
@@ -551,6 +554,8 @@ get_shortcut_info (EShortcutsView *shortcuts_view,
 		*type_return             = NULL;
 		*custom_icon_name_return = NULL;
 	}
+
+	g_free (path);
 }
 
 static void
