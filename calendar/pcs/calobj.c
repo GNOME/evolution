@@ -771,8 +771,7 @@ ical_object_to_vobject (iCalObject *ical)
 		store_list (o, VCExpDateProp, ical->exdate, ',');
 
 	/* description/comment */
-	if (ical->comment)
-		addPropValue (o, VCDescriptionProp, ical->comment);
+	addPropValue (o, VCDescriptionProp, ical->comment ? ical->comment : "No Comment");
 
 	/* summary */
 	if (ical->summary)

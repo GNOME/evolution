@@ -309,6 +309,13 @@ setup_menu (GtkWidget *gcal)
 	gnome_app_create_toolbar_with_data (GNOME_APP (gcal), gnome_toolbar, gcal);
 }
 
+static gint
+calendar_close_event (GtkWidget *widget, GdkEvent *event, GnomeCalendar *gcal)
+{
+	close_cmd (widget, gcal);
+	return TRUE;
+}
+
 static void
 new_calendar (char *full_name, char *calendar_file)
 {
@@ -324,7 +331,12 @@ new_calendar (char *full_name, char *calendar_file)
 	if (calendar_file && g_file_exists (calendar_file)) {
 		printf ("Trying to load %s\n", calendar_file);
 		gnome_calendar_load (GNOME_CALENDAR (toplevel), calendar_file);
+	} else {
+		GNOME_CALENDAR (toplevel)->cal->filename = g_strdup (calendar_file);
 	}
+	gtk_signal_connect (GTK_OBJECT (toplevel), "delete_event",
+			    GTK_SIGNAL_FUNC(calendar_close_event), toplevel);
+	
 	active_calendars++;
 	all_calendars = g_list_prepend (all_calendars, toplevel);
 	gtk_widget_show (toplevel);
