@@ -1,3 +1,9 @@
+2004-03-12  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* em-folder-browser.c (emfb_search_search_activated): No-op if
+	emfv->folder is NULL (this means we are looking at a store folder?
+	or else the folder hasn't loaded yet). Fixes bug #55293.
+
 2004-03-11  Radek Doulik  <rodo@ximian.com>
 
 	* mail-ops.c: remove junk learning thread, it's handled in

@@ -420,7 +420,7 @@ emfb_search_search_activated(ESearchBar *esb, EMFolderBrowser *emfb)
 	EMFolderView *emfv = (EMFolderView *) emfb;
 	char *search_word, *search_state;
 	
-	if (emfv->list == NULL)
+	if (emfv->list == NULL || emfv->folder == NULL)
 		return;
 	
 	g_object_get (esb, "query", &search_word, NULL);
