@@ -63,6 +63,9 @@ extern "C" {
 #include <camel/camel-stream-fs.h>
 #include <camel/camel-stream-mem.h>
 #include <camel/camel-stream.h>
+#include <camel/camel-tcp-stream-raw.h>
+#include <camel/camel-tcp-stream-ssl.h>
+#include <camel/camel-tcp-stream.h>
 #include <camel/camel-transport.h>
 #include <camel/camel-uid-cache.h>
 #include <camel/camel-url.h>
