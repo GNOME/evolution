@@ -443,6 +443,10 @@ vcard_matches_search (const PASBackendFileBookView *view, char *vcard_string)
 	gboolean retval;
 	ECard *card;
 
+	/* If this is not a search context view, it doesn't match be default */
+	if (view->search_context == NULL)
+		return FALSE;
+
 	card = e_card_new (vcard_string);
 	view->search_context->card = e_card_simple_new (card);
 	gtk_object_unref(GTK_OBJECT(card));
