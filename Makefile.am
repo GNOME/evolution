@@ -44,6 +44,6 @@ SUBDIRS =			\
         art                     \
 	ui			\
         default_user            \
-	views			\
         tools                   \
+	doc			\
         po

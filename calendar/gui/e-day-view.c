@@ -38,11 +38,10 @@
 #include "e-day-view-top-item.h"
 #include "e-day-view-main-item.h"
 #include "calendar-commands.h"
+#include "popup-menu.h"
 #include <gal/widgets/e-canvas.h>
 #include <gal/e-text/e-text.h>
 #include <gal/widgets/e-canvas-utils.h>
-#include <gal/widgets/e-gui-utils.h>
-#include <gal/widgets/e-popup-menu.h>
 #include "e-meeting-edit.h"
 
 /* Images */
@@ -2990,65 +2989,12 @@ e_day_view_on_event_double_click (EDayView *day_view,
 				  gint day,
 				  gint event_num)
 {
+#if 0
+	g_print ("In e_day_view_on_event_double_click\n");
+#endif
+
 }
 
-enum {
-	/*
-	 * This is used to "flag" events that can not be editted
-	 */
-	MASK_EDITABLE = 1,
-
-	/*
-	 * To disable recurring actions to be displayed
-	 */
-	MASK_RECURRING = 2,
-
-	/*
-	 * To disable actions for non-recurring items to be displayed
-	 */
-	MASK_SINGLE   = 4,
-
-	/*
-	 * This is used to when an event is currently being edited
-	 * in another window and we want to disable the event
-	 * from being edited twice
-	 */
-	MASK_EDITING  = 8
-};
-
-static EPopupMenu main_items [] = {
-	{ N_("New Appointment..."), NULL,
-	  e_day_view_on_new_appointment, NULL, 0 },
-	{ NULL, NULL, NULL, NULL, 0 }
-};
-
-static EPopupMenu child_items [] = {
-	{ N_("Open"), NULL,
-	  e_day_view_on_edit_appointment, NULL, MASK_EDITABLE | MASK_EDITING },
-	{ N_("Delete this Appointment"), NULL,
-	  e_day_view_on_delete_appointment, NULL, MASK_EDITABLE | MASK_SINGLE | MASK_EDITING },
-	{ N_("Schedule Meeting"), NULL,
-	  e_day_view_on_schedule_meet, NULL, MASK_EDITING },
-	{ "", NULL, NULL, NULL, 0},
-
-	{ N_("New Appointment..."), NULL,
-	  e_day_view_on_new_appointment, NULL, 0 },
-
-	{ "", NULL, NULL, NULL, MASK_SINGLE},
-
-	/*
-	 * The following are only shown if this is a recurring event
-	 */
-	{ "", NULL, NULL, NULL, MASK_SINGLE},
-	{ N_("Make this Occurrence Movable"), NULL,
-	  e_day_view_on_unrecur_appointment, NULL, MASK_RECURRING | MASK_EDITING },
-	{ N_("Delete this Occurrence"), NULL,
-	  e_day_view_on_delete_occurrence, NULL, MASK_RECURRING | MASK_EDITING },
-	{ N_("Delete all Occurrences"), NULL,
-	  e_day_view_on_delete_appointment, NULL, MASK_RECURRING | MASK_EDITING },
-	
-	{ NULL, NULL, NULL, NULL, 0 }
-};
 
 static void
 e_day_view_on_event_right_click (EDayView *day_view,
@@ -3057,29 +3003,49 @@ e_day_view_on_event_right_click (EDayView *day_view,
 				 gint event_num)
 {
 	EDayViewEvent *event;
-	int have_selection;
-	gboolean being_edited;
-	EPopupMenu *context_menu;
-	int hide_mask = 0;
-	int disable_mask = 0;
+	int have_selection, not_being_edited, items, i;
+	struct menu_item *context_menu;
 
-	/*
-	 * FIXME:
-	 * This used to be set only if the event wasn't being edited
-	 * in the event editor, but we can't check that at present.
-	 * We could possibly set up another method of checking it.
-	 */
-	
-	being_edited = FALSE;
-	
+	static struct menu_item main_items[] = {
+		{ N_("New appointment..."), (GtkSignalFunc) e_day_view_on_new_appointment, NULL, TRUE }
+	};
+
+	static struct menu_item child_items[] = {
+		{ N_("Schedule meeting"), (GtkSignalFunc) e_day_view_on_schedule_meet, NULL, TRUE },
+
+		{ NULL, NULL, NULL, TRUE},
+
+		{ N_("Edit this appointment..."), (GtkSignalFunc) e_day_view_on_edit_appointment, NULL, TRUE },
+		{ N_("Delete this appointment"), (GtkSignalFunc) e_day_view_on_delete_appointment, NULL, TRUE },
+
+		{ NULL, NULL, NULL, TRUE},
+		
+		{ N_("New appointment..."), (GtkSignalFunc) e_day_view_on_new_appointment, NULL, TRUE }
+	};
+
+	static struct menu_item recur_child_items[] = {
+		{ N_("Make this appointment movable"), (GtkSignalFunc) e_day_view_on_unrecur_appointment, NULL, TRUE },
+		{ N_("Schedule meeting"), (GtkSignalFunc) e_day_view_on_schedule_meet, NULL, TRUE },
+
+		{ NULL, NULL, NULL, TRUE},
+
+		{ N_("Edit this appointment..."), (GtkSignalFunc) e_day_view_on_edit_appointment, NULL, TRUE },
+		{ N_("Delete this occurrence"), (GtkSignalFunc) e_day_view_on_delete_occurrence, NULL, TRUE },
+		{ N_("Delete all occurrences"), (GtkSignalFunc) e_day_view_on_delete_appointment, NULL, TRUE },
+
+		{ NULL, NULL, NULL, TRUE},
+
+		{ N_("New appointment..."), (GtkSignalFunc) e_day_view_on_new_appointment, NULL, TRUE },
+	};
+
 	have_selection = GTK_WIDGET_HAS_FOCUS (day_view)
 		&& day_view->selection_start_day != -1;
 
-	if (event_num == -1)
-		context_menu = main_items;
-	else {
-		context_menu = child_items;
-		
+	if (event_num == -1) {
+		items = 1;
+		context_menu = &main_items[0];
+		context_menu[0].sensitive = have_selection;
+	} else {
 		if (day == E_DAY_VIEW_LONG_EVENT)
 			event = &g_array_index (day_view->long_events,
 						EDayViewEvent, event_num);
@@ -3087,19 +3053,36 @@ e_day_view_on_event_right_click (EDayView *day_view,
 			event = &g_array_index (day_view->events[day],
 						EDayViewEvent, event_num);
 
-		if (cal_component_has_recurrences (event->comp)) 
-			hide_mask |= MASK_SINGLE;
-		else
-			hide_mask |= MASK_RECURRING;
+		/* This used to be set only if the event wasn't being edited
+		   in the event editor, but we can't check that at present.
+		   We could possibly set up another method of checking it. */
+		not_being_edited = TRUE;
+
+		if (cal_component_has_recurrences (event->comp)) {
+			items = 8;
+			context_menu = &recur_child_items[0];
+			context_menu[0].sensitive = not_being_edited;
+			context_menu[1].sensitive = not_being_edited;
+			context_menu[3].sensitive = not_being_edited;
+			context_menu[4].sensitive = not_being_edited;
+			context_menu[5].sensitive = not_being_edited;
+			context_menu[7].sensitive = have_selection;
+		} else {
+			items = 6;
+			context_menu = &child_items[0];
+			context_menu[0].sensitive = not_being_edited;
+			context_menu[2].sensitive = not_being_edited;
+			context_menu[3].sensitive = not_being_edited;
+			context_menu[5].sensitive = have_selection;
+		}
 	}
 
-	if (being_edited)
-		disable_mask |= MASK_EDITING;
+	for (i = 0; i < items; i++)
+		context_menu[i].data = day_view;
 
 	day_view->popup_event_day = day;
 	day_view->popup_event_num = event_num;
-
-	e_popup_menu_run (context_menu, (GdkEvent *) bevent, disable_mask, hide_mask, day_view);
+	popup_menu (context_menu, items, bevent);
 }
 
 

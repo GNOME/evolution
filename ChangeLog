@@ -1,87 +1,48 @@
-2001-03-13  Chris Toshok  <toshok@ximian.com>
+2001-03-13  Ettore Perazzoli  <ettore@ximian.com>
 
-	* configure.in: add -lresolv to LDAP_LIBS if it's there.
+	* configure.in: Don't autogen the Makefiles in `camel/tests'.
 
-2001-03-13  Iain Holmes  <iain@ximian.com>
+	* art/Makefile.am (EXTRA_DIST): Add `$(conduits_DATA)',
+	`$(buttons_DATA)'.
 
-	* configure.in: Added the mail/importers dir.
+	* configure.in: Remove `calendar/gui/alarm-notify/Makefile' from
+	`AC_OUTPUT()'.
 
-2001-03-12  Jeffrey Stedfast  <fejj@ximian.com>
+	* Makefile.am (SUBDIRS): Add `doc'.
 
-	* README: Rearranged some of the dependencies to try to get them
-	into a more correct order (needed for people building all of these
-	packages by hand).
+2001-03-13  Ettore Perazzoli  <ettore@ximian.com>
+
+	* configure.in: Refined the GNOME VFS check a bit: don't spit out
+	an extra `AC_MSG_RESULT()'/`AC_MSG_ERROR()', and be consistent
+	about the version number in the message.
+
+2001-03-13  Ettore Perazzoli  <ettore@ximian.com>
+
+	* configure.in: Check for `Editor.idl' using `$GNOME_PATH' as
+	well.
+
+2001-03-12  Ettore Perazzoli  <ettore@ximian.com>
+
+	* NEWS: Updated again for the release.
+
+2001-03-12  Ettore Perazzoli  <ettore@ximian.com>
+
+	* configure.in: Require Bonobo 0.37 and gnome-vfs 0.6.2.
+
+	* README: Updated accordingly.
 
 2001-03-12  JP Rosevear  <jpr@ximian.com>
 
+	* art/Makefile.am: install conduit images
+	
+2001-03-12  JP Rosevear  <jpr@ximian.com>
+
 	* README: Update
-
-2001-03-09  Dan Winship  <danw@ximian.com>
-
-	* configure.in (EVOLUTION_MICRO_VERSION): Hm... probably would be
-	clever to be calling this 0.9 rather than 0.8, since it's almost
-	0.10.
 
 2001-03-09  Christopher James Lahey  <clahey@ximian.com>
 
 	* libversit/vcc.y: Changed int to char when returning a character
 	from a stream (since it needs to be able to hold EOF.)
-
-2001-03-07  Jeffrey Stedfast  <fejj@ximian.com>
-
-	* configure.in: Removed --enable-assbarn-security and replaced it
-	with the real options:
-	--with-nspr-includes=PREFIX
-	--with-nspr-libs=PREFIX
-	--with-nss=PREFIX
-
-	* acconfig.h: #undef HAVE_NSS
-
-2001-03-07  Ettore Perazzoli  <ettore@ximian.com>
-
-	* configure.in: Require GAL 0.5.99.6 or later.
-
-2001-03-07  Kjartan Maraas  <kmaraas@gnome.org>
-
-	* shell/main: /* xgettext:no-c-format */ before the welcome
-	message.
-	* configure.in: Don't try to generate a Makefile in
-	camel/providers/vee as it's empty.
-	
-2001-03-05  JP Rosevear  <jpr@ximian.com>
-
-	* README: Update pilot instructions
-
-2001-03-05  Christopher James Lahey  <clahey@ximian.com>
-
-	* configure.in: Check for gal 0.5.99.4.
-
-2001-03-04  Dan Winship  <danw@ximian.com>
-
-	* configure.in: Reorganize a bit to get rid of warnings about
-	AC_TRY_COMPILE being used before AC_ISC_POSIX
-
-2001-03-04  Christopher James Lahey  <clahey@ximian.com>
-
-	* configure.in: Added views/addressbook/Makefile.
-
-2001-03-02  JP Rosevear  <jpr@ximian.com>
-
-	* art/Makefile.am: install conduit icons
-
-2001-03-02  Chris Toshok  <toshok@ximian.com>
-
-	* configure.in: add logic to make sure we're building against OpenLDAP >= 2
-
-2001-03-01  Christopher James Lahey  <clahey@ximian.com>
-
-	* Makefile.am (SUBDIRS), configure.in: Added views stuff.
-
-2001-03-01  Dan Winship  <danw@ximian.com>
-
-	* configure.in: Redo the Kerberos stuff again to deal with the
-	stuff currently on my machine. I think it should deal with both
-	the MIT and KTH versions of both krb4 and krb5 now.
 
 2001-03-01  Jakub Steiner <jimmac@ximian.com>
 
@@ -94,61 +55,46 @@
 	* art/48_evo-calendar-conduit.png: for new gnomecc
 	* art/16_evo-calendar-conduit.png: for old gnomecc
 
-2001-03-01  Christopher James Lahey  <clahey@ximian.com>
+2001-02-27  Christopher James Lahey  <clahey@ximian.com>
 
-	* configure.in: Check for gal 0.5.99.2.
+	* NEWS (Addressbook): Updated NEWS.
 
-2001-02-19  Christopher James Lahey  <clahey@ximian.com>
+2001-02-27  Ettore Perazzoli  <ettore@ximian.com>
 
-	* configure.in: Check for gal 0.5.99.1.
+	* configure.in: `executive-summary/widgets' doesn't need to be
+	built anymore.
 
-2001-02-15  Christopher James Lahey  <clahey@ximian.com>
+2001-02-27  JP Rosevear  <jpr@ximian.com>
 
-	* configure.in: Check for gal 0.5.99.0.
+	* NEWS: add a little pilot info
 
-2001-02-14  Dan Winship  <danw@ximian.com>
+2001-02-27  Ettore Perazzoli  <ettore@ximian.com>
 
-	* various .cvsignore files: Ignore generated .oaf files
+	* configure.in (EVOLUTION_MICRO_VERSION): Bump up to 9.
 
-2001-02-13  JP Rosevear  <jpr@ximian.com>
+2001-02-15  Ettore Perazzoli  <ettore@ximian.com>
 
-	* art/Makefile.am: install new files
+	* configure.in: Add `doc/devel/executive-summary/Makefile'.
 
-	* art/*view.xpm: add files from calendar/gui
-
-2001-02-11  Chris Toshok  <toshok@ximian.com>
-
-	* configure.in: rework ldap check logic so it'll work to
-	--disable-ldap if you've previously configured with --enable-ldap.
-
-2001-02-11  Gediminas Paulauskas <menesis@delfi.lt> 
+2001-02-11  Gediminas Paulauskas <menesis@delfi.lt>
 
 	* data/evolution.keys, evolution.desktop: removed, they are generated.
 	* data/evolution.keys.in, evolution.desktop.in: new untranslated files.
-	* data/evolution.desktop: removed, it duplicates above. 
-	* Makefile.am, data/Makefile.am: reflect above changes, merge 
-	translations. 
-
-2001-02-09  Jeffrey Stedfast  <fejj@ximian.com>
-
-	* configure.in: Added hacks to check for Mozilla libs like nspr
-	and nss that we will need for SSL and S/MIME.
+	* data/evolution.desktop: removed, it duplicates above.
+	* Makefile.am, data/Makefile.am: reflect above changes, merge
+	translations.
 
 2001-02-09  Michael Meeks  <michael@ximian.com>
 
-	* configure.in: depend on bonobo >= 0.36
+	* configure.in: depend on bonobo >= 0.36 and gal >= 0.5
 
-2001-02-08  Christopher James Lahey  <clahey@ximian.com>
+2001-02-07  Kjartan Maraas  <kmaraas@gnome.org>
 
-	* configure.in: Upped the version number of gal required to 0.5.
-
+	* Makefile.am: xml-i18n-tools adjustment.
+	
 2001-02-07  JP Rosevear  <jpr@ximian.com>
 
 	* README: Update to latest requirements
-
-2001-02-05  Jeffrey Stedfast  <fejj@ximian.com>
-
-	* .cvsignore: Added xml-* files.
 
 2001-02-05  Gustavo Maciel Dias Vieira  <gdvieira@zaz.com.br>
 

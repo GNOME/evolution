@@ -23,7 +23,7 @@ EXTRA_DIST = \
 all: evolution-guide
 
 evolution-guide: $(SGML_FILES)
-	-db2html evolution-guide.sgml
+	cd $(srcdir) && db2html evolution-guide.sgml
 
 dist-hook:
 	mkdir $(distdir)/evolution-guide

@@ -39,17 +39,18 @@
 #include <gnome-xml/parser.h>
 #include <gnome-xml/xmlmemory.h>
 
-#include <cal-util/cal-component.h>
-#include <cal-util/timeutil.h>
-#include "alarm-notify/alarm.h"
+#include "cal-util/cal-component.h"
+#include "cal-util/timeutil.h"
+#include "alarm.h"
 #include "calendar-model.h"
+
 #include "calendar-summary.h"
 
 typedef struct {
 	ExecutiveSummaryComponent *component;
 	ExecutiveSummaryHtmlView *view;
 	BonoboPropertyControl *property_control;
-	CalClient *client;
+	CalClient *client, *task_client;
 
 	GtkWidget *show_appointments;
 	GtkWidget *show_tasks;
@@ -63,6 +64,8 @@ typedef struct {
 	guint32 idle;
 
 	gpointer alarm;
+
+	gboolean calendar_ready, task_ready;
 } CalSummary;
 
 enum {
@@ -75,106 +78,6 @@ extern gchar *evolution_dir;
 static int running_views = 0;
 static BonoboGenericFactory *factory;
 #define CALENDAR_SUMMARY_ID "OAFIID:GNOME_Evolution_Calendar_Summary_ComponentFactory"
-
-/* list_sort_merge, and list_sort are copied from GNOME-VFS.
-   Author: Sven Oliver <sven.over@ob.kamp.net>
-   Modified by Ettore Perazzoli <ettore@comm2000.it> to let the compare
-   functions get an additional gpointer parameter.  
-
-   Included here as using gnome-vfs for 1 20 line function 
-   seems a bit of overkill.
-*/
-
-typedef gint (* CalSummaryListCompareFunc) (gconstpointer a, 
-					    gconstpointer b,
-					    gpointer data);
-static GList *
-cal_list_sort_merge (GList *l1,
-		     GList *l2,
-		     CalSummaryListCompareFunc compare_func,
-		     gpointer data)
-{
-	GList list, *l, *lprev;
-
-	l = &list;
-	lprev = NULL;
-
-	while (l1 && l2) {
-		if (compare_func (l1->data, l2->data, data) < 0) {
-			l->next = l1;
-			l = l->next;
-			l->prev = lprev;
-			lprev = l;
-			l1 = l1->next;
-		} else {
-			l->next = l2;
-			l = l->next;
-			l->prev = lprev;
-			lprev = l;
-			l2 = l2->next;
-		}
-	}
-
-	l->next = l1 ? l1 : l2;
-	l->next->prev = l;
-
-	return list.next;
-}
-
-static GList *
-cal_list_sort (GList *list,
-	       CalSummaryListCompareFunc compare_func,
-	       gpointer data)
-{
-	GList *l1, *l2;
-
-	if (!list)
-		return NULL;
-	if (!list->next)
-		return list;
-
-	l1 = list;
-	l2 = list->next;
-
-	while ((l2 = l2->next) != NULL) {
-		if ((l2 = l2->next) == NULL)
-			break;
-		l1 = l1->next;
-	}
-
-	l2 = l1->next;
-	l1->next = NULL;
-	
-	return cal_list_sort_merge (cal_list_sort (list, compare_func, data),
-				    cal_list_sort (l2, compare_func, data),
-				    compare_func, data);
-}
-	
-static int
-sort_uids (gconstpointer a,
-	   gconstpointer b,
-	   gpointer user_data)
-{
-	CalComponent *comp_a, *comp_b;
-	CalSummary *summary = user_data;
-	CalClientGetStatus status;
-	CalComponentDateTime start_a, start_b;
-
-	/* a after b then return > 0 */
-
-	status = cal_client_get_object (summary->client, a, &comp_a);
-	if (status != CAL_CLIENT_GET_SUCCESS)
-		return -1;
-
-	status = cal_client_get_object (summary->client, b, &comp_b);
-	if (status != CAL_CLIENT_GET_SUCCESS)
-		return 1;
-
-	cal_component_get_dtstart (comp_a, &start_a);
-	cal_component_get_dtstart (comp_b, &start_b);
-
-	return icaltime_compare (*start_a.value, *start_b.value);
-}
 
 static gboolean
 generate_html_summary (gpointer data)
@@ -206,8 +109,6 @@ generate_html_summary (gpointer data)
 		uids = cal_client_get_objects_in_range (summary->client, 
 							CALOBJ_TYPE_EVENT, day_begin,
 							day_end);
-		uids = cal_list_sort (uids, sort_uids, summary);
-
 		for (l = uids; l; l = l->next){
 			CalComponent *comp;
 			CalComponentText text;
@@ -272,7 +173,7 @@ generate_html_summary (gpointer data)
 		g_free (tmp);
 		
 		/* Generate a list of tasks */
-		uids = cal_client_get_uids (summary->client, CALOBJ_TYPE_TODO);
+		uids = cal_client_get_uids (summary->task_client, CALOBJ_TYPE_TODO);
 		for (l = uids; l; l = l->next){
 			CalComponent *comp;
 			CalComponentText text;
@@ -282,7 +183,7 @@ generate_html_summary (gpointer data)
 			char *tmp2;
 			
 			uid = l->data;
-			status = cal_client_get_object (summary->client, uid, &comp);
+			status = cal_client_get_object (summary->task_client, uid, &comp);
 			if (status != CAL_CLIENT_GET_SUCCESS)
 				continue;
 			
@@ -328,7 +229,6 @@ get_property (BonoboPropertyBag *bag,
 
 	switch (arg_id) {
 	case PROPERTY_TITLE:
-		g_warning ("Get property: %s", summary->title);
 		BONOBO_ARG_SET_STRING (arg, summary->title);
 		break;
 
@@ -363,12 +263,12 @@ set_property (BonoboPropertyBag *bag,
 	case PROPERTY_ICON:
 		if (summary->icon)
 			g_free (summary->icon);
-
+		
 		summary->icon = g_strdup (BONOBO_ARG_GET_STRING (arg));
 		bonobo_property_bag_notify_listeners (bag, "window_icon",
 						      arg, NULL);
 		break;
-
+		
 	default:
 		break;
 	}
@@ -426,6 +326,14 @@ cal_opened_cb (CalClient *client,
 {
 	switch (status) {
 	case CAL_CLIENT_OPEN_SUCCESS:
+		if (client == summary->client)
+			summary->calendar_ready = TRUE;
+		else
+			summary->task_ready = TRUE;
+
+		if (! (summary->calendar_ready && summary->task_ready))
+			return;
+
 		if (summary->idle != 0)
 			return;
 
@@ -456,13 +364,16 @@ cal_opened_cb (CalClient *client,
 
 static void
 alarm_fn (gpointer alarm_id,
-	  time_t trigger,
+	  time_t old_t,
 	  gpointer data)
 {
 	CalSummary *summary;
 	time_t t, day_end;
 
 	summary = data;
+
+	/* Remove the old alarm, and start a new one for the next midnight */
+	alarm_remove (alarm_id);
 
 	t = time (NULL);
 	day_end = time_day_end (t);
@@ -673,8 +584,6 @@ create_summary_view (ExecutiveSummaryComponentFactory *_factory,
 	char *file;
 	time_t t, day_end;
 
-	file = g_concat_dir_and_file (evolution_dir, "local/Calendar/calendar.ics");
-
 	/* Create the component object */
 	component = executive_summary_component_new ();
 
@@ -683,6 +592,23 @@ create_summary_view (ExecutiveSummaryComponentFactory *_factory,
 	summary->icon = g_strdup ("evolution-calendar.png");
 	summary->title = g_strdup ("Things to do");
 	summary->client = cal_client_new ();
+	summary->calendar_ready = FALSE;
+	gtk_signal_connect (GTK_OBJECT (summary->client), "cal-opened",
+			    GTK_SIGNAL_FUNC (cal_opened_cb), summary);
+	gtk_signal_connect (GTK_OBJECT (summary->client), "obj-updated",
+			    GTK_SIGNAL_FUNC (obj_updated_cb), summary);
+	gtk_signal_connect (GTK_OBJECT (summary->client), "obj-removed",
+			    GTK_SIGNAL_FUNC (obj_removed_cb), summary);
+		
+	summary->task_client = cal_client_new ();
+	summary->task_ready = FALSE;
+	gtk_signal_connect (GTK_OBJECT (summary->task_client), "cal-opened",
+			    GTK_SIGNAL_FUNC (cal_opened_cb), summary);
+	gtk_signal_connect (GTK_OBJECT (summary->task_client), "obj-updated",
+			    GTK_SIGNAL_FUNC (obj_updated_cb), summary);
+	gtk_signal_connect (GTK_OBJECT (summary->task_client), "obj-removed",
+			    GTK_SIGNAL_FUNC (obj_removed_cb), summary);
+	
 	summary->idle = 0;
 	summary->appointments = TRUE;
 	summary->tasks = TRUE;
@@ -692,16 +618,15 @@ create_summary_view (ExecutiveSummaryComponentFactory *_factory,
 	summary->alarm = alarm_add (day_end, alarm_fn, summary, NULL);
 
 	/* Load calendar */
+	file = g_concat_dir_and_file (evolution_dir, "local/Calendar/calendar.ics");
 	cal_client_open_calendar (summary->client, file, FALSE);
 	g_free (file);
 
-	gtk_signal_connect (GTK_OBJECT (summary->client), "cal-opened",
-			    GTK_SIGNAL_FUNC (cal_opened_cb), summary);
-	gtk_signal_connect (GTK_OBJECT (summary->client), "obj-updated",
-			    GTK_SIGNAL_FUNC (obj_updated_cb), summary);
-	gtk_signal_connect (GTK_OBJECT (summary->client), "obj-removed",
-			    GTK_SIGNAL_FUNC (obj_removed_cb), summary);
-		
+	/* Load tasks */
+	file = g_concat_dir_and_file (evolution_dir, "local/Tasks/tasks.ics");
+	cal_client_open_calendar (summary->task_client, file, FALSE);
+	g_free (file);
+
 	gtk_signal_connect (GTK_OBJECT (component), "destroy",
 			    GTK_SIGNAL_FUNC (component_destroyed), summary);
 

@@ -42,13 +42,6 @@ static void executive_summary_html_view_class_init (ExecutiveSummaryHtmlViewClas
 
 static BonoboObjectClass *parent_class;
 
-enum {
-	HANDLE_URI,
-	LAST_SIGNAL
-};
-
-static guint signals[LAST_SIGNAL] = { 0 };
-
 struct _ExecutiveSummaryHtmlViewPrivate {
 	BonoboEventSource *event_source;
 
@@ -95,18 +88,6 @@ impl_GNOME_Evolution_Summary_HTMLView_getHtml (PortableServer_Servant servant,
 	return CORBA_string_dup (priv->html? priv->html: "");
 }
 
-static void
-impl_GNOME_Evolution_Summary_HTMLView_handleURI (PortableServer_Servant servant,
-						 const CORBA_char *uri,
-						 CORBA_Environment *ev)
-{
-	BonoboObject *bonobo_object;
-	
-	bonobo_object = bonobo_object_from_servant (servant);
-
-	gtk_signal_emit (GTK_OBJECT (bonobo_object), signals[HANDLE_URI], uri);
-}
-
 /* GtkObject methods */
 static void
 executive_summary_html_view_destroy (GtkObject *object)
@@ -114,13 +95,13 @@ executive_summary_html_view_destroy (GtkObject *object)
 	ExecutiveSummaryHtmlView *view;
 	ExecutiveSummaryHtmlViewPrivate *priv;
 
-	g_print ("BANG!");
 	view = EXECUTIVE_SUMMARY_HTML_VIEW (object);
 	priv = view->private;
 
 	if (priv == NULL)
 		return;
 
+/*  	bonobo_object_unref (BONOBO_OBJECT (priv->event_source)); */
 	g_free (priv->html);
 	g_free (priv);
 
@@ -143,7 +124,6 @@ corba_class_init (void)
 
 	epv = g_new0 (POA_GNOME_Evolution_Summary_HTMLView__epv, 1);
 	epv->getHtml = impl_GNOME_Evolution_Summary_HTMLView_getHtml;
-	epv->handleURI = impl_GNOME_Evolution_Summary_HTMLView_handleURI;
 
 	vepv = &HTMLView_vepv;
 	vepv->_base_epv = base_epv;
@@ -158,15 +138,6 @@ executive_summary_html_view_class_init (ExecutiveSummaryHtmlViewClass *klass)
 
 	object_class = GTK_OBJECT_CLASS (klass);
 	object_class->destroy = executive_summary_html_view_destroy;
-
-	signals[HANDLE_URI] = gtk_signal_new ("handle_uri", GTK_RUN_FIRST,
-					      object_class->type,
-					      GTK_SIGNAL_OFFSET (ExecutiveSummaryHtmlViewClass, handle_uri),
-					      gtk_marshal_NONE__POINTER,
-					      GTK_TYPE_NONE, 1,
-					      GTK_TYPE_POINTER);
-
-	gtk_object_class_add_signals (object_class, signals, LAST_SIGNAL);
 
 	parent_class = gtk_type_class (PARENT_TYPE);
 

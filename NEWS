@@ -1,5 +1,5 @@
-Version 0.9
------------
+Version 0.9 "Platypus", 2001-03-12
+----------------------------------
 
 Shell:
 
@@ -16,54 +16,143 @@ Shell:
   - Pre-select a newly created folder in the folder selection dialog.
     (Ettore)
 
+Mail:
+
+  - GPG/PGP support is now mostly working and sort of configurable.
+    Except that the pretty pictures are missing.  (Jeff)
+
+  - Exciting new configuration druid (Anna, Jeff) and configuration
+    editor-of-the-month (Jeff). You can now have multiple identities
+    that use different transports.  (Jeff)
+
+  - The folder-tree unread message counts now work much better. But
+    vfolders only display their unread message counts *after you've
+    looked at the folder for the first time*.  (Dan)
+
+  - New mail send/receive stuff with status dialog.  (NotZed)
+
+  - "Stop" button and support for cancelling operations.  (NotZed)
+
+  - Various fixes involving IMAP folders and subscriptions.  (Dan)
+
+  - Fake messages to root threads in the message list are now gone.  (NotZed)
+
+  - NNTP support is no longer configured by default, as this code is
+    not expected to be completed by 1.0.
+
+  - Interface for hiding messages matching certain criteria.  (NotZed)
+
+  - Quick search bar now includes "Sender contains" option (Tuomas? Eek!)
+
+  - The mailer now properly launches "gnome_segv" when it crashes. I
+    mean, if it were to crash.  (Dan)
+
+  - IMAP attachments are now not loaded unless you look at them.  (Dan)
+
+  - The X-Mailer header can now include a compile-time-specified
+    string (for specifying package version, etc).  (Dan)
+
+  - The Date header in the message list now formats dates differently
+    depending on how long ago they are.  (Chris)
+
+  - The composer doesn't ask if you want to save before closing if you
+    haven't changed anything. Also, it has more useful window titles
+    (Jason Leach) And you can now turn off the "are you sure you
+    didn't mean to enter a subject?" dialog box.  (Jeff)
+
+  - The "Menu" key on a Windows keyboard (the one with the picture of
+    a pop-up menu) now pops up the message list right-click menu.
+    (Dan)
+
+  - Lots of internal stuff that doesn't much affect the user-visible
+    functionality, particularly involving multithreading, message
+    threading, filters/searching, and regression testing.  (NotZed)
+
+  - Importers for Outlook Express 4 and mbox (used by most mailers like
+    Netscape, Pine, Elm, Eudora) (Iain & Jeff)
+
+Addressbook:
+
+  - Fixed crashing bug on PPC.  (Clahey)
+
+  - Updated to work with both OpenLDAP 1 and OpenLDAP 2.  (Toshok)
+
+  - Added configuration dialog for LDAP.  (Toshok)
+
+  - Plenty of bug fixes.  (Clahey, Toshok, Meeks, JP, Larry, Jason,
+    Federico, Dan, Zucchi, Gediminas Paulauskas, Ettore)
+
+  - Moved category dialog to gal.  (JP)
+
+  - Worked on LDAP authentication.  (Toshok)
+
+  - Worked on status messages.  (Toshok)
+
+  - Worked on GalView stuff.  (Clahey)
+
+  - Improved the select names dialog GUI.  (Clahey)
+
 Calendar:
 
-  - New "go to date" dialog (JP).
+  - New "go to date" dialog.  (JP)
 
-  - Categories support for appointments (JP).
+  - Categories support for appointments.  (JP)
 
-  - New alarms page in event editor (Anna, JP)
+  - New alarms page in event editor.  (Anna, JP)
 
-  - Weekday picker now follows the week start setting (Federico).
+  - Weekday picker now follows the week start setting.  (Federico)
 
-  - Date-editing widgets are more consistent with each other
-    (Federico).
+  - Date-editing widgets are more consistent with each other.
+    (Federico)
 
-  - Colorization fixes to the views (Damon).
+  - Colorization fixes to the views.  (Damon)
 
-  - Optimizations to the views (Damon).
+  - Optimizations to the views.  (Damon)
 
-  - New, simpler loading interface for calendars in the Wombat (Federico).
+  - New, simpler loading interface for calendars in the Wombat.  (Federico)
 
-  - Removal of lots of old Gnomecal code (Federico, JP).
+  - Removal of lots of old Gnomecal code.  (Federico, JP)
 
-  - Alarm instance generation support for the Wombat (Federico).
+  - Alarm instance generation support for the Wombat.  (Federico)
 
-  - Alarm trigger queueing for the GUI (Federico).
+  - Alarm trigger queueing for the GUI.  (Federico)
 
-  - More robust launching and registration of the components (Federico).
+  - More robust launching and registration of the components.  (Federico)
 
-  - More i18n friendliness (JP, Federico).
+  - More i18n friendliness.  (JP, Federico)
 
-  - Start of the alarm notification daemon (Federico).
+  - Start of the alarm notification daemon.  (Federico)
 
-  - Cosmetic and focus fixes all over the place (Federico, JP).
+  - Cosmetic and focus fixes all over the place.  (Federico, JP)
 
 Tasks:
 
-  - New, stand-alone tasks component (Damon).
+  - New, stand-alone tasks component.  (Damon)
 
-  - Categories support (JP, Damon).
+  - Categories support.  (JP, Damon)
 
-  - Your old tasks are migrated automatically to the new tasks folder
-    (Federico).
+  - Your old tasks are migrated automatically to the new tasks folder.
+    (Federico)
 
-  - You get asked for confirmation when trying to delete a task entry
-    (Federico).
+  - You get asked for confirmation when trying to delete a task entry.
+    (Federico)
 
 Conduits:
 
-  - Many bug fixes and cleanups (JP)
+  - Many bug fixes and cleanups.  (JP)
+
+Executive Summary:
+
+  - Bugfixes and memory leaks removed.  (Iain)
+
+  - Calendar summary component.  (Iain)
+
+  - RDF Summary saves it's state.  (Iain)
+
+  - Mail summary shows vFolder summaries as well.  (Iain)
+
+  - User changable number of columns. (Iain)
+
 
 Version 0.8 "Archaeopteryx", 2000-12-14
 ---------------------------------------

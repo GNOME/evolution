@@ -1,3 +1,10 @@
+2001-03-13  Ettore Perazzoli  <ettore@ximian.com>
+
+	* src/libical/Makefile.am (GENERATEDHEADERS): List all the built
+	sources except for `ical.h'.
+	(BUILT_SOURCES): Define as `$(GENERATEDHEADERS)' plus `ical.h'.
+	(ical.h): Depend on `$(GENERATEDHEADERS)'.
+
 2001-02-27  Ettore Perazzoli  <ettore@ximian.com>
 
 	* src/libical/Makefile.am (ical.h): Depend on `$(BUILT_SOURCES)',
@@ -12,13 +19,6 @@
 	* src/libical/icalparameter.c.in (icalparameter_new_from_string):
 	its NEEDS-ACTION rather than NEEDSACTION
 	(icalparameter_as_ical_string): ditto
-
-2001-02-06  Christopher James Lahey  <clahey@ximian.com>
-
-	* src/libical/icallangbind.c: Added a missing #include here.
-
-	* src/libical/icalrecur.c (icalrecur_add_bydayrules): Copy the
-	passed in const vals since we change it.
 
 2001-02-05  JP Rosevear  <jpr@ximian.com>
 

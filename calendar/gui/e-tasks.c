@@ -27,19 +27,11 @@
 #include <gnome.h>
 #include <gal/util/e-util.h>
 #include <gal/e-table/e-table-scrolled.h>
-#include <gal/menus/gal-view-collection.h>
-#include <gal/menus/gal-view-factory-etable.h>
-#include <gal/menus/gal-view-etable.h>
-#include "widgets/menus/gal-view-menus.h"
 #include "dialogs/task-editor.h"
 #include "e-calendar-table.h"
 #include "component-factory.h"
 
 #include "e-tasks.h"
-
-/* A list of all of the ETasks widgets in use. We use this to update the
-   user preference settings. This will change when we switch to GConf. */
-static GList *all_tasks = NULL;
 
 
 /* Private part of the GnomeCalendar structure */
@@ -164,7 +156,6 @@ setup_widgets (ETasks *tasks)
 	gtk_table_attach (GTK_TABLE (tasks), priv->tasks_view, 0, 1, 1, 2,
 			  GTK_EXPAND | GTK_FILL, GTK_EXPAND | GTK_FILL, 0, 0);
 	gtk_widget_show (priv->tasks_view);
-	calendar_config_configure_e_calendar_table (E_CALENDAR_TABLE (priv->tasks_view));
 
 	gtk_signal_connect (GTK_OBJECT (E_CALENDAR_TABLE (priv->tasks_view)->model),
 			    "categories-changed",
@@ -217,8 +208,6 @@ e_tasks_new (void)
 		return NULL;
 	}
 
-	all_tasks = g_list_prepend (all_tasks, tasks);
-
 	return GTK_WIDGET (tasks);
 }
 
@@ -252,8 +241,6 @@ e_tasks_destroy (GtkObject *object)
 
 	g_free (priv);
 	tasks->priv = NULL;
-
-	all_tasks = g_list_remove (all_tasks, tasks);
 
 	if (GTK_OBJECT_CLASS (parent_class)->destroy)
 		(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
@@ -531,63 +518,3 @@ e_tasks_add_menu_item		(gpointer key,
 	return FALSE;
 }
 
-static void
-display_view(GalViewCollection *collection,
-	     GalView *view,
-	     gpointer data)
-{
-	ETasks *tasks = data;
-	if (GAL_IS_VIEW_ETABLE(view)) {
-		e_table_set_state_object (e_table_scrolled_get_table (E_TABLE_SCROLLED (E_CALENDAR_TABLE (tasks->priv->tasks_view)->etable)), GAL_VIEW_ETABLE (view)->state);
-	}
-}
-
-void
-e_tasks_setup_menus (ETasks            *tasks,
-		     BonoboUIComponent *uic)
-{
-	GalViewCollection *collection;
-	GalViewMenus *views;
-	GalViewFactory *factory;
-	ETableSpecification *spec;
-
-	collection = gal_view_collection_new();
-	/* FIXME: Memory leak. */
-	gal_view_collection_set_storage_directories (collection,
-						     EVOLUTION_DATADIR "/evolution/views/tasks/",
-						     gnome_util_prepend_user_home ("/evolution/views/tasks/"));
-
-	spec = e_table_specification_new ();
-	e_table_specification_load_from_string (spec, e_calendar_table_get_spec());
-
-	factory = gal_view_factory_etable_new (spec);
-	gal_view_collection_add_factory (collection, factory);
-	gtk_object_sink (GTK_OBJECT (factory));
-
-	gal_view_collection_load (collection);
-
-	views = gal_view_menus_new (collection);
-	gal_view_menus_apply (views, uic, NULL); /* This function probably needs to sink the views object. */
-	gtk_signal_connect (GTK_OBJECT (collection), "display_view",
-			    display_view, tasks);
-	/*	gtk_object_sink(GTK_OBJECT(views)); */
-
-	gtk_object_sink (GTK_OBJECT (collection));
-}
-
-
-/* This updates all the preference settings for all the ETasks widgets in use.
- */
-void
-e_tasks_update_all_config_settings	()
-{
-	ETasks *tasks;
-	ETasksPrivate *priv;
-	GList *elem;
-
-	for (elem = all_tasks; elem; elem = elem->next) {
-		tasks = E_TASKS (elem->data);
-		priv = tasks->priv;
-		calendar_config_configure_e_calendar (E_CALENDAR_TABLE (priv->tasks_view));
-	}
-}

@@ -1,11 +1,8 @@
-SUBDIRS = importers
-
 bin_PROGRAMS =	evolution-mail
 
 noinst_PROGRAMS = test-mail #test-thread
 
 providerdir = $(libdir)/evolution/camel-providers/$(VERSION)
-importerdir = $(libdir)/evolution/evolution-mail-importers/$(VERSION)
 
 INCLUDES = \
 	-I$(top_srcdir)/widgets				\
@@ -34,7 +31,6 @@ INCLUDES = \
 	-DEVOLUTION_LOCALEDIR=\""$(localedir)"\"	\
 	-DEVOLUTION_DATADIR=\""$(datadir)"\"            \
 	-DCAMEL_PROVIDERDIR=\""$(providerdir)"\"	\
-	-DMAIL_IMPORTERSDIR=\""$(importerdir)"\"	\
 	-DG_LOG_DOMAIN=\"evolution-mail\"
 
 EVOLUTION_MAIL_CORBA_GENERATED = \
@@ -42,6 +38,10 @@ EVOLUTION_MAIL_CORBA_GENERATED = \
 	Mail-common.c		\
 	Mail-skels.c		\
 	Mail-stubs.c
+
+# FIXME Is there any way around having to do this?
+CAMEL_OBJS_EXTRA =					\
+	$(top_builddir)/camel/providers/vee/libcamelvee.la
 
 evolution_mail_SOURCES =		\
 	$(EVOLUTION_MAIL_CORBA_GENERATED)	\
@@ -85,6 +85,8 @@ evolution_mail_SOURCES =		\
 	mail-send-recv.h		\
 	mail-summary.c			\
 	mail-summary.h			\
+	mail-threads.c			\
+	mail-threads.h			\
 	mail-tools.c			\
 	mail-tools.h			\
 	mail-types.h			\
@@ -100,12 +102,17 @@ evolution_mail_SOURCES =		\
 	mail-session.h			\
 	subscribe-dialog.c		\
 	subscribe-dialog.h		\
-	mail.h
+	mail.h				\
+	evolution-outlook-importer.c	\
+	evolution-outlook-importer.h	\
+	evolution-mbox-importer.c	\
+	evolution-mbox-importer.h
 
 evolution_mail_LDADD = 					\
 	$(top_builddir)/shell/libeshell.a		\
 	$(top_builddir)/composer/libcomposer.a		\
 	$(top_builddir)/widgets/misc/libemiscwidgets.a	\
+	$(CAMEL_OBJS_EXTRA)				\
 	$(top_builddir)/camel/libcamel.la		\
 	$(top_builddir)/e-util/libeutil.la		\
 	$(top_builddir)/e-util/ename/libename.la	\
@@ -113,12 +120,11 @@ evolution_mail_LDADD = 					\
 	$(top_builddir)/filter/libfilter.la		\
 	$(top_builddir)/executive-summary/evolution-services/libevolution-services.la	\
 	$(top_builddir)/shell/importer/libevolution-importer.la	\
-	$(top_builddir)/widgets/menus/libmenus.la	\
 	$(BONOBO_VFS_GNOME_LIBS)			\
 	$(EXTRA_GNOME_LIBS)				\
 	$(GTKHTML_LIBS)					\
 	$(THREADS_LIBS)					\
-	$(UNICODE_LIBS)
+	$(UNICODE_LIBS)					
 
 evolution_mail_LDFLAGS =				\
 	-export-dynamic
@@ -156,11 +162,7 @@ test_mail_LDADD = \
 #test_thread_CFLAGS = -g $(THREADS_CFLAGS)
 
 oafdir = $(datadir)/oaf
-oaf_in_files = GNOME_Evolution_Mail.oaf.in
-oaf_DATA = $(oaf_in_files:.oaf.in=.oaf)
-
-@XML_I18N_MERGE_OAF_RULE@
-
+oaf_DATA = GNOME_Evolution_Mail.oafinfo
 
 gladedir   = $(datadir)/evolution/glade
 glade_DATA = mail-config.glade local-config.glade
@@ -171,7 +173,7 @@ $(EVOLUTION_MAIL_CORBA_GENERATED): Mail.idl
 	$(ORBIT_IDL) -I $(srcdir) -I $(datadir)/idl -I `$(GNOME_CONFIG) --cflags idl` \
 	-I `$(GNOME_CONFIG) --datadir`/idl $(srcdir)/Mail.idl
 
-EXTRA_DIST = Mail.idl $(glade_DATA) $(oaf_in_files) $(oaf_DATA)
+EXTRA_DIST = Mail.idl $(glade_DATA) $(oaf_DATA)
 
 if ENABLE_PURIFY
 PLINK = $(LIBTOOL) --mode=link $(PURIFY) $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(LDFLAGS) -o $@

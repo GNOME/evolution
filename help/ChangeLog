@@ -1,57 +1,8 @@
-2001-02-23  Aaron Weber  <aaron@helixcode.com>
+2001-02-15  Ettore Perazzoli  <ettore@ximian.com>
 
-	* C/usage-mail.sgml: IMAP subscriptions stuff. 
+	* C/Makefile.am (evolution-guide): Use `$<' instead of hardcoded
+	`evolution-guide.sgml'.
 
-2001-02-21  Aaron Weber  <aaron@helixcode.com>
-
-	* C/usage-mail.sgml: Advanced search/show all/save search stuff.
-
-	* C/evolution.sgml: This file replaces evolution-guide.sgml, for Nautilus Readiness.
-
-	* C/apx-gloss.sgml: glossterm conduit.
-
-	* C/config-sync.sgml: Glossterm conduit.
-
-	* C/preface.sgml: Checked over for Keyboard-Shortcut and other truthfulness.
-
-2001-02-15  Aaron Weber  <aaron@helixcode.com>
-
-	* C/evolution-guide.sgml: Validated. Verified. Markup fixed in
-	several individual files.
-
-	* C/apx-gpl.sgml: cvs-removed for GNOME 1.4 compliance.
-
-	* C/apx-fdl.sgml: cvs-removed for GNOME 1.4 compliance.
-
-2001-02-09  Aaron Weber  <aaron@helixcode.com>
-
-	* C/config-sync.sgml: Overhaul. Now accurate and truthful and clear.
-
-	* C/usage-calendar.sgml: Minor Changes.
-
-2001-02-08  Aaron Weber  <aaron@helixcode.com>
-
-	* C/usage-contact.sgml: Minor Changes.
-
-	* C/usage-mail.sgml: Minor Changes.
-
-2001-02-07  Aaron Weber  <aaron@helixcode.com>
-
-	* C/menuref.sgml: Added section, but left blank til UI stabilizes.
-
-	* C/usage-exec-summary.sgml: A little functionality described.
-
-	* C/usage-mainwindow.sgml: Added tasks and Exec-summary.
-
-	* C/usage-calendar.sgml: Describe semi-autonomy of task pad.
-
-2001-02-06 Aaron Weber <aaron@ximian.com>
-
-	* C/usage-contact.sgml: s/contact manager/address book/ and
-	revised text.
-
-	* C/usage-exec-summary.sgml: New file. Describes Executive Summary.
-	
 2001-01-19  Aaron Weber  <aaron@helixcode.com>
 
 	* C/usage-mail.sgml: More of Megan's revisions, and Field Chooser

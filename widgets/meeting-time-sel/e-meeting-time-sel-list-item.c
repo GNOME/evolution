@@ -156,7 +156,7 @@ e_meeting_time_selector_list_item_destroy (GtkObject *object)
 	gdk_pixmap_unref (mtsl_item->mail_icon);
 	gdk_pixmap_unref (mtsl_item->no_mail_icon);
 	gdk_bitmap_unref (mtsl_item->mail_icon_mask);
-	gdk_bitmap_unref (mtsl_item->mail_icon_mask);
+	gdk_bitmap_unref (mtsl_item->no_mail_icon_mask);
 
 	if (GTK_OBJECT_CLASS (e_meeting_time_selector_list_item_parent_class)->destroy)
 		(*GTK_OBJECT_CLASS (e_meeting_time_selector_list_item_parent_class)->destroy)(object);

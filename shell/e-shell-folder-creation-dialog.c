@@ -186,7 +186,7 @@ dialog_clicked_cb (GnomeDialog *dialog,
 	e_storage_set_async_create_folder (storage_set,
 					   path,
 					   folder_type,
-					   "", /* description */
+					   NULL, /* description */
 					   async_create_cb, dialog_data);
 }
 

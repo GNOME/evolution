@@ -22,9 +22,7 @@ libecontacteditor_a_SOURCES = 			\
 	e-contact-editor.c			\
 	e-contact-editor.h			\
 	e-contact-save-as.c			\
-	e-contact-save-as.h			\
-	e-contact-quick-add.c			\
-	e-contact-quick-add.h
+	e-contact-save-as.h
 
 noinst_PROGRAMS =		\
 	contact-editor-test

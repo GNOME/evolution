@@ -38,6 +38,11 @@
     <tab_hborder>2</tab_hborder>
     <tab_vborder>2</tab_vborder>
     <popup_enable>False</popup_enable>
+    <child>
+      <padding>0</padding>
+      <expand>True</expand>
+      <fill>True</fill>
+    </child>
 
     <widget>
       <class>GtkVBox</class>
@@ -115,7 +120,7 @@
       <widget>
 	<class>GtkFrame</class>
 	<name>frame31</name>
-	<label>Date &amp; Time</label>
+	<label>Time</label>
 	<label_xalign>0</label_xalign>
 	<shadow_type>GTK_SHADOW_ETCHED_IN</shadow_type>
 	<child>
@@ -371,7 +376,7 @@
 	  <widget>
 	    <class>GtkLabel</class>
 	    <name>label59</name>
-	    <label>_Contacts...</label>
+	    <label>_Contacts</label>
 	    <justify>GTK_JUSTIFY_CENTER</justify>
 	    <wrap>False</wrap>
 	    <xalign>0.5</xalign>

@@ -82,8 +82,7 @@ COMBINEDHEADERS =					\
 	$(top_srcdir)/src/libical/icalmime.h 		\
 	$(top_srcdir)/src/libical/icallangbind.h
 
-BUILT_SOURCES =			\
-	ical.h			\
+GENERATEDHEADERS = 		\
 	icalparameter.c		\
 	icalparameter.h		\
 	icalproperty.c		\
@@ -92,7 +91,11 @@ BUILT_SOURCES =			\
 	icalvalue.c		\
 	icalvalue.h
 
-ical.h: $(BUILT_SOURCES)
+BUILT_SOURCES =			\
+	ical.h			\
+	$(GENERATEDHEADERS)
+
+ical.h: $(GENERATEDHEADERS)
 	cat $(COMBINEDHEADERS)				\
 	| egrep -v "#include.*\"ical"			\
 	| egrep -v "#include.*\"pvl\.h\"" > ical.h

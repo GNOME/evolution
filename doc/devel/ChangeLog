@@ -1,3 +1,12 @@
+2001-03-13  Ettore Perazzoli  <ettore@ximian.com>
+
+	* calendar/cal-client/Makefile.am (install-data-local): Use
+	`$(srcdir)' properly so it works when it's different from the
+	`$(builddir)'.
+	* calendar/cal-util/Makefile.am (install-data-local): Likewise.
+	* importer/Makefile.am (install-data-local): Likewise.
+	* executive-summary/Makefile.am (install-data-local): Likewise.
+
 2001-01-26  John R. Sheets  <dusk@ravendusk.org>
 
 	* importer/Makefile.am: Change (nonexistant) importer.sgml

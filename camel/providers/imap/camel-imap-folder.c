@@ -58,7 +58,6 @@
 #include "camel-mime-utils.h"
 #include "camel-imap-private.h"
 #include "camel-multipart.h"
-#include "camel-operation.h"
 
 #define d(x) x
 
@@ -326,8 +325,6 @@ imap_rescan (CamelFolder *folder, int exists, CamelException *ex)
 	CamelImapMessageInfo *iinfo;
 	GArray *removed;
 
-	camel_operation_start(NULL, _("Scanning IMAP folder"));
-
 	/* Get UIDs and flags of all messages. */
 	if (exists > 0) {
 		response = camel_imap_command (store, folder, ex,
@@ -367,10 +364,6 @@ imap_rescan (CamelFolder *folder, int exists, CamelException *ex)
 	removed = g_array_new (FALSE, FALSE, sizeof (int));
 	summary_len = camel_folder_summary_count (folder->summary);
 	for (i = 0; i < summary_len && i < exists; i++) {
-		int pc = (i*100)/MIN(summary_len, exists);
-
-		camel_operation_progress(NULL, pc);
-
 		/* Shouldn't happen, but... */
 		if (!new[i].uid)
 			continue;
@@ -420,66 +413,28 @@ imap_rescan (CamelFolder *folder, int exists, CamelException *ex)
 	/* And finally update the summary. */
 	camel_imap_folder_changed (folder, exists, removed, ex);
 	g_array_free (removed, TRUE);
-
-	camel_operation_end(NULL);
 }
 
-/* Find all messages in @folder with flags matching @flags and @mask.
- * If no messages match, returns %NULL. Otherwise, returns an array of
- * CamelMessageInfo and sets *@set to a message set corresponding the
- * UIDs of the matched messages. The caller must free the infos, the
- * array, and the set string.
- */
-static GPtrArray *
-get_matching (CamelFolder *folder, guint32 flags, guint32 mask, char **set)
+static void
+sync_message (CamelImapStore *store, CamelFolder *folder,
+	      CamelMessageInfo *mi, CamelException *ex)
 {
-	GPtrArray *matches;
-	CamelMessageInfo *info;
-	int i, max, range;
-	GString *gset;
+	CamelImapResponse *response;
+	char *flags;
 
-	matches = g_ptr_array_new ();
-	gset = g_string_new ("");
-	max = camel_folder_summary_count (folder->summary);
-	range = -1;
-	for (i = 0; i < max; i++) {
-		info = camel_folder_summary_index (folder->summary, i);
-		if (!info)
-			continue;
-		if ((info->flags & mask) != flags) {
-			camel_folder_summary_info_free (folder->summary, info);
-			if (range != -1) {
-				if (range != i - 1) {
-					info = matches->pdata[matches->len - 1];
-					g_string_sprintfa (gset, ":%s", camel_message_info_uid (info));
-				}
-				range = -1;
-			}
-			continue;
-		}
+	flags = imap_create_flag_list (mi->flags);
+	CAMEL_IMAP_STORE_LOCK (store, command_lock);
+	response = camel_imap_command (store, folder, ex,
+				       "UID STORE %s FLAGS.SILENT %s",
+				       camel_message_info_uid (mi), flags);
+	CAMEL_IMAP_STORE_UNLOCK (store, command_lock);
+	g_free (flags);
+	if (camel_exception_is_set (ex))
+		return;
+	camel_imap_response_free (response);
 
-		g_ptr_array_add (matches, info);
-		if (range != -1)
-			continue;
-		range = i;
-		if (gset->len)
-			g_string_append_c (gset, ',');
-		g_string_sprintfa (gset, "%s", camel_message_info_uid (info));
-	}
-	if (range != -1 && range != max - 1) {
-		info = matches->pdata[matches->len - 1];
-		g_string_sprintfa (gset, ":%s", camel_message_info_uid (info));
-	}
-
-	if (matches->len) {
-		*set = gset->str;
-		g_string_free (gset, FALSE);
-		return matches;
-	} else {
-		g_string_free (gset, TRUE);
-		g_ptr_array_free (matches, TRUE);
-		return NULL;
-	}
+	mi->flags &= ~CAMEL_MESSAGE_FOLDER_FLAGGED;
+	((CamelImapMessageInfo *)mi)->server_flags = mi->flags;
 }
 
 static void
@@ -487,80 +442,17 @@ imap_sync (CamelFolder *folder, gboolean expunge, CamelException *ex)
 {
 	CamelImapStore *store = CAMEL_IMAP_STORE (folder->parent_store);
 	CamelImapResponse *response;
-	CamelMessageInfo *info;
-	GPtrArray *matches;
-	char *set, *flaglist;
-	int i, j, max;
+	int i, max;
 
+	/* Set the flags on any messages that have changed this session */
 	max = camel_folder_summary_count (folder->summary);
-
-	/* If we're expunging then we don't need to be precise about the
-	 * flags of deleted messages. Just add \Deleted to anything that
-	 * should have it.
-	 */
-	if (expunge && (matches = get_matching (folder, CAMEL_MESSAGE_DELETED,
-						CAMEL_MESSAGE_DELETED, &set))) {
-		for (i = 0; i < matches->len; i++) {
-			info = matches->pdata[i];
-			info->flags &= ~CAMEL_MESSAGE_FOLDER_FLAGGED;
-			camel_folder_summary_info_free (folder->summary, info);
-		}
-		g_ptr_array_free (matches, TRUE);
-		camel_folder_summary_touch (folder->summary);
-
-		CAMEL_IMAP_STORE_LOCK (store, command_lock);
-		response = camel_imap_command (store, folder, ex,
-					       "UID STORE %s +FLAGS.SILENT \\Deleted",
-					       set);
-		CAMEL_IMAP_STORE_UNLOCK (store, command_lock);
-		g_free (set);
-		if (response)
-			camel_imap_response_free (response);
-		if (camel_exception_is_set (ex))
-			return;
-	}
-
-	/* OK, now, find a message with changed flags, find all of the
-	 * other messages like it, sync them as a group, mark them as
-	 * updated, and continue.
-	 */
 	for (i = 0; i < max; i++) {
+		CamelMessageInfo *info;
+
 		info = camel_folder_summary_index (folder->summary, i);
-		if (!info)
-			continue;
-		if (!(info->flags & CAMEL_MESSAGE_FOLDER_FLAGGED)) {
-			camel_folder_summary_info_free (folder->summary, info);
-			continue;
-		}
-
-		flaglist = imap_create_flag_list (info->flags);
-		matches = get_matching (folder, info->flags & (CAMEL_IMAP_SERVER_FLAGS | CAMEL_MESSAGE_FOLDER_FLAGGED),
-					CAMEL_IMAP_SERVER_FLAGS | CAMEL_MESSAGE_FOLDER_FLAGGED, &set);
-		camel_folder_summary_info_free (folder->summary, info);
-
-		CAMEL_IMAP_STORE_LOCK (store, command_lock);
-		response = camel_imap_command (store, folder, ex,
-					       "UID STORE %s FLAGS.SILENT %s",
-					       set, flaglist);
-		CAMEL_IMAP_STORE_UNLOCK (store, command_lock);
-		g_free (set);
-		g_free (flaglist);
-		if (response)
-			camel_imap_response_free (response);
-		if (!camel_exception_is_set (ex)) {
-			for (j = 0; j < matches->len; j++) {
-				info = matches->pdata[j];
-				info->flags &= ~CAMEL_MESSAGE_FOLDER_FLAGGED;
-				((CamelImapMessageInfo*)info)->server_flags =
-					info->flags & CAMEL_IMAP_SERVER_FLAGS;
-			}
-			camel_folder_summary_touch (folder->summary);
-		}
-		for (j = 0; j < matches->len; j++) {
-			info = matches->pdata[j];
-			camel_folder_summary_info_free (folder->summary, info);
-		}
-		g_ptr_array_free (matches, TRUE);
+		if (info && (info->flags & CAMEL_MESSAGE_FOLDER_FLAGGED))
+			sync_message (store, folder, info, ex);
+		camel_folder_summary_info_free(folder->summary, info);
 
 		if (camel_exception_is_set (ex))
 			return;
@@ -574,8 +466,6 @@ imap_sync (CamelFolder *folder, gboolean expunge, CamelException *ex)
 	}
 
 	camel_folder_summary_save (folder->summary);
-
-	camel_operation_end(NULL);
 }
 
 static void
@@ -674,27 +564,8 @@ imap_copy_message_to (CamelFolder *source, const char *uid,
 	g_return_if_fail (mi != NULL);
 
 	/* Sync message flags if needed. */
-	if (mi->flags & CAMEL_MESSAGE_FOLDER_FLAGGED) {
-		char *flaglist;
-
-		flaglist = imap_create_flag_list (mi->flags);
-		CAMEL_IMAP_STORE_LOCK (store, command_lock);
-		response = camel_imap_command (store, source, ex,
-					       "UID STORE %s FLAGS.SILENT %s",
-					       camel_message_info_uid (mi),
-					       flaglist);
-		CAMEL_IMAP_STORE_UNLOCK (store, command_lock);
-		g_free (flaglist);
-		if (camel_exception_is_set (ex)) {
-			camel_folder_summary_info_free (source->summary, mi);
-			return;
-		}
-		camel_imap_response_free (response);
-
-		mi->flags &= ~CAMEL_MESSAGE_FOLDER_FLAGGED;
-		((CamelImapMessageInfo *)mi)->server_flags =
-			mi->flags & CAMEL_IMAP_SERVER_FLAGS;
-	}
+	if (mi->flags & CAMEL_MESSAGE_FOLDER_FLAGGED)
+		sync_message (store, source, mi, ex);
 	camel_folder_summary_info_free (source->summary, mi);
 
 	if (camel_exception_is_set (ex))

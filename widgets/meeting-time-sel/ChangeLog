@@ -1,3 +1,9 @@
+2001-02-09  JP Rosevear  <jpr@ximian.com>
+
+	* e-meeting-time-sel-list-item.c
+	(e_meeting_time_selector_list_item_destroy): Unref
+	no_mail_icon_mask rather than mail_icon_mask twice
+
 2000-12-25  Miguel de Icaza  <miguel@helixcode.com>
 
 	* e-meeting-time-sel.c (e_meeting_time_selector_attendee_add): Set

@@ -7,7 +7,7 @@ INCLUDES =					\
 	$(GNOME_INCLUDEDIR)			\
 	$(EXTRA_GNOME_CFLAGS)			\
 	$(UNICODE_CFLAGS)			\
-	$(PISOCK_CFLAGS)			\
+	$(PISOCK_INCLUDEDIR)			\
 	-DEVOLUTION_IMAGES=\""$(imagesdir)"\"	\
 	-DG_LOG_DOMAIN=\"e-utils\"
 
@@ -35,12 +35,8 @@ libeutil_la_SOURCES =			\
 	e-memory.h			\
 	e-msgport.c			\
 	e-msgport.h			\
-	e-path.c			\
-	e-path.h			\
 	e-sexp.c			\
 	e-sexp.h			\
-	e-time-utils.c			\
-	e-time-utils.h			\
 	e-dbhash.c			\
 	e-dbhash.h			\
 	md5-utils.c			\
@@ -65,5 +61,5 @@ libeconduit_la_SOURCES =		\
 libeconduit_static_la_SOURCES = $(libeconduit_la_SOURCES)
 libeconduit_static_la_LDFLAGS = --all-static
 
-
+EXTRA_DIST = e-pilot-util.c e-pilot-util.h
 

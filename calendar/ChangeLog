@@ -1,232 +1,34 @@
+2001-03-13  Ettore Perazzoli  <ettore@ximian.com>
+
+	* conduits/todo/Makefile.am (INCLUDES): Use `$(PISOCK_INCLUDEDIR)'
+	instead of `$(PISOCK_CFLAGS)'.
+
+	* conduits/calendar/Makefile.am (INCLUDES): Use
+	`$(PISOCK_INCLUDEDIR)' instead of `$(PISOCK_CFLAGS)'.
+
 2001-03-09  JP Rosevear  <jpr@ximian.com>
 
 	* conduits/todo/Makefile.am: PISOCK_INCLUDEDIR has become
 	PISOCK_CFLAGS in gnome-pilot.m4 and remove capplet foo
 
 	* conduits/calendar/Makefile.am: ditto
-
-2001-03-08  Ettore Perazzoli  <ettore@ximian.com>
-
-	* gui/component-factory.c (factory_fn): Specify a NULL
-	`EvolutionShellComponentGetDndSelectionFn'.
-
-2001-02-27  Miguel de Icaza  <miguel@ximian.com>
-
-	* gui/e-day-view.c (e_day_view_on_event_right_click): Reorganize
-	the menus to have entries always in a consistent fashion, as
-	reported to the genepool mailing list.  
-	(e_day_view_on_event_right_click): Added a FIXME comment to the
-	FIXME comment without a FIXME.
-
-	Now we use e_popup_menu.  This allows us to hide/show items on
-	demand, and to sensitize/de-sensitize items depending on their
-	state. 
-
-	This will also let us add icon support (when we get nice icons for
-	this)
-
-	* gui/e-week-view.c (e_week_view_show_popup_menu): Ditto.
-
-	The files popup-menu.c and popup-menu.h can now be removed.
-
-2001-03-05  Damon Chaplin  <damon@ximian.com>
-
-	* gui/e-tasks.c: keep list of all Tasks folders so we can update the
-	preference settings when necessary.
-
-	* gui/gnome-cal.c: configure the TaskPad according to the settings.
-
-	* gui/e-calendar-table.c: use ECellCombo and ECellDateEdit for fields,
-	so the tasks folders is almost usable now.
-
-	* gui/calendar-model.c: added support for the Status property.
-
-	* gui/calendar-config.[hc]: added convenience functions to setup
-	ECalendarTable and ECellDateEdit objects.
-
-	* gui/calendar-commands.c: connected to "destroy" signal of calendars
-	so we can remove them from all_calendars list.
-
-	* gui/dialogs/cal-prefs-dialog.c (cal_prefs_dialog_update_config): 
-	call e_tasks_update_all_config_settings() to update all the settings
-	in the Tasks folders as well.
-
-	* cal-util/cal-component.h: added CAL_COMPONENT_FIELD_STATUS.
-
-	* cal-util/cal-component.c (cal_component_get_transparency): fixed
-	calls to strcasecmp so they check for '== 0'.
-
-	Applied patch from Miguel...
-
-2001-02-27  Miguel de Icaza  <miguel@ximian.com>
-
-	* gui/e-day-view.c (e_day_view_on_event_right_click): Reorganize
-	the menus to have entries always in a consistent fashion, as
-	reported to the genepool mailing list.  
-	(e_day_view_on_event_right_click): Added a FIXME comment to the
-	FIXME comment without a FIXME.
-
-	Now we use e_popup_menu.  This allows us to hide/show items on
-	demand, and to sensitize/de-sensitize items depending on their
-	state. 
-
-	This will also let us add icon support (when we get nice icons for
-	this)
-
-	* gui/e-week-view.c (e_week_view_show_popup_menu): Ditto.
-
-	The files popup-menu.c and popup-menu.h can now be removed.
-
-2001-03-02  JP Rosevear  <jpr@ximian.com>
-
-	* conduits/todo/e-todo.conduit.in: update for new pilot foo
-
-	* conduits/calendar/e-calendar.conduit.in: ditto
-
-	* conduits/todo/Makefile.am: update sed script
-
-	* conduits/calendar/Makefile.am: ditto
-
-2001-02-28  Federico Mena Quintero  <federico@ximian.com>
-
-	* gui/event-editor.c (recurrence_exception_select_row_cb): New
-	function to set the EDateEdit's value when a row is selected in
-	the exception date list.  Fixes bug #1638.
-	(append_exception): Set the value as well. Block/unblock signals
-	from the clist as appropriate.  Gotta love non-model/view widgets.
-	(recurrence_exception_delete_cb): Be more paranoid about the
-	contents of the list row's data.
-	(recur_to_comp_object): Likewise.
-	(fill_exception_widgets): Select the first row after we are done
-	appending the exception dates.
-
-2001-02-26  Federico Mena Quintero  <federico@ximian.com>
-
-	* gui/alarm-notify/Makefile.am (libalarm_a_SOURCES): Create a
-	little stand-alone library for the low-level alarm trigger
-	mechanism.  This is so that the GUI parts of the calendar can use
-	it in addition to the alarm daemon.
-
-	* gui/main.c: #include "alarm-notify/alarm.h".
-
-	* gui/calendar-summary.c: Likewise.
-	(alarm_fn): Do not remove the previous alarm; it is removed
-	automatically when it is triggered.
-
-	* gui/Makefile.am (evolution_calendar_SOURCES): Removed alarm.[ch]
-	from the sources.
-
-	* gui/alarm.[ch]: Removed obsolete files.
-
-2001-02-23  Federico Mena Quintero  <federico@ximian.com>
-
-	* gui/alarm-notify/alarm-notify.c (AlarmNotify_addCalendar):
-	Switched to using our own refcounted structure for loaded clients.
-	(AlarmNotify_removeCalendar): Ditto.  Also, do the full
-	destruction of the client.
-	(alarm_notify_destroy): Destroy each element in the hash table.
-
-	* cal-client/cal-client.c (cal_client_construct): Test for
-	exceptions from OAF when activating the Wombat calendar factory.
-
-	* gui/alarm-notify/GNOME_Evolution_Calendar_AlarmNotify.oaf.in:
-	New .oaf.in file.
-
-	* gui/alarm-notify/Makefile.am (oaf_in_files): Updated.
-
-	* gui/GNOME_Evolution_Calendar.oaf.in: Put all the servers here
-	instead of in a million files.
-
-	* gui/GNOME_Evolution_Calendar_Control.oaf.in: Removed file.
-
-	* gui/GNOME_Evolution_Calendar_gnomecal.oaf.in: Removed *REALLY*
-	obsolete file.
-
-	* gui/Makefile.am (oaf_in_files): Updated.
-
-2001-02-23  Rodrigo Moya <rodrigo@ximian.com>
-
-	* pcs/cal-backend-db.c (add_history): fixed generation of history records
-
-2001-02-16  Federico Mena Quintero  <federico@ximian.com>
-
-	* pcs/cal-factory.c (CalFactoryPrivate): Added a `registered'
-	field.
-	(cal_factory_oaf_register): New function; now the factory performs
-	its own registration with OAF.
-	(cal_factory_destroy): Unregister from OAF if appropriate.
-
-2001-02-19  JP Rosevear  <jpr@ximian.com>
-
-	* conduits/todo/Makefile.am: Remove PISOCK_LIBDIR
-
-	* conduits/calendar/Makefile.am: ditto
-
-2001-02-16  Rodrigo Moya <rodrigo@ximian.com>
-
-	* pcs/calbackend-db.c (cal_backend_db_destroy): close DB environment.
-	Some compilation warnings removed
-
-2001-02-13  Christopher James Lahey  <clahey@ximian.com>
-
-	* gui/Makefile.am (evolution_calendar_LDADD): Added libmenus.la.
-
-	* gui/e-calendar-table.c, gui/e-calendar-table.h
-	(e_calendar_table_get_spec): Added this function.
-
-	* gui/e-tasks.c, gui/e-tasks.h (e_tasks_setup_menus): Added this
-	function.
-
-	* gui/tasks-control.c (tasks_control_activate): Call
-	e_tasks_setup_menus.
-
+	
 2001-02-13  JP Rosevear  <jpr@ximian.com>
 
 	* gui/e-tasks.c (e_tasks_new_task): call task_editor_focus
-	
-2001-02-13  JP Rosevear  <jpr@ximian.com>
 
-	* gui/calendar-commands.c (update_pixmaps): Set toolbar new
-	appointment icon
-	(set_pixmap): load files rather than create from xpm file
+2001-02-08  Iain Holmes  <iain@ximian.com>
 
-	* gui/*view.xpm: move to the art directory
+	* gui/calendar-summary.c: Load the tasks.ics file as well, so that tasks are
+	displayed again.
 
-2001-02-13  Rodrigo Moya <rodrigo@ximian.com>
+2001-02-12  Ettore Perazzoli  <ettore@ximian.com>
 
-	* pcs/cal-backend-db.c (cal_backend_db_get_alarms_for_object):
-	implemented
+	* conduits/todo/Makefile.am (INCLUDES): `-I$(top_srcdir)/e-util',
+	not `-I$(top_builddir)/e-util'.
 
-2001-02-13  JP Rosevear  <jpr@ximian.com>
-
-	* gui/calendar-commands.c (update_pixmaps): Set toolbar new command
-
-	* gui/e-calendar-table.c: Add titles to pixbuf column for grouping
-
-	* gui/calendar-model.c (calendar_model_class_init): override value
-	to string virtual method
-	(calendar_model_value_to_string): implement value to string for
-	etable (necessary for group by)
-
-2001-02-12  Rodrigo Moya <rodrigo@ximian.com>
-
-	* pcs/cal-backend-file.c:
-	cal_backend_db_update_object(): manage both updates and additions/add notification
-	cal_backend_db_get_object(): don't use DB cursors
-	cal_backend_db_get_type_by_uid(): don't use DB cursors
-	cal_backend_db_remove_object(): don't use DB cursors/add notification
-	cal_backend_db_get_alarms_in_range(): implemented
-
-2001-02-12  Kjartan Maraas  <kmaraas@gnome.org>
-
-	* gui/Makefile.am: Hook up the xml-i18n-tools + .oaf.in stuff.
-	* gui/GNOME_Evolution_Calendar*.oaf.in: Marked strings for translation.
-	
-2001-02-11  Rodrigo Moya <rodrigo@ximian.com>
-
-	* pcs/cal-backend-db.c: added DB3 transactions support
-	* pcs/cal-backend-db.[ch]: added the new DB3-based backend. This is just
-	the beginning, there are some missing things still.
+	* conduits/calendar/Makefile.am (INCLUDES):
+	`-I$(top_srcdir)/e-util', not `-I$(top_builddir)/e-util'.
 
 2001-02-11  Gediminas Paulauskas <menesis@delfi.lt>
 
@@ -251,48 +53,10 @@
 
 2001-02-08  JP Rosevear  <jpr@ximian.com>
 
-	* gui/dialogs/task-editor-dialog.glade: Oops, remove old widget
-	
-2001-02-08  JP Rosevear  <jpr@ximian.com>
-
-	* gui/dialogs/task-editor.c (fill_widgets): fill in new
-	classification stuff properly
-	(get_widgets): load new class. widgets
-	(init_widgets): if the class. widgets change, mark the dialog
-	dirty
-	(dialog_to_comp_object): set the comp class. from the new widgets
-
-	* gui/dialogs/task-editor-dialog.glade: Make more consistent,
-	fixing bugs 1247 and 1249
-
-	* gui/dialogs/task-editor.c (fill_widgets): 
-
-	* gui/event-editor-dialog.glade: Gui tidying
-
-	* gui/event-editor.c: Remove old alarm cruft
-
 	* cal-util/cal-component.c (cal_component_set_url): Don't try and
 	write an empty string as a property
 
-	
 2001-02-08  JP Rosevear  <jpr@ximian.com>
-
-	* pcs/cal-backend-file.c: Move the get_change code here
-
-	* pcs/cal-backend.c: Remove get_changes related stuff and
-	implement by calling the virtual method instead
-
-	* pcs/cal-backend.h: New virtual method.
-
-	* pcs/cal-backend-file.c (compute_alarm_range): Use
-	icaldurationtype_as_int (replace _as_timet)
-	(add_alarm_occurrences_cb): ditto
-	
-2001-02-08  JP Rosevear  <jpr@ximian.com>
-
-	* pcs/cal-backend-file.c (compute_alarm_range): Use
-	icaldurationtype_as_int (replace _as_timet)
-	(add_alarm_occurrences_cb): ditto
 
 	* gui/e-week-view.c (e_week_view_on_schedule_meet): new routine to
 	throw up the meeting schedule dialog
@@ -302,6 +66,11 @@
 2001-02-08  JP Rosevear  <jpr@ximian.com>
 
 	* gui/event-editor.c: Remove assorted menu/bonobo stuff
+	(ee_apply_event_cb): listen for apply signal and save object
+	(ee_close_event_cb): listen for close signal and prompt to save if
+	need be
+	(event_editor_construct): no longer suck out the glade contents
+	into a bonobo win, listen for apply and close signals
 
 	* gui/dialogs/task-editor.c: Remove assorted menu/bonobo stuff
 	(task_editor_construct): no longer suck out the glade contents
@@ -336,28 +105,8 @@
 
 2001-02-07  Iain Holmes  <iain@ximian.com>
 
-	* gui/calendar-summary.c (create_summary_view): Add a setter to the
-	property bag.
-	(set_property): The setter.
-	(generate_html_summary): Sort the UIDs accodring to time.
-
-2001-02-06  JP Rosevear  <jpr@ximian.com>
-
-	* gui/event-editor.c (fill_reminder_widgets): Match new
-	append_alarm signature
-	(reminder_to_comp_object): only add alarms tagged as new, no
-	longer delete all alarms first
-	(append_reminder): the row data is now of type ReminderData,
-	rename from append_alarm
-	(reminder_add_cb): math new append_alarm signature
-	(reminder_delete_cb): if the alarm existed before the dialog was
-	loaded, delete it immediately from the cal component
-
-2001-02-06  JP Rosevear  <jpr@ximian.com>
-
-	* gui/event-editor-dialog.glade: Gui tweaks for bugs 1248 and 1246
-
-	* gui/dialogs/task-editor-dialog.glade: ditto
+	* gui/calendar-summary.c (create_summary_view): Add a setter
+	for the property bag. Fixes the title bug.
 
 2001-02-07  JP Rosevear  <jpr@ximian.com>
 
@@ -385,6 +134,18 @@
 	(get_period_list): Fixes from clahey to handle the new rdate
 	format in libical
 	(set_period_list): ditto
+
+2001-02-06  JP Rosevear  <jpr@ximian.com>
+
+	* gui/event-editor.c (fill_reminder_widgets): Match new
+	append_alarm signature
+	(reminder_to_comp_object): only add alarms tagged as new, no
+	longer delete all alarms first
+	(append_reminder): the row data is now of type ReminderData,
+	rename from append_alarm
+	(reminder_add_cb): math new append_alarm signature
+	(reminder_delete_cb): if the alarm existed before the dialog was
+	loaded, delete it immediately from the cal component
 
 2001-02-05  JP Rosevear  <jpr@ximian.com>
 

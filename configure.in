@@ -13,9 +13,20 @@ PACKAGE=evolution
 AM_INIT_AUTOMAKE($PACKAGE, $VERSION)
 AC_SUBST(VERSION)
 
+dnl Initialize xml-i18n-tools
+AM_PROG_XML_I18N_TOOLS
+
+dnl Initialize libtool
+AM_PROG_LIBTOOL
+
 dnl Initialize maintainer mode
 AM_MAINTAINER_MODE
 
+AC_CANONICAL_HOST
+
+AM_ACLOCAL_INCLUDE(macros)
+GNOME_INIT(capplet)
+GNOME_COMPILE_WARNINGS
 AC_ISC_POSIX
 AC_PROG_CC
 AC_PROG_CPP
@@ -26,18 +37,6 @@ AC_ARG_PROGRAM
 AC_PROG_INSTALL
 AC_PROG_LN_S
 AC_PROG_MAKE_SET
-
-dnl Initialize xml-i18n-tools
-AM_PROG_XML_I18N_TOOLS
-
-dnl Initialize libtool
-AM_PROG_LIBTOOL
-
-AC_CANONICAL_HOST
-
-AM_ACLOCAL_INCLUDE(macros)
-GNOME_INIT(capplet)
-GNOME_COMPILE_WARNINGS
 
 AC_PATH_PROG(SENDMAIL, sendmail, /usr/sbin/sendmail, /usr/sbin:/usr/lib)
 AC_DEFINE_UNQUOTED(SENDMAIL_PATH, "$SENDMAIL")
@@ -153,40 +152,19 @@ dnl **************************************************
 AC_ARG_ENABLE(ldap, 
 [  --enable-ldap=[no/yes]      Enable LDAP support in evolution],,enable_ldap=no)
 if test x$enable_ldap = xyes; then
-  LDAP_LIBS=
-  AC_CHECK_LIB(resolv, res_query, LDAP_LIBS="-lresolv")
-  AC_CHECK_LIB(lber, ber_get_tag, LDAP_LIBS="-llber $LDAP_LIBS", ,$LDAP_LIBS)
+  AC_CHECK_LIB(lber, ber_get_tag, LDAP_LIBS="-llber")
   if test x$ac_cv_lib_lber_ber_get_tag = xyes; then
-    AC_CHECK_LIB(ldap, ldap_open, LDAP_LIBS="-lldap $LDAP_LIBS", ,$LDAP_LIBS)
+    AC_CHECK_LIB(ldap, ldap_open, LDAP_LIBS="-lldap $LDAP_LIBS", ,-llber)
   fi
 fi
-
-
 if test x$ac_cv_lib_ldap_ldap_open = xyes; then
-dnl *
-dnl * check for openldap version 2.x, since 1.x doesn't have the schema stuff
-dnl *
-    AC_MSG_CHECKING(if openldap is version 2.x)
-    AC_EGREP_CPP(yes,
-    [#include "ldap.h"
-     #if LDAP_VENDOR_VERSION > 20000
-     yes
-     #endif
-     ], is_2x=yes, is_2x=no)
-
-    if test x$is_2x = xyes; then
-        AC_MSG_RESULT(yes)
 	AC_DEFINE(HAVE_LDAP)
 	AC_SUBST(LDAP_LIBS)
-	msg_ldap=yes
-    else
-	AC_MSG_ERROR(evolution requires OpenLDAP version >= 2)
-    fi
+	msg_ldap=Yes
 else
-	msg_ldap=no
-        enable_ldap=no
+	msg_ldap=No
 fi
-AM_CONDITIONAL(ENABLE_LDAP, test x$enable_ldap = xyes)
+AM_CONDITIONAL(ENABLE_LDAP, test x$ac_cv_lib_ldap_ldap_open = xyes)
 
 dnl **************************************************
 dnl NNTP support.
@@ -195,9 +173,9 @@ AC_ARG_ENABLE(nntp,
 [  --enable-nntp=[no/yes]      Enable NNTP support in evolution],,enable_nntp=no)
 if test "x$enable_nntp" = "xyes"; then
 	AC_DEFINE(ENABLE_NNTP)
-	msg_nntp=yes
+	msg_nntp=Yes
 else
-	msg_nntp=no
+	msg_nntp=No
 fi
 AM_CONDITIONAL(ENABLE_NNTP, test x$enable_nntp = xyes)
 
@@ -235,9 +213,9 @@ AC_ARG_ENABLE(dot-locking,
 [  --enable-dot-locking=[yes/no] Enable support for locking mail files with dot locking],,enable_dot_locking=yes)
 if test "x$enable_dot_locking" = "xyes"; then
   AC_DEFINE(USE_DOT)
-  msg_dot=yes
+  msg_dot=Yes
 else
-  msg_dot=no	
+  msg_dot=No	
 fi
 
 AC_ARG_ENABLE(file-locking, 
@@ -250,7 +228,7 @@ else
     AC_DEFINE(USE_FLOCK)
     msg_file=flock
   else
-    msg_file=no	
+    msg_file=No	
   fi
 fi
 
@@ -282,7 +260,7 @@ AC_SUBST(GNOME_PRINT_CFLAGS)
 dnl ******************************
 dnl Check for Bonobo
 dnl ******************************
-AC_MSG_CHECKING(for Bonobo >= 0.36)
+AC_MSG_CHECKING(for Bonobo >= 0.37)
 if gnome-config --libs bonobox > /dev/null 2>&1; then
 	vers=`gnome-config --modversion bonobo | sed -e "s/bonobo-//" | \
 		awk 'BEGIN { FS = "."; } { printf "%d", $1 * 1000 + $2;}'`
@@ -354,14 +332,14 @@ fi
 dnl ******************************
 dnl Gnome App Lib checking
 dnl ******************************
-AC_MSG_CHECKING(for Gnome App libraries (GAL) >= 0.5.99.6)
+AC_MSG_CHECKING(for Gnome App libraries (GAL) >= 0.5)
 if gnome-config --libs gal > /dev/null 2>&1; then 
     vers=`gnome-config --modversion gal | sed -e "s/gal-//" -e 's/cvs$//' -e 's/pre$//' | \
         awk 'BEGIN { FS = "."; } { print $1 * 1000000 + $2 * 10000 + $3 * 100 + $4;}'`
-    if test "$vers" -ge 59904; then
+    if test "$vers" -ge 50000; then
         AC_MSG_RESULT(found)
     else
-        AC_MSG_ERROR(You need at least GNOME Application libs 0.5.99.4 for this version of Evolution)
+        AC_MSG_ERROR(You need at least GNOME Application libs 0.5 for this version of Evolution)
     fi
 else
     AC_MSG_ERROR(Did not find GnomeAppLib (GAL) installed)
@@ -424,6 +402,7 @@ if test x${prefix} = xNONE; then
 else
 	html_prefix=$prefix
 fi
+
 AC_MSG_CHECKING(for Editor.idl in `gnome-config --datadir`/gtkhtml or ${html_prefix}/share/gtkhtml)
 if test -f `gnome-config --datadir`/gtkhtml/Editor.idl; then
 	GTK_HTML_EDITOR_IDL=`gnome-config --datadir`/gtkhtml/Editor.idl
@@ -433,8 +412,24 @@ else
 		GTK_HTML_EDITOR_IDL=${html_prefix}/share/gtkhtml/Editor.idl
 		AC_MSG_RESULT(found)
 	else
-		AC_MSG_ERROR(Editor.idl is required to compile Evolution composer, it's included in GtkHTML
+		AC_MSG_RESULT(not found)
+		if test "x$GNOME_PATH" != "x" ; then
+			for dir in `echo $GNOME_PATH | sed -e "s/:/ /" `; do
+				AC_MSG_CHECKING(for Editor.idl in ${dir})
+				if test -f ${dir}/share/gtkhtml/Editor.idl ; then
+					GTK_HTML_EDITOR_IDL=${dir}/share/gtkhtml/Editor.idl
+					AC_MSG_RESULT(found)
+					break
+				else
+					AC_MSG_RESULT(not found)
+				fi
+			done
+		fi
+
+		if test "x$GTK_HTML_EDITOR_IDL" = "x" ; then
+			AC_MSG_ERROR(Editor.idl is required to compile Evolution composer, it's included in GtkHTML
 You need GtkHTML build with html-editor-control)
+		fi
 	fi
 fi
 
@@ -443,22 +438,17 @@ AC_SUBST(GTK_HTML_EDITOR_IDL)
 dnl ******************************
 dnl Gnome-VFS checking
 dnl ******************************
-AC_MSG_CHECKING(for GNOME-VFS)
+AC_MSG_CHECKING(for GNOME-VFS >= 0.4.2)
 if gnome-config --libs vfs > /dev/null 2>&1; then
-	vers=`gnome-config --modversion vfs`
-	case $vers
-	in
-	    gnome-vfs-0.[012]) vfs_ok=false ;;
-	    *) vfs_ok=true ;;
-	esac
+    vers=`gnome-config --modversion vfs | sed -e "s/gnome-vfs-//" | \
+        awk 'BEGIN { FS = "."; } { print $1 * 10000 + $2 * 100 + $3;}'`
+    if test "$vers" -ge 402; then
+        AC_MSG_RESULT(found)
+    else
+        AC_MSG_ERROR(not found)
+    fi
 else
-	vfs_ok=false
-fi
-
-if $vfs_ok; then
-	AC_MSG_RESULT($vers)
-else
-	AC_MSG_ERROR(GNOME-VFS 0.3 or newer is required to compile Evolution)
+    vfs_ok=false
 fi
 
 GNOME_VFS_LIBS="`gnome-config --libs vfs`"
@@ -481,9 +471,9 @@ GNOME_PILOT_CHECK
 fi
 AM_CONDITIONAL(ENABLE_PILOT_CONDUITS, test "x$enable_pilot_conduits" = "xyes")
 if test x$enable_pilot_conduits = xyes; then
-   msg_pilot=yes
+   msg_pilot=Yes
 else
-   msg_pilot=no
+   msg_pilot=No
 fi
 
 dnl ******
@@ -506,81 +496,75 @@ dnl Kerberos
 dnl ********
 AC_ARG_WITH(krb5, [  --with-krb5=PREFIX      Location of Kerberos 5 libs/includes])
 AC_ARG_WITH(krb4, [  --with-krb4=PREFIX      Location of Kerberos 4 libs/includes])
-msg_krb5=no
-if test ${with_krb5:=no} != no; then
+msg_krb5=No
+if test x${with_krb5:=no} != xno; then
+	CFLAGS_save="$CFLAGS"
 	LDFLAGS_save="$LDFLAGS"
-
-	mitlibs="-lkrb5 -lk5crypto -lcom_err"
-	heimlibs="-lkrb5 -lcrypto -lasn1 -lcom_err -lroken"
-	AC_CACHE_CHECK([for Kerberos 5], ac_cv_lib_kerberos5,
+	CFLAGS="-I$with_krb5/include/krb5"
+	LDFLAGS="-L$with_krb5/lib"
+	AC_CHECK_LIB(krb5, krb5_init_context,
 	[
-		LDFLAGS="$LDFLAGS -L$with_krb5/lib $mitlibs"
-		AC_TRY_LINK_FUNC(krb5_init_context, ac_cv_lib_kerberos5="$mitlibs",
-		[
-			LDFLAGS="$LDFLAGS_save -L$with_krb5/lib $heimlibs"
-			AC_TRY_LINK_FUNC(krb5_init_context, ac_cv_lib_kerberos5="$heimlibs", ac_cv_lib_kerberos5=no)
-		])
-		LDFLAGS="$LDFLAGS_save"
-	])
-	if test "$ac_cv_lib_kerberos5" != no; then
 		AC_DEFINE(HAVE_KRB5)
-		msg_krb5=yes
-		KRB5_CFLAGS="-I$with_krb5/include/krb5"
-		KRB5_LDFLAGS="-L$with_krb5/lib $ac_cv_lib_kerberos5"
-	fi
+		KRB5_CFLAGS="$CFLAGS"
+		KRB5_LDFLAGS="$LDFLAGS -lkrb5 -lk5crypto -lcom_err"
+		msg_krb5=Yes
+	],[
+		AC_MSG_WARN([A sample Kerberos 5 program could not be compiled with the
+Kerberos found in $with_krb5. Please verify that the prefix is correct.])
+		with_krb5=no
+	], [-lk5crypto -lcom_err])
+	CFLAGS="$CFLAGS_save"
+	LDFLAGS="$LIBS_save"
 else
 	AC_MSG_CHECKING(for Kerberos 5)
 	AC_MSG_RESULT($with_krb5)
 fi
 
-msg_krb4=no
+msg_krb4=No
 if test x${with_krb4:=no} != xno; then
+	CFLAGS_save="$CFLAGS"
 	LDFLAGS_save="$LDFLAGS"
-	AC_CACHE_CHECK(for Kerberos 4, ac_cv_lib_kerberos4,
+	CFLAGS="-I$with_krb4/include/kerberosIV -I$with_krb4/include/kerberos"
+	test -f "$with_krb4/include/krb.h" && \
+		CFLAGS="$CFLAGS -I$with_krb4/include"
+	test -f "$with_krb4/include/port-sockets.h" && \
+		CFLAGS="$CFLAGS -I$with_krb4/include"
+
+	LDFLAGS="-L$with_krb4/lib"
+	AC_CHECK_LIB(krb, krb_mk_req,
 	[
-		ac_cv_lib_kerberos4=no
-
-		case $ac_cv_lib_kerberos5 in
-		*k5crypto*)
-			# Look for MIT krb5 compat krb4
-			LDFLAGS="$LDFLAGS -L$with_krb4/lib -lkrb4 -ldes425 $KRB5_LDFLAGS"
-			AC_TRY_LINK_FUNC(krb_mk_req, ac_cv_lib_kerberos4="-lkrb4 -ldes425 $KRB5_LDFLAGS")
-			;;
-		esac
-
-		if test "$ac_cv_lib_kerberos4" = no; then
-			# Look for KTH krb4
-			LDFLAGS="$LDFLAGS_save -L$with_krb4/lib -lkrb -lcrypto -lcom_err -lroken"
-			AC_TRY_LINK_FUNC(krb_mk_req, ac_cv_lib_kerberos4="-lkrb -lcrypto -lcom_err -lroken")
-		fi
-		if test "$ac_cv_lib_kerberos4" = no; then
-			# Look for old MIT krb4
-			LDFLAGS="$LDFLAGS_save -L$with_krb4/lib -lkrb"
-			AC_TRY_LINK_FUNC(krb_mk_req, ac_cv_lib_kerberos4=-lkrb,
-			[
-				LDFLAGS="$LDFLAGS -ldes"
-				AC_TRY_LINK_FUNC(krb_mk_req, ac_cv_lib_kerberos4="-lkrb -ldes")
-			])
-		fi
-	])
-	LDFLAGS="$LDFLAGS_save"
-	if test "$ac_cv_lib_kerberos4" != no; then
 		AC_DEFINE(HAVE_KRB4)
-		msg_krb4=yes
-		if test -f "$with_krb4/include/krb.h" -o -f "$with_krb4/include/port-sockets.h"; then
-			KRB4_CFLAGS="-I$with_krb4/include"
-		else
-			KRB4_CFLAGS="-I$with_krb4/include/kerberosIV"
-		fi
-		KRB4_LDFLAGS="-L$with_krb4/lib $ac_cv_lib_kerberos4"
+		KRB4_CFLAGS="$CFLAGS"
+		KRB4_LDFLAGS="$LDFLAGS -lkrb"
+		msg_krb4=Yes
+	],[
+		AC_CHECK_LIB(krb, krb_rd_req,
+		[
+			AC_DEFINE(HAVE_KRB4)
+			KRB4_CFLAGS="$CFLAGS"
+			KRB4_LDFLAGS="$LDFLAGS -lkrb -ldes"
+			msg_krb4=Yes
+		],[
+			AC_CHECK_LIB(krb4, krb_mk_req,
+			[
+				AC_DEFINE(HAVE_KRB4)
+				KRB4_CFLAGS="$CFLAGS"
+				KRB4_LDFLAGS="$LDFLAGS -lkrb4 -ldes425 $KRB5_LDFLAGS"
+				msg_krb4=Yes
+			],[
+				AC_MSG_WARN([A sample Kerberos 4 program could not be compiled with the
+Kerberos found in $with_krb4. Please verify that the prefix is correct.])
+				with_krb4=no
+			],[-ldes425 $KRB5_LDFLAGS])
+		],[-ldes])
+	])
 
-		CFLAGS_save="$CFLAGS"
-		CFLAGS="$CFLAGS $KRB4_CFLAGS"
-		AC_TRY_COMPILE([#include "krb.h"
-		int krb_sendauth;
-		],[return 0],[AC_DEFINE(NEED_KRB_SENDAUTH_PROTO)],)
-		CFLAGS="$CFLAGS_save"
-	fi
+	AC_TRY_COMPILE([#include "krb.h"
+	int krb_sendauth;
+	],[return 0],[AC_DEFINE(NEED_KRB_SENDAUTH_PROTO)],)
+
+	CFLAGS="$CFLAGS_save"
+	LDFLAGS="$LIBS_save"
 else
 	AC_MSG_CHECKING(for Kerberos 4)
 	AC_MSG_RESULT(${with_krb4})
@@ -590,89 +574,6 @@ AC_SUBST(KRB5_CFLAGS)
 AC_SUBST(KRB5_LDFLAGS)
 AC_SUBST(KRB4_CFLAGS)
 AC_SUBST(KRB4_LDFLAGS)
-
-
-dnl ====================================
-dnl = security extension support (SSL and S/MIME)
-dnl =
-dnl = The following voodoo does detection of mozilla libraries (nspr and nss) needed by
-dnl = Camel (SSL) and Evolution (S/MIME).
-dnl =
-dnl = The Evolution security extensions are only built if these libraries are found
-dnl ====================================
-with_nspr_includes=/usr/include
-AC_ARG_WITH(nspr-includes, [  --with-nspr-includes=PREFIX     Location of Mozilla nspr4 libs.])
-have_nspr_includes="no"
-if test "x${with_nspr_includes}" != "xno"; then
-	CFLAGS_save="$CFLAGS"
-	
-	AC_MSG_CHECKING(for Mozilla nspr4 includes in $with_nspr_includes/mozilla)
-	AC_MSG_RESULT("")
-	CFLAGS="$CFLAGS -I$with_nspr_includes"
-	AC_CHECK_HEADERS(mozilla/prinit.h mozilla/prio.h, [ moz_nspr_includes="yes" ])
-	CFLAGS="$CFLAGS_save"
-	
-	if test "x{$moz_nspr_includes}" != "xno"; then
-		have_nspr_includes="yes"
-		NSPR_CFLAGS="-I$with_nspr_includes"
-	fi
-else
-	AC_MSG_CHECKING(for Mozilla nspr4 includes)
-	AC_MSG_RESULT(no)
-fi
-
-with_nspr_libs=/usr/lib/mozilla
-AC_ARG_WITH(nspr-libs, [  --with-nspr-libs=PREFIX     Location of Mozilla nspr4 libs.])
-have_nspr_libs="no"
-if test "x${with_nspr_libs}" != "xno" -a "x${have_nspr_includes}" != "xno"; then
-	CFLAGS_save="$CFLAGS"
-	LDFLAGS_save="$LDFLAGS"
-	
-	nsprlibs="-lnspr4"
-	AC_CACHE_CHECK([for Mozilla nspr libraries], moz_nspr_libs,
-	[
-		CFLAGS="$CFLAGS $NSPR_CFLAGS"
-		LDFLAGS="$LDFLAGS -L$with_nspr_libs $nsprlibs"
-		AC_TRY_LINK_FUNC(PR_Init, moz_nspr_libs="yes", moz_nspr_libs="no")
-		CFLAGS="$CFLAGS_save"
-		LDFLAGS="$LDFLAGS_save"
-	])
-	if test "x$moz_nspr_libs" != "xno"; then
-		have_nspr_libs="yes"
-		NSPR_LDFLAGS="-L$with_nspr_libs $nsprlibs"
-	fi
-else
-	AC_MSG_CHECKING(for Mozilla nspr4 libraries)
-	AC_MSG_RESULT(no)
-fi
-
-AC_ARG_WITH(nss, [  --with-nss=PREFIX     	Location of Mozilla nss3 libs/includes.])
-msg_nss="no"
-if test "x${with_nss}" != "xno" -a "x${have_nspr_libs}" != "xno"; then
-	LDFLAGS_save="$LDFLAGS"
-	
-	nsprlibs="-lnspr4"
-	nsslibs="-lnss3 -lnssckbi -lssl3 -lsmime3"
-	AC_CACHE_CHECK([for Mozilla nss libraries], moz_nss_libs,
-	[
-		LDFLAGS="$LDFLAGS -L$with_nss/lib $nsslibs"
-		AC_TRY_LINK_FUNC(NSS_Init, moz_nss_libs="yes", moz_nss_libs="no")
-		LDFLAGS="$LDFLAGS_save"
-	])
-	if test "$moz_nss_libs" != no; then
-		AC_DEFINE(HAVE_NSS)
-		msg_nss="yes"
-		NSS_CFLAGS="-I$with_nss/include"
-		NSS_LDFLAGS="-L$with_nss/lib $nsslibs"
-	fi
-else
-	AC_MSG_CHECKING(for Mozilla nss libraries)
-	AC_MSG_RESULT(no)
-fi
-
-dnl ====================================
-dnl = End mozilla hacks
-dnl ====================================
 
 
 dnl ******************************
@@ -763,7 +664,6 @@ e-util/ename/Makefile
 libibex/Makefile
 executive-summary/Makefile
 executive-summary/evolution-services/Makefile
-executive-summary/widgets/Makefile
 executive-summary/idl/Makefile
 executive-summary/component/Makefile
 executive-summary/test-service/Makefile
@@ -772,14 +672,10 @@ camel/providers/Makefile
 camel/providers/pop3/Makefile
 camel/providers/sendmail/Makefile
 camel/providers/smtp/Makefile
+camel/providers/vee/Makefile
 camel/providers/imap/Makefile
 camel/providers/nntp/Makefile
 camel/providers/local/Makefile
-camel/tests/Makefile
-camel/tests/lib/Makefile
-camel/tests/message/Makefile
-camel/tests/folder/Makefile
-camel/tests/stream/Makefile
 composer/Makefile
 widgets/Makefile
 widgets/meeting-time-sel/Makefile
@@ -801,7 +697,6 @@ addressbook/gui/component/select-names/Makefile
 shell/Makefile
 shell/glade/Makefile
 shell/importer/Makefile
-mail/importers/Makefile
 mail/Makefile
 data/Makefile
 libversit/Makefile
@@ -812,7 +707,6 @@ calendar/cal-util/Makefile
 calendar/cal-client/Makefile
 calendar/pcs/Makefile
 calendar/gui/Makefile
-calendar/gui/alarm-notify/Makefile
 calendar/gui/dialogs/Makefile
 calendar/conduits/Makefile
 calendar/conduits/calendar/Makefile
@@ -833,10 +727,6 @@ default_user/local/Outbox/Makefile
 default_user/local/Sent/Makefile
 default_user/local/Tasks/Makefile
 default_user/local/Trash/Makefile
-views/Makefile
-views/addressbook/Makefile
-views/mail/Makefile
-views/tasks/Makefile
 tools/Makefile
 doc/Makefile
 doc/C/Makefile
@@ -845,6 +735,7 @@ doc/devel/calendar/Makefile
 doc/devel/calendar/cal-client/Makefile
 doc/devel/calendar/cal-util/Makefile
 doc/devel/importer/Makefile
+doc/devel/executive-summary/Makefile
 ])
 
 if test "x$with_sub_version" != "x"; then
@@ -861,7 +752,6 @@ echo "
 	NNTP support:     $msg_nntp
 	Pilot conduits:   $msg_pilot
 	Kerberos 4/5:     $msg_krb4/$msg_krb5
-	SSL support:      $msg_nss
 	Use movemail:	  $with_movemail
 	Dot Locking:	  $msg_dot
 	File Locking:	  $msg_file

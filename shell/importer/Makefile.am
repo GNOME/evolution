@@ -1,7 +1,6 @@
 INCLUDES = -I$(top_srcdir) -I$(top_srcdir)/shell	\
-	-I$(includedir) $(GNOME_INCLUDEDIR) 		\
-	-DG_LOG_DOMAIN=\"Evolution-Importer\" -g -Wall 	\
-	-Wmissing-prototypes -Wmissing-declarations	\
+	-I$(includedir) $(EXTRA_GNOME_CFLAGS) 		\
+	-DG_LOG_DOMAIN=\"Evolution-Importer\" 		\
 	-DEVOLUTION_GLADEDIR=\"$(datadir)/evolution/glade\"
 
 lib_LTLIBRARIES = libevolution-importer.la
@@ -27,17 +26,14 @@ idl_DATA = $(IDLS)
 libevolution_importerincludedir = $(includedir)/evolution/importer
 libevolution_importer_la_SOURCES = 	\
 	$(IDL_GENERATED)		\
-	evolution-intelligent-importer.c	\
 	evolution-importer-client.c	\
 	evolution-importer-listener.c	\
 	evolution-importer.c		\
-	intelligent.c			\
 	importer.c			\
 	importer.h
 
 libevolution_importerinclude_HEADERS = 	\
 	GNOME_Evolution_Importer.h	\
-	evolution-intelligent-importer.h	\
 	evolution-importer-client.h	\
 	evolution-importer-listener.h	\
 	evolution-importer.h

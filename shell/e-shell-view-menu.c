@@ -448,7 +448,7 @@ BonoboUIVerb new_verbs [] = {
 };
 
 BonoboUIVerb file_verbs [] = {
-	BONOBO_UI_VERB ("FileImporter", (BonoboUIVerbFn) show_import_wizard),
+	BONOBO_UI_VERB ("FileImporter", show_import_wizard),
 	BONOBO_UI_VERB ("FileGoToFolder", command_goto_folder),
 	BONOBO_UI_VERB ("FileCreateFolder", command_create_folder),
 	BONOBO_UI_VERB ("FileClose", command_close),

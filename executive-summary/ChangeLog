@@ -1,58 +1,27 @@
-2001-03-08  Ettore Perazzoli  <ettore@ximian.com>
+2001-02-27  Ettore Perazzoli  <ettore@ximian.com>
+	
+	* Makefile.am (SUBDIRS): Remove `widgets'.
 
-	* component/component-factory.c (factory_fn): Specify a NULL
-	`EvolutionShellComponentGetDndSelectionFn'.
+2001-02-27  Ettore Perazzoli  <ettore@ximian.com>
+
+	* Makefile.am (SUBDIRS): Add `widgets'.
 
 2001-02-14  Iain Holmes  <iain@ximian.com>
-
-	* component/e-summary-url.c (e_summary_url_click): Remove the new
-	OTHER uri stuff.
-
-2001-02-14  Christopher James Lahey  <clahey@ximian.com>
-
-	* component/component-factory.c (component_destroy_cb): Removed
-	this unused function.
 
 	* evolution-services/executive-summary-html-view.c
-	(impl_GNOME_Evolution_Summary_HTMLView_handleURI): Changed the
-	declaration of this function to match the signature in the
-	generated header file.
-
-	* test-service/rdf-summary.c (property_control): Added a cast here.
-
-2001-02-14  Iain Holmes  <iain@ximian.com>
-
-	* evolution-services/executive-summary-html-view.c 
 	(executive_summary_html_view_destroy): Don't unref the event source.
-	(impl_GNOME_Evolution_Summary_HTMLView_handleURI): Emit the signal.
-	(corba_class_init): Hook up the handleURI method.
-	(executive_summary_html_view_class_init): Create the signal.
 
-	* idl/HTMLView.idl: Add the handleURI method.
+2001-02-09  Iain Holmes  <iain@ximian.com>
 
-2001-02-13  Iain Holmes  <iain@ximian.com>
-
-	* test-service/rdf-summary.c (property_control): Add an update now button.
-
-2001-02-12  Iain Holmes  <iain@ximian.com>
-
-	* test-service/rdf-summary.c (property_control): Add a "Update" spinner.
-	(property_action): Only download a new RDF if the URL changed. Use a cached
-	version otherwise.
+	* component/e-summary.c (e_summary_rebuild_page): Remove some debugging
+	prints. Stop some 0 length strings being passed to gtk_html_stream.
 
 2001-02-08  Iain Holmes  <iain@ximian.com>
 
-	* component/e-summary-url.c (e_summary_url_click): Close and remove the
-	window on an idle, so that the whole desktop isn't locked by a 
-	GNOME-VFS bug.
+        * component/e-summary-url.c (e_summary_url_click): Close and remove the
+        window on an idle, so that the whole desktop isn't locked by a
+        GNOME-VFS bug.
 
-2001-02-13  Kjartan Maraas  <kmaraas@gnome.org>
-
-	* Makefile.am: xml-i18n-tools setup for .oaf.in files.
-	* GNOME_Evolution_Summary.oaf.in: Mark strings for translation.
-	* test-service/Makefile.am: xml-i18n-tools setup for .oaf.in files.
-	* test-service/*.oaf.in: Mark strings for translation.
-	
 2001-01-23  Iain Holmes  <iain@ximian.com>
 
 	* component/e-summary.c (e_summary_load_page): Don't strdup the NULL.

@@ -14,7 +14,9 @@ INCLUDES =					\
 	-I$(srcdir)/../../..			\
 	-I$(includedir)				\
 	-I$(top_srcdir)/intl			\
-	$(GTK_INCLUDEDIR) -I$(top_srcdir)/camel \
+	$(GTK_INCLUDEDIR)			\
+	$(EXTRA_GNOME_CFLAGS)			\
+	-I$(top_srcdir)/camel 			\
         -DG_LOG_DOMAIN=\"camel-sendmail-provider\"
 
 libcamelsendmail_la_SOURCES = 			\

@@ -214,25 +214,8 @@ mail_delete (GtkButton *button, gpointer data)
 {
 	MailAccountsDialog *dialog = data;
 	MailConfigAccount *account;
-	GnomeDialog *confirm;
-	GtkWidget *label;
-	int ans;
 	
-	if (dialog->accounts_row < 0)
-		return;
-	
-	confirm = GNOME_DIALOG (gnome_dialog_new (_("Are you sure you want to delete this account?"),
-						  GNOME_STOCK_BUTTON_YES, GNOME_STOCK_BUTTON_NO, NULL));
-	gtk_window_set_policy (GTK_WINDOW (confirm), TRUE, TRUE, TRUE);
-	gtk_window_set_modal (GTK_WINDOW (confirm), TRUE);
-	label = gtk_label_new (_("Are you sure you want to delete this account?"));
-	gtk_label_set_line_wrap (GTK_LABEL (label), TRUE);
-	gtk_box_pack_start (GTK_BOX (confirm->vbox), label, TRUE, TRUE, 0);
-	gtk_widget_show (label);
-	gnome_dialog_set_parent (confirm, GTK_WINDOW (dialog));
-	ans = gnome_dialog_run_and_close (confirm);
-	
-	if (ans == 0) {
+	if (dialog->accounts_row >= 0) {
 		int sel, row, len;
 		
 		sel = dialog->accounts_row;
@@ -324,25 +307,8 @@ news_delete (GtkButton *button, gpointer data)
 {
 	MailAccountsDialog *dialog = data;
 	MailConfigService *server;
-	GnomeDialog *confirm;
-	GtkWidget *label;
-	int ans;
 	
-	if (dialog->news_row < 0)
-		return;
-	
-	confirm = GNOME_DIALOG (gnome_dialog_new (_("Are you sure you want to delete this news account?"),
-						  GNOME_STOCK_BUTTON_YES, GNOME_STOCK_BUTTON_NO, NULL));
-	gtk_window_set_policy (GTK_WINDOW (confirm), TRUE, TRUE, TRUE);
-	gtk_window_set_modal (GTK_WINDOW (confirm), TRUE);
-	label = gtk_label_new (_("Are you sure you want to delete this news account?"));
-	gtk_label_set_line_wrap (GTK_LABEL (label), TRUE);
-	gtk_box_pack_start (GTK_BOX (confirm->vbox), label, TRUE, TRUE, 0);
-	gtk_widget_show (label);
-	gnome_dialog_set_parent (confirm, GTK_WINDOW (dialog));
-	ans = gnome_dialog_run_and_close (confirm);
-	
-	if (ans == 0) {
+	if (dialog->news_row >= 0) {
 		int row, len;
 		
 		server = gtk_clist_get_row_data (dialog->news_accounts, dialog->news_row);
@@ -369,7 +335,7 @@ news_delete (GtkButton *button, gpointer data)
 static void
 send_html_toggled (GtkToggleButton *button, gpointer data)
 {
-	mail_config_set_send_html (gtk_toggle_button_get_active (button));
+	mail_config_set_send_html (button->active);
 }
 
 static void
@@ -495,7 +461,6 @@ construct (MailAccountsDialog *dialog)
 		gtk_widget_set_sensitive (GTK_WIDGET (dialog->mail_default), FALSE);
 	}
 	
-#ifdef ENABLE_NNTP
 	dialog->news_row = -1;
 	dialog->news = mail_config_get_news ();
 	if (dialog->news) {
@@ -505,7 +470,6 @@ construct (MailAccountsDialog *dialog)
 		gtk_widget_set_sensitive (GTK_WIDGET (dialog->news_edit), FALSE);
 		gtk_widget_set_sensitive (GTK_WIDGET (dialog->news_delete), FALSE);
 	}
-#endif /* ENABLE_NNTP */
 }
 
 MailAccountsDialog *

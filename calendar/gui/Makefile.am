@@ -13,7 +13,8 @@ $(IDL_GENERATED): $(IDLS)
 	$(ORBIT_IDL) -I $(srcdir) -I $(datadir)/idl `$(GNOME_CONFIG) --cflags idl`   \
                 $(srcdir)/../../composer/Evolution-Composer.idl
 
-SUBDIRS = alarm-notify dialogs
+#SUBDIRS = alarm-notify dialogs
+SUBDIRS = dialogs
 
 help_base = $(datadir)/gnome/help/cal
 
@@ -46,6 +47,8 @@ glade_DATA = 					\
 
 evolution_calendar_SOURCES =			\
 	$(IDL_GENERATED)			\
+	alarm.c					\
+	alarm.h					\
 	calendar-config.c			\
 	calendar-config.h			\
 	calendar-commands.c			\
@@ -93,6 +96,8 @@ evolution_calendar_SOURCES =			\
 	itip-utils.c				\
 	itip-utils.h				\
 	main.c					\
+	popup-menu.c				\
+	popup-menu.h				\
 	print.c					\
 	print.h					\
 	tag-calendar.c				\
@@ -109,7 +114,6 @@ evolution_calendar_SOURCES =			\
 	widget-util.h
 
 evolution_calendar_LDADD =								\
-	alarm-notify/libalarm.a								\
 	$(top_builddir)/shell/libeshell.a						\
 	$(top_builddir)/calendar/cal-client/libcal-client.la				\
 	$(top_builddir)/calendar/cal-util/libcal-util.la				\
@@ -119,7 +123,6 @@ evolution_calendar_LDADD =								\
 	$(top_builddir)/libical/src/libical/libical.la					\
 	$(top_builddir)/widgets/meeting-time-sel/libevolutionmtsel.a			\
 	$(top_builddir)/widgets/misc/libemiscwidgets.a					\
-	$(top_builddir)/widgets/menus/libmenus.la					\
 	dialogs/libcal-dialogs.a							\
 	$(BONOBO_HTML_GNOME_LIBS)							\
 	$(BONOBO_VFS_GNOME_LIBS)							\
@@ -129,12 +132,7 @@ evolution_calendar_LDADD =								\
 #evolution_calendar_LDFLAGS = `gnome-config --libs gdk_pixbuf`
 
 oafdir = $(datadir)/oaf
-oaf_in_files = \
-	GNOME_Evolution_Calendar.oaf.in
-
-oaf_DATA = $(oaf_in_files:.oaf.in=.oaf)
-
-@XML_I18N_MERGE_OAF_RULE@
+oaf_DATA = GNOME_Evolution_Calendar_Control.oafinfo GNOME_Evolution_Calendar.oafinfo 
 
 EXTRA_DIST =	 			\
 	$(glade_DATA)			\
@@ -151,7 +149,7 @@ EXTRA_DIST =	 			\
 	weekview.xpm			\
 	workweekview.xpm		\
 	yearview.xpm			\
-	$(oaf_in_files) $(oaf_DATA)
+	$(oaf_DATA)
 
 install-data-local:
 	$(mkinstalldirs) $(DESTDIR)$(help_base)/C

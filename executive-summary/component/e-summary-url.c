@@ -25,16 +25,8 @@
 #include <config.h>
 #endif
 
-#include <bonobo/bonobo-property-control.h>
-#include <bonobo/bonobo-event-source.h>
-#include <bonobo/bonobo-widget.h>
-
-#include <libgnome/gnome-i18n.h>
-#include <libgnome/gnome-url.h>
-#include <libgnome/gnome-exec.h>
-#include <libgnomeui/gnome-propertybox.h>
-
-#include <stdlib.h>
+#include <gnome.h>
+#include <bonobo.h>
 
 #include <gtkhtml/gtkhtml.h>
 #include <gtkhtml/gtkhtml-stream.h>
@@ -503,10 +495,10 @@ e_summary_url_click (GtkWidget *widget,
 		id->window = window;
 		id->esummary = esummary;
 
-		/* Close the window on an idle to work around a bug in
-		   gnome-vfs which locks the e_summary_remove_window function 
-		   and as gtkhtml has a pointer grab on, this locks the whole 
-		   display. GAH! */
+		/* Close the window on an idle to work around a bug in gnome-vfs
+		   which locaks the e_summary_remove_window function and as
+		   gtkhtml has a pointer grab on, this locks the whole display.
+		   GAH! */
 		g_idle_add (idle_remove_window, id);
 		break;
 
@@ -598,8 +590,8 @@ e_summary_url_click (GtkWidget *widget,
 		e_summary_queue_rebuild (esummary);
 		break;
 
-	case PROTOCOL_OTHER:
 	case PROTOCOL_NONE:
+	case PROTOCOL_OTHER:
 	case PROTOCOL_HTTP:
 	case PROTOCOL_FILE:
 	default:

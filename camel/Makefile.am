@@ -1,6 +1,6 @@
 ## Process this file with automake to produce Makefile.in
 
-SUBDIRS = providers tests
+SUBDIRS = providers
 
 libcamelincludedir = $(includedir)/camel
 providerdir = $(libdir)/evolution/camel-providers/$(VERSION)
@@ -12,7 +12,6 @@ INCLUDES = -I.. -I$(srcdir)/.. -I$(includedir)	 \
 	-I$(top_srcdir)/e-util			 \
 	$(GLIB_CFLAGS)				 \
 	$(UNICODE_CFLAGS)			 \
-	$(KRB4_CFLAGS)				 \
 	-DCAMEL_PROVIDERDIR=\""$(providerdir)"\" \
 	-DG_LOG_DOMAIN=\"camel\"
 
@@ -47,15 +46,8 @@ libcamel_la_SOURCES = 				\
 	camel-movemail.c			\
 	camel-multipart.c			\
 	camel-object.c				\
-	camel-operation.c			\
 	camel-provider.c			\
 	camel-remote-store.c			\
-	camel-sasl.c				\
-	camel-sasl-anonymous.c			\
-	camel-sasl-cram-md5.c			\
-	camel-sasl-digest-md5.c			\
-	camel-sasl-kerberos4.c			\
-	camel-sasl-plain.c			\
 	camel-search-private.c			\
 	camel-seekable-stream.c			\
 	camel-seekable-substream.c		\
@@ -71,8 +63,6 @@ libcamel_la_SOURCES = 				\
 	camel-transport.c			\
 	camel-uid-cache.c			\
 	camel-url.c				\
-	camel-vee-folder.c			\
-	camel-vee-store.c			\
 	camel-charset-map.c			\
 	camel.c					\
 	gstring-util.c				\
@@ -112,15 +102,8 @@ libcamelinclude_HEADERS =			\
 	camel-movemail.h			\
 	camel-multipart.h			\
 	camel-object.h				\
-	camel-operation.h			\
 	camel-provider.h			\
 	camel-remote-store.h			\
-	camel-sasl.h				\
-	camel-sasl-anonymous.h			\
-	camel-sasl-cram-md5.h			\
-	camel-sasl-digest-md5.h			\
-	camel-sasl-kerberos4.h			\
-	camel-sasl-plain.h			\
 	camel-seekable-stream.h			\
 	camel-seekable-substream.h		\
 	camel-service.h				\
@@ -136,8 +119,6 @@ libcamelinclude_HEADERS =			\
 	camel-types.h				\
 	camel-uid-cache.h			\
 	camel-url.h				\
-	camel-vee-folder.h			\
-	camel-vee-store.h			\
 	camel.h					\
 	gstring-util.h				\
 	hash-table-utils.h			\
@@ -145,9 +126,7 @@ libcamelinclude_HEADERS =			\
 
 libcamel_la_LDFLAGS = -version-info 0:0:0 -rpath $(libdir)
 
-libcamel_la_LIBADD = $(top_builddir)/e-util/libeutil.la \
-	$(UNICODE_LIBS)				\
-	$(KRB4_LDFLAGS)
+libcamel_la_LIBADD = $(top_builddir)/e-util/libeutil.la $(UNICODE_LIBS)
 
 
 noinst_HEADERS =				\

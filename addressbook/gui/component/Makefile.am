@@ -36,9 +36,7 @@ evolution_addressbook_SOURCES = 	\
 	addressbook.c			\
 	addressbook.h			\
 	e-cardlist-model.c		\
-	e-cardlist-model.h		\
-	e-address-widget.h		\
-	e-address-widget.c
+	e-cardlist-model.h
 
 evolution_addressbook_LDADD =						\
 	select-names/libeselectnames.la					\
@@ -59,20 +57,15 @@ evolution_addressbook_LDADD =						\
 
 evolution_addressbook_LDFLAGS = `gnome-config --libs gdk_pixbuf` -export-dynamic
 
-@XML_I18N_MERGE_OAF_RULE@
-
 oafdir = $(datadir)/oaf
-oaf_in_files = GNOME_Evolution_Addressbook.oaf.in
-oaf_DATA = $(oaf_in_files:.oaf.in=.oaf)
+oaf_DATA = GNOME_Evolution_Addressbook.oafinfo
 
 gladedir   = $(datadir)/evolution/glade
 glade_DATA = addressbook-config.glade
 
 EXTRA_DIST = 			\
 	$(glade_DATA)		\
-	$(oaf_DATA)		\
-	addressbook-config.glade\
-	$(oaf_in_files)
+	$(oaf_DATA)
 
 if ENABLE_PURIFY
 PLINK = $(LIBTOOL) --mode=link $(PURIFY) $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(LDFLAGS) -o $@

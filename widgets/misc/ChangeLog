@@ -1,61 +1,7 @@
-2001-03-04  Damon Chaplin  <damon@ximian.com>
+2001-02-08  Kjartan Maraas  <kmaraas@gnome.org>
 
-	* e-cell-date-edit.c: pretty much working now.
-
-2001-03-01  Not Zed  <NotZed@Ximian.com>
-
-	* e-filter-bar.c: New type of search bar that interacts with
-	filter contexts to save filters etc.  Still probably needs a
-	little cleanpu.
-
-2001-02-28  Not Zed  <NotZed@Ximian.com>
-
-	* e-search-bar.c (add_dropdown): Save the dropdown menu in the
-	struct too.  Sigh, this is only so we can scan its content later,
-	ick.
-	(e_search_bar_set_menu_sensitive): New function to se tthe
-	sentisitivty of menyu items based on id.
-	(find_id): New function to find the row and widget for a specific
-	id.
-	(add_option): Renamed to set_option.
-	(add_dropdown): Renamed to set_dropdown.
-	(add_dropdown): ?New function to add a single item.
-	(set_dropdown): Call add_dropdown to add each item.
-	(e_search_bar_add_menu): New public function to add a single item.
-
-2001-02-27  Not Zed  <NotZed@Ximian.com>
-
-	* Makefile.am (libemiscwidgets_a_SOURCES): Added filter-bar.[ch].
-
-	* e-search-bar.c (class_init): Init virtual functions.
-	(e_search_bar_set_option):
-	(e_search_bar_set_menu): virtualise calling.
-	(e_search_bar_construct): Call virtual functions to setup menus.
-
-	* e-search-bar.h (struct _ESearchBarClass): Virtualise
-	add_dropdown/add_option, so certain base options can be created.
-
-2001-02-25  Damon Chaplin  <damon@ximian.com>
-
-	* e-cell-date-edit.[hc]: new files to implement an ECell for showing
-	and editing dates & times. (Unfinished)
-
-	* Makefile.am (libemiscwidgets_a_SOURCES): added e-cell-date-edit.[hc]
-
-2001-02-24  Not Zed  <NotZed@Ximian.com>
-
-	* e-search-bar.c (add_dropdown): Move the event box into the
-	esb->dropdown_holder.  Changed so it can be called again on the
-	same esb, to rebuild the menu.
-	(e_search_bar_set_menu): New function to (re)set the menu.
-	(add_option): Setup so it can be re-called to rebuild the option
-	list.
-	(e_search_bar_set_option): New function to build the menu's.
-
-2001-02-05  Jeffrey Stedfast  <fejj@ximian.com>
-
-	* .cvsignore: Ignore test-dropdown-button
-
+	* e-clipped-label.c: Added #include <config.h>
+	
 2001-01-28  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-search-bar.c (add_spacer): Make the spacer 4 pixels wider.

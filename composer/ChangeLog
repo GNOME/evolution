@@ -1,94 +1,3 @@
-2001-03-13  Dan Winship  <danw@ximian.com>
-
-	* e-msg-composer-attachment.c (update_mime_type): Use
-	gnome_vfs_mime_type_from_name rather than gnome_vfs_mime_info,
-	since the entered filename doesn't have to be a real file on disk.
-	Deal with it returning NULL too.	
-	(e_msg_composer_attachment_edit): Select the right item in the
-	inline/attachment menu.
-
-	* e-msg-composer-hdrs.c: s/Pair/EMsgComposerHdrPair/. Namespace!
-
-2001-03-12  Jeffrey Stedfast  <fejj@ximian.com>
-
-	* e-msg-composer.h: Added view_replyto member.
-
-	* e-msg-composer.c (e_msg_composer_get_visible_flags): Find out if
-	we want to view the Reply-To header.
-	(e_msg_composer_set_view_replyto): A new function to set the state
-	of the replyto header.
-	(menu_view_replyto_cb): Callback for setting the ReplyTo state.
-	(set_config): Make static.
-	(setup_ui): Setup the ReplyTo bonobo stuff.
-	(load_from_property_bag): More defaults for the ReplyTo, yay.
-	(load_from_gnome_config): Again...
-	(e_msg_composer_get_view_bcc): Implemented.
-	(e_msg_composer_get_view_cc): Implemented.
-	(e_msg_composer_get_view_from): Implemented.
-	(e_msg_composer_get_view_replyto): Implemented.
-
-	* e-msg-composer-hdrs.c (e_msg_composer_hdrs_get_reply_to_entry):
-	New function, yay.
-	(e_msg_composer_hdrs_get_reply_to): Another new function.
-	(e_msg_composer_hdrs_set_reply_to): Yet another new function...
-	(create_headers): Create the reply-to header.
-	(attach_headers): Attach the reply_to.
-	(headers_set_visibility): Set the reply_to visibility.
-	(e_msg_composer_hdrs_to_message): Set the message's reply-to here
-	based on the user-set reply-to header.
-
-2001-03-06  Miguel de Icaza  <miguel@ximian.com>
-
-	* e-msg-composer.c (set_config): New function.  Used to store
-	integer values into the configuration engine.  Handles the case of
-	Bonobo-conf being installed, or falls back to gnome_config.
-
-	* e-msg-composer-hdrs.c (add_header): Renamed to be
-	header_new_recipient().  Now we take care of the other cases in
-	create_headers, which is a lot nicer now.
-	
-	(create_optionmenu): Removed extra "name" argument which was not
-	being used anyways (the only arg passed was From:).
-	(init): Removed all the redundant NULL initialization by using
-	nice g_new0
-	
-	(create_headers): New function, much cleaner. 
-
-	Use of Pair structure everywhere instead of individual widgets to
-	keep track of which ones are visible and which ones are not.
-	
-	* e-msg-composer.c (setup_ui): Handle ViewFrom and ViewBCC
-	commands. 
-	(menu_view_bcc_cb, menu_view_from_cb): New functions that
-	implement the features described.
-
-	(menu_format_html_cb): Removed unrequired test, as
-	e_msg_composer_set_send_html already optimizes the case of the
-	state being the same.
-	(menu_security_pgp_encrypt_cb): Remove redundant code.
-	(menu_security_pgp_sign_cb): ditto.
-
-2001-03-02  Jeffrey Stedfast  <fejj@ximian.com>
-
-	* e-icon-list.c (icon_new_from_pixbuf): Added a comment reminding
-	us that we should probably not force a particular font in the icon
-	caption.
-
-2001-02-27  Dan Winship  <danw@ximian.com>
-
-	* evolution-composer.c (factory_fn): If
-	!mail_config_is_configured(), give an error and return NULL.
-
-2001-02-22  Ettore Perazzoli  <ettore@ximian.com>
-
-	* Makefile.am (INCLUDES): Add `-I$(top_srcdir)/shell'.
-
-2001-02-21  Not Zed  <NotZed@Ximian.com>
-
-	* e-msg-composer.c (menu_file_save_draft_cb):
-	(exit_dialog_cb):  Use mail_append_mail to save to drafts instead
-	of custom thread handler.
-
 2001-02-19  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* e-msg-composer.c (build_message): Handle exceptions a little
@@ -96,33 +5,6 @@
 	don't return a CamelMimeMessage if it fails to sign/decrypt
 	because we want to let the user decide what to do based on the
 	error message he/she gets.
-
-2001-02-15  Dan Winship  <danw@ximian.com>
-
-	* e-msg-composer-hdrs.c (e_msg_composer_hdrs_set_from_account): If
-	@account_name is NULL, pick the default account rather than giving
-	a g_warning.
-
-	* e-msg-composer.c (e_msg_composer_set_headers): Note in the
-	doc comment that @from can be NULL if you want the default account
-	(since there is code that expects this).
-
-2001-02-13  Jeffrey Stedfast  <fejj@ximian.com>
-
-	* evolution-composer.c (corba_recipientlist_to_glist): Use the
-	camel-internet-address code to format the address rather than
-	doing it the broken way.
-
-2001-02-10  Jeffrey Stedfast  <fejj@ximian.com>
-
-	* evolution-composer.c (impl_Composer_set_headers): Updated. We
-	might want to change the corba interface for this to allow setting
-	the from-address as well.
-
-	* e-msg-composer.c (e_msg_composer_new_with_message): Updated.
-	(e_msg_composer_set_headers): Now takes a 'From' argument so that
-	we can try to pre-determine the account the user will want to send
-	from.
 
 2001-02-11  Gediminas Paulauskas <menesis@delfi.lt>
 
@@ -134,12 +16,6 @@
 
 	* e-msg-composer-attachment-bar.c (attach_to_multipart):
 	multipart/* is another mime type we DO NOT want to encode ;-)
-
-2001-02-06  Christopher James Lahey  <clahey@ximian.com>
-
-	* e-msg-composer-hdrs.c (address_button_clicked_cb, add_header):
-	Set the default argument to
-	GNOME_Evolution_Addressbook_SelectNames_activateDialog correctly.
 
 2001-01-30  Larry Ewing  <lewing@ximian.com>
 

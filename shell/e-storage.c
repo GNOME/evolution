@@ -112,13 +112,11 @@ folder_changed_cb (EFolder *folder,
 				     GINT_TO_POINTER (highlight));
 		p = strrchr (path, '/');
 		if (p && p != path) {
-			char *name;
-			
-			name = g_strndup (path, p - path);
-			folder = e_folder_tree_get_folder (priv->folder_tree, name);
-			g_free (name);
+			path = g_strndup (path, p - path);
+			folder = e_folder_tree_get_folder (priv->folder_tree, path);
 			if (folder)
 				e_folder_set_child_highlight (folder, highlight);
+			g_free (path);
 		}
 	}
 }

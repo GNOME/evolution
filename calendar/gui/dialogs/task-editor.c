@@ -75,12 +75,9 @@ typedef struct {
 
 	GtkWidget *status;
 	GtkWidget *priority;
+	GtkWidget *classification;
 
 	GtkWidget *description;
-
-	GtkWidget *classification_public;
-	GtkWidget *classification_private;
-	GtkWidget *classification_confidential;
 
 	GtkWidget *contacts;
 	GtkWidget *categories_btn;
@@ -121,11 +118,13 @@ static const int priority_map[] = {
 };
 
 static const int classification_map[] = {
+	CAL_COMPONENT_CLASS_NONE,
 	CAL_COMPONENT_CLASS_PUBLIC,
 	CAL_COMPONENT_CLASS_PRIVATE,
 	CAL_COMPONENT_CLASS_CONFIDENTIAL,
 	-1
 };
+
 
 static void task_editor_class_init (TaskEditorClass *class);
 static void task_editor_init (TaskEditor *tedit);
@@ -162,7 +161,6 @@ static void field_changed		(GtkWidget	*widget,
 static void task_editor_set_changed	(TaskEditor	*tedit,
 					 gboolean	 changed);
 static gboolean prompt_to_save_changes	(TaskEditor	*tedit);
-static CalComponentClassification classification_get (GtkWidget *widget);
 static void categories_clicked          (GtkWidget      *button,
 					 TaskEditor     *editor);
 
@@ -372,12 +370,9 @@ get_widgets (TaskEditor *tedit)
 
 	priv->status = GW ("status");
 	priv->priority = GW ("priority");
+	priv->classification = GW ("classification");
 
 	priv->description = GW ("description");
-
-	priv->classification_public = GW ("classification-public");
-	priv->classification_private = GW ("classification-private");
-	priv->classification_confidential = GW ("classification-confidential");
 
 	priv->contacts = GW ("contacts");
 	priv->categories_btn = GW ("categories-button");
@@ -395,14 +390,12 @@ get_widgets (TaskEditor *tedit)
 		&& priv->percent_complete
 		&& priv->status
 		&& priv->priority
-		&& priv->classification_public
-		&& priv->classification_private
-		&& priv->classification_confidential
+		&& priv->classification
 		&& priv->description
 		&& priv->contacts
 		&& priv->categories_btn
 		&& priv->categories
-		&& priv->completed_date	
+		&& priv->completed_date
 		&& priv->url);
 }
 
@@ -429,19 +422,6 @@ init_widgets (TaskEditor *tedit)
 			    "value_changed",
 			    GTK_SIGNAL_FUNC (percent_complete_changed), tedit);
 
-	/* Classification */
-	gtk_signal_connect (GTK_OBJECT (priv->description), "changed",
-			    GTK_SIGNAL_FUNC (field_changed), tedit);
-	gtk_signal_connect (GTK_OBJECT (priv->classification_public),
-			    "toggled",
-			    GTK_SIGNAL_FUNC (field_changed), tedit);
-	gtk_signal_connect (GTK_OBJECT (priv->classification_private),
-			    "toggled",
-			    GTK_SIGNAL_FUNC (field_changed), tedit);
-	gtk_signal_connect (GTK_OBJECT (priv->classification_confidential),
-			    "toggled",
-			    GTK_SIGNAL_FUNC (field_changed), tedit);
-
 	/* Connect the default signal handler to use to make sure the "changed"
 	   field gets set whenever a field is changed. */
 	gtk_signal_connect (GTK_OBJECT (priv->summary), "changed",
@@ -451,6 +431,9 @@ init_widgets (TaskEditor *tedit)
 	gtk_signal_connect (GTK_OBJECT (priv->start_date), "changed",
 			    GTK_SIGNAL_FUNC (field_changed), tedit);
 	gtk_signal_connect (GTK_OBJECT (GTK_OPTION_MENU (priv->priority)->menu),
+			    "deactivate",
+			    GTK_SIGNAL_FUNC (field_changed), tedit);
+	gtk_signal_connect (GTK_OBJECT (GTK_OPTION_MENU (priv->classification)->menu),
 			    "deactivate",
 			    GTK_SIGNAL_FUNC (field_changed), tedit);
 	gtk_signal_connect (GTK_OBJECT (priv->description), "changed",
@@ -752,8 +735,8 @@ fill_widgets (TaskEditor *tedit)
 	TaskEditorPrivate *priv;
 	CalComponentText text;
 	CalComponentDateTime d;
-	CalComponentClassification cl;
 	struct icaltimetype *completed;
+	CalComponentClassification classification;
 	GSList *l;
 	time_t t;
 	int *priority_value, *percent;
@@ -853,23 +836,9 @@ fill_widgets (TaskEditor *tedit)
 
 
 	/* Classification. */
-	cal_component_get_classification (priv->comp, &cl);
-
-	switch (cl) {
-	case CAL_COMPONENT_CLASS_PUBLIC:
-	    	e_dialog_radio_set (priv->classification_public, CAL_COMPONENT_CLASS_PUBLIC,
-				    classification_map);
-	case CAL_COMPONENT_CLASS_PRIVATE:
-	    	e_dialog_radio_set (priv->classification_public, CAL_COMPONENT_CLASS_PRIVATE,
-				    classification_map);
-	case CAL_COMPONENT_CLASS_CONFIDENTIAL:
-	    	e_dialog_radio_set (priv->classification_public, CAL_COMPONENT_CLASS_CONFIDENTIAL,
-				    classification_map);
-	default:
-		/* What do do?  We can't g_assert_not_reached() since it is a
-		 * value from an external file.
-		 */
-	}
+	cal_component_get_classification (priv->comp, &classification);
+	e_dialog_option_menu_set (priv->classification, classification,
+				  classification_map);
 
 	/* Categories */
 	cal_component_get_categories (priv->comp, &categories);
@@ -916,6 +885,7 @@ dialog_to_comp_object (TaskEditor *tedit)
 	icalproperty_status status;
 	TaskEditorPriority priority;
 	int priority_value, percent;
+	CalComponentClassification classification;
 	char *url, *cat;
 	char *str;
 
@@ -1007,7 +977,9 @@ dialog_to_comp_object (TaskEditor *tedit)
 	cal_component_set_priority (comp, &priority_value);
 
 	/* Classification. */
-	cal_component_set_classification (comp, classification_get (priv->classification_public));
+	classification = e_dialog_option_menu_get (priv->classification,
+						   classification_map);
+	cal_component_set_classification (comp, classification);
 
 	/* Categories */
 	cat = e_dialog_editable_get (priv->categories);
@@ -1176,13 +1148,6 @@ percent_complete_changed	(GtkAdjustment	*adj,
 	e_dialog_option_menu_set (priv->status, status, status_map);
 
 	priv->ignore_callbacks = FALSE;
-}
-
-/* Decode the radio button group for classifications */
-static CalComponentClassification
-classification_get (GtkWidget *widget)
-{
-	return e_dialog_radio_get (widget, classification_map);
 }
 
 

@@ -43,8 +43,7 @@ static void mail_config_druid_class_init (MailConfigDruidClass *class);
 static void mail_config_druid_init       (MailConfigDruid *druid);
 static void mail_config_druid_finalise   (GtkObject *obj);
 
-static void construct_source_auth_menu (MailConfigDruid *druid, GList *authtypes);
-static void construct_transport_auth_menu (MailConfigDruid *druid, GList *authtypes);
+static void construct_auth_menu (MailConfigDruid *druid, GList *authtypes);
 
 static GtkWindowClass *parent_class;
 
@@ -108,12 +107,10 @@ static struct {
 	  "Please enter your name and email address below. The \"optional\" fields below do not need to be filled in, unless you wish to include this information in email you send." },
 	{ "htmlIncoming",
 	  "Please enter information about your incoming mail server below. If you don't know what kind of server you use, contact your system administrator or Internet Service Provider." },
-	{ "htmlSourceAuthentication",
+	{ "htmlAuthentication",
 	  "Your mail server supports the following types of authentication. Please select the type you want Evolution to use." },
 	{ "htmlTransport",
 	  "Please enter information about your outgoing mail protocol below. If you don't know which protocol you use, contact your system administrator or Internet Service Provider." },
-	{ "htmlTransportAuthentication",
-	  "Your mail transport supports the following types of authentication. Please select the type you want Evolution to use." },
 	{ "htmlAccountInfo",
 	  "You are almost done with the mail configuration process. The identity, incoming mail server and outgoing mail transport method which you provided will be grouped together to make an Evolution mail account. Please enter a name for this account in the space below. This name will be used for display purposes only." }
 };
@@ -189,6 +186,7 @@ druid_finish (GnomeDruidPage *page, gpointer arg1, gpointer user_data)
 	MailConfigService *source;
 	MailConfigService *transport;
 	CamelURL *url;
+	GSList *mini;
 	char *str;
 	
 	account = g_new0 (MailConfigAccount, 1);
@@ -205,9 +203,7 @@ druid_finish (GnomeDruidPage *page, gpointer arg1, gpointer user_data)
 	/* construct the source */
 	source = g_new0 (MailConfigService, 1);
 	source->keep_on_server = mail_config_druid_get_keep_mail_on_server (druid);
-	source->auto_check = mail_config_druid_get_auto_check (druid);
-	source->auto_check_time = mail_config_druid_get_auto_check_minutes (druid);
-	source->save_passwd = mail_config_druid_get_save_source_password (druid);
+	source->save_passwd = mail_config_druid_get_save_password (druid);
 	str = mail_config_druid_get_source_url (druid);
 	if (str) {
 		/* cache the password and rewrite the url without the password part */
@@ -219,28 +215,13 @@ druid_finish (GnomeDruidPage *page, gpointer arg1, gpointer user_data)
 			mail_session_remember_password (source->url);
 		}
 		camel_url_free (url);
-		source->enabled = TRUE;
 	} else {
 		source->url = NULL;
-		source->enabled = FALSE;
 	}
 	
 	/* construct the transport */
 	transport = g_new0 (MailConfigService, 1);
-	transport->save_passwd = mail_config_druid_get_save_transport_password (druid);
-	str = mail_config_druid_get_transport_url (druid);
-	if (str) {
-		/* cache the password and rewrite the url without the password part */
-		url = camel_url_new (str, NULL);
-		g_free (str);
-		transport->url = camel_url_to_string (url, FALSE);
-		if (transport->save_passwd && url->passwd) {
-			mail_session_set_password (transport->url, url->passwd);
-			mail_session_remember_password (transport->url);
-		}
-		camel_url_free (url);
-		transport->enabled = TRUE;
-	}
+	transport->url = mail_config_druid_get_transport_url (druid);
 	
 	account->id = id;
 	account->source = source;
@@ -249,13 +230,9 @@ druid_finish (GnomeDruidPage *page, gpointer arg1, gpointer user_data)
 	mail_config_add_account (account);
 	mail_config_write ();
 	
-	if (source->url) {
-		GSList *mini;
-		
-		mini = g_slist_prepend (NULL, account);
-		mail_load_storages (druid->shell, mini, TRUE);
-		g_slist_free (mini);
-	}
+	mini = g_slist_prepend (NULL, account);
+	mail_load_storages (druid->shell, mini, TRUE);
+	g_slist_free (mini);
 	
 	gtk_widget_destroy (GTK_WIDGET (druid));
 }
@@ -341,15 +318,6 @@ incoming_check (MailConfigDruid *druid)
 }
 
 static void
-auto_check_toggled (GtkToggleButton *button, gpointer data)
-{
-	MailConfigDruid *druid = data;
-	
-	gtk_widget_set_sensitive (GTK_WIDGET (druid->incoming_auto_check_min),
-				  gtk_toggle_button_get_active (button));
-}
-
-static void
 incoming_changed (GtkWidget *widget, gpointer data)
 {
 	MailConfigDruid *druid = data;
@@ -390,7 +358,7 @@ incoming_next (GnomeDruidPage *page, GnomeDruid *druid, gpointer data)
 	gboolean connect;
 	CamelURL *url;
 	
-	config->have_source_auth_page = TRUE;
+	config->have_auth_page = TRUE;
 	
 	source_url = mail_config_druid_get_source_url (config);
 	if (!source_url) {
@@ -398,7 +366,7 @@ incoming_next (GnomeDruidPage *page, GnomeDruid *druid, gpointer data)
 		 * so jump past the auth page */
 		
 		/* Skip to transport page. */
-		config->have_source_auth_page = FALSE;
+		config->have_auth_page = FALSE;
 		transport_page = glade_xml_get_widget (config->gui, "druidTransportPage");
 		gnome_druid_set_page (config->druid, GNOME_DRUID_PAGE (transport_page));
 		
@@ -408,7 +376,7 @@ incoming_next (GnomeDruidPage *page, GnomeDruid *druid, gpointer data)
 	url = camel_url_new (source_url, NULL);
 	g_free (source_url);
 	
-	connect = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (config->incoming_check_settings));
+	connect = GTK_TOGGLE_BUTTON (config->incoming_check_settings)->active;
 	
 	/* If we can't connect, warn them and continue on to the Transport page. */
 	if (!mail_config_check_service (url, CAMEL_PROVIDER_STORE, connect, &authtypes)) {
@@ -433,12 +401,12 @@ incoming_next (GnomeDruidPage *page, GnomeDruid *druid, gpointer data)
 	
 	/* If this service offers authentication, go to the next page. */
 	if (authtypes) {
-		construct_source_auth_menu (config, authtypes);
+		construct_auth_menu (config, authtypes);
 		return FALSE;
 	}
 	
 	/* Otherwise, skip to transport page. */
-	config->have_source_auth_page = FALSE;
+	config->have_auth_page = FALSE;
 	transport_page = glade_xml_get_widget (config->gui, "druidTransportPage");
 	gnome_druid_set_page (config->druid, GNOME_DRUID_PAGE (transport_page));
 	
@@ -455,10 +423,6 @@ incoming_type_changed (GtkWidget *widget, gpointer user_data)
 	provider = gtk_object_get_data (GTK_OBJECT (widget), "provider");
 	
 	druid->source_provider = provider;
-	
-	gtk_widget_set_sensitive (GTK_WIDGET (druid->incoming_auto_check), provider ? TRUE : FALSE);
-	gtk_widget_set_sensitive (GTK_WIDGET (druid->incoming_auto_check_min), provider ? TRUE : FALSE);
-	gtk_widget_set_sensitive (GTK_WIDGET (druid->incoming_check_settings), provider ? TRUE : FALSE);
 	
 	/* hostname */
 	label = glade_xml_get_widget (druid->gui, "lblSourceHost");
@@ -489,22 +453,22 @@ incoming_type_changed (GtkWidget *widget, gpointer user_data)
 	label = glade_xml_get_widget (druid->gui, "lblSourcePasswd");
 	if (provider && provider->url_flags & CAMEL_URL_ALLOW_PASSWORD) {
 		if (!dwidget)
-			dwidget = GTK_WIDGET (druid->source_password);
-		gtk_widget_set_sensitive (GTK_WIDGET (druid->source_password), TRUE);
+			dwidget = GTK_WIDGET (druid->password);
+		gtk_widget_set_sensitive (GTK_WIDGET (druid->password), TRUE);
 		gtk_widget_set_sensitive (label, TRUE);
 	} else {
-		gtk_entry_set_text (druid->source_password, "");
-		gtk_widget_set_sensitive (GTK_WIDGET (druid->source_password), FALSE);
+		gtk_entry_set_text (druid->password, "");
+		gtk_widget_set_sensitive (GTK_WIDGET (druid->password), FALSE);
 		gtk_widget_set_sensitive (label, FALSE);
 	}
 	
 	/* auth */
-	label = glade_xml_get_widget (druid->gui, "lblSourceAuthType");
+	label = glade_xml_get_widget (druid->gui, "lblSourceAuth");
 	if (provider && provider->url_flags & CAMEL_URL_ALLOW_AUTH) {
-		gtk_widget_set_sensitive (GTK_WIDGET (druid->source_auth_type), TRUE);
+		gtk_widget_set_sensitive (GTK_WIDGET (druid->auth_type), TRUE);
 		gtk_widget_set_sensitive (label, TRUE);
 	} else {
-		gtk_widget_set_sensitive (GTK_WIDGET (druid->source_auth_type), FALSE);
+		gtk_widget_set_sensitive (GTK_WIDGET (druid->auth_type), FALSE);
 		gtk_widget_set_sensitive (label, FALSE);
 	}
 	
@@ -555,12 +519,12 @@ incoming_type_changed (GtkWidget *widget, gpointer user_data)
 		gtk_widget_grab_focus (dwidget);
 }
 
-/* Source Authentication Page */
+/* Authentication Page */
 static void
-source_auth_check (MailConfigDruid *druid)
+authentication_check (MailConfigDruid *druid)
 {
-	if (mail_config_druid_get_save_source_password (druid)) {
-		char *passwd = gtk_entry_get_text (druid->source_password);
+	if (mail_config_druid_get_save_password (druid)) {
+		char *passwd = gtk_entry_get_text (druid->password);
 		
 		if (passwd && *passwd)
 			gnome_druid_set_buttons_sensitive (druid->druid, TRUE, TRUE, TRUE);
@@ -572,30 +536,30 @@ source_auth_check (MailConfigDruid *druid)
 }
 
 static void
-source_auth_changed (GtkWidget *widget, gpointer data)
+authentication_changed (GtkWidget *widget, gpointer data)
 {
 	MailConfigDruid *druid = data;
 	
-	source_auth_check (druid);
+	authentication_check (druid);
 }
 
 static void
-source_auth_prepare (GnomeDruidPage *page, GnomeDruid *druid, gpointer data)
+authentication_prepare (GnomeDruidPage *page, GnomeDruid *druid, gpointer data)
 {
 	MailConfigDruid *config = data;
 	
-	source_auth_check (config);
+	authentication_check (config);
 }
 
 static gboolean
-source_auth_next (GnomeDruidPage *page, GnomeDruid *druid, gpointer data)
+authentication_next (GnomeDruidPage *page, GnomeDruid *druid, gpointer data)
 {
 	/* go to the next page */
 	return FALSE;
 }
 
 static void
-source_auth_type_changed (GtkWidget *widget, gpointer user_data)
+auth_type_changed (GtkWidget *widget, gpointer user_data)
 {
 	MailConfigDruid *druid = user_data;
 	CamelServiceAuthType *authtype;
@@ -612,18 +576,18 @@ source_auth_type_changed (GtkWidget *widget, gpointer user_data)
 		sensitive = FALSE;
 	
 	label = glade_xml_get_widget (druid->gui, "lblSourcePasswd");
-	gtk_widget_set_sensitive (GTK_WIDGET (druid->source_password), sensitive);
-	gtk_widget_set_sensitive (GTK_WIDGET (druid->save_source_password), sensitive);
+	gtk_widget_set_sensitive (GTK_WIDGET (druid->password), sensitive);
+	gtk_widget_set_sensitive (GTK_WIDGET (druid->save_password), sensitive);
 	gtk_widget_set_sensitive (label, sensitive);
 	
 	if (!sensitive)
-		gtk_entry_set_text (druid->source_password, "");
+		gtk_entry_set_text (druid->password, "");
 	
-	source_auth_check (druid);
+	authentication_check (druid);
 }
 
 static void
-construct_source_auth_menu (MailConfigDruid *druid, GList *authtypes)
+construct_auth_menu (MailConfigDruid *druid, GList *authtypes)
 {
 	GtkWidget *menu, *item, *first = NULL;
 	CamelServiceAuthType *authtype;
@@ -638,7 +602,7 @@ construct_source_auth_menu (MailConfigDruid *druid, GList *authtypes)
 		item = gtk_menu_item_new_with_label (authtype->name);
 		gtk_object_set_data (GTK_OBJECT (item), "authtype", authtype);
 		gtk_signal_connect (GTK_OBJECT (item), "activate",
-				    GTK_SIGNAL_FUNC (source_auth_type_changed),
+				    GTK_SIGNAL_FUNC (auth_type_changed),
 				    druid);
 		
 		gtk_menu_append (GTK_MENU (menu), item);
@@ -654,8 +618,8 @@ construct_source_auth_menu (MailConfigDruid *druid, GList *authtypes)
 	if (first)
 		gtk_signal_emit_by_name (GTK_OBJECT (first), "activate", druid);
 	
-	gtk_option_menu_remove_menu (druid->source_auth_type);
-	gtk_option_menu_set_menu (druid->source_auth_type, menu);
+	gtk_option_menu_remove_menu (druid->auth_type);
+	gtk_option_menu_set_menu (druid->auth_type, menu);
 }
 
 /* Transport Page */
@@ -683,23 +647,18 @@ static gboolean
 transport_next (GnomeDruidPage *page, GnomeDruid *druid, gpointer data)
 {
 	MailConfigDruid *config = data;
-	GtkWidget *management_page;
-	GList *authtypes = NULL;
 	gboolean connect;
-	char *xport_url;
+	gchar *xport_url;
 	CamelURL *url;
 	
 	xport_url = mail_config_druid_get_transport_url (config);
-	if (!xport_url)
-		return TRUE;
-	
 	url = camel_url_new (xport_url, NULL);
 	g_free (xport_url);
 	
-	connect = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (config->outgoing_check_settings));
+	connect = GTK_TOGGLE_BUTTON (config->outgoing_check_settings)->active;
 	
 	/* If we can't connect, don't let them continue. */
-	if (!mail_config_check_service (url, CAMEL_PROVIDER_TRANSPORT, connect, &authtypes)) {
+	if (!mail_config_check_service (url, CAMEL_PROVIDER_TRANSPORT, connect, NULL)) {
 		GtkWidget *dialog;
 		char *transport, *warning;
 		
@@ -717,18 +676,7 @@ transport_next (GnomeDruidPage *page, GnomeDruid *druid, gpointer data)
 	
 	camel_url_free (url);
 	
-	/* If this service offers authentication, go to the next page. */
-	if (authtypes && mail_config_druid_get_transport_requires_auth (config)) {
-		construct_transport_auth_menu (config, authtypes);
-		return FALSE;
-	}
-	
-	/* Otherwise, skip to management page. */
-	config->have_transport_auth_page = FALSE;
-	management_page = glade_xml_get_widget (config->gui, "druidManagementPage");
-	gnome_druid_set_page (config->druid, GNOME_DRUID_PAGE (management_page));
-	
-	return TRUE;
+	return FALSE;
 }
 
 static gboolean
@@ -736,7 +684,7 @@ transport_back (GnomeDruidPage *page, GnomeDruid *druid, gpointer data)
 {
 	MailConfigDruid *config = data;
 	
-	if (config->have_source_auth_page) {
+	if (config->have_auth_page) {
 		return FALSE;
 	} else {
 		/* jump to the source page, skipping over the auth page */
@@ -788,120 +736,6 @@ transport_type_changed (GtkWidget *widget, gpointer user_data)
 	transport_check (druid);
 }
 
-/* Transport Authentication Page */
-static void
-transport_auth_check (MailConfigDruid *druid)
-{
-	char *user = gtk_entry_get_text (druid->transport_username);
-	gboolean sensitive = FALSE;
-	
-	if (user && *user) {
-		if (mail_config_druid_get_save_transport_password (druid)) {
-			char *passwd = gtk_entry_get_text (druid->transport_password);
-			
-			if (passwd && *passwd)
-				sensitive = TRUE;
-		} else {
-			sensitive = TRUE;
-		}
-	}
-	
-	gnome_druid_set_buttons_sensitive (druid->druid, TRUE, sensitive, TRUE);
-}
-
-static void
-transport_auth_changed (GtkWidget *widget, gpointer data)
-{
-	MailConfigDruid *druid = data;
-	
-	transport_auth_check (druid);
-}
-
-static void
-transport_auth_prepare (GnomeDruidPage *page, GnomeDruid *druid, gpointer data)
-{
-	MailConfigDruid *config = data;
-	
-	transport_auth_check (config);
-}
-
-static gboolean
-transport_auth_next (GnomeDruidPage *page, GnomeDruid *druid, gpointer data)
-{
-	/* go to the next page */
-	return FALSE;
-}
-
-static void
-transport_auth_type_changed (GtkWidget *widget, gpointer user_data)
-{
-	MailConfigDruid *druid = user_data;
-	CamelServiceAuthType *authtype;
-	GtkWidget *label;
-	gboolean sensitive;
-	
-	authtype = gtk_object_get_data (GTK_OBJECT (widget), "authtype");
-	
-	gtk_object_set_data (GTK_OBJECT (druid), "transport_authmech", authtype->authproto);
-	
-	if (authtype->need_password)
-		sensitive = TRUE;
-	else
-		sensitive = FALSE;
-	
-	label = glade_xml_get_widget (druid->gui, "lblTransportUsername");
-	gtk_widget_set_sensitive (GTK_WIDGET (druid->transport_username), sensitive);
-	gtk_widget_set_sensitive (label, sensitive);
-	
-	label = glade_xml_get_widget (druid->gui, "lblTransportPasswd");
-	gtk_widget_set_sensitive (GTK_WIDGET (druid->transport_password), sensitive);
-	gtk_widget_set_sensitive (GTK_WIDGET (druid->save_transport_password), sensitive);
-	gtk_widget_set_sensitive (label, sensitive);
-	
-	if (!sensitive) {
-		gtk_entry_set_text (druid->transport_username, "");
-		gtk_entry_set_text (druid->transport_password, "");
-	}
-	
-	transport_auth_check (druid);
-}
-
-static void
-construct_transport_auth_menu (MailConfigDruid *druid, GList *authtypes)
-{
-	GtkWidget *menu, *item, *first = NULL;
-	CamelServiceAuthType *authtype;
-	GList *l;
-	
-	menu = gtk_menu_new ();
-	
-	l = authtypes;
-	while (l) {
-		authtype = l->data;
-		
-		item = gtk_menu_item_new_with_label (authtype->name);
-		gtk_object_set_data (GTK_OBJECT (item), "authtype", authtype);
-		gtk_signal_connect (GTK_OBJECT (item), "activate",
-				    GTK_SIGNAL_FUNC (transport_auth_type_changed),
-				    druid);
-		
-		gtk_menu_append (GTK_MENU (menu), item);
-		
-		gtk_widget_show (item);
-		
-		if (!first)
-			first = item;
-		
-		l = l->next;
-	}
-	
-	if (first)
-		gtk_signal_emit_by_name (GTK_OBJECT (first), "activate", druid);
-	
-	gtk_option_menu_remove_menu (druid->transport_auth_type);
-	gtk_option_menu_set_menu (druid->transport_auth_type, menu);
-}
-
 /* Management page */
 static void
 management_check (MailConfigDruid *druid)
@@ -940,24 +774,6 @@ static gboolean
 management_next (GnomeDruidPage *page, GnomeDruid *druid, gpointer data)
 {
 	return FALSE;
-}
-
-static gboolean
-management_back (GnomeDruidPage *page, GnomeDruid *druid, gpointer data)
-{
-	MailConfigDruid *config = data;
-	
-	if (config->have_transport_auth_page) {
-		return FALSE;
-	} else {
-		/* jump to the source page, skipping over the auth page */
-		GtkWidget *widget;
-		
-		widget = glade_xml_get_widget (config->gui, "druidTransportPage");
-		gnome_druid_set_page (config->druid, GNOME_DRUID_PAGE (widget));
-		
-		return TRUE;
-	}
 }
 
 static gint
@@ -1161,9 +977,9 @@ static struct {
 	  GTK_SIGNAL_FUNC (incoming_prepare),
 	  GTK_SIGNAL_FUNC (NULL),
 	  GTK_SIGNAL_FUNC (NULL) },
-	{ "druidSourceAuthPage",
-	  GTK_SIGNAL_FUNC (source_auth_next),
-	  GTK_SIGNAL_FUNC (source_auth_prepare),
+	{ "druidAuthPage",
+	  GTK_SIGNAL_FUNC (authentication_next),
+	  GTK_SIGNAL_FUNC (authentication_prepare),
 	  GTK_SIGNAL_FUNC (NULL),
 	  GTK_SIGNAL_FUNC (NULL) },
 	{ "druidTransportPage",
@@ -1171,15 +987,10 @@ static struct {
 	  GTK_SIGNAL_FUNC (transport_prepare),
 	  GTK_SIGNAL_FUNC (transport_back),
 	  GTK_SIGNAL_FUNC (NULL) },
-	{ "druidTransportAuthPage",
-	  GTK_SIGNAL_FUNC (transport_auth_next),
-	  GTK_SIGNAL_FUNC (transport_auth_prepare),
-	  GTK_SIGNAL_FUNC (NULL),
-	  GTK_SIGNAL_FUNC (NULL) },
 	{ "druidManagementPage",
 	  GTK_SIGNAL_FUNC (management_next),
 	  GTK_SIGNAL_FUNC (management_prepare),
-	  GTK_SIGNAL_FUNC (management_back),
+	  GTK_SIGNAL_FUNC (NULL),
 	  GTK_SIGNAL_FUNC (NULL) },
 	{ "druidFinishPage",
 	  GTK_SIGNAL_FUNC (NULL),
@@ -1218,7 +1029,8 @@ construct (MailConfigDruid *druid)
 	gtk_object_set (GTK_OBJECT (druid), "type", GTK_WINDOW_DIALOG, NULL);
 	
 	/* attach to druid page signals */
-	for (i = 0; pages[i].name != NULL; i++) {
+	i = 0;
+	while (pages[i].name) {
 		GnomeDruidPage *page;
 		
 		page = GNOME_DRUID_PAGE (glade_xml_get_widget (gui, pages[i].name));
@@ -1235,8 +1047,11 @@ construct (MailConfigDruid *druid)
 		if (pages[i].finish_func)
 			gtk_signal_connect (GTK_OBJECT (page), "finish",
 					    pages[i].finish_func, druid);
+		
+		i++;
 	}
-	gtk_signal_connect (GTK_OBJECT (druid->druid), "cancel", druid_cancel, druid);
+	gtk_signal_connect (GTK_OBJECT (druid->druid), "cancel",
+			    druid_cancel, druid);
 	
 	/* get our cared-about widgets */
 	druid->account_text = glade_xml_get_widget (gui, "htmlAccountInfo");
@@ -1261,20 +1076,15 @@ construct (MailConfigDruid *druid)
 	druid->incoming_path = GTK_ENTRY (glade_xml_get_widget (gui, "txtIncomingPath"));
 	gtk_signal_connect (GTK_OBJECT (druid->incoming_path), "changed", incoming_changed, druid);
 	druid->incoming_keep_mail = GTK_CHECK_BUTTON (glade_xml_get_widget (gui, "chkIncomingKeepMail"));
-	druid->incoming_auto_check = GTK_CHECK_BUTTON (glade_xml_get_widget (gui, "chkAutoCheck"));
-	gtk_signal_connect (GTK_OBJECT (druid->incoming_auto_check), "toggled", auto_check_toggled, druid);
-	druid->incoming_auto_check_min = GTK_SPIN_BUTTON (glade_xml_get_widget (gui, "spinAutoCheckMinutes"));
-	gtk_widget_set_sensitive (GTK_WIDGET (druid->incoming_auto_check_min),
-				  gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (druid->incoming_auto_check)));
 	druid->incoming_check_settings = GTK_CHECK_BUTTON (glade_xml_get_widget (gui, "chkIncomingCheckSettings"));
 	
-	druid->have_source_auth_page = TRUE;
-	druid->source_auth_text = glade_xml_get_widget (gui, "htmlSourceAuthentication");
-	druid->source_auth_type = GTK_OPTION_MENU (glade_xml_get_widget (gui, "omenuSourceAuthType"));
-	druid->source_password = GTK_ENTRY (glade_xml_get_widget (gui, "txtSourceAuthPasswd"));
-	gtk_signal_connect (GTK_OBJECT (druid->source_password), "changed", source_auth_changed, druid);
-	druid->save_source_password = GTK_CHECK_BUTTON (glade_xml_get_widget (gui, "chkSourceAuthSavePasswd"));
-	gtk_signal_connect (GTK_OBJECT (druid->save_source_password), "toggled", source_auth_changed, druid);
+	druid->have_auth_page = TRUE;
+	druid->auth_text = glade_xml_get_widget (gui, "htmlAuthentication");
+	druid->auth_type = GTK_OPTION_MENU (glade_xml_get_widget (gui, "omenuAuthType"));
+	druid->password = GTK_ENTRY (glade_xml_get_widget (gui, "txtAuthPasswd"));
+	gtk_signal_connect (GTK_OBJECT (druid->password), "changed", authentication_changed, druid);
+	druid->save_password = GTK_CHECK_BUTTON (glade_xml_get_widget (gui, "chkAuthSavePasswd"));
+	gtk_signal_connect (GTK_OBJECT (druid->save_password), "toggled", authentication_changed, druid);
 	
 	druid->outgoing_text = glade_xml_get_widget (gui, "htmlTransport");
 	druid->outgoing_type = GTK_OPTION_MENU (glade_xml_get_widget (gui, "omenuTransportType"));
@@ -1282,16 +1092,6 @@ construct (MailConfigDruid *druid)
 	gtk_signal_connect (GTK_OBJECT (druid->outgoing_hostname), "changed", transport_changed, druid);
 	druid->outgoing_requires_auth = GTK_CHECK_BUTTON (glade_xml_get_widget (gui, "chkTransportNeedsAuth"));
 	druid->outgoing_check_settings = GTK_CHECK_BUTTON (glade_xml_get_widget (gui, "chkOutgoingCheckSettings"));
-	
-	druid->have_transport_auth_page = FALSE;
-	druid->transport_auth_text = glade_xml_get_widget (gui, "htmlTransportAuthentication");
-	druid->transport_auth_type = GTK_OPTION_MENU (glade_xml_get_widget (gui, "omenuTransportAuthType"));
-	druid->transport_username = GTK_ENTRY (glade_xml_get_widget (gui, "txtTransportAuthUsername"));
-	gtk_signal_connect (GTK_OBJECT (druid->transport_username), "changed", transport_auth_changed, druid);
-	druid->transport_password = GTK_ENTRY (glade_xml_get_widget (gui, "txtTransportAuthPasswd"));
-	gtk_signal_connect (GTK_OBJECT (druid->transport_password), "changed", transport_auth_changed, druid);
-	druid->save_transport_password = GTK_CHECK_BUTTON (glade_xml_get_widget (gui, "chkTransportAuthSavePasswd"));
-	gtk_signal_connect (GTK_OBJECT (druid->save_transport_password), "toggled", transport_auth_changed, druid);
 	
 	set_defaults (druid);
 	
@@ -1324,7 +1124,7 @@ mail_config_druid_get_default_account (MailConfigDruid *druid)
 {
 	g_return_val_if_fail (IS_MAIL_CONFIG_DRUID (druid), FALSE);
 	
-	return gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (druid->default_account));
+	return GTK_TOGGLE_BUTTON (druid->default_account)->active;
 }
 
 
@@ -1369,7 +1169,6 @@ mail_config_druid_get_source_url (MailConfigDruid *druid)
 {
 	char *source_url, *host, *pport, *str;
 	const CamelProvider *provider;
-	gboolean show_passwd;
 	CamelURL *url;
 	int port = 0;
 	
@@ -1388,7 +1187,7 @@ mail_config_druid_get_source_url (MailConfigDruid *druid)
 	str = gtk_object_get_data (GTK_OBJECT (druid), "source_authmech");
 	url->authmech = str && *str ? g_strdup (str) : NULL;
 	
-	str = gtk_entry_get_text (druid->source_password);
+	str = gtk_entry_get_text (druid->password);
 	url->passwd = str && *str ? g_strdup (str) : NULL;
 	
 	host = g_strdup (gtk_entry_get_text (druid->incoming_hostname));
@@ -1401,8 +1200,7 @@ mail_config_druid_get_source_url (MailConfigDruid *druid)
 	url->path = g_strdup (gtk_entry_get_text (druid->incoming_path));
 	
 	/* only 'show password' if we intend to save it */
-	show_passwd = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (druid->save_source_password));
-	source_url = camel_url_to_string (url, show_passwd);
+	source_url = camel_url_to_string (url, GTK_TOGGLE_BUTTON (druid->save_password)->active);
 	camel_url_free (url);
 	
 	return source_url;
@@ -1414,41 +1212,24 @@ mail_config_druid_get_keep_mail_on_server (MailConfigDruid *druid)
 {
 	g_return_val_if_fail (IS_MAIL_CONFIG_DRUID (druid), FALSE);
 	
-	return gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (druid->incoming_keep_mail));
+	return GTK_TOGGLE_BUTTON (druid->incoming_keep_mail)->active;
 }
 
 
 gboolean
-mail_config_druid_get_auto_check (MailConfigDruid *druid)
+mail_config_druid_get_save_password (MailConfigDruid *druid)
 {
 	g_return_val_if_fail (IS_MAIL_CONFIG_DRUID (druid), FALSE);
 	
-	return gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (druid->incoming_auto_check));
+	return GTK_TOGGLE_BUTTON (druid->save_password)->active;
 }
 
-
-gint
-mail_config_druid_get_auto_check_minutes (MailConfigDruid *druid)
-{
-	g_return_val_if_fail (IS_MAIL_CONFIG_DRUID (druid), 0);
-	
-	return gtk_spin_button_get_value_as_int (druid->incoming_auto_check_min);
-}
-
-gboolean
-mail_config_druid_get_save_source_password (MailConfigDruid *druid)
-{
-	g_return_val_if_fail (IS_MAIL_CONFIG_DRUID (druid), FALSE);
-	
-	return gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (druid->save_source_password));
-}
 
 char *
 mail_config_druid_get_transport_url (MailConfigDruid *druid)
 {
 	char *transport_url, *host, *pport;
 	const CamelProvider *provider;
-	gboolean show_passwd;
 	CamelURL *url;
 	int port = 0;
 	
@@ -1460,22 +1241,6 @@ mail_config_druid_get_transport_url (MailConfigDruid *druid)
 	
 	url = g_new0 (CamelURL, 1);
 	url->protocol = g_strdup (provider->protocol);
-	
-	if (mail_config_druid_get_transport_requires_auth (druid)) {
-		char *str;
-		
-		str = gtk_object_get_data (GTK_OBJECT (druid), "transport_authmech");
-		if (str && *str) {
-			url->authmech = g_strdup (str);
-			
-			str = gtk_entry_get_text (druid->transport_username);
-			url->user = str && *str ? g_strdup (str) : NULL;
-			
-			str = gtk_entry_get_text (druid->transport_password);
-			url->passwd = str && *str ? g_strdup (str) : NULL;
-		}
-	}
-	
 	host = g_strdup (gtk_entry_get_text (druid->outgoing_hostname));
 	if (host && (pport = strchr (host, ':'))) {
 		port = atoi (pport + 1);
@@ -1484,26 +1249,17 @@ mail_config_druid_get_transport_url (MailConfigDruid *druid)
 	url->host = host;
 	url->port = port;
 	
-	/* only 'show password' if we intend to save it */
-	show_passwd = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (druid->save_transport_password));
-	transport_url = camel_url_to_string (url, show_passwd);
+	transport_url = camel_url_to_string (url, FALSE);
 	camel_url_free (url);
 	
 	return transport_url;
 }
 
-gboolean
-mail_config_druid_get_save_transport_password (MailConfigDruid *druid)
-{
-	g_return_val_if_fail (IS_MAIL_CONFIG_DRUID (druid), FALSE);
-	
-	return gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (druid->save_transport_password));
-}
 
 gboolean
 mail_config_druid_get_transport_requires_auth (MailConfigDruid *druid)
 {
 	g_return_val_if_fail (IS_MAIL_CONFIG_DRUID (druid), FALSE);
 	
-	return gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (druid->outgoing_requires_auth));
+	return GTK_TOGGLE_BUTTON (druid->outgoing_requires_auth)->active;
 }

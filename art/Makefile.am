@@ -37,7 +37,6 @@ images_DATA = \
 	globe.png           		\
 	house.png           		\
 	malehead.png			\
-	new_contact.xpm			\
 	service-close.png		\
 	service-configure.png		\
 	service-down.png		\
@@ -55,17 +54,11 @@ buttons_DATA = 				\
 	add-service.png			\
 	compose-message.png		\
 	copy-message.png		\
-	dayview.xpm			\
 	fetch-mail.png			\
 	forward.png			\
-	monthview.xpm  			\
 	move-message.png		\
-	new_appointment.png		\
 	reply-to-all.png		\
-	reply.png			\
-	weekview.xpm  			\
-	workweekview.xpm		\
-	yearview.xpm	
+	reply.png
 
 conduitsdir = $(datadir)/images/evolution/conduits
 conduits_DATA =				\
@@ -103,4 +96,6 @@ EXTRA_DIST = \
 	score-high.xpm \
 	score-higher.xpm \
 	score-highest.xpm \
+	$(conduits_DATA) \
+	$(buttons_DATA)	\
 	$(images_DATA)

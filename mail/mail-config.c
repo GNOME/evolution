@@ -33,7 +33,6 @@
 #include "mail.h"
 #include "mail-config.h"
 #include "mail-ops.h"
-#include "mail-mt.h"
 
 typedef struct {
 	gboolean thread_list;
@@ -102,7 +101,6 @@ service_copy (const MailConfigService *source)
 	new->keep_on_server = source->keep_on_server;
 	new->auto_check = source->auto_check;
 	new->auto_check_time = source->auto_check_time;
-	new->enabled = source->enabled;
 	new->save_passwd = source->save_passwd;
 	new->use_ssl = source->use_ssl;
 	
@@ -275,11 +273,6 @@ config_read (void)
 		if (source->auto_check && def)
 			source->auto_check = FALSE;
 		g_free (path);
-		path = g_strdup_printf ("source_enabled_%d", i);
-		source->enabled = gnome_config_get_bool_with_default (path, &def);
-		if (def)
-			source->enabled = TRUE;
-		g_free (path);
 		path = g_strdup_printf ("source_save_passwd_%d", i);
 		source->save_passwd = gnome_config_get_bool (path);
 		g_free (path);
@@ -291,10 +284,6 @@ config_read (void)
 		transport = g_new0 (MailConfigService, 1);
 		path = g_strdup_printf ("transport_url_%d", i);
 		transport->url = gnome_config_get_string (path);
-		g_free (path);
-		
-		path = g_strdup_printf ("transport_save_passwd_%d", i);
-		transport->save_passwd = gnome_config_get_bool (path);
 		g_free (path);
 		
 		if (!*transport->url) {
@@ -398,8 +387,6 @@ mail_config_write (void)
 	
 	/* Accounts */
 	str = g_strdup_printf ("=%s/config/Mail=/Accounts/", evolution_dir);
-	gnome_config_clean_section (str);
-	gnome_config_sync ();
 	gnome_config_push_prefix (str);
 	g_free (str);
 	
@@ -446,9 +433,6 @@ mail_config_write (void)
 		path = g_strdup_printf ("source_auto_check_time_%d", i);
 		gnome_config_set_int (path, account->source->auto_check_time);
 		g_free (path);
-		path = g_strdup_printf ("source_enabled_%d", i);
-		gnome_config_set_bool (path, account->source->enabled);
-		g_free (path);
 		path = g_strdup_printf ("source_save_passwd_%d", i);
 		gnome_config_set_bool (path, account->source->save_passwd);
 		g_free (path);
@@ -459,14 +443,6 @@ mail_config_write (void)
 		/* transport info */
 		path = g_strdup_printf ("transport_url_%d", i);
 		gnome_config_set_string (path, account->transport->url ? account->transport->url : "");
-		g_free (path);
-		
-		path = g_strdup_printf ("transport_save_passwd_%d", i);
-		gnome_config_set_bool (path, account->transport->save_passwd);
-		g_free (path);
-		
-		path = g_strdup_printf ("transport_use_ssl_%d", i);
-		gnome_config_set_bool (path, account->transport->use_ssl);
 		g_free (path);
 	}
 	gnome_config_pop_prefix ();
@@ -842,48 +818,52 @@ mail_config_folder_to_cachename (CamelFolder *folder, const char *prefix)
 
 
 /* Async service-checking/authtype-lookup code. */
-struct _check_msg {
-	struct _mail_msg msg;
 
+typedef struct {
 	char *url;
 	CamelProviderType type;
 	gboolean connect;
 	GList **authtypes;
-	gboolean *success;
-};
+	gboolean success;
+} check_service_input_t;
 
-static void check_service_check(struct _mail_msg *mm)
+static char *
+describe_check_service (gpointer in_data, gboolean gerund)
 {
-	struct _check_msg *m = (struct _check_msg *)mm;
+	if (gerund)
+		return g_strdup (_("Connecting to server"));
+	else
+		return g_strdup (_("Connect to server"));
+}
+
+static void
+do_check_service (gpointer in_data, gpointer op_data, CamelException *ex)
+{
+	check_service_input_t *input = in_data;
 	CamelService *service = NULL;
 	
-	if (m->authtypes) {
-		service = camel_session_get_service (session, m->url, m->type, &mm->ex);
+	if (input->authtypes) {
+		service = camel_session_get_service (session, input->url, input->type, ex);
 		if (!service)
 			return;
-		*m->authtypes = camel_service_query_auth_types (service, m->connect, &mm->ex);
-	} else if (m->connect) {
-		service = camel_session_get_service_connected (session, m->url, m->type, &mm->ex);
+		*input->authtypes = camel_service_query_auth_types (service, input->connect, ex);
+	} else if (input->connect) {
+		service = camel_session_get_service_connected (session, input->url, input->type, ex);
 	}
 	if (service)
 		camel_object_unref (CAMEL_OBJECT (service));
-
-	*m->success = !camel_exception_is_set(&mm->ex);
+	if (!camel_exception_is_set (ex))
+		input->success = TRUE;
 }
 
-static void check_service_free(struct _mail_msg *mm)
-{
-	struct _check_msg *m = (struct _check_msg *)mm;
-
-	g_free(m->url);
-}
-
-static struct _mail_msg_op check_service_op = {
+static const mail_operation_spec op_check_service = {
+	describe_check_service,
+	0,
 	NULL,
-	check_service_check,
-	NULL,
-	check_service_free
+	do_check_service,
+	NULL
 };
+
 
 /**
  * mail_config_check_service:
@@ -905,20 +885,17 @@ static struct _mail_msg_op check_service_op = {
 gboolean
 mail_config_check_service (CamelURL *url, CamelProviderType type, gboolean connect, GList **authtypes)
 {
-	gboolean ret = FALSE;
-	struct _check_msg *m;
-	int id;
-
-	m = mail_msg_new(&check_service_op, NULL, sizeof(*m));
-	m->url = camel_url_to_string(url, TRUE);
-	m->type = type;
-	m->connect = connect;
-	m->authtypes = authtypes;
-	m->success = &ret;
-
-	id = m->msg.seq;
-	e_thread_put(mail_thread_queued, (EMsg *)m);
-	mail_msg_wait(id);
+	check_service_input_t input;
 	
-	return ret;
+	input.url = camel_url_to_string (url, TRUE);
+	input.type = type;
+	input.connect = connect;
+	input.authtypes = authtypes;
+	input.success = FALSE;
+	
+	mail_operation_queue (&op_check_service, &input, FALSE);
+	mail_operation_wait_for_finish ();
+	g_free (input.url);
+	
+	return input.success;
 }
