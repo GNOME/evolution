@@ -1,6 +1,9 @@
 2002-02-12  Jeffrey Stedfast  <fejj@ximian.com>
 
-	* filtertypes.xml: Re-added contains and not-contains.
+	* vfoldertypes.xml: 
+	* filtertypes.xml: Re-added contains and
+	not-contains. Also added filter/vfolder rules for
+	Flag-for-Followup.
 
 2002-02-04  Jeffrey Stedfast  <fejj@ximian.com>
 

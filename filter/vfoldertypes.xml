@@ -289,6 +289,24 @@
   </input>
  </part>
 
+ <part name="follow-up">
+  <title>Follow Up</title>
+  <input type="optionlist" name="match-type">
+   <option value="is">
+    <title>is Flagged</title>
+    <code>
+     (match-all (user-tag "follow-up"))
+    </code>
+   </option>
+   <option value="is not">
+    <title>is not Flagged</title>
+    <code>
+     (match-all (not (user-tag "follow-up")))
+    </code>
+   </option>
+  </input>
+ </part>
+
  <part name="attachments">
   <title>Attachments</title>
   <input type="optionlist" name="match-type">

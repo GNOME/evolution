@@ -414,7 +414,6 @@
   <input type="score" name="versus"/>
  </part>
 
-
  <part name="size">
   <title>Size (kB)</title>
   <input type="optionlist" name="size-type">
@@ -462,6 +461,24 @@
    </option>
    <option value="Seen">
     <title>Read</title>
+   </option>
+  </input>
+ </part>
+
+ <part name="follow-up">
+  <title>Follow Up</title>
+  <input type="optionlist" name="match-type">
+   <option value="is">
+    <title>is Flagged</title>
+    <code>
+     (match-all (user-tag "follow-up"))
+    </code>
+   </option>
+   <option value="is not">
+    <title>is not Flagged</title>
+    <code>
+     (match-all (not (user-tag "follow-up")))
+    </code>
    </option>
   </input>
  </part>
