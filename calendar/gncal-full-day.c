@@ -241,6 +241,22 @@ child_draw (GncalFullDay *fullday, Child *child, GdkRectangle *area, int draw_ch
 }
 
 static void
+child_range_changed (GncalFullDay *fullday, Child *child)
+{
+	struct tm start, end;
+	int lower_row, rows_used;
+	int f_lower_row;
+
+	/* Calc display range for event */
+
+	get_tm_range (fullday, child->ico->dtstart, child->ico->dtend, &start, &end, &lower_row, &rows_used);
+	get_tm_range (fullday, fullday->lower, fullday->upper, NULL, NULL, &f_lower_row, NULL);
+
+	child->lower_row = lower_row - f_lower_row;
+	child->rows_used = rows_used;
+}
+
+static void
 child_realized_setup (GtkWidget *widget, gpointer data)
 {
 	Child *child;
@@ -275,9 +291,6 @@ static Child *
 child_new (GncalFullDay *fullday, iCalObject *ico)
 {
 	Child *child;
-	struct tm start, end;
-	int lower_row, rows_used;
-	int f_lower_row;
 
 	child = g_new (Child, 1);
 
@@ -289,13 +302,7 @@ child_new (GncalFullDay *fullday, iCalObject *ico)
 	child->width = 0;
 	child->height = 0;
 
-	/* Calc display range for event */
-
-	get_tm_range (fullday, child->ico->dtstart, child->ico->dtend, &start, &end, &lower_row, &rows_used);
-	get_tm_range (fullday, fullday->lower, fullday->upper, NULL, NULL, &f_lower_row, NULL);
-
-	child->lower_row = lower_row - f_lower_row;
-	child->rows_used = rows_used;
+	child_range_changed (fullday, child);
 
 	/* We set the i-beam cursor and the initial summary text upon realization */
 
@@ -924,6 +931,8 @@ update_from_drag_info (GncalFullDay *fullday)
 
 	tm.tm_min += fullday->interval * used_rows;
 	di->child->ico->dtend = mktime (&tm);
+
+	child_range_changed (fullday, di->child);
 
 	/* FIXME: notify calendar of change */
 
