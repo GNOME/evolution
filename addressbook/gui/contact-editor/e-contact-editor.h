@@ -72,7 +72,6 @@ struct _EContactEditor
 	GtkWidget *file_selector;
 
 	EContactName *name;
-	char *company;
 
 	/* Whether we are editing a new contact or an existing one */
 	guint is_new_contact : 1;
@@ -88,12 +87,6 @@ struct _EContactEditor
 
 	/* Whether the contact editor will accept modifications, save */
 	guint target_editable : 1;
-
-	/* Whether the fullname will accept modifications */
-	guint fullname_editable : 1;
-
-	/* Whether each of the addresses are editable */
-	gboolean address_editable [E_CONTACT_LAST_ADDRESS_ID - E_CONTACT_FIRST_ADDRESS_ID + 1];
 
 	/* Whether an async wombat call is in progress */
 	guint in_async_call : 1;

@@ -1,3 +1,102 @@
+2004-05-19  Hans Petter Jansson  <hpj@ximian.com>
+
+	Fixes a number of bugs, adds some unimplemented functionality, and
+	makes code more structured.
+
+	* gui/contact-editor/e-contact-editor.h: Eliminate company,
+	fullname_editable, address_editable fields from EContactEditor.
+
+	* gui/contact-editor/e-contact-editor.c
+	(enable_writable_fields): Removed.
+	(set_editable): Removed.
+	(fill_in_info): Removed.
+	(extract_field): Removed.
+	(extract_info): Removed.
+	(set_fields): Removed.
+	(command_state_changed): Removed.
+	(widget_changed): Removed.
+	(enable_widget): Removed.
+	(nonempty): Invert and rename to STRING_IS_EMPTY().
+	(STRING_MAKE_NON_NULL): Impl.
+	(is_field_supported): Implement.
+	(file_as_get_style): Eliminate editor->company.
+	(file_as_set_style): Ditto. Also don't set empty fields in combo.
+	(update_file_as_combo): Implement.
+	(sensitize_ok): Implement.
+	(object_changed): Implement.
+	(image_chooser_changed): Don't call widget_changed() from here.
+	(set_option_menu_history): Implement.
+	(init_email_record_location): Hook up signals after init.
+	(init_phone_record_type): Ditto.
+	(init_im_record_location): Ditto.
+	(init_im_record_service): Ditto.
+	(init_address_textview): widget_changed -> object_changed
+	(init_address_field): Ditto.
+	(fill_in_email_record): Use set_option_menu_history(), blocking
+	signals.
+	(fill_in_im_record): Ditto.
+	(fill_in_address_field): Use set_entry_text(), blocking signals.
+	(alloc_ui_slot): nonempty -> STRING_IS_EMPTY
+	(extract_email): Ditto.
+	(fill_in_phone_record): Ditto.
+	(extract_im): Ditto.
+	(extract_address_record): Ditto.
+	(sensitize_email_record): Implement.
+	(sensitize_email): Implement.
+	(sensitize_phone_types): Implement.
+	(sensitize_phone_record): Impleent.
+	(sensitize_phone): Implement.
+	(sensitize_im_record): Implement.
+	(sensitize_im): Implement.
+	(sensitize_address_textview): Implement.
+	(sensitize_address_field): Implement.
+	(sensitize_address_record): Implement.
+	(sensitize_address): Implement.
+	(simple_field_map): Add all simple fields/widgets to a table with
+	attributes saying how to handle sensitivity and data transfer.
+	(init_simple_field): Implement.
+	(fill_in_simple_field): Implement.
+	(extract_simple_field): Implement.
+	(sensitize_simple_field): Implement.
+	(init_simple): Implement.
+	(fill_in_simple): Implement.
+	(extract_simple): Implement.
+	(sensitize_simple): Implement.
+	(fill_in_all): Implement.
+	(extract_all): Implement.
+	(sensitize_all): Implement.
+	(set_entry_changed_signal_field): Removed.
+	(set_urlentry_changed_signal_field): Removed.
+	(set_entry_activate_signal_field): Removed.
+	(new_target_cb): Don't signal changes.
+	(set_entry_activate_signals): Removed.
+	(set_entry_changed_signals): Removed.
+	(full_name_clicked): Honor field_supported and target_editable.
+	Use set_entry_text() and block changed signals.
+	(image_selected_cb): widget_changed -> object_changed. Don't clear
+	pointer to file_selector.
+	(image_cleared_cb): Ditto.
+	(contact_moved_cb): command_state_chaned() -> sensitize_all().
+	(contact_added_cb): Ditto.
+	(supported_fields_cb): Ditto.
+	(contact_modified_cb): Ditto.
+	(save_contact): extract_info() -> extract_all().
+	(e_contact_editor_is_valid): Be more verbose. Make sure File As is
+	non-empty.
+	(e_contact_editor_init): Call init_all() in place of lots of setup
+	calls. Remove reference to editor->company.
+	(e_contact_editor_dispose): Remove reference to editor->company.
+	(command_state_changed): Removed.
+	(e_contact_editor_set_property): Axe unneeded complexity, now that
+	we have sensitize_all() and sensitize_ok().
+	(set_fields): Removed.
+	(fill_in_field): Removed.
+	(field_mapping): Removed.
+	(disable_widget_foreach): Removed.
+	(widget_field_mapping): Removed.
+	(num_widget_field_mappings): Removed.
+	(enable_widget): Removed.	
+
 2004-05-05  William Jon McCann  <mccann@jhu.edu>
 
 	* gui/component/GNOME_Evolution_Addressbook.server.in.in:
