@@ -1674,9 +1674,10 @@ static gboolean
 em_folder_tree_save_state (EMFolderTree *emft)
 {
 	struct _EMFolderTreePrivate *priv = emft->priv;
-
+	
 	em_folder_tree_model_save_expanded (priv->model);
-
+	priv->save_state_id = 0;
+	
 	return FALSE;
 }
 
