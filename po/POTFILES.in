@@ -21,6 +21,7 @@ addressbook/gui/minicard/e-minicard-control.c
 addressbook/gui/minicard/e-minicard-view.c
 addressbook/gui/minicard/e-minicard.c
 addressbook/gui/minicard/test-minicard-view.c
+addressbook/gui/search/e-addressbook-search-dialog.c
 addressbook/printing/e-contact-print.glade.h
 calendar/cal-util/timeutil.c
 calendar/conduits/calendar/calendar-conduit-control-applet.c
