@@ -1043,7 +1043,7 @@ migration_context_free (MigrationContext *context)
 }
 
 int
-addressbook_migrate (AddressbookComponent *component, int major, int minor, int revision)
+addressbook_migrate (AddressbookComponent *component, int major, int minor, int revision, GError **err)
 {
 	ESourceGroup *on_this_computer;
 	ESourceGroup *on_ldap_servers;

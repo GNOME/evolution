@@ -170,10 +170,22 @@ impl_requestCreateItem (PortableServer_Servant servant,
 	e_book_async_get_default_addressbook (book_loaded_cb, g_strdup (item_type_name));
 }
 
-static CORBA_boolean
+static void
 impl_upgradeFromVersion (PortableServer_Servant servant, short major, short minor, short revision, CORBA_Environment *ev)
 {
-	return addressbook_migrate (addressbook_component_peek (), major, minor, revision);
+	GError *err = NULL;
+
+	if (!addressbook_migrate (addressbook_component_peek (), major, minor, revision, &err)) {
+		GNOME_Evolution_Component_UpgradeFailed *failedex;
+
+		failedex = GNOME_Evolution_Component_UpgradeFailed__alloc();
+		failedex->what = CORBA_string_dup(_("Failed upgrading Addressbook settings or folders."));
+		failedex->why = CORBA_string_dup(err->message);
+		CORBA_exception_set(ev, CORBA_USER_EXCEPTION, ex_GNOME_Evolution_Component_UpgradeFailed, failedex);
+	}
+
+	if (err)
+		g_error_free(err);
 }
 
 static CORBA_boolean
