@@ -1,3 +1,8 @@
+2001-09-10  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-callbacks.c (do_edit_messages): Remove some mailer-set
+	headers. Fixes bug #9462.
+
 2001-09-10  Dan Winship  <danw@ximian.com>
 
 	* mail-callbacks.c (composer_get_message): Fix obvious dumb

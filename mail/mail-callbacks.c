@@ -1469,16 +1469,21 @@ toggle_as_important (BonoboUIComponent *uih, void *user_data, const char *path)
 }
 
 static void
-do_edit_messages(CamelFolder *folder, GPtrArray *uids, GPtrArray *messages, void *data)
+do_edit_messages (CamelFolder *folder, GPtrArray *uids, GPtrArray *messages, void *data)
 {
 	/*FolderBrowser *fb = data;*/
 	int i;
 	
 	for (i = 0; i < messages->len; i++) {
 		EMsgComposer *composer;
-
+		XEvolution *hdrs;
+		
+		hdrs = mail_tool_remove_xevolution_headers (messages->pdata[i]);
+		mail_tool_destroy_xevolution (hdrs);
+		camel_medium_remove_header (CAMEL_MEDIUM (messages->pdata[i]), "X-Mailer");
+		
 		composer = e_msg_composer_new_with_message (messages->pdata[i]);
-
+		
 		if (composer) {
 			gtk_signal_connect (GTK_OBJECT (composer), "send",
 					    composer_send_cb, NULL);
