@@ -1,5 +1,8 @@
 2004-11-12  Jeffrey Stedfast  <fejj@novell.com>
 
+	* providers/imap4/camel-imap4-folder.c (imap4_append_message):
+	Init appended_uid value to NULL
+
 	* providers/imap4/camel-imap4-engine.c (engine_parse_namespace):
 	Properly handle NILs for the namespace separator (somehow I missed
 	this, silly me).

@@ -866,6 +866,9 @@ imap4_append_message (CamelFolder *folder, CamelMimeMessage *message,
 	struct tm tm;
 	int id, i;
 	
+	if (appended_uid)
+		*appended_uid = NULL;
+	
 	if (!camel_session_is_online (session)) {
 		camel_exception_set (ex, CAMEL_EXCEPTION_SYSTEM, _("Cannot append messages to IMAP folders in offline mode."));
 		return;
