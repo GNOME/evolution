@@ -53,10 +53,8 @@ calendar/gui/main.c
 calendar/gui/popup-menu.c
 calendar/gui/print.c
 calendar/gui/prop.c
-composer/e-msg-composer-address-dialog.c
-composer/e-msg-composer-address-dialog.glade.h
 composer/e-msg-composer-attachment-bar.c
-#composer/e-msg-composer-attachment.c
+composer/e-msg-composer-attachment.c
 composer/e-msg-composer-attachment.glade.h
 composer/e-msg-composer-hdrs.c
 composer/e-msg-composer.c
