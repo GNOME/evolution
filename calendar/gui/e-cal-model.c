@@ -1467,7 +1467,9 @@ add_new_client (ECalModel *model, ECal *client, gboolean do_query)
 	/* Look to see if we already have this client */
 	client_data = find_client_data (model, client);	
 	if (client_data) {
-		if (!client_data->do_query)
+		if (client_data->do_query)
+			return client_data;
+		else
 			client_data->do_query = do_query;
 		
 		goto load;
