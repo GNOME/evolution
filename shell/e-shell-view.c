@@ -694,10 +694,22 @@ shell_view_interface_set_message_cb (EvolutionShellView *shell_view,
 
 	gtk_progress_set_value (GTK_PROGRESS (app_bar->progress), 1.0);
 
-	if (message != NULL)
-		gnome_appbar_set_status (app_bar, message);
-	else
+	if (message != NULL) {
+		const char *newline;
+
+		newline = strchr (message, '\n');
+		if (newline == NULL) {
+			gnome_appbar_set_status (app_bar, message);
+		} else {
+			char *message_until_newline;
+
+			message_until_newline = g_strndup (message, newline - message);
+			gnome_appbar_set_status (app_bar, message_until_newline);
+			g_free (message_until_newline);
+		}
+	} else {
 		gnome_appbar_set_status (app_bar, "");
+	}
 
 	if (busy)
 		start_progress_bar (E_SHELL_VIEW (data));

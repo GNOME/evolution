@@ -1,3 +1,10 @@
+2000-08-29  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* e-shell-view.c (shell_view_interface_set_message_cb): If the
+	message contains a newline, only display the part until the
+	newline, excluding the newline.  Otherwise the status bar resizes
+	nastily.
+
 2000-08-28  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* e-shell.c (setup_components): Removed the hardcoding of the
