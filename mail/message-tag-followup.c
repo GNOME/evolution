@@ -237,7 +237,9 @@ construct (MessageTagEditor *editor)
 	GList *strings;
 	GladeXML *gui;
 	int i;
-	
+	GtkListStore *model;
+	GtkCellRenderer *text;
+
 	gtk_window_set_title (GTK_WINDOW (editor), _("Flag to Follow Up"));
 	gnome_window_icon_set_from_file (GTK_WINDOW (editor), EVOLUTION_IMAGES "/flag-for-followup-16.png");
 	
@@ -249,10 +251,20 @@ construct (MessageTagEditor *editor)
 	gtk_widget_reparent (widget, GTK_DIALOG (editor)->vbox);
 	
 	widget = glade_xml_get_widget (gui, "pixmap");
-	gnome_pixmap_load_file (GNOME_PIXMAP (widget), EVOLUTION_GLADEDIR "/flag-for-followup-48.png");
+	gtk_image_set_from_file ((GtkImage *)widget, EVOLUTION_GLADEDIR "/flag-for-followup-48.png");
 	
-	followup->message_list = GTK_CLIST (glade_xml_get_widget (gui, "message_list"));
-	
+	followup->message_list = GTK_TREE_VIEW (glade_xml_get_widget (gui, "message_list"));
+	model = gtk_list_store_new (2, G_TYPE_STRING, G_TYPE_STRING);
+	gtk_tree_view_set_model (followup->message_list, (GtkTreeModel *) model);
+	gtk_tree_view_insert_column_with_attributes(followup->message_list, -1, _("From"),
+						    (text = gtk_cell_renderer_text_new()),
+						    "text", 0,
+						    NULL);
+	gtk_tree_view_insert_column_with_attributes(followup->message_list, -1, _("Subject"),
+						    text,
+						    "text", 1,
+						    NULL);
+
 	followup->combo = GTK_COMBO (glade_xml_get_widget (gui, "combo"));
 	gtk_combo_set_case_sensitive (followup->combo, FALSE);
 	strings = NULL;
@@ -263,6 +275,8 @@ construct (MessageTagEditor *editor)
 	gtk_list_select_item (GTK_LIST (followup->combo->list), DEFAULT_FLAG);
 	
 	followup->target_date = E_DATE_EDIT (glade_xml_get_widget (gui, "target_date"));
+	/* glade bug, need to show this ourselves */
+	gtk_widget_show((GtkWidget *)followup->target_date);
 	e_date_edit_set_time (followup->target_date, (time_t) -1);
 	
 	followup->completed = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui, "completed"));
@@ -290,13 +304,13 @@ message_tag_followup_append_message (MessageTagFollowUp *editor,
 				     const char *from,
 				     const char *subject)
 {
-	char *text[3];
-	
+	GtkTreeIter iter;
+	GtkListStore *model;
+
 	g_return_if_fail (IS_MESSAGE_TAG_FOLLOWUP (editor));
-	
-	text[0] = (char *)from;
-	text[1] = (char *)subject;
-	text[2] = NULL;
-	
-	gtk_clist_append (editor->message_list, text);
+
+	model = (GtkListStore *)gtk_tree_view_get_model(editor->message_list);
+
+	gtk_list_store_append (model, &iter);
+	gtk_list_store_set(model, &iter, 0, from, 1, subject, -1);
 }

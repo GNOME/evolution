@@ -243,7 +243,7 @@ folder_browser_class_init (FolderBrowserClass *klass)
 	GObjectClass *gobject_class = G_OBJECT_CLASS (klass);
 	GtkObjectClass *object_class = GTK_OBJECT_CLASS (klass);
 	
-	parent_class = gtk_type_class (PARENT_TYPE);
+	parent_class = g_type_class_ref(PARENT_TYPE);
 	
 	object_class->destroy = folder_browser_destroy;
 	gobject_class->finalize = folder_browser_finalise;
@@ -255,7 +255,7 @@ folder_browser_class_init (FolderBrowserClass *klass)
 			      G_STRUCT_OFFSET (FolderBrowserClass, folder_loaded),
 			      NULL,
 			      NULL,
-			      gtk_marshal_NONE__STRING,
+			      g_cclosure_marshal_VOID__STRING,
 			      G_TYPE_NONE, 1, G_TYPE_STRING);
 	
 	folder_browser_signals[MESSAGE_LOADED] =
@@ -265,7 +265,7 @@ folder_browser_class_init (FolderBrowserClass *klass)
 			      G_STRUCT_OFFSET (FolderBrowserClass, message_loaded),
 			      NULL,
 			      NULL,
-			      gtk_marshal_NONE__STRING,
+			      g_cclosure_marshal_VOID__STRING,
 			      G_TYPE_NONE, 1, G_TYPE_STRING);
 	
 	/* clipboard atom */
@@ -1705,67 +1705,67 @@ enum {
 #define MLIST_FILTER (8)
 
 static EPopupMenu filter_menu[] = {
-	E_POPUP_ITEM_CC (N_("VFolder on _Subject"),        GTK_SIGNAL_FUNC (vfolder_subject_uid),   NULL, SELECTION_SET),
-	E_POPUP_ITEM_CC (N_("VFolder on Se_nder"),         GTK_SIGNAL_FUNC (vfolder_sender_uid),    NULL, SELECTION_SET),
-	E_POPUP_ITEM_CC (N_("VFolder on _Recipients"),     GTK_SIGNAL_FUNC (vfolder_recipient_uid), NULL, SELECTION_SET),
-	E_POPUP_ITEM_CC (N_("VFolder on Mailing _List"),   GTK_SIGNAL_FUNC (vfolder_mlist_uid),     NULL, SELECTION_SET | IS_MAILING_LIST),
+	E_POPUP_ITEM_CC (N_("VFolder on _Subject"),        G_CALLBACK (vfolder_subject_uid),   NULL, SELECTION_SET),
+	E_POPUP_ITEM_CC (N_("VFolder on Se_nder"),         G_CALLBACK (vfolder_sender_uid),    NULL, SELECTION_SET),
+	E_POPUP_ITEM_CC (N_("VFolder on _Recipients"),     G_CALLBACK (vfolder_recipient_uid), NULL, SELECTION_SET),
+	E_POPUP_ITEM_CC (N_("VFolder on Mailing _List"),   G_CALLBACK (vfolder_mlist_uid),     NULL, SELECTION_SET | IS_MAILING_LIST),
 	
 	E_POPUP_SEPARATOR,
 	
-	E_POPUP_ITEM_CC (N_("Filter on Sub_ject"),         GTK_SIGNAL_FUNC (filter_subject_uid),    NULL, SELECTION_SET),
-	E_POPUP_ITEM_CC (N_("Filter on Sen_der"),          GTK_SIGNAL_FUNC (filter_sender_uid),     NULL, SELECTION_SET),
-	E_POPUP_ITEM_CC (N_("Filter on Re_cipients"),      GTK_SIGNAL_FUNC (filter_recipient_uid),  NULL, SELECTION_SET),
-	E_POPUP_ITEM_CC (N_("Filter on _Mailing List"),    GTK_SIGNAL_FUNC (filter_mlist_uid),      NULL, SELECTION_SET | IS_MAILING_LIST),
+	E_POPUP_ITEM_CC (N_("Filter on Sub_ject"),         G_CALLBACK (filter_subject_uid),    NULL, SELECTION_SET),
+	E_POPUP_ITEM_CC (N_("Filter on Sen_der"),          G_CALLBACK (filter_sender_uid),     NULL, SELECTION_SET),
+	E_POPUP_ITEM_CC (N_("Filter on Re_cipients"),      G_CALLBACK (filter_recipient_uid),  NULL, SELECTION_SET),
+	E_POPUP_ITEM_CC (N_("Filter on _Mailing List"),    G_CALLBACK (filter_mlist_uid),      NULL, SELECTION_SET | IS_MAILING_LIST),
 	
 	E_POPUP_TERMINATOR
 };
 
 static EPopupMenu label_menu[] = {
-	E_POPUP_PIXMAP_WIDGET_ITEM_CC (N_("None"), NULL, GTK_SIGNAL_FUNC (set_msg_label), NULL, 0),
+	E_POPUP_PIXMAP_WIDGET_ITEM_CC (N_("None"), NULL, G_CALLBACK (set_msg_label), NULL, 0),
 	E_POPUP_SEPARATOR,
-	E_POPUP_PIXMAP_WIDGET_ITEM_CC (NULL, NULL, GTK_SIGNAL_FUNC (set_msg_label), NULL, 0),
-	E_POPUP_PIXMAP_WIDGET_ITEM_CC (NULL, NULL, GTK_SIGNAL_FUNC (set_msg_label), NULL, 0),
-	E_POPUP_PIXMAP_WIDGET_ITEM_CC (NULL, NULL, GTK_SIGNAL_FUNC (set_msg_label), NULL, 0),
-	E_POPUP_PIXMAP_WIDGET_ITEM_CC (NULL, NULL, GTK_SIGNAL_FUNC (set_msg_label), NULL, 0),
-	E_POPUP_PIXMAP_WIDGET_ITEM_CC (NULL, NULL, GTK_SIGNAL_FUNC (set_msg_label), NULL, 0),
+	E_POPUP_PIXMAP_WIDGET_ITEM_CC (NULL, NULL, G_CALLBACK (set_msg_label), NULL, 0),
+	E_POPUP_PIXMAP_WIDGET_ITEM_CC (NULL, NULL, G_CALLBACK (set_msg_label), NULL, 0),
+	E_POPUP_PIXMAP_WIDGET_ITEM_CC (NULL, NULL, G_CALLBACK (set_msg_label), NULL, 0),
+	E_POPUP_PIXMAP_WIDGET_ITEM_CC (NULL, NULL, G_CALLBACK (set_msg_label), NULL, 0),
+	E_POPUP_PIXMAP_WIDGET_ITEM_CC (NULL, NULL, G_CALLBACK (set_msg_label), NULL, 0),
 	E_POPUP_TERMINATOR
 };
 
 static EPopupMenu context_menu[] = {
-	E_POPUP_ITEM (N_("_Open"),                    GTK_SIGNAL_FUNC (open_msg),          0),
-	E_POPUP_ITEM (N_("_Edit as New Message..."),  GTK_SIGNAL_FUNC (resend_msg),        CAN_RESEND),
-	E_POPUP_ITEM (N_("_Save As..."),              GTK_SIGNAL_FUNC (save_msg),          0),
-	E_POPUP_ITEM (N_("_Print"),                   GTK_SIGNAL_FUNC (print_msg),         0),
+	E_POPUP_ITEM (N_("_Open"),                    G_CALLBACK (open_msg),          0),
+	E_POPUP_ITEM (N_("_Edit as New Message..."),  G_CALLBACK (resend_msg),        CAN_RESEND),
+	E_POPUP_ITEM (N_("_Save As..."),              G_CALLBACK (save_msg),          0),
+	E_POPUP_ITEM (N_("_Print"),                   G_CALLBACK (print_msg),         0),
 	
 	E_POPUP_SEPARATOR,
 	
-	E_POPUP_ITEM (N_("_Reply to Sender"),         GTK_SIGNAL_FUNC (reply_to_sender),   0),
-	E_POPUP_ITEM (N_("Reply to _List"),           GTK_SIGNAL_FUNC (reply_to_list),     0),
-	E_POPUP_ITEM (N_("Reply to _All"),            GTK_SIGNAL_FUNC (reply_to_all),      0),
-	E_POPUP_ITEM (N_("_Forward"),                 GTK_SIGNAL_FUNC (forward),           0),
+	E_POPUP_ITEM (N_("_Reply to Sender"),         G_CALLBACK (reply_to_sender),   0),
+	E_POPUP_ITEM (N_("Reply to _List"),           G_CALLBACK (reply_to_list),     0),
+	E_POPUP_ITEM (N_("Reply to _All"),            G_CALLBACK (reply_to_all),      0),
+	E_POPUP_ITEM (N_("_Forward"),                 G_CALLBACK (forward),           0),
 	
 	E_POPUP_SEPARATOR,
 	
-	E_POPUP_ITEM (N_("Follo_w Up..."),            GTK_SIGNAL_FUNC (flag_for_followup),       CAN_FLAG_FOR_FOLLOWUP),
-	E_POPUP_ITEM (N_("Fla_g Completed"),          GTK_SIGNAL_FUNC (flag_followup_completed), CAN_FLAG_COMPLETED),
-	E_POPUP_ITEM (N_("Cl_ear Flag"),              GTK_SIGNAL_FUNC (flag_followup_clear),     CAN_CLEAR_FLAG),
+	E_POPUP_ITEM (N_("Follo_w Up..."),            G_CALLBACK (flag_for_followup),       CAN_FLAG_FOR_FOLLOWUP),
+	E_POPUP_ITEM (N_("Fla_g Completed"),          G_CALLBACK (flag_followup_completed), CAN_FLAG_COMPLETED),
+	E_POPUP_ITEM (N_("Cl_ear Flag"),              G_CALLBACK (flag_followup_clear),     CAN_CLEAR_FLAG),
 	
 	/* separator here? */
 	
-	E_POPUP_ITEM (N_("Mar_k as Read"),            GTK_SIGNAL_FUNC (mark_as_seen_cb),        CAN_MARK_READ),
-	E_POPUP_ITEM (N_("Mark as _Unread"),          GTK_SIGNAL_FUNC (mark_as_unseen_cb),      CAN_MARK_UNREAD),
-	E_POPUP_ITEM (N_("Mark as _Important"),       GTK_SIGNAL_FUNC (mark_as_important_cb),   CAN_MARK_IMPORTANT),
-	E_POPUP_ITEM (N_("_Mark as Unimportant"),     GTK_SIGNAL_FUNC (mark_as_unimportant_cb), CAN_MARK_UNIMPORTANT),
+	E_POPUP_ITEM (N_("Mar_k as Read"),            G_CALLBACK (mark_as_seen_cb),        CAN_MARK_READ),
+	E_POPUP_ITEM (N_("Mark as _Unread"),          G_CALLBACK (mark_as_unseen_cb),      CAN_MARK_UNREAD),
+	E_POPUP_ITEM (N_("Mark as _Important"),       G_CALLBACK (mark_as_important_cb),   CAN_MARK_IMPORTANT),
+	E_POPUP_ITEM (N_("_Mark as Unimportant"),     G_CALLBACK (mark_as_unimportant_cb), CAN_MARK_UNIMPORTANT),
 	
 	E_POPUP_SEPARATOR,
 	
-	E_POPUP_ITEM (N_("_Delete"),                  GTK_SIGNAL_FUNC (delete_msg),          CAN_DELETE),
-	E_POPUP_ITEM (N_("U_ndelete"),                GTK_SIGNAL_FUNC (undelete_msg),        CAN_UNDELETE),
+	E_POPUP_ITEM (N_("_Delete"),                  G_CALLBACK (delete_msg),          CAN_DELETE),
+	E_POPUP_ITEM (N_("U_ndelete"),                G_CALLBACK (undelete_msg),        CAN_UNDELETE),
 	
 	E_POPUP_SEPARATOR,
 	
-	E_POPUP_ITEM (N_("Mo_ve to Folder..."),       GTK_SIGNAL_FUNC (move_msg_cb),          0),
-	E_POPUP_ITEM (N_("_Copy to Folder..."),       GTK_SIGNAL_FUNC (copy_msg_cb),          0),
+	E_POPUP_ITEM (N_("Mo_ve to Folder..."),       G_CALLBACK (move_msg_cb),          0),
+	E_POPUP_ITEM (N_("_Copy to Folder..."),       G_CALLBACK (copy_msg_cb),          0),
 	
 	E_POPUP_SEPARATOR,
 	
@@ -1773,11 +1773,11 @@ static EPopupMenu context_menu[] = {
 	
 	E_POPUP_SEPARATOR,
 	
-	E_POPUP_ITEM (N_("Add Sender to Address_book"), GTK_SIGNAL_FUNC (addrbook_sender), SELECTION_SET | CAN_ADD_SENDER),
+	E_POPUP_ITEM (N_("Add Sender to Address_book"), G_CALLBACK (addrbook_sender), SELECTION_SET | CAN_ADD_SENDER),
 	
 	E_POPUP_SEPARATOR,
 	
-	E_POPUP_ITEM (N_("Appl_y Filters"),             GTK_SIGNAL_FUNC (apply_filters),      0),
+	E_POPUP_ITEM (N_("Appl_y Filters"),             G_CALLBACK (apply_filters),      0),
 	
 	E_POPUP_SEPARATOR,
 	
@@ -1850,7 +1850,7 @@ setup_popup_icons (void)
 			char *filename;
 			
 			filename = g_strdup_printf ("%s/%s", EVOLUTION_IMAGES, context_pixmaps[i]);
-			context_menu[i].pixmap_widget = gnome_pixmap_new_from_file (filename);
+			context_menu[i].pixmap_widget = gtk_image_new_from_file(filename);
 			g_free (filename);
 		}
 	}
@@ -2086,7 +2086,7 @@ on_right_click (ETree *tree, gint row, ETreePath path, gint col, GdkEvent *event
 		g_ptr_array_add (closures, closure);
 		
 		label_menu[i + 2].name = (char *)mail_config_get_label_name (i);
-		label_menu[i + 2].pixmap_widget = gtk_pixmap_new (pixmap, NULL);
+		label_menu[i + 2].pixmap_widget = gtk_image_new_from_pixmap(pixmap, NULL);
 		label_menu[i + 2].closure = closure;
 	}
 	
@@ -2322,11 +2322,11 @@ folder_browser_gui_init (FolderBrowser *fb)
 	gtk_widget_show (GTK_WIDGET (fb->search));
 	
 	g_signal_connect (fb->search, "menu_activated",
-			  GTK_SIGNAL_FUNC (folder_browser_search_menu_activated), fb);
+			  G_CALLBACK (folder_browser_search_menu_activated), fb);
 	g_signal_connect (fb->search, "search_activated",
-			  GTK_SIGNAL_FUNC (folder_browser_search_do_search), fb);
+			  G_CALLBACK (folder_browser_search_do_search), fb);
 	g_signal_connect (fb->search, "query_changed",
-			  GTK_SIGNAL_FUNC (folder_browser_query_changed), fb);
+			  G_CALLBACK (folder_browser_query_changed), fb);
 	
 	gtk_table_attach (GTK_TABLE (fb), GTK_WIDGET (fb->search),
 			  0, 1, 0, 1,
@@ -2335,15 +2335,15 @@ folder_browser_gui_init (FolderBrowser *fb)
 			  0, 0);
 	
 	esm = e_tree_get_selection_model (E_TREE (fb->message_list->tree));
-	g_signal_connect (esm, "selection_changed", GTK_SIGNAL_FUNC (on_selection_changed), fb);
-	g_signal_connect (esm, "cursor_activated", GTK_SIGNAL_FUNC (on_cursor_activated), fb);
+	g_signal_connect (esm, "selection_changed", G_CALLBACK (on_selection_changed), fb);
+	g_signal_connect (esm, "cursor_activated", G_CALLBACK (on_cursor_activated), fb);
 	fb->selection_state = FB_SELSTATE_NONE; /* default to none */
 	
 	e_paned_add1 (E_PANED (fb->vpaned), GTK_WIDGET (fb->message_list));
 	gtk_widget_show (GTK_WIDGET (fb->message_list));
 	
 	g_signal_connect (fb->message_list, "size_allocate",
-			  GTK_SIGNAL_FUNC (fb_resize_cb), fb);
+			  G_CALLBACK (fb_resize_cb), fb);
 	
 	e_paned_add2 (E_PANED (fb->vpaned), GTK_WIDGET (fb->mail_display));
 	e_paned_set_position (E_PANED (fb->vpaned), mail_config_get_paned_size ());
@@ -2508,40 +2508,40 @@ my_folder_browser_init (FolderBrowser *fb)
 	fb->preview_shown = TRUE;
 	
 	g_signal_connect (fb->mail_display->html, "key_press_event",
-			  GTK_SIGNAL_FUNC (on_key_press), fb);
+			  G_CALLBACK (on_key_press), fb);
 	g_signal_connect (fb->mail_display->html, "button_press_event",
-			  GTK_SIGNAL_FUNC (html_button_press_event), fb);
+			  G_CALLBACK (html_button_press_event), fb);
 	
 	g_signal_connect (fb->message_list->tree, "key_press",
-			  GTK_SIGNAL_FUNC (etree_key), fb);
+			  G_CALLBACK (etree_key), fb);
 	
 	g_signal_connect (fb->message_list->tree, "right_click",
-			  GTK_SIGNAL_FUNC (on_right_click), fb);
+			  G_CALLBACK (on_right_click), fb);
 	
 	g_signal_connect (fb->message_list->tree, "double_click",
-			  GTK_SIGNAL_FUNC (on_double_click), fb);
+			  G_CALLBACK (on_double_click), fb);
 	
 	g_signal_connect (fb->message_list, "focus_in_event",
-			  GTK_SIGNAL_FUNC (on_message_list_focus_in), fb);
+			  G_CALLBACK (on_message_list_focus_in), fb);
 	
 	g_signal_connect (fb->message_list, "focus_out_event",
-			  GTK_SIGNAL_FUNC (on_message_list_focus_out), fb);
+			  G_CALLBACK (on_message_list_focus_out), fb);
 	
 	g_signal_connect (fb->message_list, "message_selected",
-			  GTK_SIGNAL_FUNC (on_message_selected), fb);
+			  G_CALLBACK (on_message_selected), fb);
 	
 	/* drag & drop */
 	e_tree_drag_source_set (fb->message_list->tree, GDK_BUTTON1_MASK,
 				drag_types, num_drag_types, GDK_ACTION_MOVE | GDK_ACTION_COPY);
 	
 	g_signal_connect (fb->message_list->tree, "tree_drag_data_get",
-			  GTK_SIGNAL_FUNC (message_list_drag_data_get), fb);
+			  G_CALLBACK (message_list_drag_data_get), fb);
 	
 	e_tree_drag_dest_set (fb->message_list->tree, GTK_DEST_DEFAULT_ALL,
 			      drag_types, num_drag_types, GDK_ACTION_MOVE | GDK_ACTION_COPY);
 	
 	g_signal_connect (fb->message_list->tree, "tree_drag_data_received",
-			  GTK_SIGNAL_FUNC (message_list_drag_data_received), fb);
+			  G_CALLBACK (message_list_drag_data_received), fb);
 	
 	/* cut, copy & paste */
 	fb->invisible = gtk_invisible_new ();
@@ -2552,11 +2552,11 @@ my_folder_browser_init (FolderBrowser *fb)
 					  paste_types[i].info);
 	
 	g_signal_connect (fb->invisible, "selection_get",
-			  GTK_SIGNAL_FUNC (selection_get), fb);
+			  G_CALLBACK (selection_get), fb);
 	g_signal_connect (fb->invisible, "selection_clear_event",
-			  GTK_SIGNAL_FUNC (selection_clear_event), fb);
+			  G_CALLBACK (selection_clear_event), fb);
 	g_signal_connect (fb->invisible, "selection_received",
-			  GTK_SIGNAL_FUNC (selection_received), fb);
+			  G_CALLBACK (selection_received), fb);
 	
 	folder_browser_gui_init (fb);
 }

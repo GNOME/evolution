@@ -77,7 +77,7 @@ menu_file_save_error (BonoboUIComponent *uic, CORBA_Environment *ev)
 	
 	err = ev->_major != CORBA_NO_EXCEPTION ? bonobo_exception_get_text (ev) : g_strerror (errno);
 	
-	e_notice (GTK_WINDOW (uic), GNOME_MESSAGE_BOX_ERROR,
+	e_notice (GTK_WINDOW (uic), GTK_MESSAGE_ERROR,
 		  _("Could not save signature file: %s"), err);
 	
 	g_warning ("Exception while saving signature: %s", err);

@@ -35,10 +35,10 @@ extern "C" {
 #include "mail-accounts.h"
 
 #define MAIL_ACCOUNT_EDITOR_TYPE        (mail_account_editor_get_type ())
-#define MAIL_ACCOUNT_EDITOR(o)          (GTK_CHECK_CAST ((o), MAIL_ACCOUNT_EDITOR_TYPE, MailAccountEditor))
-#define MAIL_ACCOUNT_EDITOR_CLASS(k)    (GTK_CHECK_CLASS_CAST((k), MAIL_ACCOUNT_EDITOR_TYPE, MailAccountEditorClass))
-#define MAIL_IS_ACCOUNT_EDITOR(o)       (GTK_CHECK_TYPE ((o), MAIL_ACCOUNT_EDITOR_TYPE))
-#define MAIL_IS_ACCOUNT_EDITOR_CLASS(k) (GTK_CHECK_CLASS_TYPE ((k), MAIL_ACCOUNT_EDITOR_TYPE))
+#define MAIL_ACCOUNT_EDITOR(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), MAIL_ACCOUNT_EDITOR_TYPE, MailAccountEditor))
+#define MAIL_ACCOUNT_EDITOR_CLASS(k)    (G_TYPE_CHECK_CLASS_CAST ((k), MAIL_ACCOUNT_EDITOR_TYPE, MailAccountEditorClass))
+#define MAIL_IS_ACCOUNT_EDITOR(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), MAIL_ACCOUNT_EDITOR_TYPE))
+#define MAIL_IS_ACCOUNT_EDITOR_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE ((k), MAIL_ACCOUNT_EDITOR_TYPE))
 
 struct _MailAccountEditor {
 	GtkDialog parent_object;

@@ -35,10 +35,10 @@
 #include "camel/camel-store.h"
 
 #define SUBSCRIBE_DIALOG_TYPE        (subscribe_dialog_get_type ())
-#define SUBSCRIBE_DIALOG(o)          (GTK_CHECK_CAST ((o), SUBSCRIBE_DIALOG_TYPE, SubscribeDialog))
-#define SUBSCRIBE_DIALOG_CLASS(k)    (GTK_CHECK_CLASS_CAST((k), SUBSCRIBE_DIALOG_TYPE, SubscribeDialogClass))
-#define IS_SUBSCRIBE_DIALOG(o)       (GTK_CHECK_TYPE ((o), SUBSCRIBE_DIALOG_TYPE))
-#define IS_SUBSCRIBE_DIALOG_CLASS(k) (GTK_CHECK_CLASS_TYPE ((k), SUBSCRIBE_DIALOG_TYPE))
+#define SUBSCRIBE_DIALOG(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), SUBSCRIBE_DIALOG_TYPE, SubscribeDialog))
+#define SUBSCRIBE_DIALOG_CLASS(k)    (G_TYPE_CHECK_CLASS_CAST ((k), SUBSCRIBE_DIALOG_TYPE, SubscribeDialogClass))
+#define IS_SUBSCRIBE_DIALOG(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), SUBSCRIBE_DIALOG_TYPE))
+#define IS_SUBSCRIBE_DIALOG_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE ((k), SUBSCRIBE_DIALOG_TYPE))
 
 typedef struct _SubscribeDialogPrivate SubscribeDialogPrivate;
 

@@ -27,9 +27,9 @@
 #include "filter/rule-context.h"
 #include "filter/filter-rule.h"
 
-#define MAIL_SEARCH_DIALOGUE(obj)	GTK_CHECK_CAST (obj, mail_search_dialogue_get_type (), MailSearchDialogue)
-#define MAIL_SEARCH_DIALOGUE_CLASS(klass)	GTK_CHECK_CLASS_CAST (klass, mail_search_dialogue_get_type (), MailSearchDialogueClass)
-#define IS_MAIL_SEARCH_DIALOGUE(obj)      GTK_CHECK_TYPE (obj, mail_search_dialogue_get_type ())
+#define MAIL_SEARCH_DIALOGUE(obj)	G_TYPE_CHECK_INSTANCE_CAST (obj, mail_search_dialogue_get_type (), MailSearchDialogue)
+#define MAIL_SEARCH_DIALOGUE_CLASS(klass)	G_TYPE_CHECK_CLASS_CAST (klass, mail_search_dialogue_get_type (), MailSearchDialogueClass)
+#define IS_MAIL_SEARCH_DIALOGUE(obj)      G_TYPE_CHECK_INSTANCE_TYPE (obj, mail_search_dialogue_get_type ())
 
 typedef struct _MailSearchDialogue	MailSearchDialogue;
 typedef struct _MailSearchDialogueClass	MailSearchDialogueClass;

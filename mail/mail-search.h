@@ -36,10 +36,10 @@ extern "C" {
 #include "mail-display.h"
 
 #define MAIL_SEARCH_TYPE        (mail_search_get_type ())
-#define MAIL_SEARCH(o)          (GTK_CHECK_CAST ((o), MAIL_SEARCH_TYPE, MailSearch))
-#define MAIL_SEARCH_CLASS(k)    (GTK_CHECK_CLASS_CAST ((k), MAIL_SEARCH_TYPE, MailSearch))
-#define IS_MAIL_SEARCH(o)       (GTK_CHECK_TYPE ((o), MAIL_SEARCH_TYPE))
-#define IS_MAIL_SEARCH_CLASS(k) (GTK_CHECK_CLASS_TYPE ((k), MAIL_SEARCH_TYPE))
+#define MAIL_SEARCH(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), MAIL_SEARCH_TYPE, MailSearch))
+#define MAIL_SEARCH_CLASS(k)    (G_TYPE_CHECK_CLASS_CAST ((k), MAIL_SEARCH_TYPE, MailSearch))
+#define IS_MAIL_SEARCH(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), MAIL_SEARCH_TYPE))
+#define IS_MAIL_SEARCH_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE ((k), MAIL_SEARCH_TYPE))
 
 typedef struct _MailSearch      MailSearch;
 typedef struct _MailSearchClass MailSearchClass;

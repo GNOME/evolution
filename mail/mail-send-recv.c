@@ -359,7 +359,7 @@ build_dialogue (GSList *sources, CamelFolder *outbox, const char *destination)
 		status_label = (GtkLabel *)gtk_label_new ((info->type == SEND_UPDATE) ? _("Updating...") :
 							  _("Waiting..."));
 		
-		/* gtk_object_set (data->label, "bold", TRUE, NULL); */
+		/* g_object_set(data->label, "bold", TRUE, NULL); */
 		gtk_misc_set_alignment (GTK_MISC (label), 0, .5);
 		gtk_misc_set_alignment (GTK_MISC (status_label), 0, .5);
 		
@@ -558,11 +558,8 @@ receive_done (char *uri, void *data)
 	info->data->infos = g_list_remove(info->data->infos, info);
 
 	if (g_hash_table_size(info->data->active) == 0) {
-		/* FIXME: check this is right ... was gnome_dialog_close() */
-		if (info->data->gd) {
+		if (info->data->gd)
 			gtk_widget_destroy((GtkWidget *)info->data->gd);
-			g_object_unref(info->data->gd);
-		}
 		free_send_data();
 	}
 

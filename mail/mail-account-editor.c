@@ -40,7 +40,6 @@ static void mail_account_editor_finalize   (GObject *obj);
 
 static GtkDialogClass *parent_class = NULL;
 
-
 GType
 mail_account_editor_get_type ()
 {
@@ -100,7 +99,7 @@ apply_changes (MailAccountEditor *editor)
 	if (page != -1) {
 		gtk_notebook_set_page (editor->notebook, page);
 		gtk_widget_grab_focus (incomplete);
-		e_notice (NULL, GNOME_MESSAGE_BOX_ERROR, _("You have not filled in all of the required information."));
+		e_notice (NULL, GTK_MESSAGE_ERROR, _("You have not filled in all of the required information."));
 		return FALSE;
 	}
 	
@@ -141,7 +140,7 @@ construct (MailAccountEditor *editor, MailConfigAccount *account, MailAccountsTa
 	
 	/* get our toplevel widget and reparent it */
 	editor->notebook = GTK_NOTEBOOK (glade_xml_get_widget (editor->gui->xml, "account_editor_notebook"));
-	gtk_widget_reparent (GTK_WIDGET (editor->notebook), GNOME_DIALOG (editor)->vbox);
+	gtk_widget_reparent (GTK_WIDGET (editor->notebook), GTK_DIALOG (editor)->vbox);
 	
 	/* give our dialog an OK button and title */
 	gtk_window_set_title (GTK_WINDOW (editor), _("Evolution Account Editor"));

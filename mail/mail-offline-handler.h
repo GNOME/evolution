@@ -32,10 +32,10 @@ extern "C" {
 #endif /* __cplusplus */
 
 #define MAIL_TYPE_OFFLINE_HANDLER			(mail_offline_handler_get_type ())
-#define MAIL_OFFLINE_HANDLER(obj)			(GTK_CHECK_CAST ((obj), MAIL_TYPE_OFFLINE_HANDLER, MailOfflineHandler))
-#define MAIL_OFFLINE_HANDLER_CLASS(klass)		(GTK_CHECK_CLASS_CAST ((klass), MAIL_TYPE_OFFLINE_HANDLER, MailOfflineHandlerClass))
-#define MAIL_IS_OFFLINE_HANDLER(obj)			(GTK_CHECK_TYPE ((obj), MAIL_TYPE_OFFLINE_HANDLER))
-#define MAIL_IS_OFFLINE_HANDLER_CLASS(klass)		(GTK_CHECK_CLASS_TYPE ((obj), MAIL_TYPE_OFFLINE_HANDLER))
+#define MAIL_OFFLINE_HANDLER(obj)			(G_TYPE_CHECK_INSTANCE_CAST ((obj), MAIL_TYPE_OFFLINE_HANDLER, MailOfflineHandler))
+#define MAIL_OFFLINE_HANDLER_CLASS(klass)		(G_TYPE_CHECK_CLASS_CAST ((klass), MAIL_TYPE_OFFLINE_HANDLER, MailOfflineHandlerClass))
+#define MAIL_IS_OFFLINE_HANDLER(obj)			(G_TYPE_CHECK_INSTANCE_TYPE ((obj), MAIL_TYPE_OFFLINE_HANDLER))
+#define MAIL_IS_OFFLINE_HANDLER_CLASS(klass)		(G_TYPE_CHECK_CLASS_TYPE ((obj), MAIL_TYPE_OFFLINE_HANDLER))
 
 
 typedef struct _MailOfflineHandler        MailOfflineHandler;

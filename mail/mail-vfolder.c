@@ -864,7 +864,7 @@ vfolder_edit_rule(const char *uri)
 		g_signal_connect(gd, "response", G_CALLBACK(edit_rule_response), NULL);
 		gtk_widget_show((GtkWidget *)gd);
 	} else {
-		e_notice (NULL, GNOME_MESSAGE_BOX_WARNING,
+		e_notice (NULL, GTK_MESSAGE_WARNING,
 			  _("Trying to edit a vfolder '%s' which doesn't exist."), uri);
 	}
 
@@ -877,7 +877,7 @@ new_rule_clicked(GtkWidget *w, int button, void *data)
 {
 	if (button == GTK_RESPONSE_OK) {
 		char *user;
-		FilterRule *rule = gtk_object_get_data((GtkObject *)w, "rule");
+		FilterRule *rule = g_object_get_data((GObject *)w, "rule");
 
 		g_object_ref(rule);
 		rule_context_add_rule((RuleContext *)context, rule);

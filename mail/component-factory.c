@@ -1073,7 +1073,7 @@ component_factory_init (void)
 	shell_component = create_component ();
 	result = bonobo_activation_active_server_register (COMPONENT_ID, bonobo_object_corba_objref (shell_component));
 	if (result == Bonobo_ACTIVATION_REG_ERROR) {
-		e_notice (NULL, GNOME_MESSAGE_BOX_ERROR,
+		e_notice (NULL, GTK_MESSAGE_ERROR,
 			  _("Cannot initialize the Evolution mail component."));
 		exit (1);
 	} else if (result == Bonobo_ACTIVATION_REG_ALREADY_ACTIVE) {
@@ -1082,13 +1082,13 @@ component_factory_init (void)
 	}
 
 	if (evolution_mail_config_factory_init () == FALSE) {
-		e_notice (NULL, GNOME_MESSAGE_BOX_ERROR,
+		e_notice (NULL, GTK_MESSAGE_ERROR,
 			  _("Cannot initialize Evolution's mail config component."));
 		exit (1);
 	}
 
 	if (evolution_folder_info_factory_init () == FALSE) {
-		e_notice (NULL, GNOME_MESSAGE_BOX_ERROR,
+		e_notice (NULL, GTK_MESSAGE_ERROR,
 			  _("Cannot initialize Evolution's folder info component."));
 		exit (1);
 	}

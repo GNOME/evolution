@@ -1547,7 +1547,7 @@ populate_store_list (SubscribeDialog *sc)
 	sc->priv->none_item = gtk_menu_item_new_with_label (_("No server has been selected"));
 	g_signal_connect(sc->priv->none_item, "activate", G_CALLBACK(dummy_item_selected), sc);
 	gtk_widget_show (sc->priv->none_item);
-	gtk_menu_prepend (GTK_MENU (menu), sc->priv->none_item);
+	gtk_menu_shell_prepend(GTK_MENU_SHELL(menu), sc->priv->none_item);
 
 	gtk_widget_show (menu);
 

@@ -752,11 +752,11 @@ mail_account_gui_build_extra_conf (MailAccountGui *gui, const char *url_string)
 	mailcheck_frame = glade_xml_get_widget (gui->xml, "extra_mailcheck_frame");
 	
 	/* Remove any additional mailcheck items. */
-	children = gtk_container_children (GTK_CONTAINER (mailcheck_frame));
+	children = gtk_container_get_children(GTK_CONTAINER (mailcheck_frame));
 	if (children) {
 		cur_vbox = children->data;
 		g_list_free (children);
-		children = gtk_container_children (GTK_CONTAINER (cur_vbox));
+		children = gtk_container_get_children(GTK_CONTAINER (cur_vbox));
 		for (child = children; child; child = child->next) {
 			if (child != children) {
 				gtk_container_remove (GTK_CONTAINER (cur_vbox),
@@ -769,7 +769,7 @@ mail_account_gui_build_extra_conf (MailAccountGui *gui, const char *url_string)
 	/* Remove the contents of the extra_vbox except for the
 	 * mailcheck_frame.
 	 */
-	children = gtk_container_children (GTK_CONTAINER (main_vbox));
+	children = gtk_container_get_children(GTK_CONTAINER (main_vbox));
 	for (child = children; child; child = child->next) {
 		if (child != children) {
 			gtk_container_remove (GTK_CONTAINER (main_vbox),
@@ -1103,7 +1103,7 @@ setup_service (MailAccountGuiService *gsvc, MailConfigService *service)
 		else if (!*use_ssl)  /* old config code just used an empty string as the value */
 			use_ssl = "always";
 		
-		children = gtk_container_children (GTK_CONTAINER (gtk_option_menu_get_menu (gsvc->use_ssl)));
+		children = gtk_container_get_children(GTK_CONTAINER (gtk_option_menu_get_menu (gsvc->use_ssl)));
 		for (item = children, i = 0; item; item = item->next, i++) {
 			if (!strcmp (use_ssl, ssl_options[i].value)) {
 				gtk_option_menu_set_history (gsvc->use_ssl, i);
@@ -1118,7 +1118,7 @@ setup_service (MailAccountGuiService *gsvc, MailConfigService *service)
 		CamelServiceAuthType *authtype;
 		int i;
 		
-		children = gtk_container_children (GTK_CONTAINER (gtk_option_menu_get_menu (gsvc->authtype)));
+		children = gtk_container_get_children(GTK_CONTAINER (gtk_option_menu_get_menu (gsvc->authtype)));
 		for (item = children, i = 0; item; item = item->next, i++) {
 			authtype = g_object_get_data ((GObject *) item->data, "authtype");
 			if (!authtype)
@@ -1830,7 +1830,7 @@ mail_account_gui_save (MailAccountGui *gui)
 	old_account = (MailConfigAccount *) mail_config_get_account_by_name (new_name);
 	
 	if (old_account && old_account != account) {
-		e_notice (NULL, GNOME_MESSAGE_BOX_ERROR,
+		e_notice (NULL, GTK_MESSAGE_ERROR,
 			  _("You may not create two accounts with the same name."));
 		return FALSE;
 	}

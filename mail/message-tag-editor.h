@@ -34,9 +34,9 @@ extern "C" {
 #pragma }
 #endif /* __cplusplus */
 
-#define MESSAGE_TAG_EDITOR(obj)	        GTK_CHECK_CAST (obj, message_tag_editor_get_type (), MessageTagEditor)
-#define MESSAGE_TAG_EDITOR_CLASS(klass)	GTK_CHECK_CLASS_CAST (klass, message_tag_editor_get_type (), MessageTagEditorClass)
-#define IS_MESSAGE_TAG_EDITOR(obj)      GTK_CHECK_TYPE (obj, message_tag_editor_get_type ())
+#define MESSAGE_TAG_EDITOR(obj)	        G_TYPE_CHECK_INSTANCE_CAST (obj, message_tag_editor_get_type (), MessageTagEditor)
+#define MESSAGE_TAG_EDITOR_CLASS(klass)	G_TYPE_CHECK_CLASS_CAST (klass, message_tag_editor_get_type (), MessageTagEditorClass)
+#define IS_MESSAGE_TAG_EDITOR(obj)      G_TYPE_CHECK_INSTANCE_TYPE (obj, message_tag_editor_get_type ())
 
 typedef struct _MessageTagEditor MessageTagEditor;
 typedef struct _MessageTagEditorClass MessageTagEditorClass;

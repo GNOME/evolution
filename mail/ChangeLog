@@ -1,3 +1,70 @@
+2002-11-27  Not Zed  <NotZed@Ximian.com>
+
+	* message-tag-followup.c (construct): gnome_pixmap -> gtkimage.
+	(construct): gtk_clist -> gtk_tree_view, setup columns.  They dont
+	size well :-/
+	(message_tag_followup_append_message): Append using model, remove
+	clist stuff.
+	(construct): Show date edit (glade bugs?)
+
+	* folder-browser.c (folder_browser_class_init): gtk_marshal -> g_cclosure_marshal
+	(setup_popup_icons): gnome_pixmap -> gtk_image.
+	(on_right_click): gtk_pixmap -> gtk_image.
+
+	* mail-accounts.c (account_delete_clicked): removed #if 0'd out code.
+
+	* mail-send-recv.c (receive_done): remove FIXME and extra unref.
+
+	* mail-session.c (request_password): Removed #if 0'd out stuff.
+
+	* mail-vfolder.c (new_rule_clicked): proper cast for g_object_get_data.
+
+	* mail-local.c (reconfigure_response): cast for g_object_get_data.
+
+	* mail-account-editor.c (construct): GNOME_DIALOG -> GTK_DIALOG.
+
+	* *.[ch]: re-ran fix.sh for e_notice change
+	
+	* mail-callbacks.c (save_msg_ok): g_object_get_data +
+	gtk_object_remove_no_notify -> g_object_steal_data.
+	(find_socket): gtk_container_children ->
+	gtk_container_get_children
+	(edit_msg): gnome_*_dialog -> gtk_message_dialog.
+	(resent_msg): "
+	(search_msg): "
+	(confirm_goto_next_folder): gtkmessagedialogised (even if not
+	used).
+	(confirm_expunge): gtkmessagedialogised
+	(filter_edit): "
+	(do_mail_print): e_notice -> gtk_message_dialog.
+	(are_you_sure): removed e_gnome_ok_cancel_dialog crap, replaced
+	with a gtk dialog.
+	(are_you_sure): gtkmessagedialogised.
+	(edit_msg_internal): Dont free uids array, are_you_sure() free's
+	it.
+	(resend_msg): Same.
+	(check_send_configuration): Use e_notice for stuff.  Sigh, here we
+	go again ...!
+	(e_question): A utility function to ask a question, potentially
+	with 'dont ask again' as well.
+	(configure_mail): use e_question to save code.  Here we go again,
+	again ...
+	(ask_confirm_for_unwanted_html_mail): "
+	(ask_confirm_for_only_bcc): "
+	(ask_confirm_for_only_bcc): "
+	(composer_get_message): Use e_notice.
+	(composer_save_draft_cb): Use e_question
+	(edit_msg): use e_notice, & change to an ERROR.
+	(resend_msg): same.
+	(save_msg_ok): Properly initialise ret to OK, and use e_question,
+	and use access() to determine existance/write access rather than
+	stat, display an error if we can't write to a file that exists,
+	and print the filename in all dialogues.
+	(confirm_goto_next_folder): Use e_question.
+	(confirm_expunge): use e_question.
+	(filter_edit): Use e_notice.
+	(do_mail_print): use e_notice.
+
 2002-11-26  Not Zed  <NotZed@Ximian.com>
 
 	* mail-vfolder.c (vfolder_gui_add_rule): clicked->response signal

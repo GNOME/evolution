@@ -202,7 +202,7 @@ folder_browser_factory_new_control (const char *uri,
 		return NULL;
 	}
 	
-	g_signal_connect (control, "activate", GTK_SIGNAL_FUNC (control_activate_cb), fb);
+	g_signal_connect (control, "activate", G_CALLBACK (control_activate_cb), fb);
 	
 	g_object_weak_ref (G_OBJECT(control), (GWeakNotify) control_destroy_cb, fb);
 	g_object_weak_ref (G_OBJECT(fb), (GWeakNotify) browser_destroy_cb, control);

@@ -43,10 +43,10 @@ extern "C" {
 #include <shell/Evolution.h>
 
 #define MAIL_PREFERENCES_TYPE        (mail_preferences_get_type ())
-#define MAIL_PREFERENCES(o)          (GTK_CHECK_CAST ((o), MAIL_PREFERENCES_TYPE, MailPreferences))
-#define MAIL_PREFERENCES_CLASS(k)    (GTK_CHECK_CLASS_CAST((k), MAIL_PREFERENCES_TYPE, MailPreferencesClass))
-#define IS_MAIL_PREFERENCES(o)       (GTK_CHECK_TYPE ((o), MAIL_PREFERENCES_TYPE))
-#define IS_MAIL_PREFERENCES_CLASS(k) (GTK_CHECK_CLASS_TYPE ((k), MAIL_PREFERENCES_TYPE))
+#define MAIL_PREFERENCES(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), MAIL_PREFERENCES_TYPE, MailPreferences))
+#define MAIL_PREFERENCES_CLASS(k)    (G_TYPE_CHECK_CLASS_CAST ((k), MAIL_PREFERENCES_TYPE, MailPreferencesClass))
+#define IS_MAIL_PREFERENCES(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), MAIL_PREFERENCES_TYPE))
+#define IS_MAIL_PREFERENCES_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE ((k), MAIL_PREFERENCES_TYPE))
 
 typedef struct _MailPreferences MailPreferences;
 typedef struct _MailPreferencesClass MailPreferencesClass;

@@ -37,10 +37,10 @@ extern "C" {
 #include "mail-account-gui.h"
 
 #define MAIL_CONFIG_DRUID_TYPE        (mail_config_druid_get_type ())
-#define MAIL_CONFIG_DRUID(o)          (GTK_CHECK_CAST ((o), MAIL_CONFIG_DRUID_TYPE, MailConfigDruid))
-#define MAIL_CONFIG_DRUID_CLASS(k)    (GTK_CHECK_CLASS_CAST((k), MAIL_CONFIG_DRUID_TYPE, MailConfigDruidClass))
-#define MAIL_IS_CONFIG_DRUID(o)       (GTK_CHECK_TYPE ((o), MAIL_CONFIG_DRUID_TYPE))
-#define MAIL_IS_CONFIG_DRUID_CLASS(k) (GTK_CHECK_CLASS_TYPE ((k), MAIL_CONFIG_DRUID_TYPE))
+#define MAIL_CONFIG_DRUID(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), MAIL_CONFIG_DRUID_TYPE, MailConfigDruid))
+#define MAIL_CONFIG_DRUID_CLASS(k)    (G_TYPE_CHECK_CLASS_CAST ((k), MAIL_CONFIG_DRUID_TYPE, MailConfigDruidClass))
+#define MAIL_IS_CONFIG_DRUID(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), MAIL_CONFIG_DRUID_TYPE))
+#define MAIL_IS_CONFIG_DRUID_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE ((k), MAIL_CONFIG_DRUID_TYPE))
 
 typedef struct {
 	GtkWindow parent;

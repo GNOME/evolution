@@ -33,6 +33,7 @@
 #include <bonobo/bonobo-generic-factory.h>
 
 #include <gal/widgets/e-gui-utils.h>
+#include <gal/util/e-iconv.h>
 
 #include "widgets/misc/e-charset-picker.h"
 
@@ -213,7 +214,7 @@ sig_edit (GtkWidget *widget, MailComposerPrefs *prefs)
 	if (sig->filename && *sig->filename)
 		mail_signature_editor (sig);
 	else
-		e_notice (GTK_WINDOW (prefs), GNOME_MESSAGE_BOX_ERROR,
+		e_notice (GTK_WINDOW (prefs), GTK_MESSAGE_ERROR,
 			  _("Please specify signature filename\nin Advanced section of signature settings."));
 }
 

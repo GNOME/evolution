@@ -75,6 +75,40 @@
 #define FB_WINDOW(fb) GTK_WINDOW (gtk_widget_get_ancestor (GTK_WIDGET (fb), GTK_TYPE_WINDOW))
 
 
+/* default is default gtk response
+   if again is != NULL, a checkbox "dont show this again" will appear, and the result stored in *again
+*/
+static gboolean
+e_question(GtkWindow *parent, int def, gboolean *again, const char *fmt, ...)
+{
+	GtkWidget *mbox, *check = NULL;
+	va_list ap;
+	int button;
+	char *str;
+
+	va_start(ap, fmt);
+	str = g_strdup_vprintf(fmt, ap);
+	va_end(ap);
+	mbox = gtk_message_dialog_new(parent, GTK_DIALOG_DESTROY_WITH_PARENT,
+				      GTK_MESSAGE_QUESTION, GTK_BUTTONS_YES_NO,
+				      "%s", str);
+	g_free(str);
+	gtk_dialog_set_default_response ((GtkDialog *)mbox, def);
+	if (again) {
+		check = gtk_check_button_new_with_label (_("Don't show this message again."));
+		gtk_box_pack_start((GtkBox *)((GtkDialog *)mbox)->vbox, check, TRUE, TRUE, 10);
+		gtk_widget_show(check);
+	}
+
+	button = gtk_dialog_run((GtkDialog *)mbox);
+	if (again)
+		*again = !gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (check));
+	gtk_widget_destroy(mbox);
+
+	return button == GTK_RESPONSE_YES;
+}
+
+
 struct _composer_callback_data {
 	unsigned int ref_count;
 	
@@ -148,32 +182,17 @@ static gboolean
 configure_mail (FolderBrowser *fb)
 {
 	MailConfigDruid *druid;
-	GtkWidget *dialog;
-	int resp;
 
-	dialog = gtk_message_dialog_new (FB_WINDOW (fb), GTK_DIALOG_MODAL|GTK_DIALOG_DESTROY_WITH_PARENT,
-					 GTK_MESSAGE_QUESTION, GTK_BUTTONS_YES_NO, "%s",
-					 _("You have not configured the mail client.\n"
-					   "You need to do this before you can send,\n"
-					   "receive or compose mail.\n"
-					   "Would you like to configure it now?"));
-	
-	gtk_dialog_set_default_response ((GtkDialog *) dialog, GTK_RESPONSE_YES);
-	
-	resp = gtk_dialog_run (GTK_DIALOG (dialog));
-	gtk_widget_destroy(dialog);
-
-	switch (resp) {
-	case GTK_RESPONSE_YES:
+	if (e_question(FB_WINDOW(fb), GTK_RESPONSE_YES, NULL,
+		       _("You have not configured the mail client.\n"
+			 "You need to do this before you can send,\n"
+			 "receive or compose mail.\n"
+			 "Would you like to configure it now?"))) {
 		druid = mail_config_druid_new (fb->shell);
 		g_object_weak_ref ((GObject *) druid, (GWeakNotify) druid_destroy_cb, NULL);
 		gtk_widget_show ((GtkWidget *)druid);
 		gtk_grab_add ((GtkWidget *)druid);
 		gtk_main ();
-		break;
-	case GTK_RESPONSE_NO:
-	default:
-		break;
 	}
 	
 	return mail_config_is_configured ();
@@ -194,27 +213,16 @@ check_send_configuration (FolderBrowser *fb)
 	
 	/* Check for an identity */
 	if (!account) {
-		dialog = gtk_message_dialog_new (FB_WINDOW (fb), GTK_DIALOG_MODAL|GTK_DIALOG_DESTROY_WITH_PARENT,
-						 GTK_MESSAGE_WARNING, GTK_BUTTONS_CLOSE,
-						 "%s", _("You need to configure an identity\n"
-							 "before you can compose mail."));
-		
-		g_signal_connect_swapped (dialog, "response", G_CALLBACK (gtk_widget_destroy), dialog);
-		gtk_widget_show (dialog);
-		
+		e_notice(FB_WINDOW(fb), GTK_MESSAGE_WARNING,
+			 _("You need to configure an identity\nbefore you can compose mail."));
 		return FALSE;
 	}
 	
 	/* Check for a transport */
 	if (!account->transport || !account->transport->url) {
-		dialog = gtk_message_dialog_new (FB_WINDOW (fb), GTK_DIALOG_MODAL|GTK_DIALOG_DESTROY_WITH_PARENT,
-						 GTK_MESSAGE_WARNING, GTK_BUTTONS_CLOSE,
-						 "%s", _("You need to configure a mail transport\n"
-							 "before you can compose mail."));
-		
-		g_signal_connect_swapped (dialog, "response", G_CALLBACK (gtk_widget_destroy), dialog);
-		gtk_widget_show (dialog);
-		
+		e_notice(FB_WINDOW(fb), GTK_MESSAGE_WARNING,
+			 _("You need to configure a mail transport\n"
+			   "before you can compose mail."));
 		return FALSE;
 	}
 	
@@ -224,15 +232,12 @@ check_send_configuration (FolderBrowser *fb)
 static gboolean
 ask_confirm_for_unwanted_html_mail (EMsgComposer *composer, EDestination **recipients)
 {
-	gboolean show_again;
+	gboolean show_again, res;
 	GString *str;
-	GtkWidget *mbox, *check;
-	int i, button;
-	
-	if (!mail_config_get_confirm_unwanted_html ()) {
-		g_message ("doesn't want to see confirm html messages!");
+	int i;
+
+	if (!mail_config_get_confirm_unwanted_html ())
 		return TRUE;
-	}
 	
 	/* FIXME: this wording sucks */
 	str = g_string_new (_("You are sending an HTML-formatted message. Please make sure that\n"
@@ -248,58 +253,34 @@ ask_confirm_for_unwanted_html_mail (EMsgComposer *composer, EDestination **recip
 	}
 	
 	g_string_append (str, _("Send anyway?"));
+	res = e_question((GtkWindow *)composer, GTK_RESPONSE_YES, &show_again, "%s", str->str);
+	g_string_free(str, TRUE);
+	mail_config_set_confirm_unwanted_html (show_again);
 
-	mbox = gtk_message_dialog_new((GtkWindow *)composer, GTK_DIALOG_DESTROY_WITH_PARENT,
-				      GTK_MESSAGE_QUESTION, GTK_BUTTONS_YES_NO,
-				      "%s", str->str);
-	check = gtk_check_button_new_with_label (_("Don't show this message again."));
-	gtk_box_pack_start((GtkBox *)((GtkDialog *)mbox)->vbox, check, TRUE, TRUE, 10);
-	gtk_widget_show(check);
-	button = gtk_dialog_run((GtkDialog *)mbox);
-	show_again = !gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (check));
-	gtk_widget_destroy(mbox);
-	
-	if (!show_again) {
-		mail_config_set_confirm_unwanted_html (show_again);
-		g_message ("don't show HTML warning again");
-	}
-	
-	return (button == GTK_RESPONSE_YES);
+	return res;
 }
 
 static gboolean
 ask_confirm_for_empty_subject (EMsgComposer *composer)
 {
-	gboolean show_again;
+	gboolean show_again, res;
 	GtkWidget *mbox, *check;
-	int button;
 	
 	if (!mail_config_get_prompt_empty_subject ())
 		return TRUE;
 
-	mbox = gtk_message_dialog_new((GtkWindow *)composer, GTK_DIALOG_DESTROY_WITH_PARENT,
-				      GTK_MESSAGE_QUESTION, GTK_BUTTONS_YES_NO,
-				      _("This message has no subject.\nReally send?"));
-	check = gtk_check_button_new_with_label (_("Don't show this message again."));
-	gtk_box_pack_start((GtkBox *)((GtkDialog *)mbox)->vbox, check, TRUE, TRUE, 10);
-	gtk_widget_show(check);
-	button = gtk_dialog_run((GtkDialog *)mbox);
-	show_again = !gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (check));
-	gtk_widget_destroy(mbox);
-	
+	res = e_question((GtkWindow *)composer, GTK_RESPONSE_YES, &show_again,
+			 _("This message has no subject.\nReally send?"));
 	mail_config_set_prompt_empty_subject (show_again);
 	
-	return (button == GTK_RESPONSE_YES);
+	return res;
 }
 
 static gboolean
 ask_confirm_for_only_bcc (EMsgComposer *composer, gboolean hidden_list_case)
 {
-	gboolean show_again;
-	GtkWidget *mbox, *check;
-	int button;
+	gboolean show_again, res;
 	const char *first_text;
-	char *message_text;
 	
 	if (!mail_config_get_prompt_only_bcc ())
 		return TRUE;
@@ -317,22 +298,15 @@ ask_confirm_for_only_bcc (EMsgComposer *composer, gboolean hidden_list_case)
 	} else {
 		first_text = _("This message contains only Bcc recipients.");
 	}
-	
-	mbox = gtk_message_dialog_new((GtkWindow *)composer, GTK_DIALOG_DESTROY_WITH_PARENT,
-				      GTK_MESSAGE_QUESTION, GTK_BUTTONS_YES_NO,
-				      "%s\n%s", first_text,
-					_("It is possible that the mail server may reveal the recipients "
-					  "by adding an Apparently-To header.\nSend anyway?"));
-	check = gtk_check_button_new_with_label (_("Don't show this message again."));
-	gtk_box_pack_start((GtkBox *)((GtkDialog *)mbox)->vbox, check, TRUE, TRUE, 10);
-	gtk_widget_show(check);
-	button = gtk_dialog_run((GtkDialog *)mbox);
-	show_again = !gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (check));
-	gtk_widget_destroy(mbox);
+
+	res = e_question((GtkWindow *)composer, GTK_RESPONSE_YES, &show_again,
+			 "%s\n%s", first_text,
+			 _("It is possible that the mail server may reveal the recipients "
+			   "by adding an Apparently-To header.\nSend anyway?"));
 	
 	mail_config_set_prompt_only_bcc (show_again);
 	
-	return (button == GTK_RESPONSE_YES);
+	return res;
 }
 
 
@@ -455,13 +429,8 @@ composer_get_message (EMsgComposer *composer, gboolean post, gboolean save_html_
 	
 	/* I'm sensing a lack of love, er, I mean recipients. */
 	if (num == 0 && !post) {
-		GtkWidget *dialog;
-		
-		dialog = gtk_message_dialog_new ((GtkWindow *)composer, GTK_DIALOG_MODAL|GTK_DIALOG_DESTROY_WITH_PARENT,
-						 GTK_MESSAGE_WARNING, GTK_BUTTONS_CLOSE, "%s",
-						 _("You must specify recipients in order to send this message."));		
-		gtk_dialog_run (GTK_DIALOG (dialog));
-		gtk_widget_destroy (dialog);
+		e_notice((GtkWindow *)composer, GTK_MESSAGE_WARNING,
+			 _("You must specify recipients in order to send this message."));
 		goto finished;
 	}
 	
@@ -715,18 +684,10 @@ composer_save_draft_cb (EMsgComposer *composer, int quit, gpointer user_data)
 		mail_msg_wait (id);
 		
 		if (!folder) {
-			GtkWidget *dialog;
-			int response;
-			
-			dialog = gtk_message_dialog_new (GTK_WINDOW (composer), GTK_DIALOG_MODAL|GTK_DIALOG_DESTROY_WITH_PARENT,
-							 GTK_MESSAGE_QUESTION, GTK_BUTTONS_YES_NO,
-							 "%s", _("Unable to open the drafts folder for this account.\n"
-								 "Would you like to use the default drafts folder?"));
-			
-			response = gtk_dialog_run (GTK_DIALOG (dialog));
-			gtk_widget_destroy (dialog);
-			
-			if (response != GTK_RESPONSE_YES)
+			gboolean res;
+			if (!e_question((GtkWindow *)composer, GTK_RESPONSE_YES, NULL,
+					_("Unable to open the drafts folder for this account.\n"
+					  "Would you like to use the default drafts folder?")))
 				return;
 			
 			folder = drafts_folder;
@@ -1707,7 +1668,7 @@ find_socket (GtkContainer *container)
 {
         GList *children, *tmp;
 	
-        children = gtk_container_children (container);
+        children = gtk_container_get_children (container);
         while (children) {
                 if (BONOBO_IS_SOCKET (children->data))
                         return children->data;
@@ -2264,17 +2225,20 @@ are_you_sure (const char *msg, GPtrArray *uids, FolderBrowser *fb)
 	GtkWidget *dialog;
 	char *buf;
 	int button, i;
-	
-	buf = g_strdup_printf (msg, uids->len);
-	dialog = e_gnome_ok_cancel_dialog_parented (buf, NULL, NULL, FB_WINDOW (fb));
-	button = gnome_dialog_run_and_close (GNOME_DIALOG (dialog));
-	if (button != 0) {
+
+	dialog = gtk_message_dialog_new (FB_WINDOW (fb), GTK_DIALOG_MODAL|GTK_DIALOG_DESTROY_WITH_PARENT,
+					 GTK_MESSAGE_QUESTION, GTK_BUTTONS_OK_CANCEL,
+					 msg, uids->len);
+	button = gtk_dialog_run((GtkDialog *)dialog);
+	gtk_widget_destroy(dialog);
+
+	if (button != GTK_RESPONSE_OK) {
 		for (i = 0; i < uids->len; i++)
 			g_free (uids->pdata[i]);
 		g_ptr_array_free (uids, TRUE);
 	}
 	
-	return button == 0;
+	return button == GTK_RESPONSE_OK;
 }
 
 static void
@@ -2288,16 +2252,8 @@ edit_msg_internal (FolderBrowser *fb)
 	uids = g_ptr_array_new ();
 	message_list_foreach (fb->message_list, enumerate_msg, uids);
 	
-	if (uids->len > 10 && !are_you_sure (_("Are you sure you want to edit all %d messages?"), uids, fb)) {
-		int i;
-		
-		for (i = 0; i < uids->len; i++)
-			g_free (uids->pdata[i]);
-		
-		g_ptr_array_free (uids, TRUE);
-		
+	if (uids->len > 10 && !are_you_sure (_("Are you sure you want to edit all %d messages?"), uids, fb))
 		return;
-	}
 	
 	mail_get_messages (fb->folder, uids, do_edit_messages, fb);
 }
@@ -2311,13 +2267,8 @@ edit_msg (GtkWidget *widget, gpointer user_data)
 		return;
 	
 	if (!folder_browser_is_drafts (fb)) {
-		GtkWidget *dialog;
-		
-		dialog = gnome_warning_dialog_parented (_("You may only edit messages saved\n"
-							  "in the Drafts folder."),
-							FB_WINDOW (fb));
-		gnome_dialog_set_close (GNOME_DIALOG (dialog), TRUE);
-		gtk_widget_show (dialog);
+		e_notice(FB_WINDOW(fb), GTK_MESSAGE_ERROR,
+			 _("You may only edit messages saved\nin the Drafts folder."));
 		return;
 	}
 	
@@ -2351,12 +2302,9 @@ resend_msg (GtkWidget *widget, gpointer user_data)
 	
 	if (!folder_browser_is_sent (fb)) {
 		GtkWidget *dialog;
-		
-		dialog = gnome_warning_dialog_parented (_("You may only resend messages\n"
-							  "in the Sent folder."),
-							FB_WINDOW (fb));
-		gnome_dialog_set_close (GNOME_DIALOG (dialog), TRUE);
-		gtk_widget_show (dialog);
+
+		e_notice(FB_WINDOW(fb), GTK_MESSAGE_ERROR,
+			 _("You may only resend messages\nin the Sent folder."));
 		return;
 	}
 	
@@ -2366,16 +2314,8 @@ resend_msg (GtkWidget *widget, gpointer user_data)
 	uids = g_ptr_array_new ();
 	message_list_foreach (fb->message_list, enumerate_msg, uids);
 	
-	if (uids->len > 10 && !are_you_sure (_("Are you sure you want to resend all %d messages?"), uids, fb)) {
-		int i;
-		
-		for (i = 0; i < uids->len; i++)
-			g_free (uids->pdata[i]);
-		
-		g_ptr_array_free (uids, TRUE);
-		
+	if (uids->len > 10 && !are_you_sure (_("Are you sure you want to resend all %d messages?"), uids, fb))
 		return;
-	}
 	
 	mail_get_messages (fb->folder, uids, do_resend_messages, fb);
 }
@@ -2392,8 +2332,10 @@ search_msg (GtkWidget *widget, gpointer user_data)
 	if (fb->mail_display->current_message == NULL) {
 		GtkWidget *dialog;
 		
-		dialog = gnome_warning_dialog_parented (_("No Message Selected"), FB_WINDOW (fb));
-		gnome_dialog_set_close (GNOME_DIALOG (dialog), TRUE);
+		dialog = gtk_message_dialog_new(FB_WINDOW(fb), GTK_DIALOG_DESTROY_WITH_PARENT,
+						GTK_MESSAGE_WARNING, GTK_BUTTONS_CLOSE,
+						_("No Message Selected"));
+		g_signal_connect_swapped (dialog, "response", G_CALLBACK (gtk_widget_destroy), dialog);
 		gtk_widget_show (dialog);
 		return;
 	}
@@ -2419,8 +2361,8 @@ save_msg_ok (GtkWidget *widget, gpointer user_data)
 	CamelFolder *folder;
 	GPtrArray *uids;
 	const char *path;
-	int fd, ret = 0;
 	struct stat st;
+	gboolean ret = TRUE;
 	
 	path = gtk_file_selection_get_filename (GTK_FILE_SELECTION (user_data));
 	if (path[0] == '\0')
@@ -2429,34 +2371,21 @@ save_msg_ok (GtkWidget *widget, gpointer user_data)
 	/* make sure we can actually save to it... */
 	if (stat (path, &st) != -1 && !S_ISREG (st.st_mode))
 		return;
-	
-	fd = open (path, O_RDONLY);
-	if (fd != -1) {
-		GtkWidget *dialog;
-		GtkWidget *label;
-		
-		close (fd);
-		
-		dialog = gtk_dialog_new_with_buttons (_("Overwrite file?"), GTK_WINDOW (user_data),
-						      GTK_DIALOG_DESTROY_WITH_PARENT,
-						      GTK_STOCK_YES, GTK_RESPONSE_YES,
-						      GTK_STOCK_NO, GTK_RESPONSE_NO,
-						      NULL);
-		
-		label = gtk_label_new (_("A file by that name already exists.\nOverwrite it?"));
-		gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), label, TRUE, TRUE, 4);
-		gtk_window_set_policy (GTK_WINDOW (dialog), FALSE, TRUE, FALSE);
-		gtk_widget_show (label);
-		
-		ret = gtk_dialog_run (GTK_DIALOG (dialog));
-		gtk_widget_destroy (dialog);
+
+	if (access(path, F_OK) == 0) {
+		if (access(path, W_OK) != 0) {
+			e_notice(GTK_WINDOW(user_data), GTK_MESSAGE_ERROR,
+				 _("Cannot save to `%s'\n %s"), path, g_strerror(errno));
+			return;
+		}
+
+		ret = e_question(GTK_WINDOW(user_data), GTK_RESPONSE_NO, NULL,
+				 _("`%s' already exists.\nOverwrite it?"), path);
 	}
 	
 	if (ret == GTK_RESPONSE_OK) {
 		folder = g_object_get_data ((GObject *) user_data, "folder");
-		uids = g_object_get_data ((GObject *) user_data, "uids");
-		/* FIXME: what's this supposed to become? */
-		gtk_object_remove_no_notify (GTK_OBJECT (user_data), "uids");
+		uids = g_object_steal_data (G_OBJECT (user_data), "uids");
 		mail_save_messages (folder, uids, path, NULL, NULL);
 		gtk_widget_destroy (GTK_WIDGET (user_data));
 	}
@@ -2557,46 +2486,20 @@ undelete_msg (GtkWidget *button, gpointer user_data)
 static gboolean
 confirm_goto_next_folder (FolderBrowser *fb)
 {
-	GtkWidget *dialog, *label, *checkbox;
-	int button;
+	gboolean res, show_again;
 	
 	if (!mail_config_get_confirm_goto_next_folder ())
 		return mail_config_get_goto_next_folder ();
-	
-	dialog = gnome_dialog_new (_("Go to next folder with unread messages?"),
-				   GNOME_STOCK_BUTTON_YES,
-				   GNOME_STOCK_BUTTON_NO,
-				   NULL);
-	
-	e_gnome_dialog_set_parent (GNOME_DIALOG (dialog), FB_WINDOW (fb));
-	
-	label = gtk_label_new (_("There are no more new messages in this folder.\n"
-				 "Would you like to go to the next folder?"));
-	
-	gtk_label_set_line_wrap (GTK_LABEL (label), TRUE);
-	gtk_label_set_justify (GTK_LABEL (label), GTK_JUSTIFY_LEFT);
-	gtk_widget_show (label);
-	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (dialog)->vbox), label, TRUE, TRUE, 4);
-	
-	checkbox = gtk_check_button_new_with_label (_("Do not ask me again."));
-	g_object_ref((checkbox));
-	gtk_widget_show (checkbox);
-	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (dialog)->vbox), checkbox, TRUE, TRUE, 4);
-	
-	button = gnome_dialog_run_and_close (GNOME_DIALOG (dialog));
-	
-	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (checkbox)))
-		mail_config_set_confirm_goto_next_folder (FALSE);
-	
-	g_object_unref((checkbox));
-	
-	if (button == 0) {
-		mail_config_set_goto_next_folder (TRUE);
-		return TRUE;
-	} else {
-		mail_config_set_goto_next_folder (FALSE);
-		return FALSE;
-	}
+
+	/*gtk_window_set_title((GtkWindow *)dialog, _("Go to next folder with unread messages?"));*/
+
+	res = e_question(FB_WINDOW(fb), GTK_RESPONSE_YES, &show_again,
+			 _("There are no more new messages in this folder.\n"
+			   "Would you like to go to the next folder?"));
+	mail_config_set_confirm_goto_next_folder(show_again);
+	mail_config_set_goto_next_folder (res);
+
+	return res;
 }
 
 static CamelFolderInfo *
@@ -2800,45 +2703,19 @@ expunged_folder (CamelFolder *f, void *data)
 static gboolean
 confirm_expunge (FolderBrowser *fb)
 {
-	GtkWidget *dialog, *label, *checkbox;
-	int button;
-	
+	gboolean res, show_again;
+
 	if (!mail_config_get_confirm_expunge ())
 		return TRUE;
-	
-	dialog = gnome_dialog_new (_("Warning"),
-				   GNOME_STOCK_BUTTON_YES,
-				   GNOME_STOCK_BUTTON_NO,
-				   NULL);
-	
-	e_gnome_dialog_set_parent (GNOME_DIALOG (dialog), FB_WINDOW (fb));
-	
-	label = gtk_label_new (_("This operation will permanently erase all messages marked as deleted. If you continue, you will not be able to recover these messages.\n\nReally erase these messages?"));
-	
-	gtk_label_set_line_wrap (GTK_LABEL (label), TRUE);
-	gtk_label_set_justify (GTK_LABEL (label), GTK_JUSTIFY_LEFT);
-	gtk_widget_show (label);
-	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (dialog)->vbox), label, TRUE, TRUE, 4);
-	
-	checkbox = gtk_check_button_new_with_label (_("Do not ask me again."));
-	g_object_ref((checkbox));
-	gtk_widget_show (checkbox);
-	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (dialog)->vbox), checkbox, TRUE, TRUE, 4);
-	
-	/* Set the 'No' button as the default */
-	gnome_dialog_set_default (GNOME_DIALOG (dialog), 1);
-	
-	button = gnome_dialog_run_and_close (GNOME_DIALOG (dialog));
-	
-	if (button == 0 && gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (checkbox)))
-		mail_config_set_confirm_expunge (FALSE);
-	
-	g_object_unref((checkbox));
-	
-	if (button == 0)
-		return TRUE;
-	else
-		return FALSE;
+
+	res = e_question(FB_WINDOW(fb), GTK_RESPONSE_NO, &show_again,
+			 _("This operation will permanently erase all messages marked as\n"
+			   "deleted. If you continue, you will not be able to recover these messages.\n"
+			   "\nReally erase these messages?"));
+
+	mail_config_set_confirm_expunge(show_again);
+
+	return res;
 }
 
 void
@@ -2917,16 +2794,9 @@ filter_edit (BonoboUIComponent *uih, void *user_data, const char *path)
 	g_free (user);
 	
 	if (((RuleContext *)fc)->error) {
-		GtkWidget *dialog;
-		char *err;
-		
-		err = g_strdup_printf (_("Error loading filter information:\n%s"),
-				       ((RuleContext *)fc)->error);
-		dialog = gnome_warning_dialog_parented (err, FB_WINDOW (fb));
-		g_free (err);
-		
-		gnome_dialog_set_close (GNOME_DIALOG (dialog), TRUE);
-		gtk_widget_show (dialog);
+		e_notice(FB_WINDOW (fb), GTK_MESSAGE_ERROR,
+			 _("Error loading filter information:\n%s"),
+			 ((RuleContext *)fc)->error);
 		return;
 	}
 	
@@ -3088,10 +2958,8 @@ do_mail_print (FolderBrowser *fb, gboolean preview)
 	} else {
 		int result = gnome_print_master_print (print_master);
 		
-		if (result == -1){
-			e_notice (NULL, GNOME_MESSAGE_BOX_ERROR,
-				  _("Printing of message failed"));
-		}
+		if (result == -1)
+			e_notice(FB_WINDOW(fb), GTK_MESSAGE_ERROR, _("Printing of message failed"));
 	}
 	
 	/* FIXME: We are leaking the GtkHTML object */

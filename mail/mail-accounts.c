@@ -232,18 +232,7 @@ account_delete_clicked (GtkButton *button, gpointer user_data)
 	ans = gtk_dialog_run(confirm);
 	gtk_widget_destroy((GtkWidget *)confirm);
 	g_object_unref(confirm);
-#if 0
-	confirm = GNOME_DIALOG (gnome_message_box_new (_("Are you sure you want to delete this account?"),
-						       GNOME_MESSAGE_BOX_QUESTION,
-						       NULL));
-	gnome_dialog_append_button_with_pixmap (confirm, _("Delete"), GNOME_STOCK_BUTTON_YES);
-	gnome_dialog_append_button_with_pixmap (confirm, _("Don't delete"), GNOME_STOCK_BUTTON_NO);
-	gtk_window_set_policy (GTK_WINDOW (confirm), TRUE, TRUE, TRUE);
-	gtk_window_set_modal (GTK_WINDOW (confirm), TRUE);
-	gtk_window_set_title (GTK_WINDOW (confirm), _("Really delete account?"));
-	gnome_dialog_set_parent (confirm, PREFS_WINDOW (prefs));
-	ans = gnome_dialog_run_and_close (confirm);
-#endif	
+
 	if (ans == GTK_RESPONSE_YES) {
 		int select, len;
 		

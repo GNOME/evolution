@@ -173,7 +173,7 @@ evolution_folder_info_class_init (EvolutionFolderInfoClass *klass)
 {
 	POA_GNOME_Evolution_FolderInfo__epv *epv = &klass->epv;
 	
-	parent_class = gtk_type_class (PARENT_TYPE);
+	parent_class = g_type_class_ref(PARENT_TYPE);
 	epv->getInfo = impl_GNOME_Evolution_FolderInfo_getInfo;
 }
 

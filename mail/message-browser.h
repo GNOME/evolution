@@ -32,10 +32,10 @@
 #include "mail-types.h"
 
 #define MESSAGE_BROWSER_TYPE        (message_browser_get_type ())
-#define MESSAGE_BROWSER(o)          (GTK_CHECK_CAST ((o), MESSAGE_BROWSER_TYPE, MessageBrowser))
-#define MESSAGE_BROWSER_CLASS(k)    (GTK_CHECK_CLASS_CAST((k), MESSAGE_BROWSER_TYPE, MessageBrowserClass))
-#define IS_MESSAGE_BROWSER(o)       (GTK_CHECK_TYPE ((o), MESSAGE_BROWSER_TYPE))
-#define IS_MESSAGE_BROWSER_CLASS(k) (GTK_CHECK_CLASS_TYPE ((k), MESSAGE_BROWSER_TYPE))
+#define MESSAGE_BROWSER(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), MESSAGE_BROWSER_TYPE, MessageBrowser))
+#define MESSAGE_BROWSER_CLASS(k)    (G_TYPE_CHECK_CLASS_CAST ((k), MESSAGE_BROWSER_TYPE, MessageBrowserClass))
+#define IS_MESSAGE_BROWSER(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), MESSAGE_BROWSER_TYPE))
+#define IS_MESSAGE_BROWSER_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE ((k), MESSAGE_BROWSER_TYPE))
 
 struct _MessageBrowser {
 	BonoboWindow parent;

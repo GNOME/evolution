@@ -37,9 +37,9 @@ extern "C" {
 #endif /* __cplusplus */
 
 #define MESSAGE_TAG_FOLLOWUP_TYPE         (message_tag_followup_get_type ())
-#define MESSAGE_TAG_FOLLOWUP(obj)	  (GTK_CHECK_CAST (obj, MESSAGE_TAG_FOLLOWUP_TYPE, MessageTagFollowUp))
-#define MESSAGE_TAG_FOLLOWUP_CLASS(klass) (GTK_CHECK_CLASS_CAST (klass, MESSAGE_TAG_FOLLOWUP_TYPE, MessageTagFollowUpClass))
-#define IS_MESSAGE_TAG_FOLLOWUP(obj)      (GTK_CHECK_TYPE (obj, MESSAGE_TAG_FOLLOWUP_TYPE))
+#define MESSAGE_TAG_FOLLOWUP(obj)	  (G_TYPE_CHECK_INSTANCE_CAST (obj, MESSAGE_TAG_FOLLOWUP_TYPE, MessageTagFollowUp))
+#define MESSAGE_TAG_FOLLOWUP_CLASS(klass) (G_TYPE_CHECK_CLASS_CAST (klass, MESSAGE_TAG_FOLLOWUP_TYPE, MessageTagFollowUpClass))
+#define IS_MESSAGE_TAG_FOLLOWUP(obj)      (G_TYPE_CHECK_INSTANCE_TYPE (obj, MESSAGE_TAG_FOLLOWUP_TYPE))
 
 typedef struct _MessageTagFollowUp MessageTagFollowUp;
 typedef struct _MessageTagFollowUpClass MessageTagFollowUpClass;
@@ -47,7 +47,7 @@ typedef struct _MessageTagFollowUpClass MessageTagFollowUpClass;
 struct _MessageTagFollowUp {
 	MessageTagEditor parent;
 	
-	GtkCList *message_list;
+	GtkTreeView *message_list;
 	
 	GtkCombo *combo;
 	

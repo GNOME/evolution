@@ -358,7 +358,7 @@ launch_cb (GtkWidget *widget, gpointer user_data)
 	g_return_if_fail (handler != NULL && handler->applications != NULL);
 	
 	/* Yum. Too bad EPopupMenu doesn't allow per-item closures. */
-	children = gtk_container_children (GTK_CONTAINER (widget->parent));
+	children = gtk_container_get_children(GTK_CONTAINER (widget->parent));
 	g_return_if_fail (children != NULL && children->next != NULL && children->next->next != NULL);
 	
 	for (c = children->next->next, apps = handler->applications; c && apps; c = c->next, apps = apps->next) {

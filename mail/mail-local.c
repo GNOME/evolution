@@ -1390,7 +1390,7 @@ reconfigure_response(GtkDialog *dialog, int button, struct _reconfigure_msg *m)
 
 		menu = gtk_option_menu_get_menu(m->optionlist);
 		item = gtk_menu_get_active(GTK_MENU(menu));
-		m->newtype = g_strdup(g_object_get_data (item, "type"));
+		m->newtype = g_strdup(g_object_get_data ((GObject *)item, "type"));
 		m->index_body = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(m->check_index_body));
 
 		gtk_widget_set_sensitive (m->frame, FALSE);
@@ -1509,7 +1509,7 @@ mail_local_reconfigure_folder(const char *uri, void (*done)(const char *uri, Cam
 	struct _reconfigure_msg *m;
 
 	if (strncmp(uri, "file:", 5) != 0) {
-		e_notice (NULL, GNOME_MESSAGE_BOX_WARNING,
+		e_notice (NULL, GTK_MESSAGE_WARNING,
 			  _("You cannot change the format of a non-local folder."));
 		if (done) 
 			done(uri, NULL, done_data);

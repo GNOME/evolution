@@ -48,10 +48,10 @@ extern "C" {
 #include "Spell.h"
 
 #define MAIL_COMPOSER_PREFS_TYPE        (mail_composer_prefs_get_type ())
-#define MAIL_COMPOSER_PREFS(o)          (GTK_CHECK_CAST ((o), MAIL_COMPOSER_PREFS_TYPE, MailComposerPrefs))
-#define MAIL_COMPOSER_PREFS_CLASS(k)    (GTK_CHECK_CLASS_CAST((k), MAIL_COMPOSER_PREFS_TYPE, MailComposerPrefsClass))
-#define IS_MAIL_COMPOSER_PREFS(o)       (GTK_CHECK_TYPE ((o), MAIL_COMPOSER_PREFS_TYPE))
-#define IS_MAIL_COMPOSER_PREFS_CLASS(k) (GTK_CHECK_CLASS_TYPE ((k), MAIL_COMPOSER_PREFS_TYPE))
+#define MAIL_COMPOSER_PREFS(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), MAIL_COMPOSER_PREFS_TYPE, MailComposerPrefs))
+#define MAIL_COMPOSER_PREFS_CLASS(k)    (G_TYPE_CHECK_CLASS_CAST ((k), MAIL_COMPOSER_PREFS_TYPE, MailComposerPrefsClass))
+#define IS_MAIL_COMPOSER_PREFS(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), MAIL_COMPOSER_PREFS_TYPE))
+#define IS_MAIL_COMPOSER_PREFS_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE ((k), MAIL_COMPOSER_PREFS_TYPE))
 
 typedef struct _MailComposerPrefs MailComposerPrefs;
 typedef struct _MailComposerPrefsClass MailComposerPrefsClass;

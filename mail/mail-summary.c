@@ -496,10 +496,10 @@ create_summary_view (ExecutiveSummaryComponentFactory *_factory,
 
 #ifdef DETECT_NEW_VFOLDERS 
 	summary->listener = evolution_storage_listener_new ();
-	gtk_signal_connect (GTK_OBJECT (summary->listener), "new_folder",
-			    GTK_SIGNAL_FUNC (new_folder_cb), summary);
-	gtk_signal_connect (GTK_OBJECT (summary->listener), "removed_folder",
-			    GTK_SIGNAL_FUNC (removed_folder_cb), summary);
+	g_signal_connect((summary->listener), "new_folder",
+			    G_CALLBACK (new_folder_cb), summary);
+	g_signal_connect((summary->listener), "removed_folder",
+			    G_CALLBACK (removed_folder_cb), summary);
 
 	corba_object = evolution_storage_listener_corba_objref (summary->listener);
 

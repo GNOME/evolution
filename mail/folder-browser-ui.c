@@ -413,7 +413,7 @@ folder_browser_ui_setup_view_menus (FolderBrowser *fb)
 	if (fb->view_instance == NULL)
 		return;
 	
-	g_signal_connect (fb->view_instance, "display_view", GTK_SIGNAL_FUNC (display_view), fb);
+	g_signal_connect (fb->view_instance, "display_view", G_CALLBACK (display_view), fb);
 	
 	display_view (fb->view_instance, gal_view_instance_get_current_view (fb->view_instance), fb);
 }

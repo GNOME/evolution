@@ -34,10 +34,10 @@ extern "C" {
 #include "evolution-config-control.h"
 
 #define MAIL_FONT_PREFS_TYPE          (mail_font_prefs_get_type())
-#define MAIL_FONT_PREFS(o)            (GTK_CHECK_CAST ((o), MAIL_FONT_PREFS_TYPE, MailFontPrefs))
-#define MAIL_FONT_PREFS_CLASS(k)      (GTK_CHECK_CLASS_CAST((k), MAIL_FONT_PREFS_TYPE, MailFontPrefsClass))
-#define IS_MAIL_FONT_PREFS(o)         (GTK_CHECK_TYPE ((o), MAIL_FONT_PREFS_TYPE))
-#define IS_MAIL_FONT_PREFS_CLASS(k)   (GTK_CHECK_CLASS_TYPE ((k), MAIL_FONT_PREFS_TYPE))
+#define MAIL_FONT_PREFS(o)            (G_TYPE_CHECK_INSTANCE_CAST ((o), MAIL_FONT_PREFS_TYPE, MailFontPrefs))
+#define MAIL_FONT_PREFS_CLASS(k)      (G_TYPE_CHECK_CLASS_CAST ((k), MAIL_FONT_PREFS_TYPE, MailFontPrefsClass))
+#define IS_MAIL_FONT_PREFS(o)         (G_TYPE_CHECK_INSTANCE_TYPE ((o), MAIL_FONT_PREFS_TYPE))
+#define IS_MAIL_FONT_PREFS_CLASS(k)   (G_TYPE_CHECK_CLASS_TYPE ((k), MAIL_FONT_PREFS_TYPE))
 
 typedef struct _MailFontPrefs MailFontPrefs;
 typedef struct _MailFontPrefsClass MailFontPrefsClass;
