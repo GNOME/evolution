@@ -103,4 +103,7 @@ mail_tool_uri_to_folder (const char *uri, CamelException *ex);
 CamelFolder *
 mail_tool_uri_to_folder_noex (const char *uri);
 
+GHashTable *
+mail_lookup_url_table (CamelMimeMessage *mime_message);
+
 #endif

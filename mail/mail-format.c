@@ -24,6 +24,7 @@
  */
 
 #include <config.h>
+#include "mail-tools.h"
 #include "mail-display.h"
 #include "mail.h"
 #include "e-util/e-html-utils.h"

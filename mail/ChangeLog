@@ -1,3 +1,7 @@
+2000-08-11  Christopher James Lahey  <clahey@helixcode.com>
+
+	* mail-format.c, mail-tools.h, message-list.c: Fixed a warning.
+
 2000-08-11  Dan Winship  <danw@helixcode.com>
 
 	* mail-display.c, mail-format.c: Redo this again. Get rid of

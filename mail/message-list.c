@@ -940,7 +940,6 @@ static gint
 idle_select_row (gpointer user_data)
 {
 	MessageList *ml = MESSAGE_LIST (user_data);
-	ETableScrolled *ets = E_TABLE_SCROLLED (ml->etable);
 
 	message_list_select (ml, -1, MESSAGE_LIST_SELECT_NEXT,
 			     0, CAMEL_MESSAGE_SEEN);
