@@ -2430,7 +2430,6 @@ print_calendar (GnomeCalendar *gcal, gboolean preview, time_t date,
 	GnomePrintContext *pc;
 	int copies, collate;
 	double l, r, t, b;
-	gchar *old_orientation;
 
 	g_return_if_fail (gcal != NULL);
 	g_return_if_fail (GNOME_IS_CALENDAR (gcal));
@@ -2481,10 +2480,10 @@ print_calendar (GnomeCalendar *gcal, gboolean preview, time_t date,
 		gtk_widget_destroy (gpd);
 	}
 
-	old_orientation = gnome_print_config_get (print_config, GNOME_PRINT_KEY_PAGE_ORIENTATION);
-
 	if (default_view == PRINT_VIEW_MONTH)
 		gnome_print_config_set (print_config, GNOME_PRINT_KEY_PAGE_ORIENTATION, "R90");
+	else
+		gnome_print_config_set (print_config, GNOME_PRINT_KEY_PAGE_ORIENTATION, "R0");
 
 	pc = gnome_print_job_get_context (gpm);
 	gnome_print_config_get_page_size (print_config, &r, &t);
@@ -2533,8 +2532,6 @@ print_calendar (GnomeCalendar *gcal, gboolean preview, time_t date,
 		gnome_print_job_print (gpm);
 	}
 
-	gnome_print_config_set (print_config, GNOME_PRINT_KEY_PAGE_ORIENTATION, old_orientation);
-	g_free (old_orientation);
 	g_object_unref (gpm);
 }
 

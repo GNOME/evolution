@@ -1,3 +1,8 @@
+2004-01-16  Radek Doulik  <rodo@ximian.com>
+
+	* gui/print.c (print_calendar): don't set old orientation, preview
+	needs right orientation even after everything is printed
+
 2004-01-16  Rodrigo Moya <rodrigo@ximian.com>
 
 	Fixes #52920
