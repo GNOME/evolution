@@ -291,15 +291,15 @@ build_quick_add_dialog (QuickAdd *qa)
 {
 	GtkWidget *dialog;
 	GtkTable *table;
-	const gint xpad=1, ypad=1;
+	const gint xpad=6, ypad=6;
 
 	g_return_val_if_fail (qa != NULL, NULL);
 
 	dialog = gtk_dialog_new_with_buttons (_("Contact Quick-Add"),
 					      NULL, /* XXX */
 					      (GtkDialogFlags) 0,
-					      GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-					      _("Edit Full"), QUICK_ADD_RESPONSE_EDIT_FULL,
+					      _("_Edit Full"), QUICK_ADD_RESPONSE_EDIT_FULL,
+					        GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
 					      GTK_STOCK_OK, GTK_RESPONSE_OK,
 					      NULL);
 
@@ -316,22 +316,26 @@ build_quick_add_dialog (QuickAdd *qa)
 
 	table = GTK_TABLE (gtk_table_new (2, 2, FALSE));
 
-	gtk_table_attach (table, gtk_label_new (_("Full Name")),
+	gtk_table_attach (table, gtk_label_new_with_mnemonic (_("_Full Name:")),
 			  0, 1, 0, 1,
 			  0, 0, xpad, ypad);
 	gtk_table_attach (table, qa->name_entry,
 			  1, 2, 0, 1,
 			  GTK_EXPAND | GTK_FILL, GTK_EXPAND, xpad, ypad);
-	gtk_table_attach (table, gtk_label_new (_("E-mail")),
+	gtk_table_attach (table, gtk_label_new_with_mnemonic (_("E-_mail:")),
 			  0, 1, 1, 2,
 			  0, 0, xpad, ypad);
 	gtk_table_attach (table, qa->email_entry,
 			  1, 2, 1, 2,
 			  GTK_EXPAND | GTK_FILL, GTK_EXPAND, xpad, ypad);
+	gtk_container_set_border_width (GTK_CONTAINER (GTK_DIALOG (dialog)->vbox), 
+					6);
+
+	gtk_box_set_spacing (GTK_BOX (GTK_DIALOG (dialog)->vbox),6);
 
 	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox),
 			    GTK_WIDGET (table),
-			    TRUE, TRUE, 0);
+			    TRUE, TRUE, 6);
 	gtk_widget_show_all (GTK_WIDGET (table));
 			  
 	

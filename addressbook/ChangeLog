@@ -1,5 +1,8 @@
 2003-05-19  Anna Marie Dirks  <anna@ximian.com>
 
+	* gui/contact-editor/e-contact-quick-add.c: Added HIG-appropriate
+	HIG-appropriate spacing, padding, accelerators. Fixes bug #41210
+
 	* gui/component/ldap-config.glade: HIG-ified the various dialogs
 	(including the settings pages, the config druid, and the edit dialog) 
 	in this glade file. This fixes bugs #41140, #41137, #41130
