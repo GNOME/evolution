@@ -1,3 +1,10 @@
+2004-09-21  JP Rosevear  <jpr@novell.com>
+ 
+	Fixes #59194
+ 	
+ 	* gui/e-cal-model-calendar.c (get_location): return "" instead of
+ 	NULL
+	
 2004-09-21  Chenthill Palanisamy  <pchenthill@novell.com>
 
 	Fixes #65682
