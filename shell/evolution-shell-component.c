@@ -82,6 +82,7 @@ enum {
 	INTERACTIVE,
 	HANDLE_EXTERNAL_URI,
 	USER_CREATE_NEW_ITEM,
+	SEND_RECEIVE,
 	LAST_SIGNAL
 };
 
@@ -657,6 +658,17 @@ impl_userCreateNewItem (PortableServer_Servant servant,
 	gtk_signal_emit (GTK_OBJECT (shell_component), signals[USER_CREATE_NEW_ITEM], id, parent_physical_uri, parent_type);
 }
 
+static void
+impl_sendReceive (PortableServer_Servant servant,
+		  const CORBA_boolean show_dialog,
+		  CORBA_Environment *ev)
+{
+	EvolutionShellComponent *shell_component;
+
+	shell_component = EVOLUTION_SHELL_COMPONENT (bonobo_object_from_servant (servant));
+	gtk_signal_emit (GTK_OBJECT (shell_component), signals[SEND_RECEIVE], show_dialog);
+}
+
 
 /* GtkObject methods.  */
 
@@ -831,6 +843,15 @@ class_init (EvolutionShellComponentClass *klass)
 				  GTK_TYPE_STRING,
 				  GTK_TYPE_STRING);
 
+	signals[SEND_RECEIVE]
+		= gtk_signal_new ("send_receive",
+				  GTK_RUN_FIRST,
+				  object_class->type,
+				  GTK_SIGNAL_OFFSET (EvolutionShellComponentClass, send_receive),
+				  gtk_marshal_NONE__BOOL,
+				  GTK_TYPE_NONE, 1,
+				  GTK_TYPE_BOOL);
+
 	gtk_object_class_add_signals (object_class, signals, LAST_SIGNAL);
 
 	parent_class = gtk_type_class (PARENT_TYPE);
@@ -849,6 +870,7 @@ class_init (EvolutionShellComponentClass *klass)
 	epv->xferFolderAsync             = impl_xferFolderAsync; 
 	epv->populateFolderContextMenu   = impl_populateFolderContextMenu;
 	epv->userCreateNewItem           = impl_userCreateNewItem;
+	epv->sendReceive                 = impl_sendReceive;
 
 	shell_component_class = EVOLUTION_SHELL_COMPONENT_CLASS (object_class);
 	shell_component_class->owner_died = impl_owner_died;

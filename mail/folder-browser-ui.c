@@ -108,7 +108,6 @@ static BonoboUIVerb global_verbs [] = {
 	BONOBO_UI_UNSAFE_VERB ("EmptyTrash", empty_trash),
 	BONOBO_UI_UNSAFE_VERB ("ForgetPasswords", mail_session_forget_passwords),
 	BONOBO_UI_UNSAFE_VERB ("MailCompose", compose_msg),
-	BONOBO_UI_UNSAFE_VERB ("MailGetSend", send_receive_mail),
 	BONOBO_UI_UNSAFE_VERB ("MailStop", stop_threads),
 	BONOBO_UI_UNSAFE_VERB ("ToolsFilters", filter_edit),
 	BONOBO_UI_UNSAFE_VERB ("ToolsSettings", providers_config),
@@ -166,11 +165,8 @@ static EPixmap list_pixcache [] = {
 
 static EPixmap global_pixcache [] = {
 	E_PIXMAP ("/commands/MailCompose", "new-message.xpm"),
-	E_PIXMAP ("/commands/MailGetSend", "send-receive.xpm"),
 	E_PIXMAP ("/commands/ToolsSettings", "configure_16_mail.xpm"),
 	
-	E_PIXMAP ("/Toolbar/MailGetSend", "buttons/send-24-receive.png"),
-
 	E_PIXMAP_END
 };
 

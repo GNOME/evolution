@@ -154,6 +154,9 @@ struct _EvolutionShellComponentClass {
 				       const char *id,
 				       const char *parent_folder_physical_uri,
 				       const char *parent_folder_type);
+
+	void (* send_receive) (EvolutionShellComponent *shell_component,
+			       gboolean show_dialog);
 };
 
 

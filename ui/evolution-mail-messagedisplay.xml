@@ -28,11 +28,11 @@
       <placeholder name="MailMessageView"/>
     </submenu>
 
-    <placeholder name="ComponentActionsPlaceholder">
-      <submenu name="Actions" _label="_Actions">
+    <submenu name="Actions" _label="_Actions">
+      <placeholder name="ComponentActionsPlaceholder">
         <placeholder name="MailMessageActions"/>
-      </submenu>
-    </placeholder>
+      </placeholder>
+    </submenu>
 
     <submenu name="Tools">
       <placeholder name="ComponentPlaceholder">

@@ -271,6 +271,20 @@ command_toggle_shortcut_bar (BonoboUIComponent           *component,
 
 
 static void
+command_send_receive (BonoboUIComponent *ui_component,
+		      void *data,
+		      const char *path)
+{
+	EShellView *shell_view;
+	EShell *shell;
+
+	shell_view = E_SHELL_VIEW (data);
+	shell = e_shell_view_get_shell (shell_view);
+
+	e_shell_send_receive (shell);
+}
+
+static void
 command_new_folder (BonoboUIComponent *uih,
 		    void *data,
 		    const char *path)
@@ -645,6 +659,12 @@ BonoboUIVerb folder_verbs [] = {
 	BONOBO_UI_VERB_END
 };
 
+BonoboUIVerb actions_verbs[] = {
+	BONOBO_UI_VERB ("SendReceive", command_send_receive),
+
+	BONOBO_UI_VERB_END
+};
+
 BonoboUIVerb tools_verbs[] = {
 	BONOBO_UI_VERB ("Settings", command_settings),
 
@@ -660,10 +680,14 @@ BonoboUIVerb help_verbs [] = {
 };
 
 static EPixmap pixmaps [] = {
+	E_PIXMAP ("/commands/SendReceive",      "send-receive.xpm"),
+
 	E_PIXMAP ("/menu/File/New/Folder",	"folder.xpm"),
 	E_PIXMAP ("/menu/File/Folder/Folder",	"folder.xpm"),
 	E_PIXMAP ("/menu/File/FileImporter",	"import.xpm"),
 	E_PIXMAP ("/menu/File/ToggleOffline",	"work_offline.xpm"),
+
+	E_PIXMAP ("/Toolbar/SendReceive",       "buttons/send-24-receive.png"),
 
 	E_PIXMAP_END
 };
@@ -785,6 +809,7 @@ e_shell_view_menu_setup (EShellView *shell_view)
 	bonobo_ui_component_add_verb_list_with_data (uic, folder_verbs, shell_view);
 	bonobo_ui_component_add_verb_list_with_data (uic, new_verbs, shell_view);
 
+	bonobo_ui_component_add_verb_list_with_data (uic, actions_verbs, shell_view);
 	bonobo_ui_component_add_verb_list_with_data (uic, tools_verbs, shell_view);
 
 	bonobo_ui_component_add_verb_list (uic, help_verbs);

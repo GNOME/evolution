@@ -102,6 +102,8 @@ module Evolution {
 					in string parent_folder_physical_uri,
 					in string parent_folder_type)
 			raises (UnsupportedType);
+
+		void sendReceive (in boolean show_dialog);
 	};
 
 	interface ShellComponentListener {

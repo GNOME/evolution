@@ -143,6 +143,8 @@ void              e_shell_go_offline       (EShell     *shell,
 void              e_shell_go_online        (EShell     *shell,
 					    EShellView *action_view);
 
+void  e_shell_send_receive  (EShell *shell);
+
 Bonobo_ConfigDatabase            e_shell_get_config_db                     (EShell *shell);
 EComponentRegistry              *e_shell_get_component_registry            (EShell *shell);
 EShellUserCreatableItemsHandler *e_shell_get_user_creatable_items_handler  (EShell *shell);

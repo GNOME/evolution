@@ -57,11 +57,11 @@
 
      </submenu>
 
-    <placeholder name="ComponentActionsPlaceholder">
-      <submenu name="Actions" _label="_Actions">
+    <submenu name="Actions" _label="_Actions">
+      <placeholder name="ComponentActionsPlaceholder">
 	<menuitem name="PublishFreeBusy" verb="" _label="_Publish Free/Busy Information"/>
-      </submenu>
-    </placeholder>
+      </placeholder>
+    </submenu_name>
   </menu>
 
   <dockitem name="Toolbar">

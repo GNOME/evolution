@@ -1,5 +1,21 @@
 2002-03-20  Ettore Perazzoli  <ettore@ximian.com>
 
+	* component-factory.c (send_receive_cb): New, callback for the
+	"send_receive" signal on the EvolutionShellComponent.
+	(create_component): Connect.
+
+	* folder-browser-ui.c: Remove verb "MailGetSend".
+
+	* mail-callbacks.c (send_receive_mail): Removed.
+
+	* mail-send-recv.c: Remove member current_folder from struct
+	_send_data.
+	(free_send_data): No need to unref here.
+	(build_dialogue): Removed arg @current_folder.
+	(mail_send_receive): Likewise.
+
+2002-03-20  Ettore Perazzoli  <ettore@ximian.com>
+
 	* folder-browser.c: Reorder folder_browser_search_menu_items
 	according to #16246.
 

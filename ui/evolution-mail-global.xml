@@ -12,10 +12,6 @@
      _tip="Open a window for composing a mail message"
      pixtype="pixbuf"/>
 
-    <cmd name="MailGetSend"
-     _tip="Send queued mail and retrieve new mail"
-     pixtype="pixbuf"/>
-
     <cmd name="MailStop"
      _tip="Cancel the current mail operation"
      pixtype="stock" pixname="Stop"/>
@@ -72,9 +68,8 @@
       </submenu>
     </submenu>
 
-    <placeholder name="ComponentActionsPlaceholder">
-      <submenu name="Actions" _label="_Actions">
-        <menuitem name="MailGetSend" verb="" _label="_Send / Receive" accel="F9"/>
+    <submenu name="Actions" _label="_Actions">
+      <placeholder name="ComponentActionsPlaceholder">
         <menuitem name="ActionCompose" verb="MailCompose" _label="Compose _New Message"/>
 
 	<separator f="" name="emailglobal"/>
@@ -86,8 +81,8 @@
         <placeholder name="MailListActions"/>
 
         <menuitem name="EmptyTrash" verb="" _label="Empty _Trash"/>
-      </submenu>
-    </placeholder>
+      </placeholder>
+    </submenu>
 
     <submenu name="Tools">
 
@@ -119,10 +114,6 @@
   </menu>
 
   <dockitem name="Toolbar">
-
-    <toolitem name="MailGetSend" verb=""
-     _label="Send / Receive" priority="1"
-     pixtype="pixbuf"/>
 
     <separator f="" name="emailglobal1"/>
 

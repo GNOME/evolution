@@ -167,33 +167,6 @@ check_send_configuration (FolderBrowser *fb)
 	return TRUE;
 }
 
-void
-send_receive_mail (GtkWidget *widget, gpointer user_data)
-{
-	FolderBrowser *fb = FOLDER_BROWSER (user_data);
-	const MailConfigAccount *account;
-	
-	if (FOLDER_BROWSER_IS_DESTROYED (fb))
-		return;
-	
-	if (!mail_config_is_configured () && !configure_mail (fb))
-			return;
-	
-	account = mail_config_get_default_account ();
-	if (!account || !account->transport) {
-		GtkWidget *dialog;
-		
-		dialog = gnome_error_dialog_parented (_("You have not set a mail transport method"),
-						      FB_WINDOW (fb));
-		gnome_dialog_set_close (GNOME_DIALOG (dialog), TRUE);
-		gtk_widget_show (dialog);
-		
-		return;
-	}
-	
-	mail_send_receive (fb->folder);
-}
-
 static void
 msgbox_destroyed (GtkWidget *widget, gpointer data)
 {

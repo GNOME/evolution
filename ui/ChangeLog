@@ -1,3 +1,22 @@
+2002-03-20  Ettore Perazzoli  <ettore@ximian.com>
+
+	* evolution.xml: Move the ComponentActionsPlaceholder into the
+	Actions menu, instead of the Actions menu being in the
+	ComponentActionsPlaceholder.
+	* evolution-addressbook.xml: Updated accordingly.
+	* evolution-calendar.xml: Updated accordingly.
+	* evolution-mail-global.xml: Updated accordingly.
+	* evolution-mail-list.xml: Updated accordingly.
+	* evolution-mail-message.xml: Updated accordingly.
+	* evolution-mail-messagedisplay.xml: Updated accordingly.
+	* evolution-tasks.xml: Updated accordingly.
+
+	* evolution.xml: Add "SendReceive" verb, menu item and toolbar
+	button.
+
+	* evolution-mail-global.xml: Remove "MailGetSend" verb and menu
+	item.
+
 2002-03-14  Ettore Perazzoli  <ettore@ximian.com>
 
 	* evolution.xml: Add a "Search" menu.

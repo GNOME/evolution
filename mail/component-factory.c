@@ -901,6 +901,33 @@ owner_unset_cb (EvolutionShellComponent *shell_component, gpointer user_data)
 	g_timeout_add(100, idle_quit, NULL);
 }
 
+static void
+send_receive_cb (EvolutionShellComponent *shell_component,
+		 gboolean show_dialog,
+		 void *data)
+{
+	const MailConfigAccount *account;
+	
+	/* FIXME: configure_mail() should be changed to work without a
+	   FolderBrowser, and then we will be able to call configure_mail from
+	   here properly.  */
+	if (!mail_config_is_configured () /* && !configure_mail (fb) */)
+			return;
+	
+	account = mail_config_get_default_account ();
+	if (!account || !account->transport) {
+		GtkWidget *dialog;
+		
+		dialog = gnome_error_dialog (_("You have not set a mail transport method"));
+		gnome_dialog_set_close (GNOME_DIALOG (dialog), TRUE);
+		gtk_widget_show (dialog);
+
+		return;
+	}
+	
+	mail_send_receive ();
+}
+
 static BonoboObject *
 create_component (void)
 {
@@ -918,6 +945,9 @@ create_component (void)
 							 populate_folder_context_menu,
 							 get_dnd_selection,
 							 NULL);
+
+	gtk_signal_connect (GTK_OBJECT (shell_component), "send_receive",
+			    GTK_SIGNAL_FUNC (send_receive_cb), NULL);
 	
 	destination_interface = evolution_shell_component_dnd_destination_folder_new (destination_folder_handle_motion,
 										      destination_folder_handle_drop,

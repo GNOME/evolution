@@ -42,11 +42,11 @@
       </submenu>
     </placeholder>
 
-    <placeholder name="ComponentActionsPlaceholder">
-      <submenu name="Actions" _label="_Actions">
+    <submenu name="Actions" _label="_Actions">
+      <placeholder name="ComponentActionsPlaceholder">
 	<menuitem name="TasksExpunge" verb="" pixtype="pixbuf"/>
-      </submenu>
-    </placeholder>
+      </placeholder>
+    </submenu>
 
   </menu>
 

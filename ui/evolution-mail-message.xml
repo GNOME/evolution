@@ -258,8 +258,8 @@
       </placeholder>
     </submenu>
 
-    <placeholder name="ComponentActionsPlaceholder">
-      <submenu name="Actions" _label="_Actions">
+    <submenu name="Actions" _label="_Actions">
+      <placeholder name="ComponentActionsPlaceholder">
         <placeholder name="MailMessageActions">
           <submenu name="GoTo" _label="_Go To">
             <menuitem name="MailNext" verb="" _label="_Next Message"/>
@@ -303,8 +303,8 @@
 
           <menuitem name="MessageApplyFilters" verb="" _label="A_pply Filters"/>
         </placeholder>
-      </submenu>
-    </placeholder>
+      </placeholder>
+    </submenu>
 
     <submenu name="Tools" _label="_Tools">
       <placeholder name="ComponentPlaceholder">

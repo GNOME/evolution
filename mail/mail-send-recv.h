@@ -31,7 +31,7 @@ extern "C" {
 #include "mail-config.h"
 
 /* send/receive all uri's */
-void mail_send_receive(CamelFolder *current_folder);
+void mail_send_receive(void);
 /* receive a single uri */
 void mail_receive_uri(const char *uri, int keep);
 /* setup auto receive stuff */

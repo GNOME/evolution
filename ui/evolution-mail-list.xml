@@ -110,13 +110,13 @@
      </placeholder>
     </submenu>
 
-    <placeholder name="ComponentActionsPlaceholder">
-      <submenu name="Actions" _label="_Actions">
+    <submenu name="Actions" _label="_Actions">
+      <placeholder name="ComponentActionsPlaceholder">
         <placeholder name="MailListActions">
           <menuitem name="FolderExpunge" verb="" _label="_Expunge"/>
         </placeholder>
-      </submenu>
-    </placeholder>
+      </placeholder>
+    </submenu>
   </menu>
 
 </Root>

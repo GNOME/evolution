@@ -1869,10 +1869,46 @@ e_shell_go_online (EShell *shell,
 }
 
 
+void
+e_shell_send_receive (EShell *shell)
+{
+	EShellPrivate *priv;
+	GList *id_list;
+	GList *p;
+
+	g_return_if_fail (E_IS_SHELL (shell));
+
+	priv = shell->priv;
+
+	id_list = e_component_registry_get_id_list (priv->component_registry);
+
+	for (p = id_list; p != NULL; p = p->next) {
+		EvolutionShellComponentClient *component_client;
+		CORBA_Environment ev;
+		const char *id;
+
+		id = (const char *) p->data;
+		component_client = e_component_registry_get_component_by_id (priv->component_registry, id);
+
+		CORBA_exception_init (&ev);
+
+		GNOME_Evolution_ShellComponent_sendReceive
+			(bonobo_object_corba_objref (BONOBO_OBJECT (component_client)), TRUE, &ev);
+
+		if (BONOBO_EX (&ev))
+			g_warning ("Error invoking Send/Receive on %s -- %s", id, BONOBO_EX_ID (&ev));
+
+		CORBA_exception_free (&ev);
+	}
+
+	e_free_string_list (id_list);
+}
+
+
 Bonobo_ConfigDatabase 
 e_shell_get_config_db (EShell *shell)
 {
-	g_return_val_if_fail (shell != NULL, CORBA_OBJECT_NIL);
+	g_return_val_if_fail (E_IS_SHELL (shell), CORBA_OBJECT_NIL);
 
 	return shell->priv->db;
 }

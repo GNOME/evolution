@@ -78,8 +78,6 @@ struct _send_data {
 	CamelFolder *inbox;	/* since we're never asked to update this one, do it ourselves */
 	time_t inbox_update;
 
-	CamelFolder *current_folder;
-
 	GMutex *lock;
 	GHashTable *folders;
 
@@ -179,10 +177,7 @@ free_send_data(void)
 		/*camel_folder_thaw (data->inbox);		*/
 		camel_object_unref((CamelObject *)data->inbox);
 	}
-	if (data->current_folder) {
-		mail_refresh_folder(data->current_folder, NULL, NULL);
-		camel_object_unref((CamelObject *)data->current_folder);
-	}
+
 	g_list_free(data->infos);
 	g_hash_table_foreach(data->active, (GHFunc)free_send_info, NULL);
 	g_hash_table_destroy(data->active);
@@ -274,7 +269,7 @@ static send_info_t get_receive_type(const char *url)
 }
 
 static struct _send_data *
-build_dialogue (GSList *sources, CamelFolder *current_folder, CamelFolder *outbox, const char *destination)
+build_dialogue (GSList *sources, CamelFolder *outbox, const char *destination)
 {
 	GnomeDialog *gd;
 	GtkTable *table;
@@ -433,8 +428,6 @@ build_dialogue (GSList *sources, CamelFolder *current_folder, CamelFolder *outbo
 	
 	data->infos = list;
 	data->gd = gd;
-	data->current_folder = current_folder;
-	camel_object_ref (CAMEL_OBJECT (current_folder));
 	
 	return data;
 }
@@ -647,7 +640,7 @@ receive_update_got_store (char *uri, CamelStore *store, void *data)
 	}
 }
 
-void mail_send_receive (CamelFolder *current_folder)
+void mail_send_receive (void)
 {
 	GSList *sources;
 	GList *scan;
@@ -674,7 +667,7 @@ void mail_send_receive (CamelFolder *current_folder)
 	   Well, probably hook into receive_done or receive_status on
 	   the right pop account, and when it is, then kick off the
 	   smtp one. */
-	data = build_dialogue(sources, current_folder, outbox_folder, account->transport->url);
+	data = build_dialogue(sources, outbox_folder, account->transport->url);
 	scan = data->infos;
 	while (scan) {
 		struct _send_info *info = scan->data;
