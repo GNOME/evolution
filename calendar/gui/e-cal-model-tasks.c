@@ -1099,6 +1099,11 @@ e_cal_model_tasks_mark_task_complete (ECalModelTasks *model, gint model_row)
 	priv = model->priv;
 
 	comp_data = e_cal_model_get_component_at (E_CAL_MODEL (model), model_row);
-	if (comp_data)
+	if (comp_data) {
+		e_table_model_pre_change (E_TABLE_MODEL (model));
+
 		ensure_task_complete (comp_data, -1);
+
+		e_table_model_row_changed (E_TABLE_MODEL (model), model_row);
+	}
 }
