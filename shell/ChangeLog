@@ -1,5 +1,11 @@
 2003-01-23  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-shell-folder-title-bar.c (get_max_clipped_label_width): Use
+	clipped_label->layout instead of creating a new PangoLayout; this
+	way we respect the actual font being used.
+
+2003-01-23  Ettore Perazzoli  <ettore@ximian.com>
+
 	* e-shell-view.c (create_label_for_empty_page): Update for new
 	args to e_clipped_label_new().
 

@@ -196,16 +196,10 @@ set_title_bar_label_style (GtkWidget *widget)
 static int
 get_max_clipped_label_width (EClippedLabel *clipped_label)
 {
-	PangoLayout *layout;
 	int width;
 
-	layout = gtk_widget_create_pango_layout (GTK_WIDGET (clipped_label),
-						 clipped_label->label);
-
-	pango_layout_get_pixel_size (layout, &width, NULL);
+	pango_layout_get_pixel_size (clipped_label->layout, &width, NULL);
 	width += 2 * GTK_MISC (clipped_label)->xpad;
-
-	g_object_unref (layout);
 
 	return width;
 }
