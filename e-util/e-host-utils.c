@@ -269,7 +269,7 @@ e_gethostbyname_r (const char *name, struct hostent *host,
 /**
  * e_gethostbyaddr_r:
  * @addr: the addr to resolve
- * @len: address length
+ * @addrlen: address length
  * @type: AF type
  * @host: a buffer pointing to a struct hostent to use for storage
  * @buf: a buffer to use for hostname storage
@@ -283,7 +283,7 @@ e_gethostbyname_r (const char *name, struct hostent *host,
  * one of the gethostbyaddr() error codes).
  **/
 int
-e_gethostbyaddr_r (const char *addr, int len, int type, struct hostent *host,
+e_gethostbyaddr_r (const char *addr, int addrlen, int type, struct hostent *host,
 		   char *buf, size_t buflen, int *herr)
 {
 #ifdef ENABLE_IPv6
@@ -350,7 +350,7 @@ e_gethostbyaddr_r (const char *addr, int len, int type, struct hostent *host,
 #else /* No support for IPv6 addresses */
 #ifdef HAVE_GETHOSTBYADDR_R
 #ifdef GETHOSTBYADDR_R_SEVEN_ARGS
-	if (gethostbyaddr_r (addr, len, type, host, buf, buflen, herr))
+	if (gethostbyaddr_r (addr, addrlen, type, host, buf, buflen, herr))
 		return 0;
 	else
 		return errno;
@@ -358,7 +358,7 @@ e_gethostbyaddr_r (const char *addr, int len, int type, struct hostent *host,
 	struct hostent *hp;
 	int retval;
 	
-	retval = gethostbyaddr_r (addr, len, type, host, buf, buflen, &hp, herr);
+	retval = gethostbyaddr_r (addr, addrlen, type, host, buf, buflen, &hp, herr);
 	if (hp != NULL)
 		*herr = 0;
 	return retval;
@@ -368,7 +368,7 @@ e_gethostbyaddr_r (const char *addr, int len, int type, struct hostent *host,
 	
 	G_LOCK (gethost_mutex);
 	
-	h = gethostbyaddr (addr, len, type);
+	h = gethostbyaddr (addr, addrlen, type);
 	
 	if (!h) {
 		*herr = h_errno;

@@ -1,3 +1,9 @@
+2003-04-09  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* e-host-utils.c (e_gethostbyaddr_r): Change the 'len' argument to
+	'addrlen' so that when IPv6 is enabled, our temp vriable (also
+	named len) does not cause confusion. Fixes bug #40979.
+
 2003-04-05  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-passwords.c (e_passwords_remember_password): Removed debugging
