@@ -984,7 +984,7 @@ mail_local_reconfigure_folder (FolderBrowser *fb)
 		reconfigure_folder_hash = g_hash_table_new (g_direct_hash, g_direct_equal);
 	
 	if ((gd = g_hash_table_lookup (reconfigure_folder_hash, fb->folder))) {
-		/* FIXME: raise this dialog?? */
+		gdk_window_raise (GTK_WIDGET (gd)->window);
 		return;
 	}
 

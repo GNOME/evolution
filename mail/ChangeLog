@@ -1,5 +1,22 @@
 2001-08-06  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* mail-config.glade: Added key accelerators to a bunch of the
+	config options and moved the Bcc and empty-subject checkboxes to
+	the composer tab where they belong.
+
+	* mail-callbacks.c (providers_config): Raise the dialog if it
+	exists already.
+	(manage_subscriptions): Raise the dialog if it already exists.
+	(main_select_first_unread): Removed (we haven't needed this code
+	in ages).
+	(select_first_unread): Same.
+	(save_msg_ok): If the path is empty, just return.
+
+	* mail-local.c (mail_local_reconfigure_folder): Raise the dialog
+	if it already exists.
+
+2001-08-06  Jeffrey Stedfast  <fejj@ximian.com>
+
 	* mail-callbacks.c (expunge_folder): Set the message-display
 	message to NULL if we can't get an info too.
 

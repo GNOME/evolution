@@ -1016,13 +1016,13 @@ mail_remove_storage (CamelStore *store)
 	 * any call to camel_session_get_{service,store} with the same
 	 * URL will always return the same object. So this works.
 	 */
-
+	
 	storage = g_hash_table_lookup (storages_hash, store);
 	g_hash_table_remove (storages_hash, store);
 	
 	shell_client = evolution_shell_component_get_owner (shell_component);
 	corba_shell = bonobo_object_corba_objref (BONOBO_OBJECT (shell_client));
-
+	
 	evolution_storage_deregister_on_shell (storage, corba_shell);
 	
 	camel_service_disconnect (CAMEL_SERVICE (store), TRUE, NULL);

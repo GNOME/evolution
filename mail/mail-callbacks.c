@@ -61,7 +61,6 @@
 #include "subscribe-dialog.h"
 #include "e-messagebox.h"
 
-/* FIXME: is there another way to do this? */
 #include "Evolution.h"
 #include "evolution-storage.h"
 
@@ -169,31 +168,11 @@ check_send_configuration (FolderBrowser *fb)
 	return TRUE;
 }
 
-#if 0
-/* FIXME: is this still required when we send & receive email ?  I am not so sure ... */
-static void
-main_select_first_unread (CamelObject *object, gpointer event_data, gpointer data)
-{
-	FolderBrowser *fb = FOLDER_BROWSER (data);
-	/*ETable *table = E_TABLE_SCROLLED (fb->message_list->etable)->table;*/
-	
-	message_list_select (fb->message_list, 0, MESSAGE_LIST_SELECT_NEXT,
-  			     0, CAMEL_MESSAGE_SEEN);
-}
-
-static void
-select_first_unread (CamelObject *object, gpointer event_data, gpointer data)
-{
-	mail_op_forward_event (main_select_first_unread, object, event_data, data);
-}
-#endif
-
 void
 send_receive_mail (GtkWidget *widget, gpointer user_data)
 {
 	const MailConfigAccount *account;
 	
-	/* receive first then send, this is a temp fix for POP-before-SMTP */
 	if (!mail_config_is_configured ()) {
 		if (!configure_mail (FOLDER_BROWSER (user_data)))
 			return;
@@ -1481,29 +1460,31 @@ save_msg_ok (GtkWidget *widget, gpointer user_data)
 {
 	CamelFolder *folder;
 	GPtrArray *uids;
-	char *path;
+	const char *path;
 	int fd, ret = 0;
 	
-	/* FIXME: is path an allocated string? */
 	path = gtk_file_selection_get_filename (GTK_FILE_SELECTION (user_data));
+	if (path[0] == '\0')
+		return;
 	
         fd = open (path, O_RDONLY);
 	if (fd != -1) {
-		GtkWidget *dlg;
+		GtkWidget *dialog;
 		GtkWidget *text;
 		
 		close (fd);
 		
-		dlg = gnome_dialog_new (_("Overwrite file?"),
-					GNOME_STOCK_BUTTON_YES, 
-					GNOME_STOCK_BUTTON_NO,
-					NULL);
+		dialog = gnome_dialog_new (_("Overwrite file?"),
+					   GNOME_STOCK_BUTTON_YES, 
+					   GNOME_STOCK_BUTTON_NO,
+					   NULL);
+		
 		text = gtk_label_new (_("A file by that name already exists.\nOverwrite it?"));
-		gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (dlg)->vbox), text, TRUE, TRUE, 4);
-		gtk_window_set_policy (GTK_WINDOW (dlg), FALSE, TRUE, FALSE);
+		gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (dialog)->vbox), text, TRUE, TRUE, 4);
+		gtk_window_set_policy (GTK_WINDOW (dialog), FALSE, TRUE, FALSE);
 		gtk_widget_show (text);
 		
-		ret = gnome_dialog_run_and_close (GNOME_DIALOG (dlg));
+		ret = gnome_dialog_run_and_close (GNOME_DIALOG (dialog));
 	}
 	
 	if (ret == 0) {
@@ -1803,7 +1784,7 @@ providers_config (BonoboUIComponent *uih, void *user_data, const char *path)
 		gnome_dialog_run_and_close (GNOME_DIALOG (dialog));
 		dialog = NULL;
 	} else {
-		/* FIXME: raise the dialog? */
+		gdk_window_raise (GTK_WIDGET (dialog)->window);
 	}
 }
 
@@ -1908,7 +1889,7 @@ print_preview_msg (GtkWidget *button, gpointer user_data)
 
 /******************** Begin Subscription Dialog ***************************/
 
-static GtkObject *subscribe_dialog = NULL;
+static GtkWidget *subscribe_dialog = NULL;
 
 static void
 subscribe_dialog_destroy (GtkWidget *widget, gpointer user_data)
@@ -1925,9 +1906,9 @@ manage_subscriptions (BonoboUIComponent *uih, void *user_data, const char *path)
 				    subscribe_dialog_destroy, NULL);
 		
 		subscribe_dialog_run_and_close (SUBSCRIBE_DIALOG (subscribe_dialog));
-		gtk_object_unref (subscribe_dialog);
+		gtk_object_unref (GTK_OBJECT (subscribe_dialog));
 	} else {
-		/* FIXME: raise the subscription dialog window... */
+		gdk_window_raise (GTK_WIDGET (subscribe_dialog)->window);
 	}
 }
 

@@ -70,10 +70,10 @@ static void
 mail_account_editor_class_init (MailAccountEditorClass *class)
 {
 	GtkObjectClass *object_class;
-
+	
 	object_class = (GtkObjectClass *) class;
 	parent_class = gtk_type_class (gnome_dialog_get_type ());
-
+	
 	object_class->finalize = mail_account_editor_finalize;
 }
 
@@ -81,7 +81,7 @@ static void
 mail_account_editor_finalize (GtkObject *obj)
 {
 	MailAccountEditor *editor = (MailAccountEditor *) obj;
-
+	
 	mail_account_gui_destroy (editor->gui);
         ((GtkObjectClass *)(parent_class))->finalize (obj);
 }
@@ -109,10 +109,16 @@ apply_changes (MailAccountEditor *editor)
 	}
 	
 	mail_account_gui_save (editor->gui);
+	
+	/* FIXME: uh, what the hell is this for? */
 	account = editor->gui->account;
 	
 	/* save any changes we may have */
 	mail_config_write ();
+	
+	/* FIXME: #1549: if the account was a remote store, delete it from the folder-tree and re-add it */
+	/* FIXME: preferably, we'd only do this if there were changes... oh well */
+	
 	return TRUE;
 }
 
@@ -120,7 +126,7 @@ static void
 apply_clicked (GtkWidget *widget, gpointer data)
 {
 	MailAccountEditor *editor = data;
-
+	
 	apply_changes (editor);
 }
 

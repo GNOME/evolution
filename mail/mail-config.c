@@ -278,7 +278,7 @@ config_read (void)
 	gint len, i, default_num;
 	
 	mail_config_clear ();
-		
+	
 	len = bonobo_config_get_long_with_default (config->db, 
 	        "/Mail/Accounts/num", 0, NULL);
 	

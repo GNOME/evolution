@@ -2296,7 +2296,7 @@ Kerberos
 	    <name>cmdMailAble</name>
 	    <can_default>True</can_default>
 	    <can_focus>True</can_focus>
-	    <label>Enable</label>
+	    <label>E_nable</label>
 	    <relief>GTK_RELIEF_NORMAL</relief>
 	  </widget>
 	</widget>
@@ -2380,7 +2380,7 @@ Kerberos
 	  <name>cmdNewsAdd</name>
 	  <can_default>True</can_default>
 	  <can_focus>True</can_focus>
-	  <label>Add</label>
+	  <label>_Add</label>
 	  <relief>GTK_RELIEF_NORMAL</relief>
 	</widget>
 
@@ -2389,7 +2389,7 @@ Kerberos
 	  <name>cmdNewsEdit</name>
 	  <can_default>True</can_default>
 	  <can_focus>True</can_focus>
-	  <label>Edit</label>
+	  <label>_Edit</label>
 	  <relief>GTK_RELIEF_NORMAL</relief>
 	</widget>
 
@@ -2398,7 +2398,7 @@ Kerberos
 	  <name>cmdNewsDelete</name>
 	  <can_default>True</can_default>
 	  <can_focus>True</can_focus>
-	  <label>Delete</label>
+	  <label>_Delete</label>
 	  <relief>GTK_RELIEF_NORMAL</relief>
 	</widget>
       </widget>
@@ -2439,7 +2439,7 @@ Kerberos
 	  <class>GtkCheckButton</class>
 	  <name>chckHighlightCitations</name>
 	  <can_focus>True</can_focus>
-	  <label>Highlight citations with</label>
+	  <label>_Highlight citations with</label>
 	  <active>False</active>
 	  <draw_indicator>True</draw_indicator>
 	  <child>
@@ -2496,7 +2496,7 @@ Kerberos
 	  <class>GtkCheckButton</class>
 	  <name>checkMarkTimeout</name>
 	  <can_focus>True</can_focus>
-	  <label>Mark messages as Read after</label>
+	  <label>_Mark messages as Read after</label>
 	  <active>False</active>
 	  <draw_indicator>True</draw_indicator>
 	  <child>
@@ -2569,7 +2569,7 @@ Kerberos
 	    <class>GtkRadioButton</class>
 	    <name>radioImagesNever</name>
 	    <can_focus>True</can_focus>
-	    <label>Never load images off the net</label>
+	    <label>_Never load images off the net</label>
 	    <active>False</active>
 	    <draw_indicator>True</draw_indicator>
 	    <group>images</group>
@@ -2584,7 +2584,7 @@ Kerberos
 	    <class>GtkRadioButton</class>
 	    <name>radioImagesSometimes</name>
 	    <can_focus>True</can_focus>
-	    <label>Load images if sender is in addressbook</label>
+	    <label>_Load images if sender is in addressbook</label>
 	    <active>True</active>
 	    <draw_indicator>True</draw_indicator>
 	    <group>images</group>
@@ -2599,7 +2599,7 @@ Kerberos
 	    <class>GtkRadioButton</class>
 	    <name>radioImagesAlways</name>
 	    <can_focus>True</can_focus>
-	    <label>Always load images off the net</label>
+	    <label>_Always load images off the net</label>
 	    <active>False</active>
 	    <draw_indicator>True</draw_indicator>
 	    <group>images</group>
@@ -2616,7 +2616,7 @@ Kerberos
 	<class>GtkCheckButton</class>
 	<name>chkThreadedList</name>
 	<can_focus>True</can_focus>
-	<label>Message list should display in a threaded fashion by default</label>
+	<label>Message list should display in a _threaded fashion by default</label>
 	<active>False</active>
 	<draw_indicator>True</draw_indicator>
 	<child>
@@ -2630,7 +2630,7 @@ Kerberos
 	<class>GtkCheckButton</class>
 	<name>chkShowPreview</name>
 	<can_focus>True</can_focus>
-	<label>Message preview should be displayed by default</label>
+	<label>Message _preview should be displayed by default</label>
 	<active>True</active>
 	<draw_indicator>True</draw_indicator>
 	<child>
@@ -2665,7 +2665,7 @@ Kerberos
 	<class>GtkCheckButton</class>
 	<name>chkSendHTML</name>
 	<can_focus>True</can_focus>
-	<label>Send mail in HTML format by default.</label>
+	<label>_Send mail in HTML format by default.</label>
 	<active>False</active>
 	<draw_indicator>True</draw_indicator>
 	<child>
@@ -2719,6 +2719,34 @@ Quoted
 	  </child>
 	</widget>
       </widget>
+
+      <widget>
+	<class>GtkCheckButton</class>
+	<name>chkPromptEmptySubject</name>
+	<can_focus>True</can_focus>
+	<label>Prompt when sending messages with an _empty subject</label>
+	<active>True</active>
+	<draw_indicator>True</draw_indicator>
+	<child>
+	  <padding>0</padding>
+	  <expand>False</expand>
+	  <fill>False</fill>
+	</child>
+      </widget>
+
+      <widget>
+	<class>GtkCheckButton</class>
+	<name>chkPromptBccOnly</name>
+	<can_focus>True</can_focus>
+	<label>Prompt when sending messages with only _Bcc recipients defined</label>
+	<active>True</active>
+	<draw_indicator>True</draw_indicator>
+	<child>
+	  <padding>0</padding>
+	  <expand>False</expand>
+	  <fill>False</fill>
+	</child>
+      </widget>
     </widget>
 
     <widget>
@@ -2755,13 +2783,14 @@ Quoted
 	<widget>
 	  <class>GtkLabel</class>
 	  <name>lblPgpPath</name>
-	  <label>PGP binary path:</label>
+	  <label>PGP _binary path:</label>
 	  <justify>GTK_JUSTIFY_CENTER</justify>
 	  <wrap>False</wrap>
 	  <xalign>0.5</xalign>
 	  <yalign>0.5</yalign>
 	  <xpad>0</xpad>
 	  <ypad>0</ypad>
+	  <default_focus_target>combo-entry1</default_focus_target>
 	  <child>
 	    <padding>0</padding>
 	    <expand>False</expand>
@@ -2799,7 +2828,7 @@ Quoted
 	<class>GtkCheckButton</class>
 	<name>chkRememberPGPPassphrase</name>
 	<can_focus>True</can_focus>
-	<label>Remember PGP Passphrase until exit</label>
+	<label>_Remember PGP Passphrase until exit</label>
 	<active>True</active>
 	<draw_indicator>True</draw_indicator>
 	<child>
@@ -2856,36 +2885,8 @@ Quoted
 	<class>GtkCheckButton</class>
 	<name>chkEmptyTrashOnExit</name>
 	<can_focus>True</can_focus>
-	<label>Empty trash folders on exit</label>
+	<label>_Empty trash folders on exit</label>
 	<active>False</active>
-	<draw_indicator>True</draw_indicator>
-	<child>
-	  <padding>0</padding>
-	  <expand>False</expand>
-	  <fill>False</fill>
-	</child>
-      </widget>
-
-      <widget>
-	<class>GtkCheckButton</class>
-	<name>chkPromptEmptySubject</name>
-	<can_focus>True</can_focus>
-	<label>Prompt when sending messages with an empty subject</label>
-	<active>True</active>
-	<draw_indicator>True</draw_indicator>
-	<child>
-	  <padding>0</padding>
-	  <expand>False</expand>
-	  <fill>False</fill>
-	</child>
-      </widget>
-
-      <widget>
-	<class>GtkCheckButton</class>
-	<name>chkPromptBccOnly</name>
-	<can_focus>True</can_focus>
-	<label>Prompt when sending messages with only Bcc recipients defined</label>
-	<active>True</active>
 	<draw_indicator>True</draw_indicator>
 	<child>
 	  <padding>0</padding>
