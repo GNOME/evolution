@@ -1,5 +1,11 @@
 2001-05-15  Dan Winship  <danw@ximian.com>
 
+	* evolution-mail.xml: Create a "Message Display" submenu in View,
+	move source/full headers/normal there and make it a radio group.
+	Add "Load Images" there.
+
+2001-05-15  Dan Winship  <danw@ximian.com>
+
 	* evolution-mail.xml: Clean this up A LOT. In addition to cosmetic
 	changes, now every command appears in the <commands> section, and
 	has a tooltip. Also, move "Search" to the "Edit" menu for

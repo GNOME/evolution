@@ -174,7 +174,8 @@
      _tip="Create a virtual folder for this subject"/>
 
     <cmd name="ViewFullHeaders"
-     _tip="Show all message headers in the displayed message"/>
+     _tip="Show message with all email headers"
+     type="radio" group="message_display"/>
 
     <cmd name="ViewHideRead"
      _tip="Temporarily hide all messages that have already been read"
@@ -184,13 +185,20 @@
      _tip="Temporarily hide the selected messages"
      pixtype="pixbuf"/>
 
+    <cmd name="ViewLoadImages"
+     _tip="Force images in HTML mail to be loaded"/>
+
+    <cmd name="ViewNormal"
+     _tip="Show message in the normal style"
+     type="radio" group="message_display"/>
+
     <cmd name="ViewShowAll"
      _tip="Show messages that have been temporarily hidden"
      pixtype="pixbuf"/>
 
     <cmd name="ViewSource"
-     _tip="View Raw Message Source"
-     type="toggle" />
+     _tip="Show the raw email source of the message"
+     type="radio" group="message_display"/>
 
     <cmd name="ViewThreaded"
      _tip="Threaded Message list"
@@ -258,10 +266,18 @@
     <submenu name="View">
       <separator/>
 
-      <menuitem name="ViewThreaded" verb="" _label="_Threaded"/>
-      <menuitem name="ViewFullHeaders" verb="" _label="Full _Headers"/>
-      <menuitem name="ViewSource" verb="" _label="Source"/>
+      <menuitem name="ViewThreaded" verb="" _label="_Threaded Message List"/>
       <menuitem name="HideDeleted" verb="" _label="Hide _Deleted Messages"/>
+
+      <submenu name="MessageDisplay" _label="_Message Display">
+        <menuitem name="ViewLoadImages" verb="" _label="Load _Images"/>
+
+	<separator/>
+
+	<menuitem name="ViewNormal" verb="" _label="_Normal Display"/>
+	<menuitem name="ViewFullHeaders" verb="" _label="Show Full _Headers"/>
+	<menuitem name="ViewSource" verb="" _label="Show Email _Source"/>
+      </submenu>
 
       <separator/>
 
