@@ -1,3 +1,10 @@
+2003-08-27  Hans Petter Jansson  <hpj@ximian.com>
+
+	Fixes #15638.
+
+	* misc/e-dateedit.c (rebuild_time_popup): Make 12-hour time format
+	not be zero-padded. Right-align time labels so digits line up.
+
 2003-08-27  Bolian Yin <bolian.yin@sun.com>
 
 	* misc/Makefile.am: add dependency on a11y/widgets.
