@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nn\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-09-03 18:55+0000\n"
-"PO-Revision-Date: 2004-09-03 18:54+0000\n"
+"POT-Creation-Date: 2004-09-05 19:34+0000\n"
+"PO-Revision-Date: 2004-09-05 19:33+0000\n"
 "Last-Translator: Åsmund Skjæveland <aasmunds@fys.uio.no>\n"
 "Language-Team: Norwegian Nynorsk <i18n-nn@lister.ping.uio.no>\n"
 "MIME-Version: 1.0\n"
@@ -3923,20 +3923,20 @@ msgstr "R_edigér avtale"
 msgid "_Snooze"
 msgstr "Utse_tt"
 
-#: calendar/gui/alarm-notify/alarm-queue.c:903
+#: calendar/gui/alarm-notify/alarm-queue.c:904
 #: ui/evolution-message-composer.xml.h:10
 msgid "Open"
 msgstr "Opna"
 
-#: calendar/gui/alarm-notify/alarm-queue.c:905
+#: calendar/gui/alarm-notify/alarm-queue.c:906
 msgid "Dismiss"
 msgstr "Avvis"
 
-#: calendar/gui/alarm-notify/alarm-queue.c:907
+#: calendar/gui/alarm-notify/alarm-queue.c:908
 msgid "Dismiss All"
 msgstr "Avvis alle"
 
-#: calendar/gui/alarm-notify/alarm-queue.c:972
+#: calendar/gui/alarm-notify/alarm-queue.c:973
 msgid "No description available."
 msgstr "Inga skildring tilgjengeleg"
 
@@ -12874,7 +12874,8 @@ msgstr "Redigerarinstillingar"
 #: mail/GNOME_Evolution_Mail.server.in.in.h:2
 msgid ""
 "Configure mail preferences, including security and message display, here"
-msgstr "Set opp e-postinnstillingar, inkludert tryggleik og meldingsvising"
+msgstr ""
+"Set opp e-postinnstillingar, inkludert tryggleik og framsyning av meldingar"
 
 #: mail/GNOME_Evolution_Mail.server.in.in.h:3
 msgid "Configure spell-checking, signatures, and the message composer here"
@@ -17742,15 +17743,15 @@ msgstr ""
 msgid "Certificate Signature Value"
 msgstr "t"
 
-#: smime/lib/e-pkcs12.c:263
+#: smime/lib/e-pkcs12.c:264
 msgid "PKCS12 File Password"
 msgstr "PKCS12 filpassord"
 
-#: smime/lib/e-pkcs12.c:263
+#: smime/lib/e-pkcs12.c:264
 msgid "Enter password for PKCS12 file:"
 msgstr "Skriv inn passord til PKCS12-fil:"
 
-#: smime/lib/e-pkcs12.c:362
+#: smime/lib/e-pkcs12.c:363
 msgid "Imported Certificate"
 msgstr "Importert sertifikat"
 
@@ -17961,7 +17962,7 @@ msgstr "Førehandsvisar kalenderen som skal skrivast ut"
 
 #: ui/evolution-calendar.xml.h:18 ui/evolution-mail-message.xml.h:79
 msgid "Previous"
-msgstr "Forrige"
+msgstr "Førre"
 
 #: ui/evolution-calendar.xml.h:21
 msgid "Print this calendar"
@@ -18605,7 +18606,7 @@ msgstr "Opprinneleg _storleik"
 
 #: ui/evolution-mail-message.xml.h:73
 msgid "P_revious Unread Message"
-msgstr "Fo_rrige ulesne melding"
+msgstr "Fø_rre ulesne melding"
 
 #: ui/evolution-mail-message.xml.h:75
 msgid "Post a Repl_y"
@@ -18661,7 +18662,7 @@ msgstr "Endra sideoppsettet til den valde skrivaren"
 
 #: ui/evolution-mail-message.xml.h:95
 msgid "Show Email _Source"
-msgstr "Vis e-post _kjeldekode"
+msgstr "Vis _rå tekst"
 
 #: ui/evolution-mail-message.xml.h:96
 msgid "Show Full _Headers"
@@ -18681,7 +18682,7 @@ msgstr "Vis melding med alle meldingshovud"
 
 #: ui/evolution-mail-message.xml.h:100
 msgid "Show the raw email source of the message"
-msgstr "Vis den rå kjeldekoda til meldinga"
+msgstr "Vis råteksten til meldinga"
 
 #: ui/evolution-mail-message.xml.h:101
 msgid "Text Si_ze"
@@ -18729,7 +18730,7 @@ msgstr "_Større"
 
 #: ui/evolution-mail-message.xml.h:118
 msgid "_Message Display"
-msgstr "_Meldingsvising"
+msgstr "_Vis meldingar"
 
 #: ui/evolution-mail-message.xml.h:120
 msgid "_Next Message"
@@ -18737,7 +18738,7 @@ msgstr "_Neste melding"
 
 #: ui/evolution-mail-message.xml.h:121
 msgid "_Normal Display"
-msgstr "_Normal vising"
+msgstr "_Vanleg"
 
 #: ui/evolution-mail-message.xml.h:122
 msgid "_Open Message"
@@ -18745,7 +18746,7 @@ msgstr "_Opna melding"
 
 #: ui/evolution-mail-message.xml.h:124
 msgid "_Previous Message"
-msgstr "_Forrige melding"
+msgstr "_Førre melding"
 
 #: ui/evolution-mail-message.xml.h:126
 msgid "_Quoted"
