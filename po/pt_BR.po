@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution 0.9\n"
-"POT-Creation-Date: 2001-02-27 13:13-0500\n"
+"POT-Creation-Date: 2001-02-14 16:16-0200\n"
 "PO-Revision-Date: 2001-02-14 16:52-02:00\n"
 "Last-Translator: Gustavo Maciel Dias Vieira <gdvieira@zaz.com.br>\n"
 "Language-Team: Brazilian Portuguese <ldp-br@bazar.conectiva.com.br>\n"
@@ -510,7 +510,7 @@ msgstr "Arquivar como:"
 
 #: addressbook/contact-editor/contact-editor.glade.h:10
 #: executive-summary/component/executive-summary-config.glade.h:3
-#: mail/mail-config.glade.h:28
+#: mail/mail-config.glade.h:27
 msgid "General"
 msgstr "Geral"
 
@@ -680,7 +680,7 @@ msgstr "Celular"
 #: addressbook/contact-editor/e-contact-editor.c:1286
 #: addressbook/contact-editor/e-contact-editor.c:1381
 #: addressbook/gui/widgets/e-addressbook-view.c:583
-#: calendar/gui/e-meeting-dialog.glade.h:14 mail/mail-config.glade.h:48
+#: calendar/gui/e-meeting-dialog.glade.h:14 mail/mail-config.glade.h:46
 msgid "Other"
 msgstr "Outro"
 
@@ -958,7 +958,7 @@ msgid "Remember this password"
 msgstr "Lembrar esta senha"
 
 #: addressbook/gui/component/addressbook-config.c:401
-#: mail/mail-config.glade.h:29
+#: mail/mail-config.glade.h:28
 msgid "Host:"
 msgstr "Máquina:"
 
@@ -992,7 +992,7 @@ msgid "Authentication:"
 msgstr "Autenticação:"
 
 #: addressbook/gui/component/addressbook-config.c:502
-#: mail/mail-config-druid.c:481 mail/mail-config.glade.h:52
+#: mail/mail-config-druid.c:481 mail/mail-config.glade.h:49
 msgid "Path:"
 msgstr "Caminho:"
 
@@ -1021,7 +1021,7 @@ msgstr ""
 "ele."
 
 #: addressbook/gui/component/addressbook-config.c:666
-#: mail/mail-config.glade.h:43
+#: mail/mail-config.glade.h:41
 msgid "Name:"
 msgstr "Nome:"
 
@@ -1047,7 +1047,7 @@ msgstr "Fontes de catálogos de endereços"
 #: calendar/gui/e-meeting-dialog.glade.h:8
 #: calendar/gui/event-editor-dialog.glade.h:8 filter/filter.glade.h:2
 #: filter/libfilter-i18n.h:7 mail/folder-browser.c:684
-#: mail/mail-config.glade.h:21 mail/mail-view.c:150
+#: mail/mail-config.glade.h:20 mail/mail-view.c:150
 #: ui/evolution-addressbook.xml.h:3 ui/evolution-event-editor.xml.h:17
 #: ui/evolution-mail.xml.h:6 ui/evolution-task-editor-dialog.xml.h:18
 msgid "Delete"
@@ -1055,7 +1055,7 @@ msgstr "Excluir"
 
 #: addressbook/gui/component/addressbook-config.glade.h:4
 #: calendar/gui/e-meeting-dialog.glade.h:9 filter/filter.glade.h:3
-#: mail/folder-browser.c:670 mail/mail-config.glade.h:24
+#: mail/folder-browser.c:670 mail/mail-config.glade.h:23
 msgid "Edit"
 msgstr "Editar"
 
@@ -1424,7 +1424,7 @@ msgstr "Nome do estilo:"
 msgid "Top:"
 msgstr "Superior:"
 
-#: addressbook/printing/e-contact-print.glade.h:40 mail/mail-config.glade.h:77
+#: addressbook/printing/e-contact-print.glade.h:40 mail/mail-config.glade.h:71
 msgid "Type:"
 msgstr "Tipo:"
 
@@ -1925,7 +1925,7 @@ msgid "minutes before they occur."
 msgstr "minutos antes que ocorram."
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:58
-#: mail/mail-config.glade.h:84
+#: mail/mail-config.glade.h:77
 msgid "seconds."
 msgstr "segundos."
 
@@ -1996,8 +1996,8 @@ msgstr "Baixa"
 #. add a "None" option to the stores menu
 #: calendar/gui/dialogs/task-editor-dialog.glade.h:13
 #: mail/mail-account-editor.c:695 mail/mail-account-editor.c:697
-#: mail/mail-account-editor.c:746 mail/mail-accounts.c:115
-#: mail/mail-config-druid.c:906 mail/mail-config.glade.h:45
+#: mail/mail-account-editor.c:746 mail/mail-accounts.c:114
+#: mail/mail-config-druid.c:906 mail/mail-config.glade.h:43
 #: shell/e-shell-view.c:1119 widgets/misc/e-dateedit.c:421
 #: widgets/misc/e-dateedit.c:1330 widgets/misc/e-dateedit.c:1445
 msgid "None"
@@ -3006,12 +3006,12 @@ msgstr ""
 msgid "SMTWTFS"
 msgstr "DSTQQSS"
 
-#: camel/camel-filter-driver.c:773
+#: camel/camel-filter-driver.c:767
 #, c-format
 msgid "Error parsing filter: %s: %s"
 msgstr "Erro ao analisar filtro: %s: %s"
 
-#: camel/camel-filter-driver.c:778
+#: camel/camel-filter-driver.c:772
 #, c-format
 msgid "Error executing filter: %s: %s"
 msgstr "Erro ao executar filtro: %s: %s"
@@ -3252,7 +3252,7 @@ msgstr "Resposta inesperada do servidor IMAP: %s"
 msgid "IMAP command failed: %s"
 msgstr "Falhou o comando IMAP: %s"
 
-#: camel/providers/imap/camel-imap-command.c:243 shell/e-storage.c:449
+#: camel/providers/imap/camel-imap-command.c:243 shell/e-storage.c:433
 msgid "Unknown error"
 msgstr "Erro desconhecido"
 
@@ -3275,8 +3275,8 @@ msgstr "Resposta OK inesperada do servidor IMAP: %s"
 msgid "Could not load summary for %s"
 msgstr "Não foi possível carregar resumo para %s"
 
-#: camel/providers/imap/camel-imap-folder.c:708
-#: camel/providers/imap/camel-imap-folder.c:870
+#: camel/providers/imap/camel-imap-folder.c:697
+#: camel/providers/imap/camel-imap-folder.c:859
 msgid "Could not find message body in FETCH response."
 msgstr "Não foi possível localizar corpo da mensagem na resposta FETCH."
 
@@ -3786,7 +3786,7 @@ msgid "No such folder `%s'."
 msgstr "Não existe a pasta `%s'."
 
 #: camel/providers/sendmail/camel-sendmail-provider.c:34
-#: mail/mail-config.glade.h:64
+#: mail/mail-config.glade.h:60
 msgid "Sendmail"
 msgstr "Sendmail"
 
@@ -3839,7 +3839,7 @@ msgstr "sendmail"
 msgid "Mail delivery via the sendmail program"
 msgstr "Entrega de correio usando o programa sendmail"
 
-#: camel/providers/smtp/camel-smtp-provider.c:34 mail/mail-config.glade.h:58
+#: camel/providers/smtp/camel-smtp-provider.c:34 mail/mail-config.glade.h:55
 msgid "SMTP"
 msgstr "SMTP"
 
@@ -3946,7 +3946,7 @@ msgstr ""
 "SMTP."
 
 #: camel/providers/smtp/camel-smtp-transport.c:348
-#: camel/providers/smtp/camel-smtp-transport.c:353 mail/mail-config.glade.h:11
+#: camel/providers/smtp/camel-smtp-transport.c:353 mail/mail-config.glade.h:10
 msgid "CRAM-MD5"
 msgstr "CRAM-MD5"
 
@@ -4190,7 +4190,7 @@ msgstr "Assunto:"
 msgid "Enter the subject of the mail"
 msgstr "Entre o assunto da correspondência"
 
-#: composer/e-msg-composer.c:512
+#: composer/e-msg-composer.c:497
 #, c-format
 msgid ""
 "Could not open signature file %s:\n"
@@ -4199,39 +4199,39 @@ msgstr ""
 "Não foi possível abrir arquivo de assinatura %s:\n"
 "%s"
 
-#: composer/e-msg-composer.c:680
+#: composer/e-msg-composer.c:665
 msgid "Save as..."
 msgstr "Salvar como..."
 
-#: composer/e-msg-composer.c:691
+#: composer/e-msg-composer.c:676
 #, c-format
 msgid "Error saving file: %s"
 msgstr "Erro ao salvar arquivo: %s"
 
-#: composer/e-msg-composer.c:711
+#: composer/e-msg-composer.c:696
 #, c-format
 msgid "Error loading file: %s"
 msgstr "Erro ao carregar arquivo: %s"
 
-#: composer/e-msg-composer.c:733
+#: composer/e-msg-composer.c:718
 msgid "Saving changes to message..."
 msgstr "Salvando modificações à mensagem..."
 
-#: composer/e-msg-composer.c:735
+#: composer/e-msg-composer.c:720
 msgid "Save changes to message..."
 msgstr "Salvar modificações à mensagem..."
 
-#: composer/e-msg-composer.c:776
+#: composer/e-msg-composer.c:761
 #, c-format
 msgid "Error saving composition to 'Drafts': %s"
 msgstr "Erro ao salvar mensagem para 'Drafts': %s"
 
-#: composer/e-msg-composer.c:834 evolution.desktop.in.h:1
+#: composer/e-msg-composer.c:819 evolution.desktop.in.h:1
 #: shell/e-shell-view-menu.c:192
 msgid "Evolution"
 msgstr "Evolution"
 
-#: composer/e-msg-composer.c:840
+#: composer/e-msg-composer.c:825
 msgid ""
 "This message has not been sent.\n"
 "\n"
@@ -4241,27 +4241,27 @@ msgstr ""
 "\n"
 "Você deseja salvar as suas modificações?"
 
-#: composer/e-msg-composer.c:865
+#: composer/e-msg-composer.c:850
 msgid "Open file"
 msgstr "Abrir arquivo"
 
-#: composer/e-msg-composer.c:991
+#: composer/e-msg-composer.c:976
 msgid "That file does not exist."
 msgstr "Este arquivo não existe."
 
-#: composer/e-msg-composer.c:1001
+#: composer/e-msg-composer.c:986
 msgid "That is not a regular file."
 msgstr "Este não é um arquivo comum."
 
-#: composer/e-msg-composer.c:1011
+#: composer/e-msg-composer.c:996
 msgid "That file exists but is not readable."
 msgstr "Este arquivo existe mas não é legível."
 
-#: composer/e-msg-composer.c:1021
+#: composer/e-msg-composer.c:1006
 msgid "That file appeared accesible but open(2) failed."
 msgstr "Este arquivo aparenta ser acessível mas open(2) falhou."
 
-#: composer/e-msg-composer.c:1043
+#: composer/e-msg-composer.c:1028
 msgid ""
 "The file is very large (more than 100K).\n"
 "Are you sure you wish to insert it?"
@@ -4269,15 +4269,15 @@ msgstr ""
 "O arquivo é muito grande (mais que 100K).\n"
 "Você tem certeza que deseja inserí-lo?"
 
-#: composer/e-msg-composer.c:1064
+#: composer/e-msg-composer.c:1049
 msgid "An error occurred while reading the file."
 msgstr "Um erro ocorreu ao ler o arquivo."
 
-#: composer/e-msg-composer.c:1307 composer/e-msg-composer.c:1542
+#: composer/e-msg-composer.c:1292 composer/e-msg-composer.c:1527
 msgid "Compose a message"
 msgstr "Redigir uma mensagem"
 
-#: composer/e-msg-composer.c:1623
+#: composer/e-msg-composer.c:1608
 msgid "Could not create composer window."
 msgstr "Não foi possível criar janela de redação."
 
@@ -4366,7 +4366,7 @@ msgstr "Mover %s para a próxima linha"
 msgid "Configure %s"
 msgstr "Configurar %s"
 
-#: executive-summary/component/e-summary.c:913
+#: executive-summary/component/e-summary.c:916
 #, c-format
 msgid ""
 "Cannot open the HTML file:\n"
@@ -4375,7 +4375,7 @@ msgstr ""
 "Não é possível abrir o arquivo HTML:\n"
 "%s"
 
-#: executive-summary/component/e-summary.c:927
+#: executive-summary/component/e-summary.c:930
 #, c-format
 msgid ""
 "Error reading data:\n"
@@ -4384,7 +4384,7 @@ msgstr ""
 "Erro ao ler dados:\n"
 "%s"
 
-#: executive-summary/component/e-summary.c:945
+#: executive-summary/component/e-summary.c:948
 msgid "File does not have a place for the services.\n"
 msgstr "Arquivo não possui um lugar para os serviços.\n"
 
@@ -4731,7 +4731,7 @@ msgstr "Pontuação"
 msgid "Set Status"
 msgstr "Atribuir estado"
 
-#: filter/libfilter-i18n.h:20 mail/mail-config.glade.h:71
+#: filter/libfilter-i18n.h:20
 msgid "Source"
 msgstr "Fonte"
 
@@ -4999,12 +4999,12 @@ msgstr "mbox"
 msgid "mh"
 msgstr "mh"
 
-#: mail/mail-accounts.c:116
+#: mail/mail-accounts.c:115
 msgid " (default)"
 msgstr " (padrão)"
 
 #. give our dialog an OK button and title
-#: mail/mail-accounts.c:389
+#: mail/mail-accounts.c:367
 msgid "Evolution Account Manager"
 msgstr "Gerenciador de contas do Evolution"
 
@@ -5182,15 +5182,11 @@ msgstr "Autenticação"
 msgid "Authentication Type:"
 msgstr "Tipo de autenticação:"
 
-#: mail/mail-config.glade.h:10
-msgid "Automatically check mail every"
-msgstr ""
-
-#: mail/mail-config.glade.h:12
+#: mail/mail-config.glade.h:11
 msgid "Check settings"
 msgstr "Verificar configurações"
 
-#: mail/mail-config.glade.h:13
+#: mail/mail-config.glade.h:12
 msgid ""
 "Congratulations, your mail configuration is complete.\n"
 "\n"
@@ -5206,194 +5202,175 @@ msgstr ""
 "\n"
 "Pressione \"Concluir\" para salvar suas configurações."
 
-#: mail/mail-config.glade.h:19
+#: mail/mail-config.glade.h:18
 msgid "DIGEST-MD5"
 msgstr "DIGEST-MD5"
 
-#: mail/mail-config.glade.h:20
+#: mail/mail-config.glade.h:19
 msgid "Default"
 msgstr "Padrão"
 
-#: mail/mail-config.glade.h:22
+#: mail/mail-config.glade.h:21
 msgid "Done"
 msgstr "Terminado"
 
-#: mail/mail-config.glade.h:23
+#: mail/mail-config.glade.h:22
 msgid "E-Mail Address:"
 msgstr "Endereço eletrônico:"
 
-#: mail/mail-config.glade.h:25
+#: mail/mail-config.glade.h:24
 msgid "Email Address:"
 msgstr "Endereço eletrônico:"
 
-#: mail/mail-config.glade.h:26
+#: mail/mail-config.glade.h:25
 msgid "Evolution Mail Configuration"
 msgstr "Configuração de correio do Evolution"
 
-#: mail/mail-config.glade.h:27
+#: mail/mail-config.glade.h:26
 msgid "Full Name:"
 msgstr "Nome completo:"
 
-#: mail/mail-config.glade.h:30
+#: mail/mail-config.glade.h:29
 msgid "Hostname:"
 msgstr "Nome da máquina:"
 
-#: mail/mail-config.glade.h:31
+#: mail/mail-config.glade.h:30
 msgid "Identity"
 msgstr "Identidade"
 
-#: mail/mail-config.glade.h:32
-msgid "Include in \"Get Mail\" operations."
-msgstr ""
-
-#: mail/mail-config.glade.h:33
+#: mail/mail-config.glade.h:31
 msgid "Incoming Mail Server"
 msgstr "Servidor de correio de entrada"
 
-#: mail/mail-config.glade.h:34
+#: mail/mail-config.glade.h:32
 msgid "Keep mail on server"
 msgstr "Manter correio no servidor"
 
-#: mail/mail-config.glade.h:35
+#: mail/mail-config.glade.h:33
 msgid "Kerberos"
 msgstr "Kerberos"
 
-#: mail/mail-config.glade.h:36
+#: mail/mail-config.glade.h:34
 msgid "Mail"
 msgstr "Correio"
 
-#: mail/mail-config.glade.h:37
+#: mail/mail-config.glade.h:35
 msgid "Mail Account"
 msgstr "Conta de correio"
 
-#: mail/mail-config.glade.h:38
+#: mail/mail-config.glade.h:36
 msgid "Mail Configuration"
 msgstr "Configuração de correio"
 
-#: mail/mail-config.glade.h:39
+#: mail/mail-config.glade.h:37
 msgid "Mail Configuration Druid"
 msgstr "Assitente de configuração de correio"
 
-#: mail/mail-config.glade.h:40
+#: mail/mail-config.glade.h:38
 msgid "Make this my default account"
 msgstr "Torne esta a minha conta padrão"
 
-#: mail/mail-config.glade.h:41
+#: mail/mail-config.glade.h:39
 msgid "Mark messages as \"Read\" after:"
 msgstr "Marcar mensagens como \"Lida\" após:"
 
-#: mail/mail-config.glade.h:42
+#: mail/mail-config.glade.h:40
 msgid "Miscellaneous"
 msgstr "Diversos"
 
-#: mail/mail-config.glade.h:44
+#: mail/mail-config.glade.h:42
 msgid "News"
 msgstr "Notícias"
 
-#: mail/mail-config.glade.h:46
+#: mail/mail-config.glade.h:44
 msgid "Optional"
 msgstr "Opcional"
 
-#: mail/mail-config.glade.h:47
+#: mail/mail-config.glade.h:45
 msgid "Organization:"
 msgstr "Empresa:"
 
-#: mail/mail-config.glade.h:49
+#: mail/mail-config.glade.h:47
 msgid "Outgoing Mail Server"
 msgstr "Servidor de correio de saída"
 
-#: mail/mail-config.glade.h:50
-#, fuzzy
-msgid "PGP binary path:"
-msgstr "Cifrar com PGP"
-
-#: mail/mail-config.glade.h:51
+#: mail/mail-config.glade.h:48
 msgid "Password:"
 msgstr "Senha:"
 
-#: mail/mail-config.glade.h:53
+#: mail/mail-config.glade.h:50
 msgid "Plain Text"
 msgstr "Texto claro"
 
-#: mail/mail-config.glade.h:54
+#: mail/mail-config.glade.h:51
 msgid "Receiving Email"
 msgstr "Recebendo mensagem"
 
-#: mail/mail-config.glade.h:55
+#: mail/mail-config.glade.h:52
 msgid "Remember my password"
 msgstr "Lembre a minha senha"
 
-#: mail/mail-config.glade.h:56 mail/mail-format.c:629
+#: mail/mail-config.glade.h:53 mail/mail-format.c:629
 msgid "Reply-To:"
 msgstr "Responder-a:"
 
-#: mail/mail-config.glade.h:57
+#: mail/mail-config.glade.h:54
 msgid "Required"
 msgstr "Exigido"
 
-#: mail/mail-config.glade.h:59
+#: mail/mail-config.glade.h:56
 msgid "Save password"
 msgstr "Salvar senha"
 
-#: mail/mail-config.glade.h:60
-#, fuzzy
-msgid "Select PGP binary"
-msgstr "Selecionar um arquivo"
-
-#: mail/mail-config.glade.h:61
+#: mail/mail-config.glade.h:57
 msgid "Select signature file"
 msgstr "Selecionar arquivo de assinatura"
 
-#: mail/mail-config.glade.h:62
+#: mail/mail-config.glade.h:58
 msgid "Send mail in HTML format by default."
 msgstr "Enviar mensagens em formato HTML como padrão."
 
-#: mail/mail-config.glade.h:63
+#: mail/mail-config.glade.h:59
 msgid "Sending Email"
 msgstr "Enviando mensagem"
 
-#: mail/mail-config.glade.h:65
+#: mail/mail-config.glade.h:61
 msgid "Server Configuration"
 msgstr "Configuração do servidor"
 
-#: mail/mail-config.glade.h:66
+#: mail/mail-config.glade.h:62
 msgid "Server Type: "
 msgstr "Tipo do servidor: "
 
-#: mail/mail-config.glade.h:67
+#: mail/mail-config.glade.h:63
 msgid "Server requires authentication"
 msgstr "Servidor requer autenticação"
 
-#: mail/mail-config.glade.h:68
+#: mail/mail-config.glade.h:64
 msgid "Servers"
 msgstr "Servidores"
 
-#: mail/mail-config.glade.h:69
+#: mail/mail-config.glade.h:65
 msgid "Signature file:"
 msgstr "Arquivo de assinatura:"
 
-#: mail/mail-config.glade.h:70
+#: mail/mail-config.glade.h:66
 msgid "Signature:"
 msgstr "Assinatura:"
 
-#: mail/mail-config.glade.h:72
+#: mail/mail-config.glade.h:67
 msgid "Sources"
 msgstr "Fontes"
 
-#: mail/mail-config.glade.h:73
+#: mail/mail-config.glade.h:68
 msgid "This server requires a secure connection (SSL)"
 msgstr "Este servidor requer uma conexão segura (SSL)"
 
-#: mail/mail-config.glade.h:74
-#, fuzzy
-msgid "Transport"
-msgstr "Transparente"
-
-#: mail/mail-config.glade.h:75
+#: mail/mail-config.glade.h:69
 msgid "Type"
 msgstr "Tipo"
 
-#: mail/mail-config.glade.h:76
+#: mail/mail-config.glade.h:70
 msgid ""
 "Type the name by which you would like to refer to these servers. For "
 "example: \"Work\" or \"Home\"."
@@ -5401,15 +5378,15 @@ msgstr ""
 "Digite o nome com o qual deseja identificar estes servidores. Por exemplo: "
 "\"Trabalho\" ou \"Casa\"."
 
-#: mail/mail-config.glade.h:78
+#: mail/mail-config.glade.h:72
 msgid "User Information"
 msgstr "Informação do usuário"
 
-#: mail/mail-config.glade.h:79
+#: mail/mail-config.glade.h:73
 msgid "Username:"
 msgstr "Nome do usuário:"
 
-#: mail/mail-config.glade.h:80
+#: mail/mail-config.glade.h:74
 msgid ""
 "Welcome to the Evolution Mail Configuration Druid.\n"
 "\n"
@@ -5418,11 +5395,6 @@ msgstr ""
 "Bem-vindo ao assistente de configuração de correio do Evolution.\n"
 "\n"
 "Pressione \"Próximo\" para começar. "
-
-#: mail/mail-config.glade.h:83
-#, fuzzy
-msgid "minutes."
-msgstr "minutos"
 
 #: mail/mail-config-druid.c:389
 #, c-format
@@ -5632,117 +5604,117 @@ msgstr ""
 msgid "Working"
 msgstr "Trabalhando"
 
-#: mail/mail-ops.c:513
+#: mail/mail-ops.c:510
 #, c-format
 msgid "Sending \"%s\""
 msgstr "Enviando \"%s\""
 
-#: mail/mail-ops.c:515
+#: mail/mail-ops.c:512
 msgid "Sending message"
 msgstr "Enviando mensagem"
 
-#: mail/mail-ops.c:743 mail/mail-ops.c:750
+#: mail/mail-ops.c:740 mail/mail-ops.c:747
 #, c-format
 msgid "Appending \"%s\""
 msgstr "Concatenando \"%s\""
 
-#: mail/mail-ops.c:747 mail/mail-ops.c:753
+#: mail/mail-ops.c:744 mail/mail-ops.c:750
 msgid "Appending a message without a subject"
 msgstr "Concatenando uma mensagem sem um assunto"
 
-#: mail/mail-ops.c:836
+#: mail/mail-ops.c:833
 #, c-format
 msgid "Moving messages from \"%s\" into \"%s\""
 msgstr "Movendo mensagens de \"%s\" para \"%s\""
 
-#: mail/mail-ops.c:838
+#: mail/mail-ops.c:835
 #, c-format
 msgid "Copying messages from \"%s\" into \"%s\""
 msgstr "Copiando mensagens de \"%s\" para \"%s\""
 
-#: mail/mail-ops.c:841
+#: mail/mail-ops.c:838
 #, c-format
 msgid "Move messages from \"%s\" into \"%s\""
 msgstr "Mover mensagens de \"%s\" para \"%s\""
 
-#: mail/mail-ops.c:843
+#: mail/mail-ops.c:840
 #, c-format
 msgid "Copy messages from \"%s\" into \"%s\""
 msgstr "Copiar mensagens de \"%s\" para \"%s\""
 
-#: mail/mail-ops.c:874
+#: mail/mail-ops.c:871
 msgid "Moving"
 msgstr "Movendo"
 
-#: mail/mail-ops.c:877
+#: mail/mail-ops.c:874
 msgid "Copying"
 msgstr "Copiando"
 
-#: mail/mail-ops.c:897
+#: mail/mail-ops.c:894
 #, c-format
 msgid "%s message %d of %d (uid \"%s\")"
 msgstr "%s mensagem %d de %d (uid \"%s\")"
 
-#: mail/mail-ops.c:972
+#: mail/mail-ops.c:969
 #, c-format
 msgid "Scanning folders in \"%s\""
 msgstr "Varrendo pastas em \"%s\""
 
-#: mail/mail-ops.c:1038 mail/subscribe-dialog.c:359
+#: mail/mail-ops.c:1035 mail/subscribe-dialog.c:359
 msgid "(No description)"
 msgstr "(Sem descrição)"
 
-#: mail/mail-ops.c:1103
+#: mail/mail-ops.c:1100
 msgid "Forwarded messages"
 msgstr "Mensagens encaminhadas"
 
-#: mail/mail-ops.c:1144 mail/mail-ops.c:1278
+#: mail/mail-ops.c:1141 mail/mail-ops.c:1275
 #, c-format
 msgid "Opening folder %s"
 msgstr "Abrindo pasta %s"
 
-#: mail/mail-ops.c:1209
+#: mail/mail-ops.c:1206
 #, c-format
 msgid "Opening store %s"
 msgstr "Abrindo repositório %s"
 
-#: mail/mail-ops.c:1340
+#: mail/mail-ops.c:1337
 msgid "Synchronising folder"
 msgstr "Sincronizando pasta"
 
-#: mail/mail-ops.c:1390
+#: mail/mail-ops.c:1387
 msgid "Expunging folder"
 msgstr "Excluindo permanentemente pasta"
 
-#: mail/mail-ops.c:1439
+#: mail/mail-ops.c:1436
 #, c-format
 msgid "Retrieving message %s"
 msgstr "Recuperando mensagem %s"
 
-#: mail/mail-ops.c:1506
+#: mail/mail-ops.c:1503
 msgid "Retrieving messages"
 msgstr "Recuperando mensagens"
 
-#: mail/mail-ops.c:1516
+#: mail/mail-ops.c:1513
 #, c-format
 msgid "Retrieving message number %d of %d (uid \"%s\")"
 msgstr "Recuperando mensagem número %d de %d (uid \"%s\")"
 
-#: mail/mail-ops.c:1664
+#: mail/mail-ops.c:1661
 #, c-format
 msgid "Loading %s Folder for %s"
 msgstr "Carregando pasta %s para %s"
 
-#: mail/mail-ops.c:1666
+#: mail/mail-ops.c:1663
 #, c-format
 msgid "Load %s Folder for %s"
 msgstr "Carregar pasta %s para %s"
 
-#: mail/mail-ops.c:1832
+#: mail/mail-ops.c:1829
 msgid "Saving messages"
 msgstr "Salvando mensagens"
 
-#: mail/mail-ops.c:1911
+#: mail/mail-ops.c:1908
 #, c-format
 msgid ""
 "Unable to create output file: %s\n"
@@ -5751,12 +5723,12 @@ msgstr ""
 "Não é possível criar arquivo de saída: %s\n"
 " %s"
 
-#: mail/mail-ops.c:1924
+#: mail/mail-ops.c:1921
 #, c-format
 msgid "Saving message %d of %d (uid \"%s\")"
 msgstr "Salvando mensagem %d de %d (uid \"%s\")"
 
-#: mail/mail-ops.c:1938
+#: mail/mail-ops.c:1935
 #, c-format
 msgid ""
 "Error saving messages to: %s:\n"
@@ -5765,11 +5737,11 @@ msgstr ""
 "Erro ao salvar mensagens para: %s:\n"
 " %s"
 
-#: mail/mail-ops.c:2012
+#: mail/mail-ops.c:2009
 msgid "Saving attachment"
 msgstr "Salvando anexo"
 
-#: mail/mail-ops.c:2027
+#: mail/mail-ops.c:2024
 #, c-format
 msgid ""
 "Cannot create output file: %s:\n"
@@ -5778,7 +5750,7 @@ msgstr ""
 "Não é possível criar arquivo de saída: %s:\n"
 " %s"
 
-#: mail/mail-ops.c:2055
+#: mail/mail-ops.c:2052
 #, c-format
 msgid "Could not write data: %s"
 msgstr "Não foi possível escrever dados: %s"
@@ -6189,8 +6161,7 @@ msgstr ""
 
 #: shell/importer/import.glade.h:1
 msgid "Click \"Import\" to begin importing the file into Evolution. "
-msgstr ""
-"Clique em \"Importar\" para começar a importar o arquivo para o Evolution. "
+msgstr "Clique em \"Importar\" para começar a importar o arquivo para o Evolution. "
 
 #: shell/importer/import.glade.h:2
 msgid "Evolution Import Utility"
@@ -6463,51 +6434,51 @@ msgstr "_Visualizar"
 msgid "View the selected folder"
 msgstr "Visualizar a pasta selecionada"
 
-#: shell/e-storage.c:176
+#: shell/e-storage.c:160
 msgid "(No name)"
 msgstr "(Sem nome)"
 
-#: shell/e-storage.c:427
+#: shell/e-storage.c:411
 msgid "No error"
 msgstr "Sem erro"
 
-#: shell/e-storage.c:429
+#: shell/e-storage.c:413
 msgid "Generic error"
 msgstr "Erro genérico"
 
-#: shell/e-storage.c:431
+#: shell/e-storage.c:415
 msgid "A folder with the same name already exists"
 msgstr "Já existe uma pasta com o mesmo nome"
 
-#: shell/e-storage.c:433
+#: shell/e-storage.c:417
 msgid "The specified folder type is not valid"
 msgstr "O tipo de pasta especificado não é válido"
 
-#: shell/e-storage.c:435
+#: shell/e-storage.c:419
 msgid "I/O error"
 msgstr "Erro de E/S"
 
-#: shell/e-storage.c:437
+#: shell/e-storage.c:421
 msgid "Not enough space to create the folder"
 msgstr "Não há espaço suficiente para criar a pasta"
 
-#: shell/e-storage.c:439
+#: shell/e-storage.c:423
 msgid "The specified folder was not found"
 msgstr "A pasta especificada não foi achada"
 
-#: shell/e-storage.c:441
+#: shell/e-storage.c:425
 msgid "Function not implemented in this storage"
 msgstr "Função não implementada neste repositório"
 
-#: shell/e-storage.c:443
+#: shell/e-storage.c:427
 msgid "Permission denied"
 msgstr "Permissão negada"
 
-#: shell/e-storage.c:445
+#: shell/e-storage.c:429
 msgid "Operation not supported"
 msgstr "Operação não suportada"
 
-#: shell/e-storage.c:447
+#: shell/e-storage.c:431
 msgid "The specified type is not supported in this storage"
 msgstr "O tipo especificado não é suportado neste repositório"
 
