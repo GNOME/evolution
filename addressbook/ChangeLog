@@ -1,3 +1,26 @@
+2000-05-16  Chris Toshok  <toshok@helixcode.com>
+
+	* backend/pas/pas-book.h: add typedefs for the can_write
+	functions, and add parameters to pas_book_new.
+
+	* backend/pas/pas-book.c (pas_book_construct): add can_write/can_write_card params.
+	(pas_book_new): same.
+	(impl_Evolution_Book_can_write): new function.
+	(impl_Evolution_Book_can_write_card): same.
+	(pas_book_get_epv): assign the can_write/can_write_card slots in the epv.
+
+	* backend/pas/pas-backend-ldap.c (pas_backend_ldap_can_write): new function.
+	(pas_backend_ldap_can_write_card): same.
+	(pas_backend_ldap_add_client): add can_write/can_write_card to pas_book_new call.
+
+	* backend/pas/pas-backend-file.c (pas_backend_file_can_write_card): new function, calls can_write.
+	(pas_backend_file_can_write): same.
+	(can_write): return TRUE if we can write to the addressbook file.
+	(pas_backend_file_add_client): add can_write/can_write_card to pas_book_new call.
+
+	* backend/idl/addressbook.idl (Evolution): add can_write and
+	can_write_card permission requests.
+
 2000-05-16  Christopher James Lahey  <clahey@helixcode.com>
 
 	* backend/ebook/e-card.c (e_card_get_vcard): Fixed a large memory leak.

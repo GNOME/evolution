@@ -52,11 +52,15 @@ typedef struct {
 	void (*requests_queued) (void);
 } PASBookClass;
 
-typedef char * (*PASBookGetVCardFn) (PASBook *book, const char *id);
+typedef char *   (*PASBookGetVCardFn)     (PASBook *book, const char *id);
+typedef gboolean (*PASBookCanWriteFn)     (PASBook *book);
+typedef gboolean (*PASBookCanWriteCardFn) (PASBook *book, const char *id);
 
 PASBook                *pas_book_new                   (PASBackend                        *backend,
 						       	Evolution_BookListener             listener,
-						       	PASBookGetVCardFn                  get_vcard);
+						       	PASBookGetVCardFn                  get_vcard,
+							PASBookCanWriteFn                  can_write,
+							PASBookCanWriteCardFn              can_write_card);
 PASBackend             *pas_book_get_backend           (PASBook                           *book);
 Evolution_BookListener  pas_book_get_listener          (PASBook                           *book);
 int                     pas_book_check_pending         (PASBook                           *book);
@@ -80,6 +84,9 @@ void                    pas_book_respond_get_book_view (PASBook                 
 void                    pas_book_report_connection     (PASBook                           *book,
 						     	gboolean                           connected);
 
+gboolean		pas_book_can_write             (PASBook                           *book);
+gboolean		pas_book_can_write_card        (PASBook                           *book,
+							const char                        *id);
 GtkType                 pas_book_get_type              (void);
 
 #define PAS_BOOK_TYPE        (pas_book_get_type ())

@@ -44,6 +44,18 @@ module Evolution {
 		VCard get_vcard (in CardId id);
 
 		/*
+		 * Permissions.  the first form is general write
+		 * permission (whether or not the user can add or
+		 * remove or modify any entry in the addressbook.)
+		 *
+		 * if can_write returns TRUE, can_write_card can still
+		 * return FALSE if the user doesn't have permission to
+		 * modify/remove that specific card.
+		 */
+		boolean can_write ();
+		boolean can_write_card (in CardId Id);
+
+		/*
 		 * Adding and deleting cards in the book.
 		 */
 		void create_card (in VCard vcard);

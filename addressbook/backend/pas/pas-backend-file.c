@@ -8,6 +8,7 @@
 
 #include "config.h"  
 #include <gtk/gtksignal.h>
+#include <unistd.h>
 #include <fcntl.h>
 #include <time.h>
 #ifdef HAVE_DB_185_H
@@ -816,6 +817,45 @@ pas_backend_file_process_check_connection (PASBackend *backend,
 	pas_book_report_connection (book, bf->priv->file_db != NULL);
 }
 
+static char *
+pas_backend_file_extract_path_from_uri (const char *uri)
+{
+	g_assert (strncasecmp (uri, "file:", 5) == 0);
+
+	return g_strdup (uri + 5);
+}
+
+static gboolean
+can_write (PASBackend *backend)
+{
+	PASBackendFile *bf = PAS_BACKEND_FILE (backend);
+	char *path = pas_backend_file_extract_path_from_uri (bf->priv->uri);
+	gboolean retval;
+
+	retval = (access (path, W_OK) != -1);
+
+	g_free (path);
+
+	return retval;
+}
+
+static gboolean
+pas_backend_file_can_write (PASBook *book)
+{
+	PASBackend* backend = pas_book_get_backend (book);
+
+	return can_write(backend);
+}
+
+static gboolean
+pas_backend_file_can_write_card (PASBook *book,
+				 const char *id)
+{
+	PASBackend* backend = pas_book_get_backend (book);
+
+	return can_write(backend);
+}
+
 static void
 pas_backend_file_process_client_requests (PASBook *book)
 {
@@ -893,14 +933,6 @@ pas_backend_file_get_vcard (PASBook *book, const char *id)
 		/* error */
 		return g_strdup (""); /* XXX */
 	}
-}
-
-static char *
-pas_backend_file_extract_path_from_uri (const char *uri)
-{
-	g_assert (strncasecmp (uri, "file:", 5) == 0);
-
-	return g_strdup (uri + 5);
 }
 
 static gboolean
@@ -1033,7 +1065,9 @@ pas_backend_file_add_client (PASBackend             *backend,
 
 	book = pas_book_new (
 		backend, listener,
-		pas_backend_file_get_vcard);
+		pas_backend_file_get_vcard,
+		pas_backend_file_can_write,
+		pas_backend_file_can_write_card);
 
 	if (!book) {
 		if (!bf->priv->clients)

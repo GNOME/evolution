@@ -207,6 +207,7 @@ pas_backend_ldap_build_all_cards_list(PASBackend *backend,
 
 	if (ldap) {
 		ldap->ld_sizelimit = LDAP_MAX_SEARCH_RESPONSES;
+		ldap->ld_deref = LDAP_DEREF_ALWAYS;
 
 		if ((ldap_error = ldap_search_s (ldap,
 						 bl->priv->ldap_rootdn,
@@ -729,6 +730,7 @@ pas_backend_ldap_search (PASBackendLDAP  	*bl,
 
 		if (ldap) {
 			ldap->ld_sizelimit = LDAP_MAX_SEARCH_RESPONSES;
+			ldap->ld_deref = LDAP_DEREF_ALWAYS;
 
 			if ((view->search_msgid = ldap_search (ldap,
 							       bl->priv->ldap_rootdn,
@@ -800,6 +802,19 @@ pas_backend_ldap_process_check_connection (PASBackend *backend,
 	PASBackendLDAP *bl = PAS_BACKEND_LDAP (backend);
 
 	pas_book_report_connection (book, bl->priv->connected);
+}
+
+static gboolean
+pas_backend_ldap_can_write (PASBook *book)
+{
+	return FALSE; /* XXX */
+}
+
+static gboolean
+pas_backend_ldap_can_write_card (PASBook *book,
+				 const char *id)
+{
+	return FALSE; /* XXX */
 }
 
 static void
@@ -927,7 +942,9 @@ pas_backend_ldap_add_client (PASBackend             *backend,
 
 	book = pas_book_new (
 		backend, listener,
-		pas_backend_ldap_get_vcard);
+		pas_backend_ldap_get_vcard,
+		pas_backend_ldap_can_write,
+		pas_backend_ldap_can_write_card);
 
 	if (!book) {
 		if (!bl->priv->clients)
