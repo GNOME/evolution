@@ -269,6 +269,7 @@ e_timezone_entry_set_entry (ETimezoneEntry *tentry)
 {
 	ETimezoneEntryPrivate *priv;
 	const char *display_name;
+	char *name_buffer;
 
 	priv = tentry->priv;
 
@@ -284,11 +285,15 @@ e_timezone_entry_set_entry (ETimezoneEntry *tentry)
 	} else
 		display_name = "";
 
-	gtk_entry_set_text (GTK_ENTRY (priv->entry), display_name);
+	name_buffer = g_strdup (display_name);
+
+	gtk_entry_set_text (GTK_ENTRY (priv->entry), name_buffer);
 
 	if (!priv->default_zone || (priv->zone != priv->default_zone))
 		gtk_widget_show (priv->entry);
 	else
 		gtk_widget_hide (priv->entry);
+
+	g_free (name_buffer);
 }
 

@@ -1,3 +1,11 @@
+2003-07-02  Harry Lu <harry.lu@sun.com>
+
+ 	Fixes #44485
+
+ 	* gui/e-timezone-entry.c (e_timezone_entry_set_entry): pass a 
+ 	new allocated string to gtk_entry_set_text instead of the one
+ 	that might come from gettext.
+
 2003-07-02  Dan Winship  <danw@ximian.com>
 
 	* cal-client/cal-client.c (real_open_calendar): Don't leak
