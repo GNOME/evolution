@@ -2336,8 +2336,9 @@ e_day_view_on_edit_appointment (GtkWidget *widget, gpointer data)
 	if (event == NULL)
 		return;
 
-	/* We must duplicate the iCalObject, since the event editor will
-	   change the fields. */
+	/* We must duplicate the iCalObject, since the event editor will change
+	 * the fields.
+	 */
 	ico = ical_object_duplicate (event->ico);
 
 	event_editor = event_editor_new (day_view->calendar, ico);

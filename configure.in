@@ -459,6 +459,7 @@ calendar/cal-util/Makefile
 calendar/cal-client/Makefile
 calendar/pcs/Makefile
 calendar/gui/Makefile
+calendar/gui/dialogs/Makefile
 filter/Makefile
 wombat/Makefile
 art/Makefile

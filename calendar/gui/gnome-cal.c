@@ -20,6 +20,7 @@
 #include <gtk/gtkvpaned.h>
 #include <libgnomeui/gnome-messagebox.h>
 #include <cal-util/timeutil.h>
+#include "dialogs/alarm-notify-dialog.h"
 #include "alarm.h"
 #include "e-day-view.h"
 #include "e-week-view.h"
@@ -53,6 +54,8 @@ static void gnome_calendar_on_month_changed (GtkCalendar   *calendar,
 					     GnomeCalendar *gcal);
 
 static GtkVBoxClass *parent_class;
+
+static void setup_alarm (GnomeCalendar *cal, CalAlarmInstance *ai);
 
 
 
@@ -519,12 +522,102 @@ program_notification (char *command, int close_standard)
 	sigaction (SIGQUIT, &save_quit, NULL);
 }
 
+/* Queues a snooze alarm */
+static void
+snooze (GnomeCalendar *gcal, iCalObject *ico, time_t occur, int snooze_mins, gboolean audio)
+{
+	time_t now, trigger;
+	struct tm tm;
+	CalAlarmInstance ai;
+
+	now = time (NULL);
+	tm = *localtime (&now);
+	tm.tm_min += snooze_mins;
+
+	trigger = mktime (&tm);
+	if (trigger == -1) {
+		g_message ("snooze(): produced invalid time_t; not queueing alarm!");
+		return;
+	}
+
+	ai.uid = ico->uid;
+	ai.type = audio ? ALARM_AUDIO : ALARM_DISPLAY;
+	ai.trigger = trigger;
+	ai.occur = occur;
+
+	setup_alarm (gcal, &ai);
+}
+
+/* Edits an appointment from the alarm notification dialog */
+static void
+edit (GnomeCalendar *gcal, iCalObject *ico)
+{
+	iCalObject *new_ico;
+	GtkWidget *event_editor;
+
+	/* We must duplicate the iCalObject, since the event editor will change
+	 * the fields.
+	 */
+	new_ico = ical_object_duplicate (ico);
+
+	event_editor = event_editor_new (gcal, new_ico);
+	gtk_widget_show (event_editor);
+}
+
+struct alarm_notify_closure {
+	GnomeCalendar *gcal;
+	iCalObject *ico;
+	time_t occur;
+};
+
+/* Callback used for the result of the alarm notification dialog */
+static void
+display_notification_cb (AlarmNotifyResult result, int snooze_mins, gpointer data)
+{
+	struct alarm_notify_closure *c;
+
+	c = data;
+
+	switch (result) {
+	case ALARM_NOTIFY_CLOSE:
+		break;
+
+	case ALARM_NOTIFY_SNOOZE:
+		snooze (c->gcal, c->ico, c->occur, snooze_mins, FALSE);
+		break;
+
+	case ALARM_NOTIFY_EDIT:
+		edit (c->gcal, c->ico);
+		break;
+
+	default:
+		g_assert_not_reached ();
+	}
+
+	ical_object_unref (c->ico);
+	g_free (c);
+}
+
 /* Present a display notification of an alarm trigger */
 static void
 display_notification (time_t trigger, time_t occur, iCalObject *ico, GnomeCalendar *gcal)
 {
-	g_message ("DISPLAY NOTIFICATION!");
-	/* FIXME */
+	gboolean result;
+	struct alarm_notify_closure *c;
+
+	ical_object_ref (ico);
+
+	c = g_new (struct alarm_notify_closure, 1);
+	c->gcal = gcal;
+	c->ico = ico;
+	c->occur = occur;
+
+	result = alarm_notify_dialog (trigger, occur, ico, display_notification_cb, c);
+	if (!result) {
+		g_message ("display_notification(): could not display the alarm notification dialog");
+		g_free (c);
+		ical_object_unref (ico);
+	}
 }
 
 /* Present an audible notification of an alarm trigger */
@@ -558,7 +651,13 @@ trigger_alarm_cb (gpointer alarm_id, time_t trigger, gpointer data)
 	/* Fetch the object */
 
 	str_ico = cal_client_get_object (c->gcal->client, c->uid);
+	if (!str_ico) {
+		g_message ("trigger_alarm_cb(): could not fetch object `%s'", c->uid);
+		return;
+	}
+
 	status = ical_object_find_in_string (c->uid, str_ico, &ico);
+	g_free (str_ico);
 
 	switch (status) {
 	case CAL_OBJ_FIND_SUCCESS:
@@ -616,6 +715,8 @@ trigger_alarm_cb (gpointer alarm_id, time_t trigger, gpointer data)
 		g_free (oa->uid);
 		g_free (oa);
 	}
+
+	ical_object_unref (ico);
 }
 
 /* Frees a struct trigger_alarm_closure */

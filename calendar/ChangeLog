@@ -1,3 +1,26 @@
+2000-05-14  Federico Mena Quintero  <federico@helixcode.com>
+
+	* gui/gnome-cal.c (display_notification): Use the alarm
+	notification dialog.
+	(display_notification_cb): New callback for the result of the
+	alarm notification dialog.
+
+	* gui/dialogs/alarm-notify.glade: New file with the alarm
+	notification dialog.
+
+	* gui/dialogs/alarm-notify-dialog.[ch]: New file.
+
+	* gui/dialogs/Makefile.am: New file.
+
+	* gui/Makefile.am (SUBDIRS): Added the dialogs directory.
+
+2000-05-13  Federico Mena Quintero  <federico@helixcode.com>
+
+	* gui/gnome-cal.c (trigger_alarm_cb): Better error checking, and
+	plug leaks of str_ico and ico.
+
+	* gui/evolution-calendar-control.c (main): Initialize libglade.
+
 2000-05-13  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* pcs/Makefile.am (INCLUDES): Add

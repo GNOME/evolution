@@ -1,3 +1,5 @@
+SUBDIRS = dialogs
+
 help_base = $(datadir)/gnome/help/cal
 
 #if HAVE_GNOME_PILOT
@@ -25,6 +27,7 @@ INCLUDES = 						\
 LINK_FLAGS =							\
 	$(BONOBO_VFS_GNOME_LIBS)				\
 	$(INTLLIBS)						\
+	dialogs/libcal-dialogs.a				\
 	$(top_builddir)/calendar/cal-client/libcal-client.la	\
 	$(top_builddir)/calendar/cal-util/libcal-util.la	\
 	$(top_builddir)/e-util/libeutil.la			\

@@ -2,6 +2,7 @@
 
 #include <config.h>
 #include <gnome.h>
+#include <glade/glade.h>
 #include <bonobo.h>
 #include <bonobo/bonobo-control.h>
 #include <glade/glade.h>
@@ -182,6 +183,7 @@ int
 main (int argc, char **argv)
 {
 	init_bonobo (&argc, argv);
+	glade_gnome_init ();
 	alarm_init ();
 
 	init_calendar ();
