@@ -25,6 +25,8 @@ typedef struct {
 	ETableModel     *table_model;
 	ETableHeader    *header;
 
+	ETableModel     *source_model;
+
 	int              x1, y1;
 	int              minimum_width, width, height;
 
@@ -46,14 +48,17 @@ typedef struct {
 	GdkGC           *focus_gc;
 	GdkBitmap       *stipple;
 
-	guint     draw_grid:1;
-	guint     draw_focus:1;
-	guint     renderers_can_change_size:1;
-	guint     cell_views_realized:1;
+	guint 		 draw_grid:1;
+	guint 		 draw_focus:1;
+	guint 		 renderers_can_change_size:1;
+	guint 		 cell_views_realized:1;
+	      	    
+	guint 		 needs_redraw : 1;
+	guint 		 needs_compute_height : 1;
+	guint 		 needs_compute_width : 1;
 
-	guint needs_redraw : 1;
-	guint needs_compute_height : 1;
-	guint needs_compute_width : 1;
+	guint            uses_source_model : 1;
+
 	/*
 	 * Realized views, per column
 	 */
@@ -74,14 +79,10 @@ typedef struct {
 	gint             cursor_col;
 	ETableCursorMode cursor_mode;
 
-#if 0
 	GSList          *selection;
-	gint             selection_count;
 
-	GtkSelectionMode selection_mode;
-#endif
 	/*
-	 * During edition
+	 * During editing
 	 */
 	int              editing_col, editing_row;
 	void            *edit_ctx;
@@ -109,35 +110,23 @@ void       e_table_item_unfocus  (ETableItem *eti);
 
 gint       e_table_item_get_focused_column (ETableItem *eti);
 
-#if 0
-/*
- * Selection
- */
-void        e_table_item_select_row    (ETableItem *e_table_Item, int row);
-void        e_table_item_unselect_row  (ETableItem *e_table_Item, int row);
-
 /*
  * Handling the selection
  */
-const GSList*e_table_item_get_selection (ETableItem *e_table_Item);
-
-GtkSelectionMode e_table_item_get_selection_mode (ETableItem *e_table_Item);
-void             e_table_item_set_selection_mode (ETableItem *e_table_Item,
-						  GtkSelectionMode selection_mode);
-gboolean         e_table_item_is_row_selected    (ETableItem *e_table_Item,
-						  int row);
-#endif
-
-void             e_table_item_leave_edit         (ETableItem *eti);
-void             e_table_item_enter_edit         (ETableItem *eti, int col, int row);
-
-void             e_table_item_redraw_range       (ETableItem *eti,
-						  int start_col, int start_row,
-						  int end_col, int end_row);
-
-EPrintable      *e_table_item_get_printable      (ETableItem        *eti);
-void             e_table_item_print_height       (ETableItem        *eti,
-						  GnomePrintContext *context,
-						  gdouble            width);
+const GSList *e_table_item_get_selection   (ETableItem *e_table_Item);
+gboolean      e_table_item_is_row_selected (ETableItem *e_table_Item,
+					    int row);
+	     				   
+void          e_table_item_leave_edit      (ETableItem *eti);
+void          e_table_item_enter_edit      (ETableItem *eti, int col, int row);
+	     				   
+void          e_table_item_redraw_range    (ETableItem *eti,
+					    int start_col, int start_row,
+					    int end_col, int end_row);
+	     				   
+EPrintable   *e_table_item_get_printable   (ETableItem        *eti);
+void          e_table_item_print_height    (ETableItem        *eti,
+					    GnomePrintContext *context,
+					    gdouble            width);
 
 #endif /* _E_TABLE_ITEM_H_ */

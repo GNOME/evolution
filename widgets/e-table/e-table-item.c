@@ -17,6 +17,7 @@
 #include <gdk/gdkkeysyms.h>
 #include <math.h>
 #include "e-table-item.h"
+#include "e-table-subset.h"
 #include "e-cell.h"
 #include "e-util/e-canvas.h"
 #include "e-util/e-canvas-utils.h"
@@ -58,6 +59,9 @@ enum {
 static int eti_get_height (ETableItem *eti);
 static int eti_get_minimum_width (ETableItem *eti);
 static int eti_row_height (ETableItem *eti, int row);
+static void e_table_item_unselect_row (ETableItem *eti, int row);
+static void e_table_item_select_row (ETableItem *eti, int row);
+static void eti_selection (GnomeCanvasItem *item, int flags, gpointer user_data);
 #define ETI_ROW_HEIGHT(eti,row) ((eti)->height_cache && (eti)->height_cache[(row)] != -1 ? (eti)->height_cache[(row)] : eti_row_height((eti),(row)))
 
 static gboolean
@@ -253,6 +257,8 @@ eti_remove_table_model (ETableItem *eti)
 	gtk_signal_disconnect (GTK_OBJECT (eti->table_model),
 			       eti->table_model_row_deleted_id);
 	gtk_object_unref (GTK_OBJECT (eti->table_model));
+	if (eti->source_model)
+		gtk_object_unref (GTK_OBJECT (eti->source_model));
 
 	eti->table_model_change_id = 0;
 	eti->table_model_row_change_id = 0;
@@ -260,6 +266,8 @@ eti_remove_table_model (ETableItem *eti)
 	eti->table_model_row_inserted_id = 0;
 	eti->table_model_row_deleted_id = 0;
 	eti->table_model = NULL;
+	eti->source_model = NULL;
+	eti->uses_source_model = 0;
 }
 
 /*
@@ -647,6 +655,11 @@ eti_add_table_model (ETableItem *eti, ETableModel *table_model)
 		eti_detach_cell_views (eti);
 		eti_attach_cell_views (eti);
 	}
+
+	if (E_IS_TABLE_SUBSET(table_model)) {
+		eti->uses_source_model = 1;
+		eti->source_model = E_TABLE_SUBSET(table_model)->source;
+	}
 	
 	eti_table_model_changed (table_model, eti);
 }
@@ -810,10 +823,6 @@ eti_init (GnomeCanvasItem *item)
 {
 	ETableItem *eti = E_TABLE_ITEM (item);
 
-	eti->cursor_row = -1;
-	eti->cursor_col = 0;
-	eti->cursor_mode = E_TABLE_CURSOR_SIMPLE;
-
 	eti->editing_col = -1;
 	eti->editing_row = -1;
 	eti->height = 0;
@@ -826,15 +835,21 @@ eti_init (GnomeCanvasItem *item)
 	
 	eti->length_threshold = -1;
 	eti->renderers_can_change_size = 1;
+
+	eti->uses_source_model = 0;
+	eti->source_model = NULL;
 	
-#if 0
-	eti->selection_mode = GTK_SELECTION_SINGLE;
-#endif
+	eti->cursor_row = -1;
+	eti->cursor_col = 0;
+	eti->cursor_mode = E_TABLE_CURSOR_SIMPLE;
+
+	eti->selection = NULL;
 
 	eti->needs_redraw = 0;
 	eti->needs_compute_height = 0;
 
 	e_canvas_item_set_reflow_callback (GNOME_CANVAS_ITEM (eti), eti_reflow);
+	e_canvas_item_set_selection_callback (GNOME_CANVAS_ITEM (eti), eti_selection);
 }
 
 #define gray50_width 2
@@ -1587,7 +1602,6 @@ e_table_item_get_focused_column (ETableItem *eti)
 }
 
 
-#if 0
 const GSList *
 e_table_item_get_selection (ETableItem *eti)
 {
@@ -1595,29 +1609,6 @@ e_table_item_get_selection (ETableItem *eti)
 	g_return_val_if_fail (E_IS_TABLE_ITEM (eti), NULL);
 
 	return eti->selection;
-}
-
-GtkSelectionMode
-e_table_item_get_selection_mode (ETableItem *eti)
-{
-	g_return_val_if_fail (eti != NULL, GTK_SELECTION_SINGLE);
-	g_return_val_if_fail (E_IS_TABLE_ITEM (eti), GTK_SELECTION_SINGLE);
-
-	return eti->selection_mode;
-}
-
-void
-e_table_item_set_selection_mode (ETableItem *eti, GtkSelectionMode selection_mode)
-{
-	g_return_if_fail (eti != NULL);
-	g_return_if_fail (E_IS_TABLE_ITEM (eti));
-
-	if (selection_mode == GTK_SELECTION_BROWSE ||
-	    selection_mode == GTK_SELECTION_EXTENDED){
-		g_error ("GTK_SELECTION_BROWSE and GTK_SELECTION_EXTENDED are not implemented");
-	}
-	
-	eti->selection_mode = selection_mode;
 }
 
 gboolean
@@ -1632,53 +1623,49 @@ e_table_item_is_row_selected (ETableItem *eti, int row)
 		return FALSE;
 }
 
-void
+static void
 e_table_item_unselect_row (ETableItem *eti, int row)
 {
 	g_return_if_fail (eti != NULL);
 	g_return_if_fail (E_IS_TABLE_ITEM (eti));
 
-	if (e_table_item_is_row_selected (eti, row)){
-		gtk_signal_emit (
-			GTK_OBJECT (eti), eti_signals [ROW_SELECTION],
-			row, 0);
-	}
+	gtk_signal_emit (GTK_OBJECT (eti), eti_signals [ROW_SELECTION],
+			 row, 0);
 }
 
-void
+static void
 e_table_item_select_row (ETableItem *eti, int row)
 {
 	g_return_if_fail (eti != NULL);
 	g_return_if_fail (E_IS_TABLE_ITEM (eti));
 
-	switch (eti->selection_mode){
-	case GTK_SELECTION_SINGLE:
-		if (eti->selection){
-			gtk_signal_emit (
-				GTK_OBJECT (eti), eti_signals [ROW_SELECTION],
-				GPOINTER_TO_INT (eti->selection->data), 0);
-		}
-		g_slist_free (eti->selection);
-		eti->selection = NULL;
+	gtk_signal_emit (GTK_OBJECT (eti), eti_signals [ROW_SELECTION],
+			 GINT_TO_POINTER (row), 1);
+}
 
-		gtk_signal_emit (
-			GTK_OBJECT (eti), eti_signals [ROW_SELECTION],
-			GINT_TO_POINTER (row), 1);
-		break;
-				
-	case GTK_SELECTION_MULTIPLE:
-		if (g_slist_find (eti->selection, GINT_TO_POINTER (row)))
-			return;
-		gtk_signal_emit (
-			GTK_OBJECT (eti), eti_signals [ROW_SELECTION],
-			GINT_TO_POINTER (row), 1);
-		break;
-
-	default:
+static void
+eti_selection (GnomeCanvasItem *item, int flags, gpointer data)
+{
+	int row = (int) data;
+	int col = 0;
+	ETableItem *eti = E_TABLE_ITEM(item);
+	int selected = e_table_item_is_row_selected(eti, row);
+	int cursored = row == eti->cursor_row;
+	
+	if (selected && (flags & E_CANVAS_ITEM_SELECTION_SELECT) == 0) {
+		e_table_item_unselect_row (eti, row);
+	}
+	if ((!selected) && (flags & E_CANVAS_ITEM_SELECTION_SELECT) != 0) {
+		e_table_item_select_row (eti, row);
+	}
+	if ((!cursored) && (flags & E_CANVAS_ITEM_SELECTION_CURSOR) != 0) {
+		eti->cursor_row = row;
+		eti->cursor_col = col;
+	}
+	if (flags & E_CANVAS_ITEM_SELECTION_DELETE_DATA) {
 		
 	}
 }
-#endif
 
 void
 e_table_item_enter_edit (ETableItem *eti, int col, int row)
