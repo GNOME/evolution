@@ -692,8 +692,7 @@ create_source (struct service_type *st)
 			     GUINT_TO_POINTER (CAMEL_PROVIDER_STORE));
 
 	row = 0;
-	service_flags = st->service->url_flags &
-		~CAMEL_SERVICE_URL_NEED_AUTH;
+	service_flags = st->service->url_flags & ~CAMEL_SERVICE_URL_NEED_AUTH;
 
 	if (service_flags & CAMEL_SERVICE_URL_NEED_HOST) {
 		add_row (table, row, _("Server:"), "server_entry",
@@ -784,8 +783,7 @@ create_transport (struct service_type *st)
 			     GUINT_TO_POINTER (CAMEL_PROVIDER_TRANSPORT));
 
 	row = 0;
-	service_flags = st->service->url_flags &
-		~CAMEL_SERVICE_URL_NEED_AUTH;
+	service_flags = st->service->url_flags & ~CAMEL_SERVICE_URL_NEED_AUTH;
 
 	if (service_flags & CAMEL_SERVICE_URL_NEED_HOST) {
 		add_row (table, row, _("Server:"), "server_entry",
@@ -883,10 +881,10 @@ create_service_page (GtkWidget *vbox, const char *label_text, GList *services,
 	gtk_misc_set_alignment (GTK_MISC (stype), 1, 0.5);
 
 	stype_optionmenu = gtk_option_menu_new ();
+	gtk_object_set_data (GTK_OBJECT (vbox), "stype_optionmenu", stype_optionmenu);
 	gtk_box_pack_start (GTK_BOX (hbox), stype_optionmenu, TRUE, TRUE, 0);
 	stype_menu = gtk_menu_new ();
-	gtk_option_menu_set_menu (GTK_OPTION_MENU (stype_optionmenu),
-				  stype_menu);
+	gtk_option_menu_set_menu (GTK_OPTION_MENU (stype_optionmenu), stype_menu);
 
 	stype_html = html_new (TRUE);
 	gtk_object_set_data (GTK_OBJECT (vbox), "html", stype_html);
@@ -906,14 +904,14 @@ create_service_page (GtkWidget *vbox, const char *label_text, GList *services,
 		menuitem = gtk_menu_item_new_with_label (_(st->provider->name));
 		if (!first_menuitem)
 			first_menuitem = menuitem;
+		gtk_object_set_data (GTK_OBJECT (vbox), st->provider->name, menuitem);
 		gtk_signal_connect (GTK_OBJECT (menuitem), "activate",
 				    GTK_SIGNAL_FUNC (stype_menuitem_activate),
 				    vbox);
 		gtk_menu_append (GTK_MENU (stype_menu), menuitem);
 
 		service = (*create_service) (st);
-		gtk_notebook_append_page (GTK_NOTEBOOK (notebook), service,
-					  NULL);
+		gtk_notebook_append_page (GTK_NOTEBOOK (notebook), service, NULL);
 		gtk_object_set_data (GTK_OBJECT (service), "box", vbox);
 
 		gtk_object_set_data (GTK_OBJECT (menuitem), "page",
@@ -922,8 +920,7 @@ create_service_page (GtkWidget *vbox, const char *label_text, GList *services,
 				     st->provider->description);
 	}
 
-	stype_menuitem_activate (GTK_OBJECT (first_menuitem),
-				 GTK_OBJECT (vbox));
+	stype_menuitem_activate (GTK_OBJECT (first_menuitem), GTK_OBJECT (vbox));
 	gtk_option_menu_set_history (GTK_OPTION_MENU (stype_optionmenu), 0);
 
 	gtk_widget_show_all (vbox);
@@ -950,16 +947,27 @@ create_source_page (GtkWidget *vbox, GList *sources, char **urlp)
 static void
 create_transport_page (GtkWidget *vbox, GList *transports, char **urlp)
 {
-	GtkWidget *html;
+	GtkWidget *html, *optionmenu, *menuitem;
 
 	html = html_new (FALSE);
 	put_html (GTK_HTML (html),
-		  _("Select the method you would like to use to deliver "
-		    "your mail."));
+		  _("Select the method you would like to use to deliver your mail."));
 	gtk_box_pack_start (GTK_BOX (vbox), html->parent, FALSE, TRUE, 0);
 
 	create_service_page (vbox, "Mail transport type:", transports,
 			     create_transport, urlp);
+
+	optionmenu = gtk_object_get_data (GTK_OBJECT (vbox), "stype_optionmenu");
+
+	if (!strncasecmp(*urlp, "sendmail", 8)) {
+		menuitem = gtk_object_get_data (GTK_OBJECT (vbox), "Sendmail");
+		gtk_option_menu_set_history (GTK_OPTION_MENU (optionmenu), 1);
+	} else {
+		menuitem = gtk_object_get_data (GTK_OBJECT (vbox), "SMTP");
+		gtk_option_menu_set_history (GTK_OPTION_MENU (optionmenu), 0);
+	}
+
+	stype_menuitem_activate (GTK_OBJECT (menuitem), GTK_OBJECT (vbox));
 }
 
 
@@ -1990,6 +1998,10 @@ providers_config_new (void)
 	/* Set the data in the transports page */
 	interior_notebook = gtk_object_get_data (GTK_OBJECT (transport_page_vbox), "notebook");
 	page = gtk_notebook_get_current_page (GTK_NOTEBOOK (interior_notebook));
+	if (!strncasecmp(transport, "Sendmail", 8))
+		page = 1;
+	else
+		page = 0;
 	table = gtk_notebook_get_nth_page (GTK_NOTEBOOK (interior_notebook), page);
 	set_service_url (GTK_OBJECT (table), transport);
 	

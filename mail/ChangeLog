@@ -1,3 +1,13 @@
+2000-06-19  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* mail-config.c (providers_config_new): Should now correctly display
+	the Transport page (made it set the optionmenu correctly, before it
+	would only set SMTP).
+	(create_transport_page): Updated to set the page info to sendmail/smtp
+	based on the url.
+	(create_service_page): Had to add some code to set data on some objects
+	so I could grab the objects I needed to modify in the above function.
+
 2000-06-18  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* folder-browser.c (folder_browser_load_folder): started to add
