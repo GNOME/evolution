@@ -99,6 +99,7 @@ typedef struct {
 	void        (*cursor_change) (ETableItem *eti, int row);
 	void        (*double_click)  (ETableItem *eti, int row);
 	gint        (*right_click)   (ETableItem *eti, int row, int col, GdkEvent *event);
+	gint        (*click)   (ETableItem *eti, int row, int col, GdkEvent *event);
 	gint        (*key_press)     (ETableItem *eti, int row, int col, GdkEvent *event);
 } ETableItemClass;
 

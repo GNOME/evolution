@@ -33,6 +33,7 @@ enum {
 	CURSOR_CHANGE,
 	DOUBLE_CLICK,
 	RIGHT_CLICK,
+	CLICK,
 	KEY_PRESS,
 	LAST_SIGNAL
 };
@@ -1440,6 +1441,9 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 				
 				e_cell_event (ecell_view, e, view_to_model_col(eti, col), col, row);
 			}
+
+			gtk_signal_emit (GTK_OBJECT (eti), eti_signals [RIGHT_CLICK],
+					 row, col, e, &return_val);
 			break;
 		case 3:
 			gnome_canvas_item_w2i (item, &e->button.x, &e->button.y);
@@ -1709,6 +1713,7 @@ eti_class_init (GtkObjectClass *object_class)
 	eti_class->cursor_change = NULL;
 	eti_class->double_click  = NULL;
 	eti_class->right_click   = NULL;
+	eti_class->click         = NULL;
 	eti_class->key_press     = NULL;
 
 	gtk_object_add_arg_type ("ETableItem::ETableHeader", GTK_TYPE_OBJECT,
@@ -1756,6 +1761,14 @@ eti_class_init (GtkObjectClass *object_class)
 				GTK_RUN_LAST,
 				object_class->type,
 				GTK_SIGNAL_OFFSET (ETableItemClass, right_click),
+				e_marshal_INT__INT_INT_POINTER,
+				GTK_TYPE_INT, 3, GTK_TYPE_INT, GTK_TYPE_INT, GTK_TYPE_POINTER);
+
+	eti_signals [CLICK] =
+		gtk_signal_new ("click",
+				GTK_RUN_LAST,
+				object_class->type,
+				GTK_SIGNAL_OFFSET (ETableItemClass, click),
 				e_marshal_INT__INT_INT_POINTER,
 				GTK_TYPE_INT, 3, GTK_TYPE_INT, GTK_TYPE_INT, GTK_TYPE_POINTER);
 
