@@ -1667,8 +1667,6 @@ gpg_decrypt(CamelCipherContext *context, CamelMimePart *ipart, CamelMimePart *op
 	CamelStream *ostream, *istream;
 	CamelDataWrapper *content;
 	CamelMimePart *encrypted;
-	CamelContentType *ct;
-	const char *protocol;
 	CamelMultipart *mp;
 	
 	mp = (CamelMultipart *) camel_medium_get_content_object ((CamelMedium *) ipart);
