@@ -1,3 +1,10 @@
+2000-04-07  NotZed  <NotZed@HelixCode.com>
+
+	* providers/Makefile.am: Removed smtp for now, its a long way from
+	building.
+	* providers/smtp/Makefile.in: Removed file that shouldn't have been
+	checked in.
+
 2000-04-06  Matt Loper  <matt@helixcode.com>
 
 	* camel-folder-pt-proxy.c (_get_full_name): Remove exception param
