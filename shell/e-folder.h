@@ -23,6 +23,7 @@ typedef enum {
 } EFolderDragDropAction;
 
 typedef enum {
+	E_FOLDER_SUMMARY,
 	E_FOLDER_MAIL,
 	E_FOLDER_CONTACTS,
 	E_FOLDER_CALENDAR,

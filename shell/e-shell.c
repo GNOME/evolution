@@ -254,7 +254,7 @@ static void
 e_shell_setup_default_folders (EShell *eshell)
 {
 	eshell->default_folders.summary = e_folder_new (
-		E_FOLDER_MAIL, "internal:summary", _("Today"), _("Executive Summary"),
+		E_FOLDER_SUMMARY, "internal:summary", _("Today"), _("Executive Summary"),
 		NULL, "internal:");
 	eshell->default_folders.inbox = e_folder_new (
 		E_FOLDER_MAIL, "internal:inbox", _("Inbox"), _("New mail messages"),

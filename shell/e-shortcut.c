@@ -298,8 +298,12 @@ populate_group (EShortcutBarModel *bm, EShortcutGroup *esg, EShortcutBar *shortc
 		char *type = NULL;
 		
 		switch (folder->type){
+		case E_FOLDER_SUMMARY:
+			type = "summary:";
+			break;
+
 		case E_FOLDER_MAIL:
-			type = "folder:";
+			type = "mail:";
 			break;
 			
 		case E_FOLDER_CONTACTS:
@@ -342,12 +346,51 @@ populate_from_model (EShortcutBarModel *bm, EShortcutBar *shortcut_bar)
 	
 }
 
+static struct {
+	char *prefix, *path;
+	GdkPixbuf *image;
+} shell_icons[] = {
+	{ "summary:", "evolution/evolution-today.png", NULL },
+	{ "mail:", "evolution/evolution-inbox.png", NULL },
+	{ "calendar:", "evolution/evolution-calendar.png", NULL },
+	{ "contacts:", "evolution/evolution-contacts.png", NULL },
+	{ "notes:", "evolution/evolution-notes.png", NULL },
+	{ "todo:", "evolution/evolution-tasks.png", NULL }
+};
+#define NSHELL_ICONS (sizeof (shell_icons) / sizeof (shell_icons[0]))
+
+static GdkPixbuf *
+shell_icon_cb (EShortcutBar *shortcut_bar, gchar *url)
+{
+	int i;
+
+	for (i = 0; i < NSHELL_ICONS; i++) {
+		if (!strncmp (shell_icons[i].prefix, url,
+			      strlen (shell_icons[i].prefix))) {
+			if (!shell_icons[i].image) {
+				char *pixmap_path;
+
+				pixmap_path = gnome_pixmap_file (shell_icons[i].path);
+				if (pixmap_path)
+					shell_icons[i].image = gdk_pixbuf_new_from_file (pixmap_path);
+				else {
+					g_warning ("Couldn't find pixmap: %s",
+						   pixmap_path);
+				}
+			}
+			return shell_icons[i].image;
+		}
+	}
+
+	return NULL;
+}
+
 static void
 view_destroyed (EShortcutBar *shortcut_bar, EShortcutBarModel *bm)
 {
 	bm->views = g_slist_remove (bm->views, shortcut_bar);
 }
-	
+
 GtkWidget *
 e_shortcut_bar_view_new (EShortcutBarModel *bm)
 {
@@ -357,6 +400,8 @@ e_shortcut_bar_view_new (EShortcutBarModel *bm)
 	gtk_widget_push_colormap (gdk_rgb_get_cmap ());
 
 	shortcut_bar = e_shortcut_bar_new ();
+	e_shortcut_bar_set_icon_callback (E_SHORTCUT_BAR (shortcut_bar),
+					  shell_icon_cb);
 
 	gtk_widget_pop_visual ();
 	gtk_widget_pop_colormap ();

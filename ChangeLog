@@ -1,3 +1,12 @@
+2000-03-31  Dan Winship  <danw@helixcode.com>
+
+	* shell/e-shortcut.c (e_shortcut_bar_view_new, shell_icon_cb):
+	Update for shortcut bar changes.
+
+	* shell/e-folder.h: add E_FOLDER_SUMMARY
+	* shell/e-shell.c (e_shell_setup_default_folders): make the
+	"Today" icon be of type E_FOLDER_SUMMARY, not E_FOLDER_MAIL.
+
 2000-03-31  Damon Chaplin  <damon@helixcode.com>
 
 	* widgets/shortcut-bar/e-shortcut-bar.[hc]: added support for a
