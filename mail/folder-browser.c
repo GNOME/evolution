@@ -431,7 +431,7 @@ x_evolution_message_parse (char *in, unsigned int inlen, GPtrArray **uids)
 	inptr = strchr (in, ' ');
 	uri = g_strndup (in, inptr - in);
 	
-	folder = mail_tool_uri_to_folder (uri, NULL);
+	folder = mail_tool_uri_to_folder (uri, 0, NULL);
 	g_free (uri);
 	
 	if (!folder)
@@ -1986,7 +1986,7 @@ folder_browser_new (const GNOME_Evolution_Shell shell, const char *uri)
 
 	folder_browser->uri = g_strdup (uri);
 	gtk_object_ref (GTK_OBJECT (folder_browser));
-	mail_get_folder(folder_browser->uri, got_folder, folder_browser, mail_thread_new);
+	mail_get_folder (folder_browser->uri, 0, got_folder, folder_browser, mail_thread_new);
 
 	return GTK_WIDGET (folder_browser);
 }

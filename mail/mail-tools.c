@@ -71,7 +71,7 @@ mail_tool_get_local_inbox (CamelException *ex)
 	CamelFolder *folder;
 
 	url = g_strdup_printf("file://%s/local/Inbox", evolution_dir);
-	folder = mail_tool_uri_to_folder (url, ex);
+	folder = mail_tool_uri_to_folder (url, 0, ex);
 	g_free (url);
 	return folder;
 }
@@ -279,7 +279,7 @@ mail_tool_make_message_attachment (CamelMimeMessage *message)
 }
 
 CamelFolder *
-mail_tool_uri_to_folder (const char *uri, CamelException *ex)
+mail_tool_uri_to_folder (const char *uri, guint32 flags, CamelException *ex)
 {
 	CamelURL *url;
 	CamelStore *store = NULL;
@@ -315,7 +315,7 @@ mail_tool_uri_to_folder (const char *uri, CamelException *ex)
 		if (offset)
 			folder = camel_store_get_trash (store, ex);
 		else
-			folder = camel_store_get_folder (store, name, 0, ex);
+			folder = camel_store_get_folder (store, name, flags, ex);
 		camel_object_unref (CAMEL_OBJECT (store));
 	}
 	

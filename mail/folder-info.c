@@ -113,7 +113,7 @@ do_get_info (struct _mail_msg *mm)
 #endif
 
 	ex = camel_exception_new ();
-	folder = mail_tool_uri_to_folder (m->foldername, ex);
+	folder = mail_tool_uri_to_folder (m->foldername, 0, ex);
 	if (camel_exception_is_set (ex)) {
 		g_warning ("Camel exception: %s", camel_exception_get_description (ex));
 	}

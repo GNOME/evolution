@@ -337,7 +337,7 @@ remove_timeout (CamelSession *session, guint handle)
 static CamelFolder *
 get_folder (CamelFilterDriver *d, const char *uri, void *data, CamelException *ex)
 {
-	return mail_tool_uri_to_folder(uri, ex);
+	return mail_tool_uri_to_folder (uri, 0, ex);
 }
 
 static CamelFilterDriver *

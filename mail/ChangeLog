@@ -1,3 +1,57 @@
+2001-10-02  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-vfolder.c (vfolder_setup_do): Pass an empty flags argument
+	to mail_tool_uri_to_folder.
+	(vfolder_adduri_do): Same.
+
+	* mail-session.c (get_folder): Pass an empty flags argument to
+	mail_tool_uri_to_folder.
+
+	* mail-send-recv.c (receive_get_folder): Pass an empty flags
+	argument to mail_tool_uri_to_folder.
+
+	* mail-ops.c (get_folder_get): Pass the flags to
+	mail_tool_uri_to_folder.
+	(mail_get_folder): Now takes a flags argument.
+	(remove_folder_get): Pass an empty flags argument to
+	mail_tool_uri_to_folder.
+	(mail_send_message): Pass an empty argument flag to
+	mail_tool_uri_to_folder.
+	(transfer_messages_transfer): Same. Destination folder should
+	already be created by this time.
+
+	* folder-info.c (do_get_info): Pass an empty flags argument to
+	mail_tool_uri_to_folder.
+
+	* importers/evolution-mbox-importer.c (folder_created_cb): Pass
+	the CREATE flag here too.
+	(load_file_fn): And here.
+	(load_file_fn): And here too.
+
+	* importers/evolution-outlook-importer.c (load_file_fn): Pass the
+	CREATE flag to mail_tool_uri_to_folder.
+
+	* folder-browser.c (folder_browser_new): Pass an empty flags
+	argument.
+	(x_evolution_message_parse): Pass an empty flags argument to
+	mail_tool_uri_to_folder.
+
+	* component-factory.c (create_folder): Pass a CREATE flag to
+	mail_get_folder here too.
+	(owner_set_cb): And here.
+	(xfer_folder): Shouldn't need the CREATE flag here, so not passing
+	any flags.
+	(destination_folder_handle_drop): Same.
+
+	* mail-local.c (mail_local_store_add_folder): Pass a CREATE flag
+	to mail_get_folder.
+	(reconfigure_folder_reconfigure): Pass an empty flags argument to
+	mail_tool_uri_to_folder.
+
+	* mail-tools.c (mail_tool_uri_to_folder): Take a flags argument.
+	(mail_tool_get_local_inbox): Pass an empty flags argument to
+	mail_tool_uri_to_folder.
+
 2001-10-02  Ettore Perazzoli  <ettore@ximian.com>
 
 	* mail-account-gui.c (launch_signature_editor): Use

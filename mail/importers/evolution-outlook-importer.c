@@ -268,7 +268,7 @@ load_file_fn (EvolutionImporter *eimporter,
 	if (folderpath == NULL || *folderpath == '\0')
 		importer->folder = mail_tool_get_local_inbox (NULL);
 	else
-		importer->folder = mail_tool_uri_to_folder (folderpath, NULL);
+		importer->folder = mail_tool_uri_to_folder (folderpath, CAMEL_STORE_FOLDER_CREATE, NULL);
 
 	if (importer->folder == NULL){
 		g_warning ("Bad folder");

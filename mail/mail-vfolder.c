@@ -98,7 +98,7 @@ vfolder_setup_do(struct _mail_msg *mm)
 	l = m->sources_uri;
 	while (l) {
 		(printf(" Adding uri: %s\n", (char *)l->data));
-		folder = mail_tool_uri_to_folder(l->data, &mm->ex);
+		folder = mail_tool_uri_to_folder (l->data, 0, &mm->ex);
 		if (folder) {
 			list = g_list_append(list, folder);
 		} else {
@@ -217,7 +217,7 @@ vfolder_adduri_do(struct _mail_msg *mm)
 	}
 
 	if (folder == NULL)
-		folder = mail_tool_uri_to_folder(m->uri, &mm->ex);
+		folder = mail_tool_uri_to_folder (m->uri, 0, &mm->ex);
 
 	if (folder != NULL) {
 		if (folder != drafts_folder && folder != outbox_folder && folder != sent_folder) {

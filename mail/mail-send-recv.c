@@ -566,7 +566,7 @@ receive_get_folder(CamelFilterDriver *d, const char *uri, void *data, CamelExcep
 		camel_object_ref((CamelObject *)oldinfo->folder);
 		return oldinfo->folder;
 	}
-	folder = mail_tool_uri_to_folder(uri, ex);
+	folder = mail_tool_uri_to_folder (uri, 0, ex);
 	if (!folder)
 		return NULL;
 

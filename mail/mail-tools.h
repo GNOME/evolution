@@ -73,7 +73,7 @@ mail_tool_make_message_attachment (CamelMimeMessage *message);
 
 /* Parse the ui into a real CamelFolder any way we know how. */
 CamelFolder *
-mail_tool_uri_to_folder (const char *uri, CamelException *ex);
+mail_tool_uri_to_folder (const char *uri, guint32 flags, CamelException *ex);
 
 GHashTable *
 mail_lookup_url_table (CamelMimeMessage *mime_message);

@@ -846,7 +846,7 @@ static void mail_local_store_add_folder(MailLocalStore *mls, const char *uri, co
 
 		/* this is just so the folder is opened at least once to setup the folder
 		   counts etc in the display.  Joy eh?   The result is discarded. */
-		mail_get_folder(uri, NULL, NULL, mail_thread_queued_slow);
+		mail_get_folder (uri, CAMEL_STORE_FOLDER_CREATE, NULL, NULL, mail_thread_queued_slow);
 	}
 }
 
@@ -1092,7 +1092,7 @@ reconfigure_folder_reconfigure (struct _mail_msg *mm)
 		return;
 	}
 
-	local_folder = mail_tool_uri_to_folder (m->fb->uri, &mm->ex);
+	local_folder = mail_tool_uri_to_folder (m->fb->uri, 0, &mm->ex);
 	if (camel_exception_is_set (&mm->ex)) {
 		g_warning ("Can't resolve URI \"%s\" for reconfiguration!", m->fb->uri);
 		return;

@@ -488,7 +488,7 @@ mail_send_message(CamelMimeMessage *message, const char *destination, CamelFilte
 	}
 	
 	if (sent_folder_uri) {
-		folder = mail_tool_uri_to_folder (sent_folder_uri, NULL);
+		folder = mail_tool_uri_to_folder (sent_folder_uri, 0, NULL);
 		g_free (sent_folder_uri);
 		if (!folder) {
 			/* FIXME */
@@ -881,7 +881,7 @@ transfer_messages_transfer (struct _mail_msg *mm)
 		desc = _("Copying");
 	}
 	
-	dest = mail_tool_uri_to_folder (m->dest_uri, &mm->ex);
+	dest = mail_tool_uri_to_folder (m->dest_uri, 0, &mm->ex);
 	if (camel_exception_is_set (&mm->ex))
 		return;
 	
@@ -1202,6 +1202,7 @@ struct _get_folder_msg {
 	struct _mail_msg msg;
 
 	char *uri;
+	guint32 flags;
 	CamelFolder *folder;
 	void (*done) (char *uri, CamelFolder *folder, void *data);
 	void *data;
@@ -1220,7 +1221,7 @@ get_folder_get (struct _mail_msg *mm)
 {
 	struct _get_folder_msg *m = (struct _get_folder_msg *)mm;
 	
-	m->folder = mail_tool_uri_to_folder (m->uri, &mm->ex);
+	m->folder = mail_tool_uri_to_folder (m->uri, m->flags, &mm->ex);
 }
 
 static void
@@ -1250,13 +1251,16 @@ static struct _mail_msg_op get_folder_op = {
 };
 
 int
-mail_get_folder (const char *uri, void (*done)(char *uri, CamelFolder *folder, void *data), void *data, EThread *thread)
+mail_get_folder (const char *uri, guint32 flags,
+		 void (*done)(char *uri, CamelFolder *folder, void *data),
+		 void *data, EThread *thread)
 {
 	struct _get_folder_msg *m;
 	int id;
 	
 	m = mail_msg_new(&get_folder_op, NULL, sizeof(*m));
 	m->uri = g_strdup (uri);
+	m->flags = flags;
 	m->data = data;
 	m->done = done;
 	
@@ -1364,7 +1368,7 @@ remove_folder_get (struct _mail_msg *mm)
 	
 	m->removed = FALSE;
 	
-	folder = mail_tool_uri_to_folder (m->uri, &mm->ex);
+	folder = mail_tool_uri_to_folder (m->uri, 0, &mm->ex);
 	if (!folder)
 		return;
 	

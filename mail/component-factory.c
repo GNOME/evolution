@@ -207,7 +207,8 @@ create_folder (EvolutionShellComponent *shell_component,
 	CORBA_exception_init (&ev);
 	
 	if (!strcmp (type, "mail")) {
-		mail_get_folder(physical_uri, create_folder_done, CORBA_Object_duplicate (listener, &ev), mail_thread_new);
+		mail_get_folder (physical_uri, CAMEL_STORE_FOLDER_CREATE, create_folder_done,
+				 CORBA_Object_duplicate (listener, &ev), mail_thread_new);
 	} else {
 		GNOME_Evolution_ShellComponentListener_notifyResult (
 			listener, GNOME_Evolution_ShellComponentListener_UNSUPPORTED_TYPE, &ev);
@@ -323,7 +324,7 @@ xfer_folder (EvolutionShellComponent *shell_component,
 	}
 
 	camel_exception_init (&ex);
-	source = mail_tool_uri_to_folder (source_physical_uri, &ex);
+	source = mail_tool_uri_to_folder (source_physical_uri, 0, &ex);
 	camel_exception_clear (&ex);
 	
 	CORBA_exception_init (&ev);
@@ -485,7 +486,7 @@ destination_folder_handle_drop (EvolutionShellComponentDndDestinationFolder *des
 	
 	switch (type) {
 	case ACCEPTED_DND_TYPE_TEXT_URI_LIST:
-		folder = mail_tool_uri_to_folder (physical_uri, NULL);
+		folder = mail_tool_uri_to_folder (physical_uri, 0, NULL);
 		if (!folder)
 			return FALSE;
 		
@@ -527,7 +528,7 @@ destination_folder_handle_drop (EvolutionShellComponentDndDestinationFolder *des
 		g_free (urls);
 		break;
 	case ACCEPTED_DND_TYPE_MESSAGE_RFC822:
-		folder = mail_tool_uri_to_folder (physical_uri, &ex);
+		folder = mail_tool_uri_to_folder (physical_uri, 0, &ex);
 		if (!folder) {
 			camel_exception_clear (&ex);
 			return FALSE;
@@ -551,7 +552,7 @@ destination_folder_handle_drop (EvolutionShellComponentDndDestinationFolder *des
 		inptr = strchr (in, ' ');
 		url = g_strndup (in, inptr - in);
 		
-		folder = mail_tool_uri_to_folder (url, &ex);
+		folder = mail_tool_uri_to_folder (url, 0, &ex);
 		g_free (url);
 		
 		if (!folder) {
@@ -685,7 +686,8 @@ owner_set_cb (EvolutionShellComponent *shell_component,
 	
 	for (i = 0; i < sizeof (standard_folders) / sizeof (standard_folders[0]); i++) {
 		*standard_folders[i].uri = g_strdup_printf ("file://%s/local/%s", evolution_dir, standard_folders[i].name);
-		mail_msg_wait(mail_get_folder(*standard_folders[i].uri, got_folder, standard_folders[i].folder, mail_thread_new));
+		mail_msg_wait (mail_get_folder (*standard_folders[i].uri, CAMEL_STORE_FOLDER_CREATE,
+						got_folder, standard_folders[i].folder, mail_thread_new));
 	}
 	
 	mail_session_enable_interaction (TRUE);

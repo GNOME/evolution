@@ -61,7 +61,7 @@ void mail_get_messages (CamelFolder *folder, GPtrArray *uids,
 			void *data);
 
 /* same for a folder */
-int mail_get_folder (const char *uri,
+int mail_get_folder (const char *uri, guint32 flags,
 		     void (*done) (char *uri, CamelFolder *folder, void *data), void *data,
 		     EThread *thread);
 
