@@ -1,3 +1,8 @@
+2002-03-18  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-storage-set-view.etspec: Add `search="string"' for the
+	keyboard navigability search thingy.
+
 2002-03-15  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* e-activity-handler.c (show_cancellation_popup): Updated to use
