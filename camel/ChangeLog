@@ -1,3 +1,7 @@
+2003-12-06  JP Rosevear <jpr@ximian.com>
+
+	* */Makefile.am: Remove hard coded disable deprecated flags
+
 2003-12-05  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-gpg-context.c (gpg_ctx_op_start): Properly set the

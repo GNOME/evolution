@@ -1,3 +1,7 @@
+2003-12-06  JP Rosevear <jpr@ximian.com>
+
+	* */Makefile.am: Remove hard coded disable deprecated flags
+	
 2003-11-07  JP Rosevear <jpr@ximian.com>
 
 	* e-timezone-dialog/Makefile.am: don't include toplevel libical

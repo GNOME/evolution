@@ -7,7 +7,6 @@ INCLUDES =								\
 	-I$(top_srcdir)/a11y/widgets/					\
 	-DMAP_DIR=\""$(imagesdir)"\"					\
 	-DG_LOG_DOMAIN=__FILE__						\
-	-DG_DISABLE_DEPRECATED						\
 	$(SOURCE_SEL_CFLAGS)
 
 privlib_LTLIBRARIES =	\

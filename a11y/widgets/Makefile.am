@@ -14,7 +14,6 @@ INCLUDES =						\
 	-DEVOLUTION_IMAGESDIR=\""$(imagesdir)"\"	\
 	-DEVOLUTION_GALVIEWSDIR=\""$(viewsdir)"\"	\
 	-DEVOLUTION_UIDIR=\""$(evolutionuidir)"\"	\
-	-DG_DISABLE_DEPRECATED				\
 	-DPREFIX=\""$(prefix)"\"			\
 	$(A11Y_CFLAGS)					\
 	$(EVOLUTION_CALENDAR_CFLAGS)

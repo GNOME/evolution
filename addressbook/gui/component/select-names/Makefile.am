@@ -39,10 +39,7 @@ INCLUDES =						\
 	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"		\
 	-DEVOLUTION_ETSPECDIR=\""$(etspecdir)"\"	\
 	-DEVOLUTION_UIDIR=\""$(evolutionuidir)"\"	\
-	-DPREFIX=\""$(prefix)"\"	\
-	-DG_DISABLE_DEPRECATED				\
-	-DLIBGNOME_DISABLE_DEPRECATED			\
-	-DLIBGNOMEUI_DISABLE_DEPRECATED			\
+	-DPREFIX=\""$(prefix)"\"			\
 	$(EVOLUTION_ADDRESSBOOK_CFLAGS)
 
 privlib_LTLIBRARIES = libeselectnames.la

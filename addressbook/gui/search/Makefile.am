@@ -13,10 +13,6 @@ INCLUDES =						\
 	-I$(top_srcdir)/widgets/misc			\
 	-I$(top_builddir)/shell				\
 	-DSEARCH_RULE_DIR=\"$(ruledir)\"		\
-	-DG_DISABLE_DEPRECATED				\
-	-DGTK_DISABLE_DEPRECATED			\
-	-DLIBGNOME_DISABLE_DEPRECATED			\
-	-DLIBGNOMEUI_DISABLE_DEPRECATED			\
 	$(EVOLUTION_ADDRESSBOOK_CFLAGS)
 
 noinst_LTLIBRARIES =				\

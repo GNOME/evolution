@@ -8,7 +8,6 @@ INCLUDES = 					\
 	-I $(top_srcdir)/shell			\
 	-DFILTER_GLADEDIR=\"$(gladedir)\"	\
 	-DG_LOG_DOMAIN=\"filter\"		\
-	-DG_DISABLE_DEPRECATED			\
 	$(LIBFILTER_CFLAGS)
 
 noinst_LTLIBRARIES =				\

@@ -14,8 +14,7 @@ INCLUDES = -I.. \
 	$(CAMEL_CFLAGS)				\
 	$(GNOME_INCLUDEDIR)			\
 	$(GTK_INCLUDEDIR)			\
-	-DG_LOG_DOMAIN=\"camel-local-provider\"	\
-	-DG_DISABLE_DEPRECATED
+	-DG_LOG_DOMAIN=\"camel-local-provider\"
 
 libcamellocal_la_SOURCES = 			\
 	camel-local-folder.c			\

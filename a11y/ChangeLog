@@ -1,3 +1,7 @@
+2003-12-06  JP Rosevear <jpr@ximian.com>
+
+	* */Makefile.am: Remove hard coded disable deprecated flags
+	
 2003-12-03  Ettore Perazzoli  <ettore@ximian.com>
 
 	* calendar/Makefile.am (SHELL_IDLS): Only get Evolution.idl.
@@ -9,7 +13,9 @@
         * new files:
                 widgets/ea-calendar-cell.[hc]
                                                                                 
-        * widgets/ea-calendar-item: impl. atk selection and atk table interface.        * widgets/Makefile.am : use shared object library (.so)
+        * widgets/ea-calendar-item: impl. atk selection and atk table interface.        
+
+	* widgets/Makefile.am : use shared object library (.so)
                                                                                 
 2003-11-07  JP Rosevear <jpr@ximian.com>
 

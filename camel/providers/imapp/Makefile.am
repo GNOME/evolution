@@ -14,8 +14,7 @@ INCLUDES = -I.. \
 	$(CAMEL_CFLAGS)				\
 	$(GNOME_INCLUDEDIR)			\
 	$(GTK_INCLUDEDIR)			\
-	-DG_LOG_DOMAIN=\"camel-imapp-provider\"	\
-	-DG_DISABLE_DEPRECATED
+	-DG_LOG_DOMAIN=\"camel-imapp-provider\"
 
 libcamelimapp_la_SOURCES =			\
 	camel-imapp-utils.c			\

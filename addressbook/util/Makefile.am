@@ -8,8 +8,6 @@ INCLUDES =						\
 	-I$(top_srcdir)/camel				\
 	-I$(top_builddir)/shell				\
 	-I$(top_srcdir)/shell				\
-	-DG_DISABLE_DEPRECATED				\
-	-DLIBGNOME_DISABLE_DEPRECATED			\
         $(EVOLUTION_ADDRESSBOOK_CFLAGS)
 
 noinst_LTLIBRARIES = libeabutil.la
