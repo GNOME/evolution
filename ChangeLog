@@ -1,5 +1,40 @@
-2000-01-10  Miguel de Icaza  <miguel@gnu.org>
+2000-01-15  Miguel de Icaza  <miguel@gnu.org>
 
+	* shell/e-shell.c: Construct the default folders 
+
+	* shell/e-shell-view.c (e_shell_view_new): Setup the main GnomeApp
+	application, load the shortcut, internal api. 
+
+	* shell/e-folder.c (e_folder_get_type_name): Return description
+	here;  Change of policy;  We now know about all of the possible
+	types that can be displayed on Evolution. 
+
+2000-01-15  Miguel de Icaza <miguel@gnu.org>
+
+	* shell/e-folder.c: Renamed signal.
+
+	* widgets/shortcut-bar/e-shortcut-bar.c (e_shortcut_bar_add_item):
+	Use e_bar_set_item_data.
+
+	Drop item_url;  Require image argument;  Require user data
+	argument. 
+
+2000-01-09  Miguel de Icaza  <miguel@gnu.org>
+
+	* widgets/shortcut-bar/e-icon-bar.c (e_icon_bar_init): Turn on anti-aliasing.
+
+2000-01-08  Miguel de Icaza  <miguel@gnu.org>
+
+	* widgets/shortcut-bar/e-icon-bar.c (e_icon_bar_add_item): Use
+	GdkPixbuf here. 
+	(e_icon_bar_get_item_image): ditto and initialize image.
+
+	* widgets/shortcut-bar/e-shortcut-bar.c (e_shortcut_bar_add_item):
+	Use gdk-pixbuf.
+
+2000-01-14  Christopher James Lahey  <clahey@helixcode.com>
+
+=======
 	* widgets/shortcut-bar/e-shortcut-bar.c (e_shortcut_bar_add_item):
 	Use e_bar_set_item_data.
 
@@ -21,6 +56,7 @@
 
 2000-01-12    <clahey@galapagos.helixcode.com>
 
+>>>>>>> 1.170
 	* widgets/e-text-event-processor-types.h,
 	widgets/e-text-event-processor-emacs-like.c, widgets/e-text.c,
 	widgets/e-text.h: Added selection and clipboard support.  Added up
