@@ -225,5 +225,6 @@ goto_dialog (GnomeCalendar *gcal)
 	/* Run! */
 
 	gnome_dialog_set_modal (GNOME_DIALOG (dialog));
-	gnome_dialog_run_and_destroy (GNOME_DIALOG (dialog));
+
+	printf ("el dialogo regreso %d\n", gnome_dialog_run_and_destroy (GNOME_DIALOG (dialog)));
 }
