@@ -1,3 +1,8 @@
+2002-04-18  Radek Doulik  <rodo@ximian.com>
+
+	* mail-callbacks.c (do_mail_print): use default paper name in case
+	of wrong translation
+
 2002-04-15  Not Zed  <NotZed@Ximian.com>
 
 	* mail-identify.c (mail_identify_mime_part): Turn off the code
