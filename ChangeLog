@@ -1,3 +1,7 @@
+2004-12-14  Rodney Dawes  <dobey@novell.com>
+
+	* configure.in (AC_OUTPUT): Add mail/default/zh_CN/Makefile
+
 2004-12-08  Hans Petter Jansson  <hpj@novell.com>
 
 	* plugins/shared-folder/share-folder-common.c: Include

@@ -1530,6 +1530,7 @@ composer/Makefile
 mail/Makefile
 mail/default/Makefile
 mail/default/C/Makefile
+mail/default/zh_CN/Makefile
 mail/importers/Makefile
 plugins/Makefile
 plugins/calendar-http/Makefile
