@@ -49,24 +49,24 @@
  * 'call_handler_function()' to continue the process recursively.
  */
 
-static void handle_text_plain         (CamelFormatter *formatter,
-			               CamelDataWrapper *wrapper);
-static void handle_text_html          (CamelFormatter *formatter,
-			               CamelDataWrapper *wrapper);
-static void handle_image              (CamelFormatter *formatter,
-				       CamelDataWrapper *wrapper);
-static void handle_vcard              (CamelFormatter *formatter,
-				       CamelDataWrapper *wrapper);
-static void handle_mime_message       (CamelFormatter *formatter,
-			               CamelDataWrapper *wrapper);
-static void handle_multipart_mixed    (CamelFormatter *formatter,
-				       CamelDataWrapper *wrapper);
-static void handle_multipart_related  (CamelFormatter *formatter,
-				       CamelDataWrapper *wrapper);
-static void handle_multipart_alternate(CamelFormatter *formatter,
-				       CamelDataWrapper *wrapper);
-static void handle_unknown_type       (CamelFormatter *formatter,
-				       CamelDataWrapper *wrapper);
+static void handle_text_plain           (CamelFormatter *formatter,
+			                 CamelDataWrapper *wrapper);
+static void handle_text_html            (CamelFormatter *formatter,
+			                 CamelDataWrapper *wrapper);
+static void handle_image                (CamelFormatter *formatter,
+				         CamelDataWrapper *wrapper);
+static void handle_vcard                (CamelFormatter *formatter,
+				         CamelDataWrapper *wrapper);
+static void handle_mime_message         (CamelFormatter *formatter,
+			                 CamelDataWrapper *wrapper);
+static void handle_multipart_mixed      (CamelFormatter *formatter,
+				         CamelDataWrapper *wrapper);
+static void handle_multipart_related    (CamelFormatter *formatter,
+				         CamelDataWrapper *wrapper);
+static void handle_multipart_alternative(CamelFormatter *formatter,
+				         CamelDataWrapper *wrapper);
+static void handle_unknown_type         (CamelFormatter *formatter,
+				         CamelDataWrapper *wrapper);
 
 /* encodes some characters into their 'escaped' version;
  * so '<' turns into '&lt;', and '"' turns into '&quot;' */
@@ -743,7 +743,7 @@ handle_multipart_related (CamelFormatter *formatter,
 }
 
 /*
-   The current policy for multipart/alternate is this: 
+   The current policy for multipart/alternative is this: 
 
    if (we find a text/html body part)
        we print it
@@ -753,13 +753,13 @@ handle_multipart_related (CamelFormatter *formatter,
        we print nothing
 */
 static void
-handle_multipart_alternate (CamelFormatter *formatter,
+handle_multipart_alternative (CamelFormatter *formatter,
 			    CamelDataWrapper *wrapper)
 {
 	CamelMultipart* multipart = CAMEL_MULTIPART (wrapper);
 	CamelMimePart* mime_part;
 	
-	debug ("handle_multipart_alternate: entered\n");
+	debug ("handle_multipart_alternative: entered\n");
 
 	mime_part = find_preferred_displayable_body_part_in_multipart_alternative(
 		multipart);	
@@ -773,7 +773,7 @@ handle_multipart_alternate (CamelFormatter *formatter,
 				       MIME_TYPE_MAIN (mime_part));
 	}
 	
-	debug ("handle_multipart_alternate: exiting\n");		
+	debug ("handle_multipart_alternative: exiting\n");		
 }
 
 static void
@@ -834,7 +834,7 @@ camel_formatter_class_init (CamelFormatterClass *camel_formatter_class)
 	/* hook up mime types to functions that handle them */
 	ADD_HANDLER ("text/plain", handle_text_plain);
 	ADD_HANDLER ("text/html", handle_text_html);
-	ADD_HANDLER ("multipart/alternate", handle_multipart_alternate);
+	ADD_HANDLER ("multipart/alternative", handle_multipart_alternative);
 	ADD_HANDLER ("multipart/related", handle_multipart_related);
 	ADD_HANDLER ("multipart/mixed", handle_multipart_mixed);	
 	ADD_HANDLER ("message/rfc822", handle_mime_message);

@@ -14,3 +14,13 @@ LDADD =							\
 	$(INTLLIBS)					\
 	$(EXTRA_GNOME_LIBS)				\
 	$(PTHREAD_LIB)
+
+message_browser_LDADD = \
+	$(top_builddir)/camel/libcamel.la		\
+	$(INTLLIBS)					\
+	$(EXTRA_GNOME_LIBS)				\
+	$(PTHREAD_LIB) 					\
+	$(EXTRA_GNOME_LIBS_THREADS)
+
+noinst_PROGRAMS =  	\
+	message-browser	

@@ -1,5 +1,11 @@
 2000-02-08  Matt Loper  <matt.loper@splashtech.com>
 
+	* tests/ui-tests/message-browser.c: New file; shows a message in
+	tree format, where multipart's have multiple leaves.
+
+	* camel/camel-formatter.c: Changed references from
+	'multipart/alternate' to 'multipart/alternative'.
+
 	* tests/test-formatter.c (convert_to_html_and_print): Use the
 	buffer length of the stream to create strings which are then
 	printed, rather than printing the stream (which might not have a
