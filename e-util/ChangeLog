@@ -1,3 +1,8 @@
+2003-03-20  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* e-trie.c (e_trie_search): If the gunichar is 0xfffe, just skip
+	processing it. Maybe this will fix bug #39900.
+
 2003-03-19  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* e-sexp.h: Fix ESExpClass to never be an empty struct. Also make

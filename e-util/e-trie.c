@@ -314,26 +314,28 @@ e_trie_search (ETrie *trie, const char *buffer, size_t buflen, int *matched_id)
 	while ((c = trie_utf8_getc (&inptr, inlen))) {
 		inlen = (inend - inptr);
 		
-		if (trie->icase)
-			c = g_unichar_tolower (c);
-		
-		while (q != NULL && (m = g (q, c)) == NULL)
-			q = q->fail;
-		
-		if (q == &trie->root)
-			pat = prev;
-		
-		if (q == NULL) {
-			q = &trie->root;
-			pat = inptr;
-		} else if (m != NULL) {
-			q = m->state;
+		if (c != 0xfffe) {
+			if (trie->icase)
+				c = g_unichar_tolower (c);
 			
-			if (q->final) {
-				if (matched_id)
-					*matched_id = q->id;
+			while (q != NULL && (m = g (q, c)) == NULL)
+				q = q->fail;
+			
+			if (q == &trie->root)
+				pat = prev;
+			
+			if (q == NULL) {
+				q = &trie->root;
+				pat = inptr;
+			} else if (m != NULL) {
+				q = m->state;
 				
-				return (const char *) pat;
+				if (q->final) {
+					if (matched_id)
+						*matched_id = q->id;
+					
+					return (const char *) pat;
+				}
 			}
 		}
 		
