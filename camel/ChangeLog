@@ -1,3 +1,8 @@
+2001-12-04  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-mime-utils.c (header_content_type_simple): Protect against
+	either of the types being NULL.
+
 2001-12-05  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-mime-filter-basic.c (filter): If complete() allocates
