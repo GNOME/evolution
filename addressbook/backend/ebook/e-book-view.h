@@ -22,6 +22,8 @@ typedef struct _EBookView        EBookView;
 typedef struct _EBookViewClass   EBookViewClass;
 typedef struct _EBookViewPrivate EBookViewPrivate;
 
+struct _EBook;  /* Forward reference */
+
 struct _EBookView {
 	GtkObject     parent;
 	EBookViewPrivate *priv;
@@ -44,7 +46,8 @@ struct _EBookViewClass {
 EBookView         *e_book_view_new                    (GNOME_Evolution_Addressbook_BookView corba_book_view, EBookViewListener *listener);
 
 GtkType            e_book_view_get_type               (void);
-void               e_book_view_get_book_view_listener (EBookView *book_view);
+
+void               e_book_view_set_book               (EBookView *book_view, struct _EBook *book);
 
 #define E_BOOK_VIEW_TYPE        (e_book_view_get_type ())
 #define E_BOOK_VIEW(o)          (GTK_CHECK_CAST ((o), E_BOOK_VIEW_TYPE, EBookView))

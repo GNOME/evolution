@@ -16,11 +16,14 @@
 #include "e-card-cursor.h"
 #include "e-book-view-listener.h"
 #include "e-book-view.h"
+#include "e-book.h"
 
 GtkObjectClass *e_book_view_parent_class;
 
 struct _EBookViewPrivate {
 	GNOME_Evolution_Addressbook_BookView     corba_book_view;
+
+	EBook                 *book;
 	
 	EBookViewListener     *listener;
 
@@ -39,9 +42,24 @@ enum {
 static guint e_book_view_signals [LAST_SIGNAL];
 
 static void
+add_book_iterator (gpointer data, gpointer closure)
+{
+	ECard *card = E_CARD (data);
+	EBook *book = E_BOOK (closure);
+
+	if (card->book == NULL) {
+		card->book = book;
+		gtk_object_ref (GTK_OBJECT (book));
+	}
+}
+
+static void
 e_book_view_do_added_event (EBookView                 *book_view,
 			    EBookViewListenerResponse *resp)
 {
+	if (book_view->priv->book)
+		g_list_foreach (resp->cards, add_book_iterator, book_view->priv->book);
+
 	gtk_signal_emit (GTK_OBJECT (book_view), e_book_view_signals [CARD_ADDED],
 			 resp->cards);
 
@@ -53,6 +71,9 @@ static void
 e_book_view_do_modified_event (EBookView                 *book_view,
 			       EBookViewListenerResponse *resp)
 {
+	if (book_view->priv->book)
+		g_list_foreach (resp->cards, add_book_iterator, book_view->priv->book);
+
 	gtk_signal_emit (GTK_OBJECT (book_view), e_book_view_signals [CARD_CHANGED],
 			 resp->cards);
 
@@ -178,10 +199,22 @@ e_book_view_new (GNOME_Evolution_Addressbook_BookView corba_book_view, EBookView
 	return book_view;
 }
 
+void
+e_book_view_set_book (EBookView *book_view, EBook *book)
+{
+	g_return_if_fail (book_view && E_IS_BOOK_VIEW (book_view));
+	g_return_if_fail (book && E_IS_BOOK (book));
+	g_return_if_fail (book_view->priv->book == NULL);
+
+	book_view->priv->book = book;
+	gtk_object_ref (GTK_OBJECT (book));
+}
+
 static void
 e_book_view_init (EBookView *book_view)
 {
 	book_view->priv                      = g_new0 (EBookViewPrivate, 1);
+	book_view->priv->book                = NULL;
 	book_view->priv->corba_book_view     = CORBA_OBJECT_NIL;
 	book_view->priv->listener            = NULL;
 	book_view->priv->responses_queued_id = 0;
@@ -192,6 +225,10 @@ e_book_view_destroy (GtkObject *object)
 {
 	EBookView             *book_view = E_BOOK_VIEW (object);
 	CORBA_Environment  ev;
+
+	if (book_view->priv->book) {
+		gtk_object_unref (GTK_OBJECT (book_view->priv->book));
+	}
 
 	if (book_view->priv->corba_book_view) {
 		CORBA_exception_init (&ev);

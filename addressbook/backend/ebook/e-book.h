@@ -60,6 +60,8 @@ gboolean  e_book_load_uri                 (EBook                 *book,
 					   gpointer               closure);
 void      e_book_unload_uri               (EBook                 *book);
 
+const char *e_book_get_uri                (EBook                 *book);
+
 char     *e_book_get_static_capabilities  (EBook                 *book);
 
 guint     e_book_get_supported_fields     (EBook                 *book,

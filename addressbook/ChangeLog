@@ -1,3 +1,151 @@
+2001-07-07  Jon Trowbridge  <trow@ximian.com>
+
+	* gui/widgets/e-minicard.c (add_field): Detect the embedded
+	EDestination XML, and convert it to a nice-looking e-mail address.
+
+	* gui/contact-list-editor/e-contact-list-editor.c: Adjusted to
+	reflect changes to EContactListModel.  (Yeah, this is vague,
+	but the changes are _really_ obvious and boring.)
+
+	* gui/contact-list-editor/e-contact-list-model.c: Revamped
+	to make everything an EDestination, rather than storing either
+	cards or strings.
+
+	* gui/component/select-names/e-select-names-text-model.c
+	(e_select_names_text_model_insert_length): Use
+	e_destination_get_textrep.
+
+	* gui/component/select-names/e-select-names-table-model.c
+	(fill_in_info): Use e_destination_get_name and
+	e_destination_get_email.
+
+	* gui/component/select-names/e-select-names-popup.c
+	(popup_menu_card): Use e_destination_get_name instead of
+	e_card_name_to_string.
+	(quick_add_cb): Use e_destination_get_address.
+	(popup_menu_nocard): Use e_destination_get_name.
+
+	* gui/component/select-names/e-select-names-model.c
+	(e_select_names_model_changed): Removed obsolete debugging code.
+	(e_select_names_model_get_textification): Use e_destination_get_textrep.
+	(e_select_names_model_get_address_text): Use e_destination_get_address.
+	(e_select_names_model_get_string): Use e_destination_get_textrep.
+	(e_select_names_model_replace): Use e_destination_get_textrep.
+	(e_select_names_model_name_pos): Use e_destination_get_textrep.
+
+	* gui/component/select-names/e-select-names-completion.c
+	(emailify_match): Match only if this isn't a contact list.
+	(match_email): Match only if this isn't a contact list.
+	(match_name): Do the right thing in the case of a contact list.
+	(book_query_process_card_list): Don't construct a match for
+	each possible e-mail address if this is a contact list.
+
+	* backend/ebook/e-destination.c: Major-league de-crufting and
+	rationalization, combined with lots of hacks to make things work
+	properly with contact lists.
+	(e_destination_copy): Copy contact list info.
+	(e_destination_clear_card): Clear contact list info.
+	(e_destination_is_empty): If we contain a contact list, we aren't
+	empty.
+	(e_destination_set_card_uri): Added.  Allows us to set a
+	destination by card URI.
+	(e_destination_set_name): Allows the contact's name only ("Jane
+	Smith") to be set.
+	(e_destination_set_email): Allows the contact's e-mail only
+	("jane@assbarn.com") to be set.
+	(e_destination_set_string): Takes a free-form string containing a
+	contact's name and/or e-mail, and tries to do the right thing with
+	it.
+	(e_destination_contains_card): Renamed.  Used to be
+	e_destination_has_card.
+	(e_destination_from_card): Added.  Returns TRUE if the
+	EDestination comes from either a ECard (which we presently hold)
+	or is specified by an ECard URI.
+	(e_destination_use_card): Allows an EDestination's ECard to be
+	accessed, via a callback.  If we only are holding the URI, the
+	card will be loaded and stored in the EDestination.
+	(e_destination_get_name): Returns the name only ("Jane Smith"), or
+	NULL.
+	(e_destination_get_email): Returns the email only
+	("jane@assbarn.com"), or NULL.
+	(e_destination_get_address): Added.  Returns a "full address" if
+	both the name & e-mail are available ("Jane Smith
+	<jane@assbarn.com>"), or just the e-mail if the name is unknown
+	("jane@assbarn.com>").  If the destination is a contact list,
+	returns a comma-separated list of addresses.
+	(e_destination_get_textrep): Added.  Returns a "text
+	representation" of the EDestination.  This is what is now
+	displayed for completed, "cardified" destinations in addressbook
+	entries.
+	(e_destination_is_evolution_list): Check to see if this
+	destination is for a contact list.
+	(e_destination_xml_encode): Added.  Build an XML data structure
+	representing an EDestination.
+	(e_destination_xml_decode): Added.  Parse an XML data structure,
+	constructing an EDestination.
+	(e_destination_export): Added.  Returns a null-terminated string
+	containing an XML representation of the EDestination, with
+	newlines and excess whitespace removed.
+	(e_destination_import): Added.  Parses a string containing an XML
+	representation of an EDestination.
+	(e_destination_exportv): Added.  Returns a null-terminated string
+	containing an XML representation of a collection of EDestinations,
+	with newlines and excess whitespace removed.
+	(e_destination_importv): Added.  Takes an XML representation of a
+	collection of destinations, parses it, and returns a vector of
+	EDestinations.
+
+	* backend/ebook/e-card.c (e_card_duplicate): Copy the ->book
+	pointer.
+	(e_card_get_id): Check that the argument is valid.
+	(e_card_set_id): Check that the argument is valid.
+	(e_card_get_book): Added.  Return the EBook the ECard came from.
+	(e_card_get_uri): Added.  Tries to returns a URI for the ECard,
+	which is of the form (EBook URI)/(ECard unique ID).  Returns NULL
+	if the EBook URI or the ID are unknown/not set.
+	(e_card_get_vobject): If we have the URI, use it as the
+	VCUniqueStringProp, rather than just the ID.  This is a hack to
+	make DnD work properly.
+	(parse_id): Detect if the unique ID we've been passed is a URI or
+	just a plain card ID, and do the right thing in either case.
+	(e_card_uri_extract_book_uri): Added.  Convenience function for
+	parsing card URIs.
+	(e_card_uri_extract_card_id): Added.  Convenience function for
+	parsing card URIs.
+	(e_card_load_uri): Added.  Allows an ECard to be loaded by its
+	URI.
+
+	* backend/ebook/e-book-view.c: Added a EBook * to the
+	_EBookViewPrivate struct.  This is meant to contain the EBook the
+	EBookView is associated with.
+	(add_book_iterator): Added.  A convenience function for attaching
+	the EBook to a GList of cards (if no EBook is already stored).
+	(e_book_view_do_added_event): Record the EBook in the added
+	ECards.
+	(e_book_view_do_modified_event): Record the EBook in the modified
+	ECards.
+	(e_book_view_set_book): Added.  Stores a pointer to the
+	EBookView's "parent" EBook.
+	(e_book_view_init): Init book_view->priv->book to NULL.
+	(e_book_view_destroy): Unref book_view->priv->book.
+
+	* backend/ebook/e-book.c: Added a uri field to _EBookPrivate.
+	(e_book_unqueue_op): Removed debugging spew.
+	(e_book_do_response_get_view): Attach the current EBook to the
+	created EBookView.
+	(e_book_do_response_get_changes): Attach the current EBook to the
+	created EBookView.
+	(e_book_load_uri): Save a copy of the uri in the EBook.
+	(e_book_get_uri): Added.  Just returns book->priv->uri.
+	(e_book_get_card): Attach a pointer to the Ebook to the
+	newly-loaded ECard.
+	(e_book_add_card): Attach a pointer to the EBook to the
+	newly-added ECard.
+	(e_book_commit_card): Attach a pointer to the EBook to the
+	committed ECard.
+	(e_book_init): Initialize the uri to NULL.
+	(e_book_destroy): Free the uri string on destruction.
+
 2001-07-06  Ettore Perazzoli  <ettore@ximian.com>
 
 	* gui/component/addressbook-component.c (populate_context_menu):

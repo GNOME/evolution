@@ -237,7 +237,8 @@ e_card_simple_new (ECard *card)
 	return simple;
 }
 
-ECardSimple *e_card_simple_duplicate(ECardSimple *simple)
+ECardSimple *
+e_card_simple_duplicate(ECardSimple *simple)
 {
 	char *vcard = e_card_simple_get_vcard(simple);
 	ECard *card = e_card_new(vcard);
@@ -283,8 +284,8 @@ e_card_simple_set_id (ECardSimple *simple, const char *id)
  *
  * Returns: a string in vcard format, which is wrapped by the @simple.
  */
-char
-*e_card_simple_get_vcard (ECardSimple *simple)
+char *
+e_card_simple_get_vcard (ECardSimple *simple)
 {
 	if (simple->card)
 		return e_card_get_vcard(simple->card);

@@ -45,6 +45,8 @@ struct _EBookPrivate {
 	GList                 *pending_ops;
 
 	guint op_tag;
+
+	gchar *uri;
 };
 
 enum {
@@ -96,8 +98,6 @@ e_book_unqueue_op (EBook    *book)
 {
 	EBookOp *op;
 	GList *removed;
-
-	g_print ("Unqueue Op\n");
 
 	removed = g_list_last (book->priv->pending_ops);
 
@@ -251,6 +251,7 @@ e_book_do_response_get_view (EBook                 *book,
 	}
 	
 	book_view = e_book_view_new(resp->book_view, op->listener);
+	e_book_view_set_book (book_view, book);
 
 	/* Only execute the callback if the operation is still flagged as active (i.e. hasn't
 	   been cancelled.  This is mildly wasteful since we unnecessaryily create the
@@ -299,6 +300,7 @@ e_book_do_response_get_changes (EBook                 *book,
 	}
 
 	book_view = e_book_view_new (resp->book_view, op->listener);
+	e_book_view_set_book (book_view, book);
 	
 	if (op->cb) {
 		if (op->active)
@@ -459,6 +461,7 @@ e_book_check_listener_queue (EBookListener *listener, EBook *book)
 /**
  * e_book_load_uri:
  */
+
 gboolean
 e_book_load_uri (EBook                     *book,
 		 const char                *uri,
@@ -478,6 +481,9 @@ e_book_load_uri (EBook                     *book,
 		return FALSE;
 	}
 
+	g_free (book->priv->uri);
+	book->priv->uri = g_strdup (uri);
+
 	/*
 	 * Create our local BookListener interface.
 	 */
@@ -489,7 +495,7 @@ e_book_load_uri (EBook                     *book,
 
 	gtk_signal_connect (GTK_OBJECT (book->priv->listener), "responses_queued",
 			    e_book_check_listener_queue, book);
-
+	
 	/*
 	 * Load the addressbook into the PAS.
 	 */
@@ -556,6 +562,14 @@ e_book_unload_uri (EBook *book)
 
 	book->priv->listener   = NULL;
 	book->priv->load_state = URINotLoaded;
+}
+
+const char *
+e_book_get_uri (EBook *book)
+{
+	g_return_val_if_fail (book && E_IS_BOOK (book), NULL);
+
+	return book->priv->uri;
 }
 
 char *
@@ -729,6 +743,8 @@ e_book_get_card (EBook       *book,
 	g_free(vcard);
 	
 	e_card_set_id(card, id);
+	card->book = book;
+	gtk_object_ref (GTK_OBJECT (card->book));
 
 	return card;
 }
@@ -883,6 +899,11 @@ e_book_add_card (EBook           *book,
 
 	g_free (vcard);
 
+	if (card->book && card->book != book)
+		gtk_object_unref (GTK_OBJECT (card->book));
+	card->book = book;
+	gtk_object_ref (GTK_OBJECT (card->book));
+
 	return retval;
 }
 
@@ -960,6 +981,11 @@ e_book_commit_card (EBook         *book,
 	retval = e_book_commit_vcard (book, vcard, cb, closure);
 
 	g_free (vcard);
+
+	if (card->book && card->book != book)
+		gtk_object_unref (GTK_OBJECT (card->book));
+	card->book = book;
+	gtk_object_ref (GTK_OBJECT (card->book));
 
 	return retval;
 }
@@ -1215,7 +1241,8 @@ e_book_init (EBook *book)
 {
 	book->priv             = g_new0 (EBookPrivate, 1);
 	book->priv->load_state = URINotLoaded;
-	book->priv->op_tag = 1;
+	book->priv->op_tag     = 1;
+	book->priv->uri        = NULL;
 }
 
 static void
@@ -1236,6 +1263,8 @@ e_book_destroy (GtkObject *object)
 		CORBA_exception_free (&ev);
 		CORBA_exception_init (&ev);
 	}
+
+	g_free (book->priv->uri);
 
 	g_free (book->priv);
 

@@ -31,6 +31,7 @@
 #include <gtk/gtkobject.h>
 #include <addressbook/backend/ebook/e-card.h>
 #include <addressbook/backend/ebook/e-book.h>
+#include <gnome-xml/tree.h>
 
 #define E_TYPE_DESTINATION        (e_destination_get_type ())
 #define E_DESTINATION(o)          (GTK_CHECK_CAST ((o), E_TYPE_DESTINATION, EDestination))
@@ -60,39 +61,49 @@ GtkType e_destination_get_type (void);
 
 EDestination  *e_destination_new                (void);
 EDestination  *e_destination_copy               (EDestination *);
+void           e_destination_clear              (EDestination *);
 
 gboolean       e_destination_is_empty           (EDestination *);
 
 void           e_destination_set_card           (EDestination *, ECard *card, gint email_num);
+void           e_destination_set_card_uri       (EDestination *, const gchar *uri, gint email_num);
+
+void           e_destination_set_name           (EDestination *, const gchar *name);
+void           e_destination_set_email          (EDestination *, const gchar *email);
+
 void           e_destination_set_string         (EDestination *, const gchar *string);
 void           e_destination_set_html_mail_pref (EDestination *, gboolean);
 
-gboolean       e_destination_has_card           (const EDestination *);
-gboolean       e_destination_has_pending_card   (const EDestination *);
+gboolean       e_destination_contains_card      (const EDestination *);
+gboolean       e_destination_from_card          (const EDestination *);
 
 void           e_destination_use_card           (EDestination *, EDestinationCardCallback cb, gpointer closure);
 
 ECard         *e_destination_get_card           (const EDestination *);
+const gchar   *e_destination_get_card_uri       (const EDestination *);
 gint           e_destination_get_email_num      (const EDestination *);
-const gchar   *e_destination_get_string         (const EDestination *);
-gint           e_destination_get_strlen         (const EDestination *); /* a convenience function... */
 
-const gchar   *e_destination_get_name           (const EDestination *);
+const gchar   *e_destination_get_name           (const EDestination *);  /* "Jane Smith" */
+const gchar   *e_destination_get_email          (const EDestination *);  /* "jane@assbarn.com" */
+const gchar   *e_destination_get_address        (const EDestination *);  /* "Jane Smith <jane@assbarn.com>" (or a comma-sep set of such for a list) */
 
-const gchar   *e_destination_get_email          (const EDestination *);
-const gchar   *e_destination_get_email_verbose  (const EDestination *);
+const gchar   *e_destination_get_textrep        (const EDestination *);  /* "Jane Smith" or "jane@assbarn.com" */
+
+gboolean       e_destination_is_evolution_list  (const EDestination *);
 
 /* If true, they want HTML mail. */
 gboolean       e_destination_get_html_mail_pref (const EDestination *);
 
 gchar         *e_destination_get_address_textv  (EDestination **);
 
+xmlNodePtr     e_destination_xml_encode         (const EDestination *dest);
+gboolean       e_destination_xml_decode         (EDestination *dest, xmlNodePtr node);
+
 gchar         *e_destination_export             (const EDestination *);
 EDestination  *e_destination_import             (const gchar *str);
 
 gchar         *e_destination_exportv            (EDestination **);
 EDestination **e_destination_importv            (const gchar *str);
-EDestination **e_destination_importv_list       (EBook *book, ECard *list);
 
 void           e_destination_touch              (EDestination *);
 

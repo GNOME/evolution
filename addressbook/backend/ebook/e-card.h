@@ -27,9 +27,14 @@
 typedef struct _ECard ECard;
 typedef struct _ECardClass ECardClass;
 
+struct _EBook; /* Forward reference */
+
 struct _ECard {
 	GtkObject object;
 	char *id;
+
+	struct _EBook   *book;          /* The EBook this card is from.     */
+	gchar           *uri;           /* The card's uri (book uri + id)   */
 
 	char            *file_as;       /* The File As field.               */
 	char            *fname;         /* The full name.                   */
@@ -117,6 +122,10 @@ const char           *e_card_get_id                       (ECard                
 void                  e_card_set_id                       (ECard                      *card,
 							   const char                 *character);
 
+struct _EBook        *e_card_get_book                     (ECard                      *card);
+const char           *e_card_get_uri                      (ECard                      *card);
+
+
 char                 *e_card_get_vcard                    (ECard                      *card);
 char                 *e_card_list_get_vcard               (GList                      *list);
 ECard                *e_card_duplicate                    (ECard                      *card);
@@ -126,7 +135,6 @@ void                  e_card_touch                        (ECard                
 
 /* Evolution List convenience functions */
 /*   used for encoding uids in email addresses */
-#define ECARD_UID_LINK_PREFIX "|X-EVOLUTION-UID="
 gboolean              e_card_evolution_list               (ECard                      *card);
 gboolean              e_card_evolution_list_show_addresses(ECard                      *card);
 
@@ -181,6 +189,11 @@ void                  e_card_send                         (ECard                
 							   ECardDisposition            disposition);
 void                  e_card_list_send                    (GList                      *cards,
 							   ECardDisposition            disposition);
+
+/* Getting ECards via their URIs */
+typedef void (*ECardCallback) (ECard *card, gpointer closure);
+void                  e_card_load_uri                     (const gchar *uri, ECardCallback cb, gpointer closure);
+
 
 /* Standard Gtk function */
 GtkType               e_card_get_type                     (void);
