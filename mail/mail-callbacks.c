@@ -1020,10 +1020,6 @@ mail_generate_reply (CamelFolder *folder, CamelMimeMessage *message, const char 
 	g_list_free (to);
 	g_list_free (cc);
 	
-	if (text) {
-		e_msg_composer_set_body_text (composer, text);
-		g_free (text);
-	}
 	e_msg_composer_set_headers (composer, me ? me->name : NULL, tov, ccv, NULL, subject);
 	
 	e_destination_freev (tov);
