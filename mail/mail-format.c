@@ -2324,6 +2324,7 @@ mail_get_message_body (CamelDataWrapper *data, gboolean want_plain, gboolean cit
 {
 	char *subtext, *old, *div, *text = NULL;
 	CamelContentType *mime_type;
+	CamelCipherContext *cipher;
 	GByteArray *bytes = NULL;
 	CamelMimePart *subpart;
 	CamelMultipart *mp;
@@ -2373,7 +2374,16 @@ mail_get_message_body (CamelDataWrapper *data, gboolean want_plain, gboolean cit
 	
 	mp = CAMEL_MULTIPART (data);
 	
-	if (header_content_type_is (mime_type, "multipart", "alternative")) {
+	if (CAMEL_IS_MULTIPART_ENCRYPTED (mp)) {
+		cipher = camel_gpg_context_new (session, mail_config_get_pgp_path ());
+		subpart = camel_multipart_encrypted_decrypt (CAMEL_MULTIPART_ENCRYPTED (mp),
+							     cipher, NULL);
+		if (!subpart)
+			return NULL;
+		
+		data = camel_medium_get_content_object (CAMEL_MEDIUM (subpart));
+		return mail_get_message_body (data, want_plain, cite);
+	} else if (header_content_type_is (mime_type, "multipart", "alternative")) {
 		/* Pick our favorite alternative and reply to it. */
 		
 		subpart = find_preferred_alternative (mp, want_plain);

@@ -1,5 +1,8 @@
 2002-10-01  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* mail-format.c (mail_get_message_body): Handle a
+	multipart/encrypted part. Fixes bug #31547.
+
 	* upgrade-mailer.c: Shut up some compiler warnings.
 
 	* importers/evolution-mbox-importer.c (process_item_fn): Use the
