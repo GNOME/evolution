@@ -1,10 +1,34 @@
 Version 0.13 (Beta 3)  "Radioactive Waste", 2001-08-21
 ------------------------------------------------------
 
-Shell:
+Global:
 
   - New startup assistant to create mail accounts, import mail and set 
-    your timezone. (iain)
+    your timezone.  (Iain, Taylor)
+
+  - Improved the appearance and behavior of the clickable title bar and
+    the folder tree.  (Ettore)
+
+  - "Stock" folders such as Inbox have their names translated now and
+    cannot be removed.  (Ettore)
+
+  - Moved the Summary (formerly known as "My Evolution") to be a
+    normal node instead of being the toplevel node.  (Ettore)
+
+  - Fixed some problems with copying, moving and removing folderes.
+    (Jason)
+
+  - Fixed the handling of documentation files in the Help menu.  It
+    now integrates nicely with Nautilus and Scrollkeeper.  (Aaron,
+    Kjartan)
+
+  - Implemented the `File -> New' menu.  (Ettore)
+
+  - Improved error messages on start-up.  (Ettore)
+
+  - Fixed various crashes and minor bugs.  (Ettore, Jason)
+
+  - Various UI tweaks and improvements.  (Anna, Tuomas, Jakub)
 
 Mail:
 
@@ -17,7 +41,7 @@ Mail:
 
   - Many more i18n fixes.  (Zbigniew Chyla, Jeff and others)
 
-  - Subscribe dialog UI tweaks. (Peter)
+  - Subscribe dialog UI tweaks. (Peter, Anna)
 
   - Displaying PGP signed messages now shows icons.  (Jeff)
 
@@ -151,8 +175,6 @@ My Evolution:
   - New icons. (Tuomas and Jakub)
 
   - Works for people whos text colour was a light colour. (iain)
-
-Conduits:
 
 
 Version 0.12 (Beta 2), 2001-07-31
