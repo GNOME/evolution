@@ -156,6 +156,8 @@ e_list_iterator_next     (EIterator *_iterator)
 	EListIterator *iterator = E_LIST_ITERATOR(_iterator);
 	if (iterator->iterator)
 		iterator->iterator = g_list_next(iterator->iterator);
+	else
+		iterator->iterator = iterator->list->list;
 	return (iterator->iterator != NULL);
 }
 
@@ -165,6 +167,8 @@ e_list_iterator_prev     (EIterator *_iterator)
 	EListIterator *iterator = E_LIST_ITERATOR(_iterator);
 	if (iterator->iterator)
 		iterator->iterator = g_list_previous(iterator->iterator);
+	else
+		iterator->iterator = g_list_last(iterator->list->list);
 	return (iterator->iterator != NULL);
 }
 

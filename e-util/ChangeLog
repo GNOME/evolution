@@ -1,3 +1,12 @@
+2001-08-03  Christopher James Lahey  <clahey@ximian.com>
+
+	* e-list-iterator.c (e_list_iterator_next): Made it so that
+	e_list_iterator_next goes to the first element if it's set to
+	NULL.  This makes deleting the first element and then doing
+	e_list_iterator_next go to the new first element.  Did the analogy
+	for e_list_iterator_prev for completeness and consistency's sakes.
+	Fixes Ximian bug #6057.
+
 2001-08-01  Christopher James Lahey  <clahey@ximian.com>
 
 	* e-categories-master-list-wombat.c (ecmlw_load): Fixed the load
