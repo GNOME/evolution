@@ -1,3 +1,12 @@
+2001-12-05  Aaron Weber  <aaron@ximian.com>
+
+	* C/config-prefs.sgml: Additional links to other portions of the
+	document.
+
+2001-11-30  Aaron Weber  <aaron@ximian.com>
+
+	* C/usage-mail.sgml: Tiny error fix.
+
 2001-11-29  Kevin Breit  <mrproper@ximian.com>
 
 	* C/usage-mail.sgml: Added more info about pretty emails.

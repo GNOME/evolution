@@ -63,9 +63,9 @@
 
       <!-- ==============Figure===================== -->
       <figure id="config-prefs-mail-fig">
-	<title>Mail Preferences Dialog</title>
+	<title>Account Editor Window</title>
 	<screenshot>
-	  <screeninfo>Setting mail preferences</screeninfo>
+	  <screeninfo>Account Editor Window</screeninfo>
 	  <mediaobject><imageobject><imagedata fileref="figures/config-mail" format="png" srccredit="Aaron Weber">
 	    </imageobject></mediaobject>
 	</screenshot>
@@ -166,7 +166,7 @@ smtp.omniport.com:143
                    <listitem>
                      <para>
                        If you turn this feature on, then at startup
-                       and when you click Send/Recieve,
+                       and when you click Send/Receive,
                        <application>Ximian Evolution</application>
                        will check all folders on your IMAP server to
                        see if they have new messages in them. If you
@@ -253,7 +253,9 @@ smtp.omniport.com:143
 	    <para>
               In this section, you will set the security options for
               this account. Enter your PGP Key ID and decide how
-              frequently to encrypt and sign your messages.
+              frequently to encrypt and sign your messages. You can
+              learn more about PGP and encryption in <xref
+              linkend="encryption">.
             </para>
 	  </listitem>
 	  </varlistentry>
