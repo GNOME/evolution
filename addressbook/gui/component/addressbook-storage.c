@@ -69,7 +69,10 @@
 
 #define ADDRESSBOOK_SOURCES_XML "addressbook-sources.xml"
 
+#ifdef HAVE_LDAP
 static gboolean load_source_data (const char *file_path);
+#endif
+
 static gboolean save_source_data (const char *file_path);
 static void deregister_storage (void);
 
@@ -100,7 +103,7 @@ addressbook_storage_setup (EvolutionShellComponent *shell_component,
 #ifdef HAVE_LDAP
 	if (!load_source_data (storage_path))
 		deregister_storage ();
-#endif
+#endif 
 }
 
 #ifdef HAVE_LDAP
@@ -206,6 +209,7 @@ deregister_storage (void)
 	storage = NULL;
 }
 
+#ifdef HAVE_LDAP
 static char *
 get_string_value (xmlNode *node,
 		  const char *name)
@@ -228,6 +232,7 @@ get_string_value (xmlNode *node,
 
 	return retval;
 }
+#endif
 
 static char *
 ldap_unparse_auth (AddressbookLDAPAuthType auth_type)
@@ -243,6 +248,7 @@ ldap_unparse_auth (AddressbookLDAPAuthType auth_type)
 	}
 }
 
+#ifdef HAVE_LDAP
 static AddressbookLDAPAuthType
 ldap_parse_auth (const char *auth)
 {
@@ -254,6 +260,7 @@ ldap_parse_auth (const char *auth)
 	else
 		return ADDRESSBOOK_LDAP_AUTH_NONE;
 }
+#endif
 
 static char *
 ldap_unparse_scope (AddressbookLDAPScopeType scope_type)
@@ -271,6 +278,7 @@ ldap_unparse_scope (AddressbookLDAPScopeType scope_type)
 	}
 }
 
+#ifdef HAVE_LDAP
 static AddressbookLDAPScopeType
 ldap_parse_scope (const char *scope)
 {
@@ -284,6 +292,7 @@ ldap_parse_scope (const char *scope)
 	else
 		return ADDRESSBOOK_LDAP_SCOPE_SUBTREE;
 }
+#endif
 
 void
 addressbook_storage_init_source_uri (AddressbookSource *source)
@@ -296,10 +305,10 @@ addressbook_storage_init_source_uri (AddressbookSource *source)
 					source->rootdn, ldap_unparse_scope(source->scope));
 }
 
+#ifdef HAVE_LDAP
 static gboolean
 load_source_data (const char *file_path)
 {
-#ifdef HAVE_LDAP
 	xmlDoc *doc;
 	xmlNode *root;
 	xmlNode *child;
@@ -379,9 +388,9 @@ load_source_data (const char *file_path)
 		deregister_storage();
 
 	xmlFreeDoc (doc);
-#endif
 	return TRUE;
 }
+#endif
 
 static void
 ldap_source_foreach(AddressbookSource *source, xmlNode *root)
