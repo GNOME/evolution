@@ -1,3 +1,15 @@
+2002-04-10  Dan Winship  <danw@ximian.com>
+
+	* cal-client/cal-client.c (get_default_uri): Use new-and-improved
+	default folder URI config paths.
+
+	* gui/calendar-config.c (calendar_config_{get,set}_default_uri,
+	calendar_config_{get,set}_default_tasks_uri): Remove these. The
+	shell owns this information now. (Weren't being used anyway.)
+
+	* gui/component-factory.c (get_data_uri): Fix another place that
+	hardcoded tacking foo.ics on to the end of URLs.
+
 2002-04-08  Dan Winship  <danw@ximian.com>
 
 	* gui/component-factory.c (create_view): Add view_info arg. If the

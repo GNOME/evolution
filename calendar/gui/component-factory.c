@@ -506,6 +506,8 @@ static char *
 get_data_uri (const char *uri, CalComponentVType vtype)
 {
 	if (uri) {
+		if (*uri != '/' && strncmp (uri, "file:", 5) != 0)
+			return g_strdup (uri);
 		if (vtype == CAL_COMPONENT_EVENT)
 			return g_concat_dir_and_file (uri, "calendar.ics");
 		else if (vtype == CAL_COMPONENT_TODO)

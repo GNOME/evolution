@@ -45,8 +45,6 @@
 
 typedef struct
 {
-	gchar          *default_uri;
-	gchar          *default_tasks_uri;
 	gchar	       *timezone;
 	CalWeekdays	working_days;
 	gboolean	use_24_hour_format;
@@ -126,26 +124,6 @@ config_read				(void)
 		CORBA_exception_free (&ev);
 		return;
  	}
-
-	CORBA_exception_free (&ev);
-
-	CORBA_exception_init (&ev);
-	config->default_uri = bonobo_config_get_string (db,
-		"/Calendar/DefaultUri", &ev);
-	if (BONOBO_USER_EX (&ev, ex_Bonobo_ConfigDatabase_NotFound))
-		config->default_uri = NULL;
-	else if (BONOBO_EX (&ev))
-		g_message ("config_read(): Could not get the /Calendar/DefaultUri");
-
-	CORBA_exception_free (&ev);
-
-	CORBA_exception_init (&ev);
-	config->default_tasks_uri = bonobo_config_get_string (db,
-		"/Calendar/DefaultTasksUri", &ev);
-	if (BONOBO_USER_EX (&ev, ex_Bonobo_ConfigDatabase_NotFound))
-		config->default_tasks_uri = NULL;
-	else if (BONOBO_EX (&ev))
-		g_message ("config_read(): Could not get the /Calendar/DefaultTasksUri");
 
 	CORBA_exception_free (&ev);
 
@@ -309,14 +287,6 @@ calendar_config_write			(void)
 		return;
  	}
 
-	if (config->default_uri)
-		bonobo_config_set_string (db, "/Calendar/DefaultUri",
-					  config->default_uri, NULL);
-
-	if (config->default_tasks_uri)
-		bonobo_config_set_string (db, "/Calendar/DefaultTasksUri",
-					  config->default_tasks_uri, NULL);
-
 	if (config->timezone)
 		bonobo_config_set_string (db, "/Calendar/Display/Timezone",
 					  config->timezone, NULL);
@@ -421,62 +391,6 @@ calendar_config_write_on_exit		(void)
 /*
  * Calendar Settings.
  */
-
-/* The default URI is the one that will be used in places where there
-   might be some action on a calendar from outside, such as adding
-   a meeting request. */
-gchar *
-calendar_config_get_default_uri (void)
-{
-	static gchar *default_uri = NULL;
-
-	if (config->default_uri)
-		return config->default_uri;
-
-	if (!default_uri)
-		default_uri = g_strdup_printf ("%s/evolution/local/Calendar/calendar.ics",
-					       g_get_home_dir ());
-
-	return default_uri;
-}
-
-/* Sets the default calendar URI */
-void
-calendar_config_set_default_uri (gchar *default_uri)
-{
-	g_free (config->default_uri);
-
-	if (default_uri && default_uri[0])
-		config->default_uri = g_strdup (default_uri);
-	else
-		config->default_uri = NULL;
-}
-
-gchar *
-calendar_config_get_default_tasks_uri (void)
-{
-	static gchar *default_tasks_uri = NULL;
-
-	if (config->default_tasks_uri)
-		return config->default_tasks_uri;
-
-	if (!default_tasks_uri)
-		default_tasks_uri = g_strdup_printf ("%s/evolution/local/Tasks/tasks.ics",
-						     g_get_home_dir ());
-
-	return default_tasks_uri;
-}
-
-void
-calendar_config_set_default_tasks_uri (gchar *default_tasks_uri)
-{
-	g_free (config->default_tasks_uri);
-
-	if (default_tasks_uri && default_tasks_uri[0])
-		config->default_tasks_uri = g_strdup (default_tasks_uri);
-	else
-		config->default_tasks_uri = NULL;
-}
 
 /* The current timezone, e.g. "Europe/London". It may be NULL, in which case
    you should assume UTC (though Evolution will show the timezone-setting

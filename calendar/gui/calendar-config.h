@@ -69,13 +69,6 @@ void	  calendar_config_write_on_exit		(void);
  * Calendar Settings.
  */
 
-/* The default calendar URI to be used when no specified (~/evolution/local/Calendar) */
-gchar*    calendar_config_get_default_uri       (void);
-void      calendar_config_set_default_uri       (gchar       *default_uri);
-
-gchar*    calendar_config_get_default_tasks_uri (void);
-void      calendar_config_set_default_tasks_uri (gchar       *default_tasks_uri);
-
 /* The current timezone, e.g. "Europe/London". */
 gchar*	  calendar_config_get_timezone		(void);
 void	  calendar_config_set_timezone		(gchar	     *timezone);
