@@ -41,7 +41,7 @@ print_usage_and_quit()
 
 
 /*----------------------------------------------------------------------*
- *      Filling out the tree control with a mime-message structure
+ *      Filling out the tree control view of a mime-message
  *----------------------------------------------------------------------*/
 
 static void
@@ -99,13 +99,18 @@ handle_tree_item (CamelDataWrapper* object, GtkWidget* tree_ctrl)
 	      
 			for (i = 0; i < max_multiparts; i++) {
 				CamelMimeBodyPart* body_part =
-					camel_multipart_get_part (multipart, i);
+					camel_multipart_get_part (
+						multipart, i);
 		
 				g_print ("handling part %d\n", i);
-				handle_tree_item (CAMEL_DATA_WRAPPER (body_part),
-						  GTK_WIDGET (subtree));
-			}	
+				handle_tree_item (
+					CAMEL_DATA_WRAPPER (body_part),
+					GTK_WIDGET (subtree));
+			}
+			
 		}
+		gtk_tree_item_expand (
+			GTK_TREE_ITEM (containee_tree_item));
 		gtk_tree_item_expand (GTK_TREE_ITEM (tree_item));		
 	}
 }
@@ -126,15 +131,19 @@ get_message_tree_ctrl (CamelMimeMessage* message)
 			GTK_SCROLLED_WINDOW(scroll_wnd),
 			tree_ctrl);
 
-		gtk_widget_set_usize (scroll_wnd, 150, 200);
+		gtk_widget_set_usize (scroll_wnd, 225, 200);
 	}
 	else
 		gtk_tree_clear_items (GTK_TREE (tree_ctrl), 0, 1);
 	
 
         /* Recursively insert tree items in the tree */
-	handle_tree_item (CAMEL_DATA_WRAPPER (message), tree_ctrl);
-	
+	if (message)
+		handle_tree_item (CAMEL_DATA_WRAPPER (message), tree_ctrl);
+        gtk_scrolled_window_set_policy (
+		GTK_SCROLLED_WINDOW (scroll_wnd),
+		GTK_POLICY_AUTOMATIC,
+		GTK_POLICY_ALWAYS);	
 	return scroll_wnd;
 }
 
@@ -146,11 +155,14 @@ filename_to_camel_msg (gchar* filename)
 
 	camel_init();
 	
-	message = camel_mime_message_new_with_session (
-		(CamelSession *)NULL);
 	input_stream = camel_stream_fs_new_with_name (
 		filename, CAMEL_STREAM_FS_READ);
-	g_assert (input_stream);
+
+	if (!input_stream) 
+		return NULL;
+
+	message = camel_mime_message_new_with_session (
+		(CamelSession *)NULL);
 	
 	camel_data_wrapper_construct_from_stream (
 		CAMEL_DATA_WRAPPER (message), input_stream);
@@ -188,18 +200,14 @@ mime_message_to_html (CamelMimeMessage *msg, gchar** header_string,
 }
 
 static GtkWidget*
-get_gtk_html_window (gchar* filename)
+get_gtk_html_window (CamelMimeMessage* mime_message)
 {
 	static GtkWidget* scroll_wnd = NULL;
 	static GtkWidget* html_widget = NULL;
-	CamelMimeMessage* mime_message;
 	HTMLStream* html_stream;
 	gchar *body_string;
 	gchar *header_string;
 
-	g_assert (filename);
-	g_print ("filename: %s\n", filename);
-	
 	/* create the html widget and scroll window, if they haven't
            already been created */
 	if (!html_widget) {
@@ -208,29 +216,31 @@ get_gtk_html_window (gchar* filename)
 		gtk_container_add (GTK_CONTAINER (scroll_wnd), html_widget);
 	}
 
-	html_stream = HTML_STREAM (html_stream_new (GTK_HTML (html_widget)));
-	mime_message = filename_to_camel_msg (filename);
-
-	g_assert (html_stream && mime_message);
-	
-	/* turn the mime message into html, and
-	   write it to the html stream */
-	mime_message_to_html (mime_message, &header_string, &body_string);
-	g_print ("strlen: %d\n%s\n", strlen (body_string), body_string);
-	
-	camel_stream_write (CAMEL_STREAM (html_stream),
-			    body_string,
-			    strlen (body_string));
-
-	camel_stream_close (CAMEL_STREAM (html_stream));
-	
-	g_free (header_string);
-	g_free (body_string);
+	if (mime_message) {
+		
+		html_stream = HTML_STREAM (html_stream_new (GTK_HTML (html_widget)));
+		
+		/* turn the mime message into html, and
+		   write it to the html stream */
+		mime_message_to_html (mime_message, &header_string, &body_string);
+		
+		camel_stream_write (CAMEL_STREAM (html_stream),
+				    body_string,
+				    strlen (body_string));
+		
+		camel_stream_close (CAMEL_STREAM (html_stream));
+		
+		g_free (header_string);
+		g_free (body_string);
+	}
 	
 	gtk_widget_set_usize (scroll_wnd, 500, 400);
+        gtk_scrolled_window_set_policy (
+		GTK_SCROLLED_WINDOW (scroll_wnd),
+		GTK_POLICY_AUTOMATIC,
+		GTK_POLICY_ALWAYS);
 	return scroll_wnd;
 }
-
 
 
 /*----------------------------------------------------------------------*
@@ -263,15 +273,16 @@ open_ok (GtkWidget *widget, GtkFileSelection *fs)
 	else {
 		gchar *filename = gtk_file_selection_get_filename (fs);
 		CamelMimeMessage* message = filename_to_camel_msg (filename);
-		
-		fileselection_prev_file = g_strdup (filename);
-		
-		if (message)
-		{
+
+		if (message) {
+			fileselection_prev_file = g_strdup (filename);
 			get_message_tree_ctrl (message);
-			get_gtk_html_window (filename);
+			get_gtk_html_window (message);
 		}
-		
+		else
+			gnome_message_box_new ("Couldn't load message.",
+					       GNOME_MESSAGE_BOX_WARNING);
+
 		gtk_widget_destroy (GTK_WIDGET (fs));
 	}
 }
@@ -285,7 +296,8 @@ file_menu_open_cb (GtkWidget *widget, void* data)
 	fs = GTK_FILE_SELECTION (
 		gtk_file_selection_new (_("Open Mime Message")));
 
-	gtk_file_selection_set_filename (fs, fileselection_prev_file);
+	if (fileselection_prev_file)
+		gtk_file_selection_set_filename (fs, fileselection_prev_file);
 	
 	gtk_signal_connect (GTK_OBJECT (fs->ok_button), "clicked",
 			    (GtkSignalFunc) open_ok,
@@ -319,12 +331,16 @@ static GnomeUIInfo main_menu[] = {
 };
 
 
+/*----------------------------------------------------------------------*
+ *                               Main()
+ *----------------------------------------------------------------------*/
+
 int
 main (int argc, char *argv[])
 {
-	/* app contains vbox, vbox contains other 2 windows */
+	/* app contains hbox, hbox contains other 2 windows */
 	GtkWidget* app;
-	GtkWidget* vbox;
+	GtkWidget* hpane;
 	GtkWidget* tree_ctrl_window;
 	GtkWidget* html_window;
 	
@@ -336,36 +352,39 @@ main (int argc, char *argv[])
 	gnome_app_create_menus (GNOME_APP (app), main_menu);
 
 	/* parse command line */
-	if (argc != 2)
+	if (argc > 2 ||
+	    (argc==2 && strstr (argv[1], "--help") != 0))
 		print_usage_and_quit();
-	else
+	if (argc == 2) {
+		if (strstr (argv[1], "--help") != 0)
+			print_usage_and_quit();
 		message = filename_to_camel_msg (argv[1]);
-#if 0
-	if (!message) {
-		g_print ("Couldn't open message \"%s\", bailing...\n",
-			 argv[1]);
-		exit (0);
+		if (!message) {
+			g_print ("Couldn't load message.");
+		}
 	}
-#endif
-	vbox = gtk_vbox_new (FALSE, 0);
+	
+
+        hpane = gtk_hpaned_new();
 
 	/* add the tree control view of the message*/
 	tree_ctrl_window = get_message_tree_ctrl (message);
-	gtk_box_pack_start (GTK_BOX (vbox), tree_ctrl_window,
-			    TRUE, TRUE, 0);
+        gtk_paned_add1 (GTK_PANED (hpane), tree_ctrl_window);	
 
 	/* add the HTML view of the message */
-	html_window = get_gtk_html_window (argv[1]);
-	gtk_box_pack_start (GTK_BOX (vbox), html_window,
-			    TRUE, TRUE, 0);	
+	html_window = get_gtk_html_window (message);
+        gtk_paned_add2 (GTK_PANED (hpane), html_window);		
 	
 	/* rock n roll */
 	gnome_app_set_contents (GNOME_APP (app),
-				vbox);
+				hpane);
 	gtk_widget_show_all (app);
 	gtk_signal_connect (GTK_OBJECT (app), "destroy",
 			    GTK_SIGNAL_FUNC(gtk_main_quit),
 			    &app);
+	if (!message)
+		file_menu_open_cb (NULL, NULL);
+	g_message ("hi world");
 	gtk_main();
 
 	return 1;

@@ -1,5 +1,13 @@
 2000-02-13  Matt Loper  <matt@helixcode.com>
 
+	* tests/ui-tests/test-multipart-mixed.msg: New rfc822 file, which
+	crashes message-browser.
+
+	* tests/ui-tests/message-browser.c (get_gtk_html_window): Takes a
+	CamelMimeMessage as a param, rather than a filename.
+	(main): Puts our windows in an hpane rather than a vbox. Also
+	opens a file dlg box if a filename wasn't given as a first param.
+
 	* camel/camel-stream-fs.c (_init_with_name): Set stream_fs->fd to
 	-1 if we fail to load the file.
 	(camel_stream_fs_new_with_name): If stream_fs->fd is -1, return

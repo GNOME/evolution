@@ -258,7 +258,8 @@ call_handler_function (CamelFormatter* formatter,
 		if (bonobo_tag) {
 
 			/* we can print a tag, and return! */
-			camel_stream_write_string (formatter->priv->stream, bonobo_tag);
+			camel_stream_write_string (
+				formatter->priv->stream, bonobo_tag);
 			g_free (bonobo_tag);
 
 			return; 
@@ -614,6 +615,8 @@ handle_mime_message (CamelFormatter *formatter,
 
 	g_assert (formatter);
 	g_assert (wrapper);
+	g_assert (CAMEL_IS_MIME_MESSAGE (wrapper));
+	
 	mime_message = CAMEL_MIME_MESSAGE (wrapper);
 	message_contents =
 		camel_medium_get_content_object (CAMEL_MEDIUM (mime_message));
