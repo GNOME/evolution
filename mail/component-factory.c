@@ -173,6 +173,7 @@ factory_fn (BonoboGenericFactory *factory, void *closure)
 							 create_view,
 							 create_folder,
 							 NULL,
+							 NULL,
 							 NULL);
 
 	gtk_signal_connect (GTK_OBJECT (shell_component), "owner_set",

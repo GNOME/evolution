@@ -1,3 +1,8 @@
+2000-07-20  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* component-factory.c (factory_fn): Updated for the new
+	`evolution_shell_component_new()' arg.
+
 2000-07-19  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* message-thread.c (thread_messages): What if message info is NULL?

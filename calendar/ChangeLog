@@ -1,3 +1,8 @@
+2000-07-20  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* gui/component-factory.c (factory_fn): Update for the new
+	`evolution_shell_component_new()' arg.
+
 2000-07-19  Federico Mena Quintero  <federico@helixcode.com>
 
 	* cal-util/cal-component.c (cal_component_alarm_set_trigger):
