@@ -22,6 +22,7 @@
 
 #include "camel-exception.h"
 #include "camel-vee-folder.h"
+#include "camel-store.h"
 #include "camel-folder-summary.h"
 #include "camel-mime-message.h"
 #ifdef DYNAMIC
@@ -172,6 +173,7 @@ camel_vee_folder_finalise (CamelObject *obj)
 CamelFolder *
 camel_vee_folder_new (CamelStore *parent_store, const char *name, CamelException *ex)
 {
+	CamelFolderInfo *fi;
 	CamelFolder *folder;
 	CamelVeeFolder *vf;
 	char *namepart, *searchpart;
@@ -201,7 +203,18 @@ camel_vee_folder_new (CamelStore *parent_store, const char *name, CamelException
 		camel_object_unref (CAMEL_OBJECT (folder));
 		return NULL;
 	}
-
+	
+	fi = g_new0 (CamelFolderInfo, 1);
+	fi->full_name = g_strdup (name);
+	fi->name = g_strdup (name);
+	fi->url = g_strdup_printf ("vfolder:%s?%s", vf->vname, vf->expression);
+	fi->unread_message_count = -1;
+	
+	camel_object_trigger_event (CAMEL_OBJECT (parent_store),
+				    "folder_created", fi);
+	
+	camel_folder_info_free (fi);
+	
 	return folder;
 }
 

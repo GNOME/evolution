@@ -270,6 +270,7 @@ rename_folder(CamelStore *store, const char *old, const char *new, CamelExceptio
 static void
 delete_folder(CamelStore *store, const char *folder_name, CamelException *ex)
 {
+	CamelFolderInfo *fi;
 	char *name;
 	char *str;
 
@@ -281,6 +282,7 @@ delete_folder(CamelStore *store, const char *folder_name, CamelException *ex)
 				     _("Could not delete folder summary file `%s': %s"),
 				     str, strerror(errno));
 		g_free(str);
+		g_free (name);
 		return;
 	}
 	g_free(str);
@@ -290,8 +292,20 @@ delete_folder(CamelStore *store, const char *folder_name, CamelException *ex)
 				     _("Could not delete folder index file `%s': %s"),
 				     str, strerror(errno));
 		g_free(str);
+		g_free (name);
 		return;
 	}
 	g_free(str);
 	g_free(name);
+	
+	fi = g_new0 (CamelFolderInfo, 1);
+	fi->full_name = g_strdup (folder_name);
+	fi->name = g_strdup (g_basename (folder_name));
+	fi->url = g_strdup_printf ("%s%s", CAMEL_SERVICE(store)->url->path, folder_name);
+	fi->unread_message_count = -1;
+	
+	camel_object_trigger_event (CAMEL_OBJECT (store),
+				    "folder_deleted", fi);
+	
+	camel_folder_info_free (fi);
 }

@@ -1,3 +1,22 @@
+2001-02-15  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* providers/vee/camel-vee-folder.c (camel_vee_folder_new): Emit
+	the folder_created signal here.
+
+	* providers/local/camel-local-folder.c
+	(camel_local_folder_construct): Emit the folder_created signal.
+
+	* providers/local/camel-local-store.c (delete_folder): On error,
+	free the 'name' string so we don't leak. Also emit the
+	folder_deleted signal.
+
+	* providers/imap/camel-imap-store.c (subscribe_folder): Emit the
+	folder_created signal.
+	(unsubscribe_folder): Emit the folder_deleted signal.
+
+	* camel-store.c (camel_store_class_init): Added folder_created and
+	folder_deleted signal defs.
+
 2001-02-15  Dan Winship  <danw@ximian.com>
 
 	* camel-folder-thread.c (container_parent_child): Deal with

@@ -65,8 +65,11 @@ static void unsubscribe_folder (CamelStore *store, const char *folder_name, Came
 static void
 camel_store_class_init (CamelStoreClass *camel_store_class)
 {
+	CamelObjectClass *camel_object_class =
+		CAMEL_OBJECT_CLASS (camel_store_class);
+	
 	parent_class = CAMEL_SERVICE_CLASS (camel_type_get_global_classfuncs (camel_service_get_type ()));
-
+	
 	/* virtual method definition */
 	camel_store_class->hash_folder_name = g_str_hash;
 	camel_store_class->compare_folder_name = g_str_equal;
@@ -81,6 +84,12 @@ camel_store_class_init (CamelStoreClass *camel_store_class)
 	camel_store_class->folder_subscribed = folder_subscribed;
 	camel_store_class->subscribe_folder = subscribe_folder;
 	camel_store_class->unsubscribe_folder = unsubscribe_folder;
+	
+	/* virtual method overload */
+	camel_object_class_declare_event (camel_object_class,
+					  "folder_created", NULL);
+	camel_object_class_declare_event (camel_object_class,
+					  "folder_deleted", NULL);
 }
 
 static void

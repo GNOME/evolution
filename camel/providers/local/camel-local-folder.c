@@ -162,6 +162,7 @@ CamelType camel_local_folder_get_type(void)
 CamelLocalFolder *
 camel_local_folder_construct(CamelLocalFolder *lf, CamelStore *parent_store, const char *full_name, guint32 flags, CamelException *ex)
 {
+	CamelFolderInfo *fi;
 	CamelFolder *folder;
 	const char *root_dir_path, *name;
 	struct stat st;
@@ -213,7 +214,18 @@ camel_local_folder_construct(CamelLocalFolder *lf, CamelStore *parent_store, con
 		camel_object_unref (CAMEL_OBJECT (folder));
 		return NULL;
 	}
-
+	
+	fi = g_new0 (CamelFolderInfo, 1);
+	fi->full_name = g_strdup (full_name);
+	fi->name = g_strdup (name);
+	fi->url = g_strdup (lf->folder_path);
+	fi->unread_message_count = -1;
+	
+	camel_object_trigger_event (CAMEL_OBJECT (parent_store),
+				    "folder_deleted", fi);
+	
+	camel_folder_info_free (fi);
+	
 	return lf;
 }
 

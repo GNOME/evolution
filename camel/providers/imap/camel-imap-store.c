@@ -715,6 +715,7 @@ create_folder (CamelStore *store, const char *parent_name,
 
 	fi = get_folder_info (store, full_name, FALSE, FALSE, FALSE, ex);
 	g_free (full_name);
+	
 	return fi;
 }
 
@@ -966,7 +967,7 @@ subscribe_folder (CamelStore *store, const char *folder_name,
 {
 	CamelImapStore *imap_store = CAMEL_IMAP_STORE (store);
 	CamelImapResponse *response;
-
+	
 	if (!camel_remote_store_connected (CAMEL_REMOTE_STORE (store), ex))
 		return;
 
@@ -975,9 +976,27 @@ subscribe_folder (CamelStore *store, const char *folder_name,
 				       "SUBSCRIBE %S", folder_name);
 	CAMEL_IMAP_STORE_UNLOCK(imap_store, command_lock);
 	if (response) {
+		CamelFolderInfo *fi;
+		char *name;
+		
 		g_hash_table_insert (imap_store->subscribed_folders,
 				     g_strdup (folder_name),
 				     GUINT_TO_POINTER (1));
+		
+		name = strrchr (folder_name, imap_store->dir_sep);
+		if (name)
+			name++;
+		
+		fi = g_new0 (CamelFolderInfo, 1);
+		fi->full_name = g_strdup (folder_name);
+		fi->name = g_strdup (name);
+		fi->url = g_strdup_printf ("%s%s", imap_store->base_url, folder_name);
+		fi->unread_message_count = -1;
+		
+		camel_object_trigger_event (CAMEL_OBJECT (store),
+					    "folder_created", fi);
+		
+		camel_folder_info_free (fi);
 	}
 	camel_imap_response_free (response);
 }
@@ -998,11 +1017,29 @@ unsubscribe_folder (CamelStore *store, const char *folder_name,
 				       "UNSUBSCRIBE %S", folder_name);
 	CAMEL_IMAP_STORE_UNLOCK(imap_store, command_lock);
 	if (response) {
+		CamelFolderInfo *fi;
+		char *name;
+		
 		g_hash_table_lookup_extended (imap_store->subscribed_folders,
 					      folder_name, &key, &value);
 		g_hash_table_remove (imap_store->subscribed_folders,
 				     folder_name);
 		g_free (key);
+		
+		name = strrchr (folder_name, imap_store->dir_sep);
+		if (name)
+			name++;
+		
+		fi = g_new0 (CamelFolderInfo, 1);
+		fi->full_name = g_strdup (folder_name);
+		fi->name = g_strdup (name);
+		fi->url = g_strdup_printf ("%s%s", imap_store->base_url, folder_name);
+		fi->unread_message_count = -1;
+		
+		camel_object_trigger_event (CAMEL_OBJECT (store),
+					    "folder_deleted", fi);
+		
+		camel_folder_info_free (fi);
 	}
 	camel_imap_response_free (response);
 }
