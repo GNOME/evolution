@@ -63,6 +63,8 @@ void             e_tree_selection_model_foreach             (ETreeSelectionModel
 							     gpointer             closure);
 void             e_tree_selection_model_select_single_path  (ETreeSelectionModel *etsm,
 							     ETreePath            path);
+void		 e_tree_selection_model_select_paths        (ETreeSelectionModel *etsm, GPtrArray *paths);
+
 void             e_tree_selection_model_add_to_selection    (ETreeSelectionModel *etsm,
 							     ETreePath            path);
 void             e_tree_selection_model_change_cursor       (ETreeSelectionModel *etsm,

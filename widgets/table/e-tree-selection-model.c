@@ -672,6 +672,20 @@ e_tree_selection_model_select_single_path (ETreeSelectionModel *etsm, ETreePath 
 }
 
 void
+e_tree_selection_model_select_paths (ETreeSelectionModel *etsm, GPtrArray *paths)
+{
+	ETreePath path;
+	int i;
+
+	for (i=0;i<paths->len;i++) {
+		path = paths->pdata[i];
+		change_one_path(etsm, path, TRUE);
+	}
+
+	e_selection_model_selection_changed(E_SELECTION_MODEL(etsm));
+}
+
+void
 e_tree_selection_model_add_to_selection (ETreeSelectionModel *etsm, ETreePath path)
 {
 	change_one_path(etsm, path, TRUE);
