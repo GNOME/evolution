@@ -1,5 +1,6 @@
 text/x-vcard
 	description=address card
+	[no]description=adressekort
 	default_action_type=component
 	default_component_iid=OAFIID:GNOME_Evolution_Addressbook_MiniCard_Control
 	short_list_component_iids_for_novice_user_level=OAFIID:GNOME_Evolution_Addressbook_MiniCard_Control
@@ -8,6 +9,7 @@ text/x-vcard
 
 text/x-calendar
 	description=calendar information
+	[no]description=kalenderinformasjon
 	default_action_type=component
 	default_component_iid=OAFIID:GNOME_Evolution_Calendar_iTip_Control
 	short_list_component_iids_for_novice_user_level=OAFIID:GNOME_Evolution_Calendar_iTip_Control
@@ -16,6 +18,7 @@ text/x-calendar
 
 text/calendar
 	description=calendar information
+	[no]description=kalenderinformasjon
 	default_action_type=component
 	default_component_iid=OAFIID:GNOME_Evolution_Calendar_iTip_Control
 	short_list_component_iids_for_novice_user_level=OAFIID:GNOME_Evolution_Calendar_iTip_Control
