@@ -3,7 +3,7 @@ INCLUDES = 			\
 	$(GNOME_INCLUDEDIR)	\
 	-I../../gcalendar
 
-bin_PROGRAMS = gncal
+bin_PROGRAMS = gncal objedit
 
 gncal_SOURCES = \
 	gncal.c			\
@@ -27,6 +27,7 @@ LINK_FLAGS = \
 	$(INTLLIBS)
 
 gncal_LDADD = $(LINK_FLAGS)
+objedit_LDADD = $(LINK_FLAGS)
 
 EXTRA_DIST = \
 	gncal.desktop
