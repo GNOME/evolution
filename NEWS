@@ -19,12 +19,21 @@ Bugzilla bugs fixed (see http://bugzilla.ximian.com/show_bug.cgi):
     #42780 - Crash on solaris due to missing NULL in g_guild_filename.
              (sean.gao@sun.com)
 
+  * Calendar
+
+    #41811 - Calendar update failing and crashing (JP)
+    #41760 - Alarm dialog does not reappear after snoozing Exchange alarm (Rodrigo)
+
 Other bugs:
 
   * Addressbook
 
     - 64bit cleanup and warning fixes. (katzj@redhat.com)
     - Fixed some probably memory corruption (Toshok, sean.gao@sun.com)
+
+  * Calendar
+
+    - Fixed crash in cal_client_discard_alarm (Rodrigo)
 
 Evolution 1.3.3, 2003-04-29
 ---------------------------
