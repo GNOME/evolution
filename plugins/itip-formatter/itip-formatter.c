@@ -407,6 +407,7 @@ find_cal_opened_cb (ECal *ecal, ECalendarStatus status, gpointer data)
 		itip_view_clear_lower_info_items (ITIP_VIEW (pitip->view));
 		pitip->progress_info_id = 0;
 
+		/* FIXME Check read only state of calendar? */
 		itip_view_add_lower_info_item_printf (ITIP_VIEW (pitip->view), ITIP_VIEW_INFO_ITEM_TYPE_INFO, 
 						      "Found the appointment in the calendar '%s'", e_source_peek_name (source));
 
@@ -418,6 +419,9 @@ find_cal_opened_cb (ECal *ecal, ECalendarStatus status, gpointer data)
 
  cleanup:
 	if (fd->count == 0) {
+		itip_view_remove_lower_info_item (ITIP_VIEW (pitip->view), pitip->progress_info_id);
+		pitip->progress_info_id = 0;
+
 		if ((pitip->method == ICAL_METHOD_PUBLISH || pitip->method ==  ICAL_METHOD_REQUEST) 
 		    && !pitip->current_ecal) {
 			ESource *source = NULL;
@@ -451,9 +455,6 @@ find_cal_opened_cb (ECal *ecal, ECalendarStatus status, gpointer data)
 			/* FIXME Default to the suggestion for RSVP for my attendee */
 			itip_view_set_rsvp (ITIP_VIEW (pitip->view), pitip->method == ICAL_METHOD_REQUEST ? TRUE : FALSE);
 			itip_view_set_show_rsvp (ITIP_VIEW (pitip->view), pitip->method == ICAL_METHOD_REQUEST ? TRUE : FALSE);
-			
-			itip_view_remove_lower_info_item (ITIP_VIEW (pitip->view), pitip->progress_info_id);
-			pitip->progress_info_id = 0;
 
 			if (source) {
 				itip_view_set_source (ITIP_VIEW (pitip->view), source);
@@ -463,8 +464,9 @@ find_cal_opened_cb (ECal *ecal, ECalendarStatus status, gpointer data)
 				itip_view_add_lower_info_item (ITIP_VIEW (pitip->view), ITIP_VIEW_INFO_ITEM_TYPE_ERROR, "Unable to find any calendars");
 				itip_view_set_buttons_sensitive (ITIP_VIEW (pitip->view), FALSE);
 			}
-		} else {
-			/* FIXME Display error message to user */
+		} else if (!pitip->current_ecal) {
+			itip_view_add_lower_info_item_printf (ITIP_VIEW (pitip->view), ITIP_VIEW_INFO_ITEM_TYPE_WARNING, 
+							      "Unable to find this meeting in any calendar");
 		}
 		
 		g_free (fd->uid);
@@ -923,7 +925,7 @@ view_response_cb (GtkWidget *widget, ItipViewResponse response, gpointer data)
                 icalcomponent *ical_comp;
                 icalproperty *prop;
                 icalvalue *value;
-                const char *attendee;
+                const char *attendee, *comment;
                 GSList *l, *list = NULL;
 
                 comp = e_cal_component_clone (pitip->comp);		
@@ -937,7 +939,8 @@ view_response_cb (GtkWidget *widget, ItipViewResponse response, gpointer data)
                 g_assert (pitip->my_address != NULL);
 
                 ical_comp = e_cal_component_get_icalcomponent (comp);
-		
+
+		/* Remove all attendees except the one we are responding as */
                 for (prop = icalcomponent_get_first_property (ical_comp, ICAL_ATTENDEE_PROPERTY);
                      prop != NULL;
                      prop = icalcomponent_get_next_property (ical_comp, ICAL_ATTENDEE_PROPERTY))
@@ -964,6 +967,21 @@ view_response_cb (GtkWidget *widget, ItipViewResponse response, gpointer data)
                 }
                 g_slist_free (list);
 
+		/* Add a comment if there user set one */
+		comment = itip_view_get_rsvp_comment (ITIP_VIEW (pitip->view));
+		if (comment) {
+			GSList comments;
+			ECalComponentText text;
+			
+			text.value = comment;
+			text.altrep = NULL;
+			
+			comments.data = &text;
+			comments.next = NULL;
+			
+			e_cal_component_set_comment_list (comp, &comments);
+		}
+		
                 e_cal_component_rescan (comp);
                 itip_send_comp (E_CAL_COMPONENT_METHOD_REPLY, comp, pitip->current_ecal, pitip->top_level);
 

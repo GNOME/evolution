@@ -100,13 +100,15 @@ struct _ItipViewPrivate {
 	GtkWidget *description_label;
 	char *description;
 
-	GtkWidget *details_box;
-
+	GtkWidget *selector_box;
 	GtkWidget *esom;
 	GtkWidget *esom_header;
 	ESourceList *source_list;
 	
+	GtkWidget *rsvp_box;
 	GtkWidget *rsvp_check;
+	GtkWidget *rsvp_comment_header;
+	GtkWidget *rsvp_comment_entry;
 	gboolean rsvp_show;
 
 	GtkWidget *button_box;
@@ -658,10 +660,25 @@ itip_view_class_init (ItipViewClass *klass)
 }
 
 static void
+rsvp_toggled_cb (GtkWidget *widget, gpointer data) 
+{
+	ItipView *view = data;
+	ItipViewPrivate *priv;
+	gboolean rsvp;
+	
+	priv = view->priv;
+	
+	rsvp = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (priv->rsvp_check));
+
+	gtk_widget_set_sensitive (priv->rsvp_comment_header, rsvp);
+	gtk_widget_set_sensitive (priv->rsvp_comment_entry, rsvp);
+}
+
+static void
 itip_view_init (ItipView *view)
 {
 	ItipViewPrivate *priv;
-	GtkWidget *icon, *vbox, *details_vbox, *separator, *table;
+	GtkWidget *icon, *vbox, *hbox, *separator, *table, *label;
 
 	priv = g_new0 (ItipViewPrivate, 1);	
 	view->priv = priv;
@@ -765,17 +782,38 @@ itip_view_init (ItipView *view)
 	gtk_widget_show (priv->lower_info_box);
 	gtk_box_pack_start (GTK_BOX (vbox), priv->lower_info_box, FALSE, FALSE, 6);
 
-	/* Detail area */
-	details_vbox = gtk_vbox_new (FALSE, 0);
-	gtk_widget_show (details_vbox);
-	gtk_box_pack_start (GTK_BOX (vbox), details_vbox, FALSE, FALSE, 0);
-
-	priv->details_box = gtk_hbox_new (FALSE, 0);
-	gtk_widget_show (priv->details_box);
-	gtk_box_pack_start (GTK_BOX (details_vbox), priv->details_box, FALSE, FALSE, 0);
+	/* Selector area */
+	priv->selector_box = gtk_hbox_new (FALSE, 0);
+	gtk_widget_show (priv->selector_box);
+	gtk_box_pack_start (GTK_BOX (vbox), priv->selector_box, FALSE, FALSE, 0);
 	
+	/* RSVP area */
+	priv->rsvp_box = gtk_vbox_new (FALSE, 0);
+	gtk_box_pack_start (GTK_BOX (vbox), priv->rsvp_box, FALSE, FALSE, 0);
+
 	priv->rsvp_check = gtk_check_button_new_with_mnemonic ("Send _reply to sender");
-	gtk_box_pack_end (GTK_BOX (details_vbox), priv->rsvp_check, FALSE, FALSE, 6);
+	gtk_widget_show (priv->rsvp_check);
+	gtk_box_pack_start (GTK_BOX (priv->rsvp_box), priv->rsvp_check, FALSE, FALSE, 6);
+
+	g_signal_connect (priv->rsvp_check, "toggled", G_CALLBACK (rsvp_toggled_cb), view);
+
+	hbox = gtk_hbox_new (FALSE, 0);
+	gtk_widget_show (hbox);
+	gtk_box_pack_start (GTK_BOX (priv->rsvp_box), hbox, FALSE, FALSE, 12);
+
+	label = gtk_label_new (NULL);
+	gtk_widget_show (label);
+	gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 12);
+
+	priv->rsvp_comment_header = gtk_label_new (_("Comment:"));
+	gtk_widget_set_sensitive (priv->rsvp_comment_header, FALSE);
+	gtk_widget_show (priv->rsvp_comment_header);
+	gtk_box_pack_start (GTK_BOX (hbox), priv->rsvp_comment_header, FALSE, FALSE, 6);
+	
+	priv->rsvp_comment_entry = gtk_entry_new ();
+	gtk_widget_set_sensitive (priv->rsvp_comment_entry, FALSE);
+	gtk_widget_show (priv->rsvp_comment_entry);
+	gtk_box_pack_start (GTK_BOX (hbox), priv->rsvp_comment_entry, FALSE, TRUE, 6);
 
 	/* The buttons for actions */
 	priv->button_box = gtk_hbutton_box_new ();
@@ -1389,8 +1427,8 @@ itip_view_set_source_list (ItipView *view, ESourceList *source_list)
 		gtk_widget_show (priv->esom_header);
 	}
 	
-	gtk_box_pack_start (GTK_BOX (priv->details_box), priv->esom_header, FALSE, TRUE, 6);
-	gtk_box_pack_start (GTK_BOX (priv->details_box), priv->esom, FALSE, TRUE, 0);
+	gtk_box_pack_start (GTK_BOX (priv->selector_box), priv->esom_header, FALSE, TRUE, 6);
+	gtk_box_pack_start (GTK_BOX (priv->selector_box), priv->esom, FALSE, TRUE, 0);
 }
 
 ESourceList *
@@ -1449,6 +1487,9 @@ itip_view_set_rsvp (ItipView *view, gboolean rsvp)
 	priv = view->priv;
 	
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->rsvp_check), rsvp);
+
+	gtk_widget_set_sensitive (priv->rsvp_comment_header, rsvp);
+	gtk_widget_set_sensitive (priv->rsvp_comment_entry, rsvp);
 }
 
 gboolean
@@ -1476,7 +1517,7 @@ itip_view_set_show_rsvp (ItipView *view, gboolean rsvp)
 	
 	priv->rsvp_show = rsvp;
 
-	priv->rsvp_show ? gtk_widget_show (priv->rsvp_check) : gtk_widget_hide (priv->rsvp_check);
+	priv->rsvp_show ? gtk_widget_show (priv->rsvp_box) : gtk_widget_hide (priv->rsvp_box);
 }
 
 gboolean
@@ -1490,6 +1531,32 @@ itip_view_get_show_rsvp (ItipView *view)
 	priv = view->priv;
 	
 	return priv->rsvp_show;
+}
+
+void
+itip_view_set_rsvp_comment (ItipView *view, const char *comment)
+{
+	ItipViewPrivate *priv;
+	
+	g_return_if_fail (view != NULL);
+	g_return_if_fail (ITIP_IS_VIEW (view));	
+	
+	priv = view->priv;
+	
+	gtk_entry_set_text (GTK_ENTRY (priv->rsvp_comment_entry), comment);
+}
+
+const char *
+itip_view_get_rsvp_comment (ItipView *view)
+{
+	ItipViewPrivate *priv;
+
+	g_return_val_if_fail (view != NULL, FALSE);
+	g_return_val_if_fail (ITIP_IS_VIEW (view), FALSE);
+	
+	priv = view->priv;
+	
+	return gtk_entry_get_text (GTK_ENTRY (priv->rsvp_comment_entry));
 }
 
 void

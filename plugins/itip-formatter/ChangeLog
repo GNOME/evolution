@@ -1,5 +1,19 @@
 2005-01-07  JP Rosevear  <jpr@novell.com>
 
+	* itip-view.h: protos
+
+	* itip-view.c (rsvp_toggled_cb): set comment sensitivity
+	(itip_view_init): add comment entry
+	(itip_view_set_rsvp): make comment entry sensitive when rsvp is
+	(itip_view_set_rsvp_comment): accessor
+	(itip_view_get_rsvp_comment): ditto
+	
+	* itip-formatter.c (find_cal_opened_cb): set error message if we
+	can't find the item
+	(view_response_cb): add comment if the user sets one
+
+2005-01-07  JP Rosevear  <jpr@novell.com>
+	
 	* itip-view.h: add protos
 
 	* itip-view.c (set_sender_text): update descriptions better
