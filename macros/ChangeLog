@@ -1,3 +1,8 @@
+Fri Jun 26 14:36:08 1998  Scott D. Heavner  <sdh@po.cwru.edu>
+
+	* curses.m4 (AC_CHECK_CURSES): New check. mangled out of mc's
+	configure.in 
+
 1998-06-24  Raja R Harinath  <harinath@cs.umn.edu>
 
 	* gnome-fileutils.m4 (AM_FUNC_ERROR_AT_LINE): New check.
@@ -260,3 +265,8 @@ Sat Feb 14 01:09:37 1998  Tom Tromey  <tromey@cygnus.com>
 	
 	* aclocal-include.m4: New file.  Defines AM_ACLOCAL_INCLUDE macro
 	to provide extra search directories to `aclocal'.
+
+*Local Variables:
+*backup-inhibited: t
+*End:
+	
