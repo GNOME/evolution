@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-06-30 03:23+0200\n"
-"PO-Revision-Date: 2004-06-30 15:27+0200\n"
+"POT-Creation-Date: 2004-07-04 14:25+0200\n"
+"PO-Revision-Date: 2004-07-04 16:46+0200\n"
 "Last-Translator: Miloslav Trmac <mitr@volny.cz>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -63,7 +63,9 @@ msgstr "Tento adresář nelze otevřít."
 msgid ""
 "This addressbook server might unreachable or the server name may be "
 "misspelled or your network connection could be down."
-msgstr "Server adresáře možná není dostupný nebo by v názvu serveru mohl být překlep nebo možná nefunguje vaše připojení k síti."
+msgstr ""
+"Server adresáře možná není dostupný nebo by v názvu serveru mohl být překlep "
+"nebo možná nefunguje vaše připojení k síti."
 
 #. addressbook:ldap-auth primary
 #: addressbook/addressbook-errors.xml.h:6
@@ -76,7 +78,10 @@ msgid ""
 "Check to make sure your password is spelled correctly and that you are using "
 "a supported login method. Remember that many passwords are case sensitive; "
 "your caps lock might be on."
-msgstr "Zkontrolujte, že vaše heslo je zadáno správně a že používáte podporovanou metodupřihlašování. Nezapomeňte, že u mnoha hesel se rozlišuje velikost písmen; možná máte zapnut caps lock."
+msgstr ""
+"Zkontrolujte, že vaše heslo je zadáno správně a že používáte podporovanou "
+"metodupřihlašování. Nezapomeňte, že u mnoha hesel se rozlišuje velikost "
+"písmen; možná máte zapnut caps lock."
 
 #. addressbook:ldap-search-base primary
 #: addressbook/addressbook-errors.xml.h:10
@@ -89,7 +94,10 @@ msgid ""
 "This LDAP server may use an older version of LDAP, which does not support "
 "this functionality or it may be misconfigured. Ask your administrator for "
 "supported search bases."
-msgstr "Tento server LDAP možná používá starší verzi LDAP, která futo funkci nepodporuje, nebo je možná špatně nastaven. Zeptejte se vašeho správce na podporované základy vyhledávání."
+msgstr ""
+"Tento server LDAP možná používá starší verzi LDAP, která futo funkci "
+"nepodporuje, nebo je možná špatně nastaven. Zeptejte se vašeho správce na "
+"podporované základy vyhledávání."
 
 #. addressbook:ldap-v3-schema primary
 #: addressbook/addressbook-errors.xml.h:14
@@ -177,7 +185,9 @@ msgstr "Nemohu přesunout kontakt."
 msgid ""
 "You are attempting to move a contact from one addressbook to another but it "
 "cannot be removed from the source. Do you want to save a copy instead?"
-msgstr "Přesouváte kontakt z jednoho adresáře do jiného, ale nelze jej odstranit ze zdroje. Chcete místo toho uložit kopii?"
+msgstr ""
+"Přesouváte kontakt z jednoho adresáře do jiného, ale nelze jej odstranit ze "
+"zdroje. Chcete místo toho uložit kopii?"
 
 #. addressbook:save-error primary
 #: addressbook/addressbook-errors.xml.h:49
@@ -198,7 +208,9 @@ msgstr "Adresář Evolution neočekávaně skončil."
 #: addressbook/addressbook-errors.xml.h:55
 msgid ""
 "Your contacts for {0} will not be available until Evolution is restarted."
-msgstr "Vaše kontakty pro {0} nebudou k dispozici, dokud nebude Evolution znovu spuštěna."
+msgstr ""
+"Vaše kontakty pro {0} nebudou k dispozici, dokud nebude Evolution znovu "
+"spuštěna."
 
 #: addressbook/conduit/address-conduit.c:275
 msgid "Default Sync Address:"
@@ -502,6 +514,7 @@ msgid "636"
 msgstr "636"
 
 #: addressbook/gui/component/ldap-config.glade.h:7
+#: calendar/gui/dialogs/url-editor-dialog.glade.h:2
 msgid "<b>Authentication</b>"
 msgstr "<b>Autentizace/<b>"
 
@@ -3525,7 +3538,9 @@ msgstr "Chcete poslat všem účastníkům oznámení o zrušení?"
 msgid ""
 "If you don't send a cancellation notice, the other participants may not know "
 "the meeting is canceled."
-msgstr "Pokud nepošlete oznámení o zrušení, ostatní účastníci možná nebudou vědět, že je schůzka zrušena."
+msgstr ""
+"Pokud nepošlete oznámení o zrušení, ostatní účastníci možná nebudou vědět, "
+"že je schůzka zrušena."
 
 #: calendar/calendar-errors.xml.h:5 calendar/calendar-errors.xml.h:15
 #: calendar/calendar-errors.xml.h:25 calendar/calendar-errors.xml.h:79
@@ -3548,14 +3563,17 @@ msgstr "Opravdu chcete odstranit tuto schůzku?"
 #: calendar/calendar-errors.xml.h:10
 msgid ""
 "All information on this meeting will be deleted and can not be restored."
-msgstr "Všechny informace o této schůzce budou odstraněny a nebude je možné obnovit."
+msgstr ""
+"Všechny informace o této schůzce budou odstraněny a nebude je možné obnovit."
 
 #. calendar:prompt-cancel-task secondary
 #: calendar/calendar-errors.xml.h:14
 msgid ""
 "If you don't send a cancellation notice, the other participants may not know "
 "the task has been deleted."
-msgstr "Pokud nepošlete oznámení o zrušení, ostatní účastníci možná nebudou vědět, že úkol byl zrušena."
+msgstr ""
+"Pokud nepošlete oznámení o zrušení, ostatní účastníci možná nebudou vědět, "
+"že úkol byl zrušena."
 
 #. calendar:prompt-delete-task primary
 #: calendar/calendar-errors.xml.h:18 calendar/calendar-errors.xml.h:44
@@ -3568,7 +3586,8 @@ msgstr "Opravdu chcete odstranit tento úkol?"
 #: calendar/calendar-errors.xml.h:20 calendar/calendar-errors.xml.h:42
 #: calendar/calendar-errors.xml.h:46
 msgid "All information on this task will be deleted and can not be restored."
-msgstr "Všechny informace o tomto úkolu budou odstraněny a nebude možné je obnovit."
+msgstr ""
+"Všechny informace o tomto úkolu budou odstraněny a nebude možné je obnovit."
 
 #. calendar:prompt-cancel-journal primary
 #: calendar/calendar-errors.xml.h:22
@@ -3580,7 +3599,9 @@ msgstr "Chcete poslat oznámení o zrušení tohoto zápisu v deníku?"
 msgid ""
 "If you don't send a cancellation notice, the other participants may not know "
 "the journal has been deleted."
-msgstr "Pokud nepošlete oznámení o zrušení, ostatní účastníci možná nebudou vědět, že deník byl odstraněn."
+msgstr ""
+"Pokud nepošlete oznámení o zrušení, ostatní účastníci možná nebudou vědět, "
+"že deník byl odstraněn."
 
 #. calendar:prompt-delete-journal primary
 #: calendar/calendar-errors.xml.h:28 calendar/calendar-errors.xml.h:52
@@ -3592,7 +3613,9 @@ msgstr "Opravdu chcete odstranit tento zápis v deníku?"
 msgid ""
 "All information on this journal entry will be deleted and can not be "
 "restored."
-msgstr "Všechny informace o tomto zápisu v deníku budou odstraněny a nebude možné je obnovit."
+msgstr ""
+"Všechny informace o tomto zápisu v deníku budou odstraněny a nebude možné je "
+"obnovit."
 
 #. calendar:prompt-delete-titled-appointment primary
 #: calendar/calendar-errors.xml.h:32
@@ -3604,7 +3627,8 @@ msgstr "Opravdu chcete odstranit událost nazvanou `{0}'?"
 #: calendar/calendar-errors.xml.h:34 calendar/calendar-errors.xml.h:38
 msgid ""
 "All information on this appointment will be deleted and can not be restored."
-msgstr "Všechny informace o této události budou odstraněny a nebude možné je obnovit."
+msgstr ""
+"Všechny informace o této události budou odstraněny a nebude možné je obnovit."
 
 #. calendar:prompt-delete-appointment primary
 #: calendar/calendar-errors.xml.h:36
@@ -3626,7 +3650,8 @@ msgstr "Opravdu chcete odstranit zápis v deníku `{0}'?"
 #: calendar/calendar-errors.xml.h:50 calendar/calendar-errors.xml.h:54
 msgid ""
 "All information in this journal will be deleted and can not be restored."
-msgstr "Všechny informace o tomto deníku budou odstraněny a nebude možné je obnovit."
+msgstr ""
+"Všechny informace o tomto deníku budou odstraněny a nebude možné je obnovit."
 
 #. calendar:prompt-delete-appointments primary
 #: calendar/calendar-errors.xml.h:56
@@ -3638,7 +3663,9 @@ msgstr "Opravdu chcete odstranit těchto {0} událostí?"
 msgid ""
 "All information on these appointments will be deleted and can not be "
 "restored."
-msgstr "Všechny informace o těchto událostech budou odstraněny a nebude možné je obnovit."
+msgstr ""
+"Všechny informace o těchto událostech budou odstraněny a nebude možné je "
+"obnovit."
 
 #. calendar:prompt-delete-tasks primary
 #: calendar/calendar-errors.xml.h:60
@@ -3648,7 +3675,9 @@ msgstr "Opravdu chcete odstranit těchto {0} úkolů?"
 #. calendar:prompt-delete-tasks secondary
 #: calendar/calendar-errors.xml.h:62
 msgid "All information on these tasks will be deleted and can not be restored."
-msgstr "Všechny informace o těchto úkolech budou odstraněny a nebude možné je obnovit."
+msgstr ""
+"Všechny informace o těchto úkolech budou odstraněny a nebude možné je "
+"obnovit."
 
 #. calendar:prompt-delete-journals primary
 #: calendar/calendar-errors.xml.h:64
@@ -3660,7 +3689,9 @@ msgstr "Opravdu chcete odstranit těchto {0} zápisů v deníku?"
 msgid ""
 "All information in these journal entries will be deleted and can not be "
 "restored."
-msgstr "Všechny informace o těchto položkách deníku budou odstraněny a nebude možné je obnovit."
+msgstr ""
+"Všechny informace o těchto položkách deníku budou odstraněny a nebude možné "
+"je obnovit."
 
 #. calendar:prompt-save-appointment title
 #: calendar/calendar-errors.xml.h:68
@@ -3694,7 +3725,8 @@ msgstr "Chcete poslat účastníkům pozvánky na schůzku?"
 #: calendar/calendar-errors.xml.h:78
 msgid ""
 "Email invitations will be sent to all participants and allow them to RSVP."
-msgstr "E-maily s pozvánkami budou odeslány všem účastníkům, aby mohli odpovědět."
+msgstr ""
+"E-maily s pozvánkami budou odeslány všem účastníkům, aby mohli odpovědět."
 
 #: calendar/calendar-errors.xml.h:80 calendar/calendar-errors.xml.h:86
 #: calendar/calendar-errors.xml.h:92 calendar/calendar-errors.xml.h:98
@@ -3712,7 +3744,9 @@ msgstr "Chcete účastníkům poslat aktualizované informace o schůzce?"
 msgid ""
 "Sending updated information allows other participants to keep their "
 "calendars up to date."
-msgstr "Poslání aktualizovaných informací umožní jiným účastníkům, aby udržovali své kalendáře aktuální."
+msgstr ""
+"Poslání aktualizovaných informací umožní jiným účastníkům, aby udržovali své "
+"kalendáře aktuální."
 
 #. calendar:prompt-send-task primary
 #: calendar/calendar-errors.xml.h:88
@@ -3724,7 +3758,9 @@ msgstr "Chcete tento úkol poslat účastníkům?"
 msgid ""
 "Email invitations will be sent to all participants and allow them to accept "
 "this task."
-msgstr "E-maily s pozvánkami budou odeslány všem účastníkům, aby mohli tento úkol přijmout."
+msgstr ""
+"E-maily s pozvánkami budou odeslány všem účastníkům, aby mohli tento úkol "
+"přijmout."
 
 #. calendar:prompt-send-updated-task-info primary
 #: calendar/calendar-errors.xml.h:94
@@ -3736,7 +3772,9 @@ msgstr "Chcete účastníkům poslat aktualizované informace o úkolu?"
 msgid ""
 "Sending updated information allows other participants to keep their task "
 "lists up to date."
-msgstr "Poslání aktualizovaných informací umožní ostatním účastníkům, aby udržovali své seznamy úkolů aktuální."
+msgstr ""
+"Poslání aktualizovaných informací umožní ostatním účastníkům, aby udržovali "
+"své seznamy úkolů aktuální."
 
 #. calendar:tasks-crashed primary
 #: calendar/calendar-errors.xml.h:100
@@ -3756,7 +3794,8 @@ msgstr "Kalendář Evolution neočekávaně skončil."
 #. calendar:calendar-crashed secondary
 #: calendar/calendar-errors.xml.h:106
 msgid "Your calendars will not be available until Evolution is restarted."
-msgstr "Vaše kalendáře nebudou k dispozici, dokud nebude Evolution znovu spuštěna."
+msgstr ""
+"Vaše kalendáře nebudou k dispozici, dokud nebude Evolution znovu spuštěna."
 
 #: calendar/common/authentication.c:44 calendar/gui/e-pub-utils.c:301
 #: smime/gui/component.c:48
@@ -5508,53 +5547,45 @@ msgstr "_Termín dokončení:"
 msgid "_Group:"
 msgstr "_Skupina:"
 
-#: calendar/gui/dialogs/url-editor-dialog.glade.h:2
-msgid "Authentication Credentials for HTTP Server"
-msgstr "Ověření autentizace pro HTTP server"
-
 #: calendar/gui/dialogs/url-editor-dialog.glade.h:3
-msgid "Calendars selected for publishing"
-msgstr "Kalendáře vybrané pro zveřejnění"
+msgid "<b>Free/Busy C_alendars</b>"
+msgstr "<b>Kalendáře _volno/obsazeno</b>"
 
 #: calendar/gui/dialogs/url-editor-dialog.glade.h:4
-msgid "Daily"
-msgstr "Denně"
+msgid "<b>Publishing Frequency</b>"
+msgstr "<b>Frekvence zveřejňování</b>"
 
 #: calendar/gui/dialogs/url-editor-dialog.glade.h:5
+msgid "<b>Publishing _Location</b>"
+msgstr "<b>_Umístění zveřejňování</b>"
+
+#: calendar/gui/dialogs/url-editor-dialog.glade.h:6
 msgid "Free/Busy Editor"
 msgstr "Editor informací o volném/obsazeném čase"
 
-#: calendar/gui/dialogs/url-editor-dialog.glade.h:6
-msgid "Free/Busy Publishing Location"
-msgstr "Umístění zveřejňování volného/obsazeného času"
-
 #: calendar/gui/dialogs/url-editor-dialog.glade.h:7
-msgid "Login name:"
-msgstr "Přihlašovací jméno:"
+msgid "_Daily"
+msgstr "_Denně"
 
 #: calendar/gui/dialogs/url-editor-dialog.glade.h:8
-msgid "Password:"
-msgstr "Heslo:"
+msgid "_Manual"
+msgstr "_Ručně"
 
 #: calendar/gui/dialogs/url-editor-dialog.glade.h:9
-msgid "Publishing Frequency"
-msgstr "Frekvence zveřejňování"
+msgid "_Password:"
+msgstr "_Heslo:"
 
 #: calendar/gui/dialogs/url-editor-dialog.glade.h:10
-msgid "Remember password"
-msgstr "Zapamatovat si heslo"
+msgid "_Remember password"
+msgstr "Za_pamatovat si heslo"
 
 #: calendar/gui/dialogs/url-editor-dialog.glade.h:11
-msgid "URL:"
-msgstr "URL:"
+msgid "_Username:"
+msgstr "_Jméno uživatele:"
 
 #: calendar/gui/dialogs/url-editor-dialog.glade.h:12
-msgid "User Publishes"
-msgstr "Uživatel zveřejňuje"
-
-#: calendar/gui/dialogs/url-editor-dialog.glade.h:13
-msgid "Weekly"
-msgstr "Týdně"
+msgid "_Weekly"
+msgstr "_Týdně"
 
 #: calendar/gui/e-alarm-list.c:395
 #, c-format
@@ -9610,7 +9641,7 @@ msgstr "Nemohu přidat šifrovací certifikát"
 msgid "Cannot add CMS SignerInfo"
 msgstr "Nemohu přidat CMS SignerInfo"
 
-#: camel/camel-smime-context.c:430
+#: camel/camel-smime-context.c:430 camel/camel-smime-context.c:877
 msgid "Cannot create encoder context"
 msgstr "Nemohu vytvořit obsah enkodéru"
 
@@ -9691,7 +9722,7 @@ msgid "Certificate only message, certificates imported and verified"
 msgstr "Zpráva jen s certifikátem, certifikáty importovány a ověřeny"
 
 #: camel/camel-smime-context.c:635
-msgid "Can't find signature digests"
+msgid "Cannot find signature digests"
 msgstr "Nemohu najít digesty podpisu"
 
 #: camel/camel-smime-context.c:651
@@ -9705,45 +9736,41 @@ msgstr "Dekodér selhal"
 
 #: camel/camel-smime-context.c:804
 #, c-format
-msgid "Can't find certificate for `%s'"
+msgid "Cannot find certificate for `%s'"
 msgstr "Nemohu najít certifikát pro `%s'"
 
 #: camel/camel-smime-context.c:811
-msgid "Can't find common bulk encryption algorithm"
+msgid "Cannot find common bulk encryption algorithm"
 msgstr "Nemohu najít společný algoritmus pro šifrování"
 
 #. PORT_GetError(); ??
 #: camel/camel-smime-context.c:820
-msgid "Can't allocate slot for encryption bulk key"
+msgid "Cannot allocate slot for encryption bulk key"
 msgstr "Nemohu alokovat slot pro šifrovací klíč"
 
 #: camel/camel-smime-context.c:831
-msgid "Can't create CMS Message"
-msgstr "Nemohu vytvořit zprávu CMS"
+msgid "Cannot create CMS Message"
+msgstr "Nemohu vytvořit CMS Message"
 
 #: camel/camel-smime-context.c:837
-msgid "Can't create CMS EnvelopedData"
+msgid "Cannot create CMS EnvelopedData"
 msgstr "Nemohu vytvořit CMS EnvelopedData"
 
 #: camel/camel-smime-context.c:843
-msgid "Can't attach CMS EnvelopedData"
+msgid "Cannot attach CMS EnvelopedData"
 msgstr "Nemohu připojit CMS EnvelopedData"
 
 #: camel/camel-smime-context.c:849
-msgid "Can't attach CMS data object"
+msgid "Cannot attach CMS data object"
 msgstr "Nemohu připojit objekt dat CMS"
 
 #: camel/camel-smime-context.c:858
-msgid "Can't create CMS RecipientInfo"
+msgid "Cannot create CMS RecipientInfo"
 msgstr "Nemohu vytvořit CMS RecipientInfo"
 
 #: camel/camel-smime-context.c:863
-msgid "Can't add CMS RecipientInfo"
+msgid "Cannot add CMS RecipientInfo"
 msgstr "Nemohu přidat CMS RecipientInfo"
-
-#: camel/camel-smime-context.c:877
-msgid "Can't create encoder context"
-msgstr "Nemohu vytvořit kontext enkodéru"
 
 #: camel/camel-smime-context.c:888
 msgid "Failed to add data to encoder"
@@ -16508,14 +16535,18 @@ msgid ""
 "Because you trust the certificate authority that issued this certificate, "
 "then you trust the authenticity of this certificate unless otherwise "
 "indicated here"
-msgstr "Protože důvěřujete certifikační agentuře, která vydala tento certifikát, důvěřujete pravosti tohoto certifikátu, pokud zde není uvedeno jinak"
+msgstr ""
+"Protože důvěřujete certifikační agentuře, která vydala tento certifikát, "
+"důvěřujete pravosti tohoto certifikátu, pokud zde není uvedeno jinak"
 
 #: smime/gui/cert-trust-dialog.c:149
 msgid ""
 "Because you do not trust the certificate authority that issued this "
 "certificate, then you do not trust the authenticity of this certificate "
 "unless otherwise indicated here"
-msgstr "Protože nedůvěřujete certifikační agentuře, která vydala tento certifikát, nedůvěřujete pravosti tohoto certifikátu, pokud zde není uvedeno jinak"
+msgstr ""
+"Protože nedůvěřujete certifikační agentuře, která vydala tento certifikát, "
+"nedůvěřujete pravosti tohoto certifikátu, pokud zde není uvedeno jinak"
 
 #: smime/gui/certificate-manager.c:130 smime/gui/certificate-manager.c:353
 #: smime/gui/certificate-manager.c:556
@@ -18775,6 +18806,18 @@ msgstr "%s (...)"
 #, c-format
 msgid "%s (%d%% complete)"
 msgstr "%s (%d%% hotovo)"
+
+#~ msgid "Authentication Credentials for HTTP Server"
+#~ msgstr "Ověření autentizace pro HTTP server"
+
+#~ msgid "Calendars selected for publishing"
+#~ msgstr "Kalendáře vybrané pro zveřejnění"
+
+#~ msgid "User Publishes"
+#~ msgstr "Uživatel zveřejňuje"
+
+#~ msgid "Can't create encoder context"
+#~ msgstr "Nemohu vytvořit kontext enkodéru"
 
 #~ msgid ""
 #~ "Selected calendar is read-only, events cannot be created. Please select a "
