@@ -206,6 +206,11 @@ void     calendar_config_set_default_reminder_units (CalUnits units);
 GSList * calendar_config_get_free_busy (void);
 void calendar_config_set_free_busy (GSList * url_list);
 
+gchar *calendar_config_get_free_busy_template (void);
+void calendar_config_set_free_busy_template (const gchar *template);
+guint calendar_config_add_notification_free_busy_template (GConfClientNotifyFunc func, 
+							   gpointer data);
+
 /* Convenience functions to configure common properties of ECalendar,
    EDateEdit & ECalendarTable widgets, and the ECellDateEdit ETable cell. */
 void	  calendar_config_configure_e_calendar		(ECalendar	*cal);

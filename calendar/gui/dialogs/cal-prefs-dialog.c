@@ -371,6 +371,14 @@ url_list_changed (DialogData *dialog_data)
 }
 
 static void
+template_url_changed (GtkEntry *entry, DialogData *dialog_data)
+{
+	calendar_config_set_free_busy_template (gtk_entry_get_text (entry));
+
+	return FALSE;
+}
+
+static void
 setup_changes (DialogData *dialog_data)
 {
 	int i;
@@ -412,6 +420,8 @@ setup_changes (DialogData *dialog_data)
 			  G_CALLBACK (default_reminder_interval_changed), dialog_data);
 	g_signal_connect (GTK_OPTION_MENU (dialog_data->default_reminder_units)->menu, "selection-done",
 			  G_CALLBACK (default_reminder_units_changed), dialog_data);
+
+	g_signal_connect (dialog_data->template_url, "changed", G_CALLBACK (template_url_changed), dialog_data);
 }
 
 /* Gets the widgets from the XML file and returns if they are all available.
@@ -462,6 +472,8 @@ get_widgets (DialogData *data)
 	data->url_remove = GW ("url_remove");
 	data->url_enable = GW ("url_enable");
 	data->url_list = GTK_TREE_VIEW (GW ("url_list"));
+
+	data->template_url = GW("template_url");
 
 #undef GW
 
@@ -859,6 +871,7 @@ show_fb_config (DialogData *dialog_data)
 	GSList *url_config_list = NULL;
 	GtkListStore *model;
 	GtkTreeIter iter;
+	gchar *template_url;
 	
 	model = (GtkListStore *) gtk_tree_view_get_model (dialog_data->url_list);
 	gtk_list_store_clear (model);
@@ -910,6 +923,11 @@ show_fb_config (DialogData *dialog_data)
 
 	g_slist_foreach (url_config_list, (GFunc) g_free, NULL);
 	g_slist_free (url_config_list);
+
+	template_url = calendar_config_get_free_busy_template ();
+	gtk_entry_set_text (GTK_ENTRY (dialog_data->template_url), template_url);
+
+	g_free (template_url);
 }
 
 /* Shows the current task list settings in the dialog */

@@ -1063,3 +1063,27 @@ calendar_config_set_free_busy (GSList *url_list)
 	gconf_client_set_list (config, CALENDAR_CONFIG_PUBLISH, 
 			       GCONF_VALUE_STRING, url_list, NULL);
 }
+
+gchar *
+calendar_config_get_free_busy_template (void)
+{
+	return gconf_client_get_string (config, CALENDAR_CONFIG_TEMPLATE, NULL);
+}
+
+void
+calendar_config_set_free_busy_template (const gchar *template)
+{
+	gconf_client_set_string (config, CALENDAR_CONFIG_TEMPLATE, template, NULL);
+}
+
+guint 
+calendar_config_add_notification_free_busy_template (GConfClientNotifyFunc func, 
+						     gpointer data)
+{
+	guint id;
+	
+	id = gconf_client_notify_add (config, CALENDAR_CONFIG_TEMPLATE, func, data, 
+				      NULL, NULL);
+	
+	return id;	
+}

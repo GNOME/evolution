@@ -48,12 +48,18 @@ struct _EMeetingStorePrivate {
 	ECal *client;
 	icaltimezone *zone;
 	
+	char *fb_uri;
+
 	EBook *ebook;
 
 	GPtrArray *refresh_queue;
 	GHashTable *refresh_data;
 	GMutex *mutex;
 	guint refresh_idle_id;
+
+	guint callback_idle_id;
+	guint num_threads;
+	GAsyncQueue *async_queue;
 };
 
 #define BUF_SIZE 1024
@@ -77,6 +83,8 @@ struct _EMeetingStoreQueueData {
 
 
 static GObjectClass *parent_class = NULL;
+
+static void start_async_read (GnomeVFSAsyncHandle *handle, GnomeVFSResult result, gpointer data);
 
 static void
 start_addressbook_server (EMeetingStore *store)
@@ -553,9 +561,8 @@ refresh_queue_remove (EMeetingStore *store, EMeetingAttendee *attendee)
 	priv = store->priv;
 	
 	/* Free the queue data */
-	qdata = g_hash_table_lookup (priv->refresh_data, attendee);
+	qdata = g_hash_table_lookup (priv->refresh_data, itip_strip_mailto (e_meeting_attendee_get_address (attendee)));
 	if (qdata) {
-		g_hash_table_remove (priv->refresh_data, attendee);
 		g_mutex_lock (priv->mutex);
 		g_hash_table_remove (priv->refresh_data, itip_strip_mailto (e_meeting_attendee_get_address (attendee)));
 		g_mutex_unlock (priv->mutex);
@@ -596,7 +603,14 @@ ems_finalize (GObject *obj)
  	if (priv->refresh_idle_id)
  		g_source_remove (priv->refresh_idle_id);
 
+ 	if (priv->callback_idle_id)
+ 		g_source_remove (priv->callback_idle_id);
+
+	g_free (priv->fb_uri);
+
 	g_mutex_free (priv->mutex);
+
+	g_async_queue_unref (priv->async_queue);
  		
 	g_free (priv);
 
@@ -625,11 +639,15 @@ ems_init (EMeetingStore *store)
 	priv->attendees = g_ptr_array_new ();
 	
 	priv->zone = calendar_config_get_icaltimezone ();
+
+	priv->fb_uri = calendar_config_get_free_busy_template ();
 	
 	priv->refresh_queue = g_ptr_array_new ();
 	priv->refresh_data = g_hash_table_new (g_str_hash, g_str_equal);
 
 	priv->mutex = g_mutex_new ();
+
+	priv->async_queue = g_async_queue_new ();
 
 	start_addressbook_server (store);
 }
@@ -706,6 +724,23 @@ e_meeting_store_set_zone (EMeetingStore *store, icaltimezone *zone)
 	g_return_if_fail (E_IS_MEETING_STORE (store));
 
 	store->priv->zone = zone;
+}
+
+gchar *
+e_meeting_store_get_fb_uri (EMeetingStore *store) 
+{
+	g_return_val_if_fail (E_IS_MEETING_STORE (store), NULL);
+
+	return g_strdup (store->priv->fb_uri);
+}
+
+void 
+e_meeting_store_set_fb_uri (EMeetingStore *store, const gchar *fb_uri)
+{
+	g_return_if_fail (E_IS_MEETING_STORE (store));
+
+	g_free (store->priv->fb_uri);
+	store->priv->fb_uri = g_strdup (fb_uri);
 }
 
 static void
@@ -947,24 +982,60 @@ find_zone (icalproperty *ip, icalcomponent *tz_top_level)
 	return NULL;
 }
 
+typedef struct {
+	EMeetingStoreRefreshCallback call_back;
+	gpointer *data;
+} QueueCbData;
+
+/* Process the callbacks in the main thread. Avoids widget redrawing issues. */
+static gboolean
+process_callbacks_main_thread (EMeetingStore *store)
+{
+	EMeetingStorePrivate *priv;
+	QueueCbData *aqueue_data;
+	gboolean threads_done = FALSE;
+
+	priv = store->priv;
+
+	g_mutex_lock (priv->mutex);
+	if (priv->num_threads == 0) {
+		threads_done = TRUE;
+		priv->callback_idle_id = 0;
+	}
+	g_mutex_unlock (priv->mutex);
+
+	while ((aqueue_data = g_async_queue_try_pop (priv->async_queue)) != NULL) {
+		aqueue_data->call_back (aqueue_data->data);
+
+		g_free (aqueue_data);
+	}
+
+		return !threads_done;
+}
+
 static void
 process_callbacks (EMeetingStoreQueueData *qdata) 
 {
 	EMeetingStore *store;
 	int i;
 
+	store = qdata->store;
+
 	for (i = 0; i < qdata->call_backs->len; i++) {
-		EMeetingStoreRefreshCallback call_back;
-		gpointer *data;
+		QueueCbData *aqueue_data = g_new0 (QueueCbData, 1);
 
-		call_back = g_ptr_array_index (qdata->call_backs, i);
-		data = g_ptr_array_index (qdata->data, i);
+		aqueue_data->call_back = g_ptr_array_index (qdata->call_backs, i);
+		aqueue_data->data = g_ptr_array_index (qdata->data, i);
 
-		call_back (data);
+		g_async_queue_push (store->priv->async_queue, aqueue_data);
 	}
 
-	store = qdata->store;
+	g_mutex_lock (store->priv->mutex);
+	store->priv->num_threads--;
+	g_mutex_unlock (store->priv->mutex);
+
 	refresh_queue_remove (qdata->store, qdata->attendee);
+	g_async_queue_unref (store->priv->async_queue);
 	g_object_unref (store);
 }
 
@@ -1116,22 +1187,45 @@ process_free_busy (EMeetingStoreQueueData *qdata, char *text)
 	process_callbacks (qdata);
 }
 
+/* 
+ * Replace all instances of from_value in string with to_value 
+ * In the returned newly allocated string. 
+*/
+static gchar *
+replace_string (gchar *string, gchar *from_value, gchar *to_value)
+{
+	gchar *replaced;
+	gchar **split_uri;
+
+	split_uri = g_strsplit (string, from_value, 0);
+	replaced = g_strjoinv (to_value, split_uri);
+	g_strfreev (split_uri);
+
+	return replaced;
+}
+
 typedef struct {
 	ECal *client;
 	time_t startt;
 	time_t endt;
 	GList *users;
 	GList *fb_data;
+	char *fb_uri;
+	char *email;
 	EMeetingAttendee *attendee;
 	EMeetingStoreQueueData *qdata;
 } FreeBusyAsyncData;
+
+#define USER_SUB   "%u"
+#define DOMAIN_SUB "%d"
 
 static gboolean
 freebusy_async (gpointer data)
 {
 	FreeBusyAsyncData *fbd = data;
 	EMeetingAttendee *attendee = fbd->attendee;
-	
+	gchar *default_fb_uri;
+
 	if (fbd->client) {
 		e_cal_get_free_busy (fbd->client, fbd->users, fbd->startt, fbd->endt, &(fbd->fb_data), NULL);
 
@@ -1145,21 +1239,52 @@ freebusy_async (gpointer data)
 			comp_str = e_cal_component_get_as_string (comp);
 			process_free_busy (fbd->qdata, comp_str);
 			g_free (comp_str);
+
+			return TRUE;
 		}
-		return TRUE;
 	}
-	
 
 	/* Look for fburl's of attendee with no free busy info on server */
 	if (!e_meeting_attendee_is_set_address (attendee)) {
 		process_callbacks (fbd->qdata);
 		return TRUE;
 	}
+
 	
+
+	/* Check for free busy info on the default server */
+	default_fb_uri = g_strdup (fbd->fb_uri);
+
+	if (default_fb_uri != NULL || !g_str_equal (default_fb_uri, "")) {
+		GnomeVFSAsyncHandle *handle;
+		gchar *tmp_fb_uri;
+		gchar **split_email;
+		
+		split_email = g_strsplit (fbd->email, "@", 2);
+
+		tmp_fb_uri = replace_string (default_fb_uri, USER_SUB, split_email[0]);
+		g_free (default_fb_uri);
+		default_fb_uri = replace_string (tmp_fb_uri, DOMAIN_SUB, split_email[1]);
+
+		gnome_vfs_async_open (&handle, default_fb_uri, GNOME_VFS_OPEN_READ, 
+				      GNOME_VFS_PRIORITY_DEFAULT, start_async_read, 
+				      fbd->qdata);
+		
+		g_free (tmp_fb_uri);
+		g_strfreev (split_email);
+		g_free (default_fb_uri);
+	} else {
+		process_callbacks (fbd->qdata);
+	}
+
 	return TRUE;
 
 
 }
+
+#undef USER_SUB
+#undef DOMAIN_SUB
+
 
 static gboolean
 refresh_busy_periods (gpointer data)
@@ -1202,13 +1327,16 @@ refresh_busy_periods (gpointer data)
 	
 	fbd = g_new0 (FreeBusyAsyncData, 1);
 	fbd->client = priv->client;
+	fbd->attendee = attendee;
 	fbd->users = NULL;
 	fbd->fb_data = NULL;	
+	fbd->qdata = qdata;
+	fbd->fb_uri = priv->fb_uri;
+	fbd->email = g_strdup (itip_strip_mailto (e_meeting_attendee_get_address (attendee)));
 
 	/* Check the server for free busy data */	
 	if (priv->client) {
 		struct icaltimetype itt;
-		const char *user;
 				
 		itt = icaltime_null_time ();
 		itt.year = g_date_year (&qdata->start.date);
@@ -1226,19 +1354,36 @@ refresh_busy_periods (gpointer data)
 		itt.minute = qdata->end.minute;
 		fbd->endt = icaltime_as_timet_with_zone (itt, priv->zone);
 		fbd->qdata = qdata;
-		fbd->attendee = attendee;
 
-		user = itip_strip_mailto (e_meeting_attendee_get_address (attendee));
-		fbd->users = g_list_append (fbd->users, g_strdup (user));
+		fbd->users = g_list_append (fbd->users, g_strdup (fbd->email));
 
 	}
-		
+
+
+	g_async_queue_ref (priv->async_queue);
+
+	g_mutex_lock (store->priv->mutex);
+	store->priv->num_threads++;
+	g_mutex_unlock (store->priv->mutex);
+
 	thread = g_thread_create ((GThreadFunc) freebusy_async, fbd, FALSE, &error);
 	if (!thread) {
 		/* do clean up stuff here */
 		g_list_foreach (fbd->users, (GFunc)g_free, NULL);
 		g_list_free (fbd->users);
+		g_free (fbd->email);
+		priv->refresh_idle_id = 0;
+
+		g_async_queue_unref (priv->async_queue);
+
+		g_mutex_lock (store->priv->mutex);
+		store->priv->num_threads--;
+		g_mutex_unlock (store->priv->mutex);
+
 		return FALSE;
+	} else if (priv->callback_idle_id == 0) {
+		priv->callback_idle_id = g_idle_add (process_callbacks_main_thread, 
+						     store);
 	}
 	return TRUE;
 }
@@ -1256,16 +1401,18 @@ refresh_queue_add (EMeetingStore *store, int row,
 	int i;
 
 	priv = store->priv;
-	
+
 	attendee = g_ptr_array_index (priv->attendees, row);
 	if ((attendee == NULL) || !strcmp (itip_strip_mailto (e_meeting_attendee_get_address (attendee)), ""))
 		return;
+
 	/* check the queue if the attendee is already in there*/
 	for (i = 0; i < priv->refresh_queue->len; i++) {
 		if (attendee == g_ptr_array_index (priv->refresh_queue, i))
 			return;		
+
 		if (!strcmp (e_meeting_attendee_get_address (attendee), e_meeting_attendee_get_address (g_ptr_array_index (priv->refresh_queue, i))))
-				return;
+			return;
 	}
 
 	g_mutex_lock (priv->mutex);
@@ -1343,6 +1490,24 @@ async_read (GnomeVFSAsyncHandle *handle,
 	gnome_vfs_async_read (handle, qdata->buffer, buf_size, async_read, qdata);	
 }
 
+static void
+start_async_read (GnomeVFSAsyncHandle *handle,
+		  GnomeVFSResult result,
+		  gpointer data)
+{
+	EMeetingStoreQueueData *qdata = data;
+	GnomeVFSFileSize buf_size = BUF_SIZE - 1;
+
+	if (result != GNOME_VFS_OK) {
+		g_warning ("Unable to access free/busy url: %s",
+			   gnome_vfs_result_to_string (result));
+		process_callbacks (qdata);
+		return;
+	}
+
+	gnome_vfs_async_read (handle, qdata->buffer, buf_size, async_read, qdata);
+}
+
 void
 e_meeting_store_refresh_all_busy_periods (EMeetingStore *store,
 					  EMeetingTime *start,
@@ -1370,4 +1535,3 @@ e_meeting_store_refresh_busy_periods (EMeetingStore *store,
 
 	refresh_queue_add (store, row, start, end, call_back, data);
 }
-

@@ -78,6 +78,9 @@ void e_meeting_store_set_e_cal (EMeetingStore *im, ECal *client);
 icaltimezone *e_meeting_store_get_zone (EMeetingStore *im);
 void e_meeting_store_set_zone (EMeetingStore *im, icaltimezone *zone);
 
+gchar *e_meeting_store_get_fb_uri (EMeetingStore *im);
+void e_meeting_store_set_fb_uri (EMeetingStore *im, const gchar *fb_uri);
+
 void e_meeting_store_add_attendee (EMeetingStore *im, EMeetingAttendee *ia);
 EMeetingAttendee *e_meeting_store_add_attendee_with_defaults (EMeetingStore *im);
 

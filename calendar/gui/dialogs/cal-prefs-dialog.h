@@ -83,7 +83,9 @@ struct _DialogData {
 	gboolean url_editor;
 	GtkWidget* url_editor_dlg;
 	guint destroyed : 1;
-	
+
+	/* widgets for the Free/Busy template */
+	GtkWidget *template_url;
 		
 	/* Other page options */
 	GtkWidget *confirm_delete;

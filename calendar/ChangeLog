@@ -1,3 +1,41 @@
+2004-12-18 James Bowes  <bowes@cs.dal.ca>
+
+	* gui/apps_evolution_calendar.schemas.in.in: Add schema for Free/Busy
+	template uri.
+	* gui/calendar-config-keys.h:
+	* gui/calendar-config.c: (calendar_config_get_free_busy_template),
+	(calendar_config_set_free_busy_template),
+	(calendar_config_add_notification_free_busy_template):
+	* gui/calendar-config.h: Functions to get, set and monitor the 
+	Free/Busy template uri gconf setting.
+	* gui/dialogs/cal-prefs-dialog.c: (template_url_changed),
+	(setup_changes), (get_widgets), (show_fb_config):
+	* gui/dialogs/cal-prefs-dialog.glade:
+	* gui/dialogs/cal-prefs-dialog.h: Change 'Free/Busy Publish' tab to
+	'Free/Busy'. Add an entry for setting the default Free/Busy uri. 
+	Only change the gconf setting on 'focus out' event
+	* gui/e-meeting-store.c: (refresh_queue_remove): Check the hash using
+	the attendee's mailto: address, rather than the memory address of the 
+	attendee object as the key.
+	(e_meeting_store_get_fb_uri), (e_meeting_store_set_fb_uri): Get and set
+	the EMeetingStore's Free/Busy template string.
+	(process_callbacks_main_thread), (process_callbacks): Process callbacks
+	in the main thread, so that widgets can be redrawn properly.
+	(replace_string): Utility function for replacing wildcards in the
+	default Free/Busy uri.
+	(ems_finalize),	(ems_init), (freebusy_async), (refresh_busy_periods), 
+	(refresh_queue_add), (e_meeting_store_refresh_busy_periods): Add the 
+	ability to check for Free/Busy information from a default location, 
+	if all else fails.
+	(start_async_read): Use gnome-vfs to read the Free/Busy information.
+	* gui/e-meeting-store.h: Add function prototypes for get and set fb_uri
+	* gui/e-meeting-time-sel.c: (e_meeting_time_selector_init),
+	(e_meeting_time_selector_destroy), (free_busy_timeout_refresh), 
+	(free_busy_template_changed_cb): Watch for a change in the Free/Busy 
+	template gconf setting, and check for new Free/Busy data if it occurs.
+	* gui/e-meeting-time-sel.h: Include variable for notification function
+	id on changes to the Free/Busy uri in the EMeetingTimeSelector .
+ 
 2004-12-17  Rodney Dawes  <dobey@novell.com>
 
 	* gui/alarm-notify/alarm-notify-dialog.c (an_minutes_update_label):

@@ -367,5 +367,15 @@
         <short>List of urls for free/busy publishing</short>
       </locale>
     </schema>    
+
+    <schema>
+      <key>/schemas/apps/evolution/calendar/publish/template</key>
+      <applyto>/apps/evolution/calendar/publish/template</applyto>
+      <owner>evolution-calendar</owner>
+      <type>string</type>
+      <locale name="C">
+        <short>The url template to use as a free/busy data fallback</short>
+      </locale>
+    </schema>
   </schemalist>
 </gconfschemafile>

@@ -252,6 +252,12 @@ struct _EMeetingTimeSelector
 
 	/* This is used to determine the delay between scrolls. */
 	gint scroll_count;
+
+	/* The notification function id for Free/Busy template uri changes */
+	guint fb_uri_not;
+
+	/* The notification function id for Free/Busy refreshes */
+	gboolean fb_refresh_not;
 };
 
 
