@@ -32,6 +32,8 @@
 
 #include <glib.h>
 #include <gtk/gtksignal.h>
+#include <libgnome/gnome-i18n.h>
+
 #include <gal/util/e-util.h>
 
 
@@ -93,16 +95,18 @@ load_group_into_model (EShortcutsViewModel *shortcuts_view_model,
 
 		uri = (const char *) p->data;
 		path = get_storage_set_path_from_uri (uri);
-		if (path != NULL)
+
+		if (path == NULL) {
+			name = _("Unknown link");
+		} else {
 			folder = e_storage_set_get_folder (storage_set, path);
 
-		if (path == NULL || folder == NULL) {
-			/* FIXME */
-			g_warning ("Invalid link while loading shortcut bar view -- %s", uri);
-			continue;
+			if (folder != NULL)
+				name = e_folder_get_name (folder);
+			else
+				name = g_basename (path);
 		}
 
-		name = e_folder_get_name (folder);
 		e_shortcut_model_add_item (E_SHORTCUT_MODEL (shortcuts_view_model), group_num, -1, uri, name);
 	}
 

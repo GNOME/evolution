@@ -1,3 +1,15 @@
+2001-06-28  Ettore Perazzoli  <ettore@ximian.com>
+
+	[Fix #3382, shortcut bar crashes when checking mail, and all the
+	different incarnations involving updates to an shortcut bar having
+	shortcuts to non-existent folders.  Also, this fixes #1643,
+	shortcuts not visible until you enable an IMAP account, and #2436,
+	i.e. misbehavior of shortcut groups when IMAP or invalid shortcuts
+	are involved.]
+
+	* e-shortcuts-view-model.c (load_group_into_model): Add the
+	shortcuts that point to folders that don't exist yet, too.
+
 2001-06-28  Dan Winship  <danw@ximian.com>
 
 	* e-storage.c (e_storage_new_folder): Call folder_changed_cb after
