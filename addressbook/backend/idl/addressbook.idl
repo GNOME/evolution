@@ -108,8 +108,8 @@ module Addressbook {
 			AuthenticationFailed,
 			AuthenticationRequired,
 			UnsupportedField,
-
 			TLSNotAvailable,
+			NoSuchBook,
 
 			OtherError
 		};

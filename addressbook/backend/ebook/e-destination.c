@@ -1034,7 +1034,7 @@ launch_cardify_query (EDestination *dest)
 }
 
 static void
-use_local_book_cb (EBook *book, gpointer closure)
+use_default_book_cb (EBook *book, gpointer closure)
 {
 	EDestination *dest = E_DESTINATION (closure);
 	if (dest->priv->cardify_book == NULL) {
@@ -1108,7 +1108,7 @@ e_destination_cardify (EDestination *dest, EBook *book)
 	if (dest->priv->cardify_book != NULL) {
 		launch_cardify_query (dest);
 	} else {
-		e_book_use_local_address_book (use_local_book_cb, dest);
+		e_book_use_default_book (use_default_book_cb, dest);
 	}
 }
 
@@ -1673,7 +1673,7 @@ e_destination_touch (EDestination *dest)
 		email = e_destination_get_email (dest);
 		
 		if (email)
-			e_book_query_address_locally (email, touch_cb, NULL);
+			e_book_query_address_default (email, touch_cb, NULL);
 	}
 }
 

@@ -123,7 +123,7 @@ edit_contact_info_cb (GtkWidget *w, gpointer user_data)
 		return;
 
 	gtk_object_ref (GTK_OBJECT (info->dest));
-	e_book_use_local_address_book (make_contact_editor_cb, (gpointer) info->dest);
+	e_book_use_default_book (make_contact_editor_cb, (gpointer) info->dest);
 }
 
 static void

@@ -51,10 +51,7 @@ void                   e_book_use_address_book_by_uri   (const char             
 							 EBookCommonCallback       cb,
 							 gpointer                  closure);
 
-gboolean               e_book_load_local_address_book   (EBook                    *book,
-							 EBookCallback             open_response,
-							 gpointer                  closure);
-void                   e_book_use_local_address_book    (EBookCommonCallback       cb,
+void                   e_book_use_default_book          (EBookCommonCallback       cb,
 							 gpointer                  closure);
 gboolean               e_book_load_default_book         (EBook                    *book,
 							 EBookCallback             open_response,
@@ -84,8 +81,8 @@ guint                  e_book_nickname_query            (EBook                  
 							 gpointer                  closure);
 
 /* Returns the ECard associated to email in the callback,
-   or NULL if no match is found in the local address book. */
-void                   e_book_query_address_locally     (const gchar              *email,
+   or NULL if no match is found in the default address book. */
+void                   e_book_query_address_default     (const gchar              *email,
 							 EBookHaveAddressCallback  cb,
 							 gpointer                  closure);
 

@@ -1,3 +1,48 @@
+2002-08-12  Dan Winship  <danw@ximian.com>
+
+	* gui/component/addressbook-component.c (user_create_new_item_cb):
+	If invoked from a non-contact folder, add the contact to the
+	default contact folder, not the local one. If invoked from a
+	contact folder, don't append "addressbook.db" to the URI, let
+	ebook do the right thing. Fixes #28327 and #28325.
+
+	* backend/idl/addressbook.idl (CallStatus): Add NoSuchBook.
+	(Initially intended as part of a fix for #28327, but the other
+	changes make it so the error code never ends up getting used any
+	more, but it's still good to have.)
+
+	* gui/widgets/e-addressbook-util.c (e_addressbook_error_dialog):
+	Handle NO_SUCH_BOOK.
+
+	* backend/ebook/e-book-types.h (EBookStatus): Add
+	E_BOOK_STATUS_NO_SUCH_BOOK.
+
+	* backend/ebook/e-book-listener.c
+	(e_book_listener_convert_status): add case for NoSuchBook.
+
+	* backend/ebook/e-book-util.c (e_book_load_local_address_book):
+	Kill this. Nothing should ever explicitly load the local
+	addressbook.
+	(e_book_use_default_book): Replaces e_book_use_local_address_book,
+	using the default book instead.
+	(e_book_default_book_open): Fall back to local contact folder on
+	E_BOOK_STATUS_NO_SUCH_BOOK too.
+	(e_book_query_address_default): Use default book, not local.
+
+	* gui/component/e-address-widget.c (query_idle_fn): Use the
+	default book, not the local book.
+
+	* gui/component/select-names/e-select-names-popup.c
+	(edit_contact_info_cb): Use the default book, not the local book.
+
+	* backend/ebook/e-destination.c (e_destination_cardify): Use the
+	default book, not the local book.
+	(e_destination_touch): Query the default book, not the local book.
+
+	* backend/ebook/e-card-compare.c (e_card_locate_match,
+	e_card_locate_match_full): Use the default book, not the local
+	book.
+
 2002-08-08  Chris Toshok  <toshok@ximian.com>
 
 	* backend/pas/pas-backend-summary.c (pas_backend_summary_init):

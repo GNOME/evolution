@@ -298,7 +298,7 @@ query_idle_fn (gpointer ptr)
 	if (common_book) {
 		e_address_widget_do_query (addr);
 	} else {
-		e_book_load_local_address_book (e_book_new (), book_ready_cb, addr);
+		e_book_load_default_book (e_book_new (), book_ready_cb, addr);
 	}
 
 	addr->query_idle_tag = 0;

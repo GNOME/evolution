@@ -43,6 +43,7 @@ e_addressbook_error_dialog (const gchar *msg, EBookStatus status)
 		N_("Authentication Failed"),
 		N_("Authentication Required"),
 		N_("TLS not Available"),
+		N_("Addressbook does not exist"),
 		N_("Other error")
 	};
 	char *error_msg;

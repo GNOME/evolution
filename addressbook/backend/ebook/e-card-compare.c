@@ -668,12 +668,12 @@ e_card_locate_match (ECard *card, ECardMatchQueryCallback cb, gpointer closure)
 	info->closure = closure;
 	info->avoid = NULL;
 
-	e_book_use_local_address_book (use_common_book_cb, info);
+	e_book_use_default_book (use_common_book_cb, info);
 }
 
 /**
  * e_card_locate_match_full:
- * @book: The book to look in.  If this is NULL, use the main local
+ * @book: The book to look in.  If this is NULL, use the default
  * addressbook.
  * @card: The card to compare to.
  * @avoid: A list of cards to not match.  These will not show up in the search.
@@ -701,6 +701,6 @@ e_card_locate_match_full (EBook *book, ECard *card, GList *avoid, ECardMatchQuer
 	if (book)
 		use_common_book_cb (book, info);
 	else
-		e_book_use_local_address_book (use_common_book_cb, info);
+		e_book_use_default_book (use_common_book_cb, info);
 }
 

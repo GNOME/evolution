@@ -395,7 +395,7 @@ owner_unset_cb (EvolutionShellComponent *shell_component,
 
 /* FIXME We should perhaps take the time to figure out if the book is editable. */
 static void
-local_addressbook_cb (EBook *book, gpointer closure)
+new_item_cb (EBook *book, gpointer closure)
 {
 	gboolean is_list = GPOINTER_TO_INT (closure);
 	if (book == NULL)
@@ -404,15 +404,6 @@ local_addressbook_cb (EBook *book, gpointer closure)
 		e_addressbook_show_contact_list_editor (book, e_card_new(""), TRUE, TRUE);
 	else
 		e_addressbook_show_contact_editor (book, e_card_new(""), TRUE, TRUE);
-}
-
-static void
-nonlocal_addressbook_cb (EBook *book, EBookStatus status, gpointer closure)
-{
-	if (status == E_BOOK_STATUS_SUCCESS)
-		local_addressbook_cb (book, closure);
-	else
-		local_addressbook_cb (NULL, closure);
 }
 
 static void
@@ -432,18 +423,10 @@ user_create_new_item_cb (EvolutionShellComponent *shell_component,
 		return;
 	}
 	if (IS_CONTACT_TYPE (parent_folder_type)) {
-		EBook *book;
-		gchar *uri;
-
-		book = e_book_new ();
-		uri = g_strdup_printf ("%s/addressbook.db", parent_folder_physical_uri);
-
-		if (addressbook_load_uri (book, uri, nonlocal_addressbook_cb, GINT_TO_POINTER (is_contact_list)) == 0)
-			g_warning ("Couldn't load addressbook %s", uri);
-
-		g_free (uri);
+		e_book_use_address_book_by_uri (parent_folder_physical_uri,
+						new_item_cb, GINT_TO_POINTER (is_contact_list));
 	} else {
-		e_book_use_local_address_book (local_addressbook_cb, GINT_TO_POINTER (is_contact_list));
+		e_book_use_default_book (new_item_cb, GINT_TO_POINTER (is_contact_list));
 	}
 }
 
