@@ -157,8 +157,6 @@ struct psinfo
 	gboolean use_24_hour_format;
 	double row_height;
 	double header_row_height;
-
-	ECalModelComponent *comp_data;
 };
 
 struct ptinfo
@@ -881,7 +879,7 @@ print_day_background (GnomePrintContext *pc, GnomeCalendar *gcal,
 
 /* This adds one event to the view, adding it to the appropriate array. */
 static gint
-print_day_add_event (ECalComponent *comp,
+print_day_add_event (ECalModelComponent *comp_data,
 		     time_t	    start,
 		     time_t	    end,
 		     gint	    days_shown,
@@ -890,68 +888,67 @@ print_day_add_event (ECalComponent *comp,
 		     GArray	  **events)
 
 {
-/* 	icaltimezone *zone = get_timezone (); */
-/* 	EDayViewEvent event; */
-/* 	gint day, offset; */
-/* 	struct icaltimetype start_tt, end_tt; */
+	icaltimezone *zone = get_timezone ();
+	EDayViewEvent event;
+	gint day, offset;
+	struct icaltimetype start_tt, end_tt;
 
-/* #if 0 */
-/* 	g_print ("Day view lower: %s", ctime (&day_starts[0])); */
-/* 	g_print ("Day view upper: %s", ctime (&day_starts[days_shown])); */
-/* 	g_print ("Event start: %s", ctime (&start)); */
-/* 	g_print ("Event end  : %s\n", ctime (&end)); */
-/* #endif */
+#if 0
+	g_print ("Day view lower: %s", ctime (&day_starts[0]));
+	g_print ("Day view upper: %s", ctime (&day_starts[days_shown]));
+	g_print ("Event start: %s", ctime (&start));
+	g_print ("Event end  : %s\n", ctime (&end));
+#endif
 
-/* 	/\* Check that the event times are valid. *\/ */
-/* 	g_return_val_if_fail (start <= end, -1); */
-/* 	g_return_val_if_fail (start < day_starts[days_shown], -1); */
-/* 	g_return_val_if_fail (end > day_starts[0], -1); */
+	/* Check that the event times are valid. */
+	g_return_val_if_fail (start <= end, -1);
+	g_return_val_if_fail (start < day_starts[days_shown], -1);
+	g_return_val_if_fail (end > day_starts[0], -1);
 
-/* 	start_tt = icaltime_from_timet_with_zone (start, FALSE, zone); */
-/* 	end_tt = icaltime_from_timet_with_zone (end, FALSE, zone); */
+	start_tt = icaltime_from_timet_with_zone (start, FALSE, zone);
+	end_tt = icaltime_from_timet_with_zone (end, FALSE, zone);
 
-/* 	event.comp = comp; */
-/* 	g_object_ref (comp); */
-/* 	event.start = start; */
-/* 	event.end = end; */
-/* 	event.canvas_item = NULL; */
+	event.comp_data = comp_data;
+	event.start = start;
+	event.end = end;
+	event.canvas_item = NULL;
 
-/* 	/\* Calculate the start & end minute, relative to the top of the */
-/* 	   display. *\/ */
-/* 	/\*offset = day_view->first_hour_shown * 60 */
-/* 	  + day_view->first_minute_shown;*\/ */
-/* 	offset = 0; */
-/* 	event.start_minute = start_tt.hour * 60 + start_tt.minute - offset; */
-/* 	event.end_minute = end_tt.hour * 60 + end_tt.minute - offset; */
+	/* Calculate the start & end minute, relative to the top of the
+	   display. */
+	/*offset = day_view->first_hour_shown * 60
+	  + day_view->first_minute_shown;*/
+	offset = 0;
+	event.start_minute = start_tt.hour * 60 + start_tt.minute - offset;
+	event.end_minute = end_tt.hour * 60 + end_tt.minute - offset;
 
-/* 	event.start_row_or_col = 0; */
-/* 	event.num_columns = 0; */
+	event.start_row_or_col = 0;
+	event.num_columns = 0;
 
-/* 	/\* Find out which array to add the event to. *\/ */
-/* 	for (day = 0; day < days_shown; day++) { */
-/* 		if (start >= day_starts[day] && end <= day_starts[day + 1]) { */
+	/* Find out which array to add the event to. */
+	for (day = 0; day < days_shown; day++) {
+		if (start >= day_starts[day] && end <= day_starts[day + 1]) {
 
-/* 			/\* Special case for when the appointment ends at */
-/* 			   midnight, i.e. the start of the next day. *\/ */
-/* 			if (end == day_starts[day + 1]) { */
+			/* Special case for when the appointment ends at
+			   midnight, i.e. the start of the next day. */
+			if (end == day_starts[day + 1]) {
 
-/* 				/\* If the event last the entire day, then we */
-/* 				   skip it here so it gets added to the top */
-/* 				   canvas. *\/ */
-/* 				if (start == day_starts[day]) */
-/* 				    break; */
+				/* If the event last the entire day, then we
+				   skip it here so it gets added to the top
+				   canvas. */
+				if (start == day_starts[day])
+				    break;
 
-/* 				event.end_minute = 24 * 60; */
-/* 			} */
+				event.end_minute = 24 * 60;
+			}
 
-/* 			g_array_append_val (events[day], event); */
-/* 			return day; */
-/* 		} */
-/* 	} */
+			g_array_append_val (events[day], event);
+			return day;
+		}
+	}
 
-/* 	/\* The event wasn't within one day so it must be a long event, */
-/* 	   i.e. shown in the top canvas. *\/ */
-/* 	g_array_append_val (long_events, event); */
+	/* The event wasn't within one day so it must be a long event,
+	   i.e. shown in the top canvas. */
+	g_array_append_val (long_events, event);
 	return E_DAY_VIEW_LONG_EVENT;
 }
 
@@ -960,9 +957,10 @@ static gboolean
 print_day_details_cb (ECalComponent *comp, time_t istart, time_t iend,
 		      gpointer data)
 {
-	struct pdinfo *pdi = (struct pdinfo *)data;
+	ECalModelGenerateInstancesData *mdata = (ECalModelGenerateInstancesData *) data;
+	struct pdinfo *pdi = (struct pdinfo *) mdata->cb_data;
 
-	print_day_add_event (comp, istart, iend,
+	print_day_add_event (mdata->comp_data, istart, iend,
 			     pdi->days_shown, pdi->day_starts,
 			     pdi->long_events, pdi->events);
 
@@ -990,7 +988,7 @@ static void
 print_day_long_event (GnomePrintContext *pc, GnomeFont *font,
 		      double left, double right, double top, double bottom,
 		      double row_height, EDayViewEvent *event,
-		      struct pdinfo *pdi)
+		      struct pdinfo *pdi, ECalModel *model)
 {
 	const gchar *summary;
 	double x1, x2, y1, y2;
@@ -998,6 +996,7 @@ print_day_long_event (GnomePrintContext *pc, GnomeFont *font,
 	char *text;
 	char buffer[32];
 	struct tm date_tm;
+	double red, green, blue;
 
 	/* If the event starts before the first day being printed, draw a
 	   triangle. (Note that I am assuming we are just showing 1 day at
@@ -1014,7 +1013,9 @@ print_day_long_event (GnomePrintContext *pc, GnomeFont *font,
 	x2 = right - 10;
 	y1 = top - event->start_row_or_col * row_height - 4;
 	y2 = y1 - row_height + 4;
-	print_border_with_triangles (pc, x1, x2, y1, y2, 0.5, 0.95, 0.95, 0.95,
+	red = green = blue = 0.95;
+	e_cal_model_get_rgb_color_for_component (model, event->comp_data, &red, &green, &blue);
+	print_border_with_triangles (pc, x1, x2, y1, y2, 0.5, red, green, blue,
 				     left_triangle_width,
 				     right_triangle_width);
 
@@ -1069,7 +1070,7 @@ print_day_long_event (GnomePrintContext *pc, GnomeFont *font,
 static void
 print_day_event (GnomePrintContext *pc, GnomeFont *font,
 		 double left, double right, double top, double bottom,
-		 EDayViewEvent *event, struct pdinfo *pdi)
+		 EDayViewEvent *event, struct pdinfo *pdi, ECalModel *model)
 {
 	const gchar *summary;
 	double x1, x2, y1, y2, col_width, row_height;
@@ -1077,6 +1078,7 @@ print_day_event (GnomePrintContext *pc, GnomeFont *font,
 	char *text, start_buffer[32], end_buffer[32];
 	gboolean display_times = FALSE, free_text = FALSE;
 	struct tm date_tm;
+	double red, green, blue;
 
 	if ((event->start_minute >= pdi->end_minute_offset)
 	    || (event->end_minute <= pdi->start_minute_offset))
@@ -1107,7 +1109,9 @@ print_day_event (GnomePrintContext *pc, GnomeFont *font,
 		 x1, y1, x2, y2, row_height, start_row, top, pdi->rows);
 #endif
 
-	print_border (pc, x1, x2, y1, y2, 1.0, 0.95);
+	red = green = blue = 0.95;
+	e_cal_model_get_rgb_color_for_component (model, event->comp_data, &red, &green, &blue);
+	print_border_rgb (pc, x1, x2, y1, y2, 1.0, red, green, blue);
 
 	summary = icalcomponent_get_summary (event->comp_data->icalcomp);
 	text = summary ? (char*) summary : "";
@@ -1149,13 +1153,13 @@ print_day_details (GnomePrintContext *pc, GnomeCalendar *gcal, time_t whence,
 		   double left, double right, double top, double bottom)
 {
 	icaltimezone *zone = get_timezone ();
-	ECal *client;
 	EDayViewEvent *event;
 	GnomeFont *font;
 	time_t start, end;
 	struct pdinfo pdi;
 	gint rows_in_top_display, i;
 	double font_size, max_font_size;
+	ECalModel *model = gnome_calendar_get_calendar_model (gcal);
 
 	start = time_day_begin_with_zone (whence, zone);
 	end = time_day_end_with_zone (start, zone);
@@ -1176,8 +1180,7 @@ print_day_details (GnomePrintContext *pc, GnomeCalendar *gcal, time_t whence,
 	pdi.use_24_hour_format = calendar_config_get_24_hour_format ();
 
 	/* Get the events from the server. */
-	client = gnome_calendar_get_default_client (gcal);
-	e_cal_generate_instances (client, start, end, print_day_details_cb, &pdi);
+	e_cal_model_generate_instances (model, start, end, print_day_details_cb, &pdi);
 	qsort (pdi.long_events->data, pdi.long_events->len,
 	       sizeof (EDayViewEvent), e_day_view_event_sort_func);
 	qsort (pdi.events[0]->data, pdi.events[0]->len,
@@ -1215,7 +1218,7 @@ print_day_details (GnomePrintContext *pc, GnomeCalendar *gcal, time_t whence,
 	for (i = 0; i < pdi.long_events->len; i++) {
 		event = &g_array_index (pdi.long_events, EDayViewEvent, i);
 		print_day_long_event (pc, font, left, right, top, bottom,
-				      DAY_VIEW_ROW_HEIGHT, event, &pdi);
+				      DAY_VIEW_ROW_HEIGHT, event, &pdi, model);
 	}
 	g_object_unref (font);
 
@@ -1252,7 +1255,7 @@ print_day_details (GnomePrintContext *pc, GnomeCalendar *gcal, time_t whence,
 	for (i = 0; i < pdi.events[0]->len; i++) {
 		event = &g_array_index (pdi.events[0], EDayViewEvent, i);
 		print_day_event (pc, font, left, right, top, bottom,
-				 event, &pdi);
+				 event, &pdi, model);
 	}
 	g_object_unref (font);
 

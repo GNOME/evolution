@@ -1,3 +1,12 @@
+2004-01-19  Radek Doulik  <rodo@ximian.com>
+
+	* gui/print.c (print_day_add_event): uncomment and use
+	ECalModelComponent
+	(print_day_details): use e_cal_model_generate_instances
+	(print_day_details_cb): use ECalModelGenerateInstancesData
+	(print_day_long_event): use event color
+	(print_day_event): ditto
+
 2004-01-18  Radek Doulik  <rodo@ximian.com>
 
 	* gui/print.c (print_border_with_triangles): use rgb color as
