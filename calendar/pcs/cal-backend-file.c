@@ -1070,8 +1070,11 @@ cal_backend_file_get_timezone_object (CalBackend *backend, const char *tzid)
 	g_assert (priv->comp_uid_hash != NULL);
 
 	zone = icalcomponent_get_timezone (priv->icalcomp, tzid);
-	if (!zone)
-		return NULL;
+	if (!zone) {
+		zone = icaltimezone_get_builtin_timezone_from_tzid (tzid);
+		if (!zone)
+			return NULL;
+	}
 
 	icalcomp = icaltimezone_get_component (zone);
 	if (!icalcomp)
@@ -1080,9 +1083,9 @@ cal_backend_file_get_timezone_object (CalBackend *backend, const char *tzid)
 	ical_string = icalcomponent_as_ical_string (icalcomp);
 	/* We dup the string; libical owns that memory. */
 	if (ical_string)
-	  return g_strdup (ical_string);
+		return g_strdup (ical_string);
 	else
-	  return NULL;
+		return NULL;
 }
 
 /* Builds a list of UIDs from a list of CalComponent objects */
@@ -1920,6 +1923,7 @@ cal_backend_file_get_timezone (CalBackend *backend, const char *tzid)
 {
 	CalBackendFile *cbfile;
 	CalBackendFilePrivate *priv;
+	icaltimezone *zone;
 
 	cbfile = CAL_BACKEND_FILE (backend);
 	priv = cbfile->priv;
@@ -1927,9 +1931,14 @@ cal_backend_file_get_timezone (CalBackend *backend, const char *tzid)
 	g_return_val_if_fail (priv->icalcomp != NULL, NULL);
 
 	if (!strcmp (tzid, "UTC"))
-		return icaltimezone_get_utc_timezone ();
-	else
-		return icalcomponent_get_timezone (priv->icalcomp, tzid);
+	        zone = icaltimezone_get_utc_timezone ();
+	else {
+		zone = icalcomponent_get_timezone (priv->icalcomp, tzid);
+		if (!zone)
+			zone = icaltimezone_get_builtin_timezone_from_tzid (tzid);
+	}
+
+	return zone;
 }
 
 
