@@ -171,6 +171,17 @@
 
         </submenu>
 
+        <submenu name="MessageHide" _label="Hide Messages">
+
+          <menuitem name="MessageHideClear" verb="" _label="Show _All messages"/>
+          <menuitem/>
+          <menuitem name="MessageHideSelected" verb="" _label="Hide _Selected messages"/>
+          <menuitem/>
+          <menuitem name="MessageHideRead" verb="" _label="Hide _Read messages"/>
+          <menuitem name="MessageHideDeleted" verb="" _label="Hide _Deleted messages"/>
+
+        </submenu>
+
       </submenu>
       
       <submenu name="Folder" _label="F_older">

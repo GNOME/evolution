@@ -1,3 +1,7 @@
+2000-12-14  Not Zed  <NotZed@HelixCode.com>
+
+	* evolution-mail.xml: Added message hiding items.
+
 2000-12-15  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* evolution-message-composer.xml: Added Security menu
