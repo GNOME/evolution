@@ -3702,7 +3702,7 @@ msgstr "U heeft veranderingen aangebracht in deze afspraak, maar deze nog niet o
 #: calendar/calendar-errors.xml.h:73 calendar/calendar-errors.xml.h:81
 #: composer/mail-composer-errors.xml.h:33
 msgid "Discard Changes"
-msgstr "Veranderingen verwerpen"
+msgstr "Wijzigingen verwerpen"
 
 #: calendar/calendar-errors.xml.h:74 calendar/calendar-errors.xml.h:82
 msgid "Save Changes"
