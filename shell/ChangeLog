@@ -1,3 +1,12 @@
+2002-08-16  Dan Winship  <danw@ximian.com>
+
+	* evolution-folder-selector-button.c
+	(evolution_folder_selector_button_set_uri): If the selected URI is
+	of an invalid type, don't accept it.
+	(evolution_folder_selector_button_get_folder): Returns the
+	selected folder.
+	(various): updates to support get_folder, and to simplify.
+
 2002-08-09  Dan Winship  <danw@ximian.com>
 
 	* e-shell-shared-folder-picker-dialog.c (create_progress_dialog):

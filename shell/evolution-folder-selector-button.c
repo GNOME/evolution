@@ -34,8 +34,9 @@
 struct _EvolutionFolderSelectorButtonPrivate {
 	EvolutionShellClient *shell_client;
 	GNOME_Evolution_StorageRegistry corba_storage_registry;
+	GNOME_Evolution_Folder *selected_folder;
 	GtkWidget *icon, *label;
-	char *title, **possible_types, *uri;
+	char *title, **possible_types;
 };
 
 enum {
@@ -58,6 +59,9 @@ get_folder_for_uri (EvolutionFolderSelectorButton *folder_selector_button,
 	CORBA_Environment ev;
 	GNOME_Evolution_Folder *folder;
 
+	if (!uri)
+		return NULL;
+
 	CORBA_exception_init (&ev);
 	folder = GNOME_Evolution_StorageRegistry_getFolderByUri (
 		priv->corba_storage_registry, uri, &ev);
@@ -69,8 +73,8 @@ get_folder_for_uri (EvolutionFolderSelectorButton *folder_selector_button,
 }
 
 static void
-set_icon_and_label (EvolutionFolderSelectorButton *folder_selector_button,
-		    GNOME_Evolution_Folder *folder)
+set_folder (EvolutionFolderSelectorButton *folder_selector_button,
+	    GNOME_Evolution_Folder *folder)
 {
 	GtkWidget *w = GTK_WIDGET (folder_selector_button);
 	EvolutionFolderSelectorButtonPrivate *priv;
@@ -79,6 +83,10 @@ set_icon_and_label (EvolutionFolderSelectorButton *folder_selector_button,
 	const char *p;
 
 	priv = folder_selector_button->priv;
+
+	if (priv->selected_folder)
+		CORBA_free (priv->selected_folder);
+	priv->selected_folder = folder;
 
 	if (!folder) {
 		bonobo_ui_toolbar_icon_clear (BONOBO_UI_TOOLBAR_ICON (priv->icon));
@@ -128,6 +136,7 @@ clicked (GtkButton *button)
 	EvolutionFolderSelectorButtonPrivate *priv;
 	GNOME_Evolution_Folder *return_folder;
 	GtkWindow *parent_window;
+	char *initial_uri;
 
 	parent_window = (GtkWindow *)
 		gtk_widget_get_ancestor (GTK_WIDGET (button),
@@ -139,13 +148,18 @@ clicked (GtkButton *button)
 	folder_selector_button = EVOLUTION_FOLDER_SELECTOR_BUTTON (button);
 	priv = folder_selector_button->priv;
 
+	if (priv->selected_folder)
+		initial_uri = priv->selected_folder->evolutionUri;
+	else
+		initial_uri = "";
+
 	gtk_signal_emit (GTK_OBJECT (folder_selector_button),
 			 signals[POPPED_UP]);
 
 	evolution_shell_client_user_select_folder (priv->shell_client,
 						   parent_window,
 						   priv->title,
-						   priv->uri ? priv->uri : "",
+						   initial_uri,
 						   (const char **)priv->possible_types,
 						   &return_folder);
 
@@ -158,13 +172,10 @@ clicked (GtkButton *button)
 		return;
 	}
 
-	g_free (priv->uri);
-	priv->uri = g_strdup (return_folder->evolutionUri);
-	set_icon_and_label (folder_selector_button, return_folder);
+	set_folder (folder_selector_button, return_folder);
 
 	gtk_signal_emit (GTK_OBJECT (folder_selector_button),
 			 signals[SELECTED], return_folder);
-	CORBA_free (return_folder);
 }
 
 
@@ -185,7 +196,9 @@ destroy (GtkObject *object)
 	for (i = 0; priv->possible_types[i]; i++)
 		g_free (priv->possible_types[i]);
 	g_free (priv->possible_types);
-	g_free (priv->uri);
+
+	if (priv->selected_folder)
+		CORBA_free (priv->selected_folder);
 
 	g_free (priv);
 
@@ -251,6 +264,7 @@ init (EvolutionFolderSelectorButton *folder_selector_button)
 }
 
 
+
 /**
  * evolution_folder_selector_button_construct:
  * @folder_selector_button: 
@@ -272,28 +286,22 @@ evolution_folder_selector_button_construct (EvolutionFolderSelectorButton *folde
 	EvolutionFolderSelectorButtonPrivate *priv;
 	GNOME_Evolution_Folder *folder;
 	int count;
-	
+
 	g_return_if_fail (EVOLUTION_IS_FOLDER_SELECTOR_BUTTON (folder_selector_button));
 	g_return_if_fail (EVOLUTION_IS_SHELL_CLIENT (shell_client));
 	g_return_if_fail (possible_types != NULL);
-	
+
 	priv = folder_selector_button->priv;
-	
+
 	priv->shell_client = shell_client;
 	bonobo_object_ref (BONOBO_OBJECT (shell_client));
 	priv->corba_storage_registry = evolution_shell_client_get_storage_registry_interface (shell_client);
-	
+
 	priv->title = g_strdup (title);
-	priv->uri = g_strdup (initial_uri);
-	
-	if (initial_uri)
-		folder = get_folder_for_uri (folder_selector_button, initial_uri);
-	else
-		folder = NULL;
-	set_icon_and_label (folder_selector_button, folder);
-	if (folder)
-		CORBA_free (folder);
-	
+
+	folder = get_folder_for_uri (folder_selector_button, initial_uri);
+	set_folder (folder_selector_button, folder);
+
 	for (count = 0; possible_types[count]; count++)
 		;
 	priv->possible_types = g_new (char *, count + 1);
@@ -319,9 +327,9 @@ evolution_folder_selector_button_new (EvolutionShellClient *shell_client,
 				      const char *possible_types[])
 {
 	EvolutionFolderSelectorButton *folder_selector_button;
-	
+
 	folder_selector_button = gtk_type_new (evolution_folder_selector_button_get_type ());
-	
+
 	evolution_folder_selector_button_construct (folder_selector_button,
 						    shell_client,
 						    title,
@@ -330,28 +338,65 @@ evolution_folder_selector_button_new (EvolutionShellClient *shell_client,
 	return (GtkWidget *)folder_selector_button;
 }
 
-
-void
-evolution_folder_selector_button_set_uri (EvolutionFolderSelectorButton *button, const char *uri)
+/**
+ * evolution_folder_selector_button_set_uri:
+ * @folder_selector_button:
+ * @uri: the URI (evolution: or physical) to select, or %NULL
+ *
+ * Attempts to make @folder_selector_button select @uri. If @uri
+ * doesn't point to a folder, or points to a folder of an incorrect
+ * type for this button, then the selected URI will be unchanged.
+ *
+ * If @uri is %NULL, the button will be returned to an unselected
+ * state.
+ *
+ * Return value: whether or not the URI was successfully set.
+ **/
+gboolean
+evolution_folder_selector_button_set_uri (EvolutionFolderSelectorButton *folder_selector_button,
+					  const char *uri)
 {
 	EvolutionFolderSelectorButtonPrivate *priv;
 	GNOME_Evolution_Folder *folder;
-	
-	g_return_if_fail (EVOLUTION_IS_FOLDER_SELECTOR_BUTTON (button));
-	
-	priv = button->priv;
-	
-	g_free (priv->uri);
-	priv->uri = g_strdup (uri);
-	
-	if (uri)
-		folder = get_folder_for_uri (button, uri);
-	else
-		folder = NULL;
-	
-	set_icon_and_label (button, folder);
-	if (folder)
-		CORBA_free (folder);
+	int i;
+
+	g_return_val_if_fail (EVOLUTION_IS_FOLDER_SELECTOR_BUTTON (folder_selector_button), FALSE);
+	g_return_val_if_fail (uri != NULL, FALSE);
+
+	priv = folder_selector_button->priv;
+
+	if (!uri) {
+		set_folder (folder_selector_button, NULL);
+		return TRUE;
+	}
+
+	folder = get_folder_for_uri (folder_selector_button, uri);
+	if (!folder)
+		return FALSE;
+
+	for (i = 0; priv->possible_types[i]; i++) {
+		if (!strcmp (folder->type, priv->possible_types[i])) {
+			set_folder (folder_selector_button, folder);
+			return TRUE;
+		}
+	}
+
+	CORBA_free (folder);
+	return FALSE;
+}
+
+/**
+ * evolution_folder_selector_button_get_folder:
+ * @folder_selector_button:
+ *
+ * Return value: the currently-selected folder, or %NULL
+ **/
+GNOME_Evolution_Folder *
+evolution_folder_selector_button_get_folder (EvolutionFolderSelectorButton *folder_selector_button)
+{
+	g_return_val_if_fail (EVOLUTION_IS_FOLDER_SELECTOR_BUTTON (folder_selector_button), NULL);
+
+	return folder_selector_button->priv->selected_folder;
 }
 
 
