@@ -42,6 +42,8 @@
 
 #include <gal/menus/gal-view-etable.h>
 #include <gal/menus/gal-view-factory-etable.h>
+#include <gal/menus/gal-view-instance.h>
+#include "widgets/menus/gal-view-menus.h"
 
 #include <camel/camel-mime-message.h>
 #include <camel/camel-stream.h>
@@ -127,6 +129,9 @@ struct _EMFolderViewPrivate {
 
 	GtkWidget *invisible;
 	char *selection_uri;
+
+	GalViewInstance *view_instance;
+	GalViewMenus *view_menus;
 };
 
 static GtkVBoxClass *emfv_parent;
@@ -155,6 +160,7 @@ emfv_init(GObject *o)
 	p = emfv->priv = g_malloc0(sizeof(struct _EMFolderViewPrivate));
 
 	emfv->statusbar_active = TRUE;
+	emfv->list_active = FALSE;
 	
 	emfv->ui_files = g_slist_append(NULL, EVOLUTION_UIDIR "/evolution-mail-message.xml");
 	emfv->ui_app_name = "evolution-mail";
@@ -378,8 +384,6 @@ em_folder_view_open_selected(EMFolderView *emfv)
 }
 
 /* ******************************************************************************** */
-static GalViewCollection *collection = NULL;
-
 static void
 emfv_list_display_view(GalViewInstance *instance, GalView *view, EMFolderView *emfv)
 {
@@ -388,10 +392,12 @@ emfv_list_display_view(GalViewInstance *instance, GalView *view, EMFolderView *e
 }
 
 static void
-emfv_create_view_instance(EMFolderView *emfv)
+emfv_setup_view_instance(EMFolderView *emfv)
 {
+	struct _EMFolderViewPrivate *p = emfv->priv;
 	gboolean outgoing;
 	char *id;
+	static GalViewCollection *collection = NULL;
 
 	g_assert(emfv->folder);
 	g_assert(emfv->folder_uri);
@@ -421,27 +427,32 @@ emfv_create_view_instance(EMFolderView *emfv)
 	
 		gal_view_collection_load (collection);
 	}
-	
-	if (emfv->view_instance) {
-		g_object_unref(emfv->view_instance);
-		emfv->view_instance = NULL;
+
+	if (p->view_instance) {
+		g_object_unref(p->view_instance);
+		p->view_instance = NULL;
 	}
-	
+
+	if (p->view_menus) {
+		g_object_unref(p->view_menus);
+		p->view_menus = NULL;
+	}
+
 	outgoing = em_utils_folder_is_drafts (emfv->folder, emfv->folder_uri)
 		|| em_utils_folder_is_sent (emfv->folder, emfv->folder_uri)
 		|| em_utils_folder_is_outbox (emfv->folder, emfv->folder_uri);
 	
 	/* TODO: should this go through mail-config api? */
 	id = mail_config_folder_to_safe_url (emfv->folder);
-	emfv->view_instance = gal_view_instance_new (collection, id);
+	p->view_instance = gal_view_instance_new (collection, id);
 	g_free (id);
 	
 	if (outgoing)
-		gal_view_instance_set_default_view (emfv->view_instance, "As_Sent_Folder");
+		gal_view_instance_set_default_view(p->view_instance, "As_Sent_Folder");
 	
-	gal_view_instance_load (emfv->view_instance);
+	gal_view_instance_load(p->view_instance);
 	
-	if (!gal_view_instance_exists (emfv->view_instance)) {
+	if (!gal_view_instance_exists(p->view_instance)) {
 		struct stat st;
 		char *path;
 		
@@ -461,15 +472,20 @@ emfv_create_view_instance(EMFolderView *emfv)
 			gal_view_etable_set_state (GAL_VIEW_ETABLE (view), state);
 			g_object_unref (state);
 			
-			gal_view_instance_set_custom_view (emfv->view_instance, view);
+			gal_view_instance_set_custom_view(p->view_instance, view);
 			g_object_unref (view);
 		}
 		
 		g_free (path);
 	}
+
+	g_signal_connect(p->view_instance, "display_view", G_CALLBACK(emfv_list_display_view), emfv);
+	emfv_list_display_view(p->view_instance, gal_view_instance_get_current_view(p->view_instance), emfv);
 	
-	g_signal_connect (emfv->view_instance, "display_view", G_CALLBACK (emfv_list_display_view), emfv);
-	emfv_list_display_view (emfv->view_instance, gal_view_instance_get_current_view (emfv->view_instance), emfv);
+	if (emfv->list_active && emfv->uic) {
+		p->view_menus = gal_view_menus_new(p->view_instance);
+		gal_view_menus_apply(p->view_menus, emfv->uic, NULL);
+	}
 }
 
 /* ********************************************************************** */
@@ -506,7 +522,7 @@ emfv_set_folder(EMFolderView *emfv, CamelFolder *folder, const char *uri)
 		camel_object_ref(folder);
 		mail_refresh_folder(folder, NULL, NULL);
 		/* We need to set this up to get the right view options for the message-list, even if we're not showing it */
-		emfv_create_view_instance(emfv);
+		emfv_setup_view_instance(emfv);
 	}
 	
 	emfv_enable_menus(emfv);
@@ -1708,6 +1724,8 @@ emfv_charset_changed(BonoboUIComponent *uic, const char *path, Bonobo_UIComponen
 static void
 emfv_activate(EMFolderView *emfv, BonoboUIComponent *uic, int act)
 {
+	struct _EMFolderViewPrivate *p = emfv->priv;
+
 	if (act) {
 		em_format_mode_t style;
 		gboolean state;
@@ -1744,7 +1762,7 @@ emfv_activate(EMFolderView *emfv, BonoboUIComponent *uic, int act)
 
 		/* We need to set this up to get the right view options for the message-list, even if we're not showing it */
 		if (emfv->folder)
-			emfv_create_view_instance(emfv);
+			emfv_setup_view_instance(emfv);
 	} else {
 		const BonoboUIVerb *v;
 
@@ -1752,9 +1770,14 @@ emfv_activate(EMFolderView *emfv, BonoboUIComponent *uic, int act)
 		for (v = &emfv_message_verbs[0]; v->cname; v++)
 			bonobo_ui_component_remove_verb(uic, v->cname);
 
-		if (emfv->view_instance) {
-			g_object_unref(emfv->view_instance);
-			emfv->view_instance = NULL;
+		if (p->view_instance) {
+			g_object_unref(p->view_instance);
+			p->view_instance = NULL;
+		}
+
+		if (p->view_menus) {
+			g_object_unref(p->view_menus);
+			p->view_menus = NULL;
 		}
 
 		if (emfv->folder)

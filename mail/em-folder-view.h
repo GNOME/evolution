@@ -32,9 +32,6 @@ extern "C" {
 #pragma }
 #endif /* __cplusplus */
 
-/* @#$@#$Q@#$@Q!EQ#@$!~!!! GAL, defines its structs anonymously so we need to include this directly, sigh */
-#include <gal/menus/gal-view-instance.h>
-
 struct _MessageList;
 struct _EMFormatHTMLDisplay;
 struct _CamelFolder;
@@ -64,7 +61,6 @@ struct _EMFolderView {
 	struct _EMFolderViewPrivate *priv;
 
 	struct _MessageList *list;
-	GalViewInstance *view_instance;
 
 	struct _EMFormatHTMLDisplay *preview;
 
@@ -89,6 +85,7 @@ struct _EMFolderView {
 	int preview_active:1;	/* is preview being used */
 	int statusbar_active:1; /* should we manage the statusbar messages ourselves? */
 	int hide_deleted:1;
+	int list_active:1;	/* we actually showing the list? */
 };
 
 struct _EMFolderViewClass {

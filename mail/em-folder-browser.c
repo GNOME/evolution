@@ -66,9 +66,6 @@
 #include <widgets/misc/e-filter-bar.h>
 #include <camel/camel-search-private.h>
 
-/* gal view crap */
-#include "widgets/menus/gal-view-menus.h"
-
 #include "e-util/e-dialog-utils.h"
 #include "em-utils.h"
 #include "em-composer-utils.h"
@@ -90,8 +87,6 @@ struct _EMFolderBrowserPrivate {
 	GtkWidget *preview;	/* container for message display */
 
 	GtkWidget *subscribe_editor;
-
-	GalViewMenus *view_menus;
 
 	guint search_menu_activated_id;
 	guint search_activated_id;
@@ -169,6 +164,7 @@ emfb_init(GObject *o)
 	p = emfb->priv = g_malloc0(sizeof(struct _EMFolderBrowserPrivate));
 
 	emfb->view.preview_active = TRUE;
+	emfb->view.list_active = TRUE;
 
 	g_slist_free(emfb->view.ui_files);
 	emfb->view.ui_files = g_slist_append(NULL, EVOLUTION_UIDIR "/evolution-mail-global.xml");
@@ -861,25 +857,6 @@ emfb_list_built (MessageList *ml, EMFolderBrowser *emfb)
 	emfb->priv->idle_scroll_id = g_timeout_add_full (G_PRIORITY_LOW, 250, (GSourceFunc) scroll_idle_cb, emfb, NULL);
 }
 
-/* TODO: All this mess should sit directly on MessageList, but it would
-   need to become BonoboUIComponent aware ... */
-static void
-emfb_create_view_menus(EMFolderBrowser *emfb, BonoboUIComponent *uic)
-{
-	struct _EMFolderBrowserPrivate *p = emfb->priv;
-
-	if (emfb->view.view_instance == NULL)
-		return;
-
-	if (p->view_menus) {
-		g_object_unref(p->view_menus);
-		p->view_menus = NULL;
-	}
-
-	p->view_menus = gal_view_menus_new (emfb->view.view_instance);
-	gal_view_menus_apply(p->view_menus, uic, NULL);
-}
-
 static void
 emfb_set_folder(EMFolderView *emfv, CamelFolder *folder, const char *uri)
 {
@@ -950,10 +927,6 @@ emfb_set_folder(EMFolderView *emfv, CamelFolder *folder, const char *uri)
 		
 		if (emfv->list->cursor_uid == NULL && emfb->priv->list_built_id == 0)
 			p->list_built_id = g_signal_connect(emfv->list, "message_list_built", G_CALLBACK (emfb_list_built), emfv);
-		
-		/* NOTE: This relies on our parent class setting up emfv->view_instance */
-		if (emfv->uic)
-			emfb_create_view_menus (emfb, emfv->uic);
 	}
 
 	message_list_thaw(emfv->list);
@@ -962,8 +935,6 @@ emfb_set_folder(EMFolderView *emfv, CamelFolder *folder, const char *uri)
 static void
 emfb_activate(EMFolderView *emfv, BonoboUIComponent *uic, int act)
 {
-	struct _EMFolderBrowserPrivate *p = ((EMFolderBrowser *)emfv)->priv;
-
 	if (act) {
 		GConfClient *gconf;
 		gboolean state;
@@ -1038,20 +1009,11 @@ emfb_activate(EMFolderView *emfv, BonoboUIComponent *uic, int act)
 
 		if (((EMFolderBrowser *)emfv)->search)
 			e_search_bar_set_ui_component((ESearchBar *)((EMFolderBrowser *)emfv)->search, uic);
-
-		/* NOTE: This relies on our parent class setting up emfv->view_instance */
-		if (emfv->folder)
-			emfb_create_view_menus((EMFolderBrowser *)emfv, uic);
 	} else {
 		const BonoboUIVerb *v;
 		
 		for (v = &emfb_verbs[0]; v->cname; v++)
 			bonobo_ui_component_remove_verb(uic, v->cname);
-
-		if (p->view_menus) {
-			g_object_unref(p->view_menus);
-			p->view_menus = NULL;
-		}
 
 		if (((EMFolderBrowser *)emfv)->search)
 			e_search_bar_set_ui_component((ESearchBar *)((EMFolderBrowser *)emfv)->search, NULL);

@@ -37,6 +37,8 @@
 #include <gtk/gtknotebook.h>
 #include <gtk/gtkstock.h>
 
+#include "widgets/misc/e-error.h"
+
 #include "em-account-prefs.h"
 #include "mail-config.h"
 #include "mail-account-editor.h"

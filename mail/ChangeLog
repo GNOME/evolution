@@ -1,3 +1,17 @@
+2004-05-10  Not Zed  <NotZed@Ximian.com>
+
+	* em-folder-view.c (emfv_activate): cleanup the view menus if they
+	were created.
+
+	* em-folder-view.h: added list_active bit, means the view is
+	showing the list and needs e.g. view menus.
+
+	* em-folder-view.c (emfv_setup_view_instance): was
+	create_view_instance.  Now also setup the menu's if we're showing the list.
+
+	* em-folder-browser.c (emfb_create_view_menus): removed.  moved
+	functionality into emfolderview.
+
 2004-05-07  Jeffrey Stedfast  <fejj@ximian.com>
 
 	Fix for bug #57152.
@@ -24,6 +38,8 @@
 	See bug #57587
 
 2004-05-07  Not Zed  <NotZed@Ximian.com>
+
+	* mail-account-editor.c: include missing header.
 
 	** See bug #57935.
 
