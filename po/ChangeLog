@@ -1,3 +1,8 @@
+2001-06-26  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* POTFILES.in: Removed ui/evolution-mail.xml and replaced it with
+	the 4 new evolution-mail*.xml files.
+
 2001-06-26  Héctor García Álvarez <hector@scouts-es.org>
 
         * es.po: Updated Spanish translation.

@@ -225,7 +225,10 @@ ui/evolution-contact-editor.xml
 ui/evolution-contact-list-editor.xml
 ui/evolution-event-editor.xml
 ui/evolution-executive-summary.xml
-ui/evolution-mail.xml
+ui/evolution-mail-global.xml
+ui/evolution-mail-list.xml
+ui/evolution-mail-message.xml
+ui/evolution-mail-messagedisplay.xml
 ui/evolution-message-composer.xml
 ui/evolution-subscribe.xml
 ui/evolution-task-editor.xml
