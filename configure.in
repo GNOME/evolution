@@ -425,7 +425,7 @@ dnl **************************************************
 dnl New IMAP code support.
 dnl **************************************************
 AC_ARG_ENABLE(imap4, 
-[  --enable-imap4=[no/yes]      Attempt to compile yet another, incomplete, very unsupported IMAPv4r1 implementation],,enable_imap4=no)
+[  --enable-imap4=[no/yes]      Attempt to compile yet another, incomplete, very unsupported IMAPv4r1 implementation],,enable_imap4="yes")
 if test "x$enable_imap4" = "xyes"; then
 	AC_DEFINE(ENABLE_IMAP4,1,[Really don't try this at home])
 	msg_imap4=yes
