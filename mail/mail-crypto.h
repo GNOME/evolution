@@ -25,15 +25,14 @@
 
 #include <camel/camel.h>
 #include <camel/camel-pgp-mime.h>
+#include <camel/camel-smime.h>
 
 #ifdef __cplusplus
 extern "C" {
 #pragma }
-#endif /* __cplusplus }*/
+#endif /* __cplusplus } */
 
-gboolean mail_crypto_is_smime_v3_signed (CamelMimePart *mime_part);
-gboolean mail_crypto_is_pkcs7_mime (CamelMimePart *mime_part);
-
+/* PGP/MIME convenience wrappers */
 void mail_crypto_pgp_mime_part_sign (CamelMimePart **mime_part,
 				     const char *userid,
 				     CamelCipherHash hash,
@@ -48,6 +47,22 @@ void mail_crypto_pgp_mime_part_encrypt (CamelMimePart **mime_part,
 
 CamelMimePart *mail_crypto_pgp_mime_part_decrypt (CamelMimePart *mime_part,
 						  CamelException *ex);
+
+/* S/MIME convenience wrappers */
+void mail_crypto_smime_part_sign (CamelMimePart **mime_part,
+				  const char *userid,
+				  CamelCipherHash hash,
+				  CamelException *ex);
+
+CamelCipherValidity *mail_crypto_smime_part_verify (CamelMimePart *mime_part,
+						    CamelException *ex);
+
+void mail_crypto_smime_part_encrypt (CamelMimePart **mime_part,
+				     GPtrArray *recipients,
+				     CamelException *ex);
+
+CamelMimePart *mail_crypto_smime_part_decrypt (CamelMimePart *mime_part,
+					       CamelException *ex);
 
 #ifdef __cplusplus
 }

@@ -1,3 +1,18 @@
+2001-05-16  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-crypto.c (mail_crypto_is_smime_v3_signed): Removed (this
+	now exists in camel/camel-smime.c).
+	(mail_crypto_is_pkcs7_mime): Same.
+	(mail_crypto_smime_part_sign): new
+	(mail_crypto_smime_part_verify): new
+	(mail_crypto_smime_part_encrypt): new
+	(mail_crypto_smime_part_decrypt): new
+	(mail_crypto_pgp_mime_part_sign): Added code to set an exception
+	if the context fails to be created.
+	(mail_crypto_pgp_mime_part_verify): And here...
+	(mail_crypto_pgp_mime_part_encrypt): Same.
+	(mail_crypto_pgp_mime_part_decrypt): And here too.
+
 2001-05-16  Dan Winship  <danw@ximian.com>
 
 	* mail-display.c (mail_display_redisplay): Deal with full-header
