@@ -10091,7 +10091,7 @@ msgstr "Concertar un encuentro para este elemento"
 #: ui/evolution-event-editor.xml.h:9 ui/evolution-mail-messagedisplay.xml.h:7
 #: ui/evolution-task-editor.xml.h:9 ui/evolution.xml.h:40
 msgid "_Actions"
-msgstr "_Acciones"
+msgstr "A_cciones"
 
 #: ui/evolution-executive-summary.xml.h:1
 msgid "Customise My Evolution"
