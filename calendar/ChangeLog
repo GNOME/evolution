@@ -1,3 +1,20 @@
+2000-10-20  JP Rosevear  <jpr@helixcode.com>
+
+	* pcs/cal-backend.c (cal_backend_destroy): New destroy
+	handler to properly stop the timer, sync the log and unref
+	the URI.
+	(cal_backend_last_client_gone): Just emit the signal,
+	clean up work is done in cal_backend_destroy now.
+
+	* pcs/cal-backend-file.c (cal_backend_file_load): Unref the
+	uri we are replacing NOT the new uri.
+
+2000-10-19  JP Rosevear  <jpr@helixcode.com>
+
+	* conduits/todo/Makefile.am: Fix build
+
+	* conduits/calendar/Makefile.am: Fix build
+
 2000-10-20  Damon Chaplin  <damon@helixcode.com>
 
 	* gui/calendar-model.c (calendar_model_value_at): use

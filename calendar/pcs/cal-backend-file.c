@@ -648,7 +648,7 @@ cal_backend_file_load (CalBackend *backend, GnomeVFSURI *uri)
 
 	/* Clean up */
 	if (priv->uri)
-		gnome_vfs_uri_unref (uri);
+		gnome_vfs_uri_unref (priv->uri);
 	
 	gnome_vfs_uri_ref (uri);
 	priv->uri = uri;
