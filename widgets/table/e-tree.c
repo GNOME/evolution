@@ -834,10 +834,14 @@ et_real_construct (ETree *e_tree, ETreeModel *etm, ETableExtras *ete,
 	e_tree->priv->sorter = e_sorter_new();
 
 	gtk_object_set (GTK_OBJECT (e_tree->priv->selection),
-			"model", e_tree->priv->model,
 			"sorter", e_tree->priv->sorter,
+#if 0
+			"model", e_tree->priv->model,
 			"ets", e_tree->priv->sorted,
 			"etta", e_tree->priv->etta,
+#else
+			"model", e_tree->priv->etta,
+#endif
 			"selection_mode", specification->selection_mode,
 			"cursor_mode", specification->cursor_mode,
 			NULL);
