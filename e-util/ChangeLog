@@ -1,3 +1,17 @@
+2004-02-27  Not Zed  <NotZed@Ximian.com>
+
+	** See Bug #37329.
+
+	* e-mktemp.c (get_dir): setup a comjpile time option for storing
+	in the homedir, and also just use the uid as the key for a /tmp
+	dir option.
+	(e_mktemp_cleanup): removed entirely.
+	(e_mkstemp, e_mkdtemp, e_mktemp): dont save the file/dirname in a
+	list anymore.
+	(expire_dir_rec): expire old temp data from previous runs/old data
+	lying around.  Based on access time.
+	(get_dir): run an expirey every now and then.
+
 2004-02-25  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* e-gui-utils.c (e_icon_for_mime_type): Protect against feeding

@@ -33,40 +33,95 @@
 #include <unistd.h>
 #include <dirent.h>
 #include <errno.h>
+#include <stdio.h>
+#include <time.h>
 
-#ifdef ENABLE_THREADS
-#include <pthread.h>
-#endif
+#include <gal/util/e-util.h>
 
 #include "e-mktemp.h"
 
+#define d(x) x
 
-static gboolean initialized = FALSE;
-static GSList *temp_files = NULL;
-static GSList *temp_dirs = NULL;
-#ifdef ENABLE_THREADS
-static pthread_mutex_t temp_files_lock = PTHREAD_MUTEX_INITIALIZER;
-static pthread_mutex_t temp_dirs_lock = PTHREAD_MUTEX_INITIALIZER;
-#define TEMP_FILES_LOCK() pthread_mutex_lock (&temp_files_lock)
-#define TEMP_FILES_UNLOCK() pthread_mutex_unlock (&temp_files_lock)
-#define TEMP_DIRS_LOCK() pthread_mutex_lock (&temp_dirs_lock)
-#define TEMP_DIRS_UNLOCK() pthread_mutex_unlock (&temp_dirs_lock)
-#else
-#define TEMP_FILES_LOCK()
-#define TEMP_FILES_UNLOCK()
-#define TEMP_DIRS_LOCK()
-#define TEMP_DIRS_UNLOCK()
-#endif /* ENABLE_THREADS */
+/* define to put temporary files in ~/evolution/cache/tmp */
+#define TEMP_HOME (1)
 
+/* how old things need to be to expire */
+#define TEMP_EXPIRE (60*60*2)
+/* dont scan more often than this */
+#define TEMP_SCAN (60)
+
+static int
+expire_dir_rec(const char *base, time_t now)
+{
+	DIR *dir;
+	struct dirent *d;
+	GString *path;
+	size_t len;
+	struct stat st;
+	int count = 0;
+
+	printf("expire dir '%s'\n", base);
+
+	dir = opendir(base);
+	if (dir == NULL)
+		return 0;
+
+	path = g_string_new(base);
+	len = path->len;
+
+	while ( (d = readdir(dir)) ) {
+		if (strcmp(d->d_name, ".") == 0
+		    || strcmp(d->d_name, "..") == 0)
+			continue;
+
+		g_string_truncate(path, len);
+		g_string_append_printf(path, "/%s", d->d_name);
+		d(printf("Checking '%s' for expiry\n", path->str));
+
+		if (stat(path->str, &st) == 0
+		    && st.st_atime + TEMP_EXPIRE < now) {
+			if (S_ISDIR(st.st_mode)) {
+				if (expire_dir_rec(path->str, now) == 0) {
+					printf("Removing dir '%s'\n", path->str);
+					rmdir(path->str);
+				} else {
+					count++;
+				}
+			} else if (unlink(path->str) == -1) {
+				printf("expiry failed: %s\n", strerror(errno));
+				count++;
+			} else {
+				printf("expired %s\n", path->str);
+			}
+		} else {
+			count++;
+		}
+	}
+	g_string_free(path, TRUE);
+	closedir(dir);
+
+	printf("expire dir '%s' %d remaining files\n", base, count);
+
+	return count;
+}
 
 static GString *
-get_path (gboolean make)
+get_dir (gboolean make)
 {
 	GString *path;
+	time_t now = time(0);
+	static time_t last = 0;
 	
-	path = g_string_new ("/tmp/evolution-");
-	g_string_append_printf (path, "%d-%d", (int) getuid (), (int) getpid ());
-	
+#ifdef TEMP_HOME
+	path = g_string_new (g_get_home_dir());
+	g_string_append_printf(path, "/.evolution/cache/tmp");
+	if (make && e_mkdir_hier(path->str, 0777) == -1) {
+		g_string_free(path, TRUE);
+		path = NULL;
+	}
+#else
+	path = g_string_new("/tmp/evolution-");
+	g_string_append_printf (path, "%d", (int) getuid ());
 	if (make) {
 		int ret;
 		
@@ -96,69 +151,19 @@ get_path (gboolean make)
 			}
 		}
 	}
-	
+#endif	
+
+	if (path)
+		printf("temp dir '%s'\n", path->str);
+
+	/* fire off an expirey attempt no more often than TEMP_SCAN seconds */
+	if (path && (last+TEMP_SCAN) < now) {
+		last = now;
+		expire_dir_rec(path->str, now);
+	}
+
 	return path;
 }
-
-static void
-e_mktemp_cleanup (void)
-{
-	GString *path;
-	GSList *node;
-	
-	TEMP_FILES_LOCK ();
-	if (temp_files) {
-		node = temp_files;
-		while (node) {
-			unlink (node->data);
-			g_free (node->data);
-			node = node->next;
-		}
-		g_slist_free (temp_files);
-		temp_files = NULL;
-	}
-	TEMP_FILES_UNLOCK ();
-	
-	TEMP_DIRS_LOCK ();
-	if (temp_dirs) {
-		node = temp_dirs;
-		while (node) {
-			/* perform the equivalent of a rm -rf */
-			struct dirent *dent;
-			DIR *dir;
-			
-			/* first empty out this directory of it's files... */
-			dir = opendir (node->data);
-			if (dir) {
-				while ((dent = readdir (dir)) != NULL) {
-					char *full_path;
-					
-					if (!strcmp (dent->d_name, ".") || !strcmp (dent->d_name, ".."))
-						continue;
-					
-					full_path = g_strdup_printf ("%s/%s", node->data, dent->d_name);
-					unlink (full_path);
-					g_free (full_path);
-				}
-				closedir (dir);
-			}
-			
-			/* ...then rmdir the directory */
-			rmdir (node->data);
-			g_free (node->data);
-			node = node->next;
-		}
-		g_slist_free (temp_dirs);
-		temp_dirs = NULL;
-	}
-	TEMP_DIRS_UNLOCK ();
-	
-	path = get_path (FALSE);
-	rmdir (path->str);
-	
-	g_string_free (path, TRUE);
-}
-
 
 const char *
 e_mktemp (const char *template)
@@ -166,7 +171,7 @@ e_mktemp (const char *template)
 	GString *path;
 	char *ret;
 	
-	path = get_path (TRUE);
+	path = get_dir (TRUE);
 	if (!path)
 		return NULL;
 	
@@ -177,18 +182,7 @@ e_mktemp (const char *template)
 		g_string_append (path, "unknown-XXXXXX");
 	
 	ret = mktemp (path->str);
-	if (ret) {
-		TEMP_FILES_LOCK ();
-		if (!initialized) {
-			g_atexit (e_mktemp_cleanup);
-			initialized = TRUE;
-		}
-		temp_files = g_slist_prepend (temp_files, ret);
-		g_string_free (path, FALSE);
-		TEMP_FILES_UNLOCK ();
-	} else {
-		g_string_free (path, TRUE);
-	}
+	g_string_free(path, ret == NULL);
 	
 	return ret;
 }
@@ -200,7 +194,7 @@ e_mkstemp (const char *template)
 	GString *path;
 	int fd;
 	
-	path = get_path (TRUE);
+	path = get_dir (TRUE);
 	if (!path)
 		return -1;
 	
@@ -211,18 +205,7 @@ e_mkstemp (const char *template)
 		g_string_append (path, "unknown-XXXXXX");
 	
 	fd = mkstemp (path->str);
-	if (fd != -1) {
-		TEMP_FILES_LOCK ();
-		if (!initialized) {
-			g_atexit (e_mktemp_cleanup);
-			initialized = TRUE;
-		}
-		temp_files = g_slist_prepend (temp_files, path->str);
-		g_string_free (path, FALSE);
-		TEMP_FILES_UNLOCK ();
-	} else {
-		g_string_free (path, TRUE);
-	}
+	g_string_free(path, TRUE);
 	
 	return fd;
 }
@@ -234,7 +217,7 @@ e_mkdtemp (const char *template)
 	GString *path;
 	char *tmpdir;
 	
-	path = get_path (TRUE);
+	path = get_dir (TRUE);
 	if (!path)
 		return NULL;
 	
@@ -253,19 +236,7 @@ e_mkdtemp (const char *template)
 			tmpdir = NULL;
 	}
 #endif
-	
-	if (tmpdir) {
-		TEMP_DIRS_LOCK ();
-		if (!initialized) {
-			g_atexit (e_mktemp_cleanup);
-			initialized = TRUE;
-		}
-		temp_dirs = g_slist_prepend (temp_dirs, tmpdir);
-		g_string_free (path, FALSE);
-		TEMP_DIRS_UNLOCK ();
-	} else {
-		g_string_free (path, TRUE);
-	}
+	g_string_free(path, tmpdir == NULL);
 	
 	return tmpdir;
 }
