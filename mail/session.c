@@ -217,9 +217,17 @@ maybe_remember_password (gpointer key, gpointer password, gpointer url)
 }
 
 void
-mail_session_remember_password (const char *url)
+mail_session_remember_password (const char *url_string)
 {
-	g_hash_table_foreach (passwords, maybe_remember_password, (void *) url);
+	CamelURL *url;
+	char *simple_url;
+
+	url = camel_url_new (url_string, NULL);
+	simple_url = camel_url_to_string (url, CAMEL_URL_HIDE_PASSWORD | CAMEL_URL_HIDE_PARAMS);
+	camel_url_free (url);
+
+	g_hash_table_foreach (passwords, maybe_remember_password, simple_url);
+	g_free (simple_url);
 }
 
 void
