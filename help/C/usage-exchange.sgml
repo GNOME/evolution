@@ -199,7 +199,7 @@
 </para>
 
 <para>
-There are, however, some features which are not available:
+There are, however, some features which are not yet available:
 <itemizedlist>
 
 	      <listitem>
@@ -353,10 +353,9 @@ There are, however, some features which are not available:
 		  </listitem>
 		  <listitem>
 		    <para>
-                     Enter the name of your Exchange email
-                     server, and the username with which you log in
-                     (normally, this is the part of your email address
-                     before the @).
+                     Enter the name of your Exchange email server, and
+                     the username with which you would log in to a
+                     Windows workstation in your company.
                    </para>
 		  </listitem>
 		    <listitem>
@@ -656,10 +655,10 @@ There are, however, some features which are not available:
 	<para>
           To avoid unnecessary strain on the server, the GAL will
           appear empty until you have searched for something in it.
-          If you want to display all the cards in the list, click in
-          the search box and press <keycap>Enter</keycap>.  This
-          enters a blank search: since every card contains a blank in
-          it, every card will appear.
+          If you want to display all the cards in the list, click the
+          search dropdown bar and select <guilabel>Clear</guilabel> to
+          display the maximum number of cards (normally, the first 500
+          items in the list).
         </para>
       </tip>
     </sect1>
@@ -727,5 +726,3 @@ There are, however, some features which are not available:
       </tip>
     </sect1>
 </chapter>
-
-
