@@ -363,6 +363,9 @@ imap4_sync_changes (CamelFolder *folder, GPtrArray *sync, CamelException *ex)
 	int retval = 0;
 	int i, j;
 	
+	if (folder->permanent_flags == 0)
+		return 0;
+	
 	on_set = g_ptr_array_new ();
 	off_set = g_ptr_array_new ();
 	
