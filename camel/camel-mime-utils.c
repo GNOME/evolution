@@ -1966,7 +1966,7 @@ check_header(struct _header_raw *h)
 	unsigned char *p;
 
 	p = h->value;
-	while (*p) {
+	while (p && *p) {
 		if (!isascii(*p)) {
 			g_warning("Appending header violates rfc: %s: %s", h->name, h->value);
 			return;

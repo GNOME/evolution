@@ -37,8 +37,8 @@ extern "C" {
 #include <gtk/gtk.h>
 #include <camel/camel-types.h>
 #include <camel/camel-mime-part.h>
-#include <camel/camel-recipient.h>
 #include <camel/camel-mime-utils.h>
+#include <camel/camel-internet-address.h>
 
 #define CAMEL_RECIPIENT_TYPE_TO "To"
 #define CAMEL_RECIPIENT_TYPE_CC "Cc"
@@ -67,7 +67,8 @@ struct _CamelMimeMessage
 	gchar *reply_to;
 
 	gchar *from;
-	CamelRecipientTable *recipients;
+
+	GHashTable *recipients;	/* hash table of CamelInternetAddress's */
 
 	/* other fields */
 	GHashTable *flags; /* boolean values */
@@ -145,14 +146,17 @@ void               camel_mime_message_set_from             (CamelMimeMessage *mi
 							    const gchar *from);
 const gchar *      camel_mime_message_get_from             (CamelMimeMessage *mime_message);
 
-void               camel_mime_message_add_recipient        (CamelMimeMessage *mime_message, 
-							    const gchar *recipient_type, 
-							    const gchar *recipient);
-void               camel_mime_message_remove_recipient     (CamelMimeMessage *mime_message, 
-							    const gchar *recipient_type, 
-							    const gchar *recipient);
-const GList *      camel_mime_message_get_recipients       (CamelMimeMessage *mime_message, 
-							    const gchar *recipient_type);
+
+void		camel_mime_message_add_recipient (CamelMimeMessage *mime_message,
+						  const char *type, const char *name, const char *address);
+void		camel_mime_message_remove_recipient_address (CamelMimeMessage *mime_message, 
+							     const char *type, const char *address);
+void		camel_mime_message_remove_recipient_name (CamelMimeMessage *mime_message, 
+							  const char *type, const char *name);
+
+const CamelInternetAddress *camel_mime_message_get_recipients (CamelMimeMessage *mime_message, 
+							       const char *type);
+
 
 void               camel_mime_message_set_flag             (CamelMimeMessage *mime_message, 
 							    const gchar *flag, 

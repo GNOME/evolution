@@ -1,4 +1,4 @@
-/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8; fill-column: 160 -*- */
 /* camelMimePart.c : Abstract class for a mime_part */
 
 /* 
@@ -654,8 +654,8 @@ camel_mime_part_new (void)
  **/
 void 
 camel_mime_part_set_content (CamelMimePart *camel_mime_part,
-			     const gchar *data, guint length,
-			     const gchar *type)
+			     const char *data, int length,
+			     const char *type) /* why on earth is the type last? */
 {
 	CamelMedium *medium = CAMEL_MEDIUM (camel_mime_part);
 
@@ -670,7 +670,7 @@ camel_mime_part_set_content (CamelMimePart *camel_mime_part,
 		camel_medium_set_content_object (medium, dw);
 	} else {
 		if (medium->content)
-			gtk_object_unref (GTK_OBJECT (medium->content));
+			gtk_object_unref ( (GtkObject *)medium->content);
 		medium->content = NULL;
 	}
 }

@@ -33,6 +33,7 @@
 
 #define d(x)
 
+/* these 2 below should be kept in sync */
 typedef enum {
 	HEADER_UNKNOWN,
 	HEADER_FROM,
@@ -44,20 +45,20 @@ typedef enum {
 	HEADER_DATE
 } CamelHeaderType;
 
+static char *header_names[] = {
+	/* dont include HEADER_UNKNOWN string */
+	"From", "Reply-To", "Subject", "To", "Cc", "Bcc", "Date", NULL
+};
+
 static GHashTable *header_name_table;
 
 static CamelMimePartClass *parent_class=NULL;
 
-/* WTF are these for?? */
-static gchar *received_date_str;
-static gchar *sent_date_str;
-static gchar *reply_to_str;
-static gchar *subject_str;
-static gchar *from_str;
+static char *recipient_names[] = {
+	"To", "Cc", "Bcc", NULL
+};
 
-static void add_recipient (CamelMimeMessage *mime_message, const gchar *recipient_type, const gchar *recipient); 
-static void remove_recipient (CamelMimeMessage *mime_message, const gchar *recipient_type, const gchar *recipient);
-static const GList *get_recipients (CamelMimeMessage *mime_message, const gchar *recipient_type);
+
 static void set_flag (CamelMimeMessage *mime_message, const gchar *flag, gboolean value);
 static gboolean get_flag (CamelMimeMessage *mime_message, const gchar *flag);
 static GList *get_flag_list (CamelMimeMessage *mime_message);
@@ -75,20 +76,6 @@ static int construct_from_parser (CamelMimePart *, CamelMimeParser *);
 #define CDW_CLASS(so) CAMEL_DATA_WRAPPER_CLASS (GTK_OBJECT(so)->klass)
 #define CMD_CLASS(so) CAMEL_MEDIUM_CLASS (GTK_OBJECT(so)->klass)
 
-
-static void
-init_header_name_table()
-{
-	header_name_table = g_hash_table_new (g_str_hash, g_str_equal);
-	g_hash_table_insert (header_name_table, "From", (gpointer)HEADER_FROM);
-	g_hash_table_insert (header_name_table, "Reply-To", (gpointer)HEADER_REPLY_TO);
-	g_hash_table_insert (header_name_table, "Subject", (gpointer)HEADER_SUBJECT);
-	g_hash_table_insert (header_name_table, "To", (gpointer)HEADER_TO);
-	g_hash_table_insert (header_name_table, "Cc", (gpointer)HEADER_CC);
-	g_hash_table_insert (header_name_table, "Bcc", (gpointer)HEADER_BCC);
-	g_hash_table_insert (header_name_table, "Date", (gpointer)HEADER_DATE);
-}
-
 static void
 camel_mime_message_class_init (CamelMimeMessageClass *camel_mime_message_class)
 {
@@ -96,20 +83,15 @@ camel_mime_message_class_init (CamelMimeMessageClass *camel_mime_message_class)
 	CamelMimePartClass *camel_mime_part_class = CAMEL_MIME_PART_CLASS (camel_mime_message_class);
 	GtkObjectClass *gtk_object_class = GTK_OBJECT_CLASS (camel_mime_message_class);
 	CamelMediumClass *camel_medium_class = CAMEL_MEDIUM_CLASS (camel_mime_message_class);
+	int i;
 	
 	parent_class = gtk_type_class (camel_mime_part_get_type ());
-	init_header_name_table();
-	
-	received_date_str = "";
-	sent_date_str = "";
-	reply_to_str = "Reply-To";
-	subject_str = "Subject";
-	from_str = "From";
-	
+
+	header_name_table = g_hash_table_new (g_str_hash, g_str_equal);
+	for (i=0;header_names[i];i++)
+		g_hash_table_insert (header_name_table, header_names[i], (gpointer)i+1);
+
 	/* virtual method definition */
-	camel_mime_message_class->add_recipient = add_recipient; 
-	camel_mime_message_class->remove_recipient = remove_recipient;
-	camel_mime_message_class->get_recipients = get_recipients;
 	camel_mime_message_class->set_flag = set_flag;
 	camel_mime_message_class->get_flag = get_flag;
 	camel_mime_message_class->get_flag_list = get_flag_list;
@@ -134,22 +116,25 @@ camel_mime_message_class_init (CamelMimeMessageClass *camel_mime_message_class)
 static void
 camel_mime_message_init (gpointer object, gpointer klass)
 {
-	CamelMimeMessage *camel_mime_message = CAMEL_MIME_MESSAGE (object);
+	CamelMimeMessage *mime_message = (CamelMimeMessage *)object;
+	int i;
 	
-	camel_data_wrapper_set_mime_type (CAMEL_DATA_WRAPPER (object),
-					  "message/rfc822");
+	camel_data_wrapper_set_mime_type (CAMEL_DATA_WRAPPER (object), "message/rfc822");
 
-	camel_mime_message->recipients =  camel_recipient_table_new ();
-	camel_mime_message->flags =
-		g_hash_table_new (g_strcase_hash, g_strcase_equal);
+	mime_message->recipients =  g_hash_table_new(g_strcase_hash, g_strcase_equal);
+	for (i=0;recipient_names[i];i++) {
+		g_hash_table_insert(mime_message->recipients, recipient_names[i], camel_internet_address_new());
+	}
 
-	camel_mime_message->subject = NULL;
-	camel_mime_message->reply_to = NULL;
-	camel_mime_message->from = NULL;
-	camel_mime_message->folder = NULL;
-	camel_mime_message->date = CAMEL_MESSAGE_DATE_CURRENT;
-	camel_mime_message->date_offset = 0;
-	camel_mime_message->date_str = NULL;
+	mime_message->flags = g_hash_table_new (g_strcase_hash, g_strcase_equal);
+
+	mime_message->subject = NULL;
+	mime_message->reply_to = NULL;
+	mime_message->from = NULL;
+	mime_message->folder = NULL;
+	mime_message->date = CAMEL_MESSAGE_DATE_CURRENT;
+	mime_message->date_offset = 0;
+	mime_message->date_str = NULL;
 }
 
 GtkType
@@ -176,6 +161,12 @@ camel_mime_message_get_type (void)
 	return camel_mime_message_type;
 }
 
+/* annoying way to free objects in a hashtable, i mean, its not like anyone
+   would want to store them in a hashtable, really */
+static void g_lib_is_uber_crappy_shit(gpointer whocares, gpointer getlost, gpointer blah)
+{
+	gtk_object_unref((GtkObject *)getlost);
+}
 
 static void           
 finalize (GtkObject *object)
@@ -187,8 +178,10 @@ finalize (GtkObject *object)
 	g_free (message->reply_to);
 	g_free (message->from);
 	
-	if (message->recipients) camel_recipient_table_unref (message->recipients);
-	if (message->folder) gtk_object_unref (GTK_OBJECT (message->folder));
+	g_hash_table_foreach (message->recipients, g_lib_is_uber_crappy_shit, NULL);
+
+	if (message->folder)
+		gtk_object_unref (GTK_OBJECT (message->folder));
 	
 	if (message->flags)
 		g_hash_table_foreach (message->flags, g_hash_table_generic_free, NULL);
@@ -321,62 +314,98 @@ camel_mime_message_get_from (CamelMimeMessage *mime_message)
 
 /*  ****  */
 
-static void
-add_recipient (CamelMimeMessage *mime_message, 
-		const gchar *recipient_type, 
-		const gchar *recipient) 
-{
-	camel_recipient_table_add (mime_message->recipients, recipient_type, recipient); 
-}
-
-
-
 void
 camel_mime_message_add_recipient (CamelMimeMessage *mime_message, 
-				  const gchar *recipient_type, 
-				  const gchar *recipient) 
+				  const gchar *type, 
+				  const gchar *name, const char *address)
 {
+	CamelInternetAddress *addr;
+	char *text;
+
 	g_assert (mime_message);
-	g_return_if_fail (!mime_message->expunged);
-	CMM_CLASS (mime_message)->add_recipient (mime_message, recipient_type, recipient);
+
+	addr = g_hash_table_lookup(mime_message->recipients, type);
+	if (addr == NULL) {
+		g_warning("trying to add a non-valid receipient type: %s = %s %s", type, name, address);
+		return;
+	}
+
+	camel_internet_address_add(addr, name, address);
+
+	/* FIXME: maybe this should be delayed till we're ready to write out? */
+	text = camel_address_encode((CamelAddress*)addr);
+	CAMEL_MEDIUM_CLASS(parent_class)->set_header((CamelMedium *)mime_message, type, text);
+	g_free(text);
 }
-
-
-static void
-remove_recipient (CamelMimeMessage *mime_message, 
-		   const gchar *recipient_type, 
-		   const gchar *recipient) 
-{
-	camel_recipient_table_remove (mime_message->recipients, recipient_type, recipient); 
-}
-
 
 void
-camel_mime_message_remove_recipient (CamelMimeMessage *mime_message, 
-				     const gchar *recipient_type, 
-				     const gchar *recipient) 
+camel_mime_message_remove_recipient_address (CamelMimeMessage *mime_message,
+					     const gchar *type,
+					     const gchar *address)
 {
+	CamelInternetAddress *addr;
+	int index;
+	char *text;
+
+
 	g_assert (mime_message);
-	g_return_if_fail (!mime_message->expunged);
-	CMM_CLASS (mime_message)->remove_recipient (mime_message, recipient_type, recipient);
+
+	addr = g_hash_table_lookup(mime_message->recipients, type);
+	if (addr == NULL) {
+		g_warning("trying to remove a non-valid receipient type: %s = %s", type, address);
+		return;
+	}
+	index = camel_internet_address_find_address(addr, address, NULL);
+	if (index == -1) {
+		g_warning("trying to remove address for nonexistand address: %s", address);
+		return;
+	}
+
+	camel_address_remove((CamelAddress *)addr, index);
+
+	/* FIXME: maybe this should be delayed till we're ready to write out? */
+	text = camel_address_encode((CamelAddress *)addr);
+	CAMEL_MEDIUM_CLASS(parent_class)->set_header((CamelMedium *)mime_message, type, text);
+	g_free(text);
 }
 
-
-static const GList *
-get_recipients (CamelMimeMessage *mime_message, 
-		 const gchar *recipient_type)
+void
+camel_mime_message_remove_recipient_name (CamelMimeMessage *mime_message,
+					  const gchar *type,
+					  const gchar *name)
 {
-	return camel_recipient_table_get (mime_message->recipients, recipient_type);
+	CamelInternetAddress *addr;
+	int index;
+	char *text;
+
+	g_assert (mime_message);
+
+	addr = g_hash_table_lookup(mime_message->recipients, type);
+	if (addr == NULL) {
+		g_warning("trying to remove a non-valid receipient type: %s = %s", type, name);
+		return;
+	}
+	index = camel_internet_address_find_name(addr, name, NULL);
+	if (index == -1) {
+		g_warning("trying to remove address for nonexistand name: %s", name);
+		return;
+	}
+
+	camel_address_remove((CamelAddress *)addr, index);
+
+	/* FIXME: maybe this should be delayed till we're ready to write out? */
+	text = camel_address_encode((CamelAddress *)addr);
+	CAMEL_MEDIUM_CLASS(parent_class)->set_header((CamelMedium *)mime_message, type, text);
+	g_free(text);
 }
 
-
-const GList *
+const CamelInternetAddress *
 camel_mime_message_get_recipients (CamelMimeMessage *mime_message, 
-				   const gchar *recipient_type)
+				   const gchar *type)
 {
 	g_assert (mime_message);
-	g_return_val_if_fail (!mime_message->expunged, NULL);
-	return CMM_CLASS (mime_message)->get_recipients (mime_message, recipient_type);
+	
+	return g_hash_table_lookup(mime_message->recipients, type);
 }
 
 
@@ -511,25 +540,6 @@ construct_from_parser(CamelMimePart *dw, CamelMimeParser *mp)
 	return 0;
 }
 
-static void
-write_one_recipient_to_stream (gchar *recipient_type,
-				GList *recipient_list,
-				gpointer user_data)
-{
-	
-	CamelStream *stream = (CamelStream *)user_data;
-	if  (recipient_type)
-		gmime_write_header_with_glist_to_stream (stream, recipient_type, recipient_list, ", ");
-}
-
-static void
-write_recipients_to_stream (CamelMimeMessage *mime_message, CamelStream *stream)
-{
-	camel_recipient_foreach_recipient_type (mime_message->recipients, 
-						write_one_recipient_to_stream, 
-						(gpointer)stream);
-}
-
 static int
 write_to_stream (CamelDataWrapper *data_wrapper, CamelStream *stream)
 {
@@ -549,33 +559,11 @@ write_to_stream (CamelDataWrapper *data_wrapper, CamelStream *stream)
 		camel_mime_message_set_subject(mm, "No Subject");
 	}
 
+	/* FIXME: "To" header needs to be set explcitly as well ... */
+
 	camel_medium_set_header((CamelMedium *)mm, "Mime-Version", "1.0");
 
-#if 1
-#warning need to store receipients lists to headers
-	/* FIXME: remove this snot ... */
-	write_recipients_to_stream (mm, stream);
-#endif
-
 	return CAMEL_DATA_WRAPPER_CLASS (parent_class)->write_to_stream (data_wrapper, stream);
-}
-
-/*******************************/
-/* mime message header parsing */
-
-/* FIXME: This is totally totally broken */
-static void
-set_recipient_list_from_string (CamelMimeMessage *message, const char *recipient_type, const char *recipients_string)
-{
-	GList *recipients_list;
-
-#warning need to parse receipient lists properly - <feddy>BROKEN!!!</feddy>
-	recipients_list = string_split (
-					recipients_string, ',', "\t ",
-					STRING_TRIM_STRIP_TRAILING | STRING_TRIM_STRIP_LEADING);
-	
-	camel_recipient_table_add_list (message->recipients, recipient_type, recipients_list);
-	
 }
 
 /* FIXME: check format of fields. */
@@ -584,6 +572,7 @@ process_header(CamelMedium *medium, const char *header_name, const char *header_
 {
 	CamelHeaderType header_type;
 	CamelMimeMessage *message = CAMEL_MIME_MESSAGE (medium);
+	CamelInternetAddress *addr;
 
 	header_type = (CamelHeaderType) g_hash_table_lookup (header_name_table, header_name);
 	switch (header_type) {
@@ -600,22 +589,13 @@ process_header(CamelMedium *medium, const char *header_name, const char *header_
 		message->subject = header_decode_string(header_value);
 		break;
 	case HEADER_TO:
-		if (header_value)
-			set_recipient_list_from_string (message, "To", header_value);
-		else
-			camel_recipient_table_remove_type (message->recipients, "To");
-		break;
 	case HEADER_CC:
-		if (header_value)
-			set_recipient_list_from_string (message, "Cc", header_value);
-		else
-			camel_recipient_table_remove_type (message->recipients, "Cc");
-		break;
 	case HEADER_BCC:
+		addr = g_hash_table_lookup(message->recipients, header_name);
 		if (header_value)
-			set_recipient_list_from_string (message, "Bcc", header_value);
+			camel_address_decode((CamelAddress *)addr, header_value);
 		else
-			camel_recipient_table_remove_type (message->recipients, "Bcc");
+			camel_address_remove((CamelAddress *)addr, -1);
 		break;
 	case HEADER_DATE:
 		g_free(message->date_str);

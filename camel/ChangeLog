@@ -1,5 +1,37 @@
 2000-04-27  NotZed  <NotZed@HelixCode.com>
 
+	* camel-mime-utils.c (check_header): Dont try and check a NULL
+	header.
+
+	* camel-recipient.[ch]: Dead.  Its not pining.
+
+	* camel-mime-message.h: Dont include recipients.h anymore.
+
+	* camel-mime-message.c (camel_mime_message_add_recipient): Accept
+	name/address separately, and store in an CamelInternetAddress.
+	(add_recipient): Removed.
+	(remove_recipient): Removed.
+	(remove_recipient_address): Renamed from remove_receipient, works
+	via address.
+	(camel_mime_message_remove_recipient_name): New function to remove
+	by name.
+	(get_recipients): Removed.
+	(camel_mime_message_get_recipients): Return a camel-internet-address.
+	(write_to_stream): No longer write receipients directly.
+	(write_recipients_to_stream): Removed.
+	(write_one_recipient_to_stream): Removed.
+	(camel_mime_message_init): Setup recipients hashtable, rather than
+	usign the recipients stuff.
+	(set_recipient_list_from_string): Killed, a violent and lengthy
+	death.
+	(process_header): Simplified recipient handling code a lot.
+	(received_date_str, sent_date_str, reply_to_str, subject_str,
+	from_str): Removed some oddly-defined global statics.
+	(camel_mime_message_class_init): Dont initialise above variables
+	anymore.
+	(init_header_name_table): Removed, use a table to init this, and
+	do it in class init (2 lines of code ...).
+
 	* camel-news-address.c: Class to represent news addresses -
 	currently empty, and not built.
 

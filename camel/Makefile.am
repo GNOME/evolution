@@ -45,7 +45,6 @@ libcamel_la_SOURCES = 				\
 	camel-multipart.c			\
 	camel-op-queue.c			\
 	camel-provider.c			\
-	camel-recipient.c			\
 	camel-seekable-stream.c			\
 	camel-seekable-substream.c		\
 	camel-service.c				\
@@ -89,7 +88,6 @@ libcamelinclude_HEADERS =			\
 	camel-multipart.h			\
 	camel-op-queue.h			\
 	camel-provider.h			\
-	camel-recipient.h			\
 	camel-seekable-stream.h			\
 	camel-seekable-substream.h		\
 	camel-service.h				\

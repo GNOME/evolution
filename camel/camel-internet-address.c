@@ -135,8 +135,8 @@ static char * internet_encode		(CamelAddress *a)
 		}
 		g_string_sprintfa(out, "<%s>", addr->address);
 	}
-	g_string_free(out, FALSE);
 	ret = out->str;
+	g_string_free(out, FALSE);
 	return ret;
 }
 

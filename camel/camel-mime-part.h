@@ -1,4 +1,4 @@
-/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8; fill-column: 160 -*- */
 /* camel-mime-part.h : class for a mime part */
 
 /* 
@@ -88,6 +88,8 @@ typedef struct _CamelMimePartClass {
 GtkType camel_mime_part_get_type (void);
 
 /* public methods */
+CamelMimePart *  camel_mime_part_new                    (void);
+
 void	         camel_mime_part_set_description	(CamelMimePart *mime_part, const gchar *description);
 const     gchar *camel_mime_part_get_description	(CamelMimePart *mime_part);
 
@@ -120,12 +122,8 @@ CamelMimePartEncodingType camel_mime_part_encoding_from_string (const gchar *str
 int		camel_mime_part_construct_from_parser  (CamelMimePart *, CamelMimeParser *);
 
 /* utility functions */
-CamelMimePart * camel_mime_part_new                     (void);
-void      camel_mime_part_set_content			(CamelMimePart *camel_mime_part, 
-							 const gchar *content,
-							 guint length,
-							 const gchar *type);
-
+void      	camel_mime_part_set_content 	       (CamelMimePart *camel_mime_part,
+							const char *content, int length, const char *type);
 
 #ifdef __cplusplus
 }

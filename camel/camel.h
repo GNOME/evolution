@@ -54,7 +54,6 @@ extern "C" {
 #include <camel/camel-multipart.h>
 #include <camel/camel-op-queue.h>
 #include <camel/camel-provider.h>
-#include <camel/camel-recipient.h>
 #include <camel/camel-seekable-stream.h>
 #include <camel/camel-seekable-substream.h>
 #include <camel/camel-service.h>
