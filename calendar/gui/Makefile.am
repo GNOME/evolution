@@ -48,6 +48,7 @@ gnomecal_SOURCES = \
 	alarm.h			\
 	calendar.c		\
 	calendar.h		\
+	calendar-conduit.h	\
 	calobj.c		\
 	calobj.h		\
 	eventedit.c		\
@@ -88,6 +89,7 @@ gnomecal_SOURCES = \
 	quick-view.h		\
 	timeutil.c		\
 	timeutil.h		\
+	todo-conduit.h		\
 	view-utils.h		\
 	view-utils.c		\
 	year-view.c		\
