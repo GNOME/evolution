@@ -1,3 +1,9 @@
+2001-07-11  Kjartan Maraas  <kmaraas@gnome.org>
+
+	* gui/e-calendar-table.c: Added a hack to get the last
+	string translated since xml-i18n-tools doesn't recognize
+	_click-to-add-message="Click here to add a task".
+	
 2001-07-10  Peter Williams  <peterw@ximian.com>
 
 	* gui/Makefile.am (BUILT_SOURCES): Move this higher so that

@@ -1234,3 +1234,12 @@ e_calendar_table_get_current_time (ECellDateEdit *ecde, gpointer data)
 
 	return tmp_tm;
 }
+
+
+#ifdef TRANSLATORS_ONLY
+
+static char *test[] = {
+    N_("Click here to add a task")
+};
+
+#endif
