@@ -1,3 +1,9 @@
+2000-11-27  JP Rosevear  <jpr@helixcode.com>
+
+	* configure.in: Correct the bonobo version error message
+
+	* README: Update
+
 2000-11-24  Not Zed  <NotZed@HelixCode.com>
 
 	* configure.in: Added camel/tests stuff to output macro.

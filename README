@@ -97,21 +97,21 @@ Dependencies
 
 All of these libraries are available in GNOME CVS, under the given
 names. Most (but not all) of them are also available as tarballs on
-ftp.gnome.org. The (*)ed packages are available in Helix GNOME.
-(http://www.helixcode.com/desktop/)
+ftp.gnome.org. The (*)ed packages are available in Helix GNOME
+(http://www.helixcode.com/desktop/).  Other packages may be available
+from the evolution preview mirror.
 
- - gnome-xml - 1.8.7 or later in the 1.0 series, but not from the 2.0
+ - gnome-xml - 1.8.10 or later in the 1.0 series, but not from the 2.0
    series (If you get this from GNOME CVS, use the tag "LIB_XML_1_X".)
    (*)
 
- - gnome-print - 0.20 (*). The gnome-print CVS HEAD will NOT work, nor
-   will 0.21.
+ - gnome-print - 0.20 or later (*)
 
  - gdk-pixbuf - 0.7.0 or later (*)
 
  - ORBit - 0.5.3 or later (*)
 
- - oaf - 0.5 or later
+ - oaf - 0.6.0 or later
 
    *** If you are using oaf from CVS, you should use the flag
    *** "--disable-more-warnings" when configure, or it may fail to
@@ -123,7 +123,7 @@ ftp.gnome.org. The (*)ed packages are available in Helix GNOME.
    *** "--disable-more-warnings" when configuring, or it may fail to
    *** build.
 
- - bonobo - 0.17 or later
+ - bonobo - 0.29 or later
 
    *** Note that bonobo must be installed with the same --prefix as
    *** either gnome-libs or evolution for the Makefiles to work
@@ -136,20 +136,34 @@ ftp.gnome.org. The (*)ed packages are available in Helix GNOME.
 
  - gal (GNOME Application Library) - from CVS
 
- - gtkhtml - 0.5 or later
+ - gtkhtml - 0.7 or later
 
  - libglade (*)
 
-If you want support for PalmPilot syncing (currently only supported by
-the calendar and not yet very stable/functional), you will also need
-the following packages:
+If you want support for PalmPilot syncing, currently experimental so
+please back up your pilot, you will also need to do the following:
 
- - pilot-link (*)
+1) pilot-link
+cvs -d pserver:anonymous@cvs.gnu-designs.com:/cvs/openpalm login
+The password is just <ENTER>.
+cvs -d pserver:anonymous@cvs.gnu-designs.com:/cvs/openpalm co pilot-link
+./configure --prefix=<pilot-link-prefix> --with-perl=no --with-java=no
+--with-tcl=no --with-python=no
+make
+make install
 
- - gnome-pilot - from CVS, with --enable-oaf
+2) gnome-pilot
+cvs -z3 co gnome-pilot
+./configure --prefix=<gnome-pilot-prefix>
+--with-pisock=<pilot-link-prefix> --with-newabs
+make
+make install
 
-
-
+3) evolution
+in your evo source dir do ./autogen.sh --prefix=<evo-prefix>
+--with-pisock=<pilot-link-prefix> --enable-pilot-conduits=yes
+make
+make install
 
 The layout of the source tree is:
 
