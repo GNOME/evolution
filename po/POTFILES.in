@@ -282,6 +282,7 @@ plugins/shared-folder/install-shared.c
 plugins/shared-folder/org-gnome-shared-folder-errors.xml.h
 plugins/shared-folder/properties.glade
 plugins/shared-folder/share-folder-common.c
+plugins/startup-wizard/startup-wizard.c
 plugins/subject-thread/subject-thread.c
 shell/GNOME_Evolution_Shell.server.in.in
 shell/GNOME_Evolution_Test.server.in.in
