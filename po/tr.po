@@ -5,8 +5,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution 0.1\n"
-"POT-Creation-Date: 2000-06-05 12:01+0200\n"
-"PO-Revision-Date: 2000-06-06 21:52+0200\n"
+"POT-Creation-Date: 2000-06-07 21:46+0200\n"
+"PO-Revision-Date: 2000-06-07 21:47+0200\n"
 "Last-Translator: Fatih Demir <kabalak@gmx.net>\n"
 "Language-Team: Turkish <tr@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -110,63 +110,63 @@ msgstr "2.nci ePosta adresi"
 msgid "Email 3"
 msgstr "3.ncü ePosta adresi"
 
-#: addressbook/gui/component/addressbook.c:309
+#: addressbook/gui/component/addressbook.c:311
 #: calendar/gui/calendar-commands.c:544
 msgid "New"
 msgstr "Yeni"
 
-#: addressbook/gui/component/addressbook.c:309
+#: addressbook/gui/component/addressbook.c:311
 msgid "Create a new contact"
 msgstr "Yeni bir tanýk birimi yarat"
 
-#: addressbook/gui/component/addressbook.c:313
+#: addressbook/gui/component/addressbook.c:315
 #: mail/folder-browser-factory.c:37
 msgid "Find"
 msgstr "Bul"
 
-#: addressbook/gui/component/addressbook.c:313
+#: addressbook/gui/component/addressbook.c:315
 msgid "Find a contact"
 msgstr "Bir tanýðý bul"
 
-#: addressbook/gui/component/addressbook.c:314
-#: addressbook/gui/component/addressbook.c:381
+#: addressbook/gui/component/addressbook.c:316
+#: addressbook/gui/component/addressbook.c:383
 #: calendar/gui/calendar-commands.c:548 mail/folder-browser-factory.c:48
 msgid "Print"
 msgstr "Yazdýr"
 
-#: addressbook/gui/component/addressbook.c:314
+#: addressbook/gui/component/addressbook.c:316
 msgid "Print contacts"
 msgstr "Tanýklarýy azdýrt"
 
 #. Delete
-#: addressbook/gui/component/addressbook.c:315 calendar/gui/gncal-todo.c:494
+#: addressbook/gui/component/addressbook.c:317 calendar/gui/gncal-todo.c:494
 #: mail/folder-browser-factory.c:50 mail/mail-config.c:1859
 #: mail/mail-config.c:1958
 msgid "Delete"
 msgstr "Sil"
 
-#: addressbook/gui/component/addressbook.c:315
+#: addressbook/gui/component/addressbook.c:317
 msgid "Delete a contact"
 msgstr "Tanýðý sil"
 
-#: addressbook/gui/component/addressbook.c:388
-#: addressbook/gui/component/addressbook.c:936
+#: addressbook/gui/component/addressbook.c:390
+#: addressbook/gui/component/addressbook.c:957
 msgid "As _Table"
 msgstr "Çi_zgiye olarak"
 
-#: addressbook/gui/component/addressbook.c:395
+#: addressbook/gui/component/addressbook.c:397
 msgid "_New Contact"
 msgstr "_Yeni tanýk"
 
-#: addressbook/gui/component/addressbook.c:403
+#: addressbook/gui/component/addressbook.c:405
 msgid "N_ew Directory Server"
 msgstr "Yeni _dizin sunucusu"
 
-#: addressbook/gui/component/addressbook.c:482
+#: addressbook/gui/component/addressbook.c:484
 msgid "Unable to open addressbook"
 msgstr "Adres defterini açamadým"
 
-#: addressbook/gui/component/addressbook.c:487
+#: addressbook/gui/component/addressbook.c:489
 msgid ""
 "We were unable to open this addressbook.  This either\n"
 "means you have entered an incorrect URI, or have tried\n"
@@ -185,11 +185,16 @@ msgstr ""
 "eriþmeye uðraþtýn. LDAp'i kullanmak istiyorsan, OpenLDAP'i\n"
 "yükleyip, Evolution'u yeniden denetleyip yeniden yüklemek zorundasýn.\n"
 
-#: addressbook/gui/component/addressbook.c:943
+#: addressbook/gui/component/addressbook.c:865
+#: addressbook/gui/minicard/e-minicard.c:323
+msgid "Save as VCard"
+msgstr "VCard olarak kaydet"
+
+#: addressbook/gui/component/addressbook.c:964
 msgid "As _Minicards"
 msgstr "_Ufak kartlar olarak"
 
-#: addressbook/gui/component/addressbook.c:994 mail/folder-browser.c:249
+#: addressbook/gui/component/addressbook.c:1015 mail/folder-browser.c:231
 msgid "The URI that the Folder Browser will display"
 msgstr "Dizin Gezginini gösterecek olan URI"
 
@@ -206,10 +211,6 @@ msgstr ""
 "Bu bakýþta gösterilecek birimler yok\n"
 "\n"
 "Buraya çift-týklayarak bir tanýk birimini yarat."
-
-#: addressbook/gui/minicard/e-minicard.c:323
-msgid "Save as VCard"
-msgstr "VCard olarak kaydet"
 
 #: calendar/cal-util/timeutil.c:96 calendar/gui/print.c:544
 msgid "am"
@@ -811,30 +812,30 @@ msgstr "Yazdýrma önizlemesi"
 msgid "%02i minute divisions"
 msgstr "%02i dakika bölmeleri"
 
-#: calendar/gui/e-day-view.c:2239 calendar/gui/e-day-view.c:2246
-#: calendar/gui/e-day-view.c:2255 calendar/gui/e-week-view.c:2549
-#: calendar/gui/e-week-view.c:2556 calendar/gui/e-week-view.c:2565
+#: calendar/gui/e-day-view.c:2251 calendar/gui/e-day-view.c:2258
+#: calendar/gui/e-day-view.c:2267 calendar/gui/e-week-view.c:2553
+#: calendar/gui/e-week-view.c:2560 calendar/gui/e-week-view.c:2569
 msgid "New appointment..."
 msgstr "Yeni toplantý ..."
 
-#: calendar/gui/e-day-view.c:2243 calendar/gui/e-day-view.c:2250
-#: calendar/gui/e-week-view.c:2553 calendar/gui/e-week-view.c:2560
+#: calendar/gui/e-day-view.c:2255 calendar/gui/e-day-view.c:2262
+#: calendar/gui/e-week-view.c:2557 calendar/gui/e-week-view.c:2564
 msgid "Edit this appointment..."
 msgstr "Bu toplantýyý deðiþtir .."
 
-#: calendar/gui/e-day-view.c:2244 calendar/gui/e-week-view.c:2554
+#: calendar/gui/e-day-view.c:2256 calendar/gui/e-week-view.c:2558
 msgid "Delete this appointment"
 msgstr "Bu toplantýyý sil"
 
-#: calendar/gui/e-day-view.c:2251 calendar/gui/e-week-view.c:2561
+#: calendar/gui/e-day-view.c:2263 calendar/gui/e-week-view.c:2565
 msgid "Make this appointment movable"
 msgstr "Bu toplantýyý taþýnabilir yap"
 
-#: calendar/gui/e-day-view.c:2252 calendar/gui/e-week-view.c:2562
+#: calendar/gui/e-day-view.c:2264 calendar/gui/e-week-view.c:2566
 msgid "Delete this occurrence"
 msgstr "Bu oluþumu sil"
 
-#: calendar/gui/e-day-view.c:2253 calendar/gui/e-week-view.c:2563
+#: calendar/gui/e-day-view.c:2265 calendar/gui/e-week-view.c:2567
 msgid "Delete all occurrences"
 msgstr "Yekin oluþumlarý sil"
 
@@ -1534,29 +1535,25 @@ msgstr "%.1f milyon bayt"
 msgid "%.1fG"
 msgstr "%.1f milyar bayt"
 
-#: composer/e-msg-composer-attachment-bar.c:307
+#: composer/e-msg-composer-attachment-bar.c:297
 msgid "Add attachment"
 msgstr "Eklem ekle"
 
-#: composer/e-msg-composer-attachment-bar.c:364 shell/e-shortcuts-view.c:332
+#: composer/e-msg-composer-attachment-bar.c:354 shell/e-shortcuts-view.c:332
 msgid "Remove"
 msgstr "Sil"
 
-#: composer/e-msg-composer-attachment-bar.c:365
+#: composer/e-msg-composer-attachment-bar.c:355
 msgid "Remove selected items from the attachment list"
 msgstr "Seçili birimleri eklemler listesinden sil"
 
-#: composer/e-msg-composer-attachment-bar.c:396
+#: composer/e-msg-composer-attachment-bar.c:386
 msgid "Add attachment..."
 msgstr "Eklem ekle ..."
 
-#: composer/e-msg-composer-attachment-bar.c:397
+#: composer/e-msg-composer-attachment-bar.c:387
 msgid "Attach a file to the message"
 msgstr "Iletiyi bir dosya ekle"
-
-#: composer/e-msg-composer-attachment.c:259
-msgid "Select attachment"
-msgstr "Eklemi seç"
 
 #: composer/e-msg-composer-hdrs.c:89
 msgid "Click here for the address book"
@@ -1719,11 +1716,15 @@ msgstr "_Sanal Dizin Sihirbazý ..."
 msgid "_Mail Configuration ..."
 msgstr "_ePosta ayarlarý ..."
 
-#: mail/folder-browser-factory.c:207
+#: mail/folder-browser-factory.c:91
+msgid "Forget _Passwords"
+msgstr "_Parolalarý unut"
+
+#: mail/folder-browser-factory.c:214
 msgid "We are sorry, Evolution's Folder Browser can not be initialized."
 msgstr "Özür dileriz, amma Evolution'un Dizin Gezgini baþlatýlanamadý ."
 
-#: mail/folder-browser.c:252
+#: mail/folder-browser.c:234
 msgid "Whether a message preview should be shown"
 msgstr "Ileti önizlemesinin gösterilmesini belirtir"
 
@@ -1789,8 +1790,7 @@ msgid ""
 "If the server requires authentication, you can click the \"Detect supported "
 "types...\" button after entering the other information."
 msgstr ""
-"ePosta sunucusunun türünü seç ve gerekli bilgileri de verebilirsin. "
-"\n"
+"ePosta sunucusunun türünü seç ve gerekli bilgileri de verebilirsin. \n"
 "\n"
 "Sunucu bir tanýmlama bekliyorsa o zaman \"Desteklenen türleri dene ...\" "
 "basmasýna öbür bilgiler verdikten sonra basabilirsin ."
@@ -1953,10 +1953,13 @@ msgstr ""
 "altýnda oturan tabaný kurmaya harcadýðýmýzý ve kullanýcý yüzüne\n"
 "o kadar çok zaman harcayamadýðýmýzý anla. Amma þu an daðýn tepesine\n"
 "vardýk ve þimdiden sonra ilgi ve sevigimizin büyük bir bölümünü kullanýcý\n"
-"yüzüne harcayacaðýz. Amma en azýndan bir deneme uygulamasýný kullanmýyorsun .\n"
-"Ve þimdi zaman bu vasat ikaz ve lisans iþlerine geldi. Evolution'un becerilerini sayalým :\n"
+"yüzüne harcayacaðýz. Amma en azýndan bir deneme uygulamasýný kullanmýyorsun "
+".\n"
+"Ve þimdi zaman bu vasat ikaz ve lisans iþlerine geldi. Evolution'un "
+"becerilerini sayalým :\n"
 "çökmeler, ePosta kaybý, ortada kalan yetim iþlemler, %%100 iþlem kullanýmý,\n"
-"kilitlenmeler, tesadüfi ePosta listelerine gönderilmiþ HTML ePostalarý ve arkadaþlarýnýn\n"
+"kilitlenmeler, tesadüfi ePosta listelerine gönderilmiþ HTML ePostalarý ve "
+"arkadaþlarýnýn\n"
 "ve meslektaþlarýnýn önünde utanmalar. Yani riski sana kalmýþ.\n"
 "\n"
 "Aðýr bir iþin sonucunu beðindiðinizi umup, sizin katkýlarýný\n"
@@ -2326,3 +2329,6 @@ msgstr "Kitle %i"
 #: widgets/misc/e-clipped-label.c:106
 msgid "..."
 msgstr "..."
+
+#~ msgid "Select attachment"
+#~ msgstr "Eklemi seç"
