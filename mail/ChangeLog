@@ -1,3 +1,9 @@
+2003-04-01  Not Zed  <NotZed@Ximian.com>
+
+	* mail-display.c (mail_display_redisplay): if we're called and the
+	idle handler is set, remove it, so we dont go and redisplay it
+	again.  Fixes #40522.
+
 2003-03-14  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-display.c (do_external_viewer): Lookup the handler for the

@@ -1832,6 +1832,12 @@ mail_display_redisplay (MailDisplay *md, gboolean reset_scroll)
 	if (GTK_OBJECT_DESTROYED (md))
 		return;
 
+	/* we're in effect stealing the queued redisplay */
+	if (md->idle_id) {
+		g_source_remove(md->idle_id);
+		md->idle_id = 0;
+	}
+
 	fetch_cancel(md);
 	
 	md->last_active = NULL;
