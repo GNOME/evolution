@@ -1,5 +1,26 @@
 2003-07-24  Rodrigo Moya <rodrigo@ximian.com>
 
+	* gui/e-cal-view.h: define ECalViewEvent as the base struct for
+	the other views.
+
+	* gui/e-day-view.[ch]: EDayViewEvent is now based on ECalViewEvent.
+	(e_day_view_get_selected_events): made it return a list of
+	ECalViewEvent's, not CalComponent's, so that we can get more
+	information about the events.
+
+	* gui/e-week-view.[ch]: EWeekViewEvent is now based on ECalViewEvent.
+	(e_week_view_get_selected_events): same as e_day_view_get_selected_events.
+
+	* gui/e-cal-view.c (e_cal_view_cut_clipboard, e_cal_view_copy_clipboard,
+	 e_cal_view_delete_selected_event, e_cal_view_delete_selected_events,
+	 on_edit_appointment, on_save_as, on_print_event, on_meeting,
+	 on_forward, e_cal_view_create_popup_menu):
+	* gui/calendar-commands.c (sensitize_calendar_commands): updated
+	to read ECalViewEvent's instead of CalComponent's as returned
+	by e_cal_view_get_selected_events().
+
+2003-07-24  Rodrigo Moya <rodrigo@ximian.com>
+
 	* gui/e-cal-view.c (delete_event): check the uid before using it.
 
 2003-07-24  Rodrigo Moya <rodrigo@ximian.com>

@@ -1000,7 +1000,7 @@ e_week_view_get_selected_events (ECalView *cal_view)
 	}
 
 	if (event)
-		list = g_list_prepend (list, event->comp);
+		list = g_list_prepend (list, event);
 
 	return list;
 }

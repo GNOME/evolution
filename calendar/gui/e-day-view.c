@@ -3398,7 +3398,7 @@ e_day_view_get_selected_events (ECalView *cal_view)
 	}
 
 	if (event)
-		list = g_list_append (list, event->comp);
+		list = g_list_append (list, event);
 
 	return list;
 }

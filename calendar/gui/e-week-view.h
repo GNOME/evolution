@@ -143,17 +143,9 @@ struct _EWeekViewEventSpan {
 
 typedef struct _EWeekViewEvent EWeekViewEvent;
 struct _EWeekViewEvent {
-	CalComponent *comp;
-	time_t start;
-	time_t end;
-	guint16 start_minute;	/* Minutes from the start of the day. */
-	guint16 end_minute;
+	E_CAL_VIEW_EVENT_FIELDS
 	gint spans_index;
 	guint8 num_spans;
-
-	/* TRUE if the event is at a different UTC offset than our current
-	   timezone, i.e. it is in a different timezone. */
-	guint different_timezone : 1;
 };
 
 

@@ -599,20 +599,20 @@ sensitize_calendar_commands (GnomeCalendar *gcal, BonoboControl *control, gboole
 	/* occurrence-related menu items */
 	has_recurrences = FALSE;
 	if (n_selected > 0 && !read_only) {
-		CalComponent *comp;
+		ECalViewEvent *event;
 		GList *list;
 		GtkWidget *view;
 
 		view = gnome_calendar_get_current_view_widget (gcal);
 		list = e_cal_view_get_selected_events (E_CAL_VIEW (view));
 		if (list) {
-			comp = (CalComponent *) list->data;
+			event = (ECalViewEvent *) list->data;
 			g_list_free (list);
 		} else
-			comp = NULL;
+			event = NULL;
 
-		if (comp) {
-			if (cal_component_has_recurrences (comp))
+		if (event) {
+			if (cal_component_has_recurrences (event->comp))
 				has_recurrences = TRUE;
 		}
 	}

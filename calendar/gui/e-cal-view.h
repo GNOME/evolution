@@ -47,6 +47,20 @@ typedef enum {
 	E_CAL_VIEW_POS_BOTTOM_EDGE
 } ECalViewPosition;
 
+#define E_CAL_VIEW_EVENT_FIELDS \
+        GnomeCanvasItem *canvas_item; \
+        CalClient *client; \
+        CalComponent *comp; \
+        time_t start; \
+        time_t end; \
+        guint16 start_minute; \
+        guint16 end_minute; \
+        guint different_timezone : 1;
+
+typedef struct {
+	E_CAL_VIEW_EVENT_FIELDS
+} ECalViewEvent;
+        
 typedef struct _ECalView        ECalView;
 typedef struct _ECalViewClass   ECalViewClass;
 typedef struct _ECalViewPrivate ECalViewPrivate;
@@ -63,7 +77,7 @@ struct _ECalViewClass {
 	void (* selection_changed) (ECalView *cal_view);
 
 	/* Virtual methods */
-	GList * (* get_selected_events) (ECalView *cal_view);
+	GList * (* get_selected_events) (ECalView *cal_view); /* a GList of ECalViewEvent's */
 	void (* get_selected_time_range) (ECalView *cal_view, time_t *start_time, time_t *end_time);
 	void (* set_selected_time_range) (ECalView *cal_view, time_t start_time, time_t end_time);
 	gboolean (* get_visible_time_range) (ECalView *cal_view, time_t *start_time, time_t *end_time);
