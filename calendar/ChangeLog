@@ -1,5 +1,6 @@
 2003-12-18  Rodrigo Moya <rodrigo@ximian.com>
 
+	* gui/tasks-component.c (impl_createControls):
 	* gui/calendar-component.c (impl_createControls): make sure we
 	connect to the "changed" signals after setting the initial selections
 	on the ESourceSelector. Fixes some nasty warnings because of
