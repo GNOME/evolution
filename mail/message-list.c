@@ -125,7 +125,7 @@ message_list_init_renderers (MessageList *message_list)
 	
 	message_list->render_text = e_cell_text_new (
 		message_list->table_model,
-		NULL, GTK_JUSTIFY_LEFT);
+		NULL, GTK_JUSTIFY_LEFT, FALSE);
 
 	message_list->render_online_status = e_cell_checkbox_new ();
 	message_list->render_message_status = e_cell_checkbox_new ();

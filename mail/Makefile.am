@@ -5,7 +5,8 @@ INCLUDES = \
 	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"		\
 	-DEVOLUTION_ICONSDIR=\""$(iconsdir)"\"		\
 	-DEVOLUTION_LOCALEDIR=\""$(datadir)/locale"\"	\
-	-I$(srcdir)/../widgets				\
+	-I$(top_srcdir)/widgets				\
+	-I$(top_srcdir)/widgets/e-text			\
 	$(BONOBO_HTML_GNOME_CFLAGS)
 
 EVOLUTION_MAIL_CORBA_GENERATED = \
