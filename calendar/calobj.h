@@ -8,6 +8,7 @@
 #define CALOBJ_H
 
 #include <libgnome/libgnome.h>
+#include "versit/vcc.h"
 
 BEGIN_GNOME_DECLS
 
@@ -89,14 +90,16 @@ typedef struct {
 	char          *url;
 	time_t        recurid;
 
-	/* VALARM objects are always inside another object, never alone */
-	CalendarAlarm *alarm;
+	CalendarAlarm *dalarm;
+	CalendarAlarm *aalarm;
 } iCalObject;
 
 iCalObject *ical_new (char *comment, char *organizer, char *summary);
 iCalObject *ical_object_new (void);
 void        ical_object_destroy (iCalObject *ico);
+iCalObject *ical_object_create_from_vobject (VObject *obj, const char *object_name);
 
 END_GNOME_DECLS
 
 #endif
+

@@ -12,6 +12,7 @@ typedef struct {
 	GList  	*todo;
 	GList  	*journal;
 
+	time_t  created;
 	int     modified;
 } Calendar;
 

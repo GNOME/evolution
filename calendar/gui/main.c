@@ -173,10 +173,25 @@ GnomeUIInfo gnome_cal_menu [] = {
 	GNOMEUIINFO_END
 };
 
+GnomeUIInfo gnome_toolbar [] = {
+	{ GNOME_APP_UI_ITEM, N_("Prev"), N_("Previous"), /*previous_clicked*/0, 0, 0,
+	  GNOME_APP_PIXMAP_STOCK, GNOME_STOCK_MENU_BACK },
+	
+	{ GNOME_APP_UI_ITEM, N_("Today"), N_("Today"), /*previous_clicked*/0, 0, 0,
+	  GNOME_APP_PIXMAP_STOCK, GNOME_STOCK_MENU_BACK },
+	
+	{ GNOME_APP_UI_ITEM, N_("Next"), N_("Next"), /*previous_clicked*/0, 0, 0,
+	  GNOME_APP_PIXMAP_STOCK, GNOME_STOCK_MENU_FORWARD },
+	
+	GNOMEUIINFO_END
+};
+
 static void
 setup_menu (GtkWidget *gcal)
 {
 	gnome_app_create_menus_with_data (GNOME_APP (gcal), gnome_cal_menu, gcal);
+	gnome_app_create_toolbar_with_data (GNOME_APP (gcal), gnome_toolbar, gcal);
+	
 }
 
 static void
@@ -191,8 +206,13 @@ new_calendar (char *full_name, char *calendar_file)
 	setup_menu (toplevel);
 	gtk_widget_show (toplevel);
 
-	if (g_file_exists (calendar_file))
-		gnome_calendar_load (calendar_file);
+	if (g_file_exists (calendar_file)){
+		printf ("Trying to load %s\n", calendar_file);
+		gnome_calendar_load (GNOME_CALENDAR (toplevel), calendar_file);
+	} else {
+		printf ("tring: ./test.vcf\n");
+		gnome_calendar_load (GNOME_CALENDAR (toplevel), "./test.vcf");
+	}
 	active_calendars++;
 }
 	

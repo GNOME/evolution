@@ -13,6 +13,7 @@
  */
 
 #include "calendar.h"
+#include "versit/vcc.h"
 
 Calendar *
 calendar_new (char *title)
@@ -28,6 +29,7 @@ calendar_new (char *title)
 void
 calendar_add_object (Calendar *cal, iCalObject *obj)
 {
+	printf ("Adding object\n");
 	switch (obj->type){
 	case ICAL_EVENT:
 		cal->events = g_list_prepend (cal->events, obj);
@@ -132,4 +134,57 @@ calendar_compare_by_dtstart (gpointer a, gpointer b)
 	diff = obj1->dtstart - obj2->dtstart;
 
 	return (diff < 0) ? -1 : (diff > 0) ? 1 : 0;
+}
+
+#define str_val(obj) (char *) vObjectUStringZValue (obj)
+
+/* Loads our calendar contents from a vObject */
+void
+calendar_load_from_vobject (Calendar *cal, VObject *vcal)
+{
+	VObjectIterator i;;
+	
+	initPropIterator (&i, vcal);
+
+	while (moreIteration (&i)){
+		VObject *this = nextVObject (&i);
+		iCalObject *ical;
+		const char *object_name = vObjectName (this);
+
+		if (strcmp (object_name, VCDCreatedProp) == 0){
+			cal->created = time_from_isodate (str_val (this));
+			continue;
+		}
+		
+		if (strcmp (object_name, VCLocationProp) == 0)
+			continue; /* FIXME: imlement */
+
+		if (strcmp (object_name, VCProdIdProp) == 0)
+			continue; /* FIXME: implement */
+
+		if (strcmp (object_name, VCVersionProp) == 0)
+			continue; /* FIXME: implement */
+		
+		ical = ical_object_create_from_vobject (this, object_name);
+
+		if (ical)
+			calendar_add_object (cal, ical);
+	}
+}
+
+/* Loads a calendar from a file */
+void
+calendar_load (Calendar *cal, char *fname)
+{
+	VObject *vcal;
+	
+	if (cal->filename){
+		g_warning ("Calendar load called again\n");
+		return;
+	}
+
+	cal->filename = g_strdup (fname);
+	vcal = Parse_MIME_FromFileName (fname);
+	calendar_load_from_vobject (cal, vcal);
+	cleanVObject (vcal);
 }

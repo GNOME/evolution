@@ -29,6 +29,17 @@ time_from_isodate (char *str)
 	return mktime (&my_tm);
 }
 
+char *
+isodate_from_time_t (time_t t)
+{
+	struct tm *tm;
+	static char isotime [40];
+
+	tm = localtime (&t);
+	strftime (isotime, sizeof (isotime)-1, "%Y%m%dT%H%M%sZ", tm);
+	return &isotime;
+}
+
 time_t
 time_from_start_duration (time_t start, char *duration)
 {

@@ -28,7 +28,7 @@ typedef struct {
 
 guint     gnome_calendar_get_type    (void);
 GtkWidget *gnome_calendar_new        (char *title);
-void      gnome_calendar_load        (char *file);
+void      gnome_calendar_load        (GnomeCalendar *gcal, char *file);
 
 END_GNOME_DECLS
 

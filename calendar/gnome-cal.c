@@ -39,10 +39,13 @@ setup_widgets (GnomeCalendar *gcal)
 {
 	GtkWidget *notebook;
 	GtkWidget *day_view, *week_view, *year_view, *task_view;
-		
+	time_t now;
+
+	now = time (NULL);
+	
 	notebook  = gtk_notebook_new ();
 	day_view  = day_view_create  (gcal);
-	week_view = week_view_create (gcal);
+	week_view = gncal_week_view_new (gcal->cal, now);
 	year_view = year_view_create (gcal);
 	task_view = tasks_create (gcal);
 	
@@ -86,7 +89,7 @@ gnome_calendar_new (char *title)
 }
 
 void
-gnome_calendar_load (char *file)
+gnome_calendar_load (GnomeCalendar *gcal, char *file)
 {
-	
+	calendar_load (gcal->cal, file);
 }

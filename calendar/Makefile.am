@@ -9,15 +9,23 @@ INCLUDES = 			\
 bin_PROGRAMS = gnomecal
 
 gnomecal_SOURCES = \
-	main.c			\
-	gnome-cal.c		\
-	gnome-cal.h		\
-	views.c			\
 	calendar.c		\
 	calendar.h		\
 	calobj.c		\
 	calobj.h		\
-	views.h	
+	gncal-week-view.c	\
+	gncal-week-view.h	\
+	gncal-day-view.c	\
+	gncal-day-view.h	\
+	gnome-cal.c		\
+	gnome-cal.h		\
+	main.c			\
+	timeutil.c		\
+	timeutil.h		\
+	view-utils.h		\
+	view-utils.c		\
+	views.h			\
+	views.c
 	
 
 #gncal_SOURCES = \
