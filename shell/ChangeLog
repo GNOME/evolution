@@ -1,3 +1,9 @@
+2002-10-21  Ettore Perazzoli  <ettore@ximian.com>
+
+	* evolution-shell-component-utils.c
+	(e_get_activation_failure_msg): If the exception_id is NULL,
+	return NULL instead of crashing.  [#25891]
+
 2002-10-17  Ettore Perazzoli  <ettore@ximian.com>
 
 	[Implement the Cancel button in the "Open other user's folder"

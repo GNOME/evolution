@@ -155,6 +155,9 @@ e_get_activation_failure_msg (CORBA_Environment *ev)
 {
 	g_return_val_if_fail (ev != NULL, NULL);
 
+	if (CORBA_exception_id (ev) == NULL)
+		return NULL;
+
 	if (strcmp (CORBA_exception_id (ev), ex_OAF_GeneralError) != 0) {
 		return bonobo_exception_get_text (ev); 
 	} else {
