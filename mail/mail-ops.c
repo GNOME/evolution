@@ -123,7 +123,10 @@ do_fetch_mail (gpointer in_data, gpointer op_data, CamelException *ex)
 			return;
 	}
 	
-	folder = mail_tool_get_inbox (input->source_url, ex);
+	if (!strncmp (input->source_url, "mbox:", 5))
+		folder = mail_tool_do_movemail (input->source_url, ex);
+	else
+		folder = mail_tool_get_inbox (input->source_url, ex);
 	
 	if (folder == NULL) {
 		/* This happens with an IMAP source and on error 
