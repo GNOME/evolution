@@ -373,7 +373,8 @@ etable_key (ETable *table, int row, int col, GdkEvent *ev, FolderBrowser *fb)
 
 		gtk_adjustment_value_changed (vadj);
 		return TRUE;
-	} else if (ev->key.keyval == GDK_Delete) {
+	} else if (ev->key.keyval == GDK_Delete ||
+		   ev->key.keyval == GDK_KP_Delete) {
 		delete_msg (NULL, fb);
 		return TRUE;
 	}

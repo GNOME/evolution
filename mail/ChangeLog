@@ -1,3 +1,8 @@
+2000-06-05  Matt Loper  <matt@helixcode.com>
+
+	* folder-browser.c (etable_key): Allow "GDK_KP_Delete", a keypad
+	delete key, to delete a message.
+
 2000-06-05  Dan Winship  <danw@helixcode.com>
 
 	* session.c (evolution_auth_callback): Remember passwords between
