@@ -3,6 +3,11 @@ Evolution 1.0.6, 2002-06-03
 
 Bugzilla Bugs Fixed (see http://bugzilla.ximian.com/show_bug.cgi):
 
+  * Addressbook
+
+    #25054 -- "New Contact List" button is no longer active in
+              folders that don't support contact lists (Toshok)
+
   * Calendar
 
     #23350 -- Crash when refreshing meeting or task.  (JP)
@@ -30,12 +35,6 @@ Bugzilla Bugs Fixed (see http://bugzilla.ximian.com/show_bug.cgi):
               (Ettore)
 
 Other fixes:
-
-  * Mail
-
-    - Limit the size of UID arrays to 4k to make sure that the FETCH
-      command was small enough for some IMAP server limitations.
-      (Jeff)
 
   * Misc
 
