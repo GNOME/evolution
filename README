@@ -101,9 +101,8 @@ ftp.gnome.org. The (*)ed packages are available in Helix GNOME.
  - ORBit - 0.5.1 (*) or later from the orbit-stable-0-5 branch in CVS.
    (i.e. do 'cvs co -r orbit-stable-0-5 ORBit')
 
- - oaf - 0.3 or later. Note that if you build the current CVS version
-   of OAF rather than the 0.3 release, you will need a newer version
-   of ORBit than 0.5.1 (see above).
+ - oaf - 0.3 or later. Note that if you build a version newer than
+   0.3, you will need a newer version of ORBit than 0.5.1 (see above).
 
  - bonobo - Evolution always tracks the latest CVS versions of bonobo.
    Released versions will virtually always be too old (although as of
@@ -113,23 +112,19 @@ ftp.gnome.org. The (*)ed packages are available in Helix GNOME.
    *** either gnome-libs or evolution for the Makefiles to work
    *** properly.
 
- - gnome-vfs (released versions are OK currently, but CVS versions are
-   better.)
+ - gnome-vfs - 0.2 or later
 
  - libunicode - 0.4 or later, available from
    http://www.pango.org/download.shtml
 
- - gconf - from CVS (there are currently no released versions)
+ - gconf - 0.5 or later
 
  - gtkhtml - from CVS
 
  - libglade (*)
 
-
-At some point in the future, Evolution will have Pilot sync support,
-which will depend on the following libraries. (At the moment, it will
-check to see whether or not you have them, but it will not actually do
-anything with them.)
+If you want support for PalmPilot syncing (currently only supported by
+the calendar), you will also need the following packages:
 
  - pilot-link (*)
 
