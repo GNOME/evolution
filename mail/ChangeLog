@@ -1,5 +1,9 @@
 2004-01-20  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* em-migrate.c (em_migrate_imap_caches_1_4): New function to
+	migrate the imap cache.
+	(em_migrate_1_4): Migrate the IMAP cache. Fixes bug #52985.
+
 	* mail-session.c (request_password): Changed the logic of the
 	visibility of the passwd text so that we hid ethe passwd if the
 	flags have the SECRET bit set.

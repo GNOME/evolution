@@ -1255,7 +1255,7 @@ cp (const char *src, const char *dest, gboolean show_progress)
 	if ((fd[0] = open (src, O_RDONLY)) == -1)
 		return -1;
 	
-	if ((fd[1] = open (dest, O_WRONLY | O_CREAT | O_TRUNC, 0666)) == -1) {
+	if ((fd[1] = open (dest, O_WRONLY | O_CREAT | O_TRUNC, st.st_mode & 0666)) == -1) {
 		errnosav = errno;
 		close (fd[0]);
 		errno = errnosav;
@@ -1304,6 +1304,56 @@ cp (const char *src, const char *dest, gboolean show_progress)
 	errno = errnosav;
 	
 	return -1;
+}
+
+static int
+cp_r (const char *src, const char *dest)
+{
+	GString *srcpath, *destpath;
+	struct dirent *dent;
+	size_t slen, dlen;
+	struct stat st;
+	DIR *dir;
+	
+	if (camel_mkdir (dest, st.st_mode & 0777) == -1)
+		return -1;
+	
+	if (!(dir = opendir (src)))
+		return -1;
+	
+	srcpath = g_string_new (src);
+	g_string_append_c (srcpath, '/');
+	slen = srcpath->len;
+	
+	destpath = g_string_new (dest);
+	g_string_append_c (destpath, '/');
+	dlen = destpath->len;
+	
+	while ((dent = readdir (dir))) {
+		if (!strcmp (dent->d_name, ".") || !strcmp (dent->d_name, ".."))
+			continue;
+		
+		g_string_truncate (srcpath, slen);
+		g_string_truncate (destpath, dlen);
+		
+		g_string_append (srcpath, dent->d_name);
+		g_string_append (destpath, dent->d_name);
+		
+		if (stat (srcpath->str, &st) == -1)
+			continue;
+		
+		if (S_ISDIR (st.st_mode))
+			cp_r (srcpath->str, destpath->str);
+		else
+			cp (srcpath->str, destpath->str, FALSE);
+	}
+	
+	closedir (dir);
+	
+	g_string_free (destpath, TRUE);
+	g_string_free (srcfpath, TRUE);
+	
+	return 0;
 }
 
 static GString *
@@ -1675,7 +1725,7 @@ em_upgrade_xml_1_4 (xmlDocPtr doc)
 }
 
 static int
-em_upgrade_pop_uid_caches_1_4 (const char *evolution_dir, CamelException *ex)
+em_migrate_pop_uid_caches_1_4 (const char *evolution_dir, CamelException *ex)
 {
 	GString *oldpath, *newpath;
 	struct dirent *dent;
@@ -1751,6 +1801,28 @@ em_upgrade_pop_uid_caches_1_4 (const char *evolution_dir, CamelException *ex)
 	return 0;
 }
 
+static int
+em_migrate_imap_caches_1_4 (const char *evolution_dir, CamelException *ex)
+{
+	char *src, *dest;
+	struct stat st;
+	
+	src = g_build_filename (g_get_home_dir (), "evolution", "mail", "imap", NULL);
+	if (stat (src, &st) == -1 || !S_ISDIR (st.st_mode)) {
+		g_free (src);
+		return 0;
+	}
+	
+	dest = g_build_filename (evolution_dir, "imap", NULL);
+	
+	/* we don't care if this fails, it's only a cache... */
+	cp_r (src, dest);
+	
+	g_free (dest);
+	g_free (src);
+	
+	return 0;
+}
 
 static int
 em_migrate_1_4 (const char *evolution_dir, xmlDocPtr filters, xmlDocPtr vfolders, CamelException *ex)
@@ -1807,7 +1879,10 @@ em_migrate_1_4 (const char *evolution_dir, xmlDocPtr filters, xmlDocPtr vfolders
 	if (em_upgrade_xml_1_4 (vfolders) == -1)
 		return -1;
 	
-	if (em_upgrade_pop_uid_caches_1_4 (evolution_dir, ex) == -1)
+	if (em_migrate_pop_uid_caches_1_4 (evolution_dir, ex) == -1)
+		return -1;
+	
+	if (em_migrate_imap_caches_1_4 (evolution_dir, ex) == -1)
 		return -1;
 	
 	return 0;
