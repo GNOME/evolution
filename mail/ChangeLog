@@ -1,3 +1,10 @@
+2001-02-22  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-accounts.c (construct): Construct the PGP Path
+	GnomeFileEntry widget.
+	(pgp_path_changed): Try to auto-detect which PGP type the binary
+	file is based on the basename (yuck).
+
 2001-02-23  Not Zed  <NotZed@Ximian.com>
 
 	* mail-ops.c (create_folder_get): Make op cancellable/report
