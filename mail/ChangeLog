@@ -1,5 +1,13 @@
 2003-11-06  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* em-migrate.c (em_migrate_filter_file): Call em_migrate_uri()
+	instead of em_uri_from_camel().
+	(em_migrate_uri): Special-case file: uri's by converting them into
+	email://local@local/ uri's since these folders will have been
+	migrated to the newer mbox tree structure.
+
+2003-11-06  Jeffrey Stedfast  <fejj@ximian.com>
+
 	* mail-vfolder.c (mail_vfolder_delete_uri): User vfolder rules
 	should be in ${evolution_dir}/mail/vfolders.xml rather than
 	${evolution_dir}/vfolders.xml

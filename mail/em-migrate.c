@@ -490,7 +490,45 @@ xml_find_node (xmlNodePtr parent, const char *name)
 	return NULL;
 }
 
-static int
+static char *
+em_migrate_uri (const char *uri)
+{
+	char *path, *prefix, *p;
+	CamelURL *url;
+	
+	if (!strncmp (uri, "file:", 5)) {
+		url = camel_url_new (uri, NULL);
+		camel_url_set_protocol (url, "email");
+		camel_url_set_user (url, "local");
+		camel_url_set_host (url, "local");
+		
+		prefix = g_build_filename (g_get_home_dir (), "evolution", "local", NULL);
+		g_assert (strncmp (url->path, prefix, strlen (prefix)) == 0);
+		path = g_strdup (url->path + strlen (prefix));
+		g_free (prefix);
+		
+		/* modify the path in-place */
+		p = path + strlen (path) - 12;
+		while (p > path) {
+			if (!strncmp (p, "/subfolders/", 12))
+				memmove (p, p + 11, strlen (p + 11) + 1);
+			
+			p--;
+		}
+		
+		camel_url_set_path (url, path);
+		g_free (path);
+		
+		path = camel_url_to_string (url, 0);
+		camel_url_free (url);
+		
+		return path;
+	} else {
+		return em_uri_from_camel (uri);
+	}
+}
+
+int
 em_migrate_filter_file (const char *evolution_dir, const char *filename, CamelException *ex)
 {
 	char *path, *uri, *new;
@@ -545,7 +583,7 @@ em_migrate_filter_file (const char *evolution_dir, const char *filename, CamelEx
 								if (type && !strcmp (type, "folder")) {
 									if ((n = xml_find_node (val, "folder"))) {
 										uri = xmlGetProp (n, "uri");
-										new = em_uri_from_camel (uri);
+										new = em_migrate_uri (uri);
 										xmlFree (uri);
 										
 										xmlSetProp (n, "uri", new);
