@@ -36,7 +36,7 @@ static CamelProvider news_provider = {
 
 	"news",
 
-	CAMEL_PROVIDER_IS_REMOTE,
+	CAMEL_PROVIDER_IS_REMOTE | CAMEL_PROVIDER_IS_STORAGE,
 
 	{ 0, 0 },
 

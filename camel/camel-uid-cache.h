@@ -1,11 +1,11 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/* camel-mbox-provider.c: mbox provider registration code */
+/* camel-uid-cache.h: UID caching code. */
 
 /* 
- * Authors :
- *   Bertrand Guiheneuf <bertrand@helixcode.com>
+ * Authors:
+ *  Bertrand Guiheneuf <bertrand@helixcode.com>
  *
- * Copyright (C) 2000 HelixCode (www.helixcode.com).
+ * Copyright 2000 Helix Code, Inc. (http://www.helixcode.com)
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -23,32 +23,34 @@
  * USA
  */
 
-#include "config.h"
-#include "camel-mh-store.h"
-#include "camel-provider.h"
-#include "camel-session.h"
-#include "camel-url.h"
+#ifndef CAMEL_UID_CACHE_H
+#define CAMEL_UID_CACHE_H 1
 
-static CamelProvider mh_provider = {
-	"mh",
-	"UNIX mh-format mail files",
+#ifdef __cplusplus
+extern "C" {
+#pragma }
+#endif /* __cplusplus */
 
-	"For reading mail delivered by the local system, and for " "storing mail on local disk.",
+#include <glib.h>
+#include <stdio.h>
 
-	"mail",
+typedef struct {
+	int fd, level;
+	GHashTable *uids;
+} CamelUIDCache;
 
-	CAMEL_PROVIDER_IS_STORAGE,
+CamelUIDCache *camel_uid_cache_new (const char *filename);
+gboolean camel_uid_cache_save (CamelUIDCache *cache);
+void camel_uid_cache_destroy (CamelUIDCache *cache);
 
-	{0, 0},
+GPtrArray *camel_uid_cache_get_new_uids (CamelUIDCache *cache,
+					 GPtrArray *uids);
+void camel_uid_cache_free_uids (GPtrArray *uids);
 
-	NULL
-};
 
-void camel_provider_module_init(CamelSession * session)
-{
-	mh_provider.object_types[CAMEL_PROVIDER_STORE] = camel_mh_store_get_type();
-
-	mh_provider.service_cache = g_hash_table_new(camel_url_hash, camel_url_equal);
-
-	camel_session_register_provider(session, &mh_provider);
+#ifdef __cplusplus
 }
+#endif /* __cplusplus */
+
+
+#endif /* CAMEL_UID_CACHE_H */

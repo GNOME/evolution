@@ -48,7 +48,12 @@ typedef enum {
 
 extern char *camel_provider_type_name[CAMEL_NUM_PROVIDER_TYPES];
 
+/* _IS_SOURCE means the user can get mail from there.
+ * _IS_STORAGE means the user can read mail from there.
+ */
 #define CAMEL_PROVIDER_IS_REMOTE	(1 << 0)
+#define CAMEL_PROVIDER_IS_SOURCE	(1 << 1)
+#define CAMEL_PROVIDER_IS_STORAGE	(1 << 2)
 
 typedef struct {
 	/* Provider name used in CamelURLs. */

@@ -1,5 +1,16 @@
 2000-08-08  Dan Winship  <danw@helixcode.com>
 
+	* camel-uid-cache.c: New code to keep an on-disk cache of what
+	UIDs have been seen in a folder.
+
+	* camel-provider.h: Add new flags CAMEL_PROVIDER_IS_SOURCE (mail
+	can arrive in it by non-Camel means) and CAMEL_PROVIDER_IS_STORAGE
+	(you can work with mail directly without needing to copy it local).
+
+	* providers/*/camel-*-provider.c: Add flags as needed: imap and
+	mbox are SOURCE and STORAGE. mh and nntp are just STORAGE, pop3 is
+	just SOURCE.
+
 	* camel-mime-message.c (process_header): Add another subject
 	g_strstrip that fejj's earlier commit missed.
 
