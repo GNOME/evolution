@@ -53,6 +53,6 @@ noinst_HEADERS =				\
 
 libcamellocal_la_LDFLAGS = -version-info 0:0:0
 
-libcamellocal_la_LIBADD = $(top_builddir)/e-util/libeutil.la $(top_builddir)/libibex/libibex.la $(UNICODE_LIBS)
+libcamellocal_la_LIBADD = $(top_builddir)/e-util/libeutil.la $(top_builddir)/libibex/libibex.la
 
 EXTRA_DIST = libcamellocal.urls

@@ -7,8 +7,7 @@
 #include <unistd.h>
 #include <string.h>
 #include <stdio.h>
-
-#include <unicode.h>
+#include <iconv.h>
 
 #include <camel/camel-internet-address.h>
 #include <camel/camel-address.h>
@@ -17,12 +16,12 @@
 
 static char *convert(const char *in, const char *from, const char *to)
 {
-	unicode_iconv_t ic = unicode_iconv_open(to, from);
+	iconv_t ic = iconv_open(to, from);
 	char *out, *outp;
 	const char *inp;
 	int inlen, outlen;
 
-	if (ic == (unicode_iconv_t)-1)
+	if (ic == (iconv_t)-1)
 		return g_strdup(in);
 
 	inlen = strlen(in);
@@ -31,19 +30,19 @@ static char *convert(const char *in, const char *from, const char *to)
 	outp = out = g_malloc(outlen);
 	inp = in;
 
-	if (unicode_iconv(ic, &inp, &inlen, &outp, &outlen) == -1) {
+	if (iconv(ic, &inp, &inlen, &outp, &outlen) == -1) {
 		test_free(out);
-		unicode_iconv_close(ic);
+		iconv_close(ic);
 		return g_strdup(in);
 	}
 
-	if (unicode_iconv(ic, NULL, 0, &outp, &outlen) == -1) {
+	if (iconv(ic, NULL, 0, &outp, &outlen) == -1) {
 		test_free(out);
-		unicode_iconv_close(ic);
+		iconv_close(ic);
 		return g_strdup(in);
 	}
 
-	unicode_iconv_close(ic);
+	iconv_close(ic);
 
 	*outp = 0;
 
@@ -51,17 +50,17 @@ static char *convert(const char *in, const char *from, const char *to)
 	/* lets see if we can convert back again? */
 	{
 		char *nout, *noutp;
-		unicode_iconv_t ic = unicode_iconv_open(from, to);
+		iconv_t ic = iconv_open(from, to);
 
 		inp = out;
 		inlen = strlen(out);
 		outlen = inlen*5 + 16;
 		noutp = nout = g_malloc(outlen);
-		if (unicode_iconv(ic, &inp, &inlen, &noutp, &outlen) == -1
-		    || unicode_iconv(ic, NULL, 0, &noutp, &outlen) == -1) {
+		if (iconv(ic, &inp, &inlen, &noutp, &outlen) == -1
+		    || iconv(ic, NULL, 0, &noutp, &outlen) == -1) {
 			g_warning("Cannot convert '%s' \n from %s to %s: %s\n", in, to, from, strerror(errno));
 		}
-		unicode_iconv_close(ic);
+		iconv_close(ic);
 	}
 
 	/* and lets see what camel thinks out optimal charset is */

@@ -31,6 +31,6 @@ libcamelsmtpinclude_HEADERS =			\
 
 libcamelsmtp_la_LDFLAGS = -version-info 0:0:0
 
-libcamelsmtp_la_LIBADD = $(top_builddir)/e-util/libeutil.la $(UNICODE_LIBS)
+libcamelsmtp_la_LIBADD = $(top_builddir)/e-util/libeutil.la
 
 EXTRA_DIST = libcamelsmtp.urls

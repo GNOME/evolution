@@ -1,5 +1,32 @@
 2001-04-26  Dan Winship  <danw@ximian.com>
 
+	* Makefile.am (INCLUDES): Remove UNICODE_CFLAGS (and some other
+	stuff that's redundant with EXTRA_GNOME_CFLAGS)
+	(libcamel_la_LIBADD): Replace UNICODE_LIBS with GAL_LIBS.
+
+	* camel-search-private.c: 
+	* camel-pgp-context.c: 
+	* camel-mime-utils.c: Use gunicode interfaces rather than
+	libunicode.
+
+	* camel-charset-map.c: Use gunicode rather than libunicode. (The
+	charmap-regen code still depends on libunicode though.)
+
+	* camel-mime-filter-charset.h: 
+	* tests/message/test2.c (convert): Use iconv rather than
+	unicode_iconv.
+
+	* providers/smtp/Makefile.am (libcamelsmtp_la_LIBADD): 
+	* providers/pop3/Makefile.am (libcamelpop3_la_LIBADD): 
+	* providers/local/Makefile.am (libcamellocal_la_LIBADD): Remove
+	UNICODE_LIBS.
+
+	* camel.c (camel_init): Remove call to unicode_init.
+
+	* camel-mime-parser.c: Remove unused unicode.h include.
+
+2001-04-26  Dan Winship  <danw@ximian.com>
+
 	* camel-service.c (get_host): Use e_gethostbyname_r.
 	(camel_service_gethost): Remove unused var.
 

@@ -35,8 +35,6 @@
 #include <stdio.h>
 #include <errno.h>
 
-#include <unicode.h>
-
 #include <regex.h>
 #include <ctype.h>
 

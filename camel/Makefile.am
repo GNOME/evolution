@@ -10,10 +10,7 @@ lib_LTLIBRARIES = libcamel.la
 INCLUDES = -I.. -I$(srcdir)/.. 			 \
 	-I$(top_srcdir)/intl			 \
 	-I$(top_srcdir)/e-util			 \
-	$(GNOME_INCLUDEDIR)			 \
-	$(GLIB_CFLAGS)				 \
 	$(GNOME_XML_CFLAGS)			 \
-	$(UNICODE_CFLAGS)			 \
 	$(EXTRA_GNOME_CFLAGS)			 \
 	$(KRB4_CFLAGS)				 \
 	$(NSPR_CFLAGS)				 \
@@ -173,7 +170,7 @@ libcamelinclude_HEADERS =			\
 libcamel_la_LDFLAGS = -version-info 0:0:0 -rpath $(libdir)
 
 libcamel_la_LIBADD = $(top_builddir)/e-util/libeutil.la \
-	$(UNICODE_LIBS)				\
+	$(GAL_LIBS)				\
 	$(KRB4_LDFLAGS)				\
 	$(NSPR_LDFLAGS)				\
 	$(NSS_LDFLAGS)

@@ -27,7 +27,6 @@
 #include <config.h>
 #endif
 
-#include <unicode.h>
 #ifdef HAVE_NSS
 #include <nspr.h>
 #include <prthread.h>
@@ -52,8 +51,6 @@ camel_init (const char *certdb_dir, gboolean nss_init)
 	
 	if (getenv ("CAMEL_VERBOSE_DEBUG"))
 		camel_verbose_debug = TRUE;
-	
-	unicode_init ();
 	
 #ifdef HAVE_NSS
 	if (nss_init) {

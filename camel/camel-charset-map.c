@@ -201,7 +201,7 @@ void main(void)
 
 #include "camel-charset-map.h"
 #include "camel-charset-map-private.h"
-#include <unicode.h>
+#include <gal/unicode/gunicode.h>
 #include <locale.h>
 #include <string.h>
 #include <glib.h>
@@ -224,13 +224,14 @@ camel_charset_step(CamelCharset *c, const char *in, int len)
 
 	/* check what charset a given string will fit in */
 	while (inptr < inend) {
-		unicode_char_t c;
+		gunichar c;
 		const char *newinptr;
-		newinptr = unicode_get_utf8(inptr, &c);
+		newinptr = g_utf8_next_char(inptr);
 		if (newinptr == NULL) {
 			inptr++;
 			continue;
 		}
+		c = g_utf8_get_char(inptr);
 		inptr = newinptr;
 		if (c<=0xffff) {
 			mask &= charset_mask(c);

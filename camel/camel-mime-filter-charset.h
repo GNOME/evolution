@@ -22,7 +22,7 @@
 #define _CAMEL_MIME_FILTER_CHARSET_H
 
 #include <camel/camel-mime-filter.h>
-#include <unicode.h>
+#include <iconv.h>
 
 #define CAMEL_MIME_FILTER_CHARSET(obj)         CAMEL_CHECK_CAST (obj, camel_mime_filter_charset_get_type (), CamelMimeFilterCharset)
 #define CAMEL_MIME_FILTER_CHARSET_CLASS(klass) CAMEL_CHECK_CLASS_CAST (klass, camel_mime_filter_charset_get_type (), CamelMimeFilterCharsetClass)
@@ -35,7 +35,7 @@ struct _CamelMimeFilterCharset {
 
 	struct _CamelMimeFilterCharsetPrivate *priv;
 
-	unicode_iconv_t ic;
+	iconv_t ic;
 	char *from;
 	char *to;
 };

@@ -38,7 +38,6 @@
 #define MAXHOSTNAMELEN 1024
 #endif
 
-#include <unicode.h>
 #include <iconv.h>
 
 #include <time.h>
@@ -48,6 +47,7 @@
 #include <regex.h>
 
 #include <glib.h>
+#include <gal/unicode/gunicode.h>
 
 #include "camel-mime-utils.h"
 #include "camel-charset-map.h"
@@ -128,7 +128,7 @@ static unsigned char camel_mime_base64_rank[256] = {
   if any of these change, then the tables above should be regenerated
   by compiling this with -DBUILD_TABLE, and running.
 
-  gcc -DCLEAN_DATE -o buildtable -I.. `glib-config --cflags --libs` -lunicode -DBUILD_TABLE camel-mime-utils.c camel-charset-map.c
+  gcc -DCLEAN_DATE -o buildtable -I.. `gnome-config --cflags --libs gal` -DBUILD_TABLE camel-mime-utils.c camel-charset-map.c
   ./buildtable
 
 */
@@ -1277,18 +1277,19 @@ header_encode_string (const unsigned char *in)
 	word = NULL;
 	start = inptr;
 	while (inptr && *inptr) {
-		unicode_char_t c;
+		gunichar c;
 		const char *newinptr;
 		
-		newinptr = unicode_get_utf8 (inptr, &c);
+		newinptr = g_utf8_next_char (inptr);
 		if (newinptr == NULL) {
 			w(g_warning ("Invalid UTF-8 sequence encountered (pos %d, char '%c'): %s",
 				     (inptr-in), inptr[0], in));
 			inptr++;
 			continue;
 		}
+		c = g_utf8_get_char (inptr);
 		
-		if (unicode_isspace (c) && !last_was_space) {
+		if (g_unichar_isspace (c) && !last_was_space) {
 			/* we've reached the end of a 'word' */
 			if (word && !(last_was_encoded && encoding)) {
 				g_string_append_len (out, start, word - start);
@@ -1327,11 +1328,11 @@ header_encode_string (const unsigned char *in)
 		} else if (c >= 256) {
 			encoding = MAX (encoding, 2);
 			last_was_space = FALSE;
-		} else if (!unicode_isspace (c)) {
+		} else if (!g_unichar_isspace (c)) {
 			last_was_space = FALSE;
 		}
 		
-		if (!unicode_isspace (c) && !word)
+		if (!g_unichar_isspace (c) && !word)
 			word = inptr;
 		
 		inptr = newinptr;
@@ -1422,19 +1423,20 @@ header_encode_phrase_get_words (const unsigned char *in)
 	start = inptr;
 	encoding = 0;
 	while (inptr && *inptr) {
-		unicode_char_t c;
+		gunichar c;
 		const char *newinptr;
 		
-		newinptr = unicode_get_utf8 (inptr, &c);
+		newinptr = g_utf8_next_char (inptr);
 		if (newinptr == NULL) {
 			w(g_warning ("Invalid UTF-8 sequence encountered (pos %d, char '%c'): %s",
 				     (inptr - in), inptr[0], in));
 			inptr++;
 			continue;
 		}
+		c = g_utf8_get_char (inptr);
 		
 		inptr = newinptr;
-		if (unicode_isspace (c)) {
+		if (g_unichar_isspace (c)) {
 			if (count > 0) {
 				word = g_new0 (struct _phrase_word, 1);
 				word->start = start;

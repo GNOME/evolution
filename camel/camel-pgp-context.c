@@ -31,8 +31,6 @@
 
 #include "camel-charset-map.h"
 
-#include <gtk/gtk.h> /* for _() macro */
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -52,8 +50,8 @@
 #include <unistd.h>
 #include <signal.h>
 
-#include <unicode.h>
 #include <iconv.h>
+#include <gal/unicode/gunicode.h>
 
 #define d(x)
 
@@ -992,14 +990,13 @@ pgp_verify (CamelCipherContext *ctx, CamelStream *istream,
 			*outbuf = '\0';
 		} else {
 			const char *inptr, *inend;
-			unicode_char_t c;
 			
 			inptr = diagnostics;
 			inend = inptr + inlen;
 			
 			while (inptr && inptr < inend) {
-				inptr = unicode_get_utf8 (inptr, &c);
-				*outbuf++ = c & 0xff;
+				*outbuf++ = g_utf8_get_char (inptr) & 0xff;
+				inptr = g_utf8_next_char (inptr);
 			}
 			
 			*outbuf = '\0';
