@@ -569,7 +569,6 @@ camel_session_forget_password (CamelSession *session, CamelService *service,
 			       const char *item, CamelException *ex)
 {
 	g_return_if_fail (CAMEL_IS_SESSION (session));
-	g_return_if_fail (CAMEL_IS_SERVICE (service));
 	g_return_if_fail (item != NULL);
 
 	CS_CLASS (session)->forget_password (session, service, item, ex);

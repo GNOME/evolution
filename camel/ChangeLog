@@ -1,5 +1,8 @@
 2001-05-16  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* camel-session.c (camel_session_forget_password): The service can
+	be NULL here too, thanks to Wayne Davis for pointing this out.
+
 	* camel-smime-context.c (camel_smime_context_new): We don't need
 	to be passed the certdb path anymore.
 
