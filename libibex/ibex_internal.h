@@ -26,6 +26,10 @@
 #include "block.h"
 #include "wordindex.h"
 
+#ifdef ENABLE_THREADS
+#include <pthread.h>
+#endif
+
 struct ibex {
 	struct ibex *next;	/* for list of open ibex's */
 	struct ibex *prev;
@@ -40,7 +44,7 @@ struct ibex {
 	int predone;
 
 #ifdef ENABLE_THREADS
-	GMutex *lock;
+	pthread_mutex_t lock;
 #endif
 	
 };
@@ -50,9 +54,9 @@ struct ibex {
 #ifdef ENABLE_THREADS
 /*#define IBEX_LOCK(ib) (printf(__FILE__ "%d: %s: locking ibex\n", __LINE__, __FUNCTION__), g_mutex_lock(ib->lock))
   #define IBEX_UNLOCK(ib) (printf(__FILE__ "%d: %s: unlocking ibex\n", __LINE__, __FUNCTION__), g_mutex_unlock(ib->lock))*/
-#define IBEX_LOCK(ib) (g_mutex_lock(ib->lock))
-#define IBEX_UNLOCK(ib) (g_mutex_unlock(ib->lock))
-#define IBEX_TRYLOCK(ib) (g_mutex_trylock(ib->lock))
+#define IBEX_LOCK(ib) (pthread_mutex_lock(&ib->lock))
+#define IBEX_UNLOCK(ib) (pthread_mutex_unlock(&ib->lock))
+#define IBEX_TRYLOCK(ib) (pthread_mutex_trylock(&ib->lock))
 #else
 #define IBEX_LOCK(ib) 
 #define IBEX_UNLOCK(ib) 

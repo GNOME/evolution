@@ -358,7 +358,7 @@ ibex *ibex_open (char *file, int flags, int mode)
 	ib->mode = mode;
 
 #ifdef ENABLE_THREADS
-	ib->lock = g_mutex_new();
+	pthread_mutex_init(&ib->lock, NULL);
 #endif
 
 	IBEX_LIST_LOCK(ib);
@@ -481,8 +481,9 @@ int ibex_close (ibex *ib)
 	g_free(ib->name);
 
 #ifdef ENABLE_THREADS
-	g_mutex_free(ib->lock);
+	pthread_mutex_destroy(&ib->lock);
 #endif
+
 	g_free(ib);
 
 	return ret;

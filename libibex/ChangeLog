@@ -1,3 +1,10 @@
+2001-11-01    <NotZed@Ximian.com>
+
+	* ibex_block.c (ibex_open): Change to use pthread_mutex directly.
+	(ibex_close): Same.
+
+	* ibex_internal.h: Changed to use pthread mutexes.  Fixes #14218.
+
 2001-10-31    <NotZed@Ximian.com>
 
 	* ibex_internal.h (IBEX_TRYLOCK): Added a trylock, used by ibex_use.
