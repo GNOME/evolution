@@ -87,9 +87,13 @@ control_activate (BonoboControl     *control,
 	folder_browser = bonobo_control_get_widget (control);
 	folder_browser_set_ui_component (FOLDER_BROWSER (folder_browser), uic);
 
+	bonobo_ui_component_freeze (uic, NULL);
+
 	folder_browser_ui_add_global (fb);
 	folder_browser_ui_add_list (fb);
 	folder_browser_ui_add_message (fb);
+
+	bonobo_ui_component_thaw (uic, NULL);
 
 	folder_browser_set_shell_view(fb, fb_get_svi (control));
 
@@ -102,8 +106,12 @@ control_deactivate (BonoboControl     *control,
 		    BonoboUIComponent *uic,
 		    FolderBrowser     *fb)
 {
+	bonobo_ui_component_freeze (uic, NULL);
+
 	folder_browser_ui_rm_list (fb);
 	folder_browser_ui_rm_all (fb);
+
+	bonobo_ui_component_thaw (uic, NULL);
 	
 	if (fb->folder)
 		mail_sync_folder (fb->folder, NULL, NULL);

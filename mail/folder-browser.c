@@ -169,6 +169,11 @@ folder_browser_finalise (GtkObject *object)
 	
 	if (folder_browser->clipboard_selection)
 		g_byte_array_free (folder_browser->clipboard_selection, TRUE);
+
+	if (folder_browser->sensitise_state) {
+		g_hash_table_destroy(folder_browser->sensitise_state);
+		folder_browser->sensitise_state = NULL;
+	}
 	
 	folder_browser_parent_class->finalize (object);
 }
@@ -1019,16 +1024,15 @@ folder_browser_set_message_preview (FolderBrowser *folder_browser, gboolean show
 	if (show_message_preview) {
 		int y;
 		y = save_cursor_pos (folder_browser);
-		e_paned_set_position (E_PANED (folder_browser->vpaned),
-				      mail_config_get_paned_size ());
+		e_paned_set_position (E_PANED (folder_browser->vpaned), mail_config_get_paned_size ());
 		gtk_widget_show (GTK_WIDGET (folder_browser->mail_display));
 		do_message_selected (folder_browser);
 		set_cursor_pos (folder_browser, y);
 	} else {
-		e_paned_set_position (E_PANED (folder_browser->vpaned),
-				      10000);
+		e_paned_set_position (E_PANED (folder_browser->vpaned), 10000);
 		gtk_widget_hide (GTK_WIDGET (folder_browser->mail_display));
 		mail_display_set_message(folder_browser->mail_display, NULL);
+		folder_browser_ui_message_loaded(folder_browser);
 	}
 }
 
@@ -1856,7 +1860,6 @@ done_message_selected (CamelFolder *folder, char *uid, CamelMimeMessage *msg, vo
 		return;
 	
 	mail_display_set_message (fb->mail_display, (CamelMedium *)msg);
-	folder_browser_ui_message_loaded (fb);
 
 	/* FIXME: should this signal be emitted here?? */
 	gtk_signal_emit (GTK_OBJECT (fb), folder_browser_signals [MESSAGE_LOADED], uid);
@@ -1874,6 +1877,8 @@ done_message_selected (CamelFolder *folder, char *uid, CamelMimeMessage *msg, vo
 	g_free (fb->loaded_uid);
 	fb->loaded_uid = fb->loading_uid;
 	fb->loading_uid = NULL;
+
+	folder_browser_ui_message_loaded (fb);
 	
 	/* if we are still on the same message, do the 'idle read' thing */
 	if (fb->seen_id)

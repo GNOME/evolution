@@ -24,4 +24,7 @@ void folder_browser_ui_rm_all (FolderBrowser *fb);
 void folder_browser_ui_set_selection_state (FolderBrowser *fb, FolderBrowserSelectionState state);
 void folder_browser_ui_message_loaded (FolderBrowser *fb);
 
+/* Set the sensitivity of a single item */
+void fbui_sensitise_item(FolderBrowser *fb, const char *item, int state);
+
 #endif /* _FOLDER_BROWSER_UI_H */

@@ -1,3 +1,40 @@
+2001-10-24    <NotZed@Ximian.com>
+
+	* message-browser.c (message_browser_message_loaded): Call
+	ui_message_loaded when we are.
+
+	* folder-browser-factory.c (control_activate): Freeze/thaw around
+	all updates.
+	(control_deactivate): Freeze/thaw around all updates.
+
+	* folder-browser.c (folder_browser_init): Setup a hashtable to
+	keep track of *our* sensitise state, so we can optimise pushes to
+	bonobo.
+	(folder_browser_finalise): Free hash here.
+	(folder_browser_set_message_preview): Call a ui_message_loaded,
+	even though it isn't, so it updates sensitivities right.
+	(done_message_selected): Call ui_message_loaded when it really is,
+	rather than the very fucked up idea of reversing the loaded_uid
+	check.
+
+	* folder-browser-ui.c (folder_browser_ui_set_selection_state):
+	Dont enable the message-enabled options if the message display is
+	hidden, e.g. print, view headers, etc.
+	(folder_browser_ui_rm_all): Forget sensitise state.
+	(fbui_sensitise_item): Sensitise items via a current-state table,
+	so we dont have to do bonobo calls every time.
+	(folder_browser_setup_property_menu): Call sensitise_item.
+	(folder_browser_ui_add_message): 
+	(folder_browser_ui_add_global): Leave current set_prop "sensitive"
+	for the stop button, so it doesn't get lost by the stuff in
+	mail-mt.c
+	(fbui_real_sensitize_items): Removed.
+	(fbui_sensitize_timeout): Cleaned up, use sensitise_item to do
+	work.
+	(folder_browser_ui_message_loaded): Setup sensitive based on
+	preview_shown too.
+	(folder_browser_ui_set_selection_state): And here too.
+
 2001-10-23  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-account-gui.c (service_check_supported): Don't allow an

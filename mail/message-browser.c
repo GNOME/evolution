@@ -109,6 +109,8 @@ message_browser_message_loaded (FolderBrowser *fb, const char *uid, MessageBrows
 	CamelMimeMessage *message;
 	char *subject = NULL;
 	char *title;
+
+	folder_browser_ui_message_loaded(fb);
 	
 	message = fb->mail_display->current_message;
 	

@@ -74,6 +74,7 @@ struct  _FolderBrowser {
 	
 	FolderBrowserSelectionState selection_state;
 	GSList *sensitize_changes;
+	GHashTable *sensitise_state; /* the last sent sensitise state, to avoid much bonobo overhead */
 	int sensitize_timeout_id;
 	
 	/* View collection and the menu handler object */
