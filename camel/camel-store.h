@@ -33,6 +33,7 @@ extern "C" {
 
 #include <gtk/gtk.h>
 #include "camel-folder.h"
+#include "camel-service.h"
 
 #define CAMEL_STORE_TYPE     (camel_store_get_type ())
 #define CAMEL_STORE(obj)     (GTK_CHECK_CAST((obj), CAMEL_STORE_TYPE, CamelStore))
@@ -51,7 +52,7 @@ typedef struct _CamelStore CamelStore;
 
 struct _CamelStore
 {
-	GtkObject parent_object;	
+	CamelService parent_object;	
 	
 	gchar separator;
 };
@@ -59,15 +60,23 @@ struct _CamelStore
 
 
 typedef struct {
-	GtkObjectClass parent_class;
+	CamelServiceClass parent_class;
+
 	void (*set_separator) (CamelStore *store, gchar sep);
 	gchar (*get_separator) (CamelStore *store);
-	CamelFolder * (*get_folder) (GString *folder_name);
+	CamelFolder * (*get_folder) (CamelStore *store, GString *folder_name);
 	CamelFolder * (*get_root_folder) (CamelStore *store);
 	CamelFolder * (*get_default_folder) (CamelStore *store);
 
 } CamelStoreClass;
 
+
+/* public methods */
+
+/* Standard Gtk function */
+GtkType camel_store_get_type (void);
+
+CamelFolder *camel_store_get_folder(CamelStore *store, GString *folder_name);
 
 #ifdef __cplusplus
 }

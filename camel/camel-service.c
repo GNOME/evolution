@@ -57,7 +57,7 @@ camel_service_class_init (CamelServiceClass *camel_service_class)
 
 
 GtkType
-camel_service__get_type (void)
+camel_service_get_type (void)
 {
 	static GtkType camel_service_type = 0;
 	

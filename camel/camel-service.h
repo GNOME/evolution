@@ -62,6 +62,13 @@ typedef struct {
 } CamelServiceClass;
 
 
+
+
+/* public methods */
+
+/* Standard Gtk function */
+GtkType camel_service_get_type (void);
+
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */

@@ -1,4 +1,7 @@
 1999-04-20  bertrand <Bertrand.Guiheneuf@inria.fr>
+	
+	* camel/camel-store.h: now CamelStore inherits from
+	CamelService.
 
 	* camel/camel-service.c (camel_service_class_init): 
 	basic abstract service class.

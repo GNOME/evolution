@@ -30,7 +30,6 @@ static GtkObjectClass *camel_store_parent_class=NULL;
 
 static void camel_store_set_separator(CamelStore *store, gchar sep);
 static gchar camel_store_get_geparator(CamelStore *store);
-static CamelFolder *camel_store_get_folder(GString *folder_name);
 static CamelFolder *camel_store_get_root_folder(CamelStore *store);
 static CamelFolder *camel_store_get_default_folder(CamelStore *store);
 
@@ -39,7 +38,7 @@ static CamelFolder *camel_store_get_default_folder(CamelStore *store);
 static void
 camel_store_class_init (CamelStoreClass *camel_store_class)
 {
-	camel_store_parent_class = gtk_type_class (gtk_object_get_type ());
+	camel_store_parent_class = gtk_type_class (camel_service_get_type ());
 	
 	/* virtual method definition */
 	camel_store_class->set_separator = camel_store_set_separator;
@@ -57,7 +56,7 @@ camel_store_class_init (CamelStoreClass *camel_store_class)
 
 
 GtkType
-camel_store__get_type (void)
+camel_store_get_type (void)
 {
 	static GtkType camel_store_type = 0;
 	
@@ -131,7 +130,7 @@ camel_store_get_geparator(CamelStore *store)
  * @Return value: the folder
  **/
 static CamelFolder *
-camel_store_get_folder(GString *folder_name)
+camel_store_get_folder(CamelStore *store, GString *folder_name)
 {
 
 #warning fill this part in.
