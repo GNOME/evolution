@@ -1,5 +1,7 @@
 2004-09-13  JP Rosevear  <jpr@novell.com>
 
+	Fixes #63369
+	
 	* README: Update
 
 2004-09-12  Abel Cheung  <maddog@linuxhall.org>
