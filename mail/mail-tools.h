@@ -68,7 +68,7 @@ mail_tool_move_folder_contents (CamelFolder *source, CamelFolder *dest, gboolean
 
 XEvolution *mail_tool_remove_xevolution_headers (CamelMimeMessage *message);
 void mail_tool_restore_xevolution_headers (CamelMimeMessage *message, XEvolution *xev);
-void mail_tool_destroy_exevolution (XEvolution *xev);
+void mail_tool_destroy_xevolution (XEvolution *xev);
 
 /* Generates the subject for a message forwarding @msg */
 gchar *

@@ -721,6 +721,23 @@ Click &quot;Finish&quot; to save your settings.</text>
       <spacing>0</spacing>
 
       <widget>
+	<class>GtkLabel</class>
+	<name>source_description</name>
+	<label>description</label>
+	<justify>GTK_JUSTIFY_LEFT</justify>
+	<wrap>False</wrap>
+	<xalign>7.45058e-09</xalign>
+	<yalign>0.5</yalign>
+	<xpad>5</xpad>
+	<ypad>0</ypad>
+	<child>
+	  <padding>0</padding>
+	  <expand>False</expand>
+	  <fill>False</fill>
+	</child>
+      </widget>
+
+      <widget>
 	<class>GtkTable</class>
 	<name>table3</name>
 	<border_width>3</border_width>
@@ -1257,6 +1274,23 @@ Kerberos
       <name>transport_vbox</name>
       <homogeneous>False</homogeneous>
       <spacing>0</spacing>
+
+      <widget>
+	<class>GtkLabel</class>
+	<name>transport_description</name>
+	<label>description</label>
+	<justify>GTK_JUSTIFY_LEFT</justify>
+	<wrap>False</wrap>
+	<xalign>7.45058e-09</xalign>
+	<yalign>0.5</yalign>
+	<xpad>5</xpad>
+	<ypad>0</ypad>
+	<child>
+	  <padding>0</padding>
+	  <expand>False</expand>
+	  <fill>False</fill>
+	</child>
+      </widget>
 
       <widget>
 	<class>GtkTable</class>

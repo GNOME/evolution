@@ -297,6 +297,11 @@ source_type_changed (GtkWidget *widget, gpointer user_data)
 	
 	gui->source.provider = provider;
 	
+	if (provider)
+		gtk_label_set_text (gui->source.description, provider->description);
+	else
+		gtk_label_set_text (gui->source.description, "");
+	
 	frame = glade_xml_get_widget (gui->xml, "source_frame");
 	if (provider) {
 		gtk_widget_show (frame);
@@ -415,7 +420,13 @@ transport_type_changed (GtkWidget *widget, gpointer user_data)
 	
 	provider = gtk_object_get_data (GTK_OBJECT (widget), "provider");
 	gui->transport.provider = provider;
-
+	
+	/* description */
+	if (provider)
+		gtk_label_set_text (gui->transport.description, provider->description);
+	else
+		gtk_label_set_text (gui->transport.description, "");
+	
 	frame = glade_xml_get_widget (gui->xml, "transport_frame");
 	if (CAMEL_PROVIDER_ALLOWS (provider, CAMEL_URL_PART_HOST) ||
 	    (CAMEL_PROVIDER_ALLOWS (provider, CAMEL_URL_PART_AUTH) &&
@@ -854,7 +865,7 @@ setup_service (MailAccountGuiService *gsvc, MailConfigService *service)
 		gboolean use_ssl = camel_url_get_param (url, "use_ssl") != NULL;
 		gtk_toggle_button_set_active (gsvc->use_ssl, use_ssl);
 	}
-
+	
 	if (url->authmech && CAMEL_PROVIDER_ALLOWS (gsvc->provider, CAMEL_URL_PART_AUTH)) {
 		GList *children, *item;
 		CamelServiceAuthType *authtype;
@@ -1076,7 +1087,7 @@ load_signature (ESignatureEditor *editor)
 		CORBA_Object_release (pstream_iface, &ev);
 		CORBA_exception_free (&ev);
 		bonobo_object_unref (BONOBO_OBJECT (stream));
-
+		
 		g_free (html);
 	}
 }
@@ -1216,6 +1227,7 @@ mail_account_gui_new (MailConfigAccount *account)
 	
 	/* Source */
 	gui->source.type = GTK_OPTION_MENU (glade_xml_get_widget (gui->xml, "source_type_omenu"));
+	gui->source.description = GTK_LABEL (glade_xml_get_widget (gui->xml, "source_description"));
 	gui->source.hostname = GTK_ENTRY (glade_xml_get_widget (gui->xml, "source_host"));
 	gtk_signal_connect (GTK_OBJECT (gui->source.hostname), "changed",
 			    GTK_SIGNAL_FUNC (service_changed), &gui->source);
@@ -1237,6 +1249,7 @@ mail_account_gui_new (MailConfigAccount *account)
 	
 	/* Transport */
 	gui->transport.type = GTK_OPTION_MENU (glade_xml_get_widget (gui->xml, "transport_type_omenu"));
+	gui->transport.description = GTK_LABEL (glade_xml_get_widget (gui->xml, "transport_description"));
 	gui->transport.hostname = GTK_ENTRY (glade_xml_get_widget (gui->xml, "transport_host"));
 	gtk_signal_connect (GTK_OBJECT (gui->transport.hostname), "changed",
 			    GTK_SIGNAL_FUNC (service_changed), &gui->transport);
@@ -1428,6 +1441,7 @@ mail_account_gui_setup (MailAccountGui *gui, GtkWidget *top)
 		fstore = item;
 		hstore = si;
 	}
+	
 	/* set the menus on the optionmenus */
 	gtk_option_menu_remove_menu (gui->source.type);
 	gtk_option_menu_set_menu (gui->source.type, stores);
@@ -1456,7 +1470,7 @@ mail_account_gui_setup (MailAccountGui *gui, GtkWidget *top)
 		gtk_widget_set_usize (GTK_WIDGET (gui->transport.authtype),
 				      size_req.width, -1);
 	}
-
+	
 	if (top != NULL) {
 		gtk_widget_show_all (top);
 	}
@@ -1466,7 +1480,7 @@ mail_account_gui_setup (MailAccountGui *gui, GtkWidget *top)
 	
 	if (ftransport)
 		gtk_signal_emit_by_name (GTK_OBJECT (ftransport), "activate", gui);
-
+	
 	if (source_proto) {
 		setup_service (&gui->source, gui->account->source);
 		gui->source.provider_type = CAMEL_PROVIDER_STORE;
@@ -1484,8 +1498,6 @@ mail_account_gui_setup (MailAccountGui *gui, GtkWidget *top)
 		gui->transport.provider_type = CAMEL_PROVIDER_TRANSPORT;
 		g_free (transport_proto);
 	}
-
-
 }
 
 static void
@@ -1576,19 +1588,19 @@ mail_account_gui_save (MailAccountGui *gui)
 	/* this would happen at an inconvenient time in the druid,
 	 * but the druid performs its own check so this can't happen
 	 * here. */
-
+	
 	new_name = e_utf8_gtk_entry_get_text (gui->account_name);
 	old_account = mail_config_get_account_by_name (new_name);
-
+	
 	if (old_account && old_account != account) {
 		e_notice (NULL, GNOME_MESSAGE_BOX_ERROR,
 			  _("You may not create two accounts with the same name."));
 		return FALSE;
 	}
-
+	
 	g_free (account->name);
 	account->name = new_name;
-
+	
 	if (gtk_toggle_button_get_active (gui->default_account))
 		mail_config_set_default_account (account);
 	
@@ -1635,7 +1647,7 @@ mail_account_gui_save (MailAccountGui *gui)
 	account->smime_always_sign = gtk_toggle_button_get_active (gui->smime_always_sign);
 	
 	mail_autoreceive_setup_account (account->source);
-
+	
 	return TRUE;
 }
 

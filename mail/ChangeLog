@@ -1,5 +1,10 @@
 2001-08-27  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* mail-account-gui.c (mail_account_gui_new): Set the source and
+	transport description labels.
+	(transport_type_changed): Set the transport description label.
+	(source_type_changed): Set the source description label.
+
 	* mail-tools.c (mail_tool_make_message_attachment): Remove
 	X-Evolution* headers.
 	(mail_tool_remove_xevolution_headers): New function to convenience

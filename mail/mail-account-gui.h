@@ -39,6 +39,7 @@ extern "C" {
 
 typedef struct {
 	GtkOptionMenu *type;
+	GtkLabel *description;
 	GtkEntry *hostname;
 	GtkEntry *username;
 	GtkEntry *path;
