@@ -347,6 +347,8 @@ shell/importer/import.glade
 shell/importer/intelligent.c
 shell/main.c
 shell/shell-errors.xml.h
+smime/gui/ca-trust-dialog.c
+smime/gui/cert-trust-dialog.c
 smime/gui/certificate-manager.c
 smime/gui/certificate-viewer.c
 smime/gui/component.c
