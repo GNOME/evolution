@@ -75,6 +75,9 @@ ETreePath e_summary_shown_add_node (ESummaryShown *shown,
 void e_summary_shown_remove_node (ESummaryShown *shown,
 				  gboolean all,
 				  ESummaryShownModelEntry *entry);
+void e_summary_shown_freeze (ESummaryShown *shown);
+void e_summary_shown_thaw   (ESummaryShown *shown);
 GList *e_summary_shown_get_selection (ESummaryShown *shown,
 				      gboolean all);
+
 #endif

@@ -558,22 +558,6 @@ e_summary_shown_new (void)
 	return GTK_WIDGET (shown);
 }
 
-static ETreePath
-e_tree_model_node_append (ETreeModel *etm,
-			  ETreePath parent,
-			  gpointer data)
-{
-	ETreeMemory *etmm;
-	ETreePath path;
-	
-	etmm = E_TREE_MEMORY (etm);
-	e_tree_memory_freeze (etmm);
-	path = e_tree_memory_node_insert (etmm, parent, -1, data);
-	e_tree_memory_thaw (etmm);
-
-	return path;
-}
-
 ETreePath
 e_summary_shown_add_node (ESummaryShown *shown,
 			  gboolean all,
@@ -603,7 +587,7 @@ e_summary_shown_add_node (ESummaryShown *shown,
 	}
 
 	etmm = E_TREE_MEMORY (td->etm);
-	path = e_tree_model_node_append (td->etm, parent, data);
+	path = e_tree_memory_node_insert (etmm, parent, -1, data);
 
 	tree = e_tree_scrolled_get_tree (E_TREE_SCROLLED (td->etable));
 	e_tree_node_set_expanded (tree, path, expanded);
@@ -648,6 +632,24 @@ e_summary_shown_remove_node (ESummaryShown *shown,
 		td->contents = g_slist_remove (td->contents, entry);
 	}
 
+}
+
+void
+e_summary_shown_freeze (ESummaryShown *shown)
+{
+	g_return_if_fail (IS_E_SUMMARY_SHOWN (shown));
+
+	e_tree_memory_freeze (E_TREE_MEMORY (shown->priv->all->etm));
+	e_tree_memory_freeze (E_TREE_MEMORY (shown->priv->shown->etm));
+}
+
+void
+e_summary_shown_thaw (ESummaryShown *shown)
+{
+	g_return_if_fail (IS_E_SUMMARY_SHOWN (shown));
+
+	e_tree_memory_thaw (E_TREE_MEMORY (shown->priv->all->etm));
+	e_tree_memory_thaw (E_TREE_MEMORY (shown->priv->shown->etm));
 }
 
 static void

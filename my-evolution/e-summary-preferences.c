@@ -443,6 +443,7 @@ fill_rdf_etable (GtkWidget *widget,
 	}
 
 	ess = E_SUMMARY_SHOWN (widget);
+	e_summary_shown_freeze (ess);
 
 	/* Fill the defaults first */
 	for (i = 0; rdfs[i].url; i++) {
@@ -482,6 +483,7 @@ fill_rdf_etable (GtkWidget *widget,
 	}
 
 	if (handle == NULL) {
+		e_summary_shown_thaw (ess);
 		return;
 	}
 
@@ -534,6 +536,7 @@ fill_rdf_etable (GtkWidget *widget,
 	}
 
 	fclose (handle);
+	e_summary_shown_thaw (ess);
 }
 
 static void

@@ -667,6 +667,8 @@ e_summary_weather_fill_etable (ESummaryShown *ess)
 
 	gnome_config_get_vector ("Main/regions", &nregions, &regions);
 	region = NULL;
+
+	e_summary_shown_freeze (ess);
 	for (iregions = nregions - 1; iregions >= 0; iregions--) {
 		int nstates, istates;
 		char **states;
@@ -754,6 +756,7 @@ e_summary_weather_fill_etable (ESummaryShown *ess)
 
 	g_strfreev (regions);
 	gnome_config_pop_prefix ();
+	e_summary_shown_thaw (ess);
 
 	return;
 }

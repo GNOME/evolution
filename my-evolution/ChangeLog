@@ -1,3 +1,15 @@
+2003-03-12  Dan Winship  <danw@ximian.com>
+
+	* e-summary-shown.c (e_summary_shown_freeze,
+	e_summary_shown_thaw): New, to free/thaw the ETree models.
+	(e_summary_shown_add_node): Don't freeze/thaw around the single
+	add here. That doesn't really help much.
+
+	* e-summary-preferences.c (fill_rdf_etable): Freeze/thaw the
+	ESummaryShown while filling it in.
+
+	* e-summary-weather.c (e_summary_weather_fill_etable): Likewise.
+
 2003-03-07  Ettore Perazzoli  <ettore@ximian.com>
 
 	* Locations (name): Add some escapes to the newly added locations
