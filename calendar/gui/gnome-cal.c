@@ -40,6 +40,7 @@
 #include <cal-util/timeutil.h>
 #include "widgets/menus/gal-view-menus.h"
 #include "e-comp-editor-registry.h"
+#include "dialogs/delete-error.h"
 #include "dialogs/event-editor.h"
 #include "dialogs/task-editor.h"
 #include "comp-util.h"
@@ -143,6 +144,10 @@ struct _GnomeCalendarPrivate {
 	   'dates-shown-changed' signal.*/
 	time_t visible_start;
 	time_t visible_end;
+
+	/* Calendar query for purging old events */
+	CalQuery *exp_query;
+	time_t exp_older_than;
 };
 
 /* Signal IDs */
@@ -979,6 +984,8 @@ gnome_calendar_init (GnomeCalendar *gcal)
 
 	priv->visible_start = -1;
 	priv->visible_end = -1;
+
+	priv->exp_query = NULL;
 }
 
 /* Frees a set of categories */
@@ -1060,6 +1067,13 @@ gnome_calendar_destroy (GtkObject *object)
 		if (priv->view_menus) {
 			g_object_unref (priv->view_menus);
 			priv->view_menus = NULL;
+		}
+
+		if (priv->exp_query) {
+			g_signal_handlers_disconnect_matched (priv->exp_query, G_SIGNAL_MATCH_DATA,
+							      0, 0, NULL, NULL, gcal);
+			g_object_unref (priv->exp_query);
+			priv->exp_query = NULL;
 		}
 
 		g_free (priv);
@@ -3098,6 +3112,144 @@ gnome_calendar_delete_selected_occurrence (GnomeCalendar *gcal)
 		else
 			e_week_view_delete_occurrence (E_WEEK_VIEW (view));
 	}
+}
+
+typedef struct {
+	gboolean remove;
+	GnomeCalendar *gcal;
+} obj_updated_closure;
+
+static gboolean
+check_instance_cb (CalComponent *comp,
+		   time_t instance_start,
+		   time_t instance_end,
+		   gpointer data)
+{
+	obj_updated_closure *closure = data;
+
+	if (instance_start >= closure->gcal->priv->exp_older_than ||
+	    instance_end >= closure->gcal->priv->exp_older_than) {
+		closure->remove = FALSE;
+		return FALSE;
+	}
+
+	closure->remove = TRUE;
+	return TRUE;
+}
+
+static void
+purging_obj_updated_cb (CalQuery *query, const char *uid,
+			gboolean query_in_progress, int n_scanned, int total,
+			gpointer data)
+{
+	GnomeCalendarPrivate *priv;
+	GnomeCalendar *gcal = data;
+	CalComponent *comp;
+	obj_updated_closure closure;
+	gchar *msg;
+
+	priv = gcal->priv;
+
+	if (cal_client_get_object (priv->client, uid, &comp) != CAL_CLIENT_GET_SUCCESS)
+		return;
+
+	msg = g_strdup_printf (_("Purging event %s"), uid);
+
+	/* further filter the event, to check the last recurrence end date */
+	if (cal_component_has_recurrences (comp)) {
+		closure.remove = TRUE;
+		closure.gcal = gcal;
+
+		cal_recur_generate_instances (comp, priv->exp_older_than, -1,
+					      (CalRecurInstanceFn) check_instance_cb,
+					      &closure,
+					      (CalRecurResolveTimezoneFn) cal_client_resolve_tzid_cb,
+					      priv->client, priv->zone);
+
+		if (closure.remove) {
+			e_week_view_set_status_message (E_WEEK_VIEW (priv->week_view), msg);
+			delete_error_dialog (cal_client_remove_object (priv->client, uid),
+					     CAL_COMPONENT_EVENT);
+		}
+	} else {
+		e_week_view_set_status_message (E_WEEK_VIEW (priv->week_view), msg);
+		delete_error_dialog (cal_client_remove_object (priv->client, uid), CAL_COMPONENT_EVENT);
+	}
+
+	g_object_unref (comp);
+	g_free (msg);
+}
+
+static void
+purging_eval_error_cb (CalQuery *query, const char *error_str, gpointer data)
+{
+	GnomeCalendarPrivate *priv;
+	GnomeCalendar *gcal = data;
+
+	priv = gcal->priv;
+
+	e_week_view_set_status_message (E_WEEK_VIEW (priv->week_view), NULL);
+
+	g_signal_handlers_disconnect_matched (priv->exp_query, G_SIGNAL_MATCH_DATA,
+					      0, 0, NULL, NULL, gcal);
+	g_object_unref (priv->exp_query);
+	priv->exp_query = NULL;
+}
+
+static void
+purging_query_done_cb (CalQuery *query, CalQueryDoneStatus status, const char *error_str, gpointer data)
+{
+	GnomeCalendarPrivate *priv;
+	GnomeCalendar *gcal = data;
+
+	priv = gcal->priv;
+
+	e_week_view_set_status_message (E_WEEK_VIEW (priv->week_view), NULL);
+
+	g_signal_handlers_disconnect_matched (priv->exp_query, G_SIGNAL_MATCH_DATA,
+					      0, 0, NULL, NULL, gcal);
+	g_object_unref (priv->exp_query);
+	priv->exp_query = NULL;
+}
+
+void
+gnome_calendar_purge (GnomeCalendar *gcal, time_t older_than)
+{
+	GnomeCalendarPrivate *priv;
+	char *sexp, *start, *end;
+
+	g_return_if_fail (GNOME_IS_CALENDAR (gcal));
+
+	priv = gcal->priv;
+
+	/* if we have a query, we are already purging */
+	if (priv->exp_query)
+		return;
+
+	priv->exp_older_than = older_than;
+	start = isodate_from_time_t (0);
+	end = isodate_from_time_t (older_than);
+	sexp = g_strdup_printf ("(and (= (get-vtype) \"VEVENT\")"
+				"     (occur-in-time-range? (make-time \"%s\")"
+				"                           (make-time \"%s\")))",
+				start, end);
+
+	e_week_view_set_status_message (E_WEEK_VIEW (priv->week_view), _("Purging"));
+	priv->exp_query = cal_client_get_query (priv->client, sexp);
+
+	g_free (sexp);
+	g_free (start);
+	g_free (end);
+
+	if (!priv->exp_query) {
+		e_week_view_set_status_message (E_WEEK_VIEW (priv->week_view), NULL);
+		g_message ("gnome_calendar_purge(): Could not create the query");
+		return;
+	}
+	
+	g_signal_connect (priv->exp_query, "obj_updated", G_CALLBACK (purging_obj_updated_cb), gcal);
+	g_signal_connect (priv->exp_query, "query_done", G_CALLBACK (purging_query_done_cb), gcal);
+	g_signal_connect (priv->exp_query, "eval_error", G_CALLBACK (purging_eval_error_cb), gcal);
 }
 
 ECalendarTable*

@@ -1,3 +1,17 @@
+2003-07-16  Rodrigo Moya <rodrigo@ximian.com>
+
+	* gui/gnome-cal.[ch] (gnome_calendar_purge): new function,
+	which uses a CalQuery to retrieve the objects older than a given date.
+	(check_instance_cb): callback for cal_recur_generate_instances.
+	(purging_obj_updated_cb): call check_instance_cb on each recurrence
+	to double-check the event can be deleted.
+	(purging_query_done_cb, purging_eval_error_cb): needed callbacks to
+	finish the query.
+	(gnome_calendar_destroy): free new members.
+
+	* gui/calendar-commands.c (purge_cmd): added implementation for the
+	'Purge' menu item.
+
 2003-07-16  Andrew Wu <Yang.Wu@sun.com>
 
       Fixes #45774
