@@ -452,7 +452,7 @@ camel_stream_buffer_read_line (CamelStreamBuffer *sbf)
 	}
 
 	p--;
-	if (p[-1] == '\r')
+	if (p > sbf->linebuf && p[-1] == '\r')
 		p--;
 	p[0] = 0;
 

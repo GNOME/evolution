@@ -111,7 +111,7 @@ camel_tcp_stream_raw_get_type (void)
 
 #ifdef SIMULATE_FLAKY_NETWORK
 static ssize_t
-tcp_write (int fd, const char *buffer, size_t buflen)
+flaky_tcp_write (int fd, const char *buffer, size_t buflen)
 {
 	size_t len = buflen;
 	ssize_t nwritten;
@@ -124,15 +124,15 @@ tcp_write (int fd, const char *buffer, size_t buflen)
 	
 	switch (val) {
 	case 1:
-		printf ("tcp_write (%d, ..., %d): (-1) EINTR\n", fd, buflen);
+		printf ("flaky_tcp_write (%d, ..., %d): (-1) EINTR\n", fd, buflen);
 		errno = EINTR;
 		return -1;
 	case 2:
-		printf ("tcp_write (%d, ..., %d): (-1) EAGAIN\n", fd, buflen);
+		printf ("flaky_tcp_write (%d, ..., %d): (-1) EAGAIN\n", fd, buflen);
 		errno = EAGAIN;
 		return -1;
 	case 3:
-		printf ("tcp_write (%d, ..., %d): (-1) EWOULDBLOCK\n", fd, buflen);
+		printf ("flaky_tcp_write (%d, ..., %d): (-1) EWOULDBLOCK\n", fd, buflen);
 		errno = EWOULDBLOCK;
 		return -1;
 	case 4:
@@ -142,7 +142,7 @@ tcp_write (int fd, const char *buffer, size_t buflen)
 		len = MIN (len, buflen);
 		/* fall through... */
 	default:
-		printf ("tcp_write (%d, ..., %d): (%d) '%.*s'", fd, buflen, len, (int) len, buffer);
+		printf ("flaky_tcp_write (%d, ..., %d): (%d) '%.*s'", fd, buflen, len, (int) len, buffer);
 		nwritten = write (fd, buffer, len);
 		if (nwritten < 0)
 			printf (" errno => %s\n", g_strerror (errno));
@@ -155,7 +155,58 @@ tcp_write (int fd, const char *buffer, size_t buflen)
 	}
 }
 
-#define write(fd, buffer, buflen) tcp_write (fd, buffer, buflen)
+#define write(fd, buffer, buflen) flaky_tcp_write (fd, buffer, buflen)
+
+static ssize_t
+flaky_tcp_read (int fd, char *buffer, size_t buflen)
+{
+	size_t len = buflen;
+	ssize_t nread;
+	int val;
+	
+	if (buflen == 0)
+		return 0;
+	
+	val = 1 + (int) (10.0 * rand () / (RAND_MAX + 1.0));
+	
+	switch (val) {
+	case 1:
+		printf ("flaky_tcp_read (%d, ..., %d): (-1) EINTR\n", fd, buflen);
+		errno = EINTR;
+		return -1;
+	case 2:
+		printf ("flaky_tcp_read (%d, ..., %d): (-1) EAGAIN\n", fd, buflen);
+		errno = EAGAIN;
+		return -1;
+	case 3:
+		printf ("flaky_tcp_read (%d, ..., %d): (-1) EWOULDBLOCK\n", fd, buflen);
+		errno = EWOULDBLOCK;
+		return -1;
+	case 4:
+	case 5:
+	case 6:
+	case 7:
+	case 8:
+	case 9:
+	case 10:
+		len = 1 + (size_t) (10.0 * rand () / (RAND_MAX + 1.0));
+		len = MIN (len, buflen);
+		/* fall through... */
+	default:
+		printf ("flaky_tcp_read (%d, ..., %d): (%d)", fd, buflen, len);
+		nread = read (fd, buffer, len);
+		if (nread < 0)
+			printf (" errno => %s\n", g_strerror (errno));
+		else if (nread < len)
+			printf (" only read %d bytes\n", nread);
+		else
+			printf ("\n");
+		
+		return nread;
+	}
+}
+
+#define read(fd, buffer, buflen) flaky_tcp_read (fd, buffer, buflen)
 
 #endif /* SIMULATE_FLAKY_NETWORK */
 

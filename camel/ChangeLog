@@ -1,5 +1,8 @@
 2001-10-28  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* camel-stream-buffer.c (camel_stream_buffer_read_line): Make sure
+	we've actually read data before checking if p[-] is '\r' or not.
+
 	* camel-tcp-stream-raw.c (stream_write): Same.
 
 	* camel-stream-fs.c (stream_write): If errno isn't EAGAIN, just
