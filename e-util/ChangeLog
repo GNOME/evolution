@@ -1,3 +1,7 @@
+2000-09-13  Christopher James Lahey  <clahey@helixcode.com>
+
+	* e-font.c: Fixed an uninitialized variable.
+
 2000-09-12  Lauris Kaplinski  <lauris@helixcode.com>
 
 	* e-unicode.c (e_utf8_to_gtk_string_sized): Use underscores
