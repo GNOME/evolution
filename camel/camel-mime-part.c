@@ -629,12 +629,13 @@ write_to_stream (CamelDataWrapper *dw, CamelStream *stream)
 	CamelDataWrapper *content;
 	ssize_t total = 0;
 	ssize_t count;
-
+	int errnosav;
+	
 	d(printf("mime_part::write_to_stream\n"));
-
+	
 	/* FIXME: something needs to be done about this ... */
 	/* TODO: content-languages header? */
-
+	
 	if (mp->headers) {
 		struct _header_raw *h = mp->headers;
 		char *val;
@@ -746,8 +747,10 @@ write_to_stream (CamelDataWrapper *dw, CamelStream *stream)
 			count = camel_data_wrapper_write_to_stream (content, stream);
 		
 		if (filter_stream) {
+			errnosav = errno;
 			camel_stream_flush (stream);
 			camel_object_unref (filter_stream);
+			errno = errnosav;
 		}
 		
 		if (count == -1)
