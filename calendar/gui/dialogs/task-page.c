@@ -416,12 +416,14 @@ task_page_fill_component (CompEditorPage *page, CalComponent *comp)
 	TaskPage *tpage;
 	TaskPagePrivate *priv;
 	CalComponentDateTime date;
-	struct icaltimetype icaltime;
+	struct icaltimetype start_tt, due_tt;
 	char *cat, *str;
-	gboolean date_set, time_set;
-	icaltimezone *zone;
+	gboolean start_date_set, due_date_set, time_set;
 	GtkTextBuffer *text_buffer;
 	GtkTextIter text_iter_start, text_iter_end;
+	struct icaltimetype *due_tt2;
+	icaltimezone *start_zone = NULL;
+	icaltimezone *due_zone = NULL;
 
 	tpage = TASK_PAGE (page);
 	priv = tpage->priv;
@@ -469,9 +471,9 @@ task_page_fill_component (CompEditorPage *page, CalComponent *comp)
 
 	/* Dates */
 
-	icaltime = icaltime_null_time ();
+	due_tt = icaltime_null_time ();
 
-	date.value = &icaltime;
+	date.value = &due_tt;
 	date.tzid = NULL;
 
 	/* Due Date. */
@@ -481,19 +483,19 @@ task_page_fill_component (CompEditorPage *page, CalComponent *comp)
 		return FALSE;
 	}
 
-	date_set = e_date_edit_get_date (E_DATE_EDIT (priv->due_date),
-					 &icaltime.year,
-					 &icaltime.month,
-					 &icaltime.day);
+	due_date_set = e_date_edit_get_date (E_DATE_EDIT (priv->due_date),
+					 &due_tt.year,
+					 &due_tt.month,
+					 &due_tt.day);
 	time_set = e_date_edit_get_time_of_day (E_DATE_EDIT (priv->due_date),
-						&icaltime.hour,
-						&icaltime.minute);
-	if (date_set) {
+						&due_tt.hour,
+						&due_tt.minute);
+	if (due_date_set) {
 		if (time_set) {
-			zone = e_timezone_entry_get_timezone (E_TIMEZONE_ENTRY (priv->due_timezone));
-			date.tzid = icaltimezone_get_tzid (zone);
+			due_zone = e_timezone_entry_get_timezone (E_TIMEZONE_ENTRY (priv->due_timezone));
+			date.tzid = icaltimezone_get_tzid (due_zone);
 		} else {
-			icaltime.is_date = TRUE;
+			due_tt.is_date = TRUE;
 			date.tzid = NULL;
 		}
 		cal_component_set_due (comp, &date);
@@ -508,26 +510,43 @@ task_page_fill_component (CompEditorPage *page, CalComponent *comp)
 		return FALSE;
 	}
 
-	icaltime = icaltime_null_time ();
-	date_set = e_date_edit_get_date (E_DATE_EDIT (priv->start_date),
-					 &icaltime.year,
-					 &icaltime.month,
-					 &icaltime.day);
+	start_tt = icaltime_null_time ();
+	date.value = &start_tt;
+	start_date_set = e_date_edit_get_date (E_DATE_EDIT (priv->start_date),
+					 &start_tt.year,
+					 &start_tt.month,
+					 &start_tt.day);
 	time_set = e_date_edit_get_time_of_day (E_DATE_EDIT (priv->start_date),
-						&icaltime.hour,
-						&icaltime.minute);
-	if (date_set) {
+						&start_tt.hour,
+						&start_tt.minute);
+	if (start_date_set) {
 		if (time_set) {
-			zone = e_timezone_entry_get_timezone (E_TIMEZONE_ENTRY (priv->start_timezone));
-			date.tzid = icaltimezone_get_tzid (zone);
+			start_zone = e_timezone_entry_get_timezone (E_TIMEZONE_ENTRY (priv->start_timezone));
+			date.tzid = icaltimezone_get_tzid (start_zone);
 		} else {
-			icaltime.is_date = TRUE;
+			start_tt.is_date = TRUE;
 			date.tzid = NULL;
 		}
 		cal_component_set_dtstart (comp, &date);
 	} else {
 		cal_component_set_dtstart (comp, NULL);
 	}
+
+	/* Check whether due datetime is before start datetime */
+	if (start_date_set && due_date_set) {
+		due_tt2 = g_new (struct icaltimetype, 1);
+		memcpy (due_tt2,  &due_tt, sizeof(due_tt));
+		icaltimezone_convert_time (due_tt2, due_zone, start_zone);
+		if (icaltime_compare (start_tt, *due_tt2) > 0) {
+			comp_editor_page_display_validation_error (page,
+					_("Due date is before start date!"),
+					priv->due_date);
+			g_free (due_tt2);
+			return FALSE;
+		}
+		g_free (due_tt2);
+	}
+
 
 	/* Classification. */
 	cal_component_set_classification (comp, classification_get (priv->classification_public));

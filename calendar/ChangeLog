@@ -1,3 +1,11 @@
+2003-07-29 Harry Lu <harry.lu@sun.com>
+
+	Fixes #46769
+        
+	* gui/dialogs/task-page.c: (task_page_fill_component): Popup a
+	error dialog if due date time is before start datetime when saving
+	a task.
+
 2003-07-16  Andrew Wu <Yang.Wu@sun.com>
 
       Fixes #45774
