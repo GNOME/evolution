@@ -1,0 +1,90 @@
+<Root>
+        <commands>
+		<cmd name="ContactListEditorSave"
+		 pixtype="stock" pixname="Save"/>
+
+		<cmd name="ContactListEditorSaveAs"
+		 pixtype="stock" pixname="SaveAs"/>
+
+		<cmd name="ContactListEditorSendAs"/>
+
+		<cmd name="ContactListEditorSendTo"/>
+
+		<cmd name="ContactListEditorDelete"
+		 _tip="Delete this group"
+		 pixtype="stock" pixname="Trash"/>
+
+		<cmd name="ContactListEditorPrint"
+		 _tip="Print this item"
+		 pixtype="stock" pixname="Print"/>
+
+		<cmd name="ContactListEditorPrintEnvelope"
+		 pixtype="stock" pixname="Print"/>
+
+		<cmd name="ContactListEditorClose"
+		 pixtype="stock" pixname="Close"/>
+
+		<cmd name="ContactListEditorSaveClose"
+		 _tip="Save the group and close the dialog box"
+		 pixtype="stock" pixname="Save"/>
+	</commands>
+
+	<menu>
+
+		<submenu name="File" _label="_File">
+
+		        <menuitem name="ContactListEditorSave" verb=""
+			_label="_Save"/>
+
+		        <menuitem name="ContactListEditorSaveAs" verb=""
+			_label="Save _As..."/>
+
+			<separator/>
+
+		        <menuitem name="ContactListEditorSendAs" verb=""
+			_label="Se_nd group to other..."/>
+
+		        <menuitem name="ContactListEditorSendTo" verb=""
+			_label="Send _message to group..."/>
+
+			<separator/>
+
+		        <menuitem name="ContactListEditorDelete" verb=""
+			_label="Delete..."/>
+
+			<separator/>
+
+			<placeholder name="Print">
+
+				<menuitem name="ContactListEditorPrint" verb=""
+				_label="_Print..."/>
+
+				<menuitem name="ContactListEditorPrintEnvelope" verb=""
+				_label="Print En_velope..."/>
+
+			</placeholder>
+
+			<separator/>
+
+		        <menuitem name="ContactListEditorClose" verb=""
+			_label="Close"/>
+
+		</submenu>
+	</menu>
+
+	<dockitem name="Toolbar" relief="none" behavior="exclusive"
+			hlook="text" vlook="icon">
+	        <toolitem name="ContactListEditorSaveClose" verb=""
+		_label="Save and Close"	priority="1"/>
+
+		<separator/>
+
+		<toolitem name="ContactListEditorPrint" verb=""
+		_label="Print..." priority="1"/>
+
+		<toolitem name="ContactListEditorDelete" verb=""
+		_label="Delete..." priority="1"/>
+
+	</dockitem>
+
+</Root>
