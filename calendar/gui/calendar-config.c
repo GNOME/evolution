@@ -440,6 +440,29 @@ calendar_config_set_month_vpane_pos	(gint	      vpane_pos)
 	gconf_client_set_int (config, CALENDAR_CONFIG_MONTH_VPANE_POS, vpane_pos, NULL);
 }
 
+/* The current list of task lists selected */
+GSList   *
+calendar_config_get_tasks_selected (void)
+{
+	return gconf_client_get_list (config, CALENDAR_CONFIG_TASKS_SELECTED_TASKS, GCONF_VALUE_STRING, NULL);
+}
+
+void
+calendar_config_set_tasks_selected (GSList *selected)
+{
+	gconf_client_set_list (config, CALENDAR_CONFIG_TASKS_SELECTED_TASKS, GCONF_VALUE_STRING, selected, NULL);
+}
+
+guint
+calendar_config_add_notification_tasks_selected (GConfClientNotifyFunc func, gpointer data)
+{
+	guint id;
+	
+	id = gconf_client_notify_add (config, CALENDAR_CONFIG_TASKS_SELECTED_TASKS, func, data, NULL, NULL);
+	
+	return id;
+}
+
 gint
 calendar_config_get_task_vpane_pos	(void)
 {

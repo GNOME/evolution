@@ -38,6 +38,7 @@
 #include "e-comp-editor-registry.h"
 #include "migration.h"
 #include "comp-util.h"
+#include "calendar-config.h"
 #include "dialogs/comp-editor.h"
 #include "dialogs/task-editor.h"
 #include "widgets/misc/e-source-selector.h"
@@ -61,10 +62,13 @@ struct _TasksComponentPrivate {
 	GSList *source_selection;
 
 	ETasks *tasks;
+	GtkWidget *source_selector;
+
+	guint selected_not;
 };
 
 /* Utility functions.  */
-
+/* FIXME Some of these are duplicated from calendar-component.c */
 static void
 add_uri_for_source (ESource *source, ETasks *tasks)
 {
@@ -98,15 +102,30 @@ is_in_selection (GSList *selection, ESource *source)
 	return FALSE;
 }
 
+static gboolean
+is_in_uids (GSList *uids, ESource *source)
+{
+	GSList *l;
+	
+	for (l = uids; l; l = l->next) {
+		const char *uid = l->data;
+		
+		if (!strcmp (uid, e_source_peek_uid (source)))
+			return TRUE;
+	}
+
+	return FALSE;
+}
+
 static void
-update_uris_for_selection (ESourceSelector *selector, TasksComponent *component)
+update_uris_for_selection (TasksComponent *component)
 {
 	TasksComponentPrivate *priv;
-	GSList *selection, *l;
+	GSList *selection, *l, *uids_selected = NULL;
 	
-	selection = e_source_selector_get_selection (selector);
-
 	priv = component->priv;
+
+	selection = e_source_selector_get_selection (E_SOURCE_SELECTOR (priv->source_selector));
 	
 	for (l = priv->source_selection; l; l = l->next) {
 		ESource *old_selected_source = l->data;
@@ -119,10 +138,52 @@ update_uris_for_selection (ESourceSelector *selector, TasksComponent *component)
 		ESource *selected_source = l->data;
 		
 		add_uri_for_source (selected_source, E_TASKS (priv->tasks));
+		uids_selected = g_slist_append (uids_selected, (char *)e_source_peek_uid (selected_source));
 	}
 
 	e_source_selector_free_selection (priv->source_selection);
 	priv->source_selection = selection;
+
+	/* Save the selection for next time we start up */
+	calendar_config_set_tasks_selected (uids_selected);
+	g_slist_free (uids_selected);
+}
+
+static void
+update_selection (TasksComponent *task_component)
+{
+	TasksComponentPrivate *priv;
+	GSList *selection, *uids_selected, *l;
+
+	priv = task_component->priv;
+
+	/* Get the selection in gconf */
+	uids_selected = calendar_config_get_tasks_selected ();
+
+	/* Remove any that aren't there any more */
+	selection = e_source_selector_get_selection (E_SOURCE_SELECTOR (priv->source_selector));
+
+	for (l = selection; l; l = l->next) {
+		ESource *source = l->data;
+
+		if (!is_in_uids (uids_selected, source)) 
+			e_source_selector_unselect_source (E_SOURCE_SELECTOR (priv->source_selector), source);
+	}
+	
+	e_source_selector_free_selection (selection);
+
+	/* Make sure the whole selection is there */
+	for (l = uids_selected; l; l = l->next) {
+		char *uid = l->data;
+		ESource *source;
+
+		source = e_source_list_peek_source_by_uid (priv->source_list, uid);
+		if (source) 
+			e_source_selector_select_source (E_SOURCE_SELECTOR (priv->source_selector), source);
+		
+		g_free (uid);
+	}
+	g_slist_free (uids_selected);
 }
 
 /* FIXME This is duplicated from comp-editor-factory.c, should it go in comp-util? */
@@ -140,7 +201,7 @@ get_default_task (ECal *ecal)
 static void
 source_selection_changed_cb (ESourceSelector *selector, TasksComponent *component)
 {
-	update_uris_for_selection (selector, component);
+	update_uris_for_selection (component);
 }
 
 static void
@@ -167,6 +228,12 @@ primary_source_selection_changed_cb (ESourceSelector *selector, TasksComponent *
 
 	g_free (uri);
 
+}
+
+static void
+config_selection_changed_cb (GConfClient *client, guint id, GConfEntry *entry, gpointer data)
+{
+	update_selection (data);
 }
 
 /* GObject methods */
@@ -226,18 +293,17 @@ impl_createControls (PortableServer_Servant servant,
 {
 	TasksComponent *component = TASKS_COMPONENT (bonobo_object_from_servant (servant));
 	TasksComponentPrivate *priv;
-	GtkWidget *selector;
 	GtkWidget *selector_scrolled_window;
 	BonoboControl *sidebar_control, *view_control;
 
 	priv = component->priv;
 
 	/* create sidebar selector */
-	selector = e_source_selector_new (priv->source_list);
-	gtk_widget_show (selector);
+	priv->source_selector = e_source_selector_new (priv->source_list);
+	gtk_widget_show (priv->source_selector);
 
 	selector_scrolled_window = gtk_scrolled_window_new (NULL, NULL);
-	gtk_container_add (GTK_CONTAINER (selector_scrolled_window), selector);
+	gtk_container_add (GTK_CONTAINER (selector_scrolled_window), priv->source_selector);
 	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (selector_scrolled_window),
 					GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 	gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (selector_scrolled_window),
@@ -265,15 +331,21 @@ impl_createControls (PortableServer_Servant servant,
 
 	g_signal_connect (view_control, "activate", G_CALLBACK (control_activate_cb), priv->tasks);
 
-	g_signal_connect_object (selector, "selection_changed",
+	g_signal_connect_object (priv->source_selector, "selection_changed",
 				 G_CALLBACK (source_selection_changed_cb),
 				 G_OBJECT (component), 0);
-	g_signal_connect_object (selector, "primary_selection_changed",
+	g_signal_connect_object (priv->source_selector, "primary_selection_changed",
 				 G_CALLBACK (primary_source_selection_changed_cb),
 				 G_OBJECT (component), 0);
 
-	update_uris_for_selection (E_SOURCE_SELECTOR (selector), component);
+	/* Load the selection from the last run */
+	update_selection (component);
 
+	/* If it gets fiddled with, ie from another evolution window, update it */
+	priv->selected_not = calendar_config_add_notification_calendars_selected (config_selection_changed_cb, 
+										  component);
+
+	/* Return the controls */
 	*corba_sidebar_control = CORBA_Object_duplicate (BONOBO_OBJREF (sidebar_control), ev);
 	*corba_view_control = CORBA_Object_duplicate (BONOBO_OBJREF (view_control), ev);
 }

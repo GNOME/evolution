@@ -1,5 +1,23 @@
 2003-11-16  JP Rosevear <jpr@ximian.com>
 
+	* gui/tasks-component.c (is_in_uids): copy in here
+	(update_uris_for_selection): save the selection
+	(update_selection): update the selection when its changed
+	somewhere else
+	(config_selection_changed_cb): update the selection if the
+	configuration changes
+	(impl_createControls): store the source selector
+
+	* gui/calendar-config.h: add protos
+
+	* gui/calendar-config.c (calendar_config_get_tasks_selected): get
+	the list of task lists selected
+	(calendar_config_set_tasks_selected): save it
+	(calendar_config_add_notification_tasks_selected): get notified
+	about it
+
+2003-11-16  JP Rosevear <jpr@ximian.com>
+
 	* gui/tasks-component.c (add_uri_for_source): add it via e-tasks
 	(remove_uri_for_source): remove it via e-tasks
 	(get_default_task): provide a default for editing
