@@ -1,3 +1,10 @@
+2005-01-21 Sivaiah Nallagatla <snallagatla@novell.com>
+
+	* gui/component/addressbook-config.c 
+	(eabc_commit) : in case of new book
+	set the uid of the source as the relative 
+	uri. 
+
 2005-01-19  Hao Sheng <hao.sheng@sun.com>
 
 	* gui/contact-editor/contact-editor.glade:
