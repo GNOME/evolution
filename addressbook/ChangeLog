@@ -1,3 +1,28 @@
+2001-08-20  Jon Trowbridge  <trow@ximian.com>
+
+	* gui/component/select-names/e-select-names.c
+	(e_addressbook_create_ebook_table): Wrap our addressbook table
+	adapter in an ETableWithout, so that we can make addresses appear
+	and disappear when we remove/add them to the section lists
+	(To/Cc/Bcc) on the right of the dialog.
+	(real_add_address_cb): When we add an address, hide it in the main
+	list.
+	(e_select_names_init): Get pointer to our without table from the
+	table's object data, and store it.
+	(remove_address): When we remove an address, show it in the main
+	list.
+	(card_key): Added.  Allocate a unique key from an ECard.
+	(esn_get_key_fn): Added.  Callback for ETableWithout.
+	(esn_dup_key_fn): Added.  Callback for ETableWithout.
+	(esn_free_gotten_key_fn): Added.  Callback for ETableWithout.
+	(esn_free_duped_key_fn): Added.  Callback for ETableWithout.
+
+	* backend/ebook/e-card-simple.c (e_card_simple_get): Changed
+	E_CARD_SIMPLE_FIELD_NAME_OR_ORG to first try the FILE_AS
+	type.  This allows the cards in the ESelectName dialog to
+	appear in proper sort order (i.e. as 'Doe, John' rather than
+	'John Doe').  Fixes ximian #6002.
+
 2001-08-20  Chris Toshok  <toshok@ximian.com>
 
 	* gui/widgets/e-addressbook-reflow-adapter.c

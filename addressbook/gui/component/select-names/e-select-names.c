@@ -28,6 +28,7 @@
 #include <libgnomeui/gnome-dialog-util.h>
 
 #include <gal/e-table/e-table-simple.h>
+#include <gal/e-table/e-table-without.h>
 #include <gal/widgets/e-font.h>
 #include <gal/widgets/e-popup-menu.h>
 
@@ -142,14 +143,31 @@ addressbook_model_set_uri(EAddressbookModel *model, char *uri)
 	e_book_load_uri(book, uri, (EBookCallback) set_book, model);
 }
 
+static void *
+card_key (ECard *card)
+{
+	EBook *book = e_card_get_book (card);
+	const gchar *book_uri = book ? e_book_get_uri (book) : "NoBook";
+	
+	return g_strdup_printf ("%s|%s", book_uri ? book_uri : "NoURI", e_card_get_id (card));
+}
+
 static void
-real_add_address_cb (int model_row,
-		     gpointer closure)
+real_add_address_cb (int model_row, gpointer closure)
 {
 	ESelectNamesChild *child = closure;
 	ESelectNames *names = child->names;
-	ECard *card = e_addressbook_model_get_card(E_ADDRESSBOOK_MODEL(names->model), model_row);
+	ECard *card;
 	EDestination *dest = e_destination_new ();
+	gint mapped_row;
+	void *key;
+
+	mapped_row = e_table_subset_view_to_model_row (E_TABLE_SUBSET (names->without), model_row);
+
+	card = e_addressbook_model_get_card(E_ADDRESSBOOK_MODEL(names->model), mapped_row);
+	key = card_key (card);
+	e_table_without_hide (E_TABLE_WITHOUT (names->without), key);
+	g_free (key);
 
 	e_destination_set_card (dest, card, 0);
 
@@ -177,10 +195,39 @@ add_address(ETable *table, int row, int col, GdkEvent *event, ESelectNames *name
 	}
 }
 
+static void *
+esn_get_key_fn (ETableModel *source, int row, void *closure)
+{
+	EAddressbookModel *model = E_ADDRESSBOOK_MODEL (closure);
+	ECard *card = e_addressbook_model_get_card (model, row);
+	void *key = card_key (card);
+	return key;
+}
+
+static void *
+esn_dup_key_fn (const void *key, void *closure)
+{
+	void *dup = (void *) g_strdup ((const gchar *) key);
+	return dup;
+}
+
+static void
+esn_free_gotten_key_fn (void *key, void *closure)
+{
+	g_free (key);
+}
+
+static void
+esn_free_duped_key_fn (void *key, void *closure)
+{
+	g_free (key);
+}
+
 GtkWidget *
 e_addressbook_create_ebook_table(char *name, char *string1, char *string2, int num1, int num2)
 {
 	ETableModel *adapter;
+	ETableModel *without;
 	EAddressbookModel *model;
 	GtkWidget *table;
 	char *filename;
@@ -188,7 +235,7 @@ e_addressbook_create_ebook_table(char *name, char *string1, char *string2, int n
 	char *spec;
 
 	model = e_addressbook_model_new ();
-	adapter = E_TABLE_MODEL (e_addressbook_table_adapter_new(model));
+	adapter = E_TABLE_MODEL (e_addressbook_table_adapter_new (model));
 
 	filename = gnome_util_prepend_user_home("evolution/local/Contacts/addressbook.db");
 	uri = g_strdup_printf("file://%s", filename);
@@ -203,11 +250,21 @@ e_addressbook_create_ebook_table(char *name, char *string1, char *string2, int n
 		       "query", "(contains \"email\" \"\")",
 		       NULL);
 
+	without = e_table_without_new (adapter,
+				       g_str_hash,
+				       g_str_equal,
+				       esn_get_key_fn,
+				       esn_dup_key_fn,
+				       esn_free_gotten_key_fn,
+				       esn_free_duped_key_fn,
+				       model);
+
 	spec = g_strdup_printf(SPEC, E_CARD_SIMPLE_FIELD_NAME_OR_ORG);
-	table = e_table_scrolled_new (adapter, NULL, spec, NULL);
+	table = e_table_scrolled_new (without, NULL, spec, NULL);
 	g_free(spec);
 
 	gtk_object_set_data(GTK_OBJECT(table), "adapter", adapter);
+	gtk_object_set_data(GTK_OBJECT(table), "without", without);
 	gtk_object_set_data(GTK_OBJECT(table), "model", model);
 
 	return table;
@@ -506,6 +563,7 @@ e_select_names_init (ESelectNames *e_select_names)
 	e_select_names->table = E_TABLE_SCROLLED(glade_xml_get_widget(gui, "table-source"));
 	e_select_names->model = gtk_object_get_data(GTK_OBJECT(e_select_names->table), "model");
 	e_select_names->adapter = gtk_object_get_data(GTK_OBJECT(e_select_names->table), "adapter");
+	e_select_names->without = gtk_object_get_data(GTK_OBJECT(e_select_names->table), "without");
 
 	e_select_names->categories = glade_xml_get_widget (gui, "custom-categories");
 	if (e_select_names->categories && !GTK_IS_COMBO (e_select_names->categories))
@@ -546,7 +604,8 @@ static void e_select_names_child_free(char *key, ESelectNamesChild *child, ESele
 }
 
 static void
-e_select_names_destroy (GtkObject *object) {
+e_select_names_destroy (GtkObject *object)
+{
 	ESelectNames *e_select_names = E_SELECT_NAMES(object);
 	
 	gtk_signal_disconnect_by_data(GTK_OBJECT(e_select_names->local_listener), e_select_names);
@@ -604,7 +663,16 @@ button_clicked(GtkWidget *button, ESelectNamesChild *child)
 static void
 remove_address(ETable *table, int row, int col, GdkEvent *event, ESelectNamesChild *child)
 {
+	const EDestination *dest;
+	ECard *card;
+	void *key;
+	dest = e_select_names_model_get_destination (child->source, row);
+	card = e_destination_get_card (dest);
+	key = card_key (card);
+
 	e_select_names_model_delete (child->source, row);
+	e_table_without_show (E_TABLE_WITHOUT (child->names->without), key);
+	g_free (key);
 }
 
 struct _RightClickData {
@@ -720,7 +788,7 @@ e_select_names_add_section(ESelectNames *e_select_names, char *name, char *id, E
 	
 	model = e_select_names_table_model_new(source);
 	etable = e_table_scrolled_new (model, NULL, SPEC2, NULL);
-	
+
 	gtk_signal_connect(GTK_OBJECT(e_table_scrolled_get_table(E_TABLE_SCROLLED(etable))), "right_click",
 			   GTK_SIGNAL_FUNC(section_right_click_cb), child);
 	gtk_signal_connect(GTK_OBJECT(e_table_scrolled_get_table(E_TABLE_SCROLLED(etable))), "double_click",

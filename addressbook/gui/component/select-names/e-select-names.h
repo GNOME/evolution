@@ -69,6 +69,7 @@ struct _ESelectNames
 	int child_count;
 	ETableScrolled *table;
 	ETableModel *adapter;
+	ETableModel *without;
 	EAddressbookModel *model;
 	GtkWidget *categories;
 	GtkWidget *categories_entry;

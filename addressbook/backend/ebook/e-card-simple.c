@@ -786,6 +786,11 @@ char     *e_card_simple_get            (ECardSimple          *simple,
 		case E_CARD_SIMPLE_FIELD_NAME_OR_ORG:
 			if (simple->card) {
 				gtk_object_get(GTK_OBJECT(simple->card),
+					       "file_as", &string,
+					       NULL);
+				if (string && *string)
+					return g_strdup(string);
+				gtk_object_get(GTK_OBJECT(simple->card),
 					       "full_name", &string,
 					       NULL);
 				if (string && *string)
