@@ -1,3 +1,7 @@
+2001-01-22  Dan Winship  <danw@ximian.com>
+
+	* POTFILES.in: Update for filter code moves
+
 2001-01-19  Akira TAGOH  <tagoh@gnome.gr.jp>
 
 	* ja.po: Updated Japanese translation.

@@ -68,7 +68,7 @@ calendar/gui/popup-menu.c
 calendar/gui/print.c
 calendar/gui/tasks-control.c
 calendar/gui/weekday-picker.c
-camel/camel-folder-thread.c
+camel/camel-filter-search.c
 camel/camel-lock.c
 camel/camel-movemail.c
 camel/camel-provider.c
@@ -114,7 +114,6 @@ filter/filter-editor.c
 filter/filter-filter.c
 filter/filter-folder.c
 filter/filter-input.c
-filter/filter-message-search.c
 filter/filter-option.c
 filter/filter-part.c
 filter/filter-rule.c
