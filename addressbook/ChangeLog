@@ -1,3 +1,8 @@
+2001-10-16  Iain Holmes  <iain@ximian.com>
+
+	* backend/ebook/evolution-ldif-importer.c (support_format_fn): Return
+	FALSE if no extension.
+
 2001-10-16  Jon Trowbridge  <trow@ximian.com>
 
 	* backend/ebook/e-card.c (e_card_get_id): If card->id is NULL,
