@@ -1,3 +1,11 @@
+2000-12-21  Iain Holmes  <iain@helixcode.com>
+
+	* gui/calendar-summary.c: Updated for new executive summary.
+
+	* gui/component-factory.c: Reenabled the summary.
+
+	* gui/GNOME_Evolution_Calendar.oafinfo: Added the summary.
+
 2000-12-20  JP Rosevear  <jpr@helixcode.com>
 
 	* conduits/todo/todo-conduit.h: Fix erroneous documentation

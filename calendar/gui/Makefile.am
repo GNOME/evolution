@@ -28,6 +28,7 @@ INCLUDES = 						\
 	-I$(top_srcdir)/libical/src/libical		\
 	-I$(top_builddir)/libical/src/libical		\
 	-I$(top_srcdir)/widgets				\
+	-I$(top_srcdir)/executive-summary		\
 	-I$(includedir)					\
 	$(BONOBO_VFS_GNOME_CFLAGS)			\
 	$(EXTRA_GNOME_CFLAGS)				\
@@ -67,6 +68,8 @@ evolution_calendar_SOURCES =			\
 	calendar-commands.h			\
 	calendar-model.c			\
 	calendar-model.h			\
+	calendar-summary.c			\
+	calendar-summary.h			\
 	comp-util.c				\
 	comp-util.h				\
 	control-factory.c			\
@@ -121,6 +124,7 @@ evolution_calendar_SOURCES =			\
 
 evolution_calendar_LDADD =					\
 	$(top_builddir)/shell/libeshell.a			\
+	$(top_builddir)/executive-summary/evolution-services/libevolution-services.la	\
 	$(EXTRA_GNOME_LIBS)					\
 	$(BONOBO_HTML_GNOME_LIBS)				\
 	$(top_builddir)/e-util/libeutil.la			\

@@ -25,34 +25,73 @@
 #include <config.h>
 #endif
 
+#include <time.h>
+
 #include <bonobo.h>
 
 #include <gnome.h>
+#include <liboaf/liboaf.h>
 
-#include <executive-summary/evolution-services/executive-summary-component.h>
+#include <evolution-services/executive-summary-component.h>
+#include <evolution-services/executive-summary-html-view.h>
+
 #include "cal-util/cal-component.h"
+#include "cal-util/timeutil.h"
 #include "calendar-model.h"
 
 #include "calendar-summary.h"
 
 typedef struct {
 	ExecutiveSummaryComponent *component;
+	ExecutiveSummaryHtmlView *view;
 	CalClient *client;
+	gboolean cal_loaded;
+
+	char *title;
+	char *icon;
+	
+	guint32 idle;
 } CalSummary;
 
-static char *
+enum {
+	PROPERTY_TITLE,
+	PROPERTY_ICON
+};
+
+extern gchar *evolution_dir;
+
+static int running_views = 0;
+static BonoboGenericFactory *factory;
+#define CALENDAR_SUMMARY_ID "OAFIID:GNOME_Evolution_Calendar_Summary_ComponentFactory"
+
+static gboolean
 generate_html_summary (CalSummary *summary)
 {
+	time_t t, day_begin, day_end;
+	struct tm *timeptr;
 	GList *uids, *l;
-	char *ret_html, *tmp;
+	char *ret_html, *tmp, *datestr;
 	
-	ret_html = g_strdup ("<ul>");
-	
-	uids = cal_client_get_uids (summary->client, CALOBJ_TYPE_ANY);
+	t = time (NULL);
+	day_begin = time_day_begin (t);
+	day_end = time_day_end (t);
+
+	datestr = g_new (char, 256);
+	timeptr = localtime (&t);
+	strftime (datestr, 255, _("%A, %e %B %Y"), timeptr);
+	ret_html = g_strdup_printf ("<b>%s</b><br> <ul>", datestr);
+	g_free (datestr);
+
+	uids = cal_client_get_objects_in_range (summary->client, 
+						CALOBJ_TYPE_EVENT, day_begin,
+						day_end);
 	for (l = uids; l; l = l->next){
 		CalComponent *comp;
 		CalComponentText text;
 		CalClientGetStatus status;
+		CalComponentDateTime start, end;
+		struct icaltimetype *start_time, *end_time;
+		char *start_str, *end_str;
 		char *uid;
 		char *tmp2;
 		
@@ -62,9 +101,24 @@ generate_html_summary (CalSummary *summary)
 			continue;
 		
 		cal_component_get_summary (comp, &text);
-		
-		tmp2 = g_strdup_printf ("<li>%s</li>", text.value);
-		
+		cal_component_get_dtstart (comp, &start);
+		cal_component_get_dtend (comp, &end);
+
+		g_print ("text.value: %s\n", text.value);
+		start_time = start.value;
+		end_time = end.value;
+
+		start_str = g_strdup_printf ("%d.%d", start_time->hour, start_time->minute);
+		if (end_time) {
+			end_str = g_strdup_printf ("%d.%d", end_time->hour, end_time->minute);
+		} else {
+			end_str = g_strdup (" ");
+		}
+
+		tmp2 = g_strdup_printf ("<li>%s:%s -> %s</li>", text.value, start_str, end_str);
+		g_free (start_str);
+		g_free (end_str);
+
 		tmp = ret_html;
 		ret_html = g_strconcat (ret_html, tmp2, NULL);
 		g_free (tmp);
@@ -77,59 +131,204 @@ generate_html_summary (CalSummary *summary)
 	ret_html = g_strconcat (ret_html, "</ul>", NULL);
 	g_free (tmp);
 	
-	return ret_html;
+	executive_summary_html_view_set_html (summary->view, ret_html);
+	g_free (ret_html);
+
+	summary->idle = 0;
+	return FALSE;
 }
 
 static void
-cal_loaded (CalClient *client,
-	    CalClientLoadStatus status,
-	    CalSummary *summary)
+get_property (BonoboPropertyBag *bag,
+	      BonoboArg *arg,
+	      guint arg_id,
+	      gpointer data)
 {
-	char *html;
-	
-	if (status == CAL_CLIENT_LOAD_SUCCESS) {
-		html = generate_html_summary (summary);
-		executive_summary_component_update (summary->component, html);
-		g_free (html);
-	} else {
-		g_print ("Error loading %d\n", status);
-		executive_summary_component_update (summary->component, " ");
+	CalSummary *summary = (CalSummary *) data;
+
+	switch (arg_id) {
+	case PROPERTY_TITLE:
+		BONOBO_ARG_SET_STRING (arg, summary->title);
+		break;
+
+	case PROPERTY_ICON:
+		BONOBO_ARG_SET_STRING (arg, summary->icon);
+		break;
+
+	default:
+		break;
 	}
 }
 
-char *
-create_summary_view (ExecutiveSummaryComponent *component,
-		     char **title,
-		     char **icon,
+static void
+component_destroyed (GtkObject *object,
+		     gpointer data)
+{
+	CalSummary *summary = (CalSummary *) data;
+
+	g_free (summary->title);
+	g_free (summary->icon);
+	gtk_object_destroy (GTK_OBJECT (summary->client));
+
+	g_free (summary);
+
+	running_views--;
+
+	if (running_views <= 0) {
+		bonobo_object_unref (BONOBO_OBJECT (factory));
+	}
+}
+
+static void
+obj_updated_cb (CalClient *client,
+		const char *uid,
+		CalSummary *summary)
+{
+	/* FIXME: Maybe cache the uid's in the summary and only call this if
+	   uid is in this cache??? */
+
+	if (summary->idle != 0) 
+		return;
+
+	summary->idle = g_idle_add (generate_html_summary, summary);
+}
+
+static void
+obj_removed_cb (CalClient *client,
+		const char *uid,
+		CalSummary *summary)
+{
+	/* See FIXME: above */
+	if (summary->idle != 0)
+		return;
+
+	summary->idle = g_idle_add (generate_html_summary, summary);
+}
+static void
+cal_loaded_cb (CalClient *client,
+	       CalClientLoadStatus status,
+	       CalSummary *summary)
+{
+	switch (status) {
+	case CAL_CLIENT_LOAD_SUCCESS:
+		summary->cal_loaded = TRUE;
+
+		if (summary->idle != 0)
+			return;
+
+		summary->idle = g_idle_add (generate_html_summary, summary);
+		break;
+
+	case CAL_CLIENT_LOAD_ERROR:
+		executive_summary_html_view_set_html (summary->view,
+						      _("<b>Error loading calendar</b>"));
+		break;
+
+	case CAL_CLIENT_LOAD_IN_USE:
+		executive_summary_html_view_set_html (summary->view,
+						      _("<b>Error loading calendar:<br>Calendar in use."));
+		
+		break;
+
+	case CAL_CLIENT_LOAD_METHOD_NOT_SUPPORTED:
+		executive_summary_html_view_set_html (summary->view,
+						      _("<b>Error loading calendar:<br>Method not supported"));
+		break;
+
+	default:
+		break;
+	}
+}
+
+BonoboObject *
+create_summary_view (ExecutiveSummaryComponentFactory *_factory,
 		     void *closure)
 {
-	char *ret_html;
-	char *evoldir;
-	char *calfile;
+	BonoboObject *component, *view;
+	BonoboPersistStream *stream;
+	BonoboPropertyBag *bag;
 	CalSummary *summary;
-	gboolean result;
-	
-	evoldir = (char *) closure;
-	
-	/* strdup the title and icon */
-	*title = g_strdup ("Things to do");
-	*icon = g_strdup ("evolution-tasks.png");
-	
+	char *html, *file;
+
+	file = g_concat_dir_and_file (evolution_dir, "local/Calendar/calendar.ics");
+
+	/* Create the component object */
+	component = executive_summary_component_new ();
+
 	summary = g_new (CalSummary, 1);
 	summary->component = component;
-	
-	calfile = g_strdup_printf ("%s/local/Calendar/calendar.ics", evoldir);
-	g_print ("calfile: %s\n", calfile);
+	summary->icon = g_strdup ("evolution-calendar.png");
+	summary->title = g_strdup ("Things to do");
 	summary->client = cal_client_new ();
-	
-	result = cal_client_load_calendar (summary->client, calfile);
-	if (!result) {
-		g_warning ("%s: Could not load %s", __FUNCTION__, calfile);
-		return "";
+	summary->cal_loaded = FALSE;
+	summary->idle = 0;
+
+	/* Check for calendar files */
+	if (!g_file_exists (file)) {
+		cal_client_create_calendar (summary->client, file);
 	}
-	
-	gtk_signal_connect (GTK_OBJECT (summary->client), "cal_loaded",
-			    GTK_SIGNAL_FUNC (cal_loaded), summary);
-	
-	return g_strdup (" ");
+
+	/* Load calendar */
+	cal_client_load_calendar (summary->client, file);
+	g_free (file);
+
+	gtk_signal_connect (GTK_OBJECT (summary->client), "cal-loaded",
+			    GTK_SIGNAL_FUNC (cal_loaded_cb), summary);
+	gtk_signal_connect (GTK_OBJECT (summary->client), "obj-updated",
+			    GTK_SIGNAL_FUNC (obj_updated_cb), summary);
+	gtk_signal_connect (GTK_OBJECT (summary->client), "obj-removed",
+			    GTK_SIGNAL_FUNC (obj_removed_cb), summary);
+		
+	gtk_signal_connect (GTK_OBJECT (component), "destroy",
+			    GTK_SIGNAL_FUNC (component_destroyed), summary);
+
+	/* HTML view */
+	view = executive_summary_html_view_new ();
+	summary->view = view;
+
+	executive_summary_html_view_set_html (EXECUTIVE_SUMMARY_HTML_VIEW (view),
+					      _("Loading Calendar"));
+	bonobo_object_add_interface (component, view);
+
+	/* BonoboPropertyBag */
+	bag = bonobo_property_bag_new (get_property, NULL, summary);
+	bonobo_property_bag_add (bag, "window_title", PROPERTY_TITLE,
+				 BONOBO_ARG_STRING, NULL, 
+				 "The title of this component's window", 0);
+	bonobo_property_bag_add (bag, "window_icon", PROPERTY_ICON,
+				 BONOBO_ARG_STRING, NULL, 
+				 "The icon for this component's window", 0);
+	bonobo_object_add_interface (component, BONOBO_OBJECT (bag));
+
+	running_views++;
+
+	return component;
+}
+
+static BonoboObject *
+factory_fn (BonoboGenericFactory *generic_factory,
+	    void *closure)
+{
+	BonoboObject *_factory;
+
+	_factory = executive_summary_component_factory_new (create_summary_view,
+							    NULL);
+	return _factory;
+}
+
+BonoboGenericFactory *
+calendar_summary_factory_init (void)
+{
+	if (factory != NULL)
+		return factory;
+
+	factory = bonobo_generic_factory_new (CALENDAR_SUMMARY_ID, factory_fn,
+					      NULL);
+
+	if (factory == NULL) {
+		g_warning ("Cannot initialise calendar summary factory");
+		return NULL;
+	}
+
+	return factory;
 }

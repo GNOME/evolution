@@ -24,24 +24,17 @@
 #include <config.h>
 #include <bonobo.h>
 #include "evolution-shell-component.h"
-#ifdef WANT_THE_EXECUTIVE_SUMMARY
 #include <executive-summary/evolution-services/executive-summary-component.h>
-#endif
 #include "component-factory.h"
 #include "control-factory.h"
 #include "calendar-config.h"
-#if WANT_THE_EXECUTIVE_SUMMARY
 #include "calendar-summary.h"
-#endif
 
 
 #define COMPONENT_FACTORY_ID "OAFIID:GNOME_Evolution_Calendar_ShellComponentFactory"
-#define SUMMARY_FACTORY_ID   "OAFIID:GNOME_Evolution_Calendar_ExecutiveSummaryComponentFactory"
 
 static BonoboGenericFactory *factory = NULL;
-#ifdef WANT_THE_EXECUTIVE_SUMMARY
 static BonoboGenericFactory *summary_factory = NULL;
-#endif
 char *evolution_dir;
 
 static const EvolutionShellComponentFolderType folder_types[] = {
@@ -81,6 +74,7 @@ owner_set_cb (EvolutionShellComponent *shell_component,
 	      gpointer user_data)
 {
 	evolution_dir = g_strdup (evolution_homedir);
+	g_print ("evolution_dir: %s\n", evolution_dir);
 	calendar_config_init ();
 	owner_count ++;
 }
@@ -113,21 +107,6 @@ factory_fn (BonoboGenericFactory *factory,
 	return BONOBO_OBJECT (shell_component);
 }
 
-#ifdef WANT_THE_EXECUTIVE_SUMMARY
-static BonoboObject *
-summary_fn (BonoboGenericFactory *factory, 
-	    void *closure)
-{
-	ExecutiveSummaryComponent *summary_component;
-
-	summary_component = executive_summary_component_new (NULL,
-							     create_summary_view,
-							     NULL,
-							     evolution_dir);
-	return BONOBO_OBJECT (summary_component);
-}
-#endif
-
 
 void
 component_factory_init (void)
@@ -137,14 +116,11 @@ component_factory_init (void)
 
 	factory = bonobo_generic_factory_new (COMPONENT_FACTORY_ID, factory_fn, NULL);
 
-#ifdef WANT_THE_EXECUTIVE_SUMMARY
-	summary_factory = bonobo_generic_factory_new (SUMMARY_FACTORY_ID, summary_fn, NULL);
-#endif
+	summary_factory = calendar_summary_factory_init ();
+
 	if (factory == NULL)
 		g_error ("Cannot initialize Evolution's calendar component.");
 
-#ifdef WANT_THE_EXECUTIVE_SUMMARY
 	if (summary_factory == NULL)
 		g_error ("Cannot initialize Evolution's calendar summary component.");
-#endif
 }

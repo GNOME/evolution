@@ -24,9 +24,9 @@
 #ifndef CALENDAR_SUMMARY_H
 #define CALENDAR_SUMMARY_H
 
-char * create_summary_view (ExecutiveSummaryComponent *component,
-			    char **title,
-			    char **icon,
-			    void *closure);
+#include <evolution-services/executive-summary-component.h>
+
+BonoboObject *create_summary_view (ExecutiveSummaryComponentFactory *_factory,
+				   void *closure);
 
 #endif
