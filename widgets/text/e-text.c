@@ -2664,18 +2664,12 @@ tooltip_event(GtkWidget *tooltip, GdkEvent *event, EText *text)
 	gint ret_val = FALSE;
 	switch (event->type) {
 	case GDK_LEAVE_NOTIFY:
-		if (text->tooltip_window) {
-			gtk_widget_destroy (text->tooltip_window);
-			text->tooltip_window = NULL;
-		}
+		e_canvas_hide_tooltip (E_CANVAS(GNOME_CANVAS_ITEM(text)->canvas));
 		break;
 	case GDK_BUTTON_PRESS:
 	case GDK_BUTTON_RELEASE:
 		if (event->type == GDK_BUTTON_RELEASE) {
-			if (text->tooltip_window) {
-				gtk_widget_destroy (text->tooltip_window);
-				text->tooltip_window = NULL;
-			}
+			e_canvas_hide_tooltip (E_CANVAS(GNOME_CANVAS_ITEM(text)->canvas));
 		}
 		/* Forward events to the text item */
 		gtk_signal_emit_by_name (GTK_OBJECT (text), "event", event,
@@ -2708,12 +2702,13 @@ _do_tooltip (gpointer data)
 	double x1, x2, y1, y2;
 #endif
 	GnomeCanvasItem *rect;
+	GtkWidget *tooltip_window;      /* GtkWindow for displaying the tooltip */
 
 	text->tooltip_count = 0;
 
 	lines = text->lines;
 
-	if (text->tooltip_window || text->editing || (!lines)) {
+	if (E_CANVAS(GNOME_CANVAS_ITEM(text)->canvas)->tooltip_window || text->editing || (!lines)) {
 		text->tooltip_timeout = 0;
 		return FALSE;
 	}
@@ -2739,12 +2734,12 @@ _do_tooltip (gpointer data)
 	pixel_origin.x -= (int) gtk_layout_get_hadjustment(GTK_LAYOUT(GNOME_CANVAS_ITEM(text)->canvas))->value;
 	pixel_origin.y -= (int) gtk_layout_get_vadjustment(GTK_LAYOUT(GNOME_CANVAS_ITEM(text)->canvas))->value;
 
-	text->tooltip_window = gtk_window_new (GTK_WINDOW_POPUP);
-	gtk_container_set_border_width (GTK_CONTAINER (text->tooltip_window), 1);
+	tooltip_window = gtk_window_new (GTK_WINDOW_POPUP);
+	gtk_container_set_border_width (GTK_CONTAINER (tooltip_window), 1);
 
 	canvas = e_canvas_new ();
 
-	gtk_container_add (GTK_CONTAINER (text->tooltip_window), canvas);
+	gtk_container_add (GTK_CONTAINER (tooltip_window), canvas);
 	
 	/* Get the longest line length */
 	max_width = 0.0;
@@ -2770,6 +2765,7 @@ _do_tooltip (gpointer data)
 	tooltip_text = gnome_canvas_item_new (gnome_canvas_root (GNOME_CANVAS (canvas)),
 					      e_text_get_type (),
 					      "anchor", GTK_ANCHOR_NW,
+					      "bold", text->bold,
 					      "font_e", text->font,
 					      "text", text->text,
 					      "editable", FALSE,
@@ -2867,18 +2863,21 @@ _do_tooltip (gpointer data)
 			      "y2", (double) tooltip_height + 4 + (text->draw_borders ? BORDER_INDENT * 2 : 0),
 			      NULL);
 	
-	gtk_widget_set_usize (text->tooltip_window,
+	gtk_widget_set_usize (tooltip_window,
 			      tooltip_width + 4 + (text->draw_borders ? BORDER_INDENT * 2 : 0),
 			      tooltip_height + 4 + (text->draw_borders ? BORDER_INDENT * 2 : 0));
 	gnome_canvas_set_scroll_region (GNOME_CANVAS(canvas), 0.0, 0.0,
 					tooltip_width + (text->draw_borders ? BORDER_INDENT * 2 : 0), 
 					(double)tooltip_height + (text->draw_borders ? BORDER_INDENT * 2 : 0));
 	gtk_widget_show (canvas);
-	gtk_widget_realize (text->tooltip_window);
-	gtk_signal_connect (GTK_OBJECT(text->tooltip_window), "event",
+	gtk_widget_realize (tooltip_window);
+	gtk_signal_connect (GTK_OBJECT(tooltip_window), "event",
 			    GTK_SIGNAL_FUNC(tooltip_event), text);
 
-	gtk_widget_popup (text->tooltip_window, pixel_origin.x - 2 + tooltip_x, pixel_origin.y - 2 + tooltip_y);
+	e_canvas_popup_tooltip (E_CANVAS(GNOME_CANVAS_ITEM(text)->canvas),
+				tooltip_window,
+				pixel_origin.x - 2 + tooltip_x,
+				pixel_origin.y - 2 + tooltip_y);
 	
 	text->tooltip_timeout = 0;
 	return FALSE;
@@ -2994,10 +2993,7 @@ e_text_event (GnomeCanvasItem *item, GdkEvent *event)
 			gtk_timeout_remove (text->tooltip_timeout);
 			text->tooltip_timeout = 0;
 		}
-		if (text->tooltip_window) {
-			gtk_widget_destroy (text->tooltip_window);
-			text->tooltip_window = NULL;
-		}
+		e_canvas_hide_tooltip (E_CANVAS(GNOME_CANVAS_ITEM(text)->canvas));
 #if 0
 		if ((!text->editing) 
 		    && text->editable 

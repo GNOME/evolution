@@ -79,6 +79,11 @@ struct _ECanvas
 	GList                *selection;
 	ECanvasSelectionInfo *cursor;
 
+	GtkWidget            *tooltip_window;
+	int                   visibility_notify_id;
+	GtkWidget            *toplevel;
+	guint visibility_first : 1;
+
 	/* Input context for dead key support */
 	GdkIC     *ic;
 	GdkICAttr *ic_attr;
@@ -112,6 +117,9 @@ void e_canvas_item_remove_selection (GnomeCanvasItem *item, gpointer id);
 
 /* Not implemented yet. */
 void e_canvas_item_set_cursor_end (GnomeCanvasItem *item, gpointer id);
+
+void e_canvas_popup_tooltip (ECanvas *canvas, GtkWidget *widget, int x, int y);
+void e_canvas_hide_tooltip  (ECanvas *canvas);
 
 #ifdef __cplusplus
 }

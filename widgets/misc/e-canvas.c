@@ -31,6 +31,10 @@ static void e_canvas_unrealize      (GtkWidget        *widget);
 static gint e_canvas_key            (GtkWidget        *widget,
 				     GdkEventKey      *event);
 
+static gint e_canvas_visibility     (GtkWidget        *widget,
+				     GdkEventVisibility *event,
+				     ECanvas          *canvas);
+
 static gint e_canvas_focus_in       (GtkWidget        *widget,
 				     GdkEventFocus    *event);
 static gint e_canvas_focus_out      (GtkWidget        *widget,
@@ -114,6 +118,7 @@ e_canvas_init (ECanvas *canvas)
 	canvas->cursor = NULL;
 	canvas->ic = NULL;
 	canvas->ic_attr = NULL;
+	canvas->tooltip_window = NULL;
 }
 
 static void
@@ -123,6 +128,16 @@ e_canvas_destroy (GtkObject *object)
 
 	if (canvas->idle_id)
 		g_source_remove(canvas->idle_id);
+
+	if (canvas->toplevel) {
+		if (canvas->visibility_notify_id)
+			gtk_signal_disconnect (GTK_OBJECT(canvas->toplevel),
+					       canvas->visibility_notify_id);
+		canvas->visibility_notify_id = 0;
+
+		gtk_object_unref(GTK_OBJECT(canvas->toplevel));
+		canvas->toplevel = NULL;
+	}
 
 	if ((GTK_OBJECT_CLASS (parent_class))->destroy)
 		(*(GTK_OBJECT_CLASS (parent_class))->destroy) (object);
@@ -282,6 +297,18 @@ e_canvas_key (GtkWidget *widget, GdkEventKey *event)
 	full_event.key = *event;
 
 	return emit_event (canvas, &full_event);
+}
+
+/* Key event handler for the canvas */
+static gint
+e_canvas_visibility (GtkWidget *widget, GdkEventVisibility *event, ECanvas *canvas)
+{
+	if (! canvas->visibility_first) {
+		e_canvas_hide_tooltip(canvas);
+	}
+	canvas->visibility_first = FALSE;
+
+	return FALSE;
 }
 
 
@@ -701,5 +728,33 @@ e_canvas_item_remove_selection (GnomeCanvasItem *item, gpointer id)
 				break;
 			}
 		}
+	}
+}
+
+void e_canvas_popup_tooltip (ECanvas *canvas, GtkWidget *widget, int x, int y)
+{
+	if (canvas->tooltip_window && canvas->tooltip_window != widget) {
+		e_canvas_hide_tooltip(canvas);
+	}
+	canvas->tooltip_window = widget;
+	canvas->visibility_first = TRUE;
+	if (canvas->toplevel == NULL) {
+		canvas->toplevel = gtk_widget_get_toplevel (GTK_WIDGET(canvas));
+		if (canvas->toplevel) {
+			gtk_widget_add_events(canvas->toplevel, GDK_VISIBILITY_NOTIFY_MASK);
+			gtk_object_ref(GTK_OBJECT(canvas->toplevel));
+			canvas->visibility_notify_id =
+				gtk_signal_connect (GTK_OBJECT (canvas->toplevel), "visibility_notify_event",
+						    GTK_SIGNAL_FUNC (e_canvas_visibility), canvas);
+		}
+	}
+	gtk_widget_popup (widget, x, y);
+}
+
+void e_canvas_hide_tooltip  (ECanvas *canvas)
+{
+	if (canvas->tooltip_window) {
+		gtk_widget_destroy (canvas->tooltip_window);
+		canvas->tooltip_window = NULL;
 	}
 }
