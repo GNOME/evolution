@@ -228,7 +228,6 @@ e_timezone_dialog_construct (ETimezoneDialog *etd)
 {
 	ETimezoneDialogPrivate *priv;
 	GtkWidget *map;
-	GtkRequisition req;
 
 	g_return_val_if_fail (etd != NULL, NULL);
 	g_return_val_if_fail (E_IS_TIMEZONE_DIALOG (etd), NULL);
