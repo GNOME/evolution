@@ -1,3 +1,29 @@
+2003-12-03  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-folder-list.c: Remove.
+	* e-folder-list.h: Remove.
+
+	* e-folder-tree.c: Remove.
+	* e-folder-tree.h: Remove.
+
+	* e-folder.c: Remove.
+	* e-folder.h: Remove.
+
+	* evolution-shell-component.c: Remove.
+	* evolution-shell-component.h: Remove.
+
+	* evolution-shell-client.c: Remove.
+	* evolution-shell-client.h: Remove.
+
+	* evolution-folder-selector-button.c: Remove.
+	* evolution-folder-selector-button.h: Remove.
+
+	* evolution-activity-client.c: Remove.
+	* evolution-activity-client.h: Remove.
+
+	* evolution-storage.c: Remove.
+	* evolution-storage.h: Remove.
+
 2003-12-02  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-shell-window.c (e_shell_window_save_defaults): Implement.

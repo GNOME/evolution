@@ -3,8 +3,6 @@
 #define _MAIL_VFOLDER_H
 
 #include "Evolution.h"
-#include "evolution-storage.h"
-#include "evolution-shell-component.h"
 
 #include "camel/camel-folder.h"
 #include "camel/camel-mime-message.h"

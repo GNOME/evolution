@@ -38,7 +38,6 @@ extern "C" {
 
 #include "message-list.h"
 
-#include "evolution-storage.h"	/*EvolutionStorage */
 #include "e-util/e-msgport.h"
 #include "e-util/e-account.h"
 
@@ -125,13 +124,6 @@ int mail_send_mail (const char *uri, CamelMimeMessage *message,
 		    void (*done) (char *uri, CamelMimeMessage *message, gboolean sent, void *data),
 		    void *data);
 
-/* scan subfolders and add them to the storage, synchronous */
-/* FIXME: Move this to component-factory.c */
-void mail_scan_subfolders (CamelStore *store, EvolutionStorage *storage);
-/* not sure about this one though */
-int mail_update_subfolders (CamelStore *store, EvolutionStorage *storage,
-			    void (*done)(CamelStore *, void *data),
-			    void *data);
 
 /* yeah so this is messy, but it does a lot, maybe i can consolidate all user_data's to be the one */
 void mail_send_queue (CamelFolder *queue, const char *destination,

@@ -48,7 +48,6 @@
 #include <gal/e-text/e-entry.h>
 
 #include <camel/camel.h>
-#include "evolution-folder-selector-button.h"
 #include "e-msg-composer-hdrs.h"
 #include "mail/mail-config.h"
 
@@ -1096,6 +1095,7 @@ e_msg_composer_hdrs_set_bcc (EMsgComposerHdrs *hdrs,
 	g_free (str);
 }
 
+#if 0
 void
 e_msg_composer_hdrs_set_post_to (EMsgComposerHdrs *hdrs,
 				 const char *post_to)
@@ -1105,6 +1105,7 @@ e_msg_composer_hdrs_set_post_to (EMsgComposerHdrs *hdrs,
 	
 	evolution_folder_selector_button_set_uri (EVOLUTION_FOLDER_SELECTOR_BUTTON (hdrs->priv->post_to.entry), post_to);
 }
+#endif
 
 void
 e_msg_composer_hdrs_set_subject (EMsgComposerHdrs *hdrs,
@@ -1257,6 +1258,7 @@ e_msg_composer_hdrs_get_recipients (EMsgComposerHdrs *hdrs)
 	return recip_destv;
 }
 
+#if 0
 char *
 e_msg_composer_hdrs_get_post_to (EMsgComposerHdrs *hdrs)
 {
@@ -1267,6 +1269,7 @@ e_msg_composer_hdrs_get_post_to (EMsgComposerHdrs *hdrs)
 	folder = evolution_folder_selector_button_get_folder (EVOLUTION_FOLDER_SELECTOR_BUTTON (hdrs->priv->post_to.entry));
 	return folder ? g_strdup (folder->physicalUri) : NULL;
 }
+#endif
 
 const char *
 e_msg_composer_hdrs_get_subject (EMsgComposerHdrs *hdrs)

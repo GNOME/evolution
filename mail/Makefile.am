@@ -137,8 +137,6 @@ libevolution_mail_la_SOURCES =			\
 	mail-config-factory.h			\
 	mail-folder-cache.c			\
 	mail-folder-cache.h			\
-	mail-importer.c				\
-	mail-importer.h				\
 	mail-mt.c				\
 	mail-mt.h				\
 	mail-offline-handler.c			\

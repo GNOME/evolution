@@ -23,7 +23,6 @@
 #include <gtkhtml/gtkhtml.h>
 #include <camel/camel.h>
 #include <composer/e-msg-composer.h>
-#include <shell/evolution-storage.h>
 #include "mail-config.h"
 #include "mail-session.h"
 #include "mail-types.h"

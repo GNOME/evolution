@@ -47,8 +47,6 @@
 #include <bonobo/bonobo-moniker-util.h>
 #include <bonobo/bonobo-exception.h>
 
-#include <shell/evolution-shell-client.h>
-
 #include <gal/util/e-util.h>
 #include <gal/widgets/e-gui-utils.h>
 #include <e-util/e-url.h>

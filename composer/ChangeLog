@@ -1,3 +1,10 @@
+2003-12-03  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-msg-composer-hdrs.c: Do not #include
+	<evolution-folder-selector-button.h>.
+	(e_msg_composer_hdrs_set_post_to): #if 0 out for now.
+	(e_msg_composer_hdrs_get_post_to): Likewise.
+
 2003-12-01  Rodney Dawes  <dobey@ximian.com>
 
 	* e-msg-composer-hdrs.h: Use BASE_VERSION for repo_ids and OAFIIDs

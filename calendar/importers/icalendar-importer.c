@@ -36,8 +36,6 @@
 #include <importer/evolution-importer.h>
 #include <importer/evolution-intelligent-importer.h>
 #include <importer/GNOME_Evolution_Importer.h>
-#include <shell/e-shell.h>
-#include <shell/evolution-shell-client.h>
 #include <libical/icalvcal.h>
 #include "evolution-calendar-importer.h"
 
