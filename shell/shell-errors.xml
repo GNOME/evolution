@@ -17,7 +17,7 @@ You will need to make more space available in your home directory before you can
 If you choose to continue, you may not have access to some of your old data.
 </secondary>
   <button stock="gtk-quit" response="GTK_RESPONSE_CANCEL"/>
-  <button stock="gtk-ok" _label="Continue" response="GTK_RESPONSE_OK"/>
+  <button stock="gtk-ok" label="Continue" response="GTK_RESPONSE_OK"/>
  </error>
 
 </error-list>

@@ -12,3 +12,4 @@ char *s = N_("{1}\n"
 	"\n"
 	"If you choose to continue, you may not have access to some of your old data.\n"
 	"");
+char *s = N_("Continue");
