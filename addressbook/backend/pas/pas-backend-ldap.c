@@ -750,12 +750,12 @@ build_mods_from_ecards (PASBackendLDAP *bl, ECardSimple *current, ECardSimple *n
 }
 
 static void
-add_objectclass_mod (PASBackendLDAP *bl, GPtrArray *mod_array)
+add_objectclass_mod (PASBackendLDAP *bl, GPtrArray *mod_array, gboolean modify)
 {
 	LDAPMod *objectclass_mod;
 
 	objectclass_mod = g_new (LDAPMod, 1);
-	objectclass_mod->mod_op = LDAP_MOD_ADD;
+	objectclass_mod->mod_op = modify ? LDAP_MOD_REPLACE : LDAP_MOD_ADD;
 	objectclass_mod->mod_type = g_strdup ("objectClass");
 	objectclass_mod->mod_values = g_new (char*, bl->priv->evolutionPersonSupported ? 6 : 5);
 	objectclass_mod->mod_values[0] = g_strdup (TOP);
@@ -824,7 +824,7 @@ create_card_handler (PASBackend *backend, LDAPOp *op)
 	g_ptr_array_remove (mod_array, NULL);
 
 	/* add our objectclass(es) */
-	add_objectclass_mod (bl, mod_array);
+	add_objectclass_mod (bl, mod_array, FALSE);
 
 	/* then put the NULL back */
 	g_ptr_array_add (mod_array, NULL);
@@ -1088,6 +1088,17 @@ modify_card_handler (PASBackend *backend, LDAPOp *op)
 		/* build our mods */
 		mod_array = build_mods_from_ecards (bl, current_card, new_card, &need_new_dn);
 		if (mod_array->len > 0) {
+
+			/* remove the NULL at the end */
+			g_ptr_array_remove (mod_array, NULL);
+
+			/* add our objectclass(es), making sure
+                           evolutionPerson is there if it's supported */
+			add_objectclass_mod (bl, mod_array, TRUE);
+
+			/* then put the NULL back */
+			g_ptr_array_add (mod_array, NULL);
+
 			ldap_mods = (LDAPMod**)mod_array->pdata;
 
 			/* actually perform the ldap modify */
@@ -1636,7 +1647,7 @@ anniversary_compare (ECardSimple *ecard1, ECardSimple *ecard2)
 	g_free (date1);
 	g_free (date2);
 
-	return TRUE;
+	return equal;
 }
 
 static void
@@ -1703,7 +1714,7 @@ birthday_compare (ECardSimple *ecard1, ECardSimple *ecard2)
 	g_free (date1);
 	g_free (date2);
 
-	return TRUE;
+	return equal;
 }
 
 #define IS_RFC2254_CHAR(c) ((c) == '*' || (c) =='\\' || (c) == '(' || (c) == ')' || (c) == '\0')

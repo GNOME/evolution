@@ -1,3 +1,16 @@
+2001-10-29  Chris Toshok  <toshok@ximian.com>
+
+	* backend/pas/pas-backend-ldap.c (add_objectclass_mod): overload
+	this function for modifying objectclasses too, so we can make sure
+	evolutionPerson shows up in the objectclasses of an entry if it
+	shows up in the schema for the server.
+	(create_card_handler): add @replace = FALSE in the call to
+	add_objectclass_mod.
+	(modify_card_handler): call add_objectclass_mod with @replace =
+	TRUE.
+	(anniversary_compare): fix typo - return "equal", not "TRUE".
+	(birthday_compare): same.
+
 2001-10-29  Jon Trowbridge  <trow@ximian.com>
 
 	* conduit/address-conduit.c (pre_sync): Comment out spew.
