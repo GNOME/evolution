@@ -72,9 +72,11 @@ GSList             *mail_config_get_identities       (void);
 
 /* Service Accessor functions */
 MailConfigService  *mail_config_get_default_source (void);
+GSList             *mail_config_get_sources (void);
 void                mail_config_add_source (MailConfigService *source);
 
 MailConfigService  *mail_config_get_transport (void);
+GSList             *mail_config_get_news (void);
 void                mail_config_set_transport (MailConfigService *transport);
 
 MailConfigService  *mail_config_get_default_news (void);

@@ -126,7 +126,7 @@ service_destroy_each (gpointer item, gpointer data)
 
 /* Config struct routines */
 void
-mail_config_init ()
+mail_config_init (void)
 {
 	if (config)
 		return;
@@ -141,7 +141,7 @@ mail_config_init ()
 }
 
 void
-mail_config_clear ()
+mail_config_clear (void)
 {
 	if (!config)
 		return;
@@ -169,7 +169,7 @@ mail_config_clear ()
 }
 
 static void
-config_read ()
+config_read (void)
 {
 	gchar *str;
 	gint len, i;
@@ -282,7 +282,7 @@ config_read ()
 }
 
 void
-mail_config_write ()
+mail_config_write (void)
 {
 	gchar *str;
 	gint len, i;
@@ -378,7 +378,7 @@ mail_config_write ()
 }
 
 void
-mail_config_write_on_exit ()
+mail_config_write_on_exit (void)
 {
 	gchar *str;
 
@@ -399,13 +399,13 @@ mail_config_write_on_exit ()
 
 /* Accessor functions */
 gboolean
-mail_config_is_configured ()
+mail_config_is_configured (void)
 {
 	return config->configured;
 }
 
 gboolean
-mail_config_thread_list ()
+mail_config_thread_list (void)
 {
 	return config->thread_list;
 }
@@ -417,7 +417,7 @@ mail_config_set_thread_list (gboolean value)
 }
 
 gint
-mail_config_paned_size ()
+mail_config_paned_size (void)
 {
 	return config->paned_size;
 }
@@ -429,7 +429,7 @@ mail_config_set_paned_size (gint value)
 }
 
 gboolean
-mail_config_send_html ()
+mail_config_send_html (void)
 {
 	return config->send_html;
 }
@@ -441,7 +441,7 @@ mail_config_set_send_html (gboolean send_html)
 }
 
 MailConfigIdentity *
-mail_config_get_default_identity ()
+mail_config_get_default_identity (void)
 {
 	if (!config->ids)
 		return NULL;
@@ -450,7 +450,7 @@ mail_config_get_default_identity ()
 }
 
 GSList *
-mail_config_get_identities ()
+mail_config_get_identities (void)
 {
 	return config->ids;
 }
@@ -462,7 +462,7 @@ mail_config_add_identity (MailConfigIdentity *id)
 }
 
 MailConfigService *
-mail_config_get_default_source ()
+mail_config_get_default_source (void)
 {
 	if (!config->sources)
 		return NULL;
@@ -471,7 +471,7 @@ mail_config_get_default_source ()
 }
 
 GSList *
-mail_config_get_sources ()
+mail_config_get_sources (void)
 {
 	return config->sources;
 }
@@ -483,7 +483,7 @@ mail_config_add_source (MailConfigService *source)
 }
 
 MailConfigService *
-mail_config_get_transport ()
+mail_config_get_transport (void)
 {
 	return config->transport;
 }
@@ -498,7 +498,7 @@ mail_config_set_transport (MailConfigService *transport)
 }
 
 MailConfigService *
-mail_config_get_default_news ()
+mail_config_get_default_news (void)
 {
 	if (!config->sources)
 		return NULL;
@@ -507,7 +507,7 @@ mail_config_get_default_news ()
 }
 
 GSList *
-mail_config_get_news ()
+mail_config_get_news (void)
 {
 	return config->news;
 }
