@@ -1,3 +1,8 @@
+2005-02-07  JP Rosevear  <jpr@novell.com>
+
+	* gui/component/apps_evolution_addressbook.schemas.in.in: clean up
+	descriptions
+
 2005-01-06  Sivaiah Nallagatla <snallagatla@novell.com>
 
 	* e-minicard.c (remodel) : changed the loop

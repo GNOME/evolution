@@ -22,7 +22,7 @@
       <type>int</type>
       <default>3</default>
       <locale name="C">
-        <short>The number of characters that must be typed before Evolution will attempt to autocomplete</short>
+        <short>Autocomplete length</short>
         <long>The number of characters that must be typed before Evolution will attempt to autocomplete.</long>
       </locale>
     </schema>
@@ -49,8 +49,8 @@
       <owner>evolution-addressbook</owner>
       <type>int</type>
       <locale name="C">
-        <short>Position of the vertical pane in main view</short>
-        <long>Position of the vertical pane in main view.</long>
+        <short>Vertical pane position</short>
+        <long>Position of the vertical pane, between the card and list views and the preview pane, in pixels.</long>
       </locale>
     </schema>
 
@@ -61,8 +61,8 @@
       <type>bool</type>
       <default>true</default>
       <locale name="C">
-         <short>Show the "Preview" pane</short>
-         <long>Show the "Preview" pane.</long>
+         <short>Show preview pane</short> 
+         <long>Whether to show the preview pane.</long>
       </locale>
     </schema>
 
