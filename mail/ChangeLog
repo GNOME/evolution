@@ -1,8 +1,14 @@
 2004-04-05  Not Zed  <NotZed@Ximian.com>
 
+	** See bug # 56402.
+
+	* mail-folder-cache.c (update_folders): if we're cancelled, noop.
+	(mail_note_store_remove): mark the update data cancelled.
+
 	* mail-ops.c (add_special_info): removed, this is done in camel
 	now.
 	(fix_unmatched_info): renamed from add_unmatched_info.
+	(get_folderinfo_got): Removed the meaningless comment here.
 
 2004-04-02  Jeffrey Stedfast  <fejj@ximian.com>
 

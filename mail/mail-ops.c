@@ -1038,8 +1038,6 @@ get_folderinfo_got (struct _mail_msg *mm)
 		g_free (url);
 	}
 	
-	/* 'done' is probably guaranteed to fail, but... */
-	
 	if (m->done)
 		m->done (m->store, m->info, m->data);
 }

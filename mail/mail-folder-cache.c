@@ -702,6 +702,7 @@ struct _update_data {
 	struct _update_data *prev;
 	
 	int id;			/* id for cancellation */
+	int cancel:1;		/* also tells us we're cancelled */
 
 	void (*done)(CamelStore *store, CamelFolderInfo *info, void *data);
 	void *data;
@@ -747,6 +748,7 @@ mail_note_store_remove(CamelStore *store)
 		while (ud->next) {
 			d(printf("Cancelling outstanding folderinfo update %d\n", ud->id));
 			mail_msg_cancel(ud->id);
+			ud->cancel = 1;
 			ud = ud->next;
 		}
 		
@@ -769,7 +771,7 @@ update_folders(CamelStore *store, CamelFolderInfo *fi, void *data)
 
 	LOCK(info_lock);
 	si = g_hash_table_lookup(stores, store);
-	if (si) {
+	if (si && !ud->cancel) {
 		/* the 'si' is still there, so we can remove ourselves from its list */
 		/* otherwise its not, and we're on our own and free anyway */
 		e_dlist_remove((EDListNode *)ud);
@@ -863,7 +865,7 @@ store_online_cb (CamelStore *store, void *data)
 
 	LOCK(info_lock);
 
-	if (g_hash_table_lookup(stores, store) != NULL) {
+	if (g_hash_table_lookup(stores, store) != NULL && !ud->cancel) {
 		/* re-use the cancel id.  we're already in the store update list too */
 		ud->id = mail_get_folderinfo(store, NULL, update_folders, ud);
 	} else {
@@ -926,6 +928,7 @@ mail_note_store(CamelStore *store, CamelOperation *op,
 		ud = g_malloc(sizeof(*ud));
 		ud->done = done;
 		ud->data = data;
+		ud->cancel = 0;
 		/* Note: we use the 'id' here, even though its not the right id, its still ok */
 		ud->id = mail_store_set_offline (store, FALSE, store_online_cb, ud);
 
@@ -936,6 +939,7 @@ mail_note_store(CamelStore *store, CamelOperation *op,
 		ud = g_malloc (sizeof (*ud));
 		ud->done = done;
 		ud->data = data;
+		ud->cancel = 0;
 		ud->id = mail_get_folderinfo (store, op, update_folders, ud);
 
 		e_dlist_addtail (&si->folderinfo_updates, (EDListNode *) ud);
