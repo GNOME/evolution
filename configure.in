@@ -1079,7 +1079,7 @@ AC_SUBST(LIBFILTER_LIBS)
 
 dnl --- evolution (shell) flags
 
-EVO_SET_COMPILE_FLAGS(SHELL, libgnome-2.0 libgnomeui-2.0 libbonoboui-2.0 gal-2.0 libglade-2.0 gnome-vfs-2.0, ${GTKHTML_CFLAGS}, ${GTKHTML_LIBS})
+EVO_SET_COMPILE_FLAGS(SHELL, libgnome-2.0 libgnomeui-2.0 libbonoboui-2.0 gal-2.0 libglade-2.0 gnome-vfs-2.0 libgtkhtml-3.0)
 AC_SUBST(SHELL_CFLAGS)
 AC_SUBST(SHELL_LIBS)
 
@@ -1097,10 +1097,9 @@ dnl AC_SUBST(EVOLUTION_ADDRESSBOOK_CONDUIT_LIBS)
 
 dnl -- evolution-executive-summary flags
 
-dnl EVO_SET_COMPILE_FLAGS(EVOLUTION_EXECUTIVE_SUMMARY,
-dnl                      bonobo_conf bonobox bonobox_print gal gdk_pixbuf gnomecanvaspixbuf gnomeui libglade oaf soup vfs, ${GTKHTML_CFLAGS}, ${GTKHTML_LIBS})
-dnl AC_SUBST(EVOLUTION_EXECUTIVE_SUMMARY_CFLAGS)
-dnl AC_SUBST(EVOLUTION_EXECUTIVE_SUMMARY_LIBS)
+EVO_SET_COMPILE_FLAGS(EVOLUTION_EXECUTIVE_SUMMARY, libbonoboui-2.0 libbonoboui-2.0 gal-2.0 libgnomeui-2.0 libglade-2.0 libgnomeprint-2.0 libgnomeprintui-2.0 soup-2.0 libgtkhtml-3.0)
+AC_SUBST(EVOLUTION_EXECUTIVE_SUMMARY_CFLAGS)
+AC_SUBST(EVOLUTION_EXECUTIVE_SUMMARY_LIBS)
 
 dnl --- evolution-calendar flags
 
@@ -1320,8 +1319,6 @@ calendar/gui/dialogs/Makefile
 calendar/importers/Makefile
 composer/Makefile
 mail/Makefile
-mail/GNOME_Evolution_Mail.server.in
-my-evolution/GNOME_Evolution_Summary.server.in
 ])
 
 if test "x$with_sub_version" != "x"; then
