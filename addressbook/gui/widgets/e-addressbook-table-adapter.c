@@ -81,13 +81,16 @@ build_simple_mapping(EAddressbookTableAdapter *adapter)
 }
 
 static void
-addressbook_destroy(GtkObject *object)
+addressbook_dispose(GObject *object)
 {
 	EAddressbookTableAdapter *adapter = E_ADDRESSBOOK_TABLE_ADAPTER(object);
 
-	unlink_model(adapter);
+	if (adapter->priv) {
+		unlink_model(adapter);
 
-	g_free (adapter->priv);
+		g_free (adapter->priv);
+		adapter->priv = NULL;
+	}
 }
 
 /* This function returns the number of columns in our ETableModel. */
@@ -247,13 +250,13 @@ addressbook_value_to_string (ETableModel *etc, int col, const void *value)
 }
 
 static void
-e_addressbook_table_adapter_class_init (GtkObjectClass *object_class)
+e_addressbook_table_adapter_class_init (GObjectClass *object_class)
 {
 	ETableModelClass *model_class = (ETableModelClass *) object_class;
 
 	parent_class = g_type_class_peek_parent (object_class);
 
-	object_class->destroy = addressbook_destroy;
+	object_class->dispose = addressbook_dispose;
 
 	model_class->column_count = addressbook_col_count;
 	model_class->row_count = addressbook_row_count;
@@ -269,7 +272,7 @@ e_addressbook_table_adapter_class_init (GtkObjectClass *object_class)
 }
 
 static void
-e_addressbook_table_adapter_init (GtkObject *object)
+e_addressbook_table_adapter_init (GObject *object)
 {
 	EAddressbookTableAdapter *adapter = E_ADDRESSBOOK_TABLE_ADAPTER(object);
 	EAddressbookTableAdapterPrivate *priv;

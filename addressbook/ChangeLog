@@ -1,3 +1,12 @@
+2003-05-13  Chris Toshok  <toshok@ximian.com>
+
+	* gui/widgets/e-addressbook-table-adapter.c (addressbook_dispose):
+	rename addressbook_destroy to this, and guard against multiple
+	calls.
+	(e_addressbook_table_adapter_class_init): GtkObject -> GObject,
+	and destroy -> dispose.
+	(e_addressbook_table_adapter_init): GtkObject -> GObject.
+
 2003-05-12  Sean Gao  <sean.gao@sun.com>
 
 	* gui/contact-list-editor/e-contact-list-editor.c
