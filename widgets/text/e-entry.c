@@ -79,14 +79,16 @@ canvas_size_allocate (GtkWidget *widget, GtkAllocation *alloc,
 			"clip_width", (double) alloc->width,
 			"clip_height", (double) alloc->height,
 			NULL);
+
 	switch (e_entry->justification) {
 	case GTK_JUSTIFY_RIGHT:
-		e_canvas_item_move_absolute(GNOME_CANVAS_ITEM(e_entry->item), alloc->width, 0);
+		e_canvas_item_move_absolute(GNOME_CANVAS_ITEM(e_entry->item), alloc->width, alloc->height / 2);
 		break;
 	case GTK_JUSTIFY_CENTER:
-		e_canvas_item_move_absolute(GNOME_CANVAS_ITEM(e_entry->item), alloc->width / 2, 0);
+		e_canvas_item_move_absolute(GNOME_CANVAS_ITEM(e_entry->item), alloc->width / 2, alloc->height / 2);
 		break;
 	default:
+		e_canvas_item_move_absolute(GNOME_CANVAS_ITEM(e_entry->item), 0, alloc->height / 2);
 		break;
 	}
 }
@@ -152,7 +154,7 @@ e_entry_init (GtkObject *object)
 						     e_text_get_type(),
 						     "clip", TRUE,
 						     "fill_clip_rectangle", TRUE,
-						     "anchor", GTK_ANCHOR_NW,
+						     "anchor", GTK_ANCHOR_W,
 						     "draw_borders", TRUE,
 						     "draw_background", TRUE,
 						     NULL));
@@ -331,7 +333,7 @@ et_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 	EEntry *ee = E_ENTRY (o);
 	GtkObject *item = GTK_OBJECT (ee->item);
 	GtkAnchorType anchor;
-	int width;
+	double width, height;
 	
 	switch (arg_id){
 	case ARG_MODEL:
@@ -374,19 +376,20 @@ et_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 		ee->justification = GTK_VALUE_ENUM (*arg);
 		gtk_object_get(item,
 			       "clip_width", &width,
+			       "clip_height", &height,
 			       NULL);
 		switch (ee->justification) {
 		case GTK_JUSTIFY_CENTER:
-			anchor = GTK_ANCHOR_N;
-			e_canvas_item_move_absolute(GNOME_CANVAS_ITEM(ee->item), width / 2, 0);
+			anchor = GTK_ANCHOR_CENTER;
+			e_canvas_item_move_absolute(GNOME_CANVAS_ITEM(ee->item), width / 2, height / 2);
 			break;
 		case GTK_JUSTIFY_RIGHT:
-			anchor = GTK_ANCHOR_NE;
-			e_canvas_item_move_absolute(GNOME_CANVAS_ITEM(ee->item), width, 0);
+			anchor = GTK_ANCHOR_E;
+			e_canvas_item_move_absolute(GNOME_CANVAS_ITEM(ee->item), width, height / 2);
 			break;
 		default:
-			anchor = GTK_ANCHOR_NW;
-			e_canvas_item_move_absolute(GNOME_CANVAS_ITEM(ee->item), 0, 0);
+			anchor = GTK_ANCHOR_W;
+			e_canvas_item_move_absolute(GNOME_CANVAS_ITEM(ee->item), 0, height / 2);
 			break;
 		}
 		gtk_object_set(item,
