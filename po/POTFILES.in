@@ -147,16 +147,6 @@ data/evolution.desktop.in
 data/evolution.keys.in
 default_user/searches.xml
 e-util/e-time-utils.c
-executive-summary/component/component-factory.c
-executive-summary/component/e-summary.c
-executive-summary/component/e-summary-callbacks.c
-executive-summary/component/e-summary-url.c
-executive-summary/component/executive-summary-config.glade
-executive-summary/component/main.c
-executive-summary/GNOME_Evolution_Summary.oaf.in
-executive-summary/test-service/GNOME_Evolution_Summary_rdf.oaf.in
-executive-summary/test-service/GNOME_Evolution_Summary_test.oaf.in
-executive-summary/test-service/rdf-summary.c
 filter/filter-datespec.c
 filter/filter-editor.c
 filter/filter-filter.c
@@ -204,7 +194,6 @@ mail/mail-search.c
 mail/mail-search-dialogue.c
 mail/mail-search.c
 mail/mail-send-recv.c
-mail/mail-summary.c
 mail/mail-tools.c
 mail/mail-vfolder.c
 mail/message-browser.c

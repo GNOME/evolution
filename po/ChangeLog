@@ -1,3 +1,7 @@
+2001-06-18  JP Rosevear  <jpr@ximian.com>
+
+	* POTFILES.in: Remove more dead files
+
 2001-06-18  Ettore Perazzoli  <ettore@ximian.com>
 
 	* POTFILES.in: Remove `calendar/gui/calendar-summary.c' which
