@@ -1,3 +1,15 @@
+2004-02-06  Chris Toshok  <toshok@ximian.com>
+
+	* importers/evolution-ldif-importer.c (getNextLDIFEntry): only set
+	the address if something in it's been filled in.
+	(resolve_list_card): build up a separate list representing the xml
+	formatted crud.
+	(process_item_fn): remove FIXME.
+	(factory_fn): use g_new0 since we test for NULL-ness later on.
+
+	* importers/evolution-vcard-importer.c (factory_fn): use g_new0
+	since we test for NULL-ness later on.
+
 2004-02-06  JP Rosevear <jpr@ximian.com>
 
 	* importers/evolution-ldif-importer.c (importer_destroy_cb):

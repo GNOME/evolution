@@ -270,7 +270,7 @@ factory_fn (BonoboGenericFactory *_factory,
 	VCardImporter *gci;
 
 	if (!strcmp (component_id, COMPONENT_IID)) {
-		gci = g_new (VCardImporter, 1);
+		gci = g_new0 (VCardImporter, 1);
 		importer = evolution_importer_new (create_control_fn, support_format_fn, 
 						   load_file_fn, process_item_fn, NULL, gci);
 	

@@ -329,7 +329,6 @@ getNextLDIFEntry( FILE *f )
 
 	/* now parse that entry */
 	contact = e_contact_new ();
-	/* FIXME Should ebook have a utility routine for this? */
 	address = g_new0 (EContactAddress, 1);
 
 	buf = str->str;
@@ -342,8 +341,9 @@ getNextLDIFEntry( FILE *f )
 	}
 
 	/* fill in the address */
-	/* FIXME Do we want to hard code the address type? */
-	e_contact_set (contact, E_CONTACT_ADDRESS_HOME, address);
+	if (address->locality || address->country ||
+	    address->code || address->region || address->street)
+		e_contact_set (contact, E_CONTACT_ADDRESS_HOME, address);
 
 	g_string_free (str, TRUE);
 
@@ -353,7 +353,7 @@ getNextLDIFEntry( FILE *f )
 static void
 resolve_list_card (LDIFImporter *gci, EContact *contact)
 {
-	GList *email, *l;
+	GList *email, *l, *new_email = NULL;
 	char *full_name;
 
 	/* set file_as to full_name so we don't later try and figure
@@ -366,8 +366,8 @@ resolve_list_card (LDIFImporter *gci, EContact *contact)
 	/* FIMXE getting might not be implemented in ebook */
 	email = e_contact_get (contact, E_CONTACT_EMAIL);
 	for (l = email; l; l = l->next) {
-		/* FIXME How did the dn get into the email list? */
-		const char *dn = l->data;
+		/* mozilla stuffs dn's in the EMAIL list for contact lists */
+		char *dn = l->data;
 		EContact *dn_contact = g_hash_table_lookup (dn_contact_hash, dn);
 
 		/* break list chains here, since we don't support them just yet */
@@ -382,25 +382,16 @@ resolve_list_card (LDIFImporter *gci, EContact *contact)
 			g_object_unref (dest);
 
 			if (dest_xml) {
-				g_free (dn);
-				l->data = dest_xml;
+				new_email = g_list_append (new_email, dest_xml);
 			}
-			else {
-				/* FIXME Delete from the list properly */
-				g_free (dn);
-				l->data = NULL;
-			}
-		}
-		else {
-			/* FIXME Delete from the list properly */
-			g_free (dn);
-			l->data = NULL;
 		}
 	}		
-	e_contact_set (contact, E_CONTACT_EMAIL, email);
+	e_contact_set (contact, E_CONTACT_EMAIL, new_email);
 
 	g_list_foreach (email, (GFunc) g_free, NULL);
 	g_list_free (email);
+	g_list_foreach (new_email, (GFunc) g_free, NULL);
+	g_list_free (new_email);
 }
 
 static GList *
@@ -464,7 +455,6 @@ process_item_fn (EvolutionImporter *importer,
 	}
 
 	contact = gci->iterator->data;
-	/* FIXME I think this could cause 64 bit platform errors */
 	if (e_contact_get (contact, E_CONTACT_IS_LIST))
 		resolve_list_card (gci, contact);
 	/* FIXME Error checking */
@@ -603,7 +593,7 @@ factory_fn (BonoboGenericFactory *_factory,
 	LDIFImporter *gci;
 
 	if (!strcmp (component_id, COMPONENT_IID)) {
-		gci = g_new (LDIFImporter, 1);
+		gci = g_new0 (LDIFImporter, 1);
 		importer = evolution_importer_new (create_control_fn, support_format_fn, 
 						   load_file_fn, process_item_fn, NULL, gci);
 	
