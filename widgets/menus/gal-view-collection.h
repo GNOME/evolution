@@ -26,10 +26,9 @@
 
 #include <gtk/gtkobject.h>
 #include <gal/menus/gal-view-factory.h>
+#include <libgnome/gnome-defs.h>
 
-#ifdef __cplusplus
-extern "C" {
-#endif /* __cplusplus */
+BEGIN_GNOME_DECLS
 
 
 #define GAL_VIEW_COLLECTION_TYPE        (gal_view_collection_get_type ())
@@ -45,10 +44,13 @@ typedef struct {
 
 	GalViewCollectionItem **view_data;
 	int view_count;
+
 	GList *factory_list;
 
 	GalViewCollectionItem **removed_view_data;
 	int removed_view_count;
+
+	guint loaded : 1;
 
 	char *system_dir;
 	char *local_dir;
@@ -68,9 +70,9 @@ typedef struct {
 struct GalViewCollectionItem {
 	GalView *view;
 	char *id;
-	gboolean changed;
-	gboolean ever_changed;
-	gboolean built_in;
+	guint changed : 1;
+	guint ever_changed : 1;
+	guint built_in : 1;
 	char *filename;
 	char *title;
 	char *type;
@@ -81,22 +83,30 @@ struct GalViewCollectionItem {
 GtkType                gal_view_collection_get_type                 (void);
 GalViewCollection     *gal_view_collection_new                      (void);
 
-/* Set up the view collection */
+/* Set up the view collection.  Call these three functions before ever doing load or save and never call them again. */
 void                   gal_view_collection_set_storage_directories  (GalViewCollection *collection,
 								     const char        *system_dir,
 								     const char        *local_dir);
 void                   gal_view_collection_add_factory              (GalViewCollection *collection,
 								     GalViewFactory    *factory);
 
-/* Send the display view signal. */
+/* Send the display view signal.  This function is deprecated. */
 void                   gal_view_collection_display_view             (GalViewCollection *collection,
 								     GalView           *view);
+
+
+/* Query the view collection. */
 gint                   gal_view_collection_get_count                (GalViewCollection *collection);
 GalView               *gal_view_collection_get_view                 (GalViewCollection *collection,
 								     int                n);
 GalViewCollectionItem *gal_view_collection_get_view_item            (GalViewCollection *collection,
 								     int                n);
+int                    gal_view_collection_get_view_index_by_id     (GalViewCollection *collection,
+								     const char        *view_id);
+char                  *gal_view_collection_get_view_id_by_index     (GalViewCollection *collection,
+								     int                n);
 
+/* Manipulate the view collection */
 void                   gal_view_collection_append                   (GalViewCollection *collection,
 								     GalView           *view);
 void                   gal_view_collection_delete_view              (GalViewCollection *collection,
@@ -107,11 +117,15 @@ void                   gal_view_collection_copy_view                (GalViewColl
  * might be found there before doing either of these. */
 void                   gal_view_collection_load                     (GalViewCollection *collection);
 void                   gal_view_collection_save                     (GalViewCollection *collection);
+gboolean               gal_view_collection_loaded                   (GalViewCollection *collection);
+
+/* Use factory list to load a GalView file. */
+GalView               *gal_view_collection_load_view_from_file      (GalViewCollection *collection,
+								     const char        *type,
+								     const char        *filename);
 
 
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
+END_GNOME_DECLS
 
 
 #endif /* _GAL_VIEW_COLLECTION_H_ */
