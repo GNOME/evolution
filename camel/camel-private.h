@@ -41,8 +41,8 @@ extern "C" {
 
 struct _CamelFolderPrivate {
 #ifdef ENABLE_THREADS
-	GMutex *lock;
-	GMutex *change_lock;
+	EMutex *lock;
+	EMutex *change_lock;
 #endif
 
 	/* must require the 'change_lock' to access this */
@@ -51,8 +51,8 @@ struct _CamelFolderPrivate {
 };
 
 #ifdef ENABLE_THREADS
-#define CAMEL_FOLDER_LOCK(f, l) (g_mutex_lock(((CamelFolder *)f)->priv->l))
-#define CAMEL_FOLDER_UNLOCK(f, l) (g_mutex_unlock(((CamelFolder *)f)->priv->l))
+#define CAMEL_FOLDER_LOCK(f, l) (e_mutex_lock(((CamelFolder *)f)->priv->l))
+#define CAMEL_FOLDER_UNLOCK(f, l) (e_mutex_unlock(((CamelFolder *)f)->priv->l))
 #else
 #define CAMEL_FOLDER_LOCK(f, l)
 #define CAMEL_FOLDER_UNLOCK(f, l)

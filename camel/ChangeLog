@@ -1,3 +1,27 @@
+2001-08-01  Not Zed  <NotZed@Ximian.com>
+
+	* providers/imap/camel-imap-folder.c (camel_imap_folder_changed):
+	Slightly re-arranged filter/change notification logic.  If we;re
+	filtering, freeze the folder till we're finished to smooth the ui
+	for new mail.
+
+2001-07-31  Not Zed  <NotZed@Ximian.com>
+
+	* camel-folder.c (camel_folder_init): Chagned mutexes to
+	e_mutexes, folder lock recursive.  This fixes the imap filtering
+	bug, or at least some cases of it.
+	(camel_folder_finalize): Free mutexes.
+
+	* camel-private.h (CamelFolderPrivate): Changed mutexes to
+	e_mutexes.
+
+2001-07-25  Not Zed  <NotZed@Ximian.com>
+
+	* camel-folder.c (camel_folder_change_info_*): Change the
+	return if fail's into asserts.
+	(camel_folder_change_info_free): Don't let it accept a NULL
+	argument.  This isn't g_lib so we dont have to.
+
 2001-07-27  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-mime-utils.c (header_decode_param): Fix the fix that fixes

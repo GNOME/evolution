@@ -173,8 +173,8 @@ camel_folder_init (gpointer object, gpointer klass)
 	folder->priv->frozen = 0;
 	folder->priv->changed_frozen = camel_folder_change_info_new();
 #ifdef ENABLE_THREADS
-	folder->priv->lock = g_mutex_new();
-	folder->priv->change_lock = g_mutex_new();
+	folder->priv->lock = e_mutex_new(E_MUTEX_REC);
+	folder->priv->change_lock = e_mutex_new(E_MUTEX_SIMPLE);
 #endif
 }
 
@@ -194,8 +194,8 @@ camel_folder_finalize (CamelObject *object)
 
 	camel_folder_change_info_free(camel_folder->priv->changed_frozen);
 #ifdef ENABLE_THREADS
-	g_mutex_free(camel_folder->priv->lock);
-	g_mutex_free(camel_folder->priv->change_lock);
+	e_mutex_destroy(camel_folder->priv->lock);
+	e_mutex_destroy(camel_folder->priv->change_lock);
 #endif
 	g_free(camel_folder->priv);
 }
@@ -1481,7 +1481,7 @@ camel_folder_change_info_add_source(CamelFolderChangeInfo *info, const char *uid
 {
 	struct _CamelFolderChangeInfoPrivate *p;
 	
-	g_return_if_fail (info != NULL);
+	g_assert(info != NULL);
 	
 	p = info->priv;
 	
@@ -1505,8 +1505,8 @@ camel_folder_change_info_add_source_list(CamelFolderChangeInfo *info, const GPtr
 	struct _CamelFolderChangeInfoPrivate *p;
 	int i;
 	
-	g_return_if_fail (info != NULL);
-	g_return_if_fail (list != NULL);
+	g_assert(info != NULL);
+	g_assert(list != NULL);
 	
 	p = info->priv;
 
@@ -1535,7 +1535,7 @@ camel_folder_change_info_add_update(CamelFolderChangeInfo *info, const char *uid
 	char *key;
 	int value;
 	
-	g_return_if_fail (info != NULL);
+	g_assert(info != NULL);
 	
 	p = info->priv;
 	
@@ -1563,8 +1563,8 @@ camel_folder_change_info_add_update_list(CamelFolderChangeInfo *info, const GPtr
 {
 	int i;
 	
-	g_return_if_fail (info != NULL);
-	g_return_if_fail (list != NULL);
+	g_assert(info != NULL);
+	g_assert(list != NULL);
 	
 	for (i=0;i<list->len;i++)
 		camel_folder_change_info_add_update(info, list->pdata[i]);
@@ -1604,7 +1604,7 @@ camel_folder_change_info_build_diff(CamelFolderChangeInfo *info)
 {
 	struct _CamelFolderChangeInfoPrivate *p;
 	
-	g_return_if_fail (info != NULL);
+	g_assert(info != NULL);
 	
 	p = info->priv;
 	
@@ -1635,8 +1635,8 @@ change_info_cat(CamelFolderChangeInfo *info, GPtrArray *source, void (*add)(Came
 void
 camel_folder_change_info_cat(CamelFolderChangeInfo *info, CamelFolderChangeInfo *source)
 {
-	g_return_if_fail (info != NULL);
-	g_return_if_fail (source != NULL);
+	g_assert(info != NULL);
+	g_assert(source != NULL);
 	
 	change_info_cat(info, source->uid_added, camel_folder_change_info_add_uid);
 	change_info_cat(info, source->uid_removed, camel_folder_change_info_remove_uid);
@@ -1657,7 +1657,7 @@ camel_folder_change_info_add_uid(CamelFolderChangeInfo *info, const char *uid)
 	GPtrArray *olduids;
 	char *olduid;
 	
-	g_return_if_fail (info != NULL);
+	g_assert(info != NULL);
 	
 	p = info->priv;
 	
@@ -1691,7 +1691,7 @@ camel_folder_change_info_remove_uid(CamelFolderChangeInfo *info, const char *uid
 	GPtrArray *olduids;
 	char *olduid;
 	
-	g_return_if_fail (info != NULL);
+	g_assert(info != NULL);
 	
 	p = info->priv;
 	
@@ -1724,7 +1724,7 @@ camel_folder_change_info_change_uid(CamelFolderChangeInfo *info, const char *uid
 	GPtrArray *olduids;
 	char *olduid;
 	
-	g_return_if_fail (info != NULL);
+	g_assert(info != NULL);
 	
 	p = info->priv;
 	
@@ -1749,7 +1749,7 @@ camel_folder_change_info_change_uid(CamelFolderChangeInfo *info, const char *uid
 gboolean
 camel_folder_change_info_changed(CamelFolderChangeInfo *info)
 {
-	g_return_val_if_fail (info != NULL, FALSE);
+	g_assert(info != NULL);
 	
 	return (info->uid_added->len || info->uid_removed->len || info->uid_changed->len);
 }
@@ -1765,7 +1765,7 @@ camel_folder_change_info_clear(CamelFolderChangeInfo *info)
 {
 	struct _CamelFolderChangeInfoPrivate *p;
 	
-	g_return_if_fail (info != NULL);
+	g_assert(info != NULL);
 	
 	p = info->priv;
 	
@@ -1791,9 +1791,8 @@ void
 camel_folder_change_info_free(CamelFolderChangeInfo *info)
 {
 	struct _CamelFolderChangeInfoPrivate *p;
-	
-	if (info == NULL)
-		return;
+
+	g_assert(info != NULL);
 	
 	p = info->priv;
 	

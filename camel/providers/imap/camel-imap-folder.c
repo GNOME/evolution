@@ -1846,27 +1846,35 @@ camel_imap_folder_changed (CamelFolder *folder, int exists,
 		imap_update_summary (folder, exists, changes, recents, ex);
 	}
 
-	if (camel_folder_change_info_changed (changes)) {
-		camel_object_trigger_event (CAMEL_OBJECT (folder),
-					    "folder_changed", changes);
+	/* if we have updates to make for filtering (probably), then we freeze the
+	   folder so we dont show them till they're complete, this may cause unacceptable
+	   delays for users, but the alternative isn't very nice either (show them and let
+	   them change as processed) */
+	if (recents && !camel_exception_is_set(ex) && recents->len) {
+		CamelFilterDriver *driver;
+
+		camel_folder_freeze(folder);
+
+		if (camel_folder_change_info_changed(changes))
+			camel_object_trigger_event(CAMEL_OBJECT(folder), "folder_changed", changes);
+
+		driver = camel_session_get_filter_driver(CAMEL_SERVICE(folder->parent_store)->session, "incoming", ex);
+		if (driver) {
+			camel_filter_driver_filter_folder(driver, folder, NULL, recents, FALSE, ex);
+			camel_object_unref(CAMEL_OBJECT(driver));
+		}
+
+		camel_folder_thaw(folder);
+	} else {
+		if (camel_folder_change_info_changed(changes))
+			camel_object_trigger_event(CAMEL_OBJECT(folder), "folder_changed", changes);
 	}
+
 	camel_folder_change_info_free (changes);
 
-	if (recents) {
-		if (!camel_exception_is_set (ex) && recents->len) {
-			CamelFilterDriver *driver;
-
-			driver = camel_session_get_filter_driver (
-				CAMEL_SERVICE (folder->parent_store)->session,
-				"incoming", ex);
-			if (driver) {
-				camel_filter_driver_filter_folder (
-					driver, folder, NULL, recents, FALSE, ex);
-				camel_object_unref (CAMEL_OBJECT (driver));
-			}
-		}
+	if (recents)
 		g_ptr_array_free (recents, TRUE);
-	}
+
 
 	camel_folder_summary_save (folder->summary);
 }
