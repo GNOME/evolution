@@ -1,5 +1,12 @@
 2002-04-24  JP Rosevear  <jpr@ximian.com>
 
+	* gui/e-day-view.c (e_day_view_on_pilot_settings): launch pilot
+	settings capplet
+
+	* gui/e-week-view.c (e_week_view_on_pilot_settings): ditto
+	
+2002-04-24  JP Rosevear  <jpr@ximian.com>
+	
 	* gui/e-week-view.c (free_view_popup): free the view popup
 	(e_week_view_show_popup_menu): add the view popup to the
 	"main_item" menu and listen for destruction
