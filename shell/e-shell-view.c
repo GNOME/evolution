@@ -32,12 +32,16 @@
 #include <bonobo.h>
 #include <libgnomeui/gnome-window-icon.h>
 
+#include "widgets/misc/e-clipped-label.h"
+#include "e-util/e-util.h"
+
+#include "e-shell-constants.h"
+#include "e-shell-folder-title-bar.h"
 #include "e-shell-utils.h"
 #include "e-shell.h"
 #include "e-shortcuts-view.h"
 #include "e-storage-set-view.h"
 #include "e-title-bar.h"
-#include "e-util/e-util.h"
 
 #include "e-shell-view.h"
 #include "e-shell-view-menu.h"
@@ -59,12 +63,13 @@ struct _EShellViewPrivate {
 	char *uri;
 
 	/* The widgetry.  */
-	GtkWidget *hpaned1;
-	GtkWidget *hpaned2;
+	GtkWidget *hpaned;
+	GtkWidget *view_vbox;
+	GtkWidget *view_title_bar;
+	GtkWidget *view_hpaned;
 	GtkWidget *contents;
 	GtkWidget *notebook;
 	GtkWidget *shortcut_bar;
-	GtkWidget *shortcut_bar_box;
 	GtkWidget *storage_set_view;
 	GtkWidget *storage_set_view_box;
 
@@ -73,13 +78,9 @@ struct _EShellViewPrivate {
 
 	/* Position of the handles in the paneds, to be restored when we show elements
            after hiding them.  */
-	unsigned int hpaned1_position;
-	unsigned int hpaned2_position;
+	unsigned int hpaned_position;
+	unsigned int view_hpaned_position;
 };
-
-/* FIXME this should probably go somewhere else.  */
-#define EVOLUTION_URI_PREFIX     "evolution:"
-#define EVOLUTION_URI_PREFIX_LEN 10
 
 #define DEFAULT_SHORTCUT_BAR_WIDTH 100
 #define DEFAULT_TREE_WIDTH         100
@@ -88,12 +89,14 @@ struct _EShellViewPrivate {
 #define DEFAULT_HEIGHT 600
 
 
+/* Utility functions.  */
+
 static GtkWidget *
 create_label_for_empty_page (void)
 {
 	GtkWidget *label;
 
-	label = gtk_label_new (_("(No folder displayed)"));
+	label = e_clipped_label_new (_("(No folder displayed)"));
 	gtk_widget_show (label);
 
 	return label;
@@ -116,6 +119,7 @@ setup_menus (EShellView *shell_view)
 	bonobo_ui_handler_menu_free_list (list);
 }
 
+/* FIXME this is broken.  */
 static gboolean
 bonobo_widget_is_dead (BonoboWidget *bonobo_widget)
 {
@@ -142,7 +146,7 @@ static void
 activate_shortcut_cb (EShortcutsView *shortcut_view,
 		      EShortcuts *shortcuts,
 		      const char *uri,
-		      gpointer data)
+		      void *data)
 {
 	EShellView *shell_view;
 
@@ -155,14 +159,14 @@ activate_shortcut_cb (EShortcutsView *shortcut_view,
 static void
 folder_selected_cb (EStorageSetView *storage_set_view,
 		    const char *path,
-		    gpointer data)
+		    void *data)
 {
 	EShellView *shell_view;
 	char *uri;
 
 	shell_view = E_SHELL_VIEW (data);
 
-	uri = g_strconcat (EVOLUTION_URI_PREFIX, path, NULL);
+	uri = g_strconcat (E_SHELL_URI_PREFIX, path, NULL);
 	e_shell_view_display_uri (shell_view, uri);
 	g_free (uri);
 }
@@ -170,7 +174,7 @@ folder_selected_cb (EStorageSetView *storage_set_view,
 /* Callback called when the close button on the tree's title bar is clicked.  */
 static void
 storage_set_view_close_button_clicked_cb (ETitleBar *title_bar,
-					  gpointer data)
+					  void *data)
 {
 	EShellView *shell_view;
 
@@ -179,26 +183,52 @@ storage_set_view_close_button_clicked_cb (ETitleBar *title_bar,
 	e_shell_view_show_folders (shell_view, FALSE);
 }
 
-/* Callback called when the close button on the shorcut bar's title bar is clicked.  */
+
+/* Widget setup.  */
+
 static void
-shortcut_bar_close_button_clicked_cb (ETitleBar *title_bar,
-				      gpointer data)
+setup_storage_set_subwindow (EShellView *shell_view)
 {
-	EShellView *shell_view;
+	EShellViewPrivate *priv;
+	GtkWidget *storage_set_view;
+	GtkWidget *title_bar;
+	GtkWidget *vbox;
+	GtkWidget *scrolled_window;
 
-	shell_view = E_SHELL_VIEW (data);
+	priv = shell_view->priv;
 
-	e_shell_view_show_shortcuts (shell_view, FALSE);
+	storage_set_view = e_storage_set_view_new (e_shell_get_storage_set (priv->shell));
+	gtk_signal_connect (GTK_OBJECT (storage_set_view), "folder_selected",
+			    GTK_SIGNAL_FUNC (folder_selected_cb), shell_view);
+
+	scrolled_window = gtk_scrolled_window_new (NULL, NULL);
+	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolled_window),
+					GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
+
+	gtk_container_add (GTK_CONTAINER (scrolled_window), storage_set_view);
+
+	vbox = gtk_vbox_new (FALSE, 0);
+	title_bar = e_title_bar_new (_("Folders"));
+
+	gtk_box_pack_start (GTK_BOX (vbox), title_bar, FALSE, FALSE, 0);
+	gtk_box_pack_start (GTK_BOX (vbox), scrolled_window, TRUE, TRUE, 0);
+
+	gtk_signal_connect (GTK_OBJECT (title_bar), "close_button_clicked",
+			    GTK_SIGNAL_FUNC (storage_set_view_close_button_clicked_cb), shell_view);
+
+	gtk_widget_show (vbox);
+	gtk_widget_show (storage_set_view);
+	gtk_widget_show (title_bar);
+	gtk_widget_show (scrolled_window);
+
+	priv->storage_set_view_box = vbox;
+	priv->storage_set_view = storage_set_view;
 }
 
-
 static void
 setup_widgets (EShellView *shell_view)
 {
 	EShellViewPrivate *priv;
-	GtkWidget *shortcut_bar_title_bar;
-	GtkWidget *storage_set_view_title_bar;
-	GtkWidget *storage_set_view_scrolled_window;
 
 	priv = shell_view->priv;
 
@@ -208,42 +238,9 @@ setup_widgets (EShellView *shell_view)
 	gtk_signal_connect (GTK_OBJECT (priv->shortcut_bar), "activate_shortcut",
 			    GTK_SIGNAL_FUNC (activate_shortcut_cb), shell_view);
 
-	priv->shortcut_bar_box = gtk_vbox_new (FALSE, 0);
-
-	shortcut_bar_title_bar = e_title_bar_new (_("Shortcuts"));
-	gtk_widget_show (shortcut_bar_title_bar);
-
-	gtk_box_pack_start (GTK_BOX (priv->shortcut_bar_box), shortcut_bar_title_bar,
-			    FALSE, FALSE, 0);
-	gtk_box_pack_start (GTK_BOX (priv->shortcut_bar_box), priv->shortcut_bar,
-			    TRUE, TRUE, 0);
-
-	gtk_signal_connect (GTK_OBJECT (shortcut_bar_title_bar), "close_button_clicked",
-			    GTK_SIGNAL_FUNC (shortcut_bar_close_button_clicked_cb), shell_view);
-
 	/* The storage set view.  */
 
-	priv->storage_set_view = e_storage_set_view_new (e_shell_get_storage_set (priv->shell));
-	gtk_signal_connect (GTK_OBJECT (priv->storage_set_view), "folder_selected",
-			    GTK_SIGNAL_FUNC (folder_selected_cb), shell_view);
-
-	storage_set_view_scrolled_window = gtk_scrolled_window_new (NULL, NULL);
-	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (storage_set_view_scrolled_window),
-					GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
-
-	gtk_container_add (GTK_CONTAINER (storage_set_view_scrolled_window),
-			   priv->storage_set_view);
-
-	priv->storage_set_view_box = gtk_vbox_new (FALSE, 0);
-	storage_set_view_title_bar = e_title_bar_new (_("Folders"));
-
-	gtk_box_pack_start (GTK_BOX (priv->storage_set_view_box), storage_set_view_title_bar,
-			    FALSE, FALSE, 0);
-	gtk_box_pack_start (GTK_BOX (priv->storage_set_view_box), storage_set_view_scrolled_window,
-			    TRUE, TRUE, 0);
-
-	gtk_signal_connect (GTK_OBJECT (storage_set_view_title_bar), "close_button_clicked",
-			    GTK_SIGNAL_FUNC (storage_set_view_close_button_clicked_cb), shell_view);
+	setup_storage_set_subwindow (shell_view);
 
 	/* The tabless notebook which we used to contain the views.  */
 
@@ -257,32 +254,37 @@ setup_widgets (EShellView *shell_view)
 
 	/* Put things into a paned and the paned into the GnomeApp.  */
 
-	priv->hpaned2 = e_hpaned_new ();
-	e_paned_add1 (E_PANED (priv->hpaned2), priv->storage_set_view_box);
-	e_paned_add2 (E_PANED (priv->hpaned2), priv->notebook);
-	e_paned_set_position (E_PANED (priv->hpaned2), DEFAULT_SHORTCUT_BAR_WIDTH);
+	priv->view_vbox = gtk_vbox_new (FALSE, 0);
 
-	priv->hpaned1 = e_hpaned_new ();
-	e_paned_add1 (E_PANED (priv->hpaned1), priv->shortcut_bar_box);
-	e_paned_add2 (E_PANED (priv->hpaned1), priv->hpaned2);
-	e_paned_set_position (E_PANED (priv->hpaned1), DEFAULT_SHORTCUT_BAR_WIDTH);
+	priv->view_title_bar = e_shell_folder_title_bar_new ();
 
-	gtk_container_set_border_width (GTK_CONTAINER (priv->hpaned1), 0);
-	gtk_container_set_border_width (GTK_CONTAINER (priv->hpaned2), 0);
+	priv->view_hpaned = e_hpaned_new ();
+	e_paned_add1 (E_PANED (priv->view_hpaned), priv->storage_set_view_box);
+	e_paned_add2 (E_PANED (priv->view_hpaned), priv->notebook);
+	e_paned_set_position (E_PANED (priv->view_hpaned), DEFAULT_SHORTCUT_BAR_WIDTH);
 
-	gnome_app_set_contents (GNOME_APP (shell_view), priv->hpaned1);
+	gtk_box_pack_start (GTK_BOX (priv->view_vbox), priv->view_title_bar,
+			    FALSE, FALSE, 0);
+	gtk_box_pack_start (GTK_BOX (priv->view_vbox), priv->view_hpaned,
+			    TRUE, TRUE, 2);
+
+	priv->hpaned = e_hpaned_new ();
+	e_paned_add1 (E_PANED (priv->hpaned), priv->shortcut_bar);
+	e_paned_add2 (E_PANED (priv->hpaned), priv->view_vbox);
+	e_paned_set_position (E_PANED (priv->hpaned), DEFAULT_SHORTCUT_BAR_WIDTH);
+
+	gnome_app_set_contents (GNOME_APP (shell_view), priv->hpaned);
 
 	/* Show stuff.  */
 
 	gtk_widget_show (priv->shortcut_bar);
-	gtk_widget_show (priv->shortcut_bar_box);
 	gtk_widget_show (priv->storage_set_view);
 	gtk_widget_show (priv->storage_set_view_box);
-	gtk_widget_show (storage_set_view_scrolled_window);
-	gtk_widget_show (storage_set_view_title_bar);
 	gtk_widget_show (priv->notebook);
-	gtk_widget_show (priv->hpaned1);
-	gtk_widget_show (priv->hpaned2);
+	gtk_widget_show (priv->hpaned);
+	gtk_widget_show (priv->view_hpaned);
+	gtk_widget_show (priv->view_vbox);
+	gtk_widget_show (priv->view_title_bar);
 
 	/* FIXME: Session management and stuff?  */
 	gtk_window_set_default_size (GTK_WINDOW (shell_view), DEFAULT_WIDTH, DEFAULT_HEIGHT);
@@ -292,9 +294,9 @@ setup_widgets (EShellView *shell_view)
 /* GtkObject methods.  */
 
 static void
-hash_forall_destroy_control (gpointer name,
-			     gpointer value,
-			     gpointer data)
+hash_forall_destroy_control (void *name,
+			     void *value,
+			     void *data)
 {
 	CORBA_Object corba_control;
 	CORBA_Environment ev;
@@ -355,17 +357,16 @@ init (EShellView *shell_view)
 	priv->shell                = NULL;
 	priv->uih                  = NULL;
 	priv->uri                  = NULL;
-	priv->hpaned1              = NULL;
-	priv->hpaned2              = NULL;
+	priv->hpaned              = NULL;
+	priv->view_hpaned              = NULL;
 	priv->contents             = NULL;
 	priv->notebook             = NULL;
 	priv->storage_set_view     = NULL;
 	priv->storage_set_view_box = NULL;
 	priv->shortcut_bar         = NULL;
-	priv->shortcut_bar_box     = NULL;
 
-	priv->hpaned1_position     = 0;
-	priv->hpaned2_position     = 0;
+	priv->hpaned_position      = 0;
+	priv->view_hpaned_position     = 0;
 
 	priv->uri_to_control = g_hash_table_new (g_str_hash, g_str_equal);
 
@@ -425,15 +426,15 @@ get_storage_set_path_from_uri (const char *uri)
 	if (! g_path_is_absolute (colon + 1))
 		return NULL;
 
-	if (g_strncasecmp (uri, EVOLUTION_URI_PREFIX, colon - uri) != 0)
+	if (g_strncasecmp (uri, E_SHELL_URI_PREFIX, colon - uri) != 0)
 		return NULL;
 
 	return colon + 1;
 }
 
 static void
-set_icon (EShellView *shell_view,
-	  EFolder *folder)
+update_window_icon (EShellView *shell_view,
+		    EFolder *folder)
 {
 	EShellViewPrivate *priv;
 	const char *type;
@@ -442,7 +443,11 @@ set_icon (EShellView *shell_view,
 
 	priv = shell_view->priv;
 
-	type = e_folder_get_type_string (folder);
+	if (folder == NULL)
+		type = NULL;
+	else
+		type = e_folder_get_type_string (folder);
+
 	if (type == NULL) {
 		icon_path = NULL;
 	} else {
@@ -462,6 +467,38 @@ set_icon (EShellView *shell_view,
 		gnome_window_icon_set_from_file (GTK_WINDOW (shell_view), icon_path);
 		g_free (icon_path);
 	}
+}
+
+static void
+update_folder_title_bar (EShellView *shell_view,
+			 EFolder *folder)
+{
+	EShellViewPrivate *priv;
+	EFolderTypeRegistry *folder_type_registry;
+	GdkPixbuf *folder_icon;
+	const char *folder_name;
+	const char *folder_type_name;
+
+	priv = shell_view->priv;
+
+	if (folder == NULL)
+		folder_type_name = NULL;
+	else
+		folder_type_name = e_folder_get_type_string (folder);
+
+	if (folder_type_name == NULL) {
+		folder_name = NULL;
+		folder_icon = NULL;
+	} else {
+		folder_type_registry = e_shell_get_folder_type_registry (priv->shell);
+		folder_icon = e_folder_type_registry_get_icon_for_type (folder_type_registry,
+									folder_type_name,
+									TRUE);
+		folder_name = e_folder_get_name (folder);
+	}
+
+	e_shell_folder_title_bar_set_icon (E_SHELL_FOLDER_TITLE_BAR (priv->view_title_bar), folder_icon);
+	e_shell_folder_title_bar_set_title (E_SHELL_FOLDER_TITLE_BAR (priv->view_title_bar), folder_name);
 }
 
 static void
@@ -492,7 +529,9 @@ update_for_current_uri (EShellView *shell_view)
 	gtk_window_set_title (GTK_WINDOW (shell_view), window_title);
 	g_free (window_title);
 
-	set_icon (shell_view, folder);
+	update_folder_title_bar (shell_view, folder);
+
+	update_window_icon (shell_view, folder);
 
 	gtk_signal_handler_block_by_func (GTK_OBJECT (priv->storage_set_view),
 					  GTK_SIGNAL_FUNC (folder_selected_cb),
@@ -554,8 +593,8 @@ show_error (EShellView *shell_view,
 
 	priv = shell_view->priv;
 
-	s = g_strdup_printf (_("Cannot open location: %s\n"), uri);
-	label = gtk_label_new (s);
+	s = g_strdup_printf (_("Cannot open location: %s"), uri);
+	label = e_clipped_label_new (s);
 	g_free (s);
 
 	gtk_widget_show (label);
@@ -736,7 +775,7 @@ e_shell_view_display_uri (EShellView *shell_view,
 	g_free (priv->uri);
 	priv->uri = g_strdup (uri);
 
-	if (strncmp (uri, EVOLUTION_URI_PREFIX, EVOLUTION_URI_PREFIX_LEN) != 0) {
+	if (strncmp (uri, E_SHELL_URI_PREFIX, E_SHELL_URI_PREFIX_LEN) != 0) {
 		show_error (shell_view, uri);
 		return FALSE;
 	}
@@ -775,16 +814,16 @@ e_shell_view_show_shortcuts (EShellView *shell_view,
 	priv = shell_view->priv;
 
 	if (show) {
-		if (! GTK_WIDGET_VISIBLE (priv->shortcut_bar_box)) {
-			gtk_widget_show (priv->shortcut_bar_box);
-			e_paned_set_position (E_PANED (priv->hpaned1), priv->hpaned1_position);
+		if (! GTK_WIDGET_VISIBLE (priv->shortcut_bar)) {
+			gtk_widget_show (priv->shortcut_bar);
+			e_paned_set_position (E_PANED (priv->hpaned), priv->hpaned_position);
 		}
 	} else {
-		if (GTK_WIDGET_VISIBLE (priv->shortcut_bar_box)) {
-			gtk_widget_hide (priv->shortcut_bar_box);
+		if (GTK_WIDGET_VISIBLE (priv->shortcut_bar)) {
+			gtk_widget_hide (priv->shortcut_bar);
 			/* FIXME this is a private field!  */
-			priv->hpaned1_position = E_PANED (priv->hpaned1)->child1_size;
-			e_paned_set_position (E_PANED (priv->hpaned1), 0);
+			priv->hpaned_position = E_PANED (priv->hpaned)->child1_size;
+			e_paned_set_position (E_PANED (priv->hpaned), 0);
 		}
 	}
 }
@@ -803,14 +842,14 @@ e_shell_view_show_folders (EShellView *shell_view,
 	if (show) {
 		if (! GTK_WIDGET_VISIBLE (priv->storage_set_view_box)) {
 			gtk_widget_show (priv->storage_set_view_box);
-			e_paned_set_position (E_PANED (priv->hpaned2), priv->hpaned2_position);
+			e_paned_set_position (E_PANED (priv->view_hpaned), priv->view_hpaned_position);
 		}
 	} else {
 		if (GTK_WIDGET_VISIBLE (priv->storage_set_view_box)) {
 			gtk_widget_hide (priv->storage_set_view_box);
 			/* FIXME this is a private field!  */
-			priv->hpaned2_position = E_PANED (priv->hpaned2)->child1_size;
-			e_paned_set_position (E_PANED (priv->hpaned2), 0);
+			priv->view_hpaned_position = E_PANED (priv->view_hpaned)->child1_size;
+			e_paned_set_position (E_PANED (priv->view_hpaned), 0);
 		}
 	}
 }

@@ -351,11 +351,12 @@ e_shell_construct (EShell *shell,
 
 	setup_components (shell);
 
-	priv->shortcuts = e_shortcuts_new (priv->storage_set, priv->folder_type_registry);
-
 	shortcut_path = g_concat_dir_and_file (local_directory, "shortcuts.xml");
+	priv->shortcuts = e_shortcuts_new (priv->storage_set,
+					   priv->folder_type_registry,
+					   shortcut_path);
 
-	if (! e_shortcuts_load (priv->shortcuts, shortcut_path)) {
+	if (priv->shortcuts == NULL) {
 		gtk_object_unref (GTK_OBJECT (priv->shortcuts));
 		priv->shortcuts = NULL;
 

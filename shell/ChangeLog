@@ -1,5 +1,61 @@
 2000-05-30  Ettore Perazzoli  <ettore@helixcode.com>
 
+	* e-shortcuts.c: New members `dirty', `save_idle_id' in
+	`EShortcutsPrivate'.
+	(init): Initialize.
+	(destroy): If the idle ID is nonzero, remove the idle.  If `dirty'
+	is true, save.
+	(idle_cb): New.
+	(schedule_idle): New.
+	(make_dirty): New.
+	(e_shortcuts_remove_shortcut): Call it.
+	(e_shortcuts_add_shortcut): Likewise.
+	(e_shortcuts_remove_group): Likewise.
+	(e_shortcuts_add_group): Likewise.
+
+	* e-shell.c (e_shell_construct): Updated to match the `EShortcuts'
+	API changes.
+
+	* e-shortcuts.c: New member `file_name' in `EShortcutsPrivate'.
+	(init): Init to NULL.
+	(destroy): Free it.
+	(e_shortcuts_load): Removed.
+	(e_shortcuts_save): Removed.
+	(e_shortcuts_new): New arg @file_name.  Load from the specified
+	file name.
+
+	* e-shortcuts-view.c (added_item): New method implementation.
+	(removed_item): New method implementation.
+	(added_group): New method implementation.
+	(removed_group): New method implementation.
+	(class_init): Install these.
+
+	* e-shortcuts.c (e_shortcuts_remove_shortcut): New function.
+	(e_shortcuts_add_shortcut): New function.
+	(e_shortcuts_remove_group): New function.
+	(e_shortcuts_add_group): New function.
+
+	* e-shell-view.c: New member `view_title_bar' in
+	`EShellViewPrivate'.
+	(setup_widgets): Put an EShellFolderTitleBar on top of the tree
+	view and the content view.
+	(update_window_icon): Renamed from `set_icon'.
+	(update_folder_title_bar): New.
+	(popup_tree): New function to pop up the tree view when the title
+	button in the title bar is clicked.
+	(folder_title_clicked_cb): New callback for the "clicked" signal
+	of EShellFolderTitleBar.
+	(setup_widgets): Don't add a title bar to the shortcut bar.
+	(create_storage_set_subwindow): New helper function.
+	(setup_widgets): Use it.
+	(show_error): Use an EClippedLabel instead of a GtkLabel.
+
+	* e-shell-view.c: Replaced all the occurences of `gpointer' with
+	`void *' for consistency.
+
+	* e-shell-folder-title-bar.c: New file.
+	* e-shell-folder-title-bar.h: New file.
+
 	* e-storage-set-view.c (e_storage_set_view_construct): Ooops.  Fix
 	inverted key/value pair in the call to `g_hash_table_insert()'.
 

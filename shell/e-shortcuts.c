@@ -73,6 +73,17 @@ struct _ShortcutGroup {
 typedef struct _ShortcutGroup ShortcutGroup;
 
 struct _EShortcutsPrivate {
+	/* Name of the file associated with these shortcuts.  Changes in the shortcuts
+           will update this file automatically.  */
+	char *file_name;
+
+	/* ID of the idle function that will be called to save the shortcuts when they are
+           changed.  */
+	int save_idle_id;
+
+	/* Whether these shortcuts need to be saved to disk.  */
+	gboolean dirty;
+
 	/* The storage set to which these shortcuts are associated.  */
 	EStorageSet *storage_set;
 
@@ -123,7 +134,7 @@ unload_shortcuts (EShortcuts *shortcuts)
 
 static gboolean
 load_shortcuts (EShortcuts *shortcuts,
-		const char *path)
+		const char *file_name)
 {
 	EShortcutsPrivate *priv;
 	xmlDoc *doc;
@@ -132,7 +143,7 @@ load_shortcuts (EShortcuts *shortcuts,
 
 	priv = shortcuts->priv;
 
-	doc = xmlParseFile (path);
+	doc = xmlParseFile (file_name);
 	if (doc == NULL)
 		return FALSE;
 
@@ -158,7 +169,7 @@ load_shortcuts (EShortcuts *shortcuts,
 		shortcut_group = g_hash_table_lookup (priv->title_to_group,
 						      shortcut_group_title);
 		if (shortcut_group != NULL) {
-			g_warning ("Duplicate shortcut title -- %s",
+			g_warning ("Duplicate shortcut group title -- %s",
 				   shortcut_group_title);
 			xmlFree (shortcut_group_title);
 			continue;
@@ -195,7 +206,7 @@ load_shortcuts (EShortcuts *shortcuts,
 
 static gboolean
 save_shortcuts (EShortcuts *shortcuts,
-		const char *path)
+		const char *file_name)
 {
 	EShortcutsPrivate *priv;
 	xmlDoc *doc;
@@ -225,13 +236,62 @@ save_shortcuts (EShortcuts *shortcuts,
 		}
 	}
 
-	if (xmlSaveFile (path, doc) < 0) {
+	if (xmlSaveFile (file_name, doc) < 0) {
 		xmlFreeDoc (doc);
 		return FALSE;
 	}
 
 	xmlFreeDoc (doc);
 	return TRUE;
+}
+
+
+/* Idle function to update the file on disk.  */
+
+static int
+idle_cb (void *data)
+{
+	EShortcuts *shortcuts;
+	EShortcutsPrivate *priv;
+
+	shortcuts = E_SHORTCUTS (data);
+	priv = shortcuts->priv;
+
+	if (priv->dirty) {
+		g_print ("Saving shortcuts -- %s\n", priv->file_name);
+		if (! e_shortcuts_save (shortcuts, NULL))
+			g_warning ("Saving of shortcuts failed -- %s", priv->file_name);
+		else
+			priv->dirty = FALSE;
+	}
+
+	priv->save_idle_id = 0;
+
+	return FALSE;
+}
+
+static void
+schedule_idle (EShortcuts *shortcuts)
+{
+	EShortcutsPrivate *priv;
+
+	priv = shortcuts->priv;
+
+	if (priv->save_idle_id != 0)
+		return;
+
+	gtk_idle_add (idle_cb, shortcuts);
+}
+
+static void
+make_dirty (EShortcuts *shortcuts)
+{
+	EShortcutsPrivate *priv;
+
+	priv = shortcuts->priv;
+
+	priv->dirty = TRUE;
+	schedule_idle (shortcuts);
 }
 
 
@@ -262,6 +322,8 @@ destroy (GtkObject *object)
 	shortcuts = E_SHORTCUTS (object);
 	priv = shortcuts->priv;
 
+	g_free (priv->file_name);
+
 	if (priv->storage_set != NULL)
 		gtk_object_unref (GTK_OBJECT (priv->storage_set));
 
@@ -269,6 +331,14 @@ destroy (GtkObject *object)
 		gtk_object_unref (GTK_OBJECT (priv->folder_type_registry));
 
 	unload_shortcuts (shortcuts);
+
+	if (priv->save_idle_id != 0)
+		gtk_idle_remove (priv->save_idle_id);
+
+	if (priv->dirty) {
+		if (! e_shortcuts_save (shortcuts, NULL))
+			g_warning (_("Error saving shortcuts.")); /* FIXME */
+	}
 
 	g_hash_table_destroy (priv->title_to_group);
 
@@ -295,10 +365,13 @@ init (EShortcuts *shortcuts)
 
 	priv = g_new (EShortcutsPrivate, 1);
 
+	priv->file_name      = NULL;
 	priv->storage_set    = NULL;
 	priv->groups         = NULL;
 	priv->views          = NULL;
 	priv->title_to_group = g_hash_table_new (g_str_hash, g_str_equal);
+	priv->dirty          = 0;
+	priv->save_idle_id   = 0;
 
 	shortcuts->priv = priv;
 }
@@ -329,7 +402,8 @@ e_shortcuts_construct (EShortcuts  *shortcuts,
 
 EShortcuts *
 e_shortcuts_new (EStorageSet *storage_set,
-		 EFolderTypeRegistry *folder_type_registry)
+		 EFolderTypeRegistry *folder_type_registry,
+		 const char *file_name)
 {
 	EShortcuts *new;
 
@@ -338,6 +412,11 @@ e_shortcuts_new (EStorageSet *storage_set,
 
 	new = gtk_type_new (e_shortcuts_get_type ());
 	e_shortcuts_construct (new, storage_set, folder_type_registry);
+
+	if (! e_shortcuts_load (new, file_name)) {
+		gtk_object_unref (GTK_OBJECT (new));
+		return NULL;
+	}
 
 	return new;
 }
@@ -426,26 +505,60 @@ e_shortcuts_new_view (EShortcuts *shortcuts)
 
 gboolean
 e_shortcuts_load (EShortcuts *shortcuts,
-		  const char *path)
+		  const char *file_name)
 {
+	EShortcutsPrivate *priv;
+	char *tmp;
+
 	g_return_val_if_fail (shortcuts != NULL, FALSE);
 	g_return_val_if_fail (E_IS_SHORTCUTS (shortcuts), FALSE);
-	g_return_val_if_fail (path != NULL, FALSE);
-	g_return_val_if_fail (g_path_is_absolute (path), FALSE);
+	g_return_val_if_fail (file_name == NULL || g_path_is_absolute (file_name), FALSE);
 
-	return load_shortcuts (shortcuts, path);
+	priv = shortcuts->priv;
+
+	if (file_name == NULL) {
+		if (priv->file_name == NULL)
+			return FALSE;
+		file_name = priv->file_name;
+	}
+
+	if (! load_shortcuts (shortcuts, file_name))
+		return FALSE;
+
+	tmp = g_strdup (file_name);
+	g_free (priv->file_name);
+	priv->file_name = tmp;
+
+	return TRUE;
 }
 
 gboolean
 e_shortcuts_save (EShortcuts *shortcuts,
-		  const char *path)
+		  const char *file_name)
 {
+	EShortcutsPrivate *priv;
+	char *tmp;
+
 	g_return_val_if_fail (shortcuts != NULL, FALSE);
 	g_return_val_if_fail (E_IS_SHORTCUTS (shortcuts), FALSE);
-	g_return_val_if_fail (path != NULL, FALSE);
-	g_return_val_if_fail (g_path_is_absolute (path), FALSE);
+	g_return_val_if_fail (file_name == NULL || g_path_is_absolute (file_name), FALSE);
 
-	return save_shortcuts (shortcuts, path);
+	priv = shortcuts->priv;
+
+	if (file_name == NULL) {
+		if (priv->file_name == NULL)
+			return FALSE;
+		file_name = priv->file_name;
+	}
+
+	if (! save_shortcuts (shortcuts, file_name))
+		return FALSE;
+
+	tmp = g_strdup (file_name);
+	g_free (priv->file_name);
+	priv->file_name = tmp;
+
+	return TRUE;
 }
 
 
@@ -470,6 +583,110 @@ e_shortcuts_get_uri (EShortcuts *shortcuts, int group_num, int num)
 		return NULL;
 
 	return shortcut_element->data;
+}
+
+
+void
+e_shortcuts_remove_shortcut (EShortcuts *shortcuts,
+			     int group_num,
+			     int num)
+{
+	EShortcutsPrivate *priv;
+	ShortcutGroup *group;
+	GList *p;
+	char *uri;
+
+	g_return_if_fail (shortcuts != NULL);
+	g_return_if_fail (E_IS_SHORTCUTS (shortcuts));
+
+	priv = shortcuts->priv;
+
+	p = g_list_nth (priv->groups, group_num);
+	g_return_if_fail (p != NULL);
+
+	group = (ShortcutGroup *) p->data;
+
+	p = g_list_nth (group->shortcuts, num);
+	g_return_if_fail (p != NULL);
+
+	uri = (char *) p->data;
+	g_free (uri);
+
+	group->shortcuts = g_list_remove_link (group->shortcuts, p);
+
+	make_dirty (shortcuts);
+}
+
+void
+e_shortcuts_add_shortcut (EShortcuts *shortcuts,
+			  int group_num,
+			  int num,
+			  const char *uri)
+{
+	EShortcutsPrivate *priv;
+	ShortcutGroup *group;
+	GList *p;
+
+	g_return_if_fail (shortcuts != NULL);
+	g_return_if_fail (E_IS_SHORTCUTS (shortcuts));
+
+	priv = shortcuts->priv;
+
+	p = g_list_nth (priv->groups, group_num);
+	g_return_if_fail (p != NULL);
+
+	group = (ShortcutGroup *) p->data;
+
+	group->shortcuts = g_list_insert (group->shortcuts, g_strdup (uri), num);
+
+	make_dirty (shortcuts);
+}
+
+void
+e_shortcuts_remove_group (EShortcuts *shortcuts,
+			  int group_num)
+{
+	EShortcutsPrivate *priv;
+	ShortcutGroup *group;
+	GList *p;
+
+	g_return_if_fail (shortcuts != NULL);
+	g_return_if_fail (E_IS_SHORTCUTS (shortcuts));
+
+	priv = shortcuts->priv;
+
+	p = g_list_nth (priv->groups, group_num);
+	g_return_if_fail (p != NULL);
+
+	group = (ShortcutGroup *) p->data;
+
+	e_free_string_list (group->shortcuts);
+
+	priv->groups = g_list_remove_link (priv->groups, p);
+
+	make_dirty (shortcuts);
+}
+
+void
+e_shortcuts_add_group (EShortcuts *shortcuts,
+		       int group_num,
+		       const char *group_name)
+{
+	EShortcutsPrivate *priv;
+	ShortcutGroup *group;
+
+	g_return_if_fail (shortcuts != NULL);
+	g_return_if_fail (E_IS_SHORTCUTS (shortcuts));
+
+	priv = shortcuts->priv;
+
+	group = g_new (ShortcutGroup, 1);
+	group->title     = g_strdup (group_name);
+	group->shortcuts = NULL;
+
+	priv->groups = g_list_insert (priv->groups, group, group_num);
+
+	make_dirty (shortcuts);
 }
 
 

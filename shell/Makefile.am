@@ -46,6 +46,8 @@ evolution_SOURCES = 			\
 	e-component-registry.h		\
 	e-component-registry.c		\
 	e-shell-constants.h		\
+	e-shell-folder-title-bar.c	\
+	e-shell-folder-title-bar.h	\
 	e-shell-utils.c			\
 	e-shell-utils.h			\
 	e-shell-view-menu.c		\

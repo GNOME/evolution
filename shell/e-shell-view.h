@@ -48,6 +48,14 @@ typedef struct _EShellView        EShellView;
 typedef struct _EShellViewPrivate EShellViewPrivate;
 typedef struct _EShellViewClass   EShellViewClass;
 
+enum _EShellViewShowFoldersMode {
+	E_SHELL_VIEW_SHOW_FOLDERS_HIDDEN,
+	E_SHELL_VIEW_SHOW_FOLDERS_TRANSIENT,
+	E_SHELL_VIEW_SHOW_FOLDERS_STICKY
+};
+typedef enum _EShellViewShowFoldersMode EShellViewShowFoldersMode;
+
+
 struct _EShellView {
 	GnomeApp parent;
 

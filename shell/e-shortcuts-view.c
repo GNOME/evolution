@@ -72,17 +72,16 @@ get_storage_set_path_from_uri (const char *uri)
 
 static void
 load_group (EShortcutsView *shortcuts_view,
+	    EShortcuts *shortcuts,
 	    const char *group_title,
 	    int group_num)
 {
 	EShortcutsViewPrivate *priv;
-	EShortcuts *shortcuts;
 	EStorageSet *storage_set;
 	GList *shortcut_list;
 	GList *p;
 
 	priv = shortcuts_view->priv;
-	shortcuts = priv->shortcuts;
 
 	storage_set = e_shortcuts_get_storage_set (shortcuts);
 	g_assert (storage_set != NULL);
@@ -117,16 +116,15 @@ load_group (EShortcutsView *shortcuts_view,
 }
 
 static void
-load_all_shortcuts (EShortcutsView *shortcuts_view)
+load_all_shortcuts (EShortcutsView *shortcuts_view,
+		    EShortcuts *shortcuts)
 {
 	EShortcutsViewPrivate *priv;
-	EShortcuts *shortcuts;
 	GList *group_titles;
 	GList *p;
 	int group_num;
 
 	priv = shortcuts_view->priv;
-	shortcuts = priv->shortcuts;
 
 	group_titles = e_shortcuts_get_group_titles (shortcuts);
 
@@ -137,10 +135,13 @@ load_all_shortcuts (EShortcutsView *shortcuts_view)
 		group_num = e_shortcut_bar_add_group (E_SHORTCUT_BAR (shortcuts_view),
 						      group_title);
 
-		load_group (shortcuts_view, group_title, group_num);
+		load_group (shortcuts_view, shortcuts, group_title, group_num);
 	}
 
 	e_free_string_list (group_titles);
+
+	gtk_object_ref (GTK_OBJECT (shortcuts));
+	priv->shortcuts = shortcuts;
 }
 
 /* Icon callback for the shortcut bar.  */
@@ -180,6 +181,8 @@ icon_callback (EShortcutBar *shortcut_bar,
 }
 
 
+/* GtkObject methods.  */
+
 static void
 destroy (GtkObject *object)
 {
@@ -195,6 +198,8 @@ destroy (GtkObject *object)
 }
 
 
+/* EShortcutBar methods.  */
+
 static void
 selected_item (EShortcutBar *shortcut_bar,
 	       GdkEvent *event,
@@ -216,6 +221,89 @@ selected_item (EShortcutBar *shortcut_bar,
 			 shortcuts, uri);
 }
 
+static void
+added_item (EShortcutBar *shortcut_bar,
+	    int group_num,
+	    int item_num)
+{
+	EShortcutsViewPrivate *priv;
+	EShortcutBarGroup *group;
+	EShortcuts *shortcuts;
+	const char *url;
+
+	priv = E_SHORTCUTS_VIEW (shortcut_bar)->priv;
+	shortcuts = priv->shortcuts;
+
+	if (shortcuts == NULL)
+		return;
+
+	/* FIXME ** NASTY ** */
+
+	group = &g_array_index (shortcut_bar->groups, EShortcutBarGroup, group_num);
+	url = e_icon_bar_get_item_data (E_ICON_BAR (group->icon_bar), item_num);
+
+	if (url == NULL) {
+		g_warning ("NULL URL being added to the shortcut bar!?");
+		return;
+	}
+
+	e_shortcuts_add_shortcut (shortcuts, group_num, item_num, url);
+}
+
+static void
+removed_item (EShortcutBar *shortcut_bar,
+	      int group_num,
+	      int item_num)
+{
+	EShortcutsViewPrivate *priv;
+	EShortcuts *shortcuts;
+
+	priv = E_SHORTCUTS_VIEW (shortcut_bar)->priv;
+	shortcuts = priv->shortcuts;
+
+	e_shortcuts_remove_shortcut (shortcuts, group_num, item_num);
+}
+
+static void
+added_group (EShortcutBar *shortcut_bar,
+	     int group_num)
+{
+	EShortcutsViewPrivate *priv;
+	EShortcuts *shortcuts;
+	EShortcutBarGroup *group;
+	const char *group_name;
+
+	priv = E_SHORTCUTS_VIEW (shortcut_bar)->priv;
+	shortcuts = priv->shortcuts;
+
+	if (shortcuts == NULL)
+		return;
+
+	group = &g_array_index (shortcut_bar->groups, EShortcutBarGroup, group_num);
+
+	/* FIXME Losing EShortcutBar does not give me a method to retrieve the
+           group name.  */
+	group_name = "Foo";
+
+	e_shortcuts_add_group (shortcuts, group_num, group_name);
+}
+
+static void
+removed_group (EShortcutBar *shortcut_bar,
+	       int group_num)
+{
+	EShortcutsViewPrivate *priv;
+	EShortcuts *shortcuts;
+
+	priv = E_SHORTCUTS_VIEW (shortcut_bar)->priv;
+	shortcuts = priv->shortcuts;
+
+	if (shortcuts == NULL)
+		return;
+
+	e_shortcuts_remove_group (shortcuts, group_num);
+}
+
 
 static void
 class_init (EShortcutsViewClass *klass)
@@ -228,6 +316,10 @@ class_init (EShortcutsViewClass *klass)
 
 	shortcut_bar_class = E_SHORTCUT_BAR_CLASS (klass);
 	shortcut_bar_class->selected_item = selected_item;
+	shortcut_bar_class->added_item    = added_item;
+	shortcut_bar_class->removed_item  = removed_item;
+	shortcut_bar_class->added_group   = added_group;
+	shortcut_bar_class->removed_group = removed_group;
 
 	parent_class = gtk_type_class (e_shortcut_bar_get_type ());
 
@@ -267,13 +359,10 @@ e_shortcuts_view_construct (EShortcutsView *shortcuts_view,
 
 	priv = shortcuts_view->priv;
 
-	gtk_object_ref (GTK_OBJECT (shortcuts));
-	priv->shortcuts = shortcuts;
-
 	e_shortcut_bar_set_icon_callback (E_SHORTCUT_BAR (shortcuts_view), icon_callback,
 					  shortcuts);
 
-	load_all_shortcuts (shortcuts_view);
+	load_all_shortcuts (shortcuts_view, shortcuts);
 }
 
 GtkWidget *
