@@ -1,5 +1,14 @@
 2004-03-11  Not Zed  <NotZed@Ximian.com>
 
+	* em-folder-browser.c (emfb_set_folder): a really gross hack,
+	disable all search handlers before setting the search and set hte
+	search manually rather than going through the callbacks.  Partial
+	fix for #55267, and ugly as it is.
+	(emfb_init): save the search signal id's.
+	(emfb_set_folder): ugh, properly set the defaults if the settings
+	haven't been stored on the folder, and properly move them upstream
+	to the bonobo menus.
+
 	* em-folder-tree-model.c (sort_cb): when we sort, handle not
 	having the node in the tree.  otherwise we always compare against
 	"" which puts it at the head of the branch, rather than the tail.

@@ -98,6 +98,10 @@ struct _EMFolderBrowserPrivate {
 	GalViewInstance *view_instance;
 	GalViewMenus *view_menus;
 
+	guint search_menu_activated_id;
+	guint search_activated_id;
+	guint search_query_changed_id;
+
 	guint vpane_resize_id;
 	guint list_built_id;	/* hook onto list-built for delayed 'select first unread' stuff */
 	
@@ -187,9 +191,9 @@ emfb_init(GObject *o)
 		e_search_bar_set_menu ((ESearchBar *)emfb->search, emfb_search_items);
 		gtk_widget_show((GtkWidget *)emfb->search);
 
-		g_signal_connect(emfb->search, "menu_activated", G_CALLBACK(emfb_search_menu_activated), emfb);
-		g_signal_connect(emfb->search, "search_activated", G_CALLBACK(emfb_search_search_activated), emfb);
-		g_signal_connect(emfb->search, "query_changed", G_CALLBACK(emfb_search_query_changed), emfb);
+		p->search_menu_activated_id = g_signal_connect(emfb->search, "menu_activated", G_CALLBACK(emfb_search_menu_activated), emfb);
+		p->search_activated_id = g_signal_connect(emfb->search, "search_activated", G_CALLBACK(emfb_search_search_activated), emfb);
+		p->search_query_changed_id = g_signal_connect(emfb->search, "query_changed", G_CALLBACK(emfb_search_query_changed), emfb);
 
 		gtk_box_pack_start((GtkBox *)emfb, (GtkWidget *)emfb->search, FALSE, TRUE, 0);
 	}
@@ -912,6 +916,7 @@ static void
 emfb_set_folder(EMFolderView *emfv, CamelFolder *folder, const char *uri)
 {
 	EMFolderBrowser *emfb = (EMFolderBrowser *) emfv;
+	struct _EMFolderBrowserPrivate *p = emfb->priv;
 
 	emfb_parent->set_folder(emfv, folder, uri);
 	
@@ -920,27 +925,55 @@ emfb_set_folder(EMFolderView *emfv, CamelFolder *folder, const char *uri)
 	   defaults */
 	if (folder) {
 		char *sstate;
+		int state;
+		GConfClient *gconf = mail_config_get_gconf_client();
+
+		/* FIXME: this mostly copied from activate() */
+		if ((sstate = camel_object_meta_get(folder, "evolution:show_preview"))) {
+			state = sstate[0] != '0';
+			g_free(sstate);
+		} else
+			state = gconf_client_get_bool(gconf, "/apps/evolution/mail/display/show_preview", NULL);
+		em_folder_browser_show_preview(emfb, state);
+		if (emfv->uic)
+			bonobo_ui_component_set_prop(emfv->uic, "/commands/ViewPreview", "state", state?"1":"0", NULL);
 		
-		if ((sstate = camel_object_meta_get (folder, "evolution:show_preview"))) {
-			em_folder_browser_show_preview (emfb, sstate[0] != '0');
-			g_free (sstate);
-		}
-		
-		if ((sstate = camel_object_meta_get (folder, "evolution:thread_list"))) {
-			message_list_set_threaded (emfv->list, sstate[0] != '0');
-			g_free (sstate);
-		}
-		
-		sstate = camel_object_meta_get (folder, "evolution:search_state");
-		g_object_set (emfb->search, "state", sstate, NULL);
-		g_free (sstate);
-		
+		if ((sstate = camel_object_meta_get(folder, "evolution:thread_list"))) {
+			state = sstate[0] != '0';
+			g_free(sstate);
+		} else
+			state = gconf_client_get_bool(gconf, "/apps/evolution/mail/display/thread_list", NULL);
+		message_list_set_threaded(emfv->list, state);
+		if (emfv->uic)
+			bonobo_ui_component_set_prop(emfv->uic, "/commands/ViewThreaded", "state", state?"1":"0", NULL);
+
+		/* gross, but effective? */
+		g_signal_handler_block(emfb->search, p->search_menu_activated_id);
+		g_signal_handler_block(emfb->search, p->search_activated_id);
+		g_signal_handler_block(emfb->search, p->search_query_changed_id);
+
+		sstate = camel_object_meta_get(folder, "evolution:search_state");
+		g_object_set(emfb->search, "state", sstate, NULL);
+		g_free(sstate);
+
+		g_signal_handler_unblock(emfb->search, p->search_menu_activated_id);
+		g_signal_handler_unblock(emfb->search, p->search_activated_id);
+		g_signal_handler_unblock(emfb->search, p->search_query_changed_id);
+
+		/* set the query manually, so we dont pop up advanced or saved search stuff */
+		g_object_get(emfb->search, "query", &sstate, NULL);
+		message_list_set_search(emfb->view.list, sstate);
+		g_free(sstate);
+
 		if ((sstate = camel_object_meta_get (folder, "evolution:selected_uid")))
 			emfb->priv->select_uid = sstate;
+		else {
+			g_free(p->select_uid);
+			p->select_uid = NULL;
+		}
 		
 		if (emfv->list->cursor_uid == NULL && emfb->priv->list_built_id == 0)
-			emfb->priv->list_built_id =
-				g_signal_connect (emfv->list, "message_list_built", G_CALLBACK (emfb_list_built), emfv);
+			emfb->priv->list_built_id = g_signal_connect(emfv->list, "message_list_built", G_CALLBACK (emfb_list_built), emfv);
 		
 		/*emfb_create_view_instance (emfb, folder, uri);*/
 		if (emfv->uic)
