@@ -1,5 +1,8 @@
 2001-07-26  Peter Williams  <peterw@ximian.com>
 
+	* message-list.etspec: Make the date column smaller and the
+	subject column larger, relatively.
+
 	* mail-folder-cache.c (make_folder_status): Don't display
 	"0 hidden".
 
