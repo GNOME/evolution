@@ -1,5 +1,28 @@
+/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+/*
+ * Authors: Michael Zucchi <notzed@ximian.com>
+ *
+ * Copyright 2002 Ximian, Inc. (www.ximian.com)
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of version 2 of the GNU General Public
+ * License as published by the Free Software Foundation.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public
+ * License along with this program; if not, write to the
+ * Free Software Foundation, Inc., 59 Temple Place - Suite 330,
+ * Boston, MA 02111-1307, USA.
+ *
+ */
 
-#include "e-msgport.h"
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
 
 #include <sys/time.h>
 #include <sys/types.h>
@@ -11,6 +34,12 @@
 #include <pthread.h>
 
 #include <glib.h>
+
+#ifdef HAVE_NSS
+#include <nspr.h>
+#endif
+
+#include "e-msgport.h"
 
 #define m(x)			/* msgport debug */
 #define t(x) 			/* thread debug */
@@ -106,6 +135,12 @@ struct _EMsgPort {
 			int write;
 		} fd;
 	} pipe;
+#ifdef HAVE_NSS
+	struct {
+		PRFileDesc *read;
+		PRFileDesc *write;
+	} prpipe;
+#endif
 	/* @#@$#$ glib stuff */
 	GCond *cond;
 	GMutex *lock;
@@ -121,6 +156,10 @@ EMsgPort *e_msgport_new(void)
 	mp->cond = g_cond_new();
 	mp->pipe.fd.read = -1;
 	mp->pipe.fd.write = -1;
+#ifdef HAVE_NSS
+	mp->prpipe.read = NULL;
+	mp->prpipe.write = NULL;
+#endif
 	mp->condwait = 0;
 
 	return mp;
@@ -134,6 +173,12 @@ void e_msgport_destroy(EMsgPort *mp)
 		close(mp->pipe.fd.read);
 		close(mp->pipe.fd.write);
 	}
+#ifdef HAVE_NSS
+	if (mp->prpipe.read) {
+		PR_Close(mp->prpipe.read);
+		PR_Close(mp->prpipe.write);
+	}
+#endif
 	g_free(mp);
 }
 
@@ -153,9 +198,29 @@ int e_msgport_fd(EMsgPort *mp)
 	return fd;
 }
 
+#ifdef HAVE_NSS
+PRFileDesc *e_msgport_prfd(EMsgPort *mp)
+{
+	PRFileDesc *fd;
+
+	g_mutex_lock(mp->lock);
+	fd = mp->prpipe.read;
+	if (fd == NULL) {
+		PR_CreatePipe(&mp->prpipe.read, &mp->prpipe.write);
+		fd = mp->prpipe.read;
+	}
+	g_mutex_unlock(mp->lock);
+
+	return fd;
+}
+#endif
+
 void e_msgport_put(EMsgPort *mp, EMsg *msg)
 {
 	int fd;
+#ifdef HAVE_NSS
+	PRFileDesc *prfd;
+#endif
 
 	m(printf("put:\n"));
 	g_mutex_lock(mp->lock);
@@ -165,6 +230,9 @@ void e_msgport_put(EMsgPort *mp, EMsg *msg)
 		g_cond_signal(mp->cond);
 	}
 	fd = mp->pipe.fd.write;
+#ifdef HAVE_NSS
+	prfd = mp->prpipe.write;
+#endif
 	g_mutex_unlock(mp->lock);
 
 	if (fd != -1) {
@@ -172,6 +240,12 @@ void e_msgport_put(EMsgPort *mp, EMsg *msg)
 		write(fd, "", 1);
 	}
 
+#ifdef HAVE_NSS
+	if (prfd != NULL) {
+		m(printf("put: have pr pipe, writing notification to it\n"));
+		PR_Write(prfd, "", 1);
+	}
+#endif
 	m(printf("put: done\n"));
 }
 
@@ -190,16 +264,7 @@ EMsg *e_msgport_wait(EMsgPort *mp)
 	m(printf("wait:\n"));
 	g_mutex_lock(mp->lock);
 	while (e_dlist_empty(&mp->queue)) {
-		if (mp->pipe.fd.read == -1) {
-			m(printf("wait: waiting on condition\n"));
-			mp->condwait++;
-			/* if we are cancelled in the cond-wait, then we need to unlock our lock when we cleanup */
-			pthread_cleanup_push(msgport_cleanlock, mp);
-			g_cond_wait(mp->cond, mp->lock);
-			pthread_cleanup_pop(0);
-			m(printf("wait: got condition\n"));
-			mp->condwait--;
-		} else {
+		if (mp->pipe.fd.read != -1) {
 			fd_set rfds;
 			int retry;
 
@@ -213,6 +278,31 @@ EMsg *e_msgport_wait(EMsgPort *mp)
 			} while (retry);
 			g_mutex_lock(mp->lock);
 			m(printf("wait: got pipe\n"));
+#ifdef HAVE_NSS
+		} else if (mp->prpipe.read != NULL) {
+			PRPollDesc polltable[1];
+			int retry;
+
+			m(printf("wait: waitng on pr pipe\n"));
+			g_mutex_unlock(mp->lock);
+			do {
+				polltable[0].fd = mp->prpipe.read;
+				polltable[0].in_flags = PR_POLL_READ|PR_POLL_ERR;
+				retry = PR_Poll(polltable, 1, PR_INTERVAL_NO_TIMEOUT) == -1 && PR_GetError() == PR_PENDING_INTERRUPT_ERROR;
+				pthread_testcancel();
+			} while (retry);
+			g_mutex_lock(mp->lock);
+			m(printf("wait: got pr pipe\n"));
+#endif /* HAVE_NSS */
+		} else {
+			m(printf("wait: waiting on condition\n"));
+			mp->condwait++;
+			/* if we are cancelled in the cond-wait, then we need to unlock our lock when we cleanup */
+			pthread_cleanup_push(msgport_cleanlock, mp);
+			g_cond_wait(mp->cond, mp->lock);
+			pthread_cleanup_pop(0);
+			m(printf("wait: got condition\n"));
+			mp->condwait--;
 		}
 	}
 	msg = (EMsg *)mp->queue.head;
@@ -229,8 +319,17 @@ EMsg *e_msgport_get(EMsgPort *mp)
 
 	g_mutex_lock(mp->lock);
 	msg = (EMsg *)e_dlist_remhead(&mp->queue);
-	if (msg && mp->pipe.fd.read != -1)
-		read(mp->pipe.fd.read, dummy, 1);
+	if (msg) {
+		if (mp->pipe.fd.read != -1)
+			read(mp->pipe.fd.read, dummy, 1);
+#ifdef HAVE_NSS
+		if (mp->prpipe.read != NULL) {
+			int c;
+			c = PR_Read(mp->prpipe.read, dummy, 1);
+			g_assert(c == 1);
+		}
+#endif
+	}
 	m(printf("get: message = %p\n", msg));
 	g_mutex_unlock(mp->lock);
 
