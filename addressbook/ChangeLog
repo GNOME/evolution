@@ -1,3 +1,9 @@
+2004-06-02  Chris Toshok  <toshok@ximian.com>
+
+	* gui/component/addressbook-migrate.c (addressbook_migrate):
+	remove hidden field migration, and add in a phase to clear the
+	absolute_uri properties on ESources.
+
 2004-06-02  Rodney Dawes  <dobey@novell.com>
 
 	* gui/component/addressbook-config.c (focus_help, add_focus_handler):

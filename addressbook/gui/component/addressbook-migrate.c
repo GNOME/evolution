@@ -235,50 +235,6 @@ add_to_notes (EContact *contact, EContactField field)
 }
 
 static void
-migrate_contacts_hidden_fields (MigrationContext *context, ESourceGroup *on_this_computer)
-{
-	EBookQuery *query = e_book_query_any_field_contains ("");
-	GSList *sources, *s;
-
-	sources = e_source_group_peek_sources (on_this_computer);
-	for (s = sources; s; s = g_slist_next (s)) {
-		ESource *source = s->data;
-		EBook *book;
-		GList *contacts, *l;
-		gint num_contacts, num_done;
-		GError *e = NULL;
-
-		book = e_book_new (source, &e);
-		if (!book
-		    || !e_book_open (book, FALSE, &e)) {
-			g_warning ("failed to load book for migration: `%s'", e->message);
-			continue;
-		}
-
-		e_book_get_contacts (book, query, &contacts, NULL);
-		num_contacts = g_list_length (contacts);
-		num_done = 0;
-
-		for (l = contacts; l; l = g_list_next (l)) {
-			EContact *contact = l->data;
-
-			add_to_notes (contact, E_CONTACT_OFFICE);
-			add_to_notes (contact, E_CONTACT_SPOUSE);
-			add_to_notes (contact, E_CONTACT_BLOG_URL);
-
-			e_book_commit_contact (book, contact, NULL);
-
-			num_done++;
-			dialog_set_progress (context, (double) num_done / num_contacts);
-		}
-
-		g_list_foreach (contacts, (GFunc) g_object_unref, NULL);
-		g_list_free (contacts);
-		g_object_unref (book);
-	}
-}
-
-static void
 migrate_contacts (MigrationContext *context, EBook *old_book, EBook *new_book)
 {
 	EBookQuery *query = e_book_query_any_field_contains ("");
@@ -1189,14 +1145,23 @@ addressbook_migrate (AddressbookComponent *component, int major, int minor, int 
 			g_free (old_path);
 		}
 
-		if (minor < 5 || (minor == 5 && revision <= 10)) {
-			dialog_set_label (context,
-					  _("Some fields are no longer representable in the "
-					    "contact editor. Please wait while Evolution "
-					    "copies those fields to the 'Notes' field..."));
+		/* we only need to do this next step if people ran
+		   older versions of 1.5.  We need to clear out the
+		   absolute URI's that were assigned to ESources
+		   during one phase of development, as they take
+		   precedent over relative uris (but aren't updated
+		   when editing an ESource). */
+		if (minor == 5 && revision <= 11) {
+			GSList *g;
+			for (g = e_source_list_peek_groups (context->source_list); g; g = g->next) {
+				ESourceGroup *group = g->data;
+				GSList *s;
 
-			if (on_this_computer)
-				migrate_contacts_hidden_fields (context, on_this_computer);
+				for (s = e_source_group_peek_sources (group); s; s = s->next) {
+					ESource *source = s->data;
+					e_source_set_absolute_uri (source, NULL);
+				}
+			}
 		}
 	}
 
