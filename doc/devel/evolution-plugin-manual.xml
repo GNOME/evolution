@@ -424,6 +424,7 @@
     name="plugin name"
     ...>
     <description>long description</description> ?
+    <author name="real name"? email="email addr"?/> *
     <hook
       class="hook class"
       ...>
@@ -482,6 +483,17 @@
 		<simpara>
 		  A longer description of the plugin's purpose. This value will be
 		  translated.
+		</simpara>
+	      </listitem>
+	    </varlistentry>
+	    <varlistentry>
+	      <term><parameter>author</parameter></term>
+	      <listitem>
+		<simpara>
+		  One of the authors who wrote the plugin.  Either
+		  <parameter>name</parameter> or <parameter>email</parameter>
+		  may be ommitted.  This element may occur multiple times to
+		  indicate multiple authors.
 		</simpara>
 	      </listitem>
 	    </varlistentry>
