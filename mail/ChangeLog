@@ -16,6 +16,7 @@
 	* mail-callbacks.c (mail_generate_reply): Update to reflect API
 	changes to e_msg_composer_add_message_attachments().
 	(do_forward_non_attached): Same.
+	(providers_config): Oops, pass a GdkWindow instead of a GtkWindow.
 
 2001-10-19    <NotZed@Ximian.com>
 
