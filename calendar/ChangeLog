@@ -1,3 +1,8 @@
+2001-01-08  Iain Holmes  <iain@helixcode.com>
+
+	* gui/calendar-summary.c (generate_html_summary): Get the tasks
+	correctly.
+
 2001-01-08  Damon Chaplin  <damon@helixcode.com>
 
 	* gui/Makefile.am: added new source files for the Tasks folders.

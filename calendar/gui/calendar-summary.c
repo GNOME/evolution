@@ -146,16 +146,11 @@ generate_html_summary (CalSummary *summary)
 	g_free (tmp);
 
 	/* Generate a list of tasks */
-	uids = cal_client_get_objects_in_range (summary->client, 
-						CALOBJ_TYPE_TODO, day_begin,
-						day_end);
+	uids = cal_client_get_uids (summary->client, CALOBJ_TYPE_TODO);
 	for (l = uids; l; l = l->next){
 		CalComponent *comp;
 		CalComponentText text;
 		CalClientGetStatus status;
-		CalComponentDateTime start, end;
-		struct icaltimetype *start_time, *end_time;
-		char *start_str, *end_str;
 		char *uid;
 		char *tmp2;
 		
@@ -167,8 +162,6 @@ generate_html_summary (CalSummary *summary)
 		cal_component_get_summary (comp, &text);
 
 		tmp2 = g_strdup_printf ("<li>%s</li>", text.value);
-		g_free (start_str);
-		g_free (end_str);
 
 		tmp = ret_html;
 		ret_html = g_strconcat (ret_html, tmp2, NULL);
