@@ -1,3 +1,8 @@
+2001-07-02  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* e-msg-composer.c (setup_ui): Construct an e-charset-picker
+	bonobo-ui menu.
+
 2001-06-30  Jon Trowbridge  <trow@ximian.com>
 
 	* e-msg-composer-hdrs.c (set_recipients): Touch all of our

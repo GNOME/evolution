@@ -63,6 +63,8 @@
 #include <gal/widgets/e-scroll-frame.h>
 #include <gtkhtml/gtkhtml.h>
 
+#include "widgets/misc/e-charset-picker.h"
+
 #include "camel/camel.h"
 #include "camel/camel-charset-map.h"
 #include "camel/camel-session.h"
@@ -1397,6 +1399,8 @@ setup_ui (EMsgComposer *composer)
 	
 	e_pixmaps_update (composer->uic, pixcache);
 	
+	e_charset_picker_bonobo_ui_populate (composer->uic, NULL);
+	
 	if (!camel_session_is_online (session)) {
 		/* Move the accelerator from Send to Send Later */
 		bonobo_ui_component_set_prop (
@@ -1518,7 +1522,7 @@ attachment_bar_changed_cb (EMsgComposerAttachmentBar *bar,
 		e_msg_composer_show_attachments (composer, TRUE);
 	else
 		e_msg_composer_show_attachments (composer, FALSE);
-
+	
 	/* Mark the composer as changed so it prompts about unsaved changes on close */
 	e_msg_composer_set_changed (composer);
 }
@@ -1529,9 +1533,9 @@ subject_changed_cb (EMsgComposerHdrs *hdrs,
 		    void *data)
 {
 	EMsgComposer *composer;
-
+	
 	composer = E_MSG_COMPOSER (data);
-
+	
 	if (strlen (subject))
 		gtk_window_set_title (GTK_WINDOW (composer), subject);
 	else
@@ -1545,9 +1549,9 @@ hdrs_changed_cb (EMsgComposerHdrs *hdrs,
 		 void *data)
 {
 	EMsgComposer *composer;
-
+	
 	composer = E_MSG_COMPOSER (data);
-
+	
 	/* Mark the composer as changed so it prompts about unsaved changes on close */
 	e_msg_composer_set_changed (composer);
 }
@@ -1557,9 +1561,9 @@ from_changed_cb (EMsgComposerHdrs *hdrs,
 		 void *data)
 {
 	EMsgComposer *composer;
-
+	
 	composer = E_MSG_COMPOSER (data);
-
+	
 	e_msg_composer_show_sig_file (composer);
 }
 
@@ -1573,13 +1577,13 @@ destroy (GtkObject *object)
 	CORBA_Environment ev;
 	
 	composer = E_MSG_COMPOSER (object);
-
+	
 	gnome_config_sync ();
 	
 	if (composer->uic)
 		bonobo_object_unref (BONOBO_OBJECT (composer->uic));
 	composer->uic = NULL;
-
+	
 	/* FIXME?  I assume the Bonobo widget will get destroyed
            normally?  */
 	
@@ -1598,7 +1602,7 @@ destroy (GtkObject *object)
 		g_ptr_array_free (composer->extra_hdr_names, TRUE);
 		g_ptr_array_free (composer->extra_hdr_values, TRUE);
 	}
-
+	
 	e_msg_composer_clear_inlined_table (composer);
 	g_hash_table_destroy (composer->inline_images);
 	
@@ -1618,12 +1622,12 @@ destroy (GtkObject *object)
 		Bonobo_Unknown_unref (composer->editor_engine, &ev);
 		CORBA_Object_release (composer->editor_engine, &ev);
 	}
-
+	
 	CORBA_exception_free (&ev);
-
+	
 	if (composer->editor_listener)
 		bonobo_object_unref (composer->editor_listener);
-
+	
 	if (GTK_OBJECT_CLASS (parent_class)->destroy != NULL)
 		(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
 }
@@ -1774,7 +1778,7 @@ init (EMsgComposer *composer)
 	
 	composer->persist_file_interface   = CORBA_OBJECT_NIL;
 	composer->persist_stream_interface = CORBA_OBJECT_NIL;
-
+	
 	composer->editor_engine            = CORBA_OBJECT_NIL;
 	composer->inline_images            = g_hash_table_new (g_str_hash, g_str_equal);
 	
@@ -1817,7 +1821,7 @@ get_config_value (const char *key)
 {
 	char *full_key = g_strconcat ("/Evolution/Composer/", key, NULL);
 	int v;
-
+	
 	v = gnome_config_get_int (full_key);
 	g_free (full_key);
 	return v;
@@ -1834,7 +1838,7 @@ load_with_failue_control (Bonobo_PropertyBag bag, char *key, gint default_if_fai
 	if (ev._major == CORBA_NO_EXCEPTION)
 		return v;
 	CORBA_exception_free (&ev);
-
+	
 	return default_if_fails;
 }
 
@@ -1865,7 +1869,7 @@ e_msg_composer_load_config (EMsgComposer *composer)
 {
 	Bonobo_PropertyBag pbag;
 	CORBA_Environment ev;
-
+	
 	CORBA_exception_init (&ev);
 	pbag = bonobo_get_object (
 		"config:/Evolution/Mail/Composer", "IDL:Bonobo/PropertyBag:1.0",
@@ -1884,7 +1888,7 @@ static gint
 e_msg_composer_get_visible_flags (EMsgComposer *composer)
 {
 	int flags = 0;
-
+	
 	if (composer->view_from)
 		flags |= E_MSG_COMPOSER_VISIBLE_FROM;
 	if (composer->view_replyto)
@@ -1895,7 +1899,7 @@ e_msg_composer_get_visible_flags (EMsgComposer *composer)
 		flags |= E_MSG_COMPOSER_VISIBLE_BCC;
 	if (composer->view_subject)
 		flags |= E_MSG_COMPOSER_VISIBLE_SUBJECT;
-
+	
 	/*
 	 * Until we have a GUI way, lets make sure that
 	 * even if the user screws up, we will do the right
@@ -1937,7 +1941,7 @@ e_msg_composer_construct (EMsgComposer *composer)
 	setup_ui (composer);
 	
 	vbox = gtk_vbox_new (FALSE, 0);
-
+	
 	vis = e_msg_composer_get_visible_flags (composer);
 	composer->hdrs = e_msg_composer_hdrs_new (vis);
 	
@@ -1962,7 +1966,7 @@ e_msg_composer_construct (EMsgComposer *composer)
 	bonobo_widget_set_property (BONOBO_WIDGET (composer->editor), 
 				    "FormatHTML", composer->send_html,
 				    NULL);
-
+	
 	editor_server = BONOBO_OBJECT (bonobo_widget_get_server (BONOBO_WIDGET (composer->editor)));
 	
 	composer->persist_file_interface
@@ -1971,7 +1975,7 @@ e_msg_composer_construct (EMsgComposer *composer)
 		= bonobo_object_query_interface (editor_server, "IDL:Bonobo/PersistStream:1.0");
 	
 	gtk_box_pack_start (GTK_BOX (vbox), composer->editor, TRUE, TRUE, 0);
-
+	
 	/* Attachment editor, wrapped into an EScrollFrame.  We don't
            show it for now.  */
 	
@@ -1994,14 +1998,14 @@ e_msg_composer_construct (EMsgComposer *composer)
 	
 	bonobo_window_set_contents (BONOBO_WINDOW (composer), vbox);
 	gtk_widget_show (vbox);
-
+	
 	/* If we show this widget earlier, we lose network transparency. i.e. the
 	   component appears on the machine evo is running on, ignoring any DISPLAY
 	   variable. */
 	gtk_widget_show (composer->editor);
 	
 	e_msg_composer_show_attachments (composer, FALSE);
-
+	
 	/* Set focus on the `To:' field.
 	
 	   gtk_widget_grab_focus (e_msg_composer_hdrs_get_to_entry (E_MSG_COMPOSER_HDRS (composer->hdrs)));
@@ -2043,7 +2047,7 @@ e_msg_composer_new (void)
 	new = create_composer ();
 	if (new)
 		set_editor_text (new, "");
-
+	
 	return new;
 }
 
