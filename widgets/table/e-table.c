@@ -3142,7 +3142,7 @@ e_table_class_init (ETableClass *class)
 			      G_TYPE_INT,
 			      G_TYPE_INT,
 			      GDK_TYPE_DRAG_CONTEXT,
-			      GTK_TYPE_SELECTION_DATA,
+			      GTK_TYPE_SELECTION_DATA | G_SIGNAL_TYPE_STATIC_SCOPE,
 			      G_TYPE_UINT,
 			      G_TYPE_UINT);
 	et_signals[TABLE_DRAG_DATA_DELETE] =
@@ -3210,7 +3210,7 @@ e_table_class_init (ETableClass *class)
 			      GDK_TYPE_DRAG_CONTEXT,
 			      G_TYPE_INT,
 			      G_TYPE_INT,
-			      GTK_TYPE_SELECTION_DATA,
+			      GTK_TYPE_SELECTION_DATA | G_SIGNAL_TYPE_STATIC_SCOPE,
 			      G_TYPE_UINT,
 			      G_TYPE_UINT);
 
