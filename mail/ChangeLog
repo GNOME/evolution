@@ -1,3 +1,10 @@
+2002-04-29  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-account-gui.c (save_service): Strip leading/trailing
+	whitespace from the username because users sometimes accidently
+	add extra spaces here and there. Fixes bug #24009 (along with a
+	number of other "bugs").
+
 2002-04-29  Larry Ewing  <lewing@ximian.com>
 
 	* mail-composer-prefs.c (mail_composer_prefs_construct): clean up

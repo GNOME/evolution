@@ -1888,7 +1888,7 @@ save_service (MailAccountGuiService *gsvc, GHashTable *extra_config,
 	if (CAMEL_PROVIDER_ALLOWS (gsvc->provider, CAMEL_URL_PART_USER)) {
 		str = gtk_entry_get_text (gsvc->username);
 		if (str && *str)
-			url->user = g_strdup (str);
+			url->user = g_strstrip (g_strdup (str));
 	}
 	
 	if (CAMEL_PROVIDER_ALLOWS (gsvc->provider, CAMEL_URL_PART_AUTH) &&
