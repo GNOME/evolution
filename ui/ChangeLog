@@ -1,5 +1,10 @@
 2001-08-20  Damon Chaplin  <damon@ximian.com>
 
+	* evolution-tasks.xml: added Cut/Copy/Paste items to toolbar, though
+	I'm not sure they are very useful.
+
+2001-08-20  Damon Chaplin  <damon@ximian.com>
+
 	* evolution-tasks.xml: use new delete icons in menu & toolbar.
 
 2001-08-20  Damon Chaplin  <damon@ximian.com>

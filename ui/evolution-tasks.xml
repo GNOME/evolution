@@ -57,6 +57,15 @@
 
 	  	<separator/>
 
+		<toolitem name="Cut" _label="Cut" verb="TasksCut"
+		pixtype="pixbuf"/>
+		<toolitem name="Copy" _label="Copy" verb="TasksCopy"
+		pixtype="pixbuf"/>
+		<toolitem name="Paste" _label="Paste" verb="TasksPaste"
+		pixtype="pixbuf"/>
+
+	  	<separator/>
+
 		<toolitem name="Delete" verb="TasksDelete" pixtype="pixbuf"/>
 
 	</dockitem>
