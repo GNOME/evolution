@@ -84,7 +84,7 @@ void icalerror_stop_here(void);
 #ifdef ICAL_ERRORS_ARE_FATAL
 #define icalerror_check_arg_re(test,arg,error) icalerror_stop_here();assert(test); 
 #else
-#define icalerror_check_arg_re(test,arg,error) if(!(test)) {icalerror_stop_here(); return error};
+#define icalerror_check_arg_re(test,arg,error) if(!(test)) {icalerror_stop_here(); return error;}
 #endif
 
 
