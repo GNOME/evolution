@@ -1,3 +1,9 @@
+2000-06-08  Miguel de Icaza  <miguel@helixcode.com>
+
+	* main.c (development_warning): Use version here.  Add padding to
+	the message.
+	Only destroy object if its window was not closed.
+
 2000-06-08  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* e-shell-view.c (setup_bonobo_ui_handler): Oops.  Don't create

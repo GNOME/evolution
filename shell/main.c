@@ -31,12 +31,10 @@
 
 #include "e-shell.h"
 
-
 #define STARTUP_URI "evolution:/local/Inbox"
 
 static EShell *shell;
 
-
 static void
 no_views_left_cb (EShell *shell, gpointer data)
 {
@@ -49,7 +47,6 @@ destroy_cb (GtkObject *object, gpointer data)
 	gtk_main_quit ();
 }
 
-
 #ifdef USING_OAF
 
 #include <liboaf/liboaf.h>
@@ -85,14 +82,14 @@ init_corba (int *argc, char **argv)
 
 #endif /* USING_OAF */
 
-
 static void
 development_warning ()
 {
 	GtkWidget *label, *warning_dialog;
-
+	int ret;
+	
 	warning_dialog = gnome_dialog_new (
-		"Evolution 0.0",
+		"Evolution" VERSION,
 		GNOME_STOCK_BUTTON_OK,
 		NULL);
 
@@ -123,7 +120,7 @@ development_warning ()
 	gtk_widget_show (label);
 
 	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (warning_dialog)->vbox), 
-			    label, TRUE, TRUE, 0);
+			    label, TRUE, TRUE, 4);
 
 	label = gtk_label_new (
 		_(
@@ -137,9 +134,9 @@ development_warning ()
 	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (warning_dialog)->vbox), 
 			    label, TRUE, TRUE, 0);
 
-	gnome_dialog_run (GNOME_DIALOG (warning_dialog));
-	
-	gtk_object_destroy (GTK_OBJECT (warning_dialog));
+	ret = gnome_dialog_run (GNOME_DIALOG (warning_dialog));
+	if (ret != -1)
+		gtk_object_destroy (GTK_OBJECT (warning_dialog));
 }
 
 static void
@@ -187,7 +184,6 @@ idle_cb (gpointer data)
 	return FALSE;
 }
 
-
 int
 main (int argc, char **argv)
 {
