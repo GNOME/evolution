@@ -1,3 +1,7 @@
+2001-08-22  Aaron Weber  <aaron@ximian.com>
+
+	* C/apx-gloss.sgml: public key.
+
 2001-08-22  Peter Williams  <peterw@ximian.com>
 
 	* sgmldocs.make: Oops, we need to take the basename too.

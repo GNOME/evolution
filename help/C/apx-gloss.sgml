@@ -309,10 +309,23 @@
      sending particular types of information between computer systems.
      Examples include POP (Post Office Protocol), for email, and HTTP
      (HypterText Transfer Protocol), for web pages.
-
    </para>
   </glossdef>
  </glossentry>
+
+ <glossentry id="public-key-encryption">
+  <glossterm>Public Key Encryption</glossterm>
+  <glossdef>
+   <para>
+     A strong encryption method that uses a set of two "keys," one of
+     which is made public, and one of which is kept private. Data
+     encrypted using the public key can only be decrypted using the
+     private key.  The longer the keys, the more difficult it is to
+     break the encryption.
+   </para>
+  </glossdef>
+ </glossentry>
+
 
 
  <glossentry id="regular-expression">

@@ -15,10 +15,8 @@
 <title>If you use IMAP Mail</title>
 <para>
 If you chose IMAP mail during the setup process, you must subscribe to
-your mail folders before you can read mail in them.  Use the
-subscription management tool by selecting
-<menuchoice><guimenu>Tools</guimenu><guimenuitem>Subscribe to
-Folders</guimenuitem></menuchoice>.
+your mail folders before you can read mail in them. Read <xref
+linkend="usage-mail-subscriptions"> to find out how.
 </para>
 </note>
 
@@ -1211,19 +1209,33 @@ with quoted materials and the relevant replies interspersed-->
 
 	<listitem>
 	  <para>
-	    In the <guilabel>Store</guilabel> section, click on the
-	    folder to which you wish to subscribe.
+	    If you have accounts on multiple IMAP servers, select the
+	    server where you'd like to manage your
+	    subscriptions. <application>Evolution</application> will
+	    display a list of available files and folders.
+	  </para>
+	</listitem>
+
+	<listitem>
+	  <para>
+            Select a file or folder by clicking on it.  You will want
+            to select at least the <guilabel>INBOX</guilabel>
+            folder. Depending upon the way your IMAP server is
+            configured, the list of available files may include
+            non-mail folders. If it does, you can ignore them.
+	  </para>
+	</listitem>
+
+	<listitem>
+	  <para>
+	    Click the <guibutton>Subscribe</guibutton> to add it to
+	    the subscribed list.
 	  </para>
 	</listitem>
 	<listitem>
 	  <para>
-	    Click <guibutton>Subscribe</guibutton> to add it to the
-	    subscribed list.
-	  </para>
-	</listitem>
-	<listitem>
-	  <para>
-	    Close the window.
+	    When you have subscribed to the folders you want, close
+	    the window.
 	  </para>
 	</listitem>
       </orderedlist>
@@ -1236,12 +1248,11 @@ with quoted materials and the relevant replies interspersed-->
       <title>What is Encryption?</title>
       <para>
 	Encryption is an ancient method of keeping information safe
-	from prying eyes. <application>Evolution</application> can
-	help you keep your private messages secret.  To do that, it
-	makes use of the external application
+	from prying eyes. <application>Evolution</application> helps
+	you you protect your privacy by using
 	<application>gpg</application>, an implementation of strong
-	<!-- <glossterm linkend="public-key-encryption"> --> Public Key
-	Encryption <!-- </glossterm> -->.
+	<glossterm linkend="public-key-encryption">Public Key
+	Encryption.</glossterm>
       </para>
 
 	<note id="pub-priv">
