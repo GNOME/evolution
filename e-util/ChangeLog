@@ -1,3 +1,8 @@
+2001-06-25  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* e-sexp.c (term_eval_and): When ANDing two bools, don't use a
+	bitwise AND.
+
 2001-06-18  Dan Winship  <danw@ximian.com>
 
 	* Makefile.am: Split e-db3-utils and e-dbhash off into libedb3util

@@ -251,7 +251,7 @@ term_eval_and(struct _ESExp *f, int argc, struct _ESExpTerm **argv, void *data)
 			e_sexp_result_free(f, r1);
 			g_hash_table_destroy(ht);
 			e_sexp_fatal_error(f, "Invalid types in AND");
-		} else if ( r1->type == ESEXP_RES_ARRAY_PTR ) {
+		} else if (r1->type == ESEXP_RES_ARRAY_PTR) {
 			char **a1;
 			int l1, j;
 			
@@ -262,8 +262,8 @@ term_eval_and(struct _ESExp *f, int argc, struct _ESExpTerm **argv, void *data)
 				n = (int)g_hash_table_lookup(ht, a1[j]);
 				g_hash_table_insert(ht, a1[j], (void *)n+1);
 			}
-		} else if ( r1->type == ESEXP_RES_BOOL ) {
-			bool &= r1->value.bool;
+		} else if (r1->type == ESEXP_RES_BOOL) {
+			bool = bool && r1->value.bool;
 		}
 		e_sexp_result_free(f, r1);
 	}
