@@ -326,6 +326,16 @@ org_gnome_exchange_owa_url(EPlugin *epl, EConfigHookItemFactoryData *data)
 
 	owa_url = camel_url_get_param(url, "owa_url");
 
+	/* if the host is null, then user+other info is dropped silently, force it to be kept */
+	if (url->host == NULL) {
+		char *uri;
+
+		camel_url_set_host(url, "");
+		uri = camel_url_to_string(url, 0);
+		e_account_set_string(target_account->account,  E_ACCOUNT_SOURCE_URL, uri);
+		g_free(uri);
+	}
+
 	row = ((GtkTable *)data->parent)->nrows;
 
 	hbox = gtk_hbox_new (FALSE, 6);
