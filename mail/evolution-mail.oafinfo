@@ -61,6 +61,8 @@
 	<oaf_attribute name="description" type="string"
 	               value="Evolution component for handling mail."/>
 
+	<oaf_attribute name="evolution:shell-component-icon" type="string"
+		       value="evolution-inbox.png"/>
 </oaf_server>
 
 <oaf_server iid="OAFIID:evolution-executive-summary-component:evolution-mail:157f86b4-ff6a-4618-86b8-4789024c4043"

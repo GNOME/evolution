@@ -1,3 +1,8 @@
+2000-10-14  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* evolution-mail.oafinfo: Add "evolution:shell-component-icon"
+	attribute.
+
 2000-10-13  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* message-list.c (message_list_setup_etable): Don't free the
