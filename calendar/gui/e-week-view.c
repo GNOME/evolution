@@ -2723,12 +2723,12 @@ e_week_view_reshape_event_span (EWeekView *week_view,
 		span->text_item =
 			gnome_canvas_item_new (GNOME_CANVAS_GROUP (GNOME_CANVAS (week_view->main_canvas)->root),
 					       e_text_get_type (),
+#if 0
 					       "font_gdk", font,
+#endif
 					       "anchor", GTK_ANCHOR_NW,
 					       "clip", TRUE,
-#if 0
 					       "max_lines", 1,
-#endif
 					       "editable", TRUE,
 					       "text", text.value ? text.value : "",
 					       "use_ellipsis", TRUE,
@@ -2963,8 +2963,8 @@ e_week_view_start_editing_event (EWeekView *week_view,
 	if (event_processor) {
 		command.action = E_TEP_MOVE;
 		command.position = E_TEP_END_OF_BUFFER;
-		gtk_signal_emit_by_name (GTK_OBJECT (event_processor),
-					 "command", &command);
+		g_signal_emit_by_name (event_processor,
+				       "command", &command);
 	}
 }
 

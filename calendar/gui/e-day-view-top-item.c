@@ -353,6 +353,7 @@ e_day_view_top_item_draw_long_event (EDayViewTopItem *dvtitem,
 	gboolean draw_start_triangle, draw_end_triangle;
 	GdkRectangle clip_rect;
 	GSList *categories_list, *elem;
+	PangoLayout *layout;
 
 	day_view = dvtitem->day_view;
 
@@ -482,16 +483,13 @@ e_day_view_top_item_draw_long_event (EDayViewTopItem *dvtitem,
 		if (display_hour < 10)
 			time_x += day_view->digit_width;
 
-		gdk_draw_string (drawable, font, fg_gc,
+		layout = gtk_widget_create_pango_layout (GTK_WIDGET (day_view), buffer);
+		gdk_draw_layout (drawable, fg_gc,
 				 time_x,
-				 item_y + E_DAY_VIEW_LONG_EVENT_BORDER_HEIGHT
-				 + E_DAY_VIEW_LONG_EVENT_Y_PAD
-				 + font->ascent - y,
-#if 0
-				 buffer);
-#else
-		"FIXME text");
-#endif
+				 item_y + E_DAY_VIEW_LONG_EVENT_BORDER_HEIGHT +
+				 E_DAY_VIEW_LONG_EVENT_Y_PAD - y,
+				 layout);
+		g_object_unref (layout);
 
 		gdk_gc_set_clip_rectangle (fg_gc, NULL);
 
@@ -528,15 +526,12 @@ e_day_view_top_item_draw_long_event (EDayViewTopItem *dvtitem,
 			if (display_hour < 10)
 				time_x += day_view->digit_width;
 
-			gdk_draw_string (drawable, font, fg_gc,
+			layout = gtk_widget_create_pango_layout (GTK_WIDGET (day_view), buffer);
+			gdk_draw_layout (drawable, fg_gc,
 					 time_x,
-					 item_y + E_DAY_VIEW_LONG_EVENT_Y_PAD
-					 + font->ascent + 1 - y,
-#if 0
-					 buffer);
-#else
-			"FIXME text");
-#endif
+					 item_y + E_DAY_VIEW_LONG_EVENT_Y_PAD + 1 - y,
+					 layout);
+			g_object_unref (layout);
 
 			max_icon_x -= time_width + E_DAY_VIEW_LONG_EVENT_TIME_X_PAD;
 		}

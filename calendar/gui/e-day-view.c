@@ -2989,7 +2989,7 @@ e_day_view_on_top_canvas_button_press (GtkWidget *widget,
 				       GdkEventButton *event,
 				       EDayView *day_view)
 {
-	gint event_x, event_y, scroll_x, scroll_y, day, event_num;
+	gint event_x, event_y, day, event_num;
 	EDayViewPosition pos;
 
 	/* Convert the coords to the main canvas window, or return if the
@@ -2998,12 +2998,6 @@ e_day_view_on_top_canvas_button_press (GtkWidget *widget,
 					      GTK_LAYOUT (widget)->bin_window,
 					      &event_x, &event_y))
 		return FALSE;
-
-	/* The top canvas doesn't scroll, but just in case. */
-	gnome_canvas_get_scroll_offsets (GNOME_CANVAS (widget),
-					 &scroll_x, &scroll_y);
-	event_x += scroll_x;
-	event_y += scroll_y;
 
 	pos = e_day_view_convert_position_in_top_canvas (day_view,
 							 event_x, event_y,
@@ -3112,7 +3106,7 @@ e_day_view_on_main_canvas_button_press (GtkWidget *widget,
 					GdkEventButton *event,
 					EDayView *day_view)
 {
-	gint event_x, event_y, scroll_x, scroll_y, row, day, event_num;
+	gint event_x, event_y, row, day, event_num;
 	EDayViewPosition pos;
 
 #if 0
@@ -3137,11 +3131,6 @@ e_day_view_on_main_canvas_button_press (GtkWidget *widget,
 					      GTK_LAYOUT (widget)->bin_window,
 					      &event_x, &event_y))
 		return FALSE;
-
-	gnome_canvas_get_scroll_offsets (GNOME_CANVAS (widget),
-					 &scroll_x, &scroll_y);
-	event_x += scroll_x;
-	event_y += scroll_y;
 
 	/* Find out where the mouse is. */
 	pos = e_day_view_convert_position_in_main_canvas (day_view,
@@ -4396,7 +4385,7 @@ e_day_view_on_top_canvas_motion (GtkWidget *widget,
 {
 	EDayViewEvent *event = NULL;
 	EDayViewPosition pos;
-	gint event_x, event_y, scroll_x, scroll_y, canvas_x, canvas_y;
+	gint event_x, event_y, canvas_x, canvas_y;
 	gint day, event_num;
 	GdkCursor *cursor;
 
@@ -4411,11 +4400,8 @@ e_day_view_on_top_canvas_motion (GtkWidget *widget,
 					      &event_x, &event_y))
 		return FALSE;
 
-	/* The top canvas doesn't scroll, but just in case. */
-	gnome_canvas_get_scroll_offsets (GNOME_CANVAS (widget),
-					 &scroll_x, &scroll_y);
-	canvas_x = event_x + scroll_x;
-	canvas_y = event_y + scroll_y;
+	canvas_x = event_x;
+	canvas_y = event_y;
 
 	pos = e_day_view_convert_position_in_top_canvas (day_view,
 							 canvas_x, canvas_y,
@@ -4496,7 +4482,7 @@ e_day_view_on_main_canvas_motion (GtkWidget *widget,
 {
 	EDayViewEvent *event = NULL;
 	EDayViewPosition pos;
-	gint event_x, event_y, scroll_x, scroll_y, canvas_x, canvas_y;
+	gint event_x, event_y, canvas_x, canvas_y;
 	gint row, day, event_num;
 	GdkCursor *cursor;
 
@@ -4511,10 +4497,8 @@ e_day_view_on_main_canvas_motion (GtkWidget *widget,
 					      &event_x, &event_y))
 		return FALSE;
 
-	gnome_canvas_get_scroll_offsets (GNOME_CANVAS (widget),
-					 &scroll_x, &scroll_y);
-	canvas_x = event_x + scroll_x;
-	canvas_y = event_y + scroll_y;
+	canvas_x = event_x;
+	canvas_y = event_y;
 
 	pos = e_day_view_convert_position_in_main_canvas (day_view,
 							  canvas_x, canvas_y,
@@ -5225,7 +5209,9 @@ e_day_view_reshape_long_event (EDayView *day_view,
 		event->canvas_item =
 			gnome_canvas_item_new (GNOME_CANVAS_GROUP (GNOME_CANVAS (day_view->top_canvas)->root),
 					       e_text_get_type (),
+#if 0
 					       "font_gdk", font,
+#endif
 					       "anchor", GTK_ANCHOR_NW,
 					       "clip", TRUE,
 					       "max_lines", 1,
@@ -5383,7 +5369,9 @@ e_day_view_reshape_day_event (EDayView *day_view,
 			event->canvas_item =
 				gnome_canvas_item_new (GNOME_CANVAS_GROUP (GNOME_CANVAS (day_view->main_canvas)->root),
 						       e_text_get_type (),
+#if 0
 						       "font_gdk", font,
+#endif
 						       "anchor", GTK_ANCHOR_NW,
 						       "line_wrap", TRUE,
 						       "editable", TRUE,
@@ -5999,13 +5987,13 @@ e_day_view_start_editing_event (EDayView *day_view,
 	if (event_processor) {
 		command.action = E_TEP_MOVE;
 		command.position = E_TEP_END_OF_BUFFER;
-		gtk_signal_emit_by_name (GTK_OBJECT (event_processor),
-					 "command", &command);
+		g_signal_emit_by_name (event_processor,
+				       "command", &command);
 	}
 }
 
 
-/* This stops the current edit. If accept is TRUE the event summary is update,
+/* This stops the current edit. If accept is TRUE the event summary is updated,
    else the edit is cancelled. */
 static void
 e_day_view_stop_editing_event (EDayView *day_view)
@@ -6317,6 +6305,14 @@ e_day_view_check_auto_scroll (EDayView *day_view,
 			      gint event_x,
 			      gint event_y)
 {
+	gint scroll_x, scroll_y;
+
+	gnome_canvas_get_scroll_offsets (GNOME_CANVAS (day_view->main_canvas),
+					 &scroll_x, &scroll_y);
+
+	event_x -= scroll_x;
+	event_y -= scroll_y;
+
 	day_view->last_mouse_x = event_x;
 	day_view->last_mouse_y = event_y;
 
@@ -6386,12 +6382,19 @@ e_day_view_auto_scroll_handler (gpointer data)
 	if (new_scroll_y != scroll_y) {
 		/* NOTE: This reduces flicker, but only works if we don't use
 		   canvas items which have X windows. */
+
+		/* FIXME: Since GNOME 2.0 we can't do this, since the canvas
+		 * won't update when its's thawed. Is this a bug or should we
+		 * really be doing something else? Investigate. */
+#if 0
 		gtk_layout_freeze (GTK_LAYOUT (day_view->main_canvas));
+#endif
 
 		gnome_canvas_scroll_to (GNOME_CANVAS (day_view->main_canvas),
 					scroll_x, new_scroll_y);
-
+#if 0
 		gtk_layout_thaw (GTK_LAYOUT (day_view->main_canvas));
+#endif
 	}
 
 	canvas_x = day_view->last_mouse_x + scroll_x;
@@ -6622,6 +6625,10 @@ e_day_view_convert_position_in_main_canvas (EDayView *day_view,
 	gint day, row, col, event_num;
 	gint item_x, item_y, item_w, item_h;
 
+#if 0
+	g_print ("e_day_view_convert_position_in_main_canvas: (%d, %d)\n", x, y);
+#endif
+
 	*day_return = -1;
 	*row_return = -1;
 	if (event_num_return)
@@ -6814,7 +6821,9 @@ e_day_view_update_top_canvas_drag (EDayView *day_view,
 
 	font = gtk_style_get_font (gtk_widget_get_style (GTK_WIDGET (day_view)));
 	gnome_canvas_item_set (day_view->drag_long_event_item,
+#if 0
 			       "font_gdk", font,
+#endif
 			       "clip_width", item_w - (E_DAY_VIEW_LONG_EVENT_BORDER_WIDTH + E_DAY_VIEW_LONG_EVENT_X_PAD) * 2,
 			       "clip_height", item_h - (E_DAY_VIEW_LONG_EVENT_BORDER_HEIGHT + E_DAY_VIEW_LONG_EVENT_Y_PAD) * 2,
 			       NULL);
@@ -6864,13 +6873,14 @@ e_day_view_on_main_canvas_drag_motion (GtkWidget      *widget,
 
 	gnome_canvas_get_scroll_offsets (GNOME_CANVAS (widget),
 					 &scroll_x, &scroll_y);
+
 	day_view->drag_event_x = x + scroll_x;
 	day_view->drag_event_y = y + scroll_y;
 
 	e_day_view_reshape_main_canvas_drag_item (day_view);
 	e_day_view_reshape_main_canvas_resize_bars (day_view);
 
-	e_day_view_check_auto_scroll (day_view, x, y);
+	e_day_view_check_auto_scroll (day_view, day_view->drag_event_x, day_view->drag_event_y);
 
 	return TRUE;
 }

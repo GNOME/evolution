@@ -1,3 +1,37 @@
+2003-01-26  Hans Petter Jansson  <hpj@ximian.com>
+
+	Make clicks, drags and resizes work, and pangoize remaining strings.
+	Fix EText placement.
+
+	* gui/e-day-view-top-item.c (e_day_view_top_item_draw_long_event):
+	Use Pango.
+
+	* gui/e-day-view.c (e_day_view_on_top_canvas_button_press):
+	Don't add scroll offset, it's already factored in.
+	(e_day_view_on_main_canvas_button_press): Ditto.
+	(e_day_view_on_top_canvas_motion): Ditto.
+	(e_day_view_on_main_canvas_motion): Ditto.
+	(e_day_view_reshape_long_event): Don't set the "font_gdk" property.
+	Its non-existence will prevent the other properties from being set as
+	well.
+	(e_day_view_reshape_day_event): Ditto.
+	(e_day_view_update_top_canvas_drag): Ditto.
+	(e_day_view_start_editing_event): ETextEventProcessor is a GObject
+	now. So use g_signal_stuff.
+	(e_day_view_check_auto_scroll): Factor out scroll offset before
+	checking the pointer's position relative to widget.
+	(e_day_view_auto_scroll_handler): Don't freeze the canvas when
+	scrolling - it will fail to update the canvas. If this is not
+	intended behaviour, it's a bug in the canvas, I think.
+	(e_day_view_on_main_canvas_drag_motion): Factor in the scroll offset
+	before checking for auto-scroll, since the function requires this.
+
+	* gui/e-week-view.c (e_week_view_reshape_event_span): Don't set the
+	"font_gdk" property. Its non-existence will prevent the other
+	properties from being set as well.
+	(e_week_view_start_editing_event): ETextEventProcessor is a GObject
+	now. So use g_signal_stuff.
+
 2003-01-25  Hans Petter Jansson  <hpj@ximian.com>
 
 	Mainly making all views use PangoLayouts for text. When drawing a
