@@ -7,6 +7,15 @@
 
 2004-05-24  Not Zed  <NotZed@Ximian.com>
 
+	* em-folder-tree.c (em_folder_tree_set_selected): use set_cursor
+	instead of scroll_to_row.  See #58383.
+	(get_selected_uris_iterate): removed.
+	(em_folder_tree_get_selected_uris): use an interative call based
+	on gtk_tree_selection_get_selected_rows rather than
+	selected_foreach, as the gtk+ docs suggest.  was trying to fix a
+	bug but it seems gtktreeselection bug (shift-select rows using
+	keyboard only)
+
 	* message-list.c (regen_list_regened): pull the message from the
 	regen list before we check the list and pending uid.
 

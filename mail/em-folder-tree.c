@@ -1468,32 +1468,32 @@ void em_folder_tree_set_excluded(EMFolderTree *emft, guint32 flags)
 	emft->priv->excluded = flags;
 }
 
-static void
-get_selected_uris_iterate (GtkTreeModel *model, GtkTreePath *path, GtkTreeIter *iter, gpointer data)
-{
-	GList **list = (GList **) data;
-	char *uri;
-	
-	gtk_tree_model_get (model, iter, /*COL_STRING_FOLDER_PATH, &path,*/
-			    COL_STRING_URI, &uri, -1);
-	*list = g_list_append (*list, g_strdup (uri));
-}
-
 GList *
 em_folder_tree_get_selected_uris (EMFolderTree *emft)
 {
 	GtkTreeSelection *selection = gtk_tree_view_get_selection (emft->priv->treeview);
-	GList *lost = emft->priv->lost_folders;
-	GList *list = NULL;
-	
+	GList *list = NULL, *rows, *l;
+	GtkTreeModel *model;
+
 	/* at first, add lost uris */
-	while (lost) {
-		list = g_list_append (list, g_strdup (lost->data));
-		lost = g_list_next (lost);
+	for (l = emft->priv->lost_folders; l; l = g_list_next(l))
+		list = g_list_append (l, g_strdup (l->data));
+
+	rows = gtk_tree_selection_get_selected_rows(selection, &model);
+	for (l=rows; l; l=g_list_next(l)) {
+		GtkTreeIter iter;
+		GtkTreePath *path = l->data;
+
+		if (gtk_tree_model_get_iter(model, &iter, path)) {
+			char *uri;
+
+			gtk_tree_model_get(model, &iter, COL_STRING_URI, &uri, -1);
+			list = g_list_append(list, g_strdup(uri));
+		}
+		gtk_tree_path_free(path);
 	}
-	
-	gtk_tree_selection_selected_foreach (selection, get_selected_uris_iterate, &list);
-	
+	g_list_free(rows);
+
 	return list;
 }
 
@@ -2736,7 +2736,7 @@ em_folder_tree_set_selected (EMFolderTree *emft, const char *uri)
 		gtk_tree_view_expand_to_path (priv->treeview, tree_path);
 		selection = gtk_tree_view_get_selection (priv->treeview);
 		gtk_tree_selection_select_path (selection, tree_path);
-		gtk_tree_view_scroll_to_cell (priv->treeview, tree_path, NULL, FALSE, 0.0, 0.0);
+		gtk_tree_view_set_cursor(priv->treeview, tree_path, NULL, FALSE);
 		gtk_tree_path_free (tree_path);
 		camel_object_unref (store);
 		g_free (path);
