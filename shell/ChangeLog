@@ -1,3 +1,25 @@
+2003-07-23  Ettore Perazzoli  <ettore@ximian.com>
+
+	* main.c (idle_cb): Create a new EShellWindow and show it.
+
+	* e-storage.c: New signal "async_open_folder".
+	(impl_async_open_folder): Removed.
+	(class_init): Declare new signal.
+
+	* e-shell.c (setup_components): Don't actually activate any
+	components.
+
+	* e-storage-browser.c, e-storage-browser.h: New.
+
+	* e-shell-window.c, e-shell-window.h: New.
+
+	* e-shell-marshal.list: Add an entry for
+	NONE:STRING,POINTER,POINTER.
+
+	* Evolution.idl: Include Evolution-Component.idl.
+
+	* Evolution-Component.idl: New interface for Evolution components.
+
 2003-07-23  Dan Winship  <danw@ximian.com>
 
 	* Makefile.am: Use EVO_MARSHAL_RULE

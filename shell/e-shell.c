@@ -797,6 +797,7 @@ setup_components (EShell *shell,
 	priv = shell->priv;
 	priv->component_registry = e_component_registry_new (shell);
 
+#if 0				/* FIXME */
 	info_list = bonobo_activation_query ("repo_ids.has ('IDL:GNOME/Evolution/ShellComponent:1.0')", selection_order, &ev);
 
 	if (ev._major != CORBA_NO_EXCEPTION)
@@ -852,8 +853,8 @@ setup_components (EShell *shell,
 		while (gtk_events_pending ())
 			gtk_main_iteration ();
 	}
-
 	CORBA_free (info_list);
+#endif
 
 	CORBA_exception_free (&ev);
 }

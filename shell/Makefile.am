@@ -29,6 +29,7 @@ noinst_PROGRAMS = evolution evolution-test-component
 IDLS = \
 	Evolution-Activity.idl			\
 	Evolution-ConfigControl.idl		\
+	Evolution-Component.idl			\
 	Evolution-Offline.idl			\
 	Evolution-Session.idl			\
 	Evolution-Shell.idl			\
@@ -113,19 +114,28 @@ eshellincludedir = $(privincludedir)/shell
 
 eshellinclude_HEADERS = 			\
 	Evolution.h				\
-	e-folder.h				\
+	e-corba-storage.h			\
+	e-folder-dnd-bridge.h			\
 	e-folder-list.h				\
 	e-folder-tree.h				\
+	e-folder-type-registry.h		\
+	e-folder.h				\
+	e-icon-factory.h			\
 	e-shell-corba-icon-utils.h		\
+	e-shell-utils.h				\
+	e-storage-browser.h			\
+	e-storage-set-view.h			\
+	e-storage-set.h				\
+	e-storage.h				\
 	evolution-activity-client.h		\
 	evolution-config-control.h		\
 	evolution-folder-selector-button.h	\
 	evolution-session.h			\
 	evolution-shell-client.h		\
 	evolution-shell-component-client.h	\
-	evolution-shell-component.h		\
 	evolution-shell-component-dnd.h		\
 	evolution-shell-component-utils.h	\
+	evolution-shell-component.h		\
 	evolution-shell-view.h			\
 	evolution-storage-listener.h		\
 	evolution-storage-set-view-listener.h	\
@@ -134,25 +144,34 @@ eshellinclude_HEADERS = 			\
 
 libeshell_la_SOURCES = 				\
 	$(IDL_GENERATED)			\
-	e-folder.c				\
+	e-corba-storage.c			\
+	e-folder-dnd-bridge.c			\
 	e-folder-list.c				\
 	e-folder-tree.c				\
+	e-folder-type-registry.c		\
+	e-folder.c				\
+	e-icon-factory.c			\
 	e-shell-corba-icon-utils.c		\
+	e-shell-marshal.c			\
+	e-shell-utils.c				\
+	e-storage-browser.c			\
+	e-storage-set-view.c			\
+	e-storage-set.c				\
+	e-storage.c				\
 	evolution-activity-client.c		\
 	evolution-config-control.c		\
 	evolution-folder-selector-button.c	\
 	evolution-session.c			\
 	evolution-shell-client.c		\
 	evolution-shell-component-client.c	\
-	evolution-shell-component.c		\
 	evolution-shell-component-dnd.c		\
 	evolution-shell-component-utils.c	\
+	evolution-shell-component.c		\
 	evolution-shell-view.c			\
 	evolution-storage-listener.c		\
 	evolution-storage-set-view-listener.c	\
 	evolution-storage.c			\
 	evolution-wizard.c			\
-	e-shell-marshal.c			\
 	$(eshellinclude_HEADERS)
 
 libeshell_la_LIBADD =				\
@@ -179,14 +198,8 @@ evolution_SOURCES =				\
 	e-corba-storage-registry.h		\
 	e-corba-storage.c			\
 	e-corba-storage.h			\
-	e-folder-dnd-bridge.c			\
-	e-folder-dnd-bridge.h			\
-	e-folder-type-registry.c		\
-	e-folder-type-registry.h		\
 	e-history.c				\
 	e-history.h				\
-	e-icon-factory.c			\
-	e-icon-factory.h			\
 	e-local-folder.c			\
 	e-local-folder.h			\
 	e-local-storage.c			\
@@ -234,6 +247,8 @@ evolution_SOURCES =				\
 	e-shell-view-menu.h			\
 	e-shell-view.c				\
 	e-shell-view.h				\
+	e-shell-window.c			\
+	e-shell-window.h			\
 	e-shell.c				\
 	e-shell.h				\
 	e-shortcuts-view-model.c		\
@@ -244,12 +259,6 @@ evolution_SOURCES =				\
 	e-shortcuts.h				\
 	e-splash.c				\
 	e-splash.h				\
-	e-storage-set-view.c			\
-	e-storage-set-view.h			\
-	e-storage-set.c				\
-	e-storage-set.h				\
-	e-storage.c				\
-	e-storage.h				\
 	e-task-bar.c				\
 	e-task-bar.h				\
 	e-task-widget.c				\

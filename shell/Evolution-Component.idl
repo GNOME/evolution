@@ -1,0 +1,23 @@
+/* -*- Mode: IDL; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+/*
+ * Interface for the Evolution components.
+ *
+ * Authors:
+ *   Ettore Perazzoli <ettore@ximian.com>
+ *
+ * Copyright (C) 2003 Ximian, Inc.
+ */
+
+#include <Bonobo.idl>
+
+module GNOME {
+module Evolution {
+
+	interface Component : Bonobo::Unknown {
+		/* Create the controls for embedding in the shell.  */
+		void createControls (out Bonobo::Control sidebar_control,
+				     out Bonobo::Control view_control);
+	};
+
+};
+};
