@@ -231,7 +231,7 @@ char
 	}
 
 	if ( card->email ) { 
-		ECardIterator *iterator = e_card_list_get_iterator(card->address);
+		ECardIterator *iterator = e_card_list_get_iterator(card->email);
 		for ( ; e_card_iterator_is_valid(iterator) ;e_card_iterator_next(iterator) ) {
 			VObject *emailprop;
 			emailprop = addPropValue(vobj, VCEmailAddressProp, (char *) e_card_iterator_get(iterator));

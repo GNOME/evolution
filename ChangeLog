@@ -1,3 +1,8 @@
+2000-04-08  Christopher James Lahey  <clahey@helixcode.com>
+
+	* addressbook/backend/ebook/e-card.c (e_card_get_vcard): Fixed a
+	small typo.
+
 2000-04-08  Dan Winship  <danw@helixcode.com>
 
 	* art/Makefile.am: pixmap_DATA should have been images_DATA (after
