@@ -32,18 +32,16 @@ msgid "Could not read pilot's Address application block"
 msgstr "Impossibile leggere il blocco indirizzi del pilot"
 
 #: addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:1
-#, fuzzy
 msgid "Autocompletion"
-msgstr "Cartelle di autocompletamento"
+msgstr "Autocompletamento"
 
 #: addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:2
 msgid "Certificates"
 msgstr "Certificati"
 
 #: addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:3
-#, fuzzy
 msgid "Configure autocomple here"
-msgstr "Configura qui gli account di posta elettronica"
+msgstr "Configura qui l'autocompletamento"
 
 #. Fix me *
 #. can not get name, should be a bug of e-book.Anyway, should set a default name.
@@ -99,9 +97,8 @@ msgid "New Addressbook"
 msgstr "Nuova rubrica"
 
 #: addressbook/gui/component/addressbook-component.c:146
-#, fuzzy
 msgid "Properties..."
-msgstr "_Proprietà..."
+msgstr "Proprietà..."
 
 #: addressbook/gui/component/addressbook-component.c:147
 #: addressbook/gui/widgets/e-addressbook-view.c:910
@@ -166,15 +163,13 @@ msgstr "Lavoro"
 
 #. Create the LDAP source group
 #: addressbook/gui/component/addressbook-component.c:400
-#, fuzzy
 msgid "On LDAP Servers"
-msgstr "Aggiungi server LDAP"
+msgstr "Su server LDAP"
 
 #. FIXME: parent
 #: addressbook/gui/component/addressbook-config.c:244
-#, fuzzy
 msgid "Could not create a directory for the new addressbook."
-msgstr "Impossibile creare la directory per il nuovo calendario"
+msgstr "Impossibile creare la directory per la nuova rubrica."
 
 #: addressbook/gui/component/addressbook-config.c:416
 msgid "Failed to connect to LDAP server"
@@ -331,9 +326,8 @@ msgid "Any Category"
 msgstr "Qualunque categoria"
 
 #: addressbook/gui/component/addressbook.c:1063
-#, fuzzy
 msgid "UID of the contacts source that the view will display"
-msgstr "URI dei contatti che il controllo visualizzerà"
+msgstr "UID della sorgente contatti che la vista mostrerà"
 
 #: addressbook/gui/component/apps_evolution_addressbook.schemas.in.in.h:1
 msgid "EFolderList xml for the list of completion uris"
@@ -343,7 +337,7 @@ msgstr "EFolderList xml per l'elenco del completamento delle uri"
 msgid ""
 "The number of characters that must be typed before evolution will attempt to "
 "autocomplete"
-msgstr ""
+msgstr "Il numero di caratteri che devono essere premuti prima che evolution tenti di eseguire l'autocompletamento"
 
 #: addressbook/gui/component/apps_evolution_addressbook.schemas.in.in.h:3
 msgid "URI for the folder last used in the select names dialog"
@@ -403,9 +397,8 @@ msgid "636"
 msgstr "636"
 
 #: addressbook/gui/component/ldap-config.glade.h:11
-#, fuzzy
 msgid "Addressbook Creation Assistant"
-msgstr "Assistente configurazione LDAP"
+msgstr "Assistente alla creazione della rubrica"
 
 #: addressbook/gui/component/ldap-config.glade.h:12
 msgid "Addressbook Sources"
@@ -421,15 +414,13 @@ msgid "Anonymously"
 msgstr "Anonimamente"
 
 #: addressbook/gui/component/ldap-config.glade.h:15
-#, fuzzy
 msgid ""
 "Congratulations, you are finished setting up this addressbook.\n"
 "\n"
 "Please click the \"Finish\" button to save the settings you have entered "
 "here."
 msgstr ""
-"La configurazione del server LDAP è terminata.\n"
-"Ora si può accedere a questa directory.\n"
+"La configurazione della rubrica è terminata.\n"
 "\n"
 "Premere il tasto \"Fine\" per salvare le impostazioni \n"
 "inserite sino a questo punto."
@@ -471,9 +462,8 @@ msgid "General"
 msgstr "Generale"
 
 #: addressbook/gui/component/ldap-config.glade.h:26
-#, fuzzy
 msgid "Group:"
-msgstr "Gruppo"
+msgstr "Gruppo:"
 
 #: addressbook/gui/component/ldap-config.glade.h:27 mail/mail-account-gui.c:68
 #: mail/mail-config.glade.h:76
@@ -579,19 +569,16 @@ msgid "Step 1: Folder Characteristics"
 msgstr "Passo 1: caratteristiche della cartella"
 
 #: addressbook/gui/component/ldap-config.glade.h:49
-#, fuzzy
 msgid "Step 2: Server Information"
-msgstr "Passo 1: informazioni sul server"
+msgstr "Passo 2: informazioni sul server"
 
 #: addressbook/gui/component/ldap-config.glade.h:50
-#, fuzzy
 msgid "Step 3: Connecting to Server"
-msgstr "Passo 2: connessione al server"
+msgstr "Passo 3: connessione al server"
 
 #: addressbook/gui/component/ldap-config.glade.h:51
-#, fuzzy
 msgid "Step 4: Searching the Directory"
-msgstr "Passo 3: ricerca della directory"
+msgstr "Passo 4: ricerca della directory"
 
 #: addressbook/gui/component/ldap-config.glade.h:52
 msgid "Sub"
@@ -642,7 +629,6 @@ msgstr ""
 "base.\n"
 
 #: addressbook/gui/component/ldap-config.glade.h:63
-#, fuzzy
 msgid ""
 "This assistant will help you create a new addressbook. \n"
 "\n"
@@ -650,12 +636,12 @@ msgid ""
 "parameters may be required. Please contact your system\n"
 "administrator if you need help finding this information."
 msgstr ""
-"L'assistente aiuterà ad accedere ai servizi di directory in linea\n"
-"utilizzando server LDAP (Lightweight Directory Access Protocol).\n"
+"Quest'assistente vi aiuterà durante la creazione della nuova rubrica.\n"
 "\n"
-"L'aggiunta di un nuovo server LDAP richiede alcune informazioni \n"
-"specifiche circa il server. Per richiedere questo tipo di informazioni \n"
-"contattare l'amministratore di sistema."
+"A seconda del tipo di rubrica che si vuole creare, potrà essere\n"
+"necessario indicare ulteriori informazioni. Contattare\n"
+"l'amministratore di sistema se serve aiuto per cercare questo tipo\n"
+"di informazioni."
 
 #: addressbook/gui/component/ldap-config.glade.h:68
 msgid ""
@@ -695,13 +681,11 @@ msgstr ""
 "Serve solo allo scopo di visualizzarlo."
 
 #: addressbook/gui/component/ldap-config.glade.h:74
-#, fuzzy
 msgid ""
 "This is the name that will appear in your Evolution folder list. It is for "
 "display purposes only. "
 msgstr ""
-"Questo è il nome del server che risulterà nell'elenco delle cartelle di "
-"Evolution.\n"
+"Questo è il nome che apparirà nell'elenco delle cartelle di Evolution.\n"
 "Serve solo allo scopo di visualizzarlo."
 
 #: addressbook/gui/component/ldap-config.glade.h:75
@@ -754,7 +738,7 @@ msgstr ""
 
 #: addressbook/gui/component/ldap-config.glade.h:85
 msgid "_Display name:"
-msgstr "Mostra il nome:"
+msgstr "_Mostra il nome:"
 
 #: addressbook/gui/component/ldap-config.glade.h:86
 msgid "_Download limit:"
@@ -2465,18 +2449,16 @@ msgid "Email 3"
 msgstr "Email 3"
 
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:13
-#, fuzzy
 msgid "Family Name"
-msgstr "Nome del campo"
+msgstr "Cognome"
 
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:14
 msgid "File As"
 msgstr "Memorizza come"
 
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:16
-#, fuzzy
 msgid "Given Name"
-msgstr "Nome del campo"
+msgstr "Nome di battesimo"
 
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:17
 msgid "Home Fax"
@@ -2491,14 +2473,12 @@ msgid "Home Phone 2"
 msgstr "Telefono casa 2"
 
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:20
-#, fuzzy
 msgid "ISDN Phone"
-msgstr "Telefono auto"
+msgstr "Telefono ISDN"
 
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:21
-#, fuzzy
 msgid "Journal"
-msgstr "Giordania"
+msgstr "Giornale"
 
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:22
 msgid "Manager"
@@ -2556,9 +2536,8 @@ msgid "Spouse"
 msgstr "Coniuge"
 
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:35
-#, fuzzy
 msgid "TTYTDD"
-msgstr "TTY"
+msgstr "Telescrivente"
 
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:36
 msgid "Telex"
@@ -2569,9 +2548,8 @@ msgid "Title"
 msgstr "Qualifica"
 
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:38
-#, fuzzy
 msgid "Unit"
-msgstr "Senza nome"
+msgstr "Unità"
 
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:39
 msgid "Web Site"
@@ -3407,19 +3385,16 @@ msgid "Allocate less space to weekend appointments"
 msgstr "Assegna meno spazio agli appuntamenti del finesettimana"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:2
-#, fuzzy
 msgid "Calendars to run alarms for"
-msgstr "Errore iCalendar"
+msgstr "Calendari per i quali vengono eseguiti gli allarmi"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:3
-#, fuzzy
 msgid "Color of tasks that are due today"
-msgstr "Colore attività di oggi"
+msgstr "Colore attività per oggi"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:4
-#, fuzzy
 msgid "Color of tasks that are overdue"
-msgstr "Colore attività di oggi"
+msgstr "Colore attività a oggi scadute"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:5
 msgid "Days that are work days"
@@ -3439,7 +3414,7 @@ msgstr "Ora di inizio giornata lavorativa"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:9
 msgid "Intervals shown in Day and Work Week views"
-msgstr ""
+msgstr "Intervalli mostrati nelle viste giornaliera e settimana lavorativa"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:10
 msgid "Minute the workday ends on"
@@ -3455,7 +3430,7 @@ msgstr ""
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:13
 msgid "Number of units for determining when to hide tasks"
-msgstr ""
+msgstr "Numero di unità per determinare quando nascondere le attività"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:14
 msgid "Position of the horizontal pane"
@@ -3479,18 +3454,15 @@ msgstr "Posizione del pannello verticale nella vista attività"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:19
 msgid "Programs that can run as part of alarms"
-msgstr ""
+msgstr "Programmi che possono essere eseguiti come parti di allarmi"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:20
-#, fuzzy
 msgid "Show where events end in week and month views"
-msgstr ""
-"Mostra la scadenza degli appuntamenti nelle viste mensili e settimanali"
+msgstr "Mostra la scadenza degli eventi nelle viste mensili e settimanali"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:21
-#, fuzzy
 msgid "The view showing when the calendar starts"
-msgstr "Anteprime del calendario da stampare"
+msgstr "La vista che mostra quando parte il calendario"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:22
 msgid "Time last alarm ran"
@@ -3522,16 +3494,15 @@ msgstr "Nascondi attività completate"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:29
 msgid "Whether to set a default reminder for events"
-msgstr ""
+msgstr "Imposta un allarme predefinito per gli eventi"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:30
 msgid "Whether to show times in 24h format instead of using am/pm"
-msgstr ""
+msgstr "Mostra l'ora in formato di 24h o usando am/pm"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:31
-#, fuzzy
 msgid "Whether to show week numbers in date navigator"
-msgstr "Mostra i _numeri delle settimane"
+msgstr "Mostra i numeri delle settimane nel navigatore date"
 
 #: calendar/gui/cal-search-bar.c:49
 msgid "Summary contains"
@@ -4599,29 +4570,24 @@ msgid "Calendar Name"
 msgstr "Nome calendario"
 
 #: calendar/gui/dialogs/new-task-list.c:56
-#, fuzzy
 msgid "Could not create directory for new task list"
-msgstr "Impossibile creare la directory per il nuovo calendario"
+msgstr "Impossibile creare la cartella per il nuovo elenco attività"
 
 #: calendar/gui/dialogs/new-task-list.glade.h:2
-#, fuzzy
 msgid "<b>Task List Options</b>"
-msgstr "<b>opzioni del calendario</b>"
+msgstr "<b>Opzioni elenco attività</b>"
 
 #: calendar/gui/dialogs/new-task-list.glade.h:3
-#, fuzzy
 msgid "Add New Task List"
-msgstr "Elenco attività"
+msgstr "Aggiungi nuovo elenco attività"
 
 #: calendar/gui/dialogs/new-task-list.glade.h:4
-#, fuzzy
 msgid "Task List Group"
-msgstr "Elenco attività"
+msgstr "Gruppo elenco attività"
 
 #: calendar/gui/dialogs/new-task-list.glade.h:5
-#, fuzzy
 msgid "Task List Name"
-msgstr "Elenco attività"
+msgstr "Nome elenco attività"
 
 #: calendar/gui/dialogs/recur-comp.c:50
 msgid "You are modifying a recurring event, what would you like to modify?"
