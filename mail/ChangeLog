@@ -1,3 +1,7 @@
+2002-04-13  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-accounts.c: Build fixes for --enable-nntp.
+
 2002-04-13  Christophe Merlet  <redfox@eikonex.org>
 
 	* mail-config.glade: Little typo. s/IS0/ISO/

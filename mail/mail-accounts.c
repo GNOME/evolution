@@ -42,6 +42,7 @@
 #include "mail-config.h"
 #include "mail-config-druid.h"
 #include "mail-account-editor.h"
+#include "mail-account-editor-news.h"
 #include "mail-send-recv.h"
 
 #include "art/mail-new.xpm"
@@ -469,7 +470,7 @@ load_news (MailAccountsTab *prefs)
 	
 	gtk_clist_clear (prefs->news);
 	
-	node = mail_config_get_news_sources ();
+	node = mail_config_get_news ();
 	
 	while (node) {
 		CamelURL *url;
@@ -515,7 +516,7 @@ news_select_row (GtkCList *clist, int row, int column, GdkEventButton *event, gp
 static void
 news_unselect_row (GtkCList *clist, int row, int column, GdkEventButton *event, gpointer user_data)
 {
-	MailAccountsTab *prefs = data;
+	MailAccountsTab *prefs = user_data;
 	
 	prefs->news_row = -1;
 	gtk_widget_set_sensitive (GTK_WIDGET (prefs->news_edit), FALSE);
@@ -800,7 +801,7 @@ mail_accounts_tab_construct (MailAccountsTab *prefs)
 	gtk_signal_connect (GTK_OBJECT (prefs->mail_able), "clicked",
 			    account_able_clicked, prefs);
 	
-#ifdef ENABLE_NEWS
+#ifdef ENABLE_NNTP
 	prefs->news = GTK_CLIST (gtk_object_get_data (GTK_OBJECT (widget), "clistNews"));
 	gtk_signal_connect (GTK_OBJECT (prefs->news), "select-row",
 			    news_select_row, prefs);
@@ -820,7 +821,7 @@ mail_accounts_tab_construct (MailAccountsTab *prefs)
 	prefs->mail_delete = GTK_BUTTON (glade_xml_get_widget (gui, "cmdNewsDelete"));
 	gtk_signal_connect (GTK_OBJECT (prefs->news_delete), "clicked",
 			    news_delete_clicked, prefs);
-#endif
+#endif /* ENABLE_NNTP */
 }
 
 
