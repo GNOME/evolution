@@ -61,6 +61,9 @@ esm_destroy (GtkObject *object)
 	esm = E_SELECTION_MODEL (object);
 
 	drop_sorter(esm);
+
+	if (e_selection_model_parent_class->destroy)
+		(* e_selection_model_parent_class->destroy) (object);
 }
 
 static void

@@ -109,6 +109,9 @@ esma_destroy (GtkObject *object)
 		gtk_object_unref(GTK_OBJECT(esma->eba));
 		esma->eba = NULL;
 	}
+
+	if (GTK_OBJECT_CLASS (parent_class)->destroy)
+		(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
 }
 
 static void
