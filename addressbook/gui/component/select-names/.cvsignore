@@ -10,5 +10,6 @@ Evolution-Addressbook-SelectNames-skels.c
 Evolution-Addressbook-SelectNames-common.c
 Evolution-Addressbook-SelectNames.h
 GNOME_Evolution_Addressbook_SelectNames.server
+GNOME_Evolution_Addressbook_SelectNames.server.in
 e-select-names-marshal.c
 e-select-names-marshal.h
