@@ -1,5 +1,22 @@
 2001-07-01  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-shortcuts.c: Removed `title_to_group' hash from
+	`EShortcutsPrivate'.
+	(init): Don't initialize it anymore.
+	(unload_shortcuts): Don't remove the groups from the hash, and
+	don't destroy/realloc the hash.
+	(load_shortcuts): Don't check for duplicate group names.  Don't
+	add the groups to the hash.
+	(destroy): Don't free the hash.
+	(e_shortcuts_get_shortcuts_in_group): Changed to get a @group_num
+	instead of a @group_title.
+
+	* e-shortcuts-view-model.c (load_group_into_model): Updated to
+	pass the group number to `e_shortcuts_get_shortcuts_in_group()'.
+	Removed arg @group_title.
+
+2001-07-01  Ettore Perazzoli  <ettore@ximian.com>
+
 	* e-shortcuts-view.c: Added a "Rename" right-click command.
 	(rename_shortcut_cb): New function, implementation for the "Rename
 	command".

@@ -102,9 +102,6 @@ struct _EShortcutsPrivate {
 
 	/* A list of ShortcutViews.  */
 	GSList *views;
-
-	/* A hash table to get a group given its name.  */
-	GHashTable *title_to_group;
 };
 
 enum {
@@ -258,7 +255,6 @@ unload_shortcuts (EShortcuts *shortcuts)
 
 		group = (ShortcutGroup *) p->data;
 
-		g_hash_table_remove (priv->title_to_group, group->title);
 		shortcut_group_free (group);
 
 		priv->groups = priv->groups->next;
@@ -268,9 +264,6 @@ unload_shortcuts (EShortcuts *shortcuts)
 		g_slist_free (orig_groups);
 
 	priv->groups = NULL;
-
-	g_hash_table_destroy (priv->title_to_group);
-	priv->title_to_group = g_hash_table_new (g_str_hash, g_str_equal);
 }
 
 static gboolean
@@ -309,14 +302,6 @@ load_shortcuts (EShortcuts *shortcuts,
 		if (shortcut_group_title == NULL)
 			continue;
 
-		shortcut_group = g_hash_table_lookup (priv->title_to_group, shortcut_group_title);
-		if (shortcut_group != NULL) {
-			g_warning ("Duplicate shortcut group title -- %s",
-				   shortcut_group_title);
-			xmlFree (shortcut_group_title);
-			continue;
-		}
-
 		shortcut_group = shortcut_group_new (shortcut_group_title);
 		xmlFree (shortcut_group_title);
 
@@ -353,7 +338,6 @@ load_shortcuts (EShortcuts *shortcuts,
 		shortcut_group->shortcuts = g_slist_reverse (shortcut_group->shortcuts);
 
 		priv->groups = g_slist_prepend (priv->groups, shortcut_group);
-		g_hash_table_insert (priv->title_to_group, shortcut_group->title, shortcut_group);
 	}
 
 	priv->groups = g_slist_reverse (priv->groups);
@@ -611,8 +595,6 @@ destroy (GtkObject *object)
 			g_warning (_("Error saving shortcuts.")); /* FIXME */
 	}
 
-	g_hash_table_destroy (priv->title_to_group);
-
 	(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
 }
 
@@ -690,7 +672,6 @@ init (EShortcuts *shortcuts)
 	priv->storage_set    = NULL;
 	priv->groups         = NULL;
 	priv->views          = NULL;
-	priv->title_to_group = g_hash_table_new (g_str_hash, g_str_equal);
 	priv->dirty          = 0;
 	priv->save_idle_id   = 0;
 
@@ -773,20 +754,22 @@ e_shortcuts_get_group_titles (EShortcuts *shortcuts)
 
 const GSList *
 e_shortcuts_get_shortcuts_in_group (EShortcuts *shortcuts,
-				    const char *group_title)
+				    int group_num)
 {
 	EShortcutsPrivate *priv;
 	ShortcutGroup *shortcut_group;
+	GSList *shortcut_group_list_item;
 
 	priv = shortcuts->priv;
 
 	g_return_val_if_fail (shortcuts != NULL, NULL);
 	g_return_val_if_fail (E_IS_SHORTCUTS (shortcuts), NULL);
-	g_return_val_if_fail (group_title != NULL, NULL);
 
-	shortcut_group = g_hash_table_lookup (priv->title_to_group, group_title);
-	if (shortcut_group == NULL)
+	shortcut_group_list_item = g_slist_nth (priv->groups, group_num);
+	if (shortcut_group_list_item == NULL)
 		return NULL;
+
+	shortcut_group = (ShortcutGroup *) shortcut_group_list_item->data;
 
 	return shortcut_group->shortcuts;
 }

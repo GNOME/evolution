@@ -49,7 +49,6 @@ struct _EShortcutsViewModelPrivate {
 
 static void
 load_group_into_model (EShortcutsViewModel *shortcuts_view_model,
-		       const char *group_title,
 		       int group_num)
 {
 	EShortcutsViewModelPrivate *priv;
@@ -62,7 +61,7 @@ load_group_into_model (EShortcutsViewModel *shortcuts_view_model,
 	storage_set = e_shortcuts_get_storage_set (priv->shortcuts);
 	g_assert (storage_set != NULL);
 
-	shortcut_list = e_shortcuts_get_shortcuts_in_group (priv->shortcuts, group_title);
+	shortcut_list = e_shortcuts_get_shortcuts_in_group (priv->shortcuts, group_num);
 	if (shortcut_list == NULL)
 		return;
 
@@ -92,7 +91,7 @@ load_all_shortcuts_into_model (EShortcutsViewModel *shortcuts_view_model)
 		group_title = (const char *) p->data;
 		group_num = e_shortcut_model_add_group (E_SHORTCUT_MODEL (shortcuts_view_model), -1, group_title);
 
-		load_group_into_model (shortcuts_view_model, group_title, group_num);
+		load_group_into_model (shortcuts_view_model, group_num);
 	}
 }
 

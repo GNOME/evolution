@@ -84,7 +84,8 @@ GSList       *e_shortcuts_get_group_titles        (EShortcuts *shortcuts);
 const char   *e_shortcuts_get_group_title         (EShortcuts *shortcuts,
 						   int         group_num);
 const GSList *e_shortcuts_get_shortcuts_in_group  (EShortcuts *shortcuts,
-						   const char *group_title);
+						   int         group_num);
+
 const EShortcutItem *e_shortcuts_get_shortcut  (EShortcuts *shortcuts,
 						int         group_num,
 						int         num);
@@ -112,11 +113,12 @@ void  e_shortcuts_update_shortcut  (EShortcuts *shortcuts,
 				    const char *uri,
 				    const char *name,
 				    const char *type);
-void  e_shortcuts_remove_group     (EShortcuts *shortcuts,
-				    int         group_num);
-void  e_shortcuts_add_group        (EShortcuts *shortcuts,
-				    int         group_num,
-				    const char *group_name);
+
+void  e_shortcuts_remove_group  (EShortcuts *shortcuts,
+				 int         group_num);
+void  e_shortcuts_add_group     (EShortcuts *shortcuts,
+				 int         group_num,
+				 const char *group_name);
 
 #ifdef __cplusplus
 }
