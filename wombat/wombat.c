@@ -19,6 +19,7 @@
 #endif
 
 #include <glib.h>
+#include <gtk.h> /* XXX needed only until the calendar switches to straight GObject's for their backend */
 #include <libgnome/gnome-init.h>
 #include <bonobo-activation/bonobo-activation.h>
 #include <libgnomevfs/gnome-vfs-init.h>
@@ -28,8 +29,10 @@
 #include "pas/pas-book-factory.h"
 #include "pas/pas-backend-file.h"
 
+#ifdef PENDING_PORT_WORK
 #include "calendar/pcs/cal-factory.h"
 #include "calendar/pcs/cal-backend-file.h"
+#endif
 
 #ifdef HAVE_LDAP
 #include "pas/pas-backend-ldap.h"
@@ -40,7 +43,9 @@
 
 /* The and addressbook calendar factories */
 
+#ifdef PENDING_PORT_WORK
 static CalFactory *cal_factory;
+#endif
 
 static PASBookFactory *pas_book_factory;
 
@@ -61,7 +66,9 @@ static gboolean
 termination_handler (gpointer data)
 {
 	if (
+#ifdef PENDING_PORT_WORK
 	    cal_factory_get_n_backends (cal_factory) == 0 &&
+#endif
 	    pas_book_factory_get_n_backends (pas_book_factory) == 0) {
 		fprintf (stderr, "termination_handler(): Terminating the Wombat.  Have a nice day.\n");
 		gtk_main_quit ();
@@ -111,7 +118,7 @@ setup_pas (int argc, char **argv)
 			  NULL);
 
 	if (!pas_book_factory_activate (pas_book_factory, PAS_BOOK_FACTORY_OAF_ID)) {
-		bonboo_object_unref (BONOBO_OBJECT (pas_book_factory));
+		bonobo_object_unref (BONOBO_OBJECT (pas_book_factory));
 		pas_book_factory = NULL;
 		return FALSE;
 	}
@@ -121,6 +128,7 @@ setup_pas (int argc, char **argv)
 
 
 
+#ifdef PENDING_PORT_WORK
 /* Personal calendar server */
 
 /* Callback used when the calendar factory has no more running backends */
@@ -156,6 +164,7 @@ setup_pcs (int argc, char **argv)
 
 	return TRUE;
 }
+#endif
 
 
 
@@ -197,7 +206,9 @@ main (int argc, char **argv)
 				G_LOG_LEVEL_WARNING);*/
 
 	if (!( (did_pas = setup_pas (argc, argv))
+#ifdef PENDING_PORT_WORK
 	       && (did_pcs = setup_pcs (argc, argv))
+#endif
 	       )) {
 
 		const gchar *failed = NULL;
@@ -214,11 +225,12 @@ main (int argc, char **argv)
 			pas_book_factory = NULL;
 		}
 
+#ifdef PENDING_PORT_WORK
 		if (cal_factory) {
 			bonobo_object_unref (BONOBO_OBJECT (cal_factory));
 			cal_factory = NULL;
 		}
-
+#endif
 		exit (EXIT_FAILURE);
 	}
 
@@ -226,8 +238,10 @@ main (int argc, char **argv)
 
 	bonobo_main ();
 
+#if PENDING_PORT_WORK
 	bonobo_object_unref (BONOBO_OBJECT (cal_factory));
 	cal_factory = NULL;
+#endif
 
 	bonobo_object_unref (BONOBO_OBJECT (pas_book_factory));
 	pas_book_factory = NULL;

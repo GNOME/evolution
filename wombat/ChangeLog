@@ -1,3 +1,13 @@
+2002-11-06  Chris Toshok  <toshok@ximian.com>
+
+	* Makefile.am (wombat_LDADD): remove libcamel.la from the link for
+	the time being.
+
+	* wombat.c: ifdef out (#ifdef PENDING_PORT_WORK) the calendar
+	stuff, since it doesn't link at the moment - undefined symbols in
+	pcs.  Also, include gtk.h so the gtk_* in the calendar portions
+	will still work.
+
 2002-11-05  Chris Toshok  <toshok@ximian.com>
 
 	* Makefile.am: change over from .oaf files to .server files and
