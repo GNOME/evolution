@@ -523,6 +523,12 @@ e_table_setup_table (ETable *e_table, ETableHeader *full_header, ETableHeader *h
 	gtk_signal_connect (
 		GTK_OBJECT (e_table->table_canvas), "size_allocate",
 		GTK_SIGNAL_FUNC (table_canvas_size_allocate), e_table);
+	gtk_signal_connect (
+		GTK_OBJECT (e_table->table_canvas), "focus_in_event",
+		GTK_SIGNAL_FUNC (gtk_widget_queue_draw), e_table);
+	gtk_signal_connect (
+		GTK_OBJECT (e_table->table_canvas), "focus_out_event",
+		GTK_SIGNAL_FUNC (gtk_widget_queue_draw), e_table);
 
 	gtk_signal_connect (
 		GTK_OBJECT (e_table), "drag_begin",

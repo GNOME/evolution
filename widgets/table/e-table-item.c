@@ -1228,7 +1228,10 @@ eti_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int width,
 			}
 
 			if (col_selected){
-				background = &canvas->style->bg [GTK_STATE_SELECTED];
+				if (GTK_WIDGET_HAS_FOCUS(canvas))
+					background = &canvas->style->bg [GTK_STATE_SELECTED];
+				else
+					background = &canvas->style->bg [GTK_STATE_ACTIVE];
 			} else {
 #if 0
 				if (row % 2)
@@ -1245,6 +1248,7 @@ eti_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int width,
 					    xd, yd, ecol->width, height);
 
 			flags = col_selected ? E_CELL_SELECTED : 0;
+			flags |= GTK_WIDGET_HAS_FOCUS(canvas) ? E_CELL_FOCUSED : 0;
 			switch (ecol->justification) {
 			case GTK_JUSTIFY_LEFT:
 				flags |= E_CELL_JUSTIFY_LEFT;

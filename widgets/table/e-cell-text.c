@@ -489,7 +489,10 @@ ect_draw (ECellView *ecell_view, GdkDrawable *drawable,
 	clip_rect = &rect;
 
 	if (selected){
-		foreground = &canvas->style->text [GTK_STATE_SELECTED];
+		if (flags & E_CELL_FOCUSED)
+			foreground = &canvas->style->text [GTK_STATE_SELECTED];
+		else
+			foreground = &canvas->style->text [GTK_STATE_ACTIVE];
 	} else {
 		foreground = &canvas->style->text [GTK_STATE_NORMAL];
 	}

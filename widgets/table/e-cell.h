@@ -28,6 +28,8 @@ enum _ECellFlags {
 
 	E_CELL_ALIGN_LEFT     = 1 << 1,
 	E_CELL_ALIGN_RIGHT    = 1 << 2,
+
+	E_CELL_FOCUSED        = 1 << 3,
 };
 
 struct _ECell {
