@@ -106,10 +106,17 @@ typedef struct _EMAccountEditorService {
 	struct _GtkWidget *frame;
 	struct _GtkWidget *container;
 
+	struct _GtkComboBox *providers;
+
 	struct _GtkLabel *description;
+	struct _GtkLabel *hostlabel;
 	struct _GtkEntry *hostname;
+	struct _GtkLabel *userlabel;
 	struct _GtkEntry *username;
 	struct _GtkEntry *path;
+	struct _GtkLabel *pathlabel;
+	struct _GtkWidget *pathentry;
+
 	struct _GtkWidget *ssl_frame;
 	struct _GtkComboBox *use_ssl;
 	struct _GtkWidget *ssl_hbox;
@@ -117,6 +124,7 @@ typedef struct _EMAccountEditorService {
 
 	struct _GtkWidget *auth_frame;
 	struct _GtkComboBox *authtype;
+
 	struct _GtkWidget *authitem;
 	struct _GtkToggleButton *remember;
 	struct _GtkButton *check_supported;
@@ -133,8 +141,6 @@ typedef struct _EMAccountEditorService {
 } EMAccountEditorService;
 
 typedef struct _EMAccountEditorPrivate {
-	struct _GladeXML *xml;
-	struct _GladeXML *druidxml;
 	struct _EMConfig *config;
 	GList *providers;
 
@@ -156,8 +162,10 @@ typedef struct _EMAccountEditorPrivate {
 	EMAccountEditorService transport;
 	
 	/* account management */
+	GtkEntry *identity_entries[5];
 	struct _GtkToggleButton *default_account;
-	
+	struct _GtkWidget *management_frame;
+
 	/* special folders */
 	struct _GtkButton *drafts_folder_button;
 	struct _GtkButton *sent_folder_button;
@@ -181,13 +189,18 @@ typedef struct _EMAccountEditorPrivate {
 	struct _GtkButton *smime_encrypt_key_select;
 	struct _GtkButton *smime_encrypt_key_clear;
 
+	/* for e-config callbacks, each page sets up its widgets, then they are dealed out by the get_widget callback in order*/
+	GtkWidget *widgets[5];
+	const char *widgets_name[5];
+	int widgets_index;
+
 	/* for druid page preparation */
 	unsigned int identity_set:1;
 	unsigned int receive_set:1;
 	unsigned int management_set:1;
 } EMAccountEditorPrivate;
 
-static GtkWidget *emae_setup_authtype(EMAccountEditor *emae, EMAccountEditorService *service);
+static void emae_refresh_authtype(EMAccountEditor *emae, EMAccountEditorService *service);
 
 static GtkVBoxClass *emae_parent;
 
@@ -215,11 +228,6 @@ emae_finalise(GObject *o)
 		g_signal_handler_disconnect(signatures, p->sig_removed_id);
 		g_signal_handler_disconnect(signatures, p->sig_changed_id);
 	}
-
-	if (p->xml)
-		g_object_unref(p->xml);
-	if (p->druidxml)
-		g_object_unref(p->druidxml);
 
 	g_list_free(p->source.authtypes);
 	g_list_free(p->transport.authtypes);
@@ -653,10 +661,10 @@ emae_signature_new(GtkWidget *w, EMAccountEditor *emae)
 }
 
 static GtkWidget *
-emae_setup_signatures(EMAccountEditor *emae)
+emae_setup_signatures(EMAccountEditor *emae, GladeXML *xml)
 {
 	EMAccountEditorPrivate *p = emae->priv;
-	GtkComboBox *dropdown = (GtkComboBox *)glade_xml_get_widget(p->xml, "signature_dropdown");
+	GtkComboBox *dropdown = (GtkComboBox *)glade_xml_get_widget(xml, "signature_dropdown");
 	GtkCellRenderer *cell = gtk_cell_renderer_text_new();
 	GtkListStore *store;
 	int i, active=0;
@@ -707,7 +715,7 @@ emae_setup_signatures(EMAccountEditor *emae)
 	g_signal_connect(dropdown, "changed", G_CALLBACK(emae_signaturetype_changed), emae);
 	gtk_widget_set_sensitive((GtkWidget *)dropdown, e_account_writable(emae->account, E_ACCOUNT_ID_SIGNATURE));
 
-	button = glade_xml_get_widget(p->xml, "sigAddNew");
+	button = glade_xml_get_widget(xml, "sigAddNew");
 	g_signal_connect(button, "clicked", G_CALLBACK(emae_signature_new), emae);
 	gtk_widget_set_sensitive(button,
 				 gconf_client_key_is_writable(mail_config_get_gconf_client(),
@@ -725,12 +733,12 @@ emae_account_entry_changed(GtkEntry *entry, EMAccountEditor *emae)
 }
 
 static GtkEntry *
-emae_account_entry(EMAccountEditor *emae, const char *name, int item)
+emae_account_entry(EMAccountEditor *emae, const char *name, int item, GladeXML *xml)
 {
 	GtkEntry *entry;
 	const char *text;
 
-	entry = (GtkEntry *)glade_xml_get_widget(emae->priv->xml, name);
+	entry = (GtkEntry *)glade_xml_get_widget(xml, name);
 	text = e_account_get_string(emae->account, item);
 	if (text)
 		gtk_entry_set_text(entry, text);
@@ -759,11 +767,11 @@ emae_account_toggle_widget(EMAccountEditor *emae, GtkToggleButton *toggle, int i
 }
 
 static GtkToggleButton *
-emae_account_toggle(EMAccountEditor *emae, const char *name, int item)
+emae_account_toggle(EMAccountEditor *emae, const char *name, int item, GladeXML *xml)
 {
 	GtkToggleButton *toggle;
 
-	toggle = (GtkToggleButton *)glade_xml_get_widget(emae->priv->xml, name);
+	toggle = (GtkToggleButton *)glade_xml_get_widget(xml, name);
 	emae_account_toggle_widget(emae, toggle, item);
 
 	return toggle;
@@ -808,12 +816,12 @@ emae_account_folder_changed(EMFolderSelectionButton *folder, EMAccountEditor *em
 }
 
 static EMFolderSelectionButton *
-emae_account_folder(EMAccountEditor *emae, const char *name, int item, int deffolder)
+emae_account_folder(EMAccountEditor *emae, const char *name, int item, int deffolder, GladeXML *xml)
 {
 	EMFolderSelectionButton *folder;
 	const char *uri;
 
-	folder = (EMFolderSelectionButton *)glade_xml_get_widget(emae->priv->xml, name);
+	folder = (EMFolderSelectionButton *)glade_xml_get_widget(xml, name);
 	uri = e_account_get_string(emae->account, item);
 	if (uri) {
 		char *tmp = em_uri_to_camel(uri);
@@ -952,25 +960,26 @@ emae_url_set_hostport(CamelURL *url, const char *txt)
 }
 
 /* This is used to map a funciton which will set on the url a string value.
+   if widgets[0] is set, it is the entry which will be called against setval()
    We need our own function for host:port decoding, as above */
 struct _provider_host_info {
 	guint32 flag;
 	void (*setval)(CamelURL *, const char *);
-	const char *widgets[3];
+	glong widgets[3];
 };
 
 static struct _provider_host_info emae_source_host_info[] = {
-	{ CAMEL_URL_PART_HOST, emae_url_set_hostport, { "source_host", "source_host_label" } },
-	{ CAMEL_URL_PART_USER, camel_url_set_user, { "source_user", "source_user_label", } },
-	{ CAMEL_URL_PART_PATH, camel_url_set_path, { "source_path", "source_path_label", "source_path_entry" } },
-	{ CAMEL_URL_PART_AUTH, NULL, { NULL, "source_auth_frame" } },
+	{ CAMEL_URL_PART_HOST, emae_url_set_hostport, { G_STRUCT_OFFSET(EMAccountEditorService, hostname), G_STRUCT_OFFSET(EMAccountEditorService, hostlabel), }, },
+	{ CAMEL_URL_PART_USER, camel_url_set_user, { G_STRUCT_OFFSET(EMAccountEditorService, username), G_STRUCT_OFFSET(EMAccountEditorService, userlabel), } },
+	{ CAMEL_URL_PART_PATH, camel_url_set_path, { G_STRUCT_OFFSET(EMAccountEditorService, path), G_STRUCT_OFFSET(EMAccountEditorService, pathlabel), G_STRUCT_OFFSET(EMAccountEditorService, pathentry) }, },
+	{ CAMEL_URL_PART_AUTH, NULL, { 0, G_STRUCT_OFFSET(EMAccountEditorService, auth_frame), }, },
 	{ 0 },
 };
 
 static struct _provider_host_info emae_transport_host_info[] = {
-	{ CAMEL_URL_PART_HOST, emae_url_set_hostport, { "transport_host", "transport_host_label" } },
-	{ CAMEL_URL_PART_USER, camel_url_set_user, { "transport_user", "transport_user_label", } },
-	{ CAMEL_URL_PART_AUTH, NULL, { NULL, "transport_auth_frame" } },
+	{ CAMEL_URL_PART_HOST, emae_url_set_hostport, { G_STRUCT_OFFSET(EMAccountEditorService, hostname), G_STRUCT_OFFSET(EMAccountEditorService, hostlabel), }, },
+	{ CAMEL_URL_PART_USER, camel_url_set_user, { G_STRUCT_OFFSET(EMAccountEditorService, username), G_STRUCT_OFFSET(EMAccountEditorService, userlabel), } },
+	{ CAMEL_URL_PART_AUTH, NULL, { 0, G_STRUCT_OFFSET(EMAccountEditorService, auth_frame), }, },
 	{ 0 },
 };
 
@@ -987,8 +996,12 @@ static struct _service_info {
 	char *container;
 	char *description;
 	char *hostname;
+	char *hostlabel;
 	char *username;
+	char *userlabel;
 	char *path;
+	char *pathlabel;
+	char *pathentry;
 
 	char *security_frame;
 	char *ssl_hbox;
@@ -1007,7 +1020,7 @@ static struct _service_info {
 } emae_service_info[CAMEL_NUM_PROVIDER_TYPES] = {
 	{ E_ACCOUNT_SOURCE_URL, E_ACCOUNT_SOURCE_SAVE_PASSWD,
 	  "source_frame", "source_type_dropdown",
-	  "source_vbox", "source_description", "source_host", "source_user", "source_path",
+	  "source_vbox", "source_description", "source_host", "source_host_label", "source_user", "source_user_label", "source_path", "source_path_label", "source_path_entry",
 	  "source_security_frame", "source_ssl_hbox", "source_use_ssl", "source_ssl_disabled",
 	  NULL, "source_auth_frame",
 	  "source_auth_dropdown", "source_check_supported",
@@ -1016,7 +1029,7 @@ static struct _service_info {
 	},
 	{ E_ACCOUNT_TRANSPORT_URL, E_ACCOUNT_TRANSPORT_SAVE_PASSWD,
 	  "transport_frame", "transport_type_dropdown",
-	  "transport_vbox", "transport_description", "transport_host", "transport_user", NULL,
+	  "transport_vbox", "transport_description", "transport_host", "transport_host_label", "transport_user", "transport_user_label", NULL, NULL, NULL,
 	  "transport_security_frame", "transport_ssl_hbox", "transport_use_ssl", "transport_ssl_disabled",
 	  "transport_needs_auth", "transport_auth_frame",
 	  "transport_auth_dropdown", "transport_check_supported",
@@ -1031,8 +1044,15 @@ emae_uri_changed(EMAccountEditorService *service, CamelURL *url)
 	char *uri;
 
 	uri = camel_url_to_string(url, 0);
-	printf("uri changed: '%s'\n", uri);
+
 	e_account_set_string(service->emae->account, emae_service_info[service->type].account_uri_key, uri);
+
+	/* small hack for providers which are store and transport - copy settings across */
+	if (service->type == CAMEL_PROVIDER_STORE
+	    && service->provider
+	    && CAMEL_PROVIDER_IS_STORE_AND_TRANSPORT(service->provider))
+		e_account_set_string(service->emae->account, E_ACCOUNT_TRANSPORT_URL, uri);
+
 	g_free(uri);
 }
 
@@ -1127,7 +1147,6 @@ emae_service_provider_changed(EMAccountEditorService *service)
 		gtk_widget_set_sensitive((GtkWidget *)service->remember, enable);
 
 		for (i=0;emae_service_info[service->type].host_info[i].flag;i++) {
-			const char *name;
 			GtkWidget *w;
 			int hide;
 			struct _provider_host_info *info = &emae_service_info[service->type].host_info[i];
@@ -1137,14 +1156,12 @@ emae_service_provider_changed(EMAccountEditorService *service)
 			show = (enable && !hide)?gtk_widget_show:gtk_widget_hide;
 
 			for (j=0; j < sizeof(info->widgets)/sizeof(info->widgets[0]); j++) {
-				name = info->widgets[j];
-				if (name) {
-					w = glade_xml_get_widget(service->emae->priv->xml, name);
+				if (info->widgets[j] && (w = G_STRUCT_MEMBER(GtkWidget *, service, info->widgets[j]))) {
 					show(w);
 					if (j == 0) {
 						if (dwidget == NULL && enable)
 							dwidget = w;
-
+						
 						if (info->setval && !hide)
 							info->setval(url, enable?gtk_entry_get_text((GtkEntry *)w):NULL);
 					}
@@ -1171,7 +1188,7 @@ emae_service_provider_changed(EMAccountEditorService *service)
 				}
 			}
 			
-			emae_setup_authtype(service->emae, service);
+			emae_refresh_authtype(service->emae, service);
 			if (service->needs_auth && !CAMEL_PROVIDER_NEEDS(service->provider, CAMEL_URL_PART_AUTH))
 				gtk_widget_show((GtkWidget *)service->needs_auth);
 		} else {
@@ -1233,10 +1250,9 @@ emae_provider_changed(GtkComboBox *dropdown, EMAccountEditorService *service)
 	e_config_target_changed((EConfig *)service->emae->priv->config, E_CONFIG_TARGET_CHANGED_REBUILD);
 }
 
-static GtkWidget *
-emae_setup_providers(EMAccountEditor *emae, EMAccountEditorService *service)
+static void
+emae_refresh_providers(EMAccountEditor *emae, EMAccountEditorService *service)
 {
-	EMAccountEditorPrivate *gui = emae->priv;
 	EAccount *account = emae->account;
 	GtkListStore *store;
 	GtkTreeIter iter;
@@ -1248,7 +1264,7 @@ emae_setup_providers(EMAccountEditor *emae, EMAccountEditorService *service)
 	const char *uri = e_account_get_string(account, info->account_uri_key);
 	char *current = NULL;
 
-	dropdown = (GtkComboBox *)glade_xml_get_widget(gui->xml, info->type_dropdown);
+	dropdown = service->providers;
 	gtk_widget_show((GtkWidget *)dropdown);
 
 	if (uri) {
@@ -1274,24 +1290,21 @@ emae_setup_providers(EMAccountEditor *emae, EMAccountEditorService *service)
 		i++;
 	}
 
-	for (l=gui->providers; l; l=l->next) {
+	for (l=emae->priv->providers; l; l=l->next) {
 		CamelProvider *provider = l->data;
 
 		if (!((strcmp(provider->domain, "mail") == 0
 		       || strcmp (provider->domain, "news") == 0)
 		      && provider->object_types[service->type]
-		      && (service->type != CAMEL_PROVIDER_STORE || (provider->flags & CAMEL_PROVIDER_IS_SOURCE) != 0)))
+		      && (service->type != CAMEL_PROVIDER_STORE || (provider->flags & CAMEL_PROVIDER_IS_SOURCE) != 0))
+		    /* hardcode not showing providers who's transport is done in the store */
+		    || (service->type == CAMEL_PROVIDER_TRANSPORT
+			&& CAMEL_PROVIDER_IS_STORE_AND_TRANSPORT (provider)))
 			continue;
 
 		gtk_list_store_append(store, &iter);
 		gtk_list_store_set(store, &iter, 0, provider->name, 1, provider, -1);
 
-		/* FIXME: GtkCombo doesn't support sensitiviy, we can hopefully kill this crap anyway */
-#if 0
-		if (type == CAMEL_PROVIDER_TRANSPORT
-		    && CAMEL_PROVIDER_IS_STORE_AND_TRANSPORT (provider))
-			gtk_widget_set_sensitive (item, FALSE);
-#endif
 		/* find the displayed and set default */
 		if (i == 0 || (current && strcmp(provider->protocol, current) == 0)) {
 			service->provider = provider;
@@ -1316,8 +1329,6 @@ emae_setup_providers(EMAccountEditor *emae, EMAccountEditorService *service)
 	gtk_combo_box_set_active(dropdown, -1);	/* needed for gtkcombo bug(?) */
 	gtk_combo_box_set_active(dropdown, active);
 	g_signal_connect(dropdown, "changed", G_CALLBACK(emae_provider_changed), service);
-
-	return (GtkWidget *)dropdown;
 }
 
 static void
@@ -1350,11 +1361,9 @@ emae_authtype_changed(GtkComboBox *dropdown, EMAccountEditorService *service)
 static void
 emae_needs_auth(GtkToggleButton *toggle, EMAccountEditorService *service)
 {
-	GtkWidget *w;
 	int need = gtk_toggle_button_get_active(toggle);
 
-	w = glade_xml_get_widget(service->emae->priv->xml, emae_service_info[service->type].auth_frame);
-	gtk_widget_set_sensitive(w, need);
+	gtk_widget_set_sensitive(service->auth_frame, need);
 
 	if (need)
 		emae_authtype_changed(service->authtype, service);
@@ -1369,15 +1378,13 @@ emae_needs_auth(GtkToggleButton *toggle, EMAccountEditorService *service)
 
 static void emae_check_authtype(GtkWidget *w, EMAccountEditorService *service);
 
-static GtkWidget *
-emae_setup_authtype (EMAccountEditor *emae, EMAccountEditorService *service)
+static void
+emae_refresh_authtype (EMAccountEditor *emae, EMAccountEditorService *service)
 {
-	EMAccountEditorPrivate *gui = emae->priv;
 	EAccount *account = emae->account;
 	GtkListStore *store;
 	GtkTreeIter iter;
 	GtkComboBox *dropdown;
-	GtkWidget *w;
 	int active = 0;
 	int i;
 	struct _service_info *info = &emae_service_info[service->type];
@@ -1385,7 +1392,7 @@ emae_setup_authtype (EMAccountEditor *emae, EMAccountEditorService *service)
 	GList *l, *ll;
 	CamelURL *url = NULL;
 
-	dropdown = (GtkComboBox *)glade_xml_get_widget(gui->xml, info->authtype);
+	dropdown = service->authtype;
 	gtk_widget_show((GtkWidget *)dropdown);
 
 	store = gtk_list_store_new(3, G_TYPE_STRING, G_TYPE_POINTER, G_TYPE_BOOLEAN);
@@ -1426,16 +1433,13 @@ emae_setup_authtype (EMAccountEditor *emae, EMAccountEditorService *service)
 		gtk_cell_layout_set_attributes((GtkCellLayout *)dropdown, cell, "text", 0, "strikethrough", 2, NULL);
 
 		service->auth_changed_id = g_signal_connect(dropdown, "changed", G_CALLBACK(emae_authtype_changed), service);
-		w = glade_xml_get_widget(gui->xml, info->authtype_check);
-		g_signal_connect(w, "clicked", G_CALLBACK(emae_check_authtype), service);
+		g_signal_connect(service->check_supported, "clicked", G_CALLBACK(emae_check_authtype), service);
 	}
 
 	gtk_combo_box_set_active(dropdown, active);
 
 	if (url)
 		camel_url_free(url);
-
-	return (GtkWidget *)dropdown;
 }
 
 static void emae_check_authtype_done(const char *uri, CamelProviderType type, GList *types, void *data)
@@ -1447,7 +1451,7 @@ static void emae_check_authtype_done(const char *uri, CamelProviderType type, GL
 			g_list_free(service->authtypes);
 
 		service->authtypes = g_list_copy(types);
-		emae_setup_authtype(service->emae, service);
+		emae_refresh_authtype(service->emae, service);
 		gtk_widget_destroy(service->check_dialog);
 	}
 
@@ -1486,9 +1490,8 @@ static void emae_check_authtype(GtkWidget *w, EMAccountEditorService *service)
 }
 
 static void
-emae_setup_service(EMAccountEditor *emae, EMAccountEditorService *service)
+emae_setup_service(EMAccountEditor *emae, EMAccountEditorService *service, GladeXML *xml)
 {
-	EMAccountEditorPrivate *gui = emae->priv;
 	struct _service_info *info = &emae_service_info[service->type];
 	CamelURL *url = emae_account_url(emae, info->account_uri_key);
 	const char *uri = e_account_get_string(emae->account, info->account_uri_key);
@@ -1497,19 +1500,24 @@ emae_setup_service(EMAccountEditor *emae, EMAccountEditorService *service)
 
 	service->provider = uri?camel_provider_get(uri, NULL):NULL;
 
-	service->frame = glade_xml_get_widget(gui->xml, info->frame);
-	service->container = glade_xml_get_widget(gui->xml, info->container);
-	service->description = GTK_LABEL (glade_xml_get_widget (gui->xml, info->description));
-	service->hostname = GTK_ENTRY (glade_xml_get_widget (gui->xml, info->hostname));
-	service->username = GTK_ENTRY (glade_xml_get_widget (gui->xml, info->username));
-	if (info->path)
-		service->path = GTK_ENTRY (glade_xml_get_widget (gui->xml, info->path));
+	service->frame = glade_xml_get_widget(xml, info->frame);
+	service->container = glade_xml_get_widget(xml, info->container);
+	service->description = GTK_LABEL (glade_xml_get_widget (xml, info->description));
+	service->hostname = GTK_ENTRY (glade_xml_get_widget (xml, info->hostname));
+	service->hostlabel = (GtkLabel *)glade_xml_get_widget (xml, info->hostlabel);
+	service->username = GTK_ENTRY (glade_xml_get_widget (xml, info->username));
+	service->userlabel = (GtkLabel *)glade_xml_get_widget (xml, info->userlabel);
+	if (info->path) {
+		service->path = GTK_ENTRY (glade_xml_get_widget (xml, info->path));
+		service->pathlabel = (GtkLabel *)glade_xml_get_widget(xml, info->pathlabel);
+		service->pathentry = glade_xml_get_widget(xml, info->pathentry);
+	}
 
-	service->ssl_frame = glade_xml_get_widget (gui->xml, info->security_frame);
+	service->ssl_frame = glade_xml_get_widget (xml, info->security_frame);
 	gtk_widget_hide (service->ssl_frame);
-	service->ssl_hbox = glade_xml_get_widget (gui->xml, info->ssl_hbox);
-	service->use_ssl = (GtkComboBox *)glade_xml_get_widget (gui->xml, info->use_ssl);
-	service->no_ssl = glade_xml_get_widget (gui->xml, info->ssl_disabled);
+	service->ssl_hbox = glade_xml_get_widget (xml, info->ssl_hbox);
+	service->use_ssl = (GtkComboBox *)glade_xml_get_widget (xml, info->use_ssl);
+	service->no_ssl = glade_xml_get_widget (xml, info->ssl_disabled);
 
 	/* configure ui for current settings */
 	if (url->host) {
@@ -1544,17 +1552,23 @@ emae_setup_service(EMAccountEditor *emae, EMAccountEditorService *service)
 
 	g_signal_connect(service->use_ssl, "changed", G_CALLBACK(emae_ssl_changed), service);
 
-	service->auth_frame = glade_xml_get_widget(gui->xml, info->auth_frame);
-	service->remember = emae_account_toggle(emae, info->remember_password, info->save_passwd_key);
-	service->check_supported = (GtkButton *)glade_xml_get_widget(gui->xml, info->authtype_check);
-	emae_setup_providers(emae, service);
-	service->authtype = (GtkComboBox *)emae_setup_authtype(emae, service);
+	service->auth_frame = glade_xml_get_widget(xml, info->auth_frame);
+	service->remember = emae_account_toggle(emae, info->remember_password, info->save_passwd_key, xml);
+	service->check_supported = (GtkButton *)glade_xml_get_widget(xml, info->authtype_check);
+	service->authtype = (GtkComboBox *)glade_xml_get_widget(xml, info->authtype);
+	/* old authtype will be destroyed when we exit */
+	service->auth_changed_id = 0;
+	service->providers = (GtkComboBox *)glade_xml_get_widget(xml, info->type_dropdown);
+	emae_refresh_providers(emae, service);
+	emae_refresh_authtype(emae, service);
 
 	if (info->needs_auth) {
-		service->needs_auth = (GtkToggleButton *)glade_xml_get_widget (gui->xml, info->needs_auth);
+		service->needs_auth = (GtkToggleButton *)glade_xml_get_widget (xml, info->needs_auth);
 		gtk_toggle_button_set_active(service->needs_auth, url->authmech != NULL);
 		g_signal_connect(service->needs_auth, "toggled", G_CALLBACK(emae_needs_auth), service);
 		emae_needs_auth(service->needs_auth, service);
+	} else {
+		service->needs_auth = NULL;
 	}
 
 	if (!e_account_writable (emae->account, info->account_uri_key))
@@ -1567,6 +1581,7 @@ emae_setup_service(EMAccountEditor *emae, EMAccountEditorService *service)
 	camel_url_free(url);
 }
 
+/* do not re-order these, the order is used by various code to look up emae->priv->identity_entries[] */
 static struct {
 	char *name;
 	int item;
@@ -1578,6 +1593,27 @@ static struct {
 	{ "identity_organization", E_ACCOUNT_ID_ORGANIZATION },
 };
 
+/* its a bit obtuse, but its simple */
+static void
+emae_queue_widgets(EMAccountEditor *emae, GladeXML *xml, const char *first, ...)
+{
+	int i = 0;
+	va_list ap;
+
+	va_start(ap, first);
+	while (first) {
+		emae->priv->widgets_name[i] = first;
+		emae->priv->widgets[i++] = glade_xml_get_widget(xml, first);
+		first = va_arg(ap, const char *);
+	}
+	va_end(ap);
+
+	g_assert(i < sizeof(emae->priv->widgets)/sizeof(emae->priv->widgets[0]));
+
+	emae->priv->widgets[i] = NULL;
+	emae->priv->widgets_index = 0;
+}
+
 static GtkWidget *
 emae_identity_page(EConfig *ec, EConfigItem *item, struct _GtkWidget *parent, struct _GtkWidget *old, void *data)
 {
@@ -1586,37 +1622,49 @@ emae_identity_page(EConfig *ec, EConfigItem *item, struct _GtkWidget *parent, st
 	EAccount *account = emae->account;
 	int i;
 	GtkWidget *w;
+	GladeXML *xml;
 
-	if (old)
-		return old;
+	/*if (old)
+	  return old;*/
 
-	/* Management & Identity fields*/
+	xml = glade_xml_new(EVOLUTION_GLADEDIR "/mail-config.glade", item->label, NULL);
+
+	/* Management & Identity fields, in the druid the management frame is relocated to the last page later on */
 	for (i=0;i<sizeof(emae_identity_entries)/sizeof(emae_identity_entries[0]);i++)
-		emae_account_entry(emae, emae_identity_entries[i].name, emae_identity_entries[i].item);
+		gui->identity_entries[i] = emae_account_entry(emae, emae_identity_entries[i].name, emae_identity_entries[i].item, xml);
 
-	gui->default_account = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui->xml, "management_default"));
+	gui->management_frame = glade_xml_get_widget(xml, "management_frame");
+
+	gui->default_account = GTK_TOGGLE_BUTTON (glade_xml_get_widget (xml, "management_default"));
 	if (!mail_config_get_default_account ()
 	    || (account == mail_config_get_default_account ()))
 		gtk_toggle_button_set_active (gui->default_account, TRUE);
 
 	if (emae->do_signature) {
-		emae_setup_signatures(emae);
+		emae_setup_signatures(emae, xml);
 	} else {
 		/* TODO: this could/should probably be neater */
-		gtk_widget_hide(glade_xml_get_widget(gui->xml, "sigLabel"));
-		gtk_widget_hide(glade_xml_get_widget(gui->xml, "sigOption"));
-		gtk_widget_hide(glade_xml_get_widget(gui->xml, "sigAddNew"));
+		gtk_widget_hide(glade_xml_get_widget(xml, "sigLabel"));
+		gtk_widget_hide(glade_xml_get_widget(xml, "sigOption"));
+		gtk_widget_hide(glade_xml_get_widget(xml, "sigAddNew"));
 	}
 	
-	w = glade_xml_get_widget(gui->xml, item->label);
+	w = glade_xml_get_widget(xml, item->label);
 	if (((EConfig *)gui->config)->type == E_CONFIG_DRUID) {
-		GtkWidget *page = glade_xml_get_widget(gui->druidxml, "identity_page");
+		GladeXML *druidxml = glade_xml_new(EVOLUTION_GLADEDIR "/mail-config.glade", "identity_page", NULL);
+		GtkWidget *page = glade_xml_get_widget(druidxml, "identity_page");
 
-		/* need to set packing? */
-		gtk_widget_reparent(w, ((GnomeDruidPageStandard *)page)->vbox);
-
-		return page;
+		gtk_box_pack_start((GtkBox*)((GnomeDruidPageStandard *)page)->vbox, w, TRUE, TRUE, 0);
+		w = page;
+		g_object_unref(druidxml);
+		gnome_druid_append_page((GnomeDruid *)parent, (GnomeDruidPage *)page);
+	} else {
+		gtk_notebook_append_page((GtkNotebook *)parent, w, gtk_label_new(_("Identity")));
 	}
+
+	emae_queue_widgets(emae, xml, "account_vbox", "identity_required_table", "identity_optional_table", NULL);
+
+	g_object_unref(xml);
 
 	return w;
 }
@@ -1627,22 +1675,32 @@ emae_receive_page(EConfig *ec, EConfigItem *item, struct _GtkWidget *parent, str
 	EMAccountEditor *emae = data;
 	EMAccountEditorPrivate *gui = emae->priv;
 	GtkWidget *w;
+	GladeXML *xml;
 
-	if (old)
-		return old;
+	/*if (old)
+	  return old;*/
+
+	xml = glade_xml_new(EVOLUTION_GLADEDIR "/mail-config.glade", item->label, NULL);
 
 	gui->source.type = CAMEL_PROVIDER_STORE;
-	emae_setup_service(emae, &gui->source);
+	emae_setup_service(emae, &gui->source, xml);
 
-	w = glade_xml_get_widget(gui->xml, item->label);
+	w = glade_xml_get_widget(xml, item->label);
 	if (((EConfig *)gui->config)->type == E_CONFIG_DRUID) {
-		GtkWidget *page = glade_xml_get_widget(gui->druidxml, "source_page");
+		GladeXML *druidxml = glade_xml_new(EVOLUTION_GLADEDIR "/mail-config.glade", "source_page", NULL);
+		GtkWidget *page = glade_xml_get_widget(druidxml, "source_page");
 
-		/* need to set packing? */
-		gtk_widget_reparent(w, ((GnomeDruidPageStandard *)page)->vbox);
-
-		return page;
+		gtk_box_pack_start((GtkBox*)((GnomeDruidPageStandard *)page)->vbox, w, TRUE, TRUE, 0);
+		w = page;
+		g_object_unref(druidxml);
+		gnome_druid_append_page((GnomeDruid *)parent, (GnomeDruidPage *)page);
+	} else {
+		gtk_notebook_append_page((GtkNotebook *)parent, w, gtk_label_new(_("Receiving Email")));
 	}
+
+	emae_queue_widgets(emae, xml, "source_type_table", "table4", "vbox181", "vbox179", NULL);
+
+	g_object_unref(xml);
 
 	return w;
 }
@@ -1881,9 +1939,9 @@ section:
 		case CAMEL_PROVIDER_CONF_LABEL:
 			/* FIXME: This is a hack for exchange connector, labels should be removed from confentry */
 			if (!strcmp(entries[i].name, "hostname"))
-				l = glade_xml_get_widget(emae->priv->xml, "source_host_label");
+				l = (GtkWidget *)emae->priv->source.hostlabel;
 			else if (!strcmp(entries[i].name, "username"))
-				l = glade_xml_get_widget(emae->priv->xml,"source_user_label");
+				l = (GtkWidget *)emae->priv->source.userlabel;
 			else
 				l = NULL;
 
@@ -1954,23 +2012,41 @@ emae_send_page(EConfig *ec, EConfigItem *item, struct _GtkWidget *parent, struct
 	EMAccountEditor *emae = data;
 	EMAccountEditorPrivate *gui = emae->priv;
 	GtkWidget *w;
+	GladeXML *xml;
 
+	/* no transport options page at all for these types of providers */
+	if (gui->source.provider && CAMEL_PROVIDER_IS_STORE_AND_TRANSPORT(gui->source.provider)) {
+		memset(&gui->transport.frame, &gui->transport.check_dialog-&gui->transport.frame, 0);
+		return NULL;
+	}
+
+#if 0
 	if (old)
 		return old;
+#endif
+
+	xml = glade_xml_new(EVOLUTION_GLADEDIR "/mail-config.glade", item->label, NULL);
 
 	/* Transport */
 	gui->transport.type = CAMEL_PROVIDER_TRANSPORT;
-	emae_setup_service(emae, &gui->transport);
+	emae_setup_service(emae, &gui->transport, xml);
 
-	w = glade_xml_get_widget(gui->xml, item->label);
+	w = glade_xml_get_widget(xml, item->label);
 	if (((EConfig *)gui->config)->type == E_CONFIG_DRUID) {
-		GtkWidget *page = glade_xml_get_widget(gui->druidxml, "transport_page");
+		GladeXML *druidxml = glade_xml_new(EVOLUTION_GLADEDIR "/mail-config.glade", "transport_page", NULL);
+		GtkWidget *page = glade_xml_get_widget(druidxml, "transport_page");
 
-		/* need to set packing? */
-		gtk_widget_reparent(w, ((GnomeDruidPageStandard *)page)->vbox);
-
-		return page;
+		gtk_box_pack_start((GtkBox*)((GnomeDruidPageStandard *)page)->vbox, w, TRUE, TRUE, 0);
+		w = page;
+		g_object_unref(druidxml);
+		gnome_druid_append_page((GnomeDruid *)parent, (GnomeDruidPage *)page);
+	} else {
+		gtk_notebook_append_page((GtkNotebook *)parent, w, gtk_label_new(_("Sending Email")));
 	}
+
+	emae_queue_widgets(emae, xml, "transport_type_table", "vbox12", "vbox183", "vbox61", NULL);
+
+	g_object_unref(xml);
 
 	return w;
 }
@@ -1980,23 +2056,27 @@ emae_defaults_page(EConfig *ec, EConfigItem *item, struct _GtkWidget *parent, st
 {
 	EMAccountEditor *emae = data;
 	EMAccountEditorPrivate *gui = emae->priv;
+	GtkWidget *w;
+	GladeXML *xml;
 
-	if (old)
-		return old;
+	/*if (old)
+	  return old;*/
+
+	xml = glade_xml_new(EVOLUTION_GLADEDIR "/mail-config.glade", item->label, NULL);
 
 	/* Special folders */
-	gui->drafts_folder_button = (GtkButton *)emae_account_folder(emae, "drafts_button", E_ACCOUNT_DRAFTS_FOLDER_URI, MAIL_COMPONENT_FOLDER_DRAFTS);
-	gui->sent_folder_button = (GtkButton *)emae_account_folder(emae, "sent_button", E_ACCOUNT_SENT_FOLDER_URI, MAIL_COMPONENT_FOLDER_SENT);
+	gui->drafts_folder_button = (GtkButton *)emae_account_folder(emae, "drafts_button", E_ACCOUNT_DRAFTS_FOLDER_URI, MAIL_COMPONENT_FOLDER_DRAFTS, xml);
+	gui->sent_folder_button = (GtkButton *)emae_account_folder(emae, "sent_button", E_ACCOUNT_SENT_FOLDER_URI, MAIL_COMPONENT_FOLDER_SENT, xml);
 
 	/* Special Folders "Reset Defaults" button */
-	gui->restore_folders_button = (GtkButton *)glade_xml_get_widget (gui->xml, "default_folders_button");
+	gui->restore_folders_button = (GtkButton *)glade_xml_get_widget (xml, "default_folders_button");
 	g_signal_connect (gui->restore_folders_button, "clicked", G_CALLBACK (default_folders_clicked), emae);
 	
 	/* Always Cc/Bcc */
-	emae_account_toggle(emae, "always_cc", E_ACCOUNT_CC_ALWAYS);
-	emae_account_entry(emae, "cc_addrs", E_ACCOUNT_CC_ADDRS);
-	emae_account_toggle(emae, "always_bcc", E_ACCOUNT_BCC_ALWAYS);
-	emae_account_entry(emae, "bcc_addrs", E_ACCOUNT_BCC_ADDRS);
+	emae_account_toggle(emae, "always_cc", E_ACCOUNT_CC_ALWAYS, xml);
+	emae_account_entry(emae, "cc_addrs", E_ACCOUNT_CC_ADDRS, xml);
+	emae_account_toggle(emae, "always_bcc", E_ACCOUNT_BCC_ALWAYS, xml);
+	emae_account_entry(emae, "bcc_addrs", E_ACCOUNT_BCC_ADDRS, xml);
 
 	gtk_widget_set_sensitive((GtkWidget *)gui->drafts_folder_button, e_account_writable(emae->account, E_ACCOUNT_DRAFTS_FOLDER_URI));
 	gtk_widget_set_sensitive((GtkWidget *)gui->sent_folder_button, e_account_writable(emae->account, E_ACCOUNT_SENT_FOLDER_URI));
@@ -2004,7 +2084,14 @@ emae_defaults_page(EConfig *ec, EConfigItem *item, struct _GtkWidget *parent, st
 				 e_account_writable(emae->account, E_ACCOUNT_SENT_FOLDER_URI)
 				 || e_account_writable(emae->account, E_ACCOUNT_DRAFTS_FOLDER_URI));
 	
-	return glade_xml_get_widget(gui->xml, item->label);
+	w = glade_xml_get_widget(xml, item->label);
+	gtk_notebook_append_page((GtkNotebook *)parent, w, gtk_label_new(_("Defaults")));
+
+	emae_queue_widgets(emae, xml, "vbox184", "table8", NULL);
+
+	g_object_unref(xml);
+
+	return w;
 }
 
 static GtkWidget *
@@ -2012,35 +2099,39 @@ emae_security_page(EConfig *ec, EConfigItem *item, struct _GtkWidget *parent, st
 {
 	EMAccountEditor *emae = data;
 	EMAccountEditorPrivate *gui = emae->priv;
+	GtkWidget *w;
+	GladeXML *xml;
 
-	if (old)
-		return old;
+	/*if (old)
+	  return old;*/
+
+	xml = glade_xml_new(EVOLUTION_GLADEDIR "/mail-config.glade", item->label, NULL);
 
 	/* Security */
-	emae_account_entry(emae, "pgp_key", E_ACCOUNT_PGP_KEY);
-	emae_account_toggle(emae, "pgp_encrypt_to_self", E_ACCOUNT_PGP_ENCRYPT_TO_SELF);
-	emae_account_toggle(emae, "pgp_always_sign", E_ACCOUNT_PGP_ALWAYS_SIGN);
-	emae_account_toggle(emae, "pgp_no_imip_sign", E_ACCOUNT_PGP_NO_IMIP_SIGN);
-	emae_account_toggle(emae, "pgp_always_trust", E_ACCOUNT_PGP_ALWAYS_TRUST);
+	emae_account_entry(emae, "pgp_key", E_ACCOUNT_PGP_KEY, xml);
+	emae_account_toggle(emae, "pgp_encrypt_to_self", E_ACCOUNT_PGP_ENCRYPT_TO_SELF, xml);
+	emae_account_toggle(emae, "pgp_always_sign", E_ACCOUNT_PGP_ALWAYS_SIGN, xml);
+	emae_account_toggle(emae, "pgp_no_imip_sign", E_ACCOUNT_PGP_NO_IMIP_SIGN, xml);
+	emae_account_toggle(emae, "pgp_always_trust", E_ACCOUNT_PGP_ALWAYS_TRUST, xml);
 	
 #if defined (HAVE_NSS)
 	/* TODO: this should handle its entry separately? */
-	gui->smime_sign_key = emae_account_entry(emae, "smime_sign_key", E_ACCOUNT_SMIME_SIGN_KEY);
-	gui->smime_sign_key_select = (GtkButton *)glade_xml_get_widget (gui->xml, "smime_sign_key_select");
-	gui->smime_sign_key_clear = (GtkButton *)glade_xml_get_widget (gui->xml, "smime_sign_key_clear");
+	gui->smime_sign_key = emae_account_entry(emae, "smime_sign_key", E_ACCOUNT_SMIME_SIGN_KEY, xml);
+	gui->smime_sign_key_select = (GtkButton *)glade_xml_get_widget (xml, "smime_sign_key_select");
+	gui->smime_sign_key_clear = (GtkButton *)glade_xml_get_widget (xml, "smime_sign_key_clear");
 	g_signal_connect(gui->smime_sign_key_select, "clicked", G_CALLBACK(smime_sign_key_select), emae);
 	g_signal_connect(gui->smime_sign_key_clear, "clicked", G_CALLBACK(smime_sign_key_clear), emae);
 
-	gui->smime_sign_default = emae_account_toggle(emae, "smime_sign_default", E_ACCOUNT_SMIME_SIGN_DEFAULT);
+	gui->smime_sign_default = emae_account_toggle(emae, "smime_sign_default", E_ACCOUNT_SMIME_SIGN_DEFAULT, xml);
 
-	gui->smime_encrypt_key = emae_account_entry(emae, "smime_encrypt_key", E_ACCOUNT_SMIME_ENCRYPT_KEY);
-	gui->smime_encrypt_key_select = (GtkButton *)glade_xml_get_widget (gui->xml, "smime_encrypt_key_select");
-	gui->smime_encrypt_key_clear = (GtkButton *)glade_xml_get_widget (gui->xml, "smime_encrypt_key_clear");
+	gui->smime_encrypt_key = emae_account_entry(emae, "smime_encrypt_key", E_ACCOUNT_SMIME_ENCRYPT_KEY, xml);
+	gui->smime_encrypt_key_select = (GtkButton *)glade_xml_get_widget (xml, "smime_encrypt_key_select");
+	gui->smime_encrypt_key_clear = (GtkButton *)glade_xml_get_widget (xml, "smime_encrypt_key_clear");
 	g_signal_connect(gui->smime_encrypt_key_select, "clicked", G_CALLBACK(smime_encrypt_key_select), emae);
 	g_signal_connect(gui->smime_encrypt_key_clear, "clicked", G_CALLBACK(smime_encrypt_key_clear), emae);
 
-	gui->smime_encrypt_default = emae_account_toggle(emae, "smime_encrypt_default", E_ACCOUNT_SMIME_ENCRYPT_DEFAULT);
-	gui->smime_encrypt_to_self = emae_account_toggle(emae, "smime_encrypt_to_self", E_ACCOUNT_SMIME_ENCRYPT_TO_SELF);
+	gui->smime_encrypt_default = emae_account_toggle(emae, "smime_encrypt_default", E_ACCOUNT_SMIME_ENCRYPT_DEFAULT, xml);
+	gui->smime_encrypt_to_self = emae_account_toggle(emae, "smime_encrypt_to_self", E_ACCOUNT_SMIME_ENCRYPT_TO_SELF, xml);
 	smime_changed(emae);
 #else
 	{
@@ -2052,25 +2143,32 @@ emae_security_page(EConfig *ec, EConfigItem *item, struct _GtkWidget *parent, st
 	}
 #endif /* HAVE_NSS */
 
-	return glade_xml_get_widget(gui->xml, item->label);
+	w = glade_xml_get_widget(xml, item->label);
+	gtk_notebook_append_page((GtkNotebook *)parent, w, gtk_label_new(_("Security")));
+
+	g_object_unref(xml);
+
+	return w;
 }
 
 static GtkWidget *
 emae_widget_glade(EConfig *ec, EConfigItem *item, struct _GtkWidget *parent, struct _GtkWidget *old, void *data)
 {
 	EMAccountEditor *emae = data;
+	int i;
 
-	if (old)
-		return old;
+	for (i=0;emae->priv->widgets[i];i++)
+		if (!strcmp(emae->priv->widgets_name[i], item->label))
+			return emae->priv->widgets[i];
 
-	printf("getting widget '%s' = %p\n", item->label, glade_xml_get_widget(emae->priv->xml, item->label));
+	g_warning("Mail account widget '%s' not found", item->label);
 
-	return glade_xml_get_widget(emae->priv->xml, item->label);
+	return NULL;
 }
 
 /* plugin meta-data for "org.gnome.evolution.mail.config.accountEditor" */
 static EMConfigItem emae_editor_items[] = {
-	{ E_CONFIG_BOOK, "", "account_editor_notebook", emae_widget_glade },
+	{ E_CONFIG_BOOK, "", },
 	{ E_CONFIG_PAGE, "00.identity", "vboxIdentityBorder", emae_identity_page },
 	{ E_CONFIG_SECTION, "00.identity/00.name", "account_vbox", emae_widget_glade },
 	{ E_CONFIG_SECTION_TABLE, "00.identity/10.required", "identity_required_table", emae_widget_glade },
@@ -2110,17 +2208,15 @@ emae_management_page(EConfig *ec, EConfigItem *item, struct _GtkWidget *parent, 
 	EMAccountEditorPrivate *gui = emae->priv;
 	GtkWidget *w;
 
-	if (old)
-		return old;
-
-	w = glade_xml_get_widget(gui->xml, item->label);
+	w = gui->management_frame;
 	if (((EConfig *)gui->config)->type == E_CONFIG_DRUID) {
-		GtkWidget *page = glade_xml_get_widget(gui->druidxml, "management_page");
+		GladeXML *druidxml = glade_xml_new(EVOLUTION_GLADEDIR "/mail-config.glade", "management_page", NULL);
+		GtkWidget *page = glade_xml_get_widget(druidxml, "management_page");
 
-		/* need to set packing? */
 		gtk_widget_reparent(w, ((GnomeDruidPageStandard *)page)->vbox);
-
-		return page;
+		w = page;
+		g_object_unref(druidxml);
+		gnome_druid_append_page((GnomeDruid *)parent, (GnomeDruidPage *)page);
 	}
 
 	return w;
@@ -2130,23 +2226,22 @@ static GtkWidget *
 emae_widget_druid_glade(EConfig *ec, EConfigItem *item, struct _GtkWidget *parent, struct _GtkWidget *old, void *data)
 {
 	EMAccountEditor *emae = data;
+	GladeXML *druidxml = glade_xml_new(EVOLUTION_GLADEDIR "/mail-config.glade", item->label, NULL);
 	GtkWidget *w;
 
-	if (old)
-		return old;
-
-	printf("getting widget '%s' = %p\n", item->label, glade_xml_get_widget(emae->priv->druidxml, item->label));
-
-	w = glade_xml_get_widget(emae->priv->druidxml, item->label);
+	w = glade_xml_get_widget(druidxml, item->label);
 	/* i think the glade file has issues, we need to show all on at least the end page */
 	gtk_widget_show_all(w);
+	g_object_unref(druidxml);
+
+	gnome_druid_append_page((GnomeDruid *)parent, (GnomeDruidPage *)w);
 
 	return w;
 }
 
 /* plugin meta-data for "org.gnome.evolution.mail.config.accountDruid" */
 static EMConfigItem emae_druid_items[] = {
-	{ E_CONFIG_DRUID, "", "druid", emae_widget_druid_glade },
+	{ E_CONFIG_DRUID, "", },
 	{ E_CONFIG_PAGE_START, "0.start", "start_page", emae_widget_druid_glade },
 
 	{ E_CONFIG_PAGE, "00.identity", "vboxIdentityBorder", emae_identity_page },
@@ -2291,7 +2386,7 @@ emae_check_complete(EConfig *ec, const char *pageid, void *data)
 				emae->priv->identity_set = 1;
 				uname = g_locale_to_utf8(g_get_real_name(), -1, NULL, NULL, NULL);
 				if (uname) {
-					gtk_entry_set_text((GtkEntry *)glade_xml_get_widget(emae->priv->xml, "management_name"), uname);
+					gtk_entry_set_text(emae->priv->identity_entries[0], uname);
 					g_free(uname);
 				}
 			}
@@ -2327,7 +2422,7 @@ emae_check_complete(EConfig *ec, const char *pageid, void *data)
 				while (mail_config_get_account_by_name(template))
 					sprintf(template + len, " (%d)", i++);
 
-				gtk_entry_set_text((GtkEntry *)glade_xml_get_widget(emae->priv->xml, "management_name"), template);
+				gtk_entry_set_text(emae->priv->identity_entries[0], template);
 			}
 		}
 	}
@@ -2420,10 +2515,6 @@ em_account_editor_construct(EMAccountEditor *emae, EAccount *account, em_account
 		e_account_set_string(emae->account, E_ACCOUNT_SENT_FOLDER_URI,
 				     mail_component_get_folder_uri(NULL, MAIL_COMPONENT_FOLDER_SENT));
 	}
-
-	gui->xml = glade_xml_new(EVOLUTION_GLADEDIR "/mail-config.glade", "account_editor_notebook", NULL);
-	if (type == EMAE_DRUID)
-		gui->druidxml = glade_xml_new(EVOLUTION_GLADEDIR "/mail-config.glade", "druid", NULL);
 
 	/* sort the providers, remote first */
 	gui->providers = g_list_sort(camel_provider_list(TRUE), (GCompareFunc)provider_compare);

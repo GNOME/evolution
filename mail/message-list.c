@@ -3673,8 +3673,13 @@ mail_regen_list (MessageList *ml, const char *search, const char *hideexpr, Came
 	struct _regen_list_msg *m;
 	GConfClient *gconf;
 	
-	if (ml->folder == NULL)
+	if (ml->folder == NULL) {
+		if (ml->search != search) {
+			g_free(ml->search);
+			ml->search = g_strdup(search);
+		}
 		return;
+	}
 
 	mail_regen_cancel(ml);
 

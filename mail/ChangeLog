@@ -1,3 +1,42 @@
+2005-02-14  Not Zed  <NotZed@Ximian.com>
+
+	** See bug #61363 & e-util/ChangeLog
+
+	* em-account-editor.c: All sorts of changes to make the ui more
+	dynamic, re-create all widgets when it needs a reconfigure.  A bit
+	slower and it flickers a bit.
+	
+	* em-account-editor.c (emae_setup_service): take xml file pointer.
+	(emae_send_page): create a new send page every time we need to,
+	don't re-use the old oneq.
+	(emae_setup_authtype): renamed to refresh_authtype.
+	(emae_setup_service): init authtype pointer.
+	(emae_needs_auth): use the auth_frame pointer directly.
+	(emae_refresh_providers): rename from setup_providers.
+
+2005-02-11  Not Zed  <NotZed@Ximian.com>
+
+	* em-account-editor.c (emae_setup_service): set needs_auth to NULL
+	if we don't, so it gets reset if the ui changes.
+
+2005-02-10  Not Zed  <NotZed@Ximian.com>
+
+	* em-account-editor.c (emae_setup_providers): don't include any
+	providers which are store and transport in the transport page.
+	(emae_send_page): show no send options page at all if the provider is
+	store and transport.
+	(emae_uri_changed): copy store url to transport if as above.
+
+2005-02-09  Not Zed  <NotZed@Ximian.com>
+
+	** See bug #70795
+
+	* em-folder-view.c (em_folder_view_open_selected): set the search
+	on the browser to match the current view.
+
+	* message-list.c (mail_regen_list): save the search if no folder
+	set, incase the folder gets set later on.
+
 2005-02-18  Rodney Dawes  <dobey@novell.com>
 
 	* mail/em-folder-view.c (emfv_popup_copy_text): New method to copy
