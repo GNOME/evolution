@@ -1,3 +1,8 @@
+2001-06-13  Jakub Steiner <jimmac@ximian.com>
+
+	* splash-1-0.png: Initial mockup for the final splash.
+	  Didn't wan't to overwrite the unstable splash.png.
+	
 2001-06-07  Iain Holmes  <iain@ximian.com>
 
 	* empty.gif:
