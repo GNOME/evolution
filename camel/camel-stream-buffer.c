@@ -333,12 +333,12 @@ stream_flush (CamelStream *stream)
 	CamelStreamBuffer *sbf = CAMEL_STREAM_BUFFER (stream);
 
 	if ((sbf->mode & CAMEL_STREAM_BUFFER_MODE) == CAMEL_STREAM_BUFFER_WRITE) {
-		int len = sbf->ptr-sbf->buf;
-		int written = camel_stream_write(sbf->stream, sbf->buf, len);
-		if (written > 0)
-			sbf->ptr += written;
-		if (written != len)
+		size_t len = sbf->ptr - sbf->buf;
+		
+		if (camel_stream_write (sbf->stream, sbf->buf, len) == -1)
 			return -1;
+		
+		sbf->ptr = sbf->buf;
 	} else {
 		/* nothing to do for read mode 'flush' */
 	}

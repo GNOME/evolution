@@ -1,5 +1,10 @@
 2004-06-04  Jeffrey Stedfast  <fejj@novell.com>
 
+	* camel-stream-buffer.c (stream_flush): Fixed to work
+	properly. After we've flushed the buffer, we want to set sbf->ptr
+	to sbf->buf, we don't want to do sbf->ptr += written, that'll just
+	corrupt our next write.
+
 	* providers/imap4/camel-imap4-store.c (connect_to_server_wrapper):
 	Duh. If the user doesn't care about SSL/TLS - use USE_SSL_NEVER,
 	not USE_SSL_ALWAYS.
