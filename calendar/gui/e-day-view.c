@@ -1091,7 +1091,7 @@ e_day_view_update_event		(EDayView	*day_view,
 
 	g_return_if_fail (E_IS_DAY_VIEW (day_view));
 
-#if 1
+#if 0
 	/* FIXME: Just for testing. */
 	chdir ("/home/damon/tmp");
 	g_log_set_always_fatal (G_LOG_LEVEL_WARNING | G_LOG_LEVEL_CRITICAL);
