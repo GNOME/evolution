@@ -1,3 +1,15 @@
+2000-08-11  Chris Toshok  <toshok@helixcode.com>
+
+	* conduit/address-conduit.c (ecard_from_remote_record): add code
+	for handling email addresses from pilot (which stores it as a
+	phone number entry.  go figure.)
+	(check_for_slow_setting): #if 0 out, since we don't use it (yet).
+	(update_record): un #if 0 the code to handle the case where the
+	pilot info has changed for a local record.
+	(merge_ecard_with_remote_record): implement function, but for now
+	just return the existing (desktop) record - we still don't allow
+	merge from the pilot.
+
 2000-08-10  Christopher James Lahey  <clahey@helixcode.com>
 
 	* gui/search/addresstypes.xml: Changed a couple of input field

@@ -309,42 +309,46 @@ ecard_from_remote_record(AddressbookConduitContext *ctxt,
 		ADD_PROP (orgprop, entryCompany, VCOrgNameProp);
 	}
 
-#if 1
 	for (i = entryPhone1; i <= entryPhone5; i ++) {
 		if (address.entry [i]) {
-			const char* phone_type;
 			char *phonelabel = ctxt->ai.phoneLabels[address.phoneLabel[i - entryPhone1]];
-			VObject *phoneprop = addPropValue (vobj,
-							   VCTelephoneProp,
-							   address.entry[i]);
-
-			printf ("added '%s' phone entry %s\n",
-				phonelabel,
-				address.entry[i]);
-
-			if (!strcmp (phonelabel, "Home"))
-				phone_type = VCHomeProp;
-			else if (!strcmp (phonelabel, "Work"))
-				phone_type = VCWorkProp;
-			else if (!strcmp (phonelabel, "Fax"))
-				phone_type = VCFaxProp;
-			else if (!strcmp (phonelabel, "Other"))
-				phone_type = VCHomeProp; /* XXX */
-			else if (!strcmp (phonelabel, "E-mail"))
-				phone_type = VCHomeProp; /* XXX */
-			else if (!strcmp (phonelabel, "Main")) { /* XXX */
-				addProp (phoneprop, VCHomeProp);
-				phone_type = VCPreferredProp;
+			if (!strcmp (phonelabel, "E-mail")) {
+				VObject *emailprop = addPropValue (vobj,
+								   VCEmailAddressProp,
+								   address.entry[i]);
+				addProp (emailprop, VCInternetProp);
 			}
-			else if (!strcmp (phonelabel, "Pager"))
-				phone_type = VCPagerProp;
-			else if (!strcmp (phonelabel, "Mobile"))
-				phone_type = VCCellularProp;
-			
-			addProp (phoneprop, phone_type);
+			else {
+				const char* phone_type = VCHomeProp;
+				VObject *phoneprop = addPropValue (vobj,
+								   VCTelephoneProp,
+								   address.entry[i]);
+
+				printf ("added '%s' phone entry %s\n",
+					phonelabel,
+					address.entry[i]);
+
+				if (!strcmp (phonelabel, "Home"))
+					phone_type = VCHomeProp;
+				else if (!strcmp (phonelabel, "Work"))
+					phone_type = VCWorkProp;
+				else if (!strcmp (phonelabel, "Fax"))
+					phone_type = VCFaxProp;
+				else if (!strcmp (phonelabel, "Other"))
+					phone_type = VCHomeProp; /* XXX */
+				else if (!strcmp (phonelabel, "Main")) { /* XXX */
+					addProp (phoneprop, VCHomeProp);
+					phone_type = VCPreferredProp;
+				}
+				else if (!strcmp (phonelabel, "Pager"))
+					phone_type = VCPagerProp;
+				else if (!strcmp (phonelabel, "Mobile"))
+					phone_type = VCCellularProp;
+				addProp (phoneprop, phone_type);
+			}
 		}
 	}
-#endif
+#undef ADD_PROP
 
 	temp = writeMemVObject (NULL, NULL, vobj);
 	ecard = e_card_new (temp);
@@ -355,6 +359,14 @@ ecard_from_remote_record(AddressbookConduitContext *ctxt,
 
 	gtk_object_set (GTK_OBJECT(ecard), "pilot_id", remote->ID, NULL);
 
+	return ecard;
+}
+
+static ECard*
+merge_ecard_with_remote_record (AddressbookConduitContext *ctxt,
+				ECard *ecard,
+				PilotRecord *remote)
+{
 	return ecard;
 }
 
@@ -413,7 +425,6 @@ update_record (GnomePilotConduitStandardAbs *conduit,
 		else
 			WARN ("update_record: failed to add card to ebook\n");
 	} else {
-#if 0
 		EBookStatus commit_status;
 
 		ecard = merge_ecard_with_remote_record (ctxt, ecard, remote);
@@ -424,7 +435,6 @@ update_record (GnomePilotConduitStandardAbs *conduit,
 
 		if (commit_status != E_BOOK_STATUS_SUCCESS)
 			WARN ("update_record: failed to update card in ebook\n");
-#endif
 	}
 
 	free_Address(&address);
@@ -432,10 +442,10 @@ update_record (GnomePilotConduitStandardAbs *conduit,
 	return 0;
 }
 
+#if 0
 static void
 check_for_slow_setting (GnomePilotConduit *c, AddressbookConduitContext *ctxt)
 {
-#if 0
 	GList *uids;
 	unsigned long int entry_number;
 
@@ -450,8 +460,8 @@ check_for_slow_setting (GnomePilotConduit *c, AddressbookConduitContext *ctxt)
 		conduit = GNOME_PILOT_CONDUIT_STANDARD (c);
 		gnome_pilot_conduit_standard_set_slow (conduit);
 	}
-#endif /* 0 */
 }
+#endif /* 0 */
 
 static gint
 pre_sync (GnomePilotConduit *c,
