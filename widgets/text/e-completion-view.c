@@ -296,11 +296,13 @@ e_completion_view_destroy (GtkObject *object)
 	ECompletionView *cv = E_COMPLETION_VIEW (object);
 
 	e_completion_view_disconnect (cv);
-	e_completion_view_clear_choices (cv);
 
-	if (cv->choices)
+	if (cv->choices) {
+		e_completion_view_clear_choices (cv);
+
 		g_ptr_array_free (cv->choices, TRUE);
-	cv->choices = NULL;
+		cv->choices = NULL;
+	}
 
 	if (cv->key_widget) {
 		gtk_signal_disconnect (GTK_OBJECT (cv->key_widget), cv->key_signal_id);
@@ -340,6 +342,7 @@ e_completion_view_disconnect (ECompletionView *cv)
 	cv->begin_signal_id   = 0;
 	cv->comp_signal_id    = 0;
 	cv->restart_signal_id = 0;
+	cv->cancel_signal_id   = 0;
 	cv->end_signal_id     = 0;
 	cv->clear_signal_id   = 0;
 	cv->lost_signal_id    = 0;
