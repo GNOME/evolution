@@ -2,6 +2,8 @@
 
 	* em-migrate.c (cp): Only abort the copy if the dest folder both
 	exists and contains data. Fixes bug #52880.
+	(em_migrate): Abort if config.xmldb cannot be loaded. Fixes bug
+	#52886.
 
 2004-01-15  Rodrigo Moya <rodrigo@ximian.com>
 

@@ -1868,10 +1868,17 @@ em_migrate (const char *evolution_dir, int major, int minor, int revision, Camel
 		xmlDocPtr config_xmldb = NULL, filters, vfolders;
 		
 		path = g_build_filename (g_get_home_dir (), "evolution", NULL);
+		if (minor <= 2 && !(config_xmldb = emm_load_xml (path, "config.xmldb"))) {
+			camel_exception_set (ex, CAMEL_EXCEPTION_SYSTEM,
+					     "Cannot migrate mail settings/data from Evolution %d.%d.%d: "
+					     "~/evolution/config.xmldb doesn't exist or is corrupt!");
+			g_warning ("Cannot migrate mail settings/data from Evolution %d.%d.%d: "
+				   "~/evolution/config.xmldb doesn't exist or is corrupt!");
+			g_free (path);
+			return -1;
+		}
 		filters = emm_load_xml (path, "filters.xml");
 		vfolders = emm_load_xml (path, "vfolders.xml");
-		if (minor <= 2)
-			config_xmldb = emm_load_xml (path, "config.xmldb");
 		g_free (path);
 		
 		if (minor == 0) {
