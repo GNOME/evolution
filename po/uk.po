@@ -1340,11 +1340,11 @@ msgstr ""
 
 #: calendar/gui/calendar-model.c:516
 msgid "Transparent"
-msgstr ""
+msgstr "Прозорий"
 
 #: calendar/gui/calendar-model.c:519
 msgid "Opaque"
-msgstr ""
+msgstr "Непрозорий"
 
 #: calendar/gui/calendar-model.c:745
 #, c-format
@@ -1481,7 +1481,7 @@ msgstr ""
 
 #: po/tmp/cal-prefs-dialog.glade.h:14
 msgid "Audio Alarms"
-msgstr ""
+msgstr "Звуков╕ си╜нали"
 
 #: po/tmp/cal-prefs-dialog.glade.h:15
 msgid "Beep when alarm windows appear."
