@@ -6,13 +6,13 @@
 # Martin Norbäck <d95mback@dtek.chalmers.se>, 2001.
 # Johan Dahlin <zilch.am@home.se>, 2001.
 #
-# $Id: sv.po,v 1.170 2003/04/25 13:04:23 menthos Exp $
+# $Id: sv.po,v 1.171 2003/04/26 21:17:35 menthos Exp $
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
-"POT-Creation-Date: 2003-04-25 15:00+0200\n"
-"PO-Revision-Date: 2003-04-25 15:00+0200\n"
+"POT-Creation-Date: 2003-04-26 23:15+0200\n"
+"PO-Revision-Date: 2003-04-26 23:16+0200\n"
 "Last-Translator: Christian Rose <menthos@menthos.com>\n"
 "Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -2862,7 +2862,7 @@ msgid "Error modifying card"
 msgstr "Fel vid ändring av kort"
 
 #: addressbook/gui/widgets/e-addressbook-util.c:36
-#: shell/evolution-shell-component.c:1174
+#: shell/evolution-shell-component.c:1180
 msgid "Success"
 msgstr "Lyckades"
 
@@ -2871,7 +2871,7 @@ msgstr "Lyckades"
 #: camel/providers/imap/camel-imap-command.c:406
 #: camel/providers/pop3/camel-pop3-store.c:522
 #: camel/providers/pop3/camel-pop3-store.c:529 shell/e-shell.c:2075
-#: shell/e-storage.c:598 shell/evolution-shell-component.c:1213
+#: shell/e-storage.c:598 shell/evolution-shell-component.c:1219
 msgid "Unknown error"
 msgstr "Okänt fel"
 
@@ -2880,7 +2880,7 @@ msgid "Repository offline"
 msgstr "Lagret frånkopplat"
 
 #: addressbook/gui/widgets/e-addressbook-util.c:39 shell/e-storage.c:584
-#: shell/evolution-shell-component.c:1204
+#: shell/evolution-shell-component.c:1210
 msgid "Permission denied"
 msgstr "Åtkomst nekas"
 
@@ -3714,17 +3714,17 @@ msgstr "Slumringstid (minuter)"
 msgid "_Edit appointment"
 msgstr "_Redigera möte"
 
-#: calendar/gui/alarm-notify/alarm-queue.c:780
+#: calendar/gui/alarm-notify/alarm-queue.c:778
 msgid "No description available."
 msgstr "Ingen beskrivning finns tillgänglig."
 
-#: calendar/gui/alarm-notify/alarm-queue.c:853
-#: calendar/gui/alarm-notify/alarm-queue.c:877
+#: calendar/gui/alarm-notify/alarm-queue.c:851
+#: calendar/gui/alarm-notify/alarm-queue.c:875
 #: calendar/gui/tasks-control.c:463 widgets/misc/e-messagebox.c:161
 msgid "Warning"
 msgstr "Varning"
 
-#: calendar/gui/alarm-notify/alarm-queue.c:857
+#: calendar/gui/alarm-notify/alarm-queue.c:855
 msgid ""
 "Evolution does not support calendar reminders with\n"
 "email notifications yet, but this reminder was\n"
@@ -3736,7 +3736,7 @@ msgstr ""
 "konfigurerad att skicka e-post. Evolution kommer att\n"
 "visa en normal dialogruta istället."
 
-#: calendar/gui/alarm-notify/alarm-queue.c:883
+#: calendar/gui/alarm-notify/alarm-queue.c:881
 #, c-format
 msgid ""
 "An Evolution Calendar reminder is about to trigger. This reminder is "
@@ -3753,7 +3753,7 @@ msgstr ""
 "\n"
 "Är du säker på att du vill köra detta program?"
 
-#: calendar/gui/alarm-notify/alarm-queue.c:897
+#: calendar/gui/alarm-notify/alarm-queue.c:895
 msgid "Do not ask me about this program again."
 msgstr "Fråga mig inte om detta program igen."
 
@@ -3941,7 +3941,7 @@ msgstr "Ledig"
 
 #: calendar/gui/calendar-model.c:591 calendar/gui/e-calendar-table.c:447
 #: calendar/gui/e-meeting-time-sel.c:407
-#: shell/evolution-shell-component.c:1198
+#: shell/evolution-shell-component.c:1204
 msgid "Busy"
 msgstr "Upptagen"
 
@@ -4604,6 +4604,54 @@ msgstr "Är du säker på att du vill ta bort %d uppgifter?"
 #, c-format
 msgid "Are you sure you want to delete %d journal entries?"
 msgstr "Är du säker på att du vill ta bort %d dagboksposter?"
+
+#: calendar/gui/dialogs/delete-error.c:50
+msgid "The event could not be deleted due to a corba error"
+msgstr "Händelsen kunde inte tas bort på grund av ett corba-fel"
+
+#: calendar/gui/dialogs/delete-error.c:53
+msgid "The task could not be deleted due to a corba error"
+msgstr "Uppgiften kunde inte tas bort på grund av ett corba-fel"
+
+#: calendar/gui/dialogs/delete-error.c:56
+msgid "The journal entry could not be deleted due to a corba error"
+msgstr "Dagboksposten kunde inte tas bort på grund av ett corba-fel"
+
+#: calendar/gui/dialogs/delete-error.c:59
+msgid "The item could not be deleted due to a corba error"
+msgstr "Objektet kunde inte tas bort på grund av ett corba-fel"
+
+#: calendar/gui/dialogs/delete-error.c:66
+msgid "The event could not be deleted because permission was denied"
+msgstr "Händelsen kunde inte tas bort på grund av att åtkomst nekades"
+
+#: calendar/gui/dialogs/delete-error.c:69
+msgid "The task could not be deleted because permission was denied"
+msgstr "Uppgiften kunde inte tas bort på grund av att åtkomst nekades"
+
+#: calendar/gui/dialogs/delete-error.c:72
+msgid "The journal entry could not be deleted because permission was denied"
+msgstr "Dagboksposten kunde inte tas bort på grund av att åtkomst nekades"
+
+#: calendar/gui/dialogs/delete-error.c:75
+msgid "The item could not be deleted because permission was denied"
+msgstr "Objektet kunde inte tas bort på grund av åtkomst nekades"
+
+#: calendar/gui/dialogs/delete-error.c:82
+msgid "The event could not be deleted because it was invalid"
+msgstr "Händelsen kunde inte tas bort eftersom den var ogiltig"
+
+#: calendar/gui/dialogs/delete-error.c:85
+msgid "The task could not be deleted because it was invalid"
+msgstr "Uppgiften kunde inte tas bort eftersom den var ogiltig"
+
+#: calendar/gui/dialogs/delete-error.c:88
+msgid "The journal entry could not be deleted because it was invalid"
+msgstr "Dagboksposten kunde inte tas bort eftersom den var ogiltig"
+
+#: calendar/gui/dialogs/delete-error.c:91
+msgid "The item could not be deleted because it was invalid"
+msgstr "Objektet kunde inte tas bort eftersom det var ogiltigt"
 
 #: calendar/gui/dialogs/e-delegate-dialog.glade.h:1
 msgid "Addressbook..."
@@ -5573,7 +5621,7 @@ msgstr "Skicka senaste information"
 
 #: calendar/gui/e-itip-control.c:1244 calendar/gui/itip-utils.c:434
 #: mail/mail-send-recv.c:383 mail/mail-send-recv.c:440
-#: shell/evolution-shell-component.c:1176 ui/evolution-mail-global.xml.h:1
+#: shell/evolution-shell-component.c:1182 ui/evolution-mail-global.xml.h:1
 msgid "Cancel"
 msgstr "Avbryt"
 
@@ -6403,7 +6451,7 @@ msgstr ""
 msgid "Gnome Calendar"
 msgstr "Gnome-kalendern"
 
-#: calendar/pcs/cal-backend-file.c:311
+#: calendar/pcs/cal-backend-file.c:316
 msgid "Can't save calendar data: Malformed URI."
 msgstr "Kan inte spara kalenderdata: Felaktigt utformad URI."
 
@@ -25863,63 +25911,63 @@ msgstr ""
 "Felet från aktiveringssystemet är:\n"
 "%s"
 
-#: shell/evolution-shell-component.c:1178
+#: shell/evolution-shell-component.c:1184
 msgid "CORBA error"
 msgstr "CORBA-fel"
 
-#: shell/evolution-shell-component.c:1180
+#: shell/evolution-shell-component.c:1186
 msgid "Interrupted"
 msgstr "Avbruten"
 
-#: shell/evolution-shell-component.c:1182
+#: shell/evolution-shell-component.c:1188
 msgid "Invalid argument"
 msgstr "Ogiltigt argument"
 
-#: shell/evolution-shell-component.c:1184
+#: shell/evolution-shell-component.c:1190
 msgid "Already has an owner"
 msgstr "Har redan en ägare"
 
-#: shell/evolution-shell-component.c:1186
+#: shell/evolution-shell-component.c:1192
 msgid "No owner"
 msgstr "Ingen ägare"
 
-#: shell/evolution-shell-component.c:1188
+#: shell/evolution-shell-component.c:1194
 msgid "Not found"
 msgstr "Hittades inte"
 
-#: shell/evolution-shell-component.c:1190
+#: shell/evolution-shell-component.c:1196
 msgid "Unsupported type"
 msgstr "Typen stöds inte"
 
-#: shell/evolution-shell-component.c:1192
+#: shell/evolution-shell-component.c:1198
 msgid "Unsupported schema"
 msgstr "Schemat stöds inte"
 
-#: shell/evolution-shell-component.c:1194
+#: shell/evolution-shell-component.c:1200
 msgid "Unsupported operation"
 msgstr "Åtgärden stöds inte"
 
-#: shell/evolution-shell-component.c:1196
+#: shell/evolution-shell-component.c:1202
 msgid "Internal error"
 msgstr "Internt fel"
 
-#: shell/evolution-shell-component.c:1200
+#: shell/evolution-shell-component.c:1206
 msgid "Exists"
 msgstr "Existerar"
 
-#: shell/evolution-shell-component.c:1202
+#: shell/evolution-shell-component.c:1208
 msgid "Invalid URI"
 msgstr "Ogiltig URI"
 
-#: shell/evolution-shell-component.c:1206
+#: shell/evolution-shell-component.c:1212
 msgid "Has subfolders"
 msgstr "Har undermappar"
 
-#: shell/evolution-shell-component.c:1208
+#: shell/evolution-shell-component.c:1214
 msgid "No space left"
 msgstr "Inget utrymme kvar"
 
-#: shell/evolution-shell-component.c:1210
+#: shell/evolution-shell-component.c:1216
 msgid "Old owner has died"
 msgstr "Gamla ägaren har dött"
 
