@@ -12509,7 +12509,7 @@ msgstr "Evolution puede importar datos de los siguiente s archivos:"
 
 #: shell/main.c:89
 msgid "Evolution is now exiting ..."
-msgstr "Evolution esta terminando ..."
+msgstr "Evolution está terminando ..."
 
 #: shell/main.c:210
 msgid "Cannot access the Ximian Evolution shell."
