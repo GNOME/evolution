@@ -1,5 +1,9 @@
 2000-10-23  Dan Winship  <danw@helixcode.com>
 
+	* providers/imap/camel-imap-command.c (imap_read_untagged): Fix a
+	"how could this have been working before" memory overrun bug
+	found by Vlad.
+
 	* camel-op-queue.[ch], camel-thread-proxy.[ch]: These should have
 	gone away a long time ago.
 
