@@ -108,22 +108,49 @@ setup_corba (EMsgComposerHdrs *hdrs)
 	return TRUE;
 }
 
-
+typedef struct {
+	EMsgComposerHdrs *hdrs;
+	char *string;
+} EMsgComposerHdrsAndString;
+
+static void
+e_msg_composer_hdrs_and_string_free(EMsgComposerHdrsAndString *emchas)
+{
+	if (emchas->hdrs)
+		gtk_object_unref(GTK_OBJECT(emchas->hdrs));
+	g_free(emchas->string);
+}
+
+static EMsgComposerHdrsAndString *
+e_msg_composer_hdrs_and_string_create(EMsgComposerHdrs *hdrs, const char *string)
+{
+	EMsgComposerHdrsAndString *emchas;
+
+	emchas = g_new(EMsgComposerHdrsAndString, 1);
+	emchas->hdrs = hdrs;
+	emchas->string = g_strdup(string);
+	if (emchas->hdrs)
+		gtk_object_ref(GTK_OBJECT(emchas->hdrs));
+
+	return emchas;
+}
+
 static void
 address_button_clicked_cb (GtkButton *button,
 			   gpointer data)
 {
+	EMsgComposerHdrsAndString *emchas;
 	EMsgComposerHdrs *hdrs;
 	EMsgComposerHdrsPrivate *priv;
 	CORBA_Environment ev;
 
-	hdrs = E_MSG_COMPOSER_HDRS (data);
+	emchas = data;
+	hdrs = emchas->hdrs;
 	priv = hdrs->priv;
 
 	CORBA_exception_init (&ev);
 
-	/* FIXME: Section ID */
-	GNOME_Evolution_Addressbook_SelectNames_activateDialog (priv->corba_select_names, "", &ev);
+	GNOME_Evolution_Addressbook_SelectNames_activateDialog (priv->corba_select_names, emchas->string, &ev);
 
 	CORBA_exception_free (&ev);
 }
@@ -293,9 +320,11 @@ add_header (EMsgComposerHdrs *hdrs,
 	if (type == HEADER_ADDRBOOK) {
 		label = gtk_button_new_with_label (name);
 		GTK_OBJECT_UNSET_FLAGS (label, GTK_CAN_FOCUS);
-		gtk_signal_connect (GTK_OBJECT (label), "clicked",
-				    GTK_SIGNAL_FUNC (address_button_clicked_cb),
-				    hdrs);
+		gtk_signal_connect_full (GTK_OBJECT (label), "clicked",
+					 GTK_SIGNAL_FUNC (address_button_clicked_cb), NULL,
+					 e_msg_composer_hdrs_and_string_create(hdrs, name),
+					 (GtkDestroyNotify) e_msg_composer_hdrs_and_string_free,
+					 FALSE, FALSE);
 		pad = 2;
 		gtk_tooltips_set_tip (hdrs->priv->tooltips, label,
 				      _("Click here for the address book"),

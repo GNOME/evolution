@@ -1,3 +1,9 @@
+2001-02-06  Christopher James Lahey  <clahey@ximian.com>
+
+	* e-msg-composer-hdrs.c (address_button_clicked_cb, add_header):
+	Set the default argument to
+	GNOME_Evolution_Addressbook_SelectNames_activateDialog correctly.
+
 2001-01-30  Larry Ewing  <lewing@ximian.com>
 
 	* e-msg-composer-hdrs.c (create_optionmenu): make sure we convert
