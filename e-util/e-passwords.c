@@ -51,7 +51,7 @@
 #include <gtk/gtkmessagedialog.h>
 
 #include "e-passwords.h"
-#include "e-msgport.h"
+#include "libedataserver/e-msgport.h"
 #include "widgets/misc/e-error.h"
 
 #ifndef ENABLE_THREADS

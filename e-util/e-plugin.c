@@ -7,7 +7,7 @@
 #include <gconf/gconf-client.h>
 
 #include "e-plugin.h"
-#include "e-msgport.h"
+#include "libedataserver/e-msgport.h"
 
 /* plugin debug */
 #define pd(x)

@@ -45,6 +45,18 @@
 	(epl_construct): if we're enabled, and load-on-startup is set,
 	load the module right away.  Not to be abused!
 
+2004-11-16  Not Zed  <NotZed@Ximian.com>
+
+	* e-host-utils.[ch]: removed, code moved into
+	camel-net-utils.[ch].
+
+2004-11-15  Not Zed  <NotZed@Ximian.com>
+
+	* e-trie.[ch], e-memory.[ch], e-sexp.[ch], e-msgport.[ch]: Moved
+	to eds/libedataserver.
+
+	* e-path.[ch]: removed & deleted.
+
 2004-11-03  Not Zed  <NotZed@Ximian.com>
 
 	* e-plugin.c (e_plugin_list_plugins): added helper api to list all

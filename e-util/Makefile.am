@@ -35,26 +35,20 @@ eutilinclude_HEADERS = 				\
 	e-fsutils.h				\
 	e-gtk-utils.h				\
 	e-gui-utils.h				\
-	e-host-utils.h				\
 	e-html-utils.h				\
 	e-icon-factory.h			\
 	e-iterator.h				\
 	e-list-iterator.h			\
 	e-list.h				\
-	e-memory.h				\
 	e-menu.h				\
 	e-mktemp.h				\
-	e-msgport.h				\
 	e-passwords.h				\
-	e-path.h				\
 	e-plugin.h				\
 	e-popup.h				\
 	e-request.h				\
-	e-sexp.h				\
 	e-signature.h				\
 	e-signature-list.h			\
 	e-time-utils.h				\
-	e-trie.h				\
 	e-uid.h					\
 	e-url.h					\
 	md5-utils.h				\
@@ -79,26 +73,20 @@ libeutil_la_SOURCES =				\
 	e-fsutils.c				\
 	e-gtk-utils.c				\
 	e-gui-utils.c				\
-	e-host-utils.c				\
 	e-html-utils.c				\
 	e-icon-factory.c			\
 	e-iterator.c				\
 	e-list-iterator.c			\
 	e-list.c				\
-	e-memory.c				\
 	e-menu.c				\
 	e-mktemp.c				\
-	e-msgport.c				\
 	e-passwords.c				\
-	e-path.c				\
 	e-plugin.c				\
 	e-popup.c				\
 	e-request.c				\
-	e-sexp.c				\
 	e-signature.c				\
 	e-signature-list.c			\
 	e-time-utils.c				\
-	e-trie.c				\
 	e-uid.c					\
 	e-url.c					\
 	eggtrayicon.c				\
