@@ -1,3 +1,9 @@
+2000-12-13  Christopher James Lahey  <clahey@helixcode.com>
+
+	* backend/pas/pas-backend-ldap.c (ldap_error_to_response): Test
+	for the existance of LDAP_NAME_ERROR and if it exists as a macro,
+	use it instead of NAME_ERROR.
+
 2000-12-14  Michael Meeks  <michael@helixcode.com>
 
 	* gui/component/GNOME_Evolution_Addressbook.oafinfo: update cut
