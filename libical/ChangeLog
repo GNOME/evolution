@@ -1,5 +1,10 @@
 2001-04-18  Ettore Perazzoli  <ettore@ximian.com>
 
+	* src/Makefile.am (SUBDIRS): Don't compile the Python stuff nor
+	the tests for now; they are broken.
+
+2001-04-18  Ettore Perazzoli  <ettore@ximian.com>
+
 	* src/libicalss/Makefile.am (COMBINEDHEADERS): All of these have
 	to come from the srcdir: prepend `$(srcdir)'.
 
