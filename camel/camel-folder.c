@@ -20,7 +20,7 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307
  * USA
  */
-
+#include <config.h>
 #include "camel-folder.h"
 #include "gstring-util.h"
 
@@ -362,12 +362,17 @@ _create(CamelFolder *folder)
 	g_assert(folder->parent_store);
 	g_assert(folder->name);
 
-	if ( CF_CLASS(folder)->exists(folder) ) return TRUE;
+	if (CF_CLASS(folder)->exists(folder))
+		return TRUE;
+
 	sep = camel_store_get_separator(folder->parent_store);	
-	if (folder->parent_folder) camel_folder_create(folder->parent_folder);
+	if (folder->parent_folder)
+		camel_folder_create(folder->parent_folder);
 	else {   
 		if (folder->full_name) {
-			dich_result = g_string_dichotomy(folder->full_name, sep, &prefix, NULL, DICHOTOMY_STRIP_TRAILING | DICHOTOMY_RIGHT_DIR);
+			dich_result = g_string_dichotomy(
+				folder->full_name, sep, &prefix, NULL,
+				GSTRING_DICHOTOMY_STRIP_TRAILING | GSTRING_DICHOTOMY_RIGHT_DIR);
 			if (dich_result!='o') {
 				g_warning("I have to handle the case where the path is not OK\n"); 
 				return FALSE;

@@ -52,7 +52,6 @@ typedef struct
 	CamelStream parent_object;
 	GString *name;
 	int fd;
-
 } CamelStreamFs;
 
 

@@ -21,22 +21,26 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307
  * USA
  */
-
+#include <config.h>
 #include "camel-stream.h"
 
-static CamelStreamClass *parent_class=NULL;
+static CamelStreamClass *parent_class = NULL;
 
 
 /* Returns the class for a CamelMimeMessage */
 #define CS_CLASS(so) CAMEL_STREAM_CLASS (GTK_OBJECT(so)->klass)
 
-static gint _read (CamelStream *stream, gchar *buffer, gint n);
-static gint _write (CamelStream *stream, gchar *buffer, gint n);
-static void _flush (CamelStream *stream);
-static gint _available (CamelStream *stream);
-static gboolean _eos (CamelStream *stream);
-static void _close (CamelStream *stream);
+static void
+default_camel_flush (CamelStream *stream)
+{
+	/* nothing */
+}
 
+static void
+default_camel_close (CamelStream *stream)
+{
+	/* nothing */
+}
 
 static void
 camel_stream_class_init (CamelStreamClass *camel_stream_class)
@@ -45,18 +49,15 @@ camel_stream_class_init (CamelStreamClass *camel_stream_class)
 	parent_class = gtk_type_class (gtk_object_get_type ());
 
 	/* virtual method definition */
-	camel_stream_class->read = _read;
-	camel_stream_class->write = _write;
-	camel_stream_class->flush = _flush;
-	camel_stream_class->available = _available;
-	camel_stream_class->eos = _eos;
-	camel_stream_class->close = _close;
+	camel_stream_class->read = NULL;
+	camel_stream_class->write = NULL;
+	camel_stream_class->flush = default_camel_flush;
+	camel_stream_class->available = NULL;
+	camel_stream_class->eos = NULL; 
+	camel_stream_class->close = default_camel_close;
 
 	/* virtual method overload */
-
 }
-
-
 
 GtkType
 camel_stream_get_type (void)
@@ -82,24 +83,17 @@ camel_stream_get_type (void)
 	return camel_stream_type;
 }
 
-
-
 /**
- * _read: read bytes from a stream
- * @stream: stream
- * @buffer: buffer where bytes are stored
- * @n: max number of bytes to read
+ * camel_stream_read: 
+ * @stream: a CamelStream.
+ * @buffer: buffer where bytes pulled from the stream are stored.
+ * @n: max number of bytes to read.
  * 
- * 
+ * Read at most @n bytes from the @stream object and stores them
+ * in the buffer pointed at by @buffer.
  * 
  * Return value: number of bytes actually read.
  **/
-static gint
-_read (CamelStream *stream, gchar *buffer, gint n)
-{
-	
-}
-
 gint 
 camel_stream_read (CamelStream *stream, gchar *buffer, gint n)
 {
@@ -107,98 +101,84 @@ camel_stream_read (CamelStream *stream, gchar *buffer, gint n)
 }
 
 /**
- * _write: read bytes to a stream
- * @stream: the stream
- * @buffer: byte buffer
+ * camel_stream_write: 
+ * @stream: a CamelStream object.
+ * @buffer: buffer to write.
  * @n: number of bytes to write
- * 
- * 
- * 
+ *
+ * Write @n bytes from the buffer pointed at by @buffer into @stream.
+ *
  * Return value: the number of bytes actually written
  *  in the stream.
  **/
-static gint
-_write (CamelStream *stream, gchar *buffer, gint n)
-{
-
-}
-
 gint
 camel_stream_write (CamelStream *stream, gchar *buffer, gint n)
 {
-	CS_CLASS (stream)->write (stream, buffer, n);
+	return CS_CLASS (stream)->write (stream, buffer, n);
 }
 
-
-
 /**
- * _flush: flush pending changes 
- * @stream: the stream
+ * camel_stream_flush:
+ * @stream: a CamelStream object
  * 
- * 
+ * Flushes the contents of the stream to its backing store.
  **/
-static void
-_flush (CamelStream *stream)
+void
+camel_stream_flush (CamelStream *stream)
 {
-
+	return CS_CLASS (stream)->flush (stream);
 }
 
-
-
 /**
- * _available: return the number of bytes available for reading
- * @stream: the stream
+ * camel_stream_available: 
+ * @stream: a CamelStream object
  * 
- * Return the number of bytes available without blocking.
- * 
- * Return value: the number of bytes available
+ * Return value: the number of bytes available.
  **/
 static gint 
-_available (CamelStream *stream)
+camel_stream_available (CamelStream *stream)
 {
-
+	return CS_CLASS (stream)->available (stream);
 }
 
-
 /**
- * _eos: test if there are bytes left to read
- * @stream: the stream
+ * camle_stream_eos: 
+ * @stream: a CamelStream object
  * 
+ * Test if there are bytes left to read on the @stream object.
  * 
- * 
- * Return value: true if all stream has been read
+ * Return value: %TRUE if all the contents on the stream has been read, or
+ * %FALSE if information is still available.
  **/
 static gboolean
-_eos (CamelStream *stream)
+camel_stream_eos (CamelStream *stream)
 {
-
+	return CS_CLASS (stream)->eos (stream);
 }
 
 
 /**
- * _close: close a stream
- * @stream: the stream
+ * camel_stram_close: 
+ * @stream: a CamelStream object.
  * 
- * 
+ * Close the @stream object.
  **/
-static void
-_close (CamelStream *stream)
-{
-
-}
-
 void
 camel_stream_close (CamelStream *stream)
 {
 	CS_CLASS (stream)->close (stream);
 }
 
-
-
-
-
 /***************** Utility functions ********************/
 
+/**
+ * came_stream_write_strings:
+ * @stream: a CamelStream object.
+ * @...: A %NULL terminated list of strings.
+ *
+ * This is a utility function that writes the list of
+ * strings into the @stream object.
+ */
 void
 camel_stream_write_strings (CamelStream *stream, ... )
 {
@@ -209,7 +189,7 @@ camel_stream_write_strings (CamelStream *stream, ... )
 	string = va_arg (args, char *);
 	
 	while (string) {
-		camel_stream_write_string(stream, string);
+		camel_stream_write_string (stream, string);
 		string = va_arg (args, char *);
 	}
 	va_end (args);

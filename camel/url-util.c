@@ -34,7 +34,7 @@
 /*
   XXX TODO: recover  the words between #'s or ?'s after the path */
 
-
+#include <config.h>
 #include "url-util.h"
 
 /* general item finder */

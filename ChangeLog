@@ -1,3 +1,36 @@
+1999-07-13  Miguel de Icaza  <miguel@gnu.org>
+
+	* camel/gmime-base64.c (gmime_encode_base64): Implemented base64
+	encoder based on CamelStreams.  Should the encoder/decoder be a
+	Stream itself?
+
+	* camel/gmime-utils.c: include config.h here.
+	* camel/url-util.c: ditto.
+	* camel/gstring-util.c: ditto.
+	* camel/gmime-content-field.c: ditto.
+	* camel/camel-stream.c: ditto.
+	* camel/camel-stream-fs.c: ditto.
+	* camel/camel-store.c: ditto.
+	* camel/camel-simple-data-wrapper.c: ditto.
+	* camel/camel-session.c: ditto.
+	* camel/camel-service.c: ditto.
+	* camel/camel-mime-part.c: ditto.
+	* camel/camel-mime-message.c: ditto.
+	* camel/camel-log.c: ditto.
+	* camel/camel-data-wrapper.c: ditto
+	* camel/camel-folder.c: ditto.
+
+	* camel/camel-stream.c (camel_stream_write): Moved api
+	documentation to the places that they document.
+	(camel_stream_class_init): Virtual classes do not need to have a
+	default implementation.  So null them all.
+	(camel_stream_write): Return value from write.
+	(camel_stream_available): implement.
+	(camel_stream_write_strings): documented.
+
+	* devel-docs/query/virtual-folder-in-depth.sgml: Small
+	reformatting
+
 1999-06-28  bertrand  <Bertrand.Guiheneuf@inria.fr>
 
 	* tests/test2.c (main): now use 

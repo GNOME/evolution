@@ -21,7 +21,7 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307
  * USA
  */
-
+#include <config.h>
 #include "camel-stream-fs.h"
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -32,7 +32,7 @@
 static CamelStreamClass *parent_class=NULL;
 
 
-/* Returns the class for a CamelMimeMessage */
+/* Returns the class for a CamelStreamFS */
 #define CS_CLASS(so) CAMEL_STREAM_FS_CLASS (GTK_OBJECT(so)->klass)
 
 static gint _read (CamelStream *stream, gchar *buffer, gint n);
@@ -101,13 +101,17 @@ camel_stream_fs_new_with_name (GString *name, CamelStreamFsMode mode)
 	CAMEL_LOG (FULL_DEBUG, "Entering CamelStream::new_with_name, name=\"%s\", mode=%d\n", name->str, mode); 
 	v = stat (name->str, &s);
 	
-	if (mode & CAMEL_STREAM_FS_READ)
-		if (mode & CAMEL_STREAM_FS_WRITE) flags = O_RDWR | O_CREAT;
-		else flags = O_RDONLY;
-	else 
-		if (mode & CAMEL_STREAM_FS_WRITE) flags = O_WRONLY | O_CREAT;
-		else return NULL;
-
+	if (mode & CAMEL_STREAM_FS_READ){
+		if (mode & CAMEL_STREAM_FS_WRITE)
+			flags = O_RDWR | O_CREAT;
+		else
+			flags = O_RDONLY;
+	} else {
+		if (mode & CAMEL_STREAM_FS_WRITE)
+			flags = O_WRONLY | O_CREAT;
+		else
+			return NULL;
+	}
 	if ( (mode & CAMEL_STREAM_FS_READ) && !(mode & CAMEL_STREAM_FS_WRITE) )
 		if (v == -1) return NULL;
 

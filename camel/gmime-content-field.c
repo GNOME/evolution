@@ -21,9 +21,7 @@
  * USA
  */
 
-
-
-
+#include <config.h>
 #include "gmime-content-field.h"
 #include "gstring-util.h"
 #include "camel-log.h"

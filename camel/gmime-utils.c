@@ -21,8 +21,7 @@
  * USA
  */
 
-
-
+#include <config.h>
 #include "gmime-utils.h"
 #include "gstring-util.h"
 #include "camel-log.h"
@@ -112,14 +111,18 @@ _store_header_pair_from_gstring (GHashTable *header_table, GString *header_line)
 	
 	g_assert (header_table);
 	if ( (header_line) && (header_line->str) ) {
-		dich_result = g_string_dichotomy(header_line, ':', &header_name, &header_value, DICHOTOMY_NONE);
+		dich_result = g_string_dichotomy (
+			header_line, ':', &header_name, &header_value,
+			GSTRING_DICHOTOMY_NONE);
 		if (dich_result != 'o')
 			camel_log(WARNING, 
 				  "store_header_pair_from_gstring : dichotomy result is %c"
 				  "header line is :\n--\n%s\n--\n");
 		
 		else {
-			g_string_trim (header_value, " \t", TRIM_STRIP_LEADING | TRIM_STRIP_TRAILING);
+			g_string_trim (
+				header_value, " \t",
+				GSTRING_TRIM_STRIP_LEADING | GSTRING_TRIM_STRIP_TRAILING);
 			g_hash_table_insert (header_table, header_name, header_value);
 		}
 	}

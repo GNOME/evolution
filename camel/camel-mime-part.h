@@ -104,23 +104,33 @@ GtkType camel_mime_part_get_type (void);
 
 
 /* public methods */
-void camel_mime_part_add_header (CamelMimePart *mime_part, GString *header_name, GString *header_value);
-void camel_mime_part_remove_header (CamelMimePart *mime_part, GString *header_name);
-GString *camel_mime_part_get_header (CamelMimePart *mime_part, GString *header_name);
-void camel_mime_part_set_description (CamelMimePart *mime_part, GString *description);
-GString *camel_mime_part_get_description (CamelMimePart *mime_part);
-void camel_mime_part_set_disposition (CamelMimePart *mime_part, GString *disposition);
-GString *camel_mime_part_get_disposition (CamelMimePart *mime_part);
-void camel_mime_part_set_filename (CamelMimePart *mime_part, GString *filename);
-GString *camel_mime_part_get_filename (CamelMimePart *mime_part);
-GString *camel_mime_part_get_content_id (CamelMimePart *mime_part);
-GString *camel_mime_part_get_content_MD5 (CamelMimePart *mime_part);
-void camel_mime_part_set_encoding (CamelMimePart *mime_part, GString *encoding);
-GString *camel_mime_part_get_encoding (CamelMimePart *mime_part);
-void camel_mime_part_set_content_languages (CamelMimePart *mime_part, GList *content_languages);
-GList *camel_mime_part_get_content_languages (CamelMimePart *mime_part);
-void camel_mime_part_set_header_lines (CamelMimePart *mime_part, GList *header_lines);
-GList *camel_mime_part_get_header_lines (CamelMimePart *mime_part);
+void     camel_mime_part_add_header            (CamelMimePart *mime_part,
+						GString *header_name,
+						GString *header_value);
+void     camel_mime_part_remove_header         (CamelMimePart *mime_part,
+						GString *header_name);
+GString *camel_mime_part_get_header            (CamelMimePart *mime_part,
+						GString *header_name);
+void     camel_mime_part_set_description       (CamelMimePart *mime_part,
+						GString *description);
+GString *camel_mime_part_get_description       (CamelMimePart *mime_part);
+void     camel_mime_part_set_disposition       (CamelMimePart *mime_part,
+						GString *disposition);
+GString *camel_mime_part_get_disposition       (CamelMimePart *mime_part);
+void     camel_mime_part_set_filename          (CamelMimePart *mime_part,
+						GString *filename);
+GString *camel_mime_part_get_filename          (CamelMimePart *mime_part);
+GString *camel_mime_part_get_content_id        (CamelMimePart *mime_part);
+GString *camel_mime_part_get_content_MD5       (CamelMimePart *mime_part);
+void     camel_mime_part_set_encoding          (CamelMimePart *mime_part,
+						GString *encoding);
+GString *camel_mime_part_get_encoding          (CamelMimePart *mime_part);
+void     camel_mime_part_set_content_languages (CamelMimePart *mime_part,
+						GList *content_languages);
+GList   *camel_mime_part_get_content_languages (CamelMimePart *mime_part);
+void     camel_mime_part_set_header_lines      (CamelMimePart *mime_part,
+						GList *header_lines);
+GList   *camel_mime_part_get_header_lines      (CamelMimePart *mime_part);
 
 #ifdef __cplusplus
 }

@@ -20,7 +20,7 @@
  * USA
  */
 
-
+#include <config.h>
 #include "camel-log.h"
 
 int camel_debug_level = 10;
