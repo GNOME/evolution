@@ -78,7 +78,7 @@ msgstr ""
 #: calendar/conduits/calendar/calendar-conduit-control-applet.c:147
 #: calendar/conduits/todo/todo-conduit-control-applet.c:97
 msgid "(C) 1998 the Free Software Foundation"
-msgstr ""
+msgstr "© 1998 the Free Software Foundation"
 
 #: addressbook/conduit/address-conduit-control-applet.c:148
 msgid "Configuration utility for the address conduit.\n"
@@ -451,7 +451,7 @@ msgstr "Переслати"
 #: addressbook/contact-editor/e-contact-editor.c:867
 #: calendar/gui/dialogs/task-editor.c:595 calendar/gui/event-editor.c:1317
 msgid "_Insert"
-msgstr ""
+msgstr "Вставити"
 
 #: addressbook/contact-editor/e-contact-editor.c:868
 #: calendar/gui/dialogs/task-editor.c:596 calendar/gui/event-editor.c:1318
@@ -495,7 +495,7 @@ msgstr "Вставити файл..."
 #: addressbook/contact-editor/e-contact-editor.c:911
 #: calendar/gui/dialogs/task-editor.c:634 calendar/gui/event-editor.c:1369
 msgid "Insert a file as an attachment"
-msgstr ""
+msgstr "Вставити файл як долучення"
 
 #: addressbook/contact-editor/e-contact-editor.c:914
 #: calendar/gui/dialogs/task-editor.c:644 calendar/gui/e-calendar-table.c:324
