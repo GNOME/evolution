@@ -1,3 +1,11 @@
+2000-04-10  Damon Chaplin  <damon@helixcode.com>
+
+	* gui/Makefile.am (INCLUDES): moved srcdir directories to the top so
+	we search headers in the evolution tree before installed headers.
+	(Otherwise when you do 'make install' lots of files in gui/ get
+	rebuilt, since they depend on the installed cal-client.h which has just
+	been updated.)
+
 2000-04-09  Seth Alves  <alves@hungry.com>
 
 	* gui/gnome-cal.c (gnome_calendar_load): catch cal_loaded signal

@@ -8,13 +8,13 @@ help_base = $(datadir)/gnome/help/cal
 
 
 INCLUDES = 						\
+	-I$(top_srcdir)					\
+	-I$(top_srcdir)/calendar			\
+	-I$(top_srcdir)/libical/src/libical		\
 	-I$(includedir)					\
 	$(BONOBO_VFS_GNOME_CFLAGS)			\
 	$(GNOME_CONDUIT_INCLUDEDIR)			\
 	$(PISOCK_INCLUDEDIR)                  		\
-	-I$(top_srcdir)					\
-	-I$(top_srcdir)/calendar			\
-	-I$(top_srcdir)/libical/src/libical		\
         -DGNOMELOCALEDIR=\""$(datadir)/locale"\"
 
 
