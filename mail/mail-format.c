@@ -1077,7 +1077,7 @@ handle_text_plain (CamelMimePart *part, const char *mime_type,
 	format = header_content_type_param (type, "format");
 	if (format && !g_strcasecmp (format, "flowed"))
 		return handle_text_plain_flowed (text, md);
-	
+
 	mail_html_write (md->html, md->stream,
 			 "\n<!-- text/plain -->\n"
 			 "<table cellspacing=0 cellpadding=10 width=\"100%%\"><tr><td>\n");

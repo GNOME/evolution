@@ -1,3 +1,8 @@
+2001-09-20  Iain Holmes  <iain@ximian.com>
+
+	* mail-display.c (mail_error_write): Add a <blockquote> to make the
+	error message look better.
+
 2001-09-20    <NotZed@Ximian.com>
 
 	* mail-tools.c (mail_tool_uri_to_folder): Dont special case file:

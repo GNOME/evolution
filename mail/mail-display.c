@@ -1268,9 +1268,9 @@ mail_error_write (GtkHTML *html, GtkHTMLStream *stream,
 	va_end (ap);
 
 	htmltext = e_text_to_html (buf, E_TEXT_TO_HTML_CONVERT_NL);
-	gtk_html_write (html, stream, "<em><font color=red>", 20);
+	gtk_html_write (html, stream, "<blockquote><em><font color=red>", 32);
 	gtk_html_write (html, stream, htmltext, strlen (htmltext));
-	gtk_html_write (html, stream, "</font></em><br>", 16);
+	gtk_html_write (html, stream, "</font></em></blockquote>", 29);
 	g_free (htmltext);
 	g_free (buf);
 }
