@@ -1364,24 +1364,26 @@ transfer_message_to (CamelFolder *source, const char *uid, CamelFolder *dest,
 		     CamelException *ex)
 {
 	CamelMimeMessage *msg;
-	CamelMessageInfo *info = NULL;
+	CamelMessageInfo *minfo, *info;
 	
 	/* Default implementation. */
 	
 	msg = camel_folder_get_message(source, uid, ex);
 	if (!msg)
 		return;
-	
-	if (source->folder_flags & CAMEL_FOLDER_HAS_SUMMARY_CAPABILITY)
-		info = camel_folder_get_message_info(source, uid);
-	else
+
+	/* if its deleted we poke the flags, so we need to copy the messageinfo */
+	if ((source->folder_flags & CAMEL_FOLDER_HAS_SUMMARY_CAPABILITY)
+	    && (minfo = camel_folder_get_message_info(source, uid))) {
+		info = camel_message_info_new();
+		camel_message_info_dup_to(minfo, info);
+		camel_folder_free_message_info(source, minfo);
+	} else
 		info = camel_message_info_new_from_header (((CamelMimePart *)msg)->headers);
 	
 	/* we don't want to retain the deleted flag */
-	if (info && info->flags & CAMEL_MESSAGE_DELETED) {
+	if (info && info->flags & CAMEL_MESSAGE_DELETED)
 		info->flags = info->flags & ~CAMEL_MESSAGE_DELETED;
-		delete_original = TRUE;
-	}
 	
 	camel_folder_append_message (dest, msg, info, transferred_uid, ex);
 	camel_object_unref (msg);
@@ -1389,12 +1391,7 @@ transfer_message_to (CamelFolder *source, const char *uid, CamelFolder *dest,
 	if (delete_original && !camel_exception_is_set (ex))
 		camel_folder_set_message_flags (source, uid, CAMEL_MESSAGE_DELETED|CAMEL_MESSAGE_SEEN, ~0);
 	
-	if (info) {
-		if (source->folder_flags & CAMEL_FOLDER_HAS_SUMMARY_CAPABILITY)
-			camel_folder_free_message_info(source, info);
-		else
-			camel_message_info_free (info);
-	}
+	camel_message_info_free (info);
 }
 
 static void
