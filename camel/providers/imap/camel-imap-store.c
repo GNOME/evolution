@@ -1663,6 +1663,8 @@ unsubscribe_folder (CamelStore *store, const char *folder_name,
 	name = strrchr (folder_name, imap_store->dir_sep);
 	if (name)
 		name++;
+	else
+		name = folder_name;
 
 	fi = g_new0 (CamelFolderInfo, 1);
 	fi->full_name = g_strdup (folder_name);

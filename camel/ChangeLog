@@ -1,3 +1,8 @@
+2001-10-24  Dan Winship  <danw@ximian.com>
+
+	* providers/imap/camel-imap-store.c (unsubscribe_folder): Don't
+	let fi->name be NULL.
+
 2001-10-24  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-stream-fs.c (stream_read): Same as in the TcpStreamRaw code.
