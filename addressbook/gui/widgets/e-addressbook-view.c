@@ -370,7 +370,6 @@ writable_status (GtkObject *object, gboolean writable, EAddressbookView *eav)
 static void
 init_collection (void)
 {
-#ifdef PENDING_PORT_WORK
 	GalViewFactory *factory;
 	ETableSpecification *spec;
 	char *galview;
@@ -401,7 +400,6 @@ init_collection (void)
 
 		gal_view_collection_load(collection);
 	}
-#endif
 }
 
 static void
@@ -413,7 +411,7 @@ display_view(GalViewInstance *instance,
 	if (GAL_IS_VIEW_ETABLE(view)) {
 		change_view_type (address_view, E_ADDRESSBOOK_VIEW_TABLE);
 		gal_view_etable_attach_table (GAL_VIEW_ETABLE(view), e_table_scrolled_get_table(E_TABLE_SCROLLED(address_view->widget)));
-	} else /*if (GAL_IS_VIEW_MINICARD(view))*/ {
+	} else if (GAL_IS_VIEW_MINICARD(view)) {
 		change_view_type (address_view, E_ADDRESSBOOK_VIEW_MINICARD);
 		gal_view_minicard_attach (GAL_VIEW_MINICARD(view), E_MINICARD_VIEW_WIDGET (address_view->object));
 	}
@@ -423,7 +421,6 @@ display_view(GalViewInstance *instance,
 static void
 setup_menus (EAddressbookView *view)
 {
-#if PENDING_PORT_WORK
 	if (view->book && view->view_instance == NULL) {
 		init_collection ();
 		view->view_instance = gal_view_instance_new (collection, e_book_get_uri (view->book));
@@ -438,7 +435,6 @@ setup_menus (EAddressbookView *view)
 		g_signal_connect(view->view_instance, "display_view",
 				 G_CALLBACK (display_view), view);
 	}
-#endif
 }
 
 static void
@@ -1744,81 +1740,6 @@ get_selected_cards (EAddressbookView *view)
 	list = g_list_reverse (list);
 	return list;
 }
-
-#if 0
-void
-e_addressbook_view_save_state (EAddressbookView *view, const char *filename)
-{
-	xmlDoc *doc;
-	xmlNode *node;
-
-	doc = xmlNewDoc ("1.0");
-	node = xmlNewDocNode (doc, NULL, "addressbook-view", NULL);
-	xmlDocSetRootElement (doc, node);
-
-	switch (view->view_type) {
-	case E_ADDRESSBOOK_VIEW_MINICARD: {
-		int column_width;
-		e_xml_set_string_prop_by_name (node, "style", "minicard");
-		g_object_get (view->object,
-			      "column_width", &column_width,
-			      NULL);
-		e_xml_set_integer_prop_by_name (node, "column-width", column_width);
-		break;	
-	}
-	case E_ADDRESSBOOK_VIEW_TABLE: {
-		ETableState *state;
-		state = e_table_get_state_object (E_TABLE (view->widget));
-
-		e_xml_set_string_prop_by_name (node, "style", "table");
-		e_table_state_save_to_node (state, node);
-		g_object_unref (state);
-		break;
-	}
-	default:
-		xmlFreeDoc(doc);
-		return;
-	}
-	xmlSaveFile (filename, doc);
-	xmlFreeDoc(doc);
-}
-
-void
-e_addressbook_view_load_state (EAddressbookView *view, const char *filename)
-{
-	xmlDoc *doc;
-
-	doc = xmlParseFile (filename);
-	if (doc) {
-		xmlNode *node;
-		char *type;
-
-		node = xmlDocGetRootElement (doc);
-		type = e_xml_get_string_prop_by_name (node, "style");
-
-		if (!strcmp (type, "minicard")) {
-			int column_width;
-
-			change_view_type (view, E_ADDRESSBOOK_VIEW_MINICARD);
-
-			column_width = e_xml_get_integer_prop_by_name (node, "column-width");
-			g_object_set (view->object,
-				      "column_width", column_width,
-				      NULL);
-		} else if (!strcmp (type, "table")) {
-			ETableState *state;
-
-			change_view_type (view, E_ADDRESSBOOK_VIEW_TABLE);
-
-			state = e_table_state_new();
-			e_table_state_load_from_node (state, node->xmlChildrenNode);
-			e_table_set_state_object (E_TABLE (view->widget), state);
-			g_object_unref (state);
-		}
-		xmlFreeDoc(doc);
-	}
-}
-#endif
 
 void
 e_addressbook_view_save_as (EAddressbookView *view)

@@ -78,7 +78,7 @@ gal_view_minicard_clone       (GalView *view)
 
 	gvm = GAL_VIEW_MINICARD(view);
 
-	new               = gtk_type_new (gal_view_minicard_get_type ());
+	new               = g_object_new (GAL_TYPE_VIEW_MINICARD, NULL);
 	new->title        = g_strdup (gvm->title);
 	new->column_width = gvm->column_width;
 
@@ -86,7 +86,7 @@ gal_view_minicard_clone       (GalView *view)
 }
 
 static void
-gal_view_minicard_destroy         (GtkObject *object)
+gal_view_minicard_dispose         (GObject *object)
 {
 	GalViewMinicard *view = GAL_VIEW_MINICARD(object);
 	gal_view_minicard_detach (view);
@@ -94,10 +94,10 @@ gal_view_minicard_destroy         (GtkObject *object)
 }
 
 static void
-gal_view_minicard_class_init      (GtkObjectClass *object_class)
+gal_view_minicard_class_init      (GObjectClass *object_class)
 {
 	GalViewClass *gal_view_class  = GAL_VIEW_CLASS(object_class);
-	gal_view_minicard_parent_class  = gtk_type_class (PARENT_TYPE);
+	gal_view_minicard_parent_class  = g_type_class_ref (PARENT_TYPE);
 
 	gal_view_class->edit          = gal_view_minicard_edit         ;
 	gal_view_class->load          = gal_view_minicard_load         ;
@@ -107,7 +107,7 @@ gal_view_minicard_class_init      (GtkObjectClass *object_class)
 	gal_view_class->get_type_code = gal_view_minicard_get_type_code;
 	gal_view_class->clone         = gal_view_minicard_clone        ;
 
-	object_class->destroy         = gal_view_minicard_destroy      ;
+	object_class->dispose         = gal_view_minicard_dispose      ;
 }
 
 static void

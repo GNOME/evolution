@@ -51,18 +51,27 @@ unlink_model(EAddressbookReflowAdapter *adapter)
 {
 	EAddressbookReflowAdapterPrivate *priv = adapter->priv;
 
-	g_signal_handler_disconnect (priv->model,
-				     priv->create_card_id);
-	g_signal_handler_disconnect (priv->model,
-				     priv->remove_card_id);
-	g_signal_handler_disconnect (priv->model,
-				     priv->modify_card_id);
+	if (priv->model && priv->create_card_id)
+		g_signal_handler_disconnect (priv->model,
+					     priv->create_card_id);
+	if (priv->model && priv->remove_card_id)
+		g_signal_handler_disconnect (priv->model,
+					     priv->remove_card_id);
+	if (priv->model && priv->modify_card_id)
+		g_signal_handler_disconnect (priv->model,
+					     priv->modify_card_id);
+
+	if (priv->model && priv->model_changed_id)
+		g_signal_handler_disconnect (priv->model,
+					     priv->model_changed_id);
 
 	priv->create_card_id = 0;
 	priv->remove_card_id = 0;
 	priv->modify_card_id = 0;
+	priv->model_changed_id = 0;
 
-	g_object_unref (priv->model);
+	if (priv->model)
+		g_object_unref (priv->model);
 
 	priv->model = NULL;
 }
@@ -94,7 +103,7 @@ text_height (GnomeCanvas *canvas, const gchar *text)
 }
 
 static void
-addressbook_finalize(GObject *object)
+addressbook_dispose(GObject *object)
 {
 	EAddressbookReflowAdapter *adapter = E_ADDRESSBOOK_REFLOW_ADAPTER(object);
 
@@ -343,7 +352,7 @@ e_addressbook_reflow_adapter_class_init (GObjectClass *object_class)
 
 	object_class->set_property = addressbook_set_property;
 	object_class->get_property = addressbook_get_property;
-	object_class->finalize = addressbook_finalize;
+	object_class->dispose = addressbook_dispose;
 
 	g_object_class_install_property (object_class, PROP_BOOK, 
 					 g_param_spec_object ("book",

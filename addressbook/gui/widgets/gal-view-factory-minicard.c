@@ -13,9 +13,7 @@
 #include "gal-view-factory-minicard.h"
 #include "gal-view-minicard.h"
 
-#define GVFE_CLASS(e) ((GalViewFactoryMinicardClass *)((GtkObject *)e)->klass)
-
-#define PARENT_TYPE gal_view_factory_get_type ()
+#define PARENT_TYPE GAL_VIEW_FACTORY_TYPE
 
 static GalViewFactoryClass *gal_view_factory_minicard_parent_class;
 
@@ -39,24 +37,14 @@ gal_view_factory_minicard_get_type_code (GalViewFactory *factory)
 }
 
 static void
-gal_view_factory_minicard_destroy         (GtkObject *object)
-{
-#if 0
-	GalViewFactoryMinicard *factory = GAL_VIEW_FACTORY_MINICARD(object);
-#endif
-}
-
-static void
-gal_view_factory_minicard_class_init      (GtkObjectClass *object_class)
+gal_view_factory_minicard_class_init      (GObjectClass *object_class)
 {
 	GalViewFactoryClass *view_factory_class = GAL_VIEW_FACTORY_CLASS(object_class);
-	gal_view_factory_minicard_parent_class    = gtk_type_class (PARENT_TYPE);
+	gal_view_factory_minicard_parent_class    = g_type_class_ref (PARENT_TYPE);
 
 	view_factory_class->get_title           = gal_view_factory_minicard_get_title;
 	view_factory_class->new_view            = gal_view_factory_minicard_new_view;
 	view_factory_class->get_type_code       = gal_view_factory_minicard_get_type_code;
-
-	object_class->destroy                   = gal_view_factory_minicard_destroy;
 }
 
 static void
@@ -93,26 +81,4 @@ gal_view_factory_minicard_construct  (GalViewFactoryMinicard *factory)
 	return GAL_VIEW_FACTORY(factory);
 }
 
-GType
-gal_view_factory_minicard_get_type  (void)
-{
-	static GType type = 0;
-
-	if (!type) {
-		static const GTypeInfo info =  {
-			sizeof (GalViewFactoryMinicardClass),
-			NULL,           /* base_init */
-			NULL,           /* base_finalize */
-			(GClassInitFunc) gal_view_factory_minicard_class_init,
-			NULL,           /* class_finalize */
-			NULL,           /* class_data */
-			sizeof (GalViewFactoryMinicard),
-			0,             /* n_preallocs */
-			(GInstanceInitFunc) gal_view_factory_minicard_init,
-		};
-
-		type = g_type_register_static (PARENT_TYPE, "GalViewFactoryMinicard", &info, 0);
-	}
-
-	return type;
-}
+E_MAKE_TYPE(gal_view_factory_minicard, "GalViewFactoryMinicard", GalViewFactoryMinicard, gal_view_factory_minicard_class_init, gal_view_factory_minicard_init, PARENT_TYPE)

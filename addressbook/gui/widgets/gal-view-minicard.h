@@ -10,7 +10,6 @@
 #ifndef _GAL_VIEW_MINICARD_H_
 #define _GAL_VIEW_MINICARD_H_
 
-#include <gtk/gtkobject.h>
 #include <gal/menus/gal-view.h>
 #include <e-minicard-view-widget.h>
 

@@ -1,3 +1,13 @@
+2002-11-14  Chris Toshok  <toshok@ximian.com>
+
+	* gui/widgets/gal-view-factory-minicard.c: clean this up a tad.
+
+	* gui/widgets/e-addressbook-view.c (init_collection): re-enable
+	this.
+	(setup_menus): same.
+
+	* gui/widgets/gal-view-minicard.[ch]: more GObject work.
+
 2002-11-12  Chris Toshok  <toshok@ximian.com>
 
 	* gui/contact-editor/e-contact-editor.c (_popup_position): push_in
