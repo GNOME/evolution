@@ -1,3 +1,9 @@
+1998-12-08  Martin Baulig  <martin@home-of-linux.org>
+
+	* gnome-libgtop-sysdeps.m4: Moved into the LibGTop module.
+	This file contains too much stuff that should only be used
+	internally in LibGTop, so it's better to have it there.
+
 1998-12-06  Martin Baulig  <martin@home-of-linux.org>
 
 	* gnome-libgtop-sysdeps.m4: Recognice OpenBSD as a valid
