@@ -1,3 +1,8 @@
+2000-10-23  Dan Winship  <danw@helixcode.com>
+
+	* camel-op-queue.[ch], camel-thread-proxy.[ch]: These should have
+	gone away a long time ago.
+
 2000-10-20  Chris Toshok  <toshok@helixcode.com>
 
 	* providers/Makefile.am (SUBDIRS): re-enable the nntp provider.
