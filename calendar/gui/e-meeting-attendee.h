@@ -78,9 +78,9 @@ struct _EMeetingAttendeeClass {
 };
 
 
-GtkType    e_meeting_attendee_get_type (void);
-GtkObject *e_meeting_attendee_new      (void);
-GtkObject *e_meeting_attendee_new_from_cal_component_attendee (CalComponentAttendee *ca);
+GType      e_meeting_attendee_get_type (void);
+GObject   *e_meeting_attendee_new      (void);
+GObject   *e_meeting_attendee_new_from_cal_component_attendee (CalComponentAttendee *ca);
 
 CalComponentAttendee *e_meeting_attendee_as_cal_component_attendee (EMeetingAttendee *ia);
 

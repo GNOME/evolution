@@ -70,32 +70,32 @@ static guint signals[LAST_SIGNAL];
 
 static void class_init	(EMeetingAttendeeClass *klass);
 static void init	(EMeetingAttendee *ia);
-static void destroy	(GtkObject *obj);
+static void finalize	(GObject *obj);
 
 
-static GtkObjectClass *parent_class = NULL;
+static GObjectClass *parent_class = NULL;
 
 E_MAKE_TYPE (e_meeting_attendee, "EMeetingAttendee", EMeetingAttendee,
-	     class_init, init, GTK_TYPE_OBJECT);
+	     class_init, init, G_TYPE_OBJECT);
 
 static void
 class_init (EMeetingAttendeeClass *klass)
 {
-	GtkObjectClass *object_class;
+	GObjectClass *object_class;
 
-	object_class = GTK_OBJECT_CLASS (klass);
-
+	object_class = G_OBJECT_CLASS (klass);
 	parent_class = g_type_class_peek_parent (klass);
 
 	signals[CHANGED] =
-		gtk_signal_new ("changed",
-				GTK_RUN_FIRST,
-				G_TYPE_FROM_CLASS (object_class),
-				GTK_SIGNAL_OFFSET (EMeetingAttendeeClass, changed),
-				gtk_marshal_NONE__NONE,
-				GTK_TYPE_NONE, 0);
+		g_signal_new ("changed",
+			      G_TYPE_FROM_CLASS (klass),
+			      G_SIGNAL_RUN_FIRST,
+			      G_STRUCT_OFFSET (EMeetingAttendeeClass, changed),
+			      NULL, NULL,
+			      g_cclosure_marshal_VOID__VOID,
+			      G_TYPE_NONE, 0);
 
- 	object_class->destroy = destroy;
+	object_class->finalize = finalize;
 }
 
 static gchar *
@@ -116,7 +116,7 @@ string_is_set (gchar *string)
 static void
 notify_changed (EMeetingAttendee *ia) 
 {
-	gtk_signal_emit (GTK_OBJECT (ia), signals[CHANGED]);
+	g_signal_emit_by_name (G_OBJECT (ia), "changed");
 }
 
 static void
@@ -167,7 +167,7 @@ init (EMeetingAttendee *ia)
 
 
 static void
-destroy (GtkObject *obj)
+finalize (GObject *obj)
 {
 	EMeetingAttendee *ia = E_MEETING_ATTENDEE (obj);
 	EMeetingAttendeePrivate *priv;
@@ -189,13 +189,13 @@ destroy (GtkObject *obj)
 	g_free (priv);
 }
 
-GtkObject *
+GObject *
 e_meeting_attendee_new (void)
 {
 	return g_object_new (E_TYPE_MEETING_ATTENDEE, NULL);
 }
 
-GtkObject *
+GObject *
 e_meeting_attendee_new_from_cal_component_attendee (CalComponentAttendee *ca)
 {
 	EMeetingAttendee *ia;
@@ -214,7 +214,7 @@ e_meeting_attendee_new_from_cal_component_attendee (CalComponentAttendee *ca)
 	e_meeting_attendee_set_cn (ia, g_strdup (ca->cn));
 	e_meeting_attendee_set_language (ia, g_strdup (ca->language));
 	
-	return GTK_OBJECT (ia);
+	return G_OBJECT (ia);
 }
 
 CalComponentAttendee *

@@ -1,3 +1,8 @@
+2003-04-07  Hans Petter Jansson  <hpj@ximian.com>
+
+	* gui/e-meeting-attendee.[ch]: GObjectify. Eliminates ref/sink
+	warnings from the meeting editor.
+
 2003-04-06  Hans Petter Jansson  <hpj@ximian.com>
 
 	Week view part of fix for #39895.
