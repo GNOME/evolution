@@ -494,9 +494,7 @@ attachment_header (CamelMimePart *part, const char *mime_type,
 		return;
 
 	/* Start the table, create the pop-up object. */
-	mail_html_write (md->html, md->stream, "<table bgcolor=\"#EEEEEE\" width=\"100%%\" "
-			 "cellspacing=0 border=1>"
-			 "<tr><td><table><tr valign=top><td>"
+	mail_html_write (md->html, md->stream, "<table><tr><td>"
 			 "<object classid=\"popup:%s\" type=\"%s\">"
 			 "</object></td><td><font size=-1>",
 			 get_cid (part, md), mime_type);
@@ -531,7 +529,7 @@ attachment_header (CamelMimePart *part, const char *mime_type,
 	}
 #endif
 
-	mail_html_write (md->html, md->stream, "</font></td></tr></table></td></tr></table>");
+	mail_html_write (md->html, md->stream, "</font></td></tr></table>");
 }
 
 static gboolean
