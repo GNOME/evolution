@@ -520,22 +520,14 @@ e_tasks_delete_selected (ETasks *tasks)
 static char *
 create_sexp (void)
 {
-	char *completed_sexp;
-	char *new_sexp;
+	char *sexp;
 
-	/* Create a sub-expression for filtering out completed tasks, based on
-	   the config settings. */
-	completed_sexp = calendar_config_get_hide_completed_tasks_sexp ();
-
-	new_sexp = g_strdup_printf ("(and (= (get-vtype) \"VTODO\") (not %s))",
-				    completed_sexp ? completed_sexp : "");
-	g_free (completed_sexp);
-
+	sexp = g_strdup ("(and (= (get-vtype) \"VTODO\") (is-completed?))");
 #if 0
-	g_print ("Calendar model sexp:\n%s\n", new_sexp);
+	g_print ("Calendar model sexp:\n%s\n", sexp);
 #endif
 
-	return new_sexp;
+	return sexp;
 }
 
 /* Callback used when a component is updated in the live query */

@@ -401,7 +401,6 @@ confirm_expunge (ETasks *tasks)
 {
 	GtkWidget *dialog, *label, *checkbox;
 	int button, val;
-	char *text = NULL;
 	
 	if (!calendar_config_get_confirm_expunge ())
 		return TRUE;
@@ -414,36 +413,7 @@ confirm_expunge (ETasks *tasks)
 				   GTK_WINDOW (gtk_widget_get_ancestor (GTK_WIDGET (tasks),
 									GTK_TYPE_WINDOW)));
 	
-	val = calendar_config_get_hide_completed_tasks_value ();
-	if (val == 0) {
-		text = g_strdup (_("This operation will permanently erase all tasks marked as completed. If you continue, you will not be able to recover these tasks.\n\nReally erase these tasks?"));
-	} else {
-		int units;
-		
-		units = calendar_config_get_hide_completed_tasks_units ();
-		switch (units) {
-		case CAL_DAYS:
-			if (val == 1)
-				text = g_strdup (_("This operation will permanently erase all tasks marked as completed on or before 1 day ago. If you continue, you will not be able to recover these tasks.\n\nReally erase these tasks?"));
-			else
-				text = g_strdup_printf (_("This operation will permanently erase all tasks marked as completed on or before %d days ago. If you continue, you will not be able to recover these tasks.\n\nReally erase these tasks?"), val);
-			break;
-		case CAL_HOURS:
-			if (val == 1)
-				text = g_strdup (_("This operation will permanently erase all tasks marked as completed on or before 1 hour ago. If you continue, you will not be able to recover these tasks.\n\nReally erase these tasks?"));
-			else
-				text = g_strdup_printf (_("This operation will permanently erase all tasks marked as completed on or before %d hours ago. If you continue, you will not be able to recover these tasks.\n\nReally erase these tasks?"), val);
-			break;
-		case CAL_MINUTES:
-			if (val == 1)
-				text = g_strdup (_("This operation will permanently erase all tasks marked as completed on or before 1 minute ago. If you continue, you will not be able to recover these tasks.\n\nReally erase these tasks?"));
-			else
-				text = g_strdup_printf (_("This operation will permanently erase all tasks marked as completed on or before %d minutes ago. If you continue, you will not be able to recover these tasks.\n\nReally erase these tasks?"), val);
-			break;
-		}
-	}
-	label = gtk_label_new (text);
-	g_free (text);
+	label = gtk_label_new (_("This operation will permanently erase all tasks marked as completed. If you continue, you will not be able to recover these tasks.\n\nReally erase these tasks?"));
 	
 	gtk_label_set_line_wrap (GTK_LABEL (label), TRUE);
 	gtk_label_set_justify (GTK_LABEL (label), GTK_JUSTIFY_LEFT);
@@ -454,11 +424,9 @@ confirm_expunge (ETasks *tasks)
 	gtk_widget_show (checkbox);
 	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (dialog)->vbox), checkbox, TRUE, TRUE, 4);
 	
-	button = gnome_dialog_run (GNOME_DIALOG (dialog));
-	
+	button = gnome_dialog_run (GNOME_DIALOG (dialog));	
 	if (button == 0 && gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (checkbox)))
 		calendar_config_set_confirm_expunge (FALSE);
-
 	gnome_dialog_close (GNOME_DIALOG (dialog));
 	
 	if (button == 0)

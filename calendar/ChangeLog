@@ -1,5 +1,13 @@
 2002-01-03  JP Rosevear  <jpr@ximian.com>
 
+	* gui/tasks-control.c (confirm_expunge): only need one warning
+	message now
+
+	* gui/e-tasks.c (create_sexp): change the logic to expunge all
+	completed tasks not just hidden ones
+
+2002-01-03  JP Rosevear  <jpr@ximian.com>
+	
 	* gui/tasks-control.c (confirm_expunge): confirm expunging of the
 	tasks
 	(tasks_control_expunge_cmd): verb callback
