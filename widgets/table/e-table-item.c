@@ -1252,12 +1252,16 @@ eti_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 		e_table_item_focus (eti, cursor_col != -1 ? cursor_col : 0, view_to_model_row(eti, GTK_VALUE_INT (*arg)), 0);
 		break;
 	case ARG_UNIFORM_ROW_HEIGHT:
-		eti->uniform_row_height = GTK_VALUE_BOOL (*arg);
-		free_height_cache(eti);
-		eti->needs_compute_height = 1;
-		e_canvas_item_request_reflow (GNOME_CANVAS_ITEM (eti));
-		eti->needs_redraw = 1;
-		gnome_canvas_item_request_update (GNOME_CANVAS_ITEM (eti));
+		if (eti->uniform_row_height != GTK_VALUE_BOOL (*arg)) {
+			eti->uniform_row_height = GTK_VALUE_BOOL (*arg);
+			if (GTK_OBJECT_FLAGS(eti) & GNOME_CANVAS_ITEM_REALIZED) {
+				free_height_cache(eti);
+				eti->needs_compute_height = 1;
+				e_canvas_item_request_reflow (GNOME_CANVAS_ITEM (eti));
+				eti->needs_redraw = 1;
+				gnome_canvas_item_request_update (GNOME_CANVAS_ITEM (eti));
+			}
+		}
 		break;
 	}
 	eti->needs_redraw = 1;
