@@ -1788,7 +1788,7 @@ my_folder_browser_init (GtkObject *object)
 	e_tree_drag_dest_set (fb->message_list->tree, GTK_DEST_DEFAULT_ALL,
 			      drag_types, num_drag_types, GDK_ACTION_MOVE | GDK_ACTION_COPY);
 	
-	gtk_signal_connect (GTK_OBJECT (fb->message_list->tree), "tree_drag_data_recieved",
+	gtk_signal_connect (GTK_OBJECT (fb->message_list->tree), "tree_drag_data_received",
 			    GTK_SIGNAL_FUNC (message_list_drag_data_recieved), fb);
 	
 	/* cut, copy & paste */

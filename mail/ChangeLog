@@ -1,3 +1,13 @@
+2001-06-26  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* folder-browser.c (my_folder_browser_init): Helps if I spell
+	"received" correctly.
+
+	* mail-config.c (mail_config_set_thread_list): If the value is
+	already in the hash table, first remove it before setting the new
+	value so we don't leak.
+	(mail_config_set_show_preview): Same.
+
 2001-06-26  Dan Winship  <danw@ximian.com>
 
 	* mail-mt.c (op_status_timeout): Don't pop up a progress dialog to

@@ -819,7 +819,6 @@ mail_config_is_configured (void)
 gboolean
 mail_config_get_show_preview (const char *uri)
 {
-	return TRUE;
 	if (uri) {
 		gboolean value = FALSE;
 		
@@ -829,8 +828,8 @@ mail_config_get_show_preview (const char *uri)
 			value = GPOINTER_TO_INT (g_hash_table_lookup (config->preview_hash, uri));
 		
 		if (!value) {
-			/* just in case we got a NULL because it just wasn't in the hash table yet */
-			gboolean def;
+			/* add the preference to the hash table */
+			gboolean def = FALSE;
 			char *str;
 			
 			str = g_strdup_printf ("=%s/config/Mail=/Preview/%s", evolution_dir, uri);
@@ -855,8 +854,15 @@ void
 mail_config_set_show_preview (const char *uri, gboolean value)
 {
 	if (uri) {
+		gpointer key, val;
+		
 		if (!config->preview_hash)
 			config->preview_hash = g_hash_table_new (g_str_hash, g_str_equal);
+		
+		if (g_hash_table_lookup_extended (config->preview_hash, uri, &key, &val)) {
+			g_hash_table_remove (config->preview_hash, uri);
+			g_free (key);
+		}
 		
 		g_hash_table_insert (config->preview_hash, g_strdup (uri), GINT_TO_POINTER (value));
 	} else
@@ -875,8 +881,8 @@ mail_config_get_thread_list (const char *uri)
 			value = GPOINTER_TO_INT (g_hash_table_lookup (config->threaded_hash, uri));
 		
 		if (!value) {
-			/* just in case we got a NULL because it just wasn't in the hash table yet */
-			gboolean def;
+			/* add the preference to the hash table */
+			gboolean def = FALSE;
 			char *str;
 			
 			str = g_strdup_printf ("=%s/config/Mail=/Threads/%s", evolution_dir, uri);
@@ -901,8 +907,15 @@ void
 mail_config_set_thread_list (const char *uri, gboolean value)
 {
 	if (uri) {
+		gpointer key, val;
+		
 		if (!config->threaded_hash)
 			config->threaded_hash = g_hash_table_new (g_str_hash, g_str_equal);
+		
+		if (g_hash_table_lookup_extended (config->threaded_hash, uri, &key, &val)) {
+			g_hash_table_remove (config->threaded_hash, uri);
+			g_free (key);
+		}
 		
 		g_hash_table_insert (config->threaded_hash, g_strdup (uri), GINT_TO_POINTER (value));
 	} else
