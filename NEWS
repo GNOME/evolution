@@ -85,6 +85,12 @@ Bugzilla Bugs Fixed (see http://bugzilla.ximian.com/show_bug.cgi):
 
 Other fixes:
 
+  * Addressbook
+
+    - The "Select Names" dialog remembers what folder you were in
+      between uses now, which is useful for people who normally select
+      names out of an LDAP directory. (Dan)
+
   * Calendar
 
     - Make sure configuration info can be applied in units changed for
