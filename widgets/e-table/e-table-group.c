@@ -13,7 +13,7 @@
 void
 e_table_group_destroy (ETableGroup *etg)
 {
-	g_return_val_if_fail (etg != NULL);
+	g_return_if_fail (etg != NULL);
 
 	g_free (etg->title);
 
@@ -46,11 +46,11 @@ e_table_group_new_leaf (const char *title, ETableModel *table)
 	etg->u.table = table;
 	etg->title = g_strdup (title);
 
-	return eg;
+	return etg;
 }
 
 ETableGroup *
-e_table_group_new_leaf (const char *title)
+e_table_group_new (const char *title)
 {
 	ETableGroup *etg;
 
@@ -63,15 +63,15 @@ e_table_group_new_leaf (const char *title)
 	etg->u.children = NULL;
 	etg->title = g_strdup (title);
 
-	return eg;
+	return etg;
 }
 
 void
 e_table_group_append_child (ETableGroup *etg, ETableGroup *child)
 {
-	g_return_val_if_fail (etg != NULL);
-	g_return_val_if_fail (child != NULL);
-	g_return_val_if_fail (etg->is_leaf != 0);
+	g_return_if_fail (etg != NULL);
+	g_return_if_fail (child != NULL);
+	g_return_if_fail (etg->is_leaf != 0);
 
 	etg->u.children = g_slist_append (etg->u.children, child);
 }
@@ -79,7 +79,7 @@ e_table_group_append_child (ETableGroup *etg, ETableGroup *child)
 int
 e_table_group_size (ETableGroup *etg)
 {
-	g_return_val_if_fail (etg != NULL);
+	g_return_if_fail (etg != NULL);
 
 	if (etg->is_leaf)
 		return e_table_model_height (etg->u.table);

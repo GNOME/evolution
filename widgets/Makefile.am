@@ -13,10 +13,10 @@ INCLUDES =					\
 CPPFLAGS = 					\
 	-DE_GUIDIR=\"$(guidir)\"
 
-noinst_LTLIBRARIES =				\
-	libevolutionwidgets.la
+noinst_LIBRARIES =				\
+	libevolutionwidgets.a
 
-libevolutionwidgets_la_SOURCES =		\
+libevolutionwidgets_a_SOURCES =			\
 	e-msg-composer-address-dialog.c		\
 	e-msg-composer-address-dialog.h		\
 	e-msg-composer-address-entry.c		\
@@ -28,5 +28,15 @@ libevolutionwidgets_la_SOURCES =		\
 	e-msg-composer-hdrs.c			\
 	e-msg-composer-hdrs.h			\
 	e-msg-composer.c			\
-	e-msg-composer.h
+	e-msg-composer.h			\
+	e-table-group.c				\
+	e-table-group.h				\
+	e-table-header.c			\
+	e-table-header.h			\
+	e-table-header-item.c			\
+	e-table-header-item.h			\
+	e-table-model.c				\
+	e-table-model.h				\
+	e-table-simple.c			\
+	e-table-simple.h
 

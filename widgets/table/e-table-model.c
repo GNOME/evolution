@@ -40,7 +40,7 @@ e_table_model_value_at (ETableModel *etable, int col, int row)
 void
 e_table_model_set_value_at (ETableModel *etable, int col, int row, void *data)
 {
-	return ETM_CLASS (etable)->set_value_at (etable, col, row, data);
+	return ETM_CLASS (etable)->set_value_at (etable, col, row);
 }
 
 gboolean
@@ -55,49 +55,12 @@ e_table_model_row_height (ETableModel *etable, int row)
 	return ETM_CLASS (etable)->row_height (etable, row);
 }
 
-typedef struct {
-	ETableModelListenerFn listener;
-	void *data;
-} listener_t;
-
-void
-e_table_model_add_listener (ETableModel *etable, ETableModelListenerFn listener, void *data)
-{
-	listener_t *lis;
-
-	lis = g_new (listener_t, 1);
-	lis->listener_t = listener;
-	lis->data = data;
-	
-	etable->listeners = g_list_prepend (etable->listeners, lis);
-}
-
-void
-e_table_model_remove_listener (ETableModel *etable, ETableModelListenerFn listener, void *data)
-{
-	GSList *l;
-	
-	for (l = etable->listeners; l; l = l->next){
-		listener_t *lis = l->data;
-
-		if (lis->listener == listener && lis->data == data){
-			etable->listeners = g_list_remove (etable->listeners, lis);
-			g_free (lis);
-			return;
-		}
-	}
-}
-
 static void
 e_table_model_destroy (GtkObject *object)
 {
 	GSList *l;
 	
 	ETableModel *etable = (ETableModel *) object;
-
-	for (l = etable->listeners; l; l = l->next)
-		g_free (l->data);
-	g_list_free (etable->listeners);
 
 	if (e_table_model_parent_class->destroy)
 		(*e_table_model_parent_class->destroy)(object);
@@ -137,9 +100,9 @@ e_table_model_get_type (void)
 int
 e_table_model_height (ETableModel *etable)
 {
-	int rows;
-	int size;
-	g_return_val_if_fail (etable != NULL);
+	int rows, size, i;
+
+	g_return_val_if_fail (etable != NULL, 0);
 
 	rows = e_table_model_row_count (etable);
 	size = 0;

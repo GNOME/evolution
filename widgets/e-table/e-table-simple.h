@@ -3,13 +3,13 @@
 
 #include "e-table-model.h"
 
-typedef int         (*ETableSimpleColumnCountFn)    (ETableModel *etm);
-typedef	const char *(*ETableSimpleColumnNameFn)     (ETableModel *etm, int col);
-typedef	int         (*ETableSimpleRowCountFn)       (ETableModel *etm);
-typedef	void       *(*ETableSimpleValueAtFn)        (ETableModel *etm, int col, int row);
+typedef int         (*ETableSimpleColumnCountFn)    (ETableModel *etm, void *data);
+typedef	const char *(*ETableSimpleColumnNameFn)     (ETableModel *etm, int col, void *data);
+typedef	int         (*ETableSimpleRowCountFn)       (ETableModel *etm, void *data);
+typedef	void       *(*ETableSimpleValueAtFn)        (ETableModel *etm, int col, int row, void *data);
 typedef	void        (*ETableSimpleSetValueAtFn)     (ETableModel *etm, int col, int row, void *data);
-typedef	gboolean    (*ETableSimpleIsCellEditableFn) (ETableModel *etm, int col, int row);
-typedef int         (*ETableSimpleRowHeightFn       (ETableModel *etm, int row);
+typedef	gboolean    (*ETableSimpleIsCellEditableFn) (ETableModel *etm, int col, int row, void *data);
+typedef int         (*ETableSimpleRowHeightFn)      (ETableModel *etm, int row, void *data);
 
 typedef struct {
 	ETableModel parent;
@@ -24,9 +24,13 @@ typedef struct {
 	void *data;
 } ETableSimple;
 
+typedef struct {
+	ETableModel parent_class;
+} ETableSimpleClass;
+
 GtkType e_table_simple_get_type (void);
 
-ETable *e_table_simple_new      (ETableSimpleColumnCountFn col_count,
+ETableModel *e_table_simple_new (ETableSimpleColumnCountFn col_count,
 				 ETableSimpleColumnNameFn col_name,
 				 ETableSimpleRowCountFn row_count,
 				 ETableSimpleValueAtFn value_at,

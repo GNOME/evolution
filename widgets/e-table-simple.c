@@ -17,7 +17,7 @@ simple_column_count (ETableModel *etm)
 {
 	ETableSimple *simple = (ETableSimple *)etm;
 
-	return simple->col_count (etm)
+	return simple->col_count (etm, simple->data);
 }
 
 static const char *
@@ -25,7 +25,7 @@ simple_column_name (ETableModel *etm, int col)
 {
 	ETableSimple *simple = (ETableSimple *)etm;
 
-	return simple->col_name (etm, col);
+	return simple->col_name (etm, col, simple->data);
 }
 
 static int
@@ -33,23 +33,23 @@ simple_row_count (ETableModel *etm)
 {
 	ETableSimple *simple = (ETableSimple *)etm;
 
-	return simple->row_count (etm);
+	return simple->row_count (etm, simple->data);
 }
 
-static void
+static void *
 simple_value_at (ETableModel *etm, int col, int row)
 {
 	ETableSimple *simple = (ETableSimple *)etm;
 
-	return simple->value_at (etm, col, row);
+	return simple->value_at (etm, col, row, simple->data);
 }
 
 static void
-simple_set_value_at (ETableModel *etm, int col, int row, void *data)
+simple_set_value_at (ETableModel *etm, int col, int row)
 {
 	ETableSimple *simple = (ETableSimple *)etm;
 
-	return simple->set_value_at (etm, col, row, data);
+	simple->set_value_at (etm, col, row, simple->data);
 }
 
 static gboolean
@@ -57,20 +57,20 @@ simple_is_cell_editable (ETableModel *etm, int col, int row)
 {
 	ETableSimple *simple = (ETableSimple *)etm;
 
-	return simple->is_cell_editable (etm, col, row, data);
+	return simple->is_cell_editable (etm, col, row, simple->data);
 }
 
 static void
 e_table_simple_class_init (GtkObjectClass *object_class)
 {
-	ETableSimpleClass *simple_class = (ETableSimpleClass *) object_class;
+	ETableModelClass *model_class = (ETableModelClass *) object_class;
 
-	simple_class->column_count = simple_column_count;
-	simple_class->column_name = simple_column_name;
-	simple_class->row_count = simple_row_count;
-	simple_class->value_at = simple_value_at;
-	simple_class->set_value_at = simple_set_value_at;
-	simple_class->is_cell_editable = simple_is_cell_editable;
+	model_class->column_count = simple_column_count;
+	model_class->column_name = simple_column_name;
+	model_class->row_count = simple_row_count;
+	model_class->value_at = simple_value_at;
+	model_class->set_value_at = simple_set_value_at;
+	model_class->is_cell_editable = simple_is_cell_editable;
 }
 
 GtkType
@@ -96,7 +96,7 @@ e_table_simple_get_type (void)
 	return type;
 }
 
-ETable *
+ETableModel *
 e_table_simple_new (ETableSimpleColumnCountFn col_count,
 		    ETableSimpleColumnNameFn col_name,
 		    ETableSimpleRowCountFn row_count,
@@ -116,5 +116,5 @@ e_table_simple_new (ETableSimpleColumnCountFn col_count,
 	et->set_value_at = set_value_at;
 	et->is_cell_editable = is_cell_editable;
 
-	return (ETable *) et;
+	return (ETableModel *) et;
 }
