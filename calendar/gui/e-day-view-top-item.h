@@ -55,7 +55,8 @@ typedef struct {
 
 
 GtkType  e_day_view_top_item_get_type      (void);
-
+void e_day_view_top_item_get_day_label (EDayView *day_view, gint day,
+					gchar *buffer, gint buffer_len);
 
 
 #ifdef __cplusplus

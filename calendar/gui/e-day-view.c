@@ -184,9 +184,6 @@ static void e_day_view_cursor_key_left (EDayView *day_view,
 					GdkEventKey *event);
 static void e_day_view_cursor_key_right (EDayView *day_view,
 					 GdkEventKey *event);
-static void e_day_view_ensure_rows_visible (EDayView *day_view,
-					    gint start_row,
-					    gint end_row);
 static void e_day_view_scroll	(EDayView	*day_view,
 				 gfloat		 pages_to_scroll);
 
@@ -219,7 +216,6 @@ static gboolean e_day_view_on_time_canvas_scroll (GtkWidget *widget,
 						  GdkEventScroll *scroll,
 						  EDayView *day_view);
 
-static void e_day_view_update_calendar_selection_time (EDayView *day_view);
 static gboolean e_day_view_on_main_canvas_motion (GtkWidget *widget,
 						  GdkEventMotion *event,
 						  EDayView *day_view);
@@ -3295,7 +3291,7 @@ e_day_view_on_main_canvas_button_release (GtkWidget *widget,
 }
 
 
-static void
+void
 e_day_view_update_calendar_selection_time (EDayView *day_view)
 {
 	time_t start, end;
@@ -5228,6 +5224,7 @@ e_day_view_cursor_key_up (EDayView *day_view, GdkEventKey *event)
 						day_view->selection_start_row,
 						day_view->selection_end_row);
 
+	g_signal_emit_by_name (day_view, "selected_time_changed");
 	e_day_view_update_calendar_selection_time (day_view);
 
 	/* FIXME: Optimise? */
@@ -5260,6 +5257,7 @@ e_day_view_cursor_key_down (EDayView *day_view, GdkEventKey *event)
 						day_view->selection_start_row,
 						day_view->selection_end_row);
 
+	g_signal_emit_by_name (day_view, "selected_time_changed");
 	e_day_view_update_calendar_selection_time (day_view);
 
 	/* FIXME: Optimise? */
@@ -5283,6 +5281,7 @@ e_day_view_cursor_key_left (EDayView *day_view, GdkEventKey *event)
 		gtk_widget_queue_draw (day_view->top_canvas);
 		gtk_widget_queue_draw (day_view->main_canvas);
 	}
+	g_signal_emit_by_name (day_view, "selected_time_changed");
 }
 
 
@@ -5301,6 +5300,7 @@ e_day_view_cursor_key_right (EDayView *day_view, GdkEventKey *event)
 		gtk_widget_queue_draw (day_view->top_canvas);
 		gtk_widget_queue_draw (day_view->main_canvas);
 	}
+	g_signal_emit_by_name (day_view, "selected_time_changed");
 }
 
 
@@ -5348,7 +5348,7 @@ e_day_view_check_if_new_event_fits (EDayView *day_view)
 }
 
 
-static void
+void
 e_day_view_ensure_rows_visible (EDayView *day_view,
 				gint start_row,
 				gint end_row)

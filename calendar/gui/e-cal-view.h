@@ -76,6 +76,7 @@ struct _ECalViewClass {
 
 	/* Notification signals */
 	void (* selection_changed) (ECalView *cal_view);
+	void (* selected_time_changed) (ECalView *cal_view);
 	void (* timezone_changed) (ECalView *cal_view, icaltimezone *old_zone, icaltimezone *new_zone);
 	void (* event_changed) (ECalView *day_view, ECalViewEvent *event);
 	void (* event_added) (ECalView *day_view, ECalViewEvent *event);

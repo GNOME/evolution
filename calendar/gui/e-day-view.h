@@ -577,6 +577,11 @@ gboolean e_day_view_find_event_from_item (EDayView *day_view,
  					  GnomeCanvasItem *item,
  					  gint *day_return,
  					  gint *event_num_return);
+void e_day_view_update_calendar_selection_time (EDayView *day_view);
+void e_day_view_ensure_rows_visible (EDayView *day_view,
+				     gint start_row,
+				     gint end_row);
+
 
 #ifdef __cplusplus
 }

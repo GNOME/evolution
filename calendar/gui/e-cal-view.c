@@ -94,6 +94,7 @@ enum props {
 /* Signal IDs */
 enum {
 	SELECTION_CHANGED,
+	SELECTED_TIME_CHANGED,
 	TIMEZONE_CHANGED,
 	EVENT_CHANGED,
 	EVENT_ADDED,
@@ -154,6 +155,7 @@ e_cal_view_class_init (ECalViewClass *klass)
 	object_class->destroy = e_cal_view_destroy;
 
 	klass->selection_changed = NULL;
+ 	klass->selected_time_changed = NULL;
 	klass->event_changed = NULL;
 	klass->event_added = NULL;
 
@@ -174,6 +176,14 @@ e_cal_view_class_init (ECalViewClass *klass)
 			      G_TYPE_FROM_CLASS (klass),
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ECalViewClass, selection_changed),
+			      NULL, NULL,
+			      g_cclosure_marshal_VOID__VOID,
+			      G_TYPE_NONE, 0);
+	e_cal_view_signals[SELECTED_TIME_CHANGED] =
+		g_signal_new ("selected_time_changed",
+			      G_TYPE_FROM_CLASS (klass),
+			      G_SIGNAL_RUN_LAST,
+			      G_STRUCT_OFFSET (ECalViewClass, selected_time_changed),
 			      NULL, NULL,
 			      g_cclosure_marshal_VOID__VOID,
 			      G_TYPE_NONE, 0);

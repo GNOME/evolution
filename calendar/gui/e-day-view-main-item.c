@@ -31,6 +31,7 @@
 #include "e-util/e-categories-config.h"
 #include "e-day-view-layout.h"
 #include "e-day-view-main-item.h"
+#include "ea-calendar.h"
 
 static void e_day_view_main_item_class_init (EDayViewMainItemClass *class);
 static void e_day_view_main_item_init (EDayViewMainItem *dvtitem);
@@ -106,6 +107,9 @@ e_day_view_main_item_class_init (EDayViewMainItemClass *class)
 	item_class->draw        = e_day_view_main_item_draw;
 	item_class->point       = e_day_view_main_item_point;
 	item_class->event       = e_day_view_main_item_event;
+
+	/* init the accessibility support for e_day_view */
+ 	e_day_view_main_item_a11y_init ();
 }
 
 

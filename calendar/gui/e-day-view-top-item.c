@@ -165,12 +165,10 @@ e_day_view_top_item_draw (GnomeCanvasItem *canvas_item,
 	EDayView *day_view;
 	GtkStyle *style;
 	GdkGC *gc, *fg_gc, *bg_gc, *light_gc, *dark_gc;
-	gchar buffer[128], *format;
+	gchar buffer[128];
 	GdkRectangle clip_rect;
 	gint canvas_width, canvas_height, left_edge, day, date_width, date_x;
 	gint item_height, event_num;
-	struct tm day_start = { 0 };
-	struct icaltimetype day_start_tt;
 	PangoLayout *layout;
 
 #if 0
@@ -245,34 +243,8 @@ e_day_view_top_item_draw (GnomeCanvasItem *canvas_item,
 	/* Draw the date. Set a clipping rectangle so we don't draw over the
 	   next day. */
 	for (day = 0; day < day_view->days_shown; day++) {
-		day_start_tt = icaltime_from_timet_with_zone (day_view->day_starts[day], FALSE,
-							      e_cal_view_get_timezone (E_CAL_VIEW (day_view)));
-		day_start.tm_year = day_start_tt.year - 1900;
-		day_start.tm_mon = day_start_tt.month - 1;
-		day_start.tm_mday = day_start_tt.day;
-		day_start.tm_isdst = -1;
-
-		day_start.tm_wday = time_day_of_week (day_start_tt.day,
-						      day_start_tt.month - 1,
-						      day_start_tt.year);
-
-		if (day_view->date_format == E_DAY_VIEW_DATE_FULL)
-			/* strftime format %A = full weekday name, %d = day of month,
-			   %B = full month name. Don't use any other specifiers. */
-			format = _("%A %d %B");
-		else if (day_view->date_format == E_DAY_VIEW_DATE_ABBREVIATED)
-			/* strftime format %a = abbreviated weekday name, %d = day of month,
-			   %b = abbreviated month name. Don't use any other specifiers. */
-			format = _("%a %d %b");
-		else if (day_view->date_format == E_DAY_VIEW_DATE_NO_WEEKDAY)
-			/* strftime format %d = day of month, %b = abbreviated month name.
-			   Don't use any other specifiers. */
-			format = _("%d %b");
-		else
-			format = "%d";
-
-		e_utf8_strftime (buffer, sizeof (buffer), format, &day_start);
-			
+		e_day_view_top_item_get_day_label (day_view, day,
+						   buffer, sizeof (buffer));
 		clip_rect.x = day_view->day_offsets[day] - x;
 		clip_rect.y = 2 - y;
 		clip_rect.width = day_view->day_widths[day];
@@ -690,4 +662,40 @@ e_day_view_top_item_event (GnomeCanvasItem *item, GdkEvent *event)
 	return FALSE;
 }
 
+void
+e_day_view_top_item_get_day_label (EDayView *day_view, gint day,
+				   gchar *buffer, gint buffer_len)
+{
+	struct icaltimetype day_start_tt;
+	struct tm day_start = { 0 };
+	gchar *format;
 
+	day_start_tt = icaltime_from_timet_with_zone (day_view->day_starts[day],
+						      FALSE,
+						      e_cal_view_get_timezone (E_CAL_VIEW (day_view)));
+	day_start.tm_year = day_start_tt.year - 1900;
+	day_start.tm_mon = day_start_tt.month - 1;
+	day_start.tm_mday = day_start_tt.day;
+	day_start.tm_isdst = -1;
+
+	day_start.tm_wday = time_day_of_week (day_start_tt.day,
+					      day_start_tt.month - 1,
+					      day_start_tt.year);
+
+	if (day_view->date_format == E_DAY_VIEW_DATE_FULL)
+		/* strftime format %A = full weekday name, %d = day of month,
+		   %B = full month name. Don't use any other specifiers. */
+		format = _("%A %d %B");
+	else if (day_view->date_format == E_DAY_VIEW_DATE_ABBREVIATED)
+		/* strftime format %a = abbreviated weekday name, %d = day of month,
+		   %b = abbreviated month name. Don't use any other specifiers. */
+		format = _("%a %d %b");
+	else if (day_view->date_format == E_DAY_VIEW_DATE_NO_WEEKDAY)
+		/* strftime format %d = day of month, %b = abbreviated month name.
+		   Don't use any other specifiers. */
+		format = _("%d %b");
+	else
+		format = "%d";
+
+	e_utf8_strftime (buffer, buffer_len, format, &day_start);
+}
