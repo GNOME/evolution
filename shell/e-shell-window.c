@@ -674,12 +674,14 @@ e_shell_window_new (EShell *shell,
 {
 	EShellWindow *window = g_object_new (e_shell_window_get_type (), NULL);
 	EShellWindowPrivate *priv = window->priv;
+	GConfClient *gconf_client = gconf_client_get_default ();
 	BonoboUIContainer *ui_container;
 
 	if (bonobo_window_construct (BONOBO_WINDOW (window),
 				     bonobo_ui_container_new (),
 				     "evolution", "Ximian Evolution") == NULL) {
 		g_object_unref (window);
+		g_object_unref (gconf_client);
 		return NULL;
 	}
 
@@ -712,10 +714,8 @@ e_shell_window_new (EShell *shell,
 	if (component_id != NULL) {
 		e_shell_window_switch_to_component (window, component_id);
 	} else {
-		GConfClient *gconf_client;
 		char *default_component_id;
 
-		gconf_client = gconf_client_get_default ();
 		default_component_id = gconf_client_get_string (gconf_client,
 								"/apps/evolution/shell/view_defaults/component_id",
 								NULL);
@@ -729,8 +729,13 @@ e_shell_window_new (EShell *shell,
 		}
 	}
 
+	gtk_window_set_default_size (GTK_WINDOW (window),
+				     gconf_client_get_int (gconf_client, "/apps/evolution/shell/view_defaults/width", NULL),
+				     gconf_client_get_int (gconf_client, "/apps/evolution/shell/view_defaults/height", NULL));
+
 	e_user_creatable_items_handler_attach_menus (e_shell_peek_user_creatable_items_handler (shell), window);
 
+	g_object_unref (gconf_client);
 	return GTK_WIDGET (window);
 }
 
@@ -798,8 +803,14 @@ e_shell_window_peek_bonobo_ui_component (EShellWindow *window)
 void
 e_shell_window_save_defaults (EShellWindow *window)
 {
-	/* FIXME */
-	g_warning ("e_shell_window_save_defaults() unimplemented");
+	GConfClient *client = gconf_client_get_default ();
+
+	gconf_client_set_int (client, "/apps/evolution/shell/view_defaults/width",
+			      GTK_WIDGET (window)->allocation.width, NULL);
+	gconf_client_set_int (client, "/apps/evolution/shell/view_defaults/height",
+			      GTK_WIDGET (window)->allocation.height, NULL);
+
+	g_object_unref (client);
 }
 
 void

@@ -1,3 +1,8 @@
+2003-12-02  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-shell-window.c (e_shell_window_save_defaults): Implement.
+	(e_shell_window_new): Set the width/height from the GConf keys.
+
 2003-12-02  Rodney Dawes  <dobey@ximian.com>
 
 	* Makefile.am: Version the schemas
