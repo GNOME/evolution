@@ -1,6 +1,6 @@
 <oaf_info>
 
-<oaf_server iid="OAFIID:GNOME_Evolution_Calendar_AlarmNotify"
+<oaf_server iid="OAFIID:GNOME_Evolution_Calendar_AlarmNotify_2"
             type="exe"
             location="@LIBEXECDIR@/evolution-alarm-notify">
 
