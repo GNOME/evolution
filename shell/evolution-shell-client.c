@@ -330,4 +330,41 @@ evolution_shell_client_user_select_folder (EvolutionShellClient *shell_client,
 }
 
 
+/**
+ * evolution_shell_client_get_local_storage:
+ * @shell_client: An EvolutionShellClient object
+ * 
+ * Retrieve the local storage interface for this shell.
+ * 
+ * Return value: a pointer to the CORBA object implementing the local storage
+ * in the shell associated with @shell_client.
+ **/
+Evolution_LocalStorage
+evolution_shell_client_get_local_storage (EvolutionShellClient *shell_client)
+{
+	Evolution_Shell corba_shell;
+	Evolution_LocalStorage corba_local_storage;
+	CORBA_Environment ev;
+
+	g_return_val_if_fail (shell_client != NULL, CORBA_OBJECT_NIL);
+	g_return_val_if_fail (EVOLUTION_IS_SHELL_CLIENT (shell_client), CORBA_OBJECT_NIL);
+
+	CORBA_exception_init (&ev);
+
+	corba_shell = bonobo_object_corba_objref (BONOBO_OBJECT (shell_client));
+	if (corba_shell == CORBA_OBJECT_NIL)
+		return CORBA_OBJECT_NIL;
+
+	corba_local_storage = Evolution_Shell_get_local_storage (corba_shell, &ev);
+	if (ev._major != CORBA_NO_EXCEPTION) {
+		CORBA_exception_free (&ev);
+		return CORBA_OBJECT_NIL;
+	}
+
+	CORBA_exception_free (&ev);
+
+	return corba_local_storage;
+}
+
+
 E_MAKE_TYPE (evolution_shell_client, "EvolutionShellClient", EvolutionShellClient, class_init, init, PARENT_TYPE)

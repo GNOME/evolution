@@ -59,17 +59,19 @@ struct _EvolutionShellClientClass {
 };
 
 
-GtkType               evolution_shell_client_get_type            (void);
-void                  evolution_shell_client_construct           (EvolutionShellClient  *shell_client,
-								  Evolution_Shell        corba_shell);
-EvolutionShellClient *evolution_shell_client_new                 (Evolution_Shell        shell);
+GtkType                 evolution_shell_client_get_type            (void);
+void                    evolution_shell_client_construct           (EvolutionShellClient  *shell_client,
+								    Evolution_Shell        corba_shell);
+EvolutionShellClient   *evolution_shell_client_new                 (Evolution_Shell        shell);
 
-void                  evolution_shell_client_user_select_folder  (EvolutionShellClient  *shell_client,
-								  const char            *title,
-								  const char            *default_folder,
-								  const char            *possible_types[],
-								  char                 **uri_return,
-								  char                 **physical_uri_return);
+void                    evolution_shell_client_user_select_folder  (EvolutionShellClient  *shell_client,
+								    const char            *title,
+								    const char            *default_folder,
+								    const char            *possible_types[],
+								    char                 **uri_return,
+								    char                 **physical_uri_return);
+
+Evolution_LocalStorage  evolution_shell_client_get_local_storage   (EvolutionShellClient  *shell_client);
 
 #ifdef __cplusplus
 }

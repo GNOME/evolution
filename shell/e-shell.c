@@ -364,6 +364,35 @@ setup_components (EShell *shell)
 	CORBA_exception_free (&ev);
 }
 
+/* FIXME what if anything fails here?  */
+static void
+set_owner_on_components (EShell *shell)
+{
+	Evolution_Shell corba_shell;
+	EShellPrivate *priv;
+	const char *local_directory;
+	GList *id_list;
+	GList *p;
+
+	priv = shell->priv;
+	local_directory = e_shell_get_local_directory (shell);
+
+	corba_shell = bonobo_object_corba_objref (BONOBO_OBJECT (shell));
+
+	id_list = e_component_registry_get_id_list (priv->component_registry);
+	for (p = id_list; p != NULL; p = p->next) {
+		EvolutionShellComponentClient *component_client;
+		const char *id;
+
+		id = (const char *) p->data;
+		component_client = e_component_registry_get_component_by_id (priv->component_registry, id);
+
+		evolution_shell_component_client_set_owner (component_client, corba_shell, local_directory);
+	}
+
+	e_free_string_list (id_list);
+}
+
 
 /* EShellView destruction callback.  */
 
@@ -548,6 +577,9 @@ e_shell_construct (EShell *shell,
 
 	/* The local storage depends on the component registry.  */
 	setup_local_storage (shell);
+
+	/* Now that we have a local storage, we can tell the components we are here.  */
+	set_owner_on_components (shell);
 
 	shortcut_path = g_concat_dir_and_file (local_directory, "shortcuts.xml");
 	priv->shortcuts = e_shortcuts_new (priv->storage_set,

@@ -1,5 +1,16 @@
 2000-09-08  Ettore Perazzoli  <ettore@helixcode.com>
 
+	* e-shell.c (set_owner_on_components): New.
+	(e_shell_construct): Call it after setting up the local storage.
+
+	* e-component-registry.c (register_component): Don't set the owner
+	here.
+
+	* evolution-shell-client.c
+	(evolution_shell_client_get_local_storage): New.
+
+2000-09-08  Ettore Perazzoli  <ettore@helixcode.com>
+
 	* evolution-shell-view.c (destroy): Chain to the parent's
 	destroy method.
 
