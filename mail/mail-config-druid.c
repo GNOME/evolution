@@ -851,7 +851,7 @@ get_fn (EvolutionWizard *wizard,
 	case 2:
 		widget = create_label ("extra_html");
 		gtk_box_pack_start (GTK_BOX (vbox), widget, FALSE, FALSE, 0);
-		widget = glade_xml_get_widget (gui->gui->xml, "extra_vbox");
+		widget = glade_xml_get_widget (gui->gui->xml, "extra_table");
 		gtk_widget_reparent (widget, vbox);
 		break;
 	case 3:

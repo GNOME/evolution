@@ -1,3 +1,17 @@
+2003-02-21  Dan Winship  <danw@ximian.com>
+
+	* mail-account-gui.c (mail_account_gui_build_extra_conf): Use
+	tables instead of vboxes, so that groups of label/entry pairs (as
+	in Connector's config page) can line up nicely.
+
+	* mail-config.glade: Turn extra_vbox and extra_mailcheck_vbox into
+	tables.
+
+	* mail-config-druid.c (get_fn): s/extra_vbox/extra_table/
+
+	* Makefile.am (libevolution_mail_la_LIBADD):
+	s/libcomposer.a/libcomposer.la/
+
 2003-02-20  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-callbacks.c (mark_all_as_seen): Use

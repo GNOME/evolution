@@ -156,7 +156,7 @@ libevolution_mail_la_LIBADD =					\
 	$(top_builddir)/camel/libcamel.la			\
 	$(top_builddir)/e-util/libeutil.la			\
 	$(top_builddir)/shell/libeshell.la			\
-	$(top_builddir)/composer/libcomposer.a			\
+	$(top_builddir)/composer/libcomposer.la			\
 	$(top_builddir)/widgets/misc/libemiscwidgets.la		\
 	$(top_builddir)/widgets/misc/libefilterbar.la		\
 	$(top_builddir)/addressbook/backend/ebook/libebook.la	\

@@ -38,9 +38,9 @@ Click &quot;Forward&quot; to begin. </property>
 	<widget class="GnomeDruidPageStandard" id="identity_page">
 	  <property name="visible">True</property>
 	  <property name="title" translatable="yes">Identity</property>
-	  <property name="title_foreground">#e5d0bfffe388</property>
-	  <property name="background">#bdb00817e388</property>
-	  <property name="logo_background">#e7d80816532c</property>
+	  <property name="title_foreground">#0b100829e878</property>
+	  <property name="background">#8af8081ce878</property>
+	  <property name="logo_background">#eac0bfffe858</property>
 	  <property name="logo">mail-config-druid-identity.png</property>
 
 	  <child internal-child="vbox">
@@ -62,9 +62,9 @@ Click &quot;Forward&quot; to begin. </property>
 	<widget class="GnomeDruidPageStandard" id="source_page">
 	  <property name="visible">True</property>
 	  <property name="title" translatable="yes">Receiving Email</property>
-	  <property name="title_foreground">#e5d0bfffe388</property>
-	  <property name="background">#bdb00817e388</property>
-	  <property name="logo_background">#e7d80816532c</property>
+	  <property name="title_foreground">#3f780829e878</property>
+	  <property name="background">#8af8081ce878</property>
+	  <property name="logo_background">#eac0bfffe858</property>
 	  <property name="logo">mail-config-druid-receive.png</property>
 
 	  <child internal-child="vbox">
@@ -86,9 +86,9 @@ Click &quot;Forward&quot; to begin. </property>
 	<widget class="GnomeDruidPageStandard" id="extra_page">
 	  <property name="visible">True</property>
 	  <property name="title" translatable="yes">Receiving Email</property>
-	  <property name="title_foreground">#e5d0bfffe388</property>
-	  <property name="background">#bdb00817e388</property>
-	  <property name="logo_background">#e7d80816532c</property>
+	  <property name="title_foreground">#59280829e878</property>
+	  <property name="background">#8af8081ce878</property>
+	  <property name="logo_background">#eac0bfffe858</property>
 	  <property name="logo">mail-config-druid-receive.png</property>
 
 	  <child internal-child="vbox">
@@ -110,9 +110,9 @@ Click &quot;Forward&quot; to begin. </property>
 	<widget class="GnomeDruidPageStandard" id="transport_page">
 	  <property name="visible">True</property>
 	  <property name="title" translatable="yes">Sending Email</property>
-	  <property name="title_foreground">#e5d0bfffe388</property>
-	  <property name="background">#bdb00817e388</property>
-	  <property name="logo_background">#e7d80816532c</property>
+	  <property name="title_foreground">#4f60082ce878</property>
+	  <property name="background">#8af8081ce878</property>
+	  <property name="logo_background">#eac0bfffe858</property>
 	  <property name="logo">mail-config-druid-send.png</property>
 
 	  <child internal-child="vbox">
@@ -134,9 +134,9 @@ Click &quot;Forward&quot; to begin. </property>
 	<widget class="GnomeDruidPageStandard" id="management_page">
 	  <property name="visible">True</property>
 	  <property name="title" translatable="yes">Account Management</property>
-	  <property name="title_foreground">#e5d0bfffe388</property>
-	  <property name="background">#bdb00817e388</property>
-	  <property name="logo_background">#e7d80816532c</property>
+	  <property name="title_foreground">#6c18082ce878</property>
+	  <property name="background">#8af8081ce878</property>
+	  <property name="logo_background">#eac0bfffe858</property>
 	  <property name="logo">mail-config-druid-account-name.png</property>
 
 	  <child internal-child="vbox">
@@ -1403,11 +1403,14 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
       </child>
 
       <child>
-	<widget class="GtkVBox" id="extra_vbox">
-	  <property name="border_width">4</property>
+	<widget class="GtkTable" id="extra_table">
+	  <property name="border_width">3</property>
 	  <property name="visible">True</property>
+	  <property name="n_rows">1</property>
+	  <property name="n_columns">2</property>
 	  <property name="homogeneous">False</property>
-	  <property name="spacing">0</property>
+	  <property name="row_spacing">4</property>
+	  <property name="column_spacing">8</property>
 
 	  <child>
 	    <widget class="GtkFrame" id="extra_mailcheck_frame">
@@ -1418,14 +1421,17 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 	      <property name="shadow_type">GTK_SHADOW_ETCHED_IN</property>
 
 	      <child>
-		<widget class="GtkVBox" id="extra_mailcheck_vbox">
+		<widget class="GtkTable" id="extra_mailcheck_table">
 		  <property name="border_width">3</property>
 		  <property name="visible">True</property>
+		  <property name="n_rows">1</property>
+		  <property name="n_columns">2</property>
 		  <property name="homogeneous">False</property>
-		  <property name="spacing">0</property>
+		  <property name="row_spacing">4</property>
+		  <property name="column_spacing">8</property>
 
 		  <child>
-		    <widget class="GtkHBox" id="hbox53">
+		    <widget class="GtkHBox" id="extra_mailcheck_hbox">
 		      <property name="visible">True</property>
 		      <property name="homogeneous">False</property>
 		      <property name="spacing">0</property>
@@ -1511,9 +1517,10 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 		      </child>
 		    </widget>
 		    <packing>
-		      <property name="padding">0</property>
-		      <property name="expand">False</property>
-		      <property name="fill">True</property>
+		      <property name="left_attach">0</property>
+		      <property name="right_attach">2</property>
+		      <property name="top_attach">0</property>
+		      <property name="bottom_attach">1</property>
 		    </packing>
 		  </child>
 		</widget>
@@ -1539,9 +1546,11 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 	      </child>
 	    </widget>
 	    <packing>
-	      <property name="padding">0</property>
-	      <property name="expand">False</property>
-	      <property name="fill">True</property>
+	      <property name="left_attach">0</property>
+	      <property name="right_attach">2</property>
+	      <property name="top_attach">0</property>
+	      <property name="bottom_attach">1</property>
+	      <property name="y_options">fill</property>
 	    </packing>
 	  </child>
 	</widget>
