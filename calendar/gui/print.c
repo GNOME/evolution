@@ -61,8 +61,9 @@
  * what gnome-print uses.
  */
 
-/* The font to use */
-#define DEFAULT_FONT "Times"
+/* The fonts to use */
+#define REGULAR_FONT "Sans Regular"
+#define BOLD_FONT    "Sans Bold"
 
 /* The font size to use for normal text. */
 #define DAY_NORMAL_FONT_SIZE	12
@@ -164,7 +165,7 @@ struct einfo
 	int count;
 };
 
-static const GnomePrintPaper *paper_info = NULL;
+static GnomePrintConfig *print_config = NULL;
 
 
 /* Convenience function to help the transition to timezone functions.
@@ -257,17 +258,33 @@ get_font_for_size (double h, GnomeFontWeight weight, gboolean italic)
 	GnomeFontFace *face;
 	GnomeFont *font;
 	double asc, desc, size;
-	
-	face = gnome_font_face_find_closest_from_weight_slant (DEFAULT_FONT, weight, italic);
+	gchar *font_name;
+
+	if (weight <= GNOME_FONT_BOOK)
+		font_name = REGULAR_FONT;
+	else
+		font_name = BOLD_FONT;
+
+	if (italic)
+		font_name = g_strconcat (font_name, " Italic", NULL);
+
+	/* This function is broken in gnome-print (it doesn't find a suitable face).
+	 * face = gnome_font_face_find_closest_from_weight_slant (DEFAULT_FONT, weight, italic); */
+	face = gnome_font_face_find (font_name);
+
 	asc = gnome_font_face_get_ascender (face);
-	desc = gnome_font_face_get_descender (face);
+	desc = abs (gnome_font_face_get_descender (face));
 	size = h * 1000 / (asc + desc);
+
 	g_print ("Print Info: %f, %f, %f\n", asc, desc, size);
-	
-	font = gnome_font_find_closest_from_weight_slant (DEFAULT_FONT, weight, italic, size);
+
+	/* This function is broken in gnome-print (it doesn't find a suitable font).
+	 * font = gnome_font_find_closest_from_weight_slant (DEFAULT_FONT, weight, italic, size); */
+	font = gnome_font_find_closest (font_name, size);
 
 	g_object_unref (face);
-	
+	if (italic)
+		g_free (font_name);
 	return font;
 }
 
@@ -1938,8 +1955,7 @@ print_day_view (GnomePrintContext *pc, GnomeCalendar *gcal, time_t date,
 		todo = (right - left) * 0.75 + left;
 		header = top - HEADER_HEIGHT;
 
-		/* FIXME: What is the name supposed to be for? */
-		gnome_print_beginpage (pc, "Calendar Day View");
+		gnome_print_beginpage (pc, NULL);
 
 		/* Print the main view with all the events in. */
 		print_day_details (pc, gcal, date,
@@ -1997,8 +2013,7 @@ print_week_view (GnomePrintContext *pc, GnomeCalendar *gcal, time_t date,
 
 	header = top - HEADER_HEIGHT;
 
-	/* FIXME: What is the name supposed to be for? */
-	gnome_print_beginpage (pc, "Calendar Week View");
+	gnome_print_beginpage (pc, NULL);
 
 	tm = *convert_timet_to_struct_tm (date, zone);
 	week_start_day = calendar_config_get_week_start_day ();
@@ -2065,8 +2080,7 @@ print_month_view (GnomePrintContext *pc, GnomeCalendar *gcal, time_t date,
 
 	header = top - HEADER_HEIGHT;
 
-	/* FIXME: What is the name supposed to be for? */
-	gnome_print_beginpage (pc, "Calendar Month View");
+	gnome_print_beginpage (pc, NULL);
 
 	/* Print the main month view. */
 	print_month_summary (pc, gcal, date, left, right, header, bottom);
@@ -2101,8 +2115,7 @@ print_year_view (GnomePrintContext *pc, GnomeCalendar *gcal, time_t date,
 {
 	char buf[100];
 
-	/* FIXME: What is the name supposed to be for? */
-	gnome_print_beginpage (pc, "Calendar Year View");
+	gnome_print_beginpage (pc, NULL);
 
 	print_year_summary (pc, gcal, date, left, right, top - 50, bottom,
 			    TRUE);
@@ -2248,6 +2261,8 @@ print_comp_item (GnomePrintContext *pc, CalComponent *comp, CalClient *client,
 		title = _("Task");
 	else
 		return;
+
+	gnome_print_beginpage (pc, NULL);
 
 	/* Print the title in a box at the top of the page. */
 	font = get_font_for_size (18, GNOME_FONT_BOLD, FALSE);
@@ -2408,44 +2423,44 @@ void
 print_calendar (GnomeCalendar *gcal, gboolean preview, time_t date,
 		PrintView default_view)
 {
-#warning "Re-implement printing."
-#if 0
-	GnomePrintConfig *config;
 	GnomePrintJob *gpm;
 	GnomePrintContext *pc;
 	int copies, collate;
-	double l, r, t, b;
+	double l, r, t, b, temp_d;
+	gchar *old_orientation;
 
 	g_return_if_fail (gcal != NULL);
 	g_return_if_fail (GNOME_IS_CALENDAR (gcal));
 
-	config = NULL;
+	if (!print_config)
+		print_config = gnome_print_config_default ();
+
 	copies = 1;
 	collate = FALSE;
+
+	gpm = gnome_print_job_new (print_config);
 
 	if (!preview) {
 		GtkWidget *gpd;
 		GtkWidget *range;
 		int view;
 
-		gpd = gnome_print_dialog_new (NULL, _("Print"), 0);
-
-		/* FIXME: THe rest of this func needs to be converted */
+		gpd = gnome_print_dialog_new (gpm, _("Print"), 0);
 
 		view = (int) default_view;
 		range = range_selector_new (gpd, date, &view);
 		gnome_print_dialog_construct_range_custom (GNOME_PRINT_DIALOG (gpd), range);
 
-		gnome_dialog_set_default (GNOME_DIALOG (gpd),
-					  GNOME_PRINT_PRINT);
+		gtk_dialog_set_default_response (GTK_DIALOG (gpd),
+						 GNOME_PRINT_DIALOG_RESPONSE_PRINT);
 
 		/* Run dialog */
 
-		switch (gnome_dialog_run (GNOME_DIALOG (gpd))) {
-		case GNOME_PRINT_PRINT:
+		switch (gtk_dialog_run (GTK_DIALOG (gpd))) {
+		case GNOME_PRINT_DIALOG_RESPONSE_PRINT:
 			break;
 
-		case GNOME_PRINT_PREVIEW:
+		case GNOME_PRINT_DIALOG_RESPONSE_PREVIEW:
 			preview = TRUE;
 			break;
 
@@ -2453,41 +2468,30 @@ print_calendar (GnomeCalendar *gcal, gboolean preview, time_t date,
 			return;
 
 		default:
-			gnome_dialog_close (GNOME_DIALOG (gpd));
+			gtk_widget_destroy (gpd);
 			return;
 		}
 
 		e_dialog_get_values (gpd);
 		default_view = (PrintView) view;
 
-		gnome_print_dialog_get_copies (GNOME_PRINT_DIALOG (gpd),
-					       &copies, &collate);
-		printer = gnome_print_dialog_get_printer (GNOME_PRINT_DIALOG (gpd));
-
-		gnome_dialog_close (GNOME_DIALOG (gpd));
+		gtk_widget_destroy (gpd);
 	}
 
-	/* FIXME: allow configuration of paper size */
+	old_orientation = gnome_print_config_get (print_config, GNOME_PRINT_KEY_PAGE_ORIENTATION);
 
-	gpm = gnome_print_job_new ();
-
-	if (paper_info == NULL)
-		paper_info = gnome_paper_with_name (gnome_paper_name_default ());
-	gnome_print_job_set_paper (gpm, paper_info);
-
-	if (printer)
-		gnome_print_job_set_printer (gpm, printer);
-
-	gnome_print_job_set_copies (gpm, copies, collate);
+	if (default_view == PRINT_VIEW_MONTH)
+		gnome_print_config_set (print_config, GNOME_PRINT_KEY_PAGE_ORIENTATION, "R90");
 
 	pc = gnome_print_job_get_context (gpm);
+	gnome_print_config_get_page_size (print_config, &r, &t);
 
-	l = gnome_paper_lmargin (paper_info);
-	r = gnome_paper_pswidth (paper_info)
-		- gnome_paper_rmargin (paper_info);
-	t = gnome_paper_psheight (paper_info)
-		- gnome_paper_tmargin (paper_info);
-	b = gnome_paper_bmargin (paper_info);
+	gnome_print_config_get_double (print_config, GNOME_PRINT_KEY_PAGE_MARGIN_TOP, &temp_d);
+	t -= temp_d;
+	gnome_print_config_get_double (print_config, GNOME_PRINT_KEY_PAGE_MARGIN_RIGHT, &temp_d);
+	r -= temp_d;
+	gnome_print_config_get_double (print_config, GNOME_PRINT_KEY_PAGE_MARGIN_BOTTOM, &b);
+	gnome_print_config_get_double (print_config, GNOME_PRINT_KEY_PAGE_MARGIN_LEFT, &l);
 
 	/* depending on the view, do a different output */
 	switch (default_view) {
@@ -2498,10 +2502,7 @@ print_calendar (GnomeCalendar *gcal, gboolean preview, time_t date,
 		print_week_view (pc, gcal, date, l, r, t, b);
 		break;
 	case PRINT_VIEW_MONTH:
-		gnome_print_rotate (pc, 90);
-		gnome_print_translate (pc, 0,
-				       -gnome_paper_pswidth (paper_info));
-		print_month_view (pc, gcal, date, b, t, r, l);
+		print_month_view (pc, gcal, date, l, r, t, b);
 		break;
 	case PRINT_VIEW_YEAR:
 		print_year_view (pc, gcal, date, l, r, t, b);
@@ -2513,56 +2514,55 @@ print_calendar (GnomeCalendar *gcal, gboolean preview, time_t date,
 	gnome_print_job_close (gpm);
 
 	if (preview) {
-		GnomePrintJobPreview *gpmp;
-		gboolean landscape = FALSE;
+		GtkWidget *gpmp;
 
-		if (default_view == PRINT_VIEW_MONTH)
-			landscape = TRUE;
-
-		gpmp = gnome_print_job_preview_new_with_orientation (gpm, _("Print Preview"), landscape);
-		gtk_widget_show (GTK_WIDGET (gpmp));
+		gpmp = gnome_print_job_preview_new (gpm, _("Print Preview"));
+		gtk_widget_show (gpmp);
 	} else {
 		gnome_print_job_print (gpm);
 	}
 
+	gnome_print_config_set (print_config, GNOME_PRINT_KEY_PAGE_ORIENTATION, old_orientation);
+	g_free (old_orientation);
 	g_object_unref (gpm);
-#endif
 }
 
 
 void
 print_comp (CalComponent *comp, CalClient *client, gboolean preview)
 {
-#if 0
-	GnomePrinter *printer;
 	GnomePrintJob *gpm;
 	GnomePrintContext *pc;
 	int copies, collate;
-	double l, r, t, b;
+	double l, r, t, b, temp_d;
 
 	g_return_if_fail (comp != NULL);
 	g_return_if_fail (IS_CAL_COMPONENT (comp));
 
-	printer = NULL;
+	if (!print_config)
+		print_config = gnome_print_config_default ();
+
 	copies = 1;
 	collate = FALSE;
+
+	gpm = gnome_print_job_new (print_config);
 
 	if (!preview) {
 		GtkWidget *gpd;
 
-		gpd = gnome_print_dialog_new (_("Print Item"),
+		gpd = gnome_print_dialog_new (gpm, _("Print Item"),
 					      GNOME_PRINT_DIALOG_COPIES);
 
-		gnome_dialog_set_default (GNOME_DIALOG (gpd),
-					  GNOME_PRINT_PRINT);
+		gtk_dialog_set_default_response (GTK_DIALOG (gpd),
+						 GNOME_PRINT_DIALOG_RESPONSE_PRINT);
 
 		/* Run dialog */
 
-		switch (gnome_dialog_run (GNOME_DIALOG (gpd))) {
-		case GNOME_PRINT_PRINT:
+		switch (gtk_dialog_run (GTK_DIALOG (gpd))) {
+		case GNOME_PRINT_DIALOG_RESPONSE_PRINT:
 			break;
 
-		case GNOME_PRINT_PREVIEW:
+		case GNOME_PRINT_DIALOG_RESPONSE_PREVIEW:
 			preview = TRUE;
 			break;
 
@@ -2570,83 +2570,69 @@ print_comp (CalComponent *comp, CalClient *client, gboolean preview)
 			return;
 
 		default:
-			gnome_dialog_close (GNOME_DIALOG (gpd));
+			gtk_widget_destroy (gpd);
 			return;
 		}
 
 		e_dialog_get_values (gpd);
-
-		gnome_print_dialog_get_copies (GNOME_PRINT_DIALOG (gpd),
-					       &copies, &collate);
-		printer = gnome_print_dialog_get_printer (GNOME_PRINT_DIALOG (gpd));
-
-		gnome_dialog_close (GNOME_DIALOG (gpd));
+		gtk_widget_destroy (gpd);
 	}
 
-	/* FIXME: allow configuration of paper size */
-
-	gpm = gnome_print_job_new ();
-
-	if (paper_info == NULL)
-		paper_info = gnome_paper_with_name (gnome_paper_name_default ());
-	gnome_print_job_set_paper (gpm, paper_info);
-
-	if (printer)
-		gnome_print_job_set_printer (gpm, printer);
-
-	gnome_print_job_set_copies (gpm, copies, collate);
-
 	pc = gnome_print_job_get_context (gpm);
+	gnome_print_config_get_page_size (print_config, &r, &t);
 
-	l = gnome_paper_lmargin (paper_info);
-	r = gnome_paper_pswidth (paper_info)
-		- gnome_paper_rmargin (paper_info);
-	t = gnome_paper_psheight (paper_info)
-		- gnome_paper_tmargin (paper_info);
-	b = gnome_paper_bmargin (paper_info);
+	gnome_print_config_get_double (print_config, GNOME_PRINT_KEY_PAGE_MARGIN_TOP, &temp_d);
+	t -= temp_d;
+	gnome_print_config_get_double (print_config, GNOME_PRINT_KEY_PAGE_MARGIN_RIGHT, &temp_d);
+	r -= temp_d;
+	gnome_print_config_get_double (print_config, GNOME_PRINT_KEY_PAGE_MARGIN_BOTTOM, &b);
+	gnome_print_config_get_double (print_config, GNOME_PRINT_KEY_PAGE_MARGIN_LEFT, &l);
 
 	print_comp_item (pc, comp, client, l, r, t, b);
-
 	gnome_print_job_close (gpm);
 
 	if (preview) {
-		GnomePrintJobPreview *gpmp;
+		GtkWidget *gpmp;
 
-		gpmp = gnome_print_job_preview_new (gpm,
-						       _("Print Preview"));
-		gtk_widget_show (GTK_WIDGET (gpmp));
+		gpmp = gnome_print_job_preview_new (gpm, _("Print Preview"));
+		gtk_widget_show (gpmp);
 	} else {
 		gnome_print_job_print (gpm);
 	}
 
 	g_object_unref (gpm);
-#endif
 }
 
 void
 print_setup (void)
 {
-#if 0
-	GtkWidget *dlg, *ps;
-	gint btn;
+	GtkWidget *ps;
 
-	ps = gnome_paper_selector_new ();
+	if (!print_config)
+		print_config = gnome_print_config_default ();
+
+	ps = gnome_paper_selector_new (print_config);
 	gtk_widget_show (ps);
 
-	dlg = gnome_dialog_new (_("Print Setup"),
-				GNOME_STOCK_BUTTON_OK,
-				GNOME_STOCK_BUTTON_CANCEL,
-				NULL);
-	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (dlg)->vbox), ps, TRUE, TRUE, 2);
+#if 0
+	dlg = gtk_dialog_new_with_buttons (_("Print Setup"),
+					   NULL,  /* FIXME: Set a sensible parent */
+					   0,
+					   GNOME_STOCK_BUTTON_OK,
+					   GNOME_STOCK_BUTTON_CANCEL,
+					   NULL);
+	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dlg)->vbox), ps, TRUE, TRUE, 2);
 
-	btn = gnome_dialog_run (GNOME_DIALOG (dlg));
+	btn = gtk_dialog_run (GTK_DIALOG (dlg));
 	if (btn == 0) {
 		gchar *name;
+
+		print_config = gnome_paper_selector_get_config (ps);
 
 		name  = gnome_paper_selector_get_name (GNOME_PAPER_SELECTOR (ps));
 		paper_info = gnome_paper_with_name (name);
 	}
 
-	gnome_dialog_close (GNOME_DIALOG (dlg));
+	gtk_widget_destroy (dlg);
 #endif
 }

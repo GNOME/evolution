@@ -1,5 +1,43 @@
 2003-02-11  Hans Petter Jansson  <hpj@ximian.com>
 
+	Enable printing for calendar and tasks.
+
+	* gui/print.c: Set default font to be "Sans". Store the PrintConfig
+	globally instead of PaperInfo (which doesn't exist anymore).
+	(get_font_for_size): Don't use
+	gnome_font_face_find_closest_from_weight_slant() anymore, since
+	it's broken. Instead, use gnome_font_face_find() and put bold- and
+	italicness in the name to look for. Descenders can now be negative,
+	so have to take the absolute value to get font height.
+	(print_comp): Use global, persistent print configuration.
+	GnomePrintDialog is now a GtkDialog. Remove manual configuration
+	parameter shuffling. Set up page using new methods.
+	(print_calendar): Like print_comp(). For month view, force landscape
+	mode by temporarily setting it in the config, and remove the old hack.
+	(print_setup): Port. I'm not sure this works, but at least it
+	compiles now. How do I test this code path?
+	(print_day_view): Pass NULL for page denominator.
+	(print_week_view): Ditto.
+	(print_month_view): Ditto.
+	(print_year_view): Ditto.
+	(print_comp_item): Add missing gnome_print_beginpage(). How did this
+	work before?
+
+	* gui/tasks-control.c: Store the PrintConfig globally instead of
+	passing individual parameters every time. Persistent too.
+	(print_title): Look for "Sans Bold" instead of "Times" with
+	GNOME_FONT_BOLD property. Don't use find_closest_from_weight_slant().
+	(print_tasks): Set up page using new methods. GnomePrintMaster ->
+	GnomePrintJob. Get params from global config instead of args.
+	(tasks_control_print_cmd): Use global, persistent print configuration.
+	Remove manual portrait/landscape hack. GnomePrintDialog is now a
+	GtkDialog. Set params in global config instead of passing them to
+	print_tasks().
+	(tasks_control_print_preview_cmd): print_tasks() now takes fewer
+	args.
+
+2003-02-11  Hans Petter Jansson  <hpj@ximian.com>
+
 	* gui/e-meeting-time-sel.c (e_meeting_time_selector_construct):
 	Don't use gtk_scrolled_window_set_scrollbar_spacing() anymore.
 

@@ -102,6 +102,9 @@ static void tasks_control_print_preview_cmd	(BonoboUIComponent	*uic,
 						 const char		*path);
 
 
+static GnomePrintConfig *print_config = NULL;
+
+
 BonoboControl *
 tasks_control_new (void)
 {
@@ -503,7 +506,7 @@ print_title (GnomePrintContext *pc,
 	char *text;
 	double w, x, y;
 
-	font = gnome_font_find_closest_from_weight_slant ("Times", GNOME_FONT_BOLD, 0, 18);
+	font = gnome_font_find_closest ("Sans Bold", 18);
 
 	text = _("Tasks");
 	w = gnome_font_get_width_utf8 (font, text);
@@ -519,60 +522,44 @@ print_title (GnomePrintContext *pc,
 	g_object_unref (font);
 }
 
-
 static void
-print_tasks (ETasks *tasks, gboolean preview, gboolean landscape,
-	     int copies, gboolean collate)
+print_tasks (ETasks *tasks, gboolean preview)
 {
-#warning "Re-implement printing."
-#if 0
 	ECalendarTable *cal_table;
 	EPrintable *printable;
 	ETable *etable;
-	GnomePrintMaster *master;
 	GnomePrintContext *pc;
-	const GnomePrintPaper *paper_info;
-	double l, r, t, b, page_width, page_height, left_margin, bottom_margin;
+	GnomePrintJob *gpm;
+	double l, r, t, b, page_width, page_height, left_margin, bottom_margin, temp_d;
+
+	if (!print_config)
+		print_config = gnome_print_config_default ();
 
 	cal_table = e_tasks_get_calendar_table (tasks);
 	etable = e_calendar_table_get_table (E_CALENDAR_TABLE (cal_table));
 	printable = e_table_get_printable (etable);
-
-	master = gnome_print_master_new ();
-
-	paper_info = gnome_print_paper_with_name (gnome_paper_name_default ());
-	gnome_print_master_set_paper (master, paper_info);
-
-	gnome_print_master_set_copies (master, copies, collate);
-	pc = gnome_print_master_get_context (master);
 	e_printable_reset (printable);
 
-	l = gnome_paper_lmargin (paper_info);
-	r = gnome_paper_pswidth (paper_info)
-		- gnome_paper_rmargin (paper_info);
-	t = gnome_paper_psheight (paper_info)
-		- gnome_paper_tmargin (paper_info);
-	b = gnome_paper_bmargin (paper_info);
+	gpm = gnome_print_job_new (print_config);
+	pc = gnome_print_job_get_context (gpm);
 
-	if (landscape) {
-		page_width = t - b;
-		page_height = r - l;
-		left_margin = b;
-		bottom_margin = gnome_paper_rmargin (paper_info);
-	} else {
-		page_width = r - l;
-		page_height = t - b;
-		left_margin = l;
-		bottom_margin = b;
-	}
+	gnome_print_config_get_page_size (print_config, &r, &t);
+
+	gnome_print_config_get_double (print_config, GNOME_PRINT_KEY_PAGE_MARGIN_TOP, &temp_d);
+	t -= temp_d;
+	gnome_print_config_get_double (print_config, GNOME_PRINT_KEY_PAGE_MARGIN_RIGHT, &temp_d);
+	r -= temp_d;
+	gnome_print_config_get_double (print_config, GNOME_PRINT_KEY_PAGE_MARGIN_BOTTOM, &b);
+	gnome_print_config_get_double (print_config, GNOME_PRINT_KEY_PAGE_MARGIN_LEFT, &l);
+
+	page_width = r - l;
+	page_height = t - b;
+	left_margin = l;
+	bottom_margin = b;
 
 	while (e_printable_data_left (printable)) {
 		gnome_print_beginpage (pc, "Tasks");
 		gnome_print_gsave (pc);
-		if (landscape) {
-			gnome_print_rotate (pc, 90);
-			gnome_print_translate (pc, 0, -gnome_paper_pswidth (paper_info));
-		}
 
 		gnome_print_translate (pc, left_margin, bottom_margin);
 
@@ -584,19 +571,19 @@ print_tasks (ETasks *tasks, gboolean preview, gboolean landscape,
 		gnome_print_grestore (pc);
 		gnome_print_showpage (pc);
 	}
-	gnome_print_master_close (master);
+
+	gnome_print_job_close (gpm);
 
 	if (preview) {
-		GnomePrintMasterPreview *gpmp;
-		gpmp = gnome_print_master_preview_new_with_orientation (master, _("Print Preview"), landscape);
-		gtk_widget_show (GTK_WIDGET (gpmp));
+		GtkWidget *gpmp;
+		gpmp = gnome_print_job_preview_new (gpm, _("Print Preview"));
+		gtk_widget_show (gpmp);
 	} else {
-		gnome_print_master_print (master);
+		gnome_print_job_print (gpm);
 	}
 
-	g_object_unref (master);
+	g_object_unref (gpm);
 	g_object_unref (printable);
-#endif
 }
 
 
@@ -606,57 +593,27 @@ tasks_control_print_cmd (BonoboUIComponent *uic,
 			 gpointer data,
 			 const char *path)
 {
-#if 0
 	ETasks *tasks;
-	GtkWidget *gpd, *mode_box, *portrait_radio, *landscape_radio;
-	GtkWidget *dialog_vbox, *dialog_hbox, *mode_frame;
-	GList *children;
-	GSList *group;
-	gboolean preview = FALSE, landscape = FALSE;
-	GnomePrinter *printer;
-	int copies;
-	gboolean collate;
+	GtkWidget *gpd;
+	gboolean preview = FALSE;
+	GnomePrintJob *gpm;
 
 	tasks = E_TASKS (data);
 
-	gpd = gnome_print_dialog_new (_("Print Tasks"),
-				      GNOME_PRINT_DIALOG_COPIES);
+	if (!print_config)
+		print_config = gnome_print_config_default ();
 
-	mode_frame = gtk_frame_new (_("Orientation"));
+	gpm = gnome_print_job_new (print_config);
 
-	mode_box = gtk_vbox_new (FALSE, 4);
-	gtk_container_add (GTK_CONTAINER (mode_frame), mode_box);
-
-	/* Portrait */
-	portrait_radio = gtk_radio_button_new_with_label (NULL, _("Portrait"));
-	group = gtk_radio_button_group (GTK_RADIO_BUTTON (portrait_radio));
-	gtk_box_pack_start (GTK_BOX (mode_box), portrait_radio,
-			    FALSE, FALSE, 0);
-
-	/* Landscape */
-	landscape_radio = gtk_radio_button_new_with_label (group,
-							   _("Landscape"));
-	gtk_box_pack_start (GTK_BOX (mode_box), landscape_radio,
-			    FALSE, FALSE, 0);
-
-	gtk_widget_show_all (mode_frame);
-
-	/* A bit of a hack to insert our own Orientation option. */
-	dialog_vbox = GNOME_DIALOG (gpd)->vbox;
-	children = gtk_container_children (GTK_CONTAINER (dialog_vbox));
-	dialog_hbox = children->next->data;
-	g_list_free (children);
-	gtk_box_pack_start (GTK_BOX (dialog_hbox), mode_frame,
-			    FALSE, FALSE, 3);
-
-	gnome_dialog_set_default (GNOME_DIALOG (gpd), GNOME_PRINT_PRINT);
+	gpd = gnome_print_dialog_new (gpm, _("Print Tasks"), GNOME_PRINT_DIALOG_COPIES);
+	gtk_dialog_set_default_response (GTK_DIALOG (gpd), GNOME_PRINT_DIALOG_RESPONSE_PRINT);
 
 	/* Run dialog */
-	switch (gnome_dialog_run (GNOME_DIALOG (gpd))) {
-	case GNOME_PRINT_PRINT:
+	switch (gtk_dialog_run (GTK_DIALOG (gpd))) {
+	case GNOME_PRINT_DIALOG_RESPONSE_PRINT:
 		break;
 
-	case GNOME_PRINT_PREVIEW:
+	case GNOME_PRINT_DIALOG_RESPONSE_PREVIEW:
 		preview = TRUE;
 		break;
 
@@ -664,21 +621,12 @@ tasks_control_print_cmd (BonoboUIComponent *uic,
 		return;
 
 	default:
-		gnome_dialog_close (GNOME_DIALOG (gpd));
+		gtk_widget_destroy (gpd);
 		return;
 	}
 
-	gnome_print_dialog_get_copies (GNOME_PRINT_DIALOG (gpd),
-				       &copies, &collate);
-	if (GTK_TOGGLE_BUTTON (landscape_radio)->active)
-		landscape = TRUE;
-
-	printer = gnome_print_dialog_get_printer (GNOME_PRINT_DIALOG (gpd));
-
-	gnome_dialog_close (GNOME_DIALOG (gpd));
-
-	print_tasks (tasks, preview, landscape, copies, collate);
-#endif
+	gtk_widget_destroy (gpd);
+	print_tasks (tasks, preview);
 }
 
 static void
@@ -690,6 +638,6 @@ tasks_control_print_preview_cmd (BonoboUIComponent *uic,
 
 	tasks = E_TASKS (data);
 
-	print_tasks (tasks, TRUE, FALSE, 1, FALSE);
+	print_tasks (tasks, TRUE);
 }
 
