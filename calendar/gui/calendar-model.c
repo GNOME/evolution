@@ -540,20 +540,6 @@ get_url (CalComponent *comp)
 		return "";
 }
 
-/* Returns whether the component has any alarms defined for it */
-static gboolean
-get_has_alarms (CalComponent *comp)
-{
-	CalComponentAlarm *alarm;
-	gboolean retval;
-
-	alarm = cal_component_get_first_alarm (comp);
-	retval = (alarm != NULL);
-
-	cal_component_alarm_free (alarm);
-	return retval;
-}
-
 /* Returns whether the completion date has been set on a component */
 static gboolean
 get_is_complete (CalComponent *comp)
@@ -670,7 +656,7 @@ calendar_model_value_at (ETableModel *etm, int col, int row)
 		return get_url (comp);
 
 	case CAL_COMPONENT_FIELD_HAS_ALARMS:
-		return GINT_TO_POINTER (get_has_alarms (comp));
+		return GINT_TO_POINTER (cal_component_has_alarms (comp));
 
 	case CAL_COMPONENT_FIELD_ICON:
 		/* FIXME: Also support 'Assigned to me' & 'Assigned to someone
