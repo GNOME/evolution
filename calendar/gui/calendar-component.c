@@ -82,19 +82,13 @@ extern ECompEditorRegistry *comp_editor_registry;
 static void
 add_uri_for_source (ESource *source, GnomeCalendar *calendar)
 {
-	char *uri = e_source_get_uri (source);
-
-	gnome_calendar_add_event_uri (calendar, uri);
-	g_free (uri);
+	gnome_calendar_add_event_source (calendar, source);
 }
 
 static void
 remove_uri_for_source (ESource *source, GnomeCalendar *calendar)
 {
-	char *uri = e_source_get_uri (source);
-
-	gnome_calendar_remove_event_uri (calendar, uri);
-	g_free (uri);
+	gnome_calendar_remove_event_source (calendar, source);
 }
 
 static gboolean
@@ -193,9 +187,7 @@ update_uri_for_primary_selection (CalendarComponent *calendar_component)
 		return;
 
 	/* Set the default */
-	uri = e_source_get_uri (source);
-	gnome_calendar_set_default_uri (priv->calendar, uri);
-	g_free (uri);
+	gnome_calendar_set_default_source (priv->calendar, source);
 
 	/* Make sure we are embedded first */
 	calendar_control_sensitize_calendar_commands (priv->view_control, priv->calendar, TRUE);

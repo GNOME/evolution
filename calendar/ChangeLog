@@ -1,5 +1,17 @@
 2003-12-22  Rodrigo Moya <rodrigo@ximian.com>
 
+	* gui/gnome-cal.[ch] (gnome_calendar_add_event_source,
+	gnome_calendar_remove_event_source): renamed from *_uri, to work with
+	ESource's rather than with plain URIs.
+	(gnome_calendar_set_default_source): ditto.
+
+	* gui/control-factory.c (set_prop):
+	* gui/calendar-component.c (add_uri_for_source, remove_uri_for_source,
+	update_uri_for_primary_selection):
+	use sources instead of uris with the GnomeCalendar widget.
+
+2003-12-22  Rodrigo Moya <rodrigo@ximian.com>
+
 	* gui/alarm-notify/save.c (get_saved_notification_time): if the setting
 	is not in the config database, use the current time, to avoid getting
 	hundreds of alarms for past events.

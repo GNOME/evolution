@@ -118,6 +118,8 @@ set_prop (BonoboPropertyBag *bag,
 	GnomeCalendar *gcal;
 	char *string;
 	GnomeCalendarViewType view;
+	ESource *source;
+	ESourceGroup *group;
 	BonoboControl *control = user_data;
 
 	gcal = (GnomeCalendar *) bonobo_control_get_widget (control);
@@ -125,7 +127,12 @@ set_prop (BonoboPropertyBag *bag,
 	switch (arg_id) {
 	case PROPERTY_CALENDAR_URI_IDX:
 		string = BONOBO_ARG_GET_STRING (arg);
-		if (gnome_calendar_add_event_uri (gcal, string)) {
+
+		group = e_source_group_new ("", string);
+		source = e_source_new ("", "");
+		e_source_set_group (source, group);
+
+		if (gnome_calendar_add_event_source (gcal, source)) {
 			calendar_control_sensitize_calendar_commands (control, gcal, TRUE);
 		} else {
 			char *msg;
@@ -136,6 +143,10 @@ set_prop (BonoboPropertyBag *bag,
 				GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (gcal))));
 			g_free (msg);
 		}
+
+		g_object_unref (source);
+		g_object_unref (group);
+
 		break;
 
 	case PROPERTY_CALENDAR_VIEW_IDX:

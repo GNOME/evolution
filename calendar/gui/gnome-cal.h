@@ -108,9 +108,9 @@ ECalModel *gnome_calendar_get_calendar_model    (GnomeCalendar *gcal);
 ECal *gnome_calendar_get_default_client    (GnomeCalendar *gcal);
 ECal *gnome_calendar_get_task_pad_e_cal(GnomeCalendar *gcal);
 
-gboolean   gnome_calendar_add_event_uri         (GnomeCalendar *gcal, const char *str_uri);
-gboolean   gnome_calendar_remove_event_uri      (GnomeCalendar *gcal, const char *str_uri);
-gboolean   gnome_calendar_set_default_uri       (GnomeCalendar *gcal, const char *str_uri);
+gboolean   gnome_calendar_add_event_source      (GnomeCalendar *gcal, ESource *source);
+gboolean   gnome_calendar_remove_event_source   (GnomeCalendar *gcal, ESource *source);
+gboolean   gnome_calendar_set_default_source    (GnomeCalendar *gcal, ESource *source);
 
 void gnome_calendar_set_query (GnomeCalendar *gcal, const char *sexp);
 

@@ -2136,36 +2136,40 @@ gnome_calendar_get_task_pad_e_cal (GnomeCalendar *gcal)
 }
 
 /**
- * gnome_calendar_add_event_uri:
+ * gnome_calendar_add_event_source:
  * @gcal: A GnomeCalendar.
- * @str_uri: URI to add to the calendar views.
+ * @source: #ESource to add to the calendar views.
  *
- * Adds the given calendar URI to the calendar views.
+ * Adds the given calendar source to the calendar views.
  *
  * Returns: TRUE if successful, FALSE if error.
  */
 gboolean
-gnome_calendar_add_event_uri (GnomeCalendar *gcal, const char *str_uri)
+gnome_calendar_add_event_source (GnomeCalendar *gcal, ESource *source)
 {
 	GnomeCalendarPrivate *priv;
 	ECal *client;
 	int i;
+	char *str_uri;
 	
 	g_return_val_if_fail (gcal != NULL, FALSE);
 	g_return_val_if_fail (GNOME_IS_CALENDAR (gcal), FALSE);
-	g_return_val_if_fail (str_uri != NULL, FALSE);
+	g_return_val_if_fail (E_IS_SOURCE (source), FALSE);
 
 	priv = gcal->priv;
 
+	str_uri = e_source_get_uri (source);
 	client = g_hash_table_lookup (priv->clients, str_uri);
+	g_free (str_uri);
 	if (client)
 		return TRUE;
 	
-	client = auth_new_cal_from_uri (str_uri, E_CAL_SOURCE_TYPE_EVENT);
+	client = auth_new_cal_from_source (source, E_CAL_SOURCE_TYPE_EVENT);
 	if (!client)
 		return FALSE;
 
-	g_hash_table_insert (priv->clients, g_strdup (str_uri), client);
+	str_uri = e_source_get_uri (source);
+	g_hash_table_insert (priv->clients, str_uri, client);
 	priv->clients_list = g_list_prepend (priv->clients_list, client);
 	
 	g_signal_connect (G_OBJECT (client), "backend_error", G_CALLBACK (backend_error_cb), gcal);
@@ -2179,6 +2183,7 @@ gnome_calendar_add_event_uri (GnomeCalendar *gcal, const char *str_uri)
 		g_signal_handlers_disconnect_matched (client, G_SIGNAL_MATCH_DATA,
 						      0, 0, NULL, NULL, gcal);
 
+		g_free (str_uri);
 		g_object_unref (client);
 
 		return FALSE;
@@ -2198,33 +2203,36 @@ gnome_calendar_add_event_uri (GnomeCalendar *gcal, const char *str_uri)
 }
 
 /**
- * gnome_calendar_remove_event_uri
+ * gnome_calendar_remove_event_source
  * @gcal: A #GnomeCalendar.
- * @str_uri: URI to be removed from the clients.
+ * @source: #ESource to be removed from the clients.
  *
- * Removes the given URI from the list of clients being shown by the
+ * Removes the given source from the list of clients being shown by the
  * calendar views.
  *
  * Returns: TRUE if successful, FALSE otherwise.
  */
 gboolean
-gnome_calendar_remove_event_uri (GnomeCalendar *gcal, const char *str_uri)
+gnome_calendar_remove_event_source (GnomeCalendar *gcal, ESource *source)
 {
 	GnomeCalendarPrivate *priv;
 	ECal *client;
 	int i;
+	char *str_uri, *orig_uri;
 
 	g_return_val_if_fail (gcal != NULL, FALSE);
 	g_return_val_if_fail (GNOME_IS_CALENDAR (gcal), FALSE);
-	g_return_val_if_fail (str_uri != NULL, FALSE);
+	g_return_val_if_fail (E_IS_SOURCE (source), FALSE);
 
 	priv = gcal->priv;
 
-	client = g_hash_table_lookup (priv->clients, str_uri);
-	if (!client)
+	str_uri = e_source_get_uri (source);
+	if (!g_hash_table_lookup_extended (priv->clients, str_uri, &orig_uri, &client)) {
+		g_free (str_uri);
 		return TRUE;
+	}
 
-	g_hash_table_remove (priv->clients, str_uri);
+	g_hash_table_remove (priv->clients, orig_uri);
 	priv->clients_list = g_list_remove (priv->clients_list, client);
 	g_signal_handlers_disconnect_matched (client, G_SIGNAL_MATCH_DATA,
 					      0, 0, NULL, NULL, gcal);	
@@ -2236,6 +2244,10 @@ gnome_calendar_remove_event_uri (GnomeCalendar *gcal, const char *str_uri)
 		e_cal_model_remove_client (model, client);
 	}
 
+	g_free (orig_uri);
+	g_free (str_uri);
+	g_object_unref (client);
+
 	/* update date navigator query */
         update_query (gcal);
 
@@ -2243,9 +2255,9 @@ gnome_calendar_remove_event_uri (GnomeCalendar *gcal, const char *str_uri)
 }
 
 /**
- * gnome_calendar_set_default_uri:
+ * gnome_calendar_set_default_source:
  * @gcal: A calendar view
- * @uri: The uri to use as default
+ * @source: The #ESource to use as default
  * 
  * Set the default uri on the given calendar view, the default uri
  * will be used as the default when creating events in the view.
@@ -2255,19 +2267,22 @@ gnome_calendar_remove_event_uri (GnomeCalendar *gcal, const char *str_uri)
  * otherwise
  **/
 gboolean
-gnome_calendar_set_default_uri (GnomeCalendar *gcal, const char *str_uri)
+gnome_calendar_set_default_source (GnomeCalendar *gcal, ESource *source)
 {
 	GnomeCalendarPrivate *priv;
 	ECal *client;
 	int i;
+	char *str_uri;
 
 	g_return_val_if_fail (gcal != NULL, FALSE);
 	g_return_val_if_fail (GNOME_IS_CALENDAR (gcal), FALSE);
-	g_return_val_if_fail (str_uri != NULL, FALSE);
+	g_return_val_if_fail (E_IS_SOURCE (source), FALSE);
 
 	priv = gcal->priv;
-	
+
+	str_uri = e_source_get_uri (source);
 	client = g_hash_table_lookup (priv->clients, str_uri);
+	g_free (str_uri);
 	if (!client)
 		return FALSE;
 	
