@@ -1,10 +1,12 @@
 [Desktop Entry]
 Name=Evolution
 Name[da]=Evolution
+Name[lt]=Evolution
 Name[no]=Evolution
 Name[ru]=Эволюция
 Comment=Mail, Contacts and Task.
 Comment[da]=E-post, kontakter og opgaver.
+Comment[lt]=El. paПtas, adresai ir uЧduotys
 Comment[no]=E-post, kontakter og oppgaver.
 Comment[ru]=Эл.почта, контакты и задания.
 Exec=evolution
