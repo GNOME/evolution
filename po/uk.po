@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution 1.0.5\n"
 "POT-Creation-Date: 2003-03-28 19:58+0200\n"
-"PO-Revision-Date: 2003-03-31 03:34--500\n"
+"PO-Revision-Date: 2003-03-31 03:51--500\n"
 "Last-Translator: Yuriy Syrota <yuri@renome.rovno.ua>\n"
 "Language-Team: Ukrainian <uk@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -1251,14 +1251,12 @@ msgid "Send HTML Mail?"
 msgstr "Надіслати ел.пошту у HTML?"
 
 #: addressbook/gui/component/select-names/e-select-names-popup.c:300
-#, fuzzy
 msgid "View Contact Info"
-msgstr "Виправлення контактної інформації"
+msgstr "Показати контактну інформацію"
 
 #: addressbook/gui/component/select-names/e-select-names-popup.c:399
-#, fuzzy
 msgid "View Contact List"
-msgstr "Новий список контактів"
+msgstr "Показати список контактів"
 
 #: addressbook/gui/component/select-names/e-select-names-popup.c:417
 msgid "Unnamed Contact List"
@@ -2356,7 +2354,6 @@ msgid "Tajikistan"
 msgstr "Таджикистан"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:340
-#, fuzzy
 msgid "Tanzania, United Republic Of"
 msgstr "Танзанія"
 
@@ -19428,11 +19425,11 @@ msgstr ""
 
 #: my-evolution/Locations.h:1441
 msgid "Monroe"
-msgstr ""
+msgstr "Монро"
 
 #: my-evolution/Locations.h:1442
 msgid "Montague"
-msgstr ""
+msgstr "Монтеґю"
 
 #: my-evolution/Locations.h:1443
 msgid "Montana"
@@ -19440,11 +19437,11 @@ msgstr "Монтана"
 
 #: my-evolution/Locations.h:1444
 msgid "Mont-de-Marsan"
-msgstr ""
+msgstr "Монт-Де-Марсан"
 
 #: my-evolution/Locations.h:1445
 msgid "Monte Argentario"
-msgstr ""
+msgstr "Монте-Арґентаріо"
 
 #: my-evolution/Locations.h:1446
 msgid "Monte Bisbino"
@@ -19460,7 +19457,7 @@ msgstr ""
 
 #: my-evolution/Locations.h:1449
 msgid "Montego Bay"
-msgstr ""
+msgstr "Монтего-Бей"
 
 #: my-evolution/Locations.h:1450
 msgid "Monte Malanotte"
@@ -19484,15 +19481,15 @@ msgstr ""
 
 #: my-evolution/Locations.h:1455
 msgid "Montevideo/Carrasco"
-msgstr ""
+msgstr "Монтевідео/Карраско"
 
 #: my-evolution/Locations.h:1456
 msgid "Montgomery"
-msgstr ""
+msgstr "Монтґомері"
 
 #: my-evolution/Locations.h:1457
 msgid "Montgomery-Maxwell AFB"
-msgstr ""
+msgstr "Монтґомері (авіабаза Максвелл)"
 
 #: my-evolution/Locations.h:1458
 msgid "Monticello"
@@ -23439,9 +23436,8 @@ msgid "West Yellowstone (2)"
 msgstr ""
 
 #: my-evolution/Locations.h:2450
-#, fuzzy
 msgid "Wheeling"
-msgstr "Засідання"
+msgstr "Вілінґ"
 
 #: my-evolution/Locations.h:2451
 #, fuzzy
@@ -23481,9 +23477,8 @@ msgid "Wichita-McConnell AFB"
 msgstr ""
 
 #: my-evolution/Locations.h:2460
-#, fuzzy
 msgid "Wick"
-msgstr "Псевдо"
+msgstr "Вік"
 
 #: my-evolution/Locations.h:2461
 msgid "Wien"
@@ -25631,14 +25626,12 @@ msgid "Folder name cannot contain the Return character."
 msgstr "Назва теки не може містити символ вводу."
 
 #: shell/e-shell-utils.c:129
-#, fuzzy
 msgid "Folder name cannot contain the character \"/\"."
-msgstr "Назва теки не може містити символ вводу."
+msgstr "Назва теки не може містити символ \"/\"."
 
 #: shell/e-shell-utils.c:135
-#, fuzzy
 msgid "Folder name cannot contain the character \"#\"."
-msgstr "Назва теки не може містити символ вводу."
+msgstr "Назва теки не може містити символ \"#\"."
 
 #: shell/e-shell-utils.c:141
 msgid "'.' and '..' are reserved folder names."
