@@ -2506,8 +2506,9 @@ msgid "Is New List"
 msgstr "On uus loend"
 
 #: addressbook/gui/contact-list-editor/e-contact-list-editor.c:712
+#, fuzzy
 msgid "Contact List Members"
-msgstr ""
+msgstr "Kontaktiloendi liikmed"
 
 #: addressbook/gui/merging/eab-contact-commit-duplicate-detected.glade.h:1
 msgid "Changed Contact:"
@@ -3637,6 +3638,8 @@ msgstr "Kas soovid teisi osalejaid katkestamisest teavitada?"
 #: calendar/calendar-errors.xml.h:4
 msgid "If you don't send a cancellation notice, the other participants may not know the meeting is canceled."
 msgstr ""
+"Kui sa ei saada katkestamisteadet, siis ülejäänud osalised võivad "
+"katkestamisest mitte teada saada."
 
 #: calendar/calendar-errors.xml.h:5
 #: calendar/calendar-errors.xml.h:15
@@ -3670,6 +3673,8 @@ msgstr ""
 #: calendar/calendar-errors.xml.h:14
 msgid "If you don't send a cancellation notice, the other participants may not know the task has been deleted."
 msgstr ""
+"Kui sa ei saada kustutamisteadet, siis ülejäänud osalised võivad "
+"selle ülesande kustutamisest mitte teada saada."
 
 #. calendar:prompt-delete-task primary
 #: calendar/calendar-errors.xml.h:18
@@ -3695,6 +3700,8 @@ msgstr "Kas soovid teisi osalejaid selle päevikukirje katkestamisest teavitada?
 #: calendar/calendar-errors.xml.h:24
 msgid "If you don't send a cancellation notice, the other participants may not know the journal has been deleted."
 msgstr ""
+"Kui sa ei saada katkestamisteadet, siis ülejäänud osalised võivad "
+"selle päeviku kustutamisest mitte teada saada."
 
 #. calendar:prompt-delete-journal primary
 #: calendar/calendar-errors.xml.h:28
@@ -3905,7 +3912,7 @@ msgstr "Kustutada kalender '{0}'?"
 #. calendar:prompt-delete-calendar secondary
 #: calendar/calendar-errors.xml.h:118
 msgid "This calendar will be removed permanently."
-msgstr ""
+msgstr "See kalender eemaldatakse jäädavalt."
 
 #. calendar:prompt-delete-task-list primary
 #: calendar/calendar-errors.xml.h:120
@@ -3915,7 +3922,7 @@ msgstr "Kas kustutata ülesannete loend '{0}'?"
 #. calendar:prompt-delete-task-list secondary
 #: calendar/calendar-errors.xml.h:122
 msgid "This task list will be removed permanently."
-msgstr ""
+msgstr "See ülesandeloend eemaldatakse jäädavalt."
 
 #. calendar:prompt-send-no-subject-calendar primary
 #: calendar/calendar-errors.xml.h:124
