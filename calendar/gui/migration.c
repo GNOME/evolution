@@ -526,7 +526,7 @@ migrate_calendars (CalendarComponent *component, int major, int minor, int revis
 				if (!strcmp (l->data, local_cal_folder))
 					source_name = g_strdup (_("Personal"));
 				else
-					source_name = get_source_name (on_this_computer, (char*)l->data + strlen (path) + 1);
+					source_name = get_source_name (on_this_computer, (char*)l->data);
 
 				if (!migrate_ical_folder (l->data, on_this_computer, source_name, E_CAL_SOURCE_TYPE_EVENT))
 					retval = FALSE;
@@ -613,7 +613,7 @@ migrate_tasks (TasksComponent *component, int major, int minor, int revision)
 				if (!strcmp (l->data, local_task_folder))
 					source_name = g_strdup (_("Personal"));
 				else
-					source_name = get_source_name (on_this_computer, (char*)l->data + strlen (path) + 1);
+					source_name = get_source_name (on_this_computer, (char*)l->data);
 
 				if (!migrate_ical_folder (l->data, on_this_computer, source_name, E_CAL_SOURCE_TYPE_TODO))
 					retval = FALSE;

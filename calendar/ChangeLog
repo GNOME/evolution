@@ -1,3 +1,9 @@
+2004-01-27  JP Rosevear <jpr@ximian.com>
+
+	* gui/migration.c (migrate_calendars): get the source name with
+	out using freed memory
+	(migrate_tasks): ditto
+
 2004-01-27  Rodrigo Moya <rodrigo@ximian.com>
 
 	Fixes #53338
