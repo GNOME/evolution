@@ -769,7 +769,7 @@ unsubscribe_folder (CamelStore *store, const char *folder_name,
 				       "UNSUBSCRIBE \"%s\"", folder_name);
 	if (response) {
 		g_hash_table_lookup_extended (imap_store->subscribed_folders,
-					      folder_name, key, value);
+					      folder_name, &key, &value);
 		g_hash_table_remove (imap_store->subscribed_folders,
 				     folder_name);
 		g_free (key);

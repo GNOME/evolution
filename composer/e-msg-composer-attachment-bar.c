@@ -706,7 +706,6 @@ attach_to_multipart (CamelMultipart *multipart,
 		array = g_byte_array_new ();
 		stream = camel_stream_mem_new_with_byte_array (array);
 		camel_data_wrapper_write_to_stream (CAMEL_DATA_WRAPPER (attachment->body), stream);
-		camel_object_unref (CAMEL_OBJECT (stream));
 		g_byte_array_append (array, "", 1);
 		text = array->data;
 		
@@ -715,7 +714,7 @@ attach_to_multipart (CamelMultipart *multipart,
 		else
 			camel_mime_part_set_encoding (attachment->body, CAMEL_MIME_PART_ENCODING_7BIT);
 		
-		g_byte_array_free (array, TRUE);
+		camel_object_unref (CAMEL_OBJECT (stream));
 	} else if (g_strcasecmp (content_type->type, "message") != 0) {
 		camel_mime_part_set_encoding (attachment->body,
 					      CAMEL_MIME_PART_ENCODING_BASE64);

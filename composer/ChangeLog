@@ -42,6 +42,12 @@
 
 	* Makefile.am: Clean the idl-generated files properly.
 
+2000-11-02  Peter Williams  <peterw@helixcode.com>
+
+	* e-msg-composer-attachment-bar.c (attach_to_multipart): CamelStreamMem
+	steals our byte array; we can't destroy the byte array explicitly, and
+	we must unref the stream only when done using the array.
+
 2000-11-01  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* e-msg-composer.c (e_msg_composer_new_with_message): Don't create

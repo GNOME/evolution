@@ -155,6 +155,11 @@
 	* camel-mime-filter-basic.c (filter, complete): Update for base64
 	api change.
 
+2000-10-30  Peter Williams  <peterw@helixcode.com>
+
+	* providers/imap/camel-imap-store.c (unsubscribe_folder): Correct
+	parameters to g_hash_table_lookup_extended.
+
 2000-10-29  Dan Winship  <danw@helixcode.com>
 
 	Improved IMAP namespace handling: leave the namespace in the
