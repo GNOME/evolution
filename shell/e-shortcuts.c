@@ -55,8 +55,8 @@
 #include <gnome-xml/parser.h>
 #include <gnome-xml/xmlmemory.h>
 
-#include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
+
 #include <gal/util/e-util.h>
 #include <gal/util/e-xml-utils.h>
 #include <gal/widgets/e-unicode.h>
@@ -65,6 +65,7 @@
 #include "e-shortcuts-view.h"
 
 #include "e-shell-constants.h"
+#include "e-shell-marshal.h"
 
 
 #define PARENT_TYPE GTK_TYPE_OBJECT
@@ -658,27 +659,27 @@ class_init (EShortcutsClass *klass)
 	signals[NEW_GROUP]
 		= gtk_signal_new ("new_group",
 				  GTK_RUN_FIRST,
-				  object_class->type,
+				  GTK_CLASS_TYPE (object_class),
 				  GTK_SIGNAL_OFFSET (EShortcutsClass, new_group),
-				  gtk_marshal_NONE__INT,
+				  e_shell_marshal_NONE__INT,
 				  GTK_TYPE_NONE, 1,
 				  GTK_TYPE_INT);
 
 	signals[REMOVE_GROUP]
 		= gtk_signal_new ("remove_group",
 				  GTK_RUN_FIRST,
-				  object_class->type,
+				  GTK_CLASS_TYPE (object_class),
 				  GTK_SIGNAL_OFFSET (EShortcutsClass, remove_group),
-				  gtk_marshal_NONE__INT,
+				  e_shell_marshal_NONE__INT,
 				  GTK_TYPE_NONE, 1,
 				  GTK_TYPE_INT);
 
 	signals[RENAME_GROUP]
 		= gtk_signal_new ("rename_group",
 				  GTK_RUN_FIRST,
-				  object_class->type,
+				  GTK_CLASS_TYPE (object_class),
 				  GTK_SIGNAL_OFFSET (EShortcutsClass, rename_group),
-				  gtk_marshal_NONE__INT_POINTER,
+				  e_shell_marshal_NONE__INT_POINTER,
 				  GTK_TYPE_NONE, 2,
 				  GTK_TYPE_INT,
 				  GTK_TYPE_STRING);
@@ -686,9 +687,9 @@ class_init (EShortcutsClass *klass)
 	signals[GROUP_CHANGE_ICON_SIZE]
 		= gtk_signal_new ("group_change_icon_size",
 				  GTK_RUN_FIRST,
-				  object_class->type,
+				  GTK_CLASS_TYPE (object_class),
 				  GTK_SIGNAL_OFFSET (EShortcutsClass, group_change_icon_size),
-				  gtk_marshal_NONE__INT_INT,
+				  e_shell_marshal_NONE__INT_INT,
 				  GTK_TYPE_NONE, 2,
 				  GTK_TYPE_INT,
 				  GTK_TYPE_INT);
@@ -696,9 +697,9 @@ class_init (EShortcutsClass *klass)
 	signals[NEW_SHORTCUT]
 		= gtk_signal_new ("new_shortcut",
 				  GTK_RUN_FIRST,
-				  object_class->type,
+				  GTK_CLASS_TYPE (object_class),
 				  GTK_SIGNAL_OFFSET (EShortcutsClass, new_shortcut),
-				  gtk_marshal_NONE__INT_INT,
+				  e_shell_marshal_NONE__INT_INT,
 				  GTK_TYPE_NONE, 2,
 				  GTK_TYPE_INT,
 				  GTK_TYPE_INT);
@@ -706,9 +707,9 @@ class_init (EShortcutsClass *klass)
 	signals[REMOVE_SHORTCUT]
 		= gtk_signal_new ("remove_shortcut",
 				  GTK_RUN_FIRST,
-				  object_class->type,
+				  GTK_CLASS_TYPE (object_class),
 				  GTK_SIGNAL_OFFSET (EShortcutsClass, remove_shortcut),
-				  gtk_marshal_NONE__INT_INT,
+				  e_shell_marshal_NONE__INT_INT,
 				  GTK_TYPE_NONE, 2,
 				  GTK_TYPE_INT,
 				  GTK_TYPE_INT);
@@ -716,14 +717,12 @@ class_init (EShortcutsClass *klass)
 	signals[UPDATE_SHORTCUT]
 		= gtk_signal_new ("update_shortcut",
 				  GTK_RUN_FIRST,
-				  object_class->type,
+				  GTK_CLASS_TYPE (object_class),
 				  GTK_SIGNAL_OFFSET (EShortcutsClass, update_shortcut),
-				  gtk_marshal_NONE__INT_INT,
+				  e_shell_marshal_NONE__INT_INT,
 				  GTK_TYPE_NONE, 2,
 				  GTK_TYPE_INT,
 				  GTK_TYPE_INT);
-
-	gtk_object_class_add_signals (object_class, signals, LAST_SIGNAL);
 }
 
 
@@ -871,7 +870,7 @@ e_shortcuts_new_view (EShortcuts *shortcuts)
 	new = e_shortcuts_view_new (shortcuts);
 	priv->views = g_slist_prepend (priv->views, new);
 
-	gtk_signal_connect (GTK_OBJECT (new), "destroy", view_destroyed_cb, shortcuts);
+	gtk_signal_connect (GTK_OBJECT (new), "destroy", GTK_SIGNAL_FUNC (view_destroyed_cb), shortcuts);
 
 	return new;
 }

@@ -33,6 +33,7 @@
 #include "e-icon-factory.h"
 #include "e-folder-dnd-bridge.h"
 #include "e-shell-constants.h"
+#include "e-shell-marshal.h"
 
 #include <gal/util/e-util.h>
 #include <gal/widgets/e-gui-utils.h>
@@ -40,14 +41,16 @@
 #include <gal/e-table/e-cell-text.h>
 #include <gal/e-table/e-cell-toggle.h>
 #include <gal/e-table/e-cell-tree.h>
-#include <gal/unicode/gunicode.h>
 
-#include <glib.h>
-#include <gnome.h>
-#include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-util.h>
+#include <libgnomeui/gnome-popup-menu.h>
+
+#include <bonobo/bonobo-window.h>
 #include <bonobo/bonobo-ui-util.h>
-#include <libgnome/gnome-util.h>
+
+#include <gtk/gtksignal.h>
+
+#include <string.h>
 
 #include "check-empty.xpm"
 #include "check-filled.xpm"
@@ -415,31 +418,6 @@ ui_container_destroy_notify (void *data)
 }	
 
 
-/* Custom marshalling function.  */
-
-typedef void (* GtkSignal_NONE__GDKDRAGCONTEXT_STRING_STRING_STRING) (GtkObject *object,
-								      GdkDragContext *action,
-								      const char *,
-								      const char *,
-								      const char *);
-
-static void
-marshal_NONE__GDKDRAGCONTEXT_STRING_STRING_STRING (GtkObject *object,
-						   GtkSignalFunc func,
-						   void *func_data,
-						   GtkArg *args)
-{
-	GtkSignal_NONE__GDKDRAGCONTEXT_STRING_STRING_STRING rfunc;
-
-	rfunc = (GtkSignal_NONE__GDKDRAGCONTEXT_STRING_STRING_STRING) func;
-	(* rfunc) (object,
-		   GTK_VALUE_POINTER (args[0]),
-		   GTK_VALUE_STRING (args[1]),
-		   GTK_VALUE_STRING (args[2]),
-		   GTK_VALUE_STRING (args[3]));
-}
-
-
 /* DnD selection setup stuff.  */
 
 /* This will create an array of GtkTargetEntries from the specified list of DND
@@ -791,8 +769,11 @@ popup_folder_menu (EStorageSetView *storage_set_view,
 	handler = e_folder_type_registry_get_handler_for_type (folder_type_registry,
 							       e_folder_get_type_string (folder));
 	menu = gtk_menu_new ();
+
+#if 0
 	bonobo_window_add_popup (bonobo_ui_container_get_win (priv->ui_container),
 				 GTK_MENU (menu), "/popups/FolderPopup");
+#endif
 
 	bonobo_ui_component_set (priv->ui_component,
 				 "/popups/FolderPopup/ComponentPlaceholder",
@@ -808,7 +789,8 @@ popup_folder_menu (EStorageSetView *storage_set_view,
 
 	gtk_widget_show (GTK_WIDGET (menu));
 
-	gnome_popup_menu_do_popup_modal (GTK_WIDGET (menu), NULL, NULL, event, NULL);
+	gnome_popup_menu_do_popup_modal (GTK_WIDGET (menu), NULL, NULL, event, NULL,
+					 GTK_WIDGET (storage_set_view));
 
 	if (folder_property_items_data != NULL)
 		remove_property_items (storage_set_view, folder_property_items_data);
@@ -1094,6 +1076,7 @@ impl_tree_drag_data_get (ETree *etree,
 								& priv->drag_corba_data,
 								&ev);
 
+#if 0
 	if (ev._major != CORBA_NO_EXCEPTION)
 		gtk_selection_data_set (selection_data, selection_data->target, 8, "", -1);
 	else
@@ -1102,6 +1085,7 @@ impl_tree_drag_data_get (ETree *etree,
 					priv->drag_corba_data->format,
 					priv->drag_corba_data->bytes._buffer,
 					priv->drag_corba_data->bytes._length);
+#endif
 
 	g_free (target_type);
 
@@ -1811,59 +1795,57 @@ class_init (EStorageSetViewClass *klass)
 	signals[FOLDER_SELECTED]
 		= gtk_signal_new ("folder_selected",
 				  GTK_RUN_FIRST,
-				  object_class->type,
+				  GTK_CLASS_TYPE (object_class),
 				  GTK_SIGNAL_OFFSET (EStorageSetViewClass, folder_selected),
-				  gtk_marshal_NONE__STRING,
+				  e_shell_marshal_NONE__STRING,
 				  GTK_TYPE_NONE, 1,
 				  GTK_TYPE_STRING);
 
 	signals[FOLDER_OPENED]
 		= gtk_signal_new ("folder_opened",
 				  GTK_RUN_FIRST,
-				  object_class->type,
+				  GTK_CLASS_TYPE (object_class),
 				  GTK_SIGNAL_OFFSET (EStorageSetViewClass, folder_opened),
-				  gtk_marshal_NONE__STRING,
+				  e_shell_marshal_NONE__STRING,
 				  GTK_TYPE_NONE, 1,
 				  GTK_TYPE_STRING);
 
 	signals[DND_ACTION]
 		= gtk_signal_new ("dnd_action",
 				  GTK_RUN_FIRST,
-				  object_class->type,
+				  GTK_CLASS_TYPE (object_class),
 				  GTK_SIGNAL_OFFSET (EStorageSetViewClass, dnd_action),
-				  marshal_NONE__GDKDRAGCONTEXT_STRING_STRING_STRING,
+				  e_shell_marshal_NONE__POINTER_POINTER_POINTER_POINTER,
 				  GTK_TYPE_NONE, 4,
-				  GTK_TYPE_GDK_DRAG_CONTEXT,
-				  GTK_TYPE_STRING,
-				  GTK_TYPE_STRING,
-				  GTK_TYPE_STRING);
+				  GTK_TYPE_POINTER,
+				  GTK_TYPE_POINTER,
+				  GTK_TYPE_POINTER,
+				  GTK_TYPE_POINTER);
 
 	signals[FOLDER_CONTEXT_MENU_POPPING_UP]
 		= gtk_signal_new ("folder_context_menu_popping_up",
 				  GTK_RUN_FIRST,
-				  object_class->type,
+				  GTK_CLASS_TYPE (object_class),
 				  GTK_SIGNAL_OFFSET (EStorageSetViewClass, folder_context_menu_popping_up),
-				  gtk_marshal_NONE__STRING,
+				  e_shell_marshal_NONE__STRING,
 				  GTK_TYPE_NONE, 1,
 				  GTK_TYPE_STRING);
 
 	signals[FOLDER_CONTEXT_MENU_POPPED_DOWN]
 		= gtk_signal_new ("folder_context_menu_popped_down",
 				  GTK_RUN_FIRST,
-				  object_class->type,
+				  GTK_CLASS_TYPE (object_class),
 				  GTK_SIGNAL_OFFSET (EStorageSetViewClass, folder_context_menu_popped_down),
-				  gtk_marshal_NONE__NONE,
+				  e_shell_marshal_NONE__NONE,
 				  GTK_TYPE_NONE, 0);
 
 	signals[CHECKBOXES_CHANGED]
 		= gtk_signal_new ("checkboxes_changed",
 				  GTK_RUN_FIRST,
-				  object_class->type,
+				  GTK_CLASS_TYPE (object_class),
 				  GTK_SIGNAL_OFFSET (EStorageSetViewClass, checkboxes_changed),
-				  gtk_marshal_NONE__NONE,
+				  e_shell_marshal_NONE__NONE,
 				  GTK_TYPE_NONE, 0);
-
-	gtk_object_class_add_signals (object_class, signals, LAST_SIGNAL);
 
 	checks [0] = gdk_pixbuf_new_from_xpm_data (check_empty_xpm);
 	checks [1] = gdk_pixbuf_new_from_xpm_data (check_filled_xpm);
@@ -2109,7 +2091,8 @@ e_storage_set_view_construct (EStorageSetView   *storage_set_view,
 
 		priv->ui_component = bonobo_ui_component_new_default ();
 		bonobo_ui_component_set_container (priv->ui_component,
-						   bonobo_object_corba_objref (BONOBO_OBJECT (ui_container)));
+						   bonobo_object_corba_objref (BONOBO_OBJECT (ui_container)),
+						   NULL);
 	}
 
 	priv->etree_model = e_tree_memory_callbacks_new (etree_icon_at,

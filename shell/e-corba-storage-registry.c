@@ -387,10 +387,10 @@ impl_StorageRegistry_getFolderByUri (PortableServer_Servant servant,
 }
 
 
-/* GtkObject methods.  */
+/* GObject methods.  */
 
 static void
-destroy (GtkObject *object)
+impl_finalize (GObject *object)
 {
 	ECorbaStorageRegistry *corba_storage_registry;
 	ECorbaStorageRegistryPrivate *priv;
@@ -402,7 +402,7 @@ destroy (GtkObject *object)
 		gtk_object_unref (GTK_OBJECT (priv->storage_set));
 	g_free (priv);
 
-	(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
+	(* G_OBJECT_CLASS (parent_class)->finalize) (object);
 }
 
 
@@ -411,11 +411,11 @@ destroy (GtkObject *object)
 static void
 class_init (ECorbaStorageRegistryClass *klass)
 {
-	GtkObjectClass *object_class;
+	GObjectClass *object_class;
 	POA_GNOME_Evolution_StorageRegistry__epv *epv;
 
-	object_class = GTK_OBJECT_CLASS (klass);
-	object_class->destroy = destroy;
+	object_class = G_OBJECT_CLASS (klass);
+	object_class->finalize = impl_finalize;
 
 	epv = & klass->epv;
 	epv->addStorage          = impl_StorageRegistry_addStorage;
@@ -464,7 +464,7 @@ e_corba_storage_registry_new (EStorageSet *storage_set)
 	g_return_val_if_fail (storage_set != NULL, NULL);
 	g_return_val_if_fail (E_IS_STORAGE_SET (storage_set), NULL);
 
-	corba_storage_registry = gtk_type_new (e_corba_storage_registry_get_type ());
+	corba_storage_registry = g_object_new (e_corba_storage_registry_get_type (), NULL);
 
 	e_corba_storage_registry_construct (corba_storage_registry, storage_set);
 

@@ -31,7 +31,7 @@
 #include <gtk/gtkframe.h>
 #include <gtk/gtkmain.h>
 #include <gtk/gtksignal.h>
-#include <gdk-pixbuf/gnome-canvas-pixbuf.h>
+#include <libgnomecanvas/gnome-canvas-pixbuf.h>
 #include <libgnomeui/gnome-window-icon.h>
 #include <gal/util/e-util.h>
 
@@ -351,7 +351,7 @@ e_splash_new (void)
 	ESplash *new;
 	GdkPixbuf *splash_image_pixbuf;
 
-	splash_image_pixbuf = gdk_pixbuf_new_from_file (EVOLUTION_IMAGES "/splash.png");
+	splash_image_pixbuf = gdk_pixbuf_new_from_file (EVOLUTION_IMAGES "/splash.png", NULL);
 	g_return_val_if_fail (splash_image_pixbuf != NULL, NULL);
 
 	new = gtk_type_new (e_splash_get_type ());

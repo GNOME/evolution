@@ -47,8 +47,8 @@
 
 #include <gtk/gtksignal.h>
 #include <gtk/gtkmain.h>
+#include <gtk/gtkdialog.h>
 
-#include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-exec.h>
 #include <libgnome/gnome-help.h>
 #include <libgnome/gnome-i18n.h>
@@ -57,9 +57,6 @@
 #include <libgnomeui/gnome-about.h>
 #include <libgnomeui/gnome-dialog.h>
 #include <libgnomeui/gnome-dialog-util.h>
-
-#include <liboaf/liboaf.h>
-#include <bonobo/bonobo-moniker-util.h>
 
 #include <gal/widgets/e-gui-utils.h>
 
@@ -235,7 +232,7 @@ command_about_box (BonoboUIComponent *uih,
 	about_box = e_shell_about_box_new ();
 	gtk_widget_show (about_box);
 
-	about_box_window = gtk_window_new (GTK_WINDOW_DIALOG);
+	about_box_window = gtk_dialog_new ();
 	gtk_window_set_policy (GTK_WINDOW (about_box_window), FALSE, FALSE, FALSE);
 	gtk_signal_connect (GTK_OBJECT (about_box_window), "key_press_event",
 			    GTK_SIGNAL_FUNC (about_box_event_callback), &about_box_window);
@@ -255,7 +252,7 @@ command_help_faq (BonoboUIComponent *uih,
 		  void *data,
 		  const char *path)
 {
-	gnome_url_show ("http://www.ximian.com/apps/evolution-faq.html");
+	gnome_url_show ("http://www.ximian.com/apps/evolution-faq.html", NULL);	/* FIXME use the error */
 }
 
 static void
@@ -529,13 +526,6 @@ command_create_folder (BonoboUIComponent *uih,
 	e_shell_command_create_new_folder (shell, shell_view, get_path_for_folder_op (shell_view));
 }
 
-static void
-command_xml_dump (gpointer    dummy,
-		  EShellView *view)
-{
-	bonobo_window_dump (BONOBO_WINDOW (view), "On demand");
-}
-
 
 static void
 command_work_offline (BonoboUIComponent *uih,
@@ -677,7 +667,7 @@ static BonoboUIVerb new_verbs [] = {
 };
 
 static BonoboUIVerb file_verbs [] = {
-	BONOBO_UI_VERB ("FileImporter", (BonoboUIVerbFn) show_import_wizard),
+	/* BONOBO_UI_VERB ("FileImporter", (BonoboUIVerbFn) show_import_wizard), */
 	BONOBO_UI_VERB ("FileOpenOtherUsersFolder", command_open_other_users_folder),
 	BONOBO_UI_VERB ("FileRemoveOtherUsersFolder", command_remove_other_users_folder),
 	BONOBO_UI_VERB ("FileGoToFolder", command_goto_folder),
@@ -766,8 +756,6 @@ menu_do_misc (BonoboUIComponent *component,
 				      (BonoboUIVerbFn) command_submit_bug, shell_view);
 	bonobo_ui_component_add_verb (component, "HelpAbout",
 				      (BonoboUIVerbFn) command_about_box, shell_view);
-	bonobo_ui_component_add_verb (component, "DebugDumpXml",
-				      (BonoboUIVerbFn) command_xml_dump, shell_view);
 }
 
 

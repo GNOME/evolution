@@ -36,17 +36,20 @@
 #include <gtk/gtkcheckmenuitem.h>
 #include <gtk/gtkentry.h>
 #include <gtk/gtklabel.h>
-#include <libgnome/gnome-defs.h>
+
 #include <libgnome/gnome-i18n.h>
+
 #include <libgnomeui/gnome-app.h>
 #include <libgnomeui/gnome-app-helper.h>
 #include <libgnomeui/gnome-dialog.h>
 #include <libgnomeui/gnome-messagebox.h>
 #include <libgnomeui/gnome-popup-menu.h>
-#include <libgnomeui/gnome-stock.h>
 #include <libgnomeui/gnome-uidefs.h>
+
 #include <gal/util/e-util.h>
 #include <gal/widgets/e-unicode.h>
+
+#include <string.h>
 
 
 #define PARENT_TYPE E_TYPE_SHORTCUT_BAR
@@ -303,7 +306,7 @@ pop_up_right_click_menu_for_group (EShortcutsView *shortcuts_view,
 	if (group_num == 0)
 		gtk_widget_set_sensitive (right_click_menu_uiinfo[3].widget, FALSE);
 
-	gnome_popup_menu_do_popup_modal (popup_menu, NULL, NULL, event, menu_data);
+	gnome_popup_menu_do_popup_modal (popup_menu, NULL, NULL, event, menu_data, GTK_WIDGET (shortcuts_view));
 
 	g_free (menu_data);
 	gtk_widget_unref (popup_menu);
@@ -406,14 +409,14 @@ rename_shortcut_cb (GtkWidget *widget,
 
 static GnomeUIInfo shortcut_right_click_menu_uiinfo[] = {
 	GNOMEUIINFO_ITEM_STOCK (N_("_Open"), N_("Open the folder linked to this shortcut"),
-				open_shortcut_cb, GNOME_STOCK_MENU_OPEN), 
+				open_shortcut_cb, GTK_STOCK_OPEN), 
 	GNOMEUIINFO_ITEM_NONE  (N_("Open in New _Window"), N_("Open the folder linked to this shortcut in a new window"),
 				open_shortcut_in_new_window_cb),
 	GNOMEUIINFO_SEPARATOR,
 	GNOMEUIINFO_ITEM_NONE (N_("_Rename"), N_("Rename this shortcut"),
 				rename_shortcut_cb),
 	GNOMEUIINFO_ITEM_STOCK (N_("Re_move"), N_("Remove this shortcut from the shortcut bar"),
-				remove_shortcut_cb, GNOME_STOCK_MENU_TRASH),
+				remove_shortcut_cb, GTK_STOCK_REMOVE),
 	GNOMEUIINFO_END
 };
 
@@ -433,7 +436,7 @@ pop_up_right_click_menu_for_shortcut (EShortcutsView *shortcuts_view,
 
 	popup_menu = gnome_popup_menu_new (shortcut_right_click_menu_uiinfo);
 
-	gnome_popup_menu_do_popup_modal (popup_menu, NULL, NULL, event, menu_data);
+	gnome_popup_menu_do_popup_modal (popup_menu, NULL, NULL, event, menu_data, GTK_WIDGET (shortcuts_view));
 
 	g_free (menu_data);
 	gtk_widget_destroy (popup_menu);
@@ -692,7 +695,7 @@ class_init (EShortcutsViewClass *klass)
 	signals[ACTIVATE_SHORTCUT] =
 		gtk_signal_new ("activate_shortcut",
 				GTK_RUN_LAST | GTK_RUN_ACTION,
-				object_class->type,
+				GTK_CLASS_TYPE (object_class),
 				GTK_SIGNAL_OFFSET (EShortcutsViewClass, activate_shortcut),
 				e_marshal_NONE__POINTER_POINTER_INT,
 				GTK_TYPE_NONE, 3,
@@ -703,13 +706,11 @@ class_init (EShortcutsViewClass *klass)
 	signals[HIDE_REQUESTED] =
 		gtk_signal_new ("hide_requested",
 				GTK_RUN_LAST,
-				object_class->type,
+				GTK_CLASS_TYPE (object_class),
 				GTK_SIGNAL_OFFSET (EShortcutsViewClass,
 						   hide_requested),
 				gtk_marshal_NONE__NONE,
 				GTK_TYPE_NONE, 0);
-
-	gtk_object_class_add_signals (object_class, signals, LAST_SIGNAL);
 }
 
 static void

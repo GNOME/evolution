@@ -283,7 +283,7 @@ construct_loading_metadata (ELocalFolder *local_folder,
 	}
 
 	root = xmlDocGetRootElement (doc);
-	if (root == NULL || strcmp (root->name, "efolder") != 0) {
+	if (root == NULL || root->name == NULL || strcmp (root->name, "efolder") != 0) {
 		g_free (metadata_path);
 		xmlFreeDoc (doc);
 		return FALSE;

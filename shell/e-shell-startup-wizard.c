@@ -32,22 +32,21 @@
 #include <gtk/gtk.h>
 #include <gnome.h>
 #include <glade/glade.h>
-#include <liboaf/liboaf.h>
 
 #include <bonobo/bonobo-object.h>
 #include <bonobo/bonobo-widget.h>
 #include <bonobo/bonobo-exception.h>
 #include <bonobo/bonobo-moniker-util.h>
-#include <bonobo-conf/bonobo-config-database.h>
+
+#include <bonobo-activation/bonobo-activation.h>
 
 #include <gal/widgets/e-gui-utils.h>
 
 #include <widgets/e-timezone-dialog/e-timezone-dialog.h>
 
-#include "importer/GNOME_Evolution_Importer.h"
-
 #include "e-timezone-dialog/e-timezone-dialog.h"
 #include "e-util/e-gtk-utils.h"
+#include "e-util/e-config-listener.h"
 
 #include <evolution-wizard.h>
 #include "Evolution.h"
@@ -96,9 +95,8 @@ typedef struct _SWData {
 	CORBA_Object mailer;
 	Bonobo_EventSource event_source;
 	BonoboListener *listener;
-	int id;
 
-	Bonobo_ConfigDatabase db;
+	EConfigListener *config_listener;
 } SWData;
 
 typedef struct _IntelligentImporterData {
@@ -134,7 +132,8 @@ druid_event_notify_cb (BonoboListener *listener,
 		gnome_druid_set_buttons_sensitive (GNOME_DRUID (data->druid),
 						   (buttons & 4) >> 2,
 						   (buttons & 2) >> 1,
-						   (buttons & 1));
+						   (buttons & 1),
+						   FALSE);
 	} else if (strcmp (name, EVOLUTION_WIZARD_SET_SHOW_FINISH) == 0) {
 		gnome_druid_set_show_finish (GNOME_DRUID (data->druid),
 					     (gboolean) *((CORBA_boolean *) arg->_value));
@@ -153,7 +152,7 @@ make_mail_dialog_pages (SWData *data)
 	CORBA_Object object;
 
 	CORBA_exception_init (&ev);
-	data->mailer = oaf_activate_from_id ("OAFIID:GNOME_Evolution_Mail_Wizard", 0, NULL, &ev);
+	data->mailer = bonobo_activation_activate_from_id ("OAFIID:GNOME_Evolution_Mail_Wizard", 0, NULL, &ev);
 	if (BONOBO_EX (&ev)) {
 		e_notice (NULL, GNOME_MESSAGE_BOX_ERROR,
 			  _("Could not start the Evolution Mailer Assistant interface\n(%s)"), CORBA_exception_id (&ev));
@@ -177,8 +176,9 @@ make_mail_dialog_pages (SWData *data)
 	gtk_signal_connect (GTK_OBJECT (data->listener), "event-notify",
 			    GTK_SIGNAL_FUNC (druid_event_notify_cb), data);
 	object = bonobo_object_corba_objref (BONOBO_OBJECT (data->listener));
+
 	CORBA_exception_init (&ev);
-	data->id = Bonobo_EventSource_addListener (data->event_source, object, &ev);
+	Bonobo_EventSource_addListener (data->event_source, object, &ev);
 	CORBA_exception_free (&ev);
 }
 
@@ -263,6 +263,7 @@ free_importers (SWData *data)
 static void
 start_importers (GList *p)
 {
+#if 0
 	CORBA_Environment ev;
 	
 	for (; p; p = p->next) {
@@ -276,6 +277,7 @@ start_importers (GList *p)
 		}
 		CORBA_exception_free (&ev);
 	}
+#endif
 }
 
 static void
@@ -335,7 +337,8 @@ finish_func (GnomeDruidPage *page,
 	     SWData *data)
 {
 	CORBA_Environment ev;
-	char *displayname, *tz;
+	const char *displayname;
+	char *tz;
 	icaltimezone *zone;
 
 	/* Notify mailer */
@@ -344,7 +347,6 @@ finish_func (GnomeDruidPage *page,
 	CORBA_exception_free (&ev);
 
 	/* Set Timezone */
-	CORBA_exception_init (&ev);
 
 	e_timezone_dialog_get_timezone (E_TIMEZONE_DIALOG (data->timezone_page->etd), &displayname);
 	/* We know it is a builtin timezone, as that is all the user can change
@@ -355,9 +357,8 @@ finish_func (GnomeDruidPage *page,
 	else
 		tz = g_strdup (icaltimezone_get_location (zone));
 	
-	bonobo_config_set_string (data->db, "/Calendar/Display/Timezone", tz, &ev);
+	e_config_listener_set_string (data->config_listener, "/Calendar/Display/Timezone", tz);
 	g_free (tz);
-	CORBA_exception_free (&ev);
 
 	do_import (data);
 
@@ -598,17 +599,17 @@ make_timezone_page (SWData *data)
 static GList *
 get_intelligent_importers (void)
 {
-	OAF_ServerInfoList *info_list;
+	Bonobo_ServerInfoList *info_list;
 	GList *iids_ret = NULL;
 	CORBA_Environment ev;
 	int i;
 
 	CORBA_exception_init (&ev);
-	info_list = oaf_query ("repo_ids.has ('IDL:GNOME/Evolution/IntelligentImporter:1.0')", NULL, &ev);
+	info_list = bonobo_activation_query ("repo_ids.has ('IDL:GNOME/Evolution/IntelligentImporter:1.0')", NULL, &ev);
 	CORBA_exception_free (&ev);
 
 	for (i = 0; i < info_list->_length; i++) {
-		const OAF_ServerInfo *info;
+		const Bonobo_ServerInfo *info;
 
 		info = info_list->_buffer + i;
 		iids_ret = g_list_prepend (iids_ret, g_strdup (info->iid));
@@ -654,25 +655,27 @@ prepare_importer_page (GnomeDruidPage *page,
 	if (importers == NULL) {
 		/* No importers, go directly to finish, do not pass go
 		   Do not collect $200 */
-		gnome_druid_set_page (druid, GNOME_DRUID_PAGE (data->finish))
-;
+		gnome_druid_set_page (druid, GNOME_DRUID_PAGE (data->finish));
 		gtk_widget_destroy (dialog);
 		return TRUE;
 	}
 
 	table = gtk_table_new (g_list_length (importers), 2, FALSE);
 	for (l = importers; l; l = l->next) {
+#if 0
 		GtkWidget *label;
-		IntelligentImporterData *id;
 		CORBA_Environment ev;
 		gboolean can_run;
 		char *str;
+#endif
+		IntelligentImporterData *id;
 		
 		id = g_new0 (IntelligentImporterData, 1);
 		id->iid = g_strdup (l->data);
 
+#if 0				/* FIXME */
 		CORBA_exception_init (&ev);
-		id->object = oaf_activate_from_id ((char *) id->iid, 0, NULL, &ev);
+		id->object = bonobo_activation_activate_from_id ((char *) id->iid, 0, NULL, &ev);
 		if (BONOBO_EX (&ev)) {
 			g_warning ("Could not start %s:%s", id->iid,
 				   CORBA_exception_id (&ev));
@@ -775,6 +778,7 @@ prepare_importer_page (GnomeDruidPage *page,
 
 		gtk_box_pack_start (GTK_BOX (data->import_page->vbox), table,
 				    FALSE, FALSE, 0);
+#endif
 	}
 
 	if (running == 0) {
@@ -838,31 +842,21 @@ gboolean
 e_shell_startup_wizard_create (void)
 {
 	SWData *data;
-	CORBA_Environment ev;
 	int num_accounts;
 
 	data = g_new0 (SWData, 1);
 
-	CORBA_exception_init (&ev);
-	data->db = bonobo_get_object ("wombat:", "Bonobo/ConfigDatabase", &ev);
-	if (BONOBO_EX (&ev) || data->db == CORBA_OBJECT_NIL) {
-		g_warning ("Error starting wombat: (%s)", CORBA_exception_id (&ev));
-		CORBA_exception_free (&ev);
-		g_free (data);
+	data->config_listener = e_config_listener_new();
 
-		return FALSE;
-	}
-
-	num_accounts = bonobo_config_get_long_with_default (data->db, "/Mail/Accounts/num", 0, NULL);
-	CORBA_exception_free (&ev);
+	num_accounts = e_config_listener_get_long_with_default (data->config_listener, "/Mail/Accounts/num", 0, NULL);
 
 	if (num_accounts != 0) {
-		bonobo_object_release_unref (data->db, NULL);
+		g_object_unref (data->config_listener);
 		g_free (data);
 		return TRUE;
 	}
 
-	data->wizard = glade_xml_new (EVOLUTION_GLADEDIR "/evolution-startup-wizard.glade", NULL);
+	data->wizard = glade_xml_new (EVOLUTION_GLADEDIR "/evolution-startup-wizard.glade", NULL, NULL);
 	g_return_val_if_fail (data->wizard != NULL, FALSE);
 	data->dialog = glade_xml_get_widget (data->wizard, "startup-wizard");
 	g_return_val_if_fail (data->dialog != NULL, FALSE);
@@ -873,7 +867,7 @@ e_shell_startup_wizard_create (void)
 	data->druid = glade_xml_get_widget (data->wizard, "startup-druid");
 	g_return_val_if_fail (data->druid != NULL, FALSE);
 	gnome_druid_set_buttons_sensitive (GNOME_DRUID (data->druid),
-					   FALSE, TRUE, FALSE);
+					   FALSE, TRUE, FALSE, FALSE);
 
 	gtk_signal_connect (GTK_OBJECT (data->druid), "cancel",
 			    GTK_SIGNAL_FUNC (startup_wizard_cancel), data);
@@ -905,15 +899,13 @@ e_shell_startup_wizard_create (void)
 	g_return_val_if_fail (data->timezone_page != NULL, TRUE);
 	g_return_val_if_fail (data->import_page != NULL, TRUE);
 
-	gnome_druid_set_buttons_sensitive (GNOME_DRUID (data->druid), FALSE, TRUE, TRUE);
+	gnome_druid_set_buttons_sensitive (GNOME_DRUID (data->druid), FALSE, TRUE, TRUE, FALSE);
 	gtk_widget_show_all (data->dialog);
 
 	gtk_main ();
 
-	/* Sync database */
-	Bonobo_ConfigDatabase_sync (data->db, &ev);
-	bonobo_object_release_unref (data->db, NULL);
-	CORBA_exception_free (&ev);
+	g_object_unref (data->config_listener);
+	data->config_listener = NULL;
 
 	return !data->cancel;
 }

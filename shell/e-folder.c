@@ -181,6 +181,8 @@ init (EFolder *folder)
 	priv->custom_icon_name = NULL;
 
 	folder->priv = priv;
+
+	GTK_OBJECT_UNSET_FLAGS (GTK_OBJECT (folder), GTK_FLOATING);
 }
 
 
@@ -196,8 +198,6 @@ e_folder_construct (EFolder *folder,
 	g_return_if_fail (E_IS_FOLDER (folder));
 	g_return_if_fail (name != NULL);
 	g_return_if_fail (type != NULL);
-
-	GTK_OBJECT_UNSET_FLAGS (GTK_OBJECT (folder), GTK_FLOATING);
 
 	priv = folder->priv;
 

@@ -1,3 +1,250 @@
+2002-11-03  Ettore Perazzoli  <ettore@ximian.com>
+
+	* GNOME_Evolution_Shell.server.in: Renamed from
+	GNOME_Evolution_Shell.oaf.in.
+
+	* Makefile.am: Port from OAF to bonobo-activation.
+	(INCLUDES): Define SYSCONFDIR, DATADIR, LIBDIR.
+
+	* main.c (main): Use gnome_program_init().
+
+	* e-corba-storage-registry.c (e_corba_storage_registry_new):
+	g_object_new(), not gtk_type_new().
+	(impl_finalize): New, ported over from destroy.
+	(destroy): Removed.
+	(class_init): Install finalize handler, not destroy handler, since
+	we are not a GtkObject anymore.
+
+	* e-corba-storage.c (e_corba_storage_new): g_object_new(), not
+	gtk_type_new().
+
+	* e-shell.c (class_init): Override finalize, not destroy.
+	(impl_finalize): Finalize implementation, basically the old
+	destroy renamed.
+	(e_shell_new): g_object_new(), not gtk_type_new().
+	(class_init): Use e_shell_marshal_NONE__INT for
+	line_status_changed instead of using an ENUM.
+	(e_shell_construct): Use g_signal_connect_object() instead of
+	gtk_signal_connect_while_alive().
+
+	* e-setup.c (e_setup): Do not unref local_folder if NULL.
+
+	* e-folder.c (init): Make not floating.
+	(e_folder_construct): No need to make it floating here anymore.
+
+	* e-shell.c (impl_Shell_selectUserFolder): For now don't set
+	dialog parent from xid.
+
+	* main.c (no_views_left_cb): Add missing GTK_SIGNAL_FUNC() cast.
+	(new_view_created_callback): Likewise.
+	(warning_dialog_clicked_callback): Update to use the
+	EConfigListener from the shell instead of bonobo-conf.
+	(show_development_warning): Likewise.
+	(upgrade_from_1_0_if_needed): BONOBO_EX_ID -> BONOBO_EX_REPOID.
+	(idle_cb): Use bonobo-activation and BONOBO_EX_REPOID().
+	(main): Cleaned up the various things that are unneeded in GNOME
+	2.
+	(upgrade_from_1_0_if_needed): Use EConfigListener.
+
+	* evolution-storage-set-view.h, evolution-storage-set-view.c:
+	BonoboXObjectified.
+
+	* e-storage.c (class_init): GLIB2-ified and made to use
+	e-shell-marshal.h.
+	(ES_CLASS): Use GTK_OBJECT_GET_CLASS().
+	(e_storage_new_folder): Added missing GTK_SIGNAL_FUNC() prototype.
+
+	* e-storage-set.c (class_init): GLIB2-ified and made to use
+	e-shell-marshal.h.
+
+	* e-storage-set-view.c (popup_folder_menu): For now, do not add
+	the pop-up since we lack bonobo_ui_container_get_win() and I am
+	not sure how to work around it.
+	(popup_folder_menu): Pass self as the for_widget arg to
+	gnome_popup_menu_do_popup_modal().
+	(class_init): GLIB2-ified, and got to use e-shell-marshal.h.
+	(marshal_NONE__GDKDRAGCONTEXT_STRING_STRING_STRING): Removed.
+	(impl_tree_drag_data_get): Don't set the selection for now -- we
+	have to fix the CORBA target stuff to match GTK 2.
+	(e_storage_set_view_construct): Pass NULL as the opt_ev arg to
+	bonobo_ui_component_set_container().
+
+	* e-splash.c: #include <libgnomecanvas/gnome-canvas-pixbuf.h>
+	instead of <gdk-pixbuf/gnome-canvas-pixbuf.h>.
+	(e_splash_new): Pass NULL as the error arg to
+	gdk_pixbuf_new_from_file().
+
+	* e-shortcuts.c (class_init): GLIB2-ified.  Also use the
+	e-shell-marshal marshallers.
+	(e_shortcuts_new_view): Add missing GTK_SIGNAL_FUNC() cast.
+
+	* e-shortcuts-view.c: Use GTK_STOCK_* stuff instead of
+	GNOME_STOCK_* stuff.
+	(pop_up_right_click_menu_for_group): Pass self as the for_widget
+	arg to gnome_popup_menu_do_popup_modal().
+	(pop_up_right_click_menu_for_shortcut): Likewise.
+	(class_init): GLIB2-ified.
+
+	* e-shell.c: Do not #include <gal/util/e-unicode-i18n.h> or
+	#include <libgnome/gnome-defs.h>.
+	(set_interactive): Use BONOBO_EX_REPOID().
+	(setup_local_storage): Use _() not U_().
+	(destroy): Use gtk_widget_destroy() instead of
+	gtk_object_destroy() on priv->settings_dialog.
+	(class_init): GLIB2-ized.
+	(init): Initialize config_listener member.
+	(get_icon_path_for_component_info): Port to bonobo-activation from
+	OAF.
+	(setup_components): Likewise.
+	(destroy): Likewise.
+	(e_shell_construct): Use e_setup_check_config(), not
+	e_setup_check_db ().  Use the e_config_listener instead of
+	bonobo-conf.
+	(save_settings_for_views): Likewise.
+	(save_misc_settings): Likewise.
+	(e_shell_restore_from_settings): Likewise.
+	(parse_default_uri): Likewise.
+	(e_shell_component_maybe_crashed): Pass NULL for opt_ev arg to
+	bonobo_unkown_ping()
+	(e_shell_component_maybe_crashed): Use
+	bonobo_engine_deregister_dead_components() instead of
+	bonobo_window_deregister_component_by_ref() which is no more.
+	(e_shell_send_receive): BONOBO_EX_REPOID() instead of
+	BONOBO_EX_ID().
+	(e_shell_get_config_listener): Return the config_listener.
+
+	* e-shell-view.c (find_inbox_in_storage): Use _() instead of U_().
+	(load_images): Pass NULL as the error arg to
+	gdk_pixbuf_new_from_file().
+	(load_images): Likewise.
+	(find_inbox_in_storage): Work around the lack of
+	g_utf8_strcasecmp() in glib-2.0.
+	(class_init): GLIB2-ified.  Also, use the marshallers in
+	e-shell-marshal.h.
+	(pop_up_folder_bar): Use gtk_window_move()/gtk_widget_show()
+	instead gtk_widget_popup().
+	(unmerge_on_error): Work around the death of
+	bonobo_ui_component_get_win() and
+	bonobo_window_deregister_component_by_ref().
+	(e_shell_view_construct): Pass NULL as the uic arg to
+	bonobo_window_construct().  Add missing GTK_SIGNAL_FUNC() cast.
+	Match the new BonoboWindow behavior wrt the UIContainer and the
+	new opt_ev args.
+	(display_uri): Use bonobo_ui_engine_freeze() and
+	bonobo_ui_engine_thaw() since bonobo_window_freeze() and
+	bonobo_window_thaw() got axed [sigh].
+	(e_shell_view_save_settings): Use EConfigListener.
+	(e_shell_view_load_settings): Likewise.
+	(get_view_for_uri): Use bonobo_widget_new_control_from_objref()
+	instead of e_bonobo_widget_new_control_from_objref().
+
+	* e-shell-view-menu.c (command_help_faq): Pass NULL for the error
+	arg to gnome_url_show().
+	(command_about_box): Use GtkDialog instead of a GtkWindow of a
+	type GTK_WINDOW_DIALOG [which does not exist anymore].
+	(command_xml_dump): Removed.
+	(menu_do_misc): Do not add the corresponding verb.
+
+	* e-shell-user-creatable-items-handler.c (execute_verb): Use
+	BONOBO_EX_REPOID().
+
+	* e-shell-startup-wizard.c: Remove id member from SWData.  Replace
+	member db with config_listener.
+	(e_shell_startup_wizard_create): Initialize config_listener.
+	(make_mail_dialog_pages): Do not set the listener id here.
+	(druid_event_notify_cb): Pass FALSE as the help_sensitive arg to
+	gnome_druid_set_buttons_sensitive().
+	(e_shell_startup_wizard_create): Likewise.
+	(make_mail_dialog_pages): Use bonobo-activation instead of OAF.
+	(get_intelligent_importers): Likewise.
+	(prepare_importer_page): Likewise.
+	(start_importers): Do nothing here for now.
+	(finish_func): Constify local variable displayname.
+	(finish_func): Updated to use the config_listener instead of the
+	bono-conf db.
+	(prepare_importer_page): Do not actually run the importer yet.
+	(e_shell_startup_wizard_create): Pass NULL as the domain arg to
+	glade_xml_new().  Use the config_listener.
+
+	* e-shell-shared-folder-picker-dialog.c (user_clicked):
+	BONOBO_EX_REPOID() instead of BONOBO_EX_ID().
+	(setup_name_selector): Likewise.
+	(setup_name_selector): Use bonobo-activation.
+	(show_dialog): Pass NULL as the domain arg to glade_xml_new().
+	(setup_name_selector): Add a missing GTK_SIGNAL_FUNC() cast.
+
+	* e-shell-settings-dialog.c: #include
+	<bonobo-activation/bonobo-activation.h>.  Use
+	Bonobo_ActivationProperty instead of OAF_Property.
+	(set_dialog_size): Use gtk_style_get_font() to get the font from
+	the widget->style.
+	(load_pages): Converted to use bonobo-activation instead of OAF.
+	Pass NULL as the error arg to gdk_pixbuf_new_from_file().
+
+	* e-shell-offline-sync.c (sync_folder): BONOBO_EX_REPOID(), not
+	BONOBO_EX_ID().
+	(e_shell_offline_sync_all_folders): For now, avoid doing anything
+	[see changes to e-shell-config-offline.c below].
+	(setup_progress_listener): #if 0 for now.
+	(setup_dialog): Likewise.
+	(sync_folder): Likewise.
+	(cleanup): Likewise.
+	(progress_listener_servant_free): Likewise.
+	(progress_listener_servant_new): Likewise.
+	(impl_SyncFolderProgressListener_updateProgress): Likewise.
+	(impl_SyncFolderProgressListener_reportSuccess): Likewise.
+	(impl_SyncFolderProgressListener_reportFailure): Likewise.
+	(progress_dialog_close_callback): Likewise.
+	(progress_dialog_clicked_callback): Likewise.
+
+	* e-shell-offline-handler.c (prepare_for_offline): Use
+	BONOBO_EX_REPOID().
+	(pop_up_confirmation_dialog): Pass NULL as the domain arg to
+	glade_xml_new().
+	(class_init): GLIB2-ified.
+
+	* Makefile.am: Do not compile e-shell-importer.c,
+	e-shell-importer.h for now.
+
+	* e-shell-folder-title-bar.c (get_max_clipped_label_width): Use
+	gtk_style_get_font() to retrieve the font.
+	(class_init): GLIB2-ified.
+	(e_shell_folder_title_bar_construct): Get {x,y}thickness from
+	widget->style, not from widget->style->klass.
+
+	* e-shell-folder-selection-dialog.c: #include <string.h>,
+	<gtk/gtklabel.h> and <gtk/gtksignal.h>.
+	(class_init): GLIB2-ified.
+
+	* e-shell-folder-creation-dialog.c: No <libgnome/gnome-defs.h>,
+	add some GTK includes.
+	(e_shell_show_folder_creation_dialog): Pass NULL as the domain arg
+	to glade_xml_new().  Added missing GTK_SIGNAL_FUNC() cast.
+
+	* e-shell-folder-commands.c: Do not #include
+	<libgnomeui/gnome-stock.h> and #include
+	<bonobo-conf/Bonobo_Config.h>.
+
+	* e-shell-config-default-folders.c: Replace member db in
+	EvolutionDefaultFolderConfig with config_listener.
+	(e_shell_config_default_folders_create_widget): Init here.
+	(config_control_destroy_cb): Unref here.
+	(config_control_apply_cb): Use EConfigListener instead of
+	BonoboConf.
+	(setup_folder_selector): Likewise.
+	(e_shell_config_default_folders_create_widget): Pass NULL as the
+	domain arg to glade_xml_new().
+
+	* e-shell-config-offline.c (config_control_apply_callback): For
+	now, do not change the configuration.  [Needs to be ported to
+	EConfigListener or something, but we were storing a sequence using
+	typecodes here and there is no trivial way to do that right now.]
+	(init_storage_set_view_status_from_config): Likewise, do not
+	retrieve the configuration here.
+
+	* e-shell-marshal.list: Removed duplicates, added a bunch new
+	marshallers.
+
 2002-11-02  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-shell-config-autocompletion.c: No bonobo-conf; removed member

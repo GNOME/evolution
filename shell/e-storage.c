@@ -32,20 +32,22 @@
 
 #include "e-folder-tree.h"
 #include "e-shell-constants.h"
+#include "e-shell-marshal.h"
 
 #include <gtk/gtkobject.h>
 #include <gtk/gtksignal.h>
 
-#include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
 #include <gal/util/e-util.h>
+
+#include <string.h>
 
 
 #define PARENT_TYPE GTK_TYPE_OBJECT
 static GtkObjectClass *parent_class = NULL;
 
 #define ES_CLASS(obj) \
-	E_STORAGE_CLASS (GTK_OBJECT (obj)->klass)
+	E_STORAGE_CLASS (GTK_OBJECT_GET_CLASS (obj))
 
 struct _EStoragePrivate {
 	/* The set of folders we have in this storage.  */
@@ -284,37 +286,35 @@ class_init (EStorageClass *class)
 	signals[NEW_FOLDER] =
 		gtk_signal_new ("new_folder",
 				GTK_RUN_FIRST,
-				object_class->type,
+				GTK_CLASS_TYPE (object_class),
 				GTK_SIGNAL_OFFSET (EStorageClass, new_folder),
-				gtk_marshal_NONE__STRING,
+				e_shell_marshal_NONE__STRING,
 				GTK_TYPE_NONE, 1,
 				GTK_TYPE_STRING);
 	signals[UPDATED_FOLDER] =
 		gtk_signal_new ("updated_folder",
 				GTK_RUN_FIRST,
-				object_class->type,
+				GTK_CLASS_TYPE (object_class),
 				GTK_SIGNAL_OFFSET (EStorageClass, updated_folder),
-				gtk_marshal_NONE__STRING,
+				e_shell_marshal_NONE__STRING,
 				GTK_TYPE_NONE, 1,
 				GTK_TYPE_STRING);
 	signals[REMOVED_FOLDER] =
 		gtk_signal_new ("removed_folder",
 				GTK_RUN_FIRST,
-				object_class->type,
+				GTK_CLASS_TYPE (object_class),
 				GTK_SIGNAL_OFFSET (EStorageClass, removed_folder),
-				gtk_marshal_NONE__STRING,
+				e_shell_marshal_NONE__STRING,
 				GTK_TYPE_NONE, 1,
 				GTK_TYPE_STRING);
 	signals[CLOSE_FOLDER] =
 		gtk_signal_new ("close_folder",
 				GTK_RUN_FIRST,
-				object_class->type,
+				GTK_CLASS_TYPE (object_class),
 				GTK_SIGNAL_OFFSET (EStorageClass, close_folder),
-				gtk_marshal_NONE__STRING,
+				e_shell_marshal_NONE__STRING,
 				GTK_TYPE_NONE, 1,
 				GTK_TYPE_STRING);
-
-	gtk_object_class_add_signals (object_class, signals, LAST_SIGNAL);
 }
 
 static void
@@ -710,8 +710,9 @@ e_storage_new_folder (EStorage *storage,
 	}
 	g_free (parent_path);
 
-	gtk_signal_connect_while_alive (GTK_OBJECT (e_folder), "changed", folder_changed_cb,
-					storage, GTK_OBJECT (storage));
+	gtk_signal_connect_while_alive (GTK_OBJECT (e_folder), "changed",
+					GTK_SIGNAL_FUNC (folder_changed_cb), storage,
+					GTK_OBJECT (storage));
 
 	gtk_signal_emit (GTK_OBJECT (storage), signals[NEW_FOLDER], path);
 

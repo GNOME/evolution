@@ -731,7 +731,7 @@ e_corba_storage_new (const GNOME_Evolution_Storage storage_interface,
 	g_return_val_if_fail (storage_interface != CORBA_OBJECT_NIL, NULL);
 	g_return_val_if_fail (name != NULL, NULL);
 
-	new = gtk_type_new (e_corba_storage_get_type ());
+	new = g_object_new (e_corba_storage_get_type (), NULL);
 
 	e_corba_storage_construct (E_CORBA_STORAGE (new),
 				   storage_interface, name);

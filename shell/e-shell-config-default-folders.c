@@ -29,6 +29,8 @@
 
 #include "evolution-folder-selector-button.h"
 
+#include "e-util/e-config-listener.h"
+
 #include <glade/glade-xml.h>
 #include <gtk/gtktogglebutton.h>
 #include <gtk/gtksignal.h>
@@ -45,7 +47,7 @@ typedef struct {
 	char *calendar_uri, *calendar_path;
 	char *tasks_uri, *tasks_path;
 
-	Bonobo_ConfigDatabase db;
+	EConfigListener *config_listener;
 	EvolutionShellClient *shell_client;
 } EvolutionDefaultFolderConfig;
 
@@ -82,20 +84,22 @@ static void
 config_control_apply_cb (EvolutionConfigControl *control,
 			 EvolutionDefaultFolderConfig *dfc)
 {
-	bonobo_config_set_string (dfc->db, "/DefaultFolders/mail_path", dfc->mail_path, NULL);
-	bonobo_config_set_string (dfc->db, "/DefaultFolders/mail_uri", dfc->mail_uri, NULL);
-	bonobo_config_set_string (dfc->db, "/DefaultFolders/contacts_path", dfc->contacts_path, NULL);
-	bonobo_config_set_string (dfc->db, "/DefaultFolders/contacts_uri", dfc->contacts_uri, NULL);
-	bonobo_config_set_string (dfc->db, "/DefaultFolders/calendar_path", dfc->calendar_path, NULL);
-	bonobo_config_set_string (dfc->db, "/DefaultFolders/calendar_uri", dfc->calendar_uri, NULL);
-	bonobo_config_set_string (dfc->db, "/DefaultFolders/tasks_path", dfc->tasks_path, NULL);
-	bonobo_config_set_string (dfc->db, "/DefaultFolders/tasks_uri", dfc->tasks_uri, NULL);
+	e_config_listener_set_string (dfc->config_listener, "/DefaultFolders/mail_path", dfc->mail_path);
+	e_config_listener_set_string (dfc->config_listener, "/DefaultFolders/mail_uri", dfc->mail_uri);
+	e_config_listener_set_string (dfc->config_listener, "/DefaultFolders/contacts_path", dfc->contacts_path);
+	e_config_listener_set_string (dfc->config_listener, "/DefaultFolders/contacts_uri", dfc->contacts_uri);
+	e_config_listener_set_string (dfc->config_listener, "/DefaultFolders/calendar_path", dfc->calendar_path);
+	e_config_listener_set_string (dfc->config_listener, "/DefaultFolders/calendar_uri", dfc->calendar_uri);
+	e_config_listener_set_string (dfc->config_listener, "/DefaultFolders/tasks_path", dfc->tasks_path);
+	e_config_listener_set_string (dfc->config_listener, "/DefaultFolders/tasks_uri", dfc->tasks_uri);
 }
 
 static void
 config_control_destroy_cb (EvolutionConfigControl *config_control,
 			   EvolutionDefaultFolderConfig *dfc)
 {
+	g_object_unref (dfc->config_listener);
+
 	g_free (dfc->mail_uri);
 	g_free (dfc->mail_path);
 	g_free (dfc->contacts_uri);
@@ -124,8 +128,8 @@ setup_folder_selector (EvolutionDefaultFolderConfig *dfc,
 {
 	GtkWidget *button;
 
-	*path_ptr = bonobo_config_get_string (dfc->db, path_dbpath, NULL);
-	*uri_ptr = bonobo_config_get_string (dfc->db, uri_dbpath, NULL);
+	*path_ptr = e_config_listener_get_string_with_default (dfc->config_listener, path_dbpath, NULL, NULL);
+	*uri_ptr = e_config_listener_get_string_with_default (dfc->config_listener, uri_dbpath, NULL, NULL);
 
 	button = glade_xml_get_widget (dfc->glade, widget_name);
 	evolution_folder_selector_button_construct (
@@ -148,14 +152,15 @@ e_shell_config_default_folders_create_widget (EShell *shell, EvolutionConfigCont
 	GtkWidget *widget;
 
 	dfc = g_new0 (EvolutionDefaultFolderConfig, 1);
-	dfc->db = e_shell_get_config_db (shell);
+
+	dfc->config_listener = e_config_listener_new ();
 
 	CORBA_exception_init (&ev);
 	shell_dup = CORBA_Object_duplicate (bonobo_object_corba_objref (BONOBO_OBJECT (shell)), &ev);
 	CORBA_exception_free (&ev);
 	dfc->shell_client = evolution_shell_client_new (shell_dup);
 
-	dfc->glade = glade_xml_new (EVOLUTION_GLADEDIR "/e-shell-config-default-folders.glade", NULL);
+	dfc->glade = glade_xml_new (EVOLUTION_GLADEDIR "/e-shell-config-default-folders.glade", NULL, NULL);
 
 	setup_folder_selector (dfc, "default_mail_button",
 			       &dfc->mail_path, "/DefaultFolders/mail_path",

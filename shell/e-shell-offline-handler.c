@@ -41,6 +41,7 @@
 #include <glade/glade-xml.h>
 
 #include <bonobo/bonobo-main.h>
+#include <bonobo/bonobo-exception.h>
 
 
 #define GLADE_DIALOG_FILE_NAME EVOLUTION_GLADEDIR "/e-active-connection-dialog.glade"
@@ -421,7 +422,8 @@ prepare_for_offline (EShellOfflineHandler *offline_handler)
 
 		GNOME_Evolution_Offline_prepareForOffline (offline_interface, &active_connection_list, &ev);
 		if (ev._major != CORBA_NO_EXCEPTION) {
-			g_warning ("Cannot prepare component component to go offline -- %s [%s]", id, ev._repo_id);
+			g_warning ("Cannot prepare component component to go offline -- %s [%s]",
+				   id, BONOBO_EX_REPOID (&ev));
 
 			progress_listener_servant_free (progress_listener_servant);
 			
@@ -632,7 +634,7 @@ pop_up_confirmation_dialog (EShellOfflineHandler *offline_handler)
 	priv = offline_handler->priv;
 
 	if (priv->dialog_gui == NULL) {
-		priv->dialog_gui = glade_xml_new (GLADE_DIALOG_FILE_NAME, NULL);
+		priv->dialog_gui = glade_xml_new (GLADE_DIALOG_FILE_NAME, NULL, NULL);
 		if (priv->dialog_gui == NULL) {
 			g_warning ("Cannot load the active connection dialog (installation problem?) -- %s",
 				   GLADE_DIALOG_FILE_NAME);
@@ -706,7 +708,7 @@ class_init (EShellOfflineHandlerClass *klass)
 	signals[OFFLINE_PROCEDURE_STARTED]
 		= gtk_signal_new ("offline_procedure_started",
 				  GTK_RUN_LAST,
-				  object_class->type,
+				  GTK_CLASS_TYPE (object_class),
 				  GTK_SIGNAL_OFFSET (EShellOfflineHandlerClass, offline_procedure_started),
 				  gtk_marshal_NONE__NONE,
 				  GTK_TYPE_NONE, 0);
@@ -714,13 +716,11 @@ class_init (EShellOfflineHandlerClass *klass)
 	signals[OFFLINE_PROCEDURE_FINISHED]
 		= gtk_signal_new ("offline_procedure_finished",
 				  GTK_RUN_LAST,
-				  object_class->type,
+				  GTK_CLASS_TYPE (object_class),
 				  GTK_SIGNAL_OFFSET (EShellOfflineHandlerClass, offline_procedure_finished),
 				  gtk_marshal_NONE__BOOL,
 				  GTK_TYPE_NONE, 1,
 				  GTK_TYPE_BOOL);
-
-	gtk_object_class_add_signals (object_class, signals, LAST_SIGNAL);
 }
 
 

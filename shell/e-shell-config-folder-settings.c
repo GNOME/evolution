@@ -35,7 +35,6 @@
 
 #include "Evolution.h"
 
-#include <bonobo-conf/Bonobo_Config.h>
 #include <bonobo/bonobo-exception.h>
 
 #include <libgnome/gnome-i18n.h>

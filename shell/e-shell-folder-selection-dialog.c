@@ -24,13 +24,7 @@
 #include <config.h>
 #endif
 
-#include <libgnomeui/gnome-stock.h>
-#include <libgnomeui/gnome-dialog.h>
-#include <libgnome/gnome-i18n.h>
-
-#include <gal/util/e-util.h>
-#include <gal/widgets/e-scroll-frame.h>
-#include <gal/widgets/e-gui-utils.h>
+#include "e-shell-folder-selection-dialog.h"
 
 #include "e-shell-constants.h"
 #include "e-storage-set-view.h"
@@ -38,7 +32,17 @@
 
 #include "e-shell-folder-creation-dialog.h"
 
-#include "e-shell-folder-selection-dialog.h"
+#include <libgnomeui/gnome-dialog.h>
+#include <libgnome/gnome-i18n.h>
+
+#include <gal/util/e-util.h>
+#include <gal/widgets/e-scroll-frame.h>
+#include <gal/widgets/e-gui-utils.h>
+
+#include <gtk/gtksignal.h>
+#include <gtk/gtklabel.h>
+
+#include <string.h>
 
 
 #define PARENT_TYPE (gnome_dialog_get_type ())
@@ -267,7 +271,7 @@ class_init (EShellFolderSelectionDialogClass *klass)
 	signals[FOLDER_SELECTED]
 		= gtk_signal_new ("folder_selected",
 				  GTK_RUN_LAST,
-				  object_class->type,
+				  GTK_CLASS_TYPE (object_class),
 				  GTK_SIGNAL_OFFSET (EShellFolderSelectionDialogClass, folder_selected),
 				  gtk_marshal_NONE__POINTER,
 				  GTK_TYPE_NONE, 1,
@@ -276,12 +280,10 @@ class_init (EShellFolderSelectionDialogClass *klass)
 	signals[CANCELLED]
 		= gtk_signal_new ("cancelled",
 				  GTK_RUN_LAST,
-				  object_class->type,
+				  GTK_CLASS_TYPE (object_class),
 				  GTK_SIGNAL_OFFSET (EShellFolderSelectionDialogClass, cancelled),
 				  gtk_marshal_NONE__NONE,
 				  GTK_TYPE_NONE, 0);
-
-	gtk_object_class_add_signals (object_class, signals, LAST_SIGNAL);
 }
 
 static void

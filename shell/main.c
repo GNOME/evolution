@@ -35,17 +35,18 @@
 #include <gdk/gdkx.h>
 #include <X11/Xlib.h>
 
-#include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
 #include <libgnome/gnome-util.h>
-#include <libgnomeui/gnome-init.h>
-#include <libgnomeui/gnome-stock.h>
+#include <libgnomeui/gnome-ui-init.h>
 #include <libgnomeui/gnome-window-icon.h>
+
 #include <bonobo/bonobo-main.h>
 #include <bonobo/bonobo-moniker-util.h>
 #include <bonobo/bonobo-exception.h>
+
+#include <bonobo-activation/bonobo-activation.h>
+
 #include <glade/glade.h>
-#include <liboaf/liboaf.h>
 
 #ifdef GTKHTML_HAVE_GCONF
 #include <gconf/gconf.h>
@@ -53,6 +54,9 @@
 
 #include <gal/widgets/e-gui-utils.h>
 #include <gal/widgets/e-cursors.h>
+
+#include <string.h>
+#include <unistd.h>
 
 #include "e-util/e-gtk-utils.h"
 
@@ -140,7 +144,7 @@ no_views_left_cb (EShell *shell, gpointer data)
 	GtkWidget *quit_box;
 
 	quit_box = quit_box_new ();
-	gtk_signal_connect (GTK_OBJECT (quit_box), "destroy", quit_box_destroyed_callback, &quit_box);
+	gtk_signal_connect (GTK_OBJECT (quit_box), "destroy", GTK_SIGNAL_FUNC (quit_box_destroyed_callback), &quit_box);
 
 	/* FIXME: This is wrong.  We should exit only when the shell is
 	   destroyed.  But refcounting is broken at present, so this is a
@@ -194,14 +198,16 @@ warning_dialog_clicked_callback (GnomeDialog *dialog,
 				 void *data)
 {
 	GtkCheckButton *dont_bother_me_again_checkbox;
-	Bonobo_ConfigDatabase config_db;
+	EConfigListener *config_listener;
 
 	dont_bother_me_again_checkbox = GTK_CHECK_BUTTON (data);
-	config_db = e_shell_get_config_db (shell);
 
-	bonobo_config_set_boolean (config_db, "/Shell/skip_warning_dialog_1_1",
-				   gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (dont_bother_me_again_checkbox)),
-				   NULL);
+	config_listener = e_config_listener_new ();
+
+	e_config_listener_set_boolean (config_listener, "/Shell/skip_warning_dialog_1_1",
+				       gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (dont_bother_me_again_checkbox)));
+
+	g_object_unref (config_listener);
 
 	gtk_widget_destroy (GTK_WIDGET (dialog));
 }
@@ -213,10 +219,10 @@ show_development_warning (GtkWindow *parent)
 	GtkWidget *warning_dialog;
 	GtkWidget *dont_bother_me_again_checkbox;
 	GtkWidget *alignment;
-	Bonobo_ConfigDatabase config_db;
+	EConfigListener *config_listener;
 	
-	config_db = e_shell_get_config_db (shell);
-	if (bonobo_config_get_boolean_with_default (config_db, "/Shell/skip_warning_dialog_1_1", FALSE, NULL))
+	config_listener = e_shell_get_config_listener (shell);
+	if (e_config_listener_get_boolean_with_default (config_listener, "/Shell/skip_warning_dialog_1_1", FALSE, NULL))
 		return;
 
 	warning_dialog = gnome_dialog_new ("Ximian Evolution " VERSION, GNOME_STOCK_BUTTON_OK, NULL);
@@ -295,33 +301,21 @@ new_view_created_callback (EShell *shell,
 				       GTK_SIGNAL_FUNC (new_view_created_callback),
 				       data);
 
-	gtk_signal_connect (GTK_OBJECT (view), "map", view_map_callback, NULL);
+	gtk_signal_connect (GTK_OBJECT (view), "map", GTK_SIGNAL_FUNC (view_map_callback), NULL);
 }
 
 
 static void
 upgrade_from_1_0_if_needed (void)
 {
-	Bonobo_ConfigDatabase config_db;
-	CORBA_Environment ev;
+	EConfigListener *config_listener;
 	int result;
 
-	CORBA_exception_init (&ev);
-
-	config_db = bonobo_get_object ("wombat:", "Bonobo/ConfigDatabase", &ev);
-	if (BONOBO_EX (&ev) || config_db == CORBA_OBJECT_NIL) {
-		g_print ("(Cannot access Bonobo/ConfigDatabase, not upgrading configuration.)\n");
-		if (BONOBO_EX (&ev))
-			g_print ("\t%s\n", BONOBO_EX_ID (&ev));
-		CORBA_exception_free (&ev);
-		return;
- 	}
-
-	CORBA_exception_free (&ev);
+	config_listener = e_config_listener_new ();
 
 	if (! force_upgrade
-	    && bonobo_config_get_boolean_with_default (config_db, "/Shell/upgrade_from_1_0_to_1_2_performed",
-						       FALSE, NULL))
+	    && e_config_listener_get_boolean_with_default (config_listener, "/Shell/upgrade_from_1_0_to_1_2_performed",
+							   FALSE, NULL))
 		return;
 
 	g_print ("\nOlder configuration files detected, upgrading...\n");
@@ -333,9 +327,9 @@ upgrade_from_1_0_if_needed (void)
 	else
 		g_print ("\n*** Error upgrading configuration files -- status %d\n", result);
 
-	bonobo_config_set_boolean (config_db, "/Shell/upgrade_from_1_0_to_1_2_performed", TRUE, NULL);
+	e_config_listener_set_boolean (config_listener, "/Shell/upgrade_from_1_0_to_1_2_performed", TRUE);
 
-	bonobo_object_release_unref (config_db, NULL);
+	g_object_unref (config_listener);
 }
 
 
@@ -388,7 +382,7 @@ idle_cb (void *data)
 		break;
 
 	case E_SHELL_CONSTRUCT_RESULT_CANNOTREGISTER:
-		corba_shell = oaf_activate_from_id (E_SHELL_OAFIID, 0, NULL, &ev);
+		corba_shell = bonobo_activation_activate_from_id (E_SHELL_OAFIID, 0, NULL, &ev);
 		if (ev._major != CORBA_NO_EXCEPTION || corba_shell == CORBA_OBJECT_NIL) {
 			e_notice (NULL, GNOME_MESSAGE_BOX_ERROR,
 				  _("Cannot access the Ximian Evolution shell."));
@@ -451,7 +445,8 @@ idle_cb (void *data)
 		if (ev._major == CORBA_NO_EXCEPTION)
 			displayed_any = TRUE;
 		else {
-			g_warning ("CORBA exception %s when requesting URI -- %s", ev._repo_id, uri);
+			g_warning ("CORBA exception %s when requesting URI -- %s",
+				   BONOBO_EX_REPOID (&ev), uri);
 			CORBA_exception_free (&ev);
 		}
 	}
@@ -464,7 +459,7 @@ idle_cb (void *data)
 		uri = E_SHELL_VIEW_DEFAULT_URI;
 		GNOME_Evolution_Shell_handleURI (corba_shell, uri, &ev);
 		if (ev._major != CORBA_NO_EXCEPTION)
-			g_warning ("CORBA exception %s when requesting URI -- %s", ev._repo_id, uri);
+			g_warning ("CORBA exception %s when requesting URI -- %s", BONOBO_EX_REPOID (&ev), uri);
 	}
 
 	CORBA_Object_release (corba_shell, &ev);
@@ -491,7 +486,6 @@ main (int argc, char **argv)
 		  N_("Send the debugging output of all components to a file."), NULL },
 		{ "force-upgrade", '\0', POPT_ARG_NONE, &force_upgrade, 0, 
 		  N_("Force upgrading of configuration files from Evolution 1.0.x"), NULL },
-		{ NULL, '\0', POPT_ARG_INCLUDE_TABLE, &oaf_popt_options, 0, NULL, NULL },
 		POPT_AUTOHELP
 		{ NULL, '\0', 0, NULL, 0, NULL, NULL }
 	};
@@ -499,13 +493,14 @@ main (int argc, char **argv)
 	const char **args;
 	poptContext popt_context;
 
-	bindtextdomain (PACKAGE, EVOLUTION_LOCALEDIR);
-	textdomain (PACKAGE);
-
 	/* Make ElectricFence work.  */
 	free (malloc (10));
 
-	gnome_init_with_popt_table ("Evolution", VERSION " [" SUB_VERSION "]", argc, argv, options, 0, &popt_context);
+	gnome_program_init (PACKAGE, VERSION, LIBGNOMEUI_MODULE, argc, argv, 
+			    GNOME_PROGRAM_STANDARD_PROPERTIES,
+			    GNOME_PARAM_POPT_TABLE, options,
+			    GNOME_PARAM_HUMAN_READABLE_NAME, _("Evolution"),
+			    NULL);
 
 	if (start_online && start_offline) {
 		fprintf (stderr, _("%s: --online and --offline cannot be used together.\n  Use %s --help for more information.\n"),
@@ -525,23 +520,11 @@ main (int argc, char **argv)
 			g_warning ("Could not set up debugging output file.");
 	}
 
-	oaf_init (argc, argv);
-
-#ifdef GTKHTML_HAVE_GCONF
-	gconf_init (argc, argv, NULL);
-#endif
-
 	glade_gnome_init ();
 	e_cursors_init ();
 	e_icon_factory_init ();
 
 	gnome_window_icon_set_default_from_file (EVOLUTION_IMAGES "/evolution-inbox.png");
-
-	if (! bonobo_init (CORBA_OBJECT_NIL, CORBA_OBJECT_NIL, CORBA_OBJECT_NIL)) {
-		e_notice (NULL, GNOME_MESSAGE_BOX_ERROR,
-			  _("Cannot initialize the Bonobo component system."));
-		exit (1);
-	}
 
 	/* FIXME */
 	evolution_directory = g_concat_dir_and_file (g_get_home_dir (), "evolution");

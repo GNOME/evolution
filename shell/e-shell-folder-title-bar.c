@@ -29,7 +29,6 @@
 #include <gtk/gtkrc.h>
 #include <gtk/gtksignal.h>
 #include <gtk/gtktogglebutton.h>
-#include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
 #include <gdk-pixbuf/gdk-pixbuf.h>
 
@@ -199,7 +198,7 @@ get_max_clipped_label_width (EClippedLabel *clipped_label)
 	GdkFont *font;
 	int width;
 
-	font = GTK_WIDGET (clipped_label)->style->font;
+	font = gtk_style_get_font (GTK_WIDGET (clipped_label)->style);
 
 	width = gdk_string_width (font, clipped_label->label);
 	width += 2 * GTK_MISC (clipped_label)->xpad;
@@ -458,7 +457,7 @@ class_init (EShellFolderTitleBarClass *klass)
 
 	signals[TITLE_TOGGLED] = gtk_signal_new ("title_toggled",
 						 GTK_RUN_FIRST,
-						 object_class->type,
+						 GTK_CLASS_TYPE (object_class),
 						 GTK_SIGNAL_OFFSET (EShellFolderTitleBarClass, title_toggled),
 						 gtk_marshal_NONE__BOOL,
 						 GTK_TYPE_NONE, 1,
@@ -466,19 +465,17 @@ class_init (EShellFolderTitleBarClass *klass)
 
 	signals[BACK_CLICKED] = gtk_signal_new ("back_clicked",
 						GTK_RUN_FIRST,
-						object_class->type,
+						GTK_CLASS_TYPE (object_class),
 						GTK_SIGNAL_OFFSET (EShellFolderTitleBarClass, back_clicked),
 						gtk_marshal_NONE__NONE,
 						GTK_TYPE_NONE, 0);
 
 	signals[FORWARD_CLICKED] = gtk_signal_new ("forward_clicked",
 						   GTK_RUN_FIRST,
-						   object_class->type,
+						   GTK_CLASS_TYPE (object_class),
 						   GTK_SIGNAL_OFFSET (EShellFolderTitleBarClass, forward_clicked),
 						   gtk_marshal_NONE__NONE,
 						   GTK_TYPE_NONE, 0);
-
-	gtk_object_class_add_signals (object_class, signals, LAST_SIGNAL);
 }
 
 static void
@@ -578,8 +575,8 @@ e_shell_folder_title_bar_construct (EShellFolderTitleBar *folder_title_bar)
 	   as the padding is hardcoded in GtkButton too (see CHILD_SPACING in
 	   gtkbutton.c).  */
 	gtk_misc_set_padding (GTK_MISC (priv->title_label),
-			      GTK_WIDGET (priv->title_button)->style->klass->xthickness,
-			      GTK_WIDGET (priv->title_button)->style->klass->ythickness + 2);
+			      GTK_WIDGET (priv->title_button)->style->xthickness,
+			      GTK_WIDGET (priv->title_button)->style->ythickness + 2);
 
 	gtk_signal_connect (GTK_OBJECT (priv->title_button), "toggled",
 			    GTK_SIGNAL_FUNC (title_button_toggled_cb), folder_title_bar);

@@ -32,7 +32,6 @@
 #include <gtk/gtkpixmap.h>
 #include <gtk/gtktooltips.h>
 
-#include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
 
 #include <gal/util/e-util.h>

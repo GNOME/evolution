@@ -29,17 +29,12 @@
 #include <unistd.h>
 
 #include <glib.h>
-#include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
 #include <libgnomeui/gnome-druid.h>
-#include <libgnomeui/gnome-druid-page-finish.h>
-#include <libgnomeui/gnome-druid-page-standard.h>
-#include <libgnomeui/gnome-druid-page-start.h>
 #include <libgnomeui/gnome-file-entry.h>
-#include <libgnomeui/gnome-stock.h>
 #include <libgnomeui/gnome-dialog.h>
 
-#include <liboaf/liboaf.h>
+#include <bonobo-activation/bonobo-activation.h>
 
 #include <bonobo/bonobo-exception.h>
 #include <bonobo/bonobo-widget.h>
@@ -336,7 +331,7 @@ get_name_from_component_info (const OAF_ServerInfo *info)
 
 	property = oaf_server_info_prop_find ((OAF_ServerInfo *) info,
 					      "evolution:menu-name");
-	if (property == NULL || property->v._d != OAF_P_STRING)
+	if (property == NULL || property->v._d != Bonobo_ACTIVATION_P_STRING)
 		return NULL;
 
 	name = property->v._u.value_string;

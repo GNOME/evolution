@@ -23,7 +23,7 @@
 #ifndef _EVOLUTION_STORAGE_SET_VIEW_H_
 #define _EVOLUTION_STORAGE_SET_VIEW_H_
 
-#include <bonobo/bonobo-object.h>
+#include <bonobo/bonobo-xobject.h>
 
 #include "e-storage-set-view.h"
 
@@ -46,19 +46,20 @@ typedef struct _EvolutionStorageSetViewPrivate EvolutionStorageSetViewPrivate;
 typedef struct _EvolutionStorageSetViewClass   EvolutionStorageSetViewClass;
 
 struct _EvolutionStorageSetView {
-	BonoboObject parent;
+	BonoboXObject parent;
 
 	EvolutionStorageSetViewPrivate *priv;
 };
 
 struct _EvolutionStorageSetViewClass {
-	BonoboObjectClass parent_class;
+	BonoboXObjectClass parent_class;
+
+	POA_GNOME_Evolution_StorageSetView__epv epv;
 };
 
 
 GtkType                  evolution_storage_set_view_get_type   (void);
 void                     evolution_storage_set_view_construct  (EvolutionStorageSetView  *storage_set_view,
-								GNOME_Evolution_StorageSetView  corba_object,
 								EStorageSetView          *storage_set_view_widget);
 EvolutionStorageSetView *evolution_storage_set_view_new        (EStorageSetView          *storage_set_view_widget);
 

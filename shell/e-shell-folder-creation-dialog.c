@@ -25,9 +25,12 @@
 #endif
 
 #include <glib.h>
-#include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
 #include <libgnome/gnome-util.h>
+
+#include <gtk/gtkoptionmenu.h>
+#include <gtk/gtkmenuitem.h>
+
 #include <glade/glade-xml.h>
 
 #include <gal/util/e-util.h>
@@ -489,7 +492,7 @@ e_shell_show_folder_creation_dialog (EShell *shell,
 	g_return_if_fail (shell != NULL);
 	g_return_if_fail (E_IS_SHELL (shell));
 
-	gui = glade_xml_new (GLADE_FILE_NAME, NULL);
+	gui = glade_xml_new (GLADE_FILE_NAME, NULL, NULL);
 	if (gui == NULL) {
 		g_warning ("Cannot load Glade description file for the folder creation dialog -- %s",
 			   GLADE_FILE_NAME);
@@ -532,7 +535,7 @@ e_shell_show_folder_creation_dialog (EShell *shell,
 			    GTK_SIGNAL_FUNC (folder_name_entry_changed_cb), dialog_data);
 
 	gtk_signal_connect (GTK_OBJECT (dialog_data->storage_set_view), "folder_selected",
-			    storage_set_view_folder_selected_cb, dialog_data);
+			    GTK_SIGNAL_FUNC (storage_set_view_folder_selected_cb), dialog_data);
 
 	gtk_signal_connect_while_alive (GTK_OBJECT (shell), "destroy",
 					GTK_SIGNAL_FUNC (shell_destroy_cb), dialog_data,

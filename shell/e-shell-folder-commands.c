@@ -28,22 +28,23 @@
 
 #include "e-util/e-request.h"
 
+#include "e-shell-constants.h"
+#include "e-shell-folder-creation-dialog.h"
+#include "e-shell-folder-selection-dialog.h"
+#include "e-shell-utils.h"
+
 #include <gal/widgets/e-gui-utils.h>
 #include <gal/widgets/e-unicode.h>
 
 #include <libgnome/gnome-i18n.h>
 #include <libgnome/gnome-util.h>
 #include <libgnomeui/gnome-dialog.h>
-#include <libgnomeui/gnome-stock.h>
 
 #include <gtk/gtklabel.h>
 #include <gtk/gtksignal.h>
 #include <gtk/gtkentry.h>
 
-#include "e-shell-constants.h"
-#include "e-shell-folder-creation-dialog.h"
-#include "e-shell-folder-selection-dialog.h"
-#include "e-shell-utils.h"
+#include <string.h>
 
 
 /* Utility functions.  */

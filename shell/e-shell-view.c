@@ -31,6 +31,8 @@
 
 #include "evolution-shell-view.h"
 
+#include "e-shell-marshal.h"
+
 #include "e-gray-bar.h"
 #include "e-history.h"
 #include "e-icon-factory.h"
@@ -48,23 +50,29 @@
 #include "widgets/misc/e-clipped-label.h"
 #include "widgets/misc/e-bonobo-widget.h"
 
+#include <gtk/gtkwidget.h>
+
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <fcntl.h>
 #include <ctype.h>
 
 #include <glib.h>
+
 #include <libgnome/libgnome.h>
 #include <libgnomeui/gnome-window.h>
 #include <libgnomeui/gnome-window-icon.h>
 #include <libgnomeui/gnome-app.h>
+
 #include <bonobo/bonobo-socket.h>
 #include <bonobo/bonobo-ui-util.h>
+#include <bonobo/bonobo-ui-container.h>
+#include <bonobo/bonobo-ui-engine.h>
 #include <bonobo/bonobo-widget.h>
+#include <bonobo/bonobo-window.h>
 
 #include <gal/e-paned/e-hpaned.h>
 #include <gal/util/e-util.h>
-#include <gal/util/e-unicode-i18n.h>
 #include <gal/widgets/e-gui-utils.h>
 #include <gal/widgets/e-unicode.h>
 #include <gal/widgets/e-scroll-frame.h>
@@ -235,7 +243,7 @@ load_images (void)
 {
 	GdkPixbuf *pixbuf;
 
-	pixbuf = gdk_pixbuf_new_from_file (EVOLUTION_IMAGES "/offline.png");
+	pixbuf = gdk_pixbuf_new_from_file (EVOLUTION_IMAGES "/offline.png", NULL);
 	if (pixbuf == NULL) {
 		g_warning ("Cannot load `%s'", EVOLUTION_IMAGES "/offline.png");
 	} else {
@@ -243,7 +251,7 @@ load_images (void)
 		gdk_pixbuf_unref (pixbuf);
 	}
 
-	pixbuf = gdk_pixbuf_new_from_file (EVOLUTION_IMAGES "/online.png");
+	pixbuf = gdk_pixbuf_new_from_file (EVOLUTION_IMAGES "/online.png", NULL);
 	if (pixbuf == NULL) {
 		g_warning ("Cannot load `%s'", EVOLUTION_IMAGES "/online.png");
 	} else {
@@ -394,17 +402,29 @@ find_inbox_in_storage (EShellView *shell_view,
 	subfolder_paths = e_storage_get_subfolder_paths (storage, "/");
 	for (p = subfolder_paths; p != NULL; p = p->next) {
 		const char *path;
+		char *casefold_i18n_inbox_name;
+		char *casefold_path;
 
 		path = (const char *) p->data;
-		if (g_utf8_strcasecmp (path, "/inbox") == 0
-		    || g_utf8_strcasecmp (path + 1, U_("Inbox")) == 0) {
+
+		casefold_i18n_inbox_name = g_utf8_casefold (_("Inbox"), -1);
+		casefold_path = g_utf8_casefold (path + 1, -1);
+
+		if (g_utf8_collate (casefold_path, "/inbox") == 0
+		    || g_utf8_collate (casefold_path + 1, _("Inbox")) == 0) {
 			char *return_path;
 
 			return_path = g_strconcat ("/", storage_name, "/", path,
 						   NULL);
 			e_free_string_list (subfolder_paths);
+
+			g_free (casefold_i18n_inbox_name);
+			g_free (casefold_path);
 			return return_path;
 		}
+
+		g_free (casefold_i18n_inbox_name);
+		g_free (casefold_path);
 	}
 
 	e_free_string_list (subfolder_paths);
@@ -739,7 +759,8 @@ pop_up_folder_bar (EShellView *shell_view)
 
 	gtk_widget_show (priv->storage_set_view_box);
 
-	gtk_widget_popup (priv->folder_bar_popup, x, y);
+	gtk_window_move (GTK_WINDOW (priv->folder_bar_popup), x, y);
+	gtk_widget_show (priv->folder_bar_popup);
 
 	/* Disable DnD or "interesting" things will happen.  */
 	e_storage_set_view_set_allow_dnd (E_STORAGE_SET_VIEW (priv->storage_set_view), FALSE);
@@ -1390,34 +1411,32 @@ class_init (EShellViewClass *klass)
 	signals[SHORTCUT_BAR_VISIBILITY_CHANGED]
 		= gtk_signal_new ("shortcut_bar_visibility_changed",
 				  GTK_RUN_FIRST,
-				  object_class->type,
+				  GTK_CLASS_TYPE (object_class),
 				  GTK_SIGNAL_OFFSET (EShellViewClass, shortcut_bar_visibility_changed),
-				  gtk_marshal_NONE__INT,
+				  e_shell_marshal_NONE__INT,
 				  GTK_TYPE_NONE, 1,
 				  GTK_TYPE_INT);
 
 	signals[FOLDER_BAR_VISIBILITY_CHANGED]
 		= gtk_signal_new ("folder_bar_visibility_changed",
 				  GTK_RUN_FIRST,
-				  object_class->type,
+				  GTK_CLASS_TYPE (object_class),
 				  GTK_SIGNAL_OFFSET (EShellViewClass, folder_bar_visibility_changed),
-				  gtk_marshal_NONE__INT,
+				  e_shell_marshal_NONE__INT,
 				  GTK_TYPE_NONE, 1,
 				  GTK_TYPE_INT);
 
 	signals[VIEW_CHANGED]
 		= gtk_signal_new ("view_changed",
 				  GTK_RUN_FIRST,
-				  object_class->type,
+				  GTK_CLASS_TYPE (object_class),
 				  GTK_SIGNAL_OFFSET (EShellViewClass, view_changed),
-				  e_marshal_NONE__POINTER_POINTER_POINTER_POINTER,
+				  e_shell_marshal_NONE__POINTER_POINTER_POINTER_POINTER,
 				  GTK_TYPE_NONE, 4,
 				  GTK_TYPE_STRING,
 				  GTK_TYPE_STRING,
 				  GTK_TYPE_STRING,
 				  GTK_TYPE_STRING);
-
-	gtk_object_class_add_signals (object_class, signals, LAST_SIGNAL);
 
 	load_images ();
 }
@@ -1561,12 +1580,18 @@ unmerge_on_error (BonoboObject *object,
 		  CORBA_Object  cobject,
 		  CORBA_Environment *ev)
 {
-	BonoboWindow *win;
+#if 0
+	BonoboWindow *window;
+	BonoboUIEngine *ui_engine;
 
-	win = bonobo_ui_container_get_win (BONOBO_UI_CONTAINER (object));
+	/* FIXME changes.txt says we should be able to do this but bonobo_ui_engine_get_view()
+	   is marked as internal in bonoob-ui-engine.h!  */
+	ui_engine = bonobo_ui_container_get_engine (BONOBO_UI_CONTAINER (object));
+	window = BONOBO_WINDOW (bonobo_ui_engine_get_view (ui_engine));
 
-	if (win)
-		bonobo_window_deregister_component_by_ref (win, cobject);
+	if (window != NULL)
+		bonobo_ui_engine_deregister_component_by_ref (ui_engine, cobject);
+#endif
 }
 
 static void
@@ -1635,7 +1660,9 @@ e_shell_view_construct (EShellView *shell_view,
 
 	priv = shell_view->priv;
 
-	view = E_SHELL_VIEW (bonobo_window_construct (BONOBO_WINDOW (shell_view), "evolution", "Ximian Evolution"));
+	view = E_SHELL_VIEW (bonobo_window_construct (BONOBO_WINDOW (shell_view),
+						      bonobo_ui_container_new (),
+						      "evolution", "Ximian Evolution"));
 
 	if (!view) {
 		gtk_object_unref (GTK_OBJECT (shell_view));
@@ -1649,21 +1676,21 @@ e_shell_view_construct (EShellView *shell_view,
 			    GTK_SIGNAL_FUNC (delete_event_cb), NULL);
 
 	gtk_signal_connect_while_alive (GTK_OBJECT (e_shell_get_storage_set (priv->shell)),
-					"updated_folder", updated_folder_cb, shell_view,
-					GTK_OBJECT (shell_view));
+					"updated_folder", GTK_SIGNAL_FUNC (updated_folder_cb),
+					shell_view, GTK_OBJECT (shell_view));
 
-	priv->ui_container = bonobo_ui_container_new ();
-	bonobo_ui_container_set_win (priv->ui_container, BONOBO_WINDOW (shell_view));
+	priv->ui_container = bonobo_window_get_ui_container (BONOBO_WINDOW (view));
 	gtk_signal_connect (GTK_OBJECT (priv->ui_container), "system_exception",
 			    GTK_SIGNAL_FUNC (unmerge_on_error), NULL);
 
 	priv->ui_component = bonobo_ui_component_new ("evolution");
 	bonobo_ui_component_set_container (priv->ui_component,
-					   bonobo_object_corba_objref (BONOBO_OBJECT (priv->ui_container)));
+					   bonobo_object_corba_objref (BONOBO_OBJECT (priv->ui_container)),
+					   NULL);
 
 	bonobo_ui_component_freeze (priv->ui_component, NULL);
 
-	bonobo_ui_util_set_ui (priv->ui_component, EVOLUTION_DATADIR, "evolution.xml", "evolution");
+	bonobo_ui_util_set_ui (priv->ui_component, EVOLUTION_DATADIR, "evolution.xml", "evolution", NULL);
 
 	setup_widgets (shell_view);
 
@@ -2158,7 +2185,7 @@ get_view_for_uri (EShellView *shell_view,
 		return NULL;
 
 	container = bonobo_ui_component_get_container (priv->ui_component);
-	control = e_bonobo_widget_new_control_from_objref (corba_control, container);
+	control = bonobo_widget_new_control_from_objref (corba_control, container);
 
 	socket = find_socket (GTK_CONTAINER (control));
 	destroy_connection_id = gtk_signal_connect (GTK_OBJECT (socket), "destroy",
@@ -2268,7 +2295,7 @@ display_uri (EShellView *shell_view,
 	if (priv->uri != NULL && uri != NULL && strcmp (priv->uri, uri) == 0)
 		return TRUE;
 
-	bonobo_window_freeze (BONOBO_WINDOW (shell_view));
+	bonobo_ui_engine_freeze (bonobo_window_get_ui_engine (BONOBO_WINDOW (shell_view)));
 
 	if (uri == NULL) {
 		gtk_notebook_remove_page (GTK_NOTEBOOK (priv->notebook), 0);
@@ -2340,7 +2367,7 @@ display_uri (EShellView *shell_view,
 
 	update_for_current_uri (shell_view);
 
-	bonobo_window_thaw (BONOBO_WINDOW (shell_view));
+	bonobo_ui_engine_thaw (bonobo_window_get_ui_engine (BONOBO_WINDOW (shell_view)));
 
 	gtk_signal_emit (GTK_OBJECT (shell_view), signals[VIEW_CHANGED],
 			 e_shell_view_get_current_path (shell_view),
@@ -2638,7 +2665,7 @@ gboolean
 e_shell_view_save_settings (EShellView *shell_view,
 			    int view_num)
 {
-	Bonobo_ConfigDatabase db;
+	EConfigListener *config_listener;
 	EShellViewPrivate *priv;
 	EShortcutBar *shortcut_bar;
 	const char *uri;
@@ -2654,54 +2681,51 @@ e_shell_view_save_settings (EShellView *shell_view,
 	priv = shell_view->priv;
 	shortcut_bar = E_SHORTCUT_BAR (priv->shortcut_bar);
 
-	db = e_shell_get_config_db (priv->shell);
-
-	g_return_val_if_fail (db != CORBA_OBJECT_NIL, FALSE);
+	config_listener = e_config_listener_new ();
 
 	prefix = g_strdup_printf ("/Shell/Views/%d/", view_num);
 
 	key = g_strconcat (prefix, "Width", NULL);
-	bonobo_config_set_long (db, key, GTK_WIDGET (shell_view)->allocation.width, NULL);
+	e_config_listener_set_long (config_listener, key, GTK_WIDGET (shell_view)->allocation.width);
 	g_free (key);
 
 	key = g_strconcat (prefix, "Height", NULL);
-	bonobo_config_set_long (db, key, GTK_WIDGET (shell_view)->allocation.height, NULL);
+	e_config_listener_set_long (config_listener, key, GTK_WIDGET (shell_view)->allocation.height);
 	g_free (key);
 
 	key = g_strconcat (prefix, "CurrentShortcutsGroupNum", NULL);
-	bonobo_config_set_long (db, key, 
-	        e_shell_view_get_current_shortcuts_group_num (shell_view),
-		NULL);
+	e_config_listener_set_long (config_listener, key, 
+				    e_shell_view_get_current_shortcuts_group_num (shell_view));
 	g_free (key);
 
 	key = g_strconcat (prefix, "FolderBarShown", NULL);
-	bonobo_config_set_long (db, key, e_shell_view_folder_bar_shown (shell_view), NULL);
+	e_config_listener_set_long (config_listener, key, e_shell_view_folder_bar_shown (shell_view));
 	g_free (key);
 
 	key = g_strconcat (prefix, "ShortcutBarShown", NULL);
-	bonobo_config_set_long (db, key, e_shell_view_shortcut_bar_shown (shell_view), NULL);
+	e_config_listener_set_long (config_listener, key, e_shell_view_shortcut_bar_shown (shell_view));
 	g_free (key);
 
 	key = g_strconcat (prefix, "HPanedPosition", NULL);
 	if (GTK_WIDGET_VISIBLE (priv->shortcut_frame))
-		bonobo_config_set_long (db, key, E_PANED (priv->hpaned)->child1_size, NULL); 
+		e_config_listener_set_long (config_listener, key, E_PANED (priv->hpaned)->child1_size); 
 	else
-		bonobo_config_set_long (db, key, priv->hpaned_position, NULL);
+		e_config_listener_set_long (config_listener, key, priv->hpaned_position);
 	g_free (key);
 
 	key = g_strconcat (prefix, "ViewHPanedPosition", NULL);
 	if (GTK_WIDGET_VISIBLE (priv->storage_set_view_box))
-		bonobo_config_set_long (db, key, E_PANED (priv->view_hpaned)->child1_size, NULL); 
+		e_config_listener_set_long (config_listener, key, E_PANED (priv->view_hpaned)->child1_size); 
 	else
-		bonobo_config_set_long (db, key, priv->view_hpaned_position, NULL);
+		e_config_listener_set_long (config_listener, key, priv->view_hpaned_position);
 	g_free (key);
 
 	key = g_strconcat (prefix, "DisplayedURI", NULL);
 	uri = e_shell_view_get_current_uri (shell_view);
 	if (uri != NULL)
-		bonobo_config_set_string (db, key, uri, NULL);
+		e_config_listener_set_string (config_listener, key, uri);
 	else
-		bonobo_config_set_string (db, key, E_SHELL_VIEW_DEFAULT_URI, NULL);
+		e_config_listener_set_string (config_listener, key, E_SHELL_VIEW_DEFAULT_URI);
 	g_free (key);
 
 	num_groups = e_shortcut_model_get_num_groups (shortcut_bar->model);
@@ -2709,9 +2733,8 @@ e_shell_view_save_settings (EShellView *shell_view,
 	for (group = 0; group < num_groups; group++) {
 		key = g_strdup_printf ("%sShortcutBarGroup%dIconMode", prefix,
 				       group);
-		bonobo_config_set_long (db, key,
-		        e_shortcut_bar_get_view_type (shortcut_bar, group),
-			NULL);
+		e_config_listener_set_long (config_listener, key,
+					    e_shortcut_bar_get_view_type (shortcut_bar, group));
 		g_free (key);
 	}
 
@@ -2747,9 +2770,9 @@ gboolean
 e_shell_view_load_settings (EShellView *shell_view,
 			    int view_num)
 {
-	Bonobo_ConfigDatabase db;
 	EShellViewPrivate *priv;
 	EShortcutBar *shortcut_bar;
+	EConfigListener *config_listener;
 	int num_groups, val;
 	long width, height;
 	char *stringval, *prefix, *filename, *key;
@@ -2761,51 +2784,45 @@ e_shell_view_load_settings (EShellView *shell_view,
 	priv = shell_view->priv;
 	shortcut_bar = E_SHORTCUT_BAR (priv->shortcut_bar);
 
-	db = e_shell_get_config_db (priv->shell);
-
-	g_return_val_if_fail (db != CORBA_OBJECT_NIL, FALSE);
+	config_listener = e_config_listener_new ();
 
 	prefix = g_strdup_printf ("/Shell/Views/%d/", view_num);
 
 	CORBA_exception_init (&ev);
 	key = g_strconcat (prefix, "Width", NULL);
-	width = bonobo_config_get_long (db, key, &ev);
+	width = e_config_listener_get_long_with_default (config_listener, key, 0, NULL);
 	g_free (key);
-	if (ev._major != CORBA_NO_EXCEPTION) {
-		CORBA_exception_free (&ev);
-		return FALSE;
-	}
 
 	key = g_strconcat (prefix, "Height", NULL);
-	height = bonobo_config_get_long (db, key, NULL);
+	height = e_config_listener_get_long_with_default (config_listener, key, 0, NULL);
 	g_free (key);
 
 	gtk_window_set_default_size (GTK_WINDOW (shell_view), width, height);
 
 	key = g_strconcat (prefix, "CurrentShortcutsGroupNum", NULL);
-	val = bonobo_config_get_long (db, key, NULL);
+	val = e_config_listener_get_long_with_default (config_listener, key, 0, NULL);
 	e_shell_view_set_current_shortcuts_group_num (shell_view, val);
 	g_free (key);
 
 	key = g_strconcat (prefix, "FolderBarShown", NULL);
-	val = bonobo_config_get_long (db, key, NULL);
+	val = e_config_listener_get_long_with_default (config_listener, key, 0, NULL);
 	e_shell_view_show_folder_bar (shell_view, val);
 	g_free (key);
 
 	key = g_strconcat (prefix, "ShortcutBarShown", NULL);
-	val = bonobo_config_get_long (db, key, NULL);
+	val = e_config_listener_get_long_with_default (config_listener, key, 0, NULL);
 	e_shell_view_show_shortcut_bar (shell_view, val);
 	g_free (key);
 
 	key = g_strconcat (prefix, "HPanedPosition", NULL);
-	val = bonobo_config_get_long (db, key, NULL);
+	val = e_config_listener_get_long_with_default (config_listener, key, 0, NULL);
 	if (priv->shortcut_bar_shown)
 		e_paned_set_position (E_PANED (priv->hpaned), val);
 	priv->hpaned_position = val;
 	g_free (key);
 
 	key = g_strconcat (prefix, "ViewHPanedPosition", NULL);
-	val = bonobo_config_get_long (db, key, NULL);
+	val = e_config_listener_get_long_with_default (config_listener, key, 0, NULL);
 	if (priv->folder_bar_shown)
 		e_paned_set_position (E_PANED (priv->view_hpaned), val);
 	priv->view_hpaned_position = val;
@@ -2813,7 +2830,7 @@ e_shell_view_load_settings (EShellView *shell_view,
 
 	if (priv->uri == NULL && priv->delayed_selection == NULL) {
 		key = g_strconcat (prefix, "DisplayedURI", NULL);
-		stringval = bonobo_config_get_string (db, key, NULL);
+		stringval = e_config_listener_get_string_with_default (config_listener, key, NULL, NULL);
 		if (stringval) {
 			if (! e_shell_view_display_uri (shell_view, stringval, FALSE)) {
 				e_shell_view_display_uri (shell_view, E_SHELL_VIEW_DEFAULT_URI, FALSE);

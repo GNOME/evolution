@@ -30,13 +30,16 @@
 #include "evolution-config-control.h"
 #include "e-storage-set-view.h"
 
+#include "e-util/e-config-listener.h"
+
 #include "Evolution.h"
 
-#include <bonobo-conf/Bonobo_Config.h>
 #include <bonobo/bonobo-exception.h>
 
 #include <gal/widgets/e-scroll-frame.h>
+
 #include <gtk/gtkwidget.h>
+#include <gtk/gtksignal.h>
 
 
 struct _PageData {
@@ -64,6 +67,7 @@ static void
 config_control_apply_callback (EvolutionConfigControl *config_control,
 			       void *data)
 {
+#if 0
 	CORBA_Environment ev;
 	CORBA_sequence_CORBA_string *paths;
 	CORBA_any any;
@@ -98,6 +102,7 @@ config_control_apply_callback (EvolutionConfigControl *config_control,
 	CORBA_exception_free (&ev);
 
 	g_list_free (checked_paths);
+#endif
 }
 
 static void
@@ -117,6 +122,7 @@ static void
 init_storage_set_view_status_from_config (EStorageSetView *storage_set_view,
 					  EShell *shell)
 {
+#if 0
 	Bonobo_ConfigDatabase config_db;
 	CORBA_Environment ev;
 	CORBA_any *any;
@@ -155,6 +161,7 @@ init_storage_set_view_status_from_config (EStorageSetView *storage_set_view,
 	CORBA_free (any);
 
 	CORBA_exception_free (&ev);
+#endif
 }
 
 static gboolean

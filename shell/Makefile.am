@@ -14,6 +14,9 @@ INCLUDES =							\
 	-DEVOLUTION_GLADEDIR=\"$(datadir)/evolution/glade\"	\
 	-DEVOLUTION_ETSPECDIR=\""$(etspecdir)"\"		\
 	-DPREFIX=\"$(prefix)\"					\
+	-DSYSCONFDIR=\""$(sysconfdir)"\" 			\
+	-DDATADIR=\""$(datadir)"\"	 			\
+	-DLIBDIR=\""$(datadir)"\"	 			\
 	-DG_LOG_DOMAIN=\"evolution-shell\"			\
 	$(SHELL_CFLAGS)
 
@@ -174,8 +177,6 @@ evolution_SOURCES =				\
 	e-shell-folder-selection-dialog.h	\
 	e-shell-folder-title-bar.c		\
 	e-shell-folder-title-bar.h		\
-	e-shell-importer.c			\
-	e-shell-importer.h			\
 	e-shell-offline-handler.c		\
 	e-shell-offline-handler.h		\
 	e-shell-offline-sync.c			\
@@ -224,42 +225,44 @@ evolution_SOURCES =				\
 
 evolution_LDADD =							\
 	libeshell.la							\
-	importer/libevolution-importer.la				\
 	$(top_builddir)/widgets/e-timezone-dialog/libetimezonedialog.a	\
 	$(top_builddir)/widgets/misc/libemiscwidgets.a			\
 	$(top_builddir)/e-util/libeutil.la				\
 	$(top_builddir)/libical/src/libical/libical-evolution.la	\
 	$(SHELL_LIBS)
 
+# FIXME
+# importer/libevolution-importer.la				\
+
 # Test component
 
-noinst_PROGRAMS =			\
-	evolution-test-component
+# noinst_PROGRAMS =			\
+# 	evolution-test-component
 
-evolution_test_component_SOURCES =	\
-	evolution-test-component.c
+# evolution_test_component_SOURCES =	\
+# 	evolution-test-component.c
 
-evolution_test_component_LDADD = 	\
-	libeshell.la			\
-	$(SHELL_LIBS)
+# evolution_test_component_LDADD = 	\
+# 	libeshell.la			\
+#	$(SHELL_LIBS)
 
-install-test-component: evolution-test-component
-	$(mkinstalldirs) $(DESTDIR)$(bindir)
-	$(LIBTOOL) --mode=install $(INSTALL_PROGRAM) evolution-test-component $(DESTDIR)$(bindir)/evolution-test-component
-	$(mkinstalldirs) $(DESTDIR)$(oafdir)
-	$(INSTALL_DATA) $(srcdir)/GNOME_Evolution_TestComponent.oaf $(DESTDIR)$(oafdir)/GNOME_Evolution_TestComponent.oaf
+# install-test-component: evolution-test-component
+# 	$(mkinstalldirs) $(DESTDIR)$(bindir)
+# 	$(LIBTOOL) --mode=install $(INSTALL_PROGRAM) evolution-test-component $(DESTDIR)$(bindir)/evolution-test-component
+# 	$(mkinstalldirs) $(DESTDIR)$(serverdir)
+# 	$(INSTALL_DATA) $(srcdir)/GNOME_Evolution_TestComponent.server $(DESTDIR)$(serverdir)/GNOME_Evolution_TestComponent.server
 
 # Misc stuff
 
-oafdir = $(datadir)/oaf
-oaf_in_files = GNOME_Evolution_Shell.oaf.in
-oaf_DATA = $(oaf_in_files:.oaf.in=.oaf)
+serverdir = $(libdir)/bonobo/servers
+server_in_files = GNOME_Evolution_Shell.server.in
+server_DATA = $(server_in_files:.server.in=.server)
 
 etspecdir = $(datadir)/evolution/etspec/
 etspec_DATA = \
 	e-storage-set-view.etspec
 
-@XML_I18N_MERGE_OAF_RULE@
+@INTLTOOL_SERVER_RULE@
 
 icons = 			\
 	check-empty.xpm		\
@@ -285,11 +288,11 @@ MARSHAL_GENERATED = e-shell-marshal.c e-shell-marshal.h
 
 EXTRA_DIST = 					\
 	$(IDLS)					\
-	$(oaf_in_files)				\
-	$(oaf_DATA)				\
+	$(server_in_files)			\
+	$(server_DATA)				\
 	$(etspec_DATA)				\
 	$(icons)				\
-	GNOME_Evolution_TestComponent.oaf	\
+	GNOME_Evolution_TestComponent.server	\
 	evolution-nognome.in
 
 # Purify support
@@ -318,3 +321,7 @@ if HAVE_DTAPPINTEGRATE
 bin_SCRIPTS = evolution-nognome
 
 endif
+
+# FIXME TODO:
+#	e-shell-importer.c
+#	e-shell-importer.h

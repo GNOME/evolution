@@ -402,7 +402,8 @@ e_setup (const char *evolution_directory)
 			g_free (old);
 		}
 
-		gtk_object_unref (GTK_OBJECT (local_folder));
+		if (local_folder != NULL)
+			gtk_object_unref (GTK_OBJECT (local_folder));
 	}
 	g_free (file);
 

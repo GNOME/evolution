@@ -35,6 +35,7 @@
 #include <gal/util/e-util.h>
 
 #include <bonobo/bonobo-ui-util.h>
+#include <bonobo/bonobo-exception.h>
 
 #include <libgnome/gnome-i18n.h>
 
@@ -43,6 +44,7 @@
 
 #include <stdlib.h>
 #include <ctype.h>
+#include <string.h>
 
 
 #define PARENT_TYPE gtk_object_get_type ()
@@ -479,7 +481,7 @@ execute_verb (EShellUserCreatableItemsHandler *handler,
 				 &ev);
 
 			if (ev._major != CORBA_NO_EXCEPTION)
-				g_warning ("Error in userCreateNewItem -- %s", ev._repo_id);
+				g_warning ("Error in userCreateNewItem -- %s", BONOBO_EX_REPOID (&ev));
 
 			CORBA_exception_free (&ev);
 			return;

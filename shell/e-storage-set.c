@@ -28,6 +28,7 @@
 
 #include "e-storage-set-view.h"
 #include "e-shell-constants.h"
+#include "e-shell-marshal.h"
 
 #include <glib.h>
 #include <gtk/gtkobject.h>
@@ -372,62 +373,60 @@ class_init (EStorageSetClass *klass)
 	signals[NEW_STORAGE] = 
 		gtk_signal_new ("new_storage",
 				GTK_RUN_FIRST,
-				object_class->type,
+				GTK_CLASS_TYPE (object_class),
 				GTK_SIGNAL_OFFSET (EStorageSetClass, new_storage),
-				gtk_marshal_NONE__POINTER,
+				e_shell_marshal_NONE__POINTER,
 				GTK_TYPE_NONE, 1,
 				GTK_TYPE_POINTER);
 	signals[REMOVED_STORAGE] = 
 		gtk_signal_new ("removed_storage",
 				GTK_RUN_FIRST,
-				object_class->type,
+				GTK_CLASS_TYPE (object_class),
 				GTK_SIGNAL_OFFSET (EStorageSetClass, removed_storage),
-				gtk_marshal_NONE__POINTER,
+				e_shell_marshal_NONE__POINTER,
 				GTK_TYPE_NONE, 1,
 				GTK_TYPE_POINTER);
 	signals[NEW_FOLDER] = 
 		gtk_signal_new ("new_folder",
 				GTK_RUN_FIRST,
-				object_class->type,
+				GTK_CLASS_TYPE (object_class),
 				GTK_SIGNAL_OFFSET (EStorageSetClass, new_folder),
-				gtk_marshal_NONE__STRING,
+				e_shell_marshal_NONE__STRING,
 				GTK_TYPE_NONE, 1,
 				GTK_TYPE_STRING);
 	signals[UPDATED_FOLDER] = 
 		gtk_signal_new ("updated_folder",
 				GTK_RUN_FIRST,
-				object_class->type,
+				GTK_CLASS_TYPE (object_class),
 				GTK_SIGNAL_OFFSET (EStorageSetClass, updated_folder),
-				gtk_marshal_NONE__STRING,
+				e_shell_marshal_NONE__STRING,
 				GTK_TYPE_NONE, 1,
 				GTK_TYPE_STRING);
 	signals[REMOVED_FOLDER] = 
 		gtk_signal_new ("removed_folder",
 				GTK_RUN_FIRST,
-				object_class->type,
+				GTK_CLASS_TYPE (object_class),
 				GTK_SIGNAL_OFFSET (EStorageSetClass, removed_folder),
-				gtk_marshal_NONE__STRING,
+				e_shell_marshal_NONE__STRING,
 				GTK_TYPE_NONE, 1,
 				GTK_TYPE_STRING);
 	signals[MOVED_FOLDER] = 
 		gtk_signal_new ("moved_folder",
 				GTK_RUN_FIRST,
-				object_class->type,
+				GTK_CLASS_TYPE (object_class),
 				GTK_SIGNAL_OFFSET (EStorageSetClass, moved_folder),
-				gtk_marshal_NONE__POINTER_POINTER,
+				e_shell_marshal_NONE__POINTER_POINTER,
 				GTK_TYPE_NONE, 2,
 				GTK_TYPE_STRING,
 				GTK_TYPE_STRING);
 	signals[CLOSE_FOLDER] = 
 		gtk_signal_new ("close_folder",
 				GTK_RUN_FIRST,
-				object_class->type,
+				GTK_CLASS_TYPE (object_class),
 				GTK_SIGNAL_OFFSET (EStorageSetClass, close_folder),
-				gtk_marshal_NONE__STRING,
+				e_shell_marshal_NONE__STRING,
 				GTK_TYPE_NONE, 1,
 				GTK_TYPE_STRING);
-
-	gtk_object_class_add_signals (object_class, signals, LAST_SIGNAL);
 }
 
 static void

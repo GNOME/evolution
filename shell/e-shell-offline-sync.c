@@ -39,7 +39,6 @@
 #include <gtk/gtksignal.h>
 
 #include <libgnomeui/gnome-dialog.h>
-#include <libgnomeui/gnome-stock.h>
 #include <libgnome/gnome-i18n.h>
 
 #include <bonobo/bonobo-main.h>
@@ -85,6 +84,7 @@ struct _SyncData {
 
 /* The progress listener interface.  */
 
+#if 0				/* FIXME */
 static PortableServer_ServantBase__epv SyncFolderProgressListener_base_epv;
 static POA_GNOME_Evolution_SyncFolderProgressListener__epv SyncFolderProgressListener_epv;
 static POA_GNOME_Evolution_SyncFolderProgressListener__vepv SyncFolderProgressListener_vepv;
@@ -209,10 +209,12 @@ setup_progress_listener (SyncData *sync_data)
 
 	return TRUE;
 }
+#endif
 
 
 /* Setting up the progress dialog.  */
 
+#if 0
 static int
 progress_dialog_close_callback (GnomeDialog *dialog,
 				void *data)
@@ -256,8 +258,10 @@ setup_dialog (SyncData *sync_data)
 
 	gtk_widget_show_all (sync_data->dialog);
 }
+#endif
 
 
+#if 0
 /* Sync the folder at the specified @folder_path.  */
 static void
 sync_folder (SyncData *sync_data,
@@ -335,7 +339,7 @@ sync_folder (SyncData *sync_data,
 					    sync_data->progress_listener_objref,
 					    &ev);
 	if (BONOBO_EX (&ev)) {
-		g_warning ("Error invoking ::syncFolder -- %s", BONOBO_EX_ID (&ev));
+		g_warning ("Error invoking ::syncFolder -- %s", BONOBO_EX_REPOID (&ev));
 		CORBA_free (corba_folder);
 		CORBA_exception_free (&ev);
 		return;
@@ -364,7 +368,9 @@ sync_folder (SyncData *sync_data,
 	CORBA_free (corba_folder);
 	CORBA_exception_free (&ev);
 }
+#endif
 
+#if 0
 /* Free up the data needed for syncing.  */
 static void
 cleanup (SyncData *sync_data)
@@ -386,12 +392,14 @@ cleanup (SyncData *sync_data)
 
 	CORBA_exception_free (&ev);
 }
+#endif
 
 
 void
 e_shell_offline_sync_all_folders (EShell *shell,
 				  GtkWindow *parent_window)
 {
+#if 0				/* FIXME */
 	Bonobo_ConfigDatabase config_db;
 	CORBA_sequence_CORBA_string *folder_path_sequence;
 	CORBA_any *any;
@@ -443,10 +451,10 @@ e_shell_offline_sync_all_folders (EShell *shell,
 			break;
 		}
 	}
-
  done:
 	cleanup (sync_data);
 
 	CORBA_free (folder_path_sequence);
 	CORBA_exception_free (&ev);
+#endif
 }

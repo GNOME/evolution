@@ -36,7 +36,6 @@
 #include <gal/widgets/e-gui-utils.h>
 #include <gal/widgets/e-unicode.h>
 
-#include <libgnomeui/gnome-stock.h>
 #include <libgnomeui/gnome-dialog.h>
 #include <libgnome/gnome-i18n.h>
 #include <glade/glade.h>
@@ -45,7 +44,10 @@
 #include <bonobo/bonobo-listener.h>
 #include <bonobo/bonobo-widget.h>
 
+#include <bonobo-activation/bonobo-activation.h>
+
 #include <gtk/gtk.h>
+#include <gtk/gtksignal.h>
 
 
 /* Timeout for showing the progress dialog (msecs).  */
@@ -89,9 +91,9 @@ user_clicked (GtkWidget *button, GNOME_Evolution_Addressbook_SelectNames corba_i
 	CORBA_exception_init (&ev);
 	GNOME_Evolution_Addressbook_SelectNames_activateDialog (corba_iface, "User", &ev);
 
-	if (BONOBO_EX (&ev)) {
-		g_warning ("Cannot activate SelectNames dialog -- %s", BONOBO_EX_ID (&ev));
-	}
+	if (BONOBO_EX (&ev))
+		g_warning ("Cannot activate SelectNames dialog -- %s", BONOBO_EX_REPOID (&ev));
+
 	CORBA_exception_free (&ev);
 }
 
@@ -110,23 +112,23 @@ setup_name_selector (GladeXML *glade_xml)
 
 	CORBA_exception_init (&ev);
 
-	corba_iface = oaf_activate_from_id ("OAFIID:GNOME_Evolution_Addressbook_SelectNames",
-					    0, NULL, &ev);
+	corba_iface = bonobo_activation_activate_from_id ("OAFIID:GNOME_Evolution_Addressbook_SelectNames",
+							  0, NULL, &ev);
 	if (corba_iface == CORBA_OBJECT_NIL || BONOBO_EX (&ev)) {
-		g_warning ("Cannot activate SelectNames -- %s", BONOBO_EX_ID (&ev));
+		g_warning ("Cannot activate SelectNames -- %s", BONOBO_EX_REPOID (&ev));
 		CORBA_exception_free (&ev);
 		return CORBA_OBJECT_NIL;
 	}
 
 	GNOME_Evolution_Addressbook_SelectNames_addSectionWithLimit (corba_iface, "User", "User", 1, &ev);
 	if (BONOBO_EX (&ev)) {
-		g_warning ("Cannot add SelectNames section -- %s", BONOBO_EX_ID (&ev));
+		g_warning ("Cannot add SelectNames section -- %s", BONOBO_EX_REPOID (&ev));
 		goto err;
 	}
 
 	control = GNOME_Evolution_Addressbook_SelectNames_getEntryBySection (corba_iface, "User", &ev);
 	if (BONOBO_EX (&ev)) {
-		g_warning ("Cannot get SelectNames section -- %s", BONOBO_EX_ID (&ev));
+		g_warning ("Cannot get SelectNames section -- %s", BONOBO_EX_REPOID (&ev));
 		goto err;
 	}
 
@@ -135,8 +137,7 @@ setup_name_selector (GladeXML *glade_xml)
 	gtk_widget_show (control_widget);
 
 	button = glade_xml_get_widget (glade_xml, "button-user");
-	gtk_signal_connect (GTK_OBJECT (button), "clicked",
-			    user_clicked, corba_iface);
+	gtk_signal_connect (GTK_OBJECT (button), "clicked", GTK_SIGNAL_FUNC (user_clicked), corba_iface);
 
 	CORBA_exception_free (&ev);
 	return control_widget;
@@ -221,7 +222,7 @@ show_dialog (EShell *shell,
 	int button_num;
 
 	glade_xml = glade_xml_new (EVOLUTION_GLADEDIR "/e-shell-shared-folder-picker-dialog.glade",
-				   NULL);
+				   NULL, NULL);
 	g_assert (glade_xml != NULL);
 
 	name_selector_widget = setup_name_selector (glade_xml);
