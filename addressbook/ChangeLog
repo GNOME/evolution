@@ -1,3 +1,17 @@
+2001-09-26  Chris Toshok  <toshok@ximian.com>
+
+	* gui/component/select-names/e-select-names-manager.h: add
+	completion_book.
+
+	* gui/component/select-names/e-select-names-manager.c
+	(e_select_names_manager_new): get /Addressbook/Completion/uri, and
+	if it's present, use the corresponding EBook for completing
+	addresses.
+	(focus_out_cb): use manager->completion_book here instead of NULL,
+	which corresponds to the local addressbook.
+	(completion_popup_cb): same.
+	(e_select_names_manager_create_entry): same.
+
 2001-09-26  Jon Trowbridge  <trow@ximian.com>
 
 	* backend/ebook/e-card-compare.c (e_card_compare_name_to_string):

@@ -21,6 +21,9 @@
 #include "e-select-names-completion.h"
 #include "e-select-names-popup.h"
 #include <addressbook/backend/ebook/e-destination.h>
+#include <bonobo-conf/bonobo-config-database.h>
+#include <bonobo/bonobo-object.h>
+#include <bonobo/bonobo-moniker-util.h>
 
 /* Object argument IDs */
 enum {
@@ -89,6 +92,17 @@ e_select_names_manager_get_type (void)
 	return manager_type;
 }
 
+static void
+open_book_cb (EBook *book, EBookStatus status, ESelectNamesManager *manager)
+{
+	if (status != E_BOOK_STATUS_SUCCESS) {
+		gtk_object_unref (GTK_OBJECT (book));
+		manager->completion_book = NULL;
+	}
+
+	gtk_object_unref (GTK_OBJECT (manager)); /* unref ourself (matches ref before the load_uri call below) */
+}
+
 /**
  * e_select_names_manager_new:
  * @VCard: a string in vCard format
@@ -99,6 +113,29 @@ ESelectNamesManager *
 e_select_names_manager_new (void)
 {
 	ESelectNamesManager *manager = E_SELECT_NAMES_MANAGER(gtk_type_new(e_select_names_manager_get_type()));
+	Bonobo_ConfigDatabase db;
+	CORBA_Environment ev;
+	char *val;
+
+	CORBA_exception_init (&ev);
+
+	db = bonobo_get_object ("wombat:", "Bonobo/ConfigDatabase", &ev);
+
+	val = bonobo_config_get_string (db, "/Addressbook/Completion/uri", &ev);
+
+	CORBA_exception_free (&ev);
+
+	if (val) {
+		manager->completion_book = e_book_new ();
+		gtk_object_ref (GTK_OBJECT (manager)); /* ref ourself before our async call */
+		e_book_load_uri (manager->completion_book, val, (EBookCallback)open_book_cb, manager);
+		g_free (val);
+	}
+	else
+		manager->completion_book = NULL;
+
+	bonobo_object_unref (BONOBO_OBJECT (db));
+
 	return manager;
 }
 
@@ -394,9 +431,10 @@ focus_out_cb (GtkWidget *w, GdkEventFocus *ev, gpointer user_data)
 {
 	EEntry *entry = E_ENTRY (user_data);
 	ESelectNamesModel *model = E_SELECT_NAMES_MODEL (gtk_object_get_data (GTK_OBJECT (entry), "select_names_model"));
+	ESelectNamesManager *manager = E_SELECT_NAMES_MANAGER (gtk_object_get_data (GTK_OBJECT (entry), "select_names_manager"));
 
 	if (!e_entry_completion_popup_is_visible (entry))
-		e_select_names_model_cardify_all (model, NULL, 0);
+		e_select_names_model_cardify_all (model, manager->completion_book, 0);
 
 	return FALSE;
 }
@@ -405,9 +443,10 @@ static void
 completion_popup_cb (EEntry *entry, gint visible, gpointer user_data)
 {
 	ESelectNamesModel *model = E_SELECT_NAMES_MODEL (gtk_object_get_data (GTK_OBJECT (entry), "select_names_model"));
+	ESelectNamesManager *manager = E_SELECT_NAMES_MANAGER (gtk_object_get_data (GTK_OBJECT (entry), "select_names_manager"));
 
 	if (!visible && !GTK_WIDGET_HAS_FOCUS (GTK_WIDGET (entry->canvas)))
-		e_select_names_model_cardify_all (model, NULL, 0);
+		e_select_names_model_cardify_all (model, manager->completion_book, 0);
 }
 
 GtkWidget *
@@ -425,6 +464,7 @@ e_select_names_manager_create_entry (ESelectNamesManager *manager, const char *i
 
 			eentry = E_ENTRY (e_entry_new ());
 			gtk_object_set_data (GTK_OBJECT (eentry), "select_names_model", section->model);
+			gtk_object_set_data (GTK_OBJECT (eentry), "select_names_manager", manager);
 
 			gtk_signal_connect (GTK_OBJECT (eentry),
 					    "popup",
@@ -452,7 +492,7 @@ e_select_names_manager_create_entry (ESelectNamesManager *manager, const char *i
 			e_list_append (manager->entries, entry);
 			g_free(entry);
 
-			comp = e_select_names_completion_new (NULL, section->model); /* NULL == use local addressbook */
+			comp = e_select_names_completion_new (manager->completion_book, section->model);
 			e_entry_enable_completion_full (eentry, comp, 50, completion_handler);
 
 			gtk_object_set_data (GTK_OBJECT (eentry), "completion_handler", comp);

@@ -31,6 +31,8 @@ struct _ESelectNamesManager {
 	EList *entries;
 
 	ESelectNames *names;
+
+	EBook *completion_book;
 };
 
 struct _ESelectNamesManagerClass {
