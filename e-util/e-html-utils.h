@@ -31,6 +31,7 @@
 #define E_TEXT_TO_HTML_CONVERT_URLS      (1 << 3)
 #define E_TEXT_TO_HTML_MARK_CITATION     (1 << 4)
 #define E_TEXT_TO_HTML_CONVERT_ADDRESSES (1 << 5)
+#define E_TEXT_TO_HTML_ESCAPE_8BIT       (1 << 6)
 
 char *e_text_to_html_full (const char *input, unsigned int flags, guint32 color);
 char *e_text_to_html      (const char *input, unsigned int flags);

@@ -194,6 +194,8 @@ is_citation (const unsigned char *c, gboolean saw_citation)
  *
  *   - E_TEXT_TO_HTML_MARK_CITATION: wrap <font color="..."> </font> around
  *     citations (lines beginning with "> ", etc).
+ *
+ *   - E_TEXT_TO_HTML_ESCAPE_8BIT: flatten everything to US-ASCII
  **/
 char *
 e_text_to_html_full (const char *input, unsigned int flags, guint32 color)
@@ -382,7 +384,10 @@ e_text_to_html_full (const char *input, unsigned int flags, guint32 color)
 				/* Default case, just copy. */
 				*out++ = u;
 			} else {
-				out += g_snprintf(out, 9, "&#%d;", u);
+				if (flags & E_TEXT_TO_HTML_ESCAPE_8BIT)
+					*out++ = '?';
+				else
+					out += g_snprintf(out, 9, "&#%d;", u);
 			}
 			col++;
 			break;
