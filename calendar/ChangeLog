@@ -1,4 +1,9 @@
-2003-01-10  Rodrigo Moya <rodrigo@ximian.com>
+2004-01-10  Rodrigo Moya <rodrigo@ximian.com>
+
+	* gui/gnome-cal.c (open_ecal): cast the views to E_CALENDAR_VIEW,
+	not to E_CAL_VIEW.
+
+2004-01-10  Rodrigo Moya <rodrigo@ximian.com>
 
 	* gui/alarm-notify/notify-main.c: added missing headers.
 

@@ -1753,7 +1753,7 @@ open_ecal (GnomeCalendar *gcal, ECal *cal, gboolean only_if_exists)
 	GError *error = NULL;
 
 	msg = g_strdup_printf (_("Opening %s"), e_cal_get_uri (cal));
-	e_calendar_view_set_status_message (E_CAL_VIEW (gnome_calendar_get_current_view_widget (gcal)), msg);
+	e_calendar_view_set_status_message (E_CALENDAR_VIEW (gnome_calendar_get_current_view_widget (gcal)), msg);
 	g_free (msg);
 
 	retval = e_cal_open (cal, only_if_exists, &error);
@@ -1772,7 +1772,7 @@ open_ecal (GnomeCalendar *gcal, ECal *cal, gboolean only_if_exists)
 		gtk_widget_destroy (dialog);
 	}
 
-	e_calendar_view_set_status_message (E_CAL_VIEW (gnome_calendar_get_current_view_widget (gcal)), NULL);
+	e_calendar_view_set_status_message (E_CALENDAR_VIEW (gnome_calendar_get_current_view_widget (gcal)), NULL);
 
 	return retval;
 }
