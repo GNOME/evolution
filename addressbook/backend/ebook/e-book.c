@@ -88,7 +88,8 @@ e_book_pop_op (EBook *book)
 
 	popped = book->priv->pending_ops;
 	book->priv->pending_ops =
-		g_list_remove_link (book->priv->pending_ops, (gpointer) op);
+		g_list_remove_link (book->priv->pending_ops,
+				    book->priv->pending_ops);
 
 	g_list_free_1 (popped);
 
