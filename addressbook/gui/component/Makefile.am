@@ -31,14 +31,12 @@ evolution_addressbook_SOURCES = 	\
 	addressbook-config.c		\
 	addressbook-config.h		\
 	addressbook-factory.c		\
+	addressbook-storage.c		\
+	addressbook-storage.h		\
 	addressbook.c			\
 	addressbook.h			\
 	e-cardlist-model.c		\
-	e-cardlist-model.h		\
-	e-ldap-server-dialog.c          \
-	e-ldap-server-dialog.h		\
-	e-ldap-storage.c		\
-	e-ldap-storage.h
+	e-cardlist-model.h
 
 evolution_addressbook_LDADD =						\
 	select-names/libeselectnames.la					\
@@ -63,12 +61,12 @@ oafdir = $(datadir)/oaf
 oaf_DATA = GNOME_Evolution_Addressbook.oafinfo
 
 gladedir   = $(datadir)/evolution/glade
-glade_DATA = ldap-server-dialog.glade
+glade_DATA = addressbook-config.glade
 
 EXTRA_DIST = 			\
 	$(glade_DATA)		\
 	$(oaf_DATA)		\
-	ldap-server-dialog.glade.h
+	addressbook-config.glade
 
 if ENABLE_PURIFY
 PLINK = $(LIBTOOL) --mode=link $(PURIFY) $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(LDFLAGS) -o $@

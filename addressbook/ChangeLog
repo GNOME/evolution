@@ -1,3 +1,38 @@
+2000-12-29  Chris Toshok  <toshok@helixcode.com>
+
+	* gui/component/addressbook.c (config_cb): new function, calling
+	our new config ui code.
+	(control_activate): no longer load evolution-addressbook-ldap.xml,
+	as it's not there.
+
+	* gui/component/addressbook-component.c (owner_set_cb):
+	setup_ldap_storage => addressbook_storage_setup.
+
+	* gui/component/Makefile.am (evolution_addressbook_SOURCES):
+	remove e-ldap-storage.[ch] and add addressbook-storage.[ch].
+	(glade_DATA): remove ldap-server-dialog.glade and add
+	addressbook-config.glade.
+	(EXTRA_DIST): same.
+
+	* gui/component/addressbook-config.[ch]: add another dialog to
+	give a list of our sources and offer the Add/Delete/Edit
+	interface.  This plugs into the previous dialog work (the source
+	editor.)
+
+	* gui/component/addressbook-storage.[ch]: new files, containing
+	the remains of e-ldap-storage.[ch] and adding the new
+	AddressbookSource type and it's subordinates.  Also, the xml
+	format has changed slightly and the file name is no longer
+	~/evolution/ldap-servers.xml - it's
+	~/evolution/addressbook-sources.xml.
+
+	* gui/component/addressbook-config.glade: new file, new config
+	interface.
+
+	* gui/component/ldap-server-dialog.glade: removed.
+
+	* gui/component/e-ldap-storage.[ch]: removed.
+
 2000-12-28  Chris Toshok  <toshok@helixcode.com>
 
 	* gui/component/Makefile.am (evolution_addressbook_SOURCES): add

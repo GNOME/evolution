@@ -30,9 +30,9 @@
 #include "evolution-shell-component.h"
 #include "evolution-storage.h"
 
+#include "addressbook-storage.h"
 #include "addressbook-component.h"
 #include "addressbook.h"
-#include "e-ldap-storage.h"
 
 
 
@@ -84,8 +84,8 @@ owner_set_cb (EvolutionShellComponent *shell_component,
 
 	if (global_shell_client == NULL)
 		global_shell_client = shell_client;
-	
-	setup_ldap_storage (shell_component, evolution_homedir);
+
+	addressbook_storage_setup (shell_component, evolution_homedir);
 }
 
 static void

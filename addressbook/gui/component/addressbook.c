@@ -29,7 +29,7 @@
 
 #include "e-contact-editor.h"
 #include "e-contact-save-as.h"
-#include "e-ldap-server-dialog.h"
+#include "addressbook-config.h"
 
 #include <addressbook/printing/e-contact-print.h>
 
@@ -127,44 +127,11 @@ new_contact_cb (BonoboUIComponent *uih, void *user_data, const char *path)
 	gtk_object_sink(GTK_OBJECT(card));
 }
 
-#ifdef HAVE_LDAP
 static void
-null_cb (EBook *book, EBookStatus status, gpointer closure)
+config_cb (BonoboUIComponent *uih, void *user_data, const char *path)
 {
+	addressbook_config (NULL /* XXX */);
 }
-
-static void
-new_server_cb (BonoboUIComponent *uih, void *user_data, const char *path)
-{
-	ELDAPServer *server = g_new (ELDAPServer, 1);
-	EBook *book;
-	AddressbookView *view = (AddressbookView *) user_data;
-
-	/* fill in the defaults */
-	server->name = g_strdup("");
-	server->host = g_strdup("");
-	server->port = g_strdup_printf("%d", 389);
-	server->description = g_strdup("");
-	server->rootdn = g_strdup("");
-	server->uri = g_strdup_printf ("ldap://%s:%s/%s", server->host, server->port, server->rootdn);
-	e_ldap_server_editor_show (server);
-
-	gtk_object_get(GTK_OBJECT(view->view),
-		       "book", &book,
-		       NULL);
-
-	g_assert (E_IS_BOOK (book));
-	
-	/* write out the new server info */
-	e_ldap_storage_add_server (server);
-
-	/* now update the view */
-	e_book_unload_uri (book);
-	if (! e_book_load_uri (book, server->uri, null_cb, NULL)) {
-		g_warning ("error calling load_uri!\n");
-	}
-}
-#endif
 
 static void
 search_cb (BonoboUIComponent *uih, void *user_data, const char *path)
@@ -302,14 +269,13 @@ BonoboUIVerb verbs [] = {
 	BONOBO_UI_UNSAFE_VERB ("ViewNewContact", new_contact_cb),
 	BONOBO_UI_UNSAFE_VERB ("ToolSearch", search_cb),
 
+	BONOBO_UI_UNSAFE_VERB ("AddressbookConfig", config_cb),
+
 	BONOBO_UI_UNSAFE_VERB ("ContactNew", new_contact_cb),
 /*	BONOBO_UI_UNSAFE_VERB ("ContactFind", find_contact_cb),*/
 	BONOBO_UI_UNSAFE_VERB ("ContactDelete", delete_contact_cb),
 	BONOBO_UI_UNSAFE_VERB ("ContactViewAll", show_all_contacts_cb),
 	BONOBO_UI_UNSAFE_VERB ("ContactStop", stop_loading_cb),
-#ifdef HAVE_LDAP
-	BONOBO_UI_UNSAFE_VERB ("ContactNewServer", new_server_cb),
-#endif
 	
 	BONOBO_UI_VERB_END
 };
@@ -333,11 +299,6 @@ control_activate (BonoboControl     *control,
 	bonobo_ui_util_set_ui (uic, EVOLUTION_DATADIR,
 			       "evolution-addressbook.xml",
 			       "evolution-addressbook");
-#ifdef HAVE_LDAP
-	bonobo_ui_util_set_ui (uic, EVOLUTION_DATADIR,
-			       "evolution-addressbook-ldap.xml",
-			       "evolution-addressbook");
-#endif
 
 	e_addressbook_view_setup_menus (view->view, uic);
 
