@@ -1,3 +1,7 @@
+2003-11-07  Dan Winship  <danw@ximian.com>
+
+	* configure.in (AC_OUTPUT): Remove e-util/ename/Makefile
+
 2003-11-07  JP Rosevear <jpr@ximian.com>
 
 	* configure.in: we don't have to configure the libical subdir now

@@ -1427,7 +1427,6 @@ default_user/local/Sent/Makefile
 default_user/local/Tasks/Makefile
 default_user/local/Trash/Makefile
 e-util/Makefile
-e-util/ename/Makefile
 filter/Makefile
 help/Makefile
 help/C/Makefile
