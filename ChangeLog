@@ -1,3 +1,9 @@
+2003-01-23  Ettore Perazzoli  <ettore@ximian.com>
+
+	* configure.in (idldir): Define componentdir instead of
+	COMPONENT_DIR.  Set it to $privlibdir/components instead of
+	$libdir/evolution-$(BASE_VERSION)/components.
+
 2003-01-22  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* configure.in (MOZILLA_NSS): Simplify the whole process into

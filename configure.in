@@ -975,8 +975,8 @@ AC_SUBST(camel_providerdir)
 idldir="$datadir/idl/evolution-$BASE_VERSION"
 AC_SUBST(idldir)
 
-COMPONENT_DIR=$prefix/lib/evolution-$BASE_VERSION/components
-AC_SUBST(COMPONENT_DIR)
+componentdir="$privlibdir/components"
+AC_SUBST(componentdir)
 
 evolutionuidir="$datadir/evolution-$BASE_VERSION/ui"
 AC_SUBST(evolutionuidir)
