@@ -15,7 +15,7 @@ static int color_inited;
 static GdkColorContext *gnumeric_color_context;
 
 /* Public colors: shared by all of our items in Gnumeric */
-GdkColor gs_white, gs_black, gs_light_gray, gs_dark_gray, gs_red;
+GdkColor gs_white, gs_black, gs_light_gray, gs_dark_gray, gs_red, gs_lavender;
 
 int 
 color_alloc (gushort red, gushort green, gushort blue)
@@ -65,9 +65,10 @@ color_init (void)
 	gdk_color_white (colormap, &gs_white);
 	gdk_color_black (colormap, &gs_black);
 
-	color_alloc_name ("gray78", &gs_light_gray);
-	color_alloc_name ("gray20", &gs_dark_gray);
-	color_alloc_name ("red",    &gs_red);
+	color_alloc_name ("gray78",  &gs_light_gray);
+	color_alloc_name ("gray20",  &gs_dark_gray);
+	color_alloc_name ("red",     &gs_red);
+	color_alloc_name ("lavender",&gs_lavender);
 
 	color_inited = 1;
 }
