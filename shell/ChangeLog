@@ -1,3 +1,17 @@
+2000-10-11  Iain Holmes  <iain@helixcode.com>
+
+	* e-setup.c (check_evolution_directory): Check if there are any
+	files in default_user that are not in ~/evolution and if so
+	copy them over.
+	(check_dir_recur): Recursive function to check the directory.
+
+	* e-shell-view-menu.c: Look Maw! I'm an Evolution hacker too.
+
+	* e-shell-view.c: Don't quit on when a view is destroyed.
+
+	* e-shell.c: Save the settings for the remaining views whenever
+	a view is destroyed.
+
 2000-10-15  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* e-shell-view.c (setup_storage_set_subwindow): Use an

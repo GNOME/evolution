@@ -474,6 +474,7 @@ view_destroy_cb (GtkObject *object,
 	shell->priv->views = g_list_remove (
 		shell->priv->views, object);
 
+	save_settings_for_views (shell);
 	if (shell->priv->views == NULL) {
 		/* FIXME: This looks like a Bonobo bug to me.  */
 		bonobo_object_ref (BONOBO_OBJECT (shell));

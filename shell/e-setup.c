@@ -27,11 +27,152 @@
 
 #include <errno.h>
 #include <sys/stat.h>
+#include <sys/types.h>
+#include <dirent.h>
 
 #include "e-util/e-gui-utils.h"
 
 #include "e-setup.h"
 
+
+static GList *
+check_dir_recur (const char *evolution_directory,
+		 const char *current_directory)
+{
+	DIR *def;
+	GList *newfiles = NULL;
+	struct dirent *current;
+	
+	def = opendir (current_directory);
+	if (def == NULL)
+		return NULL;
+
+	current = readdir (def);
+	while (current != NULL) {
+		struct stat buf;
+		char *fullname, *fulldefaultname;
+		
+		fullname = g_concat_dir_and_file (evolution_directory,
+						  current->d_name);
+		fulldefaultname = g_concat_dir_and_file (current_directory,
+							 current->d_name);
+
+		if (current->d_name[0] == '.' && 
+		    (current->d_name[1] == '\0' || 
+		     (current->d_name[1] == '.' && current->d_name[2] == '\0'))) {
+			current = readdir (def);
+			continue;
+		}
+
+		if (stat (fullname, &buf) == -1) {
+			char *name;
+			
+			name = g_strdup (fulldefaultname);
+			newfiles = g_list_append (newfiles, name);
+		} else {
+			if (S_ISDIR (buf.st_mode)) {
+				newfiles = g_list_concat (newfiles,
+							  check_dir_recur (fullname,
+									   fulldefaultname));
+			}
+		}
+		
+		g_free (fulldefaultname);
+		g_free (fullname);
+		current = readdir (def);
+	}
+
+	closedir (def);
+	return newfiles;
+}
+
+static gboolean
+check_evolution_directory (const char *evolution_directory)
+{
+	GtkWidget *dialog;
+	GtkWidget *scroller, *clist;
+	GtkWidget *label;
+	gboolean retval;
+	GList *newfiles, *l;
+	char *defaultdir;
+	int result;
+
+	defaultdir = g_strdup (EVOLUTION_DATADIR "/evolution/default_user");
+	newfiles = g_list_concat (NULL, check_dir_recur (evolution_directory,
+							 defaultdir));
+	
+	if (newfiles == NULL)
+		return TRUE;
+
+	dialog = gnome_dialog_new (_("Evolution Installation"),
+				   GNOME_STOCK_BUTTON_OK, 
+				   GNOME_STOCK_BUTTON_CANCEL,
+				   NULL);
+	label = gtk_label_new (_("Since Evolution was installed,"
+				 "\nthe following files need to be updated"));
+	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (dialog)->vbox), label,
+			    TRUE, TRUE, 0);
+	scroller = gtk_scrolled_window_new (NULL, NULL);
+	clist = gtk_clist_new (1);
+	gtk_clist_column_titles_hide (GTK_CLIST (clist));
+
+	for (l = newfiles; l; l = l->next) {
+		char *row[1];
+
+		row[0] = l->data;
+		gtk_clist_append (GTK_CLIST (clist), row);
+	}
+
+	gtk_container_add (GTK_CONTAINER (scroller), clist);
+	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (dialog)->vbox), scroller,
+			    TRUE, TRUE, 0);
+
+	gtk_widget_show (label);
+	gtk_widget_show_all (scroller);
+	result = gnome_dialog_run_and_close (GNOME_DIALOG (dialog));
+
+	if (result != 0)
+		return FALSE;
+
+	retval = TRUE;
+	for (l = newfiles; l; l = l->next) {
+		char *command;
+		char *shortpath;
+
+		shortpath = l->data + strlen (EVOLUTION_DATADIR "/evolution/default_user/");
+		command = g_strconcat ("cp -r ",
+				       l->data, " ",
+				       evolution_directory, "/",
+				       shortpath,
+				       NULL);
+		
+		if (system (command) != 0) {
+			retval = FALSE;
+		} else {
+			retval = (retval && TRUE);
+		}
+		
+		g_free (command);
+		
+		g_free (l->data);
+	}
+
+	g_list_free (newfiles);
+	g_free (defaultdir);
+
+	if (retval == FALSE) {
+		e_notice (NULL, GNOME_MESSAGE_BOX_ERROR,
+			  _("Could not update files correctly"));
+		return FALSE;
+	} else {
+		e_notice (NULL, GNOME_MESSAGE_BOX_INFO,
+			  _("Evolution files successfully installed."));
+		return TRUE;
+	}
+
+	return TRUE;
+}
+		
 
 static gboolean
 copy_default_stuff (const char *evolution_directory)
@@ -140,5 +281,7 @@ e_setup (const char *evolution_directory)
 	}
 	g_free (file);
 
-	return TRUE;
+	/* User has evolution directory...
+	   Check if it is up to date. */
+	return check_evolution_directory (evolution_directory);
 }
