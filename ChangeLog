@@ -1,3 +1,10 @@
+2000-04-07  Chris Toshok  <toshok@laptoph.xtoph.org>
+
+	* addressbook/backend/pas/pas-backend-file.c
+	(pas_backend_file_process_get_book_view): correctly (well,
+	untested) implement.
+	(view_destroy): new function.
+
 2000-04-06  Christopher James Lahey  <clahey@helixcode.com>
 
 	* addressbook/demo/demo.c, addressbook/demo/addressbook-widget.c:

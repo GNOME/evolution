@@ -84,6 +84,27 @@ cursor_destroy(GtkObject *object, gpointer data)
 }
 
 static void
+view_destroy(GtkObject *object, gpointer data)
+{
+	CORBA_Environment ev;
+	Evolution_Book    corba_book;
+	PASBook           *book = (PASBook *)data;
+
+	corba_book = bonobo_object_corba_objref(BONOBO_OBJECT(book));
+
+	CORBA_exception_init(&ev);
+
+	Evolution_Book_unref(corba_book, &ev);
+	
+	if (ev._major != CORBA_NO_EXCEPTION) {
+		g_warning("view_destroy: Exception unreffing "
+			  "corba book.\n");
+	}
+
+	CORBA_exception_free(&ev);
+}
+
+static void
 string_to_dbt(const char *str, DBT *dbt)
 {
 	dbt->data = (void*)str;
@@ -309,22 +330,16 @@ pas_backend_file_process_get_book_view (PASBackend *backend,
 					PASBook    *book,
 					PASRequest *req)
 {
-	/*
-	  PASBackendFile *bf = PAS_BACKEND_FILE (backend);
-	  DB             *db = bf->priv->file_db;
-	  DBT            id_dbt, vcard_dbt;
-	*/
+	PASBackendFile *bf = PAS_BACKEND_FILE (backend);
+	DB             *db = bf->priv->file_db;
+	DBT            id_dbt, vcard_dbt;
 	CORBA_Environment ev;
-	int            db_error = 0;
-	PASBackendFileCursorPrivate *cursor_data;
-	PASCardCursor *cursor;
-	Evolution_Book corba_book;
+	int               db_error = 0;
+	PASBookView       *view;
+	Evolution_Book    corba_book;
+	GList             *cards = NULL;
 
-	cursor_data = g_new(PASBackendFileCursorPrivate, 1);
-	cursor_data->backend = backend;
-	cursor_data->book = book;
-
-	pas_backend_file_build_all_cards_list(backend, cursor_data);
+	g_return_if_fail (req->listener != NULL);
 
 	corba_book = bonobo_object_corba_objref(BONOBO_OBJECT(book));
 
@@ -338,20 +353,51 @@ pas_backend_file_process_get_book_view (PASBackend *backend,
 	}
 
 	CORBA_exception_free(&ev);
-	
-	cursor = pas_card_cursor_new(get_length,
-				     get_nth,
-				     cursor_data);
 
-	gtk_signal_connect(GTK_OBJECT(cursor), "destroy",
-			   GTK_SIGNAL_FUNC(cursor_destroy), cursor_data);
-	
-	pas_book_respond_get_cursor (
-		book,
-		(db_error == 0 
-		 ? Evolution_BookListener_Success 
-		 : Evolution_BookListener_CardNotFound),
-		cursor);
+	view = pas_book_view_new (req->listener);
+
+	gtk_signal_connect(GTK_OBJECT(view), "destroy",
+			   GTK_SIGNAL_FUNC(view_destroy), book);
+
+	pas_book_respond_get_book_view (book,
+		   (db_error == 0 
+		    ? Evolution_BookListener_Success 
+		    : Evolution_BookListener_CardNotFound /* XXX */),
+		   view);
+
+	/*
+	** no reason to not iterate through the file now and notify
+	** the listener of all the cards.
+	*/
+
+	db_error = db->seq(db, &id_dbt, &vcard_dbt, R_FIRST);
+
+	while (db_error == 0) {
+
+		/* don't include the version in the list of cards */
+		if (id_dbt.size != strlen(PAS_BACKEND_FILE_VERSION_NAME)
+		    || strncmp (id_dbt.data, PAS_BACKEND_FILE_VERSION_NAME, id_dbt.size)) {
+			
+			cards = g_list_append(cards,
+					      g_strndup(vcard_dbt.data,
+							vcard_dbt.size));
+		}
+		
+		db_error = db->seq(db, &id_dbt, &vcard_dbt, R_NEXT);
+	}
+
+	if (db_error == -1) {
+		g_warning ("pas_backend_file_process_get_book_view: error building list\n");
+	}
+	else {
+		pas_book_view_notify_add (view, cards);
+	}
+
+	/*
+	** the following should be done when the view is destroyed
+	*/
+	g_list_foreach (cards, (GFunc)g_free, NULL);
+	g_list_free (cards);
 }
 
 static void
