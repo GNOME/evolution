@@ -1,3 +1,7 @@
+2003-04-06  Christophe Merlet  <redfox@redfoxcenter.org>
+
+	* data/Makefile.am: Create $(DESTDIR)$(kdedeskdopdir).
+
 2003-04-04  Chris Toshok  <toshok@ximian.com>
 
 	* acinclude.m4 (EVO_LDAP_CHECK): bleah, add "" in for the "no"

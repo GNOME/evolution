@@ -17,6 +17,7 @@ kdedesktopdir = $(KDE_APPLNK_DIR)/Applications
 kdedesktop_file = $(desktop_in_file:.desktop.in=.desktop)
 
 install-kde-applnk:
+	$(mkinstalldirs) $(DESTDIR)$(kdedesktopdir);	\
 	$(INSTALL_DATA) $(kdedesktop_file) \
 		        $(DESTDIR)$(kdedesktopdir)/$(kdedesktop_file:.desktop=-$(BASE_VERSION).desktop)
 else
