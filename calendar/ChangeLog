@@ -1,3 +1,21 @@
+2005-01-21  JP Rosevear  <jpr@novell.com>
+
+	Fixes #46404
+	
+	* gui/tasks-control.c (tasks_control_print_cmd): just call print
+	tasks, we don't do the dialog here
+
+	* gui/print.h: update protos
+
+	* gui/print.c (print_calendar): use e_print routines for config
+	and dialog and make copies and range settings properly available
+	(print_comp): ditto
+	(print_table): bring up dialog here so that printing for calendar
+	list view works correctly
+
+	* gui/calendar-commands.c (print): pass extra params to print
+	table
+
 2005-01-19  Rodrigo Moya <rodrigo@novell.com>
 
 	* importers/icalendar-importer.c (update_objects): use receive_objects

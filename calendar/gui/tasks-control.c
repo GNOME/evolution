@@ -44,6 +44,7 @@
 #include <bonobo/bonobo-control.h>
 #include <bonobo/bonobo-ui-util.h>
 #include <e-util/e-dialog-utils.h>
+#include <e-util/e-print.h>
 #include "dialogs/cal-prefs-dialog.h"
 #include "calendar-config.h"
 #include "calendar-commands.h"
@@ -89,9 +90,6 @@ static void tasks_control_print_cmd		(BonoboUIComponent	*uic,
 static void tasks_control_print_preview_cmd	(BonoboUIComponent	*uic,
 						 gpointer		 data,
 						 const char		*path);
-
-
-static GnomePrintConfig *print_config = NULL;
 
 
 BonoboControl *
@@ -407,7 +405,7 @@ print_tasks (ETasks *tasks, gboolean preview)
 	cal_table = e_tasks_get_calendar_table (tasks);
 	etable = e_calendar_table_get_table (E_CALENDAR_TABLE (cal_table));
 
-	print_table (etable, _("Tasks"), preview);
+	print_table (etable, _("Print Tasks"), _("Tasks"), preview);
 }
 
 /* File/Print callback */
@@ -417,45 +415,10 @@ tasks_control_print_cmd (BonoboUIComponent *uic,
 			 const char *path)
 {
 	ETasks *tasks;
-	GtkWidget *gpd;
-	gboolean preview = FALSE;
-	GnomePrintJob *gpm;
-	ECalendarTable *cal_table;
-	ETable *etable;
 
 	tasks = E_TASKS (data);
 
-	if (!print_config)
-		print_config = gnome_print_config_default ();
-
-	gpm = gnome_print_job_new (print_config);
-
-	gpd = gnome_print_dialog_new (gpm, _("Print Tasks"), GNOME_PRINT_DIALOG_COPIES);
-	gtk_dialog_set_default_response (GTK_DIALOG (gpd), GNOME_PRINT_DIALOG_RESPONSE_PRINT);
-
-	/* Run dialog */
-	switch (gtk_dialog_run (GTK_DIALOG (gpd))) {
-	case GNOME_PRINT_DIALOG_RESPONSE_PRINT:
-		break;
-
-	case GNOME_PRINT_DIALOG_RESPONSE_PREVIEW:
-		preview = TRUE;
-		break;
-
-	case -1:
-		return;
-
-	default:
-		gtk_widget_destroy (gpd);
-		return;
-	}
-
-	cal_table = e_tasks_get_calendar_table (tasks);
-	etable = e_calendar_table_get_table (E_CALENDAR_TABLE (cal_table));
-
-	gtk_widget_destroy (gpd);
-
-	print_tasks (tasks, preview);
+	print_tasks (tasks, FALSE);
 }
 
 static void

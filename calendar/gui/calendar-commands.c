@@ -117,7 +117,7 @@ print (GnomeCalendar *gcal, gboolean preview)
 	case GNOME_CAL_LIST_VIEW:
 		list_view = E_CAL_LIST_VIEW (gnome_calendar_get_current_view_widget (gcal));
 		etable = e_table_scrolled_get_table (list_view->table_scrolled);
-		print_table (etable, _("Calendar"), preview);
+		print_table (etable, _("Print"), _("Calendar"), preview);
 		return;
 
 	default:

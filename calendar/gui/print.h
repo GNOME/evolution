@@ -36,10 +36,7 @@ typedef enum {
 
 void print_calendar (GnomeCalendar *gcal, gboolean preview, time_t at, PrintView default_view);
 void print_comp (ECalComponent *comp, ECal *client, gboolean preview);
-void print_table (ETable *etable, const char *title, gboolean preview);
-
-
-void print_setup (void);
+void print_table (ETable *etable, const char *dialog_title, const char *print_header, gboolean preview);
 
 
 

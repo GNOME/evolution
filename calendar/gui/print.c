@@ -47,6 +47,7 @@
 #include <gal/util/e-util.h>
 #include <e-util/e-dialog-widgets.h>
 #include <e-util/e-time-utils.h>
+#include <e-util/e-print.h>
 #include <libecal/e-cal-time-util.h>
 #include "calendar-commands.h"
 #include "calendar-config.h"
@@ -69,6 +70,7 @@
  * gnome-print keys, but it's commented out. The corresponding code here
  * doesn't seem to work either (getting zero margins), so we adopt
  * gtkhtml's cheat. */
+
 #define TEMP_MARGIN .05
 
 /* The fonts to use */
@@ -174,8 +176,6 @@ struct einfo
 	time_t end;
 	int count;
 };
-
-static GnomePrintConfig *print_config = NULL;
 
 /* Convenience function to help the transition to timezone functions.
    It converts a time_t to a struct tm. */
@@ -2459,28 +2459,34 @@ void
 print_calendar (GnomeCalendar *gcal, gboolean preview, time_t date,
 		PrintView default_view)
 {
+	GnomePrintConfig *print_config;
 	GnomePrintJob *gpm;
 	GnomePrintContext *pc;
-	int copies, collate;
 	double l, r, t, b;
-
+	char *old_orientation;
+	
 	g_return_if_fail (gcal != NULL);
 	g_return_if_fail (GNOME_IS_CALENDAR (gcal));
 
-	if (!print_config)
-		print_config = gnome_print_config_default ();
+	print_config = e_print_load_config ();
 
-	copies = 1;
-	collate = FALSE;
-
-	gpm = gnome_print_job_new (print_config);
+	/* Don't save the orientation if we guessed it to be nice to the user */
+	old_orientation = gnome_print_config_get (print_config, GNOME_PRINT_KEY_PAGE_ORIENTATION);
+	if (default_view == PRINT_VIEW_MONTH) {
+		if (old_orientation && !strcmp (old_orientation, "R90")) {
+			g_free (old_orientation);
+			old_orientation = NULL;
+		}
+		    
+		gnome_print_config_set (print_config, GNOME_PRINT_KEY_PAGE_ORIENTATION, "R90");
+	}
 
 	if (!preview) {
 		GtkWidget *gpd;
 		GtkWidget *range;
 		int view;
 
-		gpd = gnome_print_dialog_new (gpm, _("Print"), 0);
+		gpd = e_print_get_dialog_with_config (_("Print"), GNOME_PRINT_DIALOG_COPIES | GNOME_PRINT_DIALOG_RANGE, print_config);
 
 		view = (int) default_view;
 		range = range_selector_new (gpd, date, &view);
@@ -2513,10 +2519,7 @@ print_calendar (GnomeCalendar *gcal, gboolean preview, time_t date,
 		gtk_widget_destroy (gpd);
 	}
 
-	if (default_view == PRINT_VIEW_MONTH)
-		gnome_print_config_set (print_config, GNOME_PRINT_KEY_PAGE_ORIENTATION, "R90");
-	else
-		gnome_print_config_set (print_config, GNOME_PRINT_KEY_PAGE_ORIENTATION, "R0");
+	gpm = gnome_print_job_new (print_config);
 
 	pc = gnome_print_job_get_context (gpm);
 	gnome_print_config_get_page_size (print_config, &r, &t);
@@ -2530,7 +2533,7 @@ print_calendar (GnomeCalendar *gcal, gboolean preview, time_t date,
 	 * gnome_print_config_get_double (print_config, GNOME_PRINT_KEY_PAGE_MARGIN_BOTTOM, &b);
 	 * gnome_print_config_get_double (print_config, GNOME_PRINT_KEY_PAGE_MARGIN_LEFT, &l);
 	 * b = l = TEMP_MARGIN; */
-
+	
 	b = t * TEMP_MARGIN;
 	l = r * TEMP_MARGIN;
 	t *= (1.0 - TEMP_MARGIN);
@@ -2565,6 +2568,15 @@ print_calendar (GnomeCalendar *gcal, gboolean preview, time_t date,
 		gnome_print_job_print (gpm);
 	}
 
+	/* Don't save the orientation if we guessed it to be nice to the user */
+	if (old_orientation) {
+		gnome_print_config_set (print_config, GNOME_PRINT_KEY_PAGE_ORIENTATION, old_orientation);
+		
+		e_print_save_config (print_config);
+		g_free (old_orientation);
+	}
+
+	g_object_unref (print_config);
 	g_object_unref (gpm);
 }
 
@@ -2572,29 +2584,20 @@ print_calendar (GnomeCalendar *gcal, gboolean preview, time_t date,
 void
 print_comp (ECalComponent *comp, ECal *client, gboolean preview)
 {
+	GnomePrintConfig *print_config;
 	GnomePrintJob *gpm;
 	GnomePrintContext *pc;
-	int copies, collate;
 	double l, r, t, b;
 
 	g_return_if_fail (comp != NULL);
 	g_return_if_fail (E_IS_CAL_COMPONENT (comp));
 
-	if (!print_config)
-		print_config = gnome_print_config_default ();
-
-	gnome_print_config_set (print_config, GNOME_PRINT_KEY_PAGE_ORIENTATION, "R0");
-
-	copies = 1;
-	collate = FALSE;
-
-	gpm = gnome_print_job_new (print_config);
+	print_config = e_print_load_config ();
 
 	if (!preview) {
 		GtkWidget *gpd;
 
-		gpd = gnome_print_dialog_new (gpm, _("Print Item"),
-					      GNOME_PRINT_DIALOG_COPIES);
+		gpd = e_print_get_dialog_with_config (_("Print Item"), GNOME_PRINT_DIALOG_COPIES, print_config);
 
 		gtk_dialog_set_default_response (GTK_DIALOG (gpd),
 						 GNOME_PRINT_DIALOG_RESPONSE_PRINT);
@@ -2620,6 +2623,8 @@ print_comp (ECalComponent *comp, ECal *client, gboolean preview)
 		e_dialog_get_values (gpd);
 		gtk_widget_destroy (gpd);
 	}
+
+	gpm = gnome_print_job_new (print_config);
 
 	pc = gnome_print_job_get_context (gpm);
 	gnome_print_config_get_page_size (print_config, &r, &t);
@@ -2651,6 +2656,7 @@ print_comp (ECalComponent *comp, ECal *client, gboolean preview)
 		gnome_print_job_print (gpm);
 	}
 
+	g_object_unref (print_config);
 	g_object_unref (gpm);
 }
 
@@ -2677,26 +2683,59 @@ print_title (GnomePrintContext *pc, const char *title,
 }
 
 void
-print_table (ETable *etable, const char *title, gboolean preview)
+print_table (ETable *etable, const char *dialog_title, const char *print_header, gboolean preview)
 {
 	EPrintable *printable;
+	GnomePrintConfig *print_config;
 	GnomePrintContext *pc;
 	GnomePrintJob *gpm;
 	double l, r, t, b, page_width, page_height, left_margin, bottom_margin;
 
-	if (!print_config)
-		print_config = gnome_print_config_default ();
+	print_config = e_print_load_config ();
 
-	gnome_print_config_set (print_config, GNOME_PRINT_KEY_PAGE_ORIENTATION, "R0");
 	printable = e_table_get_printable (etable);
 	g_object_ref (printable);
 	gtk_object_sink (GTK_OBJECT (printable));
 	e_printable_reset (printable);
 
+	if (!preview) {
+		GtkWidget *gpd;
+
+		gpd = e_print_get_dialog_with_config (dialog_title, GNOME_PRINT_DIALOG_COPIES, print_config);
+
+		gtk_dialog_set_default_response (GTK_DIALOG (gpd),
+						 GNOME_PRINT_DIALOG_RESPONSE_PRINT);
+
+		/* Run dialog */
+
+		switch (gtk_dialog_run (GTK_DIALOG (gpd))) {
+		case GNOME_PRINT_DIALOG_RESPONSE_PRINT:
+			break;
+
+		case GNOME_PRINT_DIALOG_RESPONSE_PREVIEW:
+			preview = TRUE;
+			break;
+
+		case -1:
+			return;
+
+		default:
+			gtk_widget_destroy (gpd);
+			return;
+		}
+
+		e_dialog_get_values (gpd);
+
+		gtk_widget_destroy (gpd);
+	}
+
 	gpm = gnome_print_job_new (print_config);
+
 	pc = gnome_print_job_get_context (gpm);
 
 	gnome_print_config_get_page_size (print_config, &r, &t);
+
+	/* See top of source for an explanation of this */
 
 #if 0
 	gnome_print_config_get_double (print_config, GNOME_PRINT_KEY_PAGE_MARGIN_TOP, &temp_d);
@@ -2723,7 +2762,7 @@ print_table (ETable *etable, const char *title, gboolean preview)
 
 		gnome_print_translate (pc, left_margin, bottom_margin);
 
-		print_title (pc, title, page_width, page_height);
+		print_title (pc, print_header, page_width, page_height);
 
 		if (e_printable_data_left (printable))
 			e_printable_print_page (printable, pc,
@@ -2743,40 +2782,7 @@ print_table (ETable *etable, const char *title, gboolean preview)
 		gnome_print_job_print (gpm);
 	}
 
+	g_object_unref (print_config);
 	g_object_unref (gpm);
 	g_object_unref (printable);
-}
-
-void
-print_setup (void)
-{
-	GtkWidget *ps;
-
-	if (!print_config)
-		print_config = gnome_print_config_default ();
-
-	ps = gnome_paper_selector_new (print_config);
-	gtk_widget_show (ps);
-
-#if 0
-	dlg = gtk_dialog_new_with_buttons (_("Print Setup"),
-					   NULL,  /* FIXME: Set a sensible parent */
-					   0,
-					   GNOME_STOCK_BUTTON_OK,
-					   GNOME_STOCK_BUTTON_CANCEL,
-					   NULL);
-	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dlg)->vbox), ps, TRUE, TRUE, 2);
-
-	btn = gtk_dialog_run (GTK_DIALOG (dlg));
-	if (btn == 0) {
-		gchar *name;
-
-		print_config = gnome_paper_selector_get_config (ps);
-
-		name  = gnome_paper_selector_get_name (GNOME_PAPER_SELECTOR (ps));
-		paper_info = gnome_paper_with_name (name);
-	}
-
-	gtk_widget_destroy (dlg);
-#endif
 }
