@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution VERSION\n"
-"POT-Creation-Date: 2000-07-28 16:43+0200\n"
+"POT-Creation-Date: 2000-08-02 16:37+0200\n"
 "PO-Revision-Date: 2000-05-19 19:06+0100\n"
 "Last-Translator: Szabolcs BAN <shooby@gnome.hu>\n"
 "Language-Team: Hungarian <hu@li.org>\n"
@@ -709,7 +709,7 @@ msgid "Delete a contact"
 msgstr "Névjegy törlése"
 
 #: addressbook/gui/component/addressbook.c:499
-#: addressbook/gui/component/addressbook.c:1039
+#: addressbook/gui/component/addressbook.c:1034
 msgid "As _Table"
 msgstr "_Táblázatként"
 
@@ -745,20 +745,20 @@ msgstr ""
 "használni egy LDAP szervert, le kell töltened és\n"
 "telepítened az OpenLDAP csomagot, és újrafordítani az Evolúciót.\n"
 
-#: addressbook/gui/component/addressbook.c:943
+#: addressbook/gui/component/addressbook.c:938
 #: addressbook/gui/minicard/e-minicard.c:330
 msgid "Save as VCard"
 msgstr "VCard-ként mentés"
 
-#: addressbook/gui/component/addressbook.c:1010
+#: addressbook/gui/component/addressbook.c:1005
 msgid "* Click here to add a contact *"
 msgstr "* Kattints ide névjegy hozzáadásához *"
 
-#: addressbook/gui/component/addressbook.c:1046
+#: addressbook/gui/component/addressbook.c:1041
 msgid "As _Minicards"
 msgstr "_Kártyákként"
 
-#: addressbook/gui/component/addressbook.c:1097
+#: addressbook/gui/component/addressbook.c:1092
 msgid "The URI that the Folder Browser will display"
 msgstr "Az URI amit a Mappa Böngészõ meg fog nyitni"
 
@@ -804,7 +804,7 @@ msgid "g"
 msgstr "g"
 
 #: addressbook/gui/component/alphabet.glade.h:16
-#: calendar/cal-util/timeutil.c:98
+#: calendar/cal-util/timeutil.c:131
 msgid "h"
 msgstr "h"
 
@@ -1102,11 +1102,11 @@ msgstr "Páros lapokon fordított"
 msgid "Header/Footer"
 msgstr "Fejléc/lábléc"
 
-#: calendar/cal-util/timeutil.c:96 calendar/gui/print.c:544
+#: calendar/cal-util/timeutil.c:129 calendar/gui/print.c:544
 msgid "am"
 msgstr "de"
 
-#: calendar/cal-util/timeutil.c:96 calendar/gui/print.c:543
+#: calendar/cal-util/timeutil.c:129 calendar/gui/print.c:543
 msgid "pm"
 msgstr "du"
 
@@ -1235,7 +1235,7 @@ msgstr "Ma"
 msgid "Go to present time"
 msgstr "Jelenidõre ugrás"
 
-#: calendar/gui/calendar-commands.c:554 filter/filter-editor.c:210
+#: calendar/gui/calendar-commands.c:554
 msgid "Next"
 msgstr "Köv."
 
@@ -1719,7 +1719,7 @@ msgid "Due Date"
 msgstr "Lejárat"
 
 #: calendar/gui/gncal-todo.c:436 calendar/gui/prop.c:605
-#: mail/message-list.c:470
+#: mail/message-list.c:474
 msgid "Priority"
 msgstr "Prioritás"
 
@@ -2346,45 +2346,45 @@ msgstr "Téma:"
 msgid "Enter the subject of the mail"
 msgstr "Írd be a levél címét (subject)"
 
-#: composer/e-msg-composer.c:447
+#: composer/e-msg-composer.c:444
 msgid "Save as..."
 msgstr "Ment mint..."
 
-#: composer/e-msg-composer.c:458
+#: composer/e-msg-composer.c:455
 #, c-format
 msgid "Error saving file: %s"
 msgstr "Fájl mentési hiba: %s"
 
-#: composer/e-msg-composer.c:478
+#: composer/e-msg-composer.c:475
 #, c-format
 msgid "Error loading file: %s"
 msgstr "Fájl betöltési hiba: %s"
 
-#: composer/e-msg-composer.c:497
+#: composer/e-msg-composer.c:494
 msgid "Discard this message?"
 msgstr "Az üzenet figyelmen kívül hagyása?"
 
-#: composer/e-msg-composer.c:514
+#: composer/e-msg-composer.c:511
 msgid "Open file"
 msgstr "Fájl megnyitás"
 
-#: composer/e-msg-composer.c:626
+#: composer/e-msg-composer.c:623
 msgid "That file does not exist."
 msgstr "A fájl nem létezik."
 
-#: composer/e-msg-composer.c:636
+#: composer/e-msg-composer.c:633
 msgid "That is not a regular file."
 msgstr "Nem sima fájl."
 
-#: composer/e-msg-composer.c:646
+#: composer/e-msg-composer.c:643
 msgid "That file exists but is not readable."
 msgstr "Az a fájl létezik, de nem olvasható."
 
-#: composer/e-msg-composer.c:656
+#: composer/e-msg-composer.c:653
 msgid "That file appeared accesible but open(2) failed."
 msgstr "A fájl elérhetõnek látszik, de open(2) hiba történt."
 
-#: composer/e-msg-composer.c:678
+#: composer/e-msg-composer.c:675
 msgid ""
 "The file is very large (more than 100K).\n"
 "Are you sure you wish to insert it?"
@@ -2392,152 +2392,120 @@ msgstr ""
 "A fájl túl nagy (100K fölötti).\n"
 "Tényleg be szeretnéd szúrni?"
 
-#: composer/e-msg-composer.c:699
+#: composer/e-msg-composer.c:696
 msgid "An error occurred while reading the file."
 msgstr "Hiba történt megnyitás közben."
 
-#: composer/e-msg-composer.c:795 shell/e-shell-view-menu.c:438
+#: composer/e-msg-composer.c:792 shell/e-shell-view-menu.c:438
 msgid "_File"
 msgstr "_Fájl"
 
-#: composer/e-msg-composer.c:801
+#: composer/e-msg-composer.c:798
 msgid "_Open..."
 msgstr "_Megnyit..."
 
-#: composer/e-msg-composer.c:802
+#: composer/e-msg-composer.c:799
 msgid "Load a previously saved message"
 msgstr "Elõzõleg mentett üzenet betöltése"
 
-#: composer/e-msg-composer.c:810
+#: composer/e-msg-composer.c:807
 msgid "_Save..."
 msgstr "_Ment..."
 
-#: composer/e-msg-composer.c:811
+#: composer/e-msg-composer.c:808
 msgid "Save message"
 msgstr "Levél mentése"
 
-#: composer/e-msg-composer.c:819
+#: composer/e-msg-composer.c:816
 msgid "_Save as..."
 msgstr "_Ment mint..."
 
-#: composer/e-msg-composer.c:820
+#: composer/e-msg-composer.c:817
 msgid "Save message with a different name"
 msgstr "A levél elmentése másik néven"
 
-#: composer/e-msg-composer.c:828
+#: composer/e-msg-composer.c:825
 msgid "Save in _folder..."
 msgstr "Mentsd _mappába"
 
-#: composer/e-msg-composer.c:829
+#: composer/e-msg-composer.c:826
 msgid "Save the message in a specified folder"
 msgstr "A levél elmentése másik mappába"
 
-#: composer/e-msg-composer.c:838
+#: composer/e-msg-composer.c:835
 msgid "_Insert text file... (FIXME)"
 msgstr "_Szövegfájl beillesztése (FIXME)"
 
-#: composer/e-msg-composer.c:839
+#: composer/e-msg-composer.c:836
 msgid "Insert a file as text into the message"
 msgstr "Fájl beillesztése szövegként"
 
-#: composer/e-msg-composer.c:848
+#: composer/e-msg-composer.c:845
 msgid "_Send"
 msgstr "_Elküld"
 
-#: composer/e-msg-composer.c:849
+#: composer/e-msg-composer.c:846
 msgid "Send the message"
 msgstr "Levél elküldése"
 
-#: composer/e-msg-composer.c:859
+#: composer/e-msg-composer.c:856
 msgid "_Close..."
 msgstr "_Bezár..."
 
-#: composer/e-msg-composer.c:860
+#: composer/e-msg-composer.c:857
 msgid "Quit the message composer"
 msgstr "Kilépés a levélszerkesztõbõl"
 
-#: composer/e-msg-composer.c:873 shell/e-shell-view-menu.c:480
+#: composer/e-msg-composer.c:870 shell/e-shell-view-menu.c:480
 msgid "_Edit"
 msgstr "_Szerkeszt"
 
-#: composer/e-msg-composer.c:884
+#: composer/e-msg-composer.c:881
 msgid "_Format"
 msgstr "_Formátum"
 
-#: composer/e-msg-composer.c:890
+#: composer/e-msg-composer.c:887
 msgid "HTML"
 msgstr "HTML"
 
-#: composer/e-msg-composer.c:891
+#: composer/e-msg-composer.c:888
 msgid "Send the mail in HTML format"
 msgstr "A levelet HTML formátumban küldd"
 
-#: composer/e-msg-composer.c:904 shell/e-shell-view-menu.c:387
+#: composer/e-msg-composer.c:901 shell/e-shell-view-menu.c:387
 #: shell/e-shell-view-menu.c:491
 msgid "_View"
 msgstr "_Nézet"
 
-#: composer/e-msg-composer.c:910
+#: composer/e-msg-composer.c:907
 msgid "Show _attachments"
 msgstr "Csatolások _nézete"
 
-#: composer/e-msg-composer.c:911
+#: composer/e-msg-composer.c:908
 msgid "Show/hide attachments"
 msgstr "Csatolások megjelenítése/elrejtése"
 
-#: composer/e-msg-composer.c:944
+#: composer/e-msg-composer.c:941
 msgid "Send"
 msgstr "Elküld"
 
-#: composer/e-msg-composer.c:945
+#: composer/e-msg-composer.c:942
 msgid "Send this message"
 msgstr "Küldd el a levelet"
 
-#: composer/e-msg-composer.c:954
+#: composer/e-msg-composer.c:951
 msgid "Attach"
 msgstr "Csatolás"
 
-#: composer/e-msg-composer.c:955
+#: composer/e-msg-composer.c:952
 msgid "Attach a file"
 msgstr "Fájl csatolása"
 
-#: composer/e-msg-composer.c:1142
+#: composer/e-msg-composer.c:1139
 msgid "Compose a message"
 msgstr "Levél írása"
 
-#: filter/filter-editor.c:198
-msgid "Edit Filter"
-msgstr "Szûrõ szerkesztése"
-
-#: filter/filter-editor.c:198
-msgid "Create filter"
-msgstr "Szûrõ készítése"
-
-#: filter/filter-editor.c:209
-msgid "Back"
-msgstr "Vissza"
-
-#: filter/filter-editor.c:211
-msgid "Finish"
-msgstr "Kész"
-
-#: filter/filter-editor.c:212
-msgid "Cancel"
-msgstr "Mégsem"
-
-#: filter/filter-editor.c:216
-msgid "Apply"
-msgstr "Alkalmaz"
-
-#: filter/filter-editor.c:233
-msgid ""
-"<h2>Create Filtering Rule</h2><p>Select one of the base rules above, then "
-"continue forwards to customise it.</p>"
-msgstr ""
-"<h2>Szûrõ szabály készítése</h2><p>Válassz egyet az alapszabályok közül, "
-"majd folytasd a további beállításokhoz.</p>"
-
-#: mail/component-factory.c:193
+#: mail/component-factory.c:188
 msgid "Cannot initialize Evolution's mail component."
 msgstr "Nem tudom az Evolúció levelezõ komponensét elindítani."
 
@@ -2601,27 +2569,33 @@ msgstr "A levél törlése"
 msgid "_Threaded Message List"
 msgstr "_Témaszerinti levéllista"
 
-#: mail/folder-browser-factory.c:71
+#: mail/folder-browser-factory.c:72
+msgid "_Mark all messages seen"
+msgstr ""
+
+#: mail/folder-browser-factory.c:78
 msgid "_Expunge"
 msgstr "_Tisztít"
 
-#: mail/folder-browser-factory.c:77
-msgid "_Filter Druid ..."
+#: mail/folder-browser-factory.c:84
+#, fuzzy
+msgid "Mail _Filters ..."
 msgstr "_Szûrõ mágus ..."
 
-#: mail/folder-browser-factory.c:83
-msgid "_Virtual Folder Druid ..."
-msgstr "_Virtuális mappa mágus ..."
+#: mail/folder-browser-factory.c:90
+#, fuzzy
+msgid "_vFolder Editor ..."
+msgstr "_Szûrõ mágus ..."
 
-#: mail/folder-browser-factory.c:89
+#: mail/folder-browser-factory.c:96
 msgid "_Mail Configuration ..."
 msgstr "_Levelezési beállítások ... "
 
-#: mail/folder-browser-factory.c:95
+#: mail/folder-browser-factory.c:102
 msgid "Forget _Passwords"
 msgstr "_Jelszó elfelejtése"
 
-#: mail/mail-config.c:262
+#: mail/mail-config.c:688
 msgid ""
 "Enter your name and email address to be used in outgoing mail. You may also, "
 "optionally, enter the name of your organization, and the name of a file to "
@@ -2631,51 +2605,51 @@ msgstr ""
 "használsz. Mellesleg beírhatod a céged nevét is, valamint az aláírásfájlod "
 "is megadhatod."
 
-#: mail/mail-config.c:277
+#: mail/mail-config.c:701
 msgid "Full name:"
 msgstr "Teljes név:"
 
-#: mail/mail-config.c:305
+#: mail/mail-config.c:725
 msgid "Email address:"
 msgstr "Email cím:"
 
-#: mail/mail-config.c:328
+#: mail/mail-config.c:740
 msgid "Organization:"
 msgstr "Szervezet:"
 
-#: mail/mail-config.c:340
+#: mail/mail-config.c:751
 msgid "Signature file:"
 msgstr "Aláírás fájl:"
 
-#: mail/mail-config.c:345
+#: mail/mail-config.c:756
 msgid "Signature File"
 msgstr "Aláírás fájl"
 
-#: mail/mail-config.c:734 mail/mail-config.c:828 mail/mail-config.c:1641
+#: mail/mail-config.c:1167
 msgid "Server:"
 msgstr "Szerver:"
 
-#: mail/mail-config.c:741
+#: mail/mail-config.c:1173
 msgid "Username:"
 msgstr "Felhasználó:"
 
-#: mail/mail-config.c:748
+#: mail/mail-config.c:1179
 msgid "Path:"
 msgstr "Útvonal:"
 
-#: mail/mail-config.c:755 mail/mail-config.c:835
+#: mail/mail-config.c:1187
 msgid "Authentication:"
 msgstr "Authentikáció:"
 
-#: mail/mail-config.c:767 mail/mail-config.c:847
+#: mail/mail-config.c:1199
 msgid "Detect supported types..."
 msgstr "Támogatott típusok érzékelése..."
 
-#: mail/mail-config.c:793 mail/mail-config.c:869
-msgid "Test these values before continuing"
-msgstr "Az értékek ellenõrzése folytatás elõtt"
+#: mail/mail-config.c:1222
+msgid "Test Settings"
+msgstr ""
 
-#: mail/mail-config.c:980
+#: mail/mail-config.c:1344 mail/mail-config.c:1392
 msgid ""
 "Select the kind of mail server you have, and enter the relevant information "
 "about it.\n"
@@ -2689,66 +2663,50 @@ msgstr ""
 "Ha a szerver authentikációt igényel, a 'Támogatott típusok keresése...' "
 "gombra kattints az információk megadása után."
 
-#: mail/mail-config.c:998
-msgid "Select the method you would like to use to deliver your mail."
-msgstr "Válassz egy módot, hogy szeretnéd a leveled kézbesítését."
+#: mail/mail-config.c:1368
+#, fuzzy
+msgid ""
+"Select the kind of news server you have, and enter the relevant information "
+"about it.\n"
+"\n"
+"If the server requires authentication, you can click the \"Detect supported "
+"types...\" button after entering the other information."
+msgstr ""
+"Válaszd ki a levelezõszervered típusát, majd add meg a vele "
+"kapcsolatosinformációkat.\n"
+"\n"
+"Ha a szerver authentikációt igényel, a 'Támogatott típusok keresése...' "
+"gombra kattints az információk megadása után."
 
-#: mail/mail-config.c:1183 mail/mail-config.c:1262
-msgid "Mail Configuration"
-msgstr "Levelezés beállítása"
-
-#. Identity page
-#: mail/mail-config.c:1200
-msgid "Identity"
-msgstr "Azonosító"
-
-#. Source page
-#: mail/mail-config.c:1219
-msgid "Mail Source"
-msgstr "Levél forrás"
-
-#. Transport page
-#: mail/mail-config.c:1240
-msgid "Mail Transport"
-msgstr "Levél küldés"
-
-#: mail/mail-config.c:1363
+#: mail/mail-config.c:1434
 msgid "Edit Identity"
 msgstr "Azonosító szerkesztése"
 
-#: mail/mail-config.c:1365
+#: mail/mail-config.c:1436
 msgid "Add Identity"
 msgstr "Azonosító hozzáadása"
 
-#: mail/mail-config.c:1508
+#: mail/mail-config.c:1515
 msgid "Edit Source"
 msgstr "Forrás szerkesztése"
 
-#: mail/mail-config.c:1510
+#: mail/mail-config.c:1517
 msgid "Add Source"
 msgstr "Forrás hozzáadása"
 
-#. "\n\n"
-#. "If the server requires authentication, you can click the "
-#. "\"Detect supported types...\" button after entering "
-#. "the other information."
-#: mail/mail-config.c:1620
-msgid "Enter the hostname of the News Server you have."
-msgstr "Írd be a hírcsoport szervered nevét."
-
-#: mail/mail-config.c:1676
+#: mail/mail-config.c:1598
 msgid "Edit News Server"
 msgstr "Hírcsoport-szerver szerkeszése"
 
-#: mail/mail-config.c:1678
+#: mail/mail-config.c:1600
 msgid "Add News Server"
 msgstr "Hírcsoport-szerver hozzáadása"
 
-#: mail/mail-ops.c:367
+#: mail/mail-ops.c:393
 msgid "Fetching mail"
 msgstr "Levelek letöltése"
 
-#: mail/mail-ops.c:379
+#: mail/mail-ops.c:405
 msgid ""
 "This message has no subject.\n"
 "Really send?"
@@ -2756,7 +2714,7 @@ msgstr ""
 "Nincs tárgya a levélnek.\n"
 "Tényleg elküldjem?"
 
-#: mail/mail-ops.c:767
+#: mail/mail-ops.c:791
 msgid "Move message(s) to"
 msgstr "Levél(levelek) mozgatása más mappába"
 
@@ -2788,27 +2746,27 @@ msgstr "A lekérdezést megszakítottad."
 msgid "Online Status"
 msgstr "Online státusz"
 
-#: mail/message-list.c:484
+#: mail/message-list.c:492
 msgid "From"
 msgstr "Feladó"
 
-#: mail/message-list.c:491
+#: mail/message-list.c:499
 msgid "Subject"
 msgstr "Téma"
 
-#: mail/message-list.c:498
+#: mail/message-list.c:506
 msgid "Date"
 msgstr "Dátum"
 
-#: mail/message-list.c:505
+#: mail/message-list.c:513
 msgid "Received"
 msgstr "Kézbesítve"
 
-#: mail/message-list.c:512
+#: mail/message-list.c:520
 msgid "To"
 msgstr "Címzett"
 
-#: mail/message-list.c:519
+#: mail/message-list.c:527
 msgid "Size"
 msgstr "Méret"
 
@@ -3357,7 +3315,56 @@ msgstr "..."
 #: widgets/shortcut-bar/e-group-bar.c:632
 #, c-format
 msgid "Group %i"
-msgstr "Csoportosítás"
+msgstr "Csoportosítás %i"
+
+#~ msgid "Edit Filter"
+#~ msgstr "Szûrõ szerkesztése"
+
+#~ msgid "Create filter"
+#~ msgstr "Szûrõ készítése"
+
+#~ msgid "Back"
+#~ msgstr "Vissza"
+
+#~ msgid "Finish"
+#~ msgstr "Kész"
+
+#~ msgid "Cancel"
+#~ msgstr "Mégsem"
+
+#~ msgid "Apply"
+#~ msgstr "Alkalmaz"
+
+#~ msgid ""
+#~ "<h2>Create Filtering Rule</h2><p>Select one of the base rules above, then "
+#~ "continue forwards to customise it.</p>"
+#~ msgstr ""
+#~ "<h2>Szûrõ szabály készítése</h2><p>Válassz egyet az alapszabályok közül, "
+#~ "majd folytasd a további beállításokhoz.</p>"
+
+#~ msgid "_Virtual Folder Druid ..."
+#~ msgstr "_Virtuális mappa mágus ..."
+
+#~ msgid "Test these values before continuing"
+#~ msgstr "Az értékek ellenõrzése folytatás elõtt"
+
+#~ msgid "Select the method you would like to use to deliver your mail."
+#~ msgstr "Válassz egy módot, hogy szeretnéd a leveled kézbesítését."
+
+#~ msgid "Mail Configuration"
+#~ msgstr "Levelezés beállítása"
+
+#~ msgid "Identity"
+#~ msgstr "Azonosító"
+
+#~ msgid "Mail Source"
+#~ msgstr "Levél forrás"
+
+#~ msgid "Mail Transport"
+#~ msgstr "Levél küldés"
+
+#~ msgid "Enter the hostname of the News Server you have."
+#~ msgstr "Írd be a hírcsoport szervered nevét."
 
 #~ msgid "Cut selected region into the clipboard"
 #~ msgstr "Vágd ki a kiválasztott részt a vágólapra"

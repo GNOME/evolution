@@ -2,21 +2,19 @@
 # Copyright (C) YEAR Free Software Foundation, Inc.
 # Héctor García Álvarez <hector@scouts-es.org>, 2000.
 #
-#, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: evolution VERSION\n"
-"POT-Creation-Date: 2000-07-10 21:51-0400\n"
+"Project-Id-Version: evolution 0.0.3\n"
+"POT-Creation-Date: 2000-08-02 16:35+0200\n"
 "PO-Revision-Date: 2000-05-03 14:26+0200\n"
 "Last-Translator: Héctor García Alvarez <hector@scouts-es.org>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language-Team: Spanish <es@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=iso-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
 
 #: addressbook/backend/ebook/load-pine-addressbook.c:41
-#: addressbook/gui/component/addressbook-factory.c:58
-#: calendar/gui/calendar-pilot-sync.c:138 calendar/gui/main.c:68
+#: addressbook/gui/component/addressbook-factory.c:59 calendar/gui/main.c:68
 #, fuzzy
 msgid "Could not initialize Bonobo"
 msgstr "Componenete de correo: No pude inicializar Bonobo"
@@ -40,483 +38,484 @@ msgstr ""
 msgid "Available Categories:"
 msgstr "Campos disponibles"
 
-#: addressbook/contact-editor/e-contact-editor.c:579
-#: calendar/gui/event-editor.c:1118
+#: addressbook/contact-editor/e-contact-editor.c:643
+#: calendar/gui/event-editor.c:1168
 #, fuzzy
 msgid "FIXME: _Appointment"
 msgstr "C_ita"
 
-#: addressbook/contact-editor/e-contact-editor.c:580
-#: calendar/gui/event-editor.c:1119
+#: addressbook/contact-editor/e-contact-editor.c:644
+#: calendar/gui/event-editor.c:1169
 #, fuzzy
 msgid "FIXME: Meeting Re_quest"
 msgstr "_Petición de reunión"
 
-#: addressbook/contact-editor/e-contact-editor.c:582
-#: calendar/gui/event-editor.c:1121
+#: addressbook/contact-editor/e-contact-editor.c:646
+#: calendar/gui/event-editor.c:1171
 #, fuzzy
 msgid "FIXME: _Mail Message"
 msgstr "_Mensaje de correo"
 
-#: addressbook/contact-editor/e-contact-editor.c:583
-#: calendar/gui/event-editor.c:1122
+#: addressbook/contact-editor/e-contact-editor.c:647
+#: calendar/gui/event-editor.c:1172
 #, fuzzy
 msgid "FIXME: _Contact"
 msgstr "C_ontacto"
 
-#: addressbook/contact-editor/e-contact-editor.c:584
-#: calendar/gui/event-editor.c:1123
+#: addressbook/contact-editor/e-contact-editor.c:648
+#: calendar/gui/event-editor.c:1173
 msgid "FIXME: _Task"
 msgstr ""
 
-#: addressbook/contact-editor/e-contact-editor.c:585
-#: calendar/gui/event-editor.c:1124
+#: addressbook/contact-editor/e-contact-editor.c:649
+#: calendar/gui/event-editor.c:1174
 #, fuzzy
 msgid "FIXME: Task _Request"
 msgstr "P_etición de tarea"
 
-#: addressbook/contact-editor/e-contact-editor.c:586
-#: calendar/gui/event-editor.c:1125
+#: addressbook/contact-editor/e-contact-editor.c:650
+#: calendar/gui/event-editor.c:1175
 msgid "FIXME: _Journal Entry"
 msgstr ""
 
-#: addressbook/contact-editor/e-contact-editor.c:587
-#: calendar/gui/event-editor.c:1126
+#: addressbook/contact-editor/e-contact-editor.c:651
+#: calendar/gui/event-editor.c:1176
 msgid "FIXME: _Note"
 msgstr ""
 
-#: addressbook/contact-editor/e-contact-editor.c:589
-#: addressbook/contact-editor/e-contact-editor.c:694
-#: calendar/gui/event-editor.c:1128 calendar/gui/event-editor.c:1235
+#: addressbook/contact-editor/e-contact-editor.c:653
+#: addressbook/contact-editor/e-contact-editor.c:758
+#: calendar/gui/event-editor.c:1178 calendar/gui/event-editor.c:1285
 msgid "FIXME: Ch_oose Form..."
 msgstr ""
 
-#: addressbook/contact-editor/e-contact-editor.c:594
-#: calendar/gui/event-editor.c:1133
+#: addressbook/contact-editor/e-contact-editor.c:658
+#: calendar/gui/event-editor.c:1183
 msgid "FIXME: _Memo Style"
 msgstr ""
 
-#: addressbook/contact-editor/e-contact-editor.c:596
-#: calendar/gui/event-editor.c:1135
+#: addressbook/contact-editor/e-contact-editor.c:660
+#: calendar/gui/event-editor.c:1185
 msgid "FIXME: Define Print _Styles..."
 msgstr ""
 
-#: addressbook/contact-editor/e-contact-editor.c:603
-#: calendar/gui/event-editor.c:1142
+#: addressbook/contact-editor/e-contact-editor.c:667
+#: calendar/gui/event-editor.c:1192
 msgid "FIXME: S_end"
 msgstr ""
 
-#: addressbook/contact-editor/e-contact-editor.c:607
-#: calendar/gui/event-editor.c:1146
+#: addressbook/contact-editor/e-contact-editor.c:671
+#: calendar/gui/event-editor.c:1196
 #, fuzzy
 msgid "FIXME: Save Attac_hments..."
 msgstr "Incluir adjunto..."
 
-#: addressbook/contact-editor/e-contact-editor.c:609
-#: calendar/gui/event-editor.c:1148
+#: addressbook/contact-editor/e-contact-editor-strings.h:8
+#: addressbook/contact-editor/e-contact-editor.c:673
 #, fuzzy
-msgid "FIXME: _Delete"
+msgid "_Delete"
 msgstr "Borrar"
 
-#: addressbook/contact-editor/e-contact-editor.c:610
-#: calendar/gui/event-editor.c:1149
+#: addressbook/contact-editor/e-contact-editor.c:674
+#: calendar/gui/event-editor.c:1199
 msgid "FIXME: _Move to Folder..."
 msgstr ""
 
-#: addressbook/contact-editor/e-contact-editor.c:611
-#: calendar/gui/event-editor.c:1150
+#: addressbook/contact-editor/e-contact-editor.c:675
+#: calendar/gui/event-editor.c:1200
 msgid "FIXME: Cop_y to Folder..."
 msgstr ""
 
-#: addressbook/contact-editor/e-contact-editor.c:613
-#: calendar/gui/event-editor.c:1152
+#: addressbook/contact-editor/e-contact-editor.c:677
+#: calendar/gui/event-editor.c:1202
 #, fuzzy
 msgid "Page Set_up"
 msgstr "Configuración de la página:"
 
-#: addressbook/contact-editor/e-contact-editor.c:614
-#: calendar/gui/event-editor.c:1153
+#: addressbook/contact-editor/e-contact-editor.c:678
+#: calendar/gui/event-editor.c:1203
 msgid "FIXME: Print Pre_view"
 msgstr ""
 
-#: addressbook/contact-editor/e-contact-editor.c:635
-#: calendar/gui/event-editor.c:1174
+#: addressbook/contact-editor/e-contact-editor.c:699
+#: calendar/gui/event-editor.c:1224
 msgid "FIXME: Paste _Special..."
 msgstr ""
 
-#: addressbook/contact-editor/e-contact-editor.c:640
-#: calendar/gui/event-editor.c:1179
+#: addressbook/contact-editor/e-contact-editor.c:704
+#: calendar/gui/event-editor.c:1229
 msgid "FIXME: Mark as U_nread"
 msgstr ""
 
-#: addressbook/contact-editor/e-contact-editor.c:644
-#: calendar/gui/event-editor.c:1183
+#: addressbook/contact-editor/e-contact-editor.c:708
+#: calendar/gui/event-editor.c:1233
 #, fuzzy
 msgid "_Object"
 msgstr "Asunto"
 
-#: addressbook/contact-editor/e-contact-editor.c:649
-#: addressbook/contact-editor/e-contact-editor.c:656
-#: calendar/gui/event-editor.c:1188 calendar/gui/event-editor.c:1195
+#: addressbook/contact-editor/e-contact-editor.c:713
+#: addressbook/contact-editor/e-contact-editor.c:720
+#: calendar/gui/event-editor.c:1238 calendar/gui/event-editor.c:1245
 msgid "FIXME: _Item"
 msgstr ""
 
-#: addressbook/contact-editor/e-contact-editor.c:650
-#: addressbook/contact-editor/e-contact-editor.c:657
-#: calendar/gui/event-editor.c:1189 calendar/gui/event-editor.c:1196
+#: addressbook/contact-editor/e-contact-editor.c:714
+#: addressbook/contact-editor/e-contact-editor.c:721
+#: calendar/gui/event-editor.c:1239 calendar/gui/event-editor.c:1246
 msgid "FIXME: _Unread Item"
 msgstr ""
 
-#: addressbook/contact-editor/e-contact-editor.c:651
-#: calendar/gui/event-editor.c:1190
+#: addressbook/contact-editor/e-contact-editor.c:715
+#: calendar/gui/event-editor.c:1240
 msgid "FIXME: Fi_rst Item in Folder"
 msgstr ""
 
-#: addressbook/contact-editor/e-contact-editor.c:658
-#: calendar/gui/event-editor.c:1197
+#: addressbook/contact-editor/e-contact-editor.c:722
+#: calendar/gui/event-editor.c:1247
 msgid "FIXME: _Last Item in Folder"
 msgstr ""
 
-#: addressbook/contact-editor/e-contact-editor.c:663
-#: calendar/gui/event-editor.c:1202
+#: addressbook/contact-editor/e-contact-editor.c:727
+#: calendar/gui/event-editor.c:1252
 msgid "FIXME: _Standard"
 msgstr ""
 
-#: addressbook/contact-editor/e-contact-editor.c:665
-#: calendar/gui/event-editor.c:1204
+#: addressbook/contact-editor/e-contact-editor.c:729
+#: calendar/gui/event-editor.c:1254
 msgid "FIXME: __Formatting"
 msgstr ""
 
-#: addressbook/contact-editor/e-contact-editor.c:668
-#: calendar/gui/event-editor.c:1207
+#: addressbook/contact-editor/e-contact-editor.c:732
+#: calendar/gui/event-editor.c:1257
 msgid "FIXME: _Customize..."
 msgstr ""
 
-#: addressbook/contact-editor/e-contact-editor.c:673
-#: calendar/gui/event-editor.c:1212
+#: addressbook/contact-editor/e-contact-editor.c:737
+#: calendar/gui/event-editor.c:1262
 msgid "Pre_vious"
 msgstr ""
 
-#: addressbook/contact-editor/e-contact-editor.c:674
-#: calendar/gui/event-editor.c:1213
+#: addressbook/contact-editor/e-contact-editor.c:738
+#: calendar/gui/event-editor.c:1263
 msgid "Ne_xt"
 msgstr ""
 
-#: addressbook/contact-editor/e-contact-editor.c:676
-#: calendar/gui/event-editor.c:1217
+#: addressbook/contact-editor/e-contact-editor.c:740
+#: calendar/gui/event-editor.c:1267
 #, fuzzy
 msgid "_Toolbars"
 msgstr "_Herramientas"
 
-#: addressbook/contact-editor/e-contact-editor.c:681
-#: calendar/gui/event-editor.c:1222
+#: addressbook/contact-editor/e-contact-editor.c:745
+#: calendar/gui/event-editor.c:1272
 msgid "FIXME: _File..."
 msgstr ""
 
-#: addressbook/contact-editor/e-contact-editor.c:682
-#: calendar/gui/event-editor.c:1223
+#: addressbook/contact-editor/e-contact-editor.c:746
+#: calendar/gui/event-editor.c:1273
 msgid "FIXME: It_em..."
 msgstr ""
 
-#: addressbook/contact-editor/e-contact-editor.c:683
-#: calendar/gui/event-editor.c:1224
+#: addressbook/contact-editor/e-contact-editor.c:747
+#: calendar/gui/event-editor.c:1274
 msgid "FIXME: _Object..."
 msgstr ""
 
-#: addressbook/contact-editor/e-contact-editor.c:688
-#: calendar/gui/event-editor.c:1229
+#: addressbook/contact-editor/e-contact-editor.c:752
+#: calendar/gui/event-editor.c:1279
 #, fuzzy
 msgid "FIXME: _Font..."
 msgstr "Fuente..."
 
-#: addressbook/contact-editor/e-contact-editor.c:689
-#: calendar/gui/event-editor.c:1230
+#: addressbook/contact-editor/e-contact-editor.c:753
+#: calendar/gui/event-editor.c:1280
 msgid "FIXME: _Paragraph..."
 msgstr ""
 
-#: addressbook/contact-editor/e-contact-editor.c:696
-#: calendar/gui/event-editor.c:1237
+#: addressbook/contact-editor/e-contact-editor.c:760
+#: calendar/gui/event-editor.c:1287
 msgid "FIXME: Desi_gn This Form"
 msgstr ""
 
-#: addressbook/contact-editor/e-contact-editor.c:697
-#: calendar/gui/event-editor.c:1238
+#: addressbook/contact-editor/e-contact-editor.c:761
+#: calendar/gui/event-editor.c:1288
 msgid "FIXME: D_esign a Form..."
 msgstr ""
 
-#: addressbook/contact-editor/e-contact-editor.c:699
-#: calendar/gui/event-editor.c:1240
+#: addressbook/contact-editor/e-contact-editor.c:763
+#: calendar/gui/event-editor.c:1290
 msgid "FIXME: Publish _Form..."
 msgstr ""
 
-#: addressbook/contact-editor/e-contact-editor.c:700
-#: calendar/gui/event-editor.c:1241
+#: addressbook/contact-editor/e-contact-editor.c:764
+#: calendar/gui/event-editor.c:1291
 msgid "FIXME: Pu_blish Form As..."
 msgstr ""
 
-#: addressbook/contact-editor/e-contact-editor.c:702
-#: calendar/gui/event-editor.c:1243
+#: addressbook/contact-editor/e-contact-editor.c:766
+#: calendar/gui/event-editor.c:1293
 msgid "FIXME: Script _Debugger"
 msgstr ""
 
-#: addressbook/contact-editor/e-contact-editor.c:707
-#: calendar/gui/event-editor.c:1248
+#: addressbook/contact-editor/e-contact-editor.c:771
+#: calendar/gui/event-editor.c:1298
 msgid "FIXME: _Spelling..."
 msgstr ""
 
-#: addressbook/contact-editor/e-contact-editor.c:709
-#: calendar/gui/event-editor.c:1253
+#: addressbook/contact-editor/e-contact-editor.c:773
+#: calendar/gui/event-editor.c:1303
 #, fuzzy
 msgid "_Forms"
 msgstr "Formatear"
 
-#: addressbook/contact-editor/e-contact-editor.c:714
+#: addressbook/contact-editor/e-contact-editor.c:778
 msgid "FIXME: _New Contact"
 msgstr ""
 
-#: addressbook/contact-editor/e-contact-editor.c:715
+#: addressbook/contact-editor/e-contact-editor.c:779
 msgid "FIXME: New _Contact from Same Company"
 msgstr ""
 
-#: addressbook/contact-editor/e-contact-editor.c:717
+#: addressbook/contact-editor/e-contact-editor.c:781
 msgid "FIXME: New _Letter to Contact"
 msgstr ""
 
-#: addressbook/contact-editor/e-contact-editor.c:718
+#: addressbook/contact-editor/e-contact-editor.c:782
 msgid "FIXME: New _Message to Contact"
 msgstr ""
 
-#: addressbook/contact-editor/e-contact-editor.c:719
+#: addressbook/contact-editor/e-contact-editor.c:783
 msgid "FIXME: New Meetin_g with Contact"
 msgstr ""
 
-#: addressbook/contact-editor/e-contact-editor.c:720
+#: addressbook/contact-editor/e-contact-editor.c:784
 msgid "FIXME: _Plan a Meeting..."
 msgstr ""
 
-#: addressbook/contact-editor/e-contact-editor.c:721
+#: addressbook/contact-editor/e-contact-editor.c:785
 msgid "FIXME: New _Task for Contact"
 msgstr ""
 
-#: addressbook/contact-editor/e-contact-editor.c:722
+#: addressbook/contact-editor/e-contact-editor.c:786
 msgid "FIXME: New _Journal Entry for Contact"
 msgstr ""
 
-#: addressbook/contact-editor/e-contact-editor.c:724
+#: addressbook/contact-editor/e-contact-editor.c:788
 msgid "FIXME: _Flag for Follow Up..."
 msgstr ""
 
-#: addressbook/contact-editor/e-contact-editor.c:725
+#: addressbook/contact-editor/e-contact-editor.c:789
 msgid "FIXME: _Display Map of Address"
 msgstr ""
 
-#: addressbook/contact-editor/e-contact-editor.c:726
+#: addressbook/contact-editor/e-contact-editor.c:790
 msgid "FIXME: _Open Web Page"
 msgstr ""
 
-#: addressbook/contact-editor/e-contact-editor.c:728
+#: addressbook/contact-editor/e-contact-editor.c:792
 msgid "FIXME: Forward as _vCard"
 msgstr ""
 
-#: addressbook/contact-editor/e-contact-editor.c:729
-#: calendar/gui/event-editor.c:1266
+#: addressbook/contact-editor/e-contact-editor.c:793
+#: calendar/gui/event-editor.c:1316
 #, fuzzy
 msgid "FIXME: For_ward"
 msgstr "Reenviar"
 
-#: addressbook/contact-editor/e-contact-editor.c:741
-#: calendar/gui/event-editor.c:1279
+#: addressbook/contact-editor/e-contact-editor.c:805
+#: calendar/gui/event-editor.c:1329
 msgid "_Insert"
 msgstr ""
 
-#: addressbook/contact-editor/e-contact-editor.c:742
-#: calendar/gui/event-editor.c:1280
+#: addressbook/contact-editor/e-contact-editor.c:806
+#: calendar/gui/event-editor.c:1330
 #, fuzzy
 msgid "F_ormat"
 msgstr "Formatear"
 
-#. FIXME: add Favorites here
-#: addressbook/contact-editor/e-contact-editor.c:743
-#: calendar/gui/event-editor.c:1281 shell/e-shell-view-menu.c:473
+#: addressbook/contact-editor/e-contact-editor.c:807
+#: calendar/gui/event-editor.c:1331 shell/e-shell-view-menu.c:515
 msgid "_Tools"
 msgstr "_Herramientas"
 
-#: addressbook/contact-editor/e-contact-editor.c:744
-#: calendar/gui/event-editor.c:1282
+#: addressbook/contact-editor/e-contact-editor.c:808
+#: calendar/gui/event-editor.c:1332
 #, fuzzy
 msgid "Actio_ns"
 msgstr "_Acciones"
 
-#: addressbook/contact-editor/e-contact-editor.c:775
+#: addressbook/contact-editor/e-contact-editor.c:839
 msgid "Save and Close"
 msgstr ""
 
-#: addressbook/contact-editor/e-contact-editor.c:776
-#: calendar/gui/event-editor.c:1321
+#: addressbook/contact-editor/e-contact-editor.c:840
+#: calendar/gui/event-editor.c:1371
 msgid "Save the appointment and close the dialog box"
 msgstr ""
 
-#: addressbook/contact-editor/e-contact-editor.c:780
-#: calendar/gui/event-editor.c:1325
-msgid "FIXME: Print..."
-msgstr ""
+#: addressbook/contact-editor/e-contact-editor.c:844
+#: calendar/gui/calendar-commands.c:673
+#, fuzzy
+msgid "Print..."
+msgstr "Imprimir"
 
-#: addressbook/contact-editor/e-contact-editor.c:781
-#: calendar/gui/event-editor.c:1326
+#: addressbook/contact-editor/e-contact-editor.c:845
+#: calendar/gui/event-editor.c:1376
 msgid "Print this item"
 msgstr ""
 
-#: addressbook/contact-editor/e-contact-editor.c:782
-#: calendar/gui/event-editor.c:1327
+#: addressbook/contact-editor/e-contact-editor.c:848
+#: calendar/gui/event-editor.c:1377
 msgid "FIXME: Insert File..."
 msgstr ""
 
-#: addressbook/contact-editor/e-contact-editor.c:783
-#: calendar/gui/event-editor.c:1328
+#: addressbook/contact-editor/e-contact-editor.c:849
+#: calendar/gui/event-editor.c:1378
 msgid "Insert a file as an attachment"
 msgstr ""
 
-#: addressbook/contact-editor/e-contact-editor.c:785
-#: calendar/gui/event-editor.c:1336
-#, fuzzy
-msgid "FIXME: Delete"
+#. Delete
+#: addressbook/contact-editor/e-contact-editor.c:852
+#: addressbook/gui/component/addressbook.c:426 calendar/gui/gncal-todo.c:508
+#: mail/folder-browser-factory.c:39
+msgid "Delete"
 msgstr "Borrar"
 
-#: addressbook/contact-editor/e-contact-editor.c:786
-#: calendar/gui/event-editor.c:1337 calendar/gui/gncal-todo.c:326
+#: addressbook/contact-editor/e-contact-editor.c:853
+#: calendar/gui/event-editor.c:1387 calendar/gui/gncal-todo.c:336
 #, fuzzy
 msgid "Delete this item"
 msgstr "Borrar este mensaje"
 
-#: addressbook/contact-editor/e-contact-editor.c:788
-#: calendar/gui/event-editor.c:1339
+#: addressbook/contact-editor/e-contact-editor.c:856
+#: calendar/gui/event-editor.c:1389
 msgid "FIXME: Previous"
 msgstr ""
 
-#: addressbook/contact-editor/e-contact-editor.c:789
-#: calendar/gui/event-editor.c:1340
+#: addressbook/contact-editor/e-contact-editor.c:857
+#: calendar/gui/event-editor.c:1390
 msgid "Go to the previous item"
 msgstr ""
 
-#: addressbook/contact-editor/e-contact-editor.c:790
-#: calendar/gui/event-editor.c:1341
+#: addressbook/contact-editor/e-contact-editor.c:859
+#: calendar/gui/event-editor.c:1391
 msgid "FIXME: Next"
 msgstr ""
 
-#: addressbook/contact-editor/e-contact-editor.c:791
-#: calendar/gui/event-editor.c:1342
+#: addressbook/contact-editor/e-contact-editor.c:860
+#: calendar/gui/event-editor.c:1392
 msgid "Go to the next item"
 msgstr ""
 
-#: addressbook/contact-editor/e-contact-editor.c:792
-#: calendar/gui/event-editor.c:1343
+#: addressbook/contact-editor/e-contact-editor.c:862
+#: calendar/gui/event-editor.c:1393
 msgid "FIXME: Help"
 msgstr ""
 
-#: addressbook/contact-editor/e-contact-editor.c:793
-#: calendar/gui/event-editor.c:1344
+#: addressbook/contact-editor/e-contact-editor.c:863
+#: calendar/gui/event-editor.c:1394
 msgid "See online help"
 msgstr ""
 
-#: addressbook/contact-editor/e-contact-editor.c:1208
+#: addressbook/contact-editor/e-contact-editor.c:1278
 #, fuzzy
 msgid "Assistant"
 msgstr "Nombre del asistente:"
 
-#: addressbook/contact-editor/e-contact-editor.c:1209
-#: addressbook/contact-editor/e-contact-editor.c:1313
+#: addressbook/contact-editor/e-contact-editor.c:1279
+#: addressbook/contact-editor/e-contact-editor.c:1383
 msgid "Business"
 msgstr "Trabajo"
 
-#: addressbook/contact-editor/e-contact-editor.c:1210
+#: addressbook/contact-editor/e-contact-editor.c:1280
 #, fuzzy
 msgid "Business 2"
 msgstr "Trabajo"
 
-#: addressbook/contact-editor/e-contact-editor.c:1211
+#: addressbook/contact-editor/e-contact-editor.c:1281
 #, fuzzy
 msgid "Business Fax"
 msgstr "_Fax del trabajo"
 
-#: addressbook/contact-editor/e-contact-editor.c:1212
+#: addressbook/contact-editor/e-contact-editor.c:1282
 msgid "Callback"
 msgstr ""
 
-#: addressbook/contact-editor/e-contact-editor.c:1213
+#: addressbook/contact-editor/e-contact-editor.c:1283
 msgid "Car"
 msgstr ""
 
-#: addressbook/contact-editor/e-contact-editor.c:1214
+#: addressbook/contact-editor/e-contact-editor.c:1284
 #, fuzzy
 msgid "Company"
 msgstr "Compañia:"
 
-#: addressbook/contact-editor/e-contact-editor.c:1215
-#: addressbook/contact-editor/e-contact-editor.c:1314
+#: addressbook/contact-editor/e-contact-editor.c:1285
+#: addressbook/contact-editor/e-contact-editor.c:1384
 #, fuzzy
 msgid "Home"
 msgstr "_Casa"
 
-#: addressbook/contact-editor/e-contact-editor.c:1216
+#: addressbook/contact-editor/e-contact-editor.c:1286
 #, fuzzy
 msgid "Home 2"
 msgstr "_Casa"
 
-#: addressbook/contact-editor/e-contact-editor.c:1217
+#: addressbook/contact-editor/e-contact-editor.c:1287
 #, fuzzy
 msgid "Home Fax"
 msgstr "_Casa"
 
-#: addressbook/contact-editor/e-contact-editor.c:1218
+#: addressbook/contact-editor/e-contact-editor.c:1288
 msgid "ISDN"
 msgstr ""
 
-#: addressbook/contact-editor/e-contact-editor.c:1219
+#: addressbook/contact-editor/e-contact-editor.c:1289
 #, fuzzy
 msgid "Mobile"
 msgstr "_Movil"
 
-#: addressbook/contact-editor/e-contact-editor.c:1220
-#: addressbook/contact-editor/e-contact-editor.c:1315
+#: addressbook/contact-editor/e-contact-editor.c:1290
+#: addressbook/contact-editor/e-contact-editor.c:1385
 msgid "Other"
 msgstr ""
 
-#: addressbook/contact-editor/e-contact-editor.c:1221
+#: addressbook/contact-editor/e-contact-editor.c:1291
 msgid "Other Fax"
 msgstr ""
 
-#: addressbook/contact-editor/e-contact-editor.c:1222
+#: addressbook/contact-editor/e-contact-editor.c:1292
 #, fuzzy
 msgid "Pager"
 msgstr "Pagina"
 
-#: addressbook/contact-editor/e-contact-editor.c:1223
+#: addressbook/contact-editor/e-contact-editor.c:1293
 #, fuzzy
 msgid "Primary"
 msgstr "Correo electrónico principal"
 
-#: addressbook/contact-editor/e-contact-editor.c:1224
+#: addressbook/contact-editor/e-contact-editor.c:1294
 msgid "Radio"
 msgstr ""
 
-#: addressbook/contact-editor/e-contact-editor.c:1225
+#: addressbook/contact-editor/e-contact-editor.c:1295
 msgid "Telex"
 msgstr ""
 
-#: addressbook/contact-editor/e-contact-editor.c:1226
+#: addressbook/contact-editor/e-contact-editor.c:1296
 msgid "TTY/TDD"
 msgstr ""
 
 #: addressbook/contact-editor/e-contact-editor-strings.h:23
-#: addressbook/contact-editor/e-contact-editor.c:1270
+#: addressbook/contact-editor/e-contact-editor.c:1340
 msgid "Primary Email"
 msgstr "Correo electrónico principal"
 
-#: addressbook/contact-editor/e-contact-editor.c:1271
+#: addressbook/contact-editor/e-contact-editor.c:1341
 msgid "Email 2"
 msgstr ""
 
-#: addressbook/contact-editor/e-contact-editor.c:1272
+#: addressbook/contact-editor/e-contact-editor.c:1342
 msgid "Email 3"
 msgstr ""
 
@@ -530,11 +529,6 @@ msgstr ""
 msgid "_Add"
 msgstr "Añadir"
 
-#: addressbook/contact-editor/e-contact-editor-strings.h:8
-#, fuzzy
-msgid "_Delete"
-msgstr "Borrar"
-
 #: addressbook/contact-editor/e-contact-editor-strings.h:9
 msgid "Phone Types"
 msgstr "Tipo de teléfono"
@@ -545,7 +539,6 @@ msgid "New phone type"
 msgstr "Nuevo tipo de teléfono"
 
 #: addressbook/contact-editor/e-contact-editor-strings.h:11
-#: calendar/gui/event-editor-dialog.glade.h:91
 msgid "Add"
 msgstr "Añadir"
 
@@ -619,7 +612,6 @@ msgid "_Company:"
 msgstr "Compañia:"
 
 #: addressbook/contact-editor/e-contact-editor-strings.h:30
-#: calendar/gui/event-editor-dialog.glade.h:41
 msgid "General"
 msgstr "General"
 
@@ -736,66 +728,59 @@ msgstr ""
 "III\n"
 "Esq.\n"
 
-#: addressbook/gui/component/addressbook.c:415
+#: addressbook/gui/component/addressbook.c:420
 #: calendar/gui/calendar-commands.c:544
 #, fuzzy
 msgid "New"
 msgstr "Correo _nuevo"
 
-#: addressbook/gui/component/addressbook.c:415
+#: addressbook/gui/component/addressbook.c:420
 msgid "Create a new contact"
 msgstr ""
 
-#: addressbook/gui/component/addressbook.c:419
+#: addressbook/gui/component/addressbook.c:424
 msgid "Find"
 msgstr "Buscar"
 
-#: addressbook/gui/component/addressbook.c:419
+#: addressbook/gui/component/addressbook.c:424
 msgid "Find a contact"
 msgstr ""
 
-#: addressbook/gui/component/addressbook.c:420
-#: addressbook/gui/component/addressbook.c:487
-#: calendar/gui/calendar-commands.c:548 mail/folder-browser-factory.c:43
+#: addressbook/gui/component/addressbook.c:425
+#: addressbook/gui/component/addressbook.c:492
+#: calendar/gui/calendar-commands.c:548 mail/folder-browser-factory.c:37
 msgid "Print"
 msgstr "Imprimir"
 
-#: addressbook/gui/component/addressbook.c:420
+#: addressbook/gui/component/addressbook.c:425
 msgid "Print contacts"
 msgstr ""
 
-#. Delete
-#: addressbook/gui/component/addressbook.c:421
-#: calendar/gui/event-editor-dialog.glade.h:93 calendar/gui/gncal-todo.c:498
-#: mail/folder-browser-factory.c:45
-msgid "Delete"
-msgstr "Borrar"
-
-#: addressbook/gui/component/addressbook.c:421
+#: addressbook/gui/component/addressbook.c:426
 #, fuzzy
 msgid "Delete a contact"
 msgstr "Seleccionar un adjunto"
 
-#: addressbook/gui/component/addressbook.c:494
+#: addressbook/gui/component/addressbook.c:499
 #: addressbook/gui/component/addressbook.c:1034
 msgid "As _Table"
 msgstr ""
 
-#: addressbook/gui/component/addressbook.c:501
+#: addressbook/gui/component/addressbook.c:506
 #, fuzzy
 msgid "_New Contact"
 msgstr "C_ontacto"
 
-#: addressbook/gui/component/addressbook.c:509
+#: addressbook/gui/component/addressbook.c:514
 msgid "N_ew Directory Server"
 msgstr ""
 
-#: addressbook/gui/component/addressbook.c:588
+#: addressbook/gui/component/addressbook.c:593
 #, fuzzy
 msgid "Unable to open addressbook"
 msgstr "Presione aquí para acceder a la agenda"
 
-#: addressbook/gui/component/addressbook.c:593
+#: addressbook/gui/component/addressbook.c:598
 msgid ""
 "We were unable to open this addressbook.  This either\n"
 "means you have entered an incorrect URI, or have tried\n"
@@ -808,7 +793,7 @@ msgid ""
 msgstr ""
 
 #: addressbook/gui/component/addressbook.c:938
-#: addressbook/gui/minicard/e-minicard.c:329
+#: addressbook/gui/minicard/e-minicard.c:330
 msgid "Save as VCard"
 msgstr ""
 
@@ -867,7 +852,7 @@ msgid "g"
 msgstr ""
 
 #: addressbook/gui/component/alphabet.glade.h:16
-#: calendar/cal-util/timeutil.c:98
+#: calendar/cal-util/timeutil.c:131
 msgid "h"
 msgstr ""
 
@@ -1083,7 +1068,6 @@ msgstr "Tipo:"
 
 #: addressbook/printing/e-contact-print.glade.h:31
 #: addressbook/printing/e-contact-print.glade.h:43
-#: calendar/gui/event-editor-dialog.glade.h:81
 msgid "label26"
 msgstr "label26"
 
@@ -1162,12 +1146,12 @@ msgstr ""
 msgid "Header/Footer"
 msgstr "Cabecera/Pie"
 
-#: calendar/cal-util/timeutil.c:96 calendar/gui/print.c:544
+#: calendar/cal-util/timeutil.c:129 calendar/gui/print.c:544
 #, fuzzy
 msgid "am"
 msgstr "Nombre"
 
-#: calendar/cal-util/timeutil.c:96 calendar/gui/print.c:543
+#: calendar/cal-util/timeutil.c:129 calendar/gui/print.c:543
 msgid "pm"
 msgstr ""
 
@@ -1233,8 +1217,8 @@ msgstr ""
 msgid "Save calendar"
 msgstr ""
 
-#: calendar/gui/calendar-commands.c:522 calendar/gui/gncal-todo.c:712
-#: calendar/gui/gncal-todo.c:716
+#: calendar/gui/calendar-commands.c:522 calendar/gui/gncal-todo.c:722
+#: calendar/gui/gncal-todo.c:726
 msgid "Day"
 msgstr ""
 
@@ -1250,7 +1234,7 @@ msgstr ""
 msgid "Show the working week"
 msgstr ""
 
-#: calendar/gui/calendar-commands.c:528 calendar/gui/gncal-todo.c:711
+#: calendar/gui/calendar-commands.c:528 calendar/gui/gncal-todo.c:721
 msgid "Week"
 msgstr ""
 
@@ -1302,7 +1286,7 @@ msgstr "Cuerpo"
 msgid "Go to present time"
 msgstr ""
 
-#: calendar/gui/calendar-commands.c:554 filter/filter-editor.c:210
+#: calendar/gui/calendar-commands.c:554
 msgid "Next"
 msgstr ""
 
@@ -1339,11 +1323,6 @@ msgstr ""
 msgid "Save Calendar As"
 msgstr ""
 
-#: calendar/gui/calendar-commands.c:673
-#, fuzzy
-msgid "Print..."
-msgstr "Imprimir"
-
 #: calendar/gui/calendar-commands.c:682
 #, fuzzy
 msgid "_New appointment..."
@@ -1377,66 +1356,6 @@ msgstr ""
 msgid "'s calendar"
 msgstr ""
 
-#: calendar/gui/calendar-pilot-sync.c:68
-msgid "Specifies the port on which the Pilot is"
-msgstr ""
-
-#: calendar/gui/calendar-pilot-sync.c:68
-msgid "PORT"
-msgstr ""
-
-#: calendar/gui/calendar-pilot-sync.c:70
-msgid "If you want to debug the attributes on records"
-msgstr ""
-
-#: calendar/gui/calendar-pilot-sync.c:72
-msgid "Only syncs from desktop to pilot"
-msgstr ""
-
-#: calendar/gui/calendar-pilot-sync.c:74
-msgid "Only syncs from pilot to desktop"
-msgstr ""
-
-#: calendar/gui/calendar-pilot-sync.c:97
-msgid "Can not create Pilot socket\n"
-msgstr ""
-
-#: calendar/gui/calendar-pilot-sync.c:104
-#, c-format
-msgid "Can not bind to device %s\n"
-msgstr ""
-
-#: calendar/gui/calendar-pilot-sync.c:107
-msgid "Failed to get a connection from the Pilot device"
-msgstr ""
-
-#: calendar/gui/calendar-pilot-sync.c:111
-msgid "pi_accept failed"
-msgstr ""
-
-#: calendar/gui/calendar-pilot-sync.c:211
-msgid ""
-"\tObject has been modified on desktop and on the pilot, desktop takes "
-"precedence\n"
-msgstr ""
-
-#: calendar/gui/calendar-pilot-sync.c:531
-#, fuzzy
-msgid "No description"
-msgstr "Descripción:"
-
-#: calendar/gui/calendar-pilot-sync.c:692
-msgid "Could not open DatebookDB on the Pilot"
-msgstr ""
-
-#: calendar/gui/calendar-pilot-sync.c:693
-msgid "Unable to open DatebookDB"
-msgstr ""
-
-#: calendar/gui/calendar-pilot-sync.c:728
-msgid "Synced DateBook from Pilot to GnomeCal"
-msgstr ""
-
 #: calendar/gui/control-factory.c:136
 #, fuzzy
 msgid "The URI that the calendar will display"
@@ -1459,7 +1378,7 @@ msgstr ""
 msgid "Close"
 msgstr ""
 
-#: calendar/gui/dialogs/alarm-notify.glade.h:8 calendar/gui/gnome-cal.c:1056
+#: calendar/gui/dialogs/alarm-notify.glade.h:8 calendar/gui/gnome-cal.c:1070
 #, fuzzy
 msgid "Snooze"
 msgstr "Tamaño"
@@ -1508,366 +1427,105 @@ msgstr "Borrar este mensaje"
 msgid "Delete all occurrences"
 msgstr ""
 
-#: calendar/gui/event-editor.c:289
+#: calendar/gui/event-editor.c:291
 #, fuzzy
 msgid "Edit Appointment"
 msgstr "C_ita"
 
-#: calendar/gui/event-editor.c:294
+#: calendar/gui/event-editor.c:296
 msgid "No summary"
 msgstr ""
 
-#: calendar/gui/event-editor.c:298
+#: calendar/gui/event-editor.c:300
 #, fuzzy, c-format
 msgid "Appointment - %s"
 msgstr "C_ita"
 
-#: calendar/gui/event-editor.c:301
+#: calendar/gui/event-editor.c:303
 #, c-format
 msgid "Task - %s"
 msgstr ""
 
-#: calendar/gui/event-editor.c:304
+#: calendar/gui/event-editor.c:306
 #, c-format
 msgid "Journal entry - %s"
 msgstr ""
 
 #. Owner, summary
-#: calendar/gui/event-editor.c:594 calendar/gui/event-editor.c:688
+#: calendar/gui/event-editor.c:622 calendar/gui/event-editor.c:718
 msgid "?"
 msgstr ""
 
-#: calendar/gui/event-editor.c:1215
+#: calendar/gui/event-editor.c:1198
+#, fuzzy
+msgid "FIXME: _Delete"
+msgstr "Borrar"
+
+#: calendar/gui/event-editor.c:1265
 msgid "FIXME: Ca_lendar..."
 msgstr ""
 
-#: calendar/gui/event-editor.c:1250
+#: calendar/gui/event-editor.c:1300
 msgid "FIXME: Chec_k Names"
 msgstr ""
 
-#: calendar/gui/event-editor.c:1251
+#: calendar/gui/event-editor.c:1301
 msgid "FIXME: Address _Book..."
 msgstr ""
 
-#: calendar/gui/event-editor.c:1258
+#: calendar/gui/event-editor.c:1308
 #, fuzzy
 msgid "FIXME: _New Appointment"
 msgstr "C_ita"
 
-#: calendar/gui/event-editor.c:1260
+#: calendar/gui/event-editor.c:1310
 msgid "FIXME: Rec_urrence..."
 msgstr ""
 
-#: calendar/gui/event-editor.c:1262
-msgid "FIXME: Intive _Attendees..."
-msgstr ""
+#: calendar/gui/event-editor.c:1312
+#, fuzzy
+msgid "FIXME: Invite _Attendees..."
+msgstr "Incluir adjunto..."
 
-#: calendar/gui/event-editor.c:1263
+#: calendar/gui/event-editor.c:1313
 msgid "FIXME: C_ancel Invitation..."
 msgstr ""
 
-#: calendar/gui/event-editor.c:1265
+#: calendar/gui/event-editor.c:1315
 msgid "FIXME: Forward as v_Calendar"
 msgstr ""
 
-#: calendar/gui/event-editor.c:1320
+#: calendar/gui/event-editor.c:1370
 msgid "FIXME: Save and Close"
 msgstr ""
 
-#: calendar/gui/event-editor.c:1330
+#: calendar/gui/event-editor.c:1375
+msgid "FIXME: Print..."
+msgstr ""
+
+#: calendar/gui/event-editor.c:1380
 msgid "FIXME: Recurrence..."
 msgstr ""
 
-#: calendar/gui/event-editor.c:1331
+#: calendar/gui/event-editor.c:1381
 msgid "Configure recurrence rules"
 msgstr ""
 
-#: calendar/gui/event-editor.c:1333
+#: calendar/gui/event-editor.c:1383
 msgid "FIXME: Invite Attendees..."
 msgstr ""
 
-#: calendar/gui/event-editor.c:1334
+#: calendar/gui/event-editor.c:1384
 msgid "Invite attendees to a meeting"
 msgstr ""
 
-#: calendar/gui/event-editor.c:1745
+#: calendar/gui/event-editor.c:1386
+#, fuzzy
+msgid "FIXME: Delete"
+msgstr "Borrar"
+
+#: calendar/gui/event-editor.c:1828
 msgid "%a %b %d %Y"
-msgstr ""
-
-#. todo
-#.
-#. build some of the recur stuff by hand to take into account
-#. the start-on-monday preference?
-#.
-#. get the apply button to work right
-#.
-#. make the properties stuff unglobal
-#.
-#. figure out why alarm units aren't sticking between edits
-#.
-#. closing the dialog window with the wm caused a crash
-#. Gtk-WARNING **: invalid cast from `(unknown)' to `GnomeDialog'
-#. on line 669:  gnome_dialog_close (GNOME_DIALOG(dialog->dialog));
-#.
-#.
-#. * Translatable strings file generated by Glade.
-#. * Add this file to your project's POTFILES.in.
-#. * DO NOT compile it as part of your application.
-#.
-#: calendar/gui/event-editor-dialog.glade.h:7
-msgid "event-editor-dialog"
-msgstr ""
-
-#: calendar/gui/event-editor-dialog.glade.h:8
-msgid "_Summary:"
-msgstr ""
-
-#: calendar/gui/event-editor-dialog.glade.h:9
-msgid "_Owner:"
-msgstr ""
-
-#: calendar/gui/event-editor-dialog.glade.h:10
-msgid "Time"
-msgstr ""
-
-#: calendar/gui/event-editor-dialog.glade.h:11
-msgid "Start time:"
-msgstr ""
-
-#: calendar/gui/event-editor-dialog.glade.h:12
-msgid "End time:"
-msgstr ""
-
-#: calendar/gui/event-editor-dialog.glade.h:13
-msgid "A_ll day event"
-msgstr ""
-
-#: calendar/gui/event-editor-dialog.glade.h:14 calendar/gui/prop.c:780
-msgid "Alarms"
-msgstr ""
-
-#: calendar/gui/event-editor-dialog.glade.h:15
-#: calendar/gui/event-editor-dialog.glade.h:19
-#: calendar/gui/event-editor-dialog.glade.h:23
-#: calendar/gui/event-editor-dialog.glade.h:27
-msgid ""
-"Minutes\n"
-"Hours\n"
-"Days\n"
-msgstr ""
-
-#: calendar/gui/event-editor-dialog.glade.h:31
-msgid "_Display"
-msgstr ""
-
-#: calendar/gui/event-editor-dialog.glade.h:32
-msgid "_Audio"
-msgstr ""
-
-#: calendar/gui/event-editor-dialog.glade.h:33
-msgid "_Program"
-msgstr ""
-
-#: calendar/gui/event-editor-dialog.glade.h:34
-#, fuzzy
-msgid "_Mail"
-msgstr "_Movil"
-
-#: calendar/gui/event-editor-dialog.glade.h:35
-msgid "Mail _to:"
-msgstr ""
-
-#: calendar/gui/event-editor-dialog.glade.h:36
-msgid "_Run program:"
-msgstr ""
-
-#: calendar/gui/event-editor-dialog.glade.h:37
-msgid "Classification"
-msgstr ""
-
-#: calendar/gui/event-editor-dialog.glade.h:38
-msgid "Pu_blic"
-msgstr ""
-
-#: calendar/gui/event-editor-dialog.glade.h:39
-#, fuzzy
-msgid "Pri_vate"
-msgstr "Pegar"
-
-#: calendar/gui/event-editor-dialog.glade.h:40
-msgid "_Confidential"
-msgstr ""
-
-#: calendar/gui/event-editor-dialog.glade.h:42
-msgid "Recurrence rule"
-msgstr ""
-
-#: calendar/gui/event-editor-dialog.glade.h:43 shell/e-shell-view.c:596
-#, fuzzy
-msgid "None"
-msgstr "_Nota"
-
-#: calendar/gui/event-editor-dialog.glade.h:44
-#, fuzzy
-msgid "Daily"
-msgstr "Detalles"
-
-#: calendar/gui/event-editor-dialog.glade.h:45
-msgid "Weekly"
-msgstr ""
-
-#: calendar/gui/event-editor-dialog.glade.h:46
-msgid "Monthly"
-msgstr ""
-
-#: calendar/gui/event-editor-dialog.glade.h:47
-msgid "Yearly"
-msgstr ""
-
-#: calendar/gui/event-editor-dialog.glade.h:48
-#, fuzzy
-msgid "label23"
-msgstr "label2"
-
-#: calendar/gui/event-editor-dialog.glade.h:49
-#: calendar/gui/event-editor-dialog.glade.h:52
-#: calendar/gui/event-editor-dialog.glade.h:82
-msgid "Every "
-msgstr ""
-
-#: calendar/gui/event-editor-dialog.glade.h:50
-msgid "day(s)"
-msgstr ""
-
-#: calendar/gui/event-editor-dialog.glade.h:51
-#, fuzzy
-msgid "label24"
-msgstr "label2"
-
-#: calendar/gui/event-editor-dialog.glade.h:53
-msgid "week(s)"
-msgstr ""
-
-#: calendar/gui/event-editor-dialog.glade.h:54
-#: calendar/gui/gnome-month-item.c:737
-msgid "Mon"
-msgstr ""
-
-#: calendar/gui/event-editor-dialog.glade.h:55
-#: calendar/gui/gnome-month-item.c:738
-msgid "Tue"
-msgstr ""
-
-#: calendar/gui/event-editor-dialog.glade.h:56
-#: calendar/gui/gnome-month-item.c:739
-msgid "Wed"
-msgstr ""
-
-#: calendar/gui/event-editor-dialog.glade.h:57
-#: calendar/gui/gnome-month-item.c:740
-msgid "Thu"
-msgstr ""
-
-#: calendar/gui/event-editor-dialog.glade.h:58
-#: calendar/gui/gnome-month-item.c:741
-msgid "Fri"
-msgstr ""
-
-#: calendar/gui/event-editor-dialog.glade.h:59
-#: calendar/gui/gnome-month-item.c:742
-msgid "Sat"
-msgstr ""
-
-#. Initialize by default to three-letter day names
-#: calendar/gui/event-editor-dialog.glade.h:60
-#: calendar/gui/gnome-month-item.c:736
-msgid "Sun"
-msgstr ""
-
-#: calendar/gui/event-editor-dialog.glade.h:61
-#, fuzzy
-msgid "label25"
-msgstr "label2"
-
-#: calendar/gui/event-editor-dialog.glade.h:62
-#: calendar/gui/event-editor-dialog.glade.h:63
-msgid "Recur on the"
-msgstr ""
-
-#: calendar/gui/event-editor-dialog.glade.h:64
-msgid "th day of the month"
-msgstr ""
-
-#: calendar/gui/event-editor-dialog.glade.h:65
-msgid ""
-"1st\n"
-"2nd\n"
-"3rd\n"
-"4th\n"
-"5th\n"
-msgstr ""
-
-#: calendar/gui/event-editor-dialog.glade.h:71
-msgid ""
-"Monday\n"
-"Tuesday\n"
-"Wednesday\n"
-"Thursday\n"
-"Friday\n"
-"Saturday\n"
-"Sunday\n"
-msgstr ""
-
-#: calendar/gui/event-editor-dialog.glade.h:79
-msgid "Every"
-msgstr ""
-
-#: calendar/gui/event-editor-dialog.glade.h:80
-#, fuzzy
-msgid "month(s)"
-msgstr "Fuentes"
-
-#: calendar/gui/event-editor-dialog.glade.h:83
-msgid "year(s)"
-msgstr ""
-
-#: calendar/gui/event-editor-dialog.glade.h:84
-#, fuzzy
-msgid "label27"
-msgstr "label7"
-
-#: calendar/gui/event-editor-dialog.glade.h:85
-msgid "Ending date"
-msgstr ""
-
-#: calendar/gui/event-editor-dialog.glade.h:86
-msgid "Repeat forever"
-msgstr ""
-
-#: calendar/gui/event-editor-dialog.glade.h:87
-msgid "End on "
-msgstr ""
-
-#: calendar/gui/event-editor-dialog.glade.h:88
-msgid "End after"
-msgstr ""
-
-#: calendar/gui/event-editor-dialog.glade.h:89
-msgid "occurrence(s)"
-msgstr ""
-
-#: calendar/gui/event-editor-dialog.glade.h:90
-#, fuzzy
-msgid "Exceptions"
-msgstr "Opciones"
-
-#: calendar/gui/event-editor-dialog.glade.h:92
-#, fuzzy
-msgid "Change"
-msgstr "Oscureciendo"
-
-#: calendar/gui/event-editor-dialog.glade.h:94
-msgid "Recurrence"
 msgstr ""
 
 #: calendar/gui/getdate.y:391
@@ -2097,117 +1755,146 @@ msgstr ""
 msgid "ago"
 msgstr ""
 
-#: calendar/gui/gncal-todo.c:137
+#: calendar/gui/gncal-todo.c:140
 msgid "Create to-do item"
 msgstr ""
 
-#: calendar/gui/gncal-todo.c:137
+#: calendar/gui/gncal-todo.c:140
 msgid "Edit to-do item"
 msgstr ""
 
-#: calendar/gui/gncal-todo.c:171
+#: calendar/gui/gncal-todo.c:176
 msgid "Summary:"
 msgstr ""
 
-#: calendar/gui/gncal-todo.c:181
+#: calendar/gui/gncal-todo.c:186
 #, fuzzy
 msgid "Due Date:"
 msgstr "Departamento:"
 
-#: calendar/gui/gncal-todo.c:190
+#: calendar/gui/gncal-todo.c:195
 #, fuzzy
 msgid "Priority:"
 msgstr "Prioridad"
 
-#: calendar/gui/gncal-todo.c:206
+#: calendar/gui/gncal-todo.c:212
 msgid "Item Comments:"
 msgstr ""
 
-#: calendar/gui/gncal-todo.c:324
+#: calendar/gui/gncal-todo.c:334
 msgid "Add to-do item..."
 msgstr ""
 
-#: calendar/gui/gncal-todo.c:325
+#: calendar/gui/gncal-todo.c:335
 msgid "Edit this item..."
 msgstr ""
 
-#: calendar/gui/gncal-todo.c:424
+#: calendar/gui/gncal-todo.c:434
 msgid "Summary"
 msgstr ""
 
-#: calendar/gui/gncal-todo.c:425 calendar/gui/prop.c:604
+#: calendar/gui/gncal-todo.c:435 calendar/gui/prop.c:604
 msgid "Due Date"
 msgstr ""
 
-#: calendar/gui/gncal-todo.c:426 calendar/gui/prop.c:605
+#: calendar/gui/gncal-todo.c:436 calendar/gui/prop.c:605
 #: mail/message-list.c:474
 msgid "Priority"
 msgstr "Prioridad"
 
-#: calendar/gui/gncal-todo.c:427
+#: calendar/gui/gncal-todo.c:437
 msgid "Time Left"
 msgstr ""
 
 #. Label
-#: calendar/gui/gncal-todo.c:439
+#: calendar/gui/gncal-todo.c:449
 #, fuzzy
 msgid "To-do list"
 msgstr "_Herramientas"
 
 #. Add
-#: calendar/gui/gncal-todo.c:478
+#: calendar/gui/gncal-todo.c:488
 #: composer/e-msg-composer-address-dialog.glade.h:13
 msgid "Add..."
 msgstr "Añadir..."
 
 #. Edit
-#: calendar/gui/gncal-todo.c:487
+#: calendar/gui/gncal-todo.c:497
 #, fuzzy
 msgid "Edit..."
 msgstr "Añadir..."
 
-#: calendar/gui/gncal-todo.c:711
+#: calendar/gui/gncal-todo.c:721
 msgid "Weeks"
 msgstr ""
 
-#: calendar/gui/gncal-todo.c:712 calendar/gui/gncal-todo.c:716
+#: calendar/gui/gncal-todo.c:722 calendar/gui/gncal-todo.c:726
 msgid "Days"
 msgstr ""
 
-#: calendar/gui/gncal-todo.c:717 calendar/gui/gncal-todo.c:721
+#: calendar/gui/gncal-todo.c:727 calendar/gui/gncal-todo.c:731
 msgid "Hours"
 msgstr ""
 
-#: calendar/gui/gncal-todo.c:717 calendar/gui/gncal-todo.c:721
+#: calendar/gui/gncal-todo.c:727 calendar/gui/gncal-todo.c:731
 msgid "Hour"
 msgstr ""
 
-#: calendar/gui/gncal-todo.c:722 calendar/gui/gncal-todo.c:726
+#: calendar/gui/gncal-todo.c:732 calendar/gui/gncal-todo.c:736
 msgid "Minutes"
 msgstr ""
 
-#: calendar/gui/gncal-todo.c:722 calendar/gui/gncal-todo.c:726
+#: calendar/gui/gncal-todo.c:732 calendar/gui/gncal-todo.c:736
 msgid "Minute"
 msgstr ""
 
-#: calendar/gui/gncal-todo.c:727 calendar/gui/gncal-todo.c:731
+#: calendar/gui/gncal-todo.c:737 calendar/gui/gncal-todo.c:741
 #, fuzzy
 msgid "Seconds"
 msgstr "Secciones:"
 
-#: calendar/gui/gncal-todo.c:727 calendar/gui/gncal-todo.c:731
+#: calendar/gui/gncal-todo.c:737 calendar/gui/gncal-todo.c:741
 #, fuzzy
 msgid "Second"
 msgstr "Enviar"
 
-#: calendar/gui/gnome-cal.c:453 calendar/gui/gnome-cal.c:1064
-#: calendar/gui/gnome-cal.c:1120
+#: calendar/gui/gnome-cal.c:461 calendar/gui/gnome-cal.c:1078
+#: calendar/gui/gnome-cal.c:1134
 msgid "Reminder of your appointment at "
 msgstr ""
 
 #. Idea: we need Snooze option :-)
-#: calendar/gui/gnome-cal.c:1069 calendar/gui/gnome-cal.c:1124
+#: calendar/gui/gnome-cal.c:1083 calendar/gui/gnome-cal.c:1138
 msgid "Ok"
+msgstr ""
+
+#. Initialize by default to three-letter day names
+#: calendar/gui/gnome-month-item.c:736
+msgid "Sun"
+msgstr ""
+
+#: calendar/gui/gnome-month-item.c:737
+msgid "Mon"
+msgstr ""
+
+#: calendar/gui/gnome-month-item.c:738
+msgid "Tue"
+msgstr ""
+
+#: calendar/gui/gnome-month-item.c:739
+msgid "Wed"
+msgstr ""
+
+#: calendar/gui/gnome-month-item.c:740
+msgid "Thu"
+msgstr ""
+
+#: calendar/gui/gnome-month-item.c:741
+msgid "Fri"
+msgstr ""
+
+#: calendar/gui/gnome-month-item.c:742
+msgid "Sat"
 msgstr ""
 
 #: calendar/gui/goto.c:82
@@ -2529,6 +2216,10 @@ msgstr ""
 msgid "To Do List"
 msgstr ""
 
+#: calendar/gui/prop.c:780
+msgid "Alarms"
+msgstr ""
+
 #. build miscellaneous box
 #: calendar/gui/prop.c:783
 #, fuzzy
@@ -2557,7 +2248,7 @@ msgstr ""
 msgid "Defaults"
 msgstr "Detalles"
 
-#: composer/e-msg-composer-address-dialog.c:183 composer/e-msg-composer.c:766
+#: composer/e-msg-composer-address-dialog.c:183
 msgid "Cut"
 msgstr "Cortar"
 
@@ -2565,7 +2256,7 @@ msgstr "Cortar"
 msgid "Cut selected item into clipboard"
 msgstr "Corta la selección y la coloca en el portapapeles"
 
-#: composer/e-msg-composer-address-dialog.c:187 composer/e-msg-composer.c:767
+#: composer/e-msg-composer-address-dialog.c:187
 msgid "Copy"
 msgstr "Copiar"
 
@@ -2574,7 +2265,7 @@ msgid "Copy selected item into clipboard"
 msgstr "Copia la selección y la coloca en el portapapeles"
 
 #: composer/e-msg-composer-address-dialog.c:191
-#: composer/e-msg-composer-address-dialog.c:199 composer/e-msg-composer.c:768
+#: composer/e-msg-composer-address-dialog.c:199
 msgid "Paste"
 msgstr "Pegar"
 
@@ -2664,7 +2355,7 @@ msgstr ""
 msgid "Add attachment"
 msgstr "Incluir adjunto"
 
-#: composer/e-msg-composer-attachment-bar.c:362 shell/e-shortcuts-view.c:332
+#: composer/e-msg-composer-attachment-bar.c:362 shell/e-shortcuts-view.c:333
 msgid "Remove"
 msgstr "Quitar"
 
@@ -2737,272 +2428,332 @@ msgstr "Asunto:"
 msgid "Enter the subject of the mail"
 msgstr "Escriba el asunto del mensaje"
 
-#: composer/e-msg-composer.c:463
+#: composer/e-msg-composer.c:444
 #, fuzzy
 msgid "Save as..."
 msgstr "Buscar..."
 
-#: composer/e-msg-composer.c:474
+#: composer/e-msg-composer.c:455
 #, c-format
 msgid "Error saving file: %s"
 msgstr ""
 
-#: composer/e-msg-composer.c:494
+#: composer/e-msg-composer.c:475
 #, c-format
 msgid "Error loading file: %s"
 msgstr ""
 
-#: composer/e-msg-composer.c:513
+#: composer/e-msg-composer.c:494
 #, fuzzy
 msgid "Discard this message?"
 msgstr "Reenviar este mensaje"
 
-#: composer/e-msg-composer.c:561
+#: composer/e-msg-composer.c:511
 msgid "Open file"
 msgstr ""
 
-#: composer/e-msg-composer.c:718
+#: composer/e-msg-composer.c:623
+msgid "That file does not exist."
+msgstr ""
+
+#: composer/e-msg-composer.c:633
+msgid "That is not a regular file."
+msgstr ""
+
+#: composer/e-msg-composer.c:643
+msgid "That file exists but is not readable."
+msgstr ""
+
+#: composer/e-msg-composer.c:653
+msgid "That file appeared accesible but open(2) failed."
+msgstr ""
+
+#: composer/e-msg-composer.c:675
+msgid ""
+"The file is very large (more than 100K).\n"
+"Are you sure you wish to insert it?"
+msgstr ""
+
+#: composer/e-msg-composer.c:696
+msgid "An error occurred while reading the file."
+msgstr ""
+
+#: composer/e-msg-composer.c:792 shell/e-shell-view-menu.c:438
+#, fuzzy
+msgid "_File"
+msgstr "Filtro"
+
+#: composer/e-msg-composer.c:798
+#, fuzzy
+msgid "_Open..."
+msgstr "_Abrir"
+
+#: composer/e-msg-composer.c:799
+msgid "Load a previously saved message"
+msgstr ""
+
+#: composer/e-msg-composer.c:807
+#, fuzzy
+msgid "_Save..."
+msgstr "Buscar..."
+
+#: composer/e-msg-composer.c:808
+#, fuzzy
+msgid "Save message"
+msgstr "Enviar un nuevo mensaje"
+
+#: composer/e-msg-composer.c:816
+#, fuzzy
+msgid "_Save as..."
+msgstr "Buscar..."
+
+#: composer/e-msg-composer.c:817
+#, fuzzy
+msgid "Save message with a different name"
+msgstr "Guardar el mensaje en una carpeta especificada"
+
+#: composer/e-msg-composer.c:825
 msgid "Save in _folder..."
 msgstr "Guardar en _carpeta..."
 
-#: composer/e-msg-composer.c:718
+#: composer/e-msg-composer.c:826
 msgid "Save the message in a specified folder"
 msgstr "Guardar el mensaje en una carpeta especificada"
 
-#: composer/e-msg-composer.c:721 composer/e-msg-composer.c:763
-msgid "Send"
+#: composer/e-msg-composer.c:835
+msgid "_Insert text file... (FIXME)"
+msgstr ""
+
+#: composer/e-msg-composer.c:836
+#, fuzzy
+msgid "Insert a file as text into the message"
+msgstr "Adjuntar un fichero al mensaje"
+
+#: composer/e-msg-composer.c:845
+#, fuzzy
+msgid "_Send"
 msgstr "Enviar"
 
-#: composer/e-msg-composer.c:721
+#: composer/e-msg-composer.c:846
 msgid "Send the message"
 msgstr "Enviar el mensaje"
 
-#: composer/e-msg-composer.c:733
-msgid "View _attachments"
+#: composer/e-msg-composer.c:856
+msgid "_Close..."
+msgstr ""
+
+#: composer/e-msg-composer.c:857
+msgid "Quit the message composer"
+msgstr ""
+
+#: composer/e-msg-composer.c:870 shell/e-shell-view-menu.c:480
+#, fuzzy
+msgid "_Edit"
+msgstr "Añadir..."
+
+#: composer/e-msg-composer.c:881
+#, fuzzy
+msgid "_Format"
+msgstr "Formatear"
+
+#: composer/e-msg-composer.c:887
+msgid "HTML"
+msgstr ""
+
+#: composer/e-msg-composer.c:888
+msgid "Send the mail in HTML format"
+msgstr ""
+
+#: composer/e-msg-composer.c:901 shell/e-shell-view-menu.c:387
+#: shell/e-shell-view-menu.c:491
+#, fuzzy
+msgid "_View"
+msgstr "Correo _nuevo"
+
+#: composer/e-msg-composer.c:907
+#, fuzzy
+msgid "Show _attachments"
 msgstr "Ver _adjuntos"
 
-#: composer/e-msg-composer.c:733
-msgid "View/hide attachments"
+#: composer/e-msg-composer.c:908
+#, fuzzy
+msgid "Show/hide attachments"
 msgstr "Ver/ocultar adjuntos"
 
-#: composer/e-msg-composer.c:763
+#: composer/e-msg-composer.c:941
+msgid "Send"
+msgstr "Enviar"
+
+#: composer/e-msg-composer.c:942
 msgid "Send this message"
 msgstr "Enviar este mensaje"
 
-#: composer/e-msg-composer.c:766
-msgid "Cut selected region into the clipboard"
-msgstr "Corta la región seleccionada y la coloca en el portapapeles"
-
-#: composer/e-msg-composer.c:767
-msgid "Copy selected region into the clipboard"
-msgstr "Copia la región seleccionada y la coloca en el portapapeles"
-
-#: composer/e-msg-composer.c:768
-msgid "Paste selected region into the clipboard"
-msgstr ""
-
-#: composer/e-msg-composer.c:769
-msgid "Undo"
-msgstr "Deshacer"
-
-#: composer/e-msg-composer.c:769
-msgid "Undo last operation"
-msgstr "Deshacer la ultima operación"
-
-#: composer/e-msg-composer.c:772
+#: composer/e-msg-composer.c:951
 msgid "Attach"
 msgstr "Adjuntar"
 
-#: composer/e-msg-composer.c:772
+#: composer/e-msg-composer.c:952
 msgid "Attach a file"
 msgstr "Adjuntar un fichero"
 
-#: composer/e-msg-composer.c:948
+#: composer/e-msg-composer.c:1139
 #, fuzzy
 msgid "Compose a message"
 msgstr "Compone un nuevo mensaje de correo"
 
-#: filter/filter-editor.c:198
-#, fuzzy
-msgid "Edit Filter"
-msgstr "Filtro"
-
-#: filter/filter-editor.c:198
-msgid "Create filter"
-msgstr ""
-
-#: filter/filter-editor.c:209
-msgid "Back"
-msgstr ""
-
-#: filter/filter-editor.c:211
-#, fuzzy
-msgid "Finish"
-msgstr "Buscar"
-
-#: filter/filter-editor.c:212
-msgid "Cancel"
-msgstr ""
-
-#: filter/filter-editor.c:216
-#, fuzzy
-msgid "Apply"
-msgstr "Responder"
-
-#: filter/filter-editor.c:233
-msgid ""
-"<h2>Create Filtering Rule</h2><p>Select one of the base rules above, then "
-"continue forwards to customise it.</p>"
-msgstr ""
-
-#: mail/component-factory.c:196
+#: mail/component-factory.c:188
 #, fuzzy
 msgid "Cannot initialize Evolution's mail component."
 msgstr "No pued inicializar la shell de Evolution."
 
-#: mail/folder-browser-factory.c:29
+#: mail/folder-browser-factory.c:23
 msgid "Get mail"
 msgstr "Correo nuevo"
 
-#: mail/folder-browser-factory.c:29
+#: mail/folder-browser-factory.c:23
 msgid "Check for new mail"
 msgstr "Comprobar correo"
 
-#: mail/folder-browser-factory.c:30
+#: mail/folder-browser-factory.c:24
 msgid "Compose"
 msgstr ""
 
-#: mail/folder-browser-factory.c:30
+#: mail/folder-browser-factory.c:24
 #, fuzzy
 msgid "Compose a new message"
 msgstr "Compone un nuevo mensaje de correo"
 
-#: mail/folder-browser-factory.c:34
+#: mail/folder-browser-factory.c:28
 msgid "Reply"
 msgstr "Responder"
 
-#: mail/folder-browser-factory.c:34
+#: mail/folder-browser-factory.c:28
 msgid "Reply to the sender of this message"
 msgstr "Responder al remitente de este mensaje"
 
-#: mail/folder-browser-factory.c:35
+#: mail/folder-browser-factory.c:29
 msgid "Reply to All"
 msgstr "Responder a todos"
 
-#: mail/folder-browser-factory.c:35
+#: mail/folder-browser-factory.c:29
 msgid "Reply to all recipients of this message"
 msgstr "Responder a todos los destinatarios de este mensaje"
 
-#: mail/folder-browser-factory.c:37
+#: mail/folder-browser-factory.c:31
 msgid "Forward"
 msgstr "Reenviar"
 
-#: mail/folder-browser-factory.c:37
+#: mail/folder-browser-factory.c:31
 msgid "Forward this message"
 msgstr "Reenviar este mensaje"
 
-#: mail/folder-browser-factory.c:41
+#: mail/folder-browser-factory.c:35
 #, fuzzy
-msgid "Refile"
-msgstr "Recivido"
+msgid "Move"
+msgstr "_Movil"
 
-#: mail/folder-browser-factory.c:41
+#: mail/folder-browser-factory.c:35
 #, fuzzy
 msgid "Move message to a new folder"
 msgstr "Guardar el mensaje en una carpeta especificada"
 
-#: mail/folder-browser-factory.c:43
+#: mail/folder-browser-factory.c:37
 msgid "Print the selected message"
 msgstr "Imprimir el mensaje seleccionado"
 
-#: mail/folder-browser-factory.c:45
+#: mail/folder-browser-factory.c:39
 msgid "Delete this message"
 msgstr "Borrar este mensaje"
 
-#: mail/folder-browser-factory.c:65
+#: mail/folder-browser-factory.c:59
 msgid "_Threaded Message List"
 msgstr ""
 
-#: mail/folder-browser-factory.c:77
+#: mail/folder-browser-factory.c:72
+msgid "_Mark all messages seen"
+msgstr ""
+
+#: mail/folder-browser-factory.c:78
 msgid "_Expunge"
 msgstr "_Comprimir"
 
-#: mail/folder-browser-factory.c:83
+#: mail/folder-browser-factory.c:84
 #, fuzzy
-msgid "_Filter Druid ..."
+msgid "Mail _Filters ..."
 msgstr "Asistente para _filtros"
 
-#: mail/folder-browser-factory.c:89
-msgid "_Virtual Folder Druid ..."
-msgstr ""
+#: mail/folder-browser-factory.c:90
+#, fuzzy
+msgid "_vFolder Editor ..."
+msgstr "Asistente para _filtros"
 
-#: mail/folder-browser-factory.c:95
+#: mail/folder-browser-factory.c:96
 msgid "_Mail Configuration ..."
 msgstr ""
 
-#: mail/folder-browser-factory.c:101
+#: mail/folder-browser-factory.c:102
 msgid "Forget _Passwords"
 msgstr ""
 
-#: mail/mail-config.c:259
+#: mail/mail-config.c:688
 msgid ""
 "Enter your name and email address to be used in outgoing mail. You may also, "
 "optionally, enter the name of your organization, and the name of a file to "
 "read your signature from."
 msgstr ""
 
-#: mail/mail-config.c:274
+#: mail/mail-config.c:701
 #, fuzzy
 msgid "Full name:"
 msgstr "Nombre del fichero:"
 
-#: mail/mail-config.c:302
+#: mail/mail-config.c:725
 #, fuzzy
 msgid "Email address:"
 msgstr "Dirección de la página web:"
 
-#: mail/mail-config.c:325
+#: mail/mail-config.c:740
 #, fuzzy
 msgid "Organization:"
 msgstr "Orientación"
 
-#: mail/mail-config.c:337
+#: mail/mail-config.c:751
 msgid "Signature file:"
 msgstr ""
 
-#: mail/mail-config.c:342
+#: mail/mail-config.c:756
 msgid "Signature File"
 msgstr ""
 
-#: mail/mail-config.c:699 mail/mail-config.c:790
+#: mail/mail-config.c:1167
 #, fuzzy
 msgid "Server:"
 msgstr "Servidor LDAP:"
 
-#: mail/mail-config.c:705
+#: mail/mail-config.c:1173
 #, fuzzy
 msgid "Username:"
 msgstr "Nombre del fichero:"
 
-#: mail/mail-config.c:711
+#: mail/mail-config.c:1179
 #, fuzzy
 msgid "Path:"
 msgstr "Pegar"
 
-#: mail/mail-config.c:717 mail/mail-config.c:796
+#: mail/mail-config.c:1187
 #, fuzzy
 msgid "Authentication:"
 msgstr "Orientación"
 
-#: mail/mail-config.c:729 mail/mail-config.c:808
+#: mail/mail-config.c:1199
 msgid "Detect supported types..."
 msgstr ""
 
-#: mail/mail-config.c:755 mail/mail-config.c:830
-msgid "Test these values before continuing"
+#: mail/mail-config.c:1222
+msgid "Test Settings"
 msgstr ""
 
-#: mail/mail-config.c:937
+#: mail/mail-config.c:1344 mail/mail-config.c:1392
 msgid ""
 "Select the kind of mail server you have, and enter the relevant information "
 "about it.\n"
@@ -3011,59 +2762,53 @@ msgid ""
 "types...\" button after entering the other information."
 msgstr ""
 
-#: mail/mail-config.c:955
-msgid "Select the method you would like to use to deliver your mail."
+#: mail/mail-config.c:1368
+msgid ""
+"Select the kind of news server you have, and enter the relevant information "
+"about it.\n"
+"\n"
+"If the server requires authentication, you can click the \"Detect supported "
+"types...\" button after entering the other information."
 msgstr ""
 
-#: mail/mail-config.c:1129 mail/mail-config.c:1208
-msgid "Mail Configuration"
-msgstr ""
-
-#. Identity page
-#: mail/mail-config.c:1146
-msgid "Identity"
-msgstr ""
-
-#. Source page
-#: mail/mail-config.c:1165
-msgid "Mail Source"
-msgstr ""
-
-#. Transport page
-#: mail/mail-config.c:1186
-msgid "Mail Transport"
-msgstr ""
-
-#: mail/mail-config.c:1308
+#: mail/mail-config.c:1434
 msgid "Edit Identity"
 msgstr ""
 
-#: mail/mail-config.c:1310
+#: mail/mail-config.c:1436
 msgid "Add Identity"
 msgstr ""
 
-#: mail/mail-config.c:1453
+#: mail/mail-config.c:1515
 msgid "Edit Source"
 msgstr ""
 
-#: mail/mail-config.c:1455
+#: mail/mail-config.c:1517
 msgid "Add Source"
 msgstr ""
 
-#: mail/mail-ops.c:372
+#: mail/mail-config.c:1598
+msgid "Edit News Server"
+msgstr ""
+
+#: mail/mail-config.c:1600
+msgid "Add News Server"
+msgstr ""
+
+#: mail/mail-ops.c:393
 #, fuzzy
 msgid "Fetching mail"
 msgstr "Correo nuevo"
 
-#: mail/mail-ops.c:384
+#: mail/mail-ops.c:405
 msgid ""
 "This message has no subject.\n"
 "Really send?"
 msgstr ""
 
-#: mail/mail-ops.c:732
+#: mail/mail-ops.c:791
 #, fuzzy
-msgid "Refile message(s) to"
+msgid "Move message(s) to"
 msgstr "Buscar mensajes"
 
 #: mail/mail-threads.c:483
@@ -3090,43 +2835,35 @@ msgstr ""
 msgid "User cancelled query."
 msgstr ""
 
-#: mail/main.c:62
-msgid "Mail Component: I could not initialize Bonobo"
-msgstr "Componenete de correo: No pude inicializar Bonobo"
-
-#: mail/message-list.c:460
+#: mail/message-list.c:456
 msgid "Online Status"
 msgstr ""
 
-#: mail/message-list.c:488
+#: mail/message-list.c:492
 msgid "From"
 msgstr "De"
 
-#: mail/message-list.c:495
+#: mail/message-list.c:499
 msgid "Subject"
 msgstr "Asunto"
 
-#: mail/message-list.c:502
+#: mail/message-list.c:506
 #, fuzzy
 msgid "Date"
 msgstr "Pegar"
 
-#: mail/message-list.c:509
+#: mail/message-list.c:513
 #, fuzzy
 msgid "Received"
 msgstr "Recivido"
 
-#: mail/message-list.c:516
+#: mail/message-list.c:520
 msgid "To"
 msgstr "A"
 
-#: mail/message-list.c:523
+#: mail/message-list.c:527
 msgid "Size"
 msgstr "Tamaño"
-
-#: shell/e-init.c:25
-msgid "Evolution can not create its local folders"
-msgstr ""
 
 #: shell/e-setup.c:47
 msgid "Evolution installation"
@@ -3193,31 +2930,31 @@ msgstr ""
 msgid "New..."
 msgstr "Correo _nuevo"
 
-#: shell/e-shell-folder-title-bar.c:355
+#: shell/e-shell-folder-title-bar.c:459 shell/e-shell-folder-title-bar.c:460
 msgid "(Untitled)"
 msgstr ""
 
 #. you might have to call gnome_dialog_run() on the
 #. * dialog returned here, I don't remember...
 #.
-#: shell/e-shell-view-menu.c:110
+#: shell/e-shell-view-menu.c:113
 msgid "Bug buddy was not found in your $PATH."
 msgstr "No se ha encontrado a bug buddy en su $PATH."
 
 #. same as above
-#: shell/e-shell-view-menu.c:116
+#: shell/e-shell-view-menu.c:119
 msgid "Bug buddy could not be run."
 msgstr "No se ha podido ejecutar bug buddy"
 
-#: shell/e-shell-view-menu.c:159
+#: shell/e-shell-view-menu.c:164
 msgid "Evolution"
 msgstr "Evolution"
 
-#: shell/e-shell-view-menu.c:161
+#: shell/e-shell-view-menu.c:166
 msgid "Copyright 1999, 2000 Helix Code, Inc."
 msgstr "Copyright 1999, 2000 Helix Code, Inc."
 
-#: shell/e-shell-view-menu.c:163
+#: shell/e-shell-view-menu.c:168
 msgid ""
 "Evolution is a suite of groupware applications\n"
 "for mail, calendaring, and contact management\n"
@@ -3227,148 +2964,158 @@ msgstr ""
 "groupware para manejar el correo, el calendario y la\n"
 "lista de contactos en el entorno del escritorio GNOME."
 
-#: shell/e-shell-view-menu.c:301
+#: shell/e-shell-view-menu.c:324
 #, fuzzy
 msgid "Go to folder..."
 msgstr "Guardar en _carpeta..."
 
-#: shell/e-shell-view-menu.c:365
+#: shell/e-shell-view-menu.c:381
+msgid "_New"
+msgstr "Correo _nuevo"
+
+#: shell/e-shell-view-menu.c:393
 msgid "_Folder"
 msgstr "_Carpeta"
 
-#: shell/e-shell-view-menu.c:369
-msgid "Evolution _Bar Shortcut"
+#: shell/e-shell-view-menu.c:399
+#, fuzzy
+msgid "Evolution bar _shortcut"
 msgstr "_Barra de atajos de Evolution"
 
-#: shell/e-shell-view-menu.c:375
+#: shell/e-shell-view-menu.c:408
 #, fuzzy
 msgid "_Mail message (FIXME)"
 msgstr "_Mensaje de correo"
 
-#: shell/e-shell-view-menu.c:376 shell/e-shell-view-menu.c:379
-msgid "Composes a new mail message"
-msgstr "Compone un nuevo mensaje de correo"
-
-#: shell/e-shell-view-menu.c:378
+#: shell/e-shell-view-menu.c:414
 #, fuzzy
 msgid "_Appointment (FIXME)"
 msgstr "C_ita"
 
-#: shell/e-shell-view-menu.c:381
+#: shell/e-shell-view-menu.c:420
 #, fuzzy
 msgid "_Contact (FIXME)"
 msgstr "C_ontacto"
 
-#: shell/e-shell-view-menu.c:384
+#: shell/e-shell-view-menu.c:426
 msgid "_Task (FIXME)"
 msgstr ""
 
-#: shell/e-shell-view-menu.c:387
-#, fuzzy
-msgid "Task _Request (FIXME)"
-msgstr "P_etición de tarea"
-
-#: shell/e-shell-view-menu.c:390
-msgid "_Journal Entry (FIXME)"
-msgstr ""
-
-#: shell/e-shell-view-menu.c:398
-msgid "_New"
-msgstr "Correo _nuevo"
-
-#: shell/e-shell-view-menu.c:402
+#: shell/e-shell-view-menu.c:448
 #, fuzzy
 msgid "_Go to folder..."
 msgstr "Guardar en _carpeta..."
 
-#: shell/e-shell-view-menu.c:402
+#: shell/e-shell-view-menu.c:449
 msgid "Display a different folder"
 msgstr ""
 
-#: shell/e-shell-view-menu.c:404
+#: shell/e-shell-view-menu.c:456
 #, fuzzy
 msgid "_Create new folder..."
 msgstr "Guardar en _carpeta..."
 
-#: shell/e-shell-view-menu.c:404
+#: shell/e-shell-view-menu.c:457 shell/e-shell-view-menu.c:467
 msgid "Create a new folder"
 msgstr ""
 
-#: shell/e-shell-view-menu.c:419
+#: shell/e-shell-view-menu.c:466
+#, fuzzy
+msgid "E_xit..."
+msgstr "Añadir..."
+
+#: shell/e-shell-view-menu.c:497
 #, fuzzy
 msgid "Show _shortcut bar"
 msgstr "_Ocultar la barra de atajos"
 
-#: shell/e-shell-view-menu.c:420
+#: shell/e-shell-view-menu.c:498
 #, fuzzy
 msgid "Show the shortcut bar"
 msgstr "Oculta la barra de atajos"
 
-#: shell/e-shell-view-menu.c:422
+#: shell/e-shell-view-menu.c:503
 #, fuzzy
 msgid "Show _folder bar"
 msgstr "_Ocultar la barra de atajos"
 
-#: shell/e-shell-view-menu.c:423
+#: shell/e-shell-view-menu.c:504
 #, fuzzy
 msgid "Show the folder bar"
 msgstr "Oculta la barra de atajos"
 
-#: shell/e-shell-view-menu.c:440
-msgid "Help _Index"
+#: shell/e-shell-view-menu.c:526
+msgid "_Actions"
+msgstr "_Acciones"
+
+#: shell/e-shell-view-menu.c:537
+#, fuzzy
+msgid "_Help"
+msgstr "_Casa"
+
+#: shell/e-shell-view-menu.c:543
+msgid "Help _index"
 msgstr ""
 
-#: shell/e-shell-view-menu.c:443
-msgid "Getting _Started"
+#: shell/e-shell-view-menu.c:550
+#, fuzzy
+msgid "Getting _started"
+msgstr "_Petición de reunión"
+
+#: shell/e-shell-view-menu.c:557
+msgid "Using the _mailer"
 msgstr ""
 
-#: shell/e-shell-view-menu.c:446
-msgid "Using the _Mailer"
+#: shell/e-shell-view-menu.c:564
+msgid "Using the _calendar"
 msgstr ""
 
-#: shell/e-shell-view-menu.c:449
-msgid "Using the _Calendar"
+#: shell/e-shell-view-menu.c:571
+msgid "Using the c_ontact manager"
 msgstr ""
 
-#: shell/e-shell-view-menu.c:452
-msgid "Using the Cont_act Manager"
-msgstr ""
-
-#: shell/e-shell-view-menu.c:457
+#: shell/e-shell-view-menu.c:581
 #, fuzzy
 msgid "_Submit bug report"
 msgstr "_Enviar un reporte de error"
 
-#: shell/e-shell-view-menu.c:458
-msgid "Submit bug-report via bug-buddy"
+#: shell/e-shell-view-menu.c:582
+#, fuzzy
+msgid "Submit bug report using Bug Buddy"
 msgstr "Enviar un reporte de error a traves de bug-buddy"
 
-#: shell/e-shell-view-menu.c:474
-msgid "_Actions"
-msgstr "_Acciones"
+#: shell/e-shell-view-menu.c:591
+#, fuzzy
+msgid "_About Evolution..."
+msgstr "Evolution"
 
-#: shell/e-shell-view.c:113
+#: shell/e-shell-view-menu.c:592
+msgid "Show information about Evolution"
+msgstr ""
+
+#: shell/e-shell-view.c:114
 msgid "(No folder displayed)"
 msgstr ""
 
-#: shell/e-shell-view.c:208
+#: shell/e-shell-view.c:342
 #, fuzzy
 msgid "Folders"
 msgstr "_Carpeta"
 
-#: shell/e-shell-view.c:600
+#: shell/e-shell-view.c:734
+#, fuzzy
+msgid "None"
+msgstr "_Nota"
+
+#: shell/e-shell-view.c:738
 #, fuzzy, c-format
 msgid "Evolution - %s"
 msgstr "Evolution"
 
-#: shell/e-shell.c:299
+#: shell/e-shell.c:293
 #, c-format
 msgid "Cannot set up local storage -- %s"
 msgstr "No puedo configurar una carpeta local -- %s"
-
-#: shell/e-shortcut.c:469
-msgid "New group"
-msgstr ""
 
 #: shell/e-shortcuts-view.c:235
 msgid "_Small icons"
@@ -3389,15 +3136,15 @@ msgstr "Margenes"
 msgid "Show the shortcuts as large icons"
 msgstr "Oculta la barra de atajos"
 
-#: shell/e-shortcuts-view.c:329
+#: shell/e-shortcuts-view.c:330
 msgid "Activate"
 msgstr ""
 
-#: shell/e-shortcuts-view.c:329
+#: shell/e-shortcuts-view.c:330
 msgid "Activate this shortcut"
 msgstr ""
 
-#: shell/e-shortcuts-view.c:332
+#: shell/e-shortcuts-view.c:333
 msgid "Remove this shortcut from the shortcut bar"
 msgstr ""
 
@@ -3458,7 +3205,7 @@ msgstr ""
 msgid "Unknown error"
 msgstr ""
 
-#: shell/main.c:99
+#: shell/main.c:66
 #, fuzzy
 msgid ""
 "Hi.  Thanks for taking the time to download this preview release\n"
@@ -3506,7 +3253,7 @@ msgstr ""
 "¡esperamos\n"
 "contribuciones!\n"
 
-#: shell/main.c:126
+#: shell/main.c:93
 msgid ""
 "Thanks\n"
 "The Evolution Team\n"
@@ -3514,16 +3261,16 @@ msgstr ""
 "Gracias\n"
 "El equipo de Evolution\n"
 
-#: shell/main.c:172
+#: shell/main.c:128
 msgid "Cannot initialize the Evolution shell."
 msgstr "No pued inicializar la shell de Evolution."
 
-#: shell/main.c:214
+#: shell/main.c:166
 #, fuzzy
 msgid "Cannot initialize the configuration system."
 msgstr "No pued inicializar la shell de Evolution."
 
-#: shell/main.c:220
+#: shell/main.c:172
 msgid "Cannot initialize the Bonobo component system."
 msgstr "No puedo inicializar el sistema de componentes Bonobo."
 
@@ -3683,13 +3430,92 @@ msgstr ""
 msgid "..."
 msgstr "Añadir..."
 
-#: widgets/shortcut-bar/e-group-bar.c:633
+#: widgets/shortcut-bar/e-group-bar.c:632
 #, fuzzy, c-format
 msgid "Group %i"
 msgstr "Agrupando"
 
-#~ msgid "Send a new message"
-#~ msgstr "Enviar un nuevo mensaje"
+#, fuzzy
+#~ msgid "No description"
+#~ msgstr "Descripción:"
+
+#, fuzzy
+#~ msgid "_Mail"
+#~ msgstr "_Movil"
+
+#, fuzzy
+#~ msgid "Pri_vate"
+#~ msgstr "Pegar"
+
+#, fuzzy
+#~ msgid "Daily"
+#~ msgstr "Detalles"
+
+#, fuzzy
+#~ msgid "label23"
+#~ msgstr "label2"
+
+#, fuzzy
+#~ msgid "label24"
+#~ msgstr "label2"
+
+#, fuzzy
+#~ msgid "label25"
+#~ msgstr "label2"
+
+#, fuzzy
+#~ msgid "month(s)"
+#~ msgstr "Fuentes"
+
+#, fuzzy
+#~ msgid "label27"
+#~ msgstr "label7"
+
+#, fuzzy
+#~ msgid "Exceptions"
+#~ msgstr "Opciones"
+
+#, fuzzy
+#~ msgid "Change"
+#~ msgstr "Oscureciendo"
+
+#~ msgid "Cut selected region into the clipboard"
+#~ msgstr "Corta la región seleccionada y la coloca en el portapapeles"
+
+#~ msgid "Copy selected region into the clipboard"
+#~ msgstr "Copia la región seleccionada y la coloca en el portapapeles"
+
+#~ msgid "Undo"
+#~ msgstr "Deshacer"
+
+#~ msgid "Undo last operation"
+#~ msgstr "Deshacer la ultima operación"
+
+#, fuzzy
+#~ msgid "Edit Filter"
+#~ msgstr "Filtro"
+
+#, fuzzy
+#~ msgid "Finish"
+#~ msgstr "Buscar"
+
+#, fuzzy
+#~ msgid "Apply"
+#~ msgstr "Responder"
+
+#, fuzzy
+#~ msgid "Refile"
+#~ msgstr "Recivido"
+
+#~ msgid "Mail Component: I could not initialize Bonobo"
+#~ msgstr "Componenete de correo: No pude inicializar Bonobo"
+
+#~ msgid "Composes a new mail message"
+#~ msgstr "Compone un nuevo mensaje de correo"
+
+#, fuzzy
+#~ msgid "Task _Request (FIXME)"
+#~ msgstr "P_etición de tarea"
 
 #~ msgid "We are sorry, Evolution's Folder Browser can not be initialized."
 #~ msgstr ""
@@ -3706,9 +3532,6 @@ msgstr "Agrupando"
 
 #~ msgid "_New Folder"
 #~ msgstr "_Nueva carpeta"
-
-#~ msgid "_Open"
-#~ msgstr "_Abrir"
 
 #~ msgid "Clos_e All Items"
 #~ msgstr "_Cerrar todos los elementos"

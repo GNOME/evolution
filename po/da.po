@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution beta\n"
-"POT-Creation-Date: 2000-07-11 19:50+0200\n"
+"POT-Creation-Date: 2000-08-02 16:39+0200\n"
 "PO-Revision-Date: 2000-07-22 00:38+0200\n"
 "Last-Translator: Keld Simonsen <keld@dkuug.dk>\n"
 "Language-Team: Danish <dansk@klid.dk>\n"
@@ -715,7 +715,7 @@ msgid "Delete a contact"
 msgstr "Fjern kontaktperson"
 
 #: addressbook/gui/component/addressbook.c:499
-#: addressbook/gui/component/addressbook.c:1039
+#: addressbook/gui/component/addressbook.c:1034
 msgid "As _Table"
 msgstr "Som _tabel"
 
@@ -751,20 +751,20 @@ msgstr ""
 "er det nødvendigt at hente og installere OpenLDAP og\n"
 "rekompilere og installere evolution.\n"
 
-#: addressbook/gui/component/addressbook.c:943
+#: addressbook/gui/component/addressbook.c:938
 #: addressbook/gui/minicard/e-minicard.c:330
 msgid "Save as VCard"
 msgstr "Gem som vCard"
 
-#: addressbook/gui/component/addressbook.c:1010
+#: addressbook/gui/component/addressbook.c:1005
 msgid "* Click here to add a contact *"
 msgstr "* Klik her for at tilføje en kontakt *"
 
-#: addressbook/gui/component/addressbook.c:1046
+#: addressbook/gui/component/addressbook.c:1041
 msgid "As _Minicards"
 msgstr "Som _minikort"
 
-#: addressbook/gui/component/addressbook.c:1097
+#: addressbook/gui/component/addressbook.c:1092
 msgid "The URI that the Folder Browser will display"
 msgstr "Uri'en som mappebladreren vil vise"
 
@@ -810,7 +810,7 @@ msgid "g"
 msgstr "g"
 
 #: addressbook/gui/component/alphabet.glade.h:16
-#: calendar/cal-util/timeutil.c:98
+#: calendar/cal-util/timeutil.c:131
 msgid "h"
 msgstr "h"
 
@@ -1108,11 +1108,11 @@ msgstr "Modsat på lige sider"
 msgid "Header/Footer"
 msgstr "Top-/bundtekst"
 
-#: calendar/cal-util/timeutil.c:96 calendar/gui/print.c:544
+#: calendar/cal-util/timeutil.c:129 calendar/gui/print.c:544
 msgid "am"
 msgstr " "
 
-#: calendar/cal-util/timeutil.c:96 calendar/gui/print.c:543
+#: calendar/cal-util/timeutil.c:129 calendar/gui/print.c:543
 msgid "pm"
 msgstr " "
 
@@ -1241,7 +1241,7 @@ msgstr "I dag"
 msgid "Go to present time"
 msgstr "Gå til nutiden"
 
-#: calendar/gui/calendar-commands.c:554 filter/filter-editor.c:210
+#: calendar/gui/calendar-commands.c:554
 msgid "Next"
 msgstr "Næste"
 
@@ -1725,7 +1725,7 @@ msgid "Due Date"
 msgstr "Færdig-dato"
 
 #: calendar/gui/gncal-todo.c:436 calendar/gui/prop.c:605
-#: mail/message-list.c:472
+#: mail/message-list.c:474
 msgid "Priority"
 msgstr "Prioritet"
 
@@ -2352,45 +2352,45 @@ msgstr "Emne:"
 msgid "Enter the subject of the mail"
 msgstr "Indtast emnet for meddelelsen"
 
-#: composer/e-msg-composer.c:447
+#: composer/e-msg-composer.c:444
 msgid "Save as..."
 msgstr "Gem som..."
 
-#: composer/e-msg-composer.c:458
+#: composer/e-msg-composer.c:455
 #, c-format
 msgid "Error saving file: %s"
 msgstr "Fejl ved gemning af fil: %s"
 
-#: composer/e-msg-composer.c:478
+#: composer/e-msg-composer.c:475
 #, c-format
 msgid "Error loading file: %s"
 msgstr "Fejl ved indlæsning af fil: %s"
 
-#: composer/e-msg-composer.c:497
+#: composer/e-msg-composer.c:494
 msgid "Discard this message?"
 msgstr "Fjern denne meddelelse"
 
-#: composer/e-msg-composer.c:514
+#: composer/e-msg-composer.c:511
 msgid "Open file"
 msgstr "Åbn fil"
 
-#: composer/e-msg-composer.c:626
+#: composer/e-msg-composer.c:623
 msgid "That file does not exist."
 msgstr "Den fil eksisterer ikke."
 
-#: composer/e-msg-composer.c:636
+#: composer/e-msg-composer.c:633
 msgid "That is not a regular file."
 msgstr "Dette er ikke en almindelig fil."
 
-#: composer/e-msg-composer.c:646
+#: composer/e-msg-composer.c:643
 msgid "That file exists but is not readable."
 msgstr "Den fil eksisterer men kan ikke læses."
 
-#: composer/e-msg-composer.c:656
+#: composer/e-msg-composer.c:653
 msgid "That file appeared accesible but open(2) failed."
 msgstr "Den fil så ud til at være tilgængelig, men open(2) fejlede."
 
-#: composer/e-msg-composer.c:678
+#: composer/e-msg-composer.c:675
 msgid ""
 "The file is very large (more than 100K).\n"
 "Are you sure you wish to insert it?"
@@ -2398,152 +2398,120 @@ msgstr ""
 "Filen er meget stor (mere end 100 k).\n"
 "Er du sikker på at du ønsker at indsætte den?"
 
-#: composer/e-msg-composer.c:699
+#: composer/e-msg-composer.c:696
 msgid "An error occurred while reading the file."
 msgstr "En fejl skete ved læsning af filen."
 
-#: composer/e-msg-composer.c:795 shell/e-shell-view-menu.c:438
+#: composer/e-msg-composer.c:792 shell/e-shell-view-menu.c:438
 msgid "_File"
 msgstr "_Fil"
 
-#: composer/e-msg-composer.c:801
+#: composer/e-msg-composer.c:798
 msgid "_Open..."
 msgstr "_Åbn..."
 
-#: composer/e-msg-composer.c:802
+#: composer/e-msg-composer.c:799
 msgid "Load a previously saved message"
 msgstr "Indlæs en tidligere gemt besked"
 
-#: composer/e-msg-composer.c:810
+#: composer/e-msg-composer.c:807
 msgid "_Save..."
 msgstr "Gem..."
 
-#: composer/e-msg-composer.c:811
+#: composer/e-msg-composer.c:808
 msgid "Save message"
 msgstr "Gem meddelelsen"
 
-#: composer/e-msg-composer.c:819
+#: composer/e-msg-composer.c:816
 msgid "_Save as..."
 msgstr "_Gem som..."
 
-#: composer/e-msg-composer.c:820
+#: composer/e-msg-composer.c:817
 msgid "Save message with a different name"
 msgstr "Gem meddelelse med et andet navn"
 
-#: composer/e-msg-composer.c:828
+#: composer/e-msg-composer.c:825
 msgid "Save in _folder..."
 msgstr "Gem i _mappe..."
 
-#: composer/e-msg-composer.c:829
+#: composer/e-msg-composer.c:826
 msgid "Save the message in a specified folder"
 msgstr "Gem meddelelsen i en specificeret mappe"
 
-#: composer/e-msg-composer.c:838
+#: composer/e-msg-composer.c:835
 msgid "_Insert text file... (FIXME)"
 msgstr "_Indsæt tekstfil..."
 
-#: composer/e-msg-composer.c:839
+#: composer/e-msg-composer.c:836
 msgid "Insert a file as text into the message"
 msgstr "Indsæt en fil som tekst i meddelelsen"
 
-#: composer/e-msg-composer.c:848
+#: composer/e-msg-composer.c:845
 msgid "_Send"
 msgstr "_Send"
 
-#: composer/e-msg-composer.c:849
+#: composer/e-msg-composer.c:846
 msgid "Send the message"
 msgstr "Send meddelelsen"
 
-#: composer/e-msg-composer.c:859
+#: composer/e-msg-composer.c:856
 msgid "_Close..."
 msgstr "_Luk..."
 
-#: composer/e-msg-composer.c:860
+#: composer/e-msg-composer.c:857
 msgid "Quit the message composer"
 msgstr "Afslut beskedskriver"
 
-#: composer/e-msg-composer.c:873 shell/e-shell-view-menu.c:480
+#: composer/e-msg-composer.c:870 shell/e-shell-view-menu.c:480
 msgid "_Edit"
 msgstr "_Redigér"
 
-#: composer/e-msg-composer.c:884
+#: composer/e-msg-composer.c:881
 msgid "_Format"
 msgstr "_Format"
 
-#: composer/e-msg-composer.c:890
+#: composer/e-msg-composer.c:887
 msgid "HTML"
 msgstr "HTML"
 
-#: composer/e-msg-composer.c:891
+#: composer/e-msg-composer.c:888
 msgid "Send the mail in HTML format"
 msgstr "Send brevet i HTML format"
 
-#: composer/e-msg-composer.c:904 shell/e-shell-view-menu.c:387
+#: composer/e-msg-composer.c:901 shell/e-shell-view-menu.c:387
 #: shell/e-shell-view-menu.c:491
 msgid "_View"
 msgstr "_Vis"
 
-#: composer/e-msg-composer.c:910
+#: composer/e-msg-composer.c:907
 msgid "Show _attachments"
 msgstr "Vis _bilag"
 
-#: composer/e-msg-composer.c:911
+#: composer/e-msg-composer.c:908
 msgid "Show/hide attachments"
 msgstr "Vis/skjul bilag"
 
-#: composer/e-msg-composer.c:944
+#: composer/e-msg-composer.c:941
 msgid "Send"
 msgstr "Send"
 
-#: composer/e-msg-composer.c:945
+#: composer/e-msg-composer.c:942
 msgid "Send this message"
 msgstr "Send denne meddelelse"
 
-#: composer/e-msg-composer.c:954
+#: composer/e-msg-composer.c:951
 msgid "Attach"
 msgstr "Vedhæft"
 
-#: composer/e-msg-composer.c:955
+#: composer/e-msg-composer.c:952
 msgid "Attach a file"
 msgstr "Vedhæft en fil"
 
-#: composer/e-msg-composer.c:1142
+#: composer/e-msg-composer.c:1139
 msgid "Compose a message"
 msgstr "Skriv en meddelelse"
 
-#: filter/filter-editor.c:198
-msgid "Edit Filter"
-msgstr "Redigér filter"
-
-#: filter/filter-editor.c:198
-msgid "Create filter"
-msgstr "Opret filter"
-
-#: filter/filter-editor.c:209
-msgid "Back"
-msgstr "Tilbage"
-
-#: filter/filter-editor.c:211
-msgid "Finish"
-msgstr "Fuldfør"
-
-#: filter/filter-editor.c:212
-msgid "Cancel"
-msgstr "Afbryd"
-
-#: filter/filter-editor.c:216
-msgid "Apply"
-msgstr "Anvend"
-
-#: filter/filter-editor.c:233
-msgid ""
-"<h2>Create Filtering Rule</h2><p>Select one of the base rules above, then "
-"continue forwards to customise it.</p>"
-msgstr ""
-"<h2>Opret filtreringsregel</h2><p>Vælg en af de basale regler ovenfor, "
-"fortsæt så fremad for at tilpasse den.</p>"
-
-#: mail/component-factory.c:193
+#: mail/component-factory.c:188
 msgid "Cannot initialize Evolution's mail component."
 msgstr "Kan ikke initialisere Evolutions e-postkomponent."
 
@@ -2588,8 +2556,9 @@ msgid "Forward this message"
 msgstr "Videresend denne meddelelse"
 
 #: mail/folder-browser-factory.c:35
-msgid "Refile"
-msgstr "Omgem"
+#, fuzzy
+msgid "Move"
+msgstr "man"
 
 #: mail/folder-browser-factory.c:35
 msgid "Move message to a new folder"
@@ -2607,27 +2576,33 @@ msgstr "Slet denne meddelelse"
 msgid "_Threaded Message List"
 msgstr "_Trådet beskedliste"
 
-#: mail/folder-browser-factory.c:71
+#: mail/folder-browser-factory.c:72
+msgid "_Mark all messages seen"
+msgstr ""
+
+#: mail/folder-browser-factory.c:78
 msgid "_Expunge"
 msgstr "_Udslet"
 
-#: mail/folder-browser-factory.c:77
-msgid "_Filter Druid ..."
+#: mail/folder-browser-factory.c:84
+#, fuzzy
+msgid "Mail _Filters ..."
 msgstr "_Filter Druid ..."
 
-#: mail/folder-browser-factory.c:83
-msgid "_Virtual Folder Druid ..."
-msgstr "_Virtuel folder Druid ..."
+#: mail/folder-browser-factory.c:90
+#, fuzzy
+msgid "_vFolder Editor ..."
+msgstr "_Filter Druid ..."
 
-#: mail/folder-browser-factory.c:89
+#: mail/folder-browser-factory.c:96
 msgid "_Mail Configuration ..."
 msgstr "_Post konfiguration ..."
 
-#: mail/folder-browser-factory.c:95
+#: mail/folder-browser-factory.c:102
 msgid "Forget _Passwords"
 msgstr "Glem _adgangskoder"
 
-#: mail/mail-config.c:262
+#: mail/mail-config.c:688
 msgid ""
 "Enter your name and email address to be used in outgoing mail. You may also, "
 "optionally, enter the name of your organization, and the name of a file to "
@@ -2637,51 +2612,51 @@ msgstr ""
 "eventuelt angive navnet på din organisation, og navnet på den fil som din "
 "signatur kan læses fra."
 
-#: mail/mail-config.c:277
+#: mail/mail-config.c:701
 msgid "Full name:"
 msgstr "Fulde navn:"
 
-#: mail/mail-config.c:305
+#: mail/mail-config.c:725
 msgid "Email address:"
 msgstr "E-post adresse:"
 
-#: mail/mail-config.c:328
+#: mail/mail-config.c:740
 msgid "Organization:"
 msgstr "Organisation:"
 
-#: mail/mail-config.c:340
+#: mail/mail-config.c:751
 msgid "Signature file:"
 msgstr "Signaturfil:"
 
-#: mail/mail-config.c:345
+#: mail/mail-config.c:756
 msgid "Signature File"
 msgstr "Signaturfil"
 
-#: mail/mail-config.c:730 mail/mail-config.c:824 mail/mail-config.c:1637
+#: mail/mail-config.c:1167
 msgid "Server:"
 msgstr "Tjener:"
 
-#: mail/mail-config.c:737
+#: mail/mail-config.c:1173
 msgid "Username:"
 msgstr "Brugernavn:"
 
-#: mail/mail-config.c:744
+#: mail/mail-config.c:1179
 msgid "Path:"
 msgstr "Sti:"
 
-#: mail/mail-config.c:751 mail/mail-config.c:831
+#: mail/mail-config.c:1187
 msgid "Authentication:"
 msgstr "Autentisering:"
 
-#: mail/mail-config.c:763 mail/mail-config.c:843
+#: mail/mail-config.c:1199
 msgid "Detect supported types..."
 msgstr "Søg efter understøttede typer..."
 
-#: mail/mail-config.c:789 mail/mail-config.c:865
-msgid "Test these values before continuing"
-msgstr "Test disse værdier før du går videre"
+#: mail/mail-config.c:1222
+msgid "Test Settings"
+msgstr ""
 
-#: mail/mail-config.c:976
+#: mail/mail-config.c:1344 mail/mail-config.c:1392
 msgid ""
 "Select the kind of mail server you have, and enter the relevant information "
 "about it.\n"
@@ -2695,66 +2670,50 @@ msgstr ""
 "Hvis tjenesten behøver autentifikation kan du klikke på knappen med 'find "
 "understøttede typer' efter at have angivet de andre informationer."
 
-#: mail/mail-config.c:994
-msgid "Select the method you would like to use to deliver your mail."
-msgstr "Vælg den metode som du gerne vil bruge til at aflevere din post."
+#: mail/mail-config.c:1368
+#, fuzzy
+msgid ""
+"Select the kind of news server you have, and enter the relevant information "
+"about it.\n"
+"\n"
+"If the server requires authentication, you can click the \"Detect supported "
+"types...\" button after entering the other information."
+msgstr ""
+"vælg den type postprogram du har, og angiv den relevante information om "
+"det,\n"
+"\n"
+"Hvis tjenesten behøver autentifikation kan du klikke på knappen med 'find "
+"understøttede typer' efter at have angivet de andre informationer."
 
-#: mail/mail-config.c:1179 mail/mail-config.c:1258
-msgid "Mail Configuration"
-msgstr "E-post konfiguration"
-
-#. Identity page
-#: mail/mail-config.c:1196
-msgid "Identity"
-msgstr "Identitet"
-
-#. Source page
-#: mail/mail-config.c:1215
-msgid "Mail Source"
-msgstr "E-postkilde"
-
-#. Transport page
-#: mail/mail-config.c:1236
-msgid "Mail Transport"
-msgstr "E-post transport"
-
-#: mail/mail-config.c:1359
+#: mail/mail-config.c:1434
 msgid "Edit Identity"
 msgstr "Redigér identitet"
 
-#: mail/mail-config.c:1361
+#: mail/mail-config.c:1436
 msgid "Add Identity"
 msgstr "Tilføj identitet"
 
-#: mail/mail-config.c:1504
+#: mail/mail-config.c:1515
 msgid "Edit Source"
 msgstr "Redigér kilde"
 
-#: mail/mail-config.c:1506
+#: mail/mail-config.c:1517
 msgid "Add Source"
 msgstr "Tilføj kilde"
 
-#. "\n\n"
-#. "If the server requires authentication, you can click the "
-#. "\"Detect supported types...\" button after entering "
-#. "the other information."
-#: mail/mail-config.c:1616
-msgid "Enter the hostname of the News Server you have."
-msgstr "Indtast værtsnavnet på den nyhedsserver du har."
-
-#: mail/mail-config.c:1672
+#: mail/mail-config.c:1598
 msgid "Edit News Server"
 msgstr "Redigér nyhedsserver"
 
-#: mail/mail-config.c:1674
+#: mail/mail-config.c:1600
 msgid "Add News Server"
 msgstr "Tilføj nyhedsserver"
 
-#: mail/mail-ops.c:374
+#: mail/mail-ops.c:393
 msgid "Fetching mail"
 msgstr "Henter post"
 
-#: mail/mail-ops.c:386
+#: mail/mail-ops.c:405
 msgid ""
 "This message has no subject.\n"
 "Really send?"
@@ -2762,8 +2721,9 @@ msgstr ""
 "Denne besked har intet emne.\n"
 "Skal den sendes alligevel?"
 
-#: mail/mail-ops.c:774
-msgid "Refile message(s) to"
+#: mail/mail-ops.c:791
+#, fuzzy
+msgid "Move message(s) to"
 msgstr "Omgem meddelelser i"
 
 #: mail/mail-threads.c:483
@@ -2790,31 +2750,31 @@ msgstr "Kunne ikke oprette dialogboks."
 msgid "User cancelled query."
 msgstr "Bruger annullerede forespørgsel."
 
-#: mail/message-list.c:458
+#: mail/message-list.c:456
 msgid "Online Status"
 msgstr "Opkoblet status"
 
-#: mail/message-list.c:486
+#: mail/message-list.c:492
 msgid "From"
 msgstr "Fra"
 
-#: mail/message-list.c:493
+#: mail/message-list.c:499
 msgid "Subject"
 msgstr "Emne"
 
-#: mail/message-list.c:500
+#: mail/message-list.c:506
 msgid "Date"
 msgstr "Dato"
 
-#: mail/message-list.c:507
+#: mail/message-list.c:513
 msgid "Received"
 msgstr "Modtaget"
 
-#: mail/message-list.c:514
+#: mail/message-list.c:520
 msgid "To"
 msgstr "Til"
 
-#: mail/message-list.c:521
+#: mail/message-list.c:527
 msgid "Size"
 msgstr "Størrelse"
 
@@ -3044,15 +3004,15 @@ msgstr "Vis information om Evolution"
 msgid "(No folder displayed)"
 msgstr "(Ingen mappe vist)"
 
-#: shell/e-shell-view.c:339
+#: shell/e-shell-view.c:342
 msgid "Folders"
 msgstr "Mapper"
 
-#: shell/e-shell-view.c:731
+#: shell/e-shell-view.c:734
 msgid "None"
 msgstr "Ingen"
 
-#: shell/e-shell-view.c:735
+#: shell/e-shell-view.c:738
 #, c-format
 msgid "Evolution - %s"
 msgstr "Evolution - %s"
@@ -3193,15 +3153,15 @@ msgstr ""
 "Tak\n"
 "Holdet bag Evolution\n"
 
-#: shell/main.c:124
+#: shell/main.c:128
 msgid "Cannot initialize the Evolution shell."
 msgstr "Kan ikke initialisere Evolution-skallen."
 
-#: shell/main.c:162
+#: shell/main.c:166
 msgid "Cannot initialize the configuration system."
 msgstr "Kan ikke initialisere konfigurerings-systemet."
 
-#: shell/main.c:168
+#: shell/main.c:172
 msgid "Cannot initialize the Bonobo component system."
 msgstr "Kunne ikke initialisere Bonobo-komponentsystemet."
 
@@ -3360,6 +3320,58 @@ msgstr "..."
 #, c-format
 msgid "Group %i"
 msgstr "Gruppe %i"
+
+#~ msgid "Edit Filter"
+#~ msgstr "Redigér filter"
+
+#~ msgid "Create filter"
+#~ msgstr "Opret filter"
+
+#~ msgid "Back"
+#~ msgstr "Tilbage"
+
+#~ msgid "Finish"
+#~ msgstr "Fuldfør"
+
+#~ msgid "Cancel"
+#~ msgstr "Afbryd"
+
+#~ msgid "Apply"
+#~ msgstr "Anvend"
+
+#~ msgid ""
+#~ "<h2>Create Filtering Rule</h2><p>Select one of the base rules above, then "
+#~ "continue forwards to customise it.</p>"
+#~ msgstr ""
+#~ "<h2>Opret filtreringsregel</h2><p>Vælg en af de basale regler ovenfor, "
+#~ "fortsæt så fremad for at tilpasse den.</p>"
+
+#~ msgid "Refile"
+#~ msgstr "Omgem"
+
+#~ msgid "_Virtual Folder Druid ..."
+#~ msgstr "_Virtuel folder Druid ..."
+
+#~ msgid "Test these values before continuing"
+#~ msgstr "Test disse værdier før du går videre"
+
+#~ msgid "Select the method you would like to use to deliver your mail."
+#~ msgstr "Vælg den metode som du gerne vil bruge til at aflevere din post."
+
+#~ msgid "Mail Configuration"
+#~ msgstr "E-post konfiguration"
+
+#~ msgid "Identity"
+#~ msgstr "Identitet"
+
+#~ msgid "Mail Source"
+#~ msgstr "E-postkilde"
+
+#~ msgid "Mail Transport"
+#~ msgstr "E-post transport"
+
+#~ msgid "Enter the hostname of the News Server you have."
+#~ msgstr "Indtast værtsnavnet på den nyhedsserver du har."
 
 #~ msgid "Cut selected region into the clipboard"
 #~ msgstr "Klip valgt område ud til klippebordet"
