@@ -365,11 +365,20 @@ get_prop(BonoboPropertyBag *bag, BonoboArg *arg, guint arg_id, CORBA_Environment
 	}
 }
 
+static int
+check_autosave(void *data)
+{
+	e_msg_composer_check_autosave(NULL);
+
+	return FALSE;
+}
+
 static void
 view_control_activate_cb (BonoboControl *control, gboolean activate, EMFolderView *view)
 {
 	BonoboUIComponent *uic;
-	
+	static int recover = 0;
+
 	uic = bonobo_control_get_ui_component (control);
 	g_assert (uic != NULL);
 	
@@ -388,6 +397,14 @@ view_control_activate_cb (BonoboControl *control, gboolean activate, EMFolderVie
 	} else {
 		em_folder_view_activate (view, uic, activate);
 		bonobo_ui_component_unset_container (uic, NULL);
+	}
+
+	/* This is a weird place to put it, but createControls does it too early.
+	   I also think we should wait to do it until we actually visit the mailer.
+	   The delay is arbitrary - without it it shows up before the main window */
+	if (!recover) {
+		recover = 1;
+		g_timeout_add(1000, check_autosave, NULL);
 	}
 }
 
