@@ -318,6 +318,8 @@ finish_func (GnomeDruidPage *page,
 	data->cancel = FALSE;
 	gtk_widget_destroy (data->dialog);
 	gtk_main_quit ();
+
+	return TRUE;
 }
 
 static void
@@ -480,9 +482,9 @@ make_timezone_page (SWData *data)
 	page->page = glade_xml_get_widget (data->wizard, "timezone-page");
 	g_return_val_if_fail (page->page != NULL, NULL);
 
-	page->vbox = GNOME_DRUID_PAGE_STANDARD (page->page)->vbox;
+	page->vbox = GTK_WIDGET (GNOME_DRUID_PAGE_STANDARD (page->page)->vbox);
 
-	page->etd = e_timezone_dialog_new ();
+	page->etd = GTK_OBJECT (e_timezone_dialog_new ());
 	e_timezone_dialog_reparent (page->etd, page->vbox);
 
 	return page;

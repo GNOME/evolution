@@ -41,6 +41,8 @@
 #include "mail/mail-importer.h"
 #include "mail-tools.h"
 
+#include "e-util/e-path.h"
+
 #define IMPORTER_DEBUG
 #ifdef IMPORTER_DEBUG
 #define IN g_print ("=====> %s (%d)\n", __FUNCTION__, __LINE__)
@@ -236,8 +238,8 @@ load_file_fn (EvolutionImporter *eimporter,
 	if (folderpath == NULL || *folderpath == '\0') {
 		importer->folder = mail_tool_get_local_inbox (NULL);
 	} else {
-		char *parent;
-		const char *name, *fullpath, *homedir, *tmp;
+		char *parent, *tmp, *fullpath;
+		const char *name, *homedir;
 		BonoboListener *listener;
 		CamelException *ex;
 		

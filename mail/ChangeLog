@@ -1,3 +1,7 @@
+2001-08-17  Iain Holmes  <iain@ximian.com>
+
+	* importers/evolution-mbox-importer.c (load_file_fn): Fix warnings.
+
 2001-08-17  JP Rosevear  <jpr@ximian.com>
 
 	* component-factory.c (owner_set_cb): don't init the config here

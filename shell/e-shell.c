@@ -979,7 +979,6 @@ e_shell_construct (EShell *shell,
 		e_shortcuts_add_default_group (priv->shortcuts);
 	
 	g_free (shortcut_path);
-	
 	return E_SHELL_CONSTRUCT_RESULT_OK;
 }
 
