@@ -1,3 +1,8 @@
+2001-07-03  Damon Chaplin  <damon@ximian.com>
+
+	* configure.in (MAILER_LIBS):
+	(MAILER_CFLAGS): added bonobo_conf.
+
 2001-07-02  Christopher James Lahey  <clahey@ximian.com>
 
 	* configure.in: Made evolution depend on bonobo-conf 0.2.
