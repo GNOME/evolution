@@ -189,6 +189,7 @@ e_summary_titlebar_realize (GnomeCanvasItem *item)
 						 "use_ellipsis", TRUE,
 						 "fill_color", "black",
 						 "anchor", GTK_ANCHOR_NW,
+						 "draw_background", FALSE,
 						 NULL);
 	gnome_canvas_item_move (priv->titletext, TITLEBAR_BORDER_WIDTH,
 				(priv->height - font_height) / 2);
