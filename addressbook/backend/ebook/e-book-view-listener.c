@@ -67,7 +67,8 @@ e_book_view_listener_queue_response (EBookViewListener         *listener,
 
 	if (listener->priv->stopped) {
 		/* Free response and return */
-		g_free (response->id);
+		g_list_foreach (response->ids, (GFunc)g_free, NULL);
+		g_list_free (response->ids);
 		g_list_foreach (response->cards, (GFunc) g_object_unref, NULL);
 		g_list_free (response->cards);
 		g_free (response->message);
@@ -124,7 +125,7 @@ e_book_view_listener_queue_status_event (EBookViewListener          *listener,
 
 	resp->op        = op;
 	resp->status    = status;
-	resp->id        = NULL;
+	resp->ids       = NULL;
 	resp->cards     = NULL;
 	resp->message   = NULL;
 
@@ -133,11 +134,12 @@ e_book_view_listener_queue_status_event (EBookViewListener          *listener,
 
 /* Add, Remove, Modify */
 static void
-e_book_view_listener_queue_id_event (EBookViewListener          *listener,
-				     EBookViewListenerOperation  op,
-				     const char             *id)
+e_book_view_listener_queue_idlist_event (EBookViewListener          *listener,
+					 EBookViewListenerOperation  op,
+					 const GNOME_Evolution_Addressbook_CardIdList *ids)
 {
 	EBookViewListenerResponse *resp;
+	int i;
 
 	if (listener->priv->stopped)
 		return;
@@ -146,9 +148,13 @@ e_book_view_listener_queue_id_event (EBookViewListener          *listener,
 
 	resp->op        = op;
 	resp->status    = E_BOOK_VIEW_STATUS_SUCCESS;
-	resp->id        = g_strdup (id);
+	resp->ids       = NULL;
 	resp->cards     = NULL;
 	resp->message   = NULL;
+
+	for (i = 0; i < ids->_length; i ++) {
+		resp->ids = g_list_prepend (resp->ids, g_strdup (ids->_buffer[i]));
+	}
 
 	e_book_view_listener_queue_response (listener, resp);
 }
@@ -169,7 +175,7 @@ e_book_view_listener_queue_sequence_event (EBookViewListener          *listener,
 
 	resp->op        = op;
 	resp->status    = E_BOOK_VIEW_STATUS_SUCCESS;
-	resp->id        = NULL;
+	resp->ids       = NULL;
 	resp->cards     = NULL;
 	resp->message   = NULL;
 	
@@ -195,7 +201,7 @@ e_book_view_listener_queue_message_event (EBookViewListener          *listener,
 
 	resp->op        = op;
 	resp->status    = E_BOOK_VIEW_STATUS_SUCCESS;
-	resp->id        = NULL;
+	resp->ids       = NULL;
 	resp->cards     = NULL;
 	resp->message   = g_strdup(message);
 
@@ -214,14 +220,13 @@ impl_BookViewListener_notify_card_added (PortableServer_Servant servant,
 }
 
 static void
-impl_BookViewListener_notify_card_removed (PortableServer_Servant servant,
-					   const CORBA_char* id,
-					   CORBA_Environment *ev)
+impl_BookViewListener_notify_cards_removed (PortableServer_Servant servant,
+					    const GNOME_Evolution_Addressbook_CardIdList *ids,
+					    CORBA_Environment *ev)
 {
 	EBookViewListener *listener = E_BOOK_VIEW_LISTENER (bonobo_object (servant));
 
-	e_book_view_listener_queue_id_event (
-		listener, CardRemovedEvent, (const char *) id);
+	e_book_view_listener_queue_idlist_event (listener, CardsRemovedEvent, ids);
 }
 
 static void
@@ -388,7 +393,8 @@ e_book_view_listener_dispose (GObject *object)
 		for (l = listener->priv->response_queue; l != NULL; l = l->next) {
 			EBookViewListenerResponse *resp = l->data;
 
-			g_free(resp->id);
+			g_list_foreach (resp->ids, (GFunc)g_free, NULL);
+			g_list_free (resp->ids);
 
 			g_list_foreach(resp->cards, (GFunc) g_object_unref, NULL);
 			g_list_free(resp->cards);
@@ -430,7 +436,7 @@ e_book_view_listener_class_init (EBookViewListenerClass *klass)
 
 	epv = &klass->epv;
 	epv->notifyCardChanged      = impl_BookViewListener_notify_card_changed;
-	epv->notifyCardRemoved      = impl_BookViewListener_notify_card_removed;
+	epv->notifyCardsRemoved     = impl_BookViewListener_notify_cards_removed;
 	epv->notifyCardAdded        = impl_BookViewListener_notify_card_added;
 	epv->notifySequenceComplete = impl_BookViewListener_notify_sequence_complete;
 	epv->notifyStatusMessage    = impl_BookViewListener_notify_status_message;

@@ -43,7 +43,7 @@ struct _EBookViewClass {
 	 * Signals.
 	 */
 	void (* card_changed)      (EBookView *book_view, const GList *cards);
-	void (* card_removed)      (EBookView *book_view, const char *id);
+	void (* card_removed)      (EBookView *book_view, const GList *ids);
 	void (* card_added)        (EBookView *book_view, const GList *cards);
 	void (* sequence_complete) (EBookView *book_view, EBookViewStatus status);
 	void (* status_message)    (EBookView *book_view, const char *message);

@@ -48,7 +48,7 @@ struct _EBookViewListenerClass {
 typedef enum {
 	/* Async events */
 	CardAddedEvent,
-	CardRemovedEvent,
+	CardsRemovedEvent,
 	CardModifiedEvent,
 	SequenceCompleteEvent,
 	StatusMessageEvent,
@@ -60,8 +60,8 @@ typedef struct {
 	/* For SequenceComplete */
 	EBookViewStatus             status;
 
-	/* For CardRemovedEvent */
-	char                   *id;
+	/* For CardsRemovedEvent */
+	GList                  *ids;
 
 	/* For Card[Added|Modified]Event */
 	GList                  *cards; /* Of type ECard. */

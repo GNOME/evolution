@@ -74,6 +74,7 @@ void      e_book_unload_uri               (EBook                 *book);
 const char *e_book_get_uri                (EBook                 *book);
 
 char     *e_book_get_static_capabilities  (EBook                 *book);
+gboolean  e_book_check_static_capability  (EBook                 *book, const char *cap);
 
 guint     e_book_get_supported_fields     (EBook                 *book,
 					   EBookFieldsCallback    cb,
@@ -104,6 +105,11 @@ gboolean  e_book_remove_card              (EBook                 *book,
 					   gpointer               closure);
 gboolean  e_book_remove_card_by_id        (EBook                 *book,
 					   const char            *id,
+					   EBookCallback          cb,
+					   gpointer               closure);
+
+gboolean e_book_remove_cards              (EBook                 *book,
+					   GList                 *id_list,
 					   EBookCallback          cb,
 					   gpointer               closure);
 

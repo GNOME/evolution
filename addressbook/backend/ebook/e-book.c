@@ -35,6 +35,9 @@ struct _EBookPrivate {
 	GList *book_factories;
 	GList *iter;
 
+	char *cap;
+	gboolean cap_queried;
+
 	EBookListener	      *listener;
 	EComponentListener    *comp_listener;
 
@@ -836,32 +839,52 @@ e_book_get_uri (EBook *book)
 char *
 e_book_get_static_capabilities (EBook *book)
 {
-	CORBA_Environment ev;
-	char *temp;
-	char *ret_val;
+	if (!book->priv->cap_queried) {
+		CORBA_Environment ev;
+		char *temp;
 
-	CORBA_exception_init (&ev);
+		CORBA_exception_init (&ev);
 
-	if (book->priv->load_state != URILoaded) {
-		g_warning ("e_book_unload_uri: No URI is loaded!\n");
-		return g_strdup("");
-	}
+		if (book->priv->load_state != URILoaded) {
+			g_warning ("e_book_unload_uri: No URI is loaded!\n");
+			return g_strdup("");
+		}
 
-	temp = GNOME_Evolution_Addressbook_Book_getStaticCapabilities(book->priv->corba_book, &ev);
+		temp = GNOME_Evolution_Addressbook_Book_getStaticCapabilities(book->priv->corba_book, &ev);
 
-	if (ev._major != CORBA_NO_EXCEPTION) {
-		g_warning ("e_book_get_static_capabilities: Exception "
-			   "during get_static_capabilities!\n");
+		if (ev._major != CORBA_NO_EXCEPTION) {
+			g_warning ("e_book_get_static_capabilities: Exception "
+				   "during get_static_capabilities!\n");
+			CORBA_exception_free (&ev);
+			return g_strdup("");
+		}
+
+		book->priv->cap = g_strdup(temp);
+		book->priv->cap_queried = TRUE;
+
+		CORBA_free(temp);
+
 		CORBA_exception_free (&ev);
-		return g_strdup("");
 	}
 
-	ret_val = g_strdup(temp);
-	CORBA_free(temp);
+	return g_strdup (book->priv->cap);
+}
 
-	CORBA_exception_free (&ev);
+gboolean
+e_book_check_static_capability  (EBook *book, const char *cap)
+{
+	gboolean rv = FALSE;
+	char *caps = e_book_get_static_capabilities (book);
+	if (!caps)
+		return FALSE;
 
-	return ret_val;
+	/* XXX this is an inexact test but it works for our use */
+	if (strstr (caps, cap))
+		rv = TRUE;
+
+	g_free (caps);
+
+	return rv;
 }
 
 guint
@@ -1077,11 +1100,32 @@ e_book_remove_card_by_id (EBook         *book,
 			  gpointer       closure)
 
 {
+	GList *list = NULL;
+	gboolean rv;
+
+	list = g_list_prepend (list, (char*)id);
+	
+	rv = e_book_remove_cards (book, list, cb, closure);
+
+	g_list_free (list);
+
+	return rv;
+}
+
+gboolean
+e_book_remove_cards (EBook         *book,
+		     GList         *ids,
+		     EBookCallback cb,
+		     gpointer      closure)
+{
+	GNOME_Evolution_Addressbook_CardIdList idlist;
 	CORBA_Environment ev;
+	GList *l;
+	int num_ids, i;
 
 	g_return_val_if_fail (book != NULL,     FALSE);
 	g_return_val_if_fail (E_IS_BOOK (book), FALSE);
-	g_return_val_if_fail (id != NULL,       FALSE);
+	g_return_val_if_fail (ids != NULL,     FALSE);
 
 	if (book->priv->load_state != URILoaded) {
 		g_warning ("e_book_remove_card_by_id: No URI loaded!\n");
@@ -1092,8 +1136,16 @@ e_book_remove_card_by_id (EBook         *book,
 
 	e_book_queue_op (book, cb, closure, NULL);
 
-	GNOME_Evolution_Addressbook_Book_removeCard (
-		book->priv->corba_book, (const GNOME_Evolution_Addressbook_CardId) id, &ev);
+	num_ids = g_list_length (ids);
+	idlist._buffer = CORBA_sequence_GNOME_Evolution_Addressbook_CardId_allocbuf (num_ids);
+	idlist._maximum = num_ids;
+	idlist._length = num_ids;
+
+	for (l = ids, i = 0; l; l=l->next, i ++) {
+		idlist._buffer[i] = CORBA_string_dup (l->data);
+	}
+
+	GNOME_Evolution_Addressbook_Book_removeCards (book->priv->corba_book, &idlist, &ev);
 
 	if (ev._major != CORBA_NO_EXCEPTION) {
 		g_warning ("e_book_remove_card_by_id: CORBA exception "
@@ -1105,8 +1157,11 @@ e_book_remove_card_by_id (EBook         *book,
 	
 	CORBA_exception_free (&ev);
 
+	CORBA_free(idlist._buffer);
+
 	return TRUE;
 }
+
 
 /* Adding cards. */
 
@@ -1556,6 +1611,8 @@ e_book_dispose (GObject *object)
 			g_object_unref (book->priv->comp_listener);
 			book->priv->comp_listener = NULL;
 		}
+
+		g_free (book->priv->cap);
 
 		g_free (book->priv->uri);
 

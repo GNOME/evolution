@@ -408,9 +408,9 @@ impl_BookListener_respond_create_card (PortableServer_Servant                   
 }
 
 static void
-impl_BookListener_respond_remove_card (PortableServer_Servant servant,
-				       const GNOME_Evolution_Addressbook_BookListener_CallStatus status,
-				       CORBA_Environment *ev)
+impl_BookListener_respond_remove_cards (PortableServer_Servant servant,
+					const GNOME_Evolution_Addressbook_BookListener_CallStatus status,
+					CORBA_Environment *ev)
 {
 	EBookListener *listener = E_BOOK_LISTENER (bonobo_object (servant));
 
@@ -777,7 +777,7 @@ e_book_listener_class_init (EBookListenerClass *klass)
 	epv->notifyOpenBookProgress     = impl_BookListener_report_open_book_progress;
 	epv->notifyBookOpened           = impl_BookListener_respond_open_book;
 	epv->notifyCardCreated          = impl_BookListener_respond_create_card;
-	epv->notifyCardRemoved          = impl_BookListener_respond_remove_card;
+	epv->notifyCardsRemoved         = impl_BookListener_respond_remove_cards;
 	epv->notifyCardModified         = impl_BookListener_respond_modify_card;
 	epv->notifyAuthenticationResult = impl_BookListener_respond_authentication_result;
 	epv->notifySupportedFields      = impl_BookListener_response_get_supported_fields;

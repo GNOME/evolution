@@ -82,9 +82,10 @@ e_book_view_do_removed_event (EBookView                 *book_view,
 			      EBookViewListenerResponse *resp)
 {
 	g_signal_emit (book_view, e_book_view_signals [CARD_REMOVED], 0,
-		       resp->id);
+		       resp->ids);
 
-	g_free(resp->id);
+	g_list_foreach (resp->ids, (GFunc) g_free, NULL);
+	g_list_free (resp->ids);
 }
 
 static void
@@ -125,7 +126,7 @@ e_book_view_check_listener_queue (EBookViewListener *listener, EBookView *book_v
 	case CardModifiedEvent:
 		e_book_view_do_modified_event (book_view, resp);
 		break;
-	case CardRemovedEvent:
+	case CardsRemovedEvent:
 		e_book_view_do_removed_event (book_view, resp);
 		break;
 	case SequenceCompleteEvent:

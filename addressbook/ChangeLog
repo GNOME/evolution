@@ -1,3 +1,130 @@
+2003-02-08  Chris Toshok  <toshok@ximian.com>
+
+	[ huge change, all for 1 little performance problem :) fixes #18207 ]
+	* gui/widgets/e-addressbook-model.c (get_view): use
+	e_book_check_static_capability here to make things a little
+	prettier.
+	(remove_card): complain about my life, and add code to use one
+	"model_changed" signal if we get back a list of cards instead of
+	multiple "card_removed" signals.
+
+	* gui/widgets/e-addressbook-model.h: little clean up.
+
+	* gui/widgets/e-addressbook-view.c (delete): write a bulk-remove
+	case for this.  if the backend supports it, send all the ids at
+	once.  otherwise loop over the ids.
+	(e_addressbook_view_delete_selection): fake a CardAndBook
+	structure and call delete, instead of duplicating the code in 2
+	places.
+
+	* gui/component/addressbook.c (delete_contact_cb): don't call
+	e_contact_editor_confirm_delete here, it's handled by the
+	EAddressbookView.
+
+	* backend/pas/pas-card-cursor.c (pas_card_cursor_construct): fix a
+	compiler warning about a stupid crash.
+
+	* backend/pas/pas-book.h (PASOperation): RemoveCard ->
+	RemoveCards.
+	(PASRemoveCardsReques): char *id -> GList *ids.
+	(PASRequest): PASRemoveCardRequest -> PASRemoveCardsRequest.
+
+	* backend/pas/pas-book.c (pas_book_queue_remove_cards): build up a
+	GList from the id sequence.
+	(pas_book_respond_remove): notifyCardRemoved ->
+	notifyCardsRemoved.
+	(impl_GNOME_Evolution_Addressbook_Book_removeCards): rename.
+	(pas_book_free_request): free the idlist for RemoveCards.
+	(pas_book_class_init): removeCard -> removeCards.
+
+	* backend/pas/pas-book-view.h: change prototype for
+	pas_book_view_notify_remove, and add prototype for
+	pas_book_view_notify_remove_1.
+
+	* backend/pas/pas-book-view.c (pas_book_view_notify_remove_1):
+	build up a list and call pas_book_view_notify_remove.
+	(pas_book_view_notify_remove): build up the corba id sequence and
+	call BookViewListener::notifyCardsRemoved.
+
+	* backend/pas/pas-backend.h: remove_card -> remove_cards.
+
+	* backend/pas/pas-backend.c (pas_backend_remove_cards): rename
+	from _remove_card.
+	(process_client_requests): RemoveCard -> RemoveCards and
+	_remove_card -> _remove_cards.
+
+	* backend/pas/pas-backend-ldap.c (check_schema_support):
+	g_strcasecmp -> g_ascii_strcasecmp.
+	(remove_card_handler): _remove => _remove_1.
+	(modify_card_modify_handler): same.
+	(pas_backend_ldap_process_remove_cards): rename from _remove_card.
+	(pas_backend_ldap_class_init): _remove_card -> _remove_cards.
+
+	* backend/pas/pas-backend-file.c (pas_backend_file_class_init):
+	remove_card -> remove_cards.
+	(pas_backend_file_get_static_capabilities): add "bulk-removes".
+	(pas_backend_file_process_remove_cards): rewrite this function
+	largely, so that it handles lists of ids.  first we loop through
+	and for every successful deletion we build a list of deleted
+	ECards.  Then for each view we build a list (a subset of the
+	deleted ECard list) and pass back that list to the view.
+	(pas_backend_file_process_modify_card): use _remove_1 instead of
+	_remove.
+	(ecard_matches_search): new function.
+
+	* backend/pas/pas-backend-card-sexp.c
+	(pas_backend_card_sexp_match_vcard): rewrite in terms of
+	_match_ecard.
+	(pas_backend_card_sexp_match_ecard): new function, the guts from
+	_match_vcard.
+
+	* backend/pas/pas-backend-card-sexp.h: add prototype for
+	pas_backend_card_sexp_match_ecard.
+
+	* backend/idl/addressbook.idl: the card removal stuff now takes
+	CardIdList.
+
+	* backend/ebook/e-book.c (e_book_get_static_capabilities): cache
+	successful capability queries (since they're static).
+	(e_book_check_static_capability): new, convenience function to
+	check if a particular capability is supported.
+	(e_book_remove_card_by_id): build a single element GList and call
+	e_book_remove_cards.
+	(e_book_remove_cards): build up a CORBA sequence from the GList
+	and call Book::removeCards.
+	(e_book_dispose): free the cached capabilities string.
+
+	* backend/ebook/e-book.h: add new prototypes for
+	e_book_check_static_capability and e_book_remove_cards.
+
+	* backend/ebook/e-book-view.h (struct _EBookViewClass): rename
+	"card_removed" signal to "cards_removed".
+
+	* backend/ebook/e-book-view.c (e_book_view_do_removed_event): id
+	-> ids, and free the id list.
+	(e_book_view_check_listener_queue): CardRemovedEvent ->
+	CardsRemovedEvent.
+
+	* backend/ebook/e-book-view-listener.c
+	(e_book_view_listener_queue_response): free the id list.
+	(e_book_view_listener_queue_idlist_event): new function, used for
+	cards_removed.
+	(e_book_view_listener_queue_status_event): id -> ids.
+	(e_book_view_listener_queue_sequence_event): same.
+	(e_book_view_listener_queue_message_event): same.
+	(impl_BookViewListener_notify_cards_removed): call
+	queue_idlist_event.
+	(e_book_view_listener_dispose): free the id list.
+	(e_book_view_listener_class_init): track change to idl call.
+
+	* backend/ebook/e-book-view-listener.h
+	(EBookViewListenerOperation): CardRemovedEvent ->
+	CardsRemovedEvent.
+	(EBookViewListenerResponse): char *id -> GList *ids.
+
+	* backend/ebook/e-book-listener.c
+	(impl_BookListener_respond_remove_cards): rename from remove_card.
+
 2003-02-06  Chris Toshok  <toshok@ximian.com>
 
 	* gui/component/e-address-popup.c (email_table_save_card_cb):
