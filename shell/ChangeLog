@@ -1,3 +1,8 @@
+2004-09-27  Andre Klapper  <a9016009@gmx.de>
+
+	* e-shell-window-commands.c (about_box_new): fixed two
+	typos in the list of contributors
+
 2004-09-21  JP Rosevear  <jpr@novell.com>
 
 	From Malcolm Tredinnick <malcolm@commsecure.com.au>, Fixes #66261
