@@ -1,5 +1,19 @@
 2001-06-01  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* mail-account-gui.c (mail_account_gui_save): Save the pgp and
+	smime settings.
+	(mail_account_gui_new): Setup the pgp and s/mime page (but disable
+	the s/mime frame if we are not compiled with s/mime support).
+
+	* mail-config.c (account_copy): Updated to save extra pgp and
+	smime options.
+	(account_destroy): Free draft/sent folder info and also the new
+	pgp/smime keys.
+	(config_read): Read in the pgp and s/mime config options.
+	(mail_config_write): Save the account pgp and smime options.
+
+2001-06-01  Jeffrey Stedfast  <fejj@ximian.com>
+
 	* mail-account-gui.c (source_type_changed): Call
 	build_extra_conf() here too. This is when we REALLY want to call
 	it anyway, not on switch-page because then we'd lose any data on

@@ -47,7 +47,7 @@ typedef struct {
 	GtkWidget *authitem;
 	GtkToggleButton *remember;
 	GtkButton *check_supported;
-
+	
 	CamelProvider *provider;
 	CamelProviderType provider_type;
 } MailAccountGuiService;
@@ -60,34 +60,40 @@ typedef struct {
 	GtkWidget *top;
 	MailConfigAccount *account;
 	GladeXML *xml;
-
+	
 	/* identity */
 	GtkEntry *full_name;
 	GtkEntry *email_address;
 	GtkEntry *organization;
 	GnomeFileEntry *signature;
-
+	
 	/* incoming mail */
 	MailAccountGuiService source;
 	GtkToggleButton *source_auto_check;
 	GtkSpinButton *source_auto_check_min;
-
+	
 	/* extra incoming config */
 	GHashTable *extra_config;
-
+	
 	/* outgoing mail */
 	MailAccountGuiService transport;
 	GtkToggleButton *transport_needs_auth;
-
+	
 	/* account management */
 	GtkEntry *account_name;
 	GtkToggleButton *default_account;
-
+	
 	/* special folders */
 	GtkButton *drafts_folder_button;
 	MailAccountGuiFolder drafts_folder;
 	GtkButton *sent_folder_button;
 	MailAccountGuiFolder sent_folder;
+	
+	/* Security */
+	GtkEntry *pgp_key;
+	GtkToggleButton *pgp_encrypt_to_self;
+	GtkEntry *smime_key;
+	GtkToggleButton *smime_encrypt_to_self;
 } MailAccountGui;
 
 

@@ -57,6 +57,12 @@ typedef struct {
 	
 	gchar *drafts_folder_name, *drafts_folder_uri;
 	gchar *sent_folder_name, *sent_folder_uri;
+	
+	gchar *pgp_key;
+	gboolean pgp_encrypt_to_self;
+	
+	gchar *smime_key;
+	gboolean smime_encrypt_to_self;
 } MailConfigAccount;
 
 typedef enum {

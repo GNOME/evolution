@@ -772,18 +772,18 @@ MailAccountGui *
 mail_account_gui_new (MailConfigAccount *account)
 {
 	MailAccountGui *gui;
-
+	
 	gui = g_new0 (MailAccountGui, 1);
 	gui->account = account;
 	gui->xml = glade_xml_new (EVOLUTION_GLADEDIR "/mail-config.glade", NULL);
-
+	
 	/* Management */
 	gui->account_name = GTK_ENTRY (glade_xml_get_widget (gui->xml, "management_name"));
 	gui->default_account = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui->xml, "management_default"));
 	if (account->name)
 		e_utf8_gtk_entry_set_text (gui->account_name, account->name);
 	gtk_toggle_button_set_active (gui->default_account, account->default_account);
-
+	
 	/* Identity */
 	gui->full_name = GTK_ENTRY (glade_xml_get_widget (gui->xml, "identity_full_name"));
 	gui->email_address = GTK_ENTRY (glade_xml_get_widget (gui->xml, "identity_address"));
@@ -803,7 +803,7 @@ mail_account_gui_new (MailConfigAccount *account)
 					    account->id->signature);
 		}
 	}
-
+	
 	/* Source */
 	gui->source.type = GTK_OPTION_MENU (glade_xml_get_widget (gui->xml, "source_type_omenu"));
 	gui->source.hostname = GTK_ENTRY (glade_xml_get_widget (gui->xml, "source_host"));
@@ -823,7 +823,7 @@ mail_account_gui_new (MailConfigAccount *account)
 			    GTK_SIGNAL_FUNC (service_check_supported), &gui->source);
 	gui->source_auto_check = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui->xml, "extra_auto_check"));
 	gui->source_auto_check_min = GTK_SPIN_BUTTON (glade_xml_get_widget (gui->xml, "extra_auto_check_min"));
-
+	
 	/* Transport */
 	gui->transport.type = GTK_OPTION_MENU (glade_xml_get_widget (gui->xml, "transport_type_omenu"));
 	gui->transport.hostname = GTK_ENTRY (glade_xml_get_widget (gui->xml, "transport_host"));
@@ -840,7 +840,7 @@ mail_account_gui_new (MailConfigAccount *account)
 	gui->transport.check_supported = GTK_BUTTON (glade_xml_get_widget (gui->xml, "transport_check_supported"));
 	gtk_signal_connect (GTK_OBJECT (gui->transport.check_supported), "clicked",
 			    GTK_SIGNAL_FUNC (service_check_supported), &gui->transport);
-
+	
 	/* Drafts folder */
 	gui->drafts_folder_button = GTK_BUTTON (glade_xml_get_widget (gui->xml, "drafts_button"));
 	gtk_signal_connect (GTK_OBJECT (gui->drafts_folder_button), "clicked",
@@ -866,7 +866,23 @@ mail_account_gui_new (MailConfigAccount *account)
 		gui->sent_folder.name = g_strdup (strrchr (default_sent_folder_uri, '/') + 1);
 	}
 	set_folder_picker_label (gui->sent_folder_button, gui->sent_folder.name);
-
+	
+	/* Security */
+	gui->pgp_key = GTK_ENTRY (glade_xml_get_widget (gui->xml, "pgp_key"));
+	gui->pgp_encrypt_to_self = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui->xml, "pgp_encrypt_to_self"));
+	gui->smime_key = GTK_ENTRY (glade_xml_get_widget (gui->xml, "smime_key"));
+	gui->smime_encrypt_to_self = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui->xml, "smime_encrypt_to_self"));
+	
+#ifndef HAVE_NSS
+	{
+		/* Since we don't have NSS, hide the S/MIME config options */
+		GtkWidget *frame;
+		
+		frame = glade_xml_get_widget (gui->xml, "smime_frame");
+		gtk_widget_hide (frame);
+	}
+#endif
+	
 	return gui;
 }
 
@@ -880,7 +896,7 @@ mail_account_gui_setup (MailAccountGui *gui, GtkWidget *top)
 	char *max_authname = NULL;
 	char *source_proto, *transport_proto;
 	GList *providers, *l;
-
+	
 	if (gui->account->source && gui->account->source->url) {
 		source_proto = gui->account->source->url;
 		source_proto = g_strndup (source_proto, strcspn (source_proto, ":"));
@@ -1137,17 +1153,17 @@ mail_account_gui_save (MailAccountGui *gui)
 {
 	MailConfigAccount *account = gui->account;
 	gboolean old_enabled;
-
+	
 	if (!mail_account_gui_identity_complete (gui) ||
 	    !mail_account_gui_source_complete (gui) ||
 	    !mail_account_gui_transport_complete (gui) ||
 	    !mail_account_gui_management_complete (gui))
 		return FALSE;
-
+	
 	g_free (account->name);
 	account->name = e_utf8_gtk_entry_get_text (gui->account_name);
 	account->default_account = gtk_toggle_button_get_active (gui->default_account);
-
+	
 	/* construct the identity */
 	identity_destroy (account->id);
 	account->id = g_new0 (MailConfigIdentity, 1);
@@ -1155,7 +1171,7 @@ mail_account_gui_save (MailAccountGui *gui)
 	account->id->address = e_utf8_gtk_entry_get_text (gui->email_address);
 	account->id->organization = e_utf8_gtk_entry_get_text (gui->organization);
 	account->id->signature = gnome_file_entry_get_full_path (gui->signature, TRUE);
-
+	
 	old_enabled = account->source && account->source->enabled;
 	service_destroy (account->source);
 	account->source = g_new0 (MailConfigService, 1);
@@ -1165,11 +1181,11 @@ mail_account_gui_save (MailAccountGui *gui)
 	account->source->auto_check = gtk_toggle_button_get_active (gui->source_auto_check);
 	if (account->source->auto_check)
 		account->source->auto_check_time = gtk_spin_button_get_value_as_int (gui->source_auto_check_min);
-
+	
 	service_destroy (account->transport);
 	account->transport = g_new0 (MailConfigService, 1);
 	save_service (&gui->transport, NULL, account->transport);
-
+	
 	g_free (account->drafts_folder_name);
 	account->drafts_folder_name = g_strdup (gui->drafts_folder.name);
 	g_free (account->drafts_folder_uri);
@@ -1178,7 +1194,14 @@ mail_account_gui_save (MailAccountGui *gui)
 	account->sent_folder_name = g_strdup (gui->sent_folder.name);
 	g_free (account->sent_folder_uri);
 	account->sent_folder_uri = g_strdup (gui->sent_folder.uri);
-
+	
+	g_free (account->pgp_key);
+	account->pgp_key = e_utf8_gtk_entry_get_text (gui->pgp_key);
+	account->pgp_encrypt_to_self = gtk_toggle_button_get_active (gui->pgp_encrypt_to_self);
+	g_free (account->smime_key);
+	account->smime_key = e_utf8_gtk_entry_get_text (gui->smime_key);
+	account->smime_encrypt_to_self = gtk_toggle_button_get_active (gui->smime_encrypt_to_self);
+	
 	return TRUE;
 }
 

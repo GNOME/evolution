@@ -43,7 +43,7 @@ Click &quot;Next&quot; to begin. </text>
       <background_color>0,0,0</background_color>
       <logo_background_color>0,0,0</logo_background_color>
       <textbox_color>255,255,255</textbox_color>
-      <logo_image>../../images/evolution/mail-config-druid.png</logo_image>
+      <logo_image>mail-config-druid.png</logo_image>
     </widget>
 
     <widget>
@@ -53,7 +53,7 @@ Click &quot;Next&quot; to begin. </text>
       <title_color>255,255,255</title_color>
       <background_color>0,0,0</background_color>
       <logo_background_color>0,0,0</logo_background_color>
-      <logo_image>../../images/evolution/mail-config-druid-identity.png</logo_image>
+      <logo_image>mail-config-druid-identity.png</logo_image>
 
       <widget>
 	<class>GtkVBox</class>
@@ -80,7 +80,7 @@ Click &quot;Next&quot; to begin. </text>
       <title_color>255,255,255</title_color>
       <background_color>0,0,0</background_color>
       <logo_background_color>0,0,0</logo_background_color>
-      <logo_image>../../images/evolution/mail-config-druid-receive.png</logo_image>
+      <logo_image>mail-config-druid-receive.png</logo_image>
 
       <widget>
 	<class>GtkVBox</class>
@@ -107,7 +107,7 @@ Click &quot;Next&quot; to begin. </text>
       <title_color>255,255,255</title_color>
       <background_color>0,0,0</background_color>
       <logo_background_color>0,0,0</logo_background_color>
-      <logo_image>../../images/evolution/mail-config-druid-receive.png</logo_image>
+      <logo_image>mail-config-druid-receive.png</logo_image>
 
       <widget>
 	<class>GtkVBox</class>
@@ -134,7 +134,7 @@ Click &quot;Next&quot; to begin. </text>
       <title_color>255,255,255</title_color>
       <background_color>0,0,0</background_color>
       <logo_background_color>0,0,0</logo_background_color>
-      <logo_image>../../images/evolution/mail-config-druid-send.png</logo_image>
+      <logo_image>mail-config-druid-send.png</logo_image>
 
       <widget>
 	<class>GtkVBox</class>
@@ -161,7 +161,7 @@ Click &quot;Next&quot; to begin. </text>
       <title_color>255,255,255</title_color>
       <background_color>0,0,0</background_color>
       <logo_background_color>0,0,0</logo_background_color>
-      <logo_image>../../images/evolution/mail-config-druid-account-name.png</logo_image>
+      <logo_image>mail-config-druid-account-name.png</logo_image>
 
       <widget>
 	<class>GtkVBox</class>
@@ -196,7 +196,7 @@ Click &quot;Finish&quot; to save your settings.</text>
       <textbox_color>255,255,255</textbox_color>
       <text_color>0,0,0</text_color>
       <title_color>255,255,255</title_color>
-      <logo_image>../../images/evolution/thankyou.png</logo_image>
+      <logo_image>thankyou.png</logo_image>
     </widget>
   </widget>
 </widget>
@@ -1567,6 +1567,266 @@ Kerberos
       <child_name>Notebook:tab</child_name>
       <name>label35</name>
       <label>Special Folders</label>
+      <justify>GTK_JUSTIFY_CENTER</justify>
+      <wrap>False</wrap>
+      <xalign>0.5</xalign>
+      <yalign>0.5</yalign>
+      <xpad>0</xpad>
+      <ypad>0</ypad>
+    </widget>
+
+    <widget>
+      <class>GtkVBox</class>
+      <name>security_vbox</name>
+      <homogeneous>False</homogeneous>
+      <spacing>0</spacing>
+
+      <widget>
+	<class>GtkFrame</class>
+	<name>pgp_frame</name>
+	<border_width>4</border_width>
+	<label>Pretty Good Privacy</label>
+	<label_xalign>0</label_xalign>
+	<shadow_type>GTK_SHADOW_ETCHED_IN</shadow_type>
+	<child>
+	  <padding>0</padding>
+	  <expand>False</expand>
+	  <fill>True</fill>
+	</child>
+
+	<widget>
+	  <class>GtkTable</class>
+	  <name>pgp_table</name>
+	  <border_width>3</border_width>
+	  <rows>2</rows>
+	  <columns>2</columns>
+	  <homogeneous>False</homogeneous>
+	  <row_spacing>4</row_spacing>
+	  <column_spacing>4</column_spacing>
+
+	  <widget>
+	    <class>GtkLabel</class>
+	    <name>pgp_key_id_label</name>
+	    <label>PGP Key ID:</label>
+	    <justify>GTK_JUSTIFY_RIGHT</justify>
+	    <wrap>False</wrap>
+	    <xalign>1</xalign>
+	    <yalign>0.5</yalign>
+	    <xpad>0</xpad>
+	    <ypad>0</ypad>
+	    <child>
+	      <left_attach>0</left_attach>
+	      <right_attach>1</right_attach>
+	      <top_attach>0</top_attach>
+	      <bottom_attach>1</bottom_attach>
+	      <xpad>0</xpad>
+	      <ypad>0</ypad>
+	      <xexpand>False</xexpand>
+	      <yexpand>False</yexpand>
+	      <xshrink>False</xshrink>
+	      <yshrink>False</yshrink>
+	      <xfill>True</xfill>
+	      <yfill>False</yfill>
+	    </child>
+	  </widget>
+
+	  <widget>
+	    <class>GtkEntry</class>
+	    <name>pgp_key</name>
+	    <can_focus>True</can_focus>
+	    <editable>True</editable>
+	    <text_visible>True</text_visible>
+	    <text_max_length>0</text_max_length>
+	    <text></text>
+	    <child>
+	      <left_attach>1</left_attach>
+	      <right_attach>2</right_attach>
+	      <top_attach>0</top_attach>
+	      <bottom_attach>1</bottom_attach>
+	      <xpad>0</xpad>
+	      <ypad>0</ypad>
+	      <xexpand>True</xexpand>
+	      <yexpand>False</yexpand>
+	      <xshrink>False</xshrink>
+	      <yshrink>False</yshrink>
+	      <xfill>True</xfill>
+	      <yfill>False</yfill>
+	    </child>
+	  </widget>
+
+	  <widget>
+	    <class>GtkCheckButton</class>
+	    <name>pgp_encrypt_to_self</name>
+	    <can_focus>True</can_focus>
+	    <label>Always encrypt to myself when sending encrypted mail</label>
+	    <active>True</active>
+	    <draw_indicator>True</draw_indicator>
+	    <child>
+	      <left_attach>0</left_attach>
+	      <right_attach>2</right_attach>
+	      <top_attach>1</top_attach>
+	      <bottom_attach>2</bottom_attach>
+	      <xpad>0</xpad>
+	      <ypad>0</ypad>
+	      <xexpand>False</xexpand>
+	      <yexpand>False</yexpand>
+	      <xshrink>False</xshrink>
+	      <yshrink>False</yshrink>
+	      <xfill>True</xfill>
+	      <yfill>False</yfill>
+	    </child>
+	  </widget>
+	</widget>
+      </widget>
+
+      <widget>
+	<class>GtkFrame</class>
+	<name>smime_frame</name>
+	<border_width>4</border_width>
+	<label>Secure MIME</label>
+	<label_xalign>0</label_xalign>
+	<shadow_type>GTK_SHADOW_ETCHED_IN</shadow_type>
+	<child>
+	  <padding>0</padding>
+	  <expand>False</expand>
+	  <fill>True</fill>
+	</child>
+
+	<widget>
+	  <class>GtkTable</class>
+	  <name>smime_table</name>
+	  <border_width>3</border_width>
+	  <rows>2</rows>
+	  <columns>3</columns>
+	  <homogeneous>False</homogeneous>
+	  <row_spacing>4</row_spacing>
+	  <column_spacing>4</column_spacing>
+
+	  <widget>
+	    <class>GtkLabel</class>
+	    <name>smime_key_label</name>
+	    <label>Certificate ID:</label>
+	    <justify>GTK_JUSTIFY_RIGHT</justify>
+	    <wrap>False</wrap>
+	    <xalign>1</xalign>
+	    <yalign>0.5</yalign>
+	    <xpad>0</xpad>
+	    <ypad>0</ypad>
+	    <child>
+	      <left_attach>0</left_attach>
+	      <right_attach>1</right_attach>
+	      <top_attach>0</top_attach>
+	      <bottom_attach>1</bottom_attach>
+	      <xpad>0</xpad>
+	      <ypad>0</ypad>
+	      <xexpand>False</xexpand>
+	      <yexpand>False</yexpand>
+	      <xshrink>False</xshrink>
+	      <yshrink>False</yshrink>
+	      <xfill>True</xfill>
+	      <yfill>False</yfill>
+	    </child>
+	  </widget>
+
+	  <widget>
+	    <class>GtkEntry</class>
+	    <name>smime_key</name>
+	    <can_focus>True</can_focus>
+	    <editable>True</editable>
+	    <text_visible>True</text_visible>
+	    <text_max_length>0</text_max_length>
+	    <text></text>
+	    <child>
+	      <left_attach>1</left_attach>
+	      <right_attach>2</right_attach>
+	      <top_attach>0</top_attach>
+	      <bottom_attach>1</bottom_attach>
+	      <xpad>0</xpad>
+	      <ypad>0</ypad>
+	      <xexpand>True</xexpand>
+	      <yexpand>False</yexpand>
+	      <xshrink>False</xshrink>
+	      <yshrink>False</yshrink>
+	      <xfill>True</xfill>
+	      <yfill>False</yfill>
+	    </child>
+	  </widget>
+
+	  <widget>
+	    <class>GtkCheckButton</class>
+	    <name>smime_encrypt_to_self</name>
+	    <can_focus>True</can_focus>
+	    <label>Always encrypt to myself when sending encrypyed mail</label>
+	    <active>True</active>
+	    <draw_indicator>True</draw_indicator>
+	    <child>
+	      <left_attach>0</left_attach>
+	      <right_attach>2</right_attach>
+	      <top_attach>1</top_attach>
+	      <bottom_attach>2</bottom_attach>
+	      <xpad>0</xpad>
+	      <ypad>0</ypad>
+	      <xexpand>False</xexpand>
+	      <yexpand>False</yexpand>
+	      <xshrink>False</xshrink>
+	      <yshrink>False</yshrink>
+	      <xfill>True</xfill>
+	      <yfill>False</yfill>
+	    </child>
+	  </widget>
+
+	  <widget>
+	    <class>GnomeHRef</class>
+	    <name>get_digital_id</name>
+	    <can_focus>True</can_focus>
+	    <url>http://www.verisign.com/products/class1/index.html</url>
+	    <label>Get Digital ID...</label>
+	    <child>
+	      <left_attach>2</left_attach>
+	      <right_attach>3</right_attach>
+	      <top_attach>1</top_attach>
+	      <bottom_attach>2</bottom_attach>
+	      <xpad>0</xpad>
+	      <ypad>0</ypad>
+	      <xexpand>False</xexpand>
+	      <yexpand>False</yexpand>
+	      <xshrink>False</xshrink>
+	      <yshrink>False</yshrink>
+	      <xfill>True</xfill>
+	      <yfill>False</yfill>
+	    </child>
+	  </widget>
+
+	  <widget>
+	    <class>GtkButton</class>
+	    <name>digital_ids</name>
+	    <can_focus>True</can_focus>
+	    <label>Digital IDs...</label>
+	    <relief>GTK_RELIEF_NORMAL</relief>
+	    <child>
+	      <left_attach>2</left_attach>
+	      <right_attach>3</right_attach>
+	      <top_attach>0</top_attach>
+	      <bottom_attach>1</bottom_attach>
+	      <xpad>0</xpad>
+	      <ypad>0</ypad>
+	      <xexpand>False</xexpand>
+	      <yexpand>False</yexpand>
+	      <xshrink>False</xshrink>
+	      <yshrink>False</yshrink>
+	      <xfill>True</xfill>
+	      <yfill>False</yfill>
+	    </child>
+	  </widget>
+	</widget>
+      </widget>
+    </widget>
+
+    <widget>
+      <class>GtkLabel</class>
+      <child_name>Notebook:tab</child_name>
+      <name>lblSecurity</name>
+      <label>Security</label>
       <justify>GTK_JUSTIFY_CENTER</justify>
       <wrap>False</wrap>
       <xalign>0.5</xalign>

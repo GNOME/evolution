@@ -167,7 +167,13 @@ account_copy (const MailConfigAccount *account)
 	new->drafts_folder_uri = g_strdup (account->drafts_folder_uri);
 	new->sent_folder_name = g_strdup (account->sent_folder_name);
 	new->sent_folder_uri = g_strdup (account->sent_folder_uri);
-
+	
+	new->pgp_key = g_strdup (account->pgp_key);
+	new->pgp_encrypt_to_self = account->pgp_encrypt_to_self;
+	
+	new->smime_key = g_strdup (account->smime_key);
+	new->smime_encrypt_to_self = account->smime_encrypt_to_self;
+	
 	return new;
 }
 
@@ -182,6 +188,14 @@ account_destroy (MailConfigAccount *account)
 	identity_destroy (account->id);
 	service_destroy (account->source);
 	service_destroy (account->transport);
+	
+	g_free (account->drafts_folder_name);
+	g_free (account->drafts_folder_uri);
+	g_free (account->sent_folder_name);
+	g_free (account->sent_folder_uri);
+	
+	g_free (account->pgp_key);
+	g_free (account->smime_key);
 	
 	g_free (account);
 }
@@ -220,7 +234,7 @@ mail_config_clear (void)
 		g_slist_free (config->news);
 		config->news = NULL;
 	}
-
+	
 	/* overkill? */
 	memset (config, 0, sizeof (MailConfig));
 }
@@ -289,6 +303,36 @@ config_read (void)
 			account->sent_folder_uri = val;
 		else
 			g_free (val);
+		
+		/* get the pgp info */
+		path = g_strdup_printf ("account_pgp_key_%d", i);
+		val = gnome_config_get_string (path);
+		g_free (path);
+		if (val && *val)
+			account->pgp_key = val;
+		else
+			g_free (val);
+		
+		path = g_strdup_printf ("account_pgp_encrypt_to_self_%d", i);
+		account->pgp_encrypt_to_self = gnome_config_get_bool_with_default (path, &def);
+		if (def)
+			account->pgp_encrypt_to_self = TRUE;
+		g_free (path);
+		
+		/* get the s/mime info */
+		path = g_strdup_printf ("account_smime_key_%d", i);
+		val = gnome_config_get_string (path);
+		g_free (path);
+		if (val && *val)
+			account->smime_key = val;
+		else
+			g_free (val);
+		
+		path = g_strdup_printf ("account_smime_encrypt_to_self_%d", i);
+		account->smime_encrypt_to_self = gnome_config_get_bool_with_default (path, &def);
+		if (def)
+			account->smime_encrypt_to_self = TRUE;
+		g_free (path);
 		
 		/* get the identity info */
 		id = g_new0 (MailConfigIdentity, 1);		
@@ -491,7 +535,7 @@ config_read (void)
 		else
 			config->default_charset = g_strdup (config->default_charset);
 	}
-
+	
 	gnome_config_sync ();
 }
 
@@ -534,6 +578,22 @@ mail_config_write (void)
 		g_free (path);
 		path = g_strdup_printf ("account_sent_folder_uri_%d", i);
 		gnome_config_set_string (path, account->sent_folder_uri);
+		g_free (path);
+		
+		/* account pgp options */
+		path = g_strdup_printf ("account_pgp_key_%d", i);
+		gnome_config_set_string (path, account->pgp_key);
+		g_free (path);
+		path = g_strdup_printf ("account_pgp_encrypt_to_self_%d", i);
+		gnome_config_set_bool (path, account->pgp_encrypt_to_self);
+		g_free (path);
+		
+		/* account s/mime options */
+		path = g_strdup_printf ("account_smime_key_%d", i);
+		gnome_config_set_string (path, account->smime_key);
+		g_free (path);
+		path = g_strdup_printf ("account_smime_encrypt_to_self_%d", i);
+		gnome_config_set_bool (path, account->smime_encrypt_to_self);
 		g_free (path);
 		
 		/* identity info */
