@@ -21,7 +21,7 @@ addressbook/gui/component/addressbook-storage.c
 addressbook/gui/component/addressbook.c
 addressbook/gui/component/e-address-popup.c
 addressbook/gui/component/e-address-widget.c
-addressbook/gui/component/ldap-config.c
+addressbook/gui/component/addressbook-config.c
 addressbook/gui/component/ldap-config.glade
 addressbook/gui/component/select-names/GNOME_Evolution_Addressbook_SelectNames.oaf.in
 addressbook/gui/component/select-names/e-select-names-popup.c
