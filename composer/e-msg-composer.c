@@ -674,38 +674,33 @@ read_file_content (int fd)
 	char *body, buf[4096];
 	struct timeval tv;
 	fd_set rdset;
+	int retval;
 	ssize_t n;
-	int flags;
 	
 	g_return_val_if_fail (fd > 0, NULL);
 	
 	contents = g_byte_array_new ();
 	
-	flags = fcntl (fd, F_GETFL);
-	fcntl (fd, F_SETFL, flags | O_NONBLOCK);
-	
 	FD_ZERO (&rdset);
 	FD_SET (fd, &rdset);
 	
-	do {
-		tv.tv_sec = 0;
-		tv.tv_usec = 10;
-		
-		n = -1;
-		select (fd + 1, &rdset, NULL, NULL, &tv);
-		if (FD_ISSET (fd, &rdset)) {
-			n = read (fd, buf, 4096);
+	tv.tv_sec = 0;
+	tv.tv_usec = 10;
+	
+	retval = select (fd + 1, &rdset, NULL, NULL, &tv);
+	if (retval) {
+		n = 0;
+		while (n >= 0 || errno == EINTR) {
+			n = read (fd, buf, sizeof (buf));
 			if (n > 0)
 				g_byte_array_append (contents, buf, n);
 		}
-	} while (n != -1);
-	
-	fcntl (fd, F_SETFL, flags);
+	}
 	
 	g_byte_array_append (contents, "", 1);
 	
 	body = (contents->len == 1) ? NULL : (char *) contents->data;
-	g_byte_array_free (contents, body != NULL);
+	g_byte_array_free (contents, body == NULL);
 	
 	return body;
 }
