@@ -63,10 +63,6 @@ evolution_launch_composer_SOURCES =                     \
 evolution_launch_composer_LDADD =                               \
         $(GNOME_FULL_LIBS)                                      \
         $(top_builddir)/addressbook/backend/ebook/libebook.la   \
-        $(top_builddir)/camel/libcamel.la                       \
-        $(top_builddir)/e-util/ename/libename.la                \
-        $(top_builddir)/libversit/libversit.a                   \
-        $(top_builddir)/e-util/libeutil.la                      \
         $(top_builddir)/widgets/menus/libmenus.la
 
 CLEANFILES = evolution-addressbook-clean $(BUILD_SOURCES)
