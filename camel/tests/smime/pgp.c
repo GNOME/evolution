@@ -133,7 +133,7 @@ int main (int argc, char **argv)
 	setenv ("GNUPGHOME", "/tmp/camel-test/.gnupg", 1);
 	
 	/* import the gpg keys */
-	if ((ret = system ("gpgfoo > /dev/null 2>&1")) == -1)
+	if ((ret = system ("gpg > /dev/null 2>&1")) == -1)
 		return 77;
 	else if (WEXITSTATUS (ret) == 127)
 		return 77;
