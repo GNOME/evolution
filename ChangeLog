@@ -1,3 +1,7 @@
+2001-07-12  JP Rosevear  <jpr@ximian.com>
+
+	* NEWS: Start new entry
+
 2001-07-11  Peter Williams  <peterw@ximian.com>
 
 	* acconfig.h: Add HAVE_BROKEN_SPOOL here.
