@@ -1047,6 +1047,9 @@ dnl --- Required version numbers
 GAL_REQUIRED=1.99.5
 GTKHTML_REQUIRED=3.0.4
 
+AC_SUBST(GAL_REQUIRED)
+AC_SUBST(GTKHTML_REQUIRED)
+
 dnl --- Flags to get all the GNOME stuff
 
 FULL_GNOME_DEPS="libbonoboui-2.0 gnome-vfs-2.0 libgnomeui-2.0 libglade-2.0 libgnomecanvas-2.0 libxml-2.0 gconf-2.0 gal-2.0 >= $GAL_REQUIRED"

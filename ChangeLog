@@ -1,3 +1,7 @@
+2003-05-28  Rodney Dawes  <dobey@ximian.com>
+
+	* configure.in: AC_SUBST() for GAL_REQUIRED and GTKHTML_REQUIRED
+	
 2003-05-27  Not Zed  <NotZed@Ximian.com>
 
 	* camel.pc.in: make libs/cflags point to privlibdir/includedir,
