@@ -100,8 +100,8 @@
       <applyto>/apps/evolution/shell/view_defaults/component_id</applyto>
       <owner>evolution</owner>
       <type>string</type>
+      <default>mail</default>
       <locale name="C">
-        <default>mail</default>
         <short>ID or alias of the component to be shown by default at start-up.</short>
       </locale>
     </schema>

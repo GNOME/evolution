@@ -233,7 +233,7 @@ EXTRA_DIST = 					\
 	$(error_DATA)				\
 	$(error_i18n)				\
 	$(glade_DATA)				\
-	$(schema_DATA)				\
+	$(schema_in_files)			\
 	ChangeLog.pre-1-4			\
 	e-shell-marshal.list			\
 	evolution-nognome.in

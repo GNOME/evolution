@@ -1,3 +1,11 @@
+2004-07-08  Frederic Crozat  <fcrozat@mandrakesoft.com>
+
+	* Makefile.am:
+	tarball should ship .schemas.in.in files, not generated files.
+
+	* apps_evolution_shell.schemas.in.in:
+	Don't translate default component id (bug #60859)
+
 2004-07-06  Rodney Dawes  <dobey@novell.com>
 
 	* e-shell-errors.xml.h: Add this back to CVS for translators
