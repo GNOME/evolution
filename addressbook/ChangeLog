@@ -1,3 +1,15 @@
+2002-02-28  Chris Toshok  <toshok@ximian.com>
+
+	* backend/pas/pas-backend-ldap.c (pas_backend_ldap_search): don't
+	ref the view here, since it keeps the view alive until the search
+	is over, which we don't want.  we want the view's death to cancel
+	the search.  This speeds up starting new searches after one is
+	already active (since switching searches actually creates a new
+	book view and destroys the old one.)
+	(ldap_search_dtor): remove the matching unref here.  The unref as
+	it was was incorrect anyway, and caused a crash (we needed
+	search_op->view, not op->view.)
+
 2002-02-27  Chris Toshok  <toshok@ximian.com>
 
 	[fixes bug #20690]
