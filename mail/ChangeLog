@@ -1,3 +1,10 @@
+2000-04-21  Dan Winship  <danw@helixcode.com>
+
+	* mail-display.c (mail_display_set_message): ref the message we
+	display, since we're going to unref it when we remove it. Fixes a
+	bug that showed up with the new camel code, but it's not obvious
+	if it's due to a bug or a feature in the new code.
+
 2000-04-20  NotZed  <NotZed@HelixCode.com>
 
 	* Makefile.am (evolution_mail_LDADD): Add libibex.la to link.

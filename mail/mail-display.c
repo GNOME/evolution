@@ -253,6 +253,7 @@ mail_display_set_message (MailDisplay *mail_display,
 		gtk_object_unref (GTK_OBJECT (mail_display->current_message));
 
 	mail_display->current_message = CAMEL_MIME_MESSAGE (medium);
+	gtk_object_ref (GTK_OBJECT (medium));
 
 	headers_stream = gtk_html_begin (mail_display->headers_html_widget, "");
 	body_stream = gtk_html_begin (mail_display->body_html_widget, "");
