@@ -7,17 +7,11 @@ INCLUDES =						\
 	-I.. 						\
 	-I$(top_builddir)				\
         -I$(includedir)                                 \
-        $(GNOME_INCLUDEDIR)				\
-	$(EXTRA_GNOME_CFLAGS)
-
-gnome_libs =						\
-	$(BONOBO_GNOME_LIBS)				\
-	$(INTLLIBS)					\
-	$(EXTRA_GNOME_LIBS)
+	$(E_NAME_CFLAGS)
 
 ename_libs = 						\
 	libename.la 					\
-	$(gnome_libs)
+	$(E_NAME_LIBS)
 
 lib_LTLIBRARIES = libename.la
 
@@ -38,20 +32,19 @@ libename_static_la_SOURCES = $(libename_la_SOURCES)
 libename_static_la_LDFLAGS = --all-static
 
 
-noinst_PROGRAMS =					\
-	test-ename-western				\
+noinst_PROGRAMS =		\
+	test-ename-western	\
 	test-ename-western-gtk
 
-test_ename_western_SOURCES =				\
+test_ename_western_SOURCES =	\
 	test-ename-western.c
 
-test_ename_western_LDADD = $(ename_libs)		\
-	$(EXTRA_GNOME_LIBS)
+test_ename_western_LDADD =	\
+	$(ename_libs)
 
 test_ename_western_gtk_SOURCES =				\
 	test-ename-western-gtk.c
 
 test_ename_western_gtk_LDADD = 			\
 	$(ename_libs) 				\
-	$(top_builddir)/e-util/libeutil.la	\
-	$(gnome_libs)
+	$(top_builddir)/e-util/libeutil.la

@@ -25,8 +25,6 @@ oaf_DATA = $(oaf_in_files:.oaf.in=.oaf)
 
 INCLUDES =						\
 	-DG_LOG_DOMAIN=\"evolution-addressbook\"	\
-	$(EXTRA_GNOME_CFLAGS)				\
-	$(GNOME_INCLUDEDIR)				\
 	-I$(top_srcdir)					\
 	-I$(top_builddir)				\
 	-I$(top_srcdir)/shell				\
@@ -38,11 +36,11 @@ INCLUDES =						\
 	-I$(top_srcdir)/addressbook/contact-editor	\
 	-I$(top_srcdir)/addressbook/backend		\
 	-I$(top_builddir)/addressbook/backend		\
-	$(BONOBO_HTML_GNOME_CFLAGS)			\
 	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"		\
 	-DEVOLUTION_ICONSDIR=\""$(iconsdir)"\"		\
 	-DEVOLUTION_LOCALEDIR=\""$(localedir)"\"	\
-	-DCAMEL_PROVIDERDIR=\""$(providerdir)"\"
+	-DCAMEL_PROVIDERDIR=\""$(providerdir)"\"	\
+	$(EVOLUTION_ADDRESSBOOK_CFLAGS)
 
 lib_LTLIBRARIES = libeselectnames.la
 

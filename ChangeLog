@@ -1,5 +1,18 @@
-2002-01-25  Ettore Perazzoli  <ettore@ximian.com>
+2002-01-27  Ettore Perazzoli  <ettore@ximian.com>
 
+	* tools/Makefile.am: Use GNOME_FULL_LIBS and GNOME_FULL_CFLAGS.
+
+	* configure.in: Define the CAMEL_{CFLAGS,LIBS} using
+	EVO_SET_COMPILE_FLAGS.  Likewise define E_UTIL_{CFLAGS,LIBS},
+	E_NAME_{CFLAGS,LIBS}, SHELL_{CFLAGS,LIBS},
+	IMPORTERS_{CFLAGS,LIBS}, WOMBAT_{CFLAGS,LIBS} and
+	E_WIDGETS_{CFLAGS,LIBS}, LIBFILTER_{CFLAGS,LIBS}.  Remove
+	GAL_{LIBS,CFLAGS}.  Add GNOME_FULL_{CFLAGS,LIBS}.  Also, move all
+	this stuff after OpenSSL check so they benefit from all the
+	cflags/ldflags discoveries for the support libraries.
+
+2002-01-25  Ettore Perazzoli  <ettore@ximian.com>
+ 
 	* configure.in: Require gal 0.19.99.1.
 
 2002-01-24  Ettore Perazzoli  <ettore@ximian.com>

@@ -4,8 +4,7 @@ INCLUDES =						\
 	-DEVOLUTION_DATADIR=\""$(datadir)"\"		\
 	-I$(top_srcdir)					\
 	-I$(top_srcdir)/addressbook/backend/ebook	\
-	$(BONOBO_GNOME_CFLAGS)				\
-	$(EXTRA_GNOME_CFLAGS)
+	$(EVOLUTION_ADDRESSBOOK_CFLAGS)
 
 noinst_LIBRARIES =				\
 	libecardmerging.a

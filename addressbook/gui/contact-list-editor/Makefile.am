@@ -1,6 +1,4 @@
 INCLUDES =					\
-	$(BONOBO_GNOME_CFLAGS)			\
-	$(EXTRA_GNOME_CFLAGS)			\
 	-I$(top_srcdir)				\
 	-I$(top_srcdir)/addressbook/		\
 	-I$(top_srcdir)/addressbook/backend	\
@@ -11,7 +9,8 @@ INCLUDES =					\
 	-DDATADIR=\""$(datadir)"\"		\
 	-DEVOLUTION_DATADIR=\""$(datadir)"\"	\
 	-DEVOLUTIONDIR=\""$(evolutiondir)"\"	\
-	-DG_LOG_DOMAIN=\"contact-list-editor\"
+	-DG_LOG_DOMAIN=\"contact-list-editor\"	\
+	$(EVOLUTION_ADDRESSBOOK_CFLAGS)
 
 noinst_LIBRARIES =				\
 	libecontactlisteditor.a

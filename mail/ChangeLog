@@ -1,3 +1,7 @@
+2002-01-27  Ettore Perazzoli  <ettore@ximian.com>
+
+	* importers/Makefile.am: Use IMPORTERS_CFLAGS. 
+
 2002-01-25  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-account-gui.c (delete_event_cb): We need to return a value

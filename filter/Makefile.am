@@ -11,12 +11,9 @@ INCLUDES = 					\
 	-I $(top_srcdir)/camel/providers/mbox	\
 	-I $(top_builddir)/shell		\
 	-I $(GNOME_INCLUDEDIR)			\
-	$(GTKHTML_CFLAGS)			\
-	$(BONOBO_GNOME_CFLAGS)			\
-	$(EXTRA_GNOME_CFLAGS)			\
 	-DFILTER_GLADEDIR=\"$(gladedir)\"	\
-	-DG_LOG_DOMAIN=\"filter\"
-##
+	-DG_LOG_DOMAIN=\"filter\"		\
+	$(LIBFILTER_CFLAGS)
 
 noinst_LTLIBRARIES =				\
 	libfilter.la

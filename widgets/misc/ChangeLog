@@ -1,3 +1,7 @@
+2002-01-27  Ettore Perazzoli  <ettore@ximian.com>
+
+	* Makefile.am: Use GNOME_FULL_CFLAGS and GNOME_FULL_LIBS.
+
 2002-01-23  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-combo-button.c: Remove member `separator' from

@@ -12,7 +12,7 @@ libibex_la_SOURCES = \
 libibex_la_LDFLAGS = -static
 
 libibex_la_LIBADD = \
-	$(GAL_LIBS)
+	$(LIBIBEX_LIBS)
 
 noinst_HEADERS = \
 	ibex_internal.h \
@@ -21,14 +21,13 @@ noinst_HEADERS = \
 	index.h
 
 INCLUDES = \
-	$(EXTRA_GNOME_CFLAGS) \
+	$(LIBIBEX_CFLAGS) \
 	-DG_LOG_DOMAIN=\"libibex\"
-
 
 noinst_PROGRAMS = dumpindex testindex
 
 dumpindex_SOURCES = dumpindex.c
-dumpindex_LDADD = libibex.la $(GAL_LIBS) $(THREADS_LIBS)
+dumpindex_LDADD = libibex.la $(LIBIBEX_LIBS)
 
 testindex_SOURCES = testindex.c
-testindex_LDADD = libibex.la $(GAL_LIBS) $(THREADS_LIBS) -lm
+testindex_LDADD = libibex.la $(LIBIBEX_LIBS) -lm

@@ -1,3 +1,11 @@
+2002-01-27  Ettore Perazzoli  <ettore@ximian.com>
+
+	* gui/contact-editor/Makefile.am: Use EVOLUTION_ADDRESSBOOK_CFLAGS.
+	* gui/contact-list-editor/Makefile.am: Likewise.
+	* gui/merging/Makefile.am: Likewise.
+	* gui/search/Makefile.am: Likewise.
+	* gui/component/select-names/Makefile.am: Likewise.
+
 2002-01-25  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* backend/ebook/e-destination.c (e_destination_is_valid): Don't

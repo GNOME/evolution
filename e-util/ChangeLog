@@ -1,3 +1,9 @@
+2002-01-27  Ettore Perazzoli  <ettore@ximian.com>
+
+	* ename/Makefile.am: Use E_NAME_CFLAGS and E_NAME_LIBS.
+
+	* Makefile.am: Use E_UTIL_CFLAGS and E_UTIL_LIBS.
+
 2002-01-14  JP Rosevear  <jpr@ximian.com>
 
 	* Makefile.am: compile new files

@@ -13,7 +13,7 @@
 #define COMPONENT_FACTORY_ID "OAFIID:GNOME_Evolution_Notes_shellComponentFactory"
 
 static const EvolutionShellComponentFolderType folder_types[] = {
-	{ "notes", "evolution-notes.png" },
+	{ "notes", "evolution-notes.png", TRUE, NULL, NULL },
 	{ NULL, NULL }
 };
 

@@ -9,10 +9,9 @@ INCLUDES =						\
 	-I$(top_builddir)/calendar/pcs			\
 	-I$(top_srcdir)/libical/src/libical		\
 	-I$(top_builddir)/libical/src/libical		\
-	$(GNOME_INCLUDEDIR)				\
-	$(BONOBO_VFS_GNOME_CFLAGS)			\
 	-DEVOLUTION_DATADIR=\""$(datadir)"\"            \
-	-DEVOLUTION_LOCALEDIR=\""$(localedir)"\"
+	-DEVOLUTION_LOCALEDIR=\""$(localedir)"\"	\
+	$(WOMBAT_CFLAGS)
 
 bin_PROGRAMS =	\
 	wombat
@@ -24,24 +23,20 @@ wombat_SOURCES = 			\
 	wombat-private-moniker.h	\
 	wombat.c
 
-wombat_LDADD =							\
-	$(top_builddir)/addressbook/backend/pas/libpas.a	\
-	$(DB3_LDADD)						\
-	$(top_builddir)/addressbook/backend/ebook/libebook.la	\
-	$(top_builddir)/camel/libcamel.la			\
-	$(top_builddir)/libibex/libibex.la			\
-	$(top_builddir)/e-util/ename/libename.la		\
-	$(top_builddir)/calendar/pcs/libpcs.a			\
-	$(top_builddir)/calendar/cal-util/libcal-util.la	\
+wombat_LDADD =								\
+	$(top_builddir)/addressbook/backend/pas/libpas.a		\
+	$(top_builddir)/addressbook/backend/ebook/libebook.la		\
+	$(top_builddir)/camel/libcamel.la				\
+	$(top_builddir)/libibex/libibex.la				\
+	$(top_builddir)/e-util/ename/libename.la			\
+	$(top_builddir)/calendar/pcs/libpcs.a				\
+	$(top_builddir)/calendar/cal-util/libcal-util.la		\
 	$(top_builddir)/libical/src/libical/libical-evolution.la	\
-	$(top_builddir)/libversit/libversit.la			\
-	$(top_builddir)/e-util/libedb3util.la			\
-	$(top_builddir)/e-util/libeutil.la			\
-	$(top_builddir)/libwombat/libwombat.la			\
-	$(BONOBO_CONF_LIBS)					\
-	$(LDAP_LIBS)						\
-	$(EXTRA_GNOME_LIBS)					\
-	$(BONOBO_VFS_GNOME_LIBS)
+	$(top_builddir)/libversit/libversit.la				\
+	$(top_builddir)/e-util/libedb3util.la				\
+	$(top_builddir)/e-util/libeutil.la				\
+	$(top_builddir)/libwombat/libwombat.la				\
+	$(WOMBAT_LIBS)
 
 oafdir = $(datadir)/oaf
 

@@ -1,3 +1,7 @@
+2002-01-27  Ettore Perazzoli  <ettore@ximian.com>
+
+	* Makefile.am: Use LIBIBEX_{CFLAGS,LIBS}.
+
 2001-11-01    <NotZed@Ximian.com>
 
 	* ibex_block.c (ibex_open): Change to use pthread_mutex directly.

@@ -1,14 +1,13 @@
 # FIXME we use the EClippedLabel widget from EShortcutBar.  Probably
 # it should be moved somewhere else.
 
-INCLUDES =					\
-	-I$(top_srcdir)				\
-	-I$(top_srcdir)/widgets/shortcut-bar	\
-	$(EXTRA_GNOME_CFLAGS)			\
-	$(BONOBO_GNOME_CFLAGS)			\
+INCLUDES =						\
+	-I$(top_srcdir)					\
+	-I$(top_srcdir)/widgets/shortcut-bar		\
 	-DMAP_DIR=\""$(datadir)/images/evolution"\"	\
 	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"		\
-	-DG_LOG_DOMAIN=__FILE__
+	-DG_LOG_DOMAIN=__FILE__				\
+	$(GNOME_FULL_CFLAGS)
 
 noinst_LIBRARIES =	\
 	libemiscwidgets.a
@@ -59,17 +58,17 @@ test_calendar_SOURCES = 	\
 test_calendar_LDADD = 						\
 	./libemiscwidgets.a					\
 	../../e-util/libeutil.la				\
-	$(EXTRA_GNOME_LIBS)
+	$(GNOME_FULL_LIBS)
 
 # test-dateedit
 
 test_dateedit_SOURCES = 	\
 	test-dateedit.c
 
-test_dateedit_LDADD = 						\
-	./libemiscwidgets.a					\
-	../../e-util/libeutil.la				\
-	$(EXTRA_GNOME_LIBS)
+test_dateedit_LDADD = 			\
+	./libemiscwidgets.a		\
+	../../e-util/libeutil.la	\
+	$(GNOME_FULL_LIBS)
 
 # test-dropdown-button
 
@@ -78,14 +77,14 @@ test_dropdown_button_SOURCES = 	\
 
 test_dropdown_button_LDADD =	\
 	./libemiscwidgets.a	\
-	$(EXTRA_GNOME_LIBS)
+	$(GNOME_FULL_LIBS)
 
 # test-title-bar
 
 test_title_bar_SOURCES = 	\
 	test-title-bar.c
 
-test_title_bar_LDADD = 						\
-	./libemiscwidgets.a					\
-	$(EXTRA_GNOME_LIBS)
+test_title_bar_LDADD = 		\
+	./libemiscwidgets.a	\
+	$(GNOME_FULL_LIBS)
 

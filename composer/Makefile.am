@@ -53,16 +53,10 @@ INCLUDES =								\
 	-I$(top_builddir)/addressbook/gui/component/select-names	\
 	-I$(top_builddir)/shell						\
 	-I$(top_srcdir)/shell						\
-	$(EXTRA_GNOME_CFLAGS)						\
-	$(GNOME_INCLUDEDIR)						\
-	$(BONOBO_GNOME_CFLAGS)						\
-	$(BONOBO_CONF_CFLAGS)						\
-	$(GTKHTML_CFLAGS)						\
-	$(BONOBO_CONF_CFLAGS)						\
-	$(GNOME_VFS_CFLAGS)						\
 	-DEVOLUTION_DATADIR=\"$(datadir)\"				\
 	-DE_GLADEDIR=\"$(gladedir)\"					\
-	-DG_LOG_DOMAIN=\"composer\"
+	-DG_LOG_DOMAIN=\"composer\"					\
+	$(GNOME_FULL_CFLAGS)
 
 libcomposer_a_SOURCES = 			\
 	$(IDL_GENERATED)			\

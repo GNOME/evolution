@@ -9,18 +9,13 @@ sbin_PROGRAMS =	camel-lock-helper
 lib_LTLIBRARIES = libcamel.la
 noinst_LTLIBRARIES = libcamel-static.la
 
-INCLUDES = -I.. -I$(srcdir)/.. 			 \
-	-I$(top_srcdir)/intl			 \
-	-I$(top_srcdir)/e-util			 \
-	$(CAMEL_CFLAGS)				 \
-	$(GNOME_INCLUDEDIR)			 \
-	$(KRB4_CFLAGS)				 \
-	$(NSPR_CFLAGS)				 \
-	$(NSS_CFLAGS)				 \
-	$(OPENSSL_CFLAGS)			 \
-	-DCAMEL_SBINDIR=\""$(sbindir)"\"	 \
-	-DCAMEL_PROVIDERDIR=\""$(camel_providerdir)"\" \
-	-DG_LOG_DOMAIN=\"camel\"
+INCLUDES = -I.. -I$(srcdir)/.. 			 	\
+	-I$(top_srcdir)/intl			 	\
+	-I$(top_srcdir)/e-util			 	\
+	-DCAMEL_SBINDIR=\""$(sbindir)"\"	 	\
+	-DCAMEL_PROVIDERDIR=\""$(camel_providerdir)"\" 	\
+	-DG_LOG_DOMAIN=\"camel\"			\
+	$(CAMEL_CFLAGS)
 
 libcamel_la_SOURCES = 				\
 	broken-date-parser.c			\
@@ -198,12 +193,9 @@ libcamelinclude_HEADERS =			\
 
 libcamel_la_LDFLAGS = -version-info 0:0:0 -rpath $(libdir)
 
-libcamel_la_LIBADD = $(top_builddir)/e-util/libeutil.la \
-	$(CAMEL_LIBS)				\
-	$(KRB4_LDFLAGS)				\
-	$(NSPR_LDFLAGS)				\
-	$(NSS_LDFLAGS)				\
-	$(OPENSSL_LDFLAGS)
+libcamel_la_LIBADD =				\
+	$(top_builddir)/e-util/libeutil.la 	\
+	$(CAMEL_LIBS)
 
 libcamel_static_la_SOURCES = $(libcamel_la_SOURCES)
 libcamel_static_la_LIBADD  = $(libcamel_la_LIBADD)

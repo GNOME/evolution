@@ -1,17 +1,17 @@
 SUBDIRS = glade importer
 
-INCLUDES = -O								\
-	-I$(top_srcdir)/widgets						\
-	-I$(top_srcdir)/widgets/misc					\
-	-I$(top_srcdir)/libical/src/libical				\
-	-I$(top_srcdir)							\
-	$(BONOBO_HTML_GNOME_CFLAGS)					\
-	-DEVOLUTION_IMAGES=\""$(datadir)/images/evolution"\"		\
-	-DEVOLUTION_LOCALEDIR=\""$(localedir)"\"   			\
-	-DEVOLUTION_DATADIR=\""$(datadir)"\"            		\
-	-DEVOLUTION_GLADEDIR=\"$(datadir)/evolution/glade\"		\
-	-DEVOLUTION_ETSPECDIR=\""$(etspecdir)"\"			\
-	-DG_LOG_DOMAIN=\"evolution-shell\"
+INCLUDES = -O							\
+	-I$(top_srcdir)/widgets					\
+	-I$(top_srcdir)/widgets/misc				\
+	-I$(top_srcdir)/libical/src/libical			\
+	-I$(top_srcdir)						\
+	-DEVOLUTION_IMAGES=\""$(datadir)/images/evolution"\"	\
+	-DEVOLUTION_LOCALEDIR=\""$(localedir)"\"   		\
+	-DEVOLUTION_DATADIR=\""$(datadir)"\"            	\
+	-DEVOLUTION_GLADEDIR=\"$(datadir)/evolution/glade\"	\
+	-DEVOLUTION_ETSPECDIR=\""$(etspecdir)"\"		\
+	-DG_LOG_DOMAIN=\"evolution-shell\"			\
+	$(SHELL_CFLAGS)
 
 # CORBA stuff
 
@@ -179,7 +179,7 @@ evolution_LDADD =							\
 	$(top_builddir)/widgets/misc/libemiscwidgets.a			\
 	$(top_builddir)/e-util/libeutil.la				\
 	$(top_builddir)/libical/src/libical/libical-evolution.la	\
-	$(BONOBO_HTML_GNOME_LIBS)
+	$(SHELL_LIBS)
 
 # Test component
 
@@ -191,7 +191,7 @@ evolution_test_component_SOURCES =	\
 
 evolution_test_component_LDADD = 	\
 	libeshell.la			\
-	$(BONOBO_HTML_GNOME_LIBS)
+	$(SHELL_LIBS)
 
 install-test-component: evolution-test-component
 	$(mkinstalldirs) $(DESTDIR)$(bindir)

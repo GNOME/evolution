@@ -3,16 +3,13 @@ SUBDIRS = . ename
 imagesdir = $(datadir)/images/evolution
 
 INCLUDES =								\
-	$(DB3_CFLAGS)							\
 	-I$(top_srcdir)							\
-	$(GNOME_INCLUDEDIR)						\
-	$(EXTRA_GNOME_CFLAGS)						\
-	$(BONOBO_GNOME_CFLAGS)						\
-	$(BONOBO_CONF_CFLAGS)						\
-	$(PISOCK_CFLAGS)						\
 	-DEVOLUTION_IMAGES=\""$(imagesdir)"\"				\
 	-DEVOLUTION_CATEGORY_ICONS=\""$(imagesdir)/categories"\"	\
-	-DG_LOG_DOMAIN=\"e-utils\"
+	-DG_LOG_DOMAIN=\"e-utils\"					\
+	$(DB3_CFLAGS)							\
+	$(PISOCK_CFLAGS)						\
+	$(E_UTIL_CFLAGS)
 
 noinst_LTLIBRARIES = libeutil.la libeutil-static.la \
 	libeconduit.la libeconduit-static.la \
@@ -66,7 +63,7 @@ libeutil_la_SOURCES =				\
 	md5-utils.c				\
 	md5-utils.h
 
-libeutil_la_LIBADD = $(GAL_LIBS)
+libeutil_la_LIBADD = $(E_UTIL_LIBS)
 
 libeutil_static_la_SOURCES = $(libeutil_la_SOURCES)
 libeutil_static_la_LIBADD  = $(libeutil_la_LIBADD)

@@ -3,16 +3,14 @@ bin_PROGRAMS = evolution-netscape-importer 	\
 	evolution-pine-importer			\
 	evolution-gnomecard-importer
 
-INCLUDES = 				\
+INCLUDES = 						\
 	-DEVOLUTION_LOCALEDIR=\""$(localedir)"\"	\
-	-DG_LOG_DOMAIN=\"Evolution-Importer\"	\
-	-I$(top_srcdir)			\
-	-I$(top_builddir)/shell			\
-	-I$(top_srcdir)/shell			\
+	-DG_LOG_DOMAIN=\"Evolution-Importer\"		\
+	-I$(top_srcdir)					\
+	-I$(top_builddir)/shell				\
+	-I$(top_srcdir)/shell				\
 	-I$(top_srcdir)/addressbook/backend/ebook	\
-	$(BONOBO_GNOME_CFLAGS)			\
-	$(BONOBO_CONF_CFLAGS)			\
-	$(EXTRA_GNOME_CFLAGS)
+	$(IMPORTERS_CFLAGS)
 
 IDLS = 			\
 	$(top_srcdir)/mail/Mail.idl
@@ -33,9 +31,7 @@ evolution_netscape_importer_SOURCES =	\
 evolution_netscape_importer_LDADD =				\
 	$(top_builddir)/shell/importer/libevolution-importer.la \
 	$(top_builddir)/e-util/libeutil.la			\
-	$(BONOBO_CONF_LIBS)					\
-	$(BONOBO_GNOME_LIBS)					\
-	$(EXTRA_GNOME_LIBS)
+	$(IMPORTERS_LIBS)
 
 evolution_elm_importer_SOURCES =	\
 	elm-importer.c
@@ -43,9 +39,7 @@ evolution_elm_importer_SOURCES =	\
 evolution_elm_importer_LDADD =					\
 	$(top_builddir)/shell/importer/libevolution-importer.la \
 	$(top_builddir)/e-util/libeutil.la			\
-	$(BONOBO_CONF_LIBS)					\
-	$(BONOBO_GNOME_LIBS)					\
-	$(EXTRA_GNOME_LIBS)
+	$(IMPORTERS_LIBS)
 
 evolution_pine_importer_SOURCES =	\
 	pine-importer.c
@@ -58,9 +52,7 @@ evolution_pine_importer_LDADD =					\
 	$(top_builddir)/e-util/libeutil.la			\
 	$(top_builddir)/e-util/ename/libename.la		\
 	$(top_builddir)/libversit/libversit.la			\
-	$(BONOBO_CONF_LIBS)					\
-	$(BONOBO_GNOME_LIBS)					\
-	$(EXTRA_GNOME_LIBS)
+	$(IMPORTERS_LIBS)
 
 evolution_gnomecard_importer_SOURCES =	\
 	evolution-gnomecard-importer.c
@@ -73,9 +65,7 @@ evolution_gnomecard_importer_LDADD =				\
         $(top_builddir)/e-util/libeutil.la      		\
         $(top_builddir)/e-util/ename/libename.la        	\
         $(top_builddir)/libversit/libversit.la  		\
-	$(BONOBO_CONF_LIBS)					\
-        $(BONOBO_GNOME_LIBS)            			\
-        $(EXTRA_GNOME_LIBS)
+	$(IMPORTERS_LIBS)
 
 oafdir = $(datadir)/oaf
 oaf_in_files = GNOME_Evolution_Netscape_Intelligent_Importer.oaf.in	\

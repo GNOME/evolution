@@ -2,15 +2,14 @@ importersdir = $(pkglibdir)/evolution-mail-importers/$(VERSION)
 
 importers_LTLIBRARIES = liboutlook.la libmbox.la
 
-INCLUDES = -I.. \
-	-I$(srcdir)/..				\
-	-I$(top_srcdir)				\
-	-I$(top_srcdir)/shell			\
-	-I$(top_builddir)/shell			\
-	-I$(includedir)				\
-	$(EXTRA_GNOME_CFLAGS)			\
-	$(BONOBO_GNOME_CFLAGS)			\
-	-DG_LOG_DOMAIN=\"evolution-mail-importer\"
+INCLUDES = -I.. 					\
+	-I$(srcdir)/..					\
+	-I$(top_srcdir)					\
+	-I$(top_srcdir)/shell				\
+	-I$(top_builddir)/shell				\
+	-I$(includedir)					\
+	-DG_LOG_DOMAIN=\"evolution-mail-importer\"	\
+	$(IMPORTERS_CFLAGS)
 
 liboutlook_la_SOURCES =				\
 	evolution-outlook-importer.c
