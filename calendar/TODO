@@ -15,12 +15,14 @@ Event editor dialog:
 
 Full day view widget:
 
+- Finish the code on gnome-cal.c to add an event when the
+  range_activated signal is caught.
+
+- It flickers like crazy when you drag-select a range.
+
 - Check notification to calendar when an object changes.  Maybe we
   need some flags to tell gnome_calendar_object_changed() whether
   summary/dates/etc. changed.  Maybe not.
-
-- Select a range in the full day `background' and hit enter to create
-  a new appointment in that date.
 
 - Layout the children nicely like M$ Schedule or Netscape Calendar do
   (i.e. make them not overlap each other).

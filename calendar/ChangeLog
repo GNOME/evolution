@@ -1,3 +1,28 @@
+1998-04-12  Federico Mena Quintero  <federico@nuclecu.unam.mx>
+
+	* gnome-cal.c (setup_day_view): We now connect to the
+	range_activated signal of the fullday widget instead of catching
+	key presses ourselves.
+	(day_view_range_activated): New function that creates a new
+	iCalObject and inserts it into the calendar, not finished yet.
+
+1998-04-11  Federico Mena Quintero  <federico@nuclecu.unam.mx>
+
+	* gncal-full-day.c (get_time_from_rows): New function, calculates
+	a pair of time_t values from the specified start and number of rows.
+
+	* gncal-full-day.h (GncalFullDayClass): New signal
+	"range_activated".  It is emitted when a range is selected and the
+	user hits Return.
+	(gncal_full_day_selection_range): New function, returns the
+	selected range.
+
+	* gncal-full-day.c (struct drag_info): Moved selection information
+	to their own fields instead of sharing the child's drag fields.
+	This allows us to keep the selection when a child is moved.
+	(recompute_motion): Made the case when (row < di->sel_click_row)
+	work correctly.
+
 1998-04-11  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
 	* gnome-cal.c (gnome_calendar_goto): Add support for navigating

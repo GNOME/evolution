@@ -6,6 +6,7 @@
  */
 
 #include <string.h>
+#include <gdk/gdkkeysyms.h>
 #include <gtk/gtkdrawingarea.h>
 #include <gtk/gtktext.h>
 #include "gncal-full-day.h"
@@ -47,7 +48,17 @@ struct drag_info {
 	Child *child;
 	int start_row;
 	int rows_used;
+
+	int sel_click_row;
+	int sel_start_row;
+	int sel_rows_used;
 	guint32 click_time;
+};
+
+
+enum {
+	RANGE_ACTIVATED,
+	LAST_SIGNAL
 };
 
 
@@ -73,6 +84,8 @@ static gint gncal_full_day_motion         (GtkWidget         *widget,
 					   GdkEventMotion    *event);
 static gint gncal_full_day_expose         (GtkWidget         *widget,
 					   GdkEventExpose    *event);
+static gint gncal_full_day_key_press      (GtkWidget         *widget,
+					   GdkEventKey       *event);
 static gint gncal_full_day_focus_in       (GtkWidget         *widget,
 					   GdkEventFocus     *event);
 static gint gncal_full_day_focus_out      (GtkWidget         *widget,
@@ -81,8 +94,12 @@ static void gncal_full_day_foreach        (GtkContainer      *container,
 					   GtkCallback        callback,
 					   gpointer           callback_data);
 
+static void range_activated (GncalFullDay *fullday);
+
 
 static GtkContainerClass *parent_class;
+
+static fullday_signals[LAST_SIGNAL] = { 0 };
 
 
 static void
@@ -186,7 +203,8 @@ child_realize (GncalFullDay *fullday, Child *child)
 				 | GDK_BUTTON_PRESS_MASK
 				 | GDK_BUTTON_RELEASE_MASK
 				 | GDK_BUTTON_MOTION_MASK
-				 | GDK_POINTER_MOTION_HINT_MASK);
+				 | GDK_POINTER_MOTION_HINT_MASK
+				 | GDK_KEY_PRESS_MASK);
 
 	attributes_mask = GDK_WA_X | GDK_WA_Y | GDK_WA_VISUAL | GDK_WA_COLORMAP | GDK_WA_CURSOR;
 
@@ -559,6 +577,16 @@ gncal_full_day_class_init (GncalFullDayClass *class)
 
 	parent_class = gtk_type_class (gtk_container_get_type ());
 
+	fullday_signals[RANGE_ACTIVATED] =
+		gtk_signal_new ("range_activated",
+				GTK_RUN_LAST,
+				object_class->type,
+				GTK_SIGNAL_OFFSET (GncalFullDayClass, range_activated),
+				gtk_signal_default_marshaller,
+				GTK_TYPE_NONE, 0);
+
+	gtk_object_class_add_signals (object_class, fullday_signals, LAST_SIGNAL);
+
 	object_class->destroy = gncal_full_day_destroy;
 
 	widget_class->map = gncal_full_day_map;
@@ -573,10 +601,13 @@ gncal_full_day_class_init (GncalFullDayClass *class)
 	widget_class->button_release_event = gncal_full_day_button_release;
 	widget_class->motion_notify_event = gncal_full_day_motion;
 	widget_class->expose_event = gncal_full_day_expose;
+	widget_class->key_press_event = gncal_full_day_key_press;
 	widget_class->focus_in_event = gncal_full_day_focus_in;
 	widget_class->focus_out_event = gncal_full_day_focus_out;
 
 	container_class->foreach = gncal_full_day_foreach;
+
+	class->range_activated = range_activated;
 }
 
 static void
@@ -807,11 +838,11 @@ paint_back (GncalFullDay *fullday, GdkRectangle *area)
 
 	row_height = calc_row_height (fullday);
 
-	if (di->rows_used != 0) {
+	if (di->sel_rows_used != 0) {
 		rect.x = x1;
-		rect.y = y1 + row_height * di->start_row;
+		rect.y = y1 + row_height * di->sel_start_row;
 		rect.width = width;
-		rect.height = row_height * di->rows_used;
+		rect.height = row_height * di->sel_rows_used;
 
 		if (gdk_rectangle_intersect (&rect, area, &dest))
 			gdk_draw_rectangle (widget->window,
@@ -1093,8 +1124,9 @@ gncal_full_day_button_press (GtkWidget *widget, GdkEventButton *event)
 
 		di->drag_mode = DRAG_SELECT;
 
-		di->start_row = get_row_from_y (fullday, event->y, FALSE);
-		di->rows_used = 1;
+		di->sel_click_row = get_row_from_y (fullday, event->y, FALSE);
+		di->sel_start_row = di->sel_click_row;
+		di->sel_rows_used = 1;
 
 		di->click_time = event->time;
 
@@ -1165,11 +1197,13 @@ recompute_motion (GncalFullDay *fullday, int y)
 		if (row >= f_rows)
 			row = f_rows - 1;
 
-		if (row < di->start_row) {
-			di->rows_used = di->start_row - row + 1;
-			di->start_row = row;
-		} else
-			di->rows_used = row - di->start_row + 1;
+		if (row < di->sel_click_row) {
+			di->sel_start_row = row;
+			di->sel_rows_used = di->sel_click_row - row + 1;
+		} else {
+			di->sel_start_row = di->sel_click_row;
+			di->sel_rows_used = row - di->sel_start_row + 1;
+		}
 
 		break;
 
@@ -1201,26 +1235,35 @@ recompute_motion (GncalFullDay *fullday, int y)
 }
 
 static void
-update_from_drag_info (GncalFullDay *fullday)
+get_time_from_rows (GncalFullDay *fullday, int start_row, int rows_used, time_t *t_lower, time_t *t_upper)
 {
-	struct drag_info *di;
-	GtkWidget *widget;
 	struct tm tm;
 	int row_height;
-
-	di = fullday->drag_info;
-
-	widget = GTK_WIDGET (fullday);
 
 	get_tm_range (fullday, fullday->lower, fullday->upper, &tm, NULL, NULL, NULL);
 
 	row_height = calc_row_height (fullday);
 
-	tm.tm_min += fullday->interval * di->start_row;
-	di->child->ico->dtstart = mktime (&tm);
+	tm.tm_min += fullday->interval * start_row;
+	*t_lower = mktime (&tm);
 
-	tm.tm_min += fullday->interval * di->rows_used;
-	di->child->ico->dtend = mktime (&tm);
+	tm.tm_min += fullday->interval * rows_used;
+	*t_upper = mktime (&tm);
+}
+
+static void
+update_from_drag_info (GncalFullDay *fullday)
+{
+	struct drag_info *di;
+	GtkWidget *widget;
+
+	di = fullday->drag_info;
+
+	widget = GTK_WIDGET (fullday);
+
+	get_time_from_rows (fullday, di->start_row, di->rows_used,
+			    &di->child->ico->dtstart,
+			    &di->child->ico->dtend);
 
 	child_range_changed (fullday, di->child);
 
@@ -1252,7 +1295,7 @@ gncal_full_day_button_release (GtkWidget *widget, GdkEventButton *event)
 
 	case DRAG_SELECT:
 		if ((event->time - di->click_time) < UNSELECT_TIMEOUT)
-			di->rows_used = 0;
+			di->sel_rows_used = 0;
 		else
 			recompute_motion (fullday, y);
 
@@ -1277,9 +1320,6 @@ gncal_full_day_button_release (GtkWidget *widget, GdkEventButton *event)
 	default:
 		g_assert_not_reached ();
 	}
-
-	if (!di->child || (event->window != di->child->window))
-		return FALSE;
 
 	di->drag_mode = DRAG_NONE;
 	di->child = NULL;
@@ -1355,6 +1395,31 @@ gncal_full_day_expose (GtkWidget *widget, GdkEventExpose *event)
 				break;
 			}
 		}
+
+	return FALSE;
+}
+
+static gint
+gncal_full_day_key_press (GtkWidget *widget, GdkEventKey *event)
+{
+	GncalFullDay *fullday;
+	struct drag_info *di;
+
+	g_return_val_if_fail (widget != NULL, FALSE);
+	g_return_val_if_fail (GNCAL_IS_FULL_DAY (widget), FALSE);
+	g_return_val_if_fail (event != NULL, FALSE);
+
+	fullday = GNCAL_FULL_DAY (widget);
+
+	di = fullday->drag_info;
+
+	if (di->sel_rows_used == 0)
+		return FALSE;
+
+	if (event->keyval == GDK_Return) {
+		gtk_signal_emit (GTK_OBJECT (fullday), fullday_signals [RANGE_ACTIVATED]);
+		return TRUE;
+	}
 
 	return FALSE;
 }
@@ -1470,20 +1535,44 @@ gncal_full_day_set_bounds (GncalFullDay *fullday, time_t lower, time_t upper)
 	}
 }
 
-/*
- * Returns the selected range
- */
 int
 gncal_full_day_selection_range (GncalFullDay *fullday, time_t *lower, time_t *upper)
 {
 	struct drag_info *di;
+	time_t alower, aupper;
 
-	g_return_val_if_fail (fullday != NULL, 0);
-	g_return_val_if_fail (GNCAL_IS_FULL_DAY (fullday), 0);
-	g_return_val_if_fail (lower != NULL, 0);
-	g_return_val_if_fail (upper != NULL, 0);
+	g_return_val_if_fail (fullday != NULL, FALSE);
+	g_return_val_if_fail (GNCAL_IS_FULL_DAY (fullday), FALSE);
 
 	di = fullday->drag_info;
 
-	return 1;
+	if (di->sel_rows_used == 0)
+		return FALSE;
+
+	get_time_from_rows (fullday, di->sel_start_row, di->sel_rows_used, &alower, &aupper);
+
+	if (lower)
+		*lower = alower;
+
+	if (upper)
+		*upper= aupper;
+
+	return TRUE;
+}
+
+static void
+range_activated (GncalFullDay *fullday)
+{
+	struct drag_info *di;
+
+	g_return_if_fail (fullday != NULL);
+	g_return_if_fail (GNCAL_IS_FULL_DAY (fullday));
+
+	di = fullday->drag_info;
+
+	/* Remove selection; at this point someone should already have added an appointment */
+
+	di->sel_rows_used = 0;
+
+	paint_back (fullday, NULL);
 }

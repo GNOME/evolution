@@ -6,7 +6,6 @@
  */
 
 #include <gnome.h>
-#include <gdk/gdkkeysyms.h>
 #include "calendar.h"
 #include "gnome-cal.h"
 #include "gncal-full-day.h"
@@ -40,19 +39,21 @@ gnome_calendar_get_type (void)
 }
 
 static void
-day_view_key_press (GncalFullDay *fday, GdkEventKey *kevent, GnomeCalendar *gcal)
+day_view_range_activated (GncalFullDay *fullday, GnomeCalendar *gcal)
 {
 	iCalObject *ical;
 	time_t start, end;
-	
-	if (kevent->keyval != GDK_Return)
-		return;
 
-	/* Create a new event on the selected range */
 	ical = ical_new ("", user_name, "");
 	ical->new = 1;
-/*	gncal_full_day_selection_range (gcal->day_view, &ical->dtstart, &ical->dtend); */
-	event_editor_new (gcal, ical);
+
+	gncal_full_day_selection_range (fullday, &start, &end);
+
+	/* FIXME: this should insert the ical object into the calendar and somehow ask
+	 * the fullday to update itself and focus the new child.
+	 */
+
+/* 	event_editor_new (gcal, ical); */
 }
 
 static void
@@ -65,16 +66,15 @@ setup_day_view (GnomeCalendar *gcal)
 	b = time_end_of_day (now);
 	
 	gcal->day_view = gncal_full_day_new (gcal, a, b);
-	gtk_widget_set_events (gcal->day_view,
-			       gtk_widget_get_events (gcal->day_view) | GDK_KEY_PRESS_MASK);
+	gtk_signal_connect (GTK_OBJECT (gcal->day_view), "range_activated",
+			    (GtkSignalFunc) day_view_range_activated,
+			    gcal);
 	gcal->day_view_container = gtk_scrolled_window_new (NULL, NULL);
 	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (gcal->day_view_container),
 					GTK_POLICY_AUTOMATIC,
 					GTK_POLICY_AUTOMATIC);
 	gtk_container_add (GTK_CONTAINER (gcal->day_view_container), gcal->day_view);
 	gtk_widget_show (gcal->day_view);
-	gtk_signal_connect (GTK_OBJECT (gcal->day_view), "key_press_event",
-			    GTK_SIGNAL_FUNC (day_view_key_press), gcal);
 }
 
 static void
