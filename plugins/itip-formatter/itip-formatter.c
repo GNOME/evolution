@@ -34,6 +34,7 @@
 #include <camel/camel-medium.h>
 #include <camel/camel-mime-message.h>
 #include <camel/camel-folder.h>
+#include <camel/camel-multipart.h>
 #include <libecal/e-cal.h>
 #include <libecal/e-cal-time-util.h>
 #include <libedataserverui/e-source-option-menu.h>
@@ -42,6 +43,7 @@
 #include <mail/em-format-hook.h>
 #include <mail/em-config.h>
 #include <mail/em-format-html.h>
+#include <mail/em-utils.h>
 #include <e-util/e-account-list.h>
 #include <e-util/e-icon-factory.h>
 #include <widgets/misc/e-error.h>
@@ -637,6 +639,33 @@ change_status (icalcomponent *ical_comp, const char *address, icalparameter_part
 }
 
 static void
+message_foreach_part (CamelMimePart *part, GSList **part_list)
+{
+	CamelDataWrapper *containee;
+	int parts, i;
+	int go = TRUE;
+
+	*part_list = g_slist_append (*part_list, part);
+	
+	containee = camel_medium_get_content_object (CAMEL_MEDIUM (part));
+	
+	if (containee == NULL)
+		return;
+	
+	/* using the object types is more accurate than using the mime/types */
+	if (CAMEL_IS_MULTIPART (containee)) {
+		parts = camel_multipart_get_number (CAMEL_MULTIPART (containee));
+		for (i = 0; go && i < parts; i++) {
+			CamelMimePart *part = camel_multipart_get_part (CAMEL_MULTIPART (containee), i);
+			
+			message_foreach_part (part, part_list);
+		}
+	} else if (CAMEL_IS_MIME_MESSAGE (containee)) {
+ 		message_foreach_part ((CamelMimePart *)containee, part_list);
+	}
+}
+
+static void
 update_item (FormatItipPObject *pitip, ItipViewResponse response)
 {
 	struct icaltimetype stamp;
@@ -664,6 +693,53 @@ update_item (FormatItipPObject *pitip, ItipViewResponse response)
 	icalcomponent_set_method (pitip->top_level, pitip->method);
 
 	source = e_cal_get_source (pitip->current_ecal);
+
+	if (response != ITIP_VIEW_RESPONSE_CANCEL) {
+		if (e_cal_component_has_attachments (pitip->comp)) {
+			GSList *attachments, *new_attachments = NULL, *l;
+			CamelMimeMessage *msg = ((EMFormat *) pitip->pobject.format)->message;
+
+			e_cal_component_get_attachment_list (pitip->comp, &attachments);
+			for (l = attachments; l; l = l->next) {
+				GSList *parts, *m;
+				char *uri, *new_uri;
+				CamelMimePart *part;
+				
+				uri = l->data;
+				
+				if (!g_ascii_strncasecmp (uri, "cid:...", 4)) {
+					parts = NULL;
+					message_foreach_part ((CamelMimePart *) msg, &parts);
+					
+					for (m = parts; m; m = m->next) {
+						part = m->data;
+						
+						/* Skip the actual message and the text/calendar part */
+						/* FIXME Do we need to skip anything else? */
+						if (!g_ascii_strcasecmp (camel_mime_part_get_content_id (part), camel_mime_part_get_content_id ((CamelMimePart *) msg))
+						    || !g_ascii_strcasecmp (camel_mime_part_get_content_id (part), camel_mime_part_get_content_id (pitip->pobject.part)))
+							continue;
+										
+						new_uri = em_utils_temp_save_part (NULL, part);
+						new_attachments = g_slist_append (new_attachments, new_uri);
+					}
+					
+					g_slist_free (parts);
+					
+				} else if (!g_ascii_strncasecmp (uri, "cid:", 4)) {
+					part = camel_mime_message_get_part_by_content_id (msg, uri);
+					new_uri = em_utils_temp_save_part (NULL, part);
+					new_attachments = g_slist_append (new_attachments, new_uri);
+				} else {
+					/* Preserve existing non-cid ones */
+					new_attachments = g_slist_append (new_attachments, g_strdup (uri));
+				}				
+			}
+			g_slist_free (attachments);
+			
+			e_cal_component_set_attachment_list (pitip->comp, new_attachments);
+		}			
+	}
 		
 	if (!e_cal_receive_objects (pitip->current_ecal, pitip->top_level, &error)) {
 		itip_view_add_lower_info_item_printf (ITIP_VIEW (pitip->view), ITIP_VIEW_INFO_ITEM_TYPE_INFO,
