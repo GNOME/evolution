@@ -23,9 +23,6 @@
 
 #include <config.h>
 
-#include <liboaf/liboaf.h>
-#include <bonobo.h>
-#include <bonobo-conf/bonobo-config-database.h>
 #include <cal-client/cal-client-types.h>
 #include <cal-client/cal-client.h>
 #include <cal-util/timeutil.h>
@@ -41,6 +38,7 @@
 #include <e-pilot-map.h>
 #include <e-pilot-settings.h>
 #include <e-pilot-util.h>
+#include <e-config-listener.h>
 
 GnomePilotConduit * conduit_get_gpilot_conduit (guint32);
 void conduit_destroy_gpilot_conduit (GnomePilotConduit*);
@@ -413,7 +411,7 @@ start_calendar_server (EToDoConduitContext *ctxt)
 	ctxt->client = cal_client_new ();
 
 	gtk_signal_connect (GTK_OBJECT (ctxt->client), "cal_opened",
-			    start_calendar_server_cb, &success);
+			    (GtkSignalFunc)start_calendar_server_cb, &success);
 
 	if (!cal_client_open_default_tasks (ctxt->client,  FALSE))
 		return -1;
@@ -444,24 +442,14 @@ get_timezone (CalClient *client, const char *tzid)
 static icaltimezone *
 get_default_timezone (void)
 {
-	Bonobo_ConfigDatabase db;
+	EConfigListener *listener;
 	icaltimezone *timezone = NULL;
 	char *location;
-	CORBA_Environment ev;
 
-	CORBA_exception_init (&ev);
-	
-	db = bonobo_get_object ("wombat:", "Bonobo/ConfigDatabase", &ev);
-	
-	if (BONOBO_EX (&ev) || db == CORBA_OBJECT_NIL) {
-		CORBA_exception_free (&ev);
-		return NULL;
- 	}
+	listener = e_config_listener_new ();
 
-	CORBA_exception_free (&ev);
-
-	location = bonobo_config_get_string_with_default (db,
-		"/Calendar/Display/Timezone", "UTC", NULL);
+	location = e_config_listener_get_string_with_default (listener,
+		"/apps/Evolution/Calendar/Display/Timezone", "UTC", NULL);
 	if (!location || !location[0]) {
 		g_free (location);
 		location = g_strdup ("UTC");
@@ -470,7 +458,7 @@ get_default_timezone (void)
 	timezone = icaltimezone_get_builtin_timezone (location);
 	g_free (location);
 
-	bonobo_object_release_unref (db, NULL);
+	g_object_unref (listener);
 
 	return timezone;	
 }
@@ -1354,16 +1342,6 @@ revert_settings  (GnomePilotConduit *conduit, EToDoConduitContext *ctxt)
 	ctxt->new_cfg = todoconduit_dupe_configuration (ctxt->cfg);
 }
 
-static ORBit_MessageValidationResult
-accept_all_cookies (CORBA_unsigned_long request_id,
-		    CORBA_Principal *principal,
-		    CORBA_char *operation)
-{
-	/* allow ALL cookies */
-	return ORBIT_MESSAGE_ALLOW_ALL;
-}
-
-
 GnomePilotConduit *
 conduit_get_gpilot_conduit (guint32 pilot_id)
 {
@@ -1371,21 +1349,6 @@ conduit_get_gpilot_conduit (guint32 pilot_id)
 	EToDoConduitContext *ctxt;
 
 	LOG ("in todo's conduit_get_gpilot_conduit\n");
-
-	/* we need to find wombat with oaf, so make sure oaf
-	   is initialized here.  once the desktop is converted
-	   to oaf and gpilotd is built with oaf, this can go away */
-	if (!oaf_is_initialized ()) {
-		char *argv[ 1 ] = {"hi"};
-		oaf_init (1, argv);
-
-		if (bonobo_init (CORBA_OBJECT_NIL,
-				 CORBA_OBJECT_NIL,
-				 CORBA_OBJECT_NIL) == FALSE)
-			g_error (_("Could not initialize Bonobo"));
-
-		ORBit_set_request_validation_handler (accept_all_cookies);
-	}
 
 	retval = gnome_pilot_conduit_sync_abs_new ("ToDoDB", 0x746F646F);
 	g_assert (retval != NULL);

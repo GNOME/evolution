@@ -1,3 +1,19 @@
+2003-01-26  Chris Toshok  <toshok@ximian.com>
+
+	* conduits/calendar/calendar-conduit.c (start_calendar_server):
+	fix warning.
+	(get_default_timezone): BonoboConfigDatabase -> e_config_listener.
+	(accept_all_cookies): remove.
+	(conduit_get_gpilot_conduit): remove the oaf initialization stuff.
+
+	* conduits/todo/todo-conduit.c (start_calendar_server):
+	fix warning.
+	(get_default_timezone): BonoboConfigDatabase -> e_config_listener.
+	(accept_all_cookies): remove.
+	(conduit_get_gpilot_conduit): remove the oaf initialization stuff.
+
+	* Makefile.am (CONDUIT_DIR): uncomment the conduit stuff.
+
 2003-01-26  Hans Petter Jansson  <hpj@ximian.com>
 
 	Make clicks, drags and resizes work, and pangoize remaining strings.
