@@ -78,6 +78,7 @@ typedef struct _mail_folder_info {
 	FolderBrowser *fb;
 
 	int timeout_id;
+	int mail_info_id;
 
 	mfium update_mode;
 	mfiui update_info;
@@ -124,6 +125,7 @@ get_folder_info (const gchar *uri)
 		mfi->update_mode = MAIL_FIUM_UNKNOWN;
 		mfi->update_info.es = NULL;
 		mfi->timeout_id = 0;
+		mfi->mail_info_id = 0;
 
 		g_hash_table_insert (folders, mfi->uri, mfi);
 	} else
@@ -309,13 +311,23 @@ static void
 update_message_counts_main (CamelObject *object, gpointer event_data,
 			    gpointer user_data)
 {
-	mail_folder_info *mfi = user_data;
+	mail_folder_info *mfi;
+	gchar *uri = (gchar *) user_data;
 
 	LOCK_FOLDERS ();
-	d(g_message("Message counts in CamelFolder changed, queuing idle"));
-	mfi->flags &= (~MAIL_FIF_NEED_UPDATE);
-	maybe_update (mfi);
+	
+	mfi = get_folder_info (uri);
+
+	/* if folder is no longer valid, these numbers are useless */
+	if (mfi->flags & MAIL_FIF_FOLDER_VALID) {
+		d(g_message("Message counts in CamelFolder changed, queuing idle"));
+		mfi->flags &= (~MAIL_FIF_NEED_UPDATE);
+		maybe_update (mfi);
+	}
+
 	UNLOCK_FOLDERS ();
+
+	g_free (uri);
 }
 
 static void
@@ -323,7 +335,8 @@ update_message_counts (CamelObject *object, gpointer event_data,
 		       gpointer user_data)
 {
 	CamelFolder *folder = CAMEL_FOLDER (object);
-	mail_folder_info *mfi = user_data;
+	mail_folder_info *mfi;
+	gchar *uri = g_quark_to_string (GPOINTER_TO_UINT (user_data));
 	int unread;
 	int total;
 
@@ -333,6 +346,21 @@ update_message_counts (CamelObject *object, gpointer event_data,
 	total = camel_folder_get_message_count (folder);
 
 	LOCK_FOLDERS ();
+
+	mfi = get_folder_info (uri);
+
+	/* we might have been removed in the meantime... this could 
+	 * conceivably fail if _note_folder was called immediately
+	 * after the URL was removed, and we would get the counts
+	 * for the wrong folder, but the chances of that happening
+	 * are miniscule.
+	 */
+
+	if (!(mfi->flags & MAIL_FIF_FOLDER_VALID)) {
+		d(g_message("-> Folder is no longer valid, cancelling updates"));
+		UNLOCK_FOLDERS ();
+		return;
+	}
 
 	mfi->flags &= (~MAIL_FIF_NEED_UPDATE);
 
@@ -376,7 +404,7 @@ update_message_counts (CamelObject *object, gpointer event_data,
 	if (mfi->flags & MAIL_FIF_NEED_UPDATE) {
 		UNLOCK_FOLDERS ();
 		d(g_message("-> Queuing change"));
-		mail_proxy_event (update_message_counts_main, object, event_data, user_data);
+		mail_proxy_event (update_message_counts_main, object, event_data, g_strdup (uri));
 	} else {
 		UNLOCK_FOLDERS ();
 		d(g_message("-> No proxy event needed"));
@@ -387,29 +415,39 @@ static void
 camel_folder_finalized (CamelObject *object, gpointer event_data,
 			gpointer user_data)
 {
-	mail_folder_info *mfi = user_data;
+	mail_folder_info *mfi;
+	gchar *uri = g_quark_to_string (GPOINTER_TO_UINT (user_data));
 
 	d(g_message("CamelFolder %p finalized, unsetting FOLDER_VALID", object));
 
-	camel_object_unhook_event (object, "message_changed",
-				   update_message_counts, mfi);
-	camel_object_unhook_event (object, "folder_changed",
-				   update_message_counts, mfi);
-				   
 	LOCK_FOLDERS ();
+
+	mfi = get_folder_info (uri);
+
+	/* we could check for FOLDER_VALID, but why bother? */
 	mfi->flags &= (~MAIL_FIF_FOLDER_VALID);
 	mfi->folder = NULL;
+
 	UNLOCK_FOLDERS ();
 }
 
 static void
 message_list_built (MessageList *ml, gpointer user_data)
 {
-	mail_folder_info *mfi = user_data;
+	mail_folder_info *mfi;
+	gchar *uri = g_quark_to_string (GPOINTER_TO_UINT (user_data));
 
 	d(g_message("Message list %p rebuilt, checking hidden", ml));
 
 	LOCK_FOLDERS ();
+
+	mfi = get_folder_info (uri);
+
+	if (!(mfi->flags & MAIL_FIF_FB_VALID)) {
+		d(g_message ("-> we seem to have been removed. Returning."));
+		UNLOCK_FOLDERS ();
+		return;
+	}
 
 	if (ml->folder != mfi->folder) {
 		g_warning ("folder cache: different folders in cache and messagelist");
@@ -435,11 +473,20 @@ message_list_built (MessageList *ml, gpointer user_data)
 static void
 selection_changed (ESelectionModel *esm, gpointer user_data)
 {
-	mail_folder_info *mfi = user_data;
+	mail_folder_info *mfi;
+	gchar *uri = g_quark_to_string (GPOINTER_TO_UINT (user_data));
 	
 	d(g_message ("Selection model %p changed, checking selected", esm));
 
 	LOCK_FOLDERS ();
+
+	mfi = get_folder_info (uri);
+
+	if (!(mfi->flags & MAIL_FIF_FB_VALID)) {
+		d(g_message ("-> hm, fb is not valid. We must have been removed."));
+		UNLOCK_FOLDERS ();
+		return;
+	}
 
 	mfi->selected = e_selection_model_selected_count (esm);
 	mfi->flags |= MAIL_FIF_SELECTED_VALID;
@@ -447,6 +494,24 @@ selection_changed (ESelectionModel *esm, gpointer user_data)
 	UNLOCK_FOLDERS ();
 
 	maybe_update (mfi);
+}
+
+static void
+folder_browser_destroyed (GtkObject *fb, gpointer user_data)
+{
+	mail_folder_info *mfi;
+	gchar *uri = g_quark_to_string (GPOINTER_TO_UINT (user_data));
+	
+	d(g_message ("folder browser destroyed. Unsetting FB_VALID."));
+
+	LOCK_FOLDERS ();
+
+	mfi = get_folder_info (uri);
+
+	/* we could check for FB_VALID, but why bother? */
+	mfi->flags &= (~MAIL_FIF_FB_VALID);
+	mfi->fb = NULL;
+	UNLOCK_FOLDERS ();
 }
 
 static void
@@ -471,7 +536,7 @@ struct get_mail_info_msg {
 	struct _mail_msg msg;
 
 	CamelFolder *folder;
-	mail_folder_info *mfi;
+	gchar *uri;
 };
 
 static char *
@@ -486,20 +551,23 @@ static void
 get_mail_info_receive (struct _mail_msg *msg)
 {
 	struct get_mail_info_msg *gmim = (struct get_mail_info_msg *) msg;
+	mail_folder_info *mfi;
 
 	LOCK_FOLDERS ();
 
-	if (!(gmim->mfi->flags & MAIL_FIF_NAME_VALID)) {
-		gmim->mfi->name = g_strdup (camel_folder_get_name (gmim->folder));
-		gmim->mfi->flags |= MAIL_FIF_NAME_VALID;
+	mfi = get_folder_info (gmim->uri);
+
+	if (!(mfi->flags & MAIL_FIF_NAME_VALID)) {
+		mfi->name = g_strdup (camel_folder_get_name (gmim->folder));
+		mfi->flags |= MAIL_FIF_NAME_VALID;
 	}
 
-	gmim->mfi->unread = camel_folder_get_unread_message_count (gmim->folder);
-	if (gmim->mfi->unread != -1)
-		gmim->mfi->flags |= MAIL_FIF_UNREAD_VALID;
+	mfi->unread = camel_folder_get_unread_message_count (gmim->folder);
+	if (mfi->unread != -1)
+		mfi->flags |= MAIL_FIF_UNREAD_VALID;
 
-	gmim->mfi->total = camel_folder_get_message_count (gmim->folder);
-	gmim->mfi->flags |= MAIL_FIF_TOTAL_VALID;
+	mfi->total = camel_folder_get_message_count (gmim->folder);
+	mfi->flags |= MAIL_FIF_TOTAL_VALID;
 
 	UNLOCK_FOLDERS ();
 }
@@ -508,8 +576,15 @@ static void
 get_mail_info_reply (struct _mail_msg *msg)
 {
 	struct get_mail_info_msg *gmim = (struct get_mail_info_msg *) msg;
+	mail_folder_info *mfi;
 
-	maybe_update (gmim->mfi);
+	LOCK_FOLDERS ();
+
+	mfi = get_folder_info (gmim->uri);
+	maybe_update (mfi);
+	mfi->mail_info_id = 0;
+
+	UNLOCK_FOLDERS ();
 }
 
 static void
@@ -518,6 +593,7 @@ get_mail_info_destroy (struct _mail_msg *msg)
 	struct get_mail_info_msg *gmim = (struct get_mail_info_msg *) msg;
 
 	camel_object_unref (CAMEL_OBJECT (gmim->folder));
+	g_free (gmim->uri);
 }
 
 static mail_msg_op_t get_mail_info_op = {
@@ -527,17 +603,20 @@ static mail_msg_op_t get_mail_info_op = {
 	get_mail_info_destroy
 };
 
-static void
-get_mail_info (CamelFolder *folder, mail_folder_info *mfi)
+static int
+get_mail_info (CamelFolder *folder, const char *uri)
 {
 	struct get_mail_info_msg *gmim;
+	int id;
 
 	gmim = mail_msg_new (&get_mail_info_op, NULL, sizeof (*gmim));
 	gmim->folder = folder;
 	camel_object_ref (CAMEL_OBJECT (folder));
-	gmim->mfi = mfi;
+	gmim->uri = g_strdup (uri);
 
+	id = gmim->msg.seq;
 	e_thread_put (mail_thread_new, (EMsg *) gmim);
+	return id;
 }
 
 /* Public functions */
@@ -603,6 +682,7 @@ void
 mail_folder_cache_remove_folder (const gchar *uri)
 {
 	mail_folder_info *mfi;
+	GQuark uri_key;
 
 	g_return_if_fail (uri);
 
@@ -617,12 +697,37 @@ mail_folder_cache_remove_folder (const gchar *uri)
 	}
 	g_hash_table_remove (folders, uri);
 
+	d(g_message ("folder cache: removing uri \"%s\".", uri));
+
 	if (mfi->timeout_id)
 		g_source_remove (mfi->timeout_id);
 
-	UNLOCK_FOLDERS ();
+	if (mfi->mail_info_id)
+		mail_msg_cancel (mfi->mail_info_id);
 
-	d(g_message ("folder cache: removing uri \"%s\".", uri));
+	uri_key = g_quark_from_string (uri);
+
+	if (mfi->flags & MAIL_FIF_FB_VALID) {
+		ESelectionModel *esm;
+
+		esm = e_tree_get_selection_model (mfi->fb->message_list->tree);
+
+		gtk_signal_disconnect_by_data (GTK_OBJECT (mfi->fb), GUINT_TO_POINTER (uri_key));
+		gtk_signal_disconnect_by_data (GTK_OBJECT (mfi->fb->message_list), 
+					       GUINT_TO_POINTER (uri_key));
+		gtk_signal_disconnect_by_data (GTK_OBJECT (esm), GUINT_TO_POINTER (uri_key));
+	}
+
+	if (mfi->flags & MAIL_FIF_FOLDER_VALID) {
+		camel_object_unhook_event (CAMEL_OBJECT (mfi->folder), "message_changed",
+					   update_message_counts, GUINT_TO_POINTER (uri_key));
+		camel_object_unhook_event (CAMEL_OBJECT (mfi->folder), "folder_changed",
+					   update_message_counts, GUINT_TO_POINTER (uri_key));
+		camel_object_unhook_event (CAMEL_OBJECT (mfi->folder), "finalize",
+					   camel_folder_finalized, GUINT_TO_POINTER (uri_key));
+	}
+
+	UNLOCK_FOLDERS ();
 
 	g_free (mfi->uri);
 	g_free (mfi->path);
@@ -634,6 +739,7 @@ void
 mail_folder_cache_note_folder (const gchar *uri, CamelFolder *folder)
 {
 	mail_folder_info *mfi;
+	GQuark uri_key;
 
 	g_return_if_fail (uri);
 	g_return_if_fail (CAMEL_IS_FOLDER (folder));
@@ -654,22 +760,26 @@ mail_folder_cache_note_folder (const gchar *uri, CamelFolder *folder)
 	mfi->flags |= MAIL_FIF_FOLDER_VALID;
 	mfi->folder = folder;
 	
+	if (mfi->mail_info_id == 0)
+		mfi->mail_info_id = get_mail_info (folder, uri);
+	
 	UNLOCK_FOLDERS ();
 
+	uri_key = g_quark_from_string (uri);
 	camel_object_hook_event (CAMEL_OBJECT (folder), "message_changed",
-				 update_message_counts, mfi);
+				 update_message_counts, GUINT_TO_POINTER (uri_key));
 	camel_object_hook_event (CAMEL_OBJECT (folder), "folder_changed",
-				 update_message_counts, mfi);
+				 update_message_counts, GUINT_TO_POINTER (uri_key));
 	camel_object_hook_event (CAMEL_OBJECT (folder), "finalize",
-				 camel_folder_finalized, mfi);
+				 camel_folder_finalized, GUINT_TO_POINTER (uri_key));
 
-	get_mail_info (folder, mfi);
 }
 
 void 
 mail_folder_cache_note_fb (const gchar *uri, FolderBrowser *fb)
 {
 	mail_folder_info *mfi;
+	GQuark uri_key;
 
 	g_return_if_fail (uri);
 	g_return_if_fail (IS_FOLDER_BROWSER (fb));
@@ -689,15 +799,18 @@ mail_folder_cache_note_fb (const gchar *uri, FolderBrowser *fb)
 	mfi->fb = fb;
 	mfi->flags |= MAIL_FIF_FB_VALID;
 
+	uri_key = g_quark_from_string (uri);
 	gtk_signal_connect (GTK_OBJECT (fb->message_list), "message_list_built",
-			    message_list_built, mfi);
+			    message_list_built, GUINT_TO_POINTER (uri_key));
 	gtk_signal_connect (GTK_OBJECT (e_tree_get_selection_model (fb->message_list->tree)),
-			    "selection_changed", selection_changed, mfi);
+			    "selection_changed", selection_changed, GUINT_TO_POINTER (uri_key));
+	gtk_signal_connect (GTK_OBJECT (fb), "destroy", 
+			    folder_browser_destroyed, GUINT_TO_POINTER (uri_key));
 
 	UNLOCK_FOLDERS ();
 
 	d(g_message("-> faking message_list_built"));
-	message_list_built (fb->message_list, mfi);
+	message_list_built (fb->message_list, GUINT_TO_POINTER (uri_key));
 }
 
 void 
@@ -717,8 +830,7 @@ mail_folder_cache_note_folderinfo (const gchar *uri, CamelFolderInfo *fi)
 	if (fi->unread_message_count != -1) {
 		mfi->unread = fi->unread_message_count;
 		mfi->flags |= MAIL_FIF_UNREAD_VALID;
-	}
-	else {
+	} else {
 		mfi->unread = 0;
 	}
 

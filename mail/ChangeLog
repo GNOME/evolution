@@ -1,3 +1,51 @@
+2001-08-30  Peter Williams  <peterw@ximian.com>
+
+	Due to the introduction of mail_folder_cache_remove(), we can no
+	longer assume that mail_folder_info's always exist, so we need
+	to robustify a lot of this.
+	
+	* mail-folder-cache.c (folder_browser_destroyed): New
+	function. Called when the folder browser is destroyed -- analogous
+	to camel_folder_finalized.
+	(mail_folder_cache_note_fb): Hook it up here.
+	(struct _mail_folder_info): Add a member, mail_info_id, that
+	records the get_mail operation's id, so that we can cancel it if
+	we need to.
+	(get_folder_info): Initialize it here.
+	(get_mail_info_reply): Clear it here.
+	(mail_folder_cache_remove_folder): If necessary, cancel it here.
+	(mail_folder_cache_note_folder): Check it here before starting a
+	new operation, just in case.
+	(update_message_counts_main): Take a URI instead of a
+	mail_folder_info *, in case the MFI has gotten destroyed.
+	(update_message_counts): Take a quark of the URI instead of a
+	mail_folder_info *, for the same reason. We use a quark instead of
+	an allocated gchar * because figuring out when to free the string
+	gets tricky. Then go from quark -> URI string -> MFI. Return if
+	the folder is no longer valid, because this indicates that the MFI
+	was removed before this signal got called. Pass a string to
+	update_message_counts_main instead of an MFI.
+	(camel_folder_finalized): Don't bother unhooking the signals here.
+	Same change as above, but don't bother checking for a valid folder
+	because we're about to make it invalid anyway.
+	(message_list_built): Analogous to the above, except with the
+	FolderBrowser instead of the CamelFolder.
+	(selection_changed): As above.
+	(folder_browser_destroyed): As above.
+	(struct get_mail_info_msg): Instead of taking a mail_folder_info
+	*, take a URI, for reasons explained above.
+	(get_mail_info_receive): Go from URI -> MFI before doing anything.
+	(get_mail_info_reply): Same.
+	(get_mail_info_destroy): Free the URI.
+	(get_mail_info): Take a URI and return the message id so that it
+	can be cancelled if necessary.
+	(mail_folder_cache_remove_folder): Disconnect from signals and
+	events before removing.
+	(mail_folder_cache_note_folder): Use a GQuark instead of the
+	mail_folder_info * as the user_data.
+	(mail_folder_cache_note_fb): Same.
+	(mail_folder_cache_note_folderinfo): Little formatting change.
+
 2001-08-30  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* message-browser.c (message_browser_message_loaded): Fixed a
