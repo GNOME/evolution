@@ -6,8 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution VERSION\n"
-"POT-Creation-Date: 2003-04-28 11:43+0200\n"
-"PO-Revision-Date: 2003-04-28 13:49+0200\n"
+"POT-Creation-Date: 2003-04-29 11:50+0200\n"
+"PO-Revision-Date: 2003-04-29 19:47+0200\n"
 "Last-Translator: Miloslav Trmac <mitr@volny.cz>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -395,7 +395,7 @@ msgstr "Organizační jednotka"
 msgid "Role"
 msgstr "Funkce"
 
-#: addressbook/backend/ebook/e-card.c:1431 mail/mail-format.c:935
+#: addressbook/backend/ebook/e-card.c:1431 mail/mail-format.c:960
 msgid "Mailer"
 msgstr "Program elektronické pošty"
 
@@ -1218,7 +1218,6 @@ msgstr "Kdykoliv je možné"
 #: addressbook/gui/component/ldap-config.glade.h:86
 #: addressbook/gui/contact-editor/contact-editor.glade.h:29
 #: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:7
-#: calendar/gui/dialogs/alarm-page.glade.h:9 mail/mail-config.glade.h:135
 msgid "_Add"
 msgstr "_Přidat"
 
@@ -1231,7 +1230,7 @@ msgid "_Download limit:"
 msgstr "_Omezení stahování:"
 
 #: addressbook/gui/component/ldap-config.glade.h:89 filter/filter.glade.h:14
-#: mail/mail-config.glade.h:150 ui/evolution-addressbook.xml.h:33
+#: mail/mail-config.glade.h:148 ui/evolution-addressbook.xml.h:33
 #: ui/evolution-calendar.xml.h:31 ui/evolution-composer-entries.xml.h:8
 #: ui/evolution-mail-list.xml.h:25 ui/evolution-mail-messagedisplay.xml.h:6
 #: ui/evolution-message-composer.xml.h:41
@@ -1286,7 +1285,7 @@ msgstr "Odstranit vše"
 
 #: addressbook/gui/component/select-names/e-select-names-popup.c:211
 #: addressbook/gui/component/select-names/e-select-names.c:692
-#: composer/e-msg-composer-attachment-bar.c:502
+#: composer/e-msg-composer-attachment-bar.c:507
 msgid "Remove"
 msgstr "Odstranit"
 
@@ -1444,13 +1443,11 @@ msgid "Wants to receive _HTML mail"
 msgstr "Chce dostávat poštu v _HTML formátu"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:30
-#: calendar/gui/dialogs/alarm-page.glade.h:10
 #: calendar/gui/dialogs/meeting-page.c:715 calendar/gui/e-calendar-table.c:967
 #: calendar/gui/e-day-view.c:3706 calendar/gui/e-week-view.c:3590
-#: mail/folder-browser.c:1783 mail/mail-config.glade.h:148
-#: ui/evolution-addressbook.xml.h:32 ui/evolution-calendar.xml.h:30
-#: ui/evolution-mail-message.xml.h:97 ui/evolution-tasks.xml.h:16
-#: ui/evolution.xml.h:45
+#: mail/folder-browser.c:1783 ui/evolution-addressbook.xml.h:32
+#: ui/evolution-calendar.xml.h:30 ui/evolution-mail-message.xml.h:97
+#: ui/evolution-tasks.xml.h:16 ui/evolution.xml.h:45
 msgid "_Delete"
 msgstr "_Smazat"
 
@@ -3858,7 +3855,7 @@ msgid "New meeting"
 msgstr "Nová schůzka"
 
 #: calendar/gui/calendar-component.c:737
-msgid "_Meeting"
+msgid "M_eeting"
 msgstr "_Schůzka"
 
 #: calendar/gui/calendar-component.c:738
@@ -4056,8 +4053,8 @@ msgid "Alarm Repeat"
 msgstr "Opakování alarmu"
 
 #: calendar/gui/dialogs/alarm-options.glade.h:3
-msgid "Message to Display"
-msgstr "Zobrazit tuto zprávu"
+msgid "Message to Display:"
+msgstr "Zpráva, kterou zobrazit:"
 
 #: calendar/gui/dialogs/alarm-options.glade.h:4
 msgid "Message to Send"
@@ -4139,36 +4136,36 @@ msgstr "Poslat e-mail"
 msgid "Summary:"
 msgstr "Shrnutí"
 
-#: calendar/gui/dialogs/alarm-page.glade.h:11
+#: calendar/gui/dialogs/alarm-page.glade.h:9
 msgid "_Options..."
 msgstr "_Volby..."
 
-#: calendar/gui/dialogs/alarm-page.glade.h:12
+#: calendar/gui/dialogs/alarm-page.glade.h:10
 msgid "after"
 msgstr "po"
 
-#: calendar/gui/dialogs/alarm-page.glade.h:13
+#: calendar/gui/dialogs/alarm-page.glade.h:11
 msgid "before"
 msgstr "před"
 
-#: calendar/gui/dialogs/alarm-page.glade.h:14
+#: calendar/gui/dialogs/alarm-page.glade.h:12
 #: calendar/gui/dialogs/recurrence-page.glade.h:14
 msgid "day(s)"
 msgstr "den/dny/dnů"
 
-#: calendar/gui/dialogs/alarm-page.glade.h:15
+#: calendar/gui/dialogs/alarm-page.glade.h:13
 msgid "end of appointment"
 msgstr "skončení(-m) události"
 
-#: calendar/gui/dialogs/alarm-page.glade.h:16
+#: calendar/gui/dialogs/alarm-page.glade.h:14
 msgid "hour(s)"
 msgstr "hodin(-u,-y)"
 
-#: calendar/gui/dialogs/alarm-page.glade.h:17 mail/mail-config.glade.h:181
+#: calendar/gui/dialogs/alarm-page.glade.h:15 mail/mail-config.glade.h:178
 msgid "minute(s)"
 msgstr "minut(-u,-y)"
 
-#: calendar/gui/dialogs/alarm-page.glade.h:18
+#: calendar/gui/dialogs/alarm-page.glade.h:16
 msgid "start of appointment"
 msgstr "začátkem(-ku) události"
 
@@ -4344,7 +4341,7 @@ msgid "_Fri"
 msgstr "p_á"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:40
-#: mail/mail-config.glade.h:154
+#: mail/mail-config.glade.h:152
 msgid "_General"
 msgstr "O_becné"
 
@@ -10362,19 +10359,19 @@ msgid "%.0fG"
 msgstr "%.0fG"
 
 #. This is a filename. Translators take note.
-#: composer/e-msg-composer-attachment-bar.c:365 mail/mail-display.c:223
+#: composer/e-msg-composer-attachment-bar.c:370 mail/mail-display.c:223
 msgid "attachment"
 msgstr "příloha"
 
-#: composer/e-msg-composer-attachment-bar.c:503
+#: composer/e-msg-composer-attachment-bar.c:508
 msgid "Remove selected items from the attachment list"
 msgstr "Odstranit vybrané položky ze seznamu příloh"
 
-#: composer/e-msg-composer-attachment-bar.c:533
+#: composer/e-msg-composer-attachment-bar.c:538
 msgid "Add attachment..."
 msgstr "Přidat přílohu..."
 
-#: composer/e-msg-composer-attachment-bar.c:534
+#: composer/e-msg-composer-attachment-bar.c:539
 msgid "Attach a file to the message"
 msgstr "Přiložit soubor ke zprávě"
 
@@ -11038,31 +11035,31 @@ msgstr ""
 "%s"
 
 #: filter/filter-label.c:121 filter/libfilter-i18n.h:26 mail/mail-config.c:68
-#: mail/mail-config.glade.h:64 shell/e-config-upgrade.c:1279
+#: mail/mail-config.glade.h:64 shell/e-config-upgrade.c:1404
 msgid "Important"
 msgstr "Důležité"
 
 #. red
 #: filter/filter-label.c:122 mail/mail-config.c:69
-#: mail/mail-config.glade.h:133 shell/e-config-upgrade.c:1280
+#: mail/mail-config.glade.h:133 shell/e-config-upgrade.c:1405
 msgid "Work"
 msgstr "Pracovní"
 
 #. orange
 #: filter/filter-label.c:123 mail/mail-config.c:70 mail/mail-config.glade.h:87
-#: shell/e-config-upgrade.c:1281
+#: shell/e-config-upgrade.c:1406
 msgid "Personal"
 msgstr "Osobní"
 
 #. forest green
 #: filter/filter-label.c:124 mail/mail-config.c:71
-#: mail/mail-config.glade.h:124 shell/e-config-upgrade.c:1282
+#: mail/mail-config.glade.h:124 shell/e-config-upgrade.c:1407
 msgid "To Do"
 msgstr "Udělat"
 
 #. blue
 #: filter/filter-label.c:125 mail/mail-config.c:72 mail/mail-config.glade.h:68
-#: shell/e-config-upgrade.c:1283
+#: shell/e-config-upgrade.c:1408
 msgid "Later"
 msgstr "Později"
 
@@ -11166,7 +11163,7 @@ msgstr "nazpět"
 msgid "months"
 msgstr "měsíce/-ů"
 
-#: filter/filter.glade.h:21 mail/mail-config.glade.h:182
+#: filter/filter.glade.h:21 mail/mail-config.glade.h:179
 msgid "seconds"
 msgstr "vteřině(-ách)"
 
@@ -11428,7 +11425,7 @@ msgstr "začíná na"
 msgid "Stop Processing"
 msgstr "Zastavit zpracování"
 
-#: filter/libfilter-i18n.h:60 mail/mail-format.c:908
+#: filter/libfilter-i18n.h:60 mail/mail-format.c:933
 #: mail/message-list.etspec.h:13 mail/message-tag-followup.c:307
 msgid "Subject"
 msgstr "Předmět"
@@ -12054,7 +12051,7 @@ msgstr "Nevyplnili jste všechny požadované informace."
 msgid "Evolution Account Editor"
 msgstr "Editor účtů Evolution"
 
-#: mail/mail-account-gui.c:751 mail/mail-config.glade.h:156
+#: mail/mail-account-gui.c:751 mail/mail-config.glade.h:154
 msgid "_Host:"
 msgstr "_Počítač:"
 
@@ -12062,7 +12059,7 @@ msgstr "_Počítač:"
 msgid "User_name:"
 msgstr "_Jméno uživatele:"
 
-#: mail/mail-account-gui.c:759 mail/mail-config.glade.h:163
+#: mail/mail-account-gui.c:759 mail/mail-config.glade.h:161
 msgid "_Path:"
 msgstr "_Cesta:"
 
@@ -12357,7 +12354,7 @@ msgid "Are you sure you want to open all %d messages in separate windows?"
 msgstr "Opravdu chcete otevřít všechny zprávy (%d) v samostatných oknech?"
 
 #: mail/mail-composer-prefs.c:227 mail/mail-composer-prefs.c:350
-#: mail/mail-config.c:1290
+#: mail/mail-config.c:1344
 msgid "Unnamed"
 msgstr "Beze jména"
 
@@ -12440,11 +12437,11 @@ msgstr ""
 "pro vytvoření poštovního účtu Evolution. Zadejte prosím níže název pro tento "
 "účet. Tento název bude použit pouze pro zobrazení."
 
-#: mail/mail-config.c:994
+#: mail/mail-config.c:1048
 msgid "Checking Service"
 msgstr "Kontroluje se služba"
 
-#: mail/mail-config.c:1072 mail/mail-config.c:1076
+#: mail/mail-config.c:1126 mail/mail-config.c:1130
 msgid "Connecting to server..."
 msgstr "Připojuji se k serveru..."
 
@@ -12887,164 +12884,160 @@ msgstr ""
 msgid "XEmacs"
 msgstr "XEmacs"
 
-#: mail/mail-config.glade.h:136
+#: mail/mail-config.glade.h:135
 msgid "_Add Signature"
 msgstr "Přid_at podpis"
 
-#: mail/mail-config.glade.h:137
+#: mail/mail-config.glade.h:136
 msgid "_Always load images off the net"
 msgstr "_Vždy načítat obrázky ze sítě"
 
-#: mail/mail-config.glade.h:138
+#: mail/mail-config.glade.h:137
 msgid "_Always sign outgoing messages when using this account"
 msgstr "_Vždy podepsat odchozí zprávy, když se používá tento účet"
 
-#: mail/mail-config.glade.h:139
+#: mail/mail-config.glade.h:138
 msgid "_Authentication Type: "
 msgstr "Typ _ověření: "
 
-#: mail/mail-config.glade.h:140
+#: mail/mail-config.glade.h:139
 msgid "_Authentication type: "
 msgstr "Typ _ověření: "
 
-#: mail/mail-config.glade.h:141
-msgid "_Automatically check for new mail"
-msgstr "_Automaticky kontrolovat novou poštu"
+#: mail/mail-config.glade.h:140
+msgid "_Automatically check for new mail every"
+msgstr "_Automaticky kontrolovat novou poštu každých"
 
-#: mail/mail-config.glade.h:142
+#: mail/mail-config.glade.h:141
 msgid "_Automatically insert smiley images"
 msgstr "_Automaticky vkládat smajlíky"
 
-#: mail/mail-config.glade.h:143
+#: mail/mail-config.glade.h:142
 msgid "_Beep when new mail arrives"
 msgstr "_Pípnout, když přijde nová pošta"
 
-#: mail/mail-config.glade.h:144
+#: mail/mail-config.glade.h:143
 msgid "_Certificate ID:"
 msgstr "ID _certifikátu:"
 
-#: mail/mail-config.glade.h:145
+#: mail/mail-config.glade.h:144
 msgid "_Confirm when expunging a folder"
 msgstr "_Vyžadovat potvrzení před vyčištěním složky"
 
-#: mail/mail-config.glade.h:146
+#: mail/mail-config.glade.h:145
 msgid "_Default signature:"
 msgstr "_Výchozí podpis:"
 
-#: mail/mail-config.glade.h:147
+#: mail/mail-config.glade.h:146
 msgid "_Defaults"
 msgstr "_Výchozí hodnoty"
 
-#: mail/mail-config.glade.h:149
+#: mail/mail-config.glade.h:147
 msgid "_Do not notify me when new mail arrives"
 msgstr "_Neupozorňovat, když přijde nová pošta"
 
-#: mail/mail-config.glade.h:151
+#: mail/mail-config.glade.h:149
 msgid "_Enable"
 msgstr "_Povolit"
 
-#: mail/mail-config.glade.h:152
+#: mail/mail-config.glade.h:150
 msgid "_Forward style:"
 msgstr "_Styl přeposílání:"
 
-#: mail/mail-config.glade.h:153
+#: mail/mail-config.glade.h:151
 msgid "_Full name:"
 msgstr "_Celé jméno:"
 
-#: mail/mail-config.glade.h:155
+#: mail/mail-config.glade.h:153
 msgid "_HTML Mail"
 msgstr "_HTML dopis"
 
-#: mail/mail-config.glade.h:157
+#: mail/mail-config.glade.h:155
 msgid "_Identity"
 msgstr "_Identita"
 
-#: mail/mail-config.glade.h:158
+#: mail/mail-config.glade.h:156
 msgid "_Load images if sender is in addressbook"
 msgstr "_Načíst obrázky, pokud je odesílatel v adresáři"
 
-#: mail/mail-config.glade.h:159
+#: mail/mail-config.glade.h:157
 msgid "_Make this my default account"
 msgstr "Použít tento jako _výchozí účet"
 
-#: mail/mail-config.glade.h:160
+#: mail/mail-config.glade.h:158
 msgid "_Mark messages as read after"
 msgstr "_Označit zprávu jako přečtenou po"
 
-#: mail/mail-config.glade.h:161
+#: mail/mail-config.glade.h:159
 msgid "_Name:"
 msgstr "_Jméno:"
 
-#: mail/mail-config.glade.h:162
+#: mail/mail-config.glade.h:160
 msgid "_Never load images off the net"
 msgstr "_Nikdy nenačítat obrázky ze sítě"
 
-#: mail/mail-config.glade.h:164
+#: mail/mail-config.glade.h:162
 msgid "_Play sound file when new mail arrives"
 msgstr "_Zahrát zvuk, když přijde nová pošta"
 
-#: mail/mail-config.glade.h:165
+#: mail/mail-config.glade.h:163
 msgid "_Prompt when sending HTML messages to contacts that don't want them"
 msgstr ""
 "_Upozornit, když posílám zprávu v HTML formátu kontaktům, které si to nepřejí"
 
-#: mail/mail-config.glade.h:166
+#: mail/mail-config.glade.h:164
 msgid "_Prompt when sending messages with an empty subject line"
 msgstr "_Upozornit, když posílám zprávu s prázdným políčkem \"Předmět\""
 
-#: mail/mail-config.glade.h:167
+#: mail/mail-config.glade.h:165
 msgid "_Receiving Mail"
 msgstr "_Příjem pošty"
 
-#: mail/mail-config.glade.h:168
+#: mail/mail-config.glade.h:166
 msgid "_Reply style:"
 msgstr "Styl _odpovědí:"
 
-#: mail/mail-config.glade.h:169
+#: mail/mail-config.glade.h:167
 msgid "_Restore defaults"
 msgstr "_Obnovit výchozí hodnoty"
 
-#: mail/mail-config.glade.h:170
+#: mail/mail-config.glade.h:168
 msgid "_Script:"
 msgstr "_Skript:"
 
-#: mail/mail-config.glade.h:171
+#: mail/mail-config.glade.h:169
 msgid "_Sending Mail"
 msgstr "Ode_sílání pošty"
 
-#: mail/mail-config.glade.h:172
+#: mail/mail-config.glade.h:170
 msgid "_Show animated images"
 msgstr "_Zobrazovat animované obrázky"
 
-#: mail/mail-config.glade.h:173
+#: mail/mail-config.glade.h:171
 msgid "_Signatures"
 msgstr "_Podpisy"
 
-#: mail/mail-config.glade.h:174
+#: mail/mail-config.glade.h:172
 msgid "_Standard Font:"
 msgstr "_Standardní písmo:"
 
-#: mail/mail-config.glade.h:175
+#: mail/mail-config.glade.h:173
 msgid "_Terminal Font:"
 msgstr "Písmo _terminálu:"
 
-#: mail/mail-config.glade.h:176
+#: mail/mail-config.glade.h:174
 msgid "_Use secure connection (SSL):"
 msgstr "Použít _bezpečné připojení (SSL):"
 
-#: mail/mail-config.glade.h:177
+#: mail/mail-config.glade.h:175
 msgid "_Use the same fonts as other applications"
 msgstr "Používat _stejná písma jako jiné aplikace"
 
-#: mail/mail-config.glade.h:178
-msgid "_every"
-msgstr "_každých"
-
-#: mail/mail-config.glade.h:179
+#: mail/mail-config.glade.h:176
 msgid "color"
 msgstr "barva"
 
-#: mail/mail-config.glade.h:180
+#: mail/mail-config.glade.h:177
 msgid "description"
 msgstr "popis"
 
@@ -13149,90 +13142,90 @@ msgstr "Uložit obrázek jako..."
 msgid "Pinging %s"
 msgstr "Zkouší se %s"
 
-#: mail/mail-format.c:640
+#: mail/mail-format.c:665
 #, c-format
 msgid "%s attachment"
 msgstr "%s příloha"
 
-#: mail/mail-format.c:682 mail/mail-format.c:1339 mail/mail-format.c:1408
-#: mail/mail-format.c:1528 mail/mail-format.c:1652 mail/mail-format.c:1677
+#: mail/mail-format.c:707 mail/mail-format.c:1364 mail/mail-format.c:1433
+#: mail/mail-format.c:1553 mail/mail-format.c:1677 mail/mail-format.c:1702
 msgid "Could not parse MIME message. Displaying as source."
 msgstr "Není možné zpracovat zprávu MIME. Zobrazí se jako zdrojový kód."
 
-#: mail/mail-format.c:759 mail/message-list.etspec.h:2
+#: mail/mail-format.c:784 mail/message-list.etspec.h:2
 msgid "Date"
 msgstr "Datum"
 
-#: mail/mail-format.c:845
+#: mail/mail-format.c:870
 msgid "Bad Address"
 msgstr "Špatná adresa"
 
-#: mail/mail-format.c:886 mail/message-list.etspec.h:7
+#: mail/mail-format.c:911 mail/message-list.etspec.h:7
 #: mail/message-tag-followup.c:303
 msgid "From"
 msgstr "Od"
 
-#: mail/mail-format.c:890
+#: mail/mail-format.c:915
 msgid "Reply-To"
 msgstr "Odpovědět-komu"
 
-#: mail/mail-format.c:895 mail/message-list.etspec.h:14
+#: mail/mail-format.c:920 mail/message-list.etspec.h:14
 msgid "To"
 msgstr "Komu"
 
-#: mail/mail-format.c:900
+#: mail/mail-format.c:925
 msgid "Cc"
 msgstr "Kopie"
 
-#: mail/mail-format.c:905
+#: mail/mail-format.c:930
 msgid "Bcc"
 msgstr "Skrytá kopie"
 
-#: mail/mail-format.c:1451
+#: mail/mail-format.c:1476
 msgid ""
 "This message is digitally signed. Click the lock icon for more information."
 msgstr ""
 "Tato zpráva je digitálně podepsaná. Kliknutím na ikonu zámku získáte "
 "podrobnosti."
 
-#: mail/mail-format.c:1479
+#: mail/mail-format.c:1504
 msgid "Could not create a PGP verfication context"
 msgstr "Nepodařilo se vytvořit kontext ověření PGP."
 
-#: mail/mail-format.c:1487
+#: mail/mail-format.c:1512
 msgid "This message is digitally signed and has been found to be authentic."
 msgstr "Tato zpráva je digitálně podepsaná a byla shledána platnou."
 
-#: mail/mail-format.c:1494
+#: mail/mail-format.c:1519
 msgid "This message is digitally signed but can not be proven to be authentic."
 msgstr "Tato zpráva je digitálně podepsaná, ale nelze ověřit její platnost."
 
-#: mail/mail-format.c:1758
+#: mail/mail-format.c:1783
 #, c-format
 msgid "Pointer to FTP site (%s)"
 msgstr "Odkaz na FTP server (%s)"
 
-#: mail/mail-format.c:1769
+#: mail/mail-format.c:1794
 #, c-format
 msgid "Pointer to local file (%s) valid at site \"%s\""
 msgstr "Odkaz na lokální soubor (%s) platný na serveru \"%s\""
 
-#: mail/mail-format.c:1772
+#: mail/mail-format.c:1797
 #, c-format
 msgid "Pointer to local file (%s)"
 msgstr "Odkaz na lokální soubor (%s)"
 
-#: mail/mail-format.c:1799
+#: mail/mail-format.c:1824
 #, c-format
 msgid "Pointer to remote data (%s)"
 msgstr "Odkaz na vzdálená data (%s)"
 
-#: mail/mail-format.c:1805
+#: mail/mail-format.c:1830
 #, c-format
 msgid "Pointer to unknown external data (\"%s\" type)"
 msgstr "Odkaz na neznámá externí data (typ \"%s\")"
 
-#: mail/mail-format.c:1807
+#: mail/mail-format.c:1832
 msgid "Malformed external-body part."
 msgstr "Chybná část externího těla."
 
@@ -25274,11 +25267,11 @@ msgstr "Vytvořit novou složku"
 msgid "(Untitled)"
 msgstr "(Bez názvu)"
 
-#: shell/e-shell-importer.c:141
+#: shell/e-shell-importer.c:139
 msgid "Choose the type of importer to run:"
 msgstr "Vyberte typ importéru, který chcete spustit:"
 
-#: shell/e-shell-importer.c:144
+#: shell/e-shell-importer.c:142
 msgid ""
 "Choose the file that you want to import into Evolution, and select what type "
 "of file it is from the list.\n"
@@ -25291,11 +25284,11 @@ msgstr ""
 "\n"
 "Použijte \"Automaticky\" pokud typ neznáte a Evolution se jej pokusí určit."
 
-#: shell/e-shell-importer.c:150 shell/e-shell-startup-wizard.c:709
+#: shell/e-shell-importer.c:148 shell/e-shell-startup-wizard.c:709
 msgid "Please select the information that you would like to import:"
 msgstr "Vyberte prosím informace, které chcete importovat:"
 
-#: shell/e-shell-importer.c:247 shell/e-shell-importer.c:278
+#: shell/e-shell-importer.c:213 shell/e-shell-importer.c:244
 #, c-format
 msgid ""
 "Importing %s\n"
@@ -25304,21 +25297,21 @@ msgstr ""
 "Importuje se %s\n"
 "Importuje se položka %d."
 
-#: shell/e-shell-importer.c:351
+#: shell/e-shell-importer.c:317
 msgid "Select importer"
 msgstr "Vyberte importér"
 
-#: shell/e-shell-importer.c:492
+#: shell/e-shell-importer.c:458
 #, c-format
 msgid "File %s does not exist"
 msgstr "Soubor %s neexistuje"
 
-#: shell/e-shell-importer.c:493 shell/e-shell-importer.c:510
-#: shell/e-shell-importer.c:552
+#: shell/e-shell-importer.c:459 shell/e-shell-importer.c:476
+#: shell/e-shell-importer.c:518
 msgid "Evolution Error"
 msgstr "Chyba Evolution"
 
-#: shell/e-shell-importer.c:509
+#: shell/e-shell-importer.c:475
 #, c-format
 msgid ""
 "There is no importer that is able to handle\n"
@@ -25327,11 +25320,11 @@ msgstr ""
 "Není k dispozici importér pro zpracování\n"
 "%s"
 
-#: shell/e-shell-importer.c:518
+#: shell/e-shell-importer.c:484
 msgid "Importing"
 msgstr "Importuje se"
 
-#: shell/e-shell-importer.c:525
+#: shell/e-shell-importer.c:491
 #, c-format
 msgid ""
 "Importing %s.\n"
@@ -25340,17 +25333,17 @@ msgstr ""
 "Importuje se %s\n"
 "Začíná %s"
 
-#: shell/e-shell-importer.c:537
+#: shell/e-shell-importer.c:503
 #, c-format
 msgid "Error starting %s"
 msgstr "Chyba při startu %s"
 
-#: shell/e-shell-importer.c:551
+#: shell/e-shell-importer.c:517
 #, c-format
 msgid "Error loading %s"
 msgstr "Chyba při načítání %s"
 
-#: shell/e-shell-importer.c:568
+#: shell/e-shell-importer.c:534
 #, c-format
 msgid ""
 "Importing %s\n"
@@ -25359,31 +25352,31 @@ msgstr ""
 "Importuje se %s\n"
 "Importuje se položka 1."
 
-#: shell/e-shell-importer.c:622
+#: shell/e-shell-importer.c:588
 msgid "Automatic"
 msgstr "Automaticky"
 
-#: shell/e-shell-importer.c:671
+#: shell/e-shell-importer.c:637
 msgid "Filename:"
 msgstr "Název souboru:"
 
-#: shell/e-shell-importer.c:676
+#: shell/e-shell-importer.c:642
 msgid "Select a file"
 msgstr "Vyberte soubor"
 
-#: shell/e-shell-importer.c:685
+#: shell/e-shell-importer.c:651
 msgid "File type:"
 msgstr "Typ souboru:"
 
-#: shell/e-shell-importer.c:710
+#: shell/e-shell-importer.c:676
 msgid "Import data and settings from older programs"
 msgstr "Import dat a nastavení ze starších programů"
 
-#: shell/e-shell-importer.c:714
+#: shell/e-shell-importer.c:680
 msgid "Import a single file"
 msgstr "Importovat jeden soubor"
 
-#: shell/e-shell-importer.c:780 shell/e-shell-startup-wizard.c:538
+#: shell/e-shell-importer.c:746 shell/e-shell-startup-wizard.c:538
 msgid ""
 "Please wait...\n"
 "Scanning for existing setups"
@@ -25391,24 +25384,24 @@ msgstr ""
 "Prosím čekejte...\n"
 "Hledají se existující nastavení"
 
-#: shell/e-shell-importer.c:783
+#: shell/e-shell-importer.c:749
 msgid "Starting Intelligent Importers"
 msgstr "Spouští se inteligentní importy"
 
-#: shell/e-shell-importer.c:907 shell/e-shell-startup-wizard.c:664
+#: shell/e-shell-importer.c:873 shell/e-shell-startup-wizard.c:664
 #, c-format
 msgid "From %s:"
 msgstr "Z %s:"
 
-#: shell/e-shell-importer.c:1081
+#: shell/e-shell-importer.c:1047
 msgid "Select folder"
 msgstr "Vyberte složku"
 
-#: shell/e-shell-importer.c:1082
+#: shell/e-shell-importer.c:1048
 msgid "Select a destination folder for importing this data"
 msgstr "Výběr složky, do které mají být importována tato data"
 
-#: shell/e-shell-importer.c:1212 shell/importer/intelligent.c:191
+#: shell/e-shell-importer.c:1178 shell/importer/intelligent.c:191
 msgid "Import"
 msgstr "Importovat"
 
@@ -27723,20 +27716,20 @@ msgstr ""
 "tlačítko myši.\n"
 "Pro oddálení použijte pravé tlačítko myši."
 
-#: widgets/menus/gal-view-menus.c:288
+#: widgets/menus/gal-view-menus.c:287
 msgid "_Current View"
 msgstr "_Aktuální zobrazení"
 
 #. bonobo displays this string so it must be in locale
-#: widgets/menus/gal-view-menus.c:350
+#: widgets/menus/gal-view-menus.c:346
 msgid "Custom View"
 msgstr "Upravené zobrazení"
 
-#: widgets/menus/gal-view-menus.c:359
+#: widgets/menus/gal-view-menus.c:355
 msgid "Save Custom View..."
 msgstr "Uložit upravené zobrazení..."
 
-#: widgets/menus/gal-view-menus.c:372
+#: widgets/menus/gal-view-menus.c:368
 msgid "Define Views..."
 msgstr "Definovat zobrazení..."
 
@@ -27930,503 +27923,3 @@ msgstr "Obsluha místního souboru kalendáře Evolution"
 #: wombat/GNOME_Evolution_WombatNOLDAP.server.in.in.h:1
 msgid "Evolution Addressbook local file backend"
 msgstr "Obsluha místního souboru adresáře Evolution"
-
-#~ msgid "Check Address"
-#~ msgstr "Zkontrolovat adresu"
-
-#~ msgid "Add"
-#~ msgstr "Přidat"
-
-#~ msgid "_Signature editor"
-#~ msgstr "Editor _podpisu"
-
-#~ msgid "_Clear Flag"
-#~ msgstr "Vymazat _značku"
-
-#~ msgid "_Contacts..."
-#~ msgstr "_Kontakty..."
-
-#~ msgid ""
-#~ "Directory %s\n"
-#~ "does not have the right permissions. Please make it\n"
-#~ "readable and executable and restart Evolution."
-#~ msgstr ""
-#~ "Adresář %s\n"
-#~ "nemá správně nastavená práva. Změňte je prosím tak,\n"
-#~ "aby bylo dovoleno čtení a spouštění a restartujte Evolution."
-
-#~ msgid ""
-#~ "File %s\n"
-#~ "should be removed to allow Evolution to work correctly.\n"
-#~ "Please remove this file and restart Evolution."
-#~ msgstr ""
-#~ "Soubor %s\n"
-#~ "musí být odstraněn, aby Evolution správně fungoval.\n"
-#~ "Prosím odstraňte tento soubor a restartujte Evolution."
-
-#~ msgid "Output File"
-#~ msgstr "Výstupní soubor"
-
-#~ msgid "The Personal Addressbook Server"
-#~ msgstr "Osobní adresářový server"
-
-#~ msgid "The Personal Calendar Server; calendar factory"
-#~ msgstr "Generátor kalendáře pro Osobní kalendářový server."
-
-#~ msgid "Wombat InterfaceCheck interface"
-#~ msgstr "Rozhraní Wombat InterfaceCheck"
-
-#~ msgid "All folders"
-#~ msgstr "Všechny složky"
-
-#~ msgid "Display Options"
-#~ msgstr "Volby zobrazení"
-
-#~ msgid "Folders whose names begin with:"
-#~ msgstr "Složky, jejichž názvy začínají na:"
-
-#~ msgid "<- _Remove"
-#~ msgstr "<- _Odstranit"
-
-#~ msgid "<< Fewer Options"
-#~ msgstr "<< Méně voleb"
-
-#~ msgid ""
-#~ "Please select an Evolution attribute and an\n"
-#~ "LDAP attribute to associate with it."
-#~ msgstr ""
-#~ "Vyberte prosím atribut Evolution a atribut\n"
-#~ "LDAP, ke kterému má být přiřazen."
-
-#~ msgid "R_estore Defaults"
-#~ msgstr "O_bnovit výchozí hodnoty"
-
-#~ msgid "Re_store Defaults"
-#~ msgstr "Ob_novit výchozí hodnoty"
-
-#~ msgid "_Add ->"
-#~ msgstr "_Přidat ->"
-
-#~ msgid "_Always"
-#~ msgstr "_Vždy"
-
-#~ msgid "_Don't use SSL/TLS"
-#~ msgstr "_Nepoužívat SSL/TLS"
-
-#~ msgid "_Evolution attribute:"
-#~ msgstr "Atribut _Evolution:"
-
-#~ msgid "_If necessary "
-#~ msgstr "_Pokud je to nezbytné"
-
-#~ msgid "_LDAP attribute:"
-#~ msgstr "Atribut _LDAP:"
-
-#~ msgid "_More Options >>"
-#~ msgstr "_Více voleb >>"
-
-#~ msgid "_Restore Defaults"
-#~ msgstr "_Obnovit výchozí hodnoty"
-
-#~ msgid ""
-#~ "Evolution has taken the tasks that were in your calendar folder and "
-#~ "automatically migrated them to the new tasks folder."
-#~ msgstr ""
-#~ "Evolution automaticky převedla úkoly z adresáře kalendáře do nového "
-#~ "adresáře úkolů."
-
-#~ msgid ""
-#~ "Evolution has tried to take the tasks that were in your calendar folder "
-#~ "and migrate them to the new tasks folder.\n"
-#~ "Some of the tasks could not be migrated, so this process may be attempted "
-#~ "again in the future."
-#~ msgstr ""
-#~ "Evolution se pokusila automaticky převést úkoly z adresáře kalendáře do "
-#~ "nového adresáře úkolů.\n"
-#~ "Některé úkoly nebylo možno převést, takže je možné se o to pokusit "
-#~ "později."
-
-#~ msgid ""
-#~ "Could not open `%s'; no items from the calendar folder will be migrated "
-#~ "to the tasks folder."
-#~ msgstr ""
-#~ "Nelze otevřít `%s'; žádné položky z adresáře kalendáře nebudou převedeny "
-#~ "do adresáře úkolů."
-
-#~ msgid ""
-#~ "The method required to load `%s' is not supported; no items from the "
-#~ "calendar folder will be migrated to the tasks folder."
-#~ msgstr ""
-#~ "Metoda pro načtení `%s' není podporována, z adresáře kalendáře nebudou do "
-#~ "adresáře úkolů převedeny žádné položky."
-
-#~ msgid ""
-#~ "Could not create composer window, because you have not yet\n"
-#~ "configured any identities in the mail component."
-#~ msgstr ""
-#~ "Nelze vytvořit okno pro psaní zpráv, protože jste ještě\n"
-#~ "nenastavili žádnou identitu pro komponentu pošty."
-
-#~ msgid ""
-#~ "Please specify signature filename\n"
-#~ "in Advanced section of signature settings."
-#~ msgstr ""
-#~ "Zadejte prosím název souboru s podpisem\n"
-#~ "v sekci Pokročilé nastavení podpisů."
-
-#~ msgid "Unnamed [script]"
-#~ msgstr "Nepojmenovaný [skript]"
-
-#~ msgid ""
-#~ "Could not start the Evolution Mailer Assistant interface\n"
-#~ "(%s)"
-#~ msgstr ""
-#~ "Nelze spustit rozhraní Poštovního asistenta Evolution\n"
-#~ "(%s)"
-
-#~ msgid "Could not start the Evolution Mailer Assistant interface\n"
-#~ msgstr "Nelze spustit rozhraní Poštovního asistenta Evolution\n"
-
-#~ msgid "Host"
-#~ msgstr "Počítač"
-
-#~ msgid "st"
-#~ msgstr "."
-
-#~ msgid "nd"
-#~ msgstr "."
-
-#~ msgid "rd"
-#~ msgstr "."
-
-#~ msgid "th"
-#~ msgstr "."
-
-#~ msgid "Apri file"
-#~ msgstr "Soubor Apri"
-
-#~ msgid "Salve file"
-#~ msgstr "Zachránit soubor"
-
-#~ msgid "Select"
-#~ msgstr "Vybrat"
-
-#~ msgid "C_ontacts..."
-#~ msgstr "K_ontakty..."
-
-#~ msgid "Phone Types"
-#~ msgstr "Typy telefonů"
-
-#~ msgid "Delete Contact?"
-#~ msgstr "Smazat kontakt?"
-
-#~ msgid "Display Cards?"
-#~ msgstr "Zobrazit karty?"
-
-#~ msgid "Display Cards"
-#~ msgstr "Zobrazit karty"
-
-#~ msgid "Could not initialize GNOME"
-#~ msgstr "Nelze inicializovat GNOME"
-
-#~ msgid "Could not activate Bonobo"
-#~ msgstr "Nelze spustit Bonobo"
-
-#~ msgid "Could not create the component editor factory"
-#~ msgstr "Není možné vytvořit továrnu pro komponent editoru"
-
-#~ msgid "Print Calendar"
-#~ msgstr "Tisknout kalendář"
-
-#~ msgid ""
-#~ "Could not create the tasks view.  Please check your ORBit and OAF setup."
-#~ msgstr "Není možné vytvořit přehled úkolů. Ověřte nastavení ORBit a OAF."
-
-#~ msgid "Warning!"
-#~ msgstr "Varování!"
-
-#~ msgid "Add action"
-#~ msgstr "Přidat akci"
-
-#~ msgid "Add criterion"
-#~ msgstr "Přidat kritérium"
-
-#~ msgid "Warning: Unsent Messages"
-#~ msgstr "Varování: Neposlané zprávy"
-
-#~ msgid "Really delete account?"
-#~ msgstr "Opravdu odstranit účet?"
-
-#~ msgid "Go to next folder with unread messages?"
-#~ msgstr "Jít do další složky s nepřečtenými zprávami?"
-
-#~ msgid ""
-#~ "There are no more new messages in this folder.\n"
-#~ "Would you like to go to the next folder?"
-#~ msgstr ""
-#~ "V této složce nejsou žádné další nové zprávy.\n"
-#~ "Chcete jít do další složky?"
-
-#~ msgid "Add Signature"
-#~ msgstr "Přidat podpis"
-
-#~ msgid "Account %d"
-#~ msgstr "Účet %d"
-
-#~ msgid "Spell Checking Language"
-#~ msgstr "Jazyk pro kontrolu pravopisu"
-
-#~ msgid "Evolution installation"
-#~ msgstr "Instalace Evolution"
-
-#~ msgid "New..."
-#~ msgstr "Nový..."
-
-#~ msgid "Don't remove"
-#~ msgstr "Neodstraňovat"
-
-#~ msgid "_Configure..."
-#~ msgstr "_Nastavit..."
-
-#~ msgid "_Configure Pilot..."
-#~ msgstr "_Nastavení Pilota..."
-
-#~ msgid "Signature #1"
-#~ msgstr "Podpis #1"
-
-#~ msgid "Signature #2"
-#~ msgstr "Podpis #2"
-
-#~ msgid "Copy selected messages"
-#~ msgstr "Kopírovat vybrané zprávy"
-
-#~ msgid "The folder %s no longer exists"
-#~ msgstr "Složka %s již neexistuje"
-
-#~ msgid ""
-#~ "You forgot to choose a folder.\n"
-#~ "Please go back and specify a valid folder to deliver mail to."
-#~ msgstr ""
-#~ "Zapomněl(-a) jste vybrat složku.\n"
-#~ "Vraťte se a zadejte platnou složku pro doručování pošty."
-
-#~ msgid "Type the name by which you would like to refer to this signature."
-#~ msgstr "Napište jméno, které má odkazovat na tento podpis."
-
-#~ msgid "Full_screen"
-#~ msgstr "Celá_obrazovka"
-
-#~ msgid "Toggle fullscreen mode"
-#~ msgstr "Přepnout celoobrazovkový režim"
-
-#~ msgid "_Preferences..."
-#~ msgstr "_Volby..."
-
-#~ msgid "This page can be used to configure Calendar and Task preferences"
-#~ msgstr "Tato stránka se používá k nastavení voleb pro kalendář a úkoly"
-
-#~ msgid "Could not create the alarm notify service"
-#~ msgstr "Nelze vytvořit službu hlášení alarmu"
-
-#~ msgid "Non-Participants"
-#~ msgstr "Bez účasti"
-
-#~ msgid "1 byte"
-#~ msgstr "1 bajt"
-
-#~ msgid "%u bytes"
-#~ msgstr "%u bajtů"
-
-#~ msgid ""
-#~ "Can't set default signature for this account. Maybe accounts were "
-#~ "modified meanwhile?"
-#~ msgstr ""
-#~ "Nelze nastavit předvolený podpis pro tento účet. Je možné, že účty byly "
-#~ "mezitím změněny."
-
-#~ msgid "Set as default"
-#~ msgstr "nastavit jako výchozí"
-
-#~ msgid "This Page can be used to configure the Fonts"
-#~ msgstr "Tato stránka se používá pro nastavení fontů"
-
-#~ msgid "This page can be used to configure E-Mail Accounts"
-#~ msgstr "Tato stránka se používá pro nastavení e-mailových účtů"
-
-#~ msgid "This page can be used to configure Mailer preferences"
-#~ msgstr "Tato stránka se používá pro nastavení preferencí maileru"
-
-#~ msgid "This page can be used to configure the Composer"
-#~ msgstr "Tato stránka se používá pro nastavení psaní dopisů"
-
-#~ msgid "Signature hint"
-#~ msgstr "Nápověda"
-
-#~ msgid ""
-#~ "If you would like to use an old signature, you may import it by opening "
-#~ "the \"Insert\" menu, and select either the \"Text file\" or the \"HTML "
-#~ "file\" item."
-#~ msgstr ""
-#~ "Pokud chcete použít starý podpis, můžete ho importovat otevřením menu\n"
-#~ "\"Vložit\" a vybrat buď položku \"Textový soubor\" nebo \"HTML soubor\"."
-
-#~ msgid "Hide signature hint"
-#~ msgstr "Skrýt nápovědu"
-
-#~ msgid ""
-#~ "This page can be used to customize the appearance of the Summary page."
-#~ msgstr "Tato stránka se používá k úpravě stránky s přehledem."
-
-#~ msgid "This page can be used to configure various folder settings"
-#~ msgstr "Tato stránka se používá ke konfiguraci různých nastavení složky"
-
-#~ msgid "Error in search expression."
-#~ msgstr "Chyba v hledaném výrazu."
-
-#~ msgid "Restarting search."
-#~ msgstr "Znovu spouštím vyhledávání."
-
-#~ msgid "The meeting status has changed. Send an updated version?"
-#~ msgstr "Stav schůzky se změnil. Poslat aktualizovanou verzi?"
-
-#~ msgid "Insert File"
-#~ msgstr "Vložit soubor"
-
-#~ msgid ""
-#~ "The message's date will be compared against\n"
-#~ "whatever the time is when the filter is run\n"
-#~ "or vfolder is opened."
-#~ msgstr ""
-#~ "Datum zprávy bude porovnáváno s časem,\n"
-#~ "kdy bude spuštěn filtr nebo\n"
-#~ "bude otevřena v-složka."
-
-#~ msgid "View messages..."
-#~ msgstr "Prohlížet zprávy ..."
-
-#~ msgid "Evolution - Create new folder"
-#~ msgstr "Evolution - vytvořit novou složku"
-
-#~ msgid "Create new contact"
-#~ msgstr "Vytvořit nový kontakt"
-
-#~ msgid "Create new contact list"
-#~ msgstr "Vytvořit nový seznam kontaktů"
-
-#~ msgid "&lt;- _Remove"
-#~ msgstr "&lt;- _Odstranit"
-
-#~ msgid "_Add -&gt;"
-#~ msgstr "_Přidat -&gt;"
-
-#~ msgid "_Other Organizer"
-#~ msgstr "_Jiný organizátor"
-
-#~ msgid "NNTP Server:"
-#~ msgstr "NNTP Server:"
-
-#~ msgid "Save to Disk..."
-#~ msgstr "Uložit na disk..."
-
-#~ msgid "Send the message later"
-#~ msgstr "Poslat tuto zprávu později"
-
-#~ msgid "Sta_rt of day:"
-#~ msgstr "Z_ačátek dne:"
-
-#~ msgid "_End of day:"
-#~ msgstr "_Konec dne:"
-
-#~ msgid "Random"
-#~ msgstr "Náhodný"
-
-#~ msgid "yes"
-#~ msgstr "ano"
-
-#~ msgid "Description"
-#~ msgstr "Popis"
-
-#~ msgid "Addressbook Settings"
-#~ msgstr "Nastavení adresáře"
-
-#~ msgid " Edit "
-#~ msgstr " Upravit "
-
-#~ msgid "Colors"
-#~ msgstr "Barvy"
-
-#~ msgid "_Advanced Search..."
-#~ msgstr "_Pokročilé vyhledávání..."
-
-#~ msgid "Moving"
-#~ msgstr "Přesouvám"
-
-#~ msgid "Arabic"
-#~ msgstr "Arabština"
-
-#~ msgid "Add Addressbook"
-#~ msgstr "Přidej adresář"
-
-#~ msgid "Advanced"
-#~ msgstr "Pokročilé"
-
-#~ msgid "Base"
-#~ msgstr "Základ"
-
-#~ msgid "The information below is required in order to add an addressbook.  "
-#~ msgstr ""
-#~ "Níže uvedená informace je požadována k tomu, aby mohl být přidán adresář"
-
-#~ msgid "This information is not required for most ldap servers. "
-#~ msgstr "Tato informace není požadována pro většinu serverů ldap"
-
-#~ msgid ""
-#~ "This information is used by your ldap server to specify which nodes are "
-#~ "used in a search. Contact your server administrator for more information."
-#~ msgstr ""
-#~ "Tuto informaci používá váš server ldap pro upřesnění toho, které uzly "
-#~ "jsou používány při vyhledávání. Pro více informací kontaktujte svého "
-#~ "administrátora."
-
-#~ msgid ""
-#~ "This is the base node for all your searches on the ldap server. Contact "
-#~ "your server administrator for more information."
-#~ msgstr ""
-#~ "Toto je základní uzel pro všechna vaše vyhledávání na serveru ldap. Pro "
-#~ "více informací kontaktujte svého administrátora"
-
-#~ msgid "_Account name:"
-#~ msgstr "_Název účtu:"
-
-#~ msgid "Show contacts matching the following criteria:"
-#~ msgstr "Ukázat kontakty vyhovující násedujícím kriteriím"
-
-#~ msgid "Keyboard Shortcuts"
-#~ msgstr "Klávesové zkratky"
-
-#~ msgid "SASL Protocol error"
-#~ msgstr "SASL chyba protokolu"
-
-#~ msgid "I/O Error: %s"
-#~ msgstr "Chyba V/V: %s"
-
-#~ msgid "C_ontaining:"
-#~ msgstr "O_bsahuje:"
-
-#~ msgid "Invalid password."
-#~ msgstr "Neplatné heslo."
-
-#~ msgid "%s: Inbox"
-#~ msgstr "%s: Příchozí"
-
-#~ msgid "Composer"
-#~ msgstr "Editor"
-
-#~ msgid "Sources"
-#~ msgstr "Zdroje"
-
-#~ msgid "_Server type: "
-#~ msgstr "_Typ serveru:"
-
-#~ msgid "_Task..."
-#~ msgstr "Ú_loha..."
