@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<contactservers>
+<addressbooks>
   <contactserver>
       <name>Bigfoot</name>
       <description>Bigfoot</description>
@@ -40,4 +40,4 @@
       <rootdn></rootdn>
       <scope>one</scope>
   </contactserver>
-</contactservers>
+</addressbooks>
