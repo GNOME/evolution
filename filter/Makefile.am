@@ -4,7 +4,6 @@ glade_DATA = filter.glade
 
 INCLUDES = 					\
 	-I $(top_srcdir)			\
-	-I $(top_srcdir)/libibex		\
 	-I $(top_srcdir)/camel			\
 	-I $(top_srcdir)/e-util			\
 	-I $(top_srcdir)/shell			\
