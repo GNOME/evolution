@@ -143,6 +143,7 @@ evolution_SOURCES =				\
 	e-component-info.h			\
 	e-component-registry.c			\
 	e-component-registry.h			\
+	e-config-upgrade.c			\
 	e-corba-config-page.c			\
 	e-corba-config-page.h			\
 	e-corba-shortcuts.c			\

@@ -1,6 +1,18 @@
 <gconfschemafile>
   <schemalist>
 
+    <!-- Evolution config version -->
+
+    <schema>
+      <key>/schemas/apps/evolution/version</key>
+      <applyto>/apps/evolution/version</applyto>
+      <owner>evolution</owner>
+      <type>string</type>
+      <locale name="C">
+        <short>Evolution configuration version</short>
+      </locale>
+    </schema>
+
     <!-- Default mail folder -->
 
     <schema>

@@ -1,3 +1,17 @@
+2003-02-26  Not Zed  <NotZed@Ximian.com>
+
+	* apps_evolution_shell.schemas: Added a key for
+	/apps/evolution/version - seems the best place to put it.  This
+	should not return any value if unset, so i'm not sure if this is
+	the right mechanism ...
+
+	* e-config-upgrade.c: Upgrade settings from earlier versions of evolution.
+
+	* main.c (upgrade_from_1_0_if_needed): Removed.
+	(main): Call e_config_upgrade before going into gmainloop.
+	(main): Turn off the --force-upgrade option, since it doesn't work
+	yet ...
+
 2003-02-25  Dan Winship  <danw@ximian.com>
 
 	* Evolution-Wizard.idl: Change this to let the Wizard provide an

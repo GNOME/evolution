@@ -58,6 +58,8 @@
 
 #include <glade/glade.h>
 
+#include "e-config-upgrade.h"
+
 #ifdef GTKHTML_HAVE_GCONF
 #include <gconf/gconf.h>
 #endif
@@ -277,36 +279,6 @@ new_view_created_callback (EShell *shell,
 }
 
 
-static void
-upgrade_from_1_0_if_needed (void)
-{
-#if 0
-	EConfigListener *config_listener;
-	int result;
-
-	config_listener = e_config_listener_new ();
-
-	if (! force_upgrade
-	    && e_config_listener_get_boolean_with_default (config_listener, "/apps/evolution/shell/upgrade_from_1_0_to_1_2_performed",
-							   FALSE, NULL))
-		return;
-
-	g_print ("\nOlder configuration files detected, upgrading...\n");
-
-	result = system (PREFIX "/bin/evolution-mail-upgrade");
-
-	if (result == 0)
-		g_print ("\n--> Configuration files upgraded from version 1.0.\n");
-	else
-		g_print ("\n*** Error upgrading configuration files -- status %d\n", result);
-
-	e_config_listener_set_boolean (config_listener, "/apps/evolution/shell/upgrade_from_1_0_to_1_2_performed", TRUE);
-
-	g_object_unref (config_listener);
-#endif /* FIXME */
-}
-
-
 /* This is for doing stuff that requires the GTK+ loop to be running already.  */
 
 static gint
@@ -321,8 +293,6 @@ idle_cb (void *data)
 	gboolean have_evolution_uri;
 	gboolean display_default;
 	gboolean displayed_any;
-
-	upgrade_from_1_0_if_needed ();
 
 	CORBA_exception_init (&ev);
 
@@ -505,8 +475,10 @@ main (int argc, char **argv)
 		  N_("Start in online mode"), NULL },
 		{ "debug", '\0', POPT_ARG_STRING, &evolution_debug_log, 0, 
 		  N_("Send the debugging output of all components to a file."), NULL },
+#if 0
 		{ "force-upgrade", '\0', POPT_ARG_NONE, &force_upgrade, 0, 
 		  N_("Force upgrading of configuration files from Evolution 1.0.x"), NULL },
+#endif
 		POPT_AUTOHELP
 		{ NULL, '\0', 0, NULL, 0, NULL, NULL }
 	};
@@ -575,6 +547,8 @@ main (int argc, char **argv)
 	}
 	uri_list = g_slist_reverse (uri_list);
 	g_value_unset (&popt_context_value);
+
+	e_config_upgrade(evolution_directory);
 
 	gtk_idle_add (idle_cb, uri_list);
 
