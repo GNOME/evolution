@@ -1,3 +1,10 @@
+2002-07-25  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-callbacks.c (composer_send_cb): Make sure that the url
+	isn't an empty string and also make sure to free it when we're
+	done with it. Also check that we got the folder - if it is NULL,
+	then just abort.
+
 2002-07-24  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-config.c (mail_config_folder_to_safe_url): Use

@@ -524,13 +524,21 @@ composer_send_cb (EMsgComposer *composer, gpointer user_data)
 	char *url;
 	
 	url = e_msg_composer_hdrs_get_post_to ((EMsgComposerHdrs *) composer->hdrs);
-	if (url != NULL) {
+	if (url && *url) {
 		post = TRUE;
+		
 		mail_msg_wait (mail_get_folder (url, 0, got_post_folder, &folder, mail_thread_new));
+		
+		if (!folder) {
+			g_free (url);
+			return;
+		}
 	} else {
 		folder = outbox_folder;
 		camel_object_ref (folder);
 	}
+	
+	g_free (url);
 	
 	message = composer_get_message (composer, post, FALSE);
 	if (!message)
@@ -553,10 +561,6 @@ composer_send_cb (EMsgComposer *composer, gpointer user_data)
 	gtk_widget_hide (GTK_WIDGET (composer));
 	
 	e_msg_composer_set_enable_autosave (composer, FALSE);
-	
-	if (post) {
-		
-	}
 	
 	mail_append_mail (folder, message, info, composer_send_queued_cb, send);
 	camel_object_unref (message);
