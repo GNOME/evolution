@@ -805,11 +805,7 @@ e_completion_view_set_width (ECompletionView *cv, gint width)
 
 	/* We reduce the total height by a bit; in practice, this seems to work out well. */
 	final_height = (gint) floor (line_height * (0.5 + (float)lines) * 0.97);
-	//while (w->parent)
-	//w = w->parent;
 	gtk_widget_set_usize (w, width, final_height);
-
-	g_message ("usize: %d %d", width, final_height);
 }
 
 void
@@ -825,4 +821,5 @@ e_completion_view_set_editable (ECompletionView *cv, gboolean x)
 	cv->selection = -1;
 	e_completion_view_set_cursor_row (cv, -1);
 }
+
 
