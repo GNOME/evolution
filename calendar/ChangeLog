@@ -1,3 +1,9 @@
+2001-08-05  Zbigniew Chyla  <cyba@gnome.pl>
+
+	* gui/dialogs/task-page.c (summary_changed_cb):
+	Use e_dialog_editable_get instead of gtk_editable_get_chars (we need
+	UTF-8 string).
+
 2001-08-18  Zbigniew Chyla  <cyba@gnome.pl>
 
 	* gui/calendar-config.c (locale_uses_24h_time_format): New.
