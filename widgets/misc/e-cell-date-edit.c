@@ -450,11 +450,11 @@ e_cell_date_edit_do_popup		(ECellPopup	*ecp,
 		time = event->key.time;
 	}
 
-	gdk_keyboard_grab (ecde->popup_window->window, TRUE, time);
 	gtk_grab_add (ecde->popup_window);
 
 	/* Set the focus to the first widget. */
 	gtk_widget_grab_focus (ecde->time_entry);
+	gdk_window_focus (ecde->popup_window->window, GDK_CURRENT_TIME);
 
 	return TRUE;
 }

@@ -1,3 +1,8 @@
+2003-12-18  Harry Lu  <harry.lu@sun.com>
+
+	* e-cell-date-edit.c: (e_cell_date_edit_do_popup): call
+	gdk_window_focus() so that keyboard works correctly.
+
 2003-12-04  Harry Lu <harry.lu@sun.com> 
 
 	Fix for bugzilla bug #51624 and #51627.
