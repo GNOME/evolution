@@ -25,7 +25,7 @@
 	  <property name="title" translatable="yes">Mail Configuration</property>
 	  <property name="text" translatable="yes">Welcome to the Evolution Mail Configuration Assistant.
 
-Click &quot;Next&quot; to begin. </property>
+Click &quot;Forward&quot; to begin. </property>
 	  <property name="title_color">#ffffffffffff</property>
 	  <property name="text_color">#000000000000</property>
 	  <property name="background_color">#000000000000</property>
@@ -38,9 +38,9 @@ Click &quot;Next&quot; to begin. </property>
 	<widget class="GnomeDruidPageStandard" id="identity_page">
 	  <property name="visible">True</property>
 	  <property name="title" translatable="yes">Identity</property>
-	  <property name="title_foreground">#e600bfffe3b8</property>
-	  <property name="background">#9bd80816e3b8</property>
-	  <property name="logo_background">#c6e00815538c</property>
+	  <property name="title_foreground">#e5d0bfffe388</property>
+	  <property name="background">#bdb00817e388</property>
+	  <property name="logo_background">#e7d80816532c</property>
 	  <property name="logo">mail-config-druid-identity.png</property>
 
 	  <child internal-child="vbox">
@@ -62,9 +62,9 @@ Click &quot;Next&quot; to begin. </property>
 	<widget class="GnomeDruidPageStandard" id="source_page">
 	  <property name="visible">True</property>
 	  <property name="title" translatable="yes">Receiving Email</property>
-	  <property name="title_foreground">#e600bfffe3b8</property>
-	  <property name="background">#9bd80816e3b8</property>
-	  <property name="logo_background">#c6e00815538c</property>
+	  <property name="title_foreground">#e5d0bfffe388</property>
+	  <property name="background">#bdb00817e388</property>
+	  <property name="logo_background">#e7d80816532c</property>
 	  <property name="logo">mail-config-druid-receive.png</property>
 
 	  <child internal-child="vbox">
@@ -86,9 +86,9 @@ Click &quot;Next&quot; to begin. </property>
 	<widget class="GnomeDruidPageStandard" id="extra_page">
 	  <property name="visible">True</property>
 	  <property name="title" translatable="yes">Receiving Email</property>
-	  <property name="title_foreground">#e600bfffe3b8</property>
-	  <property name="background">#9bd80816e3b8</property>
-	  <property name="logo_background">#c6e00815538c</property>
+	  <property name="title_foreground">#e5d0bfffe388</property>
+	  <property name="background">#bdb00817e388</property>
+	  <property name="logo_background">#e7d80816532c</property>
 	  <property name="logo">mail-config-druid-receive.png</property>
 
 	  <child internal-child="vbox">
@@ -110,9 +110,9 @@ Click &quot;Next&quot; to begin. </property>
 	<widget class="GnomeDruidPageStandard" id="transport_page">
 	  <property name="visible">True</property>
 	  <property name="title" translatable="yes">Sending Email</property>
-	  <property name="title_foreground">#e600bfffe3b8</property>
-	  <property name="background">#9bd80816e3b8</property>
-	  <property name="logo_background">#c6e00815538c</property>
+	  <property name="title_foreground">#e5d0bfffe388</property>
+	  <property name="background">#bdb00817e388</property>
+	  <property name="logo_background">#e7d80816532c</property>
 	  <property name="logo">mail-config-druid-send.png</property>
 
 	  <child internal-child="vbox">
@@ -134,9 +134,9 @@ Click &quot;Next&quot; to begin. </property>
 	<widget class="GnomeDruidPageStandard" id="management_page">
 	  <property name="visible">True</property>
 	  <property name="title" translatable="yes">Account Management</property>
-	  <property name="title_foreground">#e600bfffe3b8</property>
-	  <property name="background">#9bd80816e3b8</property>
-	  <property name="logo_background">#c6e00815538c</property>
+	  <property name="title_foreground">#e5d0bfffe388</property>
+	  <property name="background">#bdb00817e388</property>
+	  <property name="logo_background">#e7d80816532c</property>
 	  <property name="logo">mail-config-druid-account-name.png</property>
 
 	  <child internal-child="vbox">
@@ -164,7 +164,7 @@ Click &quot;Next&quot; to begin. </property>
 You are now ready to send and receive email 
 using Evolution. 
 
-Click &quot;Finish&quot; to save your settings.</property>
+Click &quot;Apply&quot; to save your settings.</property>
 	  <property name="title_color">#ffffffffffff</property>
 	  <property name="text_color">#000000000000</property>
 	  <property name="background_color">#000000000000</property>
