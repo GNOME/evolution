@@ -1943,28 +1943,8 @@ show_existing_view (EShellView *shell_view,
 
 	/* A BonoboWidget can be a "zombie" in the sense that its actual
 	   control is dead; if it's zombie, we have to recreate it.  */
-	if (bonobo_widget_is_dead (BONOBO_WIDGET (view->control))) {
-		GtkWidget *parent;
-
-		parent = view->control->parent;
-
-		/* Out with the old.  */
-		gtk_container_remove (GTK_CONTAINER (parent), view->control);
-		g_hash_table_remove (priv->uri_to_view, view->uri);
-		view_destroy (view);
-
-		/* In with the new.  */
-		view = get_view_for_uri (shell_view, uri);
-		if (view == NULL)
-			return FALSE;
-
-		gtk_container_add (GTK_CONTAINER (parent), view->control);
-
-		g_hash_table_insert (priv->uri_to_view, view->uri, view);
-
-		/* Show.  */
-		gtk_widget_show (view->control);
-	}
+	if (bonobo_widget_is_dead (BONOBO_WIDGET (view->control)))
+		return FALSE;
 
 	g_free (priv->uri);
 	priv->uri = g_strdup (uri);
