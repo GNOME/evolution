@@ -103,17 +103,12 @@ async_mail_exception_dialog (char *head, CamelException *ex, gpointer unused )
 static gboolean
 check_configured (void)
 {
-	const MailConfig *config;
-
-	config = mail_config_fetch ();
-	if (config->configured)
+	if (mail_config_is_configured ())
 		return TRUE;
 	
 	mail_config_druid ();
 
-	config = mail_config_fetch ();
-
-	return config->configured;
+	return mail_config_is_configured ();
 }
 
 static void
@@ -361,19 +356,15 @@ real_fetch_mail (gpointer user_data)
 void
 fetch_mail (GtkWidget *button, gpointer user_data)
 {
-	const MailConfig *config;
-	const MailConfigService *source;
+	MailConfigService *source;
 	char *url = NULL;
 	rfm_t *info;
 
 	if (!check_configured ())
 		return;
 
-	config = mail_config_fetch ();
-	if (config->sources) {
-		source = (MailConfigService *)config->sources->data;
-		url = source->url;
-	}
+	source = mail_config_get_default_source ();
+	url = source->url;
 	
 	if (!url) {
 		GtkWidget *win = gtk_widget_get_ancestor (GTK_WIDGET (user_data),
@@ -507,7 +498,6 @@ cleanup_send_mail (gpointer userdata)
 static void
 composer_send_cb (EMsgComposer *composer, gpointer data)
 {
-	const MailConfig *config;
 	const MailConfigIdentity *id = NULL; 
 	static CamelTransport *transport = NULL;
 	struct post_send_data *psd = data;
@@ -520,9 +510,9 @@ composer_send_cb (EMsgComposer *composer, gpointer data)
 
 	ex = camel_exception_new ();
 
-	config = mail_config_fetch ();
+	id = mail_config_get_default_identity ();
 	
-	if (!check_configured() || !config->ids) {
+	if (!check_configured() || !id) {
 		GtkWidget *message;
 
 		message = gnome_warning_dialog_parented (_("You need to configure an identity\n"
@@ -536,9 +526,6 @@ composer_send_cb (EMsgComposer *composer, gpointer data)
 	if (!from) {
 		CamelInternetAddress *ciaddr;
 
-		if (config->ids->data) {
-			id = (MailConfigIdentity *)config->ids->data;
-		}
 		g_assert (id);
 		
 		name = id->name;
@@ -554,9 +541,11 @@ composer_send_cb (EMsgComposer *composer, gpointer data)
 	}
 
 	if (!transport) {
+		MailConfigService *t;
 		char *url;
 
-		url = config->transport->url;
+		t = mail_config_get_transport ();
+		url = t->url;
 		g_assert (url);
 
 		transport = camel_session_get_transport (session, url, ex);
@@ -606,15 +595,15 @@ free_psd (GtkWidget *composer, gpointer user_data)
 static GtkWidget *
 create_msg_composer (const char *url)
 {
-	const MailConfig *config;
+	MailConfigIdentity *id;
+	gboolean send_html;
 	gchar *sig_file = NULL;
 	GtkWidget *composer_widget;
 
-	config = mail_config_fetch ();
-	if (config->ids) {
-		const MailConfigIdentity *id;
-		
-		id = (MailConfigIdentity *)config->ids->data;
+	id = mail_config_get_default_identity ();
+	send_html = mail_config_send_html ();
+	
+	if (id) {
 		sig_file = id->sig;
 	}
 	
@@ -624,7 +613,7 @@ create_msg_composer (const char *url)
 		composer_widget = e_msg_composer_new_with_sig_file (sig_file);
 
 	e_msg_composer_set_send_html (E_MSG_COMPOSER (composer_widget), 
-				      config->send_html);
+				      send_html);
 
 	return composer_widget;
 }

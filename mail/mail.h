@@ -22,6 +22,7 @@
 #include "camel/camel.h"
 #include "composer/e-msg-composer.h"
 #include "mail-config.h"
+#include "mail-config-gui.h"
 #include "folder-browser.h"
 
 /* FIXME FIXME FIXME this sucks sucks sucks sucks */

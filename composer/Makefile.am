@@ -33,6 +33,8 @@ libcomposer_la_LDFLAGS = -static
 INCLUDES =								\
 	-I$(top_srcdir)							\
 	-I$(top_builddir)						\
+	-I$(top_srcdir)/widgets						\
+	-I$(top_builddir)/widgets					\
 	-I$(top_srcdir)/camel					 	\
 	-I$(top_builddir)/camel					 	\
 	-I$(top_builddir)/addressbook/gui/component/select-names	\

@@ -46,9 +46,31 @@ typedef struct
 	gboolean send_html;
 } MailConfig;
 
-void mail_config (void);
-void mail_config_druid (void);
+/* Identities */
+MailConfigIdentity *identity_copy (MailConfigIdentity *id);
+void identity_destroy (MailConfigIdentity *id);
+void identity_destroy_each (gpointer item, gpointer data);
 
-const MailConfig *mail_config_fetch (void);
+/* Services */
+MailConfigService *service_copy (MailConfigService *source);
+void service_destroy (MailConfigService *source);
+void service_destroy_each (gpointer item, gpointer data);
+
+/* Configuration */
+void mail_config_init (void);
+void mail_config_clear (void);
+void mail_config_read (void);
+void mail_config_write (void);
+
+/* Accessor functions */
+gboolean mail_config_is_configured ();
+MailConfigIdentity *mail_config_get_default_identity (void);
+MailConfigService *mail_config_get_default_source (void);
+MailConfigService *mail_config_get_transport (void);
+gboolean mail_config_send_html ();
+
+MailConfig *mail_config_fetch (void);
 
 #endif
+
+

@@ -53,6 +53,8 @@ main (int argc, char *argv [])
 
 	glade_gnome_init ();
 
+	mail_config_init ();
+	
 	session_init ();
 	e_cursors_init ();
 

@@ -1,3 +1,39 @@
+2000-08-08  JP Rosevear  <jpr@helixcode.com>
+
+	* mail-ops.c (check_configured): Use config accessors
+	(fetch_mail): ditto
+	(composer_send_cb): ditto
+	(create_msg_composer): ditto
+
+	* mail-config-gui.h: Update API
+
+	* mail-config.h: Update API
+
+	* mail-config.c: Add accessor functions
+	(mail_config_is_configured): accessor function
+	(mail_config_get_default_identity): ditto
+	(mail_config_get_default_source): ditto
+	(mail_config_get_transport): ditto
+	(mail_config_send_html): ditto
+	(identity_copy): Make public
+	(identity_destroy): ditto
+	(identity_destroy_each): ditto
+	(service_copy): ditto
+	(service_destroy): ditto
+	(service_destroy_each): ditto
+	(mail_config_init): Rename from init_config and make public
+	(mail_config_clear): Rename from clear_config and make public
+	(mail_config_read): Rename from read_config and make public
+	(mail_config_write): Reanme from write_config and make public
+
+	* main.c (main): Call mail_config_init.
+
+	* mail.h: Include mail-config-gui.h
+
+	* mail-config-gui.c: Move config gui stuff here.
+	(source_dialog): Kill memory leak from debug leftovers.
+	Make sure returned source is NULL by default
+
 2000-08-07  Not Zed  <NotZed@HelixCode.com>
 
 	* mail-local.c (local_reconfigure_folder): Redone to show a
