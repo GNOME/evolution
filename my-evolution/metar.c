@@ -611,3 +611,57 @@ metar_tok_cond (gchar *tokp,
 	
 	return TRUE;
 }
+
+const char *
+icon_from_weather (Weather *w)
+{
+	ESummaryWeatherConditions cond = w->cond;
+	ESummaryWeatherSky sky = w->sky;
+
+	switch (cond.phenomenon) {
+	case PHENOMENON_DRIZZLE:
+	case PHENOMENON_RAIN:
+	case PHENOMENON_UNKNOWN_PRECIPITATION:
+	case PHENOMENON_HAIL:
+	case PHENOMENON_SMALL_HAIL:
+		return "myweather-rain.png";
+	case PHENOMENON_SNOW:
+	case PHENOMENON_SNOW_GRAINS:
+	case PHENOMENON_ICE_PELLETS:
+	case PHENOMENON_ICE_CRYSTALS:
+		return "myweather-snow.png";
+	case PHENOMENON_TORNADO:
+	case PHENOMENON_SQUALL:
+		return "myweather-storm.png";
+	case PHENOMENON_MIST:
+	case PHENOMENON_FOG:
+	case PHENOMENON_SMOKE:
+	case PHENOMENON_VOLCANIC_ASH:
+	case PHENOMENON_SAND:
+	case PHENOMENON_HAZE:
+	case PHENOMENON_SPRAY:
+	case PHENOMENON_DUST:
+	case PHENOMENON_SANDSTORM:
+	case PHENOMENON_DUSTSTORM:
+	case PHENOMENON_FUNNEL_CLOUD:
+	case PHENOMENON_DUST_WHIRLS:
+		return "myweather-fog.png";
+	default:
+		break;
+	}
+
+	switch (sky) {
+	case SKY_CLEAR:
+		return "myweather-sun.png";
+	case SKY_BROKEN:
+	case SKY_SCATTERED:
+	case SKY_FEW:
+		return "myweather-suncloud.png";
+	case SKY_OVERCAST:
+		return "myweather-clouds.png";
+	default:
+		break;
+	}
+
+	return "es-weather.png";
+}

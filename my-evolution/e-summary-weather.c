@@ -86,9 +86,13 @@ weather_make_html (Weather *w)
 	GString *string;
 	ESummaryWeatherLocation *location;
 	char *sky, *temp, *cond, *uri, *url, *s;
+	char *icon_name;
 
-	string = g_string_new ("<dd><img align=\"middle\" "
-			       "src=\"es-weather.png\">&#160;<b>");
+	icon_name = icon_from_weather (w);
+	g_print ("icon_name: %s\n", icon_name);
+	string = g_string_new ("");
+	g_string_sprintf (string, "<dd><img align=\"middle\" "
+			  "src=\"%s\">&#160;<b>", icon_name);
 	location = g_hash_table_lookup (locations_hash, w->location);
 	if (location == NULL) {
 		url = make_url (w->location, w->location);
