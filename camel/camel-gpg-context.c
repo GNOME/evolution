@@ -715,7 +715,7 @@ gpg_ctx_parse_status (struct _GpgCtx *gpg, CamelException *ex)
 	*inptr++ = '\0';
 	status = gpg->statusbuf;
 	
-	d(printf ("status: %s\n", status));
+	printf ("status: %s\n", status);
 	
 	if (strncmp (status, "[GNUPG:] ", 9) != 0) {
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
@@ -1431,7 +1431,6 @@ gpg_verify (CamelCipherContext *context, CamelMimePart *ipart, CamelException *e
 	if (gpg_ctx_op_start (gpg) == -1) {
 		camel_exception_set (ex, CAMEL_EXCEPTION_SYSTEM,
 				     _("Failed to execute gpg."));
-		gpg_ctx_free (gpg);
 		goto exception;
 	}
 	
@@ -1460,8 +1459,6 @@ gpg_verify (CamelCipherContext *context, CamelMimePart *ipart, CamelException *e
 			validity->sign.status = CAMEL_CIPHER_VALIDITY_SIGN_GOOD;
 		else
 			validity->sign.status = CAMEL_CIPHER_VALIDITY_SIGN_BAD;
-	} else if (!gpg->nodata && gpg->nopubkey) {
-		validity->sign.status = CAMEL_CIPHER_VALIDITY_SIGN_UNKNOWN;
 	} else {
 		validity->sign.status = CAMEL_CIPHER_VALIDITY_SIGN_BAD;
 	}
@@ -1477,8 +1474,9 @@ gpg_verify (CamelCipherContext *context, CamelMimePart *ipart, CamelException *e
 	
  exception:
 	
-	gpg_ctx_free (gpg);
-
+	if (gpg != NULL)
+		gpg_ctx_free (gpg);
+	
 	if (istream)
 		camel_object_unref(istream);
 

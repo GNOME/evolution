@@ -1,3 +1,10 @@
+2004-06-09  Jeffrey Stedfast  <fejj@novell.com>
+
+	* camel-gpg-context.c (gpg_verify): Fixed a case where it was
+	possible to double-free the gpg context.
+	(gpg_verify): If we don't have a public key, then the signature is
+	just BAD always.
+
 2004-06-09  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-gpg-context.c (gpg_verify): Don't assign trust to be
