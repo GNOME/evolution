@@ -1,5 +1,8 @@
 2001-04-01  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* providers/pop3/camel-pop3-provider.c: Updated the authtypes here
+	too.
+
 	* camel-sasl-plain.c: 
 	* camel-sasl-anonymous.c: 
 	* camel-sasl-digest-md5.c: 
