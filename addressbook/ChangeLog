@@ -1,3 +1,10 @@
+2001-05-12  Chris Toshok  <toshok@ximian.com>
+
+	* gui/component/addressbook-component.c
+	(destination_folder_handle_drop): spew the data passed to us.
+	(destination_folder_handle_motion): the suggested_action is not an
+	ActionSet, but an Action, so don't or together multiple actions.
+
 2001-05-11  Chris Toshok  <toshok@ximian.com>
 
 	* gui/component/addressbook-config.c (addressbook_source_dialog):

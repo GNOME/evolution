@@ -281,7 +281,7 @@ destination_folder_handle_motion (EvolutionShellComponentDndDestinationFolder *f
 				  gpointer user_data)
 {
 	g_print ("in destination_folder_handle_motion (%s)\n", physical_uri);
-	*suggested_action_return = GNOME_Evolution_ShellComponentDnd_ACTION_COPY | GNOME_Evolution_ShellComponentDnd_ACTION_MOVE;
+	*suggested_action_return = GNOME_Evolution_ShellComponentDnd_ACTION_MOVE;
 	return TRUE;
 }
 
@@ -297,6 +297,9 @@ destination_folder_handle_drop (EvolutionShellComponentDndDestinationFolder *fol
 		return FALSE; /* we can't create links in our addressbook format */
 
 	g_print ("in destination_folder_handle_drop (%s)\n", physical_uri);
+
+	g_print ("data = %s\n", data->bytes._buffer);
+
 	return TRUE;
 }
 
