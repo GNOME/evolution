@@ -1,3 +1,13 @@
+2003-05-07  Rodrigo Moya <rodrigo@ximian.com>
+
+	Fixes crash in #41631
+
+	* src/libicalvcal/icalvcal.c (icalvcal_traverse_objects): changed to
+	return an error code and to return immediately if one of the recurrent
+	calls return an error.
+	(icalvcal_convert_with_defaults): if icalvcal_traverse_objects return
+	an error, return NULL.
+
 2003-03-17  Hans Petter Jansson  <hpj@ximian.com>
 
 	Part of fix for #34095
