@@ -1,3 +1,18 @@
+2004-09-21  JP Rosevear  <jpr@novell.com>
+
+	From Malcolm Tredinnick <malcolm@commsecure.com.au>, Fixes #66261
+	
+	* e-shell-window-commands.c (about_box_new): don't show
+	"translator-credits" if not translated
+
+2004-09-07  JP Rosevear  <jpr@novell.com>
+
+	Fixes #17338
+	
+	* e-shell-window-commands.c (about_box_new): use per language
+	translator credits, update authors lists (not strictly authors,
+	but we have a lot of helpful people)
+
 2004-09-13  Sivaiah Nallagatla <snallagatla@novell.com>
 
 	* e-shell.c (offline_procedure_finished_cb)
