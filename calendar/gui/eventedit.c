@@ -1065,7 +1065,10 @@ ee_rp_init_rule (EventEditor *ee)
 	gtk_box_pack_start (GTK_BOX (daily), b, FALSE, FALSE, 0);
 
 	ee->recur_rr_day_period = make_spin_button (day_period, 1, 10000);
-	gtk_box_pack_start (GTK_BOX (b), gtk_label_new (_("Every")), FALSE, FALSE, 0);
+	/* in some languages "Every" can follow the gender of the word it
+	   refers to (here "day(s)"). leave the two leadin letter "d_"
+	   in the translation they are ther on purpose */
+	gtk_box_pack_start (GTK_BOX (b), gtk_label_new (_("d_Every") +2), FALSE, FALSE, 0);
 	gtk_box_pack_start (GTK_BOX (b), ee->recur_rr_day_period, FALSE, FALSE, 0);
 	gtk_box_pack_start (GTK_BOX (b), gtk_label_new (_("day(s)")), FALSE, FALSE, 0);
 
@@ -1079,7 +1082,10 @@ ee_rp_init_rule (EventEditor *ee)
 	/* 2.1 The week period selector */
 
 	ee->recur_rr_week_period = make_spin_button (week_period, 1, 10000);
-	gtk_box_pack_start (GTK_BOX (week_hbox), gtk_label_new (_("Every")), FALSE, FALSE, 0);
+	/* in some languages "Every" can follow the gender of the word it
+	   refers to (here "week(s)"). leave the two leadin letter "w_"
+	   in the translation they are ther on purpose */
+	gtk_box_pack_start (GTK_BOX (week_hbox), gtk_label_new (_("w_Every") +2), FALSE, FALSE, 0);
 	gtk_box_pack_start (GTK_BOX (week_hbox), ee->recur_rr_week_period, FALSE, FALSE, 0);
 	gtk_box_pack_start (GTK_BOX (week_hbox), gtk_label_new (_("week(s)")), FALSE, FALSE, 0);
 
@@ -1124,7 +1130,10 @@ ee_rp_init_rule (EventEditor *ee)
 	gtk_table_attach (GTK_TABLE (monthly), ee->recur_rr_month_weekday,
 			  2, 3, 1, 2, FS, FS, 0, 0);
 
-	gtk_table_attach (GTK_TABLE (monthly), gtk_label_new (_("Every")),
+	/* in some languages "Every" can follow the gender of the word it
+	   refers to (here "month(s)"). leave the two leadin letter "m_"
+	   in the translation they are ther on purpose */
+	gtk_table_attach (GTK_TABLE (monthly), gtk_label_new (_("m_Every") +2),
 			  3, 4, 0, 2, FS, FS, 0, 0);
 	ee->recur_rr_month_period = make_spin_button (month_period, 1, 10000);
 	gtk_table_attach (GTK_TABLE (monthly), ee->recur_rr_month_period,
@@ -1146,7 +1155,10 @@ ee_rp_init_rule (EventEditor *ee)
 	gtk_box_pack_start (GTK_BOX (yearly), b, FALSE, FALSE, 0);
 
 	ee->recur_rr_year_period = make_spin_button (year_period, 1, 10000);
-	gtk_box_pack_start (GTK_BOX (b), gtk_label_new (_("Every")), FALSE, FALSE, 0);
+	/* in some languages "Every" can follow the gender of the word it
+	   refers to (here "year(s)"). leave the two leadin letter "y_"
+	   in the translation they are ther on purpose */
+	gtk_box_pack_start (GTK_BOX (b), gtk_label_new (_("y_Every") +2), FALSE, FALSE, 0);
 	gtk_box_pack_start (GTK_BOX (b), ee->recur_rr_year_period, FALSE, FALSE, 0);
 	gtk_box_pack_start (GTK_BOX (b), gtk_label_new (_("year(s)")), FALSE, FALSE, 0);
 
