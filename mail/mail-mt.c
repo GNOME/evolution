@@ -19,13 +19,15 @@
 #include <gal/widgets/e-gui-utils.h>
 
 #include "e-util/e-msgport.h"
-#include "camel/camel-operation.h"
+#include "widgets/misc/e-error.h"
 
 #include "e-activity-handler.h"
 #include <e-util/e-icon-factory.h>
 
-#include "mail-config.h"
 #include "camel/camel-url.h"
+#include "camel/camel-operation.h"
+
+#include "mail-config.h"
 #include "mail-component.h"
 #include "mail-session.h"
 #include "mail-mt.h"
@@ -231,8 +233,7 @@ static void error_response(GtkObject *o, int button, void *data)
 void mail_msg_check_error(void *msg)
 {
 	struct _mail_msg *m = msg;
-	char *what = NULL;
-	char *text;
+	char *what;
 	GtkDialog *gd;
 	
 #ifdef MALLOC_CHECK
@@ -252,30 +253,25 @@ void mail_msg_check_error(void *msg)
 	if (active_errors == NULL)
 		active_errors = g_hash_table_new(NULL, NULL);
 
-	if (m->ops->describe_msg)
-		what = m->ops->describe_msg(m, FALSE);
-
-	if (what) {
-		text = g_strdup_printf(_("Error while '%s':\n%s"), what, camel_exception_get_description(&m->ex));
-		g_free (what);
-	} else
-		text = g_strdup_printf(_("Error while performing operation:\n%s"), camel_exception_get_description(&m->ex));
-
 	/* check to see if we have dialogue already running for this operation */
 	/* we key on the operation pointer, which is at least accurate enough
 	   for the operation type, although it could be on a different object. */
 	if (g_hash_table_lookup(active_errors, m->ops)) {
-		g_warning("Error occured while existing dialogue active:\n%s", text);
-		g_free(text);
+		g_warning("Error occured while existing dialogue active:\n%s", camel_exception_get_description(&m->ex));
 		return;
 	}
 
-	gd = (GtkDialog *)gtk_message_dialog_new(NULL, 0, GTK_MESSAGE_ERROR, GTK_BUTTONS_CLOSE, "%s", text);
+	if (m->ops->describe_msg
+	    && (what = m->ops->describe_msg(m, FALSE))) {
+		gd = (GtkDialog *)e_error_new(NULL, "mail:async-error", what, camel_exception_get_description(&m->ex), NULL);
+		g_free(what);
+	} else
+		gd = (GtkDialog *)e_error_new(NULL, "mail:async-error-nodescribe", camel_exception_get_description(&m->ex), NULL);
+
 	g_hash_table_insert(active_errors, m->ops, gd);
 	g_signal_connect(gd, "response", G_CALLBACK(error_response), m->ops);
 	g_signal_connect(gd, "destroy", G_CALLBACK(error_destroy), m->ops);
 	gtk_widget_show((GtkWidget *)gd);
-	g_free (text);
 }
 
 void mail_msg_cancel(unsigned int msgid)

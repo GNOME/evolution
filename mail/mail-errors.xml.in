@@ -138,14 +138,6 @@ The message is stored in the Outbox folder.  Check the message for errors and re
   <_secondary>{1}</_secondary>
  </error>
 
- <error id="ask-save-path-overwrite" type="error" default="GTK_RESPONSE_CANCEL">
-  <_title>Overwrite file?</_title>
-  <_primary>File exists &quot;{0}&quot;.</_primary>
-  <_secondary>Do you wish to overwrite it?</_secondary>
-  <button stock="gtk-cancel" response="GTK_RESPONSE_CANCEL"/>
-  <button _label="_Overwrite" response="GTK_RESPONSE_OK"/>
- </error>
-
  <error id="no-create-path" type="error">
   <_primary>Cannot save to file &quot;{0}&quot;.</_primary>
   <_secondary>Cannot create the save directory, because &quot;{1}&quot;</_secondary>

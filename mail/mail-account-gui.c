@@ -22,7 +22,6 @@
  *
  */
 
-
 #ifdef HAVE_CONFIG_H
 #include <config.h>
 #endif
@@ -36,8 +35,9 @@
 #include <gconf/gconf-client.h>
 
 #include <e-util/e-account-list.h>
-#include <e-util/e-dialog-utils.h>
 #include <e-util/e-signature-list.h>
+
+#include <widgets/misc/e-error.h>
 
 #include "em-account-prefs.h"
 #include "em-folder-selection-button.h"
@@ -2266,7 +2266,8 @@ mail_account_gui_save (MailAccountGui *gui)
 	account = mail_config_get_account_by_name (new_name);
 	
 	if (account && account != new) {
-		e_notice (gui->account_name, GTK_MESSAGE_ERROR, _("You may not create two accounts with the same name."));
+		e_error_run((GtkWindow *)gtk_widget_get_toplevel((GtkWidget *)gui->account_name),
+			    "mail:account-notunique", NULL);
 		return FALSE;
 	}
 	

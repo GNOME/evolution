@@ -52,6 +52,7 @@
 #include "e-util/e-passwords.h"
 #include "e-util/e-msgport.h"
 #include "em-junk-filter.h"
+#include "widgets/misc/e-error.h"
 
 #define d(x)
 
@@ -270,13 +271,9 @@ request_password (struct _pass_msg *m)
 	else
 		title = g_strdup (_("Enter Password"));
 	
-	password_dialog = (GtkDialog *) gtk_message_dialog_new (NULL, 0, GTK_MESSAGE_QUESTION,
-								GTK_BUTTONS_OK_CANCEL, "%s", m->prompt);
+	password_dialog = (GtkDialog *)e_error_new(NULL, "mail:ask-session-password", m->prompt, NULL);
 	gtk_window_set_title (GTK_WINDOW (password_dialog), title);
-	gtk_dialog_set_default_response (password_dialog, GTK_RESPONSE_OK);
 	g_free (title);
-	
-	gtk_container_set_border_width ((GtkContainer *) password_dialog, 6);
 	
 	m->entry = gtk_entry_new ();
 	gtk_entry_set_visibility ((GtkEntry *) m->entry, !(m->flags & CAMEL_SESSION_PASSWORD_SECRET));
@@ -456,11 +453,17 @@ user_message_destroy_notify (struct _user_message_msg *m, GObject *deadbeef)
 	message_dialog = NULL;
 }
 
+/* This is kinda ugly/inefficient, but oh well, it works */
+static const char *error_type[] = {
+	"session-message-info", "session-message-warning", "session-message-error",
+	"session-message-info-cancel", "session-message-warning-cancel", "session-message-error-cancel"
+};
+
 static void
 do_user_message (struct _mail_msg *mm)
 {
 	struct _user_message_msg *m = (struct _user_message_msg *)mm;
-	GtkMessageType msg_type;
+	int type;
 	
 	if (!m->ismain && message_dialog != NULL) {
 		e_dlist_addtail (&message_list, (EDListNode *)m);
@@ -469,23 +472,22 @@ do_user_message (struct _mail_msg *mm)
 	
 	switch (m->type) {
 	case CAMEL_SESSION_ALERT_INFO:
-		msg_type = GTK_MESSAGE_INFO;
+		type = 0;
 		break;
 	case CAMEL_SESSION_ALERT_WARNING:
-		msg_type = GTK_MESSAGE_WARNING;
+		type = 1;
 		break;
 	case CAMEL_SESSION_ALERT_ERROR:
-		msg_type = GTK_MESSAGE_ERROR;
+		type = 2;
 		break;
 	default:
-		msg_type = GTK_MESSAGE_INFO;
+		type = 0;
 	}
+
+	if (m->allow_cancel)
+		type += 3;
 	
-	message_dialog = (GtkDialog *) gtk_message_dialog_new (
-		NULL, 0, msg_type,
-		m->allow_cancel ? GTK_BUTTONS_OK_CANCEL : GTK_BUTTONS_OK,
-		"%s", m->prompt);
-	gtk_dialog_set_default_response (message_dialog, m->allow_cancel ? GTK_RESPONSE_CANCEL : GTK_RESPONSE_OK);
+	message_dialog = (GtkDialog *)e_error_new(NULL, error_type[type], m->prompt, NULL);
 	g_object_set ((GObject *) message_dialog, "allow_shrink", TRUE, "allow_grow", TRUE, NULL);
 	
 	/* We only need to wait for the result if we allow cancel otherwise show but send result back instantly */

@@ -21,7 +21,6 @@
  *
  */
 
-
 #ifdef HAVE_CONFIG_H
 #include <config.h>
 #endif
@@ -38,7 +37,7 @@
 #include <bonobo/bonobo-stream-memory.h>
 
 #include <e-util/e-signature-list.h>
-#include <e-util/e-dialog-utils.h>
+#include "widgets/misc/e-error.h"
 
 #include "e-msg-composer.h"
 #include "mail-signature-editor.h"
@@ -83,7 +82,7 @@ menu_file_save_error (BonoboUIComponent *uic, CORBA_Environment *ev)
 	
 	err = ev->_major != CORBA_NO_EXCEPTION ? bonobo_exception_get_text (ev) : g_strdup (g_strerror (errno));
 	
-	e_notice (NULL, GTK_MESSAGE_ERROR, _("Could not save signature file: %s"), err);
+	e_error_run(NULL, "mail:no-save-signature", err, NULL);
 	g_warning ("Exception while saving signature: %s", err);
 	
 	g_free (err);
@@ -224,25 +223,9 @@ do_exit (ESignatureEditor *editor)
 	CORBA_exception_init (&ev);
 	
 	if (GNOME_GtkHTML_Editor_Engine_hasUndo (editor->engine, &ev)) {
-		GtkWidget *dialog;
 		int button;
-		
-		dialog = gtk_message_dialog_new (GTK_WINDOW (editor->win),
-						 GTK_DIALOG_DESTROY_WITH_PARENT | GTK_DIALOG_MODAL,
-						 GTK_MESSAGE_QUESTION, GTK_BUTTONS_NONE, "%s",
-						 _("This signature has been changed, but hasn't been saved.\n"
-						  "\nDo you wish to save your changes?"));
-		gtk_dialog_add_buttons ((GtkDialog *) dialog,
-					_("_Discard changes"), GTK_RESPONSE_NO,
-					GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-					GTK_STOCK_SAVE, GTK_RESPONSE_YES,
-					NULL);
-		gtk_window_set_title ((GtkWindow *) dialog, _("Save signature"));
-		gtk_dialog_set_default_response ((GtkDialog *) dialog, GTK_RESPONSE_YES);
-		
-		button = gtk_dialog_run ((GtkDialog *) dialog);
-		gtk_widget_destroy (dialog);
-		
+
+		button = e_error_run((GtkWindow *)editor->win, "mail:ask-signature-changed", NULL);
 		exit_dialog_cb (button, editor);
 	} else
 		destroy_editor (editor);

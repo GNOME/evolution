@@ -47,6 +47,8 @@
 #include <gtk/gtktreeview.h>
 
 #include "widgets/misc/e-charset-picker.h"
+#include "widgets/misc/e-error.h"
+
 #include <e-util/e-icon-factory.h>
 
 #include "mail-config.h"
@@ -355,7 +357,6 @@ sig_add_script_response (GtkWidget *widget, int button, EMComposerPrefs *prefs)
 {
 	const char *name;
 	char *script;
-	GtkWidget *dialog;
 	GtkWidget *entry;
 	
 	if (button == GTK_RESPONSE_ACCEPT) {
@@ -390,14 +391,8 @@ sig_add_script_response (GtkWidget *widget, int button, EMComposerPrefs *prefs)
 			}
 		}
 		
+		e_error_run((GtkWindow *)prefs->sig_script_dialog, "mail:signature-notscript", script, NULL);
 		g_free(script);
-		dialog = gtk_message_dialog_new (GTK_WINDOW (prefs->sig_script_dialog),
-						 GTK_DIALOG_DESTROY_WITH_PARENT,
-						 GTK_MESSAGE_ERROR, GTK_BUTTONS_CLOSE,
-						 "%s", _("You must specify a valid script name."));
-		
-		gtk_dialog_run ((GtkDialog *) dialog);
-		gtk_widget_destroy (dialog);
 		return;
 	}
 	

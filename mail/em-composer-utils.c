@@ -20,12 +20,13 @@
  *
  */
 
-
 #ifdef HAVE_CONFIG_H
 #include <config.h>
 #endif
 
 #include <string.h>
+
+#include <gtk/gtkdialog.h>
 
 #include "mail-mt.h"
 #include "mail-ops.h"
@@ -35,7 +36,7 @@
 #include "mail-send-recv.h"
 #include "mail-component.h"
 
-#include <e-util/e-dialog-utils.h>  /* e_notice */
+#include "widgets/misc/e-error.h"
 
 #include "em-utils.h"
 #include "em-composer-utils.h"
@@ -119,48 +120,31 @@ ask_confirm_for_unwanted_html_mail (EMsgComposer *composer, EDestination **recip
 		}
 	}
 
-	/* FIXME: this wording sucks */
-	res = em_utils_prompt_user((GtkWindow *) composer, GTK_RESPONSE_YES, "/apps/evolution/mail/prompts/unwanted_html",
-				   _("You are sending an HTML-formatted message. Please make sure that\n"
-				     "the following recipients are willing and able to receive HTML mail:\n"
-				     "%s"
-				     "Send anyway?"),
-				   str->str);
-	g_string_free (str, TRUE);
-	
+	res = em_utils_prompt_user((GtkWindow *)composer,"/apps/evolution/mail/prompts/unwanted_html",
+				   "mail:ask-send-html", str->str, NULL);
+	g_string_free(str, TRUE);
+
 	return res;
 }
 
 static gboolean
 ask_confirm_for_empty_subject (EMsgComposer *composer)
 {
-	return em_utils_prompt_user((GtkWindow *)composer, GTK_RESPONSE_YES, "/apps/evolution/mail/prompts/empty_subject",
-				    _("This message has no subject.\nReally send?"));
+	return em_utils_prompt_user((GtkWindow *)composer, "/apps/evolution/mail/prompts/empty_subject",
+				    "mail:ask-send-no-subject", NULL);
 }
 
 static gboolean
 ask_confirm_for_only_bcc (EMsgComposer *composer, gboolean hidden_list_case)
 {
-	const char *first_text;
-	
 	/* If the user is mailing a hidden contact list, it is possible for
 	   them to create a message with only Bcc recipients without really
 	   realizing it.  To try to avoid being totally confusing, I've changed
 	   this dialog to provide slightly different text in that case, to
 	   better explain what the hell is going on. */
 	
-	if (hidden_list_case) {
-		first_text =  _("Since the contact list you are sending to "
-				"is configured to hide the list's addresses, "
-				"this message will contain only Bcc recipients.");
-	} else {
-		first_text = _("This message contains only Bcc recipients.");
-	}
-
-	return em_utils_prompt_user ((GtkWindow *) composer, GTK_RESPONSE_YES, "/apps/evolution/mail/prompts/only_bcc",
-				     "%s\n%s", first_text,
-				     _("It is possible that the mail server may reveal the recipients "
-				       "by adding an Apparently-To header.\nSend anyway?"));
+	return em_utils_prompt_user((GtkWindow *)composer, "/apps/evolution/mail/prompts/only_bcc",
+				    hidden_list_case?"mail:ask-send-only-bcc-contact":"mail:ask-send-only-bcc", NULL);
 }
 
 struct _send_data {
@@ -301,8 +285,7 @@ composer_get_message (EMsgComposer *composer, gboolean post, gboolean save_html_
 			if (no_recipients)
 				*no_recipients = TRUE;
 		} else {
-			e_notice ((GtkWindow *) composer, GTK_MESSAGE_WARNING,
-				  _("You must specify recipients in order to send this message."));
+			e_error_run((GtkWindow *)composer, "mail:send-no-recipients", NULL);
 			goto finished;
 		}
 	}
@@ -570,9 +553,7 @@ em_utils_composer_save_draft_cb (EMsgComposer *composer, int quit, gpointer user
 		mail_msg_wait (id);
 		
 		if (!folder) {
-			if (!em_utils_prompt_user ((GtkWindow *) composer, GTK_RESPONSE_YES, NULL,
-						   _("Unable to open the drafts folder for this account.\n"
-						     "Would you like to use the default drafts folder?")))
+			if (e_error_run((GtkWindow *)composer, "mail:ask-default-drafts", NULL) != GTK_RESPONSE_YES)
 				return;
 			
 			folder = drafts_folder;

@@ -1,3 +1,7 @@
+2004-04-28  Not Zed  <NotZed@Ximian.com>
+
+	** Changed error messages to use EError.
+
 2004-04-27  Not Zed  <NotZed@Ximian.com>
 
 	** See bug #57659.

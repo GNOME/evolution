@@ -39,7 +39,7 @@
 #include "em-utils.h"
 
 #include "e-util/e-account-list.h"
-#include "e-util/e-dialog-utils.h"
+#include "widgets/misc/e-error.h"
 
 #include "camel/camel.h"
 #include "camel/camel-vee-folder.h"
@@ -521,11 +521,7 @@ mail_vfolder_delete_uri(CamelStore *store, const char *curi)
 		GtkWidget *dialog;
 		char *user;
 		
-		dialog = gtk_message_dialog_new (NULL, 0, GTK_MESSAGE_INFO, GTK_BUTTONS_OK,
-						 _("The following vFolder(s):\n%s"
-						   "Used the removed folder:\n    '%s'\n"
-						   "And have been updated."),
-						 changed->str, uri);
+		dialog = e_error_new(NULL, "mail:vfolder-updated", changed->str, uri, NULL);
 		g_signal_connect_swapped (dialog, "response", G_CALLBACK (gtk_widget_destroy), dialog);
 		gtk_widget_show (dialog);
 		
@@ -981,8 +977,8 @@ vfolder_edit_rule(const char *uri)
 		g_signal_connect(gd, "response", G_CALLBACK(edit_rule_response), NULL);
 		gtk_widget_show((GtkWidget *)gd);
 	} else {
-		e_notice (NULL, GTK_MESSAGE_WARNING,
-			  _("Trying to edit a vfolder '%s' which doesn't exist."), uri);
+		/* TODO: we should probably just create it ... */
+		e_error_run(NULL, "mail:vfolder-notexist", uri, NULL);
 	}
 
 	if (url)
@@ -1002,15 +998,7 @@ new_rule_clicked(GtkWidget *w, int button, void *data)
 		}
 
 		if (rule_context_find_rule ((RuleContext *)context, rule->name, rule->source)) {
-			GtkWidget *dialog =
-				gtk_message_dialog_new ((GtkWindow *) w, GTK_DIALOG_DESTROY_WITH_PARENT,
-							GTK_MESSAGE_ERROR, GTK_BUTTONS_CLOSE,
-							_("Rule name '%s' is not unique, choose another."),
-							rule->name);
-
-			gtk_dialog_run ((GtkDialog *) dialog);
-			gtk_widget_destroy (dialog);
-
+			e_error_run((GtkWindow *)w, "mail:vfolder-notunique", rule->name, NULL);
 			return;
 		}
 

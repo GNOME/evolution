@@ -37,6 +37,7 @@
 #include "mail-send-recv.h"
 
 #include "e-util/e-account-list.h"
+#include "widgets/misc/e-error.h"
 
 #include "em-account-prefs.h"
 
@@ -202,7 +203,6 @@ account_delete_clicked (GtkButton *button, gpointer user_data)
 	EAccount *account = NULL;
 	EAccountList *accounts;
 	GtkTreeModel *model;
-	GtkWidget *confirm;
 	GtkTreeIter iter;
 	int ans;
 	
@@ -214,24 +214,7 @@ account_delete_clicked (GtkButton *button, gpointer user_data)
 	if (account == NULL || prefs->editor != NULL)
 		return;
 	
-	confirm = gtk_message_dialog_new (PREFS_WINDOW (prefs),
-					  GTK_DIALOG_MODAL|GTK_DIALOG_DESTROY_WITH_PARENT,
-					  GTK_MESSAGE_QUESTION, GTK_BUTTONS_NONE,
-					  _("Are you sure you want to delete this account?"));
-	
-	button = (GtkButton *) gtk_button_new_from_stock (GTK_STOCK_YES);
-	gtk_button_set_label (button, _("Delete"));
-	gtk_dialog_add_action_widget ((GtkDialog *) confirm, (GtkWidget *) button, GTK_RESPONSE_YES);
-	gtk_widget_show ((GtkWidget *) button);
-	
-	button = (GtkButton *) gtk_button_new_from_stock (GTK_STOCK_NO);
-	gtk_button_set_label (button, _("Don't delete"));
-	gtk_dialog_add_action_widget ((GtkDialog *) confirm, (GtkWidget *) button, GTK_RESPONSE_NO);
-	gtk_widget_show ((GtkWidget *) button);
-	
-	ans = gtk_dialog_run ((GtkDialog *) confirm);
-	gtk_widget_destroy (confirm);
-	
+	ans = e_error_run(PREFS_WINDOW(prefs), "mail:ask-account-delete", NULL);
 	if (ans == GTK_RESPONSE_YES) {
 		int len;
 		

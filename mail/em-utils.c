@@ -46,8 +46,9 @@
 #include "message-tag-followup.h"
 
 #include <e-util/e-mktemp.h>
-#include <e-util/e-dialog-utils.h>
 #include <e-util/e-account-list.h>
+#include <e-util/e-dialog-utils.h>
+#include "widgets/misc/e-error.h"
 
 #include <gal/util/e-util.h>
 
@@ -63,10 +64,9 @@ static void emu_save_part_done (CamelMimePart *part, char *name, int done, void 
 /**
  * em_utils_prompt_user:
  * @parent: parent window
- * @def: default response
  * @promptkey: gconf key to check if we should prompt the user or not.
- * @fmt: prompt format
- * @Varargs: varargs
+ * @tag: e_error tag.
+ * @arg0: The first of a NULL terminated list of arguments for the error.
  *
  * Convenience function to query the user with a Yes/No dialog and a
  * "Don't show this dialog again" checkbox. If the user checks that
@@ -76,29 +76,25 @@ static void emu_save_part_done (CamelMimePart *part, char *name, int done, void 
  * Returns %TRUE if the user clicks Yes or %FALSE otherwise.
  **/
 gboolean
-em_utils_prompt_user(GtkWindow *parent, int def, const char *promptkey, const char *fmt, ...)
+em_utils_prompt_user(GtkWindow *parent, const char *promptkey, const char *tag, const char *arg0, ...)
 {
 	GtkWidget *mbox, *check = NULL;
 	va_list ap;
 	int button;
-	char *str;
 	GConfClient *gconf = mail_config_get_gconf_client();
 
 	if (promptkey
 	    && !gconf_client_get_bool(gconf, promptkey, NULL))
 		return TRUE;
-	
-	va_start (ap, fmt);
-	str = g_strdup_vprintf (fmt, ap);
-	va_end (ap);
-	mbox = gtk_message_dialog_new (parent, GTK_DIALOG_DESTROY_WITH_PARENT,
-				       GTK_MESSAGE_QUESTION, GTK_BUTTONS_YES_NO,
-				       "%s", str);
-	g_free (str);
-	gtk_dialog_set_default_response ((GtkDialog *) mbox, def);
+
+	va_start(ap, arg0);
+	mbox = e_error_newv(parent, tag, arg0, ap);
+	va_end(ap);
+
 	if (promptkey) {
 		check = gtk_check_button_new_with_label (_("Don't show this message again."));
-		gtk_box_pack_start ((GtkBox *)((GtkDialog *) mbox)->vbox, check, TRUE, TRUE, 10);
+		gtk_container_set_border_width((GtkContainer *)check, 12);
+		gtk_box_pack_start ((GtkBox *)((GtkDialog *) mbox)->vbox, check, TRUE, TRUE, 0);
 		gtk_widget_show (check);
 	}
 	
@@ -278,9 +274,7 @@ em_utils_edit_filters (GtkWidget *parent)
 	g_free (user);
 	
 	if (((RuleContext *) fc)->error) {
-		e_notice (parent, GTK_MESSAGE_ERROR,
-			  _("Error loading filter information:\n%s"),
-			  ((RuleContext *) fc)->error);
+		e_error_run((GtkWindow *)parent, "mail:filter-load-error", ((RuleContext *)fc)->error, NULL);
 		return;
 	}
 	
@@ -1432,13 +1426,11 @@ emu_can_save(GtkWindow *parent, const char *path)
 	
 	if (access (path, F_OK) == 0) {
 		if (access (path, W_OK) != 0) {
-			e_notice (parent, GTK_MESSAGE_ERROR,
-				 _("Cannot save to `%s'\n %s"), path, g_strerror (errno));
+			e_error_run(parent, "mail:no-save-path", path, g_strerror(errno), NULL);
 			return FALSE;
 		}
 		
-		return em_utils_prompt_user (parent, GTK_RESPONSE_NO, NULL,
-					     _("`%s' already exists.\nOverwrite it?"), path);
+		return e_error_run(parent, "mail:ask-save-path-overwrite", path, NULL) == GTK_RESPONSE_OK;
 	}
 	
 	return TRUE;
@@ -1516,8 +1508,7 @@ em_utils_save_part_to_file(GtkWidget *parent, const char *filename, CamelMimePar
 	
 	dirname = g_path_get_dirname(filename);
 	if (camel_mkdir(dirname, 0777) == -1) {
-		e_notice(parent, GTK_MESSAGE_ERROR,
-				 _("Cannot save to `%s'\n %s"), filename, g_strerror(errno));
+		e_error_run((GtkWindow *)parent, "mail:no-create-path", filename, g_strerror(errno), NULL);
 		g_free(dirname);
 		return FALSE;
 	}
@@ -1525,15 +1516,13 @@ em_utils_save_part_to_file(GtkWidget *parent, const char *filename, CamelMimePar
 
 	if (access(filename, F_OK) == 0) {
 		if (access(filename, W_OK) != 0) {
-			e_notice(parent, GTK_MESSAGE_ERROR,
-				 _("Cannot save to `%s'\n %s"), filename, g_strerror(errno));
+			e_error_run((GtkWindow *)parent, E_ERROR_ASK_FILE_EXISTS_OVERWRITE, filename, NULL);
 			return FALSE;
 		}
 	}
 	
 	if (stat(filename, &st) != -1 && !S_ISREG(st.st_mode)) {
-		e_notice(parent, GTK_MESSAGE_ERROR,
-				 _("Error: '%s' exists and is not a regular file"), filename);
+		e_error_run((GtkWindow *)parent, "no-write-path-notfile", filename, NULL);
 		return FALSE;
 	}
 	
@@ -2121,10 +2110,7 @@ em_utils_temp_save_part(GtkWidget *parent, CamelMimePart *part)
 
 	tmpdir = e_mkdtemp("evolution-tmp-XXXXXX");
 	if (tmpdir == NULL) {
-		e_notice(parent, GTK_MESSAGE_ERROR,
-			 _("Could not create temporary directory: %s"),
-			 g_strerror (errno));
-
+		e_error_run((GtkWindow *)parent, "mail:no-create-tmp-path", g_strerror(errno), NULL);
 		return NULL;
 	}
 
@@ -2451,12 +2437,7 @@ em_utils_expunge_folder (GtkWidget *parent, CamelFolder *folder)
 
 	camel_object_get(folder, NULL, CAMEL_OBJECT_DESCRIPTION, &name, 0);
 
-	if (!em_utils_prompt_user ((GtkWindow *) parent, GTK_RESPONSE_NO, 
-				   "/apps/evolution/mail/prompts/expunge",
-				   _("This operation will permanently remove all deleted messages "
-				     "in the folder `%s'. If you continue, you "
-				     "will not be able to recover these messages.\n"
-				     "\nReally erase these messages?"), name))
+	if (!em_utils_prompt_user ((GtkWindow *) parent, "/apps/evolution/mail/prompts/expunge", "mail:ask-expunge", name, NULL))
 		return;
 	
 	mail_expunge_folder(folder, NULL, NULL);
@@ -2477,11 +2458,7 @@ em_utils_empty_trash (GtkWidget *parent)
 	EIterator *iter;
 	CamelException ex;
 	
-	if (!em_utils_prompt_user ((GtkWindow *) parent, GTK_RESPONSE_NO, "/apps/evolution/mail/prompts/empty_trash",
-				   _("This operation will permanently remove all deleted messages "
-				     "in all folders. If you continue, you will not be able to "
-				     "recover these messages.\n"
-				     "\nReally erase these messages?")))
+	if (!em_utils_prompt_user((GtkWindow *) parent, "/apps/evolution/mail/prompts/empty_trash", "mail:ask-empty-trash", NULL))
 		return;
 	
 	camel_exception_init (&ex);
