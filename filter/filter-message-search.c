@@ -595,33 +595,23 @@ user_tag (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMessageS
 }
 
 static ESExpResult *
-get_sent_date (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMessageSearch *fms)
+get_sent_date(struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMessageSearch *fms)
 {
 	ESExpResult *r;
-	const char *sent_date;
-	time_t date;
 	
-	sent_date = camel_mime_message_get_sent_date (fms->message);
-	date = header_decode_date (sent_date, NULL);
-	
-	r = e_sexp_result_new (ESEXP_RES_INT);
-	r->value.number = date;
+	r = e_sexp_result_new(ESEXP_RES_INT);
+	r->value.number = camel_mime_message_get_date(fms->message, NULL);
 	
 	return r;
 }
 
 static ESExpResult *
-get_received_date (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMessageSearch *fms)
+get_received_date(struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMessageSearch *fms)
 {
 	ESExpResult *r;
-	const char *received_date;
-	time_t date;
 	
-	received_date = camel_mime_message_get_received_date (fms->message);
-	date = header_decode_date (received_date, NULL);
-	
-	r = e_sexp_result_new (ESEXP_RES_INT);
-	r->value.number = date;
+	r = e_sexp_result_new(ESEXP_RES_INT);
+	r->value.number = camel_mime_message_get_date_received(fms->message, NULL);
 	
 	return r;
 }

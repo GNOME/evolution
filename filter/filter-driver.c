@@ -562,17 +562,22 @@ filter_driver_log (FilterDriver *driver, enum filter_log_t status, const char *d
 		case FILTER_LOG_START: {
 			/* write log header */
 			const char *subject = NULL;
-			const char *from = NULL;
+			char *fromstr;
+			const CamelInternetAddress *from;
 			char date[50];
 			time_t t;
-			
+
+			/* FIXME: does this need locking?  Probably */
+
 			from = camel_mime_message_get_from (p->message);
+			fromstr = camel_address_format((CamelAddress *)from);
 			subject = camel_mime_message_get_subject (p->message);
 			
 			time (&t);
 			strftime (date, 49, "%a, %d %b %Y %H:%M:%S", localtime (&t));
 			fprintf (p->logfile, "Applied filter \"%s\" to message from %s - \"%s\" at %s\n",
-				 str, from ? from : "unknown", subject ? subject : "", date);
+				 str, fromstr ? fromstr : "unknown", subject ? subject : "", date);
+			g_free(fromstr);
 			break;
 		}
 		case FILTER_LOG_ACTION:

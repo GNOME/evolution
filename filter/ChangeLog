@@ -1,3 +1,22 @@
+2000-11-06  Not Zed  <NotZed@HelixCode.com>
+
+	* filter-driver.c (do_flag): you shouldn't use an integer to
+	set the flag.  You should use a string, and look it up, because
+	the flag bits might change.
+	(filter_driver_filter_message): Can som e one PLEASE STOP
+	INDENTING THE CODE.  Even if i have to come over the and
+	beat it into you.  YOU DONT INDENT CODE ONCE ITS BEEN CHECKED IN
+	TO CVS, otherwise you SCREW UP THE DIFF's.  Can't you please
+	please learn this?
+	(filter_driver_log): Fixes for api changes to mime_message.
+
+2000-11-05  Not Zed  <NotZed@HelixCode.com>
+
+	* filter-message-search.c (get_sent_date): Fix for date change
+	api.  No longer need to encode/decode the date, after its been
+	encoded/ecoded already.
+	(get_received_date): Likewise.
+
 2000-11-06  Christopher James Lahey  <clahey@helixcode.com>
 
 	* e-search-bar.h: Fixed the argument comment.  Removed an old enum
