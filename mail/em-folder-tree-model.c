@@ -901,11 +901,8 @@ em_folder_tree_model_remove_store (EMFolderTreeModel *model, CamelStore *store)
 	g_return_if_fail (EM_IS_FOLDER_TREE_MODEL (model));
 	g_return_if_fail (CAMEL_IS_STORE (store));
 	
-	if (!(si = g_hash_table_lookup (model->store_hash, store))) {
-		g_warning ("the store `%s' is not in the folder tree", si->display_name);
-		
+	if (!(si = g_hash_table_lookup (model->store_hash, store)))
 		return;
-	}
 	
 	path = gtk_tree_row_reference_get_path (si->row);
 	gtk_tree_model_get_iter ((GtkTreeModel *) model, &iter, path);

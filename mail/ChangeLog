@@ -1,5 +1,16 @@
 2004-04-28  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* em-folder-tree-model.c (em_folder_tree_model_remove_store):
+	Duh. If the lookup of si fails, don't use si->display_name in the
+	warning message. Actually, don't bother with a warning message at
+	all, this is a perfectly valid situation. Fixes bug #57746.
+
+	* mail-ops.c (mail_send_message): Don't set the Date header here
+	anymore. It has either already been set (when written to the
+	Outbox) or will automagially be set to the current time if a Date
+	hasn't already been set when the transport sends it. Fixes bug
+	#57599.
+
 	* em-composer-prefs.c (sig_add_script_response): Use
 	g_shell_parse_argv() to get the actual script path and then check
 	that we can exec argv[0] rather than treating the entire

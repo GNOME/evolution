@@ -438,8 +438,6 @@ mail_send_message (CamelMimeMessage *message, const char *destination,
 	camel_medium_set_header (CAMEL_MEDIUM (message), "X-Mailer",
 				 "Ximian Evolution " VERSION SUB_VERSION " " VERSION_COMMENT);
 	
-	camel_mime_message_set_date (message, CAMEL_MESSAGE_DATE_CURRENT, 0);
-	
 	xev = mail_tool_remove_xevolution_headers (message);
 	
 	if (xev->account) {
