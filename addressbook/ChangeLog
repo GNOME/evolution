@@ -1,3 +1,9 @@
+2004-01-07  JP Rosevear <jpr@ximian.com>
+
+	* gui/component/Makefile.am: link in printer stuff
+
+	Fixes #51172
+
 2004-01-06  Chris Toshok  <toshok@ximian.com>
 
 	* gui/component/addressbook-migrate.c (check_for_conflict): remove
