@@ -1,3 +1,7 @@
+2001-06-22  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* gui/Makefile.am: Added itip-control-factory.* to the build.
+
 2001-06-22  Rodrigo Moya <rodrigo@ximian.com>
 
 	* pcs/cal.[ch] (cal_get_password): new function for the backends to

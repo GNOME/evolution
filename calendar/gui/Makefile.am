@@ -101,6 +101,8 @@ evolution_calendar_SOURCES =			\
 	gnome-cal.h				\
 	goto.c					\
 	goto.h					\
+	itip-control-factory.c			\
+	itip-control-factory.h			\
 	itip-utils.c				\
 	itip-utils.h				\
 	main.c					\
