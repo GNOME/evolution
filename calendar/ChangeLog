@@ -1,3 +1,10 @@
+2005-02-07  JP Rosevear  <jpr@novell.com>
+
+	Fixes #61075
+	
+	* gui/apps_evolution_calendar.schemas.in.in: add long descriptions
+	and clean up short items
+
 2005-02-05  Harish Krishnaswamy  <kharish@novell.com>
 
 	* calendar-errors.xml:

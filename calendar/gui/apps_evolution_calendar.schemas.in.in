@@ -10,7 +10,8 @@
       <type>string</type>
       <default>UTC</default>
       <locale name="C">
-        <short>Default timezone for meetings</short>
+        <short>Timezone</short>
+        <long>The default timezone to use for dates and times in the calendar, as an untranslated Olsen timezone database location like "America/New York".</long>
       </locale>
     </schema>
 
@@ -21,7 +22,8 @@
       <type>bool</type>
       <default>false</default>
       <locale name="C">
-        <short>Whether to show times in 24h format instead of using am/pm</short>
+        <short>Twenty four hour time format</short>
+        <long>Whether to show times in twenty four hour format instead of using am/pm.</long>
       </locale>
     </schema>
 
@@ -32,7 +34,8 @@
       <type>int</type>
       <default>1</default>
       <locale name="C">
-        <short>Weekday the week starts on</short>
+        <short>Week start</short>
+        <long>Weekday the week starts on, from Sunday (0) to Saturday (6).</long>
       </locale>
     </schema>
 
@@ -43,7 +46,8 @@
       <type>int</type>
       <default>9</default>
       <locale name="C">
-        <short>Hour the workday starts on</short>
+        <short>Workday start hour</short>
+        <long>Hour the workday starts on, in twenty four hour format, 0 to 23.</long>
       </locale>
     </schema>
 
@@ -54,7 +58,8 @@
       <type>int</type>
       <default>0</default>
       <locale name="C">
-        <short>Minute the workday starts on</short>
+        <short>Workday start minute</short>
+        <long>Minute the workday starts on, 0 to 59.</long>
       </locale>
     </schema>
 
@@ -65,7 +70,8 @@
       <type>int</type>
       <default>17</default>
       <locale name="C">
-        <short>Hour the workday ends on</short>
+        <short>Workday end hour</short>
+        <long>Hour the workday ends on, in twenty four hour format, 0 to 23.</long>
       </locale>
     </schema>
 
@@ -76,7 +82,8 @@
       <type>int</type>
       <default>0</default>
       <locale name="C">
-        <short>Minute the workday ends on</short>
+        <short>Workday end minute</short>
+        <long>Minute the workday ends on, 0 to 59</long>
       </locale>
     </schema>
 
@@ -87,7 +94,8 @@
       <type>int</type>
       <default>30</default>
       <locale name="C">
-        <short>Intervals shown in Day and Work Week views</short>
+        <short>Time divisions</short>
+        <short>Intervals shown in Day and Work Week views, in minutes.</short>
       </locale>
     </schema>
 
@@ -98,7 +106,8 @@
       <type>int</type>
       <default>400</default>
       <locale name="C">
-        <short>Position of the horizontal pane</short>
+        <short>Horizontal pane position</short>
+        <long>Position of the horizontal pane, between the date navigator calendar and the task list when not in the month view, in pixels.</long>
       </locale>
     </schema>
 
@@ -109,7 +118,8 @@
       <type>int</type>
       <default>150</default>
       <locale name="C">
-        <short>Position of the vertical pane</short>
+        <short>Vertical pane position</short>
+        <long>Position of the vertical pane, between the view and the date navigator calendar and task list when not in the month view, in pixels.</long>
       </locale>
     </schema>
 
@@ -120,7 +130,8 @@
       <type>int</type>
       <default>32000</default>
       <locale name="C">
-        <short>Position of the horizontal pane in the month view</short>
+        <short>Month view horizontal pane position </short>
+        <long>Position of the horizontal pane, between the view and the date navigator calendar and task list in the month view, in pixels.</long>
       </locale>
     </schema>
 
@@ -131,7 +142,8 @@
       <type>int</type>
       <default>150</default>
       <locale name="C">
-        <short>Position of the vertical pane in the month view</short>
+        <short>Month view vertical pane position </short>
+        <long>Position of the vertical pane, between the view and the date navigator calendar and task list in the month view, in pixels.</long>
       </locale>
     </schema>
 
@@ -142,7 +154,8 @@
       <type>int</type>
       <default>400</default>
       <locale name="C">
-        <short>Position of the vertical pane in the task view</short>
+        <short>Tasks vertical pane position </short>
+        <long>Position of the vertical pane, between task list and the task preview pane, in pixels.</long>
       </locale>
     </schema>
 
@@ -153,7 +166,8 @@
       <type>bool</type>
       <default>true</default>
       <locale name="C">
-        <short>Allocate less space to weekend appointments</short>
+        <short>Compress weekends in month view</short>
+        <long>Whether to compress weekends in the month view, which puts Saturday and Sunday in the space of one weekday.</long>
       </locale>
     </schema>
 
@@ -164,7 +178,8 @@
       <type>bool</type>
       <default>true</default>
       <locale name="C">
-        <short>Show where events end in week and month views</short>
+        <short>Show appointment end times in week and month views</short>
+        <long>Whether to display the end time of events in the week and month views.</long>
       </locale>
     </schema>
 
@@ -175,7 +190,8 @@
       <type>int</type>
       <default>62</default>
       <locale name="C">
-        <short>Days that are work days</short>
+        <short>Work days</short>
+        <long>Days on which the start and end of work hours should be indicated.</long>
       </locale>
     </schema>
 
@@ -188,7 +204,8 @@
       <type>bool</type>
       <default>false</default>
       <locale name="C">
-        <short>Whether to hide completed tasks</short>
+        <short>Hide completed tasks</short>
+        <long>Whether to hide completed tasks in the tasks view.</long>
       </locale>
     </schema>
 
@@ -199,7 +216,8 @@
       <type>string</type>
       <default>days</default>
       <locale name="C">
-        <short>Units for determining when to hide tasks</short>
+        <short>Hide task units</short>
+        <long>Units for determining when to hide tasks, "minutes", "hours" or "days".</long>
       </locale>
     </schema>
 
@@ -210,7 +228,8 @@
       <type>int</type>
       <default>1</default>
       <locale name="C">
-        <short>Number of units for determining when to hide tasks</short>
+        <short>Hide task value</short>
+        <long>Number of units for determining when to hide tasks.</long>
       </locale>
     </schema>
 
@@ -223,7 +242,8 @@
       <type>string</type>
       <default>#1e90ff</default>
       <locale name="C">
-        <short>Color of tasks that are due today</short>
+        <short>Tasks due today color</short>
+	<long>Background color of tasks that are due today, in "#rrggbb" format.</long>
       </locale>
     </schema>
 
@@ -234,7 +254,8 @@
       <type>string</type>
       <default>#ff0000</default>
       <locale name="C">
-        <short>Color of tasks that are overdue</short>
+        <short>Overdue tasks color</short>
+	<long>Background color of tasks that are overdue, in "#rrggbb" format.</long>
       </locale>
     </schema>
 
@@ -247,7 +268,8 @@
       <type>bool</type>
       <default>true</default>
       <locale name="C">
-        <short>Whether to ask for confirmation on appointment deletion</short>
+        <short>Ask for confirmation when deleting items</short>
+        <long>Whether to ask for confirmation when deleting an appointment or task.</long>
       </locale>
     </schema>
 
@@ -258,7 +280,8 @@
       <type>bool</type>
       <default>true</default>
       <locale name="C">
-        <short>Whether to ask for confirmation when folder is expunged</short>
+        <short>Confirm expunge</short>
+        <long>Whether to ask for confirmation when expunging appointments and tasks.</long>
       </locale>
     </schema>
 
@@ -269,7 +292,8 @@
       <type>bool</type>
       <default>false</default>
       <locale name="C">
-        <short>Whether to set a default reminder for events</short>
+        <short>Default appointment reminder</short>
+        <long>Whether to set a default reminder for appointments.</long>
       </locale>
     </schema>
 
@@ -280,7 +304,8 @@
       <type>int</type>
       <default>15</default>
       <locale name="C">
-        <short>Number of units for default reminder</short>
+        <short>Default reminder value</short>
+        <long>Number of units for determining for a default reminder.</long>
       </locale>
     </schema>
 
@@ -291,7 +316,8 @@
       <type>string</type>
       <default></default>
       <locale name="C">
-        <short>Units of default reminder</short>
+        <short>Default reminder units</short>
+        <long>Units for a default reminder, "minutes", "hours" or "days".</long>
       </locale>
     </schema>
 
@@ -304,7 +330,8 @@
       <type>bool</type>
       <default>false</default>
       <locale name="C">
-        <short>Whether to show week numbers in date navigator</short>
+        <short>Show week numbers in date navigator</short>
+        <long>Whether to show week numbers in the date navigator.</long>
       </locale>
     </schema>
 
@@ -317,7 +344,8 @@
       <type>int</type>
       <default>-1</default>
       <locale name="C">
-        <short>Time last alarm ran</short>
+        <short>Last alarm time</short>
+        <long>Time the last alarm ran, in time_t.</long>
       </locale>
     </schema>
 
@@ -341,7 +369,8 @@
       <list_type>string</list_type>
       <default>[]</default>
       <locale name="C">
-        <short>Programs that can run as part of alarms</short>
+        <short>Alarm programs</short>
+        <long>Programs that are allowed to be run by alarms.</long>
       </locale>
     </schema>
 
@@ -352,7 +381,8 @@
       <type>bool</type>
       <default>false</default>
       <locale name="C">
-        <short>Whether or not to use the notification tray for display alarms</short>
+        <short>Show display alarms in notification tray</short>
+        <long>Whether or not to use the notification tray for display alarms.</long>
       </locale>
     </schema>
     
@@ -364,7 +394,8 @@
       <list_type>string</list_type>
       <default>[]</default>
       <locale name="C">
-        <short>List of urls for free/busy publishing</short>
+        <short>Free/busy server urls</short>
+        <long>List of server urls for free/busy publishing.</long>
       </locale>
     </schema>    
 
@@ -374,7 +405,8 @@
       <owner>evolution-calendar</owner>
       <type>string</type>
       <locale name="C">
-        <short>The url template to use as a free/busy data fallback</short>
+        <short>Free/busy template url</short>
+        <long>The url template to use as a free/busy data fallback, %u is replaced by the user part of the mail address and %d is replaced by the domain.</long>
       </locale>
     </schema>
   </schemalist>
