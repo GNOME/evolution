@@ -133,13 +133,14 @@ add_list_unique(EContactEditorCategories *categories, char *string)
 	for (k = 0; k < categories->list_length; k++) {
 		if (!strcmp(list[k], temp)) {
 			categories->selected_list[k] = TRUE;
-			g_free(temp);
 			break;
 		}
 	}
 	if (k == categories->list_length) {
 		categories->selected_list[categories->list_length] = TRUE;
 		list[categories->list_length++] = temp;
+	} else {
+		g_free(temp);
 	}
 }
 
@@ -152,6 +153,12 @@ do_parse_categories(EContactEditorCategories *categories)
 	int i, j;
 	char **list;
 	int count = 1;
+
+	for (i = 0; i < categories->list_length; i++)
+		g_free(categories->category_list[i]);
+	g_free(categories->category_list);
+	g_free(categories->selected_list);
+
 	for (i = 0; str[i]; i++) {
 		switch (str[i]) {
 		case '\\':
@@ -164,20 +171,16 @@ do_parse_categories(EContactEditorCategories *categories)
 			break;
 		}
 	}
-
-	for (i = 0; i < categories->list_length; i++)
-		g_free(categories->category_list[i]);
-	g_free(categories->category_list);
 	list = g_new(char *, count + 1 + BUILTIN_CATEGORY_COUNT);
 	categories->category_list = list;
 
-	g_free(categories->selected_list);
 	categories->selected_list = g_new(gboolean, count + 1 + BUILTIN_CATEGORY_COUNT);
 
 	for (count = 0; count < BUILTIN_CATEGORY_COUNT; count++) {
 		list[count] = g_strdup(builtin_categories[count]);
 		categories->selected_list[count] = 0;
 	}
+
 	categories->list_length = count;
 
 	for (i = 0, j = 0; str[i]; i++, j++) {
@@ -209,8 +212,7 @@ static void
 e_contact_editor_categories_entry_change (GtkWidget *entry, 
 					  EContactEditorCategories *categories)
 {
-	if (categories->categories)
-		g_free(categories->categories);
+	g_free(categories->categories);
 	categories->categories = g_strdup(gtk_entry_get_text(GTK_ENTRY(entry)));
 	do_parse_categories(categories);
 }
@@ -238,6 +240,7 @@ e_contact_editor_categories_init (EContactEditorCategories *categories)
 	categories->list_length = 0;
 	categories->category_list = NULL;
 	categories->selected_list = NULL;
+	categories->categories = NULL;
 
 	gnome_dialog_append_button ( GNOME_DIALOG(categories),
 				     GNOME_STOCK_BUTTON_OK);
@@ -247,7 +250,6 @@ e_contact_editor_categories_init (EContactEditorCategories *categories)
 
 	gtk_window_set_policy(GTK_WINDOW(categories), FALSE, TRUE, FALSE);
 
-	categories->categories = NULL;
 	gui = glade_xml_new (EVOLUTION_GLADEDIR "/categories.glade", NULL);
 	categories->gui = gui;
 
@@ -303,7 +305,12 @@ e_contact_editor_categories_destroy (GtkObject *object)
 
 	if (e_contact_editor_categories->gui)
 		gtk_object_unref(GTK_OBJECT(e_contact_editor_categories->gui));
+
 	g_free(e_contact_editor_categories->categories);
+	for (i = 0; i < categories->list_length; i++)
+		g_free(categories->category_list[i]);
+	g_free(categories->category_list);
+	g_free(categories->selected_list);
 }
 
 GtkWidget*
@@ -432,4 +439,3 @@ e_contact_editor_categories_thaw (ETableModel *etc, gpointer data)
 {
 	e_table_model_changed(etc);
 }
-

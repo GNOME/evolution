@@ -311,7 +311,7 @@ e_minicard_unrealize (GnomeCanvasItem *item)
 static void
 card_changed_cb (EBook* book, EBookStatus status, gpointer user_data)
 {
-	g_print ("%s: %s(): a card was changed\n", __FILE__, __FUNCTION__);
+	g_print ("%s: %s(): a card was changed with status %d\n", __FILE__, __FUNCTION__, status);
 }
 
 static gboolean

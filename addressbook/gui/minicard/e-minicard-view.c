@@ -30,10 +30,8 @@ static void e_minicard_view_class_init	(EMinicardViewClass	 *klass);
 static void e_minicard_view_set_arg (GtkObject *o, GtkArg *arg, guint arg_id);
 static void e_minicard_view_get_arg (GtkObject *object, GtkArg *arg, guint arg_id);
 static void e_minicard_view_destroy (GtkObject *object);
-
-#define E_MINICARD_VIEW_DIVIDER_WIDTH 2
-#define E_MINICARD_VIEW_BORDER_WIDTH 7
-#define E_MINICARD_VIEW_FULL_GUTTER (E_MINICARD_VIEW_DIVIDER_WIDTH + E_MINICARD_VIEW_BORDER_WIDTH * 2)
+static void canvas_destroy (GtkObject *object, EMinicardView *view);
+static void disconnect_signals (EMinicardView *view);
 
 static EReflowSortedClass *parent_class = NULL;
 
@@ -102,6 +100,7 @@ e_minicard_view_init (EMinicardView *view)
 	view->create_card_id = 0;
 	view->remove_card_id = 0;
 	view->modify_card_id = 0;
+	view->canvas_destroy_id = 0;
 
 	E_REFLOW_SORTED(view)->compare_func = (GCompareFunc) e_minicard_compare;
 	E_REFLOW_SORTED(view)->string_func  = (EReflowStringFunc) e_minicard_get_card_id;
@@ -145,20 +144,21 @@ static void
 book_view_loaded (EBook *book, EBookStatus status, EBookView *book_view, gpointer closure)
 {
 	EMinicardView *view = closure;
-	if (view->book_view && view->create_card_id)
-		gtk_signal_disconnect(GTK_OBJECT (view->book_view),
-				      view->create_card_id);
-	if (view->book_view && view->remove_card_id)
-		gtk_signal_disconnect(GTK_OBJECT (view->book_view),
-				      view->remove_card_id);
-	if (view->book_view && view->modify_card_id)
-		gtk_signal_disconnect(GTK_OBJECT (view->book_view),
-				      view->modify_card_id);
+	disconnect_signals(view);
 	if (view->book_view)
 		gtk_object_unref(GTK_OBJECT(view->book_view));
+
+	if (!view->canvas_destroy_id)
+		view->canvas_destroy_id = 
+			gtk_signal_connect(GTK_OBJECT(GNOME_CANVAS_ITEM(view)->canvas),
+					   "destroy", GTK_SIGNAL_FUNC(canvas_destroy),
+					   view);
+
 	view->book_view = book_view;
 	if (view->book_view)
 		gtk_object_ref(GTK_OBJECT(view->book_view));
+	
+
 	view->create_card_id = gtk_signal_connect(GTK_OBJECT(view->book_view),
 						  "card_added",
 						  GTK_SIGNAL_FUNC(create_card),
@@ -171,6 +171,7 @@ book_view_loaded (EBook *book, EBookStatus status, EBookView *book_view, gpointe
 						  "card_changed",
 						  GTK_SIGNAL_FUNC(modify_card),
 						  view);
+
 	g_list_foreach(E_REFLOW(view)->items, (GFunc) gtk_object_unref, NULL);
 	g_list_foreach(E_REFLOW(view)->items, (GFunc) gtk_object_destroy, NULL);
 	g_list_free(E_REFLOW(view)->items);
@@ -245,6 +246,21 @@ e_minicard_view_destroy (GtkObject *object)
 
 	if (view->get_view_idle)
 		g_source_remove(view->get_view_idle);
+	if (view->canvas_destroy_id)
+		gtk_signal_disconnect(GTK_OBJECT (GNOME_CANVAS_ITEM(view)->canvas),
+				      view->canvas_destroy_id);
+	disconnect_signals(view);
+	if (view->book)
+		gtk_object_unref(GTK_OBJECT(view->book));
+	if (view->book_view)
+		gtk_object_unref(GTK_OBJECT(view->book_view));
+  
+	GTK_OBJECT_CLASS(parent_class)->destroy (object);
+}
+
+static void
+disconnect_signals(EMinicardView *view)
+{
 	if (view->book_view && view->create_card_id)
 		gtk_signal_disconnect(GTK_OBJECT (view->book_view),
 				      view->create_card_id);
@@ -254,12 +270,12 @@ e_minicard_view_destroy (GtkObject *object)
 	if (view->book_view && view->modify_card_id)
 		gtk_signal_disconnect(GTK_OBJECT (view->book_view),
 				      view->modify_card_id);
-	if (view->book)
-		gtk_object_unref(GTK_OBJECT(view->book));
-	if (view->book_view)
-		gtk_object_unref(GTK_OBJECT(view->book_view));
-  
-	GTK_OBJECT_CLASS(parent_class)->destroy (object);
+}
+
+static void
+canvas_destroy(GtkObject *object, EMinicardView *view)
+{
+	disconnect_signals(view);
 }
 
 void

@@ -70,6 +70,8 @@ struct _EMinicardView
 
 	int get_view_idle;
 
+	int canvas_destroy_id;
+
 	int create_card_id, remove_card_id, modify_card_id;
 };
 
