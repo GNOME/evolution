@@ -1,3 +1,10 @@
+2004-04-21  Not Zed  <NotZed@Ximian.com>
+
+	* e-user-creatable-items-handler.c (execute_verb): if we're
+	running a local create, invoke that directly via the callback.
+	(e_user_creatable_items_handler_new): add a callback for creating
+	local items.
+
 2004-04-19  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* e-user-creatable-items-handler.c (ensure_menu_items): Same.

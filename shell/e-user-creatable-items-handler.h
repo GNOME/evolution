@@ -43,6 +43,7 @@ typedef struct _EUserCreatableItemsHandler        EUserCreatableItemsHandler;
 typedef struct _EUserCreatableItemsHandlerPrivate EUserCreatableItemsHandlerPrivate;
 typedef struct _EUserCreatableItemsHandlerClass   EUserCreatableItemsHandlerClass;
 
+typedef void (*EUserCreatableItemsHandlerCreate)(EUserCreatableItemsHandler *handler, const char *item_type_name, void *data);
 
 struct _EUserCreatableItemsHandler {
 	GObject parent;
@@ -56,7 +57,8 @@ struct _EUserCreatableItemsHandlerClass {
 
 
 GType                       e_user_creatable_items_handler_get_type   (void);
-EUserCreatableItemsHandler *e_user_creatable_items_handler_new        (const char *component_alias);
+EUserCreatableItemsHandler *e_user_creatable_items_handler_new        (const char *component_alias,
+								       EUserCreatableItemsHandlerCreate create_local, void *data);
 
 void                        e_user_creatable_items_handler_activate   (EUserCreatableItemsHandler *handler,
 								       BonoboUIComponent          *ui_component);

@@ -79,6 +79,10 @@ struct _EUserCreatableItemsHandlerPrivate {
 	/* This component's alias */
 	char *this_component;
 
+	/* For creating items on the view */
+	EUserCreatableItemsHandlerCreate create_local;
+	void *create_data;
+
 	/* The components that register user creatable items.  */
 	GSList *components;	/* Component */
 
@@ -371,18 +375,24 @@ execute_verb (EUserCreatableItemsHandler *handler,
 	if (component->type_list == NULL)
 		return;
 
+	/* TODO: why do we actually iterate this?  Is it just to check we have it in the menu?  The
+	   search isn't used otherwise */
 	for (i = 0; i < component->type_list->_length; i ++) {
 		if (strcmp (component->type_list->_buffer[i].id, id) == 0) {
-			CORBA_Environment ev;
+			if (priv->create_local && priv->this_component && strcmp(priv->this_component, component->alias) == 0) {
+				priv->create_local(handler, id, priv->create_data);
+			} else {
+				CORBA_Environment ev;
 
-			CORBA_exception_init (&ev);
+				CORBA_exception_init (&ev);
+				
+				GNOME_Evolution_Component_requestCreateItem (component->component, id, &ev);
 
-			GNOME_Evolution_Component_requestCreateItem (component->component, id, &ev);
+				if (ev._major != CORBA_NO_EXCEPTION)
+					g_warning ("Error in requestCreateItem -- %s", BONOBO_EX_REPOID (&ev));
 
-			if (ev._major != CORBA_NO_EXCEPTION)
-				g_warning ("Error in requestCreateItem -- %s", BONOBO_EX_REPOID (&ev));
-
-			CORBA_exception_free (&ev);
+				CORBA_exception_free (&ev);
+			}
 			return;
 		}
 	}
@@ -809,11 +819,18 @@ init (EUserCreatableItemsHandler *handler)
 
 
 EUserCreatableItemsHandler *
-e_user_creatable_items_handler_new (const char *component_alias)
+e_user_creatable_items_handler_new (const char *component_alias,
+				    EUserCreatableItemsHandlerCreate create_local, void *data)
 {
-	return g_object_new (e_user_creatable_items_handler_get_type (),
-			     "this_component", component_alias,
-			     NULL);
+	EUserCreatableItemsHandler *handler;
+
+	handler = g_object_new (e_user_creatable_items_handler_get_type (),
+				"this_component", component_alias,
+				NULL);
+	handler->priv->create_local = create_local;
+	handler->priv->create_data = data;
+
+	return handler;
 }
 
 
