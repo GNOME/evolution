@@ -96,33 +96,32 @@
          bar.  The most frequently used ones, like
          <guimenuitem>Reply</guimenuitem> and
          <guimenuitem>Forward</guimenuitem>, also appear as buttons in
-         the toolbar.
+         the toolbar, and almost all of them are duplicated in the
+         right-click menu and as keyboard shortcuts, which tend to be
+         faster once you get the hang of them.  You can choose
+         whichever way you like best; the idea is that the software
+         should work the way you want, rather than making you work the
+         way the it does.
        </para>
-       <para>
-         While you're there, have a look at the items items the bottom
-         of the list, which are shortcuts for simple filter and
-         vFolder creation.  You can learn more about filters and
-         vFolders in <xref linkend="usage-mail-organize">; a
-         comprehensive description of this menu (and all the others)
-         is in <xref linkend="menuref">.
-      </para>
 
       <sect3 id="usage-mail-listorder">
 	<title>Sorting the message list</title>
 	<para>
-          You can also select the order in which messages appear in
-          that list.  To sort by sender, subject, or date, click on the
-          bars with those labels at the top of the message list.  If
-          you click twice, you'll sort them in reverse order.
+          One of the ways <application>Evolution</application> lets
+          you choose the way you work is the way it lets you sort your
+          message lists.  To sort by sender, subject, or date, click
+          on the bars with those labels at the top of the message
+          list.  If you click twice, you'll sort them in reverse
+          order.
         </para>
 	<para>
-          Aside from sorting the messages, you can opt to have the
-          messages threaded. Select <menuchoice>
-          <guimenu>View</guimenu> <guimenuitem>Threaded</guimenuitem>
-          </menuchoice> to turn the threaded view on or off.  If the
-          option selected, <application>Evolution</application> will
-          attempt to associate related messages by using the
-          <systemitem>References</systemitem>,
+          You can also choose a threaded message view. Select
+          <menuchoice> <guimenu>View</guimenu>
+          <guimenuitem>Threaded</guimenuitem> </menuchoice> to turn
+          the threaded view on or off.  If the option selected,
+          <application>Evolution</application> will attempt to
+          associate related messages by using message ID numbers and
+          the <systemitem>References</systemitem>,
           <systemitem>In-Reply-To</systemitem>, and
           <systemitem>Subject</systemitem> message headers.  Messages
           which are related are then placed next to each other, so
@@ -133,11 +132,12 @@
       <sect3 id="usage-mail-getnsend-delete">
         <title>Deleting Mail</title>
         <para>
-          To delete a message, select it in the the <interface>message
-          list</interface> by clicking on it once.  Then click on the
-          <guibutton>Delete</guibutton> button in the tool bar.  The
-          message now has a line through it, because you've marked it
-          for deletion. 
+          Once you've read your mail, you may want to get rid of
+          it. To mark a message for deletion, select it in the the
+          <interface>message list</interface> by clicking on it once.
+          Then click on the <guibutton>Delete</guibutton> button in
+          the tool bar.  The message now has a line through it,
+          because you've marked it for deletion.
         </para>
         <para>
           If you really want to get rid of it, choose
@@ -157,65 +157,37 @@
       <para>
 	Now that you've had a look around the
 	<interface>Inbox</interface>, it's time to check for new mail.
-	Before you get it, though, you should decide where you want to
-	keep it.  Your options will vary a little depending on your
-	network setup, but they come down to storing the mail on your
-	hard disk (using <glossterm linkend="pop">POP</glossterm>), or
-	storing it on the network (using <glossterm
-	linkend="imap">IMAP</glossterm>).  If you store your mail on
-	your local hard disk, you can read it whether you're online or
-	not, but you can only read it from one computer.  If you store
-	it on the network, you can only read it when you're online,
-	but you can access it from almost any computer with a network
-	connection, even if it doesn't have
-	<application>Evolution</application>.
+	Click <guibutton>Get mail</guibutton> in the toolbar to check
+	your mail.  If it's the first time you've done so, the
+	<interface>mail setup assistant</interface> will ask you for
+	the information it needs to check your mail (see <xref
+	linkend="config-setupassist"> for more information). 
+     </para>
+     <para>
+        Then, you need to enter your email
+        password. <application>Evolution</application> will remember
+        the password until you quit the application or until you
+        select <menuchoice> <guimenu>Settings</guimenu>
+        <guimenuitem>Forget Passwords</guimenuitem> </menuchoice>.
       </para>
       <para>
-        If you choose POP, you'll be putting mail in the
-        <guilabel>Inbox</guilabel> in the <guilabel>Local</guilabel>
-        folder.  If you choose IMAP, it's the
-        <guilabel>Inbox</guilabel> of a folder with the same name as
-        your mail server.  That's so you can maintain several distinct
-        IMAP servers if you want.  See <xref
-        linkend="config-prefs-mail"> for more information about mail
-        servers.
+        Once it's validated the password,
+	<application>Evolution</application> will check your mail.
+	New mail will appear in the local <interface>Inbox</interface>
+	if you're using a <glossterm>POP</glossterm> account, and in
+	your <glossterm>IMAP</glossterm> folders if you use IMAP.
       </para>
-      <para>
-        Regardless of where you keep your mail, you can click
-	<guibutton>Get mail</guibutton> in the toolbar to check your
-	mail.  The first time you do that, the <interface>mail setup
-	assistant</interface> will ask you for the information it
-	needs to check your mail (see <xref
-	linkend="config-setupassist"> for more information).  If
-	you're checking mail over a network (instead of from local
-	<systemitem><filename>mbox</filename></systemitem> files),
-	you'll need to enter your email password.  Type it in, click
-	<guibutton>OK</guibutton> and
-	<application>Evolution</application> will download your mail.
-	New mail will appear in your <interface>Inbox</interface>.
+   
+     <note id="badmailsettings">
+     <title>Can't Check Mail?</title> 
+     <para>
+	If you get an error message instead of mail, you probably need
+	to change your network settings.  To learn how to do that,
+	have a look at <xref linkend="config-prefs-mail-network">, or
+	ask your system administrator.
       </para>
-      <para>
-        Once you've entered your password,
-        <application>Evolution</application> will hold it in memory so
-        that you don't have to retype it every time you want to check
-        mail.  It will only remember the password until you quit the
-        application; each time you run
-        <application>Evolution</application>, you need to re-enter
-        your password.  If you'd like
-        <application>Evolution</application> to forget your password
-        sooner, select
-        <menuchoice><guimenu>Settings</guimenu><guimenuitem>Forget
-        Passwords</guimenuitem></menuchoice>, and it will do so
-        immediately.
-      </para>
-      <para>
-	If you get an error message instead of mail, you probably
-	need to change your network settings.  To learn how to
-	do that, have a look at <xref
-	linkend="config-prefs-mail-network">, or ask your system
-	administrator.
-      </para>
-      
+    </note>
+
       <sect3 id="usage-mail-getnsend-get-news">
          <title>Using Evolution for News </title>
        <para>
@@ -223,23 +195,22 @@
          read them side by side.  If you want to do that, add a news
          source to your configuration (see <xref
          linkend="config-prefs-network-news">). The news server will
-         appear as a remote server, and will look exactly like an IMAP
-         folder, except that you can't delete messages from it.  When
-         you click <guibutton>Get Mail</guibutton>,
+         appear as a remote server, and will look quite similar to an
+         IMAP folder.  When you click <guibutton>Get Mail</guibutton>,
          <application>Evolution</application> will also check for news
-         messages.  If you prefer to use a different program, there's
-         always <application>Pan</application>.
+         messages.
        </para>
        </sect3>
 
       <sect3 id="usage-mail-getnsend-get-attach">
-	<title>Attachments, HTML Mail, and Live Documents</title>
+	<title>Attachments and HTML Mail</title>
 	<para>
-	  If someone sends you a file attached to an email (an
-	  "attachment"), <application>Evolution</application> will
-	  display the file at the bottom of the message to which it's
-	  attached.  Text, HTML, and most images will be displayed in
-	  the message itself.  For other files,
+	  If someone sends you an <glossterm>attachment</glossterm>, a
+	  file attached to an email,
+	  <application>Evolution</application> will display the file
+	  at the bottom of the message to which it's attached.  Text,
+	  HTML, and most images will be displayed within the message
+	  itself.  For other files,
 	  <application>Evolution</application> will provide a link and
 	  icon at the end of the message.  Click on that, and
 	  <application>Evolution</application> will ask you where you
@@ -247,6 +218,12 @@
 	  saved the file, you can open, move, copy, or execute it just
 	  like any other, using <application>Nautilus</application> or
 	  your favorite shell or file manager.
+        </para>
+        <para>
+          As usual, there's a shortcut here: right-click on the link,
+	  and choose an application for the file: you can send an
+	  image straight to the <application>GIMP</application>, or a
+	  spredsheet straight to <application>Gnumeric</application>.
 	</para>
 
 	<para>
@@ -255,7 +232,6 @@
 	   formatting will display automatically, although you can
 	   turn it off if you prefer.
 	</para>
-
       </sect3>
     </sect2>
 
@@ -289,10 +265,10 @@
 	 Enter an address in the <guilabel>To:</guilabel> field, a
 	 subject in the <guilabel>Subject:</guilabel> and a message in
 	 the big empty box at the bottom of the window, and press
-	 <guibutton>Send</guibutton>.  That's easy.  It may even be
-	 too easy, which is why I like to queue my messages up to be
-	 sent a few minutes later.
+	 <guibutton>Send</guibutton>.  That's easy, although it can
+	 get a little more complicated if you want.
        </para>
+
       <sect3 id="usage-mail-getnsend-send-delay">
 	<title>Saving Messages for Later</title>
 	<para>
@@ -309,6 +285,11 @@
 	   send anything I'll regret the next day.
 	</para>
 	<para>
+	   To learn more about how you can specify message queue and
+	   filter behavior, see <xref linkend="config-prefs-mail">.
+	</para>
+
+	<para>
            You can also choose to save messages as drafts or as text
            files.  Choose
            <menuchoice>
@@ -322,23 +303,20 @@
           <guimenu>File</guimenu> <guimenuitem>Save In
           Folder</guimenuitem> </menuchoice>.
         </para>
-	<para>
-	   To learn more about how you can specify message queue and
-	   filter behavior, see <xref linkend="config-prefs-mail">.
-	</para>
-	
-	<para>
+      </sect3>
+      <sect3 id="usage-mail-getnsend-send-compose">
+        <title>Advanced Mail Composition</title>
+        <para>
 	  You can probably guess the purpose of the buttons labelled
 	  <guibutton>Cut</guibutton>, <guibutton>Copy</guibutton>,
 	  <guibutton>Paste</guibutton>, <guibutton>Undo</guibutton>
-	  and <guibutton>Redo</guibutton> , but there's a bit more to
+	  and <guibutton>Redo</guibutton>, but there's a bit more to
 	  sending mail that's less obvious.  In the next few sections,
 	  you'll see how <application>Evolution</application> handles
 	  additional features, including large recipient lists,
 	  attachments, and forwarding.
         </para>
-      </sect3>
-      <sect3 id="usage-mail-getnsend-send-attach">
+      <sect4 id="usage-mail-getnsend-send-attach">
 	<title>Attachments</title>
 	<para>
 	    If you want to attach a file to your email message, you
@@ -353,58 +331,28 @@
 	<para>
             To see what files you've attached to the message you're
             composing, select <menuchoice> <guimenu>View</guimenu>
-            <guimenuitem>Show Attachments</guimenuitem> </menuchoice>.
+            <guimenuitem>Show Attachments</guimenuitem> </menuchoice>;
+            to hide them again, choose <guimenuitem>Hide
+            Attachments</guimenuitem>.
         </para>
 	<para>
             When you send the message, a copy of the attached file
 	    will go with it.  Be aware that big attachments can take a
 	    long time to download.
           </para>
-	</sect3>
-        <sect3 id="usage-mail-getnsend-send-to">
-	<title>Choosing Recipients</title>
-	<para>
-	  If you have created address cards in the contact manager,
-	  you can also enter nicknames or other portions of address
-	  data, and <application>Evolution</application> will complete
-	  the address for you. <!-- (INSERT description of UI for this
-	  feature, once it is decided upon). --> If you enter a name
-	  or nickname that can go with more than one card, Evolution
-	  will open a dialog box to ask you which person you meant.
-	  <!-- (NOT YET) Also, <application>Evolution</application>
-	  will add a domain to any unqualified addresses.  By default,
-	  this is your domain, but you can choose which one mail
-	  preferences dialog. -->
-        </para>
+	</sect4>
+        <sect4 id="usage-mail-getnsend-send-to-types">
+         <title>Types of Recipients</title>
         <para>
-          Alternately, you can click on the
-          <guibutton>To:</guibutton>, <guibutton>Cc:</guibutton>, or
-          <guibutton>Bcc:</guibutton> buttons to get a list of email
-          addresses.  Click the check-boxes next to the addresses, then
-          click <guibutton>OK</guibutton>, and the address will be
-          added to the appropriate form field.
-        </para>
-	<para>
-          For more information about using email together with the
-	  contact manager and the calendar, see <xref
-	  linkend="usage-contact-automate"> and <xref
-	  linkend="usage-calendar-apts">.
-	</para>
-
-	<sect4 id="usage-mail-getnsend-send-to-mult">
-	  <title>Multiple Recipients</title>
-	  <para>
 	    <application>Evolution</application>, like all email
 	    programs (at least, all the ones in current use)
 	    recognizes three types of addressee: primary recipients,
-	    secondary recipients, and hidden ("blind") recipients. The
-	    <guilabel>To:</guilabel> field is for the primary
-	    recipients of the message you are going to send.  
+	    secondary recipients, and hidden ("blind") recipients.
          </para>
          <para>
 	    The simplest way to direct a message is to put the email
             address or addresses in the <guilabel>To:</guilabel>
-            field, to denote primary recipients.  However, it is
+            field, which denotes primary recipients.  However, it's
             considered bad form to have more than a few email
             addresses in this section.  If you are sending mail to
             more than one or two people, consider the
@@ -455,24 +403,57 @@
 	    </example>
 	  </para>
 	</sect4>
-      </sect3>
 
-   <sect3 id="usage-mail-getnsend-send-reply">
+        <sect4 id="usage-mail-getnsend-send-to">
+	<title>Choosing Recipients Quickly</title>
+	<para>
+	  If you have created address cards in the contact manager,
+	  you can also enter nicknames or other portions of address
+	  data, and <application>Evolution</application> will complete
+	  the address for you. <!-- (INSERT description of UI for this
+	  feature, once it is decided upon). --> If you enter a name
+	  or nickname that can go with more than one card, Evolution
+	  will open a dialog box to ask you which person you meant.
+	  <!-- (NOT YET) Also, <application>Evolution</application>
+	  will add a domain to any unqualified addresses.  By default,
+	  this is your domain, but you can choose which one mail
+	  preferences dialog. -->
+          </para>
+	  <para>
+            Alternately, you can click on the
+            <guibutton>To:</guibutton>, <guibutton>Cc:</guibutton>, or
+            <guibutton>Bcc:</guibutton> buttons to get a list &mdash;
+            potentially a very long one &mdash; of the email addresses
+            in your contact manager.  Select addresses and click on
+            the arrows to move them into the appropriate address
+            columns.
+          </para>
+	  <para>
+            For more information about using email together with the
+	    contact manager and the calendar, see <xref
+	    linkend="usage-contact-automate"> and <xref
+	    linkend="usage-calendar-apts">.
+	  </para>
+        </sect4>
+      </sect3>
+      
+      <sect3 id="usage-mail-getnsend-send-reply">
 	<title>Replying to Messages</title>
 	<para>
-	   In order to reply to a message, click on it once in the
-	   message list to select it.  Then press the
-	   <guibutton>Reply</guibutton> button.  A window like the
-	   <interface>New Message</interface> window will appear, but
-	   the subject will already be present&mdash; the same subject
-	   as the message to which you are replying, but with Re:
-	   before it, to mark it as a reply.  In addition, the full
-	   text of the previous message is inserted into the new
-	   message, either in italics (for HTML display) or with the
-	   &gt; character (in plain text mode) before each line.  This
-	   indicates quoting.  You can intersperse your message with
-	   the quoted material as shown in <xref
-	   linkend="usage-mail-getnsend-reply-fig">
+	   To reply to a message, press the
+	   <guibutton>Reply</guibutton> button while it is selected,
+	   or choose <guimenuitem>Reply to Sender</guimenuitem> from
+	   the message's right-click menu.  That will open
+	   <interface>message composer</interface>.  The
+	   <guilabel>To:</guilabel> and <guilabel>Subject</guilabel>
+	   fields will already be filled, although you can alter them
+	   if you wish.  In addition, the full text of the old message
+	   is inserted into the new message, either in italics (for
+	   HTML display) or with the &gt; character (in plain text
+	   mode) before each line, to indicate that it's part of the
+	   previous message.  People often intersperse their message
+	   with the quoted material as shown in <xref
+	   linkend="usage-mail-getnsend-reply-fig">.
 
 <!-- note that this figure should have a reply mail ready to send,
 with quoted materials and the relevant replies interspersed-->
@@ -489,15 +470,14 @@ with quoted materials and the relevant replies interspersed-->
 	</para>
 
 	<para>
-	  If a message has several recipients, as in the case of
-	  mailing lists or messages that have been carbon copied, you
-	  may wish to click <guibutton>Reply to All</guibutton>
-	  instead of <guibutton>Reply</guibutton>.  If there are large
-	  numbers of people in the <guilabel>Cc:</guilabel> or
-	  <guilabel>To:</guilabel> fields, this can save substantial
-	  amounts of time.  But be careful, and always make sure you
-	  know who is getting a message: it could be a mailing list
-	  with thousands of subscribers.
+	  If you're reading a message with several recipients, you may
+	   wish to use <guibutton>Reply to All</guibutton> instead of
+	   <guibutton>Reply</guibutton>.  If there are large numbers
+	   of people in the <guilabel>Cc:</guilabel> or
+	   <guilabel>To:</guilabel> fields, this can save substantial
+	   amounts of time.  But be careful, and always make sure you
+	   know who is getting a message: one address could be a
+	   mailing list with thousands of subscribers.
 	  <example>
 	    <title>Using the Reply to All feature</title>
 	    <para>
@@ -552,7 +532,7 @@ with quoted materials and the relevant replies interspersed-->
 	    <varlistentry>
 	       <term><guimenuitem>Replace</guimenuitem></term>
 	       <listitem><para> 
-                 Find a word or phrase, replace it with
+                 Find a word or phrase, and replace it with
 	         something else.  
                </para></listitem>
 	    </varlistentry>
@@ -575,11 +555,13 @@ with quoted materials and the relevant replies interspersed-->
 	<para>
             You can't normally use text treatments or pictures in
             emails, which is why you've probably seen people use far
-            too many exclamation points for emphasis or use
-            <glossterm linkend="emoticon">emoticons</glossterm> to convey their feelings.
-            However, most of the newer email programs can include and
-            display images and text treatments as well as basic
-            alignment and paragraph formatting.
+            too many exclamation points for emphasis or use <glossterm
+            linkend="emoticon">emoticons</glossterm> to convey their
+            feelings.  However, most of the newer email programs can
+            include and display images and text treatments as well as
+            basic alignment and paragraph formatting. They do this
+            with <glossterm linkend="html">HTML</glossterm>, just like
+            web sites do.
         </para>
 	<note>
 	  <title>HTML Mail is not a Default Setting</title>

@@ -1,3 +1,25 @@
+
+2000-11-01  Aaron Weber  <aaron@helixcode.com>
+
+	* C/config-prefs.sgml: Fixed validation errors.
+
+	* C/apx-gloss.sgml: Fixed HTML, style stuff.
+
+	* C/usage-mail.sgml: Stylistic overhaul.
+
+	* C/usage-mainwindow.sgml: Fixed groups in shortcut bar, fixed
+	folder navigation tips.	
+
+2000-10-31  Aaron Weber  <aaron@helixcode.com>
+
+	* C/preface.sgml: Minor stylistic revisions.
+
+2000-10-30  Aaron Weber  <aaron@helixcode.com>
+
+	* COPYING-DOCS: New file. This is the official place to put the
+	FDL now.
+	
+
 2000-11-01  Radek Doulik  <rodo@helixcode.com>
 
 	* Keybindings: added composer keybindings description

@@ -19,6 +19,35 @@
 	you'd rather deal with your email preferences later, click
 	<guibutton>Cancel</guibutton>.
       </para>
+
+<!--  
+
+
+
+Before you get it, though, you should decide where you want to
+	keep it.  Your options will vary a little depending on your
+	network setup, but they come down to storing the mail on your
+	hard disk (using <glossterm linkend="pop">POP</glossterm>), or
+	storing it on the network (using <glossterm
+	linkend="imap">IMAP</glossterm>).  If you store your mail on
+	your local hard disk, you can read it whether you're online or
+	not, but you can only read it from one computer.  If you store
+	it on the network, you can only read it when you're online,
+	but you can access it from almost any computer with a network
+	connection, even if it doesn't have
+	<application>Evolution</application>.
+
+
+        If you choose POP, you'll be putting mail in the
+        <guilabel>Inbox</guilabel> in the <guilabel>Local</guilabel>
+        folder.  If you choose IMAP, it's the
+        <guilabel>Inbox</guilabel> of a folder with the same name as
+        your mail server.  That's so you can maintain several distinct
+        IMAP servers if you want.  See <xref
+        linkend="config-prefs-mail"> for more information about mail
+        servers.
+-->
+
       <para>
          The setup assistant (sometimes called a
 	 <glossterm>Druid</glossterm>, by analogy with the "Wizards"

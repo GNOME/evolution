@@ -15,10 +15,11 @@
         <application>Evolution</application>'s goal is to make the
         tasks of storing, organizing, and retrieving information
         easier, so you can work and communicate with others.  That is,
-        it's a more evolved <glossterm linkend="groupware">groupware</glossterm> program,
-        an integral part of the Internet-connected desktop. On the
-        inside, it's a powerful database; on the outside, it's a tool
-        to help you get your work done.
+        it's a highly evolved <glossterm
+        linkend="groupware">groupware</glossterm> program, an integral
+        part of the Internet-connected desktop. On the inside, it's a
+        powerful database; on the outside, it's a tool to help you get
+        your work done.
       </para>
       <para>
         Because it's part of the GNOME project,
@@ -58,15 +59,15 @@
         power and flexibility of the GNOME desktop environment.
       </para>
       <para>
-        The developers of <application>Evolution</application> had
-        four major goals for their project:
+        The <application>Evolution</application> project has four
+        central goals:
 
         <itemizedlist>
 	  <listitem>
 	    <para>
              The application must be <emphasis>both powerful and easy
              to use</emphasis>. That means a familiar and intuitive
-             interface that users could customize to their liking, and
+             interface that users can customize to their liking, and
              the development of shortcuts for complex tasks.
             </para>
 	  </listitem>
@@ -74,10 +75,10 @@
 	    <para>
               <application>Evolution</application> must meet and
               exceed the standards set by other groupware products.
-              It must include support for most major network
-              <glossterm linkend="protocol">protocols</glossterm> so
-              that it can integrate seamlessly with existing hardware
-              and network environments.
+              It must include support for major network <glossterm
+              linkend="protocol">protocols</glossterm> so that it can
+              integrate seamlessly with existing hardware and network
+              environments.
             </para>
 	  </listitem>
 	  <listitem>
@@ -95,8 +96,8 @@
 	    <para>
                Data must be safe: <application>Evolution</application>
                must not lose mail, corrupt mailbox files or other
-               data, execute arbitrary scripts, or delete files from
-               your hard disk.
+               data, execute arbitrary <glossterm linkend="script">scripts</glossterm>,
+               or delete files from your hard disk.
             </para>
           </listitem>
 	</itemizedlist>
@@ -123,7 +124,7 @@
       <para>
         This version of the <application>Evolution</application>
         User's Guide is a <emphasis>draft</emphasis>. It describes
-        version 0.5.1 of the software.  It is missing huge
+        version 0.6 of the software.  It is missing huge
         chunks of information, and many of the features it describes
         are unimplemented.  All the content is subject to change,
         especially if you help.  Please send comments on the guide to
@@ -172,7 +173,7 @@
             in</userinput></member> <member><computeroutput>Text
             output from a computer</computeroutput></member>
             <member><glossterm linkend="apx-gloss">Words</glossterm>
-            that are defined in <xref linkend="apx-gloss">.</member>
+            that are defined in the <xref linkend="apx-gloss">.</member>
 	  </simplelist>
         </para>
       </formalpara>
@@ -296,7 +297,7 @@
     <sect2 id="quickref-mail">
       <title>Mail Tasks</title>
       <para>
-        Here are the most frequent email tasks:
+        Here are the most frequent email tasks, and shortcuts for navigating your mailbox with the keyboard instead of the mouse:
          <variablelist>
 	  <varlistentry>
 	    <term>Check Mail</term>

@@ -158,10 +158,10 @@
   <glossterm>HTML</glossterm>
   <glossdef>
    <para>
-    Hyper-text Markup Language(<acronym>HTML</acronym>) is the layout
-    language which all web pages are written in.  HTML can be used
-    inside of e-mails to insert images, justify text different ways,
-    and even include web pages inside the e-mail itself.
+    Hyper-text Markup Language(<acronym>HTML</acronym>) is a language
+    for describing page layout in electronic documents like web pages,
+    help files, and email messages.  HTML can be used in email and
+    news posts to insert images and apply text treatments.
    </para>
   </glossdef>
  </glossentry>

@@ -624,6 +624,9 @@
                    <listitem><para>
                     <guilabel>Root DN</guilabel> &mdash; enter the root DN here.
                  </para></listitem>
+             </itemizedlist>
+         </para>
+       </sect2>
       </sect1>
     
 

@@ -50,11 +50,9 @@
 	The appearance of both <application>Evolution</application>
 	and <application>GNOME</application> is very easy to
 	customize, so your screen might not look like this picture.
-	You might configure <application>Evolution</application> to
-	start with a different view, without the <interface>shortcut
-	bar</interface>, or with the <link
-	linkend="usage-mainwindow-folderbar">folder bar</link>
-	instead.
+	You might decide to have <application>Evolution</application>
+	start with the calendar and a folder bar, or with the contact
+	manager occupying the entire window.
       </para>
     </note>
   </para>
@@ -70,10 +68,10 @@
         like <guilabel>Inbox</guilabel> and
         <guilabel>Contacts</guilabel> are the shortcuts, and you can
         select different groups of shortcuts by clicking the
-        rectangular category buttons.
+        rectangular group buttons.
     </para>
     <para>
-       The category buttons are <guibutton>Evolution
+       The shortcut group buttons are <guibutton>Evolution
        Shortcuts</guibutton> and <guibutton>Internet
        Directories</guibutton>.  When you click on them, they'll slide
        up and down to give you access to different sorts of shortcuts.
@@ -83,9 +81,12 @@
        Directories</guilabel>, it will slide up and you'll see buttons
        for the <guilabel>Bigfoot</guilabel> and
        <guilabel>Netcenter</guilabel> directories, as well as any
-       others you or your system administrator might have added.
-       Internet directories behave a lot like the local contact
-       manager, which is covered in <xref linkend="usage-contact">.
+       others you or your system administrator might have added. You
+       can add more groups by right-clicking on the background of the
+       shortcut bar and selecting <guimenuitem>Menu
+       Group</guimenuitem>.  Internet directories behave a lot like
+       the local contact manager, which is covered in <xref
+       linkend="usage-contact">.
        </para>
     <para>
        Take a look at the <guilabel>Evolution Shortcuts</guilabel>
@@ -192,16 +193,6 @@
          empty space on the shortcut bar.  From the menu that appears,
          you can select icon sizes.
        </para>
-       <para>
-         You don't need the folder bar to move between folders. You
-         can use <menuchoice> <guimenu>File</guimenu> <guimenuitem>Go
-         to Folder...</guimenuitem> </menuchoice> to move to a
-         particular folder.  It's faster, however, to click on the
-         <guilabel>Inbox</guilabel> label just below the toolbar, to
-         the right of the shortcut bar, and select a folder from
-         there.  The <guilabel>Inbox</guilabel> label will change to
-         reflect your location in the folder tree.
-       </para>
     </tip>
   </sect1>
 
@@ -258,6 +249,16 @@
       </itemizedlist>
 
     </para>
+    <tip id="foldertips">
+    <title>Navigating without the Folder Bar</title>
+       <para>
+         You don't need the folder bar or the shortcut bar to move
+         around the main window. You can use <keycap>Tab</keycap> to
+         switch from one part of the window to another, and the folder
+         menu on the right side of the window just below the toolbar
+         to move about the folder tree.
+       </para>
+     </tip>
 
     <para>
        To create a new folder, select <menuchoice>
@@ -295,11 +296,11 @@
     <tip>
      <title>Context-Sensitive Help</title>
       <para>
-	GNOME 2.0 supports context-sensitive help, which means you can
-	almost always get help on an item by right-clicking it.  If
-	you're not sure what something is, or don't know what you can
-	do with it, choosing <guimenuitem>Help</guimenuitem> from the
-	right-click menu is a good way to find out.
+	GNOME 2.0 will support context-sensitive help, which means you
+	can almost always get help on an item by right-clicking it.
+	If you're not sure what something is, or don't know what you
+	can do with it, choosing <guimenuitem>Help</guimenuitem> from
+	the right-click menu is a good way to find out.
       </para>
     </tip>
 
