@@ -55,7 +55,23 @@ New features:
 
     - When you receive an appointment through email, you can choose
       which calendar to update.
-														
+
+    - Calendar importer now supports importing to remote folders.
+
+    - Calendar GUI and alarm daemon now use listeners for the configuration.
+
+    - Reaction to calendar backends crashing has been improved.
+
+    - Show status messages for all long calendar operations.
+
+    - Fixed default reminders description (was 'Untitled appointment').
+
+    - Included timezone information on VCALENDAR's used in copy/paste.
+
+    - Removed extra space that was displayed for categories without icons.
+
+    - Fixed crashes in the alarm daemon.
+
   * Contacts
 
     - It is now possible to specify which folders are used for
