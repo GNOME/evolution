@@ -12,6 +12,7 @@
 #include "gal/e-table/e-tree.h"
 #include "gal-a11y-e-table-item.h"
 #include "gal-a11y-e-cell.h"
+#include "gal-a11y-e-cell-vbox.h"
 #include "gal-a11y-util.h"
 #include <atk/atkobject.h>
 #include <atk/atkcomponent.h>
@@ -184,6 +185,12 @@ gal_a11y_e_cell_grab_focus (AtkComponent *component)
 	GalA11yETableItem *a11yTableItem;
 
 	a11y = GAL_A11Y_E_CELL (component);
+
+	/* for e_cell_vbox's children, we just grab the e_cell_vbox */
+	if (GAL_A11Y_IS_E_CELL_VBOX (a11y->parent)) {
+		return atk_component_grab_focus (ATK_COMPONENT (a11y->parent));
+	}
+
 	a11yTableItem = GAL_A11Y_E_TABLE_ITEM (a11y->parent);
 	index = atk_object_get_index_in_parent (ATK_OBJECT (a11y));
 	
