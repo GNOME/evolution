@@ -1,5 +1,8 @@
 2001-09-16  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* mail-display.c (pixbuf_gen_idle): Don;t destroy the pixbuf
+	loader, unref it instead.
+
 	* mail-config.c (mail_config_folder_to_cachename): Use
 	camel_folder_get_uri().
 

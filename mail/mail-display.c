@@ -591,7 +591,7 @@ pixbuf_gen_idle (struct _PixbufLoader *pbl)
 	gtk_signal_disconnect (GTK_OBJECT (pbl->eb), pbl->destroy_id);
 	if (pbl->loader) {
 		gdk_pixbuf_loader_close (pbl->loader);
-		gtk_object_destroy (GTK_OBJECT (pbl->loader));
+		gtk_object_unref (GTK_OBJECT (pbl->loader));
 		camel_object_unref (CAMEL_OBJECT (pbl->mstream));
 	}
 	g_free (pbl->type);

@@ -404,17 +404,18 @@ composer_get_message (EMsgComposer *composer)
 		gboolean have_invalid = FALSE;
 		gchar *msg, *new_msg;
 		GtkWidget *message_box;
-
+		
 		for (i = 0; recipients[i] && !have_invalid; ++i) {
-			if (! e_destination_is_valid (recipients[i]))
+			if (!e_destination_is_valid (recipients[i]))
 				have_invalid = TRUE;
 		}
-
+		
 		if (have_invalid) {
 			msg = _("This message contains invalid recipients:");
 			for (i = 0; recipients[i]; ++i) {
-				if (! e_destination_is_valid (recipients[i])) {
-					new_msg = g_strdup_printf ("%s\n    %s", msg, e_destination_get_address (recipients[i]));
+				if (!e_destination_is_valid (recipients[i])) {
+					new_msg = g_strdup_printf ("%s\n    %s", msg,
+								   e_destination_get_address (recipients[i]));
 					g_free (msg);
 					msg = new_msg;
 				}
@@ -423,11 +424,11 @@ composer_get_message (EMsgComposer *composer)
 			new_msg = e_utf8_from_locale_string (msg);
 			g_free (msg);
 			msg = new_msg;
-
+			
 			message_box = gnome_message_box_new (msg, GNOME_MESSAGE_BOX_WARNING, GNOME_STOCK_BUTTON_OK, NULL);
-
+			
 			gnome_dialog_run_and_close (GNOME_DIALOG (message_box));
-
+			
 			camel_object_unref (CAMEL_OBJECT (message));
 			message = NULL;
 			goto finished;
@@ -523,7 +524,6 @@ composer_get_message (EMsgComposer *composer)
 	/* Get the message recipients and 'touch' them, boosting their use scores */
 	recipients = e_msg_composer_get_recipients (composer);
 	e_destination_touchv (recipients);
-
 
  finished:
 	e_destination_freev (recipients);
