@@ -44,12 +44,15 @@ view_destroyed (GtkWidget *widget,
 static BonoboObject*
 create_view (ExecutiveSummaryComponent *component,
 	     char **title,
+	     char **icon,
 	     void *closure)
 {
   BonoboControl *control;
   GtkWidget *button;
 
   *title = g_strdup ("This is the test bonobo service");
+  *icon = g_strdup ("gnome-clock.png");
+
   button = gtk_button_new_with_label ("A test service with a whole button");
   gtk_signal_connect (GTK_OBJECT (button), "clicked",
 		      GTK_SIGNAL_FUNC (clicked_cb), NULL);
@@ -68,9 +71,12 @@ create_view (ExecutiveSummaryComponent *component,
 static char *
 create_html (ExecutiveSummaryComponent *component,
 	     char **title,
+	     char **icon,
 	     void *closure)
 {
   *title = g_strdup ("The Magic Counter");
+  *icon = g_strdup ("gnome-clock.png");
+
   gtk_timeout_add (1000, clicked_cb, component);
   return g_strdup ("Since you started this service<br><center>0</center><br>seconds have passed.");
 }

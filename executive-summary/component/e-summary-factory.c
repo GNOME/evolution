@@ -190,6 +190,7 @@ embed_service (GtkWidget *widget,
 					NULL};
 	char *obj_id;
 	char *title;
+	char *icon;
 	char *html;
 
 	obj_id = bonobo_selector_select_id ("Select a service",
@@ -207,8 +208,8 @@ embed_service (GtkWidget *widget,
 	executive_summary_component_client_set_owner (client, summary);
 
 	/* Create view */
-	html = executive_summary_component_client_create_html_view (client, &title);
-	e_summary_add_html_service (esummary, summary, client, html, title);
+	html = executive_summary_component_client_create_html_view (client, &title, &icon);
+	e_summary_add_html_service (esummary, summary, client, html, title, icon);
 	g_free (html);
 
 	e_summary_rebuild_page (esummary);

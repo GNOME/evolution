@@ -49,9 +49,11 @@ module Evolution {
 		 * Creates a summary of the data that the component has.
 		 * Returns: A @BonoboControl of the view.
 		 */
-		Bonobo::Control create_bonobo_view (out string title);
+		Bonobo::Control create_bonobo_view (out string title,
+						    out string icon);
 
-		string create_html_view (out string title);
+		string create_html_view (out string title,
+					 out string icon);
 
 		/**
 		 * configure:

@@ -1,3 +1,22 @@
+2000-10-09  Iain Holmes  <iain@helixcode.com>
+
+	* idl/SummaryComponent.idl: Added an icon parameter to the
+	create_view methods.
+
+	* evolution-services/executive-summary-component.c: Implement
+	the icon parameter.
+
+	* evolution-services/executive-summary-component-client.c: Ditto
+
+	* component/e-summary.c: Draw the specified icon.
+
+	* component/e-summary-factory.c: Use the icon parameter.
+
+2000-10-09  Iain Holmes  <iain@helixcode.com>
+
+	* evolution-services/Makefile.am: Added $(EXTRA_GNOME_CFLAGS) to 
+	find gnomesupport.h
+
 2000-10-06  Iain Holmes  <iain@helixcode.com>
 
 	* component/e-summary.c (request_cb): Use gnome-vfs to retrieve

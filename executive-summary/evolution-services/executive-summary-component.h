@@ -39,9 +39,11 @@ typedef struct _ExecutiveSummaryComponentClass ExecutiveSummaryComponentClass;
 
 typedef BonoboObject *(* EvolutionServicesCreateBonoboViewFn) (ExecutiveSummaryComponent *component,
 							       char **title,
+							       char **icon,
 							       void *closure);
 typedef char *(* EvolutionServicesCreateHtmlViewFn) (ExecutiveSummaryComponent *component,
 						     char **title,
+						     char **icon,
 						     void *closure);
 typedef void (* EvolutionServicesConfigureFn) (ExecutiveSummaryComponent *component,
 					       void *closure);

@@ -142,29 +142,35 @@ impl_Evolution_SummaryComponent_unset_owner (PortableServer_Servant servant,
 static Bonobo_Control
 impl_Evolution_SummaryComponent_create_bonobo_view (PortableServer_Servant servant,
 						    CORBA_char **title,
+						    CORBA_char **icon,
 						    CORBA_Environment *ev)
 {
 	BonoboObject *bonobo_object;
 	ExecutiveSummaryComponent *component;
 	ExecutiveSummaryComponentPrivate *priv;
 	BonoboControl *control;
-	char *initial_title;
+	char *initial_title, *initial_icon;
 	
 	bonobo_object = bonobo_object_from_servant (servant);
 	component = EXECUTIVE_SUMMARY_COMPONENT (bonobo_object);
 	priv = component->private;
 	
 	control = (* priv->create_bonobo_view) (component, &initial_title,
+						&initial_icon,
 						priv->closure);
 	
 	*title = CORBA_string_dup (initial_title ? initial_title:"");
+	*icon = CORBA_string_dup (initial_icon ? initial_icon:"");
 	g_free (initial_title);
+	g_free (initial_icon);
+
 	return bonobo_object_corba_objref (BONOBO_OBJECT (control));
 }
 
 static CORBA_char *
 impl_Evolution_SummaryComponent_create_html_view (PortableServer_Servant servant,
 						  CORBA_char **title,
+						  CORBA_char **icon,
 						  CORBA_Environment *ev)
 {
 	BonoboObject *bonobo_object;
@@ -172,17 +178,20 @@ impl_Evolution_SummaryComponent_create_html_view (PortableServer_Servant servant
 	ExecutiveSummaryComponentPrivate *priv;
 	CORBA_char *ret_str;
 	char *ret_html;
-	char *initial_title;
+	char *initial_title, *initial_icon;
 
 	bonobo_object = bonobo_object_from_servant (servant);
 	component = EXECUTIVE_SUMMARY_COMPONENT (bonobo_object);
 	priv = component->private;
 
 	ret_html = (* priv->create_html_view) (component, &initial_title,
+					       &initial_icon,
 					       priv->closure);
 
 	*title = CORBA_string_dup (initial_title ? initial_title:"");
+	*icon = CORBA_string_dup (initial_icon ? initial_icon:"");
 	g_free (initial_title);
+	g_free (initial_icon);
 
 	ret_str = CORBA_string_dup (ret_html ? ret_html:"");
 	g_free (ret_html);

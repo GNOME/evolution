@@ -199,7 +199,8 @@ executive_summary_component_client_supports (ExecutiveSummaryComponentClient *cl
 
 Bonobo_Control
 executive_summary_component_client_create_bonobo_view (ExecutiveSummaryComponentClient *client,
-						       char **title)
+						       char **title,
+						       char **icon)
 {
 	Bonobo_Control control;
 	Evolution_SummaryComponent component;
@@ -211,7 +212,7 @@ executive_summary_component_client_create_bonobo_view (ExecutiveSummaryComponent
 
 	CORBA_exception_init (&ev);
 	component = bonobo_object_corba_objref (BONOBO_OBJECT (client));
-	control = Evolution_SummaryComponent_create_bonobo_view (component, title, &ev);
+	control = Evolution_SummaryComponent_create_bonobo_view (component, title, icon, &ev);
 
 	if (ev._major != CORBA_NO_EXCEPTION) {
 		g_warning ("Error creating view");
@@ -226,7 +227,8 @@ executive_summary_component_client_create_bonobo_view (ExecutiveSummaryComponent
 
 char *
 executive_summary_component_client_create_html_view (ExecutiveSummaryComponentClient *client,
-						     char **title)
+						     char **title,
+						     char **icon)
 {
 	CORBA_char *ret_html;
 	Evolution_SummaryComponent component;
@@ -239,9 +241,8 @@ executive_summary_component_client_create_html_view (ExecutiveSummaryComponentCl
 	CORBA_exception_init (&ev);
 	component = bonobo_object_corba_objref (BONOBO_OBJECT (client));
 
-	g_print ("Here\n");
-	ret_html = Evolution_SummaryComponent_create_html_view (component, title, &ev);
-	g_print ("Not here - %s\n", ret_html);
+	ret_html = Evolution_SummaryComponent_create_html_view (component, title, icon, &ev);
+
 	if (ev._major != CORBA_NO_EXCEPTION) {
 		g_warning ("Error creating HTML view");
 		CORBA_exception_free (&ev);

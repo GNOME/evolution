@@ -59,12 +59,14 @@ void e_summary_add_html_service (ESummary *esummary,
 				 ExecutiveSummary *summary,
 				 ExecutiveSummaryComponentClient *client,
 				 const char *html,
-				 const char *title);
+				 const char *title,
+				 const char *icon);
 void e_summary_add_bonobo_service (ESummary *esummary,
 				   ExecutiveSummary *summary,
 				   ExecutiveSummaryComponentClient *client,
 				   GtkWidget *control,
-				   const char *title);
+				   const char *title,
+				   const char *icon);
 void e_summary_update_window (ESummary *esummary,
 			      ExecutiveSummary *summary,
 			      const char *html);

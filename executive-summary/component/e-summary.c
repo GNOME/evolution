@@ -65,6 +65,7 @@ typedef struct _ESummaryWindow {
 	ExecutiveSummary *summary;
 	ExecutiveSummaryComponentClient *client;
 	char *title;
+	char *icon;
 	
 	ESummaryWindowType type;
 
@@ -245,7 +246,7 @@ static void
 e_summary_end_load (ESummary *summary)
 {
 	ESummaryPrivate *priv;
-	char *footer = "<hr></body></html>";
+	char *footer = "</body></html>";
 
 	priv = summary->private;
 	gtk_html_write (GTK_HTML (priv->html), priv->stream, 
@@ -358,15 +359,15 @@ e_summary_display_window (ESummary *esummary,
 
 	/** FIXME: Make this faster by caching it? */
 	title_cid = g_strdup_printf ("<table cellspacing=\"0\" "
-				     "cellpadding=\"0\" border=\"0\" "
-				     "height=\"100%%\" width=\"100%%\">"
+				     "cellpadding=\"0\" border=\"0\" width=\"100%%\" height=\"100%%\">"
 				     "<tr><td bgcolor=\"#%s\">"
-				     "<table><tr><td>"
-				     "<img src=\"envelope.png\"></td>"
-                                     "<td nowrap align=\"center\">"
+				     "<table width=\"100%%\"><tr><td>"
+				     "<img src=\"%s\"></td>"
+                                     "<td nowrap align=\"center\" width=\"100%%\">"
 				     "<b>%s</b></td></tr></table></td></tr><tr>"
-				     "<td bgcolor=\"#%s\" width=\"100%%\" height=\"100%%\">", 
+				     "<td bgcolor=\"#%s\" height=\"100%%\">", 
 				     title_colour[col % 2],
+				     window->icon,
 				     window->title,
 				     colour[col % 2]);
 
@@ -399,7 +400,7 @@ e_summary_rebuild_page (ESummary *esummary)
 {
 	ESummaryPrivate *priv;
 	GList *windows;
-	char *service_table = "<table numcols=\"3\" cellspacing=\"0\" cellpadding=\"0\" border=\"0\">";
+	char *service_table = "<table numcols=\"3\" cellspacing=\"0\" cellpadding=\"0\" border=\"0\" height=\"100%\">";
 	int loc;
 
 	g_return_val_if_fail (esummary != NULL, FALSE);
@@ -418,7 +419,7 @@ e_summary_rebuild_page (ESummary *esummary)
 	loc = 0;
 	for (windows = priv->window_list; windows; windows = windows->next) {
 		ESummaryWindow *window;
-		char *td = "<td height=\"100%%\" width=\"33%%\" valign=\"top\">";
+		char *td = "<td height=\"100%\" width=\"33%\" valign=\"top\">";
 		
 		window = windows->data;
 
@@ -428,7 +429,7 @@ e_summary_rebuild_page (ESummary *esummary)
 						priv->stream, "</tr>", 5);
 			}
 			gtk_html_write (GTK_HTML (priv->html),
-					priv->stream, "<tr>", 4);
+					priv->stream, "<tr height=\"100%\">", 18);
 		}
 
 		gtk_html_write (GTK_HTML (priv->html), priv->stream,
@@ -454,7 +455,8 @@ e_summary_add_html_service (ESummary *esummary,
 			    ExecutiveSummary *summary,
 			    ExecutiveSummaryComponentClient *client,
 			    const char *html,
-			    const char *title)
+			    const char *title,
+			    const char *icon)
 {
 	ESummaryWindow *window;
 	ESummaryPrivate *priv;
@@ -463,6 +465,8 @@ e_summary_add_html_service (ESummary *esummary,
 	window->type = E_SUMMARY_WINDOW_HTML;
 	window->html = g_strdup (html);
 	window->title = g_strdup (title);
+	window->icon = icon ? g_strdup (icon) : NULL;
+	window->client = client;
 
 	window->summary = summary;
 	priv = esummary->private;
@@ -476,7 +480,8 @@ e_summary_add_bonobo_service (ESummary *esummary,
 			      ExecutiveSummary *summary,
 			      ExecutiveSummaryComponentClient *client,
 			      GtkWidget *control,
-			      const char *title)
+			      const char *title,
+			      const char *icon)
 {
 	ESummaryWindow *window;
 	ESummaryPrivate *priv;
@@ -489,7 +494,8 @@ e_summary_add_bonobo_service (ESummary *esummary,
 
 	window->title = g_strdup (title);
 	window->summary = summary;
-	
+	window->icon = icon ? g_strdup (icon): NULL;
+
 	priv = esummary->private;
 	priv->window_list = g_list_append (priv->window_list, window);
 
@@ -501,6 +507,7 @@ e_summary_window_free (ESummaryWindow *window,
 		       ESummaryPrivate *priv)
 {
 	g_free (window->title);
+	g_free (window->icon);
 	if (window->type == E_SUMMARY_WINDOW_BONOBO)
 		gtk_widget_unref (window->control);
 	else

@@ -58,10 +58,12 @@ void executive_summary_component_client_supports (ExecutiveSummaryComponentClien
 						  gboolean *bonobo,
 						  gboolean *html);
 Bonobo_Control executive_summary_component_client_create_bonobo_view (ExecutiveSummaryComponentClient *client,
-								      char **title);
+								      char **title,
+								      char **icon);
 
 char *executive_summary_component_client_create_html_view (ExecutiveSummaryComponentClient *client,
-							   char **title);
+							   char **title,
+							   char **icon);
 
 void executive_summary_component_client_configure (ExecutiveSummaryComponentClient *client);
 
