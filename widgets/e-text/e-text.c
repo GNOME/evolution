@@ -1615,6 +1615,7 @@ get_line_xpos_item_relative (EText *text, struct line *line)
 	return x;
 }
 
+#if 0
 /* Calculates the y position of the first line of text. */
 static double
 get_line_ypos_item_relative (EText *text)
@@ -1644,6 +1645,7 @@ get_line_ypos_item_relative (EText *text)
 
 	return y;
 }
+#endif
 
 /* Calculates the x position of the specified line of text, based on the text's justification */
 static int

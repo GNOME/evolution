@@ -1,3 +1,7 @@
+2000-08-20  Christopher James Lahey  <clahey@helixcode.com>
+
+	* widgets/e-text/e-text.c: Fixed a warning.
+
 2000-08-20  arik devens  <arik@helixcode.com>
 
 	* widgets/e-text/Makefile.am (INCLUDES): added UNICODE_CFLAGS
