@@ -146,19 +146,24 @@ test_folder_not_message(CamelFolder *folder, const char *uid)
 	CamelException *ex = camel_exception_new();
 	int found;
 
-	push("uid %s is not in folder", uid);
+	push("uid '%s' is not in folder", uid);
 
 	/* first try getting info */
+	push("no message info");
 	info = camel_folder_get_message_info(folder, uid);
 	check(info == NULL);
+	pull();
 
 	/* then, getting message */
+	push("no message");
 	msg = camel_folder_get_message(folder, uid, ex);
 	check(camel_exception_is_set(ex));
 	check(msg == NULL);
 	camel_exception_clear(ex);
+	pull();
 
 	/* see if it is not in the summary (only once) */
+	push("not in summary list");
 	s = camel_folder_get_summary(folder);
 	check(s != NULL);
 	found = 0;
@@ -169,8 +174,10 @@ test_folder_not_message(CamelFolder *folder, const char *uid)
 	}
 	check(found == 0);
 	camel_folder_free_summary(folder, s);
+	pull();
 
 	/* check it is not in the uid list */
+	push("not in uid list");
 	s = camel_folder_get_uids(folder);
 	check(s != NULL);
 	found = 0;
@@ -180,6 +187,7 @@ test_folder_not_message(CamelFolder *folder, const char *uid)
 	}
 	check(found == 0);
 	camel_folder_free_uids(folder, s);
+	pull();
 
 	camel_exception_free(ex);
 
@@ -215,7 +223,7 @@ test_folder_basic(CamelSession *session, const char *storename, int local, int s
 	} else {
 		check_msg(!camel_exception_is_set(ex), "%s", camel_exception_get_description(ex));
 		check(folder != NULL);
-		check_unref(folder, 1);
+		check_unref(folder, 2);
 	}
 	pull();
 
@@ -231,14 +239,20 @@ test_folder_basic(CamelSession *session, const char *storename, int local, int s
 		folder = camel_store_get_folder(store, "testbox", CAMEL_STORE_FOLDER_CREATE, ex);
 		check_msg(!camel_exception_is_set(ex), "%s", camel_exception_get_description(ex));
 		check(folder != NULL);
-		check_unref(folder, 1);
+		if (local)
+			check_unref(folder, 1);
+		else
+			check_unref(folder, 2);
 		pull();
 
 		push("getting an existing folder");
 		folder = camel_store_get_folder(store, "testbox", 0, ex);
 		check_msg(!camel_exception_is_set(ex), "%s", camel_exception_get_description(ex));
 		check(folder != NULL);
-		check_unref(folder, 1);
+		if (local)
+			check_unref(folder, 1);
+		else
+			check_unref(folder, 2);
 		pull();
 
 		push("renaming a non-existant folder");
@@ -263,7 +277,10 @@ test_folder_basic(CamelSession *session, const char *storename, int local, int s
 		folder = camel_store_get_folder(store, "testbox2", 0, ex);
 		check_msg(!camel_exception_is_set(ex), "%s", camel_exception_get_description(ex));
 		check(folder != NULL);
-		check_unref(folder, 1);
+		if (local)
+			check_unref(folder, 1);
+		else
+			check_unref(folder, 2);
 		pull();
 	}
 
@@ -298,7 +315,7 @@ test_folder_basic(CamelSession *session, const char *storename, int local, int s
 /* todo: cross-check everything with folder_info checks as well */
 /* this should probably take a folder instead of a session ... */
 void
-test_folder_message_ops(CamelSession *session, const char *name, int local, int spool)
+test_folder_message_ops(CamelSession *session, const char *name, int local, const char *mailbox)
 {
 	CamelStore *store;
 	CamelException *ex = camel_exception_new();
@@ -308,12 +325,6 @@ test_folder_message_ops(CamelSession *session, const char *name, int local, int 
 	int indexed, max;
 	GPtrArray *uids;
 	CamelMessageInfo *info;
-	char *mailbox;
-
-	if (spool)
-		mailbox = "INBOX";
-	else
-		mailbox = "testbox";
 
 	max=local?2:1;
 
@@ -336,6 +347,16 @@ test_folder_message_ops(CamelSession *session, const char *name, int local, int 
 		else
 			flags = CAMEL_STORE_FOLDER_CREATE;
 		folder = camel_store_get_folder(store, mailbox, flags, ex);
+
+		/* we can't create mailbox outside of namespace, since we have no api for it, try
+		   using inbox namespace, works for courier */
+		if (folder == NULL) {
+			char *mbox = g_strdup_printf("INBOX/%s", mailbox);
+			mailbox = mbox;
+			camel_exception_clear(ex);
+			folder = camel_store_get_folder(store, mailbox, flags, ex);
+		}
+
 		check_msg(!camel_exception_is_set(ex), "%s", camel_exception_get_description(ex));
 		check(folder != NULL);
 
@@ -361,6 +382,7 @@ test_folder_message_ops(CamelSession *session, const char *name, int local, int 
 			camel_folder_append_message(folder, msg, NULL, NULL, ex);
 			check_msg(!camel_exception_is_set(ex), "%s", camel_exception_get_description(ex));
 
+#if 0
 			/* sigh, this shouldn't be required, but the imap code is too dumb to do it itself */
 			if (!local) {
 				push("forcing a refresh of folder updates");
@@ -368,44 +390,56 @@ test_folder_message_ops(CamelSession *session, const char *name, int local, int 
 				check_msg(!camel_exception_is_set(ex), "%s", camel_exception_get_description(ex));
 				pull();
 			}
-
-			if (!local)
-				camel_test_nonfatal("unread counts dont seem right for imap");
+#endif
+			/*if (!local)
+			  camel_test_nonfatal("unread counts dont seem right for imap");*/
 
 			test_folder_counts(folder, j+1, j+1);
 
-			if (!local)
-				camel_test_fatal();
+			/*if (!local)
+			  camel_test_fatal();*/
 
 			push("checking it is in the right uid slot & exists");
 			uids = camel_folder_get_uids(folder);
 			check(uids != NULL);
 			check(uids->len == j+1);
-			test_folder_message(folder, uids->pdata[j]);
+			if (uids->len > j)
+				test_folder_message(folder, uids->pdata[j]);
 			pull();
 
 			push("checking it is the right message (subject): %s", subject);
-			info = camel_folder_get_message_info(folder, uids->pdata[j]);
-			check_msg(strcmp(camel_message_info_subject(info), subject)==0,
-				  "info->subject %s", camel_message_info_subject(info));
+			if (uids->len > j) {
+				info = camel_folder_get_message_info(folder, uids->pdata[j]);
+				check(info != NULL);
+				check_msg(strcmp(camel_message_info_subject(info), subject)==0,
+					  "info->subject %s", camel_message_info_subject(info));
+				camel_folder_free_message_info(folder, info);
+			}
 			camel_folder_free_uids(folder, uids);
-			camel_folder_free_message_info(folder, info);
 			pull();
 
 			test_free(subject);
+
+			/*if (!local)
+			  camel_test_fatal();*/
 
 			check_unref(msg, 1);
 			pull();
 		}
 
-		check_unref(folder, 1);
+		if (local)
+			check_unref(folder, 1);
+		else
+			check_unref(folder, 2);
 		pull();
 
+#if 0
 		push("deleting test folder, with messages in it");
 		camel_store_delete_folder(store, mailbox, ex);
 		check(camel_exception_is_set(ex));
 		camel_exception_clear(ex);
 		pull();
+#endif
 
 		push("re-opening folder");
 		folder = camel_store_get_folder(store, mailbox, flags, ex);
@@ -506,12 +540,22 @@ test_folder_message_ops(CamelSession *session, const char *name, int local, int 
 		camel_folder_free_uids(folder, uids);
 		pull();
 
-		check_unref(folder, 1);
+		if (local)
+			check_unref(folder, 1);
+		else
+			check_unref(folder, 2);
 		pull(); /* re-opening folder */
 
-		if (!spool) {
+		if (strcasecmp(mailbox, "INBOX") != 0) {
 			push("deleting test folder, with no messages in it");
 			camel_store_delete_folder(store, mailbox, ex);
+			check_msg(!camel_exception_is_set(ex), "%s", camel_exception_get_description(ex));
+			pull();
+		}
+
+		if (!local) {
+			push("disconneect service");
+			camel_service_disconnect((CamelService *)store, TRUE, ex);
 			check_msg(!camel_exception_is_set(ex), "%s", camel_exception_get_description(ex));
 			pull();
 		}

@@ -41,9 +41,9 @@ int main(int argc, char **argv)
 			/* tells make check to ignore us in the total count */
 			_exit(77);
 		}
-		camel_test_nonfatal("The IMAP code is just rooted");
+		/*camel_test_nonfatal("The IMAP code is just rooted");*/
 		test_folder_basic(session, path, FALSE, FALSE);
-		camel_test_fatal();
+		/*camel_test_fatal();*/
 	}
 
 	camel_object_unref((CamelObject *)session);

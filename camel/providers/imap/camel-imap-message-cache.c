@@ -395,6 +395,9 @@ camel_imap_message_cache_get (CamelImapMessageCache *cache, const char *uid,
 	CamelStream *stream;
 	char *path, *key;
 
+	if (uid[0] == 0)
+		return NULL;
+
 	path = g_strdup_printf ("%s/%s.%s", cache->path, uid, part_spec);
 	key = strrchr (path, '/') + 1;
 	stream = g_hash_table_lookup (cache->parts, key);

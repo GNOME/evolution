@@ -44,12 +44,12 @@ int main(int argc, char **argv)
 	for (i=0;i<ARRAY_LEN(stores);i++) {
 		char *name = stores[i];
 
-		test_folder_message_ops(session, name, TRUE, FALSE);
+		test_folder_message_ops(session, name, TRUE, "testbox");
 	}
 
 	/* create a pseudo-spool file, and check that */
 	creat("/tmp/camel-test/testbox", 0600);
-	test_folder_message_ops(session, "spool:///tmp/camel-test/testbox", FALSE, TRUE);
+	test_folder_message_ops(session, "spool:///tmp/camel-test/testbox", FALSE, "INBOX");
 
 	check_unref(session, 1);
 	camel_exception_free(ex);

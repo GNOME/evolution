@@ -1,5 +1,38 @@
 2002-09-04  Not Zed  <NotZed@Ximian.com>
 
+	* tests/folder/test4.c (main): clear nonfatal stuff.
+
+	* tests/folder/test6.c (main): check inbox and 'another folder'
+	because some servers do different things w/ inbox.
+
+	* providers/imap/camel-imap-message-cache.c
+	(camel_imap_message_cache_get): Dont try to open the directory
+	instead of an empty "" uid.
+
+	* providers/imap/camel-imap-folder.c (imap_get_message): we dont
+	want to g_return_if_fail, we need to set an exception and always
+	handle the case.
+	(get_message_simple): Set an exception if we get a construct
+	failure.
+	(imap_refresh_info): if we're refreshing inbox, force a reselect.
+	this is required for at least cryus.  CHECK doesnt work either :(
+
+	* tests/lib/folders.c (test_folder_basic): for non-local stores,
+	the folder will have an extra ref for selection, take this into
+	account when checking ref leaks.
+	(test_folder_message_ops): Dont try to delete folder with messages
+	in it, it works generally with imap.  also, change params so we
+	can test different mailbox types.
+	(test_folder_message_ops): disconnect remote services before
+	finishing off.  doesn't need to stricly but makes ref count
+	checking more accurate.
+	(test_folder_message_ops): removed explicit remote sync, imap does
+	it itself now ...
+
+	* providers/imap/camel-imap-store.c:
+	(camel_imap_store_finalize): call service_disconnect, so it isn't
+	called later in the finalise chain, to properly cleanup on exit.
+
 	* camel-mime-parser.c (folder_scan_content): If we fake the from
 	eof file boundary, also make sure we say we matched nothing.  Also
 	make the end case a little more robust to make sure we expired all

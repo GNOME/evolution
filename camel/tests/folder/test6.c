@@ -1,7 +1,7 @@
 /* folder testing */
 
 #include "camel-test.h"
-#include "messages.h"
+#include "folders.h"
 #include "session.h"
 
 #include <camel/camel-exception.h>
@@ -44,7 +44,8 @@ int main(int argc, char **argv)
 			_exit(77);
 		}
 		/*camel_test_nonfatal("The IMAP code is just rooted");*/
-		test_folder_message_ops(session, path, FALSE);
+		test_folder_message_ops(session, path, FALSE, "testbox");
+		test_folder_message_ops(session, path, FALSE, "INBOX");
 		/*camel_test_fatal();*/
 	}
 

@@ -179,19 +179,13 @@ camel_imap_store_finalize (CamelObject *object)
 {
 	CamelImapStore *imap_store = CAMEL_IMAP_STORE (object);
 
+	/* This frees current_folder, folders, authtypes, streams, and namespace. */
+	camel_service_disconnect((CamelService *)imap_store, TRUE, NULL);
+
 	if (imap_store->summary) {
 		camel_store_summary_save((CamelStoreSummary *)imap_store->summary);
 		camel_object_unref(imap_store->summary);
 	}
-	
-	if (imap_store->istream)
-		camel_object_unref (CAMEL_OBJECT (imap_store->istream));
-	
-	if (imap_store->ostream)
-		camel_object_unref (CAMEL_OBJECT (imap_store->ostream));
-	
-	/* This frees current_folder, folders, authtypes, and namespace. */
-	imap_disconnect_offline (CAMEL_SERVICE (object), FALSE, NULL);
 	
 	if (imap_store->base_url)
 		g_free (imap_store->base_url);

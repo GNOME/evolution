@@ -478,9 +478,12 @@ imap_refresh_info (CamelFolder *folder, CamelException *ex)
 
 	/* If the folder isn't selected, select it (which will force
 	 * a rescan if one is needed).
-	 */
+	 * Also, if this is the INBOX, some servers (cryus) wont tell
+	 * us with a NOOP of new messages, so force a reselect which
+	 * should do it.  */
 	CAMEL_SERVICE_LOCK (imap_store, connect_lock);
-	if (imap_store->current_folder != folder) {
+	if (imap_store->current_folder != folder
+	    || strcasecmp(folder->full_name, "INBOX") == 0) {
 		CAMEL_SERVICE_UNLOCK (imap_store, connect_lock);
 		response = camel_imap_command (imap_store, folder, ex, NULL);
 		if (response) {
@@ -498,6 +501,14 @@ imap_refresh_info (CamelFolder *folder, CamelException *ex)
 	if (imap_folder->need_rescan)
 		imap_rescan (folder, camel_folder_summary_count (folder->summary), ex);
 	else {
+#if 0
+		/* on some servers need to CHECKpoint INBOX to recieve new messages?? */
+		/* rfc2060 suggests this, but havent seen a server that requires it */
+		if (strcasecmp(folder->full_name, "INBOX") == 0) {
+			response = camel_imap_command (imap_store, folder, ex, "CHECK");
+			camel_imap_response_free (imap_store, response);
+		}
+#endif
 		response = camel_imap_command (imap_store, folder, ex, "NOOP");
 		camel_imap_response_free (imap_store, response);
 	}
@@ -1853,6 +1864,8 @@ get_message_simple (CamelImapFolder *imap_folder, const char *uid,
 							stream);
 	camel_object_unref (CAMEL_OBJECT (stream));
 	if (ret == -1) {
+		camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
+				      _("Unable to retrieve message: %s"), strerror(errno));
 		camel_object_unref (CAMEL_OBJECT (msg));
 		return NULL;
 	}
@@ -1886,7 +1899,11 @@ imap_get_message (CamelFolder *folder, const char *uid, CamelException *ex)
 		return NULL;
 
 	mi = camel_folder_summary_uid (folder->summary, uid);
-	g_return_val_if_fail (mi != NULL, NULL);
+	if (mi == NULL) {
+		camel_exception_setv(ex, CAMEL_EXCEPTION_FOLDER_INVALID_UID,
+				     _("Cannot get message: %s\n  %s"), uid, _("No such message"));
+		return NULL;
+	}
 	
 	/* If the message is small, fetch it in one piece. */
 	if (mi->size < IMAP_SMALL_BODY_SIZE) {
