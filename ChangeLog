@@ -1,3 +1,11 @@
+2000-02-18  Matt Loper  <matt@helixcode.com>
+
+	* tests/ui-tests/message-browser.c (filename_to_camel_msg): Call
+	camel_data_wrapper_set_input_stream, rather than
+	camel_data_wrapper_construct_from_stream.  For the whole message,
+	allow someone to see the header ("to", "from", etc.).  Clicking on
+	tree items to see their elements, now works also.
+
 2000-02-18  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
 	* configure.in: Make gnomeui the last library on the command line,

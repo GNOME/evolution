@@ -57,63 +57,83 @@ handle_tree_item (CamelDataWrapper* object, GtkWidget* tree_ctrl)
 	GtkWidget* subtree = NULL;
 
 	tree_item = gtk_tree_item_new_with_label (label);
+	gtk_object_set_data (GTK_OBJECT (tree_item),
+			     "camel_data_wrapper", object);
+	
 	gtk_tree_append (GTK_TREE (tree_ctrl), tree_item);
 
 	gtk_widget_show(tree_item);
 
-	containee = 
-		camel_medium_get_content_object (CAMEL_MEDIUM (object));
+	/* Check if our object is a container */
+	if (!CAMEL_IS_MEDIUM (object))
+		return;
+	
+	{
+		g_print ("camel is%s a mime part\n",
+			 CAMEL_IS_MIME_PART (object)?"":"n't");
 
-	if (containee) {
-
-		containee_label = camel_data_wrapper_get_mime_type (containee);
-
-		subtree = gtk_tree_new();
-
-		containee_tree_item =
-			gtk_tree_item_new_with_label (containee_label);
-
-		gtk_tree_append (GTK_TREE (subtree), containee_tree_item);
-
-		gtk_tree_item_set_subtree (GTK_TREE_ITEM(tree_item),
-					   GTK_WIDGET (subtree));
-		gtk_widget_show(containee_tree_item);
-
-		if (CAMEL_IS_MULTIPART (containee))
-		{
-			CamelMultipart* multipart =
-				CAMEL_MULTIPART (containee);
-			int max_multiparts =
-				camel_multipart_get_number (multipart);
-			int i;
-	      
-			g_print ("found a multipart w/ %d parts\n",
-				 max_multiparts);
-	      
-			if (max_multiparts > 0) {
-				subtree = gtk_tree_new();
-				gtk_tree_item_set_subtree (
-					GTK_TREE_ITEM(containee_tree_item),
-					GTK_WIDGET (subtree));
-			}
-	      
-			for (i = 0; i < max_multiparts; i++) {
-				CamelMimeBodyPart* body_part =
-					camel_multipart_get_part (
-						multipart, i);
-		
-				g_print ("handling part %d\n", i);
-				handle_tree_item (
-					CAMEL_DATA_WRAPPER (body_part),
-					GTK_WIDGET (subtree));
-			}
-			
-		}
-		gtk_tree_item_expand (
-			GTK_TREE_ITEM (containee_tree_item));
-		gtk_tree_item_expand (GTK_TREE_ITEM (tree_item));		
+		containee = 
+			camel_medium_get_content_object (
+				CAMEL_MEDIUM (object));
 	}
+	
+	
+	g_assert (containee);
+
+	/* If it is a container, insert its contents into the tree */
+	containee_label = camel_data_wrapper_get_mime_type (containee);
+
+	subtree = gtk_tree_new();
+
+	containee_tree_item =
+		gtk_tree_item_new_with_label (containee_label);
+	gtk_object_set_data (GTK_OBJECT (containee_tree_item),
+			     "camel_data_wrapper",
+			     containee);		
+
+	gtk_tree_append (GTK_TREE (subtree), containee_tree_item);
+
+	gtk_tree_item_set_subtree (GTK_TREE_ITEM(tree_item),
+				   GTK_WIDGET (subtree));
+	gtk_widget_show(containee_tree_item);
+
+	if (CAMEL_IS_MULTIPART (containee))
+	{
+		CamelMultipart* multipart =
+			CAMEL_MULTIPART (containee);
+		int max_multiparts =
+			camel_multipart_get_number (multipart);
+		int i;
+	      
+		g_print ("found a multipart w/ %d parts\n",
+			 max_multiparts);
+	      
+		if (max_multiparts > 0) {
+			subtree = gtk_tree_new();
+			gtk_tree_item_set_subtree (
+				GTK_TREE_ITEM(containee_tree_item),
+				GTK_WIDGET (subtree));
+		}
+	      
+		for (i = 0; i < max_multiparts; i++) {
+			CamelMimeBodyPart* body_part =
+				camel_multipart_get_part (
+					multipart, i);
+		
+			g_print ("handling part %d\n", i);
+			handle_tree_item (
+				CAMEL_DATA_WRAPPER (body_part),
+				GTK_WIDGET (subtree));
+		}
+			
+	}
+	gtk_tree_item_expand (
+		GTK_TREE_ITEM (containee_tree_item));
+	gtk_tree_item_expand (GTK_TREE_ITEM (tree_item));		
 }
+
+static GtkWidget*
+get_gtk_html_contents_window (CamelDataWrapper* data);
 
 static void
 tree_selection_changed( GtkWidget *tree )
@@ -122,12 +142,20 @@ tree_selection_changed( GtkWidget *tree )
   
 	i = GTK_TREE_SELECTION(tree);
 	while (i){
-		gchar *name;
-		GtkLabel *label;
-		GtkWidget *item;
-
+		gchar*     name;
+		GtkLabel*  label;
+		GtkWidget* item;
+		CamelDataWrapper* camel_data_wrapper;
+		
 		/* Get a GtkWidget pointer from the list node */
 		item = GTK_WIDGET (i->data);
+		camel_data_wrapper =
+			gtk_object_get_data (GTK_OBJECT (item),
+					     "camel_data_wrapper");
+
+		g_assert (camel_data_wrapper);
+		get_gtk_html_contents_window (camel_data_wrapper);
+		
 		label = GTK_LABEL (GTK_BIN (item)->child);
 		gtk_label_get (label, &name);
 		g_print ("\t%s on level %d\n", name, GTK_TREE
@@ -170,7 +198,7 @@ get_message_tree_ctrl (CamelMimeMessage* message)
         gtk_scrolled_window_set_policy (
 		GTK_SCROLLED_WINDOW (scroll_wnd),
 		GTK_POLICY_AUTOMATIC,
-		GTK_POLICY_ALWAYS);	
+		GTK_POLICY_AUTOMATIC);	
 	return scroll_wnd;
 }
 
@@ -191,11 +219,15 @@ filename_to_camel_msg (gchar* filename)
 	message = camel_mime_message_new_with_session (
 		(CamelSession *)NULL);
 	
-	//camel_data_wrapper_construct_from_stream (
-	//	CAMEL_DATA_WRAPPER (message), input_stream);
+	/* not the right way any more */
+	/* camel_data_wrapper_construct_from_stream ( */
+	/*	CAMEL_DATA_WRAPPER (message), input_stream); */
 
 	camel_data_wrapper_set_input_stream (
-					    CAMEL_DATA_WRAPPER (message), input_stream);
+		CAMEL_DATA_WRAPPER (message), input_stream);
+
+	/* not the right way any more */
+	/* camel_stream_close (input_stream); */
 
 	return message;
 }
@@ -205,7 +237,7 @@ filename_to_camel_msg (gchar* filename)
  *----------------------------------------------------------------------*/
 
 static void
-mime_message_to_html (CamelDataWrapper *msg, gchar** body_string)
+data_wrapper_to_html (CamelDataWrapper *msg, gchar** body_string)
 {
 	CamelFormatter* cmf = camel_formatter_new();
 	CamelStream* body_stream =
@@ -221,10 +253,37 @@ mime_message_to_html (CamelDataWrapper *msg, gchar** body_string)
 		CAMEL_STREAM_MEM (body_stream)->buffer->len);
 }
 
+static void
+mime_message_header_to_html (CamelMimeMessage *msg, gchar** header_string)
+{
+	CamelFormatter* cmf = camel_formatter_new();
+	CamelStream* header_stream =
+		camel_stream_mem_new (CAMEL_STREAM_FS_WRITE);
+
+	g_assert (header_string);
+
+	camel_formatter_mime_message_to_html (
+		cmf, CAMEL_MIME_MESSAGE (msg), header_stream, NULL);
+
+	*header_string = g_strndup (
+		CAMEL_STREAM_MEM (header_stream)->buffer->data,
+		CAMEL_STREAM_MEM (header_stream)->buffer->len);
+
+//	printf ("\n\n>>>\n%s\n", *header_string);
+}
+
+
+static void
+on_link_clicked (GtkHTML *html, const gchar *url, gpointer data)
+{
+	gnome_message_box_new (url, GNOME_MESSAGE_BOX_INFO, "Okay");
+}
+
 
 static GtkWidget*
 get_gtk_html_contents_window (CamelDataWrapper* data)
 {
+	static GtkWidget* frame_wnd = NULL;
 	static GtkWidget* scroll_wnd = NULL;
 	static GtkWidget* html_widget = NULL;
 	HTMLStream* html_stream;
@@ -234,6 +293,12 @@ get_gtk_html_contents_window (CamelDataWrapper* data)
            already been created */
 	if (!html_widget) {
 		html_widget = gtk_html_new();
+
+		gtk_signal_connect (GTK_OBJECT (html_widget),
+				    "link_clicked",
+				    GTK_SIGNAL_FUNC (on_link_clicked),
+				    NULL);		
+
 		scroll_wnd = gtk_scrolled_window_new (NULL, NULL);
 		gtk_container_add (GTK_CONTAINER (scroll_wnd), html_widget);
 	}
@@ -242,10 +307,10 @@ get_gtk_html_contents_window (CamelDataWrapper* data)
 		
 		html_stream =
 			HTML_STREAM (html_stream_new (GTK_HTML (html_widget)));
-		
+
 		/* turn the mime message into html, and
 		   write it to the html stream */
-		mime_message_to_html (data, &body_string);
+		data_wrapper_to_html (data, &body_string);
 		
 		camel_stream_write (CAMEL_STREAM (html_stream),
 				    body_string,
@@ -256,52 +321,107 @@ get_gtk_html_contents_window (CamelDataWrapper* data)
 		g_free (body_string);
 	}
 	
-	gtk_widget_set_usize (scroll_wnd, 500, 400);
-        gtk_scrolled_window_set_policy (
-		GTK_SCROLLED_WINDOW (scroll_wnd),
-		GTK_POLICY_AUTOMATIC,
-		GTK_POLICY_ALWAYS);
-	return scroll_wnd;
+
+	if (!frame_wnd) {
+		
+		frame_wnd = gtk_frame_new (NULL);
+		gtk_frame_set_shadow_type (
+			GTK_FRAME (frame_wnd), GTK_SHADOW_IN);
+		
+		gtk_widget_set_usize (scroll_wnd, 500, 400);
+		gtk_scrolled_window_set_policy (
+			GTK_SCROLLED_WINDOW (scroll_wnd),
+			GTK_POLICY_AUTOMATIC,
+			GTK_POLICY_AUTOMATIC);
+		
+		gtk_container_add (GTK_CONTAINER (frame_wnd), scroll_wnd);
+	}
+	
+	return frame_wnd;
 }
 
 
 static GtkWidget*
 get_gtk_html_header_window (CamelMimeMessage* mime_message)
 {
-	static GtkWidget* hbox = NULL;
-	gchar* subj_string = NULL;
-	gchar* to_string = NULL;
-	gchar* from_string = NULL;	
+	static GtkWidget* frame_wnd = NULL;
+	static GtkWidget* scroll_wnd = NULL;	
+	static GtkWidget* html_widget = NULL;
+	HTMLStream*       html_stream;
+	gchar*            header_string;
 
-	if (!hbox) {
-		hbox = gtk_hbox_new (FALSE, 0);
-		gtk_box_pack_start (GTK_BOX (hbox),
-				    gtk_button_new_with_label("hello"),
-				    FALSE, TRUE, 5);
+        /* create the html widget and scroll window, if they haven't
+           already been created */
+	if (!html_widget) {
+		html_widget = gtk_html_new();
+		scroll_wnd = gtk_scrolled_window_new (NULL, NULL);
+		gtk_container_add (GTK_CONTAINER (scroll_wnd), html_widget);
+	}
+
+	if (mime_message) {
+		
+		html_stream =
+			HTML_STREAM (html_stream_new (GTK_HTML (html_widget)));
+		
+		/* turn the mime message into html, and
+		   write it to the html stream */
+		mime_message_header_to_html (mime_message, &header_string);
+		
+		camel_stream_write (CAMEL_STREAM (html_stream),
+				    header_string,
+				    strlen (header_string));
+		
+		camel_stream_close (CAMEL_STREAM (html_stream));
+		
+		g_free (header_string);
 	}
 	
-	return hbox;
+	if (!frame_wnd) {
+		
+		frame_wnd = gtk_frame_new (NULL);
+		gtk_frame_set_shadow_type (
+			GTK_FRAME (frame_wnd), GTK_SHADOW_OUT);
+		
+		gtk_widget_set_usize (scroll_wnd, 500, 75);
+		gtk_scrolled_window_set_policy (
+			GTK_SCROLLED_WINDOW (scroll_wnd),
+			GTK_POLICY_AUTOMATIC,
+			GTK_POLICY_AUTOMATIC);
+		
+		gtk_container_add (GTK_CONTAINER (frame_wnd), scroll_wnd);
+	}
+	
+	
+	return frame_wnd;
 }
 
 static GtkWidget*
-get_gtk_html_window (CamelDataWrapper* data)
+get_gtk_html_window (CamelMimeMessage* mime_message)
 {
 	static GtkWidget* vbox = NULL;
-	CamelMimeMessage* msg = NULL;
+	GtkWidget* html_header_window = NULL;
+	GtkWidget* html_content_window = NULL;	
 
-	if (CAMEL_IS_MIME_MESSAGE (data))
-		msg = CAMEL_MIME_MESSAGE (data);
-
-	if (!vbox) vbox = gtk_vbox_new (FALSE, 0);
-	if (msg)
+	html_content_window =
+		get_gtk_html_contents_window (
+			CAMEL_DATA_WRAPPER (mime_message));
+	
+	html_header_window =
+		get_gtk_html_header_window (mime_message);	
+	
+	if (!vbox) {
+		vbox = gtk_vbox_new (FALSE, 0);
+		
 		gtk_box_pack_start (
 			GTK_BOX (vbox),
-			get_gtk_html_header_window(msg),
-			FALSE, TRUE, 5);
-
-	gtk_box_pack_start (GTK_BOX (vbox),
-			    get_gtk_html_contents_window(data),
-			    FALSE, TRUE, 5);
+			html_header_window,
+			TRUE, TRUE, 5);
+		
+		gtk_box_pack_start (
+			GTK_BOX (vbox),
+			html_content_window,
+			TRUE, FALSE, 5);
+	}
 
 	return vbox;
 }
@@ -342,7 +462,7 @@ open_ok (GtkWidget *widget, GtkFileSelection *fs)
 		if (message) {
 			fileselection_prev_file = g_strdup (filename);
 			get_message_tree_ctrl (message);
-			get_gtk_html_window (CAMEL_DATA_WRAPPER (message));
+			get_gtk_html_window (message);
 		}
 		else
 			gnome_message_box_new ("Couldn't load message.",
