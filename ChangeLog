@@ -1,3 +1,7 @@
+2002-02-24  jacob berkman  <jacob@ximian.com>
+
+	* sounds/Makefile.am (EXTRA_DIST): add $(sounds_DATA)
+
 2002-02-22  Larry Ewing  <lewing@ximian.com>
 
 	* configure.in: add libglade the to the E_UTIL flags.
