@@ -1,3 +1,7 @@
+2001-09-20    <NotZed@Ximian.com>
+
+	* ibex_block.c: Turn off the o(x) debug set.
+
 2001-09-17    <NotZed@Ximian.com>
 
 	* disktail.c (tail_space): Fix the tail space calculation, it

@@ -10,7 +10,7 @@
 #include "ibex_internal.h"
 
 #define d(x)
-#define o(x) x
+#define o(x) 
 
 static void ibex_reset(ibex *ib);
 static int close_backend(ibex *ib);
