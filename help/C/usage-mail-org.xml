@@ -804,7 +804,7 @@
 		
 		<listitem>
 		  <para>
-                    Pipe Message to Shell Command - Evolution can use
+                    Pipe to Program - Evolution can use
                     an external command to process a message, then
                     process it based on the return value. Commands
                     used in this way must return an integer. This is
@@ -898,14 +898,8 @@
 		  </para></listitem>
 
 		<listitem><para> 
-                Shell Command - Run a shell command. No return value
-                is expected.
-              </para></listitem>
-
-		<listitem><para> 
-                Pipe Message to Shell Command - Send the message to a
-                shell command. No return value is expected. This
-                feature can be used to create automatic web postings
+                Pipe to Program - Send the message to a program of your choice. No return value
+                is expected. This feature can be used to create automatic web postings
                 from email messages or to perform additional message
                 post-processing not supported by Evolution.
               </para></listitem>
