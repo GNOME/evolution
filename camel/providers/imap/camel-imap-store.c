@@ -1218,7 +1218,7 @@ get_folder_info_offline (CamelStore *store, const char *top,
 
 	/* A kludge to avoid having to pass a struct to the callback */
 	g_ptr_array_add (folders, imap_store);
-	if (FALSE /*!e_path_find_folders (imap_store->storage_path, get_one_folder_offline, folders)*/) {
+	if (!e_path_find_folders (imap_store->storage_path, get_one_folder_offline, folders)) {
 		camel_disco_store_check_online (CAMEL_DISCO_STORE (imap_store), ex);
 		fi = NULL;
 	} else {
