@@ -1,3 +1,12 @@
+2001-09-26  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-mime-message.c
+	(camel_mime_message_get_part_by_content_id): New function to
+	convenience Larry ;-)
+
+	* camel-pgp-mime.c (camel_pgp_mime_is_rfc2015_signed): block out
+	some code if ENABLE_PEDANTIC_PGPMIME is not defined.
+
 2001-09-26    <NotZed@Ximian.com>
 
 	* camel-vee-store.c: Emptied VeeStorePrivate, member wasn't used.
@@ -17,6 +26,7 @@
 	thanks to a pedantic.
 
 2001-09-26  Jeffrey Stedfast  <fejj@ximian.com>
+>>>>>>> 1.1175
 
 	* Makefile.am: Fix Ettore's fix.
 

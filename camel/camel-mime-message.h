@@ -127,6 +127,8 @@ void                        camel_mime_message_set_best_encoding  (CamelMimeMess
 								   CamelBestencEncoding        enctype);
 void                        camel_mime_message_encode_8bit_parts  (CamelMimeMessage           *mime_message);
 
+CamelMimePart              *camel_mime_part_get_part_by_content_id (CamelMimeMessage *message, const char *content_id);
+
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */

@@ -836,3 +836,43 @@ camel_mime_message_encode_8bit_parts (CamelMimeMessage *mime_message)
 	camel_mime_message_set_best_encoding (mime_message, CAMEL_BESTENC_GET_ENCODING, CAMEL_BESTENC_7BIT);
 }
 
+
+struct _check_content_id {
+	CamelMimePart *part;
+	const char *content_id;
+};
+
+static gboolean
+check_content_id (CamelMimeMessage *message, CamelMimePart *part, struct _check_content_id *data)
+{
+	const char *content_id;
+	gboolean ret;
+	
+	content_id = camel_mime_part_get_content_id (part);
+	
+	ret = content_id && !strcmp (content_id, data->content_id) ? TRUE : FALSE;
+	if (ret) {
+		data->part = part;
+		camel_object_ref (CAMEL_OBJECT (part));
+	}
+	
+	return ret;
+}
+
+CamelMimePart *
+camel_mime_message_get_part_by_content_id (CamelMimeMessage *message, const char *id)
+{
+	struct _check_content_id check;
+	
+	g_return_val_if_fail (CAMEL_IS_MIME_MESSAGE (message), NULL);
+	
+	if (id == NULL)
+		return NULL;
+	
+	check.content_id = id;
+	check.part = NULL;
+	
+	camel_mime_message_foreach_part (message, check_content_id, &check);
+	
+	return check.part;
+}

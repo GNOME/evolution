@@ -47,14 +47,17 @@ camel_pgp_mime_is_rfc2015_signed (CamelMimePart *mime_part)
 	CamelMultipart *mp;
 	CamelMimePart *part;
 	CamelContentType *type;
-	const gchar *param, *micalg;
+#ifdef ENABLE_PEDANTIC_PGPMIME
+	const char *param, *micalg;
+#endif
 	int nparts;
 	
 	/* check that we have a multipart/signed */
 	type = camel_mime_part_get_content_type (mime_part);
 	if (!header_content_type_is (type, "multipart", "signed"))
 		return FALSE;
-	
+
+#ifdef ENABLE_PEDANTIC_PGPMIME
 	/* check that we have a protocol param with the value: "application/pgp-signature" */
 	param = header_content_type_param (type, "protocol");
 	if (!param || g_strcasecmp (param, "application/pgp-signature"))
@@ -64,6 +67,7 @@ camel_pgp_mime_is_rfc2015_signed (CamelMimePart *mime_part)
 	micalg = header_content_type_param (type, "micalg");
 	if (!micalg)
 		return FALSE;
+#endif /* ENABLE_PEDANTIC_PGPMIME */
 	
 	/* check that we have exactly 2 subparts */
 	wrapper = camel_medium_get_content_object (CAMEL_MEDIUM (mime_part));
@@ -95,18 +99,22 @@ camel_pgp_mime_is_rfc2015_encrypted (CamelMimePart *mime_part)
 	CamelMultipart *mp;
 	CamelMimePart *part;
 	CamelContentType *type;
-	const gchar *param;
+#ifdef ENABLE_PEDANTIC_PGPMIME
+	const char *param;
+#endif
 	int nparts;
 	
 	/* check that we have a multipart/encrypted */
 	type = camel_mime_part_get_content_type (mime_part);
 	if (!header_content_type_is (type, "multipart", "encrypted"))
 		return FALSE;
-	
+
+#ifdef ENABLE_PEDANTIC_PGPMIME
 	/* check that we have a protocol param with the value: "application/pgp-encrypted" */
 	param = header_content_type_param (type, "protocol");
 	if (!param || g_strcasecmp (param, "application/pgp-encrypted"))
 		return FALSE;
+#endif /* ENABLE_PEDANTIC_PGPMIME */
 	
 	/* check that we have at least 2 subparts */
 	wrapper = camel_medium_get_content_object (CAMEL_MEDIUM (mime_part));
