@@ -1458,6 +1458,18 @@ em_utils_message_to_html(CamelMimeMessage *message, const char *credits, guint32
 
 	emfq = em_format_quote_new(credits, (CamelStream *)mem, flags);
 	em_format_set_session((EMFormat *)emfq, session);
+	
+	if (!source) {
+		GConfClient *gconf;
+		char *charset;
+		
+		gconf = gconf_client_get_default ();
+		charset = gconf_client_get_string (gconf, "/apps/evolution/mail/display/charset", NULL);
+		em_format_set_default_charset ((EMFormat *) emfq, charset);
+		g_object_unref (gconf);
+		g_free (charset);
+	}
+	
 	em_format_format_clone((EMFormat *)emfq, NULL, NULL, message, source);
 	g_object_unref (emfq);
 
