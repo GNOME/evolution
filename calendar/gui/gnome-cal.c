@@ -2037,7 +2037,7 @@ gnome_calendar_get_default_client (GnomeCalendar *gcal)
 }
 
 /**
- * gnome_calendar_add_event_source:
+ * gnome_calendar_add_source:
  * @gcal: A GnomeCalendar.
  * @source: #ESource to add to the calendar views.
  *
@@ -2082,7 +2082,7 @@ gnome_calendar_add_source (GnomeCalendar *gcal, ECalSourceType source_type, ESou
 }
 
 /**
- * gnome_calendar_remove_event_source
+ * gnome_calendar_remove_source
  * @gcal: A #GnomeCalendar.
  * @source: #ESource to be removed from the clients.
  *
