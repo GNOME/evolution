@@ -168,7 +168,7 @@ do_fetch_mail (gpointer in_data, gpointer op_data, CamelException *ex)
 		
 		uids = camel_folder_get_uids (folder);
 		
-		if (!input->keep_on_server) {
+		if (input->keep_on_server) {
 			/* get the mail source's uid cache file */
 			url = camel_url_to_string (CAMEL_SERVICE (folder->parent_store)->url, FALSE);
 			for (p = url; *p; p++) {
