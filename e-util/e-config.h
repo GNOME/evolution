@@ -239,13 +239,13 @@ void e_config_add_page_check(EConfig *, const char *pageid, EConfigCheckFunc, vo
 
 void e_config_set_target(EConfig *emp, EConfigTarget *target);
 struct _GtkWidget *e_config_create_widget(EConfig *);
-GtkWidget *e_config_create_window(EConfig *emp, struct _GtkWindow *parent, const char *title);
+struct _GtkWidget *e_config_create_window(EConfig *emp, struct _GtkWindow *parent, const char *title);
 
 void e_config_target_changed(EConfig *emp, e_config_target_change_t how);
 
 gboolean e_config_page_check(EConfig *, const char *);
 
-GtkWidget *e_config_page_get(EConfig *ec, const char *pageid);
+struct _GtkWidget *e_config_page_get(EConfig *ec, const char *pageid);
 const char *e_config_page_next(EConfig *ec, const char *pageid);
 const char *e_config_page_prev(EConfig *ec, const char *pageid);
 

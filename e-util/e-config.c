@@ -707,6 +707,26 @@ ec_rebuild(EConfig *emp)
 		}
 	}
 
+	/* If the last section doesn't contain anything, hide it */
+	if (sectionnode != NULL) {
+		if ( (sectionnode->empty = itemno == 0) ) {
+			gtk_widget_hide(sectionnode->frame);
+			sectionno--;
+		} else
+			gtk_widget_show(sectionnode->frame);
+		printf("%s section '%s' [sections=%d]\n", sectionnode->empty?"hiding":"showing", sectionnode->item->path, sectionno);
+	}
+
+	/* If the last page doesn't contain anything, hide it */
+	if (pagenode != NULL) {
+		if ( (pagenode->empty = sectionno == 0) ) {
+			gtk_widget_hide(pagenode->frame);
+			pageno--;
+		} else
+			gtk_widget_show(pagenode->frame);
+		printf("%s page '%s' [section=%d]\n", pagenode->empty?"hiding":"showing", pagenode->item->path, pageno);
+	}
+
 	if (book) {
 		/* make this depend on flags?? */
 		if (gtk_notebook_get_n_pages((GtkNotebook *)book) == 1) {

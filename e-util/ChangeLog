@@ -1,3 +1,15 @@
+2004-10-20  Not Zed  <NotZed@Ximian.com>
+
+	* e-config.c (ec_rebuild): check for empty trailing sections/pages
+	after we exit the main loop.
+
+	* e-plugin.c (e_plugin_get_type): make ~/.eplugins the default
+	eplugin location, not ~/.eplug.
+
+2004-10-18  Not Zed  <NotZed@Ximian.com>
+
+	* e-config.h: fix some forward decls.
+
 2004-10-19  JP Rosevear  <jpr@novell.com>
 
 	* e-config.c, e-event.c, e-menu.c, e-plugin.c, e-plugin.h,

@@ -187,7 +187,7 @@ e_plugin_get_type(void)
 			/* Add the global path */
 			e_plugin_add_load_path(EVOLUTION_PLUGINDIR);
 
-			path = g_build_filename(g_get_home_dir(), ".eplug", NULL);
+			path = g_build_filename(g_get_home_dir(), ".eplugins", NULL);
 		}
 		
 		p = path;
@@ -343,8 +343,9 @@ ep_load_pending(EPlugin *ep, EPluginHookClass *type)
  * @path: The path to add to search for plugins.
  * 
  * Add a path to be searched when e_plugin_load_plugins() is called.
- * By default ~/.eplug is used as the search path unless overriden by
- * the environmental variable %EVOLUTION_PLUGIN_PATH.
+ * By default the system plugin directory and ~/.eplugins is used as
+ * the search path unless overriden by the environmental variable
+ * %EVOLUTION_PLUGIN_PATH.
  *
  * %EVOLUTION_PLUGIN_PATH is a : separated list of paths to search for
  * plugin definitions in order.
