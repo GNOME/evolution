@@ -41,6 +41,9 @@ void      e_xml_set_integer_prop_by_name            (xmlNode       *parent,
 
 gboolean  e_xml_get_bool_prop_by_name               (const xmlNode *parent,
 						     const xmlChar *prop_name);
+gboolean  e_xml_get_bool_prop_by_name_with_default  (const xmlNode *parent,
+						     const xmlChar *prop_name,
+						     gboolean       def);
 void      e_xml_set_bool_prop_by_name               (xmlNode       *parent,
 						     const xmlChar *prop_name,
 						     gboolean       value);

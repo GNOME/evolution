@@ -120,6 +120,26 @@ e_xml_get_bool_prop_by_name(const xmlNode *parent, const xmlChar *prop_name)
 	return ret_val;
 }
 
+gboolean
+e_xml_get_bool_prop_by_name_with_default(const xmlNode *parent, const xmlChar *prop_name, gboolean def)
+{
+	xmlChar *prop;
+	gboolean ret_val = def;
+
+	g_return_val_if_fail (parent != NULL, 0);
+	g_return_val_if_fail (prop_name != NULL, 0);
+
+	prop = xmlGetProp ((xmlNode *)parent, prop_name);
+	if (prop) {
+		if(!strcasecmp(prop, "true"))
+			ret_val = TRUE;
+		else
+			ret_val = FALSE;
+		xmlFree(prop);
+	}
+	return ret_val;
+}
+
 void
 e_xml_set_bool_prop_by_name(xmlNode *parent, const xmlChar *prop_name, gboolean value)
 {
