@@ -2169,7 +2169,10 @@ static struct {
 	{ "button-categories", E_CARD_SIMPLE_FIELD_CATEGORIES, TRUE },
 	{ "entry-categories", E_CARD_SIMPLE_FIELD_CATEGORIES, TRUE },
 
+	{ "label-caluri", E_CARD_SIMPLE_FIELD_CALURI },
 	{ "entry-caluri", E_CARD_SIMPLE_FIELD_CALURI, TRUE },
+
+	{ "label-fburl", E_CARD_SIMPLE_FIELD_FBURL },
 	{ "entry-fburl", E_CARD_SIMPLE_FIELD_FBURL, TRUE }
 };
 static int num_widget_field_mappings = sizeof(widget_field_mappings) / sizeof (widget_field_mappings[0]);
@@ -2285,8 +2288,6 @@ enable_writable_fields(EContactEditor *editor)
 				   widget_field_mappings[i].widget_name);
 			continue;
 		}
-		if (!GTK_IS_LABEL (w))
-			continue;
 		field = e_card_simple_get_ecard_field (simple,
 						       widget_field_mappings[i].field_id);
 
