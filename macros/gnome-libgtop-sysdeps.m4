@@ -18,8 +18,8 @@ AC_DEFUN([GNOME_LIBGTOP_SYSDEPS],[
 	AC_SUBST(libgtop_need_server)
 
 	AC_ARG_WITH(libgtop-examples,
-	[  --with-libgtop-examples Build the libgtop examples (default=yes)],[
-	build_examples="$withval"], [build_examples=yes])
+	[  --with-libgtop-examples Build the libgtop examples (default=no)],[
+	build_examples="$withval"], [build_examples=no])
 
 	AM_CONDITIONAL(EXAMPLES, test x"$build_examples" = xyes)
 

@@ -1,5 +1,10 @@
 1998-09-28  Martin Baulig  <martin@home-of-linux.org>
 
+	* gnome-libgtop-sysdeps.m4: Make the default not to build the
+	LibGTope examples.
+
+1998-09-28  Martin Baulig  <martin@home-of-linux.org>
+
 	* compiler-flags.m4 (--enable-warn-unused): New configure parameter
 	to add `-Wunused' to the warning flags.
 	
