@@ -318,9 +318,14 @@ camel_imap_store_summary_add_from_full(CamelImapStoreSummary *s, const char *ful
 		} else {
 			if (full_name[len] == ns->sep)
 				len++;
+			
 			prefix = camel_imap_store_summary_full_to_path(s, full_name+len, ns->sep);
-			pathu8 = g_strdup_printf("%s/%s", ns->path, prefix);
-			g_free(prefix);
+			if (*ns->path) {
+				pathu8 = g_strdup_printf ("%s/%s", ns->path, prefix);
+				g_free (prefix);
+			} else {
+				pathu8 = prefix;
+			}
 		}
 		d(printf(" (pathu8 = '%s')", pathu8));
 	} else {
@@ -343,7 +348,6 @@ camel_imap_store_summary_add_from_full(CamelImapStoreSummary *s, const char *ful
 char *
 camel_imap_store_summary_full_from_path(CamelImapStoreSummary *s, const char *path)
 {
-	CamelImapStoreInfo *si;
 	CamelImapStoreNamespace *ns;
 	char *name = NULL;
 
@@ -362,7 +366,6 @@ CamelImapStoreNamespace *camel_imap_store_summary_namespace_new(CamelImapStoreSu
 	CamelImapStoreNamespace *ns;
 	char *p;
 	int len;
-	GString *tmp;
 
 	ns = g_malloc0(sizeof(*ns));
 	ns->full_name = g_strdup(full_name);

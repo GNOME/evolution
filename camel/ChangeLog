@@ -1,3 +1,9 @@
+2002-12-04  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* providers/imap/camel-imap-store-summary.c
+	(camel_imap_store_summary_add_from_full): Properly handle the case
+	where the namespace is "". Fixes bug #34975
+
 2002-12-03  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* broken-date-parser.c (get_tzone): Fixed to not get false
