@@ -188,7 +188,7 @@ backend_go_offline (gpointer data, gpointer user_data)
 	g_signal_connect (client, "cal_opened", G_CALLBACK (backend_cal_opened_offline), offline_handler);
 	success = e_cal_open (client, TRUE, &error);
 	if (!success) {
-		g_warning (_("backend_go_offline(): %s"), error->message);
+		g_warning (G_STRLOC ": %s", error->message);
 		update_offline (offline_handler);
 		g_object_unref (client);
 		g_error_free (error);
@@ -211,7 +211,7 @@ backend_go_online (gpointer data, gpointer user_data)
 			  G_CALLBACK (backend_cal_opened_online), offline_handler);
 	success = e_cal_open (client, TRUE, &error);
 	if (!success) {
-		g_warning (_("backend_go_online(): %s"), error->message);
+		g_warning (G_STRLOC ": %s", error->message);
 		g_object_unref (client);
 		g_error_free (error);
 		return;		

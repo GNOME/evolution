@@ -478,7 +478,7 @@ open_client (CompEditorFactory *factory, ECalSourceType source_type, const char 
 	g_hash_table_insert (priv->uri_client_hash, oc->uri, oc);
 
 	if (!e_cal_open (oc->client, FALSE, &error)) {
-		g_warning (_("open_client(): %s"), error->message);
+		g_warning (G_STRLOC ": %s", error->message);
 		g_free (oc->uri);
 		g_object_unref (oc->client);
 		g_free (oc);

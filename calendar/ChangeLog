@@ -1,3 +1,13 @@
+2004-12-22  JP Rosevear  <jpr@novell.com>
+
+	Fixes #61076
+	
+	* gui/comp-editor-factory.c (open_client): don't translate command
+	line warnings
+
+	* gui/calendar-offline-handler.c (backend_go_online): ditto
+	(backend_go_offline): ditto
+	
 2004-12-21  JP Rosevear  <jpr@novell.com>
 
 	Fixes #41624
