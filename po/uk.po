@@ -1904,9 +1904,8 @@ msgid "A_ll day event"
 msgstr ""
 
 #: po/tmp/event-editor-dialog.glade.h:8
-#, fuzzy
 msgid "Appointment Basics"
-msgstr "Зустр╕ч╕:"
+msgstr "П╕дстави зустр╕ч╕"
 
 #: po/tmp/event-editor-dialog.glade.h:9
 msgid "Classification"
@@ -1941,13 +1940,12 @@ msgid "Minutes"
 msgstr "Хвилини"
 
 #: po/tmp/event-editor-dialog.glade.h:19
-#, fuzzy
 msgid "Modify"
-msgstr "Понед╕лок"
+msgstr "Зм╕нити"
 
 #: po/tmp/event-editor-dialog.glade.h:20
 msgid "No recurrence"
-msgstr ""
+msgstr "Без повторення"
 
 #: po/tmp/event-editor-dialog.glade.h:21
 msgid "Preview"
@@ -1955,27 +1953,27 @@ msgstr "Перегляд"
 
 #: po/tmp/event-editor-dialog.glade.h:22
 msgid "Pri_vate"
-msgstr ""
+msgstr "Особисте"
 
 #: po/tmp/event-editor-dialog.glade.h:23
 msgid "Pu_blic"
-msgstr ""
+msgstr "Публ╕чне"
 
 #: po/tmp/event-editor-dialog.glade.h:24
 msgid "Recurrence"
-msgstr ""
+msgstr "Повторення"
 
 #: po/tmp/event-editor-dialog.glade.h:25
 msgid "Recurrence Rule"
-msgstr ""
+msgstr "Правило повторення"
 
 #: po/tmp/event-editor-dialog.glade.h:26
 msgid "Reminder"
-msgstr ""
+msgstr "Нагадування"
 
 #: po/tmp/event-editor-dialog.glade.h:27
 msgid "Simple recurrence"
-msgstr ""
+msgstr "Просте повторення"
 
 #: po/tmp/event-editor-dialog.glade.h:28
 msgid "Su_mmary:"
@@ -2027,12 +2025,11 @@ msgstr ""
 
 #: po/tmp/event-editor-dialog.glade.h:40
 msgid "event-editor-dialog"
-msgstr ""
+msgstr "д╕алог редактора помилок"
 
 #: po/tmp/event-editor-dialog.glade.h:41
-#, fuzzy
 msgid "for"
-msgstr "четвертий"
+msgstr "в"
 
 #: po/tmp/event-editor-dialog.glade.h:42
 msgid "forever"
@@ -6533,7 +6530,7 @@ msgstr ""
 
 #: widgets/meeting-time-sel/e-meeting-time-sel.c:388
 msgid "Out of Office"
-msgstr ""
+msgstr "За межами оф╕су"
 
 #: widgets/meeting-time-sel/e-meeting-time-sel.c:389
 msgid "No Information"
