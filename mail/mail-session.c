@@ -72,6 +72,10 @@ typedef struct _MailSession {
 	EMutex *lock;
 
 	MailAsyncEvent *async;
+
+	/* spamassassin filter options */
+	gboolean sa_local_only;
+	gboolean sa_use_daemon;
 } MailSession;
 
 typedef struct _MailSessionClass {
@@ -95,6 +99,8 @@ init (MailSession *session)
 {
 	session->lock = e_mutex_new(E_MUTEX_REC);
 	session->async = mail_async_event_new();
+	session->sa_local_only = gconf_client_get_bool (mail_config_get_gconf_client (), "/apps/evolution/mail/junk/sa/local_only", NULL);
+	session->sa_use_daemon = gconf_client_get_bool (mail_config_get_gconf_client (), "/apps/evolution/mail/junk/sa/use_daemon", NULL);
 }
 
 static void
@@ -754,6 +760,30 @@ mail_session_forget_password (const char *key)
 	e_passwords_forget_password ("Mail", key);
 }
 
+gboolean
+mail_session_get_sa_local_only ()
+{
+	return MAIL_SESSION (session)->sa_local_only;
+}
+
+void
+mail_session_set_sa_local_only (gboolean value)
+{
+	MAIL_SESSION (session)->sa_local_only = value;
+}
+
+gboolean
+mail_session_get_sa_use_daemon ()
+{
+	return MAIL_SESSION (session)->sa_use_daemon;
+}
+
+void
+mail_session_set_sa_use_daemon (gboolean value)
+{
+	MAIL_SESSION (session)->sa_use_daemon = value;
+}
+
 static void
 mail_session_check_junk_notify (GConfClient *gconf, guint id, GConfEntry *entry, CamelSession *session)
 {
@@ -763,8 +793,15 @@ mail_session_check_junk_notify (GConfClient *gconf, guint id, GConfEntry *entry,
 	g_return_if_fail (gconf_entry_get_value (entry) != NULL);
 
 	key = strrchr (gconf_entry_get_key (entry), '/');
-	if (!strcmp (key, "check_incoming"))
-		camel_session_set_check_junk (session, gconf_value_get_bool (gconf_entry_get_value (entry)));
+	if (key) {
+		key ++;
+		if (!strcmp (key, "check_incoming"))
+			camel_session_set_check_junk (session, gconf_value_get_bool (gconf_entry_get_value (entry)));
+		else if (!strcmp (key, "local_only"))
+			mail_session_set_sa_local_only (gconf_value_get_bool (gconf_entry_get_value (entry)));
+		else if (!strcmp (key, "use_daemon"))
+			mail_session_set_sa_use_daemon (gconf_value_get_bool (gconf_entry_get_value (entry)));
+	}
 }
 
 void
@@ -782,6 +819,7 @@ mail_session_init (const char *base_directory)
 	camel_session_construct (session, camel_dir);
 
 	gconf = mail_config_get_gconf_client ();
+	gconf_client_add_dir (gconf, "/apps/evolution/mail/junk", GCONF_CLIENT_PRELOAD_ONELEVEL, NULL);
 	camel_session_set_check_junk (session, gconf_client_get_bool (gconf, "/apps/evolution/mail/junk/check_incoming", NULL));
 	session_check_junk_notify_id = gconf_client_notify_add (gconf, "/apps/evolution/mail/junk",
 								(GConfClientNotifyFunc) mail_session_check_junk_notify,

@@ -637,6 +637,28 @@
       </locale>
     </schema>
 
+    <schema>
+      <key>/schemas/apps/evolution/mail/junk/sa/local_only</key>
+      <applyto>/apps/evolution/mail/junk/sa/local_only</applyto>
+      <owner>evolution-mail</owner>
+      <type>bool</type>
+      <default>true</default>
+    </schema>
+
+    <schema>
+      <key>/schemas/apps/evolution/mail/junk/sa/use_daemon</key>
+      <applyto>/apps/evolution/mail/junk/sa/use_daemon</applyto>
+      <owner>evolution-mail</owner>
+      <type>bool</type>
+      <default>true</default>
+      <locale name="C">
+         <short>Use Spamasssassin daemon and client</short>
+         <long>
+          Use Spamasssassin daemon and client (spamc/spamd)
+         </long>
+      </locale>
+    </schema>
+
     <!-- Account settings -->
 
     <schema>

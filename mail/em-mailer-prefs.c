@@ -652,6 +652,16 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs)
 	bool = gconf_client_get_bool (prefs->gconf, "/apps/evolution/mail/junk/check_incoming", NULL);
 	gtk_toggle_button_set_active (prefs->check_incoming, bool);
 	g_signal_connect (prefs->check_incoming, "toggled", G_CALLBACK (settings_changed), prefs);
+
+	prefs->sa_local_tests_only = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui, "chkSALocalTestsOnly"));
+	bool = gconf_client_get_bool (prefs->gconf, "/apps/evolution/mail/junk/sa/local_only", NULL);
+	gtk_toggle_button_set_active (prefs->sa_local_tests_only, bool);
+	g_signal_connect (prefs->sa_local_tests_only, "toggled", G_CALLBACK (settings_changed), prefs);
+
+	prefs->sa_use_daemon = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui, "chkSAUseDaemon"));
+	bool = gconf_client_get_bool (prefs->gconf, "/apps/evolution/mail/junk/sa/use_daemon", NULL);
+	gtk_toggle_button_set_active (prefs->sa_use_daemon, bool);
+	g_signal_connect (prefs->sa_use_daemon, "toggled", G_CALLBACK (settings_changed), prefs);
 }
 
 
@@ -792,6 +802,10 @@ em_mailer_prefs_apply (EMMailerPrefs *prefs)
 	/* junk prefs */
 	gconf_client_set_bool (prefs->gconf, "/apps/evolution/mail/junk/check_incoming",
 			       gtk_toggle_button_get_active (prefs->check_incoming), NULL);
+	gconf_client_set_bool (prefs->gconf, "/apps/evolution/mail/junk/sa/local_only",
+			       gtk_toggle_button_get_active (prefs->sa_local_tests_only), NULL);
+	gconf_client_set_bool (prefs->gconf, "/apps/evolution/mail/junk/sa/use_daemon",
+			       gtk_toggle_button_get_active (prefs->sa_use_daemon), NULL);
 	
 	gconf_client_suggest_sync (prefs->gconf, NULL);
 }

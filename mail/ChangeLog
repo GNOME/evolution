@@ -1,3 +1,21 @@
+2004-01-12  Radek Doulik  <rodo@ximian.com>
+
+	* mail-session.c: added SA prefs
+	(mail_session_get_sa_local_only): new helper method
+	(mail_session_set_sa_local_only): ditto
+	(mail_session_get_sa_use_daemon): ditto
+	(mail_session_set_sa_use_daemon): ditto
+	(mail_session_check_junk_notify): fix the key comparison
+	(mail_session_init): add gconf dir so that we get notified
+
+	* mail-config.glade: added SA preferences
+
+	* em-mailer-prefs.c (em_mailer_prefs_construct): added more junk
+	prefs
+	(em_mailer_prefs_apply): ditto
+
+	* em-junk-filter.c: use preferences
+
 2004-01-12  Larry Ewing  <lewing@ximian.com>
 
 	* GNOME_Evolution_Mail.server.in.in: fix up the controls factory

@@ -32,6 +32,7 @@
 #include <camel/camel-data-wrapper.h>
 #include <camel/camel-stream-fs.h>
 
+#include "mail-session.h"
 #include "em-junk-filter.h"
 
 #define LOCK(x) pthread_mutex_lock(&x)
@@ -228,7 +229,7 @@ em_junk_sa_test_spamd ()
 				for (i = 0; i < NPORTS; i ++) {
 					d(fprintf (stderr, "trying to run spamd at port %d\n", port));
 
-					sad_args [2] = g_strdup_printf ("spamd --port %d --local --daemonize", port);
+					sad_args [2] = g_strdup_printf ("spamd --port %d %s--daemonize", port, mail_session_get_sa_local_only () ? "--local " : "");
 					if (!pipe_to_sa (NULL, NULL, 3, sad_args)) {
 						g_free (sad_args [2]);
 						em_junk_sa_use_spamc = TRUE;
@@ -282,10 +283,11 @@ em_junk_sa_check_junk (CamelMimeMessage *msg)
 				      " -c"        /* Exit with a non-zero exit code if the
 						      tested message was junk */
 				      " -p %d", em_junk_sa_spamd_port))
-		: g_strdup ("spamassassin"
-			    " --exit-code"         /* Exit with a non-zero exit code if the
-						      tested message was junk */
-			    " --local");           /* Local tests only (no online tests) */
+		: g_strdup_printf ("spamassassin"
+				   " --exit-code%s",                  /* Exit with a non-zero exit code if the
+									 tested message was junk */
+				   mail_session_get_sa_local_only ()
+				   ? " --local" : "");                /* Local tests only (no online tests) */
 
 	retval = pipe_to_sa (msg, NULL, 3, args);
 
@@ -300,18 +302,23 @@ em_junk_sa_report_junk (CamelMimeMessage *msg)
 	static gchar *args [4] = {
 		"/bin/sh",
 		"-c",
-		"sa-learn"
-		" --no-rebuild"        /* do not rebuild db */
-		" --spam"              /* report junk */
-		" --single"            /* single message */
-		" --local",            /* local only */
+		NULL,
 		NULL
 	};
 
 	d(fprintf (stderr, "em_junk_sa_report_junk\n"));
 
-	if (em_junk_sa_is_available ())
+	if (em_junk_sa_is_available ()) {
+		args [2] = g_strdup_printf 
+			("sa-learn"
+			 " --no-rebuild"        /* do not rebuild db */
+			 " --spam"              /* report junk */
+			 " --single%s",         /* single message */
+			 mail_session_get_sa_local_only ()
+			 ? " --local" : "");    /* local only */
 		pipe_to_sa (msg, NULL, 3, args);
+		g_free (args [2]);
+	}
 }
 
 static void
@@ -320,18 +327,23 @@ em_junk_sa_report_notjunk (CamelMimeMessage *msg)
 	static gchar *args [4] = {
 		"/bin/sh",
 		"-c",
-		"sa-learn"
-		" --no-rebuild"        /* do not rebuild db */
-		" --ham"               /* report notjunk */
-		" --single"            /* single message */
-		" --local",            /* local only */
+		NULL,
 		NULL
 	};
 
 	d(fprintf (stderr, "em_junk_sa_report_notjunk\n"));
 
-	if (em_junk_sa_is_available ())
+	if (em_junk_sa_is_available ()) {
+		args [2] = g_strdup_printf
+			("sa-learn"
+			 " --no-rebuild"        /* do not rebuild db */
+			 " --ham"               /* report notjunk */
+			 " --single%s",         /* single message */
+			 mail_session_get_sa_local_only ()
+			 ? " --local" : "");    /* local only */
 		pipe_to_sa (msg, NULL, 3, args);
+		g_free (args [2]);
+	}
 }
 
 static void
@@ -340,16 +352,21 @@ em_junk_sa_commit_reports (void)
 	static gchar *args [4] = {
 		"/bin/sh",
 		"-c",
-		"sa-learn"
-		" --rebuild"           /* do not rebuild db */
-		" --local",            /* local only */
+		NULL,
 		NULL
 	};
 
-	d(fprintf (stderr, "em_junk_sa_commit_reports\n");)
+	d(fprintf (stderr, "em_junk_sa_commit_reports\n"));
 
-	if (em_junk_sa_is_available ())
+	if (em_junk_sa_is_available ()) {
+		args [2] = g_strdup_printf
+			("sa-learn"
+			 " --rebuild%s",           /* do not rebuild db */
+			 mail_session_get_sa_local_only ()
+			 ? " --local" : "");       /* local only */
 		pipe_to_sa (NULL, NULL, 3, args);
+		g_free (args [2]);
+	}
 }
 
 const EMJunkPlugin *

@@ -49,6 +49,11 @@ void mail_session_forget_password (const char *key);
 
 void mail_session_flush_filter_log (void);
 
+gboolean  mail_session_get_sa_local_only  (void);
+void      mail_session_set_sa_local_only  (gboolean value);
+gboolean  mail_session_get_sa_use_daemon  (void);
+void      mail_session_set_sa_use_daemon  (gboolean value);
+
 extern CamelSession *session;
 
 #ifdef __cplusplus

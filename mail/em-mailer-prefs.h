@@ -116,6 +116,8 @@ struct _EMMailerPrefs {
 
 	/* Junk prefs */
 	GtkToggleButton *check_incoming;
+	GtkToggleButton *sa_local_tests_only;
+	GtkToggleButton *sa_use_daemon;
 };
 
 struct _EMMailerPrefsClass {
