@@ -602,7 +602,7 @@ if test "x${with_krb5}" != "xno"; then
 	])
 	if test "$ac_cv_lib_kerberos5" != "no"; then
 		AC_DEFINE(HAVE_KRB5,1,[Define if you have Krb5])
-		if test "$ac_cv_lib_kerberos5" == "$mitlibs"; then
+		if test "$ac_cv_lib_kerberos5" = "$mitlibs"; then
 			AC_DEFINE(HAVE_MIT_KRB5,1,[Define if you have MIT Krb5])
 			KRB5_CFLAGS="-I$with_krb5/include"
 			msg_krb5="yes (MIT)"
