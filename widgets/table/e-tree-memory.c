@@ -546,3 +546,69 @@ e_tree_memory_node_remove (ETreeMemory *etree, ETreePath node)
 
 	return ret;
 }
+
+typedef struct {
+	ETreeMemory *memory;
+	gpointer closure;
+	ETreeMemorySortCallback callback;
+} MemoryAndClosure;
+
+static int
+sort_callback(const void *data1, const void *data2, gpointer user_data)
+{
+	ETreePath path1 = (void *) data1;
+	ETreePath path2 = (void *) data2;
+	MemoryAndClosure *mac = user_data;
+	return (*mac->callback) (mac->memory, path1, path2, mac->closure);
+}
+
+void
+e_tree_memory_sort_node             (ETreeMemory             *etmm,
+				     ETreePath                node,
+				     ETreeMemorySortCallback  callback,
+				     gpointer                 user_data)
+{
+	ETreeMemoryPath **children;
+	ETreeMemoryPath *child;
+	int count;
+	int i;
+	ETreeMemoryPath *path = node;
+	MemoryAndClosure mac;
+	ETreeMemoryPath *last;
+	
+	i = 0;
+	for (child = path->first_child; child; child = child->next_sibling)
+		i++;
+
+	children = g_new(ETreeMemoryPath *, i);
+
+	count = i;
+
+	for (child = path->first_child, i = 0;
+	     child;
+	     child = child->next_sibling, i++) {
+		children[i] = child;
+	}
+
+	mac.memory = etmm;
+	mac.closure = user_data;
+	mac.callback = callback;
+
+	e_sort (children, count, sizeof (ETreeMemoryPath *), sort_callback, &mac);
+
+	last = NULL;
+	for (i = 0;
+	     i < count;
+	     i++) {
+		children[i]->prev_sibling = last;
+		if (last)
+			last->next_sibling = children[i];
+		last = children[i];
+	}
+	if (last)
+		last->next_sibling = NULL;
+
+	g_free(children);
+
+	e_tree_model_node_changed(E_TREE_MODEL(etmm), node);
+}
