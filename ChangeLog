@@ -1,3 +1,8 @@
+2005-03-11  David Malcolm  <dmalcolm@redhat.com>
+
+	* configure.in: set up DBUS_VERSION for use in the new-mail-notify
+	plugin 
+
 2005-03-31  Steve Murphy  <murf@e-tools.com>
 
         * configure.in: Added "rw" to ALL_LINGUAS.
