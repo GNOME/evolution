@@ -40,6 +40,8 @@ libeutil_la_SOURCES =			\
 	e-msgport.h			\
 	e-path.c			\
 	e-path.h			\
+	e-request.c			\
+	e-request.h			\
 	e-sexp.c			\
 	e-sexp.h			\
 	e-time-utils.c			\
