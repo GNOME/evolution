@@ -21,7 +21,6 @@ INCLUDES =						\
 	-I$(top_srcdir)/addressbook			\
 	-I$(top_srcdir)/addressbook/backend		\
 	-I$(top_builddir)/addressbook/backend		\
-	-DG_DISABLE_DEPRECATED -DGTK_DISABLE_DEPRECATED	\
 	$(GNOME_FULL_CFLAGS)
 
 EXTRA_DIST = $(privlibexec_SCRIPTS) verify-evolution-install.sh \
