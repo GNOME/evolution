@@ -261,20 +261,20 @@ process_item_fn (EvolutionImporter *importer,
 	   contains just tasks, we strip out the VEVENTs, which do not get
 	   imported at all. */
 	if (ici->folder_contains_events && ici->folder_contains_tasks) {
-		if (!cal_client_update_objects (ici->client, ici->icalcomp))
+		if (cal_client_update_objects (ici->client, ici->icalcomp) != CAL_CLIENT_RESULT_SUCCESS)
 			result = GNOME_Evolution_ImporterListener_BAD_DATA;
 	} else if (ici->folder_contains_events) {
 		GList *vtodos = prepare_events (ici->icalcomp);
-		if (!cal_client_update_objects (ici->client, ici->icalcomp))
+		if (cal_client_update_objects (ici->client, ici->icalcomp) != CAL_CLIENT_RESULT_SUCCESS)
 			result = GNOME_Evolution_ImporterListener_BAD_DATA;
 
 		prepare_tasks (ici->icalcomp, vtodos);
-		if (!cal_client_update_objects (ici->tasks_client,
-						ici->icalcomp))
+		if (cal_client_update_objects (ici->tasks_client,
+					       ici->icalcomp) != CAL_CLIENT_RESULT_SUCCESS)
 			result = GNOME_Evolution_ImporterListener_BAD_DATA;
 	} else {
 		prepare_tasks (ici->icalcomp, NULL);
-		if (!cal_client_update_objects (ici->client, ici->icalcomp))
+		if (cal_client_update_objects (ici->client, ici->icalcomp) != CAL_CLIENT_RESULT_SUCCESS)
 			result = GNOME_Evolution_ImporterListener_BAD_DATA;
 	}
 

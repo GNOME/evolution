@@ -1548,6 +1548,7 @@ update_item (EItipControl *itip)
 	CalClient *client;
 	CalComponentVType type;
 	GtkWidget *dialog;
+	CalClientResult result;
 
 	priv = itip->priv;
 
@@ -1560,10 +1561,27 @@ update_item (EItipControl *itip)
 	clone = icalcomponent_new_clone (priv->ical_comp);
 	icalcomponent_add_component (priv->top_level, clone);
 
-	if (!cal_client_update_objects (client, priv->top_level))
-		dialog = gnome_warning_dialog (_("Calendar file could not be updated!\n"));
-	else
+	result = cal_client_update_objects (client, priv->top_level);
+	switch (result) {
+	case CAL_CLIENT_RESULT_INVALID_OBJECT :
+		dialog = gnome_warning_dialog (_("Object is invalid and cannot be updated\n"));
+		break;
+	case CAL_CLIENT_RESULT_CORBA_ERROR :
+		dialog = gnome_warning_dialog (_("There was an error on the CORBA system\n"));
+		break;
+	case CAL_CLIENT_RESULT_NOT_FOUND :
+		dialog = gnome_warning_dialog (_("Object could not be found\n"));
+		break;
+	case CAL_CLIENT_RESULT_PERMISSION_DENIED :
+		dialog = gnome_warning_dialog (_("You don't have permissions to update the calendar\n"));
+		break;
+	case CAL_CLIENT_RESULT_SUCCESS :
 		dialog = gnome_ok_dialog (_("Update complete\n"));
+		break;
+	default :
+		dialog = gnome_warning_dialog (_("Calendar file could not be updated!\n"));
+		break;
+	}
 	gnome_dialog_run_and_close (GNOME_DIALOG (dialog));
 
 	icalcomponent_remove_component (priv->top_level, clone);
@@ -1579,6 +1597,7 @@ update_attendee_status (EItipControl *itip)
 	CalComponentVType type;
 	const char *uid;
 	GtkWidget *dialog;
+	CalClientResult result;
 
 	priv = itip->priv;
 
@@ -1634,10 +1653,26 @@ update_attendee_status (EItipControl *itip)
 			}
 		}
 
-		if (!cal_client_update_object (client, comp))
-			dialog = gnome_warning_dialog (_("Attendee status could not be updated!\n"));
-		else
+		result = cal_client_update_object (client, comp);
+		switch (result) {
+		case CAL_CLIENT_RESULT_INVALID_OBJECT :
+			dialog = gnome_warning_dialog (_("Object is invalid and cannot be updated\n"));
+			break;
+		case CAL_CLIENT_RESULT_CORBA_ERROR :
+			dialog = gnome_warning_dialog (_("There was an error on the CORBA system\n"));
+			break;
+		case CAL_CLIENT_RESULT_NOT_FOUND :
+			dialog = gnome_warning_dialog (_("Object could not be found\n"));
+			break;
+		case CAL_CLIENT_RESULT_PERMISSION_DENIED :
+			dialog = gnome_warning_dialog (_("You don't have permissions to update the calendar\n"));
+			break;
+		case CAL_CLIENT_RESULT_SUCCESS :
 			dialog = gnome_ok_dialog (_("Attendee status updated\n"));
+			break;
+		default :
+			dialog = gnome_warning_dialog (_("Attendee status could not be updated!\n"));
+		}
 	} else {
 		dialog = gnome_warning_dialog (_("Attendee status can not be updated "
 						 "because the item no longer exists"));
@@ -1670,7 +1705,7 @@ remove_item (EItipControl *itip)
 		return;
 	
 	cal_component_get_uid (priv->comp, &uid);
-	if (cal_client_remove_object (client, uid)) {
+	if (cal_client_remove_object (client, uid) == CAL_CLIENT_RESULT_SUCCESS) {
 		dialog = gnome_ok_dialog (_("Removal Complete"));
 		gnome_dialog_run_and_close (GNOME_DIALOG (dialog));
 	}

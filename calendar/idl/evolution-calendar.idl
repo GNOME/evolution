@@ -131,6 +131,7 @@ module Calendar {
 		exception InvalidRange {};
 		exception InvalidObject {};
 		exception CouldNotCreate {};
+		exception PermissionDenied {};
 		
 		/* A calendar is identified by its URI */
 		readonly attribute string uri;
@@ -199,11 +200,11 @@ module Calendar {
 		 * updated version.
 		 */
 		void updateObjects (in CalObj calobj)
-			raises (InvalidObject);
+			raises (InvalidObject, PermissionDenied);
 
 		/* Removes a component */
 		void removeObject (in CalObjUID uid)
-			raises (NotFound);
+			raises (NotFound, PermissionDenied);
 
 		/* Initiates a live query of the calendar.  Returns a handle
 		 * to the live query itself; changes to components that are
@@ -292,10 +293,11 @@ module Calendar {
 		exception NilListener {};
 		exception InvalidURI {};
 		exception UnsupportedMethod {};
+		exception PermissionDenied {};
 
 		/* Open a calendar from an URI */
 		void open (in string uri, in boolean only_if_exists, in Listener listener)
-			raises (NilListener, InvalidURI, UnsupportedMethod);
+			raises (NilListener, InvalidURI, UnsupportedMethod, PermissionDenied);
 
 		/* List of open URI's */
 		StringSeq uriList (in CalMode mode);

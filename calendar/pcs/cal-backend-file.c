@@ -120,8 +120,9 @@ static GNOME_Evolution_Calendar_CalComponentAlarms *cal_backend_file_get_alarms_
 	CalBackend *backend, const char *uid,
 	time_t start, time_t end, gboolean *object_found);
 
-static gboolean cal_backend_file_update_objects (CalBackend *backend, const char *calobj);
-static gboolean cal_backend_file_remove_object (CalBackend *backend, const char *uid);
+static CalBackendResult cal_backend_file_update_objects (CalBackend *backend,
+							 const char *calobj);
+static CalBackendResult cal_backend_file_remove_object (CalBackend *backend, const char *uid);
 
 static icaltimezone* cal_backend_file_get_timezone (CalBackend *backend, const char *tzid);
 static icaltimezone* cal_backend_file_get_default_timezone (CalBackend *backend);
@@ -1743,7 +1744,7 @@ cal_backend_file_update_object (CalBackendFile *cbfile,
 
 
 /* Update_objects handler for the file backend. */
-static gboolean
+static CalBackendResult
 cal_backend_file_update_objects (CalBackend *backend, const char *calobj)
 {
 	CalBackendFile *cbfile;
@@ -1752,22 +1753,22 @@ cal_backend_file_update_objects (CalBackend *backend, const char *calobj)
 	icalcomponent_kind kind;
 	int old_n_categories, new_n_categories;
 	icalcomponent *subcomp;
-	gboolean retval = TRUE;
+	CalBackendResult retval = CAL_BACKEND_RESULT_SUCCESS;
 	GList *comp_uid_list = NULL, *elem;
 
 	cbfile = CAL_BACKEND_FILE (backend);
 	priv = cbfile->priv;
 
-	g_return_val_if_fail (priv->icalcomp != NULL, FALSE);
+	g_return_val_if_fail (priv->icalcomp != NULL, CAL_BACKEND_RESULT_INVALID_OBJECT);
 
-	g_return_val_if_fail (calobj != NULL, FALSE);
+	g_return_val_if_fail (calobj != NULL, CAL_BACKEND_RESULT_INVALID_OBJECT);
 
 	/* Pull the component from the string and ensure that it is sane */
 
 	toplevel_comp = icalparser_parse_string ((char *) calobj);
 
 	if (!toplevel_comp)
-		return FALSE;
+		return CAL_BACKEND_RESULT_INVALID_OBJECT;
 
 	kind = icalcomponent_isa (toplevel_comp);
 
@@ -1782,7 +1783,7 @@ cal_backend_file_update_objects (CalBackend *backend, const char *calobj)
 	} else if (kind != ICAL_VCALENDAR_COMPONENT) {
 		/* We don't support this type of component */
 		icalcomponent_free (toplevel_comp);
-		return FALSE;
+		return CAL_BACKEND_RESULT_INVALID_OBJECT;
 	}
 
 	/* The list of removed categories must be empty because we are about to
@@ -1816,7 +1817,7 @@ cal_backend_file_update_objects (CalBackend *backend, const char *calobj)
 				comp_uid_list = g_list_prepend (comp_uid_list,
 								g_strdup (comp_uid));
 			} else {
-				retval = FALSE;
+				retval = CAL_BACKEND_RESULT_INVALID_OBJECT;
 			}
 		}
 		subcomp = icalcomponent_get_next_component (toplevel_comp,
@@ -1852,7 +1853,7 @@ cal_backend_file_update_objects (CalBackend *backend, const char *calobj)
 
 
 /* Remove_object handler for the file backend */
-static gboolean
+static CalBackendResult
 cal_backend_file_remove_object (CalBackend *backend, const char *uid)
 {
 	CalBackendFile *cbfile;
@@ -1862,13 +1863,13 @@ cal_backend_file_remove_object (CalBackend *backend, const char *uid)
 	cbfile = CAL_BACKEND_FILE (backend);
 	priv = cbfile->priv;
 
-	g_return_val_if_fail (priv->icalcomp != NULL, FALSE);
+	g_return_val_if_fail (priv->icalcomp != NULL, CAL_BACKEND_RESULT_INVALID_OBJECT);
 
-	g_return_val_if_fail (uid != NULL, FALSE);
+	g_return_val_if_fail (uid != NULL, CAL_BACKEND_RESULT_NOT_FOUND);
 
 	comp = lookup_component (cbfile, uid);
 	if (!comp)
-		return FALSE;
+		return CAL_BACKEND_RESULT_NOT_FOUND;
 
 	/* The list of removed categories must be empty because we are about to
 	 * start a new scanning process.
@@ -1886,7 +1887,7 @@ cal_backend_file_remove_object (CalBackend *backend, const char *uid)
 		notify_categories_changed (cbfile);
 	}
 
-	return TRUE;
+	return CAL_BACKEND_RESULT_SUCCESS;
 }
 
 

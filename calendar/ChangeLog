@@ -1,3 +1,34 @@
+2002-05-16  Rodrigo Moya <rodrigo@ximian.com>
+
+	* idl/evolution-calendar.idl: added PermissionDenied exception and
+	make it be raised in open, updateObjects and removeObject.
+
+	* pcs/cal-backend.h: added CAL_BACKEND_OPEN_PERMISSION_DENIED to
+	CalBackendOpenStatus enumeration, added CalBackendResult enumeration.
+
+	* pcs/cal.c:
+	* pcs/cal-backend.c:
+	* pcs/cal-backend-file.c: adapted to changes in update_objects and
+	remove_object methods.
+
+	* cal-client/cal-client.[ch]: added CalClientResult enumeration.
+	(cal_client_update_object, cal_client_update_objects,
+	 cal_client_remove_object): changed to return a CalClientResult.
+
+	* conduits/calendar/calendar-conduit.c:
+	* calendar/conduits/todo/todo-conduit.c:
+	* importers/icalendar-importer.c:
+	* gui/dialogs/comp-editor.c:
+	* gui/calendar-model.c:
+	* gui/e-calendar-table.c:
+	* gui/e-day-view.c:
+	* gui/e-itip-control.c:
+	* gui/e-week-view.c:
+	* gui/comp-util.c:
+	* gui/e-tasks.c:
+	* gui/tasks-migrate.c: adapted to changes in cal_client_update_object(s)
+	and cal_client_remove_object.
+	
 2002-05-15  Ettore Perazzoli  <ettore@ximian.com>
 
 	* gui/component-factory.c (create_object): Pass NULL as

@@ -75,7 +75,7 @@ migrate (void)
 
 		switch (status) {
 		case CAL_CLIENT_GET_SUCCESS:
-			if (cal_client_update_object (tasks_client, comp))
+			if (cal_client_update_object (tasks_client, comp) == CAL_CLIENT_RESULT_SUCCESS)
 				cal_client_remove_object (calendar_client, uid);
 			else
 				success = FALSE;

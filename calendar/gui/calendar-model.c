@@ -1320,7 +1320,7 @@ calendar_model_set_value_at (ETableModel *etm, int col, int row, const void *val
 		return;
 	}
 
-	if (!cal_client_update_object (priv->client, comp))
+	if (cal_client_update_object (priv->client, comp) != CAL_CLIENT_RESULT_SUCCESS)
 		g_message ("calendar_model_set_value_at(): Could not update the object!");
 }
 
@@ -1399,7 +1399,7 @@ calendar_model_append_row (ETableModel *etm, ETableModel *source, gint row)
 	set_complete (comp, e_table_model_value_at(source, CAL_COMPONENT_FIELD_COMPLETE, row));
 	set_status (comp, e_table_model_value_at(source, CAL_COMPONENT_FIELD_STATUS, row));
 
-	if (!cal_client_update_object (priv->client, comp)) {
+	if (cal_client_update_object (priv->client, comp) != CAL_CLIENT_RESULT_SUCCESS) {
 		/* FIXME: Show error dialog. */
 		g_message ("calendar_model_append_row(): Could not add new object!");
 	}
@@ -2270,7 +2270,7 @@ calendar_model_mark_task_complete (CalendarModel *model,
 
 	ensure_task_complete (comp, -1);
 
-	if (!cal_client_update_object (priv->client, comp))
+	if (cal_client_update_object (priv->client, comp) != CAL_CLIENT_RESULT_SUCCESS)
 		g_message ("calendar_model_mark_task_complete(): Could not update the object!");
 }
 

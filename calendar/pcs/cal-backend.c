@@ -673,10 +673,10 @@ cal_backend_get_alarms_for_object (CalBackend *backend, const char *uid,
  * object that has the same UID as the specified one.  The backend will in
  * turn notify all of its clients about the change.
  * 
- * Return value: TRUE on success, FALSE on being passed an invalid object or one
- * with an unsupported type.
+ * Return value: a #CalBackendResult value, which indicates the
+ * result of the operation.
  **/
-gboolean
+CalBackendResult
 cal_backend_update_objects (CalBackend *backend, const char *calobj)
 {
 	g_return_val_if_fail (backend != NULL, FALSE);
@@ -695,10 +695,10 @@ cal_backend_update_objects (CalBackend *backend, const char *calobj)
  * Removes an object in a calendar backend.  The backend will notify all of its
  * clients about the change.
  * 
- * Return value: TRUE on success, FALSE on being passed an UID for an object
- * that does not exist in the backend.
+ * Return value: a #CalBackendResult value, which indicates the
+ * result of the operation.
  **/
-gboolean
+CalBackendResult
 cal_backend_remove_object (CalBackend *backend, const char *uid)
 {
 	g_return_val_if_fail (backend != NULL, FALSE);

@@ -1139,14 +1139,14 @@ static void
 update_comp (GnomePilotConduitSyncAbs *conduit, CalComponent *comp,
 	     ECalConduitContext *ctxt) 
 {
-	gboolean success;
+	CalClientResult success;
 
 	g_return_if_fail (conduit != NULL);
 	g_return_if_fail (comp != NULL);
 
 	success = cal_client_update_object (ctxt->client, comp);
 
-	if (!success)
+	if (success != CAL_CLIENT_RESULT_SUCCESS)
 		WARN (_("Error while communicating with calendar server"));
 }
 

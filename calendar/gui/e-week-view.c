@@ -3216,7 +3216,7 @@ e_week_view_on_editing_stopped (EWeekView *week_view,
 		summary.altrep = NULL;
 		cal_component_set_summary (event->comp, &summary);
 
-		if (cal_client_update_object (week_view->client, event->comp)) {
+		if (cal_client_update_object (week_view->client, event->comp) == CAL_CLIENT_RESULT_SUCCESS) {
 			if (cal_component_has_attendees (event->comp) && send_component_dialog (event->comp, FALSE))
 				itip_send_comp (CAL_COMPONENT_METHOD_REQUEST, event->comp,
 						week_view->client, NULL);
@@ -3870,7 +3870,7 @@ e_week_view_on_delete_occurrence (GtkWidget *widget, gpointer data)
 	comp = cal_component_clone (event->comp);
 	cal_comp_util_add_exdate (comp, event->start, week_view->zone);
 
-	if (!cal_client_update_object (week_view->client, comp))
+	if (cal_client_update_object (week_view->client, comp) != CAL_CLIENT_RESULT_SUCCESS)
 		g_message ("e_week_view_on_delete_occurrence(): Could not update the object!");
 
 	gtk_object_unref (GTK_OBJECT (comp));
@@ -4030,12 +4030,12 @@ e_week_view_on_unrecur_appointment (GtkWidget *widget, gpointer data)
 	/* Now update both CalComponents. Note that we do this last since at
 	   present the updates happen synchronously so our event may disappear.
 	*/
-	if (!cal_client_update_object (week_view->client, comp))
+	if (cal_client_update_object (week_view->client, comp) != CAL_CLIENT_RESULT_SUCCESS)
 		g_message ("e_week_view_on_unrecur_appointment(): Could not update the object!");
 
 	gtk_object_unref (GTK_OBJECT (comp));
 
-	if (!cal_client_update_object (week_view->client, new_comp))
+	if (cal_client_update_object (week_view->client, new_comp) != CAL_CLIENT_RESULT_SUCCESS)
 		g_message ("e_week_view_on_unrecur_appointment(): Could not update the object!");
 
 	gtk_object_unref (GTK_OBJECT (new_comp));

@@ -47,8 +47,17 @@ BEGIN_GNOME_DECLS
 typedef enum {
 	CAL_BACKEND_OPEN_SUCCESS,	/* Loading OK */
 	CAL_BACKEND_OPEN_ERROR,		/* We need better error reporting in libversit */
-	CAL_BACKEND_OPEN_NOT_FOUND
+	CAL_BACKEND_OPEN_NOT_FOUND,
+	CAL_BACKEND_OPEN_PERMISSION_DENIED
 } CalBackendOpenStatus;
+
+/* Update and Remove result values */
+typedef enum {
+	CAL_BACKEND_RESULT_SUCCESS,
+	CAL_BACKEND_RESULT_INVALID_OBJECT,
+	CAL_BACKEND_RESULT_NOT_FOUND,
+	CAL_BACKEND_RESULT_PERMISSION_DENIED
+} CalBackendResult;
 
 /* Result codes for ::get_alarms_in_range() */
 typedef enum {
@@ -112,8 +121,8 @@ struct _CalBackendClass {
 		time_t start, time_t end, gboolean *object_found);
 
 	/* Object manipulation virtual methods */
-	gboolean (* update_objects) (CalBackend *backend, const char *calobj);
-	gboolean (* remove_object) (CalBackend *backend, const char *uid);
+	CalBackendResult (* update_objects) (CalBackend *backend, const char *calobj);
+	CalBackendResult (* remove_object) (CalBackend *backend, const char *uid);
 
 	/* Timezone related virtual methods */
 	icaltimezone *(* get_timezone) (CalBackend *backend, const char *tzid);
@@ -170,9 +179,9 @@ GNOME_Evolution_Calendar_CalComponentAlarms *cal_backend_get_alarms_for_object (
 	CalBackendGetAlarmsForObjectResult *result);
 
 
-gboolean cal_backend_update_objects (CalBackend *backend, const char *calobj);
+CalBackendResult cal_backend_update_objects (CalBackend *backend, const char *calobj);
 
-gboolean cal_backend_remove_object (CalBackend *backend, const char *uid);
+CalBackendResult cal_backend_remove_object (CalBackend *backend, const char *uid);
 
 icaltimezone* cal_backend_get_timezone (CalBackend *backend, const char *tzid);
 icaltimezone* cal_backend_get_default_timezone (CalBackend *backend);
