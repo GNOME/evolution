@@ -1,3 +1,9 @@
+2004-06-03  William Jon McCann  <mccann@jhu.edu>
+
+	* mail-session.c (request_password): Don't pack entry and checkbox
+	widgets directly into the dialog vbox so that they line up
+	correctly with the action area buttons.
+
 2004-06-02  Not Zed  <NotZed@Ximian.com>
 
 	* mail-component.c (mc_add_local_store_done): put this back in,

@@ -32,6 +32,7 @@
 #include <gtk/gtkmessagedialog.h>
 #include <gtk/gtktogglebutton.h>
 #include <gtk/gtkbox.h>
+#include <gtk/gtkvbox.h>
 #include <gtk/gtkcheckbutton.h>
 
 #include <gconf/gconf-client.h>
@@ -253,6 +254,7 @@ static void
 request_password (struct _pass_msg *m)
 {
 	EAccount *mca = NULL;
+	GtkWidget *vbox;
 	char *title;
 	
 	/* If we already have a password_dialog up, save this request till later */
@@ -276,11 +278,16 @@ request_password (struct _pass_msg *m)
 	password_dialog = (GtkDialog *)e_error_new(NULL, "mail:ask-session-password", m->prompt, NULL);
 	gtk_window_set_title (GTK_WINDOW (password_dialog), title);
 	g_free (title);
+
+	vbox = gtk_vbox_new (FALSE, 6);
+	gtk_widget_show (vbox);
+	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (password_dialog)->vbox), vbox, TRUE, FALSE, 0);
+	gtk_container_set_border_width((GtkContainer *)vbox, 6);
 	
 	m->entry = gtk_entry_new ();
 	gtk_entry_set_visibility ((GtkEntry *) m->entry, !(m->flags & CAMEL_SESSION_PASSWORD_SECRET));
 	g_signal_connect (m->entry, "activate", G_CALLBACK (pass_activate), password_dialog);
-	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (password_dialog)->vbox), m->entry, TRUE, FALSE, 3);
+	gtk_box_pack_start (GTK_BOX (vbox), m->entry, TRUE, FALSE, 3);
 	gtk_widget_show (m->entry);
 	gtk_widget_grab_focus (m->entry);
 	
@@ -298,7 +305,7 @@ request_password (struct _pass_msg *m)
 							       : _("_Remember this password for the remainder of this session"));
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (m->check),
 					      m->config_service ? m->config_service->save_passwd : FALSE);
-		gtk_box_pack_start (GTK_BOX (GTK_DIALOG (password_dialog)->vbox), m->check, TRUE, FALSE, 3);
+		gtk_box_pack_start (GTK_BOX (vbox), m->check, TRUE, FALSE, 3);
 		gtk_widget_show (m->check);
 	}
 	
