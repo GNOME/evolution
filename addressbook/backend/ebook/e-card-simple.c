@@ -80,8 +80,8 @@ static ECardSimpleFieldData field_data[] =
 	{ E_CARD_SIMPLE_FIELD_PHONE_BUSINESS,     "",            "Business",      "Bus",      E_CARD_SIMPLE_PHONE_ID_BUSINESS,     E_CARD_SIMPLE_INTERNAL_TYPE_PHONE },
 	{ E_CARD_SIMPLE_FIELD_PHONE_HOME,         "",            "Home",          "Home",     E_CARD_SIMPLE_PHONE_ID_HOME,         E_CARD_SIMPLE_INTERNAL_TYPE_PHONE },
 	{ E_CARD_SIMPLE_FIELD_ORG,                "org",         "Organization",  "Org",      0,                                   E_CARD_SIMPLE_INTERNAL_TYPE_STRING },
-	{ E_CARD_SIMPLE_FIELD_ADDRESS_BUSINESS,   "",            "Business",      "Bus",      E_CARD_SIMPLE_ADDRESS_ID_HOME,       E_CARD_SIMPLE_INTERNAL_TYPE_ADDRESS },
-	{ E_CARD_SIMPLE_FIELD_ADDRESS_HOME,       "",            "Home",          "Home",     E_CARD_SIMPLE_ADDRESS_ID_BUSINESS,   E_CARD_SIMPLE_INTERNAL_TYPE_ADDRESS },
+	{ E_CARD_SIMPLE_FIELD_ADDRESS_BUSINESS,   "",            "Business",      "Bus",      E_CARD_SIMPLE_ADDRESS_ID_BUSINESS,   E_CARD_SIMPLE_INTERNAL_TYPE_ADDRESS },
+	{ E_CARD_SIMPLE_FIELD_ADDRESS_HOME,       "",            "Home",          "Home",     E_CARD_SIMPLE_ADDRESS_ID_HOME,       E_CARD_SIMPLE_INTERNAL_TYPE_ADDRESS },
 	{ E_CARD_SIMPLE_FIELD_PHONE_MOBILE,       "",            "Mobile",        "Mobile",   E_CARD_SIMPLE_PHONE_ID_MOBILE,       E_CARD_SIMPLE_INTERNAL_TYPE_PHONE },
 	{ E_CARD_SIMPLE_FIELD_PHONE_CAR,          "",            "Car",           "Car",      E_CARD_SIMPLE_PHONE_ID_CAR,          E_CARD_SIMPLE_INTERNAL_TYPE_PHONE },
 	{ E_CARD_SIMPLE_FIELD_PHONE_BUSINESS_FAX, "",            "Business Fax",  "Bus Fax",  E_CARD_SIMPLE_PHONE_ID_BUSINESS_FAX, E_CARD_SIMPLE_INTERNAL_TYPE_PHONE },
@@ -634,6 +634,7 @@ fill_in_info(ECardSimple *simple)
 		const ECardPhone *phone;
 		const char *email;
 		const ECardAddrLabel *address;
+		int i;
 
 		ECardIterator *iterator;
 
@@ -642,8 +643,11 @@ fill_in_info(ECardSimple *simple)
 			       "phone",         &phone_list,
 			       "email",         &email_list,
 			       NULL);
+		for (i = 0; i < E_CARD_SIMPLE_PHONE_ID_LAST; i++) {
+			e_card_phone_free(simple->phone[i]);
+			simple->phone[i] = NULL;
+		}
 		for (iterator = e_card_list_get_iterator(phone_list); e_card_iterator_is_valid(iterator); e_card_iterator_next(iterator)) {
-			int i;
 			phone = e_card_iterator_get(iterator);
 			for (i = 0; i < E_CARD_SIMPLE_PHONE_ID_LAST; i ++) {
 				if (((phone->flags & phone_correspondences[i]) == phone_correspondences[i]) && (simple->phone[i] == NULL)) {
@@ -654,8 +658,11 @@ fill_in_info(ECardSimple *simple)
 		}
 		gtk_object_unref(GTK_OBJECT(iterator));
 
+		for (i = 0; i < E_CARD_SIMPLE_EMAIL_ID_LAST; i++) {
+			g_free(simple->email[i]);
+			simple->email[i] = NULL;
+		}
 		for (iterator = e_card_list_get_iterator(email_list); e_card_iterator_is_valid(iterator); e_card_iterator_next(iterator)) {
-			int i;
 			email = e_card_iterator_get(iterator);
 			for (i = 0; i < E_CARD_SIMPLE_EMAIL_ID_LAST; i ++) {
 				if ((simple->email[i] == NULL)) {
@@ -666,8 +673,11 @@ fill_in_info(ECardSimple *simple)
 		}
 		gtk_object_unref(GTK_OBJECT(iterator));
 
+		for (i = 0; i < E_CARD_SIMPLE_ADDRESS_ID_LAST; i++) {
+			e_card_address_label_free(simple->address[i]);
+			simple->address[i] = NULL;
+		}
 		for (iterator = e_card_list_get_iterator(address_list); e_card_iterator_is_valid(iterator); e_card_iterator_next(iterator)) {
-			int i;
 			address = e_card_iterator_get(iterator);
 			for (i = 0; i < E_CARD_SIMPLE_ADDRESS_ID_LAST; i ++) {
 				if (((address->flags & addr_correspondences[i]) == addr_correspondences[i]) && (simple->address[i] == NULL)) {
@@ -790,6 +800,7 @@ e_card_simple_sync_card(ECardSimple *simple)
 				simple->address[i] = NULL;
 			}
 		}
+		fill_in_info(simple);
 	}
 }
 

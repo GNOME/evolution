@@ -781,7 +781,7 @@ addressbook_factory (BonoboGenericFactory *Factory, void *closure)
 	view->view = NULL;
 
 	/* create the initial view */
-	change_view_type (view, ADDRESSBOOK_VIEW_TABLE);
+	change_view_type (view, ADDRESSBOOK_VIEW_MINICARD);
 
 	gtk_widget_show_all( view->vbox );
 
