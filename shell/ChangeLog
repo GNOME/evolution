@@ -1,3 +1,10 @@
+2001-10-05  Jon Trowbridge  <trow@ximian.com>
+
+	* e-shell-view-menu.c (command_work_offline): This is a message,
+	not a warning!
+	(command_work_online): This is also a message, not a warning!
+	(I'm feeling very anal today.)
+
 2001-10-05  Ettore Perazzoli  <ettore@ximian.com>
 
 	* main.c (idle_cb): Do not invoke
