@@ -355,7 +355,22 @@ e_select_names_model_changed (ESelectNamesModel *model)
 	g_free (model->priv->addr_text);
 	model->priv->addr_text = NULL;
 
-	gtk_signal_emit(GTK_OBJECT(model), e_select_names_model_signals[E_SELECT_NAMES_MODEL_CHANGED]);
+#if 0
+	{
+		GList *i = model->priv->data;
+		gint j = 0;
+		g_print ("ESelectNamesModel state:\n");
+		while (i) {
+			EDestination *dest = (EDestination *) i->data;
+			g_print ("%d: %s <%s>\n", j, e_destination_get_string (dest), e_destination_get_email (dest));
+			i = g_list_next (i);
+			++j;
+		}
+		g_print ("\n");
+	}
+#endif
+
+	gtk_signal_emit (GTK_OBJECT(model), e_select_names_model_signals[E_SELECT_NAMES_MODEL_CHANGED]);
 }
 
 void
@@ -369,6 +384,20 @@ e_select_names_model_insert (ESelectNamesModel *model, gint index, EDestination 
 	model->priv->data = g_list_insert (model->priv->data, dest, index);
 	
 	gtk_object_ref (GTK_OBJECT (dest));
+	gtk_object_sink (GTK_OBJECT (dest));
+
+	e_select_names_model_changed (model);
+}
+
+void
+e_select_names_model_append (ESelectNamesModel *model, EDestination *dest)
+{
+	g_return_if_fail (model && E_IS_SELECT_NAMES_MODEL (model));
+	g_return_if_fail (dest && E_IS_DESTINATION (dest));
+
+	model->priv->data = g_list_append (model->priv->data, dest);
+
+	gtk_object_ref  (GTK_OBJECT (dest));
 	gtk_object_sink (GTK_OBJECT (dest));
 
 	e_select_names_model_changed (model);
@@ -518,8 +547,16 @@ e_select_names_model_text_pos (ESelectNamesModel *model, gint pos, gint *index, 
 	while (iter != NULL) {
 		len = e_destination_get_strlen (E_DESTINATION (iter->data));
 
-		if (sp <= pos && pos <= sp + len + adj)
+#if 0
+		g_print ("text_pos: %d %d %d %d\n", len, sp, pos, adj);
+#endif
+
+		if (sp <= pos && pos <= sp + len + adj) {
+#if 0
+			g_print ("breaking\n");
+#endif
 			break;
+		}
 
 		sp += len + adj + 1;
 		adj = 1;
@@ -532,9 +569,16 @@ e_select_names_model_text_pos (ESelectNamesModel *model, gint pos, gint *index, 
 		++sp; /* skip past "magic space" */
 
 	if (iter == NULL) {
+#if 0
+		g_print ("text_pos ended NULL\n");
+#endif
 		i = -1;
 		sp = -1;
 		len = 0;
+	} else {
+#if 0
+		g_print ("text_pos got index %d\n", i);
+#endif
 	}
 
 	if (index)

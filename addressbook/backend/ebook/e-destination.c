@@ -36,6 +36,7 @@ struct _EDestinationPrivate {
 	ECard *card;
 	gint card_email_num;
 
+	gchar *name;
 	gchar *string;
 	gchar *string_email;
 	gchar *string_email_verbose;
@@ -147,10 +148,12 @@ e_destination_clear_card (EDestination *dest)
 static void
 e_destination_clear_strings (EDestination *dest)
 {
+	g_free (dest->priv->name);
 	g_free (dest->priv->string);
 	g_free (dest->priv->string_email);
 	g_free (dest->priv->string_email_verbose);
 
+	dest->priv->name = NULL;
 	dest->priv->string = NULL;
 	dest->priv->string_email = NULL;
 	dest->priv->string_email_verbose = NULL;
@@ -245,6 +248,28 @@ e_destination_get_strlen (const EDestination *dest)
 }
 
 const gchar *
+e_destination_get_name (const EDestination *dest)
+{
+	struct _EDestinationPrivate *priv;
+	g_return_val_if_fail (dest && E_IS_DESTINATION (dest), NULL);
+
+	priv = (struct _EDestinationPrivate *)dest->priv; /* cast out const */
+	
+	if (priv->name == NULL) {
+
+		if (priv->card) {
+
+			priv->name = e_card_name_to_string (priv->card->name);
+			
+		}
+
+	}
+
+	return priv->name;
+	
+}
+
+const gchar *
 e_destination_get_email (const EDestination *dest)
 {
 	struct _EDestinationPrivate *priv;
@@ -296,10 +321,10 @@ e_destination_get_email_verbose (const EDestination *dest)
 		const gchar *email = e_destination_get_email (dest);
 
 		if (priv->card) {
-			
-			priv->string_email_verbose = g_strdup_printf ("%s <%s>",
-								      e_card_name_to_string (priv->card->name),
-								      email);
+			gchar *n = e_card_name_to_string (priv->card->name);
+			priv->string_email_verbose = g_strdup_printf ("%s <%s>", n, email);
+			g_free (n);
+
 		} else {
 
 			return email;

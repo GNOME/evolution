@@ -67,6 +67,8 @@ gint         e_destination_get_email_num (const EDestination *);
 const gchar *e_destination_get_string    (const EDestination *);
 gint         e_destination_get_strlen    (const EDestination *); /* a convenience function... */
 
+const gchar *e_destination_get_name          (const EDestination *);
+
 const gchar *e_destination_get_email         (const EDestination *);
 const gchar *e_destination_get_email_verbose (const EDestination *);
 

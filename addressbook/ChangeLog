@@ -1,3 +1,23 @@
+2001-04-16  Jon Trowbridge  <trow@ximian.com>
+
+	* backend/ebook/e-destination.c (e_destination_get_name): Added.
+
+	* gui/component/select-names/e-select-names.c
+	(real_add_address_cb): Use e_select_names_model_append.  It's
+	nicer.
+
+	* gui/component/select-names/e-select-names-model.c
+	(e_select_names_model_append): Added.
+
+	* gui/component/select-names/e-select-names-completion.c
+	(book_query_process_card_list): Filter out completion matches that
+	don't have an associated e-mail address.
+	(book_query_score): Give a bonus to the primary address, so that
+	it always comes up first in the completion results.
+
+	* gui/component/e-address-popup.c (e_address_popup_refresh_names):
+	Convert utf8 strings into gtk strings before displaying.
+
 2001-04-14  Christopher James Lahey  <clahey@ximian.com>
 
 	* backend/ebook/e-book-view-listener.c,

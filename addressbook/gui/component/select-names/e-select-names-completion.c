@@ -36,6 +36,7 @@
 
 #include <addressbook/backend/ebook/e-book-util.h>
 #include <addressbook/backend/ebook/e-destination.h>
+#include <addressbook/backend/ebook/e-card-simple.h>
 #include "e-select-names-completion.h"
 
 struct _ESelectNamesCompletionPrivate {
@@ -416,11 +417,29 @@ book_query_score (ESelectNamesCompletion *comp, EDestination *dest, double *scor
 	if (best_string) {
 		ECard *card = e_destination_get_card (dest);
 		if (e_list_length (card->email) > 1) {
+			ECardSimple *simp;
 			const gchar *email = e_destination_get_email (dest);
+			const gchar *simp_email;
+
 			if (email && strstr (best_string, email) == NULL) {
 				gchar *tmp = g_strdup_printf ("%s <%s>", best_string, email);
 				g_free (best_string);
 				best_string = tmp;
+			}
+
+			/* Give a small bonus to the primary/secondary e-mail address, so that they will
+			   always come in the correct order in the listing. */
+			if (email) {
+				simp = e_card_simple_new (card);
+				simp_email = e_card_simple_get_email (simp, E_CARD_SIMPLE_EMAIL_ID_EMAIL);
+				if (simp_email && !g_strcasecmp (simp_email, email)) {
+					best_score += 0.2;
+				}
+				simp_email = e_card_simple_get_email (simp, E_CARD_SIMPLE_EMAIL_ID_EMAIL_2);
+				if (simp_email && !g_strcasecmp (simp_email, email)) {
+					best_score += 0.1;
+				}
+				gtk_object_unref (GTK_OBJECT (simp));
 			}
 		}
 	}
@@ -439,20 +458,27 @@ book_query_process_card_list (ESelectNamesCompletion *comp, const GList *cards)
 			gint i;
 			for (i=0; i<e_list_length (card->email); ++i) {
 				EDestination *dest = e_destination_new ();
+				const gchar *email;
 				gchar *match_text;
 				double score = -1;
 				
 				e_destination_set_card (dest, card, i);
+				email = e_destination_get_email (dest);
+
+				if (email && *email) {
 				
-				match_text = book_query_score (comp, dest, &score);
-				if (match_text && score > 0) {
-					
-					e_completion_found_match_full (E_COMPLETION (comp), match_text, score, dest,
-								       (GtkDestroyNotify) gtk_object_unref);
+					match_text = book_query_score (comp, dest, &score);
+					if (match_text && score > 0) {
+						
+						e_completion_found_match_full (E_COMPLETION (comp), match_text, score, dest,
+									       (GtkDestroyNotify) gtk_object_unref);
+					} else {
+						gtk_object_unref (GTK_OBJECT (dest));
+					}
+					g_free (match_text);
 				} else {
 					gtk_object_unref (GTK_OBJECT (dest));
 				}
-				g_free (match_text);
 			}
 		}
 		
@@ -902,7 +928,7 @@ e_select_names_completion_begin (ECompletion *comp, const gchar *text, gint pos,
 	ESelectNamesCompletion *selcomp = E_SELECT_NAMES_COMPLETION (comp);
 	const gchar *str;
 	gint index, j;
-
+	
 	g_return_if_fail (comp != NULL);
 	g_return_if_fail (E_IS_SELECT_NAMES_COMPLETION (comp));
 	g_return_if_fail (text != NULL);
