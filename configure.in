@@ -677,7 +677,7 @@ if test "x$enable_pilot_conduits" = "xyes"; then
 	CFLAGS_save="$CFLAGS"
 	CFLAGS="$CFLAGS $PISOCK_CFLAGS"
 	LDFLAGS_save="$LDFLAGS"
-	LDFLAGS="$LDFLAGS $PISOCK_LIBS -lsocket"
+	LDFLAGS="$LDFLAGS $PISOCK_LIBS"
 
 	AC_CACHE_CHECK([if pilot-link handles UTF-8 conversions], ac_cv_pilot_link_utf8, AC_TRY_RUN([
 

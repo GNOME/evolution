@@ -1,5 +1,9 @@
 2002-04-29  Ettore Perazzoli  <ettore@ximian.com>
 
+	* configure.in: Don't add `-lsocket' unconditionally to `LDFLAGS'.
+
+2002-04-29  Ettore Perazzoli  <ettore@ximian.com>
+
 	* data/cde_app_root/Makefile.am: New.
 	* data/cde_app_root/dt/Makefile.am: New.
 	* data/cde_app_root/dt/appconfig/Makefile.am: New.
