@@ -556,14 +556,14 @@
 
 
 <actionset>
- <part name="copy-to-folder">
-  <title>Copy to Folder</title>
-  <code>(copy-to ${folder})</code>
-  <input type="folder" name="folder"/>
- </part>
  <part name="move-to-folder">
   <title>Move to Folder</title>
   <code>(move-to ${folder})</code>
+  <input type="folder" name="folder"/>
+ </part>
+ <part name="copy-to-folder">
+  <title>Copy to Folder</title>
+  <code>(copy-to ${folder})</code>
   <input type="folder" name="folder"/>
  </part>
  <part name="forward-to">
