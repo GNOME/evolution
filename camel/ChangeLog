@@ -1,3 +1,28 @@
+2000-04-30  Dan Winship  <danw@helixcode.com>
+
+	* camel-provider.h: Tweak the definition of CamelProvider. Among
+	other things, a provider may now be both a store and a transport.
+
+	* camel-provider.c: Remove a lot of code we had no intention of
+	using. This now only contains two functions: camel_provider_init
+	to read the installed .urls files, and camel_provider_load to
+	load and register a new provider.
+
+	* camel-session.c: Remove more unused code and simplify some of
+	the remaining code. The list of available provider modules is now
+	stored in the session, and it handles calling camel_provider_load
+	to load them as needed. Provider registration is now done by
+	calling back from the module init routine, which allows a single
+	module to register providers for multiple URL types.
+
+	* providers/*: Update provider structures and init routines for
+	the new stuff. Add a .urls file to each provider specifying what
+	urls it handles, and install that with the library.
+
+	* providers/nntp/camel-nntp-provider.c: Add hints towards
+	supporting both news: and nntp: URLs, and using nntp as both a
+	store and a transport.
+
 2000-04-29  Dan Winship  <danw@helixcode.com>
 
 	* camel-internet-address.c (camel_internet_address_get): const

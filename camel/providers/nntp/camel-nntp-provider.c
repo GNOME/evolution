@@ -26,27 +26,45 @@
 #include "config.h"
 #include "camel-nntp-store.h"
 #include "camel-provider.h"
+#include "camel-session.h"
 
-
-static CamelProvider _nntp_provider = {
-	(GtkType) 0,
-	PROVIDER_STORE,
-	PROVIDER_REMOTE,
+static CamelProvider news_provider = {
 	"news",
-	"Camel default NNTP provider",
-	"This is a provider that reads from a NNTP server.",
-	(GModule *) NULL
+	"USENET news",
+
+	"This is a read-only provider for USENET newsgroups.",
+
+	CAMEL_PROVIDER_IS_REMOTE,
+
+	{ 0, 0 }
 };
 
-CamelProvider *
-camel_provider_module_init (void);
+static CamelProvider nntp_provider = {
+	"nntp",
+	"USENET news via NNTP",
 
+	"This is a provider for reading from and posting to"
+	"USENET newsgroups.",
 
-CamelProvider *
-camel_provider_module_init (void)
+	CAMEL_PROVIDER_IS_REMOTE,
+
+	{ 0, 0 }
+};
+
+void
+camel_provider_module_init (CamelSession *session)
 {
-	_nntp_provider.object_type = camel_nntp_store_get_type();
-	return &_nntp_provider;
+	news_provider.object_types[CAMEL_PROVIDER_STORE] =
+		camel_nntp_store_get_type();
+	nntp_provider.object_types[CAMEL_PROVIDER_STORE] =
+		camel_nntp_store_get_type();
+#ifdef NOTYET
+	nntp_provider.object_types[CAMEL_PROVIDER_TRANSPORT] =
+		camel_nntp_transport_get_type();
+#endif
+
+	camel_session_register_provider (session", &news_provider);
+	camel_session_register_provider (session", &nntp_provider);
 }
 
 

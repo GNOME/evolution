@@ -1,15 +1,15 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /* camel-provider.h :  provider definition  */
 
-/* 
+/*
  *
- * Author : 
+ * Author :
  *  Bertrand Guiheneuf <bertrand@helixcode.com>
  *
  * Copyright 1999, 2000 Helix Code, Inc. (http://www.helixcode.com)
  *
- * This program is free software; you can redistribute it and/or 
- * modify it under the terms of the GNU General Public License as 
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
  * License, or (at your option) any later version.
  *
@@ -35,27 +35,26 @@ extern "C" {
 #endif /* __cplusplus }*/
 
 #include <gtk/gtk.h>
-#include <gmodule.h>
+#include "camel-types.h"
 
 #define CAMEL_PROVIDER(obj) ((CamelProvider *)(obj))
 
 typedef enum {
-	PROVIDER_STORE,
-	PROVIDER_TRANSPORT
-} ProviderType;
+	CAMEL_PROVIDER_STORE,
+	CAMEL_PROVIDER_TRANSPORT,
+	CAMEL_NUM_PROVIDER_TYPES
+} CamelProviderType;
 
-#define PROVIDER_REMOTE		0x01
+extern char *camel_provider_type_name[CAMEL_NUM_PROVIDER_TYPES];
+
+#define CAMEL_PROVIDER_IS_REMOTE	(1 << 0)
 
 typedef struct {
-	GtkType object_type;        /* used to create instance of the provider */
-	ProviderType provider_type; /* is a store or a transport */ 
-	int flags;                  /* information about the provider */
-
 	/* Provider name used in CamelURLs. */
-	gchar *protocol;
+	char *protocol;
 
 	/* Provider name as used by people. (May be the same as protocol) */
-	gchar *name;
+	char *name;
 
 	/* Description of the provider. A novice user should be able
 	 * to read this description, and the information provided by
@@ -63,16 +62,19 @@ typedef struct {
 	 * this provider is relevant to him, and if so, which
 	 * information goes with it.
 	 */
-	gchar *description;
+	char *description;
 
-	GModule *gmodule;
+	int flags;
+
+	GtkType object_types [CAMEL_NUM_PROVIDER_TYPES];
 } CamelProvider;
 
-void camel_provider_register (CamelProvider *provider);
-const CamelProvider *camel_provider_register_as_module (const gchar *module_path);
-const CamelProvider *camel_provider_get_for_protocol (const gchar *protocol, ProviderType type);
-GList *camel_provider_scan (void);
+GHashTable *camel_provider_init (void);
+void camel_provider_load (CamelSession *session, const char *path,
+			  CamelException *ex);
 
+/* This is defined by each module, not by camel-provider.c. */
+void camel_provider_module_init (CamelSession *session);
 
 #ifdef __cplusplus
 }

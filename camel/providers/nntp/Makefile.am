@@ -7,6 +7,7 @@ libcamelnntpincludedir = $(includedir)/camel
 providerdir = $(pkglibdir)/camel-providers/$(VERSION)
 
 provider_LTLIBRARIES = libcamelnntp.la
+provider_DATA = libcamelnntp.urls
 
 INCLUDES = -I.. -I$(srcdir)/.. -I$(includedir)	\
 	-I$(top_srcdir)/intl			\
@@ -28,4 +29,4 @@ libcamelnntpinclude_HEADERS =			\
 
 libcamelnntp_la_LDFLAGS = -version-info 0:0:0 -rpath $(libdir) 
 
-EXTRA_DIST = 
+EXTRA_DIST = libcamelnntp.urls

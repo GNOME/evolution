@@ -1,15 +1,15 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /* camel-session.h : Abstract class for an email session */
 
-/* 
+/*
  *
- * Author : 
+ * Author :
  *  Bertrand Guiheneuf <bertrand@helixcode.com>
  *
  * Copyright 1999, 2000 Helix Code, Inc. (http://www.helixcode.com)
  *
- * This program is free software; you can redistribute it and/or 
- * modify it under the terms of the GNU General Public License as 
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
  * License, or (at your option) any later version.
  *
@@ -48,23 +48,17 @@ typedef char *(*CamelAuthCallback) (char *prompt, gboolean secret,
 				    CamelService *service, char *item,
 				    CamelException *ex);
 
-
 struct _CamelSession
 {
 	GtkObject parent_object;
 
 	CamelAuthCallback authenticator;
-	GHashTable *store_provider_list; /* providers are identified by their protocol */
-	GHashTable *transport_provider_list; 
 
+	GHashTable *providers, *modules;
 };
-
-
 
 typedef struct {
 	GtkObjectClass parent_class;
-	
-	/* Virtual methods */	
 
 } CamelSessionClass;
 
@@ -72,24 +66,31 @@ typedef struct {
 /* public methods */
 
 /* Standard Gtk function */
-GtkType            camel_session_get_type                      (void);
+GtkType camel_session_get_type (void);
 
 
-CamelSession *     camel_session_new                           (CamelAuthCallback authenticator);
-void               camel_session_set_provider                  (CamelSession *session, CamelProvider *provider);
-CamelStore *       camel_session_get_store_for_protocol        (CamelSession *session,
-								const gchar *protocol,
-								CamelException *ex);
-CamelStore *       camel_session_get_store                     (CamelSession *session,
-								const char *url_string,
-								CamelException *ex);
-CamelTransport *   camel_session_get_transport_for_protocol    (CamelSession *session,
-								const char *protocol,
-								CamelException *ex);
-char *             camel_session_query_authenticator           (CamelSession *session, char *prompt,
-								gboolean secret,
-								CamelService *service, char *item,
-								CamelException *ex);
+CamelSession *  camel_session_new                     (CamelAuthCallback
+						       authenticator);
+
+void            camel_session_register_provider       (CamelSession *session,
+						       CamelProvider *provider);
+
+CamelService *  camel_session_get_service             (CamelSession *session,
+						       const char *url_string,
+						       CamelProviderType type,
+						       CamelException *ex);
+#define camel_session_get_store(session, url_string, ex) \
+	((CamelStore *) camel_session_get_service (session, url_string, CAMEL_PROVIDER_STORE, ex))
+#define camel_session_get_transport(session, url_string, ex) \
+	((CamelTransport *) camel_session_get_service (session, url_string, CAMEL_PROVIDER_TRANSPORT, ex))
+
+
+char *          camel_session_query_authenticator     (CamelSession *session,
+						       char *prompt,
+						       gboolean secret,
+						       CamelService *service,
+						       char *item,
+						       CamelException *ex);
 
 #ifdef __cplusplus
 }

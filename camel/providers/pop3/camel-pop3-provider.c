@@ -26,13 +26,9 @@
 #include "config.h"
 #include "camel-pop3-store.h"
 #include "camel-provider.h"
+#include "camel-session.h"
 
-
-static CamelProvider _pop3_provider = {
-	(GtkType) 0,
-	PROVIDER_STORE,
-	PROVIDER_REMOTE,
-
+static CamelProvider pop3_provider = {
 	"pop",
 	"POP",
 
@@ -40,19 +36,16 @@ static CamelProvider _pop3_provider = {
 	"to retrieve mail from certain web mail providers and proprietary "
 	"email systems.",
 
-	(GModule *) NULL
+	CAMEL_PROVIDER_IS_REMOTE,
+
+	{ 0, 0 }
 };
 
-CamelProvider *
-camel_provider_module_init (void);
-
-
-CamelProvider *
-camel_provider_module_init (void)
+void
+camel_provider_module_init (CamelSession *session)
 {
-	_pop3_provider.object_type = camel_pop3_store_get_type();
-	return &_pop3_provider;
+	pop3_provider.object_types[CAMEL_PROVIDER_STORE] =
+		camel_pop3_store_get_type();
+
+	camel_session_register_provider (session, &pop3_provider);
 }
-
-
-

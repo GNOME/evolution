@@ -26,32 +26,25 @@
 #include "config.h"
 #include "camel-mbox-store.h"
 #include "camel-provider.h"
+#include "camel-session.h"
 
-
-static CamelProvider _mbox_provider = {
-	(GtkType) 0,
-	PROVIDER_STORE,
-	0,
-
+static CamelProvider mbox_provider = {
 	"mbox",
 	"UNIX mbox-format mail files",
 
 	"For reading mail delivered by the local system, and for "
 	"storing mail on local disk.",
 
-	(GModule *) NULL
+	0,
+
+	{ 0, 0 }
 };
 
-CamelProvider *
-camel_provider_module_init (void);
-
-
-CamelProvider *
-camel_provider_module_init (void)
+void
+camel_provider_module_init (CamelSession *session)
 {
-	_mbox_provider.object_type = camel_mbox_store_get_type();
-	return &_mbox_provider;
+	mbox_provider.object_types[CAMEL_PROVIDER_STORE] =
+		camel_mbox_store_get_type();
+
+	camel_session_register_provider (session, &mbox_provider);
 }
-
-
-

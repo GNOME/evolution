@@ -26,30 +26,27 @@
 #include "config.h"
 #include "camel-provider.h"
 #include "camel-sendmail-transport.h"
+#include "camel-session.h"
 
-static CamelProvider _sendmail_provider = {
-	(GtkType) 0,
-	PROVIDER_TRANSPORT,
-	0,
-
+static CamelProvider sendmail_provider = {
 	"sendmail",
 	"Sendmail",
 
 	"For delivering mail by passing it to the \"sendmail\" program "
 	"on the local system.",
 
-	(GModule *) NULL
+	0,
+
+	{ 0, 0 }
 };
 
-CamelProvider *
-camel_provider_module_init (void);
-
-
-CamelProvider *
-camel_provider_module_init (void)
+void
+camel_provider_module_init (CamelSession *session)
 {
-	_sendmail_provider.object_type = camel_sendmail_transport_get_type();
-	return &_sendmail_provider;
+	sendmail_provider.object_types[CAMEL_PROVIDER_TRANSPORT] =
+		camel_sendmail_transport_get_type();
+
+	camel_session_register_provider (session, &sendmail_provider);
 }
 
 

@@ -1,15 +1,16 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/* camel-provider.c :  provider framework   */
+/* camel-provider.c: provider framework */
 
-/* 
+/*
  *
- * Author : 
+ * Authors:
  *  Bertrand Guiheneuf <bertrand@helixcode.com>
+ *  Dan Winship <danw@helixcode.com>
  *
  * Copyright 1999, 2000 Helix Code, Inc. (http://www.helixcode.com)
  *
- * This program is free software; you can redistribute it and/or 
- * modify it under the terms of the GNU General Public License as 
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
  * License, or (at your option) any later version.
  *
@@ -25,177 +26,128 @@
  */
 
 
-/* 
-   A provider can be added "by hand" or by loading a module. 
-
-
-   Adding providers with modules. 
-   ------------------------------
-
-   The modules are shared libraries which must contain the 
-   function
-
-   CamelProvider *camel_provider_module_init ();
-  
-   returning the provider object defined in the module 
-
-   
-*/
-
 /* FIXME: Shouldn't we add a version number to providers ? */
 
 #include "config.h"
 #include "camel-provider.h"
+#include "camel-exception.h"
+#include "hash-table-utils.h"
 
 #include <dirent.h>
+#include <errno.h>
+#include <stdio.h>
 #include <string.h>
 
-static GList *_provider_list = NULL;
+#include <gmodule.h>
 
-static gint        
-_provider_name_cmp (gconstpointer a, gconstpointer b)
-{
-	CamelProvider *provider_a = CAMEL_PROVIDER (a);
-	CamelProvider *provider_b = CAMEL_PROVIDER (b);
-
-	return strcmp ( provider_a->name,  provider_b->name);
-}
-
-void
-camel_provider_register (CamelProvider *provider)
-{
-	GList *old_provider_node = NULL;
-
-	g_assert (provider);
-
-	if (_provider_list)
-		old_provider_node = g_list_find_custom (_provider_list, provider, _provider_name_cmp);
-
-	if (old_provider_node != NULL) {
-		/* camel_provider_unref (CAMEL_PROVIDER (old_provider_node->data)); */
-		old_provider_node->data = provider;
-	} else {
-		/* be careful, we use prepend here, so that last registered
-		   providers come first */
-		_provider_list = g_list_prepend (_provider_list, provider);
-	}
-	/* camel_provider_ref (provider); */
-}
-
-
-const CamelProvider *
-camel_provider_register_as_module (const gchar *module_path)
-{
-	
-	CamelProvider *new_provider = NULL;
-	GModule *new_module = NULL;
-	CamelProvider * (*camel_provider_module_init) ();
-	gboolean has_module_init;
-	
-	g_return_val_if_fail (module_path, NULL);
-
-	if (!g_module_supported ()) {
-		g_warning ("CamelProvider::register_as_module: module "
-			   "loading not supported on this system\n");
-		return NULL;
-	}
-	
-
-	new_module = g_module_open (module_path, 0);
-	if (!new_module) {
-		printf ("g_module_open reports: %s\n", g_module_error ());
-		g_warning ("CamelProvider::register_as_module: Unable to "
-			   "load module %s\n", module_path);
-		return NULL;
-	}
-		
-	has_module_init = g_module_symbol (new_module, "camel_provider_module_init", (gpointer *)&camel_provider_module_init);
-	if (!has_module_init){
-		g_warning ("CamelProvider::register_as_module loading "
-			   "of module %s failed,\n\tSymbol "
-			   "camel_provider_module_init not defined in it\n",
-			   module_path);
-		return NULL;
-	}
-
-	new_provider = camel_provider_module_init();
-	new_provider->gmodule = new_module;
-	camel_provider_register (new_provider);
-
-	return new_provider;
-} 
+char *camel_provider_type_name[CAMEL_NUM_PROVIDER_TYPES] = {
+	"store",
+	"transport"
+};
 
 /**
- * camel_provider_scan: Scan for available providers and return a list.
+ * camel_provider_init:
  *
- * Note that this function will cause all providers in the providerdir
- * to be loaded into memory.
+ * Initialize the Camel provider system by reading in the .urls
+ * files in the provider directory and creating a hash table mapping
+ * URLs to module names.
  *
- * Return value: the list of CamelProviders. The caller must free this
- * list when it is done with it.
+ * A .urls file has the same initial prefix as the shared library it
+ * correspond to, and consists of a series of lines containing the URL
+ * protocols that that library handles.
+ *
+ * Return value: a hash table mapping URLs to module names
  **/
-GList *
-camel_provider_scan (void)
+GHashTable *
+camel_provider_init (void)
 {
+	GHashTable *providers;
 	DIR *dir;
-	struct dirent *dent;
-	char *p, *name;
+	struct dirent *d;
+	char *p, *name, buf[80];
+	FILE *f;
+
+	providers = g_hash_table_new (g_strcase_hash, g_strcase_equal);
 
 	dir = opendir (CAMEL_PROVIDERDIR);
-	if (!dir)
+	if (!dir) {
+		g_error ("Could not open camel provider directory: %s",
+			 g_strerror (errno));
 		return NULL;
-	while ((dent = readdir (dir))) {
-		p = strstr (dent->d_name, ".so");
-		if (!p || strcmp (p, ".so") != 0)
+	}
+
+	while ((d = readdir (dir))) {
+		p = strchr (d->d_name, '.');
+		if (!p || strcmp (p, ".urls") != 0)
 			continue;
 
-		name = g_module_build_path (CAMEL_PROVIDERDIR, dent->d_name);
-		camel_provider_register_as_module (name);
-		g_free (name);
-	}
-	closedir (dir);
-
-	return g_list_copy (_provider_list);
-}
-	
-
-/**
- * camel_provider_get_for_protocol: get a registered provider for a protocol
- * @protocol: protocol name (case insensitive)
- * @type: provider type (transport, store, ...)
- * 
- * Look into the list of registered provider if 
- * one correspond both to the protocol name 
- * and to the protocol type. When several providers
- * exist for a same protocol, the last registered
- * is returned.
- * 
- * Return value: Matching provider or NULL if none exists. 
- **/
-const CamelProvider *
-camel_provider_get_for_protocol (const gchar *protocol, ProviderType type)
-{
-	CamelProvider *current_provider = NULL;
-	GList *current_provider_node;
-	gboolean protocol_is_found;
-	gboolean provider_is_found;
-
-	g_assert (protocol);
-	g_return_val_if_fail (_provider_list, NULL);
-
-	current_provider_node = _provider_list;
-	provider_is_found = FALSE;
-
-	while ((!provider_is_found) && current_provider_node) {
-		current_provider = (CamelProvider *)current_provider_node->data;
-		
-		protocol_is_found = (g_strcasecmp (protocol, current_provider->protocol) == 0);
-		if (protocol_is_found) 
-			provider_is_found = (current_provider->provider_type == type);
-		
-		current_provider_node = current_provider_node->next;
+		name = g_strdup_printf ("%s/%s", CAMEL_PROVIDERDIR, d->d_name);
+		f = fopen (name, "r");
+		if (!f) {
+			g_warning ("Could not read provider info file %s: %s",
+				   name, g_strerror (errno));
+			g_free (name);
+			continue;
 		}
 
-	if (provider_is_found) return current_provider;
-	else return NULL;
+		p = strrchr (name, '.');
+		strcpy (p, ".so");
+		while ((fgets (buf, sizeof (buf), f))) {
+			buf[sizeof (buf) - 1] = '\0';
+			p = strchr (buf, '\n');
+			if (p)
+				*p = '\0';
+
+			g_hash_table_insert (providers, g_strdup (buf), name);
+		}
+		fclose (f);
+	}
+
+	closedir (dir);
+	return providers;
+}
+
+/**
+ * camel_provider_load:
+ * @session: the current session
+ * @path: the path to a shared library
+ * @ex: a CamelException
+ *
+ * Loads the provider at @path, and calls its initialization function,
+ * passing @session as an argument. The provider should then register
+ * itself with @session.
+ **/ 
+void
+camel_provider_load (CamelSession *session, const char *path,
+		     CamelException *ex)
+{
+	GModule *module;
+	CamelProvider *(*camel_provider_module_init) ();
+
+	if (!g_module_supported ()) {
+		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
+				      "Could not load %s: Module loading "
+				      "not supported on this system.",
+				      path);
+		return;
+	}
+
+	module = g_module_open (path, 0);
+	if (!module) {
+		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
+				      "Could not load %s: %s",
+				      path, g_module_error ());
+		return;
+	}
+
+	if (!g_module_symbol (module, "camel_provider_module_init",
+			      (gpointer *)&camel_provider_module_init)) {
+		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
+				      "Could not load %s: No initialization "
+				      "routine in module.", path);
+		g_module_close (module);
+		return;
+	}
+
+	camel_provider_module_init (session);
 }

@@ -8,6 +8,7 @@ libcamelmboxincludedir = $(includedir)/camel
 providerdir = $(pkglibdir)/camel-providers/$(VERSION)
 
 provider_LTLIBRARIES = libcamelmbox.la
+provider_DATA = libcamelmbox.urls
 
 INCLUDES = -I.. \
 	-I$(srcdir)/..				\
@@ -37,5 +38,5 @@ libcamelmbox_la_LDFLAGS = -version-info 0:0:0 -rpath $(libdir)
 libcamelmbox_la_LIBADD = $(top_builddir)/e-util/libeutil.la $(top_builddir)/libibex/libibex.la $(UNICODE_LIBS)
 #libcamelmbox_la_LIBADD = $(top_builddir)/libibex/libibex.la $(UNICODE_LIBS)
 
-EXTRA_DIST = 
+EXTRA_DIST = libcamelmbox.urls
 

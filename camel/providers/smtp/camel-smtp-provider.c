@@ -26,30 +26,26 @@
 #include "config.h"
 #include "camel-smtp-transport.h"
 #include "camel-provider.h"
+#include "camel-session.h"
 
-
-static CamelProvider _smtp_provider = {
-	(GtkType) 0,
-	PROVIDER_TRANSPORT,
-	0,
-
+static CamelProvider smtp_provider = {
 	"smtp",
 	"SMTP",
 
 	"For delivering mail by connecting to a remote mailhub using SMTP.",
 
-	(GModule *) NULL
+	0,
+
+	{ 0, 0 }
 };
 
-CamelProvider *
-camel_provider_module_init (void);
-
-
-CamelProvider *
-camel_provider_module_init (void)
+void
+camel_provider_module_init (CamelSession *session)
 {
-	_smtp_provider.object_type = camel_smtp_transport_get_type();
-	return &_smtp_provider;
+	smtp_provider.object_types[CAMEL_TRANSPORT_TYPE] =
+		camel_smtp_transport_get_type();
+
+	camel_session_register_provider (session, &smtp_provider);
 }
 
 

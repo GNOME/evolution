@@ -7,6 +7,7 @@ libcamelpop3includedir = $(includedir)/camel
 providerdir = $(pkglibdir)/camel-providers/$(VERSION)
 
 provider_LTLIBRARIES = libcamelpop3.la
+provider_DATA = libcamelpop3.urls
 
 INCLUDES =					\
 	-I..					\
@@ -30,4 +31,4 @@ libcamelpop3include_HEADERS =			\
 
 libcamelpop3_la_LDFLAGS = -version-info 0:0:0 -rpath $(libdir) 
 
-EXTRA_DIST = 
+EXTRA_DIST = libcamelpop3.urls

@@ -7,6 +7,7 @@ libcamelsmtpincludedir = $(includedir)/camel
 providerdir = $(pkglibdir)/camel-providers/$(VERSION)
 
 provider_LTLIBRARIES = libcamelsmtp.la
+provider_DATA = libcamelsmtp.urls
 
 INCLUDES =					\
 	-I..					\
@@ -27,4 +28,4 @@ libcamelsmtpinclude_HEADERS =			\
 
 libcamelsmtp_la_LDFLAGS = -version-info 0:0:0 -rpath $(libdir) 
 
-EXTRA_DIST = 
+EXTRA_DIST = libcamelsmtp.urls
