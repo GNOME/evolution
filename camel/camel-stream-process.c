@@ -59,16 +59,16 @@ camel_stream_process_finalise (CamelObject *object)
 {
 	/* Ensure we clean up after ourselves -- kill
 	   the child process and reap it. */
-	stream_close(CAMEL_STREAM (object));
+	stream_close (CAMEL_STREAM (object));
 }
 
 static void
 camel_stream_process_class_init (CamelStreamProcessClass *camel_stream_process_class)
 {
-	CamelStreamClass *camel_stream_class = (CamelStreamClass *)camel_stream_process_class;
-
-	parent_class = camel_type_get_global_classfuncs( CAMEL_OBJECT_TYPE );
-
+	CamelStreamClass *camel_stream_class = (CamelStreamClass *) camel_stream_process_class;
+	
+	parent_class = camel_type_get_global_classfuncs (CAMEL_OBJECT_TYPE);
+	
 	/* virtual method definition */
 	camel_stream_class->read = stream_read;
 	camel_stream_class->write = stream_write;
@@ -80,7 +80,7 @@ static void
 camel_stream_process_init (gpointer object, gpointer klass)
 {
         CamelStreamProcess *stream = CAMEL_STREAM_PROCESS (object);
-         
+	
         stream->sockfd = -1;
 	stream->childpid = 0;
 }
@@ -89,21 +89,20 @@ camel_stream_process_init (gpointer object, gpointer klass)
 CamelType
 camel_stream_process_get_type (void)
 {
-	static CamelType camel_stream_process_type = CAMEL_INVALID_TYPE;
-
-	if (camel_stream_process_type == CAMEL_INVALID_TYPE) {
-		camel_stream_process_type = 
-			camel_type_register( camel_stream_get_type(),
+	static CamelType type = CAMEL_INVALID_TYPE;
+	
+	if (type == CAMEL_INVALID_TYPE) {
+		type =  camel_type_register (camel_stream_get_type (),
 					     "CamelStreamProcess",
-					     sizeof( CamelStreamProcess ),
-					     sizeof( CamelStreamProcessClass ),
+					     sizeof (CamelStreamProcess),
+					     sizeof (CamelStreamProcessClass),
 					     (CamelObjectClassInitFunc) camel_stream_process_class_init,
 					     NULL,
 					     (CamelObjectInitFunc) camel_stream_process_init,
 					     (CamelObjectFinalizeFunc) camel_stream_process_finalise);
 	}
-
-	return camel_stream_process_type;
+	
+	return type;
 }
 
 /**
@@ -114,9 +113,9 @@ camel_stream_process_get_type (void)
  * Return value: the stream
  **/
 CamelStream *
-camel_stream_process_new(void)
+camel_stream_process_new (void)
 {
-	return (CamelStream *)camel_object_new(camel_stream_process_get_type ());
+	return (CamelStream *) camel_object_new (camel_stream_process_get_type ());
 }
 
 
@@ -124,16 +123,16 @@ static ssize_t
 stream_read (CamelStream *stream, char *buffer, size_t n)
 {
 	CamelStreamProcess *stream_process = CAMEL_STREAM_PROCESS (stream);
-
-	return camel_read(stream_process->sockfd, buffer, n);
+	
+	return camel_read (stream_process->sockfd, buffer, n);
 }
 
 static ssize_t
 stream_write (CamelStream *stream, const char *buffer, size_t n)
 {
 	CamelStreamProcess *stream_process = CAMEL_STREAM_PROCESS (stream);
-
-	return camel_write(stream_process->sockfd, buffer, n);
+	
+	return camel_write (stream_process->sockfd, buffer, n);
 }
 
 static int
@@ -146,123 +145,129 @@ static int
 stream_close (CamelStream *object)
 {
 	CamelStreamProcess *stream = CAMEL_STREAM_PROCESS (object);
+	
 	if (camel_verbose_debug)
-		fprintf(stderr, "Process stream close. sockfd %d, childpid %d\n",
-			stream->sockfd, stream->childpid);
-
+		fprintf (stderr, "Process stream close. sockfd %d, childpid %d\n",
+			 stream->sockfd, stream->childpid);
+	
 	if (stream->sockfd != -1) {
-		close(stream->sockfd);
+		close (stream->sockfd);
 		stream->sockfd = -1;
 	}
+	
 	if (stream->childpid) {
 		int ret, i;
-		for (i=0; i<4; i++) {
-			ret = waitpid(stream->childpid, NULL, WNOHANG);
+		for (i = 0; i < 4; i++) {
+			ret = waitpid (stream->childpid, NULL, WNOHANG);
 			if (camel_verbose_debug)
-				fprintf(stderr, "waitpid() for pid %d returned %d (errno %d)\n",
-					stream->childpid, ret, ret==-1?errno:0);
+				fprintf (stderr, "waitpid() for pid %d returned %d (errno %d)\n",
+					 stream->childpid, ret, ret == -1 ? errno : 0);
 			if (ret == stream->childpid || errno == ECHILD)
 				break;
-			switch(i) {
+			switch (i) {
 			case 0:
 				if (camel_verbose_debug)
-					fprintf(stderr, "Sending SIGTERM to pid %d\n",
-						stream->childpid);
-				kill(stream->childpid, SIGTERM);
+					fprintf (stderr, "Sending SIGTERM to pid %d\n",
+						 stream->childpid);
+				kill (stream->childpid, SIGTERM);
 				break;
 			case 2:
 				if (camel_verbose_debug)
-					fprintf(stderr, "Sending SIGKILL to pid %d\n",
-						stream->childpid);
-				kill(stream->childpid, SIGKILL);
+					fprintf (stderr, "Sending SIGKILL to pid %d\n",
+						 stream->childpid);
+				kill (stream->childpid, SIGKILL);
 				break;
 			case 1:
 			case 3:
-				sleep(1);
+				sleep (1);
 				break;
 			}
 		}
+		
 		stream->childpid = 0;
 	}
+	
 	return 0;
 }
 
-static void do_exec_command(int fd, const char *command, char **env)
+static void
+do_exec_command (int fd, const char *command, char **env)
 {
 	int i, maxopen;
-
+	
 	/* Not a lot we can do if there's an error other than bail. */
-	if (dup2(fd, 0) == -1)
-		exit(1);
-	if (dup2(fd, 1) == -1)
-		exit(1);
+	if (dup2 (fd, 0) == -1)
+		exit (1);
+	if (dup2 (fd, 1) == -1)
+		exit (1);
 	
 	/* What to do with stderr? Possibly put it through a separate pipe
 	   and bring up a dialog box with its output if anything does get
 	   spewed to it? It'd help the user understand what was going wrong
 	   with their command, but it's hard to do cleanly. For now we just
 	   leave it as it is. Perhaps we should close it and reopen /dev/null? */
-
-	maxopen = sysconf(_SC_OPEN_MAX);
-	for (i=3; i < maxopen; i++)
-		close(i);
-
-	setsid();
+	
+	maxopen = sysconf (_SC_OPEN_MAX);
+	for (i = 3; i < maxopen; i++)
+		fcntl (i, F_SETFD, FD_CLOEXEC);
+	
+	setsid ();
 #ifdef TIOCNOTTY
 	/* Detach from the controlling tty if we have one. Otherwise, 
 	   SSH might do something stupid like trying to use it instead 
 	   of running $SSH_ASKPASS. Doh. */
-	fd = open("/dev/tty", O_RDONLY);
-	if (fd != -1) {
-		ioctl(fd, TIOCNOTTY, NULL);
-		close(fd);
+	if ((fd = open ("/dev/tty", O_RDONLY)) != -1) {
+		ioctl (fd, TIOCNOTTY, NULL);
+		close (fd);
 	}
 #endif /* TIOCNOTTY */
-
+	
 	/* Set up child's environment. We _add_ to it, don't use execle, 
 	   because otherwise we'd destroy stuff like SSH_AUTH_SOCK etc. */
-	for (; env && *env; env++) {
-		char *eq = strchr(*env, '=');
+	for ( ; env && *env; env++) {
+		char *eq = strchr (*env, '=');
+		
 		if (!eq) {
-			unsetenv(*env);
+			unsetenv (*env);
 			continue;
 		}
-		*eq = 0;
-		eq++;
-		setenv(*env, eq, 1);
+		
+		*eq++ = '\0';
+		
+		setenv (*env, eq, 1);
 	}
-
-	execl("/bin/sh", "/bin/sh", "-c", command, NULL);
-
+	
+	execl ("/bin/sh", "/bin/sh", "-c", command, NULL);
+	
 	if (camel_verbose_debug)
-		fprintf(stderr, "exec failed %d\n", errno);
-	exit(1);
+		fprintf (stderr, "exec failed %d\n", errno);
+	
+	exit (1);
 }
 
 int
-camel_stream_process_connect(CamelStreamProcess *stream, const char *command, const char **env)
+camel_stream_process_connect (CamelStreamProcess *stream, const char *command, const char **env)
 {
 	int sockfds[2];
-
-	if (stream->sockfd != -1 || stream->childpid) {
-		stream_close(CAMEL_STREAM (stream));
-	}
 	
-	if (socketpair(AF_UNIX, SOCK_STREAM, 0, sockfds))
+	if (stream->sockfd != -1 || stream->childpid)
+		stream_close (CAMEL_STREAM (stream));
+	
+	if (socketpair (AF_UNIX, SOCK_STREAM, 0, sockfds))
 		return -1;
-
-	stream->childpid = fork();
+	
+	stream->childpid = fork ();
 	if (!stream->childpid) {
-		do_exec_command(sockfds[1], command, (char **)env);
+		do_exec_command (sockfds[1], command, (char **)env);
 	} else if (stream->childpid == -1) {
-		close(sockfds[0]);
-		close(sockfds[1]);
+		close (sockfds[0]);
+		close (sockfds[1]);
 		stream->sockfd = -1;
 		return -1;
 	}
-
-	close(sockfds[1]);
+	
+	close (sockfds[1]);
 	stream->sockfd = sockfds[0];
-
+	
 	return 0;
 }

@@ -1650,7 +1650,7 @@ folder_changed (CamelObject *obj, gpointer event_data)
 		if ((folder->folder_flags & CAMEL_FOLDER_FILTER_RECENT)
 		    && changed->uid_recent->len > 0)
 			driver = camel_session_get_filter_driver(session, "incoming", NULL);
-			
+		
 		CAMEL_FOLDER_LOCK(folder, change_lock);
 
 		if (driver) {
