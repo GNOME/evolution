@@ -3,6 +3,7 @@
 	* message-list.c (tree_equal): Debug function to compare the tree
 	we think we have, after an incremental update.
 	(build_tree): Check the tree after we've built it.
+	(build_tree): Oops, turn on BROKEN_ETREE again.
 
 	* mail-mt.c (mail_get_password): If we are being called from the
 	main gui thread, then just call the dialogue directly.  Ideally we

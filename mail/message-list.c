@@ -1460,8 +1460,6 @@ static void build_subtree (MessageList *ml, ETreePath *parent, CamelFolderThread
 
 static void build_subtree_diff (MessageList *ml, ETreePath *parent, ETreePath *path, CamelFolderThreadNode *c, int *row, GHashTable *expanded_nodes);
 
-static int tree_equal(ETreeModel *etm, ETreePath *ap, CamelFolderThreadNode *bp);
-
 static void
 build_tree (MessageList *ml, CamelFolderThread *thread, CamelFolderChangeInfo *changes)
 {
@@ -1491,7 +1489,7 @@ build_tree (MessageList *ml, CamelFolderThread *thread, CamelFolderChangeInfo *c
 		e_tree_model_node_set_expanded(etm, ml->tree_root, TRUE);
 	}
 
-/*#define BROKEN_ETREE*/	/* avoid some broken code in etree(?) by not using the incremental update */
+#define BROKEN_ETREE	/* avoid some broken code in etree(?) by not using the incremental update */
 
 	top = e_tree_model_node_get_first_child(etm, ml->tree_root);
 #ifndef BROKEN_ETREE
@@ -1503,6 +1501,8 @@ build_tree (MessageList *ml, CamelFolderThread *thread, CamelFolderChangeInfo *c
 		e_tree_model_thaw(etm);
 #ifndef BROKEN_ETREE
 	} else {
+		static int tree_equal(ETreeModel *etm, ETreePath *ap, CamelFolderThreadNode *bp);
+
 		build_subtree_diff(ml, ml->tree_root, top,  thread->tree, &row, expanded_nodes);
 		top = e_tree_model_node_get_first_child(etm, ml->tree_root);
 		tree_equal(ml->table_model, top, thread->tree);
@@ -1605,6 +1605,7 @@ node_equal(ETreeModel *etm, ETreePath *ap, CamelFolderThreadNode *bp)
 	return 0;
 }
 
+#ifndef BROKEN_ETREE
 /* debug function - compare the two trees to see if they are the same */
 static int
 tree_equal(ETreeModel *etm, ETreePath *ap, CamelFolderThreadNode *bp)
@@ -1655,6 +1656,7 @@ tree_equal(ETreeModel *etm, ETreePath *ap, CamelFolderThreadNode *bp)
 	}
 	return TRUE;
 }
+#endif
 
 /* adds a single node, retains save state, and handles adding children if required */
 static void
