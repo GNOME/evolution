@@ -84,6 +84,7 @@ e_table_col_init (ETableCol *etc)
 	etc->width = 0;
 	etc->sortable = 1;
 	etc->groupable = 1;
+	etc->justification = GTK_JUSTIFY_LEFT;
 }
 
 E_MAKE_TYPE(e_table_col, "ETableCol", ETableCol, e_table_col_class_init, e_table_col_init, PARENT_TYPE);

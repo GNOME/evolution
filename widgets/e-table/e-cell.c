@@ -36,7 +36,7 @@ ec_unrealize (ECellView *e_cell)
 
 static void
 ec_draw (ECellView *ecell_view, GdkDrawable *drawable,
-	 int model_col, int view_col, int row, gboolean selected,
+	 int model_col, int view_col, int row, ECellFlags flags,
 	 int x1, int y1, int x2, int y2)
 {
 	g_error ("e-cell-draw invoked\n");
@@ -151,10 +151,10 @@ e_cell_unrealize (ECellView *ecell_view)
 
 void
 e_cell_draw (ECellView *ecell_view, GdkDrawable *drawable,
-	     int model_col, int view_col, int row, gboolean selected, int x1, int y1, int x2, int y2)
+	     int model_col, int view_col, int row, ECellFlags flags, int x1, int y1, int x2, int y2)
 {
 	E_CELL_CLASS (GTK_OBJECT (ecell_view->ecell)->klass)->draw (
-		ecell_view, drawable, model_col, view_col, row, selected, x1, y1, x2, y2);
+		ecell_view, drawable, model_col, view_col, row, flags, x1, y1, x2, y2);
 }
 
 void

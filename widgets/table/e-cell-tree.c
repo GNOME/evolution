@@ -151,7 +151,7 @@ ect_unrealize (ECellView *ecv)
  */
 static void
 ect_draw (ECellView *ecell_view, GdkDrawable *drawable,
-	  int model_col, int view_col, int row, gboolean selected,
+	  int model_col, int view_col, int row, ECellFlags flags,
 	  int x1, int y1, int x2, int y2)
 {
 	ECellTreeView *tree_view = (ECellTreeView *)ecell_view;
@@ -161,9 +161,12 @@ ect_draw (ECellView *ecell_view, GdkDrawable *drawable,
 	GtkWidget *canvas = GTK_WIDGET (tree_view->canvas);
 	GdkGC *fg_gc = canvas->style->fg_gc[GTK_STATE_ACTIVE];
 	GdkColor *foreground;
+	gboolean selected;
 
 	int offset, subcell_offset;
 	gboolean expanded, expandable;
+
+	selected = flags & E_CELL_SELECTED;
 
 	/* only draw the tree effects if we're the active sort */
 	if (/* XXX */ TRUE) {
@@ -286,7 +289,7 @@ ect_draw (ECellView *ecell_view, GdkDrawable *drawable,
 	/* Now cause our subcell to draw its contents, shifted by
 	   subcell_offset pixels */
 	e_cell_draw (tree_view->subcell_view, drawable,
-		     model_col, view_col, row, selected,
+		     model_col, view_col, row, flags,
 		     x1 + subcell_offset, y1, x2, y2);
 }
 

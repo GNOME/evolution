@@ -40,6 +40,8 @@ struct _ETableCol {
 	unsigned int groupable:1;
 	int          col_idx;
 
+	GtkJustification justification;
+
 	ETableColArrow arrow;
 
 	ECell         *ecell;

@@ -14,6 +14,20 @@
 
 typedef struct _ECell ECell;
 typedef struct _ECellView ECellView;
+typedef enum   _ECellFlags ECellFlags;
+
+enum _ECellFlags {
+	E_CELL_SELECTED       = 1 << 0,
+
+	E_CELL_JUSTIFICATION  = 3 << 1,
+	E_CELL_JUSTIFY_CENTER = 0 << 1,
+	E_CELL_JUSTIFY_LEFT   = 1 << 1,
+	E_CELL_JUSTIFY_RIGHT  = 2 << 1,
+	E_CELL_JUSTIFY_FILL   = 3 << 1,
+
+	E_CELL_ALIGN_LEFT     = 1 << 1,
+	E_CELL_ALIGN_RIGHT    = 1 << 2,
+};
 
 struct _ECell {
 	GtkObject       object;
@@ -41,7 +55,7 @@ typedef struct {
 				   
 	void   	   (*draw)         (ECellView *ecell_view, GdkDrawable *drawable,
 	       			    int model_col, int view_col, int row,
-				    gboolean selected, int x1, int y1, int x2, int y2);
+				    ECellFlags flags, int x1, int y1, int x2, int y2);
 	gint   	   (*event)        (ECellView *ecell_view, GdkEvent *event, int model_col, int view_col, int row);
 	void   	   (*focus)        (ECellView *ecell_view, int model_col, int view_col,
 				    int row, int x1, int y1, int x2, int y2);
@@ -67,7 +81,7 @@ void       e_cell_realize   (ECellView *ecell_view);
 void       e_cell_unrealize (ECellView *ecell_view);
 
 void       e_cell_draw      (ECellView *ecell_view, GdkDrawable *dr, 
-			     int model_col, int view_col, int row, gboolean selected,
+			     int model_col, int view_col, int row, ECellFlags flags,
 			     int x1, int y1, int x2, int y2);
 void       e_cell_print      (ECellView *ecell_view, GnomePrintContext *context, 
 			      int model_col, int view_col, int row,

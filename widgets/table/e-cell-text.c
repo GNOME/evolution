@@ -422,7 +422,7 @@ ect_free_color (gchar *color_spec, GdkColor *color, GdkColormap *colormap)
  */
 static void
 ect_draw (ECellView *ecell_view, GdkDrawable *drawable,
-	  int model_col, int view_col, int row, gboolean selected,
+	  int model_col, int view_col, int row, ECellFlags flags,
 	  int x1, int y1, int x2, int y2)
 {
 	/* New ECellText */
@@ -444,8 +444,11 @@ ect_draw (ECellView *ecell_view, GdkDrawable *drawable,
 	ECellTextLineBreaks *linebreaks;
 	GdkColor *foreground, *cell_foreground, *cursor_color;
 	gchar *color_spec;
+	gboolean selected;
 
 	EFontStyle style = E_FONT_PLAIN;
+
+	selected = flags & E_CELL_SELECTED;
 
 	if (ect->bold_column >= 0 && e_table_model_value_at(ecell_view->e_table_model, ect->bold_column, row))
 		style = E_FONT_BOLD;

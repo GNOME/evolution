@@ -1192,6 +1192,7 @@ eti_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int width,
 			ETableCol *ecol = e_table_header_get_column (eti->header, col);
 			ECellView *ecell_view = eti->cell_views [col];
 			gboolean col_selected = selected;
+			ECellFlags flags;
 			switch (eti->cursor_mode) {
 			case E_TABLE_CURSOR_SIMPLE:
 				if (cursor_col == ecol->col_idx && cursor_row == view_to_model_row(eti, row))
@@ -1215,7 +1216,23 @@ eti_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int width,
 			gdk_draw_rectangle (drawable, eti->fill_gc, TRUE,
 					    xd, yd, ecol->width, height);
 
-			e_cell_draw (ecell_view, drawable, ecol->col_idx, col, row, col_selected,
+			flags = col_selected ? E_CELL_SELECTED : 0;
+			switch (ecol->justification) {
+			case GTK_JUSTIFY_LEFT:
+				flags |= E_CELL_JUSTIFY_LEFT;
+				break;
+			case GTK_JUSTIFY_RIGHT:
+				flags |= E_CELL_JUSTIFY_RIGHT;
+				break;
+			case GTK_JUSTIFY_CENTER:
+				flags |= E_CELL_JUSTIFY_CENTER;
+				break;
+			case GTK_JUSTIFY_FILL:
+				flags |= E_CELL_JUSTIFY_FILL;
+				break;
+			}
+
+			e_cell_draw (ecell_view, drawable, ecol->col_idx, col, row, flags,
 				     xd, yd, xd + ecol->width, yd + height);
 			
 			if (view_to_model_col(eti, col) == cursor_col && view_to_model_row(eti, row) == cursor_row){

@@ -1,3 +1,11 @@
+2000-08-24  Christopher James Lahey  <clahey@helixcode.com>
+
+	* e-cell-text.c, e-cell-toggle.c, e-cell-tree.c, e-cell.c,
+	e-cell.h, e-table-col.c, e-table-col.h, e-table-item.c: Added
+	infrastructure for setting the justification of columns.  Still
+	need to change the cells to support it and need to add user
+	interface to change the justification.
+
 2000-08-23  Christopher James Lahey  <clahey@helixcode.com>
 
 	* e-table-subset-variable.c: Fixed a bug in

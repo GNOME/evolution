@@ -84,18 +84,21 @@ etog_unrealize (ECellView *ecv)
  */
 static void
 etog_draw (ECellView *ecell_view, GdkDrawable *drawable,
-	  int model_col, int view_col, int row, gboolean selected,
+	  int model_col, int view_col, int row, ECellFlags flags,
 	  int x1, int y1, int x2, int y2)
 {
 	ECellToggle *toggle = E_CELL_TOGGLE (ecell_view->ecell);
+	gboolean selected;
 #if 0
 	ECellToggleView *toggle_view = (ECellToggleView *) ecell_view;
 #endif
 	GdkPixbuf *image;
 	int x, y, width, height;
-
+	
 	const int value = GPOINTER_TO_INT (
 		 e_table_model_value_at (ecell_view->e_table_model, model_col, row));
+	
+	selected = flags & E_CELL_SELECTED;
 
 	if (value >= toggle->n_states){
 		g_warning ("Value from the table model is %d, the states we support are [0..%d)\n",
