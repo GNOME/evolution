@@ -27,6 +27,7 @@
 #include <bonobo/bonobo-control.h>
 #include <bonobo/bonobo-generic-factory.h>
 #include <bonobo/bonobo-persist-file.h>
+#include <bonobo/bonobo-context.h>
 #include <glade/glade.h>
 
 #include <liboaf/liboaf.h>
@@ -60,7 +61,6 @@ control_activate_cb (BonoboControl *control, gboolean activate, gpointer data)
 	else
 		calendar_control_deactivate (control, gcal);
 }
-
 
 static void
 get_prop (BonoboPropertyBag *bag,
@@ -156,7 +156,8 @@ control_factory_init (void)
 		return;
 
 	factory = bonobo_generic_factory_new (CONTROL_FACTORY_ID, control_factory_fn, NULL);
-
+	bonobo_running_context_auto_exit_unref (BONOBO_OBJECT (factory));
+       
 	if (factory == NULL)
 		g_error ("I could not register a Calendar control factory.");
 }

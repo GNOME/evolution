@@ -1,5 +1,13 @@
 2001-06-19  JP Rosevear  <jpr@ximian.com>
 
+	* gui/control-factory.c (control_factory_init): add auto exit unref
+
+	* gui/component-factory.c (destroy_cb): destroy our selves if we
+	have no more shells
+	(component_factory_init): add auto exit unref
+	
+2001-06-19  JP Rosevear  <jpr@ximian.com>
+
 	* gui/Makefile.am: don't compile or install the old meeting edit
 	stuff
 

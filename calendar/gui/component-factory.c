@@ -30,6 +30,7 @@
 #include <libgnomevfs/gnome-vfs-ops.h>
 
 #include <bonobo/bonobo-generic-factory.h>
+#include <bonobo/bonobo-context.h>
 #include "evolution-shell-component.h"
 #include "component-factory.h"
 #include "tasks-control-factory.h"
@@ -269,7 +270,7 @@ xfer_folder (EvolutionShellComponent *shell_component,
 	CORBA_exception_free (&ev);
 }
 
-static gint owner_count = 0;
+static GList *shells = NULL;
 
 static void
 owner_set_cb (EvolutionShellComponent *shell_component,
@@ -278,8 +279,7 @@ owner_set_cb (EvolutionShellComponent *shell_component,
 	      gpointer user_data)
 {
 	static gboolean migrated = FALSE;
-
-	owner_count ++;
+	
 	evolution_dir = g_strdup (evolution_homedir);
 
 	calendar_config_init ();
@@ -291,12 +291,13 @@ owner_set_cb (EvolutionShellComponent *shell_component,
 }
 
 static void
-owner_unset_cb (EvolutionShellComponent *shell_component,
-		gpointer user_data)
+destroy_cb (EvolutionShellComponent *shell_component,
+	    gpointer user_data)
 {
-	owner_count --;
-	if (owner_count <= 0)
-		gtk_main_quit();
+	shells = g_list_remove (shells, shell_component);
+	
+	if (g_list_length (shells) == 0)
+		gtk_main_quit ();
 }
 
 
@@ -307,7 +308,7 @@ factory_fn (BonoboGenericFactory *factory,
 	    void *closure)
 {
 	EvolutionShellComponent *shell_component;
-
+	
 	shell_component = evolution_shell_component_new (folder_types,
 							 create_view,
 							 create_folder,
@@ -319,9 +320,11 @@ factory_fn (BonoboGenericFactory *factory,
 
 	gtk_signal_connect (GTK_OBJECT (shell_component), "owner_set",
 			    GTK_SIGNAL_FUNC (owner_set_cb), NULL);
-	gtk_signal_connect (GTK_OBJECT (shell_component), "owner_unset",
-			    GTK_SIGNAL_FUNC (owner_unset_cb), NULL);
+	gtk_signal_connect (GTK_OBJECT (shell_component), "destroy",
+			    GTK_SIGNAL_FUNC (destroy_cb), NULL);
 
+	shells = g_list_append (shells, shell_component);
+	
 	return BONOBO_OBJECT (shell_component);
 }
 
@@ -334,6 +337,7 @@ component_factory_init (void)
 		return;
 
 	factory = bonobo_generic_factory_new (COMPONENT_FACTORY_ID, factory_fn, NULL);
+	bonobo_running_context_auto_exit_unref (BONOBO_OBJECT (factory));
 
 	if (factory == NULL)
 		g_error ("Cannot initialize Evolution's calendar component.");
