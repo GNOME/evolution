@@ -1,5 +1,9 @@
 2001-03-12  JP Rosevear  <jpr@ximian.com>
 
+	* art/Makefile.am: install conduit images
+	
+2001-03-12  JP Rosevear  <jpr@ximian.com>
+
 	* README: Update
 
 2001-03-09  Christopher James Lahey  <clahey@ximian.com>

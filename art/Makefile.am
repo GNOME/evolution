@@ -60,6 +60,15 @@ buttons_DATA = 				\
 	reply-to-all.png		\
 	reply.png
 
+conduitsdir = $(datadir)/images/evolution/conduits
+conduits_DATA =				\
+	16_evo-address-conduit.png   	\
+	16_evo-todo-conduit.png     	\
+	16_evo-calendar-conduit.png  	\
+	48_evo-calendar-conduit.png	\
+	48_evo-address-conduit.png  	\
+	48_evo-todo-conduit.png
+
 EXTRA_DIST = \
 	add-service.png	\
 	attachment.xpm \
