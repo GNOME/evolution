@@ -313,6 +313,7 @@ folder_getv(CamelObject *object, CamelException *ex, CamelArgGetV *args)
 	CamelFolder *folder = (CamelFolder *)object;
 	int i;
 	guint32 tag;
+	int unread = -1, deleted = 0, junked = 0, visible = 0, count;
 
 	for (i=0;i<args->argc;i++) {
 		CamelArgGet *arg = &args->argv[i];
@@ -343,21 +344,50 @@ folder_getv(CamelObject *object, CamelException *ex, CamelArgGetV *args)
 		case CAMEL_FOLDER_ARG_TOTAL:
 			*arg->ca_int = camel_folder_summary_count(folder->summary);
 			break;
-		case CAMEL_FOLDER_ARG_UNREAD: {
-			int j, unread = 0, count;
-			CamelMessageInfo *info;
+		case CAMEL_FOLDER_ARG_UNREAD:
+		case CAMEL_FOLDER_ARG_DELETED:
+		case CAMEL_FOLDER_ARG_JUNKED:
+		case CAMEL_FOLDER_ARG_VISIBLE:
+			/* This is so we can get the values atomically, and also so we can calculate them only once */
+			if (unread == -1) {
+				int j;
+				CamelMessageInfo *info;
 
-			count = camel_folder_summary_count(folder->summary);
-			for (j=0; j<count; j++) {
-				if ((info = camel_folder_summary_index(folder->summary, j))) {
-					if (!(info->flags & CAMEL_MESSAGE_SEEN))
-						unread++;
-					camel_folder_summary_info_free(folder->summary, info);
+				/* TODO: Locking? */
+				unread = 0;
+				count = camel_folder_summary_count(folder->summary);
+				for (j=0; j<count; j++) {
+					if ((info = camel_folder_summary_index(folder->summary, j))) {
+						if (!(info->flags & CAMEL_MESSAGE_SEEN))
+							unread++;
+						if (info->flags & CAMEL_MESSAGE_DELETED)
+							deleted++;
+						if (info->flags & CAMEL_MESSAGE_JUNK)
+							junked++;
+						if ((info->flags & (CAMEL_MESSAGE_DELETED|CAMEL_MESSAGE_JUNK)) == 0)
+							visible++;
+						camel_folder_summary_info_free(folder->summary, info);
+					}
 				}
 			}
 
-			*arg->ca_int = unread;
-			break; }
+			switch (tag & CAMEL_ARG_TAG) {
+			case CAMEL_FOLDER_ARG_UNREAD:
+				count = unread;
+				break;
+			case CAMEL_FOLDER_ARG_DELETED:
+				count = deleted;
+				break;
+			case CAMEL_FOLDER_ARG_JUNKED:
+				count = junked;
+				break;
+			case CAMEL_FOLDER_ARG_VISIBLE:
+				count = visible;
+				break;
+			}
+
+			*arg->ca_int = count;
+			break;
 		case CAMEL_FOLDER_ARG_UID_ARRAY: {
 			int j, count;
 			CamelMessageInfo *info;
