@@ -5,8 +5,6 @@ INCLUDES = -I$(top_srcdir) -I$(includedir) $(GNOME_INCLUDEDIR) \
 
 lib_LTLIBRARIES = libevolution-importer.la
 
-noinst_LIBRARIES = libimporter.a
-
 IDLS = \
 	GNOME_Evolution_Importer.idl
 
@@ -25,16 +23,14 @@ $(IDL_GENERATED): $(IDLS)
 idldir = $(datadir)/idl
 idl_DATA = $(IDLS)
 
-libimporter_a_SOURCES =		\
-	importer.c		\
-	importer.h
-
 libevolution_importerincludedir = $(includedir)/evolution/importer
 libevolution_importer_la_SOURCES = 	\
 	$(IDL_GENERATED)		\
 	evolution-importer-factory.c	\
 	evolution-importer-client.c	\
-	evolution-importer.c
+	evolution-importer.c		\
+	importer.c			\
+	importer.h
 
 libevolution_importerinclude_HEADERS = 	\
 	evolution-importer-factory.h	\

@@ -36,6 +36,7 @@
 #include <e-util/e-html-utils.h>
 
 #include "importer.h"
+#include "GNOME_Evolution_Importer.h"
 
 typedef struct _ImportDialogFilePage {
 	GtkWidget *vbox;

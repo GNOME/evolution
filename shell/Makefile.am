@@ -131,7 +131,6 @@ evolution_SOURCES =				\
 
 evolution_LDADD =						\
 	libeshell.a						\
-	importer/libimporter.a					\
 	importer/libevolution-importer.la			\
 	$(top_builddir)/widgets/shortcut-bar/libshortcut-bar.a  \
 	$(top_builddir)/widgets/misc/libemiscwidgets.a		\
