@@ -1,3 +1,15 @@
+2003-12-03  JP Rosevear <jpr@ximian.com>
+
+	* gui/calendar-component.c (rename_calendar_cb): cast the parent
+	(config_primary_selection_changed_cb): handle the primary
+	selection changing elsewhere
+	(impl_dispose): remove the list of notifications
+	(impl_createControls): add primary calendar notification
+	(config_create_ecal_changed_cb): clear create_ecal if the primary
+	key changes
+	(setup_create_ecal): find an ecal to use for creation
+	(impl_requestCreateItem): use above
+
 2003-12-03  Ettore Perazzoli  <ettore@ximian.com>
 
 	* importers/icalendar-importer.c: Do not #include shell stuff.

@@ -62,7 +62,9 @@ struct _CalendarComponentPrivate {
 	GnomeCalendar *calendar;
 	GtkWidget *source_selector;
 
-	guint selected_not;
+	ECal *create_ecal;
+
+	GList *notifications;
 
 	EActivityHandler *activity_handler;
 };
@@ -399,7 +401,7 @@ rename_calendar_cb (GtkWidget *widget, CalendarComponent *comp)
 		return;
 
 	/* create the dialog to prompt the user for the new name */
-	dialog = gtk_message_dialog_new (gtk_widget_get_toplevel (widget),
+	dialog = gtk_message_dialog_new (GTK_WINDOW (gtk_widget_get_toplevel (widget)),
 					 GTK_DIALOG_MODAL,
 					 GTK_MESSAGE_QUESTION,
 					 GTK_BUTTONS_OK_CANCEL,
@@ -449,13 +451,21 @@ config_selection_changed_cb (GConfClient *client, guint id, GConfEntry *entry, g
 	update_selection (data);
 }
 
+
+static void
+config_primary_selection_changed_cb (GConfClient *client, guint id, GConfEntry *entry, gpointer data)
+{
+	update_primary_selection (data);
+}
+
 /* GObject methods.  */
 
 static void
 impl_dispose (GObject *object)
 {
 	CalendarComponentPrivate *priv = CALENDAR_COMPONENT (object)->priv;
-
+	GList *l;
+	
 	if (priv->source_list != NULL) {
 		g_object_unref (priv->source_list);
 		priv->source_list = NULL;
@@ -471,10 +481,14 @@ impl_dispose (GObject *object)
 		priv->gconf_client = NULL;
 	}
 
-	if (priv->selected_not) {
-		calendar_config_remove_notification (priv->selected_not);
-		priv->selected_not = 0;
+	if (priv->create_ecal) {
+		g_object_unref (priv->create_ecal);
+		priv->create_ecal = NULL;
 	}
+		
+	for (l = priv->notifications; l; l = l->next)
+		calendar_config_remove_notification (GPOINTER_TO_UINT (l->data));		
+	priv->notifications = NULL;
 
 	if (priv->activity_handler != NULL) {
 		g_object_unref (priv->activity_handler);
@@ -526,6 +540,7 @@ impl_createControls (PortableServer_Servant servant,
 	BonoboControl *sidebar_control;
 	BonoboControl *view_control;
 	BonoboControl *statusbar_control;
+	guint not;
 	
 	priv = calendar_component->priv;
 	
@@ -584,9 +599,14 @@ impl_createControls (PortableServer_Servant servant,
 	update_selection (calendar_component);	
 	update_primary_selection (calendar_component);
 
-	/* If it gets fiddled with, ie from another evolution window, update it */
-	priv->selected_not = calendar_config_add_notification_calendars_selected (config_selection_changed_cb, 
-										  calendar_component);
+	/* If it gets fiddled with update */
+	not = calendar_config_add_notification_calendars_selected (config_selection_changed_cb, 
+								   calendar_component);
+	priv->notifications = g_list_prepend (priv->notifications, GUINT_TO_POINTER (not));
+
+	not = calendar_config_add_notification_primary_calendar (config_primary_selection_changed_cb, 
+								 calendar_component);
+	priv->notifications = g_list_prepend (priv->notifications, GUINT_TO_POINTER (not));
 	
 	/* Return the controls */
 	*corba_sidebar_control = CORBA_Object_duplicate (BONOBO_OBJREF (sidebar_control), ev);
@@ -632,34 +652,119 @@ impl__get_userCreatableItems (PortableServer_Servant servant,
 }
 
 static void
+config_create_ecal_changed_cb (GConfClient *client, guint id, GConfEntry *entry, gpointer data)
+{	
+	CalendarComponent *calendar_component = data;
+	CalendarComponentPrivate *priv;
+	
+	priv = calendar_component->priv;
+
+	g_object_unref (priv->create_ecal);
+	priv->create_ecal = NULL;
+	
+	priv->notifications = g_list_remove (priv->notifications, GUINT_TO_POINTER (id));
+}
+
+static gboolean
+setup_create_ecal (CalendarComponent *calendar_component) 
+{
+	CalendarComponentPrivate *priv;
+	ESource *source = NULL;
+	char *uid;
+	guint not;
+	
+	priv = calendar_component->priv;
+
+	if (priv->create_ecal)
+		return TRUE; 
+
+	/* Try to use the client from the calendar first to avoid re-opening things */
+	if (priv->calendar) {
+		ECal *default_ecal;
+		
+		default_ecal = gnome_calendar_get_default_client (priv->calendar);
+		if (default_ecal) {
+			priv->create_ecal = g_object_ref (default_ecal);
+			return TRUE;
+		}
+	}
+	
+	/* Get the current primary calendar, or try to set one if it doesn't already exist */		
+	uid = calendar_config_get_primary_calendar ();
+	if (uid) {
+		source = e_source_list_peek_source_by_uid (priv->source_list, uid);
+		g_free (uid);
+
+		priv->create_ecal = e_cal_new (source, CALOBJ_TYPE_EVENT);
+	} 
+
+	if (!priv->create_ecal) {
+		/* Try to create a default if there isn't one */
+		source = find_first_source (priv->source_list);
+		if (source)
+			priv->create_ecal = e_cal_new (source, CALOBJ_TYPE_EVENT);
+	}
+		
+	if (priv->create_ecal) {
+		if (!e_cal_open (priv->create_ecal, FALSE, NULL)) {
+			GtkWidget *dialog;
+			
+			dialog = gtk_message_dialog_new (NULL, GTK_DIALOG_MODAL,
+							 GTK_MESSAGE_WARNING, GTK_BUTTONS_OK,
+							 _("Unable to open the calendar '%s' for creating events and meetings"), 
+							   e_source_peek_name (source));
+			gtk_dialog_run (GTK_DIALOG (dialog));
+			gtk_widget_destroy (dialog);
+
+			return FALSE;
+		}
+	} else {
+		GtkWidget *dialog;
+			
+		dialog = gtk_message_dialog_new (NULL, GTK_DIALOG_MODAL,
+						 GTK_MESSAGE_WARNING, GTK_BUTTONS_OK,
+						 _("There is no calendar available for creating events and meetings"));
+		gtk_dialog_run (GTK_DIALOG (dialog));
+		gtk_widget_destroy (dialog);
+
+		return FALSE;
+	}		
+
+	/* Handle the fact it may change on us */
+	not = calendar_config_add_notification_primary_calendar (config_create_ecal_changed_cb, 
+								 calendar_component);
+	priv->notifications = g_list_prepend (priv->notifications, GUINT_TO_POINTER (not));
+
+	/* Save the primary source for use elsewhere */
+	calendar_config_set_primary_calendar (e_source_peek_uid (source));
+
+	return TRUE;
+}
+
+static void
 impl_requestCreateItem (PortableServer_Servant servant,
 			const CORBA_char *item_type_name,
 			CORBA_Environment *ev)
 {
 	CalendarComponent *calendar_component = CALENDAR_COMPONENT (bonobo_object_from_servant (servant));
 	CalendarComponentPrivate *priv;
-	ECal *ecal;
 	ECalComponent *comp;
 	EventEditor *editor;
 	gboolean is_meeting = FALSE;
 	
 	priv = calendar_component->priv;
-	
-	ecal = gnome_calendar_get_default_client (priv->calendar);
-	if (!ecal) {
-		/* FIXME We should display a gui dialog or something */
-		bonobo_exception_set (ev, ex_GNOME_Evolution_Component_UnknownType);
-		g_warning (G_STRLOC ": No default client");
-	}
+
+	if (!setup_create_ecal (calendar_component))
+		return;
 		
-	editor = event_editor_new (ecal);
+	editor = event_editor_new (priv->create_ecal);
 	
 	if (strcmp (item_type_name, CREATE_EVENT_ID) == 0) {
-		comp = get_default_event (ecal, FALSE);
+		comp = get_default_event (priv->create_ecal, FALSE);
  	} else if (strcmp (item_type_name, CREATE_ALLDAY_EVENT_ID) == 0) {
-		comp = get_default_event (ecal, TRUE);
+		comp = get_default_event (priv->create_ecal, TRUE);
 	} else if (strcmp (item_type_name, CREATE_MEETING_ID) == 0) {
-		comp = get_default_event (ecal, FALSE);
+		comp = get_default_event (priv->create_ecal, FALSE);
 		is_meeting = TRUE;
 	} else {
 		bonobo_exception_set (ev, ex_GNOME_Evolution_Component_UnknownType);
