@@ -1,3 +1,11 @@
+2002-07-23  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* e-msg-composer.c (e_msg_composer_set_view_bcc): Reverted some
+	code that got committed by accident.
+	(e_msg_composer_set_view_cc): Same.
+	(e_msg_composer_set_view_replyto): Here too.
+	(e_msg_composer_set_view_from): And here.
+
 2002-07-22  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* e-msg-composer.c: Removed a lot of extra g_return_if_fail's that

@@ -4175,7 +4175,7 @@ e_msg_composer_set_view_from (EMsgComposer *composer, gboolean view_from)
 		composer->uic, "/commands/ViewFrom",
 		"state", composer->view_from ? "1" : "0", NULL);
 	set_config (composer, "ViewFrom", composer->view_from);
-	e_msg_composer_hdrs_set_visible
+	e_msg_composer_set_hdrs_visible
 		(E_MSG_COMPOSER_HDRS (composer->hdrs),
 		 e_msg_composer_get_visible_flags (composer));
 }
@@ -4219,7 +4219,7 @@ e_msg_composer_set_view_replyto (EMsgComposer *composer, gboolean view_replyto)
 		composer->uic, "/commands/ViewReplyTo",
 		"state", composer->view_replyto ? "1" : "0", NULL);
 	set_config (composer, "ViewReplyTo", composer->view_replyto);
-	e_msg_composer_hdrs_set_visible
+	e_msg_composer_set_hdrs_visible
 		(E_MSG_COMPOSER_HDRS (composer->hdrs),
 		 e_msg_composer_get_visible_flags (composer));
 }
@@ -4263,7 +4263,7 @@ e_msg_composer_set_view_cc (EMsgComposer *composer, gboolean view_cc)
 		composer->uic, "/commands/ViewCC",
 		"state", composer->view_cc ? "1" : "0", NULL);
 	set_config (composer, "ViewCC", composer->view_cc);
-	e_msg_composer_hdrs_set_visible
+	e_msg_composer_set_hdrs_visible
 		(E_MSG_COMPOSER_HDRS (composer->hdrs),
 		 e_msg_composer_get_visible_flags (composer));
 }
@@ -4307,7 +4307,7 @@ e_msg_composer_set_view_bcc (EMsgComposer *composer, gboolean view_bcc)
 		composer->uic, "/commands/ViewBCC",
 		"state", composer->view_bcc ? "1" : "0", NULL);
 	set_config (composer, "ViewBCC", composer->view_bcc);
-	e_msg_composer_hdrs_set_visible
+	e_msg_composer_set_hdrs_visible
 		(E_MSG_COMPOSER_HDRS (composer->hdrs),
 		 e_msg_composer_get_visible_flags (composer));		 
 }
