@@ -208,7 +208,7 @@ e_text_to_html (const char *input, unsigned int flags)
 				     E_TEXT_TO_HTML_CONVERT_NL)) {
 				do {
 					out = check_size (&buffer, &buffer_size,
-						    out, 6);
+						    out, 7);
 					strcpy (out, "&nbsp;");
 					out += 6;
 					col++;
