@@ -726,15 +726,64 @@ update_folders(CamelStore *store, CamelFolderInfo *fi, void *data)
 	g_free(ud);
 }
 
+
+struct _ping_store_msg {
+	struct _mail_msg msg;
+	
+	CamelStore *store;
+};
+
+static char *
+ping_store_desc (struct _mail_msg *mm, int done)
+{
+	struct _ping_store_msg *m = (struct _ping_store_msg *) mm;
+	char *service_name = camel_service_get_name (CAMEL_SERVICE (m->store), TRUE);
+	char *msg;
+	
+	msg = g_strdup_printf (_("Pinging %s"), service_name);
+	g_free (service_name);
+	
+	return msg;
+}
+
+static void
+ping_store_ping (struct _mail_msg *mm)
+{
+	struct _ping_store_msg *m = (struct _ping_store_msg *) mm;
+	
+	if (CAMEL_SERVICE (m->store)->status == CAMEL_SERVICE_CONNECTED)
+		camel_store_noop (m->store, &mm->ex);
+}
+
+static void
+ping_store_free (struct _mail_msg *mm)
+{
+	struct _ping_store_msg *m = (struct _ping_store_msg *) mm;
+	
+	camel_object_unref (m->store);
+}
+
+static struct _mail_msg_op ping_store_op = {
+	ping_store_desc,
+	ping_store_ping,
+	NULL,
+	ping_store_free
+};
+
 static void
 ping_store (gpointer key, gpointer val, gpointer user_data)
 {
 	CamelStore *store = (CamelStore *) key;
-	CamelException ex;
+	struct _ping_store_msg *m;
 	
-	camel_exception_init (&ex);
-	camel_store_noop (store, &ex);
-	camel_exception_clear (&ex);
+	if (CAMEL_SERVICE (store)->status != CAMEL_SERVICE_CONNECTED)
+		return;
+	
+	m = mail_msg_new (&ping_store_op, NULL, sizeof (struct _ping_store_msg));
+	m->store = store;
+	camel_object_ref (store);
+	
+	e_thread_put (mail_thread_queued, (EMsg *) m);
 }
 
 static gboolean
@@ -745,6 +794,8 @@ ping_cb (gpointer user_data)
 	g_hash_table_foreach (stores, ping_store, NULL);
 	
 	UNLOCK (info_lock);
+	
+	return TRUE;
 }
 
 void

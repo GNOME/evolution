@@ -1,5 +1,12 @@
 2002-08-21  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* mail-folder-cache.c (ping_store): Spawn a new thread to ping the
+	server but only if it is connected.
+	(ping_cb): This needs to return TRUE so the timeout keeps getting
+	called.
+
+2002-08-21  Jeffrey Stedfast  <fejj@ximian.com>
+
 	* mail-session.c (class_init): Don't bother overloading the
 	timeout virtual methods since they don't exist anymore.
 
