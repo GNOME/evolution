@@ -214,13 +214,13 @@ import_cb (EvolutionImporterListener *listener,
 	IN;
 	if (icd->stop != TRUE) {
 		if (result == EVOLUTION_IMPORTER_NOT_READY) {
-			gtk_timeout_add (500, importer_timeout_fn, data);
+			g_timeout_add (500, importer_timeout_fn, data);
 			OUT;
 			return;
 		}
 		
 		if (result == EVOLUTION_IMPORTER_BUSY) {
-			gtk_timeout_add (500, importer_timeout_fn, data);
+			g_timeout_add (500, importer_timeout_fn, data);
 			OUT;
 			return;
 		}

@@ -1,3 +1,10 @@
+2004-09-30  Kjartan Maraas  <kmaraas@gnome.org>
+
+	* e-shell-importer.c: (import_cb): use g_timeout_add().
+	* importer/intelligent.c: (select_row_cb), (unselect_row_cb),
+	(create_gui): use gtk_notebook_set_current_page() instead of
+	deprecated gtk_notebook_set_page()
+
 2004-09-24  Not Zed  <NotZed@Ximian.com>
 
 	* e-shell-window-commands.c: Added ed catmur to the credits.

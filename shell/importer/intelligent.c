@@ -162,7 +162,7 @@ select_row_cb (GtkCList *clist,
 	       GdkEvent *ev,
 	       IntelligentImporterDialog *d)
 {
-	gtk_notebook_set_page (GTK_NOTEBOOK (d->placeholder), row);
+	gtk_notebook_set_current_page (GTK_NOTEBOOK (d->placeholder), row);
 }
 
 static void
@@ -172,7 +172,7 @@ unselect_row_cb (GtkCList *clist,
 		 GdkEvent *ev,
 		 IntelligentImporterDialog *d)
 {
-	gtk_notebook_set_page (GTK_NOTEBOOK (d->placeholder), d->running);
+	gtk_notebook_set_current_page (GTK_NOTEBOOK (d->placeholder), d->running);
 }
 
 static IntelligentImporterDialog *
@@ -363,7 +363,7 @@ create_gui (GList *importers)
 	gtk_notebook_append_page (GTK_NOTEBOOK (d->placeholder),
 				  dummy, NULL);
 	/* Set the start to the blank page */
-	gtk_notebook_set_page (GTK_NOTEBOOK (d->placeholder), running);
+	gtk_notebook_set_current_page (GTK_NOTEBOOK (d->placeholder), running);
 
 	g_signal_connect((clist), "select-row", 
 			    G_CALLBACK (select_row_cb), d);
