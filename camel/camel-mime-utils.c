@@ -963,9 +963,8 @@ rfc2047_decode_word(const char *in, int len)
 			outbase = alloca (outlen);
 			outbuf = outbase;
 			
-			/* TODO: Should this cache iconv converters? */
 		retry:
-			ic = iconv_open ("UTF-8", charset);
+			ic = camel_charset_iconv_open ("UTF-8", charset);
 			if (ic != (iconv_t)-1) {
 				ret = iconv (ic, &inbuf, &inlen, &outbuf, &outlen);
 				if (ret >= 0) {
@@ -973,7 +972,7 @@ rfc2047_decode_word(const char *in, int len)
 					*outbuf = 0;
 					decoded = g_strdup (outbase);
 				}
-				iconv_close (ic);
+				camel_charset_iconv_close (ic);
 			} else {
 				w(g_warning ("Cannot decode charset, header display may be corrupt: %s: %s",
 					     charset, g_strerror (errno)));
@@ -1039,7 +1038,7 @@ append_8bit (GString *out, const char *inbuf, int inlen, const char *charset)
 	int outlen;
 	iconv_t ic;
 	
-	ic = iconv_open ("UTF-8", charset);
+	ic = camel_charset_iconv_open ("UTF-8", charset);
 	if (ic == (iconv_t) -1)
 		return FALSE;
 
@@ -1049,13 +1048,14 @@ append_8bit (GString *out, const char *inbuf, int inlen, const char *charset)
 	if (iconv(ic, &inbuf, &inlen, &outbuf, &outlen) == -1) {
 		w(g_warning("Conversion to '%s' failed: %s", charset, strerror(errno)));
 		g_free(outbase);
+		camel_charset_iconv_close(ic);
 		return FALSE;
 	}
 
 	*outbuf = 0;
 	g_string_append(out, outbase);
 	g_free(outbase);
-	iconv_close(ic);
+	camel_charset_iconv_close(ic);
 
 	return TRUE;
 	
@@ -1141,7 +1141,7 @@ rfc2047_encode_word(GString *outstring, const char *in, int len, const char *typ
 	ascii = alloca (bufflen);
 	
 	if (strcasecmp (type, "UTF-8") != 0)
-		ic = iconv_open (type, "UTF-8");
+		ic = camel_charset_iconv_open (type, "UTF-8");
 	
 	while (inlen) {
 		int convlen, i, proclen;
@@ -1218,9 +1218,8 @@ rfc2047_encode_word(GString *outstring, const char *in, int len, const char *typ
 		}
 	}
 
-	if (ic != (iconv_t) -1) {
-		iconv_close(ic);
-	}
+	if (ic != (iconv_t) -1)
+		camel_charset_iconv_close(ic);
 }
 
 
@@ -1795,7 +1794,7 @@ rfc2184_decode (const char *in, int len)
 		inbuf = decword = hex_decode (inptr, inend - inptr);
 		inlen = strlen (inbuf);
 		
-		ic = iconv_open ("UTF-8", charset);
+		ic = camel_charset_iconv_open("UTF-8", charset);
 		if (ic != (iconv_t) -1) {
 			int ret;
 			
@@ -1810,7 +1809,7 @@ rfc2184_decode (const char *in, int len)
 				decoded = outbase;
 			}
 			
-			iconv_close (ic);
+			camel_charset_iconv_close(ic);
 		} else {
 			decoded = decword;
 		}
@@ -1950,7 +1949,7 @@ header_decode_param (const char **in, char **paramp, char **valuep, int *is_rfc2
 		inlen = strlen (inbuf);
 		
 		charset = camel_charset_locale_name ();
-		ic = iconv_open ("UTF-8", charset ? charset : "ISO-8859-1");
+		ic = camel_charset_iconv_open ("UTF-8", charset ? charset : "ISO-8859-1");
 		if (ic != (iconv_t) -1) {
 			int ret;
 			
@@ -1963,7 +1962,7 @@ header_decode_param (const char **in, char **paramp, char **valuep, int *is_rfc2
 				*outbuf = '\0';
 			}
 			
-			iconv_close (ic);
+			camel_charset_iconv_close (ic);
 			
 			g_free (value);
 			value = outbase;

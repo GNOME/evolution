@@ -105,7 +105,7 @@ static GByteArray *convert_buffer(GByteArray *in, const char *to, const char *fr
 
 	d(printf("converting buffer from %s to %s: '%.*s'\n", from, to, (int)in->len, in->data));
 
-	ic = iconv_open(to, from);
+	ic = camel_charset_iconv_open(to, from);
 	if (ic == (iconv_t) -1) {
 		g_warning("Cannot convert from '%s' to '%s': %s", from, to, strerror(errno));
 		return NULL;
@@ -146,7 +146,7 @@ static GByteArray *convert_buffer(GByteArray *in, const char *to, const char *fr
 		break;
 	} while (1);
 
-	iconv_close(ic);
+	camel_charset_iconv_close(ic);
 
 	return out;
 }

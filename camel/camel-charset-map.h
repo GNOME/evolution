@@ -21,6 +21,8 @@
 #ifndef _CAMEL_CHARSET_MAP_H
 #define _CAMEL_CHARSET_MAP_H
 
+#include <iconv.h>
+
 typedef struct _CamelCharset CamelCharset;
 
 struct _CamelCharset {
@@ -40,5 +42,8 @@ const char *camel_charset_best(const char *in, int len);
 const char *camel_charset_locale_name (void);
 
 const char *camel_charset_to_iconv (const char *name);
+
+iconv_t camel_charset_iconv_open(const char *to, const char *from);
+void camel_charset_iconv_close(iconv_t ic);
 
 #endif /* ! _CAMEL_CHARSET_MAP_H */

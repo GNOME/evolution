@@ -203,10 +203,15 @@ void main(void)
 #include <string.h>
 #include <ctype.h>
 #include <glib.h>
+#include <e-util/e-msgport.h>
 #ifdef ENABLE_THREADS
 #include <pthread.h>
 #endif
+#ifdef HAVE_ALLOCA_H
+#include <alloca.h>
+#endif
 
+#define cd(x)			/* 'cache debug' */
 
 #ifdef ENABLE_THREADS
 static pthread_mutex_t iconv_charsets_lock = PTHREAD_MUTEX_INITIALIZER;
@@ -216,6 +221,25 @@ static pthread_mutex_t iconv_charsets_lock = PTHREAD_MUTEX_INITIALIZER;
 #define ICONV_CHARSETS_LOCK()
 #define ICONV_CHARSETS_UNLOCK()
 #endif /* ENABLE_THREADS */
+
+struct _iconv_cache_node {
+	EDListNode ln;
+
+	iconv_t ip;
+};
+
+struct _iconv_cache {
+	EDListNode ln;
+
+	char *conv;
+
+	EDList inuse;		/* opened ic's in use  - if both these lists empty == failed to open conversion */
+	EDList free;		/* opened ic's free */
+};
+
+#define CAMEL_ICONV_CACHE_SIZE (16)
+
+static EDList iconv_cache_list;
 
 static GHashTable *iconv_charsets = NULL;
 static char *locale_charset = NULL;
@@ -252,11 +276,40 @@ shutdown_foreach (gpointer key, gpointer value, gpointer data)
 }
 
 static void
+flush_iconv_entry(struct _iconv_cache *ic)
+{
+	struct _iconv_cache_node *node;
+
+	cd(printf("Flushing iconv cache entry: %s\n", ic->conv));
+
+	while ( (node = (struct _iconv_cache_node *)e_dlist_remhead(&ic->inuse)) ) {
+		iconv_close(node->ip);
+		g_free(node);
+	}
+	while ( (node = (struct _iconv_cache_node *)e_dlist_remhead(&ic->free)) ) {
+		iconv_close(node->ip);
+		g_free(node);
+	}
+	g_free(ic->conv);
+	g_free(ic);
+}
+
+static void
 camel_charset_map_shutdown (void)
 {
+	struct _iconv_cache *ic, *in;
+
 	g_hash_table_foreach (iconv_charsets, shutdown_foreach, NULL);
 	g_hash_table_destroy (iconv_charsets);
 	g_free (locale_charset);
+
+	ic = (struct _iconv_cache *)iconv_cache_list.head;
+	in = (struct _iconv_cache *)ic->ln.next;
+	while (in) {
+		flush_iconv_entry(ic);
+		ic = in;
+		in = (struct _iconv_cache *)in->ln.next;
+	}
 }
 
 void
@@ -273,7 +326,9 @@ camel_charset_map_init (void)
 		g_hash_table_insert (iconv_charsets, g_strdup (known_iconv_charsets[i].charset),
 				     g_strdup (known_iconv_charsets[i].iconv_name));
 	}
-	
+
+	e_dlist_init(&iconv_cache_list);
+
 	locale = setlocale (LC_ALL, NULL);
 	
 	if (!locale || !strcmp (locale, "C") || !strcmp (locale, "POSIX")) {
@@ -437,6 +492,109 @@ camel_charset_to_iconv (const char *name)
 	ICONV_CHARSETS_UNLOCK ();
 	
 	return charset;
+}
+
+iconv_t camel_charset_iconv_open(const char *oto, const char *ofrom)
+{
+	const char *to, *from;
+	char *tofrom;
+	struct _iconv_cache *ic, *icnew = NULL;
+	struct _iconv_cache_node *node;
+	iconv_t ip;
+
+	to = camel_charset_to_iconv(oto);
+	from = camel_charset_to_iconv(ofrom);
+	tofrom = alloca(strlen(to) +strlen(from) + 1);
+	sprintf(tofrom, "%s%s", to, from);
+
+	ICONV_CHARSETS_LOCK();
+	ic = (struct _iconv_cache *)iconv_cache_list.head;
+	while (ic->ln.next) {
+		if (!strcasecmp(ic->conv, tofrom))
+			break;
+		ic = (struct _iconv_cache *)ic->ln.next;
+	}
+
+	if (ic->ln.next == NULL) {
+		int extra = e_dlist_length(&iconv_cache_list) - CAMEL_ICONV_CACHE_SIZE;
+		struct _iconv_cache *old = (struct _iconv_cache *)iconv_cache_list.head,
+			*next = (struct _iconv_cache *)old->ln.next;
+
+		/* flush any 'old' entries out, if we can */
+		while (extra>0 && next) {
+			if (e_dlist_empty(&old->inuse)) {
+				e_dlist_remove(&old->ln);
+				flush_iconv_entry(old);
+				extra--;
+			}
+			old = next;
+			next = (struct _iconv_cache *)old->ln.next;
+		}
+
+		icnew = ic = g_malloc(sizeof(*ic));
+		e_dlist_init(&ic->inuse);
+		e_dlist_init(&ic->free);
+		ic->conv = g_strdup(tofrom);
+	} else {
+		e_dlist_remove(&ic->ln);
+	}
+
+	node = (struct _iconv_cache_node *)e_dlist_remhead(&ic->free);
+	if (node) {
+		cd(printf("Returning cached success of: %s to %s\n", from, to));
+		e_dlist_addhead(&ic->inuse, &node->ln);
+		ip = node->ip;
+	} else {
+		if (e_dlist_empty(&ic->inuse) && icnew == NULL) {
+			cd(printf("returning cached failure of conversion: %s to %s\n", from, to));
+			ip = (iconv_t)-1;
+		} else {
+			ip = iconv_open(to, from);
+			if (ip != (iconv_t)-1) {
+				cd(printf("Creating cached opening of: %s to %s = %p\n", from, to, ip));
+				node = g_malloc(sizeof(*node));
+				node->ip = ip;
+				e_dlist_addhead(&ic->inuse, &node->ln);
+			}
+		}
+	}
+
+	e_dlist_addtail(&iconv_cache_list, &ic->ln);
+
+	ICONV_CHARSETS_UNLOCK();
+
+	return ip;
+}
+
+void camel_charset_iconv_close(iconv_t ip)
+{
+	struct _iconv_cache *ic;
+	struct _iconv_cache_node *node;
+
+	if (ip == (iconv_t)-1)
+		return;
+
+	ICONV_CHARSETS_LOCK();
+	ic = (struct _iconv_cache *)iconv_cache_list.tailpred;
+	while (ic->ln.prev) {
+		cd(printf("closing iconv %p, checking against name '%s'\n", ip, ic->conv));
+		node = (struct _iconv_cache_node *)ic->inuse.head;
+		while (node->ln.next) {
+			cd(printf("closing iconv %p, checking against node '%p'\n", ip, node->ip));
+			if (node->ip == ip) {
+				e_dlist_remove(&node->ln);
+				e_dlist_addhead(&ic->free, &node->ln);
+				ICONV_CHARSETS_UNLOCK();
+				return;
+			}
+			node = (struct _iconv_cache_node *)node->ln.next;
+		}
+		ic = (struct _iconv_cache *)ic->ln.prev;
+	}
+
+	ICONV_CHARSETS_UNLOCK();
+
+	g_warning("Trying to close iconv i dont know about: %p", ip);
 }
 
 #endif /* !BUILD_MAP */

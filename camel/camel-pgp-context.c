@@ -1003,7 +1003,7 @@ pgp_verify (CamelCipherContext *ctx, CamelCipherHash hash, CamelStream *istream,
 		if (!locale)
 			locale = "iso-8859-1";
 		
-		cd = iconv_open ("UTF-8", locale);
+		cd = camel_charset_iconv_open ("UTF-8", locale);
 		if (cd != (iconv_t) -1) {
 			const char *inbuf;
 			int ret;
@@ -1013,7 +1013,7 @@ pgp_verify (CamelCipherContext *ctx, CamelCipherHash hash, CamelStream *istream,
 			if (ret >= 0) {
 				iconv (cd, NULL, 0, &outbuf, &outlen);
 			}
-			iconv_close (cd);
+			camel_charset_iconv_close (cd);
 			
 			*outbuf = '\0';
 		} else {

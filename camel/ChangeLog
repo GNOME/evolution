@@ -1,3 +1,26 @@
+2001-10-02    <NotZed@Ximian.com>
+
+	* camel-sasl-digest-md5.c (digest_response):  Change to
+	camel_charset_iconv_open/close.
+
+	* camel-pgp-context.c (pgp_verify): Change to
+	camel_charset_iconv_open/close.
+
+	* camel-mime-part-utils.c (convert_buffer): Change to
+	camel_charset_iconv_open().
+
+	* camel-mime-filter-charset.c
+	(camel_mime_filter_charset_new_convert, finalise): Change to
+	camel_charset_iconv_open, etc.
+
+	* camel-mime-utils.c: Use the camel_charset_iconv_open/close()
+	functions to open/close it.
+
+	* camel-charset-map.c (camel_charset_iconv_open): New function,
+	wrap iconv_open, so we can cache ic's.
+	(camel_charset_iconv_close): Likewise for close.
+	(camel_charset_map_init,shutdown): Init/free iconv cache.
+
 2001-10-02  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-charset-map.c (camel_charset_to_iconv): Revert my

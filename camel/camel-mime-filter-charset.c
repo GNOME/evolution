@@ -61,7 +61,7 @@ camel_mime_filter_charset_finalize(CamelObject *o)
 	g_free(f->from);
 	g_free(f->to);
 	if (f->ic != (iconv_t)-1) {
-		iconv_close(f->ic);
+		camel_charset_iconv_close(f->ic);
 		f->ic = (iconv_t) -1;
 	}
 }
@@ -234,7 +234,7 @@ camel_mime_filter_charset_new_convert (const char *from_charset, const char *to_
 	from_charset = camel_charset_to_iconv (from_charset);
 	to_charset = camel_charset_to_iconv (to_charset);
 	
-	new->ic = iconv_open (to_charset, from_charset);
+	new->ic = camel_charset_iconv_open (to_charset, from_charset);
 	if (new->ic == (iconv_t) -1) {
 		g_warning("Cannot create charset conversion from %s to %s: %s", from_charset, to_charset, strerror(errno));
 		camel_object_unref ((CamelObject *)new);
