@@ -198,7 +198,7 @@ AC_DEFUN([GNOME_PILOT_CHECK],[
 		gpv=$1
 	fi
 	if test x$2 = x; then
-		plv=0.9.5
+		plv=0.11.4
 	else
 		plv=$2
 	fi
