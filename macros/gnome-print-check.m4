@@ -167,5 +167,5 @@ int main ()
 ])
 
 AC_DEFUN([GNOME_PRINT_CHECK], [
-	AM_PATH_GNOME_PRINT(0.1.0,failure)
+	AM_PATH_GNOME_PRINT(0.1.0,,[AC_MSG_ERROR(GNOME-PRINT not found)])
 ])

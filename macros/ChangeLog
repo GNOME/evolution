@@ -1,3 +1,9 @@
+1999-04-16  Raja R Harinath  <harinath@cs.umn.edu>
+
+	* gnome-print-check.m4 (GNOME_PRINT_CHECK): Fix invocation of
+	AM_PATH_GNOME_PRINT. 
+	* Makefile.am (MACROS): Sort lines.
+
 Sun Mar 28 23:39:48 1999  Norbert Warmuth  <nwarmuth@privat.circular.de>
 
 	* gnome-vfs.m4: Add --with-vfs option. GNOME_VFS_LIBS still needs
