@@ -888,6 +888,7 @@ mail_generate_reply (CamelFolder *folder, CamelMimeMessage *message, const char 
 	if (source)
 		me = mail_config_get_account_by_source_url (source);
 	
+ determine_recipients:
 	if (mode == REPLY_LIST) {
 		CamelMessageInfo *info;
 		const char *mlist;
@@ -897,8 +898,12 @@ mail_generate_reply (CamelFolder *folder, CamelMimeMessage *message, const char 
 		mlist = camel_message_info_mlist (info);
 		
 		if (mlist) {
+			EDestination *dest;
+			
 			/* look through the recipients to find the *real* mailing list address */
 			len = strlen (mlist);
+			
+			printf ("we are looking for the mailing list called: %s\n", mlist);
 			
 			to_addrs = camel_mime_message_get_recipients (message, CAMEL_RECIPIENT_TYPE_TO);
 			max = camel_address_length (CAMEL_ADDRESS (to_addrs));
@@ -919,13 +924,24 @@ mail_generate_reply (CamelFolder *folder, CamelMimeMessage *message, const char 
 			}
 			
 			if (address && i != max) {
-				EDestination *dest;
-				
 				dest = e_destination_new ();
 				e_destination_set_name (dest, name);
 				e_destination_set_email (dest, address);
 				
 				to = g_list_append (to, dest);
+			} else {
+				/* mailing list address wasn't found */
+				if (strchr (mlist, '@')) {
+					/* mlist string has an @, maybe it's valid? */
+					dest = e_destination_new ();
+					e_destination_set_email (dest, mlist);
+					
+					to = g_list_append (to, dest);
+				} else {
+					/* give up and just reply to all recipients? */
+					mode = REPLY_ALL;
+					goto determine_recipients;
+				}
 			}
 		}
 		

@@ -1,3 +1,9 @@
+2002-05-24  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-callbacks.c (mail_generate_reply): If we can't find the
+	mailing list address in the recipients list, just Reply-to-All
+	instead.
+
 2002-05-23  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* folder-browser-window.c (folder_browser_window_new): Set the ui
