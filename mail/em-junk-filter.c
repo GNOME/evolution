@@ -275,7 +275,7 @@ em_junk_sa_check_junk (CamelMimeMessage *msg)
 	if (!em_junk_sa_is_available ())
 		return FALSE;
 
-	args [2] = em_junk_sa_use_spamc
+	args [2] = (em_junk_sa_use_spamc && mail_session_get_sa_use_daemon ())
 		? (em_junk_sa_spamd_port == -1
 		   ? g_strdup ("spamc -c")         /* Exit with a non-zero exit code if the
 						      tested message was junk */

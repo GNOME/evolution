@@ -1,5 +1,8 @@
 2004-01-12  Radek Doulik  <rodo@ximian.com>
 
+	* em-junk-filter.c (em_junk_sa_check_junk): use
+	mail_session_get_sa_use_daemon
+
 	* mail-session.c: added SA prefs
 	(mail_session_get_sa_local_only): new helper method
 	(mail_session_set_sa_local_only): ditto
