@@ -1,5 +1,12 @@
 2003-04-23  Chris Toshok  <toshok@ximian.com>
 
+	[ fixes bug #37351 ]
+	* gui/widgets/e-addressbook-view.c (table_drag_data_get): the row
+	the signal is called with is already the model row, not the view
+	row, so don't call e_table_view_to_model_row on it.
+
+2003-04-23  Chris Toshok  <toshok@ximian.com>
+
 	[ either mostly or entirely fixes #33708 ]
 	* gui/component/select-names/e-select-names-completion.c
 	(e_select_names_completion_done): new function, factor it out of

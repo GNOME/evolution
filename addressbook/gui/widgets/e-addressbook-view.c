@@ -1260,7 +1260,6 @@ table_drag_data_get (ETable             *table,
 	case DND_TARGET_TYPE_VCARD: {
 		char *value;
 
-		row = e_table_view_to_model_row (table, row);
 		value = e_card_get_vcard(view->model->data[row]);
 
 		gtk_selection_data_set (selection_data,
