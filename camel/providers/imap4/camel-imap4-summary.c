@@ -47,6 +47,8 @@
 
 #include "camel-imap4-summary.h"
 
+#define d(x) x
+
 #define IMAP4_SUMMARY_VERSION  1
 
 static void camel_imap4_summary_class_init (CamelIMAP4SummaryClass *klass);
