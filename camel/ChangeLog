@@ -1,3 +1,20 @@
+2001-10-02    <NotZed@Ximian.com>
+
+	* camel-object.c (camel_object_get_hooks): Change the lock to a
+	recursive e-mutex.
+	(camel_object_hook_event): Maintain list length of hook list.
+	(camel_object_unhook_event): "
+	(camel_object_unhook_event): If we are in an event, just mark the
+	pair as removed, without removing it.
+	(camel_object_trigger_event): Before running events, copy the
+	list, and also ignore 'removed' events.  After running events, if
+	we're all out of events, then free up any pending-removed events.
+	(camel_object_free_hooks): Add some new assertions on the state of
+	the hook structure.
+	Removed the #error if threads not defined.  It _should_ actually
+	work without threads.
+	(camel_object_free_hooks): Free mutex when done.
+
 2001-10-01  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* providers/imap/camel-imap-store.c (delete_folder): Remove any
