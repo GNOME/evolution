@@ -26,26 +26,21 @@
 #endif
 
 #include <string.h>
-
+#include <errno.h>
+#include <bonobo/bonobo-control.h>
+#include <bonobo/bonobo-i18n.h>
+#include <bonobo/bonobo-exception.h>
 #include "calendar-config.h"
 #include "calendar-component.h"
 #include "calendar-commands.h"
 #include "gnome-cal.h"
 #include "migration.h"
+#include "e-comp-editor-registry.h"
+#include "comp-util.h"
 #include "dialogs/new-calendar.h"
-
+#include "dialogs/comp-editor.h"
+#include "dialogs/event-editor.h"
 #include "widgets/misc/e-source-selector.h"
-
-#include <bonobo/bonobo-control.h>
-#include <bonobo/bonobo-i18n.h>
-#include <bonobo/bonobo-exception.h>
-#include <gtk/gtkimage.h>
-#include <gtk/gtkimagemenuitem.h>
-#include <gtk/gtkmessagedialog.h>
-#include <gtk/gtkstock.h>
-#include <gal/util/e-util.h>
-
-#include <errno.h>
 
 
 /* IDs for user creatable items */
@@ -53,10 +48,8 @@
 #define CREATE_MEETING_ID "meeting"
 #define CREATE_ALLDAY_EVENT_ID "allday-event"
 
-
 #define PARENT_TYPE bonobo_object_get_type ()
 static BonoboObjectClass *parent_class = NULL;
-
 
 struct _CalendarComponentPrivate {
 	char *config_directory;
@@ -71,6 +64,7 @@ struct _CalendarComponentPrivate {
 	guint selected_not;	
 };
 
+extern ECompEditorRegistry *comp_editor_registry;
 
 /* Utility functions.  */
 
@@ -189,6 +183,46 @@ update_selection (CalendarComponent *calendar_component)
 		g_free (uid);
 	}
 	g_slist_free (uids_selected);
+}
+
+/* FIXME This is duplicated from comp-editor-factory.c, should it go in comp-util? */
+static ECalComponent *
+get_default_event (ECal *client, gboolean all_day) 
+{
+	ECalComponent *comp;
+	struct icaltimetype itt;
+	ECalComponentDateTime dt;
+	char *location;
+	icaltimezone *zone;
+
+	comp = cal_comp_event_new_with_defaults (client);
+
+	location = calendar_config_get_timezone ();
+	zone = icaltimezone_get_builtin_timezone (location);
+
+	if (all_day) {
+		itt = icaltime_from_timet_with_zone (time (NULL), 1, zone);
+
+		dt.value = &itt;
+		dt.tzid = icaltimezone_get_tzid (zone);
+		
+		e_cal_component_set_dtstart (comp, &dt);
+		e_cal_component_set_dtend (comp, &dt);		
+	} else {
+		itt = icaltime_current_time_with_zone (zone);
+		icaltime_adjust (&itt, 0, 1, -itt.minute, -itt.second);
+		
+		dt.value = &itt;
+		dt.tzid = icaltimezone_get_tzid (zone);
+		
+		e_cal_component_set_dtstart (comp, &dt);
+		icaltime_adjust (&itt, 0, 1, 0, 0);
+		e_cal_component_set_dtend (comp, &dt);
+	}
+
+	e_cal_component_commit_sequence (comp);
+
+	return comp;
 }
 
 /* Callbacks.  */
@@ -480,9 +514,42 @@ impl_requestCreateItem (PortableServer_Servant servant,
 			const CORBA_char *item_type_name,
 			CORBA_Environment *ev)
 {
-	/* FIXME: fill me in */
+	CalendarComponent *calendar_component = CALENDAR_COMPONENT (bonobo_object_from_servant (servant));
+	CalendarComponentPrivate *priv;
+	ECal *ecal;
+	ECalComponent *comp;
+	EventEditor *editor;
+	gboolean is_meeting = FALSE;
+	
+	priv = calendar_component->priv;
+	
+	ecal = gnome_calendar_get_default_client (priv->calendar);
+	if (!ecal) {
+		/* FIXME We should display a gui dialog or something */
+		bonobo_exception_set (ev, ex_GNOME_Evolution_Component_UnknownType);
+		g_warning (G_STRLOC ": No default client");
+	}
+		
+	editor = event_editor_new (ecal);
+	
+	if (strcmp (item_type_name, CREATE_EVENT_ID) == 0) {
+		comp = get_default_event (ecal, FALSE);
+ 	} else if (strcmp (item_type_name, CREATE_ALLDAY_EVENT_ID) == 0) {
+		comp = get_default_event (ecal, TRUE);
+	} else if (strcmp (item_type_name, CREATE_MEETING_ID) == 0) {
+		comp = get_default_event (ecal, FALSE);
+		is_meeting = TRUE;
+	} else {
+		bonobo_exception_set (ev, ex_GNOME_Evolution_Component_UnknownType);
+		return;
+	}	
 
-	CORBA_exception_set (ev, CORBA_USER_EXCEPTION, ex_GNOME_Evolution_Component_UnknownType, NULL);
+	comp_editor_edit_comp (COMP_EDITOR (editor), comp);
+	if (is_meeting)
+		event_editor_show_meeting (editor);
+	comp_editor_focus (COMP_EDITOR (editor));
+
+	e_comp_editor_registry_add (comp_editor_registry, COMP_EDITOR (editor), TRUE);
 }
 
 

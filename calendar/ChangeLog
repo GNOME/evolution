@@ -1,3 +1,9 @@
+2003-11-16  JP Rosevear <jpr@ximian.com>
+
+	* gui/calendar-component.c (get_default_event): set up a event to
+	be edited
+	(impl_requestCreateItem): implement
+
 2003-11-14  JP Rosevear <jpr@ximian.com>
 
 	* gui/*.[hc]: include e-source* from e-d-s
