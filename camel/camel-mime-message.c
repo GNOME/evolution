@@ -33,6 +33,8 @@
 
 #include <gal/util/e-iconv.h>
 
+#include <errno.h>
+
 #include "camel-mime-message.h"
 #include "camel-multipart.h"
 #include "camel-stream-mem.h"
@@ -453,6 +455,7 @@ construct_from_parser (CamelMimePart *dw, CamelMimeParser *mp)
 	int len;
 	int state;
 	int ret;
+	int err;
 
 	d(printf("constructing mime-message\n"));
 
@@ -481,7 +484,13 @@ construct_from_parser (CamelMimePart *dw, CamelMimeParser *mp)
 #ifndef NO_WARNINGS
 #warning "return a real error code"
 #endif
-	return 0;
+	err = camel_mime_parser_errno(mp);
+	if (err != 0) {
+		errno = err;
+		ret = -1;
+	}
+
+	return ret;
 }
 
 static int

@@ -29,6 +29,8 @@
 
 #include <glib.h>
 
+#include <errno.h>
+
 #include "camel-filter-driver.h"
 #include "camel-filter-search.h"
 
@@ -687,8 +689,8 @@ camel_filter_driver_filter_mbox (CamelFilterDriver *driver, const char *mbox, co
 		
 		msg = camel_mime_message_new ();
 		if (camel_mime_part_construct_from_parser (CAMEL_MIME_PART (msg), mp) == -1) {
+			camel_exception_set (ex, (errno==EINTR)?CAMEL_EXCEPTION_USER_CANCEL:CAMEL_EXCEPTION_SYSTEM, _("Cannot open message"));
 			report_status (driver, CAMEL_FILTER_STATUS_END, 100, _("Failed on message %d"), i);
-			camel_exception_set (ex, CAMEL_EXCEPTION_SYSTEM, _("Cannot open message"));
 			camel_object_unref (CAMEL_OBJECT (msg));
 			goto fail;
 		}
@@ -715,7 +717,7 @@ camel_filter_driver_filter_mbox (CamelFilterDriver *driver, const char *mbox, co
 	
 	if (p->defaultfolder) {
 		report_status(driver, CAMEL_FILTER_STATUS_PROGRESS, 100, _("Syncing folder"));
-		camel_folder_sync(p->defaultfolder, FALSE, ex);
+		camel_folder_sync(p->defaultfolder, FALSE, camel_exception_is_set (ex) ? NULL : ex);
 	}
 	
 	report_status (driver, CAMEL_FILTER_STATUS_END, 100, _("Complete"));

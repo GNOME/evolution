@@ -212,6 +212,8 @@ struct _header_scan_state {
 	int fd;			/* input for a fd input */
 	CamelStream *stream;	/* or for a stream */
 
+	int ioerrno;		/* io error state */
+
 	/* for scanning input buffers */
 	char *realbuf;		/* the real buffer, SCAN_HEAD*2 + SCAN_BUF bytes */
 	char *inbuf;		/* points to a subset of the allocated memory, the underflow */
@@ -944,6 +946,14 @@ int camel_mime_parser_fd(CamelMimeParser *m)
 	return s->fd;
 }
 
+/* Return errno of the parser, incase any error occured during processing */
+int camel_mime_parser_errno(CamelMimeParser *m)
+{
+	struct _header_scan_state *s = _PRIVATE(m);
+
+	return s->ioerrno;
+}
+
 /* ********************************************************************** */
 /*    Implementation							  */
 /* ********************************************************************** */
@@ -978,6 +988,8 @@ folder_read(struct _header_scan_state *s)
 		s->inptr = s->inbuf;
 		s->inend = s->inbuf+len+inoffset;
 		r(printf("content = %d '%.*s'\n",s->inend - s->inptr,  s->inend - s->inptr, s->inptr));
+	} else {
+		s->ioerrno = errno?errno:EIO;
 	}
 
 	g_assert(s->inptr<=s->inend);
@@ -1035,8 +1047,12 @@ folder_seek(struct _header_scan_state *s, off_t offset, int whence)
 		if (len>=0) {
 			s->inend = s->inbuf+len;
 			s->inend[0] = '\n';
-		} else
+		} else {
 			newoffset = -1;
+			s->ioerrno = errno?errno:EIO;
+		}
+	} else {
+		s->ioerrno = errno?errno:EIO;
 	}
 #ifdef PURIFY
 	inend_id = purify_watch(&s->inend);
@@ -1474,6 +1490,7 @@ folder_scan_init(void)
 
 	s->fd = -1;
 	s->stream = NULL;
+	s->ioerrno = 0;
 
 	s->outbuf = g_malloc(1024);
 	s->outptr = s->outbuf;
@@ -1523,8 +1540,10 @@ folder_scan_init_with_fd(struct _header_scan_state *s, int fd)
 			camel_object_unref((CamelObject *)s->stream);
 			s->stream = NULL;
 		}
+		s->ioerrno = 0;
 		return 0;
 	} else {
+		s->ioerrno = errno?errno:EIO;
 		return -1;
 	}
 }
@@ -1547,8 +1566,10 @@ folder_scan_init_with_stream(struct _header_scan_state *s, CamelStream *stream)
 			close(s->fd);
 			s->fd = -1;
 		}
+		s->ioerrno = 0;
 		return 0;
 	} else {
+		s->ioerrno = errno?errno:EIO;
 		return -1;
 	}
 }

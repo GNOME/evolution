@@ -635,8 +635,7 @@ retry:
 	
 	message = camel_mime_message_new();
 	if (camel_mime_part_construct_from_parser((CamelMimePart *)message, parser) == -1) {
-		g_warning("Construction failed");
-		camel_exception_setv(ex, CAMEL_EXCEPTION_FOLDER_INVALID_UID,
+		camel_exception_setv(ex, (errno==EINTR)?CAMEL_EXCEPTION_USER_CANCEL:CAMEL_EXCEPTION_FOLDER_INVALID_UID,
 				     _("Cannot get message: %s from folder %s\n  %s"), uid, lf->folder_path,
 				     _("Message construction failed: Corrupt mailbox?"));
 		camel_object_unref((CamelObject *)parser);

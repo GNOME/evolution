@@ -226,7 +226,8 @@ static CamelMimeMessage *maildir_get_message(CamelFolder * folder, const gchar *
 
 	message = camel_mime_message_new();
 	if (camel_data_wrapper_construct_from_stream((CamelDataWrapper *)message, message_stream) == -1) {
-		camel_exception_setv(ex, CAMEL_EXCEPTION_FOLDER_INVALID_UID, _("Cannot get message: %s\n  %s"),
+		camel_exception_setv(ex, (errno==EINTR)?CAMEL_EXCEPTION_USER_CANCEL:CAMEL_EXCEPTION_FOLDER_INVALID_UID,
+				     _("Cannot get message: %s\n  %s"),
 				     name, _("Invalid message contents"));
 		g_free(name);
 		camel_object_unref((CamelObject *)message_stream);

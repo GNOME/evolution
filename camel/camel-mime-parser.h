@@ -76,6 +76,9 @@ struct _CamelMimeParserClass {
 guint		camel_mime_parser_get_type	(void);
 CamelMimeParser      *camel_mime_parser_new	(void);
 
+/* quick-fix for parser not erroring, we can find out if it had an error afterwards */
+int		camel_mime_parser_errno		(CamelMimeParser *);
+
 /* using an fd will be a little faster, but not much (over a simple stream) */
 int		camel_mime_parser_init_with_fd(CamelMimeParser *, int fd);
 int		camel_mime_parser_init_with_stream(CamelMimeParser *m, CamelStream *stream);

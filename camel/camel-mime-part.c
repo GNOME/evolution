@@ -30,6 +30,8 @@
 #include <stdio.h>
 #include <ctype.h>
 
+#include <errno.h>
+
 #include <gal/util/e-iconv.h>
 
 #include "hash-table-utils.h"
@@ -663,6 +665,7 @@ construct_from_parser(CamelMimePart *dw, CamelMimeParser *mp)
 	const char *content;
 	char *buf;
 	int len;
+	int err;
 
 	d(printf("mime_part::construct_from_parser()\n"));
 
@@ -696,6 +699,13 @@ construct_from_parser(CamelMimePart *dw, CamelMimeParser *mp)
 #ifndef NO_WARNINGS
 #warning "Need to work out how to detect a (fatally) bad parse in the parser"
 #endif
+
+	err = camel_mime_parser_errno(mp);
+	if (err != 0) {
+		errno = err;
+		return -1;
+	}
+
 	return 0;
 }
 

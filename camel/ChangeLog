@@ -1,3 +1,32 @@
+2001-10-31    <NotZed@Ximian.com>
+
+	* providers/local/camel-spool-folder.c (spool_get_message): Same
+	as below.
+
+	* providers/local/camel-maildir-folder.c (maildir_get_message):
+	Same as below.
+
+	* providers/local/camel-mbox-folder.c (mbox_get_message): Set
+	USER_CANCEL if failed due to EINTR.
+
+	* camel-filter-driver.c (camel_filter_driver_filter_mbox): If
+	construct from parser fails due to user cancel, set USER_CANCEL on
+	exception.
+
+	* camel-mime-part.c (construct_from_parser): Return error if the
+	parser had an io error.
+
+	* camel-mime-message.c (construct_from_parser): Check error on
+	parser/return error.
+
+	* camel-mime-parser.c (folder_scan_init): Init error number.
+	(camel_mime_parser_errno): New function, return errno of any io
+	failures.
+	(folder_read): Set errno if a failure occured.
+	(folder_seek): Same.
+	(folder_scan_init_with_fd): Setup errno depeding on ok/failure.
+	(folder_scan_init_with_stream): Same.
+
 2001-10-30    <NotZed@Ximian.com>
 
 	* camel-operation.c (camel_operation_new): Dont setup cancel_fd.
