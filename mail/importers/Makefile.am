@@ -23,7 +23,7 @@ serverdir = $(libdir)/bonobo/servers
 server_in_files = GNOME_Evolution_Mail_Mbox_Importer.server.in.in	\
 	GNOME_Evolution_Mail_Outlook_Importer.server.in.in
 server_DATA = $(server_in_files:.server.in.in=.server)
-$(server_in_files:.server.in.in=.server.in): $(server_in_files)
+%.server.in: %.server.in.in
 	sed -e "s|\@LIBEXECDIR\@|$(libexecdir)|" $< > $@
 
 EXTRA_DIST = $(server_in_files) $(server_DATA)

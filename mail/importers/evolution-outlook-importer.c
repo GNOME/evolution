@@ -206,14 +206,13 @@ support_format_fn (EvolutionImporter *importer,
 }
 
 static void
-importer_destroy_cb (GtkObject *object,
-		     OutlookImporter *oli)
+importer_destroy_cb (void *data, GObject *object)
 {
-	MailImporter *importer;
+	OutlookImporter *oli = data;
+	MailImporter *importer = data;
 
-	importer = (MailImporter *) oli;
 	if (importer->folder)
-		camel_object_unref (CAMEL_OBJECT (importer->folder));
+		camel_object_unref (importer->folder);
 
 	g_free (oli->filename);
 	if (oli->handle)
@@ -291,8 +290,7 @@ outlook_factory_fn (BonoboGenericFactory *_factory,
 
 	importer = evolution_importer_new (support_format_fn, load_file_fn, 
 					   process_item_fn, NULL, oli);
-	g_signal_connect((importer), "destroy",
-			    G_CALLBACK (importer_destroy_cb), oli);
+	g_object_weak_ref((GObject *)importer, importer_destroy_cb, oli);
 
 	return BONOBO_OBJECT (importer);
 }

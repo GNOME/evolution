@@ -1,3 +1,12 @@
+2002-11-20  Not Zed  <NotZed@Ximian.com>
+
+	* importers/Makefile.am (%.server.in): provide a proper implicit
+	rule for building .server.in from .server.in.in.  The other one
+	just copied the first target to all destinations(!).
+
+	* importers/evolution-outlook-importer.c (outlook_factory_fn):
+	destroy -> weak ref.
+
 2002-11-19  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-preferences.c (mail_preferences_apply): Save the settings
