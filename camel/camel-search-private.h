@@ -21,6 +21,8 @@
 #ifndef _CAMEL_SEARCH_PRIVATE_H
 #define _CAMEL_SEARCH_PRIVATE_H
 
+#include <regex.h>
+
 typedef enum {
 	CAMEL_SEARCH_MATCH_START = 1<<0,
 	CAMEL_SEARCH_MATCH_END = 1<<1,
@@ -52,4 +54,29 @@ gboolean camel_search_message_body_contains(CamelDataWrapper *object, regex_t *p
 gboolean camel_search_header_match(const char *value, const char *match, camel_search_match_t how, camel_search_t type, const char *default_charset);
 gboolean camel_search_header_soundex(const char *header, const char *match);
 
+/* TODO: replace with a real search function */
+const char *camel_ustrstrcase(const char *haystack, const char *needle);
+
+/* Some crappy utility functions for handling multiple search words */
+enum _camel_search_word_t {
+	CAMEL_SEARCH_WORD_SIMPLE = 1,
+	CAMEL_SEARCH_WORD_COMPLEX = 2,
+	CAMEL_SEARCH_WORD_8BIT = 4,
+};
+struct _camel_search_word {
+	enum _camel_search_word_t type;
+	char *word;
+};
+
+struct _camel_search_words {
+	int len;
+	enum _camel_search_word_t type;	/* OR of all word types in list */
+	struct _camel_search_word **words;
+};
+
+struct _camel_search_words *camel_search_words_split(const unsigned char *in);
+struct _camel_search_words *camel_search_words_simple(struct _camel_search_words *wordin);
+void camel_search_words_free(struct _camel_search_words *);
+
 #endif /* ! _CAMEL_SEARCH_PRIVATE_H */
+

@@ -194,6 +194,7 @@ header_soundex (const char *header, const char *match)
 	return truth;
 }
 
+/* FIXME: This is stupidly slow and needs to be removed */
 static gunichar
 utf8_get (const char **inp)
 {
@@ -209,7 +210,7 @@ utf8_get (const char **inp)
 	return c;
 }
 
-static const char *
+const char *
 camel_ustrstrcase (const char *haystack, const char *needle)
 {
 	gunichar *nuni, *puni;
@@ -469,9 +470,6 @@ camel_search_message_body_contains (CamelDataWrapper *object, regex_t *pattern)
 	if (containee == NULL)
 		return FALSE;
 	
-	/* TODO: I find it odd that get_part and get_content_object do not
-	   add a reference, probably need fixing for multithreading */
-	
 	/* using the object types is more accurate than using the mime/types */
 	if (CAMEL_IS_MULTIPART (containee)) {
 		parts = camel_multipart_get_number (CAMEL_MULTIPART (containee));
@@ -494,5 +492,157 @@ camel_search_message_body_contains (CamelDataWrapper *object, regex_t *pattern)
 	}
 	
 	return truth;
+}
+
+static __inline__ guint32
+camel_utf8_getc(const unsigned char **ptr)
+{
+	register unsigned char *p = (unsigned char *)*ptr;
+	register unsigned char c, r;
+	register guint32 v=0, /* this is only required because the stupid @@@%#%# compiler thinks it can be used uninitialised */
+		m;
+
+	r = *p++;
+loop:
+	if (r < 0x80) {
+		*ptr = p;
+		v = r;
+	} else if (r < 0xfe) { /* valid start char? */
+		v = r;
+		m = 0x7f80;	/* used to mask out the length bits */
+		do {
+			c = *p++;
+			if ((c & 0xc0) != 0x80) {
+				r = c;
+				goto loop;
+			}
+			v = (v<<6) | (c & 0x3f);
+			r<<=1;
+			m<<=5;
+		} while (r & 0x40);
+		
+		*ptr = p;
+
+		v &= ~m;
+	}
+
+	return v;
+}
+
+struct _camel_search_words *
+camel_search_words_split(const unsigned char *in)
+{
+	int type = CAMEL_SEARCH_WORD_SIMPLE, all = 0;
+	GString *w;
+	struct _camel_search_word *word;
+	struct _camel_search_words *words;
+	GPtrArray *list = g_ptr_array_new();
+	guint32 c;
+	int utf8len;
+	char utf8[8];
+
+	words = g_malloc0(sizeof(*words));	
+	w = g_string_new("");
+
+	do {
+		c = camel_utf8_getc(&in);
+		if (c == 0 || g_unichar_isspace(c)) {
+			if (w->len) {
+				word = g_malloc0(sizeof(*word));
+				word->word = g_strdup(w->str);
+				word->type = type;
+				g_ptr_array_add(list, word);
+				all |= type;
+				type = CAMEL_SEARCH_WORD_SIMPLE;
+				g_string_truncate(w, 0);
+			}
+		} else {
+			if (!g_unichar_isalnum(c))
+				type = CAMEL_SEARCH_WORD_COMPLEX;
+			else
+				c = g_unichar_tolower(c);
+			if (c > 0x80)
+				type |= CAMEL_SEARCH_WORD_8BIT;
+
+			utf8len = g_unichar_to_utf8(c, utf8);
+			utf8[utf8len] = 0;
+			g_string_append(w, utf8);
+		}
+	} while (c);
+
+	g_string_free(w, TRUE);
+	words->len = list->len;
+	words->words = (struct _camel_search_word **)list->pdata;
+	words->type = all;
+	g_ptr_array_free(list, FALSE);
+
+	return words;
+}
+
+/* takes an existing 'words' list, and converts it to another consisting of
+   only simple words, with any punctuation etc stripped */
+struct _camel_search_words *
+camel_search_words_simple(struct _camel_search_words *wordin)
+{
+	int i;
+	const unsigned char *ptr, *start, *last;
+	int type = CAMEL_SEARCH_WORD_SIMPLE, all = 0;
+	GPtrArray *list = g_ptr_array_new();
+	struct _camel_search_word *word;
+	struct _camel_search_words *words;
+	guint32 c;
+
+	words = g_malloc0(sizeof(*words));	
+
+	for (i=0;i<wordin->len;i++) {
+		if ((wordin->words[i]->type & CAMEL_SEARCH_WORD_COMPLEX) == 0) {
+			word = g_malloc0(sizeof(*word));
+			word->type = wordin->words[i]->type;
+			word->word = g_strdup(wordin->words[i]->word);
+			g_ptr_array_add(list, word);
+		} else {
+			ptr = wordin->words[i]->word;
+			start = last = ptr;
+			do {
+				c = camel_utf8_getc(&ptr);
+				if (c == 0 || !g_unichar_isalnum(c)) {
+					if (last > start) {
+						word = g_malloc0(sizeof(*word));
+						word->word = g_strndup(start, last-start);
+						word->type = type;
+						g_ptr_array_add(list, word);
+						all |= type;
+						type = CAMEL_SEARCH_WORD_SIMPLE;
+					}
+					start = ptr;
+				}
+				if (c > 0x80)
+					type = CAMEL_SEARCH_WORD_8BIT;
+				last = ptr;
+			} while (c);
+		}
+	}
+
+	words->len = list->len;
+	words->words = (struct _camel_search_word **)list->pdata;
+	words->type = all;
+	g_ptr_array_free(list, FALSE);
+
+	return words;
+}
+
+void
+camel_search_words_free(struct _camel_search_words *words)
+{
+	int i;
+
+	for (i=0;i<words->len;i++) {
+		struct _camel_search_word *word = words->words[i];
+
+		g_free(word->word);
+		g_free(word);
+	}
+	g_free(words->words);
+	g_free(words);
 }
 

@@ -42,6 +42,7 @@
 #include "camel-mime-utils.h"	/* base64 encoding */
 
 #include "camel-seekable-stream.h"
+#include "camel-search-private.h"
 
 #define d(x) x
 
@@ -304,10 +305,13 @@ static int
 sync_match(CamelImapSearch *is, struct _match_record *mr)
 {
 	char *p, *result, *lasts = NULL;
-	CamelImapResponse *response;
+	CamelImapResponse *response = NULL;
 	guint32 uid;
 	CamelFolder *folder = ((CamelFolderSearch *)is)->folder;
 	CamelImapStore *store = (CamelImapStore *)folder->parent_store;
+	struct _camel_search_words *words;
+	GString *search;
+	int i;
 
 	if (mr->lastuid >= is->lastuid && mr->validity == is->validity)
 		return 0;
@@ -316,9 +320,36 @@ sync_match(CamelImapSearch *is, struct _match_record *mr)
 
 	/* TODO: Handle multiple search terms */
 
-	response = camel_imap_command (store, folder, NULL,
-				       "UID SEARCH UID %d:%d BODY \"%s\"",
-				       mr->lastuid+1, is->lastuid, mr->terms[0]);
+	/* This handles multiple search words within a single term */
+	words = camel_search_words_split(mr->terms[0]);
+	search = g_string_new("");
+	g_string_sprintfa(search, "UID %d:%d", mr->lastuid+1, is->lastuid);
+	for (i=0;i<words->len;i++) {
+		char *w = words->words[i]->word, c;
+
+		g_string_sprintfa(search, " BODY \"");
+		while ((c = *w++)) {
+			if (c == '\\' || c == '"')
+				g_string_append_c(search, '\\');
+			g_string_append_c(search, c);
+		}
+		g_string_append_c(search, '"');
+	}
+	camel_search_words_free(words);
+
+	/* We only try search using utf8 if its non us-ascii text? */
+	if ((words->type & CAMEL_SEARCH_WORD_8BIT) &&  (store->capabilities & IMAP_CAPABILITY_utf8_search)) {
+		response = camel_imap_command(store, folder, NULL,
+					      "UID SEARCH CHARSET UTF-8 %s", search->str);
+		/* We can't actually tell if we got a NO response, so assume always */
+		if (response == NULL)
+			store->capabilities &= ~IMAP_CAPABILITY_utf8_search;
+	}
+	if (response == NULL)
+		response = camel_imap_command (store, folder, NULL,
+					       "UID SEARCH %s", search->str);
+	g_string_free(search, TRUE);
+
 	if (!response)
 		return -1;
 	result = camel_imap_response_extract (store, response, "SEARCH", NULL);

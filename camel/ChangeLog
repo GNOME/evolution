@@ -1,3 +1,43 @@
+2002-04-18  Not Zed  <NotZed@Ximian.com>
+
+	* camel-folder-search.c (check_header): When doing a contains
+	match, split the words and perform an and on it.
+	(match_words_messages): If we have an index, but were forced to do
+	a full search, first lookup a subset of messages using
+	the index and a simplified word set.  Only do a manual search of
+	this subset.
+
+2002-04-17  Not Zed  <NotZed@Ximian.com>
+
+	* camel-folder-search.c (match_message_index): Changed to take a
+	utf8 string not a regex pattern.
+	(match_words_index): Matches against a camel_search_words list.
+	(match_words_1message): Matches a single message against a
+	camel_search_words list.
+	(match_words_message): Same, but gets the message from the folder
+	for you.
+	(match_words_messages): Matches a list of messages against a words
+	list.
+	(search_body_contains): Rewritten to handle multiple word
+	searches.  For #23371.
+
+	* providers/imap/camel-imap-search.c (sync_match): Split words
+	when searching, to support multiple search words.  Also, try
+	searching specifying charset of utf8 if we can, if that fails,
+	fall back to not specifying charset.  TODO: It should translate
+	the strings into the locale default charset?
+
+	* providers/imap/camel-imap-store.c (connect_to_server): Added new
+	cap - utf8_search, if set, we tell the server we're searching
+	using utf8, otherwise we dont (incorrectly, since we always use
+	utf8 to search).
+
+	* camel-search-private.c (camel_ustrstrcase): Make this class public.
+	(camel_search_words_split): Split a word into multiple words based
+	on whitespace, and keep track of whether the word is simple
+	(indexable directly), or not.
+	(camel_search_words_free): Free 'em.
+
 2002-04-17  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-vee-folder.c (vee_search_by_expression): If the vee-folder

@@ -71,6 +71,7 @@ typedef enum {
 #define IMAP_CAPABILITY_UIDPLUS			(1 << 4)
 #define IMAP_CAPABILITY_LITERALPLUS		(1 << 5)
 #define IMAP_CAPABILITY_useful_lsub		(1 << 6)
+#define IMAP_CAPABILITY_utf8_search		(1 << 7)
 
 #define IMAP_PARAM_OVERRIDE_NAMESPACE		(1 << 0)
 #define IMAP_PARAM_CHECK_ALL			(1 << 1)

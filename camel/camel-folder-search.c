@@ -621,8 +621,9 @@ check_header(struct _ESExp *f, int argc, struct _ESExpResult **argv, CamelFolder
 		char *headername;
 		const char *header = NULL;
 		char strbuf[32];
-		int i;
+		int i, j;
 		camel_search_t type = CAMEL_SEARCH_TYPE_ASIS;
+		struct _camel_search_words *words;
 
 		/* only a subset of headers are supported .. */
 		headername = argv[0]->value.string;
@@ -652,9 +653,21 @@ check_header(struct _ESExp *f, int argc, struct _ESExpResult **argv, CamelFolder
 		if (header) {
 			/* performs an OR of all words */
 			for (i=1;i<argc && !truth;i++) {
-				if (argv[i]->type == ESEXP_RES_STRING)
-					truth = camel_search_header_match(header, argv[i]->value.string,
-									  how, type, NULL);
+				if (argv[i]->type == ESEXP_RES_STRING) {
+					if (argv[i]->value.string[0] == 0) {
+						truth = TRUE;
+					} else if (how == CAMEL_SEARCH_MATCH_CONTAINS) {
+						/* doesn't make sense to split words on anything but contains i.e. we can't have an ending match different words */
+						words = camel_search_words_split(argv[i]->value.string);
+						truth = TRUE;
+						for (j=0;j<words->len && truth;j++) {
+							truth = camel_search_header_match(header, words->words[j]->word, how, type, NULL);
+						}
+						camel_search_words_free(words);
+					} else {
+						truth = camel_search_header_match(header, argv[i]->value.string, how, type, NULL);
+					}
+				}
 			}
 		}
 	}
@@ -723,64 +736,16 @@ g_lib_sux_htor(char *key, int value, struct _glib_sux_donkeys *fuckup)
 	g_ptr_array_add(fuckup->uids, key);
 }
 
-static int
-match_message(CamelFolder *folder, const char *uid, regex_t *pattern, CamelException *ex)
+/* and, only store duplicates */
+static void
+g_lib_sux_htand(char *key, int value, struct _glib_sux_donkeys *fuckup)
 {
-	CamelMimeMessage *msg;
-	int truth = FALSE;
-
-	msg = camel_folder_get_message(folder, uid, ex);
-	if (!camel_exception_is_set(ex) && msg!=NULL) {
-		truth = camel_search_message_body_contains((CamelDataWrapper *)msg, pattern);
-		camel_object_unref((CamelObject *)msg);
-	} else {
-		camel_exception_clear(ex);
-	}
-	return truth;
+	if (value == fuckup->count)
+		g_ptr_array_add(fuckup->uids, key);
 }
 
-/* perform a regex match against words in an index */
-/* uids = hash table of messageinfo's by uid's */
-static GPtrArray *
-match_messages_index(CamelIndex *idx, regex_t *pattern, GHashTable *uids, CamelException *ex)
-{
-	GPtrArray *result = g_ptr_array_new();
-	GHashTable *ht = g_hash_table_new(g_str_hash, g_str_equal);
-	struct _glib_sux_donkeys lambdafoo;
-	CamelIndexCursor *wc, *nc;
-	const char *word, *name;
-	CamelMessageInfo *mi;
-			
-	wc = camel_index_words(idx);
-	if (wc) {
-		while ((word = camel_index_cursor_next(wc))) {
-			if (regexec(pattern, word, 0, NULL, 0) == 0) {
-				/* perf: could have the wc cursor return the name cursor */
-				nc = camel_index_find(idx, word);
-				if (nc) {
-					while ((name = camel_index_cursor_next(nc))) {
-						mi = g_hash_table_lookup(uids, name);
-						if (mi)
-							g_hash_table_insert(ht, (char *)camel_message_info_uid(mi), (void *)1);
-					}
-					camel_object_unref((CamelObject *)nc);
-				}
-			}
-		}
-		camel_object_unref((CamelObject *)wc);
-
-		lambdafoo.uids = result;
-		g_hash_table_foreach(ht, (GHFunc)g_lib_sux_htor, &lambdafoo);
-		g_hash_table_destroy(ht);
-	}
-
-	return result;
-}
-
-/* perform a regex match against an individual uid in an index */
-/* this would benefit greatly in practice if there was a hashtalbe of uid's to amtch against */
 static int
-match_message_index(CamelIndex *idx, const char *uid, regex_t *pattern, CamelException *ex)
+match_message_index(CamelIndex *idx, const char *uid, const char *match, CamelException *ex)
 {
 	CamelIndexCursor *wc, *nc;
 	const char *word, *name;
@@ -789,7 +754,7 @@ match_message_index(CamelIndex *idx, const char *uid, regex_t *pattern, CamelExc
 	wc = camel_index_words(idx);
 	if (wc) {
 		while (!truth && (word = camel_index_cursor_next(wc))) {
-			if (regexec(pattern, word, 0, NULL, 0) == 0) {
+			if (camel_ustrstrcase(word,match) != NULL) {
 				/* perf: could have the wc cursor return the name cursor */
 				nc = camel_index_find(idx, word);
 				if (nc) {
@@ -805,68 +770,227 @@ match_message_index(CamelIndex *idx, const char *uid, regex_t *pattern, CamelExc
 	return truth;
 }
 
+/*
+ "one two" "three" "four five"
+
+  one and two
+or
+  three
+or
+  four and five
+*/
+
+/* returns messages which contain all words listed in words */
+static GPtrArray *
+match_words_index(CamelFolderSearch *search, struct _camel_search_words *words, CamelException *ex)
+{
+	GPtrArray *result = g_ptr_array_new();
+	GHashTable *ht = g_hash_table_new(g_str_hash, g_str_equal);
+	struct _glib_sux_donkeys lambdafoo;
+	CamelIndexCursor *wc, *nc;
+	const char *word, *name;
+	CamelMessageInfo *mi;
+	int i;
+
+	/* we can have a maximum of 32 words, as we use it as the AND mask */
+			
+	wc = camel_index_words(search->body_index);
+	if (wc) {
+		while ((word = camel_index_cursor_next(wc))) {
+			for (i=0;i<words->len;i++) {
+				if (camel_ustrstrcase(word, words->words[i]->word) != NULL) {
+					/* perf: could have the wc cursor return the name cursor */
+					nc = camel_index_find(search->body_index, word);
+					if (nc) {
+						while ((name = camel_index_cursor_next(nc))) {
+							mi = g_hash_table_lookup(search->summary_hash, name);
+							if (mi) {
+								int mask;
+								const char *uid = camel_message_info_uid(mi);
+
+								mask = ((int)g_hash_table_lookup(ht, uid)) | (1<<i);
+								g_hash_table_insert(ht, (char *)uid, (void *)mask);
+							}
+						}
+						camel_object_unref((CamelObject *)nc);
+					}
+				}
+			}
+		}
+		camel_object_unref((CamelObject *)wc);
+
+		lambdafoo.uids = result;
+		lambdafoo.count = (1<<words->len) - 1;
+		g_hash_table_foreach(ht, (GHFunc)g_lib_sux_htand, &lambdafoo);
+		g_hash_table_destroy(ht);
+	}
+
+	return result;
+}
+
+static gboolean
+match_words_1message (CamelDataWrapper *object, struct _camel_search_words *words, guint32 *mask)
+{
+	CamelDataWrapper *containee;
+	int truth = FALSE;
+	int parts, i;
+	
+	containee = camel_medium_get_content_object (CAMEL_MEDIUM (object));
+	
+	if (containee == NULL)
+		return FALSE;
+	
+	/* using the object types is more accurate than using the mime/types */
+	if (CAMEL_IS_MULTIPART (containee)) {
+		parts = camel_multipart_get_number (CAMEL_MULTIPART (containee));
+		for (i = 0; i < parts && truth == FALSE; i++) {
+			CamelDataWrapper *part = (CamelDataWrapper *)camel_multipart_get_part (CAMEL_MULTIPART (containee), i);
+			if (part)
+				truth = match_words_1message(part, words, mask);
+		}
+	} else if (CAMEL_IS_MIME_MESSAGE (containee)) {
+		/* for messages we only look at its contents */
+		truth = match_words_1message((CamelDataWrapper *)containee, words, mask);
+	} else if (header_content_type_is(CAMEL_DATA_WRAPPER (containee)->mime_type, "text", "*")) {
+		/* for all other text parts, we look inside, otherwise we dont care */
+		CamelStreamMem *mem = (CamelStreamMem *)camel_stream_mem_new ();
+
+		/* FIXME: The match should be part of a stream op */
+		camel_data_wrapper_write_to_stream (containee, CAMEL_STREAM (mem));
+		camel_stream_write (CAMEL_STREAM (mem), "", 1);
+		for (i=0;i<words->len;i++) {
+			/* FIXME: This is horridly slow, and should use a real search algorithm */
+			if (camel_ustrstrcase(mem->buffer->data, words->words[i]->word) != NULL) {
+				*mask |= (1<<i);
+				/* shortcut a match */
+				if (*mask == (1<<(words->len))-1)
+					return TRUE;
+			}
+		}
+		camel_object_unref (CAMEL_OBJECT (mem));
+	}
+	
+	return truth;
+}
+
+static gboolean
+match_words_message(CamelFolder *folder, const char *uid, struct _camel_search_words *words, CamelException *ex)
+{
+	guint32 mask;
+	CamelMimeMessage *msg;
+	int truth;
+
+	msg = camel_folder_get_message(folder, uid, ex);
+	if (msg) {
+		mask = 0;
+		truth = match_words_1message((CamelDataWrapper *)msg, words, &mask);
+		camel_object_unref((CamelObject *)msg);
+	} else {
+		camel_exception_clear(ex);
+		truth = FALSE;
+	}
+
+	return truth;
+}
+
+static GPtrArray *
+match_words_messages(CamelFolderSearch *search, struct _camel_search_words *words, CamelException *ex)
+{
+	int i;
+	GPtrArray *matches = g_ptr_array_new();
+
+	if (search->body_index) {
+		GPtrArray *indexed;
+		struct _camel_search_words *simple;
+
+		simple = camel_search_words_simple(words);
+		indexed = match_words_index(search, simple, ex);
+		camel_search_words_free(simple);
+
+		for (i=0;i<indexed->len;i++) {
+			const char *uid = g_ptr_array_index(indexed, i);
+			
+			if (match_words_message(search->folder, uid, words, ex))
+				g_ptr_array_add(matches, (char *)uid);
+		}
+		
+		g_ptr_array_free(indexed, TRUE);
+	} else {
+		for (i=0;i<search->summary->len;i++) {
+			CamelMessageInfo *info = g_ptr_array_index(search->summary, i);
+			const char *uid = camel_message_info_uid(info);
+			
+			if (match_words_message(search->folder, uid, words, ex))
+				g_ptr_array_add(matches, (char *)uid);
+		}
+	}
+
+	return matches;
+}
+
 static ESExpResult *
 search_body_contains(struct _ESExp *f, int argc, struct _ESExpResult **argv, CamelFolderSearch *search)
 {
-	ESExpResult *r;
-	int i;
-	regex_t pattern;
+	int i, j;
 	CamelException *ex = search->priv->ex;
+	struct _camel_search_words *words;
+	ESExpResult *r;
+	struct _glib_sux_donkeys lambdafoo;
 
-	if (search->current) {
+	if (search->current) {	
 		int truth = FALSE;
 
-		if (argc == 1 && argv[0]->value.string[0] == 0 && search->folder) {
+		if (argc == 1 && argv[0]->value.string[0] == 0) {
 			truth = TRUE;
-		} else if (search->body_index) {
-			if (camel_search_build_match_regex(&pattern, CAMEL_SEARCH_MATCH_ICASE, argc, argv, ex) == 0) {
-				truth = match_message_index(search->body_index, camel_message_info_uid(search->current), &pattern, ex);
-				regfree(&pattern);
-			}
-		} else if (search->folder) {
-			/* we do a 'slow' direct search */
-			if (camel_search_build_match_regex(&pattern, CAMEL_SEARCH_MATCH_ICASE, argc, argv, ex) == 0) {
-				truth = match_message(search->folder, camel_message_info_uid(search->current), &pattern, ex);
-				regfree(&pattern);
-			}
 		} else {
-			g_warning("Cannot perform indexed body query with no index or folder set");
+			for (i=0;i<argc && !truth;i++) {
+				if (argv[i]->type == ESEXP_RES_STRING) {
+					words = camel_search_words_split(argv[i]->value.string);
+					truth = TRUE;
+					if ((words->type & CAMEL_SEARCH_WORD_COMPLEX) == 0 && search->body_index) {
+						for (j=0;j<words->len && truth;j++)
+							truth = match_message_index(search->body_index, camel_message_info_uid(search->current), words->words[j]->word, ex);
+					} else {
+						/* TODO: cache current message incase of multiple body search terms */
+						truth = match_words_message(search->folder, camel_message_info_uid(search->current), words, ex);
+					}
+					camel_search_words_free(words);
+				}
+			}
 		}
 		r = e_sexp_result_new(f, ESEXP_RES_BOOL);
 		r->value.bool = truth;
 	} else {
 		r = e_sexp_result_new(f, ESEXP_RES_ARRAY_PTR);
+		r->value.ptrarray = g_ptr_array_new();
 
-		if (argc == 1 && argv[0]->value.string[0] == 0 && search->folder) {
-			/* optimise the match "" case - match everything */
-			r->value.ptrarray = g_ptr_array_new();
+		if (argc == 1 && argv[0]->value.string[0] == 0) {
 			for (i=0;i<search->summary->len;i++) {
 				CamelMessageInfo *info = g_ptr_array_index(search->summary, i);
+
 				g_ptr_array_add(r->value.ptrarray, (char *)camel_message_info_uid(info));
 			}
-		} else if (search->body_index) {
-			if (camel_search_build_match_regex(&pattern, CAMEL_SEARCH_MATCH_ICASE, argc, argv, ex) == 0) {
-				r->value.ptrarray = match_messages_index(search->body_index, &pattern, search->summary_hash, ex);
-				regfree(&pattern);
-			}
-		} else if (search->folder) {
-			/* do a slow search */
-			r->value.ptrarray = g_ptr_array_new();
-			if (camel_search_build_match_regex(&pattern, CAMEL_SEARCH_MATCH_ICASE, argc, argv, ex) == 0) {
-				if (search->summary) {
-					for (i=0;i<search->summary->len;i++) {
-						CamelMessageInfo *info = g_ptr_array_index(search->summary, i);
-
-						if (match_message(search->folder, camel_message_info_uid(info), &pattern, ex))
-							g_ptr_array_add(r->value.ptrarray, (char *)camel_message_info_uid(info));
-					}
-				} /* else?  we could always get the summary from the folder, but then
-				     we need to free it later somehow */
-				regfree(&pattern);
-			}
 		} else {
-			g_warning("Cannot perform indexed body query with no index or folder set");
-			r->value.ptrarray = g_ptr_array_new();
+			GHashTable *ht = g_hash_table_new(g_str_hash, g_str_equal);
+			GPtrArray *matches;
+
+			for (i=0;i<argc;i++) {
+				if (argv[i]->type == ESEXP_RES_STRING) {
+					words = camel_search_words_split(argv[i]->value.string);
+					if ((words->type & CAMEL_SEARCH_WORD_COMPLEX) == 0 && search->body_index) {
+						matches = match_words_index(search, words, ex);
+					} else {
+						matches = match_words_messages(search, words, ex);
+					}
+					for (j=0;j<matches->len;j++)
+						g_hash_table_insert(ht, matches->pdata[j], matches->pdata[j]);
+					g_ptr_array_free(matches, TRUE);
+					camel_search_words_free(words);
+				}
+			}
+			lambdafoo.uids = r->value.ptrarray;
+			g_hash_table_foreach(ht, (GHFunc)g_lib_sux_htor, &lambdafoo);
+			g_hash_table_destroy(ht);
 		}
 	}
 

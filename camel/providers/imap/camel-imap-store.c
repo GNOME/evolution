@@ -342,7 +342,8 @@ connect_to_server (CamelService *service, CamelException *ex)
 	store->connected = TRUE;
 	
 	/* Find out the IMAP capabilities */
-	store->capabilities = 0;
+	/* We assume we have utf8 capable search until a failed search tells us otherwise */
+	store->capabilities = IMAP_CAPABILITY_utf8_search;
 	store->authtypes = g_hash_table_new (g_str_hash, g_str_equal);
 	response = camel_imap_command (store, NULL, ex, "CAPABILITY");
 	if (!response)
