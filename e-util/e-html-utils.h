@@ -23,11 +23,15 @@
 #ifndef __E_HTML_UTILS__
 #define __E_HTML_UTILS__
 
+#include <glib.h>
+
 #define E_TEXT_TO_HTML_PRE            (1 << 0)
 #define E_TEXT_TO_HTML_CONVERT_NL     (1 << 1)
 #define E_TEXT_TO_HTML_CONVERT_SPACES (1 << 2)
 #define E_TEXT_TO_HTML_CONVERT_URLS   (1 << 3)
+#define E_TEXT_TO_HTML_MARK_CITATION  (1 << 4)
 
-char *e_text_to_html (const char *input, unsigned int flags);
+char *e_text_to_html_full (const char *input, unsigned int flags, guint32 color);
+char *e_text_to_html      (const char *input, unsigned int flags);
 
 #endif /* __E_HTML_UTILS__ */

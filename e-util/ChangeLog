@@ -1,3 +1,15 @@
+2001-03-20  Radek Doulik  <rodo@ximian.com>
+
+	* e-html-utils.c (e_text_to_html_full): new function, extracted
+	from e_text_to_html, added color parameter
+
+2001-03-19  Radek Doulik  <rodo@ximian.com>
+
+	* e-html-utils.c (e_text_to_html): support mark citation
+
+	* e-html-utils.h (E_TEXT_TO_HTML_MARK_CITATION): added
+	E_TEXT_TO_HTML_MARK_CITATION
+
 2001-03-18  Damon Chaplin  <damon@ximian.com>
 
 	* e-time-utils.c (e_time_format_time): added function to format just

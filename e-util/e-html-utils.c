@@ -64,11 +64,28 @@ url_extract (const unsigned char **text, gboolean check)
 	return out;
 }
 
+static gboolean
+is_citation (const unsigned char *c)
+{
+	unicode_char_t u;
+	gint i;
+
+	for (i = 0; c && *c && i < 10; i ++, c = unicode_next_utf8 (c)) {
+		unicode_get_utf8 (c, &u);
+		if (u == '>')
+			return TRUE;
+		if (!unicode_isalnum (u))
+			return FALSE;
+	}
+	return FALSE;
+}
+
 /**
- * e_text_to_html:
+ * e_text_to_html_full:
  * @input: a NUL-terminated input buffer
  * @flags: some combination of the E_TEXT_TO_HTML_* flags defined
  * in e-html-utils.h
+ * @color: color for citation highlighting
  *
  * This takes a buffer of text as input and produces a buffer of
  * "equivalent" HTML, subject to certain transformation rules.
@@ -96,14 +113,18 @@ url_extract (const unsigned char **text, gboolean check)
  *
  *   - E_TEXT_TO_HTML_CONVERT_URLS: wrap <a href="..."> </a> around
  *     strings that look like URLs.
+ *
+ *   - E_TEXT_TO_HTML_MARK_CITATION: wrap <font color="blue"> </font> around
+ *     citations (lines beginning with "> ").
  **/
 char *
-e_text_to_html (const char *input, unsigned int flags)
+e_text_to_html_full (const char *input, unsigned int flags, guint32 color)
 {
 	const unsigned char *cur = input;
 	char *buffer = NULL;
 	char *out = NULL;
 	int buffer_size = 0, col;
+	gboolean colored = FALSE;
 
 	/* Allocate a translation buffer.  */
 	buffer_size = strlen (input) * 2 + 5;
@@ -119,6 +140,26 @@ e_text_to_html (const char *input, unsigned int flags)
 		unicode_char_t u;
 
 		unicode_get_utf8 (cur, &u);
+		if (flags & E_TEXT_TO_HTML_MARK_CITATION && col == 0) {
+			if (is_citation (cur)) {
+				if (!colored) {
+					gchar font [25];
+
+					g_snprintf (font, 25, "<FONT COLOR=\"#%06x\">", color);
+
+					check_size (&buffer, &buffer_size, out, 25);
+					out += sprintf (out, "%s", font);
+					colored = TRUE;
+				}
+			} else if (colored) {
+				gchar *no_font = "</FONT>";
+
+				check_size (&buffer, &buffer_size, out, 9);
+				out += sprintf (out, "%s", no_font);
+				colored = FALSE;
+			}
+		}
+
 		if (unicode_isalpha (u) &&
 		    (flags & E_TEXT_TO_HTML_CONVERT_URLS)) {
 			char *tmpurl = NULL, *refurl = NULL, *dispurl = NULL;
@@ -249,4 +290,10 @@ e_text_to_html (const char *input, unsigned int flags)
 		*out = '\0';
 
 	return buffer;
+}
+
+char *
+e_text_to_html (const char *input, unsigned int flags)
+{
+	return e_text_to_html_full (input, flags, 0);
 }
