@@ -44,6 +44,7 @@
 #include <gal/widgets/e-gui-utils.h>
 #include <e-util/e-html-utils.h>
 #include <gal/widgets/e-gui-utils.h>
+#include <gal/widgets/e-unicode.h>
 
 #include "importer.h"
 #include "GNOME_Evolution_Importer.h"
@@ -77,7 +78,20 @@ typedef struct _ImportData {
 #define OUT
 #endif
 
-/* Some HTML helper functions from mail/mail-config-gui.c */
+/* Some HTML helper functions copied from mail/mail-config-druid.c */
+static struct {
+	char *name;
+	char *text;
+} info[] = {
+	{ "file_html",
+		N_("Choose the file that you want to import into Evolution, "
+		"and select what type of file it is from the list.\n\n"
+		"You can select \"Automatic\" if you do not know, and "
+		"Evolution will attempt to work it out.")
+	}
+};
+static int num_info = (sizeof (info) / sizeof (info[0]));
+
 static void
 html_size_req (GtkWidget *widget,
 	       GtkRequisition *requisition)
@@ -85,14 +99,14 @@ html_size_req (GtkWidget *widget,
 	requisition->height = GTK_LAYOUT (widget)->height;
 }
 
-/* Returns a GtkHTML which is already inside a GtkScrolledWindow. If
- * @white is TRUE, the GtkScrolledWindow will be inside a GtkFrame.
- */
 static GtkWidget *
-html_new (gboolean white)
+create_html (const char *name)
 {
-	GtkWidget *html, *scrolled, *frame;
+	GtkWidget *scrolled, *html;
+	GtkHTMLStream *stream;
 	GtkStyle *style;
+	char *utf8;
+	int i;
 
 	html = gtk_html_new ();
 	GTK_LAYOUT (html)->height = 0;
@@ -100,43 +114,36 @@ html_new (gboolean white)
 			    GTK_SIGNAL_FUNC (html_size_req), NULL);
 	gtk_html_set_editable (GTK_HTML (html), FALSE);
 	style = gtk_rc_get_style (html);
+	if (!style)
+		style = gtk_widget_get_style (html);
 	if (style) {
 		gtk_html_set_default_background_color (GTK_HTML (html),
-						       white ? &style->white:
 						       &style->bg[0]);
 	}
-	gtk_widget_set_sensitive (html, FALSE);
+	gtk_widget_show (html);
+
 	scrolled = gtk_scrolled_window_new (NULL, NULL);
+	gtk_widget_show (scrolled);
 	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolled),
 					GTK_POLICY_NEVER, GTK_POLICY_NEVER);
 	gtk_container_add (GTK_CONTAINER (scrolled), html);
-	if (white) {
-		frame = gtk_frame_new (NULL);
-		gtk_frame_set_shadow_type (GTK_FRAME (frame),
-					   GTK_SHADOW_ETCHED_IN);
-		gtk_container_add (GTK_CONTAINER (frame), scrolled);
-		gtk_widget_show_all (frame);
-	} else {
-		gtk_widget_show_all (scrolled);
+
+	for (i = 0; i < num_info; i++) {
+		if (!strcmp (name, info[i].name))
+			break;
 	}
+	g_return_val_if_fail (i != num_info, scrolled);
 
-	return html;
-}
-	
-static void
-put_html (GtkHTML *html,
-	  const char *text)
-{
-	GtkHTMLStream *handle;
-	char *htmltext;
+	stream = gtk_html_begin_content (GTK_HTML (html),
+					 "text/html; charset=utf-8");
+	gtk_html_write (GTK_HTML (html), stream, "<html><p>", 9);
+	utf8 = e_utf8_from_locale_string (_(info[i].text));
+	gtk_html_write (GTK_HTML (html), stream, utf8, strlen (utf8));
+	g_free (utf8);
+	gtk_html_write (GTK_HTML (html), stream, "</p></html>", 11);
+	gtk_html_end (GTK_HTML (html), stream, GTK_HTML_STREAM_OK);
 
-	htmltext = e_text_to_html (text, E_TEXT_TO_HTML_CONVERT_NL);
-	handle = gtk_html_begin (html);
-	gtk_html_write (html, handle, "<HTML><BODY>", 12);
-	gtk_html_write (html, handle, text, strlen (text));
-	gtk_html_write (html, handle, "</BODY></HTML>", 14);
-	g_free (htmltext);
-	gtk_html_end (html, handle, GTK_HTML_STREAM_OK);
+	return scrolled;
 }
 
 /* Importing functions */
@@ -642,15 +649,9 @@ show_import_wizard (BonoboUIComponent *component,
 	data->filepage = importer_file_page_new (data);
 	data->vbox = data->filepage->vbox;
 
-	html = html_new (TRUE);
-	put_html (GTK_HTML (html),
-		  _("Choose the file that you want to import into Evolution, "
-		    "and select what type of file it is from the list.\n\n"
-		    "You can select \"Automatic\" if you do not know, and "
-		    "Evolution will attempt to work it out."));
-	gtk_box_pack_start (GTK_BOX (data->vbox), html->parent->parent, 
-			    FALSE, TRUE, 0);
-	gtk_box_reorder_child (GTK_BOX (data->vbox), html->parent->parent, 0);
+	html = create_html ("file_html");
+	gtk_box_pack_start (GTK_BOX (data->vbox), html, FALSE, TRUE, 0);
+	gtk_box_reorder_child (GTK_BOX (data->vbox), html, 0);
 
 	gtk_box_pack_start (GTK_BOX (GNOME_DRUID_PAGE_STANDARD (data->filedialog)->vbox), data->vbox, TRUE, TRUE, 0);
 

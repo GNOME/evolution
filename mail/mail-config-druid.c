@@ -149,7 +149,8 @@ create_html (const char *name)
 	}
 	g_return_val_if_fail (i != num_info, scrolled);
 
-	stream = gtk_html_begin (GTK_HTML (html));
+	stream = gtk_html_begin_content (GTK_HTML (html),
+					 "text/html; charset=utf-8");
 	gtk_html_write (GTK_HTML (html), stream, "<html><p>", 9);
 	utf8 = e_utf8_from_locale_string (_(info[i].text));
 	gtk_html_write (GTK_HTML (html), stream, utf8, strlen (utf8));

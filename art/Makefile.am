@@ -9,6 +9,7 @@ images_DATA = \
 	encrypt.xpm			\
 	folder.xpm			\
 	forward.xpm			\
+	import.png			\
 	import.xpm			\
 	move_message.xpm		\
 	print.xpm			\

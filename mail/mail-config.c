@@ -1017,7 +1017,8 @@ mail_config_check_service (const char *url, CamelProviderType type, GList **auth
 				   GNOME_STOCK_BUTTON_CANCEL,
 				   NULL);
 	label = gtk_label_new (_("Connecting to server..."));
-	gtk_box_pack_start (GNOME_DIALOG (dialog)->vbox, label, TRUE, TRUE, 10);
+	gtk_box_pack_start (GTK_BOX(GNOME_DIALOG (dialog)->vbox),
+			    label, TRUE, TRUE, 10);
 	gnome_dialog_set_close (GNOME_DIALOG (dialog), FALSE);
 	gtk_signal_connect (GTK_OBJECT (dialog), "clicked",
 			    GTK_SIGNAL_FUNC (check_cancelled), &id);

@@ -1,3 +1,12 @@
+2001-04-04  Gediminas Paulauskas <menesis@delfi.lt>
+
+	* importer/importer.c (create_html): copied newer and fixed function
+	from mail/mail-config-druid.c.
+	(html_new, put_html): removed.
+	(show_import_wizard): use create_html instead of html_new/put_html pair.
+	* importer/importer.glade: a try to set logo. removed source generation
+	options.
+
 2001-04-03  Dan Winship  <danw@ximian.com>
 
 	* main.c:

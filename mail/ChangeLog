@@ -1,5 +1,15 @@
 2001-04-04  Gediminas Paulauskas <menesis@delfi.lt>
 
+	* mail-config-druid.c (create_html): set content type to utf8.
+	* mail-config.c (mail_config_check_service): fix warning.
+	* mail-display.c (link_open_in_browser): just call on_link_clicked().
+	(link_menu): Open link works.
+	(link_copy_location): claim selection.
+	(on_selection_get): new function, selection handler.
+	(mail_display_new): connect to selection_get. FIXME: does not work.
+
+2001-04-04  Gediminas Paulauskas <menesis@delfi.lt>
+
 	* component-factory.c: use big trash icon, stolen from mc.
 
 2001-04-03  Jeffrey Stedfast  <fejj@ximian.com>
