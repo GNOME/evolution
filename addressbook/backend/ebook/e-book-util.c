@@ -29,6 +29,7 @@
 
 #include <glib.h>
 #include <glib-object.h>
+#include <e-util/e-config-listener.h>
 #include "e-card-compare.h"
 
 typedef struct _CommonBookInfo CommonBookInfo;
@@ -191,14 +192,40 @@ set_default_book_uri_local (void)
 {
 	char *filename;
 
-	if (default_book_uri)
-		g_free (default_book_uri);
-
 	filename = g_build_filename (g_get_home_dir(),
 				     "evolution/local/Contacts/addressbook.db",
 				     NULL);
 	default_book_uri = g_strdup_printf ("file://%s", filename);
 	g_free (filename);
+}
+
+static void
+set_default_book_uri (char *val)
+{
+	if (default_book_uri)
+		g_free (default_book_uri);
+
+	if (val) {
+		default_book_uri = e_book_expand_uri (val);
+		g_free (val);
+	}
+	else {
+		set_default_book_uri_local ();
+	}
+}
+
+#define DEFAULT_CONTACTS_URI_PATH "/apps/evolution/shell/default_folders/contacts_uri"
+static void
+default_folder_listener (EConfigListener *cl, const char *key, gpointer data)
+{
+	char *val;
+
+	if (strcmp (key, DEFAULT_CONTACTS_URI_PATH))
+		return;
+
+	val = e_config_listener_get_string (cl, DEFAULT_CONTACTS_URI_PATH);
+
+	set_default_book_uri (val);
 }
 
 static void
@@ -208,13 +235,13 @@ set_default_book_uri_from_config_db (void)
 	EConfigListener* config_db;
 
 	config_db = e_book_get_config_database ();
-	val = e_config_listener_get_string_with_default (config_db, "/apps/Evolution/DefaultFolders/contacts_uri", NULL, NULL);
+	val = e_config_listener_get_string_with_default (config_db, DEFAULT_CONTACTS_URI_PATH, NULL, NULL);
 
-	if (val) {
-		default_book_uri = e_book_expand_uri (val);
-		g_free (val);
-	} else
-		set_default_book_uri_local ();
+	g_signal_connect (config_db,
+			  "key_changed",
+			  G_CALLBACK (default_folder_listener), NULL);
+
+	set_default_book_uri (val);
 }
 
 typedef struct {

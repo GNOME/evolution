@@ -1,3 +1,15 @@
+2002-12-17  Chris Toshok  <toshok@ximian.com>
+
+	[ Fixes bug #35135 ]
+	* backend/ebook/e-book-util.c (set_default_book_uri_local): don't
+	free the default_book_uri here, it's done in set_default_book_uri.
+	(set_default_book_uri): break some stuff out from
+	set_default_book_uri_from_bonobo_conf to here so it can be used
+	both from that function and the bonobo listener.
+	(default_folder_listener): set the new default book uri.
+	(set_default_book_uri_from_bonobo_conf): install the bonobo conf
+	listener so we'll get updates.
+
 2002-12-16  Ettore Perazzoli  <ettore@ximian.com>
 
 	* gui/component/addressbook-config.c
