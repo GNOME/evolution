@@ -144,6 +144,7 @@ cal_backend_class_init (CalBackendClass *class)
 	class->get_email_address = NULL;
 	class->open = NULL;
 	class->is_loaded = NULL;
+	class->is_read_only = NULL;
 	class->get_query = NULL;
 	class->get_mode = NULL;
 	class->set_mode = NULL;	
@@ -316,6 +317,28 @@ cal_backend_is_loaded (CalBackend *backend)
 	result = (* CLASS (backend)->is_loaded) (backend);
 
 	return result;
+}
+
+/**
+ * cal_backend_is_read_only
+ * @backend: A calendar backend.
+ *
+ * Queries whether a calendar backend is read only or not.
+ *
+ * Return value: TRUE if the calendar is read only, FALSE otherwise.
+ */
+gboolean
+cal_backend_is_read_only (CalBackend *backend)
+{
+	gboolean result;
+
+	g_return_val_if_fail (backend != NULL, FALSE);
+	g_return_val_if_fail (IS_CAL_BACKEND (backend), FALSE);
+
+	g_assert (CLASS (backend)->is_read_only != NULL);
+	result = (* CLASS (backend)->is_read_only) (backend);
+
+	return result;	
 }
 
 /**

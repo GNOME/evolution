@@ -137,6 +137,9 @@ module Calendar {
 		/* A calendar is identified by its URI */
 		readonly attribute string uri;
 
+		/* Check write permissions for calendar */
+		boolean isReadOnly ();
+
 		/* Return the email address associated with this calendar,
 		   if any. */
 		string getEmailAddress ()

@@ -99,6 +99,7 @@ struct _CalBackendClass {
 				       gboolean only_if_exists);
 
 	gboolean (* is_loaded) (CalBackend *backend);
+	gboolean (* is_read_only) (CalBackend *backend);
 
 	Query *(* get_query) (CalBackend *backend,
 			      GNOME_Evolution_Calendar_QueryListener ql,
@@ -156,6 +157,8 @@ CalBackendOpenStatus cal_backend_open (CalBackend *backend, const char *uristr,
 				       gboolean only_if_exists);
 
 gboolean cal_backend_is_loaded (CalBackend *backend);
+
+gboolean cal_backend_is_read_only (CalBackend *backend);
 
 Query *cal_backend_get_query (CalBackend *backend,
 			      GNOME_Evolution_Calendar_QueryListener ql,

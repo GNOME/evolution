@@ -1019,6 +1019,37 @@ cal_client_get_uri (CalClient *client)
 }
 
 /**
+ * cal_client_is_read_only:
+ * @client: A calendar client.
+ *
+ * Queries whether the calendar client can perform modifications
+ * on the calendar or not.
+ *
+ * Return value: TRUE if the calendar is read-only, FALSE otherwise.
+ */
+gboolean
+cal_client_is_read_only (CalClient *client)
+{
+	CalClientPrivate *priv;
+	CORBA_Environment ev;
+	CORBA_boolean read_only;
+
+	g_return_val_if_fail (client != NULL, NULL);
+	g_return_val_if_fail (IS_CAL_CLIENT (client), NULL);
+
+	priv = client->priv;
+
+	CORBA_exception_init (&ev);
+	read_only = GNOME_Evolution_Calendar_Cal_isReadOnly (priv->cal, &ev);
+	if (BONOBO_EX (&ev)) {
+		g_message ("cal_client_is_read_only: could not call isReadOnly method");
+	}
+	CORBA_exception_free (&ev);
+
+	return read_only;
+}
+
+/**
  * cal_client_get_email_address:
  * @client: A calendar client.
  * 

@@ -143,6 +143,8 @@ CalClientLoadState cal_client_get_load_state (CalClient *client);
 
 const char *cal_client_get_uri (CalClient *client);
 
+gboolean cal_client_is_read_only (CalClient *client);
+
 const char *cal_client_get_email_address (CalClient *client);
 
 gboolean cal_client_set_mode (CalClient *client, CalMode mode);

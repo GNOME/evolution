@@ -1,5 +1,20 @@
 2002-10-01  Rodrigo Moya <rodrigo@ximian.com>
 
+	* idl/evolution-calendar.idl: added isReadOnly method to Cal
+	interface.
+
+	* pcs/cal.c (impl_Cal_is_read_only): new method implementation.
+
+	* pcs/cal-backend.[ch]: added is_read_only method to CalBackend class.
+	(cal_backend_is_read_only): new function.
+
+	* pcs/cal-backend-file.c (cal_backend_file_is_read_only): new method.
+	(cal_backend_file_class_init): set new signal's virtual method.
+
+	* cal-client/cal-client.[ch] (cal_client_is_read_only): new function.
+
+2002-10-01  Rodrigo Moya <rodrigo@ximian.com>
+
 	Fixes #15710
 
 	* gui/dialogs/alarm-page.c (alarm_page_init): added a

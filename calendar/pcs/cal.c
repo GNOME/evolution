@@ -48,7 +48,7 @@ struct _CalPrivate {
 /* Cal::get_uri method */
 static CORBA_char *
 impl_Cal_get_uri (PortableServer_Servant servant,
-	     CORBA_Environment *ev)
+		  CORBA_Environment *ev)
 {
 	Cal *cal;
 	CalPrivate *priv;
@@ -64,6 +64,20 @@ impl_Cal_get_uri (PortableServer_Servant servant,
 	return str_uri_copy;
 }
 
+/* Cal::is_read_only method */
+static CORBA_boolean
+impl_Cal_is_read_only (PortableServer_Servant servant,
+		       CORBA_Environment *ev)
+{
+	Cal *cal;
+	CalPrivate *priv;
+
+	cal = CAL (bonobo_object_from_servant (servant));
+	priv = cal->priv;
+
+	return cal_backend_is_read_only (priv->backend);
+}
+		       
 /* Cal::get_email_address method */
 static CORBA_char *
 impl_Cal_get_email_address (PortableServer_Servant servant,
@@ -731,6 +745,7 @@ cal_class_init (CalClass *klass)
 
 	/* Epv methods */
 	epv->_get_uri = impl_Cal_get_uri;
+	epv->isReadOnly = impl_Cal_is_read_only;
 	epv->getEmailAddress = impl_Cal_get_email_address;
 	epv->setMode = impl_Cal_set_mode;
 	epv->countObjects = impl_Cal_get_n_objects;

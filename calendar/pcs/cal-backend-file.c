@@ -91,6 +91,7 @@ static void cal_backend_file_init (CalBackendFile *cbfile);
 static void cal_backend_file_destroy (GtkObject *object);
 
 static const char *cal_backend_file_get_uri (CalBackend *backend);
+static gboolean cal_backend_file_is_read_only (CalBackend *backend);
 static const char *cal_backend_file_get_email_address (CalBackend *backend);
 static CalBackendOpenStatus cal_backend_file_open (CalBackend *backend,
 						   const char *uristr,
@@ -188,6 +189,7 @@ cal_backend_file_class_init (CalBackendFileClass *class)
 	object_class->destroy = cal_backend_file_destroy;
 
 	backend_class->get_uri = cal_backend_file_get_uri;
+	backend_class->is_read_only = cal_backend_file_is_read_only;
 	backend_class->get_email_address = cal_backend_file_get_email_address;
 	backend_class->open = cal_backend_file_open;
 	backend_class->is_loaded = cal_backend_file_is_loaded;
@@ -449,6 +451,14 @@ cal_backend_file_get_uri (CalBackend *backend)
 	g_assert (priv->uri != NULL);
 
 	return (const char *) priv->uri;
+}
+
+/* Is_read_only handler for the file backend */
+static gboolean
+cal_backend_file_is_read_only (CalBackend *backend)
+{
+	/* we just return FALSE, since all calendars are read-write */
+	return FALSE;
 }
 
 /* Get_email_address handler for the file backend */
