@@ -115,7 +115,7 @@ pas_backend_file_book_view_free(PASBackendFileBookView *book_view, void *closure
 {
 	g_free(book_view->search);
 	if (book_view->search_sexp)
-		gtk_object_unref(GTK_OBJECT(book_view->search_sexp));
+		e_sexp_unref (book_view->search_sexp);
 	g_free(book_view->search_context);
 
 	g_free(book_view->change_id);

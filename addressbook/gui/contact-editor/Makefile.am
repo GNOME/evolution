@@ -17,8 +17,6 @@ noinst_LIBRARIES =				\
 libecontacteditor_a_SOURCES = 			\
 	e-contact-editor-address.c		\
 	e-contact-editor-address.h		\
-	e-contact-editor-categories.c		\
-	e-contact-editor-categories.h		\
 	e-contact-editor-fullname.c		\
 	e-contact-editor-fullname.h		\
 	e-contact-editor.c			\
