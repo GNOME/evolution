@@ -111,6 +111,29 @@ fi
 AC_CHECK_FUNCS(mkstemp)
 
 dnl **************************************************
+dnl ctime_r prototype
+dnl **************************************************
+
+AC_CACHE_CHECK([if ctime_r wants three arguments], ac_cv_ctime_r_three_args,
+[
+	AC_TRY_COMPILE([
+		#include <time.h>
+	],[
+		char *buf;
+		time_t date;
+		ctime_r( &date, buf, 100 );
+	],[
+		ac_cv_ctime_r_three_args=yes
+	],[
+		ac_cv_ctime_r_three_args=no
+	])
+])
+	
+if test x"$ac_cv_ctime_r_three_args" = xyes ; then
+	AC_DEFINE(CTIME_R_THREE_ARGS)
+fi
+
+dnl **************************************************
 dnl * pas-backend-file stuff.
 dnl * check for db_185.h.  if it's there, we use it.
 dnl * otherwise, we use db.h (since it'll be 185).

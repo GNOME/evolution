@@ -20,3 +20,6 @@
 
 /* Define this if you want to build against the development gtk */
 #undef HAVE_DEVGTK
+
+/* Define if ctime_r takes three arguments */
+#undef CTIME_R_THREE_ARGS

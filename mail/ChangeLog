@@ -1,3 +1,8 @@
+2000-06-27  Peter Williams  <peterw@curious-george.helixcode.com>
+
+	* message-list.c (filter_date): Solve the ctime_r problem the
+	correct way, with the magic of autoconf.
+
 2000-06-27  Christopher James Lahey  <clahey@helixcode.com>
 
 	* message-list.c: Work around mismatched ctime_r functions.  This
