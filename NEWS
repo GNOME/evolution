@@ -89,6 +89,48 @@ Mail:
 
   - Came to visit USA at a very wrong time.  (Michael)
 
+  - Removed X-Evolution headers before sending messages.  (Jeff)
+
+  - When configuring a new default account, make sure to set it as the
+    default.  (Jeff)
+
+  - Convert all textual parts to 8bit before saving them, this makes
+    saved messages more human readable.  (Jeff)
+
+  - Don't cache PGP passphrases unless the user requests to do so.
+    (Jeff)
+
+  - Unsubscribe from folders before deleting them.  (Jeff)
+
+  - Fixed a number of race conditions in the subscribe dialog.  (Jeff)
+
+  - Save transport (SMTP) passwords if the user has asked us to.  (Jeff)
+
+  - Hide the S/MIME frame in the account editor, we won't be
+    supporting it for 1.0.  (Jeff)
+
+  - Fixed it so that icons are displayed for PGP messages.  (Jeff)
+
+  - Give a description for each of the Source and Transport types when
+    configuring an account. This makes a few things less confusing.
+    (Jeff)
+
+  - When performing a Send & Receive on a disconnected IMAP server, if
+    the user provides a password, connect tot he IMAP server and display
+    it's folders too.  (Jeff)
+
+  - Return a folder info for each IMAP folder created when the user
+    creates a recursive directory structure.  (Jeff)
+
+  - Added support for more charset conversions (including all
+    Windows-cp125x charsets).  (Jeff)
+
+  - When the disk is full, warn the user and don't crash.  (Jeff)
+
+  - Handle POP servers that don't support the UIDL extension.  (Jeff)
+
+  - Several PGP fixes.  (Jeff)
+
 Addressbook:
 
   - Miscellaneous bug fixes. (Jon Trowbridge, Chris Toshok, Chris Lahey,
