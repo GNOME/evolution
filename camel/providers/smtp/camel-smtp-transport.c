@@ -47,8 +47,6 @@
 /* Specified in RFC 821 */
 #define SMTP_PORT 25
 
-static CamelServiceClass *service_class = NULL;
-
 /* camel smtp transport class prototypes */
 static gboolean _can_send (CamelTransport *transport, CamelMedium *message);
 static gboolean _send (CamelTransport *transport, CamelMedium *message, CamelException *ex);
@@ -68,8 +66,10 @@ static gboolean smtp_data (CamelSmtpTransport *transport, CamelMedium *message, 
 static gboolean smtp_rset (CamelSmtpTransport *transport, CamelException *ex);
 static gboolean smtp_quit (CamelSmtpTransport *transport, CamelException *ex);
 
-
+/* private data members */
+static CamelServiceClass *service_class = NULL;
 static gboolean smtp_is_esmtp = FALSE;
+static struct sockaddr_in localaddr;
 
 static void
 camel_smtp_transport_class_init (CamelSmtpTransportClass *camel_smtp_transport_class)
@@ -130,6 +130,7 @@ smtp_connect (CamelService *service, CamelException *ex)
 	struct hostent *h;
 	struct sockaddr_in sin;
 	gint fd;
+   guint32 addrlen;
 	gchar *pass = NULL, *respbuf = NULL;
 	CamelSmtpTransport *transport = CAMEL_SMTP_TRANSPORT (service);
 
@@ -155,6 +156,10 @@ smtp_connect (CamelService *service, CamelException *ex)
 		g_free (pass);
 		return FALSE;
 	}
+
+   /* get the localaddr - needed later by smtp_helo */
+   addrlen = sizeof(localaddr);
+   getsockname(sock, (struct sockaddr*)&localaddr, &addrlen);
 
 	transport->ostream = camel_stream_fs_new_with_fd (fd);
 	transport->istream = camel_stream_buffer_new (transport->ostream, 
@@ -436,13 +441,9 @@ smtp_helo (CamelSmtpTransport *transport, CamelException *ex)
 {
 	/* say hello to the server */
 	gchar *cmdbuf, *respbuf = NULL;
-	struct sockaddr_in localaddr;
-   guint32 addrlen;
    struct hostent *host;
 
    /* get the local host name */
-   addrlen = sizeof(localaddr);
-   getsockname(sock, (struct sockaddr*)&localaddr, &addrlen);
    host = gethostbyaddr((gchar *)&localaddr.sin_addr, sizeof(localaddr.sin_addr), AF_INET);
 
 	/* hiya server! how are you today? */
