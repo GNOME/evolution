@@ -6,21 +6,23 @@
 # Almer S. Tigelaar <almer@gnome.org>, 2000, 2001
 # Dirk-Jan C. Binnema <dirkjan@gnome.org>, 2001
 # Mendel Mobach <mendel@mobach.nl>, 2001
-#: mail/component-factory.c:97 mail/component-factory.c:98
+# Vincent van Adrighem <V.vanAdrighem@dirck.mine.nu>, 2001.
+# Mendel Mobach <mendel@mobach.nl>, 2001.
+# 
 msgid ""
 msgstr ""
-"Project-Id-Version: Evolution CVS\n"
+"Project-Id-Version: Evolution 1\n"
 "POT-Creation-Date: 2001-08-22 18:50-0400\n"
-"PO-Revision-Date: 2001-09-04 00:57+02:00\n"
-"Last-Translator: Mendel Mobach <mendel@mobach.nl>\n"
-"Language-Team: Nederlands <nl@li.org>\n"
+"PO-Revision-Date: 2001-12-21 16:28+0100\n"
+"Last-Translator: Vincent van Adrighem <V.vanAdrighem@dirck.mine.nu>\n"
+"Language-Team: Dutch <nl@li.org>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=iso-8859-1\n"
+"Content-Type: text/plain; charset=iso-8859-15\n"
 "Content-Transfer-Encoding: 8bit\n"
 
 #: addressbook/backend/ebook/GNOME_Evolution_Addressbook_VCard_Importer.oaf.in.h:1
 msgid "Factory to import VCard files into Evolution."
-msgstr "Fabriek om GnomeCard bestanden importeren in Evolution."
+msgstr "Fabriek om GnomeCard bestanden importeren in Evolution.u"
 
 #: addressbook/backend/ebook/GNOME_Evolution_Addressbook_VCard_Importer.oaf.in.h:2
 msgid "Imports VCard files into Evolution."
@@ -490,7 +492,8 @@ msgstr "Zo"
 
 #: addressbook/gui/component/addressbook-config.glade.h:14
 msgid "The information below is required in order to add an addressbook.  "
-msgstr "De informatie hieronder is nodig om een adresboek toe te kunnen voegen. "
+msgstr ""
+"De informatie hieronder is nodig om een adresboek toe te kunnen voegen. "
 
 #: addressbook/gui/component/addressbook-config.glade.h:15
 msgid "This information is not required for most ldap servers. "
@@ -500,13 +503,18 @@ msgstr "Deze informatie is niet noodzakelijk voor de meeste LDAP-servers. "
 msgid ""
 "This information is used by your ldap server to specify which nodes are used "
 "in a search. Contact your server administrator for more information."
-msgstr "Deze informatie wordt door uw LDAP-server gebruikt om aan te geven wat er doorzocht moet worden. Neem contact op met uw systeembeheerder voor meer informatie."
+msgstr ""
+"Deze informatie wordt door uw LDAP-server gebruikt om aan te geven wat er "
+"doorzocht moet worden. Neem contact op met uw systeembeheerder voor meer "
+"informatie."
 
 #: addressbook/gui/component/addressbook-config.glade.h:17
 msgid ""
 "This is the base node for all your searches on the ldap server. Contact your "
 "server administrator for more information."
-msgstr "Dit is de basisnode voor al uw zoekopdrachten op de LDAP-server. Neem contact op met uw systeembeheerder voor meer informatie."
+msgstr ""
+"Dit is de basisnode voor al uw zoekopdrachten op de LDAP-server. Neem contact "
+"op met uw systeembeheerder voor meer informatie."
 
 #: addressbook/gui/component/addressbook-config.glade.h:18
 msgid "This is the name of the server where your addressbook is located."
@@ -520,7 +528,9 @@ msgstr "Dit is de poort die uw LDAP-server gebruikt."
 msgid ""
 "This name will be used to identify your account. It is for display purposes "
 "only."
-msgstr "Deze naam wordt gebruikt om uw account weer te geven. De naam is alleen voor weergave-doeleinden."
+msgstr ""
+"Deze naam wordt gebruikt om uw account weer te geven. De naam is alleen voor "
+"weergave-doeleinden."
 
 #: addressbook/gui/component/addressbook-config.glade.h:21
 #, fuzzy
@@ -2974,7 +2984,6 @@ msgstr "%A, %e %B, %Y"
 msgid "%d %B"
 msgstr "%d %B"
 
-
 #: calendar/gui/calendar-commands.c:604
 msgid ""
 "Could not create the calendar view.  Please check your ORBit and OAF setup."
@@ -3029,13 +3038,11 @@ msgstr "Normaal"
 msgid "Low"
 msgstr "Laag"
 
-
 #: calendar/gui/calendar-model.c:529 calendar/gui/calendar-model.c:1144
 #: calendar/gui/e-calendar-table.c:380
 #, fuzzy
 msgid "Free"
 msgstr "week"
-
 
 #: calendar/gui/calendar-model.c:577 calendar/gui/calendar-model.c:1239
 #: calendar/gui/e-calendar-table.c:383
@@ -3687,7 +3694,9 @@ msgstr " voor het begin van een afspraak"
 
 #: calendar/gui/dialogs/cancel-comp.c:52
 msgid "The meeting status has changed. Send an updated version?"
-msgstr "De status van de bijeenkomst is veranderd. Een geactualiseerde versie versturen?"
+msgstr ""
+"De status van de bijeenkomst is veranderd. Een geactualiseerde versie "
+"versturen?"
 
 #: calendar/gui/dialogs/cancel-comp.c:58
 #, fuzzy
@@ -3719,7 +3728,9 @@ msgstr "Dit dagboekitem is verwijderd."
 #: calendar/gui/dialogs/changed-comp.c:77
 #, c-format
 msgid "%s  You have made changes. Forget those changes and close the editor?"
-msgstr "%s U heeft veranderingen gemaakt. Deze veranderingen negeren en de editor sluiten?"
+msgstr ""
+"%s U heeft veranderingen gemaakt. Deze veranderingen negeren en de editor "
+"sluiten?"
 
 #: calendar/gui/dialogs/changed-comp.c:79
 #, c-format
@@ -3741,7 +3752,8 @@ msgstr "Dit dagboekitem is veranderd"
 #: calendar/gui/dialogs/changed-comp.c:101
 #, c-format
 msgid "%s  You have made changes. Forget those changes and update the editor?"
-msgstr "%s U heeft iets veranderd. Deze veranderingen vergeten en de editor sluiten?"
+msgstr ""
+"%s U heeft iets veranderd. Deze veranderingen vergeten en de editor sluiten?"
 
 #: calendar/gui/dialogs/changed-comp.c:103
 #, c-format
@@ -5080,14 +5092,14 @@ msgid ""
 "Could not open `%s'; no items from the calendar folder will be migrated to "
 "the tasks folder."
 msgstr ""
-"Kon '%s' niet openen; er worden geen taken uit uw kalendermap verplaatst "
-"naar de takenmap."
+"Kon '%s' niet openen; er worden geen taken uit uw kalendermap verplaatst naar "
+"de takenmap."
 
 #: calendar/gui/tasks-migrate.c:134
 #, c-format
 msgid ""
-"The method required to load `%s' is not supported; no items from the "
-"calendar folder will be migrated to the tasks folder."
+"The method required to load `%s' is not supported; no items from the calendar "
+"folder will be migrated to the tasks folder."
 msgstr ""
 "De methode die nodig is om '%s' te laden, wordt niet ondersteund; er "
 "wordengeen taken verplaatst van de kalendermap naar de takenmap."
@@ -5170,11 +5182,11 @@ msgstr "contains? verwacht dat argument 2 een string is"
 
 #: calendar/pcs/query.c:663
 msgid ""
-"contains? expects argument 1 to be one of \"any\", \"summary\", \"description"
-"\""
-msgstr ""
-"contains? verwacht dat argument 1 een kleuze is uit \"any\",\"summary\","
+"contains? expects argument 1 to be one of \"any\", \"summary\", "
 "\"description\""
+msgstr ""
+"contains? verwacht dat argument 1 een kleuze is uit "
+"\"any\",\"summary\",\"description\""
 
 #: calendar/pcs/query.c:705
 msgid "has-categories? expects at least 1 argument"
@@ -5362,8 +5374,8 @@ msgstr "Kon vergrendelingsbestand voor %s niet maken: %s"
 #, c-format
 msgid "Timed out trying to get lock file on %s. Try again later."
 msgstr ""
-"Maximale wachttijd overschreden tijdens het wachten op exclusieve toegang "
-"tot bestand %s. Probeer het later opnieuw."
+"Maximale wachttijd overschreden tijdens het wachten op exclusieve toegang tot "
+"bestand %s. Probeer het later opnieuw."
 
 #: camel/camel-lock.c:201
 #, c-format
@@ -5586,8 +5598,8 @@ msgstr "DIGEST-MD5"
 
 #: camel/camel-sasl-digest-md5.c:45
 msgid ""
-"This option will connect to the server using a secure DIGEST-MD5 password, "
-"if the server supports it."
+"This option will connect to the server using a secure DIGEST-MD5 password, if "
+"the server supports it."
 msgstr ""
 "Deze optie zal verbinding maken met de server met een veilig DIGEST-MD5 "
 "wachtwoord, indien de server dat ondersteund."
@@ -5621,10 +5633,11 @@ msgid "Kerberos 4"
 msgstr "Kerberos 4"
 
 #: camel/camel-sasl-kerberos4.c:42
-msgid "This option will connect to the server using Kerberos 4 authentication."
+msgid ""
+"This option will connect to the server using Kerberos 4 authentication."
 msgstr ""
-"Deze optie zal bij het verbinden met de server gebruik maken van Kerberos-4-"
-"aanmelding."
+"Deze optie zal bij het verbinden met de server gebruik maken van "
+"Kerberos-4-aanmelding."
 
 #: camel/camel-sasl-kerberos4.c:161
 #, c-format
@@ -5666,7 +5679,9 @@ msgstr "POP voor SMTP"
 
 #: camel/camel-sasl-popb4smtp.c:36
 msgid "This option will authorise a POP connection before attempting SMTP"
-msgstr "Deze optie geeft aan dat eerst POP-verbinding wordt gestart, voordat SMTP geprobeerd wordt"
+msgstr ""
+"Deze optie geeft aan dat eerst POP-verbinding wordt gestart, voordat SMTP "
+"geprobeerd wordt"
 
 #: camel/camel-sasl-popb4smtp.c:107
 #, fuzzy
@@ -5949,7 +5964,8 @@ msgid "For reading and storing mail on IMAP servers."
 msgstr "Voor het lezen en opslaan van post op IMAP servers."
 
 #: camel/providers/imap/camel-imap-provider.c:82
-msgid "This option will connect to the IMAP server using a plaintext password."
+msgid ""
+"This option will connect to the IMAP server using a plaintext password."
 msgstr ""
 "Deze optie zal bij het verbinden met de IMAP-server het wachtwoord versturen "
 "als platte tekst."
@@ -6553,15 +6569,15 @@ msgid ""
 "This option will connect to the POP server using a plaintext password. This "
 "is the only option supported by many POP servers."
 msgstr ""
-"Bij het verbinden met de POP-server het wachtwoord versturen in platte-tekst-"
-"vorm. Deze optie is de enige die wordt ondersteund door de meeste POP "
-"servers."
+"Bij het verbinden met de POP-server het wachtwoord versturen in "
+"platte-tekst-vorm. Deze optie is de enige die wordt ondersteund door de "
+"meeste POP servers."
 
 #: camel/providers/pop3/camel-pop3-provider.c:79
 msgid ""
 "This option will connect to the POP server using an encrypted password via "
-"the APOP protocol. This may not work for all users even on servers that "
-"claim to support it."
+"the APOP protocol. This may not work for all users even on servers that claim "
+"to support it."
 msgstr ""
 "Bij het verbinden met de POP-server word gebruik gemaakt van een versleuteld "
 "wachtwoord via het APOP-protocol. Deze optie zal niet werken voor alle "
@@ -6640,8 +6656,8 @@ msgid ""
 "For delivering mail by passing it to the \"sendmail\" program on the local "
 "system."
 msgstr ""
-"Het afleveren van post zal afgehandeld worden door het \"sendmail\" "
-"programma op het lokale systeem."
+"Het afleveren van post zal afgehandeld worden door het \"sendmail\" programma "
+"op het lokale systeem."
 
 #: camel/providers/sendmail/camel-sendmail-transport.c:107
 #, c-format
@@ -6920,8 +6936,8 @@ msgstr "Fout bij DATA-respons: %s: bericht niet verstuurd"
 #, c-format
 msgid "DATA send timed out: message termination: %s: mail not sent"
 msgstr ""
-"Time-out tijdens het versturen van DATA: bericht afgebroken: %s: bericht "
-"niet verstuurd"
+"Time-out tijdens het versturen van DATA: bericht afgebroken: %s: bericht niet "
+"verstuurd"
 
 #: camel/providers/smtp/camel-smtp-transport.c:1043
 #, c-format
@@ -8245,7 +8261,8 @@ msgid ""
 "Send anyway?"
 msgstr ""
 "Dit bericht heeft alleen Bcc-ontvangers.\n"
-"Mogelijk worden de Bcc-ontvangers toch getoond doordat uw mailserver een 'Apparently-To' kop toevoegt.\n"
+"Mogelijk worden de Bcc-ontvangers toch getoond doordat uw mailserver een "
+"'Apparently-To' kop toevoegt.\n"
 "Toch verzenden?"
 
 #: mail/mail-callbacks.c:339
@@ -8322,7 +8339,8 @@ msgid ""
 "\n"
 "Really erase these messages?"
 msgstr ""
-"Deze operatie zal alle berichten die al 'gewist' gemarkeerd zijn permanent verwijderen, en kunt ze niet meer herstellen\n"
+"Deze operatie zal alle berichten die al 'gewist' gemarkeerd zijn permanent "
+"verwijderen, en kunt ze niet meer herstellen\n"
 "\n"
 "De berichten echt verwijderen?"
 
@@ -8361,13 +8379,13 @@ msgstr ""
 #: mail/mail-config-druid.c:135
 #, fuzzy
 msgid ""
-"Please enter your name and email address below. The \"optional\" fields "
-"below do not need to be filled in,\n"
+"Please enter your name and email address below. The \"optional\" fields below "
+"do not need to be filled in,\n"
 "unless you wish to include this information in email you send."
 msgstr ""
 "Voor uw naam en emailadres in. De optionele velden behoeven niet te "
-"wordeningevuld tenzij u wilt dat deze informatie wordt meegezondenin de "
-"email berichten die u verzend."
+"wordeningevuld tenzij u wilt dat deze informatie wordt meegezondenin de email "
+"berichten die u verzend."
 
 #: mail/mail-config-druid.c:137
 #, fuzzy
@@ -8376,9 +8394,9 @@ msgid ""
 "not sure, ask your system\n"
 "administrator or Internet Service Provider."
 msgstr ""
-"Voor de informatie over de inkomende emailserver in. Als u niet weet wat "
-"voor server ugebruikt neem dan contact op met uw system administrator of met "
-"uw ISP."
+"Voor de informatie over de inkomende emailserver in. Als u niet weet wat voor "
+"server ugebruikt neem dan contact op met uw system administrator of met uw "
+"ISP."
 
 #: mail/mail-config-druid.c:139
 msgid "Please select among the following options"
@@ -8392,8 +8410,8 @@ msgid ""
 "administrator or Internet Service Provider."
 msgstr ""
 "Voer informatie omtrent je uitgaand e-mail protocol beneden in. Als je niet "
-"weet voor protocol u gebruikt neem dan contact op met uw system "
-"administrator of met uw Internet Service Provider"
+"weet voor protocol u gebruikt neem dan contact op met uw system administrator "
+"of met uw Internet Service Provider"
 
 #: mail/mail-config-druid.c:143
 #, fuzzy
@@ -8401,16 +8419,15 @@ msgid ""
 "You are almost done with the mail configuration process. The identity, "
 "incoming mail server and\n"
 "outgoing mail transport method which you provided will be grouped together "
-"to\n"
-"make an Evolution mail account. Please enter a name for this account in the "
-"space below.\n"
+"to\nmake an Evolution mail account. Please enter a name for this account in "
+"the space below.\n"
 "This name will be used for display purposes only."
 msgstr ""
-"U bent bijna klaar met het emailconfiguratie proces. De identiteit, "
-"incomende emailserver en uitgaande verzend methode die u heeft "
-"ingevuldzullen samen worden gebonden in een aan te maken Evolution email "
-"account.Vul de naam in voor dit account in de ruimte hieroder. Deze naam "
-"word alleengebruik als 'show' naam."
+"U bent bijna klaar met het emailconfiguratie proces. De identiteit, incomende "
+"emailserver en uitgaande verzend methode die u heeft ingevuldzullen samen "
+"worden gebonden in een aan te maken Evolution email account.Vul de naam in "
+"voor dit account in de ruimte hieroder. Deze naam word alleengebruik als "
+"'show' naam."
 
 #. set window title
 #: mail/mail-config-druid.c:558
@@ -8463,11 +8480,15 @@ msgstr "Accounts"
 
 #: mail/mail-config.glade.h:7
 msgid "Always encrypt to myself when sending encrypted mail"
-msgstr "Versleutel berichten altijd naar mijzelf bij het versturen van versleutelde berichten"
+msgstr ""
+"Versleutel berichten altijd naar mijzelf bij het versturen van versleutelde "
+"berichten"
 
 #: mail/mail-config.glade.h:8
 msgid "Always encrypt to myself when sending encrypyed mail"
-msgstr "Versleutel berichten altijd naar mijzelf bij het versturen van versleutelde berichten"
+msgstr ""
+"Versleutel berichten altijd naar mijzelf bij het versturen van versleutelde "
+"berichten"
 
 #: mail/mail-config.glade.h:9
 msgid "Always sign outgoing messages when using this account"
@@ -8643,7 +8664,8 @@ msgstr "Waarschuw wanneer een bericht verstuurd wordt zonder _onderwerp"
 #: mail/mail-config.glade.h:58
 #, fuzzy
 msgid "Prompt when sending messages with only _Bcc recipients defined"
-msgstr "Waarschuw wanneer een bericht verstuurd wordt met alleen _Bcc-ontvangers"
+msgstr ""
+"Waarschuw wanneer een bericht verstuurd wordt met alleen _Bcc-ontvangers"
 
 #: mail/mail-config.glade.h:59
 msgid "Qmail maildir "
@@ -9042,7 +9064,8 @@ msgid "This message is digitally signed and has been found to be authentic."
 msgstr "Dit bericht is digitaal ondertekend en is authentiek."
 
 #: mail/mail-format.c:1403
-msgid "This message is digitally signed but can not be proven to be authentic."
+msgid ""
+"This message is digitally signed but can not be proven to be authentic."
 msgstr ""
 "Dit bericht is digitaal ondertekend, maar er kan niet worden aangetoond dat "
 "het authentiek is."
@@ -9829,50 +9852,48 @@ msgstr "Lichte motregen"
 
 #: my-evolution/metar.c:100
 msgid "Moderate drizzle"
-msgstr ""
+msgstr "Middelmatige motregen"
 
 #: my-evolution/metar.c:100
 msgid "Heavy drizzle"
-msgstr ""
+msgstr "Zware motregen"
 
 #: my-evolution/metar.c:100
 msgid "Shallow drizzle"
-msgstr ""
+msgstr "Matige motregen"
 
 #: my-evolution/metar.c:100
 msgid "Patches of drizzle"
-msgstr ""
+msgstr "Plaatselijke motregen"
 
 #: my-evolution/metar.c:100
 msgid "Partial drizzle"
-msgstr ""
+msgstr "Gedeeltelijke motregen"
 
 #: my-evolution/metar.c:100 my-evolution/metar.c:101
 msgid "Thunderstorm"
-msgstr ""
+msgstr "Onweer"
 
 #: my-evolution/metar.c:100
 msgid "Windy drizzle"
-msgstr ""
+msgstr "Winderige motregen"
 
 #: my-evolution/metar.c:100
-#, fuzzy
 msgid "Showers"
-msgstr "Weergeven"
+msgstr "Regen"
 
 #: my-evolution/metar.c:100
 msgid "Drifting drizzle"
-msgstr ""
+msgstr "Rondzwervende motregen"
 
 #: my-evolution/metar.c:100
 msgid "Freezing drizzle"
-msgstr ""
+msgstr "Ijskoude motregen"
 
 #. RAIN
 #: my-evolution/metar.c:101
-#, fuzzy
 msgid "Rain"
-msgstr "Radio"
+msgstr "Regen"
 
 #: my-evolution/metar.c:101
 msgid "Rain in the vicinity"
@@ -9884,7 +9905,7 @@ msgstr "Lichte regen"
 
 #: my-evolution/metar.c:101
 msgid "Moderate rain"
-msgstr "Enige regen"
+msgstr "Middelmatige regen"
 
 #: my-evolution/metar.c:101
 msgid "Heavy rain"
@@ -9892,127 +9913,125 @@ msgstr "Zware buien"
 
 #: my-evolution/metar.c:101
 msgid "Shallow rain"
-msgstr ""
+msgstr "Matige regen"
 
 #: my-evolution/metar.c:101
 msgid "Patches of rain"
-msgstr ""
+msgstr "Hier en daar regen"
 
 #: my-evolution/metar.c:101
 msgid "Partial rainfall"
-msgstr ""
+msgstr "Gedeeltelijke regenval"
 
 #: my-evolution/metar.c:101
 msgid "Blowing rainfall"
-msgstr ""
+msgstr "Winderige regenval"
 
 #: my-evolution/metar.c:101
 msgid "Rain showers"
-msgstr ""
+msgstr "Buien"
 
 #: my-evolution/metar.c:101
-#, fuzzy
 msgid "Drifting rain"
-msgstr "Omschrijving bevat:"
+msgstr "Rondzwervende buien"
 
 #: my-evolution/metar.c:101
 msgid "Freezing rain"
-msgstr "IJzel"
+msgstr "IJskoude regen"
 
 #. SNOW
 #: my-evolution/metar.c:102
 msgid "Snow"
-msgstr "Sneeuw"
+msgstr "Sneeuwval"
 
 #: my-evolution/metar.c:102
 msgid "Snow in the vicinity"
-msgstr "Plaatselijk sneeuw"
+msgstr "Plaatselijk sneeuwval"
 
 #: my-evolution/metar.c:102
 msgid "Light snow"
-msgstr ""
+msgstr "Lichte sneeuwval"
 
 #: my-evolution/metar.c:102
-#, fuzzy
 msgid "Moderate snow"
-msgstr "Actualiseer nu"
+msgstr "Middelmatige sneeuwval"
 
 #: my-evolution/metar.c:102
 msgid "Heavy snow"
-msgstr ""
+msgstr "Zware sneeuwval"
 
 #: my-evolution/metar.c:102
 msgid "Shallow snow"
-msgstr ""
+msgstr "Matige sneeuwval"
 
 #: my-evolution/metar.c:102
 msgid "Patches of snow"
-msgstr ""
+msgstr "Hier en daar sneeuwval"
 
 #: my-evolution/metar.c:102
 msgid "Partial snowfall"
-msgstr ""
+msgstr "Gedeeltelijke sneeuwval"
 
 #: my-evolution/metar.c:102 my-evolution/metar.c:103
 msgid "Snowstorm"
-msgstr ""
+msgstr "SNeeuwstorm"
 
 #: my-evolution/metar.c:102
 msgid "Blowing snowfall"
-msgstr ""
+msgstr "Winderige sneeuwval"
 
 #: my-evolution/metar.c:102
 msgid "Snow showers"
-msgstr ""
+msgstr "Sneeuwbuien"
 
 #: my-evolution/metar.c:102
 msgid "Drifting snow"
-msgstr ""
+msgstr "Sneeuwbuien"
 
 #: my-evolution/metar.c:102
 msgid "Freezing snow"
-msgstr ""
+msgstr "IJskoude sneeuw"
 
 #. SNOW_GRAINS
 #: my-evolution/metar.c:103
 msgid "Snow grains"
-msgstr ""
+msgstr "Sneeuw"
 
 #: my-evolution/metar.c:103
 msgid "Snow grains in the vicinity"
-msgstr ""
+msgstr "Sneeuwbuien"
 
 #: my-evolution/metar.c:103
 msgid "Light snow grains"
-msgstr ""
+msgstr "Lichte sneeuwbuien"
 
 #: my-evolution/metar.c:103
 msgid "Moderate snow grains"
-msgstr ""
+msgstr "Middelmatige sneeuwbuien"
 
 #: my-evolution/metar.c:103
 msgid "Heavy snow grains"
-msgstr ""
+msgstr "Zware sneeuwbuien"
 
 #: my-evolution/metar.c:103
 msgid "Shallow snow grains"
-msgstr ""
+msgstr "Matige sneeuwnuien"
 
 #: my-evolution/metar.c:103
 msgid "Patches of snow grains"
-msgstr ""
+msgstr "Hier en daar sneeuwbuien"
 
 #: my-evolution/metar.c:103
 msgid "Partial snow grains"
-msgstr ""
+msgstr "Gedeeltelijke sneeuwbuien"
 
 #: my-evolution/metar.c:103
 msgid "Blowing snow grains"
-msgstr ""
+msgstr "Winderige sneeuwbuien"
 
 #: my-evolution/metar.c:103
 msgid "Snow grain showers"
-msgstr ""
+msgstr "Sneeuwbuien"
 
 #: my-evolution/metar.c:103
 #, fuzzy
@@ -10021,272 +10040,264 @@ msgstr "Omschrijving bevat:"
 
 #: my-evolution/metar.c:103
 msgid "Freezing snow grains"
-msgstr ""
+msgstr "Ijskoude sneeuwbuien"
 
 #. ICE_CRYSTALS
 #: my-evolution/metar.c:104
 msgid "Ice crystals"
-msgstr ""
+msgstr "Hagel"
 
 #: my-evolution/metar.c:104
 msgid "Ice crystals in the vicinity"
-msgstr ""
+msgstr "Hier en daar hagel"
 
 #: my-evolution/metar.c:104
 msgid "Few ice crystals"
-msgstr ""
+msgstr "Lichte hagel"
 
 #: my-evolution/metar.c:104
 msgid "Moderate ice crystals"
-msgstr ""
+msgstr "Middelmatige hagel"
 
 #: my-evolution/metar.c:104
 msgid "Heavy ice crystals"
-msgstr ""
+msgstr "Zware hagel"
 
 #: my-evolution/metar.c:104
 msgid "Patches of ice crystals"
-msgstr ""
+msgstr "Hier en daar hagel"
 
 #: my-evolution/metar.c:104
 msgid "Partial ice crystals"
-msgstr ""
+msgstr "Gedeeltelijke hagelbuien"
 
 #: my-evolution/metar.c:104
 msgid "Ice crystal storm"
-msgstr ""
+msgstr "Hagelstorm"
 
 #: my-evolution/metar.c:104
 msgid "Blowing ice crystals"
-msgstr ""
+msgstr "Winderige hagelbuien"
 
 #: my-evolution/metar.c:104
 msgid "Showers of ice crystals"
-msgstr ""
+msgstr "Hagelbuien"
 
 #: my-evolution/metar.c:104
 msgid "Drifting ice crystals"
-msgstr ""
+msgstr "Hagelbuien"
 
 #: my-evolution/metar.c:104
 msgid "Freezing ice crystals"
-msgstr ""
+msgstr "Ijskoude hagelbuien"
 
 #. ICE_PELLETS
 #: my-evolution/metar.c:105
 msgid "Ice pellets"
-msgstr ""
+msgstr "Hagelbuien"
 
 #: my-evolution/metar.c:105
 msgid "Ice pellets in the vicinity"
-msgstr ""
+msgstr "Hier en daar hagelbuien"
 
 #: my-evolution/metar.c:105
 msgid "Few ice pellets"
-msgstr ""
+msgstr "Lichte hagelbuien"
 
 #: my-evolution/metar.c:105
 msgid "Moderate ice pellets"
-msgstr ""
+msgstr "Middelmatige hagelbuien"
 
 #: my-evolution/metar.c:105
 msgid "Heavy ice pellets"
-msgstr ""
+msgstr "Zware hagelbuien"
 
 #: my-evolution/metar.c:105
 msgid "Shallow ice pellets"
-msgstr ""
+msgstr "Matige hagelbuien"
 
 #: my-evolution/metar.c:105
 msgid "Patches of ice pellets"
-msgstr ""
+msgstr "Hier en daar hagelbuien"
 
 #: my-evolution/metar.c:105
 msgid "Partial ice pellets"
-msgstr ""
+msgstr "Gedeeltelijke hagelbuien"
 
 #: my-evolution/metar.c:105
 msgid "Ice pellet storm"
-msgstr ""
+msgstr "Hagelstorm"
 
 #: my-evolution/metar.c:105
 msgid "Blowing ice pellets"
-msgstr ""
+msgstr "Winderige hagelbuien"
 
 #: my-evolution/metar.c:105
 msgid "Showers of ice pellets"
-msgstr ""
+msgstr "Hagelbuien"
 
 #: my-evolution/metar.c:105
 msgid "Drifting ice pellets"
-msgstr ""
+msgstr "Hagelbuien"
 
 #: my-evolution/metar.c:105
 msgid "Freezing ice pellets"
-msgstr ""
+msgstr "Ijskoude hagel"
 
 #. HAIL
 #: my-evolution/metar.c:106
-#, fuzzy
 msgid "Hail"
-msgstr "Post"
+msgstr "Hagel"
 
 #: my-evolution/metar.c:106
 msgid "Hail in the vicinity"
-msgstr ""
+msgstr "Hagelbuien"
 
 #: my-evolution/metar.c:106 my-evolution/metar.c:107
 msgid "Light hail"
-msgstr ""
+msgstr "Lichte hagelbuien"
 
 #: my-evolution/metar.c:106
 msgid "Moderate hail"
-msgstr ""
+msgstr "Middelmatige hagelbuien"
 
 #: my-evolution/metar.c:106
 msgid "Heavy hail"
-msgstr ""
+msgstr "Zware hagelbuien"
 
 #: my-evolution/metar.c:106
-#, fuzzy
 msgid "Shallow hail"
-msgstr "Toon een dialoogvenster"
+msgstr "Matige hagelbuien"
 
 #: my-evolution/metar.c:106
 msgid "Patches of hail"
-msgstr ""
+msgstr "Hier en daar hagelbuien"
 
 #: my-evolution/metar.c:106
-#, fuzzy
 msgid "Partial hail"
-msgstr "Primaire E-mail"
+msgstr "Gedeeltelijke hagelbuien"
 
 #: my-evolution/metar.c:106
 msgid "Hailstorm"
-msgstr ""
+msgstr "Hagelstorm"
 
 #: my-evolution/metar.c:106
 msgid "Blowing hail"
-msgstr ""
+msgstr "Winderige hagel"
 
 #: my-evolution/metar.c:106
 msgid "Hail showers"
-msgstr ""
+msgstr "Hagelbuien"
 
 #: my-evolution/metar.c:106
 msgid "Drifting hail"
-msgstr ""
+msgstr "Hagelbuien"
 
 #: my-evolution/metar.c:106
-#, fuzzy
 msgid "Freezing hail"
-msgstr "Berichten aan het ontvangen"
+msgstr "Ijskoude hagelbuien"
 
 #. SMALL_HAIL
 #: my-evolution/metar.c:107
 msgid "Small hail"
-msgstr ""
+msgstr "Kleine hagel"
 
 #: my-evolution/metar.c:107
 msgid "Small hail in the vicinity"
-msgstr ""
+msgstr "Kleine hagelbuien"
 
 #: my-evolution/metar.c:107
 msgid "Moderate small hail"
-msgstr ""
+msgstr "Middelmatige kleine hagelbuien"
 
 #: my-evolution/metar.c:107
 msgid "Heavy small hail"
-msgstr ""
+msgstr "Zware kleine hagelbuien"
 
 #: my-evolution/metar.c:107
 msgid "Shallow small hail"
-msgstr ""
+msgstr "Matige hagelbuien"
 
 #: my-evolution/metar.c:107
 msgid "Patches of small hail"
-msgstr ""
+msgstr "Hier en daar hagelbuien"
 
 #: my-evolution/metar.c:107
 msgid "Partial small hail"
-msgstr ""
+msgstr "Gedeeltelijke hagelbuien"
 
 #: my-evolution/metar.c:107
 msgid "Small hailstorm"
-msgstr ""
+msgstr "Kleine hagelstorm"
 
 #: my-evolution/metar.c:107
 msgid "Blowing small hail"
-msgstr ""
+msgstr "Winderige kleine hagel"
 
 #: my-evolution/metar.c:107
 msgid "Showers of small hail"
-msgstr ""
+msgstr "Kleine hagelbuien"
 
 #: my-evolution/metar.c:107
 msgid "Drifting small hail"
-msgstr ""
+msgstr "Winderige hagelbuien"
 
 #: my-evolution/metar.c:107
 msgid "Freezing small hail"
-msgstr ""
+msgstr "Ijskoude kleine hagel"
 
 #. PRECIPITATION
 #: my-evolution/metar.c:108
-#, fuzzy
 msgid "Unknown precipitation"
-msgstr "Onbekende aanmeldingsstatus"
+msgstr "Onbekende neerslag"
 
 #: my-evolution/metar.c:108
 msgid "Precipitation in the vicinity"
-msgstr ""
+msgstr "Hier en daar neerslag"
 
 #: my-evolution/metar.c:108
-#, fuzzy
 msgid "Light precipitation"
-msgstr "Highligt citaten met"
+msgstr "Lichte neerslag"
 
 #: my-evolution/metar.c:108
 msgid "Moderate precipitation"
-msgstr ""
+msgstr "Middelmatige neerslag"
 
 #: my-evolution/metar.c:108
 msgid "Heavy precipitation"
-msgstr ""
+msgstr "Zware neerslag"
 
 #: my-evolution/metar.c:108
 msgid "Shallow precipitation"
-msgstr ""
+msgstr "Matige neerslag"
 
 #: my-evolution/metar.c:108
 msgid "Patches of precipitation"
-msgstr ""
+msgstr "Hier en daar neerslag"
 
 #: my-evolution/metar.c:108
 msgid "Partial precipitation"
-msgstr ""
+msgstr "Gedeeltelijke neerslag"
 
 #: my-evolution/metar.c:108
-#, fuzzy
 msgid "Unknown thunderstorm"
-msgstr "Onbekende fout"
+msgstr "Onbekend onweer"
 
 #: my-evolution/metar.c:108
 msgid "Blowing precipitation"
-msgstr ""
+msgstr "Winderige neerslag"
 
 #: my-evolution/metar.c:108
 msgid "Showers, type unknown"
-msgstr ""
+msgstr "Onbekende buien"
 
 #: my-evolution/metar.c:108
 msgid "Drifting precipitation"
-msgstr ""
+msgstr "Hier en daar neerslag"
 
 #: my-evolution/metar.c:108
-#, fuzzy
 msgid "Freezing precipitation"
-msgstr "Uitnodigingen voor de bijeenkomst"
+msgstr "Ijskoude neerslag"
 
 #. MIST
 #: my-evolution/metar.c:109
@@ -10296,756 +10307,716 @@ msgstr "Mjfr."
 
 #: my-evolution/metar.c:109
 msgid "Mist in the vicinity"
-msgstr ""
+msgstr "Hier en daar mist"
 
 #: my-evolution/metar.c:109
 msgid "Light mist"
-msgstr ""
+msgstr "Lichte mist"
 
 #: my-evolution/metar.c:109
 msgid "Moderate mist"
-msgstr ""
+msgstr "Middelmatige mist"
 
 #: my-evolution/metar.c:109
 msgid "Thick mist"
-msgstr ""
+msgstr "Dikke mist"
 
 #: my-evolution/metar.c:109
 msgid "Shallow mist"
-msgstr ""
+msgstr "Matige mist"
 
 #: my-evolution/metar.c:109
 msgid "Patches of mist"
-msgstr ""
+msgstr "Hier en daar mistflarden"
 
 #: my-evolution/metar.c:109
-#, fuzzy
 msgid "Partial mist"
-msgstr "Staand"
+msgstr "Mistflarden"
 
 #: my-evolution/metar.c:109
 msgid "Mist with wind"
-msgstr ""
+msgstr "Wind en mist"
 
 #: my-evolution/metar.c:109
-#, fuzzy
 msgid "Drifting mist"
-msgstr "Mailinglijst"
+msgstr "Drijvende mist"
 
 #: my-evolution/metar.c:109
 msgid "Freezing mist"
-msgstr ""
+msgstr "Ijskoude mist"
 
 #. FOG
 #: my-evolution/metar.c:110
 msgid "Fog"
-msgstr ""
+msgstr "Mist"
 
 #: my-evolution/metar.c:110
 msgid "Fog in the vicinity"
-msgstr ""
+msgstr "Hier en daar mist"
 
 #: my-evolution/metar.c:110
 msgid "Light fog"
-msgstr ""
+msgstr "Lichte mist"
 
 #: my-evolution/metar.c:110
 msgid "Moderate fog"
-msgstr ""
+msgstr "Middelmatige mist"
 
 #: my-evolution/metar.c:110
 msgid "Thick fog"
-msgstr ""
+msgstr "Dikke mist"
 
 #: my-evolution/metar.c:110
 msgid "Shallow fog"
-msgstr ""
+msgstr "Matige mist"
 
 #: my-evolution/metar.c:110
 msgid "Patches of fog"
-msgstr ""
+msgstr "Hier en daar mist"
 
 #: my-evolution/metar.c:110
 msgid "Partial fog"
-msgstr ""
+msgstr "Gedeeltelijke mist"
 
 #: my-evolution/metar.c:110
-#, fuzzy
 msgid "Fog with wind"
-msgstr "Dit venster sluiten"
+msgstr "Wind en mist"
 
 #: my-evolution/metar.c:110
 msgid "Drifting fog"
-msgstr ""
+msgstr "Drijvende mist"
 
 #: my-evolution/metar.c:110
 msgid "Freezing fog"
-msgstr ""
+msgstr "Ijskoude mist"
 
 #. SMOKE
 #: my-evolution/metar.c:111
-#, fuzzy
 msgid "Smoke"
-msgstr "Score"
+msgstr "Smog"
 
 #: my-evolution/metar.c:111
 msgid "Smoke in the vicinity"
-msgstr ""
+msgstr "Hier en daar smog"
 
 #: my-evolution/metar.c:111
 msgid "Thin smoke"
-msgstr ""
+msgstr "Dunne smog"
 
 #: my-evolution/metar.c:111
 msgid "Moderate smoke"
-msgstr ""
+msgstr "Middelmatige smog"
 
 #: my-evolution/metar.c:111
 msgid "Thick smoke"
-msgstr ""
+msgstr "Dikke smog"
 
 #: my-evolution/metar.c:111
-#, fuzzy
 msgid "Shallow smoke"
-msgstr "Toon taken"
+msgstr "Matige smog"
 
 #: my-evolution/metar.c:111
 msgid "Patches of smoke"
-msgstr ""
+msgstr "Hier en daar smog"
 
 #: my-evolution/metar.c:111
 msgid "Partial smoke"
-msgstr ""
+msgstr "Gedeeltelijke smog"
 
 #: my-evolution/metar.c:111
 msgid "Smoke w/ thunders"
-msgstr ""
+msgstr "Smog met onweer"
 
 #: my-evolution/metar.c:111
-#, fuzzy
 msgid "Smoke with wind"
-msgstr "Dit venster sluiten"
+msgstr "Smog met wind"
 
 #: my-evolution/metar.c:111
 msgid "Drifting smoke"
-msgstr ""
+msgstr "Drijvende smog"
 
 #. VOLCANIC_ASH
 #: my-evolution/metar.c:112
 msgid "Volcanic ash"
-msgstr ""
+msgstr "Vulkanische as"
 
 #: my-evolution/metar.c:112
 msgid "Volcanic ash in the vicinity"
-msgstr ""
+msgstr "Vulkanische as dichtbij"
 
 #: my-evolution/metar.c:112
 msgid "Moderate volcanic ash"
-msgstr ""
+msgstr "Middelmatige vulkanische as"
 
 #: my-evolution/metar.c:112
 msgid "Thick volcanic ash"
-msgstr ""
+msgstr "Dikke vulkanische as"
 
 #: my-evolution/metar.c:112
 msgid "Shallow volcanic ash"
-msgstr ""
+msgstr "Matige vulkanische as"
 
 #: my-evolution/metar.c:112
 msgid "Patches of volcanic ash"
-msgstr ""
+msgstr "Hier en daar vulkanische as"
 
 #: my-evolution/metar.c:112
 msgid "Partial volcanic ash"
-msgstr ""
+msgstr "Gedeeltelijke vulkanische as"
 
 #: my-evolution/metar.c:112
 msgid "Volcanic ash w/ thunders"
-msgstr ""
+msgstr "Vulkanische as met onweer"
 
 #: my-evolution/metar.c:112
 msgid "Blowing volcanic ash"
-msgstr ""
+msgstr "Winderige vulkanische as"
 
 #: my-evolution/metar.c:112
 msgid "Showers of volcanic ash "
-msgstr ""
+msgstr "Buien van vulkanische as"
 
 #: my-evolution/metar.c:112
 msgid "Drifting volcanic ash"
-msgstr ""
+msgstr "Drijvende vulkanische as"
 
 #: my-evolution/metar.c:112
 msgid "Freezing volcanic ash"
-msgstr ""
+msgstr "Ijskoude vulkanische as"
 
 #. SAND
 #: my-evolution/metar.c:113
-#, fuzzy
 msgid "Sand"
-msgstr "Versturen"
+msgstr "Zand"
 
 #: my-evolution/metar.c:113
 msgid "Sand in the vicinity"
-msgstr ""
+msgstr "Hier en daar zand"
 
 #: my-evolution/metar.c:113
 msgid "Light sand"
-msgstr ""
+msgstr "Licht zand"
 
 #: my-evolution/metar.c:113
 msgid "Moderate sand"
-msgstr ""
+msgstr "Middelmatig zand"
 
 #: my-evolution/metar.c:113
 msgid "Heavy sand"
-msgstr ""
+msgstr "Zwaar zand"
 
 #: my-evolution/metar.c:113
 msgid "Patches of sand"
-msgstr ""
+msgstr "Hier en daar zand"
 
 #: my-evolution/metar.c:113
 msgid "Partial sand"
-msgstr ""
+msgstr "Gedeeltelijk zand"
 
 #: my-evolution/metar.c:113
 msgid "Blowing sand"
-msgstr ""
+msgstr "Winderige zandstormen"
 
 #: my-evolution/metar.c:113
 msgid "Drifting sand"
-msgstr ""
+msgstr "Drijvend zand"
 
 #. HAZE
 #: my-evolution/metar.c:114
-#, fuzzy
 msgid "Haze"
-msgstr "Kop"
+msgstr "Rook"
 
 #: my-evolution/metar.c:114
 msgid "Haze in the vicinity"
-msgstr ""
+msgstr "Hier en daar rook"
 
 #: my-evolution/metar.c:114
 msgid "Light haze"
-msgstr ""
+msgstr "Lichte rook"
 
 #: my-evolution/metar.c:114
 msgid "Moderate haze"
-msgstr ""
+msgstr "Middelmatige rook"
 
 #: my-evolution/metar.c:114
 msgid "Thick haze"
-msgstr ""
+msgstr "Dikke rook"
 
 #: my-evolution/metar.c:114
 msgid "Shallow haze"
-msgstr ""
+msgstr "Matige rook"
 
 #: my-evolution/metar.c:114
 msgid "Patches of haze"
-msgstr ""
+msgstr "Hier en daar rook"
 
 #: my-evolution/metar.c:114
 msgid "Partial haze"
-msgstr ""
+msgstr "Gedeeltelijke rook"
 
 #: my-evolution/metar.c:114
 msgid "Haze with wind"
-msgstr ""
+msgstr "Winderige rook"
 
 #: my-evolution/metar.c:114
 msgid "Drifting haze"
-msgstr ""
+msgstr "Drijvende rook"
 
 #: my-evolution/metar.c:114
 msgid "Freezing haze"
-msgstr ""
+msgstr "Ijskoude rook"
 
 #. SPRAY
 #: my-evolution/metar.c:115
-#, fuzzy
 msgid "Sprays"
-msgstr "dagen"
+msgstr "Buien"
 
 #: my-evolution/metar.c:115
 msgid "Sprays in the vicinity"
-msgstr ""
+msgstr "Hier en daar buien"
 
 #: my-evolution/metar.c:115
 msgid "Light sprays"
-msgstr ""
+msgstr "Lichte buien"
 
 #: my-evolution/metar.c:115
 msgid "Moderate sprays"
-msgstr ""
+msgstr "Middelmatige buien"
 
 #: my-evolution/metar.c:115
 msgid "Heavy sprays"
-msgstr ""
+msgstr "Zware buien"
 
 #: my-evolution/metar.c:115
 msgid "Shallow sprays"
-msgstr ""
+msgstr "Matige buien"
 
 #: my-evolution/metar.c:115
 msgid "Patches of sprays"
-msgstr ""
+msgstr "Hier en daar buien"
 
 #: my-evolution/metar.c:115
 msgid "Partial sprays"
-msgstr ""
+msgstr "Gedeeltelijke buien"
 
 #: my-evolution/metar.c:115
 msgid "Blowing sprays"
-msgstr ""
+msgstr "Winderige buien"
 
 #: my-evolution/metar.c:115
 msgid "Drifting sprays"
-msgstr ""
+msgstr "Drijvende buien"
 
 #: my-evolution/metar.c:115
 msgid "Freezing sprays"
-msgstr ""
+msgstr "Ijskoude buien"
 
 #. DUST
 #: my-evolution/metar.c:116
-#, fuzzy
 msgid "Dust"
-msgstr "Augustus"
+msgstr "Stof"
 
 #: my-evolution/metar.c:116
 msgid "Dust in the vicinity"
-msgstr ""
+msgstr "Hier en daar stofbuien"
 
 #: my-evolution/metar.c:116
 msgid "Light dust"
-msgstr ""
+msgstr "Lichte stofbuien"
 
 #: my-evolution/metar.c:116
 msgid "Moderate dust"
-msgstr ""
+msgstr "Middelmatige stofbuien"
 
 #: my-evolution/metar.c:116
 msgid "Heavy dust"
-msgstr ""
+msgstr "Zware stofbuien"
 
 #: my-evolution/metar.c:116
 msgid "Patches of dust"
-msgstr ""
+msgstr "Hier en daar stofbuien"
 
 #: my-evolution/metar.c:116
 msgid "Partial dust"
-msgstr ""
+msgstr "Gedeeltelijke stofbuien"
 
 #: my-evolution/metar.c:116
 msgid "Blowing dust"
-msgstr ""
+msgstr "Winderige stofbuien"
 
 #: my-evolution/metar.c:116
 msgid "Drifting dust"
-msgstr ""
+msgstr "Drijvende stofbuien"
 
 #. SQUALL
 #: my-evolution/metar.c:117
 msgid "Squall"
-msgstr ""
+msgstr "Regenstorm"
 
 #: my-evolution/metar.c:117
 msgid "Squall in the vicinity"
-msgstr ""
+msgstr "Hier en daar regenstormen"
 
 #: my-evolution/metar.c:117
 msgid "Light squall"
-msgstr ""
+msgstr "Lichte regenstormen"
 
 #: my-evolution/metar.c:117
 msgid "Moderate squall"
-msgstr ""
+msgstr "Middelmatige regenstormen"
 
 #: my-evolution/metar.c:117
 msgid "Heavy squall"
-msgstr ""
+msgstr "Zware regenstormen"
 
 #: my-evolution/metar.c:117
 msgid "Partial squall"
-msgstr ""
+msgstr "Gedeeltelijke regenstormen"
 
 #: my-evolution/metar.c:117
 msgid "Thunderous squall"
-msgstr ""
+msgstr "Onweer"
 
 #: my-evolution/metar.c:117
 msgid "Blowing squall"
-msgstr ""
+msgstr "Regenstormen"
 
 #: my-evolution/metar.c:117
 msgid "Drifting squall"
-msgstr ""
+msgstr "Regenstormen"
 
 #: my-evolution/metar.c:117
 msgid "Freezing squall"
-msgstr ""
+msgstr "Ijskoude regenstormen"
 
 #. SANDSTORM
 #: my-evolution/metar.c:118
 msgid "Sandstorm"
-msgstr ""
+msgstr "Zandstorm"
 
 #: my-evolution/metar.c:118
 msgid "Sandstorm in the vicinity"
-msgstr ""
+msgstr "Zandstorm dichtbij"
 
 #: my-evolution/metar.c:118
 msgid "Light standstorm"
-msgstr ""
+msgstr "Lichte zandstorm"
 
 #: my-evolution/metar.c:118
 msgid "Moderate sandstorm"
-msgstr ""
+msgstr "Middelmatige zandstorm"
 
 #: my-evolution/metar.c:118
 msgid "Heavy sandstorm"
-msgstr ""
+msgstr "Zware zandstorm"
 
 #: my-evolution/metar.c:118
 msgid "Shallow sandstorm"
-msgstr ""
+msgstr "Matige zandstorm"
 
 #: my-evolution/metar.c:118
 msgid "Partial sandstorm"
-msgstr ""
+msgstr "Gedeeltelijke zandstorm"
 
 #: my-evolution/metar.c:118
 msgid "Thunderous sandstorm"
-msgstr ""
+msgstr "Gewelddadige zandstorm"
 
 #: my-evolution/metar.c:118
 msgid "Blowing sandstorm"
-msgstr ""
+msgstr "Zandstorm"
 
 #: my-evolution/metar.c:118
 msgid "Drifting sandstorm"
-msgstr ""
+msgstr "Zandstorm"
 
 #: my-evolution/metar.c:118
 msgid "Freezing sandstorm"
-msgstr ""
+msgstr "Ijskoude zandstorm"
 
 #. DUSTSTORM
 #: my-evolution/metar.c:119
 msgid "Duststorm"
-msgstr ""
+msgstr "Stofstorm"
 
 #: my-evolution/metar.c:119
 msgid "Duststorm in the vicinity"
-msgstr ""
+msgstr "Stofstorm dichtbij"
 
 #: my-evolution/metar.c:119
 msgid "Light duststorm"
-msgstr ""
+msgstr "Lichte stofstorm"
 
 #: my-evolution/metar.c:119
 msgid "Moderate duststorm"
-msgstr ""
+msgstr "Middelmatige stofstorm"
 
 #: my-evolution/metar.c:119
 msgid "Heavy duststorm"
-msgstr ""
+msgstr "Zware stofstorm"
 
 #: my-evolution/metar.c:119
 msgid "Shallow duststorm"
-msgstr ""
+msgstr "Matige stofstorm"
 
 #: my-evolution/metar.c:119
 msgid "Partial duststorm"
-msgstr ""
+msgstr "Gedeeltelijke stofstorm"
 
 #: my-evolution/metar.c:119
 msgid "Thunderous duststorm"
-msgstr ""
+msgstr "Gewelddadige stofstorm"
 
 #: my-evolution/metar.c:119
 msgid "Blowing duststorm"
-msgstr ""
+msgstr "Stofstorm"
 
 #: my-evolution/metar.c:119
 msgid "Drifting duststorm"
-msgstr ""
+msgstr "Stofstorm"
 
 #: my-evolution/metar.c:119
 msgid "Freezing duststorm"
-msgstr ""
+msgstr "Ijskoude stofstorm"
 
 #. FUNNEL_CLOUD
 #: my-evolution/metar.c:120
 msgid "Funnel cloud"
-msgstr ""
+msgstr "Wolken duiden op een tornado"
 
 #: my-evolution/metar.c:120
 msgid "Funnel cloud in the vicinity"
-msgstr ""
+msgstr "Wolken die op een tornado duiden in de nabijheid"
 
 #: my-evolution/metar.c:120
 msgid "Light funnel cloud"
-msgstr ""
+msgstr "Kleine wolk die op een tornado kan duiden"
 
 #: my-evolution/metar.c:120
 msgid "Moderate funnel cloud"
-msgstr ""
+msgstr "Wolken duiden op een tornado"
 
 #: my-evolution/metar.c:120
 msgid "Thick funnel cloud"
-msgstr ""
+msgstr "Wolken duiden op een tornado"
 
 #: my-evolution/metar.c:120
 msgid "Shallow funnel cloud"
-msgstr ""
+msgstr "Wolken duiden op een tornado"
 
 #: my-evolution/metar.c:120
 msgid "Patches of funnel clouds"
-msgstr ""
+msgstr "Wolken duiden op een tornado"
 
 #: my-evolution/metar.c:120
 msgid "Partial funnel clouds"
-msgstr ""
+msgstr "Wolken duiden op een tornado"
 
 #: my-evolution/metar.c:120
 msgid "Funnel cloud w/ wind"
-msgstr ""
+msgstr "Wolken duiden op een tornado (veel wind)"
 
 #: my-evolution/metar.c:120
 msgid "Drifting funnel cloud"
-msgstr ""
+msgstr "Wolken duiden op een tornado"
 
 #. TORNADO
 #: my-evolution/metar.c:121
 msgid "Tornado"
-msgstr ""
+msgstr "Tornado"
 
 #: my-evolution/metar.c:121
 msgid "Tornado in the vicinity"
-msgstr ""
+msgstr "Tornado dichtbij"
 
 #: my-evolution/metar.c:121
 msgid "Moderate tornado"
-msgstr ""
+msgstr "Middelmatige tornado"
 
 #: my-evolution/metar.c:121
-#, fuzzy
 msgid "Raging tornado"
-msgstr "Dingen te doen"
+msgstr "Gewelddadige tornado"
 
 #: my-evolution/metar.c:121
 msgid "Partial tornado"
-msgstr ""
+msgstr "Tornado"
 
 #: my-evolution/metar.c:121
-#, fuzzy
 msgid "Thunderous tornado"
-msgstr "Dingen te doen"
+msgstr "Dingen te doenGewelddadige tornado"
 
 #: my-evolution/metar.c:121
 msgid "Drifting tornado"
-msgstr ""
+msgstr "Tornado"
 
 #: my-evolution/metar.c:121
 msgid "Freezing tornado"
-msgstr ""
+msgstr "Ijskoude tornado"
 
 #. DUST_WHIRLS
 #: my-evolution/metar.c:122
 msgid "Dust whirls"
-msgstr ""
+msgstr "Stofstorm"
 
 #: my-evolution/metar.c:122
 msgid "Dust whirls in the vicinity"
-msgstr ""
+msgstr "Stofstorm dichtbij"
 
 #: my-evolution/metar.c:122
 msgid "Light dust whirls"
-msgstr ""
+msgstr "Lichte stofstorm"
 
 #: my-evolution/metar.c:122
 msgid "Moderate dust whirls"
-msgstr ""
+msgstr "Middelmatige stofstorm"
 
 #: my-evolution/metar.c:122
 msgid "Heavy dust whirls"
-msgstr ""
+msgstr "Zware stofstorm"
 
 #: my-evolution/metar.c:122
 msgid "Shallow dust whirls"
-msgstr ""
+msgstr "Matige stofstorm"
 
 #: my-evolution/metar.c:122
 msgid "Patches of dust whirls"
-msgstr ""
+msgstr "Hier en daar stofstormen"
 
 #: my-evolution/metar.c:122
 msgid "Partial dust whirls"
-msgstr ""
+msgstr "Gedeeltelijke stofstormen"
 
 #: my-evolution/metar.c:122
 msgid "Blowing dust whirls"
-msgstr ""
+msgstr "Stofstormen"
 
 #: my-evolution/metar.c:122
 msgid "Drifting dust whirls"
-msgstr ""
+msgstr "Stofstormen"
 
 #: my-evolution/my-evolution.glade.h:1
 msgid " _Remove"
 msgstr "_Verwijderen"
 
 #: my-evolution/my-evolution.glade.h:2
-#, fuzzy
 msgid "Add n_ew feed"
-msgstr "Beantwoord"
+msgstr "Nieuwe b_ron toevoegen"
 
 #: my-evolution/my-evolution.glade.h:3
-#, fuzzy
 msgid "Al_l stations:"
-msgstr "Alle Aanwezigen"
+msgstr "Al_le stations:"
 
 #: my-evolution/my-evolution.glade.h:4
-#, fuzzy
 msgid "All _folders:"
-msgstr "Selecteer Map"
+msgstr "Alle _Mappen:"
 
 #: my-evolution/my-evolution.glade.h:5
-#, fuzzy
 msgid "All news _feeds:"
-msgstr "Beantwoord"
+msgstr "Alle nieu_wsbronnen:"
 
 #: my-evolution/my-evolution.glade.h:7
 msgid "How many days should the calendar display at once?"
-msgstr ""
+msgstr "Hoeveel dagen moet de kalender in een keer weergeven?"
 
 #: my-evolution/my-evolution.glade.h:8
 msgid "Ma_x number of items shown:"
-msgstr ""
+msgstr "Ma_ximaal aantal weer te geven objecten:"
 
 #: my-evolution/my-evolution.glade.h:9
-#, fuzzy
 msgid "News Feed Settings"
-msgstr "Instellingen:"
+msgstr "Nieuwsbron-instellingen:"
 
 #: my-evolution/my-evolution.glade.h:10
-#, fuzzy
 msgid "One mont_h"
-msgstr "maand"
+msgstr "Eén _maand"
 
 #: my-evolution/my-evolution.glade.h:11
-#, fuzzy
 msgid "One w_eek"
-msgstr " 1 week"
+msgstr "Eén w_eek"
 
 #: my-evolution/my-evolution.glade.h:12
 msgid "Refresh _time (seconds):"
-msgstr ""
+msgstr "Verversings_tijd (seconden):"
 
 #: my-evolution/my-evolution.glade.h:13
-#, fuzzy
 msgid "Show _all tasks"
-msgstr "Toon taken"
+msgstr "Toon _alle taken"
 
 #: my-evolution/my-evolution.glade.h:14
-#, fuzzy
 msgid "Show _today's tasks"
-msgstr "Toon taken"
+msgstr "Toon taken van _vandaag"
 
 #: my-evolution/my-evolution.glade.h:15
-#, fuzzy
 msgid "Tasks "
 msgstr "Taken"
 
 #: my-evolution/my-evolution.glade.h:16
-#, fuzzy
 msgid "Units: "
-msgstr ""
-"\n"
-"  Eenheid:  "
+msgstr "Eenheden:"
 
 #: my-evolution/my-evolution.glade.h:17
-#, fuzzy
 msgid "Weather settings"
-msgstr "Selectie wissen"
+msgstr "Weerinstellingen"
 
 #: my-evolution/my-evolution.glade.h:19
-#, fuzzy
 msgid "_Display folders:"
-msgstr "Geef mappen weer die beginnen met:"
+msgstr "_Mappen weergeven:"
 
 #: my-evolution/my-evolution.glade.h:20
-#, fuzzy
 msgid "_Display stations:"
-msgstr "Weergave-instellingen"
+msgstr "_Stations weergeven:"
 
 #: my-evolution/my-evolution.glade.h:21
-#, fuzzy
 msgid "_Displayed feeds:"
-msgstr "Weergave"
+msgstr "_Bronnen weergeven:"
 
 #: my-evolution/my-evolution.glade.h:22
-#, fuzzy
 msgid "_Five days"
-msgstr "Vrijdag"
+msgstr "_Vijf dagen"
 
 #: my-evolution/my-evolution.glade.h:23
-#, fuzzy
 msgid "_Mail"
-msgstr "Post"
+msgstr "_Post"
 
 #: my-evolution/my-evolution.glade.h:24
-#, fuzzy
 msgid "_News Feeds"
-msgstr "Instellingen:"
+msgstr "_Nieuwsbronnen"
 
 #: my-evolution/my-evolution.glade.h:25
-#, fuzzy
 msgid "_One day"
-msgstr " 1 dag"
+msgstr "_Eén dag"
 
 #: my-evolution/my-evolution.glade.h:26
 msgid "_Refresh time (seconds):"
-msgstr ""
+msgstr "_Verversingstijd (seconden):"
 
 #: my-evolution/my-evolution.glade.h:27
-#, fuzzy
 msgid "_Schedule"
-msgstr ""
-"Plan\n"
-"Tijd"
+msgstr "_Planning"
 
 #: my-evolution/my-evolution.glade.h:28
-#, fuzzy
 msgid "_Show full path for folders"
-msgstr "Koppen"
+msgstr "_Volledig pad weergeven"
 
 #: my-evolution/my-evolution.glade.h:29
-#, fuzzy
 msgid "_Weather"
-msgstr "Overige"
+msgstr "_Weer"
 
 #: my-evolution/my-evolution.glade.h:30
-#, fuzzy
 msgid "_imperial"
-msgstr "April"
+msgstr "_engels"
 
 #: my-evolution/my-evolution.glade.h:31
 msgid "m_etric"
-msgstr ""
+msgstr "_metrisch"
 
 #: shell/GNOME_Evolution_Shell.oaf.in.h:1
 msgid "The Evolution shell."
-msgstr "De Evolution schil."
+msgstr "De Evolution shell."
 
 #: shell/e-activity-handler.c:198
-#, fuzzy
 msgid "Show Details"
-msgstr "Details"
+msgstr "Details weergeven"
 
 #: shell/e-activity-handler.c:200
 #, fuzzy
@@ -11258,11 +11229,11 @@ msgid ""
 "You can select \"Automatic\" if you do not know, and Evolution will attempt "
 "to work it out."
 msgstr ""
-"Kies het bestand dat u wilt importeren in Evolution, en kies het "
-"bijbehorende bestandstype uit de lijst.\n"
+"Kies het bestand dat u wilt importeren in Evolution, en kies het bijbehorende "
+"bestandstype uit de lijst.\n"
 "\n"
-"U kunt \"Automatisch\" kiezen als u het niet weet; Evolution probeert het "
-"dan voor u uit te zoeken."
+"U kunt \"Automatisch\" kiezen als u het niet weet; Evolution probeert het dan "
+"voor u uit te zoeken."
 
 #. Importer isn't ready yet.
 #. Wait 5 seconds and try again.
@@ -11442,7 +11413,9 @@ msgstr "%s - Evolution %s [%s]"
 
 #: shell/e-shell-view.c:1499
 msgid "Evolution is currently online.  Click on this button to work offline."
-msgstr "Evolution is nu verbonden met het netwerk.  Klik op deze knop om zonder netwerkverbinding te werken"
+msgstr ""
+"Evolution is nu verbonden met het netwerk.  Klik op deze knop om zonder "
+"netwerkverbinding te werken"
 
 #: shell/e-shell-view.c:1506
 msgid "Evolution is in the process of going offline."
@@ -11766,21 +11739,19 @@ msgid ""
 "We hope that you enjoy the results of our hard work, and we\n"
 "eagerly await your contributions!\n"
 msgstr ""
-"Hallo. Bedankt voor de moeite voor het downloaden van deze VOORUITBLIK\n"
-"op de Evolution werkgroep suite.\n"
+"Hallo. Bedankt voor de moeite voor het downloaden van deze "
+"VOORUITBLIK\nop de Evolution werkgroep suite.\n"
 "\n"
 "Evolution is nog niet voltooid. Het komt in de buurt, maar er zijn\n"
 "plekken waar dingen ontbreken of slechts half werken. Als u niet kunt\n"
 "uitvinden hoe iets voor elkaar te krijgen, dan komt dat waarschijnlijk\n"
 "omdat het nog niet mogelijk is! ;-)\n"
 "We hopen dat Evolution bruikbaar is voor u, maar we moeten u nog steeds\n"
-"waarschuwen dat 'ie kan: crashen, uw mail kwijtraken, processen "
-"achterlaten, \n"
-"100% van uw CPU gebruiken, niet-gestandaardiseerde commando's versturen "
+"waarschuwen dat 'ie kan: crashen, uw mail kwijtraken, processen achterlaten, "
+"\n100% van uw CPU gebruiken, niet-gestandaardiseerde commando's versturen "
 "naar \n"
 "uw servers, en in het algemeen u belachelijk maken bij vrienden en "
-"collega's.\n"
-"Gebruik alleen zoals aangegeven\n"
+"collega's.\nGebruik alleen zoals aangegeven\n"
 "\n"
 "We hopen dat u de vruchten van ons harde werk waardeert, en we wachten met\n"
 "smart op uw bijdragen!\n"
@@ -12580,7 +12551,8 @@ msgstr "Geciteerd doorsturen"
 
 #: ui/evolution-mail-message.xml.h:34
 msgid "Forward the selected message in the body of a new message"
-msgstr "Stuur het geselecteerde bericht door in de inhoud van een nieuw bericht"
+msgstr ""
+"Stuur het geselecteerde bericht door in de inhoud van een nieuw bericht"
 
 #: ui/evolution-mail-message.xml.h:35
 msgid "Forward the selected message quoted like a reply"
