@@ -1035,6 +1035,7 @@ on_right_click (ETableScrolled *table, gint row, gint col, GdkEvent *event, Mess
 		{ "",                        NULL, GTK_SIGNAL_FUNC (NULL),              0 },
 		{ "Delete Message",          NULL, GTK_SIGNAL_FUNC (delete_msg),        0 },
 		{ "Move Message",            NULL, GTK_SIGNAL_FUNC (move_msg),          0 },
+		{ "Copy Message",            NULL, GTK_SIGNAL_FUNC (copy_msg),          0 },
 		{ "",                        NULL, GTK_SIGNAL_FUNC (NULL),              0 },
 		{ "VFolder on Subject",      NULL, GTK_SIGNAL_FUNC (vfolder_subject),   2 },
 		{ "VFolder on Sender",       NULL, GTK_SIGNAL_FUNC (vfolder_sender),    2 },

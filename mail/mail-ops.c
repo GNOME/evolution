@@ -452,62 +452,78 @@ mail_do_expunge_folder (CamelFolder *folder)
 	mail_operation_queue (&op_expunge_folder, folder, FALSE);
 }
 
-/* ** REFILE MESSAGES ***************************************************** */
+/* ** TRANSFER MESSAGES **************************************************** */
 
-typedef struct refile_messages_input_s
+typedef struct transfer_messages_input_s
 {
 	CamelFolder *source;
 	GPtrArray *uids;
+	gboolean delete_from_source;
 	gchar *dest_uri;
 }
-refile_messages_input_t;
+transfer_messages_input_t;
 
-static gchar *describe_refile_messages (gpointer in_data, gboolean gerund);
-static void setup_refile_messages (gpointer in_data, gpointer op_data,
+static gchar *describe_transfer_messages (gpointer in_data, gboolean gerund);
+static void setup_transfer_messages (gpointer in_data, gpointer op_data,
 				   CamelException *ex);
-static void do_refile_messages (gpointer in_data, gpointer op_data,
+static void do_transfer_messages (gpointer in_data, gpointer op_data,
 				CamelException *ex);
-static void cleanup_refile_messages (gpointer in_data, gpointer op_data,
+static void cleanup_transfer_messages (gpointer in_data, gpointer op_data,
 				     CamelException *ex);
 
 static gchar *
-describe_refile_messages (gpointer in_data, gboolean gerund)
+describe_transfer_messages (gpointer in_data, gboolean gerund)
 {
-	refile_messages_input_t *input = (refile_messages_input_t *) in_data;
+	transfer_messages_input_t *input = (transfer_messages_input_t *) in_data;
+	char *format;
+	
+	if (gerund) {
+		if (input->delete_from_source)
+			format = "Moving messages from \"%s\" into \"%s\"";
+		else
+			format = "Copying messages from \"%s\" into \"%s\"";
+	} else {
+		if (input->delete_from_source)
+			format = "Move messages from \"%s\" into \"%s\"";
+		else
+			format = "Copy messages from \"%s\" into \"%s\"";
+	}
 
-	if (gerund)
-		return
-			g_strdup_printf
-			("Moving messages from \"%s\" into \"%s\"",
-			 mail_tool_get_folder_name (input->source), input->dest_uri);
-	else
-		return
-			g_strdup_printf
-			("Move messages from \"%s\" into \"%s\"",
-			 mail_tool_get_folder_name (input->source), input->dest_uri);
+	return g_strdup_printf (format,
+				mail_tool_get_folder_name (input->source), 
+				input->dest_uri);
 }
 
 static void
-setup_refile_messages (gpointer in_data, gpointer op_data,
+setup_transfer_messages (gpointer in_data, gpointer op_data,
 		       CamelException *ex)
 {
-	refile_messages_input_t *input = (refile_messages_input_t *) in_data;
+	transfer_messages_input_t *input = (transfer_messages_input_t *) in_data;
+	char *verb;
+
+	if (input->delete_from_source)
+		verb = "move";
+	else
+		verb = "copy";
 
 	if (!CAMEL_IS_FOLDER (input->source)) {
-		camel_exception_set (ex, CAMEL_EXCEPTION_INVALID_PARAM,
-				     "No source folder to refile messages from specified.");
+		camel_exception_setv (ex, CAMEL_EXCEPTION_INVALID_PARAM,
+				     "No source folder to %s messages from specified.",
+				      verb);
 		return;
 	}
 
 	if (input->uids == NULL) {
-		camel_exception_set (ex, CAMEL_EXCEPTION_INVALID_PARAM,
-				     "No messages to refile have been specified.");
+		camel_exception_setv (ex, CAMEL_EXCEPTION_INVALID_PARAM,
+				     "No messages to %s have been specified.",
+				     verb);
 		return;
 	}
 
 	if (input->dest_uri == NULL) {
-		camel_exception_set (ex, CAMEL_EXCEPTION_INVALID_PARAM,
-				     "No URI to refile to has been specified.");
+		camel_exception_setv (ex, CAMEL_EXCEPTION_INVALID_PARAM,
+				     "No URI to %s to has been specified.",
+				     verb);
 		return;
 	}
 
@@ -515,11 +531,19 @@ setup_refile_messages (gpointer in_data, gpointer op_data,
 }
 
 static void
-do_refile_messages (gpointer in_data, gpointer op_data, CamelException *ex)
+do_transfer_messages (gpointer in_data, gpointer op_data, CamelException *ex)
 {
-	refile_messages_input_t *input = (refile_messages_input_t *) in_data;
+	transfer_messages_input_t *input = (transfer_messages_input_t *) in_data;
 	CamelFolder *dest;
 	gint i;
+	void (*func) (CamelFolder *, const char *, 
+		      CamelFolder *, 
+		      CamelException *);
+
+	if (input->delete_from_source)
+		func = camel_folder_move_message_to;
+	else
+		func = camel_folder_copy_message_to;
 
 	dest = mail_tool_uri_to_folder (input->dest_uri, ex);
 	if (camel_exception_is_set (ex))
@@ -530,9 +554,9 @@ do_refile_messages (gpointer in_data, gpointer op_data, CamelException *ex)
 	camel_folder_freeze (dest);
 
 	for (i = 0; i < input->uids->len; i++) {
-		camel_folder_move_message_to (input->source,
-					      input->uids->pdata[i], dest,
-					      ex);
+		(func) (input->source,
+			input->uids->pdata[i], dest,
+			ex);
 		g_free (input->uids->pdata[i]);
 		if (camel_exception_is_set (ex))
 			break;
@@ -545,36 +569,38 @@ do_refile_messages (gpointer in_data, gpointer op_data, CamelException *ex)
 }
 
 static void
-cleanup_refile_messages (gpointer in_data, gpointer op_data,
+cleanup_transfer_messages (gpointer in_data, gpointer op_data,
 			 CamelException *ex)
 {
-	refile_messages_input_t *input = (refile_messages_input_t *) in_data;
+	transfer_messages_input_t *input = (transfer_messages_input_t *) in_data;
 
 	camel_object_unref (CAMEL_OBJECT (input->source));
 	g_free (input->dest_uri);
 	g_ptr_array_free (input->uids, TRUE);
 }
 
-static const mail_operation_spec op_refile_messages = {
-	describe_refile_messages,
+static const mail_operation_spec op_transfer_messages = {
+	describe_transfer_messages,
 	0,
-	setup_refile_messages,
-	do_refile_messages,
-	cleanup_refile_messages
+	setup_transfer_messages,
+	do_transfer_messages,
+	cleanup_transfer_messages
 };
 
 void
-mail_do_refile_messages (CamelFolder *source, GPtrArray *uids,
-			 gchar *dest_uri)
+mail_do_transfer_messages (CamelFolder *source, GPtrArray *uids,
+		       gboolean delete_from_source,
+		       gchar *dest_uri)
 {
-	refile_messages_input_t *input;
+	transfer_messages_input_t *input;
 
-	input = g_new (refile_messages_input_t, 1);
+	input = g_new (transfer_messages_input_t, 1);
 	input->source = source;
 	input->uids = uids;
+	input->delete_from_source = delete_from_source;
 	input->dest_uri = g_strdup (dest_uri);
 
-	mail_operation_queue (&op_refile_messages, input, TRUE);
+	mail_operation_queue (&op_transfer_messages, input, TRUE);
 }
 
 /* ** FLAG MESSAGES ******************************************************* */

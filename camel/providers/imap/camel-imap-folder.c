@@ -631,7 +631,7 @@ imap_copy_message_to (CamelFolder *source, const char *uid, CamelFolder *destina
 	char *result, *folder_path, *dir_sep;
 	int status;
 
-	dir_sep = CAMEL_IMAP_STORE (source->parent_folder)->dir_sep;
+	dir_sep = CAMEL_IMAP_STORE (source->parent_store)->dir_sep;
 	
 	if (url && url->path && *(url->path + 1) && strcmp (destination->full_name, "INBOX"))
 		folder_path = g_strdup_printf ("%s%s%s", url->path + 1, dir_sep, destination->full_name);

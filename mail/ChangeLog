@@ -1,6 +1,19 @@
 2000-08-15  Peter Williams  <peterw@helixcode.com>
-	
+
+	* mail-ops.c (transfer_messages): Generalize move_messages into
+	transfer_messages so that we can copy too.
+
+	* mail-ops.h: Prototype the new mail_do_transfer_messages.
+
+	* folder-browser-factory.c: Add a UI hook for copy_msg.
+
+	* mail-callbacks.c (transfer_msg): Generalize move so that it supports
+	copy as well, and add a callback 'copy_msg'.
+
+	* message-list.c (on_right_click): Add a right-click hook for Copy Message.
+
 	* session.c (mail_request_dialog): Don't deadlock when in main thread.
+	
 2000-08-14  Peter Williams  <peterw@helixcode.com>
 
 	* mail-threads.c (show_error): Fix the error dialogs.

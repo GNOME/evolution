@@ -370,13 +370,14 @@ forward_msg (GtkWidget *widget, gpointer user_data)
 				 composer);
 }
 
-void
-move_msg (GtkWidget *widget, gpointer user_data)
+static void
+transfer_msg (GtkWidget *widget, gpointer user_data, gboolean delete_from_source)
 {
 	FolderBrowser *fb = user_data;
 	MessageList *ml = fb->message_list;
 	GPtrArray *uids;
 	char *uri, *physical, *path;
+	char *desc;
 	const char *allowed_types[] = { "mail", NULL };
 	extern EvolutionShellClient *global_shell_client;
 	static char *last = NULL;
@@ -384,8 +385,13 @@ move_msg (GtkWidget *widget, gpointer user_data)
 	if (last == NULL)
 		last = g_strdup ("");
 
+	if (delete_from_source)
+		desc = _("Move message(s) to");
+	else
+		desc = _("Copy message(s) to");
+
 	evolution_shell_client_user_select_folder  (global_shell_client,
-						    _("Move message(s) to"),
+						    desc,
 						    last, allowed_types, &uri, &physical);
 	if (!uri)
 		return;
@@ -399,7 +405,19 @@ move_msg (GtkWidget *widget, gpointer user_data)
 
 	uids = g_ptr_array_new ();
 	message_list_foreach (ml, enumerate_msg, uids);
-	mail_do_refile_messages (ml->folder, uids, physical);
+	mail_do_transfer_messages (ml->folder, uids, delete_from_source, physical);
+}
+
+void
+move_msg (GtkWidget *widget, gpointer user_data)
+{
+	transfer_msg (widget, user_data, TRUE);
+}
+
+void
+copy_msg (GtkWidget *widget, gpointer user_data)
+{
+	transfer_msg (widget, user_data, FALSE);
 }
 
 void

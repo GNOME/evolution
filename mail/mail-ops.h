@@ -39,8 +39,9 @@ void mail_do_send_mail (const char *xport_uri,
 
 			guint32 done_flags, GtkWidget *composer);
 void mail_do_expunge_folder (CamelFolder *folder);
-void mail_do_refile_messages (CamelFolder *source, GPtrArray *uids,
-			      gchar *dest_uri);
+void mail_do_transfer_messages (CamelFolder *source, GPtrArray *uids,
+				gboolean delete_from_source,
+				gchar *dest_uri);
 void mail_do_flag_messages (CamelFolder *source, GPtrArray *uids,
 			    gboolean invert,
 			    guint32 mask, guint32 set);

@@ -61,6 +61,7 @@ void reply_to_sender (GtkWidget *widget, gpointer user_data);
 void reply_to_all (GtkWidget *widget, gpointer user_data);
 void delete_msg (GtkWidget *widget, gpointer user_data);
 void move_msg (GtkWidget *widget, gpointer user_data);
+void copy_msg (GtkWidget *widget, gpointer user_data);
 void print_msg (GtkWidget *widget, gpointer user_data);
 void edit_msg (GtkWidget *widget, gpointer user_data);
 void view_msg (GtkWidget *widget, gpointer user_data);
