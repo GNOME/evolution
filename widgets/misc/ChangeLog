@@ -1,5 +1,10 @@
 2003-10-28  Rodrigo Moya <rodrigo@ximian.com>
 
+	* e-source-selector.c (class_init): fill_popup_menu signal has
+	2 arguments.
+
+2003-10-28  Rodrigo Moya <rodrigo@ximian.com>
+
 	* e-source-selector.[ch]: added "fill_popup_menu" signal, to
 	allow the addition of new items to the popup menu.
 	(class_init): create new signal.

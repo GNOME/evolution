@@ -412,7 +412,7 @@ class_init (ESourceSelectorClass *class)
 			      G_STRUCT_OFFSET (ESourceSelectorClass, fill_popup_menu),
 			      NULL, NULL,
 			      g_cclosure_marshal_VOID__OBJECT,
-			      G_TYPE_OBJECT, 0);
+			      G_TYPE_OBJECT, 1);
 }
 
 static void
