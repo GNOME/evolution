@@ -1,3 +1,14 @@
+2004-01-09  Hans Petter Jansson  <hpj@ximian.com>
+
+	* gui/component/addressbook-component.c (add_popup_menu_item): Take a
+	sensitivity flag per menu item, and fall back to stock icons.
+	(delete_addressbook_cb): Implement.
+	(fill_popup_menu_callback): Reorder items, remove "remove" item, set
+	sensitivity.
+
+	* gui/component/ldap-config.glade: "Edit LDAP Server" ->
+	"Addressbook Properties".
+
 2004-01-11  Christian Hammond  <chipx86@gnupdate.org>
 
 	* addressbook/gui/contact-editor/e-contact-editor-im.[ch],

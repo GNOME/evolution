@@ -145,9 +145,11 @@ load_primary_selection (AddressbookComponent *addressbook_component)
 	}
 }
 
+/* Folder popup menu callbacks */
+
 static void
 add_popup_menu_item (GtkMenu *menu, const char *label, const char *pixmap,
-		     GCallback callback, gpointer user_data)
+		     GCallback callback, gpointer user_data, gboolean sensitive)
 {
 	GtkWidget *item, *image;
 
@@ -155,12 +157,15 @@ add_popup_menu_item (GtkMenu *menu, const char *label, const char *pixmap,
 		item = gtk_image_menu_item_new_with_label (label);
 
 		/* load the image */
-		image = gtk_image_new_from_file (pixmap);
-		if (!image)
+		if (g_file_test (pixmap, G_FILE_TEST_EXISTS))
+			image = gtk_image_new_from_file (pixmap);
+		else
 			image = gtk_image_new_from_stock (pixmap, GTK_ICON_SIZE_MENU);
 
-		if (image)
+		if (image) {
+			gtk_widget_show (image);
 			gtk_image_menu_item_set_image (GTK_IMAGE_MENU_ITEM (item), image);
+		}
 	} else {
 		item = gtk_menu_item_new_with_label (label);
 	}
@@ -168,11 +173,48 @@ add_popup_menu_item (GtkMenu *menu, const char *label, const char *pixmap,
 	if (callback)
 		g_signal_connect (G_OBJECT (item), "activate", callback, user_data);
 
+	if (!sensitive)
+		gtk_widget_set_sensitive (item, FALSE);
+
 	gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
 	gtk_widget_show (item);
 }
 
-/* Folder popup menu callbacks */
+static void
+delete_addressbook_cb (GtkWidget *widget, AddressbookComponent *comp)
+{
+	ESource *selected_source;
+	AddressbookComponentPrivate *priv;
+	GtkWidget *dialog;
+
+	priv = comp->priv;
+	
+	selected_source = e_source_selector_peek_primary_selection (E_SOURCE_SELECTOR (priv->source_selector));
+	if (!selected_source)
+		return;
+
+	/* Create the confirmation dialog */
+	dialog = gtk_message_dialog_new (
+		GTK_WINDOW (gtk_widget_get_toplevel (widget)),
+		GTK_DIALOG_MODAL,
+		GTK_MESSAGE_QUESTION,
+		GTK_BUTTONS_YES_NO,
+		_("Addressbook '%s' will be removed. Are you sure you want to continue?"),
+		e_source_peek_name (selected_source));
+	gtk_dialog_set_has_separator (GTK_DIALOG (dialog), FALSE);
+	if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_YES) {
+		if (e_source_selector_source_is_selected (E_SOURCE_SELECTOR (priv->source_selector),
+							  selected_source))
+			e_source_selector_unselect_source (E_SOURCE_SELECTOR (priv->source_selector),
+							   selected_source);
+		
+		e_source_group_remove_source (e_source_peek_group (selected_source), selected_source);
+
+		/* FIXME: Remove local data */
+	}
+
+	gtk_widget_destroy (dialog);
+}
 
 static void
 new_addressbook_cb (GtkWidget *widget, AddressbookComponent *comp)
@@ -196,11 +238,6 @@ edit_addressbook_cb (GtkWidget *widget, AddressbookComponent *comp)
 	addressbook_config_edit_source (gtk_widget_get_toplevel (widget), selected_source);
 }
 
-static void
-delete_addressbook_cb (GtkWidget *widget, AddressbookComponent *comp)
-{
-}
-
 /* Callbacks.  */
 
 static void
@@ -214,10 +251,13 @@ primary_source_selection_changed_callback (ESourceSelector *selector,
 static void
 fill_popup_menu_callback (ESourceSelector *selector, GtkMenu *menu, AddressbookComponent *comp)
 {
-	add_popup_menu_item (menu, _("New Addressbook"), NULL, G_CALLBACK (new_addressbook_cb), comp);
-	add_popup_menu_item (menu, _("Properties..."), NULL, G_CALLBACK (edit_addressbook_cb), comp);
-	add_popup_menu_item (menu, _("Delete"), GTK_STOCK_DELETE, G_CALLBACK (delete_addressbook_cb), comp);
-	add_popup_menu_item (menu, _("Rename"), NULL, NULL, NULL);
+	gboolean sensitive;
+
+	sensitive = e_source_selector_peek_primary_selection (E_SOURCE_SELECTOR (comp->priv->source_selector)) ? TRUE : FALSE;
+
+	add_popup_menu_item (menu, _("New Addressbook"), NULL, G_CALLBACK (new_addressbook_cb), comp, TRUE);
+	add_popup_menu_item (menu, _("Delete"), GTK_STOCK_DELETE, G_CALLBACK (delete_addressbook_cb), comp, sensitive);
+	add_popup_menu_item (menu, _("Properties..."), NULL, G_CALLBACK (edit_addressbook_cb), comp, sensitive);
 }
 
 /* Evolution::Component CORBA methods.  */
