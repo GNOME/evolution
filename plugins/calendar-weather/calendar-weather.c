@@ -155,7 +155,7 @@ load_locations ()
 
 	LIBXML_TEST_VERSION
 
-	doc = xmlParseFile (WEATHER_DATADIR "/Locations.xml");
+	doc = xmlParseFile (WEATHER_EDS_DATADIR "/Locations.xml");
 	if (doc == NULL) {
 		g_warning ("failed to read locations file");
 		return;
