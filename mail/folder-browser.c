@@ -21,8 +21,11 @@
 static GtkObjectClass *folder_browser_parent_class;
 
 
-#define PROPERTY_FOLDER_URI      "folder_uri"
-#define PROPERTY_MESSAGE_PREVIEW "message_preview"
+#define PROPERTY_FOLDER_URI          "folder_uri"
+#define PROPERTY_MESSAGE_PREVIEW     "message_preview"
+
+#define PROPERTY_FOLDER_URI_IDX      1
+#define PROPERTY_MESSAGE_PREVIEW_IDX 2
 
 
 
@@ -116,39 +119,69 @@ folder_browser_set_message_preview (FolderBrowser *folder_browser, gboolean show
 
 	g_warning ("FIXME: implement me");
 }
-	
-static void
-folder_browser_property_changed (BonoboPropertyBag *properties,
-				 const char *name,
-				 const char *type,
-				 gpointer old_value,
-				 gpointer new_value,
-				 gpointer user_data)
-{
-	FolderBrowser *folder_browser = FOLDER_BROWSER (user_data);
 
-	if (EQUAL (name, PROPERTY_FOLDER_URI)){
-		folder_browser_set_uri (folder_browser, new_value);
-		return;
-	} else if (EQUAL (name, PROPERTY_MESSAGE_PREVIEW)){
-		folder_browser_set_message_preview (folder_browser, *((gboolean *)new_value));
+static void
+get_prop (BonoboPropertyBag *bag,
+	  BonoboArg         *arg,
+	  guint              arg_id,
+	  gpointer           user_data)
+{
+	FolderBrowser *fb = user_data;
+
+	switch (arg_id) {
+
+	case PROPERTY_FOLDER_URI_IDX:
+		if (fb && fb->uri)
+			BONOBO_ARG_SET_STRING (arg, fb->uri);
+		else
+			BONOBO_ARG_SET_STRING (arg, "");
+		break;
+
+	case PROPERTY_MESSAGE_PREVIEW_IDX:
+		g_warning ("Implement me; no return value");
+		BONOBO_ARG_SET_BOOLEAN (arg, FALSE);
+		break;
+
+	default:
+		g_warning ("Unhandled arg %d\n", arg_id);
+	}
+}
+
+static void
+set_prop (BonoboPropertyBag *bag,
+	  const BonoboArg   *arg,
+	  guint              arg_id,
+	  gpointer           user_data)
+{
+	FolderBrowser *fb = user_data;
+
+	switch (arg_id) {
+
+	case PROPERTY_FOLDER_URI_IDX:
+		folder_browser_set_uri (fb, BONOBO_ARG_GET_STRING (arg));
+		break;
+
+	case PROPERTY_MESSAGE_PREVIEW_IDX:
+		folder_browser_set_message_preview (fb, BONOBO_ARG_GET_BOOLEAN (arg));
+		break;
+
+	default:
+		g_warning ("Unhandled arg %d\n", arg_id);
+		break;
 	}
 }
 
 static void
 folder_browser_properties_init (FolderBrowser *fb)
 {
-	fb->properties = bonobo_property_bag_new ();
+	fb->properties = bonobo_property_bag_new (get_prop, set_prop, fb);
 
 	bonobo_property_bag_add (
-		fb->properties, PROPERTY_FOLDER_URI, "string",
-		NULL, NULL, _("The URI that the Folder Browser will display"), 0);
+		fb->properties, PROPERTY_FOLDER_URI, PROPERTY_FOLDER_URI_IDX,
+		BONOBO_ARG_STRING, NULL, _("The URI that the Folder Browser will display"), 0);
 	bonobo_property_bag_add (
-		fb->properties, PROPERTY_MESSAGE_PREVIEW, "boolean",
-		NULL, NULL, _("Whether a message preview should be shown"), 0);
-
-	gtk_signal_connect (GTK_OBJECT (fb->properties), "value_changed",
-			    folder_browser_property_changed, fb);
+		fb->properties, PROPERTY_MESSAGE_PREVIEW, PROPERTY_MESSAGE_PREVIEW_IDX,
+		BONOBO_ARG_BOOLEAN, NULL, _("Whether a message preview should be shown"), 0);
 }
 
 static void

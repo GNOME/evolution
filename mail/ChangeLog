@@ -1,3 +1,9 @@
+2000-04-01  Michael Meeks  <michael@helixcode.com>
+
+	* folder-browser.c (folder_browser_properties_init): update to
+	new property  (folder_browser_property_changed): kill.
+	(get_prop, set_prop): do the donkey work + make properly RW.
+
 2000-03-31  Dan Winship  <danw@helixcode.com>
 
 	* folder-browser-factory.c (folder_browser_set_shell):
