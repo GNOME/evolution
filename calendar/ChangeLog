@@ -1,5 +1,8 @@
 2003-03-14  Rodrigo Moya <rodrigo@ximian.com>
 
+	* pcs/cal-factory.c (impl_CalFactory_uriList): set_release
+	on the sequence we create.
+
 	* cal-client/cal-client.c (cal_client_uri_list): don't leak the
 	string sequence returned by CalFactory_uriList.
 

@@ -559,6 +559,7 @@ impl_CalFactory_uriList (PortableServer_Servant servant,
 	priv = factory->priv;
 
 	list = GNOME_Evolution_Calendar_StringSeq__alloc ();
+	CORBA_sequence_set_release (list, TRUE);
 	list->_length = 0;
 	list->_maximum = g_hash_table_size (priv->backends); 
 	list->_buffer = CORBA_sequence_CORBA_string_allocbuf (list->_maximum);
