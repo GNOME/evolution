@@ -35,7 +35,9 @@
 #include <unistd.h>
 #include <string.h>
 #include <signal.h>
+#ifdef HAVE_ALLOCA_H
 #include <alloca.h>
+#endif
 
 #include "camel-movemail.h"
 #include "camel-exception.h"
