@@ -1,3 +1,9 @@
+2000-05-28  Dan Winship  <danw@helixcode.com>
+
+	* camel-mime-utils.c (header_address_list_format_append): Use
+	`foo@bar' rather than `"" <foo@bar>' for email addresses with no
+	name component.
+
 2000-05-27  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* providers/imap/camel-imap-store.c: Removed 

@@ -2299,10 +2299,10 @@ header_address_list_format_append(GString *out, struct _header_address *a)
 		case HEADER_ADDRESS_NAME:
 #warning needs to rfc2047 encode address phrase
 			/* FIXME: 2047 encoding?? */
-			if (a->name)
+			if (a->name && *a->name)
 				g_string_sprintfa(out, "\"%s\" <%s>", a->name, a->v.addr);
 			else
-				g_string_sprintfa(out, "<%s>", a->v.addr);
+				g_string_append(out, a->v.addr);
 			break;
 		case HEADER_ADDRESS_GROUP:
 			text = header_encode_string(a->name);
