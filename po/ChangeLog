@@ -1,3 +1,7 @@
+2002-04-06  Kjartan Maraas  <kmaraas@gnome.org>
+
+	* no.po: Updated Norwegian (bokmål) translation.
+
 2002-04-04  Gustavo Maciel Dias Vieira <gdvieira@zaz.com.br>
 
 	* pt_BR.po: Updated Brazilian Portuguese translation done by
@@ -6,30 +10,6 @@
 2002-03-28  Sami Pesonen  <spesonen@dlc.fi>
 
 	* fi.po: Updated Finnish translation (part 1/2).
-
-2002-03-22  gettextize  <bug-gnu-utils@gnu.org>
-
-	* Makefile.in.in: Upgrade to gettext-0.10.38.
-
-2002-03-22  gettextize  <bug-gnu-utils@gnu.org>
-
-	* Makefile.in.in: Upgrade to gettext-0.10.38.
-
-2002-03-22  gettextize  <bug-gnu-utils@gnu.org>
-
-	* Makefile.in.in: Upgrade to gettext-0.10.38.
-
-2002-03-22  gettextize  <bug-gnu-utils@gnu.org>
-
-	* Makefile.in.in: Upgrade to gettext-0.10.38.
-
-2002-03-19  gettextize  <bug-gnu-utils@gnu.org>
-
-	* Makefile.in.in: Upgrade to gettext-0.10.40.
-
-2002-03-18  gettextize  <bug-gnu-utils@gnu.org>
-
-	* Makefile.in.in: Upgrade to gettext-0.10.38.
 
 2002-03-12  Christophe Merlet  <redfox@eikonex.org>
 
