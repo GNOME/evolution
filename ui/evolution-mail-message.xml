@@ -233,7 +233,7 @@
     <placeholder name="EditPlaceholder">
       <submenu name="Edit">
         <placeholder name="MailMessageEdit">
-          <menuitem name="MessageSearch" verb="" _label="S_earch Message..."/>
+	  <menuitem name="MessageSearch" verb="" _label="S_earch in Message..."/>
 
 	  <separator f="" name="emaillist1"/>
 
