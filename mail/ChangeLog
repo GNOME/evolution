@@ -1,3 +1,10 @@
+2002-03-04  Ettore Perazzoli  <ettore@ximian.com>
+
+	[Fix #19303.]
+
+	* mail-ops.c (mail_send_message): Set X-Mailer to say "Ximian
+	Evolution", not just "Evolution".
+
 2002-03-01  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-callbacks.c (forward_message): Forward all selected
