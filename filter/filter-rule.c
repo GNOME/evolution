@@ -523,8 +523,10 @@ get_widget (FilterRule *fr, struct _RuleContext *f)
 	if (!fr->name) {
 		fr->name = g_strdup (_("Untitled"));
 		gtk_entry_set_text (GTK_ENTRY (name), fr->name);
-		gtk_editable_select_region (GTK_EDITABLE (name), 0, -1);
+		/* FIXME: do we want the following code in the future? */
+		/*gtk_editable_select_region (GTK_EDITABLE (name), 0, -1);*/
 		gtk_widget_grab_focus (GTK_WIDGET (name));
+		gtk_widget_grab_default (GTK_WIDGET (name));
 	} else {
 		e_utf8_gtk_entry_set_text (GTK_ENTRY (name), fr->name);
 	}

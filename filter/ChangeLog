@@ -1,3 +1,9 @@
+2000-12-08  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* filter-rule.c (get_widget): Don't highlight the title if it's
+	"Untitled" because switching widget focus doesn't cause this
+	selection to go away.
+
 2000-12-06  Kjartan Maraas  <kmaraas@gnome.org>
 
 	* filter-editor.c: Mark some strings for translation.
