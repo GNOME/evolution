@@ -9,7 +9,7 @@ Received: from smtp.ximian.com (smtp.ximian.com [141.154.95.10]) by
 Received: (qmail 5610 invoked from network); 25 Sep 2001 11:45:02 -0000
 Received: from smtp.ximian.com (HELO localhost) (141.154.95.10) by
 	pop.ximian.com with SMTP; 25 Sep 2001 11:45:02 -0000
-From: Ximian, Inc. <evolve@ximian.com>
+From: "Ximian, Inc." <evolve@ximian.com>
 To: Ximian Evolution Users <evolve@ximian.com>
 Content-Type: multipart/related; type="multipart/alternative"; boundary="=-t4dRE6cqcdSBHOrMdTQ1"
 X-Mailer: Evolution/1.1.99 (Preview Release)

@@ -1,3 +1,7 @@
+2003-04-07  Dan Winship  <danw@ximian.com>
+
+	* local/Inbox/mbox: Fix the From header to be valid. Dum de dum.
+
 2003-03-14  Mike Kestner  <mkestner@ximian.com>
 
 	* Makefile.am (install-data-hook): mkdir views and subdirs
