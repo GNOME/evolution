@@ -77,10 +77,16 @@ typedef struct _MailSessionClass {
 
 } MailSessionClass;
 
+static CamelSessionClass *ms_parent_class;
+
 static char *get_password(CamelSession *session, const char *prompt, gboolean reprompt, gboolean secret, CamelService *service, const char *item, CamelException *ex);
 static void forget_password(CamelSession *session, CamelService *service, const char *item, CamelException *ex);
 static gboolean alert_user(CamelSession *session, CamelSessionAlertType type, const char *prompt, gboolean cancel);
 static CamelFilterDriver *get_filter_driver(CamelSession *session, const char *type, CamelException *ex);
+
+static void ms_thread_status(CamelSession *session, CamelSessionThreadMsg *msg, const char *text, int pc);
+static void *ms_thread_msg_new(CamelSession *session, CamelSessionThreadOps *ops, unsigned int size);
+static void ms_thread_msg_free(CamelSession *session, CamelSessionThreadMsg *m);
 
 static void
 init (MailSession *session)
@@ -106,6 +112,10 @@ class_init (MailSessionClass *mail_session_class)
 	camel_session_class->forget_password = forget_password;
 	camel_session_class->alert_user = alert_user;
 	camel_session_class->get_filter_driver = get_filter_driver;
+
+	camel_session_class->thread_msg_new = ms_thread_msg_new;
+	camel_session_class->thread_msg_free = ms_thread_msg_free;
+	camel_session_class->thread_status = ms_thread_status;
 }
 
 static CamelType
@@ -114,6 +124,7 @@ mail_session_get_type (void)
 	static CamelType mail_session_type = CAMEL_INVALID_TYPE;
 	
 	if (mail_session_type == CAMEL_INVALID_TYPE) {
+		ms_parent_class = (CamelSessionClass *)camel_session_get_type();
 		mail_session_type = camel_type_register (
 			camel_session_get_type (),
 			"MailSession",
@@ -639,6 +650,41 @@ get_filter_driver (CamelSession *session, const char *type, CamelException *ex)
 {
 	return (CamelFilterDriver *) mail_call_main (MAIL_CALL_p_ppp, (MailMainFunc) main_get_filter_driver,
 						     session, type, ex);
+}
+
+/* TODO: This is very temporary, until we have a better way to do the progress reporting,
+   we just borrow a dummy mail-mt thread message and hook it onto out camel thread message */
+
+static mail_msg_op_t ms_thread_ops_dummy = { NULL };
+
+static void *ms_thread_msg_new(CamelSession *session, CamelSessionThreadOps *ops, unsigned int size)
+{
+	CamelSessionThreadMsg *msg = ms_parent_class->thread_msg_new(session, ops, size);
+
+	/* We create a dummy mail_msg, and then copy its cancellation port over to ours, so
+	   we get cancellation and progress in common with hte existing mail code, for free */
+	if (msg) {
+		struct _mail_msg *m = mail_msg_new(&ms_thread_ops_dummy, NULL, sizeof(struct _mail_msg));
+
+		msg->data = m;
+		camel_operation_unref(msg->op);
+		msg->op = m->cancel;
+		camel_operation_ref(msg->op);
+	}
+
+	return msg;
+}
+
+static void ms_thread_msg_free(CamelSession *session, CamelSessionThreadMsg *m)
+{
+	mail_msg_free(m->data);
+	ms_parent_class->thread_msg_free(session, m);
+}
+
+static void ms_thread_status(CamelSession *session, CamelSessionThreadMsg *msg, const char *text, int pc)
+{
+	/* This should never be called since we bypass it in alloc! */
+	printf("Thread status '%s' %d%%\n", text, pc);
 }
 
 char *

@@ -1,3 +1,13 @@
+2003-09-21  Not Zed  <NotZed@Ximian.com>
+
+	* mail-session.c (ms_thread_msg_new): implement, we hook into the
+	mail progress reporting stuff by overriding the CamelOperation
+	member with one from a dummy mail_msg.
+	(ms_thread_msg_free): handle freeing.
+
+	* mail-mt.c (mail_msg_free): mute the camel-operaiton when we free
+	it so we no longer get updates.
+
 2003-09-19  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* em-message-browser.c (emmb_set_message): Set the window title to

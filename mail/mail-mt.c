@@ -201,8 +201,10 @@ void mail_msg_free(void *msg)
 
 	MAIL_MT_UNLOCK(mail_msg_lock);
 
-	if (m->cancel)
+	if (m->cancel) {
+		camel_operation_mute(m->cancel);
 		camel_operation_unref(m->cancel);
+	}
 
 	camel_exception_clear(&m->ex);
 	/*g_free(m->priv->what);*/
