@@ -244,6 +244,8 @@ destroy (GtkObject *object)
 	shell = E_SHELL (object);
 	priv = shell->priv;
 
+	g_free (priv->local_directory);
+
 	if (priv->storage_set != NULL)
 		gtk_object_unref (GTK_OBJECT (priv->storage_set));
 

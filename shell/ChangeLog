@@ -1,3 +1,9 @@
+2000-06-02  Christopher James Lahey  <clahey@helixcode.com>
+
+	* e-shell-view.c: Free the uri variable.
+
+	* e-shell.c: Free the local_directory variable.
+
 2000-06-02  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* main.c (view_delete_event_cb): New callback for the

@@ -343,6 +343,8 @@ destroy (GtkObject *object)
 
 	g_hash_table_foreach (priv->uri_to_control, hash_forall_destroy_control, NULL);
 	g_hash_table_destroy (priv->uri_to_control);
+	
+	g_free (priv->uri);
 
 	g_free (priv);
 
