@@ -6,13 +6,13 @@
 # Martin Norbäck <d95mback@dtek.chalmers.se>, 2001.
 # Johan Dahlin <zilch.am@home.se>, 2001.
 #
-# $Id: sv.po,v 1.147 2002/01/13 04:20:07 menthos Exp $
+# $Id: sv.po,v 1.148 2002/01/14 10:46:40 menthos Exp $
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
-"POT-Creation-Date: 2002-01-13 05:18+0100\n"
-"PO-Revision-Date: 2002-01-13 05:18+0100\n"
+"POT-Creation-Date: 2002-01-14 11:44+0100\n"
+"PO-Revision-Date: 2002-01-14 11:45+0100\n"
 "Last-Translator: Christian Rose <menthos@menthos.com>\n"
 "Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -3159,11 +3159,11 @@ msgstr "Slumringstid (minuter)"
 msgid "_Edit appointment"
 msgstr "_Redigera möte"
 
-#: calendar/gui/alarm-notify/alarm-queue.c:670
+#: calendar/gui/alarm-notify/alarm-queue.c:675
 msgid "No description available."
 msgstr "Ingen beskrivning finns tillgänglig."
 
-#: calendar/gui/alarm-notify/alarm-queue.c:730
+#: calendar/gui/alarm-notify/alarm-queue.c:735
 msgid ""
 "Evolution does not support calendar reminders with\n"
 "email notifications yet, but this reminder was\n"
@@ -3175,11 +3175,17 @@ msgstr ""
 "konfigurerad att skicka e-post. Evolution kommer att\n"
 "visa en normal dialogruta istället."
 
-#: calendar/gui/alarm-notify/alarm-queue.c:781
+#: calendar/gui/alarm-notify/alarm-queue.c:753
+#: calendar/gui/tasks-control.c:426 mail/mail-callbacks.c:2231
+#: widgets/misc/e-messagebox.c:159
+msgid "Warning"
+msgstr "Varning"
+
+#: calendar/gui/alarm-notify/alarm-queue.c:758
 #, c-format
 msgid ""
-"An Evolution Calendar reminder is about to trigger.\n"
-"This reminder is configured to run the following program:\n"
+"An Evolution Calendar reminder is about to trigger. This reminder is "
+"configured to run the following program:\n"
 "\n"
 "        %s\n"
 "\n"
@@ -3191,6 +3197,10 @@ msgstr ""
 "        %s\n"
 "\n"
 "Är du säker på att du vill köra detta program?"
+
+#: calendar/gui/alarm-notify/alarm-queue.c:772
+msgid "Do not ask me about this program again."
+msgstr "Fråga mig inte om detta program igen."
 
 #: calendar/gui/alarm-notify/notify-main.c:166 calendar/gui/main.c:57
 msgid "Could not initialize GNOME"
@@ -5525,11 +5535,6 @@ msgstr ""
 #: calendar/gui/tasks-control.c:137
 msgid "The URI of the tasks folder to display"
 msgstr "URI:t som uppgiftsmappen ska visa"
-
-#: calendar/gui/tasks-control.c:426 mail/mail-callbacks.c:2231
-#: widgets/misc/e-messagebox.c:159
-msgid "Warning"
-msgstr "Varning"
 
 #: calendar/gui/tasks-control.c:434
 msgid ""
@@ -8050,30 +8055,30 @@ msgstr "Kunde inte skapa katalogen %s: %s"
 msgid "Could not load summary for %s"
 msgstr "Kunde inte läsa in sammanfattning för %s"
 
-#: camel/providers/imap/camel-imap-folder.c:277
+#: camel/providers/imap/camel-imap-folder.c:279
 msgid "Folder was destroyed and recreated on server."
 msgstr "Mappen förstördes och återskapades på servern."
 
 #. Check UIDs and flags of all messages we already know of.
-#: camel/providers/imap/camel-imap-folder.c:461
+#: camel/providers/imap/camel-imap-folder.c:463
 msgid "Scanning for changed messages"
 msgstr "Letar efter ändrade meddelanden"
 
-#: camel/providers/imap/camel-imap-folder.c:1586
-#: camel/providers/imap/camel-imap-folder.c:2046
+#: camel/providers/imap/camel-imap-folder.c:1582
+#: camel/providers/imap/camel-imap-folder.c:2042
 msgid "This message is not currently available"
 msgstr "Detta meddelande är inte tillgängligt för tillfället"
 
-#: camel/providers/imap/camel-imap-folder.c:1741
-#: camel/providers/imap/camel-imap-folder.c:1822
+#: camel/providers/imap/camel-imap-folder.c:1737
+#: camel/providers/imap/camel-imap-folder.c:1818
 msgid "Fetching summary information for new messages"
 msgstr "Hämtar meddelandeinformation för nya meddelanden"
 
-#: camel/providers/imap/camel-imap-folder.c:1747
+#: camel/providers/imap/camel-imap-folder.c:1743
 msgid "Scanning for new messages"
 msgstr "Letar efter nya meddelanden"
 
-#: camel/providers/imap/camel-imap-folder.c:2083
+#: camel/providers/imap/camel-imap-folder.c:2079
 msgid "Could not find message body in FETCH response."
 msgstr "Kunde inte hitta meddelandetext i FETCH-svaret."
 
