@@ -1,3 +1,8 @@
+2001-04-12  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* POTFILES.in: Removed openpgp-utils.c and added the camel-pgp-*.c
+	files.
+
 2001-04-12  Héctor García Álvarez <hector@scouts-es.org>
 
         * es.po: Updated Spanish translation.
