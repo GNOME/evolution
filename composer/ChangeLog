@@ -1,3 +1,40 @@
+2004-04-09  Chris Toshok  <toshok@ximian.com>
+
+	* e-msg-composer-hdrs.c (set_recipients_from_destv):
+	EABDestination -> EDestination.
+	(e_msg_composer_hdrs_to_message_internal): same.
+	(e_msg_composer_hdrs_set_to): same.
+	(e_msg_composer_hdrs_set_cc): same.
+	(e_msg_composer_hdrs_set_bcc): same.
+	(e_msg_composer_hdrs_get_to): same.
+	(e_msg_composer_hdrs_get_cc): same.
+	(e_msg_composer_hdrs_get_bcc): same.
+	(e_msg_composer_hdrs_get_recipients): same.
+
+	* e-msg-composer-hdrs.h: convert prototypes such that
+	EABDestination -> EDestination.
+
+	* e-msg-composer.h: convert prototypes such that EABDestination ->
+	EDestination.
+
+	* e-msg-composer.c (destination_list_to_vector_sized): new
+	function, ripped from EABDestination, as this code is the only
+	consumer.
+	(destination_list_to_vector): same.
+	(update_auto_recipients): EABDestination -> EDestination.
+	(e_msg_composer_new_with_message): same.
+	(add_recipients): same.
+	(handle_mailto): same.
+	(e_msg_composer_set_headers): same.
+	(e_msg_composer_get_recipients): same.
+	(e_msg_composer_get_to): same.
+	(e_msg_composer_get_cc): same.
+	(e_msg_composer_get_bcc): same.
+
+	* evolution-composer.c (corba_recipientlist_to_destv):
+	EABDestination -> EDestination.
+	(impl_Composer_set_headers): same.
+
 2004-04-07  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* e-msg-composer.c (sig_select_item): Reversed the logic for

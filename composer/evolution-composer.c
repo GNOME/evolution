@@ -49,26 +49,26 @@ struct _EvolutionComposerPrivate {
 };
 
 /* CORBA interface implementation.  */
-static EABDestination **
+static EDestination **
 corba_recipientlist_to_destv (const GNOME_Evolution_Composer_RecipientList *cl)
 {
 	GNOME_Evolution_Composer_Recipient *recip;
-	EABDestination **destv;
+	EDestination **destv;
 	int i;
 
 	if (cl->_length == 0)
 		return NULL;
 
-	destv = g_new (EABDestination *, cl->_length+1);
+	destv = g_new (EDestination *, cl->_length+1);
 
 	for (i = 0; i < cl->_length; ++i) {
 		recip = &(cl->_buffer[i]);
 
-		destv[i] = eab_destination_new ();
+		destv[i] = e_destination_new ();
 
 		if (*recip->name)
-			eab_destination_set_name (destv[i], recip->name);
-		eab_destination_set_email (destv[i], recip->address);
+			e_destination_set_name (destv[i], recip->name);
+		e_destination_set_email (destv[i], recip->address);
 		
 	}
 	destv[cl->_length] = NULL;
@@ -87,7 +87,7 @@ impl_Composer_set_headers (PortableServer_Servant servant,
 {
 	BonoboObject *bonobo_object;
 	EvolutionComposer *composer;
-	EABDestination **tov, **ccv, **bccv;
+	EDestination **tov, **ccv, **bccv;
 	EAccountList *accounts;
 	EAccount *account;
 	EIterator *iter;
@@ -124,9 +124,9 @@ impl_Composer_set_headers (PortableServer_Servant servant,
 	e_msg_composer_set_headers (composer->composer, account->name,
 				    tov, ccv, bccv, subject);
 	
-	eab_destination_freev (tov);
-	eab_destination_freev (ccv);
-	eab_destination_freev (bccv);
+	e_destination_freev (tov);
+	e_destination_freev (ccv);
+	e_destination_freev (bccv);
 }
 
 static void

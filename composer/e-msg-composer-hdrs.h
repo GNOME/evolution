@@ -31,7 +31,7 @@
 
 #include <e-util/e-account.h>
 #include <camel/camel-mime-message.h>
-#include <addressbook/util/eab-destination.h>
+#include <addressbook/util/e-destination.h>
 
 #ifdef __cplusplus
 extern "C" {
@@ -108,11 +108,11 @@ void        e_msg_composer_hdrs_set_from_account   (EMsgComposerHdrs *hdrs,
 void        e_msg_composer_hdrs_set_reply_to       (EMsgComposerHdrs *hdrs,
 						    const char *reply_to);
 void        e_msg_composer_hdrs_set_to             (EMsgComposerHdrs *hdrs,
-						    EABDestination    **to_destv);
+						    EDestination    **to_destv);
 void        e_msg_composer_hdrs_set_cc             (EMsgComposerHdrs *hdrs,
-						    EABDestination    **cc_destv);
+						    EDestination    **cc_destv);
 void        e_msg_composer_hdrs_set_bcc            (EMsgComposerHdrs *hdrs,
-						    EABDestination    **bcc_destv);
+						    EDestination    **bcc_destv);
 void        e_msg_composer_hdrs_set_post_to        (EMsgComposerHdrs *hdrs,
 						    const char       *post_to);
 void        e_msg_composer_hdrs_set_post_to_list   (EMsgComposerHdrs *hdrs,
@@ -126,10 +126,10 @@ void        e_msg_composer_hdrs_set_subject        (EMsgComposerHdrs *hdrs,
 CamelInternetAddress *e_msg_composer_hdrs_get_from (EMsgComposerHdrs *hdrs);
 CamelInternetAddress *e_msg_composer_hdrs_get_reply_to (EMsgComposerHdrs *hdrs);
 
-EABDestination **e_msg_composer_hdrs_get_to         (EMsgComposerHdrs *hdrs);
-EABDestination **e_msg_composer_hdrs_get_cc         (EMsgComposerHdrs *hdrs);
-EABDestination **e_msg_composer_hdrs_get_bcc        (EMsgComposerHdrs *hdrs);
-EABDestination **e_msg_composer_hdrs_get_recipients (EMsgComposerHdrs *hdrs);
+EDestination **e_msg_composer_hdrs_get_to          (EMsgComposerHdrs *hdrs);
+EDestination **e_msg_composer_hdrs_get_cc          (EMsgComposerHdrs *hdrs);
+EDestination **e_msg_composer_hdrs_get_bcc         (EMsgComposerHdrs *hdrs);
+EDestination **e_msg_composer_hdrs_get_recipients  (EMsgComposerHdrs *hdrs);
 const char    *e_msg_composer_hdrs_get_subject     (EMsgComposerHdrs *hdrs);
 
 /* list of gchar* uris; this data is to be freed by the caller */
