@@ -1,4 +1,8 @@
-2003-09-16  �smund Skj�veland  <aasmunds@fys.uio.no>
+2003-09-18  Åsmund Skjæveland  <asmund@fys.uio.no>
+
+	* nn.po: And now with correct charset.
+
+2003-09-16  Åsmund Skjæveland  <aasmunds@fys.uio.no>
 
 	* nn.po: Roughly two hundred strings translated or defuzzed. Still
 	a long way to go (25% left), but every little bit helps.
@@ -66,7 +70,7 @@
         * es.po: Updated Spanish translation by
                  Francisco Javier F. Serrador <serrador@arrakis.es>.
 
-2003-07-26  Danilo Šegan  <dsegan@gmx.net>
+2003-07-26  Danilo Å egan  <dsegan@gmx.net>
 
 	* sr.po,sr@Latn.po: Updated Serbian translation by Serbian team 
 	(Prevod.org).
@@ -135,7 +139,7 @@
 
 	* el.po: Greek translation updated by Nikos Charonitakis <charosn@her.forthnet.gr>
 
-2003-06-22  Danilo Šegan  <dsegan@gmx.net>
+2003-06-22  Danilo Å egan  <dsegan@gmx.net>
 
 	* sr.po, sr@Latn.po: Updated Serbian translation by Serbian team
 	(Prevod.org).
@@ -160,7 +164,7 @@
 
 	* sv.po: Updated Swedish translation.
 
-2003-06-19  Danilo Šegan  <dsegan@gmx.net>
+2003-06-19  Danilo Å egan  <dsegan@gmx.net>
 
 	* sr.po, sr@Latn.po: Added Serbian translation by Serbian team
 	(Prevod.org).
