@@ -21,6 +21,7 @@
 #include <gal/util/e-util.h>
 #include <gal/widgets/e-unicode.h>
 
+#include "e-util/e-categories-master-list-wombat.h"
 #include "select-names/e-select-names.h"
 #include "select-names/e-select-names-manager.h"
 
@@ -637,16 +638,27 @@ static ESearchBarItem addressbook_search_option_items[] = {
 	{ N_("Any field contains"), ESB_ANY, NULL },
 	{ N_("Name contains"), ESB_FULL_NAME, NULL },
 	{ N_("Email contains"), ESB_EMAIL, NULL },
-	{ N_("Category contains"), ESB_CATEGORY, NULL },
+	{ N_("Category is"), ESB_CATEGORY, NULL }, /* We attach subitems below */
 	{ N_("Advanced..."), ESB_ADVANCED, NULL },
 	{ NULL, -1, NULL }
 };
 
+static ECategoriesMasterList *category_list = NULL;
+
+static ECategoriesMasterList *
+get_master_list (void)
+{
+	if (category_list == NULL)
+		category_list = e_categories_master_list_wombat_new ();
+	return category_list;
+}
+
 static void
 addressbook_query_changed (ESearchBar *esb, AddressbookView *view)
 {
-	char *search_word, *search_query;
-	int search_type;
+	ECategoriesMasterList *master_list;
+	char *search_word, *search_query, *category_name;
+	int search_type, subopt;
 
 	gtk_object_get(GTK_OBJECT(esb),
 		       "text", &search_word,
@@ -657,7 +669,7 @@ addressbook_query_changed (ESearchBar *esb, AddressbookView *view)
 		gtk_widget_show(e_addressbook_search_dialog_new(view->view));
 	}
 	else {
-		if (search_word && strlen (search_word)) {
+		if ((search_word && strlen (search_word)) || search_type == ESB_CATEGORY) {
 			switch (search_type) {
 			case ESB_ANY:
 				search_query = g_strdup_printf ("(contains \"x-evolution-any-field\" \"%s\")",
@@ -672,8 +684,10 @@ addressbook_query_changed (ESearchBar *esb, AddressbookView *view)
 								search_word);
 				break;
 			case ESB_CATEGORY:
-				search_query = g_strdup_printf ("(contains \"category\" \"%s\")",
-								search_word);
+				subopt = e_search_bar_get_suboption_choice (esb);
+				master_list = get_master_list ();
+				category_name = e_categories_master_list_nth (master_list, subopt);
+				search_query = g_strdup_printf ("(contains \"category\" \"%s\")", category_name);
 				break;
 			default:
 				search_query = g_strdup ("(contains \"full_name\" \"\")");
@@ -770,6 +784,26 @@ addressbook_factory_new_control (void)
 
 	/* Create the control. */
 	view->control = bonobo_control_new (view->vbox);
+
+	/* We attach subitems to the "Category is" item, so that we get an option menu of categories. */
+	if (addressbook_search_option_items[ESB_CATEGORY].subitems == NULL) {
+		ESearchBarSubitem *subitems;
+		ECategoriesMasterList *master_list;
+		gint i, N;
+		
+		g_assert (addressbook_search_option_items[ESB_CATEGORY].id == ESB_CATEGORY); /* sanity check */
+
+		master_list = get_master_list ();
+		N = e_categories_master_list_count (master_list);
+		addressbook_search_option_items[ESB_CATEGORY].subitems = subitems = g_new (ESearchBarSubitem, N+1);
+
+		for (i=0; i<N; ++i) {
+			subitems[i].id = i;
+			subitems[i].text = e_categories_master_list_nth (master_list, i);
+		}
+		subitems[N].id = -1;
+		subitems[N].text = NULL;
+	}
 
 	view->search = E_SEARCH_BAR(e_search_bar_new(addressbook_search_menu_items,
 						     addressbook_search_option_items));

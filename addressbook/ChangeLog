@@ -1,5 +1,11 @@
 2001-08-10  Jon Trowbridge  <trow@ximian.com>
 
+	* gui/component/addressbook.c (addressbook_query_changed):
+	Properly handle "Category is" queries by checking the search bar
+	suboption.
+	(addressbook_factory_new_control): Attach subitems corresponding
+	to all wombat categories to the "Category is" ESearchBarItem.
+
 	* gui/component/addressbook.c: Set the ESearchBarItem
 	subitems explicitly to NULL.
 
