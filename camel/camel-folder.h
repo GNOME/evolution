@@ -274,8 +274,6 @@ void               camel_folder_copy_message_to        (CamelFolder *folder,
 
 /* summary related operations */
 gboolean           camel_folder_has_summary_capability (CamelFolder *folder);
-CamelFolderSummary *camel_folder_get_summary           (CamelFolder *folder, 
-							CamelException *ex);
 
 
 /* number based access operations */
