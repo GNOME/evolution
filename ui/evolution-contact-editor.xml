@@ -184,8 +184,10 @@ static GnomeUIInfo main_menu[] = {
 		 _tip="Print this item"
 		 pixtype="pixbuf"/>
 
+<!-- Envelope printing is disabled for Evolution 1.0.
 		<cmd name="ContactEditorPrintEnvelope"
 		 pixtype="pixbuf"/>
+-->
 
 		<cmd name="ContactEditorClose"
 		 pixtype="stock" pixname="Close"/>
@@ -222,8 +224,11 @@ static GnomeUIInfo main_menu[] = {
 				<menuitem name="ContactEditorPrint" verb=""
 				_label="_Print..."/>
 
+<!-- Envelope printing is disabled for Evolution 1.0.
+
 				<menuitem name="ContactEditorPrintEnvelope" verb=""
 				_label="Print En_velope..."/>
+-->
 
 			</placeholder>
 

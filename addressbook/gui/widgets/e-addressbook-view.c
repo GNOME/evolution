@@ -633,12 +633,14 @@ print (GtkWidget *widget, CardAndBook *card_and_book)
 	card_and_book_free(card_and_book);
 }
 
+#if 0 /* Envelope printing is disabled for Evolution 1.0. */
 static void
 print_envelope (GtkWidget *widget, CardAndBook *card_and_book)
 {
 	gtk_widget_show(e_contact_print_envelope_dialog_new(card_and_book->card));
 	card_and_book_free(card_and_book);
 }
+#endif
 
 static void
 delete (GtkWidget *widget, CardAndBook *card_and_book)
@@ -671,7 +673,9 @@ table_right_click(ETableScrolled *table, gint row, gint col, GdkEvent *event, EA
 			{N_("Send contact to other"), NULL, GTK_SIGNAL_FUNC(send_as), NULL, 0},
 			{N_("Send message to contact"), NULL, GTK_SIGNAL_FUNC(send_to), NULL, 0},
 			{N_("Print"), NULL, GTK_SIGNAL_FUNC(print), NULL, 0},
+#if 0 /* Envelope printing is disabled for Evolution 1.0. */
 			{N_("Print Envelope"), NULL, GTK_SIGNAL_FUNC(print_envelope), NULL, 0},
+#endif
 			{N_("Delete"), NULL, GTK_SIGNAL_FUNC(delete), NULL, 0},
 			{NULL, NULL, NULL, NULL, 0}
 		};

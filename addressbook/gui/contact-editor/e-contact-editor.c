@@ -982,6 +982,7 @@ print_cb (BonoboUIComponent *uih, void *data, const char *path)
 	gtk_widget_show(e_contact_print_card_dialog_new(ce->card));
 }
 
+#if 0 /* Envelope printing is disabled for Evolution 1.0. */
 /* Emits the signal to request printing a card */
 static void
 print_envelope_cb (BonoboUIComponent *uih, void *data, const char *path)
@@ -995,6 +996,7 @@ print_envelope_cb (BonoboUIComponent *uih, void *data, const char *path)
 
 	gtk_widget_show(e_contact_print_envelope_dialog_new(ce->card));
 }
+#endif
 
 /* Toolbar/Save and Close callback */
 static void
@@ -1015,7 +1017,9 @@ BonoboUIVerb verbs [] = {
 	BONOBO_UI_UNSAFE_VERB ("ContactEditorSendTo", file_send_to_cb),
 	BONOBO_UI_UNSAFE_VERB ("ContactEditorDelete", delete_cb),
 	BONOBO_UI_UNSAFE_VERB ("ContactEditorPrint", print_cb),
+#if 0 /* Envelope printing is disabled for Evolution 1.0. */
 	BONOBO_UI_UNSAFE_VERB ("ContactEditorPrintEnvelope", print_envelope_cb),
+#endif
 	/*	BONOBO_UI_UNSAFE_VERB ("ContactEditorPageSetup", file_page_setup_menu), */
 	BONOBO_UI_UNSAFE_VERB ("ContactEditorClose", file_close_cb),
 	

@@ -1,3 +1,16 @@
+2001-08-08  Nat Friedman  <nat@ximian.com>
+
+	* gui/widgets/e-addressbook-reflow-adapter.c (print_envelope): If 0'd out
+	since Envelope printing is disabled for 1.0.	
+	* gui/widgets/e-addressbook-view.c (print_envelope): Likewise.
+	* gui/contact-editor/e-contact-editor.c (print_envelope_cb): Likewise.
+
+	* gui/widgets/e-addressbook-reflow-adapter.c
+	(e_addressbook_reflow_adapter_right_click): Removed "Print
+	Envelope" menu item.
+	* gui/widgets/e-addressbook-view.c (table_right_click): Likewise.
+	* gui/contact-editor/e-contact-editor.c	(verbs): Likewise.
+
 2001-08-07  Chris Toshok  <toshok@ximian.com>
 
 	* gui/component/addressbook-storage.c (remove_ldap_folder): ifdef

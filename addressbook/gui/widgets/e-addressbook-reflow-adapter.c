@@ -173,6 +173,7 @@ print (GtkWidget *widget, ModelAndSelection *mns)
 	model_and_selection_free (mns);
 }
 
+#if 0 /* Envelope printing is disabled for Evolution 1.0. */
 static void
 print_envelope (GtkWidget *widget, ModelAndSelection *mns)
 {
@@ -184,6 +185,7 @@ print_envelope (GtkWidget *widget, ModelAndSelection *mns)
 	g_list_free (list);
 	model_and_selection_free (mns);
 }
+#endif
 
 static void
 card_changed_cb (EBook* book, EBookStatus status, gpointer user_data)
@@ -231,7 +233,9 @@ e_addressbook_reflow_adapter_right_click (EAddressbookReflowAdapter *adapter, Gd
 			      {N_("Send contact to other"), NULL, GTK_SIGNAL_FUNC(send_as), NULL, 0},
 			      {N_("Send message to contact"), NULL, GTK_SIGNAL_FUNC(send_to), NULL, 0},
 			      {N_("Print"), NULL, GTK_SIGNAL_FUNC(print), NULL, 0},
+#if 0 /* Envelope printing is disabled for Evolution 1.0. */
 			      {N_("Print Envelope"), NULL, GTK_SIGNAL_FUNC(print_envelope), NULL, 0},
+#endif
 			      {N_("Delete"), NULL, GTK_SIGNAL_FUNC(delete), NULL, 0},
 			      {NULL, NULL, NULL, 0}};
 
