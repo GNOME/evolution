@@ -255,20 +255,13 @@ fill_fi(CamelStore *store, CamelFolderInfo *fi, guint32 flags)
 		CamelFolderSummary *s;
 		const char *root;
 
-		printf("looking up counts from '%s'\n", fi->full_name);
-
 		/* This should be fast enough not to have to test for INFO_FAST */
 		root = camel_local_store_get_toplevel_dir((CamelLocalStore *)store);
 		path = g_strdup_printf("%s/%s.ev-summary", root, fi->full_name);
 		folderpath = g_strdup_printf("%s/%s", root, fi->full_name);
 		s = (CamelFolderSummary *)camel_maildir_summary_new(path, folderpath, NULL);
-		if (camel_folder_summary_header_load(s) != -1) {
+		if (camel_folder_summary_header_load(s) != -1)
 			unread = s->unread_count;
-			printf("loaded summary header unread = %d\n", unread);
-		} else {
-			printf("couldn't load summary header?\n");
-		}
-		
 		camel_object_unref(s);
 		g_free(folderpath);
 		g_free(path);

@@ -613,21 +613,15 @@ fill_fi(CamelStore *store, CamelFolderInfo *fi, guint32 flags)
 		CamelMboxSummary *mbs;
 		const char *root;
 
-		printf("looking up counts from '%s'\n", fi->full_name);
-
 		/* This should be fast enough not to have to test for INFO_FAST */
 		root = camel_local_store_get_toplevel_dir((CamelLocalStore *)store);
 		path = camel_mbox_folder_get_meta_path(root, fi->full_name, ".ev-summary");
 		folderpath = camel_mbox_folder_get_full_path(root, fi->full_name);
 		
 		mbs = (CamelMboxSummary *)camel_mbox_summary_new(path, folderpath, NULL);
-		if (camel_folder_summary_header_load((CamelFolderSummary *)mbs) != -1) {
+		if (camel_folder_summary_header_load((CamelFolderSummary *)mbs) != -1)
 			unread = ((CamelFolderSummary *)mbs)->unread_count;
-			printf("loaded summary header unread = %d\n", unread);
-		} else {
-			printf("couldn't load summary header?\n");
-		}
-		
+
 		camel_object_unref(mbs);
 		g_free(folderpath);
 		g_free(path);
