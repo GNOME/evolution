@@ -270,14 +270,14 @@ camel_disco_diary_replay (CamelDiscoDiary *diary, CamelException *ex)
 	off_t size;
 	double pc;
 
-	fseeko (diary->file, 0, SEEK_END);
-	size = ftello (diary->file);
+	fseek (diary->file, 0, SEEK_END);
+	size = ftell (diary->file);
 	g_return_if_fail (size != 0);
 	rewind (diary->file);
 
 	camel_operation_start (NULL, _("Resynchronizing with server"));
 	while (!camel_exception_is_set (ex)) {
-		pc = ftello (diary->file) / size;
+		pc = ftell (diary->file) / size;
 		camel_operation_progress (NULL, pc * 100);
 
 		if (camel_file_util_decode_uint32 (diary->file, &action) == -1)
@@ -399,7 +399,7 @@ camel_disco_diary_new (CamelDiscoStore *store, const char *filename, CamelExcept
 gboolean
 camel_disco_diary_empty  (CamelDiscoDiary *diary)
 {
-	return ftello (diary->file) == 0;
+	return ftell (diary->file) == 0;
 }
 
 void

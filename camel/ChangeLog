@@ -1,7 +1,14 @@
+2001-08-24  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-disco-diary.c (camel_disco_diary_replay): Use fseek
+	instead of fseeko since we want to be portable and use ftell
+	rather than ftello for the same reason.
+	(camel_disco_diary_empty): Same here.
+
 2001-08-24  Peter Williams  <peterw@ximian.com>
 
-	* Revert Not Zed's previous commits as they apparently can
-	cause serious data loss for POP3 users.
+	* Revert Not Zed's previous commits as they apparently can cause
+	serious data loss for POP3 users.
 	
 2001-08-24  Ettore Perazzoli  <ettore@ximian.com>
 
@@ -20,7 +27,8 @@
 	output buffer size.  iconv bugs?  returns E2BIG forever on some
 	(valid) data?
 
-	* providers/local/camel-spool-summary.c (summary_rebuild): Likewise.
+	* providers/local/camel-spool-summary.c (summary_rebuild):
+	Likewise.
 
 	* providers/local/camel-mbox-summary.c (summary_rebuild):
 	Summarising is spelt with an s.
@@ -34,7 +42,8 @@
 	member, says the character encoding is raw, not utf8.
 
 	* providers/local/camel-spool-summary.c
-	(spool_summary_sync_quick): Synchronising is spelt with an s, not a z.
+	(spool_summary_sync_quick): Synchronising is spelt with an s, not
+	a z.
 	(spool_summary_sync_full): "
 
 	* providers/local/camel-mbox-summary.c (mbox_summary_sync_full):
