@@ -98,8 +98,7 @@ load_group_into_model (EShortcutsViewModel *shortcuts_view_model,
 
 		if (path == NULL || folder == NULL) {
 			/* FIXME */
-			g_warning ("Invalid link while loading shortcut bar view -- %s\n",
-				   uri);
+			g_warning ("Invalid link while loading shortcut bar view -- %s", uri);
 			continue;
 		}
 

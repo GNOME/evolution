@@ -374,7 +374,7 @@ convert_gdk_drag_action_to_corba (GdkDragAction action)
 	else if (action == GDK_ACTION_ASK)
 		return GNOME_Evolution_ShellComponentDnd_ACTION_ASK;
 	else {
-		g_warning ("unknown GdkDragAction %d\n", action);
+		g_warning ("Unknown GdkDragAction %d", action);
 		return GNOME_Evolution_ShellComponentDnd_ACTION_DEFAULT;
 	}
 }
@@ -391,7 +391,7 @@ convert_corba_drag_action_to_gdk (GNOME_Evolution_ShellComponentDnd_ActionSet ac
 	else if (action == GNOME_Evolution_ShellComponentDnd_ACTION_ASK)
 		return GDK_ACTION_ASK;
 	else {
-		g_warning ("unknown GNOME_Evolution_ShellComponentDnd_ActionSet %d\n", action);
+		g_warning ("unknown GNOME_Evolution_ShellComponentDnd_ActionSet %d", action);
 		return GDK_ACTION_DEFAULT;
 	}
 }
@@ -1228,7 +1228,7 @@ tree_drag_data_received (ETree *etree,
 							 folder_xfer_callback, NULL);
 			break;
 		default:
-			g_warning ("EStorageSetView: Don't know action %d\n", context->action);
+			g_warning ("EStorageSetView: Unknown action %d", context->action);
 		}
 
 		g_free (destination_path);
@@ -1576,7 +1576,7 @@ new_folder_cb (EStorageSet *storage_set,
 	parent_path = g_strndup (path, last_separator - path);
 	parent_node = g_hash_table_lookup (priv->path_to_etree_node, parent_path);
 	if (parent_node == NULL) {
-		g_warning ("EStorageSetView: EStorageSet reported new subfolder for non-existing folder -- %s\n",
+		g_warning ("EStorageSetView: EStorageSet reported new subfolder for non-existing folder -- %s",
 			   parent_path);
 		g_free (parent_path);
 		return;

@@ -1,5 +1,16 @@
 2001-06-25  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-storage-set-view.c (convert_gdk_drag_action_to_corba): Remove
+	trailing "\n" from g_warning.
+	(convert_corba_drag_action_to_gdk): Likewise.
+	(tree_drag_data_received): Likewise.
+	(new_folder_cb): Likewise.
+
+	* e-shortcuts-view-model.c (load_group_into_model): Remove
+	trailing "\n" from g_warning.
+
+2001-06-25  Ettore Perazzoli  <ettore@ximian.com>
+
 	* main.c (no_views_left_cb): Unref the shell here.
 
 	* e-storage-set.c (destroy): Use
