@@ -1423,7 +1423,7 @@ pas_backend_file_load_uri (PASBackend             *backend,
 				char *create_initial_file;
 				char *dir;
 
-				dir = g_dirname(filename);
+				dir = g_path_get_dirname(filename);
 				create_initial_file = g_build_filename (dir, "create-initial", NULL);
 
 				if (g_file_test(create_initial_file, G_FILE_TEST_EXISTS)) {

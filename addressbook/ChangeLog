@@ -1,5 +1,20 @@
 2002-12-17  Chris Toshok  <toshok@ximian.com>
 
+	* backend/pas/pas-backend-ldap.c (build_card_from_entry):
+	g_strcasecmp -> g_ascii_strcasecmp.
+	(FIND_INSERT): same.
+
+	* backend/pas/pas-backend-file.c (pas_backend_file_load_uri):
+	g_dirname -> g_path_get_dirname.
+
+	* backend/pas/Makefile.am (INCLUDES):  add
+	-DG_DISABLE_DEPRECATED.
+
+	* backend/ebook/Makefile.am (INCLUDES): add
+	-DG_DISABLE_DEPRECATED.
+
+2002-12-17  Chris Toshok  <toshok@ximian.com>
+
 	* gui/component/select-names/e-select-names-manager.c
 	(uris_listener): oops, use strcmp, not !strcmp here.
 

@@ -1020,7 +1020,7 @@ static void
 add_objectclass_mod (PASBackendLDAP *bl, GPtrArray *mod_array, GList *existing_objectclasses)
 {
 #define FIND_INSERT(oc) \
-	if (!g_list_find_custom (existing_objectclasses, (oc), (GCompareFunc)g_strcasecmp)) \
+	if (!g_list_find_custom (existing_objectclasses, (oc), (GCompareFunc)g_ascii_strcasecmp)) \
 	         g_ptr_array_add (objectclasses, g_strdup ((oc)))
 #define INSERT(oc) \
 		 g_ptr_array_add (objectclasses, g_strdup ((oc)))
@@ -2752,7 +2752,7 @@ build_card_from_entry (LDAP *ldap, LDAPMessage *e, GList **existing_objectclasse
 		}
 		else {
 			for (i = 0; i < num_prop_infos; i ++)
-				if (!g_strcasecmp (attr, prop_info[i].ldap_attr)) {
+				if (!g_ascii_strcasecmp (attr, prop_info[i].ldap_attr)) {
 					info = &prop_info[i];
 					break;
 				}
