@@ -1,3 +1,7 @@
+1999-02-06  Changwoo Ryu  <cwryu@adam.kaist.ac.kr>
+
+	* gncal.desktop: Added Korean translations.
+
 1999-02-04  Federico Mena Quintero  <federico@nuclecu.unam.mx>
 
 	* eventedit.c (date_edit_new): New convenience function to create
