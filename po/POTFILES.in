@@ -65,7 +65,7 @@ calendar/cal-util/timeutil.c
 calendar/conduits/calendar/calendar-conduit.c
 calendar/conduits/todo/todo-conduit.c
 calendar/gui/GNOME_Evolution_Calendar.server.in.in
-calendar/gui/alarm-notify/GNOME_Evolution_Calendar_AlarmNotify.server.in
+calendar/gui/alarm-notify/GNOME_Evolution_Calendar_AlarmNotify.server.in.in
 calendar/gui/alarm-notify/alarm-notify-dialog.c
 calendar/gui/alarm-notify/alarm-notify.glade
 calendar/gui/alarm-notify/alarm-queue.c
@@ -75,6 +75,7 @@ calendar/gui/calendar-commands.c
 calendar/gui/calendar-component.c
 calendar/gui/calendar-model.c
 calendar/gui/calendar-view-factory.c
+calendar/gui/comp-editor-factory.c
 calendar/gui/control-factory.c
 calendar/gui/dialogs/alarm-options.c
 calendar/gui/dialogs/alarm-options.glade
@@ -254,6 +255,9 @@ mail/importers/GNOME_Evolution_Mail_Mbox_Importer.server.in.in
 mail/importers/GNOME_Evolution_Mail_Netscape_Intelligent_Importer.server.in.in
 mail/importers/GNOME_Evolution_Mail_Outlook_Importer.server.in.in
 mail/importers/GNOME_Evolution_Mail_Pine_Intelligent_Importer.server.in.in
+mail/importers/elm-importer.c
+mail/importers/netscape-importer.c
+mail/importers/pine-importer.c
 mail/local-config.glade
 mail/mail-account-editor.c
 mail/mail-account-gui.c

@@ -9362,7 +9362,7 @@ msgstr "Δεν ήταν δυνατή η σύνδεση στο %s (θύρα %d) :
 
 #: camel/providers/imap/camel-imap-store.c:646
 #: camel/providers/imap/camel-imap-store.c:677
-#, c-format
+#, fuzzy, c-format
 msgid "Failed to connect to IMAP server %s in secure mode: %s"
 msgstr ""
 "Δεν ήταν δυνατή η σύνδεση με τον διακομιστή IMAP σε ασφαλή λειτουργία: %s"
@@ -9854,7 +9854,7 @@ msgid "Spool mail file %s"
 msgstr "Αρχειο αλληλογραφίας spool %s"
 
 #: camel/providers/local/camel-spool-store.c:206
-#, c-format
+#, fuzzy, c-format
 msgid "Spool folder tree %s"
 msgstr "Δέντρο φακέλου spool "
 
@@ -9969,7 +9969,7 @@ msgid "User cancelled"
 msgstr "Ακυρώθηκε από τον χρήστη"
 
 #: camel/providers/pop3/camel-pop3-folder.c:265
-#, c-format
+#, fuzzy, c-format
 msgid "Cannot get POP summary: %s"
 msgstr "Δεν είναι δυνατή η λήψη περίληψης POP "
 

@@ -25471,7 +25471,7 @@ msgid "Cannot access the Ximian Evolution shell."
 msgstr "Can not initialise the Ximian Evolution shell."
 
 #: shell/main.c:403
-#, c-format
+#, fuzzy, c-format
 msgid "Cannot initialize the Ximian Evolution shell: %s"
 msgstr "Can not initialise the Ximian Evolution shell."
 
