@@ -1,3 +1,11 @@
+2004-07-23 pchenthill <pchenthill@novell.com>
+
+        Fixes #59983
+        * gui/e-itip-control.c (show_current_event):
+        If the ecal component is already loaded, check for the participation
+        status of the attendee and display the menu for selecting the
+        calendar.
+
 2004-07-16  Larry Ewing  <lewing@ximian.com>
 
 	* gui/e-meeting-time-sel.c (e_meeting_time_selector_style_set):
