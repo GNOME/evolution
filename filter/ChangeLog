@@ -1,3 +1,33 @@
+2000-10-23  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* filter-filter.c (less_parts): Set the remove button insensitive
+	if there is only 1 action left.
+	(more_parts): Set the remove button sensitive (since we now have 2
+	or more actions).
+	(get_widget): If there is only 1 action, disable the remove
+	button.
+
+	* filter-rule.c (xml_encode): If there is a defined source, don't
+	set it to "incoming", set it to whatever the source is!
+	(less_parts): Set the remove button insensitive if there is only 1
+	criterion left.
+	(more_parts): Set the remove button sensitive (since we now have 2
+	or more criterion).
+	(get_widget): If there is no name for the filter then set it to
+	"Untitled", highlight it, and grab the focus. If there is only 1
+	criterion, disable the remove button.
+
+	* filter-editor.c, vfolder-editor.c: GUI fixes here and there as
+	well as some consistancy fixes between them.
+
+	* filter-driver.c (filter_driver_filter_mbox): Updated to send the
+	source url to filter_driver_filter_message()
+	(filter_driver_filter_folder): Updated to send the source url of
+	the folder to filter_driver_filter_message()
+	(filter_driver_filter_message): Now takes a source_url argument
+	that represents the url of the folder the message is coming from
+	(so that we may filter based upon that information).
+
 2000-10-23  Christopher James Lahey  <clahey@helixcode.com>
 
 	* filter.glade: Fixed these widgets to resize properly.

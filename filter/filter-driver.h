@@ -2,6 +2,7 @@
  *  Copyright (C) 2000 Helix Code Inc.
  *
  *  Authors: Michael Zucchi <notzed@helixcode.com>
+ *           Jeffrey Stedfast <fejj@helixcode.com>
  *
  *  This program is free software; you can redistribute it and/or 
  *  modify it under the terms of the GNU General Public License as 
@@ -70,7 +71,7 @@ void	filter_driver_set_default_folder  (FilterDriver *d, CamelFolder *def);
 
 /* filter a message - returns TRUE if the message was filtered into some location other than inbox */
 void    filter_driver_filter_message      (FilterDriver *driver, CamelMimeMessage *message, CamelMessageInfo *info,
-					   const char *source, CamelException *ex);
+					   const char *source_url, const char *source, CamelException *ex);
 void    filter_driver_filter_mbox         (FilterDriver *driver, const char *mbox, const char *source, CamelException *ex);
 void    filter_driver_filter_folder       (FilterDriver *driver, CamelFolder *folder, const char *source,
 					   GPtrArray *uids, gboolean remove, CamelException *ex);

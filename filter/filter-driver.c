@@ -510,6 +510,7 @@ void
 filter_driver_filter_mbox (FilterDriver *driver, const char *mbox, const char *source, CamelException *ex)
 {
 	CamelMimeParser *mp = NULL;
+	char *source_url = NULL;
 	int fd = -1;
 	int i = 0;
 	struct stat st;
@@ -529,6 +530,9 @@ filter_driver_filter_mbox (FilterDriver *driver, const char *mbox, const char *s
 		goto fail;
 	}
 	fd = -1;
+	
+	source_url = g_strdup_printf ("file://%s", mbox);
+	
 	while (camel_mime_parser_step (mp, 0, 0) == HSCAN_FROM) {
 		CamelMimeMessage *msg;
 		int pc;
@@ -544,7 +548,7 @@ filter_driver_filter_mbox (FilterDriver *driver, const char *mbox, const char *s
 			goto fail;
 		}
 		
-		filter_driver_filter_message (driver, msg, NULL, source, ex);
+		filter_driver_filter_message (driver, msg, NULL, source_url, source, ex);
 		camel_object_unref (CAMEL_OBJECT (msg));
 		if (camel_exception_is_set (ex)) {
 			report_status (driver, FILTER_STATUS_END, "Failed message %d", i);
@@ -558,6 +562,7 @@ filter_driver_filter_mbox (FilterDriver *driver, const char *mbox, const char *s
 		camel_mime_parser_step (mp, 0, 0);
 	}
 fail:
+	g_free (source_url);
 	if (fd != -1)
 		close (fd);
 	if (mp)
@@ -573,6 +578,11 @@ filter_driver_filter_folder (FilterDriver *driver, CamelFolder *folder, const ch
 	int freeuids = FALSE;
 	CamelMimeMessage *message;
 	const CamelMessageInfo *info;
+	char *source_url, *service_url;
+	
+	service_url = camel_service_get_url (CAMEL_SERVICE (camel_folder_get_parent_store (folder)));
+	source_url = g_strdup_printf ("%s%s", service_url, camel_folder_get_full_name (folder));
+	g_free (service_url);
 	
 	if (uids == NULL) {
 		uids = camel_folder_get_uids (folder);
@@ -593,7 +603,7 @@ filter_driver_filter_folder (FilterDriver *driver, CamelFolder *folder, const ch
 		else
 			info = NULL;
 		
-		filter_driver_filter_message (driver, message, (CamelMessageInfo *)info, source, ex);
+		filter_driver_filter_message (driver, message, (CamelMessageInfo *)info, source_url, source, ex);
 		if (camel_exception_is_set (ex)) {
 			report_status (driver, FILTER_STATUS_END, "Failed at message %d of %d", i+1, uids->len);
 			break;
@@ -608,11 +618,13 @@ filter_driver_filter_folder (FilterDriver *driver, CamelFolder *folder, const ch
 	
 	if (freeuids)
 		camel_folder_free_uids (folder, uids);
+	
+	g_free (source_url);
 }
 
 void
 filter_driver_filter_message (FilterDriver *driver, CamelMimeMessage *message, CamelMessageInfo *info,
-			      const char *source, CamelException *ex)
+			      const char *source_url, const char *source, CamelException *ex)
 {
 	struct _FilterDriverPrivate *p = _PRIVATE (driver);
 	ESExpResult *r;
@@ -657,7 +669,7 @@ filter_driver_filter_message (FilterDriver *driver, CamelMimeMessage *message, C
 		d(fprintf (stderr, "applying rule %s\n action %s\n", fsearch->str, faction->str));
 		
 		mail_tool_camel_lock_up ();
-		matched = filter_message_search (p->message, p->info, source, fsearch->str, p->ex);
+		matched = filter_message_search (p->message, p->info, source_url, fsearch->str, p->ex);
 		mail_tool_camel_lock_down ();
 		
 		if (matched) {
