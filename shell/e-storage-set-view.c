@@ -154,9 +154,12 @@ button_press_event (GtkWidget *widget,
 
 	gdk_pointer_ungrab (GDK_CURRENT_TIME);
 	gdk_flush ();
+	gtk_grab_remove (widget);
+
 	gdk_pointer_grab (GTK_CLIST (widget)->clist_window, FALSE,
 			  GDK_POINTER_MOTION_MASK | GDK_BUTTON_RELEASE_MASK,
 			  NULL, NULL, event->time);
+	gtk_grab_add (widget);
 
 	return TRUE;
 }
@@ -201,6 +204,7 @@ button_release_event (GtkWidget *widget,
 
 	if (! priv->in_drag && priv->selected_row_path != NULL) {
 		gdk_pointer_ungrab (GDK_CURRENT_TIME);
+		gtk_grab_remove (widget);
 		gdk_flush ();
 
 		gtk_signal_emit (GTK_OBJECT (widget), signals[FOLDER_SELECTED],
@@ -624,6 +628,8 @@ e_storage_set_view_set_current_folder (EStorageSetView *storage_set_view,
 	}
 
 	gtk_ctree_select (GTK_CTREE (storage_set_view), node);
+
+	gtk_signal_emit (GTK_OBJECT (storage_set_view), signals[FOLDER_SELECTED], path);
 }
 
 

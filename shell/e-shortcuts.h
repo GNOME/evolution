@@ -67,6 +67,12 @@ void        e_shortcuts_construct  (EShortcuts            *shortcuts,
 EShortcuts *e_shortcuts_new        (EStorageSet           *storage_set,
 				    EFolderTypeRepository *folder_type_repository);
 
+GList       *e_shortcuts_get_group_titles        (EShortcuts *shortcuts);
+GList       *e_shortcuts_get_shortcuts_in_group  (EShortcuts *shortcuts,
+						  const char *group_title);
+
+EStorageSet *e_shortcuts_get_storage_set         (EShortcuts *shortcuts);
+
 GtkWidget *e_shortcuts_new_view  (EShortcuts *shortcuts);
 
 gboolean  e_shortcuts_load  (EShortcuts *shortcuts,

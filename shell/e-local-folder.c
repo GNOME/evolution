@@ -39,6 +39,7 @@
 #endif
 
 #include <gnome-xml/parser.h>
+#include <gnome-xml/xmlmemory.h>
 
 #include "e-util/e-util.h"
 #include "e-util/e-xml-utils.h"
@@ -56,11 +57,13 @@ static EFolderClass *parent_class = NULL;
 #define METADATA_FILE_NAME_LEN 19
 
 
-static const char *
+static char *
 get_string_value (xmlNode *node,
 		  const char *name)
 {
 	xmlNode *p;
+	xmlChar *xml_string;
+	char *retval;
 
 	p = e_xml_get_child_by_name (node, (xmlChar *) name);
 	if (p == NULL)
@@ -70,7 +73,11 @@ get_string_value (xmlNode *node,
 	if (p == NULL)
 		return NULL;
 
-	return (const char *) xmlNodeListGetString (node->doc, p, 1);
+	xml_string = xmlNodeListGetString (node->doc, p, 1);
+	retval = g_strdup ((char *) xml_string);
+	xmlFree (xml_string);
+
+	return retval;
 }
 
 static gboolean
@@ -80,8 +87,8 @@ construct_loading_metadata (ELocalFolder *local_folder,
 	EFolder *folder;
 	xmlDoc *doc;
 	xmlNode *root;
-	const char *type;
-	const char *description;
+	char *type;
+	char *description;
 	char *metadata_path;
 
 	folder = E_FOLDER (local_folder);
@@ -105,6 +112,9 @@ construct_loading_metadata (ELocalFolder *local_folder,
 	description = get_string_value (root, "description");
 
 	e_folder_construct (folder, g_basename (path), type, description);
+
+	g_free (type);
+	g_free (description);
 
 	xmlFreeDoc (doc);
 

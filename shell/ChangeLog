@@ -1,5 +1,50 @@
 2000-05-15  Ettore Perazzoli  <ettore@helixcode.com>
 
+	* e-shortcuts.c
+	(load_shortcuts_into_view): Removed.
+	(e_shortcuts_new_view): Don't set up the shortcut bar manually
+	here anymore, and don't set the icon callback either.  The
+	`EShortcutsView' object is now able to do this by itself.
+
+	* e-shortcuts-view.c
+	(icon_callback): Moved here from `e-shortcuts.c'.
+	(load_group): New function.
+	(load_all_shortcuts): New function.
+	(e_shortcuts_view_construct): Call it to load the shortcuts from
+	the `EShortcuts' object.  Also, set `icon_callback' as the icon
+	callback.
+
+	* e-storage-set-view.c
+	(button_press_event): Add/remove grab with `gtk_grab_add' and
+	`gtk_grab_remove'.
+	(button_release_event): Call `gtk_grab_remove' when removing the
+	grab.
+
+	* e-shortcuts.c: New member `title_to_group' in
+	`EShortcutsPrivate'.
+	(init): Initialize here.
+	(destroy): Destroy here.
+	(unload_shortcuts): Destroy and recreate here.
+	(load_shortcuts): Avoid inserting multiple groups with the same
+	title, and insert the groups into the `title_to_group' hash table.
+	Also, avoid leaking the return value from `xmlNodeListGetString'.
+	(e_shortcuts_get_group_titles): New function.
+	(e_shortcuts_get_shortcuts_in_group): New function.
+	(e_shortcuts_get_storage_set): New function.
+
+	* e-storage-set-view.c
+	(e_storage_set_view_set_current_folder): Emit the
+	"folder_selected" signal.
+
+	* e-local-folder.c
+	(get_string_value): Return a `char *' to be deallocated by the
+	caller instead of a `const char *' that does not need to be
+	deallocated.
+	(construct_loading_metadata): Free values returned from
+	`get_string_value'.
+
+2000-05-15  Ettore Perazzoli  <ettore@helixcode.com>
+
 	* e-storage-set-view.c: New members `dragged_row_path',
 	`selected_row_path_before_click' in `EStorageSetViewPrivate'.
 	(init): Initialize them to NULL.

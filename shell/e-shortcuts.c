@@ -84,6 +84,9 @@ struct _EShortcutsPrivate {
 
 	/* A list of ShortcutViews.  */
 	GList *views;
+
+	/* A hash table to get a group given its name.  */
+	GHashTable *title_to_group;
 };
 
 
@@ -111,6 +114,9 @@ unload_shortcuts (EShortcuts *shortcuts)
 		g_list_free (priv->groups);
 
 	priv->groups = NULL;
+
+	g_hash_table_destroy (priv->title_to_group);
+	priv->title_to_group = g_hash_table_new (g_str_hash, g_str_equal);
 
 	/* FIXME update the views.  */
 }
@@ -149,13 +155,22 @@ load_shortcuts (EShortcuts *shortcuts,
 		if (shortcut_group_title == NULL)
 			continue;
 
+		shortcut_group = g_hash_table_lookup (priv->title_to_group,
+						      shortcut_group_title);
+		if (shortcut_group != NULL) {
+			g_warning ("Duplicate shortcut title -- %s",
+				   shortcut_group_title);
+			xmlFree (shortcut_group_title);
+			continue;
+		}
+
 		shortcut_group = g_new (ShortcutGroup, 1);
 		shortcut_group->title = g_strdup (shortcut_group_title);
 		xmlFree (shortcut_group_title);
-		shortcut_group->shortcuts = NULL;
 
+		shortcut_group->shortcuts = NULL;
 		for (q = p->childs; q != NULL; q = q->next) {
-			gchar *content;
+			char *content;
 
 			if (strcmp ((char *) q->name, "item") != 0)
 				continue;
@@ -163,11 +178,12 @@ load_shortcuts (EShortcuts *shortcuts,
 			content = xmlNodeListGetString (doc, q->childs, 1);
 			shortcut_group->shortcuts = g_list_prepend (shortcut_group->shortcuts,
 								    g_strdup (content));
+			xmlFree (content);
 		}
-
 		shortcut_group->shortcuts = g_list_reverse (shortcut_group->shortcuts);
 
 		priv->groups = g_list_prepend (priv->groups, shortcut_group);
+		g_hash_table_insert (priv->title_to_group, shortcut_group->title, shortcut_group);
 	}
 
 	priv->groups = g_list_reverse (priv->groups);
@@ -219,119 +235,6 @@ save_shortcuts (EShortcuts *shortcuts,
 }
 
 
-/* View initialization.  */
-
-static const char *
-get_storage_set_path_from_uri (const char *uri)
-{
-	const char *colon;
-
-	if (g_path_is_absolute (uri))
-		return NULL;
-
-	colon = strchr (uri, ':');
-	if (colon == NULL || colon == uri || colon[1] == '\0')
-		return NULL;
-
-	if (! g_path_is_absolute (colon + 1))
-		return NULL;
-
-	if (g_strncasecmp (uri, "evolution", colon - uri) != 0)
-		return NULL;
-
-	return colon + 1;
-}
-
-static void
-load_folders_into_view (EShortcuts *shortcuts,
-			EShortcutBar *view,
-			ShortcutGroup *group,
-			int group_num)
-{
-	EStorageSet *storage_set;
-	GList *p;
-
-	storage_set = shortcuts->priv->storage_set;
-
-	for (p = group->shortcuts; p != NULL; p = p->next) {
-		EFolder *folder;
-		const char *path;
-		const char *uri;
-		const char *name;
-
-		uri = (const char *) p->data;
-		path = get_storage_set_path_from_uri (uri);
-		if (path != NULL)
-			folder = e_storage_set_get_folder (storage_set, path);
-
-		if (path == NULL || folder == NULL) {
-			/* FIXME */
-			g_warning ("Invalid link while loading shortcut bar view -- %s\n",
-				   uri);
-			continue;
-		}
-
-		name = e_folder_get_name (folder);
-		e_shortcut_bar_add_item (view, group_num, uri, name);
-	}
-}
-
-static void
-load_shortcuts_into_view (EShortcuts *shortcuts,
-			  EShortcutBar *view)
-{
-	EShortcutsPrivate *priv;
-	GList *p;
-	int group_num;
-
-	priv = shortcuts->priv;
-
-	for (p = priv->groups; p != NULL; p = p->next) {
-		ShortcutGroup *group;
-
-		group = (ShortcutGroup *) p->data;
-		group_num = e_shortcut_bar_add_group (view, group->title);
-
-		load_folders_into_view (shortcuts, view, group, group_num);
-	}
-}
-
-/* Icon callback for the shortcut bar.  */
-static GdkPixbuf *
-icon_callback (EShortcutBar *shortcut_bar,
-	       const char *uri,
-	       gpointer data)
-{
-	EFolderTypeRepository *folder_type_repository;
-	EShortcuts *shortcuts;
-	EStorageSet *storage_set;
-	EFolder *folder;
-	GdkPixbuf *pixbuf;
-	const char *type;
-
-	shortcuts = E_SHORTCUTS (data);
-
-	storage_set = shortcuts->priv->storage_set;
-	folder_type_repository = shortcuts->priv->folder_type_repository;
-
-	folder = e_storage_set_get_folder (storage_set,
-					   get_storage_set_path_from_uri (uri));
-
-	if (folder == NULL)
-		return NULL;
-
-	type = e_folder_get_type_string (folder);
-	if (type == NULL)
-		return NULL;
-
-	pixbuf = e_folder_type_repository_get_icon_for_type (folder_type_repository, type);
-	if (pixbuf != NULL)
-		gdk_pixbuf_ref (pixbuf);
-
-	return pixbuf;
-}
-
-
 /* Signal handlers for the views.  */
 
 static void
@@ -367,6 +270,8 @@ destroy (GtkObject *object)
 
 	unload_shortcuts (shortcuts);
 
+	g_hash_table_destroy (priv->title_to_group);
+
 	(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
 }
 
@@ -389,9 +294,11 @@ init (EShortcuts *shortcuts)
 	EShortcutsPrivate *priv;
 
 	priv = g_new (EShortcutsPrivate, 1);
-	priv->storage_set = NULL;
-	priv->groups = NULL;
-	priv->views = NULL;
+
+	priv->storage_set    = NULL;
+	priv->groups         = NULL;
+	priv->views          = NULL;
+	priv->title_to_group = g_hash_table_new (g_str_hash, g_str_equal);
 
 	shortcuts->priv = priv;
 }
@@ -436,6 +343,67 @@ e_shortcuts_new (EStorageSet *storage_set,
 }
 
 
+GList *
+e_shortcuts_get_group_titles (EShortcuts *shortcuts)
+{
+	EShortcutsPrivate *priv;
+	ShortcutGroup *group;
+	GList *list;
+	GList *p;
+
+	g_return_val_if_fail (shortcuts != NULL, NULL);
+	g_return_val_if_fail (E_IS_SHORTCUTS (shortcuts), NULL);
+
+	priv = shortcuts->priv;
+
+	list = NULL;
+
+	for (p = priv->groups; p != NULL; p = p->next) {
+		group = (ShortcutGroup *) p->data;
+		list = g_list_prepend (list, g_strdup (group->title));
+	}
+
+	return g_list_reverse (list);
+}
+
+GList *
+e_shortcuts_get_shortcuts_in_group (EShortcuts *shortcuts,
+				    const char *group_title)
+{
+	EShortcutsPrivate *priv;
+	ShortcutGroup *shortcut_group;
+	GList *list;
+	GList *p;
+
+	priv = shortcuts->priv;
+
+	g_return_val_if_fail (shortcuts != NULL, NULL);
+	g_return_val_if_fail (E_IS_SHORTCUTS (shortcuts), NULL);
+	g_return_val_if_fail (group_title != NULL, NULL);
+
+	shortcut_group = g_hash_table_lookup (priv->title_to_group, group_title);
+	if (shortcut_group == NULL)
+		return NULL;
+
+	list = NULL;
+
+	for (p = shortcut_group->shortcuts; p != NULL; p = p->next)
+		list = g_list_prepend (list, g_strdup ((const char *) p->data));
+
+	return g_list_reverse (list);
+}
+
+
+EStorageSet *
+e_shortcuts_get_storage_set (EShortcuts *shortcuts)
+{
+	g_return_val_if_fail (shortcuts != NULL, NULL);
+	g_return_val_if_fail (E_IS_SHORTCUTS (shortcuts), NULL);
+
+	return shortcuts->priv->storage_set;
+}
+
+
 GtkWidget *
 e_shortcuts_new_view (EShortcuts *shortcuts)
 {
@@ -449,11 +417,6 @@ e_shortcuts_new_view (EShortcuts *shortcuts)
 
 	new = e_shortcuts_view_new (shortcuts);
 	priv->views = g_list_prepend (priv->views, new);
-
-	e_shortcut_bar_set_icon_callback (E_SHORTCUT_BAR (new),
-					  icon_callback, shortcuts);
-
-	load_shortcuts_into_view (shortcuts, E_SHORTCUT_BAR (new));
 
 	gtk_signal_connect (GTK_OBJECT (new), "destroy", view_destroyed_cb, shortcuts);
 
