@@ -70,8 +70,8 @@ static gboolean queue_ops( void )
 	mail_operation_queue( &spec7, NULL, FALSE );
 	mail_operation_queue( &spec8, NULL, FALSE );
 
-	g_message( "Waiting for finish AGAIN..." );
-	mail_operation_wait_for_finish();
+	g_message( "Waiting for finish for the last time..." );
+	mail_operations_terminate();
 	g_message( "Ops done again. Exiting 0" );
 	gtk_exit( 0 );
 	return FALSE;

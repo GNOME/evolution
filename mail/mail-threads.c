@@ -194,8 +194,9 @@ static void show_error_clicked (GtkObject * obj);
 static void get_password (com_msg_t * msg);
 static void get_password_cb (gchar * string, gpointer data);
 static void get_password_clicked (GnomeDialog * dialog, gint button,
-
 				  gpointer user_data);
+static void get_password_deleted (GtkWidget *widget, gpointer user_data);
+
 static gboolean progress_timeout (gpointer data);
 static void timeout_toggle (gboolean active);
 static gboolean display_timeout (gpointer data);
@@ -990,6 +991,8 @@ show_error (com_msg_t * msg)
 
 	err_dialog = gnome_error_dialog (msg->message);
 	gnome_dialog_set_close (GNOME_DIALOG (err_dialog), TRUE);
+	gtk_signal_connect (GTK_OBJECT (err_dialog), "close",
+			    (GtkSignalFunc) show_error_clicked, NULL);
 	gtk_signal_connect (GTK_OBJECT (err_dialog), "clicked",
 			    (GtkSignalFunc) show_error_clicked, NULL);
 	g_free (msg->message);
@@ -1055,6 +1058,8 @@ get_password (com_msg_t * msg)
 	gnome_dialog_set_close (GNOME_DIALOG (dialog), TRUE);
 	gtk_signal_connect (GTK_OBJECT (dialog), "clicked",
 			    get_password_clicked, msg);
+	gtk_signal_connect (GTK_OBJECT (dialog), "close",
+			    get_password_deleted, msg);
 
 	/* Save the old message, but display a new one right now */
 	gtk_label_get (GTK_LABEL (queue_window_message), &old_message);
@@ -1094,6 +1099,12 @@ get_password_cb (gchar * string, gpointer data)
 		*(msg->reply) = g_strdup (string);
 	else
 		*(msg->reply) = NULL;
+}
+
+static void
+get_password_deleted (GtkWidget *widget, gpointer user_data)
+{
+	get_password_clicked (GNOME_DIALOG (widget), 1, user_data);
 }
 
 static void

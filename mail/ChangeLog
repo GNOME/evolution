@@ -1,3 +1,12 @@
+2000-08-10  Peter Williams  <peterw@helixcode.com>
+
+	* test-thread.c (queue_ops): Use mail_operations_terminate() to
+	close the other thread nicely.
+
+	* mail-threads.c (get_password_deleted): Handle the "close" event
+	as a cancel.
+	(show_error): Same.
+
 2000-08-10  Dan Winship  <danw@helixcode.com>
 
 	* mail-tools.c (mail_tool_get_folder_from_urlname): Add a
