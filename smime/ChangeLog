@@ -1,0 +1,6 @@
+2003-10-23  Chris Toshok  <toshok@ximian.com>
+
+	* lib/e-cert.[ch], lib/Makefile.am, gui/certificate-manager.[ch],
+	gui/Makefile.am, gui/smime-ui.glade, Makefile.am: initial addition
+	of s/mime foo.
+
