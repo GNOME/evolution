@@ -250,10 +250,10 @@ sexp_name (ESelectNamesCompletion *comp)
 }
 
 enum {
-	MATCHED_NOTHING = 0,
-	MATCHED_GIVEN_NAME  = 1<<0,
+	MATCHED_NOTHING         = 0,
+	MATCHED_GIVEN_NAME      = 1<<0,
 	MATCHED_ADDITIONAL_NAME = 1<<1,
-	MATCHED_FAMILY_NAME   = 1<<2
+	MATCHED_FAMILY_NAME     = 1<<2
 };
 
 /*
@@ -287,7 +287,7 @@ match_name (ESelectNamesCompletion *comp, EDestination *dest)
 	const gchar *email;
 	gchar *cpy, **strv;
 	gint len, i, match_len = 0;
-	gint match = 0, first_match = 0;
+	gint match = MATCHED_NOTHING, first_match = MATCHED_NOTHING;
 	double score = 0;
 	gboolean have_given, have_additional, have_family;
 
@@ -301,8 +301,8 @@ match_name (ESelectNamesCompletion *comp, EDestination *dest)
 	cpy = g_strdup (comp->priv->query_text);
 	strv = g_strsplit (cpy, " ", 0);
 	
-	for (i=0; strv[i] && !(match & MATCHED_NOTHING); ++i) {
-		gint this_match = 0;
+	for (i=0; strv[i] != NULL; ++i) {
+		gint this_match = MATCHED_NOTHING;
 
 		g_strstrip (strv[i]);
 		len = strlen (strv[i]);
@@ -334,10 +334,10 @@ match_name (ESelectNamesCompletion *comp, EDestination *dest)
 		if (this_match != MATCHED_NOTHING) {
 			match_len += len;
 			match |= this_match;
-			if (first_match == 0)
+			if (i == 0)
 				first_match = this_match;
 		} else {
-			match = first_match = 0;
+			match = first_match = MATCHED_NOTHING;
 			break;
 		}
 
@@ -371,7 +371,7 @@ match_name (ESelectNamesCompletion *comp, EDestination *dest)
 		if (have_family)
 			menu_text = g_strdup_printf ("%s %s <%s>", card->name->given, card->name->family, email);
 		else
-			menu_text = g_strdup_printf (card->name->given);
+			menu_text = g_strdup_printf ("%s <%s>", card->name->given, email);
 
 	} else if (first_match == MATCHED_ADDITIONAL_NAME) {
 

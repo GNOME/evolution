@@ -1,5 +1,10 @@
 2001-09-17  Jon Trowbridge  <trow@ximian.com>
 
+	* gui/component/select-names/e-select-names-completion.c
+	(match_name): Fixed a stupid bug was causing completion to fail
+	for contacts who have only one name.  (The classic example we all
+	know and love is 'George <jirka@5z.com>')  (bug #8353)
+
 	* backend/ebook/e-card.c (e_card_list_send): Do the right thing if
 	the card we are trying to send to has no valid e-mail addresses.
 	(bug #10137)
