@@ -1,5 +1,11 @@
 2003-01-09  Chris Toshok  <toshok@ximian.com>
 
+	* backend/pas/pas-book-factory.c (backend_last_client_gone_cb):
+	deal with backends that might not have loaded successfully
+	(they'll have a NULL uri).
+
+2003-01-09  Chris Toshok  <toshok@ximian.com>
+
 	* gui/component/select-names/e-select-names-bonobo.c
 	(e_select_names_bonobo_new): call e_select_names_bonobo_construct
 	on the newly created object.

@@ -143,29 +143,30 @@ backend_last_client_gone_cb (PASBackend *backend, gpointer data)
 {
 	PASBookFactory *factory;
 	const char *uri;
-	gpointer orig_key;
-	gboolean result;
-	char *orig_uri;
 
 	factory = PAS_BOOK_FACTORY (data);
 
 	/* Remove the backend from the active server map */
 
 	uri = pas_backend_get_uri (backend);
-	g_assert (uri != NULL);
+	if (uri) {
+		gpointer orig_key;
+		gboolean result;
+		char *orig_uri;
 
-	result = g_hash_table_lookup_extended (factory->priv->active_server_map, uri,
-					       &orig_key, NULL);
-	g_assert (result != FALSE);
+		result = g_hash_table_lookup_extended (factory->priv->active_server_map, uri,
+						       &orig_key, NULL);
+		g_assert (result != FALSE);
 
-	orig_uri = orig_key;
+		orig_uri = orig_key;
 
-	g_hash_table_remove (factory->priv->active_server_map, orig_uri);
-	g_free (orig_uri);
+		g_hash_table_remove (factory->priv->active_server_map, orig_uri);
+		g_free (orig_uri);
 
-	g_object_unref (backend);
+		g_object_unref (backend);
 
-	/* Notify upstream if there are no more backends */
+		/* Notify upstream if there are no more backends */
+	}
 
 	if (g_hash_table_size (factory->priv->active_server_map) == 0)
 		g_signal_emit (G_OBJECT (factory), factory_signals[LAST_BOOK_GONE], 0);
