@@ -1335,7 +1335,7 @@ camel_header_encode_string (const unsigned char *in)
 			continue;
 		}
 		
-		if (camel_mime_is_lwsp (c) && !last_was_space) {
+		if (c < 256 && camel_mime_is_lwsp (c) && !last_was_space) {
 			/* we've reached the end of a 'word' */
 			if (word && !(last_was_encoded && encoding)) {
 				/* output lwsp between non-encoded words */

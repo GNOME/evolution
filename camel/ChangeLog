@@ -1,22 +1,27 @@
+2004-07-28  Jeffrey Stedfast  <fejj@novell.com>
+
+	* camel-mime-utils.c (camel_header_encode_string): Fixed an ABR
+	that may have been responsible for bug #62029.
+
 2004-07-29 Sivaiah Nallagatla <snallagatla@novell.com>
 
-        * proivders/groupwise/camel-groupwise-provider.c :
-        Add an entry to specify POA address and a check box to
-        say whehter ssl has to be used for SOAP or not
-        (groupwise_auto_detect_cb) : new function to
-        automatically fill POA address with host specified in receiving mail page
-        (camel_provider_module_init) : use the new auto_detect funcntion
+	* proivders/groupwise/camel-groupwise-provider.c: Add an entry to
+	specify POA address and a check box to say whehter ssl has to be
+	used for SOAP or not
+	(groupwise_auto_detect_cb): new function to automatically fill POA
+	address with host specified in receiving mail page
+	(camel_provider_module_init): use the new auto_detect funcntion
 
-        * providers/groupwise/camel-gw-listener.c (modify_esource)
-        (account_changed) (add_calendar_tasks_sources)
-        (remove_calendar_tasks_sources) (get_addressbook_names_from_server)
-        (add_addressbook_sources) (modify_addressbook_sources)
-        (remove_addressbook_sources) : while forming the uri, use the value
-        from new poa_address setting instead of url->host. Also use ssl
-        setting from the new check box provider instaed of imap one
-
-        (get_addressbook_names_from_server) : display an error to user
-        when connection cpuld not be established with server during account setup
+	* providers/groupwise/camel-gw-listener.c (modify_esource)
+	(account_changed, add_calendar_tasks_sources)
+	(remove_calendar_tasks_sources, get_addressbook_names_from_server)
+	(add_addressbook_sources, modify_addressbook_sources)
+	(remove_addressbook_sources): while forming the uri, use the value
+	from new poa_address setting instead of url->host. Also use ssl
+	setting from the new check box provider instaed of imap one
+	(get_addressbook_names_from_server): display an error to user when
+	connection cpuld not be established with server during account
+	setup
 
 2004-07-26  Jeffrey Stedfast  <fejj@novell.com>
 
