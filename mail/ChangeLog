@@ -1,3 +1,8 @@
+2002-11-19  Radek Doulik  <rodo@ximian.com>
+
+	* mail-composer-prefs.c (sig_load_preview): use
+	gtk_html_begin_content to specify utf-8
+
 2002-11-18  Radek Doulik  <rodo@ximian.com>
 
 	* mail-composer-prefs.c (spell_setup_check_options): check

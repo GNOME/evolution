@@ -1,3 +1,8 @@
+2002-11-19  Radek Doulik  <rodo@ximian.com>
+
+	* camel-mime-filter-tohtml.c (html_convert): added
+	CAMEL_MIME_FILTER_TOHTML_PRESERVE_8BIT flag
+
 2002-11-15  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* providers/imap/camel-imap-store.c (imap_connect_online): If the

@@ -1,12 +1,7 @@
-2002-11-01  Jeffrey Stedfast  <fejj@ximian.com>
+2002-11-19  Radek Doulik  <rodo@ximian.com>
 
-	* e-msg-composer.c (e_msg_composer_new_from_url): Add support for
-	an attach option in the mailto: url.
-
-2002-10-29  Jeffrey Stedfast  <fejj@ximian.com>
-
-	* e-msg-composer.c (e_msg_composer_new_with_message): Make sure to
-	save References and In-Reply-To headers. Fixes bug #32932.
+	* e-msg-composer.c (e_msg_composer_get_sig_file_content): use
+	CAMEL_MIME_FILTER_TOHTML_PRESERVE_8BIT flag
 
 2002-10-26  Jeffrey Stedfast  <fejj@ximian.com>
 

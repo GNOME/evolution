@@ -853,7 +853,7 @@ e_msg_composer_get_sig_file_content (const char *sigfile, gboolean in_html)
 		return NULL;
 	}
 	
-	return get_file_content (NULL, sigfile, !in_html, 0, FALSE);
+	return get_file_content (NULL, sigfile, !in_html, CAMEL_MIME_FILTER_TOHTML_PRESERVE_8BIT, FALSE);
 }
 
 static void
@@ -3533,9 +3533,7 @@ e_msg_composer_new_with_message (CamelMimeMessage *message)
 	/* set extra headers */
 	headers = CAMEL_MIME_PART (message)->headers;
 	while (headers) {
-		if (!is_special_header (headers->name) ||
-		    !g_strcasecmp (headers->name, "References") ||
-		    !g_strcasecmp (headers->name, "In-Reply-To")) {
+		if (!is_special_header (headers->name)) {
 			g_ptr_array_add (new->extra_hdr_names, g_strdup (headers->name));
 			g_ptr_array_add (new->extra_hdr_values, g_strdup (headers->value));
 		}
@@ -3719,10 +3717,8 @@ e_msg_composer_new_from_url (const char *url_in)
 			} else if (!g_strncasecmp (header, "body", len)) {
 				g_free (body);
 				body = g_strdup (content);
-			} else if (!g_strncasecmp (header, "attach", len)) {
-				e_msg_composer_attachment_bar_attach (E_MSG_COMPOSER_ATTACHMENT_BAR (composer->attachment_bar), content);
 			} else {
-				/* add an arbitrary header? */
+				/* add an arbitrary header */
 				e_msg_composer_add_header (composer, header, content);
 			}
 			

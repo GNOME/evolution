@@ -194,7 +194,7 @@ sig_load_preview (MailComposerPrefs *prefs, MailConfigSignature *sig)
 		int len;
 		
 		len = strlen (str);
-		stream = gtk_html_begin (GTK_HTML (prefs->sig_preview));
+		stream = gtk_html_begin_content (GTK_HTML (prefs->sig_preview), "text/html; charset=utf-8");
 		gtk_html_write (GTK_HTML (prefs->sig_preview), stream, "<PRE>", 5);
 		if (len)
 			gtk_html_write (GTK_HTML (prefs->sig_preview), stream, str, len);

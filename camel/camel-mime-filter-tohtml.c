@@ -444,7 +444,7 @@ html_convert (CamelMimeFilter *filter, char *in, size_t inlen, size_t prespace,
 			
 		default:
 			if ((u >= 0x20 && u < 0x80) ||
-			    (u == '\r' || u == '\t')) {
+			    (u == '\r' || u == '\t') || html->flags & CAMEL_MIME_FILTER_TOHTML_PRESERVE_8BIT) {
 				/* Default case, just copy. */
 				*outptr++ = (char) u;
 			} else {
