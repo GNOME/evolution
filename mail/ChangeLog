@@ -1,3 +1,9 @@
+2004-01-19  Radek Doulik  <rodo@ximian.com>
+
+	* mail-config.c (MAIL_CONFIG_RC_DIR): path to gtkhtml's rc file
+	(config_write_style): use MAIL_CONFIG_RC_DIR
+	(mail_config_init): ditto
+
 2004-01-19  Not Zed  <NotZed@Ximian.com>
 
 	* mail-ops.c (add_vjunk_info, add_vtrash_info): removed this like

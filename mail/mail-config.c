@@ -92,6 +92,7 @@ static MailConfig *config = NULL;
 static guint config_write_timeout = 0;
 
 #define MAIL_CONFIG_RC "/gtkrc-mail-fonts"
+#define MAIL_CONFIG_RC_DIR ".evolution/mail/config"
 
 /* signatures */
 MailConfigSignature *
@@ -448,7 +449,7 @@ config_write_style (void)
 	 *
 	 * EPFIXME this kludge needs to go away.
 	 */
-	filename = g_build_filename (g_get_home_dir (), ".evolution/mail/config", MAIL_CONFIG_RC, NULL);
+	filename = g_build_filename (g_get_home_dir (), MAIL_CONFIG_RC_DIR, MAIL_CONFIG_RC, NULL);
 
 	rc = fopen (filename, "w");
 
@@ -530,7 +531,7 @@ mail_config_init (void)
 	  EPFIXME: This kludge needs to go away.
 	  filename = g_build_filename (evolution_dir, MAIL_CONFIG_RC, NULL);
 	*/
-	filename = g_build_filename (g_get_home_dir (), "evolution", MAIL_CONFIG_RC, NULL);
+	filename = g_build_filename (g_get_home_dir (), MAIL_CONFIG_RC_DIR, MAIL_CONFIG_RC, NULL);
 	gtk_rc_parse (filename);
 	g_free (filename);
 	
