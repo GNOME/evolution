@@ -1,8 +1,0 @@
-.deps
-.libs
-Makefile
-Makefile.in
-evolution-calendar-stubs.c
-evolution-calendar-skels.c
-evolution-calendar-common.c
-evolution-calendar.h
