@@ -1,3 +1,12 @@
+2002-08-05  Dan Winship  <danw@ximian.com>
+
+	* camel-folder-summary.h (CamelMessageFlags): Add
+	CAMEL_MESSAGE_ANSWERED_ALL, for folders that can distinguish a
+	reply-to-sender from a reply-to-all. (eg, Exchange)
+
+	* providers/local/camel-local-folder.c (local_init): Add
+	ANSWERED_ALL to permanent_flags too.
+
 2002-08-02  Jeffrey Stedfast  <fejj@ximian.com>
 
 	Fixes bug #26237.

@@ -121,7 +121,8 @@ local_init(gpointer object, gpointer klass)
 
 	folder->permanent_flags = CAMEL_MESSAGE_ANSWERED |
 	    CAMEL_MESSAGE_DELETED | CAMEL_MESSAGE_DRAFT |
-	    CAMEL_MESSAGE_FLAGGED | CAMEL_MESSAGE_SEEN | CAMEL_MESSAGE_USER;
+	    CAMEL_MESSAGE_FLAGGED | CAMEL_MESSAGE_SEEN |
+	    CAMEL_MESSAGE_ANSWERED_ALL | CAMEL_MESSAGE_USER;
 
 	folder->summary = NULL;
 	local_folder->search = NULL;
