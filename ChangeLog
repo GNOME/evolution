@@ -1,3 +1,7 @@
+2000-08-28  Jesus Bravo Alvarez  <jba@pobox.com>
+
+	* configure.in: Added Portuguese (pt) to ALL_LINGUAS
+
 2000-08-26  JP Rosevear  <jpr@helixcode.com>
 
 	* configure.in: Require oafized bonobo
