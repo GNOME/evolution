@@ -86,7 +86,8 @@ control_deactivate (BonoboControl *control, BonoboUIHandler *uih)
 #ifdef HAVE_LDAP
 	bonobo_ui_handler_menu_remove (uih, "/Actions/New Directory Server");
 #endif
-	bonobo_ui_handler_menu_remove (uih, "/Tools/Search");
+	bonobo_ui_handler_menu_remove (uih, "/<Component Placeholder>/Tools");
+	bonobo_ui_handler_menu_remove (uih, "/<Component Placeholder>/Tools/Search");
 	/* remove our toolbar */
 	bonobo_ui_handler_dock_remove (uih, "/Toolbar");
 }
@@ -540,8 +541,14 @@ control_activate (BonoboControl *control, BonoboUIHandler *uih,
 					 (gpointer)view);
 #endif
 
-	bonobo_ui_handler_menu_new_item (uih, "/Tools/Search",
-					 N_("_Search for contacts"),       
+	bonobo_ui_handler_menu_new_subtree (uih, "/<Component Placeholder>/Tools",
+					    _("_Tools"),
+					    NULL, -1,
+					    BONOBO_UI_HANDLER_PIXMAP_NONE, NULL,
+					    0, 0);
+
+	bonobo_ui_handler_menu_new_item (uih, "/<Component Placeholder>/Tools/Search",
+					 N_("_Search for contacts"),
 					 NULL, -1,
 					 BONOBO_UI_HANDLER_PIXMAP_STOCK, GNOME_STOCK_MENU_SEARCH,
 					 0, 0, search_cb,
