@@ -1,5 +1,10 @@
 2003-03-03  Ettore Perazzoli  <ettore@ximian.com>
 
+	* glade/e-shell-shared-folder-picker-dialog.glade: Swap Cancel/OK
+	buttons as per the HIG.  Also added proper response_ids.
+
+2003-03-03  Ettore Perazzoli  <ettore@ximian.com>
+
 	* evolution-folder-selector-button.c (impl_finalize): Protect
 	against priv->possible_types being NULL.
 
