@@ -319,7 +319,7 @@ message_list_drag_data_get (ETree *tree, int row, ETreePath path, int col,
 		CamelMimeMessage *message;
 		CamelMimeFilter *filter;
 		CamelStream *fstream;
-		CamelStream *stream;
+		CamelStreamFilter *stream;
 		char *uri_list;
 		int fd;
 		
@@ -365,20 +365,20 @@ message_list_drag_data_get (ETree *tree, int row, ETreePath path, int col,
 		
 		stream = camel_stream_filter_new_with_stream (fstream);
 		filter = camel_mime_filter_from_new ();
-		camel_stream_filter_add (CAMEL_STREAM_FILTER (stream), filter);
+		camel_stream_filter_add (stream, filter);
 		camel_object_unref (filter);
 		
 		camel_stream_write (fstream, "From - \n", 8);
-		camel_data_wrapper_write_to_stream (CAMEL_DATA_WRAPPER (message), stream);
+		camel_data_wrapper_write_to_stream (CAMEL_DATA_WRAPPER (message), CAMEL_STREAM (stream));
 		camel_object_unref (message);
-		camel_stream_flush (stream);
+		camel_stream_flush (CAMEL_STREAM (stream));
 		
 		for (i = 1; i < uids->len; i++) {
 			message = camel_folder_get_message (fb->folder, uids->pdata[i], NULL);
 			camel_stream_write (fstream, "From - \n", 8);
-			camel_data_wrapper_write_to_stream (CAMEL_DATA_WRAPPER (message), stream);
+			camel_data_wrapper_write_to_stream (CAMEL_DATA_WRAPPER (message), CAMEL_STREAM (stream));
 			camel_object_unref (message);
-			camel_stream_flush (stream);
+			camel_stream_flush (CAMEL_STREAM (stream));
 			g_free (uids->pdata[i]);
 		}
 		
@@ -1389,7 +1389,6 @@ folder_browser_toggle_caret_mode(BonoboUIComponent	*component,
 				   const char		* state,
 				   gpointer		user_data)
 {
-	FolderBrowser *fb = user_data;
 	GConfClient *gconf;
 	
         if (type != Bonobo_UIComponent_STATE_CHANGED)

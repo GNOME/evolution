@@ -3193,7 +3193,6 @@ empty_trash (BonoboUIComponent *uih, void *user_data, const char *path)
 {
 	CamelProvider *provider;
 	EAccountList *accounts;
-	CamelFolder *vtrash;
 	FolderBrowser *fb;
 	CamelException ex;
 	EAccount *account;

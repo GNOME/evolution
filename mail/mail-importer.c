@@ -34,6 +34,7 @@
 #include <camel/camel-mime-message.h>
 #include <camel/camel-stream-mem.h>
 #include <camel/camel-exception.h>
+#include <e-util/e-path.h>
 
 #include "mail-importer.h"
 #include "mail-local.h"

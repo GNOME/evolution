@@ -946,11 +946,11 @@ mail_account_gui_build_extra_conf (MailAccountGui *gui, const char *url_string)
 			data = entries[i].value;
 			enable = *data++ == 'y';
 			g_return_if_fail (*data == ':');
-			min = strtod (++data, &data);
+			min = strtod (data + 1, &data);
 			g_return_if_fail (*data == ':');
-			def = strtod (++data, &data);
+			def = strtod (data + 1, &data);
 			g_return_if_fail (*data == ':');
-			max = strtod (++data, NULL);
+			max = strtod (data + 1, NULL);
 			
 			if (url) {
 				const char *val;

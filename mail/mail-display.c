@@ -53,6 +53,7 @@
 #include <gdk-pixbuf/gdk-pixbuf.h>
 #include <gdk-pixbuf/gdk-pixbuf-loader.h>
 #include <gal/util/e-util.h>
+#include <gal/widgets/e-gui-utils.h>
 #include <gal/widgets/e-popup-menu.h>
 
 #include <gtkhtml/gtkhtml.h>

@@ -1,3 +1,29 @@
+2003-07-23  Dan Winship  <danw@ximian.com>
+
+	* folder-browser.c (message_list_drag_data_get): Fix type warnings
+	(folder_browser_toggle_caret_mode): Remove unused variable.
+
+	* folder-browser-ui.c (basename): remove unused function
+
+	* mail-account-gui.c (mail_account_gui_build_extra_conf): Fix
+	warnings
+
+	* mail-callbacks.c (empty_trash): Remove unused variable.
+
+	* mail-display.c: #include gal/widgets/e-gui-utils.h for
+	e_auto_kill_popup_menu_on_selection_done
+
+	* mail-importer.c: #include e-util/e-path.h for e_path_to_physical
+
+	* mail-session.c (main_play_sound): don't declare filename to be
+	const and then free it.
+
+	* mail-vfolder.c (vfolder_edit_rule, vfolder_gui_add_rule): Fix
+	casts
+
+	* message-list.c (build_flat_diff): Fix a typo in the
+	non-BROKEN_ETREE code
+
 2003-07-16  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-format.c (handle_multipart_encrypted): We don't have

@@ -461,19 +461,6 @@ folder_browser_ui_message_list_unfocus (FolderBrowser *fb)
 	  "sensitive", "0", NULL);*/
 }
 
-static const char *
-basename (const char *path)
-{
-	const char *base;
-	
-	if (!(base = strrchr (path, '/')))
-		base = path;
-	else
-		base++;
-	
-	return base;
-}
-
 static void
 folder_browser_setup_property_menu (FolderBrowser *fb, BonoboUIComponent *uic)
 {

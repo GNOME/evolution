@@ -766,7 +766,7 @@ get_folder (CamelFilterDriver *d, const char *uri, void *data, CamelException *e
 
 
 static void
-main_play_sound (CamelFilterDriver *driver, const char *filename, gpointer user_data)
+main_play_sound (CamelFilterDriver *driver, char *filename, gpointer user_data)
 {
 	if (filename && *filename)
 		gnome_sound_play (filename);
