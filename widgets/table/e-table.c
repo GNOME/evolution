@@ -409,6 +409,10 @@ et_real_construct (ETable *e_table, ETableHeader *full_header, ETableModel *etm,
 	scrolledwindow = gtk_scrolled_window_new (
 		gtk_layout_get_hadjustment (GTK_LAYOUT (e_table->table_canvas)),
 		gtk_layout_get_vadjustment (GTK_LAYOUT (e_table->table_canvas)));
+
+	gtk_layout_get_vadjustment (GTK_LAYOUT (e_table->table_canvas))->step_increment = 20;
+	gtk_adjustment_changed(gtk_layout_get_vadjustment (GTK_LAYOUT (e_table->table_canvas)));
+			       
 	
 	gtk_scrolled_window_set_policy (
 		GTK_SCROLLED_WINDOW (scrolledwindow),

@@ -1,3 +1,7 @@
+2000-05-23  Christopher James Lahey  <clahey@helixcode.com>
+
+	* e-table.c: Make scrollbar arrow buttons work.
+
 2000-05-19  Christopher James Lahey  <clahey@helixcode.com>
 
 	* e-table-example-1.c, e-table-example-2.c, e-table-simple.c,
