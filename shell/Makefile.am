@@ -2,12 +2,11 @@
 bin_PROGRAMS = evolution
 
 INCLUDES = \
+	$(BONOBO_GNOME_CFLAGS)				\
 	-DEVOLUTION_VERSION=\""$(VERSION)"\"		\
-	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"		\
-	-DEVOLUTION_ICONSDIR=\""$(iconsdir)"\"		\
 	-DEVOLUTION_LOCALEDIR=\""$(datadir)/locale"\"	\
-	-I$(srcdir)/../widgets				\
-	$(BONOBO_GNOME_CFLAGS)
+	-I$(srcdir)/../widgets
+
 
 EVOLUTION_CORBA_GENERATED = 	\
 	Evolution.h		\
