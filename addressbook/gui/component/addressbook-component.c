@@ -32,6 +32,7 @@
 
 #include "addressbook-component.h"
 #include "addressbook.h"
+#include "e-ldap-storage.h"
 
 
 #ifdef USING_OAF
@@ -46,6 +47,10 @@ static const EvolutionShellComponentFolderType folder_types[] = {
 	{ "contacts", "evolution-contacts.png" },
 	{ NULL, NULL }
 };
+
+#ifdef HAVE_LDAP
+extern void setup_ldap_storage (EvolutionShellComponent *shell_component);
+#endif
 
 
 /* EvolutionShellComponent methods and signals.  */
@@ -78,6 +83,8 @@ owner_set_cb (EvolutionShellComponent *shell_component,
 	      gpointer user_data)
 {
 	owner_count ++;
+
+	setup_ldap_storage (shell_component);
 }
 
 static void
@@ -122,3 +129,4 @@ addressbook_component_factory_init (void)
 	if (factory == NULL)
 		g_error ("Cannot initialize the Evolution addressbook factory.");
 }
+

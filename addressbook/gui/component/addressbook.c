@@ -706,7 +706,6 @@ set_prop (BonoboPropertyBag *bag,
 {
 	AddressbookView *view = user_data;
 
-	char *uri_file;
 	char *uri_data;
 	
 	switch (arg_id) {
@@ -720,21 +719,19 @@ set_prop (BonoboPropertyBag *bag,
 
 		view->uri = g_strdup(BONOBO_ARG_GET_STRING (arg));
 		
-		uri_file = g_concat_dir_and_file(view->uri + 7, "uri");
-
-		uri_data = e_read_file(uri_file);
-
-		if (!uri_data) {
+		if (!strncmp (view->uri, "file:", 5)) {
 			char *file_name = g_concat_dir_and_file(view->uri + 7, "addressbook.db");
 			uri_data = g_strdup_printf("file://%s", file_name);
 			g_free(file_name);
 		}
+		else {
+			uri_data = g_strdup (view->uri);
+		}
+
 		if (! e_book_load_uri (view->book, uri_data, book_open_cb, view))
 			printf ("error calling load_uri!\n");
 
-		
 		g_free(uri_data);
-		g_free(uri_file);
 
 		break;
 		

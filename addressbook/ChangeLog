@@ -1,3 +1,21 @@
+2000-07-05  Chris Toshok  <toshok@helixcode.com>
+
+	* gui/component/addressbook.c (set_prop): remove hack to read
+	"uri" file from local directory.
+
+	* gui/component/Makefile.am (evolution_addressbook_SOURCES): add
+	e-ldap-storage.{c,h}
+
+	* gui/component/addressbook-component.c (owner_set_cb): call
+	setup_ldap_storage.
+
+	* gui/component/e-ldap-storage.c (setup_ldap_storage): Register
+	the LDAP storage and load the .xml file.
+	(load_ldap_data): function to load our xml file.
+	(save_ldap_data): function to save our xml file.
+
+	* gui/component/e-ldap-storage.h: new file.
+
 2000-07-03  Christopher James Lahey  <clahey@helixcode.com>
 
 	* gui/component/select-names/e-select-names-manager.c,

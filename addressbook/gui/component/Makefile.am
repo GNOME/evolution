@@ -38,7 +38,9 @@ evolution_addressbook_SOURCES = 	\
 	e-cardlist-model.c		\
 	e-cardlist-model.h		\
 	e-ldap-server-dialog.c          \
-	e-ldap-server-dialog.h
+	e-ldap-server-dialog.h		\
+	e-ldap-storage.c		\
+	e-ldap-storage.h
 
 evolution_addressbook_LDADD =						\
 	select-names/libeselectnames.la					\
