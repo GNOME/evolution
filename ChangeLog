@@ -1,3 +1,8 @@
+2001-01-11  Federico Mena Quintero  <federico@helixcode.com>
+
+	* configure.in: At the end of the configure process, report
+	whether the documentation files will be built or not.
+
 2001-01-10  Tuomas Kuosmanen  <tigert@helixcode.com>
 
 	* art/move-message.png, art/move-message.png: New versions.

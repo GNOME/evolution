@@ -742,4 +742,14 @@ echo "
 	Dot Locking:	  $msg_dot
 	File Locking:	  $msg_file
 	Crypto support:   $msg_crypto
+	Gtk-doc:	  $enable_gtk_doc"
+
+if test x$enable_gtk_doc = xyes; then
+echo "
+	Programming documentation files will be built automatically.
 "
+else
+echo "
+	Programming documentation files will not be built.
+"
+fi
