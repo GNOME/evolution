@@ -29,9 +29,6 @@ struct  _FolderBrowser {
 	
 	GNOME_Evolution_Shell shell;
 	
-	/* This is a kludge for the toolbar problem. */
-	int serial;
-	
 	/*
 	 * The current URI being displayed by the FolderBrowser
 	 */
@@ -47,10 +44,6 @@ struct  _FolderBrowser {
 	FilterRule  *search_full; /* if we have a full search active */
 
 	gboolean     preview_shown;
-
-	/* Stuff to allow on-demand filtering */
-	GSList        *filter_menu_paths;
-	FilterContext *filter_context;
 };
 
 

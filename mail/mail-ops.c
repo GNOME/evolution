@@ -1773,7 +1773,7 @@ cleanup_load_folder (gpointer in_data, gpointer op_data, CamelException *ex)
 		message_list_set_folder (input->fb->message_list, input->fb->folder);
 	}
 
-	/*g_free (input->url); = fb->uri now */
+	gtk_object_unref (GTK_OBJECT (input->fb));
 }
 
 static const mail_operation_spec op_load_folder = {

@@ -1,3 +1,11 @@
+2000-12-06  Dan Winship  <danw@helixcode.com>
+
+	* folder-browser.c: Remove bits of filter-on-demand and toolbar
+	bug workaround cruft that don't do anything useful any more.
+
+	* mail-ops.c (cleanup_load_folder): unref the ref we added in
+	setup_load_folder.
+
 2000-12-05  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* mail-display.c (write_data_to_file): Use a charset filter to
