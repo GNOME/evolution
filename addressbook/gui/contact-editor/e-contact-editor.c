@@ -1059,6 +1059,8 @@ contact_added_cb (EBook *book, EBookStatus status, const char *id, EditorCloseSt
 	gtk_widget_set_sensitive (ce->app, TRUE);
 	ce->in_async_call = FALSE;
 
+	e_contact_set (ce->contact, E_CONTACT_UID, (char *) id);
+
 	g_signal_emit (ce, contact_editor_signals[CONTACT_ADDED], 0,
 		       status, ce->contact);
 

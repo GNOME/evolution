@@ -1,5 +1,10 @@
 2003-12-16  Hans Petter Jansson  <hpj@ximian.com>
 
+	* gui/contact-editor/e-contact-editor.c (contact_added_cb): Update
+	the contact's UID after normal add.
+
+2003-12-16  Hans Petter Jansson  <hpj@ximian.com>
+
 	* gui/component/addressbook.c (addressbook_show_load_error_dialog):
 	Make a public function that shows an error dialog, which can be used
 	when a source fails to load.
