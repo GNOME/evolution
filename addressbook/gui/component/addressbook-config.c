@@ -1066,30 +1066,30 @@ addressbook_add_server_druid (AddressbookDialog *dialog)
 	page = glade_xml_get_widget (sdialog->gui, "add-server-druid-info-page");
 	reparent_to_vbox (sdialog, "account-druid-general-vbox", "general-tab");
 	setup_general_tab (sdialog, druid_info_page_modify_cb);
-	g_signal_connect (page, "prepare",
-			  G_CALLBACK(druid_info_page_prepare), sdialog);
+	g_signal_connect_after (page, "prepare",
+				G_CALLBACK(druid_info_page_prepare), sdialog);
 
 	/* connecting page */
 	page = glade_xml_get_widget (sdialog->gui, "add-server-druid-connecting-page");
 	reparent_to_vbox (sdialog, "account-druid-connecting-vbox", "connecting-tab");
 	setup_connecting_tab (sdialog, druid_connecting_page_modify_cb);
-	g_signal_connect (page, "prepare",
-			  G_CALLBACK(druid_connecting_page_prepare), sdialog);
+	g_signal_connect_after (page, "prepare",
+				G_CALLBACK(druid_connecting_page_prepare), sdialog);
 
 	/* searching page */
 	page = glade_xml_get_widget (sdialog->gui, "add-server-druid-searching-page");
 	reparent_to_vbox (sdialog, "account-druid-searching-vbox", "searching-tab");
 	setup_searching_tab (sdialog, NULL);
-	g_signal_connect (page, "prepare",
-			  G_CALLBACK(druid_searching_page_prepare), sdialog);
+	g_signal_connect_after (page, "prepare",
+				G_CALLBACK(druid_searching_page_prepare), sdialog);
 
 	/* display name page */
 	page = glade_xml_get_widget (sdialog->gui, "add-server-druid-display-name-page");
 	sdialog->display_name = glade_xml_get_widget (sdialog->gui, "druid-display-name-entry");
 	g_signal_connect (sdialog->display_name, "changed",
 			  G_CALLBACK(druid_display_name_page_modify_cb), sdialog);
-	g_signal_connect (page, "prepare",
-			  G_CALLBACK(display_name_page_prepare), sdialog);
+	g_signal_connect_after (page, "prepare",
+				G_CALLBACK(display_name_page_prepare), sdialog);
 
 	page = glade_xml_get_widget (sdialog->gui, "add-server-druid-finish-page");
 	g_signal_connect (page, "finish",

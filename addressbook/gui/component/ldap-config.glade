@@ -300,11 +300,6 @@ using LDAP (Lightweight Directory Access Protocol) servers.
 Adding a new LDAP server requires some specialized information
 about the server. Please contact your system administrator if you 
 need help finding this information.</property>
-	  <property name="title_color">#ffffffffffff</property>
-	  <property name="text_color">#000000000000</property>
-	  <property name="background_color">#000000000000</property>
-	  <property name="logo_background_color">#000000000000</property>
-	  <property name="textbox_color">#ffffffffffff</property>
 	</widget>
       </child>
 
@@ -312,9 +307,6 @@ need help finding this information.</property>
 	<widget class="GnomeDruidPageStandard" id="add-server-druid-info-page">
 	  <property name="visible">True</property>
 	  <property name="title" translatable="yes">Step 1: Server Information</property>
-	  <property name="title_foreground">#e6e0bfffe498</property>
-	  <property name="background">#3c280811e498</property>
-	  <property name="logo_background">#2758081dc8cc</property>
 
 	  <child internal-child="vbox">
 	    <widget class="GtkVBox" id="druid-vbox1">
@@ -378,9 +370,6 @@ information. Please ask your system administrator if you are unsure of this info
 	<widget class="GnomeDruidPageStandard" id="add-server-druid-connecting-page">
 	  <property name="visible">True</property>
 	  <property name="title" translatable="yes">Step 2: Connecting to Server</property>
-	  <property name="title_foreground">#e6e0bfffe498</property>
-	  <property name="background">#3c280811e498</property>
-	  <property name="logo_background">#2758081dc8cc</property>
 
 	  <child internal-child="vbox">
 	    <widget class="GtkVBox" id="druid-vbox2">
@@ -445,9 +434,6 @@ your connection. Ask your system administrator if your LDAP server uses these pr
 	<widget class="GnomeDruidPageStandard" id="add-server-druid-searching-page">
 	  <property name="visible">True</property>
 	  <property name="title" translatable="yes">Step 3: Searching the Directory</property>
-	  <property name="title_foreground">#e6e0bfffe498</property>
-	  <property name="background">#3c280811e498</property>
-	  <property name="logo_background">#2758081dc8cc</property>
 
 	  <child internal-child="vbox">
 	    <widget class="GtkVBox" id="vbox23">
@@ -512,9 +498,6 @@ need to change these options.</property>
 	<widget class="GnomeDruidPageStandard" id="add-server-druid-display-name-page">
 	  <property name="visible">True</property>
 	  <property name="title" translatable="yes">Step 4: Display Name</property>
-	  <property name="title_foreground">#e6e0bfffe498</property>
-	  <property name="background">#3c280811e498</property>
-	  <property name="logo_background">#2758081dc8cc</property>
 
 	  <child internal-child="vbox">
 	    <widget class="GtkVBox" id="druid-vbox5">
@@ -743,11 +726,6 @@ searches, and for creating and editing contacts. </property>
 are now ready to access this directory.
 
 Please click the &quot;Finish&quot; button to save the settings you have entered here.</property>
-	  <property name="title_color">#ffffffffffff</property>
-	  <property name="text_color">#000000000000</property>
-	  <property name="background_color">#000000000000</property>
-	  <property name="logo_background_color">#000000000000</property>
-	  <property name="textbox_color">#ffffffffffff</property>
 	</widget>
       </child>
     </widget>

@@ -1,3 +1,12 @@
+2003-04-08  Dan Winship  <danw@ximian.com>
+
+	* gui/component/ldap-config.glade: Remove color specifications
+	from the druid so it will use theme colors.
+
+	* gui/component/addressbook-config.c
+	(addressbook_add_server_druid): Use g_signal_connect_after for
+	"prepare" signal (to work around b.g.o 81869)
+
 2003-04-07  Chris Toshok  <toshok@ximian.com>
 
 	[ fixes #7103 ]
