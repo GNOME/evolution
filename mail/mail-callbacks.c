@@ -173,12 +173,9 @@ check_send_configuration (FolderBrowser *fb)
 {
 	const MailConfigAccount *account;
 	
-	if (FOLDER_BROWSER_IS_DESTROYED (fb))
-		return FALSE;
-	
 	/* Check general */
-	if (!mail_config_is_configured () || !configure_mail (fb))
-		return FALSE;
+	if (!mail_config_is_configured () && !configure_mail (fb))
+			return FALSE;
 	
 	/* Get the default account */
 	account = mail_config_get_default_account ();
@@ -224,8 +221,8 @@ send_receive_mail (GtkWidget *widget, gpointer user_data)
 	if (FOLDER_BROWSER_IS_DESTROYED (fb))
 		return;
 	
-	if (!mail_config_is_configured () || !configure_mail (fb))
-		return;
+	if (!mail_config_is_configured () && !configure_mail (fb))
+			return;
 	
 	account = mail_config_get_default_account ();
 	if (!account || !account->transport) {
@@ -2478,7 +2475,7 @@ empty_trash (BonoboUIComponent *uih, void *user_data, const char *path)
 	
 	fb = user_data ? FOLDER_BROWSER (user_data) : NULL;
 	
-	if (FOLDER_BROWSER_IS_DESTROYED (fb) || !confirm_expunge (fb))
+	if (fb && !confirm_expunge (fb))
 		return;
 	
 	camel_exception_init (&ex);
