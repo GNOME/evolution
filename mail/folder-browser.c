@@ -36,6 +36,7 @@
 
 #include "mail-search-dialogue.h"
 #include "e-util/e-sexp.h"
+#include "e-util/e-mktemp.h"
 #include "folder-browser.h"
 #include "e-searching-tokenizer.h"
 #include "mail.h"
@@ -216,22 +217,14 @@ message_list_drag_data_get (ETree *tree, int row, ETreePath path, int col,
 	switch (info) {
 	case DND_TARGET_TYPE_TEXT_URI_LIST:
 	{
-		char *uri_list, *tmpdir, *tmpl;
+		const char *filename, *tmpdir;
 		CamelMimeMessage *message;
-		const char *filename;
 		CamelStream *stream;
+		char *uri_list;
 		int fd;
 		
-		tmpl = g_strdup ("/tmp/evolution.XXXXXX");
-#ifdef HAVE_MKDTEMP
-		tmpdir = mkdtemp (tmpl);
-#else
-		tmpdir = mktemp (tmpl);
-		if (tmpdir) {
-			if (mkdir (tmpdir, S_IRWXU) == -1)
-				tmpdir = NULL;
-		}
-#endif
+		tmpdir = e_mkdtemp ("drag-n-drop-XXXXXX");
+		
 		if (!tmpdir) {
 			char *msg = g_strdup_printf (_("Could not create temporary "
 						       "directory: %s"),
@@ -241,7 +234,6 @@ message_list_drag_data_get (ETree *tree, int row, ETreePath path, int col,
 			for (i = 0; i < uids->len; i++)
 				g_free (uids->pdata[i]);
 			g_ptr_array_free (uids, TRUE);
-			g_free (tmpl);
 			return;
 		}
 		
@@ -257,7 +249,7 @@ message_list_drag_data_get (ETree *tree, int row, ETreePath path, int col,
 		
 		uri_list = g_strdup_printf ("file://%s/%s", tmpdir, filename);
 		
-		fd = open (uri_list + 7, O_WRONLY | O_CREAT, 0666);
+		fd = open (uri_list + 7, O_WRONLY | O_CREAT);
 		if (fd == -1) {
 			/* cleanup and abort */
 			camel_object_unref (CAMEL_OBJECT (message));

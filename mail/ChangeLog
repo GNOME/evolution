@@ -1,3 +1,10 @@
+2001-08-24  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-display.c (launch_cb): Use the new e_mkdtemp function.
+
+	* folder-browser.c (message_list_drag_data_get): Use the new
+	e_mkdtemp function.
+
 2001-08-24  Ettore Perazzoli  <ettore@ximian.com>
 
 	[Fix #8024, Empty strings marked for translation.]
@@ -8,9 +15,9 @@
 
 2001-08-24  Peter Williams  <peterw@ximian.com>
 
-	* mail-ops.c (remove_folder_get): Save the folder's full_name, unref it,
-	and *then* unref the store, so that the folder has been closed before
-	it gets deleted.
+	* mail-ops.c (remove_folder_get): Save the folder's full_name,
+	unref it, and *then* unref the store, so that the folder has been
+	closed before it gets deleted.
 
 2001-08-24  Peter Williams  <peterw@ximian.com>
 
@@ -26,9 +33,9 @@
 	(maybe_add_shortcut): Renamed to new_source_created.
 	(new_source_created): Call add_new_storage here.
 
-	* component-factory.c (mail_remove_storage_by_uri): Don't warn
-	if the storage isn't remote... no point in making the caller
-	do extra work.
+	* component-factory.c (mail_remove_storage_by_uri): Don't warn if
+	the storage isn't remote... no point in making the caller do extra
+	work.
 
 2001-08-24  Jeffrey Stedfast  <fejj@ximian.com>
 

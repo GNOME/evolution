@@ -2093,23 +2093,23 @@ message_list_set_threaded (MessageList *ml, gboolean threaded)
 }
 
 void
-message_list_set_hidedeleted(MessageList *ml, gboolean hidedeleted)
+message_list_set_hidedeleted (MessageList *ml, gboolean hidedeleted)
 {
-	if (ml->folder && CAMEL_IS_VTRASH_FOLDER(ml->folder))
+	if (ml->folder && CAMEL_IS_VTRASH_FOLDER (ml->folder))
 		hidedeleted = FALSE;
-
+	
 	if (ml->hidedeleted != hidedeleted) {
 		ml->hidedeleted = hidedeleted;
-
-		mail_regen_list(ml, ml->search, NULL, NULL);
+		
+		mail_regen_list (ml, ml->search, NULL, NULL);
 	}
 }
 
 void
-message_list_set_search(MessageList *ml, const char *search)
+message_list_set_search (MessageList *ml, const char *search)
 {
 	if (search == NULL || search[0] == '\0')
-		if (ml->search == NULL || ml->search[0]=='\0')
+		if (ml->search == NULL || ml->search[0] == '\0')
 			return;
 	
 	if (search != NULL && ml->search != NULL && strcmp (search, ml->search) == 0)
@@ -2120,7 +2120,7 @@ message_list_set_search(MessageList *ml, const char *search)
 
 /* returns the number of messages displayable *after* expression hiding has taken place */
 unsigned int
-message_list_length(MessageList *ml)
+message_list_length (MessageList *ml)
 {
 	return ml->hide_unhidden;
 }
@@ -2139,46 +2139,46 @@ message_list_length(MessageList *ml)
    100 messages.
 */
 void
-message_list_hide_add(MessageList *ml, const char *expr, unsigned int lower, unsigned int upper)
+message_list_hide_add (MessageList *ml, const char *expr, unsigned int lower, unsigned int upper)
 {
-	MESSAGE_LIST_LOCK(ml, hide_lock);
-
+	MESSAGE_LIST_LOCK (ml, hide_lock);
+	
 	if (lower != ML_HIDE_SAME)
 		ml->hide_before = lower;
 	if (upper != ML_HIDE_SAME)
 		ml->hide_after = upper;
-
-	MESSAGE_LIST_UNLOCK(ml, hide_lock);
-
-	mail_regen_list(ml, ml->search, expr, NULL);
+	
+	MESSAGE_LIST_UNLOCK (ml, hide_lock);
+	
+	mail_regen_list (ml, ml->search, expr, NULL);
 }
 
 /* hide specific uid's */
 void
-message_list_hide_uids(MessageList *ml, GPtrArray *uids)
+message_list_hide_uids (MessageList *ml, GPtrArray *uids)
 {
 	int i;
 	char *uid;
 
 	/* first see if we need to do any work, if so, then do it all at once */
-	for (i=0;i<uids->len;i++) {
-		if (g_hash_table_lookup(ml->uid_nodemap, uids->pdata[i])) {
-			MESSAGE_LIST_LOCK(ml, hide_lock);
+	for (i = 0; i < uids->len; i++) {
+		if (g_hash_table_lookup (ml->uid_nodemap, uids->pdata[i])) {
+			MESSAGE_LIST_LOCK (ml, hide_lock);
 			if (ml->hidden == NULL) {
-				ml->hidden = g_hash_table_new(g_str_hash, g_str_equal);
-				ml->hidden_pool = e_mempool_new(512, 256, E_MEMPOOL_ALIGN_BYTE);
+				ml->hidden = g_hash_table_new (g_str_hash, g_str_equal);
+				ml->hidden_pool = e_mempool_new (512, 256, E_MEMPOOL_ALIGN_BYTE);
 			}
-	
-			uid =  e_mempool_strdup(ml->hidden_pool, uids->pdata[i]);
-			g_hash_table_insert(ml->hidden, uid, uid);
-			for (;i<uids->len;i++) {
-				if (g_hash_table_lookup(ml->uid_nodemap, uids->pdata[i])) {
-					uid =  e_mempool_strdup(ml->hidden_pool, uids->pdata[i]);
-					g_hash_table_insert(ml->hidden, uid, uid);
+			
+			uid =  e_mempool_strdup (ml->hidden_pool, uids->pdata[i]);
+			g_hash_table_insert (ml->hidden, uid, uid);
+			for ( ; i < uids->len; i++) {
+				if (g_hash_table_lookup (ml->uid_nodemap, uids->pdata[i])) {
+					uid =  e_mempool_strdup (ml->hidden_pool, uids->pdata[i]);
+					g_hash_table_insert (ml->hidden, uid, uid);
 				}
 			}
-			MESSAGE_LIST_UNLOCK(ml, hide_lock);
-			mail_regen_list(ml, ml->search, NULL, NULL);
+			MESSAGE_LIST_UNLOCK (ml, hide_lock);
+			mail_regen_list (ml, ml->search, NULL, NULL);
 			break;
 		}
 	}
@@ -2188,18 +2188,18 @@ message_list_hide_uids(MessageList *ml, GPtrArray *uids)
 void
 message_list_hide_clear (MessageList *ml)
 {
-	MESSAGE_LIST_LOCK(ml, hide_lock);
+	MESSAGE_LIST_LOCK (ml, hide_lock);
 	if (ml->hidden) {
-		g_hash_table_destroy(ml->hidden);
-		e_mempool_destroy(ml->hidden_pool);
+		g_hash_table_destroy (ml->hidden);
+		e_mempool_destroy (ml->hidden_pool);
 		ml->hidden = NULL;
 		ml->hidden_pool = NULL;
 	}
 	ml->hide_before = ML_HIDE_NONE_START;
 	ml->hide_after = ML_HIDE_NONE_END;
-	MESSAGE_LIST_UNLOCK(ml, hide_lock);
-
-	mail_regen_list(ml, ml->search, NULL, NULL);
+	MESSAGE_LIST_UNLOCK (ml, hide_lock);
+	
+	mail_regen_list (ml, ml->search, NULL, NULL);
 }
 
 #define HIDE_STATE_VERSION (1)
@@ -2493,7 +2493,7 @@ mail_regen_list (MessageList *ml, const char *search, const char *hideexpr, Came
 	
 #ifndef BROKEN_ETREE
 	/* this can sometimes crash,so ... */
-
+	
 	/* see if we need to goto the child thread at all anyway */
 	/* currently the only case is the flat view with updates and no search */
 	if (hideexpr == NULL && search == NULL && changes != NULL && !ml->threaded) {

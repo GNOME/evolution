@@ -39,6 +39,7 @@
 #include <gtkhtml/htmlinterval.h> /* XXX */
 
 #include "e-util/e-html-utils.h"
+#include "e-util/e-mktemp.h"
 #include "addressbook/backend/ebook/e-book-util.h"
 
 #include "e-searching-tokenizer.h"
@@ -250,15 +251,16 @@ launch_cb (GtkWidget *widget, gpointer user_data)
 	MailMimeHandler *handler;
 	GList *apps, *children, *c;
 	GnomeVFSMimeApplication *app;
-	char *tmpl, *tmpdir, *filename, *url, *argv[2];
-
+	char *filename, *url, *argv[2];
+	const char *tmpdir;
+	
 	handler = mail_lookup_handler (gtk_object_get_data (user_data, "mime_type"));
 	g_return_if_fail (handler != NULL && handler->applications != NULL);
-
+	
 	/* Yum. Too bad EPopupMenu doesn't allow per-item closures. */
 	children = gtk_container_children (GTK_CONTAINER (widget->parent));
 	g_return_if_fail (children != NULL && children->next != NULL && children->next->next != NULL);
-
+	
 	for (c = children->next->next, apps = handler->applications; c && apps; c = c->next, apps = apps->next) {
 		if (c->data == widget)
 			break;
@@ -266,46 +268,35 @@ launch_cb (GtkWidget *widget, gpointer user_data)
 	g_list_free (children);
 	g_return_if_fail (c != NULL && apps != NULL);
 	app = apps->data;
-
-	tmpl = g_strdup ("/tmp/evolution.XXXXXX");
-#ifdef HAVE_MKDTEMP
-	tmpdir = mkdtemp (tmpl);
-#else
-	tmpdir = mktemp (tmpl);
-	if (tmpdir) {
-		if (mkdir (tmpdir, S_IRWXU) == -1)
-			tmpdir = NULL;
-	}
-#endif
+	
+	tmpdir = e_mkdtemp ("evolution.XXXXXX");
+	
 	if (!tmpdir) {
 		char *msg = g_strdup_printf (_("Could not create temporary "
 					       "directory: %s"),
 					     g_strerror (errno));
 		gnome_error_dialog (msg);
-		g_free (tmpl);
 		g_free (msg);
 		return;
 	}
-
+	
 	filename = make_safe_filename (tmpdir, part);
-
+	
 	if (!write_data_to_file (part, filename, TRUE)) {
-		g_free (tmpl);
 		g_free (filename);
 		return;
 	}
-
+	
 	if (app->expects_uris == GNOME_VFS_MIME_APPLICATION_ARGUMENT_TYPE_URIS) {
 		url = g_strdup_printf ("file:%s", filename);
 		g_free (filename);
 		filename = url;
 	}
-
+	
 	argv[0] = app->command;
 	argv[1] = filename;
-
+	
 	gnome_execute_async (tmpdir, 2, argv);
-	g_free (tmpdir);
 	g_free (filename);
 }
 
