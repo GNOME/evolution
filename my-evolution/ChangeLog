@@ -1,5 +1,9 @@
 2001-07-18  Iain Holmes  <iain@ximian.com>
 
+	* e-summary-weather.c (weather_make_html): Remove spewage.
+
+2001-07-18  Iain Holmes  <iain@ximian.com>
+
 	* e-summary.c (e_summary_reconfigure): Reconfigure the tasks.
 
 	* e-summary-tasks.c (generate_html): Obtain todays tasks.

@@ -90,7 +90,6 @@ weather_make_html (Weather *w)
 	char *icon_name;
 
 	icon_name = icon_from_weather (w);
-	g_print ("icon_name: %s\n", icon_name);
 	string = g_string_new ("");
 	g_string_sprintf (string, "<dd><img align=\"middle\" "
 			  "src=\"%s\">&#160;<b>", icon_name);
