@@ -1,3 +1,7 @@
+2004-02-10  JP Rosevear <jpr@ximian.com>
+
+	* Makefile.am: build importers dir
+
 2004-02-08  Rodney Dawes  <dobey@ximian.com>
 
 	* gui/component/addressbook-migrate.c (create_groups): Initialize the
