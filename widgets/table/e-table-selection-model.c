@@ -446,6 +446,19 @@ void             e_table_selection_model_do_something      (ETableSelectionModel
 	}
 }
 
+void             e_table_selection_model_maybe_do_something      (ETableSelectionModel *selection,
+								  guint                 row,
+								  guint                 col,
+								  GdkModifierType       state)
+{
+	if (e_table_selection_model_is_row_selected(selection, row)) {
+		selection->cursor_row = row;
+		selection->cursor_col = col;
+	} else {
+		e_table_selection_model_do_something(selection, row, col, state);
+	}
+}
+
 void
 e_table_selection_model_clear(ETableSelectionModel *selection)
 {

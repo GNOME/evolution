@@ -1417,6 +1417,8 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 			gnome_canvas_item_w2i (item, &e->button.x, &e->button.y);
 			if (!find_cell (eti, e->button.x, e->button.y, &col, &row, &x1, &y1))
 				return TRUE;
+
+			e_table_selection_model_maybe_do_something(eti->selection, row, col, 0);
 			
 			gtk_signal_emit (GTK_OBJECT (eti), eti_signals [RIGHT_CLICK],
 					 row, col, e, &return_val);
