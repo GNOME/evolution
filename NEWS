@@ -3,6 +3,38 @@ Evoluiton 1.3.2, 2003-04-07
 
 Bugzilla bugs fixed (see http://bugzilla.ximian.com/show_bug.cgi):
 
+  * Addressbook
+
+    #40715 - Merge email address dialog non functional when adding
+             contact that already exists. (Toshok)
+    #40403 - can't edit contact lists (Toshok)
+    #40026 - Using pulldown to view multiple emails changes email to
+             random characters (Toshok)
+    #39788 - Can't add email address to contact (Toshok)
+    #39730 - Search Base Callback Not Working (Toshok).
+    #39692 - file type names should not be OAF component names
+             (Ettore)
+    #39507 - Select-names search broken. (Toshok)
+    #39381 - crash when adding an address from an email to addressbook.
+             (Toshok)
+    #39256 - "Forward Contact", "Send Message to Contact" don't
+             work. (NotZed)
+    #39170 - void function should not has a 'return' keyword (Philip
+             Zhao)
+    #38202 - Evolution crashed when I clicked the send button (NotZed)
+    #37204 - Ximian, Inc. contact info update (NotZed)
+    #34651 - Searches with 8bit ascii char. not working in Select
+             Contacts (Toshok)
+    #34085 - drag+drop not finalizing (Toshok)
+
+    #32113 - Problem with UTF8 and contact list (Toshok)
+    #31786 - LDAP config dialog not properly internationalized
+             (Toshok)
+    #25148 - Selected contacts fields are not scrolling properly
+             (Toshok)
+    #20210 - Cannot save changes when invoked from mailer (Toshok)
+    #19178 - importers only target default contact folder. (Toshok)
+
   * Mail
 
     #40535 - Send/receive dialogue should transient for parent
@@ -62,6 +94,20 @@ Bugzilla bugs fixed (see http://bugzilla.ximian.com/show_bug.cgi):
     #39696 - Default composer window title is meaningless (Jeff)
 
 Other bugs:
+
+  * Addressbook
+
+    - Add input method support to EMinicard, and to the To/Cc/Bcc
+      fields. (Toshok)
+    - Make the minicard view listen for style changes. (Toshok)
+    - Fix the select names component to be more friendly to non-shlib
+      components. (Dan)
+    - Fix various errors in the contact editor caused by parsing
+      addresses when we don't need to - especially after the user has
+      explicitly entered the elements of the address
+      themselves. (Toshok)
+    - Replace GtkImage based arrow buttons in the contact editor with
+      GtkArrow. (Toshok)
 
   * Mail
 
