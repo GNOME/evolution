@@ -836,11 +836,12 @@ evolution_storage_new_folder (EvolutionStorage *evolution_storage,
 	CORBA_exception_init (&ev);
 
 	corba_folder = GNOME_Evolution_Folder__alloc ();
-	corba_folder->displayName = CORBA_string_dup (display_name);
-	corba_folder->description = CORBA_string_dup (description);
-	corba_folder->type        = CORBA_string_dup (type);
-	corba_folder->physicalUri = CORBA_string_dup (physical_uri);
-	corba_folder->unreadCount = unread_count;
+	corba_folder->displayName  = CORBA_string_dup (display_name);
+	corba_folder->description  = CORBA_string_dup (description);
+	corba_folder->type         = CORBA_string_dup (type);
+	corba_folder->physicalUri  = CORBA_string_dup (physical_uri);
+	corba_folder->evolutionUri = CORBA_string_dup (""); /* FIXME? */
+	corba_folder->unreadCount  = unread_count;
 
 	if (! e_folder_tree_add (priv->folder_tree, path, corba_folder)) {
 		CORBA_free (corba_folder);

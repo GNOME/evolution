@@ -120,6 +120,9 @@ module Evolution {
 
 		void removeListener (in Bonobo::Listener listener)
 			raises (NotFound);
+
+		Folder getFolderByUri (in string uri)
+			raises (NotFound);
 	};
 };
 };

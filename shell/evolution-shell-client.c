@@ -33,11 +33,14 @@
 #include <gal/util/e-util.h>
 
 #include "evolution-shell-client.h"
+#include "e-shell-corba-icon-utils.h"
 
 
 struct _EvolutionShellClientPrivate {
 	GNOME_Evolution_Activity activity_interface;
 	GNOME_Evolution_Shortcuts shortcuts_interface;
+	GNOME_Evolution_StorageRegistry storage_registry_interface;
+	GHashTable *icons;
 };
 
 #define PARENT_TYPE bonobo_object_client_get_type ()
@@ -53,8 +56,7 @@ static gboolean FolderSelectionListener_vtables_initialized = FALSE;
 
 struct _FolderSelectionListenerServant {
 	POA_GNOME_Evolution_FolderSelectionListener servant;
-	char **uri_return;
-	char **physical_uri_return;
+	GNOME_Evolution_Folder **folder_return;
 };
 typedef struct _FolderSelectionListenerServant FolderSelectionListenerServant;
 
@@ -92,19 +94,24 @@ query_shell_interface (EvolutionShellClient *shell_client,
 
 static void
 impl_FolderSelectionListener_selected (PortableServer_Servant servant,
-				       const CORBA_char *uri,
-				       const CORBA_char *physical_uri,
+				       const GNOME_Evolution_Folder *folder,
 				       CORBA_Environment *ev)
 {
 	FolderSelectionListenerServant *listener_servant;
 
 	listener_servant = (FolderSelectionListenerServant *) servant;
 
-	if (listener_servant->uri_return != NULL)
-		* (listener_servant->uri_return) = g_strdup (uri);
-
-	if (listener_servant->physical_uri_return != NULL)
-		* (listener_servant->physical_uri_return) = g_strdup (physical_uri);
+	if (listener_servant->folder_return != NULL) {
+		GNOME_Evolution_Folder *ret_folder =
+			GNOME_Evolution_Folder__alloc ();
+		ret_folder->type = CORBA_string_dup (folder->type);
+		ret_folder->description = CORBA_string_dup (folder->description);
+		ret_folder->displayName = CORBA_string_dup (folder->displayName);
+		ret_folder->physicalUri = CORBA_string_dup (folder->physicalUri);
+		ret_folder->evolutionUri = CORBA_string_dup (folder->evolutionUri);
+		ret_folder->unreadCount = folder->unreadCount;
+		* (listener_servant->folder_return) = ret_folder;
+	}
 
 	gtk_main_quit ();
 }
@@ -117,11 +124,8 @@ impl_FolderSelectionListener_cancel (PortableServer_Servant servant,
 
 	listener_servant = (FolderSelectionListenerServant *) servant;
 
-	if (listener_servant->uri_return != NULL)
-		* (listener_servant->uri_return) = NULL;
-
-	if (listener_servant->physical_uri_return != NULL)
-		* (listener_servant->physical_uri_return) = NULL;
+	if (listener_servant->folder_return != NULL)
+		* (listener_servant->folder_return) = NULL;
 
 	gtk_main_quit ();
 }	
@@ -144,8 +148,7 @@ init_FolderSelectionListener_vtables (void)
 
 static GNOME_Evolution_FolderSelectionListener
 create_folder_selection_listener_interface (char **result,
-					    char **uri_return,
-					    char **physical_uri_return)
+					    GNOME_Evolution_Folder **folder_return)
 {
 	GNOME_Evolution_FolderSelectionListener corba_interface;
 	CORBA_Environment ev;
@@ -156,9 +159,8 @@ create_folder_selection_listener_interface (char **result,
 		init_FolderSelectionListener_vtables ();
 
 	servant = g_new0 (FolderSelectionListenerServant, 1);
-	servant->servant.vepv        = &FolderSelectionListener_vepv;
-	servant->uri_return          = uri_return;
-	servant->physical_uri_return = physical_uri_return;
+	servant->servant.vepv         = &FolderSelectionListener_vepv;
+	servant->folder_return        = folder_return;
 
 	listener_servant = (PortableServer_Servant) servant;
 
@@ -182,7 +184,7 @@ create_folder_selection_listener_interface (char **result,
 }
 
 static int
-count_string_items (const char *list[])
+count_string_items (const char **list)
 {
 	int i;
 
@@ -200,9 +202,8 @@ user_select_folder (EvolutionShellClient *shell_client,
 		    GtkWindow *parent,
 		    const char *title,
 		    const char *default_folder,
-		    const char *possible_types[],
-		    char **uri_return,
-		    char **physical_uri_return)
+		    const char **possible_types,
+		    GNOME_Evolution_Folder **folder_return)
 {
 	GNOME_Evolution_FolderSelectionListener listener_interface;
 	GNOME_Evolution_Shell corba_shell;
@@ -214,13 +215,8 @@ user_select_folder (EvolutionShellClient *shell_client,
 
 	result = NULL;
 
-	if (uri_return != NULL)
-		*uri_return = NULL;
-	if (physical_uri_return != NULL)
-		*physical_uri_return = NULL;
-
-	listener_interface = create_folder_selection_listener_interface (&result, uri_return, 
-									 physical_uri_return);
+	listener_interface = create_folder_selection_listener_interface (&result,
+									 folder_return);
 	if (listener_interface == CORBA_OBJECT_NIL)
 		return;
 
@@ -256,6 +252,13 @@ user_select_folder (EvolutionShellClient *shell_client,
 /* GtkObject methods.  */
 
 static void
+unref_pixbuf (gpointer name, gpointer pixbuf, gpointer data)
+{
+	g_free (name);
+	gdk_pixbuf_unref (pixbuf);
+}
+
+static void
 destroy (GtkObject *object)
 {
 	EvolutionShellClient *shell_client;
@@ -285,7 +288,19 @@ destroy (GtkObject *object)
 		CORBA_Object_release (priv->shortcuts_interface, &ev);
 	}
 
+	if (priv->storage_registry_interface != CORBA_OBJECT_NIL) {
+		Bonobo_Unknown_unref (priv->storage_registry_interface, &ev);
+		if (ev._major != CORBA_NO_EXCEPTION)
+			g_warning ("EvolutionShellClient::destroy: "
+				   "Error unreffing the ::StorageRegistry interface -- %s\n",
+				   ev._repo_id);
+		CORBA_Object_release (priv->storage_registry_interface, &ev);
+	}
+
 	CORBA_exception_free (&ev);
+
+	g_hash_table_foreach (priv->icons, unref_pixbuf, NULL);
+	g_hash_table_destroy (priv->icons);
 
 	g_free (priv);
 
@@ -311,8 +326,10 @@ init (EvolutionShellClient *shell_client)
 	EvolutionShellClientPrivate *priv;
 
 	priv = g_new (EvolutionShellClientPrivate, 1);
-	priv->activity_interface  = CORBA_OBJECT_NIL;
-	priv->shortcuts_interface = CORBA_OBJECT_NIL;
+	priv->activity_interface         = CORBA_OBJECT_NIL;
+	priv->shortcuts_interface        = CORBA_OBJECT_NIL;
+	priv->storage_registry_interface = CORBA_OBJECT_NIL;
+	priv->icons = g_hash_table_new (g_str_hash, g_str_equal);
 
 	shell_client->priv = priv;
 }
@@ -342,6 +359,7 @@ evolution_shell_client_construct (EvolutionShellClient *shell_client,
 
 	priv->activity_interface = query_shell_interface (shell_client, "IDL:GNOME/Evolution/Activity:1.0");
 	priv->shortcuts_interface = query_shell_interface (shell_client, "IDL:GNOME/Evolution/Shortcuts:1.0");
+	priv->storage_registry_interface = query_shell_interface (shell_client, "IDL:GNOME/Evolution/StorageRegistry:1.0");
 }
 
 /**
@@ -376,31 +394,36 @@ evolution_shell_client_new (GNOME_Evolution_Shell corba_shell)
  * @parent: Parent window for the dialog (must be realized when invoking)
  * @title: The title for the folder selection dialog
  * @default_folder: URI (physical or evolution:) of the folder initially selected on the dialog
- * @uri_return: 
- * @physical_uri_return: 
+ * @folder_return: 
  * 
- * Pop up the shell's folder selection dialog with the specified @title and
- * @default_folder as the initially selected folder.  On return, set *@uri and
- * *@physical_uri to the evolution: URI and the physical URI of the selected
- * folder (or %NULL if the user cancelled the dialog).  (The dialog is modal.)
+ * Pop up the shell's folder selection dialog with the specified
+ * @title and @default_folder as the initially selected folder. On
+ * return, set *@folder_return to the folder structure for the
+ * selected folder (or %NULL if the user cancelled the dialog). (The
+ * dialog is modal.)
  **/
 void
 evolution_shell_client_user_select_folder (EvolutionShellClient *shell_client,
 					   GtkWindow *parent,
 					   const char *title,
 					   const char *default_folder,
-					   const char *possible_types[],
-					   char **uri_return,
-					   char **physical_uri_return)
+					   const char **possible_types,
+					   GNOME_Evolution_Folder **folder_return)
 {
+	/* Do this first so it can be checked as a return value, even
+	 * if we g_return_if_fail.
+	 */
+	if (folder_return)
+		*folder_return = CORBA_OBJECT_NIL;
+
 	g_return_if_fail (shell_client != NULL);
 	g_return_if_fail (EVOLUTION_IS_SHELL_CLIENT (shell_client));
 	g_return_if_fail (title != NULL);
 	g_return_if_fail (default_folder != NULL);
 	g_return_if_fail (parent == NULL || GTK_WIDGET_REALIZED (parent));
 
-	user_select_folder (shell_client, parent, title, default_folder, possible_types,
-			    uri_return, physical_uri_return);
+	user_select_folder (shell_client, parent, title, default_folder,
+			    possible_types, folder_return);
 }
 
 
@@ -408,7 +431,7 @@ evolution_shell_client_user_select_folder (EvolutionShellClient *shell_client,
  * evolution_shell_client_get_activity_interface:
  * @shell_client: An EvolutionShellClient object
  * 
- * Get the GNOME::Evolution::Activity for the shell associated to
+ * Get the GNOME::Evolution::Activity for the shell associated with
  * @shell_client.
  * 
  * Return value: A CORBA Object represeting the GNOME::Evolution::Activity
@@ -424,10 +447,10 @@ evolution_shell_client_get_activity_interface (EvolutionShellClient *shell_clien
 }
 
 /**
- * evolution_shell_client_get_activity_interface:
+ * evolution_shell_client_get_shortcuts_interface:
  * @shell_client: An EvolutionShellClient object
  * 
- * Get the GNOME::Evolution::Shortcuts for the shell associated to
+ * Get the GNOME::Evolution::Shortcuts for the shell associated with
  * @shell_client.
  * 
  * Return value: A CORBA Object represeting the GNOME::Evolution::Shortcuts
@@ -440,6 +463,25 @@ evolution_shell_client_get_shortcuts_interface  (EvolutionShellClient *shell_cli
 	g_return_val_if_fail (EVOLUTION_IS_SHELL_CLIENT (shell_client), CORBA_OBJECT_NIL);
 
 	return shell_client->priv->shortcuts_interface;
+}
+
+/**
+ * evolution_shell_client_get_storage_registry_interface:
+ * @shell_client: An EvolutionShellClient object
+ * 
+ * Get the GNOME::Evolution::StorageRegistry for the shell associated
+ * with @shell_client.
+ * 
+ * Return value: A CORBA Object represeting the
+ * GNOME::Evolution::StorageRegistry interface.
+ **/
+GNOME_Evolution_StorageRegistry
+evolution_shell_client_get_storage_registry_interface (EvolutionShellClient *shell_client)
+{
+	g_return_val_if_fail (shell_client != NULL, CORBA_OBJECT_NIL);
+	g_return_val_if_fail (EVOLUTION_IS_SHELL_CLIENT (shell_client), CORBA_OBJECT_NIL);
+
+	return shell_client->priv->storage_registry_interface;
 }
 
 
@@ -503,6 +545,50 @@ evolution_shell_client_set_line_status (EvolutionShellClient *shell_client,
 	GNOME_Evolution_Shell_setLineStatus (corba_shell, line_status, &ev);
 
 	CORBA_exception_free (&ev);
+}
+
+
+GdkPixbuf *
+evolution_shell_client_get_pixbuf_for_type (EvolutionShellClient *shell_client,
+					    const char *folder_type,
+					    gboolean mini)
+{
+	GNOME_Evolution_Shell corba_shell;
+	CORBA_Environment ev;
+	GNOME_Evolution_Icon *icon;
+	GdkPixbuf *pixbuf;
+	char *hash_name;
+
+	g_return_val_if_fail (EVOLUTION_IS_SHELL_CLIENT (shell_client), NULL);
+
+	hash_name = g_strdup_printf ("%s/%s", folder_type,
+				     mini ? "mini" : "large");
+	pixbuf = g_hash_table_lookup (shell_client->priv->icons, hash_name);
+	if (!pixbuf) {
+		corba_shell = bonobo_object_corba_objref (BONOBO_OBJECT (shell_client));
+		g_return_val_if_fail (corba_shell != CORBA_OBJECT_NIL, NULL);
+
+		CORBA_exception_init (&ev);
+		icon = GNOME_Evolution_Shell_getIconByType (corba_shell,
+							    folder_type, mini,
+							    &ev);
+		if (ev._major != CORBA_NO_EXCEPTION) {
+			g_free (hash_name);
+			return NULL;
+		}
+		CORBA_exception_free (&ev);
+
+		pixbuf = e_new_gdk_pixbuf_from_corba_icon (icon, icon->width,
+							   icon->height);
+		CORBA_free (icon);
+
+		g_hash_table_insert (shell_client->priv->icons,
+				     hash_name, pixbuf);
+	}
+
+	g_free (hash_name);
+	gdk_pixbuf_ref (pixbuf);
+	return pixbuf;
 }
 
 

@@ -42,6 +42,20 @@ module Evolution {
 			raises (NotReady, NotFound);
 
 		/**
+		 * getIconByType:
+		 * @type: name of a valid folder type
+		 * @mini: whether or not to get a mini (16x16) icon
+		 *
+		 * Get an icon associated with a specific folder type.
+		 *
+		 * Return value: an Evolution::Icon interface for the
+		 * component that handles @type.
+		 */
+		Icon getIconByType (in string  type,
+				    in boolean mini)
+			raises (NotReady, NotFound);
+
+		/**
 		 * createNewView:
 		 * @uri: URI for the view to open
 		 *
@@ -118,7 +132,7 @@ module Evolution {
 	};
 
 	interface FolderSelectionListener {
-		void notifySelected (in string uri, in string physical_uri);
+		void notifySelected (in Folder folder);
 		void notifyCanceled ();
 	};
 };

@@ -58,6 +58,7 @@
 #include "e-folder-type-registry.h"
 #include "e-local-storage.h"
 #include "e-shell-constants.h"
+#include "e-shell-corba-icon-utils.h"
 #include "e-shell-folder-selection-dialog.h"
 #include "e-shell-offline-handler.h"
 #include "e-shell-startup-wizard.h"
@@ -239,8 +240,7 @@ folder_selection_dialog_folder_selected_cb (EShellFolderSelectionDialog *folder_
 	GNOME_Evolution_FolderSelectionListener listener;
 	EStorageSet *storage_set;
 	EFolder *folder;
-	char *uri;
-	const char *physical_uri;
+	GNOME_Evolution_Folder corba_folder;
 
 	shell = E_SHELL (data);
 	listener = gtk_object_get_data (GTK_OBJECT (folder_selection_dialog), "corba_listener");
@@ -250,15 +250,28 @@ folder_selection_dialog_folder_selected_cb (EShellFolderSelectionDialog *folder_
 	storage_set = e_shell_get_storage_set (shell);
 	folder = e_storage_set_get_folder (storage_set, path);
 
-	uri = g_strconcat (E_SHELL_URI_PREFIX, path, NULL);
+	if (folder == NULL) {
+		corba_folder.type = "";
+		corba_folder.description = "";
+		corba_folder.displayName = "";
+		corba_folder.physicalUri = "";
+		corba_folder.evolutionUri = "";
+		corba_folder.unreadCount = -1;
+	} else {
+		corba_folder.type = (CORBA_char *)e_folder_get_type_string (folder);
+		corba_folder.description = (CORBA_char *)e_folder_get_description (folder);
+		if (corba_folder.description == NULL)
+			corba_folder.description = "";
+		corba_folder.displayName = (CORBA_char *)e_folder_get_name (folder);
+		corba_folder.physicalUri = (CORBA_char *)e_folder_get_physical_uri (folder);
+		if (corba_folder.physicalUri == NULL)
+			corba_folder.physicalUri = "";
+		corba_folder.evolutionUri = (CORBA_char *)g_strconcat (E_SHELL_URI_PREFIX, path, NULL);
+		corba_folder.unreadCount = e_folder_get_unread_count (folder);
+	}
 
-	if (folder == NULL)
-		physical_uri = "";
-	else
-		physical_uri = e_folder_get_physical_uri (folder);
-
-	GNOME_Evolution_FolderSelectionListener_notifySelected (listener, uri, physical_uri, &ev);
-	g_free (uri);
+	GNOME_Evolution_FolderSelectionListener_notifySelected (listener, &corba_folder, &ev);
+	g_free (corba_folder.evolutionUri);
 
 	CORBA_exception_free (&ev);
 
@@ -334,6 +347,36 @@ impl_Shell_getComponentByType (PortableServer_Servant servant,
 	Bonobo_Unknown_ref (corba_component, ev);
 
 	return CORBA_Object_duplicate (corba_component, ev);
+}
+
+static GNOME_Evolution_Icon *
+impl_Shell_getIconByType (PortableServer_Servant servant,
+			  const CORBA_char *type,
+			  const CORBA_boolean mini,
+			  CORBA_Environment *ev)
+{
+	BonoboObject *bonobo_object;
+	EFolderTypeRegistry *folder_type_registry;
+	GdkPixbuf *pixbuf;
+	GNOME_Evolution_Icon *icon;
+	EShell *shell;
+
+	if (raise_exception_if_not_ready (servant, ev))
+		return CORBA_OBJECT_NIL;
+
+	bonobo_object = bonobo_object_from_servant (servant);
+	shell = E_SHELL (bonobo_object);
+	folder_type_registry = shell->priv->folder_type_registry;
+
+	pixbuf = e_folder_type_registry_get_icon_for_type (folder_type_registry, type, mini);
+
+	if (pixbuf == NULL) {
+		CORBA_exception_set (ev, CORBA_USER_EXCEPTION, ex_GNOME_Evolution_Shell_NotFound, NULL);
+		return CORBA_OBJECT_NIL;
+	}
+
+	icon = e_new_corba_icon_from_pixbuf (pixbuf);
+	return icon;
 }
 
 static GNOME_Evolution_ShellView
@@ -1050,6 +1093,7 @@ class_init (EShellClass *klass)
 	epv = & klass->epv;
 	epv->_get_displayName     = impl_Shell__get_displayName;
 	epv->getComponentByType   = impl_Shell_getComponentByType;
+	epv->getIconByType        = impl_Shell_getIconByType;
 	epv->createNewView        = impl_Shell_createNewView;
 	epv->handleURI            = impl_Shell_handleURI;
 	epv->selectUserFolder     = impl_Shell_selectUserFolder;

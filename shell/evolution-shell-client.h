@@ -25,6 +25,7 @@
 
 #include <bonobo/bonobo-object-client.h>
 #include <gtk/gtkwindow.h>
+#include <gdk-pixbuf/gdk-pixbuf.h>
 
 #include "Evolution.h"
 
@@ -60,21 +61,25 @@ void                    evolution_shell_client_construct           (EvolutionShe
 								    GNOME_Evolution_Shell        corba_shell);
 EvolutionShellClient   *evolution_shell_client_new                 (GNOME_Evolution_Shell        shell);
 
-void                    evolution_shell_client_user_select_folder  (EvolutionShellClient  *shell_client,
-								    GtkWindow             *parent,
-								    const char            *title,
-								    const char            *default_folder,
-								    const char            *possible_types[],
-								    char                 **uri_return,
-								    char                 **physical_uri_return);
+void                    evolution_shell_client_user_select_folder  (EvolutionShellClient    *shell_client,
+								    GtkWindow               *parent,
+								    const char              *title,
+								    const char              *default_folder,
+								    const char             **possible_types,
+								    GNOME_Evolution_Folder **folder_return);
 
-GNOME_Evolution_Activity  evolution_shell_client_get_activity_interface  (EvolutionShellClient *shell_client);
-GNOME_Evolution_Shortcuts evolution_shell_client_get_shortcuts_interface (EvolutionShellClient *shell_client);
+GNOME_Evolution_Activity        evolution_shell_client_get_activity_interface         (EvolutionShellClient *shell_client);
+GNOME_Evolution_Shortcuts       evolution_shell_client_get_shortcuts_interface        (EvolutionShellClient *shell_client);
+GNOME_Evolution_StorageRegistry evolution_shell_client_get_storage_registry_interface (EvolutionShellClient *shell_client);
 
 GNOME_Evolution_Storage  evolution_shell_client_get_local_storage        (EvolutionShellClient *shell_client);
 
 void                     evolution_shell_client_set_line_status          (EvolutionShellClient *shell_client,
 									  gboolean              online);
+
+GdkPixbuf               *evolution_shell_client_get_pixbuf_for_type      (EvolutionShellClient *shell_client,
+									  const char           *folder_type,
+									  gboolean              mini);
 
 #ifdef __cplusplus
 }

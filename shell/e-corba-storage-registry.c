@@ -24,12 +24,12 @@
 #include <config.h>
 #endif
 
-#include <gal/util/e-util.h>
-
 #include "e-corba-storage.h"
-
 #include "e-corba-storage-registry.h"
+#include "e-shell-constants.h"
+
 #include <bonobo/bonobo-exception.h>
+#include <gal/util/e-util.h>
 
 
 #define PARENT_TYPE BONOBO_OBJECT_TYPE
@@ -289,6 +289,63 @@ impl_StorageRegistry_removeListener (PortableServer_Servant servant,
 	g_slist_free (p);
 }
 
+static GNOME_Evolution_Folder *
+impl_StorageRegistry_getFolderByUri (PortableServer_Servant servant,
+				     const CORBA_char *uri,
+				     CORBA_Environment *ev)
+{
+	BonoboObject *bonobo_object;
+	ECorbaStorageRegistry *storage_registry;
+	GNOME_Evolution_Folder *corba_folder;
+	EStorageSet *storage_set;
+	EFolder *folder;
+	char *path;
+	CORBA_char *corba_evolution_uri;
+
+	bonobo_object = bonobo_object_from_servant (servant);
+	storage_registry = E_CORBA_STORAGE_REGISTRY (bonobo_object);
+	storage_set = storage_registry->priv->storage_set;
+
+	if (!strncmp (uri, E_SHELL_URI_PREFIX, E_SHELL_URI_PREFIX_LEN)) {
+		corba_evolution_uri = CORBA_string_dup (uri);
+		path = (char *)uri + E_SHELL_URI_PREFIX_LEN;
+		folder = e_storage_set_get_folder (storage_set, path);
+	} else {
+		path = e_storage_set_get_path_for_physical_uri (storage_set, uri);
+		if (path) {
+			corba_evolution_uri = CORBA_string_alloc (strlen (path) + E_SHELL_URI_PREFIX_LEN + 1);
+			strcpy (corba_evolution_uri, E_SHELL_URI_PREFIX);
+			strcat (corba_evolution_uri, path);
+			folder = e_storage_set_get_folder (storage_set, path);
+			g_free (path);
+		} else
+			folder = NULL;
+	}
+
+	if (!folder) {
+		CORBA_exception_set (ev, CORBA_USER_EXCEPTION,
+				     ex_GNOME_Evolution_StorageRegistry_NotFound,
+				     NULL);
+		return CORBA_OBJECT_NIL;
+	}
+
+	corba_folder = GNOME_Evolution_Folder__alloc ();
+	corba_folder->displayName = CORBA_string_dup (e_folder_get_name (folder));
+	if (e_folder_get_description (folder))
+		corba_folder->description = CORBA_string_dup (e_folder_get_description (folder));
+	else
+		corba_folder->description = CORBA_string_dup ("");
+	corba_folder->type = CORBA_string_dup (e_folder_get_type_string (folder));
+	if (e_folder_get_physical_uri (folder))
+		corba_folder->physicalUri = CORBA_string_dup (e_folder_get_physical_uri (folder));
+	else
+		corba_folder->physicalUri = CORBA_string_dup ("");
+	corba_folder->evolutionUri = corba_evolution_uri;
+	corba_folder->unreadCount = e_folder_get_unread_count (folder);
+
+	return corba_folder;
+}
+
 
 /* GtkObject methods.  */
 
@@ -329,7 +386,8 @@ corba_class_init (void)
 	epv->removeStorageByName = impl_StorageRegistry_removeStorageByName;
 	epv->addListener         = impl_StorageRegistry_addListener;
 	epv->removeListener      = impl_StorageRegistry_removeListener;
-	
+	epv->getFolderByUri      = impl_StorageRegistry_getFolderByUri;
+
 	vepv = &storage_registry_vepv;
 	vepv->_base_epv                     = base_epv;
 	vepv->Bonobo_Unknown_epv            = bonobo_object_get_epv ();

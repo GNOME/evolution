@@ -16,6 +16,7 @@ struct Folder {
 	string description;
 	string displayName;
 	string physicalUri;
+	string evolutionUri;
 	long unreadCount;
 };
 

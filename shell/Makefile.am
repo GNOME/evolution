@@ -60,6 +60,7 @@ eshellinclude_HEADERS = 			\
 	Evolution.h				\
 	e-folder-tree.h				\
 	evolution-activity-client.h		\
+	evolution-folder-selector-button.h	\
 	evolution-session.h			\
 	evolution-shell-client.h		\
 	evolution-shell-component-client.h	\
@@ -80,6 +81,7 @@ libeshell_la_SOURCES = 				\
 	evolution-activity-client.c		\
 	evolution-config-control.c		\
 	evolution-config-control.h		\
+	evolution-folder-selector-button.c	\
 	evolution-session.c			\
 	evolution-shell-client.c		\
 	evolution-shell-component-client.c	\

@@ -1,3 +1,43 @@
+2002-04-04  Dan Winship  <danw@ximian.com>
+
+	* evolution-folder-selector-button.c: New widget for a button that
+	displays a folder selection in a standard form, and when clicked
+	lets the user select a new folder.
+
+	* Evolution-Shell.idl (FolderSelectionListener:notifySelected):
+	Make this take an Evolution:Folder instead of a pair of uris.
+	(Shell:getIconByType): New method to get the icon for a type from
+	the folder type registry.
+	
+	* Evolution-common.idl (Folder): add "evolutionUri" to the folder
+	structure.
+
+	* Evolution-Storage.idl (StorageRegistry:getFolderByUri): get an
+	Evolution:Folder for a given uri.
+
+	* evolution-shell-client.c
+	(evolution_shell_client_user_select_folder): Update this to
+	reflect the IDL change: return a GNOME_Evolution_Folder instead of
+	a pair of URIs. Make sure it always sets *@folder_return to %NULL
+	if it fails (even if it's a g_return_if_fail).
+	(evolution_shell_client_get_storage_registry_interface): New.
+	(evolution_shell_client_get_pixbuf_for_type): New. Uses
+	Shell_getIconByType, but caches results.
+
+	* e-shell.c (folder_selection_dialog_folder_selected_cb): Update
+	for API change. (Return a GNOME_Evolution_Folder.)
+	(impl_Shell_getIconByType): Implement.
+
+	* e-corba-storage-registry.c
+	(impl_StorageRegistry_getFolderByUri): Implement.
+
+	* evolution-storage.c (evolution_storage_new_folder): Add a
+	(dummy) evolutionUri to the folder.
+
+	* Makefile.am (libeshell_la_SOURCES): add
+	evolution-folder-selector-button.c
+	(eshellinclude_HEADERS): and .h
+
 2002-04-04  Ettore Perazzoli  <ettore@ximian.com>
 
 	* evolution-shell-component.c: Change type of parent_class to
