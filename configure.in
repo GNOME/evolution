@@ -344,9 +344,9 @@ dnl **************************************************
 dnl NNTP support.
 dnl **************************************************
 AC_ARG_ENABLE(nntp, 
-[  --enable-nntp=[no/yes]      Attempt to compile incomplete, unsupported NNTP code],,enable_nntp=no)
+[  --enable-nntp=[no/yes]      Build Usenet news (NNTP) backend],,enable_nntp=yes)
 if test "x$enable_nntp" = "xyes"; then
-	AC_DEFINE(ENABLE_NNTP,1,[Don't try this at home])
+	AC_DEFINE(ENABLE_NNTP,1,[Build NNTP backend])
 	msg_nntp=yes
 else
 	msg_nntp=no
