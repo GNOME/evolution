@@ -1999,6 +1999,14 @@ struct _EMCopyFolders {
 	int delete;
 };
 
+static char *
+emft_copy_folders__desc (struct _mail_msg *mm, int complete)
+{
+	struct _EMCopyFolders *m = (struct _EMCopyFolders *) mm;
+	
+	return g_strdup_printf (_("Copying `%s' to `%s'"), m->frombase, m->tobase);
+}
+
 static void
 emft_copy_folders__copy (struct _mail_msg *mm)
 {
@@ -2136,7 +2144,7 @@ emft_copy_folders__free (struct _mail_msg *mm)
 }
 
 static struct _mail_msg_op copy_folders_op = {
-	NULL,
+	emft_copy_folders__desc,
 	emft_copy_folders__copy,
 	NULL,
 	emft_copy_folders__free,

@@ -1,3 +1,12 @@
+2005-01-20  Jeffrey Stedfast  <fejj@novell.com>
+
+	* em-folder-tree.c (emft_copy_folders__desc): Added a description
+	function for copying folders (so we don't get a "Working 0x..."
+	status message).
+
+	* mail-mt.c (do_op_status): Always g_free(what) since we always
+	strdup it.
+
 2005-01-20  Not Zed  <NotZed@Ximian.com>
 
 	** See bug #55831.

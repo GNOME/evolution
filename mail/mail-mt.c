@@ -963,8 +963,7 @@ static void do_op_status(struct _mail_msg *mm)
 
 			data->activity_id = e_activity_handler_operation_started (activity_handler, "evolution-mail", progress_icon, what, TRUE);
 			
-			if (msg->ops->describe_msg)
-				g_free (what);
+			g_free (what);
 			
 			MAIL_MT_LOCK (mail_msg_lock);
 			if (data->activity_state == 3) {
