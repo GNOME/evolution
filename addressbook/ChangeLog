@@ -1,3 +1,10 @@
+2004-02-08  Rodney Dawes  <dobey@ximian.com>
+
+	* gui/component/addressbook-migrate.c (create_groups): Initialize the
+	personal_source to NULL
+
+	Fixes #54015
+
 2004-02-08  Sivaiah Nallagatla <snallagatla@novell.com>
                                                                                 
         * gui/widgets/e-addressbook-view.c (delete) : pass contact

@@ -364,6 +364,7 @@ create_groups (MigrationContext *context,
 
 	*on_this_computer = NULL;
 	*on_ldap_servers = NULL;
+	*personal_source = NULL;
 
 	base_uri = g_build_filename (addressbook_component_peek_base_directory (context->component),
 				     "addressbook", "local",
