@@ -627,7 +627,7 @@ add_button (ESearchBar *esb,
 	
 	gtk_signal_connect (GTK_OBJECT (button), "clicked", callback, esb);
 	
-	gtk_box_pack_start (GTK_BOX (esb), holder, FALSE, FALSE, 1);
+	gtk_box_pack_end (GTK_BOX (esb), holder, FALSE, FALSE, 1);
 
 	return button;
 }
@@ -832,10 +832,10 @@ e_search_bar_construct (ESearchBar *search_bar,
 
 	gtk_box_set_spacing (GTK_BOX (search_bar), 1);
 
-	search_bar->activate_button = add_button (search_bar, _("Find Now"),
-						  GTK_SIGNAL_FUNC (activate_button_clicked_cb));
 	search_bar->clear_button    = add_button (search_bar, _("Clear"),
 						  GTK_SIGNAL_FUNC (clear_button_clicked_cb));
+	search_bar->activate_button = add_button (search_bar, _("Find Now"),
+						  GTK_SIGNAL_FUNC (activate_button_clicked_cb));
 
 	e_search_bar_set_menu (search_bar, menu_items);
 

@@ -1,3 +1,11 @@
+2002-04-09  Dan Winship  <danw@ximian.com>
+
+	* e-search-bar.c (e_search_bar_construct, add_button): Oops. The
+	previous change made the search bar widgets get packed in the
+	wrong order. So use gtk_box_pack_end instead in add_button and add
+	the two buttons in reverse order. It's all good now. Noticed by
+	Ettore, who I then promptly blamed for it. Sorry Ettore!
+
 2002-04-08  Dan Winship  <danw@ximian.com>
 
 	* e-search-bar.c (e_search_bar_construct): Construct the buttons
