@@ -182,13 +182,13 @@ apply_changes (MailAccountEditor *editor)
 	camel_url_free (url);
 	
 	/* transport */
-	url = camel_url_new (account->transport->url, NULL);
+	url = g_new0 (CamelURL, 1);
 	
-	g_free (url->authmech);
+	url->protocol = g_strdup (editor->transport->protocol);
+	
 	auth = gtk_object_get_data (GTK_OBJECT (editor), "transport_authmech");
 	url->authmech = auth && *auth ? g_strdup (auth) : NULL;
 	
-	g_free (url->host);
         host = g_strdup (gtk_entry_get_text (editor->transport_host));
 	if (host && (pport = strchr (host, ':'))) {
 		*pport = '\0';
@@ -267,6 +267,7 @@ source_auth_init (MailAccountEditor *editor, CamelURL *url)
 	GtkWidget *menu, *item, *authmech = NULL;
 	CamelServiceAuthType *authtype;
 	GList *authtypes = NULL;
+	guint i = 0, history = 0;
 	
 	menu = gtk_menu_new ();
 	gtk_option_menu_remove_menu (editor->source_auth);
@@ -285,6 +286,8 @@ source_auth_init (MailAccountEditor *editor, CamelURL *url)
 		while (l) {
 			authtype = l->data;
 			
+			i++;
+			
 			item = gtk_menu_item_new_with_label (authtype->name);
 			gtk_object_set_data (GTK_OBJECT (item), "authtype", authtype);
 			gtk_signal_connect (GTK_OBJECT (item), "activate",
@@ -295,14 +298,18 @@ source_auth_init (MailAccountEditor *editor, CamelURL *url)
 			
 			gtk_widget_show (item);
 			
-			if (url->authmech && !g_strcasecmp (authtype->authproto, url->authmech))
+			if (url->authmech && !g_strcasecmp (authtype->authproto, url->authmech)) {
 				authmech = item;
+				history = i;
+			}
 			
 			l = l->next;
 		}
 		
-		if (authmech)
+		if (authmech) {
 			gtk_signal_emit_by_name (GTK_OBJECT (authmech), "activate", editor);
+			gtk_option_menu_set_history (editor->source_auth, history);
+		}
 	}
 	
 	gtk_option_menu_set_menu (editor->source_auth, menu);
@@ -326,6 +333,7 @@ transport_construct_authmenu (MailAccountEditor *editor, CamelURL *url)
 	GtkWidget *menu, *item;
 	CamelServiceAuthType *authtype;
 	GList *authtypes = NULL;
+	guint i = 0, fhist = 0, phist = 0;
 	
 	menu = gtk_menu_new ();
 	gtk_option_menu_remove_menu (editor->transport_auth);
@@ -345,6 +353,8 @@ transport_construct_authmenu (MailAccountEditor *editor, CamelURL *url)
 		while (l) {
 			authtype = l->data;
 			
+			i++;
+			
 			item = gtk_menu_item_new_with_label (authtype->name);
 			gtk_object_set_data (GTK_OBJECT (item), "authtype", authtype);
 			gtk_signal_connect (GTK_OBJECT (item), "activate",
@@ -355,20 +365,27 @@ transport_construct_authmenu (MailAccountEditor *editor, CamelURL *url)
 			
 			gtk_widget_show (item);
 			
-			if (!first)
+			if (!first) {
 				first = item;
+				fhist = i;
+			}
 			
-			if (url->authmech && !g_strcasecmp (authtype->authproto, url->authmech))
+			if (url->authmech && !g_strcasecmp (authtype->authproto, url->authmech)) {
 				preferred = item;
+				phist = i;
+			}
 		}
 	}
 	
 	gtk_option_menu_set_menu (editor->transport_auth, menu);
 	
-	if (preferred)
+	if (preferred) {
 		gtk_signal_emit_by_name (GTK_OBJECT (preferred), "activate", editor);
-	else if (first)
+		gtk_option_menu_set_history (editor->transport_auth, phist);
+	} else if (first) {
 		gtk_signal_emit_by_name (GTK_OBJECT (first), "activate", editor);
+		gtk_option_menu_set_history (editor->transport_auth, phist);
+	}
 }
 
 static void
@@ -408,6 +425,7 @@ transport_type_init (MailAccountEditor *editor, CamelURL *url)
 {
 	GtkWidget *menu, *xport = NULL;
 	GList *providers, *l;
+	guint i = 0, history = 0;
 	
 	menu = gtk_menu_new ();
 	gtk_option_menu_remove_menu (editor->transport_auth);
@@ -425,6 +443,8 @@ transport_type_init (MailAccountEditor *editor, CamelURL *url)
 		if (provider->object_types[CAMEL_PROVIDER_TRANSPORT]) {
 			GtkWidget *item;
 			
+			i++;
+			
 			item = gtk_menu_item_new_with_label (provider->name);
 			gtk_object_set_data (GTK_OBJECT (item), "provider", provider);
 			gtk_signal_connect (GTK_OBJECT (item), "activate",
@@ -435,8 +455,10 @@ transport_type_init (MailAccountEditor *editor, CamelURL *url)
 			
 			gtk_widget_show (item);
 			
-			if (!g_strcasecmp (provider->protocol, url->protocol))
+			if (!xport && !g_strcasecmp (provider->protocol, url->protocol)) {
 				xport = item;
+				history = i;
+			}
 		}
 		
 		l = l->next;
@@ -444,8 +466,39 @@ transport_type_init (MailAccountEditor *editor, CamelURL *url)
 	
 	gtk_option_menu_set_menu (editor->transport_type, menu);
 	
-	if (xport)
+	if (xport) {
 		gtk_signal_emit_by_name (GTK_OBJECT (xport), "activate", editor);
+		gtk_option_menu_set_history (editor->transport_type, history);
+	}
+}
+
+static void
+keep_mail_check (MailAccountEditor *editor, CamelURL *url)
+{
+	GList *providers, *l;
+	
+	providers = camel_session_list_providers (session, TRUE);
+	l = providers;
+	while (l) {
+		CamelProvider *provider = l->data;
+		
+		if (strcmp (provider->domain, "mail")) {
+			l = l->next;
+			continue;
+		}
+		
+		if (provider->object_types[CAMEL_PROVIDER_STORE] && provider->flags & CAMEL_PROVIDER_IS_SOURCE) {
+			if (!g_strcasecmp (provider->protocol, url->protocol)) {
+				if (!(provider->flags & CAMEL_PROVIDER_IS_STORAGE))
+					gtk_widget_set_sensitive (GTK_WIDGET (editor->keep_on_server), TRUE);
+				else
+					gtk_widget_set_sensitive (GTK_WIDGET (editor->keep_on_server), FALSE);
+				break;
+			}
+		}
+		
+		l = l->next;
+	}
 }
 
 static void
@@ -525,6 +578,7 @@ construct (MailAccountEditor *editor, const MailConfigAccount *account)
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (editor->source_ssl), account->source->use_ssl);
 	editor->keep_on_server = GTK_CHECK_BUTTON (glade_xml_get_widget (gui, "chkKeepMailOnServer"));
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (editor->keep_on_server), account->source->keep_on_server);
+	keep_mail_check (editor, url);
 	source_auth_init (editor, url);
 	camel_url_free (url);
 	

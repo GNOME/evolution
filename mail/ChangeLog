@@ -1,3 +1,18 @@
+2001-01-09  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* mail-account-editor.c: For all optionmenu's, set the appropriate
+	'history'.
+	(keep_mail_check): Set the keep-on-server checkbutton sensitivity
+	based on whether or not the store is a storage or not.
+	(construct): Call keep_mail_check().
+
+	* mail-config-druid.c (incoming_type_changed): Set the
+	keep-on-server checkbutton sensitivity based on whether or not the
+	store is a storage or not.
+
+	* mail-accounts.c (construct): Make sure the dialog isn't a
+	scrunched little thingy.
+
 2001-01-09  Dan Winship  <danw@helixcode.com>
 
 	* Makefile.am (evolution_mail_LDFLAGS): Add -export-dynamic, so

@@ -402,6 +402,12 @@ incoming_type_changed (GtkWidget *widget, gpointer user_data)
 	else
 		gtk_widget_set_sensitive (GTK_WIDGET (druid->incoming_path), FALSE);
 	
+	/* keep mail on server */
+	if (!(provider->flags & CAMEL_PROVIDER_IS_STORAGE))
+		gtk_widget_set_sensitive (GTK_WIDGET (druid->incoming_keep_mail), TRUE);
+	else
+		gtk_widget_set_sensitive (GTK_WIDGET (druid->incoming_keep_mail), FALSE);
+	
 	incoming_check (druid);
 }
 
@@ -786,6 +792,7 @@ construct (MailConfigDruid *druid)
 	gtk_window_set_title (GTK_WINDOW (druid), _("Evolution Account Wizard"));
 	gtk_window_set_policy (GTK_WINDOW (druid), FALSE, TRUE, TRUE);
 	gtk_window_set_modal (GTK_WINDOW (druid), TRUE);
+	gtk_object_set (GTK_OBJECT (druid), "type", GTK_WINDOW_DIALOG, NULL);
 	
 	/* attach to druid page signals */
 	i = 0;

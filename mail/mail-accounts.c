@@ -342,6 +342,7 @@ construct (MailAccountsDialog *dialog)
 	/* give our dialog an OK button and title */
 	gtk_window_set_title (GTK_WINDOW (dialog), _("Evolution Account Manager"));
 	gtk_window_set_policy (GTK_WINDOW (dialog), FALSE, TRUE, TRUE);
+	gtk_window_set_default_size (GTK_WINDOW (dialog), 400, 300);
 	gnome_dialog_append_button (GNOME_DIALOG (dialog), GNOME_STOCK_BUTTON_OK);
 	
 	dialog->mail_accounts = GTK_CLIST (glade_xml_get_widget (gui, "clistAccounts"));
