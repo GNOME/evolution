@@ -43,7 +43,7 @@ struct calendar_tag_closure {
  * Returns FALSE if the calendar has no dates shown.
  */
 static gboolean
-prepare_tag (ECalendar *ecal, struct calendar_tag_closure *c, gboolean clear_first)
+prepare_tag (ECalendar *ecal, struct calendar_tag_closure *c, icaltimezone *zone, gboolean clear_first)
 {
 	gint start_year, start_month, start_day;
 	gint end_year, end_month, end_day;
@@ -72,10 +72,13 @@ prepare_tag (ECalendar *ecal, struct calendar_tag_closure *c, gboolean clear_fir
 
 	c->calitem = ecal->calitem;
 
-	/* FIXME. It may be better if the timezone is passed in. */
-	location = calendar_config_get_timezone ();
-	c->zone = icaltimezone_get_builtin_timezone (location);
-
+	if (zone) {
+		c->zone = zone;
+	} else {
+		location = calendar_config_get_timezone ();
+		c->zone = icaltimezone_get_builtin_timezone (location);
+	}
+	
 	c->start_time = icaltime_as_timet_with_zone (start_tt, c->zone);
 	c->end_time = icaltime_as_timet_with_zone (end_tt, c->zone);
 
@@ -138,7 +141,7 @@ tag_calendar_by_client (ECalendar *ecal, CalClient *client)
 	if (cal_client_get_load_state (client) != CAL_CLIENT_LOAD_LOADED)
 		return;
 
-	if (!prepare_tag (ecal, &c, TRUE))
+	if (!prepare_tag (ecal, &c, NULL, TRUE))
 		return;
 
 	c.skip_transparent_events = TRUE;
@@ -192,7 +195,8 @@ resolve_tzid_cb (const char *tzid, gpointer data)
  * have been added to the calendar on the server yet.
  **/
 void
-tag_calendar_by_comp (ECalendar *ecal, CalComponent *comp, CalClient *client, gboolean clear_first, gboolean comp_is_on_server)
+tag_calendar_by_comp (ECalendar *ecal, CalComponent *comp, CalClient *client, icaltimezone *display_zone, 
+		      gboolean clear_first, gboolean comp_is_on_server)
 {
 	struct calendar_tag_closure c;
 
@@ -205,7 +209,7 @@ tag_calendar_by_comp (ECalendar *ecal, CalComponent *comp, CalClient *client, gb
 	if (!GTK_WIDGET_VISIBLE (ecal))
 		return;
 
-	if (!prepare_tag (ecal, &c, clear_first))
+	if (!prepare_tag (ecal, &c, display_zone, clear_first))
 		return;
 
 	c.skip_transparent_events = FALSE;

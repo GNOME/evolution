@@ -27,7 +27,7 @@
 
 void tag_calendar_by_client (ECalendar *ecal, CalClient *client);
 void tag_calendar_by_comp (ECalendar *ecal, CalComponent *comp,
-			   CalClient *client, gboolean clear_first,
-			   gboolean comp_is_on_server);
+			   CalClient *client, icaltimezone *display_zone,
+			   gboolean clear_first, gboolean comp_is_on_server);
 
 #endif

@@ -901,8 +901,8 @@ fill_component (RecurrencePage *rpage, CalComponent *comp)
 		g_assert (dt != NULL);
 		if (!icaltime_is_valid_time (*dt->value)) {
 			comp_editor_page_display_validation_error (COMP_EDITOR_PAGE (rpage),
-								   _("Recurrent date is wrong"),
-								   exception_list);
+								   _("Recurrence date is invalid"),
+								   priv->exception_list);
 			return FALSE;
 		}
 
@@ -932,7 +932,8 @@ preview_recur (RecurrencePage *rpage)
 	CalComponent *comp;
 	CalComponentDateTime cdt;
 	GSList *l;
-
+	icaltimezone *zone = NULL;
+	
 	priv = rpage->priv;
 
 	/* If our component has not been set yet through ::fill_widgets(), we
@@ -949,6 +950,10 @@ preview_recur (RecurrencePage *rpage)
 	cal_component_set_new_vtype (comp, CAL_COMPONENT_EVENT);
 
 	cal_component_get_dtstart (priv->comp, &cdt);
+	if (cdt.tzid != NULL) {
+		if (cal_client_get_timezone (COMP_EDITOR_PAGE (rpage)->client, cdt.tzid, &zone) != CAL_CLIENT_GET_SUCCESS)
+			zone = icaltimezone_get_builtin_timezone_from_tzid (cdt.tzid);
+	}
 	cal_component_set_dtstart (comp, &cdt);
 	cal_component_free_datetime (&cdt);
 
@@ -975,7 +980,7 @@ preview_recur (RecurrencePage *rpage)
 	fill_component (rpage, comp);
 
 	tag_calendar_by_comp (E_CALENDAR (priv->preview_calendar), comp,
-			      COMP_EDITOR_PAGE (rpage)->client, TRUE, FALSE);
+			      COMP_EDITOR_PAGE (rpage)->client, zone, TRUE, FALSE);
 	gtk_object_unref (GTK_OBJECT (comp));
 }
 

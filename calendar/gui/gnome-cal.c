@@ -330,8 +330,8 @@ dn_query_obj_updated_cb (CalQuery *query, const char *uid,
 		return;
 	}
 
-	tag_calendar_by_comp (priv->date_navigator, comp, priv->client, FALSE,
-			      TRUE);
+	tag_calendar_by_comp (priv->date_navigator, comp, priv->client, NULL, 
+			      FALSE, TRUE);
 	gtk_object_unref (GTK_OBJECT (comp));
 }
 
