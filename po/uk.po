@@ -5309,9 +5309,9 @@ msgid "Failed to get lock using flock(2): %s"
 msgstr "Не вдалось зробити блокування за допомогою flock(2): %s"
 
 #: camel/camel-movemail.c:108
-#, fuzzy, c-format
+#, c-format
 msgid "Could not check mail file %s: %s"
-msgstr "Створити новий календар"
+msgstr "Неможлипо перев╕рити поштовий файл %s: %s"
 
 #: camel/camel-movemail.c:122
 #, c-format
@@ -5358,9 +5358,9 @@ msgid "Error writing mail temp file: %s"
 msgstr "Помилка запису пошти у тимчасовий файл: %s"
 
 #: camel/camel-movemail.c:467 camel/camel-movemail.c:534
-#, fuzzy, c-format
+#, c-format
 msgid "Error copying mail temp file: %s"
-msgstr "Помилка запису пошти у тимчасовий файл: %s"
+msgstr "Помилка копиювання тимчасового поштового файлу: %s"
 
 #: camel/camel-pgp-context.c:194
 #, fuzzy, c-format
@@ -5598,9 +5598,8 @@ msgid "This option will connect to the server using a simple password."
 msgstr ""
 
 #: camel/camel-sasl-login.c:127
-#, fuzzy
 msgid "Unknown authentication state."
-msgstr "Аутенф╕кац╕я:"
+msgstr "Нев╕домий стан автеф╕кац╕╖."
 
 #: camel/camel-sasl-plain.c:32 camel/providers/imap/camel-imap-provider.c:80
 #: camel/providers/nntp/camel-nntp-store.c:302
@@ -5610,11 +5609,11 @@ msgstr "Пароль"
 
 #: camel/camel-sasl-popb4smtp.c:34
 msgid "POP before SMTP"
-msgstr ""
+msgstr "POP перед SMTP"
 
 #: camel/camel-sasl-popb4smtp.c:36
 msgid "This option will authorise a POP connection before attempting SMTP"
-msgstr ""
+msgstr "За допомогою цього параметру з'╓днання POP в╕дбуватиметься перед SMTP"
 
 #: camel/camel-sasl-popb4smtp.c:107
 #, fuzzy
@@ -5650,9 +5649,9 @@ msgid "URL '%s' needs a path component"
 msgstr ""
 
 #: camel/camel-service.c:612
-#, fuzzy, c-format
+#, c-format
 msgid "Resolving: %s"
-msgstr "Перев╕рка \"%s\""
+msgstr "Розв'язання: %s"
 
 #: camel/camel-service.c:639
 #, c-format
@@ -5894,18 +5893,16 @@ msgid "Checking for new mail"
 msgstr ""
 
 #: camel/providers/imap/camel-imap-provider.c:45
-#, fuzzy
 msgid "Check for new messages in all folders"
-msgstr "Зберегти пов╕домлення у вказан╕й тец╕"
+msgstr ""
 
 #: camel/providers/imap/camel-imap-provider.c:48 shell/e-shell-view.c:840
 msgid "Folders"
 msgstr "Теки"
 
 #: camel/providers/imap/camel-imap-provider.c:50
-#, fuzzy
 msgid "Show only subscribed folders"
-msgstr "При╓днатись до теки \"%s\""
+msgstr "Показувати лише передплачен╕ теки"
 
 #: camel/providers/imap/camel-imap-provider.c:52
 msgid "Override server-supplied folder namespace"
@@ -5950,7 +5947,7 @@ msgstr ""
 #: camel/providers/imap/camel-imap-store.c:566
 #: camel/providers/smtp/camel-smtp-transport.c:431
 msgid "You didn't enter a password."
-msgstr ""
+msgstr "Ви не ввели пароль."
 
 #: camel/providers/imap/camel-imap-store.c:592
 #, c-format
@@ -6277,7 +6274,7 @@ msgstr "Не вдалося отримати теку: %s: %s"
 #: camel/providers/local/camel-mbox-summary.c:503
 #: camel/providers/local/camel-mbox-summary.c:704
 #: camel/providers/local/camel-spool-summary.c:649
-#, fuzzy, c-format
+#, c-format
 msgid "Could not open file: %s: %s"
 msgstr "Не вдалося в╕дкрити файл %s: %s"
 
@@ -6365,9 +6362,9 @@ msgid "Spool `%s' does not exist or is not a regular file"
 msgstr "\"%s\" не ╓ звичайним файлом."
 
 #: camel/providers/local/camel-spool-store.c:142
-#, fuzzy, c-format
+#, c-format
 msgid "Folder `%s/%s' does not exist."
-msgstr "Теки \"%s\" не ╕сну╓."
+msgstr "Теки \"%s/%s\" не ╕сну╓."
 
 #: camel/providers/local/camel-spool-store.c:164
 #, fuzzy, c-format
