@@ -1,3 +1,10 @@
+2000-04-23  Dan Winship  <danw@helixcode.com>
+
+	* Makefile.am: build libcomposer static and don't install it.
+
+	* e-msg-composer-attachment-bar.c (attach_to_multipart): This was
+	only half-implemented. Finish it, mostly.
+
 2000-04-22  Dan Winship  <danw@helixcode.com>
 
 	* e-msg-composer.c (e_msg_composer_add_header): new function to

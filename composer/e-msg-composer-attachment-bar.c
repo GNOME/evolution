@@ -26,6 +26,8 @@
 
 #include "e-msg-composer-attachment.h"
 #include "e-msg-composer-attachment-bar.h"
+#include "camel/camel-simple-data-wrapper.h"
+#include "camel/camel-stream-fs.h"
 
 
 #define ICON_WIDTH 64
@@ -603,19 +605,32 @@ attach_to_multipart (CamelMultipart *multipart,
 		     EMsgComposerAttachment *attachment)
 {
 	CamelMimeBodyPart *part;
-
-	/* FIXME encoding etc. etc. ? */
-	/* FIXME I am not sure how to add an attachment through the Camel
-           API. :-/ */
+	CamelDataWrapper *content;
+	CamelStream *stream;
+	char *filename;
 
 	part = camel_mime_body_part_new ();
 	camel_mime_part_set_disposition (CAMEL_MIME_PART (part), "attachment");
-	camel_mime_part_set_filename (CAMEL_MIME_PART (part),
-			      g_strdup (g_basename (attachment->file_name)));
+	filename = g_basename (attachment->file_name);
+	camel_mime_part_set_filename (CAMEL_MIME_PART (part), filename);
+	g_free (filename);
 	camel_mime_part_set_description (CAMEL_MIME_PART (part),
-					 g_strdup (attachment->description));
-	camel_data_wrapper_set_mime_type (CAMEL_DATA_WRAPPER (part),
-					  g_strdup (attachment->mime_type));
+					 attachment->description);
+	camel_mime_part_set_content_type (CAMEL_MIME_PART (part),
+					  attachment->mime_type);
+
+	content = CAMEL_DATA_WRAPPER (gtk_object_new (CAMEL_SIMPLE_DATA_WRAPPER_TYPE,
+						      NULL));
+	camel_data_wrapper_set_mime_type (content, attachment->mime_type);
+	stream = camel_stream_fs_new_with_name (attachment->file_name,
+						CAMEL_STREAM_FS_READ);
+	camel_data_wrapper_construct_from_stream (content, stream);
+	camel_stream_close (stream);
+	camel_medium_set_content_object (CAMEL_MEDIUM (part), content);
+
+	/* FIXME: What about Content-Transfer-Encoding? */
+
+	camel_multipart_add_part (multipart, part);
 }
 
 void

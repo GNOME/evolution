@@ -6,7 +6,8 @@ glade_DATA =					\
 
 libcomposerincludedir = $(includedir)/composer
 
-lib_LTLIBRARIES = libcomposer.la
+noinst_LTLIBRARIES = libcomposer.la
+libcomposer_la_LDFLAGS = -static
 
 INCLUDES =					\
 	-I$(top_srcdir)				\
