@@ -1,3 +1,8 @@
+2003-10-21  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* em-format.c (emf_multipart_mixed): Put an <hr> between parts of
+	a multipart.
+
 2003-10-21  Not Zed  <NotZed@Ximian.com>
 
 	* mail-component.c (emc_popup_properties): implement.

@@ -974,9 +974,8 @@ emf_multipart_mixed(EMFormat *emf, CamelStream *stream, CamelMimePart *part, con
 	
 	nparts = camel_multipart_get_number(mp);	
 	for (i = 0; i < nparts; i++) {
-		/* FIXME: separate part markers ...
 		if (i != 0)
-		camel_stream_printf(stream, "<hr>\n");*/
+			camel_stream_printf (stream, "<hr>\n");
 		
 		part = camel_multipart_get_part(mp, i);
 		em_format_part(emf, stream, part);
@@ -996,7 +995,7 @@ emf_multipart_alternative(EMFormat *emf, CamelStream *stream, CamelMimePart *par
 		return;
 	}
 
-	/* as pre rfc, find the last part we know how to display */
+	/* as per rfc, find the last part we know how to display */
 	nparts = camel_multipart_get_number(mp);
 	for (i = 0; i < nparts; i++) {
 		CamelMimePart *part = camel_multipart_get_part(mp, i);
