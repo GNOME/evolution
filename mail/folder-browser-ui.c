@@ -552,6 +552,9 @@ folder_browser_ui_set_selection_state (FolderBrowser *fb, FolderBrowserSelection
 
 		"EditCut", "EditCopy", "EditPaste", "ViewHideSelected",
 
+		"MailNext", "MailNextFlagged", "MailNextUnread", "MailNextThread",
+		"MailPrevious", "MailPreviousFlagged", "MailPreviousUnread",
+
 		NULL
 	};
 
@@ -563,12 +566,6 @@ folder_browser_ui_set_selection_state (FolderBrowser *fb, FolderBrowserSelection
 		"ToolsFilterMailingList", "ToolsFilterRecipient", "ToolsFilterSender",
 		"ToolsFilterSubject", "ToolsVFolderMailingList", "ToolsVFolderRecipient", 
 		"ToolsVFolderSender", "ToolsVFolderSubject",
-
-		/* moving around -- if we have more than one message selected, it
-		 * doesn't behave very. If people complain, it isn't a problem
-		 * to put these commands in none_disables tho. */
-		"MailNext", "MailNextFlagged", "MailNextUnread", "MailNextThread",
-		"MailPrevious", "MailPreviousFlagged", "MailPreviousUnread",
 
 		NULL
 	};

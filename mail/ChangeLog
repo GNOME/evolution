@@ -1,3 +1,9 @@
+2001-12-04  Jon Trowbridge  <trow@ximian.com>
+
+        * folder-browser-ui.c (folder_browser_ui_set_selection_state):
+        Allow 'n' and 'p' to work when multiple messages are selected.
+        Fixes #12062.
+
 2001-11-28  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-callbacks.c (save_msg_ok): If the path exists, make sure
