@@ -5112,8 +5112,7 @@ e_day_view_key_press (GtkWidget *widget, GdkEventKey *event)
 
 	/* Add a new event covering the selected range */
 
-	comp = cal_component_new ();
-	cal_component_set_new_vtype (comp, CAL_COMPONENT_EVENT);
+	comp = cal_comp_event_new_with_defaults ();
 
 	e_day_view_get_selected_time_range (day_view, &dtstart, &dtend);
 

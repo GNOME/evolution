@@ -46,4 +46,6 @@ ConfirmDeleteEmptyCompResult cal_comp_confirm_delete_empty_comp (CalComponent *c
 								 CalClient *client,
 								 GtkWidget *widget);
 
+CalComponent *cal_comp_event_new_with_defaults (void);
+
 #endif

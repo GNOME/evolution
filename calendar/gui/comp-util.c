@@ -23,6 +23,7 @@
 #include <config.h>
 #endif
 
+#include "calendar-config.h"
 #include "comp-util.h"
 #include "dialogs/delete-comp.h"
 
@@ -230,4 +231,70 @@ cal_comp_confirm_delete_empty_comp (CalComponent *comp, CalClient *client, GtkWi
 		return EMPTY_COMP_REMOVED_FROM_SERVER;
 	} else
 		return EMPTY_COMP_DO_NOT_REMOVE;
+}
+
+/**
+ * cal_comp_event_new_with_defaults:
+ * 
+ * Creates a new VEVENT component and adds any default alarms to it as set in
+ * the program's configuration values.
+ * 
+ * Return value: A newly-created calendar component.
+ **/
+CalComponent *
+cal_comp_event_new_with_defaults (void)
+{
+	CalComponent *comp;
+	int interval;
+	CalUnits units;
+	CalComponentAlarm *alarm;
+	CalAlarmTrigger trigger;
+
+	comp = cal_component_new ();
+
+	cal_component_set_new_vtype (comp, CAL_COMPONENT_EVENT);
+
+	if (!calendar_config_get_use_default_reminder ())
+		return comp;
+
+	interval = calendar_config_get_default_reminder_interval ();
+	units = calendar_config_get_default_reminder_units ();
+
+	alarm = cal_component_alarm_new ();
+
+	/* We don't set the description of the alarm; we'll copy it from the
+	 * summary when it gets committed to the server.
+	 */
+
+	cal_component_alarm_set_action (alarm, CAL_ALARM_DISPLAY);
+
+	trigger.type = CAL_ALARM_TRIGGER_RELATIVE_START;
+
+	memset (&trigger.u.rel_duration, 0, sizeof (trigger.u.rel_duration));
+
+	trigger.u.rel_duration.is_neg = TRUE;
+
+	switch (units) {
+	case CAL_MINUTES:
+		trigger.u.rel_duration.minutes = interval;
+		break;
+
+	case CAL_HOURS:	
+		trigger.u.rel_duration.hours = interval;
+		break;
+
+	case CAL_DAYS:	
+		trigger.u.rel_duration.days = interval;
+		break;
+
+	default:
+		g_assert_not_reached ();
+	}
+
+	cal_component_alarm_set_trigger (alarm, trigger);
+
+	cal_component_add_alarm (comp, alarm);
+	cal_component_alarm_free (alarm);
+
+	return comp;
 }

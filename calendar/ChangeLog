@@ -1,3 +1,44 @@
+2001-10-30  Federico Mena Quintero  <federico@ximian.com>
+
+	* gui/dialogs/delete-comp.c (delete_component_dialog): Use an
+	EMessageBox instead of a gnome_dialog_question so that the label
+	gets line breaking.  Fixes bug #11260.
+
+2001-10-29  Federico Mena Quintero  <federico@ximian.com>
+
+	Fix bug #13649.
+
+	* gui/calendar-config.c
+	(calendar_config_get_use_default_reminder): New function.
+	(calendar_config_set_use_default_reminder): New function.
+	(calendar_config_get_default_reminder_interval): New function.
+	(calendar_config_set_default_reminder_interval): New function.
+	(calendar_config_get_default_reminder_units): New function.
+	(calendar_config_set_default_reminder_units): New function.
+	(config_read): Get the options for default reminders.
+	(calendar_config_write): Set the options for default reminders.
+
+	* gui/dialogs/cal-prefs-dialog.c (cal_prefs_dialog_show_config):
+	Set the default reminder widgets from the config values.
+	(cal_prefs_dialog_update_config): Set the config values from the
+	widgets.
+
+	* gui/comp-util.c (cal_comp_event_new_with_defaults): New
+	function; creates a VEVENT component with the default alarm.
+
+	* gui/e-day-view.c (e_day_view_key_press): Use
+	cal_comp_event_new_with_defaults ();
+
+	* gui/e-week-view.c (e_week_view_key_press): Likewise.
+	* gui/calendar-model.c (calendar_model_append_row): Likewise.
+	* gui/comp-editor-factory.c (get_default_component): Likewise.
+	* gui/gnome-cal.c (gnome_calendar_new_appointment_for): Likewise.
+
+	* cal-util/cal-component.c (ensure_alarm_properties_cb): Ensure we
+	have a DESCRIPTION property.
+	(cal_component_commit_sequence): Ensure we have the mandatory
+	alarm properties.
+
 2001-10-30  JP Rosevear  <jpr@ximian.com>
 
 	* gui/e-meeting-model.c (process_section): process an individual

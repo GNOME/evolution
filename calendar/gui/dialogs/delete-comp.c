@@ -25,10 +25,9 @@
 #include <glib.h>
 #include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
-#include <libgnomeui/gnome-dialog.h>
-#include <libgnomeui/gnome-dialog-util.h>
-#include <libgnomeui/gnome-uidefs.h>
+#include <libgnomeui/gnome-stock.h>
 #include <gal/widgets/e-unicode.h>
+#include "widgets/misc/e-messagebox.h"
 #include "../calendar-config.h"
 #include "delete-comp.h"
 
@@ -151,10 +150,15 @@ delete_component_dialog (CalComponent *comp,
 		}
 	}
 
-	dialog = gnome_question_dialog_modal (str, NULL, NULL);
+	dialog = e_message_box_new (str, E_MESSAGE_BOX_QUESTION,
+				    GNOME_STOCK_BUTTON_YES,
+				    GNOME_STOCK_BUTTON_NO,
+				    NULL);
 	g_free (str);
 
-	if (gnome_dialog_run (GNOME_DIALOG (dialog)) == GNOME_YES)
+	gtk_widget_hide (e_message_box_get_checkbox (E_MESSAGE_BOX (dialog)));
+
+	if (gnome_dialog_run_and_close (GNOME_DIALOG (dialog)) == 0)
 		return TRUE;
 	else
 		return FALSE;

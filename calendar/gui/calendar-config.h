@@ -161,6 +161,16 @@ char*	  calendar_config_get_hide_completed_tasks_sexp (void);
 gboolean  calendar_config_get_confirm_delete (void);
 void      calendar_config_set_confirm_delete (gboolean confirm);
 
+/* Default reminder options */
+gboolean calendar_config_get_use_default_reminder (void);
+void     calendar_config_set_use_default_reminder (gboolean value);
+
+int      calendar_config_get_default_reminder_interval (void);
+void     calendar_config_set_default_reminder_interval (int interval);
+
+CalUnits calendar_config_get_default_reminder_units (void);
+void     calendar_config_set_default_reminder_units (CalUnits units);
+
 
 /* Convenience functions to configure common properties of ECalendar,
    EDateEdit & ECalendarTable widgets, and the ECellDateEdit ETable cell. */

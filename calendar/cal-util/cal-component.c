@@ -23,6 +23,9 @@
 #include <string.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <glib.h>
+#include <libgnome/gnome-defs.h>
+#include <libgnome/gnome-i18n.h>
 #include "cal-component.h"
 #include "timeutil.h"
 
@@ -1164,6 +1167,66 @@ cal_component_get_as_string (CalComponent *comp)
 	return buf;
 }
 
+/* Used from g_hash_table_foreach(); ensures that an alarm subcomponent
+ * has the mandatory properties it needs.
+ */
+static void
+ensure_alarm_properties_cb (gpointer key, gpointer value, gpointer data)
+{
+	CalComponent *comp;
+	CalComponentPrivate *priv;
+	icalcomponent *alarm;
+	icalproperty *prop;
+	enum icalproperty_action action;
+	const char *str;
+
+	alarm = value;
+
+	comp = CAL_COMPONENT (data);
+	priv = comp->priv;
+
+	prop = icalcomponent_get_first_property (alarm, ICAL_ACTION_PROPERTY);
+	if (!prop)
+		return;
+
+	action = icalproperty_get_action (prop);
+
+	switch (action) {
+	case ICAL_ACTION_DISPLAY:
+		/* Ensure we have a DESCRIPTION property */
+		prop = icalcomponent_get_first_property (alarm, ICAL_DESCRIPTION_PROPERTY);
+		if (prop)
+			break;
+
+		if (!priv->summary.prop)
+			str = _("Untitled appointment");
+		else
+			str = icalproperty_get_summary (priv->summary.prop);
+
+		prop = icalproperty_new_description (str);
+		icalcomponent_add_property (alarm, prop);
+
+		break;
+
+	default:
+		break;
+		/* FIXME: add other action types here */
+	}
+}
+
+/* Ensures that alarm subcomponents have the mandatory properties they need,
+ * even when clients may not have set them properly.
+ */
+static void
+ensure_alarm_properties (CalComponent *comp)
+{
+	CalComponentPrivate *priv;
+
+	priv = comp->priv;
+
+	g_hash_table_foreach (priv->alarm_uid_hash, ensure_alarm_properties_cb, comp);
+}
+
 /**
  * cal_component_commit_sequence:
  * @comp:
@@ -1185,6 +1248,8 @@ cal_component_commit_sequence (CalComponent *comp)
 
 	priv = comp->priv;
 	g_return_if_fail (priv->icalcomp != NULL);
+
+	ensure_alarm_properties (comp);
 
 	if (!priv->need_sequence_inc)
 		return;

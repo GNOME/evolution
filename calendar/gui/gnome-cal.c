@@ -42,6 +42,7 @@
 #include "widgets/menus/gal-view-menus.h"
 #include "dialogs/event-editor.h"
 #include "dialogs/task-editor.h"
+#include "comp-util.h"
 #include "e-day-view.h"
 #include "e-week-view.h"
 #include "evolution-calendar.h"
@@ -2013,10 +2014,7 @@ gnome_calendar_new_appointment_for (GnomeCalendar *cal,
 	else
 		dt.tzid = icaltimezone_get_tzid (priv->zone);
 
-	/* Component type */
-
-	comp = cal_component_new ();
-	cal_component_set_new_vtype (comp, CAL_COMPONENT_EVENT);
+	comp = cal_comp_event_new_with_defaults ();
 
 	/* DTSTART, DTEND */
 

@@ -36,6 +36,7 @@
 #include <cal-util/timeutil.h>
 #include "calendar-commands.h"
 #include "calendar-config.h"
+#include "comp-util.h"
 #include "itip-utils.h"
 #include "calendar-model.h"
 #include "evolution-activity-client.h"
@@ -1350,8 +1351,12 @@ calendar_model_append_row (ETableModel *etm, ETableModel *source, gint row)
 	/* FIXME: This should support other types of components, but for now it
 	 * is only used for the task list.
 	 */
-	comp = cal_component_new ();
-	cal_component_set_new_vtype (comp, priv->new_comp_vtype);
+	if (priv->new_comp_vtype == CAL_COMPONENT_EVENT)
+		comp = cal_comp_event_new_with_defaults ();
+	else {
+		comp = cal_component_new ();
+		cal_component_set_new_vtype (comp, priv->new_comp_vtype);
+	}
 
 	set_categories (comp, e_table_model_value_at(source, CAL_COMPONENT_FIELD_CATEGORIES, row));
 	set_classification (comp, e_table_model_value_at(source, CAL_COMPONENT_FIELD_CLASSIFICATION, row));

@@ -26,6 +26,7 @@
 #include <cal-client/cal-client.h>
 #include "calendar-config.h"
 #include "comp-editor-factory.h"
+#include "comp-util.h"
 #include "dialogs/event-editor.h"
 #include "dialogs/task-editor.h"
 
@@ -349,12 +350,11 @@ get_default_component (CalComponentVType vtype)
 {
 	CalComponent *comp;
 
-	comp = cal_component_new ();
-	cal_component_set_new_vtype (comp, vtype);
-
 	if (vtype == CAL_COMPONENT_EVENT) {
 		struct icaltimetype itt;
 		CalComponentDateTime dt;
+
+		comp = cal_comp_event_new_with_defaults ();
 
 		itt = icaltime_today ();
 
@@ -365,6 +365,9 @@ get_default_component (CalComponentVType vtype)
 		cal_component_set_dtend (comp, &dt);
 
 		cal_component_commit_sequence (comp);
+	} else {
+		comp = cal_component_new ();
+		cal_component_set_new_vtype (comp, vtype);
 	}
 
 	return comp;
