@@ -12,10 +12,10 @@
 #include <gtk/gtksignal.h>
 #include <gnome-xml/parser.h>
 #include <gnome-xml/xmlmemory.h>
-#include "gal/util/e-util.h"
-#include "gal/util/e-xml-utils.h"
+#include <gal/util/e-util.h>
+#include <gal/util/e-xml-utils.h>
 #include "gal-view-menus.h"
-#include "gal-define-views-dialog.h"
+#include <gal/menus/gal-define-views-dialog.h>
 
 #define PARENT_TYPE (gtk_object_get_type())
 
