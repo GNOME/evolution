@@ -221,6 +221,9 @@ static void
 format_sexp (FilterElement *fe, GString *out)
 {
 	FilterInt *fs = (FilterInt *)fe;
+	char *str;
 	
-	g_string_append(out, g_strdup_printf("%d", fs->val));
+	str = g_strdup_printf ("%d", fs->val);
+	g_string_append (out, str);
+	g_free (str);
 }

@@ -1,3 +1,16 @@
+2002-05-16  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* vfoldertypes.xml: Added a label definition.
+
+	* filtertypes.xml: Added a label definition.
+
+	* filter-label.c: New filter widget for labels.
+
+	* filter-element.c (filter_element_new_type_name): Add support for
+	the new label widget.
+
+	* filter-int.c (format_sexp): Fixed a memory leak.
+
 2002-05-09  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* filter-file.c (get_widget): Set the path in the entry widget.

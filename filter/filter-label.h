@@ -21,8 +21,8 @@
  */
 
 
-#ifndef __FILTER_FILE_H__
-#define __FILTER_FILE_H__
+#ifndef __FILTER_LABEL__
+#define __FILTER_LABEL__
 
 #ifdef __cplusplus
 extern "C" {
@@ -31,22 +31,20 @@ extern "C" {
 
 #include "filter-element.h"
 
-#define FILTER_FILE(obj)         GTK_CHECK_CAST (obj, filter_file_get_type (), FilterFile)
-#define FILTER_FILE_CLASS(klass) GTK_CHECK_CLASS_CAST (klass, filter_file_get_type (), FilterFileClass)
-#define IS_FILTER_FILE(obj)      GTK_CHECK_TYPE (obj, filter_file_get_type ())
+#define FILTER_LABEL(obj)         GTK_CHECK_CAST (obj, filter_label_get_type (), FilterLabel)
+#define FILTER_LABEL_CLASS(klass) GTK_CHECK_CLASS_CAST (klass, filter_label_get_type (), FilterLabelClass)
+#define IS_FILTER_LABEL(obj)      GTK_CHECK_TYPE (obj, filter_label_get_type ())
 
-typedef struct _FilterFile	FilterFile;
-typedef struct _FilterFileClass	FilterFileClass;
+typedef struct _FilterLabel FilterLabel;
+typedef struct _FilterLabelClass FilterLabelClass;
 
-struct _FilterFile {
+struct _FilterLabel {
 	FilterElement parent;
-	struct _FilterFilePrivate *priv;
 	
-	char *type;
-	char *path;
+	int label;
 };
 
-struct _FilterFileClass {
+struct _FilterLabelClass {
 	FilterElementClass parent_class;
 	
 	/* virtual methods */
@@ -54,17 +52,14 @@ struct _FilterFileClass {
 	/* signals */
 };
 
-GtkType filter_file_get_type (void);
+GtkType filter_label_get_type (void);
 
-FilterFile *filter_file_new (void);
+FilterLabel *filter_label_new (void);
 
-FilterFile *filter_file_new_type_name (const char *type);
-
-/* methods */
-void filter_file_set_path (FilterFile *file, const char *path);
+void filter_label_set_label (FilterLabel *filter, int label);
 
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */
 
-#endif /* ! __FILTER_FILE_H__ */
+#endif /* __FILTER_LABEL__ */

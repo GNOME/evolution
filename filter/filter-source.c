@@ -358,7 +358,7 @@ filter_source_get_sources (FilterSource *fs)
 	
 	len = bonobo_config_get_long_with_default (db, "/Mail/Accounts/num", 0, NULL);
 	
-	for (i = 0; i < len; ++i) {
+	for (i = 0; i < len; i++) {
 		char *path, *account_name, *name, *addr, *uri;
 		CamelURL *url;
 		

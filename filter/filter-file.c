@@ -28,7 +28,6 @@
 #include <string.h>
 #include <sys/types.h>
 #include <sys/stat.h>
-#include <regex.h>
 #include <gtk/gtkobject.h>
 #include <gtk/gtkwidget.h>
 
@@ -289,7 +288,7 @@ get_widget (FilterElement *fe)
 	gnome_file_entry_set_modal (GNOME_FILE_ENTRY (fileentry), TRUE);
 	
 	entry = gnome_file_entry_gtk_entry (GNOME_FILE_ENTRY (fileentry));
-	e_utf8_gtk_entry_set_text (entry, file->path);
+	e_utf8_gtk_entry_set_text (GTK_ENTRY (entry), file->path);
 	
 	gtk_signal_connect (GTK_OBJECT (entry), "changed", entry_changed, fe);
 	

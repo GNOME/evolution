@@ -33,6 +33,7 @@ char *s = N_("is greater than");
 char *s = N_("is less than");
 char *s = N_("is not");
 char *s = N_("is not Flagged");
+char *s = N_("Label");
 char *s = N_("Mailing list");
 char *s = N_("Message Body");
 char *s = N_("Message Header");
