@@ -311,11 +311,7 @@ inline_cb (GtkWidget *widget, gpointer user_data)
 	MailDisplay *md = gtk_object_get_data (user_data, "MailDisplay");
 	CamelMimePart *part = gtk_object_get_data (user_data, "CamelMimePart");
 
-	if (mail_part_is_inline (part))
-		camel_mime_part_set_disposition (part, "attachment");
-	else
-		camel_mime_part_set_disposition (part, "inline");
-
+	mail_part_toggle_displayed (part, md);
 	mail_display_queue_redisplay (md);
 }
 
@@ -330,11 +326,7 @@ button_press (GtkWidget *widget, CamelMimePart *part)
 		return;
 	}
 
-	if (mail_part_is_inline (part))
-		camel_mime_part_set_disposition (part, "attachment");
-	else
-		camel_mime_part_set_disposition (part, "inline");
-
+	mail_part_toggle_displayed (part, md);
 	mail_display_queue_redisplay (md);
 }
 
@@ -348,6 +340,7 @@ pixmap_press (GtkWidget *widget, GdkEventButton *event, EScrollFrame *user_data)
 				 GTK_SIGNAL_FUNC (inline_cb), NULL, 2 };
 	EPopupMenu open_item = { N_("Open in %s..."), NULL,
 				 GTK_SIGNAL_FUNC (launch_cb), NULL, 1 };
+	MailDisplay *md;
 	CamelMimePart *part;
 	MailMimeHandler *handler;
 	int mask = 0, i, nitems;
@@ -383,7 +376,9 @@ pixmap_press (GtkWidget *widget, GdkEventButton *event, EScrollFrame *user_data)
 	/* Inline view item */
 	memcpy (&menu[1], &view_item, sizeof (menu[1]));
 	if (handler && handler->builtin) {
-		if (!mail_part_is_inline (part)) {
+		md = gtk_object_get_data (GTK_OBJECT (widget), "MailDisplay");
+
+		if (!mail_part_is_displayed_inline (part, md)) {
 			if (handler->component) {
 				OAF_Property *prop;
 				char *name;
@@ -833,7 +828,7 @@ on_object_requested (GtkHTML *html, GtkHTMLEmbedded *eb, gpointer data)
 		hbox = gtk_hbox_new (FALSE, 2);
 		gtk_container_set_border_width (GTK_CONTAINER (hbox), 2);
 
-		if (mail_part_is_inline (CAMEL_MIME_PART (medium))) {
+		if (mail_part_is_displayed_inline (CAMEL_MIME_PART (medium), md)) {
 			arrow = gnome_stock_new_with_icon (GNOME_STOCK_PIXMAP_DOWN);
 		} else {
 			arrow = gnome_stock_new_with_icon (GNOME_STOCK_PIXMAP_FORWARD);

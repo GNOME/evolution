@@ -1,3 +1,22 @@
+2001-07-10  Peter Williams  <peterw@ximian.com>
+
+	* mail-format.c (attachment_header): Took the logic of whether or not
+	to make the attachment header out of the actual function.
+	(mail_part_is_displayed_inline): Return if the part is being displayed
+	inline (regardless of whether it is actually inline).
+	(mail_part_toggle_displayed): Toggle whether it's displayed inline or not.
+	(get_inline_flags): Determine whether the part is displayed inline and whether
+	it is actually inline.
+	(mail_format_mime_message): Initialize the attachment_status hash table.
+
+	* mail-display.c (inline_cb): Instead of modifying the CamelMimePart,
+	use mail_part_toggle_displayed
+	(button_press): As above.
+	(pixmap_press): Use mail_part_is_displayed_inline instead of
+	mail_part_is_inline. Get the MailDisplay from the popup to do this.
+
+	* mail.h: Add prototypes.
+
 2001-07-10  JP Rosevear  <jpr@ximian.com>
 
 	* Makefile.am: extra dist the news files

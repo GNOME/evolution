@@ -169,6 +169,14 @@ mail_format_mime_message (CamelMimeMessage *mime_message, MailDisplay *md)
 					  free_data_urls);
 	}
 
+	/* ok, so they're not urls. so sue me. */
+	urls = g_datalist_get_data (md->data, "attachment_states");
+	if (!urls) {
+		urls = g_hash_table_new (g_direct_hash, g_direct_equal);
+		g_datalist_set_data_full (md->data, "attachment_states", urls,
+					  (GDestroyNotify) g_hash_table_destroy);
+	}
+
 	write_headers (mime_message, md);
 	format_mime_part (CAMEL_MIME_PART (mime_message), md);
 }
@@ -512,16 +520,73 @@ mail_part_is_inline (CamelMimePart *part)
 	return anon;
 }
 
+enum inline_states {
+	I_VALID     = (1 << 0),
+	I_ACTUALLY  = (1 << 1),
+	I_DISPLAYED = (1 << 2)
+};
+
+static gint
+get_inline_flags (CamelMimePart *part, MailDisplay *md)
+{
+	GHashTable *asht;
+	gint val;
+
+	/* check if we already know. */
+
+	asht = g_datalist_get_data (md->data, "attachment_states");
+	val = GPOINTER_TO_INT (g_hash_table_lookup (asht, part));
+	if (val)
+		return val;
+
+	/* ok, we don't know. Figure it out. */
+
+	if (mail_part_is_inline (part))
+		val = (I_VALID | I_ACTUALLY | I_DISPLAYED);
+	else
+		val = (I_VALID);
+
+	g_hash_table_insert (asht, part, GINT_TO_POINTER (val));
+
+	return val;
+}
+
+gboolean
+mail_part_is_displayed_inline (CamelMimePart *part, MailDisplay *md)
+{
+	return (gboolean) (get_inline_flags (part, md) & I_DISPLAYED);
+}
+
+void
+mail_part_toggle_displayed (CamelMimePart *part, MailDisplay *md)
+{
+	GHashTable *asht = g_datalist_get_data (md->data, "attachment_states");
+	gint state;
+	
+	state = GPOINTER_TO_INT (g_hash_table_lookup (asht, part));
+
+	if (state & I_DISPLAYED) { 
+		/*printf ("** part %p, hiding\n", part);*/
+		state &= ~I_DISPLAYED;
+	} else {
+		if (state == 0) {
+			/*printf ("** part %p: uninitialized attachment state! Showing.", part);*/
+			state |= I_VALID;
+		}
+
+		printf ("** part %p, showing\n", part);
+		state |= I_DISPLAYED;
+	}
+
+	g_hash_table_insert (asht, part, GINT_TO_POINTER (state));
+}
+
+
 static void
-attachment_header (CamelMimePart *part, const char *mime_type,
-		   gboolean is_inline, MailDisplay *md)
+attachment_header (CamelMimePart *part, const char *mime_type, MailDisplay *md)
 {
 	const char *info;
 	char *htmlinfo;
-
-	/* No header for anonymous inline parts. */
-	if (is_inline && is_anonymous (part, mime_type))
-		return;
 
 	/* Start the table, create the pop-up object. */
 	mail_html_write (md->html, md->stream,
@@ -573,7 +638,8 @@ format_mime_part (CamelMimePart *part, MailDisplay *md)
 	CamelDataWrapper *wrapper;
 	char *mime_type;
 	MailMimeHandler *handler;
-	gboolean output, is_inline;
+	gboolean output;
+	int inline_flags;
 
 	/* Record URLs associated with this part */
 	get_cid (part, md);
@@ -613,9 +679,13 @@ format_mime_part (CamelMimePart *part, MailDisplay *md)
 		}
 	}
 
-	is_inline = mail_part_is_inline (part);
-	attachment_header (part, mime_type, is_inline, md);
-	if (handler && handler->builtin && is_inline &&
+	inline_flags = get_inline_flags (part, md);
+
+	/* No header for anonymous inline parts. */
+	if (!((inline_flags & I_ACTUALLY) && is_anonymous (part, mime_type)))
+		attachment_header (part, mime_type, md);
+
+	if (handler && handler->builtin && inline_flags & I_DISPLAYED &&
 	    mail_content_loaded (wrapper, md))
 		output = (*handler->builtin) (part, mime_type, md);
 	else

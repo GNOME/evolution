@@ -54,6 +54,8 @@ typedef struct {
 MailMimeHandler *mail_lookup_handler (const char *mime_type);
 
 gboolean mail_part_is_inline (CamelMimePart *part);
+gboolean mail_part_is_displayed_inline (CamelMimePart *part, MailDisplay *md);
+void     mail_part_toggle_displayed (CamelMimePart *part, MailDisplay *md);
 
 char *mail_get_message_body (CamelDataWrapper *data, gboolean want_plain,
 			     gboolean *is_html);
