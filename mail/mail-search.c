@@ -45,10 +45,7 @@ static void
 mail_search_finalise (GObject *obj)
 {
 	MailSearch *ms = MAIL_SEARCH (obj);
-	
-	g_signal_handler_disconnect(ms->mail->html->engine->ht, ms->match_handler);
-	g_signal_handler_disconnect(ms->mail->html->engine->ht, ms->begin_handler);
-	
+
 	g_free (ms->last_search);
 	g_object_unref (ms->mail);
 	
@@ -60,9 +57,14 @@ mail_search_destroy (GtkObject *obj)
 {
 	MailSearch *ms = (MailSearch *) obj;
 	ESearchingTokenizer *st = mail_search_tokenizer (ms);
-	
-	e_searching_tokenizer_set_primary_search_string (st, NULL);
-	mail_search_redisplay_message (ms);
+
+	if (ms->begin_handler) {
+		g_signal_handler_disconnect(ms->mail->html->engine->ht, ms->match_handler);
+		g_signal_handler_disconnect(ms->mail->html->engine->ht, ms->begin_handler);
+		ms->begin_handler = 0;
+		e_searching_tokenizer_set_primary_search_string (st, NULL);
+		mail_search_redisplay_message (ms);
+	}
 	
 	GTK_OBJECT_CLASS (parent_class)->destroy (obj);
 }
