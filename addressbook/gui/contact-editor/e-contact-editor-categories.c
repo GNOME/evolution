@@ -245,7 +245,7 @@ e_contact_editor_categories_init (EContactEditorCategories *categories)
 	gnome_dialog_append_button ( GNOME_DIALOG(categories),
 				     GNOME_STOCK_BUTTON_CANCEL);
 
-	gtk_window_set_policy(GTK_WINDOW(categories), TRUE, TRUE, FALSE);
+	gtk_window_set_policy(GTK_WINDOW(categories), FALSE, TRUE, FALSE);
 
 	categories->categories = NULL;
 	gui = glade_xml_new (EVOLUTION_GLADEDIR "/categories.glade", NULL);
