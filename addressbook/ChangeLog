@@ -1,5 +1,10 @@
 2000-05-09  Christopher James Lahey  <clahey@helixcode.com>
 
+	* backend/pas/pas-backend-file.c: Added a default card to all new
+	file backends.
+
+2000-05-09  Christopher James Lahey  <clahey@helixcode.com>
+
 	* gui/component/e-addressbook-model.c: Rearranged order of things
 	getting destroyed.
 

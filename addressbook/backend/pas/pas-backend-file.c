@@ -466,25 +466,25 @@ pas_backend_file_search (PASBackendFile  	*bf,
 	g_list_free (cards);
 }
 
-static void
-pas_backend_file_process_create_card (PASBackend *backend,
-				      PASBook    *book,
-				      PASRequest *req)
+static char *
+do_create(PASBackend *backend,
+	  char       *vcard_req,
+	  char      **vcard_ptr)
 {
 	PASBackendFile *bf = PAS_BACKEND_FILE (backend);
 	DB             *db = bf->priv->file_db;
 	DBT            id_dbt, vcard_dbt;
 	int            db_error;
 	char           *id;
-	GList         *list;
-	ECard         *card;
-	char          *vcard;
+	ECard          *card;
+	char           *vcard;
+	char           *ret_val;
 
-	id = pas_backend_file_create_unique_id (req->vcard);
+	id = pas_backend_file_create_unique_id (vcard_req);
 
 	string_to_dbt (id, &id_dbt);
 	
-	card = e_card_new(req->vcard);
+	card = e_card_new(vcard_req);
 	e_card_set_id(card, id);
 	vcard = e_card_get_vcard(card);
 
@@ -496,18 +496,48 @@ pas_backend_file_process_create_card (PASBackend *backend,
 		db_error = db->sync (db, 0);
 		if (db_error != 0)
 			g_warning ("db->sync failed.\n");
+		ret_val = id;
 
+	}
+	else {
+		ret_val = NULL;
+	}
+
+	gtk_object_unref(GTK_OBJECT(card));
+	card = NULL;
+
+	if (vcard_ptr && ret_val)
+		*vcard_ptr = vcard;
+	else
+		g_free (vcard);
+
+	return ret_val;
+}
+
+static void
+pas_backend_file_process_create_card (PASBackend *backend,
+				      PASBook    *book,
+				      PASRequest *req)
+{
+	char *id;
+	char *vcard;
+	GList          *list;
+	PASBackendFile *bf = PAS_BACKEND_FILE (backend);
+
+	id = do_create(backend, req->vcard, &vcard);
+	if (id) {
 		for (list = bf->priv->book_views; list; list = g_list_next(list)) {
 			PASBackendFileBookView *view = list->data;
 			if (vcard_matches_search (view, vcard))
-				pas_book_view_notify_add_1 (view->book_view, req->vcard);
+				pas_book_view_notify_add_1 (view->book_view, vcard);
 		}
 
 		pas_book_respond_create (
 				 book,
 				 Evolution_BookListener_Success,
 				 id);
-
+		g_free(vcard);
+		g_free(id);
 	}
 	else {
 		/* XXX need a different call status for this case, i
@@ -518,12 +548,7 @@ pas_backend_file_process_create_card (PASBackend *backend,
 				 "");
 	}
 
-	g_free (id);
-	g_free (vcard);
-	g_free (req->vcard);
-
-	gtk_object_unref(GTK_OBJECT(card));
-	card = NULL;
+	g_free(req->vcard);
 }
 
 static void
@@ -928,6 +953,17 @@ pas_backend_file_maybe_upgrade_db (PASBackendFile *bf)
 	return ret_val;
 }
 
+#define INITIAL_VCARD "BEGIN:VCARD\n\
+X-EVOLUTION-FILE-AS:Helix Code, Inc.\n\
+LABEL;WORK;QUOTED-PRINTABLE:101 Rogers St. Ste. 214=0ACambridge, MA 02142=0AUSA\n\
+TEL;WORK;VOICE:(617) 679-1984\n\
+TEL;WORK;FAX:(617) 679-1949\n\
+EMAIL;INTERNET:hello@helixcode.com\n\
+URL:http://www.helixcode.com/\n\
+ORG:Helix Code, Inc.;\n\
+NOTE:Welcome to the Helix Code Addressbook.\n\
+END:VCARD"
+
 static gboolean
 pas_backend_file_load_uri (PASBackend             *backend,
 			   const char             *uri)
@@ -939,7 +975,16 @@ pas_backend_file_load_uri (PASBackend             *backend,
 
 	filename = pas_backend_file_extract_path_from_uri (uri);
 
-	bf->priv->file_db = dbopen (filename, O_RDWR | O_CREAT, 0666, DB_HASH, NULL);
+	bf->priv->file_db = dbopen (filename, O_RDWR, 0666, DB_HASH, NULL);
+	if (bf->priv->file_db == NULL) {
+		bf->priv->file_db = dbopen (filename, O_RDWR | O_CREAT, 0666, DB_HASH, NULL);
+
+		if (bf->priv->file_db) {
+			char *id;
+			id = do_create(backend, INITIAL_VCARD, NULL);
+			g_free (id);
+		}
+	}
 
 	g_free (filename);
 
