@@ -1,3 +1,34 @@
+2000-03-12  Federico Mena Quintero  <federico@helixcode.com>
+
+	* gui/main.c (gnome_calendar_locate): Removed function now that it
+	is no CORBA server in the GUI.
+	(save_default_calendar): Removed function.  Now the personal
+	calendar server will take care of saving modified calendars when
+	appropriate.
+	(close_cmd): Do not call unregister_calendar_services().
+
+	* gui/eventedit.c (ee_ok): Do not save the calendar.
+
+	* gui/gncal-day-panel.c (day_view_range_activated): Likewise.
+
+	* gui/gncal-todo.c (ok_button): Likewise.
+	(delete_todo): Likewise.
+
+	* gui/gncal-full-day.c (delete_occurance): Likewise.
+	(delete_appointment): Likewise.
+	(unrecur_appointment): Likewise.
+	(child_focus_out): Likewise.
+	(update_from_drag_info): Likewise.
+
+	* gui/gnome-cal.c (gnome_calendar_new): Removed obsolete call to
+	create the CORBA server.
+
+	* gui/gnome-cal.h (GnomeCalendar): Renamed `calc' field to
+	`client'.
+
+	* cal-client/cal-client.h (CalClient): Removed filename and
+	corba_server fields.
+
 2000-03-10  Federico Mena Quintero  <federico@helixcode.com>
 
 	* gui/main.c (main): Do not pass the INIT_SERVER flag to

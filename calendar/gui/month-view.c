@@ -83,7 +83,7 @@ do_quick_view_popup (MonthView *mv, GdkEventButton *event, int day)
 	day_begin_time = time_from_day (mv->year, mv->month, day);
 	day_end_time = time_day_end (day_begin_time);
 
-	list = calendar_get_events_in_range (mv->calendar->calc,
+	list = calendar_get_events_in_range (mv->calendar->client,
 					     day_begin_time, day_end_time);
 
 	strftime (date_str, sizeof (date_str), _("%a %b %d %Y"), localtime (&day_begin_time));

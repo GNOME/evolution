@@ -114,8 +114,7 @@ mark_month_item (GnomeMonthItem *mitem, GnomeCalendar *cal)
 	month_begin = time_month_begin (time_from_day (mitem->year, mitem->month, 1));
 	month_end = time_month_end (month_begin);
 
-	list =
-	  calendar_get_events_in_range (cal->calc, month_begin, month_end);
+	list = calendar_get_events_in_range (cal->client, month_begin, month_end);
 
 	for (l = list; l; l = l->next) {
 		co = l->data;

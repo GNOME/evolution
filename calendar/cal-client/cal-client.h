@@ -24,7 +24,7 @@
 
 #include <libgnome/gnome-defs.h>
 #include <gtk/gtkobject.h>
-#include "cal-util/cal-util.h"
+#include <cal-util/cal-util.h>
 
 BEGIN_GNOME_DECLS
 
@@ -51,9 +51,6 @@ struct _CalClient {
 
 	/* Private data */
 	gpointer priv;
-
-	void *corba_server;
-	gchar *filename;
 };
 
 struct _CalClientClass {

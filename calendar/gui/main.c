@@ -297,31 +297,13 @@ display_objedit_today (GtkWidget *widget, GnomeCalendar *gcal)
 	gtk_widget_show (ee);
 }
 
-GnomeCalendar *
-gnome_calendar_locate (const char *pathname)
-{
-	GList *l;
-
-	if (pathname == NULL || pathname [0] == 0)
-		pathname = user_calendar_file;
-	
-	for (l = all_calendars; l; l = l->next){
-		GnomeCalendar *gcal = l->data;
-
-		if (strcmp (gcal->calc->filename, pathname) == 0){
-			return gcal;
-		}
-	}
-	return NULL;
-}
-
 static void
 close_cmd (GtkWidget *widget, GnomeCalendar *gcal)
 {
 	all_calendars = g_list_remove (all_calendars, gcal);
 
 	/* DELETE
-	   FIX ME -- what do i do here?
+	   FIXME -- what do i do here?
 	if (gcal->cal->modified){
 		if (!gcal->cal->filename)
 			save_calendar_cmd (widget, gcal);
@@ -333,10 +315,8 @@ close_cmd (GtkWidget *widget, GnomeCalendar *gcal)
 	gtk_widget_destroy (GTK_WIDGET (gcal));
 	active_calendars--;
 
-	if (active_calendars == 0){
-		unregister_calendar_services ();
+	if (active_calendars == 0)
 		gtk_main_quit ();
-	}
 }
 
 void
@@ -483,7 +463,7 @@ save_ok (GtkWidget *widget, GtkFileSelection *fs)
 	gtk_window_set_wmclass (GTK_WINDOW (gcal), "gnomecal", "gnomecal");
 
 	fname = g_strdup (gtk_file_selection_get_filename (fs));
-	/* calendar_save (gcal->cal, fname); DELETE / FIX ME*/
+	/* calendar_save (gcal->cal, fname); DELETE / FIXME*/
 	g_free(fname);
 	gtk_main_quit ();
 }
@@ -566,18 +546,6 @@ save_calendar_cmd (GtkWidget *widget, void *data)
 }
 #endif /* 0 */
 
-/*
- * Saves @gcal if it is the default calendar
- */
-void
-save_default_calendar (GnomeCalendar *gcal)
-{
-	if (!gcal->calc->filename)
-		return;
-	
-	/* save_calendar_cmd (NULL, gcal); FIX ME */
-}
-
 static GnomeUIInfo gnome_cal_file_menu [] = {
         GNOMEUIINFO_MENU_NEW_ITEM(N_("_New calendar"),
 				  N_("Create a new calendar"),
@@ -585,7 +553,7 @@ static GnomeUIInfo gnome_cal_file_menu [] = {
 
 	GNOMEUIINFO_MENU_OPEN_ITEM(open_calendar_cmd, NULL),
 
-	/* GNOMEUIINFO_MENU_SAVE_ITEM(save_calendar_cmd, NULL), FIX ME */
+	/* GNOMEUIINFO_MENU_SAVE_ITEM(save_calendar_cmd, NULL), FIXME */
 
 	GNOMEUIINFO_MENU_SAVE_AS_ITEM(save_as_calendar_cmd, NULL),
 
@@ -817,7 +785,7 @@ dump_events (void)
 		printf ("%s -- %s\n", start, end);
 		printf ("  %s\n", co->ico->summary);
 	}
-	/* calendar_destroy_event_list (l); DELETE / FIX ME */
+	/* calendar_destroy_event_list (l); DELETE / FIXME */
 	/* calendar_destroy (cal); DELETE */
 	exit (0);
 }
@@ -980,7 +948,7 @@ session_save_state (GnomeClient *client, gint phase, GnomeRestartStyle save_styl
 		argv [i++] = "--view";
 		argv [i++] = gnome_calendar_get_current_view_name (gcal);
 		free_list = g_list_append (free_list, geometry);
-		/* calendar_save (gcal->cal, gcal->cal->filename); FIX ME */
+		/* calendar_save (gcal->cal, gcal->cal->filename); FIXME */
 	}
 	argv [i] = NULL;
 	gnome_client_set_clone_command (client, i, argv);
@@ -1089,7 +1057,7 @@ main (int argc, char **argv)
 
 
 
-/* FIX ME -- where should this go? */
+/* FIXME -- where should this go? */
 void
 calendar_iterate (GnomeCalendar *cal,
 		  time_t start, time_t end,
@@ -1122,7 +1090,7 @@ calendar_object_compare_by_start (gconstpointer a, gconstpointer b)
 	return (diff < 0) ? -1 : (diff > 0) ? 1 : 0;
 }
 
-/* FIX ME -- where should this (and calendar_object_compare_by_start) go? */
+/* FIXME -- where should this (and calendar_object_compare_by_start) go? */
 /* returns a list of events in the form of CalendarObject* */
 GList *calendar_get_events_in_range (CalClient *calc,
 				     time_t start, time_t end)

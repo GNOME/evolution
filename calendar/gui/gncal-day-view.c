@@ -366,7 +366,6 @@ gncal_day_view_update (GncalDayView *dview, iCalObject *ico, int flags)
 
 	g_return_if_fail (dview != NULL);
 	g_return_if_fail (GNCAL_IS_DAY_VIEW (dview));
-	g_return_if_fail (dview->calendar->calc);
 
 	if (dview->day_str)
 		g_free (dview->day_str);
@@ -380,7 +379,7 @@ gncal_day_view_update (GncalDayView *dview, iCalObject *ico, int flags)
 		calendar_destroy_event_list (dview->events);
 	*/
 
-	dview->events = calendar_get_events_in_range (dview->calendar->calc,
+	dview->events = calendar_get_events_in_range (dview->calendar->client,
 						      dview->lower,
 						      dview->upper);
 

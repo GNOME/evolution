@@ -4,22 +4,25 @@
  *
  * Author: Miguel de Icaza (miguel@kernel.org)
  */
+
 #include <config.h>
-#include <gnome.h>
 #include <unistd.h>
 #include <signal.h>
 #include <sys/wait.h>
 #include <fcntl.h>
+#include <gtk/gtkmain.h>
+#include <gtk/gtknotebook.h>
+#include <libgnomeui/gnome-messagebox.h>
+#include <cal-util/timeutil.h>
 #include "alarm.h"
-/* #include "calendar.h" DELETE */
 #include "gnome-cal.h"
 #include "gncal-day-panel.h"
 #include "gncal-week-view.h"
 #include "month-view.h"
 #include "year-view.h"
-#include "cal-util/timeutil.h"
 #include "main.h"
-#include "corba-cal.h"
+
+
 
 GnomeApp *parent_class;
 
@@ -229,9 +232,8 @@ gnome_calendar_new (char *title)
 
 	gcal->current_display = time_day_begin (time (NULL));
 	/*gcal->cal = calendar_new (title, CALENDAR_INIT_ALARMS); DELETE */
-	gcal->calc = cal_client_new ();
+	gcal->client = cal_client_new ();
 	setup_widgets (gcal);
-	gnome_calendar_create_corba_server (gcal);
 
 	return retval;
 }
@@ -252,8 +254,12 @@ gnome_calendar_load (GnomeCalendar *gcal, char *file)
 	g_return_val_if_fail (GNOME_IS_CALENDAR (gcal), 0);
 	g_return_val_if_fail (file != NULL, 0);
 
+	/* FIXME: connect to the cal_loaded signal fo the CalClient and get the
+	 * asynchronous notification properly!
+	 */
+
 	/* if ((r = calendar_load (gcal->cal, file)) != NULL){ DELETE */
-	if (cal_client_load_calendar (gcal->calc, file) == FALSE){
+	if (cal_client_load_calendar (gcal->client, file) == FALSE){
 		printf ("Error loading calendar: %s\n", file);
 		return 0;
 	}
@@ -271,7 +277,7 @@ gnome_calendar_add_object (GnomeCalendar *gcal, iCalObject *obj)
 
 	/*calendar_add_object (gcal->cal, obj); DELETE */
 	obj_string = ical_object_to_string (obj);
-	cal_client_update_object (gcal->calc, obj->uid, obj_string);
+	cal_client_update_object (gcal->client, obj->uid, obj_string);
 	g_free (obj_string);
 	gnome_calendar_update_all (gcal, obj, CHANGE_NEW);
 }
@@ -286,7 +292,7 @@ gnome_calendar_remove_object (GnomeCalendar *gcal, iCalObject *obj)
 	g_return_if_fail (obj != NULL);
 
 	/* calendar_remove_object (gcal->cal, obj); DELETE */
-	r = cal_client_remove_object (gcal->calc, obj->uid);
+	r = cal_client_remove_object (gcal->client, obj->uid);
 	gnome_calendar_update_all (gcal, obj, CHANGE_ALL);
 }
 
@@ -297,7 +303,7 @@ gnome_calendar_object_changed (GnomeCalendar *gcal, iCalObject *obj, int flags)
 	g_return_if_fail (GNOME_IS_CALENDAR (gcal));
 	g_return_if_fail (obj != NULL);
 
-	/* FIX ME -- i don't know what to do here */
+	/* FIXME -- i don't know what to do here */
 	/* gcal->cal->modified = TRUE; */
 
 	gnome_calendar_update_all (gcal, obj, flags);
@@ -621,5 +627,3 @@ gnome_calendar_todo_properties_changed (GnomeCalendar *gcal)
 	todo_style_changed = 1;
 	todo_list_properties_changed (GNCAL_DAY_PANEL (gcal->day_view));
 }
-
-

@@ -439,7 +439,6 @@ delete_occurance (GtkWidget *widget, gpointer data)
 	*t = child->start;
 	ical->exdate = g_list_prepend(ical->exdate, t);
 	gnome_calendar_object_changed (gcal, child->ico, CHANGE_DATES);
-	save_default_calendar (gcal);
 	
 }
 
@@ -454,7 +453,6 @@ delete_appointment (GtkWidget *widget, gpointer data)
 	fullday = GNCAL_FULL_DAY (child->widget->parent);
 
 	gnome_calendar_remove_object (fullday->calendar, child->ico);
-	save_default_calendar (fullday->calendar);
 }
 
 static void
@@ -479,7 +477,6 @@ unrecur_appointment (GtkWidget *widget, gpointer data)
 	gnome_calendar_object_changed (fullday->calendar, child->ico, CHANGE_ALL);
 
 	gnome_calendar_add_object (fullday->calendar, new);
-	save_default_calendar (fullday->calendar);
 }
 
 static void
@@ -634,7 +631,6 @@ child_focus_out (GtkWidget *widget, GdkEventFocus *event, gpointer data)
 	fullday = GNCAL_FULL_DAY (widget->parent);
 
 	gnome_calendar_object_changed (fullday->calendar, child->ico, CHANGE_SUMMARY);
-	save_default_calendar (fullday->calendar);
 
 	return FALSE;
 }
@@ -1846,7 +1842,6 @@ update_from_drag_info (GncalFullDay *fullday)
 	/* Notify calendar of change */
 
 	gnome_calendar_object_changed (fullday->calendar, di->child->ico, CHANGE_DATES);
-	save_default_calendar (fullday->calendar);
 }
 
 static gint
@@ -2134,7 +2129,7 @@ gncal_full_day_update (GncalFullDay *fullday, iCalObject *ico, int flags)
 	g_return_if_fail (fullday != NULL);
 	g_return_if_fail (GNCAL_IS_FULL_DAY (fullday));
 
-	if (!fullday->calendar->calc)
+	if (!fullday->calendar->client)
 		return;
 
 	/* Try to find child that changed */

@@ -87,7 +87,6 @@ ok_button (GtkWidget *widget, GnomeDialog *dialog)
 	} else 
 		gnome_calendar_object_changed (todo->calendar, ico, CHANGE_ALL); /* ok, summary only... */
 
-	save_default_calendar (todo->calendar);
 	gtk_widget_destroy (GTK_WIDGET (dialog));
 }
 
@@ -282,8 +281,6 @@ static void
 delete_todo (GncalTodo *todo)
 {
 	gnome_calendar_remove_object (todo->calendar, get_clist_selected_ico (todo->clist));
-	save_default_calendar (todo->calendar);
-	
 }
 
 static void
@@ -862,11 +859,11 @@ gncal_todo_update (GncalTodo *todo, iCalObject *ico, int flags)
 	  */
 
 		GList *l, *uids;
-		uids = cal_client_get_uids (todo->calendar->calc,
+		uids = cal_client_get_uids (todo->calendar->client,
 					    CALOBJ_TYPE_EVENT);
 		for (l = uids; l; l = l->next){
 			char *obj_string =
-				cal_client_get_object (todo->calendar->calc,
+				cal_client_get_object (todo->calendar->client,
 						       l->data);
 			iCalObject *obj = string_to_ical_object (obj_string);
 			insert_in_clist (todo, obj);

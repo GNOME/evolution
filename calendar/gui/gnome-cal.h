@@ -2,18 +2,22 @@
  * GnomeCalendar widget
  * Copyright (C) 1998 the Free Software Foundation
  *
- * Author: Miguel de Icaza (miguel@kernel.org)
+ * Authors: Miguel de Icaza (miguel@kernel.org)
+ *          Federico Mena-Quintero <federico@helixcode.com>
  */
 
 #ifndef GNOME_CALENDAR_APP_H
 #define GNOME_CALENDAR_APP_H
 
-#include <gnome.h>
-
-/*#include "calendar.h"*/
-#include "cal-client/cal-client.h"
+#include <time.h>
+#include <libgnome/gnome-defs.h>
+#include <gtk/gtkcalendar.h>
+#include <libgnomeui/gnome-app.h>
+#include <cal-client/cal-client.h>
 
 BEGIN_GNOME_DECLS
+
+
 
 #define GNOME_CALENDAR(obj)         GTK_CHECK_CAST(obj, gnome_calendar_get_type(), GnomeCalendar)
 #define GNOME_CALENDAR_CLASS(class) GTK_CHECK_CAST_CLASS(class, gnome_calendar_get_type(), GnomeCalendarClass)
@@ -21,7 +25,7 @@ BEGIN_GNOME_DECLS
 
 typedef struct {
 	GnomeApp    gnome_app;
-	CalClient   *calc; /* was Calendar *cal; */
+	CalClient   *client;
 	time_t      current_display;
 
 	GtkWidget   *notebook;
@@ -79,6 +83,7 @@ gnome_calendar_colors_changed (GnomeCalendar *gcal);
 void 
 gnome_calendar_todo_properties_changed (GnomeCalendar *gcal);
 
+
 
 END_GNOME_DECLS
 

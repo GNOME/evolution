@@ -307,7 +307,7 @@ do_quick_view_popup (YearView *yv, GdkEventButton *event, int year, int month, i
 	day_start = time_from_day (year, month, day);
 	day_end = time_day_end (day_start);
 
-	list = calendar_get_events_in_range (yv->calendar->calc,
+	list = calendar_get_events_in_range (yv->calendar->client,
 					     day_start, day_end);
 
 	strftime (date_str, sizeof (date_str), _("%a %b %d %Y"), localtime (&day_start));

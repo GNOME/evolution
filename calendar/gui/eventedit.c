@@ -753,7 +753,6 @@ ee_ok (GtkWidget *widget, EventEditor *ee)
 	else
 		gnome_calendar_object_changed (ee->gnome_cal, ee->ical, CHANGE_ALL);
 
-	save_default_calendar (ee->gnome_cal);
 	ee->ical->new = 0;
 }
 

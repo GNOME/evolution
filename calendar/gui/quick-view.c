@@ -6,6 +6,16 @@
  */
 
 #include <config.h>
+#include <gdk_imlib.h>
+#include <gtk/gtkalignment.h>
+#include <gtk/gtkframe.h>
+#include <gtk/gtkhseparator.h>
+#include <gtk/gtklabel.h>
+#include <gtk/gtkmain.h>
+#include <gtk/gtkvbox.h>
+#include <libgnomeui/gnome-canvas.h>
+#include <libgnomeui/gnome-canvas-text.h>
+#include <libgnomeui/gnome-uidefs.h>
 #include "quick-view.h"
 #include "main.h"
 

@@ -8,6 +8,7 @@
 #ifndef GNCAL_DAY_PANEL_H
 #define GNCAL_DAY_PANEL_H
 
+#include <gtk/gtkcalendar.h>
 #include <gtk/gtklabel.h>
 #include <gtk/gtkscrolledwindow.h>
 #include <gtk/gtktable.h>
