@@ -82,7 +82,7 @@ GtkType           e_msg_composer_get_type          (void);
 
 void              e_msg_composer_construct         (EMsgComposer *composer);
 GtkWidget        *e_msg_composer_new               (void);
-GtkWidget        *e_msg_composer_new_with_sig_file (char *sig_file);
+GtkWidget        *e_msg_composer_new_with_sig_file (const char *sig_file);
 GtkWidget        *e_msg_composer_new_from_url      (const char *url);
 void              e_msg_composer_show_attachments  (EMsgComposer *composer,
 						    gboolean      show);
