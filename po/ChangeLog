@@ -1,3 +1,7 @@
+2001-07-30  Andras Timar <timar@gnome.hu>
+
+        * hu.po: Updated Hungarian translation.
+
 2001-07-27  Damon Chaplin  <damon@ximian.com>
 
 	* es.po: changed strftime format translation from "%A %b de %B" to
