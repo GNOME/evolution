@@ -140,7 +140,8 @@ filter_source_finalize (GObject *obj)
 	}
 	
 	g_list_free (fs->priv->sources);
-	
+	g_free (fs->priv->current_url);
+
 	g_free (fs->priv);
 	
 	G_OBJECT_CLASS (parent_class)->finalize (obj);

@@ -1,3 +1,7 @@
+2003-06-13  Larry Ewing  <lewing@ximian.com>
+
+	* filter-source.c (filter_source_finalize): free current_url.
+
 2003-06-11  Mike Kestner  <mkestner@ximian.com>
 
 	* rule-context.c (load): stat the user file before parsing.
