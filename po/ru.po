@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: E-volution\n"
-"POT-Creation-Date: 2000-09-28 15:27+0400\n"
-"PO-Revision-Date: 2000-09-28 15:31+04:00\n"
+"POT-Creation-Date: 2000-10-02 14:43+0400\n"
+"PO-Revision-Date: 2000-10-02 14:48+04:00\n"
 "Last-Translator: Valek Filippov <frob@df.ru>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -737,7 +737,7 @@ msgid "z"
 msgstr "z"
 
 #: addressbook/gui/widgets/e-addressbook-view.c:417
-#: addressbook/gui/widgets/e-minicard.c:334
+#: addressbook/gui/widgets/e-minicard.c:337
 msgid "Save as VCard"
 msgstr "Сохранить как VCard"
 
@@ -1108,50 +1108,68 @@ msgstr "Год"
 msgid "Show 1 year"
 msgstr "Показать 1 год"
 
-#: calendar/gui/calendar-model.c:330
+#. strftime format of a weekday and a date.
+#: calendar/gui/calendar-model.c:282
+#: widgets/meeting-time-sel/e-meeting-time-sel.c:2495
+msgid "%a %m/%d/%Y"
+msgstr "%a %m/%d/%Y"
+
+#. strftime format of a weekday, a date and a time,
+#. in 24-hour format.
+#: calendar/gui/calendar-model.c:286 calendar/gui/calendar-model.c:740
+msgid "%a %m/%d/%Y %H:%M:%S"
+msgstr "%a %m/%d/%Y %H:%M:%S"
+
+#. strftime format of a weekday, a date and a time,
+#. in 12-hour format.
+#: calendar/gui/calendar-model.c:290 calendar/gui/calendar-model.c:743
+msgid "%a %m/%d/%Y %I:%M:%S %p"
+msgstr "%a %m/%d/%Y %I:%M:%S %p"
+
+#: calendar/gui/calendar-model.c:344
 #: calendar/gui/dialogs/task-editor-dialog.glade.h:23
 msgid "Public"
 msgstr "Общее"
 
-#: calendar/gui/calendar-model.c:333
+#: calendar/gui/calendar-model.c:347
 #: calendar/gui/dialogs/task-editor-dialog.glade.h:24
 msgid "Private"
 msgstr "Личное"
 
-#: calendar/gui/calendar-model.c:336
+#: calendar/gui/calendar-model.c:350
 #: calendar/gui/dialogs/task-editor-dialog.glade.h:25
 msgid "Confidential"
 msgstr "Конфиденциальное"
 
-#: calendar/gui/calendar-model.c:339 calendar/gui/calendar-model.c:506
+#: calendar/gui/calendar-model.c:353 calendar/gui/calendar-model.c:521
 msgid "Unknown"
 msgstr "Неизвестное"
 
-#: calendar/gui/calendar-model.c:426
+#: calendar/gui/calendar-model.c:441
 msgid "N"
 msgstr "С"
 
-#: calendar/gui/calendar-model.c:426
+#: calendar/gui/calendar-model.c:441
 msgid "S"
 msgstr "Ю"
 
-#: calendar/gui/calendar-model.c:428
+#: calendar/gui/calendar-model.c:443
 msgid "E"
 msgstr "В"
 
-#: calendar/gui/calendar-model.c:428
+#: calendar/gui/calendar-model.c:443
 msgid "W"
 msgstr "З"
 
-#: calendar/gui/calendar-model.c:500
+#: calendar/gui/calendar-model.c:515
 msgid "Transparent"
 msgstr "Прозрачный"
 
-#: calendar/gui/calendar-model.c:503
+#: calendar/gui/calendar-model.c:518
 msgid "Opaque"
 msgstr "Непрозрачный"
 
-#: calendar/gui/calendar-model.c:727
+#: calendar/gui/calendar-model.c:748
 #, c-format
 msgid ""
 "The date must be entered in the format: \n"
@@ -1162,7 +1180,36 @@ msgstr ""
 "\n"
 "%s"
 
-#: calendar/gui/calendar-model.c:901
+#. strptime format for a date.
+#: calendar/gui/calendar-model.c:849 calendar/gui/calendar-model.c:897
+#: widgets/misc/e-dateedit.c:475 widgets/misc/e-dateedit.c:507
+#: widgets/misc/e-dateedit.c:664 widgets/misc/e-dateedit.c:720
+msgid "%m/%d/%Y"
+msgstr "%m/%d/%Y"
+
+#. strptime format for a time of day, in 12-hour format.
+#. If it is is not appropriate in the locale set to an empty string.
+#: calendar/gui/calendar-model.c:867
+msgid "%I:%M:%S %p%n"
+msgstr "%I:%M:%S %p%n"
+
+#. strptime format for a time of day, in 24-hour format.
+#: calendar/gui/calendar-model.c:870
+msgid "%H:%M:%S%n"
+msgstr "%H:%M:%S%n"
+
+#. strptime format for time of day, without seconds, 12-hour format.
+#. If it is is not appropriate in the locale set to an empty string.
+#: calendar/gui/calendar-model.c:874
+msgid "%I:%M %p%n"
+msgstr "%I:%M %p%n"
+
+#. strptime format for time of day, without seconds 24-hour format.
+#: calendar/gui/calendar-model.c:877
+msgid "%H:%M%n"
+msgstr "%H:%M%n"
+
+#: calendar/gui/calendar-model.c:997
 msgid ""
 "The geographical position must be entered in the format: \n"
 "\n"
@@ -1172,11 +1219,11 @@ msgstr ""
 "\n"
 "45.436845,125.862501"
 
-#: calendar/gui/calendar-model.c:941
+#: calendar/gui/calendar-model.c:1037
 msgid "The percent value must be between 0 and 100, inclusive"
 msgstr "Значение процента должно быть между 0 и 100, включительно"
 
-#: calendar/gui/calendar-model.c:981
+#: calendar/gui/calendar-model.c:1077
 msgid "The priority must be between 1 and 9, inclusive"
 msgstr "Приоритет должен быть между 1 и 9, вкючительно"
 
@@ -1448,7 +1495,7 @@ msgid "_Insert"
 msgstr "Вставить"
 
 #: calendar/gui/dialogs/task-editor.c:596 calendar/gui/event-editor.c:1332
-#: composer/e-msg-composer.c:992
+#: composer/e-msg-composer.c:1011
 msgid "F_ormat"
 msgstr "Формат"
 
@@ -1617,9 +1664,9 @@ msgid "C_lassification:"
 msgstr "Классификация:"
 
 #: calendar/gui/dialogs/task-editor-dialog.glade.h:22
-#: calendar/gui/event-editor-dialog.glade.h:42 shell/e-shell-view.c:977
-#: widgets/misc/e-dateedit.c:332 widgets/misc/e-dateedit.c:702
-#: widgets/misc/e-dateedit.c:1021
+#: calendar/gui/event-editor-dialog.glade.h:42 shell/e-shell-view.c:979
+#: widgets/misc/e-dateedit.c:332 widgets/misc/e-dateedit.c:704
+#: widgets/misc/e-dateedit.c:1027
 msgid "None"
 msgstr "Нет"
 
@@ -1718,31 +1765,49 @@ msgstr "Удалить задание"
 msgid "%02i minute divisions"
 msgstr ""
 
-#: calendar/gui/e-day-view.c:2508 calendar/gui/e-day-view.c:2515
-#: calendar/gui/e-day-view.c:2524 calendar/gui/e-week-view.c:2958
+#. strftime format %A = full weekday name, %d = day of month,
+#. %B = full month name. Don't use any other specifiers.
+#: calendar/gui/e-day-view.c:1173
+msgid "%A %d %B"
+msgstr "%A %d %B"
+
+#. strftime format %a = abbreviated weekday name, %d = day of month,
+#. %b = abbreviated month name. Don't use any other specifiers.
+#: calendar/gui/e-day-view.c:1187
+msgid "%a %d %b"
+msgstr "%a %d %b"
+
+#. strftime format %d = day of month, %b = abbreviated month name.
+#. Don't use any other specifiers.
+#: calendar/gui/e-day-view.c:1200
+msgid "%d %b"
+msgstr "%d %b"
+
+#: calendar/gui/e-day-view.c:2594 calendar/gui/e-day-view.c:2601
+#: calendar/gui/e-day-view.c:2610 calendar/gui/e-week-view.c:2958
 #: calendar/gui/e-week-view.c:2965 calendar/gui/e-week-view.c:2974
 msgid "New appointment..."
 msgstr "Новая встреча..."
 
-#: calendar/gui/e-day-view.c:2512 calendar/gui/e-day-view.c:2519
+#: calendar/gui/e-day-view.c:2598 calendar/gui/e-day-view.c:2605
 #: calendar/gui/e-week-view.c:2962 calendar/gui/e-week-view.c:2969
 msgid "Edit this appointment..."
 msgstr "Правка этой встречи..."
 
-#: calendar/gui/e-day-view.c:2513 calendar/gui/e-week-view.c:2963
+#: calendar/gui/e-day-view.c:2599 calendar/gui/e-week-view.c:2963
 #: calendar/gui/event-editor.c:1365
 msgid "Delete this appointment"
 msgstr "Удалить эту встречу"
 
-#: calendar/gui/e-day-view.c:2520 calendar/gui/e-week-view.c:2970
+#: calendar/gui/e-day-view.c:2606 calendar/gui/e-week-view.c:2970
 msgid "Make this appointment movable"
 msgstr "Сделать эту встречу перемещаемой"
 
-#: calendar/gui/e-day-view.c:2521 calendar/gui/e-week-view.c:2971
+#: calendar/gui/e-day-view.c:2607 calendar/gui/e-week-view.c:2971
 msgid "Delete this occurrence"
 msgstr "Удалить этот случай"
 
-#: calendar/gui/e-day-view.c:2522 calendar/gui/e-week-view.c:2972
+#: calendar/gui/e-day-view.c:2608 calendar/gui/e-week-view.c:2972
 msgid "Delete all occurrences"
 msgstr "Удалить все случаи"
 
@@ -2544,7 +2609,7 @@ msgstr "Текущий год (%Y)"
 msgid "Print Calendar"
 msgstr "Напечатать календарь"
 
-#: calendar/gui/print.c:1321
+#: calendar/gui/print.c:1321 mail/mail-callbacks.c:785
 msgid "Print Preview"
 msgstr "Просмотр печати"
 
@@ -2761,48 +2826,48 @@ msgstr "метка7"
 msgid "label8"
 msgstr "метка8"
 
-#: composer/e-msg-composer-attachment-bar.c:77
+#: composer/e-msg-composer-attachment-bar.c:82
 msgid "1 byte"
 msgstr "1 байт"
 
-#: composer/e-msg-composer-attachment-bar.c:79
+#: composer/e-msg-composer-attachment-bar.c:84
 #, c-format
 msgid "%u bytes"
 msgstr "%u байт"
 
-#: composer/e-msg-composer-attachment-bar.c:86
+#: composer/e-msg-composer-attachment-bar.c:91
 #, c-format
 msgid "%.1fK"
 msgstr "%.1fК"
 
-#: composer/e-msg-composer-attachment-bar.c:90
+#: composer/e-msg-composer-attachment-bar.c:95
 #, c-format
 msgid "%.1fM"
 msgstr "%.1fM"
 
-#: composer/e-msg-composer-attachment-bar.c:94
+#: composer/e-msg-composer-attachment-bar.c:99
 #, c-format
 msgid "%.1fG"
 msgstr "%.1fG"
 
-#: composer/e-msg-composer-attachment-bar.c:303
+#: composer/e-msg-composer-attachment-bar.c:396
 msgid "Add attachment"
 msgstr "Добавить вложение"
 
-#: composer/e-msg-composer-attachment-bar.c:366 shell/e-shortcuts-view.c:237
+#: composer/e-msg-composer-attachment-bar.c:459 shell/e-shortcuts-view.c:237
 #: shell/e-shortcuts-view.c:354
 msgid "Remove"
 msgstr "Удалить"
 
-#: composer/e-msg-composer-attachment-bar.c:367
+#: composer/e-msg-composer-attachment-bar.c:460
 msgid "Remove selected items from the attachment list"
 msgstr "Удалить выбранные элементы из списка вложений"
 
-#: composer/e-msg-composer-attachment-bar.c:398
+#: composer/e-msg-composer-attachment-bar.c:491
 msgid "Add attachment..."
 msgstr "Добавить вложение..."
 
-#: composer/e-msg-composer-attachment-bar.c:399
+#: composer/e-msg-composer-attachment-bar.c:492
 msgid "Attach a file to the message"
 msgstr "Присоединить файл к сообщению"
 
@@ -2871,33 +2936,33 @@ msgstr "Тема:"
 msgid "Enter the subject of the mail"
 msgstr "Введите тему письма"
 
-#: composer/e-msg-composer.c:438
+#: composer/e-msg-composer.c:457
 msgid "Save as..."
 msgstr "Сохранить как..."
 
-#: composer/e-msg-composer.c:449
+#: composer/e-msg-composer.c:468
 #, c-format
 msgid "Error saving file: %s"
 msgstr "Ошибка сохранения файла: %s"
 
-#: composer/e-msg-composer.c:469
+#: composer/e-msg-composer.c:488
 #, c-format
 msgid "Error loading file: %s"
 msgstr "Ошибка при загрузке файла: %s"
 
-#: composer/e-msg-composer.c:491
+#: composer/e-msg-composer.c:510
 msgid "Saving changes to message..."
 msgstr "Сохранить изменения в сообщении..."
 
-#: composer/e-msg-composer.c:493
+#: composer/e-msg-composer.c:512
 msgid "About to save changes to message..."
 msgstr "О сохранении изменений в сообщении..."
 
-#: composer/e-msg-composer.c:578 shell/e-shell-view-menu.c:166
+#: composer/e-msg-composer.c:597 shell/e-shell-view-menu.c:166
 msgid "Evolution"
 msgstr "Эволюция"
 
-#: composer/e-msg-composer.c:584
+#: composer/e-msg-composer.c:603
 msgid ""
 "This message has not been sent.\n"
 "\n"
@@ -2907,27 +2972,27 @@ msgstr ""
 "\n"
 "Вы хотите сохранить изменения?"
 
-#: composer/e-msg-composer.c:606
+#: composer/e-msg-composer.c:625
 msgid "Open file"
 msgstr "Открыть файл"
 
-#: composer/e-msg-composer.c:725
+#: composer/e-msg-composer.c:744
 msgid "That file does not exist."
 msgstr "Этот файл не существует."
 
-#: composer/e-msg-composer.c:735
+#: composer/e-msg-composer.c:754
 msgid "That is not a regular file."
 msgstr "Это не обычный файл."
 
-#: composer/e-msg-composer.c:745
+#: composer/e-msg-composer.c:764
 msgid "That file exists but is not readable."
 msgstr "Этот файл существует, но не читается."
 
-#: composer/e-msg-composer.c:755
+#: composer/e-msg-composer.c:774
 msgid "That file appeared accesible but open(2) failed."
 msgstr "Файл выглядит доступным, но произошел сбой open(2)."
 
-#: composer/e-msg-composer.c:777
+#: composer/e-msg-composer.c:796
 msgid ""
 "The file is very large (more than 100K).\n"
 "Are you sure you wish to insert it?"
@@ -2935,123 +3000,123 @@ msgstr ""
 "Файл очень большой (больше 100К).\n"
 "Вы уверены, что хотите вставить его?"
 
-#: composer/e-msg-composer.c:798
+#: composer/e-msg-composer.c:817
 msgid "An error occurred while reading the file."
 msgstr "При чтении файла возникла ошибка."
 
-#: composer/e-msg-composer.c:894
+#: composer/e-msg-composer.c:913
 msgid "_File"
 msgstr "Файл"
 
-#: composer/e-msg-composer.c:900
+#: composer/e-msg-composer.c:919
 msgid "_Open..."
 msgstr "Открыть..."
 
-#: composer/e-msg-composer.c:901
+#: composer/e-msg-composer.c:920
 msgid "Load a previously saved message"
 msgstr "Загрузить ранее сохраненное сообщение"
 
-#: composer/e-msg-composer.c:909
+#: composer/e-msg-composer.c:928
 msgid "_Save..."
 msgstr "Cохранить..."
 
-#: composer/e-msg-composer.c:910
+#: composer/e-msg-composer.c:929
 msgid "Save message"
 msgstr "Сохранить сообщение"
 
-#: composer/e-msg-composer.c:918
+#: composer/e-msg-composer.c:937
 msgid "Save _as..."
 msgstr "Сохранить как..."
 
-#: composer/e-msg-composer.c:919
+#: composer/e-msg-composer.c:938
 msgid "Save message with a different name"
 msgstr "Сохранить сообщение c другим названием"
 
-#: composer/e-msg-composer.c:927
+#: composer/e-msg-composer.c:946
 msgid "Save in _folder..."
 msgstr "Сохранить в папке..."
 
-#: composer/e-msg-composer.c:928
+#: composer/e-msg-composer.c:947
 msgid "Save the message in a specified folder"
 msgstr "Сохранить сообщение в указанной папке"
 
-#: composer/e-msg-composer.c:937
+#: composer/e-msg-composer.c:956
 msgid "_Insert text file... (FIXME)"
 msgstr "Вставить текстовый файл... (FIXME)"
 
-#: composer/e-msg-composer.c:938
+#: composer/e-msg-composer.c:957
 msgid "Insert a file as text into the message"
 msgstr "Вставить файл в сообщение как текст"
 
-#: composer/e-msg-composer.c:947
+#: composer/e-msg-composer.c:966
 msgid "Send _Now"
 msgstr "Отправить сейчас"
 
-#: composer/e-msg-composer.c:948
+#: composer/e-msg-composer.c:967
 msgid "Send the message now"
 msgstr "Отправить это сообщение сейчас"
 
-#: composer/e-msg-composer.c:956
+#: composer/e-msg-composer.c:975
 msgid "Send _Later"
 msgstr "Отправить позже"
 
-#: composer/e-msg-composer.c:957
+#: composer/e-msg-composer.c:976
 msgid "Send the message later"
 msgstr "Отправить это сообщение позже"
 
-#: composer/e-msg-composer.c:967
+#: composer/e-msg-composer.c:986
 msgid "_Close..."
 msgstr "Закрыть..."
 
-#: composer/e-msg-composer.c:968
+#: composer/e-msg-composer.c:987
 msgid "Quit the message composer"
 msgstr "Выйти из редактора сообщений"
 
-#: composer/e-msg-composer.c:981
+#: composer/e-msg-composer.c:1000
 msgid "_Edit"
 msgstr "Правка"
 
-#: composer/e-msg-composer.c:998
+#: composer/e-msg-composer.c:1017
 msgid "HTML"
 msgstr "HTML"
 
-#: composer/e-msg-composer.c:999
+#: composer/e-msg-composer.c:1018
 msgid "Send the mail in HTML format"
 msgstr "Отправить почту в формате HTML"
 
-#: composer/e-msg-composer.c:1012 shell/e-storage-set-view.c:223
+#: composer/e-msg-composer.c:1031 shell/e-storage-set-view.c:223
 msgid "_View"
 msgstr "Просмотр"
 
-#: composer/e-msg-composer.c:1018
+#: composer/e-msg-composer.c:1037
 msgid "Show _attachments"
 msgstr "Показать вложения"
 
-#: composer/e-msg-composer.c:1019
+#: composer/e-msg-composer.c:1038
 msgid "Show/hide attachments"
 msgstr "Показать/скрыть вложения"
 
-#: composer/e-msg-composer.c:1052
+#: composer/e-msg-composer.c:1071
 msgid "Send"
 msgstr "Отправить"
 
-#: composer/e-msg-composer.c:1053
+#: composer/e-msg-composer.c:1072
 msgid "Send this message"
 msgstr "Отправить это сообщение"
 
-#: composer/e-msg-composer.c:1062
+#: composer/e-msg-composer.c:1081
 msgid "Attach"
 msgstr "Присоединить"
 
-#: composer/e-msg-composer.c:1063
+#: composer/e-msg-composer.c:1082
 msgid "Attach a file"
 msgstr "Присоединить файл"
 
-#: composer/e-msg-composer.c:1250
+#: composer/e-msg-composer.c:1306
 msgid "Compose a message"
 msgstr "Создать сообщение"
 
-#: composer/e-msg-composer.c:1321
+#: composer/e-msg-composer.c:1383
 msgid "Could not create composer window."
 msgstr "Невозможно создать окно редактора."
 
@@ -3247,7 +3312,7 @@ msgstr "Добавить правило фильтра"
 msgid "%s mailing list"
 msgstr "%s список рассылки"
 
-#: mail/mail-callbacks.c:70
+#: mail/mail-callbacks.c:72
 msgid ""
 "You have not configured the mail client.\n"
 "You need to do this before you can send,\n"
@@ -3259,7 +3324,7 @@ msgstr ""
 "отправлять, принимать или редактировать почту.\n"
 "Вы хотите настроить это сейчас?"
 
-#: mail/mail-callbacks.c:110
+#: mail/mail-callbacks.c:112
 msgid ""
 "You need to configure an identity\n"
 "before you can compose mail."
@@ -3267,7 +3332,7 @@ msgstr ""
 "Вы должны настроить пользователя\n"
 "до того как вы сможете послать почту."
 
-#: mail/mail-callbacks.c:124
+#: mail/mail-callbacks.c:126
 msgid ""
 "You need to configure a mail transport\n"
 "before you can compose mail."
@@ -3275,7 +3340,7 @@ msgstr ""
 "Вы должны настроить передачу почты\n"
 "до того как вы сможете послать почту."
 
-#: mail/mail-callbacks.c:239
+#: mail/mail-callbacks.c:241
 msgid ""
 "This message has no subject.\n"
 "Really send?"
@@ -3283,15 +3348,15 @@ msgstr ""
 "Это сообщение не имеет темы.\n"
 "Послать его?"
 
-#: mail/mail-callbacks.c:502
+#: mail/mail-callbacks.c:504
 msgid "Move message(s) to"
 msgstr "Переместить сообщение в"
 
-#: mail/mail-callbacks.c:504
+#: mail/mail-callbacks.c:506
 msgid "Copy message(s) to"
 msgstr "Скопировать сообщения в"
 
-#: mail/mail-callbacks.c:605
+#: mail/mail-callbacks.c:607
 msgid ""
 "You may only edit messages saved\n"
 "in the Drafts folder."
@@ -3299,7 +3364,7 @@ msgstr ""
 "Вы можете править только сообщения\n"
 "сохраненные в папке \"Черновики\"."
 
-#: mail/mail-callbacks.c:696
+#: mail/mail-callbacks.c:698
 #, c-format
 msgid ""
 "Error loading filter information:\n"
@@ -3307,6 +3372,14 @@ msgid ""
 msgstr ""
 "Ошибка при загрузке информации фильтра:\n"
 "%s"
+
+#: mail/mail-callbacks.c:745 mail/message-list.c:1644
+msgid "Print Message"
+msgstr "Печать сообщения"
+
+#: mail/mail-callbacks.c:792
+msgid "Printing of message failed"
+msgstr "Сбой печати сообщения"
 
 #: mail/mail-config-gui.c:435
 msgid ""
@@ -3545,11 +3618,11 @@ msgstr "Не удалось создать канал к GPG/PGP: %s"
 msgid "No GPG/PGP program available."
 msgstr "Не доступна программа GPG/PGP."
 
-#: mail/mail-display.c:54
+#: mail/mail-display.c:68
 msgid "Overwrite file?"
 msgstr "Переписать файл?"
 
-#: mail/mail-display.c:58
+#: mail/mail-display.c:72
 msgid ""
 "A file by that name already exists.\n"
 "Overwrite it?"
@@ -3557,29 +3630,29 @@ msgstr ""
 "Файл с таким названием уже существует.\n"
 "Переписать его?"
 
-#: mail/mail-display.c:260
+#: mail/mail-display.c:274
 msgid "Save to Disk..."
 msgstr "Сохранить на диске..."
 
-#: mail/mail-display.c:262
+#: mail/mail-display.c:276
 #, c-format
 msgid "Open in %s..."
 msgstr "Открыть в %s..."
 
-#: mail/mail-display.c:264
+#: mail/mail-display.c:278
 msgid "View Inline"
 msgstr "Встроенный просмотр"
 
-#: mail/mail-display.c:285
+#: mail/mail-display.c:299
 msgid "External Viewer"
 msgstr "Внешняя программа просмотра"
 
-#: mail/mail-display.c:308
+#: mail/mail-display.c:322
 #, c-format
 msgid "View Inline (via %s)"
 msgstr "Встроенный просмотр (через %s)"
 
-#: mail/mail-display.c:312
+#: mail/mail-display.c:326
 msgid "Hide"
 msgstr "Скрыть"
 
@@ -4018,10 +4091,6 @@ msgstr "Открыть в новом окне"
 msgid "Edit Message"
 msgstr "Правка сообщения"
 
-#: mail/message-list.c:1644
-msgid "Print Message"
-msgstr "Печать сообщения"
-
 #: mail/message-list.c:1646
 msgid "Reply to Sender"
 msgstr "Ответить отправителю"
@@ -4198,15 +4267,15 @@ msgstr ""
 msgid "Go to folder..."
 msgstr "Перейти к папке..."
 
-#: shell/e-shell-view.c:127
+#: shell/e-shell-view.c:129
 msgid "(No folder displayed)"
 msgstr "(Папки не показаны)"
 
-#: shell/e-shell-view.c:406
+#: shell/e-shell-view.c:408
 msgid "Folders"
 msgstr "Папки"
 
-#: shell/e-shell-view.c:981
+#: shell/e-shell-view.c:983
 #, c-format
 msgid "Evolution - %s"
 msgstr "Эволюция - %s"
@@ -4475,6 +4544,12 @@ msgstr "Время завершения собрания:"
 msgid "All Attendees"
 msgstr "Все сопровождение"
 
+#. This is a strftime() format string %A = full weekday name,
+#. %B = full month name, %d = month day, %Y = full year.
+#: widgets/meeting-time-sel/e-meeting-time-sel.c:2468
+msgid "%A, %B %d, %Y"
+msgstr "%A, %B %d, %Y"
+
 #. Translators: These are the first characters of each day of the
 #. week, 'M' for 'Monday', 'T' for Tuesday etc.
 #: widgets/misc/e-calendar-item.c:415
@@ -4498,12 +4573,17 @@ msgstr "Сейчас"
 msgid "Today"
 msgstr "Сегодня"
 
-#. This is a strftime() format for a short date. %m = month, %d = day
-#. of month, %Y = year (all digits).
-#: widgets/misc/e-dateedit.c:475 widgets/misc/e-dateedit.c:507
-#: widgets/misc/e-dateedit.c:662 widgets/misc/e-dateedit.c:718
-msgid "%m/%d/%Y"
-msgstr "%m/%d/%Y"
+#. This is a strptime() format. %H = hour (0-23), %M = minute.
+#: widgets/misc/e-dateedit.c:636 widgets/misc/e-dateedit.c:726
+#: widgets/misc/e-dateedit.c:983
+msgid "%H:%M"
+msgstr "%H:%M"
+
+#. This is a strptime() format. %I = hour (1-12), %M = minute, %p = am/pm string.
+#: widgets/misc/e-dateedit.c:639 widgets/misc/e-dateedit.c:729
+#: widgets/misc/e-dateedit.c:986
+msgid "%I:%M %p"
+msgstr "%I:%M %p"
 
 #: widgets/shortcut-bar/e-group-bar.c:632
 #, c-format
