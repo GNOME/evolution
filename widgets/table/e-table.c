@@ -493,28 +493,28 @@ e_table_setup_table (ETable *e_table, ETableHeader *full_header, ETableHeader *h
 		GTK_SIGNAL_FUNC (table_canvas_size_allocate), e_table);
 
 	gtk_signal_connect (
-		GTK_OBJECT (e_table->table_canvas), "drag_begin",
+		GTK_OBJECT (e_table), "drag_begin",
 		GTK_SIGNAL_FUNC (et_drag_begin), e_table);
 	gtk_signal_connect (
-		GTK_OBJECT (e_table->table_canvas), "drag_end",
+		GTK_OBJECT (e_table), "drag_end",
 		GTK_SIGNAL_FUNC (et_drag_end), e_table);
 	gtk_signal_connect (
-		GTK_OBJECT (e_table->table_canvas), "drag_data_get",
+		GTK_OBJECT (e_table), "drag_data_get",
 		GTK_SIGNAL_FUNC (et_drag_data_get), e_table);
 	gtk_signal_connect (
-		GTK_OBJECT (e_table->table_canvas), "drag_data_delete",
+		GTK_OBJECT (e_table), "drag_data_delete",
 		GTK_SIGNAL_FUNC (et_drag_data_delete), e_table);
 	gtk_signal_connect (
-		GTK_OBJECT (e_table->table_canvas), "drag_motion",
+		GTK_OBJECT (e_table), "drag_motion",
 		GTK_SIGNAL_FUNC (et_drag_motion), e_table);
 	gtk_signal_connect (
-		GTK_OBJECT (e_table->table_canvas), "drag_leave",
+		GTK_OBJECT (e_table), "drag_leave",
 		GTK_SIGNAL_FUNC (et_drag_leave), e_table);
 	gtk_signal_connect (
-		GTK_OBJECT (e_table->table_canvas), "drag_drop",
+		GTK_OBJECT (e_table), "drag_drop",
 		GTK_SIGNAL_FUNC (et_drag_drop), e_table);
 	gtk_signal_connect (
-		GTK_OBJECT (e_table->table_canvas), "drag_data_received",
+		GTK_OBJECT (e_table), "drag_data_received",
 		GTK_SIGNAL_FUNC (et_drag_data_received), e_table);
 	
 	gtk_signal_connect (GTK_OBJECT(e_table->table_canvas), "reflow",
@@ -1556,7 +1556,7 @@ et_drag_data_received(GtkWidget *widget,
 				 &row,
 				 &col);
 	gtk_signal_emit (GTK_OBJECT (et),
-			 et_signals [TABLE_DRAG_MOTION],
+			 et_signals [TABLE_DRAG_DATA_RECEIVED],
 			 row,
 			 col,
 			 context,
