@@ -1,3 +1,7 @@
+2002-07-30  Not Zed  <NotZed@Ximian.com>
+
+	* configure.in (EVOLUTION_MAIL): added soup to compile flags.
+
 2002-07-24  Ettore Perazzoli  <ettore@ximian.com>
 
 	[Patch by Frank Belew <frb@ximian.com>.]
