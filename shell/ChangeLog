@@ -5,6 +5,7 @@
 	second CORBA request, just remember the additional request.
 	(async_open_cb): Call the callbacks for all pending requests for
 	this folder.
+	(init): grumble-grumble-non-g_new0-using-people-grumbe
 
 2003-03-20  JP Rosevear  <jpr@ximian.com>
 
