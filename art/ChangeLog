@@ -1,3 +1,9 @@
+2001-08-20  JP Rosevear  <jpr@ximian.com>
+
+	* Makefile.am: install new file
+
+	* talking-heads.png: new graphic for meeting requests
+
 2001-08-20  Damon Chaplin  <damon@ximian.com>
 
 	* Makefile.am (images_DATA): added goto-16.png & new_task-16.png.

@@ -115,6 +115,7 @@ images_DATA = \
 	service-up-disabled.png		\
 	show_all_messages.xpm		\
 	splash.png			\
+	talking-heads.png		\
 	task.xpm			\
 	thankyou.png			\
 	undelete_message-16.png		\
