@@ -1,3 +1,35 @@
+2001-05-01  Dan Winship  <danw@ximian.com>
+
+	Support the IMAP UIDPLUS extension (RFC 2359), which lets you
+	resync after disconnected operation more efficiently, but also
+	makes it possible to do appends and moves/copies more efficiently
+	now.
+
+	* providers/imap/camel-imap-folder.c (imap_append_message): If the
+	server supports UIDPLUS, grab the APPENDUID response and cache the
+	message into the folder's message cache.
+	(imap_copy_messages_to): Likewise, for COPYUID, copy any message
+	parts we have cached between the source and destination folder
+	caches.
+	(imap_get_message): If the entire message is already in the cache,
+	just return that rather than building it from parts.
+	(imap_update_summary): Fetch just the "UID FLAGS RFC822.SIZE" of
+	the new messages first, then only fetch the headers for messages
+	where we don't already have the headers cached.
+
+	* providers/imap/camel-imap-message-cache.c: Add gtk-doc comments.
+	(cache_put): Fix refcounting stuff here.
+	(camel_imap_message_cache_insert_stream,
+	camel_imap_message_cache_insert_wrapper): New.
+	(camel_imap_message_cache_get): Fix a bug here so the memory
+	caching actually works.
+	(camel_imap_message_cache_copy): New routine, used by
+	imap_copy_messages_to.
+
+	* providers/imap/camel-imap-utils.c (imap_uid_set_to_array):
+	Inverse operation of imap_uid_array_to_set. Used to parse COPYUID
+	response.
+
 2001-04-30  Dan Winship  <danw@ximian.com>
 
 	* providers/imap/camel-imap-utils.c (imap_uid_array_to_set):

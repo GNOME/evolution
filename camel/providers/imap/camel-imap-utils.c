@@ -611,7 +611,7 @@ imap_uid_array_to_set (CamelFolderSummary *summary, GPtrArray *uids)
 		if (++si < scount)
 			next_summary_uid = get_summary_uid_numeric (summary, si);
 		else
-			next_summary_uid = (guint32) -1;
+			next_summary_uid = (unsigned long) -1;
 
 		/* Now get the next UID from @uids */
 		this_uid = strtoul (uids->pdata[ui], NULL, 10);
@@ -620,7 +620,7 @@ imap_uid_array_to_set (CamelFolderSummary *summary, GPtrArray *uids)
 			if (++si < scount)
 				next_summary_uid = get_summary_uid_numeric (summary, si);
 			else
-				next_summary_uid = (guint32) -1;
+				next_summary_uid = (unsigned long) -1;
 		} else {
 			if (range) {
 				g_string_sprintfa (gset, ":%lu", last_uid);
@@ -639,4 +639,93 @@ imap_uid_array_to_set (CamelFolderSummary *summary, GPtrArray *uids)
 	g_string_free (gset, FALSE);
 
 	return set;
+}
+
+/**
+ * imap_uid_set_to_array:
+ * @summary: summary for the folder the UIDs come from
+ * @uids: a pointer to the start of an IMAP "set" of UIDs
+ *
+ * Fills an array with the UIDs corresponding to @uids and @summary.
+ * There can be text after the uid set in @uids, which will be
+ * ignored.
+ *
+ * If @uids specifies a range of UIDs that extends outside the range
+ * of @summary, the function will assume that all of the "missing" UIDs
+ * do exist.
+ *
+ * Return value: the array of uids, which the caller must free with
+ * imap_uid_array_free(). (Or %NULL if the uid set can't be parsed.)
+ **/
+GPtrArray *
+imap_uid_set_to_array (CamelFolderSummary *summary, const char *uids)
+{
+	GPtrArray *arr;
+	char *p, *q;
+	unsigned long uid, suid;
+	int si, scount;
+
+	arr = g_ptr_array_new ();
+	scount = camel_folder_summary_count (summary);
+
+	p = (char *)uids;
+	si = 0;
+	do {
+		uid = strtoul (p, &q, 10);
+		if (p == q)
+			goto lose;
+		g_ptr_array_add (arr, g_strndup (p, q - p));
+
+		if (*q == ':') {
+			/* Find the summary entry for the UID after the one
+			 * we just saw.
+			 */
+			while (++si < scount) {
+				suid = get_summary_uid_numeric (summary, si);
+				if (suid > uid)
+					break;
+			}
+			if (si >= scount)
+				suid = uid + 1;
+
+			uid = strtoul (q + 1, &p, 10);
+			if (p == q + 1)
+				goto lose;
+
+			/* Add each summary UID until we find one
+			 * larger than the end of the range
+			 */
+			while (suid <= uid) {
+				g_ptr_array_add (arr, g_strdup_printf ("%lu", suid));
+				if (++si < scount)
+					suid = get_summary_uid_numeric (summary, si);
+				else
+					suid++;
+			}
+		} else
+			p = q;
+	} while (*p++ == ',');
+
+	return arr;
+
+ lose:
+	g_warning ("Invalid uid set %s", uids);
+	imap_uid_array_free (arr);
+	return NULL;
+}
+
+/**
+ * imap_uid_array_free:
+ * @arr: an array returned from imap_uid_set_to_array()
+ *
+ * Frees @arr
+ **/
+void
+imap_uid_array_free (GPtrArray *arr)
+{
+	int i;
+
+	for (i = 0; i < arr->len; i++)
+		g_free (arr->pdata[i]);
+	g_ptr_array_free (arr, TRUE);
 }

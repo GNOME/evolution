@@ -642,8 +642,8 @@ imap_append_message (CamelFolder *folder, CamelMimeMessage *message,
 	CamelMimeFilter *crlf_filter;
 	CamelStreamFilter *streamfilter;
 	GByteArray *ba;
-	char *flagstr, *result;
-	
+	char *flagstr, *result, *uid;
+
 	if (!camel_imap_store_check_online (store, ex))
 		return;
 
@@ -695,7 +695,79 @@ imap_append_message (CamelFolder *folder, CamelMimeMessage *message,
 	CAMEL_IMAP_STORE_UNLOCK(store, command_lock);
 	if (!response)
 		return;
+
+	if (store->capabilities & IMAP_CAPABILITY_UIDPLUS) {
+		uid = strstrcase (response->status, "[APPENDUID ");
+		if (uid)
+			uid = strchr (uid + 11, ' ');
+		if (uid)
+			uid = g_strndup (uid + 1, strcspn (uid + 1, "]"));
+		if (uid) {
+			/* Make sure it's a number */
+			if (strtoul (uid, &result, 10) != 0 && !*result) {
+				/* OK. Cache the data. */
+				camel_imap_message_cache_insert_wrapper (
+					CAMEL_IMAP_FOLDER (folder)->cache,
+					uid, "", CAMEL_DATA_WRAPPER (message));
+			}
+			g_free (uid);
+		}
+	}
+
 	camel_imap_response_free (response);
+}
+
+static void
+handle_copyuid (CamelImapResponse *response, CamelFolder *source,
+		CamelFolder *destination)
+{
+	CamelImapMessageCache *scache = CAMEL_IMAP_FOLDER (source)->cache;
+	CamelImapMessageCache *dcache = CAMEL_IMAP_FOLDER (destination)->cache;
+	char *validity, *srcset, *destset;
+	GPtrArray *src, *dest;
+	int i;
+
+	validity = strstrcase (response->status, "[COPYUID ");
+	if (!validity)
+		return;
+	validity += 9;
+	if (strtoul (validity, NULL, 10) !=
+	    CAMEL_IMAP_SUMMARY (destination->summary)->validity)
+		return;
+
+	srcset = strchr (validity, ' ');
+	if (!srcset++)
+		goto lose;
+	destset = strchr (srcset, ' ');
+	if (!destset++)
+		goto lose;
+
+	src = imap_uid_set_to_array (source->summary, srcset);
+	dest = imap_uid_set_to_array (destination->summary, destset);
+
+	if (src && dest && src->len == dest->len) {
+		/* We don't have to worry about deadlocking on the
+		 * cache locks here, because we've got the store's
+		 * command lock too, so no one else could be here.
+		 */
+		CAMEL_IMAP_FOLDER_LOCK (source, cache_lock);
+		CAMEL_IMAP_FOLDER_LOCK (destination, cache_lock);
+		for (i = 0; i < src->len; i++) {
+			camel_imap_message_cache_copy (scache, src->pdata[i],
+						       dcache, dest->pdata[i]);
+		}
+		CAMEL_IMAP_FOLDER_UNLOCK (source, cache_lock);
+		CAMEL_IMAP_FOLDER_UNLOCK (destination, cache_lock);
+
+		imap_uid_array_free (src);
+		imap_uid_array_free (dest);
+		return;
+	}
+
+	imap_uid_array_free (src);
+	imap_uid_array_free (dest);
+ lose:
+	g_warning ("Bad COPYUID response from server");
 }
 
 static void
@@ -719,7 +791,9 @@ imap_copy_messages_to (CamelFolder *source, GPtrArray *uids,
 	set = imap_uid_array_to_set (source->summary, uids);
 	response = camel_imap_command (store, source, ex, "UID COPY %s %S",
 				       set, destination->full_name);
-	
+	if (response && (store->capabilities & IMAP_CAPABILITY_UIDPLUS))
+		handle_copyuid (response, source, destination);
+
 	camel_imap_response_free (response);
 	g_free (set);
 	CAMEL_IMAP_STORE_UNLOCK(store, command_lock);
@@ -911,18 +985,21 @@ imap_get_message (CamelFolder *folder, const char *uid, CamelException *ex)
 	CamelImapStore *store = CAMEL_IMAP_STORE (folder->parent_store);
 	CamelMessageInfo *mi;
 	CamelMimeMessage *msg;
-	CamelStream *stream;
+	CamelStream *stream = NULL;
 
 	mi = camel_folder_summary_uid (folder->summary, uid);
 	g_return_val_if_fail (mi != NULL, NULL);
 
 	/* If the message is small, or the server doesn't support
-	 * IMAP4rev1, fetch it in one piece.
+	 * IMAP4rev1, or we already have the whole thing cached,
+	 * fetch it in one piece.
 	 */
 	if (mi->size < IMAP_SMALL_BODY_SIZE ||
-	    store->server_level < IMAP_LEVEL_IMAP4REV1) {
+	    store->server_level < IMAP_LEVEL_IMAP4REV1 ||
+	    (stream = camel_imap_folder_fetch_data (imap_folder, uid, "", TRUE, NULL))) {
 		camel_folder_summary_info_free (folder->summary, mi);
-		stream = camel_imap_folder_fetch_data (imap_folder, uid, "", FALSE, ex);
+		if (!stream)
+			stream = camel_imap_folder_fetch_data (imap_folder, uid, "", FALSE, ex);
 		if (!stream)
 			return NULL;
 		msg = camel_mime_message_new ();
@@ -986,15 +1063,6 @@ imap_get_message (CamelFolder *folder, const char *uid, CamelException *ex)
 	return msg;
 }
 
-static const char *
-imap_protocol_get_summary_specifier (CamelImapStore *store)
-{
-	if (store->server_level >= IMAP_LEVEL_IMAP4REV1)
-		return "UID FLAGS RFC822.SIZE BODY.PEEK[HEADER]";
-	else
-		return "UID FLAGS RFC822.SIZE BODY.PEEK[0]";
-}
-
 static void
 imap_update_summary (CamelFolder *folder,
 		     CamelFolderChangeInfo *changes,
@@ -1003,64 +1071,83 @@ imap_update_summary (CamelFolder *folder,
 	CamelImapFolder *imap_folder = CAMEL_IMAP_FOLDER (folder);
 	CamelImapStore *store = CAMEL_IMAP_STORE (folder->parent_store);
 	CamelImapResponse *response;
-	GPtrArray *headers, *messages;
+	GPtrArray *lines, *messages;
 	const char *summary_specifier;
-	char *p;
+	char *p, *uid;
 	int i, seq, first, exists = 0;
 	CamelMimeMessage *msg;
 	CamelMessageInfo *mi;
 	GData *fetch_data;
+	CamelStream *stream;
 
 	first = camel_folder_summary_count (folder->summary) + 1;
 	summary_specifier = imap_protocol_get_summary_specifier (store);
 
 	/* We already have the command lock */
-	response = camel_imap_command (store, folder, ex, "FETCH %d:* (%s)",
-				       first, summary_specifier);
+	response = camel_imap_command (store, folder, ex, "FETCH %d:* (UID FLAGS RFC822.SIZE)", first);
 	if (!response)
 		return;
 
+	/* Walk through the responses, looking for UIDs, and make sure
+	 * we have those headers cached.
+	 */
 	messages = g_ptr_array_new ();
-	headers = response->untagged;
-	for (i = 0; i < headers->len; i++) {
-		p = headers->pdata[i];
-		if (*p++ != '*' || *p++ != ' ')
+	lines = response->untagged;
+	for (i = 0; i < lines->len; i++) {
+		p = lines->pdata[i];
+		if (*p++ != '*' || *p++ != ' ') {
+			g_ptr_array_remove_index_fast (lines, i--);
 			continue;
+		}
 		seq = strtoul (p, &p, 10);
 		if (!g_strcasecmp (p, " EXISTS")) {
 			exists = seq;
+			g_ptr_array_remove_index_fast (lines, i--);
 			continue;
 		}
-		if (!seq || seq < first)
+		if (!seq || seq < first || g_strncasecmp (p, " FETCH (", 8) != 0) {
+			g_ptr_array_remove_index_fast (lines, i--);
 			continue;
-		if (g_strncasecmp (p, " FETCH (", 8) != 0)
-			continue;
-		p += 7;
+		}
 
 		if (seq - first >= messages->len)
 			g_ptr_array_set_size (messages, seq - first + 1);
-		mi = messages->pdata[seq - first];
-		fetch_data = parse_fetch_response (imap_folder, p);
 
-		if (!mi) {
-			CamelStream *stream;
-
-			if (!g_datalist_get_data (&fetch_data, "BODY_PART_DATA")) {
-				g_datalist_clear (&fetch_data);
-				p = headers->pdata[i];
-				g_ptr_array_remove_index (headers, i--);
-				g_ptr_array_add (headers, p);
-				continue;
+		fetch_data = parse_fetch_response (imap_folder, p + 7);
+		uid = g_datalist_get_data (&fetch_data, "UID");
+		if (uid) {
+			stream = camel_imap_folder_fetch_data (
+				imap_folder, uid,
+				store->server_level >= IMAP_LEVEL_IMAP4REV1 ?
+				"HEADER" : "0", FALSE, ex);
+			if (!stream) {
+				camel_imap_response_free_without_processing (response);
+				/* XXX messages */
+				return;
 			}
 
 			msg = camel_mime_message_new ();
-			stream = g_datalist_get_data (&fetch_data, "BODY_PART_STREAM");
 			camel_data_wrapper_construct_from_stream (CAMEL_DATA_WRAPPER (msg), stream);
+			camel_object_unref (CAMEL_OBJECT (stream));
 			mi = camel_folder_summary_info_new_from_message (folder->summary, msg);
 			camel_object_unref (CAMEL_OBJECT (msg));
 
 			messages->pdata[seq - first] = mi;
 		}
+		g_datalist_clear (&fetch_data);
+	}
+
+	/* Now go back through and create summary items */
+	lines = response->untagged;
+	for (i = 0; i < lines->len; i++) {
+		p = lines->pdata[i];
+		seq = strtoul (p + 2, &p, 10);
+		p = strchr (p, '(');
+
+		mi = messages->pdata[seq - first];
+		if (!mi) /* ? */
+			continue;
+		fetch_data = parse_fetch_response (imap_folder, p);
 
 		if (g_datalist_get_data (&fetch_data, "UID"))
 			camel_message_info_set_uid (mi, g_strdup (g_datalist_get_data (&fetch_data, "UID")));
@@ -1191,10 +1278,10 @@ camel_imap_folder_fetch_data (CamelImapFolder *imap_folder, const char *uid,
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
 				      _("Could not find message body in FETCH "
 					"response."));
-	} else
+	} else {
 		camel_object_ref (CAMEL_OBJECT (stream));
-
-	g_datalist_clear (&fetch_data);
+		g_datalist_clear (&fetch_data);
+	}
 
 	return stream;
 }
