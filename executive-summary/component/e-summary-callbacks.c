@@ -263,7 +263,7 @@ configure_summary (GtkWidget *widget,
 
 	vbox = glade_xml_get_widget (data->xml, "vbox");
 	html = html_new (TRUE);
-	put_html (html,
+	put_html (GTK_HTML(html),
 		  _("You can select a different HTML page for the background "
 		    "of the Executive Summary.\n\nJust leave it blank for the "
 		    "default"));

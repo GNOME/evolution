@@ -1,3 +1,8 @@
+2000-12-13  Christopher James Lahey  <clahey@helixcode.com>
+
+	* component/e-summary-callbacks.c (configure_summary): Added a
+	cast.
+
 2000-12-13  Iain Holmes  <iain@helixcode.com>
 
 	* component/e-summary.c (e_summary_rebuild_page): Display all the windows
