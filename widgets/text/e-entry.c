@@ -1145,6 +1145,12 @@ e_entry_dispose (GObject *object)
 
 		if (entry->priv->completion)
 			g_object_unref (entry->priv->completion);
+
+		if (entry->priv->ptr_grab) {
+			gdk_pointer_ungrab (GDK_CURRENT_TIME);
+			gtk_grab_remove (GTK_WIDGET (entry->priv->completion_view));
+		}
+
 		if (entry->priv->completion_view_popup) {
 			gtk_widget_destroy (GTK_WIDGET (entry->priv->completion_view_popup));
 			g_object_unref (entry->priv->completion_view_popup);
@@ -1153,9 +1159,6 @@ e_entry_dispose (GObject *object)
 
 		if (entry->priv->changed_since_keypress_tag)
 			gtk_timeout_remove (entry->priv->changed_since_keypress_tag);
-
-		if (entry->priv->ptr_grab)
-			gdk_pointer_ungrab (GDK_CURRENT_TIME);
 
 		g_free (entry->priv);
 		entry->priv = NULL;
@@ -1293,10 +1296,11 @@ e_entry_class_init (GObjectClass *object_class)
 							      G_PARAM_READWRITE));
 
 	g_object_class_install_property (object_class, PROP_FILL_COLOR_GDK,
-					 g_param_spec_pointer ("fill_color_gdk",
-							       _( "GDK fill color" ),
-							       _( "GDK fill color" ),
-							       G_PARAM_READWRITE));
+					 g_param_spec_boxed ("fill_color_gdk",
+							     _( "GDK fill color" ),
+							     _( "GDK fill color" ),
+							     GDK_TYPE_COLOR,
+							     G_PARAM_READWRITE));
 
 	g_object_class_install_property (object_class, PROP_FILL_COLOR_RGBA,
 					 g_param_spec_uint ("fill_color_rgba",

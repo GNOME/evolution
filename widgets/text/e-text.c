@@ -76,26 +76,12 @@ enum {
 
 static GQuark e_text_signals[E_TEXT_LAST_SIGNAL] = { 0 };
 
-
-
-/* This defines a line of text */
-struct line {
-	const char *text;	/* Line's text, it is a pointer into the text->text string */
-	int length;	/* Line's length IN BYTES */
-	int width;	/* Line's width in pixels */
-	int ellipsis_length;  /* Length before adding ellipsis */
-};
-
 /* Object argument IDs */
 enum {
 	PROP_0,
 	PROP_MODEL,
 	PROP_EVENT_PROCESSOR,
 	PROP_TEXT,
-	PROP_FONT,
-        PROP_FONTSET,
-	PROP_FONT_GDK,
-	PROP_FONT_E,
 	PROP_BOLD,
 	PROP_STRIKEOUT,
 	PROP_ANCHOR,
@@ -165,20 +151,11 @@ static void _selection_received (GtkInvisible *invisible,
 				 guint time,
 				 EText *text);
 
-#if 0
-static ETextSuckFont *e_suck_font (GdkFont *font);
-static void e_suck_font_free (ETextSuckFont *suckfont);
-#endif
-
-static void e_text_free_lines(EText *text);
-
-static gint text_width_with_objects (EText *etext,
-				     EFont *font, EFontStyle style,
-				     const gchar *text, gint bytelen);
+static void get_text_extents_with_objects (EText *etext, EFontStyle style,
+					   const gchar *text, gint bytelen,
+					   int *width, int *height);
 
 static void calc_height (EText *text);
-static void calc_line_widths (EText *text);
-static void split_into_lines (EText *text);
 
 static GnomeCanvasItemClass *parent_class;
 static GdkAtom clipboard_atom = GDK_NONE;
@@ -194,7 +171,6 @@ e_text_style_set (EText *text, GtkStyle *previous_style)
 	if ( text->line_wrap ) {
 		text->needs_split_into_lines = 1;
 	} else {
-		text->needs_calc_line_widths = 1;
 		text->needs_calc_height = 1;
 	}
 	e_canvas_item_request_reflow (GNOME_CANVAS_ITEM (text));
@@ -241,9 +217,6 @@ e_text_destroy (GtkObject *object)
 		g_object_unref (text->invisible);
 	text->invisible = NULL;
 
-	g_free (text->lines);
-	text->lines = NULL;
-
 	g_free (text->primary_selection);
 	text->primary_selection = NULL;
 
@@ -252,15 +225,6 @@ e_text_destroy (GtkObject *object)
 
 	g_free (text->revert);
 	text->revert = NULL;
-
-	if (text->font)
-		e_font_unref (text->font);
-	text->font = NULL;
-
-#if 0
-	if (text->suckfont)
-		e_suck_font_free (text->suckfont);
-#endif
 
 	if (text->stipple)
 		gdk_bitmap_unref (text->stipple);
@@ -290,6 +254,11 @@ e_text_destroy (GtkObject *object)
 	if ( text->tpl_timeout ) {
 		gtk_timeout_remove (text->tpl_timeout);
 		text->tpl_timeout = 0;
+	}
+
+	if (text->layout) {
+		g_object_unref (text->layout);
+		text->layout = NULL;
 	}
 
 	if (GTK_OBJECT_CLASS (parent_class)->destroy)
@@ -350,12 +319,40 @@ reset_layout_attrs (EText *text)
 }
 
 static void
+create_layout (EText *text)
+{
+	GnomeCanvasItem *item = GNOME_CANVAS_ITEM (text);
+
+	if (text->layout)
+		return;
+
+	text->layout = gtk_widget_create_pango_layout (GTK_WIDGET (item->canvas), text->text);
+	if (text->line_wrap)
+		pango_layout_set_width (text->layout, text->clip_width < 0 ? -1 : text->clip_width * PANGO_SCALE);
+	reset_layout_attrs (text);
+}
+
+static void
 reset_layout (EText *text)
 {
-	if (text->layout == NULL)
-		return;
+	create_layout (text);
+
 	pango_layout_set_text (text->layout, text->text, -1);
 	reset_layout_attrs (text);
+
+	if (!text->button_down) {
+		PangoRectangle strong_pos, weak_pos;
+
+		pango_layout_get_cursor_pos (text->layout, text->selection_end, &strong_pos, &weak_pos);
+
+		if (strong_pos.x != weak_pos.x ||
+		    strong_pos.y != weak_pos.y ||
+		    strong_pos.width != weak_pos.width ||
+		    strong_pos.height != weak_pos.height)
+			show_pango_rectangle (text, weak_pos);
+
+		show_pango_rectangle (text, strong_pos);
+	}
 }
 
 static void
@@ -363,7 +360,6 @@ e_text_text_model_changed (ETextModel *model, EText *text)
 {
 	gint model_len = e_text_model_get_text_length (model);
 	text->text = e_text_model_get_text(model);
-	e_text_free_lines(text);
 
 	/* Make sure our selection doesn't extend past the bounds of our text. */
 	text->selection_start = CLAMP (text->selection_start, 0, model_len);
@@ -525,220 +521,21 @@ calc_height (EText *text)
 static void
 calc_ellipsis (EText *text)
 {
-	if (text->font)
-		text->ellipsis_width = 
-			e_font_utf8_text_width (text->font, text->style,
-						text->ellipsis ? text->ellipsis : "...",
-						text->ellipsis ? strlen (text->ellipsis) : 3);
-}
-
-/* Calculates the line widths (in pixels) of the text's splitted lines */
-static void
-calc_line_widths (EText *text)
-{
-	struct line *lines;
-	int i;
-	gdouble clip_width;
-	const gchar *p;
-
-	lines = text->lines;
-	text->max_width = 0;
-
-	clip_width = text->clip_width;
-	if (clip_width >= 0 && text->draw_borders) {
-		clip_width -= 6;
-		if (clip_width < 0)
-			clip_width = 0;
-	}
-
-
-	if (!lines)
-		return;
-
-	for (i = 0; i < text->num_lines; i++) {
-		if (lines->length != 0) {
-			if (text->font) {
-				lines->width = text_width_with_objects (text,
-									text->font, text->style,
-									lines->text, lines->length);
-				lines->ellipsis_length = 0;
-			} else {
-				lines->width = 0;
-			}
-			
-			if (text->clip && 
-			    text->use_ellipsis &&
-			    ! text->editing &&
-			    lines->width > clip_width &&
-			    clip_width >= 0) {
-				if (text->font) {
-					lines->ellipsis_length = 0;
-					for (p = lines->text;
-					     p && *p && g_unichar_validate (g_utf8_get_char (p)) && (p - lines->text) < lines->length;
-					     p = g_utf8_next_char (p)) {
-						gint text_width = text_width_with_objects (text,
-											   text->font, text->style,
-											   lines->text, p - lines->text);
-						if (clip_width >= text_width + text->ellipsis_width)
-							lines->ellipsis_length = p - lines->text;
-						else
-							break;
-					}
-				}
-				else
-					lines->ellipsis_length = 0;
-				lines->width = text_width_with_objects (text,
-									text->font, text->style,
-									lines->text, lines->ellipsis_length) + 
-					text->ellipsis_width;
-			} else
-				lines->ellipsis_length = lines->length;
-
-			if (lines->width > text->max_width)
-				text->max_width = lines->width;
-		}
-
-		lines++;
-	}
-}
-
-static void
-e_text_free_lines(EText *text)
-{
-	if (text->lines)
-		g_free (text->lines);
-
-	text->lines = NULL;
-	text->num_lines = 0;
-}
-
-static gint
-text_width_with_objects (EText *etext,
-			 EFont *font, EFontStyle style,
-			 const gchar *text, gint numbytes)
-{
-#warning "AIEEEE FIX ME.  a pango layout per refresh sucks"
-	PangoLayout *tmp_layout = gtk_widget_create_pango_layout (GTK_WIDGET (GNOME_CANVAS_ITEM (etext)->canvas),
-								  text);
+#warning "AIEEEE FIX ME.  a pango layout per calc_ellipsis sucks"
 	int width;
+	PangoLayout *layout = gtk_widget_create_pango_layout (GTK_WIDGET (GNOME_CANVAS_ITEM (text)->canvas),
+							      text->ellipsis ? text->ellipsis : "...");
+	pango_layout_get_size (layout, &width, NULL);
 
-	pango_layout_get_pixel_size (tmp_layout, &width, NULL);
+	text->ellipsis_width = width;
 
-	g_object_unref (tmp_layout);
-
-	return width;
-}
-
-typedef void (*LineSplitterFn) (int line_num, const char *start, int length, gpointer user_data);
-
-#define IS_BREAK_CHAR(break_chars, c) (g_unichar_isspace (c) || ((break_chars) && g_utf8_strchr ((break_chars), -1, (c))))
-
-static gint
-line_splitter (EText *etext, EFont *font, EFontStyle style,
-	       const char *break_characters,
-	       gboolean wrap_lines, double clip_width, double clip_height,
-	       gint max_lines, LineSplitterFn split_cb, gpointer user_data)
-{
-	ETextModel *model = etext->model;
-	const char *curr;
-	const char *text;
-	const char *linestart;
-	const char *last_breakpoint;
-	gint line_count = 0;
-
-	gunichar unival;
-
-	if (max_lines < 1)
-		max_lines = G_MAXINT;
-	if (clip_height != -1)
-		max_lines = CLAMP (max_lines, 1, clip_height / e_font_height (font));
-	
-	text = e_text_model_get_text (model);
-	linestart = NULL;
-	last_breakpoint = text;
-
-	for (curr = text; curr && *curr && line_count < max_lines; curr = g_utf8_next_char (curr)) {
-
-		unival = g_utf8_get_char (curr);
-
-		if (linestart == NULL)
-			linestart = curr;
-
-		if (unival == '\n') { /* We always break on newline */
-
-			if (split_cb)
-				split_cb (line_count, linestart, curr - linestart, user_data);
-			++line_count;
-			linestart = NULL;
-
-		} else if (wrap_lines) {
-			
-			if (clip_width < text_width_with_objects (etext, font, style, linestart, curr - linestart)
-			    && last_breakpoint > linestart) {
-
-				/* Don't use break point if we are on the last usable line */
-				if (split_cb && line_count < max_lines - 1)
-					split_cb (line_count, linestart, last_breakpoint - linestart, user_data);
-				else if (split_cb)
-					split_cb (line_count, linestart, strlen (linestart), user_data);
-
-				++line_count;
-				linestart = NULL;
-				curr = last_breakpoint;
-
-			} else if (IS_BREAK_CHAR (break_characters, unival)
-				   && e_text_model_get_object_at_pointer (model, curr) == -1) { /* don't break mid-object */
-				last_breakpoint = curr;
-			}
-		}
-	}
-
-	/* Handle any leftover text. */
-	if (linestart) {
-		if (split_cb)
-			split_cb (line_count, linestart, strlen (linestart), user_data);
-		++line_count;
-
-	}
-
-	if (line_count == 0) {
-		if (split_cb)
-			split_cb (0, text, strlen (text), user_data);
-		line_count ++;
-	}
-	
-	return line_count;
-}
-
-static void
-line_split_cb (int line_num, const char *start, int length, gpointer user_data)
-{
-	EText *text = user_data;
-	struct line *line = &((struct line *)text->lines)[line_num];
-
-	line->text = start;
-	line->length = length;
+	g_object_unref (layout);
 }
 
 static void
 split_into_lines (EText *text)
 {
-	/* Free old array of lines */
-	e_text_free_lines (text);
-
-	/* First, count the number of lines */
-	text->num_lines = line_splitter (text, text->font, text->style,
-					 text->break_characters,
-					 text->line_wrap, text->clip_width, text->clip_height,
-					 -1, NULL, NULL);
-
-	/* Allocate our array of lines */
-	text->lines = g_new0 (struct line, text->num_lines);
-
-	text->num_lines = line_splitter (text, text->font, text->style,
-					 text->break_characters,
-					 text->line_wrap, text->clip_width, text->clip_height,
-					 text->num_lines, line_split_cb, text);
+	text->num_lines = pango_layout_get_line_count (text->layout);
 }
 
 /* Convenience function to set the text's GC's foreground color */
@@ -821,8 +618,6 @@ e_text_set_property (GObject *object,
 					  G_CALLBACK (e_text_text_model_reposition),
 					  text);
 
-		e_text_free_lines(text);
-
 		text->text = e_text_model_get_text(text->model);
 		g_signal_emit (text, e_text_signals[E_TEXT_CHANGED], 0);
 
@@ -854,74 +649,6 @@ e_text_set_property (GObject *object,
 		e_text_model_set_text(text->model, g_value_get_string (value));
 		break;
 
-	case PROP_FONT:
-		if (text->font)
-  			e_font_unref (text->font);
-
-		text->font = e_font_from_gdk_name (g_value_get_string (value));
-		
-		calc_ellipsis (text);
-		if ( text->line_wrap )
-			text->needs_split_into_lines = 1;
-		else {
-			text->needs_calc_line_widths = 1;
-			text->needs_calc_height = 1;
-		}
-		needs_reflow = 1;
-		break;
-
-	case PROP_FONTSET:
-		if (text->font)
-  			e_font_unref (text->font); 
-
-		text->font = e_font_from_gdk_name (g_value_get_string (value));
-
-		calc_ellipsis (text);
-		if ( text->line_wrap )
-			text->needs_split_into_lines = 1;
-		else {
-			text->needs_calc_line_widths = 1;
-			text->needs_calc_height = 1;
-		}
-		needs_reflow = 1;
-		break;
-
-	case PROP_FONT_GDK:
-		/* Ref the font in case it was the font that is stored
-		   in the e-font */
-		gdk_font_ref (g_value_get_boxed (value));
-		if (text->font)
-  			e_font_unref (text->font); 
-
-		text->font = e_font_from_gdk_font (g_value_get_boxed (value));
-
-		calc_ellipsis (text);
-		if ( text->line_wrap )
-			text->needs_split_into_lines = 1;
-		else {
-			text->needs_calc_line_widths = 1;
-			text->needs_calc_height = 1;
-		}
-		needs_reflow = 1;
-		break;
-
-	case PROP_FONT_E:
-		if (text->font)
-			e_font_unref (text->font);
-
-		text->font = g_value_get_pointer (value);
-		e_font_ref (text->font);
-
-		calc_ellipsis (text);
-		if (text->line_wrap)
-			text->needs_split_into_lines = 1;
-		else {
-			text->needs_calc_line_widths = 1;
-			text->needs_calc_height = 1;
-		}
-		needs_reflow = 1;
-		break;
-
 	case PROP_BOLD:
 		text->bold = g_value_get_boolean (value);
 		text->style = text->bold ? E_FONT_BOLD : E_FONT_PLAIN;
@@ -931,7 +658,6 @@ e_text_set_property (GObject *object,
 		if ( text->line_wrap )
 			text->needs_split_into_lines = 1;
 		else {
-			text->needs_calc_line_widths = 1;
 			text->needs_calc_height = 1;
 		}
 		needs_update = 1;
@@ -959,13 +685,9 @@ e_text_set_property (GObject *object,
 	case PROP_CLIP_WIDTH:
 		text->clip_width = fabs (g_value_get_double (value));
 		calc_ellipsis (text);
-		if (text->layout) {
-			pango_layout_set_width (text->layout, text->clip_width < 0 ? -1 : text->clip_width * PANGO_SCALE);
-		}
 		if ( text->line_wrap )
 			text->needs_split_into_lines = 1;
 		else {
-			text->needs_calc_line_widths = 1;
 			text->needs_calc_height = 1;
 		}
 		needs_reflow = 1;
@@ -983,7 +705,6 @@ e_text_set_property (GObject *object,
 		if ( text->line_wrap )
 			text->needs_split_into_lines = 1;
 		else {
-			text->needs_calc_line_widths = 1;
 			text->needs_calc_height = 1;
 		}
 		needs_reflow = 1;
@@ -1052,7 +773,6 @@ e_text_set_property (GObject *object,
 
 	case PROP_USE_ELLIPSIS:
 		text->use_ellipsis = g_value_get_boolean (value);
-		text->needs_calc_line_widths = 1;
 		needs_reflow = 1;
 		break;
 
@@ -1062,12 +782,16 @@ e_text_set_property (GObject *object,
 
 		text->ellipsis = g_strdup (g_value_get_string (value));
 		calc_ellipsis (text);
-		text->needs_calc_line_widths = 1;
 		needs_reflow = 1;
 		break;
 
 	case PROP_LINE_WRAP:
 		text->line_wrap = g_value_get_boolean (value);
+		if (text->line_wrap) {
+			if (text->layout) {
+				pango_layout_set_width (text->layout, text->width < 0 ? -1 : text->width * PANGO_SCALE);
+			}
+		}
 		text->needs_split_into_lines = 1;
 		needs_reflow = 1;
 		break;
@@ -1092,10 +816,13 @@ e_text_set_property (GObject *object,
 	case PROP_WIDTH:
 		text->clip_width = fabs (g_value_get_double (value));
 		calc_ellipsis (text);
-		if ( text->line_wrap )
+		if ( text->line_wrap ) {
+			if (text->layout) {
+				pango_layout_set_width (text->layout, text->width < 0 ? -1 : text->width * PANGO_SCALE);
+			}
 			text->needs_split_into_lines = 1;
+		}
 		else {
-			text->needs_calc_line_widths = 1;
 			text->needs_calc_height = 1;
 		}
 		needs_reflow = 1;
@@ -1190,10 +917,6 @@ e_text_get_property (GObject *object,
 
 	case PROP_TEXT:
 		g_value_set_string (value, g_strdup (text->text));
-		break;
-
-	case PROP_FONT_E:
-		g_value_set_pointer (value, text->font);
 		break;
 
 	case PROP_BOLD:
@@ -1332,67 +1055,9 @@ e_text_reflow (GnomeCanvasItem *item, int flags)
 		split_into_lines (text);
 
 		text->needs_split_into_lines = 0;
-		text->needs_calc_line_widths = 1;
 		text->needs_calc_height = 1;
 	}
 
-	if ( text->needs_calc_line_widths ) {
-		int x;
-		int i;
-		struct line *lines;
-		gdouble clip_width;
-		calc_line_widths (text);
-		text->needs_calc_line_widths = 0;
-		text->needs_redraw = 1;
-
-		lines = text->lines;
-		if ( !lines )
-			return;
-
-		for (lines = text->lines, i = 0; i < text->num_lines ; i++, lines ++) {
-			if ((lines->text - text->text) > text->selection_end) {
-				break;
-			}
-		}
-		lines --;
-		i--;
-		x = text_width_with_objects (text,
-					     text->font, text->style,
-					     lines->text,
-					     text->selection_end - (lines->text - text->text));
-
-		if (x < text->xofs_edit) {
-			text->xofs_edit = x;
-		}
-
-		clip_width = text->clip_width;
-		if (clip_width >= 0 && text->draw_borders) {
-			clip_width -= 6;
-			if (clip_width < 0)
-				clip_width = 0;
-		}
-
-		if (2 + x - clip_width > text->xofs_edit) {
-			text->xofs_edit = 2 + x - clip_width;
-		}
-
-		if (e_font_height (text->font) * i < text->yofs_edit)
-			text->yofs_edit = e_font_height (text->font) * i;
-
-		if ( text->needs_calc_height ) {
-			calc_height (text);
-			gnome_canvas_item_request_update(item);
-			text->needs_calc_height = 0;
-			text->needs_recalc_bounds = 1;
-		}
-
-		if (e_font_height (text->font) * (i + 1) -
-		     (text->clip_height != -1 ? text->clip_height : text->height) > text->yofs_edit)
-			text->yofs_edit = e_font_height (text->font) * (i + 1) -
-				(text->clip_height != -1 ? text->clip_height : text->height);
-
-		gnome_canvas_item_request_update (item);
-	}
 	if ( text->needs_calc_height ) {
 		calc_height (text);
 		gnome_canvas_item_request_update(item);
@@ -1453,9 +1118,7 @@ e_text_realize (GnomeCanvasItem *item)
 	if (parent_class->realize)
 		(* parent_class->realize) (item);
 
-	text->layout = gtk_widget_create_pango_layout (GTK_WIDGET (item->canvas), text->text);
-	pango_layout_set_width (text->layout, text->clip_width < 0 ? -1 : text->clip_width * PANGO_SCALE);
-	reset_layout_attrs (text);
+	create_layout (text);
 
 	text->gc = gdk_gc_new (item->canvas->layout.bin_window);
 #ifndef NO_WARNINGS
@@ -1468,10 +1131,6 @@ e_text_realize (GnomeCanvasItem *item)
 	
 	text->i_cursor = gdk_cursor_new (GDK_XTERM);
 	text->default_cursor = gdk_cursor_new (GDK_LEFT_PTR);
-	if (text->font == NULL) {
-		gdk_font_ref (gtk_style_get_font (GTK_WIDGET (item->canvas)->style));
-		text->font = e_font_from_gdk_font (gtk_style_get_font (GTK_WIDGET (item->canvas)->style));
-	}
 }
 
 /* Unrealize handler for the text item */
@@ -1489,8 +1148,6 @@ e_text_unrealize (GnomeCanvasItem *item)
 	text->i_cursor = NULL;
 	gdk_cursor_destroy (text->default_cursor);
 	text->default_cursor = NULL;
-	g_object_unref (text->layout);
-	text->layout = NULL;
 
 	if (parent_class->unrealize)
 		(* parent_class->unrealize) (item);
@@ -1566,7 +1223,7 @@ show_pango_rectangle (EText *text, PangoRectangle rect)
 
 	if (clip_height >= 0) {
 		if (2 + y2 - clip_height > new_yofs_edit)
-			new_yofs_edit = 2 + y2 - clip_height;
+			new_yofs_edit = 2 + y2 /*- clip_height*/;
 	} else {
 		new_yofs_edit = 0;
 	}
@@ -1755,7 +1412,7 @@ e_text_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 		}
 	}
 
-	if (!text->text || !text->font)
+	if (!text->text)
 		return;
 
 	clip_rect = NULL;
@@ -1865,12 +1522,6 @@ e_text_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 	if (text->clip) {
 		gdk_gc_set_clip_rectangle (main_gc, NULL);
 	}
-}
-
-/* Render handler for the text item */
-static void
-e_text_render (GnomeCanvasItem *item, GnomeCanvasBuf *buf)
-{
 }
 
 /* Point handler for the text item */
@@ -2141,11 +1792,12 @@ tooltip_destroy(gpointer data, GObject *where_object_was)
 static gboolean
 _do_tooltip (gpointer data)
 {
+#warning "need to sort out tooltip stuff."
 	EText *text = E_TEXT (data);
 	struct line *lines;
 	GtkWidget *canvas;
 	int i;
-	gdouble max_width;
+	int max_width;
 	gboolean cut_off;
 	double i2c[6];
 	ArtPoint origin = {0, 0};
@@ -2164,16 +1816,19 @@ _do_tooltip (gpointer data)
 
 	text->tooltip_count = 0;
 
-	lines = text->lines;
-
-	if (E_CANVAS(GNOME_CANVAS_ITEM(text)->canvas)->tooltip_window || text->editing || (!lines)) {
+	if (E_CANVAS(GNOME_CANVAS_ITEM(text)->canvas)->tooltip_window || text->editing || !text->num_lines) {
 		text->tooltip_timeout = 0;
 		return FALSE;
 	}
 
 	cut_off = FALSE;
-	for ( lines = text->lines, i = 0; i < text->num_lines; lines++, i++ ) {
-		if (lines->length > lines->ellipsis_length) {
+	for ( i = 0; i < text->num_lines; i++ ) {
+		PangoLayoutLine *line = pango_layout_get_line (text->layout, i);
+		PangoRectangle rect;
+
+		pango_layout_line_get_pixel_extents (line, &rect, NULL);
+
+		if (rect.width > text->clip_width) {
 			cut_off = TRUE;
 			break;
 		}
@@ -2200,13 +1855,7 @@ _do_tooltip (gpointer data)
 	gtk_container_add (GTK_CONTAINER (tooltip_window), canvas);
 	
 	/* Get the longest line length */
-	max_width = 0.0;
-	for (lines = text->lines, i = 0; i < text->num_lines; lines++, i++) {
-		gdouble line_width;
-
-		line_width = text_width_with_objects (text, text->font, text->style, lines->text, lines->length);
-		max_width = MAX (max_width, line_width);
-	}
+	pango_layout_get_size (text->layout, &max_width, NULL);
 
 	rect = gnome_canvas_item_new (gnome_canvas_root (GNOME_CANVAS (canvas)),
 				      gnome_canvas_rect_get_type (),
@@ -2222,7 +1871,6 @@ _do_tooltip (gpointer data)
 					      "anchor", GTK_ANCHOR_NW,
 					      "bold", text->bold,
 					      "strikeout", text->strikeout,
-					      "font_e", text->font,
 					      "text", text->text,
 					      "editable", FALSE,
 					      "clip_width", text->max_lines != 1 ? text->clip_width : max_width,
@@ -2239,15 +1887,17 @@ _do_tooltip (gpointer data)
 	else
 		e_canvas_item_move_absolute(tooltip_text, 1, 1);
 
+	create_layout (E_TEXT (tooltip_text));
 
 	split_into_lines (E_TEXT(tooltip_text));
 	calc_height (E_TEXT(tooltip_text));
-	calc_line_widths (E_TEXT(tooltip_text));
+
 	gnome_canvas_item_set (tooltip_text,
 			       "clip_height", (double) E_TEXT(tooltip_text)->height,
-			       "clip_width", (double) E_TEXT(tooltip_text)->max_width,
+			       "clip_width", (double) E_TEXT(tooltip_text)->width,
 			       NULL);
-	tooltip_width = E_TEXT(tooltip_text)->max_width;
+
+	tooltip_width = E_TEXT(tooltip_text)->width;
 	tooltip_height = E_TEXT(tooltip_text)->height;
 	tooltip_x = 0;
 	tooltip_y = 0;
@@ -2305,14 +1955,15 @@ _do_tooltip (gpointer data)
 			      "y2", (double) tooltip_height + 4 + (text->draw_borders ? BORDER_INDENT * 2 : 0),
 			      NULL);
 	
+	gtk_widget_show (canvas);
+	gtk_widget_realize (tooltip_window);
+
 	gtk_widget_set_usize (tooltip_window,
 			      tooltip_width + 4 + (text->draw_borders ? BORDER_INDENT * 2 : 0),
 			      tooltip_height + 4 + (text->draw_borders ? BORDER_INDENT * 2 : 0));
 	gnome_canvas_set_scroll_region (GNOME_CANVAS(canvas), 0.0, 0.0,
 					tooltip_width + (text->draw_borders ? BORDER_INDENT * 2 : 0), 
 					(double)tooltip_height + (text->draw_borders ? BORDER_INDENT * 2 : 0));
-	gtk_widget_show (canvas);
-	gtk_widget_realize (tooltip_window);
 	g_signal_connect (tooltip_window, "event",
 			  G_CALLBACK(tooltip_event), text);
 	g_object_weak_ref (G_OBJECT (tooltip_window),
@@ -2326,6 +1977,7 @@ _do_tooltip (gpointer data)
 	text->tooltip_owner = TRUE;
 	
 	text->tooltip_timeout = 0;
+
 	return FALSE;
 }
 
@@ -2419,8 +2071,6 @@ e_text_event (GnomeCanvasItem *item, GdkEvent *event)
 			}
 			if ( text->line_wrap )
 				text->needs_split_into_lines = 1;
-			else
-				text->needs_calc_line_widths = 1;
 			e_canvas_item_request_reflow (GNOME_CANVAS_ITEM(text));
 		}
 		return_val = 0;
@@ -2564,26 +2214,11 @@ e_text_event (GnomeCanvasItem *item, GdkEvent *event)
 		break;
 	case GDK_ENTER_NOTIFY:
 		{
-#if 0
-			GdkEventCrossing *crossing = (GdkEventCrossing *) event;
-			double x1, y1, x2, y2;
-			split_into_lines (text);
-			calc_height (text);
-			calc_line_widths (text);
-			get_bounds (text, &x1, &y1, &x2, &y2);
-			if (crossing->x >= x1 &&
-			    crossing->y >= y1 &&
-			    crossing->x <= x2 &&
-			    crossing->y <= y2) {
-#endif
 				if ( text->tooltip_count == 0 && text->clip) {
 					if (!text->tooltip_timeout)
 						text->tooltip_timeout = gtk_timeout_add (1000, _do_tooltip, text);
 				}
 				text->tooltip_count ++;
-#if 0
-			}
-#endif
 		}
 
 		text->pointer_in = TRUE;
@@ -3094,21 +2729,6 @@ e_text_command(ETextEventProcessor *tep, ETextEventProcessorCommand *command, gp
 		break;
 	}
 
-
-	if (changed && !text->button_down) {
-		PangoRectangle strong_pos, weak_pos;
-
-		pango_layout_get_cursor_pos (text->layout, text->selection_end, &strong_pos, &weak_pos);
-
-		if (strong_pos.x != weak_pos.x ||
-		    strong_pos.y != weak_pos.y ||
-		    strong_pos.width != weak_pos.width ||
-		    strong_pos.height != weak_pos.height)
-			show_pango_rectangle (text, weak_pos);
-
-		show_pango_rectangle (text, strong_pos);
-	}
-
 	text->needs_redraw = 1;
 	gnome_canvas_item_request_update (GNOME_CANVAS_ITEM(text));
 }
@@ -3468,7 +3088,6 @@ e_text_class_init (ETextClass *klass)
 	item_class->draw = e_text_draw;
 	item_class->point = e_text_point;
 	item_class->bounds = e_text_bounds;
-	item_class->render = e_text_render;
 	item_class->event = e_text_event;
 
 	klass->changed = NULL;
@@ -3531,32 +3150,6 @@ e_text_class_init (ETextClass *klass)
 							      NULL,
 							      G_PARAM_READWRITE));
 
-	g_object_class_install_property (gobject_class, PROP_FONT,
-					 g_param_spec_string ("font",
-							      _( "Font" ),
-							      _( "Font" ),
-							      NULL,
-							      G_PARAM_READWRITE));
-
-	g_object_class_install_property (gobject_class, PROP_FONTSET,
-					 g_param_spec_string ("fontset",
-							      _( "Fontset" ),
-							      _( "Fontset" ),
-							      NULL,
-							      G_PARAM_READWRITE));
-
-	g_object_class_install_property (gobject_class, PROP_FONT_GDK,
-					 g_param_spec_boxed ("font_gdk",
-							     _( "GDKFont" ),
-							     _( "GDKFont" ),
-							     GDK_TYPE_FONT,
-							     G_PARAM_WRITABLE));
-                                        
-	g_object_class_install_property (gobject_class, PROP_FONT_E,
-					 g_param_spec_pointer ("font_e",
-							       _( "EFont" ),
-							       _( "EFont" ),
-							       G_PARAM_READWRITE));
 	g_object_class_install_property (gobject_class, PROP_BOLD,
 					 g_param_spec_boolean ("bold",
 							       _( "Bold" ),

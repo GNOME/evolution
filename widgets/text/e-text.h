@@ -62,9 +62,6 @@ G_BEGIN_DECLS
  * name			type			read/write	description
  * ------------------------------------------------------------------------------------------
  * text			string			RW		The string of the text label
- * font			string			W		X logical font descriptor
- * fontset		string			W		X logical fontset descriptor
- * font_gdk		GdkFont*		RW		Pointer to a GdkFont
  * bold                 boolean                 RW              Bold?
  * anchor		GtkAnchorType		RW		Anchor side for the text
  * justification	GtkJustification	RW		Justification for multiline text
@@ -104,28 +101,6 @@ G_BEGIN_DECLS
 typedef struct _EText EText;
 typedef struct _ETextClass ETextClass;
 
-#if 0
-typedef struct _ETextSuckFont ETextSuckFont;
-typedef struct _ETextSuckChar ETextSuckChar;
-
-struct _ETextSuckChar {
-	int     left_sb;
-	int     right_sb;
-	int     width;
-	int     ascent;
-	int     descent;
-	int     bitmap_offset; /* in pixels */
-};
-
-struct _ETextSuckFont {
-	guchar *bitmap;
-	gint    bitmap_width;
-	gint    bitmap_height;
-	gint    ascent;
-	ETextSuckChar chars[256];
-};
-#endif
-
 struct _EText {
 	GnomeCanvasItem item;
 	
@@ -135,16 +110,10 @@ struct _EText {
 
 	const gchar *text;              /* Text to display --- from the ETextModel */
 	PangoLayout *layout;
-	gpointer lines;			/* Text split into lines (private field) */
 	int num_lines;			/* Number of lines of text */
 
 	gchar *revert;                  /* Text to revert to */
 
-#if 0
-	GdkFont *font;			/* Font for text */
-#else
-	EFont *font;
-#endif
 	GtkAnchorType anchor;		/* Anchor side for text */
 	GtkJustification justification;	/* Justification for text */
 
@@ -165,10 +134,6 @@ struct _EText {
 	int width;                      /* Rendered text width in pixels */
 	int height;			/* Rendered text height in pixels */
 
-	/* Antialiased specific stuff follows */
-#if 0
-	ETextSuckFont *suckfont; /* Sucked font */
-#endif
 	guint32 rgba;			/* RGBA color for text */
 	double affine[6];               /* The item -> canvas affine */
 
@@ -218,7 +183,6 @@ struct _EText {
 	guint needs_redraw : 1;         /* Needs redraw */
 	guint needs_recalc_bounds : 1;  /* Need recalc_bounds */
 	guint needs_calc_height : 1;    /* Need calc_height */
-	guint needs_calc_line_widths : 1; /* Needs calc_line_widths */
 	guint needs_split_into_lines : 1; /* Needs split_into_lines */
 	guint needs_reset_layout : 1; /* Needs split_into_lines */
 
