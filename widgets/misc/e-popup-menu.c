@@ -13,6 +13,7 @@ nnn *
 #include <gnome.h>
 #include "e-popup-menu.h"
 #include "e-gui-utils.h"
+#include "gal/util/e-i18n.h"
 
 /*
  * Creates an item with an optional icon
@@ -79,7 +80,7 @@ e_popup_menu_create (EPopupMenu *menu_list, guint32 disable_mask, guint32 hide_m
 		if ((!(seperator && last_item_seperator)) && !(menu_list [i].disable_mask & hide_mask)) {
 			GtkWidget *item;
 			
-			item = make_item (menu, menu_list[i].name, menu_list[i].pixname);
+			item = make_item (menu, seperator ? "" : _(menu_list[i].name), menu_list[i].pixname);
 			gtk_menu_append (menu, item);
 			
 			if (!menu_list[i].submenu) {
