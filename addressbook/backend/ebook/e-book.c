@@ -44,8 +44,7 @@ struct _EBookPrivate {
 	 */
 	GList                 *pending_ops;
 
-	guint sq_tag;
-	GList *sq_pending;
+	guint op_tag;
 };
 
 enum {
@@ -58,6 +57,8 @@ enum {
 static guint e_book_signals [LAST_SIGNAL];
 
 typedef struct {
+	guint     tag;
+	gboolean  active;
 	gpointer  cb;
 	gpointer  closure;
 	EBookViewListener *listener;
@@ -66,7 +67,7 @@ typedef struct {
 /*
  * Local response queue management.
  */
-static void
+static guint
 e_book_queue_op (EBook    *book,
 		 gpointer  cb,
 		 gpointer  closure,
@@ -75,12 +76,16 @@ e_book_queue_op (EBook    *book,
 	EBookOp *op;
 
 	op           = g_new0 (EBookOp, 1);
+	op->tag      = book->priv->op_tag++;
+	op->active   = TRUE;
 	op->cb       = cb;
 	op->closure  = closure;
 	op->listener = listener;
 
 	book->priv->pending_ops =
 		g_list_append (book->priv->pending_ops, op);
+
+	return op->tag;
 }
 
 static EBookOp *
@@ -102,6 +107,23 @@ e_book_pop_op (EBook *book)
 	g_list_free_1 (popped);
 
 	return op;
+}
+
+static gboolean
+e_book_cancel_op (EBook *book, guint tag)
+{
+	GList *iter;
+	gboolean cancelled = FALSE;
+
+	for (iter = book->priv->pending_ops; iter != NULL && !cancelled; iter = g_list_next (iter)) {
+		EBookOp *op = iter->data;
+		if (op->tag == tag) {
+			op->active = FALSE;
+			cancelled = TRUE;
+		}
+	}
+	
+	return cancelled;
 }
 
 static void
@@ -161,8 +183,12 @@ e_book_do_response_get_cursor (EBook                 *book,
 
 	cursor = e_card_cursor_new(resp->cursor);
 
-	if (op->cb)
-		((EBookCursorCallback) op->cb) (book, resp->status, cursor, op->closure);
+	if (op->cb) {
+		if (op->active)
+			((EBookCursorCallback) op->cb) (book, resp->status, cursor, op->closure);
+		else
+			((EBookCursorCallback) op->cb) (book, E_BOOK_STATUS_CANCELLED, NULL, op->closure);
+	}
 
 	/*
 	 * Release the remote GNOME_Evolution_Addressbook_Book in the PAS.
@@ -209,12 +235,19 @@ e_book_do_response_get_view (EBook                 *book,
 			   "in local op queue!\n");
 		return;
 	}
-
+	
 	book_view = e_book_view_new(resp->book_view, op->listener);
 	
-	if (op->cb)
-		((EBookBookViewCallback) op->cb) (book, resp->status, book_view, op->closure);
-
+	/* Only execute the callback if the operation is still flagged as active (i.e. hasn't
+	   been cancelled.  This is mildly wasteful since we unnecessaryily create the
+	   book_view, etc... but I'm leery of tinkering with the CORBA magic. */
+	if (op->cb) {
+		if (op->active)
+			((EBookBookViewCallback) op->cb) (book, resp->status, book_view, op->closure);
+		else
+			((EBookBookViewCallback) op->cb) (book, E_BOOK_STATUS_CANCELLED, NULL, op->closure);
+	}
+	
 	/*
 	 * Release the remote GNOME_Evolution_Addressbook_Book in the PAS.
 	 */
@@ -262,8 +295,12 @@ e_book_do_response_get_changes (EBook                 *book,
 
 	book_view = e_book_view_new (resp->book_view, op->listener);
 	
-	if (op->cb)
-		((EBookBookViewCallback) op->cb) (book, resp->status, book_view, op->closure);
+	if (op->cb) {
+		if (op->active)
+			((EBookBookViewCallback) op->cb) (book, resp->status, book_view, op->closure);
+		else
+			((EBookBookViewCallback) op->cb) (book, E_BOOK_STATUS_CANCELLED, NULL, op->closure);
+	}
 
 	/*
 	 * Release the remote GNOME_Evolution_Addressbook_BookView in the PAS.
@@ -358,8 +395,13 @@ e_book_do_response_get_supported_fields (EBook                 *book,
 		return;
 	}
 
-	if (op->cb)
-		((EBookFieldsCallback) op->cb) (book, resp->status, resp->fields, op->closure);
+	if (op->cb) {
+		if (op->active)
+			((EBookFieldsCallback) op->cb) (book, resp->status, resp->fields, op->closure);
+		else
+			((EBookFieldsCallback) op->cb) (book, E_BOOK_STATUS_CANCELLED, NULL, op->closure);
+	}
+
 	g_free (op);
 }
 
@@ -559,7 +601,7 @@ e_book_get_static_capabilities (EBook *book)
 	return ret_val;
 }
 
-gboolean
+guint
 e_book_get_supported_fields (EBook              *book,
 			     EBookFieldsCallback cb,
 			     gpointer            closure)
@@ -570,7 +612,7 @@ e_book_get_supported_fields (EBook              *book,
 
 	if (book->priv->load_state != URILoaded) {
 		g_warning ("e_book_unload_uri: No URI is loaded!\n");
-		return FALSE;
+		return 0;
 	}
 
 	GNOME_Evolution_Addressbook_Book_getSupportedFields(book->priv->corba_book, &ev);
@@ -579,14 +621,12 @@ e_book_get_supported_fields (EBook              *book,
 		g_warning ("e_book_get_supported_fields: Exception "
 			   "during get_supported_fields!\n");
 		CORBA_exception_free (&ev);
-		return FALSE;
+		return 0;
 	}
 
 	CORBA_exception_free (&ev);
 
-	e_book_queue_op (book, cb, closure, NULL);
-
-	return TRUE;
+	return e_book_queue_op (book, cb, closure, NULL);
 }
 
 static gboolean
@@ -1000,7 +1040,7 @@ e_book_check_connection (EBook *book)
 	return TRUE;
 }
 
-gboolean
+guint
 e_book_get_cursor       (EBook               *book,
 			 gchar               *query,
 			 EBookCursorCallback  cb,
@@ -1008,12 +1048,12 @@ e_book_get_cursor       (EBook               *book,
 {
 	CORBA_Environment ev;
   
-	g_return_val_if_fail (book != NULL,     FALSE);
-	g_return_val_if_fail (E_IS_BOOK (book), FALSE);
+	g_return_val_if_fail (book != NULL,     0);
+	g_return_val_if_fail (E_IS_BOOK (book), 0);
 
 	if (book->priv->load_state != URILoaded) {
 		g_warning ("e_book_check_connection: No URI loaded!\n");
-		return FALSE;
+		return 0;
 	}
 	
 	CORBA_exception_init (&ev);
@@ -1024,17 +1064,17 @@ e_book_get_cursor       (EBook               *book,
 		g_warning ("e_book_get_all_cards: Exception "
 			   "querying list of cards!\n");
 		CORBA_exception_free (&ev);
-		return FALSE;
+		return 0;
 	}
 	
 	CORBA_exception_free (&ev);
 
-	e_book_queue_op (book, cb, closure, NULL);
+	return e_book_queue_op (book, cb, closure, NULL);
 
 	return TRUE;
 }
 
-gboolean
+guint
 e_book_get_book_view       (EBook                 *book,
 			    gchar                 *query,
 			    EBookBookViewCallback  cb,
@@ -1043,12 +1083,12 @@ e_book_get_book_view       (EBook                 *book,
 	CORBA_Environment ev;
 	EBookViewListener *listener;
   
-	g_return_val_if_fail (book != NULL,     FALSE);
-	g_return_val_if_fail (E_IS_BOOK (book), FALSE);
+	g_return_val_if_fail (book != NULL,     0);
+	g_return_val_if_fail (E_IS_BOOK (book), 0);
 
 	if (book->priv->load_state != URILoaded) {
 		g_warning ("e_book_get_book_view: No URI loaded!\n");
-		return FALSE;
+		return 0;
 	}
 
 	listener = e_book_view_listener_new();
@@ -1061,17 +1101,15 @@ e_book_get_book_view       (EBook                 *book,
 		g_warning ("e_book_get_book_view: Exception "
 			   "getting book_view!\n");
 		CORBA_exception_free (&ev);
-		return FALSE;
+		return 0;
 	}
 	
 	CORBA_exception_free (&ev);
 
-	e_book_queue_op (book, cb, closure, listener);
-
-	return TRUE;
+	return e_book_queue_op (book, cb, closure, listener);
 }
 
-gboolean
+guint
 e_book_get_changes         (EBook                 *book,
 			    gchar                 *changeid,
 			    EBookBookViewCallback  cb,
@@ -1080,8 +1118,8 @@ e_book_get_changes         (EBook                 *book,
 	CORBA_Environment ev;
 	EBookViewListener *listener;
   
-	g_return_val_if_fail (book != NULL,     FALSE);
-	g_return_val_if_fail (E_IS_BOOK (book), FALSE);
+	g_return_val_if_fail (book != NULL,     0);
+	g_return_val_if_fail (E_IS_BOOK (book), 0);
 
 	if (book->priv->load_state != URILoaded) {
 		g_warning ("e_book_get_changes: No URI loaded!\n");
@@ -1098,14 +1136,31 @@ e_book_get_changes         (EBook                 *book,
 		g_warning ("e_book_changes: Exception "
 			   "getting changes!\n");
 		CORBA_exception_free (&ev);
-		return FALSE;
+		return 0;
 	}
 	
 	CORBA_exception_free (&ev);
 
-	e_book_queue_op (book, cb, closure, listener);
+	return e_book_queue_op (book, cb, closure, listener);
+}
 
-	return TRUE;
+/**
+ * e_book_cancel
+ */
+
+void
+e_book_cancel (EBook *book, guint tag)
+{
+	g_return_if_fail (book != NULL);
+	g_return_if_fail (E_IS_BOOK (book));
+	g_return_if_fail (tag != 0);
+
+	/* In an attempt to be useful, we take a bit of extra care in reporting
+	   errors.  This might come in handy someday. */
+	if (tag >= book->priv->op_tag)
+		g_warning ("Attempt to cancel unassigned operation (%u)", tag);
+	else if (! e_book_cancel_op (book, tag))
+		g_warning ("Attempt to cancel unknown operation (%u)", tag); 
 }
 
 /**
@@ -1154,6 +1209,7 @@ e_book_init (EBook *book)
 {
 	book->priv             = g_new0 (EBookPrivate, 1);
 	book->priv->load_state = URINotLoaded;
+	book->priv->op_tag = 1;
 }
 
 static void

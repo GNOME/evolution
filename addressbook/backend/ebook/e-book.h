@@ -62,7 +62,7 @@ void      e_book_unload_uri               (EBook                 *book);
 
 char     *e_book_get_static_capabilities  (EBook                 *book);
 
-gboolean  e_book_get_supported_fields     (EBook                 *book,
+guint     e_book_get_supported_fields     (EBook                 *book,
 					   EBookFieldsCallback    cb,
 					   gpointer               closure);
 
@@ -112,20 +112,25 @@ gboolean  e_book_commit_vcard             (EBook                 *book,
 
 /* Checking to see if we're connected to the card repository. */
 gboolean  e_book_check_connection         (EBook                 *book);
-gboolean  e_book_get_cursor               (EBook                 *book,
+guint     e_book_get_cursor               (EBook                 *book,
 					   char                  *query,
 					   EBookCursorCallback    cb,
 					   gpointer               closure);
 
-gboolean  e_book_get_book_view            (EBook                 *book,
+guint     e_book_get_book_view            (EBook                 *book,
 					   char                  *query,
 					   EBookBookViewCallback  cb,
 					   gpointer               closure);
 
-gboolean  e_book_get_changes              (EBook                 *book,
+guint     e_book_get_changes              (EBook                 *book,
 					   char                  *changeid,
 					   EBookBookViewCallback  cb,
 					   gpointer               closure);
+
+/* Cancel a pending operation. */
+void      e_book_cancel                   (EBook                 *book,
+					   guint                  tag);
+
 
 /* Getting the name of the repository. */
 char     *e_book_get_name                 (EBook                 *book);

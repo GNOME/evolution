@@ -1,3 +1,26 @@
+2001-03-17  Jon Trowbridge  <trow@ximian.com>
+
+	* backend/ebook/e-book.c (e_book_queue_op): Tag all queued ops.
+	(e_book_cancel_op): Added.  Search for a pending op with a given
+	tag, and mark it as inactive.
+	(e_book_do_response_get_cursor): Don't execute callback if this
+	operations has been cancelled.
+	(e_book_do_response_get_view): Ditto.
+	(e_book_do_response_get_changes): Ditto.
+	(e_book_do_response_get_supported_fields): Ditto.
+	(e_book_get_supported_fields): Return an operation tag (that can
+	be used to cancel the operation) rather than just TRUE/FALSE.
+	Zero is always an invalid tag and is returned in the case of an
+	error, so this shouldn't break any code that looked at the return
+	value (unless it did so in a particularly stupid way, of course).
+	(e_book_get_cursor): Ditto.
+	(e_book_get_book_view): Ditto.
+	(e_book_get_changes): Ditto.
+	(e_book_cancel): Added.  Cancel a pending operation.  (Basically
+	a call to e_book_cancel_op with error checking, etc.)
+
+	* backend/ebook/e-book-types.h: Added E_BOOK_STATUS_CANCELLED.
+
 2001-03-17  Chris Toshok  <toshok@ximian.com>
 
 	* backend/ebook/e-book-listener.c
@@ -94,6 +117,7 @@
 	successfully, grant write permissions (this is lacking but there's
 	really nothing we can do to determine the extent of the access
 	afforded a user.)
+
 
 2001-03-15  Jon Trowbridge  <trow@ximian.com>
 
