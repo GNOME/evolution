@@ -160,6 +160,8 @@ camel_vee_folder_finalise (CamelObject *obj)
 	node = p->folders;
 	while (node) {
 		CamelFolder *f = node->data;
+		node = g_list_next(node);
+
 		if (vf != folder_unmatched) {
 			camel_object_unhook_event((CamelObject *)f, "folder_changed", (CamelObjectEventHookFunc) folder_changed, vf);
 			camel_object_unhook_event((CamelObject *)f, "message_changed", (CamelObjectEventHookFunc) message_changed, vf);
@@ -168,7 +170,6 @@ camel_vee_folder_finalise (CamelObject *obj)
 				camel_vee_folder_remove_folder(vf, f);
 		}
 		camel_object_unref((CamelObject *)f);
-		node = g_list_next(node);
 	}
 
 	g_free(vf->expression);
@@ -176,7 +177,6 @@ camel_vee_folder_finalise (CamelObject *obj)
 	
 	camel_folder_change_info_free(vf->changes);
 	camel_object_unref((CamelObject *)vf->search);
-	camel_object_unref((CamelObject *)((CamelFolder *)vf)->summary);
 
 #ifdef ENABLE_THREADS
 	g_mutex_free(p->summary_lock);

@@ -324,6 +324,7 @@ obj_init (CamelObject * obj)
 	obj->ref_count = 1;
 	obj->event_to_hooklist = NULL;
 	obj->in_event = 0;
+	obj->destroying = 0;
 }
 
 static void
@@ -482,36 +483,20 @@ camel_object_unref (CamelObject * obj)
 
 	G_UNLOCK (refcount);
 
-	/* Oh no! We want to emit a "finalized" event, but that function refs the object
-	 * because it's not supposed to get finalized in an event, but it is being finalized
-	 * right now, and AAUGH AAUGH AUGH AUGH!
-	 *
-	 * So we don't call camel_object_trigger_event. We do it ourselves. We even know
-	 * that CamelObject doesn't provide a prep for the finalized event, so we plunge
-	 * right in and call our hooks.
-	 *
-	 * And there was much rejoicing.
+	/* If the object already had its last unref, do not begin the
+	 * destruction process again. This can happen if, for example,
+	 * the object sends an event in its finalize handler (vfolders
+	 * do this).
 	 */
 
-#define hooklist parents	/*cough */
+	if (obj->destroying)
+		return;
+	
+	obj->destroying = 1;
 
-	if (obj->event_to_hooklist) {
-		CamelHookPair *pair;
+	/* Send the finalize event */
 
-		hooklist =
-			g_hash_table_lookup (obj->event_to_hooklist,
-					     "finalize");
-
-		while (hooklist && hooklist->data) {
-			pair = hooklist->data;
-			(pair->func) (obj, NULL, pair->user_data);
-			hooklist = hooklist->next;
-		}
-	}
-
-	hooklist = NULL;	/* Don't mess with this line */
-
-#undef hooklist
+	camel_object_trigger_event (obj, "finalize", NULL);
 
 	/* Destroy it! hahaha! */
 

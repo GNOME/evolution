@@ -81,10 +81,11 @@ CamelObjectClass;
 typedef struct _CamelObject
 {
 	CamelObjectShared s;
-	guint32 ref_count:31;
-	guint32 in_event:1;
 	CamelObjectClass *classfuncs;
 	GHashTable *event_to_hooklist;
+	guint32 ref_count:30;
+	guint32 in_event:1;
+	guint32 destroying:1;
 }
 CamelObject;
 

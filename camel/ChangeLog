@@ -1,3 +1,19 @@
+2001-07-05  Peter Williams  <peterw@ximian.com>
+
+	* camel-vee-folder.c (camel_vee_folder_finalise): Move this before the
+	camel_vee_folder_remove_folder because that function modifies p->folders
+	messing up our iteration.
+	(camel_vee_folder_finalise): Don't unref our summary; camel-folder now
+	does this.
+
+	* camel-object.h (CamelObject): Add a 'destroying' flag to CamelObject.
+
+	* camel-object.c (obj_init): Clear 'destroying'.
+	(camel_object_unref): If 'destroying' then do not send the finalize
+	event and do not call finalize functions. Otherwise, set destroying
+	so just in case we get refed (eg event code) we don't get doubly
+	finalized.
+
 2001-07-05  Not Zed  <NotZed@Ximian.com>
 
 	* camel-mime-filter-basic.c (filter): Fix the assertion slightly,
