@@ -1,6 +1,23 @@
 Version 0.17 (Beta 7), 2001-10-15
 ---------------------------------
 
+Shell:
+
+
+Mailer:
+
+  - "Whitespace-only" recipients are now ignored, rather than being
+    flagged as invalid. (Trow)
+
+  - Fixed bugs related to message searching: memory leak, i18n problems,
+    etc. (Trow)
+
+  - We no longer leave stray windows lying around after doing the
+    "Add Sender to Addressbook" operation. (Trow)
+
+  - Bcc: headers are now shown when viewing drafts, sent mail. (Trow)
+
+
 Addressbook:
 
   - General bug fixes (Iain, Trow, JP, Chris Toshok, Chris Lahey, Dan
@@ -11,6 +28,17 @@ Addressbook:
     Toshok)
 
   - LDIF Importer (Chris Toshok, Michael M. Morrison)
+
+  - Fixed Memory Leaks (Trow)
+
+  - Always show the correct message about the number of contacts on the
+    message bar. (Trow)
+
+  - Fixed printing of contacts. (Trow)
+
+  - Fixed the incredibly annoying bug which caused completed (underlined)
+    contacts to spontaneously revert when edited.  (Trow)
+
 
 Calendar:
 
@@ -24,6 +52,7 @@ Calendar:
   - Session management for the alarm daemon.  (Federico)
 
   - Added activity bars for long calendar operations (Rodrigo)
+
 
 Version 0.16 (Beta 6), 2001-10-10
 ---------------------------------
