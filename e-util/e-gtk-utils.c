@@ -104,3 +104,57 @@ e_gtk_signal_connect_full_while_alive (GtkObject *object,
 	info->disconnect_handler2 = gtk_signal_connect (alive_object, "destroy",
 							GTK_SIGNAL_FUNC (alive_disconnecter), info);
 }
+
+/**
+ * gtk_radio_button_get_nth_selected:
+ * @button: A GtkRadioButton
+ *
+ * Returns an int indicating which button in the radio group is
+ * toggled active.  NOTE: radio group item numbering starts at zero.
+ **/
+int
+gtk_radio_button_get_nth_selected (GtkRadioButton *button)
+{
+	GSList *l;
+	int i, c;
+
+	g_return_val_if_fail (button != NULL, 0);
+	g_return_val_if_fail (GTK_IS_RADIO_BUTTON (button), 0);
+	
+	c = g_slist_length (button->group);
+
+	for (i = 0, l = button->group; l; l = l->next, i++) {
+		GtkRadioButton *tmp = l->data;
+
+		if (GTK_TOGGLE_BUTTON (tmp)->active)
+			return c - i - 1;
+	}
+
+	return 0;
+}
+
+/**
+ * gtk_radio_button_select_nth:
+ * @button: A GtkRadioButton
+ * @n: Which button to select from the group
+ *
+ * Select the Nth item of a radio group.  NOTE: radio group items
+ * start numbering from zero
+ **/
+void
+gtk_radio_button_select_nth (GtkRadioButton *button, int n)
+{
+	GSList *l;
+	int len;
+
+	g_return_if_fail (button != NULL);
+	g_return_if_fail (GTK_IS_RADIO_BUTTON (button));	
+		
+	len = g_slist_length (button->group);
+
+	if ((n <= len) && (n > 0)) {
+		l = g_slist_nth (button->group, len - n - 1);
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (l->data), TRUE);
+	}
+	       
+}
