@@ -1146,7 +1146,7 @@ em_folder_tree_model_set_selected (EMFolderTreeModel *model, const char *uri)
 	
 	if (!model->state->children) {
 		root = xmlNewDocNode (model->state, NULL, "tree-state", NULL);
-		xmlDocSetRootElement (model->state, node);
+		xmlDocSetRootElement (model->state, root);
 	} else {
 		root = model->state->children;
 	}
