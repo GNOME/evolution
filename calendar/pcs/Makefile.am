@@ -29,8 +29,6 @@ libpcs_a_SOURCES =		\
 	cal.h			\
 	cal-backend.c		\
 	cal-backend.h		\
-	cal-backend-file.c	\
-	cal-backend-file.h	\
 	cal-backend-imc.c	\
 	cal-backend-imc.h	\
 	cal-common.h		\
