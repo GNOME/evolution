@@ -242,16 +242,16 @@ static void
 e_text_model_real_insert (ETextModel *model, gint position, const gchar *text)
 {
 	EReposInsertShift repos;
-	gchar *temp;
+	gchar *new_text;
 	gint ins_len;
 
-	temp = g_strdup_printf ("%.*s%s%s", position, model->priv->text, text, model->priv->text + position);
+	new_text = g_strdup_printf ("%.*s%s%s", position, model->priv->text, text, model->priv->text + position);
 	ins_len = strlen (text);
 
 	if (model->priv->text)
 		g_free (model->priv->text);
 
-	model->priv->text = temp;
+	model->priv->text = new_text;
 	
 	if (model->priv->len >= 0)
 		model->priv->len += ins_len;
@@ -269,11 +269,11 @@ static void
 e_text_model_real_insert_length (ETextModel *model, gint position, const gchar *text, gint length)
 {
 	EReposInsertShift repos;
-	gchar *temp = g_strdup_printf ("%.*s%.*s%s", position, model->priv->text, length, text, model->priv->text + position);
+	gchar *new_text = g_strdup_printf ("%.*s%.*s%s", position, model->priv->text, length, text, model->priv->text + position);
 
 	if (model->priv->text)
 		g_free (model->priv->text);
-	model->priv->text = temp;
+	model->priv->text = new_text;
 
 	if (model->priv->len >= 0)
 		model->priv->len += length;
