@@ -5,8 +5,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-applets 1.4.1\n"
-"POT-Creation-Date: 2001-11-14 19:26-0500\n"
-"PO-Revision-Date: 2001-11-10 19:04+0100\n"
+"POT-Creation-Date: 2001-11-20 22:37+0100\n"
+"PO-Revision-Date: 2001-11-15 00:41+0100\n"
 "Last-Translator: Kjartan Maraas <kmaraas@gnome.org>\n"
 "Language-Team: Norwegian <no@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -1015,12 +1015,12 @@ msgstr "Velg en handling"
 #: addressbook/gui/component/e-address-popup.c:593
 #, c-format
 msgid "Create a new contact \"%s\""
-msgstr "Opprett en ny kontakt \"%s\""
+msgstr "Opprett en ny kontakt «%s»"
 
 #: addressbook/gui/component/e-address-popup.c:605
 #, c-format
 msgid "Add address to existing contact \"%s\""
-msgstr "Legg til adresse for eksisterende kontakt \"%s\""
+msgstr "Legg til adresse for eksisterende kontakt «%s»"
 
 #: addressbook/gui/component/e-address-popup.c:891
 msgid "Querying Addressbook..."
@@ -1256,7 +1256,7 @@ msgstr "_Kontakter..."
 #: calendar/gui/dialogs/meeting-page.c:707 filter/filter.glade.h:8
 #: mail/folder-browser.c:1468 mail/mail-config.glade.h:96
 #: ui/evolution-calendar.xml.h:38 ui/evolution-mail-message.xml.h:94
-#: ui/evolution-tasks.xml.h:15 ui/evolution.xml.h:35
+#: ui/evolution-tasks.xml.h:15 ui/evolution.xml.h:39
 msgid "_Delete"
 msgstr "_Slett"
 
@@ -1325,9 +1325,8 @@ msgid "Delete Contact?"
 msgstr "Slett kontakt?"
 
 #: addressbook/gui/contact-editor/e-contact-editor.c:756
-#, fuzzy
 msgid "Category editor not available."
-msgstr "Ingen beskrivelse tilgjengelig."
+msgstr "Kategori editor ikke tilgjengelig."
 
 #: addressbook/gui/contact-editor/e-contact-editor.c:763
 msgid "This contact belongs to these categories:"
@@ -1340,7 +1339,7 @@ msgstr "TTY/TTD"
 #: addressbook/gui/contact-editor/e-contact-editor.c:2284
 #, c-format
 msgid "Could not find widget for a field: `%s'"
-msgstr "Kunne ikke finne widget for felt: `%s'"
+msgstr "Kunne ikke finne widget for felt: «%s»"
 
 #: addressbook/gui/contact-editor/e-contact-quick-add.c:298
 msgid "Contact Quick-Add"
@@ -2573,7 +2572,7 @@ msgstr "Ukjent feil"
 
 #: addressbook/gui/widgets/e-addressbook-util.c:35
 msgid "Repository offline"
-msgstr "Lager \"offline\""
+msgstr "Frakoblet lager"
 
 #: addressbook/gui/widgets/e-addressbook-util.c:36 shell/e-storage.c:516
 #: shell/evolution-shell-component.c:1035
@@ -3877,7 +3876,7 @@ msgstr "Kan ikke hente versjonsdata!"
 #: calendar/gui/dialogs/delete-comp.c:96
 #, c-format
 msgid "Are you sure you want to delete the appointment `%s'?"
-msgstr "Er du sikker på at du vil slette avtalen `%s'?"
+msgstr "Er du sikker på at du vil slette avtalen «%s»?"
 
 #: calendar/gui/dialogs/delete-comp.c:99
 msgid "Are you sure you want to delete this untitled appointment?"
@@ -3886,7 +3885,7 @@ msgstr "Er du sikker på at du vil slette denne avtalen uten tittel?"
 #: calendar/gui/dialogs/delete-comp.c:105
 #, c-format
 msgid "Are you sure you want to delete the task `%s'?"
-msgstr "Er du sikker på at du vil slette oppgaven `%s'?"
+msgstr "Er du sikker på at du vil slette oppgaven «%s»?"
 
 #: calendar/gui/dialogs/delete-comp.c:108
 msgid "Are you sure you want to delete this untitled task?"
@@ -3895,7 +3894,7 @@ msgstr "Er du sikker på at du vil slette denne oppgaven uten tittel?"
 #: calendar/gui/dialogs/delete-comp.c:114
 #, c-format
 msgid "Are you sure you want to delete the journal entry `%s'?"
-msgstr "Er du sikker på at du vil slette journaloppføringen `%s'?"
+msgstr "Er du sikker på at du vil slette journaloppføringen «%s»?"
 
 #: calendar/gui/dialogs/delete-comp.c:117
 msgid "Are you sure want to delete this untitled journal entry?"
@@ -5028,12 +5027,12 @@ msgstr "Åpner oppgaver på %s"
 #: calendar/gui/e-tasks.c:355
 #, c-format
 msgid "Could not load the tasks in `%s'"
-msgstr "Kunne ikke laste oppgavene i `%s'"
+msgstr "Kunne ikke laste oppgavene i «%s»"
 
 #: calendar/gui/e-tasks.c:367
 #, c-format
 msgid "The method required to load `%s' is not supported"
-msgstr "Metoden som er nødvendig for å laste `%s' er ikke støttet"
+msgstr "Metoden som er nødvendig for å laste «%s» er ikke støttet"
 
 #: calendar/gui/e-week-view.c:3402 calendar/gui/e-week-view.c:3440
 msgid "New _Appointment..."
@@ -5042,12 +5041,12 @@ msgstr "Ny _avtale..."
 #: calendar/gui/gnome-cal.c:1499
 #, c-format
 msgid "Could not open the folder in `%s'"
-msgstr "Kunne ikke åpne mappen i `%s'"
+msgstr "Kunne ikke åpne mappen i «%s»"
 
 #: calendar/gui/gnome-cal.c:1510
 #, c-format
 msgid "The method required to open `%s' is not supported"
-msgstr "Metoden som er nødvendig for å åpne `%s' er ikke støttet"
+msgstr "Metoden som er nødvendig for å åpne «%s» er ikke støttet"
 
 #: calendar/gui/gnome-cal.c:1865
 #, c-format
@@ -5399,7 +5398,7 @@ msgid ""
 "Could not open `%s'; no items from the calendar folder will be migrated to "
 "the tasks folder."
 msgstr ""
-"Kunne ikke åpne `%s'; ingen oppføringer fra kalendermappen vil flyttes til "
+"Kunne ikke åpne «%s»; ingen oppføringer fra kalendermappen vil flyttes til "
 "oppgavemappen."
 
 #: calendar/gui/tasks-migrate.c:133
@@ -5408,7 +5407,7 @@ msgid ""
 "The method required to load `%s' is not supported; no items from the "
 "calendar folder will be migrated to the tasks folder."
 msgstr ""
-"Metoden som kreves for å laste `%s' er ikke støttet; ingen oppføringer fra "
+"Metoden som kreves for å laste «%s» er ikke støttet; ingen oppføringer fra "
 "kalendermappen vil bli migrert til oppgavemappen."
 
 #: calendar/gui/weekday-picker.c:314 calendar/gui/weekday-picker.c:409
@@ -5492,8 +5491,7 @@ msgid ""
 "contains? expects argument 1 to be one of \"any\", \"summary\", \"description"
 "\""
 msgstr ""
-"contains? forventer at argument 1 er en av \"any\", \"summary\", "
-"\"description\""
+"contains? forventer at argument 1 er en av «any», «summary», «description»"
 
 #: calendar/pcs/query.c:721
 msgid "has-categories? expects at least 1 argument"
@@ -5529,7 +5527,7 @@ msgstr "Signering er ikke støttet av dette cipheret"
 
 #: camel/camel-cipher-context.c:211
 msgid "Clearsigning is not supported by this cipher"
-msgstr "\"Clearsigning\" er ikke støttet av dette cipheret"
+msgstr "«Clearsigning» er ikke støttet av dette cipheret"
 
 #: camel/camel-cipher-context.c:251
 msgid "Verifying is not supported by this cipher"
@@ -5561,7 +5559,7 @@ msgid ""
 "%s\n"
 "Changes made to this folder will not be resynchronized."
 msgstr ""
-"Kunne ikke åpne `%s':\n"
+"Kunne ikke åpne «%s»:\n"
 "%s\n"
 "Endringer i denne mappen vil ikke resynkroniseres."
 
@@ -5691,12 +5689,12 @@ msgstr "Kan ikke kjøre fork for låshjelper: %s"
 #: camel/camel-lock-client.c:202 camel/camel-lock-client.c:225
 #, c-format
 msgid "Could not lock '%s': protocol error with lock-helper"
-msgstr "Kunne ikke låse '%s': protokollfeil med låshjelper"
+msgstr "Kunne ikke låse «%s»: protokollfeil med låshjelper"
 
 #: camel/camel-lock-client.c:215
 #, c-format
 msgid "Could not lock '%s'"
-msgstr "Kunne ikke låse '%s'"
+msgstr "Kunne ikke låse «%s»"
 
 #. well, this is really only a programatic error
 #: camel/camel-lock.c:91 camel/camel-lock.c:110
@@ -5799,7 +5797,7 @@ msgstr ""
 
 #: camel/camel-pgp-context.c:755
 msgid "Cannot sign this message: no plaintext to clearsign"
-msgstr "Kan ikke signere denne meldingen: ingen tekst for \"clearsign\""
+msgstr "Kan ikke signere denne meldingen: ingen tekst for «clearsign»"
 
 #: camel/camel-pgp-context.c:953
 msgid "Cannot verify this message: no plaintext to verify"
@@ -5977,7 +5975,7 @@ msgstr "Ugyldig spørring fra tjener\n"
 #: camel/camel-sasl-digest-md5.c:825
 msgid "Server challenge contained invalid \"Quality of Protection\" token\n"
 msgstr ""
-"Spørring fra tjener inneholdt ugyldig tegn for \"Kvalitet for beskyttelse\"\n"
+"Spørring fra tjener inneholdt ugyldig tegn for «Kvalitet på beskyttelse»\n"
 
 #: camel/camel-sasl-digest-md5.c:847
 msgid "Server response did not contain authorization data\n"
@@ -6006,7 +6004,7 @@ msgid ""
 "Could not get Kerberos ticket:\n"
 "%s"
 msgstr ""
-"Fikk ikke Kerberos \"ticket\":\n"
+"Fant ikke Kerberos-tegn:\n"
 "%s"
 
 #: camel/camel-sasl-kerberos4.c:218
@@ -6061,22 +6059,22 @@ msgstr "Kompilering av regulært uttrykk feilet: %s: %s"
 #: camel/camel-service.c:157
 #, c-format
 msgid "URL '%s' needs a username component"
-msgstr "URL '%s' må inneholde et brukernavn"
+msgstr "URL «%s» må inneholde et brukernavn"
 
 #: camel/camel-service.c:165
 #, c-format
 msgid "URL '%s' needs a host component"
-msgstr "URL '%s' må inneholde et vertsnavn"
+msgstr "URL «%s» må inneholde et vertsnavn"
 
 #: camel/camel-service.c:173
 #, c-format
 msgid "URL '%s' needs a path component"
-msgstr "URL '%s' må inneholde en sti"
+msgstr "URL «%s» må inneholde en sti"
 
 #: camel/camel-service.c:611
 #, c-format
 msgid "Resolving: %s"
-msgstr "Finner: \"%s\""
+msgstr "Finner: «%s»"
 
 #: camel/camel-service.c:638
 #, c-format
@@ -6104,7 +6102,7 @@ msgstr "For lesing av e-post som en spørring på et annet sett med mapper"
 #: camel/camel-session.c:346 camel/camel-session.c:415
 #, c-format
 msgid "No provider available for protocol `%s'"
-msgstr "Ingen tilbyder tilgjengelig for protokoll `%s'"
+msgstr "Ingen tilbyder tilgjengelig for protokoll «%s»"
 
 #: camel/camel-session.c:532
 #, c-format
@@ -6127,18 +6125,18 @@ msgstr "Vennligst oppgi kallenavnet for et sertifikat du vil signere med."
 #: camel/camel-smime-context.c:209
 #, c-format
 msgid "The signature certificate for \"%s\" does not exist."
-msgstr "Signatursertifikatet for \"%s\" eksisterer ikke."
+msgstr "Signatursertifikatet for «%s» eksisterer ikke."
 
 #: camel/camel-smime-context.c:249
 #, c-format
 msgid "The encryption certificate for \"%s\" does not exist."
-msgstr "Krypteringssertifikatet for \"%s\" eksisterer ikke."
+msgstr "Krypteringssertifikatet for «%s» eksisterer ikke."
 
 #: camel/camel-smime-context.c:419 camel/camel-smime-context.c:430
 #: camel/camel-smime-context.c:536 camel/camel-smime-context.c:546
 #, c-format
 msgid "Failed to find certificate for \"%s\"."
-msgstr "Kunne ikke finne sertifikat for \"%s\"."
+msgstr "Kunne ikke finne sertifikat for «%s»."
 
 #: camel/camel-smime-context.c:556
 msgid "Failed to find a common bulk algorithm."
@@ -6207,7 +6205,7 @@ msgstr ""
 #: camel/camel-url.c:288
 #, c-format
 msgid "Could not parse URL `%s'"
-msgstr "Kunne ikke tolke URL `%s'"
+msgstr "Kunne ikke tolke URL «%s»"
 
 #: camel/camel-vee-folder.c:588
 #, c-format
@@ -6265,7 +6263,7 @@ msgstr "Svar fra IMAP-tjener inneholdt ikke %s-informasjon"
 #: camel/providers/imap/camel-imap-command.c:637
 #, c-format
 msgid "Unexpected OK response from IMAP server: %s"
-msgstr "Uventet svar 'OK' fra IMAP-tjener: %s"
+msgstr "Uventet svar «OK» fra IMAP-tjener: %s"
 
 #: camel/providers/imap/camel-imap-folder.c:194
 #, c-format
@@ -6414,7 +6412,7 @@ msgstr "Lokale levering"
 
 #: camel/providers/local/camel-local-provider.c:53
 msgid "For retrieving local mail from standard mbox formated spools."
-msgstr "For henting av lokal e-post fra standard \"spools\" i mbox format"
+msgstr "For henting av lokal e-post fra standard «spools» i mbox format"
 
 #: camel/providers/local/camel-local-provider.c:62
 msgid "Apply filters to new messages in INBOX"
@@ -6430,11 +6428,11 @@ msgstr "For lagring av lokal e-post i maildir-kataloger."
 
 #: camel/providers/local/camel-local-provider.c:80
 msgid "Standard Unix mbox spools"
-msgstr "Standard Unix mbox \"spools\""
+msgstr "Standard Unix mbox «spools»"
 
 #: camel/providers/local/camel-local-provider.c:81
 msgid "For reading and storing local mail in standard mbox spool files."
-msgstr "For lesing og lagring av lokal e-post i standard mbox \"spool\"-filer."
+msgstr "For lesing og lagring av lokal e-post i standard mbox «spool»-filer."
 
 #: camel/providers/local/camel-local-store.c:138
 #: camel/providers/local/camel-local-store.c:227
@@ -6472,12 +6470,12 @@ msgstr "Kunne ikke endre navn på mappe %s til %s: %s"
 #: camel/providers/local/camel-local-store.c:374
 #, c-format
 msgid "Could not delete folder summary file `%s': %s"
-msgstr "Kunne ikke slette sammendragsfil for mappe `%s': %s"
+msgstr "Kunne ikke slette sammendragsfil for mappe «%s»: %s"
 
 #: camel/providers/local/camel-local-store.c:384
 #, c-format
 msgid "Could not delete folder index file `%s': %s"
-msgstr "Kunne ikke slette indeksfil for mappe `%s': %s"
+msgstr "Kunne ikke slette indeksfil for mappe «%s»: %s"
 
 #: camel/providers/local/camel-local-summary.c:367
 #, c-format
@@ -6533,7 +6531,7 @@ msgid ""
 "Could not open folder `%s':\n"
 "%s"
 msgstr ""
-"Kan ikke åpne mappe `%s':\n"
+"Kan ikke åpne mappe «%s»:\n"
 "%s"
 
 #: camel/providers/local/camel-maildir-store.c:109
@@ -6541,7 +6539,7 @@ msgstr ""
 #: camel/providers/local/camel-mh-store.c:96
 #, c-format
 msgid "Folder `%s' does not exist."
-msgstr "Mappen `%s' eksisterer ikke."
+msgstr "Mappen «%s» eksisterer ikke."
 
 #: camel/providers/local/camel-maildir-store.c:116
 #: camel/providers/local/camel-mh-store.c:102
@@ -6550,20 +6548,20 @@ msgid ""
 "Could not create folder `%s':\n"
 "%s"
 msgstr ""
-"Kunne ikke opprette mappe `%s':\n"
+"Kunne ikke opprette mappe «%s»:\n"
 "%s"
 
 #: camel/providers/local/camel-maildir-store.c:131
 #, c-format
 msgid "`%s' is not a maildir directory."
-msgstr "`%s' er ikke en maildir katalog."
+msgstr "«%s» er ikke en maildir katalog."
 
 #: camel/providers/local/camel-maildir-store.c:166
 #: camel/providers/local/camel-maildir-store.c:203
 #: camel/providers/local/camel-mh-store.c:126
 #, c-format
 msgid "Could not delete folder `%s': %s"
-msgstr "Kunne ikke slette mappe `%s': %s"
+msgstr "Kunne ikke slette mappe «%s»: %s"
 
 #: camel/providers/local/camel-maildir-store.c:167
 msgid "not a maildir directory"
@@ -6572,7 +6570,7 @@ msgstr "ikke en maildir katalog"
 #: camel/providers/local/camel-maildir-store.c:331
 #, c-format
 msgid "Could not scan folder `%s': %s"
-msgstr "Kunne ikke søke i mappe `%s': %s"
+msgstr "Kunne ikke søke i mappe «%s»: %s"
 
 #: camel/providers/local/camel-maildir-summary.c:405
 #: camel/providers/local/camel-maildir-summary.c:526
@@ -6631,7 +6629,7 @@ msgid ""
 "Could not open file `%s':\n"
 "%s"
 msgstr ""
-"Kunne ikke åpne fil `%s':\n"
+"Kunne ikke åpne fil «%s»:\n"
 "%s"
 
 #: camel/providers/local/camel-mbox-store.c:109
@@ -6640,14 +6638,14 @@ msgid ""
 "Could not create file `%s':\n"
 "%s"
 msgstr ""
-"Kunne ikke opprette fil `%s'\n"
+"Kunne ikke opprette fil «%s»\n"
 "%s"
 
 #: camel/providers/local/camel-mbox-store.c:118
 #: camel/providers/local/camel-mbox-store.c:145
 #, c-format
 msgid "`%s' is not a regular file."
-msgstr "`%s' er ikke en vanlig fil."
+msgstr "«%s» er ikke en vanlig fil."
 
 #: camel/providers/local/camel-mbox-store.c:137
 #: camel/providers/local/camel-mbox-store.c:160
@@ -6656,13 +6654,13 @@ msgid ""
 "Could not delete folder `%s':\n"
 "%s"
 msgstr ""
-"Kunne ikke slette mappen `%s'\n"
+"Kunne ikke slette mappen «%s»\n"
 "%s"
 
 #: camel/providers/local/camel-mbox-store.c:152
 #, c-format
 msgid "Folder `%s' is not empty. Not deleted."
-msgstr "MAppen `%s' er ikke tom. Ikke slettet."
+msgstr "MAppen «%s» er ikke tom. Ikke slettet."
 
 #. FIXME: If there is a failure, it shouldn't clear the summary and restart,
 #. it should try and merge the summary info's.  This is a bit tricky.
@@ -6765,7 +6763,7 @@ msgstr "Kan ikke legge til melding i mh-mappe: %s: %s"
 #: camel/providers/local/camel-mh-store.c:109
 #, c-format
 msgid "`%s' is not a directory."
-msgstr "`%s' er ikke en katalog."
+msgstr "«%s» er ikke en katalog."
 
 #: camel/providers/local/camel-mh-summary.c:218
 #, c-format
@@ -6780,12 +6778,12 @@ msgstr "Kan ikke legge til melding i spool-filen: %s: %s"
 #: camel/providers/local/camel-spool-store.c:115
 #, c-format
 msgid "Spool `%s' does not exist or is not a regular file"
-msgstr "Spool `%s' eksisterer ikke eller er ikke en vanlig fil"
+msgstr "Spool «%s» eksisterer ikke eller er ikke en vanlig fil"
 
 #: camel/providers/local/camel-spool-store.c:141
 #, c-format
 msgid "Folder `%s/%s' does not exist."
-msgstr "Mappen `%s/%s' eksisterer ikke."
+msgstr "Mappen «%s/%s» eksisterer ikke."
 
 #: camel/providers/local/camel-spool-store.c:163
 #, c-format
@@ -6821,7 +6819,7 @@ msgid ""
 "Folder may be corrupt, copy saved in `%s'"
 msgstr ""
 "Kunne ikke synkronisere spool-mappe %s: %s\n"
-"Mappen kan være korrupt, kopi lagret i `%s'"
+"Mappen kan være korrupt, kopi lagret i «%s»"
 
 #: camel/providers/local/camel-spool-summary.c:940
 #, c-format
@@ -7037,7 +7035,7 @@ msgstr ""
 #: camel/providers/pop3/camel-pop3-store.c:483
 #, c-format
 msgid "No such folder `%s'."
-msgstr "Ingen slik mappe `%s'."
+msgstr "Ingen slik mappe «%s»."
 
 #: camel/providers/pop3/camel-pop3-store.c:566
 #, c-format
@@ -7054,7 +7052,7 @@ msgid ""
 "For delivering mail by passing it to the \"sendmail\" program on the local "
 "system."
 msgstr ""
-"For levering av e-post ved å videresende den til \"sendmail\"-programmet på "
+"For levering av e-post ved å videresende den til «sendmail»-programmet på "
 "det lokale systemet."
 
 #: camel/providers/sendmail/camel-sendmail-transport.c:106
@@ -7089,7 +7087,7 @@ msgstr "sendmail avsluttet med status %d: melding ikke sendt."
 
 #: camel/providers/sendmail/camel-sendmail-transport.c:193
 msgid "Could not find 'From' address in message"
-msgstr "Kunne ikke finne 'Fra'-adresse i melding"
+msgstr "Kunne ikke finne «Fra»-adresse i melding"
 
 #: camel/providers/sendmail/camel-sendmail-transport.c:246
 msgid "sendmail"
@@ -7298,22 +7296,22 @@ msgstr "Ugyldig svar på autentisering fra tjener.\n"
 #: camel/providers/smtp/camel-smtp-transport.c:874
 #, c-format
 msgid "MAIL FROM request timed out: %s: mail not sent"
-msgstr "Tidsavbrudd for \"MAIL FROM\"-forespørsel: %s: melding ikke sendt"
+msgstr "Tidsavbrudd for «MAIL FROM»-forespørsel: %s: melding ikke sendt"
 
 #: camel/providers/smtp/camel-smtp-transport.c:893
 #, c-format
 msgid "MAIL FROM response error: %s: mail not sent"
-msgstr "Feil ved \"MAIL FROM\"-forespørsel: %s: melding ikke sendt"
+msgstr "Feil ved «MAIL FROM»-forespørsel: %s: melding ikke sendt"
 
 #: camel/providers/smtp/camel-smtp-transport.c:918
 #, c-format
 msgid "RCPT TO request timed out: %s: mail not sent"
-msgstr "Tidsavbrudd for \"RCPT TO\"-forespørsel: %s: melding ikke sendt"
+msgstr "Tidsavbrudd for «RCPT TO»-forespørsel: %s: melding ikke sendt"
 
 #: camel/providers/smtp/camel-smtp-transport.c:937
 #, c-format
 msgid "RCPT TO response error: %s: mail not sent"
-msgstr "Feil ved \"RCPT TO\"-svar: %s: melding ikke sendt."
+msgstr "Feil ved «RCPT TO»-svar: %s: melding ikke sendt."
 
 #: camel/providers/smtp/camel-smtp-transport.c:971
 #, c-format
@@ -7670,11 +7668,11 @@ msgid "Subject does not contain"
 msgstr "Emne inneholder ikke"
 
 #. Remember the password?
-#: e-util/e-passwords.c:347 mail/mail-session.c:267
+#: e-util/e-passwords.c:360 mail/mail-session.c:267
 msgid "Remember this password"
 msgstr "Husk dette passordet"
 
-#: e-util/e-passwords.c:349 mail/mail-session.c:268
+#: e-util/e-passwords.c:362 mail/mail-session.c:268
 msgid "Remember this password for the remainder of this session"
 msgstr "Husk dette passordet for resten av denne sesjonen"
 
@@ -7838,7 +7836,7 @@ msgid ""
 msgstr ""
 "Meldingens dato vil bli sammenlignet med\n"
 "en tid relativ til når filteret blir kjørt;\n"
-"for eksempel \"for en uke siden\"."
+"for eksempel «for en uke siden»."
 
 #. keep in sync with FilterDatespec_type!
 #: filter/filter-datespec.c:369
@@ -7923,7 +7921,7 @@ msgid ""
 "Error in regular expression '%s':\n"
 "%s"
 msgstr ""
-"Feil i regulært uttrykk '%s':\n"
+"Feil i regulært uttrykk «%s»:\n"
 "%s"
 
 #: filter/filter-part.c:488
@@ -7931,9 +7929,8 @@ msgid "Test"
 msgstr "Test"
 
 #: filter/filter-rule.c:217
-#, fuzzy
 msgid "You must name this filter."
-msgstr "Endre navn på denne mappen"
+msgstr "Du må gi navn til dette filteret."
 
 #: filter/filter-rule.c:720
 msgid "Rule name: "
@@ -8222,9 +8219,8 @@ msgid "Score Rules"
 msgstr "Poengregler"
 
 #: filter/vfolder-rule.c:204
-#, fuzzy
 msgid "You must name this vfolder."
-msgstr "Endre navn på denne mappen"
+msgstr "Du må gi navn til denne vfolderen."
 
 #: filter/vfolder-rule.c:213
 msgid "You need to to specify at least one folder as a source."
@@ -8425,7 +8421,7 @@ msgstr "Kan ikke registrere lagring i skallet"
 #: mail/folder-browser-ui.c:271
 #, c-format
 msgid "Properties for \"%s\""
-msgstr "Egenskaper for \"%s\""
+msgstr "Egenskaper for «%s»"
 
 #: mail/folder-browser-ui.c:273
 msgid "Properties"
@@ -8824,7 +8820,7 @@ msgid ""
 "Send anyway?"
 msgstr ""
 "Det er mulig at e-post tjeneren kan vise mottakerene ved å legge til en "
-"\"Apparently-To\" header.\n"
+"«Apparently-To»-header.\n"
 "Send likevel?"
 
 #: mail/mail-callbacks.c:469
@@ -8945,7 +8941,7 @@ msgid ""
 "below do not need to be filled in,\n"
 "unless you wish to include this information in email you send."
 msgstr ""
-"Vennligst skriv inn navn og e-post adresse under. De \"valgfrie\" feltene "
+"Vennligst skriv inn navn og e-post adresse under. De «valgfrie» feltene "
 "under må ikke nødvendigvis fylles ut,\n"
 "hvis du ikke ønsker å inkludere denne informasjonen i meldingene du sender."
 
@@ -9105,7 +9101,7 @@ msgstr ""
 "Du kan nå sende og motta e-post \n"
 "med Evolution.\n"
 "\n"
-"Klikk \"Fullfør\" for å lagre dine innstillinger"
+"Klikk «Fullfør» for å lagre dine innstillinger"
 
 #: mail/mail-config.glade.h:23
 msgid "De_fault"
@@ -9337,7 +9333,7 @@ msgid ""
 msgstr ""
 "Velkommen til assistenten for konfigurasjon av Evolution e-post.\n"
 "\n"
-"Klikk \"Neste\" for å begynne. "
+"Klikk «Neste» for å begynne. "
 
 #: mail/mail-config.glade.h:91
 msgid "_Always load images off the net"
@@ -9481,7 +9477,7 @@ msgstr "Kunne ikke opprette S/MIME signaturkontekst."
 
 #: mail/mail-crypto.c:205
 msgid "Could not create a S/MIME certsonly context."
-msgstr "Kunne ikke opprette S/MIME \"certsonly\" kontekst."
+msgstr "Kunne ikke opprette S/MIME «certsonly»-kontekst."
 
 #: mail/mail-crypto.c:236
 msgid "Could not create a S/MIME encryption context."
@@ -9489,7 +9485,7 @@ msgstr "Kunne ikke opprette S/MIME krypteringskontekst."
 
 #: mail/mail-crypto.c:267
 msgid "Could not create a S/MIME envelope context."
-msgstr "Kunne ikke opprette S/MIME \"envelope\" kontekst."
+msgstr "Kunne ikke opprette S/MIME «envelope»-kontekst."
 
 #: mail/mail-crypto.c:297
 msgid "Could not create a S/MIME decode context."
@@ -9505,7 +9501,7 @@ msgstr "Lagre til disk..."
 
 #: mail/mail-display.c:352
 msgid "View Inline"
-msgstr "Vis \"inline\""
+msgstr "Vis «inline»"
 
 #: mail/mail-display.c:354
 #, c-format
@@ -9515,7 +9511,7 @@ msgstr "Åpne i %s..."
 #: mail/mail-display.c:415
 #, c-format
 msgid "View Inline (via %s)"
-msgstr "Vis \"inline\" (via %s)"
+msgstr "Vis «inline» (via %s)"
 
 #: mail/mail-display.c:419
 msgid "Hide"
@@ -9608,7 +9604,7 @@ msgstr "Peker til FTP-tjener (%s)"
 #: mail/mail-format.c:2082
 #, c-format
 msgid "Pointer to local file (%s) valid at site \"%s\""
-msgstr "Peker til lokal fil (%s) gyldig på nettsted \"%s\""
+msgstr "Peker til lokal fil (%s) gyldig på nettsted «%s»"
 
 #: mail/mail-format.c:2087
 #, c-format
@@ -9623,11 +9619,11 @@ msgstr "Peker til eksterne data (%s)"
 #: mail/mail-format.c:2124
 #, c-format
 msgid "Pointer to unknown external data (\"%s\" type)"
-msgstr "Peker til ukjent ekstern data (\"%s\"-type)"
+msgstr "Peker til ukjente eksterne data («%s»-type)"
 
 #: mail/mail-format.c:2129
 msgid "Malformed external-body part."
-msgstr "Feilutformet del for ekstern-kropp."
+msgstr "Feilutformet del for ekstern kropp."
 
 #: mail/mail-local.c:626
 msgid "Reconfiguring folder"
@@ -9655,7 +9651,7 @@ msgstr "Kan ikke slette metainformasjon for mappe %s: %s"
 #: mail/mail-local.c:1281
 #, c-format
 msgid "Changing folder \"%s\" to \"%s\" format"
-msgstr "Endrer mappe \"%s\" til \"%s\"-format"
+msgstr "Endrer mappe «%s» til «%s»-format"
 
 #: mail/mail-local.c:1296
 #, c-format
@@ -9686,7 +9682,7 @@ msgid ""
 "Error while '%s':\n"
 "%s"
 msgstr ""
-"Feil under '%s':\n"
+"Feil under «%s»:\n"
 "%s"
 
 #: mail/mail-mt.c:257
@@ -9717,7 +9713,7 @@ msgstr "Likevel, fullførte sending av meldingen."
 #: mail/mail-ops.c:557
 #, c-format
 msgid "Sending \"%s\""
-msgstr "Sender \"%s\""
+msgstr "Sender «%s»"
 
 #: mail/mail-ops.c:677
 #, c-format
@@ -9758,7 +9754,7 @@ msgstr "Kopierer"
 #: mail/mail-ops.c:1011
 #, c-format
 msgid "Scanning folders in \"%s\""
-msgstr "Skanner mapper i \"%s\""
+msgstr "Skanner mapper i «%s»"
 
 #. Fill in the new fields
 #: mail/mail-ops.c:1061 shell/e-local-storage.c:178
@@ -9787,7 +9783,7 @@ msgstr "Fjerner mappe %s"
 #: mail/mail-ops.c:1472
 #, c-format
 msgid "Storing folder '%s'"
-msgstr "Lagrer mappe '%s'"
+msgstr "Lagrer mappe «%s»"
 
 #: mail/mail-ops.c:1523
 msgid "Refreshing folder"
@@ -9979,7 +9975,7 @@ msgid ""
 msgstr ""
 "Følgende vFolder(e):\n"
 "%sBrukte fjernet mappe:\n"
-"    '%s'\n"
+"    «%s»\n"
 "Og har blitt oppdatert."
 
 #: mail/mail-vfolder.c:728
@@ -9993,7 +9989,7 @@ msgstr "Rediger VFolder"
 #: mail/mail-vfolder.c:840
 #, c-format
 msgid "Trying to edit a vfolder '%s' which doesn't exist."
-msgstr "Prøver å redigere en vfolder '%s' som ikke eksisterer."
+msgstr "Prøver å redigere en vfolder «%s» som ikke eksisterer."
 
 #: mail/mail-vfolder.c:894
 msgid "New VFolder"
@@ -10083,22 +10079,22 @@ msgstr "Størrelse"
 #: mail/subscribe-dialog.c:219
 #, c-format
 msgid "Scanning folders under %s on \"%s\""
-msgstr "Søker i mapper under %s på \"%s\""
+msgstr "Søker i mapper under %s på «%s»"
 
 #: mail/subscribe-dialog.c:221
 #, c-format
 msgid "Scanning root-level folders on \"%s\""
-msgstr "Søker i mapper på rot-nivå på \"%s\""
+msgstr "Søker i mapper på rot-nivå på «%s»"
 
 #: mail/subscribe-dialog.c:318
 #, c-format
 msgid "Subscribing to folder \"%s\""
-msgstr "Abonnerer på mappe \"%s\""
+msgstr "Abonnerer på mappe «%s»"
 
 #: mail/subscribe-dialog.c:320
 #, c-format
 msgid "Unsubscribing to folder \"%s\""
-msgstr "Fjerner abonnement på mappe \"%s\""
+msgstr "Fjerner abonnement på mappe «%s»"
 
 #: mail/subscribe-dialog.c:1279 mail/subscribe-dialog.etspec.h:1
 #: shell/e-storage-set-view.etspec.h:1
@@ -11460,7 +11456,6 @@ msgid "All news _feeds:"
 msgstr "Alle _nyhetstjenester"
 
 #: my-evolution/my-evolution.glade.h:6
-#, fuzzy
 msgid "C_elsius"
 msgstr "C_elsius"
 
@@ -11595,8 +11590,7 @@ msgstr ""
 #: shell/e-setup.c:129
 msgid "Please click \"OK\" to install the files, or \"Cancel\" to exit."
 msgstr ""
-"Vennligst klikk \"OK\" for å installere filene, eller \"Avbryt\" for å "
-"avslutte."
+"Vennligst klikk «OK» for å installere filene, eller «Avbryt» for å avslutte."
 
 #: shell/e-setup.c:169
 msgid "Could not update files correctly"
@@ -11620,7 +11614,7 @@ msgid ""
 "`%s'."
 msgstr ""
 "En feil oppsto under kopiering av filer til\n"
-"`%s'."
+"«%s»."
 
 #: shell/e-setup.c:281
 #, c-format
@@ -11629,7 +11623,7 @@ msgid ""
 "Please move it in order to allow installation\n"
 "of the Evolution user files."
 msgstr ""
-"Filen '%s' er ikke en katalog.\n"
+"Filen «%s» er ikke en katalog.\n"
 "Venligst flytt denne for å tillate installasjon\n"
 "av Evolution's brukerfiler."
 
@@ -11654,7 +11648,7 @@ msgid ""
 "Evolution directory.  Please move it in order\n"
 "to allow installation of the Evolution user files."
 msgstr ""
-"Katalogen `%s' eksisterer men er ikke.\n"
+"Katalogen «%s» eksisterer men er ikke.\n"
 "Evolution-katalogen. Venligst flytt den for å \n"
 "tillate installasjon av Evolution's brukerfiler."
 
@@ -11685,7 +11679,7 @@ msgstr "Kan ikke flytte en mappe til en av sine egne undermapper."
 #: shell/e-shell-folder-commands.c:307
 #, c-format
 msgid "Specify a folder to copy folder \"%s\" into:"
-msgstr "Spesifiser en mappe som mappen \"%s\" skal kopieres til:"
+msgstr "Spesifiser en mappe som mappen «%s» skal kopieres til:"
 
 #: shell/e-shell-folder-commands.c:312
 msgid "Copy folder"
@@ -11694,7 +11688,7 @@ msgstr "Kopier mappe"
 #: shell/e-shell-folder-commands.c:354
 #, c-format
 msgid "Specify a folder to move folder \"%s\" into:"
-msgstr "Spesifiser en mappe å flytte mappen \"%s\" til:"
+msgstr "Spesifiser en mappe å flytte mappen «%s» til:"
 
 #: shell/e-shell-folder-commands.c:359
 msgid "Move folder"
@@ -11712,13 +11706,13 @@ msgstr ""
 #: shell/e-shell-folder-commands.c:401
 #, c-format
 msgid "Delete \"%s\""
-msgstr "Slett \"%s\""
+msgstr "Slett «%s»"
 
 #. "Are you sure..." label
 #: shell/e-shell-folder-commands.c:411
 #, c-format
 msgid "Are you sure you want to remove the \"%s\" folder?"
-msgstr "Er du sikker på at du vil fjerne mappen \"%s\"?"
+msgstr "Er du sikker på at du vil fjerne mappen «%s»?"
 
 #: shell/e-shell-folder-commands.c:488
 #, c-format
@@ -11732,7 +11726,7 @@ msgstr ""
 #: shell/e-shell-folder-commands.c:536
 #, c-format
 msgid "Rename the \"%s\" folder to:"
-msgstr "Endre navn på mappe \"%s\" til:"
+msgstr "Endre navn på mappe «%s» til:"
 
 #: shell/e-shell-folder-commands.c:542
 msgid "Rename folder"
@@ -11788,7 +11782,7 @@ msgstr ""
 "Velg filen du ønsker å importere til Evolution og velg hvilken type fil det "
 "er fra listen.\n"
 "\n"
-"Du kan velge \"Automatisk\" hvis du ikke vet, så vil Evolution prøve å finne "
+"Du kan velge «Automatisk» hvis du ikke vet, så vil Evolution prøve å finne "
 "ut hvilken type det er for deg."
 
 #: shell/e-shell-importer.c:151 shell/e-shell-startup-wizard.c:799
@@ -11951,7 +11945,7 @@ msgstr "Mappenavn kan ikke inneholde skråstreker."
 
 #: shell/e-shell-utils.c:133
 msgid "'.' and '..' are reserved folder names."
-msgstr "'.' og '..' er reserverte mappenavn."
+msgstr "«.» og «..» er reserverte mappenavn."
 
 #: shell/e-shell-view-menu.c:165
 msgid "Bug buddy was not found in your $PATH."
@@ -11973,7 +11967,7 @@ msgstr "Gå til mappe..."
 msgid "Select the folder that you want to open"
 msgstr "Velg mappen du ønsker å åpne"
 
-#: shell/e-shell-view-menu.c:530
+#: shell/e-shell-view-menu.c:530 ui/evolution.xml.h:10
 msgid "Create a new shortcut"
 msgstr "Opprett en ny snarvei"
 
@@ -11995,11 +11989,11 @@ msgstr "Feil under kjøring av %s."
 msgid "_Work Online"
 msgstr "Ar_beid tilkoblet"
 
-#: shell/e-shell-view-menu.c:685 ui/evolution.xml.h:51
+#: shell/e-shell-view-menu.c:685 ui/evolution.xml.h:55
 msgid "_Work Offline"
 msgstr "Ar_beid frakoblet"
 
-#: shell/e-shell-view-menu.c:698 ui/evolution.xml.h:30
+#: shell/e-shell-view-menu.c:698 ui/evolution.xml.h:33
 msgid "Work Offline"
 msgstr "Arbeid frakoblet"
 
@@ -12046,7 +12040,7 @@ msgid ""
 "has unexpectedly quit. You will need to quit Evolution and restart\n"
 "in order to access that data again."
 msgstr ""
-"Evolution komponenten som håndterer mapper av type \"%s\"\n"
+"Evolution komponenten som håndterer mapper av type «%s»\n"
 "har avsluttet uventet. Du vil måtte avslutte Evolution og starte på\n"
 "nytt for å få tilgang til disse dataene igjen."
 
@@ -12081,7 +12075,7 @@ msgid ""
 "`%s' from the shortcut bar?"
 msgstr ""
 "Vil du virkelig fjerne gruppen\n"
-"`%s' fra snarveilinjen?"
+"«%s» fra snarveilinjen?"
 
 #: shell/e-shortcuts-view.c:180
 msgid "Don't remove"
@@ -12155,7 +12149,7 @@ msgstr "Endre navn på valgt snarvei til:"
 msgid "Open the folder linked to this shortcut"
 msgstr "Åpne mappen som er lenket til denne snarveien"
 
-#: shell/e-shortcuts-view.c:386 ui/evolution.xml.h:19
+#: shell/e-shortcuts-view.c:386 ui/evolution.xml.h:21
 msgid "Open in New _Window"
 msgstr "Åpne i nytt _vindu"
 
@@ -12365,7 +12359,7 @@ msgstr "Aktive tilkoblinger"
 
 #: shell/glade/e-active-connection-dialog.glade.h:2
 msgid "Click OK to close these connections and go offline"
-msgstr "Klikk OK for å lukke disse forbindelsene og gå \"offline\""
+msgstr "Klikk OK for å lukke disse forbindelsene og arbeide frakoblet"
 
 #: shell/glade/e-active-connection-dialog.glade.h:3
 msgid "Host"
@@ -12415,7 +12409,7 @@ msgstr ""
 "konfigurere Evolution til å koble til dine e-post konti, og\n"
 "importere filer fra andre applikasjoner. \n"
 "\n"
-"Vennligst klikk \"Neste\" for å fortsette. "
+"Vennligst klikk «Neste» for å fortsette. "
 
 #: shell/glade/evolution-startup-wizard.glade.h:15
 msgid ""
@@ -12427,11 +12421,11 @@ msgstr ""
 "Du har fullført inntasting av all informasjon\n"
 "som trengs for å konfigurere Evolution. \n"
 "\n"
-"Klikk \"Fullfør\" for å lagre dine innstillinger. "
+"Klikk «Fullfør» for å lagre dine innstillinger. "
 
 #: shell/importer/import.glade.h:1
 msgid "Click \"Import\" to begin importing the file into Evolution. "
-msgstr "Klikk \"Importer\" for å starte import av filen til Evolution."
+msgstr "Klikk «Importer» for å starte import av filen til Evolution."
 
 #: shell/importer/import.glade.h:2
 msgid "Evolution Import Assistant"
@@ -12786,7 +12780,7 @@ msgid "Delete this item"
 msgstr "Slett denne oppføringen"
 
 #: ui/evolution-comp-editor.xml.h:6 ui/evolution-mail-messagedisplay.xml.h:3
-#: ui/evolution.xml.h:16
+#: ui/evolution.xml.h:17
 msgid "Main toolbar"
 msgstr "Hovedverktøylinje"
 
@@ -12826,7 +12820,7 @@ msgstr "Lagre denne oppføringen til disk"
 #: ui/evolution-mail-messagedisplay.xml.h:7
 #: ui/evolution-message-composer.xml.h:48
 #: ui/evolution-signature-editor.xml.h:8 ui/evolution-subscribe.xml.h:11
-#: ui/evolution.xml.h:36
+#: ui/evolution.xml.h:40
 msgid "_File"
 msgstr "_Fil"
 
@@ -13088,7 +13082,7 @@ msgstr "Meldingsliste med tråder"
 msgid "_Expunge"
 msgstr "_Tøm"
 
-#: ui/evolution-mail-list.xml.h:27 ui/evolution.xml.h:37
+#: ui/evolution-mail-list.xml.h:27 ui/evolution.xml.h:41
 msgid "_Folder"
 msgstr "M_appe"
 
@@ -13226,7 +13220,7 @@ msgstr "Videresend vedl_agt"
 
 #: ui/evolution-mail-message.xml.h:33
 msgid "Forward _Inline"
-msgstr "Videresend \"_inline\""
+msgstr "Videresend «_inline»"
 
 #: ui/evolution-mail-message.xml.h:34
 msgid "Forward _Quoted"
@@ -13460,7 +13454,7 @@ msgstr "_Normal visning"
 msgid "_Open Message"
 msgstr "_Åpne melding"
 
-#: ui/evolution-mail-message.xml.h:105 ui/evolution.xml.h:49
+#: ui/evolution-mail-message.xml.h:105 ui/evolution.xml.h:53
 #: ui/my-evolution.xml.h:9
 msgid "_Tools"
 msgstr "_Verktøy"
@@ -13472,12 +13466,12 @@ msgstr "Lukk dette vinduet"
 #: ui/evolution-mail-messagedisplay.xml.h:5
 #: ui/evolution-message-composer.xml.h:45
 #: ui/evolution-signature-editor.xml.h:6 ui/evolution-subscribe.xml.h:9
-#: ui/evolution.xml.h:33
+#: ui/evolution.xml.h:37
 msgid "_Close"
 msgstr "L_ukk"
 
 #: ui/evolution-mail-messagedisplay.xml.h:8
-#: ui/evolution-message-composer.xml.h:55 ui/evolution.xml.h:50
+#: ui/evolution-message-composer.xml.h:55 ui/evolution.xml.h:54
 msgid "_View"
 msgstr "_Vis"
 
@@ -13511,7 +13505,7 @@ msgstr "H_TML"
 
 #: ui/evolution-message-composer.xml.h:10
 msgid "Inline Text _File..."
-msgstr "\"Inline\" tekst_fil..."
+msgstr "«Inline» tekst_fil..."
 
 #: ui/evolution-message-composer.xml.h:11
 msgid "Insert a file as text into the message"
@@ -13663,7 +13657,7 @@ msgstr "Svar-til felt"
 msgid "_Security"
 msgstr "_Sikkerhet"
 
-#: ui/evolution-signature-editor.xml.h:9 ui/evolution.xml.h:40
+#: ui/evolution-signature-editor.xml.h:9 ui/evolution.xml.h:44
 msgid "_Help"
 msgstr "_Hjelp"
 
@@ -13775,127 +13769,139 @@ msgstr "Lag en lenke til denne mappen på snarveilinjen"
 msgid "Create a new folder"
 msgstr "Opprett en ny mappe"
 
-#: ui/evolution.xml.h:10
+#: ui/evolution.xml.h:11
 msgid "Delete this folder"
 msgstr "Slett denne mappen"
 
-#: ui/evolution.xml.h:11
+#: ui/evolution.xml.h:12
 msgid "Display a different folder"
 msgstr "Vis en annen mappe"
 
-#: ui/evolution.xml.h:12
+#: ui/evolution.xml.h:13
 msgid "E_xit"
 msgstr "A_vslutt"
 
-#: ui/evolution.xml.h:13
+#: ui/evolution.xml.h:14
 msgid "Evolution _Window"
 msgstr "Evolution vindu"
 
-#: ui/evolution.xml.h:14
+#: ui/evolution.xml.h:15
 msgid "Exit the program"
 msgstr "Avslutt programmet"
 
-#: ui/evolution.xml.h:15
+#: ui/evolution.xml.h:16
 msgid "Import data from other programs"
 msgstr "Importer data fra andre programmer"
 
-#: ui/evolution.xml.h:17
+#: ui/evolution.xml.h:18
 msgid "Move this folder to another place"
 msgstr "Flytt denne mappen til et annet sted"
 
-#: ui/evolution.xml.h:18
+#: ui/evolution.xml.h:19
+msgid "Open a new Evolution window"
+msgstr "Åpne et nytt Evolution vindu"
+
+#: ui/evolution.xml.h:20
 msgid "Open in New Window"
 msgstr "Åpne i nytt vindu"
 
-#: ui/evolution.xml.h:20
+#: ui/evolution.xml.h:22
 msgid "Open this folder in an other window"
 msgstr "Åpne denne mappen i et annet vindu"
 
-#: ui/evolution.xml.h:21
+#: ui/evolution.xml.h:23
+msgid "Settings for the Pilot"
+msgstr "Innstillinger for Pilot"
+
+#: ui/evolution.xml.h:24
 msgid "Show information about Ximian Evolution"
 msgstr "Vis informasjon om Ximian Evolution"
 
-#: ui/evolution.xml.h:22
+#: ui/evolution.xml.h:25
 msgid "Submit Bug Report"
 msgstr "Send inn feilrapport"
 
-#: ui/evolution.xml.h:23
+#: ui/evolution.xml.h:26
 msgid "Submit _Bug Report"
 msgstr "Sen_d inn feilrapport"
 
-#: ui/evolution.xml.h:24
+#: ui/evolution.xml.h:27
 msgid "Submit a bug report using Bug Buddy"
 msgstr "Send inn en feilrapport med Bug Buddy"
 
-#: ui/evolution.xml.h:25
+#: ui/evolution.xml.h:28
 msgid "Toggle"
 msgstr "Bytt"
 
-#: ui/evolution.xml.h:26
+#: ui/evolution.xml.h:29
 msgid "Toggle whether to show the folder bar"
 msgstr "Slå av/på visning av mappelinjen"
 
-#: ui/evolution.xml.h:27
+#: ui/evolution.xml.h:30
 msgid "Toggle whether to show the shortcut bar"
 msgstr "Slå av/på visning av snarveilinjen"
 
-#: ui/evolution.xml.h:28
+#: ui/evolution.xml.h:31
 msgid "Toggle whether we are working offline."
-msgstr "Skift til \"offline\" arbeidsmodus."
+msgstr "Skift til frakoblet arbeidsmodus."
 
-#: ui/evolution.xml.h:29
+#: ui/evolution.xml.h:32
 msgid "View the selected folder"
 msgstr "Vis den valgte mappen"
 
-#: ui/evolution.xml.h:31
+#: ui/evolution.xml.h:34
+msgid "Work in offline mode"
+msgstr "Arbeid frakoblet"
+
+#: ui/evolution.xml.h:35
 msgid "Ximian Evolution _FAQ"
 msgstr "Ximian Evolution _OBS"
 
-#: ui/evolution.xml.h:32
+#: ui/evolution.xml.h:36
 msgid "_About Ximian Evolution..."
 msgstr "_Om Ximian Evolution..."
 
-#: ui/evolution.xml.h:34
+#: ui/evolution.xml.h:38
 msgid "_Copy..."
 msgstr "_Kopier..."
 
-#: ui/evolution.xml.h:38
+#: ui/evolution.xml.h:42
 msgid "_Folder Bar"
 msgstr "_Mappelinje"
 
-#: ui/evolution.xml.h:39
+#: ui/evolution.xml.h:43
 msgid "_Go to Folder..."
 msgstr "_Gå til mappe..."
 
-#: ui/evolution.xml.h:41
+#: ui/evolution.xml.h:45
 msgid "_Import..."
 msgstr "_Importer..."
 
-#: ui/evolution.xml.h:42
+#: ui/evolution.xml.h:46
 msgid "_Move..."
 msgstr "_Flytt..."
 
-#: ui/evolution.xml.h:43
+#: ui/evolution.xml.h:47
 msgid "_New"
 msgstr "_Ny"
 
-#: ui/evolution.xml.h:44
+#: ui/evolution.xml.h:48
 msgid "_New Folder"
 msgstr "_Ny mappe"
 
-#: ui/evolution.xml.h:45
+#: ui/evolution.xml.h:49
 msgid "_Pilot Settings..."
 msgstr "Innstillinger for _pilot..."
 
-#: ui/evolution.xml.h:46
+#: ui/evolution.xml.h:50
 msgid "_Rename..."
 msgstr "_Gi nytt navn..."
 
-#: ui/evolution.xml.h:47
+#: ui/evolution.xml.h:51
 msgid "_Shortcut"
 msgstr "_Snarvei"
 
-#: ui/evolution.xml.h:48
+#: ui/evolution.xml.h:52
 msgid "_Shortcut Bar"
 msgstr "_Snarveilinje"
 
@@ -14157,15 +14163,6 @@ msgstr "init_corba(): kunne ikke initiere GNOME"
 msgid "init_bonobo(): could not initialize Bonobo"
 msgstr "init_bonobo(): kunne ikke initialisere Bonobo"
 
-#~ msgid "Open a new Evolution window"
-#~ msgstr "Åpne et nytt Evolution vindu"
-
-#~ msgid "Settings for the Pilot"
-#~ msgstr "Innstillinger for Pilot"
-
-#~ msgid "Work in offline mode"
-#~ msgstr "Arbeid frakoblet"
-
 #~ msgid "I couldn't remove the item from your calendar file!\n"
 #~ msgstr "Kunne ikke fjerne oppføringen fra din kalenderfil!\n"
 
@@ -14205,9 +14202,6 @@ msgstr "init_bonobo(): kunne ikke initialisere Bonobo"
 
 #~ msgid "GnomeCard:"
 #~ msgstr "GnomeKort:"
-
-#~ msgid "Cannot copy a folder `%s' to itself"
-#~ msgstr "Kan ikke kopiere en mappe `%s' til seg selv"
 
 #~ msgid "KBOS:ZSAM:EGAA"
 #~ msgstr "KBOS:ZSAM:EGAA"
@@ -14377,24 +14371,11 @@ msgstr "init_bonobo(): kunne ikke initialisere Bonobo"
 #~ msgid "Sent By:"
 #~ msgstr "Sendt av:"
 
-#~ msgid "Couldn't create temporary mbox `%s': %s"
-#~ msgstr "Kunne ikke opprette midlertidig mbox `%s': %s"
-
-#~ msgid ""
-#~ "Ooops!  The views for `%s' have died unexpectedly.  :-(\n"
-#~ "This probably means that the %s component has crashed."
-#~ msgstr ""
-#~ "Ops! Visningen for `%s' døde uventet. :-(\n"
-#~ "Dette betyr sannsynligvis at komponenten %s har krasjet."
-
 #~ msgid "_Debug"
 #~ msgstr "_Feilsøk"
 
 #~ msgid "_Free/Busy Information:"
 #~ msgstr "_Ledig/opptatt-informasjon"
-
-#~ msgid "The priority must be 'High', 'Normal', 'Low' or 'Undefined'."
-#~ msgstr "Prioriteten må være en av 'Høy', 'Normal', 'Lav' eller 'Udefinert'."
 
 #~ msgid "before start of appointment"
 #~ msgstr "før avtalen starter"
@@ -14419,9 +14400,6 @@ msgstr "init_bonobo(): kunne ikke initialisere Bonobo"
 
 #~ msgid "_Remember PGP Passphrase until exit"
 #~ msgstr "Husk PGP-passo_rd til du avslutter"
-
-#~ msgid "Delete folder '%s'"
-#~ msgstr "Slett mappe '%s'"
 
 #~ msgid "Rename"
 #~ msgstr "Endre navn"
@@ -14452,9 +14430,6 @@ msgstr "init_bonobo(): kunne ikke initialisere Bonobo"
 
 #~ msgid "No password provided."
 #~ msgstr "Ingen passord gitt."
-
-#~ msgid "No plaintext to clearsign."
-#~ msgstr "Ingen klartekst å kjøre \"plainsign\" på."
 
 #~ msgid "No plaintext to verify."
 #~ msgstr "Ingen klartekst å verifisere."
@@ -14511,9 +14486,6 @@ msgstr "init_bonobo(): kunne ikke initialisere Bonobo"
 #~ msgid "No such folder /%s"
 #~ msgstr "Ingen slik mappe /%s"
 
-#~ msgid "Registering '%s'"
-#~ msgstr "Registrerer '%s'"
-
 #~ msgid "Factory for the Evolution addressbook component."
 #~ msgstr "Factory for Evolution adressebok-komponent."
 
@@ -14540,9 +14512,6 @@ msgstr "init_bonobo(): kunne ikke initialisere Bonobo"
 
 #~ msgid "Forwarded message:\n"
 #~ msgstr "Videresendt melding:\n"
-
-#~ msgid "Synchronizing '%s'"
-#~ msgstr "Synkroniser '%s'"
 
 #~ msgid "Factory for the Evolution executive summary component."
 #~ msgstr "Factory for Evolutions sammendrag-komponent."
@@ -14661,10 +14630,6 @@ msgstr "init_bonobo(): kunne ikke initialisere Bonobo"
 #~ msgid "This seems to be the first time you are running Evolution."
 #~ msgstr "Dette ser ut til å være første gang du kjører Evolution."
 
-#~ msgid "Please click \"OK\" to install the Evolution user files under"
-#~ msgstr ""
-#~ "Vennligst klikk \"OK\" for å installere Evolutions brukerfiler under"
-
 #~ msgid "RDF Summary"
 #~ msgstr "RDF-sammendrag"
 
@@ -14751,19 +14716,6 @@ msgstr "init_bonobo(): kunne ikke initialisere Bonobo"
 
 #~ msgid "Are you sure?"
 #~ msgstr "Er du sikker?"
-
-#~ msgid ""
-#~ "You are about to expunge a folder. This will\n"
-#~ "permantly remove all messages with a \"deleted\"\n"
-#~ "flag from both this folder and the Trash folder.\n"
-#~ "\n"
-#~ "Are you sure you want to continue?"
-#~ msgstr ""
-#~ "Du er i ferd med å tømme en mappe. Dette vil\n"
-#~ "fjerne alle slettede meldinger permanent både fra\n"
-#~ "denne mappen og søppelkurven.\n"
-#~ "\n"
-#~ "Er du sikker på at du vil fortsette?"
 
 #~ msgid "Updating message list"
 #~ msgstr "Oppdaterer meldingsliste"
@@ -15005,17 +14957,6 @@ msgstr "init_bonobo(): kunne ikke initialisere Bonobo"
 #~ msgid "Opaque"
 #~ msgstr "Ugjennomsiktig"
 
-#~ msgid ""
-#~ "The classification must be 'Public', 'Private', 'Confidential' or 'None'"
-#~ msgstr ""
-#~ "Klassifikasjonen må være en av 'Offentlig', 'Privat', \"Konfidensiell' "
-#~ "eller 'Ingen'"
-
-#~ msgid "The transparency must be 'Transparent', 'Opaque', or 'None'."
-#~ msgstr ""
-#~ "Gjennomsiktigheten må være en av 'Gjennomsiktig', 'Ugjennomsiktig' eller "
-#~ "\"Ingen'."
-
 #~ msgid "Colors for Tasks"
 #~ msgstr "Farger for oppgaver"
 
@@ -15030,9 +14971,6 @@ msgstr "init_bonobo(): kunne ikke initialisere Bonobo"
 
 #~ msgid "Display folders starting with:"
 #~ msgstr "Vis mapper som som starter med:"
-
-#~ msgid "Getting store for \"%s\""
-#~ msgstr "Henter lager for \"%s\""
 
 #~ msgid "Manage _Subscriptions..."
 #~ msgstr "_Håndter abonnement..."
@@ -15149,9 +15087,6 @@ msgstr "init_bonobo(): kunne ikke initialisere Bonobo"
 #~ msgid "Forward to Address"
 #~ msgstr "Videresend til adresse"
 
-#~ msgid "Change folder \"%s\" to \"%s\" format"
-#~ msgstr "Endre mappe \"%s\" til \"%s\"-format"
-
 #~ msgid "Closing current folder"
 #~ msgstr "Lukker aktiv mappe"
 
@@ -15160,12 +15095,6 @@ msgstr "init_bonobo(): kunne ikke initialisere Bonobo"
 
 #~ msgid "Evolution progress"
 #~ msgstr "Evolution fremgang"
-
-#~ msgid "Retrieving message number %d of %d (uid \"%s\")"
-#~ msgstr "Henter melding nummer %d av %d (uid \"%s\")"
-
-#~ msgid "Saving message %d of %d (uid \"%s\")"
-#~ msgstr "Lagrer melding %d av %d (uid \"%s\")"
 
 #~ msgid "[%s] (forwarded message)"
 #~ msgstr "[%s] (videresendt melding)"
@@ -15233,13 +15162,6 @@ msgstr "init_bonobo(): kunne ikke initialisere Bonobo"
 
 #~ msgid "Evolution files successfully installed."
 #~ msgstr "Evolutions filer ble installert."
-
-#~ msgid ""
-#~ "Cannot copy files into\n"
-#~ "`%s'."
-#~ msgstr ""
-#~ "Kan ikke kopiere filer til\n"
-#~ "`%s'."
 
 #~ msgid "Change the properties for this folder"
 #~ msgstr "Endre egenskaper for denne mappen"
@@ -15677,16 +15599,6 @@ msgstr "init_bonobo(): kunne ikke initialisere Bonobo"
 #~ msgid " not mounted"
 #~ msgstr " ikke montert"
 
-#~ msgid "\" reported:\n"
-#~ msgstr "\" rapportert:\n"
-
-#~ msgid ""
-#~ "Drivemount command failed.\n"
-#~ "\""
-#~ msgstr ""
-#~ "Diskmonteringskommandoen feilet.\n"
-#~ "\""
-
 #~ msgid "Eject"
 #~ msgstr "Løs ut"
 
@@ -16109,9 +16021,6 @@ msgstr "init_bonobo(): kunne ikke initialisere Bonobo"
 #~ msgid "Update Frequency in minutes:"
 #~ msgstr "Oppdateringsfrekvens i minutter:"
 
-#~ msgid "Enter symbols delimited with \"+\" in the box below."
-#~ msgstr "Skriv inn symboler adskilt med \"+\" i boksen under."
-
 #~ msgid "Display only symbols and price"
 #~ msgstr "Vis kun symboler og pris"
 
@@ -16200,324 +16109,6 @@ msgstr "init_bonobo(): kunne ikke initialisere Bonobo"
 #~ msgid "Current conditions"
 #~ msgstr "Nåværende forhold"
 
-#~ msgid "Forecast"
-#~ msgstr "Værmelding"
-
-#~ msgid "Visit Weather.com"
-#~ msgstr "Besøk Weather.com"
-
-#~ msgid "Radar map"
-#~ msgstr "Radarkart"
-
-#~ msgid ""
-#~ "Detailed forecast not available for this location.\n"
-#~ "Please try the state forecast; note that IWIN forecasts are available "
-#~ "only for US cities."
-#~ msgstr ""
-#~ "Detaljert værmelding er ikke tilgjengelig for denne plassen.\n"
-#~ "Vennligst prøv melding for staten; merk at IWIN meldingene kun er "
-#~ "tilgjenelig \n"
-#~ "for byer i USA."
-
-#~ msgid ""
-#~ "State forecast not available for this location.\n"
-#~ "Please try the detailed forecast; note that IWIN forecasts are available "
-#~ "only for US cities."
-#~ msgstr ""
-#~ "Værmelding for staten er ikke tilgjengelig.\n"
-#~ "Vennligst prøv detaljert melding; merk at IWIN meldingene kun er "
-#~ "tilgjengelig \n"
-#~ "for byer i USA."
-
-#~ msgid ""
-#~ "Invalid location chosen!\n"
-#~ "Properties remain unchanged."
-#~ msgstr ""
-#~ "Ugyldig sted valgt!\n"
-#~ "Egenskapene forblir uendret."
-
-#~ msgid ""
-#~ "Proxy URL is not of the form http://host:port/\n"
-#~ "Properties remain unchanged."
-#~ msgstr ""
-#~ "Proxy-URL er ikke av formen http://vert:port/\n"
-#~ "Egenskapene forblir uendret."
-
-#~ msgid "GNOME Weather Properties"
-#~ msgstr "Egenskaper for GNOME værmelding"
-
-#~ msgid "Location"
-#~ msgstr "Plassering"
-
-#~ msgid "Use proxy"
-#~ msgstr "Bruk proxy"
-
-#~ msgid "Proxy host:"
-#~ msgstr "Proxy-vert:"
-
-#~ msgid ""
-#~ "Warning: Your password will be saved as\n"
-#~ "unencrypted text in a private configuration\n"
-#~ "file."
-#~ msgstr ""
-#~ "Advarsel: Ditt passord vil bli lagret som\n"
-#~ "klartekst i en privat konfigurasjonsfil."
-
-#~ msgid "Network"
-#~ msgstr "Nettverk"
-
-#~ msgid "Automatically update every"
-#~ msgstr "Automatisk oppdatering hver(t)"
-
-#~ msgid "Use metric system units"
-#~ msgstr "Bruk metriske måleenheter"
-
-#~ msgid "Enable detailed forecast"
-#~ msgstr "Slå på detaljert melding"
-
-#~ msgid "Enable radar map"
-#~ msgstr "Slå på radarkart"
-
-#~ msgid "Updates"
-#~ msgstr "Oppdateringer"
-
-#~ msgid "Autmatically update every "
-#~ msgstr "Oppdater automatisk hver(t) "
-
-#~ msgid "Location vector needs to be 4 elements long"
-#~ msgstr "Stedsvektoren må bestå av 4 elementer"
-
-#~ msgid "Clear Sky"
-#~ msgstr "Klar himmel"
-
-#~ msgid "WeatherInfo missing location"
-#~ msgstr "VærInfo mangler sted"
-
-#~ msgid "Failed to get METAR data.\n"
-#~ msgstr "Kunne ikke hente METAR-data.\n"
-
-#~ msgid "Failed to get IWIN forecast data.\n"
-#~ msgstr "Kunne ikke hente data for IWIN-meldingen.\n"
-
-#~ msgid "Failed to get Met Office forecast data.\n"
-#~ msgstr "Kunne ikke hente data for Met Office-meldingen.\n"
-
-#~ msgid "Failed to get radar map image.\n"
-#~ msgstr "Kunne ikke hente radarkart-bilde.\n"
-
-#~ msgid "Another update already in progress!\n"
-#~ msgstr "En annen oppdatering pågår allerede!\n"
-
-#~ msgid "%a, %b %d / %H:%M"
-#~ msgstr "%a, %b %d / %H:%M"
-
-#~ msgid "Calm"
-#~ msgstr "Rolig"
-
-#~ msgid "Retrieval failed"
-#~ msgstr "Henting feilet"
-
-#~ msgid "Jon's Binary Clock"
-#~ msgstr "Jon's binære klokke"
-
-#~ msgid "(C) 1999"
-#~ msgstr "(C) 1999"
-
-#~ msgid ""
-#~ "Released under the GNU general public license.\n"
-#~ "Displays time in Binary Coded Decimal\n"
-#~ "http://snoopy.net/~jon/jbc/."
-#~ msgstr ""
-#~ "Utgitt under GNU general public license.\n"
-#~ "Viser tiden som binær-kodede desimaler.\n"
-#~ "http://snoopy.net/~jon/jbc/."
-
-#~ msgid "The Game of Life"
-#~ msgstr "Livets spill"
-
-#~ msgid "A complete waste of perfectly good CPU cycles."
-#~ msgstr "Totalt bortkastet prosessorkraft."
-
-#~ msgid "Can't create life applet!"
-#~ msgstr "Kan ikke opprette life appleten!"
-
-#~ msgid "Randomize"
-#~ msgstr "Tilfeldiggjør"
-
-#~ msgid "Mini-Commander Applet"
-#~ msgstr "Mini-kommander applet"
-
-#~ msgid ""
-#~ "This GNOME applet adds a command line to the panel. It features command "
-#~ "completion, command history, changeable macros and an optional built-in "
-#~ "clock.\n"
-#~ "\n"
-#~ "This program is free software; you can redistribute it and/or modify it "
-#~ "under the terms of the GNU General Public License as published by the "
-#~ "Free Software Foundation; either version 2 of the License, or (at your "
-#~ "option) any later version."
-#~ msgstr ""
-#~ "Denne GNOME-appleten legger til en kommandolinje på panelet. Denne "
-#~ "støtter\n"
-#~ "kommando-komplettering, kommando-historikk, redigerbare makroer og en\n"
-#~ "valgfri, innebygget klokke.\n"
-#~ "\n"
-#~ "Dette programmet er fri programvare; du kan distribuere det og/eller \n"
-#~ "endre det i følge betingelsene gitt i GNU General Fystikk"
-
-#~ msgid "completing..."
-#~ msgstr "ferdigstiller..."
-
-#~ msgid "completed"
-#~ msgstr "ferdig"
-
-#~ msgid "no /bin/sh"
-#~ msgstr "ingen /bin/sh"
-
-#~ msgid "end of history list"
-#~ msgstr "slutten på historikken"
-
-#~ msgid "autocompleted"
-#~ msgstr "autoutfylt"
-
-#~ msgid "Command history"
-#~ msgstr "Kommandohistorikk"
-
-#~ msgid "Start program"
-#~ msgstr "Start program"
-
-#~ msgid "fork error"
-#~ msgstr "fork feil"
-
-#~ msgid "child exited"
-#~ msgstr "barn avsluttet"
-
-#~ msgid "%H:%M - %d. %b"
-#~ msgstr "%H:%M - %d. %b"
-
-#~ msgid "%d. %b"
-#~ msgstr "%d. %b"
-
-#~ msgid "orient. changed"
-#~ msgstr "orientering endret"
-
-#~ msgid "size changed"
-#~ msgstr "størrelse endret"
-
-#~ msgid "Browser"
-#~ msgstr "Leser"
-
-#~ msgid "History"
-#~ msgstr "Historikk"
-
-#~ msgid "ready..."
-#~ msgstr "klar..."
-
-#~ msgid "time & date on"
-#~ msgstr "tid & dato på"
-
-#~ msgid "time on"
-#~ msgstr "tid på"
-
-#~ msgid "date on"
-#~ msgstr "dato på"
-
-#~ msgid "clock off"
-#~ msgstr "klokke av"
-
-#~ msgid "saving prefs..."
-#~ msgstr "lagrer innstillinger..."
-
-#~ msgid "Mini-Commander Properties"
-#~ msgstr "Egenskaper for Mini-commander"
-
-#~ msgid "Show date"
-#~ msgstr "Vis dato"
-
-#~ msgid "Show handle"
-#~ msgstr "Vis håndtak"
-
-#~ msgid "Show frame"
-#~ msgstr "Vis ramme"
-
-#~ msgid "Enable history based auto completion"
-#~ msgstr "Slå på historikkbasert autoutfylling"
-
-#~ msgid "Applet width:"
-#~ msgstr "Applet-bredde:"
-
-#~ msgid "Applet height:"
-#~ msgstr "Applet-høyde:"
-
-#~ msgid "Command line height:"
-#~ msgstr "Kommandolinjehøyde:"
-
-#~ msgid "Command line foreground:"
-#~ msgstr "Kommandolinjeforgrunn:"
-
-#~ msgid "Command line background:"
-#~ msgstr "Kommandolinjebakgrunn:"
-
-#~ msgid "Regex %.2d:"
-#~ msgstr "Regex %.2d:"
-
-#~ msgid "   Macro %.2d:"
-#~ msgstr "   Makro %.2d:"
-
-#~ msgid "Couldn't open mixer device %s\n"
-#~ msgstr "Klarte ikke å åpne mikser-enheten %s\n"
-
-#~ msgid ""
-#~ "warning: this version of gmix was compiled with a different version of\n"
-#~ "soundcard.h.\n"
-#~ msgstr ""
-#~ "advarsel: denne versjonen av gmix ble kompilert med en annen versjon av\n"
-#~ "soundcard.h\n"
-
-#~ msgid "Main Volume and Mute"
-#~ msgstr "Hovedvolum, og demping"
-
-#~ msgid "Mixer Applet"
-#~ msgstr "Lydmikser applet"
-
-#~ msgid "(c) 1998 The Free Software Foundation"
-#~ msgstr "(c) 1998 the Free Software Foundation"
-
-#~ msgid ""
-#~ "The mixer applet gives you instant access to setting the master volume "
-#~ "level on your soundcard device"
-#~ msgstr ""
-#~ "Mikserappleten gir deg umiddelbar tilgang til innstillingene av lydnivået "
-#~ "for din lydenhet"
-
-#~ msgid "Run Audio Mixer..."
-#~ msgstr "Kjør lydmikser..."
-
-#~ msgid "Modem Lights Applet"
-#~ msgstr "Modemlys applet"
-
-#~ msgid ""
-#~ "Released under the GNU general public license.\n"
-#~ "A modem status indicator and dialer.\n"
-#~ "Lights in order from the top or left are Send data and Receive data."
-#~ msgstr ""
-#~ "Utgitt under GNUs generelle offentlige lisense.\n"
-#~ "En modem status indikator og nummersender.\n"
-#~ "Lysene fra øverst eller venstre er send data  og motta data."
-
-#~ msgid ""
-#~ "You are currently connected.\n"
-#~ "Do you want to disconnect?"
-#~ msgstr ""
-#~ "Du er nå tilkoblet.\n"
-#~ "Vil du koble fra?"
-
-#~ msgid "Do you want to connect?"
-#~ msgstr "Vil du koble til?"
-
-#~ msgid "%#.1fMb received / %#.1fMb sent / time: %.1d:%.2d"
-#~ msgstr "%#.1fMb mottatt / %#.1fMb sendt / tid: %.1d:%.2d"
-
 #~ msgid "not connected"
 #~ msgstr "ikke tilkoblet"
 
@@ -16560,207 +16151,11 @@ msgstr "init_bonobo(): kunne ikke initialisere Bonobo"
 #~ msgid "Not connected"
 #~ msgstr "Ikke tilkoblet"
 
-#~ msgid "Blink"
-#~ msgstr "Blink"
-
 #~ msgid "Text"
 #~ msgstr "Tekst"
 
 #~ msgid "Outline"
 #~ msgstr "Omriss"
-
-#~ msgid "Modem options"
-#~ msgstr "Modemalternativer"
-
-#~ msgid "Modem lock file:"
-#~ msgstr "Modem låsfil:"
-
-#~ msgid "Verify owner of lock file"
-#~ msgstr "Verifiser eier av låsfil"
-
-#~ msgid "Device:"
-#~ msgstr "Enhet:"
-
-#~ msgid "Use ISDN"
-#~ msgstr "Bruk ISDN"
-
-#~ msgid "Set options as default"
-#~ msgstr "Sett alternativer som standard"
-
-#~ msgid "CPU Load Applet"
-#~ msgstr "CPU Last applet"
-
-#~ msgid ""
-#~ "Released under the GNU general public license.\n"
-#~ "\n"
-#~ "CPU Load Meter Applet."
-#~ msgstr ""
-#~ "Utgitt under GNU general public license.\n"
-#~ "\n"
-#~ "Applet for å vise CPU last."
-
-#~ msgid "CPU Load"
-#~ msgstr "Prosessorlast"
-
-#~ msgid "Default Properties..."
-#~ msgstr "Standard egenskaper ..."
-
-#~ msgid "Run gtop..."
-#~ msgstr "Kjør gtop..."
-
-#~ msgid "Load average over 1 minute"
-#~ msgstr "Snittbelastning over 1 minutt"
-
-#~ msgid "Load average over 5 minutes"
-#~ msgstr "Snittbelastning over 5 minutter"
-
-#~ msgid "Load average over 15 minutes"
-#~ msgstr "Snittbelastning over 15 minutter"
-
-#~ msgid "Load Average Applet"
-#~ msgstr "Applet for snittbelastning"
-
-#~ msgid ""
-#~ "Released under the GNU general public license.\n"
-#~ "\n"
-#~ "Load Average Meter Applet."
-#~ msgstr ""
-#~ "Utgitt under GNU general public license.\n"
-#~ "\n"
-#~ "Applet for å vise snittbelastning."
-
-#~ msgid "Load Average"
-#~ msgstr "Snittbelastning"
-
-#~ msgid "Load Graph"
-#~ msgstr "Graf for belastning"
-
-#~ msgid "Speed:"
-#~ msgstr "Fart:"
-
-#~ msgid "Maximum:"
-#~ msgstr "Maksimum:"
-
-#~ msgid "Use default properties"
-#~ msgstr "Bruk standard egenskaper"
-
-#~ msgid "User"
-#~ msgstr "Bruker"
-
-#~ msgid "System"
-#~ msgstr "System"
-
-#~ msgid "Shared"
-#~ msgstr "Delt"
-
-#~ msgid "Buffers"
-#~ msgstr "Buffere"
-
-#~ msgid "Used"
-#~ msgstr "Brukt"
-
-#~ msgid "SLIP"
-#~ msgstr "SLIP"
-
-#~ msgid "PPP"
-#~ msgstr "PPP"
-
-#~ msgid "ETH"
-#~ msgstr "ETH"
-
-#~ msgid "Memory Load"
-#~ msgstr "Minnelast"
-
-#~ msgid "Swap Load"
-#~ msgstr "Belastning på swap"
-
-#~ msgid "Net Load"
-#~ msgstr "Nettbelastning"
-
-#~ msgid "Memory Load Applet"
-#~ msgstr "Minnelast applet"
-
-#~ msgid ""
-#~ "Released under the GNU general public license.\n"
-#~ "\n"
-#~ "Memory Load Applet."
-#~ msgstr ""
-#~ "Utgitt under GNU general public license.\n"
-#~ "\n"
-#~ "Minnelast applet."
-
-#~ msgid "Network Load Applet"
-#~ msgstr "Nettverkslast applet"
-
-#~ msgid ""
-#~ "Released under the GNU general public license.\n"
-#~ "\n"
-#~ "Network Load Meter Applet."
-#~ msgstr ""
-#~ "Utgitt under GNU general public license.\n"
-#~ "\n"
-#~ "Applet for visning av nettverkslast."
-
-#~ msgid "Network Load"
-#~ msgstr "Nettverkslast"
-
-#~ msgid "Swap Load Applet"
-#~ msgstr "Swaplast applet"
-
-#~ msgid ""
-#~ "Released under the GNU general public license.\n"
-#~ "\n"
-#~ "Swap Load Meter Applet."
-#~ msgstr ""
-#~ "Utgitt under GNU general public license.\n"
-#~ "\n"
-#~ "Applet for visning av swaplast."
-
-#~ msgid "Odometer"
-#~ msgstr "Odometer"
-
-#~ msgid "(C) 1999 The Free Software Foundation"
-#~ msgstr "(C) 1999 the Free Software Foundation"
-
-#~ msgid ""
-#~ "a GNOME applet that tracks and measures the movements of your mouse "
-#~ "pointer across the desktop."
-#~ msgstr ""
-#~ "en GNOME applet som følger og måler bevegelsen til muspekeren over "
-#~ "skrivebordet."
-
-#~ msgid "Can't create odometer applet!"
-#~ msgstr "Kan ikke opprette odometer appleten!"
-
-#~ msgid "Reset"
-#~ msgstr "Nullstill"
-
-#~ msgid "auto_reset"
-#~ msgstr "auto_reset"
-
-#~ msgid "enabled"
-#~ msgstr "aktiv"
-
-#~ msgid "Digits number"
-#~ msgstr "Tall nummer"
-
-#~ msgid "Theme file:"
-#~ msgstr "Temafil:"
-
-#~ msgid "The QuickLaunch Applet"
-#~ msgstr "Hurtigstart applet"
-
-#~ msgid ""
-#~ "This applet adds some pretty small icons for your launchers to your "
-#~ "panel, like the windowish QuickLaunch toolbar, avoiding that annoying "
-#~ "huge GNOME launchers."
-#~ msgstr ""
-#~ "Denne appleten legger til noen ganske små ikoner for oppstartere på "
-#~ "panelet, slik som hurtigstartmenylinjen i Windows, og unngår de svære "
-#~ "GNOME startknappene."
-
-#~ msgid "Launcher Properties"
-#~ msgstr "Egenskaper for oppstarter"
 
 #~ msgid ""
 #~ "drop launchers from\n"
@@ -17222,25 +16617,6 @@ msgstr "init_bonobo(): kunne ikke initialisere Bonobo"
 #~ msgid "Balance"
 #~ msgstr "Balanse"
 
-#~ msgid ""
-#~ "You have enabled the \"Monitor sound input\" option.\n"
-#~ "\n"
-#~ "If your sound card is not fully 100% FULL DUPLEX (can do input and output "
-#~ "simultaneously),\n"
-#~ "then this may touch bugs in sound drivers/esound that may hang the "
-#~ "system.\n"
-#~ "\n"
-#~ "You have been warned!"
-#~ msgstr ""
-#~ "Du har slått på \"Overvåk inndata for lyd\" valget.\n"
-#~ "\n"
-#~ "Hvis ditt lydkort ikke støtter FULL DUPLEX 100% (opptak og avspilling på "
-#~ "same tid),\n"
-#~ "så kan dette fremtvinge feil i lyddriverene/esound som kan få systemet "
-#~ "til å henge.\n"
-#~ "\n"
-#~ "Du er herved advart!"
-
 #~ msgid "Peak indicator"
 #~ msgstr "Utslagsindikator"
 
@@ -17283,9 +16659,6 @@ msgstr "init_bonobo(): kunne ikke initialisere Bonobo"
 #~ msgid "(C) 1999 John Ellis"
 #~ msgstr "(C) 1999 John Ellis"
 
-#~ msgid "A ticker to display various information and statistics.\n"
-#~ msgstr "En \"teleks\" som kan vise forskjellig informasjon og statistikk.\n"
-
 #~ msgid "unable to create user directory: %s\n"
 #~ msgstr "kunne ikke opprette brukerkatalog: %s\n"
 
@@ -17323,14 +16696,6 @@ msgstr "init_bonobo(): kunne ikke initialisere Bonobo"
 #~ msgid "Core dump catcher"
 #~ msgstr "Kjernedump modul"
 
-#~ msgid ""
-#~ "This module monitors a path for core dumps, if one is\n"
-#~ " found it is time stamped and a backtrace logged (using gdb)."
-#~ msgstr ""
-#~ "Denne modulen overvåker en sti for kjernedump, hvis det\n"
-#~ "blir funnet blir det merket og et \"backtrace\" blir logget (ved bruk av "
-#~ "gdb)."
-
 #~ msgid "Load Average information (Tick-a-Stat)"
 #~ msgstr "Informasjon om snittbelastning (Tick-a-Stat)"
 
@@ -17367,9 +16732,6 @@ msgstr "init_bonobo(): kunne ikke initialisere Bonobo"
 #~ msgstr ""
 #~ "Denne modulen overvåker snittbelastningen for systemet,\n"
 #~ " og viser en advarsel når den overstiger et gitt punkt."
-
-#~ msgid "script \""
-#~ msgstr "skript \""
 
 #~ msgid "Tick-a-Stat script encountered an error:\n"
 #~ msgstr "Tick-a-Stat skriptet fant en feil:\n"
@@ -17690,15 +17052,6 @@ msgstr "init_bonobo(): kunne ikke initialisere Bonobo"
 
 #~ msgid "Display GO Button"
 #~ msgstr "Vis GÅ-knappen"
-
-#~ msgid "Display \"launch new window\" option"
-#~ msgstr "Vis \"Åpne nytt vindu\"-valg"
-
-#~ msgid "Display \"Clear\" button"
-#~ msgstr "Vis \"Tøm\"-knappen"
-
-#~ msgid "\"Clear\" button on top?"
-#~ msgstr "\"Tøm\"-knapp øverst"
 
 #~ msgid " URL Activation "
 #~ msgstr "URL-aktivering"
@@ -18096,9 +17449,6 @@ msgstr "init_bonobo(): kunne ikke initialisere Bonobo"
 #~ msgid "Could not encrypt: failed to create encryption context."
 #~ msgstr "Kunne ikke kryptere: klarte ikke å opprette krypteringskontekst."
 
-#~ msgid "Could not encrypt data: invalid user key: \"%s\"."
-#~ msgstr "Kunne ikke kryptere data: ugyldig nøkkel for bruker: \"%s\"."
-
 #~ msgid "Could not encrypt: encoding failed."
 #~ msgstr "Kunne ikke kryptere: koding feilet."
 
@@ -18163,9 +17513,6 @@ msgstr "init_bonobo(): kunne ikke initialisere Bonobo"
 #~ msgid "Edit the task"
 #~ msgstr "Rediger oppgaven"
 
-#~ msgid "Could not clearsign: certificate not found for \"%s\"."
-#~ msgstr "Kunne ikke klarsignere: sertifikat ikke funnet for \"%s\"."
-
 #~ msgid "Send the message now"
 #~ msgstr "Send meldingen nå"
 
@@ -18196,14 +17543,6 @@ msgstr "init_bonobo(): kunne ikke initialisere Bonobo"
 
 #~ msgid "Finaly remove all mails tagged for deletion"
 #~ msgstr "Fjern alle meldinger som er merket for sletting"
-
-#~ msgid "Forward inline"
-#~ msgstr "Videresend \"inline\""
-
-#~ msgid "Forward this message in-line with your mail, so you can edit it"
-#~ msgstr ""
-#~ "Videresend denne meldingen \"in-line\" med din e-post, så du kan redigere "
-#~ "den"
 
 #~ msgid "Invert Selection"
 #~ msgstr "Reverser utvalg"
@@ -18244,9 +17583,6 @@ msgstr "init_bonobo(): kunne ikke initialisere Bonobo"
 
 #~ msgid "_Reply"
 #~ msgstr "Sva_r"
-
-#~ msgid "Search \"%s\""
-#~ msgstr "Søk \"%s\""
 
 #~ msgid "SASL"
 #~ msgstr "SASL"
@@ -18410,13 +17746,6 @@ msgstr "init_bonobo(): kunne ikke initialisere Bonobo"
 #~ msgid "Transport Authentication"
 #~ msgstr "Autentisering for transport"
 
-#~ msgid ""
-#~ "Type the name by which you would like to refer to these servers. For "
-#~ "example: \"Work\" or \"Home\"."
-#~ msgstr ""
-#~ "Skriv inn et referansenavn for disse tjenerene. For eksempel: \"Arbeid\" "
-#~ "eller \"Hjemme\"."
-
 #~ msgid "minutes."
 #~ msgstr "minutter."
 
@@ -18439,9 +17768,6 @@ msgstr "init_bonobo(): kunne ikke initialisere Bonobo"
 
 #~ msgid "Open in addressbook (FIXME)"
 #~ msgstr "Åpne i adressebok"
-
-#~ msgid "%s message %d of %d (uid \"%s\")"
-#~ msgstr "%s melding %d av %d (uid \"%s\")"
 
 #~ msgid "No authentication required"
 #~ msgstr "Ingen autentisering nødvendig"
@@ -18588,9 +17914,6 @@ msgstr "init_bonobo(): kunne ikke initialisere Bonobo"
 #~ msgid "Account Properties"
 #~ msgstr "Egenskaper for konto"
 
-#~ msgid "Include in \"Get Mail\" operations."
-#~ msgstr "Ta med i \"Hent e-post\"-operasjoner."
-
 #~ msgid "Incoming Mail Server"
 #~ msgstr "E-posttjener for innkommende post"
 
@@ -18666,21 +17989,6 @@ msgstr "init_bonobo(): kunne ikke initialisere Bonobo"
 #~ msgid "Registering local folder"
 #~ msgstr "Registrerer lokal mappe"
 
-#~ msgid "Appending \"%s\""
-#~ msgstr "Legger til \"%s\""
-
-#~ msgid "Moving messages from \"%s\" into \"%s\""
-#~ msgstr "Flytter meldinger fra \"%s\" til \"%s\""
-
-#~ msgid "Copying messages from \"%s\" into \"%s\""
-#~ msgstr "Kopierer meldinger fra \"%s\" til \"%s\""
-
-#~ msgid "Move messages from \"%s\" into \"%s\""
-#~ msgstr "Flytt meldinger fra \"%s\" til \"%s\""
-
-#~ msgid "Copy messages from \"%s\" into \"%s\""
-#~ msgstr "Kopier meldinger fra \"%s\" til \"%s\""
-
 #~ msgid "Loading %s Folder for %s"
 #~ msgstr "Laster %s-mappe for %s"
 
@@ -18699,12 +18007,6 @@ msgstr "init_bonobo(): kunne ikke initialisere Bonobo"
 
 #~ msgid "Corrupted message from dispatching thread?"
 #~ msgstr "Korrupt melding fra utsender-tråd?"
-
-#~ msgid "Get store for \"%s\""
-#~ msgstr "Hent lager for \"%s\""
-
-#~ msgid "Unsubscribe from folder \"%s\""
-#~ msgstr "Slett abonnement på mappe \"%s\""
 
 #~ msgid "Query"
 #~ msgstr "Spør"
@@ -18819,12 +18121,6 @@ msgstr "init_bonobo(): kunne ikke initialisere Bonobo"
 #~ msgid "Send queue"
 #~ msgstr "Send kø"
 
-#~ msgid ""
-#~ "Could not read UID cache file \"%s\". You may receive duplicate messages."
-#~ msgstr ""
-#~ "Kunne ikke lese bufferfil for UID \"%s\". Du kan motta dupliserte "
-#~ "meldinger."
-
 #~ msgid "Retrieving message %d of %d"
 #~ msgstr "Henter melding %d av %d"
 
@@ -18888,51 +18184,11 @@ msgstr "init_bonobo(): kunne ikke initialisere Bonobo"
 #~ msgid "Mail source type:"
 #~ msgstr "Type e-post-kilde:"
 
-#~ msgid ""
-#~ "Select the kind of mail server you have, and enter the relevant "
-#~ "information about it.\n"
-#~ "\n"
-#~ "If the server requires authentication, you can click the \"Detect "
-#~ "supported types...\" button after entering the other information."
-#~ msgstr ""
-#~ "Velg hvilken type e-post tjener du har, og skriv inn relevant informasjon "
-#~ "om denne.\n"
-#~ "\n"
-#~ "Hvis tjeneren trenger autentisering, kan du klikke på \"Søk etter "
-#~ "støttede typer...\" knappen etter at du har skrevet inn resten av "
-#~ "informasjonen."
-
 #~ msgid "News source type:"
 #~ msgstr "Type news-kilde:"
 
-#~ msgid ""
-#~ "Select the kind of news server you have, and enter the relevant "
-#~ "information about it.\n"
-#~ "\n"
-#~ "If the server requires authentication, you can click the \"Detect "
-#~ "supported types...\" button after entering the other information."
-#~ msgstr ""
-#~ "Velg hvilken type news-tjener du har, og skriv inn relevant informasjon "
-#~ "om denne.\n"
-#~ "\n"
-#~ "Hvis tjeneren trenger autentisering, kan du klikke på \"Søk etter "
-#~ "støttede typer...\"-knappen etter at du har skrevet inn resten av "
-#~ "informasjonen."
-
 #~ msgid "Mail transport type:"
 #~ msgstr "Type e-post-transport"
-
-#~ msgid ""
-#~ "Select the kind of mail server you have, and enter the relevant "
-#~ "information about it.\n"
-#~ "If the server requires authentication, you can click the \"Detect "
-#~ "supported types...\" button after entering the other information."
-#~ msgstr ""
-#~ "Velg hvilken type e-post tjener du har, og skriv inn relevant informasjon "
-#~ "om denne.\n"
-#~ "Hvis tjeneren trenger autentisering, kan du klikke på \"Søk etter "
-#~ "støttede typer...\" knappen etter at du har skrevet inn resten av "
-#~ "informasjonen."
 
 #~ msgid "Add Identity"
 #~ msgstr "Legg til identitet"
@@ -18948,12 +18204,6 @@ msgstr "init_bonobo(): kunne ikke initialisere Bonobo"
 
 #~ msgid "The connection was successful!"
 #~ msgstr "Tilkoblingen var vellykket!"
-
-#~ msgid "Querying authorization capabilities of \"%s\""
-#~ msgstr "Spør etter autorisasjonsegenskaper for \"%s\""
-
-#~ msgid "Query authorization at \"%s\""
-#~ msgstr "Spør etter autorisasjon hos \"%s\""
 
 #~ msgid "Identities"
 #~ msgstr "Identiteter"
@@ -18976,26 +18226,8 @@ msgstr "init_bonobo(): kunne ikke initialisere Bonobo"
 #~ msgid "Sending a message without a subject"
 #~ msgstr "Sender en melding uten emne"
 
-#~ msgid "Mark messages in folder \"%s\""
-#~ msgstr "Merk meldinger i mappe \"%s\""
-
-#~ msgid "Scan folders in \"%s\""
-#~ msgstr "Skann foldere i \"%s\""
-
-#~ msgid "Attaching messages from folder \"%s\""
-#~ msgstr "Legger ved meldinger fra mappe \"%s\""
-
-#~ msgid "Attach messages from \"%s\""
-#~ msgstr "Legg ved meldinger fra \"%s\""
-
-#~ msgid "Forwarding messages \"%s\""
-#~ msgstr "Videresender meldinger \"%s\""
-
 #~ msgid "Forwarding a message without a subject"
 #~ msgstr "Videresender en melding uten emne"
-
-#~ msgid "Forward message \"%s\""
-#~ msgstr "Videresend meldingen \"%s\""
 
 #~ msgid ""
 #~ "Failed to generate mime part from message while generating forwarded "
@@ -19004,14 +18236,8 @@ msgstr "init_bonobo(): kunne ikke initialisere Bonobo"
 #~ "Kunne ikke generere MIME-del fra melding under generering av videresendt "
 #~ "melding."
 
-#~ msgid "Creating \"%s\""
-#~ msgstr "Oppretter \"%s\""
-
 #~ msgid "Exception while reporting result to shell component listener."
 #~ msgstr "Unntak under rapportering av resultat til skallkomponentens lytter."
-
-#~ msgid "Save messages from folder \"%s\""
-#~ msgstr "Lagre meldinger fra mappe \"%s\""
 
 #~ msgid "Rebuilding message view"
 #~ msgstr "Bygger opp meldingsvisningen på nytt"
@@ -19046,41 +18272,8 @@ msgstr "init_bonobo(): kunne ikke initialisere Bonobo"
 #~ msgid "To-Do item that is overdue:"
 #~ msgstr "Oppgavelisteoppføring som har gått ut:"
 
-#~ msgid "Expunging \"%s\""
-#~ msgstr "Fjerner \"%s\""
-
-#~ msgid "Expunge \"%s\""
-#~ msgstr "Tøm \"%s\""
-
-#~ msgid "Loading \"%s\""
-#~ msgstr "Laster \"%s\""
-
-#~ msgid "Load \"%s\""
-#~ msgstr "Last \"%s\""
-
-#~ msgid "Displaying message UID \"%s\""
-#~ msgstr "Viser melding-UID \"%s\""
-
 #~ msgid "Clearing message display"
 #~ msgstr "Tømmer meldingsvisning"
-
-#~ msgid "Display message UID \"%s\""
-#~ msgstr "Vis meldings-UID \"%s\""
-
-#~ msgid "Opening messages from folder \"%s\""
-#~ msgstr "Åpner meldinger fra mappe \"%s\""
-
-#~ msgid "Open messages from \"%s\""
-#~ msgstr "Åpne meldinger fra \"%s\""
-
-#~ msgid "Viewing messages from folder \"%s\""
-#~ msgstr "Viser meldinger fra mappe \"%s\""
-
-#~ msgid "View messages from \"%s\""
-#~ msgstr "Vis meldinger fra \"%s\""
-
-#~ msgid "Retrieving message %d of %d (uid \"%s\")"
-#~ msgstr "Henter melding %d av %d (uid \"%s\")"
 
 #~ msgid "N_ew Directory Server"
 #~ msgstr "Ny katalog-tj_ener"
@@ -19525,6 +18718,3 @@ msgstr "init_bonobo(): kunne ikke initialisere Bonobo"
 
 #~ msgid "Quit the message composer"
 #~ msgstr "Avslutt meldingsredigering"
-
-#~ msgid "Run filter \"%s\""
-#~ msgstr "Kjør filter \"%s\""
