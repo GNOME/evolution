@@ -29,6 +29,8 @@ libevolution_addressbook_la_SOURCES = 	\
 	addressbook-component.h		\
 	addressbook-config.c		\
 	addressbook-config.h		\
+	autocompletion-config.c		\
+	autocompletion-config.h		\
 	addressbook.c			\
 	addressbook.h			\
 	component-factory.c

@@ -59,35 +59,6 @@ e_select_names_config_remove_notification (guint id)
 	gconf_client_notify_remove (config, id);
 }
 
-/* The current list of completion books */
-GSList *
-e_select_names_config_get_completion_books (void)
-{
-	e_select_names_config_init ();
-	
-	return gconf_client_get_list (config, SELECT_NAMES_CONFIG_COMPLETION_BOOKS, GCONF_VALUE_STRING, NULL);
-}
-
-void
-e_select_names_config_set_completion_books (GSList *selected)
-{
-	e_select_names_config_init ();
-
-	gconf_client_set_list (config, SELECT_NAMES_CONFIG_COMPLETION_BOOKS, GCONF_VALUE_STRING, selected, NULL);
-}
-
-guint
-e_select_names_config_add_notification_completion_books (GConfClientNotifyFunc func, gpointer data)
-{
-	guint id;
-
-	e_select_names_config_init ();
-	
-	id = gconf_client_notify_add (config, SELECT_NAMES_CONFIG_COMPLETION_BOOKS, func, data, NULL, NULL);
-	
-	return id;
-}
-
 char *
 e_select_names_config_get_last_completion_book (void)
 {

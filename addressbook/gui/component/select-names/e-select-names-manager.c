@@ -374,8 +374,10 @@ e_select_names_manager_discard_saved_models (ESelectNamesManager *manager)
 /* ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** */
 
 static void
-open_book_cb (EBook *book, EBookStatus status, ESelectNamesManager *manager)
+open_book_cb (EBook *book, EBookStatus status, gpointer user_data)
 {
+	ESelectNamesManager *manager = E_SELECT_NAMES_MANAGER (user_data);
+
 	if (status == E_BOOK_ERROR_OK) {
 		GList *l;
 		for (l = manager->entries; l; l = l->next) {
@@ -387,49 +389,40 @@ open_book_cb (EBook *book, EBookStatus status, ESelectNamesManager *manager)
 		g_object_ref (book);
 	}
 
-	g_object_unref (manager); /* unref ourself (matches ref before the load_uri call below) */
+	g_object_unref (manager); /* unref ourself (matches ref before the load_source call below) */
 }
 
 static void
 update_completion_books (ESelectNamesManager *manager)
 {
-	GSList *completion_uids, *l;
-
-	/* Get the selection in gconf */
-	completion_uids  = e_select_names_config_get_completion_books ();
+	GSList *groups;
 
 	/* Add all the completion books */
-	for (l = completion_uids; l; l = l->next) {
-		char *uid = l->data;
-		ESource *source;
-		
-		source = e_source_list_peek_source_by_uid (manager->source_list, uid);
-		if (source) {
-			EBook *book;
+	for (groups = e_source_list_peek_groups (manager->source_list); groups; groups = groups->next) {
+		ESourceGroup *group = E_SOURCE_GROUP (groups->data);
+		GSList *sources;
 
-			book = e_book_new ();			
-
-			addressbook_load_source (book, source, (EBookCallback)open_book_cb, manager);			
+		for (sources = e_source_group_peek_sources (group); sources; sources = sources->next) {
+			ESource *source = E_SOURCE (sources->data);
+			const char *completion = e_source_get_property (source, "completion");
+			if (completion && !g_ascii_strcasecmp (completion, "true")) {
+				EBook *book = e_book_new ();
+				g_object_ref (manager);
+				addressbook_load_source (book, source, open_book_cb, manager);
+			}
 		}
-		
-		g_free (uid);
 	}
-	g_slist_free (completion_uids);
 }
 
 static void
-config_completion_books_changed_cb (GConfClient *client, guint id, GConfEntry *entry, gpointer data)
+source_list_changed (ESourceList *source_list, ESelectNamesManager *manager)
 {
-	ESelectNamesManager *manager = data;
 	GList *l;
 	
 	for (l = manager->entries; l; l = l->next) {
 		ESelectNamesManagerEntry *entry = l->data;
 		e_select_names_completion_clear_books (E_SELECT_NAMES_COMPLETION (entry->comp));
 	}
-
-	g_slist_foreach (manager->completion_uids, (GFunc)g_free, NULL);
-	g_slist_free (manager->completion_uids);
 
 	g_list_foreach (manager->completion_books, (GFunc)g_object_unref, NULL);
 	g_list_free (manager->completion_books);
@@ -625,16 +618,13 @@ e_select_names_manager_init (ESelectNamesManager *manager)
 	manager->entries  = NULL;
 
 	manager->source_list =  e_source_list_new_for_gconf_default ("/apps/evolution/addressbook/sources");
-	
-	manager->completion_uids  = e_select_names_config_get_completion_books ();
+	g_signal_connect (manager->source_list, "changed", G_CALLBACK (source_list_changed), manager);
+
 	manager->completion_books  = NULL;
 
 	manager->minimum_query_length = e_select_names_config_get_min_query_length ();
 
 	update_completion_books (manager);
-
-	not = e_select_names_config_add_notification_completion_books (config_completion_books_changed_cb, manager);
-	manager->notifications = g_list_append (manager->notifications, GUINT_TO_POINTER (not));
 
 	not = e_select_names_config_add_notification_min_query_length (config_min_query_length_changed_cb, manager);
 	manager->notifications = g_list_append (manager->notifications, GUINT_TO_POINTER (not));
@@ -669,15 +659,6 @@ e_select_names_manager_dispose (GObject *object)
 		manager->source_list = NULL;
 	}
 	
-	if (manager->completion_uids) {
-		GSList *l;
-		
-		for (l = manager->completion_uids; l; l = l->next)
-			g_free (l->data);
-		g_slist_free (manager->completion_uids);
-		manager->completion_uids = NULL;
-	}
-
 	if (manager->completion_books) {
 		g_list_foreach (manager->completion_books, (GFunc) g_object_unref, NULL);
 		g_list_free (manager->completion_books);

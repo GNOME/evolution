@@ -1,3 +1,38 @@
+2003-12-06  Chris Toshok  <toshok@ximian.com>
+
+	* gui/component/select-names/e-select-names-manager.c
+	(open_book_cb): change prototype to fix warning, and change the
+	comment to read load_source instead of load_uri (which isn't what
+	we use anymore.)
+	(update_completion_books): just use our source list for this.
+	check the "completion" source property.
+	(source_list_changed): recreate the completion books.
+	(e_select_names_manager_init): connect to the source_list's
+	changed signal.
+	(e_select_names_manager_dispose): don't need to free the
+	completion_uids list anymore.
+
+	* gui/component/select-names/e-select-names-config.c
+	(e_select_names_config_get_completion_books,
+	e_select_names_config_set_completion_books,
+	e_select_names_config_add_notification_completion_books): remove.
+
+	* gui/component/select-names/e-select-names-config.h: remove the
+	completion books calls, since we can just use the source list.
+
+	* gui/component/component-factory.c (factory): create the
+	autocompletion control.
+
+	* gui/component/autocompletion-config.[ch]: new config control for
+	selecting completion folders.  Uses e-source-selector.  Could
+	probably be beautified a bit.
+	
+	* gui/component/Makefile.am (libevolution_addressbook_la_SOURCES):
+	add autocompletion-config.[ch]
+
+	* gui/component/GNOME_Evolution_Addressbook.server.in.in: remove
+	the ldap config control server, and add the autocompletion one.
+
 2003-12-06  JP Rosevear <jpr@ximian.com>
 
 	* */Makefile.am: Remove hard coded disable deprecated flags

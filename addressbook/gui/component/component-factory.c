@@ -26,6 +26,7 @@
 #include "addressbook.h"
 #include "addressbook-component.h"
 #include "addressbook-config.h"
+#include "autocompletion-config.h"
 #include "eab-popup-control.h"
 #include "eab-vcard-control.h"
 #include "select-names/e-select-names-bonobo.h"
@@ -43,6 +44,7 @@
 #define ADDRESS_POPUP_ID               "OAFIID:GNOME_Evolution_Addressbook_AddressPopup:" BASE_VERSION
 #define SELECT_NAMES_ID                "OAFIID:GNOME_Evolution_Addressbook_SelectNames:" BASE_VERSION
 #define LDAP_STORAGE_CONFIG_CONTROL_ID "OAFIID:GNOME_Evolution_LDAPStorage_ConfigControl:" BASE_VERSION
+#define COMPLETION_CONFIG_CONTROL_ID "OAFIID:GNOME_Evolution_Addressbook_Autocompletion_ConfigControl:" BASE_VERSION
 #define CERTIFICATE_MANAGER_CONFIG_CONTROL_ID "OAFIID:GNOME_Evolution_SMime_CertificateManager_ConfigControl:" BASE_VERSION
 
 
@@ -64,6 +66,8 @@ factory (BonoboGenericFactory *factory,
 	}
 	if (strcmp (component_id, ADDRESS_POPUP_ID) == 0)
 		return BONOBO_OBJECT (eab_popup_control_new ());
+	if (strcmp (component_id, COMPLETION_CONFIG_CONTROL_ID) == 0)
+		return BONOBO_OBJECT (autocompletion_config_control_new ());
 #if 0
 	/* Config control is dead */
 	if (strcmp (component_id, LDAP_STORAGE_CONFIG_CONTROL_ID) == 0)

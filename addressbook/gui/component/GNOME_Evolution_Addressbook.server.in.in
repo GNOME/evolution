@@ -93,34 +93,6 @@
 
 </oaf_server>
 
-<oaf_server iid="OAFIID:GNOME_Evolution_LDAPStorage_ConfigControl:@VERSION@"
-            type="factory"
-	    location="OAFIID:GNOME_Evolution_Addressbook_Factory:@VERSION@">
-
-	<oaf_attribute name="repo_ids" type="stringv">
-		<item value="IDL:GNOME/Evolution/ConfigControl:@VERSION@"/>
-	</oaf_attribute>
-
-	<oaf_attribute name="evolution2:config_item:title" type="string"
-		       _value="Directory Servers"/>
-
-	<oaf_attribute name="evolution2:config_item:description" type="string"
-		       _value="Configure access to LDAP directory servers here"/>
-
-	<oaf_attribute name="evolution2:config_item:icon_name" type="string"
-		       value="ldap-settings.png"/>
-
-	<oaf_attribute name="evolution2:config_item:type" type="stringv">
-		<item value="contacts/ldap"/>
-	</oaf_attribute>
-
-	<oaf_attribute name="evolution2:config_item:priority" type="string" value="-6"/>
-    
-	<oaf_attribute name="name" type="string"
-		       _value="Evolution Addressbook LDAP Configuration Control"/>
-
-</oaf_server>
-
 <oaf_server iid="OAFIID:GNOME_Evolution_SMime_CertificateManager_ConfigControl:@VERSION@"
             type="factory"
             location="OAFIID:GNOME_Evolution_Addressbook_Factory:@VERSION@">
@@ -143,6 +115,29 @@
         <oaf_attribute name="name" type="string"
                        _value="Evolution S/Mime Certificate Management Control"/>
                                                                                           
+</oaf_server>
+
+<oaf_server iid="OAFIID:GNOME_Evolution_Addressbook_Autocompletion_ConfigControl:@VERSION@"
+	    type="factory"
+	    location="OAFIID:GNOME_Evolution_Addressbook_Factory:@VERSION@">
+
+	<oaf_attribute name="repo_ids" type="stringv">
+		<item value="IDL:GNOME/Evolution/ConfigControl:@VERSION@"/>
+	</oaf_attribute>
+
+	<oaf_attribute name="evolution2:config_item:title" type="string"
+		_value="Autocompletion"/>
+
+	<oaf_attribute name="evolution2:config_item:description" type="string"
+		_value="Configure autocomple here"/>
+
+	<oaf_attribute name="evolution2:config_item:icon_name" type="string"
+		value="folder-settings.png"/>
+
+	<oaf_attribute name="evolution2:config_item:priority" type="string" value="-9"/>
+
+	<oaf_attribute name="name" type="string"
+		_value="Evolution folder settings configuration control"/>
 </oaf_server>
 
 </oaf_info>

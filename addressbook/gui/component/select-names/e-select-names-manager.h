@@ -33,7 +33,6 @@ struct _ESelectNamesManager {
 	ESelectNames *names;
 
 	ESourceList *source_list;	
-	GSList *completion_uids;
 	GList *completion_books;
 	
 	int minimum_query_length;

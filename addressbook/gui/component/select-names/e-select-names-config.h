@@ -29,11 +29,6 @@
 
 void e_select_names_config_remove_notification (guint id);
 
-/* The current list of completion uris */
-GSList   *e_select_names_config_get_completion_books (void);
-void	  e_select_names_config_set_completion_books (GSList *selected);
-guint	  e_select_names_config_add_notification_completion_books (GConfClientNotifyFunc func, gpointer data);
-
 /* The last completion book */
 char 	  *e_select_names_config_get_last_completion_book	(void);
 void	  e_select_names_config_set_last_completion_book	(const char *last_completion_book);
