@@ -1,5 +1,10 @@
 2001-05-03  Ettore Perazzoli  <ettore@ximian.com>
 
+	* glade/e-active-connection-dialog.c: Change the GtkCList mode to
+	GTK_BROWSE_SINGLE.
+
+2001-05-03  Ettore Perazzoli  <ettore@ximian.com>
+
 	* e-shell-offline-handler.c
 	(impl_OfflineProgressListener_updateProgress): Update the GtkCList
 	before emitting the "offline_procedure_finished" signal.  In fact,
