@@ -1097,7 +1097,7 @@ folder_scan_skip_line(struct _header_scan_state *s, GByteArray *save)
 
 	while ( (len = folder_read(s)) > 0 && len > s->atleast) { /* ensure we have at least enough room here */
 		inptr = s->inptr;
-		inend = s->inend-1;
+		inend = s->inend;
 
 		c = -1;
 		while (inptr<inend
@@ -1116,6 +1116,8 @@ folder_scan_skip_line(struct _header_scan_state *s, GByteArray *save)
 			return 0;
 		}
 	}
+
+	d(printf("couldn't find end of line?\n"));
 
 	s->atleast = atleast;
 

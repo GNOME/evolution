@@ -301,7 +301,8 @@ delete_folder(CamelStore *store, const char *folder_name, CamelException *ex)
 	}
 	
 	g_free(path);
-	
+
+	path = NULL;
 	camel_exception_init(&lex);
 	if ((lf = camel_store_get_folder(store, folder_name, 0, &lex))) {
 		camel_object_get(lf, NULL, CAMEL_OBJECT_STATE_FILE, &path, NULL);

@@ -1,5 +1,17 @@
 2004-03-15  Not Zed  <NotZed@Ximian.com>
 
+	* providers/local/camel-mbox-store.c (delete_folder): same as
+	below for path.
+
+	* providers/local/camel-local-store.c (delete_folder): NULL out
+	str before looking up the state file using it.  Otherwise we
+	double-free str.
+
+	* camel-mime-parser.c (folder_scan_skip_line): we want to scan
+	till in-end-1.  If we've been called we're either at the end of
+	data, or we know we have an end of line character within memory.
+	Another case in Bug #53355.
+
 	* providers/imap/camel-imap-folder.c (get_content, get_message):
 	set the mime-type field on the content the same way as
 	construct_from_stream does.  Bug #55472.

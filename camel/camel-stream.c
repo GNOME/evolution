@@ -114,7 +114,7 @@ camel_stream_write (CamelStream *stream, const char *buffer, size_t n)
 {
 	g_return_val_if_fail (CAMEL_IS_STREAM (stream), -1);
 	g_return_val_if_fail (n == 0 || buffer, -1);
-	
+
 	return CS_CLASS (stream)->write (stream, buffer, n);
 }
 
@@ -132,7 +132,7 @@ int
 camel_stream_flush (CamelStream *stream)
 {
 	g_return_val_if_fail (CAMEL_IS_STREAM (stream), -1);
-	
+
 	return CS_CLASS (stream)->flush (stream);
 }
 

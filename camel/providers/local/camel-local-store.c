@@ -399,7 +399,8 @@ delete_folder(CamelStore *store, const char *folder_name, CamelException *ex)
 		return;
 	}
 	g_free(str);
-	
+
+	str = NULL;
 	camel_exception_init (&lex);
 	if ((lf = camel_store_get_folder (store, folder_name, 0, &lex))) {
 		camel_object_get (lf, NULL, CAMEL_OBJECT_STATE_FILE, &str, NULL);
