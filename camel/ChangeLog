@@ -1,3 +1,10 @@
+2001-03-28  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-pgp-context.[c,h]: New class for PGP encrypting,
+	decrypting, signing and verifying. Next I'll be moving the
+	contents of mail/mail-crypto into Camel. These files will
+	basically replace mail/openpgp-utils.[c,h].
+
 2001-03-29  Not Zed  <NotZed@Ximian.com>
 
 	* camel-folder-search.c (search_body_contains): Optimise the match
