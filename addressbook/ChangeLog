@@ -1,5 +1,11 @@
 2003-10-22  Ettore Perazzoli  <ettore@ximian.com>
 
+	* gui/component/addressbook-component.c (impl_createControls): Set
+	the GtkScrolledWindow scrollbar policy to "automatic" for both the
+	horizontal and the vertical scrollbar.
+
+2003-10-22  Ettore Perazzoli  <ettore@ximian.com>
+
 	* gui/component/GNOME_Evolution_Addressbook.server.in.in: Add an
 	"evolution:button_label" property on the component for use in the
 	shell.
