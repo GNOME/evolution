@@ -772,15 +772,15 @@ header_decode_text(const char *in, int inlen)
 
 		decword = rfc2047_decode_word(encstart, encend-encstart+2);
 		if (decword) {
-			g_string_append_len(out, inptr, encstart-inptr);
-			g_string_append_len(out, decword, strlen(decword));
+			out = g_string_append_len(out, inptr, encstart-inptr);
+			out = g_string_append_len(out, decword, strlen(decword));
 			free(decword);
 		} else {
-			g_string_append_len(out, inptr, encend-inptr+2);
+			out = g_string_append_len(out, inptr, encend-inptr+2);
 		}
 		inptr = encend+2;
 	}
-	g_string_append_len(out, inptr, inend-inptr);
+	out = g_string_append_len(out, inptr, inend-inptr);
 
 	encstart = out->str;
 	g_string_free(out, FALSE);
@@ -886,11 +886,11 @@ header_encode_string(const unsigned char *in)
 		inptr = newinptr;
 		if (unicode_isspace(c)) {
 			if (encoding == 0) {
-				g_string_append_len(out, start, inptr-start);
+				out = g_string_append_len(out, start, inptr-start);
 			} else {
 				char *text = rfc2047_encode_word(start, inptr-start-1, encoding_map[encoding]);
-				g_string_append(out, text);
-				g_string_append_c(out, c);
+				out = g_string_append(out, text);
+				out = g_string_append_c(out, c);
 				g_free(text);
 			}
 			start = inptr;
@@ -903,10 +903,10 @@ header_encode_string(const unsigned char *in)
 	}
 	if (inptr-start) {
 		if (encoding == 0) {
-			g_string_append_len(out, start, inptr-start);
+			out = g_string_append_len(out, start, inptr-start);
 		} else {
 			char *text = rfc2047_encode_word(start, inptr-start, encoding_map[encoding]);
-			g_string_append(out, text);
+			out = g_string_append(out, text);
 			g_free(text);
 		}
 	}
@@ -1220,16 +1220,16 @@ header_decode_domain(const char **in)
 	header_decode_lwsp(&inptr);
 	while (go) {
 		if (*inptr == '[') { /* domain literal */
-			g_string_append(domain, "[ ");
+			domain = g_string_append(domain, "[ ");
 			inptr++;
 			header_decode_lwsp(&inptr);
 			start = inptr;
 			while (is_dtext(*inptr)) {
-				g_string_append_c(domain, *inptr);
+				domain = g_string_append_c(domain, *inptr);
 				inptr++;
 			}
 			if (*inptr == ']') {
-				g_string_append(domain, " ]");
+				domain = g_string_append(domain, " ]");
 				inptr++;
 			} else {
 				w(g_warning("closing ']' not found in domain: %s", *in));
@@ -1237,7 +1237,8 @@ header_decode_domain(const char **in)
 		} else {
 			char *a = header_decode_atom(&inptr);
 			if (a) {
-				g_string_append(domain, a);
+				domain = g_string_append(domain, a);
+				g_free(a);
 			} else {
 				w(g_warning("missing atom from domain-ref"));
 				break;
@@ -1245,7 +1246,7 @@ header_decode_domain(const char **in)
 		}
 		header_decode_lwsp(&inptr);
 		if (*inptr == '.') { /* next sub-domain? */
-			g_string_append_c(domain, '.');
+			domain = g_string_append_c(domain, '.');
 			inptr++;
 			header_decode_lwsp(&inptr);
 		} else
@@ -1271,14 +1272,14 @@ header_decode_addrspec(const char **in)
 	/* addr-spec */
 	word = header_decode_word(&inptr);
 	if (word) {
-		g_string_append(addr, word);
+		addr = g_string_append(addr, word);
 		header_decode_lwsp(&inptr);
 		while (*inptr == '.' && word) {
 			inptr++;
-			g_string_append_c(addr, '.');
+			addr = g_string_append_c(addr, '.');
 			word = header_decode_word(&inptr);
 			if (word) {
-				g_string_append(addr, word);
+				addr = g_string_append(addr, word);
 				header_decode_lwsp(&inptr);
 			} else {
 				w(g_warning("Invalid address spec: %s", *in));
@@ -1286,10 +1287,10 @@ header_decode_addrspec(const char **in)
 		}
 		if (*inptr == '@') {
 			inptr++;
-			g_string_append_c(addr, '@');
+			addr = g_string_append_c(addr, '@');
 			word = header_decode_domain(&inptr);
 			if (word) {
-				g_string_append(addr, word);
+				addr = g_string_append(addr, word);
 			} else {
 				w(g_warning("Invalid address, missing domain: %s", *in));
 			}
@@ -1342,13 +1343,13 @@ header_decode_mailbox(const char **in)
 			char *text;
 
 			text = header_decode_string(pre);
-			g_string_append(name, text);
+			name = g_string_append(name, text);
 			g_free(pre);
 
 			/* rfc_decode(pre) */
 			pre = header_decode_word(&inptr);
 			if (pre)
-				g_string_append_c(name, ' ');
+				name = g_string_append_c(name, ' ');
 		}
 		header_decode_lwsp(&inptr);
 		if (*inptr == '<') {
@@ -1379,7 +1380,7 @@ header_decode_mailbox(const char **in)
 	}
 
 	if (pre) {
-		g_string_append(addr, pre);
+		addr = g_string_append(addr, pre);
 	} else {
 		w(g_warning("No local-part for email address: %s", *in));
 	}
@@ -1389,8 +1390,8 @@ header_decode_mailbox(const char **in)
 		inptr++;
 		g_free(pre);
 		pre = header_decode_word(&inptr);
-		g_string_append_c(addr, '.');
-		g_string_append(addr, pre);
+		addr = g_string_append_c(addr, '.');
+		addr = g_string_append(addr, pre);
 		header_decode_lwsp(&inptr);
 	}
 	g_free(pre);
@@ -1400,9 +1401,10 @@ header_decode_mailbox(const char **in)
 		char *dom;
 
 		inptr++;
-		g_string_append_c(addr, '@');
+		addr = g_string_append_c(addr, '@');
 		dom = header_decode_domain(&inptr);
-		g_string_append(addr, dom);
+		addr = g_string_append(addr, dom);
+		g_free(dom);
 	} else {
 		w(g_warning("invalid address, no '@' domain part at %c: %s", *inptr, *in));
 	}
@@ -1453,8 +1455,8 @@ header_decode_address(const char **in)
 	/* pre-scan, trying to work out format, discard results */
 	header_decode_lwsp(&inptr);
 	while ( (pre = header_decode_word(&inptr)) ) {
-		g_string_append(group, pre);
-		g_string_append(group, " ");
+		group = g_string_append(group, pre);
+		group = g_string_append(group, " ");
 		g_free(pre);
 	}
 	header_decode_lwsp(&inptr);
@@ -1641,7 +1643,7 @@ header_param_list_format_append(GString *out, struct _header_param *p)
 	while (p) {
 		int here = out->len;
 		if (len+strlen(p->name)+strlen(p->value)>60) {
-			g_string_append(out, "\n\t");
+			out = g_string_append(out, "\n\t");
 			len = 0;
 		}
 		/* FIXME: format the value properly */
@@ -1678,6 +1680,8 @@ header_content_type_decode(const char *in)
 
 		t = header_content_type_new(type, subtype);
 		t->params = header_param_list_decode(&inptr);
+		g_free(type);
+		g_free(subtype);
 	} else {
 		g_free(type);
 		d(printf("cannot find MIME type in header (2) '%s'", in));
@@ -1788,9 +1792,9 @@ char *header_disposition_format(CamelMimeDisposition *d)
 
 	out = g_string_new("");
 	if (d->disposition)
-		g_string_append(out, d->disposition);
+		out = g_string_append(out, d->disposition);
 	else
-		g_string_append(out, "attachment");
+		out = g_string_append(out, "attachment");
 	header_param_list_format_append(out, d->params);
 
 	ret = out->str;

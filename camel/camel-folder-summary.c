@@ -35,6 +35,10 @@
 
 #define d(x)
 
+#if 1
+extern int strdup_count, malloc_count, free_count;
+#endif
+
 #define CAMEL_FOLDER_SUMMARY_VERSION (3)
 
 struct _CamelFolderSummaryPrivate {
@@ -1049,7 +1053,6 @@ int main(int argc, char **argv)
 	CamelFolderSummary *s;
 	char *buffer;
 	int len;
-	extern int strdup_count, malloc_count, free_count;
 
 	gtk_init(&argc, &argv);
 
@@ -1095,10 +1098,11 @@ int main(int argc, char **argv)
 		}
 	}
 	printf("summarised %d messages\n", camel_folder_summary_count(s));
-
+#if 0
 	printf("g_strdup count = %d\n", strdup_count);
 	printf("g_malloc count = %d\n", malloc_count);
 	printf("g_free count = %d\n", free_count);
+#endif
 	return 0;
 }
 

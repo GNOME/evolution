@@ -1,3 +1,17 @@
+2000-05-05    <notzed@the-dot-in.helixcode.com>
+
+	* camel-mime-utils.c (header_decode_mailbox): Plug a memory leak.
+	(header_decode_text): Fixed memory leaks with g_string_append().
+	(header_encode_string): And here too, and a few other places.  The
+	glib api is so awful ...
+	(header_content_type_decode): More memory leaks.
+
+2000-05-05    <notzed@helixcode.com>
+
+	* camel-mime-parser.c (folder_scan_init_with_fd): Make sure we
+	init the end of buffer sentinal!
+	(folder_scan_init_with_stream): And here too ...
+
 2000-05-04  NotZed  <NotZed@HelixCode.com>
 
 	* providers/mbox/camel-mbox-folder.c (summary_get_message_info):

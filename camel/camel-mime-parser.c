@@ -46,9 +46,10 @@
 #define c(x)
 #define d(x)
 
-/*#define MEMPOOL*/
+#define MEMPOOL
 
-#if 0
+#define STRUCT_ALIGN 4
+
 extern int strdup_count;
 extern int malloc_count;
 extern int free_count;
@@ -56,8 +57,6 @@ extern int free_count;
 #define g_strdup(x) (strdup_count++, g_strdup(x))
 #define g_malloc(x) (malloc_count++, g_malloc(x))
 #define g_free(x) (free_count++, g_free(x))
-
-#endif
 
 
 #ifdef MEMPOOL
@@ -101,6 +100,7 @@ MemPool *mempool_new(int blocksize, int threshold)
 
 void *mempool_alloc(MemPool *pool, int size)
 {
+	size = (size + STRUCT_ALIGN) & (~(STRUCT_ALIGN-1));
 	if (size>=pool->threshold) {
 		MemPoolThresholdNode *n;
 
@@ -809,6 +809,9 @@ folder_read(struct _header_scan_state *s)
 		s->inend = s->inbuf+len+inoffset;
 		r(printf("content = %d '%.*s'\n",s->inend - s->inptr,  s->inend - s->inptr, s->inptr));
 	}
+
+	g_assert(s->inptr<=s->inend);
+
 	r(printf("content = %d '%.*s'\n", s->inend - s->inptr,  s->inend - s->inptr, s->inptr));
 	/* set a sentinal, for the inner loops to check against */
 	s->inend[0] = '\n';
@@ -1071,8 +1074,8 @@ retry:
 				;
 
 			/* check against the real buffer end, not our 'atleast limited' end */
-			if (inptr>= s->inend) {
-				inptr--;
+			if (inptr> s->inend) {
+				inptr-=2;
 				s->midline = TRUE;
 			} else {
 				s->midline = FALSE;
@@ -1357,6 +1360,8 @@ folder_scan_init_with_fd(struct _header_scan_state *s, int fd)
 	len = read(fd, s->inbuf, SCAN_BUF);
 	if (len>=0) {
 		s->inend = s->inbuf+len;
+		s->inptr = s->inbuf;
+		s->inend[0] = '\n';
 		if (s->fd != -1)
 			close(s->fd);
 		s->fd = fd;
@@ -1378,6 +1383,8 @@ folder_scan_init_with_stream(struct _header_scan_state *s, CamelStream *stream)
 	len = camel_stream_read(stream, s->inbuf, SCAN_BUF);
 	if (len>=0) {
 		s->inend = s->inbuf+len;
+		s->inptr = s->inbuf;
+		s->inend[0] = '\n';
 		if (s->stream)
 			gtk_object_unref((GtkObject *)s->stream);
 		s->stream = stream;
