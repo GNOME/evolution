@@ -42,6 +42,7 @@ SUBDIRS = 			\
         default_user            \
 	views			\
 	wombat			\
+	tools			\
 	po
 
 

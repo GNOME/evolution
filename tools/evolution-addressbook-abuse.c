@@ -2,8 +2,9 @@
 
 #include <config.h>
 
-#include <liboaf/liboaf.h>
+#include <bonobo-activation/bonobo-activation.h>
 #include <bonobo/bonobo-main.h>
+
 #include <backend/ebook/e-book-util.h>
 #include <gnome.h>
 
@@ -62,11 +63,11 @@ add_cb (EBook *book, EBookStatus status, const char *id, gpointer closure)
 		--cards_to_add_total;
 		g_message ("succesful add! (%d remaining)", cards_to_add_total);
 		if (cards_to_add_total <= 0)
-			gtk_exit (0);
+			g_main_loop_quit (NULL);
 		break;
 	default:
 		g_message ("something went wrong...");
-		gtk_exit (status);
+		g_main_loop_quit (NULL);
 		break;
 	}
 }
@@ -85,10 +86,10 @@ use_addressbook (EBook *book, EBookStatus status, gpointer closure)
 		g_message ("adding %d", i);
 		e_book_add_card (book, card, add_cb, NULL);
 		g_free (vcard);
-		gtk_object_unref (GTK_OBJECT (card));
+		g_object_unref (card);
 	}
 
-	gtk_object_unref (GTK_OBJECT (book));
+	g_object_unref (book);
 }
 
 static gint
@@ -109,7 +110,6 @@ main (int argc, char *argv[])
 
 	struct poptOption options[] = {
 		{ "input-file", '\0', POPT_ARG_STRING, &filename, 0, N_("Input File"), NULL },
-		{ NULL, '\0', POPT_ARG_INCLUDE_TABLE, &oaf_popt_options, 0, NULL, NULL },
 		POPT_AUTOHELP
 		{ NULL, '\0', 0, NULL, 0, NULL, NULL }
 	};
@@ -123,15 +123,13 @@ main (int argc, char *argv[])
 	bindtextdomain (PACKAGE, EVOLUTION_LOCALEDIR);
 	textdomain (PACKAGE);
 
-	gnome_init_with_popt_table ("evolution-addressbook-clean", "0.0",
-				    argc, argv, options, 0, NULL);
+	gnome_program_init ("evolution-addressbook-abuse", VERSION,
+			    LIBGNOMEUI_MODULE, argc, argv, 
+			    GNOME_PROGRAM_STANDARD_PROPERTIES,
+			    GNOME_PARAM_POPT_TABLE, options,
+			    NULL);
 
-	oaf_init (argc, argv);
-
-	if (bonobo_init (CORBA_OBJECT_NIL, CORBA_OBJECT_NIL, CORBA_OBJECT_NIL) == FALSE)
-		g_error (_("Could not initialize Bonobo"));
-
-	gtk_timeout_add (20, abuse_timeout, NULL);
+	g_timeout_add (20, abuse_timeout, NULL);
 
 	bonobo_main ();
 

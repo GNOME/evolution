@@ -2,7 +2,7 @@
 
 #include <config.h>
 
-#include <liboaf/liboaf.h>
+#include <bonobo-activation/bonobo-activation.h>
 #include <bonobo/bonobo-main.h>
 #include <backend/ebook/e-book-util.h>
 #include <gnome.h>
@@ -26,7 +26,7 @@ save_cards (EBook *book, EBookSimpleQueryStatus status, const GList *cards, gpoi
 		result = e_write_file_mkstemp (tmpname, vcard);
 	printf (tmpname);
 	sync();
-	gtk_exit (result);
+	g_main_loop_quit (NULL);
 }
 
 static void
@@ -44,7 +44,6 @@ main (int argc, char *argv[])
 
 	struct poptOption options[] = {
 		{ "output-file", '\0', POPT_ARG_STRING, &filename, 0, N_("Output File"), NULL },
-		{ NULL, '\0', POPT_ARG_INCLUDE_TABLE, &oaf_popt_options, 0, NULL, NULL },
 		POPT_AUTOHELP
 		{ NULL, '\0', 0, NULL, 0, NULL, NULL }
 	};
@@ -52,12 +51,11 @@ main (int argc, char *argv[])
 	bindtextdomain (PACKAGE, EVOLUTION_LOCALEDIR);
 	textdomain (PACKAGE);
 
-	gnome_init_with_popt_table ("evolution-addressbook-clean", "0.0",
-				    argc, argv, options, 0, NULL);
-	oaf_init (argc, argv);
-
-	if (bonobo_init (CORBA_OBJECT_NIL, CORBA_OBJECT_NIL, CORBA_OBJECT_NIL) == FALSE)
-		g_error (_("Could not initialize Bonobo"));
+	gnome_program_init ("evolution-addressbook-export", VERSION,
+			    LIBGNOMEUI_MODULE, argc, argv, 
+			    GNOME_PROGRAM_STANDARD_PROPERTIES,
+			    GNOME_PARAM_POPT_TABLE, options,
+			    NULL);
 
 	e_book_use_default_book (use_addressbook, filename);
 

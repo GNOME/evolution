@@ -1,3 +1,33 @@
+2003-01-27  Ettore Perazzoli  <ettore@ximian.com>
+
+	* tools/evolution-addressbook-export.c: #include bonobo-activation
+	instead of oaf.
+	(main): Initialize using gnome_program_init().
+	(save_cards): Use g_main_loop_quit() instead of gtk_exit().
+
+	* tools/evolution-addressbook-import.c: Update include list for
+	GNOME 2.
+	(main): Initialize using gnome_program_init().
+	(unref_executable): Use g_main_loop_quit() instead of gtk_exit().
+	(add_cb): Likewise.
+
+	* tools/evolution-addressbook-abuse.c: Update include list for
+	GNOME 2.
+	(main): Initialize using gnome_program_init().
+	(use_addressbook): Use g_object_unref() instead of
+	gtk_object_unref().
+	(main): Use g_timeout_add() instead of gtk_timeout_add().
+	(add_cb): Use g_main_loop_quit() instead of gtk_exit().
+
+	* configure.in (AC_SUBST): Add tools/Makefile.
+
+	* Makefile.am (SUBDIRS): Add tools/ back into the list.
+
+	* tools/Makefile.am: Install everything in
+	$(datadir)/evolution-$(BASE_VERSION)/tools.
+	(INCLUDES): Add the defines that gnome_program_init() likes and
+	also add the _DISABLE_DEPRECATED stuff.
+
 2003-01-26  Chris Toshok  <toshok@ximian.com>
 
 	* configure.in (AC_OUTPUT): add in the conduit Makefile's.

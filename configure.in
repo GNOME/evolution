@@ -1369,6 +1369,7 @@ calendar/gui/dialogs/Makefile
 composer/Makefile
 mail/Makefile
 mail/importers/Makefile
+tools/Makefile
 evolution-shell.pc
 evolution-addressbook.pc
 evolution-calendar.pc

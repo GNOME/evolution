@@ -1,10 +1,12 @@
-bin_SCRIPTS =				\
+toolsdir = $(datadir)/evolution-$(BASE_VERSION)/tools
+
+tools_SCRIPTS =				\
 	csv2vcard			\
 	evolution-move-tasks		\
 	evolution-addressbook-clean	\
 	killev
 
-bin_PROGRAMS =				\
+tools_PROGRAMS =			\
 	evolution-addressbook-import	\
 	evolution-addressbook-export
 
@@ -16,9 +18,14 @@ INCLUDES =						\
 	-I$(top_builddir)				\
 	-DEVOLUTION_BINDIR=\""$(bindir)"\"		\
 	-DEVOLUTION_LOCALEDIR=\""$(localedir)"\"	\
+	-DPREFIX=\""$(prefix)"\"			\
+	-DSYSCONFDIR=\""$(sysconfdir)"\"		\
+	-DDATADIR=\""$(datadir)"\"			\
+	-DLIBDIR=\""$(libdir)"\"			\
 	-I$(top_srcdir)/addressbook			\
 	-I$(top_srcdir)/addressbook/backend		\
 	-I$(top_builddir)/addressbook/backend		\
+	-DG_DISABLE_DEPRECATED -DGTK_DISABLE_DEPRECATED	\
 	$(GNOME_FULL_CFLAGS)
 
 EXTRA_DIST = $(bin_SCRIPTS) verify-evolution-install.sh \
