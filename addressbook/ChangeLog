@@ -1,3 +1,21 @@
+2004-05-28  Hans Petter Jansson  <hpj@ximian.com>
+
+	* gui/contact-editor/contact-editor.glade: Add back office, spouse,
+	web log fields. Allow for 8 phone numbers, of which 4 can be hidden.
+
+	* gui/contact-editor/e-contact-editor.c (phones_default): Add more
+	defaults.
+	(im_service_default): Add more defaults.
+	(expand_phone): Implement.
+	(fill_in_phone_record): Expand if we have any records past 4.
+	(init_im_record_location)
+	(fill_in_im_record)
+	(extract_im_record)
+	(sensitize_im_record): Remove location.
+	(simple_field_map): Add spouse, office, web log.
+	(expand_phone_toggle): Implement.
+	(e_contact_editor_init): Hook up expander button.
+
 2004-05-28  Christophe Fergeau  <teuf@gnome.org>
 
 	* gui/component/addressbook-config.c: added missing #ifdef HAVE_LDAP

@@ -72,8 +72,8 @@
 #include "e-contact-editor-marshal.h"
 
 #define EMAIL_SLOTS   4
-#define PHONE_SLOTS   4
-#define IM_SLOTS      3
+#define PHONE_SLOTS   8
+#define IM_SLOTS      4
 #define ADDRESS_SLOTS 3
 
 #define EVOLUTION_UI_SLOT_PARAM "X-EVOLUTION-UI-SLOT"
@@ -155,7 +155,7 @@ phones [] = {
 };
 
 /* Defaults from the table above */
-gint phones_default [] = { 1, 6, 9, 2 };
+gint phones_default [] = { 1, 6, 9, 2, 7, 12, 10, 10 };
 
 static EContactField addresses [] = {
 	E_CONTACT_ADDRESS_WORK,
@@ -184,7 +184,7 @@ im_service [] =
 };
 
 /* Defaults from the table above */
-gint im_service_default [] = { 0, 2, 3 };
+gint im_service_default [] = { 0, 2, 4, 5 };
 
 static struct {
 	gchar *name;
@@ -1024,6 +1024,24 @@ set_attributes_named (EVCard *vcard, const gchar *attr_name, GList *attr_list)
 }
 
 static void
+expand_phone (EContactEditor *editor, gboolean expanded)
+{
+	GtkWidget *phone_ext_table;
+	GtkWidget *phone_ext_arrow;
+
+	phone_ext_table = glade_xml_get_widget (editor->gui, "table-phone-extended");
+	phone_ext_arrow = glade_xml_get_widget (editor->gui, "arrow-phone-expand");
+
+	if (expanded) {
+		gtk_arrow_set (GTK_ARROW (phone_ext_arrow), GTK_ARROW_DOWN, GTK_SHADOW_NONE);
+		gtk_widget_show (phone_ext_table);
+	} else {
+		gtk_arrow_set (GTK_ARROW (phone_ext_arrow), GTK_ARROW_RIGHT, GTK_SHADOW_NONE);
+		gtk_widget_hide (phone_ext_table);
+	}
+}
+
+static void
 fill_in_phone_record (EContactEditor *editor, gint record, const gchar *phone, gint phone_type)
 {
 	GtkWidget *phone_type_option_menu;
@@ -1042,6 +1060,9 @@ fill_in_phone_record (EContactEditor *editor, gint record, const gchar *phone, g
 				 phone_type >= 0 ? phone_type :
 				 phones_default [record - 1]);
 	set_entry_text (editor, GTK_ENTRY (phone_entry), phone ? phone : "");
+
+	if (phone && *phone && record >= 5)
+		expand_phone (editor, TRUE);
 }
 
 static void
@@ -1197,6 +1218,8 @@ init_phone (EContactEditor *editor)
 {
 	gint i;
 
+	expand_phone (editor, FALSE);
+
 	for (i = 1; i <= PHONE_SLOTS; i++)
 		init_phone_record_type (editor, i);
 }
@@ -1275,6 +1298,7 @@ init_im_record_location (EContactEditor *editor, gint record)
 	name_entry = glade_xml_get_widget (editor->gui, widget_name);
 	g_free (widget_name);
 
+#ifdef ENABLE_IM_LOCATION
 	widget_name = g_strdup_printf ("optionmenu-im-location-%d", record);
 	location_option_menu = glade_xml_get_widget (editor->gui, widget_name);
 	g_free (widget_name);
@@ -1292,6 +1316,8 @@ init_im_record_location (EContactEditor *editor, gint record)
 	gtk_option_menu_set_menu (GTK_OPTION_MENU (location_option_menu), location_menu);
 
 	g_signal_connect (location_option_menu, "changed", G_CALLBACK (object_changed), editor);
+#endif
+
 	g_signal_connect (name_entry, "changed", G_CALLBACK (object_changed), editor);
 	g_signal_connect_swapped (name_entry, "activate", G_CALLBACK (entry_activated), editor);
 }
@@ -1338,7 +1364,9 @@ static void
 fill_in_im_record (EContactEditor *editor, gint record, gint service, const gchar *name, gint location)
 {
 	GtkWidget *service_option_menu;
+#ifdef ENABLE_IM_LOCATION
 	GtkWidget *location_option_menu;
+#endif
 	GtkWidget *name_entry;
 	gchar     *widget_name;
 
@@ -1346,16 +1374,20 @@ fill_in_im_record (EContactEditor *editor, gint record, gint service, const gcha
 	service_option_menu = glade_xml_get_widget (editor->gui, widget_name);
 	g_free (widget_name);
 
+#ifdef ENABLE_IM_LOCATION
 	widget_name = g_strdup_printf ("optionmenu-im-location-%d", record);
 	location_option_menu = glade_xml_get_widget (editor->gui, widget_name);
 	g_free (widget_name);
+#endif
 
 	widget_name = g_strdup_printf ("entry-im-name-%d", record);
 	name_entry = glade_xml_get_widget (editor->gui, widget_name);
 	g_free (widget_name);
 
+#ifdef ENABLE_IM_LOCATION
 	set_option_menu_history (editor, GTK_OPTION_MENU (location_option_menu),
 				 location >= 0 ? location : 0);
+#endif
 	set_option_menu_history (editor, GTK_OPTION_MENU (service_option_menu),
 				 service >= 0 ? service : im_service_default [record - 1]);
 	set_entry_text (editor, GTK_ENTRY (name_entry), name ? name : "");
@@ -1402,7 +1434,9 @@ static void
 extract_im_record (EContactEditor *editor, gint record, gint *service, gchar **name, gint *location)
 {
 	GtkWidget *service_option_menu;
+#ifdef ENABLE_IM_LOCATION
 	GtkWidget *location_option_menu;
+#endif
 	GtkWidget *name_entry;
 	gchar     *widget_name;
 
@@ -1410,9 +1444,11 @@ extract_im_record (EContactEditor *editor, gint record, gint *service, gchar **n
 	service_option_menu = glade_xml_get_widget (editor->gui, widget_name);
 	g_free (widget_name);
 
+#ifdef ENABLE_IM_LOCATION
 	widget_name = g_strdup_printf ("optionmenu-im-location-%d", record);
 	location_option_menu = glade_xml_get_widget (editor->gui, widget_name);
 	g_free (widget_name);
+#endif
 
 	widget_name = g_strdup_printf ("entry-im-name-%d", record);
 	name_entry = glade_xml_get_widget (editor->gui, widget_name);
@@ -1420,7 +1456,11 @@ extract_im_record (EContactEditor *editor, gint record, gint *service, gchar **n
 
 	*name  = g_strdup (gtk_entry_get_text (GTK_ENTRY (name_entry)));
 	*service = gtk_option_menu_get_history (GTK_OPTION_MENU (service_option_menu));
+#ifdef ENABLE_IM_LOCATION
 	*location = gtk_option_menu_get_history (GTK_OPTION_MENU (location_option_menu));
+#else
+	*location = -1;
+#endif
 }
 
 static void
@@ -1492,7 +1532,9 @@ static void
 sensitize_im_record (EContactEditor *editor, gint record, gboolean enabled)
 {
 	GtkWidget *service_option_menu;
+#ifdef ENABLE_IM_LOCATION
 	GtkWidget *location_option_menu;
+#endif
 	GtkWidget *name_entry;
 	gchar     *widget_name;
 
@@ -1500,16 +1542,20 @@ sensitize_im_record (EContactEditor *editor, gint record, gboolean enabled)
 	service_option_menu = glade_xml_get_widget (editor->gui, widget_name);
 	g_free (widget_name);
 
+#ifdef ENABLE_IM_LOCATION
 	widget_name = g_strdup_printf ("optionmenu-im-location-%d", record);
 	location_option_menu = glade_xml_get_widget (editor->gui, widget_name);
 	g_free (widget_name);
+#endif
 
 	widget_name = g_strdup_printf ("entry-im-name-%d", record);
 	name_entry = glade_xml_get_widget (editor->gui, widget_name);
 	g_free (widget_name);
 
 	gtk_widget_set_sensitive (service_option_menu, enabled);
+#ifdef ENABLE_IM_LOCATION
 	gtk_widget_set_sensitive (location_option_menu, enabled);
+#endif
 	gtk_widget_set_sensitive (name_entry, enabled);
 }
 
@@ -1826,6 +1872,12 @@ static FieldMapping simple_field_map [] = {
 	{ "dateedit-anniversary", E_CONTACT_ANNIVERSARY,  TRUE,  TRUE  },
 	{ "label-anniversary",    E_CONTACT_ANNIVERSARY,  FALSE, FALSE },
 
+	{ "entry-spouse",         E_CONTACT_SPOUSE,       TRUE,  TRUE  },
+	{ "label-spouse",         E_CONTACT_SPOUSE,       FALSE, FALSE },
+
+	{ "entry-office",         E_CONTACT_OFFICE,       TRUE,  TRUE  },
+	{ "label-office",         E_CONTACT_OFFICE,       FALSE, FALSE },
+
 	{ "text-comments",        E_CONTACT_NOTE,         TRUE,  TRUE  },
 	{ "label-comments",       E_CONTACT_NOTE,         FALSE, FALSE },
 
@@ -1834,6 +1886,9 @@ static FieldMapping simple_field_map [] = {
 
 	{ "entry-categories",     E_CONTACT_CATEGORIES,   TRUE,  TRUE  },
 	{ "button-categories",    E_CONTACT_CATEGORIES,   FALSE, TRUE  },
+
+	{ "entry-weblog",         E_CONTACT_BLOG_URL,     TRUE,  TRUE  },
+	{ "label-weblog",         E_CONTACT_BLOG_URL,     FALSE, FALSE },
 
 	{ "entry-caluri",         E_CONTACT_CALENDAR_URI, TRUE,  TRUE  },
 	{ "label-caluri",         E_CONTACT_CALENDAR_URI, FALSE, FALSE },
@@ -2770,6 +2825,15 @@ setup_tab_order(GladeXML *gui)
 }
 
 static void
+expand_phone_toggle (EContactEditor *ce)
+{
+	GtkWidget *phone_ext_table;
+
+	phone_ext_table = glade_xml_get_widget (ce->gui, "table-phone-extended");
+	expand_phone (ce, GTK_WIDGET_VISIBLE (phone_ext_table) ? FALSE : TRUE);
+}
+
+static void
 e_contact_editor_init (EContactEditor *e_contact_editor)
 {
 	GladeXML *gui;
@@ -2816,6 +2880,8 @@ e_contact_editor_init (EContactEditor *e_contact_editor)
 	g_signal_connect (widget, "clicked", G_CALLBACK (file_cancel_cb), e_contact_editor);
 	widget = glade_xml_get_widget (e_contact_editor->gui, "button-help");
 	g_signal_connect (widget, "clicked", G_CALLBACK (show_help_cb), e_contact_editor);
+	widget = glade_xml_get_widget (e_contact_editor->gui, "button-phone-expand");
+	g_signal_connect_swapped (widget, "clicked", G_CALLBACK (expand_phone_toggle), e_contact_editor);
 
 	widget = glade_xml_get_widget (e_contact_editor->gui, "entry-fullname");
 	if (widget)
