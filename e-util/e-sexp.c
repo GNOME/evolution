@@ -1185,7 +1185,7 @@ e_sexp_parse(ESExp *f)
 	if (f->tree)
 		parse_term_free(f, f->tree);
 
-	f->tree = parse_list(f, FALSE);
+	f->tree = parse_value (f);
 
 	return 0;
 }

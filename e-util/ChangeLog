@@ -1,3 +1,9 @@
+2001-04-15  Federico Mena Quintero  <federico@ximian.com>
+
+	* e-sexp.c (e_sexp_parse): Start parsing the sexp with
+	parse_value(), not parse_list(), because we may have immediate
+	values (e.g. "#f") as the whole sexp.
+
 2001-04-08  JP Rosevear  <jpr@ximian.com>
 
 	* Makefile.am: Setup up the conduit library building better so the
