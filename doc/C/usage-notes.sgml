@@ -3,11 +3,11 @@
   <abstract>
     <title> An Overview of the Evolution Notes</title>
     <para>
-      Sticky Notes(tm) have become an almost necessary part of our lives.
-      They can be used to write school notes on and take down phone numbers,
-      among other things.  Thus, it only makes sense that <application>
-      Evolution</application> has a Notes feature.  <application>Evolution
-      </application> can help you take notes in the following ways:
+      In the dark ages before email was invented, there were notes.
+      Even now, notes are an almost necessary part of our lives.  It
+      only makes sense that <application> Evolution</application> has
+      a Notes feature.  <application>Evolution</application> can help
+      you take notes in the following ways:
      <itemizedlist>
        <listitem>
          <para>
@@ -34,7 +34,7 @@
      </itemizedlist>
    </para>
    <para>
-     You can start reading notes by clicking <guibutton>Notes</guibutton> in the
+     You can start writing notes by clicking <guibutton>Notes</guibutton> in the
      shortcut bar.
    </para>
   </abstract>

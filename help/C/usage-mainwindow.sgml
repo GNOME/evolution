@@ -174,7 +174,19 @@ Can these things be labelled with little arrows & stuff?
       the <guimenuitem>Show Shortcut Bar</guimenuitem> toggle in the
       <guimenu>View</guimenu> menu.
     </para>
- </sect1>
+
+    <tip>
+       <title>Two Shortcut Bar Tricks</title>
+       <para>
+         To remove a shortcut from the shortcut bar, right-click on it
+         and select <guimenuitem>Remove</guimenuitem>.  </para>
+       <para>
+         To change the way the shortcut bar looks, right-click in the
+         shortcut bar but not on a button.  From the menu that
+         appears, you can select icon sizes.
+       </para>
+    </tip>
+  </sect1>
 
   <sect1 id="usage-mainwindow-folderview">
     <title>The Folder View</title>
@@ -187,7 +199,7 @@ Can these things be labelled with little arrows & stuff?
       at the top, and branches downwards. On most computers, there
       will be three folders at the base.  The first one is
       <guilabel>VFolders</guilabel>, for virtual folders (discussed in
-      <xref linkend="usage-mail-vfolders">.  The next one is
+      <xref linkend="usage-mail-organize-vfolders">.  The next one is
       <guilabel>External Directories</guilabel>, which (FIXME: What is
       this for?). The most important one is probably
       <guilabel>Local</guilabel>, which contains all the data that's

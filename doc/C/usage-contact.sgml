@@ -1,6 +1,6 @@
-
-<!-- <!DOCTYPE Chapter PUBLIC "-//GNOME//DTD DocBook PNG Variant V1.1//EN">
- uncomment this during validation and debugging -->
+<!--  DEBUGGING COMMENT
+<!DOCTYPE Chapter PUBLIC "-//GNOME//DTD DocBook PNG Variant V1.1//EN">
+-->
 
 <chapter id="usage-contact">
   <title>The Evolution Contact Manager</title>
@@ -8,13 +8,13 @@
     <para>
       The <application>Evolution</application> contact manager can
       handle all of the functions of an address book, phone book, or
-      Rolodex.  Of course, <application>Evolution</application> allows
-      easier updates than an actual paper book. <application>
-      Evolution </application> also allows easy synchronization with
-      handheld and remote devices.  Since
-      <application>Evolution</application> supports most major network
-      protocols, including <glossterm>LDAP</glossterm>, it's easy to
-      use over an existing network.
+      Rolodex.  Of course, it's a lot easier to update
+      <application>Evolution</application> than it is to change an
+      actual paper book. <application>Evolution</application> also
+      allows easy synchronization with handheld and remote devices.
+      Since <application>Evolution</application> supports most major
+      network protocols, including <glossterm>LDAP</glossterm>, it can
+      fit into almost any existing network.
     </para>
     <para>
       Another advantage of the <application>Evolution</application>
@@ -70,7 +70,7 @@
          </para></listitem>
 	
 	<listitem><para>
-	    Press <guibutton>Print</guibutton> to print.
+	    Press <guibutton>Print</guibutton> to print one or more cards.
 	</para></listitem>
         <listitem><para>
            <guibutton>Delete</guibutton> deletes a selected card.
@@ -79,10 +79,10 @@
     </para>
     <para>
        The last feature is <guilabel>Quick Search</guilabel>; to use
-       it, just type in the person you're looking for and hit
-       <keycap>Enter</keycap>.  <application>Evolution</application>
-       will search through the name fields of all the cards to find
-       one that matches.  The search is currently case-sensitive.
+       it, just type in the name of the person you're looking for and
+       hit <keycap>Enter</keycap>.
+       <application>Evolution</application> will search through all
+       the cards to find one that matches.
     </para>
     <para>
        If there are no matches, the card display will be blank.  To
@@ -163,30 +163,30 @@
         box with a few text boxes:
         <variablelist>
           <varlistentry>
-	    <term><guilabel>Title:</guilabel></term>
+	    <term><guilabel>Title: </guilabel></term>
             <listitem> <para>
 	    Enter an honorific or select one from the menu.
 	    </para></listitem>
 	  </varlistentry>
           <varlistentry>
-           <term><guilabel>First:</guilabel></term>
+           <term><guilabel>First: </guilabel></term>
 	    <listitem> <para>The person's first, or given, name.
     	  </para></listitem>
           </varlistentry>
           <varlistentry>
-             <term><guilabel>Middle:</guilabel></term>
+             <term><guilabel>Middle: </guilabel></term>
 	     <listitem> <para>
                 The middle name or initial, if any, goes here.
              </para></listitem>
           </varlistentry>
           <varlistentry>
-           <term><guilabel>Last:</guilabel></term>
+           <term><guilabel>Last: </guilabel></term>
  	  <listitem> <para>
 	   The last name (the surname, or family name), belongs here.
 	  </para></listitem>
           </varlistentry>
           <varlistentry>
-          <term><guilabel>Suffix:</guilabel></term>
+          <term><guilabel>Suffix: </guilabel></term>
 	  <listitem> <para>
             Suffixes such as "Jr." or "III" can go here. 
 	  </para></listitem>
@@ -293,9 +293,12 @@
        mail.  You can have folders and searches the same way you can
        with mail, but the contact manager does not allow vFolders.  It
        does, however, allow each card to fall under several
-       categories, and allow you to create your own categories.  We'll
-       go over categories in a bit.
+       categories, and allow you to create your own categories.
+       Categories are discussed <xref
+       linkend="usage-contact-organize-group-category">.
     </para>
+
+<!--
     <para>
       Another useful UNIMPLEMENTED
       <application>Evolution</application> feature is its ability to
@@ -305,15 +308,16 @@
       will ask you if you wish to change the address for all of them,
       or just for one.
     </para>
+-->
 
     <sect2 id="usage-contact-organize-group">
       <title>Groups of contacts</title>
       <para>
-         <application>Evolution</application> lets you put cards into
-         folders and mark them as members of different categories.
-         Although the contact manager does not support vFolders,
-         categories should provide as much flexibility as you need in
-         grouping your address cards.
+         <application>Evolution</application> offers two ways for you
+         to organize your cards.  The first way is to use folders;
+         this works the same way that mail folders do.  For more
+         flexibility, you can also mark contacts as members of
+         different categories.
       </para>
 
       <sect3 id="usage-contact-organize-group-folder">
@@ -321,20 +325,23 @@
 	<para>
 	   The simplest way to group address cards is to use folders.
 	   By default, cards start in the
-	   <guilabel>Contacts</guilabel> folder.  You can create more
-	   folders inside that one, or create other address book
-	   folders as well.  Each card must be in one and only one
-	   folder.  If you've read <xref linkend="usage-mainwindow">
-	   then you already know that you can create a new folder by
-	   selecting <guisubmenu>New</guisubmenu> and then
-	   <guimenuitem>Folder</guimenuitem> from the
-	   <guimenu>File</guimenu> menu.
+	   <guilabel>Contacts</guilabel> folder.  If you've read <xref
+	   linkend="usage-mainwindow"> then you already know that you
+	   can create a new folder by selecting 
+           <menuchoice>
+           <guimenu>File</guimenu>
+	   <guisubmenu>New</guisubmenu>
+	   <guimenuitem>Folder</guimenuitem>
+           </menuchoice>
+           and that you can put new folders anywhere you like.  Note
+	   that each card must be in one and only one folder, unless
+	   you want to have duplicate cards.
 	 </para>
 	<para>
           To put a card into a folder, just drag it there from the
-          folder view, or (SOMETHING ELSE).  Remember that address
-          cards can only go in contact folders, just like mail can
-          only go in mail folders, and calendars in calendar folders.
+          folder view.  Remember that contact cards can only go in
+          contact folders, just like mail can only go in mail folders,
+          and calendars in calendar folders.
          </para>
       </sect3>
       
@@ -351,6 +358,7 @@
            the "Friends" category, because he's also my friend, and
            the "Frequent" category, because I call him all the time
            and can never remember his phone number.  
+        </para>
 	<para>
            To mark a card as belonging to a category, click the
            <guibutton>Categories</guibutton> button at the lower
@@ -410,7 +418,7 @@
     <para>
        Of course, you don't want to share all of your cards&mdash; why
        overload the network with a list of babysitters, or tell
-       everyone on your network you're talking to new job prospects?
+       everyone in the office you're talking to new job prospects?
        <application>Evolution</application> lets you decide which
        folders you want to make accessible to others.
     </para>
@@ -422,11 +430,12 @@
   </sect1>
 
   <sect1 id="usage-contact-automate">
-    <title>Automating the Contact Manager</title>
+    <title>Extra Contact Manager Tools</title>
     <para>
-       In addition to working with the mailer and the calendar to add
-       new cards quickly, the contact manager can do some pretty cool
-       stuff on its own. (FIXME: This para is terrible)
+       The most obvious contact manager tool is that it works with the
+       mailer and the calendar to help you add new address cards
+       quickly.  However, it can also manage mailing lists and help
+       you find directions between the locations of any two contacts.
     </para>
 
     <sect2 id="contact-automation-basic">

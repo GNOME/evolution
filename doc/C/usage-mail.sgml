@@ -108,12 +108,26 @@
 	you've done so, the <interface>mail setup
 	assistant</interface> will ask you for the information it
 	needs to check your mail (see <xref
-	linkend="config-setupassist"> for more information).  Then,
+	linkend="config-setupassist"> for more information). You'll
+	need to enter your password.  Then,
 	<application>Evolution</application> will download your mail.
 	New mail will appear in your <interface>Inbox</interface>.
-        <!-- FIXME: add mention of Today if Today feature appears -->
+	<!-- FIXME: add mention of Today if Today feature appears -->
       </para>
-
+      <para>
+        Once you've entered your password,
+        <application>Evolution</application> will hold it in memory so
+        that you don't have to retype it every time you want to check
+        mail.  It will only remember the password until you quit the
+        application; each time you run
+        <application>Evolution</application>, you need to re-enter
+        your password.  If you'd like
+        <application>Evolution</application> to forget your password
+        sooner, select
+        <menuchoice><guimenu>Tools</guimenu><guimenuitem>Forget
+        Passwords</guimenuitem></menuchoice>, and it will do so
+        immediately.
+      </para>
       <para>
 	If you get an error message instead of mail, you probably
 	need to change your network settings.  To learn how to
@@ -246,10 +260,10 @@
           added to the appropriate form field.
         </para>
 	<para>
-          For more information about using email
-	  together with the contact manager and the calendar, see
-	  <xref linkend="usage-contact-automate"> and <xref
-	  linkend="usage-calendar-apts-group">.
+          For more information about using email together with the
+	  contact manager and the calendar, see <xref
+	  linkend="usage-contact-automate"> and <xref
+	  linkend="usage-calendar-apts">.
 	</para>
 
 	<sect4 id="usage-mail-getnsend-send-to-mult">

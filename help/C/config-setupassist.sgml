@@ -17,23 +17,24 @@
       <para>
         The first time you try to send or receive mail with
 	<application>Evolution</application>, the <interface>mail
-	setup druid</interface> will pop up to help you
-	set up your email preferences.  If you don't plan to use
-	email, or if you'd rather configure your email preferences
-	later, click <guibutton>Cancel</guibutton>.
+	setup assistant</interface> will pop up to help you with your
+	email preferences.  If you don't plan to use email, or if
+	you'd rather deal with your email preferences later, click
+	<guibutton>Cancel</guibutton>.
       </para>
       <para>
-         The setup <glossterm>druid</glossterm>
-	 will guide you through the network configuration process.  It
-	 will ask you for some basic information; your system
-	 administrator or ISP should have the answers you'll need.
-	 The mail setup druid is pictured in <xref
-	 linkend="usage-setup-fig">.
+         The setup assistant (sometimes called a
+	 <glossterm>Druid</glossterm>) will guide you through the
+	 network configuration process.  It will ask you for some
+	 basic information; your system administrator or ISP should
+	 have the answers you'll need.  The mail setup assistant is
+	 pictured in <xref linkend="usage-setup-fig">.
 
 <!-- ==============Figure=================================== -->
+<!-- druid-pic should eventually become assistant-pic -->
 
 	<figure id="usage-setup-fig">
-	<title>Mail Setup Druid</title>
+	<title>Mail Setup Assistant</title>
 	<screenshot>
 	  <screeninfo>Evolution Main Window</screeninfo>
 	  <graphic fileref="fig/mail-druid-pic" format="png" srccredit="Aaron Weber">
@@ -44,31 +45,31 @@
 
 
 
-  The druid will ask you for the following information:
+  The assistant will ask you for the following information:
         <itemizedlist>
 	  <listitem> <para> <guilabel>Name&mdash; </guilabel> Your
             full name: eg. Eva Lucianne Tester </para></listitem>
 
-	  <listitem><para> <guilabel>Email address&mdash</guilabel>;
+	  <listitem><para> <guilabel>Email address&mdash </guilabel>;
                  Your email address: eg. eltester@helixcode.com
                  </para></listitem>
 
 	  <listitem>
 	    <para>
-               <guilabel> Organization&mdash;</guilabel> Any
+               <guilabel> Organization&mdash; </guilabel> Any
               organization you represent.  Leave this blank if you
               wish.
             </para>
 	  </listitem>
 
-	  <listitem><para> <guilabel>Signature File&mdash;</guilabel> A text
-             file appended to any email you send, typically your name
-             and email address, or a quotation you like.  It should be
-             under three lines of text.</para></listitem>
+	  <listitem><para> <guilabel>Signature File&mdash; </guilabel>
+             A text file appended to any email you send, typically
+             your name and email address, or a quotation you like.  It
+             should be three or fewer lines of text.</para></listitem>
 	  
 	  <listitem>
 	    <para>
-              <guilabel>Mail source type&mdash;</guilabel>
+              <guilabel>Mail source type&mdash; </guilabel>
               <application>Evolution</application> supports two mail
               sources: POP servers, the most common email server type,
               and UNIX-style MBOX files.  Ask your system
@@ -78,7 +79,7 @@
 	  
 	  <listitem>
 	    <para>
-                <guilabel>Server&mdash;</guilabel> This should be the
+                <guilabel>Server&mdash; </guilabel> This should be the
               name of your mail server, eg.
               mailserver.organization.org
             </para>
@@ -96,7 +97,7 @@
 
 	  <listitem>
 	    <para>
-              <guilabel>Authentication&mdash;</guilabel> Select the
+              <guilabel>Authentication&mdash; </guilabel> Select the
               type of authentication you will use.  You can click
               <guibutton>Detect supported types</guibutton> to find
               out which authentication protocols your network allows.
@@ -106,7 +107,7 @@
 
 	  <listitem>
 	    <para>
-             <guilabel>Mail Transport&mdash;</guilabel> This is the
+             <guilabel>Mail Transport&mdash; </guilabel> This is the
               mail sending protocol you will want to use.  Sendmail is
               the default.
             </para>
@@ -120,7 +121,7 @@
       </para>
     </sect1>
 
-    </chapter>
+</chapter>
 
 
 

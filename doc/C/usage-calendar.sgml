@@ -1,5 +1,6 @@
-<!-- <!DOCTYPE Chapter PUBLIC "-//GNOME//DTD DocBook PNG Variant V1.1//EN"> -->
-
+<!--
+<!DOCTYPE Chapter PUBLIC "-//GNOME//DTD DocBook PNG Variant V1.1//EN">
+-->
 
 <chapter id="usage-calendar">
   <title>The Evolution Calendar: Time-Tamer Extraordinaire</title>
@@ -64,27 +65,30 @@ lack of time, resources, and interest.
       <title>Creating events</title>
       <para>
 	To create a new calendar event, select
-	<guisubmenu>New</guisubmenu> and then <guimenuitem>
-	Appointment</guimenuitem> from the <guimenu>MENU</guimenu>, or
-	click the <guibutton>New</guibutton> button on the left end of
-	the toolbar. The <interface>New Appointment</interface> dialog
-	will pop up with the usual menu bar, tool bar, and window full
-	of choices for you. I'm going to skip the the more
-	self-explanatory items, like the <guilabel>Summary</guilabel>
-	and <guilabel>Owner</guilabel> of the event (which is probably
-	you), and cut right to the more intersting ones.
+        <menuchoice>
+	  <guimenu>File</guimenu>
+	  <guisubmenu>New</guisubmenu> 
+	  <guimenuitem>Appointment</guimenuitem>
+	</menuchoice>
+	or click the <guibutton>New</guibutton> button on the left end
+	of the toolbar. The <interface>New Appointment</interface>
+	dialog will pop up with the usual menu bar, tool bar, and
+	window full of choices for you.
       </para>
       <para>
         Your event must have a starting and ending date &mdash; by
-        default, it's today &mdash; but you can choose whether to give
-        it starting and ending times or to mark it as an <guilabel>All
+        default, today &mdash; but you can choose whether to give it
+        starting and ending times or to mark it as an <guilabel>All
         day event</guilabel>.  For the purposes of the calendar, an
         <guilabel>All day event</guilabel> begins at ten in the
         morning, runs until eleven at night, and is displayed at the
-        top of a day's event list rather than inside it.  This allows
-        you to include events of shorter duration within it.  A
-        conference might be an all day event, and the various lectures
-        might be timed events that happen during the all day event.
+        top of a day's event list rather than inside it.  That makes
+        it easy to have events that overlap.  For example, a
+        conference might be an all day event, and the meetings at the
+        conference would be timed events.  Events with starting and
+        ending times can also overlap, however, and when they do
+        they're displayed as multiple columns in the day view of the
+        calendar.
       </para>
       <para>
          You can have as many as four different
@@ -136,15 +140,15 @@ lack of time, resources, and interest.
          <guilabel>Classification</guilabel> is a little more
          complicated, and only applies to calendars on a
          network. <guilabel>Public</guilabel> is the default category,
-         and a public even tcan be viewd by anyone on the calendar
+         and a public event can be viewed by anyone on the calendar
          sharing network.  <guilabel>Private</guilabel> means
          (SOMETHING), and <guilabel>Confidential</guilabel> means that
          (SOMETHING ELSE).
       </para>
       <para>
         The <guilabel>Recurrence</guilabel> tab lets you describe
-        repitition in events ranging from once every day up to once
-        every 100 years.  You can then choose a time when repitition
+        repetition in events ranging from once every day up to once
+        every 100 years.  You can then choose a time when repetition
         will stop, and, under <guilabel>Exceptions</guilabel>, pick
         individual days when the event will <emphasis>not</emphasis>
         recur.
@@ -162,41 +166,47 @@ lack of time, resources, and interest.
       </para>
     </sect2>
 
+<!-- ############UNIMPLEMENTED FEATURES ###################
+
     <sect2 id="usage-calendar-apts-group">
       <title>Appointments for Groups</title>
       <para>
 	If you have your calendar set up to work with other
 	calendars over a network, you can see when others are
-	available to meet with you.  To browse other people's
-	calendars over your local network, do this: 
+	available to meet with you. 
       </para>
+      <note>
+	<title>Unimplemented Feature</title>
+	<para>This feature is not yet implemented.</para>
+      </note>
+
       <para>
-	In addition, you can use
-	<application>Evolution</application> to mark a meeting
-	request on another person's calendar.  To do it, first
-	select <guimenuitem>New Appointment</guimenuitem> from the
-	<guimenu>MENU</guimenu>, or press <keysym>KEYSYM</keysym>
-	to bring up the <interface>new event</interface> window.
-	Then describe the event as you would any other.  Before
-	you click <guibutton>OK</guibutton>, (INSERT DESCRIPTION
-	HERE...).  <application>Evolution</application> will
-	automatically send email to each person on the request
-	list, notifying of the time and date of the meeting you
-	have requested with them.  In addition, it will mark the
-	event on your calendar and on theirs as tentative, rather than 
-	a confirmed, event.
+	In addition, you can use <application>Evolution</application>
+	to mark a meeting request on another person's calendar.  To do
+	it, click <guibutton>New</guibutton> in the calendar toolbar,
+	or select <menuchoice> <guimenu>File</guimenu>
+	<guisubmenu>New</guisubmenu>
+	<guimenuitem>Appointment</guimenuitem> </menuchoice> to bring
+	up the <interface>new event</interface> window.  Then describe
+	the event as you would any other.  Before you click
+	<guibutton>OK</guibutton>, (INSERT DESCRIPTION HERE...).
+	<application>Evolution</application> will automatically send
+	email to each person on the request list, notifying of the
+	time and date of the meeting you have requested with them.  In
+	addition, it will mark the event on your calendar and on
+	theirs as tentative, rather than a confirmed, event.
       </para>
       <para>
 	To mark a tentative event as confirmed, click once on the
-	event in the <interface>calendar view</interface> to
-	select it, and then choose <guimenuitem>Event
-	Properties</guimenuitem> from the
-	<guimenu>Settings</guimenu> menu.  In the <interface>Event
-	Properties</interface> dialog window, click the
-	"tentative" button to un-mark the event. (NOTE THAT this
-	feature may not at all exist!)
+	event in the <interface>calendar view</interface> to select
+	it, and then choose <guimenuitem>Event
+	Properties</guimenuitem> from the <guimenu>Settings</guimenu>
+	menu.  In the <interface>Event Properties</interface> dialog
+	window, click the "tentative" button to deselect the
+	event.
       </para>
     </sect2>
+
 
     <sect2 id="usage-calendar-apts-privs">
       <title>Scheduling privileges</title>
@@ -209,16 +219,21 @@ lack of time, resources, and interest.
 	at all.
       </para>
     </sect2>
+ ########## END UNIMPLEMENTED FEATURESET ############ -->
+
   </sect1>
+
+
 
   <sect1 id="usage-calendar-todo">
    <title>The To-Do List</title>
     <para>
        The to-do list, located in the lower right corner of the
-       calendar, lets you keep a list of tasks seperate from your
-       calendar events.  Tasks are colored by priority and due-date
-       (see <xref linkend="config-prefs">), and are included with
-       calendar data during synchronization with a hand-held device.
+       calendar, lets you keep a list of tasks separate from your
+       calendar events.  Tasks are colored and sorted by priority and
+       due-date (see <xref linkend="config-prefs"> for more
+       information), and are included with calendar data during
+       synchronization with a hand-held device.
     </para>
     <para>
        To record a new task, click the <guibutton>Add</guibutton>
@@ -269,24 +284,55 @@ lack of time, resources, and interest.
     <para>
        Once you've added a task to your to-do list, its summary
        appears in the <guilabel>Summary</guilabel> section of the
-       calendar window.  To edit an item, double-click on it, or
-       select it and click <guibutton>Edit</guibutton>.  You can
-       delete items by selecting them and clicking on the
-       <guibutton>Delete</guibutton> button.
+       calendar window.  To view or edit a detailed description of an
+       item, double-click on it, or select it and click
+       <guibutton>Edit</guibutton>.  You can delete items by selecting
+       them and clicking on the <guibutton>Delete</guibutton> button.
     </para>
   </sect1>
 
-  <sect1 id="usage-calendar-organize">
-    <title>Organizing your Appointments</title>
+  <sect1 id="usage-calendar-multiple">
+    <title>Multiple Calendars</title>
     <para>
-       Until I have <application>Evolution</application> running properly,
-       I have no idea how this sort of organization will actually work.
+       <application>Evolution</application> permits you to have and
+       maintain multiple calendars.  This is useful if you maintain
+       schedules for other people, if you are responsible for resource
+       or room allocation, or if you have multiple personalities.
     </para>
+   
+    <example>
+      <title>Keeping Multiple Calendars</title>
+      <para>
+        Keelyn has one calendar for her own schedule.  Next to that
+        she maintains one for the conference room, so people know when
+        they can schedule meetings.  On the local network, she
+        maintains a calendar that reflects when consultants are going
+        to be on site, and another that keeps track of the various
+        company managers, so that people know where to find each
+        other.
+      </para>
+    </example>
     <para>
-       But this section will have at least two paragraphs, and
-       probably a screenshot.
+      To create a new calendar, select 
+      <menuchoice>
+	<guimenu>File</guimenu>
+	<guisubmenu>New</guisubmenu>
+	<guimenuitem>Calendar</guimenuitem>
+      </menuchoice>.
+
+       You can place the calendar in any calendar folder and access it
+       from the folder view.
     </para>
+    
   </sect1>
 </chapter>
+
+
+
+
+
+
+
+
 
 

@@ -1,3 +1,19 @@
+2000-07-21  Aaron Weber  <aaron@helixcode.com>
+
+	* C/usage-mail.sgml: Added password remembering/forgetting feature.
+
+	* C/config-prefs.sgml: Mostly moved to variablelists, a few
+	language changes.
+
+	* C/config-setupassist.sgml: Minor changes to formatting, wording.
+
+	* C/usage-notes.sgml: Changed trademark references, other minor
+	changes.
+
+	* C/usage-calendar.sgml: Minor fixes, added additional calendar
+	section, removed references to unimplemented features. Spellcheck,
+	prep for 0.3 release. 
+	
 2000-07-19  Aaron Weber  <aaron@helixcode.com>
 
 	* C/usage-mail.sgml: lots of minor fixes to language. added

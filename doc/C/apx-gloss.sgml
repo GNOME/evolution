@@ -1,5 +1,3 @@
-
-
 <glossary id="glossary">
 
  <title>Glossary</title>
@@ -240,7 +238,7 @@
   </glossdef>
  </glossentry>
 
-  <glossnetry id="signature">
+  <glossentry id="signature">
    <glossterm>Signature</glossterm>
    <glossdef>
     <para>

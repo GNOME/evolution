@@ -1,13 +1,6 @@
-
+<!-- <!DOCTYPE Chapter PUBLIC "-//GNOME//DTD DocBook PNG Variant V1.1//EN"> -->
 
 <chapter id="config-prefs">
-
-<!--this chapter needs a LOT of work.  structurally it needs for the
-mail and other sections to be similar.  it needs content in the
-Calendar section and the Contact section.  Calendar prefs functions
-documentation-ready, although subject to substantial change. Contact
-functions are not yet available for doc'ing.  . aaron, june 5. 7 am.
--->
 
       <title>Advanced Configuration</title>
       <para>
@@ -28,29 +21,34 @@ functions are not yet available for doc'ing.  . aaron, june 5. 7 am.
         window</interface>, illustrated in <xref
         linkend="config-prefs-mail-fig">.  Mail Preferences are
         seperated into several categories:
-        <itemizedlist>
+        <variablelist>
+	<varlistentry>
+          <term><guilabel>Identity</guilabel></term>
           <listitem>
 	    <para>
-               <guilabel>Identity</guilabel>, which allows you to set
+               This allows you to set
                your name, email address, and other information.  The
                default values are the ones found on your system account.
 	    </para>
 	  </listitem>
-
+	</varlistentry>
+	<varlistentry>
+	  <term><guilabel>Sources</guilabel></term>
 	  <listitem>
 	    <para>
-              <guilabel>Sources</guilabel>, which allows you to specify
-              your mail receiving server and protocols.
+               Set your mail-checking protocols and servers here.
             </para>
           </listitem>
-
-        <listitem>
-         <para>
-           <guilabel>Transports</guilabel>, which allows you to
-           specify how you will send mail.
+	</varlistentry>
+	<varlistentry>
+	  <term><guilabel>Transports</guilabel></term>
+	  <listitem>
+	    <para>
+              Here, you can specify how you will send mail.
            </para>
-         </listitem>
-         </itemizedlist>
+	  </listitem>
+	</varlistentry>
+      </variablelist>
 
 <!-- THE FOLLOWING MAY BE REINSTATED:
               as well as attachment
@@ -144,79 +142,88 @@ functions are not yet available for doc'ing.  . aaron, june 5. 7 am.
         determine how you want to send your mail.
       </para>
  
-	<sect3 id="config-prefs-network-sources">
-	  <title>Mail Sources</title>
-	  <para>
-            The <interface>Mail Sources</interface> tab allows you to
-            edit, add, or delete methods of retreiving mail from
-            servers.  Clicking on <guibutton>Add</guibutton> or
-            <guibutton>Edit</guibutton> will bring up a dialog box to
-            offer you the following options:
-         <itemizedlist>
-
-           <listitem>
-	    <para>
-              <guilabel>Mail source type:</guilabel>At this point, you
-              can only select from POP or Unix-style mbox files, but
-              additional types will be supported in the future.
-            </para>
-	  </listitem>
-
-           <listitem>
-	    <para>
-              <guilabel>Server:</guilabel>Enter the name of your mail
-              server in this field, eg: mail.mycompany.com
-            </para>
-	  </listitem>
-           <listitem>
-	    <para>
-              <guilabel>Username:</guilabel>Enter your user name here.
-              Eva Lucy Ann Tester's user name is eltester.
-            </para>
-	  </listitem>
-           <listitem>
-	    <para>
-              <guilabel>Authentication:</guilabel> Your system
-              administrator will know which type of authentication
-              your system requires.
-              <application>Evolution</application> can also detect
-              what sorts of authentication are available once it knows
-              where to find the server.
-            </para>
-	  </listitem>
-           <listitem>
-	    <para>
-              <guilabel>Test these values before continuing</guilabel>
-              If this box is checked,
-              <application>Evolution</application> will attempt to
-              make sure that all the other entries in the dialog box
-              are correct.
-            </para>
-        </listitem>
-	</itemizedlist>
+      <sect3 id="config-prefs-network-sources">
+	<title>Mail Sources</title>
+	<para>
+          The <interface>Mail Sources</interface> tab allows you to
+          edit, add, or delete methods of retreiving mail from
+          servers.  Clicking on <guibutton>Add</guibutton> or
+          <guibutton>Edit</guibutton> will bring up a dialog box to
+          offer you the following options:
+           <variablelist>
+	    <varlistentry>
+	      <term><guilabel>Mail source type:</guilabel></term>
+	      <listitem>
+		<para>
+                  Select from IMAP, POP or Unix-style
+                  <filename>mbox</filename> files.
+                </para>
+	      </listitem>
+	    </varlistentry>
+	    <varlistentry>
+	      <term> <guilabel>Server:</guilabel></term>
+	      <listitem>
+		<para>
+                  Enter the name of your mail server in this field,
+                  eg: <userinput>mail.mycompany.com</userinput>
+                </para>
+	      </listitem>
+	    </varlistentry>
+	    <varlistentry>
+	      <term><guilabel>Username:</guilabel></term>
+	      <listitem>
+		<para>
+                  Enter your user name here.  Eva Lucy Ann Tester's
+                  user name is <userinput>eltester</userinput>.
+                </para>
+	      </listitem>
+	    </varlistentry>
+	    <varlistentry>
+	      <term><guilabel>Authentication:</guilabel></term>
+	      <listitem>
+		<para>
+                  Your system administrator will know which type of
+                  authentication your system requires.
+                  <application>Evolution</application> can also detect
+                  what sorts of authentication are available once it
+                  knows where to find the server.
+               </para>
+	      </listitem>
+	    </varlistentry>
+	    <varlistentry>
+	      <term><guilabel>Test values before continuing</guilabel></term>
+	      <listitem>
+		<para>
+                  If this box is checked,
+                  <application>Evolution</application> will attempt to
+                  make sure that all the other entries in the dialog
+                  window are correct.
+                </para>
+	      </listitem>
+	    </varlistentry>
+	  </variablelist>
           </para>
-	  </sect3>
-          <sect3 id="config-prefs-mail-network-transports">
-          <title>Transports</title>
-          <para>
-            The <interface>Transports</interface> tab lets you set how
-            you will send mail.  As of this writing, you have two
-            choices: <guilabel>SMTP</guilabel>, which uses a remote
-            mail server, and <guilabel>sendmail</guilabel>,
-            which uses the <application>sendmail</application> program
-            on your local system.
-         </para>
-         <para>
-            If you choose <guilabel>SMTP</guilabel>, you will need
-            to know the name of your mail server.  Your system
+      </sect3>
+      <sect3 id="config-prefs-mail-network-transports">
+	<title>Transports</title>
+	<para>
+           The <interface>Transports</interface> tab lets you set how
+           you will send mail.  As of this writing, you have two
+           choices: <guilabel>SMTP</guilabel>, which uses a remote
+           mail server, and <guilabel>sendmail</guilabel>, which uses
+           the <application>sendmail</application> program on your
+           local system.
+        </para>
+	<para>
+            If you choose <guilabel>SMTP</guilabel>, you will need to
+            know the name of your mail server.  Your system
             administrator or ISP has probably included that
             information on the piece of paper you lost about five
             minutes ago.  <application>Evolution</application> can
-            attempt to determine if you have entered the right
-            server name.  To have it do so,
-            check the box labelled <guilabel>Test these values before
-            continuing</guilabel> before you click
-            <guibutton>OK</guibutton>.
+            attempt to determine if you have entered the right server
+            name.  To have it do so, check the box labelled
+            <guilabel>Test these values before continuing</guilabel>
+            before you click <guibutton>OK</guibutton>.
          </para>
 	</sect3>
       </sect2>
