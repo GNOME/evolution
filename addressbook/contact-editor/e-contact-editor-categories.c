@@ -40,6 +40,8 @@ static void e_contact_editor_categories_set_value_at (ETableModel *etc, int col,
 static gboolean e_contact_editor_categories_is_cell_editable (ETableModel *etc, int col, int row, gpointer data);
 static void *e_contact_editor_categories_duplicate_value (ETableModel *etc, int col, const void *value, gpointer data);
 static void e_contact_editor_categories_free_value (ETableModel *etc, int col, void *value, gpointer data);
+static void *e_contact_editor_categories_initialize_value (ETableModel *etc, int col, gpointer data);
+static gboolean e_contact_editor_categories_value_is_empty (ETableModel *etc, int col, const void *value, gpointer data);
 static void e_contact_editor_categories_thaw (ETableModel *etc, gpointer data);
 
 static GnomeDialogClass *parent_class = NULL;
@@ -271,6 +273,8 @@ e_contact_editor_categories_init (EContactEditorCategories *categories)
 					       e_contact_editor_categories_is_cell_editable,
 					       e_contact_editor_categories_duplicate_value,
 					       e_contact_editor_categories_free_value,
+					       e_contact_editor_categories_initialize_value,
+					       e_contact_editor_categories_value_is_empty,
 					       e_contact_editor_categories_thaw, 
 					       categories);
 
@@ -433,6 +437,24 @@ e_contact_editor_categories_free_value (ETableModel *etc, int col, void *value, 
 		return;
 	else
 		g_free(value);
+}
+
+static void *
+e_contact_editor_categories_initialize_value (ETableModel *etc, int col, gpointer data)
+{
+	if (col == 0)
+		return NULL;
+	else
+		return g_strdup("");
+}
+
+static gboolean
+e_contact_editor_categories_value_is_empty (ETableModel *etc, int col, const void *value, gpointer data)
+{
+	if (col == 0)
+		return value == NULL;
+	else
+		return !(value && *(char *)value);
 }
 
 /* This function is for when the model is unfrozen.  This can mostly

@@ -125,6 +125,18 @@ addressbook_free_value (ETableModel *etc, int col, void *value)
 	g_free(value);
 }
 
+static void *
+addressbook_initialize_value (ETableModel *etc, int col)
+{
+	return g_strdup("");
+}
+
+static gboolean
+addressbook_value_is_empty (ETableModel *etc, int col, const void *value)
+{
+	return !(value && *(char *)value);
+}
+
 /* This function is for when the model is unfrozen.  This can mostly
    be ignored for simple models.  */
 static void
@@ -201,6 +213,8 @@ e_addressbook_model_class_init (GtkObjectClass *object_class)
 	model_class->is_cell_editable = addressbook_is_cell_editable;
 	model_class->duplicate_value = addressbook_duplicate_value;
 	model_class->free_value = addressbook_free_value;
+	model_class->initialize_value = addressbook_initialize_value;
+	model_class->value_is_empty = addressbook_value_is_empty;
 	model_class->thaw = addressbook_thaw;
 }
 
