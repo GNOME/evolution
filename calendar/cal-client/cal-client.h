@@ -149,6 +149,10 @@ gboolean cal_client_is_read_only (CalClient *client);
 
 const char *cal_client_get_email_address (CalClient *client);
 
+gboolean cal_client_get_always_schedule (CalClient *client);
+gboolean cal_client_get_organizer_must_attend (CalClient *client);
+gboolean cal_client_get_save_schedules (CalClient *client);
+
 gboolean cal_client_set_mode (CalClient *client, CalMode mode);
 
 int cal_client_get_n_objects (CalClient *client, CalObjType type);

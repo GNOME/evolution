@@ -78,6 +78,12 @@ module Calendar {
 	/* Used to store a time_t */
 	typedef unsigned long Time_t;
 
+	struct SchedulingInformation {
+		boolean alwaysSchedule;
+		boolean organizerMustAttend;
+		boolean saveSchedules;
+	};
+	
 	/* An instance of a calendar component that actually occurs.  These are
 	 * "virtual" objects in that they are used to represent instances of
 	 * recurring events and alarms.  "Real" objects just contain the
@@ -146,6 +152,9 @@ module Calendar {
 
 		/* Check write permissions for calendar */
 		boolean isReadOnly ();
+		
+		/* Information on how to schedule */
+		SchedulingInformation getSchedulingInformation ();
 
 		/* Return the email address associated with this calendar,
 		   if any. */

@@ -102,6 +102,20 @@ impl_Cal_get_email_address (PortableServer_Servant servant,
 	return str_email_address_copy;
 }
 
+/* Cal::getSchedulingInformation method */
+static GNOME_Evolution_Calendar_SchedulingInformation
+impl_Cal_get_scheduling_information (PortableServer_Servant servant,
+				     CORBA_Environment *ev)
+{
+	Cal *cal;
+	CalPrivate *priv;
+
+	cal = CAL (bonobo_object_from_servant (servant));
+	priv = cal->priv;
+
+	return cal_backend_get_scheduling_information (priv->backend);
+}
+
 /* Converts a calendar object type from its CORBA representation to our own
  * representation.
  */
@@ -749,6 +763,7 @@ cal_class_init (CalClass *klass)
 	epv->_get_uri = impl_Cal_get_uri;
 	epv->isReadOnly = impl_Cal_is_read_only;
 	epv->getEmailAddress = impl_Cal_get_email_address;
+	epv->getSchedulingInformation = impl_Cal_get_scheduling_information;
 	epv->setMode = impl_Cal_set_mode;
 	epv->countObjects = impl_Cal_get_n_objects;
 	epv->getObject = impl_Cal_get_object;

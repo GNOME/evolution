@@ -25,9 +25,10 @@
 #define MEETING_PAGE_H
 
 #include "../e-meeting-model.h"
+#include "../itip-utils.h"
 #include "comp-editor-page.h"
 
-G_BEGIN_DECLS
+BEGIN_GNOME_DECLS
 
 
 
@@ -57,10 +58,11 @@ MeetingPage  *meeting_page_construct         (MeetingPage   *mpage,
 					      CalClient     *client);
 MeetingPage  *meeting_page_new               (EMeetingModel *emm,
 					      CalClient     *client);
+const ItipAddress  *meeting_page_get_default_organizer (MeetingPage *mpage);
 CalComponent *meeting_page_get_cancel_comp   (MeetingPage   *mpage);
 
 
 
-G_END_DECLS
+END_GNOME_DECLS
 
 #endif

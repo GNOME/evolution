@@ -50,6 +50,12 @@ struct _CalClientPrivate {
 	/* Email address associated with this calendar, or NULL */
 	char *email_address;
 
+	/* Scheduling info */
+	gboolean scheduling_info_loaded;
+	gboolean always_schedule;
+	gboolean organizer_must_attend;
+	gboolean save_schedules;
+	
 	/* The calendar factories we are contacting */
 	GList *factories;
 
@@ -245,6 +251,10 @@ cal_client_init (CalClient *client)
 	priv->load_state = CAL_CLIENT_LOAD_NOT_LOADED;
 	priv->uri = NULL;
 	priv->email_address = NULL;
+	priv->scheduling_info_loaded = FALSE;
+	priv->always_schedule = FALSE;
+	priv->organizer_must_attend = FALSE;
+	priv->save_schedules = FALSE;
 	priv->factories = NULL;
 	priv->timezones = g_hash_table_new (g_str_hash, g_str_equal);
 	priv->w_client = NULL;
@@ -1106,6 +1116,78 @@ cal_client_get_email_address (CalClient *client)
 	}
 
 	return priv->email_address;
+}
+
+static void
+load_scheduling_info (CalClient *client) 
+{
+	CalClientPrivate *priv;
+	CORBA_Environment ev;
+	GNOME_Evolution_Calendar_SchedulingInformation si;
+	
+	priv = client->priv;
+
+	if (priv->scheduling_info_loaded)
+		return;
+	
+	CORBA_exception_init (&ev);
+	si = GNOME_Evolution_Calendar_Cal_getSchedulingInformation (priv->cal, &ev);
+	if (!BONOBO_EX (&ev)) {
+		priv->always_schedule = si.alwaysSchedule;
+		priv->organizer_must_attend = si.organizerMustAttend;
+		priv->save_schedules = si.saveSchedules;
+		priv->scheduling_info_loaded = TRUE;
+	}
+	CORBA_exception_free (&ev);
+
+}
+
+gboolean 
+cal_client_get_always_schedule (CalClient *client)
+{
+	CalClientPrivate *priv;
+
+	g_return_val_if_fail (client != NULL, FALSE);
+	g_return_val_if_fail (IS_CAL_CLIENT (client), FALSE);
+
+	priv = client->priv;
+	g_return_val_if_fail (priv->load_state == CAL_CLIENT_LOAD_LOADED, FALSE);
+
+	load_scheduling_info (client);
+
+	return priv->always_schedule;
+}
+
+gboolean 
+cal_client_get_organizer_must_attend (CalClient *client)
+{
+	CalClientPrivate *priv;
+
+	g_return_val_if_fail (client != NULL, FALSE);
+	g_return_val_if_fail (IS_CAL_CLIENT (client), FALSE);
+
+	priv = client->priv;
+	g_return_val_if_fail (priv->load_state == CAL_CLIENT_LOAD_LOADED, FALSE);
+
+	load_scheduling_info (client);
+
+	return priv->organizer_must_attend;
+}
+
+gboolean 
+cal_client_get_save_schedules (CalClient *client)
+{
+	CalClientPrivate *priv;
+
+	g_return_val_if_fail (client != NULL, FALSE);
+	g_return_val_if_fail (IS_CAL_CLIENT (client), FALSE);
+
+	priv = client->priv;
+	g_return_val_if_fail (priv->load_state == CAL_CLIENT_LOAD_LOADED, FALSE);
+
+	load_scheduling_info (client);
+
+	return priv->save_schedules;
 }
 
 /* Converts our representation of a calendar component type into its CORBA representation */

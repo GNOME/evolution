@@ -1,3 +1,52 @@
+2002-12-16  JP Rosevear  <jpr@ximian.com>
+
+	* gui/dialogs/meeting-page.c (right_click_cb): if the attendee is
+	not fully editable, don't allow deletion
+	(meeting_page_construct): keep the default organizer as an itip
+	address
+	(meeting_page_get_default_organizer): return the default organizer
+
+	* gui/dialogs/meeting-page.h: new proto
+
+	* gui/dialogs/event-editor.c (event_editor_edit_comp): we set
+	appropriate edit levels now for users and if the backend always
+	schedules we always show the meeting pages and add the organizer
+	as an attendee
+
+	* gui/dialogs/task-editor.c (task_editor_edit_comp): same
+
+	* gui/e-meeting-model.c (is_cell_editable): use the edit level of
+	the attendee to determine if cell is editable
+	(init): we no longer keep the attendee list of restricted
+
+	* gui/e-meeting-attendee.c (e_meeting_attendee_get_edit_level): accessor
+	(e_meeting_attendee_set_edit_level): ditto
+
+	* gui/e-meeting-attendee.h: new protos and edit level enum
+
+	* cal-client/cal-client.c (load_scheduling_info): load the
+	scheduling info
+	(cal_client_get_always_schedule): accessor
+	(cal_client_get_organizer_must_attend): ditto
+	(cal_client_get_save_schedules): ditto
+	(cal_client_init): init scheduling data members
+
+	* cal-client/cal-client.h: accessors for scheduling information
+
+	* pcs/cal-backend-file.c
+	(cal_backend_file_get_scheduling_information): implement the new
+	virtual method
+
+	* pcs/cal-backend.c (cal_backend_get_scheduling_information): call
+	the class specific method
+
+	* pcs/cal-backend.h: add virtual method
+
+	* idl/evolution-calendar.idl: add a getSchedulingInformation call
+	which describes how the backend does its scheduling
+
+	* pcs/cal.c (impl_Cal_get_scheduling_information): implement above
+
 2002-12-11  JP Rosevear  <jpr@ximian.com>
 
 	* gui/e-day-view.c: pass NULL as parent to recur dialog

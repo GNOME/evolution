@@ -79,7 +79,7 @@ struct _MeetingPagePrivate {
 	/* List of identities */
 	GList *addresses;
 	GList *address_strings;
-	gchar *default_address;
+	ItipAddress *default_address;
 	
 	/* Glade XML data */
 	GladeXML *xml;
@@ -373,7 +373,7 @@ meeting_page_fill_widgets (CompEditorPage *page, CalComponent *comp)
 			priv->existing = TRUE;
 		}
 	} else {
-		e_dialog_editable_set (GTK_COMBO (priv->organizer)->entry, priv->default_address);
+		e_dialog_editable_set (GTK_COMBO (priv->organizer)->entry, priv->default_address->full);
 	}
 	
 	priv->updating = FALSE;
@@ -524,7 +524,7 @@ change_clicked_cb (GtkWidget *widget, gpointer data)
 	gtk_widget_show (priv->invite);
 	e_meeting_model_etable_click_to_add (priv->model, TRUE);
 
-	e_dialog_editable_set (GTK_COMBO (priv->organizer)->entry, priv->default_address);
+	e_dialog_editable_set (GTK_COMBO (priv->organizer)->entry, priv->default_address->full);
 	comp_editor_page_notify_needs_send (COMP_EDITOR_PAGE (mpage));
 	
 	priv->existing = FALSE;
@@ -635,7 +635,7 @@ popup_delete_cb (GtkWidget *widget, gpointer data)
 	priv = mpage->priv;
 
 	ia = e_meeting_model_find_attendee_at_row (priv->model, priv->row);
-
+	
 	/* If this was a delegatee, no longer delegate */
 	if (e_meeting_attendee_is_set_delfrom (ia)) {
 		EMeetingAttendee *ib;
@@ -683,17 +683,22 @@ right_click_cb (ETable *etable, gint row, gint col, GdkEvent *event, gpointer da
 	MeetingPage *mpage = MEETING_PAGE (data);
 	MeetingPagePrivate *priv;
 	GtkMenu *menu;
-	int enable_mask = 0, hide_mask = 0, view_row;
+	EMeetingAttendee *ia;
+	int disable_mask = 0, hide_mask = 0, view_row;
 
 	priv = mpage->priv;
 
 	view_row = e_table_model_to_view_row (etable, row);
 	priv->row = e_meeting_model_etable_view_to_model_row (etable, priv->model, view_row);
-	
+
+	ia = e_meeting_model_find_attendee_at_row (priv->model, priv->row);
+	if (e_meeting_attendee_get_edit_level (ia) != E_MEETING_ATTENDEE_EDIT_FULL)
+		disable_mask = CAN_DELETE;
+
 	/* FIXME: if you enable Delegate, then change index to '1' */
 	context_menu[0].pixmap_widget = gnome_stock_new_with_icon (GNOME_STOCK_MENU_TRASH);
 	
-	menu = e_popup_menu_create (context_menu, enable_mask, hide_mask, data);
+	menu = e_popup_menu_create (context_menu, disable_mask, hide_mask, data);
 	e_auto_kill_popup_menu_on_hide (menu);
 	
 	gtk_menu_popup (menu, NULL, NULL, NULL, NULL,
@@ -773,9 +778,9 @@ meeting_page_construct (MeetingPage *mpage, EMeetingModel *emm,
 		 * precedence over the default mail address.
 		 */
 		if (backend_address && !strcmp (backend_address, a->address))
-			priv->default_address = a->full;
+			priv->default_address = a;
 		else if (a->default_address && !priv->default_address)
-			priv->default_address = a->full;
+			priv->default_address = a;
 	}
 	
 	/* The etable displaying attendees and their status */
@@ -824,6 +829,27 @@ meeting_page_new (EMeetingModel *emm, CalClient *client)
 	}
 
 	return mpage;
+}
+
+/**
+ * meeting_page_get_default_organizer:
+ * @mpage: 
+ * 
+ * 
+ * 
+ * Return value: 
+ **/
+const ItipAddress  *
+meeting_page_get_default_organizer (MeetingPage *mpage)
+{
+	MeetingPagePrivate *priv;
+
+	g_return_val_if_fail (mpage != NULL, NULL);
+	g_return_val_if_fail (IS_MEETING_PAGE (mpage), NULL);
+
+	priv = mpage->priv;
+
+	return priv->default_address;
 }
 
 /**
