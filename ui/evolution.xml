@@ -36,16 +36,21 @@
 	<placeholder name="NewFirstItem">
 	</placeholder>
 	
-	<menuitem name="EvolutionWindow" verb="OpenFolderInNewWindow" _label="Evolution _Window"
+	<menuitem name="EvolutionWindow"
+	          verb="OpenFolderInNewWindow"
+		  _label="Evolution _Window"
+		  _tip="Create a new window displaying this folder"
 		  accel="*Control**Shift*w"/>
 
 	<menuitem name="Folder" verb="NewFolder"
 		  _label="_Folder"
+		  _tip="Create a new folder"
 		  accel="*Control**Shift*e"
 		  pixtype="pixbuf"/>
 
 	<menuitem name="Shortcut" verb="NewShortcut"
 		  _label="_Shortcut"
+		  _tip="Create a new shortcut"
 		  accel="*Control**Shift*s"/>
 
 	<placeholder name="NewItems"/>
@@ -59,6 +64,7 @@
 	<menuitem name="Folder"
                   verb="NewFolder"
 		  _label="_New Folder"
+		  _tip="Create a new folder"
 		  accel="*Control**Shift*e"
 		  pixtype="pixbuf"/>
 
@@ -151,10 +157,10 @@
     </submenu>
 
     <submenu name="Tools" _label="_Tools">
-      <menuitem name="Settings" verb="" _label="_Configure..."/>
+      <menuitem name="Settings" verb="" _label="_Preferences..." _tip="Change Evolution's settings"/>
       <separator/>
       <placeholder name="ComponentPlaceholder"/>
-      <menuitem name="PilotSettings" verb="" _label="_Pilot Settings..."/>
+      <menuitem name="PilotSettings" verb="" _label="_Pilot Settings..." _tip="Set up Pilot configuration"/>
     </submenu>
 
     <placeholder name="SearchPlaceholder">
