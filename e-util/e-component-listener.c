@@ -53,6 +53,7 @@ connection_listen_cb (gpointer object, gpointer user_data)
 			g_object_unref (cl);
 			break;
 		default :
+			break;
 		}
 	}
 }

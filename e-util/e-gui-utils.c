@@ -23,12 +23,13 @@
 #include <gtk/gtkhbox.h>
 
 #include <libgnome/gnome-program.h>
-#ifdef HAVE_LIBGNOMEUI_GNOME_ICON_LOOKUP_H
-#include <libgnomeui/gnome-icon-lookup.h>
-#endif
 #include <libgnomevfs/gnome-vfs-mime-handlers.h>
 
+#ifdef HAVE_LIBGNOMEUI_GNOME_ICON_LOOKUP_H
+#include <libgnomeui/gnome-icon-lookup.h>
+#else
 #include "art/empty.xpm"
+#endif
 
 GtkWidget *e_create_image_widget(gchar *name,
 				 gchar *string1, gchar *string2,
