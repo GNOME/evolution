@@ -270,7 +270,9 @@ e_week_view_event_item_draw (GnomeCanvasItem  *canvas_item,
 	/* Get the start & end times in 24-hour format. */
 	start_hour = event->start_minute / 60;
 	start_minute = event->start_minute % 60;
-	end_hour = event->end_minute / 60;
+	
+	/* Modulo 24 because a midnight end time will be '24' */
+	end_hour = (event->end_minute / 60) % 24;
 	end_minute = event->end_minute % 60;
 
 	time_y = y1 + E_WEEK_VIEW_EVENT_BORDER_HEIGHT
