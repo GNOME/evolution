@@ -1,9 +1,19 @@
 1999-09-05  bertrand  <Bertrand.Guiheneuf@aful.org>
 
+	* devel-docs/misc/ref_and_id_proposition.txt:
+	New revision. Some fixes.
+
+	* camel/camel-folder.h (struct _CamelFolder): added 
+	uid_capability field.
+	
+
+	* camel/camel-folder.c (camel_folder_close): publicized
+	the close method.
+
 	* tests/ui-tests/store_listing.c (show_folder_messages): 
 	use folder summary instead of opening all messages.
 	(show_folder_messages): re-enabled old CPU/Mem consumming
-	method. Use ful for pop3 for instance.
+	method. Useful for pop3 for instance.
 
 	* camel/providers/MH/camel-mh-folder.c (_create_summary): 
 	basic and highly non-efficient summary implementation.

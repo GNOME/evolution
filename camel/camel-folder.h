@@ -71,8 +71,12 @@ struct _CamelFolder
 	CamelStore *parent_store;
 	CamelFolder *parent_folder;
 	GList *permanent_flags;
+
 	gboolean has_summary_capability;
 	CamelFolderSummary *summary;
+
+	gboolean has_uid_capability;
+
 
 	GList *message_list;
 
@@ -121,6 +125,7 @@ GtkType camel_folder_get_type (void);
 /* public methods */
 CamelFolder *camel_folder_get_folder (CamelFolder *folder, gchar *folder_name);
 void camel_folder_open (CamelFolder *folder, CamelFolderOpenMode mode);
+void camel_folder_close (CamelFolder *folder, gboolean expunge);
 gboolean camel_folder_create (CamelFolder *folder);
 gboolean camel_folder_delete (CamelFolder *folder, gboolean recurse);
 gboolean camel_folder_delete_messages (CamelFolder *folder);

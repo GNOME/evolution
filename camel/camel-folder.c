@@ -213,7 +213,11 @@ _close (CamelFolder *folder, gboolean expunge)
 	folder->open_state = FOLDER_CLOSE;
 }
 
-
+void 
+camel_folder_close (CamelFolder *folder, gboolean expunge)
+{
+	CF_CLASS(folder)->close (folder, expunge);
+}
 
 
 

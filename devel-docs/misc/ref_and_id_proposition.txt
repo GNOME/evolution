@@ -1,6 +1,7 @@
 Author: Bertrand Guiheneuf <Bertrand.Guiheneuf@aful.org>
 Date: August 9th 1999
-Version: 0.1 
+Last revision date : September 3rd 1999
+Version: 0.2
 
 The last version of this document is always available in gnome CVS in
 the gnome-mailer module: devel-docs/misc/ref_and_id_proposition.txt
@@ -19,7 +20,7 @@ where number is an integer representing the message rank within its
 parent folder.
 
 This is a traditional method (JavaMail, MAPI) and it is very useful
-because this is often the only way to get a identify message in a
+because this is often the only way to get a message in from a
 classical store (pop3 for example).
 
 Moreover, various documents ([1], [2]) proposed to generalize the URL
@@ -80,9 +81,9 @@ Basically, we have two choices:
 Method (1) already exists in IMAP.  
 It is quite simple to define on local stores (MH, mbox, ....) but it
 may not resist to message modification by other MUA.
-Methods based on Message-id matching or message content-checksum seem
-to be the best one. Using an "X-" header is another possibility on
-non-read only headers. A combination of these three methods may be the
+Methods based on Message-id matching or message content checksum seem
+to be the best one. Using an "X-" header is another possibility for
+non read-only folders. A combination of these three methods may be the
 most reliable solution.
 The UID is impossible to implement in a POP3 store provider.
 
@@ -96,7 +97,7 @@ The M-ID is also impossible to implement in a POP3 store provider.
    
 
 We may not rely on external MUA and MTA to guarentee the uniqueness of
-the identifier . We may lose messages by never being able to read them
+the identifier . We may loose messages by never being able to read them
 if two had the same uid. It would be possible to find workarounds, but
 it could make Camel use a bit tricky.
 
@@ -121,7 +122,7 @@ gchar * camel_folder_get_message_uid (CamelFolder *folder, CamelMimeMessage *mes
 CamelMimeMessage *camel_folder_get_message_by_uid  (CamelFolder *folder, gchar *uid)
     return the message which uid is %uid
 
-In addition, the CamelFolder Class will have a new public method
+In addition, the CamelMessage Class will have a new public method
 
 gchar * camel_mime_message_get_uid (CamelMimeMessage *message) 
     return the uid associated to the message in its physical parent
@@ -134,7 +135,7 @@ B) Handling message references in (v)folders.
  
 
 We want the future Gnome mailer to be able to build (virtual) folders
-holding references to messages located physically in other
+holding references to messages physically located in other
 folders. More generally, we would like folders to be able to hold:
 
 1) messages
@@ -145,7 +146,7 @@ folders. More generally, we would like folders to be able to hold:
 can hold messages and/or subfolders.
 
 (3) is a different issue, because no existing mail store can currently
-hold within folders references to messages in other folders.
+hold, within folders, references to messages in other folders.
 It will thus be a specific gnome-mailer extension. 
 
 
