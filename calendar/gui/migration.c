@@ -129,13 +129,6 @@ process_old_dir (ESourceGroup *source_group, const char *path,
 	if (!from)
 		return FALSE;
 
-	s = g_build_filename (e_source_group_peek_base_uri (source_group), base_uri,
-			      filename, NULL);
-	if (e_mkdir_hier (s, 0700) != 0) {
-		gnome_vfs_uri_unref (from);
-		g_free (s);
-		return FALSE;
-	}
 	to = gnome_vfs_uri_new (s);
 	g_free (s);
 	if (!to) {

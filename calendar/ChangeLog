@@ -6,6 +6,13 @@
 
 2004-01-22  JP Rosevear <jpr@ximian.com>
 
+	* gui/migration.c (process_old_dir): remove useless e_mkdir_hier
+	call.
+
+	Fixes #53065
+
+2004-01-22  JP Rosevear <jpr@ximian.com>
+
 	* gui/e-tasks.c (e_tasks_setup_view_menus): Remove debugging
 	statement
 
