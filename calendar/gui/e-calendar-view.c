@@ -1247,8 +1247,8 @@ static EPopupMenu main_items [] = {
 
 	E_POPUP_SUBMENU (N_("Current View"), NULL, 0),
 	
-	E_POPUP_ITEM (N_("Go to _Today"), GTK_SIGNAL_FUNC (on_goto_today), 0),
-	E_POPUP_ITEM (N_("_Go to Date..."), GTK_SIGNAL_FUNC (on_goto_date), 0),
+	E_POPUP_ITEM (N_("Select _Today"), GTK_SIGNAL_FUNC (on_goto_today), 0),
+	E_POPUP_ITEM (N_("_Select Date..."), GTK_SIGNAL_FUNC (on_goto_date), 0),
 
 	E_POPUP_SEPARATOR,
 

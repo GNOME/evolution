@@ -1,3 +1,10 @@
+2004-03-22  Hari Prasad Nadig  <hp@ndeepak.info>
+
+	* gui/goto-dialog.glade: Naming issue, Go to Date -> Select Date,
+	Go to Today -> Select today. Solves 48293
+	
+	* gui/e-calendar-view.c: gives aid to the above change.
+
 2004-03-29  Rodrigo Moya <rodrigo@ximian.com>
 
 	* gui/alarm-notify/alarm-queue.c (query_objects_changed_cb): removed
