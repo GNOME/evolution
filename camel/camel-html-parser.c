@@ -469,7 +469,7 @@ static void tokenise_setup(void)
 	if (entities == NULL) {
 		entities = g_hash_table_new(g_str_hash, g_str_equal);
 		for (i=0;i<sizeof(entity_map)/sizeof(entity_map[0]);i++) {
-			g_hash_table_insert(entities, (char *)entity_map[i].name, (void *)entity_map[i].val);
+			g_hash_table_insert(entities, (char *)entity_map[i].name, GUINT_TO_POINTER(entity_map[i].val));
 		}
 	}
 }
@@ -518,7 +518,7 @@ static int convert_entity(const char *e, char *ent)
 	if (e[0] == '#')
 		return g_unichar_to_utf8(atoi(e+1), ent);
 
-	val = (unsigned int)g_hash_table_lookup(entities, e);
+	val = GPOINTER_TO_UINT(g_hash_table_lookup(entities, e));
 	if (ent)
 		return g_unichar_to_utf8(val, ent);
 	else

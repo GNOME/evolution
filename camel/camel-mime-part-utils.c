@@ -282,7 +282,8 @@ simple_data_wrapper_construct_from_parser (CamelDataWrapper *dw, CamelMimeParser
 {
 	CamelMimeFilter *fdec = NULL, *fcrlf = NULL;
 	CamelMimeFilterBasicType enctype = 0;
-	int len, decid = -1, crlfid = -1;
+	size_t len;
+	int decid = -1, crlfid = -1;
 	struct _header_content_type *ct;
 	const char *charset = NULL;
 	char *encoding, *buf;

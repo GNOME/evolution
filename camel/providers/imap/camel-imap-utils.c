@@ -735,7 +735,7 @@ parse_params (const char **parms_p, CamelContentType *type)
 {
 	const char *parms = *parms_p;
 	char *name, *value;
-	int len;
+	size_t len;
 	
 	if (!strncasecmp (parms, "nil", 3)) {
 		*parms_p += 3;
@@ -777,7 +777,7 @@ imap_body_decode (const char **in, CamelMessageContentInfo *ci, CamelFolder *fol
 	CamelContentType *ctype = NULL;
 	char *description = NULL;
 	char *encoding = NULL;
-	unsigned int len;
+	size_t len;
 	size_t size;
 	char *p;
 	

@@ -431,7 +431,7 @@ signed_construct_from_parser(CamelMultipart *multipart, struct _CamelMimeParser 
 	struct _header_content_type *content_type;
 	CamelMultipartSigned *mps = (CamelMultipartSigned *)multipart;
 	char *buf;
-	unsigned int len;
+	size_t len;
 	CamelStream *mem;
 
 	/* we *must not* be in multipart state, otherwise the mime parser will

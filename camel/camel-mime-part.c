@@ -760,7 +760,7 @@ construct_from_parser(CamelMimePart *dw, CamelMimeParser *mp)
 	struct _header_raw *headers;
 	const char *content;
 	char *buf;
-	int len;
+	size_t len;
 	int err;
 
 	d(printf("mime_part::construct_from_parser()\n"));

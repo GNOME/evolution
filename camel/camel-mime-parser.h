@@ -103,7 +103,7 @@ void camel_mime_parser_scan_pre_from(CamelMimeParser *, int);
 int camel_mime_parser_set_header_regex(CamelMimeParser *m, char *matchstr);
 
 /* normal interface */
-enum _header_state camel_mime_parser_step(CamelMimeParser *, char **, int *);
+enum _header_state camel_mime_parser_step(CamelMimeParser *, char **, size_t *);
 void camel_mime_parser_unstep(CamelMimeParser *);
 void camel_mime_parser_drop_step(CamelMimeParser *m);
 enum _header_state camel_mime_parser_state(CamelMimeParser *);

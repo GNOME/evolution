@@ -905,7 +905,7 @@ CamelMessageInfo *camel_folder_summary_info_new_from_parser(CamelFolderSummary *
 {
 	CamelMessageInfo *info = NULL;
 	char *buffer;
-	int len;
+	size_t len;
 	struct _CamelFolderSummaryPrivate *p = _PRIVATE(s);
 	off_t start;
 	CamelIndexName *name = NULL;
@@ -1952,7 +1952,8 @@ next_uid_string(CamelFolderSummary *s)
 static CamelMessageContentInfo *
 summary_build_content_info(CamelFolderSummary *s, CamelMessageInfo *msginfo, CamelMimeParser *mp)
 {
-	int state, len;
+	int state;
+	size_t len;
 	char *buffer;
 	CamelMessageContentInfo *info = NULL;
 	struct _header_content_type *ct;

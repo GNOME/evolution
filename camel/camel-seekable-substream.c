@@ -32,8 +32,8 @@ static CamelSeekableStreamClass *parent_class = NULL;
 /* Returns the class for a CamelSeekableSubStream */
 #define CSS_CLASS(so) CAMEL_SEEKABLE_SUBSTREAM_CLASS (CAMEL_OBJECT(so)->klass)
 
-static	int	 stream_read  (CamelStream *stream, char *buffer, unsigned int n);
-static	int	 stream_write (CamelStream *stream, const char *buffer, unsigned int n);
+static	ssize_t	 stream_read  (CamelStream *stream, char *buffer, size_t n);
+static	ssize_t	 stream_write (CamelStream *stream, const char *buffer, size_t n);
 static	int	 stream_flush (CamelStream *stream);
 static	int	 stream_close (CamelStream *stream);
 static	gboolean eos	      (CamelStream *stream);
@@ -142,13 +142,13 @@ parent_reset (CamelSeekableSubstream *seekable_substream, CamelSeekableStream *p
 	return camel_seekable_stream_seek (parent, seekable_stream->position, CAMEL_STREAM_SET)	== seekable_stream->position;
 }
 
-static int
-stream_read (CamelStream *stream, char *buffer, unsigned int n)
+static ssize_t
+stream_read (CamelStream *stream, char *buffer, size_t n)
 {
 	CamelSeekableStream *parent;
 	CamelSeekableStream *seekable_stream = CAMEL_SEEKABLE_STREAM (stream);
 	CamelSeekableSubstream *seekable_substream = CAMEL_SEEKABLE_SUBSTREAM (stream);
-	int v;
+	ssize_t v;
 
 	if (n == 0)
 		return 0;
@@ -179,13 +179,13 @@ stream_read (CamelStream *stream, char *buffer, unsigned int n)
 	return v;
 }
 
-static int
-stream_write (CamelStream *stream, const char *buffer, unsigned int n)
+static ssize_t
+stream_write (CamelStream *stream, const char *buffer, size_t n)
 {
 	CamelSeekableStream *parent;
 	CamelSeekableStream *seekable_stream = CAMEL_SEEKABLE_STREAM(stream);
 	CamelSeekableSubstream *seekable_substream = CAMEL_SEEKABLE_SUBSTREAM(stream);
-	int v;
+	ssize_t v;
 
 	if (n == 0)
 		return 0;

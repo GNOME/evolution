@@ -480,13 +480,13 @@ imap_body_contains (struct _ESExp *f, int argc, struct _ESExpResult **argv, Came
 				info = s->summary->pdata[i];
 				uid = (char *)camel_message_info_uid(info);
 				uidn = strtoul(uid, NULL, 10);
-				g_hash_table_insert(uid_hash, (void *)uidn, uid);
+				g_hash_table_insert(uid_hash, GUINT_TO_POINTER(uidn), uid);
 			}
 
 			uidp = (guint32 *)mr->matches->data;
 			j = mr->matches->len;
 			for (i=0;i<j && !truth;i++) {
-				uid = g_hash_table_lookup(uid_hash, (void *)*uidp++);
+				uid = g_hash_table_lookup(uid_hash, GUINT_TO_POINTER(*uidp++));
 				if (uid)
 					g_ptr_array_add(array, uid);
 			}

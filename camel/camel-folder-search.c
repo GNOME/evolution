@@ -811,8 +811,8 @@ match_words_index(CamelFolderSearch *search, struct _camel_search_words *words, 
 								int mask;
 								const char *uid = camel_message_info_uid(mi);
 
-								mask = ((int)g_hash_table_lookup(ht, uid)) | (1<<i);
-								g_hash_table_insert(ht, (char *)uid, (void *)mask);
+								mask = (GPOINTER_TO_INT(g_hash_table_lookup(ht, uid))) | (1<<i);
+								g_hash_table_insert(ht, (char *)uid, GINT_TO_POINTER(mask));
 							}
 						}
 						camel_object_unref((CamelObject *)nc);

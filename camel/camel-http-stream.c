@@ -254,7 +254,8 @@ http_get_headers (CamelHttpStream *http)
 	struct _header_raw *headers, *node, *tail;
 	const char *type;
 	char *buf;
-	int len, err;
+	size_t len;
+	int err;
 	
 	if (http->parser)
 		camel_object_unref (CAMEL_OBJECT (http->parser));

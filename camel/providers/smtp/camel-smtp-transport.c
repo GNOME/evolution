@@ -859,7 +859,7 @@ static gboolean
 smtp_helo (CamelSmtpTransport *transport, CamelException *ex)
 {
 	/* say hello to the server */
-	char *name, *cmdbuf, *respbuf = NULL;
+	char *name = NULL, *cmdbuf = NULL, *respbuf = NULL;
 	struct hostent *host;
 	CamelException err;
 	const char *token;

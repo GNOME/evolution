@@ -79,7 +79,7 @@ static void data_cache_init(CamelDataCache *cdc, CamelDataCacheClass *klass)
 	struct _CamelDataCachePrivate *p;
 
 	p = cdc->priv = g_malloc0(sizeof(*cdc->priv));
-	p->busy_bag = camel_object_bag_new(g_str_hash, g_str_equal, g_strdup, g_free);
+	p->busy_bag = camel_object_bag_new(g_str_hash, g_str_equal, (CamelCopyFunc)g_strdup, g_free);
 }
 
 static void data_cache_finalise(CamelDataCache *cdc)

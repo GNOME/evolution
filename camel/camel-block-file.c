@@ -162,7 +162,7 @@ camel_block_file_class_init(CamelBlockFileClass *klass)
 static guint
 block_hash_func(const void *v)
 {
-	return ((camel_block_t)v) >> CAMEL_BLOCK_SIZE_BITS;
+	return ((camel_block_t) GPOINTER_TO_UINT(v)) >> CAMEL_BLOCK_SIZE_BITS;
 }
 
 static void
@@ -560,7 +560,7 @@ CamelBlock *camel_block_file_get_block(CamelBlockFile *bs, camel_block_t id)
 
 	CAMEL_BLOCK_FILE_LOCK(bs, cache_lock);
 
-	bl = g_hash_table_lookup(bs->blocks, (void *)id);
+	bl = g_hash_table_lookup(bs->blocks, GUINT_TO_POINTER(id));
 
 	d(printf("Get  block %08x: %s\n", id, bl?"cached":"must read"));
 
@@ -582,7 +582,7 @@ CamelBlock *camel_block_file_get_block(CamelBlockFile *bs, camel_block_t id)
 		}
 
 		bs->block_cache_count++;
-		g_hash_table_insert(bs->blocks, (void *)bl->id, bl);
+		g_hash_table_insert(bs->blocks, GUINT_TO_POINTER(bl->id), bl);
 
 		/* flush old blocks */
 		flush = (CamelBlock *)bs->block_cache.tailpred;
@@ -590,7 +590,7 @@ CamelBlock *camel_block_file_get_block(CamelBlockFile *bs, camel_block_t id)
 		while (bs->block_cache_count > bs->block_cache_limit && prev) {
 			if (flush->refcount == 0) {
 				if (sync_block_nolock(bs, flush) != -1) {
-					g_hash_table_remove(bs->blocks, (void *)flush->id);
+					g_hash_table_remove(bs->blocks, GUINT_TO_POINTER(flush->id));
 					e_dlist_remove((EDListNode *)flush);
 					g_free(flush);
 					bs->block_cache_count--;
@@ -629,7 +629,7 @@ void camel_block_file_detach_block(CamelBlockFile *bs, CamelBlock *bl)
 {
 	CAMEL_BLOCK_FILE_LOCK(bs, cache_lock);
 
-	g_hash_table_remove(bs->blocks, (void *)bl->id);
+	g_hash_table_remove(bs->blocks, GUINT_TO_POINTER(bl->id));
 	e_dlist_remove((EDListNode *)bl);
 	bl->flags |= CAMEL_BLOCK_DETACHED;
 
@@ -647,7 +647,7 @@ void camel_block_file_attach_block(CamelBlockFile *bs, CamelBlock *bl)
 {
 	CAMEL_BLOCK_FILE_LOCK(bs, cache_lock);
 
-	g_hash_table_insert(bs->blocks, (void *)bl->id, bl);
+	g_hash_table_insert(bs->blocks, GUINT_TO_POINTER(bl->id), bl);
 	e_dlist_addtail(&bs->block_cache, (EDListNode *)bl);
 	bl->flags &= ~CAMEL_BLOCK_DETACHED;
 

@@ -275,13 +275,13 @@ struct _header_scan_filter {
 	CamelMimeFilter *filter;
 };
 
-static void folder_scan_step(struct _header_scan_state *s, char **databuffer, int *datalength);
+static void folder_scan_step(struct _header_scan_state *s, char **databuffer, size_t *datalength);
 static void folder_scan_drop_step(struct _header_scan_state *s);
 static int folder_scan_init_with_fd(struct _header_scan_state *s, int fd);
 static int folder_scan_init_with_stream(struct _header_scan_state *s, CamelStream *stream);
 static struct _header_scan_state *folder_scan_init(void);
 static void folder_scan_close(struct _header_scan_state *s);
-static struct _header_scan_stack *folder_scan_content(struct _header_scan_state *s, int *lastone, char **data, int *length);
+static struct _header_scan_stack *folder_scan_content(struct _header_scan_state *s, int *lastone, char **data, size_t *length);
 static struct _header_scan_stack *folder_scan_header(struct _header_scan_state *s, int *lastone);
 static int folder_scan_skip_line(struct _header_scan_state *s, GByteArray *save);
 static off_t folder_seek(struct _header_scan_state *s, off_t offset, int whence);
@@ -728,7 +728,7 @@ void camel_mime_parser_drop_step(CamelMimeParser *m)
  * is returned.
  **/
 enum _header_state
-camel_mime_parser_step(CamelMimeParser *m, char **databuffer, int *datalength)
+camel_mime_parser_step(CamelMimeParser *m, char **databuffer, size_t *datalength)
 {
 	struct _header_scan_state *s = _PRIVATE(m);
 
@@ -736,7 +736,7 @@ camel_mime_parser_step(CamelMimeParser *m, char **databuffer, int *datalength)
 
 	if (s->unstep <= 0) {
 		char *dummy;
-		int dummylength;
+		size_t dummylength;
 
 		if (databuffer == NULL) {
 			databuffer = &dummy;
@@ -1358,7 +1358,7 @@ header_done:
 }
 
 static struct _header_scan_stack *
-folder_scan_content(struct _header_scan_state *s, int *lastone, char **data, int *length)
+folder_scan_content(struct _header_scan_state *s, int *lastone, char **data, size_t *length)
 {
 	int atleast = s->atleast, newatleast;
 	register char *inptr;
@@ -1570,7 +1570,7 @@ folder_scan_init_with_stream(struct _header_scan_state *s, CamelStream *stream)
 #define USE_FROM
 
 static void
-folder_scan_step(struct _header_scan_state *s, char **databuffer, int *datalength)
+folder_scan_step(struct _header_scan_state *s, char **databuffer, size_t *datalength)
 {
 	struct _header_scan_stack *h, *hb;
 	const char *content;
@@ -1853,7 +1853,7 @@ int main(int argc, char **argv)
 	int fd;
 	struct _header_scan_state *s;
 	char *data;
-	int len;
+	size_t len;
 	int state;
 	char *name = "/tmp/evmail/Inbox";
 	struct _header_scan_stack *h;

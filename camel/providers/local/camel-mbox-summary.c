@@ -172,7 +172,7 @@ summary_header_load(CamelFolderSummary *s, FILE *in)
 	if (((CamelFolderSummaryClass *)camel_mbox_summary_parent)->summary_header_load(s, in) == -1)
 		return -1;
 
-	return camel_file_util_decode_uint32(in, &mbs->folder_size);
+	return camel_file_util_decode_uint32(in, (guint32 *) &mbs->folder_size);
 }
 
 static int
@@ -796,7 +796,7 @@ camel_mbox_summary_sync_mbox(CamelMboxSummary *cls, guint32 flags, CamelFolderCh
 	int i, count;
 	CamelMboxMessageInfo *info = NULL;
 	char *buffer, *xevnew = NULL;
-	int len;
+	size_t len;
 	const char *fromline;
 	int lastdel = FALSE;
 #ifdef STATUS_PINE

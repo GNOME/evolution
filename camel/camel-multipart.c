@@ -548,7 +548,7 @@ construct_from_parser(CamelMultipart *multipart, struct _CamelMimeParser *mp)
 	struct _header_content_type *content_type;
 	CamelMimePart *bodypart;
 	char *buf;
-	unsigned int len;
+	size_t len;
 
 	g_assert(camel_mime_parser_state(mp) == HSCAN_MULTIPART);
 		

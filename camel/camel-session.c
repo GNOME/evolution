@@ -708,7 +708,7 @@ static void *session_thread_msg_new(CamelSession *session, CamelSessionThreadOps
 
 	CAMEL_SESSION_LOCK(session, thread_lock);
 	m->id = session->priv->thread_id++;
-	g_hash_table_insert(session->priv->thread_active, (void *)m->id, m);
+	g_hash_table_insert(session->priv->thread_active, GINT_TO_POINTER(m->id), m);
 	CAMEL_SESSION_UNLOCK(session, thread_lock);
 
 	return m;
@@ -721,7 +721,7 @@ static void session_thread_msg_free(CamelSession *session, CamelSessionThreadMsg
 	d(printf("free message %p session %p\n", msg, session));
 
 	CAMEL_SESSION_LOCK(session, thread_lock);
-	g_hash_table_remove(session->priv->thread_active, (void *)msg->id);
+	g_hash_table_remove(session->priv->thread_active, GINT_TO_POINTER(msg->id));
 	CAMEL_SESSION_UNLOCK(session, thread_lock);
 
 	d(printf("free msg, ops->free = %p\n", msg->ops->free));
@@ -769,7 +769,7 @@ static void session_thread_wait(CamelSession *session, int id)
 	/* we just busy wait, only other alternative is to setup a reply port? */
 	do {
 		CAMEL_SESSION_LOCK(session, thread_lock);
-		wait = g_hash_table_lookup(session->priv->thread_active, (void *)id) != NULL;
+		wait = g_hash_table_lookup(session->priv->thread_active, GINT_TO_POINTER(id)) != NULL;
 		CAMEL_SESSION_UNLOCK(session, thread_lock);
 		if (wait) {
 			usleep(20000);

@@ -199,7 +199,7 @@ cmd_list(CamelPOP3Engine *pe, CamelPOP3Stream *stream, void *data)
 				if ((pop3_store->engine->capa & CAMEL_POP3_CAP_UIDL) == 0)
 					fi->cmd = camel_pop3_engine_command_new(pe, CAMEL_POP3_COMMAND_MULTI, cmd_builduid, fi, "TOP %u 0\r\n", id);
 				g_ptr_array_add(((CamelPOP3Folder *)folder)->uids, fi);
-				g_hash_table_insert(((CamelPOP3Folder *)folder)->uids_id, (void *)id, fi);
+				g_hash_table_insert(((CamelPOP3Folder *)folder)->uids_id, GINT_TO_POINTER(id), fi);
 			}
 		}
 	} while (ret>0);
@@ -222,7 +222,7 @@ cmd_uidl(CamelPOP3Engine *pe, CamelPOP3Stream *stream, void *data)
 			if (strlen(line) > 1024)
 				line[1024] = 0;
 			if (sscanf(line, "%u %s", &id, uid) == 2) {
-				fi = g_hash_table_lookup(folder->uids_id, (void *)id);
+				fi = g_hash_table_lookup(folder->uids_id, GINT_TO_POINTER(id));
 				if (fi) {
 					camel_operation_progress(NULL, (fi->index+1) * 100 / folder->uids->len);
 					fi->uid = g_strdup(uid);

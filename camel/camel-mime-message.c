@@ -103,7 +103,7 @@ camel_mime_message_class_init (CamelMimeMessageClass *camel_mime_message_class)
 
 	header_name_table = g_hash_table_new (g_strcase_hash, g_strcase_equal);
 	for (i=0;header_names[i];i++)
-		g_hash_table_insert (header_name_table, header_names[i], (gpointer)i+1);
+		g_hash_table_insert (header_name_table, header_names[i], GINT_TO_POINTER(i+1));
 
 	/* virtual method overload */
 	camel_data_wrapper_class->write_to_stream = write_to_stream;
@@ -449,7 +449,7 @@ static int
 construct_from_parser (CamelMimePart *dw, CamelMimeParser *mp)
 {
 	char *buf;
-	int len;
+	size_t len;
 	int state;
 	int ret;
 	int err;
