@@ -195,7 +195,7 @@ check_last_access (ETreeSorted *ets, ETreePath corresponding)
 		int initial = MAX (MIN (position, end), start);
 		int i;
 
-		for (i = initial + 1; i < end; i++) {
+		for (i = initial; i < end; i++) {
 			if (parent->children[i] && parent->children[i]->corresponding == corresponding) {
 				d(g_print("Found last access %p at %p.", ets->priv->last_access, parent->children[i]));
 				return parent->children[i];
