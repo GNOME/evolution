@@ -1,5 +1,10 @@
 2003-03-26  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-shell-view.c (e_shell_view_construct): Pass "evolution-1.4" as
+	the app name to bonobo_ui_util_set_ui() instead of "evolution".
+
+2003-03-26  Ettore Perazzoli  <ettore@ximian.com>
+
 	[Shell part of #7153.]
 
 	* e-local-storage.c (load_folder): Call e_storage_new_folder()
