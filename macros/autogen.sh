@@ -43,22 +43,6 @@ if test "$DIE" -eq 1; then
     exit 1
 fi
 
-test -f /opt/lib/libgtk.a \
-  || test -f /opt/lib/libgtk.so \
-  || test -f /opt/gnome/lib/libgtk.a \
-  || test -f /opt/gnome/lib/libgtk.so \
-  || test -f /usr/lib/libgtk.a \
-  || test -f /usr/lib/libgtk.so \
-  || test -f /usr/local/lib/libgtk.a \
-  || test -f /usr/local/lib/libgtk.so \
-  || cat <<EOF
-**Warning**: You must have Gtk installed to compile Gnome.  I cannot
-find it installed in the usual places.  "configure" may do a better
-job of finding out if you have it installed.  If Gtk is not installed,
-visit ftp://ftp.gimp.org/pub/gtk/ (or get it out of CVS too).
-
-EOF
-
 if test -z "$*"; then
     echo "**Warning**: I am going to run "\`configure\'" with no arguments."
     echo "If you wish to pass any to it, please specify them on the"

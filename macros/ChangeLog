@@ -1,3 +1,7 @@
+1998-05-09  Raja R Harinath  <harinath@cs.umn.edu>
+
+	* autogen.sh: Remove simple-minded check for `gtk+'.
+
 Fri Apr 24 16:43:38 1998  Owen Taylor  <otaylor@gtk.org>
 
 	* autogen.sh: Pass the results of the environment variable
@@ -7,8 +11,7 @@ Fri Apr 24 16:43:38 1998  Owen Taylor  <otaylor@gtk.org>
 	
 Sun Apr 19 01:35:53 EDT 1998 Gregory McLean <gregm@comstar.net>
 
-        * gnome-x-checks.m4: Updated the gtk check to check for 1.0.0
-
+        * gnome-x-checks.m4: Updated the gtk check to check for 1.0.0.
 
 1998-04-08  Raja R Harinath  <harinath@cs.umn.edu>
 
