@@ -2,6 +2,9 @@
 
 	* apply-filters-16.xpm: for mailer menu.
 	* vfolder-16.xpm: vfolder icon for menu items
+   * hand-16.xpm: originally ment for customize toolbars. might not
+     work
+   * edit-16.xpm: edit message (message open)
 	
 2001-06-13  Jakub Steiner <jimmac@ximian.com>
 
