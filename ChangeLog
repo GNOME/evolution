@@ -1,3 +1,13 @@
+2003-04-01  Ettore Perazzoli  <ettore@ximian.com>
+
+	* configure.in: Bump version to 1.2.4.99.
+
+== Version 1.2.4 ==
+
+2003-03-31  Ettore Perazzoli  <ettore@ximian.com>
+
+	* configure.in: Update version number to 1.2.4.
+
 2003-03-29  Duarte Loreto <happyguy_pt@hotmail.com>
 
         * AUTHORS: Added myself as new Portuguese translator.
@@ -14,7 +24,9 @@
 2003-03-18  Rodney Dawes  <dobey@ximian.com>
 
 	* configure.in: Fix typos in krb5 check to work --without-krb5
-	
+
+== Version 1.2.3 ==
+
 2003-03-17  Ettore Perazzoli  <ettore@ximian.com>
 
 	* configure.in: Bump version number to 1.2.3.
