@@ -1,3 +1,8 @@
+2001-02-13  Rodrigo Moya <rodrigo@ximian.com>
+
+	* pcs/cal-backend-db.c (cal_backend_db_get_alarms_for_object):
+	implemented
+
 2001-02-13  JP Rosevear  <jpr@ximian.com>
 
 	* gui/e-calendar-table.c: Add titles to pixbuf column for grouping

@@ -20,11 +20,11 @@
  */
 
 #include <config.h>
-#include <gtk/gtkobject.h>
+#include <gtk/gtksignal.h>
 #include "cal-util/cal-recur.h"
 #include "cal-backend-db.h"
 #include <db.h>
-#if DB_MAJOR_VERSION < 3
+#if DB_VERSION_MAJOR < 3
 #  error "You need libdb3 to compile the DB backend"
 #endif
 
@@ -361,7 +361,7 @@ commit_transaction (DB_TXN *tid)
 	
 	g_return_if_fail(tid != NULL);
 	
-	if ((ret = txn_begin(tid, 0)) != 0) {
+	if ((ret = txn_commit(tid, 0)) != 0) {
 		/* TODO: error logging? */
 	}
 }
@@ -473,7 +473,7 @@ open_database_file (CalBackendDB *cbdb, const gchar *str_uri, gboolean only_if_e
 
 		/* if the directory exists, we're done, since DB will fail if it's the
 		 * wrong one. If it does not exist, create the environment */
-		if (mkdir(dir, I_RWXU) != 0) {
+		if (mkdir(dir, S_IRWXU) != 0) {
 			g_free((gpointer) dir);
 			return FALSE;
 		}
@@ -484,7 +484,7 @@ open_database_file (CalBackendDB *cbdb, const gchar *str_uri, gboolean only_if_e
 			return FALSE;
 		}
 		
-		cbdb->priv->environment->set_errorpfx(cbdb->priv->environment, "cal-backend-db");
+		cbdb->priv->environment->set_errpfx(cbdb->priv->environment, "cal-backend-db");
 		
 		/* open the transactional environment */
 		if ((ret = cbdb->priv->environment->open(cbdb->priv->environment,
@@ -545,7 +545,6 @@ cal_backend_db_open (CalBackend *backend, GnomeVFSURI *uri, gboolean only_if_exi
 {
 	CalBackendDB *cbdb;
 	gchar *str_uri;
-	gint ret;
 
 	cbdb = CAL_BACKEND_DB(backend);
 	g_return_val_if_fail(IS_CAL_BACKEND_DB(cbdb), CAL_BACKEND_OPEN_ERROR);
@@ -605,13 +604,15 @@ cal_backend_db_get_n_objects (CalBackend *backend, CalObjType type)
 						if (type & CALOBJ_TYPE_EVENT)
 							total_count++;
 						break;
-					case ICAL_VTODO_COMPONENTS :
+					case ICAL_VTODO_COMPONENT :
 						if (type & CALOBJ_TYPE_TODO)
 							total_count++;
 						break;
 					case ICAL_VJOURNAL_COMPONENT :
 						if (type & CALOBJ_TYPE_JOURNAL)
 							total_count++;
+						break;
+					default :
 						break;
 				}
 				icalcomponent_free(icalcomp);
@@ -682,7 +683,7 @@ cal_backend_db_get_type_by_uid (CalBackend *backend, const char *uid)
 	                                       &key,
 	                                       &data,
 	                                       0)) == 0) {
-		icalcomponent icalcomp = icalparser_parse_string((char *) data.data);
+		icalcomponent *icalcomp = icalparser_parse_string((char *) data.data);
 		if (icalcomp) {
 			CalObjType type;
 			
@@ -719,7 +720,7 @@ add_uid_if_match (GList *list, CalBackendDBCursor *cursor, GList *data_node, Cal
 	data = (DBT *) data_node->data;
 	if (data) {
 		icalcomponent *icalcomp;
-		gchar *uid;
+		gchar *uid = NULL;
 
 		icalcomp = icalparser_parse_string(data->data);
 		if (!icalcomp) return list;
@@ -727,15 +728,15 @@ add_uid_if_match (GList *list, CalBackendDBCursor *cursor, GList *data_node, Cal
 		switch (icalcomponent_isa(icalcomp)) {
 			case ICAL_VEVENT_COMPONENT :
 				if (type & CALOBJ_TYPE_EVENT)
-					uid = icalcomponent_get_uid(icalcomp);
+					uid = (gchar *) icalcomponent_get_uid(icalcomp);
 				break;
 			case ICAL_VTODO_COMPONENT :
 				if (type & CALOBJ_TYPE_TODO)
-					uid = icalcomponent_get_uid(icalcomp);
+					uid = (gchar *) icalcomponent_get_uid(icalcomp);
 				break;
 			case ICAL_VJOURNAL_COMPONENT :
 				if (type & CALOBJ_TYPE_JOURNAL)
-					uid = icalcomponent_get_uid(icalcomp);
+					uid = (gchar *) icalcomponent_get_uid(icalcomp);
 				break;
 			default :
 				uid = NULL;
@@ -848,9 +849,11 @@ get_instances_in_range (GHashTable *uid_hash,
 							                             add_instance,
 						 	                            uid_hash);
 						break;
+					default :
+						break;
 				}
 
-				gtk_object_unref(comp);
+				gtk_object_unref(GTK_OBJECT(comp));
 				icalcomponent_free(icalcomp);
 			}
 		}
@@ -1139,10 +1142,10 @@ generate_alarms_for_comp (CalComponent *comp, time_t start, time_t end)
 }
 
 /* retrieve list of alarms */
-static GList *
-get_list_of_alarms (CalBackendDBCursor *cursor, time_t start time_t end)
+static GSList *
+get_list_of_alarms (CalBackendDBCursor *cursor, time_t start, time_t end)
 {
-	GList *list = NULL;
+	GSList *list = NULL;
 	GList *node;
 
 	g_return_val_if_fail(cursor != NULL, NULL);
@@ -1168,7 +1171,7 @@ get_list_of_alarms (CalBackendDBCursor *cursor, time_t start time_t end)
 					
 					alarms = generate_alarms_for_comp(comp, start, end);
 					if (alarms)
-						list = g_list_prepend(list, (gpointer) alarms);
+						list = g_slist_prepend(list, (gpointer) alarms);
 
 					gtk_object_unref(GTK_OBJECT(comp));
 				}
@@ -1183,19 +1186,19 @@ get_list_of_alarms (CalBackendDBCursor *cursor, time_t start time_t end)
 
 /* fills a CORBA sequence of alarm instances */
 static void
-fill_alarm_instances_seq (GNOME_Evolution_Calendar_CalAlarmInstanceSeq *seq, GList *alarms)
+fill_alarm_instances_seq (GNOME_Evolution_Calendar_CalAlarmInstanceSeq *seq, GSList *alarms)
 {
 	int n_alarms;
-	GList *l;
+	GSList *l;
 	int i;
 
-	n_alarms = g_list_length (alarms);
+	n_alarms = g_slist_length(alarms);
 
 	CORBA_sequence_set_release(seq, TRUE);
 	seq->_length = n_alarms;
 	seq->_buffer = CORBA_sequence_GNOME_Evolution_Calendar_CalAlarmInstance_allocbuf(n_alarms);
 
-	for (l = g_list_first(alarms), i = 0; l != NULL; l = g_list_next(l), i++) {
+	for (l = alarms, i = 0; l != NULL; l = l->next, i++) {
 		CalAlarmInstance *instance;
 		GNOME_Evolution_Calendar_CalAlarmInstance *corba_instance;
 
@@ -1215,8 +1218,8 @@ cal_backend_db_get_alarms_in_range (CalBackend *backend, time_t start, time_t en
 	CalBackendDB *cbdb;
 	CalBackendDBCursor *cursor;
 	gint number_of_alarms;
-	GList *alarm_list;
-	GList *node;
+	GSList *alarm_list;
+	GSList *node;
 	gint i;
 	GNOME_Evolution_Calendar_CalComponentAlarmsSeq *seq = NULL;
 
@@ -1230,7 +1233,7 @@ cal_backend_db_get_alarms_in_range (CalBackend *backend, time_t start, time_t en
 	cursor = open_cursor(cbdb, cbdb->priv->objects_db);
 	if (cursor) {
 		alarm_list = get_list_of_alarms(cursor, start, end);
-		number_of_alarms = g_list_length(alarm_list);
+		number_of_alarms = g_slist_length(alarm_list);
 		
 		/* create the CORBA sequence */
 		seq = GNOME_Evolution_Calendar_CalComponentAlarmsSeq__alloc();
@@ -1240,9 +1243,7 @@ cal_backend_db_get_alarms_in_range (CalBackend *backend, time_t start, time_t en
 			number_of_alarms);
 		
 		/* populate CORBA sequence */
-		for (node = g_list_first(alarm_list), i = 0;
-		     node != NULL;
-		     node = g_list_next(node), i++) {
+		for (node = alarm_list, i = 0; node != NULL; node = node->next, i++) {
 			CalComponentAlarms *alarms;
 			gchar *comp_str;
 			
@@ -1252,12 +1253,12 @@ cal_backend_db_get_alarms_in_range (CalBackend *backend, time_t start, time_t en
 			seq->_buffer[i].calobj = CORBA_string_dup(comp_str);
 			g_free((gpointer) comp_str);
 
-			fill_alarm_instances_seq (&seq->_buffer[i].alarms, alarms->alarms);
+			fill_alarm_instances_seq(&seq->_buffer[i].alarms, alarms->alarms);
 			
-			cal_component_alarms_free (alarms);
+			cal_component_alarms_free(alarms);
 		}
 		
-		g_list_free(alarm_list);
+		g_slist_free(alarm_list);
 		close_cursor(cbdb, cursor);
 	}
 
@@ -1275,6 +1276,9 @@ cal_backend_db_get_alarms_for_object (CalBackend *backend,
 	CalBackendDB *cbdb;
 	CalBackendDBCursor *cursor;
 	GNOME_Evolution_Calendar_CalComponentAlarms *corba_alarms = NULL;
+	DBT *data;
+	gchar *comp_str;
+	CalComponentAlarms *alarms;
 
 	cbdb = CAL_BACKEND_DB(backend);
 	g_return_val_if_fail(IS_CAL_BACKEND_DB(cbdb), NULL);
@@ -1284,15 +1288,45 @@ cal_backend_db_get_alarms_for_object (CalBackend *backend,
 	g_return_val_if_fail(start <= end, NULL);
 	g_return_val_if_fail(object_found != NULL, NULL);
 
+	*object_found = FALSE;
+
 	/* open the cursor */
-	cursor = open_cursor(cbdb, cbdb->priv->object_db);
+	cursor = open_cursor(cbdb, cbdb->priv->objects_db);
 	if (cursor) {
-		/* TODO: retrieve list of alarms for this object */
-		
-		/* create the CORBA alarms */
-		corba_alarms = GNOME_Evolution_Calendar_CalComponentAlarms__alloc();
-		
-		/* TODO: populate the CORBA alarms */
+		data = find_record_by_id(cursor, uid);
+		if (data) {
+			icalcomponent *icalcomp;
+			CalComponent *comp;
+			
+			*object_found = TRUE;
+
+			comp_str = (gchar *) data->data;
+			
+			icalcomp = icalparser_parse_string(comp_str);
+			if (!icalcomp) {
+				close_cursor(cbdb, cursor);
+				return NULL;
+			}
+			
+			comp = cal_component_new();
+			cal_component_set_icalcomponent(comp, icalcomp);
+						
+			/* create the CORBA alarms */
+			corba_alarms = GNOME_Evolution_Calendar_CalComponentAlarms__alloc();
+			corba_alarms->calobj = CORBA_string_dup (comp_str);
+			
+			/* populate the CORBA sequence */
+			alarms = generate_alarms_for_comp(comp, start, end);
+			if (alarms) {
+				fill_alarm_instances_seq(&corba_alarms->alarms, alarms->alarms);
+				cal_component_alarms_free(alarms);
+			}
+			else
+				fill_alarm_instances_seq(&corba_alarms->alarms, NULL);
+
+			gtk_object_unref(GTK_OBJECT(comp));
+			icalcomponent_free(icalcomp);
+		}
 		
 		close_cursor(cbdb, cursor);
 	}
@@ -1328,6 +1362,7 @@ cal_backend_db_update_object (CalBackend *backend, const char *uid, const char *
 	DB_TXN *tid;
 	DBT key;
 	DBT new_data;
+	gint ret;
 
 	cbdb = CAL_BACKEND_DB(backend);
 	g_return_val_if_fail(IS_CAL_BACKEND_DB(cbdb), FALSE);
@@ -1379,7 +1414,7 @@ cal_backend_db_remove_object (CalBackend *backend, const char *uid)
 	g_return_val_if_fail(cbdb->priv != NULL, FALSE);
 	g_return_val_if_fail(uid != NULL, FALSE);
 	
-	memset(&key, 0, sizeof(key);
+	memset(&key, 0, sizeof(key));
 	key.data = (void *) uid;
 	key.size = strlen(uid); // + 1
 
