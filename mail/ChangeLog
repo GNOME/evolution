@@ -1,3 +1,8 @@
+2001-04-20  Kjartan Maraas  <kmaraas@gnome.org>
+
+	* mail-ops.c: (send_mail_desc): Convert subject from utf8
+	before passing it on.
+	
 2001-04-18  Dan Winship  <danw@ximian.com>
 
 	* session.c (request_callback): Don't need to dup the string: the
