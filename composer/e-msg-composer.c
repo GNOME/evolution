@@ -245,6 +245,7 @@ build_message (EMsgComposer *composer)
 	CamelMultipart *body = NULL;
 	CamelMimePart *part;
 	gboolean plain_e8bit = FALSE, html_e8bit = FALSE;
+	CamelException ex;
 	char *html = NULL, *plain = NULL;
 	char *content_type = NULL;
 	int i;
@@ -411,9 +412,10 @@ build_message (EMsgComposer *composer)
 		}
 	}
 	
+	camel_exception_init (&ex);
+	
 	if (composer->pgp_sign) {
 		/* FIXME: should use the PGP key id rather than email address */
-		CamelException ex;
 		const char *pgpid;
 		
 		camel_exception_init (&ex);
@@ -422,16 +424,14 @@ build_message (EMsgComposer *composer)
 		pgp_mime_part_sign (&part, pgpid, PGP_HASH_TYPE_SHA1,
 				    &ex);
 		camel_object_unref (CAMEL_OBJECT (from));
-		if (camel_exception_is_set (&ex)) {
-			g_warning ("EEEEEEEEEEEEEEEEEEEEEEKKKKKKKKKKKKKKK!!!");
-		}
+		if (camel_exception_is_set (&ex))
+			goto exception;
 	}
 	
 	if (composer->pgp_encrypt) {
 		/* FIXME: recipients should be an array of key ids rather than email addresses */
 		const CamelInternetAddress *addr;
 		const char *address;
-		CamelException ex;
 		GPtrArray *recipients;
 		int i, len;
 		
@@ -463,9 +463,8 @@ build_message (EMsgComposer *composer)
 		for (i = 0; i < recipients->len; i++)
 			g_free (recipients->pdata[i]);
 		g_ptr_array_free (recipients, TRUE);
-		if (camel_exception_is_set (&ex)) {
-			g_warning ("EEEEEEEEEEEEEEEEEEEEEEKKKKKKKKKKKKKKK!!!");
-		}
+		if (camel_exception_is_set (&ex))
+			goto exception;
 	}
 	
 	camel_medium_set_content_object (CAMEL_MEDIUM (new),
@@ -473,6 +472,22 @@ build_message (EMsgComposer *composer)
 	camel_object_unref (CAMEL_OBJECT (part));
 	
 	return new;
+	
+ exception:
+	
+	camel_object_unref (CAMEL_OBJECT (part));
+	camel_object_unref (CAMEL_OBJECT (new));
+	
+	if (camel_exception_is_set (&ex)) {
+		GtkWidget *dialog;
+		
+		dialog = gnome_error_dialog_parented (camel_exception_get_description (&ex),
+						      GTK_WINDOW (composer));
+		gnome_dialog_run_and_close (GNOME_DIALOG (dialog));
+		camel_exception_clear (&ex);
+	}
+	
+	return NULL;
 }
 
 static char *

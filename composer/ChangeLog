@@ -1,3 +1,11 @@
+2001-02-19  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* e-msg-composer.c (build_message): Handle exceptions a little
+	nicer and pop up a nice GnomeDialog with the error message - also,
+	don't return a CamelMimeMessage if it fails to sign/decrypt
+	because we want to let the user decide what to do based on the
+	error message he/she gets.
+
 2001-02-11  Gediminas Paulauskas <menesis@delfi.lt>
 
 	* e-msg-composer-attachment.glade.h: removed.
