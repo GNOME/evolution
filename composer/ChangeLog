@@ -1,3 +1,7 @@
+2004-07-28  Not Zed  <NotZed@Ximian.com>
+
+	* e-msg-composer.c: Fixes for api changes in mail/ for 61940.
+
 2004-07-23  Radek Doulik  <rodo@ximian.com>
 
 	* listener.c: removed unused static variable listener_vepv

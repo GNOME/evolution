@@ -3568,7 +3568,7 @@ handle_multipart_signed (EMsgComposer *composer, CamelMultipart *multipart, int 
 		ssize_t len;
 		char *html;
 
-		html = em_utils_part_to_html (mime_part, &len);
+		html = em_utils_part_to_html (mime_part, &len, NULL);
 		e_msg_composer_set_pending_body (composer, html, len);
 	} else {
 		e_msg_composer_attach (composer, mime_part);
@@ -3626,7 +3626,7 @@ handle_multipart_encrypted (EMsgComposer *composer, CamelMultipart *multipart, i
 		ssize_t len;
 		char *html;
 
-		html = em_utils_part_to_html (mime_part, &len);
+		html = em_utils_part_to_html (mime_part, &len, NULL);
 		e_msg_composer_set_pending_body (composer, html, len);
 	} else {
 		e_msg_composer_attach (composer, mime_part);
@@ -3686,7 +3686,7 @@ handle_multipart_alternative (EMsgComposer *composer, CamelMultipart *multipart,
 		ssize_t len;
 		char *html;
 
-		html = em_utils_part_to_html(text_part, &len);
+		html = em_utils_part_to_html(text_part, &len, NULL);
 		e_msg_composer_set_pending_body(composer, html, len);
 	}
 }
@@ -3729,7 +3729,7 @@ handle_multipart (EMsgComposer *composer, CamelMultipart *multipart, int depth)
 			char *html;
 
 			/* Since the first part is not multipart/alternative, then this must be the body */
-			html = em_utils_part_to_html(mime_part, &len);
+			html = em_utils_part_to_html(mime_part, &len, NULL);
 			e_msg_composer_set_pending_body(composer, html, len);
 		} else if (camel_mime_part_get_content_id (mime_part) ||
 			   camel_mime_part_get_content_location (mime_part)) {
@@ -4007,7 +4007,7 @@ e_msg_composer_new_with_message (CamelMimeMessage *message)
 		ssize_t len;
 		char *html;
 
-		html = em_utils_part_to_html((CamelMimePart *)message, &len);
+		html = em_utils_part_to_html((CamelMimePart *)message, &len, NULL);
 		e_msg_composer_set_pending_body(new, html, len);
 	}
 	
