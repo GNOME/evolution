@@ -4253,14 +4253,6 @@ msgstr "%d. %a %b %Y"
 msgid "%d %b %Y"
 msgstr "%d. %B %Y"
 
-#. strftime format %d = day of month, %b = abbreviated month name.
-#. Don't use any other specifiers.
-#: calendar/gui/calendar-component.c:545
-#: calendar/gui/e-day-view-top-item.c:718 calendar/gui/e-day-view.c:1604
-#: calendar/gui/e-week-view-main-item.c:343
-msgid "%d %b"
-msgstr "%d. %b"
-
 #: calendar/gui/calendar-component.c:635
 #, fuzzy
 msgid "Failed upgrading calendars."
