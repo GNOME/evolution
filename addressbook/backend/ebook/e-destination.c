@@ -394,8 +394,20 @@ e_destination_get_name (const EDestination *dest)
 
 	priv = (struct _EDestinationPrivate *)dest->priv; /* cast out const */
 	
-	if (priv->name == NULL && priv->card != NULL)
+	if (priv->name == NULL && priv->card != NULL) {
+		
 		priv->name = e_card_name_to_string (priv->card->name);
+		
+		if (priv->name == NULL || *priv->name == '\0') {
+			g_free (priv->name);
+			priv->name = g_strdup (priv->card->file_as);
+		}
+
+		if (priv->name == NULL || *priv->name == '\0') {
+			g_free (priv->name);
+			priv->name = e_destination_get_email (dest);
+		}
+	}
 	
 	return priv->name;
 	
