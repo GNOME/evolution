@@ -32,7 +32,7 @@
 
 /*#define MALLOC_CHECK*/
 
-/* #define PROFILE_POOLV */
+/*#define PROFILE_POOLV*/
 
 #ifdef PROFILE_POOLV
 #include <time.h>
@@ -871,6 +871,7 @@ static GPtrArray *poolv_table = NULL;
 #ifdef PROFILE_POOLV
 static gulong poolv_hits = 0;
 static gulong poolv_misses = 0;
+static unsigned long poolv_mem, poolv_count;
 #endif
 
 #ifdef G_THREADS_ENABLED
@@ -937,6 +938,9 @@ e_poolv_new(unsigned int size)
 
 	p(printf("new poolv=%p\tsize=%d\n", poolv, sizeof(*poolv) + (size-1)*sizeof(char *)));
 
+#ifdef PROFILE_POOLV
+	poolv_count++;
+#endif
 	return poolv;
 }
 
@@ -1018,9 +1022,10 @@ poolv_profile_update (void)
 	if (new_time - last_time < 5)
 		return;
 
-	printf("poolv profile: %lu hits, %lu misses: %d%% hit rate\n", 
+	printf("poolv profile: %lu hits, %lu misses: %d%% hit rate, memory: %lu, instances: %lu\n", 
 	       poolv_hits, poolv_misses, 
-	       (int)(100.0 * ((double) poolv_hits / (double) (poolv_hits + poolv_misses))));
+	       (int)(100.0 * ((double) poolv_hits / (double) (poolv_hits + poolv_misses))),
+	       poolv_mem, poolv_count);
 
 	last_time = new_time;
 }
@@ -1086,6 +1091,7 @@ e_poolv_set (EPoolv *poolv, int index, char *str, int freeit)
 	} else {
 # ifdef PROFILE_POOLV
 		poolv_misses++;
+		poolv_mem += strlen(str);
 		poolv_profile_update ();
 # endif
 		poolv->s[index] = e_mempool_strdup(poolv_mempool, str);
@@ -1101,6 +1107,7 @@ e_poolv_set (EPoolv *poolv, int index, char *str, int freeit)
 	} else {
 # ifdef PROFILE_POOLV
 		poolv_misses++;
+		poolv_mem += strlen(str);
 		poolv_profile_update ();
 # endif
 		poolv->s[index] = e_mempool_strdup(poolv_mempool, str);
@@ -1187,6 +1194,9 @@ e_poolv_destroy(EPoolv *poolv)
 #endif
 #endif
 
+#ifdef PROFILE_POOLV
+	poolv_count++;
+#endif
 	g_free(poolv);
 }
 

@@ -51,6 +51,12 @@
   time_t = (- time_t*)
 	Subtract time_t values from the first.
 
+  int = (cast-int string|int|bool)
+        Cast to an integer value.
+
+  string = (cast-string string|int|bool)
+        Cast to an string value.
+
   Comparison operators:
 
   bool = (< int int)
@@ -553,6 +559,62 @@ term_eval_sub(struct _ESExp *f, int argc, struct _ESExpResult **argv, void *data
 	return r;
 }
 
+/* cast to int */
+static ESExpResult *
+term_eval_castint(struct _ESExp *f, int argc, struct _ESExpResult **argv, void *data)
+{
+	struct _ESExpResult *r;
+
+	if (argc != 1)
+		e_sexp_fatal_error(f, "Incorrect argument count to (int )");
+
+	r = e_sexp_result_new(f, ESEXP_RES_INT);
+	switch (argv[0]->type) {
+	case ESEXP_RES_INT:
+		r->value.number = argv[0]->value.number;
+		break;
+	case ESEXP_RES_BOOL:
+		r->value.number = argv[0]->value.bool != 0;
+		break;
+	case ESEXP_RES_STRING:
+		r->value.number = strtoul(argv[0]->value.string, 0, 10);
+		break;
+	default:
+		e_sexp_result_free(f, r);
+		e_sexp_fatal_error(f, "Invalid type in (cast-int )");
+	}
+
+	return r;
+}
+
+/* cast to string */
+static ESExpResult *
+term_eval_caststring(struct _ESExp *f, int argc, struct _ESExpResult **argv, void *data)
+{
+	struct _ESExpResult *r;
+
+	if (argc != 1)
+		e_sexp_fatal_error(f, "Incorrect argument count to (cast-string )");
+
+	r = e_sexp_result_new(f, ESEXP_RES_STRING);
+	switch (argv[0]->type) {
+	case ESEXP_RES_INT:
+		r->value.string = g_strdup_printf("%d", argv[0]->value.number);
+		break;
+	case ESEXP_RES_BOOL:
+		r->value.string = g_strdup_printf("%d", argv[0]->value.bool != 0);
+		break;
+	case ESEXP_RES_STRING:
+		r->value.string = g_strdup(argv[0]->value.string);
+		break;
+	default:
+		e_sexp_result_free(f, r);
+		e_sexp_fatal_error(f, "Invalid type in (int )");
+	}
+
+	return r;
+}
+
 /* implements 'if' function */
 static ESExpResult *
 term_eval_if(struct _ESExp *f, int argc, struct _ESExpTerm **argv, void *data)
@@ -991,6 +1053,8 @@ static struct {
 	{ "=", (ESExpFunc *)term_eval_eq, 1 },
 	{ "+", (ESExpFunc *)term_eval_plus, 0 },
 	{ "-", (ESExpFunc *)term_eval_sub, 0 },
+	{ "cast-int", (ESExpFunc *)term_eval_castint, 0 },
+	{ "cast-string", (ESExpFunc *)term_eval_caststring, 0 },
 	{ "if", (ESExpFunc *)term_eval_if, 1 },
 	{ "begin", (ESExpFunc *)term_eval_begin, 1 },
 };
