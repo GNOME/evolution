@@ -1,5 +1,9 @@
 2001-10-11    <NotZed@Ximian.com>
 
+	* camel-vee-folder.c (vee_search_by_uids): convert the uids list
+	to a subset appropriate for each subfolder before trying to search
+	on it.
+
 	* camel-charset-map.[ch]: Removed charset/locale charset lookup
 	and iconv_open/close functions, moved to gal.  Fixed all callers.
 

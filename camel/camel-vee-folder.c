@@ -614,6 +614,7 @@ vee_search_by_uids(CamelFolder *folder, const char *expression, GPtrArray *uids,
 {
 	GList *node;
 	GPtrArray *matches, *result = g_ptr_array_new ();
+	GPtrArray *folder_uids = g_ptr_array_new();
 	char *expr;
 	CamelVeeFolder *vf = (CamelVeeFolder *)folder;
 	struct _CamelVeeFolderPrivate *p = _PRIVATE(vf);
@@ -631,15 +632,26 @@ vee_search_by_uids(CamelFolder *folder, const char *expression, GPtrArray *uids,
 		/* make sure we only search each folder once - for unmatched folder to work right */
 		if (g_hash_table_lookup(searched, f) == NULL) {
 			camel_vee_folder_hash_folder(f, hash);
-			matches = camel_folder_search_by_uids(f, expression, uids, ex);
-			if (matches) {
-				for (i = 0; i < matches->len; i++) {
-					char *uid = matches->pdata[i];
-					g_ptr_array_add(result, g_strdup_printf("%.8s%s", hash, uid));
+
+			/* map the vfolder uid's to the source folder uid's first */
+			g_ptr_array_set_size(folder_uids, 0);
+			for (i=0;i<uids->len;i++) {
+				char *uid = uids->pdata[i];
+
+				if (strlen(uid) >= 8 && strncmp(uid, hash, 8) == 0)
+					g_ptr_array_add(folder_uids, uid+8);
+			}
+			if (folder_uids->len > 0) {
+				matches = camel_folder_search_by_uids(f, expression, folder_uids, ex);
+				if (matches) {
+					for (i = 0; i < matches->len; i++) {
+						char *uid = matches->pdata[i];
+						g_ptr_array_add(result, g_strdup_printf("%.8s%s", hash, uid));
+					}
+					camel_folder_search_free(f, matches);
+				} else {
+					g_warning("Search failed: %s", camel_exception_get_description(ex));
 				}
-				camel_folder_search_free(f, matches);
-			} else {
-				g_warning("Search failed: %s", camel_exception_get_description(ex));
 			}
 			g_hash_table_insert(searched, f, f);
 		}
@@ -650,6 +662,7 @@ vee_search_by_uids(CamelFolder *folder, const char *expression, GPtrArray *uids,
 	CAMEL_VEE_FOLDER_UNLOCK(vf, subfolder_lock);
 
 	g_hash_table_destroy(searched);
+	g_ptr_array_free(folder_uids, 0);
 
 	return result;
 }
