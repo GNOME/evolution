@@ -21,7 +21,11 @@
  * Boston, MA 02111-1307, USA.
  */
 
+
+#ifdef HAVE_CONFIG_H
 #include <config.h>
+#endif
+
 #include "filter-source.h"
 
 #include <gtk/gtk.h>
@@ -35,7 +39,7 @@
 #include <bonobo/bonobo-moniker-util.h>
 #include <bonobo/bonobo-exception.h>
 #include <bonobo-conf/bonobo-config-database.h>
-
+#include <camel/camel-url.h>
 
 typedef struct _SourceInfo SourceInfo;
 struct _SourceInfo {
@@ -124,7 +128,9 @@ filter_source_class_init (FilterSourceClass *class)
 static void
 filter_source_init (FilterSource *fs)
 {
-	fs->priv = g_new0 (struct _FilterSourcePrivate, 1);
+	fs->priv = g_new (struct _FilterSourcePrivate, 1);
+	fs->priv->sources = NULL;
+	fs->priv->current_url = NULL;
 }
 
 static void
@@ -169,16 +175,16 @@ static xmlNodePtr
 xml_encode (FilterElement *fe)
 {
 	xmlNodePtr value;
-
+	
 	FilterSource *fs = (FilterSource *) fe;
-
+	
 	value = xmlNewNode (NULL, "value");
 	xmlSetProp (value, "name", fe->name);
 	xmlSetProp (value, "type", "uri");
-
+	
 	if (fs->priv->current_url)
 		xmlNewTextChild (value, NULL, "uri", fs->priv->current_url);
-
+	
 	return value;
 }
 
@@ -186,11 +192,18 @@ static gint
 xml_decode (FilterElement *fe, xmlNodePtr node)
 {
 	FilterSource *fs = (FilterSource *) fe;
-
+	CamelURL *url;
+	char *uri;
+	
 	node = node->childs;
 	if (node && node->name && !strcmp (node->name, "uri")) {
+		uri = xmlNodeGetContent (node);
+		url = camel_url_new (uri, NULL);
+		xmlFree (uri);
+		
 		g_free (fs->priv->current_url);
-		fs->priv->current_url = xmlNodeGetContent (node);
+		fs->priv->current_url = camel_url_to_string (url, CAMEL_URL_HIDE_ALL);
+		camel_url_free (url);
 	}
 
 	return 0;
@@ -219,7 +232,7 @@ static void
 source_changed (GtkWidget *w, FilterSource *fs)
 {
 	SourceInfo *info = (SourceInfo *) gtk_object_get_data (GTK_OBJECT (w), "source");
-
+	
 	g_free (fs->priv->current_url);
 	fs->priv->current_url = g_strdup (info->url);
 }
@@ -234,19 +247,19 @@ get_widget (FilterElement *fe)
 	GList *i;
 	SourceInfo *first = NULL;
 	int index, current_index;
-
+	
 	if (fs->priv->sources == NULL)
 		filter_source_get_sources (fs);
-
+	
 	menu = gtk_menu_new ();
-
+	
 	index = 0;
 	current_index = -1;
-
+	
 	for (i = fs->priv->sources; i != NULL; i = g_list_next (i)) {
 		SourceInfo *info = (SourceInfo *) i->data;
 		char *label, *native_label;
-
+		
 		if (info->url != NULL) {
 			if (first == NULL)
 				first = info;
@@ -267,29 +280,30 @@ get_widget (FilterElement *fe)
 			gtk_menu_append (GTK_MENU (menu), item);
 			gtk_widget_show (item);
 			
+			/* FIXME: don't use e_url_equal */
 			if (fs->priv->current_url && e_url_equal (info->url, fs->priv->current_url)) {
 				current_index = index;
 			}
 			
-			++index;
+			index++;
 		}
 	}
-
+	
 	omenu = gtk_option_menu_new ();
 	gtk_option_menu_set_menu (GTK_OPTION_MENU (omenu), menu);
-
+	
 	if (current_index >= 0) {
 		gtk_option_menu_set_history (GTK_OPTION_MENU (omenu), current_index);
 	} else {
 		gtk_option_menu_set_history (GTK_OPTION_MENU (omenu), 0);
 		g_free (fs->priv->current_url);
-
+		
 		if (first)
 			fs->priv->current_url = g_strdup (first->url);
 		else
 			fs->priv->current_url = NULL;
 	}
-
+	
 	return omenu;
 }
 
@@ -303,7 +317,7 @@ static void
 format_sexp (FilterElement *fe, GString *out)
 {
 	FilterSource *fs = (FilterSource *) fe;
-
+	
 	e_sexp_encode_string (out, fs->priv->current_url);
 }
 
@@ -331,22 +345,32 @@ filter_source_get_sources (FilterSource *fs)
 	Bonobo_ConfigDatabase db;
 	CORBA_Environment ev;
 	int i, len;
-
+	
 	CORBA_exception_init (&ev);
 	db = bonobo_get_object ("wombat:", "Bonobo/ConfigDatabase", &ev);
-
+	
 	if (BONOBO_EX (&ev) || db == CORBA_OBJECT_NIL) {
 		CORBA_exception_free (&ev);
 		return;
 	}
-
+	
 	CORBA_exception_free (&ev);
-
+	
 	len = bonobo_config_get_long_with_default (db, "/Mail/Accounts/num", 0, NULL);
 	
 	for (i = 0; i < len; ++i) {
-		char *path, *account_name, *name, *addr, *url;
-
+		char *path, *account_name, *name, *addr, *uri;
+		CamelURL *url;
+		
+		path = g_strdup_printf ("/Mail/Accounts/source_url_%d", i);
+		uri = bonobo_config_get_string (db, path, NULL);
+		g_free (path);
+		
+		if (uri == NULL || *uri == '\0') {
+			g_free (uri);
+			continue;
+		}
+		
 		path = g_strdup_printf ("/Mail/Accounts/account_name_%d", i);
 		account_name = bonobo_config_get_string (db, path, NULL);
 		g_free (path);
@@ -354,19 +378,22 @@ filter_source_get_sources (FilterSource *fs)
 		path = g_strdup_printf ("/Mail/Accounts/identity_name_%d", i);
 		name = bonobo_config_get_string (db, path, NULL);
 		g_free (path);
-
+		
 		path = g_strdup_printf ("/Mail/Accounts/identity_address_%d", i);
 		addr = bonobo_config_get_string (db, path, NULL);
 		g_free (path);
-
-		path = g_strdup_printf ("/Mail/Accounts/source_url_%d", i);
-		url = bonobo_config_get_string (db, path, NULL);
-		g_free (path);
-
-		filter_source_add_source (fs, account_name, name, addr, url);
 		
+		/* hide unwanted url params and stuff */
+		url = camel_url_new (uri, NULL);
+		g_free (uri);
+		uri = camel_url_to_string (url, CAMEL_URL_HIDE_ALL);
+		camel_url_free (url);
+		
+		filter_source_add_source (fs, account_name, name, addr, uri);
+		
+		g_free (account_name);
 		g_free (name);
 		g_free (addr);
-		g_free (url);
+		g_free (uri);
 	}
 }

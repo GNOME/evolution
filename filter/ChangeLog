@@ -1,3 +1,14 @@
+2002-03-18  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* filter-source.c (filter_source_get_sources): Free account_name
+	so we don't leak. Also after getting the source uri, use camel-url
+	to hide unwanted stuff.
+	(xml_decode): Use xmlFree on the buffer returned from
+	xmlNodeGetContent rather than g_free, as I think they are
+	incompatable. Also use camel-url here to hide any params in the
+	decoded url (to make things compatable with what older versions
+	may have saved).
+
 2002-03-06  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* filtertypes.xml: Added beep and play-sound actions.
