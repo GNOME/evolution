@@ -1139,7 +1139,7 @@ e_searching_tokenizer_next_token (HTMLTokenizer *tok)
 	oldmatched = st->priv->engine->matchcount;
 	
 	token = searcher_next_token(st->priv->engine);
-	
+
 	/* not sure if this has to be accurate or just say we had some matches */
 	if (oldmatched != st->priv->engine->matchcount)
 		g_signal_emit (st, signals[MATCH_SIGNAL], 0);
@@ -1239,22 +1239,14 @@ e_searching_tokenizer_set_secondary_case_sensitivity (ESearchingTokenizer *st, g
 	search_info_set_flags(st->priv->secondary, iscase?SEARCH_CASE:0, SEARCH_CASE);
 }
 
+/* Note: only returns the primary search string count */
 gint
 e_searching_tokenizer_match_count (ESearchingTokenizer *st)
 {
 	g_return_val_if_fail (E_IS_SEARCHING_TOKENIZER (st), -1);
 	
-	if (st->priv->engine)
+	if (st->priv->engine && st->priv->primary->strv->len)
 		return st->priv->engine->matchcount;
 	
 	return 0;
-}
-
-void
-e_searching_tokenizer_reset (ESearchingTokenizer *st)
-{
-	if (st->priv->engine) {
-		searcher_free (st->priv->engine);
-		st->priv->engine = NULL;
-	}
 }

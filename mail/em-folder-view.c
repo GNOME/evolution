@@ -203,16 +203,6 @@ emfv_finalise(GObject *o)
 	EMFolderView *emfv = (EMFolderView *)o;
 	struct _EMFolderViewPrivate *p = emfv->priv;
 
-	if (emfv->async)
-		mail_async_event_destroy(emfv->async);
-
-	if (emfv->folder) {
-		if (p->folder_changed_id)
-			camel_object_remove_event(emfv->folder, p->folder_changed_id);
-		camel_object_unref(emfv->folder);
-		g_free(emfv->folder_uri);
-	}
-
 	g_slist_free(emfv->ui_files);
 	g_slist_free(emfv->enable_map);
 
@@ -238,6 +228,20 @@ emfv_destroy (GtkObject *o)
 		gconf_client_notify_remove(gconf, p->setting_notify_id);
 		p->setting_notify_id = 0;
 		g_object_unref(gconf);
+	}
+
+	if (emfv->folder) {
+		if (p->folder_changed_id)
+			camel_object_remove_event(emfv->folder, p->folder_changed_id);
+		camel_object_unref(emfv->folder);
+		g_free(emfv->folder_uri);
+		emfv->folder = NULL;
+		emfv->folder_uri = NULL;
+	}
+
+	if (emfv->async) {
+		mail_async_event_destroy(emfv->async);
+		emfv->async = NULL;
 	}
 
 	if (p->invisible) {

@@ -1,3 +1,27 @@
+2004-06-23  Not Zed  <NotZed@Ximian.com>
+
+	** See #54030.
+
+	* e-searching-tokenizer.c (e_searching_tokenizer_match_count):
+	only return a count if we're using the primary search string.
+
+	* em-format-html-display.c (efhd_search_response): set the primary
+	search string to NULL instead of resetting it.
+	(efhd_update_search): dont noop if we have a null search text,
+	just set an empty search.
+
+	* e-searching-tokenizer.c (e_searching_tokenizer_reset): remove
+	this, revert jeff's fixes for 54030.  this is incomplete and so
+	doesn't work either (search text stays remembered and secondary
+	search text lost too).
+
+	** See #60523.
+
+	* em-folder-view.c (emfv_finalise): unhook the folder changed
+	before destroying the async thing, and move it all to destroy
+	event anyway.
+	(emfv_destroy): as above.
+
 2004-06-22  Jeffrey Stedfast  <fejj@novell.com>
 
 	* em-folder-tree-model.c (sort_cb): Same as below.

@@ -423,9 +423,6 @@ efhd_update_search(EMFormatHTMLDisplay *efhd)
 	GSList *words = NULL;
 	int flags = 0;
 
-	if (p->search_text == NULL)
-		return;
-
 	if (!gtk_toggle_button_get_active((GtkToggleButton *)p->search_case_check))
 		flags = EM_FORMAT_HTML_DISPLAY_SEARCH_ICASE | EM_FORMAT_HTML_DISPLAY_SEARCH_PRIMARY;
 	else
@@ -465,8 +462,8 @@ efhd_search_response(GtkWidget *w, int button, EMFormatHTMLDisplay *efhd)
 		g_free(p->search_text);
 		p->search_text = NULL;
 		gtk_widget_destroy((GtkWidget *)p->search_dialog);
-		e_searching_tokenizer_reset (efhd->search_tok);
 		p->search_dialog = NULL;
+		em_format_html_display_set_search(efhd, EM_FORMAT_HTML_DISPLAY_SEARCH_PRIMARY, NULL);
 	}
 }
 
