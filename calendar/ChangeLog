@@ -1,3 +1,11 @@
+2004-05-19  Chris Toshok  <toshok@ximian.com>
+
+	* gui/e-meeting-store.c (start_addressbook_server): use the new
+	e_book_new_* and e_book_open apis.
+
+	* gui/e-meeting-list-view.c (start_addressbook_server): use the
+	new e_book_new_* and e_book_open apis.
+
 2004-05-05  William Jon McCann  <mccann@jhu.edu>
 
 	* gui/GNOME_Evolution_Calendar.server.in.in: Add menu_label and

@@ -77,8 +77,9 @@ start_addressbook_server (EMeetingListView *view)
 {
 	GError *error = NULL;
 
-	view->priv->ebook = e_book_new ();
-	if (!e_book_load_local_addressbook (view->priv->ebook, &error)) {
+	view->priv->ebook = e_book_new_system_addressbook (&error);
+	if (!view->priv->ebook
+	    || !e_book_open (view->priv->ebook, FALSE, &error)) {
 		g_warning ("start_addressbook_server(): %s", error->message);
 		g_error_free (error);
 

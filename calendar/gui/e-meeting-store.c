@@ -80,8 +80,8 @@ static GObjectClass *parent_class = NULL;
 static void
 start_addressbook_server (EMeetingStore *store)
 {
-	store->priv->ebook = e_book_new ();
-	e_book_load_local_addressbook (store->priv->ebook, NULL);
+	store->priv->ebook = e_book_new_system_addressbook (NULL);
+	e_book_open (store->priv->ebook, FALSE, NULL);
 }
 
 static icalparameter_cutype
