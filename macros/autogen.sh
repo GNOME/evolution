@@ -72,6 +72,10 @@ do
     fi
 done
 
+if test x$NOCONFIGURE = x; then
 echo running $srcdir/configure --enable-maintainer-mode "$@"
 $srcdir/configure --enable-maintainer-mode "$@" \
 && echo Now type \`make\' to compile the $PKG_NAME
+else
+echo Skipping configure process.
+fi
