@@ -302,11 +302,16 @@ static void
 fill_popup_menu_callback (ESourceSelector *selector, GtkMenu *menu, AddressbookComponent *comp)
 {
 	gboolean sensitive;
+	gboolean local_addressbook;
+	ESource *selected_source;
 
-	sensitive = e_source_selector_peek_primary_selection (E_SOURCE_SELECTOR (comp->priv->source_selector)) ? TRUE : FALSE;
+	selected_source = e_source_selector_peek_primary_selection (E_SOURCE_SELECTOR (comp->priv->source_selector));
+	sensitive = selected_source ? TRUE : FALSE;
 
+	local_addressbook =  (!strcmp ("system", e_source_peek_relative_uri (selected_source)));
+		
 	add_popup_menu_item (menu, _("New Address Book"), NULL, G_CALLBACK (new_addressbook_cb), comp, TRUE);
-	add_popup_menu_item (menu, _("Delete"), GTK_STOCK_DELETE, G_CALLBACK (delete_addressbook_cb), comp, sensitive);
+	add_popup_menu_item (menu, _("Delete"), GTK_STOCK_DELETE, G_CALLBACK (delete_addressbook_cb), comp, sensitive && !local_addressbook);
 	add_popup_menu_item (menu, _("Properties..."), NULL, G_CALLBACK (edit_addressbook_cb), comp, sensitive);
 }
 

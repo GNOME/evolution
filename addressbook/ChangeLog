@@ -1,5 +1,13 @@
 2004-03-24  Chris Toshok  <toshok@ximian.com>
 
+	* gui/component/addressbook-component.c
+	(fill_popup_menu_callback): don't let the user delete their
+	Personal addressbook.  This is just a nice UI thingy..  A similar
+	fix needs to be made to e-d-s. so that attempts that circumvent a
+	nice UI will also fail.
+
+2004-03-24  Chris Toshok  <toshok@ximian.com>
+
 	* gui/widgets/eab-gui-util.c (eab_show_multiple_contacts): don't
 	know what I was thinking approving this change.  the _() was only
 	used in the plural case (in fact where n > 5), so a singular case
