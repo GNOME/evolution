@@ -1,3 +1,15 @@
+2001-11-28  Federico Mena Quintero  <federico@ximian.com>
+
+	Fixes bug #3290.
+
+	* e-shell-folder-selection-dialog.c
+	(e_shell_folder_selection_dialog_construct): Use our own filename
+	for the collapsation state of the tree, instead of sharing the one
+	of shell view number 0.
+	(save_expanded_state): New function, saves the collapsation state
+	of the tree.
+	(impl_destroy): Call save_expanded_state().
+
 2001-11-15  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-shell-about-box.c: Add missing comma.

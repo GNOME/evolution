@@ -129,6 +129,21 @@ folder_creation_dialog_result_cb (EShell *shell,
 
 /* GtkObject methods.  */
 
+/* Saves the expanded state of the tree to a common filename */
+static void
+save_expanded_state (EShellFolderSelectionDialog *folder_selection_dialog)
+{
+	EShellFolderSelectionDialogPrivate *priv;
+	char *filename;
+
+	priv = folder_selection_dialog->priv;
+
+	filename = g_strdup_printf ("%s/config/storage-set-view-expanded:folder-selection-dialog",
+				    e_shell_get_local_directory (priv->shell));
+	e_tree_save_expanded_state (E_TREE (priv->storage_set_view), filename);
+	g_free (filename);
+}
+
 static void
 impl_destroy (GtkObject *object)
 {
@@ -137,6 +152,8 @@ impl_destroy (GtkObject *object)
 
 	folder_selection_dialog = E_SHELL_FOLDER_SELECTION_DIALOG (object);
 	priv = folder_selection_dialog->priv;
+
+	save_expanded_state (folder_selection_dialog);
 
 	if (priv->storage_set != NULL)
 		gtk_object_unref (GTK_OBJECT (priv->storage_set));
@@ -387,7 +404,7 @@ e_shell_folder_selection_dialog_construct (EShellFolderSelectionDialog *folder_s
 	e_storage_set_view_set_allow_dnd (E_STORAGE_SET_VIEW (priv->storage_set_view), FALSE);
 
 	/* Load the expanded state for this StorageSetView */
-	filename = g_strdup_printf ("%s/config/storage-set-view-expanded:view_0",
+	filename = g_strdup_printf ("%s/config/storage-set-view-expanded:folder-selection-dialog",
 				    e_shell_get_local_directory (priv->shell));
 
 	e_tree_load_expanded_state (E_TREE (priv->storage_set_view),
