@@ -307,7 +307,7 @@ flush_entry(struct _iconv_cache *ic)
 
 	in = (struct _iconv_cache_node *)ic->open.head;
 	nn = in->next;
-	while (nn) {
+	while (in) {
 		if (in->ip != (iconv_t)-1) {
 			g_hash_table_remove(iconv_cache_open, in->ip);
 			iconv_close(in->ip);
@@ -316,6 +316,7 @@ flush_entry(struct _iconv_cache *ic)
 		in = nn;
 		nn = in->next;
 	}
+	g_free(ic->conv);
 	g_free(ic);
 }
 
