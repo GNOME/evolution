@@ -1,3 +1,18 @@
+2001-09-05  Ettore Perazzoli  <ettore@ximian.com>
+
+	[Fix #958, ShellComponents should not be created by factories, for
+	the addressbook.]
+
+	* gui/component/addressbook-component.c
+	(GNOME_EVOLUTION_ADDRESSBOOK_COMPONENT_FACTORY_ID): Removed.
+	(GNOME_EVOLUTION_ADDRESSBOOK_COMPONENT_ID): New.
+	(create_component): Renamed from `factory_fn'.  Just register the
+	thing on OAF.
+	(addressbook_component_factory_init): Just call it.
+
+	* gui/component/GNOME_Evolution_Addressbook.oaf.in: Remove the
+	ShellComponentFactory.
+
 2001-09-04  Iain Holmes  <iain@ximian.com>
 
 	* backend/ebook/evolution-vcard-importer.c (load_file_fn): Return FALSE

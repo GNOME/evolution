@@ -61,22 +61,9 @@
 
 </oaf_server>
 
-<oaf_server iid="OAFIID:GNOME_Evolution_Addressbook_ShellComponentFactory"
+<oaf_server iid="OAFIID:GNOME_Evolution_Addressbook_ShellComponent"
             type="exe"
             location="evolution-addressbook">
-
-	<oaf_attribute name="repo_ids" type="stringv">
-		<item value="IDL:GNOME/ObjectFactory:1.0"/>
-	</oaf_attribute>
-
-	<oaf_attribute name="description" type="string"
-	               _value="Factory for the Evolution addressbook component."/>
-
-</oaf_server>
-
-<oaf_server iid="OAFIID:GNOME_Evolution_Addressbook_ShellComponent"
-            type="factory"
-            location="OAFIID:GNOME_Evolution_Addressbook_ShellComponentFactory">
 
 	<oaf_attribute name="repo_ids" type="stringv">
 		<item value="IDL:GNOME/Evolution/ShellComponent:1.0"/>

@@ -47,7 +47,7 @@
 
 
 
-#define GNOME_EVOLUTION_ADDRESSBOOK_COMPONENT_FACTORY_ID "OAFIID:GNOME_Evolution_Addressbook_ShellComponentFactory"
+#define GNOME_EVOLUTION_ADDRESSBOOK_COMPONENT_ID "OAFIID:GNOME_Evolution_Addressbook_ShellComponent"
 
 EvolutionShellClient *global_shell_client;
 
@@ -363,8 +363,7 @@ destination_folder_handle_drop (EvolutionShellComponentDndDestinationFolder *fol
 /* The factory function.  */
 
 static BonoboObject *
-factory_fn (BonoboGenericFactory *factory,
-	    void *closure)
+create_component (void)
 {
 	EvolutionShellComponent *shell_component;
 	EvolutionShellComponentDndDestinationFolder *destination_interface;
@@ -397,15 +396,19 @@ factory_fn (BonoboGenericFactory *factory,
 }
 
 
+/* FIXME this should probably be renamed as we don't use factories anymore.  */
 void
 addressbook_component_factory_init (void)
 {
-	if (factory != NULL)
-		return;
+	BonoboObject *object;
+	int result;
 
-	factory = bonobo_generic_factory_new (GNOME_EVOLUTION_ADDRESSBOOK_COMPONENT_FACTORY_ID, factory_fn, NULL);
+	object = create_component ();
 
-	if (factory == NULL)
-		g_error ("Cannot initialize the Evolution addressbook factory.");
+	/* FIXME: Handle errors better?  */
+
+	result = oaf_active_server_register (GNOME_EVOLUTION_ADDRESSBOOK_COMPONENT_ID,
+					     bonobo_object_corba_objref (object));
+	if (result == OAF_REG_ERROR)
+		g_error ("Cannot register -- %s", GNOME_EVOLUTION_ADDRESSBOOK_COMPONENT_ID);
 }
-
