@@ -1,5 +1,7 @@
 2003-10-30  Not Zed  <NotZed@Ximian.com>
 
+	* camel-smime-context.c (sm_get_passwd): implement something basic.
+
 	* camel-cipher-context.h: Added a note about api inconsistencies.
 
 2003-10-30  Not Zed  <NotZed@Ximian.com>

@@ -149,9 +149,22 @@ sm_decrypt_key(void *arg, SECAlgorithmID *algid)
 static char *
 sm_get_passwd(PK11SlotInfo *info, PRBool retry, void *arg)
 {
-	printf("Password requested for '%s'\n", PK11_GetTokenName(info));
+	CamelSMIMEContext *context = arg;
+	char *pass, *nsspass = NULL;
+	char *prompt;
+	CamelException *ex;
+
+	ex = camel_exception_new();
+	prompt = g_strdup_printf(_("Enter security pass-phrase for `%s'"), PK11_GetTokenName(info));
+	pass = camel_session_get_password(((CamelCipherContext *)context)->session, prompt, FALSE, TRUE, NULL, PK11_GetTokenName(info), ex);
+	camel_exception_free(ex);
+	g_free(prompt);
+	if (pass) {
+		nsspass = PORT_Strdup(pass);
+		g_free(pass);
+	}
 	
-	return NULL;
+	return nsspass;
 }
 
 static NSSCMSMessage *
