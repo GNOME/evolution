@@ -64,6 +64,6 @@ FilterOption *filter_option_new (void);
 
 /* methods */
 void filter_option_set_current (FilterOption *option, const char *name);
-void filter_option_add (FilterOption *fo, const char *name, const char *title, const char *code);
+struct _filter_option *filter_option_add (FilterOption *fo, const char *name, const char *title, const char *code);
 
 #endif /* ! _FILTER_OPTION_H */

@@ -1,3 +1,12 @@
+2004-03-26  Not Zed  <NotZed@Ximian.com>
+
+	* filter-option.c (filter_option_add): return the added option.
+	(clone): make sure we set the current option properly on the new
+	copy.  See #56028.
+
+	* filtertypes.xml: s/pipe to shell command/pipe to program/
+	s/shell command/run program/, cleans up the UI a lot.
+
 2004-03-20  Danilo Šegan  <dsegan@gmx.net>
 
 	* filter-datespec.c (set_button): Use ngettext for handling plurals.

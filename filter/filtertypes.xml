@@ -585,7 +585,7 @@
  </part>
 
  <part name="pipe">
-  <title>Pipe Message to Shell Command</title>
+  <title>Pipe to Program</title>
   <input type="command" name="command"/>
   <input type="optionlist" name="retval-type">
    <option value="is">
@@ -733,12 +733,12 @@
   <input type="file" name="sound"/>
  </part>
  <part name="shell">
-  <title>Shell Command</title>
+  <title>Run Program</title>
   <code>(shell "/bin/sh" "-c" ${command})</code>
   <input type="command" name="command"/>
  </part>
  <part name="pipe">
-  <title>Pipe Message to Shell Command</title>
+  <title>Pipe to Program</title>
   <code>(pipe-message "/bin/sh" "-c" ${command})</code>
   <input type="command" name="command"/>
  </part>
