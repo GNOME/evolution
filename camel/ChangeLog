@@ -1,3 +1,8 @@
+2001-10-21  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-store.c (camel_folder_info_build): Updated comments to
+	make the code a bit more clear.
+
 2001-10-21    <NotZed@Ximian.com>
 
 	* camel-store.c (CS_CLASS): Dont do the macro stuff - basically so

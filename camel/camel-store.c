@@ -754,11 +754,11 @@ camel_folder_info_build (GPtrArray *folders, const char *namespace,
 	GHashTable *hash;
 	char *name, *p, *pname;
 	int i, nlen;
-
+	
 	if (!namespace)
 		namespace = "";
 	nlen = strlen (namespace);
-
+	
 	/* Hash the folders. */
 	hash = g_hash_table_new (g_str_hash, g_str_equal);
 	for (i = 0; i < folders->len; i++) {
@@ -771,7 +771,7 @@ camel_folder_info_build (GPtrArray *folders, const char *namespace,
 			name++;
 		g_hash_table_insert (hash, name, fi);
 	}
-
+	
 	/* Now find parents. */
 	for (i = 0; i < folders->len; i++) {
 		fi = folders->pdata[i];
@@ -793,9 +793,11 @@ camel_folder_info_build (GPtrArray *folders, const char *namespace,
 			if (pfi) {
 				g_free (pname);
 			} else {
+				/* we are missing a folder in the heirarchy so
+				   create a fake folder node */
 				CamelURL *url;
 				char *sep;
-
+				
 				pfi = g_new0 (CamelFolderInfo, 1);
 				pfi->full_name = pname;
 				if (short_names) {
@@ -806,7 +808,7 @@ camel_folder_info_build (GPtrArray *folders, const char *namespace,
 						pfi->name = g_strdup (pname);
 				} else
 					pfi->name = g_strdup (pname);
-
+				
 				url = camel_url_new (fi->url, NULL);
 				sep = strrchr (url->path, separator);
 				if (sep)
@@ -814,11 +816,11 @@ camel_folder_info_build (GPtrArray *folders, const char *namespace,
 				else
 					d(g_warning ("huh, no \"%c\" in \"%s\"?", separator, fi->url));
 				
-				/* FIXME: wtf is this? This is WRONG. Parent folders can be selectable */
+				/* since this is a "fake" folder node, it is not selectable */
 				camel_url_set_param (url, "noselect", "yes");
 				pfi->url = camel_url_to_string (url, 0);
 				camel_url_free (url);
-
+				
 				g_hash_table_insert (hash, pname, pfi);
 				g_ptr_array_add (folders, pfi);
 			}
