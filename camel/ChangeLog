@@ -1,3 +1,8 @@
+2002-05-06  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-tcp-stream-raw.c (socket_connect): Don't bother with
+	counting down the timeout.
+
 2002-05-02  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-stream-fs.c (stream_read): Same fix as the tcp stream.

@@ -32,7 +32,6 @@
 #include <fcntl.h>
 #include <errno.h>
 #include <string.h>
-#include <time.h>
 
 #include "camel-tcp-stream-raw.h"
 #include "camel-operation.h"
@@ -413,7 +412,6 @@ socket_connect (struct hostent *h, int port)
 	} else {
 		int flags, fdmax, status;
 		fd_set rdset, wrset;
-		time_t timeout, now;
 		
 		flags = fcntl (fd, F_GETFL);
 		fcntl (fd, F_SETFL, flags | O_NONBLOCK);
@@ -429,20 +427,17 @@ socket_connect (struct hostent *h, int port)
 			return -1;
 		}
 		
-		now = time (NULL);
-		timeout = now + 60 * 4;
 		do {
 			FD_ZERO (&rdset);
 			FD_ZERO (&wrset);
 			FD_SET (fd, &wrset);
 			FD_SET (cancel_fd, &rdset);
 			fdmax = MAX (fd, cancel_fd) + 1;
-			tv.tv_sec = timeout - now;
+			tv.tv_sec = 60 * 4;
 			tv.tv_usec = 0;
 			
 			status = select (fdmax, &rdset, &wrset, 0, &tv);
-			now = time (NULL);
-		} while (now < timeout && status == -1 && errno == EINTR);
+		} while (status == -1 && errno == EINTR);
 		
 		if (status <= 0) {
 			close (fd);
