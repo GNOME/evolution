@@ -1,3 +1,17 @@
+2001-06-29  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-shortcuts-view-model.c (load_group_into_model): Updated to
+	match the fact that `e_shortcuts_in_group()' now returns a GSList
+	instead of a GList.
+	(load_all_shortcuts_into_model): Likewise for
+	`e_shortcuts_get_group_titles()'.
+
+	* e-shortcuts.c: Change all `groups' and `views' from GLists to
+	GSLists in EShortcutsPrivate.
+	(e_shortcuts_get_group_titles): Return a GSList instead of a
+	GList.
+	(e_shortcuts_get_shortcuts_in_group): Likewise.
+
 2001-06-28  Ettore Perazzoli  <ettore@ximian.com>
 
 	[Fix #3756, `--debug' option not working anymore.]

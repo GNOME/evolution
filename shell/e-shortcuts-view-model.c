@@ -75,7 +75,7 @@ load_group_into_model (EShortcutsViewModel *shortcuts_view_model,
 {
 	EShortcutsViewModelPrivate *priv;
 	EStorageSet *storage_set;
-	GList *shortcut_list;
+	GSList *shortcut_list;
 	GList *p;
 
 	priv = shortcuts_view_model->priv;
@@ -110,7 +110,7 @@ load_group_into_model (EShortcutsViewModel *shortcuts_view_model,
 		e_shortcut_model_add_item (E_SHORTCUT_MODEL (shortcuts_view_model), group_num, -1, uri, name);
 	}
 
-	e_free_string_list (shortcut_list);
+	e_free_string_slist (shortcut_list);
 }
 
 static void
@@ -118,7 +118,7 @@ load_all_shortcuts_into_model (EShortcutsViewModel *shortcuts_view_model)
 {
 	EShortcutsViewModelPrivate *priv;
 	GList *group_titles;
-	GList *p;
+	GSList *p;
 	int group_num;
 
 	priv = shortcuts_view_model->priv;
@@ -134,7 +134,7 @@ load_all_shortcuts_into_model (EShortcutsViewModel *shortcuts_view_model)
 		load_group_into_model (shortcuts_view_model, group_title, group_num);
 	}
 
-	e_free_string_list (group_titles);
+	e_free_string_slist (group_titles);
 }
 
 
