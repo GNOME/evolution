@@ -304,9 +304,10 @@ file ~/evolution/local/Contacts/addressbook.db
 	    </programlisting>
 
 	    <para>
-	      You want version 1.85 there.  If version is 2, then your
-	      current Evolution is probably linked against version 1.85
-	      and you cannot convert the database to the old format.
+	      You want version 1.85 there.  If your version is 2, then
+	      your current Evolution is probably linked against
+	      version 1.85 and you cannot convert the database to the
+	      old format. To do that, follow these instructions:
 	    </para>
 	  </listitem>
 	  
@@ -411,16 +412,18 @@ db_dump185 ~/evolution/local/Contacts/addressbook.db.backup | db_load ~/evolutio
 	</para>
 
 	<para>
-	  Normally, you shouldn't need t run
+	  Normally, you shouldn't need to run
 	  <command>oaf-slay</command>, unless <command>oafd</command>
 	  gets stuck or confused.  For example, it might help in case
 	  Evolution cannot activate components.
 	</para>
 
 	<para>
-	  Notice that <command>oaf-slay</command> will also confuse
-	  Nautilus; a <command>nautilus-cleanup.sh -x</command> should
-	  be enough to restart it properly, though.
+       	   Using <command>oaf-slay</command>
+	  <command>oaf-slay</command> is quite drastic and can cause
+	  problems with other programs that use oaf, especially with
+	  <application>Nautilus</application>. To avoid problems, do
+	  not run <command>oaf-slay</command> while you are in GNOME.
 	</para>
 
     </sect1> <!-- End Section: Troubleshooting -->
@@ -458,9 +461,9 @@ db_dump185 ~/evolution/local/Contacts/addressbook.db.backup | db_load ~/evolutio
 	</title>
 
 	<para>
-	  No.  The Ximian bug tracker doesn't have an email-based
-	  interface (yet), so Bug Buddy cannot talk to it.  This will
-	  be fixed eventually.
+	  No.  The Ximian bug tracker does not yet have an email-based
+	  interface, so Bug Buddy cannot talk to it.  This will be
+	  fixed eventually.
 	</para>
       </sect2>
 
@@ -485,16 +488,16 @@ db_dump185 ~/evolution/local/Contacts/addressbook.db.backup | db_load ~/evolutio
 	  First of all, in order to get a stack trace, your executable
 	  (and possibly the libraries) must be compiled with debugging
 	  symbols.  Debugging symbols are created by default if you
-	  compile from CVS, and are included in the; but if you decide
-	  to compile by yourself with some custom CFLAGS value, make
-	  sure <command>-g</command> is included in them.
+	  compile from CVS, and are included in the snapshot builds.
+	  If you decide to compile by yourself with some custom CFLAGS
+	  value, make sure <command>-g</command> is included in them.
 	</para>
 
 	<para>
-	  Finally, you must run the component that crashes into
-	  <command>gdb</command> before starting Evolution.  Make sure
-	  all the components are dead (exit Evolution and
-	  <command>killev</command>), then run the following command:
+	  Finally, you must put the component that crashes through
+	  <command>gdb</command>.  Make sure all the components are
+	  dead (exit Evolution and <command>killev</command>), then
+	  run the following command:
 	</para>
 
 	<programlisting>
@@ -509,9 +512,9 @@ gdb name-of-component
 	</para>
 
 	<para>
-	  Then get Evolution to crash or to hang normally, and go back
-	  to the terminal where you ran <command>gdb</command>.  If
-	  the component crashed, you should have a prompt there; otherwise, just hit 
+	  Then, reproduce the crash, and go back to the terminal where
+	  you ran <command>gdb</command>.  If the component crashed,
+	  you should have a prompt there; otherwise, just hit
 	  <keycombo action=simul>
 	    <keycap>Control</keycap>
 	    <keycap>C</keycap>
@@ -686,7 +689,12 @@ cp -r ~/evolution/local/Inbox/subfolders/Foo ~/evolution/local/Inbox/subfolders/
 	</title>
 
 	<para>
-	  FIXME: Put a description that doesn't suck here.
+	  A virtual folder is like a saved search: it is a view of
+	  your mail. Regular folders actually contain the mail
+	  messages.  You can have one message be in multiple virtual
+	  folders, but only in one regular folder.  See the section in
+	  the Evolution manual about virtual folders for more
+	  information.
 	</para>
       </sect2>
 
@@ -701,7 +709,7 @@ cp -r ~/evolution/local/Inbox/subfolders/Foo ~/evolution/local/Inbox/subfolders/
 	  mis-spelled word on the fly as you type them, and also give
 	  you suggestions for possible corrections.  In order for this
 	  to work you need the <filename>gnome-spell</filename>
-	  component which is not shipped with Ximian GNOME yet.
+	  component, which is not shipped with Ximian GNOME yet.
 	</para>
 
 	<para>
