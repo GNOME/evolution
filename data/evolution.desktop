@@ -1,5 +1,6 @@
 [Desktop Entry]
 Name=Evolution
+Name[pt_BR]=Evolution
 Name[da]=Evolution
 Name[es]=Evolution
 Name[fr]=Evolucija
@@ -11,6 +12,7 @@ Name[sl]=Evolucija
 Name[sv]=Evolution
 Name[tr]=Evolution
 Comment=Mail, Contacts and Task.
+Comment[pt_BR]=Correio, Contatos e Tarefa.
 Comment[da]=E-post, kontakter og opgaver.
 Comment[es]=Correo electrónico, contactos y agenda de tareas.
 Comment[fr]=Courrier électronique, Contacts, Agenda et Tâches.

@@ -1,5 +1,6 @@
 [Desktop Entry]
 Name=Evolution
+Name[pt_BR]=Evolution
 Name[es]=Evolution
 Name[fr]=Evolution
 Name[it]=Evolution
@@ -7,6 +8,7 @@ Name[sl]=Evolucija
 Name[sv]=Evolution
 Name[tr]=Evolution
 Comment=The Evolution groupware suite
+Comment[pt_BR]=Suíte do grupo Evolution
 Comment[es]=El programa de trabajo en grupo Evolution
 Comment[fr]=La suite de travail collaboratif Evolution
 Comment[it]=La suite di produttivita' personale Evolution
