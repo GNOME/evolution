@@ -1,3 +1,9 @@
+2002-12-06  Hans Petter Jansson  <hpj@ximian.com>
+
+	* GNOME_Evolution_WombatNOLDAP.server.in.in: It appears that
+	Ettore's @LIBEXECDIR@ change didn't make it in for this file.
+	Fixed that.
+
 2002-11-16  Chris Toshok  <toshok@ximian.com>
 
 	* GNOME_Evolution_WombatLDAP.server.in.in: remove the moniker
