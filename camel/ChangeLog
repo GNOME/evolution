@@ -1,3 +1,14 @@
+2002-09-27  Not Zed  <NotZed@Ximian.com>
+
+	* providers/imap/camel-imap-folder.c (imap_update_summary): Use
+	the summary's last uid as the one to fetch from, ignoring the
+	cache.  Use strotul instead of atoi as well.
+
+	* providers/imap/camel-imap-store.c (get_folder_counts): If we
+	have the folder open, and the unread count has changed, refresh
+	it.  Should fix #30399 enough.  Also in non-check-all mode, if we
+	have the folder open, use it anyway.
+
 2002-09-26  Not Zed  <NotZed@Ximian.com>
 
 	* tests/folder/test2.c (main): Treat spool as a local folder, so

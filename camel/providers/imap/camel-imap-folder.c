@@ -2055,7 +2055,7 @@ imap_update_summary (CamelFolder *folder, int exists,
 	CamelImapStore *store = CAMEL_IMAP_STORE (folder->parent_store);
 	CamelImapFolder *imap_folder = CAMEL_IMAP_FOLDER (folder);
 	GPtrArray *fetch_data = NULL, *messages = NULL, *needheaders;
-	guint32 flags, uidval, maxuid;
+	guint32 flags, uidval;
 	int i, seq, first, size, got;
 	CamelImapResponseType type;
 	const char *header_spec;
@@ -2079,30 +2079,18 @@ imap_update_summary (CamelFolder *folder, int exists,
 	first = seq + 1;
 	if (seq > 0) {
 		mi = camel_folder_summary_index (folder->summary, seq - 1);
-		uidval = atoi (camel_message_info_uid (mi));
+		uidval = strtoul(camel_message_info_uid (mi), NULL, 10);
 		camel_folder_summary_info_free (folder->summary, mi);
 	} else
 		uidval = 0;
 	
-	size = (exists - seq) * (IMAP_PRETEND_SIZEOF_FLAGS + IMAP_PRETEND_SIZEOF_SIZE);
+	size = (exists - seq) * (IMAP_PRETEND_SIZEOF_FLAGS + IMAP_PRETEND_SIZEOF_SIZE + IMAP_PRETEND_SIZEOF_HEADERS);
 	got = 0;
-	
-	maxuid = camel_imap_message_cache_max_uid (imap_folder->cache);
-	if (uidval >= maxuid) {
-		/* None of the new messages are cached */
-		size += (exists - seq) * IMAP_PRETEND_SIZEOF_HEADERS;
-		if (!camel_imap_command_start (store, folder, ex,
-					       "UID FETCH %d:* (FLAGS RFC822.SIZE INTERNALDATE BODY.PEEK[%s])",
-					       maxuid + 1, header_spec))
-			return;
-		camel_operation_start (NULL, _("Fetching summary information for new messages"));
-	} else {
-		if (!camel_imap_command_start (store, folder, ex,
-					       "UID FETCH %d:* (FLAGS RFC822.SIZE)",
-					       uidval + 1))
-			return;
-		camel_operation_start (NULL, _("Scanning for new messages"));
-	}
+	if (!camel_imap_command_start (store, folder, ex,
+				       "UID FETCH %d:* (FLAGS RFC822.SIZE INTERNALDATE BODY.PEEK[%s])",
+				       uidval + 1, header_spec))
+		return;
+	camel_operation_start (NULL, _("Fetching summary information for new messages"));
 	
 	/* Parse the responses. We can't add a message to the summary
 	 * until we've gotten its headers, and there's no guarantee

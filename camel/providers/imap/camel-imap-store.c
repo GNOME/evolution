@@ -2131,6 +2131,7 @@ static void
 get_folder_counts(CamelImapStore *imap_store, CamelFolderInfo *fi, CamelException *ex)
 {
 	GSList *q;
+	CamelFolder *folder;
 
 	/* non-recursive breath first search */
 
@@ -2156,12 +2157,33 @@ get_folder_counts(CamelImapStore *imap_store, CamelFolderInfo *fi, CamelExceptio
 					   any operations anyway so this is 'safe'.  See comment above imap_store_refresh_folders() for info */
 					CAMEL_FOLDER_CLASS (CAMEL_OBJECT_GET_CLASS(imap_store->current_folder))->refresh_info(imap_store->current_folder, ex);
 					fi->unread_message_count = camel_folder_get_unread_message_count (imap_store->current_folder);
-				} else
+				} else {
 					fi->unread_message_count = get_folder_status (imap_store, fi->full_name, "UNSEEN");
+					/* if we have this folder open, and the unread count has changed, update */
+					CAMEL_STORE_LOCK(imap_store, cache_lock);
+					folder = g_hash_table_lookup(CAMEL_STORE(imap_store)->folders, fi->full_name);
+					if (folder && fi->unread_message_count != camel_folder_get_unread_message_count(folder))
+						camel_object_ref(folder);
+					else
+						folder = NULL;
+					CAMEL_STORE_UNLOCK(imap_store, cache_lock);
+					if (folder) {
+						CAMEL_FOLDER_CLASS (CAMEL_OBJECT_GET_CLASS(folder))->refresh_info(folder, ex);
+						fi->unread_message_count = camel_folder_get_unread_message_count(folder);
+						camel_object_unref(folder);
+					}
+				}
 		
 				CAMEL_SERVICE_UNLOCK (imap_store, connect_lock);
 			} else {
-				fi->unread_message_count = -1;
+				/* since its cheap, get it if they're open */
+				CAMEL_STORE_LOCK(imap_store, cache_lock);
+				folder = g_hash_table_lookup(CAMEL_STORE(imap_store)->folders, fi->full_name);
+				if (folder)
+					fi->unread_message_count = camel_folder_get_unread_message_count(folder);
+				else
+					fi->unread_message_count = -1;
+				CAMEL_STORE_UNLOCK(imap_store, cache_lock);
 			}
 
 			if (fi->child)
