@@ -2,6 +2,7 @@
 <!DOCTYPE glade-interface SYSTEM "http://glade.gnome.org/glade-2.0.dtd">
 
 <glade-interface>
+<requires lib="gnome"/>
 
 <widget class="GtkWindow" id="alarm-toplevel">
   <property name="title" translatable="yes">window1</property>
@@ -214,7 +215,7 @@
 			  <child>
 			    <widget class="GtkMenuItem" id="send_an_email1">
 			      <property name="visible">True</property>
-			      <property name="label" translatable="yes">Send an Email</property>
+			      <property name="label" translatable="yes">Send an email</property>
 			      <property name="use_underline">True</property>
 			    </widget>
 			  </child>

@@ -1,3 +1,9 @@
+2004-03-08  Rodrigo Moya <rodrigo@ximian.com>
+
+	Fixes #48106
+
+	* gui/dialogs/alarm-page.glade: s/Send an Email/Send an email.
+
 2004-03-05  Rodrigo Moya <rodrigo@ximian.com>
 
 	* gui/alarm-notify/alarm-notify.c (alarm_notify_init): set a GConf
