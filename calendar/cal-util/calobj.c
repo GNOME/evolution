@@ -18,23 +18,28 @@
 static char *
 ical_gen_uid (void)
 {
-	static char *domain;
+	static char *hostname;
 	time_t t = time (NULL);
+	static int serial;
 	
-	if (!domain){
+	if (!hostname){
 		char buffer [128];
 		
-		getdomainname (buffer, sizeof (buffer)-1);
-		domain = g_strdup (domain);
+		gethostname (buffer, sizeof (buffer)-1);
+		if (hostname)
+			hostname = g_strdup (hostname);
+		else
+			hostname = g_strdup ("localhost");
 	}
 
 	return g_strdup_printf (
-		"%s-%d-%d-%d@%s",
+		"%s-%d-%d-%d-%d@%s",
 		isodate_from_time_t (t),
 		getpid (),
 		getgid (),
 		getppid (),
-		domain);
+		serial++,
+		hostname);
 }
 
 iCalObject *

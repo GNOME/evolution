@@ -81,6 +81,7 @@ cal_repo_get_object_by_pilot_id (PortableServer_Servant servant,
 	CORBA_char *ret;
 	
 	obj = calendar_object_find_by_pilot (gcal->cal, pilot_id);
+	printf ("Looking for [%d]\n", pilot_id);
 	if (obj == NULL){
 		CORBA_exception_set (ev,
 				     CORBA_USER_EXCEPTION,
@@ -148,10 +149,65 @@ cal_repo_update_object (PortableServer_Servant servant,
 	
 	obj = calendar_object_find_event (gcal->cal, uid);
 	if (obj != NULL){
+		printf ("ELIMINATING: %s -> %s\n", obj->uid, new_object->uid);
 		calendar_remove_object (gcal->cal, obj);
 	} 
 
 	calendar_add_object (gcal->cal, new_object);
+}
+
+static void
+cal_repo_update_pilot_id (PortableServer_Servant servant,
+			  CORBA_char *uid,
+			  CORBA_long pilot_id,
+			  CORBA_long pilot_status,
+			  CORBA_Environment *ev)
+{
+	GnomeCalendar *gcal = gnomecal_from_servant (servant);
+	iCalObject *obj;
+	
+	obj = calendar_object_find_event (gcal->cal, uid);
+	if (obj == NULL){
+		CORBA_exception_set (
+			ev,
+			CORBA_USER_EXCEPTION,
+			ex_GNOME_Calendar_Repository_NotFound,
+			"");
+		return;
+	}
+
+	obj->pilot_id = pilot_id;
+	obj->pilot_status = pilot_status;
+}
+
+static CORBA_char *
+cal_repo_get_updated_objects (PortableServer_Servant servant,
+			      CORBA_Environment *ev)
+{
+	GnomeCalendar *gcal = gnomecal_from_servant (servant);
+	Calendar *dirty_cal;
+	GList *l;
+	CORBA_char *res;
+	char *str;
+
+	dirty_cal = calendar_new ("Temporal");
+	
+	for (l = gcal->cal->events; l; l = l->next){
+		iCalObject *obj = l->data;
+
+		if (obj->pilot_status != ICAL_PILOT_SYNC_MOD)
+			continue;
+
+		obj = ical_object_duplicate (l->data);
+
+		calendar_add_object (dirty_cal, obj);
+	}
+	str = calendar_get_as_vcal_string (dirty_cal);
+	res = CORBA_string_dup (str);
+	g_free (str);
+	calendar_destroy (dirty_cal);
+
+	return res;
 }
 
 static void
@@ -171,6 +227,9 @@ init_calendar_repo_class (void)
 	calendar_repository_epv.get_id_from_pilot_id = cal_repo_get_id_from_pilot_id;
 	calendar_repository_epv.delete_object = cal_repo_delete_object;
 	calendar_repository_epv.update_object = cal_repo_update_object;
+	calendar_repository_epv.get_updated_objects = cal_repo_get_updated_objects;
+	calendar_repository_epv.update_pilot_id = cal_repo_update_pilot_id;
+	
 	calendar_repository_epv.done = cal_repo_done;
 	
 	calendar_repository_vepv.GNOME_Calendar_Repository_epv =

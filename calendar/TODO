@@ -1,7 +1,10 @@
 Pilot:
 
 * Better support for untimed events (we have none now).
+
 * Add syncing from Desktop to Pilot.
+
+* Hash objects based on their UIDs.
 
 BUGS:
 

@@ -1,10 +1,23 @@
 1999-07-28  Miguel de Icaza  <miguel@gnu.org>
 
-	* calendar-pilot-sync.c: New file.  Implements PalmPilot
-	syncronization with the Gnome Calendar.
+	* calobj.c (ical_gen_uid): Use the hostname, not the domain name.
+	(ical_gen_uid): Add a serial number.  Isodates can be small.
+
+	* corba-cal.c (cal_repo_update_pilot_id): New method to update the
+	pilot status.
+	(cal_repo_get_updated_objects): New method.  Returns a list of
+	modified and not-sycned objects
+
+	* calendar-pilot-sync.c (sync_cal_to_pilot): New function to sync
+	from the GnomeCalendar to the pilot.
+	(sync_object_to_pilot): Sync a single event to the pilot.
+	(try_alarm): Alarm syncing code.
 
 1999-07-27  Miguel de Icaza  <miguel@gnu.org>
 
+	* calendar-pilot-sync.c: New file.  Implements PalmPilot
+	syncronization with the Gnome Calendar.
+	
 	* calobj.c (ical_object_new_from_string): New function.  Creates
 	an iCalObject from a vCalendar string that is supposed to contain
 	only one vEvent.

@@ -72,7 +72,7 @@ add_object_alarms (iCalObject *obj, time_t start, time_t end, void *closure)
 
 #define max(a,b) ((a > b) ? a : b)
 
-void
+static void
 ical_object_try_alarms (iCalObject *obj)
 {
 	int ao, po, od, mo;
@@ -169,7 +169,7 @@ calendar_destroy (Calendar *cal)
 	g_free (cal);
 }
 
-char *
+static char *
 ice (time_t t)
 {
 	static char buffer [100];
@@ -320,6 +320,34 @@ calendar_load (Calendar *cal, char *fname)
 	calendar_load_from_vobject (cal, vcal);
 	cleanVObject (vcal);
 	cleanStrTbl ();
+	return NULL;
+}
+
+/*
+ * calendar_load_from_memory:
+ * @cal: calendar on which we load the information
+ * @buffer: A buffer that contains a vCalendar file
+ *
+ * Loads the information from the vCalendar information in @buffer
+ * into the Calendar
+ */
+char *
+calendar_load_from_memory (Calendar *cal, const char *buffer)
+{
+	VObject *vcal;
+	
+	g_return_val_if_fail (buffer != NULL, NULL);
+	
+	cal->filename = g_strdup ("memory-based-calendar");
+	vcal = Parse_MIME (buffer, strlen (buffer));
+	if (!vcal)
+		return "Could not load the calendar";
+
+	cal->file_time = time (NULL);
+	calendar_load_from_vobject (cal, vcal);
+	cleanVObject (vcal);
+	cleanStrTbl ();
+
 	return NULL;
 }
 

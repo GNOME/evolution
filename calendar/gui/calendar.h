@@ -44,6 +44,8 @@ char     *calendar_get_as_vcal_string   (Calendar *cal);
 char     *calendar_string_from_object   (iCalObject *object);
 
 char     *calendar_load                 (Calendar *cal, char *fname);
+char     *calendar_load_from_memory     (Calendar *cal, const char *buffer);
+void      calendar_load_from_vobject    (Calendar *cal, VObject *vcal);
 void      calendar_save                 (Calendar *cal, char *fname);
 void      calendar_add_object           (Calendar *cal, iCalObject *obj);
 void      calendar_remove_object        (Calendar *cal, iCalObject *obj);

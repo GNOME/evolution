@@ -59,7 +59,7 @@ event_editor_class_init (EventEditorClass *class)
 	object_class->destroy = event_editor_destroy;
 }
 
-GtkWidget *
+static GtkWidget *
 adjust (GtkWidget *w, gfloat x, gfloat y, gfloat xs, gfloat ys)
 {
 	GtkWidget *a = gtk_alignment_new (x, y, xs, ys);
@@ -432,7 +432,7 @@ ee_classification_widgets (EventEditor *ee)
  * Retrieves the information from the CalendarAlarm widgets and stores them
  * on the CalendarAlarm generic values
  */
-void
+static void
 ee_store_alarm (CalendarAlarm *alarm, enum AlarmType type)
 {
 	GtkWidget *item;

@@ -11,7 +11,7 @@ module GNOME {
 			 * @uid: Unique Identifier for the object
 			 *
 			 * Returns a vCalendar object for the object
-			 * that matches the UID @uid
+			 * that matches the UID @uid.  
 			 */
 			string get_object    (in string uid)
 				raises (NotFound);
@@ -44,6 +44,23 @@ module GNOME {
 			void update_object (in string uid, in string object);
 
 			/*
+			 * update_pilot_id:
+			 * @uid: Unique identifier for the event we want to update
+			 * @pilot_id: new ID assigned by the pilot
+			 * @pilot_status: Status to flag the event with
+			 */
+			void update_pilot_id (in string uid, in long pilot_id, in long pilot_status)
+				raises (NotFound);
+
+			/*
+			 * get_updated_objects:
+			 * 
+			 * Returns a vCalendar with all the objects that have been
+			 * modified since the last Pilot Sync
+			 */
+			string get_updated_objects ();
+
+			/*
 			 * done:
 			 * 
 			 * Informs the calendar that we are done using it,
@@ -53,3 +70,4 @@ module GNOME {
 		};
 	};
 };
+

@@ -35,7 +35,7 @@ static GNOME_GenericFactory     calendar_factory;
 
 static CORBA_boolean
 calendar_supports (PortableServer_Servant servant,
-		   const CORBA_char * obj_goad_id,
+		   CORBA_char * obj_goad_id,
 		   CORBA_Environment * ev)
 {
         if (strcmp (obj_goad_id, "IDL:GNOME:Calendar:Repository:1.0") == 0)
@@ -46,7 +46,7 @@ calendar_supports (PortableServer_Servant servant,
 
 static CORBA_Object
 calendar_create_object (PortableServer_Servant servant,
-			const CORBA_char *goad_id,
+			CORBA_char *goad_id,
 			const GNOME_stringlist *params,
 			CORBA_Environment *ev)
 {
