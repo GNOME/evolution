@@ -51,7 +51,7 @@ enum {
 	LAST_SIGNAL
 };
 
-static guint activity_client_signals[LAST_SIGNAL] = { 0 };
+static guint signals[LAST_SIGNAL] = { 0 };
 
 struct _EvolutionActivityClientPrivate {
 	/* The ::Activity interface that we QI from the shell.  */
@@ -203,10 +203,16 @@ listener_callback (BonoboListener *listener,
 		   char *event_name, 
 		   CORBA_any *any,
 		   CORBA_Environment *ev,
-		   gpointer data)
+		   void *data)
 {
-	/* FIXME: Implement.  */
-	g_print ("EvolutionActivityClient: BonoboListener event -- %s\n", event_name);
+	EvolutionActivityClient *activity_client;
+
+	activity_client = EVOLUTION_ACTIVITY_CLIENT (data);
+
+	if (strcmp (event_name, "Clicked") == 0)
+		gtk_signal_emit (GTK_OBJECT (activity_client), signals[CLICKED]);
+	else
+		g_warning ("EvolutionActivityClient: Unknown event from listener -- %s", event_name);
 }
 
 
@@ -258,15 +264,14 @@ class_init (EvolutionActivityClientClass *klass)
 	object_class = GTK_OBJECT_CLASS (klass);
 	object_class->destroy = impl_destroy;
 
-	activity_client_signals[CLICKED] = 
-		gtk_signal_new ("clicked",
-				GTK_RUN_FIRST,
-				object_class->type,
-				GTK_SIGNAL_OFFSET (EvolutionActivityClientClass, clicked),
-				gtk_marshal_NONE__NONE,
-				GTK_TYPE_NONE, 0);
+	signals[CLICKED] = gtk_signal_new ("clicked",
+					   GTK_RUN_FIRST,
+					   object_class->type,
+					   GTK_SIGNAL_OFFSET (EvolutionActivityClientClass, clicked),
+					   gtk_marshal_NONE__NONE,
+					   GTK_TYPE_NONE, 0);
 
-	gtk_object_class_add_signals (object_class, activity_client_signals, LAST_SIGNAL);
+	gtk_object_class_add_signals (object_class, signals, LAST_SIGNAL);
 }
 
 

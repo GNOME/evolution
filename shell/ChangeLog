@@ -1,5 +1,16 @@
 2001-06-24  Ettore Perazzoli  <ettore@ximian.com>
 
+	* evolution-test-component.c (activity_client_clicked_callback):
+	New callback for the "clicked" signal on the EActivityClient.
+	Just spit out a warning now, for testing purposes.
+	(timeout_callback_1): Connect it.
+
+	* evolution-activity-client.c (listener_callback): Emit the
+	"clicked" signal if we get the "Clicked" event from the Bonobo
+	listener.
+
+2001-06-24  Ettore Perazzoli  <ettore@ximian.com>
+
 	* e-shell-folder-commands.c: #include <gtk/gtklabel.h>.
 	(delete_dialog): Constify @folder_name properly.
 	(delete_cb): Change the first arg to be an EStorageSet as expected

@@ -52,6 +52,16 @@ static int timeout_id = 0;
 static int progress = -1;
 
 
+/* Callbacks.  */
+
+static void
+activity_client_clicked_callback (EvolutionActivityClient *client,
+				  void *data)
+{
+	g_warning ("Task bar button clicked!");
+}
+
+
 /* Timeout #3: We are done.  */
 static int
 timeout_callback_3 (void *data)
@@ -108,6 +118,9 @@ timeout_callback_1 (void *data)
 		g_warning ("Cannot create EvolutionActivityClient object");
 		return FALSE;
 	}
+
+	gtk_signal_connect (GTK_OBJECT (activity_client), "clicked",
+			    GTK_SIGNAL_FUNC (activity_client_clicked_callback), NULL);
 
 	g_print ("Component becoming busy -- %s\n", COMPONENT_ID);
 	if (suggest_display)
