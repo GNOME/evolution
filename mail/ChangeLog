@@ -1,3 +1,11 @@
+2001-10-22  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* folder-browser.c (folder_browser_destroy): Move the folder sync
+	code along with a few other things from folder_browser_finalise()
+	into here instead.
+	(folder_browser_finalise): Moved some cleanup functions into
+	destroy.
+
 2001-10-22  Dan Winship  <danw@ximian.com>
 
 	PGP verification UI changes to make it not HTML spoofable.

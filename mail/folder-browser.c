@@ -1,11 +1,24 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * folder-browser.c: Folder browser top level component
+ *  Authors: Miguel De Icaza <miguel@ximian.com>
+ *           Jeffrey Stedfast <fejj@ximian.com>
  *
- * Author:
- *   Miguel de Icaza (miguel@kernel.org)
+ *  Copyright 2000,2001 Ximain, Inc. (www.ximian.com)
  *
- * (C) 2000, 2001 Ximian, Inc.
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program; if not, write to the Free Software
+ *  Foundation, Inc., 59 Temple Street #330, Boston, MA 02111-1307, USA.
+ *
  */
 
 #ifdef HAVE_CONFIG_H
@@ -112,56 +125,32 @@ folder_browser_finalise (GtkObject *object)
 {
 	FolderBrowser *folder_browser;
 	CORBA_Environment ev;
-
-	folder_browser = FOLDER_BROWSER(object);
-
-	if (folder_browser->seen_id != 0) {
-		gtk_timeout_remove (folder_browser->seen_id);
-		folder_browser->seen_id = 0;
-	}
-
-	if (folder_browser->loading_id != 0) {
-		gtk_timeout_remove(folder_browser->loading_id);
-		folder_browser->loading_id = 0;
-	}
-
-	/* wait for all outstanding async events against us */
-	mail_async_event_destroy(folder_browser->async_event);
-
-	if (folder_browser->folder) {
-		camel_object_unhook_event(CAMEL_OBJECT(folder_browser->folder), "folder_changed",
-					  folder_changed, folder_browser);
-		camel_object_unhook_event(CAMEL_OBJECT(folder_browser->folder), "message_changed",
-					  folder_changed, folder_browser);
-		mail_sync_folder (folder_browser->folder, NULL, NULL);
-		camel_object_unref (CAMEL_OBJECT (folder_browser->folder));
-		folder_browser->folder = NULL;
-	}
-
+	
+	folder_browser = FOLDER_BROWSER (object);
+	
 	CORBA_exception_init (&ev);
-
+	
 	if (folder_browser->search_full)
 		gtk_object_unref (GTK_OBJECT (folder_browser->search_full));
 	
 	if (folder_browser->sensitize_timeout_id)
 		g_source_remove (folder_browser->sensitize_timeout_id);
-
+	
 	if (folder_browser->shell != CORBA_OBJECT_NIL) {
 		CORBA_Object_release (folder_browser->shell, &ev);
 		folder_browser->shell = CORBA_OBJECT_NIL;
 	}
-
+	
 	if (folder_browser->shell_view != CORBA_OBJECT_NIL) {
 		CORBA_Object_release(folder_browser->shell_view, &ev);
 		folder_browser->shell_view = CORBA_OBJECT_NIL;
 	}
-
+	
 	if (folder_browser->uicomp)
 		bonobo_object_unref (BONOBO_OBJECT (folder_browser->uicomp));
 	
 	g_free (folder_browser->uri);
 	folder_browser->uri = NULL;
-	
 	
 	CORBA_exception_free (&ev);
 	
@@ -177,11 +166,11 @@ folder_browser_finalise (GtkObject *object)
 	
 	gtk_object_unref (GTK_OBJECT (folder_browser->invisible));
 	folder_browser->invisible = NULL;
-
+	
 	if (folder_browser->clipboard_selection)
 		g_byte_array_free (folder_browser->clipboard_selection, TRUE);
-
-	folder_browser_parent_class->finalize(object);
+	
+	folder_browser_parent_class->finalize (object);
 }
 
 static void
@@ -190,7 +179,17 @@ folder_browser_destroy (GtkObject *object)
 	FolderBrowser *folder_browser;
 	
 	folder_browser = FOLDER_BROWSER (object);
-		
+	
+	if (folder_browser->seen_id != 0) {
+		gtk_timeout_remove (folder_browser->seen_id);
+		folder_browser->seen_id = 0;
+	}
+	
+	if (folder_browser->loading_id != 0) {
+		gtk_timeout_remove(folder_browser->loading_id);
+		folder_browser->loading_id = 0;
+	}
+	
 	if (folder_browser->message_list) {
 		gtk_widget_destroy (GTK_WIDGET (folder_browser->message_list));
 		folder_browser->message_list = NULL;
@@ -199,6 +198,19 @@ folder_browser_destroy (GtkObject *object)
 	if (folder_browser->mail_display) {
 		gtk_widget_destroy (GTK_WIDGET (folder_browser->mail_display));
 		folder_browser->mail_display = NULL;
+	}
+	
+	/* wait for all outstanding async events against us */
+	mail_async_event_destroy (folder_browser->async_event);
+	
+	if (folder_browser->folder) {
+		camel_object_unhook_event (CAMEL_OBJECT (folder_browser->folder), "folder_changed",
+					   folder_changed, folder_browser);
+		camel_object_unhook_event (CAMEL_OBJECT (folder_browser->folder), "message_changed",
+					   folder_changed, folder_browser);
+		mail_sync_folder (folder_browser->folder, NULL, NULL);
+		camel_object_unref (CAMEL_OBJECT (folder_browser->folder));
+		folder_browser->folder = NULL;
 	}
 	
 	folder_browser_parent_class->destroy (object);
