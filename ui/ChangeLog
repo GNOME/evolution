@@ -1,3 +1,8 @@
+2004-11-23  Hao Sheng <hao.sheng@sun.com>
+
+	* evolution-addressbook.xml: Binding Sun Type 6 Keyboard's 
+	Copy, Paste and Cut keys.
+
 2004-10-18  Not Zed  <NotZed@Ximian.com>
 
 	** See bug #67864.

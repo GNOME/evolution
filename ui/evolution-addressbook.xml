@@ -141,6 +141,9 @@
   <keybindings>
     <accel name="Delete" verb="ContactDelete"/>
     <accel name="BackSpace" verb="ContactDelete"/>
+    <accel name="F16" verb="ContactsCopy"/>
+    <accel name="F18" verb="ContactsPaste"/>
+    <accel name="F20" verb="ContactsCut"/>
   </keybindings>
 
 </Root>
