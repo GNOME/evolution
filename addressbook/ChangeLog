@@ -1,5 +1,10 @@
 2003-01-08  Chris Toshok  <toshok@ximian.com>
 
+	* gui/component/apps_evolution_addressbook.schemas: add in the
+	schema entry for minimum_query_length.
+
+2003-01-08  Chris Toshok  <toshok@ximian.com>
+
 	* gui/widgets/e-addressbook-view.h: add
 	E_ADDRESSBOOK_VIEW_TREEVIEW to the enum, ifdef'ed out.
 

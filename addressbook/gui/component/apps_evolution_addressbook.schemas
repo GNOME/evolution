@@ -14,6 +14,17 @@
       </locale>
     </schema>
 
+    <schema>
+      <key>/schemas/apps/evolution/addressbook/completion/minimum_query_length</key>
+      <applyto>/apps/evolution/addressbook/completion/minimum_query_length</applyto>
+      <owner>evolution-addressbook</owner>
+      <type>int</type>
+      <default>3</default>
+      <locale name="C">
+        <short>The number of characters that must be typed before evolution will attempt to autocomplete</short>
+      </locale>
+    </schema>
+
     <!-- Select names last used uri -->
 
     <schema>
