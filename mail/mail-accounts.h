@@ -33,6 +33,7 @@ extern "C" {
 #include <gtk/gtkbutton.h>
 #include <gtk/gtkclist.h>
 #include <glade/glade.h>
+#include <gtk/gtktreeview.h>
 
 #include <gal/e-table/e-table.h>
 
@@ -63,7 +64,7 @@ struct _MailAccountsTab {
 	GdkPixmap *mark_pixmap;
 	GdkBitmap *mark_bitmap;
 	
-	GtkCList *table;
+	GtkTreeView *table;
 #if 0
 	ETable *table;
 	ETableModel *model;

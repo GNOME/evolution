@@ -1,3 +1,20 @@
+2002-12-12  Not Zed  <NotZed@Ximian.com>
+
+	* folder-browser.c (my_folder_browser_init): cast a-warning a-way.
+
+	* mail-composer-prefs.c (spell_setup): Terminate list_store_set
+	with -1.
+
+	* mail-accounts.c (mail_accounts_etable_new): clist -> gtktreeview
+	stuff.  Yes, this is not an etable.
+	(mail_accounts_tab_construct): Same.
+	(mail_accounts_load): Same.
+	(account_cursor_change): Same.
+	(account_able_clicked): And this.
+	(account_default_clicked): Same.
+	(account_delete_clicked): Guess?
+	(account_edit_clicked): And here too.
+
 2002-12-11  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-format.c (mail_format_data_wrapper_write_to_stream): New

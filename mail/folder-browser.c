@@ -2554,7 +2554,7 @@ my_folder_browser_init (FolderBrowser *fb)
 	/* cut, copy & paste */
 	fb->invisible = gtk_invisible_new ();
 	g_object_ref(fb->invisible);
-	gtk_object_sink(fb->invisible);
+	gtk_object_sink((GtkObject *)fb->invisible);
 
 	for (i = 0; i < num_paste_types; i++)
 		gtk_selection_add_target (fb->invisible, clipboard_atom,

@@ -679,7 +679,8 @@ spell_setup (MailComposerPrefs *prefs)
 			gtk_list_store_append(model, &iter);
 			gtk_list_store_set(model, &iter,
 					   1, _(prefs->language_seq->_buffer[i].name),
-					   2, prefs->language_seq->_buffer[i].abrev);
+					   2, prefs->language_seq->_buffer[i].abrev,
+					   -1);
 		}
 	}
 	
