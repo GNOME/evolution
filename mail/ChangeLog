@@ -3,6 +3,8 @@
 	* mail-account-gui.c (mail_account_gui_new): Fill in signature and
 	organization too.
 	(mail_account_gui_save): Preserve the "enabled" flag on the source.
+	(save_service): Don't look at authtype if the widget is
+	insensitive. (Fixes the "smtp://;auth=PLAINservername" bug.)
 
 2001-03-27  Not Zed  <NotZed@Ximian.com>
 

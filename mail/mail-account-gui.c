@@ -997,7 +997,8 @@ save_service (MailAccountGuiService *gsvc, GHashTable *extra_config,
 			url->user = g_strdup (str);
 	}
 
-	if (CAMEL_PROVIDER_ALLOWS (gsvc->provider, CAMEL_URL_PART_AUTH)) {
+	if (CAMEL_PROVIDER_ALLOWS (gsvc->provider, CAMEL_URL_PART_AUTH) &&
+	    GTK_WIDGET_IS_SENSITIVE (gsvc->authtype)) {
 		CamelServiceAuthType *authtype;
 
 		authtype = gtk_object_get_data (GTK_OBJECT (gsvc->authitem), "authtype");
