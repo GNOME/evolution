@@ -15,8 +15,7 @@ dnl   gnome_cv_passdown_{x_libs,X_LIBS,X_CFLAGS}
 dnl
 AC_DEFUN([GNOME_X_CHECKS],
 [
-	AM_PATH_GTK(1.1.15,,AC_MSG_ERROR(GTK not installed, or gtk-config not in path))
-
+	AM_PATH_GTK(1.2.0,,AC_MSG_ERROR(GTK not installed, or gtk-config not in path))
 	dnl Hope that GTK_CFLAGS have only -I and -D.  Otherwise, we could
 	dnl   test -z "$x_includes" || CPPFLAGS="$CPPFLAGS -I$x_includes"
 	dnl
