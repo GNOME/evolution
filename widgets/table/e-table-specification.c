@@ -27,11 +27,8 @@
 
 #include "e-table-specification.h"
 
-#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <unistd.h>
-#include <errno.h>
 
 #include <gtk/gtksignal.h>
 #include <gnome-xml/parser.h>
@@ -284,7 +281,6 @@ int
 e_table_specification_save_to_file (ETableSpecification *specification,
 				    const char          *filename)
 {
-	char *tmp, *slash;
 	xmlDoc *doc;
 	int ret;
 	
@@ -292,26 +288,12 @@ e_table_specification_save_to_file (ETableSpecification *specification,
 	g_return_val_if_fail (filename != NULL, -1);
 	g_return_val_if_fail (E_IS_TABLE_SPECIFICATION (specification), -1);
 	
-	if ((doc = xmlNewDoc ("1.0")) == NULL) {
-		errno = ENOMEM;
+	if ((doc = xmlNewDoc ("1.0")) == NULL)
 		return -1;
-	}
 	
 	xmlDocSetRootElement (doc, e_table_specification_save_to_node (specification, doc));
 	
-	tmp = alloca (strlen (filename) + 5);
-	slash = strrchr (filename, '/');
-	if (slash)
-		sprintf (tmp, "%.*s.#%s", slash - filename + 1, filename, slash + 1);
-	else
-		sprintf (tmp, ".#%s", filename);
-	
-	ret = e_xml_save_file (tmp, doc);
-	if (ret != -1)
-		ret = rename (tmp, filename);
-	
-	if (ret == -1)
-		unlink (tmp);
+	ret = e_xml_save_file (filename, doc);
 	
 	xmlFreeDoc (doc);
 	

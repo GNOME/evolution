@@ -27,11 +27,8 @@
 #include <config.h>
 #endif
 
-#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <unistd.h>
-#include <errno.h>
 
 #include <gtk/gtksignal.h>
 #include <gnome-xml/tree.h>
@@ -940,17 +937,15 @@ void
 e_tree_table_adapter_save_expanded_state (ETreeTableAdapter *etta, const char *filename)
 {
 	ETreeTableAdapterPriv *priv;
-	char *tmp, *slash;
 	TreeAndRoot tar;
 	xmlDocPtr doc;
 	xmlNode *root;
-	int ret;
 	
 	g_return_if_fail(etta != NULL);
 
 	priv = etta->priv; 
 
-	doc = xmlNewDoc ((xmlChar*) "1.0");
+	doc = xmlNewDoc ("1.0");
 	root = xmlNewDocNode (doc, NULL,
 			      (xmlChar *) "expanded_state",
 			      NULL);
@@ -966,19 +961,7 @@ e_tree_table_adapter_save_expanded_state (ETreeTableAdapter *etta, const char *f
 			      save_expanded_state_func,
 			      &tar);
 	
-	tmp = alloca (strlen (filename) + 5);
-	slash = strrchr (filename, '/');
-	if (slash)
-		sprintf (tmp, "%.*s.#%s", slash - filename + 1, filename, slash + 1);
-	else
-		sprintf (tmp, ".#%s", filename);
-	
-	ret = e_xml_save_file (tmp, doc);
-	if (ret != -1)
-		ret = rename (tmp, filename);
-	
-	if (ret == -1)
-		unlink (tmp);
+	e_xml_save_file (filename, doc);
 	
 	xmlFreeDoc (doc);
 }

@@ -27,10 +27,8 @@
 #include <config.h>
 #endif
 
-#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <unistd.h>
 
 #include <gdk/gdkkeysyms.h>
 #include <gtk/gtksignal.h>
@@ -1793,26 +1791,12 @@ void
 e_table_save_specification (ETable *e_table, const char *filename)
 {
 	xmlDoc *doc = et_build_tree (e_table);
-	char *tmp, *slash;
-	int ret;
 	
 	g_return_if_fail(e_table != NULL);
 	g_return_if_fail(E_IS_TABLE(e_table));
 	g_return_if_fail(filename != NULL);
 	
-	tmp = alloca (strlen (filename) + 5);
-	slash = strrchr (filename, '/');
-	if (slash)
-		sprintf (tmp, "%.*s.#%s", slash - filename + 1, filename, slash + 1);
-	else
-		sprintf (tmp, ".#%s", filename);
-	
-	ret = e_xml_save_file (tmp, doc);
-	if (ret != -1)
-		ret = rename (tmp, filename);
-	
-	if (ret == -1)
-		unlink (tmp);
+	e_xml_save_file (filename, doc);
 	
 	xmlFreeDoc (doc);
 }
