@@ -345,7 +345,7 @@ message_list_select (MessageList *message_list, int base_row,
 {
 	const CamelMessageInfo *info;
 	int vrow, mrow, last;
-	ETableScrolled *ets = E_TABLE_SCROLLED (message_list->etable);
+	ETable *et = e_table_scrolled_get_table(E_TABLE_SCROLLED (message_list->etable));
 
 	switch (direction) {
 	case MESSAGE_LIST_SELECT_PREVIOUS:
@@ -363,14 +363,14 @@ message_list_select (MessageList *message_list, int base_row,
 		base_row = e_table_model_row_count(message_list->table_model) - 1;
 
 	/* model_to_view_row etc simply dont work for sorted views.  Sigh. */
-	vrow = e_table_model_to_view_row (ets->table, base_row);
+	vrow = e_table_model_to_view_row (et, base_row);
 
 	/* We don't know whether to use < or > due to "direction" */
 	while (vrow != last) {
-		mrow = e_table_view_to_model_row (ets->table, vrow);
+		mrow = e_table_view_to_model_row (et, vrow);
 		info = get_message_info (message_list, mrow);
 		if (info && (info->flags & mask) == flags) {
-			e_table_scrolled_set_cursor_row (ets, vrow);
+			e_table_set_cursor_row (et, mrow);
 			gtk_signal_emit(GTK_OBJECT (message_list), message_list_signals [MESSAGE_SELECTED], camel_message_info_uid(info));
 			return;
 		}
@@ -1000,7 +1000,7 @@ save_header_state(MessageList *ml)
 		return;
 
 	filename = mail_config_folder_to_cachename(ml->folder, "et-header-");
-	e_table_scrolled_save_state(E_TABLE_SCROLLED(ml->etable), filename);
+	e_table_save_state(e_table_scrolled_get_table(E_TABLE_SCROLLED(ml->etable)), filename);
 	g_free(filename);
 }
 
@@ -1041,7 +1041,7 @@ message_list_setup_etable(MessageList *message_list)
 		
 		if (path && stat (path, &st) == 0 && st.st_size > 0 && S_ISREG (st.st_mode)) {
 			/* build based on saved file */
-			e_table_scrolled_load_state (E_TABLE_SCROLLED (message_list->etable), path);
+			e_table_load_state (e_table_scrolled_get_table(E_TABLE_SCROLLED (message_list->etable)), path);
 		} else if (strstr (name, "/Drafts") || strstr (name, "/Outbox") || strstr (name, "/Sent")) {
 			/* these folders have special defaults */
 			char *state = "<ETableState>"
@@ -1049,7 +1049,7 @@ message_list_setup_etable(MessageList *message_list)
 				"<column source=\"8\"/> <column source=\"5\"/> "
 				"<column source=\"6\"/> <grouping> </grouping> </ETableState>";
 			
-			e_table_scrolled_set_state (E_TABLE_SCROLLED (message_list->etable), state);
+			e_table_set_state (e_table_scrolled_get_table(E_TABLE_SCROLLED (message_list->etable)), state);
 		}
 		
 		g_free (path);
@@ -2085,8 +2085,8 @@ message_list_foreach (MessageList *message_list,
 	mlfe_data.message_list = message_list;
 	mlfe_data.callback = callback;
 	mlfe_data.user_data = user_data;
-	e_table_scrolled_selected_row_foreach (E_TABLE_SCROLLED (message_list->etable),
-					       mlfe_callback, &mlfe_data);
+	e_table_selected_row_foreach (e_table_scrolled_get_table(E_TABLE_SCROLLED (message_list->etable)),
+				      mlfe_callback, &mlfe_data);
 }
 
 /* set whether we are in threaded view or flat view */
