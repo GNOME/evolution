@@ -17,6 +17,7 @@
 #include <gdk-pixbuf/gdk-pixbuf.h>
 #include "e-util/e-cursors.h"
 #include "e-util/e-xml-utils.h"
+#include "e-util/e-popup-menu.h"
 #include "e-table-header.h"
 #include "e-table-header-item.h"
 #include "e-table-col-dnd.h"
