@@ -48,9 +48,10 @@
 #include "camel-provider.h"
 #include "camel-log.h"
 
+#include <dirent.h>
+#include <string.h>
 
 static GList *_provider_list = NULL;
-static gchar *_last_error;
 
 static gint        
 _provider_name_cmp (gconstpointer a, gconstpointer b)
@@ -129,21 +130,39 @@ camel_provider_register_as_module (const gchar *module_path)
  
 } 
 
-
-
-
-/* 
-   be careful to this function, @a is expected to be
-   a provider, @b a protocol name (const gchar *)
-*/
-static gint        
-_provider_protocol_find (gconstpointer a, gconstpointer b)
+/**
+ * camel_provider_scan: Scan for available providers and return a list.
+ *
+ * Note that this function will cause all providers in the providerdir
+ * to be loaded into memory.
+ *
+ * Return value: the list of CamelProviders. The caller must free this
+ * list when it is done with it.
+ **/
+GList *
+camel_provider_scan (void)
 {
-	CamelProvider *provider_a = CAMEL_PROVIDER (a);
-	const gchar *name_b = (const gchar *)b;
+	DIR *dir;
+	struct dirent *dent;
+	char *p, *name;
 
-	return g_strcasecmp ( provider_a->name, name_b);
+	dir = opendir (CAMEL_PROVIDERDIR);
+	if (!dir)
+		return NULL;
+	while ((dent = readdir (dir))) {
+		p = strstr (dent->d_name, ".so");
+		if (!p || strcmp (p, ".so") != 0)
+			continue;
+
+		name = g_module_build_path (CAMEL_PROVIDERDIR, dent->d_name);
+		camel_provider_register_as_module (name);
+		g_free (name);
+	}
+	closedir (dir);
+
+	return g_list_copy (_provider_list);
 }
+	
 
 /**
  * camel_provider_get_for_protocol: get a registered provider for a protocol

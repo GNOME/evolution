@@ -3,13 +3,14 @@
 SUBDIRS = providers
 
 libcamelincludedir = $(includedir)/camel
-
+providerdir = $(libdir)/evolution/camel-providers/$(VERSION)
 
 lib_LTLIBRARIES = libcamel.la
 
 INCLUDES = -I.. -I$(srcdir)/.. -I$(includedir)	\
 	-I$(top_srcdir)/intl			\
-	$(GTK_INCLUDEDIR)
+	$(GTK_INCLUDEDIR)			\
+	-DCAMEL_PROVIDERDIR=\""$(providerdir)"\"
 
 
 if ENABLE_THREADS
