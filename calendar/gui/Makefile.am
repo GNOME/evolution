@@ -171,7 +171,7 @@ evolution_calendar_LDADD =								\
 	$(GAL_LIBS)									\
 	$(INTLLIBS)
 
-#evolution_calendar_LDFLAGS = `gnome-config --libs gdk_pixbuf`
+evolution_calendar_LDFLAGS = -export-dynamic
 
 oafdir = $(datadir)/oaf
 oaf_in_files = \

@@ -1,3 +1,8 @@
+2001-09-26  Dan Winship  <danw@ximian.com>
+
+	* gui/Makefile.am (evolution_calendar_LDFLAGS): Add
+	-export-dynamic to make glade custom widgets work on non-Linux.
+
 2001-09-26  Rodrigo Moya <rodrigo@ximian.com>
 
 	* cal-util/cal-util.h: added CAL_MODE_INVALID to CalMode enum
