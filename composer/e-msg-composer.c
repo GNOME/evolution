@@ -135,7 +135,6 @@ static CamelMimeMessage *
 build_message (EMsgComposer *composer)
 {
 	CamelMimeMessage *new;
-	CamelMimePart *part;
 	char *text;
 	int i;
 	
@@ -149,14 +148,15 @@ build_message (EMsgComposer *composer)
 					 composer->extra_hdr_values->pdata[i]);
 	}
 
-	part = camel_mime_part_new ();
 	text = get_editor_text (BONOBO_WIDGET (composer->editor));
-	camel_mime_part_set_content (part, text, strlen (text), "text/html");
-	g_free (text);
 
 	if (e_msg_composer_attachment_bar_get_num_attachments (E_MSG_COMPOSER_ATTACHMENT_BAR (composer->attachment_bar))) {
 		CamelMultipart *multipart = camel_multipart_new ();
+		CamelMimePart *part;
 
+		part = camel_mime_part_new ();
+		camel_mime_part_set_content (part, text,
+					     strlen (text), "text/html");
 		camel_multipart_add_part (multipart, part);
 
 		e_msg_composer_attachment_bar_to_multipart (E_MSG_COMPOSER_ATTACHMENT_BAR (composer->attachment_bar), multipart);
@@ -164,9 +164,19 @@ build_message (EMsgComposer *composer)
 		camel_medium_set_content_object (CAMEL_MEDIUM (new),
 						 CAMEL_DATA_WRAPPER (multipart));
 	} else {
+		CamelDataWrapper *cdw;
+		CamelStream *stream;
+
+		stream = camel_stream_mem_new_with_buffer (text,
+							   strlen (text));
+		cdw = camel_data_wrapper_new ();
+		camel_data_wrapper_construct_from_stream (cdw, stream);
+		camel_data_wrapper_set_mime_type (cdw, "text/html");
+
 		camel_medium_set_content_object (CAMEL_MEDIUM (new),
-						 CAMEL_DATA_WRAPPER (part));
+						 CAMEL_DATA_WRAPPER (cdw));
 	}
+	g_free (text);
 
 	/* FIXME refcounting is most certainly wrong.  We want all the stuff to
            be destroyed when we unref() the message.  */
