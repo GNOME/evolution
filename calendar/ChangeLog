@@ -1,5 +1,10 @@
 2003-03-06  Rodrigo Moya <rodrigo@ximian.com>
 
+	* gui/alarm-queue.c (display_notification): ref the CalClient.
+	(notify_dialog_cb): unref the CalClient.
+
+2003-03-06  Rodrigo Moya <rodrigo@ximian.com>
+
 	* gui/alarm-notify/alarm-notify-dialog.[ch]
 	(alarm_notify_dialog_disable_buttons): new function.
 	(alarm_notify_dialog): made it return a pointer to the dialog structure.

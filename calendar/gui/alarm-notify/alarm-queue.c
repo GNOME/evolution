@@ -700,6 +700,7 @@ notify_dialog_cb (AlarmNotifyResult result, int snooze_mins, gpointer data)
 
 	remove_queued_alarm (c->cqa, c->alarm_id);
 	g_object_unref (c->comp);
+	g_object_unref (c->client);
 	g_free (c);
 }
 
@@ -758,6 +759,7 @@ display_notification (time_t trigger, CompQueuedAlarms *cqa,
 	c->alarm_id = alarm_id;
 	c->comp = cal_component_clone (comp);
 	c->client = c->cqa->parent_client->client;
+	g_object_ref (c->client);
 
 	if (!(c->dialog = alarm_notify_dialog (trigger,
 					       qa->instance->occur_start, qa->instance->occur_end,
