@@ -32,6 +32,7 @@
 
 #ifdef ENABLE_THREADS
 #include <pthread.h>
+#include <semaphore.h>
 #include <e-util/e-msgport.h>
 #endif
 
@@ -82,14 +83,11 @@ typedef struct _CamelHookPair
 struct _CamelObjectBag {
 	GHashTable *object_table; /* object by key */
 	GHashTable *key_table;	/* key by object */
-	guint32 flags;
 #ifdef ENABLE_THREADS
-	pthread_t owner;
-	pthread_cond_t cond;
+	pthread_t owner;	/* the thread that has reserved the bag for a new entry */
+	sem_t reserve_sem;	/* used to track ownership */
 #endif
 };
-
-#define CAMEL_OBJECT_BAG_RESERVED (1)
 
 /* used to tag a bag hookpair */
 static const char *bag_name = "object:bag";
@@ -1091,9 +1089,10 @@ CamelObjectBag *camel_object_bag_new(GHashFunc hash, GEqualFunc equal)
 	bag = g_malloc(sizeof(*bag));
 	bag->object_table = g_hash_table_new(hash, equal);
 	bag->key_table = g_hash_table_new(NULL, NULL);
-	bag->flags = 0;
+	bag->owner = 0;
 #ifdef ENABLE_THREADS
-	pthread_cond_init(&bag->cond, NULL);
+	/* init the semaphore to 1 owner, this is who has reserved the bag for adding */
+	sem_init(&bag->reserve_sem, 0, 1);
 #endif
 	return bag;
 }
@@ -1107,11 +1106,17 @@ remove_bag(char *key, CamelObject *o, CamelObjectBag *bag)
 
 void camel_object_bag_destroy(CamelObjectBag *bag)
 {
-	g_assert(bag->flags == 0);
+	int val;
+
+	sem_getvalue(&bag->reserve_sem, &val);
+	g_assert(val == 1);
 
 	g_hash_table_foreach(bag->object_table, (GHFunc)remove_bag, bag);
 	g_hash_table_destroy(bag->object_table);
 	g_hash_table_destroy(bag->key_table);
+#ifdef ENABLE_THREADS
+	sem_destroy(&bag->reserve_sem);
+#endif
 	g_free(bag);
 }
 
@@ -1149,10 +1154,9 @@ void camel_object_bag_add(CamelObjectBag *bag, const char *key, void *vo)
 	g_hash_table_insert(bag->key_table, vo, k);
 
 #ifdef ENABLE_THREADS
-	if (bag->flags & CAMEL_OBJECT_BAG_RESERVED
-	    && bag->owner == pthread_self()) {
-		bag->flags &= ~CAMEL_OBJECT_BAG_RESERVED;
-		pthread_cond_broadcast(&bag->cond);
+	if (bag->owner == pthread_self()) {
+		bag->owner = 0;
+		sem_post(&bag->reserve_sem);
 	}
 #endif
 
@@ -1167,22 +1171,24 @@ void *camel_object_bag_get(CamelObjectBag *bag, const char *key)
 
 	E_LOCK(type_lock);
 
-	do {
-		retry = FALSE;
-		o = g_hash_table_lookup(bag->object_table, key);
-		if (o) {
-			/* we use the same lock as the refcount */
-			o->ref_count++;
-		}
+	o = g_hash_table_lookup(bag->object_table, key);
+	if (o) {
+		/* we use the same lock as the refcount */
+		o->ref_count++;
+	}
 #ifdef ENABLE_THREADS
-		else {
-			if (bag->flags & CAMEL_OBJECT_BAG_RESERVED) {
-				e_mutex_cond_wait(&bag->cond, type_lock);
-				retry = TRUE;
-			}
-		}
+	else if (bag->owner != pthread_self()) {
+		E_UNLOCK(type_lock);
+		sem_wait(&bag->reserve_sem);
+		E_LOCK(type_lock);
+		/* re-check if it slipped in */
+		o = g_hash_table_lookup(bag->object_table, key);
+		if (o)
+			o->ref_count++;
+		/* we dont want to reserve the bag */
+		sem_post(&bag->reserve_sem);
+	}
 #endif
-	} while (retry);
 	
 	E_UNLOCK(type_lock);
 
@@ -1196,32 +1202,30 @@ void *camel_object_bag_get(CamelObjectBag *bag, const char *key)
 void *camel_object_bag_reserve(CamelObjectBag *bag, const char *key)
 {
 	CamelObject *o;
-	int retry;
 
 	E_LOCK(type_lock);
 
-	do {
-		retry = FALSE;
+	o = g_hash_table_lookup(bag->object_table, key);
+	if (o) {
+		o->ref_count++;
+	}
+#ifdef ENABLE_THREADS
+	else {
+		g_assert(bag->owner != pthread_self());
+		E_UNLOCK(type_lock);
+		sem_wait(&bag->reserve_sem);
+		E_LOCK(type_lock);
+		/* incase its slipped in while we were waiting */
 		o = g_hash_table_lookup(bag->object_table, key);
 		if (o) {
-			/* we use the same lock as the refcount */
 			o->ref_count++;
+			/* in which case we dont need to reserve the bag either */
+			sem_post(&bag->reserve_sem);
+		} else {
+			bag->owner = pthread_self();
 		}
-#ifdef ENABLE_THREADS
-		else {
-			/* NOTE: We dont actually reserve the key, we just reserve
-			   the whole bag.  We could do either but this is easier */
-			if (bag->flags & CAMEL_OBJECT_BAG_RESERVED) {
-				g_assert(bag->owner != pthread_self());
-				e_mutex_cond_wait(&bag->cond, type_lock);
-				retry = TRUE;
-			} else {
-				bag->flags |= CAMEL_OBJECT_BAG_RESERVED;
-				bag->owner = pthread_self();
-			}
-		}
+	}
 #endif
-	} while (retry);
 	
 	E_UNLOCK(type_lock);
 
@@ -1231,23 +1235,12 @@ void *camel_object_bag_reserve(CamelObjectBag *bag, const char *key)
 /* abort a reserved key */
 void camel_object_bag_abort(CamelObjectBag *bag, const char *key)
 {
-	CamelObject *o;
-	int retry;
-
-	E_LOCK(type_lock);
-
-	/* NOTE: We dont actually reserve the key, we just reserve
-	   the whole bag.  We could do either but this is easier */
-
+#ifdef ENABLE_THREADS
 	g_assert(bag->owner == pthread_self());
-	g_assert(bag->flags & CAMEL_OBJECT_BAG_RESERVED);
 
 	bag->owner = 0;
-	bag->flags &= ~CAMEL_OBJECT_BAG_RESERVED;
-
-	pthread_cond_broadcast(&bag->cond);
-	
-	E_UNLOCK(type_lock);
+	sem_post(&bag->reserve_sem);
+#endif
 }
 
 static void
@@ -1262,18 +1255,28 @@ save_bag(char *key, CamelObject *o, GPtrArray *list)
 GPtrArray *camel_object_bag_list(CamelObjectBag *bag)
 {
 	GPtrArray *list;
+#ifdef ENABLE_THREADS
+	pthread_t id;
+#endif
 
 	list = g_ptr_array_new();
+
+#ifdef ENABLE_THREADS
+	/* make sure we own the bag */
+	id = pthread_self();
+	if (bag->owner != id)
+		sem_wait(&bag->reserve_sem);
+#endif
+
 	E_LOCK(type_lock);
-
-	if (bag->flags & CAMEL_OBJECT_BAG_RESERVED
-	    && (bag->owner != pthread_self())) {
-		while (bag->flags & CAMEL_OBJECT_BAG_RESERVED)
-			e_mutex_cond_wait(&bag->cond, type_lock);
-	}
-
 	g_hash_table_foreach(bag->object_table, (GHFunc)save_bag, list);
 	E_UNLOCK(type_lock);
+
+#ifdef ENABLE_THREADS
+	/* ... and now we no longer need it */
+	if (bag->owner != id)
+		sem_post(&bag->reserve_sem);
+#endif
 
 	return list;
 }
