@@ -8,3 +8,13 @@ Implement the two methods for row finding: by full thing, or by a factor.
 
 Add editing
 mouse grabbing for scrolling
+
+
+1. Make sure that all values are updated on header changes and table
+   model changes (they are slightly out of sync now)
+
+* Correctness
+
+	* Make sure we can boot and shutdown with no memory leaks.
+
+	* Run Insure on the thing.

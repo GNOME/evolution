@@ -20,6 +20,7 @@ typedef struct {
 	int              width, height;
 
 	int              top_item;
+	int              cols, rows;
 	
 	/*
 	 * Ids for the signals we connect to
@@ -47,6 +48,8 @@ typedef struct {
 	 * the size
 	 */
 	int              length_threshold;
+
+	int              selected_col, selected_row;
 } ETableItem;
 
 typedef struct {

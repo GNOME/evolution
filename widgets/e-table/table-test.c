@@ -233,6 +233,7 @@ main (int argc, char *argv [])
 		"ETableModel", e_table_model,
 		"x",  10,
 		"y",  30,
+		"drawgrid", TRUE,
 		NULL);
 	gtk_main ();
 
