@@ -72,6 +72,10 @@ typedef struct {
 	gboolean do_mail;
 
 	Bonobo_ConfigDatabase db;
+
+	GtkWidget *dialog;
+	GtkWidget *label;
+	GtkWidget *progressbar;
 } ElmImporter;
 
 typedef struct {
@@ -83,6 +87,23 @@ typedef struct {
 static GHashTable *elm_prefs = NULL;
 
 static void import_next (ElmImporter *importer);
+
+static GtkWidget *
+create_importer_gui (ElmImporter *importer)
+{
+	GtkWidget *dialog;
+
+	dialog = gnome_message_box_new (_("Evolution is importing your old Elm mail"), GNOME_MESSAGE_BOX_INFO, NULL);
+	gtk_window_set_title (GTK_WINDOW (dialog), _("Importing..."));
+
+	importer->label = gtk_label_new (_("Please wait"));
+	importer->progressbar = gtk_progress_bar_new ();
+	gtk_progress_set_activity_mode (GTK_PROGRESS (importer->progressbar), TRUE);
+	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (dialog)->vbox), importer->label, FALSE, FALSE, 0);
+	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (dialog)->vbox), importer->progressbar, FALSE, FALSE, 0);
+
+	return dialog;
+}
 
 static void
 elm_store_settings (ElmImporter *importer)
@@ -109,6 +130,16 @@ importer_cb (EvolutionImporterListener *listener,
 	CORBA_Environment ev;
 
 	if (more_items) {
+		GtkAdjustment *adj;
+		float newval;
+
+		adj = GTK_PROGRESS (importer->progressbar)->adjustment;
+		newval = adj->value + 1;
+		if (newval > adj->upper) {
+			newval = adj->lower;
+		}
+
+		gtk_progress_set_value (GTK_PROGRESS (importer->progressbar), newval);
 		CORBA_exception_init (&ev);
 		objref = bonobo_object_corba_objref (BONOBO_OBJECT (importer->listener));
 		GNOME_Evolution_Importer_processItem (importer->importer,
@@ -133,8 +164,17 @@ elm_import_file (ElmImporter *importer,
 	CORBA_boolean result;
 	CORBA_Environment ev;
 	CORBA_Object objref;
+	char *str;
 
 	CORBA_exception_init (&ev);
+
+	str = g_strdup_printf (_("Importing %s as %s"), path, folderpath);
+	gtk_label_set_text (GTK_LABEL (importer->label), str);
+	g_free (str);
+	while (gtk_events_pending ()) {
+		gtk_main_iteration ();
+	}
+
 	result = GNOME_Evolution_Importer_loadFile (importer->importer, path,
 						    folderpath, &ev);
 	if (ev._major != CORBA_NO_EXCEPTION || result == FALSE) {
@@ -325,6 +365,7 @@ scan_dir (ElmImporter *importer,
 	DIR *maildir;
 	struct stat buf;
 	struct dirent *current;
+	char *str;
 	
 	maildir = opendir (dirname);
 	if (maildir == NULL) {
@@ -333,6 +374,14 @@ scan_dir (ElmImporter *importer,
 		return;
 	}
 	
+	str = g_strdup_printf (_("Scanning %s"), dirname);
+	gtk_label_set_text (GTK_LABEL (importer->label), str);
+	g_free (str);
+
+	while (gtk_events_pending ()) {
+		gtk_main_iteration ();
+	}
+
 	current = readdir (maildir);
 	while (current) {
 		ElmFolder *pf;
@@ -394,6 +443,13 @@ elm_create_structure (EvolutionIntelligentImporter *ii,
 	bonobo_object_ref (BONOBO_OBJECT (ii));
 
 	elm_store_settings (importer);
+
+	/* Create a dialog */
+	importer->dialog = create_importer_gui (importer);
+	gtk_widget_show_all (importer->dialog);
+	while (gtk_events_pending ()) {
+		gtk_main_iteration ();
+	}
 
 	if (importer->do_mail == TRUE) {
 		char *elmdir;

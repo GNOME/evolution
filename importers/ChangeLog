@@ -1,3 +1,9 @@
+2001-08-31  Iain Holmes  <iain@ximian.com>
+
+	* elm-importer.c (create_importer_gui): Add a messagebox.
+	(importer_cb): Update GUI
+	(elm_import_file): Update GUI.
+
 2001-08-30  Iain Holmes  <iain@ximian.com>
 
 	* pine-importer.c (create_importer_gui): Add a messagebox.
