@@ -1,4 +1,6 @@
 1999-05-11  bertrand  <Bertrand.Guiheneuf@inria.fr>
+	
+	* camel/camel-store.c: typo fix.
 
 	* camel/camel-store.c: 
 	* camel/camel-service.c: 

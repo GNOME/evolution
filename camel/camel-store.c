@@ -43,8 +43,8 @@ camel_store_class_init (CamelStoreClass *camel_store_class)
 	/* virtual method definition */
 	camel_store_class->init = _init;
 	camel_store_class->set_separator = _set_separator;
-	camel_store_class->get_separator = _get_separator;
-	camel_store_class->get_folder = _get_folder;
+	camel_store_class->get_separator = camel_store_get_separator;
+	camel_store_class->get_folder = camel_store_get_folder;
 	camel_store_class->get_root_folder = _get_root_folder;
 	camel_store_class->get_default_folder = _get_default_folder;
 	/* virtual method overload */
@@ -151,7 +151,7 @@ _set_separator(CamelStore *store, gchar sep)
  *
  **/
 gchar
-_get_separator(CamelStore *store)
+camel_store_get_separator(CamelStore *store)
 {
 	g_assert(store);
 	return store->separator;
@@ -178,7 +178,7 @@ _get_separator(CamelStore *store)
  * Return value: the folder
  **/
 CamelFolder *
-_get_folder(CamelStore *store, GString *folder_name)
+camel_store_get_folder(CamelStore *store, GString *folder_name)
 {
 
 #warning fill this part in.
