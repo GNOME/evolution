@@ -360,6 +360,7 @@ message_list_drag_data_get (ETable             *table,
 	
 	switch (info) {
 	case DND_TARGET_LIST_TYPE_URI:
+		/* drag & drop into nautilus */
 		mktemp (dirname);
 		filename = g_strdup_printf ("%s.eml", info->subject);
 		url = g_strdup_printf ("file:%s", dirname);

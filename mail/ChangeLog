@@ -1,3 +1,11 @@
+2000-11-16  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* folder-browser-factory.c: Added the MessageViewSource bonobo
+	menu verb.
+
+	* mail-ops.c (mail_do_save_messages): New async function to save
+	messages as individual files in a given path.
+
 2000-11-15  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* folder-browser-factory.c: Added a new Forward as Attachment
