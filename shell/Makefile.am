@@ -131,6 +131,7 @@ evolution_SOURCES =				\
 	e-shell-offline-handler.c		\
 	e-shell-offline-handler.h		\
 	e-shell-startup-wizard.c		\
+	e-shell-startup-wizard.h		\
 	e-shell-user-creatable-items-handler.c	\
 	e-shell-user-creatable-items-handler.h	\
 	e-shell-utils.c				\

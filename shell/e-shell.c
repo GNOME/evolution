@@ -53,6 +53,7 @@
 #include "e-shell-constants.h"
 #include "e-shell-folder-selection-dialog.h"
 #include "e-shell-offline-handler.h"
+#include "e-shell-startup-wizard.h"
 #include "e-shell-view.h"
 #include "e-shortcuts.h"
 #include "e-storage-set.h"

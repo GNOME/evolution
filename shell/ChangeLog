@@ -1,3 +1,9 @@
+2001-08-21  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-shell.c: #include "e-shell-startup-wizard.h".
+
+	* e-shell-startup-wizard.h: New.
+
 2001-08-21  Iain Holmes  <iain@ximian.com>
 
 	* e-shell-startup-wizard.c (make_mail_dialog_pages): Show an error
