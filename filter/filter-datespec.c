@@ -174,7 +174,7 @@ validate (FilterElement *fe)
 	FilterDatespec *fds = (FilterDatespec *) fe;
 	gboolean valid = TRUE;
 	
-	if (fds->value < 0) {
+	if (fds->value <= 0) {
 		GtkWidget *gd;
 		
 		valid = FALSE;
