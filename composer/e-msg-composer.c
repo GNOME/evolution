@@ -1009,16 +1009,21 @@ static char *
 get_signature_html (EMsgComposer *composer)
 {
 	char *text = NULL, *html = NULL;
-	gboolean format_html = FALSE;
+	gboolean format_html;
+	
+	if (!composer->signature)
+		return NULL;
 	
 	if (!composer->signature->autogen) {
 		if (!composer->signature->filename)
 			return NULL;
 		
+		format_html = composer->signature->html;
+		
 		if (composer->signature->script) {
 			text = mail_config_signature_run_script (composer->signature->filename);
 		} else {
-			text = e_msg_composer_get_sig_file_content (composer->signature->filename, composer->signature->html);
+			text = e_msg_composer_get_sig_file_content (composer->signature->filename, format_html);
 		}
 	} else {
 		EAccountIdentity *id;
