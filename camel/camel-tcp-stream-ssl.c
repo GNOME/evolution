@@ -205,6 +205,9 @@ set_errno (int code)
 {
 	/* FIXME: this should handle more. */
 	switch (code) {
+	case PR_INVALID_ARGUMENT_ERROR:
+		errno = EINVAL;
+		break;
 	case PR_PENDING_INTERRUPT_ERROR:
 		errno = EINTR;
 		break;
@@ -214,6 +217,27 @@ set_errno (int code)
 		break;
 	case PR_WOULD_BLOCK_ERROR:
 		errno = EWOULDBLOCK;
+		break;
+	case PR_IN_PROGRESS_ERROR:
+		errno = EINPROGRESS;
+		break;
+	case PR_ALREADY_INITIATED_ERROR:
+		errno = EALREADY;
+		break;
+	case PR_NETWORK_UNREACHABLE_ERROR:
+		errno = EHOSTUNREACH;
+		break;
+	case PR_CONNECT_REFUSED_ERROR:
+		errno = ECONNREFUSED;
+		break;
+	case PR_CONNECT_TIMEOUT_ERROR:
+		errno = ETIMEDOUT;
+		break;
+	case PR_NOT_CONNECTED_ERROR:
+		errno = ENOTCONN;
+		break;
+	case PR_CONNECT_RESET_ERROR:
+		errno = ECONNRESET;
 		break;
 	case PR_IO_ERROR:
 	default:
@@ -578,12 +602,39 @@ stream_connect (CamelTcpStream *stream, struct hostent *host, int port)
 		int errnosave;
 		
 		set_errno (PR_GetError ());
-		errnosave = errno;
-		PR_Close (fd);
-		ssl->priv->sockfd = NULL;
-		errno = errnosave;
-		
-		return -1;
+		if (errno == EINPROGRESS) {
+			gboolean connected = FALSE;
+			PRPollDesc poll;
+			
+			do {
+				poll.fd = fd;
+				poll.in_flags = PR_POLL_WRITE | PR_POLL_EXCEPT;
+				poll.out_flags = 0;
+				
+				timeout = PR_INTERVAL_MIN;
+				
+				if (PR_Poll (&poll, 1, timeout) == PR_FAILURE) {
+					set_errno (PR_GetError ());
+					goto exception;
+				}
+				
+				if (PR_GetConnectStatus (&poll) == PR_FAILURE) {
+					set_errno (PR_GetError ());
+					if (errno != EINPROGRESS)
+						goto exception;
+				} else {
+					connected = TRUE;
+				}
+			} while (!connected);
+		} else {
+		exception:
+			errnosave = errno;
+			PR_Close (fd);
+			ssl->priv->sockfd = NULL;
+			errno = errnosave;
+			
+			return -1;
+		}
 	}
 	
 	ssl->priv->sockfd = fd;

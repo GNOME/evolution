@@ -1522,7 +1522,7 @@ message_info_new(CamelFolderSummary *s, struct _header_raw *h)
 	CamelMessageInfo *mi;
 	const char *received;
 	guchar digest[16];
-	struct _header_references *refs, *scan;
+	struct _header_references *refs, *irt, *scan;
 	char *msgid;
 	int count;
 	char *subject, *from, *to, *cc, *mlist;
@@ -1585,10 +1585,39 @@ message_info_new(CamelFolderSummary *s, struct _header_raw *h)
 		memcpy(mi->message_id.id.hash, digest, sizeof(mi->message_id.id.hash));
 		g_free(msgid);
 	}
-	/* if we have a references, use that, otherwise, see if we have an in-reply-to
-	   header, with parsable content, otherwise *shrug* */
-	if ((refs = header_references_decode(header_raw_find(&h, "references", NULL))) != NULL
-	    || (refs = header_references_decode(header_raw_find(&h, "in-reply-to", NULL))) != NULL) {
+	
+	/* decode our references and in-reply-to headers */
+	refs = header_references_decode (header_raw_find (&h, "references", NULL));
+	irt = header_references_decode (header_raw_find (&h, "in-reply-to", NULL));
+	if (refs || irt) {
+		if (irt) {
+			struct _header_references *n, *r = irt;
+			
+			/* If there are multiple things in In-Reply-To that look like Message-IDs,
+			   only use the first one of them: odds are that the later ones are actually
+			   email addresses, not IDs. */
+			
+			/* since header_references_decode() returns the list in reverse order,
+			   free all but the last In-Reply-To message-id */
+			while (r->next) {
+				n = r->next;
+				g_free (r->id);
+				g_free (r);
+				r = n;
+			}
+			
+			irt = r;
+			
+			/* The References field is populated from the ``References'' and/or ``In-Reply-To''
+			   headers. If both headers exist, take the first thing in the In-Reply-To header
+			   that looks like a Message-ID, and append it to the References header. */
+			
+			if (refs)
+				irt->next = refs;
+			
+			refs = irt;
+		}
+		
 		count = header_references_list_size(&refs);
 		mi->references = g_malloc(sizeof(*mi->references) + ((count-1) * sizeof(mi->references->references[0])));
 		count = 0;

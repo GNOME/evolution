@@ -1,3 +1,21 @@
+2002-04-02  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-tcp-stream-ssl.c (set_errno): Handle a ton more nspr i/o
+	errno's.
+	(stream_connect): Act as if we are doing a non-blocking
+	connect. This is to try and work around bug #15120 where users get
+	an EINPROGRESS error. Maybe importing a PRFileDesc into SSL mode
+	automagically makes it non-blocking? I dunno.
+
+2002-04-01  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-folder-summary.c (message_info_new): Updated the
+	construction of the references to match JWZ's updated algorithm
+	initialization (ie, append any In-Reply-To reference onto any
+	References header and never take more than a single message-id
+	from the In-Reply-To header since anything after the first will
+	probably just be email addresses). Fixes bug #1336.
+
 2002-04-03  Not Zed  <NotZed@Ximian.com>
 
 	* camel-text-index.c (text_index_sync): Sync the key tables
