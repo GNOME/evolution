@@ -744,6 +744,8 @@ init_widgets (TaskDetailsPage *tdpage)
 	/* Completed Date */
 	g_signal_connect((priv->completed_date), "changed",
 			    G_CALLBACK (date_changed_cb), tdpage);
+	g_signal_connect (priv->completed_date, "changed",
+			    G_CALLBACK (field_changed_cb), tdpage);
 
 	/* URL */
 	g_signal_connect((priv->url), "changed",

@@ -894,6 +894,10 @@ init_widgets (TaskPage *tpage)
 
 	g_signal_connect((priv->summary), "changed",
 			    G_CALLBACK (field_changed_cb), tpage);
+	g_signal_connect (priv->start_date, "changed",
+			  G_CALLBACK (field_changed_cb), tpage);
+	g_signal_connect (priv->due_date, "changed",
+			  G_CALLBACK (field_changed_cb), tpage);
 	g_signal_connect((priv->due_timezone), "changed",
 			    G_CALLBACK (field_changed_cb), tpage);
 	g_signal_connect((priv->start_timezone), "changed",

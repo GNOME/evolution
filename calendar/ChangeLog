@@ -1,3 +1,13 @@
+2004-07-21  JP Rosevear  <jpr@novell.com>
+
+	Fixes #61779
+	
+	* gui/dialogs/task-page.c (init_widgets): listen for changes on
+	start and due dates
+
+	* gui/dialogs/task-details-page.c (init_widgets): listen for
+	changes on completion date
+
 2004-07-20  Not Zed  <NotZed@Ximian.com>
 
 	* gui/e-cal-model.c: 
