@@ -647,7 +647,7 @@ AC_ARG_WITH(krb5, [  --with-krb5=PREFIX      Location of Kerberos 5 libs/include
 AC_ARG_WITH(krb4, [  --with-krb4=PREFIX      Location of Kerberos 4 libs/includes], with_krb4="$withval", with_krb4="no")
 
 msg_krb5="no"
-if test "$x{with_krb5}" != "xno"; then
+if test "x$with_krb5" != "xno"; then
 	LDFLAGS_save="$LDFLAGS"
 	
 	mitlibs="-lkrb5 -lk5crypto -lcom_err -lgssapi_krb5"
