@@ -1047,7 +1047,7 @@ imap_forget_folder (CamelImapStore *imap_store, const char *folder_name, CamelEx
 	}
 	
 	summary_file = g_strdup_printf ("%s/summary", folder_dir);
-	summary = camel_imap_summary_new (summary_file);
+	summary = camel_imap_summary_new (NULL, summary_file);
 	if (!summary) {
 		g_free (summary_file);
 		g_free (folder_dir);
@@ -1597,14 +1597,17 @@ imap_disconnect_online (CamelService *service, gboolean clean, CamelException *e
 static gboolean
 imap_summary_is_dirty (CamelFolderSummary *summary)
 {
-	CamelMessageInfo *info;
+	CamelImapMessageInfo *info;
 	int max, i;
-	
+	int found = FALSE;
+
 	max = camel_folder_summary_count (summary);
-	for (i = 0; i < max; i++) {
-		info = camel_folder_summary_index (summary, i);
-		if (info && (info->flags & CAMEL_MESSAGE_FOLDER_FLAGGED))
-			return TRUE;
+	for (i = 0; i < max && !found; i++) {
+		info = (CamelImapMessageInfo *)camel_folder_summary_index (summary, i);
+		if (info) {
+			found = info->info.flags & CAMEL_MESSAGE_FOLDER_FLAGGED;
+			camel_message_info_free(info);
+		}
 	}
 	
 	return FALSE;

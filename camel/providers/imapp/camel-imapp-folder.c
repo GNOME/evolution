@@ -68,7 +68,6 @@ imap_folder_class_init (CamelIMAPPFolderClass *camel_imapp_folder_class)
 	camel_folder_class->sync = imap_sync;
 	
 	camel_folder_class->get_message = imap_get_message;
-	/*camel_folder_class->set_message_flags = imap_set_message_flags;*/
 }
 
 static void

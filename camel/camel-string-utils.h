@@ -42,6 +42,9 @@ const char *camel_strdown (char *str);
 char camel_tolower(char c);
 char camel_toupper(char c);
 
+const char *camel_pstring_strdup(const char *s);
+void camel_pstring_free(const char *s);
+
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */

@@ -160,7 +160,7 @@ spool_get_meta_path(CamelLocalFolder *lf, const char *toplevel_dir, const char *
 static CamelLocalSummary *
 spool_create_summary(CamelLocalFolder *lf, const char *path, const char *folder, CamelIndex *index)
 {
-	return (CamelLocalSummary *)camel_spool_summary_new(folder);
+	return (CamelLocalSummary *)camel_spool_summary_new((CamelFolder *)lf, folder);
 }
 
 static int

@@ -41,7 +41,6 @@ typedef struct _CamelFolderSummary CamelFolderSummary;
 typedef struct _CamelInternetAddress CamelInternetAddress;
 typedef struct _CamelMedium CamelMedium;
 typedef struct _CamelMessageContentInfo CamelMessageContentInfo;
-typedef struct _CamelMessageInfo CamelMessageInfo;
 typedef struct _CamelMimeFilter CamelMimeFilter;
 typedef struct _CamelMimeFilterBasic CamelMimeFilterBasic;
 typedef struct _CamelMimeFilterBestenc CamelMimeFilterBestenc;

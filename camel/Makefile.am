@@ -119,6 +119,7 @@ libcamel_la_SOURCES = 				\
 	camel-utf8.c				\
 	camel-vee-folder.c			\
 	camel-vee-store.c			\
+	camel-vee-summary.c			\
 	camel-vtrash-folder.c			\
 	camel.c
 
@@ -224,6 +225,7 @@ libcamelinclude_HEADERS =			\
 	camel-utf8.h				\
 	camel-vee-folder.h			\
 	camel-vee-store.h			\
+	camel-vee-summary.h			\
 	camel-vtrash-folder.h			\
 	camel.h
 

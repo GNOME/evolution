@@ -56,13 +56,6 @@ static CamelLocalFolderClass *parent_class = NULL;
 static int mbox_lock(CamelLocalFolder *lf, CamelLockType type, CamelException *ex);
 static void mbox_unlock(CamelLocalFolder *lf);
 
-#ifdef STATUS_PINE
-static gboolean mbox_set_message_flags(CamelFolder *folder, const char *uid, guint32 flags, guint32 set);
-#endif
-
-static void mbox_set_message_user_flag(CamelFolder *folder, const char *uid, const char *name, gboolean value);
-static void mbox_set_message_user_tag(CamelFolder *folder, const char *uid, const char *name, const char *value);
-
 static void mbox_append_message(CamelFolder *folder, CamelMimeMessage * message, const CamelMessageInfo * info,	char **appended_uid, CamelException *ex);
 static CamelMimeMessage *mbox_get_message(CamelFolder *folder, const gchar * uid, CamelException *ex);
 static CamelLocalSummary *mbox_create_summary(CamelLocalFolder *lf, const char *path, const char *folder, CamelIndex *index);
@@ -83,12 +76,6 @@ camel_mbox_folder_class_init(CamelMboxFolderClass * camel_mbox_folder_class)
 	camel_folder_class->append_message = mbox_append_message;
 	camel_folder_class->get_message = mbox_get_message;
 
-#ifdef STATUS_PINE
-	camel_folder_class->set_message_flags = mbox_set_message_flags;
-#endif
-	camel_folder_class->set_message_user_flag = mbox_set_message_user_flag;
-	camel_folder_class->set_message_user_tag = mbox_set_message_user_tag;
-	
 	lclass->get_full_path = camel_mbox_folder_get_full_path;
 	lclass->get_meta_path = camel_mbox_folder_get_meta_path;
 	lclass->create_summary = mbox_create_summary;
@@ -207,7 +194,7 @@ camel_mbox_folder_get_meta_path (CamelLocalFolder *lf, const char *toplevel_dir,
 
 static CamelLocalSummary *mbox_create_summary(CamelLocalFolder *lf, const char *path, const char *folder, CamelIndex *index)
 {
-	return (CamelLocalSummary *)camel_mbox_summary_new(path, folder, index);
+	return (CamelLocalSummary *)camel_mbox_summary_new((CamelFolder *)lf, path, folder, index);
 }
 
 static int mbox_lock(CamelLocalFolder *lf, CamelLockType type, CamelException *ex)
@@ -421,7 +408,7 @@ retry:
 	g_assert(info->frompos != -1);
 
 	frompos = info->frompos;
-	camel_folder_summary_info_free(folder->summary, (CamelMessageInfo *)info);
+	camel_message_info_free((CamelMessageInfo *)info);
 	
 	/* we use an fd instead of a normal stream here - the reason is subtle, camel_mime_part will cache
 	   the whole message in memory if the stream is non-seekable (which it is when built from a parser
@@ -492,67 +479,4 @@ fail:
 	}
 	
 	return message;
-}
-
-#ifdef STATUS_PINE
-static gboolean
-mbox_set_message_flags(CamelFolder *folder, const char *uid, guint32 flags, guint32 set)
-{
-	/* Basically, if anything could change the Status line, presume it does */
-	if (((CamelMboxSummary *)folder->summary)->xstatus
-	    && (flags & (CAMEL_MESSAGE_SEEN|CAMEL_MESSAGE_FLAGGED|CAMEL_MESSAGE_ANSWERED|CAMEL_MESSAGE_DELETED))) {
-		flags |= CAMEL_MESSAGE_FOLDER_XEVCHANGE|CAMEL_MESSAGE_FOLDER_FLAGGED;
-		set |= CAMEL_MESSAGE_FOLDER_XEVCHANGE|CAMEL_MESSAGE_FOLDER_FLAGGED;
-	}
-
-	return ((CamelFolderClass *)parent_class)->set_message_flags(folder, uid, flags, set);
-}
-#endif
-
-static void
-mbox_set_message_user_flag(CamelFolder *folder, const char *uid, const char *name, gboolean value)
-{
-	CamelMessageInfo *info;
-
-	g_return_if_fail(folder->summary != NULL);
-
-	info = camel_folder_summary_uid(folder->summary, uid);
-	if (info == NULL)
-		return;
-
-	if (camel_flag_set(&info->user_flags, name, value)) {
-		CamelFolderChangeInfo *changes = camel_folder_change_info_new();
-
-		info->flags |= CAMEL_MESSAGE_FOLDER_FLAGGED|CAMEL_MESSAGE_FOLDER_XEVCHANGE;
-		camel_folder_summary_touch(folder->summary);
-
-		camel_folder_change_info_change_uid(changes, uid);
-		camel_object_trigger_event(folder, "folder_changed", changes);
-		camel_folder_change_info_free(changes);
-	}
-	camel_folder_summary_info_free(folder->summary, info);
-}
-
-static void
-mbox_set_message_user_tag(CamelFolder *folder, const char *uid, const char *name, const char *value)
-{
-	CamelMessageInfo *info;
-
-	g_return_if_fail(folder->summary != NULL);
-
-	info = camel_folder_summary_uid(folder->summary, uid);
-	if (info == NULL)
-		return;
-
-	if (camel_tag_set(&info->user_tags, name, value)) {
-		CamelFolderChangeInfo *changes = camel_folder_change_info_new();
-
-		info->flags |= CAMEL_MESSAGE_FOLDER_FLAGGED|CAMEL_MESSAGE_FOLDER_XEVCHANGE;
-		camel_folder_summary_touch(folder->summary);
-
-		camel_folder_change_info_change_uid(changes, uid);
-		camel_object_trigger_event (folder, "folder_changed", changes);
-		camel_folder_change_info_free(changes);
-	}
-	camel_folder_summary_info_free(folder->summary, info);
 }

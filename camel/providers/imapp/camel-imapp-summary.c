@@ -168,7 +168,7 @@ message_info_load(CamelFolderSummary *s, FILE *in)
 
 	return info;
 error:
-	camel_folder_summary_info_free(s, info);
+	camel_message_info_free(info);
 	return NULL;
 }
 

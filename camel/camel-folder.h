@@ -130,8 +130,6 @@ typedef struct {
 			  CamelException *ex);
 
 	int   (*get_message_count)   (CamelFolder *folder);
-	int   (*get_unread_message_count) (CamelFolder *folder);
-	int   (*get_deleted_message_count) (CamelFolder *folder);
 
 	void (*append_message)  (CamelFolder *folder, 
 				 CamelMimeMessage *message,

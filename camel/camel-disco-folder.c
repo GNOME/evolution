@@ -345,9 +345,9 @@ disco_expunge (CamelFolder *folder, CamelException *ex)
 	count = camel_folder_summary_count (folder->summary);
 	for (i = 0; i < count; i++) {
 		info = camel_folder_summary_index (folder->summary, i);
-		if (info->flags & CAMEL_MESSAGE_DELETED)
+		if (camel_message_info_flags(info) & CAMEL_MESSAGE_DELETED)
 			g_ptr_array_add (uids, g_strdup (camel_message_info_uid (info)));
-		camel_folder_summary_info_free (folder->summary, info);
+		camel_message_info_free(info);
 	}
 
 	disco_expunge_uids (folder, uids, ex);

@@ -47,7 +47,7 @@ CamelType	camel_spool_summary_get_type	(void);
 void	camel_spool_summary_construct	(CamelSpoolSummary *new, const char *filename, const char *spool_name, CamelIndex *index);
 
 /* create the summary, in-memory only */
-CamelSpoolSummary *camel_spool_summary_new(const char *filename);
+CamelSpoolSummary *camel_spool_summary_new(struct _CamelFolder *, const char *filename);
 
 /* load/check the summary */
 int camel_spool_summary_load(CamelSpoolSummary *cls, int forceindex, CamelException *ex);

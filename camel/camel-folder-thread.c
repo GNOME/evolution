@@ -333,7 +333,7 @@ dump_tree_rec(struct _tree_info *info, CamelFolderThreadNode *c, int depth)
 			g_hash_table_insert(info->visited, c, c);
 		}
 		if (c->message) {
-			printf("%s %p Subject: %s <%.8s>\n", p, c, camel_message_info_subject(c->message), c->message->message_id.id.hash);
+			printf("%s %p Subject: %s <%.8s>\n", p, c, camel_message_info_subject(c->message), camel_message_info_message_id(c->message)->id.hash);
 			count += 1;
 		} else {
 			printf("%s %p <empty>\n", p, c);
@@ -446,9 +446,11 @@ thread_summary(CamelFolderThread *thread, GPtrArray *summary)
 	no_id_table = g_hash_table_new(NULL, NULL);
 	for (i=0;i<summary->len;i++) {
 		CamelMessageInfo *mi = summary->pdata[i];
+		const CamelSummaryMessageID *mid = camel_message_info_message_id(mi);
+		const CamelSummaryReferences *references = camel_message_info_references(mi);
 
-		if (mi->message_id.id.id) {
-			c = g_hash_table_lookup(id_table, &mi->message_id);
+		if (mid->id.id) {
+			c = g_hash_table_lookup(id_table, mid);
 			/* check for duplicate messages */
 			if (c && c->order) {
 				/* if duplicate, just make out it is a no-id message,  but try and insert it
@@ -457,9 +459,9 @@ thread_summary(CamelFolderThread *thread, GPtrArray *summary)
 				c = e_memchunk_alloc0(thread->node_chunks);
 				g_hash_table_insert(no_id_table, (void *)mi, c);
 			} else if (!c) {
-				d(printf("doing : %08x%08x (%s)\n", mi->message_id.id.part.hi, mi->message_id.id.part.lo, camel_message_info_subject(mi)));
+				d(printf("doing : %08x%08x (%s)\n", mid->id.part.hi, mid->id.part.lo, camel_message_info_subject(mi)));
 				c = e_memchunk_alloc0(thread->node_chunks);
-				g_hash_table_insert(id_table, (void *)&mi->message_id, c);
+				g_hash_table_insert(id_table, (void *)mid, c);
 			}
 		} else {
 			d(printf("doing : (no message id)\n"));
@@ -470,20 +472,20 @@ thread_summary(CamelFolderThread *thread, GPtrArray *summary)
 		c->message = mi;
 		c->order = i+1;
 		child = c;
-		if (mi->references) {
+		if (references) {
 			int j;
 
 			d(printf("references:\n"));
-			for (j=0;j<mi->references->size;j++) {
+			for (j=0;j<references->size;j++) {
 				/* should never be empty, but just incase */
-				if (mi->references->references[j].id.id == 0)
+				if (references->references[j].id.id == 0)
 					continue;
 
-				c = g_hash_table_lookup(id_table, &mi->references->references[j]);
+				c = g_hash_table_lookup(id_table, &references->references[j]);
 				if (c == NULL) {
 					d(printf("not found\n"));
 					c = e_memchunk_alloc0(thread->node_chunks);
-					g_hash_table_insert(id_table, &mi->references->references[j], c);
+					g_hash_table_insert(id_table, (void *)&references->references[j], c);
 				}
 				if (c!=child)
 					container_parent_child(c, child);

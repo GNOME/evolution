@@ -44,7 +44,7 @@ struct _pending_fetch {
 	struct _pending_fetch *next;
 	struct _pending_fetch *prev;
 
-	CamelMessageInfo *info;
+	struct _CamelMessageInfo *info;
 };
 
 typedef struct {

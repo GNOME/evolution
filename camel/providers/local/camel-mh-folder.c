@@ -117,7 +117,7 @@ camel_mh_folder_new(CamelStore *parent_store, const char *full_name, guint32 fla
 
 static CamelLocalSummary *mh_create_summary(CamelLocalFolder *lf, const char *path, const char *folder, CamelIndex *index)
 {
-	return (CamelLocalSummary *)camel_mh_summary_new(path, folder, index);
+	return (CamelLocalSummary *)camel_mh_summary_new((CamelFolder *)lf, path, folder, index);
 }
 
 static void
@@ -205,7 +205,7 @@ static CamelMimeMessage *mh_get_message(CamelFolder * folder, const gchar * uid,
 	}
 
 	/* we only need it to check the message exists */
-	camel_folder_summary_info_free(folder->summary, info);
+	camel_message_info_free(info);
 
 	name = g_strdup_printf("%s/%s", lf->folder_path, uid);
 	if ((message_stream = camel_stream_fs_new_with_name(name, O_RDONLY, 0)) == NULL) {

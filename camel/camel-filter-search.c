@@ -365,7 +365,7 @@ user_flag (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMessage
 	/* performs an OR of all words */
 	for (i = 0; i < argc && !truth; i++) {
 		if (argv[i]->type == ESEXP_RES_STRING
-		    && camel_flag_get (&fms->info->user_flags, argv[i]->value.string)) {
+		    && camel_message_info_user_flag(fms->info, argv[i]->value.string)) {
 			truth = TRUE;
 			break;
 		}
@@ -386,7 +386,7 @@ system_flag (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMessa
 		e_sexp_fatal_error(f, _("Invalid arguments to (system-flag)"));
 	
 	r = e_sexp_result_new (f, ESEXP_RES_BOOL);
-	r->value.bool = camel_system_flag_get (fms->info->flags, argv[0]->value.string);
+	r->value.bool = camel_system_flag_get (camel_message_info_flags(fms->info), argv[0]->value.string);
 	
 	return r;
 }
@@ -400,7 +400,7 @@ user_tag (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMessageS
 	if (argc != 1 || argv[0]->type != ESEXP_RES_STRING)
 		e_sexp_fatal_error(f, _("Invalid arguments to (user-tag)"));
 	
-	tag = camel_tag_get (&fms->info->user_tags, argv[0]->value.string);
+	tag = camel_message_info_user_tag(fms->info, argv[0]->value.string);
 	
 	r = e_sexp_result_new (f, ESEXP_RES_STRING);
 	r->value.string = g_strdup (tag ? tag : "");
@@ -491,7 +491,7 @@ get_size (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMessageS
 	ESExpResult *r;
 	
 	r = e_sexp_result_new(f, ESEXP_RES_INT);
-	r->value.number = fms->info->size / 1024;
+	r->value.number = camel_message_info_size(fms->info) / 1024;
 
 	return r;
 }

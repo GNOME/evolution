@@ -123,9 +123,11 @@ camel_mh_summary_finalise(CamelObject *obj)
  * 
  * Return value: A new #CamelMhSummary object.
  **/
-CamelMhSummary	*camel_mh_summary_new	(const char *filename, const char *mhdir, CamelIndex *index)
+CamelMhSummary	*camel_mh_summary_new(struct _CamelFolder *folder, const char *filename, const char *mhdir, CamelIndex *index)
 {
 	CamelMhSummary *o = (CamelMhSummary *)camel_object_new(camel_mh_summary_get_type ());
+
+	((CamelFolderSummary *)o)->folder = folder;
 
 	camel_local_summary_construct((CamelLocalSummary *)o, filename, mhdir, index);
 	return o;
@@ -204,7 +206,7 @@ remove_summary(char *key, CamelMessageInfo *info, CamelLocalSummary *cls)
 	if (cls->index)
 		camel_index_delete_name(cls->index, camel_message_info_uid(info));
 	camel_folder_summary_remove((CamelFolderSummary *)cls, info);
-	camel_folder_summary_info_free((CamelFolderSummary *)cls, info);
+	camel_message_info_free(info);
 }
 
 static int
@@ -272,7 +274,7 @@ mh_summary_check(CamelLocalSummary *cls, CamelFolderChangeInfo *changeinfo, Came
 				if (info != NULL) {
 					g_hash_table_remove(left, camel_message_info_uid(info));
 					camel_folder_summary_remove((CamelFolderSummary *)cls, info);
-					camel_folder_summary_info_free((CamelFolderSummary *)cls, info);
+					camel_message_info_free(info);
 				}
 				camel_mh_summary_add(cls, d->d_name, forceindex);
 			} else {
@@ -280,10 +282,10 @@ mh_summary_check(CamelLocalSummary *cls, CamelFolderChangeInfo *changeinfo, Came
 				CamelMessageInfo *old = g_hash_table_lookup(left, uid);
 
 				if (old) {
-					camel_folder_summary_info_free((CamelFolderSummary *)cls, old);
+					camel_message_info_free(old);
 					g_hash_table_remove(left, uid);
 				}
-				camel_folder_summary_info_free((CamelFolderSummary *)cls, info);
+				camel_message_info_free(info);
 			}
 		}
 	}
@@ -300,7 +302,7 @@ mh_summary_check(CamelLocalSummary *cls, CamelFolderChangeInfo *changeinfo, Came
 }
 
 static int
-mh_summary_sync_message(CamelLocalSummary *cls, CamelMessageInfo *info, CamelException *ex)
+mh_summary_sync_message(CamelLocalSummary *cls, CamelLocalMessageInfo *info, CamelException *ex)
 {
 	CamelMimeParser *mp;
 	const char *xev, *buffer;
@@ -378,7 +380,7 @@ static int
 mh_summary_sync(CamelLocalSummary *cls, gboolean expunge, CamelFolderChangeInfo *changes, CamelException *ex)
 {
 	int count, i;
-	CamelMessageInfo *info;
+	CamelLocalMessageInfo *info;
 	char *name;
 	const char *uid;
 
@@ -391,9 +393,9 @@ mh_summary_sync(CamelLocalSummary *cls, gboolean expunge, CamelFolderChangeInfo 
 
 	count = camel_folder_summary_count((CamelFolderSummary *)cls);
 	for (i=count-1;i>=0;i--) {
-		info = camel_folder_summary_index((CamelFolderSummary *)cls, i);
+		info = (CamelLocalMessageInfo *)camel_folder_summary_index((CamelFolderSummary *)cls, i);
 		g_assert(info);
-		if (expunge && (info->flags & CAMEL_MESSAGE_DELETED)) {
+		if (expunge && (info->info.flags & CAMEL_MESSAGE_DELETED)) {
 			uid = camel_message_info_uid(info);
 			name = g_strdup_printf("%s/%s", cls->folder_path, uid);
 			d(printf("deleting %s\n", name));
@@ -404,17 +406,17 @@ mh_summary_sync(CamelLocalSummary *cls, gboolean expunge, CamelFolderChangeInfo 
 					camel_index_delete_name(cls->index, (char *)uid);
 				
 				camel_folder_change_info_remove_uid(changes, uid);
-				camel_folder_summary_remove((CamelFolderSummary *)cls, info);
+				camel_folder_summary_remove((CamelFolderSummary *)cls, (CamelMessageInfo *)info);
 			}
 			g_free(name);
-		} else if (info->flags & (CAMEL_MESSAGE_FOLDER_NOXEV|CAMEL_MESSAGE_FOLDER_FLAGGED)) {
+		} else if (info->info.flags & (CAMEL_MESSAGE_FOLDER_NOXEV|CAMEL_MESSAGE_FOLDER_FLAGGED)) {
 			if (mh_summary_sync_message(cls, info, ex) != -1) {
-				info->flags &= 0xffff;
+				info->info.flags &= 0xffff;
 			} else {
 				g_warning("Problem occured when trying to expunge, ignored");
 			}
 		}
-		camel_folder_summary_info_free((CamelFolderSummary *)cls, info);
+		camel_message_info_free(info);
 	}
 
 	return ((CamelLocalSummaryClass *)parent_class)->sync(cls, expunge, changes, ex);

@@ -1,3 +1,7 @@
+2004-11-12  Not Zed  <NotZed@Ximian.com>
+
+        ** Merge in notzed-messageinfo-branch, fix some minor conflicts.
+
 2004-11-11  Jeffrey Stedfast  <fejj@novell.com>
 
 	* providers/imap4/camel-imap4-store.c (imap4_reconnect): Free the
@@ -139,6 +143,83 @@
 	(camel_imap4_store_summary_unnote_info): New function.
 	(camel_imap4_store_summary_get_folder_info): Fixed the logic a
 	bit.
+
+2004-11-11  Not Zed  <NotZed@Ximian.com>
+
+	* providers/imap4/*: Update for folder-summary api changes.
+
+	* providers/imap4/camel-imap4-store.c (imap4_build_folder_info):
+	clean up the logic for getting counts from the folder, we have
+	code to do this already.  Also always run it against the selected
+	folder, does'nt need to have FAST bit unset.
+
+	* camel-folder-summary.c (camel_folder_summary_info_new): removed.
+
+	* camel-string-utils.c (camel_pstring_strdup, camel_pstring_free):
+	pooled string allocators.  Oh so much easier than the poolv thing,
+	and these refcount too.
+
+	* camel-folder-summary.h: put message_id back into the summary.
+
+2004-11-08  Not Zed  <NotZed@Ximian.com>
+
+	* camel-folder.c (camel_folder_get_deleted_message_count): use
+	getv method to get the deleted count.
+	(get_deleted_message_count): removed.
+
+	* camel-vtrash-folder.c (vtrash_getv): override the unread count
+	to ignore junked or deleted.
+
+	* camel-folder.c (folder_getv): ignore junked and deleted in the
+	unread count.
+
+	* camel-vee-folder.c (camel_vee_folder_finalise): changed the
+	logic slightly not to call internal functions directly.
+	(vee_delete): implement, remove all our folders when we're
+	deleted, to give unmatched at least a snowflakes chance in hell of
+	working.
+
+	* camel-vtrash-folder.c (vtrash_search_by_expression)
+	(vtrash_search_by_uids, vtrash_folder_changed, vtrash_add_folder)
+	(vtrash_remove_folder, vtrash_rebuild_folder): implement
+	vtrash-optimised versions.  Much faster.
+
+	* camel-vee-folder.c (camel_vee_folder_set_folders): don't rebuild
+	the folder.
+	(camel_vee_folder_add_folder): track folders here, but invoke
+	virtual method to let subclasses know about it.
+	(camel_vee_folder_remove_folder): similar.
+	(vee_search_by_uids): free the folder_uids array with TRUE,
+	plugging memory leak.
+
+2004-11-06  Not Zed  <NotZed@Ximian.com>
+
+	* camel-vee-folder.c: Removed vname, use Folder->full_name
+	instead.  Make add_folder/remove_folder/set_expression/set_folders
+	virtual methods.
+	(vee_add_folder): virtual implementation.
+
+	* camel-vee-summary.c (camel_vee_summary_add): remove folder arg.
+
+2004-11-05  Not Zed  <NotZed@Ximian.com>
+
+	* camel-vee-summary.c (vee_info_set_flags): don't emit changed for
+	ourselves, let it filter through the changed handler, otherwise we
+	do it twice.
+	(vee_info_set_user_tag, vee_info_set_user_flag): same.
+
+	* camel-folder-summary.c (message_info_new_from_header): use the
+	string pool for allocations.
+	(message_info_load): same here.
+	(camel_pstring_strdup): noop for NULL or ""
+	(camel_pstring_free): same.
+	(summary_assign_uid): don't always assing the flagged bit, der.
+
+2004-11-02  Not Zed  <NotZed@Ximian.com>
+
+	* camel-folder-summary.c (camel_pstring_strdup)
+	(camel_pstring_free, message_info_free, message_info_clone):
+	'uniquify' the strings.
 
 2004-10-28  Jeffrey Stedfast  <fejj@ximian.com>
 

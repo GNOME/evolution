@@ -179,8 +179,8 @@ vee_get_folder (CamelStore *store, const char *folder_name, guint32 flags, Camel
 	vf = (CamelVeeFolder *)camel_vee_folder_new(store, folder_name, flags);
 	if ((vf->flags & CAMEL_STORE_FOLDER_PRIVATE) == 0) {
 		/* Check that parents exist, if not, create dummy ones */
-		name = alloca(strlen(vf->vname)+1);
-		strcpy(name, vf->vname);
+		name = alloca(strlen(((CamelFolder *)vf)->full_name)+1);
+		strcpy(name, ((CamelFolder *)vf)->full_name);
 		p = name;
 		while ( (p = strchr(p, '/'))) {
 			*p = 0;
@@ -198,7 +198,7 @@ vee_get_folder (CamelStore *store, const char *folder_name, guint32 flags, Camel
 			*p++='/';
 		}
 
-		change_folder(store, vf->vname, CHANGE_ADD, camel_folder_get_message_count((CamelFolder *)vf));
+		change_folder(store, ((CamelFolder *)vf)->full_name, CHANGE_ADD, camel_folder_get_message_count((CamelFolder *)vf));
 	}
 
 	return (CamelFolder *)vf;

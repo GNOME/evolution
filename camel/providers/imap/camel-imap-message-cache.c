@@ -176,7 +176,7 @@ camel_imap_message_cache_new (const char *path, CamelFolderSummary *summary,
 
 		info = camel_folder_summary_uid (summary, uid);
 		if (info) {
-			camel_folder_summary_info_free (summary, info);
+			camel_message_info_free(info);
 			cache_put (cache, uid, d->d_name, NULL);
 		} else
 			g_ptr_array_add (deletes, g_strdup_printf ("%s/%s", cache->path, d->d_name));

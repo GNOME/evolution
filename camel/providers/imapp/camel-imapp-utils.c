@@ -6,6 +6,7 @@
 #include <camel/camel-folder-summary.h>
 #include <camel/camel-store.h>
 #include <camel/camel-utf8.h>
+#include <camel/camel-string-utils.h>
 
 #include "camel-imapp-folder.h"
 #include "camel-imapp-stream.h"
@@ -585,7 +586,7 @@ imap_parse_envelope(CamelIMAPPStream *is)
 	unsigned char *token;
 	struct _camel_header_address *addr, *addr_from;
 	char *addrstr;
-	struct _CamelMessageInfo *minfo;
+	struct _CamelMessageInfoBase *minfo;
 
 	/* envelope        ::= "(" env_date SPACE env_subject SPACE env_from
 	   SPACE env_sender SPACE env_reply_to SPACE env_to
@@ -594,7 +595,7 @@ imap_parse_envelope(CamelIMAPPStream *is)
 
 	p(printf("envelope\n"));
 
-	minfo = camel_message_info_new();
+	minfo = (CamelMessageInfoBase *)camel_message_info_new(NULL);
 
 	CAMEL_TRY {
 		tok = camel_imapp_stream_token(is, &token, &len);
@@ -607,8 +608,7 @@ imap_parse_envelope(CamelIMAPPStream *is)
 
 		/* env_subject     ::= nstring */
 		tok = camel_imapp_stream_nstring(is, &token);
-		/* DUH: this free's it!: camel_message_info_set_subject(minfo, token); */
-		e_poolv_set(minfo->strings, CAMEL_MESSAGE_INFO_SUBJECT, token, FALSE);
+		minfo->subject = camel_pstring_strdup(token);
 
 		/* we merge from/sender into from, append should probably merge more smartly? */
 
@@ -630,7 +630,8 @@ imap_parse_envelope(CamelIMAPPStream *is)
 
 		if (addr_from) {
 			addrstr = camel_header_address_list_format(addr_from);
-			camel_message_info_set_from(minfo, addrstr);
+			minfo->from = camel_pstring_strdup(addrstr);
+			g_free(addrstr);
 			camel_header_address_list_clear(&addr_from);
 		}
 
@@ -644,7 +645,8 @@ imap_parse_envelope(CamelIMAPPStream *is)
 		addr = imap_parse_address_list(is);
 		if (addr) {
 			addrstr = camel_header_address_list_format(addr);
-			camel_message_info_set_to(minfo, addrstr);
+			minfo->to = camel_pstring_strdup(addrstr);
+			g_free(addrstr);
 			camel_header_address_list_clear(&addr);
 		}
 
@@ -652,7 +654,8 @@ imap_parse_envelope(CamelIMAPPStream *is)
 		addr = imap_parse_address_list(is);
 		if (addr) {
 			addrstr = camel_header_address_list_format(addr);
-			camel_message_info_set_cc(minfo, addrstr);
+			minfo->cc = camel_pstring_strdup(addrstr);
+			g_free(addrstr);
 			camel_header_address_list_clear(&addr);
 		}
 
@@ -680,7 +683,7 @@ imap_parse_envelope(CamelIMAPPStream *is)
 		camel_exception_throw_ex(ex);
 	} CAMEL_DONE;
 
-	return minfo;
+	return (CamelMessageInfo *)minfo;
 }
 	
 struct _CamelMessageContentInfo *
@@ -771,7 +774,7 @@ imap_parse_body(CamelIMAPPStream *is)
 				/* what do we do with the envelope?? */
 				minfo = imap_parse_envelope(is);
 				/* what do we do with the message content info?? */
-				minfo->content = imap_parse_body(is);
+				((CamelMessageInfoBase *)minfo)->content = imap_parse_body(is);
 				camel_message_info_free(minfo);
 				minfo = NULL;
 				d(printf("Scanned envelope - what do i do with it?\n"));

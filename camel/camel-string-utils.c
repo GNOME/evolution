@@ -26,9 +26,9 @@
 #endif
 
 #include <string.h>
+#include <pthread.h>
 
 #include "camel-string-utils.h"
-
 
 int
 camel_strcase_equal (gconstpointer a, gconstpointer b)
@@ -141,3 +141,81 @@ char camel_toupper(char c)
 	return c;
 }
 
+/* working stuff for pstrings */
+static pthread_mutex_t pstring_lock = PTHREAD_MUTEX_INITIALIZER;
+static GHashTable *pstring_table = NULL;
+
+/**
+ * camel_pstring_strdup:
+ * @s: String to copy.
+ * 
+ * Create a new pooled string entry for the string @s.  A pooled
+ * string is a table where common strings are uniquified to the same
+ * pointer value.  They are also refcounted, so freed when no longer
+ * in use.  In a thread-safe manner.
+ * 
+ * The NULL and empty strings are special cased to constant values.
+ *
+ * Return value: A pointer to an equivalent string of @s.  Use
+ * camel_pstring_free() when it is no longer needed.
+ **/
+const char *camel_pstring_strdup(const char *s)
+{
+	char *p;
+	void *pcount;
+	int count;
+
+	if (s == NULL)
+		return NULL;
+	if (s[0] == 0)
+		return "";
+
+	pthread_mutex_lock(&pstring_lock);
+	if (pstring_table == NULL)
+		pstring_table = g_hash_table_new(g_str_hash, g_str_equal);
+
+	if (g_hash_table_lookup_extended(pstring_table, s, (void **)&p, &pcount)) {
+		count = GPOINTER_TO_INT(pcount)+1;
+		g_hash_table_insert(pstring_table, p, GINT_TO_POINTER(count));
+	} else {
+		p = g_strdup(s);
+		g_hash_table_insert(pstring_table, p, GINT_TO_POINTER(1));
+	}
+	pthread_mutex_unlock(&pstring_lock);
+
+	return p;
+}
+
+/**
+ * camel_pstring_free:
+ * @s: String to free.
+ * 
+ * De-ref a pooled string. If no more refs exist to this string, it will be deallocated.
+ *
+ * NULL and the empty string are special cased.
+ **/
+void camel_pstring_free(const char *s)
+{
+	char *p;
+	void *pcount;
+	int count;
+
+	if (pstring_table == NULL)
+		return;
+	if (s == NULL || s[0] == 0)
+		return;
+
+	pthread_mutex_lock(&pstring_lock);
+	if (g_hash_table_lookup_extended(pstring_table, s, (void **)&p, &pcount)) {
+		count = GPOINTER_TO_INT(pcount)-1;
+		if (count == 0) {
+			g_hash_table_remove(pstring_table, p);
+			g_free(p);
+		} else {
+			g_hash_table_insert(pstring_table, p, GINT_TO_POINTER(count));
+		}
+	} else {
+		g_warning("Trying to free string not allocated from the pool '%s'", s);
+	}
+	pthread_mutex_unlock(&pstring_lock);
+}

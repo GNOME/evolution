@@ -45,7 +45,7 @@ typedef struct _CamelIMAP4SummaryClass CamelIMAP4SummaryClass;
 #define CAMEL_IMAP4_MESSAGE_RECENT (1 << 17)
 
 struct _CamelIMAP4MessageInfo {
-	CamelMessageInfo parent_info;
+	CamelMessageInfoBase info;
 	
 	guint32 server_flags;
 };

@@ -1061,7 +1061,7 @@ get_summary_uid_numeric (CamelFolderSummary *summary, int index)
 	
 	info = camel_folder_summary_index (summary, index);
 	uid = strtoul (camel_message_info_uid (info), NULL, 10);
-	camel_folder_summary_info_free (summary, info);
+	camel_message_info_free(info);
 	return uid;
 }
 

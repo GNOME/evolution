@@ -47,7 +47,7 @@ typedef struct _CamelImapMessageContentInfo {
 } CamelImapMessageContentInfo;
 
 typedef struct _CamelImapMessageInfo {
-	CamelMessageInfo info;
+	CamelMessageInfoBase info;
 
 	guint32 server_flags;
 } CamelImapMessageInfo;
@@ -65,7 +65,7 @@ struct _CamelImapSummaryClass {
 };
 
 CamelType               camel_imap_summary_get_type     (void);
-CamelFolderSummary *camel_imap_summary_new          (const char *filename);
+CamelFolderSummary *camel_imap_summary_new          (struct _CamelFolder *folder, const char *filename);
 
 void camel_imap_summary_add_offline (CamelFolderSummary *summary,
 				     const char *uid,

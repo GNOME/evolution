@@ -1112,28 +1112,12 @@ imap4_build_folder_info (CamelStore *store, const char *top, guint32 flags, GPtr
 		fi->flags = list->flags;
 		fi->unread = -1;
 		fi->total = -1;
-		
-		if (!(flags & CAMEL_STORE_FOLDER_INFO_FAST)) {
-			if (folder && !strcmp (folder->full_name, fi->full_name)) {
-				/* can't STATUS this folder since it is SELECTED, besides - it would be wasteful */
-				CamelMessageInfo *info;
-				int index;
-				
-				fi->total = camel_folder_summary_count (folder->summary);
-				
-				fi->unread = 0;
-				for (index = 0; index < fi->total; index++) {
-					if (!(info = camel_folder_summary_index (folder->summary, index)))
-						continue;
-					
-					if ((info->flags & CAMEL_MESSAGE_SEEN) == 0)
-						fi->unread++;
-					
-					camel_folder_summary_info_free (folder->summary, info);
-				}
-			} else {
-				imap4_status (store, fi);
-			}
+
+		/* SELECTED folder, just get it from the folder */
+		if (folder && !strcmp (folder->full_name, fi->full_name)) {
+			camel_object_get(folder, NULL, CAMEL_FOLDER_TOTAL, &fi->total, CAMEL_FOLDER_UNREAD, &fi->unread, 0);
+		} else if (!(flags & CAMEL_STORE_FOLDER_INFO_FAST)) {
+			imap4_status (store, fi);
 		}
 		
 		g_free (list->name);

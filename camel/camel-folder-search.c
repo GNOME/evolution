@@ -861,7 +861,7 @@ check_header(struct _ESExp *f, int argc, struct _ESExpResult **argv, CamelFolder
 			header = camel_message_info_subject(search->current);
 		} else if (!strcasecmp(headername, "date")) {
 			/* FIXME: not a very useful form of the date */
-			sprintf(strbuf, "%d", (int)search->current->date_sent);
+			sprintf(strbuf, "%d", (int)camel_message_info_date_sent(search->current));
 			header = strbuf;
 		} else if (!strcasecmp(headername, "from")) {
 			header = camel_message_info_from(search->current);
@@ -1247,7 +1247,7 @@ search_user_flag(struct _ESExp *f, int argc, struct _ESExpResult **argv, CamelFo
 		/* performs an OR of all words */
 		for (i=0;i<argc && !truth;i++) {
 			if (argv[i]->type == ESEXP_RES_STRING
-			    && camel_flag_get(&search->current->user_flags, argv[i]->value.string)) {
+			    && camel_message_info_user_flag(search->current, argv[i]->value.string)) {
 				truth = TRUE;
 				break;
 			}
@@ -1273,7 +1273,7 @@ search_system_flag (struct _ESExp *f, int argc, struct _ESExpResult **argv, Came
 		gboolean truth = FALSE;
 		
 		if (argc == 1)
-			truth = camel_system_flag_get (search->current->flags, argv[0]->value.string);
+			truth = camel_system_flag_get (camel_message_info_flags(search->current), argv[0]->value.string);
 		
 		r = e_sexp_result_new(f, ESEXP_RES_BOOL);
 		r->value.bool = truth;
@@ -1294,7 +1294,7 @@ search_user_tag(struct _ESExp *f, int argc, struct _ESExpResult **argv, CamelFol
 	r(printf("executing user-tag\n"));
 	
 	if (argc == 1)
-		value = camel_tag_get (&search->current->user_tags, argv[0]->value.string);
+		value = camel_message_info_user_tag(search->current, argv[0]->value.string);
 	
 	r = e_sexp_result_new(f, ESEXP_RES_STRING);
 	r->value.string = g_strdup (value ? value : "");
@@ -1313,7 +1313,7 @@ search_get_sent_date(struct _ESExp *f, int argc, struct _ESExpResult **argv, Cam
 	if (s->current) {
 		r = e_sexp_result_new(f, ESEXP_RES_INT);
 
-		r->value.number = s->current->date_sent;
+		r->value.number = camel_message_info_date_sent(s->current);
 	} else {
 		r = e_sexp_result_new(f, ESEXP_RES_ARRAY_PTR);
 		r->value.ptrarray = g_ptr_array_new ();
@@ -1333,7 +1333,7 @@ search_get_received_date(struct _ESExp *f, int argc, struct _ESExpResult **argv,
 	if (s->current) {
 		r = e_sexp_result_new(f, ESEXP_RES_INT);
 
-		r->value.number = s->current->date_received;
+		r->value.number = camel_message_info_date_received(s->current);
 	} else {
 		r = e_sexp_result_new(f, ESEXP_RES_ARRAY_PTR);
 		r->value.ptrarray = g_ptr_array_new ();
@@ -1364,7 +1364,7 @@ search_get_size (struct _ESExp *f, int argc, struct _ESExpResult **argv, CamelFo
 	/* are we inside a match-all? */
 	if (s->current) {
 		r = e_sexp_result_new (f, ESEXP_RES_INT);
-		r->value.number = s->current->size / 1024;
+		r->value.number = camel_message_info_size(s->current) / 1024;
 	} else {
 		r = e_sexp_result_new (f, ESEXP_RES_ARRAY_PTR);
 		r->value.ptrarray = g_ptr_array_new ();

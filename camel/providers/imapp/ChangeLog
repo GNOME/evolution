@@ -1,3 +1,7 @@
+2004-11-11  Not Zed  <NotZed@Ximian.com>
+
+	* updates for camel folder summary api changes.
+
 2004-09-30  Not Zed  <NotZed@Ximian.com>
 
 	* camel-imapp-engine.c: make the build again, warnings, doesn't

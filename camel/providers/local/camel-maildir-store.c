@@ -283,7 +283,7 @@ fill_fi(CamelStore *store, CamelFolderInfo *fi, guint32 flags)
 		root = camel_local_store_get_toplevel_dir((CamelLocalStore *)store);
 		path = g_strdup_printf("%s/%s.ev-summary", root, fi->full_name);
 		folderpath = g_strdup_printf("%s/%s", root, fi->full_name);
-		s = (CamelFolderSummary *)camel_maildir_summary_new(path, folderpath, NULL);
+		s = (CamelFolderSummary *)camel_maildir_summary_new(NULL, path, folderpath, NULL);
 		if (camel_folder_summary_header_load(s) != -1) {
 			fi->unread = s->unread_count;
 			fi->total = s->saved_count;

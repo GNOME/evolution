@@ -511,7 +511,7 @@ camel_nntp_folder_new (CamelStore *parent, const char *folder_name, CamelExcepti
 	g_free(root);
 
 	root = g_strdup_printf("%s.ev-summary", nntp_folder->storage_path);
-	folder->summary = (CamelFolderSummary *) camel_nntp_summary_new (root);
+	folder->summary = (CamelFolderSummary *) camel_nntp_summary_new (folder, root);
 	g_free(root);
 	camel_folder_summary_load (folder->summary);
 	

@@ -40,6 +40,12 @@ enum {
 	CAMEL_MESSAGE_FOLDER_NOTSEEN = 1<<19, /* have we seen this in processing this loop? */
 };
 
+typedef struct _CamelLocalMessageInfo CamelLocalMessageInfo;
+
+struct _CamelLocalMessageInfo {
+	CamelMessageInfoBase info;
+};
+
 struct _CamelLocalSummary {
 	CamelFolderSummary parent;
 
@@ -60,8 +66,8 @@ struct _CamelLocalSummaryClass {
 	int (*sync)(CamelLocalSummary *cls, gboolean expunge, CamelFolderChangeInfo *changeinfo, CamelException *ex);
 	CamelMessageInfo *(*add)(CamelLocalSummary *cls, CamelMimeMessage *msg, const CamelMessageInfo *info, CamelFolderChangeInfo *, CamelException *ex);
 
-	char *(*encode_x_evolution)(CamelLocalSummary *cls, const CamelMessageInfo *info);
-	int (*decode_x_evolution)(CamelLocalSummary *cls, const char *xev, CamelMessageInfo *info);
+	char *(*encode_x_evolution)(CamelLocalSummary *cls, const CamelLocalMessageInfo *info);
+	int (*decode_x_evolution)(CamelLocalSummary *cls, const char *xev, CamelLocalMessageInfo *info);
 };
 
 CamelType	camel_local_summary_get_type	(void);
@@ -80,8 +86,8 @@ CamelMessageInfo *camel_local_summary_add(CamelLocalSummary *cls, CamelMimeMessa
 void camel_local_summary_check_force(CamelLocalSummary *cls);
 
 /* generate an X-Evolution header line */
-char *camel_local_summary_encode_x_evolution(CamelLocalSummary *cls, const CamelMessageInfo *info);
-int camel_local_summary_decode_x_evolution(CamelLocalSummary *cls, const char *xev, CamelMessageInfo *info);
+char *camel_local_summary_encode_x_evolution(CamelLocalSummary *cls, const CamelLocalMessageInfo *info);
+int camel_local_summary_decode_x_evolution(CamelLocalSummary *cls, const char *xev, CamelLocalMessageInfo *info);
 
 /* utility functions - write headers to a file with optional X-Evolution header and/or status header */
 int camel_local_summary_write_headers(int fd, struct _camel_header_raw *header, const char *xevline, const char *status, const char *xstatus);

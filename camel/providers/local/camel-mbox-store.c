@@ -618,7 +618,7 @@ fill_fi(CamelStore *store, CamelFolderInfo *fi, guint32 flags)
 		path = camel_mbox_folder_get_meta_path(NULL, root, fi->full_name, ".ev-summary");
 		folderpath = camel_mbox_folder_get_full_path(NULL, root, fi->full_name);
 		
-		mbs = (CamelMboxSummary *)camel_mbox_summary_new(path, folderpath, NULL);
+		mbs = (CamelMboxSummary *)camel_mbox_summary_new(NULL, path, folderpath, NULL);
 		if (camel_folder_summary_header_load((CamelFolderSummary *)mbs) != -1) {
 			fi->unread = ((CamelFolderSummary *)mbs)->unread_count;
 			fi->total = ((CamelFolderSummary *)mbs)->saved_count;

@@ -810,7 +810,7 @@ static int store_resp_fetch(CamelIMAPPEngine *ie, guint32 id, void *data)
 				if (strcmp(finfo->uid, camel_message_info_uid(info)) != 0) {
 					printf("summary at index %d has uid %s expected %s\n", id, camel_message_info_uid(info), finfo->uid);
 					/* uid mismatch???  try do it based on uid instead? try to reorder?  i dont know? */
-					camel_folder_summary_info_free(((CamelFolder *)istore->selected)->summary, info);
+					camel_message_info_free(info);
 					info = camel_folder_summary_uid(((CamelFolder *)istore->selected)->summary, finfo->uid);
 				}
 			}
@@ -859,7 +859,7 @@ static int store_resp_fetch(CamelIMAPPEngine *ie, guint32 id, void *data)
 					CamelMimeParser *mp;
 
 					if (pending == NULL)
-						camel_folder_summary_info_free(((CamelFolder *)istore->selected)->summary, info);
+						camel_message_info_free(info);
 					mp = camel_mime_parser_new();
 					camel_mime_parser_init_with_stream(mp, finfo->header);
 					info = camel_folder_summary_info_new_from_parser(((CamelFolder *)istore->selected)->summary, mp);
@@ -872,7 +872,7 @@ static int store_resp_fetch(CamelIMAPPEngine *ie, guint32 id, void *data)
 						/* FIXME: use a dlist */
 						e_dlist_remove((EDListNode *)pending);
 						g_hash_table_remove(istore->pending_fetch_table, camel_message_info_uid(pending->info));
-						camel_folder_summary_info_free(((CamelFolder *)istore->selected)->summary, pending->info);
+						camel_message_info_free(pending->info);
 						/*e_memchunk_free(istore->pending_fetch_chunks, pending);*/
 					}
 				} else if (finfo->got & FETCH_FLAGS) {
@@ -884,7 +884,7 @@ static int store_resp_fetch(CamelIMAPPEngine *ie, guint32 id, void *data)
 					}
 				} else {
 					if (pending == NULL)
-						camel_folder_summary_info_free(((CamelFolder *)istore->selected)->summary, info);
+						camel_message_info_free(info);
 					printf("got unexpected fetch response?\n");
 					imap_dump_fetch(finfo);
 				}
@@ -974,7 +974,7 @@ camel_imapp_store_folder_selected(CamelIMAPPStore *store, CamelIMAPPFolder *fold
 			if (info) {
 				printf("message info [%d] =\n", i);
 				camel_message_info_dump(info);
-				camel_folder_summary_info_free(((CamelFolder *)istore->selected)->summary, info);
+				camel_message_info_free(info);
 			}
 		}
 	} CAMEL_CATCH (e) {

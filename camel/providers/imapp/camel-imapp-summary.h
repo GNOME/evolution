@@ -42,7 +42,7 @@ typedef struct _CamelIMAPPSummaryClass CamelIMAPPSummaryClass;
 typedef struct _CamelIMAPPSummary CamelIMAPPSummary;
 
 typedef struct _CamelIMAPPMessageInfo {
-	CamelMessageInfo info;
+	CamelMessageInfoBase info;
 
 	guint32 server_flags;
 } CamelIMAPPMessageInfo;

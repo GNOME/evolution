@@ -106,9 +106,11 @@ camel_spool_summary_finalise(CamelObject *obj)
 }
 
 CamelSpoolSummary *
-camel_spool_summary_new(const char *mbox_name)
+camel_spool_summary_new(struct _CamelFolder *folder, const char *mbox_name)
 {
 	CamelSpoolSummary *new = (CamelSpoolSummary *)camel_object_new(camel_spool_summary_get_type());
+
+	((CamelFolderSummary *)new)->folder = folder;
 
 	camel_local_summary_construct((CamelLocalSummary *)new, NULL, mbox_name, NULL);
 	return new;
@@ -318,10 +320,10 @@ spool_summary_check(CamelLocalSummary *cls, CamelFolderChangeInfo *changeinfo, C
 	work = FALSE;
 	count = camel_folder_summary_count(s);
 	for (i=0;!work && i<count; i++) {
-		CamelMessageInfo *info = camel_folder_summary_index(s, i);
+		CamelMboxMessageInfo *info = (CamelMboxMessageInfo *)camel_folder_summary_index(s, i);
 		g_assert(info);
-		work = (info->flags & (CAMEL_MESSAGE_FOLDER_NOXEV)) != 0;
-		camel_folder_summary_info_free(s, info);
+		work = (info->info.info.flags & (CAMEL_MESSAGE_FOLDER_NOXEV)) != 0;
+		camel_message_info_free((CamelMessageInfo *)info);
 	}
 
 	/* if we do, then write out the headers using sync_full, etc */

@@ -575,7 +575,7 @@ do_colour (struct _ESExp *f, int argc, struct _ESExpResult **argv, CamelFilterDr
 		if (p->source && p->uid && camel_folder_has_summary_capability (p->source))
 			camel_folder_set_message_user_tag (p->source, p->uid, "colour", argv[0]->value.string);
 		else
-			camel_tag_set (&p->info->user_tags, "colour", argv[0]->value.string);
+			camel_message_info_set_user_tag(p->info, "colour", argv[0]->value.string);
 		camel_filter_driver_log (driver, FILTER_LOG_ACTION, "Set colour to %s", argv[0]->value.string);
 	}
 	
@@ -595,7 +595,7 @@ do_score (struct _ESExp *f, int argc, struct _ESExpResult **argv, CamelFilterDri
 		if (p->source && p->uid && camel_folder_has_summary_capability (p->source))
 			camel_folder_set_message_user_tag (p->source, p->uid, "score", value);
 		else
-			camel_tag_set (&p->info->user_tags, "score", value);
+			camel_message_info_set_user_tag(p->info, "score", value);
 		camel_filter_driver_log (driver, FILTER_LOG_ACTION, "Set score to %d", argv[0]->value.number);
 		g_free (value);
 	}
@@ -615,7 +615,7 @@ set_flag (struct _ESExp *f, int argc, struct _ESExpResult **argv, CamelFilterDri
 		if (p->source && p->uid && camel_folder_has_summary_capability (p->source))
 			camel_folder_set_message_flags (p->source, p->uid, flags, ~0);
 		else
-			p->info->flags |= flags | CAMEL_MESSAGE_FOLDER_FLAGGED;
+			camel_message_info_set_flags(p->info, flags | CAMEL_MESSAGE_FOLDER_FLAGGED, ~0);
 		camel_filter_driver_log (driver, FILTER_LOG_ACTION, "Set %s flag", argv[0]->value.string);
 	}
 	
@@ -634,7 +634,7 @@ unset_flag (struct _ESExp *f, int argc, struct _ESExpResult **argv, CamelFilterD
 		if (p->source && p->uid && camel_folder_has_summary_capability (p->source))
 			camel_folder_set_message_flags (p->source, p->uid, flags, 0);
 		else
-			p->info->flags = (p->info->flags & ~flags) | CAMEL_MESSAGE_FOLDER_FLAGGED;
+			camel_message_info_set_flags(p->info, flags | CAMEL_MESSAGE_FOLDER_FLAGGED, 0);
 		camel_filter_driver_log (driver, FILTER_LOG_ACTION, "Unset %s flag", argv[0]->value.string);
 	}
 	
@@ -1150,8 +1150,8 @@ camel_filter_driver_filter_mbox (CamelFilterDriver *driver, const char *mbox, co
 			goto fail;
 		}
 		
-		info = camel_message_info_new_from_header(((CamelMimePart *)msg)->headers);
-		info->size = camel_mime_parser_tell(mp) - last;
+		info = camel_message_info_new_from_header(NULL, ((CamelMimePart *)msg)->headers);
+		((CamelMessageInfoBase *)info)->size = camel_mime_parser_tell(mp) - last;
 		last = camel_mime_parser_tell(mp);
 		status = camel_filter_driver_filter_message (driver, msg, info, NULL, NULL, source_url, 
 							     original_source_url ? original_source_url : source_url, ex);
@@ -1365,10 +1365,10 @@ camel_filter_driver_filter_message (CamelFilterDriver *driver, CamelMimeMessage 
 		}
 		
 		h = CAMEL_MIME_PART (message)->headers;
-		info = camel_message_info_new_from_header (h);
+		info = camel_message_info_new_from_header (NULL, h);
 		freeinfo = TRUE;
 	} else {
-		if (info->flags & CAMEL_MESSAGE_DELETED)
+		if (camel_message_info_flags(info) & CAMEL_MESSAGE_DELETED)
 			return 0;
 		
 		uid = camel_message_info_uid (info);
@@ -1443,7 +1443,7 @@ camel_filter_driver_filter_message (CamelFilterDriver *driver, CamelMimeMessage 
 		if (p->source && p->uid && camel_folder_has_summary_capability (p->source))
 			camel_folder_set_message_flags(p->source, p->uid, CAMEL_MESSAGE_DELETED|CAMEL_MESSAGE_SEEN, ~0);
 		else
-			info->flags |= CAMEL_MESSAGE_DELETED|CAMEL_MESSAGE_SEEN|CAMEL_MESSAGE_FOLDER_FLAGGED;
+			camel_message_info_set_flags(info, CAMEL_MESSAGE_DELETED|CAMEL_MESSAGE_SEEN|CAMEL_MESSAGE_FOLDER_FLAGGED, ~0);
 	}
 	
 	/* Logic: if !Moved and there exists a default folder... */

@@ -71,12 +71,29 @@ camel_imap_summary_get_type (void)
 	return type;
 }
 
+static CamelMessageInfo *
+imap_message_info_clone(CamelFolderSummary *s, const CamelMessageInfo *mi)
+{
+	CamelImapMessageInfo *to;
+	const CamelImapMessageInfo *from = (const CamelImapMessageInfo *)mi;
+
+	to = (CamelImapMessageInfo *)camel_imap_summary_parent->message_info_clone(s, mi);
+	to->server_flags = from->server_flags;
+
+	/* FIXME: parent clone should do this */
+	to->info.content = camel_folder_summary_content_info_new(s);
+
+	return (CamelMessageInfo *)to;
+}
+
 static void
 camel_imap_summary_class_init (CamelImapSummaryClass *klass)
 {
 	CamelFolderSummaryClass *cfs_class = (CamelFolderSummaryClass *) klass;
 
 	camel_imap_summary_parent = CAMEL_FOLDER_SUMMARY_CLASS (camel_type_get_global_classfuncs (camel_folder_summary_get_type()));
+
+	cfs_class->message_info_clone = imap_message_info_clone;
 
 	cfs_class->summary_header_load = summary_header_load;
 	cfs_class->summary_header_save = summary_header_save;
@@ -98,6 +115,7 @@ camel_imap_summary_init (CamelImapSummary *obj)
 
 /**
  * camel_imap_summary_new:
+ * @folder: Parent folder.
  * @filename: the file to store the summary in.
  *
  * This will create a new CamelImapSummary object and read in the
@@ -106,10 +124,11 @@ camel_imap_summary_init (CamelImapSummary *obj)
  * Return value: A new CamelImapSummary object.
  **/
 CamelFolderSummary *
-camel_imap_summary_new (const char *filename)
+camel_imap_summary_new (struct _CamelFolder *folder, const char *filename)
 {
-	CamelFolderSummary *summary = CAMEL_FOLDER_SUMMARY (
-		camel_object_new (camel_imap_summary_get_type ()));
+	CamelFolderSummary *summary = CAMEL_FOLDER_SUMMARY (camel_object_new (camel_imap_summary_get_type ()));
+
+	summary->folder = folder;
 
 	camel_folder_summary_set_build_content (summary, TRUE);
 	camel_folder_summary_set_filename (summary, filename);
@@ -177,7 +196,7 @@ message_info_load (CamelFolderSummary *s, FILE *in)
 
 	return info;
 error:
-	camel_folder_summary_info_free (s, info);
+	camel_message_info_free(info);
 	return NULL;
 }
 
@@ -218,52 +237,40 @@ camel_imap_summary_add_offline (CamelFolderSummary *summary, const char *uid,
 				CamelMimeMessage *message,
 				const CamelMessageInfo *info)
 {
-	CamelMessageInfo *mi;
-	CamelFlag *flag;
-	CamelTag *tag;
+	CamelImapMessageInfo *mi;
+	const CamelFlag *flag;
+	const CamelTag *tag;
 
 	/* Create summary entry */
-	mi = camel_folder_summary_info_new_from_message (summary, message);
+	mi = (CamelImapMessageInfo *)camel_folder_summary_info_new_from_message (summary, message);
 
 	/* Copy flags 'n' tags */
-	mi->flags = info->flags;
-	flag = info->user_flags;
+	mi->info.flags = camel_message_info_flags(info);
+
+	flag = camel_message_info_user_flags(info);
 	while (flag) {
-		camel_flag_set (&mi->user_flags, flag->name, TRUE);
+		camel_message_info_set_user_flag((CamelMessageInfo *)mi, flag->name, TRUE);
 		flag = flag->next;
 	}
-	tag = info->user_tags;
+	tag = camel_message_info_user_tags(info);
 	while (tag) {
-		camel_tag_set (&mi->user_tags, tag->name, tag->value);
+		camel_message_info_set_user_tag((CamelMessageInfo *)mi, tag->name, tag->value);
 		tag = tag->next;
 	}
 
-	mi->size = info->size;
+	mi->info.size = camel_message_info_size(info);
+	mi->info.uid = g_strdup (uid);
 
-	/* Set uid and add to summary */
-	camel_message_info_set_uid (mi, g_strdup (uid));
-	camel_folder_summary_add (summary, mi);
+	camel_folder_summary_add (summary, (CamelMessageInfo *)mi);
 }
 
 void
 camel_imap_summary_add_offline_uncached (CamelFolderSummary *summary, const char *uid,
 					 const CamelMessageInfo *info)
 {
-	CamelMessageInfo *mi;
-	CamelMessageContentInfo *ci;
+	CamelImapMessageInfo *mi;
 
-	/* Create summary entry */
-	mi = camel_folder_summary_info_new (summary);
-	ci = camel_folder_summary_content_info_new (summary);
-
-	camel_message_info_dup_to (info, mi);
-	mi->content = ci;
-
-	/* copy our private fields */
-	((CamelImapMessageInfo *)mi)->server_flags = 
-		((CamelImapMessageInfo *)info)->server_flags;
-
-	/* Set uid and add to summary */
-	camel_message_info_set_uid (mi, g_strdup (uid));
-	camel_folder_summary_add (summary, mi);
+	mi = camel_message_info_clone(info);
+	mi->info.uid = g_strdup(uid);
+	camel_folder_summary_add (summary, (CamelMessageInfo *)mi);
 }

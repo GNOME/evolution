@@ -48,7 +48,7 @@ struct _CamelNNTPSummaryClass {
 };
 
 CamelType	camel_nntp_summary_get_type	(void);
-CamelNNTPSummary *camel_nntp_summary_new(const char *path);
+CamelNNTPSummary *camel_nntp_summary_new(struct _CamelFolder *folder, const char *path);
 
 int camel_nntp_summary_check(CamelNNTPSummary *cns, struct _CamelNNTPStore *store, char *line, struct _CamelFolderChangeInfo *changes, struct _CamelException *ex);
 

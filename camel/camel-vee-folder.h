@@ -1,8 +1,8 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- *  Copyright (C) 2000 Ximian Inc.
+ * Copyright (C) 2000 Ximian Inc.
  *
- *  Authors: Michael Zucchi <notzed@ximian.com>
+ * Authors: Michael Zucchi <notzed@ximian.com>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public
@@ -30,6 +30,7 @@ extern "C" {
 
 #include <glib.h>
 #include <camel/camel-folder.h>
+#include <camel/camel-vee-summary.h>
 
 #define CAMEL_VEE_FOLDER(obj)         CAMEL_CHECK_CAST (obj, camel_vee_folder_get_type (), CamelVeeFolder)
 #define CAMEL_VEE_FOLDER_CLASS(klass) CAMEL_CHECK_CLASS_CAST (klass, camel_vee_folder_get_type (), CamelVeeFolderClass)
@@ -38,19 +39,12 @@ extern "C" {
 typedef struct _CamelVeeFolder      CamelVeeFolder;
 typedef struct _CamelVeeFolderClass CamelVeeFolderClass;
 
-/* our message info includes the parent folder */
-typedef struct _CamelVeeMessageInfo {
-	CamelMessageInfo info;
-	CamelFolder *folder;
-} CamelVeeMessageInfo;
-
 struct _CamelVeeFolder {
 	CamelFolder parent;
 
 	struct _CamelVeeFolderPrivate *priv;
 
 	char *expression;	/* query expression */
-	char *vname;		/* local name */
 
 	guint32 flags;		/* folder open flags */
 
@@ -64,6 +58,19 @@ struct _CamelVeeFolder {
 
 struct _CamelVeeFolderClass {
 	CamelFolderClass parent_class;
+
+	/* TODO: Some of this may need some additional work/thinking through, it works for now*/
+
+	void (*add_folder)(CamelVeeFolder *, CamelFolder *);
+	void (*remove_folder)(CamelVeeFolder *, CamelFolder *);
+	int (*rebuild_folder)(CamelVeeFolder *, CamelFolder *, CamelException *);
+
+	void (*set_expression)(CamelVeeFolder *, const char *);
+
+	/* Called for a folder-changed event on a source folder */
+	void (*folder_changed)(CamelVeeFolder *, CamelFolder *sub, CamelFolderChangeInfo *changes);
+	/* Called for a folder-renamed event on a source folder */
+	void (*folder_renamed)(CamelVeeFolder *, CamelFolder *sub, const char *old);
 };
 
 #define CAMEL_UNMATCHED_NAME "UNMATCHED"
@@ -72,11 +79,12 @@ CamelType	      camel_vee_folder_get_type		(void);
 CamelFolder  *camel_vee_folder_new		(CamelStore *parent_store, const char *name, guint32 flags);
 void         camel_vee_folder_construct		(CamelVeeFolder *vf, CamelStore *parent_store, const char *name, guint32 flags);
 
-CamelFolder *camel_vee_folder_get_location(CamelVeeFolder *vf, const CamelVeeMessageInfo *vinfo, char **realuid);
+CamelFolder *camel_vee_folder_get_location(CamelVeeFolder *vf, const struct _CamelVeeMessageInfo *vinfo, char **realuid);
 
 void         camel_vee_folder_add_folder        (CamelVeeFolder *vf, CamelFolder *sub);
 void         camel_vee_folder_remove_folder     (CamelVeeFolder *vf, CamelFolder *sub);
 void	     camel_vee_folder_set_folders	(CamelVeeFolder *vf, GList *folders);
+int          camel_vee_folder_rebuild_folder(CamelVeeFolder *vf, CamelFolder *sub, CamelException *ex);
 void	     camel_vee_folder_set_expression	(CamelVeeFolder *vf, const char *expr);
 
 void	     camel_vee_folder_hash_folder	(CamelFolder *folder, char buffer[8]);

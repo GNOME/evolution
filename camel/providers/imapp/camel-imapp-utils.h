@@ -65,8 +65,8 @@ struct _fetch_info {
 	CamelStream *body;	/* BODY[.*](<.*>)? */
 	CamelStream *text;	/* RFC822.TEXT */
 	CamelStream *header;	/* RFC822.HEADER */
-	CamelMessageInfo *minfo; /* ENVELOPE */
-	CamelMessageContentInfo *cinfo;	/* BODYSTRUCTURE,BODY */
+	struct _CamelMessageInfo *minfo; /* ENVELOPE */
+	struct _CamelMessageContentInfo *cinfo;	/* BODYSTRUCTURE,BODY */
 	guint32 size;		/* RFC822.SIZE */
 	guint32 offset;		/* start offset of a BODY[]<offset.length> request */
 	guint32 flags;		/* FLAGS */

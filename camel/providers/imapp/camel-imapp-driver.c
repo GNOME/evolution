@@ -332,7 +332,7 @@ imapp_write_flags(CamelIMAPPDriver *id, guint32 orset, gboolean on, CamelFolderS
 						ic = camel_imapp_engine_command_new(id->engine, "STORE", NULL, "UID STORE ");
 					flush = imapp_uidset_add(&ss, ic, camel_message_info_uid(info));				
 				}
-				camel_folder_summary_info_free(summary, (CamelMessageInfo *)info);
+				camel_message_info_free((CamelMessageInfo *)info);
 			}
 
 			if (i == count-1 && ic != NULL)
@@ -391,7 +391,7 @@ camel_imapp_driver_sync(CamelIMAPPDriver *id, gboolean expunge, CamelIMAPPFolder
 			off_orset |= ( flags ^ sflags ) & ~flags;
 			on_orset |= (flags ^ sflags) & flags;
 		}
-		camel_folder_summary_info_free(summary, (CamelMessageInfo *)info);
+		camel_message_info_free((CamelMessageInfo *)info);
 	}
 
 	if (on_orset || off_orset) {
@@ -407,7 +407,7 @@ camel_imapp_driver_sync(CamelIMAPPDriver *id, gboolean expunge, CamelIMAPPFolder
 			if (info == NULL)
 				continue;
 			info->server_flags = info->info.flags & CAMEL_IMAPP_SERVER_FLAGS;
-			camel_folder_summary_info_free(summary, (CamelMessageInfo *)info);
+			camel_message_info_free((CamelMessageInfo *)info);
 		}
 		camel_folder_summary_touch(summary);
 		/* could save summary here, incase of failure? */
@@ -656,7 +656,7 @@ driver_resp_expunge(CamelIMAPPEngine *ie, guint32 id, CamelIMAPPDriver *sdata)
 		if (info) {
 			printf("expunging msg %d\n", id);
 			camel_folder_summary_remove(summary, info);
-			camel_folder_summary_info_free(summary, info);
+			camel_message_info_free(info);
 			camel_folder_change_info_remove_uid(sdata->folder->changes, camel_message_info_uid(info));
 		} else {
 			printf("can not find msg %u from expunge\n", id);
@@ -670,7 +670,7 @@ static int
 driver_resp_fetch(CamelIMAPPEngine *ie, guint32 id, CamelIMAPPDriver *sdata)
 {
 	struct _fetch_info *finfo = NULL;
-	CamelMessageInfo *info, *uinfo;
+	CamelIMAPPMessageInfo *info, *uinfo;
 	unsigned int i;
 	CamelFolderSummary *summary;
 
@@ -684,36 +684,36 @@ driver_resp_fetch(CamelIMAPPEngine *ie, guint32 id, CamelIMAPPDriver *sdata)
 	finfo = imap_parse_fetch(ie->stream);
 	imap_dump_fetch(finfo);
 
-	info = camel_folder_summary_index(summary, id-1);
+	info = (CamelIMAPPMessageInfo *)camel_folder_summary_index(summary, id-1);
 	if (info == NULL) {
 		if (finfo->uid == NULL) {
 			printf("got fetch response for currently unknown message %u\n", id);
 			goto done;
 		}
-		uinfo = camel_folder_summary_uid(summary, finfo->uid);
+		uinfo = (CamelIMAPPMessageInfo *)camel_folder_summary_uid(summary, finfo->uid);
 		if (uinfo) {
 			/* we have a problem ... index mismatch */
 			printf("index mismatch, uid '%s' not at index '%u'\n",
 			       finfo->uid, id);
-			camel_folder_summary_info_free(summary, uinfo);
+			camel_message_info_free(uinfo);
 		}
 		/* pad out the summary till we have enough indexes */
 		for (i=camel_folder_summary_count(summary);i<id;i++) {
-			info = camel_folder_summary_info_new(summary);
+			info = camel_message_info_new(summary);
 			if (i == id-1) {
 				printf("inserting new info @ %u\n", i);
-				camel_message_info_set_uid(info, g_strdup(finfo->uid));
+				info->info.uid = g_strdup(finfo->uid);
 			} else {
 				char uidtmp[32];
 
 				sprintf(uidtmp, "blank-%u", i);
-				camel_message_info_set_uid(info, g_strdup(uidtmp));
+				info->info.uid = g_strdup(uidtmp);
 				printf("inserting empty uid %s\n", uidtmp);
 			}
 		
-			camel_folder_summary_add(summary, info);
+			camel_folder_summary_add(summary, (CamelMessageInfo *)info);
 		}
-		info = camel_folder_summary_index(summary, id-1);
+		info = (CamelIMAPPMessageInfo *)camel_folder_summary_index(summary, id-1);
 		g_assert(info != NULL);
 	} else {
 		if (finfo->uid) {
@@ -723,9 +723,9 @@ driver_resp_fetch(CamelIMAPPEngine *ie, guint32 id, CamelIMAPPDriver *sdata)
 				       finfo->uid, id, camel_message_info_uid(info));
 
 				camel_folder_change_info_remove_uid(sdata->folder->changes, camel_message_info_uid(info));
-				camel_folder_summary_remove(summary, info);
-				camel_folder_summary_info_free(summary, info);
-				info = camel_folder_summary_index(summary, id-1);
+				camel_folder_summary_remove(summary, (CamelMessageInfo *)info);
+				camel_message_info_free(info);
+				info = (CamelIMAPPMessageInfo *)camel_folder_summary_index(summary, id-1);
 			}
 		} else {
 			printf("got info for unknown message %u\n", id);
@@ -735,19 +735,19 @@ driver_resp_fetch(CamelIMAPPEngine *ie, guint32 id, CamelIMAPPDriver *sdata)
 	if (info) {
 		if (finfo->got & FETCH_MINFO) {
 			/* if we only use ENVELOPE? */
-			camel_message_info_set_subject(info, g_strdup(camel_message_info_subject(finfo->minfo)));
-			camel_message_info_set_from(info, g_strdup(camel_message_info_from(finfo->minfo)));
-			camel_message_info_set_to(info, g_strdup(camel_message_info_to(finfo->minfo)));
-			camel_message_info_set_cc(info, g_strdup(camel_message_info_cc(finfo->minfo)));
-			info->date_sent = finfo->minfo->date_sent;
+			info->info.subject = g_strdup(camel_message_info_subject(finfo->minfo));
+			info->info.from = g_strdup(camel_message_info_from(finfo->minfo));
+			info->info.to = g_strdup(camel_message_info_to(finfo->minfo));
+			info->info.cc = g_strdup(camel_message_info_cc(finfo->minfo));
+			info->info.date_sent = camel_message_info_date_sent(finfo->minfo);
 			camel_folder_change_info_add_uid(sdata->folder->changes, camel_message_info_uid(info));
 			printf("adding change info uid '%s'\n", camel_message_info_uid(info));
 		}
 
 		if (finfo->got & FETCH_FLAGS) {
-			if ((info->flags & CAMEL_IMAPP_SERVER_FLAGS) != (finfo->flags & CAMEL_IMAPP_SERVER_FLAGS)) {
+			if ((info->info.flags & CAMEL_IMAPP_SERVER_FLAGS) != (camel_message_info_flags(finfo) & CAMEL_IMAPP_SERVER_FLAGS)) {
 				camel_folder_change_info_change_uid(sdata->folder->changes, camel_message_info_uid(info));
-				info->flags = (info->flags & ~(CAMEL_IMAPP_SERVER_FLAGS)) | (finfo->flags & CAMEL_IMAPP_SERVER_FLAGS);
+				info->info.flags = (info->info.flags & ~(CAMEL_IMAPP_SERVER_FLAGS)) | (camel_message_info_flags(finfo) & CAMEL_IMAPP_SERVER_FLAGS);
 				camel_folder_summary_touch(summary);
 			}
 			((CamelIMAPPMessageInfo *)info)->server_flags = finfo->flags & CAMEL_IMAPP_SERVER_FLAGS;
@@ -770,7 +770,7 @@ driver_resp_fetch(CamelIMAPPEngine *ie, guint32 id, CamelIMAPPDriver *sdata)
 			}
 		}
 
-		camel_folder_summary_info_free(summary, info);
+		camel_message_info_free(info);
 	} else {
 		printf("dont know what to do with message\n");
 	}
