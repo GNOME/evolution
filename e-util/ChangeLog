@@ -13,6 +13,22 @@
 	* e-dialog-utils.c: And here.
 	* e-html-utils.c: And here.
 	* e-pilot-settings.h: And remove it here.
+
+2003-01-10  JP Rosevear  <jpr@ximian.com>
+
+	* e-xml-utils.[hc]: various xml utility routines
+
+	* e-xmlhash.[hc]: new files to manage an xml hash on disk
+
+	* Makefile.am: Build new files
+
+2002-12-10  JP Rosevear  <jpr@ximian.com>
+
+	* e-config-listener.c (e_config_listener_remove_dir): Fix warning
+
+2002-12-10  Rodrigo Moya <rodrigo@ximian.com>
+
+	* e-config-listener.[ch] (e_config_listener_remove_dir): new function.
 		
 2002-11-25  Dan Winship  <danw@ximian.com>
 

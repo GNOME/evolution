@@ -45,6 +45,8 @@ eutilinclude_HEADERS = 				\
 	e-sexp.h				\
 	e-time-utils.h				\
 	e-url.h					\
+	e-xmlhash.h				\
+	e-xml-utils.h				\
 	md5-utils.h
 
 libeutil_la_SOURCES =				\
@@ -75,6 +77,8 @@ libeutil_la_SOURCES =				\
 	e-sexp.c				\
 	e-time-utils.c				\
 	e-url.c					\
+	e-xmlhash.c				\
+	e-xml-utils.c				\
 	md5-utils.c
 
 libeutil_la_LIBADD = $(E_UTIL_LIBS)

@@ -548,6 +548,23 @@ e_config_listener_set_string (EConfigListener *cl, const char *key, const char *
 	CORBA_exception_free (&ev);
 }
 
+void
+e_config_listener_remove_dir (EConfigListener *cl, const char *dir)
+{
+	CORBA_Environment ev;
+
+	g_return_if_fail (E_IS_CONFIG_LISTENER (cl));
+	g_return_if_fail (dir != NULL);
+
+	CORBA_exception_init (&ev);
+	Bonobo_ConfigDatabase_removeDir (cl->priv->db, dir, &ev);
+	if (BONOBO_EX (&ev)) {
+		g_warning ("Cannot remove config dir %s -- %s", dir, BONOBO_EX_ID (&ev));
+	}
+
+	CORBA_exception_free (&ev);
+}
+
 Bonobo_ConfigDatabase
 e_config_listener_get_db (EConfigListener *cl)
 {
