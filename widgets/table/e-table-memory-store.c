@@ -80,6 +80,8 @@ etms_set_value_at (ETableModel *etm, int col, int row, const void *val)
 {
 	ETableMemoryStore *etms = E_TABLE_MEMORY_STORE(etm);
 
+	e_table_model_pre_change (etm);
+
 	STORE_LOCATOR (etms, col, row) = duplicate_value (etms, col, val);
 
 	e_table_model_cell_changed (etm, col, row);
@@ -320,6 +322,8 @@ e_table_memory_store_construct (ETableMemoryStore *etms, ETableMemoryStoreColumn
 void
 e_table_memory_store_adopt_value_at (ETableMemoryStore *etms, int col, int row, void *value)
 {
+	e_table_model_pre_change (E_TABLE_MODEL (etms));
+
 	STORE_LOCATOR (etms, col, row) = value;
 
 	e_table_model_cell_changed (E_TABLE_MODEL (etms), col, row);
