@@ -1,3 +1,11 @@
+2000-10-14  Iain Holmes  <iain@helixcode.com>
+
+	* e-msg-composer-hdrs.c (init): Create a unique-ish id for this set
+	of headers, so that only one select-names dialog will be created for
+	a given set of headers.
+	(address_button_clicked_cb): Pass the unique-ish id to the activate
+	dialog command.
+
 2000-10-13  Larry Ewing  <lewing@helixcode.com>
 
 	* e-msg-composer.c (build_message): stop using format_text,
