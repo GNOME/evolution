@@ -735,6 +735,115 @@ imap_delete_message_by_uid (CamelFolder *folder, const gchar *uid, CamelExceptio
 static CamelMimeMessage *
 imap_get_message_by_uid (CamelFolder *folder, const gchar *uid, CamelException *ex)
 {
+	CamelStream *msgstream;
+	CamelStreamFilter *f_stream;   /* will be used later w/ crlf filter */
+	CamelMimeFilter *filter;       /* crlf/dot filter */
+	CamelMimeMessage *msg;
+	CamelMimePart *part;
+	gchar *result, *header, *body, *mesg, *p;
+	int id, status, part_len;
+
+	status = camel_imap_command_extended (CAMEL_STORE (folder->parent_store), folder,
+					      &result, "UID FETCH %s BODY.PEEK[HEADER]", uid);
+
+	if (!result || status != CAMEL_IMAP_OK) {
+		CamelService *service = CAMEL_SERVICE (folder->parent_store);
+		
+		camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
+				      "Could not fetch message %s on IMAP server %s: %s",
+				      uid, service->url->host,
+				      status == CAMEL_IMAP_ERR ? result :
+				      "Unknown error");
+		g_free (result);
+		return camel_mime_message_new ();
+	}
+
+	for (p = result; *p && *p != '{' && *p != '\n'; p++);
+	if (*p != '{') {
+		g_free (result);
+		return camel_mime_message_new ();
+	}
+
+        part_len = atoi (p + 1);
+	for ( ; *p && *p != '\n'; p++);
+	if (*p != '\n') {
+		g_free (result);
+		return camel_mime_message_new ();
+	}
+
+	header = g_strndup (p, part_len);
+	for (p = header + strlen (header) - 1; p > header && *p != ')'; p--);
+	if (p != header)
+		*p = '\0';
+	g_free (result);
+	printf ("*** We got the header ***\n");
+
+	status = camel_imap_command_extended (CAMEL_STORE (folder->parent_store), folder,
+					      &result, "UID FETCH %s BODY[TEXT]", uid);
+
+	if (!result || status != CAMEL_IMAP_OK) {
+		CamelService *service = CAMEL_SERVICE (folder->parent_store);
+		
+		camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
+				      "Could not fetch message %s on IMAP server %s: %s",
+				      uid, service->url->host,
+				      status == CAMEL_IMAP_ERR ? result :
+				      "Unknown error");
+		g_free (result);
+		g_free (header);
+		return camel_mime_message_new ();
+	}
+
+	for (p = result; *p && *p != '{' && *p != '\n'; p++);
+	if (*p != '{') {
+		g_free (result);
+		g_free (header);
+		return camel_mime_message_new ();
+	}
+
+        part_len = atoi (p + 1);
+	for ( ; *p && *p != '\n'; p++);
+	if (*p != '\n') {
+		g_free (result);
+		g_free (header);
+		return camel_mime_message_new ();
+	}
+
+	body = g_strndup (p, part_len);
+	for (p = body + strlen (body) - 1; p > body && *p != ')'; p--);
+	*p = '\0';
+	g_free (result);
+	printf ("*** We got the body ***\n");
+
+	mesg = g_strdup_printf ("%s%s", header, body);
+	g_free (header);
+	g_free (body);
+	printf ("*** We got the mesg ***\n");
+
+	fprintf (stderr, "Message:\n%s\n", mesg);
+
+	msgstream = camel_stream_mem_new_with_buffer (mesg, strlen (mesg) + 1);
+#if 0
+	f_stream = camel_stream_filter_new_with_stream (msgstream);
+	filter = camel_mime_filter_crlf_new (CAMEL_MIME_FILTER_CRLF_DECODE, CAMEL_MIME_FILTER_CRLF_MODE_CRLF_DOTS);
+	id = camel_stream_filter_add (f_stream, CAMEL_MIME_FILTER (filter));
+#endif	
+	msg = camel_mime_message_new ();
+	printf ("*** We created the camel_mime_message ***\n");
+	
+	camel_data_wrapper_construct_from_stream (CAMEL_DATA_WRAPPER (msg), msgstream);
+#if 0	
+	camel_stream_filter_remove (f_stream, id);
+	camel_stream_close (CAMEL_STREAM (f_stream));
+#endif
+	gtk_object_unref (GTK_OBJECT (msgstream));
+	/*gtk_object_unref (GTK_OBJECT (f_stream));*/
+
+	printf ("*** We're returning... ***\n");
+	
+	return msg;
+	
+#if 0
 	CamelStream *imap_stream;
 	CamelStream *msgstream;
 	CamelStreamFilter *f_stream;   /* will be used later w/ crlf filter */
@@ -744,7 +853,7 @@ imap_get_message_by_uid (CamelFolder *folder, const gchar *uid, CamelException *
 	CamelDataWrapper *cdw;
 	gchar *cmdbuf;
 	int id;
-
+	
 	/* TODO: fetch the correct part, get rid of the hard-coded stuff */
 	cmdbuf = g_strdup_printf ("UID FETCH %s BODY[TEXT]", uid);
 	imap_stream = camel_imap_stream_new (CAMEL_IMAP_FOLDER (folder), cmdbuf);
@@ -753,7 +862,7 @@ imap_get_message_by_uid (CamelFolder *folder, const gchar *uid, CamelException *
 
 	/* Temp hack - basically we read in the entire message instead of getting a part as it's needed */
 	msgstream = camel_stream_mem_new ();
-	camel_stream_write_to_stream (msgstream, CAMEL_STREAM (imap_stream));
+	camel_stream_write_to_stream (CAMEL_STREAM (imap_stream), msgstream);
 	gtk_object_unref (GTK_OBJECT (imap_stream));
 	
 	f_stream = camel_stream_filter_new_with_stream (msgstream);
@@ -777,6 +886,7 @@ imap_get_message_by_uid (CamelFolder *folder, const gchar *uid, CamelException *
 	/*gtk_object_unref (GTK_OBJECT (cdw));*/
 	
 	return msg;
+#endif
 }
 
 /* This probably shouldn't go here...but it will for now */
@@ -885,8 +995,8 @@ imap_get_summary (CamelFolder *folder, CamelException *ex)
 			break;
 		}
 
-		p = strchr (result, '(') + 1;
-		if (strncasecmp (p, "UID", 3)) {
+		p = strchr (result, '(');
+		if (!p || strncasecmp (p + 1, "UID", 3)) {
 			g_free (result);
 			fprintf (stderr, "Warning: UID for message %d not found\n", i);
 
@@ -899,9 +1009,10 @@ imap_get_summary (CamelFolder *folder, CamelException *ex)
 			break;
 		}
 
-		for (p += 4; *p && *p != ' '; p++);             /* advance to <uid> */
-		for (q = p; *q && *q != ')' && *q != ' '; q++); /* find the end of the <uid> */
+		for (p += 4; *p && (*p < '0' || *p > '9'); p++);    /* advance to <uid> */
+		for (q = p; *q && *q != ')' && *q != ' '; q++);     /* find the end of the <uid> */
 		info->uid = g_strndup (p, (gint)(q - p));
+		printf ("*** info->uid = %s\n", info->uid);
 		g_free (result);
 		
 		/* now to get the flags */

@@ -1,3 +1,11 @@
+2000-06-21  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* providers/imap/camel-imap-folder.c (imap_get_message_by_uid): 
+	We are getting mail in IMAP now!! whoo-hoo!. Stripped out the 
+	filtering so messages may have some dot-stuffing, but the 
+	filtering can always be added back in later when we know it 
+	works and isn't the problem.
+
 2000-06-21  Peter Williams  <peterw@curious-george.helixcode.com>
 
 	* providers/mbox/camel-mbox-folder.c (mbox_init): Use the basename
@@ -41,7 +49,8 @@
 	their flags changed (however I #if'd it out until we are more
 	confidant in the IMAP code :)
 	(imap_summary_get_by_uid): Now parese flags correctly.
-	(imap_get_summary): Now parese flags correctly.
+	(imap_get_summary): Now parese flags correctly. Also correctly
+	parses the UID correctly.
 
 	* camel-url.c (check_equal): No need to check s1 if s2 is NULL
 	(camel_url_equal): Don't check the passwd component of the url.
