@@ -45,8 +45,8 @@ extern "C" {
 typedef struct {
 	CamelFolder parent_object;
 
-	CamelFolderSearch *search; /* used to run searches, we just use the real thing (tm) */
-
+	CamelFolderSearch *search; /* used to run searches */
+	GPtrArray *summary;
 	gint count;
 } CamelImapFolder;
 

@@ -153,6 +153,7 @@ camel_imap_folder_init (gpointer object, gpointer klass)
 	folder->has_summary_capability = TRUE;
 	folder->has_search_capability = FALSE; /* default -  we have to query IMAP to know for sure */
 
+	imap_folder->summary = NULL;
 	imap_folder->count = -1;
 }
 
@@ -252,6 +253,7 @@ imap_init (CamelFolder *folder, CamelStore *parent_store, CamelFolder *parent_fo
 
 	
  	imap_folder->search = NULL;
+	imap_folder->summary = NULL;
 
 	/* SELECT the IMAP mail spool */
 	status = camel_imap_command_extended (CAMEL_IMAP_STORE (folder->parent_store), folder,
@@ -673,10 +675,15 @@ get_header_field (gchar *header, gchar *field)
 GPtrArray *
 imap_get_summary (CamelFolder *folder, CamelException *ex)
 {
+	/* FIXME: we leak mem here if the summary already exists
+	 * Q: where do we want to free the pre-existing summary? */
+	CamelImapFolder *imap_folder = CAMEL_IMAP_FOLDER (folder);
 	GPtrArray *array = NULL;
 	CamelMessageInfo *info;
 	int i, num, status;
 	char *result, *datestr, *p, *q;
+
+	imap_free_summary (folder, imap_folder->summary);
 	
 	num = imap_get_message_count (folder, ex);
 	
@@ -825,6 +832,8 @@ imap_get_summary (CamelFolder *folder, CamelException *ex)
 		g_ptr_array_add (array, info);
 	}
 
+	imap_folder->summary = array;
+	
 	return array;
 }
 
@@ -846,6 +855,7 @@ imap_free_summary (CamelFolder *folder, GPtrArray *array)
 	}
 
 	g_ptr_array_free (array, TRUE);
+	array = NULL;
 	
 	return;
 }
@@ -854,11 +864,25 @@ imap_free_summary (CamelFolder *folder, GPtrArray *array)
 static const CamelMessageInfo *
 imap_summary_get_by_uid (CamelFolder *folder, const char *uid)
 {
-	/* TODO: code this - do a "UID FETCH <uid> BODY.PEEK[HEADER]" and parse */
+	CamelImapFolder *imap_folder = CAMEL_IMAP_FOLDER (folder);
 	CamelMessageInfo *info = NULL;
 	char *result, *datestr, *p;
 	int status;
 
+	/* lets first check to see if we have the message info cached */
+	if (imap_folder->summary) {
+		int max, i;
+
+		max = imap_folder->summary->len;
+		for (i = 0; i < max; i++) {
+			info = g_ptr_array_index (imap_folder->summary, i);
+			if (!strcmp(info->uid, uid))
+				return info;
+		}
+	}
+
+	/* we don't have a cached copy, so fetch it */
+	
 	status = camel_imap_command_extended (CAMEL_IMAP_STORE (folder->parent_store), folder,
 					      &result, "UID FETCH %s BODY.PEEK[HEADER]", uid);
 
@@ -919,6 +943,14 @@ imap_summary_get_by_uid (CamelFolder *folder, const char *uid)
 		info->flags |= CAMEL_MESSAGE_DRAFT;
 	
 	g_free (result);
+
+	/* since we didn't have it cached, lets add it to our cache */
+	if (imap_folder->summary) {
+		g_ptr_array_add (imap_folder->summary, info);
+	} else {
+		imap_folder->summary = g_ptr_array_new ();
+		g_ptr_array_add (imap_folder->summary, info);
+	}
 	
 	return info;
 }
@@ -966,7 +998,6 @@ static guint32
 imap_get_message_flags (CamelFolder *folder, const char *uid, CamelException *ex)
 {
 	CamelMessageInfo *info;
-	guint32 flags;
 
 	if (!(info = (CamelMessageInfo *)imap_summary_get_by_uid (folder, uid))) {
 		CamelService *service = CAMEL_SERVICE (folder->parent_store);
@@ -977,15 +1008,7 @@ imap_get_message_flags (CamelFolder *folder, const char *uid, CamelException *ex
 		return 0;
 	}
 
-	flags = info->flags;
-
-	g_free (info->subject);
-	g_free (info->to);
-	g_free (info->from);
-	g_free (info->uid);
-	g_free (info);
-
-	return flags;
+	return info->flags;
 }
 
 static void

@@ -1,3 +1,16 @@
+2000-06-19  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* providers/imap/camel-imap-folder.c (camel_imap_folder_init): 
+	Set summary equal to NULL.
+	(imap_get_summary): Store the summary in the ImapFolder
+	(imap_summary_get_by_uid): If we have a summary cache in the
+	ImapFolder, first check to see if that message info is in the
+	cached summary first, if not fetch it directly from the IMAP
+	server and append it to the summary cache.
+	(imap_get_message_flags): Don't free the message info that we
+	get back from summary_get_by_uid as we don't want to be 
+	corrupting our cached summary.
+
 2000-06-19  Peter Williams  <peterw@curious-george.helixcode.com>
 
 	* providers/imap/camel-imap-store.c (camel_imap_command{,_extended}): When
