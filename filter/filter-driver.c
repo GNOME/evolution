@@ -374,9 +374,10 @@ free_key (gpointer key, gpointer value, gpointer user_data)
 #endif
 
 void
-filter_driver_run (FilterDriver *driver, CamelMimeMessage *message, CamelFolder *inbox,
-		   enum _filter_source_t sourcetype, gboolean self_destruct,
-		   gpointer unhook_func, gpointer unhook_data)
+filter_driver_run (FilterDriver *driver, CamelMimeMessage *message,
+		   CamelFolder *inbox, enum _filter_source_t sourcetype,
+		   gpointer unhook_func, gpointer unhook_data,
+		   gboolean self_destruct, CamelException *ex)
 {
 	struct _FilterDriverPrivate *p = _PRIVATE (driver);
 	ESExpResult *r;
@@ -464,6 +465,9 @@ filter_driver_run (FilterDriver *driver, CamelMimeMessage *message, CamelFolder 
 	camel_folder_thaw (inbox);
 	mail_tool_camel_lock_down ();
 	
+	/* transfer the exception over to the parents exception */
+	if (camel_exception_is_set (p->ex))
+		camel_exception_xfer (ex, p->ex);
 	camel_exception_free (p->ex);
 	
 	camel_object_unref (CAMEL_OBJECT (message));

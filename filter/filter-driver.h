@@ -54,9 +54,10 @@ FilterDriver  *filter_driver_new     (FilterContext *ctx, FilterGetFolderFunc fe
 /*void filter_driver_set_global(FilterDriver *, const char *name, const char *value);*/
 
 /* apply rules to a folder, unmatched messages goto inbox, if not NULL */
-void filter_driver_run (FilterDriver *driver, CamelMimeMessage *message, CamelFolder *inbox,
-			enum _filter_source_t sourcetype,
-			gboolean self_destruct, gpointer unhook_func, gpointer unhook_data);
+void filter_driver_run (FilterDriver *driver, CamelMimeMessage *message,
+			CamelFolder *inbox, enum _filter_source_t sourcetype,
+			gpointer unhook_func, gpointer unhook_data,
+			gboolean self_destruct, CamelException *ex);
 
 #if 0
 /* generate the search query/action string for a filter option */
