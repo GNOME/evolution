@@ -609,11 +609,13 @@ void       e_day_view_copy_clipboard            (EDayView       *day_view);
 void       e_day_view_paste_clipboard           (EDayView       *day_view);
 
 void       e_day_view_delete_event		(EDayView       *day_view);
+void       e_day_view_delete_occurrence         (EDayView       *day_view);
 
 
 /* Returns the number of selected events (0 or 1 at present). */
 gint	   e_day_view_get_num_events_selected	(EDayView	*day_view);
 
+CalComponent *e_day_view_get_selected_event     (EDayView       *day_view);
 
 /*
  * Internal functions called by the associated canvas items.

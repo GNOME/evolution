@@ -347,7 +347,7 @@ dn_query_eval_error_cb (CalQuery *query, const char *error_str, gpointer data)
 }
 
 /* Returns the current view widget, a EDayView or EWeekView. */
-static GtkWidget*
+GtkWidget*
 gnome_calendar_get_current_view_widget (GnomeCalendar *gcal)
 {
 	GnomeCalendarPrivate *priv;
@@ -2853,6 +2853,29 @@ gnome_calendar_delete_selection		(GnomeCalendar  *gcal)
 		g_assert_not_reached ();
 }
 
+void
+gnome_calendar_delete_selected_occurrence (GnomeCalendar *gcal)
+{
+	GnomeCalendarPrivate *priv;
+	FocusLocation location;
+	GtkWidget *view;
+
+	g_return_if_fail (GNOME_IS_CALENDAR (gcal));
+
+	priv = gcal->priv;
+
+	location = get_focus_location (gcal);
+
+	if (location == FOCUS_CALENDAR) {
+
+		view = gnome_calendar_get_current_view_widget (gcal);
+
+		if (E_IS_DAY_VIEW (view))
+			e_day_view_delete_occurrence (E_DAY_VIEW (view));
+		else
+			e_week_view_delete_occurrence (E_WEEK_VIEW (view));
+	}
+}
 
 ECalendarTable*
 gnome_calendar_get_task_pad	(GnomeCalendar *gcal)

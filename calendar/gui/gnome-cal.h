@@ -108,6 +108,7 @@ GnomeCalendarViewType gnome_calendar_get_view (GnomeCalendar *gcal);
 void gnome_calendar_set_view (GnomeCalendar *gcal, GnomeCalendarViewType view_type,
 			      gboolean range_selected, gboolean grab_focus);
 
+GtkWidget *gnome_calendar_get_current_view_widget (GnomeCalendar *gcal);
 void gnome_calendar_setup_view_menus (GnomeCalendar *gcal, BonoboUIComponent *uic);
 void gnome_calendar_discard_view_menus (GnomeCalendar *gcal);
 
@@ -167,6 +168,7 @@ void       gnome_calendar_copy_clipboard        (GnomeCalendar  *gcal);
 void       gnome_calendar_paste_clipboard       (GnomeCalendar  *gcal);
 
 void       gnome_calendar_delete_selection	(GnomeCalendar  *gcal);
+void       gnome_calendar_delete_selected_occurrence (GnomeCalendar *gcal);
 
 
 

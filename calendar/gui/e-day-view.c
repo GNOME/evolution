@@ -4077,40 +4077,6 @@ e_day_view_on_settings (GtkWidget *widget, gpointer data)
 }
 
 static void
-e_day_view_on_delete_occurrence (GtkWidget *widget, gpointer data)
-{
-	EDayView *day_view;
-	EDayViewEvent *event;
-	CalComponent *comp;
-
-	day_view = E_DAY_VIEW (data);
-
-	event = e_day_view_get_popup_menu_event (day_view);
-	if (event == NULL)
-		return;
-
-	if (cal_component_is_instance (event->comp)) {
-		const char *uid;
-
-		cal_component_get_uid (event->comp, &uid);
-		if (cal_client_remove_object_with_mod (day_view->client, uid, CALOBJ_MOD_THIS) != CAL_CLIENT_RESULT_SUCCESS)
-			g_message ("e_day_view_on_delete_occurrence(): Could not update the object!");
-
-		return;
-	}
-	
-	/* We must duplicate the CalComponent, or we won't know it has changed
-	   when we get the "update_event" callback. */
-	comp = cal_component_clone (event->comp);
-	cal_comp_util_add_exdate (comp, event->start, day_view->zone);
-
-	if (cal_client_update_object (day_view->client, comp) != CAL_CLIENT_RESULT_SUCCESS)
-		g_message ("e_day_view_on_delete_occurrence(): Could not update the object!");
-
-	g_object_unref (comp);
-}
-
-static void
 e_day_view_delete_event_internal (EDayView *day_view, EDayViewEvent *event)
 {
 	CalComponentVType vtype;
@@ -4182,6 +4148,69 @@ e_day_view_delete_event		(EDayView       *day_view)
 	e_day_view_delete_event_internal (day_view, event);
 }
 
+static void
+e_day_view_delete_occurrence_internal (EDayView *day_view, EDayViewEvent *event)
+{
+	CalComponent *comp;
+
+	if (cal_component_is_instance (event->comp)) {
+		const char *uid;
+
+		cal_component_get_uid (event->comp, &uid);
+		if (cal_client_remove_object_with_mod (day_view->client, uid, CALOBJ_MOD_THIS) != CAL_CLIENT_RESULT_SUCCESS)
+			g_message ("e_day_view_on_delete_occurrence(): Could not update the object!");
+
+		return;
+	}
+	
+	/* We must duplicate the CalComponent, or we won't know it has changed
+	   when we get the "update_event" callback. */
+	comp = cal_component_clone (event->comp);
+	cal_comp_util_add_exdate (comp, event->start, day_view->zone);
+
+	if (cal_client_update_object (day_view->client, comp) != CAL_CLIENT_RESULT_SUCCESS)
+		g_message ("e_day_view_on_delete_occurrence(): Could not update the object!");
+
+	g_object_unref (comp);
+}
+
+static void
+e_day_view_on_delete_occurrence (GtkWidget *widget, gpointer data)
+{
+	EDayView *day_view;
+	EDayViewEvent *event;
+	CalComponent *comp;
+
+	day_view = E_DAY_VIEW (data);
+
+	event = e_day_view_get_popup_menu_event (day_view);
+	if (event == NULL)
+		return;
+
+	e_day_view_delete_occurrence_internal (day_view, event);
+}
+
+void
+e_day_view_delete_occurrence (EDayView *day_view)
+{
+	EDayViewEvent *event;
+
+	g_return_if_fail (E_IS_DAY_VIEW (day_view));
+
+	if (day_view->editing_event_day == -1)
+		return;
+
+	if (day_view->editing_event_day == E_DAY_VIEW_LONG_EVENT)
+		event = &g_array_index (day_view->long_events,
+					EDayViewEvent,
+					day_view->editing_event_num);
+	else
+		event = &g_array_index (day_view->events[day_view->editing_event_day],
+					EDayViewEvent,
+					day_view->editing_event_num);
+
+	e_day_view_delete_occurrence_internal (day_view, event);
+}
 
 static void
 e_day_view_on_cut (GtkWidget *widget, gpointer data)
@@ -7754,6 +7783,27 @@ e_day_view_get_num_events_selected (EDayView *day_view)
 	g_return_val_if_fail (E_IS_DAY_VIEW (day_view), 0);
 
 	return (day_view->editing_event_day != -1) ? 1 : 0;
+}
+
+/* Returns the currently-selected event, or NULL if none */
+CalComponent *
+e_day_view_get_selected_event (EDayView *day_view)
+{
+	EDayViewEvent *event;
+
+	g_return_val_if_fail (E_IS_DAY_VIEW (day_view), NULL);
+	g_return_val_if_fail (day_view->editing_event_day != -1, NULL);
+
+	if (day_view->editing_event_day == E_DAY_VIEW_LONG_EVENT)
+		event = &g_array_index (day_view->long_events,
+				       EDayViewEvent,
+				       day_view->editing_event_num);
+	else
+		event = &g_array_index (day_view->events[day_view->editing_event_day],
+				       EDayViewEvent,
+				       day_view->editing_event_num);
+
+	return event ? event->comp : NULL;
 }
 
 /* Displays messages on the status bar. */

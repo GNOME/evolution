@@ -1,3 +1,29 @@
+2003-04-21  Rodrigo Moya <rodrigo@ximian.com>
+
+	Fixes #22444
+
+	* gui/calendar-commands.c: added new verbs for occurrence-related
+	menu items.
+	(delete_occurrence_cmd): added callback for "Delete this occurrence"
+	menu item. "Delete all occurrences" is just the same as "Delete".
+	(sensitize_calendar_commands): sensitive ocurrence-related menu items.
+
+	* gui/gnome-cal.[ch] (gnome_calendar_delete_selected_occurrence): new
+	function.
+	(gnome_calendar_get_current_view_widget): made this public.
+
+	* gui/e-week-view.[ch] (e_week_view_get_selected_event):
+	(e_week_view_delete_occurrence): new functions.
+	(e_week_view_delete_occurrence_internal): real implementation of the
+	'Delete Occurrence' logic.
+	(e_week_view_on_delete_occurrence): call delete_instance_internal.
+
+	* gui/e-day-view.[ch] (e_day_view_get_selected_event):
+	(e_day_view_delete_occurrence): new functions.
+	(e_week_view_delete_occurrence_internal): real implementation of the
+	'Delete Occurrence' logic.
+	(e_week_view_on_delete_occurrence): call delete_occurrence_internal.
+
 2003-04-18  Rodrigo Moya <rodrigo@ximian.com>
 
 	* gui/alarm-notify/alarm-notify.glade: removed 'heading' and

@@ -49,6 +49,8 @@
 #include "shell/Evolution.h"
 #include "calendar-commands.h"
 #include "calendar-config.h"
+#include "e-day-view.h"
+#include "e-week-view.h"
 #include "gnome-cal.h"
 #include "goto.h"
 #include "print.h"
@@ -293,6 +295,18 @@ delete_cmd (BonoboUIComponent *uic, gpointer data, const gchar *path)
 }
 
 static void
+delete_occurrence_cmd (BonoboUIComponent *uic, gpointer data, const gchar *path)
+{
+	GnomeCalendar *gcal;
+
+	gcal = GNOME_CALENDAR (data);
+
+	set_clock_cursor (gcal);
+	gnome_calendar_delete_selected_occurrence (gcal);
+	set_normal_cursor (gcal);
+}
+
+static void
 publish_freebusy_cmd (BonoboUIComponent *uic, gpointer data, const gchar *path)
 {
 	GnomeCalendar *gcal;
@@ -505,7 +519,7 @@ sensitize_calendar_commands (GnomeCalendar *gcal, BonoboControl *control, gboole
 {
 	BonoboUIComponent *uic;
 	int n_selected;
-	gboolean read_only;
+	gboolean read_only, has_recurrences;
 	
 	uic = bonobo_control_get_ui_component (control);
 	g_assert (uic != NULL);
@@ -524,6 +538,33 @@ sensitize_calendar_commands (GnomeCalendar *gcal, BonoboControl *control, gboole
 				      NULL);
 	bonobo_ui_component_set_prop (uic, "/commands/Delete", "sensitive",
 				      n_selected == 0 || read_only ? "0" : "1",
+				      NULL);
+
+	/* occurrence-related menu items */
+	has_recurrences = FALSE;
+	if (n_selected > 0 && !read_only) {
+		CalComponent *comp;
+		GtkWidget *view;
+
+		view = gnome_calendar_get_current_view_widget (gcal);
+		if (E_IS_DAY_VIEW (view))
+			comp = e_day_view_get_selected_event (E_DAY_VIEW (view));
+		else if (E_IS_WEEK_VIEW (view))
+			comp = e_week_view_get_selected_event (E_WEEK_VIEW (view));
+		else
+			comp = NULL;
+
+		if (comp) {
+			if (cal_component_has_recurrences (comp))
+				has_recurrences = TRUE;
+		}
+	}
+
+	bonobo_ui_component_set_prop (uic, "/commands/DeleteOccurrence", "sensitive",
+				      has_recurrences ? "1" : "0",
+				      NULL);
+	bonobo_ui_component_set_prop (uic, "/commands/DeleteAllOccurrences", "sensitive",
+				      has_recurrences ? "1" : "0",
 				      NULL);
 }
 
@@ -659,6 +700,8 @@ static BonoboUIVerb verbs [] = {
 	BONOBO_UI_VERB ("Copy", copy_cmd),
 	BONOBO_UI_VERB ("Paste", paste_cmd),
 	BONOBO_UI_VERB ("Delete", delete_cmd),
+	BONOBO_UI_VERB ("DeleteOccurrence", delete_occurrence_cmd),
+	BONOBO_UI_VERB ("DeleteAllOccurrences", delete_cmd),
 
 	BONOBO_UI_VERB ("CalendarPrev", previous_clicked),
 	BONOBO_UI_VERB ("CalendarToday", today_clicked),
@@ -681,6 +724,8 @@ static EPixmap pixmaps [] =
 	E_PIXMAP ("/menu/EditPlaceholder/Edit/Copy",			      "16_copy.png"),
 	E_PIXMAP ("/menu/EditPlaceholder/Edit/Paste",			      "16_paste.png"),
 	E_PIXMAP ("/menu/EditPlaceholder/Edit/Delete",			      "evolution-trash-mini.png"),
+	E_PIXMAP ("/menu/EditPlaceholder/Edit/DeleteOccurrence",	      "evolution-trash-mini.png"),
+	E_PIXMAP ("/menu/EditPlaceholder/Edit/DeleteAllOccurrences",	      "evolution-trash-mini.png"),
 	E_PIXMAP ("/menu/File/Print/Print",				      "print.xpm"),
 	E_PIXMAP ("/menu/File/Print/PrintPreview",			      "print-preview.xpm"),
 	E_PIXMAP ("/menu/View/ViewBegin/Goto",				      "goto-16.png"),

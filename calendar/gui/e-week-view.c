@@ -3898,44 +3898,6 @@ e_week_view_on_settings (GtkWidget *widget, gpointer data)
 }
 
 static void
-e_week_view_on_delete_occurrence (GtkWidget *widget, gpointer data)
-{
-	EWeekView *week_view;
-	EWeekViewEvent *event;
-	CalComponent *comp;
-
-	week_view = E_WEEK_VIEW (data);
-
-	if (week_view->popup_event_num == -1)
-		return;
-
-	event = &g_array_index (week_view->events, EWeekViewEvent,
-				week_view->popup_event_num);
-
-	if (cal_component_is_instance (event->comp)) {
-		const char *uid;
-
-		cal_component_get_uid (event->comp, &uid);
-		if (cal_client_remove_object_with_mod (week_view->client, uid, CALOBJ_MOD_THIS) != CAL_CLIENT_RESULT_SUCCESS)
-			g_message ("e_week_view_on_delete_occurrence(): Could not update the object!");
-
-		return;
-	}
-
-	/* We must duplicate the CalComponent, or we won't know it has changed
-	   when we get the "update_event" callback. */
-
-	comp = cal_component_clone (event->comp);
-	cal_comp_util_add_exdate (comp, event->start, week_view->zone);
-
-	if (cal_client_update_object (week_view->client, comp) != CAL_CLIENT_RESULT_SUCCESS)
-		g_message ("e_week_view_on_delete_occurrence(): Could not update the object!");
-
-	g_object_unref (comp);
-}
-
-
-static void
 e_week_view_delete_event_internal (EWeekView *week_view, gint event_num)
 {
 	CalComponentVType vtype;
@@ -3991,6 +3953,61 @@ e_week_view_delete_event		(EWeekView       *week_view)
 					   week_view->editing_event_num);
 }
 
+
+static void
+e_week_view_delete_occurrence_internal (EWeekView *week_view, gint event_num)
+{
+	EWeekViewEvent *event;
+	CalComponent *comp;
+
+	event = &g_array_index (week_view->events, EWeekViewEvent,
+				event_num);
+
+	if (cal_component_is_instance (event->comp)) {
+		const char *uid;
+
+		cal_component_get_uid (event->comp, &uid);
+		if (cal_client_remove_object_with_mod (week_view->client, uid, CALOBJ_MOD_THIS) != CAL_CLIENT_RESULT_SUCCESS)
+			g_message ("e_week_view_on_delete_occurrence(): Could not update the object!");
+
+		return;
+	}
+
+	/* We must duplicate the CalComponent, or we won't know it has changed
+	   when we get the "update_event" callback. */
+
+	comp = cal_component_clone (event->comp);
+	cal_comp_util_add_exdate (comp, event->start, week_view->zone);
+
+	if (cal_client_update_object (week_view->client, comp) != CAL_CLIENT_RESULT_SUCCESS)
+		g_message ("e_week_view_on_delete_occurrence(): Could not update the object!");
+
+	g_object_unref (comp);
+}
+
+static void
+e_week_view_on_delete_occurrence (GtkWidget *widget, gpointer data)
+{
+	EWeekView *week_view;
+
+	week_view = E_WEEK_VIEW (data);
+
+	if (week_view->popup_event_num == -1)
+		return;
+
+	e_week_view_delete_occurrence_internal (week_view, week_view->popup_event_num);
+}
+
+void
+e_week_view_delete_occurrence (EWeekView *week_view)
+{
+	g_return_if_fail (E_IS_WEEK_VIEW (week_view));
+
+	if (week_view->editing_event_num == -1)
+		return;
+
+	e_week_view_delete_occurrence_internal (week_view, week_view->editing_event_num);
+}
 
 static void
 e_week_view_on_cut (GtkWidget *widget, gpointer data)
@@ -4428,6 +4445,21 @@ e_week_view_get_num_events_selected (EWeekView *week_view)
 	g_return_val_if_fail (E_IS_WEEK_VIEW (week_view), 0);
 
 	return (week_view->editing_event_num != -1) ? 1 : 0;
+}
+
+/* Returns the currently-selected event, or NULL if none */
+CalComponent *
+e_week_view_get_selected_event (EWeekView *week_view)
+{
+	EWeekViewEvent *event;
+
+	g_return_val_if_fail (E_IS_WEEK_VIEW (week_view), NULL);
+	g_return_val_if_fail (week_view->editing_event_num != -1, NULL);
+
+	event = &g_array_index (week_view->events, EWeekViewEvent,
+				week_view->editing_event_num);
+
+	return event ? event->comp : NULL;
 }
 
 /* Displays a message on the activity client. */
