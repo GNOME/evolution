@@ -10,14 +10,14 @@
 # appointment = möte
 # meeting = sammanträde
 #
-# $Id: sv.po,v 1.202.2.2 2004/10/14 22:45:56 menthos Exp $
+# $Id: sv.po,v 1.202.2.3 2004/11/12 22:33:33 menthos Exp $
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-10-15 00:44+0200\n"
-"PO-Revision-Date: 2004-10-15 00:44+0200\n"
+"POT-Creation-Date: 2004-11-12 23:32+0100\n"
+"PO-Revision-Date: 2004-11-12 23:32+0100\n"
 "Last-Translator: Christian Rose <menthos@menthos.com>\n"
 "Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -145,21 +145,9 @@ msgstr "Kategoriredigeraren är inte tillgänglig."
 #. addressbook:generic-error primary
 #. addressbook:load-error secondary
 #. addressbook:search-error secondary
-#. mail:session-message-info secondary
-#. mail:session-message-info-cancel secondary
-#. mail:session-message-warning secondary
-#. mail:session-message-warning-cancel secondary
-#. mail:session-message-error secondary
-#. mail:session-message-error-cancel secondary
-#. mail:ask-session-password secondary
-#. mail:filter-load-error secondary
 #: addressbook/addressbook-errors.xml.h:24
 #: addressbook/addressbook-errors.xml.h:32
-#: addressbook/addressbook-errors.xml.h:36 mail/mail-errors.xml.h:70
-#: mail/mail-errors.xml.h:72 mail/mail-errors.xml.h:74
-#: mail/mail-errors.xml.h:76 mail/mail-errors.xml.h:78
-#: mail/mail-errors.xml.h:80 mail/mail-errors.xml.h:84
-#: mail/mail-errors.xml.h:88
+#: addressbook/addressbook-errors.xml.h:36
 msgid "{0}"
 msgstr "{0}"
 
@@ -167,9 +155,8 @@ msgstr "{0}"
 # http://bugzilla.ximian.com/show_bug.cgi?id=61062
 #. addressbook:generic-error secondary
 #. mail-composer:no-attach secondary
-#. mail:no-save-path secondary
 #: addressbook/addressbook-errors.xml.h:26
-#: composer/mail-composer-errors.xml.h:4 mail/mail-errors.xml.h:92
+#: composer/mail-composer-errors.xml.h:4
 msgid "{1}"
 msgstr "{1}"
 
@@ -576,7 +563,7 @@ msgstr "Lägg till adressbok"
 msgid "Address Book Properties"
 msgstr "Egenskaper för adressboken"
 
-#: addressbook/gui/component/ldap-config.glade.h:15 mail/mail-account-gui.c:85
+#: addressbook/gui/component/ldap-config.glade.h:15 mail/mail-account-gui.c:86
 #: mail/mail-config.glade.h:42
 msgid "Always"
 msgstr "Alltid"
@@ -623,7 +610,7 @@ msgstr "Allmänt"
 msgid "Lo_gin:"
 msgstr "Inlo_ggning:"
 
-#: addressbook/gui/component/ldap-config.glade.h:25 mail/mail-account-gui.c:87
+#: addressbook/gui/component/ldap-config.glade.h:25 mail/mail-account-gui.c:88
 #: mail/mail-config.glade.h:102
 msgid "Never"
 msgstr "Aldrig"
@@ -750,7 +737,7 @@ msgstr "Använder distinguished name (DN)"
 msgid "Using email address"
 msgstr "Använder e-postadress"
 
-#: addressbook/gui/component/ldap-config.glade.h:42 mail/mail-account-gui.c:86
+#: addressbook/gui/component/ldap-config.glade.h:42 mail/mail-account-gui.c:87
 #: mail/mail-config.glade.h:156
 msgid "Whenever Possible"
 msgstr "Närsomhelst"
@@ -2158,7 +2145,7 @@ msgstr "Välj en bild för denna kontakt"
 msgid "No image"
 msgstr "Ingen bild"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:2779
+#: addressbook/gui/contact-editor/e-contact-editor.c:2778
 msgid ""
 "The contact data is invalid:\n"
 "\n"
@@ -2166,7 +2153,7 @@ msgstr ""
 "Data för kontakten är ogiltiga:\n"
 "\n"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:2807
+#: addressbook/gui/contact-editor/e-contact-editor.c:2806
 msgid "Invalid contact."
 msgstr "Ogiltig kontakt."
 
@@ -3914,11 +3901,11 @@ msgstr "Startar:"
 msgid "Ending:"
 msgstr "Slutar:"
 
-#: calendar/gui/alarm-notify/alarm-notify-dialog.c:259
+#: calendar/gui/alarm-notify/alarm-notify-dialog.c:253
 msgid "Evolution Alarm"
 msgstr "Evolutionalarm"
 
-#: calendar/gui/alarm-notify/alarm-notify-dialog.c:358
+#: calendar/gui/alarm-notify/alarm-notify-dialog.c:352
 #, c-format
 msgid "Alarm on %s"
 msgstr "Alarm den %s"
@@ -4190,7 +4177,7 @@ msgstr "Omatchade"
 
 #: calendar/gui/calendar-commands.c:117 calendar/gui/calendar-component.c:570
 #: calendar/gui/dialogs/select-source-dialog.c:112
-#: calendar/gui/gnome-cal.c:1910
+#: calendar/gui/gnome-cal.c:1916
 #: camel/providers/groupwise/camel-gw-listener.c:371
 #: camel/providers/groupwise/camel-gw-listener.c:401
 msgid "Calendar"
@@ -5158,7 +5145,7 @@ msgid "Classi_fication:"
 msgstr "Klassi_fikation:"
 
 #: calendar/gui/dialogs/event-page.glade.h:12
-#: calendar/gui/dialogs/task-page.glade.h:6 calendar/gui/e-cal-list-view.c:259
+#: calendar/gui/dialogs/task-page.glade.h:6 calendar/gui/e-cal-list-view.c:260
 #: calendar/gui/e-cal-model.c:355 calendar/gui/e-calendar-table.c:377
 msgid "Confidential"
 msgstr "Konfidentiellt"
@@ -5168,13 +5155,13 @@ msgid "Locat_ion:"
 msgstr "_Plats:"
 
 #: calendar/gui/dialogs/event-page.glade.h:14
-#: calendar/gui/dialogs/task-page.glade.h:8 calendar/gui/e-cal-list-view.c:258
+#: calendar/gui/dialogs/task-page.glade.h:8 calendar/gui/e-cal-list-view.c:259
 #: calendar/gui/e-cal-model.c:353 calendar/gui/e-calendar-table.c:376
 msgid "Private"
 msgstr "Privat"
 
 #: calendar/gui/dialogs/event-page.glade.h:15
-#: calendar/gui/dialogs/task-page.glade.h:9 calendar/gui/e-cal-list-view.c:257
+#: calendar/gui/dialogs/task-page.glade.h:9 calendar/gui/e-cal-list-view.c:258
 #: calendar/gui/e-cal-model.c:344 calendar/gui/e-cal-model.c:351
 #: calendar/gui/e-calendar-table.c:375
 msgid "Public"
@@ -5221,8 +5208,8 @@ msgstr "_Starttid:"
 #: calendar/gui/dialogs/meeting-page.glade.h:5
 #: calendar/gui/e-cal-model-tasks.c:648 calendar/gui/e-itip-control.c:1111
 #: composer/e-msg-composer.c:2097 filter/filter-rule.c:877
-#: mail/em-account-prefs.c:427 mail/em-folder-view.c:936
-#: mail/mail-account-gui.c:1577 mail/mail-account-gui.c:2022
+#: mail/em-account-prefs.c:427 mail/em-folder-view.c:934
+#: mail/mail-account-gui.c:1635 mail/mail-account-gui.c:2080
 #: mail/mail-config.glade.h:103
 #: widgets/e-timezone-dialog/e-timezone-dialog.c:193
 #: widgets/misc/e-cell-date-edit.c:257 widgets/misc/e-dateedit.c:443
@@ -5764,7 +5751,7 @@ msgstr "%s vid %s"
 msgid "%s for an unknown trigger type"
 msgstr "%s för en okänd triggertyp"
 
-#: calendar/gui/e-cal-component-preview.c:71 mail/em-folder-view.c:2389
+#: calendar/gui/e-cal-component-preview.c:71 mail/em-folder-view.c:2387
 #, c-format
 msgid "Click to open %s"
 msgstr "Klicka för att öppna %s"
@@ -5884,7 +5871,7 @@ msgstr "Nej"
 #: calendar/gui/e-meeting-list-view.c:122
 #: calendar/gui/e-meeting-list-view.c:136 calendar/gui/e-meeting-store.c:115
 #: calendar/gui/e-meeting-store.c:150 calendar/gui/e-meeting-store.c:215
-#: camel/camel-gpg-context.c:1763 camel/camel-gpg-context.c:1814
+#: camel/camel-gpg-context.c:1767 camel/camel-gpg-context.c:1818
 #: camel/camel-tcp-stream-openssl.c:631
 #: camel/providers/imap4/camel-imap4-engine.c:1402
 #: camel/providers/imap4/camel-imap4-engine.c:1432
@@ -5961,7 +5948,7 @@ msgstr "Uppdaterar objekt"
 
 #: calendar/gui/e-calendar-table.c:1043 calendar/gui/e-calendar-table.c:1084
 #: calendar/gui/e-calendar-view.c:1431 calendar/gui/e-calendar-view.c:1512
-#: mail/em-folder-view.c:902 ui/evolution-addressbook.xml.h:37
+#: mail/em-folder-view.c:900 ui/evolution-addressbook.xml.h:37
 msgid "_Open"
 msgstr "_Öppna"
 
@@ -5971,7 +5958,7 @@ msgstr "Öppna _webbsida"
 
 #: calendar/gui/e-calendar-table.c:1045 calendar/gui/e-calendar-table.c:1090
 #: calendar/gui/e-calendar-view.c:1432 calendar/gui/e-calendar-view.c:1518
-#: mail/em-folder-view.c:904 mail/em-popup.c:691 mail/em-popup.c:807
+#: mail/em-folder-view.c:902 mail/em-popup.c:691 mail/em-popup.c:807
 #: ui/evolution-mail-message.xml.h:128
 msgid "_Save As..."
 msgstr "_Spara som..."
@@ -6028,7 +6015,7 @@ msgstr "_Markera markerade uppgifter som färdiga"
 #. FIXME: need to disable for undeletable folders
 #: calendar/gui/e-calendar-table.c:1063 calendar/gui/e-calendar-table.c:1081
 #: calendar/gui/e-calendar-view.c:1451 calendar/gui/e-calendar-view.c:1484
-#: mail/em-folder-tree.c:2720 mail/em-folder-view.c:927
+#: mail/em-folder-tree.c:2720 mail/em-folder-view.c:925
 #: ui/evolution-addressbook.xml.h:33 ui/evolution-calendar.xml.h:40
 #: ui/evolution-comp-editor.xml.h:17 ui/evolution-contact-editor.xml.h:14
 #: ui/evolution-mail-message.xml.h:112 ui/evolution-tasks.xml.h:21
@@ -6810,7 +6797,7 @@ msgstr "Folk som krävs _och en resurs"
 msgid "Enter the password for %s"
 msgstr "Ange lösenordet för %s"
 
-#: calendar/gui/e-tasks.c:744 calendar/gui/gnome-cal.c:2313
+#: calendar/gui/e-tasks.c:744 calendar/gui/gnome-cal.c:2319
 #, c-format
 msgid ""
 "Error on %s:\n"
@@ -6844,22 +6831,22 @@ msgstr "Tömmer"
 msgid "Updating query"
 msgstr "Uppdaterar fråga"
 
-#: calendar/gui/gnome-cal.c:2090
+#: calendar/gui/gnome-cal.c:2096
 #, c-format
 msgid "Loading appointments at %s"
 msgstr "Läser in möten i %s"
 
-#: calendar/gui/gnome-cal.c:2109
+#: calendar/gui/gnome-cal.c:2115
 #, c-format
 msgid "Loading tasks at %s"
 msgstr "Läser in uppgifter i %s"
 
-#: calendar/gui/gnome-cal.c:2202
+#: calendar/gui/gnome-cal.c:2208
 #, c-format
 msgid "Opening %s"
 msgstr "Öppnar %s"
 
-#: calendar/gui/gnome-cal.c:3171
+#: calendar/gui/gnome-cal.c:3177
 msgid "Purging"
 msgstr "Tömmer"
 
@@ -9227,7 +9214,7 @@ msgstr ""
 
 #: camel/camel-gpg-context.c:804 camel/camel-gpg-context.c:1314
 #: camel/camel-gpg-context.c:1498 camel/camel-gpg-context.c:1589
-#: camel/camel-gpg-context.c:1697 camel/providers/nntp/camel-nntp-store.c:1261
+#: camel/camel-gpg-context.c:1701 camel/providers/nntp/camel-nntp-store.c:1261
 #: mail/mail-ops.c:716 mail/mail-send-recv.c:611
 msgid "Cancelled."
 msgstr "Avbruten."
@@ -9267,16 +9254,16 @@ msgstr "Misslyckades med att GPG:a %s: %s\n"
 msgid "Could not generate signing data: %s"
 msgstr "Kunde inte generera signeringsdata: %s"
 
-#: camel/camel-gpg-context.c:1307 camel/camel-gpg-context.c:1762
-#: camel/camel-gpg-context.c:1813
+#: camel/camel-gpg-context.c:1307 camel/camel-gpg-context.c:1766
+#: camel/camel-gpg-context.c:1817
 #, c-format
 msgid "Failed to execute gpg: %s"
 msgstr "Misslyckades med att köra gpg: %s"
 
 #: camel/camel-gpg-context.c:1331 camel/camel-gpg-context.c:1491
 #: camel/camel-gpg-context.c:1582 camel/camel-gpg-context.c:1605
-#: camel/camel-gpg-context.c:1690 camel/camel-gpg-context.c:1714
-#: camel/camel-gpg-context.c:1784 camel/camel-gpg-context.c:1835
+#: camel/camel-gpg-context.c:1694 camel/camel-gpg-context.c:1718
+#: camel/camel-gpg-context.c:1788 camel/camel-gpg-context.c:1839
 msgid "Failed to execute gpg."
 msgstr "Misslyckades med att köra gpg."
 
@@ -9305,11 +9292,16 @@ msgstr "Kunde inte generera krypteringsdata: %s"
 msgid "This is a digitally encrypted message part"
 msgstr "Detta är en digitalt signerad meddelandedel"
 
-#: camel/camel-gpg-context.c:1721 camel/camel-smime-context.c:995
+#: camel/camel-gpg-context.c:1674 camel/camel-multipart-encrypted.c:229
+#: camel/camel-multipart-encrypted.c:244
+msgid "Failed to decrypt MIME part: protocol error"
+msgstr "Misslyckades med att dekryptera MIME-del: protokollfel"
+
+#: camel/camel-gpg-context.c:1725 camel/camel-smime-context.c:995
 msgid "Encrypted content"
 msgstr "Krypterat innehåll"
 
-#: camel/camel-gpg-context.c:1740
+#: camel/camel-gpg-context.c:1744
 msgid "Unable to parse message content"
 msgstr "Kunde inte tolka meddelandeinnehåll"
 
@@ -9406,10 +9398,6 @@ msgstr "Fel vid skrivande av temporär brevlådefil: %s"
 #, c-format
 msgid "Error copying mail temp file: %s"
 msgstr "Fel vid kopierande av temporär brevfil: %s"
-
-#: camel/camel-multipart-encrypted.c:229 camel/camel-multipart-encrypted.c:244
-msgid "Failed to decrypt MIME part: protocol error"
-msgstr "Misslyckades med att dekryptera MIME-del: protokollfel"
 
 #: camel/camel-multipart-encrypted.c:257
 msgid "Failed to decrypt MIME part: invalid structure"
@@ -10417,12 +10405,12 @@ msgstr "Mappen förstördes och återskapades på servern."
 msgid "Scanning for changed messages"
 msgstr "Letar efter ändrade meddelanden"
 
-#: camel/providers/imap/camel-imap-folder.c:1938
+#: camel/providers/imap/camel-imap-folder.c:1939
 #, c-format
 msgid "Unable to retrieve message: %s"
 msgstr "Kan inte hämta meddelande: %s"
 
-#: camel/providers/imap/camel-imap-folder.c:1975
+#: camel/providers/imap/camel-imap-folder.c:1979
 #, c-format
 msgid ""
 "Cannot get message: %s\n"
@@ -10431,41 +10419,41 @@ msgstr ""
 "Kan inte hämta meddelande: %s\n"
 "  %s"
 
-#: camel/providers/imap/camel-imap-folder.c:1975
+#: camel/providers/imap/camel-imap-folder.c:1979
 #: camel/providers/local/camel-maildir-folder.c:244
 #: camel/providers/local/camel-mbox-folder.c:415
 #: camel/providers/local/camel-mh-folder.c:202
 msgid "No such message"
 msgstr "Det finns inget sådant meddelande"
 
-#: camel/providers/imap/camel-imap-folder.c:2017
-#: camel/providers/imap/camel-imap-folder.c:2620
+#: camel/providers/imap/camel-imap-folder.c:2021
+#: camel/providers/imap/camel-imap-folder.c:2624
 #: camel/providers/nntp/camel-nntp-folder.c:220
 msgid "This message is not currently available"
 msgstr "Detta meddelande är inte tillgängligt för tillfället"
 
-#: camel/providers/imap/camel-imap-folder.c:2283
-#: camel/providers/imap/camel-imap-folder.c:2353
+#: camel/providers/imap/camel-imap-folder.c:2287
+#: camel/providers/imap/camel-imap-folder.c:2357
 msgid "Fetching summary information for new messages"
 msgstr "Hämtar meddelandeinformation för nya meddelanden"
 
-#: camel/providers/imap/camel-imap-folder.c:2461
+#: camel/providers/imap/camel-imap-folder.c:2465
 #, c-format
 msgid "Incomplete server response: no information provided for message %d"
 msgstr ""
 
-#: camel/providers/imap/camel-imap-folder.c:2469
+#: camel/providers/imap/camel-imap-folder.c:2473
 #, c-format
 msgid "Incomplete server response: no UID provided for message %d"
 msgstr ""
 
-#: camel/providers/imap/camel-imap-folder.c:2482
+#: camel/providers/imap/camel-imap-folder.c:2486
 #, c-format
 msgid ""
 "Unexpected server response: Identical UIDs provided for messages %d and %d"
 msgstr ""
 
-#: camel/providers/imap/camel-imap-folder.c:2658
+#: camel/providers/imap/camel-imap-folder.c:2662
 msgid "Could not find message body in FETCH response."
 msgstr "Kunde inte hitta meddelandetext i FETCH-svaret."
 
@@ -12308,7 +12296,7 @@ msgstr "Namnlöst meddelande"
 msgid "Open file"
 msgstr "Öppna fil"
 
-#: composer/e-msg-composer.c:1983 mail/mail-account-gui.c:1497
+#: composer/e-msg-composer.c:1983 mail/mail-account-gui.c:1555
 msgid "Autogenerated"
 msgstr "Automatiskt genererad"
 
@@ -12390,14 +12378,11 @@ msgstr "Kunde inte hämta meddelanden att bifoga från {0}."
 # Mycket konstigt meddelande...
 #. mail-composer:attach-nomessages secondary
 #. mail-composer:no-sig-file secondary
-#. mail:no-create-tmp-path secondary
-#. mail:no-delete-folder secondary
 #. system:no-save-file secondary
 #. system:no-load-file secondary
 #: composer/mail-composer-errors.xml.h:14
-#: composer/mail-composer-errors.xml.h:42 mail/mail-errors.xml.h:100
-#: mail/mail-errors.xml.h:112 widgets/misc/e-system-errors.xml.h:11
-#: widgets/misc/e-system-errors.xml.h:15
+#: composer/mail-composer-errors.xml.h:42
+#: widgets/misc/e-system-errors.xml.h:11 widgets/misc/e-system-errors.xml.h:15
 msgid "Because \"{1}\"."
 msgstr "Eftersom \"{1}\"."
 
@@ -12868,8 +12853,7 @@ msgid "Could not compile regular expression \"{1}\"."
 msgstr "Kunde inte kompilera reguljära uttrycket \"{1}\"."
 
 #. filter:no-name primary
-#. mail:no-name-vfolder primary
-#: filter/filter-errors.xml.h:18 mail/mail-errors.xml.h:214
+#: filter/filter-errors.xml.h:18
 msgid "Missing name."
 msgstr "Namn saknas."
 
@@ -13078,7 +13062,7 @@ msgstr "Evolutions e-postredigerarkonfigurationskontroll"
 msgid "Evolution Mail preferences control"
 msgstr "Evolutions e-postinställningskontroll"
 
-#: mail/GNOME_Evolution_Mail.server.in.in.h:11 mail/em-folder-view.c:422
+#: mail/GNOME_Evolution_Mail.server.in.in.h:11 mail/em-folder-view.c:420
 #: mail/importers/elm-importer.c:418 mail/importers/netscape-importer.c:1902
 #: mail/importers/pine-importer.c:474 mail/mail-component.c:511
 #: mail/mail-component.c:562
@@ -13111,7 +13095,7 @@ msgid "Protocol"
 msgstr "Protokoll"
 
 #: mail/em-composer-prefs.c:305 mail/em-composer-prefs.c:424
-#: mail/mail-config.c:1049
+#: mail/mail-config.c:935
 msgid "Unnamed"
 msgstr "Namnlös"
 
@@ -13151,7 +13135,7 @@ msgid "_Filter Rules"
 msgstr "_Filterregler"
 
 #: mail/em-filter-folder-element.c:237 mail/em-vfolder-rule.c:494
-#: mail/mail-account-gui.c:1353
+#: mail/mail-account-gui.c:1411
 msgid "Select Folder"
 msgstr "Välj mapp"
 
@@ -13284,7 +13268,7 @@ msgstr "är inte flaggad"
 msgid "Junk Test"
 msgstr "Skräptest"
 
-#: mail/em-filter-i18n.h:37 mail/em-folder-view.c:935
+#: mail/em-filter-i18n.h:37 mail/em-folder-view.c:933
 #: widgets/misc/e-expander.c:189
 msgid "Label"
 msgstr "Etikett"
@@ -13391,8 +13375,8 @@ msgstr "börjar med"
 msgid "Stop Processing"
 msgstr "Stoppa behandling"
 
-#: mail/em-filter-i18n.h:64 mail/em-format-html.c:1571
-#: mail/em-format-quote.c:305 mail/em-format.c:807 mail/em-mailer-prefs.c:87
+#: mail/em-filter-i18n.h:64 mail/em-format-html.c:1541
+#: mail/em-format-quote.c:305 mail/em-format.c:833 mail/em-mailer-prefs.c:87
 #: mail/message-list.etspec.h:13 mail/message-tag-followup.c:329
 #: smime/lib/e-cert.c:1131
 msgid "Subject"
@@ -13496,7 +13480,7 @@ msgid "_Move to Folder"
 msgstr "_Flytta till mapp"
 
 #: mail/em-folder-tree.c:1014 mail/em-folder-tree.c:2226
-#: mail/em-folder-view.c:806 mail/message-list.c:1703
+#: mail/em-folder-view.c:804 mail/message-list.c:1703
 msgid "_Move"
 msgstr "_Flytta"
 
@@ -13510,13 +13494,13 @@ msgid "Scanning folders in \"%s\""
 msgstr "Genomsöker mappar i \"%s\""
 
 #: mail/em-folder-tree.c:2213 mail/em-folder-tree.c:2226
-#: mail/em-folder-view.c:806 mail/em-folder-view.c:820
+#: mail/em-folder-view.c:804 mail/em-folder-view.c:818
 #: mail/importers/evolution-mbox-importer.c:119
 #: mail/importers/evolution-outlook-importer.c:133
 msgid "Select folder"
 msgstr "Välj mapp"
 
-#: mail/em-folder-tree.c:2213 mail/em-folder-view.c:820
+#: mail/em-folder-tree.c:2213 mail/em-folder-view.c:818
 msgid "C_opy"
 msgstr "_Kopiera"
 
@@ -13570,145 +13554,145 @@ msgid "_Properties"
 msgstr "_Egenskaper"
 
 #. { EM_POPUP_ITEM, "00.select.00", N_("_Open"), G_CALLBACK(emp_popup_open), NULL, NULL, 0 },
-#: mail/em-folder-view.c:903 mail/em-popup.c:690
+#: mail/em-folder-view.c:901 mail/em-popup.c:690
 #: ui/evolution-mail-message.xml.h:113
 msgid "_Edit as New Message..."
 msgstr "_Redigera som nytt meddelande..."
 
-#: mail/em-folder-view.c:905
+#: mail/em-folder-view.c:903
 msgid "_Print"
 msgstr "Skriv _ut"
 
-#: mail/em-folder-view.c:908 ui/evolution-mail-message.xml.h:127
+#: mail/em-folder-view.c:906 ui/evolution-mail-message.xml.h:127
 msgid "_Reply to Sender"
 msgstr "Sva_ra till avsändaren"
 
-#: mail/em-folder-view.c:909 mail/em-popup.c:811
+#: mail/em-folder-view.c:907 mail/em-popup.c:811
 #: ui/evolution-mail-message.xml.h:88
 msgid "Reply to _List"
 msgstr "Svara till _lista"
 
-#: mail/em-folder-view.c:910 mail/em-popup.c:812
+#: mail/em-folder-view.c:908 mail/em-popup.c:812
 #: ui/evolution-mail-message.xml.h:87
 msgid "Reply to _All"
 msgstr "Svara till _alla"
 
-#: mail/em-folder-view.c:911 mail/em-popup.c:814
+#: mail/em-folder-view.c:909 mail/em-popup.c:814
 #: ui/evolution-mail-message.xml.h:114
 msgid "_Forward"
 msgstr "Vidare_befordra"
 
-#: mail/em-folder-view.c:914
+#: mail/em-folder-view.c:912
 msgid "Follo_w Up..."
 msgstr "Föl_j upp..."
 
-#: mail/em-folder-view.c:915
+#: mail/em-folder-view.c:913
 msgid "Fla_g Completed"
 msgstr "Fla_gga färdig"
 
-#: mail/em-folder-view.c:916
+#: mail/em-folder-view.c:914
 msgid "Cl_ear Flag"
 msgstr "T_öm flagga"
 
-#: mail/em-folder-view.c:919 ui/evolution-mail-message.xml.h:50
+#: mail/em-folder-view.c:917 ui/evolution-mail-message.xml.h:50
 msgid "Mar_k as Read"
 msgstr "_Markera som läst"
 
-#: mail/em-folder-view.c:920
+#: mail/em-folder-view.c:918
 msgid "Mark as _Unread"
 msgstr "Markera som _oläst"
 
-#: mail/em-folder-view.c:921
+#: mail/em-folder-view.c:919
 msgid "Mark as _Important"
 msgstr "Markera som _viktigt"
 
-#: mail/em-folder-view.c:922
+#: mail/em-folder-view.c:920
 msgid "_Mark as Unimportant"
 msgstr "Markera som ovi_ktigt"
 
-#: mail/em-folder-view.c:923 ui/evolution-mail-message.xml.h:54
+#: mail/em-folder-view.c:921 ui/evolution-mail-message.xml.h:54
 msgid "Mark as _Junk"
 msgstr "Markera som _skräp"
 
-#: mail/em-folder-view.c:924 ui/evolution-mail-message.xml.h:55
+#: mail/em-folder-view.c:922 ui/evolution-mail-message.xml.h:55
 msgid "Mark as _Not Junk"
 msgstr "Markera som _inte skräp"
 
-#: mail/em-folder-view.c:928
+#: mail/em-folder-view.c:926
 msgid "U_ndelete"
 msgstr "_Ångra borttagning"
 
-#: mail/em-folder-view.c:931
+#: mail/em-folder-view.c:929
 msgid "Mo_ve to Folder..."
 msgstr "Fl_ytta till mapp..."
 
-#: mail/em-folder-view.c:932 ui/evolution-addressbook.xml.h:32
+#: mail/em-folder-view.c:930 ui/evolution-addressbook.xml.h:32
 msgid "_Copy to Folder..."
 msgstr "_Kopiera till mapp..."
 
-#: mail/em-folder-view.c:940
+#: mail/em-folder-view.c:938
 msgid "Add Sender to Address_book"
 msgstr "Lägg till avsändaren i adress_boken"
 
-#: mail/em-folder-view.c:943
+#: mail/em-folder-view.c:941
 msgid "Appl_y Filters"
 msgstr "Till_ämpa filter"
 
-#: mail/em-folder-view.c:944
+#: mail/em-folder-view.c:942
 msgid "F_ilter Junk"
 msgstr "F_iltrera skräp"
 
-#: mail/em-folder-view.c:947
+#: mail/em-folder-view.c:945
 msgid "Crea_te Rule From Message"
 msgstr "Ska_pa regel från meddelande"
 
-#: mail/em-folder-view.c:948
+#: mail/em-folder-view.c:946
 msgid "VFolder on _Subject"
 msgstr "Virtuell mapp på _ämne"
 
-#: mail/em-folder-view.c:949
+#: mail/em-folder-view.c:947
 msgid "VFolder on Se_nder"
 msgstr "Virtuell mapp på _avsändare"
 
-#: mail/em-folder-view.c:950
+#: mail/em-folder-view.c:948
 msgid "VFolder on _Recipients"
 msgstr "Virtuell mapp på _mottagare"
 
-#: mail/em-folder-view.c:951
+#: mail/em-folder-view.c:949
 msgid "VFolder on Mailing _List"
 msgstr "Virtuell mapp på sänd_lista"
 
-#: mail/em-folder-view.c:955
+#: mail/em-folder-view.c:953
 msgid "Filter on Sub_ject"
 msgstr "Filtrera på _ämne"
 
-#: mail/em-folder-view.c:956
+#: mail/em-folder-view.c:954
 msgid "Filter on Sen_der"
 msgstr "Filtrera på _avsändare"
 
-#: mail/em-folder-view.c:957
+#: mail/em-folder-view.c:955
 msgid "Filter on Re_cipients"
 msgstr "Filtrera på _mottagare"
 
-#: mail/em-folder-view.c:958
+#: mail/em-folder-view.c:956
 msgid "Filter on _Mailing List"
 msgstr "Filtrera på sä_ndlista"
 
 #. default charset used in mail view
-#: mail/em-folder-view.c:1714 mail/em-folder-view.c:1754
+#: mail/em-folder-view.c:1712 mail/em-folder-view.c:1752
 #: mail/mail-config.glade.h:68
 msgid "Default"
 msgstr "Standard"
 
-#: mail/em-folder-view.c:1851
+#: mail/em-folder-view.c:1849
 msgid "Print Message"
 msgstr "Skriv ut meddelande"
 
-#: mail/em-folder-view.c:2118
+#: mail/em-folder-view.c:2116
 msgid "_Copy Link Location"
 msgstr "_Kopiera länkplats"
 
-#: mail/em-folder-view.c:2384
+#: mail/em-folder-view.c:2382
 #, c-format
 msgid "Click to mail %s"
 msgstr "Klicka för att skicka e-post till %s"
@@ -13861,116 +13845,116 @@ msgstr "Hämtar \"%s\""
 msgid "Valid signature but cannot verify sender"
 msgstr "Giltig signatur men kan inte verifiera avsändaren"
 
-#: mail/em-format-html.c:871
+#: mail/em-format-html.c:855
 msgid "Malformed external-body part."
 msgstr "Felaktig del med extern meddelandetext."
 
-#: mail/em-format-html.c:901
+#: mail/em-format-html.c:885
 #, c-format
 msgid "Pointer to FTP site (%s)"
 msgstr "Pekare till FTP-plats (%s)"
 
-#: mail/em-format-html.c:912
+#: mail/em-format-html.c:896
 #, c-format
 msgid "Pointer to local file (%s) valid at site \"%s\""
 msgstr "Pekare till lokal fil (%s) giltig på platsen \"%s\""
 
-#: mail/em-format-html.c:914
+#: mail/em-format-html.c:898
 #, c-format
 msgid "Pointer to local file (%s)"
 msgstr "Pekare till lokal fil (%s)"
 
-#: mail/em-format-html.c:935
+#: mail/em-format-html.c:919
 #, c-format
 msgid "Pointer to remote data (%s)"
 msgstr "Pekare till fjärrdata (%s)"
 
-#: mail/em-format-html.c:946
+#: mail/em-format-html.c:930
 #, c-format
 msgid "Pointer to unknown external data (\"%s\" type)"
 msgstr "Pekare till okänd extern data (typen \"%s\")"
 
-#: mail/em-format-html.c:1186
+#: mail/em-format-html.c:1157
 msgid "Formatting message"
 msgstr "Formaterar meddelande"
 
-#: mail/em-format-html.c:1462 mail/em-format-quote.c:192 mail/em-format.c:802
+#: mail/em-format-html.c:1432 mail/em-format-quote.c:192 mail/em-format.c:828
 #: mail/em-mailer-prefs.c:82 mail/message-list.etspec.h:7
 #: mail/message-tag-followup.c:325
 msgid "From"
 msgstr "Från"
 
-#: mail/em-format-html.c:1462 mail/em-format-quote.c:192 mail/em-format.c:803
+#: mail/em-format-html.c:1432 mail/em-format-quote.c:192 mail/em-format.c:829
 #: mail/em-mailer-prefs.c:83
 msgid "Reply-To"
 msgstr "Svara till"
 
-#: mail/em-format-html.c:1462 mail/em-format-quote.c:192 mail/em-format.c:804
+#: mail/em-format-html.c:1432 mail/em-format-quote.c:192 mail/em-format.c:830
 #: mail/em-mailer-prefs.c:84 mail/message-list.etspec.h:14
 msgid "To"
 msgstr "Till"
 
-#: mail/em-format-html.c:1462 mail/em-format-quote.c:192 mail/em-format.c:805
+#: mail/em-format-html.c:1432 mail/em-format-quote.c:192 mail/em-format.c:831
 #: mail/em-mailer-prefs.c:85
 msgid "Cc"
 msgstr "Kopia"
 
-#: mail/em-format-html.c:1462 mail/em-format-quote.c:192 mail/em-format.c:806
+#: mail/em-format-html.c:1432 mail/em-format-quote.c:192 mail/em-format.c:832
 #: mail/em-mailer-prefs.c:86
 msgid "Bcc"
 msgstr "Blindkopia"
 
 #. pseudo-header
-#: mail/em-format-html.c:1575 mail/em-format-quote.c:314
+#: mail/em-format-html.c:1545 mail/em-format-quote.c:314
 #: mail/em-mailer-prefs.c:939
 msgid "Mailer"
 msgstr "E-postprogram"
 
 #. translators: strftime format for local time equivalent in Date header display, with day
-#: mail/em-format-html.c:1602
+#: mail/em-format-html.c:1572
 msgid "<I> (%a, %R %Z)</I>"
 msgstr "<I> (%a %H.%M %Z)</I>"
 
 #. translators: strftime format for local time equivalent in Date header display, without day
-#: mail/em-format-html.c:1605
+#: mail/em-format-html.c:1575
 msgid "<I> (%R %Z)</I>"
 msgstr "<I> (%H.%M %Z)</I>"
 
-#: mail/em-format-html.c:1615 mail/em-format-quote.c:321 mail/em-format.c:808
+#: mail/em-format-html.c:1585 mail/em-format-quote.c:321 mail/em-format.c:834
 #: mail/em-mailer-prefs.c:88 mail/message-list.etspec.h:2
 msgid "Date"
 msgstr "Datum"
 
-#: mail/em-format-html.c:1638 mail/em-format.c:809 mail/em-mailer-prefs.c:89
+#: mail/em-format-html.c:1608 mail/em-format.c:835 mail/em-mailer-prefs.c:89
 msgid "Newsgroups"
 msgstr "Diskussionsgrupper"
 
-#: mail/em-format.c:1058
+#: mail/em-format.c:1084
 #, c-format
 msgid "%s attachment"
 msgstr "%s-bilaga"
 
-#: mail/em-format.c:1097 mail/em-format.c:1230
+#: mail/em-format.c:1123 mail/em-format.c:1256
 msgid "Could not parse S/MIME message: Unknown error"
 msgstr "Kunde inte tolka S/MIME-meddelande: Okänt fel"
 
-#: mail/em-format.c:1220
+#: mail/em-format.c:1246
 msgid "Unsupported encryption type for multipart/encrypted"
 msgstr "Krypteringstypen stöds inte för multipart/encrypted"
 
-#: mail/em-format.c:1381
+#: mail/em-format.c:1394
 msgid "Could not parse MIME message. Displaying as source."
 msgstr "Kunde inte tolka MIME-meddelande. Visar som källkod."
 
-#: mail/em-format.c:1400
+#: mail/em-format.c:1413
 msgid "Unsupported signature format"
 msgstr "Signaturformatet stöds inte"
 
-#: mail/em-format.c:1408
+#: mail/em-format.c:1421
 msgid "Error verifying signature"
 msgstr "Fel vid verifiering av signatur"
 
-#: mail/em-format.c:1408
+#: mail/em-format.c:1421
 msgid "Unknown error verifying signature"
 msgstr "Oknt fel vid verifiering av signatur"
 
@@ -14001,6 +13985,10 @@ msgid ""
 "\n"
 "Please be patient while Evolution migrates your folders..."
 msgstr ""
+"Platsen och hierarkin för Evolution-brevlådemapparna har ändrats sedan "
+"Evolution 1.x.\n"
+"\n"
+"Vänta medan Evolution migrerar dina mappar..."
 
 #: mail/em-migrate.c:1602
 #, c-format
@@ -14013,42 +14001,42 @@ msgid "Unable to copy folder `%s' to `%s': %s"
 msgstr "Kan inte kopiera mappen \"%s\" till \"%s\": %s"
 
 #: mail/em-migrate.c:1813
-#, fuzzy, c-format
+#, c-format
 msgid "Unable to scan for existing mailboxes at `%s': %s"
-msgstr "Kan inte spara grupplistefilen för %s: %s"
+msgstr "Kan inte söka efter befintliga brevlådor på \"%s\": %s"
 
 #: mail/em-migrate.c:2017
-#, fuzzy, c-format
+#, c-format
 msgid "Unable to open old POP keep-on-server data `%s': %s"
-msgstr "Kan inte öppna eller skapa .newsrc-fil för %s: %s"
+msgstr "Kan inte öppna gamla POP-behåll-på-server-data \"%s\": %s"
 
 #: mail/em-migrate.c:2031
-#, fuzzy, c-format
+#, c-format
 msgid "Unable to create POP3 keep-on-server data directory `%s': %s"
-msgstr "Misslyckades med att skapa rör till \"%s\": %s"
+msgstr "Kan inte skapa katalog för POP3-behåll-på-server-data \"%s\": %s"
 
 #: mail/em-migrate.c:2060
 #, c-format
 msgid "Unable to copy POP3 keep-on-server data `%s': %s"
-msgstr ""
+msgstr "Kan inte kopiera POP3-behåll-på-server-data \"%s\": %s"
 
 #: mail/em-migrate.c:2415 mail/em-migrate.c:2427
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to create local mail storage `%s': %s"
-msgstr "Misslyckades med att skapa rör till \"%s\": %s"
+msgstr "Misslyckades med att skapa lokalt e-postlager \"%s\": %s"
 
 #: mail/em-migrate.c:2578
-#, fuzzy, c-format
+#, c-format
 msgid "Unable to create local mail folders at `%s': %s"
-msgstr ""
-"Kan inte spara utdatafilen: %s\n"
-" %s"
+msgstr "Kan inte skapa lokala brevlådemappar på \"%s\": %s"
 
 #: mail/em-migrate.c:2596
 msgid ""
 "Unable to read settings from previous Evolution install, `evolution/config."
 "xmldb' does not exist or is corrupt."
 msgstr ""
+"Kan inte läsa inställningar från tidigare Evolution-installation, "
+"\"evolution/config.xmldb\" finns inte eller är skadad."
 
 #: mail/em-popup.c:700
 msgid "Save As..."
@@ -14209,23 +14197,20 @@ msgid "Default reply style"
 msgstr "Standardstil för svar"
 
 #: mail/evolution-mail.schemas.in.in.h:17
-#, fuzzy
 msgid "Default width of the Composer Window"
-msgstr "Kunde inte skapa fönster för meddelanderedigering."
+msgstr "Standardbredd för fönstret för meddelanderedigering"
 
 #: mail/evolution-mail.schemas.in.in.h:18
-#, fuzzy
 msgid "Default width of the Message Window"
-msgstr "Standardämne för meddelandet."
+msgstr "Standardbredd för meddelandefönstret"
 
 #: mail/evolution-mail.schemas.in.in.h:19
-#, fuzzy
 msgid "Default width of the Subscribe dialog"
-msgstr "Standardämne för meddelandet."
+msgstr "Standardbredd för prenumerationsdialogfönstret"
 
 #: mail/evolution-mail.schemas.in.in.h:20
 msgid "Draw spelling error indicators on words as you type."
-msgstr ""
+msgstr "Rita stavfelsindikatorer på ord efterhand som du skriver."
 
 #: mail/evolution-mail.schemas.in.in.h:21
 msgid "Empty Trash folders on exit"
@@ -14237,20 +14222,19 @@ msgstr "Töm alla papperskorgsmappar vid avslutande av Evolution."
 
 #: mail/evolution-mail.schemas.in.in.h:23
 msgid "Enable caret mode, so that you can see a cursor when reading mail."
-msgstr ""
+msgstr "Aktivera markörläge, så att du ser en markör när du läser e-post."
 
 #: mail/evolution-mail.schemas.in.in.h:24
 msgid "Enable/disable caret mode"
-msgstr ""
+msgstr "Aktivera/inaktivera markörläge"
 
 #: mail/evolution-mail.schemas.in.in.h:25
-#, fuzzy
 msgid "Height of the message-list pane"
-msgstr "Skicka meddelandet senare"
+msgstr "Höjd för meddelandelistpanelen"
 
 #: mail/evolution-mail.schemas.in.in.h:26
 msgid "Height of the message-list pane."
-msgstr ""
+msgstr "Höjd för meddelandelistpanelen."
 
 #: mail/evolution-mail.schemas.in.in.h:27
 msgid ""
@@ -14258,14 +14242,18 @@ msgid ""
 "any mime-types appearing in this list which map to a bonobo-component viewer "
 "in GNOME's mime-type database may be used for displaying content."
 msgstr ""
+"Om det inte finns en inbyggd visare för en viss mime-typ i Evolution kommer "
+"alla mime-typer som finns i denna lista och som mappas till en bonobo-"
+"komponentvisare i GNOME:s databas över mime-typer att kunna användas för att "
+"visa innehåll."
 
 #: mail/evolution-mail.schemas.in.in.h:28
 msgid "Last time empty trash was run"
-msgstr ""
+msgstr "Senaste tid då tömning av papperskorgen kördes"
 
 #: mail/evolution-mail.schemas.in.in.h:29
 msgid "List of Labels and their associated colors"
-msgstr ""
+msgstr "Lista med etiketter och deras associerade färger"
 
 #: mail/evolution-mail.schemas.in.in.h:30
 msgid "List of accepted licenses"
@@ -14809,7 +14797,7 @@ msgstr "Pine"
 msgid "Evolution Account Editor"
 msgstr "Evolutions kontoredigerare"
 
-#: mail/mail-account-gui.c:252
+#: mail/mail-account-gui.c:253
 #, c-format
 msgid ""
 "\n"
@@ -14818,24 +14806,28 @@ msgid ""
 "and tick the check box for accepting it\n"
 msgstr ""
 
-#: mail/mail-account-gui.c:258
+#: mail/mail-account-gui.c:259
 #, c-format
 msgid "%s License Agreement"
 msgstr "Licensavtal för %s"
 
-#: mail/mail-account-gui.c:963 mail/mail-config.glade.h:167
+#: mail/mail-account-gui.c:959 mail/mail-account-gui.c:965
+msgid "Connecting to server..."
+msgstr "Ansluter till server..."
+
+#: mail/mail-account-gui.c:1021 mail/mail-config.glade.h:167
 msgid "_Host:"
 msgstr "_Värd:"
 
-#: mail/mail-account-gui.c:967 mail/mail-config.glade.h:151
+#: mail/mail-account-gui.c:1025 mail/mail-config.glade.h:151
 msgid "User_name:"
 msgstr "Användar_namn:"
 
-#: mail/mail-account-gui.c:971 mail/mail-config.glade.h:173
+#: mail/mail-account-gui.c:1029 mail/mail-config.glade.h:173
 msgid "_Path:"
 msgstr "_Sökväg:"
 
-#: mail/mail-account-gui.c:1782 shell/e-shell-importer.c:643
+#: mail/mail-account-gui.c:1840 shell/e-shell-importer.c:643
 msgid "Select a file"
 msgstr "Välj en fil"
 
@@ -15011,18 +15003,6 @@ msgstr ""
 "e-postservern och transportmetoden för utgående e-post som du angav kommer "
 "att sammanställas för att skapa ett Evolution-epostkonto. Ange ett namn för "
 "detta konto nedan. Detta namn kommer endast att användas för visning."
-
-#: mail/mail-config.c:895
-msgid "Checking Service"
-msgstr "Kontrollerar tjänst"
-
-#. FIXME: make this use e-error.
-#. * It has to be modal otherwise we can get nasty re-entrancy whilst waiting for the
-#. * subthread to complete.
-#. * FIXME: make this whole function async to deal with this issue
-#: mail/mail-config.c:977 mail/mail-config.c:981
-msgid "Connecting to server..."
-msgstr "Ansluter till server..."
 
 #: mail/mail-config.glade.h:1 mail/mail-dialogs.glade.h:5
 msgid "    "
@@ -15779,613 +15759,6 @@ msgstr "med alla lokala och aktiva fjärrmappar"
 msgid "with all local folders"
 msgstr "med alla lokala mappar"
 
-#. mail:camel-service-auth-invalid primary
-#: mail/mail-errors.xml.h:2
-#, fuzzy
-msgid "Invalid authentication"
-msgstr "Autentisering"
-
-#. mail:camel-service-auth-invalid secondary
-#: mail/mail-errors.xml.h:4
-#, fuzzy
-msgid ""
-"This server does not support this type of authentication and may not support "
-"authentication at all."
-msgstr "SMTP-servern %s stöder inte den begärda autentiseringstypen %s."
-
-#. mail:camel-service-auth-failed primary
-#: mail/mail-errors.xml.h:6
-msgid "Your login to your server \"{0}\" as \"{0}\" failed."
-msgstr ""
-
-#. mail:camel-service-auth-failed secondary
-#: mail/mail-errors.xml.h:8
-#, fuzzy
-msgid ""
-"Check to make sure your password is spelled correctly.  Remember that many "
-"passwords are case sensitive; your caps lock might be on."
-msgstr ""
-"Kontrollera att ditt lösenord är rättstavat och att du använder en "
-"inloggningsmetod som stöds. Kom ihåg att lösenord skiljer på gemener och "
-"versaler; din Caps Lock kan vara aktiverad."
-
-#. mail:ask-send-html primary
-#: mail/mail-errors.xml.h:10
-#, fuzzy
-msgid "Are you sure you want to send a message in HTML format?"
-msgstr "Är du säker på att du vill skicka om alla %d meddelanden?"
-
-#. mail:ask-send-html secondary
-#: mail/mail-errors.xml.h:12
-#, fuzzy
-msgid ""
-"Please make sure the following recipients are willing and able to receive "
-"HTML email:\n"
-"{0}\n"
-"Send anyway?"
-msgstr ""
-"Du skickar ett HTML-formaterat brev. Försäkra dig om att följande\n"
-"mottagare vill ha, och kan ta emot, HTML-formaterad e-post:\n"
-
-#: mail/mail-errors.xml.h:15 mail/mail-errors.xml.h:20
-#: mail/mail-errors.xml.h:27 mail/mail-errors.xml.h:32
-#, fuzzy
-msgid "_Send"
-msgstr "Skicka"
-
-#. mail:ask-send-no-subject primary
-#: mail/mail-errors.xml.h:17
-#, fuzzy
-msgid "Are you sure you want to send a message without a subject?"
-msgstr "Är du säker på att du vill skicka om alla %d meddelanden?"
-
-#. mail:ask-send-no-subject secondary
-#: mail/mail-errors.xml.h:19
-msgid ""
-"Adding a meaningful Subject line to your messages will give your recipients "
-"an idea of what your mail is about."
-msgstr ""
-
-#. mail:ask-send-only-bcc-contact primary
-#. mail:ask-send-only-bcc primary
-#: mail/mail-errors.xml.h:22 mail/mail-errors.xml.h:29
-#, fuzzy
-msgid "Are you sure you want to send a message with only BCC recipients?"
-msgstr "Är du säker på att du vill skicka om alla %d meddelanden?"
-
-#. mail:ask-send-only-bcc-contact secondary
-#: mail/mail-errors.xml.h:24
-msgid ""
-"The contact list you are sending to is configured to hide list recipients.\n"
-"\n"
-"Many email systems add an Apparently-To header to messages that only have "
-"BCC recipients. This header, if added, will list all of your recipients in "
-"your message. To avoid this, you should add at least one To: or CC: "
-"recipient. "
-msgstr ""
-
-#. mail:ask-send-only-bcc secondary
-#: mail/mail-errors.xml.h:31
-msgid ""
-"Many email systems add an Apparently-To header to messages that only have "
-"BCC recipients. This header, if added, will list all of your recipients to "
-"your message anyway. To avoid this, you should add at least one To: or CC: "
-"recipient."
-msgstr ""
-
-#. mail:send-no-recipients primary
-#: mail/mail-errors.xml.h:34
-msgid ""
-"This message cannot be sent because you have not specified any Recipients"
-msgstr ""
-
-#. mail:send-no-recipients secondary
-#: mail/mail-errors.xml.h:36
-msgid ""
-"Please enter a valid email address in the To: field. You can search for "
-"email addresses by clicking on the To: button next to the entry box."
-msgstr ""
-
-#. mail:ask-default-drafts primary
-#: mail/mail-errors.xml.h:38
-#, fuzzy
-msgid "Use default drafts folder?"
-msgstr "Öppnar standarduppgiftsmappen"
-
-#. mail:ask-default-drafts secondary
-#: mail/mail-errors.xml.h:40
-#, fuzzy
-msgid ""
-"Unable to open the drafts folder for this account.  Use the system drafts "
-"folder instead?"
-msgstr ""
-"Kan inte öppna utkastmappen för detta konto.\n"
-"Vill du använda standardmappen för utkast?"
-
-#: mail/mail-errors.xml.h:41
-#, fuzzy
-msgid "Use _Default"
-msgstr "Standard"
-
-#. mail:ask-expunge primary
-#: mail/mail-errors.xml.h:43
-#, fuzzy
-msgid ""
-"Are you sure you want to permanently remove all the deleted message in "
-"folder \"{0}\"?"
-msgstr ""
-"Är du säker på att du vill öppna alla %d meddelanden i separata fönster?"
-
-#. mail:ask-expunge secondary
-#. mail:ask-empty-trash secondary
-#: mail/mail-errors.xml.h:45 mail/mail-errors.xml.h:50
-msgid "If you continue, you will not be able to recover these messages."
-msgstr ""
-
-#: mail/mail-errors.xml.h:46
-#, fuzzy
-msgid "_Expunge"
-msgstr "T_öm"
-
-#. mail:ask-empty-trash primary
-#: mail/mail-errors.xml.h:48
-#, fuzzy
-msgid ""
-"Are you sure you want to permanently remove all the deleted messages in all "
-"folders?"
-msgstr "Ta bort alla borttagna meddelanden från alla mappar permanent"
-
-#: mail/mail-errors.xml.h:51
-#, fuzzy
-msgid "_Empty Trash"
-msgstr "Töm _papperskorgen"
-
-#. mail:exit-unsaved primary
-#: mail/mail-errors.xml.h:53
-msgid "You have unsent messages, do you wish to quit anyway?"
-msgstr "Du har oskickade meddelanden, vill du ändå avsluta?"
-
-#. mail:exit-unsaved secondary
-#: mail/mail-errors.xml.h:55
-#, fuzzy
-msgid ""
-"If you quit, these messages will not be sent until Evolution is started "
-"again."
-msgstr ""
-"Dina uppgifter kommer inte att vara tillgängliga innan Evolution har "
-"startats om."
-
-#. mail:camel-exception primary
-#: mail/mail-errors.xml.h:57
-msgid "Your message with the subject \"{0}\" was not delivered."
-msgstr ""
-
-#. mail:camel-exception secondary
-#: mail/mail-errors.xml.h:59
-msgid ""
-"The message was sent via the \"sendmail\" external application.  Sendmail "
-"reports the following error: status 67: mail not sent.\n"
-"The message is stored in the Outbox folder.  Check the message for errors "
-"and resend."
-msgstr ""
-
-#. mail:async-error primary
-#: mail/mail-errors.xml.h:62
-#, fuzzy
-msgid "Error while {0}."
-msgstr ""
-"Fel vid \"%s\":\n"
-"%s"
-
-# Vad är detta?
-# http://bugzilla.ximian.com/show_bug.cgi?id=61062
-#. mail:async-error secondary
-#: mail/mail-errors.xml.h:64
-#, fuzzy
-msgid "{1}."
-msgstr "{1}"
-
-#. mail:async-error-nodescribe primary
-#: mail/mail-errors.xml.h:66
-#, fuzzy
-msgid "Error while performing operation."
-msgstr ""
-"Fel vid utförande av åtgärd:\n"
-"%s"
-
-# Vad är detta?
-# http://bugzilla.ximian.com/show_bug.cgi?id=61062
-#. mail:async-error-nodescribe secondary
-#: mail/mail-errors.xml.h:68
-#, fuzzy
-msgid "{0}."
-msgstr "{0}"
-
-#. mail:ask-session-password primary
-#: mail/mail-errors.xml.h:82
-#, fuzzy
-msgid "Enter password."
-msgstr "Ange lösenord"
-
-#. mail:filter-load-error primary
-#: mail/mail-errors.xml.h:86
-#, fuzzy
-msgid "Error loading filter definitions."
-msgstr ""
-"Fel vid läsning av filterinformation:\n"
-"%s"
-
-#. mail:no-save-path primary
-#: mail/mail-errors.xml.h:90
-#, fuzzy
-msgid "Cannot save to directory \"{0}\"."
-msgstr "Kunde inte skapa katalogen %s: %s"
-
-#. mail:no-create-path primary
-#. mail:no-write-path-exists primary
-#. mail:no-write-path-notfile primary
-#: mail/mail-errors.xml.h:94 mail/mail-errors.xml.h:102
-#: mail/mail-errors.xml.h:106
-#, fuzzy
-msgid "Cannot save to file \"{0}\"."
-msgstr ""
-"Kan inte spara till \"%s\":\n"
-" %s"
-
-#. mail:no-create-path secondary
-#: mail/mail-errors.xml.h:96
-#, fuzzy
-msgid "Cannot create the save directory, because \"{1}\""
-msgstr ""
-"Kan inte skapa katalogen\n"
-"%s\n"
-"Fel: %s"
-
-#. mail:no-create-tmp-path primary
-#: mail/mail-errors.xml.h:98
-#, fuzzy
-msgid "Cannot create temporary save directory."
-msgstr "Kunde inte skapa temporär katalog: %s"
-
-#. mail:no-write-path-exists secondary
-#: mail/mail-errors.xml.h:104
-#, fuzzy
-msgid "File exists but cannot overwrite it."
-msgstr "Filen finns, skriv över?"
-
-#. mail:no-write-path-notfile secondary
-#: mail/mail-errors.xml.h:108
-#, fuzzy
-msgid "File exists but is not a regular file."
-msgstr "Filen \"%s\" finns inte eller är ingen vanlig fil."
-
-#. mail:no-delete-folder primary
-#: mail/mail-errors.xml.h:110
-#, fuzzy
-msgid "Cannot delete folder \"{0}\"."
-msgstr ""
-"Kan inte ta bort mapp:\n"
-"%s"
-
-#. mail:no-delete-special-folder primary
-#: mail/mail-errors.xml.h:114
-#, fuzzy
-msgid "Cannot delete system folder \"{0}\"."
-msgstr "Kan inte ta bort mapp: %s: Det finns ingen sådan mapp"
-
-#. mail:no-delete-special-folder secondary
-#. mail:no-rename-special-folder secondary
-#: mail/mail-errors.xml.h:116 mail/mail-errors.xml.h:120
-msgid ""
-"System folders are required for Ximian Evolution to function correctly and "
-"cannot be renamed, moved, or deleted."
-msgstr ""
-
-#. mail:no-rename-special-folder primary
-#: mail/mail-errors.xml.h:118
-#, fuzzy
-msgid "Cannot rename or move system folder \"{0}\"."
-msgstr "Kan inte byta namn på mapp: %s: Det finns ingen sådan mapp"
-
-#. mail:ask-delete-folder title
-#: mail/mail-errors.xml.h:122
-#, fuzzy
-msgid "Delete \"{0}\"?"
-msgstr "Ta bort \"%s\""
-
-#. mail:ask-delete-folder primary
-#: mail/mail-errors.xml.h:124
-#, fuzzy
-msgid "Really delete folder \"{0}\" and all of its subfolders?"
-msgstr "Verkligen ta bort mappen \"%s\"?"
-
-#. mail:ask-delete-folder secondary
-#: mail/mail-errors.xml.h:126
-msgid ""
-"If you delete the folder, all of its contents and its subfolders contents "
-"will be deleted permanently."
-msgstr ""
-
-#. mail:no-rename-folder-exists primary
-#. mail:no-rename-folder primary
-#: mail/mail-errors.xml.h:128 mail/mail-errors.xml.h:132
-#, fuzzy
-msgid "Cannot rename \"{0}\" to \"{1}\"."
-msgstr "Kan inte flytta mapp: %s"
-
-#. mail:no-rename-folder-exists secondary
-#. mail:vfolder-notunique secondary
-#: mail/mail-errors.xml.h:130 mail/mail-errors.xml.h:192
-#, fuzzy
-msgid "A folder named \"{1}\" already exists. Please use a different name."
-msgstr "En mapp med namnet \"%s\" finns redan. Använd ett annat namn."
-
-#. mail:no-rename-folder secondary
-#: mail/mail-errors.xml.h:134
-msgid "Because \"{2}\"."
-msgstr ""
-
-#. mail:no-move-folder-nostore primary
-#. mail:no-move-folder-to-nostore primary
-#: mail/mail-errors.xml.h:136 mail/mail-errors.xml.h:140
-#, fuzzy
-msgid "Cannot move folder \"{0}\" to \"{1}\"."
-msgstr "Kan inte flytta mapp: %s"
-
-#. mail:no-move-folder-nostore secondary
-#. mail:no-copy-folder-nostore secondary
-#: mail/mail-errors.xml.h:138 mail/mail-errors.xml.h:146
-#, fuzzy
-msgid "Cannot open source \"{2}\"."
-msgstr "Kunde inte uppdatera objekt"
-
-#. mail:no-move-folder-to-nostore secondary
-#. mail:no-copy-folder-to-nostore secondary
-#: mail/mail-errors.xml.h:142 mail/mail-errors.xml.h:150
-#, fuzzy
-msgid "Cannot open target \"{2}\"."
-msgstr "Kan inte öppna meddelande"
-
-#. mail:no-copy-folder-nostore primary
-#. mail:no-copy-folder-to-nostore primary
-#: mail/mail-errors.xml.h:144 mail/mail-errors.xml.h:148
-#, fuzzy
-msgid "Cannot copy folder \"{0}\" to \"{1}\"."
-msgstr "Kan inte kopiera mapp: %s"
-
-#. mail:no-create-folder-nostore primary
-#: mail/mail-errors.xml.h:152
-#, fuzzy
-msgid "Cannot create folder \"{0}\"."
-msgstr "Kan inte få mapp: %s: %s"
-
-#. mail:no-create-folder-nostore secondary
-#: mail/mail-errors.xml.h:154
-#, fuzzy
-msgid "Cannot open source \"{1}\""
-msgstr "Kunde inte uppdatera objekt"
-
-#. mail:account-incomplete primary
-#. mail:account-notunique primary
-#: mail/mail-errors.xml.h:156 mail/mail-errors.xml.h:160
-#, fuzzy
-msgid "Cannot save changes to account."
-msgstr "Kan inte flytta kontakt."
-
-#. mail:account-incomplete secondary
-#: mail/mail-errors.xml.h:158
-msgid "You have not filled in all of the required information."
-msgstr "Du har inte fyllt i all nödvändig information."
-
-#. mail:account-notunique secondary
-#: mail/mail-errors.xml.h:162
-msgid "You may not create two accounts with the same name."
-msgstr "Du kan inte skapa två konton med samma namn."
-
-#. mail:ask-delete-account title
-#: mail/mail-errors.xml.h:164
-#, fuzzy
-msgid "Delete account?"
-msgstr "Verkligen ta bort kontot?"
-
-#. mail:ask-delete-account primary
-#: mail/mail-errors.xml.h:166
-msgid "Are you sure you want to delete this account?"
-msgstr "Är du säker på att du vill ta bort detta konto?"
-
-#. mail:ask-delete-account secondary
-#: mail/mail-errors.xml.h:168
-msgid "If you proceed, the account information will be deleted permanently."
-msgstr ""
-
-#: mail/mail-errors.xml.h:169
-msgid "Don't delete"
-msgstr "Ta inte bort"
-
-#. mail:no-save-signature primary
-#: mail/mail-errors.xml.h:171
-#, fuzzy
-msgid "Could not save signature file."
-msgstr "Kunde inte spara signaturfilen: %s"
-
-#. mail:no-save-signature secondary
-#: mail/mail-errors.xml.h:173
-msgid "Because \"{0}\"."
-msgstr ""
-
-#. mail:signature-notscript primary
-#: mail/mail-errors.xml.h:175
-#, fuzzy
-msgid "Cannot set signature script \"{0}\"."
-msgstr "Välj ett signaturskript"
-
-#. mail:signature-notscript secondary
-#: mail/mail-errors.xml.h:177
-msgid "The script file must exist and be executable."
-msgstr ""
-
-#. mail:ask-signature-changed title
-#: mail/mail-errors.xml.h:179
-#, fuzzy
-msgid "Discard changed?"
-msgstr "_Förkasta ändringar"
-
-#. mail:ask-signature-changed primary
-#: mail/mail-errors.xml.h:181
-#, fuzzy
-msgid "Do you wish to save your changes?"
-msgstr "Vill du spara ändringar?"
-
-#. mail:ask-signature-changed secondary
-#: mail/mail-errors.xml.h:183
-#, fuzzy
-msgid "This signature has been changed, but has not been saved."
-msgstr ""
-"Denna signatur har ändrats, men har inte sparats.\n"
-"\n"
-"Vill du spara dina ändringar?"
-
-#: mail/mail-errors.xml.h:184
-msgid "_Discard changes"
-msgstr "_Förkasta ändringar"
-
-#. mail:vfolder-notexist primary
-#: mail/mail-errors.xml.h:186
-#, fuzzy
-msgid "Cannot edit vFolder \"{0}\" as it does not exist."
-msgstr "Mappen \"%s\" finns inte."
-
-#. mail:vfolder-notexist secondary
-#: mail/mail-errors.xml.h:188
-msgid ""
-"This folder may have been added implictly, go to the virtual folder editor "
-"to add it explictly, if required."
-msgstr ""
-
-#. mail:vfolder-notunique primary
-#: mail/mail-errors.xml.h:190
-#, fuzzy
-msgid "Cannot add vFolder \"{0}\"."
-msgstr ""
-"Kan inte ta bort mapp:\n"
-"%s"
-
-#. mail:vfolder-updated primary
-#: mail/mail-errors.xml.h:194
-#, fuzzy
-msgid "vFolders automatically updated."
-msgstr "Uppdatera automatiskt"
-
-#. mail:vfolder-updated secondary
-#: mail/mail-errors.xml.h:196
-#, fuzzy
-msgid ""
-"The following vFolder(s):\n"
-"{0}\n"
-"Used the now removed folder:\n"
-"    \"{1}\"\n"
-"And have been updated."
-msgstr ""
-"Följande virtuella mappar:\n"
-"%sAnvände den borttagna mappen:\n"
-"    \"%s\"\n"
-"och har uppdaterats."
-
-#. mail:filter-updated primary
-#: mail/mail-errors.xml.h:202
-#, fuzzy
-msgid "Mail filters automatically updated."
-msgstr "Uppdatera automatiskt"
-
-#. mail:filter-updated secondary
-#: mail/mail-errors.xml.h:204
-#, fuzzy
-msgid ""
-"The following filter rule(s):\n"
-"{0}\n"
-"Used the now removed folder:\n"
-"    \"{1}\"\n"
-"And have been updated."
-msgstr ""
-"Följande virtuella mappar:\n"
-"%sAnvände den borttagna mappen:\n"
-"    \"%s\"\n"
-"och har uppdaterats."
-
-#. mail:no-folder primary
-#: mail/mail-errors.xml.h:210
-#, fuzzy
-msgid "Missing folder."
-msgstr "Sammanfattar mapp"
-
-#. mail:no-folder secondary
-#: mail/mail-errors.xml.h:212
-msgid "You must specify a folder."
-msgstr "Du måste ange en mapp."
-
-#. mail:no-name-vfolder secondary
-#: mail/mail-errors.xml.h:216
-#, fuzzy
-msgid "You must name this vFolder."
-msgstr "Du måste ge denna virtuella mapp ett namn."
-
-#. mail:vfolder-no-source primary
-#: mail/mail-errors.xml.h:218
-#, fuzzy
-msgid "No sources selected."
-msgstr "Ingen server har valts"
-
-#. mail:vfolder-no-source secondary
-#: mail/mail-errors.xml.h:220
-msgid ""
-"You must specify at least one folder as a source.\n"
-"Either by selecting the folders individually, and/or by selecting\n"
-"all local folders, all remote folders, or both."
-msgstr ""
-
-#. mail:ask-migrate-existing primary
-#: mail/mail-errors.xml.h:224
-msgid "Problem migrating old mail folder \"{0}\"."
-msgstr ""
-
-#. mail:ask-migrate-existing secondary
-#: mail/mail-errors.xml.h:226
-msgid ""
-"A non-empty folder at \"{1}\" already exists.\n"
-"\n"
-"You can choose to ignore this folder, overwrite or append its contents, or "
-"quit.\n"
-msgstr ""
-
-#: mail/mail-errors.xml.h:230
-msgid "Ignore"
-msgstr ""
-
-#: mail/mail-errors.xml.h:231 widgets/misc/e-system-errors.xml.h:7
-#, fuzzy
-msgid "_Overwrite"
-msgstr "Skriv över"
-
-#: mail/mail-errors.xml.h:232
-#, fuzzy
-msgid "_Append"
-msgstr "Aspen"
-
-#. mail:gw-accountsetup-error primary
-#: mail/mail-errors.xml.h:234
-#, fuzzy
-msgid ""
-"Unable to connect to the GroupWise\n"
-"server."
-msgstr "Misslyckades med att ansluta till LDAP-server"
-
-#. mail:gw-accountsetup-error secondary
-#: mail/mail-errors.xml.h:237
-msgid ""
-"\n"
-"Please check your account settings and try again.\n"
-msgstr ""
-
 #: mail/mail-folder-cache.c:795
 #, c-format
 msgid "Pinging %s"
@@ -16561,6 +15934,10 @@ msgstr "Kopplar från %s"
 #, c-format
 msgid "Reconnecting to %s"
 msgstr "Ansluter igen till %s"
+
+#: mail/mail-ops.c:2283
+msgid "Checking Service"
+msgstr "Kontrollerar tjänst"
 
 #: mail/mail-send-recv.c:157
 msgid "Cancelling..."
@@ -19938,6 +19315,11 @@ msgstr ""
 "%s finns redan\n"
 "Vill du skriva över den?"
 
+#: widgets/misc/e-system-errors.xml.h:7
+#, fuzzy
+msgid "_Overwrite"
+msgstr "Skriv över"
+
 #. system:no-save-file primary
 #: widgets/misc/e-system-errors.xml.h:9
 #, fuzzy
@@ -19963,6 +19345,422 @@ msgstr "%s (...)"
 #, c-format
 msgid "%s (%d%% complete)"
 msgstr "%s (%d%% färdigt)"
+
+#, fuzzy
+#~ msgid "Fetching envelopes for new messages"
+#~ msgstr "Kontrollerar nya meddelanden"
+
+#, fuzzy
+#~ msgid "The orientation of the tray."
+#~ msgstr "Beskrivning av bilagan."
+
+#, fuzzy
+#~ msgid "_Print Contacts..."
+#~ msgstr "Skriv ut kontakter"
+
+#~ msgid "As _Table"
+#~ msgstr "Som _tabell"
+
+#, fuzzy
+#~ msgid "_New Contact"
+#~ msgstr "Ny kontakt"
+
+#, fuzzy
+#~ msgid "_Search for contacts"
+#~ msgstr "_Sök efter kontakter"
+
+#~ msgid "Find"
+#~ msgstr "Sök"
+
+#, fuzzy
+#~ msgid "Find a contact"
+#~ msgstr "Sök kontakt i"
+
+#, fuzzy
+#~ msgid "Delete a contact"
+#~ msgstr "Ta bort kontakten?"
+
+#~ msgid "View All"
+#~ msgstr "Visa alla"
+
+#~ msgid "View all contacts"
+#~ msgstr "Visa alla kontakter"
+
+#~ msgid "Insert text file..."
+#~ msgstr "Infoga textfil..."
+
+#~ msgid "Insert a file as text into the message"
+#~ msgstr "Infoga en fil som text i meddelandet"
+
+#~ msgid "Send the message now"
+#~ msgstr "Skicka meddelandet nu"
+
+#, fuzzy
+#~ msgid "Send _later"
+#~ msgstr "Avsändare"
+
+#, fuzzy
+#~ msgid "Send the message later"
+#~ msgstr "Skicka meddelandet nu"
+
+#, fuzzy
+#~ msgid "HTML"
+#~ msgstr "H_TML"
+
+#~ msgid "Save in _folder... (FIXME)"
+#~ msgstr "Spara i map_p... (FIXME)"
+
+#~ msgid "_Insert text file... (FIXME)"
+#~ msgstr "_Infoga textfil... (FIXME)"
+
+#, fuzzy
+#~ msgid "Send _Later"
+#~ msgstr "Avsändare"
+
+#~ msgid "F_ormat"
+#~ msgstr "F_ormat"
+
+#~ msgid "_About..."
+#~ msgstr "_Om..."
+
+#, fuzzy
+#~ msgid "_Debug"
+#~ msgstr "Dyersburg"
+
+#, fuzzy
+#~ msgid "Send this message now"
+#~ msgstr "Skicka meddelandet nu"
+
+#~ msgid "Bold"
+#~ msgstr "Fet"
+
+#~ msgid "Sets something as bold"
+#~ msgstr "Sätt någonting till fetstil"
+
+#, fuzzy
+#~ msgid "Invalid authentication"
+#~ msgstr "Autentisering"
+
+#, fuzzy
+#~ msgid ""
+#~ "This server does not support this type of authentication and may not "
+#~ "support authentication at all."
+#~ msgstr "SMTP-servern %s stöder inte den begärda autentiseringstypen %s."
+
+#, fuzzy
+#~ msgid ""
+#~ "Check to make sure your password is spelled correctly.  Remember that "
+#~ "many passwords are case sensitive; your caps lock might be on."
+#~ msgstr ""
+#~ "Kontrollera att ditt lösenord är rättstavat och att du använder en "
+#~ "inloggningsmetod som stöds. Kom ihåg att lösenord skiljer på gemener och "
+#~ "versaler; din Caps Lock kan vara aktiverad."
+
+#, fuzzy
+#~ msgid "Are you sure you want to send a message in HTML format?"
+#~ msgstr "Är du säker på att du vill skicka om alla %d meddelanden?"
+
+#, fuzzy
+#~ msgid ""
+#~ "Please make sure the following recipients are willing and able to receive "
+#~ "HTML email:\n"
+#~ "{0}\n"
+#~ "Send anyway?"
+#~ msgstr ""
+#~ "Du skickar ett HTML-formaterat brev. Försäkra dig om att följande\n"
+#~ "mottagare vill ha, och kan ta emot, HTML-formaterad e-post:\n"
+
+#, fuzzy
+#~ msgid "_Send"
+#~ msgstr "Skicka"
+
+#, fuzzy
+#~ msgid "Are you sure you want to send a message without a subject?"
+#~ msgstr "Är du säker på att du vill skicka om alla %d meddelanden?"
+
+#, fuzzy
+#~ msgid "Are you sure you want to send a message with only BCC recipients?"
+#~ msgstr "Är du säker på att du vill skicka om alla %d meddelanden?"
+
+#, fuzzy
+#~ msgid "Use default drafts folder?"
+#~ msgstr "Öppnar standarduppgiftsmappen"
+
+#, fuzzy
+#~ msgid ""
+#~ "Unable to open the drafts folder for this account.  Use the system drafts "
+#~ "folder instead?"
+#~ msgstr ""
+#~ "Kan inte öppna utkastmappen för detta konto.\n"
+#~ "Vill du använda standardmappen för utkast?"
+
+#, fuzzy
+#~ msgid "Use _Default"
+#~ msgstr "Standard"
+
+#, fuzzy
+#~ msgid ""
+#~ "Are you sure you want to permanently remove all the deleted message in "
+#~ "folder \"{0}\"?"
+#~ msgstr ""
+#~ "Är du säker på att du vill öppna alla %d meddelanden i separata fönster?"
+
+#, fuzzy
+#~ msgid "_Expunge"
+#~ msgstr "T_öm"
+
+#, fuzzy
+#~ msgid ""
+#~ "Are you sure you want to permanently remove all the deleted messages in "
+#~ "all folders?"
+#~ msgstr "Ta bort alla borttagna meddelanden från alla mappar permanent"
+
+#, fuzzy
+#~ msgid "_Empty Trash"
+#~ msgstr "Töm _papperskorgen"
+
+#~ msgid "You have unsent messages, do you wish to quit anyway?"
+#~ msgstr "Du har oskickade meddelanden, vill du ändå avsluta?"
+
+#, fuzzy
+#~ msgid ""
+#~ "If you quit, these messages will not be sent until Evolution is started "
+#~ "again."
+#~ msgstr ""
+#~ "Dina uppgifter kommer inte att vara tillgängliga innan Evolution har "
+#~ "startats om."
+
+#, fuzzy
+#~ msgid "Error while {0}."
+#~ msgstr ""
+#~ "Fel vid \"%s\":\n"
+#~ "%s"
+
+# Vad är detta?
+# http://bugzilla.ximian.com/show_bug.cgi?id=61062
+#, fuzzy
+#~ msgid "{1}."
+#~ msgstr "{1}"
+
+#, fuzzy
+#~ msgid "Error while performing operation."
+#~ msgstr ""
+#~ "Fel vid utförande av åtgärd:\n"
+#~ "%s"
+
+# Vad är detta?
+# http://bugzilla.ximian.com/show_bug.cgi?id=61062
+#, fuzzy
+#~ msgid "{0}."
+#~ msgstr "{0}"
+
+#, fuzzy
+#~ msgid "Enter password."
+#~ msgstr "Ange lösenord"
+
+#, fuzzy
+#~ msgid "Error loading filter definitions."
+#~ msgstr ""
+#~ "Fel vid läsning av filterinformation:\n"
+#~ "%s"
+
+#, fuzzy
+#~ msgid "Cannot save to directory \"{0}\"."
+#~ msgstr "Kunde inte skapa katalogen %s: %s"
+
+#, fuzzy
+#~ msgid "Cannot save to file \"{0}\"."
+#~ msgstr ""
+#~ "Kan inte spara till \"%s\":\n"
+#~ " %s"
+
+#, fuzzy
+#~ msgid "Cannot create the save directory, because \"{1}\""
+#~ msgstr ""
+#~ "Kan inte skapa katalogen\n"
+#~ "%s\n"
+#~ "Fel: %s"
+
+#, fuzzy
+#~ msgid "Cannot create temporary save directory."
+#~ msgstr "Kunde inte skapa temporär katalog: %s"
+
+#, fuzzy
+#~ msgid "File exists but cannot overwrite it."
+#~ msgstr "Filen finns, skriv över?"
+
+#, fuzzy
+#~ msgid "File exists but is not a regular file."
+#~ msgstr "Filen \"%s\" finns inte eller är ingen vanlig fil."
+
+#, fuzzy
+#~ msgid "Cannot delete folder \"{0}\"."
+#~ msgstr ""
+#~ "Kan inte ta bort mapp:\n"
+#~ "%s"
+
+#, fuzzy
+#~ msgid "Cannot delete system folder \"{0}\"."
+#~ msgstr "Kan inte ta bort mapp: %s: Det finns ingen sådan mapp"
+
+#, fuzzy
+#~ msgid "Cannot rename or move system folder \"{0}\"."
+#~ msgstr "Kan inte byta namn på mapp: %s: Det finns ingen sådan mapp"
+
+#, fuzzy
+#~ msgid "Delete \"{0}\"?"
+#~ msgstr "Ta bort \"%s\""
+
+#, fuzzy
+#~ msgid "Really delete folder \"{0}\" and all of its subfolders?"
+#~ msgstr "Verkligen ta bort mappen \"%s\"?"
+
+#, fuzzy
+#~ msgid "Cannot rename \"{0}\" to \"{1}\"."
+#~ msgstr "Kan inte flytta mapp: %s"
+
+#, fuzzy
+#~ msgid "A folder named \"{1}\" already exists. Please use a different name."
+#~ msgstr "En mapp med namnet \"%s\" finns redan. Använd ett annat namn."
+
+#, fuzzy
+#~ msgid "Cannot move folder \"{0}\" to \"{1}\"."
+#~ msgstr "Kan inte flytta mapp: %s"
+
+#, fuzzy
+#~ msgid "Cannot open source \"{2}\"."
+#~ msgstr "Kunde inte uppdatera objekt"
+
+#, fuzzy
+#~ msgid "Cannot open target \"{2}\"."
+#~ msgstr "Kan inte öppna meddelande"
+
+#, fuzzy
+#~ msgid "Cannot copy folder \"{0}\" to \"{1}\"."
+#~ msgstr "Kan inte kopiera mapp: %s"
+
+#, fuzzy
+#~ msgid "Cannot create folder \"{0}\"."
+#~ msgstr "Kan inte få mapp: %s: %s"
+
+#, fuzzy
+#~ msgid "Cannot open source \"{1}\""
+#~ msgstr "Kunde inte uppdatera objekt"
+
+#, fuzzy
+#~ msgid "Cannot save changes to account."
+#~ msgstr "Kan inte flytta kontakt."
+
+#~ msgid "You have not filled in all of the required information."
+#~ msgstr "Du har inte fyllt i all nödvändig information."
+
+#~ msgid "You may not create two accounts with the same name."
+#~ msgstr "Du kan inte skapa två konton med samma namn."
+
+#, fuzzy
+#~ msgid "Delete account?"
+#~ msgstr "Verkligen ta bort kontot?"
+
+#~ msgid "Are you sure you want to delete this account?"
+#~ msgstr "Är du säker på att du vill ta bort detta konto?"
+
+#~ msgid "Don't delete"
+#~ msgstr "Ta inte bort"
+
+#, fuzzy
+#~ msgid "Could not save signature file."
+#~ msgstr "Kunde inte spara signaturfilen: %s"
+
+#, fuzzy
+#~ msgid "Cannot set signature script \"{0}\"."
+#~ msgstr "Välj ett signaturskript"
+
+#, fuzzy
+#~ msgid "Discard changed?"
+#~ msgstr "_Förkasta ändringar"
+
+#, fuzzy
+#~ msgid "Do you wish to save your changes?"
+#~ msgstr "Vill du spara ändringar?"
+
+#, fuzzy
+#~ msgid "This signature has been changed, but has not been saved."
+#~ msgstr ""
+#~ "Denna signatur har ändrats, men har inte sparats.\n"
+#~ "\n"
+#~ "Vill du spara dina ändringar?"
+
+#~ msgid "_Discard changes"
+#~ msgstr "_Förkasta ändringar"
+
+#, fuzzy
+#~ msgid "Cannot edit vFolder \"{0}\" as it does not exist."
+#~ msgstr "Mappen \"%s\" finns inte."
+
+#, fuzzy
+#~ msgid "Cannot add vFolder \"{0}\"."
+#~ msgstr ""
+#~ "Kan inte ta bort mapp:\n"
+#~ "%s"
+
+#, fuzzy
+#~ msgid "vFolders automatically updated."
+#~ msgstr "Uppdatera automatiskt"
+
+#, fuzzy
+#~ msgid ""
+#~ "The following vFolder(s):\n"
+#~ "{0}\n"
+#~ "Used the now removed folder:\n"
+#~ "    \"{1}\"\n"
+#~ "And have been updated."
+#~ msgstr ""
+#~ "Följande virtuella mappar:\n"
+#~ "%sAnvände den borttagna mappen:\n"
+#~ "    \"%s\"\n"
+#~ "och har uppdaterats."
+
+#, fuzzy
+#~ msgid "Mail filters automatically updated."
+#~ msgstr "Uppdatera automatiskt"
+
+#, fuzzy
+#~ msgid ""
+#~ "The following filter rule(s):\n"
+#~ "{0}\n"
+#~ "Used the now removed folder:\n"
+#~ "    \"{1}\"\n"
+#~ "And have been updated."
+#~ msgstr ""
+#~ "Följande virtuella mappar:\n"
+#~ "%sAnvände den borttagna mappen:\n"
+#~ "    \"%s\"\n"
+#~ "och har uppdaterats."
+
+#, fuzzy
+#~ msgid "Missing folder."
+#~ msgstr "Sammanfattar mapp"
+
+#~ msgid "You must specify a folder."
+#~ msgstr "Du måste ange en mapp."
+
+#, fuzzy
+#~ msgid "You must name this vFolder."
+#~ msgstr "Du måste ge denna virtuella mapp ett namn."
+
+#, fuzzy
+#~ msgid "No sources selected."
+#~ msgstr "Ingen server har valts"
+
+#, fuzzy
+#~ msgid "_Append"
+#~ msgstr "Aspen"
+
+#, fuzzy
+#~ msgid ""
+#~ "Unable to connect to the GroupWise\n"
+#~ "server."
+#~ msgstr "Misslyckades med att ansluta till LDAP-server"
 
 #~ msgid "Hide _Attachment Bar"
 #~ msgstr "Dölj _bilageraden"
@@ -20194,14 +19992,6 @@ msgstr "%s (%d%% färdigt)"
 #~ "Johan Dahlin\n"
 #~ "Andreas Hydén\n"
 #~ "Skicka synpunkter på översättningen till sv@li.org"
-
-#, fuzzy
-#~ msgid "Fetching envelopes for new messages"
-#~ msgstr "Kontrollerar nya meddelanden"
-
-#, fuzzy
-#~ msgid "The orientation of the tray."
-#~ msgstr "Beskrivning av bilagan."
 
 # Varför är detta markerat för översättning?
 # http://bugzilla.ximian.com/show_bug.cgi?id=61062
@@ -21751,9 +21541,6 @@ msgstr "%s (%d%% färdigt)"
 #~ msgid "Add script signature"
 #~ msgstr "Lägg till skriptsignatur"
 
-#~ msgid "_Search for Contacts"
-#~ msgstr "_Sök efter kontakter"
-
 #~ msgid "Go to _Date"
 #~ msgstr "Gå till _datum"
 
@@ -21765,9 +21552,6 @@ msgstr "%s (%d%% färdigt)"
 
 #~ msgid "Show Contacts"
 #~ msgstr "Visa kontakter"
-
-#~ msgid "Find"
-#~ msgstr "Sök"
 
 #~ msgid "Primary"
 #~ msgstr "Primär"
@@ -21984,9 +21768,6 @@ msgstr "%s (%d%% färdigt)"
 
 #~ msgid "Step 4: Display Name"
 #~ msgstr "Steg 4: Visar namn"
-
-#~ msgid "Find contact in"
-#~ msgstr "Sök kontakt i"
 
 #~ msgid "Selected Contacts:"
 #~ msgstr "Markerade kontakter:"
@@ -24607,9 +24388,6 @@ msgstr "%s (%d%% färdigt)"
 
 #~ msgid "Dutch Harbor"
 #~ msgstr "Dutch Harbor"
-
-#~ msgid "Dyersburg"
-#~ msgstr "Dyersburg"
 
 #~ msgid "Eagle"
 #~ msgstr "Eagle"
@@ -32283,9 +32061,6 @@ msgstr "%s (%d%% färdigt)"
 #~ msgid "Factory for the sample Addressbook control"
 #~ msgstr "Fabrik för adressbokstestkontrollen"
 
-#~ msgid "Delete Contact?"
-#~ msgstr "Ta bort kontakten?"
-
 #~ msgid "Display Cards?"
 #~ msgstr "Visa kort?"
 
@@ -32558,12 +32333,6 @@ msgstr "%s (%d%% färdigt)"
 
 #~ msgid "Inline Text _File..."
 #~ msgstr "Infoga text_fil..."
-
-#~ msgid "Insert a file as text into the message"
-#~ msgstr "Infoga en fil som text i meddelandet"
-
-#~ msgid "Insert text file..."
-#~ msgstr "Infoga textfil..."
 
 #~ msgid "_Pilot Settings..."
 #~ msgstr "_Pilotinställningar..."
@@ -33541,9 +33310,6 @@ msgstr "%s (%d%% färdigt)"
 #~ msgid "Folder cannot contain the directory separator."
 #~ msgstr "Mappen kan inte innehålla katalogavskiljaren."
 
-#~ msgid "F_ormat"
-#~ msgstr "F_ormat"
-
 #~ msgid "Alarm on %A %b %d %Y %H:%M"
 #~ msgstr "Alarm på %A %d %b %Y %H.%M"
 
@@ -34256,9 +34022,6 @@ msgstr "%s (%d%% färdigt)"
 #~ msgid "Send _message to group..."
 #~ msgstr "Skicka _meddelandet till grupp..."
 
-#~ msgid "Save in _folder... (FIXME)"
-#~ msgstr "Spara i map_p... (FIXME)"
-
 #~ msgid "???"
 #~ msgstr "???"
 
@@ -34456,12 +34219,6 @@ msgstr "%s (%d%% färdigt)"
 #~ msgid "Select everything"
 #~ msgstr "Markera alltihop"
 
-#~ msgid "View All"
-#~ msgstr "Visa alla"
-
-#~ msgid "View all contacts"
-#~ msgstr "Visa alla kontakter"
-
 #~ msgid "About this application"
 #~ msgstr "Om detta program"
 
@@ -34513,9 +34270,6 @@ msgstr "%s (%d%% färdigt)"
 #~ msgid "Schedule some sort of a meeting"
 #~ msgstr "Boka någon typ av sammanträde"
 
-#~ msgid "_About..."
-#~ msgstr "_Om..."
-
 #~ msgid "_Journal Entry (FIXME)"
 #~ msgstr "_Dagbokspost (FIXME)"
 
@@ -34533,9 +34287,6 @@ msgstr "%s (%d%% färdigt)"
 
 #~ msgid "_Unread Item (FIXME)"
 #~ msgstr "O_läst objekt (FIXME)"
-
-#~ msgid "_Insert text file... (FIXME)"
-#~ msgstr "_Infoga textfil... (FIXME)"
 
 #~ msgid "Redo the undone action"
 #~ msgstr "Gör om den ångrade åtgärden"
@@ -34612,9 +34363,6 @@ msgstr "%s (%d%% färdigt)"
 #~ msgid "As _Minicards"
 #~ msgstr "Som _minikort"
 
-#~ msgid "As _Table"
-#~ msgstr "Som _tabell"
-
 #~ msgid "Mark Complete"
 #~ msgstr "Markera som färdig"
 
@@ -34683,9 +34431,6 @@ msgstr "%s (%d%% färdigt)"
 
 #~ msgid "_Threaded"
 #~ msgstr "_Trådat"
-
-#~ msgid "Send the message now"
-#~ msgstr "Skicka meddelandet nu"
 
 #~ msgid ""
 #~ "We were unable to open this addressbook.  This either\n"
@@ -35390,12 +35135,6 @@ msgstr "%s (%d%% färdigt)"
 
 #~ msgid "MH folders may not be nested."
 #~ msgstr "MH-mappar får inte nästlas."
-
-#~ msgid "Bold"
-#~ msgstr "Fet"
-
-#~ msgid "Sets something as bold"
-#~ msgstr "Sätt någonting till fetstil"
 
 #~ msgid "Cannot initialize Evolution's mail storage hash."
 #~ msgstr "Kan inte initiera Evolutions hashfunktion för e-postlagring."
