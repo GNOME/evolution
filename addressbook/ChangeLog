@@ -1,5 +1,12 @@
 2001-10-27  Chris Toshok  <toshok@ximian.com>
 
+	* gui/contact-editor/e-contact-quick-add.c (merge_cb): change to
+	EBookCallback signature, and unref the book.
+	(quick_add_merge_card): use addressbook_load_default_book.
+	(ce_have_book): change to EBookCallback signature, and unref the
+	book.
+	(edit_card): use addressbook_load_default_book.
+
 	* gui/component/e-address-popup.c (email_table_save_card_cb):
 	change to EBookCallback signature, and unref the book.
 	(add_card_idle_cb): use addressbook_load_default_book, and call
