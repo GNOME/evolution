@@ -1040,7 +1040,7 @@ dnl --- Flags to get all the GNOME stuff
 
 FULL_GNOME_DEPS="bonobo_conf bonobox_print gal gdk_pixbuf gnomecanvaspixbuf gnomeui libglade oaf vfs"
 
-EVO_SET_COMPILE_FLAGS(GNOME_FULL, $FULL_GNOME_DEPS)
+EVO_SET_COMPILE_FLAGS(GNOME_FULL, $FULL_GNOME_DEPS, ${GTKHTML_CFLAGS}, ${GTKHTML_LIBS})
 AC_SUBST(GNOME_FULL_CFLAGS)
 AC_SUBST(GNOME_FULL_LIBS)
 
