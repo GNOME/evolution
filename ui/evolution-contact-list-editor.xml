@@ -40,6 +40,7 @@
 
 		</submenu>
 
+<!-- Not Yet Implemented
 		<submenu name="Actions" _label="_Actions">
 		        <menuitem name="ContactListEditorSendAs" verb=""
 			_label="Se_nd list to other..."/>
@@ -47,6 +48,7 @@
 		        <menuitem name="ContactListEditorSendTo" verb=""
 			_label="Send _message to list..."/>
 		</submenu>
+-->
 
 	</menu>
 
