@@ -49,7 +49,7 @@ e_unicode_init (void)
 const gchar *
 e_utf8_strstrcasedecomp (const gchar *haystack, const gchar *needle)
 {
-	unicode_char_t *huni, *nuni;
+	unicode_char_t *nuni;
 	unicode_char_t unival;
 	gint nlen;
 	const guchar *o, *p;
@@ -104,7 +104,7 @@ e_utf8_strstrcasedecomp (const gchar *haystack, const gchar *needle)
 const gchar *
 e_utf8_strstrcase (const gchar *haystack, const gchar *needle)
 {
-	unicode_char_t *huni, *nuni;
+	unicode_char_t *nuni;
 	unicode_char_t unival;
 	gint nlen;
 	const guchar *o, *p;
