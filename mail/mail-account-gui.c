@@ -47,6 +47,17 @@ extern char *default_drafts_folder_uri, *default_sent_folder_uri;
 static void save_service (MailAccountGuiService *gsvc, GHashTable *extra_conf, MailConfigService *service);
 static void service_changed (GtkEntry *entry, gpointer user_data);
 
+struct {
+	char *label;
+	char *value;
+} ssl_options[] = {
+	{ N_("Always"), "always" },
+	{ N_("Whenever Possible"), "when-possible" },
+	{ N_("Never"), "never" }
+};
+
+static int num_ssl_options = sizeof (ssl_options) / sizeof (ssl_options[0]);
+
 static gboolean
 is_email (const char *address)
 {
@@ -366,13 +377,13 @@ source_type_changed (GtkWidget *widget, gpointer user_data)
 		/* ssl */
 #ifdef HAVE_SSL
 		if (provider && provider->flags & CAMEL_PROVIDER_SUPPORTS_SSL)
-			gtk_widget_show (GTK_WIDGET (gui->source.use_ssl));
+			gtk_widget_show (gui->source.ssl_hbox);
 		else
-			gtk_widget_hide (GTK_WIDGET (gui->source.use_ssl));
-		gtk_widget_hide (GTK_WIDGET (gui->source.no_ssl));
+			gtk_widget_hide (gui->source.ssl_hbox);
+		gtk_widget_hide (gui->source.no_ssl);
 #else
-		gtk_widget_hide (GTK_WIDGET (gui->source.use_ssl));
-		gtk_widget_show (GTK_WIDGET (gui->source.no_ssl));
+		gtk_widget_hide (gui->source.ssl_hbox);
+		gtk_widget_show (gui->source.no_ssl);
 #endif
 		
 		/* auth */
@@ -445,13 +456,13 @@ transport_type_changed (GtkWidget *widget, gpointer user_data)
 		/* ssl */
 #ifdef HAVE_SSL
 		if (provider && provider->flags & CAMEL_PROVIDER_SUPPORTS_SSL)
-			gtk_widget_show (GTK_WIDGET (gui->transport.use_ssl));
+			gtk_widget_show (gui->transport.ssl_hbox);
 		else
-			gtk_widget_hide (GTK_WIDGET (gui->transport.use_ssl));
-		gtk_widget_hide (GTK_WIDGET (gui->transport.no_ssl));
+			gtk_widget_hide (gui->transport.ssl_hbox);
+		gtk_widget_hide (gui->transport.no_ssl);
 #else
-		gtk_widget_hide (GTK_WIDGET (gui->transport.use_ssl));
-		gtk_widget_show (GTK_WIDGET (gui->transport.no_ssl));
+		gtk_widget_hide (gui->transport.ssl_hbox);
+		gtk_widget_show (gui->transport.no_ssl);
 #endif
 		
 		/* auth */
@@ -891,8 +902,21 @@ setup_service (MailAccountGuiService *gsvc, MailConfigService *service)
 		gtk_entry_set_text (gsvc->path, url->path);
 	
 	if (gsvc->provider->flags & CAMEL_PROVIDER_SUPPORTS_SSL) {
-		gboolean use_ssl = camel_url_get_param (url, "use_ssl") != NULL;
-		gtk_toggle_button_set_active (gsvc->use_ssl, use_ssl);
+		const char *use_ssl;
+		int i;
+		
+		use_ssl = camel_url_get_param (url, "use_ssl");
+		if (!use_ssl)
+			use_ssl = "never";
+		else if (!*use_ssl)  /* old config code just used an empty string as the value */
+			use_ssl = "always";
+		
+		for (i = 0; i < num_ssl_options; i++)
+			if (!strcmp (ssl_options[i].value, use_ssl))
+				break;
+		
+		i = i < num_ssl_options ? i : num_ssl_options - 1;
+		gtk_option_menu_set_history (gsvc->use_ssl, i);
 	}
 	
 	if (url->authmech && CAMEL_PROVIDER_ALLOWS (gsvc->provider, CAMEL_URL_PART_AUTH)) {
@@ -1234,6 +1258,38 @@ html_signature_changed (GtkWidget *entry, MailAccountGui *gui)
 				  *gtk_entry_get_text (GTK_ENTRY (gnome_file_entry_gtk_entry (gui->html_signature))) != 0);
 }
 
+static void
+ssl_option_activate (GtkWidget *widget, gpointer user_data)
+{
+	MailAccountGuiService *service = user_data;
+	
+	service->ssl_selected = widget;
+}
+
+static void
+construct_ssl_menu (MailAccountGuiService *service)
+{
+	GtkWidget *menu, *item = NULL;
+	int i;
+	
+	menu = gtk_menu_new ();
+	
+	for (i = 0; i < num_ssl_options; i++) {
+		item = gtk_menu_item_new_with_label (_(ssl_options[i].label));
+		gtk_object_set_data (GTK_OBJECT (item), "use_ssl", ssl_options[i].value);
+		gtk_signal_connect (GTK_OBJECT (item), "activate",
+				    ssl_option_activate, service);
+		gtk_widget_show (item);
+		gtk_menu_append (GTK_MENU (menu), item);
+	}
+	
+	gtk_option_menu_remove_menu (service->use_ssl);
+	gtk_option_menu_set_menu (service->use_ssl, menu);
+	
+	gtk_option_menu_set_history (service->use_ssl, i - 1);
+	gtk_signal_emit_by_name (GTK_OBJECT (item), "activate", service);
+}
+
 MailAccountGui *
 mail_account_gui_new (MailConfigAccount *account)
 {
@@ -1305,7 +1361,9 @@ mail_account_gui_new (MailConfigAccount *account)
 	gui->source.path = GTK_ENTRY (glade_xml_get_widget (gui->xml, "source_path"));
 	gtk_signal_connect (GTK_OBJECT (gui->source.path), "changed",
 			    GTK_SIGNAL_FUNC (service_changed), &gui->source);
-	gui->source.use_ssl = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui->xml, "source_use_ssl"));
+	gui->source.ssl_hbox = glade_xml_get_widget (gui->xml, "source_ssl_hbox");
+	gui->source.use_ssl = GTK_OPTION_MENU (glade_xml_get_widget (gui->xml, "source_use_ssl"));
+	construct_ssl_menu (&gui->source);
 	gui->source.no_ssl = glade_xml_get_widget (gui->xml, "source_ssl_disabled");
 	gui->source.authtype = GTK_OPTION_MENU (glade_xml_get_widget (gui->xml, "source_auth_omenu"));
 	gui->source.remember = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui->xml, "source_remember_password"));
@@ -1325,7 +1383,9 @@ mail_account_gui_new (MailConfigAccount *account)
 	gui->transport.username = GTK_ENTRY (glade_xml_get_widget (gui->xml, "transport_user"));
 	gtk_signal_connect (GTK_OBJECT (gui->transport.username), "changed",
 			    GTK_SIGNAL_FUNC (service_changed), &gui->transport);
-	gui->transport.use_ssl = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui->xml, "transport_use_ssl"));
+	gui->transport.ssl_hbox = glade_xml_get_widget (gui->xml, "transport_ssl_hbox");
+	gui->transport.use_ssl = GTK_OPTION_MENU (glade_xml_get_widget (gui->xml, "transport_use_ssl"));
+	construct_ssl_menu (&gui->transport);
 	gui->transport.no_ssl = glade_xml_get_widget (gui->xml, "transport_ssl_disabled");
 	gui->transport_needs_auth = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui->xml, "transport_needs_auth"));
 	gtk_signal_connect (GTK_OBJECT (gui->transport_needs_auth), "toggled", transport_needs_auth_toggled, gui);
@@ -1636,8 +1696,12 @@ save_service (MailAccountGuiService *gsvc, GHashTable *extra_config,
 	}
 	
 	if (gsvc->provider->flags & CAMEL_PROVIDER_SUPPORTS_SSL) {
-		if (gtk_toggle_button_get_active (gsvc->use_ssl))
-			camel_url_set_param (url, "use_ssl", "");
+		char *use_ssl = gtk_object_get_data (GTK_OBJECT (gsvc->ssl_selected), "use_ssl");
+		
+		/* set the value to either "always" or "when-possible"
+                   but don't bother setting it for "never" */
+		if (strcmp (use_ssl, "never"))
+			camel_url_set_param (url, "use_ssl", use_ssl);
 	}
 	
 	if (extra_config)

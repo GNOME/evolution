@@ -1,3 +1,11 @@
+2002-03-05  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-account-gui.c (save_service): "use_ssl" can now be 3
+	options, modify the code to handle this.
+	(setup_service): Toggle the correct ssl option.
+	(source_type_changed): Show/hide the ssl hbox container widget.
+	(transport_type_changed): Same.
+
 2002-03-05  Dan Winship  <danw@ximian.com>
 
 	* mail-folder-cache.c (mail_note_store): Pull up assertion change

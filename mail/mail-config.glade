@@ -975,29 +975,6 @@ None
 	  </widget>
 
 	  <widget>
-	    <class>GtkCheckButton</class>
-	    <name>source_use_ssl</name>
-	    <can_focus>True</can_focus>
-	    <label>Use s_ecure connection (SSL)</label>
-	    <active>False</active>
-	    <draw_indicator>True</draw_indicator>
-	    <child>
-	      <left_attach>0</left_attach>
-	      <right_attach>2</right_attach>
-	      <top_attach>3</top_attach>
-	      <bottom_attach>4</bottom_attach>
-	      <xpad>0</xpad>
-	      <ypad>0</ypad>
-	      <xexpand>False</xexpand>
-	      <yexpand>False</yexpand>
-	      <xshrink>False</xshrink>
-	      <yshrink>False</yshrink>
-	      <xfill>True</xfill>
-	      <yfill>False</yfill>
-	    </child>
-	  </widget>
-
-	  <widget>
 	    <class>GnomeFileEntry</class>
 	    <name>source_path_entry</name>
 	    <max_saved>10</max_saved>
@@ -1056,6 +1033,61 @@ None
 	      <xfill>True</xfill>
 	      <yfill>False</yfill>
 	    </child>
+	  </widget>
+
+	  <widget>
+	    <class>GtkHBox</class>
+	    <name>source_ssl_hbox</name>
+	    <homogeneous>False</homogeneous>
+	    <spacing>4</spacing>
+	    <child>
+	      <left_attach>0</left_attach>
+	      <right_attach>2</right_attach>
+	      <top_attach>3</top_attach>
+	      <bottom_attach>4</bottom_attach>
+	      <xpad>0</xpad>
+	      <ypad>0</ypad>
+	      <xexpand>False</xexpand>
+	      <yexpand>True</yexpand>
+	      <xshrink>False</xshrink>
+	      <yshrink>False</yshrink>
+	      <xfill>True</xfill>
+	      <yfill>True</yfill>
+	    </child>
+
+	    <widget>
+	      <class>GtkLabel</class>
+	      <name>lblSourceUseSSL</name>
+	      <label>Use s_ecure connection (SSL):</label>
+	      <justify>GTK_JUSTIFY_CENTER</justify>
+	      <wrap>False</wrap>
+	      <xalign>0.5</xalign>
+	      <yalign>0.5</yalign>
+	      <xpad>0</xpad>
+	      <ypad>0</ypad>
+	      <default_focus_target>source_use_ssl</default_focus_target>
+	      <child>
+		<padding>0</padding>
+		<expand>False</expand>
+		<fill>False</fill>
+	      </child>
+	    </widget>
+
+	    <widget>
+	      <class>GtkOptionMenu</class>
+	      <name>source_use_ssl</name>
+	      <can_focus>True</can_focus>
+	      <items>Always
+Whenever Possible
+Never
+</items>
+	      <initial_choice>2</initial_choice>
+	      <child>
+		<padding>0</padding>
+		<expand>False</expand>
+		<fill>False</fill>
+	      </child>
+	    </widget>
 	  </widget>
 	</widget>
       </widget>
@@ -1513,17 +1545,49 @@ Sendmail
 	  </widget>
 
 	  <widget>
-	    <class>GtkCheckButton</class>
-	    <name>transport_use_ssl</name>
-	    <can_focus>True</can_focus>
-	    <label>Use s_ecure connection (SSL)</label>
-	    <active>False</active>
-	    <draw_indicator>True</draw_indicator>
+	    <class>GtkHBox</class>
+	    <name>transport_ssl_hbox</name>
+	    <homogeneous>False</homogeneous>
+	    <spacing>4</spacing>
 	    <child>
 	      <padding>0</padding>
 	      <expand>False</expand>
 	      <fill>False</fill>
 	    </child>
+
+	    <widget>
+	      <class>GtkLabel</class>
+	      <name>lblTransportUseSSL</name>
+	      <label>Use s_ecure connection (SSL):</label>
+	      <justify>GTK_JUSTIFY_CENTER</justify>
+	      <wrap>False</wrap>
+	      <xalign>0.5</xalign>
+	      <yalign>0.5</yalign>
+	      <xpad>0</xpad>
+	      <ypad>0</ypad>
+	      <default_focus_target>transport_use_ssl</default_focus_target>
+	      <child>
+		<padding>0</padding>
+		<expand>False</expand>
+		<fill>False</fill>
+	      </child>
+	    </widget>
+
+	    <widget>
+	      <class>GtkOptionMenu</class>
+	      <name>transport_use_ssl</name>
+	      <can_focus>True</can_focus>
+	      <items>Always
+Whenever Possible
+Never
+</items>
+	      <initial_choice>2</initial_choice>
+	      <child>
+		<padding>0</padding>
+		<expand>False</expand>
+		<fill>False</fill>
+	      </child>
+	    </widget>
 	  </widget>
 
 	  <widget>
