@@ -13,9 +13,10 @@
 
 #include <bonobo.h>
 #include "Evolution.h"
+#include "e-util/e-list.h"
 
 BonoboControl *folder_browser_factory_new_control       (const char            *uri,
 							 const GNOME_Evolution_Shell  shell);
-GList         *folder_browser_factory_get_control_list  (void);
+EList         *folder_browser_factory_get_control_list  (void);
 
 #endif /* _FOLDER_BROWSER_FACTORY_H */

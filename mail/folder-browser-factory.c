@@ -31,7 +31,7 @@
 #include "mail-session.h"
 
 /* The FolderBrowser BonoboControls we have.  */
-static GList *control_list = NULL;
+static EList *control_list = NULL;
 
 /*
  * Add with 'folder_browser'
@@ -207,13 +207,30 @@ control_activate_cb (BonoboControl *control,
 
 static void
 control_destroy_cb (BonoboControl *control,
-		    gpointer       user_data)
+		    GtkObject     *folder_browser)
 {
-	GtkWidget *folder_browser = user_data;
+	gtk_object_destroy (folder_browser);
+}
 
-	control_list = g_list_remove (control_list, control);
+static void
+browser_destroy_cb (FolderBrowser *fb,
+		    BonoboControl *control)
+{
+	EIterator *it;
 
-	gtk_object_destroy (GTK_OBJECT (folder_browser));
+	/* We do this from browser_destroy_cb rather than
+	 * control_destroy_cb because currently, the controls
+	 * don't seem to all get destroyed properly at quit
+	 * time (but the widgets get destroyed by X). FIXME.
+	 */
+
+	for (it = e_list_get_iterator (control_list); e_iterator_is_valid (it); e_iterator_next (it)) {
+		if (e_iterator_get (it) == control) {
+			e_iterator_delete (it);
+			break;
+		}
+	}
+	gtk_object_unref (GTK_OBJECT (it));
 }
 
 BonoboControl *
@@ -246,14 +263,21 @@ folder_browser_factory_new_control (const char *uri,
 
 	gtk_signal_connect (GTK_OBJECT (control), "destroy",
 			    control_destroy_cb, folder_browser);
+	gtk_signal_connect (GTK_OBJECT (folder_browser), "destroy",
+			    browser_destroy_cb, control);
 
-	control_list = g_list_prepend (control_list, control);
+	if (!control_list)
+		control_list = e_list_new (NULL, NULL, NULL);
+
+	e_list_append (control_list, control);
 
 	return control;
 }
 
-GList *
+EList *
 folder_browser_factory_get_control_list (void)
 {
+	if (!control_list)
+		control_list = e_list_new (NULL, NULL, NULL);
 	return control_list;
 }

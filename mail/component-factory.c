@@ -56,15 +56,9 @@ static void create_vfolder_storage (EvolutionShellComponent *shell_component);
 #define COMPONENT_FACTORY_ID "OAFIID:GNOME_Evolution_Mail_ShellComponentFactory"
 #define SUMMARY_FACTORY_ID   "OAFIID:GNOME_Evolution_Mail_ExecutiveSummaryComponentFactory"
 
-static BonoboGenericFactory *factory = NULL;
+static BonoboGenericFactory *component_factory = NULL;
 static BonoboGenericFactory *summary_factory = NULL;
-static gint running_objects = 0;
 static GHashTable *storages_hash;
-
-static const EvolutionShellComponentFolderType folder_types[] = {
-	{ "mail", "evolution-inbox.png" },
-	{ NULL, NULL }
-};
 
 /* EvolutionShellComponent methods and signals.  */
 
@@ -78,7 +72,6 @@ create_view (EvolutionShellComponent *shell_component,
 	EvolutionShellClient *shell_client;
 	GNOME_Evolution_Shell corba_shell;
 	BonoboControl *control;
-	GtkWidget *folder_browser_widget;
 
 	if (g_strcasecmp (folder_type, "mail") != 0)
 		return EVOLUTION_SHELL_COMPONENT_UNSUPPORTEDTYPE;
@@ -89,12 +82,6 @@ create_view (EvolutionShellComponent *shell_component,
 	control = folder_browser_factory_new_control (physical_uri, corba_shell);
 	if (!control)
 		return EVOLUTION_SHELL_COMPONENT_NOTFOUND;
-
-	folder_browser_widget = bonobo_control_get_widget (control);
-
-	g_assert (folder_browser_widget != NULL);
-	g_assert (IS_FOLDER_BROWSER (folder_browser_widget));
-
 	*control_return = control;
 
 	return EVOLUTION_SHELL_COMPONENT_OK;
@@ -125,6 +112,8 @@ owner_set_cb (EvolutionShellComponent *shell_component,
 	mail_session_init ();
 	mail_config_init ();
 
+	storages_hash = g_hash_table_new (NULL, NULL);
+
 	create_vfolder_storage (shell_component);
 
 	corba_shell = bonobo_object_corba_objref (BONOBO_OBJECT (shell_client));
@@ -144,72 +133,48 @@ owner_set_cb (EvolutionShellComponent *shell_component,
 }
 
 static void
-owner_unset_cb (EvolutionShellComponent *shell_component, gpointer user_data)
-{
-	mail_operations_terminate ();
-	gtk_main_quit ();
-}
-
-static void
 free_storage (gpointer service, gpointer storage, gpointer data)
 {
 	camel_service_disconnect (service, TRUE, NULL);
 	camel_object_unref (service);
-	gtk_object_unref (storage);
+	bonobo_object_unref (storage);
 }
 
-static void
-factory_destroy (BonoboEmbeddable *embeddable,
-		 BonoboObject     *destroy_factory)
+static gboolean
+idle_quit (gpointer user_data)
 {
-	running_objects--;
-	if (running_objects > 0)
-		return;
-
-	if (destroy_factory)
-		bonobo_object_unref (BONOBO_OBJECT (destroy_factory));
-	else
-		g_warning ("Serious ref counting error");
-	destroy_factory = NULL;
+	if (e_list_length (folder_browser_factory_get_control_list ()))
+		return TRUE;
 
 	g_hash_table_foreach (storages_hash, free_storage, NULL);
 	g_hash_table_destroy (storages_hash);
-	storages_hash = NULL;
 
+	mail_operations_terminate ();
 	gtk_main_quit ();
-}
 
-static BonoboObject *
-summary_fn (BonoboGenericFactory *factory, void *closure)
+	return FALSE;
+}	
+
+static void
+owner_unset_cb (EvolutionShellComponent *shell_component, gpointer user_data)
 {
-	BonoboObject *summary_component_factory;
-
-	running_objects++;
-
-	summary_component_factory = executive_summary_component_factory_new (create_summary_view, 
-									     NULL);
-	gtk_signal_connect (GTK_OBJECT (summary_component_factory), "destroy",
-			    GTK_SIGNAL_FUNC (factory_destroy), summary_factory);
-
-	return summary_component_factory;
+	g_idle_add_full (G_PRIORITY_LOW, idle_quit, NULL, NULL);
 }
 
+static const EvolutionShellComponentFolderType folder_types[] = {
+	{ "mail", "evolution-inbox.png" },
+	{ NULL, NULL }
+};
+
 static BonoboObject *
-factory_fn (BonoboGenericFactory *factory, void *closure)
+component_fn (BonoboGenericFactory *factory, void *closure)
 {
 	EvolutionShellComponent *shell_component;
 
-	running_objects++;
+	shell_component = evolution_shell_component_new (
+		folder_types, create_view, create_folder,
+		NULL, NULL, NULL);
 
-	shell_component = evolution_shell_component_new (folder_types,
-							 create_view,
-							 create_folder,
-							 NULL,
-							 NULL,
-							 NULL);
-
-	gtk_signal_connect (GTK_OBJECT (shell_component), "destroy",
-			    GTK_SIGNAL_FUNC (factory_destroy), factory);
 	gtk_signal_connect (GTK_OBJECT (shell_component), "owner_set",
 			    GTK_SIGNAL_FUNC (owner_set_cb), NULL);
 	gtk_signal_connect (GTK_OBJECT (shell_component), "owner_unset",
@@ -218,30 +183,25 @@ factory_fn (BonoboGenericFactory *factory, void *closure)
 	return BONOBO_OBJECT (shell_component);
 }
 
+static BonoboObject *
+summary_fn (BonoboGenericFactory *factory, void *closure)
+{
+	return executive_summary_component_factory_new (create_summary_view, 
+							NULL);
+}
+
 void
 component_factory_init (void)
 {
-	if (factory != NULL)
-		return;
+	component_factory = bonobo_generic_factory_new (COMPONENT_FACTORY_ID,
+							component_fn, NULL);
+	summary_factory = bonobo_generic_factory_new (SUMMARY_FACTORY_ID,
+						      summary_fn, NULL);
 
-	factory = bonobo_generic_factory_new (COMPONENT_FACTORY_ID, factory_fn, NULL);
-	summary_factory = bonobo_generic_factory_new (SUMMARY_FACTORY_ID, summary_fn, NULL);
-	storages_hash = g_hash_table_new (NULL, NULL);
-
-	if (factory == NULL) {
+	if (component_factory == NULL || summary_factory == NULL) {
 		e_notice (NULL, GNOME_MESSAGE_BOX_ERROR,
 			  _("Cannot initialize Evolution's mail component."));
 		exit (1);
-	}
-
-	if (summary_factory == NULL) {
-		e_notice (NULL, GNOME_MESSAGE_BOX_ERROR,
-			  _("Cannot initialize Evolution's mail summary component."));
-	}
-
-	if (storages_hash == NULL) {
-		e_notice (NULL, GNOME_MESSAGE_BOX_ERROR,
-			  _("Cannot initialize Evolution's mail storage hash."));
 	}
 }
 

@@ -1,3 +1,30 @@
+2000-12-06  Dan Winship  <danw@helixcode.com>
+
+	Fix up shutdown so that things that should be destroyed get
+	destroyed. Among other things, this fixes the bug where IMAP
+	stores weren't disconnected at shutdown.
+
+	* mail-threads.c (update_active_views): Update for
+	folder_browser_factory_get_control_list change to EList.
+
+	* folder-browser-factory.c: Turn control_list into an EList so
+	that we can safely remove items from it while it's being iterated
+	(which will happen as FolderBrowsers are destroyed at shutdown
+	while the thread code is trying to update the status bars).
+	(control_destroy_cb): Just destroy the folder_browser.
+	(browser_destroy_cb): New callback for FolderBrowser destroy.
+	Remove the control from control_list here instead of
+	control_destroy_cb, because the controls don't seem to get
+	destroyed reliably...
+
+	* component-factory.c: Clean up stuff.
+	(factory_destroy): Get rid of this.
+	(owner_unset_cb): Schedule an idle handler to quit.
+	(idle_quit): Wait for all of the FolderBrowsers to be destroyed
+	and then destroy the storages and quit.
+
+	* mail-summary.h (create_summary_view): Fix prototype
+
 2000-12-06  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* mail-config.c (mail_config_folder_to_cachename): Use

@@ -1081,16 +1081,16 @@ retrieve_shell_view_interface_from_control (BonoboControl *control)
 static void
 update_active_views (void)
 {
-	GList *controls;
-	GList *p;
+	EList *controls;
+	EIterator *it;
 
 	controls = folder_browser_factory_get_control_list ();
-	for (p = controls; p != NULL; p = p->next) {
+	for (it = e_list_get_iterator (controls); e_iterator_is_valid (it); e_iterator_next (it)) {
 		BonoboControl *control;
 		GNOME_Evolution_ShellView shell_view_interface;
 		CORBA_Environment ev;
 
-		control = BONOBO_CONTROL (p->data);
+		control = BONOBO_CONTROL (e_iterator_get (it));
 
 		shell_view_interface = gtk_object_get_data (GTK_OBJECT (control), "mail_threads_shell_view_interface");
 
