@@ -2138,6 +2138,56 @@ void		camel_tag_list_free(CamelTag **list)
 	*list = NULL;
 }
 
+struct flag_names_t {
+	char *name;
+	guint32 value;
+} flag_names[] = {
+	{ "answered", CAMEL_MESSAGE_ANSWERED },
+	{ "deleted", CAMEL_MESSAGE_DELETED },
+	{ "draft", CAMEL_MESSAGE_DELETED },
+	{ "flagged", CAMEL_MESSAGE_FLAGGED },
+	{ "seen", CAMEL_MESSAGE_SEEN },
+	{ "attachments", CAMEL_MESSAGE_ATTACHMENTS },
+	{ NULL, 0 }
+};
+
+/**
+ * camel_system_flag:
+ * @name: 
+ * 
+ * Returns the integer value of the flag string.
+ **/
+guint32
+camel_system_flag (const char *name)
+{
+	struct flag_names_t *flag;
+	
+	g_return_val_if_fail (name != NULL, 0);
+	
+	for (flag = flag_names; *flag->name; flag++)
+		if (!g_strcasecmp (name, flag->name))
+			return flag->value;
+	
+	return 0;
+}
+
+/**
+ * camel_system_flag_get:
+ * @flags: 
+ * @name: 
+ * 
+ * Find the state of the flag @name in @flags.
+ * 
+ * Return value: The state of the flag (TRUE or FALSE).
+ **/
+gboolean
+camel_system_flag_get (guint32 flags, const char *name)
+{
+	g_return_val_if_fail (name != NULL, FALSE);
+	
+	return flags & camel_system_flag (name);
+}
+
 
 /**
  * camel_message_info_new:

@@ -77,7 +77,10 @@ struct _CamelFolderSearchClass {
 
 	/* (user-tag "flagname") Returns the value of a user tag.  Can only be used in match-all */
 	ESExpResult * (*user_tag)(struct _ESExp *f, int argc, struct _ESExpResult **argv, CamelFolderSearch *s);
-
+	
+	/* (system-flag "flagname") Returns the value of a system flag.  Can only be used in match-all */
+	ESExpResult * (*system_flag)(struct _ESExp *f, int argc, struct _ESExpResult **argv, CamelFolderSearch *s);
+	
 	/* (get-sent-date) Retrieve the date that the message was sent on as a time_t */
 	ESExpResult * (*get_sent_date)(struct _ESExp *f, int argc, struct _ESExpResult **argv, CamelFolderSearch *s);
 

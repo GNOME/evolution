@@ -1,3 +1,15 @@
+2000-12-01  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* camel-folder-search.h: Added system_flag to CamelFolderSearchClass
+
+	* camel-folder-summary.c (camel_system_flag_get): Convenience
+	function to return whether or not a flag is set using a string as
+	the flag name.
+	(camel_system_flag): Return the integer value of the flag string.
+
+	* camel-folder-search.c (search_system_flag): New ESExp callback
+	for allowing vfoldering on CamelMessageInfo flags.
+
 2000-12-01  Dan Winship  <danw@helixcode.com>
 
 	* camel-service.c (camel_service_disconnect): Don't
