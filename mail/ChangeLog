@@ -1,3 +1,7 @@
+2001-04-03  Not Zed  <NotZed@Ximian.com>
+
+	* mail-ops.c (mail_send_message): Strip header content before using it.
+
 2001-04-02  Iain Holmes  <iain@ximian.com>
 
 	* importers/elm-importer.c (elm_can_import): Calls is_kmail to check for

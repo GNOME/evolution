@@ -512,14 +512,14 @@ mail_send_message(CamelMimeMessage *message, const char *destination, CamelFilte
 	if (!transport_url) {
 		header = camel_medium_get_header (CAMEL_MEDIUM (message), "X-Evolution-Transport");
 		if (header) {
-			transport_url = g_strdup (header);
+			transport_url = g_strstrip(g_strdup (header));
 			camel_medium_remove_header (CAMEL_MEDIUM (message), "X-Evolution-Transport");
 		}
 	}
 	if (!sent_folder_uri) {
 		header = camel_medium_get_header (CAMEL_MEDIUM (message), "X-Evolution-Fcc");
 		if (header) {
-			sent_folder_uri = g_strdup (header);
+			sent_folder_uri = g_strstrip(g_strdup (header));
 			camel_medium_remove_header (CAMEL_MEDIUM (message), "X-Evolution-Fcc");
 		}
 	}
@@ -689,7 +689,7 @@ send_queue_send(struct _mail_msg *mm)
 	uids = camel_folder_get_uids (m->queue);
 	if (uids == NULL || uids->len == 0)
 		return;
-	
+
 	if (m->cancel)
 		camel_operation_register (m->cancel);
 	
