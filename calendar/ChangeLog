@@ -1,3 +1,19 @@
+2004-02-04  JP Rosevear <jpr@ximian.com>
+
+	* importers/icalendar-importer.c (importer_destroy_cb): we only
+	have a single client to free
+	(prepare_events): make the vtodo list optional
+	(button_toggled_cb): handle the type of thing to import switching
+	(primary_selection_changed_cb): handle the selected item switching
+	(create_control_fn): create a control with types (events, tasks)
+	and corresponding source selectors
+	(process_item_fn): only import one type of item at a time
+	(load_file_fn): load the ecal as dictated by the source and type
+	(vcal_importer_new): pass in control function
+	(gnome_calendar_import_data_fn): get the default calendars
+
+	* importers/Makefile.am (importersdir): add lib
+
 2004-02-04  Rodrigo Moya <rodrigo@ximian.com>
 
 	Fixes #52970

@@ -24,6 +24,7 @@ libevolution_calendar_importers_la_LDFLAGS = -avoid-version -module
 
 libevolution_calendar_importers_la_LIBADD = \
 	$(top_builddir)/shell/importer/libevolution-importer.la 	\
+	$(top_builddir)/e-util/libeutil.la 				\
 	$(top_builddir)/calendar/common/libevolution-calendarprivate.la	\
 	$(IMPORTERS_LIBS)
 
