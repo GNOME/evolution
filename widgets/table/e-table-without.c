@@ -133,7 +133,7 @@ etw_proxy_model_rows_inserted (ETableSubset *etss, ETableModel *etm, int model_r
 
 	/* i is Model row */
 	for (i = model_row; i < model_row + count; i++) {
-		if (check (etw, i)) {
+		if (!check (etw, i)) {
 			add_row (etw, i);
 		}
 	}
@@ -167,7 +167,7 @@ etw_proxy_model_changed (ETableSubset *etss, ETableModel *etm)
 	etss->map_table = g_new (int, row_count);
 
 	for (i = 0, j = 0; i < row_count; i++) {
-		if (check (etw, i)) {
+		if (!check (etw, i)) {
 			etss->map_table[j++] = i;
 		}
 	}
