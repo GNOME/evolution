@@ -47,6 +47,7 @@ static gboolean _exists (CamelFolder *folder);
 static gboolean _create(CamelFolder *folder);
 static gboolean _delete (CamelFolder *folder, gboolean recurse);
 static gboolean _delete_messages (CamelFolder *folder);
+static GList *_list_subfolders (CamelFolder *folder);
 
 static void
 camel_mh_folder_class_init (CamelMhFolderClass *camel_mh_folder_class)
@@ -62,6 +63,7 @@ camel_mh_folder_class_init (CamelMhFolderClass *camel_mh_folder_class)
 	camel_folder_class->exists = _exists;
 	camel_folder_class->delete = _delete;
 	camel_folder_class->delete_messages = _delete_messages;
+	camel_folder_class->list_subfolders = _list_subfolders;
 	
 }
 
@@ -279,6 +281,54 @@ _delete_messages (CamelFolder *folder)
 
 
 
+static GList *
+_list_subfolders(CamelFolder *folder)
+{
+	GList *subfolder_name_list = NULL;
+
+	CamelMhFolder *mh_folder = CAMEL_MH_FOLDER(folder);
+	const gchar *directory_path;
+	struct stat stat_buf;
+	gint stat_error = 0;
+	GList *file_list;
+	gchar *entry_name;
+	struct dirent *dir_entry;
+	DIR *dir_handle;
+
+	g_assert(folder);
+
+	/* call default implementation */
+	parent_class->delete_messages (folder);
+
+	directory_path = mh_folder->directory_path;
+	if (!directory_path) return FALSE;
+	
+	if (!camel_folder_exists (folder)) return TRUE;
+	
+	dir_handle = opendir (directory_path);
+	
+	/* read first entry in the directory */
+	dir_entry = readdir (dir_handle);
+	while ((stat_error != -1) && (unlink_error != -1) && (dir_entry != NULL)) {
+
+		/* get the name of the next entry in the dir */
+		entry_name = dir_entry->d_name;
+		stat_error = stat (mh_folder->directory_path, &stat_buf);
+
+		/* is it a directory ? */
+		if ((stat_error != -1) && S_ISDIR (stat_buf.st_mode)) {
+			/* yes, add it to the list */
+			CAMEL_LOG_FULL_DEBUG ("CamelMhFolder::list_subfolders adding  %s\n", entry_name);
+			subfolder_name_list = g_list_append (subfolder_name_list, g_strdup (entry_name));
+		}
+		/* read next entry */
+		dir_entry = readdir (dir_handle);
+	}
+
+	closedir (dir_handle);
+
+	return subfolder_name_list;
+}
 
 
 

@@ -48,9 +48,10 @@ typedef enum {
 } CamelFolderState;
 
 typedef enum {
-	FOLDER_OPEN_UNKNOWN,   /* folder open mode is unknown */
-	FOLDER_OPEN_READ,      /* folder is read only         */ 
-	FOLDER_OPEN_READ_WRITE /* folder is read/write        */ 
+	FOLDER_OPEN_UNKNOWN = 0,   /* folder open mode is unknown */
+	FOLDER_OPEN_READ    = 1,   /* folder is read only         */ 
+	FOLDER_OPEN_WRITE   = 2,   /* folder is write only        */ 
+	FOLDER_OPEN_RW      = 3    /* folder is read/write        */ 
 } CamelFolderOpenMode;
 
 

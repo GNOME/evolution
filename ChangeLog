@@ -1,5 +1,7 @@
 1999-08-04  bertrand  <Bertrand.Guiheneuf@aful.org>
 
+	* camel/providers/MH/camel-mh-folder.c (_list_subfolders): 
+	implemented.
 	* camel/providers/MH/camel-mh-folder.c (_delete): 
 	finshed implementation
 	(_delete_messages): implemented.
