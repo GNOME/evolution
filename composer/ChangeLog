@@ -1,3 +1,13 @@
+2001-10-18  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* e-msg-composer.c (best_encoding): Don't use a
+	g_return_val_if_fail after iconv_open, this is a valid error
+	condition and so should use check it for real.
+
+	* e-msg-composer-attachment-bar.c (attach_to_multipart): Correctly
+	set the charset parameter and use camel's bestenc filter to
+	determine which content transfer encoding to use.
+
 2001-10-15  Larry Ewing  <lewing@ximian.com>
 
 	* e-msg-composer.c (e_msg_composer_add_message_attachments):

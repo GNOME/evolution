@@ -167,7 +167,8 @@ best_encoding (GByteArray *buf, const char *charset)
 		return -1;
 	
 	cd = iconv_open (charset, "utf-8");
-	g_return_val_if_fail (cd != (iconv_t)-1, -1);
+	if (cd == (iconv_t) -1)
+		return -1;
 	
 	in = buf->data;
 	inlen = buf->len;

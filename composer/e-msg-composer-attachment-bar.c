@@ -50,7 +50,9 @@
 
 #include "camel/camel-data-wrapper.h"
 #include "camel/camel-stream-fs.h"
-#include "camel/camel-stream-mem.h"
+#include "camel/camel-stream-null.h"
+#include "camel/camel-stream-filter.h"
+#include "camel/camel-mime-filter-bestenc.h"
 #include "camel/camel-mime-part.h"
 
 
@@ -714,39 +716,6 @@ e_msg_composer_attachment_bar_new (GtkAdjustment *adj)
 	return GTK_WIDGET (new);
 }
 
-/* FIXME: is_8bit() and best_encoding() should really be shared
-   between e-msg-composer.c and this file. */
-static gboolean
-is_8bit (const guchar *text)
-{
-	guchar *c;
-	
-	for (c = (guchar *) text; *c; c++)
-		if (*c > (guchar) 127)
-			return TRUE;
-	
-	return FALSE;
-}
-
-static int
-best_encoding (const guchar *text)
-{
-	guchar *ch;
-	int count = 0;
-	int total;
-	
-	for (ch = (guchar *) text; *ch; ch++)
-		if (*ch > (guchar) 127)
-			count++;
-	
-	total = (int) (ch - text);
-	
-	if ((float) count <= total * 0.17)
-		return CAMEL_MIME_PART_ENCODING_QUOTEDPRINTABLE;
-	else
-		return CAMEL_MIME_PART_ENCODING_BASE64;
-}
-
 static void
 attach_to_multipart (CamelMultipart *multipart,
 		     EMsgComposerAttachment *attachment,
@@ -758,23 +727,32 @@ attach_to_multipart (CamelMultipart *multipart,
 	
 	if (!header_content_type_is (content_type, "multipart", "*")) {
 		if (header_content_type_is (content_type, "text", "*")) {
+			CamelMimePartEncodingType encoding;
+			CamelStreamFilter *filtered_stream;
+			CamelMimeFilterBestenc *bestenc;
 			CamelStream *stream;
-			GByteArray *array;
-			guchar *text;
+			char *type;
 			
-			array = g_byte_array_new ();
-			stream = camel_stream_mem_new_with_byte_array (array);
-			camel_data_wrapper_write_to_stream (CAMEL_DATA_WRAPPER (attachment->body), stream);
-			g_byte_array_append (array, "", 1);
-			text = array->data;
-			
-			if (is_8bit (text)) {
-				camel_mime_part_set_encoding (attachment->body, best_encoding (text));
-				header_content_type_set_param (content_type, "charset", default_charset);
-			} else
-				camel_mime_part_set_encoding (attachment->body, CAMEL_MIME_PART_ENCODING_7BIT);
-			
+			stream = camel_stream_null_new ();
+			filtered_stream = camel_stream_filter_new_with_stream (stream);
+			bestenc = camel_mime_filter_bestenc_new (CAMEL_BESTENC_GET_ENCODING);
+			camel_stream_filter_add (filtered_stream, CAMEL_MIME_FILTER (bestenc));
 			camel_object_unref (CAMEL_OBJECT (stream));
+			
+			camel_data_wrapper_write_to_stream (CAMEL_DATA_WRAPPER (attachment->body),
+							    CAMEL_STREAM (filtered_stream));
+			
+			encoding = camel_mime_filter_bestenc_get_best_encoding (bestenc, CAMEL_BESTENC_8BIT);
+			camel_mime_part_set_encoding (attachment->body, encoding);
+			
+			/* looks kinda nasty, but this is how ya have to do it */
+			header_content_type_set_param (content_type, "charset", default_charset);
+			type = header_content_type_format (content_type);
+			camel_mime_part_set_content_type (attachment->body, type);
+			g_free (type);
+			
+			camel_object_unref (CAMEL_OBJECT (bestenc));
+			camel_object_unref (CAMEL_OBJECT (filtered_stream));
 		} else if (!header_content_type_is (content_type, "message", "*")) {
 			camel_mime_part_set_encoding (attachment->body,
 						      CAMEL_MIME_PART_ENCODING_BASE64);
@@ -796,12 +774,12 @@ e_msg_composer_attachment_bar_to_multipart (EMsgComposerAttachmentBar *bar,
 	g_return_if_fail (E_IS_MSG_COMPOSER_ATTACHMENT_BAR (bar));
 	g_return_if_fail (multipart != NULL);
 	g_return_if_fail (CAMEL_IS_MULTIPART (multipart));
-
+	
 	priv = bar->priv;
-
+	
 	for (p = priv->attachments; p != NULL; p = p->next) {
 		EMsgComposerAttachment *attachment;
-
+		
 		attachment = E_MSG_COMPOSER_ATTACHMENT (p->data);
 		attach_to_multipart (multipart, attachment, default_charset);
 	}
