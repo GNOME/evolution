@@ -121,6 +121,8 @@ event_editor_init (EventEditor *ee)
 	priv->meeting_shown = TRUE;
 	priv->updating = FALSE;	
 	priv->is_meeting = FALSE;
+
+	comp_editor_set_help_section (COMP_EDITOR (ee), "usage-calendar-apts");
 }
 
 EventEditor *

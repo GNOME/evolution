@@ -96,12 +96,15 @@ struct _CompEditorPrivate {
 	gboolean is_group_item;
 	
  	gboolean warned;
+
+        char *help_section;
 };
 
 
 
 static gint comp_editor_key_press_event (GtkWidget *d, GdkEventKey *e);
 static void comp_editor_finalize (GObject *object);
+static void comp_editor_show_help (CompEditor *editor);
 
 static void real_set_e_cal (CompEditor *editor, ECal *client);
 static void real_edit_comp (CompEditor *editor, ECalComponent *comp);
@@ -394,6 +397,10 @@ response_cb (GtkWidget *widget, int response, gpointer data)
 		}
 
 		break;
+	case GTK_RESPONSE_HELP:
+		comp_editor_show_help (editor);
+
+		break;
 	case GTK_RESPONSE_CANCEL:
 		commit_all_fields (editor);
 		
@@ -518,6 +525,7 @@ setup_widgets (CompEditor *editor)
 	/* Buttons */
 	gtk_dialog_add_button  (GTK_DIALOG (editor), GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL);
 	gtk_dialog_add_button  (GTK_DIALOG (editor), GTK_STOCK_OK, GTK_RESPONSE_OK);
+	gtk_dialog_add_button  (GTK_DIALOG (editor), GTK_STOCK_HELP, GTK_RESPONSE_HELP);
 	gtk_dialog_set_response_sensitive (GTK_DIALOG (editor), GTK_RESPONSE_OK, FALSE);
 
 	g_signal_connect (editor, "response", G_CALLBACK (response_cb), editor);
@@ -596,6 +604,7 @@ comp_editor_init (CompEditor *editor)
  	priv->user_org = FALSE;
  	priv->warned = FALSE;
 	priv->is_group_item = FALSE;
+	priv->help_section = g_strdup ("usage-calendar");
 
 	gtk_window_set_type_hint (GTK_WINDOW (editor), GDK_WINDOW_TYPE_HINT_NORMAL);
 	gtk_dialog_set_has_separator (GTK_DIALOG (editor), FALSE);
@@ -634,6 +643,8 @@ comp_editor_finalize (GObject *object)
 	editor = COMP_EDITOR (object);
 	priv = editor->priv;
 
+	g_free (priv->help_section);
+
 	if (priv->client) {
 		g_object_unref (priv->client);
 		priv->client = NULL;
@@ -670,6 +681,23 @@ comp_editor_finalize (GObject *object)
 
 	if (G_OBJECT_CLASS (comp_editor_parent_class)->finalize)
 		(* G_OBJECT_CLASS (comp_editor_parent_class)->finalize) (object);
+}
+
+static void
+comp_editor_show_help (CompEditor *editor)
+{
+	GError *error = NULL;
+	CompEditorPrivate *priv;
+
+	priv = editor->priv;
+
+	gnome_help_display_desktop (NULL,
+				    "evolution-" BASE_VERSION,
+				    "evolution-" BASE_VERSION ".xml",
+				    priv->help_section,
+				    &error);
+	if (error != NULL)
+		g_warning ("%s", error->message);
 }
 
 
@@ -1062,6 +1090,17 @@ comp_editor_get_e_cal (CompEditor *editor)
 	priv = editor->priv;
 
 	return priv->client;
+}
+
+void
+comp_editor_set_help_section (CompEditor *editor, const char *section)
+{
+	CompEditorPrivate *priv;
+
+	priv = editor->priv;
+
+	g_free (priv->help_section);
+	priv->help_section = g_strdup (section);
 }
 
 /* Creates an appropriate title for the event editor dialog */

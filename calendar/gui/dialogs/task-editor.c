@@ -118,6 +118,7 @@ task_editor_init (TaskEditor *te)
 	priv->updating = FALSE;	
 	priv->is_assigned = FALSE;
 
+	comp_editor_set_help_section (COMP_EDITOR (te), "usage-calendar-todo");
 }
 
 TaskEditor *

@@ -1,3 +1,21 @@
+2005-02-04  Rodney Dawes  <dobey@novell.com>
+
+	* gui/dialogs/comp-editor.[ch]: Add a string to CompEditorPrivate to
+	store the name of the help section we need to refer for derived dialogs
+	(response_cb): Handle the GTK_RESPONSE_HELP response and show help
+	(setup_widgets): Add a button to the dialog for Help
+	(comp_editor_init): Default to the "usage-calendar" help section
+	(comp_editor_finalize): Free the help_section variable
+	(comp_editor_show_help): Add a new method to actually open the help
+	(comp_editor_set_help_section): Add a method for derivatives to set the
+	help section they want to open
+
+	* gui/dialogs/event-editor.c (event_editor_init): Set the help section
+	we want to open for the event editor to "usage-calendar-apts"
+
+	* gui/dialogs/task-editor.c (task_editor_init): Set the help section
+	we want to open for the event editor to "usage-calendar-todo"
+	
 2005-02-04  Rodrigo Moya <rodrigo@novell.com>
 
 	* gui/e-tasks.c (update_view): clear the component preview when we

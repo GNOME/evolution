@@ -81,6 +81,8 @@ void          comp_editor_show_page        (CompEditor             *editor,
 					    CompEditorPage         *page);
 void          comp_editor_set_e_cal        (CompEditor             *editor,
 					    ECal              *client);
+void          comp_editor_set_help_section (CompEditor             *editor,
+					    const char             *section);
 ECal         *comp_editor_get_e_cal        (CompEditor             *editor);
 void          comp_editor_edit_comp        (CompEditor             *ee,
 					    ECalComponent           *comp);
