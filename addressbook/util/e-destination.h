@@ -77,7 +77,6 @@ void           e_destination_set_contact        (EDestination *, EContact *conta
 void           e_destination_set_contact_uid    (EDestination *dest, const char *uid, gint email_num);
 void           e_destination_set_book           (EDestination *, EBook *book);
 EContact      *e_destination_get_contact        (const EDestination *);
-EBook         *e_destination_get_book           (const EDestination *);
 const char    *e_destination_get_source_uid     (const EDestination *);
 const char    *e_destination_get_contact_uid    (const EDestination *);
 int            e_destination_get_email_num      (const EDestination *);
