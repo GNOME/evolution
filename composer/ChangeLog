@@ -1,3 +1,8 @@
+2002-03-11  Dan Winship  <danw@ximian.com>
+
+	* listener.c (impl_event): Remove the extremely verbose printf
+	here.
+
 2002-03-07  Radek Doulik  <rodo@ximian.com>
 
 	* e-msg-composer.c (destroy): ops, unregister and not register new

@@ -170,8 +170,6 @@ impl_event (PortableServer_Servant _servant,
 	CORBA_any  *rv = NULL;
 	gchar *command;
 
-	printf ("impl_event = %s\n", name); 
-
 	if (!strcmp (name, "command_before")) {
 		command = BONOBO_ARG_GET_STRING (arg);
 		if (!strcmp (command, "insert-paragraph")) {
