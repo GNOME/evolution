@@ -69,7 +69,7 @@ fi
 #  }
 #}
 
-(automake --version) < /dev/null > /dev/null 2>&1 || {
+(automake-1.4 --version) < /dev/null > /dev/null 2>&1 || {
   echo
   echo "**Error**: You must have \`automake' installed to compile $PKG_NAME."
   echo "Get ftp://ftp.gnu.org/pub/gnu/automake-1.3.tar.gz"
@@ -80,7 +80,7 @@ fi
 
 
 # if no automake, don't bother testing for aclocal
-test -n "$NO_AUTOMAKE" || (aclocal --version) < /dev/null > /dev/null 2>&1 || {
+test -n "$NO_AUTOMAKE" || (aclocal-1.4 --version) < /dev/null > /dev/null 2>&1 || {
   echo
   echo "**Error**: Missing \`aclocal'.  The version of \`automake'"
   echo "installed doesn't appear recent enough."
@@ -172,10 +172,10 @@ do
 	  libtoolize --force --copy
 	fi
       fi
-      echo "Running aclocal $aclocalinclude ..."
-      aclocal $aclocalinclude || {
+      echo "Running aclocal-1.4 $aclocalinclude ..."
+      aclocal-1.4 $aclocalinclude || {
 	echo
-	echo "**Error**: aclocal failed. This may mean that you have not"
+	echo "**Error**: aclocal-1.4 failed. This may mean that you have not"
 	echo "installed all of the packages you need, or you may need to"
 	echo "set ACLOCAL_FLAGS to include \"-I \$prefix/share/aclocal\""
 	echo "for the prefix where you installed the packages whose"
@@ -187,9 +187,9 @@ do
 	echo "Running autoheader..."
 	autoheader || { echo "**Error**: autoheader failed."; exit 1; }
       fi
-      echo "Running automake --gnu $am_opt ..."
-      automake --add-missing --gnu $am_opt ||
-	{ echo "**Error**: automake failed."; exit 1; }
+      echo "Running automake-1.4 --gnu $am_opt ..."
+      automake-1.4 --add-missing --gnu $am_opt ||
+	{ echo "**Error**: automake-1.4 failed."; exit 1; }
       echo "Running autoconf ..."
       autoconf || { echo "**Error**: autoconf failed."; exit 1; }
     ) || exit 1
