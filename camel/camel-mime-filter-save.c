@@ -1,38 +1,51 @@
+/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- *  Copyright (C) 2000 Ximian Inc.
+ *  Authors: Jeffrey Stedfast <fejj@ximian.com>
  *
- *  Authors: Michael Zucchi <notzed@ximian.com>
+ *  Copyright 2002 Ximian, Inc. (www.ximian.com)
  *
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of version 2 of the GNU General Public
- * License as published by the Free Software Foundation.
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
  *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * General Public License for more details.
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
  *
- * You should have received a copy of the GNU General Public
- * License along with this program; if not, write to the
- * Free Software Foundation, Inc., 59 Temple Place - Suite 330,
- * Boston, MA 02111-1307, USA.
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program; if not, write to the Free Software
+ *  Foundation, Inc., 59 Temple Street #330, Boston, MA 02111-1307, USA.
+ *
  */
 
-#include <sys/types.h>
-#include <unistd.h>
-#include <sys/stat.h>
-#include <fcntl.h>
 
-#include <string.h>
-#include <errno.h>
+#ifndef HAVE_CONFIG_H
+#include <config.h>
+#endif
 
 #include "camel-mime-filter-save.h"
+#include "camel-stream-mem.h"
 
-static void camel_mime_filter_save_class_init (CamelMimeFilterSaveClass *klass);
-static void camel_mime_filter_save_init       (CamelMimeFilterSave *obj);
-static void camel_mime_filter_save_finalize   (CamelObject *o);
+static void filter (CamelMimeFilter *f, char *in, size_t len, size_t prespace,
+		    char **out, size_t *outlen, size_t *outprespace);
+static void complete (CamelMimeFilter *f, char *in, size_t len,
+		      size_t prespace, char **out, size_t *outlen,
+		      size_t *outprespace);
+static void reset (CamelMimeFilter *f);
 
-static CamelMimeFilterClass *camel_mime_filter_save_parent;
+
+static void
+camel_mime_filter_save_class_init (CamelMimeFilterSaveClass *klass)
+{
+	CamelMimeFilterClass *mime_filter_class =
+		(CamelMimeFilterClass *) klass;
+	
+	mime_filter_class->filter = filter;
+	mime_filter_class->complete = complete;
+	mime_filter_class->reset = reset;
+}
 
 CamelType
 camel_mime_filter_save_get_type (void)
@@ -40,105 +53,63 @@ camel_mime_filter_save_get_type (void)
 	static CamelType type = CAMEL_INVALID_TYPE;
 	
 	if (type == CAMEL_INVALID_TYPE) {
-		type = camel_type_register (camel_mime_filter_get_type (), "CamelMimeFilterSave",
+		type = camel_type_register (camel_mime_filter_get_type(), "CamelMimeFilterSave",
 					    sizeof (CamelMimeFilterSave),
 					    sizeof (CamelMimeFilterSaveClass),
 					    (CamelObjectClassInitFunc) camel_mime_filter_save_class_init,
 					    NULL,
-					    (CamelObjectInitFunc) camel_mime_filter_save_init,
-					    (CamelObjectFinalizeFunc) camel_mime_filter_save_finalize);
+					    NULL,
+					    NULL);
 	}
 	
 	return type;
 }
 
 static void
-camel_mime_filter_save_finalize(CamelObject *o)
+filter (CamelMimeFilter *f, char *in, size_t len, size_t prespace,
+	char **out, size_t *outlen, size_t *outprespace)
 {
-	CamelMimeFilterSave *f = (CamelMimeFilterSave *)o;
-
-	g_free(f->filename);
-	if (f->fd != -1) {
-		/* FIXME: what do we do with failed writes???? */
-		close(f->fd);
-	}
-}
-
-static void
-reset(CamelMimeFilter *mf)
-{
-	CamelMimeFilterSave *f = (CamelMimeFilterSave *)mf;
-
-	/* i dunno, how do you 'reset' a file?  reopen it? do i care? */
-	if (f->fd != -1){
-		lseek(f->fd, 0, SEEK_SET);
-	}
-}
-
-/* all this code just to support this little trivial filter! */
-static void
-filter(CamelMimeFilter *mf, char *in, size_t len, size_t prespace, char **out, size_t *outlen, size_t *outprespace)
-{
-	CamelMimeFilterSave *f = (CamelMimeFilterSave *)mf;
-
-	if (f->fd != -1) {
-		/* FIXME: check return */
-		int outlen = write(f->fd, in, len);
-		if (outlen != len) {
-			g_warning("could not write to '%s': %s", f->filename?f->filename:"<descriptor>", strerror(errno));
-		}
-	}
+	CamelMimeFilterSave *save = (CamelMimeFilterSave *) f;
+	
+	if (save->stream)
+		camel_stream_write (save->stream, in, len);
+	
 	*out = in;
 	*outlen = len;
-	*outprespace = prespace;
+	*outprespace = f->outpre;
+}
+
+static void 
+complete (CamelMimeFilter *f, char *in, size_t len, size_t prespace,
+	  char **out, size_t *outlen, size_t *outprespace)
+{
+	if (len)
+		filter (f, in, len, prespace, out, outlen, outprespace);
 }
 
 static void
-camel_mime_filter_save_class_init (CamelMimeFilterSaveClass *klass)
+reset (CamelMimeFilter *f)
 {
-	CamelMimeFilterClass *filter_class = (CamelMimeFilterClass *) klass;
-
-	camel_mime_filter_save_parent = CAMEL_MIME_FILTER_CLASS (camel_type_get_global_classfuncs (camel_mime_filter_get_type ()));
-
-	filter_class->reset = reset;
-	filter_class->filter = filter;
+	/* no-op */
 }
 
-static void
-camel_mime_filter_save_init (CamelMimeFilterSave *f)
-{
-	f->fd = -1;
-}
-
-/**
- * camel_mime_filter_save_new:
- *
- * Create a new CamelMimeFilterSave object.
- * 
- * Return value: A new CamelMimeFilterSave widget.
- **/
-CamelMimeFilterSave *
+CamelMimeFilter *
 camel_mime_filter_save_new (void)
 {
-	CamelMimeFilterSave *new = CAMEL_MIME_FILTER_SAVE ( camel_object_new (camel_mime_filter_save_get_type ()));
-	return new;
+	CamelMimeFilterSave *save = CAMEL_MIME_FILTER_SAVE (camel_object_new (CAMEL_MIME_FILTER_SAVE_TYPE));
+	
+	save->stream = camel_stream_mem_new ();
+	
+	return (CamelMimeFilter *) save;
 }
 
-CamelMimeFilterSave *
-camel_mime_filter_save_new_name (const char *name, int flags, int mode)
+CamelMimeFilter *
+camel_mime_filter_save_new_with_stream (CamelStream *stream)
 {
-	CamelMimeFilterSave *new = NULL;
-
-	new = camel_mime_filter_save_new();
-	if (new) {
-		new->fd = open(name, flags, mode);
-		if (new->fd != -1) {
-			new->filename = g_strdup(name);
-		} else {
-			camel_object_unref((CamelObject *)new);
-			new = NULL;
-		}
-	}
-	return new;
+	CamelMimeFilterSave *save = CAMEL_MIME_FILTER_SAVE (camel_object_new (CAMEL_MIME_FILTER_SAVE_TYPE));
+	
+	save->stream = stream;
+	camel_object_ref (CAMEL_OBJECT (stream));
+	
+	return (CamelMimeFilter *) save;
 }
-

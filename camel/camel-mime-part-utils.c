@@ -44,6 +44,7 @@
 #include "camel-mime-filter-basic.h"
 #include "camel-mime-filter-charset.h"
 #include "camel-mime-filter-crlf.h"
+#include "camel-mime-filter-save.h"
 #include "camel-html-parser.h"
 #include "camel-charset-map.h"
 
@@ -328,8 +329,11 @@ camel_mime_part_construct_content_from_parser (CamelMimePart *dw, CamelMimeParse
 		break;
 	case HSCAN_MULTIPART: {
 		struct _header_content_type *content_type;
+		CamelMimeFilter *save_filter = NULL;
 		CamelDataWrapper *bodypart;
-
+		CamelStream *raw = NULL;
+		int saveid = -1;
+		
 		/* FIXME: we should use a came-mime-mutlipart, not jsut a camel-multipart, but who cares */
 		d(printf("Creating multi-part\n"));
 		content = (CamelDataWrapper *)camel_multipart_new ();
@@ -338,10 +342,32 @@ camel_mime_part_construct_content_from_parser (CamelMimePart *dw, CamelMimeParse
 		camel_multipart_set_boundary ((CamelMultipart *)content,
 					      header_content_type_param (content_type, "boundary"));
 		
+#define SAVE_RAW_MIME_STREAM_FOR_SECURE_MIME_SIGNATURES
+#ifdef SAVE_RAW_MIME_STREAM_FOR_SECURE_MIME_SIGNATURES
+		if (header_content_type_is (content_type, "multipart", "signed")) {
+			/* save the raw mime stream for the first mime part in the multipart/signed */
+			raw = camel_stream_mem_new ();
+			save_filter = camel_mime_filter_save_new_with_stream (raw);
+			saveid = camel_mime_parser_filter_add (mp, save_filter);
+			camel_object_unref (CAMEL_OBJECT (save_filter));
+		}
+#endif /* SAVE_RAW_MIME_STREAM_FOR_SECURE_MIME_SIGNATURES */
+		
 		while (camel_mime_parser_step (mp, &buf, &len) != HSCAN_MULTIPART_END) {
 			camel_mime_parser_unstep (mp);
 			bodypart = (CamelDataWrapper *)camel_mime_part_new ();
 			camel_mime_part_construct_from_parser ((CamelMimePart *)bodypart, mp);
+#ifdef SAVE_RAW_MIME_STREAM_FOR_SECURE_MIME_SIGNATURES
+			if (raw) {
+				/* set the raw mime stream on the first part within the multipart/signed */
+				camel_stream_reset (raw);
+				CAMEL_MIME_PART (bodypart)->stream = raw;
+				camel_mime_parser_filter_remove (mp, saveid);
+				saveid = -1;
+				raw = NULL;
+			}
+#endif /* SAVE_RAW_MIME_STREAM_FOR_SECURE_MIME_SIGNATURES */
+			
 			camel_multipart_add_part ((CamelMultipart *)content, (CamelMimePart *)bodypart);
 			camel_object_unref ((CamelObject *)bodypart);
 		}

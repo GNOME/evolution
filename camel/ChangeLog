@@ -1,3 +1,24 @@
+2002-02-27  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-folder-summary.h: Don't #include camel-mime-filter-save.h,
+	we don't use it.
+
+	* camel-file-utils.c: Fixed a few 'might be used uninitialized'
+	warnings which were real problems.
+
+	* camel-mime-part-utils.c
+	(camel_mime_part_construct_content_from_parser): Save the raw mime
+	stream for any/all signed parts.
+
+	* camel-mime-part.c (camel_mime_part_init): Initialize our raw
+	stream to NULL.
+	(camel_mime_part_finalize): Unref our raw stream, if we have one.
+	(write_to_stream): If we have a raw stream, write that out instead
+	of re-encoding.
+
+	* camel-mime-filter-save.[c,h]: Rewritten to save to a stream
+	rather than a file.
+
 2002-02-28  Not Zed  <NotZed@Ximian.com>
 
 	* camel-mime-utils.c (header_fold): Use the FOLD_SIZE as a

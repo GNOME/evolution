@@ -36,7 +36,6 @@
 #include <camel/camel-mime-filter.h>
 #include <camel/camel-mime-filter-index.h>
 #include <camel/camel-mime-filter-charset.h>
-#include <camel/camel-mime-filter-save.h>
 #include <camel/camel-mime-filter-basic.h>
 #include <camel/camel-mime-filter-html.h>
 #include <camel/camel-mime-message.h>

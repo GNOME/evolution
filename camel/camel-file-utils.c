@@ -22,6 +22,10 @@
  */
 
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include "camel-file-utils.h"
 #include "camel-url.h"
 
@@ -33,6 +37,10 @@
 #include <string.h>
 
 #include <netinet/in.h>
+
+#ifdef HAVE_ALLOCA_H
+#include <alloca.h>
+#endif
 
 /**
  * camel_file_util_encode_uint32:
@@ -165,7 +173,8 @@ int
 camel_file_util_decode_time_t (FILE *in, time_t *dest)
 {
 	time_t save = 0;
-	int v, i = sizeof (time_t) - 1;
+	int i = sizeof (time_t) - 1;
+	int v = EOF;
 
         while (i >= 0 && (v = fgetc (in)) != EOF) {
 		save |= ((time_t)v) << (i * 8);
@@ -211,7 +220,8 @@ int
 camel_file_util_decode_off_t (FILE *in, off_t *dest)
 {
 	off_t save = 0;
-	int v, i = sizeof(off_t) - 1;
+	int i = sizeof(off_t) - 1;
+	int v = EOF;
 
         while (i >= 0 && (v = fgetc (in)) != EOF) {
 		save |= ((off_t)v) << (i * 8);

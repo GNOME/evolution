@@ -156,6 +156,7 @@ camel_mime_part_init (gpointer   object,  gpointer   klass)
 	CamelMimePart *camel_mime_part = CAMEL_MIME_PART (object);
 	
 	camel_mime_part->content_type         = header_content_type_new ("text", "plain");
+	camel_mime_part->stream               = NULL;
 	camel_mime_part->description          = NULL;
 	camel_mime_part->disposition          = NULL;
 	camel_mime_part->content_id           = NULL;
@@ -170,7 +171,10 @@ static void
 camel_mime_part_finalize (CamelObject *object)
 {
 	CamelMimePart *mime_part = CAMEL_MIME_PART (object);
-
+	
+	if (mime_part->stream)
+		camel_object_unref (CAMEL_OBJECT (mime_part->stream));
+	
 	g_free (mime_part->description);
 	g_free (mime_part->content_id);
 	g_free (mime_part->content_MD5);
@@ -667,6 +671,18 @@ write_to_stream(CamelDataWrapper *data_wrapper, CamelStream *stream)
 	if (count == -1)
 		return -1;
 	total += count;
+
+#define SAVE_RAW_MIME_STREAM_FOR_SECURE_MIME_SIGNATURES
+#ifdef SAVE_RAW_MIME_STREAM_FOR_SECURE_MIME_SIGNATURES
+	if (mp->stream) {
+		count = camel_stream_write_to_stream (mp->stream, stream);
+		camel_stream_reset (mp->stream);
+		if (count == -1)
+			return -1;
+		
+		return total + count;
+	}
+#endif /* SAVE_RAW_MIME_STREAM_FOR_SECURE_MIME_SIGNATURES */
 	
 	content = camel_medium_get_content_object(medium);
 	if (content) {
