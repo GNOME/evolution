@@ -88,6 +88,7 @@ void mark_as_seen          (BonoboUIComponent *uih, void *user_data, const char 
 void mark_all_as_seen      (BonoboUIComponent *uih, void *user_data, const char *path);
 void mark_as_unseen        (BonoboUIComponent *uih, void *user_data, const char *path);
 void mark_as_important     (BonoboUIComponent *uih, void *user_data, const char *path);
+void mark_as_unimportant   (BonoboUIComponent *uih, void *user_data, const char *path);
 void toggle_as_important   (BonoboUIComponent *uih, void *user_data, const char *path);
 
 void edit_message          (BonoboUIComponent *uih, void *user_data, const char *path);

@@ -1223,6 +1223,8 @@ enum {
 	CAN_UNDELETE    = 32,
 	IS_MAILING_LIST = 64,
 	CAN_RESEND      = 128,
+	CAN_MARK_IMPORTANT = 256,
+	CAN_MARK_UNIMPORTANT = 512
 };
 
 #define MLIST_VFOLDER (3)
@@ -1287,7 +1289,9 @@ static EPopupMenu context_menu[] = {
 	{ N_("Mark as U_nread"),              NULL,
 	  GTK_SIGNAL_FUNC (mark_as_unseen),   NULL,  CAN_MARK_UNREAD },
 	{ N_("Mark as _Important"),            NULL,
-	  GTK_SIGNAL_FUNC (mark_as_important), NULL, 0 },
+	  GTK_SIGNAL_FUNC (mark_as_important), NULL, CAN_MARK_IMPORTANT },
+	{ N_("Mark as Unim_portant"),            NULL,
+	  GTK_SIGNAL_FUNC (mark_as_unimportant), NULL, CAN_MARK_UNIMPORTANT },
 	
 	E_POPUP_SEPARATOR,
 	
@@ -1391,6 +1395,8 @@ on_right_click (ETree *tree, gint row, ETreePath path, gint col, GdkEvent *event
 		gboolean have_undeleted = FALSE;
 		gboolean have_seen = FALSE;
 		gboolean have_unseen = FALSE;
+		gboolean have_important = FALSE;
+		gboolean have_unimportant = FALSE;
 
 		for (i = 0; i < uids->len; i++) {
 			info = camel_folder_get_message_info (fb->folder, uids->pdata[i]);
@@ -1406,6 +1412,11 @@ on_right_click (ETree *tree, gint row, ETreePath path, gint col, GdkEvent *event
 				have_deleted = TRUE;
 			else
 				have_undeleted = TRUE;
+
+			if (info->flags & CAMEL_MESSAGE_FLAGGED)
+				have_important = TRUE;
+			else
+				have_unimportant = TRUE;
 			
 			camel_folder_free_message_info(fb->folder, info);
 
@@ -1423,6 +1434,11 @@ on_right_click (ETree *tree, gint row, ETreePath path, gint col, GdkEvent *event
 		if (!have_deleted)
 			enable_mask |= CAN_UNDELETE;
 
+		if (!have_unimportant)
+			enable_mask |= CAN_MARK_IMPORTANT;
+		if (!have_important)
+			enable_mask |= CAN_MARK_UNIMPORTANT;
+
 		/*
 		 * Hide items that wont get used.
 		 */
@@ -1437,6 +1453,12 @@ on_right_click (ETree *tree, gint row, ETreePath path, gint col, GdkEvent *event
 				hide_mask |= CAN_DELETE;
 			else
 				hide_mask |= CAN_UNDELETE;
+		}
+		if (!(have_important && have_unimportant)){
+			if (have_important)
+				hide_mask |= CAN_MARK_IMPORTANT;
+			else
+				hide_mask |= CAN_MARK_UNIMPORTANT;
 		}
 	}
 

@@ -1,3 +1,16 @@
+2001-07-23  Jason Leach  <jleach@ximian.com>
+
+	[Bug #5225: No UI way to mark as unimportant]
+	
+	* folder-browser.c (on_right_click): Do the necessary stuff to
+	show or hide the correct "Mark Important" or "Mark as Unimportant"
+	menu items depending on the status of messages that are selected.
+
+	* folder-browser-ui.c: Add the MarkAsUnimportant verb here.
+
+	* mail-callbacks.c (mark_as_unimportant): Simple function that's
+	the callback for these new menu items.
+	
 2001-07-22  Ettore Perazzoli  <ettore@ximian.com>
 
 	* component-factory.c (remove_folder): Updated to get a @type

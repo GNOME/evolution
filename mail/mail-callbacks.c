@@ -1278,6 +1278,12 @@ mark_as_important (BonoboUIComponent *uih, void *user_data, const char *path)
 }
 
 void
+mark_as_unimportant (BonoboUIComponent *uih, void *user_data, const char *path)
+{
+	flag_messages (FOLDER_BROWSER (user_data), CAMEL_MESSAGE_FLAGGED, 0);
+}
+
+void
 toggle_as_important (BonoboUIComponent *uih, void *user_data, const char *path)
 {
 	toggle_flags (FOLDER_BROWSER (user_data), CAMEL_MESSAGE_FLAGGED);
@@ -1777,13 +1783,13 @@ do_mail_print (MailDisplay *md, gboolean preview)
 	int copies = 1;
 	int collate = FALSE;
 
-	if (!preview){
+	if (!preview) {
 
-		gpd = GNOME_PRINT_DIALOG (
-			gnome_print_dialog_new (_("Print Message"), GNOME_PRINT_DIALOG_COPIES));
+		gpd = GNOME_PRINT_DIALOG (gnome_print_dialog_new (_("Print Message"),
+								  GNOME_PRINT_DIALOG_COPIES));
 		gnome_dialog_set_default (GNOME_DIALOG (gpd), GNOME_PRINT_PRINT);
 
-		switch (gnome_dialog_run (GNOME_DIALOG (gpd))){
+		switch (gnome_dialog_run (GNOME_DIALOG (gpd))) {
 		case GNOME_PRINT_PRINT:
 			break;
 			
