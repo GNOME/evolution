@@ -38,6 +38,7 @@
 #define d(x)
 /*#define DEBUG*/
 
+int block_log;
 
 #ifdef IBEX_STATS
 static void
@@ -202,6 +203,9 @@ ibex_block_dirty(struct _block *block)
 static void
 sync_block(struct _memcache *block_cache, struct _memblock *memblock)
 {
+	if (block_log)
+		printf("writing block %d\n", memblock->block);
+
 	lseek(block_cache->fd, memblock->block, SEEK_SET);
 	if (write(block_cache->fd, &memblock->data, sizeof(memblock->data)) != -1) {
 		memblock->flags &= ~BLOCK_DIRTY;
@@ -324,6 +328,9 @@ ibex_block_read(struct _memcache *block_cache, blockid_t blockid)
 	add_miss(block_cache, blockid);
 	add_read(block_cache, blockid);
 #endif
+	if (block_log)
+		printf("miss block %d\n", blockid);
+
 	d(printf("loading blockid from disk %d\n", blockid));
 	memblock = g_malloc(sizeof(*memblock));
 	memblock->block = blockid;
@@ -344,6 +351,8 @@ ibex_block_read(struct _memcache *block_cache, blockid_t blockid)
 				/* TODO: put the rootblock in the block_cache struct, not in the cache */
 				struct _memblock *rootblock = g_hash_table_lookup(block_cache->index, (void *)0);
 				struct _root *root = (struct _root *)&rootblock->data;
+
+				printf("Unsyncing root block\n");
 
 				g_assert(rootblock != NULL);
 				root->flags &= ~IBEX_ROOT_SYNCF;

@@ -45,7 +45,7 @@ of words, and could then be discarded (:flush()).
 #define d(x)
 
 /*#define WORDCACHE_SIZE (256)*/
-#define WORDCACHE_SIZE (10240)
+#define WORDCACHE_SIZE (4096)
 
 extern struct _IBEXStoreClass ibex_diskarray_class;
 extern struct _IBEXIndexClass ibex_hash_class;
@@ -56,15 +56,20 @@ extern struct _IBEXIndexClass ibex_hash_class;
 */
 
 
+#define CACHE_FILE_COUNT (62)
+
 struct _wordcache {
 	struct _wordcache *next;
 	struct _wordcache *prev;
 	nameid_t wordid;	/* disk wordid */
 	blockid_t wordblock;	/* head of disk list */
 	blockid_t wordtail;	/* and the tail data */
-	int filecount;		/* how many we have in memory */
-	/*nameid_t files[32];*/	/* memory cache of files */
-	nameid_t files[62];	/* memory cache of files */
+	short filecount;	/* how many valid items in files[] */
+	short filealloc;	/* how much allocated space in files[] */
+	union {
+		nameid_t *files;	/* memory cache of files */
+		nameid_t file0;	/* if filecount == 1 && filealloc == 0, store directly */
+	} file;
 	char word[1];		/* actual word follows */
 };
 
@@ -106,7 +111,7 @@ ibex_create_word_index(struct _memcache *bc, blockid_t *wordroot, blockid_t *nam
 		printf("opening wordindex root = %d\n", *wordroot);
 		idx->wordindex = ibex_hash_class.open(bc, *wordroot);
 	} else {
-		idx->wordindex = ibex_hash_class.create(bc, 1024);
+		idx->wordindex = ibex_hash_class.create(bc, 2048);
 		*wordroot = idx->wordindex->root;
 		printf("creating wordindex root = %d\n", *wordroot);
 	}
@@ -114,7 +119,7 @@ ibex_create_word_index(struct _memcache *bc, blockid_t *wordroot, blockid_t *nam
 		printf("opening nameindex root = %d\n", *nameroot);
 		idx->nameindex = ibex_hash_class.open(bc, *nameroot);
 	} else {
-		idx->nameindex = ibex_hash_class.create(bc, 1024);
+		idx->nameindex = ibex_hash_class.create(bc, 2048);
 		*nameroot = idx->nameindex->root;
 		printf("creating nameindex root = %d\n", *nameroot);
 	}
@@ -126,7 +131,7 @@ static void
 cache_sanity(struct _wordcache *head)
 {
 	while (head->next) {
-		g_assert(head->filecount <= sizeof(head->files)/sizeof(head->files[0]));
+		g_assert(head->filecount <= head->filealloc);
 		g_assert(strlen(head->word) != 0);
 		head = head->next;
 	}
@@ -209,7 +214,10 @@ static GPtrArray *find(struct _IBEXWord *idx, const char *word)
 	names = idx->wordstore->klass->get(idx->wordstore, wordblock, wordtail);
 	/* .. including any memory-only data */
 	if (cache) {
-		g_array_append_vals(names, cache->files, cache->filecount);
+		if (cache->filealloc == 0 && cache->filecount == 1)
+			g_array_append_val(names, cache->file.file0);
+		else
+			g_array_append_vals(names, cache->file.files, cache->filecount);
 	}
 
 	/* walk it ... converting id's back to strings */
@@ -242,9 +250,14 @@ static gboolean find_name(struct _IBEXWord *idx, const char *name, const char *w
 		/* freshen cache entry if we touch it */
 		ibex_list_remove((struct _listnode *)cache);
 		ibex_list_addtail(&idx->wordnodes, (struct _listnode *)cache);
-		for (i=0;i<cache->filecount;i++) {
-			if (cache->files[i] == nameid)
+		if (cache->filecount == 1 && cache->filealloc == 0) {
+			if (cache->file.file0 == nameid)
 				return TRUE;
+		} else {
+			for (i=0;i<cache->filecount;i++) {
+				if (cache->file.files[i] == nameid)
+					return TRUE;
+			}
 		}
 		/* not there?  well we can use the wordid anyway */
 		wordid = cache->wordid;
@@ -265,8 +278,11 @@ sync_cache_entry(struct _IBEXWord *idx, struct _wordcache *cache)
 	GArray array; /* just use this as a header */
 	blockid_t oldblock, oldtail;
 	
-	d(printf("syncing cache entry '%s'\n", cache->word));
-	array.data = (char *)cache->files;
+	d(printf("syncing cache entry '%s' used %d\n", cache->word, cache->filecount));
+	if (cache->filecount == 1 && cache->filealloc == 0)
+		array.data = (char *)&cache->file.file0;
+	else
+		array.data = (char *)cache->file.files;
 	array.len = cache->filecount;
 	oldblock = cache->wordblock;
 	oldtail = cache->wordtail;
@@ -305,13 +321,35 @@ add_index_cache(struct _IBEXWord *idx, const char *word)
 	if (cache == 0) {
 		/* see if we have to flush off the last entry */
 		if (idx->wordcount >= WORDCACHE_SIZE) {
+			struct _wordcache *mincache;
+			int min, count=0;
 			/* remove last entry, and flush it */
 			cache = (struct _wordcache *)idx->wordnodes.tailpred;
+			mincache = cache;
+			min = mincache->filecount;
+
 			d(printf("flushing word from cache %s\n", cache->word));
-			ibex_list_remove((struct _listnode *)cache);
-			g_hash_table_remove(idx->wordcache, cache->word);
-			sync_cache_entry(idx, cache);
-			g_free(cache);
+			/* instead of just using the last entry, we try and find an entry with
+			   with only 1 item (failing that, the smallest in the range we look at) */
+			/* this could probably benefit greatly from a more sophisticated aging algorithm */
+			while (cache->next && count < 100) {
+				if (cache->filecount == 1) {
+					mincache = cache;
+					break;
+				}
+				if (cache->filecount > 0 && cache->filecount < min) {
+					mincache = cache;
+					min = cache->filecount;
+				}
+				cache = cache->next;
+				count++;
+			}
+			ibex_list_remove((struct _listnode *)mincache);
+			g_hash_table_remove(idx->wordcache, mincache->word);
+			sync_cache_entry(idx, mincache);
+			if (mincache->filealloc)
+				g_free(mincache->file.files);
+			g_free(mincache);
 			idx->wordcount--;
 		}
 		cache = g_malloc0(sizeof(*cache)+strlen(word));
@@ -347,14 +385,34 @@ static void add(struct _IBEXWord *idx, const char *name, const char *word)
 	add_index_key(idx->nameindex, name, &nameid, &nameblock, &nametail);
 
 	/* check for repeats of the last name - dont add anything */
-	if (cache->files[cache->filecount] == nameid)
-		return;
+	if (cache->filecount == 1 && cache->filealloc == 0) {
+		if (cache->file.file0 == nameid)
+			return;
+	} else {
+		if (cache->file.files[cache->filecount] == nameid)
+			return;
+	}
 
-	/* yay, now insert the nameindex into the word list, and the word index into the name list */
-	cache->files[cache->filecount] = nameid;
+	/* see if we are setting the first, drop it in the union */
+	if (cache->filecount == 0 && cache->filealloc == 0) {
+		cache->file.file0 = nameid;
+	} else if (cache->filecount == 1 && cache->filealloc == 0) {
+		nameid_t saveid;
+		/* we need to allocate space for words */
+		saveid = cache->file.file0;
+		cache->file.files = g_malloc(sizeof(cache->file.files[0]) * CACHE_FILE_COUNT);
+		/* this could possibly grow as needed, but i wont for now */
+		cache->filealloc = CACHE_FILE_COUNT;
+		cache->file.files[0] = saveid;
+		cache->file.files[1] = nameid;
+	} else {
+		cache->file.files[cache->filecount] = nameid;
+	}
+
 	cache->filecount++;
+
 	/* if we are full, force a flush now */
-	if (cache->filecount >= sizeof(cache->files)/sizeof(cache->files[0])) {
+	if (cache->filealloc && cache->filecount >= cache->filealloc) {
 		sync_cache_entry(idx, cache);
 	}
 
@@ -391,14 +449,33 @@ static void add_list(struct _IBEXWord *idx, const char *name, GPtrArray *words)
 
 		/*d(cache_sanity((struct _wordcache *)idx->wordnodes.head));*/
 
-		/* check for duplicates; doesn't catch duplicates over an overflow
-		   boundary.  Watch me care. */
+		/* check for duplicates; doesn't catch duplicates over an overflow boundary.  Watch me care. */
 		if (cache->filecount == 0
-		    || cache->files[cache->filecount-1] != nameid) {
-			cache->files[cache->filecount] = nameid;
+		    /* the 1 item case */
+		    || (cache->filecount == 1 && cache->filealloc == 0 && cache->file.file0 != nameid)
+		    /* the normal case */
+		    || (cache->filealloc > 0 && cache->file.files[cache->filecount-1] != nameid)) {
+
+			/* see if we are setting the first, drop it in the union */
+			if (cache->filecount == 0 && cache->filealloc == 0) {
+				cache->file.file0 = nameid;
+			} else if (cache->filecount == 1 && cache->filealloc == 0) {
+				nameid_t saveid;
+				/* we need to allocate space for words */
+				saveid = cache->file.file0;
+				cache->file.files = g_malloc(sizeof(cache->file.files[0]) * CACHE_FILE_COUNT);
+				/* this could possibly grow as needed, but i wont for now */
+				cache->filealloc = CACHE_FILE_COUNT;
+				cache->file.files[0] = saveid;
+				cache->file.files[1] = nameid;
+			} else {
+				cache->file.files[cache->filecount] = nameid;
+			}
+
 			cache->filecount++;
+
 			/* if we are full, force a flush now */
-			if (cache->filecount >= sizeof(cache->files)/sizeof(cache->files[0])) {
+			if (cache->filealloc && cache->filecount >= cache->filealloc) {
 				sync_cache_entry(idx, cache);
 			}
 
@@ -452,30 +529,69 @@ static int
 word_flush(struct _IBEXWord *idx)
 {
 	struct _wordcache *cache = (struct _wordcache *)idx->wordnodes.head, *next;
+	extern int block_log;
+	int count= 0;
+	int used=0, wasted=0;
+
+	block_log = 0;
 
 	next = cache->next;
 	while (next) {
+		count++;
+		used += sizeof(struct _wordcache) + (cache->filealloc * sizeof(nameid_t));
+		if (cache->filealloc)
+			wasted += (cache->filealloc-cache->filecount)*sizeof(nameid_t);
+		else
+			wasted += (1-cache->filecount) * sizeof(nameid_t);
+
+		/*printf("syncing word %s\n", cache->word);*/
 		sync_cache_entry(idx, cache);
 		g_hash_table_remove(idx->wordcache, cache->word);
+		if (cache->filealloc)
+			g_free(cache->file.files);
 		g_free(cache);
 		cache = next;
 		next = cache->next;
 	}
+
+	printf("sync cache entries = %d\n used memory = %d\n wasted memory = %d\n", count, used, wasted);
+
+	block_log = 0;
 	ibex_list_new(&idx->wordnodes);
+	idx->wordcount = 0;
 	return 0;
 }
 
 static int word_close(struct _IBEXWord *idx)
 {
 	struct _wordcache *cache = (struct _wordcache *)idx->wordnodes.head, *next;
+	extern int block_log;
+	int count= 0;
+	int used=0, wasted=0;
+
+	block_log = 0;
 
 	next = cache->next;
 	while (next) {
+		count++;
+		used += sizeof(struct _wordcache) + (cache->filealloc * sizeof(nameid_t));
+		if (cache->filealloc)
+			wasted += (cache->filealloc-cache->filecount)*sizeof(nameid_t);
+		else
+			wasted += (1-cache->filecount) * sizeof(nameid_t);
+
+		/*printf("closing word %s\n", cache->word);*/
 		sync_cache_entry(idx, cache);
+		if (cache->filealloc)
+			g_free(cache->file.files);
 		g_free(cache);
 		cache = next;
 		next = cache->next;
 	}
+	block_log = 0;
+
+	printf("cache entries = %d\n used memory = %d\n wasted memory = %d\n", count, used, wasted);
+
 	idx->namestore->klass->close(idx->namestore);
 	idx->nameindex->klass->close(idx->nameindex);
 	/*same as namestore:

@@ -1,3 +1,23 @@
+2000-10-12  Not Zed  <NotZed@HelixCode.com>
+
+	* index.h: Added some stat stuff.
+
+	* wordindex.c (struct _wordcache): Changed files[] to be a pointer
+	to an allocated block/or an individual item.
+	(find): Fix for changes to struct.
+	(find_name):  "
+	(sync_cache_entry): "
+	(add): "
+	(add_list): "
+	(add_index_cache): Free the cache file array if it was created.
+	(word_flush): And here.
+	(word_close): And here too.
+	(ibex_create_word_index): Double the size of the hashtables.
+	(word_flush): Make sure we reset the wordcount to 0 if we remove
+	the list items.  DOH.
+	(add_index_cache): Use a slightly more sohpisticated aging
+	algorithm to remove expired nodes.
+
 2000-10-10  Not Zed  <NotZed@HelixCode.com>
 
 	* hash.c (hash_find):

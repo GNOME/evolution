@@ -190,6 +190,9 @@ static int hash_sync(struct _IBEXIndex *index)
 
 static int hash_close(struct _IBEXIndex *index)
 {
+#ifdef INDEX_STAT
+	printf("Performed %d lookups, average %f depth\n", index->lookups, (double)index->lookup_total/index->lookups);
+#endif
 	g_free(index);
 	return 0;
 }
@@ -259,11 +262,18 @@ hash_find(struct _IBEXIndex *index, const char *key, int keylen)
 	/* and its bucket */
 	hashbucket = table->buckets[hashentry];
 
+#ifdef INDEX_STAT
+	index->lookups++;
+#endif
 	/* go down the bucket chain, reading each entry till we are done ... */
 	while (hashbucket != 0) {
 		struct _hashblock *bucket;
 		char *start, *end;
 		int ind;
+
+#ifdef INDEX_STAT
+		index->lookup_total++;
+#endif
 
 		d(printf(" checking bucket %d\n", hashbucket));
 

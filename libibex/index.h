@@ -25,10 +25,16 @@
 
 /* an indexing 'class' maps a key to 1 piece of info */
 
+#define INDEX_STAT
+
 struct _IBEXIndex {
 	struct _IBEXIndexClass *klass;
 	struct _memcache *blocks;
 	blockid_t root;		/* root block of ondisk index data */
+#ifdef INDEX_STAT
+	int lookups;		/* how many lookups */
+	int lookup_total;	/* how many blocks loaded for all lookups (hash chain depth) */
+#endif
 };
 
 struct _IBEXIndexClass {
