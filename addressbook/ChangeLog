@@ -1,5 +1,10 @@
 2000-05-16  Chris Toshok  <toshok@helixcode.com>
 
+	* backend/pas/pas-backend-ldap.c (construct_email_list): convert to use ECardSimple.
+	(poll_ldap): same.
+
+2000-05-16  Chris Toshok  <toshok@helixcode.com>
+
 	* backend/pas/pas-book.h: add typedefs for the can_write
 	functions, and add parameters to pas_book_new.
 

@@ -18,7 +18,7 @@
 #include "pas-card-cursor.h"
 
 #include <e-util/e-sexp.h>
-#include <ebook/e-card.h>
+#include <ebook/e-card-simple.h>
 
 #define LDAP_MAX_SEARCH_RESPONSES 500
 
@@ -567,52 +567,31 @@ pas_backend_ldap_build_query (gchar *query)
 }
 
 static void
-construct_email_list(ECard *card, const char *prop, char **values)
+construct_email_list(ECardSimple *card, const char *prop, char **values)
 {
-	ECardList *list;
 	int i;
 
-	gtk_object_get(GTK_OBJECT(card),
-		       "email", &list,
-		       NULL);
-
-	for (i = 0; values[i]; i ++) {
-		e_card_list_append(list, values[i]);
-	}
-}
-
-static void
-construct_phone_list(ECard *card, const char *prop, char **values)
-{
-	ECardList *list;
-	int i;
-
-	gtk_object_get(GTK_OBJECT(card),
-		       "phone", &list,
-		       NULL);
-
-	for (i = 0; values[i]; i ++) {
-		ECardPhone *phone_entry = e_card_phone_new();
-		phone_entry->number = g_strdup (values[i]);
-		e_card_list_append(list, phone_entry);
+	for (i = 0; values[i] && i < 3; i ++) {
+		e_card_simple_set_email (card, i, values[i]);
 	}
 }
 
 struct prop_info {
+	ECardSimpleField field_id;
 	char *query_prop;
 	char *ldap_attr;
 #define PROP_TYPE_NORMAL   0x01
 #define PROP_TYPE_LIST     0x02
 #define PROP_TYPE_LISTITEM 0x03
 	int prop_type;
-	void (*construct_list_func)(ECard *card, const char *prop, char **values);
+	void (*construct_list_func)(ECardSimple *card, const char *prop, char **values);
 } prop_info_table[] = {
-	/* query prop,  ldap attr,          type,              list construct function */
-	{ "full_name",  "cn",               PROP_TYPE_NORMAL,  NULL },
-	{ "title",      "title",            PROP_TYPE_NORMAL,  NULL },
-	{ "org",        "o",                PROP_TYPE_NORMAL,  NULL },
-	{ "email",      "mail",             PROP_TYPE_LIST,    construct_email_list },
-	{ "phone",      "telephonenumber",  PROP_TYPE_LIST,    construct_phone_list },
+	/* field_id,                     query prop,   ldap attr,         type,           list construct function */
+	{ E_CARD_SIMPLE_FIELD_FULL_NAME, "full_name",  "cn",              PROP_TYPE_NORMAL,  NULL },
+	{ E_CARD_SIMPLE_FIELD_TITLE,     "title",      "title",           PROP_TYPE_NORMAL,  NULL },
+	{ E_CARD_SIMPLE_FIELD_ORG_UNIT,  "org",        "o",               PROP_TYPE_NORMAL,  NULL },
+	{ E_CARD_SIMPLE_FIELD_PHONE_PRIMARY, "phone",  "telephonenumber", PROP_TYPE_NORMAL,    NULL },
+	{ 0 /* unused */,                "email",      "mail",            PROP_TYPE_LIST,    construct_email_list },
 };
 
 static int num_prop_infos = sizeof(prop_info_table) / sizeof(prop_info_table[0]);
@@ -650,12 +629,13 @@ poll_ldap (PASBackendLDAPBookView *view)
 	e = ldap_first_entry(ldap, res);
 
 	while (NULL != e) {
-		ECard *card = E_CARD(gtk_type_new(e_card_get_type()));
+		ECard *ecard = E_CARD(gtk_type_new(e_card_get_type()));
+		ECardSimple *card = e_card_simple_new (ecard);
 		char *dn = ldap_get_dn(ldap, e);
 		char *attr;
 		BerElement *ber = NULL;
 
-		e_card_set_id (card, dn);
+		e_card_simple_set_id (card, dn);
 
 		for (attr = ldap_first_attribute (ldap, e, &ber); attr;
 		     attr = ldap_next_attribute (ldap, e, ber)) {
@@ -672,8 +652,7 @@ poll_ldap (PASBackendLDAPBookView *view)
 
 				if (info->prop_type == PROP_TYPE_NORMAL) {
 					/* if it's a normal property just set the string */
-					gtk_object_set(GTK_OBJECT(card),
-						       info->query_prop, values[0], NULL);
+					e_card_simple_set (card, info->field_id, values[0]);
 
 				}
 				else if (info->prop_type == PROP_TYPE_LIST) {
@@ -694,7 +673,8 @@ poll_ldap (PASBackendLDAPBookView *view)
 		if (ldap->ld_errno != LDAP_DECODING_ERROR && ber)
 			ber_free (ber, 0);
 
-		cards = g_list_append(cards, e_card_get_vcard(card));
+		e_card_simple_sync_card (card);
+		cards = g_list_append (cards, e_card_simple_get_vcard (card));
 
 		gtk_object_unref (GTK_OBJECT(card));
 
