@@ -276,6 +276,9 @@ impl_createControls (PortableServer_Servant servant,
 	priv->calendar = GNOME_CALENDAR (gnome_calendar_new ());
 	if (!priv->calendar) {
 		g_warning (G_STRLOC ": could not create the calendar widget!");
+		CORBA_exception_set (ev, CORBA_USER_EXCEPTION,
+				     ex_GNOME_Evolution_Component_Failed,
+				     NULL);
 		return;
 	}
 	
@@ -284,6 +287,9 @@ impl_createControls (PortableServer_Servant servant,
 	view_control = bonobo_control_new (GTK_WIDGET (priv->calendar));
 	if (!view_control) {
 		g_warning (G_STRLOC ": could not create the control!");
+		CORBA_exception_set (ev, CORBA_USER_EXCEPTION,
+				     ex_GNOME_Evolution_Component_Failed,
+				     NULL);
 		return;
 	}
 	g_object_set_data (G_OBJECT (priv->calendar), "control", view_control);

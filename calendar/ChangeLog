@@ -1,3 +1,8 @@
+2003-10-29  Dan Winship  <danw@ximian.com>
+
+	* gui/calendar-component.c (impl_createControls): set an exception
+	if we fail, so evo won't crash.
+
 2003-10-29    <jpr@ximian.com>
 
 	* gui/dialogs/cal-prefs-dialog.c (update_config): no need to
