@@ -146,21 +146,21 @@ format_date_and_time_x		(struct tm	*date_tm,
 			format = _("Today");
 		} else if (use_24_hour_format) {
 			if (!show_zero_seconds && date_tm->tm_sec == 0)
-				/* strftime format of a weekday, a date and a
-				   time, in 24-hour format, without seconds. */
+				/* strftime format of a time, 
+				   in 24-hour format, without seconds. */
 				format = _("Today %H:%M");
 			else
-				/* strftime format of a weekday, a date and a
-				   time, in 24-hour format. */
+				/* strftime format of a time, 
+				   in 24-hour format. */
 				format = _("Today %H:%M:%S");
 		} else {
 			if (!show_zero_seconds && date_tm->tm_sec == 0)
-				/* strftime format of a weekday, a date and a
-				   time, in 12-hour format, without seconds. */
+				/* strftime format of a time,
+				   in 12-hour format, without seconds. */
 				format = _("Today %l:%M %p");
 			else
-				/* strftime format of a weekday, a date and a
-				   time, in 12-hour format. */
+				/* strftime format of a time, 
+				   in 12-hour format. */
 				format = _("Today %l:%M:%S %p");
 		}
 
@@ -169,49 +169,49 @@ format_date_and_time_x		(struct tm	*date_tm,
 		if (!show_midnight && date_tm->tm_hour == 0
 		    && date_tm->tm_min == 0 && date_tm->tm_sec == 0) {
 			/* strftime format of a weekday and a date. */
-			format = _("%A, %B %e");
+			format = _("Tomorrow");
 		} else if (use_24_hour_format) {
 			if (!show_zero_seconds && date_tm->tm_sec == 0)
-				/* strftime format of a weekday, a date and a
-				   time, in 24-hour format, without seconds. */
-				format = _("%A, %B %e %H:%M");
+				/* strftime format of a time, 
+				   in 24-hour format, without seconds. */
+				format = _("Tomorrow %H:%M");
 			else
-				/* strftime format of a weekday, a date and a
-				   time, in 24-hour format. */
-				format = _("%A, %B %e %H:%M:%S");
+				/* strftime format of a time, 
+				   in 24-hour format. */
+				format = _("Tomorrow %H:%M:%S");
 		} else {
 			if (!show_zero_seconds && date_tm->tm_sec == 0)
-				/* strftime format of a weekday, a date and a
-				   time, in 12-hour format, without seconds. */
-				format = _("%A, %B %e %l:%M %p");
+				/* strftime format of a time,
+				   in 12-hour format, without seconds. */
+				format = _("Tomorrow %l:%M %p");
 			else
-				/* strftime format of a weekday, a date and a
-				   time, in 12-hour format. */
-				format = _("%A, %B %e %l:%M:%S %p");
+				/* strftime format of a time, 
+				   in 12-hour format. */
+				format = _("Tomorrow %l:%M:%S %p");
 		}
 
 	/* Within 7 days */		
 	} else if (date_tm->tm_year == current_tm->tm_year) {
 		if (!show_midnight && date_tm->tm_hour == 0
 		    && date_tm->tm_min == 0 && date_tm->tm_sec == 0) {
-			/* strftime format of a weekday and a date. */
+			/* strftime format of a weekday. */
 			format = _("%A");
 		} else if (use_24_hour_format) {
 			if (!show_zero_seconds && date_tm->tm_sec == 0)
-				/* strftime format of a weekday, a date and a
+				/* strftime format of a weekday and a
 				   time, in 24-hour format, without seconds. */
 				format = _("%A %H:%M");
 			else
-				/* strftime format of a weekday, a date and a
+				/* strftime format of a weekday and a
 				   time, in 24-hour format. */
 				format = _("%A %H:%M:%S");
 		} else {
 			if (!show_zero_seconds && date_tm->tm_sec == 0)
-				/* strftime format of a weekday, a date and a
+				/* strftime format of a weekday and a
 				   time, in 12-hour format, without seconds. */
 				format = _("%A %l:%M %p");
 			else
-				/* strftime format of a weekday, a date and a
+				/* strftime format of a weekday and a
 				   time, in 12-hour format. */
 				format = _("%A %l:%M:%S %p");
 		}
@@ -220,25 +220,27 @@ format_date_and_time_x		(struct tm	*date_tm,
 	} else if (date_tm->tm_year == current_tm->tm_year) {
 		if (!show_midnight && date_tm->tm_hour == 0
 		    && date_tm->tm_min == 0 && date_tm->tm_sec == 0) {
-			/* strftime format of a weekday and a date. */
+			/* strftime format of a weekday and a date
+			   without a year. */
 			format = _("%A, %B %e");
 		} else if (use_24_hour_format) {
 			if (!show_zero_seconds && date_tm->tm_sec == 0)
-				/* strftime format of a weekday, a date and a
-				   time, in 24-hour format, without seconds. */
+				/* strftime format of a weekday, a date 
+				   without a year and a time, 
+				   in 24-hour format, without seconds. */
 				format = _("%A, %B %e %H:%M");
 			else
-				/* strftime format of a weekday, a date and a
-				   time, in 24-hour format. */
+				/* strftime format of a weekday, a date without a year
+				   and a time, in 24-hour format. */
 				format = _("%A, %B %e %H:%M:%S");
 		} else {
 			if (!show_zero_seconds && date_tm->tm_sec == 0)
-				/* strftime format of a weekday, a date and a
-				   time, in 12-hour format, without seconds. */
+				/* strftime format of a weekday, a date without a year 
+				   and a time, in 12-hour format, without seconds. */
 				format = _("%A, %B %e %l:%M %p");
 			else
-				/* strftime format of a weekday, a date and a
-				   time, in 12-hour format. */
+				/* strftime format of a weekday, a date without a year
+				   and a time, in 12-hour format. */
 				format = _("%A, %B %e %l:%M:%S %p");
 		}
 	} else {

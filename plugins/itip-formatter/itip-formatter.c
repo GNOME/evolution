@@ -826,14 +826,14 @@ update_attendee_status (FormatItipPObject *pitip)
 					goto cleanup;
 				} else {
 					change_status (icalcomp, itip_strip_mailto (a->value), a->status);
-					e_cal_component_rescan (comp);			
+					e_cal_component_rescan (comp);
 				}
 			}
 		}
 
 		if (!e_cal_modify_object (pitip->current_ecal, icalcomp, CALOBJ_MOD_ALL, &error)) {
 			itip_view_add_lower_info_item_printf (ITIP_VIEW (pitip->view), ITIP_VIEW_INFO_ITEM_TYPE_ERROR, 
-							      _("Unable to update attendee statusAttendee status updated. %s"), error->message);
+							      _("Unable to update attendee. %s"), error->message);
 			
 			g_error_free (error);
 		} else {

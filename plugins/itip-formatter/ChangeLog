@@ -1,3 +1,12 @@
+2005-01-26  JP Rosevear  <jpr@novell.com>
+
+	Fixes #71485
+	
+	* itip-formatter.c (update_attendee_status): fix message paste-o
+
+	* itip-view.c (format_date_and_time_x): improve translator
+	comments
+
 2005-01-25  JP Rosevear  <jpr@novell.com>
 
 	* itip-formatter.c (pitip_free): actually destroy the client
