@@ -40,7 +40,6 @@
 #define FACTORY_ID "OAFIID:GNOME_Evolution_Addressbook_Factory:" BASE_VERSION
 
 #define VCARD_CONTROL_ID               "OAFIID:GNOME_Evolution_Addressbook_VCard_Control:" BASE_VERSION
-#define ADDRESSBOOK_CONTROL_ID         "OAFIID:GNOME_Evolution_Addressbook_Control:" BASE_VERSION
 #define COMPONENT_ID                   "OAFIID:GNOME_Evolution_Addressbook_Component:" BASE_VERSION
 #define ADDRESS_POPUP_ID               "OAFIID:GNOME_Evolution_Addressbook_AddressPopup:" BASE_VERSION
 #define SELECT_NAMES_ID                "OAFIID:GNOME_Evolution_Addressbook_SelectNames:" BASE_VERSION
@@ -58,13 +57,6 @@ factory (BonoboGenericFactory *factory,
 
 	if (strcmp (component_id, VCARD_CONTROL_ID) == 0)
 		return BONOBO_OBJECT (eab_vcard_control_new ());
-	if (strcmp (component_id, ADDRESSBOOK_CONTROL_ID) == 0) {
-		AddressbookView *view;
-
-		/* FIXME: temporary hack, leaks a view */
-		view = addressbook_view_new ();
-		return BONOBO_OBJECT (addressbook_view_peek_folder_view (view));
-	}
 	if (strcmp (component_id, COMPONENT_ID) == 0) {
 		BonoboObject *object = BONOBO_OBJECT (addressbook_component_peek ());
 		bonobo_object_ref (object);

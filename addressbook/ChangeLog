@@ -1,3 +1,14 @@
+2004-05-11  Dan Winship  <danw@ximian.com>
+
+	* gui/component/GNOME_Evolution_Addressbook.server.in.in: Remove
+	the addressbook control
+
+	* gui/component/component-factory.c (factory): Remove support for
+	the addressbook control
+
+	* gui/component/addressbook-view.c: Remove all the property-bag
+	stuff.
+
 2004-05-11  Sivaiah Nallagatla  <snallagatla@novell.com>
                                                                                                                              
        * gui/component/addressbook-config.c (dialog_to_source) : see if the selected
@@ -102,6 +113,7 @@
 
 	* gui/component/ldap-config.glade: remove unused colorpicker.
 
+>>>>>>> 1.1697
 2004-05-03  JP Rosevear  <jpr@ximian.com>
 
 	* gui/component/GNOME_Evolution_Addressbook.server.in.in: set the

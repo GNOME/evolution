@@ -36,7 +36,6 @@
 #include <bonobo/bonobo-generic-factory.h>
 #include <bonobo/bonobo-ui-util.h>
 #include <bonobo/bonobo-exception.h>
-#include <bonobo/bonobo-property-bag.h>
 #include <gal/util/e-util.h>
 
 #include "widgets/misc/e-task-bar.h"
@@ -72,12 +71,6 @@ static GdkPixbuf *progress_icon = NULL;
 
 #define d(x)
 
-#define PROPERTY_SOURCE_UID          "source_uid"
-#define PROPERTY_FOLDER_URI          "folder_uri"
-
-#define PROPERTY_SOURCE_UID_IDX      1
-#define PROPERTY_FOLDER_URI_IDX      2
-
 struct _AddressbookViewPrivate {
 	GtkWidget *notebook;
 	BonoboControl *folder_view_control;
@@ -94,7 +87,6 @@ struct _AddressbookViewPrivate {
 	GHashTable *uid_to_view;
 	EBook *book;
 	guint activity_id;
-	BonoboPropertyBag *properties;
 	ESourceList *source_list;
 	char *passwd;
 	EUserCreatableItemsHandler *creatable_items_handler;
@@ -112,14 +104,11 @@ static gint num_drag_types = sizeof(drag_types) / sizeof(drag_types[0]);
 static void set_status_message (EABView *eav, const char *message, AddressbookView *view);
 static void search_result (EABView *eav, EBookViewStatus status, AddressbookView *view);
 
+static void activate_source (AddressbookView *view, ESource *source);
+
 static void addressbook_view_init	(AddressbookView      *view);
 static void addressbook_view_class_init	(AddressbookViewClass *klass);
 static void addressbook_view_dispose    (GObject *object);
-
-static void set_prop (BonoboPropertyBag *bag, const BonoboArg   *arg, guint              arg_id,
-		      CORBA_Environment *ev, gpointer           user_data);
-static void get_prop (BonoboPropertyBag *bag, BonoboArg         *arg, guint              arg_id,
-		      CORBA_Environment *ev, gpointer           user_data);
 
 static EABView *
 get_current_view (AddressbookView *view)
@@ -551,14 +540,12 @@ source_list_changed_cb (ESourceList *source_list, AddressbookView *view)
 
 static void
 load_uri_for_selection (ESourceSelector *selector,
-			BonoboControl *view_control)
+			AddressbookView *view)
 {
 	ESource *selected_source = e_source_selector_peek_primary_selection (E_SOURCE_SELECTOR (selector));
 
-	if (selected_source != NULL) {
-		bonobo_control_set_property (view_control, NULL, "source_uid", TC_CORBA_string,
-					     e_source_peek_uid (selected_source), NULL);
-	}
+	if (selected_source != NULL)
+		activate_source (view, selected_source);
 }
 
 static ESource *
@@ -753,7 +740,7 @@ static void
 primary_source_selection_changed_callback (ESourceSelector *selector,
 					   AddressbookView *view)
 {
-	load_uri_for_selection (selector, view->priv->folder_view_control);
+	load_uri_for_selection (selector, view);
 	save_primary_selection (view);
 }
 
@@ -993,22 +980,6 @@ addressbook_view_init (AddressbookView *view)
 
 	gtk_widget_show (priv->notebook);
 
-	priv->properties = bonobo_property_bag_new (get_prop, set_prop, view);
-
-	bonobo_property_bag_add (priv->properties,
-				 PROPERTY_SOURCE_UID, PROPERTY_SOURCE_UID_IDX,
-				 BONOBO_ARG_STRING, NULL,
-				 _("UID of the contacts source that the view will display"), 0);
-
-	bonobo_property_bag_add (priv->properties,
-				 PROPERTY_FOLDER_URI, PROPERTY_FOLDER_URI_IDX,
-				 BONOBO_ARG_STRING, NULL,
-				 _("The URI that the address book will display"), 0);
-
-	bonobo_control_set_properties (priv->folder_view_control,
-				       bonobo_object_corba_objref (BONOBO_OBJECT (priv->properties)),
-				       NULL);
-
 	e_book_get_addressbooks (&priv->source_list, NULL);
 	g_signal_connect (priv->source_list,
 			  "changed",
@@ -1062,7 +1033,7 @@ addressbook_view_init (AddressbookView *view)
 				 G_OBJECT (view), 0);
 
 	load_primary_selection (view);
-	load_uri_for_selection (E_SOURCE_SELECTOR (priv->selector), priv->folder_view_control);
+	load_uri_for_selection (E_SOURCE_SELECTOR (priv->selector), view);
 }
 
 static void
@@ -1075,9 +1046,6 @@ addressbook_view_dispose (GObject *object)
 		if (priv->book)
 			g_object_unref (priv->book);
 	
-		if (priv->properties)
-			bonobo_object_unref (BONOBO_OBJECT(priv->properties));
-		
 		g_free(priv->passwd);
 
 		if (priv->source_list)
@@ -1135,14 +1103,15 @@ book_open_cb (EBook *book, EBookStatus status, gpointer closure)
 
 static void
 activate_source (AddressbookView *view,
-		 ESource *source,
-		 const char *uid)
+		 ESource *source)
 {
 	AddressbookViewPrivate *priv = view->priv;
+	const char *uid;
 	GtkWidget *uid_view;
 	EBook *book;
 	BookOpenData *data;
 
+	uid = e_source_peek_uid (source);
 	uid_view = g_hash_table_lookup (priv->uid_to_view, uid);
 
 	if (uid_view) {
@@ -1228,112 +1197,6 @@ activate_source (AddressbookView *view,
 	if (bonobo_ui_component_get_container (bonobo_control_get_ui_component (priv->folder_view_control)) != CORBA_OBJECT_NIL) {
 		eab_view_setup_menus (EAB_VIEW (uid_view), bonobo_control_get_ui_component (priv->folder_view_control));
 		update_command_state (EAB_VIEW (uid_view), view);
-	}
-}
-
-static void
-set_prop (BonoboPropertyBag *bag,
-	  const BonoboArg   *arg,
-	  guint              arg_id,
-	  CORBA_Environment *ev,
-	  gpointer           user_data)
-{
-	AddressbookView *view = user_data;
-	AddressbookViewPrivate *priv = view->priv;
-	ESource *source;
-
-	switch (arg_id) {
-
-	case PROPERTY_FOLDER_URI_IDX: {
-		const gchar *string = BONOBO_ARG_GET_STRING (arg);
-		ESourceGroup *group;
-
-		group = e_source_group_new ("", string);
-		source = e_source_new ("", "");
-		e_source_set_group (source, group);
-
-		/* we use the uri as the uid here. */
-		activate_source (view, source, string);
-
-		g_object_unref (group);
-
-		break;
-	}
-	case PROPERTY_SOURCE_UID_IDX: {
-		const gchar *uid;
-
-		uid = BONOBO_ARG_GET_STRING (arg);
-
-		source = e_source_list_peek_source_by_uid (priv->source_list, uid);
-
-		if (source) {
-			activate_source (view, source, uid);
-		}
-		else {
-			g_warning ("Could not find source by UID '%s'!", uid);
-		}
-
-		break;
-	}
-	default:
-		g_warning ("Unhandled arg %d\n", arg_id);
-		break;
-	}
-}
-
-static void
-get_prop (BonoboPropertyBag *bag,
-	  BonoboArg         *arg,
-	  guint              arg_id,
-	  CORBA_Environment *ev,
-	  gpointer           user_data)
-{
-	AddressbookView *view = user_data;
-	EABView *v = get_current_view (view);
-	ESource *source = NULL;
-
-	switch (arg_id) {
-
-	case PROPERTY_FOLDER_URI_IDX:
-		if (v) {
-			g_object_get (v,
-				      "source", &source,
-				      NULL);
-		}
-
-		if (source) {
-			char *uri = e_source_get_uri (source);
-
-			BONOBO_ARG_SET_STRING (arg, uri);
-
-			g_free (uri);
-			g_object_unref (source);
-		}
-		else {
-			BONOBO_ARG_SET_STRING (arg, "");
-		}
-		break;
-
-	case PROPERTY_SOURCE_UID_IDX:
-		if (v) {
-			g_object_get (v,
-				      "source", &source,
-				      NULL);
-		}
-
-		if (source) {
-			BONOBO_ARG_SET_STRING (arg, e_source_peek_uid (source));
-
-			g_object_unref (source);
-		}
-		else {
-			BONOBO_ARG_SET_STRING (arg, "");
-		}
-
-		break;
-
-	default:
-		g_warning ("Unhandled arg %d\n", arg_id);
 	}
 }
 

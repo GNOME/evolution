@@ -32,20 +32,6 @@
 
 </oaf_server>
 
-<oaf_server iid="OAFIID:GNOME_Evolution_Addressbook_Control:@VERSION@"
-            type="factory"
-            location="OAFIID:GNOME_Evolution_Addressbook_Factory:@VERSION@">
-
-	<oaf_attribute name="repo_ids" type="stringv">
-		<item value="IDL:BonoboControl/addressbook-control:@VERSION@"/>
-		<item value="IDL:GNOME/Control:1.0"/>
-	</oaf_attribute>
-
-	<oaf_attribute name="name" type="string"
-                       _value="Evolution Addressbook folder viewer"/>
-
-</oaf_server>
-
 <oaf_server iid="OAFIID:GNOME_Evolution_Addressbook_Component:@VERSION@"
             type="factory"
             location="OAFIID:GNOME_Evolution_Addressbook_Factory:@VERSION@">
