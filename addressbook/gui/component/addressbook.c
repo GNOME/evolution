@@ -347,12 +347,13 @@ control_activate (BonoboControl     *control,
 	bonobo_ui_component_freeze (uic, NULL);
 
 	bonobo_ui_util_set_ui (uic, EVOLUTION_DATADIR,
-#ifdef HAVE_LDAP
-			       "evolution-addressbook-ldap.xml",
-#else
 			       "evolution-addressbook.xml",
-#endif
 			       "evolution-addressbook");
+#ifdef HAVE_LDAP
+	bonobo_ui_util_set_ui (uic, EVOLUTION_DATADIR,
+			       "evolution-addressbook-ldap.xml",
+			       "evolution-addressbook");
+#endif
 
 	quick_search_widget = make_quick_search_widget (
 		search_entry_activated, view);

@@ -435,7 +435,7 @@ menu_do_misc (BonoboUIComponent *component,
 		component, "HelpAbout",
 		(BonoboUIVerbFn) command_about_box, shell_view);
 	bonobo_ui_component_add_verb (
-		component, "DumpXML",
+		component, "DebugDumpXml",
 		(BonoboUIVerbFn) command_xml_dump, shell_view);
 }
 
