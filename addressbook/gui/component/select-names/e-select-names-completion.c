@@ -230,9 +230,12 @@ name_style_query (ESelectNamesCompletion *comp, const gchar *field)
 
 		strv = g_strsplit (cpy, " ", 0);
 		for (i=0; strv[i]; ++i) {
+			gchar *old;
 			++count;
 			g_strstrip (strv[i]);
-			strv[i] = g_strdup_printf ("(contains \"%s\" \"%s\")", field, strv[i]);
+			old = strv[i];
+			strv[i] = g_strdup_printf ("(contains \"%s\" \"%s\")", field, old);
+			g_free (old);
 		}
 
 		if (count == 1) {

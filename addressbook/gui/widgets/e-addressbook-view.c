@@ -482,6 +482,7 @@ jump_to_letter(GtkWidget *button, LetterClosure *closure)
 		}
 		g_string_append (gstr, "))");
 		query = gstr->str;
+		g_strfreev (letter_v);
 		g_string_free (gstr, FALSE);
 	} else {
 		char s1[6 + 1], s2[6 + 1];

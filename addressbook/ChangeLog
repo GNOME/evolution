@@ -1,5 +1,19 @@
 2001-10-20  Jon Trowbridge  <trow@ximian.com>
 
+	* gui/component/select-names/e-select-names-completion.c
+	(name_style_query): Fix memory leak.
+
+	* gui/widgets/e-addressbook-view.c (jump_to_letter): Free our
+	string vector letter_v when we are done with it.
+
+	* gui/contact-editor/e-contact-quick-add.c (edit_card): Unref our
+	QuickAdd structure.
+
+	* gui/component/e-address-popup.c (e_address_popup_construct):
+	Unref our style after we are done with it.
+
+2001-10-20  Jon Trowbridge  <trow@ximian.com>
+
 	* backend/ebook/e-book.c (activate_factories_for_uri): We
 	shouldn't leak the info returned by oaf_query.
 

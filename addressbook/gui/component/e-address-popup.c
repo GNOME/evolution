@@ -849,6 +849,7 @@ e_address_popup_construct (EAddressPopup *pop)
 		GtkStyle *style = gtk_style_copy (gtk_widget_get_style (GTK_WIDGET (name_holder)));
 		style->bg[0] = color;
 		gtk_widget_set_style (GTK_WIDGET (name_holder), style);
+		gtk_style_unref (style);
 	}
 
 	pop->generic_view = gtk_frame_new (NULL);

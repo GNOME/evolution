@@ -219,6 +219,7 @@ static void
 edit_card (QuickAdd *qa)
 {
 	e_book_use_local_address_book (ce_have_book, qa);
+	quick_add_unref (qa);
 }
 
 static void
