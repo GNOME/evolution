@@ -323,24 +323,15 @@ comp_subject (CalComponent *comp)
 }
 
 static CORBA_char *
-comp_content_type (CalComponentItipMethod method)
+comp_content_type (CalComponent *comp, CalComponentItipMethod method)
 {
 	char tmp[256];	
 
-	sprintf (tmp, "text/calendar; charset=utf-8; METHOD=%s", itip_methods[method]);
+	sprintf (tmp, "text/calendar; name=\"%s\"; charset=utf-8; METHOD=%s",
+		 cal_component_get_vtype (comp) == CAL_COMPONENT_FREEBUSY ?
+		 "freebusy.ifb" : "calendar.ics", itip_methods[method]);
 	return CORBA_string_dup (tmp);
 
-}
-
-static CORBA_char *
-comp_filename (CalComponent *comp)
-{
-	switch (cal_component_get_vtype (comp)) {
-	case CAL_COMPONENT_FREEBUSY:
-		return CORBA_string_dup ("freebusy.ifb");
-	default:
-		return CORBA_string_dup ("calendar.ics");
-	}	
 }
 
 static CORBA_char *
@@ -712,13 +703,6 @@ itip_send_comp (CalComponentItipMethod method, CalComponent *send_comp,
 	g_return_if_fail (bonobo_server != NULL);
 	composer_server = BONOBO_OBJREF (bonobo_server);
 
-	if (!getenv ("EVOLUTION_SEND_IMIP_AS_ATTACHMENT"))
-		GNOME_Evolution_Composer_setMultipartType (composer_server, GNOME_Evolution_Composer_ALTERNATIVE, &ev);
-	if (BONOBO_EX (&ev)) {		
-		g_warning ("Unable to set multipart type while sending iTip message");
-		goto cleanup;
-	}
-
 	comp = comp_compliant (method, send_comp);
 	if (comp == NULL)
 		goto cleanup;
@@ -742,15 +726,8 @@ itip_send_comp (CalComponentItipMethod method, CalComponent *send_comp,
 		goto cleanup;
 	}
 
-	/* Plain text body */
-	body = comp_description (comp);
-	GNOME_Evolution_Composer_setBodyText (composer_server, body, &ev);
-
-	/* Content type, suggested file name, description */
-	content_type = comp_content_type (method);
-	filename = comp_filename (comp);	
-	description = comp_description (comp);	
-	show_inline = TRUE;
+	/* Content type */
+	content_type = comp_content_type (comp, method);
 
 	ical_string = comp_string (method, comp, client, zones);
 	attach_data = GNOME_Evolution_Composer_AttachmentData__alloc ();
@@ -759,11 +736,8 @@ itip_send_comp (CalComponentItipMethod method, CalComponent *send_comp,
 	attach_data->_buffer = CORBA_sequence_CORBA_char_allocbuf (attach_data->_length);
 	strcpy (attach_data->_buffer, ical_string);
 
-	GNOME_Evolution_Composer_attachData (composer_server, 
-					content_type, filename, description,
-					show_inline, attach_data,
-					&ev);
-	
+	GNOME_Evolution_Composer_setBody (composer_server, ical_string, content_type, &ev);
+
 	if (BONOBO_EX (&ev)) {
 		g_warning ("Unable to attach data to the composer while sending iTip message");
 		goto cleanup;
