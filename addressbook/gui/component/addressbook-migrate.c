@@ -374,7 +374,7 @@ migrate_contact_folder_to_source (MigrationContext *context, char *old_path, ESo
 
 	new_book = e_book_new (new_source, &e);
 	if (!new_book
-	    || e_book_open (new_book, FALSE, &e)) {
+	    || !e_book_open (new_book, FALSE, &e)) {
 		g_warning ("failed to load destination book for migration: `%s'", e->message);
 		goto finish;
 	}

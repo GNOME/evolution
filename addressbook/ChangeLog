@@ -1,3 +1,9 @@
+2004-06-02  Hans Petter Jansson  <hpj@ximian.com>
+
+	* gui/component/addressbook-migrate.c
+	(migrate_contact_folder_to_source): Add missing negation that caused
+	a crash.
+
 2004-06-02  Chris Toshok  <toshok@ximian.com>
 
 	* gui/component/addressbook-migrate.c (addressbook_migrate):
