@@ -21,6 +21,7 @@
  *
  */
 
+
 #ifdef HAVE_CONFIG_H
 #include <config.h>
 #endif
@@ -106,7 +107,7 @@ typedef struct {
 	GSList *news;
 	
 	char *pgp_path;
-	CamelPgpType pgp_type;
+	int pgp_type;
 	
 	MailConfigHTTPMode http_mode;
 	MailConfigForwardStyle default_forward_style;
@@ -891,11 +892,11 @@ config_read (void)
 	config->pgp_path = bonobo_config_get_string (config->db, "/Mail/PGP/path", NULL);
 	
 	config->pgp_type = bonobo_config_get_long_with_default (config->db, 
-	        "/Mail/PGP/type", CONFIG_PGP_TYPE_NONE, NULL);
+	        "/Mail/PGP/type", MAIL_CONFIG_PGP_TYPE_NONE, NULL);
 	
 	/* we only support GnuPG now */
-	if (config->pgp_type != CONFIG_PGP_TYPE_GPG) {
-		config->pgp_type = CONFIG_PGP_TYPE_NONE;
+	if (config->pgp_type != MAIL_CONFIG_PGP_TYPE_GPG) {
+		config->pgp_type = MAIL_CONFIG_PGP_TYPE_NONE;
 		g_free (config->pgp_path);
 		config->pgp_path = NULL;
 	}
@@ -1768,11 +1769,11 @@ struct {
 	char *version;
 	int type;
 } binaries[] = {
-	{ "gpg", NULL, CONFIG_PGP_TYPE_GPG },
-	{ "pgp", "6.5.8", CONFIG_PGP_TYPE_PGP6 },
-	{ "pgp", "5.0", CONFIG_PGP_TYPE_PGP5 },
-	{ "pgp", "2.6", CONFIG_PGP_TYPE_PGP2 },
-	{ NULL, NULL, CONFIG_PGP_TYPE_NONE }
+	{ "gpg", NULL, MAIL_CONFIG_PGP_TYPE_GPG },
+	{ "pgp", "6.5.8", MAIL_CONFIG_PGP_TYPE_PGP6 },
+	{ "pgp", "5.0", MAIL_CONFIG_PGP_TYPE_PGP5 },
+	{ "pgp", "2.6", MAIL_CONFIG_PGP_TYPE_PGP2 },
+	{ NULL, NULL, MAIL_CONFIG_PGP_TYPE_NONE }
 };
 
 
@@ -1924,7 +1925,7 @@ mail_config_pgp_type_detect_from_path (const char *pgp)
 	
 	/* make sure the file exists *and* is executable? */
 	if (stat (pgp, &st) == -1 || !(st.st_mode & (S_IXOTH | S_IXGRP | S_IXUSR)))
-		return CONFIG_PGP_TYPE_NONE;
+		return MAIL_CONFIG_PGP_TYPE_NONE;
 	
 	for (i = 0; binaries[i].bin; i++) {
 		if (binaries[i].version) {
@@ -1954,13 +1955,13 @@ mail_config_pgp_type_detect_from_path (const char *pgp)
 		}
 	}
 	
-	return CONFIG_PGP_TYPE_NONE;
+	return MAIL_CONFIG_PGP_TYPE_NONE;
 }
 
 static void
 auto_detect_pgp_variables (void)
 {
-	int type = CONFIG_PGP_TYPE_NONE;
+	int type = MAIL_CONFIG_PGP_TYPE_NONE;
 	const char *PATH, *path;
 	char *pgp = NULL;
 	

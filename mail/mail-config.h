@@ -32,11 +32,11 @@ extern "C" {
 #endif /* __cplusplus */
 
 enum {
-	CONFIG_PGP_TYPE_NONE,
-	CONFIG_PGP_TYPE_PGP2,   /* no longer supported */
-	CONFIG_PGP_TYPE_PGP5,   /* no longer supported */
-	CONFIG_PGP_TYPE_PGP6,   /* no longer supported */
-	CONFIG_PGP_TYPE_GPG
+	MAIL_CONFIG_PGP_TYPE_NONE,
+	MAIL_CONFIG_PGP_TYPE_PGP2,   /* no longer supported */
+	MAIL_CONFIG_PGP_TYPE_PGP5,   /* no longer supported */
+	MAIL_CONFIG_PGP_TYPE_PGP6,   /* no longer supported */
+	MAIL_CONFIG_PGP_TYPE_GPG
 };
 
 typedef struct {
