@@ -1,9 +1,19 @@
+2001-04-01  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* providers/imap/camel-imap-store.c (get_folder_info): Don't
+	blindly append "/INBOX", construct a CamelURL and set the path
+	that way.
+	(parse_list_response_as_folder_info): Don't blindly append
+	"/<foldername>", construct a CamelURL and set the path that way
+	instead.
+	(get_folders_offline): And again here.
+
 2001-03-31  Not Zed  <NotZed@Ximian.com>
 
 	* camel-operation.c (struct _status_stack): change stamp to
 	unsigned to avoid overflow.
-	(camel_operation_end): 
-	(camel_operation_progress_count): 
+	(camel_operation_end):
+	(camel_operation_progress_count):
 	(camel_operation_progress): Double the delay before transient
 	events start showing their own progress.
 
