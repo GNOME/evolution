@@ -16,7 +16,7 @@ INCLUDES = 			\
 	$(GNOME_CONDUIT_INCLUDEDIR)				\
         -DGNOMELOCALEDIR=\""$(datadir)/locale"\"
 
-bin_PROGRAMS = gnomecal calendar-pilot-sync 
+bin_PROGRAMS = gnomecal calendar-pilot-sync
 
 GNOMECAL_CORBA_GENERATED =	\
 	GnomeCal.h		\
@@ -110,8 +110,9 @@ calendar_pilot_sync_LDADD =	\
 #calendar_conduit
 calendar_conduitsdir=$(libdir)/gnome-pilot/conduits
 
-calendar_conduits_LTLIBRARIES = \
-	libcalendar_conduit.la
+calendar_conduits_LTLIBRARIES = @CALCONDUITLIB@
+
+EXTRA_LTLIBRARIES = libcalendar_conduit.la
 
 libcalendar_conduit_la_LIBADD = \
 	$(GNOME_CONDUIT_LIBS) \
