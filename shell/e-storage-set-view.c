@@ -1790,7 +1790,7 @@ class_init (EStorageSetViewClass *klass)
 	GtkObjectClass *object_class;
 	ETreeClass *etree_class;
 
-	parent_class = gtk_type_class (e_tree_get_type ());
+	parent_class = gtk_type_class (PARENT_TYPE);
 
 	object_class = GTK_OBJECT_CLASS (klass);
 	object_class->destroy = impl_destroy;

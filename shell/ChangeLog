@@ -1,3 +1,14 @@
+2002-09-23  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-shell-about-box.c: Added some missing names.
+
+	* main.c (main): Declare --force-upgrade correctly so it works.
+
+2002-09-20  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-storage-set-view.c (class_init): Use PARENT_TYPE instead of
+	e_tree_get_type().
+
 2002-09-20  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-storage-set-view.c: Removed member sort_idle_id in
