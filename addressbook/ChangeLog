@@ -1,3 +1,8 @@
+2002-03-29  Ettore Perazzoli  <ettore@ximian.com>
+
+	* gui/component/GNOME_Evolution_Addressbook.oaf.in: Add priority
+	for the config page.  Renamed to "Directory Servers".
+
 2002-03-27  Chris Toshok  <toshok@ximian.com>
 
 	* backend/pas/pas-backend-file.c

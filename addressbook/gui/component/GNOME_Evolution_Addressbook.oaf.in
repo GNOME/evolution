@@ -153,13 +153,15 @@
 	</oaf_attribute>
 
 	<oaf_attribute name="evolution:config_item:title" type="string"
-		       _value="LDAP Sources"/>
+		       _value="Directory Servers"/>
 
 	<oaf_attribute name="evolution:config_item:description" type="string"
-		       _value="This page can be used to configure access to LDAP servers"/>
+		       _value="This page can be used to configure access to directory servers using the LDAP protocol"/>
 
 	<oaf_attribute name="evolution:config_item:icon_name" type="string"
 		       value="evolution-contacts.png"/>
+    
+	<oaf_attribute name="evolution:config_item:priority" type="string" value="-6"/>
     
 	<oaf_attribute name="description" type="string"
 		       _value="Configuration control for the Evolution Addressbook."/>
