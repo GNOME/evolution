@@ -1,3 +1,10 @@
+2004-05-20  Radek Doulik  <rodo@ximian.com>
+
+	* em-mailer-prefs.c (em_mailer_prefs_construct): remove "use
+	daemon" handling code
+
+	Fixes #56909
+
 2004-05-20  Not Zed  <NotZed@Ximian.com>
 
 	** See #58388.

@@ -955,11 +955,6 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs)
 	toggle_button_init (prefs, prefs->sa_local_tests_only, FALSE,
 			    "/apps/evolution/mail/junk/sa/local_only",
 			    G_CALLBACK (toggle_button_toggled));
-	
-	prefs->sa_use_daemon = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui, "chkSAUseDaemon"));
-	toggle_button_init (prefs, prefs->sa_use_daemon, FALSE,
-			    "/apps/evolution/mail/junk/sa/use_daemon",
-			    G_CALLBACK (toggle_button_toggled));
 }
 
 GtkWidget *
