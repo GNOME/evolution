@@ -24,6 +24,8 @@
 #include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
 #include <libgnomeui/gnome-stock.h>
+#include <libgnomeui/gnome-dialog.h>
+#include <libgnomeui/gnome-dialog-util.h>
 
 #include <gal/e-table/e-table-simple.h>
 #include <gal/widgets/e-font.h>
@@ -392,6 +394,16 @@ e_select_names_hookup_shell_listener (ESelectNames *e_select_names)
 	e_select_names->listener = evolution_storage_listener_new();
 
 	listener = evolution_storage_listener_corba_objref(e_select_names->listener);
+
+	/* This should really never happen, but a bug report (ximian #5193) came in w/ a backtrace suggesting that it did in
+	   fact happen to someone, so the best we can do is try to avoid crashing in this case. */
+	if (storage == CORBA_OBJECT_NIL) {
+		GtkWidget *oh_shit;
+
+		oh_shit = gnome_error_dialog (_("Unable to get local storage.  This should never happen."));
+		gtk_widget_show (oh_shit);
+		return;
+	}
 
 	gtk_signal_connect(GTK_OBJECT(e_select_names->listener), "new_folder",
 			   GTK_SIGNAL_FUNC(new_folder), e_select_names);

@@ -1,3 +1,11 @@
+2001-07-24  Jon Trowbridge  <trow@ximian.com>
+
+	* gui/component/select-names/e-select-names.c
+	(e_select_names_hookup_shell_listener): Check if
+	evolution_shell_client_get_local_storage returns CORBA_OBJECT_NIL,
+	which it should never do.  If it does, print a warning in a dialog
+	and try to recover w/o crashing.  (Bug #5193)
+
 2001-07-24  Dan Winship  <danw@ximian.com>
 
 	* backend/ebook/e-book-listener.c (e_book_listener_stop): Don't
