@@ -24,7 +24,6 @@
 #define MAIL_CRYPTO_H
 
 #include <camel/camel.h>
-#include <camel/camel-smime-context.h>
 #include "mail-config.h"
 
 #ifdef __cplusplus
