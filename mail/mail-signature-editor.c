@@ -83,66 +83,99 @@ menu_file_save_error (BonoboUIComponent *uic, CORBA_Environment *ev)
 	g_free (err);
 }
 
+static GByteArray *
+get_text (Bonobo_PersistStream persist, const char *format, CORBA_Environment *ev)
+{
+	BonoboStream *stream;
+	BonoboStreamMem *stream_mem;
+	GByteArray *text;
+	
+	stream = bonobo_stream_mem_create (NULL, 0, FALSE, TRUE);
+	Bonobo_PersistStream_save (persist, (Bonobo_Stream)bonobo_object_corba_objref (BONOBO_OBJECT (stream)),
+				   format, ev);
+	
+	if (ev->_major != CORBA_NO_EXCEPTION)
+		return NULL;
+		
+	stream_mem = BONOBO_STREAM_MEM (stream);
+	
+	text = g_byte_array_new ();
+	g_byte_array_append (text, stream_mem->buffer, stream_mem->pos);
+	bonobo_object_unref (BONOBO_OBJECT (stream));
+	
+	return text;
+}
+
+static ssize_t
+write_all (int fd, const char *buf, size_t n)
+{
+	ssize_t w, nwritten = 0;
+	
+	do {
+		do {
+			w = write (fd, buf + nwritten, n - nwritten);
+		} while (w == -1 && (errno == EINTR || errno == EAGAIN));
+		
+		if (w > 0)
+			nwritten += w;
+	} while (nwritten < n && w != -1);
+	
+	if (w == -1)
+		return -1;
+	
+	return nwritten;
+}
+
 static void
 menu_file_save_cb (BonoboUIComponent *uic, void *user_data, const char *path)
 {
 	ESignatureEditor *editor = user_data;
+	Bonobo_PersistStream pstream_iface;
+	char *dirname, *base, *filename;
 	CORBA_Environment ev;
-	char *filename, *base;
-	char *dirname;
+	GByteArray *text;
+	int fd;
 	
 	d(printf ("editor->sig->filename = %s\n", editor->sig->filename));
 	dirname = g_path_get_dirname (editor->sig->filename);
 	d(printf ("dirname = %s\n", dirname));
 	base = g_path_get_basename (editor->sig->filename);
 	d(printf ("basename = %s\n", base));
-	filename = g_strdup_printf ("%s/.%s~", dirname, base);
+	filename = g_strdup_printf ("%s/.#%s", dirname, base);
 	d(printf ("filename = %s\n", filename));
 	g_free (dirname);
 	g_free (base);
 	
 	CORBA_exception_init (&ev);
-	
-	if (editor->html) {
-		Bonobo_PersistFile pfile_iface;
-		
-		pfile_iface = Bonobo_Unknown_queryInterface (bonobo_widget_get_objref (BONOBO_WIDGET (editor->control)),
-							     "IDL:Bonobo/PersistFile:1.0", NULL);
-		Bonobo_PersistFile_save (pfile_iface, filename, &ev);
-	} else {
-		Bonobo_PersistStream pstream_iface;
-		Bonobo_Stream stream;
-		char *uri;
-		
-		uri = g_strdup_printf ("file://%s", filename);
-		stream = bonobo_get_object (uri, "IDL:Bonobo/Stream:1.0", &ev);
-		g_free (uri);
-		
-		if (ev._major != CORBA_NO_EXCEPTION)
-			goto exception;
-		
-		/* FIXME: truncate? */
-		pstream_iface = Bonobo_Unknown_queryInterface
+	pstream_iface = Bonobo_Unknown_queryInterface
 			(bonobo_widget_get_objref (BONOBO_WIDGET (editor->control)),
 			 "IDL:Bonobo/PersistStream:1.0", &ev);
-		
-		if (ev._major != CORBA_NO_EXCEPTION)
-			goto exception;
-		
-		Bonobo_PersistStream_save (pstream_iface, stream, "text/plain", &ev);
-		
-		bonobo_object_release_unref (stream, NULL);
-	}
 	
 	if (ev._major != CORBA_NO_EXCEPTION)
 		goto exception;
+	
+	if ((fd = open (filename, O_WRONLY | O_TRUNC | O_CREAT, 0666)) == -1)
+		goto exception;
+	
+	text = get_text (pstream_iface, editor->html ? "text/html" : "text/plain", &ev);
+	if (ev._major != CORBA_NO_EXCEPTION) {
+		close (fd);
+		goto exception;
+	}
+	
+	if (write_all (fd, text->data, text->len) == -1) {
+		g_byte_array_free (text, TRUE);
+		close (fd);
+		goto exception;
+	}
+	
+	g_byte_array_free (text, TRUE);
+	close (fd);
 	
 	if (rename (filename, editor->sig->filename) == -1)
 		goto exception;
 	
 	g_free (filename);
-	
-	CORBA_exception_free (&ev);
 	
 	/* if the signature isn't already saved in the config, save it there now... */
 	if (editor->is_new) {

@@ -1,6 +1,7 @@
 2003-03-12  Jeffrey Stedfast  <fejj@ximian.com>
 
-	* mail-signature-editor.c: Various small fixes leading up to a real fix.
+	* mail-signature-editor.c (menu_file_save_cb): Rewritten to do the
+	same as the composer's build_message() code.
 
 2003-03-11  Jeffrey Stedfast  <fejj@ximian.com>
 
