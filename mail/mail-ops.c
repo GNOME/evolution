@@ -836,7 +836,6 @@ static void transfer_messages_transfer(struct _mail_msg *mm)
 {
 	struct _transfer_msg *m = (struct _transfer_msg *)mm;
 	CamelFolder *dest;
-	int i;
 	char *desc;
 	void (*func) (CamelFolder *, GPtrArray *, 
 		      CamelFolder *, 
@@ -857,7 +856,7 @@ static void transfer_messages_transfer(struct _mail_msg *mm)
 	camel_folder_freeze (m->source);
 	camel_folder_freeze (dest);
 	
-	(func) (m->source, m->uids->pdata[i], dest, &mm->ex);
+	(func) (m->source, m->uids, dest, &mm->ex);
 	
 	camel_folder_thaw(m->source);
 	camel_folder_thaw(dest);
