@@ -34,8 +34,6 @@
 #include <libgnome/gnome-i18n.h>
 #include <libgnome/gnome-util.h>
 
-#include "e-util/e-lang-utils.h"
-
 typedef struct {
 	char *location;
 	GPtrArray *names;
@@ -188,6 +186,8 @@ add_matching_iid (const char *iid)
 int
 main (int argc, char **argv)
 {
+	const GList *l;
+
 	bindtextdomain (GETTEXT_PACKAGE, EVOLUTION_LOCALEDIR);
 	bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
 	textdomain (GETTEXT_PACKAGE);
@@ -196,7 +196,10 @@ main (int argc, char **argv)
 			    GNOME_PROGRAM_STANDARD_PROPERTIES,
 			    NULL);
 
-	languages = e_get_language_list ();
+	l = gnome_i18n_get_language_list("LC_MESSAGES");
+	for (languages=NULL;l;l=l->next)
+		languages = g_slist_append(languages, l->data);
+
 	components = g_hash_table_new (g_str_hash, g_str_equal);
 
 	add_matching_repo_id ("IDL:GNOME/Evolution/Shell:" BASE_VERSION);
