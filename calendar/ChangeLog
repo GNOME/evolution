@@ -1,3 +1,19 @@
+2004-06-24  JP Rosevear  <jpr@novell.com>
+
+	* gui/dialogs/event-page.c (event_page_fill_component): store all
+	the custom alarms
+	(alarm_custom_clicked_cb): emit changed signal if necessary
+
+	* gui/dialogs/alarm-list-dialog.c (alarm_list_dialog_run): return
+	true/false based on button pushed
+
+	* gui/dialogs/alarm-dialog.c: move repeat options and per alarm
+	type options here
+
+	* gui/dialogs/alarm-dialog.glade: ditto
+	
+	* gui/dialogs/Makefile.am: remove alarm options dialog
+
 2004-06-24  Rodney Dawes  <dobey@novell.com>
 
 	* gui/calendar-component.c (create_component_view):

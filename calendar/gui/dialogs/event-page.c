@@ -872,42 +872,89 @@ event_page_fill_component (CompEditorPage *page, ECalComponent *comp)
 	/* Alarm */
 	e_cal_component_remove_all_alarms (comp);
 	if (e_dialog_toggle_get (priv->alarm)) {
-		ECalComponentAlarm *ca;
-		ECalComponentText summary;
-		ECalComponentAlarmTrigger trigger;
-		int alarm_type;
-		
-		ca = e_cal_component_alarm_new ();
-		
-		e_cal_component_get_summary (comp, &summary);
-		e_cal_component_alarm_set_description (ca, &summary);
-		
-		e_cal_component_alarm_set_action (ca, E_CAL_COMPONENT_ALARM_DISPLAY);
+		if (is_custom_alarm_store (priv->alarm_list_store, NULL)) {
+			GtkTreeModel *model;
+			GtkTreeIter iter;
+			gboolean valid_iter;
 
-		memset (&trigger, 0, sizeof (ECalComponentAlarmTrigger));
-		trigger.type = E_CAL_COMPONENT_ALARM_TRIGGER_RELATIVE_START;		
-		trigger.u.rel_duration.is_neg = 1;
-		
-		alarm_type = e_dialog_option_menu_get (priv->alarm_time, alarm_map);
-		switch (alarm_type) {
-		case ALARM_15_MINUTES:
-			trigger.u.rel_duration.minutes = 15;
-			break;
+			model = GTK_TREE_MODEL (priv->alarm_list_store);
 			
-		case ALARM_1_HOUR:
-			trigger.u.rel_duration.hours = 1;
-			break;
-			
-		case ALARM_1_DAY:
-			trigger.u.rel_duration.days = 1;
-			break;
-			
-		default:
-			break;
-		}		
-		e_cal_component_alarm_set_trigger (ca, trigger);
+			for (valid_iter = gtk_tree_model_get_iter_first (model, &iter); valid_iter;
+			     valid_iter = gtk_tree_model_iter_next (model, &iter)) {
+				ECalComponentAlarm *alarm, *alarm_copy;
+				icalcomponent *icalcomp;
+				icalproperty *icalprop;
+				
+				alarm = (ECalComponentAlarm *) e_alarm_list_get_alarm (priv->alarm_list_store, &iter);
+				g_assert (alarm != NULL);
+				
+				/* We set the description of the alarm if it's got
+				 * the X-EVOLUTION-NEEDS-DESCRIPTION property.
+				 */
+				icalcomp = e_cal_component_alarm_get_icalcomponent (alarm);
+				icalprop = icalcomponent_get_first_property (icalcomp, ICAL_X_PROPERTY);
+				while (icalprop) {
+					const char *x_name;
+					ECalComponentText summary;
 
-		e_cal_component_add_alarm (comp, ca);
+					x_name = icalproperty_get_x_name (icalprop);
+					if (!strcmp (x_name, "X-EVOLUTION-NEEDS-DESCRIPTION")) {
+						e_cal_component_get_summary (comp, &summary);
+						e_cal_component_alarm_set_description (alarm, &summary);
+
+						icalcomponent_remove_property (icalcomp, icalprop);
+						break;
+					}
+
+					icalprop = icalcomponent_get_next_property (icalcomp, ICAL_X_PROPERTY);
+				}
+
+				/* We clone the alarm to maintain the invariant that the alarm
+				 * structures in the list did *not* come from the component.
+				 */
+
+				alarm_copy = e_cal_component_alarm_clone (alarm);
+				e_cal_component_add_alarm (comp, alarm_copy);
+				e_cal_component_alarm_free (alarm_copy);
+			}
+		} else {
+			ECalComponentAlarm *ca;
+			ECalComponentText summary;
+			ECalComponentAlarmTrigger trigger;
+			int alarm_type;
+
+			ca = e_cal_component_alarm_new ();
+			
+			e_cal_component_get_summary (comp, &summary);
+			e_cal_component_alarm_set_description (ca, &summary);
+		
+			e_cal_component_alarm_set_action (ca, E_CAL_COMPONENT_ALARM_DISPLAY);
+
+			memset (&trigger, 0, sizeof (ECalComponentAlarmTrigger));
+			trigger.type = E_CAL_COMPONENT_ALARM_TRIGGER_RELATIVE_START;		
+			trigger.u.rel_duration.is_neg = 1;
+		
+			alarm_type = e_dialog_option_menu_get (priv->alarm_time, alarm_map);
+			switch (alarm_type) {
+			case ALARM_15_MINUTES:
+				trigger.u.rel_duration.minutes = 15;
+				break;
+			
+			case ALARM_1_HOUR:
+				trigger.u.rel_duration.hours = 1;
+				break;
+			
+			case ALARM_1_DAY:
+				trigger.u.rel_duration.days = 1;
+				break;
+			
+			default:
+				break;
+			}		
+			e_cal_component_alarm_set_trigger (ca, trigger);
+
+			e_cal_component_add_alarm (comp, ca);
+		}
 	}
 	
 	return TRUE;
@@ -1547,11 +1594,14 @@ alarm_custom_clicked_cb (GtkWidget *widget, gpointer data)
 {
 	EventPage *epage;
 	EventPagePrivate *priv;
+	GtkWidget *toplevel;
 	
 	epage = EVENT_PAGE (data);
 	priv = epage->priv;
 
-	alarm_list_dialog_run (gtk_widget_get_toplevel (priv->main), COMP_EDITOR_PAGE (epage)->client, priv->alarm_list_store);	
+	toplevel = gtk_widget_get_toplevel (priv->main);
+	if (alarm_list_dialog_run (toplevel, COMP_EDITOR_PAGE (epage)->client, priv->alarm_list_store))
+		comp_editor_page_notify_changed (COMP_EDITOR_PAGE (epage));	
 
 	sensitize_widgets (epage);
 }

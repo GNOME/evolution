@@ -232,13 +232,8 @@ alarm_list_dialog_run (GtkWidget *parent, ECal *ecal, EAlarmList *list_store)
 	response_id = gtk_dialog_run (GTK_DIALOG (dialog.toplevel));
 	gtk_widget_hide (dialog.toplevel);
 
-#if 0
-	if (response_id == GTK_RESPONSE_OK)
-		dialog_to_alarm (&dialog);
-#endif
-
 	gtk_widget_destroy (dialog.toplevel);
 	g_object_unref (dialog.xml);
 
-	return TRUE;
+	return response_id == GTK_RESPONSE_OK ? TRUE : FALSE;
 }

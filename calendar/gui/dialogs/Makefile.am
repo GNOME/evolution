@@ -36,8 +36,6 @@ libcal_dialogs_la_SOURCES =	\
 	alarm-dialog.h		\
 	alarm-list-dialog.c	\
 	alarm-list-dialog.h	\
-	alarm-options.c		\
-	alarm-options.h		\
 	cal-prefs-dialog.c	\
 	cal-prefs-dialog.h	\
 	calendar-setup.c	\
@@ -90,7 +88,6 @@ libcal_dialogs_la_SOURCES =	\
 glade_DATA =				\
 	alarm-dialog.glade		\
 	alarm-list-dialog.glade		\
-	alarm-options.glade		\
 	cal-prefs-dialog.glade		\
 	calendar-setup.glade		\
 	e-delegate-dialog.glade		\

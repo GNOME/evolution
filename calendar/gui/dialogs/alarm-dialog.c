@@ -32,11 +32,18 @@
 #include <gtk/gtklabel.h>
 #include <gtk/gtkcellrenderertext.h>
 #include <gtk/gtkdialog.h>
+#include <gtk/gtknotebook.h>
 #include <gtk/gtksignal.h>
 #include <gtk/gtktreeview.h>
 #include <gtk/gtktreeselection.h>
 #include <gtk/gtkoptionmenu.h>
+#include <gtk/gtktextbuffer.h>
+#include <gtk/gtktextview.h>
+#include <gtk/gtktogglebutton.h>
 #include <libgnome/gnome-i18n.h>
+#include <bonobo/bonobo-control.h>
+#include <bonobo/bonobo-exception.h>
+#include <bonobo/bonobo-widget.h>
 #include <glade/glade.h>
 #include "e-util/e-dialog-widgets.h"
 #include "e-util/e-time-utils.h"
@@ -44,9 +51,10 @@
 #include <libecal/e-cal-time-util.h>
 #include "e-util/e-dialog-widgets.h"
 #include "e-util/e-icon-factory.h"
+#include <addressbook/util/e-destination.h>
+#include "Evolution-Addressbook-SelectNames.h"
 #include "../calendar-config.h"
 #include "comp-editor-util.h"
-#include "alarm-options.h"
 #include "alarm-dialog.h"
 
 
@@ -70,8 +78,40 @@ typedef struct {
 	GtkWidget *relative;
 	GtkWidget *time;
 
-	GtkWidget *button_options;
+	/* Alarm repeat widgets */
+	GtkWidget *repeat_toggle;
+	GtkWidget *repeat_group;
+	GtkWidget *repeat_quantity;
+	GtkWidget *repeat_value;
+	GtkWidget *repeat_unit;
+
+	GtkWidget *option_notebook;
+	
+	/* Display alarm widgets */
+	GtkWidget *dalarm_group;
+	GtkWidget *dalarm_description;
+
+	/* Audio alarm widgets */
+	GtkWidget *aalarm_group;
+	GtkWidget *aalarm_attach;
+
+	/* Mail alarm widgets */
+	const char *email;
+	GtkWidget *malarm_group;
+	GtkWidget *malarm_address_group;
+	GtkWidget *malarm_addresses;
+	GtkWidget *malarm_addressbook;
+	GtkWidget *malarm_description;
+	GNOME_Evolution_Addressbook_SelectNames corba_select_names;
+
+	/* Procedure alarm widgets */
+	GtkWidget *palarm_group;
+	GtkWidget *palarm_program;
+	GtkWidget *palarm_args;
 } Dialog;
+
+#define SELECT_NAMES_OAFID "OAFIID:GNOME_Evolution_Addressbook_SelectNames:" BASE_VERSION
+static const char *section_name = "Send To";
 
 /* "relative" types */
 enum {
@@ -121,6 +161,19 @@ static const int time_map[] = {
 	-1
 };
 
+enum duration_units {
+	DUR_MINUTES,
+	DUR_HOURS,
+	DUR_DAYS
+};
+
+static const int duration_units_map[] = {
+	DUR_MINUTES,
+	DUR_HOURS,
+	DUR_DAYS,
+	-1
+};
+
 /* Fills the widgets with default values */
 static void
 clear_widgets (Dialog *dialog)
@@ -131,6 +184,10 @@ clear_widgets (Dialog *dialog)
 	e_dialog_option_menu_set (dialog->value_units, MINUTES, value_map);
 	e_dialog_option_menu_set (dialog->relative, BEFORE, relative_map);
 	e_dialog_option_menu_set (dialog->time, E_CAL_COMPONENT_ALARM_TRIGGER_RELATIVE_START, time_map);
+
+	gtk_widget_set_sensitive (dialog->repeat_group, FALSE);
+
+	gtk_notebook_set_current_page (GTK_NOTEBOOK (dialog->option_notebook), 0);
 }
 
 /* fill_widgets handler for the alarm page */
@@ -139,6 +196,7 @@ alarm_to_dialog (Dialog *dialog)
 {
 	GtkWidget *menu;
 	GList *l;
+	gboolean repeat;
 	int i;	
 
 	/* Clean the page */
@@ -152,6 +210,209 @@ alarm_to_dialog (Dialog *dialog)
 		else
 			gtk_widget_set_sensitive (l->data, TRUE);
 	}
+
+	/* If we can repeat */
+	repeat = !e_cal_get_static_capability (dialog->ecal, CAL_STATIC_CAPABILITY_NO_ALARM_REPEAT);
+	gtk_widget_set_sensitive (dialog->repeat_toggle, repeat);
+}
+
+static void
+repeat_widgets_to_alarm (Dialog *dialog, ECalComponentAlarm *alarm)
+{
+	ECalComponentAlarmRepeat repeat;
+
+	if (!e_dialog_toggle_get (dialog->repeat_toggle)) {
+		repeat.repetitions = 0;
+
+		e_cal_component_alarm_set_repeat (alarm, repeat);
+		return;
+	}
+
+	repeat.repetitions = e_dialog_spin_get_int (dialog->repeat_quantity);
+
+	memset (&repeat.duration, 0, sizeof (repeat.duration));
+	switch (e_dialog_option_menu_get (dialog->repeat_unit, duration_units_map)) {
+	case DUR_MINUTES:
+		repeat.duration.minutes = e_dialog_spin_get_int (dialog->repeat_value);
+		break;
+
+	case DUR_HOURS:
+		repeat.duration.hours = e_dialog_spin_get_int (dialog->repeat_value);
+		break;
+
+	case DUR_DAYS:
+		repeat.duration.days = e_dialog_spin_get_int (dialog->repeat_value);
+		break;
+
+	default:
+		g_assert_not_reached ();
+	}
+
+	e_cal_component_alarm_set_repeat (alarm, repeat);
+
+}
+
+/* Fills the audio alarm data with the values from the widgets */
+static void
+aalarm_widgets_to_alarm (Dialog *dialog, ECalComponentAlarm *alarm)
+{
+	char *url;
+	icalattach *attach;
+
+	url = e_dialog_editable_get (dialog->aalarm_attach);
+	attach = icalattach_new_from_url (url ? url : "");
+	g_free (url);
+
+	e_cal_component_alarm_set_attach (alarm, attach);
+	icalattach_unref (attach);
+}
+
+/* Fills the display alarm data with the values from the widgets */
+static void
+dalarm_widgets_to_alarm (Dialog *dialog, ECalComponentAlarm *alarm)
+{
+	char *str;
+	ECalComponentText description;
+	GtkTextBuffer *text_buffer;
+	GtkTextIter text_iter_start, text_iter_end;
+	icalcomponent *icalcomp;
+	icalproperty *icalprop;
+
+	text_buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (dialog->dalarm_description));
+	gtk_text_buffer_get_start_iter (text_buffer, &text_iter_start);
+	gtk_text_buffer_get_end_iter   (text_buffer, &text_iter_end);
+	str = gtk_text_buffer_get_text (text_buffer, &text_iter_start, &text_iter_end, FALSE);
+
+	description.value = str;
+	description.altrep = NULL;
+
+	e_cal_component_alarm_set_description (alarm, &description);
+	g_free (str);
+
+	/* remove the X-EVOLUTION-NEEDS-DESCRIPTION property, so that
+	 * we don't re-set the alarm's description */
+	icalcomp = e_cal_component_alarm_get_icalcomponent (alarm);
+	icalprop = icalcomponent_get_first_property (icalcomp, ICAL_X_PROPERTY);
+	while (icalprop) {
+		const char *x_name;
+
+		x_name = icalproperty_get_x_name (icalprop);
+		if (!strcmp (x_name, "X-EVOLUTION-NEEDS-DESCRIPTION")) {
+			icalcomponent_remove_property (icalcomp, icalprop);
+			break;
+		}
+
+		icalprop = icalcomponent_get_next_property (icalcomp, ICAL_X_PROPERTY);
+	}
+}
+
+/* Fills the mail alarm data with the values from the widgets */
+static void
+malarm_widgets_to_alarm (Dialog *dialog, ECalComponentAlarm *alarm)
+{
+	char *str;
+	ECalComponentText description;
+	GSList *attendee_list = NULL;
+	EDestination **destv;
+	GtkTextBuffer *text_buffer;
+	GtkTextIter text_iter_start, text_iter_end;
+	icalcomponent *icalcomp;
+	icalproperty *icalprop;
+	int i;
+	
+	/* Attendees */
+	bonobo_widget_get_property (BONOBO_WIDGET (dialog->malarm_addresses), "destinations", 
+				    TC_CORBA_string, &str, NULL);
+	destv = e_destination_importv (str);
+	g_free (str);
+	
+	for (i = 0; destv[i] != NULL; i++) {
+		EDestination *dest;
+		ECalComponentAttendee *a;
+
+		dest = destv[i];
+		
+		a = g_new0 (ECalComponentAttendee, 1);
+		a->value = e_destination_get_email (dest);
+		a->cn = e_destination_get_name (dest);
+
+		attendee_list = g_slist_append (attendee_list, a);
+	}
+
+	e_cal_component_alarm_set_attendee_list (alarm, attendee_list);
+
+	e_cal_component_free_attendee_list (attendee_list);
+	e_destination_freev (destv);	
+
+	/* Description */
+	text_buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (dialog->malarm_description));
+	gtk_text_buffer_get_start_iter (text_buffer, &text_iter_start);
+	gtk_text_buffer_get_end_iter   (text_buffer, &text_iter_end);
+	str = gtk_text_buffer_get_text (text_buffer, &text_iter_start, &text_iter_end, FALSE);
+
+	description.value = str;
+	description.altrep = NULL;
+
+	e_cal_component_alarm_set_description (alarm, &description);
+	g_free (str);
+
+	/* remove the X-EVOLUTION-NEEDS-DESCRIPTION property, so that
+	 * we don't re-set the alarm's description */
+	icalcomp = e_cal_component_alarm_get_icalcomponent (alarm);
+	icalprop = icalcomponent_get_first_property(icalcomp, ICAL_X_PROPERTY);
+	while (icalprop) {
+		const char *x_name;
+
+		x_name = icalproperty_get_x_name (icalprop);
+		if (!strcmp (x_name, "X-EVOLUTION-NEEDS-DESCRIPTION")) {
+			icalcomponent_remove_property (icalcomp, icalprop);
+			break;
+		}
+
+		icalprop = icalcomponent_get_next_property (icalcomp, ICAL_X_PROPERTY);
+	}
+}
+
+/* Fills the procedure alarm data with the values from the widgets */
+static void
+palarm_widgets_to_alarm (Dialog *dialog, ECalComponentAlarm *alarm)
+{
+	char *program;
+	icalattach *attach;
+	char *str;
+	ECalComponentText description;
+	icalcomponent *icalcomp;
+	icalproperty *icalprop;
+
+	program = e_dialog_editable_get (dialog->palarm_program);
+	attach = icalattach_new_from_url (program ? program : "");
+	g_free (program);
+
+	e_cal_component_alarm_set_attach (alarm, attach);
+	icalattach_unref (attach);
+
+	str = e_dialog_editable_get (dialog->palarm_args);
+	description.value = str;
+	description.altrep = NULL;
+
+	e_cal_component_alarm_set_description (alarm, &description);
+	g_free (str);
+
+	/* remove the X-EVOLUTION-NEEDS-DESCRIPTION property, so that
+	 * we don't re-set the alarm's description */
+	icalcomp = e_cal_component_alarm_get_icalcomponent (alarm);
+	icalprop = icalcomponent_get_first_property (icalcomp, ICAL_X_PROPERTY);
+	while (icalprop) {
+		const char *x_name;
+
+		x_name = icalproperty_get_x_name (icalprop);
+		if (!strcmp (x_name, "X-EVOLUTION-NEEDS-DESCRIPTION")) {
+			icalcomponent_remove_property (icalcomp, icalprop);
+			break;
+		}
+
+		icalprop = icalcomponent_get_next_property (icalcomp, ICAL_X_PROPERTY);
+	}
 }
 
 /* fill_component handler for the alarm page */
@@ -160,7 +421,8 @@ dialog_to_alarm (Dialog *dialog)
 {
 	ECalComponentAlarmTrigger trigger;
 	ECalComponentAlarmAction action;
-	
+
+	/* Fill out the alarm */
 	memset (&trigger, 0, sizeof (ECalComponentAlarmTrigger));
 	trigger.type = e_dialog_option_menu_get (dialog->time, time_map);
 	if (e_dialog_option_menu_get (dialog->relative, relative_map) == BEFORE)
@@ -191,22 +453,57 @@ dialog_to_alarm (Dialog *dialog)
 
 	action = e_dialog_option_menu_get (dialog->action, action_map);
 	e_cal_component_alarm_set_action (dialog->alarm, action);
-	if (action == E_CAL_COMPONENT_ALARM_EMAIL && !e_cal_component_alarm_has_attendees (dialog->alarm)) {
-		char *email;
 
-		if (!e_cal_get_static_capability (dialog->ecal, CAL_STATIC_CAPABILITY_NO_EMAIL_ALARMS)
-		    && e_cal_get_alarm_email_address (dialog->ecal, &email, NULL)) {
-			ECalComponentAttendee *a;
-			GSList attendee_list;
+	/* Repeat stuff */
+	repeat_widgets_to_alarm (dialog, dialog->alarm);
 
-			a = g_new0 (ECalComponentAttendee, 1);
-			a->value = email;
-			attendee_list.data = a;
-			attendee_list.next = NULL;
-			e_cal_component_alarm_set_attendee_list (dialog->alarm, &attendee_list);
-			g_free (email);
-			g_free (a);
+	/* Options */
+	switch (action) {
+	case E_CAL_COMPONENT_ALARM_NONE:
+		g_assert_not_reached ();
+		break;
+
+	case E_CAL_COMPONENT_ALARM_AUDIO:
+		aalarm_widgets_to_alarm (dialog, dialog->alarm);
+		break;
+
+	case E_CAL_COMPONENT_ALARM_DISPLAY:
+		dalarm_widgets_to_alarm (dialog, dialog->alarm);
+		break;
+
+	case E_CAL_COMPONENT_ALARM_EMAIL:
+		malarm_widgets_to_alarm (dialog, dialog->alarm);
+
+		/* Set a default address if neccessary */
+		if (!e_cal_component_alarm_has_attendees (dialog->alarm)) {
+			char *email;
+
+			if (!e_cal_get_static_capability (dialog->ecal, CAL_STATIC_CAPABILITY_NO_EMAIL_ALARMS)
+			    && e_cal_get_alarm_email_address (dialog->ecal, &email, NULL)) {
+				ECalComponentAttendee *a;
+				GSList attendee_list;
+				
+				a = g_new0 (ECalComponentAttendee, 1);
+				a->value = email;
+				attendee_list.data = a;
+				attendee_list.next = NULL;
+				e_cal_component_alarm_set_attendee_list (dialog->alarm, &attendee_list);
+				g_free (email);
+				g_free (a);
+			}
 		}
+
+		break;
+
+	case E_CAL_COMPONENT_ALARM_PROCEDURE:
+		palarm_widgets_to_alarm (dialog, dialog->alarm);
+		break;
+
+	case E_CAL_COMPONENT_ALARM_UNKNOWN:
+		break;
+
+	default:
+		g_assert_not_reached ();
 	}
 }
 
@@ -226,7 +523,28 @@ get_widgets (Dialog *dialog)
 	dialog->relative = GW ("relative");
 	dialog->time = GW ("time");
 
-	dialog->button_options = GW ("button-options");
+	dialog->repeat_toggle = GW ("repeat-toggle");
+	dialog->repeat_group = GW ("repeat-group");
+	dialog->repeat_quantity = GW ("repeat-quantity");
+	dialog->repeat_value = GW ("repeat-value");
+	dialog->repeat_unit = GW ("repeat-unit");
+
+	dialog->option_notebook = GW ("option-notebook");
+
+	dialog->dalarm_group = GW ("dalarm-group");
+	dialog->dalarm_description = GW ("dalarm-description");
+
+	dialog->aalarm_group = GW ("aalarm-group");
+	dialog->aalarm_attach = GW ("aalarm-attach");
+
+	dialog->malarm_group = GW ("malarm-group");
+	dialog->malarm_address_group = GW ("malarm-address-group");
+	dialog->malarm_addressbook = GW ("malarm-addressbook");
+	dialog->malarm_description = GW ("malarm-description");
+	
+	dialog->palarm_group = GW ("palarm-group");
+	dialog->palarm_program = GW ("palarm-program");
+	dialog->palarm_args = GW ("palarm-args");
 
 #undef GW
 
@@ -235,9 +553,26 @@ get_widgets (Dialog *dialog)
 		&& dialog->value_units
 		&& dialog->relative
 		&& dialog->time
-		&& dialog->button_options);
+		&& dialog->repeat_toggle
+		&& dialog->repeat_group
+		&& dialog->repeat_quantity
+		&& dialog->repeat_value
+		&& dialog->repeat_unit
+		&& dialog->option_notebook
+		&& dialog->dalarm_group
+		&& dialog->dalarm_description
+		&& dialog->aalarm_group
+		&& dialog->aalarm_attach
+		&& dialog->malarm_group
+		&& dialog->malarm_address_group
+		&& dialog->malarm_addressbook
+		&& dialog->malarm_description
+		&& dialog->palarm_group
+		&& dialog->palarm_program
+		&& dialog->palarm_args);		
 }
 
+#if 0
 /* Callback used when the alarm options button is clicked */
 static void
 show_options (Dialog *dialog)
@@ -256,12 +591,102 @@ show_options (Dialog *dialog)
 			g_message (G_STRLOC ": not create the alarm options dialog");
 	}
 }
+#endif
+
+static void
+addressbook_clicked_cb (GtkWidget *widget, gpointer data)
+{
+	Dialog *dialog = data;
+	CORBA_Environment ev;
+	
+	CORBA_exception_init (&ev);
+
+	GNOME_Evolution_Addressbook_SelectNames_activateDialog (dialog->corba_select_names, 
+								section_name, &ev);
+	
+	CORBA_exception_free (&ev);
+}
+
+static gboolean
+setup_select_names (Dialog *dialog)
+{
+	Bonobo_Control corba_control;
+	CORBA_Environment ev;
+	
+	CORBA_exception_init (&ev);
+	
+	dialog->corba_select_names = bonobo_activation_activate_from_id (SELECT_NAMES_OAFID, 0, NULL, &ev);
+	if (BONOBO_EX (&ev))
+		return FALSE;
+	
+	GNOME_Evolution_Addressbook_SelectNames_addSection (dialog->corba_select_names, 
+							    section_name, section_name, &ev);
+	if (BONOBO_EX (&ev))
+		return FALSE;
+
+	corba_control = GNOME_Evolution_Addressbook_SelectNames_getEntryBySection (dialog->corba_select_names, 
+										   section_name, &ev);
+
+	if (BONOBO_EX (&ev))
+		return FALSE;
+	
+	CORBA_exception_free (&ev);
+
+	dialog->malarm_addresses = bonobo_widget_new_control_from_objref (corba_control, CORBA_OBJECT_NIL);
+	gtk_widget_show (dialog->malarm_addresses);
+	gtk_box_pack_end_defaults (GTK_BOX (dialog->malarm_address_group), dialog->malarm_addresses);
+
+	gtk_signal_connect (GTK_OBJECT (dialog->malarm_addressbook), "clicked",
+			    GTK_SIGNAL_FUNC (addressbook_clicked_cb), dialog);
+
+	return TRUE;
+}
+
+static void
+action_selection_done_cb (GtkMenuShell *menu_shell, gpointer data)
+{
+	Dialog *dialog = data;
+	ECalComponentAlarmAction action;
+	int page = 0, i;
+	
+	action = e_dialog_option_menu_get (dialog->action, action_map);
+	for (i = 0; action_map[i] != -1 ; i++) {
+		if (action == action_map[i]) {
+			page = i;
+			break;
+		}
+	}
+	
+	gtk_notebook_set_page (GTK_NOTEBOOK (dialog->option_notebook), page);
+}
+
+/* Callback used when the repeat toggle button is toggled.  We sensitize the
+ * repeat group options as appropriate.
+ */
+static void
+repeat_toggle_toggled_cb (GtkToggleButton *toggle, gpointer data)
+{
+	Dialog *dialog = data;
+	gboolean active;
+
+	active = gtk_toggle_button_get_active (toggle);
+
+	gtk_widget_set_sensitive (dialog->repeat_group, active);
+}
 
 /* Hooks the widget signals */
 static void
 init_widgets (Dialog *dialog)
 {
+	GtkWidget *menu;
+	
+	menu = gtk_option_menu_get_menu (GTK_OPTION_MENU (dialog->action));
+	g_signal_connect (menu, "selection_done",
+			  G_CALLBACK (action_selection_done_cb),
+			  dialog);
 
+	g_signal_connect (G_OBJECT (dialog->repeat_toggle), "toggled",
+			  G_CALLBACK (repeat_toggle_toggled_cb), dialog);
 }
 
 gboolean
@@ -287,6 +712,11 @@ alarm_dialog_run (GtkWidget *parent, ECal *ecal, ECalComponentAlarm *alarm)
 		return FALSE;
 	}
 
+	if (!setup_select_names (&dialog)) {
+  		g_object_unref (dialog.xml);
+  		return FALSE;
+  	}
+
 	init_widgets (&dialog);
 
 	alarm_to_dialog (&dialog);
@@ -301,21 +731,9 @@ alarm_dialog_run (GtkWidget *parent, ECal *ecal, ECalComponentAlarm *alarm)
 	gtk_window_set_transient_for (GTK_WINDOW (dialog.toplevel),
 				      GTK_WINDOW (parent));
   
- keep_alive:
 	response_id = gtk_dialog_run (GTK_DIALOG (dialog.toplevel));
-	switch (response_id) {
-	case GTK_RESPONSE_APPLY:
-		show_options (&dialog);
-		goto keep_alive;
 
-	case GTK_RESPONSE_OK:
-		gtk_widget_hide (dialog.toplevel);
-		dialog_to_alarm (&dialog);
-		break;
-		
-	default:
-		break;
-	}
+	dialog_to_alarm (&dialog);
 
 	gtk_widget_destroy (dialog.toplevel);
 	g_object_unref (dialog.xml);
