@@ -1,3 +1,18 @@
+2003-07-23  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-mime-message.c (find_best_encoding): Revert my previous
+	changes to this function.
+
+	* camel-mime-utils.h: Revert previous changes.
+
+	* camel-mime-part.h: Revert previous changes.
+
+	* camel-mime-part-utils.c: Revert previous changes.
+
+	* camel-data-wrapper.c (camel_data_wrapper_init): Revert previous
+	changes.
+	(write_to_stream): Revert previous changes.
+
 2003-07-23  Dan Winship  <danw@ximian.com>
 
 	* camel-block-file.c: #include camel-file-utils.h for camel_read()

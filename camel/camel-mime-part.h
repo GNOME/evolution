@@ -31,7 +31,7 @@
 #ifdef __cplusplus
 extern "C" {
 #pragma }
-#endif /* __cplusplus */
+#endif /* __cplusplus }*/
 
 #include <camel/camel-medium.h>
 #include <camel/camel-mime-utils.h>
@@ -42,8 +42,23 @@ extern "C" {
 #define CAMEL_MIME_PART_CLASS(k) (CAMEL_CHECK_CLASS_CAST ((k), CAMEL_MIME_PART_TYPE, CamelMimePartClass))
 #define CAMEL_IS_MIME_PART(o)    (CAMEL_CHECK_TYPE((o), CAMEL_MIME_PART_TYPE))
 
+/* note, if you change this, make sure you change the 'encodings' array in camel-mime-part.c */
+enum _CamelMimePartEncodingType {
+        CAMEL_MIME_PART_ENCODING_DEFAULT,
+        CAMEL_MIME_PART_ENCODING_7BIT,
+        CAMEL_MIME_PART_ENCODING_8BIT,
+        CAMEL_MIME_PART_ENCODING_BASE64,
+        CAMEL_MIME_PART_ENCODING_QUOTEDPRINTABLE,
+        CAMEL_MIME_PART_ENCODING_BINARY,
+	CAMEL_MIME_PART_ENCODING_UUENCODE,
+        CAMEL_MIME_PART_NUM_ENCODINGS
+};
+typedef enum _CamelMimePartEncodingType CamelMimePartEncodingType;
+
+
 /* Do not change these values directly, you would regret it one day */
-struct _CamelMimePart {
+struct _CamelMimePart
+{
 	CamelMedium parent_object;
 
 	CamelContentType *content_type;

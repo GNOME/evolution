@@ -28,9 +28,8 @@
 #include <errno.h>
 
 #include "camel-data-wrapper.h"
+#include "camel-mime-utils.h"
 #include "camel-stream.h"
-#include "camel-stream-filter.h"
-#include "camel-mime-filter-basic.h"
 #include "camel-exception.h"
 #include "camel-private.h"
 
@@ -41,9 +40,9 @@ static CamelObjectClass *parent_class = NULL;
 /* Returns the class for a CamelDataWrapper */
 #define CDW_CLASS(so) CAMEL_DATA_WRAPPER_CLASS (CAMEL_OBJECT_GET_CLASS(so))
 
-static int construct_from_stream(CamelDataWrapper *, CamelStream *);
+static int construct_from_stream (CamelDataWrapper *, CamelStream *);
 static int write_to_stream (CamelDataWrapper *data_wrapper, CamelStream *stream);
-static void set_mime_type (CamelDataWrapper *data_wrapper, const gchar *mime_type);
+static void set_mime_type (CamelDataWrapper *data_wrapper, const char *mime_type);
 static gchar *get_mime_type (CamelDataWrapper *data_wrapper);
 static CamelContentType *get_mime_type_field (CamelDataWrapper *data_wrapper);
 static void set_mime_type_field (CamelDataWrapper *data_wrapper, CamelContentType *mime_type);
@@ -73,8 +72,8 @@ camel_data_wrapper_init (gpointer object, gpointer klass)
 	pthread_mutex_init (&camel_data_wrapper->priv->stream_lock, NULL);
 	
 	camel_data_wrapper->mime_type = header_content_type_new ("application", "octet-stream");
-	camel_data_wrapper->encoding = CAMEL_MIME_PART_ENCODING_DEFAULT;
 	camel_data_wrapper->offline = FALSE;
+	camel_data_wrapper->rawtext = TRUE;
 }
 
 static void
@@ -115,8 +114,6 @@ camel_data_wrapper_get_type (void)
 static int
 write_to_stream (CamelDataWrapper *data_wrapper, CamelStream *stream)
 {
-	CamelMimeFilter *filter;
-	CamelStream *fstream;
 	int ret;
 	
 	if (data_wrapper->stream == NULL) {
@@ -129,30 +126,7 @@ write_to_stream (CamelDataWrapper *data_wrapper, CamelStream *stream)
 		return -1;
 	}
 	
-	fstream = (CamelStream *) camel_stream_filter_new_with_stream (data_wrapper->stream);
-	
-	switch (data_wrapper->encoding) {
-	case CAMEL_MIME_PART_ENCODING_BASE64:
-		filter = (CamelMimeFilter *) camel_mime_filter_basic_new_type (CAMEL_MIME_FILTER_BASIC_BASE64_DEC);
-		camel_stream_filter_add (CAMEL_STREAM_FILTER (fstream), filter);
-		camel_object_unref (filter);
-		break;
-	case CAMEL_MIME_PART_ENCODING_QUOTEDPRINTABLE:
-		filter = (CamelMimeFilter *) camel_mime_filter_basic_new_type (CAMEL_MIME_FILTER_BASIC_QP_DEC);
-		camel_stream_filter_add (CAMEL_STREAM_FILTER (fstream), filter);
-		camel_object_unref (filter);
-		break;
-	case CAMEL_MIME_PART_ENCODING_UUENCODE:
-		filter = (CamelMimeFilter *) camel_mime_filter_basic_new_type (CAMEL_MIME_FILTER_BASIC_UU_DEC);
-		camel_stream_filter_add (CAMEL_STREAM_FILTER (fstream), filter);
-		camel_object_unref (filter);
-		break;
-	default:
-		break;
-	}
-	
-	ret = camel_stream_write_to_stream (fstream, stream);
-	camel_object_unref (fstream);
+	ret = camel_stream_write_to_stream (data_wrapper->stream, stream);
 	
 	CAMEL_DATA_WRAPPER_UNLOCK (data_wrapper, stream_lock);
 	

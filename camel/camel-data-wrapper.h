@@ -33,7 +33,6 @@ extern "C" {
 
 #include <glib.h>
 #include <camel/camel-object.h>
-#include <camel/camel-mime-utils.h>
 
 #define CAMEL_DATA_WRAPPER_TYPE     (camel_data_wrapper_get_type ())
 #define CAMEL_DATA_WRAPPER(obj)     (CAMEL_CHECK_CAST((obj), CAMEL_DATA_WRAPPER_TYPE, CamelDataWrapper))
@@ -44,12 +43,11 @@ struct _CamelDataWrapper {
 	CamelObject parent_object;
 	struct _CamelDataWrapperPrivate *priv;
 	
-	CamelMimePartEncodingType encoding;
-	
 	CamelContentType *mime_type;
 	CamelStream *stream;
 	
 	unsigned int offline:1;
+	unsigned int rawtext:1;
 };
 
 typedef struct {
