@@ -1,3 +1,8 @@
+2003-01-13  JP Rosevear  <jpr@ximian.com>
+
+	* gui/itip-utils.c (itip_organizer_is_user): make the compare case
+	insensitive
+
 2003-01-12  JP Rosevear  <jpr@ximian.com>
 
 	* gui/dialogs/meeting-page.c (meeting_page_fill_widgets): don't

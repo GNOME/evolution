@@ -177,7 +177,7 @@ itip_organizer_is_user (CalComponent *comp, CalClient *client)
 			const char *email;
 			
 			email = cal_client_get_email_address (client);
-			if (email && !strcmp (email, strip))
+			if (email && !g_strcasecmp (email, strip))
 				return TRUE;
 
 			return FALSE;
