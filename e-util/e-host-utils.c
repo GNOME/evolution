@@ -313,6 +313,19 @@ e_gethostbyaddr_r (const char *addr, int addrlen, int type, struct hostent *host
 		return -1;
 	}
 	
+	/* If nodename is not null, and if requested by the AI_CANONNAME flag, the ai_canonname
+	 * field of the first returned addrinfo structure shall point to a null-terminated
+	 * string containing the canonical name corresponding to the input nodename; if the
+	 * canonical name is not available, then ai_canonname shall refer to the nodename
+	 * argument or a string with the same contents.
+	 *
+	 * Note: NetBSD seems to set res->ai_canonname to NULL in this case instead.
+	 */
+	if (!res->ai_canonname || !strcmp (res->ai_canonname, name)) {
+		*herr = HOST_NOT_FOUND;
+		return -1;
+	}
+	
 	len = ALIGN (strlen (res->ai_canonname) + 1);
 	if (buflen < IPv6_BUFLEN_MIN + len + res->ai_addrlen + sizeof (char *))
 		return ERANGE;
@@ -363,8 +376,20 @@ e_gethostbyaddr_r (const char *addr, int addrlen, int type, struct hostent *host
 	int retval;
 	
 	retval = gethostbyaddr_r (addr, addrlen, type, host, buf, buflen, &hp, herr);
-	if (hp != NULL)
+	if (hp != NULL) {
 		*herr = 0;
+		retval = 0;
+	} else if (retval == 0) {
+		/* glibc 2.3.2 workaround - it seems that
+		 * gethostbyaddr_r will sometimes return 0 on fail and
+		 * fill @host with garbage strings from /etc/hosts
+		 * (failure to parse the file? who knows). Luckily, it
+		 * seems that we can rely on @hp being NULL on
+		 * fail.
+		 */
+		retval = -1;
+	}
+	
 	return retval;
 #endif
 #else /* No support for gethostbyaddr_r */

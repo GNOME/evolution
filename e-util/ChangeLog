@@ -1,3 +1,15 @@
+2003-09-25  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* e-host-utils.c (e_gethostbyaddr_r): Make sure that
+	res->ai_canonname is non-NULL and that it doesn't match the
+	numeric host address that we were trying to resolve. Fixes the
+	second half of bug #46006.
+
+2003-09-19  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* e-host-utils.c (e_gethostbyaddr_r): Work around a bug in glibc
+	2.3.2's gethostbyaddr_r() implementation.
+
 2003-09-11  Dan Winship  <danw@ximian.com>
 
 	* Makefile.am (noinst_LTLIBRARIES): Remove libeutil-static.la and
