@@ -24,7 +24,7 @@
 #include <stdlib.h>
 #include <gtk/gtkmain.h>
 #include <libgnomeui/gnome-app.h>
-#include <libgnomeui/gnome-init.h>
+#include <libgnomeui/gnome-ui-init.h>
 #include "e-contact-print-style-editor.h"
 
 /* This is a horrible thing to do, but it is just a test. */
@@ -65,7 +65,10 @@ int main( int argc, char *argv[] )
   /*  bindtextdomain (PACKAGE, GNOMELOCALEDIR);
       textdomain (PACKAGE);*/
 
-  gnome_init( "Contact Print Style Editor Test", VERSION, argc, argv);
+  gnome_program_init ("Contact Print Style Editor Test", VERSION,
+		      LIBGNOMEUI_MODULE,
+		      argc, argv,
+		      NULL);
 
   glade_gnome_init ();
 
@@ -76,13 +79,13 @@ int main( int argc, char *argv[] )
   gnome_app_set_contents( GNOME_APP( app ), editor );
 
   /* Connect the signals */
-  gtk_signal_connect( GTK_OBJECT( app ), "destroy",
-		      GTK_SIGNAL_FUNC( destroy_callback ),
-		      ( gpointer ) app );
+  g_signal_connect( app, "destroy",
+		    G_CALLBACK ( destroy_callback ),
+		    ( gpointer ) app );
 
   gtk_widget_show_all( app );
 
-  gtk_main(); 
+  bonobo_main(); 
 
   /* Not reached. */
   return 0;

@@ -101,7 +101,7 @@ e_contact_print_style_editor_init (EContactPrintStyleEditor *e_contact_print_sty
 	GladeXML *gui;
 
 	/*   e_contact_print_style_editor->card = NULL;*/
-	gui = glade_xml_new (EVOLUTION_GLADEDIR "/e-contact-print.glade", NULL);
+	gui = glade_xml_new (EVOLUTION_GLADEDIR "/e-contact-print.glade", NULL, NULL);
 	e_contact_print_style_editor->gui = gui;
 	gtk_widget_reparent(glade_xml_get_widget(gui, "vbox-contact-print-style-editor"),
 			    GTK_WIDGET(e_contact_print_style_editor));
@@ -111,7 +111,7 @@ void
 e_contact_print_style_editor_destroy (GtkObject *object)
 {
 	EContactPrintStyleEditor *e_contact_print_style_editor = E_CONTACT_PRINT_STYLE_EDITOR(object);
-	gtk_object_unref(GTK_OBJECT(e_contact_print_style_editor->gui));
+	g_object_unref(e_contact_print_style_editor->gui);
 }
 
 GtkWidget*

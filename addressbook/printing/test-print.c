@@ -23,10 +23,8 @@
 
 #include <stdlib.h>
 #include <gtk/gtkmain.h>
-#include <libgnome/gnome-defs.h>
-#include <libgnomeui/gnome-app.h>
 #include <libgnomeui/gnome-dialog.h>
-#include <libgnomeui/gnome-init.h>
+#include <libgnomeui/gnome-ui-init.h>
 #include <glade/glade.h>
 #include "e-contact-print.h"
 
@@ -66,7 +64,10 @@ int main( int argc, char *argv[] )
   /*  bindtextdomain (PACKAGE, GNOMELOCALEDIR);
       textdomain (PACKAGE);*/
 
-  gnome_init( "Contact Print Test", VERSION, argc, argv);
+  gnome_program_init ("Contact Print Test", VERSION,
+		      LIBGNOMEUI_MODULE,
+		      argc, argv,
+		      NULL);
 
   glade_gnome_init ();
   
@@ -77,9 +78,9 @@ int main( int argc, char *argv[] )
 
   print = e_contact_print_dialog_new(NULL, NULL);
   gtk_widget_show_all(print);
-  gtk_signal_connect(GTK_OBJECT(print), "close", GTK_SIGNAL_FUNC(test_close), NULL);
+  g_signal_connect(print, "close", G_CALLBACK(test_close), NULL);
 
-  gtk_main(); 
+  bonobo_main(); 
 
   /* Not reached. */
   return 0;

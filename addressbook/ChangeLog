@@ -1,5 +1,24 @@
 2002-11-06  Chris Toshok  <toshok@ximian.com>
 
+	* printing/e-contact-print-envelope.c: port this to
+	gnome2/gnomeprint2.
+
+	* printing/e-contact-print-style-editor.c: same.
+
+	* printing/e-contact-print.c: same.
+
+	* printing/test-contact-print-style-editor.c: same.
+
+	* printing/test-print.c: same.
+
+	* printing/e-contact-print.glade: libglade-convert to libglade-2.
+	
+	* printing/Makefile.am (contact_print_test_LDADD)
+	(contact_print_style_editor_test_LDADD): remove libcamel.la from
+	these for the time being to get things linking.
+
+2002-11-06  Chris Toshok  <toshok@ximian.com>
+
 	* gui/widgets/gal-view-minicard.[ch]: gobjectify this.
 
 	* gui/widgets/e-minicard.[ch]: gobjectify this.
