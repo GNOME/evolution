@@ -11,6 +11,7 @@
 #include <gnome.h>
 #include "subscribe-dialog.h"
 #include "e-util/e-html-utils.h"
+#include "e-title-bar.h"
 #include <gtkhtml/gtkhtml.h>
 #include <gal/util/e-util.h>
 #include <gal/widgets/e-unicode.h>
@@ -390,14 +391,14 @@ subscribe_dialog_gui_init (SubscribeDialog *sc)
 	GdkPixbuf *toggles[2];
 	BonoboUIComponent *component;
 	Bonobo_UIContainer container;
-	GtkWidget         *folder_search_widget;
+	GtkWidget         *folder_search_widget, *vbox, *storage_set_title_bar;
 	BonoboControl     *search_control;
 	CORBA_Environment ev;
 
 	CORBA_exception_init (&ev);
 
 	/* Construct the app */
-	sc->app = bonobo_win_new ("subscribe-dialog", "Subscribe");
+	sc->app = bonobo_win_new ("subscribe-dialog", "Manage Subscriptions");
 
 	/* Build the menu and toolbar */
 	sc->uih = bonobo_ui_handler_new ();
@@ -433,7 +434,15 @@ subscribe_dialog_gui_init (SubscribeDialog *sc)
 	sc->table = gtk_table_new (1, 2, FALSE);
 
 	sc->hpaned = e_hpaned_new ();
-	e_paned_add1 (E_PANED (sc->hpaned), sc->storage_set_view_widget);
+	vbox = gtk_vbox_new (FALSE, 0);
+
+	storage_set_title_bar = e_title_bar_new (_("Storages"));
+	e_title_bar_show_button (E_TITLE_BAR (storage_set_title_bar), FALSE);
+
+	gtk_box_pack_start (GTK_BOX (vbox), storage_set_title_bar, FALSE, FALSE, 0);
+	gtk_box_pack_start (GTK_BOX (vbox), sc->storage_set_view_widget, TRUE, TRUE, 0);
+
+	e_paned_add1 (E_PANED (sc->hpaned), vbox);
 	e_paned_add2 (E_PANED (sc->hpaned), sc->table);
 	e_paned_set_position (E_PANED (sc->hpaned), DEFAULT_STORAGE_SET_WIDTH);
 
@@ -517,7 +526,9 @@ subscribe_dialog_gui_init (SubscribeDialog *sc)
 	gtk_object_set (GTK_OBJECT (E_TABLE_SCROLLED (sc->etable)->table),
 			"cursor_mode", E_TABLE_CURSOR_LINE,
 			NULL);
-
+	gtk_object_set (GTK_OBJECT (cells[2]),
+			"bold_column", COL_FOLDER_SUBSCRIBED,
+			NULL);
 	gtk_table_attach (
 		GTK_TABLE (sc->table), sc->etable,
 		0, 1, 1, 3,
@@ -529,6 +540,8 @@ subscribe_dialog_gui_init (SubscribeDialog *sc)
 	gtk_widget_show (sc->etable);
 	gtk_widget_show (sc->table);
 	gtk_widget_show (sc->storage_set_view_widget);
+	gtk_widget_show (storage_set_title_bar);
+	gtk_widget_show (vbox);
 	gtk_widget_show (sc->hpaned);
 
 	/* FIXME: Session management and stuff?  */

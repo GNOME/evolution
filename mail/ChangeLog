@@ -1,5 +1,14 @@
 2000-10-02  Chris Toshok  <toshok@helixcode.com>
 
+	* Makefile.am (INCLUDES): add -I$(top_srcdir)/widgets/misc
+
+	* subscribe-dialog.c (subscribe_dialog_gui_init): change the
+	window title to Manage Subscriptions, bold subscribed folders, and
+	add a title bar ala the evolution shell (but without the close
+	button).
+
+2000-10-02  Chris Toshok  <toshok@helixcode.com>
+
 	* subscribe-dialog.h: add fields for the storage set
 	Bonobo_Control and Evolution_StorageSetView interfaces.
 
