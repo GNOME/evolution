@@ -1,3 +1,11 @@
+2001-04-29  Dan Winship  <danw@ximian.com>
+
+	* mail-format.c (handle_text_plain_flowed): Mojo this a bit so
+	that "\n\n>" gets translated to "<br><blockquote>" rather than
+	"<br><br><blockquote>", since the transition to blockquote mode
+	creates a blank line itself. Makes Mozilla-generated flowed
+	replies look better.
+
 2001-04-27  Dan Winship  <danw@ximian.com>
 
 	* mail-session.c: Renamed from session.c and made to be a subclass

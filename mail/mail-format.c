@@ -958,8 +958,7 @@ static gboolean
 handle_text_plain_flowed (char *buf, MailDisplay *md)
 {
 	char *text, *line, *eol, *p;
-	int prevquoting = 0, quoting, len;
-	gboolean br_pending = FALSE;
+	int prevquoting = 0, quoting, len, br_pending = 0;
 	guint32 citation_color = mail_config_get_citation_color ();
 
 	mail_html_write (md->html, md->stream,
@@ -985,6 +984,8 @@ handle_text_plain_flowed (char *buf, MailDisplay *md)
 						 "<blockquote>");
 				prevquoting++;
 			}
+			if (br_pending)
+				br_pending--;
 			while (quoting < prevquoting) {
 				mail_html_write (md->html, md->stream,
 						 "</blockquote>");
@@ -994,13 +995,20 @@ handle_text_plain_flowed (char *buf, MailDisplay *md)
 				mail_html_write (md->html, md->stream,
 						 "</font>\n");
 			}
-		} else if (br_pending) {
-			mail_html_write (md->html, md->stream, "<br>\n");
-			br_pending = FALSE;
 		}
 
 		if (*p == ' ')
 			p++;
+		len = strlen (p);
+		if (len == 0) {
+			br_pending++;
+			continue;
+		}
+
+		while (br_pending) {
+			mail_html_write (md->html, md->stream, "<br>\n");
+			br_pending--;
+		}
 
 		/* replace '<' with '&lt;', etc. */
 		text = e_text_to_html (p, E_TEXT_TO_HTML_CONVERT_SPACES |
@@ -1009,9 +1017,8 @@ handle_text_plain_flowed (char *buf, MailDisplay *md)
 			mail_html_write (md->html, md->stream, "%s", text);
 		g_free (text);
 
-		len = strlen (p);
-		if (len == 0 || p[len - 1] != ' ' || !strcmp (p, "-- "))
-			br_pending = TRUE;
+		if (p[len - 1] != ' ' || !strcmp (p, "-- "))
+			br_pending++;
 
 		if (!eol)
 			break;
