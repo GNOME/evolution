@@ -1681,7 +1681,7 @@ camel_imap_folder_changed (CamelFolder *folder, int exists,
 			if (info == NULL) {
 				/* FIXME: danw: does this mean that the summary is corrupt? */
 				/* I guess a message that we never retrieved got expunged? */
-				break;
+				continue;
 			}
 			
 			camel_folder_change_info_remove_uid (changes, camel_message_info_uid (info));

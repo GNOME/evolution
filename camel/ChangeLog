@@ -1,3 +1,15 @@
+2001-07-24  Not Zed  <NotZed@Ximian.com>
+
+	* providers/imap/camel-imap-folder.c (camel_imap_folder_changed):
+	Change the break into a continue, we should process as many as we
+	can find.
+
+	* camel-folder.c (camel_folder_move_messages_to): If we have no
+	uid's to copy, exit here before going any further.  Some code
+	internally [imap] assumes there are uids to copy otherwise it can
+	segfault.
+	(camel_folder_copy_messages_to): Same.
+
 2001-07-24  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-mime-utils.c (header_decode_param): Handle broken mailers

@@ -1147,8 +1147,8 @@ camel_folder_copy_messages_to (CamelFolder *source, GPtrArray *uids,
 	g_return_if_fail (CAMEL_IS_FOLDER (dest));
 	g_return_if_fail (uids != NULL);
 	
-	if (source == dest) {
-		/* source and destination folders are the same, do nothing. */
+	if (source == dest || uids->len == 0) {
+		/* source and destination folders are the same, or no work to do, do nothing. */
 		return;
 	}
 	
@@ -1228,8 +1228,8 @@ camel_folder_move_messages_to (CamelFolder *source, GPtrArray *uids,
 	g_return_if_fail (CAMEL_IS_FOLDER (dest));
 	g_return_if_fail (uids != NULL);
 	
-	if (source == dest) {
-		/* source and destination folders are the same, nothing to do. */
+	if (source == dest || uids->len == 0) {
+		/* source and destination folders are the same, or no work to do, nothing to do. */
 		return;
 	}
 	
