@@ -1,3 +1,7 @@
+2001-10-09  Rodrigo Moya <rodrigo@ximian.com>
+
+	* e-url.c (e_uri_to_string): don't add the host if it's null
+
 2001-10-06  Christopher James Lahey  <clahey@ximian.com>
 
 	* ename/e-address-western.c (e_address_western_parse): Made this

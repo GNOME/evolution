@@ -316,7 +316,7 @@ e_uri_to_string (EUri *uri, gboolean show_password)
 			uri->passwd && show_password ? ":" : "",
 			uri->passwd && show_password ? uri->passwd : "",
 			uri->user ? "@" : "",
-			uri->host,
+			uri->host ? uri->host : "",
 			uri->port,
 			uri->path ? uri->path : "",
 			uri->query ? "?" : "",
@@ -331,7 +331,7 @@ e_uri_to_string (EUri *uri, gboolean show_password)
                         uri->passwd && show_password ? ":" : "",
                         uri->passwd && show_password ? uri->passwd : "",
                         uri->user ? "@" : "",
-                        uri->host,
+                        uri->host ? uri->host : "",
                         uri->path ? uri->path : "",
                         uri->query ? "?" : "",
                         uri->query ? uri->query : "");
