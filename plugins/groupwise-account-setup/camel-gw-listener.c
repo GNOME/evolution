@@ -175,6 +175,7 @@ add_esource (const char *conf_key, const char *group_name,  const char* source_n
 		return;
 
 	source = e_source_new (source_name, relative_uri);
+	e_source_set_property (source, "auth", "1");
 	e_source_group_add_source (group, source, -1);
 
 	e_source_list_sync (source_list, NULL);
