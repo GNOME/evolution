@@ -1,5 +1,11 @@
 2003-11-14  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* mail-component.c (folder_selected_cb): Don't create a new view
+	anymore, simply set the new folder uri on the folder browser. This
+	makes the mailer use a lot less memory than in 1.x
+
+2003-11-14  Jeffrey Stedfast  <fejj@ximian.com>
+
 	* em-folder-selection.c (folder_selected_cb): Only set OK to
 	sensitive if the selected node is not a store node.
 

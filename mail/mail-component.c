@@ -223,65 +223,13 @@ setup_local_store(MailComponent *component)
 	g_free(store_uri);
 }
 
-
-static BonoboControl *
-create_noselect_control (void)
-{
-	GtkWidget *label;
-
-	label = gtk_label_new (_("This folder cannot contain messages."));
-	gtk_widget_show (label);
-	
-	return bonobo_control_new (label);
-}
-
-static GtkWidget *
-create_view_widget (EMFolderTree *emft, const char *path, const char *uri)
-{
-	BonoboControl *control;
-	const char *noselect;
-	CamelURL *url;
-	
-	if (!strcmp (path, "/")) {
-		/* user selected a CamelStore node... */
-		/* NOTE: we *could* display some sort of statistics control for the store here, maybe? something like Outlook does? */
-		control = create_noselect_control ();
-	} else {
-		url = camel_url_new (uri, NULL);
-		noselect = url ? camel_url_get_param (url, "noselect") : NULL;
-		if (noselect && !strcasecmp (noselect, "yes"))
-			control = create_noselect_control ();
-		else
-			control = folder_browser_factory_new_control (uri);
-		camel_url_free (url);
-	}
-	
-	if (!control)
-		return NULL;
-	
-	/* EPFIXME: This leaks the control. */
-	return bonobo_widget_new_control_from_objref (BONOBO_OBJREF (control), CORBA_OBJECT_NIL);
-}
-
 static void
-folder_selected_cb (EMFolderTree *emft, const char *path, const char *uri, GtkBox *vbox)
+folder_selected_cb (EMFolderTree *emft, const char *path, const char *uri, EMFolderView *view)
 {
-	GtkWidget *view;
-	GList *l, *n;
+	if (!path || !strcmp (path, "/"))
+		return;
 	
-	/* there should only ever be 1 child */
-	l = gtk_container_get_children (GTK_CONTAINER (vbox));
-	while (l != NULL) {
-		n = l->next;
-		gtk_widget_destroy (l->data);
-		g_list_free_1 (l);
-		l = n;
-	}
-	
-	view = create_view_widget (emft, path, uri);
-	gtk_widget_show (view);
-	
-	gtk_box_pack_start_defaults (vbox, view);
+	em_folder_view_set_folder_uri (view, uri);
 }
 
 
@@ -355,7 +303,7 @@ impl_createControls (PortableServer_Servant servant,
 	GtkWidget *view_widget;
 	
 	tree_widget = (GtkWidget *) priv->emft;
-	view_widget = gtk_vbox_new (0, TRUE);
+	view_widget = em_folder_browser_new ();
 	
 	gtk_widget_show (tree_widget);
 	gtk_widget_show (view_widget);
