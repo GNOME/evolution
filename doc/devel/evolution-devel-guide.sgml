@@ -3,6 +3,7 @@
 <!entity calendar-architecture SYSTEM "calendar/architecture.sgml">
 <!entity calendar-reference SYSTEM "calendar/reference.sgml">
 <!entity CalClient SYSTEM "calendar/cal-client/sgml/cal-client.sgml">
+<!entity PCS "<acronym>PCS</acronym>">
 ]>
 
 <book>

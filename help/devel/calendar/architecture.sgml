@@ -1,12 +1,43 @@
-  <chapter>
-    <title>Overview of the Calendar</title>
+  <chapter id="calendar-architecture">
+    <title>Architecture of the Calendar</title>
 
     <para>
       This chapter gives an overview of the Evolution Calendar
       architecture.  It describes the model/view split of the calendar
-      into a personal calendar server (PCS) and the GUI clients that
-      appear inside the Evolution shell.
+      into a personal calendar server, or PCS, and the GUI clients
+      that appear inside the Evolution shell.
     </para>
+
+    <sect1 id="calendar-model-view">
+      <title>Model/view separation</title>
+
+      <para>
+	Like other base components in Evolution, the calendar
+	separates the data model from the views or clients.  This is
+	done so that multiple clients can access the same calendar
+	data in an orderly fashion and without clashes.  For example,
+	the user may be running a graphical calendar client.  If he
+	then wants to synchronize his calendar with a handheld device,
+	then the corresponding synchronization program (e.g. a conduit
+	for the <application>gnome-pilot</application> package) will
+	also need to access the calendar storage.  It is important
+	that both the GUI client and the synchronization program keep
+	a consistent view of the calendar at all times, otherwise one
+	of them will be left in an inconsistent state if the
+	calendar's data changes unexpectedly.
+      </para>
+
+      <para>
+	Evolution puts the calendar storage in a daemon called the
+	Wombat and completely separates it from clients who wants to
+	access calendar data.  This part of the Wombat is called the
+	personal calendar server, or &PCS;.  Clients must contact the
+	&PCS; and ask it to open an existing calendar or create a new
+	one.  When a calendar component object (e.g. an appointment or
+	to-do item) changes in the &PCS; it will notify all the
+	clients that are using the component's parent calendar.
+      </para>
+    </sect1>
   </chapter>
 
 <!--
