@@ -8,14 +8,14 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution 2.0\n"
-"POT-Creation-Date: 2004-01-12 22:53-0500\n"
-"PO-Revision-Date: 2004-01-12 03:05+0100\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2004-01-14 09:20+0100\n"
+"PO-Revision-Date: 2004-01-14 09:34+0100\n"
 "Last-Translator: Danilo Šegan <danilo@prevod.org>\n"
 "Language-Team: Serbian (sr) <serbiangnome-lista@nongnu.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Report-Msgid-Bugs-To: \n"
 "Plural-Forms: nplurals=3;    plural=n%10==1 && n%100!=11 ? 0 :    n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 
@@ -51,7 +51,7 @@ msgstr "Podesite ovde samodopunjavanje"
 #. name = e_book_get_name (book);
 #: addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:4
 #: addressbook/tools/evolution-addressbook-export-list-folders.c:51
-#: calendar/gui/calendar-component.c:583
+#: calendar/gui/calendar-component.c:581
 #: mail/importers/netscape-importer.c:1844 shell/e-shortcuts.c:1088
 msgid "Contacts"
 msgstr "Kontakti"
@@ -94,9 +94,9 @@ msgid "Manager your S/Mime certificates here"
 msgstr "Ovde upravljajte vašim S/MIME sertifikatima"
 
 #: addressbook/gui/component/addressbook-component.c:202
-#, fuzzy, c-format
+#, c-format
 msgid "Addressbook '%s' will be removed. Are you sure you want to continue?"
-msgstr "Kalendar „%s“ će biti uklonjen. Sigurno želite da nastavite?"
+msgstr "Adresar „%s“ će biti uklonjen. Sigurno želite da nastavite?"
 
 #: addressbook/gui/component/addressbook-component.c:258
 #: addressbook/gui/component/ldap-config.glade.h:28
@@ -175,7 +175,7 @@ msgstr "Greška u čitanju podataka šeme"
 msgid "Server did not respond with valid schema information"
 msgstr "Server nije odgovorio sa ispravnim podacima šeme"
 
-#: addressbook/gui/component/addressbook-migrate.c:45 mail/em-migrate.c:120
+#: addressbook/gui/component/addressbook-migrate.c:45 mail/em-migrate.c:1460
 msgid "Migrating..."
 msgstr "Prenosim..."
 
@@ -191,7 +191,7 @@ msgstr ""
 "\n"
 "Budite strpljivi dok Evolucija prenese vaše direktorijume..."
 
-#: addressbook/gui/component/addressbook-migrate.c:86 mail/em-migrate.c:161
+#: addressbook/gui/component/addressbook-migrate.c:86 mail/em-migrate.c:1501
 #, c-format
 msgid "Migrating `%s':"
 msgstr "Prenosim „%s“:"
@@ -207,8 +207,8 @@ msgstr "Na ovom računaru"
 #: addressbook/gui/component/addressbook-migrate.c:323
 #: calendar/gui/calendar-component.c:557 calendar/gui/migration.c:124
 #: calendar/gui/migration.c:147 calendar/gui/tasks-component.c:515
-#: filter/filter-label.c:123 mail/mail-config.c:65 mail/mail-config.glade.h:88
-#: shell/e-config-upgrade.c:1456
+#: filter/filter-label.c:123 mail/em-migrate.c:1268 mail/mail-config.c:65
+#: mail/mail-config.glade.h:88 shell/e-config-upgrade.c:1421
 msgid "Personal"
 msgstr "Lično"
 
@@ -342,6 +342,7 @@ msgstr " P_okaži podržane baze "
 #: addressbook/gui/contact-editor/contact-editor.glade.h:2
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
 #: addressbook/gui/contact-editor/fullname.glade.h:1
+#: addressbook/gui/contact-editor/im.glade.h:1
 #: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:3
 #: calendar/gui/dialogs/alarm-options.glade.h:1
 #: calendar/gui/dialogs/calendar-setup.glade.h:1
@@ -350,6 +351,7 @@ msgstr " P_okaži podržane baze "
 #: calendar/gui/dialogs/new-calendar.glade.h:1
 #: calendar/gui/dialogs/new-task-list.glade.h:1
 #: calendar/gui/dialogs/task-page.glade.h:1
+#: calendar/gui/dialogs/url-editor-dialog.glade.h:1
 #: composer/e-msg-composer-attachment.glade.h:1 mail/mail-config.glade.h:6
 #: mail/mail-search.glade.h:1 mail/message-tags.glade.h:1
 #: shell/glade/e-shell-folder-creation-dialog.glade.h:1
@@ -386,9 +388,8 @@ msgid "Addressbook Creation Assistant"
 msgstr "Pomoćnik za pravljenje adresara"
 
 #: addressbook/gui/component/ldap-config.glade.h:12
-#, fuzzy
 msgid "Addressbook Properties"
-msgstr "Izvori adresara"
+msgstr "Osobine adresara"
 
 #: addressbook/gui/component/ldap-config.glade.h:13
 msgid "Addressbook Sources"
@@ -538,8 +539,7 @@ msgid ""
 "LDAP\n"
 "searches, and for creating and editing contacts. "
 msgstr ""
-"Odabiranje ove opcije omogućiće promenu podrazumevanih podešavanja  "
-"Evolucije\n"
+"Odabiranje ove opcije omogućiće promenu podrazumevanih podešavanja  Evolucije\n"
 "za LDAP pretrage, i za upisivanje i menjanje kontakata. "
 
 #: addressbook/gui/component/ldap-config.glade.h:47
@@ -780,6 +780,7 @@ msgstr "Ukloni sve"
 
 #: addressbook/gui/component/select-names/e-select-names-popup.c:214
 #: addressbook/gui/component/select-names/e-select-names.c:693
+#: calendar/gui/dialogs/cal-prefs-dialog.c:663
 #: composer/e-msg-composer-attachment-bar.c:444
 msgid "Remove"
 msgstr "Ukloni"
@@ -900,7 +901,7 @@ msgstr "Detalji"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:14
 msgid "Enter the person's instant messenger accounts here."
-msgstr ""
+msgstr "Ovde unesite brzoglasničke naloge osobe."
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:15
 msgid "F_ree/Busy URL:"
@@ -915,31 +916,23 @@ msgid "Full _Name..."
 msgstr "Puno _ime..."
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:19
-#, fuzzy
 msgid ""
 "If this person has the ability to participate in a video conference, enter "
 "their address here."
-msgstr ""
-"<b>Video konferencija</b>\n"
-"Ukoliko ova osoba može da učestvuje u video konferenciji, unesite ovde njenu "
-"adresu."
+msgstr "Ukoliko ova osoba može da učestvuje u video konferenciji, unesite ovde njenu adresu."
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:20
-#, fuzzy
 msgid ""
 "If this person publishes free/busy or other calendar information on the "
 "Internet, enter the address\n"
 "of that information here."
 msgstr ""
-"<b>Pristup kalendaru</b>\n"
-"Ako ova osoba objavi slobodan/zauzet ili druge podatke o svom kalendaru na "
-"Internet, unesite \n"
+"Ako ova osoba objavi slobodan/zauzet ili druge podatke o svom kalendaru na Internetu, unesite \n"
 "ovde adresu tih podataka."
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:22
-#, fuzzy
 msgid "Instant Messaging"
-msgstr "_Pošalji poruku"
+msgstr "Brze poruke"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:23
 msgid "New phone type"
@@ -1038,6 +1031,7 @@ msgstr "Adresa"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:103
 #: addressbook/gui/contact-editor/e-contact-editor-fullname.c:95
+#: addressbook/gui/contact-editor/e-contact-editor-im.c:139
 #: addressbook/gui/contact-editor/e-contact-editor.c:242
 #: addressbook/gui/contact-list-editor/e-contact-list-editor.c:183
 #: addressbook/gui/widgets/e-addressbook-model.c:312
@@ -2018,6 +2012,60 @@ msgstr "Zambija"
 msgid "Zimbabwe"
 msgstr "Zimbabve"
 
+#: addressbook/gui/contact-editor/e-contact-editor-im.c:62
+msgid "AOL Instant Messenger"
+msgstr "AOL brza poruka"
+
+#: addressbook/gui/contact-editor/e-contact-editor-im.c:63
+#: addressbook/gui/contact-editor/e-contact-editor.c:2808
+msgid "Jabber"
+msgstr "DŽaber"
+
+#: addressbook/gui/contact-editor/e-contact-editor-im.c:64
+msgid "Yahoo Messenger"
+msgstr "Jahu glasnik"
+
+#: addressbook/gui/contact-editor/e-contact-editor-im.c:65
+msgid "MSN Messenger"
+msgstr "MSN glasnik"
+
+#: addressbook/gui/contact-editor/e-contact-editor-im.c:66
+#: addressbook/gui/contact-editor/e-contact-editor.c:2811
+msgid "ICQ"
+msgstr "ICQ"
+
+#: addressbook/gui/contact-editor/e-contact-editor-im.c:116
+#: addressbook/gui/contact-editor/e-contact-editor.c:708
+msgid "Service"
+msgstr "Usluga"
+
+#: addressbook/gui/contact-editor/e-contact-editor-im.c:125
+#: calendar/gui/dialogs/cal-prefs-dialog.c:426
+msgid "Location"
+msgstr "Mesto"
+
+#: addressbook/gui/contact-editor/e-contact-editor-im.c:132
+msgid "Username"
+msgstr "Korisničko ime"
+
+#: addressbook/gui/contact-editor/e-contact-editor-im.c:245
+#: addressbook/gui/contact-editor/e-contact-editor.c:2498
+msgid "Home"
+msgstr "Kuća"
+
+#. red
+#: addressbook/gui/contact-editor/e-contact-editor-im.c:249
+#: calendar/gui/calendar-component.c:564 filter/filter-label.c:122
+#: mail/em-migrate.c:1267 mail/mail-config.c:64 mail/mail-config.glade.h:135
+#: shell/e-config-upgrade.c:1420
+msgid "Work"
+msgstr "Posao"
+
+#: addressbook/gui/contact-editor/e-contact-editor-im.c:253
+#: addressbook/gui/contact-editor/e-contact-editor.c:2499
+msgid "Other"
+msgstr "Drugo"
+
 #: addressbook/gui/contact-editor/e-contact-editor.c:207
 msgid "Source Book"
 msgstr "Izvorni adresar"
@@ -2044,11 +2092,6 @@ msgstr "Polja za upis"
 #: addressbook/gui/contact-editor/e-contact-editor.c:249
 msgid "Changed"
 msgstr "Promenjen"
-
-#: addressbook/gui/contact-editor/e-contact-editor.c:708
-#, fuzzy
-msgid "Service"
-msgstr "Servis spreman"
 
 #: addressbook/gui/contact-editor/e-contact-editor.c:722
 msgid "Account Name"
@@ -2086,35 +2129,17 @@ msgstr ""
 msgid "Business"
 msgstr "Posao"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:2498
-msgid "Home"
-msgstr "Kuća"
-
-#: addressbook/gui/contact-editor/e-contact-editor.c:2499
-msgid "Other"
-msgstr "Drugo"
-
 #: addressbook/gui/contact-editor/e-contact-editor.c:2807
 msgid "AIM"
-msgstr ""
-
-#: addressbook/gui/contact-editor/e-contact-editor.c:2808
-#, fuzzy
-msgid "Jabber"
-msgstr "Lista bez imena"
+msgstr "AIM"
 
 #: addressbook/gui/contact-editor/e-contact-editor.c:2809
-#, fuzzy
 msgid "Yahoo"
-msgstr "Porto"
+msgstr "Jahu"
 
 #: addressbook/gui/contact-editor/e-contact-editor.c:2810
 msgid "MSN"
-msgstr ""
-
-#: addressbook/gui/contact-editor/e-contact-editor.c:2811
-msgid "ICQ"
-msgstr ""
+msgstr "MSN"
 
 #: addressbook/gui/contact-editor/e-contact-editor.c:3098
 #, c-format
@@ -2237,6 +2262,23 @@ msgstr "_Sufiks:"
 #: addressbook/gui/contact-editor/fullname.glade.h:18
 msgid "_Title:"
 msgstr "_Naslov:"
+
+#: addressbook/gui/contact-editor/im.glade.h:2
+msgid "Account name:"
+msgstr "Ime naloga:"
+
+#: addressbook/gui/contact-editor/im.glade.h:3
+msgid "Add IM Account"
+msgstr "Dodaj nalog brzog glasnika"
+
+#: addressbook/gui/contact-editor/im.glade.h:4
+msgid "IM Service:"
+msgstr "Brzoglasnička usluga:"
+
+#: addressbook/gui/contact-editor/im.glade.h:5
+#: calendar/gui/e-itip-control.c:942
+msgid "Location:"
+msgstr "Mesto:"
 
 #: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:4
 msgid "Members"
@@ -2778,7 +2820,7 @@ msgstr "Uspeh"
 #: camel/providers/imap/camel-imap-command.c:306
 #: camel/providers/imap/camel-imap-command.c:403
 #: camel/providers/pop3/camel-pop3-store.c:536
-#: camel/providers/pop3/camel-pop3-store.c:543 shell/e-shell.c:1010
+#: camel/providers/pop3/camel-pop3-store.c:543 shell/e-shell.c:1006
 msgid "Unknown error"
 msgstr "Nepoznata greška"
 
@@ -3544,7 +3586,7 @@ msgstr "Intervali prikazani pri pregledu dana i radne nedelje"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:10
 msgid "List of urls for free/busy publishing"
-msgstr ""
+msgstr "Spisak adresa za objavljivanje stanja slobodan/zauzet"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:11
 msgid "Minute the workday ends on"
@@ -3710,79 +3752,68 @@ msgid "New Calendar"
 msgstr "Novi kalendar"
 
 #. create the remote source group
-#: calendar/gui/calendar-component.c:544 calendar/gui/calendar-component.c:573
+#: calendar/gui/calendar-component.c:544 calendar/gui/calendar-component.c:571
 msgid "On The Web"
 msgstr "Na vebu"
 
-#. red
-#: calendar/gui/calendar-component.c:564 filter/filter-label.c:122
-#: mail/mail-config.c:64 mail/mail-config.glade.h:135
-#: shell/e-config-upgrade.c:1455
-msgid "Work"
-msgstr "Posao"
-
-#: calendar/gui/calendar-component.c:584 calendar/gui/calendar-component.c:596
+#: calendar/gui/calendar-component.c:582
 msgid "Birthdays & Anniversaries"
 msgstr "Rođendani i godišnjice"
 
-#: calendar/gui/calendar-component.c:595
-msgid "Birthdays"
-msgstr "Rođendani"
-
-#: calendar/gui/calendar-component.c:720
+#: calendar/gui/calendar-component.c:708
 msgid "New appointment"
 msgstr "Novi zakazani sastanak"
 
-#: calendar/gui/calendar-component.c:721
+#: calendar/gui/calendar-component.c:709
 msgid "_Appointment"
 msgstr "Zakazani _sastanak"
 
-#: calendar/gui/calendar-component.c:722
+#: calendar/gui/calendar-component.c:710
 msgid "Create a new appointment"
 msgstr "Zakaži sastanak"
 
-#: calendar/gui/calendar-component.c:727
+#: calendar/gui/calendar-component.c:715
 msgid "New meeting"
 msgstr "Novi sastanak"
 
-#: calendar/gui/calendar-component.c:728
+#: calendar/gui/calendar-component.c:716
 msgid "M_eeting"
 msgstr "S_astanak"
 
-#: calendar/gui/calendar-component.c:729
+#: calendar/gui/calendar-component.c:717
 msgid "Create a new meeting request"
 msgstr "Sačini novi zahtev za sastanak"
 
-#: calendar/gui/calendar-component.c:734
+#: calendar/gui/calendar-component.c:722
 msgid "New all day appointment"
 msgstr "Novi celodnevni zakazani sastanak"
 
-#: calendar/gui/calendar-component.c:735
+#: calendar/gui/calendar-component.c:723
 msgid "All _Day Appointment"
 msgstr "Celo_dnevni zakazani sastanak"
 
-#: calendar/gui/calendar-component.c:736
+#: calendar/gui/calendar-component.c:724
 msgid "Create a new all-day appointment"
 msgstr "Sačini novi celodnevni zakazani sastanak"
 
-#: calendar/gui/calendar-component.c:741
+#: calendar/gui/calendar-component.c:729
 msgid "New calendar"
 msgstr "Novi kalendar"
 
-#: calendar/gui/calendar-component.c:742
+#: calendar/gui/calendar-component.c:730
 msgid "C_alendar"
 msgstr "K_alendar"
 
-#: calendar/gui/calendar-component.c:743
+#: calendar/gui/calendar-component.c:731
 msgid "Create a new calendar"
 msgstr "Napravi novi kalendar"
 
-#: calendar/gui/calendar-component.c:810
+#: calendar/gui/calendar-component.c:798
 #, c-format
 msgid "Unable to open the calendar '%s' for creating events and meetings"
 msgstr "Ne mogu da otvorim kalendar „%s“ radi pravljenja događaja i sastanaka"
 
-#: calendar/gui/calendar-component.c:822
+#: calendar/gui/calendar-component.c:810
 msgid "There is no calendar available for creating events and meetings"
 msgstr "Nema dostupnog kalendara za pravljenje događaja i sastanaka"
 
@@ -3867,14 +3898,12 @@ msgid "Unknown Alarm Options"
 msgstr "Nepoznate opcije za alarm"
 
 #: calendar/gui/dialogs/alarm-options.glade.h:2
-#, fuzzy
 msgid "Alarm Repeat"
-msgstr "<b>Ponavljanje alarma</b>"
+msgstr "Ponavljanje alarma"
 
 #: calendar/gui/dialogs/alarm-options.glade.h:3
-#, fuzzy
 msgid "Message to Display:"
-msgstr "Prikaz poruke"
+msgstr "Poruka za prikaz:"
 
 #: calendar/gui/dialogs/alarm-options.glade.h:4
 msgid "Message to Send"
@@ -3940,9 +3969,8 @@ msgid "Play a sound"
 msgstr "Pusti zvuk"
 
 #: calendar/gui/dialogs/alarm-page.glade.h:5
-#, fuzzy
 msgid "Reminders"
-msgstr "Podsetnik"
+msgstr "Podsetnici"
 
 #: calendar/gui/dialogs/alarm-page.glade.h:6 calendar/gui/e-alarm-list.c:471
 msgid "Run a program"
@@ -3994,9 +4022,43 @@ msgstr "minut(a)"
 msgid "start of appointment"
 msgstr "početak zakazanog sastanka"
 
+#. FIXME: This routine should just be a "toggled" event handler on the checkbox cell renderer which
+#. has "activatable" set.
+#: calendar/gui/dialogs/cal-prefs-dialog.c:415 mail/em-account-prefs.c:487
+#: mail/em-composer-prefs.c:708 mail/em-composer-prefs.c:854
+msgid "Enabled"
+msgstr "Omogućeno"
+
+#: calendar/gui/dialogs/cal-prefs-dialog.c:660
+msgid "Are you sure you want to remove this URL?"
+msgstr "Sigurno želite da uklonite ovu adresu?"
+
+#: calendar/gui/dialogs/cal-prefs-dialog.c:668
+msgid "Don't Remove"
+msgstr "Ne uklanjaj"
+
+#: calendar/gui/dialogs/cal-prefs-dialog.c:714
+#: calendar/gui/dialogs/cal-prefs-dialog.c:746
+#: calendar/gui/dialogs/cal-prefs-dialog.c:777 mail/em-account-prefs.c:315
+#: mail/em-account-prefs.c:356 mail/em-account-prefs.c:397
+#: mail/em-composer-prefs.c:675 mail/em-composer-prefs.c:693
+#: mail/em-composer-prefs.c:717
+msgid "Disable"
+msgstr "Onemogući"
+
+#: calendar/gui/dialogs/cal-prefs-dialog.c:714
+#: calendar/gui/dialogs/cal-prefs-dialog.c:746
+#: calendar/gui/dialogs/cal-prefs-dialog.c:779 mail/em-account-prefs.c:315
+#: mail/em-account-prefs.c:356 mail/em-account-prefs.c:399
+#: mail/em-composer-prefs.c:675 mail/em-composer-prefs.c:693
+#: mail/em-composer-prefs.c:717
+msgid "Enable"
+msgstr "Omogući"
+
+# bug: is zero needed?
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:1
 msgid "05 minutes"
-msgstr "5 minuta"
+msgstr "05 minuta"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:2
 msgid "10 minutes"
@@ -4096,9 +4158,8 @@ msgid "T_hu"
 msgstr "U_to"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:24
-#, fuzzy
 msgid "Task List"
-msgstr "_Spisak zaduženja"
+msgstr "Spisak zaduženja"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:25
 #: calendar/gui/dialogs/recurrence-page.c:1047
@@ -4152,9 +4213,8 @@ msgid "_24 hour"
 msgstr "_24-očasovni"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:36
-#, fuzzy
 msgid "_Add URL"
-msgstr "_Dodaj"
+msgstr "Dodaj _adresu"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:37
 msgid "_Ask for confirmation when deleting items"
@@ -4173,9 +4233,8 @@ msgid "_Display"
 msgstr "_Prikaži"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:42
-#, fuzzy
 msgid "_Free/Busy Publishing"
-msgstr "Slobodan/zauzet zahtev"
+msgstr "_Objava stanja slobodan/zauzet"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:43
 msgid "_Fri"
@@ -4393,8 +4452,8 @@ msgid ""
 "The journal entry being deleted is published, would you like to send a "
 "cancellation notice?"
 msgstr ""
-"Obrisani unos u dnevnik je objavljen, želite li da pošaljete poruku za "
-"njegovo otkazivanje?"
+"Obrisani unos u dnevnik je objavljen, želite li da pošaljete poruku za njegovo "
+"otkazivanje?"
 
 #: calendar/gui/dialogs/cancel-comp.c:78
 msgid "Are you sure you want to cancel and delete this journal entry?"
@@ -4502,7 +4561,7 @@ msgid "No summary"
 msgstr "Nema sažetka"
 
 #: calendar/gui/dialogs/comp-editor.c:1353 calendar/gui/e-cal-view.c:1047
-#: calendar/gui/e-calendar-table.c:1187 composer/e-msg-composer.c:1128
+#: calendar/gui/e-calendar-table.c:1187 composer/e-msg-composer.c:1130
 msgid "Save as..."
 msgstr "Sačuvaj kao..."
 
@@ -4700,18 +4759,16 @@ msgstr "Po_verljivo"
 
 #: calendar/gui/dialogs/event-page.glade.h:8
 #: calendar/gui/dialogs/task-page.glade.h:5
-#, fuzzy
 msgid "Date & Time"
-msgstr "Datum/vreme"
+msgstr "Datum i vreme"
 
 #: calendar/gui/dialogs/event-page.glade.h:9
 msgid "F_ree"
 msgstr "_Slobodno"
 
 #: calendar/gui/dialogs/event-page.glade.h:10
-#, fuzzy
 msgid "L_ocation:"
-msgstr "Mesto:"
+msgstr "_Mesto:"
 
 #: calendar/gui/dialogs/event-page.glade.h:11
 #: calendar/gui/dialogs/task-page.glade.h:8
@@ -4724,9 +4781,8 @@ msgid "Pu_blic"
 msgstr "Ja_vno"
 
 #: calendar/gui/dialogs/event-page.glade.h:13
-#, fuzzy
 msgid "Show Time As"
-msgstr "<b>Prikaži vreme kao</b>"
+msgstr "Prikaži vreme kao"
 
 #: calendar/gui/dialogs/event-page.glade.h:14
 #: calendar/gui/dialogs/task-page.glade.h:11
@@ -4744,7 +4800,7 @@ msgstr "_Početno vreme:"
 #. an empty string is the same as 'None'
 #: calendar/gui/dialogs/meeting-page.c:311
 #: calendar/gui/dialogs/meeting-page.glade.h:3
-#: calendar/gui/e-cal-model-tasks.c:592 composer/e-msg-composer.c:2066
+#: calendar/gui/e-cal-model-tasks.c:592 composer/e-msg-composer.c:2068
 #: mail/em-account-prefs.c:448 mail/em-folder-view.c:740
 #: mail/mail-account-gui.c:1259 mail/mail-account-gui.c:1783
 #: mail/mail-config.glade.h:80
@@ -4967,19 +5023,16 @@ msgid "Every"
 msgstr "Svaki"
 
 #: calendar/gui/dialogs/recurrence-page.glade.h:5
-#, fuzzy
 msgid "Exceptions"
-msgstr "<b>Izuzeci</b>"
+msgstr "Izuzeci"
 
 #: calendar/gui/dialogs/recurrence-page.glade.h:6
-#, fuzzy
 msgid "Preview"
-msgstr "Izgled:"
+msgstr "Izgled"
 
 #: calendar/gui/dialogs/recurrence-page.glade.h:7
-#, fuzzy
 msgid "Recurrence Rule"
-msgstr "<b>Pravilo za ponavljanje</b>"
+msgstr "Pravilo za ponavljanje"
 
 #: calendar/gui/dialogs/recurrence-page.glade.h:9
 msgid "_Custom recurrence"
@@ -5035,7 +5088,7 @@ msgstr ""
 "\n"
 "Želite li da sačuvate vaše izmene?"
 
-#: calendar/gui/dialogs/save-comp.c:57 composer/e-msg-composer.c:1545
+#: calendar/gui/dialogs/save-comp.c:57 composer/e-msg-composer.c:1547
 msgid "_Discard Changes"
 msgstr "_Zanemari promene"
 
@@ -5110,9 +5163,8 @@ msgid "Not Started"
 msgstr "Nije pokrenut"
 
 #: calendar/gui/dialogs/task-details-page.glade.h:10
-#, fuzzy
 msgid "Progress"
-msgstr "U toku"
+msgstr "Napredak"
 
 #: calendar/gui/dialogs/task-details-page.glade.h:11
 #: calendar/gui/e-calendar-table.c:394
@@ -5179,6 +5231,54 @@ msgstr "Datum p_očetka:"
 #: calendar/gui/dialogs/task-page.glade.h:12
 msgid "_Due Date:"
 msgstr "Datum z_avršetka:"
+
+#: calendar/gui/dialogs/url-editor-dialog.glade.h:2
+msgid "Authentication Credentials for HTTP Server"
+msgstr "Lična identifikacija za HTTP server."
+
+#: calendar/gui/dialogs/url-editor-dialog.glade.h:3
+msgid "Calendars selected for publishing"
+msgstr "Izabrani kalendari za objavljivanje"
+
+#: calendar/gui/dialogs/url-editor-dialog.glade.h:4
+msgid "Daily"
+msgstr "Svakodnevno"
+
+#: calendar/gui/dialogs/url-editor-dialog.glade.h:5
+msgid "Free/Busy Editor"
+msgstr "Uređivanje stanja slobodan/zauzet"
+
+#: calendar/gui/dialogs/url-editor-dialog.glade.h:6
+msgid "Free/Busy Publishing Location"
+msgstr "Putanja objavljivanja stanja slobodan/zauzet"
+
+#: calendar/gui/dialogs/url-editor-dialog.glade.h:7
+msgid "Login name:"
+msgstr "Prijavno ime:"
+
+#: calendar/gui/dialogs/url-editor-dialog.glade.h:8
+msgid "Password:"
+msgstr "Lozinka:"
+
+#: calendar/gui/dialogs/url-editor-dialog.glade.h:9
+msgid "Publishing Frequency"
+msgstr "Učestalost objavljivanja"
+
+#: calendar/gui/dialogs/url-editor-dialog.glade.h:10
+msgid "Remember password"
+msgstr "Zapamti lozinku"
+
+#: calendar/gui/dialogs/url-editor-dialog.glade.h:11
+msgid "URL:"
+msgstr "Adresa (URL):"
+
+#: calendar/gui/dialogs/url-editor-dialog.glade.h:12
+msgid "User Publishes"
+msgstr "Korisnik objavljuje"
+
+#: calendar/gui/dialogs/url-editor-dialog.glade.h:13
+msgid "Weekly"
+msgstr "Nedeljno"
 
 # bug: plural-forms
 #: calendar/gui/e-alarm-list.c:395
@@ -5771,10 +5871,6 @@ msgstr ""
 msgid "<i>None</i>"
 msgstr "<i>Ništa</i>"
 
-#: calendar/gui/e-itip-control.c:942
-msgid "Location:"
-msgstr "Mesto:"
-
 #. write status
 #: calendar/gui/e-itip-control.c:956 calendar/gui/e-tasks.c:202
 msgid "Status:"
@@ -5812,7 +5908,7 @@ msgstr "Ažuriraj"
 #: calendar/gui/e-itip-control.c:1030 calendar/gui/e-itip-control.c:1061
 #: calendar/gui/e-itip-control.c:1084 calendar/gui/e-itip-control.c:1097
 #: calendar/gui/e-itip-control.c:1110 calendar/gui/e-itip-control.c:1123
-#: shell/e-shell.c:1000 widgets/misc/e-cell-date-edit.c:265
+#: shell/e-shell.c:996 widgets/misc/e-cell-date-edit.c:265
 msgid "OK"
 msgstr "OK"
 
@@ -6502,7 +6598,7 @@ msgid "You must be an attendee of the event."
 msgstr "Morate biti učesnik događaja"
 
 #: calendar/gui/itip-utils.c:1155
-#, fuzzy, c-format
+#, c-format
 msgid "Enter the password for %s"
 msgstr "Unesite lozinku za „%s“"
 
@@ -8660,7 +8756,7 @@ msgstr ""
 msgid "Failed to GPG %s: %s\n"
 msgstr "Nisam mogao da primenim GPG %s: %s\n"
 
-#: camel/camel-gpg-context.c:1247 camel/camel-smime-context.c:410
+#: camel/camel-gpg-context.c:1247 camel/camel-smime-context.c:418
 #, c-format
 msgid "Could not generate signing data: %s"
 msgstr "Nisam mogao da obrazujem podatke za potpisivanje: %s"
@@ -8683,8 +8779,8 @@ msgid "This is a digitally signed message part"
 msgstr "Ovo je deo poruke sa digitalnim potpisom"
 
 #: camel/camel-gpg-context.c:1386 camel/camel-gpg-context.c:1395
-#: camel/camel-smime-context.c:708 camel/camel-smime-context.c:719
-#: camel/camel-smime-context.c:726
+#: camel/camel-smime-context.c:716 camel/camel-smime-context.c:727
+#: camel/camel-smime-context.c:734
 msgid "Cannot verify message signature: Incorrect message format"
 msgstr "Ne mogu da proverim potpis poruke: neispravan oblik poruke"
 
@@ -8703,7 +8799,7 @@ msgstr "Nisam mogao da obrazujem podatke za šifrovanje: %s"
 msgid "This is a digitally encrypted message part"
 msgstr "Ovo je digitalno šifrovan deo poruke"
 
-#: camel/camel-gpg-context.c:1638 camel/camel-smime-context.c:981
+#: camel/camel-gpg-context.c:1638 camel/camel-smime-context.c:989
 msgid "Encrypted content"
 msgstr "Šifrovan sadržaj"
 
@@ -8883,8 +8979,8 @@ msgid ""
 "This option will connect to the server using a secure CRAM-MD5 password, if "
 "the server supports it."
 msgstr ""
-"Ova opcija će povezati na server korišćenjem sigurnosne CRAM-MD5 lozinke, "
-"ako je server podržava."
+"Ova opcija će povezati na server korišćenjem sigurnosne CRAM-MD5 lozinke, ako "
+"je server podržava."
 
 #: camel/camel-sasl-digest-md5.c:48
 msgid "DIGEST-MD5"
@@ -9148,53 +9244,53 @@ msgstr ""
 "Nisam mogao da napravim direktorijum %s:\n"
 "%s"
 
-#: camel/camel-smime-context.c:98
+#: camel/camel-smime-context.c:104
 #, c-format
 msgid "Enter security pass-phrase for `%s'"
 msgstr "Unesite sigurnosnu lozinku za %s"
 
-#: camel/camel-smime-context.c:505
+#: camel/camel-smime-context.c:513
 msgid "Unverified"
 msgstr "Neprovereno"
 
-#: camel/camel-smime-context.c:507
+#: camel/camel-smime-context.c:515
 msgid "Good signature"
 msgstr "Dobar potpis"
 
-#: camel/camel-smime-context.c:509
+#: camel/camel-smime-context.c:517
 msgid "Bad signature"
 msgstr "Loš potpis"
 
-#: camel/camel-smime-context.c:511
+#: camel/camel-smime-context.c:519
 msgid "Content tampered with or altered in transit"
 msgstr "Sadržaj je menjan ili oštećen pri prenosu"
 
-#: camel/camel-smime-context.c:513
+#: camel/camel-smime-context.c:521
 msgid "Signing certificate not found"
 msgstr "Sertifikat potpisa nije nađen"
 
-#: camel/camel-smime-context.c:515
+#: camel/camel-smime-context.c:523
 msgid "Signing certificate not trusted"
 msgstr "Ne verujem sertifikatu potpisa"
 
-#: camel/camel-smime-context.c:517
+#: camel/camel-smime-context.c:525
 msgid "Signature algorithm unknown"
 msgstr "Algoritam potpisa je nepoznat"
 
 # bug: siganture -> signature
-#: camel/camel-smime-context.c:519
+#: camel/camel-smime-context.c:527
 msgid "Siganture algorithm unsupported"
 msgstr "Algoritam potpisa je nepodržan"
 
-#: camel/camel-smime-context.c:521
+#: camel/camel-smime-context.c:529
 msgid "Malformed signature"
 msgstr "Neispravan potpis"
 
-#: camel/camel-smime-context.c:523
+#: camel/camel-smime-context.c:531
 msgid "Processing error"
 msgstr "Greška pri obradi"
 
-#: camel/camel-smime-context.c:638
+#: camel/camel-smime-context.c:646
 #, c-format
 msgid "Signer: %s <%s>: %s\n"
 msgstr "Potpisao: %s <%s>: %s\n"
@@ -9563,21 +9659,21 @@ msgstr "Nisam mogao da napravim direktorijum %s: %s"
 msgid "Could not load summary for %s"
 msgstr "Nisam mogao da učitam sažetak za %s"
 
-#: camel/providers/imap/camel-imap-folder.c:314
+#: camel/providers/imap/camel-imap-folder.c:317
 msgid "Folder was destroyed and recreated on server."
 msgstr "Direktorijum je uništen i ponovo na serveru napravljen."
 
 #. Check UIDs and flags of all messages we already know of.
-#: camel/providers/imap/camel-imap-folder.c:560
+#: camel/providers/imap/camel-imap-folder.c:563
 msgid "Scanning for changed messages"
 msgstr "Tragam za promenjenim porukama"
 
-#: camel/providers/imap/camel-imap-folder.c:1899
+#: camel/providers/imap/camel-imap-folder.c:1911
 #, c-format
 msgid "Unable to retrieve message: %s"
 msgstr "Ne mogu da pokupim poruku: %s"
 
-#: camel/providers/imap/camel-imap-folder.c:1936
+#: camel/providers/imap/camel-imap-folder.c:1948
 #: camel/providers/local/camel-maildir-folder.c:211
 #: camel/providers/local/camel-maildir-folder.c:224
 #: camel/providers/local/camel-maildir-folder.c:233
@@ -9593,25 +9689,25 @@ msgstr ""
 "Ne mogu da dobijem poruku: %s\n"
 "  %s"
 
-#: camel/providers/imap/camel-imap-folder.c:1936
+#: camel/providers/imap/camel-imap-folder.c:1948
 #: camel/providers/local/camel-maildir-folder.c:211
 #: camel/providers/local/camel-mbox-folder.c:417
 #: camel/providers/local/camel-mh-folder.c:200
 msgid "No such message"
 msgstr "Nema takve poruke"
 
-#: camel/providers/imap/camel-imap-folder.c:1959
-#: camel/providers/imap/camel-imap-folder.c:2555
+#: camel/providers/imap/camel-imap-folder.c:1971
+#: camel/providers/imap/camel-imap-folder.c:2567
 #: camel/providers/nntp/camel-nntp-folder.c:205
 msgid "This message is not currently available"
 msgstr "Ova poruke nije trenutno dostupna"
 
-#: camel/providers/imap/camel-imap-folder.c:2219
-#: camel/providers/imap/camel-imap-folder.c:2289
+#: camel/providers/imap/camel-imap-folder.c:2231
+#: camel/providers/imap/camel-imap-folder.c:2301
 msgid "Fetching summary information for new messages"
 msgstr "Prikupljam sažetu informaciju za nove poruke"
 
-#: camel/providers/imap/camel-imap-folder.c:2593
+#: camel/providers/imap/camel-imap-folder.c:2605
 msgid "Could not find message body in FETCH response."
 msgstr "Nisam mogao da pronađem tekst poruke u FETCH odgovoru."
 
@@ -9884,8 +9980,7 @@ msgid ""
 "For reading and storing local mail in external standard mbox spool files.\n"
 "May also be used to read a tree of Elm, Pine, or Mutt style folders."
 msgstr ""
-"Za čitanje i smeštanje lokalne pošte u spoljne standardne mbox spool "
-"datoteke.\n"
+"Za čitanje i smeštanje lokalne pošte u spoljne standardne mbox spool datoteke.\n"
 "Takođe se može koristiti za čitanje stabla direktorijuma u Elm, Pine, ili "
 "Mutt stilu."
 
@@ -10363,44 +10458,41 @@ msgid "Internal error: uid in invalid format: %s"
 msgstr "Unutrašnja greška: KIB u neispravnom obliku: %s"
 
 #: camel/providers/nntp/camel-nntp-folder.c:170
-#, fuzzy, c-format
+#, c-format
 msgid "Could not get article %s from NNTP server"
-msgstr "Nisam mogao da preuzmem spisak grupa sa servera."
+msgstr "Nisam mogao da preuzmem članak %s sa NNTP servera."
 
 #: camel/providers/nntp/camel-nntp-folder.c:353
 msgid "Posting not allowed by news server"
-msgstr ""
+msgstr "Server ne dozvoljava slanje članaka"
 
 #: camel/providers/nntp/camel-nntp-folder.c:364
 #, c-format
 msgid "Failed to send newsgroups header: %s: message not posted"
-msgstr ""
+msgstr "Neuspešno slanje zaglavlja grupa: %s: poruka nije poslata"
 
 #: camel/providers/nntp/camel-nntp-folder.c:404
 #: camel/providers/nntp/camel-nntp-folder.c:417
 #, c-format
 msgid "Error posting to newsgroup: %s: message not posted"
-msgstr ""
+msgstr "Greška pri slanja u grupu: %s: poruka nije poslata"
 
 #: camel/providers/nntp/camel-nntp-folder.c:429
 msgid "Error reading response to posted message: message not posted"
-msgstr ""
+msgstr "Greška pri čitanju odgovora na poslatu poruku: poruka nije poslata"
 
 #: camel/providers/nntp/camel-nntp-folder.c:432
-#, fuzzy, c-format
+#, c-format
 msgid "Error posting message: %s: message not posted"
-msgstr ""
-"Greška kod automatskog čuvanja poruke: %s\n"
-" %s"
+msgstr "Greška pri slanja poruke: %s: poruka nije poslata"
 
 #: camel/providers/nntp/camel-nntp-folder.c:448
 msgid "You cannot post NNTP messages while working offline!"
-msgstr ""
+msgstr "Ne možete poslati NNTP poruke dok niste povezani!"
 
 #: camel/providers/nntp/camel-nntp-folder.c:459
-#, fuzzy
 msgid "You cannot copy messages from a NNTP folder!"
-msgstr "Nisam mogao da premestim poruke u privremeni mbox direktorijum: %s"
+msgstr "Ne možete kopirati poruke iz NNTP direktorijuma!"
 
 #: camel/providers/nntp/camel-nntp-grouplist.c:45
 msgid "Could not get group list from server."
@@ -10420,11 +10512,11 @@ msgstr "Ne mogu da sačuvam datoteku sa spiskom grupa za %s: %s"
 #: camel/providers/nntp/camel-nntp-provider.c:43
 msgid ""
 "Show folders in short notation (e.g. c.o.linux rather than comp.os.linux)"
-msgstr ""
+msgstr "Prikaži direktorijume u kratkom zapisu (npr. c.o.linux umesto comp.os.linux)"
 
 #: camel/providers/nntp/camel-nntp-provider.c:45
 msgid "In the subscription dialog, show relative folder names"
-msgstr ""
+msgstr "U prozorčetu za pretplatu, prikaži relativna imena direktorijuma"
 
 #: camel/providers/nntp/camel-nntp-provider.c:52
 msgid "USENET news"
@@ -10457,18 +10549,18 @@ msgid "USENET News via %s"
 msgstr "USENET vesti preko %s"
 
 #: camel/providers/nntp/camel-nntp-store.c:641
-#, fuzzy
 msgid "Stream error"
-msgstr "greška čitanja"
+msgstr "Greška toka"
 
 #: camel/providers/nntp/camel-nntp-store.c:644
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Error retrieving newsgroups:\n"
 "\n"
 "%s"
 msgstr ""
-"Greška pri otvaranju %s:\n"
+"Greška pri dobavljanju grupa vesti:\n"
+"\n"
 "%s"
 
 #: camel/providers/nntp/camel-nntp-store.c:736
@@ -10477,6 +10569,9 @@ msgid ""
 "\n"
 "No such newsgroup. The selected item is a probably a parent folder."
 msgstr ""
+"Ne možete se pretplatiti na ovu grupu:\n"
+"\n"
+"Nema takve grupe. Izabrana stavka je verovatno nadređeni direktorijum."
 
 #: camel/providers/nntp/camel-nntp-store.c:768
 msgid ""
@@ -10484,25 +10579,26 @@ msgid ""
 "\n"
 "newsgroup does not exist!"
 msgstr ""
+"Ne možete se odjaviti sa ove grupe:\n"
+"\n"
+"Grupa ne postoji!"
 
 #: camel/providers/nntp/camel-nntp-store.c:793
 msgid "You cannot create a folder in a News store: subscribe instead."
-msgstr ""
+msgstr "Ne možete napraviti direktorijum u smeštaju vesti: pretplatite se umesto toga."
 
 #: camel/providers/nntp/camel-nntp-store.c:801
-#, fuzzy
 msgid "You cannot rename a folder in a News store."
-msgstr "Nisam mogao da preimenujem direktorijum %s u %s: %s"
+msgstr "Ne možete preimenovati direktorijum u smeštaju vesti."
 
 #: camel/providers/nntp/camel-nntp-store.c:809
-#, fuzzy
 msgid "You cannot remove a folder in a News store: unsubscribe instead."
-msgstr "Ne mogu da premestim direktorijum u neki od nižih direktorijuma."
+msgstr "Ne možete ukloniti direktorijum u smeštaju vesti: odjavite se umesto toga."
 
 #: camel/providers/nntp/camel-nntp-summary.c:229
-#, fuzzy, c-format
+#, c-format
 msgid "Connection error: %s"
-msgstr "Nepoznata greška: %s"
+msgstr "Greška pri povezivanju: %s"
 
 #: camel/providers/nntp/camel-nntp-summary.c:240
 #, c-format
@@ -10514,10 +10610,10 @@ msgstr "Nema takvog direktorijuma: %s"
 msgid "Could not get group: %s"
 msgstr "Nisam mogao da dobijem grupu: %s"
 
+# bug: s/unspecificed/unspecified/
 #: camel/providers/nntp/camel-nntp-summary.c:311
-#, fuzzy
 msgid "Could not get messages: unspecificed error"
-msgstr "Nisam mogao da pošaljem poruku: %s"
+msgstr "Nisam mogao da preuzmem poruke: nenaznačena greška"
 
 #: camel/providers/nntp/camel-nntp-summary.c:356
 #, c-format
@@ -10976,8 +11072,7 @@ msgstr "DATA pogrešan odgovor"
 #: camel/providers/smtp/camel-smtp-transport.c:1341
 #, c-format
 msgid "DATA send timed out: message termination: %s: mail not sent"
-msgstr ""
-"DATA slanju isteklo je vreme: završetak poruke: %s: poruka nije poslata"
+msgstr "DATA slanju isteklo je vreme: završetak poruke: %s: poruka nije poslata"
 
 #: camel/providers/smtp/camel-smtp-transport.c:1361
 msgid "DATA termination response error"
@@ -11069,9 +11164,8 @@ msgid "Posting destination"
 msgstr "Odredište"
 
 #: composer/e-msg-composer-hdrs.c:508
-#, fuzzy
 msgid "Choose folders to post the message to."
-msgstr "Izaberite direktorijum u koji šaljete poruku."
+msgstr "Izaberite direktorijume u koje da pošaljem poruku."
 
 #: composer/e-msg-composer-hdrs.c:542
 msgid "Click here for the address book"
@@ -11138,31 +11232,30 @@ msgid "Post To:"
 msgstr "Pošalji:"
 
 #: composer/e-msg-composer-hdrs.c:614
-#, fuzzy
 msgid "Click here to select folders to post to"
-msgstr "<protisnite ovde da izaberete direktorijum>"
+msgstr "Pritisnite ovde da izaberete direktorijume u koje šaljete"
 
 #: composer/e-msg-composer-select-file.c:119
 msgid "Attach file(s)"
-msgstr "Priloži datoteku(e)"
+msgstr "Priloži datoteke"
 
 # bug: set for from account? probably 'for "from" account'
-#: composer/e-msg-composer.c:654
+#: composer/e-msg-composer.c:656
 msgid ""
 "Cannot sign outgoing message: No signing certificate set for from account"
 msgstr ""
 "Ne mogu da potpišem odlazeću poruku: nije postavljen sertifikat za "
 "potpisivanje na ovom nalogu"
 
-#: composer/e-msg-composer.c:660
+#: composer/e-msg-composer.c:662
 msgid ""
 "Cannot encrypt outgoing message: No encryption certificate set for from "
 "account"
 msgstr ""
-"Ne mogu da šifrujem odlazeću poruku: nije postavljen sertifikat za "
-"šifrovanje na ovom nalogu"
+"Ne mogu da šifrujem odlazeću poruku: nije postavljen sertifikat za šifrovanje "
+"na ovom nalogu"
 
-#: composer/e-msg-composer.c:791
+#: composer/e-msg-composer.c:793
 #, c-format
 msgid ""
 "Error while reading file %s:\n"
@@ -11171,30 +11264,30 @@ msgstr ""
 "Greška kod čitanja datoteke %s:\n"
 "%s"
 
-#: composer/e-msg-composer.c:1143
+#: composer/e-msg-composer.c:1145
 msgid "File exists, overwrite?"
 msgstr "Datoteka postoji, da je prepišem?"
 
-#: composer/e-msg-composer.c:1154 composer/e-msg-composer.c:1170
+#: composer/e-msg-composer.c:1156 composer/e-msg-composer.c:1172
 #, c-format
 msgid "Error saving file: %s"
 msgstr "Greška kod čuvanja datoteke: %s"
 
-#: composer/e-msg-composer.c:1194
+#: composer/e-msg-composer.c:1196
 #, c-format
 msgid "Error loading file: %s"
 msgstr "Greška kod učitavanja datoteke: %s"
 
-#: composer/e-msg-composer.c:1232
+#: composer/e-msg-composer.c:1234
 #, c-format
 msgid "Error accessing file: %s"
 msgstr "Greška kod pristupa datoteci: %s"
 
-#: composer/e-msg-composer.c:1240
+#: composer/e-msg-composer.c:1242
 msgid "Unable to retrieve message from editor"
 msgstr "Ne mogu da povratim poruku iz urednika"
 
-#: composer/e-msg-composer.c:1247
+#: composer/e-msg-composer.c:1249
 #, c-format
 msgid ""
 "Unable to seek on file: %s\n"
@@ -11203,7 +11296,7 @@ msgstr ""
 "Ne mogu da tražim datoteku: %s\n"
 "%s"
 
-#: composer/e-msg-composer.c:1254
+#: composer/e-msg-composer.c:1256
 #, c-format
 msgid ""
 "Unable to truncate file: %s\n"
@@ -11212,7 +11305,7 @@ msgstr ""
 "Ne mogu da skratim datoteku: %s\n"
 "%s"
 
-#: composer/e-msg-composer.c:1263
+#: composer/e-msg-composer.c:1265
 #, c-format
 msgid ""
 "Unable to copy file descriptor: %s\n"
@@ -11221,7 +11314,7 @@ msgstr ""
 "Ne mogu da kopiram opis datoteke: %s\n"
 "%s"
 
-#: composer/e-msg-composer.c:1272
+#: composer/e-msg-composer.c:1274
 #, c-format
 msgid ""
 "Error autosaving message: %s\n"
@@ -11230,7 +11323,7 @@ msgstr ""
 "Greška kod automatskog čuvanja poruke: %s\n"
 " %s"
 
-#: composer/e-msg-composer.c:1376
+#: composer/e-msg-composer.c:1378
 msgid ""
 "Ximian Evolution has found unsaved messages from a previous session.\n"
 "Would you like to try to recover them?"
@@ -11238,7 +11331,7 @@ msgstr ""
 "Ximian Evolucija je našla nesačuvane poruke iz prethodne sesije.\n"
 "Želite li da pokušate da ih povratite?"
 
-#: composer/e-msg-composer.c:1540
+#: composer/e-msg-composer.c:1542
 #, c-format
 msgid ""
 "The message \"%s\" has not been sent.\n"
@@ -11249,23 +11342,23 @@ msgstr ""
 "\n"
 "Želite li da sačuvam promene?"
 
-#: composer/e-msg-composer.c:1549
+#: composer/e-msg-composer.c:1551
 msgid "Warning: Modified Message"
 msgstr "Upozorenje: izmenjena poruka"
 
-#: composer/e-msg-composer.c:1582
+#: composer/e-msg-composer.c:1584
 msgid "Open file"
 msgstr "Otvori datoteku"
 
-#: composer/e-msg-composer.c:2027
+#: composer/e-msg-composer.c:2029
 msgid "Signature:"
 msgstr "Potpis:"
 
-#: composer/e-msg-composer.c:2067 mail/mail-account-gui.c:1260
+#: composer/e-msg-composer.c:2069 mail/mail-account-gui.c:1260
 msgid "Autogenerated"
 msgstr "Autogenerisan"
 
-#: composer/e-msg-composer.c:2245
+#: composer/e-msg-composer.c:2247
 #, c-format
 msgid "<b>%d</b> File Attached"
 msgid_plural "<b>%d</b> Files Attached"
@@ -11273,20 +11366,20 @@ msgstr[0] "<b>%d</b> datoteka prikačena"
 msgstr[1] "<b>%d</b> datoteke prikačene"
 msgstr[2] "<b>%d</b> datoteka prikačeno"
 
-#: composer/e-msg-composer.c:2274
+#: composer/e-msg-composer.c:2276
 msgid "Hide _Attachment Bar (drop attachments here)"
 msgstr "Sakrij _traku priloga (ovde prevucite priloge)"
 
-#: composer/e-msg-composer.c:2277 composer/e-msg-composer.c:3136
+#: composer/e-msg-composer.c:2279 composer/e-msg-composer.c:3138
 msgid "Show _Attachment Bar (drop attachments here)"
 msgstr "Prikaži _traku priloga (ovde prevucite priloge)"
 
-#: composer/e-msg-composer.c:2294 composer/e-msg-composer.c:3020
-#: composer/e-msg-composer.c:3021
+#: composer/e-msg-composer.c:2296 composer/e-msg-composer.c:3022
+#: composer/e-msg-composer.c:3023
 msgid "Compose a message"
 msgstr "Sastavi poruku"
 
-#: composer/e-msg-composer.c:3052
+#: composer/e-msg-composer.c:3054
 msgid ""
 "Could not create composer window:\n"
 "Unable to activate address selector control."
@@ -11294,7 +11387,7 @@ msgstr ""
 "Nisam mogao da napravim prozor za sastavljanje:\n"
 "Ne mogu da pokrenem kontrolu biranja adresa."
 
-#: composer/e-msg-composer.c:3081
+#: composer/e-msg-composer.c:3083
 msgid ""
 "Could not create composer window:\n"
 "Unable to activate HTML editor component.\n"
@@ -11306,7 +11399,7 @@ msgstr ""
 "Molim proverite da imate odgovarajuće verzije\n"
 "gtkhtml i libgtkhtml na sistemu.\n"
 
-#: composer/e-msg-composer.c:3182
+#: composer/e-msg-composer.c:3184
 msgid ""
 "Could not create composer window:\n"
 "Unable to activate HTML editor component."
@@ -11314,13 +11407,12 @@ msgstr ""
 "Nisam mogao da napravim prozor za sastavljanje:\n"
 "Ne mogu da aktiviram komponentu HTML urednika."
 
-#: composer/e-msg-composer.c:4190
+#: composer/e-msg-composer.c:4210
 msgid ""
 "<b>(The composer contains a non-text message body, which cannot be edited.)"
 "<b>"
 msgstr ""
-"<b>(Urednik sadrži u tekstu poruke ne sadrži tekst, i ne može biti menjan.)"
-"<b>"
+"<b>(Urednik sadrži u tekstu poruke ne sadrži tekst, i ne može biti menjan.)<b>"
 
 #: data/evolution.desktop.in.in.h:1
 msgid "The Ximian Evolution Groupware Suite"
@@ -11678,20 +11770,21 @@ msgstr ""
 "Greška u regularnom izrazu '%s':\n"
 "%s"
 
-#: filter/filter-label.c:121 filter/libfilter-i18n.h:17 mail/mail-config.c:63
-#: mail/mail-config.glade.h:66 shell/e-config-upgrade.c:1454
+#: filter/filter-label.c:121 filter/libfilter-i18n.h:17 mail/em-migrate.c:1266
+#: mail/mail-config.c:63 mail/mail-config.glade.h:66
+#: shell/e-config-upgrade.c:1419
 msgid "Important"
 msgstr "Važno"
 
 #. forest green
-#: filter/filter-label.c:124 mail/mail-config.c:66
-#: mail/mail-config.glade.h:125 shell/e-config-upgrade.c:1457
+#: filter/filter-label.c:124 mail/em-migrate.c:1269 mail/mail-config.c:66
+#: mail/mail-config.glade.h:125 shell/e-config-upgrade.c:1422
 msgid "To Do"
 msgstr "Za uraditi"
 
 #. blue
-#: filter/filter-label.c:125 mail/mail-config.c:67 mail/mail-config.glade.h:70
-#: shell/e-config-upgrade.c:1458
+#: filter/filter-label.c:125 mail/em-migrate.c:1270 mail/mail-config.c:67
+#: mail/mail-config.glade.h:70 shell/e-config-upgrade.c:1423
 msgid "Later"
 msgstr "Kasnije"
 
@@ -11975,7 +12068,7 @@ msgstr "Određeno zaglavlje"
 msgid "Stop Processing"
 msgstr "Prekini sa obradom"
 
-#: filter/libfilter-i18n.h:39 mail/em-format-html.c:1472 mail/em-format.c:679
+#: filter/libfilter-i18n.h:39 mail/em-format-html.c:1501 mail/em-format.c:704
 #: mail/em-mailer-prefs.c:72 mail/message-list.etspec.h:13
 #: mail/message-tag-followup.c:305 smime/lib/e-cert.c:1074
 msgid "Subject"
@@ -12211,29 +12304,10 @@ msgstr "Sigurno želite da obrišete ovaj nalog?"
 msgid "Don't delete"
 msgstr "Ne briši"
 
-#: mail/em-account-prefs.c:315 mail/em-account-prefs.c:356
-#: mail/em-account-prefs.c:397 mail/em-composer-prefs.c:675
-#: mail/em-composer-prefs.c:693 mail/em-composer-prefs.c:717
-msgid "Disable"
-msgstr "Onemogući"
-
-#: mail/em-account-prefs.c:315 mail/em-account-prefs.c:356
-#: mail/em-account-prefs.c:399 mail/em-composer-prefs.c:675
-#: mail/em-composer-prefs.c:693 mail/em-composer-prefs.c:717
-msgid "Enable"
-msgstr "Omogući"
-
 #. translators: default account indicator
 #: mail/em-account-prefs.c:439
 msgid "[Default]"
 msgstr "[Predefinisano]"
-
-#. FIXME: This routine should just be a "toggled" event handler on the checkbox cell renderer which
-#. has "activatable" set.
-#: mail/em-account-prefs.c:487 mail/em-composer-prefs.c:708
-#: mail/em-composer-prefs.c:854
-msgid "Enabled"
-msgstr "Omogućeno"
 
 #: mail/em-account-prefs.c:493
 msgid "Account name"
@@ -12292,8 +12366,8 @@ msgid ""
 "Since the contact list you are sending to is configured to hide the list's "
 "addresses, this message will contain only Bcc recipients."
 msgstr ""
-"Pošto je kontakt lista koju šaljete podešena da sakrije adrese, ova poruke "
-"će sadržati samo skrivene primaoce."
+"Pošto je kontakt lista koju šaljete podešena da sakrije adrese, ova poruke će "
+"sadržati samo skrivene primaoce."
 
 #: mail/em-composer-utils.c:157
 msgid "This message contains only Bcc recipients."
@@ -12620,7 +12694,7 @@ msgstr "Kliknite da otvorite %s"
 msgid "Matches: %d"
 msgstr "Poklapanja: %d"
 
-#: mail/em-format-html-display.c:632 mail/em-format-html.c:564
+#: mail/em-format-html-display.c:632 mail/em-format-html.c:561
 msgid "Unsigned"
 msgstr "Nepotpisana"
 
@@ -12631,7 +12705,7 @@ msgid ""
 msgstr ""
 "Ova poruka nije potpisana. Nema garancija da je pošiljalac poruke ispravan."
 
-#: mail/em-format-html-display.c:633 mail/em-format-html.c:565
+#: mail/em-format-html-display.c:633 mail/em-format-html.c:562
 msgid "Valid signature"
 msgstr "Ispravan potpis"
 
@@ -12643,7 +12717,7 @@ msgstr ""
 "Ova poruka je potpisana i ispravna, a pošiljalac poruke je vrlo verovatno "
 "onaj za koga se izdaje."
 
-#: mail/em-format-html-display.c:634 mail/em-format-html.c:566
+#: mail/em-format-html-display.c:634 mail/em-format-html.c:563
 msgid "Invalid signature"
 msgstr "Neispravan potpis"
 
@@ -12655,7 +12729,7 @@ msgstr ""
 "Potpis ove poruke nije mogao biti proveren, možda je izmenjena prilikom "
 "prenosa."
 
-#: mail/em-format-html-display.c:635 mail/em-format-html.c:567
+#: mail/em-format-html-display.c:635 mail/em-format-html.c:564
 msgid "Valid signature, cannot verify sender"
 msgstr "Ispravan potpis, ne mogu da proverim pošiljaoca"
 
@@ -12664,10 +12738,10 @@ msgid ""
 "This message is signed with a valid signature, but the sender of the message "
 "cannot be verified."
 msgstr ""
-"Poruka je potpisana ispravnim potpisom, ali pošiljalac poruke nije mogao "
-"biti proveren."
+"Poruka je potpisana ispravnim potpisom, ali pošiljalac poruke nije mogao biti "
+"proveren."
 
-#: mail/em-format-html-display.c:641 mail/em-format-html.c:573
+#: mail/em-format-html-display.c:641 mail/em-format-html.c:570
 msgid "Unencrypted"
 msgstr "Nešifrovano"
 
@@ -12679,7 +12753,7 @@ msgstr ""
 "Ova poruka nije šifrovana.  Njen sadržaj je moguće videti prilikom prenosa "
 "preko Interneta."
 
-#: mail/em-format-html-display.c:642 mail/em-format-html.c:574
+#: mail/em-format-html-display.c:642 mail/em-format-html.c:571
 msgid "Encrypted, weak"
 msgstr "Šifrovana, slabo"
 
@@ -12692,7 +12766,7 @@ msgstr ""
 "Ova poruka je šifrovana, ali slabim algoritmom. Teško je, ali ne i nemoguće, "
 "da neko sa strane vidi sadržaj ove poruke u dogledno vreme."
 
-#: mail/em-format-html-display.c:643 mail/em-format-html.c:575
+#: mail/em-format-html-display.c:643 mail/em-format-html.c:572
 msgid "Encrypted"
 msgstr "Šifrovana"
 
@@ -12704,7 +12778,7 @@ msgstr ""
 "Ova poruka je šifrovana. Teško je moguće da neko sa strane vidi sadržaj ove "
 "poruke."
 
-#: mail/em-format-html-display.c:644 mail/em-format-html.c:576
+#: mail/em-format-html-display.c:644 mail/em-format-html.c:573
 msgid "Encrypted, strong"
 msgstr "Šifrovana, dobro"
 
@@ -12725,24 +12799,24 @@ msgstr "Po_gledaj sertifikat"
 msgid "This certificate is not viewable"
 msgstr "Ovaj sertifikat se ne može pregledati"
 
-#: mail/em-format-html-display.c:895 mail/em-format-html.c:645
+#: mail/em-format-html-display.c:901 mail/em-format-html.c:648
 msgid "Could not parse S/MIME message: Unknown error"
 msgstr "Ne mogu da obradim S/MIME poruku: nepoznata greška"
 
-#: mail/em-format-html-display.c:931 mail/em-format-html.c:1051
-#: mail/em-format.c:1201
+#: mail/em-format-html-display.c:937 mail/em-format-html.c:1071
+#: mail/em-format.c:1262
 msgid "Unsupported signature format"
 msgstr "Nepodržan oblik potpisa"
 
-#: mail/em-format-html-display.c:939 mail/em-format-html.c:1059
+#: mail/em-format-html-display.c:945 mail/em-format-html.c:1079
 msgid "Unknown error verifying signature"
 msgstr "Nepoznata greška pri proveri potpisa"
 
-#: mail/em-format-html-display.c:1070
+#: mail/em-format-html-display.c:1075
 msgid "_View Inline"
 msgstr "Po_gledaj unutar"
 
-#: mail/em-format-html-display.c:1071
+#: mail/em-format-html-display.c:1076
 msgid "_Hide"
 msgstr "_Sakrij"
 
@@ -12751,103 +12825,103 @@ msgstr "_Sakrij"
 msgid "Page %d of %d"
 msgstr "Strana %d od %d"
 
-#: mail/em-format-html.c:457 mail/em-format-html.c:459
+#: mail/em-format-html.c:454 mail/em-format-html.c:456
 #, c-format
 msgid "Retrieving `%s'"
 msgstr "Preuzimam „%s“"
 
-#: mail/em-format-html.c:834
+#: mail/em-format-html.c:840
 msgid "Malformed external-body part."
 msgstr "Loše složen spoljni deo."
 
-#: mail/em-format-html.c:864
+#: mail/em-format-html.c:870
 #, c-format
 msgid "Pointer to FTP site (%s)"
 msgstr "Pokazivač na FTP adresu (%s)"
 
-#: mail/em-format-html.c:875
+#: mail/em-format-html.c:881
 #, c-format
 msgid "Pointer to local file (%s) valid at site \"%s\""
 msgstr "Pokazivač na lokalnu datoteku (%s) koja odgovara adresi \"%s\""
 
-#: mail/em-format-html.c:877
+#: mail/em-format-html.c:883
 #, c-format
 msgid "Pointer to local file (%s)"
 msgstr "pokazivač na lokalnu datoteku (%s)"
 
-#: mail/em-format-html.c:898
+#: mail/em-format-html.c:904
 #, c-format
 msgid "Pointer to remote data (%s)"
 msgstr "Pokazivač na mrežni podatak (%s)"
 
-#: mail/em-format-html.c:909
+#: mail/em-format-html.c:915
 #, c-format
 msgid "Pointer to unknown external data (\"%s\" type)"
 msgstr "Pokazivač na napoznati spoljni podatak (\"%s\" tipa)"
 
-#: mail/em-format-html.c:1037
+#: mail/em-format-html.c:1057
 msgid "Could not parse MIME message. Displaying as source."
 msgstr "Nisam mogao da obradim MIME poruku. Pokazujem kao izvor."
 
-#: mail/em-format-html.c:1152
+#: mail/em-format-html.c:1174
 msgid "Formatting message"
 msgstr "Oblikujem poruku"
 
-#: mail/em-format-html.c:1419 mail/em-format.c:674 mail/em-mailer-prefs.c:67
+#: mail/em-format-html.c:1448 mail/em-format.c:699 mail/em-mailer-prefs.c:67
 #: mail/message-list.etspec.h:7 mail/message-tag-followup.c:301
 msgid "From"
 msgstr "Od"
 
-#: mail/em-format-html.c:1419 mail/em-format.c:675 mail/em-mailer-prefs.c:68
+#: mail/em-format-html.c:1448 mail/em-format.c:700 mail/em-mailer-prefs.c:68
 msgid "Reply-To"
 msgstr "Odgovor-za"
 
-#: mail/em-format-html.c:1419 mail/em-format.c:676 mail/em-mailer-prefs.c:69
+#: mail/em-format-html.c:1448 mail/em-format.c:701 mail/em-mailer-prefs.c:69
 #: mail/message-list.etspec.h:14
 msgid "To"
 msgstr "Kome"
 
-#: mail/em-format-html.c:1419 mail/em-format.c:677 mail/em-mailer-prefs.c:70
+#: mail/em-format-html.c:1448 mail/em-format.c:702 mail/em-mailer-prefs.c:70
 msgid "Cc"
 msgstr "Cc (kopija)"
 
-#: mail/em-format-html.c:1419 mail/em-format.c:678 mail/em-mailer-prefs.c:71
+#: mail/em-format-html.c:1448 mail/em-format.c:703 mail/em-mailer-prefs.c:71
 msgid "Bcc"
 msgstr "Bcc (nevidljiva kopija)"
 
-#: mail/em-format-html.c:1479 mail/em-mailer-prefs.c:631
+#: mail/em-format-html.c:1508 mail/em-mailer-prefs.c:631
 msgid "Mailer"
 msgstr "Pošiljalac"
 
 #. translators: strftime format for local time equivalent in Date header display, with day
-#: mail/em-format-html.c:1505
+#: mail/em-format-html.c:1534
 msgid "<I> (%a, %R %Z)</I>"
 msgstr "<I> (%a, %R %Z)</I>"
 
 #. translators: strftime format for local time equivalent in Date header display, without day
-#: mail/em-format-html.c:1508
+#: mail/em-format-html.c:1537
 msgid "<I> (%R %Z)</I>"
 msgstr "<I> (%R %Z)</I>"
 
-#: mail/em-format-html.c:1520 mail/em-format.c:680 mail/em-mailer-prefs.c:73
+#: mail/em-format-html.c:1549 mail/em-format.c:705 mail/em-mailer-prefs.c:73
 #: mail/message-list.etspec.h:2
 msgid "Date"
 msgstr "Datum"
 
-#: mail/em-format.c:896
+#: mail/em-format.c:921
 #, c-format
 msgid "%s attachment"
 msgstr "%s prilog"
 
-#: mail/em-format.c:1189
+#: mail/em-format.c:1250
 msgid "Session not initialised"
 msgstr "Sesija nije pokrenuta"
 
-#: mail/em-format.c:1215
+#: mail/em-format.c:1276
 msgid "This message is digitally signed and has been found to be authentic."
 msgstr "Ova poruka je digitalno potpisana i odgovara potpisu."
 
-#: mail/em-format.c:1217
+#: mail/em-format.c:1278
 msgid "This message is digitally signed but can not be proven to be authentic."
 msgstr "Ova poruka je digitalno potpisana ali ne može biti proverena."
 
@@ -12855,34 +12929,29 @@ msgstr "Ova poruka je digitalno potpisana ali ne može biti proverena."
 msgid "Spamassassin (built-in)"
 msgstr "Ubica-spama (ugrađen)"
 
-#: mail/em-migrate.c:128
+#: mail/em-migrate.c:1468
 msgid ""
 "The location and hierarchy of the Evolution mailbox folders has changed "
 "since Evolution 1.x.\n"
 "\n"
 "Please be patient while Evolution migrates your folders..."
 msgstr ""
-"Putanja i hijerarhija direktorijuma pošte u Evoluciji je izmenjen od izdanja "
-"1.*.\n"
+"Putanja i hijerarhija direktorijuma pošte u Evoluciji je izmenjen od izdanja 1."
+"*.\n"
 "\n"
 "Budite strpljivi dok Evolucija prenese vaše direktorijume..."
 
-#: mail/em-migrate.c:833
-#, c-format
-msgid "Failed to migrate `%s': %s"
-msgstr "Neuspešan prenos „%s“: %s"
-
-#: mail/em-migrate.c:857 mail/em-migrate.c:872
+#: mail/em-migrate.c:2078 mail/em-migrate.c:2093
 #, c-format
 msgid "Failed to migrate pop3 uid caches: %s"
 msgstr "Neuspešan prenos ostave KIB-ova za POP3: %s"
 
-#: mail/em-migrate.c:931 mail/em-migrate.c:948
+#: mail/em-migrate.c:2158 mail/em-migrate.c:2243
 #, c-format
 msgid "Failed to create directory `%s': %s"
 msgstr "Neuspešno pravljenje direktorijuma „%s“: %s"
 
-#: mail/em-migrate.c:960
+#: mail/em-migrate.c:2170
 #, c-format
 msgid "Failed to open store for `%s': %s"
 msgstr "Neuspešno otvaranje smeštaja za „%s“: %s"
@@ -13361,11 +13430,11 @@ msgstr "KIB niska podrazumevanog naloga."
 
 #: mail/evolution-mail.schemas.in.in.h:73
 msgid "Use Spamasssassin daemon and client"
-msgstr ""
+msgstr "Koristi uslugu i klijenta Ubice spama"
 
 #: mail/evolution-mail.schemas.in.in.h:74
 msgid "Use Spamasssassin daemon and client (spamc/spamd)"
-msgstr ""
+msgstr "Koristi uslugu i klijenta Ubice spama (spamc/spamd)"
 
 #: mail/evolution-mail.schemas.in.in.h:75
 msgid "Use custom fonts"
@@ -13718,14 +13787,13 @@ msgstr "_Poruka"
 msgid "Compose a new mail message"
 msgstr "Sastavi novu poruku"
 
-#: mail/mail-component.c:582
-#, fuzzy
+#: mail/mail-component.c:576
 msgid "URI of the mail source that the view will display"
-msgstr "KIB izvora kontakata koji će biti prikazani u pregledu"
+msgstr "Adresa izvora pošte koji će biti prikazani u pregledu"
 
 #: mail/mail-config-druid.c:367 mail/mail-config.glade.h:65
 msgid "Identity"
-msgstr "Identitet"
+msgstr "Ličnost"
 
 #: mail/mail-config-druid.c:369
 msgid ""
@@ -13776,11 +13844,7 @@ msgid ""
 "will be grouped together to make an Evolution mail account. Please enter a "
 "name for this account in the space below. This name will be used for display "
 "purposes only."
-msgstr ""
-"Skoro ste završili sa procesom podešavanja pošte. Identitet, dolazeći server "
-"za poštu i odlazeći metod prenosa pošte koje ste uneli biće grupisani kao "
-"Evolucija nalog za poštu. Molim unesite dole ime za ovaj nalog. Ovo ime će "
-"biti korišćeno samo za potrebe prikazivanja na ekranu."
+msgstr "Skoro ste završili sa procesom podešavanja pošte. Ličnost, dolazeći server za poštu i odlazeći metod prenosa pošte koje ste uneli biće grupisani kao Evolucija nalog za poštu. Molim unesite dole ime za ovaj nalog. Ovo ime će biti korišćeno samo za potrebe prikazivanja na ekranu."
 
 #: mail/mail-config.c:1090
 msgid "Checking Service"
@@ -14296,7 +14360,7 @@ msgstr "_HTML pošta"
 
 #: mail/mail-config.glade.h:156
 msgid "_Identity"
-msgstr "_Identitet"
+msgstr "_Ličnost"
 
 #: mail/mail-config.glade.h:157
 msgid "_Junk"
@@ -14941,6 +15005,14 @@ msgstr "Odjavi pretplatu"
 msgid "Evolution Shell"
 msgstr "Evolucija konzola"
 
+#: shell/GNOME_Evolution_Test.server.in.in.h:1
+msgid "Evolution Test"
+msgstr "Proba Evolucije"
+
+#: shell/GNOME_Evolution_Test.server.in.in.h:2
+msgid "Evolution Test component"
+msgstr "Probni deo Evolucije"
+
 #: shell/apps_evolution_shell.schemas.in.in.h:1
 msgid "480"
 msgstr "480"
@@ -14986,8 +15058,8 @@ msgid ""
 "If set to true, the warning dialog in development versions of Evolution is "
 "not displayed."
 msgstr ""
-"Ako je postavljeno, prozorče sa upozorenjem u razvojnim izdanjima Evolucije "
-"se neće prikazivati."
+"Ako je postavljeno, prozorče sa upozorenjem u razvojnim izdanjima Evolucije se "
+"neće prikazivati."
 
 #: shell/apps_evolution_shell.schemas.in.in.h:11
 msgid ""
@@ -15359,9 +15431,9 @@ msgid ""
 "\n"
 "Do you want to quit using the Assistant now?"
 msgstr ""
-"Ukoliko sada zatvorite Evolucijinog pomoćnika za podešavanje, svi podaci "
-"koje ste uneli će biti zanemareni. Moraćete da pokrenete ovog pomoćnika "
-"ponovo pre upotrebe Evolucije.\n"
+"Ukoliko sada zatvorite Evolucijinog pomoćnika za podešavanje, svi podaci koje "
+"ste uneli će biti zanemareni. Moraćete da pokrenete ovog pomoćnika ponovo "
+"pre upotrebe Evolucije.\n"
 "\n"
 "Želite li da sada zatvorite pomoćnika?"
 
@@ -15458,19 +15530,19 @@ msgstr ""
 "Ximian Evolucija nije trenutno na mreži. Pritisnite ovo dugme da radite na "
 "mreži."
 
-#: shell/e-shell.c:1002
+#: shell/e-shell.c:998
 msgid "Invalid arguments"
 msgstr "Neispravni argumenti"
 
-#: shell/e-shell.c:1004
+#: shell/e-shell.c:1000
 msgid "Cannot register on OAF"
 msgstr "Ne mogu da se registruje na OAF"
 
-#: shell/e-shell.c:1006
+#: shell/e-shell.c:1002
 msgid "Configuration Database not found"
 msgstr "Baza sa podešavanjima nije nađena"
 
-#: shell/e-shell.c:1008
+#: shell/e-shell.c:1004
 msgid "Generic error"
 msgstr "Opšta greška"
 
@@ -15869,16 +15941,15 @@ msgstr ""
 msgid "Don't tell me again"
 msgstr "Nemoj mi ponovo reći"
 
-#: shell/main.c:351
+#: shell/main.c:350
 #, c-format
 msgid ""
-"Warning: Evolution could not upgrade all your data from version %s.\n"
+"Warning: Evolution could not upgrade all your data from version %d.%d.%d.\n"
 "The data hasn't been deleted, but it will not be seen by this version of "
 "Evolution.\n"
 msgstr ""
-"Upozorenje: Evolucija ne može da dogradi sve vaše podatke iz izdanja %s.\n"
-"Vaši podaci nisu obrisani, ali neće biti prikazani u ovom izdanju "
-"Evolucije.\n"
+"Upozorenje: Evolucija ne može da dogradi sve vaše podatke iz izdanja %d.%d.%d.\n"
+"Vaši podaci nisu obrisani, ali neće biti prikazani u ovom izdanju Evolucije.\n"
 
 #: shell/main.c:410
 msgid "Cannot access the Ximian Evolution shell."
@@ -17498,18 +17569,16 @@ msgid "Toggles whether the From chooser is displayed"
 msgstr "Menja da li je polje Od prikazano"
 
 #: ui/evolution-message-composer.xml.h:35
-#, fuzzy
 msgid "Toggles whether the Post-To field is displayed"
-msgstr "Menja da li je polje Odgovor-za prikazano"
+msgstr "Menja da li je polje Pošalji-kome prikazano"
 
 #: ui/evolution-message-composer.xml.h:36
 msgid "Toggles whether the Reply-To field is displayed"
 msgstr "Menja da li je polje Odgovor-za prikazano"
 
 #: ui/evolution-message-composer.xml.h:37
-#, fuzzy
 msgid "Toggles whether the To field is displayed"
-msgstr "Menja da li je polje CC prikazano"
+msgstr "Menja da li je polje Kome prikazano"
 
 #: ui/evolution-message-composer.xml.h:38
 msgid "_Attachment..."
@@ -17541,9 +17610,8 @@ msgid "_Open..."
 msgstr "_Otvori..."
 
 #: ui/evolution-message-composer.xml.h:48
-#, fuzzy
 msgid "_Post-To Field"
-msgstr "Odgo_vori-na polje"
+msgstr "_Pošalji-kome polje"
 
 #: ui/evolution-message-composer.xml.h:49
 msgid "_Reply-To Field"
@@ -17554,9 +17622,8 @@ msgid "_Security"
 msgstr "_Bezbednost"
 
 #: ui/evolution-message-composer.xml.h:52
-#, fuzzy
 msgid "_To Field"
-msgstr "O_d zaglavlje"
+msgstr "_Kome polje"
 
 #: ui/evolution-signature-editor.xml.h:5
 msgid "H_TML"
@@ -17985,6 +18052,62 @@ msgstr "Drugo..."
 msgid "..."
 msgstr "..."
 
+#: widgets/misc/e-expander.c:181
+msgid "Expanded"
+msgstr "Razgranati"
+
+#: widgets/misc/e-expander.c:182
+msgid "Whether or not the expander is expanded"
+msgstr "Da li je razgranik razgranat ili ne"
+
+#: widgets/misc/e-expander.c:190
+msgid "Text of the expander's label"
+msgstr "Tekst oznake razgranika"
+
+#: widgets/misc/e-expander.c:197
+msgid "Use underline"
+msgstr "Koristi podvlaku"
+
+#: widgets/misc/e-expander.c:198
+msgid ""
+"If set, an underline in the text indicates the next character should be used "
+"for the mnemonic accelerator key"
+msgstr ""
+"Ako je postavljeno, podvlaka u tekstu označava tekst koji će se koristiti kao "
+"prečica"
+
+#: widgets/misc/e-expander.c:205
+msgid "Spacing"
+msgstr "Razmak"
+
+#: widgets/misc/e-expander.c:206
+msgid "Space to put between the label and the child"
+msgstr "Razmak između oznake i sadržanog elementa"
+
+#: widgets/misc/e-expander.c:215
+msgid "Label widget"
+msgstr "Element oznake"
+
+#: widgets/misc/e-expander.c:216
+msgid "A widget to display in place of the usual expander label"
+msgstr "Element koji se prikazuje umesto obične oznake razgranika"
+
+#: widgets/misc/e-expander.c:222
+msgid "Expander Size"
+msgstr "Veličina razgranika"
+
+#: widgets/misc/e-expander.c:223
+msgid "Size of the expander arrow"
+msgstr "Veličina strelice razgranika"
+
+#: widgets/misc/e-expander.c:231
+msgid "Indicator Spacing"
+msgstr "Razmak pokazivača"
+
+#: widgets/misc/e-expander.c:232
+msgid "Spacing around expander arrow"
+msgstr "Razmak oko strelice razgranika"
+
 #: widgets/misc/e-filter-bar.c:185
 msgid "Search Editor"
 msgstr "Urednik pretrage"
@@ -18034,69 +18157,11 @@ msgstr "Tekst"
 msgid "Find _Now"
 msgstr "Nađi _sada"
 
-#: shell/GNOME_Evolution_Test.server.in.in.h:1
-msgid "Evolution Test"
-msgstr "Proba Evolucije"
+#~ msgid "Birthdays"
+#~ msgstr "Rođendani"
 
-#: shell/GNOME_Evolution_Test.server.in.in.h:2
-msgid "Evolution Test component"
-msgstr "Probni deo Evolucije"
-
-#: widgets/misc/e-expander.c:181
-msgid "Expanded"
-msgstr "Razgranati"
-
-#: widgets/misc/e-expander.c:182
-msgid "Whether or not the expander is expanded"
-msgstr "Da li je razgranik razgranat ili ne"
-
-#: widgets/misc/e-expander.c:190
-msgid "Text of the expander's label"
-msgstr "Tekst oznake razgranika"
-
-#: widgets/misc/e-expander.c:197
-msgid "Use underline"
-msgstr "Koristi podvlaku"
-
-#: widgets/misc/e-expander.c:198
-msgid ""
-"If set, an underline in the text indicates the next character should be used "
-"for the mnemonic accelerator key"
-msgstr ""
-"Ako je postavljeno, podvlaka u tekstu označava tekst koji će se koristiti "
-"kao prečica"
-
-#: widgets/misc/e-expander.c:205
-msgid "Spacing"
-msgstr "Razmak"
-
-#: widgets/misc/e-expander.c:206
-msgid "Space to put between the label and the child"
-msgstr "Razmak između oznake i sadržanog elementa"
-
-#: widgets/misc/e-expander.c:215
-msgid "Label widget"
-msgstr "Element oznake"
-
-#: widgets/misc/e-expander.c:216
-msgid "A widget to display in place of the usual expander label"
-msgstr "Element koji se prikazuje umesto obične oznake razgranika"
-
-#: widgets/misc/e-expander.c:222
-msgid "Expander Size"
-msgstr "Veličina razgranika"
-
-#: widgets/misc/e-expander.c:223
-msgid "Size of the expander arrow"
-msgstr "Veličina strelice razgranika"
-
-#: widgets/misc/e-expander.c:231
-msgid "Indicator Spacing"
-msgstr "Razmak pokazivača"
-
-#: widgets/misc/e-expander.c:232
-msgid "Spacing around expander arrow"
-msgstr "Razmak oko strelice razgranika"
+#~ msgid "Failed to migrate `%s': %s"
+#~ msgstr "Neuspešan prenos „%s“: %s"
 
 #~ msgid "Rename"
 #~ msgstr "Preimenuj"
@@ -19589,9 +19654,6 @@ msgstr "Razmak oko strelice razgranika"
 
 #~ msgid "Evolution Addressbook local file backend"
 #~ msgstr "Osnovni proces lokalnih datoteka Evolucije adresara"
-
-#~ msgid "URL:"
-#~ msgstr "Adresa (URL):"
 
 #~ msgid "Make this Occurrence _Movable"
 #~ msgstr "Neka ova pojava bude _pokretna"

@@ -19,10 +19,12 @@ addressbook/gui/component/select-names/select-names.glade
 addressbook/gui/contact-editor/contact-editor.glade
 addressbook/gui/contact-editor/e-contact-editor-address.c
 addressbook/gui/contact-editor/e-contact-editor-fullname.c
+addressbook/gui/contact-editor/e-contact-editor-im.c
 addressbook/gui/contact-editor/e-contact-editor.c
 addressbook/gui/contact-editor/e-contact-quick-add.c
 addressbook/gui/contact-editor/fulladdr.glade
 addressbook/gui/contact-editor/fullname.glade
+addressbook/gui/contact-editor/im.glade
 addressbook/gui/contact-list-editor/contact-list-editor.glade
 addressbook/gui/contact-list-editor/e-contact-list-editor.c
 addressbook/gui/contact-list-editor/e-contact-list-editor.etspec
@@ -78,6 +80,7 @@ calendar/gui/dialogs/alarm-options.c
 calendar/gui/dialogs/alarm-options.glade
 calendar/gui/dialogs/alarm-page.c
 calendar/gui/dialogs/alarm-page.glade
+calendar/gui/dialogs/cal-prefs-dialog.c
 calendar/gui/dialogs/cal-prefs-dialog.glade
 calendar/gui/dialogs/calendar-setup.c
 calendar/gui/dialogs/calendar-setup.glade
@@ -110,6 +113,7 @@ calendar/gui/dialogs/task-details-page.glade
 calendar/gui/dialogs/task-editor.c
 calendar/gui/dialogs/task-page.c
 calendar/gui/dialogs/task-page.glade
+calendar/gui/dialogs/url-editor-dialog.glade
 calendar/gui/e-alarm-list.c
 calendar/gui/e-cal-list-view.c
 calendar/gui/e-cal-list-view.etspec
@@ -312,6 +316,7 @@ mail/message-tag-followup.c
 mail/message-tags.glade
 mail/subscribe-dialog.glade
 shell/GNOME_Evolution_Shell.server.in.in
+shell/GNOME_Evolution_Test.server.in.in
 shell/apps_evolution_shell.schemas.in.in
 shell/e-component-registry.c
 shell/e-config-upgrade.c
@@ -392,8 +397,7 @@ widgets/misc/e-cell-percent.c
 widgets/misc/e-charset-picker.c
 widgets/misc/e-clipped-label.c
 widgets/misc/e-dateedit.c
+widgets/misc/e-expander.c
 widgets/misc/e-filter-bar.c
 widgets/misc/e-filter-bar.h
 widgets/misc/e-search-bar.c
-shell/GNOME_Evolution_Test.server.in.in
-widgets/misc/e-expander.c
