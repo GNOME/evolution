@@ -1,3 +1,46 @@
+2001-05-21  Christopher James Lahey  <clahey@ximian.com>
+
+	* Makefile.am (INCLUDES): Added ETSPECDIR.  Added
+	e-storage-set-view.etspec to get installed.
+
+	* e-local-storage.c (remove_folder_directory): Commented out this
+	function since it is unused.
+
+	* e-shell-folder-commands.c
+	(folder_selection_dialog_folder_selected_callback), e-shell-view.c
+	(update_offline_toggle_status): Fixed warnings here by adding a
+	return; after the g_assert_not_reached();.
+
+	* e-shell-importer.c (start_import): Got rid of real_folderpath
+	here and just reused folderpath (It was causing uninitialized
+	variable warnings.)
+
+	* e-shell.c (impl_Shell_getLocalStorage): Use
+	bonobo_object_dup_ref here.  It makes things simpler.
+
+	* e-storage-set-view.c: Removed ETREE_SPEC since it's no longer
+	needed.
+	(convert_corba_drag_action_set_to_gdk,
+	folder_context_menu_activate_cb, remove_cb,
+	folder_context_menu_remove_cb): Commented out these functions
+	since they're unused.
+	(new_storage_cb, new_folder_cb, insert_folders, insert_storages):
+	Don't bother using insert_id here since it no longer does
+	anything.
+	(new_storage_cb, removed_storage_cb, removed_folder_cb): Don't
+	free the data returned from e_tree_memory_node_remove.
+	(e_storage_set_view_construct): Set the destroy func here so that
+	memory will automatically get freed when nodes are destroyed.
+	g_strdup the root node string here.  Use
+	e_tree_construct_from_spec_file here to use an external file.
+	(e_storage_set_view_set_show_folders): g_strdup the root node
+	string here.
+
+	* e-storage-set-view.etspec: New etspec file.
+
+	* evolution-shell-component-client.c
+	(free_ShellComponentListener_servant): Added a prototype here.
+
 2001-05-23  Chris Toshok  <toshok@ximian.com>
 
 	* evolution-shell-component.h

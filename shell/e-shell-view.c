@@ -1372,6 +1372,7 @@ update_offline_toggle_status (EShellView *shell_view)
 		break;
 	default:
 		g_assert_not_reached ();
+		return;
 	}
 
 	gtk_pixmap_set (GTK_PIXMAP (priv->offline_toggle_pixmap), icon_pixmap, icon_mask);

@@ -299,7 +299,6 @@ impl_Shell_getLocalStorage (PortableServer_Servant servant,
 {
 	BonoboObject *bonobo_object;
 	GNOME_Evolution_LocalStorage local_storage_interface;
-	GNOME_Evolution_LocalStorage copy_of_local_storage_interface;
 	EShell *shell;
 	EShellPrivate *priv;
 
@@ -309,10 +308,9 @@ impl_Shell_getLocalStorage (PortableServer_Servant servant,
 
 	local_storage_interface = e_local_storage_get_corba_interface (priv->local_storage);
 
-	copy_of_local_storage_interface = CORBA_Object_duplicate (local_storage_interface, ev);
-	Bonobo_Unknown_ref (copy_of_local_storage_interface, ev);
+	bonobo_object_dup_ref (local_storage_interface, ev);
 
-	return copy_of_local_storage_interface;
+	return local_storage_interface;
 }
 
 static Bonobo_Control

@@ -394,6 +394,7 @@ create_folder (ELocalStorage *local_storage,
 							      callback_data);
 }
 
+#if 0
 static EStorageResult
 remove_folder_directory (ELocalStorage *local_storage,
 			 const char *path)
@@ -432,6 +433,7 @@ remove_folder_directory (ELocalStorage *local_storage,
 	g_free (physical_path);
 	return E_STORAGE_OK;
 }
+#endif
 
 
 /* GtkObject methods.  */

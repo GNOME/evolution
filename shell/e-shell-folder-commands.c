@@ -143,6 +143,7 @@ folder_selection_dialog_folder_selected_callback (EShellFolderSelectionDialog *f
 		break;
 	default:
 		g_assert_not_reached ();
+		return;
 	}
 
 	storage_set = e_shell_get_storage_set (folder_command_data->shell);

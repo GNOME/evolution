@@ -10,6 +10,7 @@ INCLUDES = 								\
 	-DEVOLUTION_LOCALEDIR=\""$(localedir)"\"   		\
 	-DEVOLUTION_DATADIR=\""$(datadir)"\"            		\
 	-DEVOLUTION_GLADEDIR=\"$(datadir)/evolution/glade\"		\
+	-DEVOLUTION_ETSPECDIR=\"$(datadir)/evolution/etspec\"		\
 	-DG_LOG_DOMAIN=\"evolution-shell\"
 
 # CORBA stuff
@@ -150,9 +151,12 @@ oafdir = $(datadir)/oaf
 oaf_in_files = GNOME_Evolution_Shell.oaf.in
 oaf_DATA = $(oaf_in_files:.oaf.in=.oaf)
 
+etspecdir = $(datadir)/evolution/etspec/
+etspec_DATA = e-storage-set-view.etspec
+
 @XML_I18N_MERGE_OAF_RULE@
 
-EXTRA_DIST = $(IDLS) $(oaf_in_files) $(oaf_DATA)
+EXTRA_DIST = $(IDLS) $(oaf_in_files) $(oaf_DATA) $(etspec_DATA)
 
 # Purify support
 

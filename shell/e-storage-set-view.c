@@ -43,25 +43,12 @@
 
 #include "e-shell-constants.h"
 #include "e-local-storage.h"
-#ifdef JUST_FOR_TRANSLATORS
-static char *list [] = {
-	N_("Folder"),
-};
-#endif
 
 /*#define DEBUG_XML*/
 
 #define DRAG_RESISTANCE 3	/* FIXME hardcoded in ETable to this value as
 				 * well, and there is no way for us to use the
 				 * same value as it's not exported.  */
-
-#define ETREE_SPEC "<ETableSpecification no-headers=\"true\" selection-mode=\"single\" cursor-mode=\"line\" draw-grid=\"falsex\" horizontal-scrolling=\"true\"> \
-  <ETableColumn model_col=\"0\" _title=\"Folder\" expansion=\"1.0\" minimum_width=\"20\" resizable=\"true\" cell=\"render_tree\" compare=\"string\"/> \
-	<ETableState>                   			       \
-		<column source=\"0\"/>     			       \
-	        <grouping></grouping>                                  \
-	</ETableState>                  			       \
-</ETableSpecification>"
 
 
 /* This is used on the source side to define the two basic types that we always
@@ -353,6 +340,7 @@ convert_gdk_drag_action_set_to_corba (GdkDragAction action)
 	return retval;
 }
 
+#if 0
 static GdkDragAction
 convert_corba_drag_action_set_to_gdk (GNOME_Evolution_ShellComponentDnd_ActionSet action)
 {
@@ -371,6 +359,7 @@ convert_corba_drag_action_set_to_gdk (GNOME_Evolution_ShellComponentDnd_ActionSe
 
 	return retval;
 }
+#endif
 
 
 static GNOME_Evolution_ShellComponentDnd_ActionSet
@@ -666,6 +655,7 @@ folder_xfer_callback (EStorageSet *storage_set,
 /* FIXME: This should be moved somewhere else, so that also the shortcut code
    can share it.  */
 
+#if 0
 static void
 folder_context_menu_activate_cb (BonoboUIComponent *uih,
 				 void *data,
@@ -701,6 +691,7 @@ folder_context_menu_remove_cb (BonoboUIComponent *uih,
 	e_storage_set_async_remove_folder (priv->storage_set, priv->selected_row_path,
 					   remove_cb, storage_set_view);
 }
+#endif
 
 static void
 popup_folder_menu (EStorageSetView *storage_set_view,
@@ -1513,15 +1504,14 @@ new_storage_cb (EStorageSet *storage_set,
 
 	path = g_strconcat (G_DIR_SEPARATOR_S, e_storage_get_name (storage), NULL);
 
-	node = e_tree_memory_node_insert_id (E_TREE_MEMORY(priv->etree_model),
-					     priv->root_node,
-					     -1, path, path);
+	node = e_tree_memory_node_insert (E_TREE_MEMORY(priv->etree_model),
+					  priv->root_node,
+					  -1, path);
 	e_tree_memory_sort_node(E_TREE_MEMORY(priv->etree_model), priv->root_node, storage_sort_callback, storage_set_view);
 
 	e_tree_node_set_expanded (E_TREE(storage_set), node, TRUE);
 
 	if (! add_node_to_hash (storage_set_view, path, node)) {
-		g_free (path);
 		e_tree_memory_node_remove (E_TREE_MEMORY(priv->etree_model), node);
 		return;
 	}
@@ -1537,7 +1527,6 @@ removed_storage_cb (EStorageSet *storage_set,
 	ETreeModel *etree;
 	ETreePath node;
 	char *path;
-	char *node_data;
 
 	storage_set_view = E_STORAGE_SET_VIEW (data);
 	priv = storage_set_view->priv;
@@ -1547,8 +1536,7 @@ removed_storage_cb (EStorageSet *storage_set,
 	node = remove_node_from_hash (storage_set_view, path);
 	g_free (path);
 
-	node_data = e_tree_memory_node_remove (E_TREE_MEMORY(etree), node);
-	g_free (node_data);
+	e_tree_memory_node_remove (E_TREE_MEMORY(etree), node);
 }
 
 static void
@@ -1585,7 +1573,7 @@ new_folder_cb (EStorageSet *storage_set,
 	g_free (parent_path);
 
 	copy_of_path = g_strdup (path);
-	new_node = e_tree_memory_node_insert_id (E_TREE_MEMORY(etree), parent_node, -1, copy_of_path, copy_of_path);
+	new_node = e_tree_memory_node_insert (E_TREE_MEMORY(etree), parent_node, -1, copy_of_path);
 	e_tree_memory_sort_node(E_TREE_MEMORY(etree), parent_node, folder_sort_callback, storage_set_view);
 
 	if (! add_node_to_hash (storage_set_view, path, new_node)) {
@@ -1621,15 +1609,13 @@ removed_folder_cb (EStorageSet *storage_set,
 	EStorageSetViewPrivate *priv;
 	ETreeModel *etree;
 	ETreePath node;
-	char *node_data;
 
 	storage_set_view = E_STORAGE_SET_VIEW (data);
 	priv = storage_set_view->priv;
 	etree = priv->etree_model;
 
 	node = remove_node_from_hash (storage_set_view, path);
-	node_data = e_tree_memory_node_remove (E_TREE_MEMORY(etree), node);
-	g_free (node_data);
+	e_tree_memory_node_remove (E_TREE_MEMORY(etree), node);
 }
 
 
@@ -1797,7 +1783,7 @@ insert_folders (EStorageSetView *storage_set_view,
 		folder_name = e_folder_get_name (folder);
 
 		full_path = g_strconcat ("/", storage_name, folder_path, NULL);
-		node = e_tree_memory_node_insert_id (E_TREE_MEMORY(etree), parent, -1, (void *) full_path, full_path);
+		node = e_tree_memory_node_insert (E_TREE_MEMORY(etree), parent, -1, (void *) full_path);
 		e_tree_memory_sort_node(E_TREE_MEMORY(etree), parent, folder_sort_callback, storage_set_view);
 		add_node_to_hash (storage_set_view, full_path, node);
 
@@ -1842,8 +1828,8 @@ insert_storages (EStorageSetView *storage_set_view)
 		name = e_storage_get_name (storage);
 		path = g_strconcat ("/", name, NULL);
 
-		parent = e_tree_memory_node_insert_id (E_TREE_MEMORY(priv->etree_model), priv->root_node,
-						   -1, path, path);
+		parent = e_tree_memory_node_insert (E_TREE_MEMORY(priv->etree_model), priv->root_node,
+						    -1, path);
 		e_tree_memory_sort_node(E_TREE_MEMORY(priv->etree_model), priv->root_node, storage_sort_callback, storage_set_view);
 		e_tree_node_set_expanded (E_TREE(storage_set_view), parent, TRUE);
 
@@ -1895,7 +1881,9 @@ e_storage_set_view_construct (EStorageSetView   *storage_set_view,
 
 							 storage_set_view);
 
-	priv->root_node = e_tree_memory_node_insert (E_TREE_MEMORY(priv->etree_model), NULL, -1, "/Root Node");
+	e_tree_memory_set_node_destroy_func (E_TREE_MEMORY (priv->etree_model), (GFunc) g_free, NULL);
+
+	priv->root_node = e_tree_memory_node_insert (E_TREE_MEMORY(priv->etree_model), NULL, -1, g_strdup ("/Root Node"));
 
 	extras = e_table_extras_new ();
 	cell = e_cell_text_new (NULL, GTK_JUSTIFY_LEFT);
@@ -1903,8 +1891,8 @@ e_storage_set_view_construct (EStorageSetView   *storage_set_view,
 	e_table_extras_add_cell (extras, "render_tree",
 				 e_cell_tree_new (NULL, NULL, TRUE, cell));
 
-	e_tree_construct (E_TREE (storage_set_view), priv->etree_model, extras,
-			   ETREE_SPEC, NULL);
+	e_tree_construct_from_spec_file (E_TREE (storage_set_view), priv->etree_model, extras,
+					 EVOLUTION_ETSPECDIR "/e-storage-set-view.etspec", NULL);
 
 	e_tree_root_node_set_visible (E_TREE(storage_set_view), FALSE);
 
@@ -2018,7 +2006,7 @@ e_storage_set_view_set_show_folders (EStorageSetView *storage_set_view,
 	g_hash_table_foreach (priv->path_to_etree_node, path_free_func, NULL);
 
 	/* now re-add the root node */
-	priv->root_node = e_tree_memory_node_insert (E_TREE_MEMORY(priv->etree_model), NULL, -1, "/Root Node");
+	priv->root_node = e_tree_memory_node_insert (E_TREE_MEMORY(priv->etree_model), NULL, -1, g_strdup ("/Root Node"));
 
 	/* then reinsert the storages after setting the "show_folders"
 	   flag.  insert_storages will call insert_folders if

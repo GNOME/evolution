@@ -336,7 +336,6 @@ start_import (const char *folderpath,
 	ImporterComponentData *icd;
 	char *label;
 	char *real_iid;
-	char *real_folderpath;
 	
 	if (iid == NULL || strcmp (iid, "Automatic") == 0) {
 		/* Work out the component to use */
@@ -397,10 +396,10 @@ start_import (const char *folderpath,
 	/* NULL for folderpath means use Inbox */
 	g_warning ("Folderpath: %s", folderpath);
 	if (*folderpath == '/') {
-		real_folderpath = strchr (folderpath + 1, '/');
+		folderpath = strchr (folderpath + 1, '/');
 	}
 
-	if (evolution_importer_client_load_file (icd->client, filename, real_folderpath) == FALSE) {
+	if (evolution_importer_client_load_file (icd->client, filename, folderpath) == FALSE) {
 		label = g_strdup_printf (_("Error loading %s"), filename);
 		gtk_label_set_text (GTK_LABEL (icd->contents), label);
 		g_free (label);
