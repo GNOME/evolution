@@ -2014,8 +2014,6 @@ find_address_mailing (EContactEditor *editor)
 			}
 		}
 	}
-
-	
 }
 
 static void

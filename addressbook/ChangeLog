@@ -1,5 +1,25 @@
 2002-02-04  JP Rosevear  <jpr@ximian.com>
 
+	* gui/contact-editor/e-contact-editor.c (find_address_mailing): tidy
+
+	* conduit/address-conduit.c (addrconduit_load_configuration): load
+	default address setting
+	(addrconduit_save_configuration): save default address setting
+	(e_addr_gui_new): new gui routine for conduit settings
+	(e_addr_gui_fill_widgets): ditto
+	(e_addr_gui_fill_config): ditto
+	(e_addr_gui_destroy): ditto
+	(e_addr_context_destroy): destroy the gui and new_cfg
+	(local_record_from_ecard): reinstate commented out bits, determine
+	which address to sync to pilot
+	(ecard_from_remote_record): determine which address to sync from
+	pilot
+	(fill_widgets): put the gui widgets in
+	(create_settings_window): create gui
+	(save_settings): fill gui
+
+2002-02-04  JP Rosevear  <jpr@ximian.com>
+	
 	* gui/contact-editor/e-contact-editor.c (address_text_changed): if
 	the shown address in the mailing address or there is no mailing
 	address, set the default flag and make sure the button is checked
