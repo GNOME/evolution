@@ -35,6 +35,7 @@ struct _FilterEditorPrivate {
 	GtkWidget *edit, *add, *remove, *up, *down;
 
 	/* for sub-druid */
+	struct filter_option *druid_option;
 	GtkWidget *druid_dialogue;
 	FilterDruid *druid_druid;
 };
@@ -125,7 +126,20 @@ druid_dialogue_clicked(GnomeDialog *d, int button, FilterEditor *e)
 		printf("Finish!\n");
 		if (p->druid_druid->option_current) {
 			/* FIXME: this should be copied? */
-			e->useroptions = g_list_append(e->useroptions, p->druid_druid->option_current);
+			if (p->druid_option) {
+				GList *node;
+
+				node = g_list_find(e->useroptions, p->druid_option);
+				if (node) {
+					/* FIXME: memleak, should copy */
+					node->data = p->druid_druid->option_current;
+				} else {
+					g_warning("Cannot find node I edited, appending instead");
+					e->useroptions = g_list_append(e->useroptions, p->druid_druid->option_current);
+				}
+			} else {
+				e->useroptions = g_list_append(e->useroptions, p->druid_druid->option_current);
+			}
 			filter_druid_set_rules(p->druid, e->useroptions, e->rules, NULL);
 		}
 	case 3:
@@ -181,6 +195,8 @@ add_or_edit(FilterEditor *e, struct filter_option *option)
 	if (option) {
 		druid_dialogue_clicked(dialogue, 1, e);
 	}
+
+	p->druid_option = option;
 
 	gtk_signal_connect(druid, "option_selected", druid_dialogue_option_selected, e);
 

@@ -165,6 +165,24 @@ filter_arg_clone (FilterArg *arg)
 }
 
 void
+filter_arg_copy(FilterArg *dst, FilterArg *src)
+{
+	xmlNodePtr values;
+
+	g_return_if_fail( ((GtkObject *)src)->klass->type == ((GtkObject *)dst)->klass->type );
+
+	/* remove old values */
+	while (dst->values) {
+		filter_arg_remove(dst, dst->values->data);
+	}
+
+	/* clone values */
+	values = filter_arg_values_get_xml(src);
+	filter_arg_values_add_xml(dst, values);
+	xmlFreeNodeList(values);
+}
+
+void
 filter_arg_add(FilterArg *arg, void *v)
 {
 	g_return_if_fail(v != NULL);
@@ -180,6 +198,7 @@ filter_arg_remove(FilterArg *arg, void *v)
 	((FilterArgClass *)(arg->object.klass))->free_value(arg, v);
 	gtk_signal_emit(GTK_OBJECT(arg), signals[CHANGED]);
 }
+
 
 void
 filter_arg_write_html(FilterArg *arg, GtkHTML *html, GtkHTMLStreamHandle *stream)

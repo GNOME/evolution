@@ -67,10 +67,14 @@ struct _FilterArgClass {
 guint		filter_arg_get_type	(void);
 FilterArg      *filter_arg_new	(char *name);
 FilterArg      *filter_arg_clone(FilterArg *arg);
+void		filter_arg_copy (FilterArg *dst, FilterArg *src);
 void		filter_arg_value_add(FilterArg *a, void *v);
 
 void		filter_arg_edit_values(FilterArg *arg);
 int	        filter_arg_edit_value(FilterArg *arg, int index);
+
+void		filter_arg_remove(FilterArg *arg, void *v);
+void		filter_arg_add(FilterArg *arg, void *v);
 
 xmlNodePtr	filter_arg_values_get_xml(FilterArg *arg);
 void		filter_arg_values_add_xml(FilterArg *arg, xmlNodePtr node);

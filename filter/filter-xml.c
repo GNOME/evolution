@@ -400,7 +400,9 @@ filter_clone_optionrule(struct filter_optionrule *or)
 	rule->rule = or->rule;
 	arg = or->args;
 	while (arg) {
-		rule->args = g_list_append(rule->args, filter_arg_clone(FILTER_ARG(arg->data)));
+		FilterArg *new = filter_arg_clone(FILTER_ARG(arg->data));
+		gtk_object_set_data(new, "origin", arg->data);
+		rule->args = g_list_append(rule->args, new);
 		arg = g_list_next(arg);
 	}
 	return rule;
@@ -453,6 +455,74 @@ filter_optionrule_new_from_rule(struct filter_rule *rule)
 	return or;
 }
 
+void
+filter_description_free(GList *descl)
+{
+	GList *node;
+
+	node = descl;
+	while (node) {
+		GList *next = g_list_next(node);
+		struct filter_desc *d = node->data;
+
+		g_free(d->data);
+		g_free(d->varname);
+		g_free(d);
+
+		node = next;
+	}
+	g_list_free(descl);
+}
+
+void
+filter_load_ruleset_free(GList *nodel)
+{
+	GList *node = nodel;
+
+	while (node) {
+		GList *next = g_list_next(node);
+		struct filter_rule *r = node->data;
+
+		filter_description_free(r->description);
+
+		/* g_free(r->name); */
+		/* g_free(r->code); */
+
+		g_free(r);
+		node = next;
+	}
+	g_list_free(nodel);
+}
+
+void
+filter_load_optionset_free(GList *optionl)
+{
+	GList *option = optionl;
+	while (option) {
+		GList *next = g_list_next(option);
+		struct filter_option *fo = option->data;
+		GList *optionrule = fo->options;
+
+		while (optionrule) {
+			GList *next = g_list_next(optionrule);
+			struct filter_optionrule *or = optionrule->data;
+			GList *arg = or->args;
+
+			while (arg) {
+				gtk_object_unref(arg->data);
+				arg = g_list_next(arg);
+			}
+
+			g_list_free(or->args);
+			g_free(or);
+			optionrule = next;
+		}
+		filter_description_free(fo->description);
+		g_list_free(fo->options);
+		g_free(fo);
+		option = next;
+	}
+}
 
 #ifdef TESTER
 int main(int argc, char **argv)

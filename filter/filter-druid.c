@@ -102,6 +102,8 @@ object_finalize(FilterDruid *obj)
 
 	g_free(p->default_html);
 
+	printf("\n druid finalize!\n\n");
+
 	/* FIXME: free lists? */
 
 	GTK_OBJECT_CLASS(filter_druid_parent)->finalize(obj);
@@ -414,12 +416,40 @@ arg_link_clicked(GtkHTML *html, const char *url, FilterDruid *f)
 		void *dummy;
 
 		if (sscanf(url+4, "%p %p", &dummy, &arg)==2
-			&& arg) {
+		    && arg) {
+			FilterArg *orig;
+
 			printf("arg = %p\n", arg);
 			filter_arg_edit_values(arg);
+
+			/* insert the new value into the existing one */
+			orig = gtk_object_get_data(arg, "origin");
+			if (orig) {
+				filter_arg_copy(orig, arg);
+			} else {
+				g_warning("unknown object loaded");
+			}
 			/* should have a changed signal which propagates the rewrite */
 			update_display(f, 0);
 		}
+	}
+}
+
+static void
+option_name_changed(GtkEntry *entry, FilterDruid *f)
+{
+	struct filter_desc *desc;
+
+	printf("name chaned: %s\n", gtk_entry_get_text(entry));
+
+	if (f->option_current) {
+		/* FIXME: lots of memory leaks */
+		desc = g_malloc0(sizeof(*desc));
+		desc->data = g_strdup(gtk_entry_get_text(entry));
+		desc->type = FILTER_XML_TEXT;
+		desc->vartype = -1;
+		desc->varname = NULL;
+		f->option_current->description = g_list_append(NULL, desc);
 	}
 }
 
@@ -635,6 +665,8 @@ build_druid(FilterDruid *d)
 	p->activate1 = gtk_check_button_new_with_label("Activate rule?");
 	gtk_box_pack_start((GtkBox *)vbox1, p->activate1, TRUE, FALSE, 0);
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(p->activate1), TRUE);
+
+	gtk_signal_connect(GTK_OBJECT(p->name1), "changed", option_name_changed, d);
 
 	gtk_box_pack_start((GtkBox *)vbox, frame, TRUE, TRUE, 0);
 
