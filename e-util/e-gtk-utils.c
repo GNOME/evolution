@@ -28,6 +28,12 @@
 #include <gtk/gtklayout.h>
 #include <gtk/gtksignal.h>
 #include <gtk/gtkwidget.h>
+#include <gtk/gtkbutton.h>
+#include <gtk/gtkstock.h>
+#include <gtk/gtklabel.h>
+#include <gtk/gtkimage.h>
+#include <gtk/gtkhbox.h>
+#include <gtk/gtkalignment.h>
 
 #include <gdk/gdkx.h>
 
@@ -166,4 +172,47 @@ void
 e_make_widget_backing_stored  (GtkWidget *widget)
 {
 	g_signal_connect (widget, "realize", G_CALLBACK (widget_realize_callback_for_backing_store), NULL);
+}
+
+
+/**
+ * e_gtk_button_new_with_icon:
+ * @text: The mnemonic text for the label.
+ * @stock: The name of the stock item to get the icon from.
+ * 
+ * Create a gtk button with a custom label and a stock icon.
+ *
+ * 
+ * Return value: The widget.
+ **/
+GtkWidget *
+e_gtk_button_new_with_icon(const char *text, const char *stock)
+{
+	GtkWidget *button, *label;
+	GtkStockItem item;
+
+	button = gtk_button_new();
+	label = gtk_label_new_with_mnemonic(text);
+	gtk_label_set_mnemonic_widget((GtkLabel *)label, button);
+
+	if (gtk_stock_lookup(stock, &item)) {
+		GtkWidget *image, *hbox, *align;
+
+		printf("new stock button '%s' label '%s'\n", stock, text);
+
+		image = gtk_image_new_from_stock(stock, GTK_ICON_SIZE_BUTTON);
+		hbox = gtk_hbox_new(FALSE, 2);
+		align = gtk_alignment_new(0.5, 0.5, 0.0, 0.0);
+		gtk_box_pack_start((GtkBox *)hbox, image, FALSE, FALSE, 0);
+		gtk_box_pack_end((GtkBox *)hbox, label, FALSE, FALSE, 0);
+		gtk_container_add((GtkContainer *)align, hbox);
+		gtk_container_add((GtkContainer *)button, align);
+		gtk_widget_show_all(align);
+	} else {
+		gtk_misc_set_alignment((GtkMisc *)label, 0.5, 0.5);
+		gtk_container_add((GtkContainer *)button, label);
+		gtk_widget_show(label);
+	}
+
+	return button;
 }

@@ -44,4 +44,6 @@ void  e_signal_connect_full_while_alive  (void               *instance,
 
 void  e_make_widget_backing_stored  (GtkWidget *widget);
 
+GtkWidget *e_gtk_button_new_with_icon(const char *text, const char *stock);
+
 #endif

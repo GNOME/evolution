@@ -1,3 +1,8 @@
+2003-04-14  Not Zed  <NotZed@Ximian.com>
+
+	* e-gtk-utils.c (e_gtk_button_new_with_icon): Utility function to
+	create a button with a stock icon.
+
 2003-04-09  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* e-host-utils.c (e_gethostbyaddr_r): Change the 'len' argument to
