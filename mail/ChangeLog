@@ -1,3 +1,10 @@
+2004-05-19  Jeffrey Stedfast  <fejj@novell.com>
+
+	* message-list.c (message_list_init_images): Changed to load an
+	empty pixbuf manually rather than relying on the pixbuf returned
+	for "" from e_icon_factory_get_icon() since it has changed to
+	return a broken image icon.
+
 2004-05-19  JP Rosevear  <jpr@novell.com>
 
 	* Makefile.am: don't dist the error .h file

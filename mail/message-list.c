@@ -70,6 +70,8 @@
 #include "em-utils.h"
 #include <e-util/e-icon-factory.h>
 
+#include "art/empty.xpm"
+
 /*#define TIMEIT */
 
 #ifdef TIMEIT
@@ -194,25 +196,24 @@ static guint message_list_signals [LAST_SIGNAL] = {0, };
 static struct {
 	char *icon_name;
 	GdkPixbuf  *pixbuf;
-} states_pixmaps [] = {
-	{ "stock_mail-unread",			NULL },
-	{ "stock_mail-open",			NULL },
-	{ "stock_mail-replied",			NULL },
-	{ "stock_mail-unread-multiple",	NULL },
-	{ "stock_mail-open-multiple",	NULL },
-	{ "",					NULL },
-	{ "stock_attach",			NULL },
-	{ "stock_mail-priority-high",	NULL },
-	{ "stock_score-lowest",			NULL },
-	{ "stock_score-lower",			NULL },
-	{ "stock_score-low",			NULL },
-	{ "stock_score-normal",			NULL },
-	{ "stock_score-high",			NULL },
-	{ "stock_score-higher",			NULL },
-	{ "stock_score-highest",		NULL },
-	{ "stock_mail-flag-for-followup",	NULL },
-	{ "stock_mail-flag-for-followup-done",	NULL },
-	{ NULL,					NULL }
+} states_pixmaps[] = {
+	{ "stock_mail-unread",                 NULL },
+	{ "stock_mail-open",                   NULL },
+	{ "stock_mail-replied",                NULL },
+	{ "stock_mail-unread-multiple",        NULL },
+	{ "stock_mail-open-multiple",          NULL },
+	{ NULL,                                NULL },
+	{ "stock_attach",                      NULL },
+	{ "stock_mail-priority-high",          NULL },
+	{ "stock_score-lowest",                NULL },
+	{ "stock_score-lower",                 NULL },
+	{ "stock_score-low",                   NULL },
+	{ "stock_score-normal",                NULL },
+	{ "stock_score-high",                  NULL },
+	{ "stock_score-higher",                NULL },
+	{ "stock_score-highest",               NULL },
+	{ "stock_mail-flag-for-followup",      NULL },
+	{ "stock_mail-flag-for-followup-done", NULL },
 };
 
 /* FIXME: junk prefs */
@@ -1259,11 +1260,15 @@ message_list_init_images (void)
 	/*
 	 * Only load once, and share
 	 */
-	if (states_pixmaps [0].pixbuf)
+	if (states_pixmaps[0].pixbuf)
 		return;
 	
-	for (i = 0; states_pixmaps[i].icon_name; i++)
-		states_pixmaps[i].pixbuf = e_icon_factory_get_icon (states_pixmaps[i].icon_name, E_ICON_SIZE_MENU);
+	for (i = 0; i < G_N_ELEMENTS (states_pixmaps); i++) {
+		if (states_pixmaps[i].icon_name)
+			states_pixmaps[i].pixbuf = e_icon_factory_get_icon (states_pixmaps[i].icon_name, E_ICON_SIZE_MENU);
+		else
+			states_pixmaps[i].pixbuf = gdk_pixbuf_new_from_xpm_data ((const char **) empty_xpm);
+	}
 }
 
 static char *
