@@ -9,7 +9,7 @@
 	</oaf_attribute>
 
 	<oaf_attribute name="description" type="string"
-			value="Factory for the test component."/>
+			_value="Factory for the test component."/>
 </oaf_server>
 
 <oaf_server iid="OAFIID:GNOME_Evolution_Summary_test_Component"
@@ -21,7 +21,7 @@
 	</oaf_attribute>
 
 	<oaf_attribute name="description" type="string"
-			value="Test service"/>
+			_value="Test service"/>
 </oaf_server>
 
 <!-- This does not work
@@ -34,7 +34,7 @@
         </oaf_attribute>
 
         <oaf_attribute name="description" type="string"
-                        value="Factory for the test bonobo component."/>
+                        _value="Factory for the test bonobo component."/>
 </oaf_server>
 
 <oaf_server iid="OAFIID:evolution-summary-component:test-bonobo-service:d3cb3ed6-a654-4337-8aa0-f443751d6d1b"
@@ -46,7 +46,7 @@
         </oaf_attribute>
 
         <oaf_attribute name="description" type="string"
-                        value="Test bonobo service"/>
+                        _value="Test bonobo service"/>
 </oaf_server>
 
 -->

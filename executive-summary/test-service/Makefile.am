@@ -33,8 +33,11 @@ rdf_summary_LDADD =			\
 	$(EXTRA_GNOME_LIBS)
 
 oafdir = $(datadir)/oaf
-oaf_DATA = \
-	GNOME_Evolution_Summary_test.oafinfo \
-	GNOME_Evolution_Summary_rdf.oafinfo
+oaf_in_files = \
+	GNOME_Evolution_Summary_test.oaf.in \
+	GNOME_Evolution_Summary_rdf.oaf.in
+oaf_DATA = $(oaf_in_files:.oaf.in=.oaf)
 
-EXTRA_DIST = $(oaf_DATA) 
+@XML_I18N_MERGE_OAF_RULE@
+
+EXTRA_DIST = $(oaf_in_files) $(oaf_DATA) 

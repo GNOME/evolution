@@ -9,7 +9,7 @@
 	</oaf_attribute>
 
 	<oaf_attribute name="description" type="string"
-			value="Factory for the RDF summary."/>
+			_value="Factory for the RDF summary."/>
 </oaf_server>
 
 <oaf_server iid="OAFIID:GNOME_Evolution_Summary_rdf_SummaryComponent"
@@ -21,7 +21,7 @@
 	</oaf_attribute>
 
 	<oaf_attribute name="description" type="string"
-			value="RDF Summary"/>
+			_value="RDF Summary"/>
 </oaf_server>
 
 </oaf_info>

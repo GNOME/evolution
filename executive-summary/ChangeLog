@@ -1,3 +1,10 @@
+2001-02-13  Kjartan Maraas  <kmaraas@gnome.org>
+
+	* Makefile.am: xml-i18n-tools setup for .oaf.in files.
+	* GNOME_Evolution_Summary.oaf.in: Mark strings for translation.
+	* test-service/Makefile.am: xml-i18n-tools setup for .oaf.in files.
+	* test-service/*.oaf.in: Mark strings for translation.
+	
 2001-01-23  Iain Holmes  <iain@ximian.com>
 
 	* component/e-summary.c (e_summary_load_page): Don't strdup the NULL.

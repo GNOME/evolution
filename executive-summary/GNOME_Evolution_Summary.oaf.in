@@ -8,7 +8,7 @@
 	</oaf_attribute>
 
 	<oaf_attribute name="description" type="string" 
-		value="Factory for the Evolution executive summary component."/>
+		_value="Factory for the Evolution executive summary component."/>
 </oaf_server>
 
 <oaf_server iid="OAFIID:GNOME_Evolution_Summary_ShellComponent"
@@ -20,7 +20,7 @@
 	</oaf_attribute>
 
 	<oaf_attribute name="description" type="string"
-		value="Evolution component for the executive summary."/>
+		_value="Evolution component for the executive summary."/>
 
 	<oaf_attribute name="evolution:shell-component-icon" type="string"
 		       value="evolution-today.png"/>
