@@ -1,3 +1,14 @@
+2005-01-15  JP Rosevear  <jpr@novell.com>
+
+	* calendar/ea-calendar-helpers.c
+	(ea_calendar_helpers_get_cal_view_from): use E_CALENDAR_VIEW, not
+	E_CAL_VIEW
+
+	Fixes #71306
+	
+	* calendar/Makefile.am: no need for any idl in this directory, it
+	was not used anywhere
+
 2005-01-04  Harry Lu  <harry.lu@sun.com>
 
 	* widgets/Makefile.am: add ea-combo-button.[ch] to Makefile.
