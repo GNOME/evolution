@@ -41,8 +41,10 @@ extern "C" {
 #define CAMEL_IMAP_STREAM_CLASS(k) (GTK_CHECK_CLASS_CAST ((k), CAMEL_IMAP_STREAM_TYPE, CamelImapStreamClass))
 #define CAMEL_IS_IMAP_STREAM(o)    (GTK_CHECK_TYPE((o), CAMEL_IMAP_STREAM_TYPE))
 
-struct _CamelImapStream
-{
+typedef struct _CamelImapStream CamelImapStream;
+typedef struct _CamelImapStreamClass CamelImapStreamClass;
+
+struct _CamelImapStream {
 	CamelStream parent_object;
 
 	CamelImapFolder *folder;
@@ -51,11 +53,11 @@ struct _CamelImapStream
 	char *cache_ptr;
 };
 
-typedef struct {
+struct _CamelImapStreamClass {
 	CamelStreamClass parent_class;
 
 	/* Virtual methods */
-} CamelImapStreamClass;
+};
 
 /* Standard Gtk function */
 GtkType camel_imap_stream_get_type (void);

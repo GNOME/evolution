@@ -49,7 +49,6 @@ camel_imap_stream_class_init (CamelImapStreamClass *camel_imap_stream_class)
 
 	/* virtual method overload */
 	camel_stream_class->read  = stream_read;
-	/*camel_stream_class->write = stream_write;*/
 	camel_stream_class->reset = stream_reset;
 	camel_stream_class->eos   = stream_eos;
 
@@ -113,7 +112,7 @@ finalize (GtkObject *object)
 	g_free(imap_stream->command);
 
 	if (imap_stream->folder)
-		gtk_object_unref(imap_stream->folder);
+		gtk_object_unref(GTK_OBJECT (imap_stream->folder));
 
 	GTK_OBJECT_CLASS (parent_class)->finalize (object);
 }
@@ -128,10 +127,11 @@ stream_read (CamelStream *stream, char *buffer, size_t n)
 
 	if (!imap_stream->cache) {
 		/* We need to send the IMAP command since this is our first fetch */
-		CamelImapStore *store = CAMEL_IMAP_STORE (imap_stream->folder->parent_store);
+		CamelFolder *folder = CAMEL_FOLDER (imap_stream->folder);
 		gint status;
 		
-		status = camel_imap_command_extended(store->ostream, imap_stream->cache, "%s",
+		status = camel_imap_command_extended(CAMEL_IMAP_STORE (folder->parent_store),
+						     &imap_stream->cache, "%s",
 						     imap_stream->command);
 
 		if (status != CAMEL_IMAP_OK) {
@@ -159,23 +159,6 @@ stream_read (CamelStream *stream, char *buffer, size_t n)
 	}
 
 	return nread;
-}
-
-static int
-stream_write (CamelStream *stream, const char *buffer, unsigned int n)
-{
-	/* I don't think we need/want this functionality */
-	CamelImapStream *imap_stream = CAMEL_IMAP_STREAM (stream);
-
-	if (!imap_stream->cache) {
-		imap_stream->cache = g_malloc0(n + 1);
-		memcpy(imap_stream->cache, buffer, n);
-	} else {
-		imap_stream->cache = g_realloc(strlen(imap_stream->cache) + n + 1);
-		memcpy(imap_stream->cache[strlen(imap_stream->cache)], buffer, n);
-	}
-
-	return n;
 }
 
 static int

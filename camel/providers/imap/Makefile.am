@@ -2,7 +2,7 @@
 
 SUBDIRS = 
 
-libcamelmboxincludedir = $(includedir)/camel
+libcamelimapincludedir = $(includedir)/camel
 
 
 providerdir = $(pkglibdir)/camel-providers/$(VERSION)
@@ -25,11 +25,13 @@ libcamelimap_la_SOURCES = 			\
 	camel-imap-folder.c			\
 	camel-imap-provider.c			\
 	camel-imap-store.c			\
+	camel-imap-stream.c			\
 	camel-imap-summary.c
 
 libcamelimapinclude_HEADERS =			\
 	camel-imap-folder.h			\
 	camel-imap-store.h			\
+	camel-imap-stream.h			\
 	camel-imap-summary.h
 
 libcamelimap_la_LDFLAGS = -version-info 0:0:0 -rpath $(libdir) 

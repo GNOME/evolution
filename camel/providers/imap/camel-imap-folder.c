@@ -57,10 +57,11 @@ static void imap_init (CamelFolder *folder, CamelStore *parent_store,
 
 static void imap_open (CamelFolder *folder, CamelFolderOpenMode mode, CamelException *ex);
 static void imap_close (CamelFolder *folder, gboolean expunge, CamelException *ex);
+#if 0
 static gboolean imap_exists (CamelFolder *folder, CamelException *ex);
-static gboolean imap_create(CamelFolder *folder, CamelException *ex);
 static gboolean imap_delete (CamelFolder *folder, gboolean recurse, CamelException *ex);
 static gboolean imap_delete_messages (CamelFolder *folder, CamelException *ex);
+#endif
 static gint imap_get_message_count (CamelFolder *folder, CamelException *ex);
 static void imap_append_message (CamelFolder *folder, CamelMimeMessage *message, CamelException *ex);
 static GPtrArray *imap_get_uids (CamelFolder *folder, CamelException *ex);
@@ -102,12 +103,12 @@ camel_imap_folder_class_init (CamelImapFolderClass *camel_imap_folder_class)
 
 	camel_folder_class->open = imap_open;
 	camel_folder_class->close = imap_close;
-
+#if 0
 	camel_folder_class->exists = imap_exists;
 	camel_folder_class->create = imap_create;
 	camel_folder_class->delete = imap_delete;
-
 	camel_folder_class->delete_messages = imap_delete_messages;
+#endif
 	camel_folder_class->get_message_count = imap_get_message_count;
 	camel_folder_class->append_message = imap_append_message;
 	camel_folder_class->get_uids = imap_get_uids;
@@ -302,6 +303,7 @@ imap_expunge (CamelFolder *folder, CamelException *ex)
 	g_free(result);
 }
 
+#if 0
 static gboolean
 imap_exists (CamelFolder *folder, CamelException *ex)
 {
@@ -345,62 +347,8 @@ imap_exists (CamelFolder *folder, CamelException *ex)
 
 	return exists;
 }
-
-static gboolean
-imap_create (CamelFolder *folder, CamelException *ex)
-{
-	CamelImapFolder *imap_folder = CAMEL_IMAP_FOLDER (folder);
-	const gchar *folder_file_path, *folder_dir_path;
-	gboolean folder_already_exists;
-	gchar *result;
-	gint status;
-
-	g_return_val_if_fail (folder != NULL, FALSE);
-
-	/* call default implementation */
-	parent_class->create (folder, ex);
-	if (camel_exception_get_id (ex))
-		return FALSE;
-	
-	/* get the paths of what we need to create */
-	folder_file_path = imap_folder->folder_file_path;
-	folder_dir_path = imap_folder->folder_dir_path;
-	
-	if (!(folder_file_path || folder_dir_path)) {
-		camel_exception_set (ex, CAMEL_EXCEPTION_FOLDER_INVALID,
-				     "invalid folder path. Use set_name ?");
-		return FALSE;
-	}
-	
-	/* if the folder already exists, simply return */
-	folder_already_exists = camel_folder_exists (folder, ex);
-	if (camel_exception_get_id (ex))
-		return FALSE;
-
-	if (folder_already_exists)
-		return TRUE;
-
-	/* create the directory for the subfolder */
-	status = camel_imap_command_extended (CAMEL_IMAP_STORE (folder->parent_store), &result,
-					      "CREATE %s", imap_folder->folder_file_path);
-	
-	if (status != CAMEL_IMAP_OK) {
-		CamelService *service = CAMEL_SERVICE (folder->parent_store);
-		camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
-				      "Could not CREATE %s on IMAP server %s: %s.",
-				      imap_folder->folder_file_path,
-				      service->url->host,
-				      status == CAMEL_IMAP_ERR ? result :
-				      "Unknown error");
-		g_free (result);
-		return FALSE;
-	}
-	
-	g_free(result);
-
-	return TRUE;
-}
-
+#endif
+#if 0
 static gboolean
 imap_delete (CamelFolder *folder, gboolean recurse, CamelException *ex)
 {
@@ -447,22 +395,7 @@ imap_delete (CamelFolder *folder, gboolean recurse, CamelException *ex)
 
 	return TRUE;
 }
-
-/* TODO: remove this - don't bother coding, it'll be moved/removed */
-gboolean
-imap_delete_messages (CamelFolder *folder, CamelException *ex)
-{
-	/* TODO: delete the messages (mark as deleted/whatever) */
-#if 0
-	CamelImapFolder *imap_folder = CAMEL_IMAP_FOLDER (folder);
-	gchar *result;
-	gint status;
 #endif
-
-	g_return_val_if_fail (folder != NULL, FALSE);
-
-	return TRUE;
-}
 
 static gint
 imap_get_message_count (CamelFolder *folder, CamelException *ex)
@@ -521,7 +454,7 @@ imap_append_message (CamelFolder *folder, CamelMimeMessage *message, CamelExcept
 	g_return_if_fail (message != NULL);
 
 	/* write the message to a CamelStreamMem so we can get it's size */
-	mem = camel_stream_mem_new();
+	mem = (CamelStreamMem *)camel_stream_mem_new();
 	if (camel_data_wrapper_write_to_stream (CAMEL_DATA_WRAPPER (message), CAMEL_STREAM (mem)) == -1) {
 		CamelService *service = CAMEL_SERVICE (folder->parent_store);
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
@@ -736,17 +669,17 @@ imap_get_message_by_uid (CamelFolder *folder, const gchar *uid, CamelException *
 				      status == CAMEL_IMAP_ERR ? result :
 				      "Unknown error");
 		g_free (result);
-		return;
+		goto fail;
 	}
 	
 	/* where we read from */
-	message_stream = camel_stream_mem_new_with_buffer (result, strlen(result));
+	message_stream = (CamelStreamMem *)camel_stream_mem_new_with_buffer (result, strlen(result));
 	if (message_stream == NULL)
 		goto fail;
 
 	/* we use a parser to verify the message is correct, and in the correct position */
 	parser = camel_mime_parser_new();
-	camel_mime_parser_init_with_stream(parser, message_stream);
+	camel_mime_parser_init_with_stream(parser, CAMEL_STREAM (message_stream));
 	gtk_object_unref(GTK_OBJECT (message_stream));
 	camel_mime_parser_scan_from(parser, TRUE);
 

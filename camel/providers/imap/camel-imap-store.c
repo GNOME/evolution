@@ -52,16 +52,15 @@
 static CamelServiceClass *service_class = NULL;
 
 static void finalize (GtkObject *object);
-
+static gboolean imap_create (CamelFolder *folder, CamelException *ex);
 static gboolean imap_connect (CamelService *service, CamelException *ex);
 static gboolean imap_disconnect (CamelService *service, CamelException *ex);
 static GList *query_auth_types (CamelService *service, CamelException *ex);
 static void free_auth_types (CamelService *service, GList *authtypes);
 
-static CamelFolder *get_folder (CamelStore *store, const char *folder_name,
+static CamelFolder *get_folder (CamelStore *store, const char *folder_name, gboolean create,
 				CamelException *ex);
-static char *get_folder_name (CamelStore *store, const char *folder_name,
-			      CamelException *ex);
+static char *get_folder_name (CamelStore *store, const char *folder_name, CamelException *ex);
 
 static void
 camel_imap_store_class_init (CamelImapStoreClass *camel_imap_store_class)
@@ -320,28 +319,75 @@ camel_imap_store_get_toplevel_dir (CamelImapStore *store)
 	return url->path;
 }
 
+static gboolean
+imap_create (CamelFolder *folder, CamelException *ex)
+{
+	CamelImapFolder *imap_folder = CAMEL_IMAP_FOLDER (folder);
+	const gchar *folder_file_path, *folder_dir_path;
+	gboolean folder_already_exists;
+	gchar *result;
+	gint status;
 
-static CamelFolder
-*get_folder (CamelStore *store, const char *folder_name, CamelException *ex)
+	g_return_val_if_fail (folder != NULL, FALSE);
+
+	/* get the paths of what we need to create */
+	folder_file_path = imap_folder->folder_file_path;
+	folder_dir_path = imap_folder->folder_dir_path;
+	
+	if (!(folder_file_path || folder_dir_path)) {
+		camel_exception_set (ex, CAMEL_EXCEPTION_FOLDER_INVALID,
+				     "invalid folder path. Use set_name ?");
+		return FALSE;
+	}
+	
+	/* if the folder already exists, simply return */
+	folder_already_exists = camel_folder_exists (folder, ex);
+	if (camel_exception_get_id (ex))
+		return FALSE;
+
+	if (folder_already_exists)
+		return TRUE;
+
+	/* create the directory for the subfolder */
+	status = camel_imap_command_extended (CAMEL_IMAP_STORE (folder->parent_store), &result,
+					      "CREATE %s", imap_folder->folder_file_path);
+	
+	if (status != CAMEL_IMAP_OK) {
+		CamelService *service = CAMEL_SERVICE (folder->parent_store);
+		camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
+				      "Could not CREATE %s on IMAP server %s: %s.",
+				      imap_folder->folder_file_path,
+				      service->url->host,
+				      status == CAMEL_IMAP_ERR ? result :
+				      "Unknown error");
+		g_free (result);
+		return FALSE;
+	}
+	
+	g_free(result);
+
+	return TRUE;
+}
+
+static CamelFolder *
+get_folder (CamelStore *store, const char *folder_name, gboolean create, CamelException *ex)
 {
 	CamelImapFolder *new_imap_folder;
 	CamelFolder *new_folder;
 
-	new_imap_folder =  gtk_type_new (CAMEL_IMAP_FOLDER_TYPE);
+	new_imap_folder = gtk_type_new (CAMEL_IMAP_FOLDER_TYPE);
 	new_folder = CAMEL_FOLDER (new_imap_folder);
-	
-	/* XXX We shouldn't be passing NULL here, but it's equivalent to
-	 * what was there before, and there's no
-	 * CamelImapFolder::get_subfolder yet anyway...
-	 */
 	CAMEL_FOLDER_CLASS (new_folder)->init (new_folder, store, NULL,
 				     folder_name, '/', ex);
-	
-	return new_folder;
+
+	if (imap_create (new_folder, ex))
+		return new_folder;
+
+	return NULL;
 }
 
-static gchar
-*get_folder_name (CamelStore *store, const char *folder_name,
+static gchar *
+get_folder_name (CamelStore *store, const char *folder_name,
 		 CamelException *ex)
 {
 	return g_strdup (folder_name);
