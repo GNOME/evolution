@@ -2140,7 +2140,7 @@ get_folders_online (CamelImapStore *imap_store, const char *pattern,
 	g_hash_table_destroy(present);
 }
 
-#if 1
+#if 0
 static void
 dumpfi(CamelFolderInfo *fi)
 {
