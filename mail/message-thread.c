@@ -42,7 +42,14 @@
 
 #ifdef LEAKDEBUG
 
-static GSList *allocedlist = NULL;
+static GHashTable *allocedht = NULL;
+
+#define EXISTS (1 << 0)
+#define WALKED (1 << 1)
+#define FREED  (1 << 2)
+
+#define GITP(x) GINT_TO_POINTER(x)
+#define GPTI(x) GPOINTER_TO_INT(x)
 
 static struct _container *
 alloc_container (void)
@@ -50,7 +57,11 @@ alloc_container (void)
 	struct _container *c;
 
 	c = g_new0 (struct _container, 1);
-	allocedlist = g_slist_prepend (allocedlist, c);
+
+	if (!allocedht)
+		allocedht = g_hash_table_new (g_direct_hash, g_direct_equal);
+
+	g_hash_table_insert (allocedht, c, GITP(EXISTS));
 	return c;
 }
 
@@ -58,33 +69,59 @@ static void
 free_container (struct _container **c)
 {
 	memset ((*c), 0, sizeof (struct _container));
-	allocedlist = g_slist_remove (allocedlist, (*c));
+	if (g_hash_table_lookup (allocedht, c) == NULL)
+		printf ("** threading mem debug: freeing unalloced entry %p?\n", (*c));
+	g_hash_table_insert (allocedht, c, GITP(EXISTS|FREED));
 	g_free ((*c));
 	(*c) = NULL;
 }
 
 static void 
+cont_print (gpointer key, gpointer value, gpointer user)
+{
+	struct _container *c = (struct _container *) key;
+
+	printf ("   %p: %p %p %p %s %s %d %d : %s %s\n", 
+		c,
+		c->next, c->parent, c->child,
+		c->message ? c->message->subject : "(null message)",
+		c->root_subject ? c->root_subject : "(null root-subject)",
+		c->re, c->order,
+		GPTI(value) & WALKED ? "walked" : "unwlkd",
+		GPTI(value) & FREED ? "freed" : "unfrd");
+}
+
+static void 
 print_containers (void)
 {
-	GSList *iter;
-
 	printf ("Containers currently unfreed:\n");
-	for (iter = allocedlist; iter; iter = iter->next) {
-		struct _container *c = (struct _container *) iter->data;
-		printf ("   %p: %p %p %p %s %s %d %d\n", 
-			c,
-			c->next, c->parent, c->child,
-			c->message ? c->message->subject : "(null message)",
-			c->root_subject ? c->root_subject : "(null root-subject)",
-			c->re, c->order);
-	}
+	g_hash_table_foreach (allocedht, cont_print, NULL);
 	printf ("End of list.\n");
+}
+
+static void
+walk_containers (struct _container *head)
+{
+	gpointer flags;
+
+	while (head) {
+		if (head->child)
+			walk_containers (head->child);
+		if ((flags = g_hash_table_lookup (allocedht, head)) == NULL) {
+			printf ("*** walk_containers : bad pointer %p\n", head);
+		} else {
+			g_hash_table_insert (allocedht, head, GITP(GPTI(flags)|WALKED));
+		}
+		
+		head = head->next;
+	}
 }
 
 #else
 #define alloc_container() (g_new0 (struct _container, 1))
 #define free_container(c) g_free (*(c))
 #define print_containers()
+#define walk_containers(c)
 #endif
 
 /* **************************************** */
@@ -621,6 +658,7 @@ static void cleanup_thread_messages (gpointer in_data, gpointer op_data, CamelEx
 	thread_messages_data_t *data = (thread_messages_data_t *) op_data;
 
 	(input->build) (input->ml, data->container);
+	walk_containers (data->container);
 	thread_messages_free (data->container);
 
 	print_containers();
