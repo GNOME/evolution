@@ -28,6 +28,7 @@
 #include "e-shell-folder-commands.h"
 
 #include <gal/widgets/e-gui-utils.h>
+#include <gal/widgets/e-unicode.h>
 
 #include <libgnome/gnome-i18n.h>
 #include <libgnome/gnome-util.h>
@@ -337,17 +338,19 @@ delete_cb (EStorageSet *storage_set,
 }
 
 static int
-delete_dialog (const char *folder_name)
+delete_dialog (EShellView *shell_view, const char *utf8_folder)
 {
 	GnomeDialog *dialog;
 	char *title;
 	GtkWidget *question_label;
 	char *question;
-
+	char *folder_name;
 
 	/* Popup a dialog asking if they are sure they want to delete
            the folder */
 
+	folder_name = e_utf8_to_gtk_string (GTK_WIDGET (shell_view), 
+					    (char *)utf8_folder);
 	title = g_strdup_printf (_("Delete folder '%s'"), folder_name);
 
 	dialog = GNOME_DIALOG (gnome_dialog_new (title,
@@ -355,6 +358,7 @@ delete_dialog (const char *folder_name)
 						 GNOME_STOCK_BUTTON_NO,
 						 NULL));
 	g_free (title);
+	gnome_dialog_set_parent (dialog, GTK_WINDOW (shell_view));
 
 	question = g_strdup_printf (_("Are you sure you want to remove the '%s' folder?"),
 				    folder_name);
@@ -362,6 +366,7 @@ delete_dialog (const char *folder_name)
 	gtk_widget_show (question_label);
 
 	gtk_box_pack_start (GTK_BOX (dialog->vbox), question_label, FALSE, TRUE, 2);
+	g_free (folder_name);
 	g_free (question);
 
 	gnome_dialog_set_default (dialog, 1);
@@ -384,7 +389,7 @@ e_shell_command_delete_folder (EShell *shell,
 	storage_set = e_shell_get_storage_set (shell);
 	path = g_strdup (e_shell_view_get_current_path (shell_view));
 	
-	if (delete_dialog (get_folder_name (shell, path)) == 0) {
+	if (delete_dialog (shell_view, get_folder_name (shell, path)) == 0) {
 		/* Remove and destroy the control */
 		e_shell_view_remove_control_for_uri (shell_view,
 						     e_shell_view_get_current_uri (shell_view));
