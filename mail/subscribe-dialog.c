@@ -118,7 +118,7 @@
  */
 
 /* FIXME: we should disable/enable the subscribe/unsubscribe buttons as
- * appropriate when only a single message is selected. We need a
+ * appropriate when only a single folder is selected. We need a
  * mechanism to learn when the selected folder's subscription status
  * changes, so when the user double-clicks it (eg) the buttons can
  * (de)sensitize appropriately. See Ximian bug #7673.
@@ -697,18 +697,21 @@ fe_got_children (CamelStore *store, char *prefix, CamelFolderInfo *info, gpointe
 		prefix = "";
 
 	for ( ; info; info = info->sibling) {
-		ETreePath   child_path;
+		ETreePath child_path;
 		ftree_node *node;
-
+		
 		if (g_hash_table_lookup(closure->ftree->node_full_name, info->full_name))
 			continue;
-
+		
 		node = ftree_node_new (store, info);
 		child_path = e_tree_memory_node_insert (E_TREE_MEMORY (closure->ftree),
 							closure->path,
 							0,
 							node);
 		g_hash_table_insert(closure->ftree->node_full_name, ftree_node_get_full_name(node), child_path);
+		
+		if (!(info->flags & CAMEL_FOLDER_NOINFERIORS))
+			fe_check_for_children (closure->ftree, child_path);
 	}
 
 #if 0

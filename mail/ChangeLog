@@ -1,3 +1,9 @@
+2003-03-26  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* subscribe-dialog.c (fe_got_children): If the CamelFolderInfo
+	node doesn't have \NoInferriors set, then check for
+	subfolders. Fixes bug #40314.
+
 2003-03-26  Not Zed  <NotZed@Ximian.com>
 
 	* mail-display.c (popup_window_destroy_cb): Undo jeff's patch
