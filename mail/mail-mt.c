@@ -259,7 +259,7 @@ mail_msgport_replied(GIOChannel *source, GIOCondition cond, void *d)
 		if (m->ops->reply_msg)
 			m->ops->reply_msg(m);
 		mail_msg_check_error(m);
-		mail_msg_destroy(NULL, m, NULL);
+		mail_msg_free(m);
 	}
 
 	return TRUE;
@@ -303,11 +303,6 @@ mail_msg_destroy(EThread *e, EMsg *msg, void *data)
 	checkmem(m->priv);
 #endif	
 
-	if (m->ops->describe_msg) {
-		camel_operation_end(m->cancel);
-		camel_operation_unregister(m->cancel);
-	}
-
 	mail_msg_free(m);
 }
 
@@ -335,6 +330,11 @@ mail_msg_received(EThread *e, EMsg *msg, void *data)
 		mail_enable_stop();
 		m->ops->receive_msg(m);
 		mail_disable_stop();
+	}
+
+	if (m->ops->describe_msg) {
+		camel_operation_end(m->cancel);
+		camel_operation_unregister(m->cancel);
 	}
 }
 

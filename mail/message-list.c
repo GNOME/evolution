@@ -2285,14 +2285,20 @@ regen_list_regen (struct _mail_msg *mm)
 	GPtrArray *uids, *uidnew, *showuids;
 	CamelMessageInfo *info;
 	int i;
-	
+
+	camel_operation_register(mm->cancel);
+	camel_operation_start(mm->cancel, _("Updating message list"));
+
 	if (m->search)
 		uids = camel_folder_search_by_expression (m->folder, m->search, &mm->ex);
 	else
 		uids = camel_folder_get_uids (m->folder);
 	
-	if (camel_exception_is_set (&mm->ex))
+	if (camel_exception_is_set (&mm->ex)) {
+		camel_operation_end(mm->cancel);
+		camel_operation_unregister(mm->cancel);
 		return;
+	}
 	
 	/* perform hiding */
 	if (m->hideexpr) {
@@ -2395,6 +2401,9 @@ regen_list_regen (struct _mail_msg *mm)
 		m->tree = camel_folder_thread_messages_new_summary (m->summary);
 	else
 		m->tree = NULL;
+
+	camel_operation_end(mm->cancel);
+	camel_operation_unregister(mm->cancel);
 }
 
 static void

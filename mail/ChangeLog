@@ -1,3 +1,17 @@
+2001-07-23  Not Zed  <NotZed@Ximian.com>
+
+	* mail-mt.c (mail_msgport_replied): Go back to calling
+	mail_msg_free here.
+	(mail_msg_destroy): Remove the operation unregistration stuff.
+	(mail_msg_received): And put it here, so we unregister as soon as
+	the async part of the operation is complete.  I thought about this
+	and we should be doing this anyway so we register/unregister
+	always in the same thread, although the camel_operation api
+	doesn't enforce it, this *is* what it expects.
+
+	* message-list.c (regen_list_regen): re-add reporting to
+	rebuilding the message list.  Basically fixes #4931
+
 2001-07-23  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-search.c (toggled_fwd_cb): Oops. Uncomment this code since
