@@ -21,80 +21,22 @@
   </para>
   </warning>
 
-<sect1 id="new-in-connector-one-two">
-<title>What's New in Connector 1.2</title>
+  <sect1 id="new-in-connector">
+<title>What's New in Connector &appversion;</title>
   <para>
-    Ximian Connector 1.2 has added some of the most frequently
-    requested features of Microsoft Exchange clients, including Public
-    Folder access and calendar delegation.
+    Ximian Connector &appversion; has added the <guilabel>Out of
+    Office</guilabel> feature and an automatic configuration tool for
+    large Exchange deployments.
   </para>
 
-   <variablelist>     
-   <varlistentry>
-	<term>Preferences Dialogs</term>
-	<listitem>
-	  <para>
-           The preferences dialogs have been completely overhauled for
-           Evolution and Connector 1.2. Select
-           <menuchoice><guimenu>Tools</guimenu><guimenuitem>Preferences</guimenuitem></menuchoice>
-           from the main Evolution window to change your settings.
-          </para>
-	</listitem>
-      </varlistentry>
+  <para>
+    Previous versions of Ximian Connector for Microsoft Exchange added
+    support for the <guibutton>Flag for Followup</guibutton> feature,
+    public folders, delegation, direct booking, and more. For
+    information on setting up delegation, see <xref
+  linkend="exchange-delegate" />.
+  </para>
 
-      <varlistentry>
-	<term>Public Folders, Posting, and Delegation</term>
-	<listitem>
-	  <para>
-            Public folders, posting to folders, and delegation
-            functions have been added. You may now set permissions on
-            folders to which you have appropriate access, and view the
-            folders of other users who have granted you permission to
-            view them.
-          </para>
-	</listitem>
-      </varlistentry>
-
-      <varlistentry>
-	<term>Flag for Followup</term>
-	<listitem>
-	  <para>
-            Flag for Followup now works properly in both Outlook and
-            Evolution, even when set in one and read in the other.
-          </para>
-	</listitem>
-      </varlistentry>
-
-      <varlistentry>
-	<term>Improved vFolder Support</term>
-	<listitem>
-	  <para>
-            vFolders now function better with Exchange accounts.
-          </para>
-	</listitem>
-      </varlistentry>
-
-
-      <varlistentry>
-	<term>Notes</term>
-	<listitem>
-	  <para>
-            The "Notes" and "Journal" folders in Exchange accounts are now readable, and you can drag items into them from other folders. Creating new Notes or Journal entries is not yet supported.
-          </para>
-	</listitem>
-      </varlistentry>
-
-      <varlistentry>
-	<term>Direct Booking</term>
-	<listitem>
-	  <para>
-            When creating a meeting request, resources such as rooms
-            and equipment can be checked and reserved without waiting
-            for a reply.	    
-          </para>
-	</listitem>
-      </varlistentry>
-    </variablelist>
 </sect1>
 
   <sect1 id="features">
@@ -239,12 +181,6 @@ There are, however, some features which are not available:
                "Recall Message" function.
 	      </para>
 	    </listitem>
-	    <listitem>
-	      <para>
-               Creation of an automatic "out-of-office" reply
-               messages.
-	      </para>
-	    </listitem>
       </itemizedlist>
     </para>
   </sect1>
@@ -278,7 +214,7 @@ There are, however, some features which are not available:
  </sect1>
 
   <sect1 id="exchange-configure">
-    <title>Configuration</title>
+    <title>Adding your Exchange Account in Ximian Evolution</title>
     <para>
       Once you have installed the Connector, you need to set up access
       for your <application>Exchange</application>account on both the
@@ -286,7 +222,7 @@ There are, however, some features which are not available:
     </para>
 
        <sect2 id="config-server">
-       <title>Exchange Server Configuration</title>
+       <title>Exchange Server Settings</title>
         <para>
 	  Check with your system administrator to ensure that:
 	<itemizedlist>
@@ -305,6 +241,7 @@ There are, however, some features which are not available:
 	  </listitem>
 	</itemizedlist>
       </para>
+      
       <para>
 	The Ximian website knowledge base, at <ulink type="http"
 	url="http://support.ximian.com">support.ximian.com</ulink>,
@@ -314,31 +251,96 @@ There are, however, some features which are not available:
       </para>
     </sect2>
     
+
     <sect2 id="config-client">
-      <title>Evolution Settings for Connecting to an <application>Exchange</application>Server</title>
+      <title>Standard Configuration Tool for Ximian Connector</title>
       <para>
-	
-	Once you know that your server is ready for you to connect, start
-	Ximian Evolution and select
-	<menuchoice>
-	  <guimenu>Tools</guimenu>
-	  <guimenuitem>Mail Settings</guimenuitem>
-	</menuchoice>
-	from any mail view. 
+	Once you know that your server is ready for you to connect,
+        you are ready to add your Exchange account to Ximian Connector.
      </para>
+
+
+    <sect3 id="config-easy">
+      <title>Simple Configuration Tool for Ximian Connector</title>
+      <para>
+        Ximian Connector 1.4 comes with a simple account creation tool
+        for some installations. Other installations will require
+        the standard account tool described in <xref
+        linkend="config-client" /> below.
+      </para>
+      <para>
+        The simple assistant works in the following cases:
+        <itemizedlist>
+          <listitem>
+            <para>
+              If you receive your license key in Ximian Evolution, the
+              simple assistant will start when you click the
+              license file attachment and choose <guibutton>Open in
+            Ximian Connector</guibutton>.
+          </para>
+        </listitem>
+
+        <listitem>
+          <para>
+            If you have no accounts configured, and your system
+            administrator has preinstalled a license key file,            
+            the simple assistant will start when you start <application>Ximian
+            Evolution.</application> It asks only for the name of your Outlook
+            Web Access server, and your username and password. Ximian
+            Connector will determine the remaining information on its own.
+          </para>
+        </listitem>
+      </itemizedlist>
+    </para>
+      <para>
+        If the simple account tool does not run automatically, create
+        an account as described below.
+      </para>
+    </sect3>
+  
+
       <sect3 id="config-exchange-new-account">
 	<title>Creating a New Exchange Account</title>
-	
 
+	
 	<para>
 	  If you would like to create a new account for your Exchange
-	  server, click the <guibutton>Add</guibutton> button in the
-	  accounts list. The account creation assistant will guide you
-	  through the process, which is also described in <xref
-	  linkend="usage-mainwindow-starting"/>. If you're not sure
-	  about any of the information you need, just ask your system
-	  administrator.
+          server, select <menuchoice>
+	  <guimenu>Tools</guimenu>
+	  <guimenuitem>Mail Settings</guimenuitem>
+	  </menuchoice>
+          from any mail view. Then click the <guibutton>Add</guibutton>
+          button in the accounts list. The account creation assistant
+          will guide you through the process, which is also described in
+          <xref linkend="usage-mainwindow-starting"/>. If you're not
+          sure about any of the information you need, just ask your
+          system administrator.
         </para>
+
+     <note id="license-file-issues">
+       <title>Installing the License File</title>
+       <para>
+         Your purchase email will contain instructions for installing
+         the license file: it may be opened with Ximian Evolution and
+         installed automatically that way, or placed in the
+         <systemitem>evolution</systemitem> directory in your home
+         directory.
+       </para>
+       <para>
+         Be aware that the <systemitem>evolution</systemitem> directory in
+         your home directory won't exist if you haven't already run 
+         <application>Ximian Evolution</application>. If you have not
+         done so already, start <application>Ximian
+         Evolution</application> and configure an account as described
+         below.  Then, quit the application and pllace the
+         <systemitem>connector-key.data</systemitem> file in your
+         <systemitem>evolution</systemitem> directory. When you start
+         <application>Evolution</application> again, the license will
+         be verified and Ximian Connector will work properly.
+       </para>
+     </note>
+
+
 	<variablelist>
 	  <varlistentry>
 	    <term>Identity</term>
@@ -686,7 +688,7 @@ There are, however, some features which are not available:
       </note>
 
    <tip id="gal-empty">
-	<title>The Global Address List Is Empty At First</title>
+	<title>The Global Address List Appears Empty At First</title>
 	<para>
           To avoid unnecessary strain on the server, the GAL will
           appear empty until you have searched for something in it.
@@ -696,9 +698,80 @@ There are, however, some features which are not available:
           it, every card will appear.
         </para>
       </tip>
+
     </sect1>
+
+    <sect1 id="exchange-settings">
+      <title>Special Connector Only Settings</title>
+      <para>
+        There are two items in the Evolution preferences window that
+        are available only with Ximian Connector. The first is
+        delegation and permissions handling, and the second is the
+        creation of "Out of Office" messages.
+      </para>
+
+      <sect2 id="exchange-delegate">
+        <title>Delegating and Acting as a Delegate</title>
+        <para>
+          You can allow other people in your organization's Global
+          Address List  to access your calendar, address
+          book, and messages, and they can let you manage theirs.
+          Delegation allows people to do anything from check on each
+          other's schedules to completely manage their personal
+          information.
+        </para>
+        <para>
+          To add someone to your list of delegates, click the
+          <guibutton>Add</guibutton> button and select them from the
+          Global Address List. You may choose which folders they can
+          handle, grant read-only, or read and write privileges.
+        </para>
+        <para>
+          To see the list of people who have granted you access to
+          their folders, click the <guilabel>Acting as a
+          Delegate</guilabel> tab. Their folders will appear in your
+        normal folder tree under their account names.
+        </para>
+
+      </sect2>
+
+      
+      <sect2 id="exchange-out-of-office">
+        <title>Setting an Out of Office Message</title>
+        <para>
+          An <guilabel>Out of Office</guilabel> message is
+          an automatic reply that you can send to emails, explaining why
+          you aren't going to respond to their message. For example, if
+          you go on vacation for a week and will be away from email, you
+          can set an automatic reply so that people who write to you know
+          that you aren't ignoring them.
+        </para>
+        <para>
+          To create an <guilabel>Out of Office</guilabel> message,
+        select <menuchoice> <guimenu>Tools</guimenu>
+        <guimenuitem>Settings</guimenuitem>
+          </menuchoice> and then click the <guibutton>Out of
+          Office</guibutton> button. 
+        </para>
+
+        <para>
+          Then, click  <guilabel>I am currently
+          out of the office.</guilabel>. Then, enter a short message in
+          the text entry box. Click <guilabel>OK</guilabel>.
+        </para>
+        <para>
+          Your message will be sent automatically to
+          anyone who sends you mail until you return and click
+          <guilabel>I am currently in the office</guilabel>.
+        </para>
+      </sect2>
+
+
+    </sect1>
+
+
     <sect1 id="full-advantage">
-      <title>Taking Full Advantage of the Exchange Server When Scheduling Appointments</title>
+      <title>Scheduling Appointments with Free/Busy</title>
       <para>
         When you schedule a meeting with your calendar on the
         <application>Exchange</application>server, you can check when

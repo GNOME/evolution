@@ -278,6 +278,48 @@
 	</varlistentry>
 	</variablelist>
       </para>
+
+      <sect2 id="usage-mail-organize-columns-followup">
+        <title>Column Sorting with the Follow Up Feature</title>
+        <para>
+          One way to make sure you don't forget about a message is
+          with the <guilabel>Follow Up</guilabel> feature. To use it,
+        select one or more messages, and then right-click on one and select
+        <guimenuitem>Follow Up</guimenuitem>.  A dialog box will open
+        and allow you to set the type of flag and the due date.
+      </para>
+      <para>
+        The <guilabel>Flag</guilabel> itself is the action you
+        want to remind yourself about. Several are provided for you, such as
+        <guilabel>Call</guilabel>, <guilabel>Forward</guilabel>, and
+        <guilabel>Reply</guilabel>, but you can enter your own note or
+        action if you wish. You may set a deadline date for the flag
+        as well, if you wish.
+      </para>
+      <para>
+        Once you have added a flag, you can mark it as complete or
+        remove it entirely by right-clicking on the message and
+        selecting <guilabel>Flag Completed</guilabel> or <guilabel>Clear
+        Flag</guilabel>.
+      </para>
+
+      <para>
+         When you read a flagged message, its flag status will be
+         displayed right at the top, before the message headers. An
+        overdue message might tell you <guilabel>Overdue: Call by April 07, 2003, 5:00 PM</guilabel>
+      </para>
+
+      <para>
+        Flags can help you organize your work in a number of ways. For
+        example, you might add a Flag Status column to your message
+        list and sort that way. Alternately, you could create a vFolder
+        that displays all your flagged messages, and clear the flags
+        when you're done, so the vFolder contains only messages with
+        upcoming deadlines.
+      </para>
+
+      </sect2>
+
     </sect1>
 
     <sect1 id="usage-mail-organize-folders">
@@ -1088,14 +1130,16 @@
 		<listitem><para>
 		    Subject - The subject line of the message.
 		  </para></listitem>
-		
+
+<!--		No, can't vfolder on arbitrary headers
 		<listitem><para>
 		    Specific Header - The vFolder can look at any header you
 		    want, even obscure or custom ones. Enter the header name
 		    in the first text box, and put your search text in the
 		    second one.
 		  </para></listitem>
-		
+-->	
+
 		<listitem><para>
 		    Message Body - Search in the actual text of the message.
 		  </para></listitem>

@@ -17,47 +17,32 @@
       </para>
       <para>
         In other words, <application>Ximian Evolution</application> is
-        a tool to help you get your work done.
-      </para>
-      <para>
-        <application>Ximian Evolution</application> is Free Software.
-        The program and its source code are released under the terms
-        of the <citetitle>GNU General Public License</citetitle> (GPL,
-        see <xref linkend="apx-gpl" />), and the documentation falls
-        under the <citetitle>Free Documentation License</citetitle>
-        (FDL, see <xref linkend="apx-fdl" />). For more information
-        about the GPL and the FDL, visit the Free Software
-        Foundation's website at <ulink
-        url="http://www.fsf.org">http://www.fsf.org</ulink>.
-      </para>
-
-      <para>
-        <application>Ximian Evolution</application> can help you work in a
-        group by handling email, address and other contact
+        a tool to help you get your work done. It can help you work in
+        a group by handling email, address and other contact
         information, and one or more calendars.  It can do that on one
         or several computers, connected directly or over a network,
         for one person or for large groups.
       </para>
 
-    <para>
-      With <application>Ximian Evolution</application>, you can
-      accomplish your most common daily tasks faster.  For example, it
-      takes only one or two clicks to enter an appointment or an
-      address card sent to you by email, or to send email to a contact
-      or appointment.  <application>Ximian Evolution</application>
-      makes displays faster and more efficient, so searches are faster
-      and memory usage is lower.  People who get lots of mail will
-      appreciate advanced features like <link
-      linkend="usage-mail-organize-vfolders"><trademark>VFolders</trademark></link>,
-      which let you save searches as though they were ordinary mail
-      folders.
-    </para>
-  </sect1>
+      <para>
+        With <application>Ximian Evolution</application>, you can
+        accomplish your most common daily tasks faster.  For example, it
+        takes only one or two clicks to enter an appointment or an
+        address card sent to you by email, or to send email to a contact
+        or appointment.  <application>Ximian Evolution</application>
+        makes displays faster and more efficient, so searches are faster
+        and memory usage is lower.  People who get lots of mail will
+        appreciate advanced features like <link
+        linkend="usage-mail-organize-vfolders"><trademark>VFolders</trademark></link>,
+        which let you save searches as though they were ordinary mail
+        folders.
+     </para>
+   </sect1>
 
-  <sect1 id="usage-mainwindow-starting">
-    <title>The First Time you Start Ximian Evolution</title>
-    <para>
-      To start <application>Ximian Evolution</application>, do either
+   <sect1 id="usage-mainwindow-starting">
+     <title>The First Time you Start Ximian Evolution</title>
+     <para>
+       To start <application>Ximian Evolution</application>, do either
       of the following: 
       <itemizedlist>
       <listitem>
@@ -159,7 +144,7 @@
     <sect2 id="second-step">
       <title>Receiving Email</title>
       <para>
-	The <guilabel>Receiving Email</guilabel> lets you determine
+        The <guilabel>Receiving Email</guilabel> lets you determine
 	which you will get your email.
 	<itemizedlist>
 	  <listitem>
@@ -237,19 +222,6 @@
 		  </para>
 		</listitem>
 
-<!-- not using this anymore
-		<listitem>
-		  <para>
-		    Directory Tree of mbox files: If you wish to use a
-		    directory tree full of mbox files, select this
-		    option and enter the directory you wish to
-		    use. This option is useful if you wish to use pine
-		    or other email clients at the same time as
-		    Evolution, while storing mail on your local system
-		    in mbox format.
-		  </para>
-                </listitem>
--->
 		<listitem>
 		  <para>
 		    None: Select this if you do not plan to
@@ -261,11 +233,11 @@
 	    </para>
 	  </listitem>
 	</itemizedlist>
-</para>
-    <para>
-      If you selected POP, Microsoft Exchange, or IMAP as your mail
-      server, you'll need to enter some more information:
-
+      </para>
+      <para>
+        If you selected POP, Microsoft Exchange, or IMAP as your mail
+        server, you'll need to enter some more information:
+      </para>
                      <itemizedlist>
 		      <listitem>
 			<para>The host name of your mail server. Ask
@@ -299,8 +271,6 @@
 			</para>
 		      </listitem>
 		    </itemizedlist>
-              </para>
-      <para>
       <tip id="exchange-info">
 	<title>Ximian Evolution Talk to Microsoft Exchange?</title>
          <para>
@@ -312,7 +282,7 @@
 	   like POP and IMAP.
 	</para>
       </tip> 
-</para>
+
     </sect2>
     <sect2 id="more-mail-options">
       <title>More Mail Configuration Options</title>

@@ -1,6 +1,4 @@
-<!--
-<!DOCTYPE Chapter PUBLIC "-//GNOME//DTD DocBook PNG Variant V1.1//EN">
--->
+
 <chapter id="usage-summary">
   <title>Getting Oriented with the Ximian Evolution Summary</title>
   
@@ -54,120 +52,19 @@
 
 
   <note id="summary-http-proxy">
-	<title>Using the Summary through an HTTP Proxy</title>
-        <para>
-           If you use an HTTP proxy, <application>Ximian
-           Evolution</application> must be able to find it through the
-           <systemitem>gnome-vfs</systemitem> subsystem before it can
-           access news and weather from the Internet.  This is also
-           the case if you wish to load remote images into HTML mail
-           message.  You can tell the GNOME Virtual File System about
-           your HTTP proxy in one of three ways, from easiest to most
-           complicated:
-            <variablelist>
-             <varlistentry>
-              <term>Use the VFS Proxy Tool</term>
-	      <listitem>
-		<para>
-                 <orderedlist numeration="arabic">
-		    <listitem>
-		      <para>
-			Run the command "gnome-vfs-proxy-capplet" or
-			select the GNOME VFS Proxy Configuration tool
-			from your Desktop Preferences menu in the menu
-			panel.
-	               </para>
-		    </listitem>
-                    <listitem>
-		      <para>
-			Enter the address or hostname of your proxy
-			server and click the <guibutton>OK</guibutton>
-			button.
-	               </para>
-		    </listitem>
-                </orderedlist>
-               </para>
-      	      </listitem>
-            </varlistentry>
-	    <varlistentry>
-	      <term>Configure it with Nautilus</term>
-	      <listitem>
-		<para>
-                 <orderedlist numeration="arabic">
-		    <listitem>
-		      <para>
-			Open a Nautilus window
-	               </para>
-		    </listitem>
-      		    <listitem>
-		      <para>
-	                 Select <menuchoice>
-			  <guimenu>Preferences</guimenu>
-			  <guimenuitem>Edit Preferences</guimenuitem>
-			</menuchoice>.
-	               </para>
-		    </listitem>
-      		    <listitem>
-		      <para>
-			Go to the <guilabel>Navigation</guilabel> tab.
-	               </para>
-		    </listitem>
-      		    <listitem>
-		      <para>
-			Click the <guilabel>Use HTTP Proxy</guilabel>
-			checkbox and enter the location of your HTTP
-			proxy in the <guilabel>Location</guilabel> field.
-	               </para>
-		    </listitem>
-		  </orderedlist>
-                </para>
-	      </listitem>
-	    </varlistentry>
-	    <varlistentry>
-	      <term>Configure it with the gconftool command</term>
-	      <listitem>
-	      <para>
-                 <orderedlist numeration="arabic">
-		    <listitem>
-		      <para>
-                        Open a terminal.
-                      </para>
-		    </listitem>
-		    <listitem>
-		      <para>
-                        Enter the command 
-                        <command>
-                        gconftool --type=bool --set /system/gnome-vfs/use-http-proxy "TRUE"
-                        </command>
-                      </para>
-		    </listitem>
-		    <listitem>
-		      <para>
-                        Enter the command 
-                        <command>
-      gconftool --type=string --set /system/gnome-vfs/http-proxy-host "your-proxy-url"
-                        </command>
-                      </para>
-		    </listitem>
-		    <listitem>
-		      <para>
-                        Enter the command 
-                        <command>
-                        gconftool --type=int --set /system/gnome-vfs/http-proxy-port "8080"
-                        </command>                  
-                      </para>
-		    </listitem>
-		  </orderedlist>
-                </para>
-		<para>
-                  For more information about the gconftool command,
-                  read the gconftool man page.
-                </para>
-	      </listitem>
-             </varlistentry>
-	  </variablelist>
-         </para>
-      </note>
+    <title>Using the Summary through an HTTP Proxy</title>
+    <para>
+      If you use an HTTP proxy, <application>Ximian
+    Evolution</application> must be able to find it through the
+    <systemitem>gnome-vfs</systemitem> subsystem before it can
+    access news and weather from the Internet.  This is also
+    the case if you wish to load remote images into HTML mail
+    message.  
+  </para>
+  <para>
+    You can find the proxy settings tool in the Control Center.
+  </para>
+</note>
 
 
     <sect2 id="customizing-summary-weather">

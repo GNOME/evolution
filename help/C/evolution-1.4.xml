@@ -1,9 +1,10 @@
-<?xml version='1.0'?>
-<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN"
-    "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd" [
-  
-<!ENTITY LEGAL SYSTEM "legal.xml">
+<?xml version='1.0' ?>
+
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN" 
+ "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd" [
+
 <!ENTITY GFDL SYSTEM "apx-fdl.xml">
+<!ENTITY LEGAL SYSTEM "legal.xml">
 <!ENTITY GPL SYSTEM "apx-gpl.xml">
 <!ENTITY PREFACE SYSTEM "preface.xml">
 <!ENTITY USAGE-MAINWINDOW SYSTEM "usage-mainwindow.xml">
@@ -23,15 +24,18 @@
 <!ENTITY APX-BUGS SYSTEM "apx-bugs.xml">
 <!ENTITY APX-AUTHORS SYSTEM "apx-authors.xml">
 
-]>
+<!ENTITY appversion "1.4">
+<!ENTITY docversion "1.4">
+<!ENTITY pubdate "May, 2003">
 
+]>
 
 <!-- Almost every chapter is an entity.  Files, Chapter id's, and
 entity names correspond.  APX is for appendix.  -->
 
 <book id="index">
   <bookinfo>
-    <title>A User's Guide to Ximian Evolution</title>
+    <title>A User's Guide to Ximian Evolution 1.4</title>
     <authorgroup>
       <author><firstname>Aaron</firstname><surname>Weber</surname></author>
       <author><firstname>Kevin</firstname><surname>Breit</surname></author>
@@ -39,14 +43,16 @@ entity names correspond.  APX is for appendix.  -->
       <author><firstname>Duncan</firstname><surname>Mak</surname></author>
     </authorgroup>
     <copyright>
-      <year>2000-2002</year>
+      <year>2000-2003</year>
       <holder>Ximian, Inc.</holder>
     </copyright>
     
    <releaseinfo>
-      This is version 1.2.1 of the Ximian Evolution manual. It describes
-      version 1.2 of the Ximian Evolution groupware suite.
+      This is version &docversion; of the Ximian Evolution manual. It describes
+      version &appversion; of the Ximian Evolution groupware suite.
    </releaseinfo>
+
+
     <legalnotice id="legalnotice">
       <para>
          Please note that legal and licensing information is in <xref

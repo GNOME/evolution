@@ -1,3 +1,19 @@
+2003-04-14  Aaron Weber  <aaron@ximian.com>
+
+	* C/config-prefs.xml: Validation, mostly. Change in some ref names.
+
+2003-04-10  Aaron Weber  <aaron@ximian.com>
+
+	* C/usage-mail-org.xml: can't vfolder on arbitrary folders.
+
+2003-04-08  Aaron Weber  <aaron@ximian.com>
+
+	* C/legal.xml: update trademark/copyright hoo-ha.
+
+2003-04-07  Aaron Weber  <aaron@ximian.com>
+
+	* C/usage-mail-org.xml: add flag-for-followup instructions.
+
 2003-03-27  Ettore Perazzoli  <ettore@ximian.com>
 
 	* Makefile.am (EXTRA_DIST): Ooops, add omf.make.

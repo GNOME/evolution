@@ -65,7 +65,7 @@ Examples are also set off from the rest of the text.  They look like this:
 	  </example>
 </para>
 <para>
-Lastly, we'll have warnings, in cases where you should be careful:
+  Lastly, we'll have warnings, in cases where you should be careful:
 
 	    <warning id="example-warning">
 	      <title>Example Warning</title>
@@ -91,57 +91,37 @@ Lastly, we'll have warnings, in cases where you should be careful:
     </sect1>
 
     <sect1 id="whats-new-in-one-two">
-      <title>What's New in Evolution 1.2</title>
+      <title>What's New in Evolution &appversion;</title>
       <para>
-        If you're already familiar with Ximian Evolution 1.0, our new
-        version has a lot to add.  Here are some of the new and
-        changed features. Ximian Connector for Microsoft Exchange also
-        has new features, which are covered in "new-in-connector-one-two">.
+        If you're already familiar with Ximian Evolution 1.2, there
+        are a number of new features in this version. Most of the
+        changes, however, have been made behind the scenes, as we
+        moved to the GNOME 2 platform. Ximian Connector for Microsoft
+        Exchange also has new features, described in <xref linkend="new-in-connector" />.
+        You can find a complete list of bugs fixed and features added
+        in the Evolution release notes at the <ulink
+        url="http://developer.ximian.com">Ximian Developer
+      Website</ulink>. Some of the features include:
+    </para>
         <variablelist>
 	  <varlistentry>
-	    <term>Evolution Settings Interface</term>
+	    <term>Better Fonts</term>
 	    <listitem>
 	      <para>
-                The preferences dialogs have been completely
-                overhauled. There is now a single configuration dialog
-                window for all components of the program, and you can
-                access it from anywhere. To change your preferences,
-                select 
-                 <menuchoice>
-		  <guimenu>
-                      Tools
-                  </guimenu>
-		  <guimenuitem>
-                     Preferences
-                  </guimenuitem>
-		</menuchoice>. Detailed help for the preferences
-		dialogs has been added to <xref
-		linkend="config-prefs"/>.
-              </para>
-	    </listitem>
-	  </varlistentry>
-
-
-	  <varlistentry>
-	    <term>Mail Composer Autocomplete</term>
-	    <listitem>
-	      <para>
-                Email addresses in the message composer can now work
-                with LDAP address books. Add your LDAP address book to
-                the list of folders searched for address completion in
-                the <guilabel>Folder Settings</guilabel> section of
-                the Settings dialog.
+                Ximian Evolution &appversion; uses the same font
+                smoothing technology as the rest of your GNOME 2
+                desktop.
               </para>
 	    </listitem>
 	  </varlistentry>
 
 	  <varlistentry>
-	    <term>Performance Improvements</term>
+	    <term>Cleaner Shutdowns</term>
 	    <listitem>
 	      <para>
-                Startup time has decreased, POP server interactions
-                are more efficient, and indexing of locally cached
-                mail is now faster.
+                We have fixed several bugs that caused Evolution to
+                continue to occupy system resources when it was not
+                running.
               </para>
 	    </listitem>
 	  </varlistentry>
@@ -151,212 +131,20 @@ Lastly, we'll have warnings, in cases where you should be careful:
 	    <term>Mail Composer HTML Improvements</term>
 	    <listitem>
 	      <para>
-                 Pasting into the mail composer from another message
-                or from a web page preserves the HTML formatting of
-                the source document. Multiple levels of reply
-                quotation in messages are clearer and use a vertical
-                blue line on the left side to indicate quotation. Text
-                "smileys" are now automatically converted to small
-                images displaying the appropriate emotion. You can
-                turn this option off in the
-                <guilabel>Composer</guilabel> section of the Settings
-                dialog.
+                 The message composer has continued to improve.
               </para>
 	    </listitem>
 	  </varlistentry>
 
 	  <varlistentry>
-	    <term>Signature Editor</term>
+	    <term>New Graphics and Icons</term>
 	    <listitem>
 	      <para>
-                 There is now a signature editor, which can be used to
-                 create plain text or HTML signatures. 
-                 click the the <guilabel>Signatures</guilabel> tab in
-                 the Composer Settings section of the Evolution
-                 Settings window.
+                We've added new graphics and icons.
               </para>
 	    </listitem>
 	  </varlistentry>
-
-
-	  <varlistentry>
-	    <term>Keyboard Navigation Overhaul</term>
-	    <listitem>
-              <para>
-                All unmodified letter keys have changed function-- the
-                <keycap>N</keycap> and <keycap>P</keycap> keys, for
-                example, no longer take you to the next you to the
-                next or previous message.  Pressing a letter will now
-                take you to the nearest message whose data in the sort
-                column begins with that letter. That is, if you press
-                N and you are sorting your list by sender, you will
-                move to a message from Nadine. If you are sorting by
-                subject, you'll move to the message about
-                nectarines. This should also work in the folder list
-                for folder navigation.
-              </para>
-	      <para>
-               This means that the old single letter shortcuts have
-               changed as well.  The new shortcuts:
-                <simplelist>
-		  <member>
-                    <keycap>,</keycap> (comma) and <keycap>.</keycap>
-                    (period) are now the keyboard shortcuts for Next
-                    and Previous unread messages. You can also use the
-                    square brackets <keycap>]</keycap> and
-                    <keycap>[</keycap>.
-                 </member>
-		 <member>
-                   <keycap>`</keycap> (backtick) toggles
-                   the message preview pane.
-                 </member>
-		</simplelist>
-                Shortcuts that use the <keycap>Control</keycap> key
-                have not changed.
-             </para>
-	    </listitem>
-	  </varlistentry>
-
-	  <varlistentry>
-	    <term>Added Functionality for the "New" Button</term>
-	    <listitem>
-	      <para>
-                The <guibutton>New</guibutton> now has a menu next to
-                it. As in Evolution 1.0, you can click the button once
-                to get a new item for the Evolution tool you're
-                using. However, if you click the small arrow menu to
-                the right of the button, you will find a menu that
-                allows you to create new items for the rest of
-                Evolution: All day appointments, regular appointments,
-                tasks and meetings for the calendar; mail messages for
-                the mail tool; and contacts and contact lists for the
-                address book.
-               </para>
-	    </listitem>
-	  </varlistentry>
-
-	  <varlistentry>
-	    <term>Import Tool Now Imports Netscape Filters</term>
-	    <listitem>
-	      <para>
-                You can now import your filters, as well as your email
-                messages, from the Netscape mail client.
-              </para>
-	    </listitem>
-	  </varlistentry>
-
-	  <varlistentry>
-	    <term>Folder Naming Internationalization</term>
-	    <listitem>
-	      <para>
-                You can now use Unicode (UTF-8) characters in the
-                names for IMAP folders.
-              </para>
-	    </listitem>
-	  </varlistentry>
-
-	  <varlistentry>
-	    <term>Executive Summary now Reads IMAP</term>
-	    <listitem>
-	      <para>
-                The Executive Summary tool in Evolution now displays
-                email messages in IMAP as well as local mail folders. 
-              </para>
-	    </listitem>
-	  </varlistentry>
-
-	  <varlistentry>
-	    <term>Filters and vFolders Notice Moved or Missing Folders</term>
-	    <listitem>
-	      <para>
-                vFolders and filters now notice if you move or delete
-                a folder that they use.
-              </para>
-	    </listitem>
-	  </varlistentry>
-
-	  <varlistentry>
-	    <term>vFolder "Original Location" Feature</term>
-	    <listitem>
-	      <para>
-                vFolders can now display the actual folder location
-                for each message they contain.  To do so, right click
-                on the column headers in the message list of any
-                vFolder, select <guimenuitem>Add a
-                Column</guimenuitem>, and drag the <guibutton>Original
-                Location</guibutton> item into position.
-              </para>
-	    </listitem>
-	  </varlistentry>
-
-	  <varlistentry>
-	    <term>New Criteria and Actions</term>
-	    <listitem>
-	      <para>
-                 There are many new filter criteria and actions,
-                 including additional message flags such as Flag for
-                 Followup.
-              </para>
-	    </listitem>
-	  </varlistentry>
-
-         <varlistentry>
-	    <term>Folder Selection for Offline Mode</term>
-	    <listitem>
-              <para>
-               You may now select which network folders which will be
-               cached locally when you go into Offline mode. This
-               setting may be changed from the Folders section of the
-               Evolution Settings window.
-             </para>
-	    </listitem>
-	  </varlistentry>
-
-	  <varlistentry>
-	    <term>Redirect (Bounce) Feature Added</term>
-	    <listitem>
-	      <para>
-               This feature is often called "Bounce" or "Resend." To
-               resend a message with all its headers instead of merely
-               forwarding it, select the message and choose
-                 <menuchoice>
-		  <guimenu>
-                      Actions
-                  </guimenu>
-		  <guisubmenu>
-                     Forward
-                  </guisubmenu>
-		  <guimenuitem>
-                      Redirect
-                  </guimenuitem>
-		</menuchoice>.
-             </para>
-	    </listitem>
-	  </varlistentry>
-
-	  <varlistentry>
-	    <term>Digest-mode Display of Forwarded Messages</term>
-	    <listitem>
-	      <para>
-                Messages that contain multiple forwarded messages are
-                now displayed as a digest rather than inline or as a
-                series of attachments.
-             </para>
-	    </listitem>
-	  </varlistentry>
-
-	  <varlistentry>
-	    <term>New Mail Notification</term>
-	    <listitem>
-	      <para>
-                When new mail arrives, you may opt to have Evolution
-                beep or play a sound file that you specify.
-             </para>
-	    </listitem>
-	  </varlistentry>
-
 	</variablelist>
-      </para>
     </sect1>
 
     <sect1 id="preface-for-experts">

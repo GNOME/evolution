@@ -1,6 +1,3 @@
-<!--
-<!DOCTYPE Chapter PUBLIC "-//GNOME//DTD DocBook PNG Variant V1.1//EN">
--->
 <chapter id="config-prefs">
 
       <title>Advanced Configuration</title>
@@ -71,8 +68,10 @@
 	  <para>
              These are overall mail reading preferences: display
              settings, notification options, security, and so
-             forth. These are covered in <xref
-             linkend="config-prefs-mail-display"/>.
+            forth. Settings that vary per-account are in the Mail
+            Accounts tool, described in <xref
+            linkend="config-prefs-mail-identity"/>, but most of the
+            mail settings are here.
           </para>
 	</listitem>
       </varlistentry>
@@ -102,21 +101,23 @@
       </varlistentry>
 
       <varlistentry>
-	<term>Directory Servers</term>
+	<term>Exchange Delegation</term>
 	<listitem>
 	  <para>
-             If you want to use a shared directory server (LDAP
-             server), this is the place to set it up.
+            This item will only appear if you have Ximian Connector
+            for Microsoft Exchange installed. It will allow you to
+            choose who has access to your Exchange account. This
+            feature is covered in <xref linkend="exchange-delegate" />.
           </para>
 	</listitem>
       </varlistentry>
 
       <varlistentry>
-	<term>Font Preferences</term>
+	<term>Directory Servers</term>
 	<listitem>
 	  <para>
-            Choose the fonts that Evolution will use to edit and display email
-            here.
+             This item allows you to enter account information for
+            connecting to remote directory (LDAP) servers.
           </para>
 	</listitem>
       </varlistentry>
@@ -127,23 +128,30 @@
 	  <para>
              Set the mail folders, news feeds, schedule summary
              length, and weather locations to be displayed here. For
-             news feeds, enter the web address of any RDF file.
+             news feeds, enter the web address of any RDF
+            file. Summary customization is covered in <xref
+            linkend="customizing-summary" /> rather than in this
+            chapter.
           </para>
 	</listitem>
       </varlistentry>
 
+      <varlistentry>
+	<term>Out of Office</term>
+	<listitem>
+	  <para>
+            This item will only appear if you have Ximian Connector
+            for Microsoft Exchange installed. It allows you to create
+            and remove automatic "vacation" messages.  For
+            information about how to use this feature, read <xref
+            linkend="exchange-out-of-office" />.
+          </para>
+	</listitem>
+      </varlistentry>
     </variablelist>
-
   </para>
 
-  <sect1 id="config-prefs-mail">
-    <title>Mail Settings</title>
-    <para>
-       The first few tools, with the exception of the folder tool,
-       cover mail tasks:
-    </para>
-
-   <sect2 id="config-prefs-mail-identity">
+   <sect1 id="config-prefs-mail-identity">
       <title>Working with Mail Accounts</title> 
       <para>
          <application>Ximian Evolution</application> allows you to
@@ -186,7 +194,8 @@
 	    <para>
               Here, enter the name,
               email address, and other identifying information for the
-              account.
+              account. You may also choose a default signature to
+              insert into messages sent from this account.
             </para>
 	  </listitem>
 	  </varlistentry>
@@ -276,39 +285,51 @@ smtp.omniport.com:143
 
 	    <itemizedlist> <listitem>
 		<para>Checking for new mail: If you would like
-		<application>Evolution</application> to check for new mail
-		automatically, check the box and select a frequency in
-		minutes.
+                Evolution to check for new mail automatically, check
+                the box and select a frequency in minutes.
 		</para>
-	      </listitem>
-
-	      <listitem>
-		<para>Exchange Server: If your active directory user name
-		is different from your Exchange mail user name, check this
-		box and enter your mail username here.
-		</para>
-	      </listitem>
-
-	      <listitem>
-		<para>Create a Global Address List folder: If you would
-		like to have a separate folder for the Active Directory's
-		Global Address List, leave this box checked. </para>
 	      </listitem>
 
 	      <listitem>
 		<para>
-		  Active Directory Server Name: In most organizations,
-    		  the Active Directory server will be different from
-    		  the Exchange mail server.  If so, check the box and
-    		  enter the Active Directory server name here.
+                  Global Catalog server name: enter the name of your
+                  Global Catalog server to create a folder for your
+                  organization's Global Address List.
 		</para>
 	      </listitem>
 
 	      <listitem>
 		<para>Limit number of Responses: Select a maximum number
-		of results for an address search. A maximum number of
-		results limits the load on your system and on your network.
+		of results for an address search. Lowering the maximum
+		number the load on your system and on your
+                network. Most servers will not send more than 1000
+                results, regardless of the value you select here.
 		  </para>
+	      </listitem>
+
+	      <listitem>
+		<para>Mailbox Name: Enter your mailbox name.
+		</para>
+	      </listitem>
+
+	      <listitem>
+		<para>
+                OWA Path: Enter the path used with Outlook Web Access on your server.
+		</para>
+	      </listitem>
+
+	      <listitem>
+		<para>
+                  Public Folder Server: Enter the name of your public
+                  folder server, if it differs from your Exchange server.
+		</para>
+	      </listitem>
+	      <listitem>
+		<para>
+                  Apply Filters to new messages in Inbox on this
+                  server: check this box if you wish to apply filters
+                  to this account.
+		</para>
 	      </listitem>
 	    </itemizedlist>                       
                      </para>
@@ -353,8 +374,9 @@ smtp.omniport.com:143
 
 	  <listitem>
 	    <para>Apply filters to new messages in INBOX on this
-	    server: If you'd like your filters to work on this account
-	    as well as on locally downloaded mail, check this box.</para>
+	    server: If you'd like your filters to work on this
+            account, check this box.
+          </para>
 	  </listitem>
 
 	   <listitem>
@@ -387,6 +409,14 @@ smtp.omniport.com:143
               Exchange) or <glossterm
               linkend="sendmail">sendmail</glossterm>.
              </para>
+             <para>
+               If you choose Exchange or Sendmail, you're done with
+               this tab. SMTP offers you a choice of hostname,
+               connection security level, and authentication type,
+               which you will recognize as similar to those for
+               IMAP and POP servers in the <guilabel>Receiving
+               Mail</guilabel> tab.
+             </para>
 	  </listitem>
 	  </varlistentry>
 	  <varlistentry> 
@@ -395,7 +425,16 @@ smtp.omniport.com:143
 	    <para>
               Here, you can decide where this account will store the
               messages that it has sent, and the messages that you
-              save as drafts.
+              save as drafts. If you wish to revert to the "factory"
+              settings, click the <guibutton>Restore
+            Defaults</guibutton> button.
+            </para>
+            <para>
+              If you wish to send someone a copy of every message from
+              this account, check the box labeled <guilabel>Always
+              carbon-copy (Cc) to:</guilabel> or <guilabel>Always
+              blind carbon-copy (Bcc) to:</guilabel>, and enter one or
+              more addresses.
             </para>
 	  </listitem>
 	  </varlistentry>
@@ -404,63 +443,208 @@ smtp.omniport.com:143
            <listitem>
 	    <para>
               In this section, you will set the security options for
-              this account. Enter your PGP Key ID and decide how
-              frequently to encrypt and sign your messages. You can
-              learn more about PGP and encryption in <xref
-              linkend="encryption"/>.
+              this account. If you use encryption, enter your PGP
+              key id (see <xref linkend="encryption"/> for more
+              information) and select among the four options below to
+            determine key and signature handling.
             </para>
 	  </listitem>
 	  </varlistentry>
 	</variablelist>
       </para>
-    </sect2>
+    </sect1>
   
-
-    <sect2 id="config-prefs-mail-display">
-      <title>Mail Display Options</title>
+    <sect1 id="config-prefs-folders">
+      <title>Folder Settings</title>
       <para>
-        In this tab you can decide how you would like
-        <application>Ximian Evolution</application> to display your
-        mail: how to display citations, how long to wait before
-        marking a message as read, and so forth.
+        There are three sets of folder options. In the first,
+        <guilabel>Defaults</guilabel>, select which folders will be
+        your usual mail, contact, calendar, and task folders. These
+        are the folders opened when you click items in the shortcut
+        bar, and when you want to save a calendar attachment or
+        address card.
       </para>
-     <para>
-        This is also where you can decide how you would like
-        <application>Ximian Evolution</application> to handle inline
-        images in HTML mail that you get. There is a detailed
-        discussion of the issues surrounding these options in <xref
-        linkend="usage-mail-getnsend-get-attach-html"/>.
-     </para>
-     <para>
-       To change the font which <application>Ximian
-        Evolution</application> uses to display mail, do the
-        following:
-       <orderedlist numeration="arabic">
-	  <listitem>
-            <para>
-              Open the Evolution preferences dialog by selecting
-		<menuchoice> <guimenu>Tools</guimenu>
-		<guimenuitem>Settings</guimenuitem> </menuchoice>.
-            </para>
-	  </listitem>
-	  <listitem>
-	    <para>
-                  Select the <guilabel>Font Settings</guilabel> portion of the 
-               settings dialog.
-            </para>
-	  </listitem>
-	  <listitem>
-	    <para>Choose the font and font size you would like to use.
-            </para>
-	  </listitem>
-	</orderedlist>
-     </para>
-     </sect2>
+      <para>
+        The <guilabel>Offline Folders</guilabel> are the ones which
+        will be cached when you activate the <guibutton>Go
+        Offline</guibutton> feature. 
+      </para>
+      <para>
+        Select one or more folders of contacts for your
+        <guilabel>Autocompletion Folders</guilabel>. When you type a
+        few letters into the message composer address fields,
+        Evolution will look for matches in the folders you choose here.
+      </para>
+    </sect1>
 
-    <sect2 id="config-prefs-mail-composer">
+    <sect1 id="config-prefs-mail">
+      <title>Mail Options</title>
+      <para>
+        The <guilabel>Mail Options</guilabel> tool lets you choose how
+        to display citations, how long to wait before marking a
+        message as read, and other mail display settings. There are
+        three categories of settings: General, HTML Mail, and
+        Colors.
+      </para>
+      <para>
+        For information on individual email account settings, see <xref
+        linkend="config-prefs-mail-identity" />.
+      </para>
+
+      <para>
+        In the <guilabel>General</guilabel> tab, your options are:
+     <variablelist>
+       <varlistentry>
+         <term>Message Fonts</term>
+         <listitem>
+           <para>
+             Normally, Evolution will use the same fonts as other
+             GNOME applications. To choose different fonts, uncheck
+             the box <guilabel>Use the same fonts as other
+           applications</guilabel> and select one font for standard typefaces and 
+           a second for monospace, or terminal, display.
+           </para>
+         </listitem>
+       </varlistentry>
+
+       <varlistentry>
+         <term>Message Display</term>
+         <listitem>
+           <para>
+             These three settings handle the way messages appear to
+             you. 
+             <variablelist>
+               <varlistentry>
+                 <term>Mark Messages as Read</term>
+                 <listitem>
+                   <para> 
+                   Normally, Evolution will mark a message as read as soon
+                   as it is displayed. If you prefer, you may set this to
+                   happen only after a delay, or disable it entirely and
+                   mark messages as read only when you choose to do so.
+                 </para>
+                 </listitem>
+               </varlistentry>
+           
+               <varlistentry>
+                 <term>Default Character Encoding</term>
+                 <listitem>
+                   <para>
+                     This setting allows you to select character
+                     interpretation sets so that Evolution can display
+                     different alphabets.  If you are not sure, pick
+                     Unicode (UTF-8), which will work for a large
+                     number of languages and character sets.
+                   </para>
+                 </listitem>
+               </varlistentry>
+           
+               <varlistentry>
+                 <term>Quotation Highlight Color</term>
+                 <listitem>
+                   <para>
+                     Choose a color to highlight quotations from other
+                     messages.
+                   </para>
+                 </listitem>
+               </varlistentry>
+             </variablelist>
+           </para>
+         </listitem>
+       </varlistentry>
+       
+       <varlistentry>
+         <term>Deleting Mail</term>
+         <listitem>
+           <para>
+             Here, choose whether to delete messages automatically
+             when quitting Evolution, and whether you wish to
+             explicitly confirm the final deletion of messages.
+           </para>
+         </listitem>
+       </varlistentry>
+           
+       <varlistentry>
+         <term>New Mail Notification</term>
+         <listitem>
+           <para>
+              Evolution can alert you to the arrival of new mail with
+             a beep or by playing a sound file. Choose your alert
+             noise, or select none, as you wish.
+           </para>
+         </listitem>
+       </varlistentry>
+     </variablelist>
+   </para>
+   <para>
+     The options in the <guilabel>HTML Mail</guilabel> section are:
+   <variablelist>
+    
+       <varlistentry>
+         <term>Loading Images</term>
+         <listitem>
+           <para>
+             You can embed a message in an email and have it load only
+             when the message arrives. However, spammers can use image loading
+             patterns to confirm "live" addresses and invade your
+             privacy. You may elect never to load images
+             automatically, to load images only if the sender is in
+             your addressbook, or always load images.
+           </para>
+           <para>
+             If you have chosen not to load images automatically, you
+             can choose to see the images in one message at a time by selecting <menuchoice>
+             <guimenu>View</guimenu><guisubmenu>Message Display</guisubmenu>
+             <guimenuitem>Load Images</guimenuitem></menuchoice>.
+           </para>
+         </listitem>
+       </varlistentry>
+
+       <varlistentry>
+         <term>Show animated images</term>
+         <listitem>
+           <para>
+             Turn animation on or off here.
+           </para>
+         </listitem>
+       </varlistentry>
+
+       <varlistentry>
+         <term>Automatically detect links</term>
+         <listitem>
+           <para>
+             Check this box to have Evolution look for web addresses in your mail
+             and make them clickable automatically.
+           </para>
+         </listitem>
+       </varlistentry>
+
+       <varlistentry>
+         <term>Prompt when sending HTML messages to contacts that don't want them</term>
+         <listitem>
+           <para>
+             Some people do not like HTML mail, and you can set
+             Evolution to warn you. This warning will appear only
+             when you send HTML mail to people in your address book
+             who are listed as disliking HTML.
+           </para>
+         </listitem>
+       </varlistentry>
+     </variablelist>
+   </para>
+   <para>
+     The <guilabel>Colors</guilabel> tab lets you select different
+   color labels for individual messages. You can return to the default
+   settings by clicking the <guibutton>Restore Defaults</guibutton>
+   button.
+ </para>
+</sect1>
+
+
+    <sect1 id="config-prefs-mail-composer">
       <title>Message Composer Preferences</title>
       <para>
-        There are three whole tabs of settings you can change for the
+        There are three  tabs of settings you can change for the
         message composer. The General tab covers shortcuts and
         assorted behavior, and the other two control signatures and
         spell checking.  In the General tab, you can set:
@@ -528,12 +712,11 @@ smtp.omniport.com:143
     </para>
 
      <para>
-         The signature editor is new for Evolution 1.2. It allows you
-         to create several different signatures in plain text or in
-         HTML, and to specify which of them will be added to emails
-         you create in the message composer.  If you prefer to use an
-         alternate signature or none at all, you can select it from
-         the mail composer itself.
+         The signature editor allows you to create several different
+         signatures in plain text or in HTML, and to specify which of
+         them will be added to emails you create in the message
+         composer.  If you prefer to use an alternate signature or
+         none at all, you can select it from the mail composer itself.
     </para>
     <para>
        In the spell-checking tool, you can set spelling options,
@@ -544,8 +727,14 @@ smtp.omniport.com:143
        Red Carpet and are detected automatically if you have installed
        them.
     </para>
-    </sect2>
-
+    <para>
+      You can check the spelling of messages by selecting
+      <menuchoice><guimenu>Edit</guimenu><guimenuitem>Spell Check
+      Document</guimenuitem></menuchoice>.
+      Alternately, check the <guibutton>Check spelling while i
+      type</guibutton> box, and choose a color for your misspelled words.
+  </para>
+</sect1>
 
 <!-- NOT FOR 1.0, see usage-mail.sgml
       <sect1 id="config-prefs-news">          
@@ -568,8 +757,9 @@ smtp.omniport.com:143
             <interface>folder bar</interface>.
           </para>
      </sect2>
--->
   </sect1>
+-->
+
 
     <sect1 id="config-prefs-cal">
        <title>Calendar and Task List Settings</title>
@@ -738,21 +928,20 @@ smtp.omniport.com:143
       </para>
   </sect1>
   <sect1 id="config-prefs-contact">
-    <title>Managing the Addressbook</title>
+    <title>Directory Server Settings</title>
     <para>
         Addressbook settings are limited to the usage and
         configuration of directory servers (LDAP and
-        Exchange). Contact folders for the mailer's autocompletion
-        feature are set in the Folders tool above, and all other
-        addressbook controls are available in the addressbook window
-        itself.
+      Exchange). To learn how to set autocompletion options, see <xref
+      linkend="config-prefs-folders" />.
+      Other addressbook controls are available in the addressbook
+      window itself.
     </para>
       
-    <sect2 id="config-prefs-contact-ldap-add">
-      <title>Adding Directory Servers</title>
       <para>
 	To add a new <glossterm linkend="ldap">LDAP</glossterm> server
 	to your available contact folders:
+    </para>
 	<orderedlist numeration="arabic">
 	  <listitem>
 	    <para>
@@ -912,26 +1101,11 @@ smtp.omniport.com:143
 	    </para>
 	  </listitem>
 	</orderedlist>
+        <para>
+          Editing a directory server account means changing that same
+          information, although it is displayed in a slightly different order.
+        </para>
+    </sect1>
 
 
-<!-- Finish this example:
-
-	<example id="ldap-config-example">
-	  <title>LDAP Configuration</title>
-	  <para>
-	    Rich works at omniport.net and needs to access the
-	    company's LDAP server so that he can look up the email
-	    addresses of his co-workers. 
-	  </para>
-	  <para>
-	    He uses his email address, rich@omniport.net, 
-	  </para>
-	  <para>
-	    His Server Name is: ldap.wemakechips.com
-	  </para>
-	</example>
--->
-      </para>
-    </sect2>
-  </sect1>
 </chapter>

@@ -1,3 +1,4 @@
+
   <sect1 id="legal-info-note">
    <title>Legal Information and Licensing</title>
 
@@ -5,25 +6,23 @@
      but for formatting reasons putting it in a sect1, inside the
      Preface, and adding a paragraph to the beginning of it -->
 
-
-<para>
-
-  <note id="evo-is-free-software">
-    <title>Ximian Evolution is Free Software</title>
+    <note id="evo-is-free-software">
+      <title>Ximian Evolution is Free Software</title>
+      <para>
+        Ximian Evolution is licensed under the terms of the GNU General
+        Public License (GPL), and its documentation is licensed
+        separately
+        under the GNU Free Documentation License (GFDL).  You can find a the
+        complete text of the GPL in <xref linkend="apx-gpl" />, and of the
+        GFDL in <xref linkend="apx-fdl"/>. The licenses are also available
+        in the files COPYING and COPYING-DOCS distributed with this
+        software. The Ximian Connector for Microsoft Exchange 2000 is
+        proprietary software and is subject to a different license. Copyright
+        for all three pieces of software and their documentation belongs to
+        Ximian, Inc.
+      </para>
+    </note>
     <para>
-      Ximian Evolution is licensed under the terms of the GNU General
-      Public License (GPL), and its documentation is licensed
-      separately
-      under the GNU Free Documentation License (GFDL).  You can find a the
-      complete text of the GPL in <xref linkend="apx-gpl" />, and of the
-      GFDL in <xref linkend="apx-fdl"/>. The licenses are also available
-    in the files COPYING and COPYING-DOCS distributed with this
-    software. The Ximian Connector for Microsoft Exchange 2000 is
-    proprietary software and is not subject to these licenses. Copyright
-    for all three pieces of software and their documentation belongs to
-    Ximian, Inc.
-  </para>
-</note>
 
 	  Permission is granted to copy, distribute and/or modify this
 	  document under the terms of the GNU Free Documentation
@@ -41,19 +40,21 @@
 	</para>
 
 	<para>
-	  Many of the names used by companies to distinguish their
-	  products and services are claimed as trademarks. Where those
-	  names appear in any GNOME documentation, and the members of
-	  the GNOME Documentation Project are made aware of those
-	  trademarks, then the names are in capital letters or initial
-	  capital letters.
+          Ximian is a registered trademark and Ximian Evolution, the
+	  dancing monkey logo and the Ximian capsule logo are
+	  trademarks of Ximian, Inc. Other names may be trademarks or
+	  registered trademarks of other companies or
+	  organizations. Where those names appear in any GNOME
+	  documentation, and the members of the GNOME Documentation
+	  Project are made aware of those trademarks, then the names
+	  are in capital letters or initial capital letters.
 	</para>
 
 	<para>
 	  DOCUMENT AND MODIFIED VERSIONS OF THE DOCUMENT ARE PROVIDED
 	  UNDER  THE TERMS OF THE GNU FREE DOCUMENTATION LICENSE
 	  WITH THE FURTHER UNDERSTANDING THAT:
-
+        </para>
 	  <orderedlist>
 		<listitem>
 		  <para>DOCUMENT IS PROVIDED ON AN "AS IS" BASIS,
@@ -95,6 +96,4 @@
 		  </para>
 		</listitem>
 	  </orderedlist>
-	</para>
-  </sect1>
-
+        </sect1>
