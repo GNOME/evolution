@@ -42,15 +42,9 @@
 #include <signal.h>
 #include <sys/wait.h>
 
-
-#ifdef HAVE_ALLOCA_H
-#include <alloca.h>
-#endif
-
-#include <gal/util/e-iconv.h>
-
 #include "e-util/e-sexp.h"
 
+#include "camel-charset-map.h"
 #include "camel-mime-message.h"
 #include "camel-provider.h"
 #include "camel-session.h"
@@ -167,8 +161,10 @@ check_header (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMess
 				type = CAMEL_SEARCH_TYPE_ADDRESS_ENCODED;
 			else {
 				ct = camel_mime_part_get_content_type (CAMEL_MIME_PART (message));
-				if (ct)
-					charset = e_iconv_charset_name(header_content_type_param(ct, "charset"));
+				if (ct) {
+					charset = header_content_type_param (ct, "charset");
+					charset = camel_charset_canonical_name (charset);
+				}
 			}
 		}
 		

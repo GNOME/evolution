@@ -39,8 +39,6 @@
 #define MAXHOSTNAMELEN 1024
 #endif
 
-#include <iconv.h>
-
 #include <time.h>
 
 #include <ctype.h>
@@ -49,9 +47,9 @@
 
 #include <glib.h>
 #include <glib/gunicode.h>
-#include <gal/util/e-iconv.h>
 #include "e-time-utils.h"
 
+#include "camel-iconv.h"
 #include "camel-mime-utils.h"
 #include "camel-charset-map.h"
 #include "camel-service.h"  /* for camel_gethostbyname() */
@@ -1051,7 +1049,7 @@ rfc2047_decode_word(const char *in, size_t len)
 			if (p)
 				*p = '\0';
 			
-			charset = e_iconv_charset_name (encname);
+			charset = camel_charset_canonical_name (encname);
 			
 			inbuf = decword;
 			
@@ -1060,21 +1058,21 @@ rfc2047_decode_word(const char *in, size_t len)
 			outbuf = outbase;
 			
 		retry:
-			ic = e_iconv_open ("UTF-8", charset);
+			ic = camel_iconv_open ("UTF-8", charset);
 			if (ic != (iconv_t) -1) {
-				ret = e_iconv (ic, &inbuf, &inlen, &outbuf, &outlen);
+				ret = camel_iconv (ic, &inbuf, &inlen, &outbuf, &outlen);
 				if (ret != (size_t) -1) {
-					e_iconv (ic, NULL, 0, &outbuf, &outlen);
+					camel_iconv (ic, NULL, 0, &outbuf, &outlen);
 					*outbuf = 0;
 					decoded = g_strdup (outbase);
 				}
-				e_iconv_close (ic);
+				camel_iconv_close (ic);
 			} else {
 				w(g_warning ("Cannot decode charset, header display may be corrupt: %s: %s",
 					     charset, strerror (errno)));
 				
 				if (!retried) {
-					charset = e_iconv_locale_charset ();
+					charset = camel_charset_locale_name ();
 					if (!charset)
 						charset = "iso-8859-1";
 					
@@ -1122,24 +1120,24 @@ append_8bit (GString *out, const char *inbuf, size_t inlen, const char *charset)
 	size_t outlen;
 	iconv_t ic;
 	
-	ic = e_iconv_open ("UTF-8", charset);
+	ic = camel_iconv_open ("UTF-8", charset);
 	if (ic == (iconv_t) -1)
 		return FALSE;
 
 	outlen = inlen * 6 + 16;
 	outbuf = outbase = g_malloc(outlen);
 	
-	if (e_iconv(ic, &inbuf, &inlen, &outbuf, &outlen) == (size_t) -1) {
+	if (camel_iconv (ic, &inbuf, &inlen, &outbuf, &outlen) == (size_t) -1) {
 		w(g_warning("Conversion to '%s' failed: %s", charset, strerror (errno)));
 		g_free(outbase);
-		e_iconv_close(ic);
+		camel_iconv_close (ic);
 		return FALSE;
 	}
 
 	*outbuf = 0;
 	g_string_append(out, outbase);
 	g_free(outbase);
-	e_iconv_close(ic);
+	camel_iconv_close (ic);
 
 	return TRUE;
 	
@@ -1152,9 +1150,9 @@ header_decode_text (const char *in, size_t inlen, const char *default_charset)
 	GString *out;
 	const char *inptr, *inend, *start, *chunk, *locale_charset;
 	char *dword = NULL;
-
-	locale_charset = e_iconv_locale_charset();
-
+	
+	locale_charset = camel_charset_locale_name ();
+	
 	out = g_string_new("");
 	inptr = in;
 	inend = inptr + inlen;
@@ -1233,7 +1231,7 @@ rfc2047_encode_word(GString *outstring, const char *in, size_t len, const char *
 	ascii = alloca (bufflen);
 	
 	if (strcasecmp (type, "UTF-8") != 0)
-		ic = e_iconv_open (type, "UTF-8");
+		ic = camel_iconv_open (type, "UTF-8");
 	
 	while (inlen) {
 		size_t convlen, proclen;
@@ -1281,13 +1279,13 @@ rfc2047_encode_word(GString *outstring, const char *in, size_t len, const char *
 			   hopefully-small-enough chunks, and leave it at that */
 			convlen = MIN(inlen, CAMEL_FOLD_PREENCODED);
 			p = inptr;
-			if (e_iconv (ic, &inptr, &convlen, &out, &outlen) == (size_t) -1) {
+			if (camel_iconv (ic, &inptr, &convlen, &out, &outlen) == (size_t) -1) {
 				w(g_warning("Conversion problem: conversion truncated: %s", strerror (errno)));
 				/* blah, we include it anyway, better than infinite loop ... */
 				inptr = p + convlen;
 			} else {
 				/* make sure we flush out any shift state */
-				e_iconv(ic, NULL, 0, &out, &outlen);
+				camel_iconv (ic, NULL, 0, &out, &outlen);
 			}
 			inlen -= (inptr - p);
 		}
@@ -1312,7 +1310,7 @@ rfc2047_encode_word(GString *outstring, const char *in, size_t len, const char *
 	}
 
 	if (ic != (iconv_t) -1)
-		e_iconv_close(ic);
+		camel_iconv_close (ic);
 }
 
 
@@ -1869,7 +1867,7 @@ rfc2184_decode (const char *in, size_t len)
 		return NULL;
 	
 	encoding = g_strndup (in, inptr - in);
-	charset = e_iconv_charset_name (encoding);
+	charset = camel_charset_canonical_name (encoding);
 	g_free (encoding);
 	
 	inptr = memchr (inptr + 1, '\'', inend - inptr - 1);
@@ -1886,22 +1884,22 @@ rfc2184_decode (const char *in, size_t len)
 		inbuf = decword = hex_decode (inptr, inend - inptr);
 		inlen = strlen (inbuf);
 		
-		ic = e_iconv_open ("UTF-8", charset);
+		ic = camel_iconv_open ("UTF-8", charset);
 		if (ic != (iconv_t) -1) {
 			size_t ret;
 			
 			outlen = inlen * 6 + 16;
 			outbuf = outbase = g_malloc (outlen);
 			
-			ret = e_iconv (ic, &inbuf, &inlen, &outbuf, &outlen);
+			ret = camel_iconv (ic, &inbuf, &inlen, &outbuf, &outlen);
 			if (ret != (size_t) -1) {
-				e_iconv (ic, NULL, 0, &outbuf, &outlen);
+				camel_iconv (ic, NULL, 0, &outbuf, &outlen);
 				*outbuf = '\0';
 				g_free (decoded);
 				decoded = outbase;
 			}
 			
-			e_iconv_close (ic);
+			camel_iconv_close (ic);
 		} else {
 			decoded = decword;
 		}
@@ -2041,21 +2039,21 @@ header_decode_param (const char **in, char **paramp, char **valuep, int *is_rfc2
 		inbuf = value;
 		inlen = strlen (inbuf);
 		
-		charset = e_iconv_locale_charset ();
-		ic = e_iconv_open ("UTF-8", charset ? charset : "ISO-8859-1");
+		charset = camel_charset_locale_name ();
+		ic = camel_iconv_open ("UTF-8", charset ? charset : "ISO-8859-1");
 		if (ic != (iconv_t) -1) {
 			size_t ret;
 			
 			outlen = inlen * 6 + 16;
 			outbuf = outbase = g_malloc (outlen);
 			
-			ret = e_iconv (ic, &inbuf, &inlen, &outbuf, &outlen);
+			ret = camel_iconv (ic, &inbuf, &inlen, &outbuf, &outlen);
 			if (ret != (size_t) -1) {
-				e_iconv (ic, NULL, 0, &outbuf, &outlen);
+				camel_iconv (ic, NULL, 0, &outbuf, &outlen);
 				*outbuf = '\0';
 			}
 			
-			e_iconv_close (ic);
+			camel_iconv_close (ic);
 			
 			g_free (value);
 			value = outbase;
@@ -2970,7 +2968,7 @@ header_encode_param (const unsigned char *in, gboolean *encoded)
 		charset = "iso-8859-1";
 	
 	if (strcasecmp (charset, "UTF-8") != 0)
-		cd = e_iconv_open (charset, "UTF-8");
+		cd = camel_iconv_open (charset, "UTF-8");
 	
 	if (cd == (iconv_t) -1) {
 		charset = "UTF-8";
@@ -2986,13 +2984,13 @@ header_encode_param (const unsigned char *in, gboolean *encoded)
 		outptr = outbuf = g_malloc (outleft);
 		inbuf = in;
 		
-		if (e_iconv (cd, &inbuf, &inleft, &outptr, &outleft) == (size_t) -1) {
+		if (camel_iconv (cd, &inbuf, &inleft, &outptr, &outleft) == (size_t) -1) {
 			w(g_warning ("Conversion problem: conversion truncated: %s", strerror (errno)));
 		} else {
-			e_iconv (cd, NULL, 0, &outptr, &outleft);
+			camel_iconv (cd, NULL, 0, &outptr, &outleft);
 		}
 		
-		e_iconv_close (cd);
+		camel_iconv_close (cd);
 		
 		inptr = outbuf;
 		inend = outptr;

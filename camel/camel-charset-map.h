@@ -37,7 +37,11 @@ struct _CamelCharset {
 
 void camel_charset_init(CamelCharset *);
 void camel_charset_step(CamelCharset *, const char *in, int len);
-const char *camel_charset_best_name(CamelCharset *);
+
+const char *camel_charset_locale_name (void);
+const char *camel_charset_canonical_name (const char *charset);
+
+const char *camel_charset_best_name (CamelCharset *);
 
 /* helper function */
 const char *camel_charset_best(const char *in, int len);

@@ -30,11 +30,9 @@
 #include <ctype.h>
 #include <stdio.h>
 #include <string.h>
-
-#include <gal/util/e-iconv.h>
-
 #include <errno.h>
 
+#include "camel-charset-map.h"
 #include "camel-mime-message.h"
 #include "camel-multipart.h"
 #include "camel-stream-mem.h"
@@ -544,9 +542,10 @@ process_header (CamelMedium *medium, const char *header_name, const char *header
 		break;
 	case HEADER_SUBJECT:
 		g_free (message->subject);
-		if (((CamelMimePart *)message)->content_type)
-			charset = e_iconv_charset_name(header_content_type_param(((CamelMimePart *)message)->content_type, "charset"));
-		else
+		if (((CamelMimePart *) message)->content_type) {
+			charset = header_content_type_param (((CamelMimePart *) message)->content_type, "charset");
+			charset = camel_charset_canonical_name (charset);
+		} else
 			charset = NULL;
 		message->subject = g_strstrip (header_decode_string (header_value, charset));
 		break;

@@ -28,12 +28,13 @@
 #include <string.h>
 #include <ctype.h>
 #include <unistd.h>
-#include <iconv.h>
-#include "camel-sasl-digest-md5.h"
-#include "camel-mime-utils.h"
-#include "camel-charset-map.h"
+
 #include <e-util/md5-utils.h>
-#include <gal/util/e-iconv.h>
+
+#include "camel-iconv.h"
+#include "camel-charset-map.h"
+#include "camel-mime-utils.h"
+#include "camel-sasl-digest-md5.h"
 
 #define d(x)
 
@@ -695,21 +696,21 @@ digest_response (struct _DigestResponse *resp)
 		char *username, *outbuf;
 		const char *charset;
 		size_t len, outlen;
-		const char *buf;
+		const char *inbuf;
 		iconv_t cd;
 		
-		charset = e_iconv_locale_charset();
+		charset = camel_charset_locale_name ();
 		if (!charset)
 			charset = "iso-8859-1";
 		
-		cd = e_iconv_open (resp->charset, charset);
+		cd = camel_iconv_open (resp->charset, charset);
 		
 		len = strlen (resp->username);
 		outlen = 2 * len; /* plenty of space */
 		
 		outbuf = username = g_malloc0 (outlen + 1);
-		buf = resp->username;
-		if (cd == (iconv_t) -1 || e_iconv (cd, &buf, &len, &outbuf, &outlen) == (size_t) -1) {
+		inbuf = resp->username;
+		if (cd == (iconv_t) -1 || camel_iconv (cd, &inbuf, &len, &outbuf, &outlen) == (size_t) -1) {
 			/* We can't convert to UTF-8 - pretend we never got a charset param? */
 			g_free (resp->charset);
 			resp->charset = NULL;
@@ -720,7 +721,7 @@ digest_response (struct _DigestResponse *resp)
 		}
 		
 		if (cd != (iconv_t) -1)
-			e_iconv_close (cd);
+			camel_iconv_close (cd);
 		
 		g_byte_array_append (buffer, username, strlen (username));
 		g_free (username);

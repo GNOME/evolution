@@ -33,10 +33,9 @@
 #include <errno.h>
 #include <stdlib.h>
 
-#include <gal/util/e-iconv.h>
-
 #include "camel-folder-summary.h"
 
+#include <camel/camel-charset-map.h>
 #include <camel/camel-file-utils.h>
 #include <camel/camel-mime-filter.h>
 #include <camel/camel-mime-filter-index.h>
@@ -1575,9 +1574,9 @@ message_info_new(CamelFolderSummary *s, struct _header_raw *h)
 	     && (charset = header_content_type_param(ct, "charset"))
 	     && (strcasecmp(charset, "us-ascii") == 0))
 		charset = NULL;
-
-	charset = e_iconv_charset_name(charset);
-
+	
+	charset = camel_charset_canonicalname (charset);
+	
 	subject = summary_format_string(h, "subject", charset);
 	from = summary_format_address(h, "from");
 	to = summary_format_address(h, "to");
@@ -1837,7 +1836,7 @@ content_info_new (CamelFolderSummary *s, struct _header_raw *h)
 	
 	ci = camel_folder_summary_content_info_new (s);
 	
-	charset = e_iconv_locale_charset();
+	charset = camel_charset_locale_name ();
 	ci->id = header_msgid_decode (header_raw_find (&h, "content-id", NULL));
 	ci->description = header_decode_string (header_raw_find (&h, "content-description", NULL), NULL);
 	ci->encoding = header_content_encoding_decode (header_raw_find (&h, "content-transfer-encoding", NULL));
@@ -2562,8 +2561,8 @@ camel_message_info_new_from_header (struct _header_raw *header)
 	    && (charset = header_content_type_param(ct, "charset"))
 	    && (strcasecmp(charset, "us-ascii") == 0))
 		charset = NULL;
-
-	charset = e_iconv_charset_name(charset);
+	
+	charset = camel_charset_canonical_name (charset);
 	
 	subject = summary_format_string(header, "subject", charset);
 	from = summary_format_address(header, "from");

@@ -29,6 +29,7 @@
 #include <config.h>
 #endif
 
+#include <glib.h>
 #include <sys/types.h>
 #include <regex.h>
 #include <string.h>
@@ -225,7 +226,7 @@ camel_ustrstrcase (const char *haystack, const char *needle)
 	if (strlen (haystack) == 0)
 		return NULL;
 	
-	puni = nuni = alloca (sizeof (gunichar) * strlen (needle));
+	puni = nuni = g_alloca (sizeof (gunichar) * strlen (needle));
 	
 	p = needle;
 	while ((u = utf8_get (&p)))
@@ -419,12 +420,12 @@ camel_search_header_match (const char *value, const char *match, camel_search_ma
 		vdom = strchr(value, '@');
 		mdom = strchr(match, '@');
 		if (mdom == NULL && vdom != NULL) {
-			v = alloca(vdom-value+1);
+			v = g_alloca(vdom-value+1);
 			memcpy(v, value, vdom-value);
 			v[vdom-value] = 0;
 			value = (char *)v;
 		} else if (mdom != NULL && vdom == NULL) {
-			v = alloca(mdom-match+1);
+			v = g_alloca(mdom-match+1);
 			memcpy(v, match, mdom-match);
 			v[mdom-match] = 0;
 			match = (char *)v;
