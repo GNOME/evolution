@@ -1,3 +1,8 @@
+2003-01-26  Chris Toshok  <toshok@ximian.com>
+
+	* Makefile.am (CONDUIT_SUBDIR): enable this, as building the
+	conduit works if you have gnome-pilot2.
+
 2003-01-25  Chris Toshok  <toshok@ximian.com>
 
 	* conduit/address-conduit.c: GObjectify the stuff in here that
