@@ -57,7 +57,6 @@ libcamel_la_SOURCES = 				\
 	camel-session.c				\
 	camel-store.c				\
 	camel-stream.c				\
-	camel-stream-buffer.c			\
 	camel-stream-buffered-fs.c		\
 	camel-stream-fs.c			\
 	camel-stream-mem.c			\
@@ -99,7 +98,6 @@ libcamelinclude_HEADERS =			\
 	camel-session.h				\
 	camel-store.h				\
 	camel-stream.h				\
-	camel-stream-buffer.h			\
 	camel-stream-buffered-fs.h		\
 	camel-stream-fs.h			\
 	camel-stream-mem.h			\
