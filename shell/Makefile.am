@@ -191,8 +191,6 @@ evolution_SOURCES =				\
 	e-corba-config-page.h			\
 	e-corba-storage-registry.c		\
 	e-corba-storage-registry.h		\
-	e-corba-storage.c			\
-	e-corba-storage.h			\
 	e-history.c				\
 	e-history.h				\
 	e-local-folder.c			\
@@ -210,8 +208,7 @@ evolution_SOURCES =				\
 	e-shell-settings-dialog.h		\
 	e-shell-startup-wizard.c		\
 	e-shell-startup-wizard.h		\
-	e-shell-utils.c				\
-	e-shell-utils.h				\
+	e-shell-user-creatable-items-handler.h	\
 	e-shell-window-commands.c		\
 	e-shell-window-commands.h		\
 	e-shell-window.c			\
