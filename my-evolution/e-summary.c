@@ -593,41 +593,43 @@ e_summary_set_control (ESummary *summary, BonoboControl *control)
 	g_return_if_fail (IS_E_SUMMARY (summary));
 
 	if (summary->priv->control)
-		g_object_remove_weak_pointer (G_OBJECT (summary->priv->control), &summary->priv->control);
+		g_object_remove_weak_pointer (G_OBJECT (summary->priv->control), (void **) &summary->priv->control);
 	
 	summary->priv->control = control;
 
 	if (summary->priv->control)
-		g_object_add_weak_pointer (G_OBJECT (summary->priv->control), &summary->priv->control);
+		g_object_add_weak_pointer (G_OBJECT (summary->priv->control), (void **) &summary->priv->control);
 }
 
 static void
-do_summary_print (ESummary *summary,
-		  gboolean preview)
+do_summary_print (ESummary *summary)
 {
 	GnomePrintContext *print_context;
 	GnomePrintJob *print_master;
 	GtkWidget *gpd;
 	GnomePrintConfig *config = NULL;
+	GtkWidget *preview_widget;
+	gboolean preview = FALSE;
 
-	if (! preview) {
-		gpd = gnome_print_dialog_new (NULL, _("Print Summary"), GNOME_PRINT_DIALOG_COPIES);
+	gpd = gnome_print_dialog_new (NULL, _("Print Summary"), GNOME_PRINT_DIALOG_COPIES);
 
-		switch (gtk_dialog_run (GTK_DIALOG (gpd))) {
-		case GNOME_PRINT_DIALOG_RESPONSE_PRINT:
-			break;
+	switch (gtk_dialog_run (GTK_DIALOG (gpd))) {
+	case GNOME_PRINT_DIALOG_RESPONSE_PRINT:
+		preview = FALSE;
+		break;
 
-		case GNOME_PRINT_DIALOG_RESPONSE_PREVIEW:
-			preview = TRUE;
-			break;
+	case GNOME_PRINT_DIALOG_RESPONSE_PREVIEW:
+		preview = TRUE;
+		break;
 
-		default:
-			gtk_widget_destroy (gpd);
-			return;
-		}
-
-		config = gnome_print_dialog_get_config (GNOME_PRINT_DIALOG (gpd));
+	default:
+		if (preview_widget != NULL)
+			gtk_widget_destroy (preview_widget);
+		gtk_widget_destroy (gpd);
+		return;
 	}
+
+	config = gnome_print_dialog_get_config (GNOME_PRINT_DIALOG (gpd));
 
 	print_master = gnome_print_job_new (config);
 	
@@ -635,18 +637,16 @@ do_summary_print (ESummary *summary,
 	gtk_html_print (GTK_HTML (summary->priv->html), print_context);
 	gnome_print_job_close (print_master);
 
-	if (preview) {
-		GtkWidget *preview;
+	gtk_widget_destroy (gpd);
 
-		preview = gnome_print_job_preview_new (print_master, _("Print Preview"));
-		gtk_widget_show (preview);
+	if (preview) {
+		preview_widget = gnome_print_job_preview_new (print_master, _("Print Preview"));
+		gtk_widget_show (preview_widget);
 	} else {
 		int result = gnome_print_job_print (print_master);
 
-		if (result == -1) {
-			e_notice (summary, GTK_MESSAGE_ERROR,
-				  _("Printing of Summary failed"));
-		}
+		if (result == -1)
+			e_notice (gpd, GTK_MESSAGE_ERROR, _("Printing of Summary failed"));
 	}
 
 	g_object_unref (print_master);
@@ -659,7 +659,7 @@ e_summary_print (BonoboUIComponent *component,
 {
 	ESummary *summary = userdata;
 
-	do_summary_print (summary, FALSE);
+	do_summary_print (summary);
 }
 
 void

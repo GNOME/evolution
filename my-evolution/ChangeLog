@@ -1,3 +1,9 @@
+2003-05-15  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-summary.c (do_summary_print): Remove preview arg.  Also, make
+	it destroy the dialog after a button has been clicked.
+	(e_summary_set_control): Add casts to avoid compiler warnings.
+
 2003-05-14  JP Rosevear  <jpr@ximian.com>
 
 	* e-summary.h: fix up protos
