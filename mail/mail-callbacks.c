@@ -1487,6 +1487,7 @@ save_msg_ok (GtkWidget *widget, gpointer user_data)
 					   GNOME_STOCK_BUTTON_NO,
 					   NULL);
 		
+		gtk_widget_set_parent (dialog, GTK_WIDGET (user_data));
 		text = gtk_label_new (_("A file by that name already exists.\nOverwrite it?"));
 		gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (dialog)->vbox), text, TRUE, TRUE, 4);
 		gtk_window_set_policy (GTK_WINDOW (dialog), FALSE, TRUE, FALSE);
@@ -1669,12 +1670,39 @@ expunged_folder (CamelFolder *f, void *data)
 	g_free (data);
 }
 
+static gboolean
+confirm_expunge (void)
+{
+	GtkWidget *dialog, *label;
+	int button;
+	
+	dialog = gnome_dialog_new (_("Are you sure?"),
+				   GNOME_STOCK_BUTTON_YES,
+				   GNOME_STOCK_BUTTON_NO,
+				   NULL);
+	
+	label = gtk_label_new (_("You are about to expunge a folder. This will\n"
+				 "permantly remove all messages with a \"deleted\"\n"
+				 "flag from both this folder and the Trash folder.\n\n"
+				 "Are you sure you want to continue?"));
+	
+	gtk_widget_show (label);
+	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (dialog)->vbox), label, TRUE, TRUE, 4);
+	
+	button = gnome_dialog_run_and_close (GNOME_DIALOG (dialog));
+	
+	if (button == 0)
+		return TRUE;
+	else
+		return FALSE;
+}
+
 void
 expunge_folder (BonoboUIComponent *uih, void *user_data, const char *path)
 {
 	FolderBrowser *fb = FOLDER_BROWSER (user_data);
 	
-	if (fb->folder && (fb->expunging == NULL || fb->folder != fb->expunging)) {
+	if (fb->folder && (fb->expunging == NULL || fb->folder != fb->expunging) && confirm_expunge ()) {
 		struct _expunged_folder_data *data;
 		CamelMessageInfo *info;
 		

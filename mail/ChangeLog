@@ -1,3 +1,9 @@
+2001-08-13  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-callbacks.c (expunge_folder): Confirm that the user really
+	wants to expunge.
+	(save_msg_ok): Set the parent window here.
+
 2001-08-13  Peter Williams  <peterw@ximian.com>
 
 	* mail-config.c (remove_account_shortcuts): Remove the shortcuts
