@@ -1,3 +1,4 @@
+/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 #ifndef E_POPUP_MENU_H
 #define E_POPUP_MENU_H
 
@@ -12,11 +13,13 @@ typedef struct {
 
 GtkMenu *e_popup_menu_create  (EPopupMenu     *menu_list,
 			       int             disable_mask,
+			       int             hide_mask,
 			       void           *closure);
 
 void     e_popup_menu_run     (EPopupMenu     *menu_list,
 			       GdkEventButton *event,
 			       int             disable_mask,
+			       int             hide_mask,
 			       void           *closure);
 
 #endif /* E_POPUP_MENU_H */

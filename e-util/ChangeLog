@@ -1,3 +1,8 @@
+2000-08-09  Christopher James Lahey  <clahey@helixcode.com>
+
+	* e-popup-menu.c, e-popup-menu.h: Added a hide_mask argument to
+	the two popup menu functions.
+
 2000-08-07  Christopher James Lahey  <clahey@helixcode.com>
 
 	* e-gui-utils.c, e-gui-utils.c: Added
