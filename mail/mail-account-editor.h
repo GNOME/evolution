@@ -53,7 +53,7 @@ struct _MailAccountEditor {
 	GtkEntry *organization;
 	GnomeFileEntry *signature;
 	
-	GtkEntry *source_type;
+	GtkWidget *source_type;
 	GtkEntry *source_host;
 	GtkEntry *source_user;
 	GtkEntry *source_passwd;

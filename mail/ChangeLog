@@ -1,3 +1,19 @@
+2001-01-12  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-config.glade: Anna's dialogs.
+
+	* mail-config.c (mail_config_get_account_by_address):
+	Removed. Danw and I decided on setting a X-Evolution-Transport
+	header on messages going to the Outbox so we can later guess which
+	transport to use when sending it.
+
+	* mail-account-editor.c (apply_changes): Update to some day be
+	able to support SSL.
+	(construct): Update for Anna's dialogs...
+
+	* subscribe-dialog.c (populate_store_list): Updated to reflect
+	past changes to the mail-config API.
+
 2001-01-12  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* mail-callbacks.c (composer_send_cb): Get the account by using
@@ -20,7 +36,7 @@
 
 	* message-list.c: Add strings for localization
 
-	* folder-browser.c: Rename "Save" to "Store search as vFolder". 
+	* folder-browser.c: Rename "Save" to "Store search as vFolder".
 
 2001-01-11  Miguel de Icaza  <miguel@gnu.org>
 

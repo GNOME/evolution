@@ -439,14 +439,14 @@ incoming_type_changed (GtkWidget *widget, gpointer user_data)
 	if (provider->url_flags & CAMEL_URL_ALLOW_PATH) {
 		if (!dwidget)
 			dwidget = GTK_WIDGET (druid->incoming_path);
-
+		
 		if (!strcmp (provider->protocol, "mbox") || !strcmp (provider->protocol, "maildir")){
 			if (getenv ("MAIL"))
 				gtk_entry_set_text (druid->incoming_path, getenv ("MAIL"));
 		} else {
 			gtk_entry_set_text (druid->incoming_path, "");
 		}
-
+		
 		gtk_widget_set_sensitive (GTK_WIDGET (druid->incoming_path), TRUE);
 		gtk_widget_set_sensitive (label, TRUE);
 	} else {

@@ -114,8 +114,10 @@ apply_changes (MailAccountEditor *editor)
 	account = (MailConfigAccount *) editor->account;
 	
 	/* account name */
-	g_free (account->name);
-	account->name = g_strdup (gtk_entry_get_text (editor->account_name));
+	if (editor->account_name) {
+		g_free (account->name);
+		account->name = g_strdup (gtk_entry_get_text (editor->account_name));
+	}
 	
 	/* identity info */
 	g_free (account->id->name);
@@ -124,14 +126,20 @@ apply_changes (MailAccountEditor *editor)
 	g_free (account->id->address);
 	account->id->address = g_strdup (gtk_entry_get_text (editor->email));
 	
-	g_free (account->id->reply_to);
-	account->id->reply_to = g_strdup (gtk_entry_get_text (editor->reply_to));
+	if (editor->reply_to) {
+		g_free (account->id->reply_to);
+		account->id->reply_to = g_strdup (gtk_entry_get_text (editor->reply_to));
+	}
 	
-	g_free (account->id->organization);
-	account->id->organization = g_strdup (gtk_entry_get_text (editor->organization));
+	if (editor->organization) {
+		g_free (account->id->organization);
+		account->id->organization = g_strdup (gtk_entry_get_text (editor->organization));
+	}
 	
-	g_free (account->id->signature);
-	account->id->signature = gnome_file_entry_get_full_path (editor->signature, TRUE);
+	if (editor->signature) {
+		g_free (account->id->signature);
+		account->id->signature = gnome_file_entry_get_full_path (editor->signature, TRUE);
+	}
 	
 	/* source */
 	url = camel_url_new (account->source->url, NULL);
@@ -162,6 +170,9 @@ apply_changes (MailAccountEditor *editor)
 	
 	account->source->save_passwd = GTK_TOGGLE_BUTTON (editor->save_passwd)->active;
 	account->source->keep_on_server = GTK_TOGGLE_BUTTON (editor->keep_on_server)->active;
+	
+	if (editor->source_ssl)
+		account->source->use_ssl = GTK_TOGGLE_BUTTON (editor->source_ssl)->active;
 	
 	/* check to make sure the source works */
 	if (!mail_config_check_service (url, CAMEL_PROVIDER_STORE, NULL)) {
@@ -196,6 +207,9 @@ apply_changes (MailAccountEditor *editor)
 	}
 	url->host = host;
 	url->port = port;
+	
+	if (editor->transport_ssl)
+		account->transport->use_ssl = GTK_TOGGLE_BUTTON (editor->transport_ssl)->active;
 	
 	/* check to make sure the transport works */
 	if (!mail_config_check_service (url, CAMEL_PROVIDER_TRANSPORT, NULL)) {
@@ -577,7 +591,7 @@ construct (MailAccountEditor *editor, const MailConfigAccount *account)
 	editor->gui = gui;
 	
 	/* get our toplevel widget */
-	notebook = glade_xml_get_widget (gui, "notebook");
+	notebook = glade_xml_get_widget (gui, "toplevel");
 	
 	/* reparent */
 	gtk_widget_reparent (notebook, GNOME_DIALOG (editor)->vbox);
@@ -604,7 +618,9 @@ construct (MailAccountEditor *editor, const MailConfigAccount *account)
 	
 	/* General */
 	editor->account_name = GTK_ENTRY (glade_xml_get_widget (gui, "txtAccountName"));
-	gtk_entry_set_text (editor->account_name, account->name);
+	/* Anna's dialog doesn't have a way to edit the Account name... */
+	if (editor->account_name)
+		gtk_entry_set_text (editor->account_name, account->name);
 	gtk_signal_connect (GTK_OBJECT (editor->account_name), "changed", entry_changed, editor);
 	editor->name = GTK_ENTRY (glade_xml_get_widget (gui, "txtName"));
 	gtk_entry_set_text (editor->name, account->id->name);
@@ -622,8 +638,11 @@ construct (MailAccountEditor *editor, const MailConfigAccount *account)
 	
 	/* Servers */
 	url = camel_url_new (account->source->url, NULL);
-	editor->source_type = GTK_ENTRY (glade_xml_get_widget (gui, "txtSourceType"));
-	gtk_entry_set_text (editor->source_type, url->protocol);
+	editor->source_type = glade_xml_get_widget (gui, "txtSourceType");
+	if (GTK_IS_LABEL (editor->source_type))
+		gtk_label_set_text (GTK_LABEL (editor->source_type), url->protocol);
+	else
+		gtk_entry_set_text (GTK_ENTRY (editor->source_type), url->protocol);
 	editor->source_host = GTK_ENTRY (glade_xml_get_widget (gui, "txtSourceHost"));
 	gtk_entry_set_text (editor->source_host, url->host ? url->host : "");
 	if (url->port) {
@@ -642,7 +661,9 @@ construct (MailAccountEditor *editor, const MailConfigAccount *account)
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (editor->save_passwd), account->source->save_passwd);
 	editor->source_auth = GTK_OPTION_MENU (glade_xml_get_widget (gui, "omenuSourceAuth"));
 	editor->source_ssl = GTK_CHECK_BUTTON (glade_xml_get_widget (gui, "chkSourceSSL"));
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (editor->source_ssl), account->source->use_ssl);
+	/* Anna's dialog doesn't have SSL either... */
+	if (editor->source_ssl)
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (editor->source_ssl), account->source->use_ssl);
 	editor->keep_on_server = GTK_CHECK_BUTTON (glade_xml_get_widget (gui, "chkKeepMailOnServer"));
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (editor->keep_on_server), account->source->keep_on_server);
 	source_check (editor, url);
@@ -662,7 +683,9 @@ construct (MailAccountEditor *editor, const MailConfigAccount *account)
 	}
 	editor->transport_auth = GTK_OPTION_MENU (glade_xml_get_widget (gui, "omenuTransportAuth"));
 	editor->transport_ssl = GTK_CHECK_BUTTON (glade_xml_get_widget (gui, "chkTransportSSL"));
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (editor->transport_ssl), account->transport->use_ssl);
+	/* Anna's dialog doesn't have SSL... */
+	if (editor->transport_ssl)
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (editor->transport_ssl), account->transport->use_ssl);
 	transport_type_init (editor, url);
 	camel_url_free (url);
 	

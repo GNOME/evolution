@@ -864,12 +864,15 @@ populate_store_foreach (MailConfigService *service, SubscribeDialog *sc)
 static void
 populate_store_list (SubscribeDialog *sc)
 {
+	const GSList *news;
 	GSList *sources;
-
+	
 	sources = mail_config_get_sources ();
 	g_slist_foreach (sources, (GFunc)populate_store_foreach, sc);
-	sources = mail_config_get_news ();
-	g_slist_foreach (sources, (GFunc)populate_store_foreach, sc);
+	g_slist_free (sources);
+	
+	news = mail_config_get_news ();
+	g_slist_foreach (news, (GFunc)populate_store_foreach, sc);
 
 	e_table_model_changed (sc->store_model);
 }
