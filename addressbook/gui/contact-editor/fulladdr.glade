@@ -274,6 +274,7 @@
       <widget>
 	<class>GtkEntry</class>
 	<name>entry-code</name>
+	<width>100</width>
 	<can_focus>True</can_focus>
 	<editable>True</editable>
 	<text_visible>True</text_visible>
@@ -347,6 +348,7 @@
 	<widget>
 	  <class>GtkEntry</class>
 	  <name>entry-ext</name>
+	  <width>100</width>
 	  <can_focus>True</can_focus>
 	  <editable>True</editable>
 	  <text_visible>True</text_visible>

@@ -283,6 +283,7 @@ set_book(AddressbookView *view)
 			       NULL);
 }
 
+#if 0
 static void
 find_contact_cb (BonoboUIHandler *uih, void *user_data, const char *path)
 {
@@ -312,8 +313,8 @@ find_contact_cb (BonoboUIHandler *uih, void *user_data, const char *path)
 		set_query (view, search_text);
 		g_free (search_text);
 	}
-	
 }
+#endif
 
 static void
 card_deleted_cb (EBook* book, EBookStatus status, gpointer user_data)
@@ -437,7 +438,7 @@ static GnomeUIInfo gnome_toolbar [] = {
 
 	GNOMEUIINFO_SEPARATOR,
 
-	GNOMEUIINFO_ITEM_STOCK (N_("Find"), N_("Find a contact"), find_contact_cb, GNOME_STOCK_PIXMAP_SEARCH),
+	GNOMEUIINFO_ITEM_STOCK (N_("Find"), N_("Find a contact"), search_cb, GNOME_STOCK_PIXMAP_SEARCH),
 	GNOMEUIINFO_ITEM_STOCK (N_("Print"), N_("Print contacts"), print_cb, GNOME_STOCK_PIXMAP_PRINT),
 	GNOMEUIINFO_ITEM_STOCK (N_("Delete"), N_("Delete a contact"), delete_contact_cb, GNOME_STOCK_PIXMAP_TRASH),
 	GNOMEUIINFO_SEPARATOR,

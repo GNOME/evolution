@@ -1,5 +1,15 @@
 2000-09-11  Christopher James Lahey  <clahey@helixcode.com>
 
+	* contact-editor/fulladdr.glade: Made this a bit better balanced.
+
+	* gui/component/addressbook.c: Make the toolbar button for find do
+	the same thing that the menu item for search does.
+
+	* gui/search/e-addressbook-search-dialog.c: Made the top half of
+	this not expand.
+
+2000-09-11  Christopher James Lahey  <clahey@helixcode.com>
+
 	* backend/ebook/e-card-simple.c, backend/ebook/e-card-simple.h:
 	Removed a bunch of redundant code.  Made it so that when you set
 	an address label, it sets the delivery address as well.  Added
