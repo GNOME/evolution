@@ -27,15 +27,17 @@
 #endif
 
 #include <glib.h>
-#include <libgnome/gnome-defs.h>
-#include <libgnome/gnome-i18n.h>
-#include <libgnomeui/gnome-stock.h>
 #include <liboaf/liboaf.h>
 #include <bonobo/bonobo-control.h>
 #include <bonobo/bonobo-widget.h>
 #include <gtk/gtksignal.h>
 #include <gtk/gtktogglebutton.h>
 #include <gtk/gtkvbox.h>
+#include <gtk/gtkwindow.h>
+#include <libgnome/gnome-defs.h>
+#include <libgnome/gnome-i18n.h>
+#include <libgnomeui/gnome-stock.h>
+#include <libgnomeui/gnome-dialog-util.h>
 #include <glade/glade.h>
 #include <gal/e-table/e-cell-combo.h>
 #include <gal/e-table/e-cell-text.h>
@@ -50,6 +52,7 @@
 #include "../component-factory.h"
 #include "../itip-utils.h"
 #include "comp-editor-util.h"
+#include "e-delegate-dialog.h"
 #include "meeting-page.h"
 
 
@@ -123,8 +126,6 @@ struct _MeetingPagePrivate {
 	
 	/* For handling the invite button */
         GNOME_Evolution_Addressbook_SelectNames corba_select_names;
-  
-
 };
 
 
@@ -361,17 +362,17 @@ meeting_page_fill_widgets (CompEditorPage *page, CalComponent *comp)
 		CalComponentAttendee *att = l->data;
 		struct attendee *attendee = g_new0 (struct attendee, 1);
 
-		attendee->address = g_strdup (att->value);
-		attendee->member = g_strdup (att->member);
+		attendee->address = att->value ? g_strdup (att->value) : g_strdup ("");
+		attendee->member = att->member ? g_strdup (att->member) : g_strdup ("");
 		attendee->cutype= att->cutype;
 		attendee->role = att->role;
 		attendee->status = att->status;
 		attendee->rsvp = att->rsvp;
-		attendee->delto = g_strdup (att->delto);
-		attendee->delfrom = g_strdup (att->delfrom);
-		attendee->sentby = g_strdup (att->sentby);
-		attendee->cn = g_strdup (att->cn);
-		attendee->language = g_strdup (att->language);
+		attendee->delto = att->delto ? g_strdup (att->delto) : g_strdup ("");
+		attendee->delfrom = att->delto ? g_strdup (att->delfrom) : g_strdup ("");
+		attendee->sentby = att->sentby ? g_strdup (att->sentby) : g_strdup ("");
+		attendee->cn = att->cn ? g_strdup (att->cn) : g_strdup ("");
+		attendee->language = att->language ? g_strdup (att->language) : g_strdup ("");
 		
 		priv->attendees = g_slist_prepend (priv->attendees, attendee);
 	
@@ -452,7 +453,7 @@ meeting_page_fill_component (CompEditorPage *page, CalComponent *comp)
 		att->rsvp = attendee->rsvp;
 		att->delto = (attendee->delto && *attendee->delto) ? attendee->delto : NULL;
 		att->delfrom = (attendee->delfrom && *attendee->delfrom) ? attendee->delfrom : NULL;
-		att->sentby = attendee->sentby;
+		att->sentby = (attendee->sentby && *attendee->sentby) ? attendee->sentby : NULL;
 		att->cn = (attendee->cn && *attendee->cn) ? attendee->cn : NULL;
 		att->language = (attendee->language && *attendee->language) ? attendee->language : NULL;
 		
@@ -515,19 +516,21 @@ invite_entry_changed (BonoboListener    *listener,
 		      CORBA_Environment *ev,
 		      gpointer           user_data)
 {
-  g_message ("event: \"%s\", section \"%s\"", event_name, BONOBO_ARG_GET_STRING (arg));
+	g_message ("event: \"%s\", section \"%s\"", event_name, BONOBO_ARG_GET_STRING (arg));
 }
 
 static void
-add_section (GNOME_Evolution_Addressbook_SelectNames corba_select_names, const char *name)
+add_section (GNOME_Evolution_Addressbook_SelectNames corba_select_names, const char *name, int limit)
 {
 	Bonobo_Control corba_control;
 	CORBA_Environment ev;
-	GtkWidget *control_widget;
-	BonoboControlFrame *cf;
-	Bonobo_PropertyBag pb = CORBA_OBJECT_NIL;
+
 	CORBA_exception_init (&ev);
 
+	if (limit != 0)
+	GNOME_Evolution_Addressbook_SelectNames_addSectionWithLimit (corba_select_names,
+								     name, name, limit, &ev);
+	else
 	GNOME_Evolution_Addressbook_SelectNames_addSection (corba_select_names,
 							    name, name, &ev);
 
@@ -542,18 +545,10 @@ add_section (GNOME_Evolution_Addressbook_SelectNames corba_select_names, const c
 
 	CORBA_exception_free (&ev);
 
-#if 0
-	control_widget = bonobo_widget_new_control_from_objref (
-		corba_control, CORBA_OBJECT_NIL);
-
-	cf = bonobo_widget_get_control_frame (BONOBO_WIDGET (control_widget));
-	pb = bonobo_control_frame_get_control_property_bag (cf, NULL);
-
-	bonobo_event_source_client_add_listener (
-		pb, invite_entry_changed,
-		"Bonobo/Property:change:entry_changed",
-		NULL, NULL);
-#endif
+	bonobo_event_source_client_add_listener (corba_control, 
+						 invite_entry_changed,
+						 "changed:working_copy",
+						 NULL, NULL);
 }
 
 static gboolean
@@ -571,9 +566,9 @@ get_select_name_dialog (MeetingPage *mpage)
 
 	priv->corba_select_names = oaf_activate_from_id (SELECT_NAMES_OAFID, 0, NULL, &ev);
 
-	add_section (priv->corba_select_names, "Required Participants");
-	add_section (priv->corba_select_names, "Optional Participants");
-	add_section (priv->corba_select_names, "Non-Participants");
+	add_section (priv->corba_select_names, "Required Participants", 0);
+	add_section (priv->corba_select_names, "Optional Participants", 0);
+	add_section (priv->corba_select_names, "Non-Participants", 0);
 
 	bonobo_event_source_client_add_listener (priv->corba_select_names,
 						 invite_entry_changed,
@@ -854,7 +849,7 @@ append_row (ETableModel *etm, ETableModel *model, int row, void *data)
 
 	attendee = g_new0 (struct attendee, 1);
 	
-	attendee->address = g_strdup_printf ("MAILTO:%s", e_table_model_value_at (model, MEETING_ATTENDEE_COL, row));
+	attendee->address = g_strdup_printf ("MAILTO:%s", (char *) e_table_model_value_at (model, MEETING_ATTENDEE_COL, row));
 	attendee->member = g_strdup (e_table_model_value_at (model, MEETING_MEMBER_COL, row));
 	attendee->cutype = text_to_type (e_table_model_value_at (model, MEETING_TYPE_COL, row));
 	attendee->role = text_to_role (e_table_model_value_at (model, MEETING_ROLE_COL, row));
@@ -898,9 +893,9 @@ value_at (ETableModel *etm, int col, int row, void *data)
 	case MEETING_RSVP_COL:
 		return boolean_to_text (attendee->rsvp);
 	case MEETING_DELTO_COL:
-		return attendee->delto;
+		return itip_strip_mailto (attendee->delto);
 	case MEETING_DELFROM_COL:
-		return attendee->delfrom;
+		return itip_strip_mailto (attendee->delfrom);
 	case MEETING_STATUS_COL:
 		return partstat_to_text (attendee->status);
 	case MEETING_CN_COL:
@@ -928,7 +923,7 @@ set_value_at (ETableModel *etm, int col, int row, const void *val, void *data)
 	case MEETING_ATTENDEE_COL:
 		if (attendee->address)
 			g_free (attendee->address);
-		attendee->address = g_strdup_printf ("MAILTO:%s", val);
+		attendee->address = g_strdup_printf ("MAILTO:%s", (char *) val);
 		break;
 	case MEETING_MEMBER_COL:
 		if (attendee->member)
@@ -1170,10 +1165,72 @@ popup_delegate_cb (GtkWidget *widget, gpointer data)
 {
 	MeetingPage *mpage = MEETING_PAGE (data);
 	MeetingPagePrivate *priv;
+	EDelegateDialog *edd;
+	GtkWidget *dialog;
+	char *address = NULL, *name = NULL;
+	gint row_cnt;
 	
 	priv = mpage->priv;
 
-	e_table_model_row_changed (priv->model, priv->row);
+	/* Show dialog. */
+	edd = e_delegate_dialog_new ();
+	dialog = e_delegate_dialog_get_toplevel (edd);
+
+	if (gnome_dialog_run_and_close (GNOME_DIALOG (dialog)) == 0){
+		struct attendee *a;
+		char *str;
+		GSList *l;
+		
+		name = e_delegate_dialog_get_delegate_name (edd);
+		address = e_delegate_dialog_get_delegate (edd);
+		
+		for (l = priv->attendees; l != NULL; l = l->next) {
+			a = l->data;
+			
+			if (a->address != NULL && !g_strcasecmp (itip_strip_mailto (a->address), address)) {
+				GtkWidget *dlg = gnome_error_dialog ("That person is already attending the meeting!");
+				gnome_dialog_run_and_close (GNOME_DIALOG (dlg));
+				goto cleanup;
+			}
+		}
+		
+		a = g_slist_nth_data (priv->attendees, priv->row);		
+		if (a->delto)
+			g_free (a->delto);
+		a->delto = g_strdup_printf ("MAILTO:%s", address);
+
+		a = g_new0 (struct attendee, 1);
+		
+		a->address = g_strdup_printf ("MAILTO:%s", address);
+		a->member = init_value (NULL, MEETING_MEMBER_COL, mpage);
+		str = init_value (NULL, MEETING_TYPE_COL, mpage);
+		a->cutype = text_to_type (str);
+		g_free (str);
+		str = init_value (NULL, MEETING_ROLE_COL, mpage);
+		a->role = text_to_role (str);
+		g_free (str);
+		str = init_value (NULL, MEETING_RSVP_COL, mpage);
+		a->rsvp = text_to_boolean (str);
+		g_free (str);
+		a->delto = init_value (NULL, MEETING_DELTO_COL, mpage);
+		a->delfrom = g_strdup_printf ("MAILTO:%s", (char *) value_at (NULL, MEETING_ATTENDEE_COL, priv->row, mpage));
+		str = init_value (NULL, MEETING_STATUS_COL, mpage);
+		a->status = text_to_partstat (str);
+		g_free (str);
+		a->cn = name ? g_strdup (name) : g_strdup ("");
+		a->language = init_value (NULL, MEETING_LANG_COL, mpage);
+		
+		priv->attendees = g_slist_append (priv->attendees, a);
+
+		row_cnt = row_count (priv->model, mpage) - 1;
+		e_table_model_row_changed (priv->model, priv->row);
+		e_table_model_row_inserted (priv->model, row_cnt);
+	}
+
+ cleanup:
+	g_free (name);
+	g_free (address);
+	gtk_object_unref (GTK_OBJECT (edd));
 }
 
 static void
@@ -1294,3 +1351,4 @@ meeting_page_new (void)
 
 	return mpage;
 }
+

@@ -1,3 +1,19 @@
+2001-07-24  JP Rosevear  <jpr@ximian.com>
+
+	* gui/dialogs/meeting-page.c (value_at): stip the delto and
+	delfrom
+	(popup_delegate_cb): show a delegate dialog and add the new
+	delegatee and update the delegator
+	(add_section): listen for changes in a more direct manner
+	(get_select_name_dialog): add_section now takes a limit argument
+
+	* gui/dialogs/e-delegate-dialog.[hc]: New dialog to query the user
+	for a person to delegate to
+
+	* gui/dialogs/Makefile.am: build/install new files
+
+	* gui/Makefile.am: add ldadd line for ebook
+
 2001-07-21  Damon Chaplin  <damon@ximian.com>
 
 	* gui/e-week-view-event-item.c (e_week_view_event_item_draw): fixed

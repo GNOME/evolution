@@ -137,9 +137,12 @@ evolution_calendar_LDADD =								\
 	$(top_builddir)/libical/src/libical/libical.la					\
 	$(top_builddir)/libwombat/libwombat.la						\
 	$(top_builddir)/widgets/meeting-time-sel/libevolutionmtsel.a			\
+	$(top_builddir)/addressbook/backend/ebook/libebook.la				\
+	$(top_builddir)/libversit/libversit.la						\
+	$(top_builddir)/e-util/ename/libename.la					\
 	dialogs/libcal-dialogs.a							\
 	$(top_builddir)/widgets/misc/libemiscwidgets.a					\
-	$(EXTRA_GNOME_LIBS)							\
+	$(EXTRA_GNOME_LIBS)								\
 	$(BONOBO_HTML_GNOME_LIBS)							\
 	$(GNOME_VFS_LIBS)								\
 	$(BONOBO_CONF_LIBS)								\

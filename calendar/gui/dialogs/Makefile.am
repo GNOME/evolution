@@ -25,6 +25,8 @@ INCLUDES = 						\
 	-I$(top_builddir)/libical/src/libical		\
 	-I$(top_builddir)/shell				\
 	-I$(top_srcdir)/shell				\
+	-I$(top_srcdir)/addressbook/backend/ebook	\
+	-I$(top_builddir)/addressbook/backend/ebook	\
 	-I$(includedir)					\
 	$(EXTRA_GNOME_CFLAGS)				\
 	-DEVOLUTION_DATADIR=\""$(datadir)"\"		\
@@ -55,6 +57,8 @@ libcal_dialogs_a_SOURCES =	\
 	comp-editor-util.h	\
 	delete-comp.c		\
 	delete-comp.h		\
+	e-delegate-dialog.c	\
+	e-delegate-dialog.h	\
 	e-timezone-dialog.c	\
 	e-timezone-dialog.h	\
 	event-editor.c		\
@@ -81,6 +85,7 @@ glade_DATA =				\
 	alarm-options.glade		\
 	alarm-page.glade		\
 	cal-prefs-dialog.glade		\
+	e-delegate-dialog.glade		\
 	e-timezone-dialog.glade		\
 	event-page.glade		\
 	meeting-page.glade		\
