@@ -1,3 +1,9 @@
+2003-11-18  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-session.c (camel_session_finalise): Don't destroy the
+	providers as it mans we can never ever have more than 1 session
+	object. See bug #51119 for details.
+
 2003-11-17  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* providers/local/camel-mbox-store.c (create_folder): Fixed an

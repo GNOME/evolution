@@ -100,6 +100,8 @@ camel_session_init (CamelSession *session)
 	session->priv->thread_queue = NULL;
 }
 
+#if 0
+/* NOTE: this code ruins all chance of ever having more than 1 session object */
 static gboolean
 camel_session_destroy_provider (gpointer key, gpointer value, gpointer user_data)
 {
@@ -112,6 +114,7 @@ camel_session_destroy_provider (gpointer key, gpointer value, gpointer user_data
 	}
 	return TRUE;
 }
+#endif
 
 static void
 camel_session_finalise (CamelObject *o)
@@ -123,8 +126,7 @@ camel_session_finalise (CamelObject *o)
 		e_thread_destroy(session->priv->thread_queue);
 
 	g_free(session->storage_path);
-	g_hash_table_foreach_remove (session->providers,
-				     camel_session_destroy_provider, NULL);
+	/*g_hash_table_foreach_remove (session->providers, camel_session_destroy_provider, NULL);*/
 	g_hash_table_destroy (session->providers);
 	
 	g_mutex_free(session->priv->lock);
