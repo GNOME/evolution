@@ -26,6 +26,4 @@
 #define COMPONENT_ID 		"OAFIID:GNOME_Evolution_Mail_ShellComponent"
 #define SUMMARY_FACTORY_ID	"OAFIID:GNOME_Evolution_Mail_ExecutiveSummaryComponentFactory"
 
-void  component_factory_init  (void);
-
 #endif

@@ -1085,36 +1085,6 @@ create_component (void)
 	return BONOBO_OBJECT (shell_component);
 }
 
-void
-component_factory_init (void)
-{
-	BonoboObject *shell_component;
-	int result;
-
-	shell_component = create_component ();
-	result = bonobo_activation_active_server_register (COMPONENT_ID, bonobo_object_corba_objref (shell_component));
-	if (result == Bonobo_ACTIVATION_REG_ERROR) {
-		e_notice (NULL, GTK_MESSAGE_ERROR,
-			  _("Cannot initialize the Evolution mail component."));
-		exit (1);
-	} else if (result == Bonobo_ACTIVATION_REG_ALREADY_ACTIVE) {
-		g_warning ("evolution-mail is already running");
-		exit (1);
-	}
-
-	if (evolution_mail_config_factory_init () == FALSE) {
-		e_notice (NULL, GTK_MESSAGE_ERROR,
-			  _("Cannot initialize Evolution's mail config component."));
-		exit (1);
-	}
-
-	if (evolution_folder_info_factory_init () == FALSE) {
-		e_notice (NULL, GTK_MESSAGE_ERROR,
-			  _("Cannot initialize Evolution's folder info component."));
-		exit (1);
-	}
-}
-
 static void
 notify_listener (const Bonobo_Listener listener, 
 		 GNOME_Evolution_Storage_Result corba_result)
@@ -1622,8 +1592,6 @@ factory (BonoboGenericFactory *factory,
 	 const char *component_id,
 	 void *closure)
 {
-	printf("Activating component '%s'\n", component_id);
-
 	if (strcmp (component_id, COMPONENT_ID) == 0)
 		return create_component();
 	else if (strcmp(component_id, MAIL_CONFIG_IID) == 0)

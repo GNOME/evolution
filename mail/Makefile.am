@@ -136,7 +136,6 @@ libevolution_mail_la_SOURCES =		\
 	mail-vfolder.h			\
 	message-browser.c		\
 	message-browser.h		\
-	main.c				\
 	message-list.c			\
 	message-list.h			\
 	message-tag-editor.c		\
