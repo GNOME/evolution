@@ -1,3 +1,8 @@
+2003-09-22  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-preferences.c (mail_preferences_construct): Connect to
+	"value-changed" rather than "changed" for spin buttons.
+
 2003-09-21  Not Zed  <NotZed@Ximian.com>
 
 	* mail-session.c (ms_thread_msg_new): implement, we hook into the

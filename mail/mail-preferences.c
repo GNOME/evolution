@@ -236,7 +236,7 @@ mail_preferences_construct (MailPreferences *prefs)
 	prefs->timeout = GTK_SPIN_BUTTON (glade_xml_get_widget (gui, "spinMarkTimeout"));
 	val = gconf_client_get_int (prefs->gconf, "/apps/evolution/mail/display/mark_seen_timeout", NULL);
 	gtk_spin_button_set_value (prefs->timeout, (1.0 * val) / 1000.0);
-	g_signal_connect (prefs->timeout, "changed", G_CALLBACK (settings_changed), prefs);
+	g_signal_connect (prefs->timeout, "value-changed", G_CALLBACK (settings_changed), prefs);
 	
 	prefs->charset = GTK_OPTION_MENU (glade_xml_get_widget (gui, "omenuCharset"));
 	buf = gconf_client_get_string (prefs->gconf, "/apps/evolution/mail/format/charset", NULL);
