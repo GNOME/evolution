@@ -1,6 +1,7 @@
 1998-04-22  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
 	* prop.c (properties): Added Calendar properties editor.
+	(properties): Make the code use a propery box.
 
 	* main.c: Save/load properties (fix to old commit).
 
