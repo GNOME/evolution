@@ -1,3 +1,11 @@
+2001-06-27  Larry Ewing  <lewing@ximian.com>
+
+	* e-msg-composer.c (menu_file_insert_file_cb): make hook this up.
+	(get_sig_file_content): use get_file_content.
+	(get_file_content): make this usable for both insertion and
+	signatures.
+	(read_file_content): added helper function to read file.
+
 2001-06-27  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* e-msg-composer.c: Added a pixcache array for special pixmaps to

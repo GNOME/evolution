@@ -101,7 +101,7 @@
 			<placeholder name="Print" delimit="top"/>
 			<separator/>
 
-			<menuitem name="FileInsertFile" verb="" _label="_Insert text file... (FIXME)"/>
+			<menuitem name="FileInsertFile" verb="" _label="_Insert text file..."/>
 
 			<separator/>
 

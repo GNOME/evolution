@@ -616,13 +616,74 @@ build_message (EMsgComposer *composer)
 }
 
 static char *
+read_file_content (gint fd)
+{
+	GByteArray *contents;
+	gchar buf[4096];
+	gint n;
+	gchar *body;
+
+	g_return_val_if_fail (fd > 0, NULL);
+
+	contents = g_byte_array_new ();
+	while ((n = read (fd, buf, 4096)) > 0) {
+		g_byte_array_append (contents, buf, n);
+	}
+	g_byte_array_append (contents, "\0", 1);
+
+	body = (n < 0) ? NULL : (gchar *)contents->data;
+	g_byte_array_free (contents, (n < 0));
+
+	return body;
+}
+
+static char *
+get_file_content (char *file_name, gboolean convert, guint flags)
+{
+	gint fd;
+	char *raw;
+	char *html;
+
+	fd = open (file_name, O_RDONLY);
+	if (fd == -1) {
+		char *msg;
+
+		msg = g_strdup_printf (_("Could not open file %s:\n"
+					 "%s"), file_name, g_strerror (errno));
+
+		gnome_error_dialog (msg);
+		g_free (msg);
+		return NULL;
+	} 
+
+	raw = read_file_content (fd);
+
+	if (raw == NULL) {
+		char *msg;
+
+		msg = g_strdup_printf (_("Error while reading file %s:\n"
+					 "%s"), file_name, g_strerror (errno));
+
+		gnome_error_dialog (msg);
+		g_free (msg);
+		close (fd);
+		return NULL;
+	}
+	close (fd);
+	
+	html = convert ? e_text_to_html (raw, flags) : raw;
+
+	if (convert)
+		g_free (raw);
+
+	return html;
+}
+
+static char *
 get_sig_file_content (const char *sigfile, gboolean in_html)
 {
-	GString *rawsig;
-	gchar  buf[1024];
 	gchar *file_name;
 	gchar *htmlsig = NULL;
-	int fd, n;
 
 	if (!sigfile || !*sigfile) {
 		return NULL;
@@ -630,27 +691,8 @@ get_sig_file_content (const char *sigfile, gboolean in_html)
 
 	file_name = in_html ? g_strconcat (sigfile, ".html", NULL) : (gchar *) sigfile;
 	
-	fd = open (file_name, O_RDONLY);
-	if (fd == -1) {
-		char *msg;
-		
-		msg = g_strdup_printf (_("Could not open signature file %s:\n"
-					 "%s"), file_name, g_strerror (errno));
-		gnome_error_dialog (msg);
-		g_free (msg);
-		
-		htmlsig = NULL;
-	} else {
-		rawsig = g_string_new ("");
-		while ((n = read (fd, buf, 1023)) > 0) {
-			buf[n] = '\0';
-			g_string_append (rawsig, buf);
-		}
-		close (fd);
+	htmlsig = get_file_content (file_name, !in_html, 0);
 
-		htmlsig = in_html ? rawsig->str : e_text_to_html (rawsig->str, 0);
-		g_string_free (rawsig, !in_html);
-	}
 	if (in_html) g_free (file_name);
 
 	return htmlsig;
@@ -1145,170 +1187,39 @@ menu_view_attachments_activate_cb (BonoboUIComponent           *component,
 	e_msg_composer_show_attachments (E_MSG_COMPOSER (user_data), new_state);
 }
 
-#if 0
-static void
-insert_file_ok_cb (GtkWidget *widget, void *user_data)
-{
-	GtkFileSelection *fs;
-	GdkAtom selection_atom = GDK_NONE;
-	char *name;
-	EMsgComposer *composer;
-	struct stat sb;
-	int fd;
-	guint8 *buffer;
-	size_t bufsz, actual;
-	
-	fs = GTK_FILE_SELECTION (gtk_widget_get_ancestor (widget,
-							  GTK_TYPE_FILE_SELECTION));
-	composer = E_MSG_COMPOSER (user_data);
-	name = gtk_file_selection_get_filename (fs);
-	
-	if (stat (name, &sb) < 0) {
-		GtkWidget *dlg;
-		
-		dlg = gnome_error_dialog_parented( _("That file does not exist."),
-						   GTK_WINDOW (fs));
-		gnome_dialog_run_and_close (GNOME_DIALOG (dlg));
-		gtk_widget_destroy (GTK_WIDGET (dlg));
-		return;
-	}
-	
-	if (!(S_ISREG (sb.st_mode))) {
-		GtkWidget *dlg;
-		
-		dlg = gnome_error_dialog_parented (_("That is not a regular file."),
-						   GTK_WINDOW (fs));
-		gnome_dialog_run_and_close (GNOME_DIALOG (dlg));
-		gtk_widget_destroy (GTK_WIDGET (dlg));
-		return;
-	}
-	
-	if (access (name, R_OK) != 0) {
-		GtkWidget *dlg;
-		
-		dlg = gnome_error_dialog_parented (_("That file exists but is not readable."),
-						   GTK_WINDOW (fs));
-		gnome_dialog_run_and_close (GNOME_DIALOG (dlg));
-		gtk_widget_destroy (GTK_WIDGET (dlg));
-		return;
-	}
-	
-	if ((fd = open (name, O_RDONLY)) < 0) {
-		GtkWidget *dlg;
-		
-		dlg = gnome_error_dialog_parented (_("That file appeared accesible but open(2) failed."),
-						   GTK_WINDOW (fs));
-		gnome_dialog_run_and_close (GNOME_DIALOG (dlg));
-		gtk_widget_destroy (GTK_WIDGET (dlg));
-		return;
-	}
-	
-	buffer = NULL;
-	bufsz = 0;
-	actual = 0;
-#define CHUNK 5120
-	
-	while (TRUE) {
-		ssize_t chunk;
-		
-		if (bufsz - actual < CHUNK) {
-			bufsz += CHUNK;
-			
-			if (bufsz >= 102400) {
-				GtkWidget *dlg;
-				gint result;
-				
-				dlg = gnome_dialog_new (_("The file is very large (more than 100K).\n"
-							  "Are you sure you wish to insert it?"),
-							GNOME_STOCK_BUTTON_YES,
-							GNOME_STOCK_BUTTON_NO,
-							NULL);
-				gnome_dialog_set_parent (GNOME_DIALOG (dlg), GTK_WINDOW (fs));
-				result = gnome_dialog_run_and_close (GNOME_DIALOG (dlg));
-				gtk_widget_destroy (GTK_WIDGET (dlg));
-				
-				if (result == 1)
-					goto cleanup;
-			}
-			
-			buffer = g_realloc (buffer, bufsz * sizeof (guint8));
-		}
-		
-		chunk = read (fd, &(buffer[actual]), CHUNK);
-
-		if (chunk < 0) {
-			GtkWidget *dlg;
-			
-			dlg = gnome_error_dialog_parented (_("An error occurred while reading the file."),
-							   GTK_WINDOW (fs));
-			gnome_dialog_run_and_close (GNOME_DIALOG (dlg));
-			gtk_widget_destroy (GTK_WIDGET (dlg));
-			goto cleanup;
-		}
-		
-		if (chunk == 0)
-			break;
-		
-		actual += chunk;
-	}
-	
-	buffer[actual] = '\0';
-	
-	if (selection_atom == GDK_NONE)
-		selection_atom = gdk_atom_intern ("TEMP_PASTE", FALSE);
-	gtk_object_set_data (GTK_OBJECT (fs), "ev_file_buffer", buffer);
-	gtk_selection_owner_set (GTK_WIDGET (fs), selection_atom, GDK_CURRENT_TIME);
-	/*gtk_html_paste (composer->send_html);*/
-	
- cleanup:
-	close (fd);
-	g_free (buffer);
-	gtk_widget_destroy (GTK_WIDGET (fs));
-}
-
-static void
-fs_selection_get (GtkWidget *widget, GtkSelectionData *sdata,
-		  guint info, guint time)
-{
-	gchar *buffer;
-	GdkAtom encoding;
-	gint format;
-	guchar *ctext;
-	gint length;
-	
-	buffer = gtk_object_get_data (GTK_OBJECT (widget), "ev_file_buffer");
-	if (gdk_string_to_compound_text (buffer, &encoding, &format, &ctext,
-					 &length) == Success)
-		gtk_selection_data_set (sdata, encoding, format, ctext, length);
-	g_free (buffer);
-	gtk_object_remove_data (GTK_OBJECT (widget), "ev_file_buffer");
-}
-#endif
-
 static void
 menu_file_insert_file_cb (BonoboUIComponent *uic,
 			  void *data,
 			  const char *path)
 {
-#if 0
 	EMsgComposer *composer;
-	GtkFileSelection *fs;
-	
+	char *file_name;
+	char *html;
+	CORBA_Environment ev;
+
 	composer = E_MSG_COMPOSER (data);
+
+	file_name = e_msg_composer_select_file (composer, _("Insert File"));
+	if (file_name == NULL)
+		return;
 	
-	fs = GTK_FILE_SELECTION (gtk_file_selection_new ("Choose File"));
-	/* FIXME: remember the location or something */
-	/*gtk_file_selection_set_filename( fs, g_get_home_dir() );*/
-	gtk_signal_connect (GTK_OBJECT (fs->ok_button), "clicked",
-			    GTK_SIGNAL_FUNC (insert_file_ok_cb), data);
-	gtk_signal_connect_object (GTK_OBJECT (fs->cancel_button), 
-				   "clicked",
-				   GTK_SIGNAL_FUNC (gtk_widget_destroy), 
-				   GTK_OBJECT (fs));
-	gtk_widget_show (GTK_WIDGET(fs));
-#else
-	g_message ("Insert file is unimplemented! oh no!");
-#endif
+	html = get_file_content (file_name, TRUE, E_TEXT_TO_HTML_PRE);
+	if (html == NULL)
+		return;
+
+	CORBA_exception_init (&ev);
+	GNOME_GtkHTML_Editor_Engine_freeze (composer->editor_engine, &ev);
+	GNOME_GtkHTML_Editor_Engine_runCommand (composer->editor_engine, "cursor-position-save", &ev);
+	GNOME_GtkHTML_Editor_Engine_undo_begin (composer->editor_engine, "Insert file", "Uninsert file", &ev);
+	if (!GNOME_GtkHTML_Editor_Engine_isParagraphEmpty (composer->editor_engine, &ev))
+		GNOME_GtkHTML_Editor_Engine_runCommand (composer->editor_engine, "insert-paragraph", &ev);
+	GNOME_GtkHTML_Editor_Engine_insertHTML (composer->editor_engine, html, &ev);
+	GNOME_GtkHTML_Editor_Engine_undo_end (composer->editor_engine, &ev);
+	GNOME_GtkHTML_Editor_Engine_runCommand (composer->editor_engine, "cursor-position-restore", &ev);
+	GNOME_GtkHTML_Editor_Engine_thaw (composer->editor_engine, &ev);
+	CORBA_exception_free (&ev);
+
+	g_free (html);
 }
 
 static void
