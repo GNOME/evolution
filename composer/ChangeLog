@@ -1,3 +1,13 @@
+2001-01-12  Miguel de Icaza  <miguel@ximian.com>
+
+	* e-msg-composer-hdrs.c (add_header): Only attach to "changed" if
+	the widget is an EEntry.  The HEADER_COMBOBOX and the
+	HEADER_ADDRBOOK are a ComboBox and a remote Bonobo control
+	respectively. 
+
+	* evolution-composer.c (get_object): Move getObject functionality
+	here from e-msg-composer.c
+
 2001-01-11  Miguel de Icaza  <miguel@ximian.com>
 
 	* e-msg-composer-hdrs.c (create_dropdown_entry): Only set the

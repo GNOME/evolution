@@ -274,6 +274,8 @@ add_header (EMsgComposerHdrs *hdrs,
 			       "use_ellipsis", TRUE,
 			       "allow_newlines", FALSE,
 			       NULL);
+		gtk_signal_connect (GTK_OBJECT (entry), "changed",
+				    GTK_SIGNAL_FUNC (entry_changed), hdrs);
 	}
 
 	if (entry != NULL) {
@@ -285,9 +287,6 @@ add_header (EMsgComposerHdrs *hdrs,
 				  2, 2);
 		
 		gtk_tooltips_set_tip (hdrs->priv->tooltips, entry, tip, tip_private);
-		
-		gtk_signal_connect (GTK_OBJECT (entry), "changed",
-				    GTK_SIGNAL_FUNC (entry_changed), hdrs);
 	}
 	
 	priv->num_hdrs++;

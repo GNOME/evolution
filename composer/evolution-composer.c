@@ -258,12 +258,26 @@ get_object (BonoboItemHandler *h, const char *item_name, gboolean only_if_exists
 	    gpointer data, CORBA_Environment *ev)
 {
 	EvolutionComposer *composer = data;
+	GSList *options, *l;
 	
-	if (strcmp (item_name, "composer_window") == 0)
-		return bonobo_object_dup_ref (
-			BONOBO_OBJECT (composer->composer)->corba_objref, ev);
+	options = bonobo_item_option_parse (item_name);
+	for (l = options; l; l = l->next){
+		BonoboItemOption *option = l->data;
 
-	return CORBA_OBJECT_NIL;
+		if (strcmp (option->key, "visible")){
+			gboolean show = 1;
+			
+			if (option->value)
+				show = atoi (option->value);
+
+			if (show)
+				gtk_widget_show (GTK_WIDGET (composer->composer));
+			else
+				gtk_widget_hide (GTK_WIDGET (composer->composer));
+		}
+	}
+	return bonobo_object_dup_ref (
+		BONOBO_OBJECT (composer)->corba_objref, ev);
 }
 
 void
