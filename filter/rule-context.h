@@ -20,6 +20,7 @@
  * Boston, MA 02111-1307, USA.
  */
 
+
 #ifndef _RULE_CONTEXT_H
 #define _RULE_CONTEXT_H
 
@@ -58,29 +59,29 @@ struct _RuleContext {
 	GList *rule_set_list;
 };
 
-typedef void (*RCRegisterFunc) (RuleContext *f, FilterRule *rule, gpointer user_data);
+typedef void (*RCRegisterFunc) (RuleContext *rc, FilterRule *rule, gpointer user_data);
 
 struct _RuleContextClass {
 	GObjectClass parent_class;
 	
 	/* virtual methods */
-	int (*load) (RuleContext *f, const char *system, const char *user);
-	int (*save) (RuleContext *f, const char *user);
-	int (*revert) (RuleContext *f, const char *user);
+	int (*load) (RuleContext *rc, const char *system, const char *user);
+	int (*save) (RuleContext *rc, const char *user);
+	int (*revert) (RuleContext *rc, const char *user);
 	
-	GList *(*delete_uri) (RuleContext *f, const char *uri, GCompareFunc cmp);
-	GList *(*rename_uri) (RuleContext *f, const char *olduri, const char *newuri, GCompareFunc cmp);
+	GList *(*delete_uri) (RuleContext *rc, const char *uri, GCompareFunc cmp);
+	GList *(*rename_uri) (RuleContext *rc, const char *olduri, const char *newuri, GCompareFunc cmp);
 	
 	/* signals */
-	void (*rule_added) (RuleContext *f, FilterRule *rule);
-	void (*rule_removed) (RuleContext *f, FilterRule *rule);
-	void (*changed) (RuleContext *f);
+	void (*rule_added) (RuleContext *rc, FilterRule *rule);
+	void (*rule_removed) (RuleContext *rc, FilterRule *rule);
+	void (*changed) (RuleContext *rc);
 };
 
-typedef void (*RCPartFunc) (RuleContext *f, FilterPart *part);
-typedef void (*RCRuleFunc) (RuleContext *f, FilterRule *part);
-typedef FilterPart * (*RCNextPartFunc) (RuleContext *f, FilterPart *part);
-typedef FilterRule * (*RCNextRuleFunc) (RuleContext *f, FilterRule *rule, const char *source);
+typedef void (*RCPartFunc) (RuleContext *rc, FilterPart *part);
+typedef void (*RCRuleFunc) (RuleContext *rc, FilterRule *part);
+typedef FilterPart * (*RCNextPartFunc) (RuleContext *rc, FilterPart *part);
+typedef FilterRule * (*RCNextRuleFunc) (RuleContext *rc, FilterRule *rule, const char *source);
 
 struct _part_set_map {
 	char *name;
@@ -100,36 +101,36 @@ GType rule_context_get_type (void);
 RuleContext *rule_context_new (void);
 
 /* methods */
-int rule_context_load (RuleContext *f, const char *system, const char *user);
-int rule_context_save (RuleContext *f, const char *user);
-int rule_context_revert (RuleContext *f, const char *user);
+int rule_context_load (RuleContext *rc, const char *system, const char *user);
+int rule_context_save (RuleContext *rc, const char *user);
+int rule_context_revert (RuleContext *rc, const char *user);
 
-void rule_context_add_part (RuleContext *f, FilterPart *new);
-FilterPart *rule_context_find_part (RuleContext *f, const char *name);
-FilterPart *rule_context_create_part (RuleContext *f, const char *name);
-FilterPart *rule_context_next_part (RuleContext *f, FilterPart *last);
+void rule_context_add_part (RuleContext *rc, FilterPart *new);
+FilterPart *rule_context_find_part (RuleContext *rc, const char *name);
+FilterPart *rule_context_create_part (RuleContext *rc, const char *name);
+FilterPart *rule_context_next_part (RuleContext *rc, FilterPart *last);
 
-FilterRule *rule_context_next_rule (RuleContext *f, FilterRule *last, const char *source);
-FilterRule *rule_context_find_rule (RuleContext *f, const char *name, const char *source);
-FilterRule *rule_context_find_rank_rule (RuleContext *f, int rank, const char *source);
-void rule_context_add_rule (RuleContext *f, FilterRule *new);
-void rule_context_add_rule_gui (RuleContext *f, FilterRule *rule, const char *title, const char *path);
-void rule_context_remove_rule (RuleContext *f, FilterRule *rule);
+FilterRule *rule_context_next_rule (RuleContext *rc, FilterRule *last, const char *source);
+FilterRule *rule_context_find_rule (RuleContext *rc, const char *name, const char *source);
+FilterRule *rule_context_find_rank_rule (RuleContext *rc, int rank, const char *source);
+void rule_context_add_rule (RuleContext *rc, FilterRule *new);
+void rule_context_add_rule_gui (RuleContext *rc, FilterRule *rule, const char *title, const char *path);
+void rule_context_remove_rule (RuleContext *rc, FilterRule *rule);
 
 /* get/set the rank (position) of a rule */
-void rule_context_rank_rule (RuleContext *f, FilterRule *rule, int rank);
-int rule_context_get_rank_rule (RuleContext *f, FilterRule *rule, const char *source);
+void rule_context_rank_rule (RuleContext *rc, FilterRule *rule, int rank);
+int rule_context_get_rank_rule (RuleContext *rc, FilterRule *rule, const char *source);
 
 /* setup type for set parts */
-void rule_context_add_part_set (RuleContext *f, const char *setname, int part_type,
+void rule_context_add_part_set (RuleContext *rc, const char *setname, int part_type,
 				RCPartFunc append, RCNextPartFunc next);
-void rule_context_add_rule_set (RuleContext *f, const char *setname, int rule_type,
+void rule_context_add_rule_set (RuleContext *rc, const char *setname, int rule_type,
 				RCRuleFunc append, RCNextRuleFunc next);
 
 /* uri's disappear/renamed externally */
-GList *rule_context_delete_uri (RuleContext *f, const char *uri, GCompareFunc cmp);
-GList *rule_context_rename_uri (RuleContext *f, const char *olduri, const char *newuri, GCompareFunc cmp);
+GList *rule_context_delete_uri (RuleContext *rc, const char *uri, GCompareFunc cmp);
+GList *rule_context_rename_uri (RuleContext *rc, const char *olduri, const char *newuri, GCompareFunc cmp);
 
-void rule_context_free_uri_list (RuleContext *f, GList *uris);
+void rule_context_free_uri_list (RuleContext *rc, GList *uris);
 
 #endif /* ! _RULE_CONTEXT_H */

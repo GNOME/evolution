@@ -41,11 +41,11 @@
 
 #define d(x) 
 
-static int load(RuleContext * f, const char *system, const char *user);
-static int save(RuleContext * f, const char *user);
-static int revert(RuleContext *f, const char *user);
-static GList *rename_uri(RuleContext *f, const char *olduri, const char *newuri, GCompareFunc cmp);
-static GList *delete_uri(RuleContext *f, const char *uri, GCompareFunc cmp);
+static int load (RuleContext *rc, const char *system, const char *user);
+static int save (RuleContext *rc, const char *user);
+static int revert (RuleContext *rc, const char *user);
+static GList *rename_uri (RuleContext *rc, const char *olduri, const char *newuri, GCompareFunc cmp);
+static GList *delete_uri (RuleContext *rc, const char *uri, GCompareFunc cmp);
 
 static void rule_context_class_init (RuleContextClass *klass);
 static void rule_context_init (RuleContext *rc);

@@ -1,5 +1,7 @@
 2002-11-02  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* filter-context.c: Ported this too.
+
 	* rule-context.c: Ported to glib2/GObject.
 
 2002-11-01  Jeffrey Stedfast  <fejj@ximian.com>
