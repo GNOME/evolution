@@ -1,3 +1,7 @@
+2001-08-05  Zbigniew Chyla  <cyba@gnome.pl>
+
+	* folder-info.c: Added missing #include <config.h>. (applied by Damon)
+
 2001-08-18  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-config.c (config_read): Change the default values for
