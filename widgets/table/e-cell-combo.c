@@ -65,6 +65,9 @@
 /* The height to make the popup list if there aren't any items in it. */
 #define	E_CELL_COMBO_LIST_EMPTY_HEIGHT	15
 
+/* The object data key used to store the UTF-8 text of the popup list items. */
+#define E_CELL_COMBO_UTF8_KEY		"UTF-8-TEXT"
+
 
 static void e_cell_combo_class_init	(GtkObjectClass	*object_class);
 static void e_cell_combo_init		(ECellCombo	*ecc);
@@ -212,9 +215,23 @@ e_cell_combo_set_popdown_strings	(ECellCombo	*ecc,
 	gtk_list_clear_items (GTK_LIST (ecc->popup_list), 0, -1);
 	elem = strings;
 	while (elem) {
-		listitem = gtk_list_item_new_with_label ((gchar *) elem->data);
+		char *utf8_text = elem->data;
+
+		/* We store a copy of the UTF-8 text as data inside the
+		   listitem, but convert it to the current locale to go in
+		   the listitem widget. */
+		char *locale_text = e_utf8_to_locale_string (utf8_text);
+
+		listitem = gtk_list_item_new_with_label (locale_text);
+		g_free (locale_text);
+
 		gtk_widget_show (listitem);
 		gtk_container_add (GTK_CONTAINER (ecc->popup_list), listitem);
+
+		gtk_object_set_data_full (GTK_OBJECT (listitem),
+					  E_CELL_COMBO_UTF8_KEY,
+					  g_strdup (utf8_text), g_free);
+
 		elem = elem->next;
 	}
 }
@@ -262,7 +279,7 @@ e_cell_combo_select_matching_item	(ECellCombo	*ecc)
 	ETableItem *eti = E_TABLE_ITEM (ecp->popup_cell_view->cell_view.e_table_item_view);
 	ETableCol *ecol;
 	GtkList *list;
-	GtkWidget *listitem, *label;
+	GtkWidget *listitem;
 	GList *elem;
 	gboolean found = FALSE;
 	char *cell_text, *list_item_text;
@@ -275,10 +292,12 @@ e_cell_combo_select_matching_item	(ECellCombo	*ecc)
 	elem = list->children;
 	while (elem) {
 		listitem = GTK_WIDGET (elem->data);
-		label = GTK_BIN (listitem)->child;
-		gtk_label_get (GTK_LABEL (label), &list_item_text);
 
-		if (!strcmp (list_item_text, cell_text)) {
+		/* We need to compare against the UTF-8 text. */
+		list_item_text = gtk_object_get_data (GTK_OBJECT (listitem),
+						      E_CELL_COMBO_UTF8_KEY);
+
+		if (list_item_text && !strcmp (list_item_text, cell_text)) {
 			found = TRUE;
 			gtk_list_select_child (list, listitem);
 			gtk_widget_grab_focus (listitem);
@@ -587,7 +606,9 @@ e_cell_combo_update_cell		(ECellCombo	*ecc)
 
 	/* Get the text of the selected item. */
 	listitem = list->selection->data;
-	gtk_label_get (GTK_LABEL (GTK_BIN (listitem)->child), &text);
+	text = gtk_object_get_data (GTK_OBJECT (listitem),
+				    E_CELL_COMBO_UTF8_KEY);
+	g_return_if_fail (text != NULL);
 
 	/* Compare it with the existing cell contents. */
 	ecol = e_table_header_get_column (eti->header, ecp->popup_view_col);
