@@ -578,12 +578,11 @@ msgstr "Е-пошта 3"
 
 #: addressbook/contact-editor/e-contact-quick-add.c:233
 msgid "Contact Quick-Add"
-msgstr ""
+msgstr "Швидке додавання контакту"
 
 #: addressbook/contact-editor/e-contact-quick-add.c:235
-#, fuzzy
 msgid "Edit Full"
-msgstr "Редагування в╕льтр╕в"
+msgstr "Виправлення повного ╕мен╕"
 
 #: addressbook/contact-editor/e-contact-quick-add.c:276
 #: addressbook/gui/widgets/e-addressbook-view.c:643
@@ -762,9 +761,8 @@ msgid "The URI that the Folder Browser will display"
 msgstr "URI теки, що буде в╕дображено переглядачем"
 
 #: addressbook/gui/component/addressbook-storage.c:99
-#, fuzzy
 msgid "Other Contacts"
-msgstr "Стерти контакт?"
+msgstr "╤нш╕ контакти"
 
 #: addressbook/gui/component/addressbook-config.c:148
 msgid "LDAP Server"
@@ -854,9 +852,8 @@ msgid "FIXME Root DN help text here."
 msgstr ""
 
 #: addressbook/gui/component/addressbook-config.c:435
-#, fuzzy
 msgid "Search Scope:"
-msgstr "Пошук"
+msgstr ""
 
 #: addressbook/gui/component/addressbook-config.c:489
 msgid "Authentication:"
@@ -909,9 +906,8 @@ msgid "FIXME Description help text here"
 msgstr ""
 
 #: addressbook/gui/component/addressbook-config.glade.h:2
-#, fuzzy
 msgid "Addressbook Sources"
-msgstr "Додати джерело"
+msgstr "Джерело адресно╖ книги"
 
 #: addressbook/gui/component/addressbook-config.glade.h:3
 #: addressbook/gui/widgets/e-addressbook-view.c:578
@@ -940,24 +936,22 @@ msgid "URI"
 msgstr "URI"
 
 #: addressbook/gui/component/e-address-widget.c:365
-#, fuzzy
 msgid "Disable Queries"
-msgstr "Доступн╕ категор╕╖:"
+msgstr "Заборонити запити"
 
 #: addressbook/gui/component/e-address-widget.c:365
 msgid "Enable Queries (Dangerous!)"
-msgstr ""
+msgstr "Дозволити запити (небезпечно!)"
 
 #: addressbook/gui/component/e-address-widget.c:388
 #: addressbook/gui/component/select-names/e-select-names-popup.c:210
 msgid "Edit Contact Info"
-msgstr ""
+msgstr "Виправлення контактно╖ ╕нформац╕╖"
 
 #: addressbook/gui/component/e-address-widget.c:424
 #: addressbook/gui/component/select-names/e-select-names-popup.c:269
-#, fuzzy
 msgid "Add to Contacts"
-msgstr "Стерти контакт?"
+msgstr "Додати до контакт╕в"
 
 #: addressbook/gui/component/GNOME_Evolution_Addressbook.oaf.in.h:1
 msgid "A Bonobo control for an address popup."
@@ -1024,9 +1018,8 @@ msgid "Remove"
 msgstr "Видалити"
 
 #: addressbook/gui/component/select-names/e-select-names-popup.c:146
-#, fuzzy
 msgid "Remove All"
-msgstr "Видалити"
+msgstr "Видалити все"
 
 #: addressbook/gui/component/select-names/select-names.glade.h:1
 msgid "Find..."
@@ -1178,15 +1171,13 @@ msgstr "Зберегти як VCard"
 
 #: addressbook/gui/widgets/e-addressbook-view.c:574
 #: addressbook/gui/widgets/e-minicard.c:669
-#, fuzzy
 msgid "Send contact to other"
-msgstr "В╕д╕слати контакт ╕ншому..."
+msgstr "В╕д╕слати контакт ╕ншому"
 
 #: addressbook/gui/widgets/e-addressbook-view.c:575
 #: addressbook/gui/widgets/e-minicard.c:670
-#, fuzzy
 msgid "Send message to contact"
-msgstr "В╕д╕слати пов╕домлення без теми"
+msgstr "В╕д╕слати пов╕домлення за контактом"
 
 #: addressbook/gui/widgets/e-addressbook-view.c:576
 #: addressbook/gui/widgets/e-minicard.c:671 mail/folder-browser.c:591
@@ -1219,12 +1210,10 @@ msgid "Primary Phone"
 msgstr "Первинний телефон"
 
 #: addressbook/gui/widgets/e-addressbook-view.c:646
-#, fuzzy
 msgid "Assistant Phone"
-msgstr "Пом╕чник"
+msgstr "Телефлн пом╕чника"
 
 #: addressbook/gui/widgets/e-addressbook-view.c:647
-#, fuzzy
 msgid "Business Phone"
 msgstr "Робочий телефон"
 
@@ -1233,9 +1222,8 @@ msgid "Callback Phone"
 msgstr ""
 
 #: addressbook/gui/widgets/e-addressbook-view.c:649
-#, fuzzy
 msgid "Company Phone"
-msgstr "Компан╕я"
+msgstr "Телефон компан╕╖"
 
 #: addressbook/gui/widgets/e-addressbook-view.c:650
 msgid "Home Phone"
@@ -1443,7 +1431,6 @@ msgid "Page"
 msgstr "Стор╕нка"
 
 #: addressbook/printing/e-contact-print.glade.h:26
-#, fuzzy
 msgid "Page Setup:"
 msgstr "Параметри стор╕нки:"
 
@@ -1484,7 +1471,6 @@ msgid "Shading"
 msgstr "П╕втони"
 
 #: addressbook/printing/e-contact-print.glade.h:36
-#, fuzzy
 msgid "Size:"
 msgstr "Розм╕р:"
 
@@ -1625,17 +1611,15 @@ msgstr "Викону╓ться"
 #: calendar/gui/calendar-model.c:641 calendar/gui/calendar-model.c:1177
 #: calendar/gui/dialogs/task-editor-dialog.glade.h:6
 #: calendar/gui/e-calendar-table.c:428
-#, fuzzy
 msgid "Completed"
-msgstr "% завершення:"
+msgstr "Завершено"
 
 #: calendar/gui/calendar-model.c:644 calendar/gui/calendar-model.c:1179
 #: calendar/gui/dialogs/task-editor-dialog.glade.h:4
 #: calendar/gui/e-calendar-table.c:429 camel/camel-service.c:550
 #: camel/camel-service.c:586
-#, fuzzy
 msgid "Cancelled"
-msgstr "В╕дм╕нити"
+msgstr "В╕дм╕нено"
 
 #. strftime format of a weekday, a date and a time, 24-hour.
 #: calendar/gui/calendar-model.c:791 e-util/e-time-utils.c:278
@@ -1697,7 +1681,7 @@ msgstr ""
 #: calendar/gui/dialogs/task-editor-dialog.glade.h:22
 #: calendar/gui/e-calendar-table.c:355
 msgid "Undefined"
-msgstr ""
+msgstr "Невизначено"
 
 #: calendar/gui/calendar-model.c:1102
 msgid "The transparency must be 'Transparent', 'Opaque', or 'None'."
@@ -1710,7 +1694,7 @@ msgstr "Повторення"
 
 #: calendar/gui/calendar-model.c:1573
 msgid "Assigned"
-msgstr ""
+msgstr "Прив'язано"
 
 #: calendar/gui/calendar-model.c:1579
 msgid "Yes"
@@ -1828,7 +1812,6 @@ msgstr ""
 #: ui/evolution-contact-editor.xml.h:1 ui/evolution-event-editor.xml.h:10
 #: ui/evolution-message-composer.xml.h:3 ui/evolution-subscribe.xml.h:2
 #: ui/evolution-task-editor-dialog.xml.h:11 ui/evolution.xml.h:2
-#, fuzzy
 msgid "Close"
 msgstr "Закрити"
 
@@ -1907,9 +1890,8 @@ msgid "Defaults"
 msgstr "Подробиц╕"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:17
-#, fuzzy
 msgid "Display options"
-msgstr "День"
+msgstr "Параметри в╕дображення"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:18
 #: calendar/gui/e-calendar-table.c:162
@@ -1938,9 +1920,8 @@ msgid "Friday"
 msgstr "П'ятниця"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:24
-#, fuzzy
 msgid "Highlight"
-msgstr "Висота:"
+msgstr "П╕дсв╕тка"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:25
 msgid "Items Due Today"
@@ -2008,7 +1989,6 @@ msgid "Show"
 msgstr "Показати"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:40
-#, fuzzy
 msgid "Show appointment end times"
 msgstr "Показати час завершення зустр╕чей"
 
@@ -2064,9 +2044,8 @@ msgid "Tuesday"
 msgstr "В╕второк"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:53
-#, fuzzy
 msgid "Visual Alarms"
-msgstr "В╕ртуальн╕ теки"
+msgstr "В╕зуальн╕ си╜нали"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:54
 msgid "Wed"
@@ -2092,34 +2071,31 @@ msgid "seconds."
 msgstr "В╕д╕слати"
 
 #: calendar/gui/dialogs/delete-comp.c:70
-#, fuzzy, c-format
+#, c-format
 msgid "Are you sure you want to delete the appointment `%s'?"
-msgstr "Ви впевнен╕, що хочете стерти зустр╕ч"
+msgstr "Ви впевнен╕, що хочете стерти зустр╕ч \"%s\"?"
 
 #: calendar/gui/dialogs/delete-comp.c:73
-#, fuzzy
 msgid "Are you sure you want to delete this untitled appointment?"
-msgstr "Ви впевнен╕, що хочете стерти зустр╕ч"
+msgstr "Ви впевнен╕, що хочете стерти цю неназвану зустр╕ч?"
 
 #: calendar/gui/dialogs/delete-comp.c:79
-#, fuzzy, c-format
+#, c-format
 msgid "Are you sure you want to delete the task `%s'?"
-msgstr "Ви впевнен╕, що хочете стерти завдання"
+msgstr "Ви впевнен╕, що хочете стерти завдання \"%s\"?"
 
 #: calendar/gui/dialogs/delete-comp.c:82
-#, fuzzy
 msgid "Are you sure you want to delete this untitled task?"
-msgstr "Ви впевнен╕, що хочете стерти завдання"
+msgstr "Ви впевнен╕, що хочете стерти це неназване завдання?"
 
 #: calendar/gui/dialogs/delete-comp.c:88
-#, fuzzy, c-format
+#, c-format
 msgid "Are you sure you want to delete the journal entry `%s'?"
-msgstr "Ви впевнен╕, що хочете стерти запис в журнал╕"
+msgstr "Ви впевнен╕, що хочете стерти запис в журнал╕ \"%s\"?"
 
 #: calendar/gui/dialogs/delete-comp.c:91
-#, fuzzy
 msgid "Are you sure want to delete this untitled journal entry?"
-msgstr "Ви впевнен╕, що хочете стерти запис в журнал╕"
+msgstr "Ви впевнен╕, що хочете стерти цей неназваний запис в журнал╕?"
 
 #: calendar/gui/dialogs/save-comp.c:51
 msgid "Do you want to save changes?"
@@ -2138,9 +2114,8 @@ msgstr "Класиф╕кац╕я"
 
 #: calendar/gui/dialogs/task-editor-dialog.glade.h:7
 #: calendar/gui/event-editor-dialog.glade.h:8
-#, fuzzy
 msgid "Date & Time"
-msgstr "Дата в╕дсилання"
+msgstr "Дата й час"
 
 #: calendar/gui/dialogs/task-editor-dialog.glade.h:8
 msgid "Date Completed:"
@@ -2152,9 +2127,8 @@ msgid "Pri_vate"
 msgstr "Особисте"
 
 #: calendar/gui/dialogs/task-editor-dialog.glade.h:16
-#, fuzzy
 msgid "Progress"
-msgstr "Викону╓ться"
+msgstr "Поступ"
 
 #: calendar/gui/dialogs/task-editor-dialog.glade.h:17
 #: calendar/gui/event-editor-dialog.glade.h:17
@@ -2162,7 +2136,6 @@ msgid "Pu_blic"
 msgstr "Публ╕чне"
 
 #: calendar/gui/dialogs/task-editor-dialog.glade.h:18
-#, fuzzy
 msgid "Sta_rt Date:"
 msgstr "Час початку:"
 
@@ -2209,7 +2182,7 @@ msgstr "Виправити завдання"
 
 #: calendar/gui/dialogs/task-editor.c:713 calendar/gui/event-editor.c:382
 msgid "No summary"
-msgstr ""
+msgstr "Нема╓ зведення"
 
 #: calendar/gui/dialogs/task-editor.c:719 calendar/gui/event-editor.c:388
 #, c-format
@@ -2231,37 +2204,32 @@ msgid "Categories"
 msgstr "Категор╕╖"
 
 #: calendar/gui/e-calendar-table.c:159
-#, fuzzy
 msgid "Completion Date"
-msgstr "Завершено"
+msgstr "Дата завершення"
 
 #: calendar/gui/e-calendar-table.c:160
 msgid "End Date"
-msgstr ""
+msgstr "Дата к╕нця"
 
 #: calendar/gui/e-calendar-table.c:161
-#, fuzzy
 msgid "Start Date"
-msgstr "Час початку:"
+msgstr "Дата початку"
 
 #: calendar/gui/e-calendar-table.c:163
 msgid "Geographical Position"
 msgstr "Географ╕чне положення"
 
 #: calendar/gui/e-calendar-table.c:164
-#, fuzzy
 msgid "Percent complete"
-msgstr "Позначити завдання як виконане"
+msgstr "В╕дсоток виконання"
 
 #: calendar/gui/e-calendar-table.c:166
-#, fuzzy
 msgid "Summary"
-msgstr "Нед╕ля"
+msgstr "Зведення"
 
 #: calendar/gui/e-calendar-table.c:167
-#, fuzzy
 msgid "Transparency"
-msgstr "Прозорий"
+msgstr "Прозор╕сть"
 
 #: calendar/gui/e-calendar-table.c:168
 msgid "URL"
@@ -2272,9 +2240,8 @@ msgid "Alarms"
 msgstr "Си╜нали"
 
 #: calendar/gui/e-calendar-table.c:170
-#, fuzzy
 msgid "Click here to add a task"
-msgstr "Клацн╕ть тут щоб викликати адресну книгу"
+msgstr "Клацн╕ть тут щоб додати завдання"
 
 #: calendar/gui/e-calendar-table.c:374
 #, c-format
@@ -2340,20 +2307,17 @@ msgid "Mark the task complete"
 msgstr "Позначити завдання як виконане"
 
 #: calendar/gui/e-calendar-table.c:557
-#, fuzzy
 msgid "Edit this task..."
-msgstr "Виправити зустр╕ч..."
+msgstr "Виправити це завдання..."
 
 #: calendar/gui/e-calendar-table.c:558
-#, fuzzy
 msgid "Edit the task"
 msgstr "Виправити завдання"
 
 #: calendar/gui/e-calendar-table.c:560
 #: ui/evolution-task-editor-dialog.xml.h:19
-#, fuzzy
 msgid "Delete this task"
-msgstr "Стерти завдання"
+msgstr "Стерти це завдання"
 
 #: calendar/gui/e-calendar-table.c:561
 msgid "Delete the task"
@@ -2398,13 +2362,12 @@ msgid "pm"
 msgstr "пп"
 
 #: calendar/gui/e-day-view.c:3146 ui/evolution-calendar.xml.h:16
-#, fuzzy
 msgid "New Appointment"
-msgstr "Нова зустр╕ч..."
+msgstr "Нова зустр╕ч"
 
 #: calendar/gui/e-day-view.c:3148 calendar/gui/e-week-view.c:3280
 msgid "New All Day Event"
-msgstr ""
+msgstr "Нова щоденна под╕я"
 
 #: calendar/gui/e-day-view.c:3153 calendar/gui/e-week-view.c:3285
 #, fuzzy
@@ -2423,7 +2386,6 @@ msgid "Open"
 msgstr "В╕дкрити"
 
 #: calendar/gui/e-day-view.c:3164 calendar/gui/e-week-view.c:3295
-#, fuzzy
 msgid "Delete this Appointment"
 msgstr "Стерти цю зустр╕ч"
 
@@ -2448,9 +2410,8 @@ msgid "Delete all Occurrences"
 msgstr "Стерти контакт"
 
 #: calendar/gui/e-itip-control.c:161
-#, fuzzy
 msgid "I couldn't update your calendar file!\n"
-msgstr "Не вдалося створити календар в \"%s\""
+msgstr "Не вдалося поновити ваш календарний файл!\n"
 
 #: calendar/gui/e-itip-control.c:167 calendar/gui/e-itip-control.c:510
 #, fuzzy
@@ -2498,9 +2459,8 @@ msgid "I don't recognize this type of calendar component."
 msgstr "Не вдалося ╕н╕ц╕ал╕зувати поштовий компонент Evolutuion."
 
 #: calendar/gui/e-itip-control.c:780
-#, fuzzy
 msgid "Add to Calendar"
-msgstr "Календар"
+msgstr "Додати до календаря"
 
 #: calendar/gui/e-itip-control.c:814
 msgid " Accept "
@@ -2515,14 +2475,12 @@ msgid " Tentative "
 msgstr ""
 
 #: calendar/gui/e-itip-control.c:860
-#, fuzzy
 msgid "Update Calendar"
-msgstr "В╕дкрити календар"
+msgstr "Поновити календар"
 
 #: calendar/gui/e-itip-control.c:883
-#, fuzzy
 msgid "Cancel Meeting"
-msgstr "Планування зустр╕ч╕"
+msgstr "Скасувати зустр╕ч"
 
 #: calendar/gui/e-itip-control.glade.h:2
 #, fuzzy, no-c-format
@@ -2534,19 +2492,16 @@ msgid "--to--"
 msgstr ""
 
 #: calendar/gui/e-itip-control.glade.h:4
-#, fuzzy
 msgid "Calendar Message"
-msgstr "Календар"
+msgstr "Календарне пов╕домлення"
 
 #: calendar/gui/e-itip-control.glade.h:5 mail/mail-format.c:623
-#, fuzzy
 msgid "Date:"
-msgstr "п╕сля"
+msgstr "Дата:"
 
 #: calendar/gui/e-itip-control.glade.h:8
-#, fuzzy
 msgid "Loading calendar..."
-msgstr "Надрукувати календар"
+msgstr "Завантаження календаря..."
 
 #: calendar/gui/e-itip-control.glade.h:9
 #, fuzzy
@@ -2554,14 +2509,12 @@ msgid "Organizer:"
 msgstr "Ор╕╓нтац╕я:"
 
 #: calendar/gui/e-itip-control.glade.h:10
-#, fuzzy
 msgid "Server Message:"
-msgstr "Зберегти пов╕домлення як..."
+msgstr "Серверне пов╕домлення:"
 
 #: calendar/gui/e-itip-control.glade.h:11
-#, fuzzy
 msgid "Summary:"
-msgstr "Нед╕ля"
+msgstr "Зведення:"
 
 #: calendar/gui/e-itip-control.glade.h:12
 msgid "date-end"
@@ -2587,11 +2540,12 @@ msgid "Attendees: "
 msgstr "Весь супров╕д"
 
 #: calendar/gui/e-meeting-dialog.glade.h:5
-#, fuzzy
 msgid ""
 "Cancel\n"
 "Meeting"
-msgstr "Планування зустр╕ч╕"
+msgstr ""
+"Скасувати\n"
+"зустр╕ч"
 
 #: calendar/gui/e-meeting-dialog.glade.h:7
 #, fuzzy
@@ -2652,9 +2606,8 @@ msgstr "Планування зустр╕ч╕"
 
 #: calendar/gui/e-meeting-dialog.glade.h:24 filter/libfilter-i18n.h:49
 #: mail/message-list.c:1082
-#, fuzzy
 msgid "Status"
-msgstr "Стан:"
+msgstr "Стан"
 
 #: calendar/gui/e-tasks.c:149 calendar/gui/e-tasks.c:469
 #: calendar/gui/e-tasks.c:502
@@ -2662,11 +2615,8 @@ msgid "All"
 msgstr ""
 
 #: calendar/gui/e-tasks.c:155
-#, fuzzy
 msgid "Category:"
-msgstr ""
-"\n"
-"Категор╕╖: "
+msgstr "Категор╕я:"
 
 #: calendar/gui/e-tasks.c:298
 #, fuzzy, c-format
@@ -2686,7 +2636,6 @@ msgid "%d %B"
 msgstr "%d %B"
 
 #: calendar/gui/e-week-view.c:3278 calendar/gui/e-week-view.c:3301
-#, fuzzy
 msgid "New Appointment..."
 msgstr "Нова зустр╕ч..."
 
@@ -2700,9 +2649,8 @@ msgid "A_ll day event"
 msgstr ""
 
 #: calendar/gui/event-editor-dialog.glade.h:3
-#, fuzzy
 msgid "Appointment"
-msgstr "Зустр╕ч╕:"
+msgstr "Зустр╕ч"
 
 #: calendar/gui/event-editor-dialog.glade.h:4
 msgid "Appointment Basics"
@@ -2752,38 +2700,32 @@ msgstr "Нагадування"
 
 #: calendar/gui/event-editor-dialog.glade.h:22
 #: calendar/gui/event-editor.c:1602
-#, fuzzy
 msgid "Run a program"
-msgstr "Запустити програму:"
+msgstr "Запустити програму"
 
 #: calendar/gui/event-editor-dialog.glade.h:23
 #: calendar/gui/event-editor.c:1599
-#, fuzzy
 msgid "Send an email"
-msgstr "Отримання пошти з %s"
+msgstr "В╕д╕слати пошту"
 
 #: calendar/gui/event-editor-dialog.glade.h:24 ui/evolution-calendar.xml.h:29
-#, fuzzy
 msgid "Settings..."
-msgstr "Установки"
+msgstr "Установки..."
 
 #: calendar/gui/event-editor-dialog.glade.h:25
 #: calendar/gui/event-editor.c:1596
-#, fuzzy
 msgid "Show a dialog"
-msgstr "Показати 1 день"
+msgstr "Показати д╕алог"
 
 #: calendar/gui/event-editor-dialog.glade.h:26
 msgid "Simple recurrence"
 msgstr "Просте повторення"
 
 #: calendar/gui/event-editor-dialog.glade.h:30
-#, fuzzy
 msgid "_End time:"
 msgstr "Час завершення:"
 
 #: calendar/gui/event-editor-dialog.glade.h:31
-#, fuzzy
 msgid "_Start time:"
 msgstr "Дата початку:"
 
@@ -2806,9 +2748,8 @@ msgid "day(s)"
 msgstr "Т╕ло"
 
 #: calendar/gui/event-editor-dialog.glade.h:36
-#, fuzzy
 msgid "end of appointment"
-msgstr "Нагадувати про вс╕ зустр╕ч╕"
+msgstr "к╕нець зустр╕ч╕"
 
 #: calendar/gui/event-editor-dialog.glade.h:37
 msgid "for"
@@ -2828,7 +2769,6 @@ msgid "label21"
 msgstr "label26"
 
 #: calendar/gui/event-editor-dialog.glade.h:41
-#, fuzzy
 msgid "label55"
 msgstr "label26"
 
@@ -2842,9 +2782,8 @@ msgid "month(s)"
 msgstr "м╕сяць"
 
 #: calendar/gui/event-editor-dialog.glade.h:44
-#, fuzzy
 msgid "start of appointment"
-msgstr "Виправити зустр╕ч"
+msgstr "початок зустр╕ч╕"
 
 #: calendar/gui/event-editor-dialog.glade.h:45
 msgid "until"
@@ -2896,9 +2835,8 @@ msgid " %d days"
 msgstr "Т╕ло"
 
 #: calendar/gui/event-editor.c:1550
-#, fuzzy
 msgid " 1 day"
-msgstr "Показати 1 день"
+msgstr " 1 день"
 
 #: calendar/gui/event-editor.c:1553
 #, fuzzy, c-format
@@ -2916,14 +2854,13 @@ msgid " %d hours"
 msgstr "24 години"
 
 #: calendar/gui/event-editor.c:1560
-#, fuzzy
 msgid " 1 hour"
-msgstr "година"
+msgstr " 1 година"
 
 #: calendar/gui/event-editor.c:1563
-#, fuzzy, c-format
+#, c-format
 msgid " %d minutes"
-msgstr "05 хвилин"
+msgstr " %d хвилин"
 
 #: calendar/gui/event-editor.c:1565
 #, fuzzy
