@@ -51,6 +51,10 @@
 #define GLADE_FILE_NAME  EVOLUTION_GLADEDIR "/e-shell-folder-creation-dialog.glade"
 
 
+/* Forward declarations for the weak references.  */
+static void dialog_destroy_notify (void *data, GObject *where_the_dialog_was);
+static void shell_destroy_notify (void *data, GObject *where_the_shell_was);
+
 /* Data for the callbacks.  */
 struct _DialogData {
 	GtkWidget *dialog;
@@ -76,6 +80,12 @@ dialog_data_destroy (DialogData *dialog_data)
 {
 	e_free_string_list (dialog_data->folder_types);
 	g_free (dialog_data->folder_path);
+
+	if (dialog_data->dialog != NULL)
+		g_object_weak_unref (G_OBJECT (dialog_data->dialog), dialog_destroy_notify, dialog_data);
+
+	if (dialog_data->shell != NULL)
+		g_object_weak_unref (G_OBJECT (dialog_data->shell), shell_destroy_notify, dialog_data);
 
 	g_free (dialog_data);
 }
@@ -217,12 +227,12 @@ dialog_destroy_notify (void *data,
 	DialogData *dialog_data;
 
 	dialog_data = (DialogData *) data;
+	dialog_data->dialog = NULL;
 
 	if (dialog_data->creation_in_progress) {
 		/* If the dialog has been closed before we are done creating
 		   the folder, the dialog_data will be freed after the creation
 		   is completed.  */
-		dialog_data->dialog = NULL;
 		dialog_data->folder_name_entry = NULL;
 		dialog_data->storage_set_view = NULL;
 		dialog_data->folder_type_option_menu = NULL;

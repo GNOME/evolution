@@ -86,7 +86,6 @@ static char *evolution_directory = NULL;
 static gboolean no_splash = FALSE;
 static gboolean start_online = FALSE;
 static gboolean start_offline = FALSE;
-static gboolean force_upgrade = FALSE;
 static gboolean setup_only = FALSE;
 static gboolean killev = FALSE;
 
@@ -224,6 +223,8 @@ kill_old_wombat (void)
 #endif
 
 
+#ifdef DEVELOPMENT_WARNING
+
 /* Warning dialog to scare people off a little bit.  */
 
 static void
@@ -340,6 +341,8 @@ new_view_created_callback (EShell *shell,
 	g_signal_connect (view, "map", G_CALLBACK (view_map_callback), NULL);
 }
 
+#endif /* DEVELOPMENT_WARNING */
+
 
 /* This is for doing stuff that requires the GTK+ loop to be running already.  */
 
@@ -381,9 +384,11 @@ idle_cb (void *data)
 		g_signal_connect (shell, "no_views_left", G_CALLBACK (no_views_left_cb), NULL);
 		g_object_weak_ref (G_OBJECT (shell), shell_weak_notify, NULL);
 
+#ifdef DEVELOPMENT_WARNING
 		if (!getenv ("EVOLVE_ME_HARDER"))
 			g_signal_connect (shell, "new_view_created",
 					  G_CALLBACK (new_view_created_callback), NULL);
+#endif
 
 		corba_shell = bonobo_object_corba_objref (BONOBO_OBJECT (shell));
 		corba_shell = CORBA_Object_duplicate (corba_shell, &ev);
@@ -545,10 +550,6 @@ main (int argc, char **argv)
 #endif
 		{ "debug", '\0', POPT_ARG_STRING, &evolution_debug_log, 0, 
 		  N_("Send the debugging output of all components to a file."), NULL },
-#if 0
-		{ "force-upgrade", '\0', POPT_ARG_NONE, &force_upgrade, 0, 
-		  N_("Force upgrading of configuration files from Evolution 1.0.x"), NULL },
-#endif
 		{ "setup-only", '\0', POPT_ARG_NONE | POPT_ARGFLAG_DOC_HIDDEN,
 		  &setup_only, 0, NULL, NULL },
 		POPT_AUTOHELP

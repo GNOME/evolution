@@ -318,6 +318,9 @@ install-data-local:
 install-evolution:
 	$(mkinstalldirs) $(DESTDIR)$(bindir)
 	$(LIBTOOL) --mode=install $(INSTALL_PROGRAM) evolution $(DESTDIR)$(bindir)/evolution-$(BASE_VERSION)
+if DEFAULT_BINARY
+	cd $(DESTDIR)$(bindir) && rm -f evolution && $(LN_S) evolution-$(BASE_VERSION) evolution
+endif
 
 if HAVE_DTAPPINTEGRATE
 
@@ -331,6 +334,7 @@ else
 install-exec-local: install-evolution
 
 endif
+
 
 # GLib marshalling cruft
 
