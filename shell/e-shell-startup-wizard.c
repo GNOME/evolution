@@ -133,6 +133,42 @@ druid_event_notify_cb (BonoboListener *listener,
 	}
 }
 
+static GNOME_Evolution_Wizard
+start_wizard (void)
+{
+	char *const selection_order[] = { "0-evolution:startup_wizard:priority", NULL };
+	Bonobo_ServerInfoList *info;
+	CORBA_Environment ev;
+	GNOME_Evolution_Wizard wizard;
+	int i;
+
+	CORBA_exception_init (&ev);
+	info = bonobo_activation_query ("repo_ids.has ('IDL:GNOME/Evolution/StartupWizard:1.0')", selection_order, &ev);
+	if (BONOBO_EX (&ev) || info == CORBA_OBJECT_NIL) {
+		g_warning ("Cannot find startup wizard -- %s", BONOBO_EX_REPOID (&ev));
+		CORBA_exception_free (&ev);
+		return NULL;
+	}
+	CORBA_exception_free (&ev);
+
+	for (i = 0; i < info->_length; i++) {
+		CORBA_exception_init (&ev);
+		wizard = bonobo_activation_activate_from_id (info->_buffer[i].iid, 0, NULL, &ev);
+		if (!BONOBO_EX (&ev)) {
+			CORBA_free (info);
+			return wizard;
+		}
+		CORBA_exception_free (&ev);
+	}
+
+	if (info->_length)
+		g_warning ("Could not start any startup wizard!");
+	else
+		g_warning ("No startup wizard available!");
+	CORBA_free (info);
+	return NULL;
+}
+
 static void
 make_corba_dialog_pages (SWData *data)
 {
@@ -140,14 +176,9 @@ make_corba_dialog_pages (SWData *data)
 	CORBA_Object object;
 	Bonobo_EventSource event_source;
 
-	CORBA_exception_init (&ev);
-	data->corba_wizard = bonobo_activation_activate_from_id ("OAFIID:GNOME_Evolution_Mail_Wizard", 0, NULL, &ev);
-	if (BONOBO_EX (&ev)) {
-		g_warning ("Could not start CORBA wizard (%s)", CORBA_exception_id (&ev));
-		CORBA_exception_free (&ev);
-		data->corba_wizard = CORBA_OBJECT_NIL;
+	data->corba_wizard = start_wizard ();
+	if (!data->corba_wizard)
 		return;
-	}
 
 	CORBA_exception_init (&ev);
 	data->pagelist = GNOME_Evolution_Wizard__get_pages (data->corba_wizard, &ev);
