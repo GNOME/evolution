@@ -1,5 +1,9 @@
 2002-05-06  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* mail-callbacks.c (mail_reply): Set the Seen flag as well since
+	it's safe to assume that if the user has replied to an email
+	message that he has read it. Not always true, but usually ;-)
+
 	* folder-browser.c (on_right_click): If we are in a
 	Sent/Drafts/Outbox folder, don't show the "Add Sender to
 	Addressbook" menu item.

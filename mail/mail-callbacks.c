@@ -1081,8 +1081,8 @@ mail_reply (CamelFolder *folder, CamelMimeMessage *msg, const char *uid, int mod
 	psd->folder = folder;
 	camel_object_ref (CAMEL_OBJECT (psd->folder));
 	psd->uid = g_strdup (uid);
-	psd->flags = CAMEL_MESSAGE_ANSWERED;
-	psd->set = CAMEL_MESSAGE_ANSWERED;
+	psd->flags = CAMEL_MESSAGE_ANSWERED | CAMEL_MESSAGE_SEEN;
+	psd->set = CAMEL_MESSAGE_ANSWERED | CAMEL_MESSAGE_SEEN;
 	
 	composer = mail_generate_reply (folder, msg, uid, mode);
 	if (!composer)
