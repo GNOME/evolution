@@ -58,3 +58,4 @@ char *s = N_("starts with");
 char *s = N_("Status");
 char *s = N_("Stop Processing");
 char *s = N_("Subject");
+char *s = N_("Unset Status");
