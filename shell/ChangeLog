@@ -1,5 +1,12 @@
 2002-07-10  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-shell-view.c (update_folder_title_bar): Get a @folder arg
+	instead of a @type arg.  Use the custom icon if the folder has
+	one.
+	(update_for_current_uri): Updated accordingly.
+
+2002-07-10  Ettore Perazzoli  <ettore@ximian.com>
+
 	* evolution-test-component.c (setup_custom_storage): Pass
 	@sorting_priority to evolution_storage_new_folder() so we test it.
 	Also make /FirstFolder have an "inbox" custom icon.

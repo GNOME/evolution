@@ -27,6 +27,27 @@
 #include <config.h>
 #endif
 
+#include "e-shell-view.h"
+
+#include "evolution-shell-view.h"
+
+#include "e-gray-bar.h"
+#include "e-history.h"
+#include "e-icon-factory.h"
+#include "e-shell-constants.h"
+#include "e-shell-folder-title-bar.h"
+#include "e-shell-utils.h"
+#include "e-shell-view-menu.h"
+#include "e-shell.h"
+#include "e-shortcuts-view.h"
+#include "e-storage-set-view.h"
+#include "e-title-bar.h"
+
+#include "e-util/e-gtk-utils.h"
+
+#include "widgets/misc/e-clipped-label.h"
+#include "widgets/misc/e-bonobo-widget.h"
+
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <fcntl.h>
@@ -47,26 +68,6 @@
 #include <gal/widgets/e-gui-utils.h>
 #include <gal/widgets/e-unicode.h>
 #include <gal/widgets/e-scroll-frame.h>
-
-#include "widgets/misc/e-clipped-label.h"
-#include "widgets/misc/e-bonobo-widget.h"
-
-#include "e-util/e-gtk-utils.h"
-
-#include "evolution-shell-view.h"
-
-#include "e-gray-bar.h"
-#include "e-history.h"
-#include "e-shell-constants.h"
-#include "e-shell-folder-title-bar.h"
-#include "e-shell-utils.h"
-#include "e-shell.h"
-#include "e-shortcuts-view.h"
-#include "e-storage-set-view.h"
-#include "e-title-bar.h"
-
-#include "e-shell-view.h"
-#include "e-shell-view-menu.h"
 
 
 static BonoboWindowClass *parent_class = NULL;
@@ -1758,24 +1759,32 @@ update_window_icon (EShellView *shell_view,
 static void
 update_folder_title_bar (EShellView *shell_view,
 			 const char *title,
-			 const char *type)
+			 EFolder *folder)
 {
 	EShellViewPrivate *priv;
-	EFolderTypeRegistry *folder_type_registry;
 	GdkPixbuf *folder_icon;
 
 	priv = shell_view->priv;
 
-	if (type == NULL) {
-		title = NULL;
+	if (folder == NULL) {
 		folder_icon = NULL;
 	} else {
-		folder_type_registry = e_shell_get_folder_type_registry (priv->shell);
-		folder_icon = e_folder_type_registry_get_icon_for_type (folder_type_registry, type, TRUE);
+		const char *icon_name;
+
+		icon_name = e_folder_get_custom_icon_name (folder);
+		if (icon_name != NULL) {
+			folder_icon = e_icon_factory_get_icon (icon_name, TRUE);
+		} else {
+			EFolderTypeRegistry *folder_type_registry;
+
+			folder_type_registry = e_shell_get_folder_type_registry (priv->shell);
+			folder_icon = e_folder_type_registry_get_icon_for_type (folder_type_registry,
+										e_folder_get_type_string (folder),
+										TRUE);
+		}
 	}
 
-	if (folder_icon != NULL)
-		e_shell_folder_title_bar_set_icon (E_SHELL_FOLDER_TITLE_BAR (priv->folder_title_bar), folder_icon);
+	e_shell_folder_title_bar_set_icon (E_SHELL_FOLDER_TITLE_BAR (priv->folder_title_bar), folder_icon);
 
 	if (title != NULL) {
 		char *s;
@@ -1801,10 +1810,8 @@ update_for_current_uri (EShellView *shell_view)
 
 	priv = shell_view->priv;
 
-	/* if we update when there is a timeout set, the selection
-	 * will jump around against the user's wishes.  so we just
-	 * return.
-	 */     
+	/* If we update when there is a timeout set, the selection will jump
+	  around against the user's wishes.  So we just return.  */     
 	if (priv->set_folder_timeout != 0)
 		return;
 
@@ -1840,7 +1847,7 @@ update_for_current_uri (EShellView *shell_view)
 	gtk_window_title = e_utf8_to_gtk_string (GTK_WIDGET (shell_view), utf8_window_title);
 	gtk_window_set_title (GTK_WINDOW (shell_view), gtk_window_title);
 
-	update_folder_title_bar (shell_view, title, type);
+	update_folder_title_bar (shell_view, title, folder);
 	update_window_icon (shell_view, type);
 
 	g_free (gtk_window_title);
