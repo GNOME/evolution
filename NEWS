@@ -9,22 +9,22 @@ Shell:
 
   - Added support for saving component-specific settings, and
     some initial code to save the view's configuration.
-     (Ettore)
+    (Ettore)
 
   - Fixed the Bonobo menu code so that it works with all the
     locales.  (Ettore)
 
 Mailer:
 
-  - Lots of IMAP fixes.  (Jeff) 
+   - Lots of IMAP fixes.  (Jeff) 
 
-  - You can use an external setuid/setgid movemail program
+   - You can use an external setuid/setgid movemail program
     (although we don't ship our own yet). If you have one
     installed with emacs, the configure script will find
-    that. Otherwise, you can specify --with-movemail=/path.
+    that. Otherwise, you can specify --with-movemail=/path.
     (Dan)
 
-  - You can toggle HTML/plain text for an individual message
+  - You can toggle HTML/plain text for an individual message
     in the composer now.  (Ettore)
 
   - Bonobo embedding sort of works again, but there are
@@ -56,6 +56,8 @@ Mailer:
 
   - Fixed some confusing behavior in the message threading
     algorithm.  (Dan)
+
+  - Improvements to the item selection code.  (Chris Lahey)
 
 Calendar:
 
