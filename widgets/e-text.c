@@ -223,6 +223,19 @@ e_text_init (EText *text)
 	text->selection_start = 0;
 	text->selection_end = 0;
 	text->select_by_word = FALSE;
+
+	text->timeout_id = 0;
+	text->timer = NULL;
+
+	text->lastx = 0;
+	text->lasty = 0;
+	text->last_state = 0;
+
+	text->scroll_start = 0;
+	text->show_cursor = TRUE;
+	text->button_down = FALSE;
+	
+	text->tep = NULL;
 }
 
 /* Destroy handler for the text item */
@@ -238,6 +251,9 @@ e_text_destroy (GtkObject *object)
 
 	if (text->text)
 		g_free (text->text);
+
+	if (text->tep)
+		gtk_object_unref (GTK_OBJECT(text->tep));
 
 	if (text->lines)
 		g_free (text->lines);
@@ -1049,11 +1065,12 @@ _get_tep(EText *text)
 {
 	if (!text->tep) {
 		text->tep = e_text_event_processor_emacs_like_new();
+		gtk_object_ref (GTK_OBJECT (text->tep));
+		gtk_object_sink (GTK_OBJECT (text->tep));
 		gtk_signal_connect(GTK_OBJECT(text->tep),
 				   "command",
 				   GTK_SIGNAL_FUNC(e_text_command),
 				   (gpointer) text);
-				    
 	}
 }
 
@@ -1165,7 +1182,8 @@ e_text_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 				}
 				if (text->selection_start == text->selection_end &&
 				    text->selection_start >= start_char &&
-				    text->selection_start <= end_char) {
+				    text->selection_start <= end_char &&
+				    text->show_cursor) {
 					gdk_draw_rectangle (drawable,
 							    text->gc,
 							    TRUE,
@@ -1460,6 +1478,7 @@ _get_position_from_xy (EText *text, gint x, gint y)
 	i = 0;
 	lines = text->lines;
 	lines += j;
+	x += text->xofs_edit;
 	xpos = get_line_xpos (text, lines);
 	for(i = 0; i < lines->length; i++) {
 		int charwidth = gdk_text_width(text->font,
@@ -1471,6 +1490,69 @@ _get_position_from_xy (EText *text, gint x, gint y)
 		xpos += (charwidth + 1) / 2;
 	}
 	return lines->text + i - text->text;
+}
+
+#define SCROLL_WAIT_TIME 30000
+
+static gboolean
+_blink_scroll_timeout (gpointer data)
+{
+	EText *text = E_TEXT(data);
+	gulong current_time;
+	gboolean scroll = FALSE;
+	gboolean redraw = FALSE;
+	
+	g_timer_elapsed(text->timer, &current_time);
+
+	if (text->scroll_start + SCROLL_WAIT_TIME > 1000000) {
+		if (current_time > text->scroll_start - (1000000 - SCROLL_WAIT_TIME) &&
+		    current_time < text->scroll_start)
+			scroll = TRUE;
+	} else {
+		if (current_time > text->scroll_start + SCROLL_WAIT_TIME ||
+		    current_time < text->scroll_start)
+			scroll = TRUE;
+	}
+	if (scroll && text->button_down) {
+		if (text->lastx - text->clip_cx > text->clip_cwidth &&
+		    text->xofs_edit < text->max_width - text->clip_cwidth) {
+			text->xofs_edit += 4;
+			if (text->xofs_edit > text->max_width - text->clip_cwidth)
+				text->xofs_edit = text->max_width - text->clip_cwidth;
+			redraw = TRUE;
+		}
+		if (text->lastx - text->clip_cx < 0 &&
+		    text->xofs_edit > 0) {
+			text->xofs_edit -= 4;
+			if (text->xofs_edit < 0)
+				text->xofs_edit = 0;
+			redraw = TRUE;
+		}
+		if (redraw) {
+			ETextEventProcessorEvent e_tep_event;
+			e_tep_event.type = GDK_MOTION_NOTIFY;
+			e_tep_event.motion.state = text->last_state;
+			e_tep_event.motion.time = 0;
+			e_tep_event.motion.position = _get_position_from_xy(text, text->lastx, text->lasty);
+			_get_tep(text);
+			e_text_event_processor_handle_event (text->tep,
+							     &e_tep_event);
+			text->scroll_start = current_time;
+		}
+	}
+
+	if (!((current_time / 500000) % 2)) {
+		if (!text->show_cursor)
+			redraw = TRUE;
+		text->show_cursor = TRUE;
+	} else {
+		if (text->show_cursor)
+			redraw = TRUE;
+		text->show_cursor = FALSE;
+	}
+	if (redraw)
+		gnome_canvas_item_request_update (GNOME_CANVAS_ITEM(text));
+	return TRUE;
 }
 
 static gint
@@ -1494,9 +1576,23 @@ e_text_event (GnomeCanvasItem *item, GdkEvent *event)
 					text->selection_end = 0;
 					text->select_by_word = FALSE;
 					text->xofs_edit = 0;
+					if (text->timeout_id == 0)
+						text->timeout_id = g_timeout_add(10, _blink_scroll_timeout, text);
+					text->timer = g_timer_new();
+					g_timer_elapsed(text->timer, &(text->scroll_start));
+					g_timer_start(text->timer);
 				}
 			} else {
 				text->editing = FALSE;
+				if (text->timeout_id) {
+					g_source_remove(text->timeout_id);
+					text->timeout_id = 0;
+				}
+				if (text->timer) {
+					g_timer_stop(text->timer);
+					g_timer_destroy(text->timer);
+					text->timer = NULL;
+				}
 			}
 			calc_line_widths (text);
 		}
@@ -1529,6 +1625,18 @@ e_text_event (GnomeCanvasItem *item, GdkEvent *event)
 			_get_tep(text);
 			return_val = e_text_event_processor_handle_event (text->tep,
 								       &e_tep_event);
+			if (event->button.button == 1) {
+				if (event->type == GDK_BUTTON_PRESS)
+					text->button_down = TRUE;
+				else
+					text->button_down = FALSE;
+			}
+			text->lastx = button.x;
+			text->lasty = button.y;
+			text->last_state = button.state;
+			if (event->type == GDK_BUTTON_PRESS && text->timer) {
+				g_timer_reset(text->timer);
+			}
 		} else if (text->editable && event->type == GDK_BUTTON_RELEASE) {
 			gnome_canvas_item_grab_focus (item);
 			return 1;
@@ -1543,6 +1651,9 @@ e_text_event (GnomeCanvasItem *item, GdkEvent *event)
 			_get_tep(text);
 			return_val = e_text_event_processor_handle_event (text->tep,
 								       &e_tep_event);
+			text->lastx = motion.x;
+			text->lasty = motion.y;
+			text->last_state = motion.state;
 		}
 		break;
 	default:

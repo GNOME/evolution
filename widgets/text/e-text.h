@@ -148,6 +148,17 @@ struct _EText {
 	int selection_end;              /* End of selection */
 	gboolean select_by_word;        /* Current selection is by word */
 
+	/* This section is for drag scrolling. */
+	gint timeout_id;                /* Current timeout id for scrolling */
+	GTimer *timer;                  /* Timer for blinking cursor and scrolling */
+
+	gint lastx, lasty;              /* Last x and y motion events */
+	gint last_state;                /* Last state */
+	gulong scroll_start;            /* Starting time for scroll (microseconds) */
+
+	gint show_cursor;               /* Is cursor currently shown */
+	gboolean button_down;           /* Is mouse button 1 down */
+
 	ETextEventProcessor *tep;       /* Text Event Processor */
 };
 

@@ -1,3 +1,12 @@
+2000-01-11    <clahey@galapagos.helixcode.com>
+
+	* widgets/e-text-event-processor-emacs-like.c: Blocked the tab key
+	from getting inserted into the buffer since the renderer doesn't
+	know what a tab is.
+
+	* widgets/e-text.c, widgets/e-text.h: Fixed a memory leak.  Added
+	a blinking cursor and scrolling for the text item.
+
 2000-01-11  Christopher James Lahey  <clahey@helixcode.com>
 
 	* widgets/test-minicard.c: Removed some code which got in the way

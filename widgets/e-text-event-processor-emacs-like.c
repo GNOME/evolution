@@ -241,10 +241,9 @@ e_text_event_processor_emacs_like_event (ETextEventProcessor *tep, ETextEventPro
 				}
 				break;
 			case GDK_Tab:
-				command.action = E_TEP_INSERT;
+				/* Don't insert literally */
+				command.action = E_TEP_NOP;
 				command.position = E_TEP_SELECTION;
-				command.value = 1;
-				command.string = "\t";
 				break;
 			case GDK_Return:
 				if (key.state & GDK_CONTROL_MASK) {
@@ -258,9 +257,9 @@ e_text_event_processor_emacs_like_event (ETextEventProcessor *tep, ETextEventPro
 				}
 				break;
 			case GDK_Escape:
+				/* Don't insert literally */
 				command.action = E_TEP_NOP;
 				command.position = E_TEP_SELECTION;
-				/* Don't insert literally */
 				break;
 	  
 			default:
