@@ -1,3 +1,12 @@
+2003-11-10  JP Rosevear <jpr@ximian.com>
+
+	* conduits/calendar/calendar-conduit.c
+	(e_calendar_context_destroy): use proper change list free function
+	name
+	(post_sync): ditto
+
+	* conduits/todo/todo-conduit.c: same
+	
 2003-11-10  Dan Winship  <danw@ximian.com>
 
 	* gui/e-tasks.c (e_tasks_delete_completed): Remove get-vtype check

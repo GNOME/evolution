@@ -329,7 +329,7 @@ e_todo_context_destroy (EToDoConduitContext *ctxt)
 	}
 	
 	if (ctxt->changed != NULL)
-		e_cal_change_list_free (ctxt->changed);
+		e_cal_free_change_list (ctxt->changed);
 	
 	if (ctxt->map != NULL)
 		e_pilot_map_destroy (ctxt->map);
@@ -1012,7 +1012,7 @@ post_sync (GnomePilotConduit *conduit,
          */
 	change_id = g_strdup_printf ("pilot-sync-evolution-todo-%d", ctxt->cfg->pilot_id);
 	if (e_cal_get_changes (ctxt->client, change_id, &changed, NULL))
-		e_cal_change_list_free (changed);
+		e_cal_free_change_list (changed);
 	g_free (change_id);
 	
 	LOG (g_message ( "---------------------------------------------------------\n" ));
