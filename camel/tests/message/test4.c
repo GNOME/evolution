@@ -90,6 +90,9 @@ int main (int argc, char **argv)
 		char *filename;
 		struct stat st;
 		
+		if (dent->d_name[0] == '.')
+			continue;
+		
 		filename = g_strdup_printf ("../data/messages/%s", dent->d_name);
 		if (stat (filename, &st) == -1 || !S_ISREG (st.st_mode)) {
 			g_free (filename);
