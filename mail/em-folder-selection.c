@@ -35,11 +35,53 @@
 #include "mail-tools.h"
 
 
+static void
+folder_selected_cb (EMFolderTree *emft, const char *path, const char *uri, GtkDialog *dialog)
+{
+	gtk_dialog_set_response_sensitive (dialog, GTK_RESPONSE_OK, TRUE);
+}
+
+static GtkWidget *
+create_dialog (GtkWindow *parent, EMFolderTree *emft, const char *title, const char *default_uri, gboolean allow_create)
+{
+	GtkWidget *dialog;
+	
+	dialog = gtk_dialog_new ();
+	
+	if (parent)
+		gtk_window_set_transient_for ((GtkWindow *) dialog, parent);
+	
+	gtk_window_set_default_size (GTK_WINDOW (dialog), 350, 300);
+	gtk_window_set_modal (GTK_WINDOW (dialog), TRUE);
+	gtk_window_set_title (GTK_WINDOW (dialog), title);
+	gtk_container_set_border_width (GTK_CONTAINER (dialog), 6);
+	gtk_container_set_border_width (GTK_CONTAINER (GTK_DIALOG (dialog)->vbox), 6);
+	gtk_box_set_spacing (GTK_BOX (GTK_DIALOG (dialog)->vbox), 6);
+	
+	if (allow_create)
+		gtk_dialog_add_buttons (GTK_DIALOG (dialog), GTK_STOCK_NEW, GTK_RESPONSE_APPLY, NULL);
+	
+	gtk_dialog_add_buttons (GTK_DIALOG (dialog),
+				GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+				GTK_STOCK_OK, GTK_RESPONSE_OK,
+				NULL);
+	
+	if (default_uri == NULL)
+		gtk_dialog_set_response_sensitive (GTK_DIALOG (dialog), GTK_RESPONSE_OK, FALSE);
+	else
+		em_folder_tree_set_selected (emft, default_uri);
+	
+	gtk_dialog_set_default_response (GTK_DIALOG (dialog), GTK_RESPONSE_OK);
+	
+	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), GTK_WIDGET (emft), TRUE, TRUE, 6);
+	
+	g_signal_connect (emft, "folder-selected", G_CALLBACK (folder_selected_cb), dialog);
+	
+	return dialog;
+}
+
 CamelFolder *
-em_folder_selection_run_dialog (GtkWindow *parent_window,
-				const char *title,
-				const char *caption,
-				CamelFolder *default_folder)
+em_folder_selection_run_dialog (GtkWindow *parent_window, const char *title, CamelFolder *default_folder)
 {
 	CamelFolder *selected_folder;
 	EMFolderTreeModel *model;
@@ -48,23 +90,18 @@ em_folder_selection_run_dialog (GtkWindow *parent_window,
 	const char *uri;
 	int response;
 	
-	dialog = gtk_dialog_new_with_buttons (title, parent_window, GTK_DIALOG_DESTROY_WITH_PARENT,
-					      GTK_STOCK_NEW, GTK_RESPONSE_APPLY,
-					      GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-					      GTK_STOCK_OK, GTK_RESPONSE_OK, NULL);
-	
 	model = mail_component_get_tree_model (mail_component_peek ());
 	emft = em_folder_tree_new_with_model (model);
 	gtk_widget_show (emft);
-	
-	gtk_box_pack_start_defaults ((GtkBox *) ((GtkDialog *) dialog)->vbox, emft);
 	
 	if (default_folder) {
 		char *default_uri;
 		
 		default_uri = mail_tools_folder_to_url (default_folder);
-		em_folder_tree_set_selected ((EMFolderTree *) emft, default_uri);
+		dialog = create_dialog (parent_window, (EMFolderTree *) emft, title, default_uri, FALSE);
 		g_free (default_uri);
+	} else {
+		dialog = create_dialog (parent_window, (EMFolderTree *) emft, title, NULL, FALSE);
 	}
 	
 	response = gtk_dialog_run (GTK_DIALOG (dialog));
@@ -87,10 +124,7 @@ em_folder_selection_run_dialog (GtkWindow *parent_window,
 
 /* FIXME: This isn't the way to do it, but then neither is the above, really ... */
 char *
-em_folder_selection_run_dialog_uri (GtkWindow *parent_window,
-				    const char *title,
-				    const char *caption,
-				    const char *default_uri)
+em_folder_selection_run_dialog_uri (GtkWindow *parent_window, const char *title, const char *default_uri)
 {
 	EMFolderTreeModel *model;
 	GtkWidget *dialog;
@@ -99,19 +133,14 @@ em_folder_selection_run_dialog_uri (GtkWindow *parent_window,
 	int response;
 	char *ret;
 	
-	dialog = gtk_dialog_new_with_buttons (title, parent_window, GTK_DIALOG_DESTROY_WITH_PARENT,
-					      GTK_STOCK_NEW, GTK_RESPONSE_APPLY,
-					      GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-					      GTK_STOCK_OK, GTK_RESPONSE_OK, NULL);
-	
 	model = mail_component_get_tree_model (mail_component_peek ());
 	emft = em_folder_tree_new_with_model (model);
 	gtk_widget_show (emft);
 	
-	gtk_box_pack_start_defaults ((GtkBox *) ((GtkDialog *) dialog)->vbox, emft);
-	
 	if (default_uri)
-		em_folder_tree_set_selected ((EMFolderTree *) emft, default_uri);
+		dialog = create_dialog (parent_window, (EMFolderTree *) emft, title, default_uri, FALSE);
+	else
+		dialog = create_dialog (parent_window, (EMFolderTree *) emft, title, NULL, FALSE);
 	
 	response = gtk_dialog_run (GTK_DIALOG (dialog));
 	
@@ -138,7 +167,7 @@ struct _select_folder_data {
 };
 
 static void
-emfs_response (GtkDialog *dialog, int response, struct _select_folder_data *d)
+emfs_response (GtkWidget *dialog, int response, struct _select_folder_data *d)
 {
 	EMFolderTree *emft = g_object_get_data ((GObject *) dialog, "emft");
 	const char *uri;
@@ -154,27 +183,22 @@ emfs_response (GtkDialog *dialog, int response, struct _select_folder_data *d)
 }
 
 void
-em_select_folder (GtkWindow *parent_window, const char *title, const char *text,
-		  const char *default_uri, void (*done) (const char *uri, void *user_data), void *user_data)
+em_select_folder (GtkWindow *parent_window, const char *title, const char *default_uri,
+		  void (*done) (const char *uri, void *user_data), void *user_data)
 {
 	struct _select_folder_data *d;
 	EMFolderTreeModel *model;
 	GtkWidget *dialog;
 	GtkWidget *emft;
 	
-	dialog = gtk_dialog_new_with_buttons (title, parent_window, GTK_DIALOG_DESTROY_WITH_PARENT,
-					      GTK_STOCK_NEW, GTK_RESPONSE_APPLY,
-					      GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-					      GTK_STOCK_OK, GTK_RESPONSE_OK, NULL);
-	
 	model = mail_component_get_tree_model (mail_component_peek ());
 	emft = em_folder_tree_new_with_model (model);
 	gtk_widget_show (emft);
 	
-	gtk_box_pack_start_defaults ((GtkBox *) ((GtkDialog *) dialog)->vbox, emft);
-	
 	if (default_uri)
-		em_folder_tree_set_selected ((EMFolderTree *) emft, default_uri);
+		dialog = create_dialog (parent_window, (EMFolderTree *) emft, title, default_uri, FALSE);
+	else
+		dialog = create_dialog (parent_window, (EMFolderTree *) emft, title, NULL, FALSE);
 	
 	d = g_malloc0 (sizeof (*d));
 	d->data = user_data;

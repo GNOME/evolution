@@ -579,28 +579,28 @@ static void
 emfv_popup_move(GtkWidget *w, EMFolderView *emfv)
 {
 	struct _move_data *d;
-
+	
 	d = g_malloc(sizeof(*d));
 	d->emfv = emfv;
 	g_object_ref(emfv);
 	d->uids = message_list_get_selected(emfv->list);
 	d->delete = TRUE;
-
-	em_select_folder ((GtkWindow *) emfv, _("Select folder"), NULL, NULL, emfv_popup_move_cb, d);
+	
+	em_select_folder ((GtkWindow *) emfv, _("Select folder"), NULL, emfv_popup_move_cb, d);
 }
 
 static void
 emfv_popup_copy(GtkWidget *w, EMFolderView *emfv)
 {
 	struct _move_data *d;
-
+	
 	d = g_malloc(sizeof(*d));
 	d->emfv = emfv;
 	g_object_ref(emfv);
 	d->uids = message_list_get_selected(emfv->list);
 	d->delete = FALSE;
-
-	em_select_folder ((GtkWindow *) emfv, _("Select folder"), NULL, NULL, emfv_popup_move_cb, d);
+	
+	em_select_folder ((GtkWindow *) emfv, _("Select folder"), NULL, emfv_popup_move_cb, d);
 }
 
 static void

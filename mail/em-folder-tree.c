@@ -1220,7 +1220,6 @@ emft_popup_copy (GtkWidget *item, EMFolderTree *emft)
 	cfd->delete = FALSE;
 	
 	em_select_folder (NULL, _("Select folder"),
-			  _("Select destination to copy folder into"),
 			  NULL, emft_popup_copy_folder_selected, cfd);
 }
 
@@ -1234,7 +1233,6 @@ emft_popup_move (GtkWidget *item, EMFolderTree *emft)
 	cfd->delete = TRUE;
 	
 	em_select_folder (NULL, _("Select folder"),
-			  _("Select destination to move folder into"),
 			  NULL, emft_popup_copy_folder_selected, cfd);
 }
 

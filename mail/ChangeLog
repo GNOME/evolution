@@ -1,3 +1,17 @@
+2003-11-14  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* em-folder-view.c (emfv_popup_move): Updated.
+	(emfv_popup_copy): Updated.
+
+	* em-folder-tree.c (emft_popup_copy): Updated.
+	(emft_popup_move): Updated.
+
+	* em-folder-selection.c (create_dialog): New convenience function
+	to construct the dialog contents for all three public functions.
+	(em_folder_selection_run_dialog): Now longer takes a caption arg.
+	(em_folder_selection_run_dialog_uri): Same.
+	(em_select_folder): Here too.
+
 2003-11-13  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-component.c (mail_component_get_tree_model): Use
