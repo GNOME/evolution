@@ -141,4 +141,14 @@
 	</oaf_attribute>
 </oaf_server>
 
+<oaf_server iid="OAFIID:GNOME_Evolution_Mail_Wizard_Factory"
+	    type="exe"
+	    location="evolution-mail">
+</oaf_server>
+
+<oaf_server iid="OAFIID:GNOME_Evolution_Mail_Wizard"
+	    type="factory"
+	    location="OAFIID:GNOME_Evolution_Mail_Wizard_Factory">
+</oaf_server>
+
 </oaf_info>

@@ -1335,7 +1335,11 @@ const MailConfigAccount *
 mail_config_get_default_account (void)
 {
 	MailConfigAccount *account;
-	
+
+	if (config == NULL) {
+		mail_config_init ();
+	}
+
 	if (!config->accounts)
 		return NULL;
 	

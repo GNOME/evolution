@@ -1,3 +1,9 @@
+2001-08-18  Iain Holmes  <iain@ximian.com>
+
+	* Makefile.am: Add the e-timezone-dialog dir.
+
+	* e-timezone-dialog/*: Add new files.
+
 2001-08-10  Christopher James Lahey  <clahey@ximian.com>
 
 	* menus/gal-view-menus.c (build_menus): Don't display the Define

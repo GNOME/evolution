@@ -35,7 +35,7 @@
 #include <gtk/gtkentry.h>
 #include <gtk/gtksignal.h>
 #include <gnome.h>
-#include "dialogs/e-timezone-dialog.h"
+#include <widgets/e-timezone-dialog/e-timezone-dialog.h>
 #include "e-timezone-entry.h"
 
 /* The timezone icon for the button. */

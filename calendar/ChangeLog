@@ -1,3 +1,13 @@
+2001-08-16  Iain Holmes  <iain@ximian.com>
+
+	* gui/Makefile.am: Add the libetimezonedialog.a lib link
+
+	* gui/calendar-config.c: Change the #include for the timezone dialog
+
+	* gui/e-timezone-entry.c: Ditto.
+
+	* gui/dialogs/Makefile.am: Remove the e-timezone-dialog stuff.
+
 2001-08-16  Damon Chaplin  <damon@ximian.com>
 
 	* gui/dialogs/event-page.c: hide the timezone fields for all-day

@@ -31,7 +31,7 @@
 #include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-config.h>
 #include <libgnomeui/gnome-dialog.h>
-#include "dialogs/e-timezone-dialog.h"
+#include <widgets/e-timezone-dialog/e-timezone-dialog.h>
 #include "component-factory.h"
 #include "calendar-commands.h"
 #include "e-tasks.h"

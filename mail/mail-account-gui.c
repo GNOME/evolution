@@ -414,7 +414,7 @@ transport_type_changed (GtkWidget *widget, gpointer user_data)
 	
 	provider = gtk_object_get_data (GTK_OBJECT (widget), "provider");
 	gui->transport.provider = provider;
-	
+
 	frame = glade_xml_get_widget (gui->xml, "transport_frame");
 	if (CAMEL_PROVIDER_ALLOWS (provider, CAMEL_URL_PART_HOST) ||
 	    (CAMEL_PROVIDER_ALLOWS (provider, CAMEL_URL_PART_AUTH) &&
@@ -1427,7 +1427,6 @@ mail_account_gui_setup (MailAccountGui *gui, GtkWidget *top)
 		fstore = item;
 		hstore = si;
 	}
-	
 	/* set the menus on the optionmenus */
 	gtk_option_menu_remove_menu (gui->source.type);
 	gtk_option_menu_set_menu (gui->source.type, stores);
@@ -1456,31 +1455,33 @@ mail_account_gui_setup (MailAccountGui *gui, GtkWidget *top)
 		gtk_widget_set_usize (GTK_WIDGET (gui->transport.authtype),
 				      size_req.width, -1);
 	}
-	
-	gtk_widget_show_all (top);
+
+	if (top != NULL) {
+		gtk_widget_show_all (top);
+	}
 	
 	/* Force some other elements to keep their current sizes even if
 	 * widgets are hidden
 	 */
 	item = glade_xml_get_widget (gui->xml, "source_frame");
-	gtk_widget_set_usize (item, -1, item->allocation.height);
+	gtk_widget_hide (item);
 	item = glade_xml_get_widget (gui->xml, "source_auth_frame");
-	gtk_widget_set_usize (item, -1, item->allocation.height);
+	gtk_widget_hide (item);
 	item = glade_xml_get_widget (gui->xml, "source_vbox");
-	gtk_widget_set_usize (item, -1, item->allocation.height);
+	gtk_widget_hide (item);
 	item = glade_xml_get_widget (gui->xml, "transport_frame");
-	gtk_widget_set_usize (item, -1, item->allocation.height);
+	gtk_widget_hide (item);
 	item = glade_xml_get_widget (gui->xml, "transport_auth_frame");
-	gtk_widget_set_usize (item, -1, item->allocation.height);
+	gtk_widget_hide (item);
 	item = glade_xml_get_widget (gui->xml, "transport_vbox");
-	gtk_widget_set_usize (item, -1, item->allocation.height);
-	
+	gtk_widget_hide (item);
+
 	if (fstore)
 		gtk_signal_emit_by_name (GTK_OBJECT (fstore), "activate", gui);
 	
 	if (ftransport)
 		gtk_signal_emit_by_name (GTK_OBJECT (ftransport), "activate", gui);
-	
+
 	if (source_proto) {
 		setup_service (&gui->source, gui->account->source);
 		gui->source.provider_type = CAMEL_PROVIDER_STORE;
@@ -1498,6 +1499,8 @@ mail_account_gui_setup (MailAccountGui *gui, GtkWidget *top)
 		gui->transport.provider_type = CAMEL_PROVIDER_TRANSPORT;
 		g_free (transport_proto);
 	}
+
+
 }
 
 static void

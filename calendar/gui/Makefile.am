@@ -148,6 +148,7 @@ evolution_calendar_LDADD =								\
 	$(top_builddir)/libversit/libversit.la						\
 	$(top_builddir)/e-util/ename/libename.la					\
 	dialogs/libcal-dialogs.a							\
+	$(top_builddir)/widgets/e-timezone-dialog/libetimezonedialog.a			\
 	$(top_builddir)/widgets/misc/libemiscwidgets.a					\
 	$(EXTRA_GNOME_LIBS)								\
 	$(BONOBO_HTML_GNOME_LIBS)							\

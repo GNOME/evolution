@@ -1,3 +1,16 @@
+3001-08-17  Iain Holmes  <iain@ximian.com>
+
+	* Evolution.idl: Add Evolution-Wizard.idl
+
+	* Evolution-Wizard.idl: New file implementing a wizard interface.
+
+	* Makefile.am: Add the wizard stuff and the startup dialog stuff
+
+	* e-shell.c (e_shell_construct): Hide the splash screen and try to start
+	the startup assistant.
+
+	* glade/Makefile.am: Add the evolution-startup-wizard.glade
+
 2001-08-16  Jason Leach  <jleach@ximian.com>
 
 	* e-shell-view-menu.c (authors): Add myself.

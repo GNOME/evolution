@@ -22,3 +22,4 @@
 #include <Evolution-Storage.idl>
 #include <Evolution-StorageSetView.idl>
 #include <Evolution-Shell.idl>
+#include <Evolution-Wizard.idl>

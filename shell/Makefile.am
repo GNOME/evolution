@@ -69,7 +69,8 @@ eshellinclude_HEADERS = 			\
 	evolution-shell-view.h			\
 	evolution-storage-listener.h		\
 	evolution-storage-set-view-listener.h	\
-	evolution-storage.h
+	evolution-storage.h			\
+	evolution-wizard.h
 
 libeshell_la_SOURCES = 				\
 	$(IDL_GENERATED)			\
@@ -85,6 +86,7 @@ libeshell_la_SOURCES = 				\
 	evolution-storage-listener.c		\
 	evolution-storage-set-view-listener.c	\
 	evolution-storage.c			\
+	evolution-wizard.c			\
 	$(eshellinclude_HEADERS)
 
 # Evolution executable
@@ -127,6 +129,7 @@ evolution_SOURCES =				\
 	e-shell-importer.h			\
 	e-shell-offline-handler.c		\
 	e-shell-offline-handler.h		\
+	e-shell-startup-wizard.c		\
 	e-shell-user-creatable-items-handler.c	\
 	e-shell-user-creatable-items-handler.h	\
 	e-shell-utils.c				\
@@ -168,8 +171,10 @@ evolution_SOURCES =				\
 evolution_LDADD =						\
 	libeshell.la						\
 	importer/libevolution-importer.la			\
+	$(top_builddir)/widgets/e-timezone-dialog/libetimezonedialog.a	\
 	$(top_builddir)/widgets/misc/libemiscwidgets.a		\
 	$(top_builddir)/e-util/libeutil.la			\
+	$(top_builddir)/libical/src/libical/libical.la		\
 	$(EXTRA_GNOME_LIBS)					\
 	$(GNOME_PRINT_LIBS)					\
 	$(GTKHTML_LIBS)						\

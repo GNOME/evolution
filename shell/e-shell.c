@@ -961,9 +961,24 @@ e_shell_construct (EShell *shell,
 	   can tell the components we are here.  */
 	set_owner_on_components (shell);
 
-	/* Run the intelligent importers to find see if any data needs 
-	   importing. */
-	intelligent_importer_init ();
+	if (show_splash) {
+		gtk_widget_destroy (splash);
+	}
+
+	if (e_shell_startup_wizard_create () == FALSE) {
+		/* FIXME: Need to kill all components somehow */
+		exit (0);
+	}
+	shortcut_path = g_concat_dir_and_file (local_directory, "shortcuts.xml");
+	priv->shortcuts = e_shortcuts_new (priv->storage_set,
+					   priv->folder_type_registry,
+					   shortcut_path);
+	g_assert (priv->shortcuts != NULL);
+
+	if (e_shortcuts_get_num_groups (priv->shortcuts) == 0)
+		e_shortcuts_add_default_group (priv->shortcuts);
+
+	g_free (shortcut_path);
 
 	if (show_splash)
 		gtk_widget_destroy (splash);

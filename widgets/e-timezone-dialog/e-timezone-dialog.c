@@ -55,6 +55,7 @@ struct _ETimezoneDialogPrivate {
 
 	/* Widgets from the Glade file */
 	GtkWidget *app;
+	GtkWidget *table;
 	GtkWidget *map_window;
 	GtkWidget *timezone_preview;
 	GtkWidget *timezone_combo;
@@ -245,6 +246,7 @@ e_timezone_dialog_construct (ETimezoneDialog *etd)
 
 	/* Load the content widgets */
 
+	g_print ("Loading: %s\n", EVOLUTION_GLADEDIR "/e-timezone-dialog.glade");
 	priv->xml = glade_xml_new (EVOLUTION_GLADEDIR "/e-timezone-dialog.glade",
 				   NULL);
 	if (!priv->xml) {
@@ -307,11 +309,13 @@ get_widgets (ETimezoneDialog *etd)
 	priv->map_window	= GW ("map-window");
 	priv->timezone_combo	= GW ("timezone-combo");
 	priv->timezone_preview	= GW ("timezone-preview");
+	priv->table             = GW ("table1");
 
 	return (priv->app
 		&& priv->map_window
 		&& priv->timezone_combo
-		&& priv->timezone_preview);
+		&& priv->timezone_preview
+		&& priv->table);
 }
 
 
@@ -583,7 +587,7 @@ e_timezone_dialog_set_timezone		(ETimezoneDialog  *etd,
 }
 
 
-GtkWidget*
+GtkWidget *
 e_timezone_dialog_get_toplevel	(ETimezoneDialog  *etd)
 {
 	ETimezoneDialogPrivate *priv;
@@ -656,4 +660,22 @@ on_combo_changed (GtkEditable *entry, ETimezoneDialog *etd)
 
 	g_free (priv->tzid);
 	priv->tzid = NULL;
+}
+
+/**
+ * e_timezone_dialog_reparent:
+ * @etd: #ETimezoneDialog.
+ * @new_parent: The new parent widget.
+ *
+ * Takes the internal widgets out of the dialog and put them into @new_parent
+ */
+void
+e_timezone_dialog_reparent (ETimezoneDialog *etd,
+			    GtkWidget *new_parent)
+{
+	ETimezoneDialogPrivate *priv;
+
+	priv = etd->priv;
+
+	gtk_widget_reparent (priv->table, new_parent);
 }

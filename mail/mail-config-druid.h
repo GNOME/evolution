@@ -32,6 +32,7 @@ extern "C" {
 #include <libgnomeui/gnome-file-entry.h>
 #include <glade/glade.h>
 #include <camel.h>
+#include <bonobo/bonobo-listener.h>
 #include "shell/Evolution.h"
 #include "mail-account-gui.h"
 
@@ -46,10 +47,15 @@ typedef struct {
 	
 	GnomeDruid *druid;
 	MailAccountGui *gui;
+	GladeXML *xml;
 
 	GNOME_Evolution_Shell shell;
 	gboolean identity_copied;
 	CamelProvider *last_source;
+
+	int id;
+	BonoboListener *listener;
+	Bonobo_EventSource *event_source;
 } MailConfigDruid;
 
 typedef struct {
@@ -76,6 +82,7 @@ gint mail_config_druid_get_auto_check_minutes (MailConfigDruid *druid);
 char *mail_config_druid_get_transport_url (MailConfigDruid *druid);
 gboolean mail_config_druid_get_save_transport_password (MailConfigDruid *druid);
 gboolean mail_config_druid_get_transport_requires_auth (MailConfigDruid *druid);
+void evolution_mail_config_wizard_init (void);
 
 #ifdef __cplusplus
 }

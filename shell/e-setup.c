@@ -300,8 +300,9 @@ e_setup (const char *evolution_directory)
 	struct stat statinfo;
 	char *file;
 
-	if (stat (evolution_directory, &statinfo) != 0)
+	if (stat (evolution_directory, &statinfo) != 0) {
 		return copy_default_stuff (evolution_directory);
+	}
 
 	if (! S_ISDIR (statinfo.st_mode)) {
 		e_notice (NULL, GNOME_MESSAGE_BOX_ERROR,

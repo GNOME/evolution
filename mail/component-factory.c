@@ -32,6 +32,7 @@
 
 #include "Evolution.h"
 #include "evolution-storage.h"
+#include "evolution-wizard.h"
 
 #include "folder-browser-factory.h"
 #include "evolution-shell-component.h"
@@ -735,6 +736,8 @@ component_fn (BonoboGenericFactory *factory, void *closure)
 	bonobo_object_add_interface (BONOBO_OBJECT (shell_component),
 				     BONOBO_OBJECT (destination_interface));
 	
+	evolution_mail_config_wizard_init ();
+
 	evolution_shell_component_add_user_creatable_item (shell_component, "message", _("New Mail Message"), _("New _Mail Message"), 'm');
 
 	gtk_signal_connect (GTK_OBJECT (shell_component), "owner_set",
@@ -1002,7 +1005,7 @@ mail_load_storages (GNOME_Evolution_Shell shell, const GSList *sources, gboolean
 			name = NULL;
 		}
 		
-		if (service->url == NULL || service->url[0] == '\0' || !service->enabled)
+		if (service == NULL || service->url == NULL || service->url[0] == '\0' || !service->enabled)
 			continue;
 		
 		mail_load_storage_by_uri (shell, service->url, name);

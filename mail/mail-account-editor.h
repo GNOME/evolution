@@ -41,8 +41,8 @@ extern "C" {
 struct _MailAccountEditor {
 	GnomeDialog parent;
 	
-	MailAccountGui *gui;
-	GtkNotebook *notebook;
+  	MailAccountGui *gui;
+  	GtkNotebook *notebook;
 };
 
 typedef struct _MailAccountEditor MailAccountEditor;

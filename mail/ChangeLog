@@ -1,3 +1,22 @@
+2001-08-16  Iain Holmes  <iain@ximian.com>
+
+	* GNOME_Evolution_Mail.oaf.in: Add the Wizard stuff.
+
+	* component-factory.c (component_fn): Init the Wizard factory.
+	(mail_load_storages): Check service isn't NULL before it's been 
+	dereferenced.
+
+	* mail-account-gui.c (mail_account_gui_setup): Only show the top level
+	widget is it's not NULL.
+	Change the gtk_widget_set_usizes to gtk_widget_hides.
+
+	* mail-config-druid.c: Rewrite to use the EvolutionWizard stuff.
+
+	* mail-config-druid.h: Add stuff to the MailConfigDruid struct.
+
+	* mail-config.c (mail_config_get_default_account): Init the config if
+	it's not been inited.
+
 2001-08-16  Jason Leach  <jleach@ximian.com>
 
 	* mail-tools.c (mail_tool_quote_message): Only starting cutting
