@@ -26,7 +26,6 @@
 #undef HAVE_BROKEN_SPOOL
 #undef ENABLE_PEDANTIC_PGPMIME
 #undef HAVE_KDE_APPLNK
-#undef GETTEXT_PACKAGE
 
 /* db3 version */
 #undef EVOLUTION_DB_VERSION_MAJOR
@@ -50,3 +49,7 @@
 
 /* Define to `int' if your system doesn't have `socklen_t'. */
 #undef socklen_t
+
+/* Define to the path to a program to kill processes given the name
+   (eg. "killall" or "killp").  */
+#undef KILL_PROCESS_CMD

@@ -1,3 +1,7 @@
+2002-11-26  Ettore Perazzoli  <ettore@ximian.com>
+
+	* configure.in: Define KILL_PROCESS_CMD.
+
 2002-11-22  Not Zed  <NotZed@Ximian.com>
 
 	* configure.in (E_UTIL_CFLAGS/LDFLAGS): Added NSPR stuff, so we
