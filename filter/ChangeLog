@@ -1,3 +1,16 @@
+2002-07-08  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* filtertypes.xml: Make the sound type for (play-sound ) a "file"
+	type rather than "string" since users will want to use a filesel
+	to select it most likely. Fixes bug #26921.
+
+	* filter-file.c (validate): If the type is "file" check that it is
+	a valid file, otheriwse if it is a command-line just ignore it for
+	now.
+
+	* filter-element.c (filter_element_new_type_name): A filter type
+	of "file" should also use the filter-file object.
+
 2002-05-24  Ettore Perazzoli  <ettore@ximian.com>
 
 	* filter-rule.c (get_widget): Fix English grammar.

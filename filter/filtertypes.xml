@@ -680,12 +680,12 @@
  <part name="play-sound">
   <title>Play Sound</title>
   <code>(play-sound ${sound})</code>
-  <input type="string" name="sound"/>
+  <input type="file" name="sound"/>
  </part>
  <part name="shell-exec">
   <title>Execute Shell Command</title>
   <code>(shell-exec ${command})</code>
-  <input type="string" name="command"/>
+  <input type="command" name="command"/>
  </part>
 </actionset>
 </filterdescription>

@@ -179,7 +179,9 @@ validate (FilterElement *fe)
 		return FALSE;
 	}
 	
-	if (strcmp (file->type, "command") != 0) {
+	/* FIXME: validate command-lines? */
+	
+	if (strcmp (file->type, "file") != 0) {
 		if (stat (file->path, &st) == -1 || !S_ISREG (st.st_mode)) {
 			char *errmsg;
 			

@@ -277,6 +277,8 @@ filter_element_new_type_name (const char *type)
     	        return (FilterElement *)filter_source_new ();
 	} else if (!strcmp (type, "command")) {
 		return (FilterElement *) filter_file_new_type_name (type);
+	} else if (!strcmp (type, "file")) {
+		return (FilterElement *) filter_file_new_type_name (type);
 	} else if (!strcmp (type, "label")) {
 		return (FilterElement *) filter_label_new ();
 	} else {
