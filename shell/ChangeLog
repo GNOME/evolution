@@ -1,5 +1,11 @@
 2002-05-23  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-shell-folder-selection-dialog.c
+	(e_shell_folder_selection_dialog_construct): Pass FALSE for
+	@allow_shrink.  Fixes #15688.
+
+2002-05-23  Ettore Perazzoli  <ettore@ximian.com>
+
 	* e-shell-folder-commands.c (delete_dialog): Make a little bit
 	prettier.  Default to "Delete", not "Cancel".
 
