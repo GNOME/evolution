@@ -1,4 +1,12 @@
-2001-07-05  Anna Marie Dirks  <anna@ximian.com> 
+2001-07-06  Ettore Perazzoli  <ettore@ximian.com>
+
+	* gui/component/addressbook-component.c (populate_context_menu):
+	Removed.  [It was just bogus testing code for the right-click menu
+	populating interface in the shell].
+	(factory_fn): Pass NULL as the PopulateContextMenuFn.
+
+2001-07-05  Anna Marie Dirks  <anna@ximian.com>
+
 	* gui/contact-list-editor/contact-list-editor.glade: 
 	Added some accelerators, padding, and a "memebers" frame;
 	also fixed spacing and growth behaviour of this dialog. 

@@ -225,19 +225,6 @@ xfer_folder (EvolutionShellComponent *shell_component,
 	CORBA_exception_free (&ev);
 }
 
-static void
-populate_context_menu (EvolutionShellComponent *shell_component,
-		       BonoboUIComponent *uic,
-		       const char *physical_uri,
-		       const char *type,
-		       void *closure)
-{
-	static char popup_xml[] = 
-		"<menuitem name=\"BorkBorkBork\" verb=\"ActivateView\" _label=\"_Foooo\" _tip=\"FooFooFoo\"/>\n";
-	bonobo_ui_component_set_translate (uic, EVOLUTION_SHELL_COMPONENT_POPUP_PLACEHOLDER,
-					   popup_xml, NULL);
-}
-
 static char*
 get_dnd_selection (EvolutionShellComponent *shell_component,
 		   const char *physical_uri,
@@ -347,8 +334,8 @@ factory_fn (BonoboGenericFactory *factory,
 	shell_component = evolution_shell_component_new (folder_types, NULL,
 							 create_view, create_folder,
 							 remove_folder, xfer_folder,
-							 populate_context_menu,
 							 get_dnd_selection,
+							 NULL,
 							 NULL);
 
 	destination_interface = evolution_shell_component_dnd_destination_folder_new (destination_folder_handle_motion,
