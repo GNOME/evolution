@@ -1991,6 +1991,7 @@ message_rfc822_dnd (EMsgComposer *composer, CamelStream *stream)
 	
 	while (camel_mime_parser_step (mp, 0, 0) == HSCAN_FROM) {
 		CamelMimeMessage *message;
+		CamelMimePart *part;
 		
 		message = camel_mime_message_new ();
 		if (camel_mime_part_construct_from_parser (CAMEL_MIME_PART (message), mp) == -1) {
@@ -1998,9 +1999,15 @@ message_rfc822_dnd (EMsgComposer *composer, CamelStream *stream)
 			break;
 		}
 		
+		part = camel_mime_part_new ();
+		camel_mime_part_set_disposition (part, "inline");
+		camel_medium_set_content_object (CAMEL_MEDIUM (part),
+						 CAMEL_DATA_WRAPPER (message));
+		camel_mime_part_set_content_type (part, "message/rfc822");
 		e_msg_composer_attachment_bar_attach_mime_part (E_MSG_COMPOSER_ATTACHMENT_BAR (composer->attachment_bar),
-								CAMEL_MIME_PART (message));
+								part);
 		camel_object_unref (CAMEL_OBJECT (message));
+		camel_object_unref (CAMEL_OBJECT (part));
 		camel_exception_clear (ex);
 		
 		/* skip over the FROM_END state */

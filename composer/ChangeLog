@@ -1,3 +1,8 @@
+2001-07-30  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* e-msg-composer.c (message_rfc822_dnd): Properly add the
+	message/rfc822 part.
+
 2001-07-27  Jason Leach  <jleach@ximian.com>
 
 	* e-msg-composer.c (get_signature_html): "-- \n" is 4 chars long,
