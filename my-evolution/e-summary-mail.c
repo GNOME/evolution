@@ -400,13 +400,10 @@ e_summary_mail_init (ESummary *summary,
 	mail->html = NULL;
 	CORBA_exception_init (&ev);
 	mail->folder_info = oaf_activate_from_id (MAIL_IID, 0, NULL, &ev);
-	if (BONOBO_EX (&ev)) {
+	if (BONOBO_EX (&ev) || mail->folder_info == NULL) {
 		g_warning ("Exception creating FolderInfo: %s", 
 			   CORBA_exception_id (&ev));
 		CORBA_exception_free (&ev);
-
-		g_free (mail);
-		summary->mail = NULL;
 
 		return;
 	}

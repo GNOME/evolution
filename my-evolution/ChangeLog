@@ -1,3 +1,8 @@
+2001-10-24  Iain Holmes  <iain@ximian.com>
+
+	* e-summary-mail.c (e_summary_mail_init): Don't free the mail part.
+	Allows the summary to still function without the mail part.
+
 2001-10-22  Anna Marie Dirks  <anna@ximian.com>
 
 	* my-evolution.glade: Changed "Add new feed" to "Add news feed".
