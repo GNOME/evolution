@@ -58,8 +58,8 @@ folder_selected (EvolutionFolderSelectorButton *button,
 {
 	char **uri_ptr, **path_ptr;
 
-	uri_ptr = gtk_object_get_data (GTK_OBJECT (button), "uri_ptr");
-	path_ptr = gtk_object_get_data (GTK_OBJECT (button), "path_ptr");
+	uri_ptr = g_object_get_data (G_OBJECT (button), "uri_ptr");
+	path_ptr = g_object_get_data (G_OBJECT (button), "path_ptr");
 
 	g_free (*uri_ptr);
 	g_free (*path_ptr);

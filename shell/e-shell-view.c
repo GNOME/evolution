@@ -549,8 +549,7 @@ storage_set_removed_folder_callback (EStorageSet *storage_set,
 	socket = find_socket (GTK_CONTAINER (view->control));
 	priv->sockets = g_list_remove (priv->sockets, socket);
 
-	destroy_connection_id = GPOINTER_TO_INT (gtk_object_get_data (GTK_OBJECT (socket),
-								      "e_shell_view_destroy_connection_id"));
+	destroy_connection_id = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (socket), "e_shell_view_destroy_connection_id"));
 	gtk_signal_disconnect (GTK_OBJECT (socket), destroy_connection_id);
 
 	page_num = gtk_notebook_page_num (GTK_NOTEBOOK (priv->notebook), view->control);
@@ -1370,8 +1369,8 @@ destroy (GtkObject *object)
 		int destroy_connection_id;
 
 		socket_widget = GTK_WIDGET (p->data);
-		destroy_connection_id = GPOINTER_TO_INT (gtk_object_get_data (GTK_OBJECT (socket_widget),
-									      "e_shell_view_destroy_connection_id"));
+		destroy_connection_id = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (socket_widget),
+									    "e_shell_view_destroy_connection_id"));
 		gtk_signal_disconnect (GTK_OBJECT (socket_widget), destroy_connection_id);
 	}
 
@@ -2053,7 +2052,7 @@ socket_destroy_cb (GtkWidget *socket_widget, gpointer data)
 	shell_view = E_SHELL_VIEW (data);
 	priv = shell_view->priv;
 
-	uri = (const char *) gtk_object_get_data (GTK_OBJECT (socket_widget), "e_shell_view_folder_uri");
+	uri = (const char *) g_object_get_data (G_OBJECT (socket_widget), "e_shell_view_folder_uri");
 
 	view = g_hash_table_lookup (priv->uri_to_view, uri);
 	if (view == NULL) {

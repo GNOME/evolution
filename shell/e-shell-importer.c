@@ -600,7 +600,7 @@ item_selected (GtkWidget *item,
 	char *iid;
 
 	g_free (data->choosen_iid);
-	iid = gtk_object_get_data (GTK_OBJECT (item), "oafiid");
+	iid = g_object_get_data (G_OBJECT (item), "oafiid");
 	if (iid == NULL)
 		data->choosen_iid = g_strdup ("Automatic");
 	else

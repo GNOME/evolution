@@ -497,7 +497,7 @@ verb_fn (BonoboUIComponent *ui_component,
 	EShellUserCreatableItemsHandler *handler;
 	EShellView *shell_view;
 
-	shell_view = gtk_object_get_data (GTK_OBJECT (ui_component), SHELL_VIEW_KEY);
+	shell_view = g_object_get_data (G_OBJECT (ui_component), SHELL_VIEW_KEY);
 	g_assert (E_IS_SHELL_VIEW (shell_view));
 
 	handler = E_SHELL_USER_CREATABLE_ITEMS_HANDLER (data);
@@ -623,10 +623,10 @@ shell_view_view_changed_callback (EShellView *shell_view,
 	handler = E_SHELL_USER_CREATABLE_ITEMS_HANDLER (data);
 	priv = handler->priv;
 
-	combo_button_widget = gtk_object_get_data (GTK_OBJECT (shell_view), COMBO_BUTTON_WIDGET_KEY);
+	combo_button_widget = g_object_get_data (G_OBJECT (shell_view), COMBO_BUTTON_WIDGET_KEY);
 	g_assert (E_IS_COMBO_BUTTON (combo_button_widget));
 
-	tooltips = gtk_object_get_data (GTK_OBJECT (combo_button_widget), TOOLTIPS_KEY);
+	tooltips = g_object_get_data (G_OBJECT (combo_button_widget), TOOLTIPS_KEY);
 	g_assert (tooltips != NULL);
 
 	default_menu_item = get_default_action_for_view (handler, shell_view);

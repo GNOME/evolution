@@ -158,8 +158,7 @@ server_option_menu_item_activate_callback (GtkMenuItem *menu_item,
 	if (*storage_name_return != NULL)
 		g_free (*storage_name_return);
 
-	*storage_name_return = g_strdup ((const char *) gtk_object_get_data (GTK_OBJECT (menu_item),
-									     "storage_name"));
+	*storage_name_return = g_strdup ((const char *) g_object_get_data (G_OBJECT (menu_item), "storage_name"));
 }
 
 static void

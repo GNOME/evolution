@@ -112,7 +112,7 @@ folder_changed_cb (EFolder *folder,
 
 	g_signal_emit (storage, signals[UPDATED_FOLDER], 0, path);
 
-	highlight = GPOINTER_TO_INT (gtk_object_get_data (GTK_OBJECT (folder), "last_highlight"));
+	highlight = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (folder), "last_highlight"));
 	if (highlight != e_folder_get_highlighted (folder)) {
 		highlight = !highlight;
 		g_object_set_data (G_OBJECT (folder), "last_highlight", GINT_TO_POINTER (highlight));

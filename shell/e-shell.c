@@ -230,7 +230,7 @@ folder_selection_dialog_cancelled_cb (EShellFolderSelectionDialog *folder_select
 	GNOME_Evolution_FolderSelectionListener listener;
 	CORBA_Environment ev;
 
-	listener = gtk_object_get_data (GTK_OBJECT (folder_selection_dialog), "corba_listener");
+	listener = g_object_get_data (G_OBJECT (folder_selection_dialog), "corba_listener");
 
 	CORBA_exception_init (&ev);
 
@@ -254,7 +254,7 @@ folder_selection_dialog_folder_selected_cb (EShellFolderSelectionDialog *folder_
 	GNOME_Evolution_Folder corba_folder;
 
 	shell = E_SHELL (data);
-	listener = gtk_object_get_data (GTK_OBJECT (folder_selection_dialog), "corba_listener");
+	listener = g_object_get_data (G_OBJECT (folder_selection_dialog), "corba_listener");
 
 	CORBA_exception_init (&ev);
 

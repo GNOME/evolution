@@ -426,7 +426,7 @@ e_folder_list_init (EFolderList *efl)
 	efl->priv->option_menu = E_OPTION_MENU(glade_xml_get_widget (gui, "custom-optionmenu"));
 	e_folder_list_set_option_menu_strings (efl, NULL);
 	efl->priv->scrolled_table = E_TABLE_SCROLLED(glade_xml_get_widget(gui, "custom-folder-list"));
-	efl->priv->model = E_TABLE_MEMORY_STORE (gtk_object_get_data (GTK_OBJECT (efl->priv->scrolled_table), "table-model"));
+	efl->priv->model = E_TABLE_MEMORY_STORE (g_object_get_data (G_OBJECT (efl->priv->scrolled_table), "table-model"));
 
 	e_glade_xml_connect_widget (gui, "button-add", "clicked",
 				    GTK_SIGNAL_FUNC (add_clicked), efl);

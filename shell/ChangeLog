@@ -1,5 +1,18 @@
 2002-11-05  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-folder-list.c: Use g_object_get_data() instead of
+	gtk_object_get_data().
+	* e-shell-config-default-folders.c: Likewise.
+	* e-shell-folder-creation-dialog.c: Likewise.
+	* e-shell-importer.c: Likewise.
+	* e-shell-shared-folder-picker-dialog.c: Likewise.
+	* e-shell-user-creatable-items-handler.c: Likewise.
+	* e-shell-view.c: Likewise.
+	* e-shell.c: Likewise.
+	* e-storage.c: Likewise.
+
+2002-11-05  Ettore Perazzoli  <ettore@ximian.com>
+
 	* e-activity-handler.c: Split finalize/dispose.
 	* e-corba-shortcuts.c: Likewise.
 	* e-corba-storage-registry.c: Likewise.

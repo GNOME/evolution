@@ -187,7 +187,7 @@ dialog_clicked_cb (GnomeDialog *dialog,
 	storage_set = e_shell_get_storage_set (dialog_data->shell);
 
 	folder_type_menu_item = GTK_OPTION_MENU (dialog_data->folder_type_option_menu)->menu_item;
-	folder_type = gtk_object_get_data (GTK_OBJECT (folder_type_menu_item), "folder_type");
+	folder_type = g_object_get_data (G_OBJECT (folder_type_menu_item), "folder_type");
 
 	if (folder_type == NULL) {
 		g_warning ("Cannot get folder type for selected GtkOptionMenu item.");
