@@ -292,4 +292,6 @@ noinst_HEADERS =				\
 
 EXTRA_DIST =					\
 	ChangeLog.pre-1-4			\
+	camel-smime-context.h			\
+	camel-smime-context.c			\
 	README
