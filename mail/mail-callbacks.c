@@ -1006,21 +1006,68 @@ do_edit_messages(CamelFolder *folder, GPtrArray *uids, GPtrArray *messages, void
 		}
 	}
 }
-				   
-void
-edit_msg (GtkWidget *widget, gpointer user_data)
+
+static gboolean
+is_drafts_folder (CamelFolder *folder)
 {
-	FolderBrowser *fb = FOLDER_BROWSER (user_data);
-	GPtrArray *uids;
+	/* FIXME: hide other attributes of the URL? */
+	CamelService *service = CAMEL_SERVICE (folder->parent_store);
+	guint32 flags = CAMEL_URL_HIDE_PASSWORD | CAMEL_URL_HIDE_PARAMS;
+	const GSList *accounts;
+	CamelURL *url;
+	char *str;
 	
-	if (fb->folder != drafts_folder) {
-		GtkWidget *message;
+	if (folder == drafts_folder)
+		return TRUE;
+	
+	str = camel_url_to_string (service->url, flags);
+	url = camel_url_new (str, NULL);
+	g_free (str);
+	
+	g_free (url->path);
+	url->path = g_strdup_printf ("/%s", folder->full_name);
+	
+	accounts = mail_config_get_accounts ();
+	while (accounts) {
+		const MailConfigAccount *account = accounts->data;
 		
-		message = gnome_warning_dialog (_("You may only edit messages saved\n"
-						  "in the Drafts folder."));
-		gnome_dialog_run_and_close (GNOME_DIALOG (message));
-		return;
+		if (account && account->drafts_folder_uri) {
+			CamelURL *drafts_url;
+			
+			drafts_url = camel_url_new (account->drafts_folder_uri, NULL);
+			
+			if (drafts_url) {
+				g_free (drafts_url->passwd);
+				drafts_url->passwd = NULL;
+				
+				if (drafts_url->params) {
+					g_datalist_clear (&url->params);
+					url->params = NULL;
+				}
+				
+				if (camel_url_equal (url, drafts_url)) {
+					camel_url_free (drafts_url);
+					camel_url_free (url);
+					
+					return TRUE;
+				}
+				
+				camel_url_free (drafts_url);
+			}
+		}
+		
+		accounts = accounts->next;
 	}
+	
+	camel_url_free (url);
+	
+	return FALSE;
+}
+
+static void
+edit_msg_internal (FolderBrowser *fb)
+{
+	GPtrArray *uids;
 	
 	if (!check_send_configuration (fb))
 		return;
@@ -1029,6 +1076,23 @@ edit_msg (GtkWidget *widget, gpointer user_data)
 	message_list_foreach (fb->message_list, enumerate_msg, uids);
 	
 	mail_get_messages (fb->folder, uids, do_edit_messages, fb);
+}
+
+void
+edit_msg (GtkWidget *widget, gpointer user_data)
+{
+	FolderBrowser *fb = FOLDER_BROWSER (user_data);
+	
+	if (is_drafts_folder (fb->folder)) {
+		GtkWidget *message;
+		
+		message = gnome_warning_dialog (_("You may only edit messages saved\n"
+						  "in the Drafts folder."));
+		gnome_dialog_run_and_close (GNOME_DIALOG (message));
+		return;
+	}
+	
+	edit_msg_internal (fb);
 }
 
 static void
@@ -1413,7 +1477,7 @@ do_view_message(CamelFolder *folder, char *uid, CamelMimeMessage *message, void 
 void
 view_msg (GtkWidget *widget, gpointer user_data)
 {
-	FolderBrowser *fb = user_data;
+	FolderBrowser *fb = FOLDER_BROWSER (user_data);
 	GPtrArray *uids;
 	int i;
 	
@@ -1434,8 +1498,8 @@ open_msg (GtkWidget *widget, gpointer user_data)
 {
 	FolderBrowser *fb = FOLDER_BROWSER (user_data);
 	
-	if (fb->folder == drafts_folder)
-		edit_msg (NULL, user_data);
+	if (is_drafts_folder (fb->folder))
+		edit_msg_internal (fb);
 	else
 		view_msg (NULL, user_data);
 }

@@ -54,7 +54,7 @@ typedef struct {
 	MailConfigIdentity *id;
 	MailConfigService *source;
 	MailConfigService *transport;
-
+	
 	gchar *drafts_folder_name, *drafts_folder_uri;
 	gchar *sent_folder_name, *sent_folder_uri;
 } MailConfigAccount;

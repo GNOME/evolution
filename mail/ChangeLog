@@ -2,6 +2,16 @@
 
 	* mail-callbacks.c (mark_all_as_seen): Mark the messages as seen,
 	not unseen.
+	(is_drafts_folder): New function to attempt to determine if a
+	folder is a drafts folder.
+	(open_msg): Use is_drafts_folder().
+	(edit_msg): And here.
+	(edit_msg_internal): New function that doesn't do the drafts
+	checking and is only to be used internally. This should save us
+	from having to doubly-check a folder to see if it's a drafts
+	folder when doing an Open on the message.
+	(open_msg): Call edit_msg_internal once we've established that the
+	folder is a drafts folder.
 
 2001-04-14  Jeffrey Stedfast  <fejj@ximian.com>
 
