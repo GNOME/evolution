@@ -1,5 +1,13 @@
 2004-06-17  Chris Toshok  <toshok@ximian.com>
 
+	[ fixes bug #58696 ]
+	
+	* gui/widgets/eab-gui-util.c (eab_transfer_contacts): use
+	addressbook_load instead of e_book_async_open, so we do auth stuff
+	for the destination book.
+
+2004-06-17  Chris Toshok  <toshok@ximian.com>
+
 	* gui/contact-editor/e-contact-editor.c (e_contact_editor_new):
 	EBookFieldsCallback -> EBookEListCallback.
 	(e_contact_editor_set_property): same.
