@@ -51,18 +51,25 @@ e_name_western_cleanup_string (char **str)
 	if (*str == NULL)
 		return;
 
+	/* skip any spaces and commas at the start of the string */
 	p = *str;
 	while (isspace (*p) || *p == ',')
 		p ++;
 
+	/* make the copy we're going to return */
 	newstr = g_strdup (p);
 
-	p = newstr + strlen (newstr) - 1;
-	while (isspace (*p) || *p == ',')
-		p --;
-	if ((! isspace (*p)) && *p != ',')
-		p ++;
-	*p = '\0';
+	if ( strlen(newstr) > 0) {
+		/* now search from the back, skipping over any spaces and commas */
+		p = newstr + strlen (newstr) - 1;
+		while (isspace (*p) || *p == ',')
+			p --;
+		/* advance p to after the character that caused us to exit the
+		   previous loop, and end the string. */
+		if ((! isspace (*p)) && *p != ',')
+			p ++;
+		*p = '\0';
+	}
 
 	g_free (*str);
 	*str = newstr;
