@@ -1,9 +1,4 @@
-# translation of evolution.gnome-2-8.po to 
-# translation of evolution.gnome-2-8.po to
-# translation of evolution.gnome-2-8.po to
 # translation of evolution.HEAD.po to Russian
-# translation of ru.po to
-# translation of ru.po to Russian
 # Copyright (C) 2000,2002,2003, 2004 Free Software Foundation, Inc.
 # Valek Filippov <frob@df.ru>, 2000.
 # Dmitry Mastrukov  <dmitry@taurussoft.org>, 2001-2003.
