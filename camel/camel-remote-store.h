@@ -76,5 +76,3 @@ void camel_remote_store_refresh_folders (CamelRemoteStore *store,
 #endif /* __cplusplus */
 
 #endif /* CAMEL_REMOTE_STORE_H */
-
-

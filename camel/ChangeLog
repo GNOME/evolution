@@ -1,3 +1,13 @@
+2000-10-03  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* providers/imap/camel-imap-command.c (camel_imap_command): Quote
+	the mailbox name when sending a SELECT request otherwise mailboxes
+	with spaces in their names will cause problems.
+
+	* camel-mime-message.c (camel_mime_message_set_reply_to): encode
+	before setting.
+	(camel_mime_message_set_from): Same.
+
 2000-10-03  Dan Winship  <danw@helixcode.com>
 
 	* providers/imap/camel-imap-command.c: New file containing

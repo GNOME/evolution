@@ -71,7 +71,7 @@ camel_imap_command (CamelImapStore *store, CamelFolder *folder,
 		folder_path = camel_imap_store_folder_path (store,
 							    folder->full_name);
 		response = camel_imap_command (store, NULL, ex,
-					       "SELECT %s", folder_path);
+					       "SELECT \"%s\"", folder_path);
 		g_free (folder_path);
 
 		if (!response) {
