@@ -74,6 +74,8 @@ typedef struct {
 	guint            in_drag : 1;
 	guint            grabbed : 1;
 
+	guint            maybe_did_something : 1;
+
 	int    		 drag_col;
 	int    		 drag_row;
 	int    		 drag_x;

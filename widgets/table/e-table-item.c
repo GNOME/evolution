@@ -1194,6 +1194,8 @@ eti_init (GnomeCanvasItem *item)
 	eti->tooltip->background       = NULL;
 	eti->tooltip->foreground       = NULL;
 
+	eti->maybe_did_something       = TRUE;
+
 	eti->grabbed_col               = -1;
 	eti->grabbed_row               = -1;
 
@@ -1764,7 +1766,8 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 				       "cursor_col", &cursor_col,
 				       NULL);
 
-			e_selection_model_maybe_do_something(E_SELECTION_MODEL (eti->selection), view_to_model_row(eti, row), view_to_model_col(eti, col), button.state);
+			eti->maybe_did_something = 
+				e_selection_model_maybe_do_something(E_SELECTION_MODEL (eti->selection), view_to_model_row(eti, row), view_to_model_col(eti, col), button.state);
 			gtk_object_get(GTK_OBJECT(eti->selection),
 				       "cursor_row", &new_cursor_row,
 				       "cursor_col", &new_cursor_col,
@@ -1837,7 +1840,8 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 		if (e->button.button == 1) {
 			if (eti->maybe_in_drag) {
 				eti->maybe_in_drag = FALSE;
-				e_selection_model_do_something(E_SELECTION_MODEL (eti->selection), eti->drag_row, eti->drag_col, eti->drag_state);
+				if (!eti->maybe_did_something)
+					e_selection_model_do_something(E_SELECTION_MODEL (eti->selection), eti->drag_row, eti->drag_col, eti->drag_state);
 			}
 			if (eti->in_drag) {
 				eti->in_drag = FALSE;
