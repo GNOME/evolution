@@ -65,6 +65,9 @@ void                eab_send_contact              (EContact       *contact,
 void                eab_send_contact_list         (GList          *contacts,
 						   EABDisposition  disposition);
 
+ESource            *eab_select_source             (const gchar *title, const gchar *message,
+						   const gchar *select_uid, GtkWindow *parent);
+
 G_END_DECLS
 
 #endif /* __E_ADDRESSBOOK_UTIL_H__ */

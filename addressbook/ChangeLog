@@ -1,5 +1,13 @@
 2004-01-29  Hans Petter Jansson  <hpj@ximian.com>
 
+	* gui/widgets/eab-gui-util.c (source_selection_changed_cb): Implement.
+	(eab_select_source): Implement. Public function that prompts user to
+	select a source from a list.
+	(eab_transfer_contacts): Enable and use eab_select_source () and
+	ESource, instead of old shell folder/URI stuff.
+
+2004-01-29  Hans Petter Jansson  <hpj@ximian.com>
+
 	* gui/component/ldap-config.glade: Changed "Finish" to "Apply" in
 	dialog finish page text.
 

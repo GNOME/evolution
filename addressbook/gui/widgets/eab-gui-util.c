@@ -30,11 +30,13 @@
 #include "eab-gui-util.h"
 #include "util/eab-book-util.h"
 #include "util/eab-destination.h"
+#include "widgets/misc/e-source-selector.h"
 
 #include <gnome.h>
 
 #include "addressbook/gui/contact-editor/e-contact-editor.h"
 #include "addressbook/gui/contact-list-editor/e-contact-list-editor.h"
+#include "addressbook/gui/component/addressbook-component.h"
 
 void
 eab_error_dialog (const gchar *msg, EBookStatus status)
@@ -320,6 +322,70 @@ make_safe_filename (const char *prefix, char *name)
 	return safe;
 }
 
+static void
+source_selection_changed_cb (GtkWidget *selector, GtkWidget *ok_button)
+{
+	gtk_widget_set_sensitive (ok_button,
+				  e_source_selector_peek_primary_selection (E_SOURCE_SELECTOR (selector)) ?
+				  TRUE : FALSE);
+}
+
+ESource *
+eab_select_source (const gchar *title, const gchar *message, const gchar *select_uid, GtkWindow *parent)
+{
+	ESource *source;
+	ESourceList *source_list;
+	GtkWidget *dialog;
+	GtkWidget *ok_button;
+	GtkWidget *cancel_button;
+	GtkWidget *label;
+	GtkWidget *selector;
+	GtkWidget *scrolled_window;
+	gint response;
+
+	source_list = addressbook_component_peek_source_list (addressbook_component_peek ());
+
+	dialog = gtk_dialog_new_with_buttons (title, parent,
+					      GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
+					      NULL);
+	gtk_window_set_default_size (GTK_WINDOW (dialog), 200, 350);
+
+	cancel_button = gtk_dialog_add_button (GTK_DIALOG (dialog), GTK_STOCK_CANCEL, GTK_RESPONSE_REJECT);
+	ok_button = gtk_dialog_add_button (GTK_DIALOG (dialog), GTK_STOCK_OK, GTK_RESPONSE_ACCEPT);
+	gtk_widget_set_sensitive (ok_button, FALSE);
+
+	label = gtk_label_new (message);
+
+	selector = e_source_selector_new (source_list);
+	e_source_selector_show_selection (E_SOURCE_SELECTOR (selector), FALSE);
+	g_signal_connect (selector, "primary_selection_changed",
+			  G_CALLBACK (source_selection_changed_cb), ok_button);
+
+	if (select_uid) {
+		source = e_source_list_peek_source_by_uid (source_list, select_uid);
+		if (source)
+			e_source_selector_set_primary_selection (E_SOURCE_SELECTOR (selector), source);
+	}
+
+	scrolled_window = gtk_scrolled_window_new (NULL, NULL);
+	gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (scrolled_window), GTK_SHADOW_IN);
+	gtk_container_add (GTK_CONTAINER (scrolled_window), selector);
+
+	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), label, FALSE, FALSE, 4);
+	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), scrolled_window, TRUE, TRUE, 4);
+
+	gtk_widget_show_all (dialog);
+	response = gtk_dialog_run (GTK_DIALOG (dialog));
+
+	if (response == GTK_RESPONSE_ACCEPT)
+		source = e_source_selector_peek_primary_selection (E_SOURCE_SELECTOR (selector));
+	else
+		source = NULL;
+
+	gtk_widget_destroy (dialog);
+	return source;
+}
+
 void
 eab_contact_save (char *title, EContact *contact, GtkWindow *parent_window)
 {
@@ -494,19 +560,17 @@ got_book_cb (EBook *book, EBookStatus status, gpointer closure)
 void
 eab_transfer_contacts (EBook *source, GList *contacts /* adopted */, gboolean delete_from_source, GtkWindow *parent_window)
 {
-#if 0
 	EBook *dest;
-	const char *allowed_types[] = { "contacts/*", NULL };
-	GNOME_Evolution_Folder *folder;
-	static char *last_uri = NULL;
+	ESource *destination_source;
+	static char *last_uid = NULL;
 	ContactCopyProcess *process;
 	char *desc;
 
 	if (contacts == NULL)
 		return;
 
-	if (last_uri == NULL)
-		last_uri = g_strdup ("");
+	if (last_uid == NULL)
+		last_uid = g_strdup ("");
 
 	if (contacts->next == NULL) {
 		if (delete_from_source)
@@ -520,17 +584,15 @@ eab_transfer_contacts (EBook *source, GList *contacts /* adopted */, gboolean de
 			desc = _("Copy contacts to");
 	}
 
-	evolution_shell_client_user_select_folder (global_shell_client,
-						   parent_window,
-						   desc, last_uri, allowed_types,
-						   &folder);
+	destination_source = eab_select_source (desc, _("Select target addressbook."),
+						last_uid, parent_window);
 
-	if (!folder)
+	if (!destination_source)
 		return;
 
-	if (strcmp (last_uri, folder->evolutionUri) != 0) {
-		g_free (last_uri);
-		last_uri = g_strdup (folder->evolutionUri);
+	if (strcmp (last_uid, e_source_peek_uid (destination_source)) != 0) {
+		g_free (last_uid);
+		last_uid = g_strdup (e_source_peek_uid (destination_source));
 	}
 
 	process = g_new (ContactCopyProcess, 1);
@@ -546,10 +608,7 @@ eab_transfer_contacts (EBook *source, GList *contacts /* adopted */, gboolean de
 		process->done_cb = NULL;
 
 	dest = e_book_new ();
-	e_book_async_load_uri (dest, folder->physicalUri, got_book_cb, process);
-
-	CORBA_free (folder);
-#endif
+	e_book_async_load_source (dest, destination_source, got_book_cb, process);
 }
 
 #include <Evolution-Composer.h>
