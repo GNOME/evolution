@@ -2928,6 +2928,7 @@ mail_config_signature_set_name (MailConfigSignature *sig, const gchar *name)
 	g_free (sig->name);
 	sig->name = g_strdup (name);
 
+	mail_config_signature_write (sig);
 	mail_config_signature_emit_event (MAIL_CONFIG_SIG_EVENT_NAME_CHANGED, sig);
 }
 

@@ -1,3 +1,8 @@
+2002-07-30  Radek Doulik  <rodo@ximian.com>
+
+	* mail-config.c (mail_config_signature_set_name): save signature
+	here to remember the changed name
+
 2002-07-30  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-format.c (write_date): Use camel_medium_get_header to get
