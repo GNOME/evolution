@@ -213,22 +213,22 @@ static GnomeUIInfo main_menu[] = {
 
 	<dockitem name="Toolbar" relief="none">
 	        <toolitem name="Save and Close" _label="Save and Close"
-		_descr="Save the contact and close the dialog box" verb="ContactEditorSaveClose"
+		_tip="Save the contact and close the dialog box" verb="ContactEditorSaveClose"
 		pixtype="stock" pixname="Save"/>
 
 		<toolitem type="separator"/>
 
 		<toolitem name="Print" _label="Print..."
-		_descr="Print this item" verb="ContactEditorPrint"
+		_tip="Print this item" verb="ContactEditorPrint"
 		pixtype="stock" pixname="Print"/>
 
 		<toolitem name="Delete" _label="Delete"
-		_descr="Delete this item" verb="ContactEditorDelete"
+		_tip="Delete this item" verb="ContactEditorDelete"
 		pixtype="stock" pixname="Trash"/>
 
 <!--
 		<toolitem name="Help" _label="Help"
-		_descr="See online help" verb="ContactEditorHelp"
+		_tip="See online help" verb="ContactEditorHelp"
 		pixtype="stock" pixname="Help"/>
 
 	GNOMEUIINFO_ITEM_STOCK (N_("FIXME: Previous"),

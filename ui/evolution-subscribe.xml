@@ -34,17 +34,17 @@
   <dockitem name="Toolbar" relief="none">
 
     <toolitem name="SubscribeFolder" verb=""
-    _label="Subscribe" _descr="Add folder to your list of subscribed folders"
+    _label="Subscribe" _tip="Add folder to your list of subscribed folders"
     pixtype="pixbuf"/>
 
     <toolitem name="UnsubscribeFolder" verb=""
-    _label="Unsubscribe" _descr="Remove folder from your list of subscribed folders"
+    _label="Unsubscribe" _tip="Remove folder from your list of subscribed folders"
     pixtype="pixbuf"/>
 
     <toolitem type="separator"/>
 
     <toolitem name="RefreshList" verb=""
-    _label="Refresh List" _descr="Refresh List of Folders"
+    _label="Refresh List" _tip="Refresh List of Folders"
     pixtype="pixbuf"/>
 
     <toolitem type="separator"/>
