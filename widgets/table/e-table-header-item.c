@@ -493,15 +493,15 @@ ethi_drag_end (GtkWidget *canvas, GdkDragContext *context, ETableHeaderItem *eth
 	if (ethi->drag_col == -1)
 		return;
 
-	if (canvas == gtk_drag_get_source_widget (context)) {
-		if (context->action == 0) {
-			ethi_request_redraw (ethi);
-			e_table_header_remove (ethi->eth, ethi->drag_col);
-		}
-		ethi_remove_drop_marker (ethi);
-		ethi_remove_destroy_marker (ethi);
-		ethi->drag_col = -1;
+	/*	if (canvas == gtk_drag_get_source_widget (context)) { */
+	if (context->action == 0) {
+		ethi_request_redraw (ethi);
+		e_table_header_remove (ethi->eth, ethi->drag_col);
 	}
+	ethi_remove_drop_marker (ethi);
+	ethi_remove_destroy_marker (ethi);
+	ethi->drag_col = -1;
+	/* } */
 }
 
 static gboolean
@@ -517,24 +517,24 @@ ethi_drag_drop (GtkWidget *canvas,
 	if (ethi->drag_col == -1)
 		return FALSE;
 
-	if (GTK_WIDGET(canvas) == gtk_drag_get_source_widget (context)) {
-		if ((x >= ethi->x1) && (x <= (ethi->x1 + ethi->width)) &&
-		    (y >= ethi->y1) && (y <= (ethi->y1 + ethi->height))){
-			int col;
-			
-			col = ethi_find_col_by_x (ethi, x);
-
-			ethi_add_drop_marker (ethi, col);
-			
-			if (col != -1) {
-				if (col != ethi->drag_col) {
-					ethi_request_redraw (ethi);
-					e_table_header_move (ethi->eth, ethi->drag_col, col);
-				}
-				successful = TRUE;
+	/*	if (GTK_WIDGET(canvas) == gtk_drag_get_source_widget (context)) {*/
+	if ((x >= ethi->x1) && (x <= (ethi->x1 + ethi->width)) &&
+	    (y >= ethi->y1) && (y <= (ethi->y1 + ethi->height))){
+		int col;
+		
+		col = ethi_find_col_by_x (ethi, x);
+		
+		ethi_add_drop_marker (ethi, col);
+		
+		if (col != -1) {
+			if (col != ethi->drag_col) {
+				ethi_request_redraw (ethi);
+				e_table_header_move (ethi->eth, ethi->drag_col, col);
 			}
+			successful = TRUE;
 		}
 	}
+	/* } */
 	gtk_drag_finish (context, successful, successful, time);
 	return successful;
 }
@@ -545,10 +545,10 @@ ethi_drag_leave (GtkWidget *widget, GdkDragContext *context, guint time, ETableH
 	if (ethi->drag_col == -1)
 		return;
 
-	if (widget == gtk_drag_get_source_widget (context)) {
-		ethi_remove_drop_marker (ethi);
-		ethi_add_destroy_marker (ethi);
-	}
+	/* if (widget == gtk_drag_get_source_widget (context)) { */
+	ethi_remove_drop_marker (ethi);
+	ethi_add_destroy_marker (ethi);
+	/* } */
 }
 
 static void
