@@ -1,5 +1,5 @@
 /*
- * mail-component.c: The core of the mail component
+ * main.c: The core of the mail component
  *
  * Author:
  *   Miguel de Icaza (miguel@helixcode.com)
@@ -10,6 +10,7 @@
 #include <config.h>
 #include <gnome.h>
 #include <bonobo/bonobo-main.h>
+#include <bonobo/bonobo-object-directory.h>
 #include <glade/glade.h>
 
 #include "e-util/e-gui-utils.h"
@@ -25,8 +26,9 @@
 static void
 init_corba (int *argc, char *argv [])
 {
-	gnome_init_with_popt_table ("evolution-mail-component", VERSION, *argc, argv,
-				    oaf_popt_options, 0, NULL);
+	od_assert_using_oaf ();
+	gnome_init_with_popt_table ("evolution-mail-component", VERSION,
+				    *argc, argv, oaf_popt_options, 0, NULL);
 	oaf_init (*argc, argv);
 }
 
@@ -38,7 +40,8 @@ static void
 init_corba (int *argc, char *argv [])
 {
 	CORBA_Environment ev;
-	
+
+	od_assert_using_goad ();
 	CORBA_exception_init (&ev);
 
  	gnome_CORBA_init_with_popt_table (

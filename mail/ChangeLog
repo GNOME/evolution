@@ -1,3 +1,9 @@
+2000-06-28  Dan Winship  <danw@helixcode.com>
+
+	* main.c (init_corba): Call od_assert_using_oaf() or
+	od_assert_using_goad() as appropriate to make sure people didn't
+	someone trick the build system.
+
 2000-06-28  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* message-list.c: Added prototype for filter_date to make
@@ -194,7 +200,6 @@
 	UI-friendly name.
 	(dispatch_func): Free the saved prettyname.
 
->>>>>>> 1.221
 2000-06-21  Christopher James Lahey  <clahey@helixcode.com>
 
 	* message-list.c: Removed an erroneous comment.
