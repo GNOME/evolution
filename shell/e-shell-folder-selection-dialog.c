@@ -117,6 +117,7 @@ folder_creation_dialog_result_cb (EShell *shell,
 	priv = dialog->priv;
 
 	if (priv == NULL) {
+		g_warning ("dialog->priv is NULL, and should not be");
 		return;
 	}
 
