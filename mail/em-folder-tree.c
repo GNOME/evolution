@@ -2728,7 +2728,8 @@ em_folder_tree_set_selected (EMFolderTree *emft, const char *uri)
 		gtk_tree_view_expand_to_path (priv->treeview, tree_path);
 		selection = gtk_tree_view_get_selection (priv->treeview);
 		gtk_tree_selection_select_path (selection, tree_path);
-		gtk_tree_view_set_cursor(priv->treeview, tree_path, NULL, FALSE);
+		gtk_tree_view_set_cursor (priv->treeview, tree_path, NULL, FALSE);
+		gtk_tree_view_scroll_to_cell (priv->treeview, tree_path, NULL, TRUE, 0.8f, 0.0f);
 		gtk_tree_path_free (tree_path);
 		camel_object_unref (store);
 		g_free (path);

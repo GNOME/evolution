@@ -1,5 +1,8 @@
 2004-06-08  Jeffrey Stedfast  <fejj@novell.com>
 
+	* em-folder-tree.c (em_folder_tree_set_selected): Scroll to the
+	selected folder if needed. Fixes bug #59609.
+
 	* em-folder-selector.c (em_folder_selector_construct): Make the
 	chooser non-modal. Fixes bug #53735.
 
