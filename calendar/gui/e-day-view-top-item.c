@@ -274,6 +274,11 @@ e_day_view_top_item_draw (GnomeCanvasItem *canvas_item,
 		day_start.tm_mday = day_start_tt.day;
 		day_start.tm_isdst = -1;
 
+		/* Call mktime() to set the weekday. FIXME: Don't do this.
+		   mktime() could in theory adjust the time if it thought it
+		   was invalid. */
+		mktime (&day_start);
+
 		if (day_view->date_format == E_DAY_VIEW_DATE_FULL)
 			/* strftime format %A = full weekday name, %d = day of month,
 			   %B = full month name. Don't use any other specifiers. */

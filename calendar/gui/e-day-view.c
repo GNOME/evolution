@@ -1486,7 +1486,7 @@ query_obj_updated_cb (CalQuery *query, const char *uid,
 	cal_recur_generate_instances (comp, day_view->lower,
 				      day_view->upper,
 				      e_day_view_add_event, day_view,
-				      cal_client_resolve_tzid, day_view->client);
+				      (CalRecurResolveTimezoneFn) cal_client_resolve_tzid, day_view->client);
 	gtk_object_unref (GTK_OBJECT (comp));
 
 	e_day_view_check_layout (day_view);
@@ -2221,6 +2221,9 @@ e_day_view_recalc_day_starts (EDayView *day_view,
 	for (day = 1; day <= day_view->days_shown; day++) {
 		day_view->day_starts[day] = time_add_day (day_view->day_starts[day - 1], 1);
 	}
+
+	for (day = 0; day <= day_view->days_shown; day++)
+		g_print ("Day Starts %i: %s", day, ctime (&day_view->day_starts[day]));
 
 	day_view->lower = start_time;
 	day_view->upper = day_view->day_starts[day_view->days_shown];

@@ -93,7 +93,7 @@ static void
 write_label_piece (struct icaltimetype *tt, char *buffer, int size,
 		   char *stext, char *etext)
 {
-	struct tm tmp_tm;
+	struct tm tmp_tm = { 0 };
 	int len;
 	
 	/* FIXME: May want to convert the time to an appropriate zone. */
@@ -108,6 +108,10 @@ write_label_piece (struct icaltimetype *tt, char *buffer, int size,
 	tmp_tm.tm_min = tt->minute;
 	tmp_tm.tm_sec = tt->second;
 	tmp_tm.tm_isdst = -1;
+
+	/* Call mktime() to set the weekday. FIXME: Don't do this. mktime()
+	   could in theory adjust the time if it thought it was invalid. */
+	mktime (&tmp_tm);
 
 	len = strlen (buffer);
 	e_time_format_date_and_time (&tmp_tm,

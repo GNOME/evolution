@@ -1,5 +1,14 @@
 2001-07-03  Damon Chaplin  <damon@ximian.com>
 
+	* gui/e-day-view.c (query_obj_updated_cb): fix warning, and added
+	some debug messages.
+
+	* gui/dialogs/comp-editor-util.c (write_label_piece): 
+	* gui/e-day-view-top-item.c (e_day_view_top_item_draw): call mktime()
+	to set the weekday, though this is a temporary fix.
+
+2001-07-03  Damon Chaplin  <damon@ximian.com>
+
 	* pcs/cal-backend.[hc]: added virtual method to get a VTIMEZONE
 	component given a TZID. We need this to resolve TZIDs when expanding
 	an event using cal_recur_generate_instances() in query.c.
