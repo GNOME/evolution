@@ -1,3 +1,4 @@
+/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /* Evolution calendar backend
  *
  * Copyright (C) 2000 Helix Code, Inc.
@@ -52,6 +53,9 @@ typedef struct {
 
 	/* Whether a calendar has been loaded */
 	guint loaded : 1;
+
+	/* Do we need to sync to permanent storage? */
+	gboolean dirty : 1;
 } CalBackendPrivate;
 
 
@@ -90,7 +94,8 @@ cal_backend_get_type (void)
 			(GtkClassInitFunc) NULL
 		};
 
-		cal_backend_type = gtk_type_unique (GTK_TYPE_OBJECT, &cal_backend_info);
+		cal_backend_type =
+			gtk_type_unique (GTK_TYPE_OBJECT, &cal_backend_info);
 	}
 
 	return cal_backend_type;
@@ -122,11 +127,82 @@ cal_backend_init (CalBackend *backend)
 	priv->format = CAL_VCAL;
 }
 
+static void save_to_vcal (CalBackend *backend, char *fname)
+{
+	FILE *fp;
+	CalBackendPrivate *priv = backend->priv;
+
+	if (g_file_exists (fname)){
+		char *backup_name = g_strconcat (fname, "~", NULL);
+
+		if (g_file_exists (backup_name)){
+			unlink (backup_name);
+		}
+		rename (fname, backup_name);
+		g_free (backup_name);
+	}
+
+	fp = fopen(fname,"w");
+	if (fp) {
+		GList *l;
+
+		for (l = priv->events; l; l = l->next) {
+			iCalObject *ical = l->data;
+			VObject *vobject = ical_object_to_vobject (ical);
+			writeVObject(fp, vobject);
+			cleanVObject (vobject); 
+		}
+		for (l = priv->todos; l; l = l->next) {
+			iCalObject *ical = l->data;
+			VObject *vobject = ical_object_to_vobject (ical);
+			writeVObject(fp, vobject);
+			cleanVObject (vobject); 
+		}
+		for (l = priv->journals; l; l = l->next) {
+			iCalObject *ical = l->data;
+			VObject *vobject = ical_object_to_vobject (ical);
+			writeVObject(fp, vobject);
+			cleanVObject (vobject); 
+		}
+
+		fclose(fp);
+	} /*else {
+	    report bad problem  FIX ME;
+	    }*/
+	
+	cleanStrTbl ();
+}
+
+
 /* Saves a calendar */
 static void
 save (CalBackend *backend)
 {
-	/* FIXME */
+	char *str_uri;
+	CalBackendPrivate *priv = backend->priv;
+
+	str_uri = gnome_vfs_uri_to_string (priv->uri,
+				   (GNOME_VFS_URI_HIDE_USER_NAME
+				    | GNOME_VFS_URI_HIDE_PASSWORD
+				    | GNOME_VFS_URI_HIDE_HOST_NAME
+				    | GNOME_VFS_URI_HIDE_HOST_PORT
+				    | GNOME_VFS_URI_HIDE_TOPLEVEL_METHOD));
+
+	if (! priv->dirty)
+		return;
+
+	switch (priv->format) {
+	case CAL_VCAL:
+		save_to_vcal (backend, str_uri);
+		break;
+	case CAL_ICAL:
+		/*icalendar_calendar_save (backend, str_uri);*/
+		/* FIX ME */
+		break;
+	default:
+		/* FIX ME log */
+	        break;
+	}
 }
 
 /* g_hash_table_foreach() callback to destroy an iCalObject */
@@ -229,7 +305,8 @@ ensure_uid (iCalObject *ico)
 
 	/* Is this good enough? */
 
-	buf = g_strdup_printf ("Evolution-Tlacuache-%d-%ld-%u", (int) getpid(), str_time, seqno++);
+	buf = g_strdup_printf ("Evolution-Tlacuache-%d-%ld-%u",
+			       (int) getpid(), str_time, seqno++);
 	ico->uid = buf;
 
 	return TRUE;
@@ -258,6 +335,8 @@ add_object (CalBackend *backend, iCalObject *ico)
 		;
 
 	g_hash_table_insert (priv->object_hash, ico->uid, ico);
+
+	priv->dirty = TRUE;
 
 	switch (ico->type) {
 	case ICAL_EVENT:
@@ -288,6 +367,8 @@ add_object (CalBackend *backend, iCalObject *ico)
 	/* FIXME: gnomecal old code */
 	ico->last_mod = time (NULL);
 #endif
+
+	save (backend);
 }
 
 /* Removes an object from the backend's hash and lists.  Does not perform
@@ -303,6 +384,8 @@ remove_object (CalBackend *backend, iCalObject *ico)
 
 	g_assert (ico->uid != NULL);
 	g_hash_table_remove (priv->object_hash, ico->uid);
+
+	priv->dirty = TRUE;
 
 	switch (ico->type) {
 	case ICAL_EVENT:
@@ -331,6 +414,7 @@ remove_object (CalBackend *backend, iCalObject *ico)
 	g_list_free_1 (l);
 
 	ical_object_destroy (ico);
+	save (backend);
 }
 
 /* Load a calendar from a VObject */
@@ -471,8 +555,8 @@ cal_destroy_cb (GtkObject *object, gpointer data)
  * @backend: A calendar backend.
  * @cal: A calendar client interface object.
  *
- * Adds a calendar client interface object to a calendar @backend.  The calendar
- * backend must already have a loaded calendar.
+ * Adds a calendar client interface object to a calendar @backend.
+ * The calendar backend must already have a loaded calendar.
  **/
 void
 cal_backend_add_cal (CalBackend *backend, Cal *cal)
@@ -549,11 +633,11 @@ icalendar_calendar_load (CalBackend * cal, char* fname)
 		if (ical->type != ICAL_EVENT && 
 		    ical->type != ICAL_TODO  &&
 		    ical->type != ICAL_JOURNAL) {
-			g_warning ("Skipping unsupported iCalendar component.");
+		       g_warning ("Skipping unsupported iCalendar component.");
 		} else
 			add_object (cal, ical);
 		subcomp = icalcomponent_get_next_component (comp,
-							    ICAL_ANY_COMPONENT);
+							   ICAL_ANY_COMPONENT);
 	}
 }
 
@@ -614,7 +698,7 @@ cal_backend_load (CalBackend *backend, GnomeVFSURI *uri)
 	char *str_uri;
 
 	g_return_val_if_fail (backend != NULL, CAL_BACKEND_LOAD_ERROR);
-	g_return_val_if_fail (IS_CAL_BACKEND (backend), CAL_BACKEND_LOAD_ERROR);
+	g_return_val_if_fail (IS_CAL_BACKEND (backend),CAL_BACKEND_LOAD_ERROR);
 
 	priv = backend->priv;
 	g_return_val_if_fail (!priv->loaded, CAL_BACKEND_LOAD_ERROR);
@@ -626,12 +710,11 @@ cal_backend_load (CalBackend *backend, GnomeVFSURI *uri)
 	 */
 
 	str_uri = gnome_vfs_uri_to_string (uri,
-					   (GNOME_VFS_URI_HIDE_USER_NAME
-					    | GNOME_VFS_URI_HIDE_PASSWORD
-					    | GNOME_VFS_URI_HIDE_HOST_NAME
-					    | GNOME_VFS_URI_HIDE_HOST_PORT
-					    | GNOME_VFS_URI_HIDE_TOPLEVEL_METHOD));
-
+				   (GNOME_VFS_URI_HIDE_USER_NAME
+				    | GNOME_VFS_URI_HIDE_PASSWORD
+				    | GNOME_VFS_URI_HIDE_HOST_NAME
+				    | GNOME_VFS_URI_HIDE_HOST_PORT
+				    | GNOME_VFS_URI_HIDE_TOPLEVEL_METHOD));
 
 	/* look at the extension on the filename and decide
 	   if this is a ical or vcal file */
@@ -650,7 +733,7 @@ cal_backend_load (CalBackend *backend, GnomeVFSURI *uri)
 		load_from_vobject (backend, vobject);
 		cleanVObject (vobject);
 		cleanStrTbl ();
-	break;
+		break;
 	case CAL_ICAL:
 		icalendar_calendar_load (backend, str_uri);
 		break;
@@ -692,12 +775,16 @@ cal_backend_create (CalBackend *backend, GnomeVFSURI *uri)
 	g_assert (priv->object_hash == NULL);
 	priv->object_hash = g_hash_table_new (g_str_hash, g_str_equal);
 
+	priv->dirty = TRUE;
+
 	/* Done */
 
 	gnome_vfs_uri_ref (uri);
 
 	priv->uri = uri;
 	priv->loaded = TRUE;
+
+	save (backend);
 }
 
 /**
@@ -886,10 +973,12 @@ cal_backend_get_events_in_range (CalBackend *backend, time_t start, time_t end)
 		iCalObject *ico;
 
 		ico = l->data;
-		ical_object_generate_events (ico, start, end, build_event_list, &c);
+		ical_object_generate_events (ico, start, end,
+					     build_event_list, &c);
 	}
 
 	c.event_list = g_list_sort (c.event_list, compare_instance_func);
+
 	return c.event_list;
 }
 
@@ -933,14 +1022,15 @@ notify_remove (CalBackend *backend, const char *uid)
  * @uid: Unique identifier of the object to update.
  * @calobj: String representation of the new calendar object.
  * 
- * Updates an object in a calendar backend.  It will replace any existing object
- * that has the same UID as the specified one.  The backend will in turn notify
- * all of its clients about the change.
+ * Updates an object in a calendar backend.  It will replace any existing
+ * object that has the same UID as the specified one.  The backend will in
+ * turn notify all of its clients about the change.
  * 
  * Return value: TRUE on success, FALSE on being passed an invalid object.
  **/
 gboolean
-cal_backend_update_object (CalBackend *backend, const char *uid, const char *calobj)
+cal_backend_update_object (CalBackend *backend, const char *uid,
+			   const char *calobj)
 {
 	CalBackendPrivate *priv;
 	iCalObject *ico, *new_ico;
@@ -1008,8 +1098,11 @@ cal_backend_remove_object (CalBackend *backend, const char *uid)
 
 	remove_object (backend, ico);
 
-	/* FIXME: do the notification asynchronously */
+	priv->dirty = TRUE;
+	save (backend);
 
+	/* FIXME: do the notification asynchronously */
 	notify_remove (backend, uid);
+
 	return TRUE;
 }

@@ -256,11 +256,24 @@ gnome_calendar_new (char *title)
 static void
 gnome_calendar_update_all (GnomeCalendar *cal, iCalObject *object, int flags)
 {
-	gncal_day_panel_update (GNCAL_DAY_PANEL (cal->day_view), object, flags);
-	gncal_week_view_update (GNCAL_WEEK_VIEW (cal->week_view), object, flags);
+	gncal_day_panel_update (GNCAL_DAY_PANEL (cal->day_view),
+				object, flags);
+	gncal_week_view_update (GNCAL_WEEK_VIEW (cal->week_view),
+				object, flags);
 	month_view_update (MONTH_VIEW (cal->month_view), object, flags);
 	year_view_update (YEAR_VIEW (cal->year_view), object, flags);
 }
+
+
+static void
+gnome_calendar_load_cb (GtkWidget *cal_client,
+			gpointer something,
+			GnomeCalendar *gcal)
+{
+	gnome_calendar_update_all (gcal, NULL, 0);
+}
+
+
 
 int
 gnome_calendar_load (GnomeCalendar *gcal, char *file)
@@ -269,16 +282,14 @@ gnome_calendar_load (GnomeCalendar *gcal, char *file)
 	g_return_val_if_fail (GNOME_IS_CALENDAR (gcal), 0);
 	g_return_val_if_fail (file != NULL, 0);
 
-	/* FIXME: connect to the cal_loaded signal fo the CalClient and get the
-	 * asynchronous notification properly!
-	 */
+	gtk_signal_connect (GTK_OBJECT (gcal->client), "cal_loaded",
+			    gnome_calendar_load_cb, gcal);
 
-	/* if ((r = calendar_load (gcal->cal, file)) != NULL){ DELETE */
 	if (cal_client_load_calendar (gcal->client, file) == FALSE){
 		printf ("Error loading calendar: %s\n", file);
 		return 0;
 	}
-	gnome_calendar_update_all (gcal, NULL, 0);
+
 	return 1;
 }
 

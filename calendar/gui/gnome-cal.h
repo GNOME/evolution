@@ -43,7 +43,7 @@ typedef struct {
 
 guint      gnome_calendar_get_type         	(void);
 GtkWidget *gnome_calendar_new			(char *title);
-int        gnome_calendar_load             	(GnomeCalendar *gcal,
+int        gnome_calendar_load                  (GnomeCalendar *gcal,
 						 char *file);
 int	   gnome_calendar_create		(GnomeCalendar *gcal,
 						 char *file);

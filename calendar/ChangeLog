@@ -1,3 +1,20 @@
+2000-04-09  Seth Alves  <alves@hungry.com>
+
+	* gui/gnome-cal.c (gnome_calendar_load): catch cal_loaded signal
+	on the cal client.
+	(gnome_calendar_load_cb): callback for cal_loaded signal.  moved
+	gnome_calendar_update_all from gnome_calendar_load to here.
+
+	* gui/calendar-commands.c: minor cleanups
+
+	* pcs/cal-backend.c (save_to_vcal): copied code from gnome-pim
+	to write vcal to a file
+	(save): filled it with more gnome-pim code
+	(add_object): call save () after changing
+	(remove_object): same
+	(cal_backend_create): same
+	(cal_backend_remove_object): same
+
 2000-04-08  Christopher James Lahey  <clahey@helixcode.com>
 
 	* gui/Makefile.am: Removed linking with libetable and libeminicard

@@ -566,6 +566,7 @@ calendar_close_event (GtkWidget *widget, GdkEvent *event, GnomeCalendar *gcal)
 	return TRUE;
 }
 
+
 GnomeCalendar *
 new_calendar (char *full_name, char *calendar_file, char *geometry, char *page, gboolean hidden)
 {
@@ -584,16 +585,7 @@ new_calendar (char *full_name, char *calendar_file, char *geometry, char *page, 
 	if (gnome_parse_geometry (geometry, &xpos, &ypos, &width, &height)){
 		if (xpos != -1)
 			gtk_widget_set_uposition (toplevel, xpos, ypos);
-		/*if (width != -1)
-		  gtk_widget_set_usize (toplevel, width, 600);*/
 	}
- 	/*gtk_widget_set_usize (toplevel, width, 600); */
-
-	/*
-	setup_appbar (toplevel);
-	setup_menu (toplevel);
-	*/
-
 
 	if (page)
 		gnome_calendar_set_view (GNOME_CALENDAR (toplevel), page);
@@ -601,12 +593,13 @@ new_calendar (char *full_name, char *calendar_file, char *geometry, char *page, 
 	printf ("calendar_file is '%s'\n", calendar_file?calendar_file:"NULL");
 	if (calendar_file && g_file_exists (calendar_file)) {
 		printf ("loading calendar\n");
-		success = gnome_calendar_load (GNOME_CALENDAR (toplevel), calendar_file);
+		success = gnome_calendar_load (GNOME_CALENDAR (toplevel),
+					       calendar_file);
 	}
 	else {
 		printf ("creating calendar\n");
-		success = gnome_calendar_create (GNOME_CALENDAR (toplevel), calendar_file);
-		/*GNOME_CALENDAR (toplevel)->client->filename = g_strdup (calendar_file);*/
+		success = gnome_calendar_create (GNOME_CALENDAR (toplevel),
+						 calendar_file);
 	}
 
 	printf ("load or create returned %d\n", success);
