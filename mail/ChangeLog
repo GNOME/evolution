@@ -1,3 +1,8 @@
+2000-10-23  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* mail-autofilter.c (filter_gui_add_from_message): Don't forget to
+	set the rule source! (eg "incoming", "demand", or "outgoing")
+
 2000-10-22  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* message-list.c (message_list_init): Always display the vertical
