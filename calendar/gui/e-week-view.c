@@ -3317,10 +3317,8 @@ e_week_view_key_press (GtkWidget *widget, GdkEventKey *event)
 						     week_view->zone);
 	cal_component_set_dtstart (comp, &date);
 
-	/* We have to take a day off the end time as it is a DATE value. */
 	*date.value = icaltime_from_timet_with_zone (dtend, TRUE,
 						     week_view->zone);
-	icaltime_adjust (date.value, -1, 0, 0, 0);
 	cal_component_set_dtend (comp, &date);
 
 	cal_component_set_categories (comp, week_view->default_category);

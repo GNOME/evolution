@@ -1,5 +1,11 @@
 2001-11-09  Damon Chaplin  <damon@ximian.com>
 
+	* gui/e-week-view.c (e_week_view_key_press): don't subtract a day
+	from DTEND. For DATE values we don't include the entire day now.
+	Fixes bug #14842.
+
+2001-11-09  Damon Chaplin  <damon@ximian.com>
+
 	* gui/e-week-view-layout.c (e_week_view_layout_events): fix buffer
 	overflow. Fixes bug #10285 (the printing of lines & dates in the
 	printout of the month view).
