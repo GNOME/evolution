@@ -34,7 +34,6 @@
 #include <bonobo/bonobo-main.h>
 #include <bonobo/bonobo-generic-factory.h>
 #include <bonobo-activation/bonobo-activation.h>
-#include <gtk/gtkmain.h>
 #include "alarm.h"
 #include "alarm-queue.h"
 #include "alarm-notify.h"
@@ -197,6 +196,9 @@ main (int argc, char **argv)
 
 	alarm_queue_done ();
 	alarm_done ();
+
+	if (alarm_notify_service)
+		bonobo_object_unref (BONOBO_OBJECT (alarm_notify_service));
 
 	gnome_sound_shutdown ();
 	gnome_vfs_shutdown ();

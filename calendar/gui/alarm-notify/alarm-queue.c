@@ -1122,6 +1122,18 @@ alarm_queue_init (void)
 	alarm_queue_inited = TRUE;
 }
 
+static void
+free_client_alarms_cb (gpointer key, gpointer value, gpointer user_data)
+{
+	CalClient *client = key;
+	ClientAlarms *ca = value;
+
+	if (ca) {
+		g_object_unref (ca->client);
+		g_free (ca);
+	}
+}
+
 /**
  * alarm_queue_done:
  *
@@ -1137,6 +1149,7 @@ alarm_queue_done (void)
 	/* All clients must be unregistered by now */
 	g_return_if_fail (g_hash_table_size (client_alarms_hash) == 0);
 
+	g_hash_table_foreach (client_alarms_hash, (GHFunc) free_client_alarms_cb, NULL);
 	g_hash_table_destroy (client_alarms_hash);
 	client_alarms_hash = NULL;
 
