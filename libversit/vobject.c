@@ -48,6 +48,7 @@ DFARS 252.227-7013 or 48 CFR 52.227-19, as applicable.
 #include <stdio.h>
 #include <fcntl.h>
 
+#define USE_STRTBL
 
 #define NAME_OF(o)				o->id
 #define VALUE_TYPE(o)			o->valType
@@ -142,6 +143,7 @@ DLLEXPORT(void) deleteStr(const char *p)
 }
 
 
+#ifdef USE_STRTBL
 static StrItem* newStrItem(const char *s, StrItem *next)
 {
     StrItem *p = (StrItem*)malloc(sizeof(StrItem));
@@ -155,7 +157,7 @@ static void deleteStrItem(StrItem *p)
 {
     free((void*)p);
 }
-
+#endif
 
 /*----------------------------------------------------------------------
   The following function provide accesses to VObject's value.
@@ -609,6 +611,7 @@ DLLEXPORT(void) cleanVObjects(VObject *list)
 /*----------------------------------------------------------------------
   The following is a String Table Facilities.
   ----------------------------------------------------------------------*/
+#ifdef USE_STRTBL
 
 #define STRTBLSIZE 255
 
@@ -624,8 +627,11 @@ static unsigned int hashStr(const char *s)
     return h % STRTBLSIZE;
 }
 
+#endif
+
 DLLEXPORT(const char*) lookupStr(const char *s)
 {
+#ifdef USE_STRTBL
     StrItem *t;
     unsigned int h = hashStr(s);
     if ((t = strTbl[h]) != 0) {
@@ -640,10 +646,14 @@ DLLEXPORT(const char*) lookupStr(const char *s)
     s = dupStr(s,0);
     strTbl[h] = newStrItem(s,strTbl[h]);
     return s;
+#else
+  return dupStr(s, 0);
+#endif
 }
 
 DLLEXPORT(void) unUseStr(const char *s)
 {
+#ifdef USE_STRTBL
     StrItem *t, *p;
     unsigned int h = hashStr(s);
     if ((t = strTbl[h]) != 0) {
@@ -667,10 +677,14 @@ DLLEXPORT(void) unUseStr(const char *s)
 	    t = t->next;
 	    } while (t);
 	}
+#else
+  deleteStr (s);
+#endif
 }
 
 DLLEXPORT(void) cleanStrTbl()
 {
+#ifdef USE_STRTBL
     int i;
     for (i=0; i<STRTBLSIZE;i++) {
 	StrItem *t = strTbl[i];
@@ -683,6 +697,7 @@ DLLEXPORT(void) cleanStrTbl()
 	    } while (t);
 	strTbl[i] = 0;
 	}
+#endif
 }
 
 

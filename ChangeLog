@@ -1,3 +1,14 @@
+2002-04-01  Chris Toshok  <toshok@ximian.com>
+
+	* libversit/vobject.c (newStrItem): only include if USE_STRTBL is
+	defined.
+	(deleteStrItem): same.
+	(hashStr): same.
+	(lookupStr): if USE_STRTBL is defined, use existing behavior.  if
+	not defined, just dup the string.
+	(unUseStr): if USE_STRTBL is defined, use existing behavior.  if
+	not defined, just free the string.
+
 2002-04-01  Dan Winship  <danw@ximian.com>
 
 	Darwin/OS X portability from Max Horn <max@quendi.de>
