@@ -441,8 +441,11 @@ imap_rename (CamelFolder *folder, const char *new)
 	CamelImapFolder *imap_folder = (CamelImapFolder *)folder;
 	CamelImapStore *imap_store = (CamelImapStore *)folder->parent_store;
 	char *folder_dir, *summary_path;
+	char *folders;
 
-	folder_dir = e_path_to_physical (imap_store->storage_path, new);
+	folders = g_strconcat (imap_store->storage_path, "/folders", NULL);
+	folder_dir = e_path_to_physical (folders, new);
+	g_free (folders);
 	summary_path = g_strdup_printf("%s/summary", folder_dir);
 
 	CAMEL_IMAP_FOLDER_LOCK (folder, cache_lock);
