@@ -79,6 +79,7 @@ free_container (struct _container **c)
 	memset ((*c), 0, sizeof (struct _container));
 	if ((flags = g_hash_table_lookup (allocedht, (*c))) == NULL)
 		printf ("** threading mem debug: freeing unalloced entry %p?\n", (*c));
+	d(printf("** Freeing container %p\n", (*c)));
 	g_hash_table_insert (allocedht, (*c), GITP(GPTI(flags)|FREED));
 	g_free ((*c));
 	(*c) = NULL;
@@ -458,13 +459,29 @@ remove_node(struct _container **list, struct _container *node, struct _container
 	/* this is intentional, even if it looks funny */
 	c = (struct _container *)list;
 	while (c->next) {
+		/* we do this to catch cases where the container in the
+		 * subject table is not toplevel. */
+		if (c->next->message == NULL) {
+			/* yeah, this pointer casting trick is evil */
+			c = (struct _container *) &(c->next->child);
+		}
+
 		if (c->next == node) {
 			if (clast && *clast == c->next)
 				*clast = c;
 			c->next = c->next->next;
 			break;
 		}
-		c = c->next;
+
+		/* this could theoretically cause a problem when c = &(head)
+		 * and c->next->next == NULL, because then c->parent wouldn't be 
+		 * valid. But that would only happen in a one-message mailbox,
+		 * in which case remove_node() wouldn't be called anyway.
+		 */
+		if (c->next->next == NULL && c->parent)
+			c = c->parent->next;
+		else
+			c = c->next;
 	}
 }
 
@@ -578,6 +595,7 @@ static void thread_messages_free(struct _container *c)
 {
 	struct _container *n;
 
+	d(printf("** thread_messages_free: %p\n", c));
 	/* FIXME: ok, for some reason this doesn't work .. investigate later ... */
 
 	while (c) {

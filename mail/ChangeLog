@@ -1,3 +1,10 @@
+2000-08-22  Peter Williams  <peterw@helixcode.com>
+
+	* message-thread.c (free_container): Extra debug print.
+	(remove_node): Handle the case of empty containers holding the child
+	that we're interested in.
+	(thread_messages_free): Extra debug print.
+
 2000-08-20  Jeremy Wise  <jwise@pathwaynet.com>
 	* folder-browser.c: (fb_resize_cb) Added function to monitor resize
 	of the e_paned in the main view.
