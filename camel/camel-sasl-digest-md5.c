@@ -528,16 +528,6 @@ digest_hex (guchar *digest, guchar hex[33])
 		sprintf (p, "%.2x", *s);
 }
 
-static void
-digest_kd (const char *k, const char *s, guchar digest[16])
-{
-	char *str;
-	
-	str = g_strdup_printf ("%s:%s", k, s);
-	md5_get_digest (str, strlen (str), digest);
-	g_free (str);
-}
-
 static char *
 digest_uri_to_string (struct _DigestURI *uri)
 {
@@ -551,57 +541,71 @@ static void
 compute_response (struct _DigestResponse *resp, const char *passwd, gboolean client, guchar out[33])
 {
 	guchar hex_a1[33], hex_a2[33];
-	GByteArray *buffer;
 	guchar digest[16];
+	MD5Context ctx;
 	char *buf;
 	
 	/* compute A1 */
-	buf = g_strdup_printf ("%s:%s:%s", resp->username, resp->realm, passwd);
-	md5_get_digest (buf, strlen (buf), digest);
-	g_free (buf);
-	if (resp->authzid)
-		buf = g_strdup_printf (":%s:%s:%s", resp->nonce, resp->cnonce, resp->authzid);
-	else
-		buf = g_strdup_printf (":%s:%s", resp->nonce, resp->cnonce);
-	buffer = g_byte_array_new ();
-	g_byte_array_append (buffer, digest, 16);
-	g_byte_array_append (buffer, buf, strlen (buf));
-	g_free (buf);
+	md5_init (&ctx);
+	md5_update (&ctx, resp->username, strlen (resp->username));
+	md5_update (&ctx, ":", 1);
+	md5_update (&ctx, resp->realm, strlen (resp->realm));
+	md5_update (&ctx, ":", 1);
+	md5_update (&ctx, passwd, strlen (passwd));
+	md5_final (&ctx, digest);
 	
-	/* now hash and hex A1 */
-	md5_get_digest (buffer->data, buffer->len, digest);
-	g_byte_array_free (buffer, TRUE);
+	md5_init (&ctx);
+	md5_update (&ctx, digest, 16);
+	md5_update (&ctx, ":", 1);
+	md5_update (&ctx, resp->nonce, strlen (resp->nonce));
+	md5_update (&ctx, ":", 1);
+	md5_update (&ctx, resp->cnonce, strlen (resp->cnonce));
+	if (resp->authzid) {
+		md5_update (&ctx, ":", 1);
+		md5_update (&ctx, resp->authzid, strlen (resp->authzid));
+	}
+	
+	/* hexify A1 */
+	md5_final (&ctx, digest);
 	digest_hex (digest, hex_a1);
 	
 	/* compute A2 */
-	buffer = g_byte_array_new ();
+	md5_init (&ctx);
 	if (client) {
-		g_byte_array_append (buffer, "AUTHENTICATE:", strlen ("AUTHENTICATE:"));
-		buf = digest_uri_to_string (resp->uri);
-		g_byte_array_append (buffer, buf, strlen (buf));
-		g_free (buf);
+		/* we are calculating the client response */
+		md5_update (&ctx, "AUTHENTICATE:", strlen ("AUTHENTICATE:"));
 	} else {
 		/* we are calculating the server rspauth */
-		g_byte_array_append (buffer, ":", 1);
-		buf = digest_uri_to_string (resp->uri);
-		g_byte_array_append (buffer, buf, strlen (buf));
-		g_free (buf);
+		md5_update (&ctx, ":", 1);
 	}
 	
+	buf = digest_uri_to_string (resp->uri);
+	md5_update (&ctx, buf, strlen (buf));
+	g_free (buf);
+	
 	if (resp->qop == QOP_AUTH_INT || resp->qop == QOP_AUTH_CONF)
-		g_byte_array_append (buffer, ":00000000000000000000000000000000",
-				     strlen (":00000000000000000000000000000000"));
-	/* now hash and hex A2 */
-	md5_get_digest (buffer->data, buffer->len, digest);
-	g_byte_array_free (buffer, TRUE);
+		md5_update (&ctx, ":00000000000000000000000000000000", 33);
+	
+	/* now hexify A2 */
+	md5_final (&ctx, digest);
 	digest_hex (digest, hex_a2);
 	
 	/* compute KD */
-	buf = g_strdup_printf ("%s:%s:%s:%s:%s", resp->nonce, resp->nc, resp->cnonce,
-			       qop_to_string (resp->qop), hex_a2);
-	digest_kd (hex_a1, buf, digest);
+	md5_init (&ctx);
+	md5_update (&ctx, hex_a1, 32);
+	md5_update (&ctx, ":", 1);
+	md5_update (&ctx, resp->nonce, strlen (resp->nonce));
+	md5_update (&ctx, ":", 1);
+	md5_update (&ctx, resp->nc, 8);
+	md5_update (&ctx, ":", 1);
+	md5_update (&ctx, resp->cnonce, strlen (resp->cnonce));
+	md5_update (&ctx, ":", 1);
+	md5_update (&ctx, qop_to_string (resp->qop), strlen (qop_to_string (resp->qop)));
+	md5_update (&ctx, ":", 1);
+	md5_update (&ctx, hex_a2, 32);
+	md5_final (&ctx, digest);
+	
 	digest_hex (digest, out);
-	g_free (buf);
 }
 
 static struct _DigestResponse *
@@ -615,7 +619,7 @@ generate_response (struct _DigestChallenge *challenge, struct hostent *host,
 	resp = g_new0 (struct _DigestResponse, 1);
 	resp->username = g_strdup (user);
 	/* FIXME: we should use the preferred realm */
-	if (challenge->realms)
+	if (challenge->realms && challenge->realms->len > 0)
 		resp->realm = g_strdup (challenge->realms->pdata[0]);
 	else
 		resp->realm = g_strdup ("");

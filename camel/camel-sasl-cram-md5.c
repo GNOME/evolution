@@ -89,16 +89,16 @@ cram_md5_challenge (CamelSasl *sasl, GByteArray *token, CamelException *ex)
 	guchar opad[64];
 	MD5Context ctx;
 	int i, pw_len;
-
+	
 	/* Need to wait for the server */
 	if (!token)
 		return NULL;
-
+	
 	g_return_val_if_fail (sasl->service->url->passwd != NULL, NULL);
-
+	
 	memset (ipad, 0, sizeof (ipad));
 	memset (opad, 0, sizeof (opad));
-
+	
 	passwd = sasl->service->url->passwd;
 	pw_len = strlen (passwd);
 	if (pw_len <= 64) {
@@ -108,31 +108,31 @@ cram_md5_challenge (CamelSasl *sasl, GByteArray *token, CamelException *ex)
 		md5_get_digest (passwd, pw_len, ipad);
 		memcpy (opad, ipad, 16);
 	}
-
+	
 	for (i = 0; i < 64; i++) {
 		ipad[i] ^= 0x36;
 		opad[i] ^= 0x5c;
 	}
-
+	
 	md5_init (&ctx);
 	md5_update (&ctx, ipad, 64);
 	md5_update (&ctx, token->data, token->len);
 	md5_final (&ctx, digest);
-
+	
 	md5_init (&ctx);
 	md5_update (&ctx, opad, 64);
 	md5_update (&ctx, digest, 16);
 	md5_final (&ctx, digest);
-
+	
 	/* lowercase hexify that bad-boy... */
 	for (s = digest, p = md5asc; p < md5asc + 32; s++, p += 2)
 		sprintf (p, "%.2x", *s);
-
+	
 	ret = g_byte_array_new ();
 	g_byte_array_append (ret, sasl->service->url->user, strlen (sasl->service->url->user));
 	g_byte_array_append (ret, " ", 1);
 	g_byte_array_append (ret, md5asc, 32);
- 
+	
 	sasl->authenticated = TRUE;
 	
 	return ret;

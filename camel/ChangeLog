@@ -1,3 +1,8 @@
+2001-03-06  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-sasl-digest-md5.c (compute_response): Redone so as to save
+	on memory allocations and speed.
+
 2001-03-05  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-sasl-plain.c (plain_challenge): Don't return NULL if the
