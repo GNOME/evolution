@@ -20,3 +20,4 @@ Evolution-Composer-skels.c
 Evolution-Composer-stubs.c
 Evolution-Composer.h
 GNOME_Evolution_Calendar.server
+GNOME_Evolution_Calendar.server.in
