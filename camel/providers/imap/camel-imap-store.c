@@ -1103,16 +1103,9 @@ static void
 rename_folder (CamelStore *store, const char *old_name, const char *new_name, CamelException *ex)
 {
 	CamelImapStore *imap_store = CAMEL_IMAP_STORE (store);
-	CamelFolderInfo *old_fi, *new_fi;
 	CamelImapResponse *response;
-	
+
 	if (!camel_disco_store_check_online (CAMEL_DISCO_STORE (store), ex))
-		return;
-	
-	old_fi = get_folder_info_online (store, old_name, CAMEL_STORE_FOLDER_INFO_FAST |
-					 CAMEL_STORE_FOLDER_INFO_RECURSIVE, ex);
-	
-	if (old_fi == NULL)
 		return;
 	
 	/* make sure this folder isn't currently SELECTed - it's
@@ -1129,20 +1122,10 @@ rename_folder (CamelStore *store, const char *old_name, const char *new_name, Ca
 	} else
 		return;
 	
-	response = camel_imap_command (imap_store, NULL, ex, "RENAME %F %F",
-				       old_name, new_name);
+	response = camel_imap_command(imap_store, NULL, ex, "RENAME %F %F", old_name, new_name);
 	
-	if (response) {
+	if (response)
 		camel_imap_response_free (imap_store, response);
-		
-		new_fi = get_folder_info_online (store, new_name, CAMEL_STORE_FOLDER_INFO_FAST |
-						 CAMEL_STORE_FOLDER_INFO_RECURSIVE, ex);
-		
-		if (new_fi == NULL)
-			return;
-		
-		/* emit the renamed event */
-	}
 }
 
 static CamelFolderInfo *

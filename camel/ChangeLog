@@ -1,3 +1,37 @@
+2001-10-27    <NotZed@Ximian.com>
+
+	* providers/imap/camel-imap-store.c (rename_folder): Finished
+	implementation.
+
+	* providers/local/camel-local-folder.c (local_rename): Implement
+	local rename of folder objects.
+
+2001-10-26    <NotZed@Ximian.com>
+
+	* camel-vee-folder.c (camel_vee_folder_class_init): Hook into
+	rename function.
+	(vee_rename): Implement the veefolder rename function.
+	(camel_vee_folder_class_init): 
+	(folder_changed_change): Kill a warning with a cast.
+
+	* camel-vee-store.c (vee_rename_folder): Emit a folder_renamed
+	event properly, also call parent to do some rename stuff.
+
+	* camel-store.h: Added a CamelRenameInfo for the rename event.
+
+	* camel-folder.c (camel_folder_rename): New function to rename a
+	folder object.
+	(camel_folder_class_init): Added a renamed event.
+	(folder_rename): Default impl, set full_name, and set name
+	assuming the dir separator is '/'.
+
+	* camel-store.c (camel_store_class_init): Added folder_renamed
+	event.
+	(camel_store_rename_folder): Rename an active folder object if we
+	have one, and update the folder table.
+	(rename_folder): Make a default implementation that handles
+	updating the folder tree.
+
 2001-10-26  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* providers/imap/camel-imap-store.c (delete_folder): Don't bother

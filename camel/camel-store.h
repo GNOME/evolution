@@ -51,6 +51,11 @@ typedef struct _CamelFolderInfo {
 	int unread_message_count;
 } CamelFolderInfo;
 
+/* Structure of rename event's event_data */
+typedef struct _CamelRenameInfo {
+	char *old_base;
+	struct _CamelFolderInfo *new;
+} CamelRenameInfo;
 
 #define CAMEL_STORE_TYPE     (camel_store_get_type ())
 #define CAMEL_STORE(obj)     (CAMEL_CHECK_CAST((obj), CAMEL_STORE_TYPE, CamelStore))

@@ -62,6 +62,7 @@ static GPtrArray *vee_search_by_uids(CamelFolder *folder, const char *expression
 
 static void vee_set_message_flags (CamelFolder *folder, const char *uid, guint32 flags, guint32 set);
 static void vee_set_message_user_flag (CamelFolder *folder, const char *uid, const char *name, gboolean value);
+static void vee_rename(CamelFolder *folder, const char *new);
 
 static void camel_vee_folder_class_init (CamelVeeFolderClass *klass);
 static void camel_vee_folder_init       (CamelVeeFolder *obj);
@@ -130,6 +131,8 @@ camel_vee_folder_class_init (CamelVeeFolderClass *klass)
 
 	folder_class->set_message_flags = vee_set_message_flags;
 	folder_class->set_message_user_flag = vee_set_message_user_flag;
+
+	folder_class->rename = vee_rename;
 }
 
 static void
@@ -749,6 +752,16 @@ vee_move_messages_to (CamelFolder *folder, GPtrArray *uids, CamelFolder *dest, C
 	}
 }
 
+static void vee_rename(CamelFolder *folder, const char *new)
+{
+	CamelVeeFolder *vf = (CamelVeeFolder *)folder;
+
+	g_free(vf->vname);
+	vf->vname = g_strdup(new);
+
+	((CamelFolderClass *)camel_vee_folder_parent)->rename(folder, new);
+}
+
 /* ********************************************************************** *
    utility functions */
 
@@ -1320,7 +1333,7 @@ folder_changed_change(CamelSession *session, CamelSessionThreadMsg *msg)
 			strcpy(vuid+8, uid);
 			vinfo = (CamelVeeMessageInfo *)camel_folder_summary_uid(folder->summary, vuid);
 			if (vinfo == NULL)
-				g_ptr_array_add(newchanged, uid);
+				g_ptr_array_add(newchanged, (char *)uid);
 			else
 				camel_folder_summary_info_free(folder->summary, (CamelMessageInfo *)vinfo);
 		}

@@ -65,6 +65,8 @@ static GPtrArray *local_search_by_expression(CamelFolder *folder, const char *ex
 static GPtrArray *local_search_by_uids(CamelFolder *folder, const char *expression, GPtrArray *uids, CamelException *ex);
 static void local_search_free(CamelFolder *folder, GPtrArray * result);
 
+static void local_rename(CamelFolder *folder, const char *newname);
+
 static void local_finalize(CamelObject * object);
 
 static void
@@ -83,6 +85,8 @@ camel_local_folder_class_init(CamelLocalFolderClass * camel_local_folder_class)
 	camel_folder_class->search_by_expression = local_search_by_expression;
 	camel_folder_class->search_by_uids = local_search_by_uids;
 	camel_folder_class->search_free = local_search_free;
+
+	camel_folder_class->rename = local_rename;
 
 	camel_local_folder_class->lock = local_lock;
 	camel_local_folder_class->unlock = local_unlock;
@@ -306,6 +310,30 @@ local_expunge(CamelFolder *folder, CamelException *ex)
 	/* Just do a sync with expunge, serves the same purpose */
 	/* call the callback directly, to avoid locking problems */
 	CAMEL_FOLDER_CLASS (CAMEL_OBJECT_GET_CLASS(folder))->sync(folder, TRUE, ex);
+}
+
+static void
+local_rename(CamelFolder *folder, const char *newname)
+{
+	CamelLocalFolder *lf = (CamelLocalFolder *)folder;
+
+	d(printf("renaming local folder paths to '%s'\n", newname));
+
+	/* Sync? */
+
+	g_free(lf->folder_path);
+	g_free(lf->summary_path);
+	g_free(lf->index_path);
+	lf->folder_path = g_strdup_printf("%s/%s", lf->base_path, newname);
+	lf->summary_path = g_strdup_printf("%s/%s.ev-summary", lf->base_path, newname);
+	lf->index_path = g_strdup_printf("%s/%s.ibex", lf->base_path, newname);
+
+	/* FIXME: Poke some internals, sigh */
+	camel_folder_summary_set_filename(folder->summary, lf->summary_path);
+	g_free(((CamelLocalSummary *)folder->summary)->folder_path);
+	((CamelLocalSummary *)folder->summary)->folder_path = g_strdup(lf->folder_path);
+
+	parent_class->rename(folder, newname);
 }
 
 static GPtrArray *

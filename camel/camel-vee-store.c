@@ -27,6 +27,8 @@
 
 #include <string.h>
 
+#define d(x)
+
 static CamelFolder *vee_get_folder (CamelStore *store, const char *folder_name, guint32 flags, CamelException *ex);
 static void vee_delete_folder(CamelStore *store, const char *folder_name, CamelException *ex);
 static void vee_rename_folder(CamelStore *store, const char *old, const char *new, CamelException *ex);
@@ -290,7 +292,8 @@ static void
 vee_rename_folder(CamelStore *store, const char *old, const char *new, CamelException *ex)
 {
 	CamelFolder *folder;
-	char *key, *oldname, *full_oldname;
+
+	d(printf("vee rename folder '%s' '%s'\n", old, new));
 
 	if (strcmp(old, CAMEL_UNMATCHED_NAME) == 0) {
 		camel_exception_setv(ex, CAMEL_EXCEPTION_STORE_NO_FOLDER,
@@ -298,31 +301,12 @@ vee_rename_folder(CamelStore *store, const char *old, const char *new, CamelExce
 		return;
 	}
 
+	/* See if it exists, for vfolders, all folders are in the folders hash */
 	CAMEL_STORE_LOCK(store, cache_lock);
-	if (g_hash_table_lookup_extended(store->folders, old, (void **)&key, (void **)&folder)) {
-		g_hash_table_remove(store->folders, key);
-		g_free(key);
-
-		/* this should really be atomic */
-		oldname = folder->name;
-		full_oldname = folder->full_name;
-		key = folder->name;
-		folder->full_name = g_strdup(new);
-		key = strrchr(new, '/');
-		key = key?key+1:(char *)new;
-		folder->name = g_strdup(key);
-		g_hash_table_insert(store->folders, g_strdup(new), folder);
-
-		g_free(oldname);
-		g_free(full_oldname);
-		CAMEL_STORE_UNLOCK(store, cache_lock);
-
-		
-	} else {
-		CAMEL_STORE_UNLOCK(store, cache_lock);
-
+	if ((folder = g_hash_table_lookup(store->folders, old)) == NULL) {
 		camel_exception_setv(ex, CAMEL_EXCEPTION_STORE_NO_FOLDER,
-				     _("Cannot rename folder: %s: No such folder"), new);
+				     _("Cannot rename folder: %s: No such folder"), old);
 	}
-}
 
+	CAMEL_STORE_UNLOCK(store, cache_lock);
+}

@@ -104,6 +104,7 @@ camel_store_class_init (CamelStoreClass *camel_store_class)
 
 	camel_object_class_declare_event(camel_object_class, "folder_created", NULL);
 	camel_object_class_declare_event(camel_object_class, "folder_deleted", NULL);
+	camel_object_class_declare_event(camel_object_class, "folder_renamed", NULL);
 	camel_object_class_declare_event(camel_object_class, "folder_subscribed", NULL);
 	camel_object_class_declare_event(camel_object_class, "folder_unsubscribed", NULL);
 }
@@ -267,7 +268,6 @@ camel_store_get_folder (CamelStore *store, const char *folder_name, guint32 flag
 	return folder;
 }
 
-
 static CamelFolderInfo *
 create_folder (CamelStore *store, const char *parent_name,
 	       const char *folder_name, CamelException *ex)
@@ -365,13 +365,30 @@ camel_store_delete_folder (CamelStore *store, const char *folder_name, CamelExce
 	CAMEL_STORE_UNLOCK(store, folder_lock);
 }
 
-
 static void
-rename_folder (CamelStore *store, const char *old_name,
-	       const char *new_name, CamelException *ex)
+rename_folder (CamelStore *store, const char *old_name, const char *new_name, CamelException *ex)
 {
 	w(g_warning ("CamelStore::rename_folder not implemented for `%s'",
 		     camel_type_to_name (CAMEL_OBJECT_GET_TYPE (store))));
+}
+
+struct _get_info {
+	CamelStore *store;
+	GPtrArray *folders;
+	const char *old;
+	const char *new;
+};
+
+static void
+get_subfolders(char *key, CamelFolder *folder, struct _get_info *info)
+{
+	/* If this is a subfolder of the one to be renamed, we need to get it, AND lock it */
+	if (strncmp(folder->full_name, info->old, strlen(info->old)) == 0) {
+		d(printf("Found subfolder of '%s' == '%s'\n", info->old, folder->full_name));
+		camel_object_ref((CamelObject *)folder);
+		g_ptr_array_add(info->folders, folder);
+		CAMEL_FOLDER_LOCK(folder, lock);
+	}
 }
 
 /**
@@ -387,32 +404,79 @@ void
 camel_store_rename_folder (CamelStore *store, const char *old_name, const char *new_name, CamelException *ex)
 {
 	char *key;
-	CamelFolder *folder;
+	CamelFolder *folder, *oldfolder;
+	struct _get_info info = { store, NULL, old_name, new_name };
+	int i;
+
+	printf("store rename folder '%s' '%s'\n", old_name, new_name);
 
 	if (strcmp(old_name, new_name) == 0)
 		return;
 
+	info.folders = g_ptr_array_new();
+
 	CAMEL_STORE_LOCK(store, folder_lock);
-	CS_CLASS (store)->rename_folder (store, old_name, new_name, ex);
-	
-	/* remove the old name from the cache if it is there */
-	CAMEL_STORE_LOCK(store, cache_lock);
-	if (g_hash_table_lookup_extended(store->folders, old_name, (void **)&key, (void **)&folder)) {
-		g_hash_table_remove(store->folders, key);
-		g_free(key);
-		
-		camel_object_ref (CAMEL_OBJECT (folder));
-		
-		CAMEL_STORE_UNLOCK(store, cache_lock);
-		
-		if (store->vtrash)
-			camel_vee_folder_remove_folder (CAMEL_VEE_FOLDER (store->vtrash), folder);
-		camel_object_unref (CAMEL_OBJECT (folder));
-	} else {
+
+	/* If the folder is open (or any subfolders of the open folder)
+	   We need to rename them atomically with renaming the actual folder path */
+	if (store->folders) {
+		CAMEL_STORE_LOCK(store, cache_lock);
+		/* Get all subfolders that are about to have their name changed */
+		g_hash_table_foreach(store->folders, (GHFunc)get_subfolders, &info);
 		CAMEL_STORE_UNLOCK(store, cache_lock);
 	}
 
+	/* Now try the real rename (will emit renamed event) */
+	CS_CLASS (store)->rename_folder (store, old_name, new_name, ex);
+
+	/* If it worked, update all open folders/unlock them */
+	if (!camel_exception_is_set(ex)) {
+		guint32 flags = CAMEL_STORE_FOLDER_INFO_RECURSIVE;
+		CamelRenameInfo reninfo;
+
+		/* Emit changed signal */
+		if (store->flags & CAMEL_STORE_SUBSCRIPTIONS)
+			flags |= CAMEL_STORE_FOLDER_INFO_SUBSCRIBED;
+		
+		reninfo.old_base = (char *)old_name;
+		reninfo.new = ((CamelStoreClass *)((CamelObject *)store)->classfuncs)->get_folder_info(store, new_name, flags, ex);
+		if (info.new != NULL) {
+			camel_object_trigger_event(CAMEL_OBJECT(store), "folder_renamed", &reninfo);
+			((CamelStoreClass *)((CamelObject *)store)->classfuncs)->free_folder_info(store, reninfo.new);
+		}
+
+		CAMEL_STORE_LOCK(store, cache_lock);
+		for (i=0;i<info.folders->len;i++) {
+			char *new;
+
+			folder = info.folders->pdata[i];
+
+			new = g_strdup_printf("%s%s", new_name, folder->full_name+strlen(old_name));
+
+			if (g_hash_table_lookup_extended(store->folders, folder->full_name, (void **)&key, (void **)&oldfolder)) {
+				g_hash_table_remove(store->folders, key);
+				g_free(key);
+				g_hash_table_insert(store->folders, new, oldfolder);
+			}
+
+			camel_folder_rename(folder, new);
+
+			CAMEL_FOLDER_UNLOCK(folder, lock);
+			camel_object_unref((CamelObject *)folder);
+		}
+		CAMEL_STORE_UNLOCK(store, cache_lock);
+	} else {
+		/* Failed, just unlock our folders for re-use */
+		for (i=0;i<info.folders->len;i++) {
+			folder = info.folders->pdata[i];
+			CAMEL_FOLDER_UNLOCK(folder, lock);
+			camel_object_unref((CamelObject *)folder);
+		}
+	}
+
 	CAMEL_STORE_UNLOCK(store, folder_lock);
+
+	g_ptr_array_free(info.folders, TRUE);
 }
 
 

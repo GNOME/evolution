@@ -156,6 +156,7 @@ typedef struct {
 				  CamelException *ex);
 	
 	void (*delete)           (CamelFolder *folder);
+	void (*rename)           (CamelFolder *folder, const char *newname);
 	
 	void     (*freeze)    (CamelFolder *folder);
 	void     (*thaw)      (CamelFolder *folder);
@@ -273,6 +274,7 @@ void               camel_folder_move_messages_to       (CamelFolder *source,
 							CamelException *ex);
 
 void               camel_folder_delete                 (CamelFolder *folder);
+void               camel_folder_rename                 (CamelFolder *folder, const char *new);
 
 /* stop/restart getting events */
 void               camel_folder_freeze                (CamelFolder *folder);

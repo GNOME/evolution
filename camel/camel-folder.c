@@ -87,29 +87,21 @@ static GPtrArray        *get_summary         (CamelFolder *folder);
 static void              free_summary        (CamelFolder *folder,
 					      GPtrArray *array);
 
-static CamelMimeMessage *get_message         (CamelFolder *folder,
-					      const gchar *uid,
-					      CamelException *ex);
+static CamelMimeMessage *get_message         (CamelFolder *folder, const gchar *uid, CamelException *ex);
 
-static CamelMessageInfo *get_message_info	(CamelFolder *folder, const char *uid);
-static void		 free_message_info	(CamelFolder *folder, CamelMessageInfo *info);
-static void		 ref_message_info	(CamelFolder *folder, CamelMessageInfo *info);
+static CamelMessageInfo *get_message_info    (CamelFolder *folder, const char *uid);
+static void		 free_message_info   (CamelFolder *folder, CamelMessageInfo *info);
+static void		 ref_message_info    (CamelFolder *folder, CamelMessageInfo *info);
 
 static GPtrArray      *search_by_expression  (CamelFolder *folder, const char *exp, CamelException *ex);
 static GPtrArray      *search_by_uids	     (CamelFolder *folder, const char *exp, GPtrArray *uids, CamelException *ex);
 static void            search_free           (CamelFolder * folder, GPtrArray *result);
 
-static void            copy_messages_to       (CamelFolder *source,
-					       GPtrArray *uids,
-					       CamelFolder *dest,
-					       CamelException *ex);
+static void            copy_messages_to      (CamelFolder *source, GPtrArray *uids, CamelFolder *dest, CamelException *ex);
+static void            move_messages_to      (CamelFolder *source, GPtrArray *uids, CamelFolder *dest, CamelException *ex);
 
-static void            move_messages_to       (CamelFolder *source,
-					       GPtrArray *uids,
-					       CamelFolder *dest,
-					       CamelException *ex);
-
-static void            delete                 (CamelFolder *folder);
+static void            delete                (CamelFolder *folder);
+static void            folder_rename         (CamelFolder *folder, const char *new);
 
 static void            freeze                (CamelFolder *folder);
 static void            thaw                  (CamelFolder *folder);
@@ -159,6 +151,7 @@ camel_folder_class_init (CamelFolderClass *camel_folder_class)
 	camel_folder_class->copy_messages_to = copy_messages_to;
 	camel_folder_class->move_messages_to = move_messages_to;
 	camel_folder_class->delete = delete;
+	camel_folder_class->rename = folder_rename;
 	camel_folder_class->freeze = freeze;
 	camel_folder_class->thaw = thaw;
 	camel_folder_class->is_frozen = is_frozen;
@@ -169,6 +162,7 @@ camel_folder_class_init (CamelFolderClass *camel_folder_class)
 	camel_object_class_declare_event (camel_object_class,
 					  "message_changed", message_changed);
 	camel_object_class_declare_event (camel_object_class, "deleted", NULL);
+	camel_object_class_declare_event (camel_object_class, "renamed", NULL);
 }
 
 static void
@@ -1324,7 +1318,7 @@ delete (CamelFolder *folder)
  * camel_folder_delete:
  * @folder: folder
  *
- * Marks a folder as deleted and performs any required cleanup.
+ * Marks a folder object as deleted and performs any required cleanup.
  **/
 void
 camel_folder_delete (CamelFolder *folder)
@@ -1340,10 +1334,47 @@ camel_folder_delete (CamelFolder *folder)
 	folder->folder_flags |= CAMEL_FOLDER_HAS_BEEN_DELETED;
 	
 	CF_CLASS (folder)->delete (folder);
-	
+
 	CAMEL_FOLDER_UNLOCK (folder, lock);
-	
+
 	camel_object_trigger_event (CAMEL_OBJECT (folder), "deleted", NULL);
+}
+
+static void
+folder_rename (CamelFolder *folder, const char *new)
+{
+	char *tmp;
+
+	printf("CamelFolder:rename('%s')\n", new);
+
+	g_free(folder->full_name);
+	folder->full_name = g_strdup(new);
+	g_free(folder->name);
+	tmp = strrchr(new, '/');
+	folder->name = g_strdup(tmp?tmp+1:new);
+}
+
+/**
+ * camel_folder_rename:
+ * @folder: 
+ * @new: 
+ * 
+ * Mark an active folder object as renamed.
+ *
+ * NOTE: This is an internal function used by camel stores, no locking
+ * is performed on the folder.
+ **/
+void
+camel_folder_rename(CamelFolder *folder, const char *new)
+{
+	char *old;
+
+	old = g_strdup(folder->full_name);
+
+	CF_CLASS (folder)->rename(folder, new);
+
+	camel_object_trigger_event (CAMEL_OBJECT (folder), "renamed", old);
+	g_free(old);
 }
 
 static void
