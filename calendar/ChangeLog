@@ -1,3 +1,9 @@
+2002-09-09  Rodrigo Moya <rodrigo@ximian.com>
+
+	* gui/gnome-cal.c (client_cal_opened_cb): display status messages for
+	all operations we make, so that when using remote slow backends, so
+	that users have always indication of what's happening.
+
 2002-09-06  JP Rosevear  <jpr@ximian.com>
 
 	* gui/gnome-cal.c (gnome_calendar_edit_object): kill warning

@@ -1554,17 +1554,10 @@ client_cal_opened_cb (CalClient *client, CalClientOpenStatus status, gpointer da
 {
 	GnomeCalendar *gcal;
 	GnomeCalendarPrivate *priv;
+	char *msg;
 
 	gcal = GNOME_CALENDAR (data);
 	priv = gcal->priv;
-
-	if (client == priv->client) {
-		e_week_view_set_status_message (E_WEEK_VIEW (priv->week_view), NULL);
-	}
-	else if (client == priv->task_pad_client) {
-		calendar_model_set_status_message (
-			e_calendar_table_get_model (E_CALENDAR_TABLE (priv->todo)), NULL);
-	}
 
 	switch (status) {
 	case CAL_CLIENT_OPEN_SUCCESS:
@@ -1579,6 +1572,16 @@ client_cal_opened_cb (CalClient *client, CalClientOpenStatus status, gpointer da
 		}
 
 		/* add the alarms for this client */
+		msg = g_strdup_printf (_("Adding alarms for %s"), cal_client_get_uri (client));
+		if (client == priv->client) {
+			e_week_view_set_status_message (E_WEEK_VIEW (priv->week_view), msg);
+		}
+		else if (client == priv->task_pad_client) {
+			calendar_model_set_status_message (
+				e_calendar_table_get_model (E_CALENDAR_TABLE (priv->todo)), msg);
+		}
+		g_free (msg);
+
 		add_alarms (cal_client_get_uri (client));
 		break;
 
@@ -1602,6 +1605,14 @@ client_cal_opened_cb (CalClient *client, CalClientOpenStatus status, gpointer da
 	default:
 		g_assert_not_reached ();
 		return;
+	}
+
+	if (client == priv->client) {
+		e_week_view_set_status_message (E_WEEK_VIEW (priv->week_view), NULL);
+	}
+	else if (client == priv->task_pad_client) {
+		calendar_model_set_status_message (
+			e_calendar_table_get_model (E_CALENDAR_TABLE (priv->todo)), NULL);
 	}
 }
 
