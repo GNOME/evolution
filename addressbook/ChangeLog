@@ -1,5 +1,10 @@
 2001-01-03  Michael Meeks  <michael@helixcode.com>
 
+	* gui/widgets/e-addressbook-model.c (get_view): check
+	capabilities is valid before doing a strstr.
+
+2001-01-03  Michael Meeks  <michael@helixcode.com>
+
 	* backend/pas/pas-backend-file.c (pas_backend_file_search):
 	g_strdup things we g_free.
 

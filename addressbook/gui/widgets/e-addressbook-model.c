@@ -317,19 +317,19 @@ book_view_loaded (EBook *book, EBookStatus status, EBookView *book_view, gpointe
 }
 
 static gboolean
-get_view(EAddressbookModel *model)
+get_view (EAddressbookModel *model)
 {
 	if (model->book && model->query) {
 		if (model->first_get_view) {
 			char *capabilities;
-			capabilities = e_book_get_static_capabilities(model->book);
-			if (strstr(capabilities, "local")) {
-				e_book_get_book_view(model->book, model->query, book_view_loaded, model);
+			capabilities = e_book_get_static_capabilities (model->book);
+			if (capabilities && strstr (capabilities, "local")) {
+				e_book_get_book_view (model->book, model->query, book_view_loaded, model);
 			}
 			model->first_get_view = FALSE;
 		}
 		else
-			e_book_get_book_view(model->book, model->query, book_view_loaded, model);
+			e_book_get_book_view (model->book, model->query, book_view_loaded, model);
 	}
 
 	model->get_view_idle = 0;
