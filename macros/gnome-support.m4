@@ -40,22 +40,6 @@ AC_DEFUN([GNOME_SUPPORT_CHECKS],[
   # for `scandir'
   AC_HEADER_DIRENT
 
-#  AC_CACHE_CHECK([for program_invocation_short_name], gnome_cv_short_name, [
-#    AC_TRY_LINK([#include <errno.h>],[
-#      char *foo = program_invocation_short_name],
-#      gnome_cv_short_name=yes, gnome_cv_short_name=no)])
-#  if test "$gnome_cv_short_name" = yes; then
-#     AC_DEFINE(HAVE_PROGRAM_INVOCATION_SHORT_NAME)
-#  fi
-
-#  AC_CACHE_CHECK([for program_invocation_name], gnome_cv_invocation_name, [
-#    AC_TRY_LINK([#include <errno.h>],[
-#      char *foo = program_invocation_name],
-#      gnome_cv_invocation_name=yes, gnome_cv_invocation_name=no)])
-#  if test "$gnome_cv_invocation_name" = yes; then
-#     AC_DEFINE(HAVE_PROGRAM_INVOCATION_NAME)
-#  fi
-
   # copied from `configure.in' of `libiberty'
   vars="program_invocation_short_name program_invocation_name sys_errlist"
   for v in $vars; do
