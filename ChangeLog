@@ -1,3 +1,8 @@
+2000-07-19  Fatih Demir	<kabalak@gmx.net>
+	
+	* evolution.desktop & data/evolution.desktop: Added
+		the Turkish desktop entries.
+
 2000-07-17  Federico Mena Quintero  <federico@helixcode.com>
 
 	* configure.in (EVOLUTION_DIR): Typo fix.
