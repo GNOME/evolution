@@ -13,6 +13,13 @@ typedef struct {
 
 extern GnumericCursorDef  gnumeric_cursors [];
 
-void    cursors_init     (void);
-void    cursors_shutdown (void);
+void    cursors_init      (void);
+void    cursors_shutdown  (void);
+
+#define cursor_set(win,c) \
+	gdk_window_set_cursor (win, gnumeric_cursors [c].cursor)
+
+#define cursor_set_widget(w,c) \
+	gdk_window_set_cursor (GTK_WIDGET (w)->window, gnumeric_cursors [c].cursor)
+
 #endif
