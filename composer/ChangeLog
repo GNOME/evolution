@@ -1,3 +1,9 @@
+2000-10-17  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* e-msg-composer.c (e_msg_composer_new_with_message): If the body
+	text was NULL, then don't bother turning it into HTML (besides, it
+	causes a nasty segfault).
+
 2000-10-15  Dan Winship  <danw@helixcode.com>
 
 	* Makefile.am: Move CPPFLAGS flags to INCLUDES to avoid bashing
