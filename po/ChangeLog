@@ -1,3 +1,13 @@
+2000-11-05  Michael Meeks  <michael@helixcode.com>
+
+	* POTFILES.in: update all of ui/*.h to ui/*.xml
+
+	* Makefile.i18npatch: sort out the xml bits.
+
+	* ui-extract.pl: add from Kenneth.
+
+	* update.pl: Update to the version in bonobo.
+
 2000-11-04  Zbigniew Chyla  <cyba@gnome.pl>
 
 	* pl.po: Updated Polish translation.
