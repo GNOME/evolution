@@ -1,3 +1,8 @@
+2003-02-23  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* e-account-list.c (gconf_accounts_changed): 'uid' should not be
+	const.
+
 2003-02-20  Not Zed  <NotZed@Ximian.com>
 
 	* e-account-list.c (e_account_list_get_default): helper to get the

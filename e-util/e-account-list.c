@@ -134,7 +134,7 @@ gconf_accounts_changed (GConfClient *client, guint cnxn_id,
 	EAccount *account;
 	EList *old_accounts;
 	EIterator *iter;
-	const char *uid;
+	char *uid;
 
 	old_accounts = e_list_duplicate (E_LIST (account_list));
 
