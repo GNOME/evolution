@@ -205,7 +205,7 @@ clone (FilterElement *fe)
 	FilterSource *cpy = filter_source_new ();
 	GList *i;
 
-	((FilterElement *)cpy)->name = g_strdup (fe->name);
+	((FilterElement *)cpy)->name = xmlStrdup (fe->name);
 
 	cpy->priv->current_url = g_strdup (fs->priv->current_url);
 

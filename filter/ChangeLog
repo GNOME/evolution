@@ -1,3 +1,10 @@
+2001-08-08  Radek Doulik  <rodo@ximian.com>
+
+	* filter-source.c (clone): use xmlStrdup rather than g_strdup
+
+	* filter-element.c (filter_element_finalise): don't mix g_free and
+	xmlAlloc
+
 2001-08-07  Not Zed  <NotZed@Ximian.com>
 
 	* filter-rule.c (filter_rule_finalise): Properly free the list of
