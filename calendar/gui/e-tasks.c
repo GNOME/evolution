@@ -539,7 +539,10 @@ e_tasks_complete_selected (ETasks *tasks)
 	priv = tasks->priv;
 
 	cal_table = E_CALENDAR_TABLE (priv->tasks_view);
+
+	set_status_message (tasks, _("Completing tasks..."));
 	e_calendar_table_complete_selected (cal_table);
+	set_status_message (tasks, NULL);
 }
 
 /**
@@ -560,7 +563,9 @@ e_tasks_delete_selected (ETasks *tasks)
 	priv = tasks->priv;
 
 	cal_table = E_CALENDAR_TABLE (priv->tasks_view);
+	set_status_message (tasks, _("Deleting selected objects..."));
 	e_calendar_table_delete_selected (cal_table);
+	set_status_message (tasks, NULL);
 }
 
 static char *

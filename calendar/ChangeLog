@@ -1,3 +1,9 @@
+2002-05-03  Rodrigo Moya <rodrigo@ximian.com>
+
+	* gui/e-tasks.c (e_tasks_delete_selected):
+	(e_tasks_complete_selected): show progress messages
+	on the status bar.
+
 2002-05-02  Rodrigo Moya <rodrigo@ximian.com>
 
 	* pcs/query.c: #include <gtk/gtkmain.h> to avoid warnings.
