@@ -35,7 +35,6 @@
 #include <string.h>
 #include <ctype.h>
 
-#include <gal/unicode/gunicode.h>
 #include "e-searching-tokenizer.h"
 
 #include "e-util/e-memory.h"
@@ -44,15 +43,16 @@
 #define d(x) 
 
 enum {
-	EST_MATCH_SIGNAL,
-	EST_LAST_SIGNAL
+	MATCH_SIGNAL,
+	LAST_SIGNAL
 };
-guint e_searching_tokenizer_signals[EST_LAST_SIGNAL] = { 0 };
 
-static void     e_searching_tokenizer_begin      (HTMLTokenizer *, gchar *);
+static guint signals[LAST_SIGNAL] = { 0, };
+
+static void     e_searching_tokenizer_begin      (HTMLTokenizer *, char *);
 static void     e_searching_tokenizer_end        (HTMLTokenizer *);
-static gchar   *e_searching_tokenizer_peek_token (HTMLTokenizer *);
-static gchar   *e_searching_tokenizer_next_token (HTMLTokenizer *);
+static char    *e_searching_tokenizer_peek_token (HTMLTokenizer *);
+static char    *e_searching_tokenizer_next_token (HTMLTokenizer *);
 static gboolean e_searching_tokenizer_has_more   (HTMLTokenizer *);
 
 static HTMLTokenizer *e_searching_tokenizer_clone (HTMLTokenizer *);
@@ -60,7 +60,7 @@ static HTMLTokenizer *e_searching_tokenizer_clone (HTMLTokenizer *);
 /*
   static const gchar *space_tags[] = { "br", NULL };*/
 
-GtkObjectClass *parent_class = NULL;
+static HTMLTokenizerClass *parent_class = NULL;
 
 /** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** **/
 
@@ -969,20 +969,20 @@ e_searching_tokenizer_destroy (GtkObject *obj)
 {
 	ESearchingTokenizer *st = E_SEARCHING_TOKENIZER (obj);
 	struct _ESearchingTokenizerPrivate *p = st->priv;
-
+	
 	search_info_free (p->primary);
 	search_info_free (p->secondary);
 	if (p->engine)
 		searcher_free(p->engine);
-
+	
 	/* again wtf? 
 	shared_state_unref (st->priv->shared);
 	*/
-
-	g_free(p);
-
-	if (parent_class->destroy)
-		parent_class->destroy (obj);
+	
+	g_free (p);
+	
+	if (GTK_OBJECT_CLASS (parent_class)->destroy)
+		GTK_OBJECT_CLASS (parent_class)->destroy (obj);
 }
 
 static void
@@ -990,28 +990,28 @@ e_searching_tokenizer_class_init (ESearchingTokenizerClass *klass)
 {
 	GtkObjectClass *obj_class = (GtkObjectClass *) klass;
 	HTMLTokenizerClass *tok_class = HTML_TOKENIZER_CLASS (klass);
-
-	e_searching_tokenizer_signals[EST_MATCH_SIGNAL] =
-		gtk_signal_new ("match",
-				GTK_RUN_LAST,
-				obj_class->type,
-				GTK_SIGNAL_OFFSET (ESearchingTokenizerClass, match),
-				gtk_marshal_NONE__NONE,
-				GTK_TYPE_NONE,
-				0);
-	gtk_object_class_add_signals (obj_class, e_searching_tokenizer_signals, EST_LAST_SIGNAL);
-
+	
+	parent_class = g_type_class_ref (HTML_TYPE_TOKENIZER);
+	
+	signals[MATCH_SIGNAL] =
+		g_signal_new ("match",
+			      E_TYPE_SEARCHING_TOKENIZER,
+			      G_SIGNAL_RUN_LAST,
+			      G_STRUCT_OFFSET (ESearchingTokenizerClass, match),
+			      NULL,
+			      NULL,
+			      gtk_marshal_NONE__NONE,
+			      G_TYPE_NONE, 0);
+	
 	obj_class->destroy = e_searching_tokenizer_destroy;
-
-	tok_class->begin      = e_searching_tokenizer_begin;
-	tok_class->end        = e_searching_tokenizer_end;
-
+	
+	tok_class->begin = e_searching_tokenizer_begin;
+	tok_class->end = e_searching_tokenizer_end;
+	
 	tok_class->peek_token = e_searching_tokenizer_peek_token;
 	tok_class->next_token = e_searching_tokenizer_next_token;
-	tok_class->has_more   = e_searching_tokenizer_has_more;
-	tok_class->clone      = e_searching_tokenizer_clone;
-	
-	parent_class = gtk_type_class (HTML_TYPE_TOKENIZER);
+	tok_class->has_more = e_searching_tokenizer_has_more;
+	tok_class->clone = e_searching_tokenizer_clone;
 }
 
 static void
@@ -1033,22 +1033,24 @@ e_searching_tokenizer_init (ESearchingTokenizer *st)
 GtkType
 e_searching_tokenizer_get_type (void)
 {
-	static GtkType e_searching_tokenizer_type = 0;
-
-	if (! e_searching_tokenizer_type) {
-		static GtkTypeInfo e_searching_tokenizer_info = {
+	static GtkType type = 0;
+	
+	if (!type) {
+		static const GtkTypeInfo info = {
 			"ESearchingTokenizer",
 			sizeof (ESearchingTokenizer),
 			sizeof (ESearchingTokenizerClass),
 			(GtkClassInitFunc) e_searching_tokenizer_class_init,
 			(GtkObjectInitFunc) e_searching_tokenizer_init,
-			NULL, NULL,
-			(GtkClassInitFunc) NULL
+			/* reserved_1 */ NULL,
+			/* reserved_2 */ NULL,
+			(GtkClassInitFunc) NULL,
 		};
-		e_searching_tokenizer_type = gtk_type_unique (HTML_TYPE_TOKENIZER,
-							     &e_searching_tokenizer_info);
+		
+		type = gtk_type_unique (HTML_TYPE_TOKENIZER, &info);
 	}
-	return e_searching_tokenizer_type;
+	
+	return type;
 }
 
 HTMLTokenizer *
@@ -1064,12 +1066,12 @@ e_searching_tokenizer_new (void)
 static char *get_token(HTMLTokenizer *t)
 {
 	HTMLTokenizerClass *klass = HTML_TOKENIZER_CLASS (parent_class);
-
+	
 	return klass->has_more(t) ? klass->next_token(t) : NULL;
 }
 
 static void
-e_searching_tokenizer_begin (HTMLTokenizer *t, gchar *content_type)
+e_searching_tokenizer_begin (HTMLTokenizer *t, char *content_type)
 {
 	ESearchingTokenizer *st = E_SEARCHING_TOKENIZER (t);
 	struct _ESearchingTokenizerPrivate *p = st->priv;
@@ -1111,7 +1113,7 @@ e_searching_tokenizer_end (HTMLTokenizer *t)
 	HTML_TOKENIZER_CLASS (parent_class)->end (t);
 }
 
-static gchar *
+static char *
 e_searching_tokenizer_peek_token (HTMLTokenizer *tok)
 {
 	ESearchingTokenizer *st = E_SEARCHING_TOKENIZER (tok);
@@ -1123,25 +1125,25 @@ e_searching_tokenizer_peek_token (HTMLTokenizer *tok)
 	return searcher_peek_token(st->priv->engine);
 }
 
-static gchar *
+static char *
 e_searching_tokenizer_next_token (HTMLTokenizer *tok)
 {
 	ESearchingTokenizer *st = E_SEARCHING_TOKENIZER (tok);
 	int oldmatched;
 	char *token;
-
+	
 	/* If no search is active, just use the default method. */
 	if (st->priv->engine == NULL)
 		return HTML_TOKENIZER_CLASS (parent_class)->next_token (tok);
-
+	
 	oldmatched = st->priv->engine->matchcount;
-
+	
 	token = searcher_next_token(st->priv->engine);
-
+	
 	/* not sure if this has to be accurate or just say we had some matches */
 	if (oldmatched != st->priv->engine->matchcount)
-		gtk_signal_emit (GTK_OBJECT (st), e_searching_tokenizer_signals[EST_MATCH_SIGNAL]);
-
+		g_signal_emit (st, signals[MATCH_SIGNAL], 0);
+	
 	return token;
 }
 
@@ -1159,7 +1161,7 @@ static void
 matched (ESearchingTokenizer *st)
 {
 	/*++st->priv->match_count;*/
-	gtk_signal_emit (GTK_OBJECT (st), e_searching_tokenizer_signals[EST_MATCH_SIGNAL]);
+	g_signal_emit (st, signals[MATCH_SIGNAL], 0);
 }
 
 static HTMLTokenizer *
@@ -1167,25 +1169,22 @@ e_searching_tokenizer_clone (HTMLTokenizer *tok)
 {
 	ESearchingTokenizer *orig_st = E_SEARCHING_TOKENIZER (tok);
 	ESearchingTokenizer *new_st = E_SEARCHING_TOKENIZER (e_searching_tokenizer_new ());
-
+	
 	search_info_free(new_st->priv->primary);
 	search_info_free(new_st->priv->secondary);
-
+	
 	new_st->priv->primary = search_info_clone(orig_st->priv->primary);
 	new_st->priv->secondary = search_info_clone(orig_st->priv->secondary);
-
+	
 	/* what the fucking what???? */
 #if 0
 	shared_state_ref (orig_st->priv->shared);
 	shared_state_unref (new_st->priv->shared);
 	new_st->priv->shared = orig_st->priv->shared;
 #endif
-
-	gtk_signal_connect_object (GTK_OBJECT (new_st),
-				   "match",
-				   GTK_SIGNAL_FUNC (matched),
-				   GTK_OBJECT (orig_st));
-
+	
+	g_signal_connect_swapped (new_st, "match", GTK_SIGNAL_FUNC (matched), orig_st);
+	
 	return HTML_TOKENIZER (new_st);
 }
 /* ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** */
@@ -1194,7 +1193,7 @@ void
 e_searching_tokenizer_set_primary_search_string (ESearchingTokenizer *st, const gchar *search_str)
 {
 	g_return_if_fail (st && E_IS_SEARCHING_TOKENIZER (st));
-
+	
 	search_info_clear(st->priv->primary);
 	search_info_add_string(st->priv->primary, search_str);
 }
@@ -1203,7 +1202,7 @@ void
 e_searching_tokenizer_add_primary_search_string (ESearchingTokenizer *st, const gchar *search_str)
 {
 	g_return_if_fail (st && E_IS_SEARCHING_TOKENIZER (st));
-
+	
 	search_info_add_string(st->priv->primary, search_str);
 }
 
@@ -1211,7 +1210,7 @@ void
 e_searching_tokenizer_set_primary_case_sensitivity (ESearchingTokenizer *st, gboolean iscase)
 {
 	g_return_if_fail (st && E_IS_SEARCHING_TOKENIZER (st));
-
+	
 	search_info_set_flags(st->priv->primary, iscase?SEARCH_CASE:0, SEARCH_CASE);
 }
 
@@ -1219,7 +1218,7 @@ void
 e_searching_tokenizer_set_secondary_search_string (ESearchingTokenizer *st, const gchar *search_str)
 {
 	g_return_if_fail (st && E_IS_SEARCHING_TOKENIZER (st));
-
+	
 	search_info_clear(st->priv->secondary);
 	search_info_add_string(st->priv->secondary, search_str);
 }
@@ -1228,7 +1227,7 @@ void
 e_searching_tokenizer_add_secondary_search_string (ESearchingTokenizer *st, const gchar *search_str)
 {
 	g_return_if_fail (st && E_IS_SEARCHING_TOKENIZER (st));
-
+	
 	search_info_add_string(st->priv->secondary, search_str);
 }
 
@@ -1236,7 +1235,7 @@ void
 e_searching_tokenizer_set_secondary_case_sensitivity (ESearchingTokenizer *st, gboolean iscase)
 {
 	g_return_if_fail (st && E_IS_SEARCHING_TOKENIZER (st));
-
+	
 	search_info_set_flags(st->priv->secondary, iscase?SEARCH_CASE:0, SEARCH_CASE);
 }
 
@@ -1244,9 +1243,9 @@ gint
 e_searching_tokenizer_match_count (ESearchingTokenizer *st)
 {
 	g_return_val_if_fail (st && E_IS_SEARCHING_TOKENIZER (st), -1);
-
+	
 	if (st->priv->engine)
 		return st->priv->engine->matchcount;
-
+	
 	return 0;
 }

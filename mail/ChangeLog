@@ -1,3 +1,9 @@
+2002-11-11  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* folder-browser.c: Ported.
+
+	* e-searching-tokenizer.c: Roughly ported.
+
 2002-11-10  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* *.glade: Converted to libglade-2's format.

@@ -155,14 +155,14 @@ create_view (EvolutionShellComponent *shell_component,
 		
 		url = camel_url_new (physical_uri, NULL);
 		noselect = url ? camel_url_get_param (url, "noselect") : NULL;
-		if (noselect && !g_strcasecmp (noselect, "yes"))
+		if (noselect && !strcasecmp (noselect, "yes"))
 			control = create_noselect_control ();
 		else
 			control = folder_browser_factory_new_control (physical_uri,
 								      corba_shell);
 		camel_url_free (url);
 	} else if (type_is_vtrash (folder_type)) {
-		if (!g_strncasecmp (physical_uri, "file:", 5))
+		if (!strncasecmp (physical_uri, "file:", 5))
 			control = folder_browser_factory_new_control ("vtrash:file:/", corba_shell);
 		else
 			control = folder_browser_factory_new_control (physical_uri, corba_shell);
@@ -341,7 +341,7 @@ xfer_folder (EvolutionShellComponent *shell_component,
 	if (remove && strcmp(src->protocol, dst->protocol) == 0) {
 		char *sname, *dname;
 		CamelStore *store;
-
+		
 		if (src->fragment)
 			sname = src->fragment;
 		else {
@@ -350,7 +350,7 @@ xfer_folder (EvolutionShellComponent *shell_component,
 			else
 				sname = "";
 		}
-
+		
 		if (dst->fragment)
 			dname = dst->fragment;
 		else {
@@ -359,11 +359,11 @@ xfer_folder (EvolutionShellComponent *shell_component,
 			else
 				dname = "";
 		}
-
+		
 		store = camel_session_get_store(session, source_physical_uri, &ex);
 		if (store != NULL)
 			camel_store_rename_folder(store, sname, dname, &ex);
-
+		
 		if (camel_exception_is_set(&ex))
 			GNOME_Evolution_ShellComponentListener_notifyResult (listener, GNOME_Evolution_ShellComponentListener_INVALID_URI, &ev);
 		else {
@@ -375,7 +375,7 @@ xfer_folder (EvolutionShellComponent *shell_component,
 		camel_object_unref((CamelObject *)store);
 	} else {
 		source = mail_tool_uri_to_folder (source_physical_uri, 0, &ex);
-	
+		
 		if (source) {
 			xfer_folder_data *xfd;
 			
@@ -383,17 +383,17 @@ xfer_folder (EvolutionShellComponent *shell_component,
 			xfd->remove_source = remove_source;
 			xfd->source_uri = g_strdup (source_physical_uri);
 			xfd->listener = CORBA_Object_duplicate (listener, &ev);
-		
+			
 			uids = camel_folder_get_uids (source);
 			mail_transfer_messages (source, uids, remove_source, destination_physical_uri, CAMEL_STORE_FOLDER_CREATE, xfer_folder_done, xfd);
 			camel_object_unref (CAMEL_OBJECT (source));
 		} else
 			GNOME_Evolution_ShellComponentListener_notifyResult (listener, GNOME_Evolution_ShellComponentListener_INVALID_URI, &ev);
 	}
-
+	
 	CORBA_exception_free (&ev);
 	camel_exception_clear (&ex);
-
+	
 	camel_url_free(src);
 	camel_url_free(dst);
 }
@@ -402,13 +402,12 @@ static void
 configure_folder_popup(BonoboUIComponent *component, void *user_data, const char *cname)
 {
 	char *uri = user_data;
-
-
+	
 	if (strncmp(uri, "vfolder:", 8) == 0)
 		vfolder_edit_rule(uri);
 	else {
 		FolderBrowser *fb = folder_browser_factory_get_browser(uri);
-
+		
 		if (fb)
 			configure_folder(component, fb, cname);
 		else
@@ -432,9 +431,9 @@ populate_folder_context_menu (EvolutionShellComponent *shell_component,
 
 	if (!type_is_mail (type))
 		return;
-
+	
 	/* FIXME: handle other types */
-
+	
 	/* the unmatched test is a bit of a hack but it works */
 	if ((strncmp(physical_uri, "vfolder:", 8) == 0
 	     && strstr(physical_uri, "#" CAMEL_UNMATCHED_NAME) == NULL)
@@ -453,9 +452,9 @@ unpopulate_folder_context_menu (EvolutionShellComponent *shell_component,
 {
 	if (!type_is_mail (type))
 		return;
-
+	
 	/* FIXME: handle other types */
-
+	
 	/* the unmatched test is a bit of a hack but it works */
 	if ((strncmp(physical_uri, "vfolder:", 8) == 0
 	     && strstr(physical_uri, "#" CAMEL_UNMATCHED_NAME) == NULL)
@@ -493,7 +492,7 @@ destination_folder_handle_motion (EvolutionShellComponentDndDestinationFolder *f
 	url = camel_url_new (physical_uri, NULL);
 	noselect = url ? camel_url_get_param (url, "noselect") : NULL;
 	
-	if (noselect && !g_strcasecmp (noselect, "yes"))
+	if (noselect && !strcasecmp (noselect, "yes"))
 		/* uh, no way to say "illegal" */
 		*suggested_action_return = GNOME_Evolution_ShellComponentDnd_ACTION_DEFAULT;
 	else
@@ -567,7 +566,7 @@ destination_folder_handle_drop (EvolutionShellComponentDndDestinationFolder *des
 	
 	uri = camel_url_new (physical_uri, NULL);
 	noselect = uri ? camel_url_get_param (uri, "noselect") : NULL;
-	if (noselect && !g_strcasecmp (noselect, "yes")) {
+	if (noselect && !strcasecmp (noselect, "yes")) {
 		camel_url_free (uri);
 		return FALSE;
 	}
