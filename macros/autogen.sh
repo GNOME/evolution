@@ -69,7 +69,7 @@ fi
 for j in `find $srcdir -name configure.in -print`
 do 
     i=`dirname $j`
-    if test -e $i/NO-AUTO-GEN; then
+    if test -f $i/NO-AUTO-GEN; then
         echo skipping $i -- flagged as no auto-gen
     else
     	macrodirs=`sed -n -e 's,AM_ACLOCAL_INCLUDE(\(.*\)),\1,gp' < $j`
