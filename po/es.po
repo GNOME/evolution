@@ -16,7 +16,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: es\n"
 "POT-Creation-Date: 2004-07-02 14:48-0400\n"
-"PO-Revision-Date: 2004-07-07 17:58+0200\n"
+"PO-Revision-Date: 2004-07-07 20:52+0200\n"
 "Last-Translator: Francisco Javier F. Serrador <serrador@cvs.gnome.org>\n"
 "Language-Team: Spanish <traductores@es.gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -71,7 +71,7 @@ msgstr "Esta libreta de direcciones no se pudo abrir."
 msgid ""
 "This addressbook server might unreachable or the server name may be "
 "misspelled or your network connection could be down."
-msgstr ""
+msgstr "Este servidor de libretas de direcciones quizá no se pueda alcanzar o el nombre del servidor quizá esté mal escrito o su conexión de red quizá esté caída."
 
 #. addressbook:ldap-auth primary
 #: addressbook/addressbook-errors.xml.h:6
@@ -97,7 +97,7 @@ msgid ""
 "This LDAP server may use an older version of LDAP, which does not support "
 "this functionality or it may be misconfigured. Ask your administrator for "
 "supported search bases."
-msgstr ""
+msgstr "Este servidor LDAP quizá use una versión de LDAP más antigua, la cual no soporta esta funcionalidad o quizá esté mal configurado. Pida a su administrador de sistema las bases de búsqueda soportadas."
 
 #. addressbook:ldap-v3-schema primary
 #: addressbook/addressbook-errors.xml.h:14
@@ -149,19 +149,16 @@ msgstr "Imposible abrir la libreta de direcciones"
 
 #. addressbook:load-error primary
 #: addressbook/addressbook-errors.xml.h:32
-#, fuzzy
 msgid "Error loading addressbook."
-msgstr "Error cargando la libreta de direcciones predeterminada."
+msgstr "Error cargando la libreta de direcciones."
 
 #. addressbook:search-error primary
 #: addressbook/addressbook-errors.xml.h:36
-#, fuzzy
 msgid "Unable to perform search."
-msgstr "Error efectuando búsqueda"
+msgstr "No es posible efectuar la búsqueda."
 
 #. addressbook:prompt-save primary
 #: addressbook/addressbook-errors.xml.h:40
-#, fuzzy
 msgid "Would you like to save your changes?"
 msgstr "¿Desea guardar los cambios?"
 
@@ -170,7 +167,7 @@ msgstr "¿Desea guardar los cambios?"
 msgid ""
 "You have made modifications to this contact. Do you want to save these "
 "changes?"
-msgstr ""
+msgstr "Ha hecho modificaciones a este contacto. ¿Desea guardar estos cambios?"
 
 #: addressbook/addressbook-errors.xml.h:43
 #: addressbook/gui/contact-editor/e-contact-editor.c:2803
@@ -180,13 +177,11 @@ msgstr "_Descartar"
 
 #. addressbook:prompt-move primary
 #: addressbook/addressbook-errors.xml.h:45
-#, fuzzy
 msgid "Cannot move contact."
-msgstr "y otro contacto."
+msgstr "No se puede mover el contacto."
 
 #. addressbook:prompt-move secondary
 #: addressbook/addressbook-errors.xml.h:47
-#, fuzzy
 msgid ""
 "You are attempting to move a contact from one addressbook to another but it "
 "cannot be removed from the source. Do you want to save a copy instead?"
@@ -196,29 +191,23 @@ msgstr ""
 
 #. addressbook:save-error primary
 #: addressbook/addressbook-errors.xml.h:49
-#, fuzzy
 msgid "Unable to save contact(s)."
-msgstr "No se pudo interpretar el contenido del mensaje"
+msgstr "No se pudo guardar el contacto"
 
 #. addressbook:save-error secondary
 #: addressbook/addressbook-errors.xml.h:51
-#, fuzzy
 msgid "Error saving contacts to {0}: {1}"
-msgstr "Error añadiendo contacto"
+msgstr "Error al guardar los contactos a {0}: {1}"
 
 #. addressbook:backend-died primary
 #: addressbook/addressbook-errors.xml.h:53
-#, fuzzy
 msgid "The Evolution addressbook has quit unexpectedly."
-msgstr "Visor de direcciones de la libreta de direcciones de Evolution"
+msgstr "La libreta de direcciones de Evolution ha terminado inesperadamente."
 
 #. addressbook:backend-died secondary
 #: addressbook/addressbook-errors.xml.h:55
-#, fuzzy
 msgid "Your contacts for {0} will not be available until Evolution is restarted."
-msgstr ""
-"Si sale, estos mensajes no serán enviados hasta que Evoluion sea iniciado de "
-"nuevo."
+msgstr "Sus contactos para {0} no estarán disponibles hasta que Evolution sea reiniciado."
 
 #: addressbook/conduit/address-conduit.c:275
 msgid "Default Sync Address:"
@@ -322,7 +311,6 @@ msgid "New Contacts Group"
 msgstr "Grupo de contactos nuevo"
 
 #: addressbook/gui/component/addressbook-component.c:110
-#, fuzzy
 msgid "Contacts Grou_p"
 msgstr "Grupo de _contactos"
 
@@ -472,7 +460,7 @@ msgid ""
 "autocomplete"
 msgstr ""
 "El número de caracteres que deben ser tecleados antes de que Evolution "
-"intente autocompletar"
+"intente auto-completar"
 
 #: addressbook/gui/component/apps_evolution_addressbook.schemas.in.in.h:4
 msgid "URI for the folder last used in the select names dialog"
@@ -629,7 +617,7 @@ msgid ""
 "server if your LDAP server supports SSL or TLS."
 msgstr ""
 "Seleccionar esta opción significa que Evolution sólo conectará con su "
-"servidor LDAP sisu servidor LDAP soporta SSL o TLS."
+"servidor LDAP si su servidor LDAP soporta SSL o TLS."
 
 #: addressbook/gui/component/ldap-config.glade.h:32
 msgid ""
@@ -697,7 +685,7 @@ msgid ""
 "too large will slow down your address book."
 msgstr ""
 "Este es el máximo número de entradas para descargar.  Si pone este "
-"númerodemasiado alto ralentizará su libreta de direcciones."
+"número demasiado alto ralentizará su libreta de direcciones."
 
 #: addressbook/gui/component/ldap-config.glade.h:40
 msgid ""
@@ -878,9 +866,8 @@ msgid "_Find"
 msgstr "_Buscar"
 
 #: addressbook/gui/component/select-names/select-names.glade.h:8
-#, fuzzy
 msgid "_Search:"
-msgstr "_Buscar"
+msgstr "_Buscar:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:2
 msgid "<b>Email</b>"
@@ -3535,192 +3522,175 @@ msgstr "Lista de anónimos"
 #. calendar:prompt-cancel-meeting primary
 #: calendar/calendar-errors.xml.h:2 calendar/calendar-errors.xml.h:12
 msgid "Would you like to send all the participants a cancellation notice?"
-msgstr ""
+msgstr "¿Quiere enviar a todos los participantes una notificación de cancelación?"
 
 #. calendar:prompt-cancel-meeting secondary
 #: calendar/calendar-errors.xml.h:4
 msgid ""
 "If you don't send a cancellation notice, the other participants may not know "
 "the meeting is canceled."
-msgstr ""
+msgstr "Si no envía una notificación de cancelación, los otros participantes quizá no sepan que la reunión se ha cancelado."
 
 #: calendar/calendar-errors.xml.h:5 calendar/calendar-errors.xml.h:15
 #: calendar/calendar-errors.xml.h:25 calendar/calendar-errors.xml.h:79
 #: calendar/calendar-errors.xml.h:85 calendar/calendar-errors.xml.h:91
 #: calendar/calendar-errors.xml.h:97
-#, fuzzy
 msgid "Don't Send"
-msgstr "No borrar"
+msgstr "No enviar"
 
 #: calendar/calendar-errors.xml.h:6 calendar/calendar-errors.xml.h:16
 #: calendar/calendar-errors.xml.h:26
-#, fuzzy
 msgid "Send Notice"
-msgstr "Enviar a:"
+msgstr "Enviar notificación"
 
 #. calendar:prompt-delete-meeting primary
 #: calendar/calendar-errors.xml.h:8
-#, fuzzy
 msgid "Are you sure you want to delete this meeting?"
-msgstr "¿Seguro que quiere cancelar y borrar esta reunión?"
+msgstr "¿Seguro que quiere borrar esta reunión?"
 
 #. calendar:prompt-delete-meeting secondary
 #: calendar/calendar-errors.xml.h:10
 msgid "All information on this meeting will be deleted and can not be restored."
-msgstr ""
+msgstr "Toda la información acerca de esta reunión será borrada y no podrá ser recuperada."
 
 #. calendar:prompt-cancel-task secondary
 #: calendar/calendar-errors.xml.h:14
 msgid ""
 "If you don't send a cancellation notice, the other participants may not know "
 "the task has been deleted."
-msgstr ""
+msgstr "Si no envía una notificación de cancelación, los otros participantes quizá no sepan que la tarea ha sido borrada."
 
 #. calendar:prompt-delete-task primary
 #: calendar/calendar-errors.xml.h:18 calendar/calendar-errors.xml.h:44
-#, fuzzy
 msgid "Are you sure you want to delete this task?"
-msgstr "¿Seguro que quiere borrar %d tarea?"
+msgstr "¿Seguro que quiere borrar esta tarea?"
 
 #. calendar:prompt-delete-task secondary
 #: calendar/calendar-errors.xml.h:20 calendar/calendar-errors.xml.h:42
 #: calendar/calendar-errors.xml.h:46
 msgid "All information on this task will be deleted and can not be restored."
-msgstr ""
+msgstr "Toda la información acerca de esta tarea será borrada y no puede ser restaurada."
 
 #. calendar:prompt-cancel-journal primary
 #: calendar/calendar-errors.xml.h:22
-#, fuzzy
 msgid "Would you like to send a cancellation notice for this journal entry?"
-msgstr "¿Seguro que quiere cancelar y borrar esta entrada del diario?"
+msgstr "¿Seguro que quiere enviar una notificación de cancelación para esta entrada de diario?"
 
 #. calendar:prompt-cancel-journal secondary
 #: calendar/calendar-errors.xml.h:24
 msgid ""
 "If you don't send a cancellation notice, the other participants may not know "
 "the journal has been deleted."
-msgstr ""
+msgstr "Si no envía una notificación de cancelación, los otros participantes quizá no sepan que el diario ha sido borrado."
 
 #. calendar:prompt-delete-journal primary
 #: calendar/calendar-errors.xml.h:28 calendar/calendar-errors.xml.h:52
-#, fuzzy
 msgid "Are you sure you want to delete this journal entry?"
-msgstr "¿Seguro que quiere borrar %d entrada del diario?"
+msgstr "¿Seguro que quiere borrar esta entrada del diario?"
 
 #. calendar:prompt-delete-journal secondary
 #: calendar/calendar-errors.xml.h:30
 msgid ""
 "All information on this journal entry will be deleted and can not be "
 "restored."
-msgstr ""
+msgstr "Toda la información en su entrada del diario será borrada y no puede ser recuperada."
 
 #. calendar:prompt-delete-titled-appointment primary
 #: calendar/calendar-errors.xml.h:32
-#, fuzzy
 msgid "Are you sure you want to delete the appointment titled '{0}'?"
-msgstr "¿Seguro que quiere borrar la cita «%s»?"
+msgstr "¿Seguro que quiere borrar la cita titulada «{0}»?"
 
 #. calendar:prompt-delete-titled-appointment secondary
 #: calendar/calendar-errors.xml.h:34 calendar/calendar-errors.xml.h:38
 msgid "All information on this appointment will be deleted and can not be restored."
-msgstr ""
+msgstr "Toda la información acerca de esta cita será borrada y no puede ser recuperada."
 
 #. calendar:prompt-delete-appointment primary
 #: calendar/calendar-errors.xml.h:36
-#, fuzzy
 msgid "Are you sure you want to delete this appointment?"
-msgstr "¿Seguro que quiere borrar %d cita?"
+msgstr "¿Seguro que quiere borrar esta cita?"
 
 #. calendar:prompt-delete-named-task primary
 #: calendar/calendar-errors.xml.h:40
-#, fuzzy
 msgid "Are you sure you want to delete the '{0}' task?"
-msgstr "¿Seguro que quiere borrar la tarea «%s»?"
+msgstr "¿Seguro que quiere borrar la tarea «{0}»?"
 
 #. calendar:prompt-delete-named-journal primary
 #: calendar/calendar-errors.xml.h:48
-#, fuzzy
 msgid "Are you sure you want to delete the journal entry '{0}'?"
-msgstr "¿Seguro que quiere borrar la entrada del diario «%s»?"
+msgstr "¿Seguro que quiere borrar la entrada del diario «{0}»?"
 
 #. calendar:prompt-delete-named-journal secondary
 #: calendar/calendar-errors.xml.h:50 calendar/calendar-errors.xml.h:54
 msgid "All information in this journal will be deleted and can not be restored."
-msgstr ""
+msgstr "Toda la información en este diario será borrada y no podrá recuperarse."
 
 #. calendar:prompt-delete-appointments primary
 #: calendar/calendar-errors.xml.h:56
-#, fuzzy
 msgid "Are you sure you want to delete these {0} appointments?"
-msgstr "¿Seguro que quiere borrar la cita «%s»?"
+msgstr "¿Seguro que quiere borrar estas {0} citas?"
 
 #. calendar:prompt-delete-appointments secondary
 #: calendar/calendar-errors.xml.h:58
 msgid ""
 "All information on these appointments will be deleted and can not be "
 "restored."
-msgstr ""
+msgstr "Toda la información de estas citas será borrada y no puede ser recuperada."
 
 #. calendar:prompt-delete-tasks primary
 #: calendar/calendar-errors.xml.h:60
-#, fuzzy
 msgid "Are you sure you want to delete these {0} tasks?"
-msgstr "¿Seguro que quiere borrar la tarea «%s»?"
+msgstr "¿Seguro que quiere borrar estas {0} tareas?"
 
 #. calendar:prompt-delete-tasks secondary
 #: calendar/calendar-errors.xml.h:62
 msgid "All information on these tasks will be deleted and can not be restored."
-msgstr ""
+msgstr "Toda la información acerca de estas tareas será borrada y no podrá ser recuperada."
 
 #. calendar:prompt-delete-journals primary
 #: calendar/calendar-errors.xml.h:64
-#, fuzzy
 msgid "Are you sure you want to delete these {0} journal entries?"
-msgstr "¿Seguro que quiere borrar la entrada del diario «%s»?"
+msgstr "¿Seguro que quiere borrar estas {0} entradas del diario?"
 
 #. calendar:prompt-delete-journals secondary
 #: calendar/calendar-errors.xml.h:66
 msgid ""
 "All information in these journal entries will be deleted and can not be "
 "restored."
-msgstr ""
+msgstr "Toda la información acerca de estas entradas del diario será borrada y no podrá ser recuperada."
 
 #. calendar:prompt-save-appointment title
 #: calendar/calendar-errors.xml.h:68
-#, fuzzy
 msgid "Save Appointment"
-msgstr "Cita"
+msgstr "Guardar cita"
 
 #. calendar:prompt-save-appointment primary
 #: calendar/calendar-errors.xml.h:70
-#, fuzzy
 msgid "Would you like to save your changes to this appointment?"
-msgstr "¿Desea guardar los cambios?"
+msgstr "¿Desea guardar los cambios a esta cita?"
 
 #. calendar:prompt-save-appointment secondary
 #: calendar/calendar-errors.xml.h:72
-#, fuzzy
 msgid "You have made changes to this appointment, but not yet saved them."
-msgstr "%s  Ha realizado cambios. ¿Olvido estos cambios y actualizo el editor?"
+msgstr "Ha realizado cambios a esta cita, pero no los ha guardado."
 
 #: calendar/calendar-errors.xml.h:73 composer/mail-composer-errors.xml.h:33
 msgid "Discard Changes"
 msgstr "Descartar cambios"
 
 #: calendar/calendar-errors.xml.h:74
-#, fuzzy
 msgid "Save Changes"
-msgstr "Lago Charles"
+msgstr "Guardar cambios"
 
 #. calendar:prompt-meeting-invite primary
 #: calendar/calendar-errors.xml.h:76
 msgid "Would you like to send meeting invitations to participants?"
-msgstr ""
+msgstr "¿Quiere enviar invitaciones a los participantes?"
 
 #. calendar:prompt-meeting-invite secondary
 #: calendar/calendar-errors.xml.h:78
 msgid "Email invitations will be sent to all participants and allow them to RSVP."
-msgstr ""
+msgstr "Las invitaciones serán enviadas por correo-e a todos los participantes y las permitirá RSVP."
 
 #: calendar/calendar-errors.xml.h:80 calendar/calendar-errors.xml.h:86
 #: calendar/calendar-errors.xml.h:92 calendar/calendar-errors.xml.h:98
@@ -3731,65 +3701,58 @@ msgstr "Enviar"
 #. calendar:prompt-send-updated-meeting-info primary
 #: calendar/calendar-errors.xml.h:82
 msgid "Would you like to send updated meeting information to participants?"
-msgstr ""
+msgstr "¿Quiere enviar información de la reunión actualizada a los participantes?"
 
 #. calendar:prompt-send-updated-meeting-info secondary
 #: calendar/calendar-errors.xml.h:84
 msgid ""
 "Sending updated information allows other participants to keep their "
 "calendars up to date."
-msgstr ""
+msgstr "Al enviar información actualizada permite que otros participantes mantengan sus calendarios al día."
 
 #. calendar:prompt-send-task primary
 #: calendar/calendar-errors.xml.h:88
 msgid "Would you like to send this task to participants?"
-msgstr ""
+msgstr "¿Quiere enviar esta tarea a los participantes?"
 
 #. calendar:prompt-send-task secondary
 #: calendar/calendar-errors.xml.h:90
 msgid ""
 "Email invitations will be sent to all participants and allow them to accept "
 "this task."
-msgstr ""
+msgstr "Se enviarán invitaciones por correo-e a todos los participantes y se les permitirá aceptar esta tarea."
 
 #. calendar:prompt-send-updated-task-info primary
 #: calendar/calendar-errors.xml.h:94
 msgid "Would you like to send updated task information to participants?"
-msgstr ""
+msgstr "¿Quiere enviar información de tareas actualizada a los participantes?"
 
 #. calendar:prompt-send-updated-task-info secondary
 #: calendar/calendar-errors.xml.h:96
 msgid ""
 "Sending updated information allows other participants to keep their task "
 "lists up to date."
-msgstr ""
+msgstr "Enviando información actualizada se permite que otros participantes mantengan su lista de tareas al día."
 
 #. calendar:tasks-crashed primary
 #: calendar/calendar-errors.xml.h:100
 msgid "The Evolution tasks have quit unexpectedly."
-msgstr ""
+msgstr "Las tareas de Evolution han terminado inesperadamente."
 
 #. calendar:tasks-crashed secondary
 #: calendar/calendar-errors.xml.h:102
-#, fuzzy
 msgid "Your tasks will not be available until Evolution is restarted."
-msgstr ""
-"Si sale, estos mensajes no serán enviados hasta que Evoluion sea iniciado de "
-"nuevo."
+msgstr "Sus tareas no estarán disponibles hasta que Evolution sea iniciado de nuevo."
 
 #. calendar:calendar-crashed primary
 #: calendar/calendar-errors.xml.h:104
-#, fuzzy
 msgid "The Evolution calendar has quit unexpectedly."
-msgstr "Motor de agenda en archivo local de Evolution"
+msgstr "El calendario de Evolution ha terminado inesperadamente."
 
 #. calendar:calendar-crashed secondary
 #: calendar/calendar-errors.xml.h:106
-#, fuzzy
 msgid "Your calendars will not be available until Evolution is restarted."
-msgstr ""
-"Si sale, estos mensajes no serán enviados hasta que Evoluion sea iniciado de "
-"nuevo."
+msgstr "Sus calendarios no estarán disponibles hasta que Evolution sea reiniciado."
 
 #: calendar/common/authentication.c:44 calendar/gui/e-pub-utils.c:301
 #: smime/gui/component.c:48
@@ -3804,9 +3767,8 @@ msgstr "Dividir acontecimientos de días múltiples:"
 #: calendar/conduits/calendar/calendar-conduit.c:1331
 #: calendar/conduits/todo/todo-conduit.c:852
 #: calendar/conduits/todo/todo-conduit.c:853
-#, fuzzy
 msgid "Could not start evolution-data-server"
-msgstr "No se ha podido iniciar el servidor wombat"
+msgstr "No se ha podido iniciar el servidor evolution-data-server"
 
 #: calendar/conduits/calendar/calendar-conduit.c:1439
 #: calendar/conduits/calendar/calendar-conduit.c:1442
@@ -3849,11 +3811,11 @@ msgstr "Agenda y Tareas de Evolution"
 
 #: calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:7
 msgid "Evolution Calendar configuration control"
-msgstr "Control de configuración de la agenda de Evolution"
+msgstr "Control de configuración del calendario de Evolution"
 
 #: calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:8
 msgid "Evolution Calendar scheduling message viewer"
-msgstr "Visor de mensajes de planificación de la agenda de Evolution"
+msgstr "Visor de mensajes de planificación del calendario de Evolution"
 
 #: calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:9
 msgid "Evolution Calendar/Task editor"
@@ -4226,7 +4188,7 @@ msgstr "no se pudo abrir la agenda «%s» para crear eventos y reuniones"
 
 #: calendar/gui/calendar-component.c:929
 msgid "There is no calendar available for creating events and meetings"
-msgstr "No hay una agenda disponible para crear eventos y reuniones"
+msgstr "No hay un calendario disponible para crear eventos y reuniones"
 
 #: calendar/gui/calendar-component.c:1224
 msgid "New appointment"
@@ -4269,13 +4231,12 @@ msgid "New calendar"
 msgstr "Agenda nueva"
 
 #: calendar/gui/calendar-component.c:1249
-#, fuzzy
 msgid "Cale_ndar"
-msgstr "Agenda"
+msgstr "Cale_ndario"
 
 #: calendar/gui/calendar-component.c:1250
 msgid "Create a new calendar"
-msgstr "Crear una agenda nueva"
+msgstr "Crear un calendario nuevo"
 
 #: calendar/gui/calendar-offline-handler.c:192
 #, c-format
@@ -4321,38 +4282,32 @@ msgid "open_client(): %s"
 msgstr "open_client(): %s"
 
 #: calendar/gui/dialogs/alarm-dialog.glade.h:2
-#, fuzzy
 msgid "<b>Alarm</b>\t"
-msgstr "<b>Sonido de la alarma</b>"
+msgstr "<b>Alarma</b>\t"
 
 #: calendar/gui/dialogs/alarm-dialog.glade.h:3
-#, fuzzy
 msgid "<b>Options</b>"
-msgstr "<b>Descripción</b>"
+msgstr "<b>Opciones</b>"
 
 #: calendar/gui/dialogs/alarm-dialog.glade.h:4
-#, fuzzy
 msgid "<b>Repeat</b>"
-msgstr "<b>General</b>"
+msgstr "<b>Repetición</b>"
 
 #: calendar/gui/dialogs/alarm-dialog.glade.h:5
-#, fuzzy
 msgid "Add Alarm"
-msgstr "Alarmas"
+msgstr "Añadir alarma"
 
 #: calendar/gui/dialogs/alarm-dialog.glade.h:6
-#, fuzzy
 msgid "Custom _message"
-msgstr "Redactar un mensaje"
+msgstr "_Mensaje personalizado"
 
 #: calendar/gui/dialogs/alarm-dialog.glade.h:7
 msgid "Custom alarm sound"
-msgstr ""
+msgstr "Sonido de alarma personalizado"
 
 #: calendar/gui/dialogs/alarm-dialog.glade.h:8
-#, fuzzy
 msgid "Mes_sage:"
-msgstr "_Mensajes"
+msgstr "_Mensaje:"
 
 #: calendar/gui/dialogs/alarm-dialog.glade.h:9 calendar/gui/e-alarm-list.c:444
 msgid "Play a sound"
@@ -4378,24 +4333,20 @@ msgid "Send an email"
 msgstr "Enviar un correo-e"
 
 #: calendar/gui/dialogs/alarm-dialog.glade.h:14
-#, fuzzy
 msgid "_Arguments:"
-msgstr "Cuent_a:"
+msgstr "_Argumentos:"
 
 #: calendar/gui/dialogs/alarm-dialog.glade.h:15
-#, fuzzy
 msgid "_Program:"
-msgstr "Ejecutar programa"
+msgstr "_Programa:"
 
 #: calendar/gui/dialogs/alarm-dialog.glade.h:16
-#, fuzzy
 msgid "_Repeat the alarm"
-msgstr "Repetir la alarma"
+msgstr "_Repetir la alarma"
 
 #: calendar/gui/dialogs/alarm-dialog.glade.h:17
-#, fuzzy
 msgid "_Sound:"
-msgstr "Southend"
+msgstr "_Sonido:"
 
 #: calendar/gui/dialogs/alarm-dialog.glade.h:18
 msgid "after"
@@ -4956,9 +4907,8 @@ msgid "The item could not be deleted due to an error"
 msgstr "El elemento no pudo ser borrado debido a un error"
 
 #: calendar/gui/dialogs/e-delegate-dialog.glade.h:1
-#, fuzzy
 msgid "Contacts..."
-msgstr "_Contactos..."
+msgstr "Contactos..."
 
 #: calendar/gui/dialogs/e-delegate-dialog.glade.h:2
 msgid "Delegate To:"
@@ -4983,9 +4933,8 @@ msgid "Scheduling"
 msgstr "Planificación"
 
 #: calendar/gui/dialogs/event-editor.c:176
-#, fuzzy
 msgid "Invitations"
-msgstr "Información"
+msgstr "Invitaciones"
 
 #: calendar/gui/dialogs/event-editor.c:242
 #: calendar/gui/dialogs/event-editor.c:384 ui/evolution-event-editor.xml.h:6
@@ -5022,47 +4971,43 @@ msgid "Unable to open the calendar '%s'."
 msgstr "No se pudo abrir la agenda «%s»."
 
 #: calendar/gui/dialogs/event-page.c:1799
-#, fuzzy, c-format
+#, c-format
 msgid "%d day before appointment"
 msgid_plural "%d days before appointment"
-msgstr[0] "antes de cada cita"
-msgstr[1] "antes de cada cita"
+msgstr[0] "%d día antes de la cita"
+msgstr[1] "%d días antes de la cita"
 
 #: calendar/gui/dialogs/event-page.c:1807
-#, fuzzy, c-format
+#, c-format
 msgid "%d hour before appointment"
 msgid_plural "%d hours before appointment"
-msgstr[0] "fin de la cita"
-msgstr[1] "fin de la cita"
+msgstr[0] "%d hora antes de la cita"
+msgstr[1] "%d horas antes de la cita"
 
 #: calendar/gui/dialogs/event-page.c:1815
-#, fuzzy, c-format
+#, c-format
 msgid "%d minute before appointement"
 msgid_plural "%d minutes before appointment"
-msgstr[0] "antes de cada cita"
-msgstr[1] "antes de cada cita"
+msgstr[0] "%d minuto antes de la cita"
+msgstr[1] "%d minutos antes de cada cita"
 
 #: calendar/gui/dialogs/event-page.glade.h:2
-#, fuzzy
 msgid "1 day before appointment"
-msgstr "antes de cada cita"
+msgstr "1 día antes de la cita"
 
 #: calendar/gui/dialogs/event-page.glade.h:3
-#, fuzzy
 msgid "1 hour before appointment"
-msgstr "antes de cada cita"
+msgstr "1 hora antes de la cita"
 
 #: calendar/gui/dialogs/event-page.glade.h:4
-#, fuzzy
 msgid "15 minutes before appointment"
-msgstr "antes de cada cita"
+msgstr "15 minutos antes de la cita"
 
 #: calendar/gui/dialogs/event-page.glade.h:5
 msgid "<b>Basics</b>"
 msgstr "<b>Básico</b>"
 
 #: calendar/gui/dialogs/event-page.glade.h:6
-#, fuzzy
 msgid "<b>Date and Time</b>"
 msgstr "<b>Fecha y hora</b>"
 
@@ -5071,9 +5016,8 @@ msgid "A_ll day event"
 msgstr "Acontecimiento para _todo el día"
 
 #: calendar/gui/dialogs/event-page.glade.h:8
-#, fuzzy
 msgid "C_ustomize..."
-msgstr "Guardar vista personalizada..."
+msgstr "_Personalizar..."
 
 #: calendar/gui/dialogs/event-page.glade.h:9
 #: calendar/gui/dialogs/task-page.glade.h:4
@@ -5081,15 +5025,13 @@ msgid "Ca_tegories..."
 msgstr "Ca_tegorías..."
 
 #: calendar/gui/dialogs/event-page.glade.h:10
-#, fuzzy
 msgid "Cale_ndar:"
-msgstr "Agenda:"
+msgstr "Cale_ndario:"
 
 #: calendar/gui/dialogs/event-page.glade.h:11
 #: calendar/gui/dialogs/task-page.glade.h:5
-#, fuzzy
 msgid "Classi_fication:"
-msgstr "Clasificación"
+msgstr "Clasi_ficación:"
 
 #: calendar/gui/dialogs/event-page.glade.h:12
 #: calendar/gui/dialogs/task-page.glade.h:6 calendar/gui/e-cal-list-view.c:259
@@ -5115,9 +5057,8 @@ msgid "Public"
 msgstr "Público"
 
 #: calendar/gui/dialogs/event-page.glade.h:16
-#, fuzzy
 msgid "Show time as _busy"
-msgstr "Mostrar hora como"
+msgstr "Mostrar hora como _ocupada"
 
 #: calendar/gui/dialogs/event-page.glade.h:17
 #: calendar/gui/dialogs/task-page.glade.h:11
@@ -5126,17 +5067,15 @@ msgstr "Resu_men:"
 
 #: calendar/gui/dialogs/event-page.glade.h:18
 msgid "This appointment has customized alarms"
-msgstr ""
+msgstr "Esta cita tiene alarmas personalizadas"
 
 #: calendar/gui/dialogs/event-page.glade.h:19
-#, fuzzy
 msgid "_Alarm"
-msgstr "Alarmas"
+msgstr "_Alarma"
 
 #: calendar/gui/dialogs/event-page.glade.h:20
-#, fuzzy
 msgid "_Description:"
-msgstr "Descripción:"
+msgstr "_Descripción:"
 
 #: calendar/gui/dialogs/event-page.glade.h:21
 #: calendar/gui/e-meeting-time-sel.c:613
@@ -5235,50 +5174,45 @@ msgid "Status"
 msgstr "Estado"
 
 #: calendar/gui/dialogs/meeting-page.glade.h:2
-#, fuzzy
 msgid "<b>Attendees</b>"
-msgstr "<b>Alertas</b>"
+msgstr "<b>Asistentes</b>"
 
 #: calendar/gui/dialogs/meeting-page.glade.h:3
-#, fuzzy
 msgid "<b>Organizer</b>"
-msgstr "<b>Otro</b>"
+msgstr "<b>Organizador</b>"
 
 #: calendar/gui/dialogs/meeting-page.glade.h:4
-#, fuzzy
 msgid "Change Or_ganizer"
-msgstr "_Cambiar organizador"
+msgstr "Cambiar or_ganizador"
 
 #: calendar/gui/dialogs/meeting-page.glade.h:5
 #: calendar/gui/e-meeting-time-sel.c:415
-#, fuzzy
 msgid "Con_tacts..."
-msgstr "_Contactos..."
+msgstr "Con_tactos..."
 
 #: calendar/gui/dialogs/meeting-page.glade.h:7
-#, fuzzy
 msgid "_Organizer:"
-msgstr "Organizador:"
+msgstr "_Organizador:"
 
 #: calendar/gui/dialogs/new-calendar.glade.h:2
 msgid "<b>Calendar options</b>"
-msgstr "<b>Opciones de agenda</b>"
+msgstr "<b>Opciones del calendario</b>"
 
 #: calendar/gui/dialogs/new-calendar.glade.h:3
 msgid "Add New Calendar"
-msgstr "Añadir una agenda nueva"
+msgstr "Añadir un calendario nuevo"
 
 #: calendar/gui/dialogs/new-calendar.glade.h:4
 msgid "Calendar Group"
-msgstr "Grupo de agenda"
+msgstr "Grupo de calendario"
 
 #: calendar/gui/dialogs/new-calendar.glade.h:5
 msgid "Calendar Location"
-msgstr "Ubicación de la agenda"
+msgstr "Ubicación del calendario"
 
 #: calendar/gui/dialogs/new-calendar.glade.h:6
 msgid "Calendar Name"
-msgstr "Nombre de la agenda"
+msgstr "Nombre del calendario"
 
 #: calendar/gui/dialogs/new-task-list.glade.h:2
 msgid "<b>Task List Options</b>"
@@ -5286,7 +5220,7 @@ msgstr "<b>Opciones de lista de tareas</b>"
 
 #: calendar/gui/dialogs/new-task-list.glade.h:3
 msgid "Add New Task List"
-msgstr "Añadir lista de tareas"
+msgstr "Añadir lista de tareas nueva"
 
 #: calendar/gui/dialogs/new-task-list.glade.h:4
 msgid "Task List Group"
@@ -5377,27 +5311,24 @@ msgid "Date/Time"
 msgstr "Fecha/Hora"
 
 #: calendar/gui/dialogs/recurrence-page.glade.h:1
-#, fuzzy
 msgid "<b>Exceptions</b>"
-msgstr "<b>Descripción</b>"
+msgstr "<b>Excepciones</b>"
 
 #: calendar/gui/dialogs/recurrence-page.glade.h:2 mail/mail-config.glade.h:4
 msgid "<b>Preview</b>"
 msgstr "<b>Vista previa</b>"
 
 #: calendar/gui/dialogs/recurrence-page.glade.h:3
-#, fuzzy
 msgid "<b>Recurrence</b>"
-msgstr "Repetición"
+msgstr "<b>Repetición</b>"
 
 #: calendar/gui/dialogs/recurrence-page.glade.h:4
 msgid "Every"
 msgstr "Cada"
 
 #: calendar/gui/dialogs/recurrence-page.glade.h:5
-#, fuzzy
 msgid "This appointment rec_urs"
-msgstr "_Editar cita"
+msgstr "Esta cita se _repite"
 
 #: calendar/gui/dialogs/recurrence-page.glade.h:8
 msgid "for"
@@ -5440,14 +5371,12 @@ msgid "Completed date is wrong"
 msgstr "La fecha de terminación es errónea"
 
 #: calendar/gui/dialogs/task-details-page.glade.h:1
-#, fuzzy
 msgid "<span weight=\"bold\">Miscellaneous\t</span>"
-msgstr "<span weight=\"bold\">Tipografías del mensaje</span>"
+msgstr "<span weight=\"bold\">Varios\t</span>"
 
 #: calendar/gui/dialogs/task-details-page.glade.h:2
-#, fuzzy
 msgid "<span weight=\"bold\">Status</span>"
-msgstr "<span weight=\"bold\">Alertas</span>"
+msgstr "<span weight=\"bold\">Estado</span>"
 
 #. Pass TRUE as is_utc, so it gets converted to the current
 #. timezone.
@@ -5494,9 +5423,8 @@ msgid "Not Started"
 msgstr "Sin comenzar"
 
 #: calendar/gui/dialogs/task-details-page.glade.h:10
-#, fuzzy
 msgid "P_ercent complete:"
-msgstr "Porcentaje completado: %i"
+msgstr "Porcentaje completado:"
 
 #: calendar/gui/dialogs/task-details-page.glade.h:11
 #: calendar/gui/e-calendar-table.c:377
@@ -5539,14 +5467,12 @@ msgid "Unable to open tasks in '%s'."
 msgstr "No es posible abrir las tareas en «%s»."
 
 #: calendar/gui/dialogs/task-page.glade.h:2
-#, fuzzy
 msgid "<span weight=\"bold\">Basics</span>"
-msgstr "<span weight=\"bold\">Opciones</span>"
+msgstr "<span weight=\"bold\">Básicos</span>"
 
 #: calendar/gui/dialogs/task-page.glade.h:3
-#, fuzzy
 msgid "<span weight=\"bold\">Date and Time</span>"
-msgstr "<span weight=\"bold\">Borrar correo</span>"
+msgstr "<span weight=\"bold\">Hora y fecha</span>"
 
 #: calendar/gui/dialogs/task-page.glade.h:7
 #: calendar/gui/e-cal-component-preview.c:268
@@ -5564,58 +5490,48 @@ msgid "_Due date:"
 msgstr "Fecha de _vencimiento:"
 
 #: calendar/gui/dialogs/task-page.glade.h:13
-#, fuzzy
 msgid "_Group:"
-msgstr "Grupo:"
+msgstr "_Grupo:"
 
 #: calendar/gui/dialogs/url-editor-dialog.glade.h:3
-#, fuzzy
 msgid "<b>Free/Busy C_alendars</b>"
-msgstr "<b>Opciones de agenda</b>"
+msgstr "<b>Calendarios de disponibilidad</b>"
 
 #: calendar/gui/dialogs/url-editor-dialog.glade.h:4
-#, fuzzy
 msgid "<b>Publishing Frequency</b>"
-msgstr "Frecuencia de publicación"
+msgstr "<b>Frecuencia de publicación</b>"
 
 #: calendar/gui/dialogs/url-editor-dialog.glade.h:5
-#, fuzzy
 msgid "<b>Publishing _Location</b>"
-msgstr "Dirección de publicación de información de disponibilidad"
+msgstr "<b>_Dirección de publicación</b>"
 
 #: calendar/gui/dialogs/url-editor-dialog.glade.h:6
 msgid "Free/Busy Editor"
 msgstr "Editor de información de disponibilidad"
 
 #: calendar/gui/dialogs/url-editor-dialog.glade.h:7
-#, fuzzy
 msgid "_Daily"
-msgstr "Diariamente"
+msgstr "_Diariamente"
 
 #: calendar/gui/dialogs/url-editor-dialog.glade.h:8
-#, fuzzy
 msgid "_Manual"
-msgstr "Managua"
+msgstr "_Manual"
 
 #: calendar/gui/dialogs/url-editor-dialog.glade.h:9
-#, fuzzy
 msgid "_Password:"
-msgstr "Contraseña:"
+msgstr "_Contraseña:"
 
 #: calendar/gui/dialogs/url-editor-dialog.glade.h:10
-#, fuzzy
 msgid "_Remember password"
-msgstr "Recordar contraseña"
+msgstr "_Recordar contraseña"
 
 #: calendar/gui/dialogs/url-editor-dialog.glade.h:11
-#, fuzzy
 msgid "_Username:"
 msgstr "_Usuario:"
 
 #: calendar/gui/dialogs/url-editor-dialog.glade.h:12
-#, fuzzy
 msgid "_Weekly"
-msgstr "Semanalmente"
+msgstr "_Semanalmente"
 
 #: calendar/gui/e-alarm-list.c:395
 #, c-format
@@ -6645,9 +6561,8 @@ msgid "No Information"
 msgstr "Sin información"
 
 #: calendar/gui/e-meeting-time-sel.c:432
-#, fuzzy
 msgid "O_ptions"
-msgstr "Opciones"
+msgstr "O_pciones"
 
 #: calendar/gui/e-meeting-time-sel.c:449
 msgid "Show _only working hours"
@@ -6667,7 +6582,7 @@ msgstr "_<<"
 
 #: calendar/gui/e-meeting-time-sel.c:507
 msgid "_Autopick"
-msgstr "_Autoseleccionar"
+msgstr "_Auto-seleccionar"
 
 #: calendar/gui/e-meeting-time-sel.c:522
 msgid ">_>"
@@ -6842,7 +6757,7 @@ msgstr "Regenerar"
 
 #: calendar/gui/itip-utils.c:450
 msgid "Counter-proposal"
-msgstr "Contrapropuesta"
+msgstr "Contra-propuesta"
 
 #: calendar/gui/itip-utils.c:521
 #, c-format
@@ -7168,7 +7083,7 @@ msgstr "No es posible abrir la lista de tareas «%s» para crear eventos y reuni
 
 #: calendar/gui/tasks-component.c:761
 msgid "There is no calendar available for creating tasks"
-msgstr "No hay una agenda disponible para crear tareas"
+msgstr "No hay un calendario disponible para crear tareas"
 
 #: calendar/gui/tasks-component.c:1030
 msgid "New task"
@@ -7187,7 +7102,6 @@ msgid "New tasks group"
 msgstr "Nuevo grupo de tareas"
 
 #: calendar/gui/tasks-component.c:1039
-#, fuzzy
 msgid "Tasks Gro_up"
 msgstr "Grupo de _tareas"
 
@@ -7221,7 +7135,7 @@ msgstr "DLMXJVS"
 
 #: calendar/importers/GNOME_Evolution_Calendar_Importer.server.in.in.h:1
 msgid "Evolution Calendar intelligent importer"
-msgstr "Importador inteligente de la agenda de Evolution"
+msgstr "Importador inteligente del calendario de Evolution"
 
 #: calendar/importers/GNOME_Evolution_Calendar_Importer.server.in.in.h:2
 msgid "Evolution iCalendar importer"
@@ -9384,7 +9298,7 @@ msgid ""
 "unrecognized by the implementation."
 msgstr ""
 "El mecanismo especificado no está soportado por la credencial provista, o es "
-"ireconocible por la implementación."
+"irreconocible por la implementación."
 
 #: camel/camel-sasl-gssapi.c:153
 msgid "The provided target_name parameter was ill-formed."
@@ -9726,7 +9640,6 @@ msgid "Certificate only message, certificates imported and verified"
 msgstr "Mensaje sólo de certificado, certificados importados y verificados"
 
 #: camel/camel-smime-context.c:635
-#, fuzzy
 msgid "Cannot find signature digests"
 msgstr "No se pueden encontrar los digests de la firma"
 
@@ -9740,48 +9653,40 @@ msgid "Decoder failed"
 msgstr "La decodificación ha fallado"
 
 #: camel/camel-smime-context.c:804
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot find certificate for `%s'"
-msgstr "No se puede encontrar el certificado para «%s»."
+msgstr "No se puede encontrar el certificado para «%s»"
 
 #: camel/camel-smime-context.c:811
-#, fuzzy
 msgid "Cannot find common bulk encryption algorithm"
-msgstr "No se puede encontrar un algoritmo de encriptación común."
+msgstr "No se puede encontrar un algoritmo de encriptación común"
 
 #. PORT_GetError(); ??
 #: camel/camel-smime-context.c:820
-#, fuzzy
 msgid "Cannot allocate slot for encryption bulk key"
 msgstr "No se puede reservar un slot para la clave de encriptación"
 
 #: camel/camel-smime-context.c:831
-#, fuzzy
 msgid "Cannot create CMS Message"
 msgstr "No se pudo crear el mensaje CMS"
 
 #: camel/camel-smime-context.c:837
-#, fuzzy
 msgid "Cannot create CMS EnvelopedData"
 msgstr "No se puede crear CMS EnvelopedData"
 
 #: camel/camel-smime-context.c:843
-#, fuzzy
 msgid "Cannot attach CMS EnvelopedData"
 msgstr "No se puede adjuntar CMS EvelopedData"
 
 #: camel/camel-smime-context.c:849
-#, fuzzy
 msgid "Cannot attach CMS data object"
 msgstr "No se puede adjuntar el objeto de datos CMS"
 
 #: camel/camel-smime-context.c:858
-#, fuzzy
 msgid "Cannot create CMS RecipientInfo"
 msgstr "No se puede crear CMS RecipientInfo"
 
 #: camel/camel-smime-context.c:863
-#, fuzzy
 msgid "Cannot add CMS RecipientInfo"
 msgstr "No se puede añadir CMS RecipientInfo"
 
@@ -10274,7 +10179,7 @@ msgstr ""
 #, c-format
 msgid "Unexpected server response: Identical UIDs provided for messages %d and %d"
 msgstr ""
-"Respuesta inesperada del servidor: Se proporcioneron UIDs idénticos para los "
+"Respuesta inesperada del servidor: Se proporcionaron UIDs idénticos para los "
 "mensajes %d y %d"
 
 #: camel/providers/imap/camel-imap-folder.c:2660
@@ -10465,7 +10370,7 @@ msgstr "No existe la carpeta %s"
 #: camel/providers/imap4/camel-imap4-store.c:796
 #, c-format
 msgid "The folder name \"%s\" is invalid because it contains the character \"%c\""
-msgstr "El nombre de la carpeta «%s» es inválido porque contiene elcarácter «%c»"
+msgstr "El nombre de la carpeta «%s» es inválido porque contiene el carácter «%c»"
 
 #: camel/providers/imap/camel-imap-store.c:1939
 #: camel/providers/imap/camel-imap-store.c:2320
@@ -10576,7 +10481,7 @@ msgstr ""
 msgid "Cannot copy messages from folder `%s' to folder `%s': Unknown"
 msgstr ""
 "No se pudo copiar los mensajes desde la carpeta «%s» a la carpeta «%s»: "
-"Desconcido"
+"Desconocido"
 
 #: camel/providers/imap4/camel-imap4-folder.c:947
 #, c-format
@@ -11525,7 +11430,7 @@ msgstr "Borrar tras %s día(s)"
 
 #: camel/providers/pop3/camel-pop3-provider.c:46
 msgid "Disable support for all POP3 extensions"
-msgstr "Deshabilitar soporte para todas las extensiones POP3"
+msgstr "Desactivar soporte para todas las extensiones POP3"
 
 #: camel/providers/pop3/camel-pop3-provider.c:54 mail/mail-config.glade.h:107
 msgid "POP"
@@ -11559,9 +11464,9 @@ msgid "Could not connect to POP server %s (port %d): %s"
 msgstr "No se pudo conectar al servidor POP %s (puerto %d): %s"
 
 #: camel/providers/pop3/camel-pop3-store.c:214
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to read a valid greeting from POP server %s (port %d)"
-msgstr "No se pudo autenticarme en el servidor POP %s: %s"
+msgstr "No se pudo leer un saludo válido desde el servidor POP %s (puerto %d)"
 
 #: camel/providers/pop3/camel-pop3-store.c:232
 #: camel/providers/pop3/camel-pop3-store.c:261
@@ -11616,13 +11521,13 @@ msgstr ""
 "Error al enviar la contraseña: %s"
 
 #: camel/providers/pop3/camel-pop3-store.c:547
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Unable to connect to POP server %s.\n"
 "Error sending username: %s"
 msgstr ""
 "No se pudo conectar con el servidor POP %s.\n"
-"Error al enviar la contraseña: %s"
+"Error al enviar nombre de usuario: %s"
 
 #: camel/providers/pop3/camel-pop3-store.c:652
 #, c-format
@@ -12149,17 +12054,17 @@ msgid "Compose a message"
 msgstr "Redactar un mensaje"
 
 #: composer/e-msg-composer.c:2649
-#, fuzzy, c-format
+#, c-format
 msgid "Attached message - %s"
-msgstr "Mensaje reenviado - %s"
+msgstr "Mensaje adjunto - %s"
 
 #. translators, this count will always be >1
 #: composer/e-msg-composer.c:2654 composer/e-msg-composer.c:2798
-#, fuzzy, c-format
+#, c-format
 msgid "Attached message"
 msgid_plural "%d attached messages"
-msgstr[0] "Adjuntar mensaje original"
-msgstr[1] "Adjuntar mensaje original"
+msgstr[0] "%d mensaje adjunto"
+msgstr[1] "%d mensajes adjuntos"
 
 #: composer/e-msg-composer.c:4332
 msgid ""
@@ -12193,9 +12098,8 @@ msgstr ""
 
 #. mail-composer:attach-nomessages primary
 #: composer/mail-composer-errors.xml.h:12
-#, fuzzy
 msgid "Could not retrieve messages to attach from {0}."
-msgstr "No se pudo crear un mensaje."
+msgstr "No se pudo obtener un mensaje al que adjuntar desde {0}."
 
 #. mail-composer:attach-nomessages secondary
 #: composer/mail-composer-errors.xml.h:14
@@ -12930,6 +12834,8 @@ msgid ""
 "On ${AbbrevWeekdayName}, ${Year}-${Month}-${Day} at ${24Hour}:${Minute} "
 "${TimeZone}, ${Sender} wrote:"
 msgstr ""
+"El ${AbbrevWeekdayName}, ${Day}-${Month}-${Year} a las ${24Hour}:${Minute} "
+"${TimeZone}, ${Sender} escribió:"
 
 #: mail/em-filter-editor.c:147
 msgid "_Filter Rules"
@@ -13195,24 +13101,21 @@ msgid "Create _Virtual Folder From Search..."
 msgstr "Crear una carpeta _virtual de la búsqueda..."
 
 #: mail/em-folder-properties.c:122
-#, fuzzy
 msgid "Folder Properties"
 msgstr "Propiedades de la carpeta"
 
 #. TODO: can this be done in a loop?
 #: mail/em-folder-properties.c:161
-#, fuzzy
 msgid "Total message:"
 msgid_plural "Total messages:"
-msgstr[0] "Mensajes en total"
+msgstr[0] "Mensaje en total:"
 msgstr[1] "Mensajes en total"
 
 #: mail/em-folder-properties.c:173
-#, fuzzy
 msgid "Unread message:"
 msgid_plural "Unread messages:"
-msgstr[0] "Mensajes no leídos"
-msgstr[1] "Mensajes no leídos"
+msgstr[0] "Mensaje no leído:"
+msgstr[1] "Mensajes no leídos:"
 
 #: mail/em-folder-selection-button.c:120
 msgid "<click here to select a folder>"
@@ -13820,7 +13723,7 @@ msgstr "No se pudo copiar los datos POP3 keep-on-server «%s»: %s"
 #: mail/em-migrate.c:2413 mail/em-migrate.c:2425
 #, c-format
 msgid "Failed to create local mail storage `%s': %s"
-msgstr "Fallo al crear alamcén de correo local  «%s»: %s"
+msgstr "Fallo al crear almacén de correo local  «%s»: %s"
 
 #: mail/em-migrate.c:2576
 #, c-format
@@ -15401,7 +15304,6 @@ msgid "description"
 msgstr "descripción"
 
 #: mail/mail-dialogs.glade.h:1
-#, fuzzy
 msgid ""
 "\n"
 " Please read carefully the license agreement displayed\n"
@@ -15409,8 +15311,7 @@ msgid ""
 msgstr ""
 "\n"
 "Por favor, lea cuidadosamente el acuerdo de licencia\n"
-"para %s mostrado abajo\n"
-"y marque la casilla para aceptarlo.\n"
+"mostrado abajo y marque la casilla para aceptarlo.\n"
 
 #: mail/mail-dialogs.glade.h:7
 msgid "<b>vFolder Sources</b>"
@@ -15425,9 +15326,8 @@ msgid "<span weight=\"bold\">Encryption</span>"
 msgstr "<span weight=\"bold\">Cifrado</span>"
 
 #: mail/mail-dialogs.glade.h:10
-#, fuzzy
 msgid "Accept License"
-msgstr "Aceptado"
+msgstr "Aceptar licencia"
 
 #: mail/mail-dialogs.glade.h:11 mail/message-tags.glade.h:2
 msgid "C_ompleted"
@@ -15455,9 +15355,8 @@ msgid "Folder Subscriptions"
 msgstr "Suscripciones de carpetas"
 
 #: mail/mail-dialogs.glade.h:18
-#, fuzzy
 msgid "License Agreement"
-msgstr "Acuerdo de Licencia %s"
+msgstr "Acuerdo de licencia"
 
 #: mail/mail-dialogs.glade.h:19
 msgid "None Selected"
@@ -15480,9 +15379,8 @@ msgstr ""
 "Por favor, seleccione una acción de seguimiento desde el menú «Marcar»."
 
 #: mail/mail-dialogs.glade.h:25
-#, fuzzy
 msgid "Tick this to accept the license agreement"
-msgstr "Lista de licencias aceptadas"
+msgstr "Marque esto para aceptar el acuerdo de licencia"
 
 #: mail/mail-dialogs.glade.h:26 mail/message-tags.glade.h:6
 msgid "_Due By:"
@@ -15537,7 +15435,6 @@ msgstr "Su inicio de sesión en su servidor «{0}» como «{0}» falló."
 
 #. mail:camel-service-auth-failed secondary
 #: mail/mail-errors.xml.h:8
-#, fuzzy
 msgid ""
 "Check to make sure your password is spelled correctly.  Remember that many "
 "passwords are case sensitive; your caps lock might be on."
@@ -15689,12 +15586,11 @@ msgstr "Tiene mensajes no enviados, ¿quiere salir de todas formas?"
 
 #. mail:exit-unsaved secondary
 #: mail/mail-errors.xml.h:55
-#, fuzzy
 msgid ""
 "If you quit, these messages will not be sent until Evolution is started "
 "again."
 msgstr ""
-"Si sale, estos mensajes no serán enviados hasta que Evoluion sea iniciado de "
+"Si sale, estos mensajes no serán enviados hasta que Evolution sea iniciado de "
 "nuevo."
 
 #. mail:camel-exception primary
@@ -15711,7 +15607,7 @@ msgid ""
 "and resend."
 msgstr ""
 "El mensaje fue enviado por medio de la aplicación externa «sendmail». "
-"Sendmail informa el siguiente error: status 67: mail not sent.\n"
+"Sendmail informa del siguiente error: status 67: mail not sent.\n"
 "El mensaje está almacenado en la carpeta de Salida. Compruebe si el mensaje "
 "tiene errores y reenvíe."
 
@@ -15895,9 +15791,8 @@ msgid "If you proceed, the account information will be deleted permanently."
 msgstr "Si continúa, la información de la cuenta se borrará permanentemente."
 
 #: mail/mail-errors.xml.h:169
-#, fuzzy
 msgid "Don't delete"
-msgstr "_Recuperar"
+msgstr "No borrar"
 
 #. mail:no-save-signature primary
 #: mail/mail-errors.xml.h:171
@@ -15912,12 +15807,12 @@ msgstr "Porque «{0}»"
 #. mail:signature-notscript primary
 #: mail/mail-errors.xml.h:175
 msgid "Cannot set signature script \"{0}\"."
-msgstr "No se puede establacer el script de firma «{0}»."
+msgstr "No se puede establecer el script de firma «{0}»."
 
 #. mail:signature-notscript secondary
 #: mail/mail-errors.xml.h:177
 msgid "The script file must exist and be executable."
-msgstr "El archivo de script debe extistir y ser ejecutable."
+msgstr "El archivo de script debe existir y ser ejecutable."
 
 #. mail:ask-signature-changed title
 #: mail/mail-errors.xml.h:179
@@ -15926,7 +15821,6 @@ msgstr "¿Descartar los cambios?"
 
 #. mail:ask-signature-changed primary
 #: mail/mail-errors.xml.h:181
-#, fuzzy
 msgid "Do you wish to save your changes?"
 msgstr "¿Desea guardar los cambios?"
 
@@ -17081,7 +16975,7 @@ msgid ""
 "can continue."
 msgstr ""
 "La actualización de sus datos y configuración requerirá hasta  {0} de "
-"espacio de disco, pero sñolo tiene {1} disponibles.\n"
+"espacio de disco, pero sólo tiene {1} disponibles.\n"
 "\n"
 "Necesitará hacer más espacio libre en su directorio personal antes de que "
 "pueda continuar."
@@ -17155,20 +17049,23 @@ msgid ""
 "\n"
 "Edit trust settings:"
 msgstr ""
+"El certificado «%s» es un certificado de AC.\n"
+"\n"
+"Edite la configuración de confianza:"
 
 #: smime/gui/cert-trust-dialog.c:145
 msgid ""
 "Because you trust the certificate authority that issued this certificate, "
 "then you trust the authenticity of this certificate unless otherwise "
 "indicated here"
-msgstr ""
+msgstr "Debido a que usted confía en la autoridad de certificación que emitió este certificado, entonces confía en la autenticidad de este certificado a no ser que se indique otra cosa aquí"
 
 #: smime/gui/cert-trust-dialog.c:149
 msgid ""
 "Because you do not trust the certificate authority that issued this "
 "certificate, then you do not trust the authenticity of this certificate "
 "unless otherwise indicated here"
-msgstr ""
+msgstr "Debido a que usted no confía en la autoridad de certificación que emitió este certificado, entonces usted no confía en la autenticidad de este certificado a no ser que se indique otra cosa aquí"
 
 #: smime/gui/certificate-manager.c:130 smime/gui/certificate-manager.c:353
 #: smime/gui/certificate-manager.c:556
@@ -17936,7 +17833,7 @@ msgstr "Barra de herramientas principal"
 
 #: ui/evolution-comp-editor.xml.h:7
 msgid "Preview the printed item"
-msgstr "Previsualizar el elemento que va a ser impreso"
+msgstr "Previsualiza el elemento que va a ser impreso"
 
 #: ui/evolution-comp-editor.xml.h:10 ui/evolution-contact-editor.xml.h:7
 msgid "Print this item"
