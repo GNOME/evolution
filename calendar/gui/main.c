@@ -31,11 +31,7 @@
 #include <bonobo/bonobo-control.h>
 #include <glade/glade.h>
 
-#ifdef USING_OAF
 #include <liboaf/liboaf.h>
-#else
-#include <libgnorba/gnorba.h>
-#endif
 
 #include <e-util/e-cursors.h>
 #include <cal-util/timeutil.h>
@@ -49,21 +45,11 @@
 static void
 init_bonobo (int *argc, char **argv)
 {
-#ifdef USING_OAF
 	/* FIXME: VERSION instead of "0.0".  */
 	gnome_init_with_popt_table ("evolution-calendar", "0.0",
 				    *argc, argv, oaf_popt_options,
 				    0, NULL);
 	oaf_init (*argc, argv);
-#else
-	CORBA_Environment ev;
-
-	CORBA_exception_init (&ev);
-	gnome_CORBA_init_with_popt_table (
-		"evolution-calendar", "0.0",
-		argc, argv, NULL, 0, NULL, GNORBA_INIT_SERVER_FUNC, &ev);
-	CORBA_exception_free (&ev);
-#endif
 
 	if (bonobo_init (CORBA_OBJECT_NIL, CORBA_OBJECT_NIL, CORBA_OBJECT_NIL) == FALSE)
 		g_error (_("Could not initialize Bonobo"));

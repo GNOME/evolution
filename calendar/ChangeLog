@@ -1,3 +1,15 @@
+2000-08-26  JP Rosevear  <jpr@helixcode.com>
+
+	* gui/Makefile.am: Remove gnorba stuff 
+
+	* gui/main.c: ditto
+
+	* gui/component-factory.c: ditto
+
+	* gui/control-factory.c: ditto
+
+	* gui/*.gnorba: ditto
+
 2000-08-25  JP Rosevear  <jpr@helixcode.com>
 
 	* gui/e-calendar-table.c (e_calendar_table_init): Uncomment

@@ -28,11 +28,7 @@
 #include <bonobo/bonobo-control.h>
 #include <glade/glade.h>
 
-#ifdef USING_OAF
 #include <liboaf/liboaf.h>
-#else
-#include <libgnorba/gnorba.h>
-#endif
 
 #include <cal-util/timeutil.h>
 #include <gui/alarm.h>
@@ -45,11 +41,7 @@
 
 #define PROPERTY_CALENDAR_URI_IDX 1
 
-#ifdef USING_OAF
 #define CONTROL_FACTORY_ID   "OAFIID:control-factory:calendar:f4f90989-0f50-4af2-ad94-8bbdf331f0bc"
-#else
-#define CONTROL_FACTORY_ID   "control-factory:calendar"
-#endif
 
 
 CORBA_Environment ev;
