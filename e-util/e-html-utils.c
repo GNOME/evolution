@@ -40,6 +40,22 @@ check_size (char **buffer, int *buffer_size, char *out, int len)
 	return out;
 }
 
+/* 1 = non-email-address chars: ()<>@,;:\"[]    */
+/* 2 = trailing garbage:        ,.!?;:>)]}`'-_  */
+static int special_chars[] = {
+	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,    /*  nul - 0x0f */
+	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,    /* 0x10 - 0x1f */
+	1, 2, 1, 0, 0, 0, 0, 2, 1, 3, 0, 0, 3, 2, 2, 0,    /*   sp - /    */
+	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 3, 1, 0, 3, 2,    /*    0 - ?    */
+	1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,    /*    @ - O    */
+	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 3, 0, 2,    /*    P - _    */
+	2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,    /*    ` - o    */
+	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0     /*    p - del  */
+};
+
+#define is_addr_char(c) (isprint (c) && !(special_chars[c] & 1))
+#define is_trailing_garbage(c) (!isprint(c) || (special_chars[c] & 2))
+
 static char *
 url_extract (const unsigned char **text, gboolean check)
 {
@@ -50,7 +66,7 @@ url_extract (const unsigned char **text, gboolean check)
 		end++;
 
 	/* Back up if we probably went too far. */
-	while (end > *text && strchr (",.!?;:>)]}", *(end - 1)))
+	while (end > *text && is_trailing_garbage (*(end - 1)))
 		end--;
 
 	if (check) {
@@ -65,58 +81,37 @@ url_extract (const unsigned char **text, gboolean check)
 	return out;
 }
 
-/* FIXME -- this should be smarter */
-static gboolean
-is_email_address (const unsigned char *c)
+static char *
+email_address_extract (const unsigned char **cur, char **out, const unsigned char *linestart)
 {
-	gboolean seen_at = FALSE, seen_postat = FALSE;
+	const unsigned char *start, *end, *dot;
+	char *addr;
 
-	if (c == NULL)
-		return FALSE;
-
-	if (*c == '<')
-		++c;
-
-	while (*c && (isalnum ((gint) *c)
-		      || *c == '-'
-		      || *c == '_'
-		      || *c == (seen_at ? '.' : '@'))) {
-		
-		if (seen_at && !seen_postat) {
-			if (*c == '.')
-				return FALSE;
-			seen_postat = TRUE;
-		}
-
-		if (*c == '@')
-			seen_at = TRUE;
-
-		++c;
-	}
-
-	return seen_at && seen_postat && (isspace ((gint) *c) || *c == '>' || !*c);
-}
-
-static gchar *
-email_address_extract (const unsigned char **text)
-{
-	const unsigned char *end = *text;
-	char *out;
-
-	if (end == NULL)
+	/* *cur points to the '@'. Look backward for a valid local-part */
+	for (start = *cur; start - 1 >= linestart && is_addr_char (*(start - 1)); start--)
+		;
+	if (start == *cur)
 		return NULL;
 
-	while (*end && !isspace (*end) && (*end != '>') && (*end < 0x80))
-		++end;
-
-	out = g_strndup (*text, end - *text);
-	if (!is_email_address (out)) {
-		g_free (out);
-		return NULL;
+	/* Now look forward for a valid domain part */
+	for (end = *cur + 1, dot = NULL; is_addr_char (*end); end++) {
+		if (*end == '.' && !dot)
+			dot = end;
 	}
+	if (!dot)
+		return NULL;
 
-	*text = end;
-	return out;
+	/* Remove trailing garbage */
+	while (is_trailing_garbage (*(end - 1)))
+		end--;
+	if (dot > end)
+		return NULL;
+
+	addr = g_strndup (start, end - start);
+	*out -= *cur - start;
+	*cur = end;
+
+	return addr;
 }
 
 static gboolean
@@ -203,7 +198,7 @@ is_citation (const unsigned char *c, gboolean saw_citation)
 char *
 e_text_to_html_full (const char *input, unsigned int flags, guint32 color)
 {
-	const unsigned char *cur = input;
+	const unsigned char *cur, *linestart;
 	char *buffer = NULL;
 	char *out = NULL;
 	int buffer_size = 0, col;
@@ -219,7 +214,7 @@ e_text_to_html_full (const char *input, unsigned int flags, guint32 color)
 
 	col = 0;
 
-	for (cur = input; cur && *cur; cur = g_utf8_next_char (cur)) {
+	for (cur = linestart = input; cur && *cur; cur = g_utf8_next_char (cur)) {
 		gunichar u;
 
 		if (flags & E_TEXT_TO_HTML_MARK_CITATION && col == 0) {
@@ -290,29 +285,23 @@ e_text_to_html_full (const char *input, unsigned int flags, guint32 color)
 			u = g_utf8_get_char (cur);
 		}
 
-		if (g_unichar_isalpha (u)
-		    && (flags & E_TEXT_TO_HTML_CONVERT_ADDRESSES)
-		    && is_email_address (cur)) {
-			gchar *addr = NULL, *dispaddr = NULL;
+		if (u == '@' && (flags & E_TEXT_TO_HTML_CONVERT_ADDRESSES)) {
+			char *addr, *dispaddr, *outaddr;
 
-			addr = email_address_extract (&cur);
-			dispaddr = e_text_to_html (addr, 0);
-			
+			addr = email_address_extract (&cur, &out, linestart);
 			if (addr) {
-				gchar *outaddr = g_strdup_printf ("<a href=\"mailto:%s\">%s</a>",
-								  addr, dispaddr);
-				out = check_size (&buffer, &buffer_size, out, strlen(outaddr));
+				dispaddr = e_text_to_html (addr, 0);
+				outaddr = g_strdup_printf ("<a href=\"mailto:%s\">%s</a>",
+							   addr, dispaddr);
+				out = check_size (&buffer, &buffer_size, out, strlen (outaddr));
 				out += sprintf (out, "%s", outaddr);
 				col += strlen (addr);
 				g_free (addr);
 				g_free (dispaddr);
 				g_free (outaddr);
-			}
 
-			if (!*cur)
-				break;
-			u = g_utf8_get_char (cur);
-			
+				u = g_utf8_get_char (cur);
+			}
 		}
 
 		if (u == (gunichar)-1) {
@@ -355,6 +344,7 @@ e_text_to_html_full (const char *input, unsigned int flags, guint32 color)
 				out += 4;
 			}
 			*out++ = *cur;
+			linestart = cur;
 			col = 0;
 			break;
 

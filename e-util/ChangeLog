@@ -1,3 +1,12 @@
+2001-04-29  Dan Winship  <danw@ximian.com>
+
+	* e-html-utils.c (email_address_extract): Make this smarter. Now
+	e_text_to_html_full calls it when it sees a '@', and
+	email_address_extract deals with scanning both forward and
+	backward to find the bounds of the email address. It's still
+	fooled by Message-IDs, but there's not a whole lot we can do
+	there...
+
 2001-04-26  Dan Winship  <danw@ximian.com>
 
 	* e-host-utils.c (e_gethostbyname_r): Make the Solaris and
