@@ -767,8 +767,6 @@ get_folder_info(CamelStore *store, const char *top, guint32 flags, CamelExceptio
 	top = top ? top : "";
 	path = mbox_folder_name_to_path(store, top);
 	
-	printf ("mbox_get_folder_info for '%s'; path = %s\n", top, path);
-	
 	if (*top == '\0') {
 		/* requesting root dir scan */
 		if (stat(path, &st) == -1 || !S_ISDIR(st.st_mode)) {
@@ -818,8 +816,6 @@ get_folder_info(CamelStore *store, const char *top, guint32 flags, CamelExceptio
 	fi->unread = -1;
 	fi->total = -1;
 	fi->path = g_strdup_printf("/%s", top);
-	
-	printf ("fi->uri = %s\n\n", fi->uri);
 	
 	subdir = g_strdup_printf("%s.sbd", path);
 	if (stat(subdir, &st) == 0) {
