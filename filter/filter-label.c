@@ -29,17 +29,11 @@
 #include <string.h>
 
 #include <gtk/gtk.h>
+#include <gconf/gconf.h>
 #include <libgnome/gnome-i18n.h>
 #include <libgnomeui/gnome-dialog.h>
 #include <libgnomeui/gnome-dialog-util.h>
 #include <libgnomeui/gnome-file-entry.h>
-
-#include <bonobo/bonobo-object.h>
-#include <bonobo/bonobo-generic-factory.h>
-#include <bonobo/bonobo-context.h>
-#include <bonobo/bonobo-moniker-util.h>
-#include <bonobo/bonobo-exception.h>
-#include <bonobo-conf/bonobo-config-database.h>
 
 #include "filter-label.h"
 #include "e-util/e-sexp.h"
@@ -103,7 +97,7 @@ filter_label_init (FilterLabel *fl)
 static void
 filter_label_finalise (GtkObject *obj)
 {
-        G_OBJECT_CLASS (parent_class)->finalize (obj);
+	G_OBJECT_CLASS (parent_class)->finalize (obj);
 }
 
 /**
@@ -119,75 +113,16 @@ filter_label_new (void)
 	return (FilterLabel *) g_object_new (FILTER_TYPE_LABEL, NULL, NULL);
 }
 
-static struct {
-	char *path;
-	char *title;
-	char *value;
-} labels[] = {
-	{ "/Mail/Labels/label_0", N_("Important"), "important" },
-	{ "/Mail/Labels/label_1", N_("Work"), "work" },
-	{ "/Mail/Labels/label_2", N_("Personal"), "personal" },
-	{ "/Mail/Labels/label_3", N_("To Do"), "todo" },
-	{ "/Mail/Labels/label_4", N_("Later"), "later" },
-};
-
-int
-filter_label_count (void)
-{
-	return (sizeof (labels) / sizeof (labels[0]));
-}
-
-const char *
-filter_label_label (int i)
-{
-	if (i < 0 || i >= sizeof (labels) / sizeof (labels[0]))
-		return NULL;
-	else
-		return labels[i].value;
-}
-
-int
-filter_label_index (const char *label)
-{
-	int i;
-	
-	for (i = 0; i < sizeof (labels) / sizeof (labels[0]); i++) {
-		if (strcmp (labels[i].value, label) == 0)
-			return i;
-	}
-	
-	return -1;
-}
-
 static void
 xml_create (FilterElement *fe, xmlNodePtr node)
 {
-	FilterOption *fo = (FilterOption *)fe;
-	Bonobo_ConfigDatabase db;
-	CORBA_Environment ev;
-	int i;
+	FilterOption *fo = (FilterOption *) fe;
+	GConfClient *gconf;
+	GSList *labels, *l;
 	
-        FILTER_ELEMENT_CLASS (parent_class)->xml_create (fe, node);
+	FILTER_ELEMENT_CLASS (parent_class)->xml_create (fe, node);
 	
-	CORBA_exception_init (&ev);
-	db = bonobo_get_object ("wombat:", "Bonobo/ConfigDatabase", &ev);
+	gconf = gconf_client_get_default ();
 	
-	if (BONOBO_EX (&ev) || db == CORBA_OBJECT_NIL)
-		db = CORBA_OBJECT_NIL;
-	
-	CORBA_exception_free (&ev);
-	
-	for (i = 0; i < sizeof (labels) / sizeof (labels[0]); i++) {
-		const char *title;
-		char *btitle;
-		
-		if (db == CORBA_OBJECT_NIL
-		    || (title = btitle = bonobo_config_get_string (db, labels[i].path, NULL)) == NULL) {
-			btitle = NULL;
-			title = _(labels[i].title);
-		}
-		
-		filter_option_add (fo, labels[i].value, title, NULL);
-		g_free (btitle);
-	}
+	/* FIXME: probably use gconf_client_get_list() here? */
 }

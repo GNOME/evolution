@@ -43,6 +43,7 @@ typedef struct _FilterLabelClass FilterLabelClass;
 
 struct _FilterLabel {
 	FilterOption parent_object;
+	
 };
 
 struct _FilterLabelClass {
@@ -56,11 +57,6 @@ struct _FilterLabelClass {
 GType filter_label_get_type (void);
 
 FilterLabel *filter_label_new (void);
-
-/* Sigh, this is a mess, but its cleaner than the original mess */
-int filter_label_count (void);
-const char *filter_label_label (int i);
-int filter_label_index (const char *label);
 
 #ifdef __cplusplus
 }

@@ -1,5 +1,9 @@
 2002-11-06  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* filter-label.c (xml_create): Deleted most of the internals until
+	we devise a gconf schema and redesign how we want to do this. It
+	didn't work correctly for 1.2 anyway.
+
 	* filter.glade: Converted to the glade-2 format.
 
 2002-11-05  Jeffrey Stedfast  <fejj@ximian.com>
