@@ -175,8 +175,6 @@ command_toggle_folder_bar (BonoboUIHandler *uih,
 	EShellViewSubwindowMode mode;
 	gboolean show;
 
-	puts (path);
-
 	shell_view = E_SHELL_VIEW (data);
 
 	show = bonobo_ui_handler_menu_get_toggle_state (uih, path);
@@ -200,7 +198,6 @@ command_toggle_shortcut_bar (BonoboUIHandler *uih,
 	shell_view = E_SHELL_VIEW (data);
 
 	show = bonobo_ui_handler_menu_get_toggle_state (uih, path);
-	g_print ("%s -- %d\n", path, show);
 
 	if (show)
 		mode = E_SHELL_VIEW_SUBWINDOW_STICKY;
@@ -369,6 +366,10 @@ static GnomeUIInfo menu [] = {
 };
 
 
+/* FIXME these must match the corresponding setup in the GnomeUIInfo and this sucks sucks.  */
+#define SHORTCUT_BAR_TOGGLE_PATH "/View/Show shortcut bar"
+#define FOLDER_BAR_TOGGLE_PATH "/View/Show folder bar"
+
 void
 e_shell_view_menu_setup (EShellView *shell_view)
 {
@@ -386,8 +387,15 @@ e_shell_view_menu_setup (EShellView *shell_view)
 
 	gtk_signal_connect (GTK_OBJECT (shell_view), "shortcut_bar_mode_changed",
 			    GTK_SIGNAL_FUNC (shortcut_bar_mode_changed_cb),
-			    "");
-	gtk_signal_connect (GTK_OBJECT (shell_view), "shortcut_bar_mode_changed",
+			    SHORTCUT_BAR_TOGGLE_PATH);
+	gtk_signal_connect (GTK_OBJECT (shell_view), "folder_bar_mode_changed",
 			    GTK_SIGNAL_FUNC (folder_bar_mode_changed_cb),
-			    "");
+			    FOLDER_BAR_TOGGLE_PATH);
+
+	/* Initialize the toggles.  Yeah, this is, well, yuck.  */
+
+	folder_bar_mode_changed_cb   (shell_view, e_shell_view_get_folder_bar_mode (shell_view),
+				      FOLDER_BAR_TOGGLE_PATH);
+	shortcut_bar_mode_changed_cb (shell_view, e_shell_view_get_shortcut_bar_mode (shell_view),
+				      SHORTCUT_BAR_TOGGLE_PATH);
 }

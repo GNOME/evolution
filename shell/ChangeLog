@@ -1,5 +1,22 @@
 2000-05-31  Ettore Perazzoli  <ettore@helixcode.com>
 
+	* e-shell-view.c (show_error): Use `set_current_notebook_page()'
+	instead of `gtk_notebook_set_page()'; this will also deactivate
+	the current control properly.
+
+	* e-shell-view-menu.c (e_shell_view_menu_setup): Initialize the
+	state of the shortcut/folder toggle menu items using
+	`e_shell_view_get_shortcut_bar_mode()' and
+	`e_shell_view_get_folder_bar_mode()'.
+	(command_toggle_shortcut_bar): Removed debugging message.
+	(command_toggle_folder_bar): Likewise.
+
+	* e-shell-view.c (e_shell_view_get_shortcut_bar_mode): New
+	function.
+	(e_shell_view_get_folder_bar_mode): New function.
+
+2000-05-31  Ettore Perazzoli  <ettore@helixcode.com>
+
 	* e-storage-set-view.c: New constant `DRAG_RESISTANCE'.  New
 	members `button_x', `button_y' in `EStorageSetViewPrivate'.
 	(init): Initialize to zero.

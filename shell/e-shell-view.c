@@ -637,7 +637,8 @@ show_error (EShellView *shell_view,
 
 	gtk_notebook_remove_page (notebook, 0);
 	gtk_notebook_prepend_page (notebook, label, NULL);
-	gtk_notebook_set_page (notebook, 0);
+
+	set_current_notebook_page (shell_view, 0);
 }
 
 /* Create a new view for @uri with @control.  It assumes a view for @uri does not exist yet.  */
@@ -904,6 +905,24 @@ e_shell_view_set_folder_bar_mode (EShellView *shell_view,
         priv->folder_bar_mode = mode;
 
 	gtk_signal_emit (GTK_OBJECT (shell_view), signals[FOLDER_BAR_MODE_CHANGED], mode);
+}
+
+EShellViewSubwindowMode
+e_shell_view_get_shortcut_bar_mode (EShellView *shell_view)
+{
+	g_return_val_if_fail (shell_view != NULL, E_SHELL_VIEW_SUBWINDOW_HIDDEN);
+	g_return_val_if_fail (E_IS_SHELL_VIEW (shell_view), E_SHELL_VIEW_SUBWINDOW_HIDDEN);
+
+	return shell_view->priv->shortcut_bar_mode;
+}
+
+EShellViewSubwindowMode
+e_shell_view_get_folder_bar_mode (EShellView *shell_view)
+{
+	g_return_val_if_fail (shell_view != NULL, E_SHELL_VIEW_SUBWINDOW_HIDDEN);
+	g_return_val_if_fail (E_IS_SHELL_VIEW (shell_view), E_SHELL_VIEW_SUBWINDOW_HIDDEN);
+
+	return shell_view->priv->folder_bar_mode;
 }
 
 

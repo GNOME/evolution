@@ -71,21 +71,23 @@ struct _EShellViewClass {
 };
 
 
-GtkType          e_shell_view_get_type               (void);
-void             e_shell_view_construct              (EShellView              *shell_view,
-						      EShell                  *shell);
-GtkWidget       *e_shell_view_new                    (EShell                  *shell);
+GtkType                  e_shell_view_get_type               (void);
+void                     e_shell_view_construct              (EShellView              *shell_view,
+							      EShell                  *shell);
+GtkWidget               *e_shell_view_new                    (EShell                  *shell);
 
-gboolean         e_shell_view_display_uri            (EShellView              *shell_view,
-						      const char              *uri);
+gboolean                 e_shell_view_display_uri            (EShellView              *shell_view,
+							      const char              *uri);
 
-void             e_shell_view_set_shortcut_bar_mode  (EShellView              *shell_view,
-						      EShellViewSubwindowMode  mode);
-void             e_shell_view_set_folder_bar_mode    (EShellView              *shell_view,
-						      EShellViewSubwindowMode  mode);
+void                     e_shell_view_set_shortcut_bar_mode  (EShellView              *shell_view,
+							      EShellViewSubwindowMode  mode);
+void                     e_shell_view_set_folder_bar_mode    (EShellView              *shell_view,
+							      EShellViewSubwindowMode  mode);
+EShellViewSubwindowMode  e_shell_view_get_shortcut_bar_mode  (EShellView              *shell_view);
+EShellViewSubwindowMode  e_shell_view_get_folder_bar_mode    (EShellView              *shell_view);
 
-EShell          *e_shell_view_get_shell              (EShellView              *shell_view);
-BonoboUIHandler *e_shell_view_get_bonobo_ui_handler  (EShellView              *shell_view);
+EShell                  *e_shell_view_get_shell              (EShellView              *shell_view);
+BonoboUIHandler         *e_shell_view_get_bonobo_ui_handler  (EShellView              *shell_view);
 
 #ifdef __cplusplus
 }
