@@ -316,6 +316,7 @@ free_sexp_node (struct sexp_node *node)
 	if (node->l_node)
 		free_sexp_node (node->l_node);
 
+	g_free (node->function);
 	g_free (node->data);
 	g_free (node);
 }
