@@ -18,6 +18,7 @@ typedef struct {
 	ETableSortInfo *sort_info;
 	int             col_count;
 	int            *columns;
+	double         *expansions;
 } ETableState;
 
 typedef struct {

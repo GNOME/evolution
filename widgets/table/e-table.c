@@ -715,13 +715,21 @@ et_state_to_header (ETable *e_table, ETableHeader *full_header, ETableState *sta
 
 	for (column = 0; column < state->col_count; column++) {
 		int col;
+		double expansion;
+		ETableCol *table_col;
 
 		col = state->columns[column];
+		expansion = state->expansions[column];
 
 		if (col >= max_cols)
 			continue;
 
-		e_table_header_add_column (nh, e_table_header_get_column (full_header, col), -1);
+		table_col = e_table_header_get_column (full_header, col);
+
+		if (expansion >= -1)
+			table_col->expansion = expansion;
+
+		e_table_header_add_column (nh, table_col, -1);
 	}
 
 	return nh;
@@ -822,15 +830,17 @@ e_table_get_state_object (ETable *e_table)
 	state->col_count = e_table_header_count (e_table->header);
 	full_col_count = e_table_header_count (e_table->full_header);
 	state->columns = g_new(int, state->col_count);
+	state->expansions = g_new(double, state->col_count);
 	for (i = 0; i < state->col_count; i++) {
-		int col_idx = e_table_header_index(e_table->header, i);
+		ETableCol *col = e_table_header_get_column(e_table->header, i);
 		state->columns[i] = -1;
 		for (j = 0; j < full_col_count; j++) {
-			if (col_idx == e_table_header_index(e_table->full_header, j)) {
+			if (col->col_idx == e_table_header_index(e_table->full_header, j)) {
 				state->columns[i] = j;
 				break;
 			}
 		}
+		state->expansions[i] = col->expansion;
 	}
 
 	return state;

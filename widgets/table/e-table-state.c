@@ -41,7 +41,14 @@ etst_class_init (GtkObjectClass *klass)
 	klass->destroy = etst_destroy;
 }
 
-E_MAKE_TYPE(e_table_state, "ETableState", ETableState, etst_class_init, NULL, PARENT_TYPE);
+static void
+etst_init (ETableState *state)
+{
+	state->columns = NULL;
+	state->expansions = NULL;
+}
+
+E_MAKE_TYPE(e_table_state, "ETableState", ETableState, etst_class_init, etst_init, PARENT_TYPE);
 
 ETableState *
 e_table_state_new (void)
@@ -79,6 +86,12 @@ e_table_state_load_from_string  (ETableState *state,
 	}
 }
 
+typedef struct
+{
+	int column;
+	double expansion;
+} int_and_double;
+
 void
 e_table_state_load_from_node    (ETableState *state,
 				 const xmlNode       *node)
@@ -95,22 +108,27 @@ e_table_state_load_from_node    (ETableState *state,
 	state->sort_info = NULL;
 	for (children = node->xmlChildrenNode; children; children = children->next) {
 		if (!strcmp(children->name, "column")) {
-			int *column = g_new(int, 1);
+			int_and_double *column_info = g_new(int_and_double, 1);
 
-			*column = e_xml_get_integer_prop_by_name(children, "source");
+			column_info->column = e_xml_get_integer_prop_by_name(children, "source");
+			column_info->expansion = e_xml_get_double_prop_by_name_with_default(children, "expansion", -2);
 
-			list = g_list_append(list, column);
+			list = g_list_append(list, column_info);
 		} else if (state->sort_info == NULL && !strcmp(children->name, "grouping")) {
 			state->sort_info = e_table_sort_info_new();
 			e_table_sort_info_load_from_node(state->sort_info, children, state_version);
 		}
 	}
 	g_free(state->columns);
+	g_free(state->expansions);
 	state->col_count = g_list_length(list);
 	state->columns = g_new(int, state->col_count);
+	state->expansions = g_new(double, state->col_count);
 	for (iterator = list, i = 0; iterator; iterator = g_list_next(iterator), i++) {
-		state->columns[i] = *(int *)iterator->data;
-		g_free(iterator->data);
+		int_and_double *column_info = iterator->data;
+		state->columns[i] = column_info->column;
+		state->expansions[i] = column_info->expansion;
+		g_free(column_info);
 	}
 	g_list_free(list);
 }
@@ -160,10 +178,13 @@ e_table_state_save_to_node      (ETableState *state,
 
 	for (i = 0; i < state->col_count; i++) {
 		int column = state->columns[i];
+		double expansion = state->expansions[i];
 		xmlNode *new_node;
 
 		new_node = xmlNewChild(node, NULL, "column", NULL);
 		e_xml_set_integer_prop_by_name (new_node, "source", column);
+		if (expansion >= -1)
+			e_xml_set_double_prop_by_name(new_node, "expansion", expansion);
 	}
 
 
