@@ -1,5 +1,8 @@
 2001-05-23  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* message-list.c (message_list_set_folder): Make the message-list
+	respect the "hide deleted messages" setting. Fixes bug #2248.
+
 	* component-factory.c (xfer_folder): New function that the shell
 	component calls to copy/move a folder.
 	(component_fn): Set the xfer_folder_fn argument.

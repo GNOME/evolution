@@ -1994,19 +1994,20 @@ message_list_set_folder (MessageList *message_list, CamelFolder *camel_folder, g
 
 	if (camel_folder) {
 		/* build the etree suitable for this folder */
-		message_list_setup_etree(message_list, outgoing);
+		message_list_setup_etree (message_list, outgoing);
 		
-		camel_object_hook_event(CAMEL_OBJECT (camel_folder), "folder_changed",
-					folder_changed, message_list);
-		camel_object_hook_event(CAMEL_OBJECT (camel_folder), "message_changed",
-					message_changed, message_list);
+		camel_object_hook_event (CAMEL_OBJECT (camel_folder), "folder_changed",
+					 folder_changed, message_list);
+		camel_object_hook_event (CAMEL_OBJECT (camel_folder), "message_changed",
+					 message_changed, message_list);
 		
 		camel_object_ref (CAMEL_OBJECT (camel_folder));
-
-		message_list->hidedeleted = !(CAMEL_IS_VTRASH_FOLDER(camel_folder));
-
-		hide_load_state(message_list);
-		mail_regen_list(message_list, message_list->search, NULL, NULL);
+		
+		message_list->hidedeleted = mail_config_get_hide_deleted () &&
+			!(CAMEL_IS_VTRASH_FOLDER (camel_folder));
+		
+		hide_load_state (message_list);
+		mail_regen_list (message_list, message_list->search, NULL, NULL);
 	}
 }
 
