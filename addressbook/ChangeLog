@@ -148,11 +148,13 @@
 	migrating the company phone numbers.
 
 2004-04-21  Sivaiah Nallagatla   <snallagatla@novell.com>
-	
-	* gui/component/addressbook.c (remove_parameters_from_uri) : added 
-        a new function to striff off any parameters present after ';' in the uri 
-	 (load_source_auth_cb) (addressbook_authenticate) : call above function to 
-	 remove anything after ';' before passing uri to e-password calls 	
+
+	* gui/component/addressbook.c (remove_parameters_from_uri) : added
+	a new function to striff off any parameters present after ';' in
+	the uri
+	(load_source_auth_cb) (addressbook_authenticate) : call above
+	function to remove anything after ';' before passing uri to
+	e-password calls
 	
 2004-04-21  Hans Petter Jansson  <hpj@ximian.com>
 
@@ -213,7 +215,6 @@
 	* gui/contact-editor/e-contact-editor.c (new_target_cb):
 	addressbook_show_load_error_dialog -> eab_load_error_dialog.
 
->>>>>>> 1.1665
 2004-04-19  Rodney Dawes  <dobey@ximian.com>
 
 	* gui/contact-editor/contact-editor.glade: Set the default image for
