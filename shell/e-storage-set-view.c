@@ -728,7 +728,7 @@ popup_folder_menu (EStorageSetView *storage_set_view,
 								       e_folder_get_type_string (folder));
 
 	gtk_widget_show (GTK_WIDGET (menu));
-	gtk_menu_popup (GTK_MENU (menu), NULL, NULL, NULL, NULL, 3, 0);
+	gtk_menu_popup (GTK_MENU (menu), NULL, NULL, NULL, NULL, 3, event->time);
 }
 
 
