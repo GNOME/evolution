@@ -371,7 +371,7 @@ add_object (CalBackend *backend, iCalObject *ico)
 	ico->last_mod = time (NULL);
 #endif
 
-	save (backend);
+	/*save (backend);*/
 }
 
 /* Removes an object from the backend's hash and lists.  Does not perform
@@ -1074,6 +1074,7 @@ cal_backend_update_object (CalBackend *backend, const char *uid,
 		remove_object (backend, ico);
 
 	add_object (backend, new_ico);
+	save (backend);
 
 	/* FIXME: do the notification asynchronously */
 
