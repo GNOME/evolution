@@ -216,7 +216,8 @@ get_url_for_icon (const char *icon_name, MailDisplay *md)
 		}
 		close (fd);
 
-		g_hash_table_insert (icons, icon_path, ba);
+		/* FIXME: these aren't freed. */
+		g_hash_table_insert (icons, g_strdup (icon_path), ba);
 	}
 	g_free (icon_path);
 

@@ -1,7 +1,10 @@
 2000-08-16  Peter Williams  <peterw@helixcode.com>
 
 	* message-thread.c (walk_containers): More (default disabled)
-	mem debugging here.
+	mem debugging here. Fix the big leaks.
+
+	* mail-format.c (get_url_for_icon): Copy the url_path so that
+	it can't get freed under us.
 
 2000-08-15  Peter Williams  <peterw@helixcode.com>
 

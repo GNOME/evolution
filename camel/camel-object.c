@@ -126,6 +126,7 @@ camel_type_lock_down (void)
 		g_warning
 			("camel_type_lock_down: lock down before a lock up?");
 		type_system_locklevel = g_private_new (GINT_TO_POINTER (0));
+		G_UNLOCK (type_system_level);
 		return;
 	}
 
