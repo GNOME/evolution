@@ -39,7 +39,6 @@
 
 #define d(x)
 
-
 enum {
 	LAST_SIGNAL
 };
@@ -173,7 +172,7 @@ menubar_activated (ESearchBar *esb, int id, void *data)
 			gnome_dialog_set_default (gd, 0);
 
 			gtk_window_set_policy(GTK_WINDOW(gd), FALSE, TRUE, FALSE);
-			/*gtk_window_set_default_size (GTK_WINDOW (gd), 500, 500);*/
+		       
 			gtk_box_pack_start((GtkBox *)gd->vbox, w, TRUE, TRUE, 0);
 			gtk_widget_show((GtkWidget *)gd);
 			gtk_object_ref((GtkObject *)rule);
@@ -245,7 +244,7 @@ option_changed (ESearchBar *esb, void *data)
 			gnome_dialog_set_default (gd, 0);
 		
 			gtk_window_set_policy(GTK_WINDOW(gd), FALSE, TRUE, FALSE);
-			/*gtk_window_set_default_size (GTK_WINDOW (gd), 500, 500);*/
+			gtk_window_set_default_size (GTK_WINDOW (gd), 600, 300);
 			gtk_box_pack_start((GtkBox *)gd->vbox, w, TRUE, TRUE, 0);
 			gtk_widget_show((GtkWidget *)gd);
 			gtk_object_ref((GtkObject *)rule);
@@ -469,4 +468,22 @@ e_filter_bar_get_type (void)
 
 	return type;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
