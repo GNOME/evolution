@@ -433,10 +433,22 @@ local_record_from_comp (EToDoLocalRecord *local, CalComponent *comp, EToDoCondui
 	}	
 
 	cal_component_get_priority (comp, &priority);
-	if (priority) {
-		local->todo->priority = *priority;
+	if (priority && *priority != 0) {
+		if (*priority <= 3)
+			local->todo->priority = 1;
+		else if (*priority == 4)
+			local->todo->priority = 2;
+		else if (*priority == 5)
+			local->todo->priority = 3;
+		else if (*priority <= 7)
+			local->todo->priority = 4;
+		else
+			local->todo->priority = 5;
+		
 		cal_component_free_priority (priority);
-	}
+	} else {
+		local->todo->priority = 3;
+	}	
 	
 	cal_component_get_classification (comp, &classif);
 
@@ -485,6 +497,7 @@ comp_from_remote_record (GnomePilotConduitSyncAbs *conduit,
 	CalComponentText summary = {NULL, NULL};
 	CalComponentDateTime dt = {NULL, icaltimezone_get_tzid (timezone)};
 	struct icaltimetype due;
+	int priority;
 	char *txt;
 	
 	g_return_val_if_fail (remote != NULL, NULL);
@@ -533,8 +546,25 @@ comp_from_remote_record (GnomePilotConduitSyncAbs *conduit,
 		dt.value = &due;
 		cal_component_set_due (comp, &dt);
 	}
+
+	switch (todo.priority) {
+	case 1:
+		priority = 3;
+		break;
+	case 2:
+		priority = 4;
+		break;
+	case 3:
+		priority = 5;
+		break;
+	case 4:
+		priority = 7;
+		break;
+	default:
+		priority = 9;
+	}
 	
-	cal_component_set_priority (comp, &todo.priority);
+	cal_component_set_priority (comp, &priority);
 	cal_component_set_transparency (comp, CAL_COMPONENT_TRANSP_NONE);
 
 	if (remote->attr & dlpRecAttrSecret)

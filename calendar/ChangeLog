@@ -1,5 +1,11 @@
 2001-10-17  JP Rosevear  <jpr@ximian.com>
 
+	* conduits/todo/todo-conduit.c (local_record_from_comp): translate
+	1-5 priorites to 1-9 priorities better
+	(comp_from_remote_record): ditto
+
+2001-10-17  JP Rosevear  <jpr@ximian.com>
+	
 	* idl/evolution-calendar.idl: allow some decent exceptions
 
 2001-10-17  Rodrigo Moya <rodrigo@ximian.com>
