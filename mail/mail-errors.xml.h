@@ -129,6 +129,10 @@ char *s = N_("Delete \"{0}\"?");
 char *s = N_("Really delete folder \"{0}\" and all of its subfolders?");
 /* mail:ask-delete-folder secondary */
 char *s = N_("If you delete the folder, all of its contents and its subfolders contents will be deleted permanently.");
+/* mail:ask-delete-vfolder title */
+char *s = N_("Delete \"{0}\"?");
+/* mail:ask-delete-vfolder primary */
+char *s = N_("Really delete folder \"{0}\" and all of its subfolders?");
 /* mail:no-rename-folder-exists primary */
 char *s = N_("Cannot rename \"{0}\" to \"{1}\".");
 /* mail:no-rename-folder-exists secondary */
