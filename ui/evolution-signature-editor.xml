@@ -64,10 +64,6 @@
                 </submenu>
 
 		<placeholder name="Component"/>
-
-		<submenu name="Help" _label="_Help">
-	                <menuitem name="HelpSigEditor" verb="" _label="_Signature editor"/>
-		</submenu>
 	</menu>
 
 	<dockitem name="Toolbar" behavior="exclusive" hlook="both_horiz" vlook="icon">
