@@ -33,7 +33,7 @@
 #include <glade/glade.h>
 #include <widgets/misc/e-map.h>
 #include <e-destination.h>
-#include "../Evolution-Addressbook-SelectNames.h"
+#include "Evolution-Addressbook-SelectNames.h"
 #include "e-delegate-dialog.h"
 
 struct _EDelegateDialogPrivate {

@@ -36,6 +36,7 @@ INCLUDES = 								\
 noinst_LIBRARIES = libcal-dialogs.a
 
 libcal_dialogs_a_SOURCES =	\
+	$(IDL_GENERATED)	\
 	alarm-options.c		\
 	alarm-options.h		\
 	alarm-page.c		\
