@@ -1,3 +1,11 @@
+2000-05-11  Miguel de Icaza  <miguel@gnu.org>
+
+	* e-table.c: Removed dead code. 
+
+2000-04-14  Miguel de Icaza  <miguel@gnu.org>
+
+	* e-table-header-item.c (ethi_class_init): New signal action.
+	
 2000-05-10  Christopher James Lahey  <clahey@helixcode.com>
 
 	* Makefile.am: Added e-table-col-dnd.h and table-test.h.

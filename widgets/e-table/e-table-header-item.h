@@ -60,6 +60,11 @@ typedef struct {
 
 typedef struct {
 	GnomeCanvasItemClass parent_class;
+
+	/*
+	 * signals
+	 */
+	void (*button_pressed) (ETableHeaderItem *ethi, GdkEventButton *button);
 } ETableHeaderItemClass;
 
 GtkType    e_table_header_item_get_type (void);

@@ -27,6 +27,13 @@
 #include "arrow-up.xpm"
 #include "arrow-down.xpm"
 
+enum {
+	BUTTON_PRESSED,
+	LAST_SIGNAL
+};
+
+static guint ethi_signals [LAST_SIGNAL] = { 0, };
+
 #define ARROW_DOWN_HEIGHT 16
 #define ARROW_PTR          7
 
@@ -925,6 +932,13 @@ ethi_start_drag (ETableHeaderItem *ethi, GdkEvent *event)
 	g_hash_table_destroy (arrows);
 }
 
+static void
+ethi_button_pressed (ETableHeaderItem *ethi, GdkEventButton *event)
+{
+	gtk_signal_emit (GTK_OBJECT (ethi),
+			 ethi_signals [BUTTON_PRESSED], event);
+}
+
 /* FIXME: Implement this. */
 #if 0
 static GtkMenu *
@@ -1029,7 +1043,8 @@ ethi_event (GnomeCanvasItem *item, GdkEvent *e)
 				ethi->maybe_drag = TRUE;
 			} else if (e->button.button == 3){
 				ethi_header_context_menu (ethi, &e->button);
-			}
+			} else
+				ethi_button_pressed (ethi, &e->button);
 		}
 		break;
 
@@ -1147,6 +1162,15 @@ ethi_class_init (GtkObjectClass *object_class)
 	add_col_pixmap = gdk_pixmap_colormap_create_from_xpm_d (
 		NULL, dnd_colormap,
 		&add_col_mask, NULL, add_col_xpm);
+
+	ethi_signals [BUTTON_PRESSED] =
+		gtk_signal_new ("button_pressed",
+				GTK_RUN_LAST,
+				object_class->type,
+				GTK_SIGNAL_OFFSET (ETableHeaderItemClass, button_pressed),
+				gtk_marshal_NONE__POINTER,
+				GTK_TYPE_NONE, 1, GTK_TYPE_POINTER);
+		
 }
 
 static void
