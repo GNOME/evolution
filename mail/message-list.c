@@ -386,6 +386,9 @@ message_list_select (MessageList *message_list, int base_row,
 	/* model_to_view_row etc simply dont work for sorted views.  Sigh. */
 	vrow = e_table_model_to_view_row (et, base_row);
 
+	if (vrow != last)
+		vrow += direction;
+
 	/* We don't know whether to use < or > due to "direction" */
 	while (vrow != last) {
 		mrow = e_table_view_to_model_row (et, vrow);

@@ -1,3 +1,11 @@
+2001-01-06  Christopher James Lahey  <clahey@helixcode.com>
+
+	* message-list.c (message_list_select): Made it so that going to
+	the next or previous message in the list will at least move one
+	message, even if the current message matches the query.  This
+	makes 'n' go to the next unread message, even if the current
+	message is unread.
+
 2001-01-06  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* mail-account-editor.c: Coded a bunch of the methods.
