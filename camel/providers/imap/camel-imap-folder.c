@@ -88,6 +88,7 @@ static GPtrArray *imap_get_summary (CamelFolder *folder);
 static const CamelMessageInfo *imap_get_message_info (CamelFolder *folder, const char *uid);
 
 static void imap_update_summary (CamelFolder *folder, int first, int last,
+				 CamelFolderChangeInfo *changes,
 				 CamelException *ex);
 
 /* searching */
@@ -249,16 +250,8 @@ imap_refresh_info (CamelFolder *folder, CamelException *ex)
 	const char *uid, *flags;
 	int i, seq, summary_len;
 	CamelMessageInfo *info;
-	gboolean folder_changed = FALSE;
-
-	if (imap_folder->exists == 0) {
-		if (camel_folder_summary_count (imap_folder->summary) != 0) {
-			camel_folder_summary_clear (imap_folder->summary);
-			camel_object_trigger_event (CAMEL_OBJECT (folder),
-						    "folder_changed", NULL);
-		}
-		return;
-	}
+	CamelImapMessageInfo *iinfo;
+	CamelFolderChangeInfo *changes;
 
 	/* Get UIDs and flags of all messages. */
 	response = camel_imap_command (store, folder, ex,
@@ -267,6 +260,7 @@ imap_refresh_info (CamelFolder *folder, CamelException *ex)
 	if (!response)
 		return;
 
+	changes = camel_folder_change_info_new ();
 	new = g_malloc0 (imap_folder->exists * sizeof (*new));
 	for (i = 0; i < response->untagged->len; i++) {
 		resp = response->untagged->pdata[i];
@@ -296,30 +290,31 @@ imap_refresh_info (CamelFolder *folder, CamelException *ex)
 	summary_len = camel_folder_summary_count (imap_folder->summary);
 	for (i = 0; i < summary_len && i < imap_folder->exists; i++) {
 		info = camel_folder_summary_index (imap_folder->summary, i);
+		iinfo = (CamelImapMessageInfo *)info;
 
 		/* Shouldn't happen, but... */
 		if (!new[i].uid)
 			continue;
 
-		if (strcmp (camel_message_info_uid(info), new[i].uid) != 0) {
-			camel_folder_summary_remove (imap_folder->summary,
-						     info);
-			folder_changed = TRUE;
+		if (strcmp (camel_message_info_uid (info), new[i].uid) != 0) {
+			camel_folder_change_info_remove_uid (changes, camel_message_info_uid (info));
+			camel_folder_summary_remove (imap_folder->summary, info);
 			i--;
 			summary_len--;
 			continue;
 		}
 
 		/* Update summary flags */
-		if (info->flags != new[i].flags) {
-			/* Keep the flags that we have set locally and set
-                           any additional flags that a parallel connection
-			   may have set. */
-		        info->flags |= new[i].flags;
-			
-		        camel_object_trigger_event (CAMEL_OBJECT (folder),
-						    "message_changed",
-						    (char *)camel_message_info_uid(info));
+		if (new[i].flags != iinfo->server_flags) {
+			guint32 server_set, server_cleared;
+
+			server_set = new[i].flags & ~iinfo->server_flags;
+			server_cleared = iinfo->server_flags & ~new[i].flags;
+
+			info->flags = (info->flags | server_set) & ~server_cleared;
+			iinfo->server_flags = new[i].flags;
+
+			camel_folder_change_info_change_uid (changes, new[i].uid);
 		}
 
 		g_free (new[i].uid);
@@ -327,26 +322,27 @@ imap_refresh_info (CamelFolder *folder, CamelException *ex)
 
 	/* Remove any leftover cached summary messages. */
 	while (summary_len > i + 1) {
-		camel_folder_summary_remove_index (imap_folder->summary,
-						   --summary_len);
-		folder_changed = TRUE;
+		info = camel_folder_summary_index (imap_folder->summary, --summary_len);
+		camel_folder_change_info_remove_uid (changes, camel_message_info_uid (info));
+		camel_folder_summary_remove (imap_folder->summary, info);
 	}
 
 	/* Add any new folder messages. */
 	if (i < imap_folder->exists) {
 		/* Fetch full summary for the remaining messages. */
-		imap_update_summary (folder, i + 1, imap_folder->exists, ex);
-		folder_changed = TRUE;
+		imap_update_summary (folder, i + 1, imap_folder->exists,
+				     changes, ex);
 
 		while (i < imap_folder->exists)
 			g_free (new[i++].uid);
 	}
 	g_free (new);
 
-	if (folder_changed) {
+	if (camel_folder_change_info_changed (changes)) {
 		camel_object_trigger_event (CAMEL_OBJECT (folder),
-					    "folder_changed", NULL);
+					    "folder_changed", changes);
 	}
+	camel_folder_change_info_free (changes);
 }
 
 static void
@@ -504,14 +500,6 @@ imap_copy_message_to (CamelFolder *source, const char *uid,
 	response = camel_imap_command (store, source, ex, "UID COPY %s %S",
 				       uid, destination->full_name);
 	camel_imap_response_free (response);
-
-	/* FIXME: This should go away once folder_changed is being
-	 * emitted by camel_imap_folder_changed on appends again.
-	 */
-	if (!camel_exception_is_set (ex)) {
-		camel_object_trigger_event (CAMEL_OBJECT (destination),
-					    "folder_changed", NULL);
-	}
 }
 
 static void
@@ -527,12 +515,6 @@ imap_move_message_to (CamelFolder *source, const char *uid,
 
 	if (camel_exception_is_set (ex))
 		return;
-
-	/* FIXME: This should go away once folder_changed is being
-	 * emitted by camel_imap_folder_changed on appends again.
-	 */
-	camel_object_trigger_event (CAMEL_OBJECT (destination),
-				    "folder_changed", NULL);
 
 	camel_folder_delete_message (source, uid);
 }
@@ -629,7 +611,7 @@ imap_protocol_get_summary_specifier (CamelImapStore *store)
 
 static void
 imap_update_summary (CamelFolder *folder, int first, int last,
-		     CamelException *ex)
+		     CamelFolderChangeInfo *changes, CamelException *ex)
 {
 	CamelImapStore *store = CAMEL_IMAP_STORE (folder->parent_store);
 	CamelImapFolder *imap_folder = CAMEL_IMAP_FOLDER (folder);
@@ -638,13 +620,6 @@ imap_update_summary (CamelFolder *folder, int first, int last,
 	char *q, *summary_specifier;
 	struct _header_raw *h = NULL;
 	int i;
-
-	/* If the range we're updating overlaps with the range we already
-	 * know about, then fetch just flags + uids first. If uids
-	 * aren't "right", reorder them. Update flags appropriately.
-	 * If that returned unknown UIDs, or we're updating unknown
-	 * sequence numbers, do the full fetch for those.
-	 */
 
 	summary_specifier = imap_protocol_get_summary_specifier (store);
 	if (first == last) {
@@ -664,6 +639,7 @@ imap_update_summary (CamelFolder *folder, int first, int last,
 	headers = response->untagged;
 	for (i = 0; i < headers->len; i++) {
 		CamelMessageInfo *info;
+		CamelImapMessageInfo *iinfo;
 		char *uid, *flags, *header;
 
 		/* Grab the UID... */
@@ -700,10 +676,13 @@ imap_update_summary (CamelFolder *folder, int first, int last,
 		 * because it will assign the wrong UID, and thus get the
 		 * uid hash table wrong and all that. FIXME some day.
 		 */
-		info = ((CamelFolderSummaryClass *)(CAMEL_OBJECT_GET_CLASS(imap_folder->summary)))->message_info_new(imap_folder->summary, h);
+		info = camel_folder_summary_info_new_from_header (
+			imap_folder->summary, h);
+		iinfo = (CamelImapMessageInfo *)info;
 		header_raw_clear (&h);
-		uid = g_strndup(uid, q-uid);
-		camel_message_info_set_uid(info, uid);
+		uid = g_strndup (uid, q - uid);
+		camel_folder_change_info_add_uid (changes, uid);
+		camel_message_info_set_uid (info, uid);
 
 		/* now lets grab the FLAGS */
 		if (!(flags = strstr (headers->pdata[i], "FLAGS "))) {
@@ -712,6 +691,7 @@ imap_update_summary (CamelFolder *folder, int first, int last,
 			for (flags += 6; *flags && *flags != '('; flags++)
 				;
 			info->flags = imap_parse_flag_list (flags);
+			iinfo->server_flags = info->flags;
 		}
 
 		camel_folder_summary_add (imap_folder->summary, info);
@@ -840,19 +820,28 @@ camel_imap_folder_changed (CamelFolder *folder, int exists,
 			   GArray *expunged, CamelException *ex)
 {
 	CamelImapFolder *imap_folder = CAMEL_IMAP_FOLDER (folder);
+	CamelFolderChangeInfo *changes;
+	CamelMessageInfo *info;
 
+	changes = camel_folder_change_info_new ();
 	if (expunged) {
 		int i, id;
 
 		for (i = 0; i < expunged->len; i++) {
 			id = g_array_index (expunged, int, i);
-			camel_folder_summary_remove_index (
-				imap_folder->summary, id - 1);
+			info = camel_folder_summary_index (imap_folder->summary, id - 1);
+			camel_folder_change_info_remove_uid (changes, camel_message_info_uid (info));
+			camel_folder_summary_remove (imap_folder->summary, info);
 		}
-		camel_object_trigger_event (CAMEL_OBJECT (folder),
-					    "folder_changed", NULL);
 	}
 
-	if (exists != 0)
-		imap_folder->exists = exists;
+	imap_update_summary (folder, imap_folder->exists + 1, exists,
+			     changes, ex);
+	imap_folder->exists = exists;
+
+	if (camel_folder_change_info_changed (changes)) {
+		camel_object_trigger_event (CAMEL_OBJECT (folder),
+					    "folder_changed", changes);
+	}
+	camel_folder_change_info_free (changes);
 }

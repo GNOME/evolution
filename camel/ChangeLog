@@ -1,3 +1,19 @@
+2000-12-18  Dan Winship  <danw@helixcode.com>
+
+	* providers/imap/camel-imap-summary.c: Add "guint32 server_flags"
+	to CamelImapMessageInfo to keep track of the last known message
+	flag state on the server.
+	(message_info_save, message_info_load): Save/load the
+	server_flags.
+
+	* providers/imap/camel-imap-folder.c: Make this use
+	CamelFolderChangeInfo and emit folder_changed notifications as it
+	gets them rather than only on refresh_info.
+	(imap_refresh_info): Notice flags that get cleared on the server
+	as well as flags that get set.
+	(imap_update_summary): Remove a comment that never actually
+	applied to the committed code.
+
 2000-12-15  Dan Winship  <danw@helixcode.com>
 
 	* providers/imap/camel-imap-command.c (camel_imap_command): Change

@@ -42,6 +42,7 @@ typedef struct _CamelImapMessageContentInfo {
 typedef struct _CamelImapMessageInfo {
 	CamelMessageInfo info;
 
+	guint32 server_flags;
 } CamelImapMessageInfo;
 
 struct _CamelImapSummary {
