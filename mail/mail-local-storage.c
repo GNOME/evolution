@@ -147,6 +147,8 @@ mail_local_storage_startup (EvolutionShellClient *shell_client)
 	gtk_signal_connect (GTK_OBJECT (local_storage_listener), "removed_folder",
 			    GTK_SIGNAL_FUNC (local_storage_removed_folder_cb), NULL);
 
+	folder_tree = e_folder_tree_new (folder_tree_folder_notify_cb, NULL);
+
 	Evolution_Storage_add_listener (corba_local_storage, corba_local_storage_listener, &ev);
 	if (ev._major != CORBA_NO_EXCEPTION) {
 		g_warning ("%s -- Cannot add a listener to the Local Storage.", __FILE__);
@@ -161,8 +163,6 @@ mail_local_storage_startup (EvolutionShellClient *shell_client)
 	}
 
 	CORBA_exception_free (&ev);
-
-	folder_tree = e_folder_tree_new (folder_tree_folder_notify_cb, NULL);
 
 	return TRUE;
 }

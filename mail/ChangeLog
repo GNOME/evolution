@@ -1,5 +1,9 @@
 2000-09-12  Dan Winship  <danw@helixcode.com>
 
+	* mail-local-storage.c (mail_local_storage_startup): set
+	folder_tree before adding the listener, since that will eventually
+	invoke callbacks that will look at it.
+
 	* folder-browser-factory.c (control_deactivate): sync the folder
 	on deactivate.
 
