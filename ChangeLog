@@ -1,3 +1,7 @@
+2003-07-20 Hasbullah Bin Pit <sebol@ikhlas.com>
+
+	*configure.in: Added 'ms' (Malay) to ALL_LINGUAS.
+
 2003-07-10  Rodney Dawes  <dobey@ximian.com>
 
 	* configure.in: Change version to 1.4.99 since HEAD is not the
