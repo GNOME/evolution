@@ -234,8 +234,12 @@ nntp_store_connect (CamelService *service, CamelException *ex)
 		return FALSE;
 	}
 
-	/* check if posting is allowed. */
 	resp_code = atoi (buf);
+	/* Check to see if we have any permissions on this server. */
+	if (resp_code == NNTP_NO_PERMISSION)
+		return FALSE;
+
+	/* check if posting is allowed. */
 	if (resp_code == NNTP_GREETING_POSTING_OK) {
 		g_print ("posting allowed\n");
 		store->posting_allowed = TRUE;

@@ -1,3 +1,12 @@
+2001-07-03  Joe Shaw  <joe@ximian.com>
+
+	* providers/nntp/camel-nntp-resp-codes.h: Added NNTP_NO_PERMISSION
+	(502) to the list of response codes.
+
+	* providers/nntp/camel-nntp-store.c (nntp_store_connect): If we
+	receive a NNTP_NO_PERMISSION, don't get into an infinite loop trying
+	to reconnect, get extensions, etc. Just give up and return FALSE.
+
 2001-07-03  Dan Winship  <danw@ximian.com>
 
 	* providers/imap/camel-imap-message-cache.c

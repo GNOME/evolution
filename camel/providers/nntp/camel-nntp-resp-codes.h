@@ -42,6 +42,8 @@
 #define NNTP_NO_SUCH_GROUP          411
 #define NNTP_NO_SUCH_ARTICLE        430
 
+#define NNTP_NO_PERMISSION          502
+
 /* authentication */
 #define NNTP_AUTH_ACCEPTED          281
 #define NNTP_AUTH_CONTINUE          381
