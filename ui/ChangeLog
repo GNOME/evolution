@@ -1,5 +1,9 @@
 2001-08-09  Ettore Perazzoli  <ettore@ximian.com>
 
+	* evolution.xml: Remove all the "New ... FIXME" items.
+
+2001-08-09  Ettore Perazzoli  <ettore@ximian.com>
+
 	* evolution-addressbook.xml: Put the "Tools" and "Actions" menus
 	in the "ComponentToolsPlaceholder" and
 	"ComponentActionsPlaceholder", respectively.
