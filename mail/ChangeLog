@@ -1,3 +1,8 @@
+2000-05-02  NotZed  <NotZed@HelixCode.com>
+
+	* folder-browser.c (folder_browser_gui_init): Connect the changed
+	signal to search, so it searched immediately?
+
 2000-05-01  NotZed  <NotZed@HelixCode.com>
 
 	* pixmaps.h: Added envelope-deleted state.
@@ -38,6 +43,9 @@
 	changes.
 	(select_msg): And connect to the message_changed signal so we know
 	when it cahgnes.
+	(message_list_set_search): Save the search string.
+	(folder_changed): If the folder changes, re-run the search,
+	otherwise we may end up with invalid entries in the display.
 
 	* mail-display.c: Include missing errno.h.
 

@@ -59,6 +59,7 @@ struct _MessageList {
 
 	CamelFolder  *folder;
 
+	char *search;		/* search string */
 	/* FIXME: This should use a better format ... */
 	GList *matches;		/* when a search has been performed ... */
 

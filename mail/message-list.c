@@ -151,7 +151,7 @@ ml_row_count (ETableModel *etm, void *data)
 		if (camel_exception_get_id (&ex))
 			v = 0;
 	}
-	
+
 	/* in the case where no message is available, return 1
 	 * however, cause we want to be able to show a text */
 	return (v ? v:1);
@@ -690,11 +690,13 @@ message_list_set_search (MessageList *message_list, const char *search)
 		g_list_free(message_list->matches);
 		message_list->matches = NULL;
 	}
+	g_free(message_list->search);
 	if (search) {
 		CamelException ex;
 
 		camel_exception_init (&ex);
 		message_list->matches = camel_folder_search_by_expression(message_list->folder, search, &ex);
+		message_list->search = g_strdup(search);
 	}
 
 	e_table_model_changed (message_list->table_model);
@@ -704,8 +706,7 @@ message_list_set_search (MessageList *message_list, const char *search)
 static void
 folder_changed(CamelFolder *f, int type, MessageList *message_list)
 {
-	e_table_model_changed (message_list->table_model);
-	select_msg (message_list, 0);
+	message_list_set_search(message_list, message_list->search);
 }
 
 void
