@@ -1,5 +1,14 @@
 2000-10-14  Michael Meeks  <michael@helixcode.com>
 
+	* evolution-addressbook-ldap.xml: drasticaly shrink to just the
+	new features available with ldap; don't duplicate stuff.
+
+	* evolution-addressbook.xml: fix tooltips.
+
+	* *.xml: remove redundant attributes causing toolber rebuilds.
+
+2000-10-14  Michael Meeks  <michael@helixcode.com>
+
 	* *.xml: add translation '_'s to some labels.
 
 2000-10-12  Damon Chaplin  <damon@helixcode.com>

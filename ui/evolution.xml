@@ -23,7 +23,7 @@
 				_label="Evolution bar _shortcut"
 				accel="*Control**Shift*s"/>
 
-				<menuitem/>
+				<separator/>
 
 				<menuitem name="Mail" verb="NewMailMessage"
 				_label="_Mail message (FIXME)"
@@ -44,7 +44,7 @@
 
 			<placeholder name="FileOps"/>
 
-			<menuitem/>
+			<separator/>
 
 			<menuitem name="FileGoToFolder" verb=""
 			_label="_Go to Folder..."
@@ -54,7 +54,9 @@
 			_label="_Create New Folder..."
 			_tip="Create a new folder"/>
 
-			<placeholder name="Print" delimit="bottom"/>
+			<placeholder name="Print" delimit="top"/>
+
+			<separator/>
 
 			<menuitem name="FileExit" verb=""
 			_label="E_xit" _tip="Exit the program"

@@ -36,23 +36,23 @@
 		</placeholder>
 	</menu>
 
-	<dockitem name="Toolbar" relief="none" behavior="exclusive">
+	<dockitem name="Toolbar">
 		<toolitem name="New" _label="New"
-		_descr="Create a new contact" verb="ContactNew"
+		_tip="Create a new contact" verb="ContactNew"
 		pixtype="stock" pixname="New"/>
 
 		<separator/>
 
 		<toolitem name="Find" _label="Find"
-		_descr="Find a contact" verb="ContactFind"
+		_tip="Find a contact" verb="ContactFind"
 		pixtype="stock" pixname="Search"/>
 
 		<toolitem name="Print" _label="Print"
-		_descr="Print contacts" verb="ContactsPrint"
+		_tip="Print contacts" verb="ContactsPrint"
 		pixtype="stock" pixname="Print"/>
 
 		<toolitem name="Delete" _label="Delete"
-		_descr="Delete a contact" verb="ContactDelete"
+		_tip="Delete a contact" verb="ContactDelete"
 		pixtype="stock" pixname="Trash"/>
 
 		<separator/>
@@ -60,11 +60,11 @@
 		<control name="QuickSearch"/>
 
 		<toolitem name="View All" _label="View All"
-		_descr="View all contacts" verb="ContactViewAll"
+		_tip="View all contacts" verb="ContactViewAll"
 		pixtype="stock" pixname="Multiple"/>
 
 		<toolitem name="Stop" _label="Stop"
-		_descr="Stop Loading" verb="ContactStop"
+		_tip="Stop Loading" verb="ContactStop"
 		pixtype="stock" pixname="Stop"/>
 
 	</dockitem>
