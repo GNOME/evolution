@@ -205,6 +205,9 @@ struct _EWeekView
 	gboolean events_need_layout;
 	gboolean events_need_reshape;
 
+	/* The ID of the timeout function for doing a new layout. */
+	gint layout_timeout_id;
+
 	/* An array of EWeekViewEventSpan elements. Each event has its own
 	   space within this array, and uses the spans_index and num_spans
 	   fields of the EWeekViewEvent struct to access it. */

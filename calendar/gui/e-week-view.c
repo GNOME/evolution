@@ -39,6 +39,7 @@
 #include <gtk/gtksignal.h>
 #include <gtk/gtkvscrollbar.h>
 #include <gtk/gtkwindow.h>
+#include <gtk/gtkmain.h>
 #include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
 #include <gdk-pixbuf/gdk-pixbuf.h>
@@ -73,6 +74,11 @@
 
 #define E_WEEK_VIEW_JUMP_BUTTON_X_PAD	3
 #define E_WEEK_VIEW_JUMP_BUTTON_Y_PAD	3
+
+/* The timeout before we do a layout, so we don't do a layout for each event
+   we get from the server. */
+#define E_WEEK_VIEW_LAYOUT_TIMEOUT	100
+
 
 static void e_week_view_class_init (EWeekViewClass *class);
 static void e_week_view_init (EWeekView *week_view);
@@ -192,6 +198,11 @@ static void selection_received    (GtkWidget *invisible,
 				   guint time,
 				   EWeekView *week_view);
 
+static void e_week_view_queue_layout (EWeekView *week_view);
+static void e_week_view_cancel_layout (EWeekView *week_view);
+static gboolean e_week_view_layout_timeout_cb (gpointer data);
+
+
 static GtkTableClass *parent_class;
 static GdkAtom clipboard_atom = GDK_NONE;
 
@@ -270,6 +281,8 @@ e_week_view_init (EWeekView *week_view)
 	week_view->events_sorted = TRUE;
 	week_view->events_need_layout = FALSE;
 	week_view->events_need_reshape = FALSE;
+
+	week_view->layout_timeout_id = 0;
 
 	week_view->spans = NULL;
 
@@ -446,7 +459,11 @@ e_week_view_destroy (GtkObject *object)
 
 	week_view = E_WEEK_VIEW (object);
 
+	e_week_view_cancel_layout (week_view);
+
 	e_week_view_free_events (week_view);
+	g_array_free (week_view->events, TRUE);
+	week_view->events = NULL;
 
 	if (week_view->client) {
 		gtk_signal_disconnect_by_data (GTK_OBJECT (week_view->client), week_view);
@@ -1006,9 +1023,7 @@ query_obj_updated_cb (CalQuery *query, const char *uid,
 
 	gtk_object_unref (GTK_OBJECT (comp));
 
-	e_week_view_check_layout (week_view);
-
-	gtk_widget_queue_draw (week_view->main_canvas);
+	e_week_view_queue_layout (week_view);
 }
 
 /* Callback used when a component is removed from the live query */
@@ -1022,8 +1037,8 @@ query_obj_removed_cb (CalClient *client, const char *uid, gpointer data)
 	e_week_view_foreach_event_with_uid (week_view, uid,
 					    e_week_view_remove_event_cb, NULL);
 
-	e_week_view_check_layout (week_view);
 	gtk_widget_queue_draw (week_view->main_canvas);
+	e_week_view_check_layout (week_view);
 }
 
 /* Callback used when a query ends */
@@ -1038,6 +1053,8 @@ query_query_done_cb (CalQuery *query, CalQueryDoneStatus status, const char *err
 
 	if (status != CAL_QUERY_DONE_SUCCESS)
 		fprintf (stderr, "query done: %s\n", error_str);
+
+	gtk_widget_queue_draw (week_view->main_canvas);
 }
 
 /* Callback used when an evaluation error occurs when running a query */
@@ -1051,6 +1068,8 @@ query_eval_error_cb (CalQuery *query, const char *error_str, gpointer data)
 	/* FIXME */
 
 	fprintf (stderr, "eval error: %s\n", error_str);
+
+	gtk_widget_queue_draw (week_view->main_canvas);
 }
 
 /* Builds a complete query sexp for the week view by adding the predicates to
@@ -1092,8 +1111,9 @@ update_query (EWeekView *week_view)
 	CalQuery *old_query;
 	char *real_sexp;
 
-	e_week_view_free_events (week_view);
 	gtk_widget_queue_draw (week_view->main_canvas);
+	e_week_view_free_events (week_view);
+	e_week_view_queue_layout (week_view);
 
 	if (!(week_view->client
 	      && cal_client_get_load_state (week_view->client) == CAL_CLIENT_LOAD_LOADED))
@@ -1110,8 +1130,9 @@ update_query (EWeekView *week_view)
 	g_assert (week_view->sexp != NULL);
 
 	real_sexp = adjust_query_sexp (week_view, week_view->sexp);
-	if (!real_sexp)
+	if (!real_sexp) {
 		return; /* No time range is set, so don't start a query */
+	}
 
 	week_view->query = cal_client_get_query (week_view->client, real_sexp);
 	g_free (real_sexp);
@@ -2265,6 +2286,11 @@ e_week_view_free_events (EWeekView *week_view)
 	for (day = 0; day <= num_days; day++) {
 		week_view->rows_per_day[day] = 0;
 	}
+
+	/* Hide all the jump buttons. */
+	for (day = 0; day < E_WEEK_VIEW_MAX_WEEKS * 7; day++) {
+		gnome_canvas_item_hide (week_view->jump_buttons[day]);
+	}
 }
 
 
@@ -2726,8 +2752,6 @@ e_week_view_on_adjustment_changed (GtkAdjustment *adjustment,
 		if (week_view->calendar)
 			gnome_calendar_set_selected_time_range (week_view->calendar, start, end);
 	}
-
-	gtk_widget_queue_draw (week_view->main_canvas);
 }
 
 
@@ -3746,4 +3770,38 @@ e_week_view_get_visible_time_range	(EWeekView	*week_view,
 	*end_time = week_view->day_starts[num_days];
 
 	return TRUE;
+}
+
+
+/* Queues a layout, unless one is already queued. */
+static void
+e_week_view_queue_layout (EWeekView *week_view)
+{
+	if (week_view->layout_timeout_id == 0) {
+		week_view->layout_timeout_id = g_timeout_add (E_WEEK_VIEW_LAYOUT_TIMEOUT, e_week_view_layout_timeout_cb, week_view);
+	}
+}
+
+
+/* Removes any queued layout. */
+static void
+e_week_view_cancel_layout (EWeekView *week_view)
+{
+	if (week_view->layout_timeout_id != 0) {
+		gtk_timeout_remove (week_view->layout_timeout_id);
+		week_view->layout_timeout_id = 0;
+	}
+}
+
+
+static gboolean
+e_week_view_layout_timeout_cb (gpointer data)
+{
+	EWeekView *week_view = E_WEEK_VIEW (data);
+
+	gtk_widget_queue_draw (week_view->main_canvas);
+	e_week_view_check_layout (week_view);
+
+	week_view->layout_timeout_id = 0;
+	return FALSE;
 }

@@ -839,8 +839,8 @@ print_day_add_event (CalComponent *comp,
 	event.start_minute = start_tt.hour * 60 + start_tt.minute - offset;
 	event.end_minute = end_tt.hour * 60 + end_tt.minute - offset;
 
-	event.start_row_or_col = -1;
-	event.num_columns = -1;
+	event.start_row_or_col = 0;
+	event.num_columns = 0;
 
 	/* Find out which array to add the event to. */
 	for (day = 0; day < days_shown; day++) {

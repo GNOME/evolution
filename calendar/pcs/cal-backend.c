@@ -138,6 +138,7 @@ cal_backend_class_init (CalBackendClass *class)
 	class->is_loaded = NULL;
 	class->get_n_objects = NULL;
 	class->get_object = NULL;
+	class->get_object_component = NULL;
 	class->get_timezone_object = NULL;
 	class->get_type_by_uid = NULL;
 	class->get_uids = NULL;
@@ -267,8 +268,7 @@ cal_backend_get_n_objects (CalBackend *backend, CalObjType type)
  * identifier.
  *
  * Return value: The string representation of a complete calendar wrapping the
- * the sought object, or NULL if no object had the specified UID.  A complete
- * calendar is returned because you also need the timezone data.
+ * the sought object, or NULL if no object had the specified UID.
  **/
 char *
 cal_backend_get_object (CalBackend *backend, const char *uid)
@@ -279,6 +279,29 @@ cal_backend_get_object (CalBackend *backend, const char *uid)
 
 	g_assert (CLASS (backend)->get_object != NULL);
 	return (* CLASS (backend)->get_object) (backend, uid);
+}
+
+/**
+ * cal_backend_get_object_component:
+ * @backend: A calendar backend.
+ * @uid: Unique identifier for a calendar object.
+ *
+ * Queries a calendar backend for a calendar object based on its unique
+ * identifier. It returns the CalComponent rather than the string
+ * representation.
+ *
+ * Return value: The CalComponent of the sought object, or NULL if no object
+ * had the specified UID.
+ **/
+CalComponent *
+cal_backend_get_object_component (CalBackend *backend, const char *uid)
+{
+	g_return_val_if_fail (backend != NULL, NULL);
+	g_return_val_if_fail (IS_CAL_BACKEND (backend), NULL);
+	g_return_val_if_fail (uid != NULL, NULL);
+
+	g_assert (CLASS (backend)->get_object_component != NULL);
+	return (* CLASS (backend)->get_object_component) (backend, uid);
 }
 
 /**

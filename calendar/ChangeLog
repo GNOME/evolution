@@ -1,3 +1,41 @@
+2001-08-09  Damon Chaplin  <damon@ximian.com>
+
+	* pcs/cal-backend.c (cal_backend_get_object_component): added new
+	backend method to get the component given a UID.
+
+	* pcs/cal-backend-file.c (cal_backend_file_get_object_component): 
+	added implementation of above virtual method.
+	
+	* pcs/query.c (match_component): use the new backend function to get
+	the CalComponent rather than the string. This avoids converting all
+	the calendar components to strings and parsing them back into
+	components for every query! (That wasn't a good idea, was it ;)
+
+	* gui/e-week-view.c: 
+	* gui/e-day-view.c: use a timeout handler to layout the events,
+	to avoid doing a layout for each event we get from a query.
+
+	* gui/print.c (print_day_add_event): 
+	* gui/e-day-view.c (e_day_view_add_event): set start_row_or_col and
+	num_columns to 0. They are guint8's.
+
+	* gui/e-week-view.c (e_week_view_free_events): hide all the jump
+	buttons. Fixes bug #5946.
+
+	* gui/calendar-commands.c (calendar_set_folder_bar_label): added the
+	day numbers for the month view.
+
+	* gui/dialogs/recurrence-page.glade: changed "_Delete" to "_Remove",
+	since it clashed with "_Add". Also added underlined accelerators for
+	the recurrence radio buttons. Note that none of these accelerators
+	actually work at present, due to the way we are using .glade files
+	for each notebook page. I need to add a bug about this.
+	Also, the "_Action" menu doesn't popup when I press Alt+A, even though
+	the "_File" menu does popup when I press Alt+F. Strange.
+
+	* pcs/cal-backend-file.c (cal_backend_file_get_timezone_object):
+	removed debug msgs.
+
 2001-08-09  Rodrigo Moya <rodrigo@ximian.com>
 
 	* gui/e-day-view-top-item.c (e_day_view_top_item_draw_long_event):

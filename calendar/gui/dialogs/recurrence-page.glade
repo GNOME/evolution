@@ -207,7 +207,7 @@
 	      <class>GtkRadioButton</class>
 	      <name>none</name>
 	      <can_focus>True</can_focus>
-	      <label>No recurrence</label>
+	      <label>_No recurrence</label>
 	      <active>False</active>
 	      <draw_indicator>True</draw_indicator>
 	      <group>recurrence-radio</group>
@@ -222,7 +222,7 @@
 	      <class>GtkRadioButton</class>
 	      <name>simple</name>
 	      <can_focus>True</can_focus>
-	      <label>Simple recurrence</label>
+	      <label>_Simple recurrence</label>
 	      <active>False</active>
 	      <draw_indicator>True</draw_indicator>
 	      <group>recurrence-radio</group>
@@ -237,7 +237,7 @@
 	      <class>GtkRadioButton</class>
 	      <name>custom</name>
 	      <can_focus>True</can_focus>
-	      <label>Custom recurrence</label>
+	      <label>_Custom recurrence</label>
 	      <active>False</active>
 	      <draw_indicator>True</draw_indicator>
 	      <group>recurrence-radio</group>
@@ -471,7 +471,7 @@ forever
 		<class>GtkButton</class>
 		<name>exception-delete</name>
 		<can_focus>True</can_focus>
-		<label>_Delete</label>
+		<label>_Remove</label>
 		<child>
 		  <padding>0</padding>
 		  <expand>False</expand>

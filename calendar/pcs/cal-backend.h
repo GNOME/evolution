@@ -84,6 +84,7 @@ struct _CalBackendClass {
 	/* General object acquirement and information related virtual methods */
 	int (* get_n_objects) (CalBackend *backend, CalObjType type);
 	char *(* get_object) (CalBackend *backend, const char *uid);
+	CalComponent *(* get_object_component) (CalBackend *backend, const char *uid);
 	char *(* get_timezone_object) (CalBackend *backend, const char *tzid);
 	CalObjType(* get_type_by_uid) (CalBackend *backend, const char *uid);
 	GList *(* get_uids) (CalBackend *backend, CalObjType type);
@@ -125,6 +126,8 @@ gboolean cal_backend_is_loaded (CalBackend *backend);
 int cal_backend_get_n_objects (CalBackend *backend, CalObjType type);
 
 char *cal_backend_get_object (CalBackend *backend, const char *uid);
+
+CalComponent *cal_backend_get_object_component (CalBackend *backend, const char *uid);
 
 char *cal_backend_get_timezone_object (CalBackend *backend, const char *tzid);
 

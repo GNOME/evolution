@@ -86,6 +86,7 @@ static gboolean cal_backend_file_is_loaded (CalBackend *backend);
 
 static int cal_backend_file_get_n_objects (CalBackend *backend, CalObjType type);
 static char *cal_backend_file_get_object (CalBackend *backend, const char *uid);
+static CalComponent *cal_backend_file_get_object_component (CalBackend *backend, const char *uid);
 static char *cal_backend_file_get_timezone_object (CalBackend *backend, const char *tzid);
 static CalObjType cal_backend_file_get_type_by_uid (CalBackend *backend, const char *uid);
 static GList *cal_backend_file_get_uids (CalBackend *backend, CalObjType type);
@@ -163,6 +164,7 @@ cal_backend_file_class_init (CalBackendFileClass *class)
 	backend_class->is_loaded = cal_backend_file_is_loaded;
 	backend_class->get_n_objects = cal_backend_file_get_n_objects;
 	backend_class->get_object = cal_backend_file_get_object;
+	backend_class->get_object_component = cal_backend_file_get_object_component;
 	backend_class->get_timezone_object = cal_backend_file_get_timezone_object;
 	backend_class->get_type_by_uid = cal_backend_file_get_type_by_uid;
 	backend_class->get_uids = cal_backend_file_get_uids;
@@ -941,6 +943,24 @@ cal_backend_file_get_object (CalBackend *backend, const char *uid)
 }
 
 /* Get_object handler for the file backend */
+static CalComponent *
+cal_backend_file_get_object_component (CalBackend *backend, const char *uid)
+{
+	CalBackendFile *cbfile;
+	CalBackendFilePrivate *priv;
+
+	cbfile = CAL_BACKEND_FILE (backend);
+	priv = cbfile->priv;
+
+	g_return_val_if_fail (uid != NULL, NULL);
+
+	g_return_val_if_fail (priv->icalcomp != NULL, NULL);
+	g_assert (priv->comp_uid_hash != NULL);
+
+	return lookup_component (cbfile, uid);
+}
+
+/* Get_object handler for the file backend */
 static char *
 cal_backend_file_get_timezone_object (CalBackend *backend, const char *tzid)
 {
@@ -953,24 +973,19 @@ cal_backend_file_get_timezone_object (CalBackend *backend, const char *tzid)
 	cbfile = CAL_BACKEND_FILE (backend);
 	priv = cbfile->priv;
 
-	g_print ("In cal_backend_file_get_timezone_object: %s\n", tzid);
-
 	g_return_val_if_fail (tzid != NULL, NULL);
 
 	g_return_val_if_fail (priv->icalcomp != NULL, NULL);
 	g_assert (priv->comp_uid_hash != NULL);
 
-	g_print ("  getting icaltz\n");
 	icaltz = icalcomponent_get_timezone (priv->icalcomp, tzid);
 	if (!icaltz)
 		return NULL;
 
-	g_print ("  getting icalcomp\n");
 	icalcomp = icaltimezone_get_component (icaltz);
 	if (!icalcomp)
 		return NULL;
 
-	g_print ("  getting ical_string\n");
 	ical_string = icalcomponent_as_ical_string (icalcomp);
 	/* We dup the string; libical owns that memory. */
 	if (ical_string)

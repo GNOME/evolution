@@ -921,25 +921,14 @@ match_component (Query *query, const char *uid,
 		 gboolean query_in_progress, int n_scanned, int total)
 {
 	QueryPrivate *priv;
-	char *comp_str;
 	CalComponent *comp;
-	icalcomponent *icalcomp;
-	gboolean set_succeeded;
 	ESExpResult *result;
 
 	priv = query->priv;
 
-	comp_str = cal_backend_get_object (priv->backend, uid);
-	g_assert (comp_str != NULL);
-
-	icalcomp = icalparser_parse_string (comp_str);
-	g_assert (icalcomp != NULL);
-
-	g_free (comp_str);
-
-	comp = cal_component_new ();
-	set_succeeded = cal_component_set_icalcomponent (comp, icalcomp);
-	g_assert (set_succeeded);
+	comp = cal_backend_get_object_component (priv->backend, uid);
+	g_assert (comp != NULL);
+	gtk_object_ref (GTK_OBJECT (comp));
 
 	/* Eval the sexp */
 

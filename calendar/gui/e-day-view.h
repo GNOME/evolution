@@ -280,6 +280,9 @@ struct _EDayView
 	gboolean long_events_need_reshape;
 	gboolean need_reshape[E_DAY_VIEW_MAX_DAYS];
 
+	/* The ID of the timeout function for doing a new layout. */
+	gint layout_timeout_id;
+
 	/* The number of minutes per row. 5, 10, 15, 30 or 60. */
 	gint mins_per_row;
 

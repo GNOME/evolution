@@ -92,6 +92,10 @@
    pressed, as a fraction of the page size. */
 #define E_DAY_VIEW_WHEEL_MOUSE_STEP_SIZE	0.25
 
+/* The timeout before we do a layout, so we don't do a layout for each event
+   we get from the server. */
+#define E_DAY_VIEW_LAYOUT_TIMEOUT	100
+
 
 /* Drag and Drop stuff. */
 enum {
@@ -422,6 +426,10 @@ static void selection_get (GtkWidget *invisible,
 			   EDayView *day_view);
 static void invisible_destroyed (GtkWidget *invisible, EDayView *day_view);
 
+static void e_day_view_queue_layout (EDayView *day_view);
+static void e_day_view_cancel_layout (EDayView *day_view);
+static gboolean e_day_view_layout_timeout_cb (gpointer data);
+
 
 static GtkTableClass *parent_class;
 static GdkAtom clipboard_atom = GDK_NONE;
@@ -497,6 +505,8 @@ e_day_view_init (EDayView *day_view)
 	day_view->long_events_sorted = TRUE;
 	day_view->long_events_need_layout = FALSE;
 	day_view->long_events_need_reshape = FALSE;
+
+	day_view->layout_timeout_id = 0;
 
 	for (day = 0; day < E_DAY_VIEW_MAX_DAYS; day++) {
 		day_view->events[day] = g_array_new (FALSE, FALSE,
@@ -879,6 +889,8 @@ e_day_view_destroy (GtkObject *object)
 
 	day_view = E_DAY_VIEW (object);
 
+	e_day_view_cancel_layout (day_view);
+
 	e_day_view_stop_auto_scroll (day_view);
 
 	if (day_view->client) {
@@ -915,8 +927,11 @@ e_day_view_destroy (GtkObject *object)
 
 	e_day_view_free_events (day_view);
 	g_array_free (day_view->long_events, TRUE);
-	for (day = 0; day < E_DAY_VIEW_MAX_DAYS; day++)
+	day_view->long_events = NULL;
+	for (day = 0; day < E_DAY_VIEW_MAX_DAYS; day++) {
 		g_array_free (day_view->events[day], TRUE);
+		day_view->events[day] = NULL;
+	}
 
 	if (day_view->invisible)
 		gtk_widget_destroy (day_view->invisible);
@@ -1510,10 +1525,7 @@ query_obj_updated_cb (CalQuery *query, const char *uid,
 				      cal_client_resolve_tzid_cb, day_view->client);
 	gtk_object_unref (GTK_OBJECT (comp));
 
-	e_day_view_check_layout (day_view);
-
-	gtk_widget_queue_draw (day_view->top_canvas);
-	gtk_widget_queue_draw (day_view->main_canvas);
+	e_day_view_queue_layout (day_view);
 }
 
 /* Callback used when a component is removed from the live query */
@@ -1599,9 +1611,10 @@ update_query (EDayView *day_view)
 
 	e_day_view_stop_editing_event (day_view);
 
-	e_day_view_free_events (day_view);
 	gtk_widget_queue_draw (day_view->top_canvas);
 	gtk_widget_queue_draw (day_view->main_canvas);
+	e_day_view_free_events (day_view);
+	e_day_view_queue_layout (day_view);
 
 	if (!(day_view->client
 	      && cal_client_get_load_state (day_view->client) == CAL_CLIENT_LOAD_LOADED))
@@ -4376,8 +4389,8 @@ e_day_view_add_event (CalComponent *comp,
 	event.start_minute = start_tt.hour * 60 + start_tt.minute - offset;
 	event.end_minute = end_tt.hour * 60 + end_tt.minute - offset;
 
-	event.start_row_or_col = -1;
-	event.num_columns = -1;
+	event.start_row_or_col = 0;
+	event.num_columns = 0;
 
 	event.different_timezone = FALSE;
 	if (!cal_comp_util_compare_event_timezones (comp, day_view->client,
@@ -6834,3 +6847,37 @@ e_day_view_get_visible_time_range	(EDayView	*day_view,
 	return TRUE;
 }
 
+
+/* Queues a layout, unless one is already queued. */
+static void
+e_day_view_queue_layout (EDayView *day_view)
+{
+	if (day_view->layout_timeout_id == 0) {
+		day_view->layout_timeout_id = g_timeout_add (E_DAY_VIEW_LAYOUT_TIMEOUT, e_day_view_layout_timeout_cb, day_view);
+	}
+}
+
+
+/* Removes any queued layout. */
+static void
+e_day_view_cancel_layout (EDayView *day_view)
+{
+	if (day_view->layout_timeout_id != 0) {
+		gtk_timeout_remove (day_view->layout_timeout_id);
+		day_view->layout_timeout_id = 0;
+	}
+}
+
+
+static gboolean
+e_day_view_layout_timeout_cb (gpointer data)
+{
+	EDayView *day_view = E_DAY_VIEW (data);
+
+	gtk_widget_queue_draw (day_view->top_canvas);
+	gtk_widget_queue_draw (day_view->main_canvas);
+	e_day_view_check_layout (day_view);
+
+	day_view->layout_timeout_id = 0;
+	return FALSE;
+}
