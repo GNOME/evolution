@@ -1,5 +1,9 @@
 2003-12-10  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* em-migrate.c (get_local_store): Fixed a leak.
+
+	* mail-component.c (impl_upgradeFromVersion): Implemented.
+
 	* em-folder-tree.c (em_folder_tree_set_selected): Add INFO_FAST
 	here as we don't need it to get unread counts.
 	(tree_row_expanded): Here too.

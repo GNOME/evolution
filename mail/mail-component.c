@@ -400,7 +400,7 @@ impl_requestCreateItem (PortableServer_Servant servant,
 }
 
 static void
-impl_handleURI (PortableServer_Servant servant, const CORBA_char *uri, CORBA_Environment *ev)
+impl_handleURI (PortableServer_Servant servant, const char *uri, CORBA_Environment *ev)
 {
 	if (!strncmp (uri, "mailto:", 7)) {
 		em_utils_compose_new_message_with_mailto (uri);
@@ -413,6 +413,29 @@ impl_sendAndReceive (PortableServer_Servant servant, CORBA_Environment *ev)
 	mail_send_receive ();
 }
 
+static gboolean
+impl_upgradeFromVersion (PortableServer_Servant servant, short major, short minor, short revision, CORBA_Environment *ev)
+{
+	CamelException ex;
+	
+	camel_exception_init (&ex);
+	
+	switch (major) {
+	case 1:
+		switch (minor) {
+		case 0:
+		case 2:
+		case 4:
+			em_migrate (mail_component_peek (), &ex);
+			break;
+		}
+		break;
+	}
+	
+	camel_exception_clear (&ex);
+	
+	return TRUE;
+}
 
 /* Initialization.  */
 
@@ -432,6 +455,7 @@ mail_component_class_init (MailComponentClass *class)
 	epv->requestCreateItem       = impl_requestCreateItem;
 	epv->handleURI               = impl_handleURI;
 	epv->sendAndReceive          = impl_sendAndReceive;
+	epv->upgradeFromVersion      = impl_upgradeFromVersion;
 }
 
 static void

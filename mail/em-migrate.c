@@ -280,6 +280,7 @@ get_local_store (CamelSession *session, const char *dirname, const char *metadat
 				*namep = NULL;
 			
 			xmlFree (name);
+			g_free (buf);
 			
 			return store;
 		}
