@@ -106,7 +106,8 @@ struct _EMFormatHTML {
 
 	EDList pending_object_list;
 
-	struct _CamelCipherValidity *enveloped_validity;
+	struct _CamelCipherValidity *valid;
+	struct _CamelCipherValidity *valid_parent;
 
 	GSList *headers;
 
@@ -153,8 +154,5 @@ void em_format_html_clear_pobject(EMFormatHTML *emf);
 EMFormatHTMLJob *em_format_html_job_new(EMFormatHTML *emfh, void (*callback)(struct _EMFormatHTMLJob *job, int cancelled), void *data)
 ;
 void em_format_html_job_queue(EMFormatHTML *emfh, struct _EMFormatHTMLJob *job);
-
-/* outputs a signature test */
-void em_format_html_multipart_signed_sign(EMFormat *emf, struct _CamelStream *stream, struct _CamelMimePart *part);
 
 #endif /* ! EM_FORMAT_HTML_H */

@@ -589,22 +589,24 @@ efhd_complete(EMFormat *emf)
 
 /* ********************************************************************** */
 
+/* TODO: rename some of this stuff, it isn't 'smime' specific */
+/* FIXME: also in em-format-html.c */
 static const struct {
-	const char *icon, *description;
+	const char *icon, *shortdesc, *description;
 } smime_sign_table[4] = {
-	{ NULL, N_("This message is not signed.  There is no guarantee the sender of the message is authentic.") },
-	{ "pgp-signature-ok.png", N_("This message is signed and is valid, the sender of this message is very likely who they claim to be.") },
-	{ "pgp-signature-bad.png", N_("The signature of this message cannot be verified, it may have been altered in transit.") },
-	{ "pgp-signature-nokey.png", N_("This message is signed with a valid signature, but the sender of the message cannot be verified.") },
+	{ NULL, N_("Unsigned"), N_("This message is not signed.  There is no guarantee the sender of the message is authentic.") },
+	{ "pgp-signature-ok.png",N_("Valid signature"), N_("This message is signed and is valid, the sender of this message is very likely who they claim to be.") },
+	{ "pgp-signature-bad.png", N_("Invalid signature"), N_("The signature of this message cannot be verified, it may have been altered in transit.") },
+	{ "pgp-signature-nokey.png", N_("Valid signature, cannot verify sender"), N_("This message is signed with a valid signature, but the sender of the message cannot be verified.") },
 };
 
 static const struct {
-	const char *icon, *description;
+	const char *icon, *shortdesc, *description;
 } smime_encrypt_table[4] = {
-	{ NULL, N_("This message is not encrypted.  It's content may be viewed in transit across The Internet.") },
-	{ "pgp-signature-ok.png", N_("This message is encrypted, but with a weak encryption algorithm.  It would be difficult, but not impossible for an outsider to view the content of this message in a practical amount of time.") },
-	{ "pgp-signature-ok.png", N_("This message is encrypted.  It would be difficult for an outsider to view the content of this message.") },
-	{ "pgp-signature-ok.png", N_("This message is encrypted, with a strong encryption algorithm.  It would be very difficult for an outsider to view the content of this message in a practical amount of time.") },
+	{ NULL, N_("Unencrypted"), N_("This message is not encrypted.  It's content may be viewed in transit across The Internet.") },
+	{ "pgp-signature-ok.png", N_("Encrypted, weak"), N_("This message is encrypted, but with a weak encryption algorithm.  It would be difficult, but not impossible for an outsider to view the content of this message in a practical amount of time.") },
+	{ "pgp-signature-ok.png", N_("Encrypted"), N_("This message is encrypted.  It would be difficult for an outsider to view the content of this message.") },
+	{ "pgp-signature-ok.png", N_("Encrypted, strong"), N_("This message is encrypted, with a strong encryption algorithm.  It would be very difficult for an outsider to view the content of this message in a practical amount of time.") },
 };
 
 struct _smime_pobject {
@@ -683,10 +685,11 @@ efhd_xpkcs7mime_button(EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObje
 	char *file;
 	const char *name;
 
-	if (po->signature)
-		name = smime_sign_table[po->valid->sign.status].icon;
+	/* FIXME: need to have it based on encryption and signing too */
+	if (po->valid->sign.status == CAMEL_CIPHER_VALIDITY_SIGN_GOOD)
+		name = "pgp-signature-ok.png";
 	else
-		name = smime_encrypt_table[po->valid->encrypt.status].icon;
+		name = "pgp-signature-bad.png";
 
 	file = g_build_filename(EVOLUTION_ICONSDIR, name, NULL);
 	pixbuf = gdk_pixbuf_new_from_file(file, NULL);
@@ -710,6 +713,50 @@ efhd_xpkcs7mime_button(EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObje
 }
 
 static void
+efhd_output_secure(EMFormat *emf, CamelStream *stream, CamelMimePart *part, CamelCipherValidity *valid)
+{
+	CamelCipherValidity *save = ((EMFormatHTML *)emf)->valid_parent;
+
+	/* Note: this same logic is in efh_output_secure */
+
+	if (((EMFormatHTML *)emf)->valid == NULL) {
+		((EMFormatHTML *)emf)->valid = valid;
+	} else {
+		e_dlist_addtail(&((EMFormatHTML *)emf)->valid_parent->children, (EDListNode *)valid);
+		camel_cipher_validity_envelope(((EMFormatHTML *)emf)->valid_parent, valid);
+	}
+
+	((EMFormatHTML *)emf)->valid_parent = valid;
+	em_format_part(emf, stream, part);
+	((EMFormatHTML *)emf)->valid_parent = save;
+
+	if (((EMFormatHTML *)emf)->valid == valid
+	    && (valid->encrypt.status != CAMEL_CIPHER_VALIDITY_ENCRYPT_NONE
+		|| valid->sign.status != CAMEL_CIPHER_VALIDITY_SIGN_NONE)) {
+		char *classid;
+		struct _smime_pobject *pobj;
+
+		camel_stream_printf(stream, "<table border=0 width=\"100%%\" cellpadding=3 cellspacing=0 bgcolor=%s><tr>",
+				    valid->sign.status == CAMEL_CIPHER_VALIDITY_SIGN_GOOD?"#88bb88":"#bb8888");
+		classid = g_strdup_printf("smime:///em-format-html/%p/icon/signed", part);
+		pobj = (struct _smime_pobject *)em_format_html_add_pobject((EMFormatHTML *)emf, sizeof(*pobj), classid, part, efhd_xpkcs7mime_button);
+		pobj->valid = camel_cipher_validity_clone(valid);
+		pobj->object.free = efhd_xpkcs7mime_free;
+		camel_stream_printf(stream, "<td valign=top><object classid=\"%s\"></object></td><td width=100%% valign=top>", classid);
+
+		if (valid->sign.status != CAMEL_CIPHER_VALIDITY_SIGN_NONE) {
+			camel_stream_printf(stream, "%s<br>", _(smime_sign_table[valid->sign.status].shortdesc));
+		}
+
+		if (valid->encrypt.status != CAMEL_CIPHER_VALIDITY_ENCRYPT_NONE) {
+			camel_stream_printf(stream, "%s<br>", _(smime_encrypt_table[valid->encrypt.status].shortdesc));
+		}
+
+		camel_stream_printf(stream, "</td></tr></table>");
+	}
+}
+
+static void
 efhd_application_xpkcs7mime(EMFormat *emf, CamelStream *stream, CamelMimePart *part, const EMFormatHandler *info)
 {
 	CamelCipherContext *context;
@@ -728,46 +775,7 @@ efhd_application_xpkcs7mime(EMFormat *emf, CamelStream *stream, CamelMimePart *p
 		em_format_format_error(emf, stream, ex->desc?ex->desc:_("Could not parse S/MIME message: Unknown error"));
 		em_format_part_as(emf, stream, part, NULL);
 	} else {
-		CamelCipherValidity *save = ((EMFormatHTML *)emf)->enveloped_validity;
-
-		if (save != NULL)
-			camel_cipher_validity_envelope(valid, save);
-
-		((EMFormatHTML *)emf)->enveloped_validity = valid;
-		em_format_part(emf, stream, opart);
-		((EMFormatHTML *)emf)->enveloped_validity = save;
-
-		if (save != NULL
-		    && (valid->encrypt.status != CAMEL_CIPHER_VALIDITY_ENCRYPT_NONE
-			|| valid->sign.status != CAMEL_CIPHER_VALIDITY_SIGN_NONE)) {
-			char *classid;
-			struct _smime_pobject *pobj;
-
-			camel_stream_printf(stream, "<table border=1 width=\"100%%\" cellpadding=3 cellspacing=0><tr>");
-
-			if (valid->sign.status != CAMEL_CIPHER_VALIDITY_SIGN_NONE) {
-				classid = g_strdup_printf("smime:///em-format-html/%p/icon/signed", part);
-				pobj = (struct _smime_pobject *)em_format_html_add_pobject((EMFormatHTML *)emf, sizeof(*pobj), classid, part, efhd_xpkcs7mime_button);
-				pobj->valid = camel_cipher_validity_clone(valid);
-				pobj->signature = TRUE;
-				pobj->object.free = efhd_xpkcs7mime_free;
-				camel_stream_printf(stream, "<td valign=top><object classid=\"%s\"></object><br>%s</td>", classid, valid->sign.description);
-				g_free(classid);
-			}
-
-			if (valid->encrypt.status != CAMEL_CIPHER_VALIDITY_ENCRYPT_NONE) {
-				classid = g_strdup_printf("smime:///em-format-html/%p/icon/encrypted", part);
-				pobj = (struct _smime_pobject *)em_format_html_add_pobject((EMFormatHTML *)emf, sizeof(*pobj), classid, part, efhd_xpkcs7mime_button);
-				pobj->valid = camel_cipher_validity_clone(valid);
-				pobj->object.free = efhd_xpkcs7mime_free;
-				camel_stream_printf(stream, "<td valign=top><object classid=\"%s\"></object><br>%s</td>", classid, valid->encrypt.description);
-				g_free(classid);
-			}
-
-			camel_stream_printf(stream, "</tr></table>");
-		}
-
-		camel_cipher_validity_free(valid);
+		efhd_output_secure(emf, stream, opart, valid);
 	}
 
 	camel_object_unref(opart);
@@ -778,47 +786,11 @@ efhd_application_xpkcs7mime(EMFormat *emf, CamelStream *stream, CamelMimePart *p
 /* ********************************************************************** */
 
 static void
-efhd_signature_check(GtkWidget *w, EMFormatHTMLPObject *pobject)
-{
-	d(printf("insert signature check here ... redraw ?  or what ?\n"));
-	/* blah, do the old way for now, force a complete re-draw */
-	em_format_set_inline((EMFormat *)pobject->format, pobject->part, TRUE);
-	em_format_format_clone((EMFormat *)pobject->format, ((EMFormat *)pobject->format)->message, (EMFormat *)pobject->format);
-}
-
-static gboolean
-efhd_signature_button(EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObject *pobject)
-{
-	GtkWidget *icon, *button;
-	GdkPixbuf *pixbuf;
-
-	pixbuf = gdk_pixbuf_new_from_file(EVOLUTION_ICONSDIR "/pgp-signature-nokey.png", NULL);
-	if (pixbuf == NULL)
-		return FALSE;
-
-	/* wtf isn't this just scaled on disk? */
-	icon = gtk_image_new_from_pixbuf(gdk_pixbuf_scale_simple(pixbuf, 24, 24, GDK_INTERP_BILINEAR));
-	g_object_unref(pixbuf);
-	gtk_widget_show(icon);
-
-	button = gtk_button_new();
-	g_signal_connect(button, "clicked", G_CALLBACK (efhd_signature_check), pobject);
-	/*g_signal_connect (button, "key_press_event", G_CALLBACK (inline_button_press), part);*/
-
-	gtk_container_add((GtkContainer *)button, icon);
-	gtk_widget_show(button);
-	gtk_container_add((GtkContainer *)eb, button);
-
-	return TRUE;
-}
-
-static void
 efhd_multipart_signed (EMFormat *emf, CamelStream *stream, CamelMimePart *part, const EMFormatHandler *info)
 {
-	char *classid;
-	static int signedid;
 	CamelMultipartSigned *mps;
 	CamelMimePart *cpart;
+	CamelCipherContext *cipher = NULL;
 
 	mps = (CamelMultipartSigned *)camel_medium_get_content_object((CamelMedium *)part);
 	if (!CAMEL_IS_MULTIPART_SIGNED(mps)
@@ -827,31 +799,30 @@ efhd_multipart_signed (EMFormat *emf, CamelStream *stream, CamelMimePart *part, 
 		return;
 	}
 
-	em_format_part(emf, stream, cpart);
+	/* FIXME: Should be done via a plugin interface */
+	/* FIXME: duplicated in em-format-html.c */
+	if (g_ascii_strcasecmp("application/x-pkcs7-signature", mps->protocol) == 0)
+		cipher = camel_smime_context_new(emf->session);
+	else if (g_ascii_strcasecmp("application/pgp-signature", mps->protocol) == 0)
+		cipher = camel_gpg_context_new(emf->session);
 
-	if (em_format_is_inline(emf, part)) {
-		em_format_html_multipart_signed_sign(emf, stream, part);
+	if (cipher == NULL) {
+		em_format_format_error(emf, stream, _("Unsupported signature format"));
+		em_format_part_as(emf, stream, part, NULL);
 	} else {
-		classid = g_strdup_printf("multipart-signed:///icon/%d", signedid++);
+		CamelException *ex = camel_exception_new();
+		CamelCipherValidity *valid;
 
-		/* wtf is this so fugly? */
-		camel_stream_printf(stream,
-				    "<br><table cellspacing=0 cellpadding=0>"
-				    "<tr><td><table width=10 cellspacing=0 cellpadding=0>"
-				    "<tr><td></td></tr></table></td>"
-				    "<td><object classid=\"%s\"></object></td>"
-				    "<td><table width=3 cellspacing=0 cellpadding=0>"
-				    "<tr><td></td></tr></table></td>"
-				    "<td><font size=-1>%s</font></td></tr>"
-				    "<tr><td height=10>"
-				    "<table cellspacing=0 cellpadding=0><tr>"
-				    "<td height=10><a name=\"glue\"></td></tr>"
-				    "</table></td></tr></table>\n",
-				    classid,
-				    _("This message is digitally signed. Click the lock icon for more information."));
+		valid = camel_cipher_verify(cipher, part, ex);
+		if (valid == NULL) {
+			em_format_format_error(emf, stream, ex->desc?ex->desc:_("Unknown error verifying signature"));
+			em_format_part_as(emf, stream, part, NULL);
+		} else {
+			efhd_output_secure(emf, stream, cpart, valid);
+		}
 
-		em_format_html_add_pobject((EMFormatHTML *)emf, sizeof(EMFormatHTMLPObject), classid, part, efhd_signature_button);
-		g_free(classid);
+		camel_exception_free(ex);
+		camel_object_unref(cipher);
 	}
 }
 

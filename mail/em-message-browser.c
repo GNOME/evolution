@@ -94,7 +94,7 @@ emmb_destroy(GtkObject *o)
 	EMMessageBrowser *emmb = (EMMessageBrowser *)o;
 
 	if (emmb->view.list) {
-		gtk_widget_destroy(emmb->view.list);
+		gtk_widget_destroy((GtkWidget *)emmb->view.list);
 		emmb->view.list = NULL;
 	}
 

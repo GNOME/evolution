@@ -52,7 +52,7 @@
 
 #include "em-format.h"
 
-#define d(x)
+#define d(x) x
 
 static void emf_builtin_init(EMFormatClass *);
 static const char *emf_snoop_part(CamelMimePart *part);

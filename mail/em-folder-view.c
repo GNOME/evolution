@@ -1597,6 +1597,7 @@ int em_folder_view_print(EMFolderView *emfv, int preview)
 	}
 
 	print = em_format_html_print_new();
+	em_format_set_session((EMFormat *)print, ((EMFormat *)emfv->preview)->session);
 	res = em_format_html_print_print(print, msg, (EMFormatHTML *)emfv->preview, config, preview);
 	g_object_unref(print);
 	if (config)

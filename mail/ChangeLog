@@ -1,3 +1,30 @@
+2003-11-25  Not Zed  <NotZed@Ximian.com>
+
+	* em-folder-view.c (em_folder_view_print): set session on print
+	formatter for signatures to work.
+
+	* em-message-browser.c (emmb_destroy): kill warning.
+
+	* em-format-html.c (efh_output_secure): same as
+	efhd_output_secure, output the security bar, but for
+	printing/plain html.
+	(efh_application_xpkcs7mime): use output_secure.
+	(em_format_html_multipart_signed_sign): removed, output_secure
+	does what this did.
+
+	* em-format-html-display.c (smime_sign_table,
+	smime_encrypt_table): Added a short description for the mail
+	display.
+	(efhd_xpkcs7mime_button): only good/bad signature at this point,
+	if only encrypted, then display 'bad' icon.
+	(efhd_output_secure): output the security bar/button and handle
+	multi-level enveloping properly.
+	(efhd_application_xpkcs7mime): just call output_secure to do
+	the security bar.
+	(efhd_multipart_signed): same.
+	(efhd_signature_button): removed, no longer used.
+	(efhd_signature_check): removed, no longer used.
+
 2003-11-24  Radek Doulik  <rodo@ximian.com>
 
 	* em-format-html.c (efh_text_plain): use new colors
