@@ -1,3 +1,7 @@
+2004-07-16  Not Zed  <NotZed@Ximian.com>
+
+	* camel-gpg-context.c: Added some debug stuff.
+
 2004-07-15  Jeffrey Stedfast  <fejj@novell.com>
 
 	* providers/imap/camel-imap-folder.c (imap_transfer_online): Don't

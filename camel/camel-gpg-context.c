@@ -20,6 +20,11 @@
  *
  */
 
+/* Debug states:
+   gpg:sign	dump canonicalised to-be-signed data to a file
+   gpg:verify	dump canonicalised verification and signature data to file
+   gpg:status	print gpg status-fd output to stdout
+*/
 
 #ifdef HAVE_CONFIG_H
 #include <config.h>
@@ -56,6 +61,13 @@
 #include "camel-multipart-encrypted.h"
 
 #define d(x) 
+
+#define GPG_LOG
+
+#ifdef GPG_LOG
+#include "camel-debug.h"
+static int logid;
+#endif
 
 static CamelCipherContextClass *parent_class = NULL;
 
@@ -714,8 +726,9 @@ gpg_ctx_parse_status (struct _GpgCtx *gpg, CamelException *ex)
 	
 	*inptr++ = '\0';
 	status = gpg->statusbuf;
-	
-	printf ("status: %s\n", status);
+
+	if (camel_debug("gpg:status"))
+		printf ("status: %s\n", status);
 	
 	if (strncmp (status, "[GNUPG:] ", 9) != 0) {
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
@@ -1263,6 +1276,24 @@ gpg_sign (CamelCipherContext *context, const char *userid, CamelCipherHash hash,
 		goto fail;
 	}
 
+#ifdef GPG_LOG
+	if (camel_debug_start("gpg:sign")) {
+		char *name;
+		CamelStream *out;
+
+		name = g_strdup_printf("camel-gpg.%d.sign-data", logid++);
+		out = camel_stream_fs_new_with_name(name, O_CREAT|O_TRUNC|O_WRONLY, 0666);
+		if (out) {
+			printf("Writing gpg signing data to '%s'\n", name);
+			camel_stream_write_to_stream(istream, out);
+			camel_stream_reset(istream);
+			camel_object_unref(out);
+		}
+		g_free(name);
+		camel_debug_end();
+	}
+#endif
+
 	gpg = gpg_ctx_new (context->session);
 	gpg_ctx_set_mode (gpg, GPG_CTX_MODE_SIGN);
 	gpg_ctx_set_hash (gpg, hash);
@@ -1413,6 +1444,32 @@ gpg_verify (CamelCipherContext *context, CamelMimePart *ipart, CamelException *e
 		camel_object_unref (istream);
 		return NULL;
 	}
+
+#ifdef GPG_LOG
+	if (camel_debug_start("gpg:sign")) {
+		char *name;
+		CamelStream *out;
+
+		name = g_strdup_printf("camel-gpg.%d.verify.data", logid);
+		out = camel_stream_fs_new_with_name(name, O_CREAT|O_TRUNC|O_WRONLY, 0666);
+		if (out) {
+			printf("Writing gpg verify data to '%s'\n", name);
+			camel_stream_write_to_stream(istream, out);
+			camel_stream_reset(istream);
+			camel_object_unref(out);
+		}
+		g_free(name);
+		name = g_strdup_printf("camel-gpg.%d.verify.signature", logid++);
+		out = camel_stream_fs_new_with_name(name, O_CREAT|O_TRUNC|O_WRONLY, 0666);
+		if (out) {
+			printf("Writing gpg verify signature to '%s'\n", name);
+			camel_data_wrapper_write_to_stream((CamelDataWrapper *)sigpart, out);
+			camel_object_unref(out);
+		}
+		g_free(name);
+		camel_debug_end();
+	}
+#endif
 	
 	sigfile = swrite (sigpart);
 	if (sigfile == NULL) {
@@ -1508,7 +1565,7 @@ gpg_encrypt (CamelCipherContext *context, const char *userid, GPtrArray *recipie
 				     _("Could not generate encrypting data: %s"), g_strerror(errno));
 		goto fail1;
 	}
-	
+
 	gpg = gpg_ctx_new (context->session);
 	gpg_ctx_set_mode (gpg, GPG_CTX_MODE_ENCRYPT);
 	gpg_ctx_set_armor (gpg, TRUE);
