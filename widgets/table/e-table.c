@@ -1523,15 +1523,16 @@ e_table_get_cell_at (ETable *table,
 }
 
 /**
- * e_table_get_cell_at:
- * @table: An ETable widget
- * @x: X coordinate for the pixel
- * @y: Y coordinate for the pixel
- * @row_return: Pointer to return the row value
- * @col_return: Pointer to return the column value
+ * e_table_get_cell_geometry:
+ * @table: The table.
+ * @row: The row to get the geometry of.
+ * @col: The col to get the geometry of.
+ * @x_return: Returns the x coordinate of the upper right hand corner of the cell with respect to the widget.
+ * @y_return: Returns the y coordinate of the upper right hand corner of the cell with respect to the widget.
+ * @width_return: Returns the width of the cell.
+ * @height_return: Returns the height of the cell.
  * 
- * Return the row and column for the cell in which the pixel at (@x, @y) is
- * contained.
+ * Computes the data about this cell.
  **/
 void
 e_table_get_cell_geometry (ETable *table,

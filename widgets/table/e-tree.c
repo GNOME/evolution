@@ -1781,6 +1781,38 @@ e_tree_get_cell_at (ETree *tree,
 	e_table_item_compute_location(E_TABLE_ITEM(tree->priv->item), &x, &y, row_return, col_return);
 }
 
+/**
+ * e_tree_get_cell_geometry:
+ * @tree: The tree.
+ * @row: The row to get the geometry of.
+ * @col: The col to get the geometry of.
+ * @x_return: Returns the x coordinate of the upper right hand corner of the cell with respect to the widget.
+ * @y_return: Returns the y coordinate of the upper right hand corner of the cell with respect to the widget.
+ * @width_return: Returns the width of the cell.
+ * @height_return: Returns the height of the cell.
+ * 
+ * Computes the data about this cell.
+ **/
+void
+e_tree_get_cell_geometry (ETree *tree,
+			  int row, int col,
+			  int *x_return, int *y_return,
+			  int *width_return, int *height_return)
+{
+	g_return_if_fail (tree != NULL);
+	g_return_if_fail (E_IS_TREE (tree));
+
+	/* FIXME it would be nice if it could handle a NULL row_return or
+	 * col_return gracefully.  */
+
+	e_table_item_get_cell_geometry(E_TABLE_ITEM(tree->priv->item), &row, &col, x_return, y_return, width_return, height_return);
+
+	if (x_return)
+		(*x_return) -= GTK_LAYOUT(tree->priv->table_canvas)->hadjustment->value;
+	if (y_return)
+		(*y_return) -= GTK_LAYOUT(tree->priv->table_canvas)->vadjustment->value;
+}
+
 static void
 et_drag_begin (GtkWidget *widget,
 	       GdkDragContext *context,
