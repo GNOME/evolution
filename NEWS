@@ -10,11 +10,26 @@ Bugzilla bugs fixed (see http://bugzilla.ximian.com/show_bug.cgi):
     #44972 - Appointment Notification List not translated (to German)
              (Lorenzo Gil)
 
+  * Mail
+
+    #46674 - Western european mails garbled from IMAP (Michael)
+    #47765 - Crash with vFolder definition, introduced by #47208
+             (Michael)
+    #46168 - Chinese character set aliases updated (Suresh
+             Chandresekharan)
+    #45594 - Failure in hostname lookup, pthread errors (Michael)
+    #47208 - '#t' expression breaks for vFolders but not filters
+	     (Michael)
+
 Other bugs fixed:
 
   * Calendar
 
     - Fixed session management in alarm daemon (Rodrigo)
+
+  * Mail
+
+    - An automatic removal of 1 or 2 vFolder would fail (Michael)
 
 Evolution 1.4.4, 2003-07-28
 ---------------------------
@@ -184,8 +199,12 @@ Bugzilla bugs fixed (see http://bugzilla.ximian.com/show_bug.cgi):
              evolution mail (suresh.chandrasekharan@sun.com)
     #45063 - Message display refreshes when new mail arrives,
     	     introducted by #33593 (Michael)
-    #45386 - Warnings when sending mail (Michael)
-    #45368 - Crash when closing the folder browser
+    #31745 - Cannot view mails under '#mh' namespace.  Temporary
+             workaround, strip #'s (Michael)
+    #43887 - Replying to Mail.App richtext mails quotes the raw
+	     richtext (Michael)
+    #45288 - Crash reading mail (Larry)
+    #45368 - Crash closing popup mail viewer (Dan)
 
   * Summary
 
