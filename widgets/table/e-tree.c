@@ -734,6 +734,7 @@ et_real_construct (ETree *e_tree, ETreeModel *etm, ETableExtras *ete,
 	e_tree->horizontal_scrolling = specification->horizontal_scrolling;
 
 	e_tree->sort_info = state->sort_info;
+	gtk_object_ref (GTK_OBJECT (e_tree->sort_info));
 
 	gtk_object_set(GTK_OBJECT(e_tree->header),
 		       "sort_info", e_tree->sort_info,

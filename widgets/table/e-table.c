@@ -961,6 +961,7 @@ et_real_construct (ETable *e_table, ETableModel *etm, ETableExtras *ete,
 	e_table->horizontal_scrolling = specification->horizontal_scrolling;
 
 	e_table->sort_info = state->sort_info;
+	gtk_object_ref (GTK_OBJECT (state->sort_info));
 
 	e_table->group_info_change_id =
 		gtk_signal_connect (GTK_OBJECT (e_table->sort_info), "group_info_changed",
