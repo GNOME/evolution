@@ -42,17 +42,25 @@ AM_GNOME_GETTEXT
 
 GNOME_X_CHECKS
 
+
+
 dnl **************************************************
 dnl * Posix thread support
 dnl **************************************************
-GNOME_PTHREAD_CHECK
+
+have_pthread=false
+
+AC_ARG_WITH(threads, [--with-threads inculde threads support],
+            [GNOME_PTHREAD_CHECK])
+
 if test "x$PTHREAD_LIB" = "x" ; then
    have_pthread=false
 else
    have_pthread=true
 fi
 
-AM_CONDITIONAL(HAVE_PTHREAD, $have_pthread)
+AM_CONDITIONAL(ENABLE_THREADS, $have_pthread)
+
 
 dnl **************************************************
 dnl * Print check
@@ -108,10 +116,21 @@ else
     AC_MSG_ERROR(Did not find gdkpixbuf installed)
 fi
 
-EXTRA_GNOME_LIBS="`gnome-config --libs gnomeui libglade gdk_pixbuf gnomecanvaspixbuf `"
-EXTRA_GNOME_CFLAGS="`gnome-config --cflags gnomeui libglade gdk_pixbuf gnomecanvaspixbuf `"
+if $have_pthread; then 
+ 	THREADS_LIBS="$(PTHREAD_LIB) `glib-config --libs gthread`"
+	THREADS_CFLAGS="`glib-config --cflags gthread`"
+else
+	THREADS_LIBS=""
+	THREADS_CFLAGS=""
+fi
+
+EXTRA_GNOME_LIBS="`gnome-config --libs gnomeui libglade gdk_pixbuf gnomecanvaspixbuf ` $THREADS_LIBS"
+EXTRA_GNOME_CFLAGS="`gnome-config --cflags gnomeui libglade gdk_pixbuf gnomecanvaspixbuf ` $THREADS_CFLAGS"
+
+
 AC_SUBST(EXTRA_GNOME_LIBS)
 AC_SUBST(EXTRA_GNOME_CFLAGS)
+
 
 BONOBO_GNOME_LIBS="`gnome-config --libs gnomeui bonobo libglade gdk_pixbuf gnomecanvaspixbuf `"
 BONOBO_GNOME_CFLAGS="`gnome-config --cflags gnomeui bonobo libglade gdk_pixbuf gnomecanvaspixbuf `"
@@ -123,10 +142,7 @@ BONOBO_HTML_GNOME_CFLAGS="`gnome-config --cflags gnomeui bonobo libglade gdk_pix
 AC_SUBST(BONOBO_HTML_GNOME_LIBS)
 AC_SUBST(BONOBO_HTML_GNOME_CFLAGS)
 
-EXTRA_GNOME_LIBS_THREADS="`gnome-config --libs gnomeui libglade gdk_pixbuf gnomecanvaspixbuf ` `glib-config --libs gthread`"
-EXTRA_GNOME_CFLAGS_THREADS="`gnome-config --cflags gnomeui libglade gdk_pixbuf gnomecanvaspixbuf ` `glib-config --cflags gthread`"
-AC_SUBST(EXTRA_GNOME_LIBS_THREADS)
-AC_SUBST(EXTRA_GNOME_CFLAGS_THREADS)
+
 
 BONOBO_VFS_GNOME_LIBS="`gnome-config --libs gnomeui bonobo libglade gdk_pixbuf gnomecanvaspixbuf vfs `"
 BONOBO_VFS_GNOME_CFLAGS="`gnome-config --cflags gnomeui bonobo libglade gdk_pixbuf gnomecanvaspixbuf vfs `"

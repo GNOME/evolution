@@ -20,7 +20,14 @@ message_browser_LDADD = \
 	$(INTLLIBS)					\
 	$(EXTRA_GNOME_LIBS)				\
 	$(PTHREAD_LIB) 					\
-	$(EXTRA_GNOME_LIBS_THREADS)
+	$(EXTRA_GNOME_LIBS)
+
+camelfilter_LDADD = \
+	$(top_builddir)/camel/libcamel.la		\
+	$(INTLLIBS)					\
+	$(EXTRA_GNOME_LIBS)				\
+	$(PTHREAD_LIB) 					\
+	$(EXTRA_GNOME_LIBS)
 
 noinst_PROGRAMS =  	\
-	message-browser	
+	message-browser	camelfilter

@@ -6,7 +6,7 @@ INCLUDES = -I$(top_srcdir)/intl -I$(top_srcdir) -I$(top_srcdir)/camel \
 LDADD = \
 	$(top_builddir)/camel/libcamel.la 	\
 	$(GNOME_LIBDIR) 			\
-	$(GNOMEUI_LIBS) $(INTLLIBS) $(PTHREAD_LIB) $(EXTRA_GNOME_LIBS_THREADS)
+	$(GNOMEUI_LIBS) $(INTLLIBS) $(EXTRA_GNOME_LIBS)
 #	$(BONOBO_LIBS)				
 
 
@@ -22,7 +22,13 @@ test9_LDADD = \
 	$(top_builddir)/camel/libcamel.la 	\
 	$(top_builddir)/camel/providers/mbox/libcamelmbox.la 	\
 	$(GNOME_LIBDIR) 			\
-	$(GNOMEUI_LIBS) $(INTLLIBS) $(PTHREAD_LIB) $(EXTRA_GNOME_LIBS_THREADS)
+	$(GNOMEUI_LIBS) $(INTLLIBS) $(EXTRA_GNOME_LIBS)
+
+if ENABLE_THREADS
+THREAD_RELATED_TESTS=test8
+else
+THREAD_RELATED_TESTS=
+endif
 
 
 noinst_PROGRAMS =  	\
@@ -30,7 +36,7 @@ noinst_PROGRAMS =  	\
 	test2		\
 	test3		\
 	test7		\
-	test8		\
 	test9		\
 	test10		\
-	test-formatter	
+	test-formatter	\
+	$(THREAD_RELATED_TESTS)

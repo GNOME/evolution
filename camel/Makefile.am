@@ -12,7 +12,7 @@ INCLUDES = -I.. -I$(srcdir)/.. -I$(includedir)	\
 	$(GTK_INCLUDEDIR)
 
 
-if HAVE_PTHREAD
+if ENABLE_THREADS
 
 pthread_SRC =	\
 	camel-folder-pt-proxy.c		\

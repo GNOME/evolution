@@ -1,3 +1,36 @@
+2000-02-10  bertrand  <Bertrand.Guiheneuf@aful.org>
+
+	* tests/Makefile.am (THREAD_RELATED_TESTS): don't 
+	build thread related tests if evolution has been
+	compiled with no thread support.
+
+	* configure.in (have_pthread): allow user to enable/disable
+	thread support at configure time
+	(EXTRA_GNOME_CFLAGS): 
+	(EXTRA_GNOME_LIBS): thread support is directly 
+	included in this variable if enabled. No more
+	EXTRA_GNOME_CFLAGS_THREADS
+	Other special support should be added in 
+	EXTRA_GNOME_LIBS and EXTRA_GNOME_CFLAGS
+	instead of redefining a new variable 
+	each time we want to add a new lib. 
+	(bonobo, ....)
+
+	* camel/camel.c (camel_init): only try to initialize threads if
+	we enabled threads support. 
+
+	* tests/ui-tests/Makefile.am (message_browser_LDADD): use
+	EXTRA_GNOME_LIBS
+
+	* configure.in (have_pthread): remove HAVE_PTHREADS
+	variable. Define ENABLE_THREADS instead.
+
+	* camel/Makefile.am: use ENABLE_THREADS not HAVE_PTHREADS
+	to test if we build thread relateed code. 
+
+	* tests/Makefile.am: use EXTRA_GNOME_LIBS, 
+	not EXTRA_GNOME_LIBS_THREADS
+
 2000-02-10  NotZed  <notzed@zedzone.helixcode.com>
 
 	* camel/hash-table-utils.c (g_strcase_hash): Removed a bizarre
