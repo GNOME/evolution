@@ -2382,6 +2382,7 @@ calendar_model_set_use_24_hour_format (CalendarModel *model,
 	g_return_if_fail (IS_CALENDAR_MODEL (model));
 
 	if (model->priv->use_24_hour_format != use_24_hour_format) {
+		e_table_model_pre_change (E_TABLE_MODEL (model));
 		model->priv->use_24_hour_format = use_24_hour_format;
 		/* Get the views to redraw themselves. */
 		e_table_model_changed (E_TABLE_MODEL (model));
@@ -2418,6 +2419,7 @@ calendar_model_set_timezone		(CalendarModel	*model,
 	g_return_if_fail (IS_CALENDAR_MODEL (model));
 
 	if (model->priv->zone != zone) {
+		e_table_model_pre_change (E_TABLE_MODEL (model));
 		model->priv->zone = zone;
 
 		/* The timezone affects the times shown for COMPLETED and
