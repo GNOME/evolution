@@ -4,7 +4,6 @@
   CREATOR: eric 16 May 1999
   
   $Id$
-
   $Locker$
     
 

@@ -56,6 +56,10 @@ int main(int c, char *argv[]){
 	tostdout = 1;
     }
 
+
+    icalerror_set_error_state(ICAL_MALFORMEDDATA_ERROR, ICAL_ERROR_NONFATAL);
+    icalerror_set_error_state(ICAL_PARSE_ERROR, ICAL_ERROR_NONFATAL);
+
     clusterin = icalfileset_new(argv[1]);
 
     if (clusterin == 0){

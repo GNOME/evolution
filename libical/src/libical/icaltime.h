@@ -5,7 +5,6 @@
 
 
  $Id$
-
  $Locker$
 
  (C) COPYRIGHT 2000, Eric Busboom, http://www.softwarestudio.org
@@ -86,6 +85,7 @@ struct icaltimetype icaltime_as_zone(struct icaltimetype tt,
 struct icaltimetype icaltime_null_time(void);
 
 int icaltime_is_null_time(struct icaltimetype t);
+int icaltime_is_valid_time(struct icaltimetype t);
 
 struct icaltimetype icaltime_normalize(struct icaltimetype t);
 
@@ -123,7 +123,8 @@ struct icaldurationtype icaldurationtype_from_int(int t);
 struct icaldurationtype icaldurationtype_from_string(const char*);
 int icaldurationtype_as_int(struct icaldurationtype duration);
 char* icaldurationtype_as_ical_string(struct icaldurationtype d);
-
+struct icaldurationtype icaldurationtype_null_duration();
+int icaldurationtype_is_null_duration(struct icaldurationtype d);
 
 struct icalperiodtype 
 {
@@ -134,6 +135,9 @@ struct icalperiodtype
 
 struct icalperiodtype icalperiodtype_from_string (const char* str);
 const char* icalperiodtype_as_ical_string(struct icalperiodtype p);
+struct icalperiodtype icalperiodtype_null_period();
+int icalperiodtype_is_null_period(struct icalperiodtype p);
+int icalperiodtype_is_valid_period(struct icalperiodtype p);
 
 time_t icalperiodtype_duration(struct icalperiodtype period);
 time_t icalperiodtype_end(struct icalperiodtype period);

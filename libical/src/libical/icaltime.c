@@ -125,7 +125,7 @@ char* set_tz(const char* tzid)
     return old_tz_copy; /* This will be zero if the TZ env var was not set */
 }
 
-void unset_tz(char* tzstr)
+void unset_tz(struct set_tz_save savetz)
 {
     /* restore the original environment */
 
@@ -143,6 +143,7 @@ void unset_tz(char* tzstr)
        (This can possibly be NULL if there was no TZ to restore.) */
     saved_tz = tzstr;
 }
+
 
 time_t icaltime_as_timet(struct icaltimetype tt)
 {
@@ -164,7 +165,7 @@ time_t icaltime_as_timet(struct icaltimetype tt)
     stm.tm_isdst = -1;
 
     if(tt.is_utc == 1 || tt.is_date == 1){
-	char* old_tz = set_tz("UTC");
+	struct set_tz_save old_tz = set_tz("UTC");
 	t = mktime(&stm);
 	unset_tz(old_tz);
     } else {
@@ -242,11 +243,10 @@ int icaltime_utc_offset(struct icaltimetype ictt, const char* tzid)
     time_t tt = icaltime_as_timet(ictt);
     time_t offset_tt;
     struct tm gtm;
-
-    char *tzstr = 0;
+    struct set_tz_save old_tz; 
 
     if(tzid != 0){
-	tzstr = set_tz(tzid);
+	old_tz = set_tz(tzid);
     }
  
     /* Mis-interpret a UTC broken out time as local time */
@@ -255,7 +255,7 @@ int icaltime_utc_offset(struct icaltimetype ictt, const char* tzid)
     offset_tt = mktime(&gtm);
     
     if(tzid != 0){
-	unset_tz(tzstr);
+	unset_tz(old_tz);
     }
 
     return tt-offset_tt;
@@ -474,6 +474,19 @@ struct icaltimetype icaltime_null_time()
 
     return t;
 }
+
+
+int icaltime_is_valid_time(struct icaltimetype t){
+    if(t.is_utc > 1 || t.is_utc < 0 ||
+       t.year < 0 || t.year > 3000 ||
+       t.is_date > 1 || t.is_date < 0){
+	return 0;
+    } else {
+	return 1;
+    }
+
+}
+
 int icaltime_is_null_time(struct icaltimetype t)
 {
     if (t.second +t.minute+t.hour+t.day+t.month+t.year == 0){
@@ -599,6 +612,7 @@ const char* icalperiodtype_as_ical_string(struct icalperiodtype p)
     return buf;
 }
 
+
 time_t
 icalperiodtype_duration (struct icalperiodtype period);
 
@@ -606,6 +620,35 @@ icalperiodtype_duration (struct icalperiodtype period);
 time_t
 icalperiodtype_end (struct icalperiodtype period);
 
+
+struct icalperiodtype icalperiodtype_null_period() {
+    struct icalperiodtype p;
+    p.start = icaltime_null_time();
+    p.end = icaltime_null_time();
+    p.duration = icaldurationtype_null_duration();
+
+    return p;
+}
+int icalperiodtype_is_null_period(struct icalperiodtype p){
+    
+    if(icaltime_is_null_time(p.start) && 
+       icaltime_is_null_time(p.end) && 
+       icaldurationtype_is_null_duration(p.duration)){
+	return 1;
+    } else {
+	return 0;
+    }
+}
+
+int icalperiodtype_is_valid_period(struct icalperiodtype p){
+    if(icaltime_is_valid_time(p.start) && 
+       (icaltime_is_valid_time(p.end) || icaltime_is_null_time(p.end)) )
+	{
+	    return 1;
+	}
+
+    return 0;
+}
 
 /* From Russel Steinthal */
 int icaldurationtype_as_int(struct icaldurationtype dur)
@@ -827,15 +870,33 @@ char* icaldurationtype_as_ical_string(struct icaldurationtype d)
 
 #endif
 
+struct icaldurationtype icaldurationtype_null_duration()
+{
+    struct icaldurationtype d;
+    
+    memset(&d,0,sizeof(struct icaldurationtype));
+    
+    return d;
+}
+
+int icaldurationtype_is_null_duration(struct icaldurationtype d)
+{
+    if(icaldurationtype_as_int(d) == 0){
+	return 1;
+    } else {
+	return 0;
+    }
+}
+
 struct icaltimetype  icaltime_add(struct icaltimetype t,
 				  struct icaldurationtype  d)
 {
     int dt = icaldurationtype_as_int(d);
-
+    
     t.second += dt;
-
+    
     t = icaltime_normalize(t);
-
+    
     return t;
 }
 
