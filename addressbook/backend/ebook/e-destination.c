@@ -190,7 +190,6 @@ e_destination_changed (EDestination *dest)
 	if (dest->priv->freeze_count == 0) {
 		gtk_signal_emit (GTK_OBJECT (dest), e_destination_signals[CHANGED]);
 		dest->priv->pending_change = FALSE;
-		
 		dest->priv->cannot_cardify = FALSE;
 	
 	} else {
@@ -312,6 +311,10 @@ e_destination_set_card (EDestination *dest, ECard *card, gint email_num)
 
 	if (dest->priv->card != card || dest->priv->card_email_num != email_num) {
 
+		/* We have to freeze/thaw around these operations so that the 'changed'
+		   signals don't cause the EDestination's internal state to be altered
+		   before we can finish setting ->card && ->card_email_num. */
+		e_destination_freeze (dest);
 		e_destination_clear (dest);
 
 		dest->priv->card = card;
@@ -320,6 +323,7 @@ e_destination_set_card (EDestination *dest, ECard *card, gint email_num)
 		dest->priv->card_email_num = email_num;
 
 		e_destination_changed (dest);
+		e_destination_thaw (dest);
 	}
 }
 
@@ -594,7 +598,7 @@ e_destination_get_email (const EDestination *dest)
 	g_return_val_if_fail (dest && E_IS_DESTINATION (dest), NULL);
 
 	priv = (struct _EDestinationPrivate *)dest->priv; /* cast out const */
-
+	
 	if (priv->email == NULL) {
 
 		if (priv->card != NULL) { /* Pull the address out of the card. */
@@ -614,10 +618,8 @@ e_destination_get_email (const EDestination *dest)
 						priv->email = g_strdup ((gchar *) ptr);
 					}
 				}
-			}
-			else {
-				priv->email = g_strdup ("");
-			}
+
+			} 
 
 		} else if (priv->raw != NULL) {
 
@@ -630,8 +632,10 @@ e_destination_get_email (const EDestination *dest)
 			}
 			
 			camel_object_unref (CAMEL_OBJECT (addr));
-		}
-		else {
+		} 
+		
+		/* Force e-mail to be non-null... */
+		if (priv->email == NULL) {
 			priv->email = g_strdup ("");
 		}
 	}
@@ -811,8 +815,8 @@ name_and_email_simple_query_cb (EBook *book, EBookSimpleQueryStatus status, cons
 		gint email_num = e_card_email_find_number (card, e_destination_get_email (dest));
 
 		if (email_num >= 0) {
-			dest->priv->has_been_cardified = TRUE;		
-			e_destination_set_card (dest, E_CARD (cards->data), email_num);
+			dest->priv->has_been_cardified = TRUE;
+			e_destination_set_card (dest, card, email_num);
 			gtk_signal_emit (GTK_OBJECT (dest), e_destination_signals[CARDIFIED]);
 		}
 	}
@@ -821,7 +825,7 @@ name_and_email_simple_query_cb (EBook *book, EBookSimpleQueryStatus status, cons
 		dest->priv->cannot_cardify = TRUE;
 	}
 
-	gtk_object_unref (GTK_OBJECT (dest));
+	gtk_object_unref (GTK_OBJECT (dest)); /* drop the reference held by the query */
 }
 
 
@@ -831,11 +835,11 @@ nickname_simple_query_cb (EBook *book, EBookSimpleQueryStatus status, const GLis
 	EDestination *dest = E_DESTINATION (closure);
 
 	if (status == E_BOOK_SIMPLE_QUERY_STATUS_SUCCESS && g_list_length ((GList *) cards) == 1) {
-
-		dest->priv->has_been_cardified = TRUE;		
+		dest->priv->has_been_cardified = TRUE;
 		e_destination_set_card (dest, E_CARD (cards->data), 0); /* Uses primary e-mail by default. */
 		gtk_signal_emit (GTK_OBJECT (dest), e_destination_signals[CARDIFIED]);
-		gtk_object_unref (GTK_OBJECT (dest));
+
+		gtk_object_unref (GTK_OBJECT (dest)); /* drop the reference held by the query */
 
 	} else {
 

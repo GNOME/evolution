@@ -1,3 +1,15 @@
+2001-08-24  Jon Trowbridge  <trow@ximian.com>
+
+	* backend/ebook/e-destination.c (e_destination_set_card): Put a
+	freeze/thaw around our the set of operations that changes the
+	internal state of our card, so 'changed' signal callbacks won't be
+	invoked on a card in an intermediary state.  This fixes the bug
+	that was causing the e-mail addresses in cards to be blank when
+	replying to a message.  (An unexpected side-effect of toshok's
+	change on 8/22 to make sure that priv->email != NULL).
+	(e_destination_get_name): Code slightly rearranged for (IMO)
+	clarity.
+
 2001-08-23  Chris Toshok  <toshok@ximian.com>
 
 	* gui/widgets/e-minicard.c (e_minicard_event): add
