@@ -1,3 +1,11 @@
+2002-05-16  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-shell.c (view_delete_event_cb): Ask e_shell_prepare_for_quit()
+	before destroying the view if it's the last one.
+
+	* e-shell-view-menu.c (command_close): Synthesize a delete_event
+	on the view instead of directly destroying it.
+
 2002-05-15  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-shell-view-menu.c (command_quit): Check with

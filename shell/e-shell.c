@@ -953,8 +953,17 @@ view_delete_event_cb (GtkWidget *widget,
 	shell = E_SHELL (data);
 	e_shell_save_settings (shell);
 
-	/* Destroy it */
-	return FALSE;
+	if (g_list_length (shell->priv->views) != 1) {
+		/* If it's not the last view, just destroy it.  */
+		return FALSE;
+	}
+
+	/* If it's the last view, ask for confirm before actually destroying
+	   this view.  */
+	if (e_shell_prepare_for_quit (shell))
+		return FALSE;
+	else
+		return TRUE;
 }
 
 static void
