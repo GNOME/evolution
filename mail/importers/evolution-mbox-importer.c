@@ -213,7 +213,7 @@ folder_created_cb (BonoboListener *listener,
 		return;
 	}
 
-	camel_importer_freeze (importer->folder);
+	camel_folder_freeze (importer->folder);
 	importer->frozen = TRUE;
 
 	g_free (fullpath);
