@@ -31,7 +31,7 @@
 #include <gnome.h>
 #include <pi-todo.h>
 #include <gpilotd/gnome-pilot-conduit.h>
-#include <gpilotd/gnome-pilot-conduit-standard-abs.h>
+#include <gpilotd/gnome-pilot-conduit-sync-abs.h>
 #include <cal-client/cal-client.h>
 
 
@@ -42,7 +42,7 @@ struct _EToDoLocalRecord {
 	   Must be first in the structure, or instances of this
 	   structure cannot be used by gnome-pilot-conduit-standard-abs.
 	*/
-	LocalRecord local;
+	GnomePilotDesktopRecord local;
 
 	/* The corresponding Comp object */
 	CalComponent *comp;
@@ -65,11 +65,12 @@ struct _EToDoConduitContext {
 
 	time_t since;
 	GList *uids;
-	
-	GList *added;
-	GList *modified;
-	GList *deleted;
+	GList *changed;
 
+	GHashTable *added;
+	GHashTable *modified;
+	GHashTable *deleted;
+	
 	GHashTable *map;
 };
 

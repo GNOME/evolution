@@ -3,14 +3,15 @@ INCLUDES = 					\
 	-I$(top_srcdir)/calendar		\
 	-I$(top_srcdir)/libical/src/libical	\
 	-I$(top_builddir)/libical/src/libical	\
-	$(BONOBO_GNOME_CFLAGS)			\
+	$(BONOBO_VFS_GNOME_CFLAGS)		\
 	$(GNOME_PILOT_CFLAGS)
 
-bin_PROGRAMS = calendar-conduit-control-applet
+# Calendar Capplet
+bin_PROGRAMS = e-calendar-conduit-control-applet
 
-calendar_conduit_control_applet_SOURCES = calendar-conduit-control-applet.c
+e_calendar_conduit_control_applet_SOURCES = calendar-conduit-control-applet.c
 
-calendar_conduit_control_applet_LDADD = \
+e_calendar_conduit_control_applet_LDADD = \
 		$(CAPPLET_LIBS)  \
 		$(GNOME_LIBDIR) \
 		$(GNOME_PILOT_LIBS) \
@@ -21,27 +22,13 @@ calendar_conduit_control_applet_LDADD = \
 	        $(GNOMEUI_LIBS) \
                 $(INTLLIBS)
 
-# calendar_conduit
-calendar_conduitsdir=$(libdir)/gnome-pilot/conduits
-calendar_conduits_LTLIBRARIES = libcalendar_conduit.la
+# Calendar Conduit
+e_calendar_conduitsdir=$(libdir)/gnome-pilot/conduits
+e_calendar_conduits_LTLIBRARIES = libecalendar_conduit.la
 
-libcalendar_conduit_la_SOURCES = \
-	calendar-conduit.c
+libecalendar_conduit_la_SOURCES = calendar-conduit.c
 
-# calendar-conduit.c: my_gnomecal_idl
-
-calendar.conduit: calendar.conduit.in Makefile
-	sed -e 's^\@prefix\@^$(prefix)^g' < $(srcdir)/calendar.conduit.in > calendar.conduit.tmp \
-	&& mv calendar.conduit.tmp calendar.conduit
-
-#
-# conduit
-#
-
-libcalendar_conduit_la_LDFLAGS = \
-	-rpath $(libdir)
-
-libcalendar_conduit_la_LIBADD = 					\
+libecalendar_conduit_la_LIBADD = 					\
 	$(top_builddir)/calendar/cal-client/libcal-client-static.la	\
 	$(top_builddir)/calendar/cal-util/libcal-util-static.la		\
 	$(top_builddir)/libversit/libversit.la				\
@@ -51,19 +38,23 @@ libcalendar_conduit_la_LIBADD = 					\
 	$(GNOME_LIBDIR) 						\
 	$(GNOME_LIBS)
 
+e-calendar.conduit: e-calendar.conduit.in Makefile
+	sed -e 's^\@prefix\@^$(prefix)^g' < $(srcdir)/e-calendar.conduit.in > e-calendar.conduit.tmp \
+	&& mv e-calendar.conduit.tmp e-calendar.conduit
+
 ccenterdir = $(datadir)/control-center
 ccenterPalmPilotdir = $(ccenterdir)/Peripherals
 ccenterConduitsdir = $(ccenterPalmPilotdir)/Conduits
-ccenterConduits_DATA = calendar-conduit-control-applet.desktop 
+ccenterConduits_DATA = e-calendar-conduit-control-applet.desktop 
 
 panelConduitsdir = $(datadir)/gnome/apps/Settings/Peripherals/Conduits
 panelConduits_DATA = $(ccenterConduits_DATA)
 
 Conduitdir = $(datadir)/gnome-pilot/conduits/
-Conduit_DATA = calendar.conduit
+Conduit_DATA = e-calendar.conduit
 
 EXTRA_DIST = \
-	calendar.conduit.in \
+	e-calendar.conduit.in \
         $(ccenterConduits_DATA)
 
 install-data-local:

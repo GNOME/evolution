@@ -1,3 +1,8 @@
+2000-10-09  JP Rosevear  <jpr@helixcode.com>
+
+	* conduits/*: Adjust to using gnome-pilot-sync-abs conduit which
+	is based on the latest pilot link changes.
+
 2000-10-09  Iain Holmes  <iain@helixcode.com>
 
 	* Makefile.am: Added the executive-summary library and cflags

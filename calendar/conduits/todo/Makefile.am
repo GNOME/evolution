@@ -3,7 +3,7 @@ INCLUDES = 					\
 	-I$(top_srcdir)/calendar		\
 	-I$(top_srcdir)/libical/src/libical	\
 	-I$(top_builddir)/libical/src/libical	\
-	$(BONOBO_VFS_GNOME_CFLAGS)			\
+	$(BONOBO_VFS_GNOME_CFLAGS)		\
 	$(GNOME_PILOT_CFLAGS)
 
 # ToDo Capplet
@@ -21,8 +21,6 @@ e_todo_conduit_control_applet_LDADD = \
 		$(GNOME_XML_LIB) \
 	        $(GNOMEUI_LIBS) \
                 $(INTLLIBS)
-
-
 
 # ToDo Conduit
 e_todo_conduitsdir=$(libdir)/gnome-pilot/conduits

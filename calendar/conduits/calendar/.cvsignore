@@ -1,8 +1,8 @@
 Makefile.in
 Makefile
 .deps
-calendar.conduit
+e-calendar.conduit
 *.lo
 .libs
-libcalendar_conduit.la
-calendar-conduit-control-applet
+libecalendar_conduit.la
+e-calendar-conduit-control-applet
