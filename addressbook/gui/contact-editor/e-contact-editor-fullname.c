@@ -105,6 +105,12 @@ e_contact_editor_fullname_init (EContactEditorFullname *e_contact_editor_fullnam
 	GtkWidget *widget;
 	GList *icon_list;
 
+	gtk_widget_realize (GTK_WIDGET (e_contact_editor_fullname));
+	gtk_dialog_set_has_separator (GTK_DIALOG (e_contact_editor_fullname),
+				      FALSE);
+	gtk_container_set_border_width (GTK_CONTAINER (GTK_DIALOG (e_contact_editor_fullname)->vbox), 0);
+	gtk_container_set_border_width (GTK_CONTAINER (GTK_DIALOG (e_contact_editor_fullname)->action_area), 12);
+
 	gtk_dialog_add_buttons (GTK_DIALOG (e_contact_editor_fullname),
 				GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
 				GTK_STOCK_OK, GTK_RESPONSE_OK,

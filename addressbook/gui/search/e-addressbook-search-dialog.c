@@ -112,9 +112,15 @@ eab_search_dialog_init (EABSearchDialog *view)
 {
 	GtkDialog *dialog = GTK_DIALOG (view);
 
+	gtk_widget_realize (GTK_WIDGET (dialog));
+	gtk_dialog_set_has_separator (dialog, FALSE);
+	gtk_container_set_border_width (GTK_CONTAINER (dialog->vbox), 0);
+	gtk_container_set_border_width (GTK_CONTAINER (dialog->action_area), 12);
+
 	gtk_window_set_default_size (GTK_WINDOW (view), 550, 400);
 	gtk_window_set_title(GTK_WINDOW(view), _("Advanced Search"));
 	view->search = get_widget(view);
+	gtk_container_set_border_width (GTK_CONTAINER (view->search), 12);
 	gtk_box_pack_start(GTK_BOX(dialog->vbox), view->search, TRUE, TRUE, 0);
 	gtk_widget_show(view->search);
 

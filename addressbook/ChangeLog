@@ -1,3 +1,12 @@
+2004-04-27  Rodney Dawes  <dobey@ximian.com>
+
+	* gui/contact-editor/e-contact-editor-fullname.c:
+	(e_contact_editor_fullname_init):
+	* gui/contact-editor/fullname.glade:
+	* gui/search/e-addressbook-search-dialog.c (eab_search_dialog_init):
+	Update dialog vbox and action area border widths to be HIG compliant
+	Update main child widget border widths to be HIG compliant
+
 2004-04-27  Larry Ewing  <lewing@ximian.com>
 
 	* gui/component/addressbook-config.c (source_to_dialog_new): fix
