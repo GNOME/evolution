@@ -1,3 +1,7 @@
+2004-01-14  Rodney Dawes  <dobey@ximian.com>
+
+	* e-expander.[ch]: Fix remaining usages of GTK_*EXPANDER* defines
+
 2003-12-22  Rodney Dawes  <dobey@ximian.com>
 
 	Fix for bug #46349

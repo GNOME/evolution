@@ -28,13 +28,13 @@
 
 G_BEGIN_DECLS
 
-#define GTK_TYPE_EXPANDER            (e_expander_get_type ())
-#define E_EXPANDER(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), GTK_TYPE_EXPANDER, EExpander))
-#define E_EXPANDER_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), GTK_TYPE_EXPANDER, EExpanderClass))
-#define GTK_IS_EXPANDER(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), GTK_TYPE_EXPANDER))
-#define GTK_IS_EXPANDER_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), GTK_TYPE_EXPANDER))
-#define E_EXPANDER_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS ((obj), GTK_TYPE_EXPANDER, EExpanderClass))
-/* ESTUFF #define E_EXPANDER_GET_PRIVATE(o)  (G_TYPE_INSTANCE_GET_PRIVATE ((o), GTK_TYPE_EXPANDER, EExpanderPrivate)) */
+#define E_TYPE_EXPANDER            (e_expander_get_type ())
+#define E_EXPANDER(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), E_TYPE_EXPANDER, EExpander))
+#define E_EXPANDER_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), E_TYPE_EXPANDER, EExpanderClass))
+#define E_IS_EXPANDER(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), E_TYPE_EXPANDER))
+#define E_IS_EXPANDER_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), E_TYPE_EXPANDER))
+#define E_EXPANDER_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS ((obj), E_TYPE_EXPANDER, EExpanderClass))
+/* ESTUFF #define E_EXPANDER_GET_PRIVATE(o)  (G_TYPE_INSTANCE_GET_PRIVATE ((o), E_TYPE_EXPANDER, EExpanderPrivate)) */
 
 typedef struct _EExpander      EExpander;
 typedef struct _EExpanderClass EExpanderClass;

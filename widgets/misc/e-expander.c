@@ -1056,13 +1056,13 @@ e_expander_activate (EExpander *expander)
 GtkWidget *
 e_expander_new (const gchar *label)
 {
-  return g_object_new (GTK_TYPE_EXPANDER, "label", label, NULL);
+  return g_object_new (E_TYPE_EXPANDER, "label", label, NULL);
 }
 
 GtkWidget *
 e_expander_new_with_mnemonic (const gchar *label)
 {
-  return g_object_new (GTK_TYPE_EXPANDER,
+  return g_object_new (E_TYPE_EXPANDER,
 		       "label", label,
 		       "use_underline", TRUE,
 		       NULL);
@@ -1141,7 +1141,7 @@ e_expander_set_expanded (EExpander *expander,
 {
   EExpanderPrivate *priv;
 
-  g_return_if_fail (GTK_IS_EXPANDER (expander));
+  g_return_if_fail (E_IS_EXPANDER (expander));
 
   priv = E_EXPANDER_GET_PRIVATE (expander);
 
@@ -1172,7 +1172,7 @@ e_expander_set_expanded (EExpander *expander,
 gboolean
 e_expander_get_expanded (EExpander *expander)
 {
-  g_return_val_if_fail (GTK_IS_EXPANDER (expander), FALSE);
+  g_return_val_if_fail (E_IS_EXPANDER (expander), FALSE);
 
   return E_EXPANDER_GET_PRIVATE (expander)->expanded;
 }
@@ -1183,7 +1183,7 @@ e_expander_set_spacing (EExpander *expander,
 {
   EExpanderPrivate *priv;
 
-  g_return_if_fail (GTK_IS_EXPANDER (expander));
+  g_return_if_fail (E_IS_EXPANDER (expander));
   g_return_if_fail (spacing >= 0);
 
   priv = E_EXPANDER_GET_PRIVATE (expander);
@@ -1201,7 +1201,7 @@ e_expander_set_spacing (EExpander *expander,
 gint
 e_expander_get_spacing (EExpander *expander)
 {
-  g_return_val_if_fail (GTK_IS_EXPANDER (expander), 0);
+  g_return_val_if_fail (E_IS_EXPANDER (expander), 0);
 
   return E_EXPANDER_GET_PRIVATE (expander)->spacing;
 }
@@ -1210,7 +1210,7 @@ void
 e_expander_set_label (EExpander *expander,
 			const gchar *label)
 {
-  g_return_if_fail (GTK_IS_EXPANDER (expander));
+  g_return_if_fail (E_IS_EXPANDER (expander));
 
   if (!label)
     {
@@ -1250,7 +1250,7 @@ e_expander_get_label (EExpander *expander)
 {
   EExpanderPrivate *priv;
 
-  g_return_val_if_fail (GTK_IS_EXPANDER (expander), NULL);
+  g_return_val_if_fail (E_IS_EXPANDER (expander), NULL);
 
   priv = E_EXPANDER_GET_PRIVATE (expander);
 
@@ -1266,7 +1266,7 @@ e_expander_set_use_underline (EExpander *expander,
 {
   EExpanderPrivate *priv;
 
-  g_return_if_fail (GTK_IS_EXPANDER (expander));
+  g_return_if_fail (E_IS_EXPANDER (expander));
 
   priv = E_EXPANDER_GET_PRIVATE (expander);
 
@@ -1286,7 +1286,7 @@ e_expander_set_use_underline (EExpander *expander,
 gboolean
 e_expander_get_use_underline (EExpander *expander)
 {
-  g_return_val_if_fail (GTK_IS_EXPANDER (expander), FALSE);
+  g_return_val_if_fail (E_IS_EXPANDER (expander), FALSE);
 
   return E_EXPANDER_GET_PRIVATE (expander)->use_underline;
 }
@@ -1306,7 +1306,7 @@ e_expander_set_label_widget (EExpander *expander,
   EExpanderPrivate *priv;
   gboolean need_resize = FALSE;
 
-  g_return_if_fail (GTK_IS_EXPANDER (expander));
+  g_return_if_fail (E_IS_EXPANDER (expander));
   g_return_if_fail (label_widget == NULL || GTK_IS_WIDGET (label_widget));
   g_return_if_fail (label_widget == NULL || label_widget->parent == NULL);
 
@@ -1348,7 +1348,7 @@ e_expander_set_label_widget (EExpander *expander,
 GtkWidget *
 e_expander_get_label_widget (EExpander *expander)
 {
-  g_return_val_if_fail (GTK_IS_EXPANDER (expander), NULL);
+  g_return_val_if_fail (E_IS_EXPANDER (expander), NULL);
 
   return E_EXPANDER_GET_PRIVATE (expander)->label_widget;
 }
