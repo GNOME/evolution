@@ -1,3 +1,20 @@
+2000-03-13  Christopher James Lahey  <clahey@helixcode.com>
+
+	* shell/e-shell-view.c: Added an E_FOLDER_CONTACTS section to the
+	get_view function.
+
+	* addressbook/demo/Makefile.am: Added files for addressbook bonobo
+	component.  Changed non bonobo version to compile as
+	test-addressbook.
+
+	* addressbook/demo/addressbook.c,
+	addressbook/demo/addressbook.gnorba,
+	addressbook/demo/addressbook.h,
+	addressbook/demo/addressbook-factory.c,
+	addressbook/demo/addressbook-widget.c,
+	addressbook/demo/addressbook-widget.h: New factory to create an
+	addressbook bonobo component.
+
 2000-03-13  bertrand  <bertrand@helixcode.com>
 
 	* shell/e-shell.c (EShell_register_service): 

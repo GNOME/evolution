@@ -120,6 +120,31 @@ get_view (EShellView *eshell_view, EFolder *efolder, Bonobo_UIHandler uih)
 			}
 		}
 		break;
+
+	case E_FOLDER_CONTACTS :
+		{
+#if 0
+			Evolution_ServiceRepository corba_sr;
+#endif
+
+			w = bonobo_widget_new_control ("control:addressbook",
+						       uih);
+#if 0
+			server = bonobo_widget_get_server (BONOBO_WIDGET (w));
+			
+			corba_sr = (Evolution_ServiceRepository) 
+				bonobo_object_client_query_interface (server,
+								      "IDL:Evolution/ServiceRepository:1.0",
+								      NULL);
+			if (corba_sr != CORBA_OBJECT_NIL) {
+				Evolution_ServiceRepository_set_shell (corba_sr, corba_shell, &ev);
+			} else {
+				g_warning ("The bonobo component for the mail doesn't seem to implement the "
+					   "Evolution::ServiceRepository interface\n");
+			}
+#endif
+		}
+		break;
  
 	default : 
 		printf ("No bonobo component associated to %s\n", 

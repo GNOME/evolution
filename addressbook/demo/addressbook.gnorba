@@ -1,0 +1,11 @@
+[control-factory:addressbook]
+type=exe
+repo_id=IDL:GNOME/GenericFactory:1.0
+description=Factory for the sample Addressbook control
+location_info=evolution-addressbook
+
+[control:addressbook]
+type=factory
+repo_id=IDL:BonoboControl/addressbook-control:1.0 IDL:GNOME/Control:1.0
+description=A sample Bonobo control which displays an addressbook.
+location_info=control-factory:addressbook
