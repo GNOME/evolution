@@ -1,3 +1,11 @@
+2003-03-12  Rodrigo Moya <rodrigo@ximian.com>
+
+	* gui/dialogs/save-comp.[ch] (save_component_dialog): corrected
+	button ordering and changed the return type to be a GtkResponseType.
+
+	* gui/dialogs/comp-editor.c (prompt_to_save_changes): adapted to
+	changes in save_component_dialog.
+
 2003-03-11  Dan Winship  <danw@ximian.com>
 
 	* gui/calendar-config.c (on_timezone_set): Update for timezone

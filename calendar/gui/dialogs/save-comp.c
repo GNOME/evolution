@@ -39,23 +39,30 @@
  * Pops up a dialog box asking the user whether he wants to save changes for
  * a calendar component.
  * 
- * Return value: TRUE if changes shold be saved, FALSE otherwise.
+ * Return value: the response_id of the button selected.
  **/
-gint
+GtkResponseType
 save_component_dialog (GtkWindow *parent)
 {
 	GtkWidget *dialog;
+	gint r;
 
 	dialog = gnome_message_box_new (_("Do you want to save changes?"),
 					GNOME_MESSAGE_BOX_QUESTION,
-					GNOME_STOCK_BUTTON_YES,
-					GNOME_STOCK_BUTTON_NO,
 					GNOME_STOCK_BUTTON_CANCEL,
+					GNOME_STOCK_BUTTON_NO,
+					GNOME_STOCK_BUTTON_YES,
 					NULL);
 
 	gnome_dialog_set_default (GNOME_DIALOG (dialog), 0);
 	gnome_dialog_grab_focus (GNOME_DIALOG (dialog), 0);
 	gnome_dialog_set_parent (GNOME_DIALOG (dialog), parent);
 
-	return gnome_dialog_run_and_close (GNOME_DIALOG (dialog));
+	r = gnome_dialog_run_and_close (GNOME_DIALOG (dialog));
+	if (r == 1)
+		return GTK_RESPONSE_NO;
+	else if (r == 2)
+		return GTK_RESPONSE_YES;
+
+	return GTK_RESPONSE_CANCEL;
 }

@@ -22,8 +22,8 @@
 #ifndef SAVE_COMP_H
 #define SAVE_COMP_H
 
-#include <gtk/gtkwindow.h>
+#include <gtk/gtkdialog.h>
 
-gint save_component_dialog (GtkWindow *parent);
+GtkResponseType save_component_dialog (GtkWindow *parent);
 
 #endif

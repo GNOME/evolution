@@ -402,7 +402,7 @@ prompt_to_save_changes (CompEditor *editor, gboolean send)
 		return TRUE;
 
 	switch (save_component_dialog (GTK_WINDOW (editor))) {
-	case 0: /* Save */
+	case GTK_RESPONSE_YES: /* Save */
 		if (cal_component_is_instance (priv->comp))
 			if (!recur_component_dialog (priv->comp, &priv->mod, GTK_WINDOW (editor)))
 				return FALSE;
@@ -413,9 +413,9 @@ prompt_to_save_changes (CompEditor *editor, gboolean send)
 			return TRUE;
 		else
 			return FALSE;
-	case 1: /* Discard */
+	case GTK_RESPONSE_NO: /* Discard */
 		return TRUE;
-	case 2: /* Cancel */
+	case GTK_RESPONSE_CANCEL: /* Cancel */
 	default:
 		return FALSE;
 	}
