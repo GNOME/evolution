@@ -249,6 +249,7 @@ set_recipients (CamelMimeMessage *msg,
 	EMsgComposerAddressEntry *entry;
 	GList *list;
 	GList *p;
+	struct _header_address *addr;
 
 	entry = E_MSG_COMPOSER_ADDRESS_ENTRY (entry_widget);
 	list = e_msg_composer_address_entry_get_addresses (entry);
@@ -256,8 +257,10 @@ set_recipients (CamelMimeMessage *msg,
 	/* FIXME leak?  */
 
 	for (p = list; p != NULL; p = p->next) {
-		printf ("Adding `%s:' header: %s\n", type, (gchar *) p->data);
-		camel_mime_message_add_recipient (msg, type, (gchar *) p->data);
+		addr = header_address_decode (p->data);
+		camel_mime_message_add_recipient (msg, type, addr->name,
+						  addr->v.addr);
+		header_address_unref (addr);
 	}
 
 	g_list_free (list);

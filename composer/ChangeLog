@@ -1,3 +1,8 @@
+2000-04-28  Dan Winship  <danw@helixcode.com>
+
+	* e-msg-composer-hdrs.c (set_recipients): Update (minimally) for
+	Camel recipient changes.
+
 2000-04-27  Dan Winship  <danw@helixcode.com>
 
 	* e-msg-composer.c (e_msg_composer_new_from_url): New routine, to

@@ -370,22 +370,24 @@ write_field_to_stream (const char *description, const char *value,
 
 static void
 write_recipients_to_stream (const gchar *recipient_type,
-			    const GList *recipients, gboolean bold,
-			    GtkHTML *html,
+			    const CamelInternetAddress *recipients,
+			    gboolean bold, GtkHTML *html,
 			    GtkHTMLStreamHandle *stream)
 {
-	gchar *recipients_string = NULL;
+	int i;
+	char *recipients_string = NULL;
+	const char *name, *addr;
 
- 	while (recipients) {
-		gchar *old_string = recipients_string;
+	i = 0;
+	while (camel_internet_address_get (recipients, i++, &name, &addr)) {
+		char *old_string = recipients_string;
 		recipients_string =
-			g_strdup_printf ("%s%s%s",
+			g_strdup_printf ("%s%s%s%s%s <%s>",
 					 old_string ? old_string : "",
-					 old_string ? "; " : "",
-					 (gchar *)recipients->data);
+					 old_string ? ", " : "",
+					 *name ? "\"" : "", name,
+					 *name ? "\"" : "", addr);
 		g_free (old_string);
-
-		recipients = recipients->next;
 	}
 
 	write_field_to_stream (recipient_type, recipients_string,
@@ -398,7 +400,7 @@ write_recipients_to_stream (const gchar *recipient_type,
 static void
 write_headers (CamelMimeMessage *mime_message, GtkBox *box)
 {
-	const GList *recipients;
+	const CamelInternetAddress *recipients;
 	GtkHTML *html;
 	GtkHTMLStreamHandle *stream;
 
@@ -856,10 +858,14 @@ find_preferred_alternative (CamelMultipart *multipart)
 	nparts = camel_multipart_get_number (multipart);
 	for (i = 0; i < nparts; i++) {
 		CamelMimePart *part = camel_multipart_get_part (multipart, i);
+		char *mime_type = gmime_content_field_get_mime_type (
+			camel_mime_part_get_content_type (part));
 
-		if (lookup_handler (part, &generic) &&
+		g_strdown (mime_type);
+		if (lookup_handler (mime_type, &generic) &&
 		    (!preferred_part || !generic))
 			preferred_part = part;
+		g_free (mime_type);
 	}
 
 	return preferred_part;
@@ -1233,17 +1239,26 @@ mail_generate_reply (CamelMimeMessage *message, gboolean to_all)
 	to = g_list_append (NULL, (gpointer)repl_to);
 
 	if (to_all) {
-		const GList *recip;
+		const CamelInternetAddress *recip;
+		const char *name, *addr;
+		char *fulladdr;
+		int i;
 
 		recip = camel_mime_message_get_recipients (message, 
 			CAMEL_RECIPIENT_TYPE_TO);
-		cc = g_list_copy ((GList*)recip);
+		i = 0;
+		cc = NULL;
+		while (camel_internet_address_get (recip, i++, &name, &addr)) {
+			fulladdr = g_strdup_printf ("%s <%s>", name, addr);
+			cc = g_list_append (cc, fulladdr);
+		}
 
 		recip = camel_mime_message_get_recipients (message,
 			CAMEL_RECIPIENT_TYPE_CC);
-		while (recip) {
-			cc = g_list_append (cc, recip->data);
-			recip = recip->next;
+		i = 0;
+		while (camel_internet_address_get (recip, i++, &name, &addr)) {
+			fulladdr = g_strdup_printf ("%s <%s>", name, addr);
+			cc = g_list_append (cc, fulladdr);
 		}
 	} else
 		cc = NULL;

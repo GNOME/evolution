@@ -1,3 +1,9 @@
+2000-04-28  Dan Winship  <danw@helixcode.com>
+
+	* mail-format.c (write_recipients_to_stream, write_headers,
+	mail_generate_reply): Update (minimally) for Camel recipient
+	changes.
+
 2000-04-28  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* main.c (init_bonobo): Don't call `init_corba()' and don't get
