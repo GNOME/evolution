@@ -314,7 +314,9 @@ view_changed (GalView *view,
 	item->changed = TRUE;
 	item->ever_changed = TRUE;
 
+	g_signal_handler_block(G_OBJECT(item->view), item->view_changed_id);
 	gal_view_collection_changed(item->collection);
+	g_signal_handler_unblock(G_OBJECT(item->view), item->view_changed_id);
 }
 
 /* Use factory list to load a GalView file. */

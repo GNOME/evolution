@@ -474,7 +474,7 @@ update_node(ETreeTableAdapter *etta, ETreePath path)
 	closure.paths = NULL;
 
 	if (gnode)
-		g_node_traverse(gnode, G_IN_ORDER, G_TRAVERSE_ALL, -1, check_expanded, &closure);
+		g_node_traverse(gnode, G_POST_ORDER, G_TRAVERSE_ALL, -1, check_expanded, &closure);
 
 	if (e_tree_model_node_is_root(etta->priv->source, path))
 		generate_tree(etta, path);
@@ -484,7 +484,8 @@ update_node(ETreeTableAdapter *etta, ETreePath path)
 	}
 
 	for (l = closure.paths; l; l = l->next)
-		e_tree_table_adapter_node_set_expanded (etta, l->data, !closure.expanded);
+		if (lookup_gnode(etta, l->data))
+			e_tree_table_adapter_node_set_expanded (etta, l->data, !closure.expanded);
 
 	g_slist_free(closure.paths);
 }

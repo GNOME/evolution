@@ -2545,7 +2545,7 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 
 #ifdef DO_TOOLTIPS
 		if (!g_getenv ("GAL_DONT_DO_TOOLTIPS")) {
-			if (eti->tooltip->timer > 0)
+			if (eti->tooltip->timer)
 				gtk_timeout_remove (eti->tooltip->timer);
 			eti->tooltip->col = col;
 			eti->tooltip->row = row;
@@ -2779,7 +2779,7 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 		d(leave = TRUE);
 	case GDK_ENTER_NOTIFY:
 		d(g_print("%s: %s received\n", __FUNCTION__, leave ? "GDK_LEAVE_NOTIFY" : "GDK_ENTER_NOTIFY"));
-		if (eti->tooltip->timer > 0)
+		if (eti->tooltip->timer)
 			gtk_timeout_remove (eti->tooltip->timer);
 		eti->tooltip->timer = 0;
 		break;

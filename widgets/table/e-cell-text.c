@@ -250,14 +250,6 @@ ect_queue_redraw (ECellTextView *text_view, int view_col, int view_row)
 		view_col, view_row, view_col, view_row);
 }
 
-static void
-invisible_finalize (gpointer data,
-		    GObject *invisible)
-{
-	CellEdit *edit = data;
-	edit->invisible = NULL;
-}
-
 /*
  * Shuts down the editing process
  */
@@ -277,9 +269,8 @@ ect_stop_editing (ECellTextView *text_view, gboolean commit)
 	
 	old_text = edit->old_text;
 	text = edit->text;
-	if (edit->invisible) {
-		g_object_weak_unref (G_OBJECT (edit->invisible), invisible_finalize, edit);
-	}
+	if (edit->invisible)
+		gtk_widget_destroy (edit->invisible);
 	if (edit->tep)
 		g_object_unref (edit->tep);
 	if (edit->primary_selection)
@@ -2215,8 +2206,6 @@ static GtkWidget *e_cell_text_view_get_invisible (CellEdit *edit)
 		g_signal_connect (invisible, "selection_received",
 				  G_CALLBACK (_selection_received),
 				  edit);
-
-		g_object_weak_ref (G_OBJECT (invisible), invisible_finalize, edit);
 	}
 	return edit->invisible;
 }
