@@ -52,8 +52,6 @@
 #include "e-msg-composer-hdrs.h"
 #include "mail/mail-config.h"
 
-extern EvolutionShellClient *global_shell_client;
-
 
 
 /* Indexes in the GtkTable assigned to various items */
@@ -543,7 +541,8 @@ create_headers (EMsgComposerHdrs *hdrs)
 		 _("Enter the addresses that will receive a carbon copy of "
 		   "the message without appearing in the recipient list of "
 		   "the message."));
-	
+
+#if 0				/* FIXME */
 	/*
 	 * Post-To
 	 */
@@ -551,6 +550,7 @@ create_headers (EMsgComposerHdrs *hdrs)
 	priv->post_to.entry = evolution_folder_selector_button_new (
 		global_shell_client, _("Posting destination"), NULL,
 		posting_types);
+#endif
 }
 
 static void

@@ -1,3 +1,9 @@
+2003-11-30  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-msg-composer-hdrs.c (create_headers): #if 0 the "post to"
+	stuff for now (it requires the global_shell_client and the
+	evolution_folder_selector_button which we don't have anymore).
+
 2003-11-26  Chris Toshok  <toshok@ximian.com>
 
 	* e-msg-composer.c (build_message): switch from just checking
