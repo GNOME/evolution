@@ -65,3 +65,7 @@ CLEANFILES +=			\
 	$(omffile).out		\
 	$(omffile)
 
+EXTRA_DIST +=			\
+	$(doc_in_files)		\
+	$(omf_in_files)
+
