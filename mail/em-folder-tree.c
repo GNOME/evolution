@@ -72,7 +72,7 @@ enum {
 	COL_BOOL_LOAD_SUBDIRS,    /* %TRUE only if the store/folder
 				   * has subfolders which have not yet
 				   * been added to the tree */
-	COL_LAST
+	NUM_COLUMNS
 };
 
 static GType col_types[] = {
@@ -875,7 +875,7 @@ em_folder_tree_new (void)
 	EMFolderTreeModel *model;
 	EMFolderTree *emft;
 	
-	model = em_folder_tree_model_new (COL_LAST, col_types);
+	model = em_folder_tree_model_new (NUM_COLUMNS, col_types);
 	emft = (EMFolderTree *) em_folder_tree_new_with_model (model);
 	
 	priv = emft->priv;
