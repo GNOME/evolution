@@ -45,6 +45,10 @@
 #include <pthread.h>
 #endif
 
+#define d(x)
+
+#define TIMEOUT_USEC  (10000)
+
 static CamelTcpStreamClass *parent_class = NULL;
 
 /* Returns the class for a CamelTcpStreamOpenSSL */
@@ -210,20 +214,20 @@ ssl_errno (SSL *ssl, int ret)
 		return 0;
 	case SSL_ERROR_ZERO_RETURN:
 		/* this one does not map well at all */
-		printf ("ssl_errno: SSL_ERROR_ZERO_RETURN\n");
+		d(printf ("ssl_errno: SSL_ERROR_ZERO_RETURN\n"));
 		return EINVAL;
 	case SSL_ERROR_WANT_READ:   /* non-fatal; retry */
 	case SSL_ERROR_WANT_WRITE:  /* non-fatal; retry */
-		printf ("ssl_errno: SSL_ERROR_WANT_[READ,WRITE]\n");
+		d(printf ("ssl_errno: SSL_ERROR_WANT_[READ,WRITE]\n"));
 		return EAGAIN;
 	case SSL_ERROR_SYSCALL:
-		printf ("ssl_errno: SSL_ERROR_SYSCALL\n");
+		d(printf ("ssl_errno: SSL_ERROR_SYSCALL\n"));
 		return EINTR;
 	case SSL_ERROR_SSL:
-		printf ("ssl_errno: SSL_ERROR_SSL  <-- very useful error...riiiiight\n");
+		d(printf ("ssl_errno: SSL_ERROR_SSL  <-- very useful error...riiiiight\n"));
 		return EINTR;
 	default:
-		printf ("ssl_errno: default error\n");
+		d(printf ("ssl_errno: default error\n"));
 		return EINTR;
 	}
 }
@@ -286,6 +290,7 @@ stream_read (CamelStream *stream, char *buffer, size_t n)
 		} while (nread < 0 && (errno == EINTR || errno == EAGAIN || errno == EWOULDBLOCK));
 	} else {
 		int error, flags, fdmax;
+		struct timeval timeout;
 		fd_set rdset;
 		
 		flags = fcntl (openssl->priv->sockfd, F_GETFL);
@@ -298,7 +303,9 @@ stream_read (CamelStream *stream, char *buffer, size_t n)
 			FD_SET (openssl->priv->sockfd, &rdset);
 			FD_SET (cancel_fd, &rdset);
 			
-			select (fdmax, &rdset, 0, 0, NULL);
+			timeout.tv_sec = 0;
+			timeout.tv_usec = TIMEOUT_USEC;
+			select (fdmax, &rdset, 0, 0, &timeout);
 			if (FD_ISSET (cancel_fd, &rdset)) {
 				fcntl (openssl->priv->sockfd, F_SETFL, flags);
 				errno = EINTR;
@@ -354,8 +361,9 @@ stream_write (CamelStream *stream, const char *buffer, size_t n)
 				written += w;
 		} while (w != -1 && written < n);
 	} else {
-		fd_set rdset, wrset;
 		int error, flags, fdmax;
+		struct timeval timeout;
+		fd_set rdset, wrset;
 		
 		flags = fcntl (openssl->priv->sockfd, F_GETFL);
 		fcntl (openssl->priv->sockfd, F_SETFL, flags | O_NONBLOCK);
@@ -367,7 +375,9 @@ stream_write (CamelStream *stream, const char *buffer, size_t n)
 			FD_SET (openssl->priv->sockfd, &wrset);
 			FD_SET (cancel_fd, &rdset);
 			
-			select (fdmax, &rdset, &wrset, 0, NULL);
+			timeout.tv_sec = 0;
+			timeout.tv_usec = TIMEOUT_USEC;
+			select (fdmax, &rdset, &wrset, 0, &timeout);
 			if (FD_ISSET (cancel_fd, &rdset)) {
 				fcntl (openssl->priv->sockfd, F_SETFL, flags);
 				errno = EINTR;
