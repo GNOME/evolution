@@ -1,3 +1,10 @@
+2002-02-14  Radek Doulik  <rodo@ximian.com>
+
+	* e-msg-composer.c (delete_old_signature): don't insert paragraph
+	here, also delete paragraph where signature was
+	(e_msg_composer_show_sig_file): test if we are in empty document
+	and if so, insert new paragraph for signature
+
 2002-02-12  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* e-msg-composer.c (e_msg_composer_flush_pending_body): Use
