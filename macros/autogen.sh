@@ -15,7 +15,7 @@ DIE=0
   (libtool --version) < /dev/null > /dev/null 2>&1 || {
     echo
     echo "**Error**: You must have \`libtool' installed to compile Gnome."
-    echo "Get ftp://ftp.gnu.org/pub/gnu/libtool-1.2.tar.gz"
+    echo "Get ftp://ftp.gnu.org/pub/gnu/libtool-1.2d.tar.gz"
     echo "(or a newer version if it is available)"
     DIE=1
   }
