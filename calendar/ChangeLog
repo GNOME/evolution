@@ -1,3 +1,10 @@
+2002-09-05  Anna Marie Dirks <anna@ximian.com>	
+
+	* gui/GNOME_Evolution_Calendar.oaf.in: Changed the description of
+	the calendar/tasks page of the settings dialog, to be hopefully
+	more descriptive and less awkwardly worded.
+
+
 2002-09-05  Rodrigo Moya <rodrigo@ximian.com>
 
 	* gui/e-day-view.c (e_day_view_on_drag_data_get): added support for

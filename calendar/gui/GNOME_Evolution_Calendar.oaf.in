@@ -158,7 +158,7 @@
 		       _value="Calendar and Tasks"/>
 
 	<oaf_attribute name="evolution:config_item:description" type="string"
-		       _value="This page can be used to configure Calendar and Task preferences"/>
+		       _value="Configure your timezone, Calendar and Task List here "/>
 
 	<oaf_attribute name="evolution:config_item:icon_name" type="string"
 		       value="evolution-calendar.png"/>
