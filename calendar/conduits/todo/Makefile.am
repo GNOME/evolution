@@ -5,6 +5,7 @@ INCLUDES = 					\
 	-I$(top_builddir)/libical/src/libical	\
 	-I$(top_builddir)/e-util		\
 	$(BONOBO_VFS_GNOME_CFLAGS)		\
+	$(PISOCK_INCLUDEDIR)			\
 	$(GNOME_PILOT_CFLAGS)
 
 # ToDo Capplet
