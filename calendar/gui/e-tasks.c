@@ -51,16 +51,8 @@ struct _ETasksPrivate {
 	/* The ECalendarTable showing the tasks. */
 	GtkWidget   *tasks_view;
 
-	/* Search bar for tasks and the current sexp */
+	/* Calendar search bar for tasks */
 	GtkWidget *search_bar;
-	char *sexp;
-
-	/* The option menu showing the categories, and the popup menu. */
-	GtkWidget *categories_option_menu;
-	GtkWidget *categories_menu;
-
-	/* The category that is currently selected, used to filter out items */
-	char *category;
 
 	/* View collection and the view menus handler */
 	GalViewCollection *view_collection;
@@ -74,19 +66,8 @@ static void setup_widgets (ETasks *tasks);
 static void e_tasks_destroy (GtkObject *object);
 
 static void cal_opened_cb (CalClient *client, CalClientOpenStatus status, gpointer data);
-static void obj_updated_cb (CalClient *client, const char *uid, gpointer data);
-static void obj_removed_cb (CalClient *client, const char *uid, gpointer data);
 
 static char* e_tasks_get_config_filename (ETasks *tasks);
-
-static void e_tasks_on_filter_selected	(GtkMenuShell	*menu_shell,
-					 ETasks		*tasks);
-static void e_tasks_on_categories_changed	(CalendarModel	*model,
-						 ETasks		*tasks);
-static void e_tasks_rebuild_categories_menu	(ETasks		*tasks);
-static gint e_tasks_add_menu_item		(gpointer key,
-						 gpointer value,
-						 gpointer data);
 
 /* Signal IDs */
 enum {
@@ -139,8 +120,8 @@ e_tasks_init (ETasks *tasks)
 	priv = g_new0 (ETasksPrivate, 1);
 	tasks->priv = priv;
 
-	priv->sexp = g_strdup ("#t"); /* Match all */
-	priv->category = NULL;
+	priv->view_collection = NULL;
+	priv->view_menus = NULL;
 
 	setup_widgets (tasks);
 }
@@ -159,49 +140,34 @@ table_selection_change_cb (ETable *etable, gpointer data)
 			 n_selected);
 }
 
-/* Updates the query in the table model by composing the currently selected
- * category with the current sexp.
- */
-static void
-update_query (ETasks *tasks)
-{
-	ETasksPrivate *priv;
-	char *new_sexp;
-	gboolean free_new_sexp;
-	CalendarModel *model;
-
-	priv = tasks->priv;
-
-	g_assert (priv->sexp != NULL);
-
-	if (priv->category) {
-		new_sexp = g_strdup_printf ("(and %s (has-categories? \"%s\"))",
-					    priv->sexp, priv->category);
-		free_new_sexp = TRUE;
-	} else {
-		new_sexp = priv->sexp;
-		free_new_sexp = FALSE;
-	}
-
-	model = e_calendar_table_get_model (E_CALENDAR_TABLE (priv->tasks_view));
-	calendar_model_set_query (model, new_sexp);
-
-	if (free_new_sexp)
-		g_free (new_sexp);
-}
-
 /* Callback used when the sexp in the search bar changes */
 static void
 search_bar_sexp_changed_cb (CalSearchBar *cal_search, const char *sexp, gpointer data)
 {
 	ETasks *tasks;
 	ETasksPrivate *priv;
+	CalendarModel *model;
 
 	tasks = E_TASKS (data);
 	priv = tasks->priv;
 
-	priv->sexp = g_strdup (sexp);
-	update_query (tasks);
+	model = e_calendar_table_get_model (E_CALENDAR_TABLE (priv->tasks_view));
+	calendar_model_set_query (model, sexp);
+}
+
+/* Callback used when the selected category in the search bar changes */
+static void
+search_bar_category_changed_cb (CalSearchBar *cal_search, const char *category, gpointer data)
+{
+	ETasks *tasks;
+	ETasksPrivate *priv;
+	CalendarModel *model;
+
+	tasks = E_TASKS (data);
+	priv = tasks->priv;
+
+	model = e_calendar_table_get_model (E_CALENDAR_TABLE (priv->tasks_view));
+	calendar_model_set_default_category (model, category);
 }
 
 #define E_TASKS_TABLE_DEFAULT_STATE					\
@@ -220,58 +186,49 @@ setup_widgets (ETasks *tasks)
 {
 	ETasksPrivate *priv;
 	ETable *etable;
-	GtkWidget *hbox, *menuitem, *categories_label;
 	CalendarModel *model;
 
 	priv = tasks->priv;
 
-	hbox = gtk_hbox_new (FALSE, GNOME_PAD_SMALL);
-	gtk_widget_show (hbox);
-	gtk_table_attach (GTK_TABLE (tasks), hbox, 0, 1, 0, 1,
-			  GTK_EXPAND | GTK_FILL, 0, 0, 0);
-
 	priv->search_bar = cal_search_bar_new ();
 	gtk_signal_connect (GTK_OBJECT (priv->search_bar), "sexp_changed",
 			    GTK_SIGNAL_FUNC (search_bar_sexp_changed_cb), tasks);
-	gtk_box_pack_start (GTK_BOX (hbox), priv->search_bar, TRUE, TRUE, 0);
+	gtk_signal_connect (GTK_OBJECT (priv->search_bar), "category_changed",
+			    GTK_SIGNAL_FUNC (search_bar_category_changed_cb), tasks);
+
+	gtk_table_attach (GTK_TABLE (tasks), priv->search_bar, 0, 1, 0, 1,
+			  GTK_EXPAND | GTK_FILL, 0, 0, 0);
 	gtk_widget_show (priv->search_bar);
-
-	priv->categories_option_menu = gtk_option_menu_new ();
-	gtk_widget_show (priv->categories_option_menu);
-	gtk_box_pack_end (GTK_BOX (hbox), priv->categories_option_menu,
-			  FALSE, FALSE, 0);
-
-	priv->categories_menu = gtk_menu_new ();
-
-	menuitem = gtk_menu_item_new_with_label (_("All"));
-	gtk_widget_show (menuitem);
-	gtk_menu_append (GTK_MENU (priv->categories_menu), menuitem);
-
-	gtk_option_menu_set_menu (GTK_OPTION_MENU (priv->categories_option_menu), priv->categories_menu);
-
-	categories_label = gtk_label_new (_("Category:"));
-	gtk_widget_show (categories_label);
-	gtk_box_pack_end (GTK_BOX (hbox), categories_label, FALSE, FALSE, 4);
-
 
 	priv->tasks_view = e_calendar_table_new ();
 	model = e_calendar_table_get_model (E_CALENDAR_TABLE (priv->tasks_view));
 	calendar_model_set_new_comp_vtype (model, CAL_COMPONENT_TODO);
-	etable = e_table_scrolled_get_table (E_TABLE_SCROLLED (E_CALENDAR_TABLE (priv->tasks_view)->etable));
+
+	etable = e_table_scrolled_get_table (
+		E_TABLE_SCROLLED (E_CALENDAR_TABLE (priv->tasks_view)->etable));
 	e_table_set_state (etable, E_TASKS_TABLE_DEFAULT_STATE);
 	gtk_table_attach (GTK_TABLE (tasks), priv->tasks_view, 0, 1, 1, 2,
 			  GTK_EXPAND | GTK_FILL, GTK_EXPAND | GTK_FILL, 0, 0);
 	gtk_widget_show (priv->tasks_view);
-	calendar_config_configure_e_calendar_table (E_CALENDAR_TABLE (priv->tasks_view));
 
-	gtk_signal_connect (GTK_OBJECT (E_CALENDAR_TABLE (priv->tasks_view)->model),
-			    "categories-changed",
-			    GTK_SIGNAL_FUNC (e_tasks_on_categories_changed), tasks);
+	calendar_config_configure_e_calendar_table (E_CALENDAR_TABLE (priv->tasks_view));
 
 	gtk_signal_connect (GTK_OBJECT (etable), "selection_change",
 			    GTK_SIGNAL_FUNC (table_selection_change_cb), tasks);
 }
 
+/* Callback used when the set of categories changes in the calendar client */
+static void
+client_categories_changed_cb (CalClient *client, GPtrArray *categories, gpointer data)
+{
+	ETasks *tasks;
+	ETasksPrivate *priv;
+
+	tasks = E_TASKS (data);
+	priv = tasks->priv;
+
+	cal_search_bar_set_categories (CAL_SEARCH_BAR (priv->search_bar), categories);
+}
 
 GtkWidget *
 e_tasks_construct (ETasks *tasks)
@@ -290,10 +247,8 @@ e_tasks_construct (ETasks *tasks)
 
 	gtk_signal_connect (GTK_OBJECT (priv->client), "cal_opened",
 			    GTK_SIGNAL_FUNC (cal_opened_cb), tasks);
-	gtk_signal_connect (GTK_OBJECT (priv->client), "obj_updated",
-			    GTK_SIGNAL_FUNC (obj_updated_cb), tasks);
-	gtk_signal_connect (GTK_OBJECT (priv->client), "obj_removed",
-			    GTK_SIGNAL_FUNC (obj_removed_cb), tasks);
+	gtk_signal_connect (GTK_OBJECT (priv->client), "categories_changed",
+			    GTK_SIGNAL_FUNC (client_categories_changed_cb), tasks);
 
 	model = e_calendar_table_get_model (E_CALENDAR_TABLE (priv->tasks_view));
 	g_assert (model != NULL);
@@ -335,15 +290,6 @@ e_tasks_destroy (GtkObject *object)
 
 	tasks = E_TASKS (object);
 	priv = tasks->priv;
-
-	g_assert (priv->sexp != NULL);
-	g_free (priv->sexp);
-	priv->sexp = NULL;
-
-	if (priv->category) {
-		g_free (priv->category);
-		priv->category = NULL;
-	}
 
 	/* Save the ETable layout. */
 	config_filename = e_tasks_get_config_filename (tasks);
@@ -453,38 +399,6 @@ cal_opened_cb				(CalClient	*client,
 }
 
 
-/* Callback from the calendar client when an object is updated */
-static void
-obj_updated_cb				(CalClient	*client,
-					 const char	*uid,
-					 gpointer	 data)
-{
-	ETasks *tasks;
-	ETasksPrivate *priv;
-
-	tasks = E_TASKS (data);
-	priv = tasks->priv;
-
-	/* FIXME: Do we need to do anything? */
-}
-
-
-/* Callback from the calendar client when an object is removed */
-static void
-obj_removed_cb				(CalClient	*client,
-					 const char	*uid,
-					 gpointer	 data)
-{
-	ETasks *tasks;
-	ETasksPrivate *priv;
-
-	tasks = E_TASKS (data);
-	priv = tasks->priv;
-
-	/* FIXME: Do we need to do anything? */
-}
-
-
 static char*
 e_tasks_get_config_filename		(ETasks		*tasks)
 {
@@ -533,6 +447,7 @@ e_tasks_new_task			(ETasks		*tasks)
 	ETasksPrivate *priv;
 	TaskEditor *tedit;
 	CalComponent *comp;
+	const char *category;
 
 	g_return_if_fail (E_IS_TASKS (tasks));
 
@@ -543,6 +458,9 @@ e_tasks_new_task			(ETasks		*tasks)
 
 	comp = cal_component_new ();
 	cal_component_set_new_vtype (comp, CAL_COMPONENT_TODO);
+
+	category = cal_search_bar_get_category (CAL_SEARCH_BAR (priv->search_bar));
+	cal_component_set_categories (comp, category);
 
 	comp_editor_edit_comp (COMP_EDITOR (tedit), comp);
 	gtk_object_unref (GTK_OBJECT (comp));
@@ -571,140 +489,108 @@ e_tasks_delete_selected (ETasks *tasks)
 	e_calendar_table_delete_selected (cal_table);
 }
 
+/* Callback used from the view collection when we need to display a new view */
 static void
-e_tasks_on_filter_selected		(GtkMenuShell	*menu_shell,
-					 ETasks		*tasks)
+display_view_cb (GalViewCollection *collection, GalView *view, gpointer data)
 {
-	ETasksPrivate *priv;
-	ECalendarTable *cal_table;
-	CalendarModel *model;
-	GtkWidget *label;
-	char *category;
+	ETasks *tasks;
 
-	g_return_if_fail (E_IS_TASKS (tasks));
+	tasks = E_TASKS (data);
 
-	priv = tasks->priv;
-
-	label = GTK_BIN (priv->categories_option_menu)->child;
-	gtk_label_get (GTK_LABEL (label), &category);
-
-	cal_table = E_CALENDAR_TABLE (priv->tasks_view);
-	model = cal_table->model;
-
-	if (priv->category)
-		g_free (priv->category);
-
-	if (!strcmp (category, _("All"))) {
-		calendar_model_set_default_category (model, NULL);
-		priv->category = NULL;
-	} else {
-		calendar_model_set_default_category (model, category);
-		priv->category = g_strdup (category);
-	}
-
-	update_query (tasks);
-}
-
-
-static void
-e_tasks_on_categories_changed	(CalendarModel	*model,
-				 ETasks		*tasks)
-{
-	e_tasks_rebuild_categories_menu (tasks);
-}
-
-
-static void
-e_tasks_rebuild_categories_menu	(ETasks		*tasks)
-{
-	ETasksPrivate *priv;
-	CalendarModel *model;
-	GTree *categories;
-	GtkWidget *menuitem;
-
-	priv = tasks->priv;
-
-	priv->categories_menu = gtk_menu_new ();
-
-	menuitem = gtk_menu_item_new_with_label (_("All"));
-	gtk_widget_show (menuitem);
-	gtk_menu_append (GTK_MENU (priv->categories_menu), menuitem);
-
-	model = E_CALENDAR_TABLE (priv->tasks_view)->model;
-	categories = calendar_model_get_categories (model);
-	g_return_if_fail (categories != NULL);
-
-	g_tree_traverse (categories, e_tasks_add_menu_item, G_IN_ORDER,
-			 priv->categories_menu);
-
-	gtk_option_menu_set_menu (GTK_OPTION_MENU (priv->categories_option_menu), priv->categories_menu);
-
-	gtk_signal_connect (GTK_OBJECT (priv->categories_menu), "deactivate",
-			    GTK_SIGNAL_FUNC (e_tasks_on_filter_selected),
-			    tasks);
-}
-
-
-static gint
-e_tasks_add_menu_item		(gpointer key,
-				 gpointer value,
-				 gpointer data)
-{
-	GtkWidget *menuitem;
-
-	menuitem = gtk_menu_item_new_with_label ((char*) key);
-	gtk_widget_show (menuitem);
-	gtk_menu_append (GTK_MENU (data), menuitem);
-
-	return FALSE;
-}
-
-static void
-display_view(GalViewCollection *collection,
-	     GalView *view,
-	     gpointer data)
-{
-	ETasks *tasks = data;
-	if (GAL_IS_VIEW_ETABLE(view)) {
-		e_table_set_state_object (e_table_scrolled_get_table (E_TABLE_SCROLLED (E_CALENDAR_TABLE (tasks->priv->tasks_view)->etable)), GAL_VIEW_ETABLE (view)->state);
+	if (GAL_IS_VIEW_ETABLE (view)) {
+		e_table_set_state_object (e_table_scrolled_get_table (E_TABLE_SCROLLED (E_CALENDAR_TABLE (tasks->priv->tasks_view)->etable)),
+					  GAL_VIEW_ETABLE (view)->state);
 	}
 }
 
+/**
+ * e_tasks_setup_view_menus:
+ * @tasks: A tasks widget.
+ * @uic: UI controller to use for the menus.
+ * 
+ * Sets up the #GalView menus for a tasks control.  This function should be
+ * called from the Bonobo control activation callback for this tasks control.
+ * Also, the menus should be discarded using e_tasks_discard_view_menus().
+ **/
 void
-e_tasks_setup_menus (ETasks            *tasks,
-		     BonoboUIComponent *uic)
+e_tasks_setup_view_menus (ETasks *tasks, BonoboUIComponent *uic)
 {
-	GalViewCollection *collection;
-	GalViewMenus *views;
+	ETasksPrivate *priv;
 	GalViewFactory *factory;
 	ETableSpecification *spec;
 	char *dir;
 
-	collection = gal_view_collection_new();
+	g_return_if_fail (tasks != NULL);
+	g_return_if_fail (E_IS_TASKS (tasks));
+	g_return_if_fail (uic != NULL);
+	g_return_if_fail (BONOBO_IS_UI_COMPONENT (uic));
+
+	priv = tasks->priv;
+
+	g_return_if_fail (priv->view_collection == NULL);
+
+	g_assert (priv->view_collection == NULL);
+	g_assert (priv->view_menus == NULL);
+
+	/* Create the view collection */
+
+	priv->view_collection = gal_view_collection_new ();
 
 	dir = gnome_util_prepend_user_home ("/evolution/views/tasks/");
-	gal_view_collection_set_storage_directories (collection,
+	gal_view_collection_set_storage_directories (priv->view_collection,
 						     EVOLUTION_DATADIR "/evolution/views/tasks/",
 						     dir);
 	g_free (dir);
+
+	/* Create the views */
 
 	spec = e_table_specification_new ();
 	e_table_specification_load_from_file (spec, 
 					      EVOLUTION_ETSPECDIR "/e-calendar-table.etspec");
 
 	factory = gal_view_factory_etable_new (spec);
-	gal_view_collection_add_factory (collection, factory);
-	gtk_object_sink (GTK_OBJECT (factory));
+	gtk_object_unref (GTK_OBJECT (spec));
+	gal_view_collection_add_factory (priv->view_collection, factory);
+	gtk_object_unref (GTK_OBJECT (factory));
 
-	gal_view_collection_load (collection);
+	/* Load the collection and create the menus */
 
-	views = gal_view_menus_new (collection);
-	gal_view_menus_apply (views, uic, NULL); /* This function probably needs to sink the views object. */
-	gtk_signal_connect (GTK_OBJECT (collection), "display_view",
-			    display_view, tasks);
-	/*	gtk_object_sink(GTK_OBJECT(views)); */
+	gal_view_collection_load (priv->view_collection);
 
-	gtk_object_sink (GTK_OBJECT (collection));
+	priv->view_menus = gal_view_menus_new (priv->view_collection);
+	gal_view_menus_apply (priv->view_menus, uic, NULL);
+	gtk_signal_connect (GTK_OBJECT (priv->view_collection), "display_view",
+			    GTK_SIGNAL_FUNC (display_view_cb), tasks);
+}
+
+/**
+ * e_tasks_discard_view_menus:
+ * @tasks: A tasks widget.
+ * 
+ * Discards the #GalView menus used by a tasks control.  This function should be
+ * called from the Bonobo control deactivation callback for this tasks control.
+ * The menus should have been set up with e_tasks_setup_view_menus().
+ **/
+void
+e_tasks_discard_view_menus (ETasks *tasks)
+{
+	ETasksPrivate *priv;
+
+	g_return_if_fail (tasks != NULL);
+	g_return_if_fail (E_IS_TASKS (tasks));
+
+	priv = tasks->priv;
+
+	g_return_if_fail (priv->view_collection != NULL);
+
+	g_assert (priv->view_collection != NULL);
+	g_assert (priv->view_menus != NULL);
+
+	gtk_object_unref (GTK_OBJECT (priv->view_collection));
+	priv->view_collection = NULL;
+
+	gtk_object_unref (GTK_OBJECT (priv->view_menus));
+	priv->view_menus = NULL;
 }
 
 /**

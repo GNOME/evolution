@@ -406,6 +406,53 @@ cal_destroy_cb (GtkObject *object, gpointer data)
 		cal_backend_last_client_gone (CAL_BACKEND (cbfile));
 }
 
+/* Used from g_hash_table_foreach(), adds a category name to the sequence */
+static void
+add_category_cb (gpointer key, gpointer value, gpointer data)
+{
+	Category *c;
+	GNOME_Evolution_Calendar_StringSeq *seq;
+
+	c = value;
+	seq = data;
+
+	seq->_buffer[seq->_length] = CORBA_string_dup (c->name);
+	seq->_length++;
+}
+
+/* Notifies the clients with the current list of categories */
+static void
+notify_categories_changed (CalBackendFile *cbfile)
+{
+	CalBackendFilePrivate *priv;
+	GNOME_Evolution_Calendar_StringSeq *seq;
+	GList *l;
+
+	priv = cbfile->priv;
+
+	/* Build the sequence of category names */
+
+	seq = GNOME_Evolution_Calendar_StringSeq__alloc ();
+	seq->_length = 0;
+	seq->_maximum = g_hash_table_size (priv->categories);
+	seq->_buffer = CORBA_sequence_CORBA_string_allocbuf (seq->_maximum);
+	CORBA_sequence_set_release (seq, TRUE);
+
+	g_hash_table_foreach (priv->categories, add_category_cb, seq);
+	g_assert (seq->_length == seq->_maximum);
+
+	/* Notify the clients */
+
+	for (l = priv->clients; l; l = l->next) {
+		Cal *cal;
+
+		cal = CAL (l->data);
+		cal_notify_categories_changed (cal, seq);
+	}
+
+	CORBA_free (seq);
+}
+
 /* Add_cal handler for the file backend */
 static void
 cal_backend_file_add_cal (CalBackend *backend, Cal *cal)
@@ -429,6 +476,12 @@ cal_backend_file_add_cal (CalBackend *backend, Cal *cal)
 			    backend);
 
 	priv->clients = g_list_prepend (priv->clients, cal);
+
+	/* Notify the client about changed categories so that it can populate
+	 * its lists.
+	 */
+
+	notify_categories_changed (cbfile);
 }
 
 /* Idle handler; we save the calendar since it is dirty */
@@ -693,53 +746,6 @@ scan_vcalendar (CalBackendFile *cbfile)
 	}
 }
 
-/* Used from g_hash_table_foreach(), adds a category name to the sequence */
-static void
-add_category_cb (gpointer key, gpointer value, gpointer data)
-{
-	Category *c;
-	GNOME_Evolution_Calendar_StringSeq *seq;
-
-	c = value;
-	seq = data;
-
-	seq->_buffer[seq->_length] = CORBA_string_dup (c->name);
-	seq->_length++;
-}
-
-/* Notifies the clients with the current list of categories */
-static void
-notify_categories_changed (CalBackendFile *cbfile)
-{
-	CalBackendFilePrivate *priv;
-	GNOME_Evolution_Calendar_StringSeq *seq;
-	GList *l;
-
-	priv = cbfile->priv;
-
-	/* Build the sequence of category names */
-
-	seq = GNOME_Evolution_Calendar_StringSeq__alloc ();
-	seq->_length = 0;
-	seq->_maximum = g_hash_table_size (priv->categories);
-	seq->_buffer = CORBA_sequence_CORBA_string_allocbuf (seq->_maximum);
-	CORBA_sequence_set_release (seq, TRUE);
-
-	g_hash_table_foreach (priv->categories, add_category_cb, seq);
-	g_assert (seq->_length == seq->_maximum);
-
-	/* Notify the clients */
-
-	for (l = priv->clients; l; l = l->next) {
-		Cal *cal;
-
-		cal = CAL (l->data);
-		cal_notify_categories_changed (cal, seq);
-	}
-
-	CORBA_free (seq);
-}
-
 /* Callback used from icalparser_parse() */
 static char *
 get_line_fn (char *s, size_t size, void *data)
@@ -804,8 +810,6 @@ open_cal (CalBackendFile *cbfile, GnomeVFSURI *uri, FILE *file)
 	gnome_vfs_uri_ref (uri);
 	priv->uri = uri;
 
-	notify_categories_changed (cbfile);
-
 	return CAL_BACKEND_OPEN_SUCCESS;
 }
 
@@ -826,8 +830,6 @@ create_cal (CalBackendFile *cbfile, GnomeVFSURI *uri)
 	priv->uri = uri;
 
 	mark_dirty (cbfile);
-
-	notify_categories_changed (cbfile);
 
 	return CAL_BACKEND_OPEN_SUCCESS;
 }

@@ -52,8 +52,6 @@ struct _CalendarModel {
 
 struct _CalendarModelClass {
 	ETableModelClass parent_class;
-
-	void (* categories_changed) (CalendarModel *model);
 };
 
 GtkType		calendar_model_get_type		  (void);
@@ -88,10 +86,8 @@ icaltimezone*	calendar_model_get_timezone	    (CalendarModel *model);
 void		calendar_model_set_timezone	    (CalendarModel *model,
 						     icaltimezone  *zone);
 
-GTree*		calendar_model_get_categories	  (CalendarModel   *model);
-
 void		calendar_model_set_default_category (CalendarModel	*model,
-						     gchar		*default_category);
+						     const char		*default_category);
 
 
 

@@ -37,8 +37,13 @@ BEGIN_GNOME_DECLS
 #define IS_CAL_SEARCH_BAR(obj)         (GTK_CHECK_TYPE ((obj), TYPE_CAL_SEARCH_BAR))
 #define IS_CAL_SEARCH_BAR_CLASS(klass) (GTK_CHECK_CLASS_TYPE ((klass), TYPE_CAL_SEARCH_BAR))
 
+typedef struct CalSearchBarPrivate CalSearchBarPrivate;
+
 typedef struct {
 	ESearchBar search_bar;
+
+	/* Private data */
+	CalSearchBarPrivate *priv;
 } CalSearchBar;
 
 typedef struct {
@@ -47,6 +52,7 @@ typedef struct {
 	/* Notification signals */
 
 	void (* sexp_changed) (CalSearchBar *cal_search, const char *sexp);
+	void (* category_changed) (CalSearchBar *cal_search, const char *category);
 } CalSearchBarClass;
 
 GtkType cal_search_bar_get_type (void);
@@ -54,6 +60,10 @@ GtkType cal_search_bar_get_type (void);
 CalSearchBar *cal_search_bar_construct (CalSearchBar *cal_search);
 
 GtkWidget *cal_search_bar_new (void);
+
+void cal_search_bar_set_categories (CalSearchBar *cal_search, GPtrArray *categories);
+
+const char *cal_search_bar_get_category (CalSearchBar *cal_search);
 
 
 

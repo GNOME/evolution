@@ -277,9 +277,11 @@ tasks_control_activate (BonoboControl *control, ETasks *tasks)
 			       "evolution-tasks.xml",
 			       "evolution-tasks");
 
-	e_tasks_setup_menus(tasks, uic);
-
 	e_pixmaps_update (uic, pixmaps);
+
+	e_tasks_setup_view_menus (tasks, uic);
+
+	/* Signals from the tasks widget; also sensitize the menu items as appropriate */
 
 	gtk_signal_connect (GTK_OBJECT (tasks), "selection_changed",
 			    GTK_SIGNAL_FUNC (selection_changed_cb), control);
@@ -303,6 +305,8 @@ tasks_control_deactivate (BonoboControl *control, ETasks *tasks)
 {
 	BonoboUIComponent *uic = bonobo_control_get_ui_component (control);
 	g_assert (uic != NULL);
+
+	e_tasks_discard_view_menus (tasks);
 
 	/* Stop monitoring the "selection_changed" signal */
 	gtk_signal_disconnect_by_data (GTK_OBJECT (tasks), control);

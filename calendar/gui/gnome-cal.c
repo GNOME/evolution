@@ -312,6 +312,25 @@ search_bar_sexp_changed_cb (CalSearchBar *cal_search, const char *sexp, gpointer
 	gnome_calendar_set_query (gcal, sexp);
 }
 
+/* Callback used when the selected category in the search bar changes */
+static void
+search_bar_category_changed_cb (CalSearchBar *cal_search, const char *category, gpointer data)
+{
+	GnomeCalendar *gcal;
+	GnomeCalendarPrivate *priv;
+	CalendarModel *model;
+
+	gcal = GNOME_CALENDAR (data);
+	priv = gcal->priv;
+
+	/* FIXME: Set the default category for the calendar views */
+
+	/* Set the default category for the task pad */
+
+	model = e_calendar_table_get_model (E_CALENDAR_TABLE (priv->todo));
+	calendar_model_set_default_category (model, category);
+}
+
 static void
 setup_widgets (GnomeCalendar *gcal)
 {
@@ -325,6 +344,8 @@ setup_widgets (GnomeCalendar *gcal)
 	priv->search_bar = cal_search_bar_new ();
 	gtk_signal_connect (GTK_OBJECT (priv->search_bar), "sexp_changed",
 			    GTK_SIGNAL_FUNC (search_bar_sexp_changed_cb), gcal);
+	gtk_signal_connect (GTK_OBJECT (priv->search_bar), "category_changed",
+			    GTK_SIGNAL_FUNC (search_bar_category_changed_cb), gcal);
 
 	gtk_widget_show (priv->search_bar);
 	gtk_box_pack_start (GTK_BOX (gcal), priv->search_bar, FALSE, FALSE, 0);

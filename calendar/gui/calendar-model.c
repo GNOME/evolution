@@ -69,19 +69,9 @@ struct _CalendarModelPrivate {
 	   creating a new task. */
 	gchar *default_category;
 
-	/* A balanced tree of the categories used by all the tasks/events. */
-	GTree *categories;
-
 	/* The current timezone. */
 	icaltimezone *zone;
 };
-
-enum {
-	CATEGORIES_CHANGED,
-	LAST_SIGNAL
-};
-
-static gint calendar_model_signals [LAST_SIGNAL] = { 0 };
 
 
 
@@ -104,8 +94,6 @@ static int remove_object (CalendarModel *model, const char *uid);
 static void ensure_task_complete (CalComponent *comp,
 				  time_t completed_date);
 static void ensure_task_not_complete (CalComponent *comp);
-static gboolean calendar_model_collect_categories	(CalendarModel	*model,
-							 CalComponent	*comp);
 
 static ETableModelClass *parent_class;
 
@@ -155,17 +143,6 @@ calendar_model_class_init (CalendarModelClass *class)
 
 	parent_class = gtk_type_class (E_TABLE_MODEL_TYPE);
 
-	calendar_model_signals [CATEGORIES_CHANGED] =
-		gtk_signal_new ("categories-changed",
-				GTK_RUN_LAST, object_class->type,
-				GTK_SIGNAL_OFFSET (CalendarModelClass,
-						   categories_changed),
-				gtk_signal_default_marshaller,
-				GTK_TYPE_NONE, 0);
-
-	gtk_object_class_add_signals (object_class, calendar_model_signals,
-				      LAST_SIGNAL);
-
 	object_class->destroy = calendar_model_destroy;
 
 	etm_class->column_count = calendar_model_column_count;
@@ -179,8 +156,6 @@ calendar_model_class_init (CalendarModelClass *class)
 	etm_class->initialize_value = calendar_model_initialize_value;
 	etm_class->value_is_empty = calendar_model_value_is_empty;
 	etm_class->value_to_string = calendar_model_value_to_string;
-
-	class->categories_changed = NULL;
 }
 
 /* Object initialization function for the calendar table model */
@@ -199,8 +174,6 @@ calendar_model_init (CalendarModel *model)
 	priv->uid_index_hash = g_hash_table_new (g_str_hash, g_str_equal);
 	priv->new_comp_vtype = CAL_COMPONENT_EVENT;
 	priv->use_24_hour_format = TRUE;
-
-	priv->categories = g_tree_new ((GCompareFunc)strcmp);
 
 	priv->zone = NULL;
 }
@@ -284,12 +257,6 @@ calendar_model_destroy (GtkObject *object)
 	priv->objects = NULL;
 
 	g_free (priv->default_category);
-
-	/* We only need to free the first argument, the key, so g_free will do.
-	 */
-	g_tree_traverse (priv->categories, (GTraverseFunc) g_free,
-			 G_PRE_ORDER, NULL);
-	g_tree_destroy (priv->categories);
 
 	/* Free the private structure */
 
@@ -1338,10 +1305,6 @@ calendar_model_set_value_at (ETableModel *etm, int col, int row, const void *val
 	switch (col) {
 	case CAL_COMPONENT_FIELD_CATEGORIES:
 		set_categories (comp, value);
-		if (calendar_model_collect_categories (model, comp)) {
-			gtk_signal_emit (GTK_OBJECT (model),
-					 calendar_model_signals [CATEGORIES_CHANGED]);
-		}
 		break;
 
 	case CAL_COMPONENT_FIELD_CLASSIFICATION:
@@ -1813,14 +1776,6 @@ query_obj_updated_cb (CalQuery *query, const char *uid,
 			}
 
 			e_table_model_row_changed (E_TABLE_MODEL (model), *new_idx);
-		}
-
-		/* See if we need to add any categories. Note that old
-		   categories won't be removed, but I don't think that matters
-		   too much here. */
-		if (calendar_model_collect_categories (model, new_comp)) {
-			gtk_signal_emit (GTK_OBJECT (model),
-					 calendar_model_signals [CATEGORIES_CHANGED]);
 		}
 
 		break;
@@ -2330,7 +2285,7 @@ calendar_model_set_use_24_hour_format (CalendarModel *model,
 
 void
 calendar_model_set_default_category	(CalendarModel	*model,
-					 gchar		*default_category)
+					 const char	*default_category)
 {
 	g_return_if_fail (IS_CALENDAR_MODEL (model));
 
@@ -2338,46 +2293,6 @@ calendar_model_set_default_category	(CalendarModel	*model,
 	model->priv->default_category = g_strdup (default_category);
 }
 
-
-
-static gboolean
-calendar_model_collect_categories	(CalendarModel	*model,
-					 CalComponent	*comp)
-{
-	CalendarModelPrivate *priv;
-	GSList *categories_list, *elem;
-	gboolean changed = FALSE;
-
-	priv = model->priv;
-
-	cal_component_get_categories_list (comp, &categories_list);
-
-	for (elem = categories_list; elem; elem = elem->next) {
-		if (!g_tree_lookup (priv->categories, elem->data)) {
-			/* We store a '1' as the data, just so we can use
-			   g_tree_lookup() on it. Note that we don't free
-			   the string since it is now part of the tree. */
-			g_tree_insert (priv->categories, elem->data,
-				       GINT_TO_POINTER (1));
-			changed = TRUE;
-		} else {
-			g_free (elem->data);
-		}
-	}
-
-	g_slist_free (categories_list);
-
-	return changed;
-}
-
-
-GTree*
-calendar_model_get_categories		(CalendarModel	*model)
-{
-	g_return_val_if_fail (IS_CALENDAR_MODEL (model), NULL);
-
-	return model->priv->categories;
-}
 
 
 /* The current timezone. */

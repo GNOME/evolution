@@ -1,3 +1,69 @@
+2001-08-01  Federico Mena Quintero  <federico@ximian.com>
+
+	The calendar search bar widget now includes a drop-down menu of
+	available categories.
+
+	* pcs/query.c (func_has_categories): Handle one and only one #f
+	value as meaning "unfiled", for components that have no categories
+	at all.
+
+	* pcs/cal-backend-file.c (open_cal): Duh, do not notify here about
+	changed categories since at this point we don't have any clients
+	bound to us yet.
+	(create_cal): Likewise.
+	(cal_backend_file_add_cal): Notify here.
+
+	* gui/cal-search-bar.h (CalSearchBarClass): New signal
+	"category_changed".
+
+	* gui/cal-search-bar.c (cal_search_bar_construct): Add a drop-down
+	menu for the list of categories.
+	(search_option_items): Removed the "Has category" option, since we
+	now have the drop-down menu instad and it would be confusing to
+	have both options.
+	(regen_query): Likewise.  Also, this function is now the old
+	cal_search_bar_query_changed() and is shared by that very function
+	and by the callback from the drop-down menu.
+	(notify_query_contains): Include the sub-sexp for the categories.
+	(cal_search_bar_set_categories): New function.
+	(cal_search_bar_get_category): New function.
+	(categories_selection_done_cb): Emit the "category_changed" signal.
+
+	* gui/e-tasks.c (obj_updated_cb): Removed function since it did
+	not do anything; all updates are handled by the CalendarModel.
+	(obj_removed_cb): Likewise.
+	(ETasksPrivate): Removed the fields for the categories option
+	menu, since now it is in the ESearchBar.
+	(search_bar_sexp_changed_cb): Use calendar_model_set_query()
+	directly here, as we do not need to frob the sexp anymore.
+	(update_query): Removed.
+	(client_categories_changed_cb): New callback.
+	(search_bar_category_changed_cb): New callback.
+	(e_tasks_new_task): Set the default category on the component to
+	the one that is selected in the search bar.
+	(e_tasks_on_filter_selected): Removed.
+	(e_tasks_on_categories_changed): Removed.
+	(e_tasks_rebuild_categories_menu): Removed.
+	(e_tasks_add_menu_item): Removed.
+	(e_tasks_setup_view_menus): Sanitized not to sink objects wildly.
+	(e_tasks_discard_view_menus): New function.
+
+	* gui/calendar-model.h (CalendarModelClass): Removed the
+	"categories_changed" signal since this is handled in the Wombat
+	now.
+
+	* gui/calendar-model.c (calendar_model_get_categories): Removed.
+	(calendar_model_set_value_at): Do not collect the categories.
+	(query_obj_updated_cb): Likewise.
+	(calendar_model_collect_categories): Removed.
+	(calendar_model_set_default_category): Constify.
+
+	* gui/tasks-control.c (tasks_control_deactivate): Call
+	e_tasks_discard_view_menus().
+
+	* gui/gnome-cal.c (search_bar_category_changed_cb): Set the
+	default category for the task pad's model.
+
 2001-07-31  Federico Mena Quintero  <federico@ximian.com>
 
 	The Wombat now keeps track of which categories are present in the

@@ -672,8 +672,11 @@ func_contains (ESExp *esexp, int argc, ESExpResult **argv, void *data)
 }
 
 /* (has-categories? STR+)
+ * (has-categories? #f)
  *
  * STR - At least one string specifying a category
+ * Or you can specify a single #f (boolean false) value for components
+ * that have no categories assigned to them ("unfiled").
  *
  * Returns a boolean indicating whether the component has all the specified
  * categories.
@@ -684,6 +687,7 @@ func_has_categories (ESExp *esexp, int argc, ESExpResult **argv, void *data)
 	Query *query;
 	QueryPrivate *priv;
 	CalComponent *comp;
+	gboolean unfiled;
 	int i;
 	GSList *categories;
 	gboolean matches;
@@ -702,17 +706,36 @@ func_has_categories (ESExp *esexp, int argc, ESExpResult **argv, void *data)
 		return NULL;
 	}
 
-	for (i = 0; i < argc; i++)
-		if (argv[i]->type != ESEXP_RES_STRING) {
-			e_sexp_fatal_error (esexp, _("has-categories? expects all arguments "
-						     "to be strings"));
-			return NULL;
-		}
+	if (argc == 1 && argv[0]->type == ESEXP_RES_BOOL)
+		unfiled = TRUE;
+	else
+		unfiled = FALSE;
 
-	/* Search categories */
+	if (!unfiled)
+		for (i = 0; i < argc; i++)
+			if (argv[i]->type != ESEXP_RES_STRING) {
+				e_sexp_fatal_error (esexp, _("has-categories? expects all arguments "
+							     "to be strings or one and only one "
+							     "argument to be a boolean false (#f)"));
+				return NULL;
+			}
+
+	/* Search categories.  First, if there are no categories we return
+	 * whether unfiled components are supposed to match.
+	 */
 
 	cal_component_get_categories_list (comp, &categories);
 	if (!categories) {
+		result = e_sexp_result_new (esexp, ESEXP_RES_BOOL);
+		result->value.bool = unfiled;
+
+		return result;
+	}
+
+	/* Otherwise, we *do* have categories but unfiled components were
+	 * requested, so this component does not match.
+	 */
+	if (unfiled) {
 		result = e_sexp_result_new (esexp, ESEXP_RES_BOOL);
 		result->value.bool = FALSE;
 
