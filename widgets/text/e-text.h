@@ -58,6 +58,8 @@ BEGIN_GNOME_DECLS
  * y_offset		double			RW		Vertical offset distance from anchor position
  * text_width		double			R		Used to query the width of the rendered text
  * text_height		double			R		Used to query the rendered height of the text
+ * width                double                  RW              A synonym for clip_width
+ * height               double                  R               A synonym for text_height
  *
  * These are currently ignored in the AA version:
  * editable             boolean                 RW              Can this item be edited
@@ -122,6 +124,7 @@ struct _EText {
 	int clip_cx, clip_cy;		/* Top-left canvas coordinates for clip rectangle */
 	int clip_cwidth, clip_cheight;	/* Size of clip rectangle in pixels */
 	int max_width;			/* Maximum width of text lines */
+	int width;                      /* Rendered text width in pixels */
 	int height;			/* Rendered text height in pixels */
 
 	guint clip : 1;			/* Use clip rectangle? */
@@ -182,10 +185,9 @@ struct _EText {
 
 	guint needs_redraw : 1;         /* Needs redraw */
 	guint needs_recalc_bounds : 1;  /* Need recalc_bounds */
+	guint needs_calc_height : 1;    /* Need calc_height */
 	guint needs_calc_line_widths : 1; /* Needs calc_line_widths */
 	guint needs_split_into_lines : 1; /* Needs split_into_lines */
-
-	gint idle;
 };
 
 struct _ETextClass {

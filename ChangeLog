@@ -1,3 +1,16 @@
+2000-03-10  Christopher James Lahey  <clahey@helixcode.com>
+
+	* e-util/e-canvas.c, e-util/e-canvas.h: Designed a new system for
+	doing hierarchical displays in the canvas.  Adds an extra idle
+	loop to the canvas system.
+
+	* widgets/e-minicard/e-minicard.c,
+	widgets/e-minicard/e-minicard-label.c,
+	widgets/e-minicard/e-minicard-label.h,
+	widgets/e-minicard/e-reflow.c, widgets/e-minicard/test-reflow.c,
+	widgets/e-text/e-text.c, widgets/e-text/e-text.h: Adapted to use
+	the new e-canvas reflow system.
+
 2000-03-07  bertrand  <bertrand@helixcode.com>
 
 	* shell/e-shell-shortcut.c (shortcut_bar_item_selected): 

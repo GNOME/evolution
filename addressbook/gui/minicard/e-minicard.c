@@ -34,18 +34,11 @@ static void e_minicard_get_arg (GtkObject *object, GtkArg *arg, guint arg_id);
 static gboolean e_minicard_event (GnomeCanvasItem *item, GdkEvent *event);
 static void e_minicard_realize (GnomeCanvasItem *item);
 static void e_minicard_unrealize (GnomeCanvasItem *item);
+static void e_minicard_reflow ( GnomeCanvasItem *item, int flags );
 
-static void _update_card ( EMinicard *minicard );
-static void _resize( GtkObject *object, gpointer data );
+static void e_minicard_resize_children( EMinicard *e_minicard );
 
 static GnomeCanvasGroupClass *parent_class = NULL;
-
-enum {
-	E_MINICARD_RESIZE,
-	E_MINICARD_LAST_SIGNAL
-};
-
-static guint e_minicard_signals[E_MINICARD_LAST_SIGNAL] = { 0 };
 
 /* The arguments we take */
 enum {
@@ -92,17 +85,6 @@ e_minicard_class_init (EMinicardClass *klass)
 
   parent_class = gtk_type_class (gnome_canvas_group_get_type ());
   
-  e_minicard_signals[E_MINICARD_RESIZE] =
-	  gtk_signal_new ("resize",
-			  GTK_RUN_LAST,
-			  object_class->type,
-			  GTK_SIGNAL_OFFSET (EMinicardClass, resize),
-			  gtk_marshal_NONE__NONE,
-			  GTK_TYPE_NONE, 0);
-  
-  
-  gtk_object_class_add_signals (object_class, e_minicard_signals, E_MINICARD_LAST_SIGNAL);
-  
   gtk_object_add_arg_type ("EMinicard::width", GTK_TYPE_DOUBLE, 
 			   GTK_ARG_READWRITE, ARG_WIDTH); 
   gtk_object_add_arg_type ("EMinicard::height", GTK_TYPE_DOUBLE, 
@@ -131,6 +113,8 @@ e_minicard_init (EMinicard *minicard)
   minicard->width = 10;
   minicard->height = 10;
   minicard->has_focus = FALSE;
+
+  e_canvas_item_set_reflow_callback(GNOME_CANVAS_ITEM(minicard), e_minicard_reflow);
 }
 
 static void
@@ -146,8 +130,8 @@ e_minicard_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 	case ARG_WIDTH:
 		if (e_minicard->width != GTK_VALUE_DOUBLE (*arg)) {
 			e_minicard->width = GTK_VALUE_DOUBLE (*arg);
-			_update_card(e_minicard);
-			gnome_canvas_item_request_update (item);
+			e_minicard_resize_children(e_minicard);
+			e_canvas_item_request_reflow(item);
 		}
 	  break;
 	case ARG_HAS_FOCUS:
@@ -237,7 +221,7 @@ e_minicard_realize (GnomeCanvasItem *item)
 	  gnome_canvas_item_new( group,
 				 e_text_get_type(),
 				 "anchor", GTK_ANCHOR_NW,
-				 "clip_width", (double) ( e_minicard->width - 12 ),
+				 "width", (double) ( e_minicard->width - 12 ),
 				 "clip", TRUE,
 				 "use_ellipsis", TRUE,
 				 "font", "lucidasans-bold-10",
@@ -246,10 +230,6 @@ e_minicard_realize (GnomeCanvasItem *item)
 				 NULL );
 	e_canvas_item_move_absolute(e_minicard->header_text, 6, 6);
 	
-	gtk_signal_connect(GTK_OBJECT(e_minicard->header_text),
-			   "resize",
-			   GTK_SIGNAL_FUNC(_resize),
-			   (gpointer) e_minicard);
 	if ( rand() % 2 ) {
 		new_item = gnome_canvas_item_new( group,
 						  e_minicard_label_get_type(),
@@ -259,11 +239,6 @@ e_minicard_realize (GnomeCanvasItem *item)
 						  NULL );
 		e_minicard->fields = g_list_append( e_minicard->fields, new_item);
 		e_canvas_item_move_absolute(new_item, 2, e_minicard->height);
-		
-		gtk_signal_connect(GTK_OBJECT(new_item),
-				   "resize",
-				   GTK_SIGNAL_FUNC(_resize),
-				   (gpointer) e_minicard);
 	}
 	
 	if (rand() % 2) {
@@ -275,11 +250,6 @@ e_minicard_realize (GnomeCanvasItem *item)
 						  NULL );
 		e_minicard->fields = g_list_append( e_minicard->fields, new_item);
 		e_canvas_item_move_absolute(new_item, 2, e_minicard->height);
-		
-		gtk_signal_connect(GTK_OBJECT(new_item),
-				   "resize",
-				   GTK_SIGNAL_FUNC(_resize),
-				   (gpointer) e_minicard);
 	}
        
 	if (rand() % 2) {
@@ -291,13 +261,8 @@ e_minicard_realize (GnomeCanvasItem *item)
 						  NULL );
 		e_minicard->fields = g_list_append( e_minicard->fields, new_item);
 		e_canvas_item_move_absolute(new_item, 2, e_minicard->height);
-		
-		gtk_signal_connect(GTK_OBJECT(new_item),
-				   "resize",
-				   GTK_SIGNAL_FUNC(_resize),
-				   (gpointer) e_minicard);
 	}
-	_update_card( e_minicard );
+	e_canvas_item_request_reflow(item);
 	
 	if (!item->canvas->aa) {
 	}
@@ -402,8 +367,26 @@ e_minicard_event (GnomeCanvasItem *item, GdkEvent *event)
 }
 
 static void
-_update_card( EMinicard *e_minicard )
+e_minicard_resize_children( EMinicard *e_minicard )
 {
+	if ( GTK_OBJECT_FLAGS( e_minicard ) & GNOME_CANVAS_ITEM_REALIZED ) {
+		GList *list;
+		
+		gnome_canvas_item_set( e_minicard->header_text,
+				       "width", (double) e_minicard->width - 12,
+				       NULL );
+		for ( list = e_minicard->fields; list; list = g_list_next( list ) ) {
+			gnome_canvas_item_set( GNOME_CANVAS_ITEM( list->data ),
+					       "width", (double) e_minicard->width - 4.0,
+					       NULL );
+		}
+	}
+}
+
+static void
+e_minicard_reflow( GnomeCanvasItem *item, int flags )
+{
+	EMinicard *e_minicard = E_MINICARD(item);
 	if ( GTK_OBJECT_FLAGS( e_minicard ) & GNOME_CANVAS_ITEM_REALIZED ) {
 		GList *list;
 		gdouble text_height;
@@ -419,10 +402,6 @@ _update_card( EMinicard *e_minicard )
 		
 		gnome_canvas_item_set( e_minicard->header_rect,
 				       "y2", text_height + 9.0,
-				       NULL );
-		
-		gnome_canvas_item_set( e_minicard->header_text,
-				       "clip_height", (double)text_height,
 				       NULL );
 		
 		for(list = e_minicard->fields; list; list = g_list_next(list)) {
@@ -445,22 +424,8 @@ _update_card( EMinicard *e_minicard )
 		gnome_canvas_item_set( e_minicard->header_rect,
 				       "x2", (double) e_minicard->width - 3.0,
 				       NULL );
-		gnome_canvas_item_set( e_minicard->header_text,
-				       "clip_width", (double) e_minicard->width - 12,
-				       NULL );
-		for ( list = e_minicard->fields; list; list = g_list_next( list ) ) {
-			gnome_canvas_item_set( GNOME_CANVAS_ITEM( list->data ),
-					       "width", (double) e_minicard->width - 4.0,
-					       NULL );
 
 		if (old_height != e_minicard->height)
-			gtk_signal_emit_by_name (GTK_OBJECT (e_minicard), "resize");
-      }
-    }
-}
-
-static void
-_resize( GtkObject *object, gpointer data )
-{
-	_update_card(E_MINICARD(data));
+			e_canvas_item_request_parent_reflow(item);
+	}
 }

@@ -38,6 +38,8 @@ extern "C" {
 #define E_IS_CANVAS(obj)		(GTK_CHECK_TYPE ((obj), E_CANVAS_TYPE))
 #define E_IS_CANVAS_CLASS(klass)	(GTK_CHECK_CLASS_TYPE ((obj), E_CANVAS_TYPE))
 
+typedef void		(*ECanvasItemReflowFunc)		(GnomeCanvasItem *item,
+								 gint   	  flags);
 
 typedef struct _ECanvas       ECanvas;
 typedef struct _ECanvasClass  ECanvasClass;
@@ -46,12 +48,13 @@ struct _ECanvas
 {
 	GnomeCanvas parent;
 	
-	/* item specific fields */
+	int         idle_id;	
 };
 
 struct _ECanvasClass
 {
 	GnomeCanvasClass parent_class;
+	void (* reflow) (ECanvas *canvas);
 };
 
 
@@ -62,6 +65,10 @@ GtkWidget *e_canvas_new      (void);
  * GDK_FOCUS_CHANGE events.
  */
 void e_canvas_item_grab_focus (GnomeCanvasItem *item);
+
+void e_canvas_item_request_reflow (GnomeCanvasItem *item);
+void e_canvas_item_request_parent_reflow (GnomeCanvasItem *item);
+void e_canvas_item_set_reflow_callback (GnomeCanvasItem *item, ECanvasItemReflowFunc func);
 
 #ifdef __cplusplus
 }

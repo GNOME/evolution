@@ -36,6 +36,13 @@ static int emit_event (GnomeCanvas *canvas, GdkEvent *event);
 
 static GnomeCanvasClass *parent_class = NULL;
 
+enum {
+	REFLOW,
+	LAST_SIGNAL
+};
+
+static guint e_canvas_signals [LAST_SIGNAL] = { 0, };
+
 GtkType
 e_canvas_get_type (void)
 {
@@ -78,6 +85,18 @@ e_canvas_class_init (ECanvasClass *klass)
 	widget_class->key_release_event = e_canvas_key;
 	widget_class->focus_in_event = e_canvas_focus_in;
 	widget_class->focus_out_event = e_canvas_focus_out;
+
+	klass->reflow = NULL;
+
+	e_canvas_signals [REFLOW] =
+		gtk_signal_new ("reflow",
+				GTK_RUN_LAST,
+				object_class->type,
+				GTK_SIGNAL_OFFSET (ECanvasClass, reflow),
+				gtk_marshal_NONE__INT_INT,
+				GTK_TYPE_NONE, 0);
+
+	gtk_object_class_add_signals (object_class, e_canvas_signals, LAST_SIGNAL);
 }
 
 static void
@@ -298,4 +317,102 @@ e_canvas_focus_out (GtkWidget *widget, GdkEventFocus *event)
 		return emit_event (canvas, (GdkEvent *) event);
 	else
 		return FALSE;
+}
+
+
+static void
+e_canvas_item_invoke_update (GnomeCanvasItem *item, int flags)
+{
+	GnomeCanvasGroup *group;
+	GList *list;
+	GnomeCanvasItem *child;
+	if ( ! gtk_object_get_data(GTK_OBJECT(item), "ECanvasItem::descendent_needs_reflow") )
+		return;
+
+	if ( GNOME_IS_CANVAS_GROUP( item ) ) {
+		group = GNOME_CANVAS_GROUP( item );
+		for ( list = group->item_list; list; list = list->next ) {
+			child = GNOME_CANVAS_ITEM(list->data);
+			e_canvas_item_invoke_update(child, flags);
+		}
+	}
+
+	if ( gtk_object_get_data(GTK_OBJECT(item), "ECanvasItem::needs_reflow") ) {
+		ECanvasItemReflowFunc func = gtk_object_get_data(GTK_OBJECT(item), "ECanvasItem::reflow_callback");
+		if ( func )
+			func(item, flags);
+	}
+
+	gtk_object_set_data(GTK_OBJECT(item), "ECanvasItem::needs_reflow", (gpointer) 0);
+	gtk_object_set_data(GTK_OBJECT(item), "ECanvasItem::descendent_needs_reflow", (gpointer) 0);
+}
+
+static void
+do_update (ECanvas *canvas)
+{
+	e_canvas_item_invoke_update (GNOME_CANVAS(canvas)->root, 0);
+}
+
+/* Idle handler for the canvas.  It deals with pending updates and redraws. */
+static gint
+idle_handler (gpointer data)
+{
+	ECanvas *canvas;
+
+	GDK_THREADS_ENTER ();
+
+	canvas = E_CANVAS (data);
+	do_update (canvas);
+
+	/* Reset idle id */
+	canvas->idle_id = 0;
+
+	gtk_signal_emit (GTK_OBJECT (canvas),
+			 e_canvas_signals [REFLOW]);
+
+	GDK_THREADS_LEAVE ();
+
+	return FALSE;
+}
+
+/* Convenience function to add an idle handler to a canvas */
+static void
+add_idle (ECanvas *canvas)
+{
+	if (canvas->idle_id != 0)
+		return;
+
+	canvas->idle_id = g_idle_add_full (G_PRIORITY_HIGH_IDLE, idle_handler, (gpointer) canvas, NULL);
+}
+
+static void
+e_canvas_item_descendent_needs_reflow (GnomeCanvasItem *item)
+{
+	if ( gtk_object_get_data(GTK_OBJECT(item), "ECanvasItem::descendent_needs_reflow") )
+		return;
+	gtk_object_set_data(GTK_OBJECT(item), "ECanvasItem::descendent_needs_reflow", (gpointer) 1);
+	if ( item->parent )
+		e_canvas_item_descendent_needs_reflow(item->parent);
+}
+
+void
+e_canvas_item_request_reflow (GnomeCanvasItem *item)
+{
+	gtk_object_set_data(GTK_OBJECT(item), "ECanvasItem::needs_reflow", (gpointer) 1);
+	e_canvas_item_descendent_needs_reflow(item);
+	add_idle(E_CANVAS(item->canvas));
+}
+
+void
+e_canvas_item_request_parent_reflow (GnomeCanvasItem *item)
+{
+	g_return_if_fail(item != NULL);
+	g_return_if_fail(GNOME_IS_CANVAS_ITEM(item));
+	e_canvas_item_request_reflow(item->parent);
+}
+
+void
+e_canvas_item_set_reflow_callback (GnomeCanvasItem *item, ECanvasItemReflowFunc func)
+{
+	gtk_object_set_data(GTK_OBJECT(item), "ECanvasItem::reflow_callback", (gpointer) func);
 }
