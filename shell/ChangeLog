@@ -1,5 +1,14 @@
 2001-08-10  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-shell-user-creatable-items-handler.c (component_free): Only
+	free the `type_list' if not NULL.
+	(setup_menu_xml): Deal with the case of `type_list' being NULL
+	gracefully.
+	(verb_fn): Same here.
+	(add_verbs_to_ui_component): Likewise.
+
+2001-08-10  Ettore Perazzoli  <ettore@ximian.com>
+
 	[Fix #6787, Removing a storage with children and then re-adding it
 	causes a crash.]
 

@@ -87,7 +87,9 @@ static void
 component_free (Component *component)
 {
 	gtk_object_unref (GTK_OBJECT (component->component_client));
-	CORBA_free (component->type_list);
+
+	if (component->type_list != NULL)
+		CORBA_free (component->type_list);
 
 	g_free (component);
 }
@@ -214,18 +216,20 @@ setup_menu_xml (EShellUserCreatableItemsHandler *handler)
 		int i;
 
 		component = (const Component *) p->data;
-		for (i = 0; i < component->type_list->_length; i ++) {
-			const GNOME_Evolution_UserCreatableItemType *type;
-			MenuItem *item;
+		if (component->type_list != NULL) {
+			for (i = 0; i < component->type_list->_length; i ++) {
+				const GNOME_Evolution_UserCreatableItemType *type;
+				MenuItem *item;
 
-			type = (const GNOME_Evolution_UserCreatableItemType *) component->type_list->_buffer + i;
+				type = (const GNOME_Evolution_UserCreatableItemType *) component->type_list->_buffer + i;
 
-			item = g_new (MenuItem, 1);
-			item->label    = type->menuDescription;
-			item->shortcut = type->menuShortcut;
-			item->verb     = create_verb_from_component_number_and_type_id (component_num, type->id);
+				item = g_new (MenuItem, 1);
+				item->label    = type->menuDescription;
+				item->shortcut = type->menuShortcut;
+				item->verb     = create_verb_from_component_number_and_type_id (component_num, type->id);
 
-			menu_items = g_slist_prepend (menu_items, item);
+				menu_items = g_slist_prepend (menu_items, item);
+			}
 		}
 
 		component_num ++;
@@ -287,6 +291,9 @@ verb_fn (BonoboUIComponent *ui_component,
 
 	component = (const Component *) component_list_item->data;
 
+	if (component->type_list == NULL)
+		return;
+
 	for (i = 0; i < component->type_list->_length; i ++) {
 		if (strcmp (component->type_list->_buffer[i].id, id) == 0) {
 			CORBA_Environment ev;
@@ -325,15 +332,18 @@ add_verbs_to_ui_component (EShellUserCreatableItemsHandler *handler,
 		int i;
 
 		component = (const Component *) p->data;
-		for (i = 0; i < component->type_list->_length; i ++) {
-			char *verb_name;
 
-			verb_name = create_verb_from_component_number_and_type_id (component_num,
-										   component->type_list->_buffer[i].id);
+		if (component->type_list != NULL) {
+			for (i = 0; i < component->type_list->_length; i ++) {
+				char *verb_name;
 
-			bonobo_ui_component_add_verb (ui_component, verb_name, verb_fn, handler);
+				verb_name = create_verb_from_component_number_and_type_id
+					(component_num, component->type_list->_buffer[i].id);
 
-			g_free (verb_name);
+				bonobo_ui_component_add_verb (ui_component, verb_name, verb_fn, handler);
+
+				g_free (verb_name);
+			}
 		}
 
 		component_num ++;
