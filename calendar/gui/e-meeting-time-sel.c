@@ -1252,7 +1252,16 @@ e_meeting_time_selector_refresh_free_busy (EMeetingTimeSelector *mts, int row, g
 	/* Ref ourselves in case we are called back after destruction,
 	 * we can do this because we will get a call back even after
 	 * an error */
-	gtk_object_ref (GTK_OBJECT (mts));
+	/* FIXME We should really have a mechanism to unqueue the
+	 * notification */
+	if (all) {
+		int i;
+		
+		for (i = 0; i < e_meeting_model_count_actual_attendees (mts->model); i++)
+			gtk_object_ref (GTK_OBJECT (mts));
+	} else {
+		gtk_object_ref (GTK_OBJECT (mts));
+	}
 	
 	if (all)
 		e_meeting_model_refresh_all_busy_periods (mts->model, &start, &end, 

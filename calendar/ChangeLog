@@ -1,3 +1,9 @@
+2003-05-15  JP Rosevear  <jpr@ximian.com>
+
+	* gui/e-meeting-time-sel.c
+	(e_meeting_time_selector_refresh_free_busy): ref ourselves the
+	number of times we'll get called back
+
 2003-05-14  JP Rosevear  <jpr@ximian.com>
 
 	* gui/e-tasks.c (e_tasks_destroy): guard against multiple destroys
