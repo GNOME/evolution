@@ -1,3 +1,10 @@
+2001-02-06  Christopher James Lahey  <clahey@ximian.com>
+
+	* src/libical/icallangbind.c: Added a missing #include here.
+
+	* src/libical/icalrecur.c (icalrecur_add_bydayrules): Copy the
+	passed in const vals since we change it.
+
 2001-02-05  JP Rosevear  <jpr@ximian.com>
 
 	* src/libical/icallangbind.c (icallangbind_get_property): Use the
