@@ -157,6 +157,9 @@ it without messing up your system installation.
 
       http://www.sleepycat.com/update/3.1.17/db-3.1.17.tar.gz
 
+  * Install the content somewhere _other_ than the evolution source tree.
+     e.g: NOT evolution/db-3.1.17
+
   * Compile according to instructions, but installing into some custom
     prefix, e.g:
 
