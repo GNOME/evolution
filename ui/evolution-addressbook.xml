@@ -2,7 +2,7 @@
 
 	<commands>
 		<cmd name="ContactDelete"
-		 _tip="Delete a contact"
+		 _tip="Delete selected contacts"
 		 pixtype="stock" pixname="Trash"/>
 
 		<cmd name="ContactNew"
@@ -10,7 +10,7 @@
 		 accel="*Control*n"/>
 
 		<cmd name="ContactsPrint"
-		 _tip="Print contacts"
+		 _tip="Print selected contacts"
 		 pixtype="stock" pixname="Print"
 		 accel="*Control*p"/>
 

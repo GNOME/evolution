@@ -1,3 +1,8 @@
+2001-05-25  Christopher James Lahey  <clahey@ximian.com>
+
+	* evolution-addressbook.xml: Changed the tooltips here based on
+	Taylor's work.
+
 2001-05-24  Radek Doulik  <rodo@ximian.com>
 
 	* evolution-message-composer.xml: added delete all to edit menu
