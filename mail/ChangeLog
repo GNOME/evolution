@@ -4,6 +4,7 @@
 	content type directly.
 	(do_attachment_header): add the target for the mime type to the
 	drag source.
+	(drag_data_get_cb): silence warning.
 
 2002-10-01  Jeffrey Stedfast  <fejj@ximian.com>
 

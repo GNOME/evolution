@@ -911,7 +911,7 @@ drag_data_get_cb (GtkWidget *widget,
 		if (header_content_type_is (part->content_type, "text", "*")) {
 		        GByteArray *ba;
 
-			ba = mail_format_get_data_wrapper_text (part, NULL);
+			ba = mail_format_get_data_wrapper_text ((CamelDataWrapper *)part, NULL);
 			if (ba) {
 				gtk_selection_data_set (selection_data, selection_data->target, 8,
 							ba->data, ba->len);
