@@ -517,13 +517,9 @@ e_shell_command_rename_folder (EShell *shell,
 	RenameCallbackData *callback_data;
 	const char *old_name;
 	char *prompt;
-	char *new_name;
-	char *old_base_path;
-	char *new_path;
+	gboolean done;
 
-	g_return_if_fail (shell != NULL);
 	g_return_if_fail (E_IS_SHELL (shell));
-	g_return_if_fail (shell_view != NULL);
 	g_return_if_fail (E_IS_SHELL_VIEW (shell_view));
 
 	storage_set = e_shell_get_storage_set (shell);
@@ -537,38 +533,39 @@ e_shell_command_rename_folder (EShell *shell,
 	old_name = e_folder_get_name (folder);
 	prompt = g_strdup_printf (_("Rename the \"%s\" folder to:"), old_name);
 
-	while (1) {
+	done = FALSE;
+	while (! done) {
 		const char *reason;
+		char *new_name;
 
-		new_name = e_request_string (shell_view != NULL ? GTK_WINDOW (shell_view) : NULL,
-					     _("Rename Folder"), prompt, old_name);
+		new_name = e_request_string (GTK_WINDOW (shell_view), _("Rename Folder"), prompt, old_name);
 
-		if (new_name == NULL)
-			return;
+		if (new_name == NULL || strcmp (old_name, new_name) == 0) {
+		        done = TRUE;
+		} else if (! e_shell_folder_name_is_valid (new_name, &reason)) {
+			e_notice (shell_view, GTK_MESSAGE_ERROR,
+				  _("The specified folder name is not valid: %s"), reason);
+		} else {
+			char *old_base_path = g_path_get_dirname (folder_path);
+			char *new_path = g_build_filename (old_base_path, new_name, NULL);
 
-		if (e_shell_folder_name_is_valid (new_name, &reason))
-			break;
+			if (e_storage_set_get_folder (storage_set, new_path) != NULL) {
+				e_notice (shell_view, GTK_MESSAGE_ERROR,
+					  _("A folder named \"%s\" already exists. Please use a different name."),
+					  new_name);
+			} else {
+				callback_data = rename_callback_data_new (shell_view, new_path);
+				e_storage_set_async_xfer_folder (storage_set, folder_path, new_path, TRUE,
+								 rename_cb, callback_data);
+				done = TRUE;
+			}
 
-		e_notice (shell_view, GTK_MESSAGE_ERROR,
-			  _("The specified folder name is not valid: %s"), reason);
+			g_free (old_base_path);
+			g_free (new_path);
+		}
 	}
 
 	g_free (prompt);
-
-	if (strcmp (old_name, new_name) == 0) {
-		g_free (new_name);
-		return;
-	}
-
-	old_base_path = g_path_get_dirname (folder_path);
-	new_path = g_build_filename (old_base_path, new_name, NULL);
-
-	callback_data = rename_callback_data_new (shell_view, new_path);
-	e_storage_set_async_xfer_folder (storage_set, folder_path, new_path, TRUE, rename_cb, callback_data);
-
-	g_free (old_base_path);
-	g_free (new_path);
-	g_free (new_name);
 }
 
 

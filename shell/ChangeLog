@@ -1,3 +1,9 @@
+2003-07-09  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-shell-folder-commands.c (e_shell_command_rename_folder): Do
+	not overwrite an existing folder.  Also, cleaned up the code a
+	bit.  [#45982]
+
 2003-06-25  Chris Toshok  <toshok@ximian.com>
 
 	* e-config-upgrade.c: add general_map and a reference to it in
