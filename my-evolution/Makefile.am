@@ -2,9 +2,10 @@ bin_PROGRAMS =	evolution-executive-summary
 
 INCLUDES = \
 	-I$(top_srcdir)						\
-	-I$(top_builddir)/shell					\
 	-I$(top_srcdir)/shell					\
+	-I$(top_builddir)/shell					\
 	-I$(top_srcdir)/calendar				\
+	-I$(top_builddir)/calendar/cal-client			\
 	$(EXTRA_GNOME_CFLAGS)					\
 	$(GNOME_VFS_CFLAGS)					\
 	$(GTKHTML_CFLAGS)					\
