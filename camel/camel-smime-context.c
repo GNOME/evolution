@@ -632,7 +632,7 @@ sm_verify_cmsg(CamelCipherContext *context, NSSCMSMessage *cmsg, CamelStream *ex
 				}
 			} else {
 				if (!NSS_CMSSignedData_HasDigests(sigd)) {
-					camel_exception_set (ex, CAMEL_EXCEPTION_SYSTEM, _("Can't find signature digests"));
+					camel_exception_set (ex, CAMEL_EXCEPTION_SYSTEM, _("Cannot find signature digests"));
 					goto fail;
 				}
 
@@ -801,14 +801,14 @@ sm_encrypt(CamelCipherContext *context, const char *userid, GPtrArray *recipient
 	for (i=0;i<recipients->len;i++) {
 		recipient_certs[i] = CERT_FindCertByNicknameOrEmailAddr(p->certdb, recipients->pdata[i]);
 		if (recipient_certs[i] == NULL) {
-			camel_exception_setv(ex, CAMEL_EXCEPTION_SYSTEM, _("Can't find certificate for `%s'"), recipients->pdata[i]);
+			camel_exception_setv(ex, CAMEL_EXCEPTION_SYSTEM, _("Cannot find certificate for `%s'"), recipients->pdata[i]);
 			goto fail;
 		}
 	}
 
 	/* Find a common algorithm, probably 3DES anyway ... */
 	if (NSS_SMIMEUtil_FindBulkAlgForRecipients(recipient_certs, &bulkalgtag, &bulkkeysize) != SECSuccess) {
-		camel_exception_set (ex, CAMEL_EXCEPTION_SYSTEM, _("Can't find common bulk encryption algorithm"));
+		camel_exception_set (ex, CAMEL_EXCEPTION_SYSTEM, _("Cannot find common bulk encryption algorithm"));
 		goto fail;
 	}
 
@@ -817,7 +817,7 @@ sm_encrypt(CamelCipherContext *context, const char *userid, GPtrArray *recipient
 	slot = PK11_GetBestSlot(type, context);
 	if (slot == NULL) {
 		/* PORT_GetError(); ?? */
-		camel_exception_set (ex, CAMEL_EXCEPTION_SYSTEM, _("Can't allocate slot for encryption bulk key"));
+		camel_exception_set (ex, CAMEL_EXCEPTION_SYSTEM, _("Cannot allocate slot for encryption bulk key"));
 		goto fail;
 	}
 
@@ -828,25 +828,25 @@ sm_encrypt(CamelCipherContext *context, const char *userid, GPtrArray *recipient
 	/* msg->envelopedData->data */
 	cmsg = NSS_CMSMessage_Create(NULL);
 	if (cmsg == NULL) {
-		camel_exception_set (ex, CAMEL_EXCEPTION_SYSTEM, _("Can't create CMS Message"));
+		camel_exception_set (ex, CAMEL_EXCEPTION_SYSTEM, _("Cannot create CMS Message"));
 		goto fail;
 	}
 
 	envd = NSS_CMSEnvelopedData_Create(cmsg, bulkalgtag, bulkkeysize);
 	if (envd == NULL) {
-		camel_exception_set (ex, CAMEL_EXCEPTION_SYSTEM, _("Can't create CMS EnvelopedData"));
+		camel_exception_set (ex, CAMEL_EXCEPTION_SYSTEM, _("Cannot create CMS EnvelopedData"));
 		goto fail;
 	}
 
 	cinfo = NSS_CMSMessage_GetContentInfo(cmsg);
 	if (NSS_CMSContentInfo_SetContent_EnvelopedData(cmsg, cinfo, envd) != SECSuccess) {
-		camel_exception_set (ex, CAMEL_EXCEPTION_SYSTEM, _("Can't attach CMS EnvelopedData"));
+		camel_exception_set (ex, CAMEL_EXCEPTION_SYSTEM, _("Cannot attach CMS EnvelopedData"));
 		goto fail;
 	}
 
 	cinfo = NSS_CMSEnvelopedData_GetContentInfo(envd);
 	if (NSS_CMSContentInfo_SetContent_Data(cmsg, cinfo, NULL, PR_FALSE) != SECSuccess) {
-		camel_exception_set (ex, CAMEL_EXCEPTION_SYSTEM, _("Can't attach CMS data object"));
+		camel_exception_set (ex, CAMEL_EXCEPTION_SYSTEM, _("Cannot attach CMS data object"));
 		goto fail;
 	}
 
@@ -855,12 +855,12 @@ sm_encrypt(CamelCipherContext *context, const char *userid, GPtrArray *recipient
 		NSSCMSRecipientInfo *ri = NSS_CMSRecipientInfo_Create(cmsg, recipient_certs[i]);
 
 		if (ri == NULL) {
-			camel_exception_set (ex, CAMEL_EXCEPTION_SYSTEM, _("Can't create CMS RecipientInfo"));
+			camel_exception_set (ex, CAMEL_EXCEPTION_SYSTEM, _("Cannot create CMS RecipientInfo"));
 			goto fail;
 		}
 
 		if (NSS_CMSEnvelopedData_AddRecipient(envd, ri) != SECSuccess) {
-			camel_exception_set (ex, CAMEL_EXCEPTION_SYSTEM, _("Can't add CMS RecipientInfo"));
+			camel_exception_set (ex, CAMEL_EXCEPTION_SYSTEM, _("Cannot add CMS RecipientInfo"));
 			goto fail;
 		}
 	}
@@ -874,7 +874,7 @@ sm_encrypt(CamelCipherContext *context, const char *userid, GPtrArray *recipient
 				   sm_decrypt_key, bulkkey,
 				   NULL, NULL);
 	if (enc == NULL) {
-		camel_exception_set (ex, CAMEL_EXCEPTION_SYSTEM, _("Can't create encoder context"));
+		camel_exception_set (ex, CAMEL_EXCEPTION_SYSTEM, _("Cannot create encoder context"));
 		goto fail;
 	}
 
