@@ -1370,9 +1370,9 @@ gpg_verify (CamelCipherContext *context, CamelMimePart *ipart, CamelException *e
 	CamelStream *istream = NULL;
 	CamelMultipart *mps;
 
-	ct = camel_mime_part_get_content_type(ipart);
-	tmp = camel_content_type_param(ct, "protocol");
 	mps = (CamelMultipart *)camel_medium_get_content_object((CamelMedium *)ipart);
+	ct = ((CamelDataWrapper *)mps)->mime_type;
+	tmp = camel_content_type_param(ct, "protocol");
 	if (!camel_content_type_is(ct, "multipart", "signed")
 	    || !CAMEL_IS_MULTIPART_SIGNED(mps)
 	    || tmp == NULL

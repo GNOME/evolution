@@ -1,5 +1,9 @@
 2004-03-29  Not Zed  <NotZed@Ximian.com>
 
+	* camel-gpg-context.c (gpg_verify): get the content-type off of
+	the multipart-signed, not its container.  This seems wrong
+	... but might fix #56084.
+
 	* providers/imap/camel-imap-store.c (get_folder_counts): remove
 	locking here, we're locked whne we enter.
 	(fill_fi): call refresh_info unlocked.  More for #56045.
