@@ -125,7 +125,7 @@ char* set_tz(const char* tzid)
     return old_tz_copy; /* This will be zero if the TZ env var was not set */
 }
 
-void unset_tz(struct set_tz_save savetz)
+void unset_tz(char *tzstr)
 {
     /* restore the original environment */
 
@@ -165,7 +165,7 @@ time_t icaltime_as_timet(struct icaltimetype tt)
     stm.tm_isdst = -1;
 
     if(tt.is_utc == 1 || tt.is_date == 1){
-	struct set_tz_save old_tz = set_tz("UTC");
+	char* old_tz = set_tz("UTC");
 	t = mktime(&stm);
 	unset_tz(old_tz);
     } else {
@@ -243,10 +243,11 @@ int icaltime_utc_offset(struct icaltimetype ictt, const char* tzid)
     time_t tt = icaltime_as_timet(ictt);
     time_t offset_tt;
     struct tm gtm;
-    struct set_tz_save old_tz; 
+
+    char *tzstr = 0;
 
     if(tzid != 0){
-	old_tz = set_tz(tzid);
+	tzstr = set_tz(tzid);
     }
  
     /* Mis-interpret a UTC broken out time as local time */
@@ -255,7 +256,7 @@ int icaltime_utc_offset(struct icaltimetype ictt, const char* tzid)
     offset_tt = mktime(&gtm);
     
     if(tzid != 0){
-	unset_tz(old_tz);
+	unset_tz(tzstr);
     }
 
     return tt-offset_tt;

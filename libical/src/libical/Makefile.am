@@ -11,6 +11,8 @@ YFLAGS = -d -v -t -pical_yy
 LFLAGS = -Pical_yy
 LEX_OUTPUT_ROOT = lex.ical_yy
 
+all: ical.h
+
 INCLUDES =			\
 	-I$(top_builddir)	\
 	-I$(top_srcdir)/src	\
@@ -18,8 +20,6 @@ INCLUDES =			\
 	-I$(srcdir)
 
 libical_la_LDFLAGS = -version-info 0:0:0
-
-icalcomponent.c: icalproperty.h icalvalue.h icalparameter.h
 
 libical_la_SOURCES =		\
 	icalcomponent.c		\
@@ -85,7 +85,6 @@ COMBINEDHEADERS =					\
 	$(top_srcdir)/src/libical/icallangbind.h
 
 BUILT_SOURCES =			\
-	ical.h			\
 	icalparameter.c		\
 	icalparameter.h		\
 	icalproperty.c		\
@@ -94,7 +93,7 @@ BUILT_SOURCES =			\
 	icalvalue.c		\
 	icalvalue.h
 
-ical.h: $(COMBINEDHEADERS)
+ical.h: $(COMBINEDHEADERS) $(BUILT_SOURCES)
 	cat $(COMBINEDHEADERS)				\
 	| egrep -v "#include.*\"ical"			\
 	| egrep -v "#include.*\"pvl\.h\"" > ical.h
