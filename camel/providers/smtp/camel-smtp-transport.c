@@ -3,7 +3,7 @@
 
 /* 
  * Authors:
- *   Jeffrey Stedfast <fejj@stampede.org>
+ *   Jeffrey Stedfast <fejj@helixcode.com>
  *
  * Copyright (C) 2000 Helix Code, Inc. (www.helixcode.com)
  *
@@ -622,7 +622,7 @@ smtp_data (CamelSmtpTransport *transport, CamelMedium *message, CamelException *
         filtered_stream = camel_stream_filter_new_with_stream(transport->ostream);
 	id = camel_stream_filter_add(filtered_stream, CAMEL_MIME_FILTER(mimefilter));
 
-	if (camel_stream_write_to_stream(CAMEL_STREAM(filtered_stream), transport->ostream) == -1) {
+	if (camel_stream_write_to_stream(transport->ostream, CAMEL_STREAM(filtered_stream)) == -1) {
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
 				      "DATA send timed out: message termination: "
 				      "%s: mail not sent",
