@@ -475,7 +475,6 @@ main (int argc, char **argv)
 		  N_("Send the debugging output of all components to a file."), NULL },
 		{ "setup-only", '\0', POPT_ARG_NONE | POPT_ARGFLAG_DOC_HIDDEN,
 		  &setup_only, 0, NULL, NULL },
-		POPT_AUTOHELP
 		{ NULL, '\0', 0, NULL, 0, NULL, NULL }
 	};
 #ifdef DEVELOPMENT
@@ -584,6 +583,9 @@ main (int argc, char **argv)
 	bonobo_main ();
 	
 	e_icon_factory_shutdown ();
+	g_object_unref (program);
+	gnome_sound_shutdown ();
+	e_cursors_shutdown ();
 	
 	return 0;
 }

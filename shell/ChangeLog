@@ -1,3 +1,9 @@
+2004-06-18  Jeffrey Stedfast  <fejj@novell.com>
+
+	* main.c (main): Remove AUTOHELP option since GNOME adds this
+	itself. Fixes bug #60374.
+	(main): Before exiting from main(), call shutdown() routines.
+
 2004-06-18  Radek Doulik  <rodo@ximian.com>
 
 	* main.c (main): test for skip_warning_dialog value in gconf here
