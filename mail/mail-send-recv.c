@@ -238,11 +238,11 @@ format_url(const char *internal_url)
 
 	url = camel_url_new(internal_url, NULL);
 	if (url->host)
-		pretty_url = g_strdup_printf("Server: %s, Type: %s", url->host, url->protocol);
+		pretty_url = g_strdup_printf(_("Server: %s, Type: %s"), url->host, url->protocol);
 	else if (url->path)
-		pretty_url = g_strdup_printf("Path: %s, Type: %s", url->path, url->protocol);
+		pretty_url = g_strdup_printf(_("Path: %s, Type: %s"), url->path, url->protocol);
 	else 
-		pretty_url = g_strdup_printf("Type: %s", url->protocol);
+		pretty_url = g_strdup_printf(_("Type: %s"), url->protocol);
 
 	camel_url_free(url);
 
@@ -268,7 +268,7 @@ build_dialogue (GSList *sources, CamelFolder *outbox, const char *destination)
 	data = setup_send_data ();
 	
 	gd = (GnomeDialog *)gnome_dialog_new (_("Send & Receive Mail"), NULL);
-	gnome_dialog_append_button_with_pixmap (gd, "Cancel All", GNOME_STOCK_BUTTON_CANCEL);
+	gnome_dialog_append_button_with_pixmap (gd, _("Cancel All"), GNOME_STOCK_BUTTON_CANCEL);
 	
 	gtk_window_set_policy (GTK_WINDOW (gd), FALSE, FALSE, FALSE);  
 	gnome_window_icon_set_from_file (GTK_WINDOW (gd), EVOLUTION_ICONSDIR "/send-receive.xpm");

@@ -48,6 +48,7 @@
 #include <gal/unicode/gunicode.h>
 #include <e-util/e-html-utils.h>
 #include <e-util/e-url.h>
+#include <e-util/e-unicode-i18n.h>
 #include "mail.h"
 #include "mail-config.h"
 #include "mail-mt.h"
@@ -1474,6 +1475,7 @@ add_shortcut_entry (const char *name, const char *uri, const char *type)
 	GNOME_Evolution_Shortcuts_Group *the_group;
 	GNOME_Evolution_Shortcuts_Shortcut *the_shortcut;
 	int i, group_num;
+	const char *group_name = U_("Evolution Shortcuts");
 	
 	if (!global_shell_client)
 		return;
@@ -1501,7 +1503,7 @@ add_shortcut_entry (const char *name, const char *uri, const char *type)
 		GNOME_Evolution_Shortcuts_Group *iter;
 		
 		iter = groups->_buffer + i;
-		if (!strcmp (iter->name, "Evolution Shortcuts")) {
+		if (!strcmp (iter->name, group_name)) {
 			the_group = iter;
 			group_num = i;
 			break;
@@ -1514,7 +1516,7 @@ add_shortcut_entry (const char *name, const char *uri, const char *type)
 		
 		GNOME_Evolution_Shortcuts_addGroup (shortcuts_interface,
 						    group_num,
-						    "Evolution Shortcuts",
+						    group_name,
 						    &ev);
 		
 		if (ev._major != CORBA_NO_EXCEPTION) {
@@ -1605,7 +1607,7 @@ new_source_created (MailConfigAccount *account)
 	 * what shortcut to insert?
 	 */
 
-	name = g_strdup_printf (_("%s: Inbox"), account->name);
+	name = g_strdup_printf (U_("%s: Inbox"), account->name);
 	url = g_strdup_printf ("evolution:/%s/INBOX", account->name);
 	add_shortcut_entry (name, url, "mail");
 	g_free (name);

@@ -1,3 +1,13 @@
+2001-09-10  Zbigniew Chyla  <cyba@gnome.pl>
+
+	* mail-config.c
+	(add_shortcut_entry): Marked string for translation.
+	(new_source_created): Ditto.
+
+	* mail-send-recv.c
+	(format_url): Marked strings for translation.
+	(build_dialogue): Ditto.
+
 2001-09-10  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-account-gui.c (mail_account_gui_new): Hide the S/MIME frame
