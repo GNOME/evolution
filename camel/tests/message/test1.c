@@ -24,6 +24,7 @@
 /* for stat */
 #include <sys/stat.h>
 #include <unistd.h>
+#include <string.h>
 
 #include <camel/camel-mime-message.h>
 #include <camel/camel-stream-fs.h>

@@ -1,3 +1,7 @@
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include "session.h"
 
 static guint
@@ -55,5 +59,3 @@ camel_test_session_new (const char *path)
 	
 	return session;
 }
-
-

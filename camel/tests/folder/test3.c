@@ -2,6 +2,8 @@
 
 #include <gtk/gtk.h>
 
+#include <string.h>
+
 #include "camel-test.h"
 #include "messages.h"
 #include "folders.h"
@@ -215,7 +217,7 @@ int main(int argc, char **argv)
 				pull();
 
 				push("appending simple message %d", j);
-				camel_folder_append_message(folder, msg, NULL, ex);
+				camel_folder_append_message(folder, msg, NULL, NULL, ex);
 				check_msg(!camel_exception_is_set(ex), "%s", camel_exception_get_description(ex));
 				pull();
 

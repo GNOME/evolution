@@ -1,5 +1,11 @@
 
-INCLUDES = -I$(includedir) -I$(top_srcdir) -I$(top_srcdir)/camel
+INCLUDES =						\
+	-I$(includedir)					\
+	-I$(top_srcdir)					\
+	-I$(top_srcdir)/intl			 	\
+	-I$(top_srcdir)/e-util			 	\
+	-I$(top_srcdir)/camel				\
+	$(CAMEL_CFLAGS)
 
 check_LIBRARIES = libcameltest.a
 
@@ -12,3 +18,5 @@ libcameltest_a_SOURCES = \
 	streams.c streams.h \
 	address-data.h
 
+libcameltest_a_LIBADD =				\
+	$(top_builddir)/e-util/libeutil.la

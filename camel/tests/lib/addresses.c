@@ -1,3 +1,6 @@
+/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+
+#include <string.h>
 
 #include "addresses.h"
 #include "camel-test.h"

@@ -358,7 +358,7 @@ test_folder_message_ops(CamelSession *session, const char *name, int local, int 
 			pull();
 
 			push("appending simple message %d", j);
-			camel_folder_append_message(folder, msg, NULL, ex);
+			camel_folder_append_message(folder, msg, NULL, NULL, ex);
 			check_msg(!camel_exception_is_set(ex), "%s", camel_exception_get_description(ex));
 
 			/* sigh, this shouldn't be required, but the imap code is too dumb to do it itself */

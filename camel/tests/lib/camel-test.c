@@ -3,12 +3,17 @@
 
 #include <stdio.h>
 #include <string.h>
+#include <sys/stat.h>
+#include <sys/types.h>
+#include <unistd.h>
 #include <signal.h>
+#include <errno.h>
 
 #ifdef ENABLE_THREADS
 #include <pthread.h>
-#include <unistd.h>
 #endif
+
+#include <camel/camel.h>
 
 #ifdef ENABLE_THREADS
 /* well i dunno, doesn't seem to be in the headers but hte manpage mentions it */
@@ -106,20 +111,32 @@ current_state(void)
 
 void camel_test_init(int argc, char **argv)
 {
-	void camel_init(void);
+	struct stat st;
+	char *path;
 	int i;
-
+	
 	setup = 1;
-
-#ifndef ENABLE_THREADS
-	camel_init();
-#endif
-
-	info_table = g_hash_table_new(0, 0);
-
+	
 	/* yeah, we do need ot thread init, even though camel isn't compiled with enable threads */
-	g_thread_init(NULL);
-
+	g_thread_init (NULL);
+	
+	path = g_strdup_printf ("/tmp/camel-test");
+	if (mkdir (path, 0700) == -1 && errno != EEXIST)
+		abort ();
+	
+	if (stat (path, &st) == -1)
+		abort ();
+	
+	if (!S_ISDIR (st.st_mode) || access (path, R_OK | W_OK | X_OK) == -1)
+		abort ();
+	
+	camel_init (path, FALSE);
+	g_free (path);
+	
+	camel_type_init ();
+	
+	info_table = g_hash_table_new(0, 0);
+	
 	signal(SIGSEGV, die);
 	signal(SIGABRT, die);
 

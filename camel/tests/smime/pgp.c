@@ -3,7 +3,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <camel/camel-pgp-context.h>
+#include <camel/camel-gpg-context.h>
 #include <camel/camel-stream-mem.h>
 
 #include "camel-test.h"
@@ -89,7 +89,7 @@ camel_pgp_session_new (const char *path)
 int main (int argc, char **argv)
 {
 	CamelSession *session;
-	CamelPgpContext *ctx;
+	CamelCipherContext *ctx;
 	CamelException *ex;
 	CamelCipherValidity *valid;
 	CamelStream *stream1, *stream2, *stream3;
@@ -106,7 +106,8 @@ int main (int argc, char **argv)
 	
 	session = camel_pgp_session_new ("/tmp/camel-test");
 	
-	ctx = camel_pgp_context_new (session, CAMEL_PGP_TYPE_GPG, "/usr/bin/gpg", FALSE);
+	ctx = camel_gpg_context_new (session, "/usr/bin/gpg");
+	camel_gpg_context_set_always_trust (CAMEL_GPG_CONTEXT (ctx), TRUE);
 	
 	camel_test_start ("Test of PGP functions");
 	
@@ -117,8 +118,8 @@ int main (int argc, char **argv)
 	stream2 = camel_stream_mem_new ();
 	
 	camel_test_push ("PGP signing");
-	camel_pgp_sign (ctx, "pgp-mime@xtorshun.org", CAMEL_CIPHER_HASH_SHA1,
-			stream1, stream2, ex);
+	camel_cipher_sign (ctx, "pgp-mime@xtorshun.org", CAMEL_CIPHER_HASH_SHA1,
+			   stream1, stream2, ex);
 	check_msg (!camel_exception_is_set (ex), "%s", camel_exception_get_description (ex));
 	camel_test_pull ();
 	
@@ -127,7 +128,7 @@ int main (int argc, char **argv)
 	camel_test_push ("PGP verify");
 	camel_stream_reset (stream1);
 	camel_stream_reset (stream2);
-	valid = camel_pgp_verify (ctx, stream1, stream2, ex);
+	valid = camel_cipher_verify (ctx, CAMEL_CIPHER_HASH_SHA1, stream1, stream2, ex);
 	check_msg (!camel_exception_is_set (ex), "%s", camel_exception_get_description (ex));
 	check_msg (camel_cipher_validity_get_valid (valid), "%s", camel_cipher_validity_get_description (valid));
 	camel_cipher_validity_free (valid);
@@ -148,8 +149,8 @@ int main (int argc, char **argv)
 	camel_test_push ("PGP encrypt");
 	recipients = g_ptr_array_new ();
 	g_ptr_array_add (recipients, "pgp-mime@xtorshun.org");
-	camel_pgp_encrypt (ctx, FALSE, "pgp-mime@xtorshun.org", recipients,
-			   stream1, stream2, ex);
+	camel_cipher_encrypt (ctx, FALSE, "pgp-mime@xtorshun.org", recipients,
+			      stream1, stream2, ex);
 	check_msg (!camel_exception_is_set (ex), "%s", camel_exception_get_description (ex));
 	g_ptr_array_free (recipients, TRUE);
 	camel_test_pull ();
@@ -158,7 +159,7 @@ int main (int argc, char **argv)
 	camel_exception_clear (ex);
 	
 	camel_test_push ("PGP decrypt");
-	camel_pgp_decrypt (ctx, stream2, stream3, ex);
+	camel_cipher_decrypt (ctx, stream2, stream3, ex);
 	check_msg (!camel_exception_is_set (ex), "%s", camel_exception_get_description (ex));
 	buf = CAMEL_STREAM_MEM (stream1)->buffer;
 	before = g_strndup (buf->data, buf->len);

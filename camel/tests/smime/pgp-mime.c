@@ -3,7 +3,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <camel/camel-pgp-mime.h>
+#include <camel/camel-gpg-context.h>
+#include <camel/camel-multipart-signed.h>
+#include <camel/camel-multipart-encrypted.h>
+#include <camel/camel-mime-part.h>
 #include <camel/camel-stream-mem.h>
 
 #include "camel-test.h"
@@ -94,10 +97,12 @@ camel_pgp_session_new (const char *path)
 int main (int argc, char **argv)
 {
 	CamelSession *session;
-	CamelPgpContext *ctx;
+	CamelCipherContext *ctx;
 	CamelException *ex;
 	CamelCipherValidity *valid;
-	CamelMimePart *mime_part, *part;
+	CamelMimePart *mime_part;
+	CamelMultipartSigned *mps;
+	CamelMultipartEncrypted *mpe;
 	GPtrArray *recipients;
 	
 	camel_test_init (argc, argv);
@@ -109,7 +114,8 @@ int main (int argc, char **argv)
 	
 	session = camel_pgp_session_new ("/tmp/camel-test");
 	
-	ctx = camel_pgp_context_new (session, CAMEL_PGP_TYPE_GPG, "/usr/bin/gpg", FALSE);
+	ctx = camel_gpg_context_new (session, "/usr/bin/gpg");
+	camel_gpg_context_set_always_trust (CAMEL_GPG_CONTEXT (ctx), TRUE);
 	
 	camel_test_start ("Test of PGP/MIME functions");
 	
@@ -118,23 +124,22 @@ int main (int argc, char **argv)
 	camel_mime_part_set_description (mime_part, "Test of PGP/MIME multipart/signed stuff");
 	
 	camel_test_push ("PGP/MIME signing");
-	camel_pgp_mime_part_sign (ctx, &mime_part, "pgp-mime@xtorshun.org", CAMEL_CIPHER_HASH_SHA1, ex);
+	mps = camel_multipart_signed_new ();
+	camel_multipart_signed_sign (mps, ctx, mime_part, "pgp-mime@xtorshun.org", CAMEL_CIPHER_HASH_SHA1, ex);
 	check_msg (!camel_exception_is_set (ex), "%s", camel_exception_get_description (ex));
-	check_msg (camel_pgp_mime_is_rfc2015_signed (mime_part),
-		   "Huh, the MIME part does not seem to be a valid multipart/signed part");
 	camel_test_pull ();
 	
+	camel_object_unref (mime_part);
 	camel_exception_clear (ex);
 	
 	camel_test_push ("PGP/MIME verify");
-	valid = camel_pgp_mime_part_verify (ctx, mime_part, ex);
+	valid = camel_multipart_signed_verify (mps, ctx, ex);
 	check_msg (!camel_exception_is_set (ex), "%s", camel_exception_get_description (ex));
 	check_msg (camel_cipher_validity_get_valid (valid), "%s", camel_cipher_validity_get_description (valid));
 	camel_cipher_validity_free (valid);
 	camel_test_pull ();
 	
-	camel_object_unref (CAMEL_OBJECT (mime_part));
-	
+	camel_object_unref (mps);
 	camel_exception_clear (ex);
 	
 	mime_part = camel_mime_part_new ();
@@ -144,22 +149,22 @@ int main (int argc, char **argv)
 	camel_test_push ("PGP/MIME encrypt");
 	recipients = g_ptr_array_new ();
 	g_ptr_array_add (recipients, "pgp-mime@xtorshun.org");
-	camel_pgp_mime_part_encrypt (ctx, &mime_part, recipients, ex);
+	
+	mpe = camel_multipart_encrypted_new ();
+	camel_multipart_encrypted_encrypt (mpe, mime_part, ctx, "pgp-mime@xtorshun.org", recipients, ex);
 	check_msg (!camel_exception_is_set (ex), "%s", camel_exception_get_description (ex));
-	check_msg (camel_pgp_mime_is_rfc2015_encrypted (mime_part),
-		   "Huh, the MIME part does not seem to be a valid multipart/encrypted part");
 	g_ptr_array_free (recipients, TRUE);
 	camel_test_pull ();
 	
 	camel_exception_clear (ex);
+	camel_object_unref (mime_part);
 	
 	camel_test_push ("PGP/MIME decrypt");
-	part = camel_pgp_mime_part_decrypt (ctx, mime_part, ex);
+	mime_part = camel_multipart_encrypted_decrypt (mpe, ctx, ex);
 	check_msg (!camel_exception_is_set (ex), "%s", camel_exception_get_description (ex));
-	camel_object_unref (CAMEL_OBJECT (part));
+	camel_object_unref (mime_part);
+	camel_object_unref (mpe);
 	camel_test_pull ();
-	
-	camel_object_unref (CAMEL_OBJECT (mime_part));
 	
 	camel_object_unref (CAMEL_OBJECT (ctx));
 	camel_object_unref (CAMEL_OBJECT (session));

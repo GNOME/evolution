@@ -32,7 +32,7 @@ main (int argc, char **argv)
 	CamelStream *correct;
 	CamelStreamFilter *filter;
 	CamelMimeFilter *sh;
-	gchar *work;
+	char *work;
 	int i;
 	ssize_t comp_progress, comp_correct_chunk, comp_filter_chunk;
 	int comp_i;
