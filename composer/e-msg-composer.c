@@ -159,11 +159,13 @@ build_message (EMsgComposer *composer)
 		camel_mime_part_set_content (part, text,
 					     strlen (text), "text/html");
 		camel_multipart_add_part (multipart, part);
+		gtk_object_unref (GTK_OBJECT (part));
 
 		e_msg_composer_attachment_bar_to_multipart (E_MSG_COMPOSER_ATTACHMENT_BAR (composer->attachment_bar), multipart);
 
 		camel_medium_set_content_object (CAMEL_MEDIUM (new),
 						 CAMEL_DATA_WRAPPER (multipart));
+		gtk_object_unref (GTK_OBJECT (multipart));
 	} else {
 		CamelDataWrapper *cdw;
 		CamelStream *stream;
@@ -172,10 +174,12 @@ build_message (EMsgComposer *composer)
 							   strlen (text));
 		cdw = camel_data_wrapper_new ();
 		camel_data_wrapper_construct_from_stream (cdw, stream);
+		gtk_object_unref (GTK_OBJECT (stream));
 		camel_data_wrapper_set_mime_type (cdw, "text/html");
 
 		camel_medium_set_content_object (CAMEL_MEDIUM (new),
 						 CAMEL_DATA_WRAPPER (cdw));
+		gtk_object_unref (GTK_OBJECT (cdw));
 	}
 	g_free (text);
 

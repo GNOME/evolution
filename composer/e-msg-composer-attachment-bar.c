@@ -632,6 +632,7 @@ attach_to_multipart (CamelMultipart *multipart,
 	camel_mime_part_set_description (part, attachment->description);
 
 	camel_multipart_add_part (multipart, part);
+	gtk_object_unref (GTK_OBJECT (part));
 }
 
 void
