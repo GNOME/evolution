@@ -281,6 +281,12 @@ composer_send_cb (EMsgComposer *composer, gpointer data)
 	/* Get the message */
 	message = e_msg_composer_get_message (composer);
 	
+	/* Check for no recipients */
+	if (!camel_mime_message_get_recipients (message, CAMEL_RECIPIENT_TYPE_TO)) {
+		camel_object_unref (CAMEL_OBJECT (message));
+		return;
+	}
+	
 	/* Check for no subject */
 	subject = camel_mime_message_get_subject (message);
 	if (subject == NULL || subject[0] == '\0') {

@@ -1,3 +1,8 @@
+2000-10-26  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* mail-callbacks.c (composer_send_cb): Check for the TO recipient
+	list being NULL and don't send.
+
 2000-10-25  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* mail-ops.c (do_send_mail): Don't forget to unref the
