@@ -1,5 +1,10 @@
 2004-06-29  Not Zed  <NotZed@Ximian.com>
 
+	* em-folder-tree-model.c (folder_created_cb): call
+	folder_subscribed directly from the async function not
+	foldre_subscribed_cb, otherwise we run out of order.  Part of
+	#60775.
+
 	* em-vfolder-rule.c (source_add): setup exclusion for vfolder
 	sources, noselect folders.  Bug #60794.
 

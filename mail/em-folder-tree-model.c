@@ -634,7 +634,7 @@ folder_created_cb (CamelStore *store, void *event_data, EMFolderTreeModel *model
 	
 	camel_object_ref (store);
 	fi = camel_folder_info_clone (event_data);
-	mail_async_event_emit (mail_async_event, MAIL_ASYNC_GUI, (MailAsyncFunc) folder_subscribed_cb, store, fi, model);
+	mail_async_event_emit (mail_async_event, MAIL_ASYNC_GUI, (MailAsyncFunc) folder_subscribed, store, fi, model);
 }
 
 static void
@@ -659,7 +659,7 @@ folder_renamed (CamelStore *store, CamelRenameInfo *info, EMFolderTreeModel *mod
 	GtkTreeIter root, iter;
 	GtkTreePath *path;
 	char *parent, *p;
-	
+
 	if (!(si = g_hash_table_lookup (model->store_hash, store)))
 		goto done;
 	
