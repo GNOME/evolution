@@ -1,3 +1,15 @@
+2001-05-11  Christopher James Lahey  <clahey@ximian.com>
+
+	* backend/pas/pas-backend-file.c: Reordered the includes here.
+	(string_to_dbt): The sleepycat libdb documentation suggests
+	memseting the DBT to 0 so we do that here.
+
+	* gui/widgets/e-minicard-view-model.c (addressbook_height): Skip
+	the E_CARD_SIMPLE_FIELD_FAMILY_NAME field.
+
+	* gui/widgets/e-minicard.c (remodel): Skip the
+	E_CARD_SIMPLE_FIELD_FAMILY_NAME field.
+
 2001-05-11  Chris Toshok  <toshok@ximian.com>
 
 	* backend/pas/pas-backend-ldap.c (pas_backend_ldap_connect): only

@@ -7,6 +7,8 @@
  */
 
 #include "config.h"  
+#include "pas-backend-file.h"
+
 #include <stdio.h>
 #include <unistd.h>
 #include <fcntl.h>
@@ -30,7 +32,6 @@
 #include <ebook/e-card-simple.h>
 #include <e-util/e-sexp.h>
 #include <e-util/e-dbhash.h>
-#include "pas-backend-file.h"
 #include "pas-book.h"
 #include "pas-card-cursor.h"
 
@@ -211,6 +212,7 @@ view_destroy(GtkObject *object, gpointer data)
 static void
 string_to_dbt(const char *str, DBT *dbt)
 {
+	memset (dbt, 0, sizeof (*dbt));
 	dbt->data = (void*)str;
 	dbt->size = strlen (str) + 1;
 }
