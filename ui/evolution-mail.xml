@@ -195,11 +195,11 @@
      _tip="Show message with all email headers"
      type="radio" group="message_display"/>
 
-    <cmd name="HideRead"
+    <cmd name="ViewHideRead"
      _tip="Temporarily hide all messages that have already been read"
      pixtype="pixbuf"/>
 
-    <cmd name="HideSelected"
+    <cmd name="ViewHideSelected"
      _tip="Temporarily hide the selected messages"
      pixtype="pixbuf"/>
 
@@ -284,28 +284,24 @@
     <submenu name="View">
       <separator/>
 
-      <menuitem name="ViewSource" verb="" _label="_Source"/>      
+      <menuitem name="ViewThreaded" verb="" _label="_Threaded Message List"/>
+      <menuitem name="HideDeleted" verb="" _label="Hide _Deleted Messages"/>
 
-      <menuitem name="ViewThreaded" verb="" _label="_Threaded"/>
+      <submenu name="MessageDisplay" _label="_Message Display">
+        <menuitem name="ViewLoadImages" verb="" _label="Load _Images"/>
 
-      <submenu name="ViewMessages" _label="Messages">
-        <menuitem name="ViewShowAll" verb="" _label="_All"/>
-        <menuitem name="HideRead" verb="" _label="_Unread"/>
+	<separator/>
 
-        <separator/>
-
-        <menuitem name="HideDeleted" verb="" _label="Hide _Deleted"/>
-        <menuitem name="HideSelected" verb="" _label="Hide S_elected"/>
-      </submenu>
-
-      <submenu name="ViewHeaders" _label="_Headers">
-	<menuitem name="ViewNormal" verb="" _label="_Normal"/>
-	<menuitem name="ViewFullHeaders" verb="" _label="_All"/>
+	<menuitem name="ViewNormal" verb="" _label="_Normal Display"/>
+	<menuitem name="ViewFullHeaders" verb="" _label="Show Full _Headers"/>
+	<menuitem name="ViewSource" verb="" _label="Show Email _Source"/>
       </submenu>
 
       <separator/>
 
-      <menuitem name="ViewLoadImages" verb="" _label="Load _Images"/>
+      <menuitem name="ViewShowAll" verb="" _label="Show _All"/>
+      <menuitem name="ViewHideSelected" verb="" _label="Hide S_elected Messages"/>
+      <menuitem name="ViewHideRead" verb="" _label="Hide _Read messages"/>
     </submenu>
 
     <submenu name="Actions">

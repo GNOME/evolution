@@ -1,3 +1,10 @@
+2001-05-28  Dan Winship  <danw@ximian.com>
+
+	* evolution-mail.xml: Undo Jeff's View menu changes, as they
+	resulted in the normal/fullheaders/source radio group being split
+	across two levels of hiearchy, and grouped "Hide Deleted" with
+	the unrelated other Hide/Show commands.
+
 2001-05-25  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* evolution-mail.xml: Added MailNextUnread, MailNextFlagged,
