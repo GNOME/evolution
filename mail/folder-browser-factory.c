@@ -155,7 +155,7 @@ folder_browser_setup_view_menus (FolderBrowser *fb,
 	GalViewMenus *views;
 	GalViewFactory *factory;
 	ETableSpecification *spec;
-	char *spec_string, *local_dir;
+	char *local_dir;
 
 	collection = gal_view_collection_new();
 	/* FIXME: Memory leak. */
@@ -167,10 +167,8 @@ folder_browser_setup_view_menus (FolderBrowser *fb,
 		local_dir);
 	g_free (local_dir);
 
-	spec_string = message_list_get_layout(fb->message_list);
 	spec = e_table_specification_new();
-	e_table_specification_load_from_string(spec, spec_string);
-	g_free(spec_string);
+	e_table_specification_load_from_file(spec, EVOLUTION_ETSPECDIR "/message-list.etspec");
 
 	factory = gal_view_factory_etable_new(spec);
 	gal_view_collection_add_factory(collection, factory);

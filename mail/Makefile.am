@@ -24,6 +24,7 @@ INCLUDES = \
 	$(MAILER_CFLAGS)				\
 	-DEVOLUTION_DATADIR=\""$(datadir)"\"		\
 	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"		\
+	-DEVOLUTION_ETSPECDIR=\""$(etspecdir)"\"	\
 	-DEVOLUTION_ICONSDIR=\""$(iconsdir)"\"		\
 	-DEVOLUTION_LOCALEDIR=\""$(localedir)"\"	\
 	-DCAMEL_PROVIDERDIR=\""$(providerdir)"\"	\
@@ -160,13 +161,16 @@ oaf_DATA = $(oaf_in_files:.oaf.in=.oaf)
 gladedir   = $(datadir)/evolution/glade
 glade_DATA = mail-config.glade local-config.glade
 
+etspecdir = $(datadir)/evolution/etspec/
+etspec_DATA = message-list.etspec
+
 iconsdir = $(datadir)/images/evolution
 
 $(EVOLUTION_MAIL_CORBA_GENERATED): Mail.idl 
 	$(ORBIT_IDL) -I $(srcdir) -I $(datadir)/idl -I `$(GNOME_CONFIG) --cflags idl` \
 	-I `$(GNOME_CONFIG) --datadir`/idl $(srcdir)/Mail.idl
 
-EXTRA_DIST = Mail.idl $(glade_DATA) $(oaf_in_files) $(oaf_DATA)
+EXTRA_DIST = Mail.idl $(glade_DATA) $(oaf_in_files) $(oaf_DATA) $(etspec_DATA)
 
 if ENABLE_PURIFY
 PLINK = $(LIBTOOL) --mode=link $(PURIFY) $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(LDFLAGS) -o $@

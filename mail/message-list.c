@@ -1083,35 +1083,6 @@ save_tree_state(MessageList *ml)
 	g_free(filename);
 }
 
-#ifdef JUST_FOR_TRANSLATORS
-static char *list [] = {
-	N_("Status"), N_("Flagged"), N_("Score"), N_("Attachment"),
-	N_("From"),   N_("Subject"), N_("Date"),  N_("Received"),
-	N_("To"),     N_("Size")
-};
-#endif
-
-char *
-message_list_get_layout (MessageList *message_list)
-{
-	/* Default: Status, Attachments, Priority, From, Subject, Date */
-	return g_strdup ("<ETableSpecification cursor-mode=\"line\" draw-grid=\"false\" draw-focus=\"true\" selection-mode=\"browse\">"
-			 "<ETableColumn model_col= \"0\" _title=\"Status\" pixbuf=\"status\" expansion=\"0.0\" minimum_width=\"18\" resizable=\"false\" cell=\"render_message_status\" compare=\"integer\" sortable=\"false\"/>"
-			 "<ETableColumn model_col= \"1\" _title=\"Flagged\" pixbuf=\"flagged\" expansion=\"0.0\" minimum_width=\"18\" resizable=\"false\" cell=\"render_flagged\" compare=\"integer\"/>"
-			 "<ETableColumn model_col= \"2\" _title=\"Score\" pixbuf=\"score\" expansion=\"0.0\" minimum_width=\"18\" resizable=\"false\" cell=\"render_score\" compare=\"integer\"/>"
-			 "<ETableColumn model_col= \"3\" _title=\"Attachment\" pixbuf=\"attachment\" expansion=\"0.0\" minimum_width=\"18\" resizable=\"false\" cell=\"render_attachment\" compare=\"integer\" sortable=\"false\"/>"
-			 "<ETableColumn model_col= \"4\" _title=\"From\" expansion=\"24.0\" minimum_width=\"32\" resizable=\"true\" cell=\"render_text\" compare=\"address_compare\"/>"
-			 "<ETableColumn model_col= \"5\" _title=\"Subject\" expansion=\"30.0\" minimum_width=\"32\" resizable=\"true\" cell=\"render_tree\" compare=\"subject_compare\"/>"
-			 "<ETableColumn model_col= \"6\" _title=\"Date\" expansion=\"24.0\" minimum_width=\"32\" resizable=\"true\" cell=\"render_date\" compare=\"integer\"/>"
-			 "<ETableColumn model_col= \"7\" _title=\"Received\" expansion=\"20.0\" minimum_width=\"32\" resizable=\"true\" cell=\"render_date\" compare=\"integer\"/>"
-			 "<ETableColumn model_col= \"8\" _title=\"To\" expansion=\"24.0\" minimum_width=\"32\" resizable=\"true\" cell=\"render_text\" compare=\"address_compare\"/>"
-			 "<ETableColumn model_col= \"9\" _title=\"Size\" expansion=\"6.0\" minimum_width=\"32\" resizable=\"true\" cell=\"render_size\" compare=\"integer\"/>"
-			 "<ETableState> <column source=\"0\"/> <column source=\"3\"/> <column source=\"1\"/>"
-			 "<column source=\"4\"/> <column source=\"5\"/> <column source=\"6\"/>"
-			 "<grouping> </grouping> </ETableState>"
-			 "</ETableSpecification>");
-}
-
 static void
 message_list_setup_etree(MessageList *message_list, gboolean outgoing)
 {
@@ -1252,7 +1223,6 @@ static void
 message_list_construct (MessageList *message_list)
 {
 	ETableExtras *extras;
-	char *spec;
 
 	message_list->model =
 		e_tree_memory_callbacks_new (ml_tree_icon_at,
@@ -1284,16 +1254,16 @@ message_list_construct (MessageList *message_list)
 	/*
 	 * The etree
 	 */
-	spec = message_list_get_layout (message_list);
 	extras = message_list_create_extras ();
-	e_tree_scrolled_construct (E_TREE_SCROLLED (message_list),
-				   message_list->model,
-				   extras, spec, NULL);
+	e_tree_scrolled_construct_from_spec_file (E_TREE_SCROLLED (message_list),
+						  message_list->model,
+						  extras, 
+						  EVOLUTION_ETSPECDIR "/message-list.etspec",
+						  NULL);
 
 	message_list->tree = e_tree_scrolled_get_tree(E_TREE_SCROLLED (message_list));
 	e_tree_root_node_set_visible (message_list->tree, FALSE);
 
-	g_free (spec);
 	gtk_object_sink (GTK_OBJECT (extras));
 
 	gtk_signal_connect (GTK_OBJECT (message_list->tree), "cursor_activated",

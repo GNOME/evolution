@@ -1,5 +1,16 @@
 2001-05-27  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* message-list.c: Removed the etable spec string.
+	(message_list_construct): Load the etable spec from a file.
+
+	* folder-browser-factory.c: Load the etable spec from the file,
+	not a string.
+
+	* Makefile.am: Add message-list.etspec to be installed.
+
+	* message-list.etspec: New file containing the ETable file
+	specification.
+
 	* mail-config.h: Prototype evolution_mail_config_get_type.
 
 2001-05-27  Dan Winship  <danw@ximian.com>
