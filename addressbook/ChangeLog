@@ -1,3 +1,8 @@
+2002-10-21  Dan Winship  <danw@ximian.com>
+
+	* gui/component/addressbook-component.c (IS_CONTACT_TYPE): fix the
+	sense of a strcmp
+
 2002-10-20  Chris Toshok  <toshok@ximian.com>
 
 	[ fix for #23764 ]

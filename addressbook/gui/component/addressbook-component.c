@@ -79,7 +79,7 @@ static const EvolutionShellComponentFolderType folder_types[] = {
 	{ NULL }
 };
 
-#define IS_CONTACT_TYPE(x)  (g_strcasecmp((x), "contacts") == 0 || g_strcasecmp ((x), "contacts/ldap") == 0 || g_strcasecmp((x), "contacts/public"))
+#define IS_CONTACT_TYPE(x)  (g_strcasecmp((x), "contacts") == 0 || g_strcasecmp ((x), "contacts/ldap") == 0 || g_strcasecmp((x), "contacts/public") == 0)
 
 /* EvolutionShellComponent methods and signals.  */
 
