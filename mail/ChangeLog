@@ -1,3 +1,9 @@
+2001-09-17  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-config.c (mail_config_folder_to_cachename): Go back to
+	generating the cachename ourselves, but continue doing it the way
+	the dfault implementation of camel_folder_get_uri worked.
+
 2001-09-16  Christopher James Lahey  <clahey@ximian.com>
 
 	* message-list.c (ml_get_node_by_id): Made save_id const here.

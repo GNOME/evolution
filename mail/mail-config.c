@@ -1806,15 +1806,18 @@ void
 mail_config_service_set_save_passwd (MailConfigService *service, gboolean save_passwd)
 {
 	service->save_passwd = save_passwd;
-	mail_config_write (); /*bleah*/
 }
 
 char *
 mail_config_folder_to_cachename (CamelFolder *folder, const char *prefix)
 {
-	char *url, *filename;
+	CamelService *service = CAMEL_SERVICE (folder->parent_store);
+	char *service_url, *url, *filename;
 	
-	url = camel_folder_get_uri (folder);
+	service_url = camel_url_to_string (service->url, CAMEL_URL_HIDE_ALL);
+	url = g_strdup_printf ("%s/%s", service_url, folder->full_name);
+	g_free (service_url);
+	
 	e_filename_make_safe (url);
 	
 	filename = g_strdup_printf ("%s/config/%s%s", evolution_dir, prefix, url);
