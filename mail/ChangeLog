@@ -1,5 +1,8 @@
 2003-01-18  Larry Ewing  <lewing@ximian.com>
 
+	* mail-callbacks.c (save_msg_ok): e_question returns a boolean,
+	don't test for a specific value.
+
 	* mail-display.c (html_button_press_event): make the event
 	handlers return FALSE so that gtkhtml can process the events.
 	(on_link_clicked): call gnome_url_show with all its arguments so

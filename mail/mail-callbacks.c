@@ -2453,7 +2453,7 @@ save_msg_ok (GtkWidget *widget, gpointer user_data)
 				 _("`%s' already exists.\nOverwrite it?"), path);
 	}
 	
-	if (ret == GTK_RESPONSE_OK) {
+	if (ret) {
 		folder = g_object_get_data ((GObject *) user_data, "folder");
 		uids = g_object_steal_data (G_OBJECT (user_data), "uids");
 		mail_save_messages (folder, uids, path, NULL, NULL);
