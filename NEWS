@@ -122,7 +122,20 @@ Mail:
   - Local mail folders are now locked (via dot locking and/or
     fcntl/flock) while Evolution is modifying them, and it will
     notice if they've changed while it's not looking. (Michael)
-  
+
+Calendar:
+
+  - Todo and calendar conduits working except for extended
+    character support (ie accented chars) (JP)
+
+  - Updated wombat implementation of change reporting (JP)
+
+Addressbook:
+
+  - Addressbook conduit now working, experimentally, except for
+    extended character support (ie accented chars) (JP)
+
+  - Extended wombat functionality with getChanges call (JP)
 
 Version 0.7, "Loch Ness Monster", ????
 --------------------------------------
