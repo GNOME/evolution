@@ -630,8 +630,6 @@ e_book_listener_convert_status (const GNOME_Evolution_Addressbook_BookListener_C
 		return E_BOOK_STATUS_CARD_ID_ALREADY_EXISTS;
 	case GNOME_Evolution_Addressbook_BookListener_ProtocolNotSupported:
 		return E_BOOK_STATUS_PROTOCOL_NOT_SUPPORTED;
-	case GNOME_Evolution_Addressbook_BookListener_TLSNotAvailable:
-		return E_BOOK_STATUS_TLS_NOT_AVAILABLE;
 	case GNOME_Evolution_Addressbook_BookListener_OtherError:
 		return E_BOOK_STATUS_OTHER_ERROR;
 	default:

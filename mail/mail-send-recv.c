@@ -78,6 +78,8 @@ struct _send_data {
 	CamelFolder *inbox;	/* since we're never asked to update this one, do it ourselves */
 	time_t inbox_update;
 
+	CamelFolder *current_folder;
+
 	GMutex *lock;
 	GHashTable *folders;
 
@@ -177,7 +179,10 @@ free_send_data(void)
 		/*camel_folder_thaw (data->inbox);		*/
 		camel_object_unref((CamelObject *)data->inbox);
 	}
-
+	if (data->current_folder) {
+		mail_refresh_folder(data->current_folder, NULL, NULL);
+		camel_object_unref((CamelObject *)data->current_folder);
+	}
 	g_list_free(data->infos);
 	g_hash_table_foreach(data->active, (GHFunc)free_send_info, NULL);
 	g_hash_table_destroy(data->active);
@@ -269,7 +274,7 @@ static send_info_t get_receive_type(const char *url)
 }
 
 static struct _send_data *
-build_dialogue (GSList *sources, CamelFolder *outbox, const char *destination)
+build_dialogue (GSList *sources, CamelFolder *current_folder, CamelFolder *outbox, const char *destination)
 {
 	GnomeDialog *gd;
 	GtkTable *table;
@@ -428,6 +433,8 @@ build_dialogue (GSList *sources, CamelFolder *outbox, const char *destination)
 	
 	data->infos = list;
 	data->gd = gd;
+	data->current_folder = current_folder;
+	camel_object_ref (CAMEL_OBJECT (current_folder));
 	
 	return data;
 }
@@ -609,14 +616,6 @@ receive_get_folder(CamelFilterDriver *d, const char *uri, void *data, CamelExcep
 }
 
 static void
-receive_update_got_folderinfo (CamelStore *store, CamelFolderInfo *info, void *data)
-{
-	if (info)
-		camel_store_free_folder_info (store, info);
-	receive_done ("", data);
-}
-
-static void
 receive_update_got_store (char *uri, CamelStore *store, void *data)
 {
 	struct _send_info *info = data;
@@ -624,23 +623,13 @@ receive_update_got_store (char *uri, CamelStore *store, void *data)
 	if (store) {
 		EvolutionStorage *storage = mail_lookup_storage (store);
 		
-		if (storage) {
-			mail_note_store(store, storage, CORBA_OBJECT_NIL, receive_update_done, info);
-			/*bonobo_object_unref (BONOBO_OBJECT (storage));*/
-		} else {
-			/* If we get here, store must be an external
-			 * storage other than /local. (Eg, Exchange).
-			 * Do a get_folder_info just to force it to
-			 * update itself.
-			 */
-			mail_get_folderinfo(store, receive_update_got_folderinfo, info);
-		}
+		mail_note_store(store, storage, CORBA_OBJECT_NIL, receive_update_done, info);
 	} else {
 		receive_done ("", info);
 	}
 }
 
-void mail_send_receive (void)
+void mail_send_receive (CamelFolder *current_folder)
 {
 	GSList *sources;
 	GList *scan;
@@ -667,7 +656,7 @@ void mail_send_receive (void)
 	   Well, probably hook into receive_done or receive_status on
 	   the right pop account, and when it is, then kick off the
 	   smtp one. */
-	data = build_dialogue(sources, outbox_folder, account->transport->url);
+	data = build_dialogue(sources, current_folder, outbox_folder, account->transport->url);
 	scan = data->infos;
 	while (scan) {
 		struct _send_info *info = scan->data;

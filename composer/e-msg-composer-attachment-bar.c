@@ -444,22 +444,18 @@ static void
 add_from_user (EMsgComposerAttachmentBar *bar)
 {
 	EMsgComposer *composer;
-	GPtrArray *file_list;
+	char *file_name;
 	gboolean is_inline = FALSE;
-	int i;
 	
 	composer = E_MSG_COMPOSER (gtk_widget_get_toplevel (GTK_WIDGET (bar)));
 	
-	file_list = e_msg_composer_select_file_attachments (composer, &is_inline);
-	if (!file_list)
+	file_name = e_msg_composer_select_file_attachment (composer, &is_inline);
+	if (!file_name)
 		return;
 	
-	for (i = 0; i < file_list->len; i++) {
-		add_from_file (bar, file_list->pdata[i], is_inline ? "inline" : "attachment");
-		g_free (file_list->pdata[i]);
-	}
+	add_from_file (bar, file_name, is_inline ? "inline" : "attachment");
 	
-	g_ptr_array_free (file_list, TRUE);
+	g_free (file_name);
 }
 
 

@@ -76,7 +76,7 @@
 
     <widget>
       <class>GtkNotebook</class>
-      <name>main_notebook</name>
+      <name>notebook2</name>
       <can_focus>True</can_focus>
       <show_tabs>True</show_tabs>
       <show_border>True</show_border>
@@ -640,7 +640,7 @@ Distinguished name (DN)
 	  <class>GtkTable</class>
 	  <name>table2</name>
 	  <border_width>3</border_width>
-	  <rows>4</rows>
+	  <rows>3</rows>
 	  <columns>2</columns>
 	  <homogeneous>False</homogeneous>
 	  <row_spacing>3</row_spacing>
@@ -812,57 +812,6 @@ Sub
 	      <initial_choice>0</initial_choice>
 	    </widget>
 	  </widget>
-
-	  <widget>
-	    <class>GtkLabel</class>
-	    <name>label49</name>
-	    <label>_Download Limit</label>
-	    <justify>GTK_JUSTIFY_CENTER</justify>
-	    <wrap>False</wrap>
-	    <xalign>0</xalign>
-	    <yalign>0.5</yalign>
-	    <xpad>0</xpad>
-	    <ypad>0</ypad>
-	    <default_focus_target>limit-entry</default_focus_target>
-	    <child>
-	      <left_attach>0</left_attach>
-	      <right_attach>1</right_attach>
-	      <top_attach>3</top_attach>
-	      <bottom_attach>4</bottom_attach>
-	      <xpad>0</xpad>
-	      <ypad>0</ypad>
-	      <xexpand>False</xexpand>
-	      <yexpand>False</yexpand>
-	      <xshrink>False</xshrink>
-	      <yshrink>False</yshrink>
-	      <xfill>True</xfill>
-	      <yfill>False</yfill>
-	    </child>
-	  </widget>
-
-	  <widget>
-	    <class>GtkEntry</class>
-	    <name>limit-entry</name>
-	    <can_focus>True</can_focus>
-	    <editable>True</editable>
-	    <text_visible>True</text_visible>
-	    <text_max_length>0</text_max_length>
-	    <text>100</text>
-	    <child>
-	      <left_attach>1</left_attach>
-	      <right_attach>2</right_attach>
-	      <top_attach>3</top_attach>
-	      <bottom_attach>4</bottom_attach>
-	      <xpad>0</xpad>
-	      <ypad>0</ypad>
-	      <xexpand>True</xexpand>
-	      <yexpand>False</yexpand>
-	      <xshrink>False</xshrink>
-	      <yshrink>False</yshrink>
-	      <xfill>True</xfill>
-	      <yfill>False</yfill>
-	    </child>
-	  </widget>
 	</widget>
 
 	<widget>
@@ -950,31 +899,6 @@ Sub
 	    <label>label20</label>
 	    <justify>GTK_JUSTIFY_CENTER</justify>
 	    <wrap>False</wrap>
-	    <xalign>0.5</xalign>
-	    <yalign>0.5</yalign>
-	    <xpad>0</xpad>
-	    <ypad>0</ypad>
-	  </widget>
-
-	  <widget>
-	    <class>GtkLabel</class>
-	    <name>label51</name>
-	    <label>This is the maximum number of cards to download.  Setting this number too large will slow down this addressbook.</label>
-	    <justify>GTK_JUSTIFY_CENTER</justify>
-	    <wrap>True</wrap>
-	    <xalign>0.5</xalign>
-	    <yalign>0.5</yalign>
-	    <xpad>0</xpad>
-	    <ypad>0</ypad>
-	  </widget>
-
-	  <widget>
-	    <class>GtkLabel</class>
-	    <child_name>Notebook:tab</child_name>
-	    <name>label50</name>
-	    <label>label50</label>
-	    <justify>GTK_JUSTIFY_CENTER</justify>
-	    <wrap>True</wrap>
 	    <xalign>0.5</xalign>
 	    <yalign>0.5</yalign>
 	    <xpad>0</xpad>
@@ -1071,7 +995,7 @@ Sub
 
     <widget>
       <class>GtkHBox</class>
-      <name>addressbook_sources_main_hbox</name>
+      <name>hbox3</name>
       <homogeneous>False</homogeneous>
       <spacing>0</spacing>
       <child>

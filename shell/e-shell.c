@@ -45,7 +45,6 @@
 
 #include <gal/widgets/e-gui-utils.h>
 #include <gal/util/e-util.h>
-#include <gal/util/e-unicode-i18n.h>
 
 #include "Evolution.h"
 
@@ -65,6 +64,7 @@
 #include "e-shortcuts.h"
 #include "e-storage-set.h"
 #include "e-splash.h"
+#include "e-summary-storage.h"
 #include "e-uri-schema-registry.h"
 
 #include "evolution-storage-set-view-factory.h"
@@ -87,7 +87,7 @@ struct _EShellPrivate {
 
 	EStorageSet *storage_set;
 	ELocalStorage *local_storage;
-	EStorage *summary_storage;
+	ESummaryStorage *summary_storage;
 
 	EShortcuts *shortcuts;
 	EFolderTypeRegistry *folder_type_registry;
@@ -639,7 +639,6 @@ setup_local_storage (EShell *shell)
 	EStorage *local_storage;
 	EShellPrivate *priv;
 	gchar *local_storage_path;
-	EFolder *summary_folder;
 
 	priv = shell->priv;
 
@@ -658,11 +657,8 @@ setup_local_storage (EShell *shell)
 	e_storage_set_add_storage (priv->storage_set, local_storage);
 	priv->local_storage = E_LOCAL_STORAGE (local_storage);
 
-	summary_folder = e_folder_new (U_("Summary"), "summary", "");
-	e_folder_set_physical_uri (summary_folder, "/");
-	priv->summary_storage = e_storage_new (E_SUMMARY_STORAGE_NAME,
-					       summary_folder);
-	e_storage_set_add_storage (priv->storage_set, priv->summary_storage);
+	priv->summary_storage = E_SUMMARY_STORAGE (e_summary_storage_new ());
+	e_storage_set_add_storage (priv->storage_set, E_STORAGE (priv->summary_storage));
 
 	return TRUE;
 }
@@ -746,7 +742,6 @@ setup_components (EShell *shell,
 		} else {
 			e_shell_user_creatable_items_handler_add_component
 				(priv->user_creatable_items_handler,
-				 info->iid,
 				 e_component_registry_get_component_by_id (priv->component_registry, info->iid));
 		}
 
@@ -1044,7 +1039,7 @@ init (EShell *shell)
 	priv->corba_shortcuts              = NULL;
 	priv->offline_handler              = NULL;
 	priv->crash_type_names             = NULL;
-	priv->line_status                  = E_SHELL_LINE_STATUS_OFFLINE;
+	priv->line_status                  = E_SHELL_LINE_STATUS_ONLINE;
 	priv->db                           = CORBA_OBJECT_NIL;
 	priv->is_initialized               = FALSE;
 	priv->is_interactive               = FALSE;
@@ -1059,7 +1054,6 @@ init (EShell *shell)
  * @iid: OAFIID for registering the shell into the name server
  * @local_directory: Local directory for storing local information and folders
  * @show_splash: Whether to display a splash screen.
- * @startup_line_mode: How to set up the line mode (online or offline) initally.
  * 
  * Construct @shell so that it uses the specified @local_directory and
  * @corba_object.
@@ -1070,38 +1064,26 @@ EShellConstructResult
 e_shell_construct (EShell *shell,
 		   const char *iid,
 		   const char *local_directory,
-		   gboolean show_splash,
-		   EShellStartupLineMode startup_line_mode)
+		   gboolean show_splash)
 {
 	GtkWidget *splash;
 	EShellPrivate *priv;
 	CORBA_Object corba_object;
 	CORBA_Environment ev;
 	gchar *shortcut_path;
-	gboolean start_online;
-
 	g_return_val_if_fail (shell != NULL, E_SHELL_CONSTRUCT_RESULT_INVALIDARG);
 	g_return_val_if_fail (E_IS_SHELL (shell), E_SHELL_CONSTRUCT_RESULT_INVALIDARG);
 	g_return_val_if_fail (local_directory != NULL, E_SHELL_CONSTRUCT_RESULT_INVALIDARG);
 	g_return_val_if_fail (g_path_is_absolute (local_directory), E_SHELL_CONSTRUCT_RESULT_INVALIDARG);
-	g_return_val_if_fail (startup_line_mode == E_SHELL_STARTUP_LINE_MODE_CONFIG
-			      || startup_line_mode == E_SHELL_STARTUP_LINE_MODE_ONLINE
-			      || startup_line_mode == E_SHELL_STARTUP_LINE_MODE_OFFLINE,
-			      E_SHELL_CONSTRUCT_RESULT_INVALIDARG);
 	
 	priv = shell->priv;
-
+	
 	priv->iid                  = g_strdup (iid);
 	priv->local_directory      = g_strdup (local_directory);
 	priv->folder_type_registry = e_folder_type_registry_new ();
 	priv->uri_schema_registry  = e_uri_schema_registry_new ();
 	priv->storage_set          = e_storage_set_new (priv->folder_type_registry);
 	
-	e_folder_type_registry_register_type (priv->folder_type_registry,
-					      "noselect", "empty.gif",
-					      "noselect", "", FALSE,
-					      0, NULL, 0, NULL);
-
 	/* CORBA storages must be set up before the components, because otherwise components
            cannot register their own storages.  */
 	if (! setup_corba_storages (shell))
@@ -1195,24 +1177,6 @@ e_shell_construct (EShell *shell,
 
 	priv->is_initialized = TRUE;
 
-	switch (startup_line_mode) {
-	case E_SHELL_STARTUP_LINE_MODE_CONFIG:
-		start_online = ! bonobo_config_get_boolean_with_default (priv->db, "/Shell/StartOffline", FALSE, NULL);
-		break;
-	case E_SHELL_STARTUP_LINE_MODE_ONLINE:
-		start_online = TRUE;
-		break;
-	case E_SHELL_STARTUP_LINE_MODE_OFFLINE:
-		start_online = FALSE;
-		break;
-	default:
-		start_online = FALSE; /* Make compiler happy.  */
-		g_assert_not_reached ();
-	}
-
-	if (start_online)
-		e_shell_go_online (shell, NULL);
-
 	return E_SHELL_CONSTRUCT_RESULT_OK;
 }
 
@@ -1220,7 +1184,6 @@ e_shell_construct (EShell *shell,
  * e_shell_new:
  * @local_directory: Local directory for storing local information and folders.
  * @show_splash: Whether to display a splash screen.
- * @start_online: Whether to start in on-line mode or not.
  * @construct_result_return: A pointer to an EShellConstructResult variable into
  * which the result of the operation will be stored.
  * 
@@ -1231,7 +1194,6 @@ e_shell_construct (EShell *shell,
 EShell *
 e_shell_new (const char *local_directory,
 	     gboolean show_splash,
-	     EShellStartupLineMode startup_line_mode,
 	     EShellConstructResult *construct_result_return)
 {
 	EShell *new;
@@ -1243,11 +1205,7 @@ e_shell_new (const char *local_directory,
 
 	new = gtk_type_new (e_shell_get_type ());
 
-	construct_result = e_shell_construct (new,
-					      E_SHELL_OAFIID,
-					      local_directory,
-					      show_splash,
-					      startup_line_mode);
+	construct_result = e_shell_construct (new, E_SHELL_OAFIID, local_directory, show_splash);
 
 	if (construct_result != E_SHELL_CONSTRUCT_RESULT_OK) {
 		*construct_result_return = construct_result;
@@ -1531,20 +1489,6 @@ save_settings_for_components (EShell *shell)
 	return retval;
 }
 
-static gboolean
-save_misc_settings (EShell *shell)
-{
-	EShellPrivate *priv;
-	gboolean is_offline;
-
-	priv = shell->priv;
-
-	is_offline = ( e_shell_get_line_status (shell) == E_SHELL_LINE_STATUS_OFFLINE );
-	bonobo_config_set_boolean (priv->db, "/Shell/StartOffline", is_offline, NULL);
-
-	return TRUE;
-}
-
 /**
  * e_shell_save_settings:
  * @shell: 
@@ -1560,16 +1504,14 @@ e_shell_save_settings (EShell *shell)
 {
 	gboolean views_saved;
 	gboolean components_saved;
-	gboolean misc_saved;
 
 	g_return_val_if_fail (shell != NULL, FALSE);
 	g_return_val_if_fail (E_IS_SHELL (shell), FALSE);
 
 	views_saved      = save_settings_for_views (shell);
 	components_saved = save_settings_for_components (shell);
-	misc_saved       = save_misc_settings (shell);
 
-	return views_saved && components_saved && misc_saved;
+	return views_saved && components_saved;
 }
 
 /**
@@ -1869,46 +1811,10 @@ e_shell_go_online (EShell *shell,
 }
 
 
-void
-e_shell_send_receive (EShell *shell)
-{
-	EShellPrivate *priv;
-	GList *id_list;
-	GList *p;
-
-	g_return_if_fail (E_IS_SHELL (shell));
-
-	priv = shell->priv;
-
-	id_list = e_component_registry_get_id_list (priv->component_registry);
-
-	for (p = id_list; p != NULL; p = p->next) {
-		EvolutionShellComponentClient *component_client;
-		CORBA_Environment ev;
-		const char *id;
-
-		id = (const char *) p->data;
-		component_client = e_component_registry_get_component_by_id (priv->component_registry, id);
-
-		CORBA_exception_init (&ev);
-
-		GNOME_Evolution_ShellComponent_sendReceive
-			(bonobo_object_corba_objref (BONOBO_OBJECT (component_client)), TRUE, &ev);
-
-		if (BONOBO_EX (&ev))
-			g_warning ("Error invoking Send/Receive on %s -- %s", id, BONOBO_EX_ID (&ev));
-
-		CORBA_exception_free (&ev);
-	}
-
-	e_free_string_list (id_list);
-}
-
-
 Bonobo_ConfigDatabase 
 e_shell_get_config_db (EShell *shell)
 {
-	g_return_val_if_fail (E_IS_SHELL (shell), CORBA_OBJECT_NIL);
+	g_return_val_if_fail (shell != NULL, CORBA_OBJECT_NIL);
 
 	return shell->priv->db;
 }

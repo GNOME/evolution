@@ -64,7 +64,7 @@
   <warning id="licensing">
     <title>Exchange Client Licenses</title>
     <para>
-      Each user will need a valid Microsoft <application>Exchange</application>2000 server
+      Each user will need a valid Microsoft Exchange 2000 server
       account and license.
   </para>
   </warning>
@@ -110,7 +110,7 @@
 	  </para>
 	  <variablelist>
 	    <varlistentry>
-	      <term>Viewing Mail in <application>Exchange</application>Folder</term>
+	      <term>Viewing Mail in Exchange Folder</term>
 	      <listitem>
 		<para></para>
 	      </listitem>
@@ -123,8 +123,8 @@
 		  protocol to send email. Make sure that the address
 		  you have entered as your email address is exactly
 		  the one that the Exchange server has on file. This
-		  may be "yourname@exchange-server.ximian.com" rather
-		  than "yourname@ximian.com.a"
+		  may be "yourname@exchange-server.xyzcorp.com" rather
+		  than "yourname@xyzcorp.com."
 		</para>
 	      </listitem>
 	    </varlistentry>
@@ -180,7 +180,7 @@
 		<para>
 		  If you receive a vCard attachment and click
 		  <guibutton>Save in Address Book</guibutton>, it will
-		  be saved to your <application>Exchange</application>address book.
+		  be saved to your <application>Exchange</application> address book.
 		</para>
 	      </listitem>
 	    </varlistentry>
@@ -243,7 +243,7 @@ There are, however, some features which are not available:
        Software</guimenuitem></menuchoice>.  Subscribe to the Ximian
        Connector for Microsoft Exchange channel, select the Ximian
        Connector for Microsoft
-       <application>Exchange</application>2000, and click the
+       <application>Exchange</application> 2000, and click the
        <guibutton>Install</guibutton> button.  You can also install
        the Connector by downloading the individual packages from
        ftp.ximian.com if you wish.
@@ -259,8 +259,7 @@ There are, however, some features which are not available:
        to access the store. When you purchase a Ximian Connector
        license, the store will mail you the license file with
        instructions for installation. Once installed, the license file
-       unlocks the Ximian Connector functionality and you may connect
-       to an <application>Exchange</application>server.
+       unlocks the Ximian Connector functionality.
     </para>
  </sect1>
 
@@ -268,8 +267,27 @@ There are, however, some features which are not available:
     <title>Configuration</title>
     <para>
       Once you have installed the Connector, you need to set up access
-      for your <application>Exchange</application>account on both the
-      <application>Exchange</application>server and within Evolution.
+      for your <application>Exchange</application> account on both the
+      <application>Exchange</application> server and within
+      Evolution. If you are not sure of the information you need to
+      set up your Exchange account, ask your system administrator, or
+      use the Ximian Connector Tester utility, which is installed
+      alongside the Ximian Connector.  To start it, select
+      <menuchoice>
+        <guimenu>
+         Programs
+       </guimenu>
+       <guisubmenu>
+         Internet
+      </guisubmenu>
+      <guimenuitem>
+         Ximian Connector Tester
+</guimenuitem>
+</menuchoice> or run the command <command>connect-test</command> in a
+terminal window. The utility will help you determine if your Exchange
+server is compatible with the Ximian Connector, and locate your Active
+Directory server. Armed with that information, you'll be ready to set
+up a new account on your Exchange server and get to work.
     </para>
 
        <sect2 id="config-server">
@@ -278,14 +296,14 @@ There are, however, some features which are not available:
 	  Check with your system administrator to ensure that:
 	<itemizedlist>
 	  <listitem>
-	    <para> 
-	      You have a valid account on the <application>Exchange</application>server.
+	    <para> You have a valid account on the
+	      <application>Exchange</application> server.
 	    </para>
 	  </listitem>
 	  <listitem>
 	    <para> You are permitted to access the account with
 	      WebDAV. This is the default setting for the
-	      <application>Exchange</application>server, so unless
+	      <application>Exchange</application> server, so unless
 	      your system administrator has specifically turned it
 	      off, no changes should be necessary.
 	    </para>
@@ -296,13 +314,14 @@ There are, however, some features which are not available:
 	The Ximian website knowledge base, at <ulink type="http"
 	url="http://support.ximian.com">support.ximian.com</ulink>,
 	has additional information about checking to make sure that
-	your <application>Exchange</application>server will accept
+	your <application>Exchange</application> server will accept
 	connections from Ximian Evolution.
       </para>
     </sect2>
     
     <sect2 id="config-client">
-      <title>Evolution Settings for Connecting to an <application>Exchange</application>Server</title>
+      <title>Evolution Settings for Connecting to an
+      Exchange Server</title>
       <para>
 	
 	Once you know that your server is ready for you to connect, start
@@ -593,24 +612,24 @@ There are, however, some features which are not available:
   </sect1>
   
   <sect1 id="access">
-    <title>Accessing the <application>Exchange</application>Server</title>
+    <title>Accessing the Exchange Server</title>
     <para>
       Like IMAP and LDAP data, information for
-      <application>Exchange</application>accounts is stored on the
+      <application>Exchange</application> accounts is stored on the
       server, not on your desktop computer.  This means that you can
       access it from multiple locations. It also means that your
-      Microsoft <application>Exchange</application>account information
-      is in a seperate folder tree from the <guilabel>Local</guilabel>
-      tree in your folder bar. You'll see it below the local tree,
-      with the name you gave the account. If you have multiple
-      accounts, you will have multiple folder trees.
+      Microsoft <application>Exchange</application> account
+      information is in a seperate folder tree from the
+      <guilabel>Local</guilabel> tree in your folder bar. You'll see
+      it below the local tree, with the name you gave the account. If
+      you have multiple accounts, you will have multiple folder trees.
     </para>
     <para>
       Click on any of the folder tree items to visit them; you may
       have to enter your server password.  You can now create contact
       cards, send and receive email as you would normally. If there
       are items in your local calendar or addressbook that you'd like
-      to add to your <application>Exchange</application>stores, you
+      to add to your <application>Exchange</application> stores, you
       can copy and paste them over, or just drag items from one folder
       to another as you would with two local stores.
     </para>
@@ -646,9 +665,9 @@ There are, however, some features which are not available:
       <title>Taking Full Advantage of the Exchange Server When Scheduling Appointments</title>
       <para>
         When you schedule a meeting with your calendar on the
-        <application>Exchange</application>server, you can check when
+        <application>Exchange</application> server, you can check when
         other local Exchange users are busy according to their
-        <application>Exchange</application>calendars. To do so:
+        <application>Exchange</application> calendars. To do so:
      </para>
       <figure>
         <title>Scheduling With Free/Busy Information</title>

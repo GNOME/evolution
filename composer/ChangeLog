@@ -11,22 +11,7 @@
 	(disable_editor): Common editor-disabling code - makes the editor
 	and attachment bar insensitive and disables any menu items that
 	could be used to modify them.
-	(e_msg_composer_new_redirect): Use disable_editor here now.
 	
-2002-03-15  Radek Doulik  <rodo@ximian.com>
-
-	* e-msg-composer.c: use gtkhtml editor API version 1.1
-
-2002-03-11  Dan Winship  <danw@ximian.com>
-
-	* listener.c (impl_event): Remove the extremely verbose printf
-	here.
-
-2002-03-07  Radek Doulik  <rodo@ximian.com>
-
-	* e-msg-composer.c (destroy): ops, unregister and not register new
-	one sig_event_client
-
 2002-03-04  Dan Winship  <danw@ximian.com>
 
 	* e-msg-composer.c (build_message): Fix a dumb bug in previous
@@ -54,118 +39,17 @@
 	the body and MIME type supplied to it rather than the contents of
 	the HTML editor.
 
-2002-02-14  Radek Doulik  <rodo@ximian.com>
-
-	* e-msg-composer.c (delete_old_signature): don't insert paragraph
-	here, also delete paragraph where signature was
-	(e_msg_composer_show_sig_file): test if we are in empty document
-	and if so, insert new paragraph for signature
-
-2002-02-12  Jeffrey Stedfast  <fejj@ximian.com>
-
-	* e-msg-composer.c (e_msg_composer_flush_pending_body): Use
-	set_editor_text()
-	(e_msg_composer_new_from_url): Same.
-	(e_msg_composer_set_body_text): Re-Show the signature.
-
-2002-02-12  Radek Doulik  <rodo@ximian.com>
-
-	* e-msg-composer.c (e_msg_composer_is_dirty): reflect gtkhtml API
-	change
-
-2002-02-11  Radek Doulik  <rodo@ximian.com>
-
-	* e-msg-composer.c (e_msg_composer_drop_editor_undo): new method,
-	drops undo in editor and resets dirty flag in editor
-	(do_exit): remove TRUE from condition as dirty flag in editor
-	should work now
-	(e_msg_composer_is_dirty): use new editor API for dirty flag
-
-2002-02-01  Jeffrey Stedfast  <fejj@ximian.com>
-
-	* e-msg-composer.c (update_auto_recipients): Update the
-	auto-cc/bcc recipients in the composer header fields to match the
-	ones chosen in the account configuration.
-
-2002-01-31  Radek Doulik  <rodo@ximian.com>
-
-	* e-msg-composer.c (e_msg_composer_ignore): new method, tells
-	composer to ignore all word in str string
-	(next_word): helper function to get next word from s, saves rest
-	of s to sr
-
-2002-01-29  Jeffrey Stedfast  <fejj@ximian.com>
-
-	* e-msg-composer.c (build_message): If we are in redirect mode,
-	use the original message and set the resent-* headers using
-	e_msg_composer_hdrs_to_redirect() and then return.
-	(destroy): Unref the redirected message if it exists.
-
-	* e-msg-composer-hdrs.c (e_msg_composer_hdrs_to_redirect): New
-	function for a composer in redirect mode.
-
-2002-01-27  Ettore Perazzoli  <ettore@ximian.com>
-
-	* Makefile.am: Use GNOME_FULL_CFLAGS.
-
-2002-01-10  Jeffrey Stedfast  <fejj@ximian.com>
-
-	* e-msg-composer.c (get_file_content): Rewrote to use CamelStreams
-	and also convert the file contents to UTF-8 (assums the file
-	charset is the same charset that the composer is set to).
-	(menu_file_insert_file_cb): Pass the composer into
-	get_file_content().
-	(e_msg_composer_get_sig_file_content): Pass NULL as the composer
-	argument.
-
-2002-01-09  Jeffrey Stedfast  <fejj@ximian.com>
-
-	* e-msg-composer.c (class_init): Fixed the setup of the
-	"save-draft" signal so that it would actually work.
-
-2002-01-08  Jeffrey Stedfast  <fejj@ximian.com>
-
-	* e-msg-composer.c (is_special_header): Greatly simplified. No
-	need to have a list of headers to not accept - we can just refuse
-	all headers that are not X-* headers (other than X-Evolution
-	headers).
-
 2002-01-07  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* e-msg-composer.c (e_msg_composer_get_message_draft): Set the
 	X-Evolution-Format header to text/plain if that is the editing
 	mode we are really in. This fixes bug #11499.
 
-2002-01-04  Jeffrey Stedfast  <fejj@ximian.com>
-
-	* e-msg-composer.c (e_msg_composer_new_from_url): A few minor
-	fixes to make it more compliant with rfc2368. Should now be fully
-	rfc compliant as far as I can tell.
-
 2002-01-03  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* e-msg-composer-attachment.c (e_msg_composer_attachment_edit):
 	Only connect to the parent's destroy/hide signals while the
 	attachment editor dialog is "alive".
-
-2001-12-21  Jeffrey Stedfast  <fejj@ximian.com>
-
-	* e-msg-composer-select-file.c (composer_hide_cb): Only cancel the
-	selection dialog if it is currently in use, otherwise we'll get an
-	extra gtk_main_quit and the mailer will exit :-(
-
-2001-12-17  Jeffrey Stedfast  <fejj@ximian.com>
-
-	* e-msg-composer.c (read_file_content): Don't block forever if we
-	are reading a fifo with no data.
-
-2001-12-14  Jeffrey Stedfast  <fejj@ximian.com>
-
-	* e-msg-composer.c (class_init): Setup the SAVE_DRAFT signal.
-	(menu_file_save_draft_cb): Emit the SAVE_DRAFT signal.
-	(exit_dialog_cb): Same here.
-	(save_draft): Removed. This code is now a signal that
-	mail-callbacks will connect to.
 
 2001-12-11  Jeffrey Stedfast  <fejj@ximian.com>
 
@@ -177,60 +61,6 @@
 
 	* e-msg-composer.c (init): Default composer->enable_autosave to
 	TRUE.
-
-2001-12-11  Jeffrey Stedfast  <fejj@ximian.com>
-
-	* e-msg-composer-select-file.c (confirm): If multiple-selection is
-	enabled but nothing is slected, fall back to using the filename in
-	the entry box as the "selected" file.
-	(create_file_selection): If the composer gets hidden (ie it's
-	being "sent") then cancel the file selection dialog.
-
-2001-12-11  Jeffrey Stedfast  <fejj@ximian.com>
-
-	* e-msg-composer-select-file.c
-	(file_selection_info_destroy_notify): If the widget is non-NULL,
-	then gtk_widget_destroy that bad boy...
-
-2001-12-10  Jeffrey Stedfast  <fejj@ximian.com>
-
-	* e-msg-composer-attachment-bar.c (add_from_user):
-	select_file_attachments now returns a GPtrArray so handle that and
-	loop until we've added all the attachment files.
-
-	* e-msg-composer-select-file.c (confirm): Add an evil kludge to
-	get a list of filenames from the GtkFileSelection widget based on
-	the label in the history option menu item and the base filenames
-	of the selected items in the filename clist.
-	(create_file_selection): Setup the clist to allow multiple
-	selection.
-	(file_selection_info_destroy_notify): Destroy the GPtrArray
-	containing the list of xselected files.
-	(select_file_internal): Return a GPtrArray of files instead of a
-	char *.
-
-2001-12-10  Jon Trowbridge  <trow@ximian.com>
-
-	* e-msg-composer.c (get_file_content): Only execute an executable
-	sig file if a magic environment variable is set.
-
-2001-12-06  Jon Trowbridge  <trow@ximian.com>
-
-	* e-msg-composer.c (executed_file_output): Added.  Executes the
-	given file and returns its output as a string.
-	(get_file_content): Stats the file to see if it is executable.
-	If it is, execute it and return the string.  If not, just read
-	the file and return the contents.
-
-2001-11-30  Jeffrey Stedfast  <fejj@ximian.com>
-
-	* e-msg-composer.c (setup_ui): Change the FileSend tooltip the be
-	the same as the FileSendLater tooltip if we are in offline mode.
-
-2001-11-11  Jeffrey Stedfast  <fejj@ximian.com>
-
-	* e-msg-composer.c (drag_data_received): Allow drag & drop for
-	vcards.
 
 2001-11-30  Jeffrey Stedfast  <fejj@ximian.com>
 

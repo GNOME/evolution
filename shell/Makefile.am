@@ -1,23 +1,25 @@
 SUBDIRS = glade importer
 
-INCLUDES = -O							\
-	-I$(top_srcdir)/widgets					\
-	-I$(top_srcdir)/widgets/misc				\
-	-I$(top_srcdir)/libical/src/libical			\
-	-I$(top_srcdir)						\
-	-DEVOLUTION_IMAGES=\""$(datadir)/images/evolution"\"	\
-	-DEVOLUTION_LOCALEDIR=\""$(localedir)"\"   		\
-	-DEVOLUTION_DATADIR=\""$(datadir)"\"            	\
-	-DEVOLUTION_GLADEDIR=\"$(datadir)/evolution/glade\"	\
-	-DEVOLUTION_ETSPECDIR=\""$(etspecdir)"\"		\
-	-DG_LOG_DOMAIN=\"evolution-shell\"			\
-	$(SHELL_CFLAGS)
+INCLUDES = -O								\
+	-I$(top_srcdir)/widgets						\
+	-I$(top_srcdir)/widgets/misc					\
+	-I$(top_srcdir)/libical/src/libical				\
+	-I$(top_srcdir)							\
+	$(BONOBO_GNOME_CFLAGS)						\
+	$(BONOBO_CONF_CFLAGS)						\
+	$(EXTRA_GNOME_CFLAGS)						\
+	$(GTKHTML_CFLAGS)						\
+	-DEVOLUTION_IMAGES=\""$(datadir)/images/evolution"\"		\
+	-DEVOLUTION_LOCALEDIR=\""$(localedir)"\"   			\
+	-DEVOLUTION_DATADIR=\""$(datadir)"\"            		\
+	-DEVOLUTION_GLADEDIR=\"$(datadir)/evolution/glade\"		\
+	-DEVOLUTION_ETSPECDIR=\""$(etspecdir)"\"			\
+	-DG_LOG_DOMAIN=\"evolution-shell\"
 
 # CORBA stuff
 
 IDLS = \
 	Evolution-Activity.idl			\
-	Evolution-ConfigControl.idl		\
 	Evolution-Offline.idl			\
 	Evolution-Session.idl			\
 	Evolution-Shell.idl			\
@@ -75,11 +77,7 @@ eshellinclude_HEADERS = 			\
 libeshell_la_SOURCES = 				\
 	$(IDL_GENERATED)			\
 	e-folder-tree.c				\
-	e-shell-corba-icon-utils.c		\
-	e-shell-corba-icon-utils.h		\
 	evolution-activity-client.c		\
-	evolution-config-control.c		\
-	evolution-config-control.h		\
 	evolution-session.c			\
 	evolution-shell-client.c		\
 	evolution-shell-component-client.c	\
@@ -102,8 +100,6 @@ evolution_SOURCES =				\
 	e-activity-handler.h			\
 	e-component-registry.c			\
 	e-component-registry.h			\
-	e-corba-config-page.c			\
-	e-corba-config-page.h			\
 	e-corba-shortcuts.c			\
 	e-corba-shortcuts.h			\
 	e-corba-storage-registry.c		\
@@ -116,8 +112,6 @@ evolution_SOURCES =				\
 	e-folder.h				\
 	e-gray-bar.c				\
 	e-gray-bar.h				\
-	e-history.c				\
-	e-history.h				\
 	e-local-folder.c			\
 	e-local-folder.h			\
 	e-local-storage.c			\
@@ -139,8 +133,6 @@ evolution_SOURCES =				\
 	e-shell-importer.h			\
 	e-shell-offline-handler.c		\
 	e-shell-offline-handler.h		\
-	e-shell-settings-dialog.c		\
-	e-shell-settings-dialog.h		\
 	e-shell-startup-wizard.c		\
 	e-shell-startup-wizard.h		\
 	e-shell-user-creatable-items-handler.c	\
@@ -167,6 +159,8 @@ evolution_SOURCES =				\
 	e-storage-set.h				\
 	e-storage.c				\
 	e-storage.h				\
+	e-summary-storage.c			\
+	e-summary-storage.h			\
 	e-task-bar.c				\
 	e-task-bar.h				\
 	e-task-widget.c				\
@@ -179,14 +173,18 @@ evolution_SOURCES =				\
 	evolution-storage-set-view-factory.h	\
 	main.c
 
-evolution_LDADD =							\
-	libeshell.la							\
-	importer/libevolution-importer.la				\
+evolution_LDADD =						\
+	libeshell.la						\
+	importer/libevolution-importer.la			\
 	$(top_builddir)/widgets/e-timezone-dialog/libetimezonedialog.a	\
-	$(top_builddir)/widgets/misc/libemiscwidgets.a			\
-	$(top_builddir)/e-util/libeutil.la				\
+	$(top_builddir)/widgets/misc/libemiscwidgets.a		\
+	$(top_builddir)/e-util/libeutil.la			\
 	$(top_builddir)/libical/src/libical/libical-evolution.la	\
-	$(SHELL_LIBS)
+	$(EXTRA_GNOME_LIBS)					\
+	$(GNOME_PRINT_LIBS)					\
+	$(GTKHTML_LIBS)						\
+	$(BONOBO_CONF_LIBS)					\
+	$(BONOBO_GNOME_LIBS)
 
 # Test component
 
@@ -198,7 +196,10 @@ evolution_test_component_SOURCES =	\
 
 evolution_test_component_LDADD = 	\
 	libeshell.la			\
-	$(SHELL_LIBS)
+	$(EXTRA_GNOME_LIBS)		\
+	$(GNOME_PRINT_LIBS)		\
+	$(GTKHTML_LIBS)			\
+	$(BONOBO_GNOME_LIBS)
 
 install-test-component: evolution-test-component
 	$(mkinstalldirs) $(DESTDIR)$(bindir)

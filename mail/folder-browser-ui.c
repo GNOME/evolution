@@ -39,7 +39,7 @@ static BonoboUIVerb message_verbs [] = {
 	BONOBO_UI_UNSAFE_VERB ("MailNext", next_msg),
 	BONOBO_UI_UNSAFE_VERB ("MailNextFlagged", next_flagged_msg),
 	BONOBO_UI_UNSAFE_VERB ("MailNextUnread", next_unread_msg),
-	BONOBO_UI_UNSAFE_VERB ("MailNextThread", next_thread),
+/*	BONOBO_UI_UNSAFE_VERB ("MailNextThread", next_thread),*/
 	BONOBO_UI_UNSAFE_VERB ("MailPrevious", previous_msg),
 	BONOBO_UI_UNSAFE_VERB ("MailPreviousFlagged", previous_flagged_msg),
 	BONOBO_UI_UNSAFE_VERB ("MailPreviousUnread", previous_unread_msg),
@@ -51,12 +51,10 @@ static BonoboUIVerb message_verbs [] = {
 	BONOBO_UI_UNSAFE_VERB ("MessageForwardAttached", forward_attached),
 	BONOBO_UI_UNSAFE_VERB ("MessageForwardInline", forward_inline),
 	BONOBO_UI_UNSAFE_VERB ("MessageForwardQuoted", forward_quoted),
-	BONOBO_UI_UNSAFE_VERB ("MessageRedirect", redirect),
 	BONOBO_UI_UNSAFE_VERB ("MessageMarkAsRead", mark_as_seen),
 	BONOBO_UI_UNSAFE_VERB ("MessageMarkAsUnRead", mark_as_unseen),
 	BONOBO_UI_UNSAFE_VERB ("MessageMarkAsImportant", mark_as_important),
 	BONOBO_UI_UNSAFE_VERB ("MessageMarkAsUnimportant", mark_as_unimportant),
-	BONOBO_UI_UNSAFE_VERB ("MessageFollowUpFlag", flag_for_followup),
 	BONOBO_UI_UNSAFE_VERB ("MessageMove", move_msg),
 	BONOBO_UI_UNSAFE_VERB ("MessageOpen", open_message),
 	BONOBO_UI_UNSAFE_VERB ("MessageReplyAll", reply_to_all),
@@ -108,6 +106,7 @@ static BonoboUIVerb global_verbs [] = {
 	BONOBO_UI_UNSAFE_VERB ("EmptyTrash", empty_trash),
 	BONOBO_UI_UNSAFE_VERB ("ForgetPasswords", mail_session_forget_passwords),
 	BONOBO_UI_UNSAFE_VERB ("MailCompose", compose_msg),
+	BONOBO_UI_UNSAFE_VERB ("MailGetSend", send_receive_mail),
 	BONOBO_UI_UNSAFE_VERB ("MailStop", stop_threads),
 	BONOBO_UI_UNSAFE_VERB ("ToolsFilters", filter_edit),
 	BONOBO_UI_UNSAFE_VERB ("ToolsSettings", providers_config),
@@ -131,11 +130,7 @@ static EPixmap message_pixcache [] = {
 	E_PIXMAP ("/commands/MessageApplyFilters", "apply-filters-16.xpm"),
 	E_PIXMAP ("/commands/MessageSearch", "search-16.png"),
 	E_PIXMAP ("/commands/MessageSaveAs", "save-as-16.png"),
-	E_PIXMAP ("/commands/MessageMarkAsRead", "mail-read.xpm"),
-	E_PIXMAP ("/commands/MessageMarkAsUnRead", "mail-new.xpm"),
-	E_PIXMAP ("/commands/MessageMarkAsImportant", "priority-high.xpm"),
-	E_PIXMAP ("/commands/MessageFollowUpFlag", "flag-for-followup-16.png"),
-	
+
 	E_PIXMAP ("/Toolbar/MailMessageToolbar/MessageReplySender", "buttons/reply.png"),
 	E_PIXMAP ("/Toolbar/MailMessageToolbar/MessageReplyAll", "buttons/reply-to-all.png"),
 	E_PIXMAP ("/Toolbar/MailMessageToolbar/MessageForward", "buttons/forward.png"),
@@ -143,7 +138,7 @@ static EPixmap message_pixcache [] = {
 	E_PIXMAP ("/Toolbar/MailMessageToolbar/MessageMove", "buttons/move-message.png"),
 	E_PIXMAP ("/Toolbar/MailMessageToolbar/MessageCopy", "buttons/copy-message.png"),
 	E_PIXMAP ("/Toolbar/MailMessageToolbar/MessageDelete", "buttons/delete-message.png"),
-	
+
 	E_PIXMAP ("/Toolbar/MailNextButtons/MailNext", "buttons/next-message.png"),
 	E_PIXMAP ("/Toolbar/MailNextButtons/MailPrevious", "buttons/previous-message.png"),
 
@@ -155,7 +150,7 @@ static EPixmap list_pixcache [] = {
 	E_PIXMAP ("/commands/ViewHideRead", "hide_read_messages.xpm"),
 	E_PIXMAP ("/commands/ViewHideSelected", "hide_selected_messages.xpm"),
 	E_PIXMAP ("/commands/ViewShowAll", "show_all_messages.xpm"),
-	
+
 	E_PIXMAP ("/commands/EditCut", "16_cut.png"),
 	E_PIXMAP ("/commands/EditCopy", "16_copy.png"),
 	E_PIXMAP ("/commands/EditPaste", "16_paste.png"),
@@ -165,8 +160,12 @@ static EPixmap list_pixcache [] = {
 
 static EPixmap global_pixcache [] = {
 	E_PIXMAP ("/commands/MailCompose", "new-message.xpm"),
+	E_PIXMAP ("/commands/MailGetSend", "send-receive.xpm"),
 	E_PIXMAP ("/commands/ToolsSettings", "configure_16_mail.xpm"),
 	
+	E_PIXMAP ("/Toolbar/MailGetSend", "buttons/send-24-receive.png"),
+	E_PIXMAP ("/Toolbar/MailCompose", "buttons/compose-message.png"),
+
 	E_PIXMAP_END
 };
 
@@ -194,135 +193,64 @@ static void ui_add (FolderBrowser *fb,
 /* more complex stuff */
 
 static void
-display_view(GalViewInstance *instance,
+display_view(GalViewCollection *collection,
 	     GalView *view,
 	     gpointer data)
 {
 	FolderBrowser *fb = data;
 	if (GAL_IS_VIEW_ETABLE(view)) {
-		gal_view_etable_attach_tree (GAL_VIEW_ETABLE(view), fb->message_list->tree);
+		e_tree_set_state_object(fb->message_list->tree, GAL_VIEW_ETABLE(view)->state);
 	}
 }
 
-void
-folder_browser_ui_setup_view_menus (FolderBrowser *fb)
+static void
+folder_browser_setup_view_menus (FolderBrowser *fb,
+				 BonoboUIComponent *uic)
 {
-	static GalViewCollection *collection = NULL;
-	char *id;
-	gboolean outgoing;
+	GalViewFactory *factory;
+	ETableSpecification *spec;
+	char *local_dir;
 
-	if (fb->uicomp == NULL || fb->folder == NULL)
-		return;
-
-	g_assert (fb->view_instance == NULL);
+	g_assert (fb->view_collection == NULL);
 	g_assert (fb->view_menus == NULL);
 
-	outgoing = folder_browser_is_drafts (fb) ||
-		folder_browser_is_sent (fb) ||
-		folder_browser_is_outbox (fb);
+	fb->view_collection = gal_view_collection_new();
 
-	if (collection == NULL) {
-		ETableSpecification *spec;
-		char *local_dir;
-		GalViewFactory *factory;
+	local_dir = gnome_util_prepend_user_home ("/evolution/views/mail/");
+	gal_view_collection_set_storage_directories(
+		fb->view_collection,
+		EVOLUTION_DATADIR "/evolution/views/mail/",
+		local_dir);
+	g_free (local_dir);
 
-		collection = gal_view_collection_new();
+	spec = e_table_specification_new();
+	e_table_specification_load_from_file(spec, EVOLUTION_ETSPECDIR "/message-list.etspec");
 
-		local_dir = gnome_util_prepend_user_home ("/evolution/views/mail/");
-		gal_view_collection_set_storage_directories
-			(collection,
-			 EVOLUTION_DATADIR "/evolution/views/mail/",
-			 local_dir);
-		g_free (local_dir);
+	factory = gal_view_factory_etable_new (spec);
+	gtk_object_unref (GTK_OBJECT (spec));
+	gal_view_collection_add_factory (fb->view_collection, factory);
+	gtk_object_unref (GTK_OBJECT (factory));
 
-		spec = e_table_specification_new();
-		e_table_specification_load_from_file(spec, EVOLUTION_ETSPECDIR "/message-list.etspec");
+	gal_view_collection_load(fb->view_collection);
 
-		factory = gal_view_factory_etable_new (spec);
-		gtk_object_unref (GTK_OBJECT (spec));
-		gal_view_collection_add_factory (collection, factory);
-		gtk_object_unref (GTK_OBJECT (factory));
-
-		gal_view_collection_load(collection);
-	}
-
-	id = mail_config_folder_to_safe_url(fb->folder);
-	fb->view_instance = gal_view_instance_new (collection, id);
-	g_free (id);
-
-	if (outgoing)
-		gal_view_instance_set_default_view (fb->view_instance, "As_Sent_Folder");
-
-	if (!gal_view_instance_exists (fb->view_instance)) {
-		char *path;
-		struct stat st;
-
-		gal_view_instance_load (fb->view_instance);
-
-		path = mail_config_folder_to_cachename (fb->folder, "et-header-");
-		if (path && stat (path, &st) == 0 && st.st_size > 0 && S_ISREG (st.st_mode)) {
-			ETableSpecification *spec;
-			ETableState *state;
-			GalView *view;
-
-			spec = e_table_specification_new();
-			e_table_specification_load_from_file(spec, EVOLUTION_ETSPECDIR "/message-list.etspec");
-			view = gal_view_etable_new(spec, "");
-			gtk_object_unref (GTK_OBJECT (spec));
-
-			state = e_table_state_new ();
-			e_table_state_load_from_file (state, path);
-			gal_view_etable_set_state (GAL_VIEW_ETABLE (view), state);
-			gtk_object_unref (GTK_OBJECT (state));
-
-			gal_view_instance_set_custom_view (fb->view_instance, view);
-			gtk_object_unref (GTK_OBJECT (view));
-		}
-		g_free (path);
-	}
-
-
-	fb->view_menus = gal_view_menus_new(fb->view_instance);
-	gal_view_menus_apply(fb->view_menus, fb->uicomp, NULL);
-	gtk_signal_connect(GTK_OBJECT(fb->view_instance), "display_view",
+	fb->view_menus = gal_view_menus_new(fb->view_collection);
+	gal_view_menus_apply(fb->view_menus, uic, NULL);
+	gtk_signal_connect(GTK_OBJECT(fb->view_collection), "display_view",
 			   display_view, fb);
-	display_view (fb->view_instance, gal_view_instance_get_current_view (fb->view_instance), fb);
 }
 
-/* Gets rid of the view instance and view menus objects */
-void
-folder_browser_ui_discard_view_menus (FolderBrowser *fb)
+/* Gets rid of the view collection and view menus objects */
+static void
+folder_browser_discard_view_menus (FolderBrowser *fb)
 {
-	g_assert (fb->view_instance != NULL);
+	g_assert (fb->view_collection != NULL);
 	g_assert (fb->view_menus != NULL);
 
-	gtk_object_unref (GTK_OBJECT (fb->view_instance));
-	fb->view_instance = NULL;
+	gtk_object_unref (GTK_OBJECT (fb->view_collection));
+	fb->view_collection = NULL;
 
 	gtk_object_unref (GTK_OBJECT (fb->view_menus));
 	fb->view_menus = NULL;
-}
-
-void
-folder_browser_ui_message_list_focus (FolderBrowser *fb)
-{
-	g_assert (fb->uicomp != NULL);
-	
-	bonobo_ui_component_set_prop (fb->uicomp, "/commands/EditInvertSelection",
-				      "sensitive", "1", NULL);
-	bonobo_ui_component_set_prop (fb->uicomp, "/commands/EditSelectThread",
-				      "sensitive", "1", NULL);
-}
-
-void
-folder_browser_ui_message_list_unfocus (FolderBrowser *fb)
-{
-	g_assert (fb->uicomp != NULL);
-	
-	bonobo_ui_component_set_prop (fb->uicomp, "/commands/EditInvertSelection",
-				      "sensitive", "0", NULL);
-	bonobo_ui_component_set_prop (fb->uicomp, "/commands/EditSelectThread",
-				      "sensitive", "0", NULL);
 }
 
 static void
@@ -442,16 +370,14 @@ folder_browser_ui_add_list (FolderBrowser *fb)
 	folder_browser_setup_property_menu (fb, fb->uicomp);
 	
 	/* View menu */
-	if (fb->view_instance == NULL)
-		folder_browser_ui_setup_view_menus (fb);
+	folder_browser_setup_view_menus (fb, fb->uicomp);
 }
 
 void 
 folder_browser_ui_rm_list (FolderBrowser *fb)
 {
 	/* View menu */
-	if (fb->view_instance != NULL)
-		folder_browser_ui_discard_view_menus (fb);
+	folder_browser_discard_view_menus (fb);
 }
 
 void 
@@ -594,6 +520,7 @@ static const char *message_pane_enables[] = {
 	/* these only work if there's a message in the message pane
 	 * (preview pane). This state is independent of how many are
 	 * selected. */
+	"PrintMessage", "PrintPreviewMessage",
 	"ViewFullHeaders", "ViewLoadImages", "ViewNormal", "ViewSource",
 	"MessageSearch", "AddSenderToAddressbook",
 	NULL
@@ -616,13 +543,13 @@ folder_browser_ui_set_selection_state (FolderBrowser *fb, FolderBrowserSelection
 
 	static const char *none_disables[] = {
 		/* actions that work on > 0 messages */
-		"MessageApplyFilters", "MessageCopy", "MessageMove", 
+		"MessageApplyFilters", 
+		"MessageCopy", "MessageMove", 
 		"MessageDelete", "MessageUndelete",
 		"MessageMarkAsRead", "MessageMarkAsUnRead",
 		"MessageMarkAsImportant", "MessageMarkAsUnimportant",
-		"MessageFollowUpFlag", "MessageOpen", "MessageSaveAs", 
+		"MessageOpen", "MessageSaveAs", 
 		"MessageForward", "MessageForwardAttached",
-		"MessageRedirect",
 
 		"EditCut", "EditCopy", "EditPaste", "ViewHideSelected",
 
@@ -635,9 +562,7 @@ folder_browser_ui_set_selection_state (FolderBrowser *fb, FolderBrowserSelection
 	static const char *multiple_disables[] = {
 		/* actions that work on exactly 1 message */
 		"MessageReplyAll", "MessageReplyList", "MessageReplySender", "MessageResend", 
-		"MessageForwardInline", "MessageForwardQuoted", "MessageRedirect", "MessageSearch",
-
-		"PrintMessage", "PrintPreviewMessage",
+		"MessageForwardInline", "MessageForwardQuoted", "MessageSearch",
 
 		"ToolsFilterMailingList", "ToolsFilterRecipient", "ToolsFilterSender",
 		"ToolsFilterSubject", "ToolsVFolderMailingList", "ToolsVFolderRecipient", 

@@ -1,5 +1,5 @@
 [Main]
-regions=US CA MX EU AF OZ ME AS M_ AT
+regions=US CA EU AF OZ ME AS M_ AT
 
 [ME]
 name=Middle East
@@ -1581,74 +1581,9 @@ loc3=Swift\\ Current CYYN ------ ---
 name=Yukon
 loc0=Shingle\\ Point CYUA ------ ---
 
-[MX]
-name=Mexico
-states=MX
-
-[MX_MX]
-name=Mexico
-loc0=Acapulco MMAA ------ ---
-loc1=Aeropuerto\\ del\\ Norte MMAN ------ ---
-loc2=Aguascaliantes MMAS ------ ---
-loc3=Bahias\\ de\\ Huatulco MMBT ------ ---
-loc4=Campeche MMCP ------ ---
-loc5=Cancun MMUN ------ ---
-loc6=Chetumal MMCM ------ ---
-loc7=Chihuahua MMCU ------ ---
-loc8=Ciudad\\ del\\ Carmen MMCE ------ ---
-loc9=Ciudad\\ Juarez MMCS ------ ---
-loc10=Ciudad\\ Obregon MMCN ------ ---
-loc11=Ciudad\\ Victoria MMCV ------ ---
-loc12=Colima MMIA ------ ---
-loc13=Cozumel MMCZ ------ ---
-loc14=Cuernavaca MMCB ------ ---
-loc15=Culiacan MMCL ------ ---
-loc16=Del\\ Bajio MMLO ------ ---
-loc17=Durango MMDO ------ ---
-loc18=Guadalajara MMGL ------ ---
-loc19=Guaymas MMGM ------ ---
-loc20=Hermosillo MMHO ------ ---
-loc21=Ixtapa MMZH ------ ---
-loc22=La\\ Paz MMLP ------ ---
-loc23=Los\\ Mochis MMLM ------ ---
-loc24=Manzanillo MMZO ------ ---
-loc25=Matamoros MMMA ------ ---
-loc26=Mazatlan MMMZ ------ ---
-loc27=Merida MMMD ------ ---
-loc28=Mexicali MMML ------ ---
-loc29=Mexico MMMX ------ ---
-loc30=Minatitlan MMMT ------ ---
-loc31=Monclova MMMV ------ ---
-loc32=Morelia MMMM ------ ---
-loc33=Monterrey MMMY ------ ---
-loc34=Nuevo\\ Laredo MMNL ------ ---
-loc35=Oaxaca MMOX ------ ---
-loc36=Piedras\\ Negras MMPG ------ ---
-loc37=Poza\\ Rica MMPA ------ ---
-loc38=Puebla MMPB ------ ---
-loc39=Puerto\\ Vallarta MMPR ------ ---
-loc40=Puerto\\ Escondido MMPS ------ ---
-loc41=Queretaro MMQT ------ ---
-loc42=Reynosa MMRX ------ ---
-loc43=Saltillo MMIO ------ ---
-loc44=San\\ Jose\\ del\\ Cabo MMSD ------ ---
-loc45=San\\ Luis\\ Potosi MMSP ------ ---
-loc46=Tampico MMTM ------ ---
-loc47=Tapachula MMTP ------ ---
-loc48=Tepic MMEP ------ ---
-loc49=Tijuana MMTJ ------ ---
-loc50=Toluca MMTO ------ ---
-loc51=Torreon MMTC ------ ---
-loc52=Tulancingo MMTL ------ ---
-loc53=Tuxtla\\ Gutierrez MMTG ------ ---
-loc54=Uruapan MMPN ------ ---
-loc55=Veracruz MMVR ------ ---
-loc56=Villahermosa MMVA ------ ---
-loc57=Zacatecas MMZC ------ ---
-
 [EU]
 name=Europe
-states=AB OS BE BA BG CZ HR CY DK EE FI FR MK DE GI GR HU IE IS IT LV LT LU MT MD NL NO PL PT RO RU SK SI SP SE CH TR UA UK YU
+states=AB OS BE BA BG CZ HR CY DK EE FI FR MK DE GI GR HU IE IS IT LV LT LU MT MD NL NO PL PT RO RU SK SI SP SE CH TR UK YU
 
 [EU_AB]
 name=Albania
@@ -1914,21 +1849,6 @@ loc49=Voronezh UUOO ------ ---
 loc50=Yakutsk UEEE ------ ---
 loc51=Yekaterinburg USSS ------ ---
 loc52=Yuzhno-Sakhalinsk UHSS ------ ---
-
-[EU_UA]
-name=Ukraine
-loc0=Dnipropetrovsk UKDD ------ ---
-loc1=Donetsk UKCC ------ ---
-loc2=Ivano-Frankivsk UKLI ------ ---
-loc3=Kharkiv UKHH ------ ---
-loc4=Kyyiv/Boryspil UKBB ------ ---
-loc5=Kyyiv/Zhulyany UKKK ------ ---
-loc6=Kryviy\\ Rig/Lozovatka UKDR ------ ---
-loc7=Lviv UKLL ------ ---
-loc8=Odesa UKOO ------ ---
-loc9=Rivne UKLR ------ ---
-loc10=Sympheropol UKFF ------ ---
-loc11=Uzhgorod UKLU ------ ---
 
 [EU_SK]
 name=Slovakia
@@ -2681,7 +2601,7 @@ loc23=Wuchia\\ Observatory RCMQ ------ ---
 
 [M_]
 name=Central and South America
-states=BS BZ KY CU CR DO SV GT HT HN JM NI PA AR BR BO CL CO EC PY PE SR UY VE
+states=BS BZ KY CU CR DO SV GT HT HN JM MX NI PA AR BR BO CL CO EC PY PE SR UY VE
 
 [M__BS]
 name=Bahamas
@@ -2908,6 +2828,67 @@ loc15=San\\ Antonio\\ Del\\ Tachira SVSA ------ ---
 loc16=San\\ Fernando\\ De\\ Apure SVSR ------ ---
 loc17=Valera* SVVL ------ ---
 loc18=Caracas\\ La\\ Carlota SVFM ------ ---
+
+[M__MX]
+name=Mexico
+loc0=Acapulco MMAA ------ ---
+loc1=Aeropuerto\\ del\\ Norte MMAN ------ ---
+loc2=Aguascaliantes MMAS ------ ---
+loc3=Bahias\\ de\\ Huatulco MMBT ------ ---
+loc4=Campeche MMCP ------ ---
+loc5=Cancun MMUN ------ ---
+loc6=Chetumal MMCM ------ ---
+loc7=Chihuahua MMCU ------ ---
+loc8=Ciudad\\ del\\ Carmen MMCE ------ ---
+loc9=Ciudad\\ Juarez MMCS ------ ---
+loc10=Ciudad\\ Obregon MMCN ------ ---
+loc11=Ciudad\\ Victoria MMCV ------ ---
+loc12=Colima MMIA ------ ---
+loc13=Cozumel MMCZ ------ ---
+loc14=Cuernavaca MMCB ------ ---
+loc15=Culiacan MMCL ------ ---
+loc16=Del\\ Bajio MMLO ------ ---
+loc17=Durango MMDO ------ ---
+loc18=Guadalajara MMGL ------ ---
+loc19=Guaymas MMGM ------ ---
+loc20=Hermosillo MMHO ------ ---
+loc21=Ixtapa MMZH ------ ---
+loc22=La\\ Paz MMLP ------ ---
+loc23=Los\\ Mochis MMLM ------ ---
+loc24=Manzanillo MMZO ------ ---
+loc25=Matamoros MMMA ------ ---
+loc26=Mazatlan MMMZ ------ ---
+loc27=Merida MMMD ------ ---
+loc28=Mexicali MMML ------ ---
+loc29=Mexico MMMX ------ ---
+loc30=Minatitlan MMMT ------ ---
+loc31=Monclova MMMV ------ ---
+loc32=Morelia MMMM ------ ---
+loc33=Monterrey MMMY ------ ---
+loc34=Nuevo\\ Laredo MMNL ------ ---
+loc35=Oaxaca MMOX ------ ---
+loc36=Piedras\\ Negras MMPG ------ ---
+loc37=Poza\\ Rica MMPA ------ ---
+loc38=Puebla MMPB ------ ---
+loc39=Puerto\\ Vallarta MMPR ------ ---
+loc40=Puerto\\ Escondido MMPS ------ ---
+loc41=Queretaro MMQT ------ ---
+loc42=Reynosa MMRX ------ ---
+loc43=Saltillo MMIO ------ ---
+loc44=San\\ Jose\\ del\\ Cabo MMSD ------ ---
+loc45=San\\ Luis\\ Potosi MMSP ------ ---
+loc46=Tampico MMTM ------ ---
+loc47=Tapachula MMTP ------ ---
+loc48=Tepic MMEP ------ ---
+loc49=Tijuana MMTJ ------ ---
+loc50=Toluca MMTO ------ ---
+loc51=Torreon MMTC ------ ---
+loc52=Tulancingo MMTL ------ ---
+loc53=Tuxtla\\ Gutierrez MMTG ------ ---
+loc54=Uruapan MMPN ------ ---
+loc55=Veracruz MMVR ------ ---
+loc56=Villahermosa MMVA ------ ---
+loc57=Zacatecas MMZC ------ ---
 
 [M__AR]
 name=Argentina

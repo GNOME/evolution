@@ -253,10 +253,7 @@ add_editor_clicked (GtkWidget *dialog, int button, RuleEditor *re)
 	default:
 		gnome_dialog_close (GNOME_DIALOG (dialog));
 	case -1:
-                if (re->edit) {
-                        gtk_object_unref (GTK_OBJECT (re->edit));
-                }
-                
+		gtk_object_unref (GTK_OBJECT (re->edit));
 		re->edit = NULL;
 		
 		re->dialog = NULL;

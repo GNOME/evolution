@@ -2921,7 +2921,7 @@ e_day_view_on_top_canvas_button_press (GtkWidget *widget,
 							    &dtend);
 			gnome_calendar_new_appointment_for (day_view->calendar,
 							    dtstart, dtend,
-							    TRUE, FALSE);
+							    TRUE);
 			return TRUE;
 		}
 
@@ -3055,7 +3055,7 @@ e_day_view_on_main_canvas_button_press (GtkWidget *widget,
 							    &dtend);
 			gnome_calendar_new_appointment_for (day_view->calendar,
 							    dtstart, dtend,
-							    FALSE, FALSE);
+							    FALSE);
 			return TRUE;
 		}
 
@@ -3491,7 +3491,7 @@ e_day_view_on_event_double_click (EDayView *day_view,
 		gtk_signal_disconnect (GTK_OBJECT (event->comp), id);
 
 		if (day_view->calendar)
-			gnome_calendar_edit_object (day_view->calendar, event->comp, FALSE);
+			gnome_calendar_edit_object (day_view->calendar, event->comp);
 		else
 			g_warning ("Calendar not set");
 	}
@@ -3523,55 +3523,55 @@ enum {
 
 static EPopupMenu main_items [] = {
 	{ N_("New _Appointment"), NULL,
-	  e_day_view_on_new_appointment, NULL, NULL, 0 },
+	  e_day_view_on_new_appointment, NULL, 0 },
 	{ N_("New All Day _Event"), NULL,
-	  e_day_view_on_new_event, NULL, NULL, 0 },
+	  e_day_view_on_new_event, NULL, 0 },
 
-	E_POPUP_SEPARATOR,
+	{ "", NULL, NULL, NULL, 0 },
 
 	{ N_("_Paste"), NULL,
-	  e_day_view_on_paste, NULL, NULL, 0 },
+	  e_day_view_on_paste, NULL, 0 },
 
-	E_POPUP_SEPARATOR,
+	{ "", NULL, NULL, NULL, 0 },
 
 	{ N_("Go to _Today"), NULL,
-	  e_day_view_on_goto_today, NULL, NULL, 0 },
+	  e_day_view_on_goto_today, NULL, 0 },
 	{ N_("_Go to Date..."), NULL,
-	  e_day_view_on_goto_date, NULL, NULL, 0 },
+	  e_day_view_on_goto_date, NULL, 0 },
 
-	E_POPUP_TERMINATOR
+	{ NULL, NULL, NULL, NULL, 0 }
 };
 
 static EPopupMenu child_items [] = {
 	{ N_("_Open"), NULL,
-	  e_day_view_on_edit_appointment, NULL, NULL, MASK_EDITABLE | MASK_EDITING },
+	  e_day_view_on_edit_appointment, NULL, MASK_EDITABLE | MASK_EDITING },
 	{ N_("_Delete this Appointment"), NULL,
-	  e_day_view_on_delete_appointment, NULL, NULL, MASK_EDITABLE | MASK_SINGLE | MASK_EDITING },
+	  e_day_view_on_delete_appointment, NULL, MASK_EDITABLE | MASK_SINGLE | MASK_EDITING },
 
 	/* Only show this separator if one of the above is shown. */
-	{ "", NULL, NULL, NULL, NULL, MASK_EDITABLE | MASK_EDITING },
+	{ "", NULL, NULL, NULL, MASK_EDITABLE | MASK_EDITING },
 
 
 	{ N_("C_ut"), NULL,
-	  e_day_view_on_cut, NULL, NULL, MASK_EDITABLE | MASK_EDITING },
+	  e_day_view_on_cut, NULL, MASK_EDITABLE | MASK_EDITING },
 	{ N_("_Copy"), NULL,
-	  e_day_view_on_copy, NULL, NULL, 0 },
+	  e_day_view_on_copy, NULL, 0 },
 	{ N_("_Paste"), NULL,
-	  e_day_view_on_paste, NULL, NULL, 0 },
+	  e_day_view_on_paste, NULL, 0 },
 
 
 	/*
 	 * The following are only shown if this is a recurring event
 	 */
-	{ "", NULL, NULL, NULL, NULL, MASK_RECURRING | MASK_EDITING },
+	{ "", NULL, NULL, NULL, MASK_RECURRING | MASK_EDITING },
 	{ N_("Make this Occurrence _Movable"), NULL,
-	  e_day_view_on_unrecur_appointment, NULL, NULL, MASK_RECURRING | MASK_EDITING },
+	  e_day_view_on_unrecur_appointment, NULL, MASK_RECURRING | MASK_EDITING },
 	{ N_("Delete this _Occurrence"), NULL,
-	  e_day_view_on_delete_occurrence, NULL, NULL, MASK_RECURRING | MASK_EDITING },
+	  e_day_view_on_delete_occurrence, NULL, MASK_RECURRING | MASK_EDITING },
 	{ N_("Delete _All Occurrences"), NULL,
-	  e_day_view_on_delete_appointment, NULL, NULL, MASK_RECURRING | MASK_EDITING },
+	  e_day_view_on_delete_appointment, NULL, MASK_RECURRING | MASK_EDITING },
 	
-	E_POPUP_TERMINATOR
+	{ NULL, NULL, NULL, NULL, 0 }
 };
 
 static void
@@ -3653,7 +3653,7 @@ e_day_view_on_new_appointment (GtkWidget *widget, gpointer data)
 	}
 
 	gnome_calendar_new_appointment_for (
-		day_view->calendar, dtstart, dtend, FALSE, FALSE);
+		day_view->calendar, dtstart, dtend, FALSE);
 }
 
 static void
@@ -3664,7 +3664,7 @@ e_day_view_on_new_event (GtkWidget *widget, gpointer data)
 	
 	e_day_view_get_selected_time_range (day_view, &dtstart, &dtend);
 	gnome_calendar_new_appointment_for (
-		day_view->calendar, dtstart, dtend, TRUE, FALSE);
+		day_view->calendar, dtstart, dtend, TRUE);
 }
 
 static void
@@ -3696,7 +3696,7 @@ e_day_view_on_edit_appointment (GtkWidget *widget, gpointer data)
 		return;
 
 	if (day_view->calendar)
-		gnome_calendar_edit_object (day_view->calendar, event->comp, FALSE);
+		gnome_calendar_edit_object (day_view->calendar, event->comp);
 	else
 		g_warning ("Calendar not set");
 }
@@ -4437,7 +4437,7 @@ e_day_view_finish_long_event_resize (EDayView *day_view)
 	day_view->resize_drag_pos = E_DAY_VIEW_POS_NONE;
 
 	if (cal_client_update_object (day_view->client, comp)) {
-		if (cal_component_has_attendees (comp) && send_component_dialog (comp, FALSE))
+		if (cal_component_has_attendees (comp) && send_component_dialog (comp))
 			itip_send_comp (CAL_COMPONENT_METHOD_REQUEST, comp, day_view->client, NULL);
 	} else {
 		g_message ("e_day_view_finish_long_event_resize(): Could not update the object!");
@@ -4498,7 +4498,7 @@ e_day_view_finish_resize (EDayView *day_view)
 	day_view->resize_drag_pos = E_DAY_VIEW_POS_NONE;
 
 	if (cal_client_update_object (day_view->client, comp)) {
-		if (cal_component_has_attendees (comp) && send_component_dialog (comp, FALSE))
+		if (cal_component_has_attendees (comp) && send_component_dialog (comp))
 			itip_send_comp (CAL_COMPONENT_METHOD_REQUEST, comp, day_view->client, NULL);
 	} else {
 		g_message ("e_day_view_finish_resize(): Could not update the object!");
@@ -5841,9 +5841,8 @@ e_day_view_on_editing_stopped (EDayView *day_view,
 		cal_component_set_summary (event->comp, &summary);
 
 		if (cal_client_update_object (day_view->client, event->comp)) {
-			if (cal_component_has_attendees (event->comp) && send_component_dialog (event->comp, FALSE))
-				itip_send_comp (CAL_COMPONENT_METHOD_REQUEST, event->comp,
-						day_view->client, NULL);
+			if (cal_component_has_attendees (event->comp) && send_component_dialog (event->comp))
+				itip_send_comp (CAL_COMPONENT_METHOD_REQUEST, event->comp, day_view->client, NULL);
 		} else {
 			g_message ("e_day_view_on_editing_stopped(): Could not update the object!");
 		}
@@ -6890,9 +6889,8 @@ e_day_view_on_top_canvas_drag_data_received  (GtkWidget          *widget,
 				gnome_canvas_item_show (event->canvas_item);
 
 			if (cal_client_update_object (day_view->client, comp)) {
-				if (cal_component_has_attendees (comp) && send_component_dialog (comp, FALSE))
-					itip_send_comp (CAL_COMPONENT_METHOD_REQUEST, comp,
-							day_view->client, NULL);
+				if (cal_component_has_attendees (comp) && send_component_dialog (comp))
+					itip_send_comp (CAL_COMPONENT_METHOD_REQUEST, comp, day_view->client, NULL);
 			} else {
 				g_message ("e_day_view_on_top_canvas_drag_data_received(): Could "
 					   "not update the object!");
@@ -7003,9 +7001,8 @@ e_day_view_on_main_canvas_drag_data_received  (GtkWidget          *widget,
 				gnome_canvas_item_show (event->canvas_item);
 
 			if (cal_client_update_object (day_view->client, comp)) {
-				if (cal_component_has_attendees (comp) && send_component_dialog (comp, FALSE))
-					itip_send_comp (CAL_COMPONENT_METHOD_REQUEST, comp,
-							day_view->client, NULL);
+				if (cal_component_has_attendees (comp) && send_component_dialog (comp))
+					itip_send_comp (CAL_COMPONENT_METHOD_REQUEST, comp, day_view->client, NULL);
 			} else {
 				g_message ("e_day_view_on_main_canvas_drag_data_received(): "
 					   "Could not update the object!");

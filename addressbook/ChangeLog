@@ -1,116 +1,9 @@
-2002-03-19  Dan Winship  <danw@ximian.com>
-
-	* backend/ebook/Makefile.am: Update for libversit change: Use .a
-	rather than .la now.
-
-	* printing/Makefile.am: Likewise
-
-	* gui/component/Makefile.am: Likewise
-
-2002-03-18  Ettore Perazzoli  <ettore@ximian.com>
-
-	* gui/component/addressbook.c (addressbook_menu_activated):
-	Removed.
-	(addressbook_factory_new_control): Don't connect anymore, as this
-	signal has been removed from the ESearchBar.
-	(addressbook_factory_new_control): No more custom menu items here.
-
-2002-03-15  Jeffrey Stedfast  <fejj@ximian.com>
-
-	* gui/widgets/e-addressbook-view.c (table_right_click): Update to
-	use new EPopupMenu API.
-
-	* gui/widgets/e-addressbook-reflow-adapter.c
-	(e_addressbook_reflow_adapter_right_click): Update to use new
-	EPopupMenu API.
-
-	* gui/component/select-names/e-select-names.c
-	(section_right_click_cb): Update to match new EPopupMenu api.
-
-2002-03-15  Ettore Perazzoli  <ettore@ximian.com>
-
-	* gui/component/addressbook.c: Remove the
-	`addressbook_search_menu_items'.
-	(addressbook_menu_activated): Removed.
-	(addressbook_factory_new_control): Don't connect.  No menu items.
-
-2002-03-15  Ettore Perazzoli  <ettore@ximian.com>
-
-	* gui/component/addressbook.c (control_activate): Call
-	`e_search_bar_set_ui_component()' to set the BonoboUIComponent for
-	the search bar.
-
-	* gui/component/GNOME_Evolution_Addressbook.oaf.in: Add an icon
-	for the LDAP sources configuration control.
-
-2002-03-12  Ettore Perazzoli  <ettore@ximian.com>
-
-	* gui/component/addressbook.c: Remove verb "AddressbookConfig".
-	(config_cb): Removed.
-
-	* gui/component/addressbook-config.c: Remove `dialog' member from
-	`AddresbookDialog'.  Instead, add a `config_control' member.
-	(config_control_new): New.
-	(addressbook_config): Removed.
-	(addressbook_config_register_factory): New.
-	(config_control_factory_fn): New, factory function for the
-	ConfigControl page.
-	(addressbook_source_edit_changed): Don't change the sensitivity of
-	the dialog.  Rather, invoke ::changed on the ConfigPage.
-	(auth_checkbutton_changed): No need to manually change the
-	sensitiviness of the buttons here either.
-	(add_source_clicked): Likewise, just invoke
-	evolution_config_control_changed().
-	(edit_source_clicked): Likewise.
-	(addressbook_dialog_close): Removed.
-	(config_control_destroy_callback): New, callback for when the
-	config control gets destroyed.
-	(addressbook_dialog_apply): Removed.
-	(config_control_apply_callback): New callback for
-	EvolutionConfigControl::apply.
-	(addressbook_dialog_ok): Removed.
-	(addressbook_config_control_new): Set up ->config_control and
-	connect the signals.
-
-	* gui/component/addressbook-config.glade: Call the main hbox in
-	the addressbook_sources dialog `addressbook_sources_main_hbox'.
-
-	* gui/component/addressbook-component.c (owner_set_cb): Call
-	`addresbook_config_register_factory'.
-
-	* gui/component/GNOME_Evolution_Addressbook.oaf.in: Add items for
-	OAFIID:GNOME_Evolution_Addresbook_ConfigControl and
-	OAFIID:GNOME_Evolution_Addressbook_ConfigControlFactory.
-
 2002-03-11  Chris Toshok  <toshok@ximian.com>
 
 	* gui/component/select-names/e-select-names.c (update_query):
 	change contains x-evolution-any-field to beginswith on email,
 	full_name, and nickname.  faster, and more applicable to this
 	dialog.
-
-2002-03-09  Chris Toshok  <toshok@ximian.com>
-
-	* backend/idl/addressbook.idl: add TLSNotAvailable to
-	BookLister_CallStatus.
-
-	* backend/ebook/e-book-types.h: add TLS_NOT_AVAILABLE to the EBookStatus enum.
-
-	* backend/ebook/e-book-listener.c
-	(e_book_listener_convert_status): add TLS_NOT_AVAILABLE to the
-	switch.
-
-	* backend/pas/pas-backend-ldap.c
-	(pas_backend_ldap_get_static_capabilities): fix name.
-	(pas_backend_ldap_class_init): fix name.
-	(pas_backend_ldap_connect): change return type to CallStatus so we
-	can return different errors from here.  Also, do STARTTLS if the
-	user has asked for it and the connection supports it, returning
-	TLSNotAvailable (and close the connection) if they chose to
-	require it.
-	(pas_backend_ldap_load_uri): return pas_backend_ldap_connect.
-	(func_beginswith): pull in change from evolution-1-0-branch to
-	make full_name beginswith search both cn and sn.
 
 2002-03-09  Chris Toshok  <toshok@ximian.com>
 
@@ -127,6 +20,9 @@
 	(addressbook_search_activated): change FULL_NAME to beginswith,
 	and change EMAIL to is to match the labels.
 
+	* backend/pas/pas-backend-ldap.c (func_beginswith): search both cn
+	and sn for beginswith.
+
 	* backend/pas/pas-backend-card-sexp.c (compare_name): new
 	function, so we can compare both full and family names (so
 	beginswith can operate on them both.)
@@ -136,55 +32,11 @@
 
 2002-03-06  Chris Toshok  <toshok@ximian.com>
 
-	* backend/pas/pas-book.c (pas_book_queue_create_card): track
-	union/struct change.
-	(pas_book_queue_remove_card): same.
-	(pas_book_queue_modify_card): same.
-	(pas_book_queue_get_cursor): same.
-	(pas_book_queue_get_vcard): same.
-	(pas_book_queue_authenticate_user): same.
-	(pas_book_queue_get_book_view): same.
-	(pas_book_queue_get_changes): same.
-	(pas_book_free_request): new function - free everything we need to
-	for each type of request.
-	(pas_book_destroy): call pas_book_free_request here instead of
-	just freeing 3 elements of the old struct.  yay plugging memleaks.
-
-	* backend/pas/pas-book.h: make PASRequest a union and split out
-	members into structs, so it's a little clearer which fields are
-	used by which requests.  Also, add prototype for
-	pas_book_free_request so backends can just free everything at once
-	(usually in their requests_queued signal func.)
-
-	* backend/pas/pas-backend-file.c
-	(pas_backend_file_process_create_card): track struct/union change.
-	(pas_backend_file_process_remove_card): same.
-	(pas_backend_file_process_modify_card): same.
-	(pas_backend_file_build_cards_list): same.
-	(pas_backend_file_process_get_vcard): same.
-	(pas_backend_file_process_get_cursor): same.
-	(pas_backend_file_process_get_book_view): same.
-	(pas_backend_file_process_get_changes): same.
-	(pas_backend_file_process_check_connection): same.
-	(pas_backend_file_process_authenticate_user): same.
-	(pas_backend_file_process_get_supported_fields): same.
-	(pas_backend_file_process_client_requests): case the union to the
-	specific struct and pass it to the process_* functions.  also,
-	call pas_book_free_request here, instead of relying on each of the
-	functions to free their stuff.
-
-2002-03-07  Dan Winship  <danw@ximian.com>
-
-	* gui/component/addressbook-storage.c
-	(addressbook_get_other_contact_storage): Update for
-	evolution_storage_new() change.
-
-2002-03-05  Chris Toshok  <toshok@ximian.com>
-
-	* gui/widgets/e-minicard-view-widget.c
-	(e_minicard_view_widget_realize): don't set "editable" here, as
-	the way things work the backend isn't able to override a setting
-	from the UI, so writable books never show up as writable.
+	* backend/pas/pas-backend-ldap.c (ldap_search_handler): only ask
+	for the attributes we can handle.
+	(pas_backend_ldap_destroy): free our list of search attributes.
+	(pas_backend_ldap_init): fill in the search_attr array from
+	prop_info (use the ldap_attrs.)
 
 2002-03-04  Chris Toshok  <toshok@ximian.com>
 
@@ -250,15 +102,63 @@
 	(addressbook_factory_new_control): hook up "search_activated" to
 	addressbook_search_activated.
 
-2002-02-24  Chris Toshok  <toshok@ximian.com>
+2002-02-23  Chris Toshok  <toshok@ximian.com>
 
-	* gui/component/addressbook-config.c
-	(addressbook_source_dialog_set_source): make the right auth page
-	start up open.
+        [ backport fix for bug 16097 from HEAD ]
+        * gui/component/addressbook-config.glade: gui love for the new
+        auth stuff.
 
-	* gui/component/addressbook-storage.c (addressbook_source_free):
-	free the binddn.
-	(addressbook_source_copy): copy the binddn;
+        * gui/component/addressbook.c (load_uri_cb): track change to auth,
+        and offer up different prompt strings depending on which method
+        (binddn or email) we're using.
+
+        * gui/component/addressbook-storage.c (ldap_unparse_auth): use the
+        new auth types for ldap.
+        (ldap_parse_auth): same.
+        (addressbook_storage_auth_type_to_string): new function.
+        (load_source_data): get the binddn too.
+        (ldap_source_foreach): store out binddn or emailaddr, depending on
+        the auth type chosen.
+
+        * gui/component/addressbook-storage.h: add the more detailed auth
+        types, add "binddn" to the source structure, and add a prototype
+        for addressbook_storage_auth_type_to_string.
+
+        * gui/component/addressbook-config.c (auth_checkbutton_changed):
+        set the auth stuff  (in)sensitive.
+        (auth_optionmenu_activated): new function.
+        (addressbook_source_dialog_set_source): track UI change.
+        (addressbook_source_dialog_get_source): same.
+        (add_scope_activate_cb): rename add_activate_cb to this to
+        distinguish it from the auth stuff.
+        (add_auth_activate_cb): new function.
+        (addressbook_source_dialog): track change to auth UI stuff.
+        (addressbook_storage_auth_type_to_string): new function.
+
+        * backend/ebook/e-book.h: add auth_method arg to
+        e_book_authenticate_user.
+
+        * backend/ebook/e-book.c (e_book_authenticate_user): track change
+        to prototype - add auth_method arg, and pass it along to the CORBA
+        call.
+
+        * backend/ebook/test-client.c (book_open_cb): track api change -
+        keep this building.
+
+        * backend/pas/pas-book.h: add auth_method slot in PASRequest.
+
+        * backend/pas/pas-book.c (pas_book_queue_authenticate_user): add
+        auth_method arg and add it to the PASRequest.
+        (impl_GNOME_Evolution_Addressbook_Book_authenticateUser): track
+        idl change, add auth_method and pass it along to
+        pas_book_queue_authenticate_user.
+
+        * backend/pas/pas-backend-ldap.c
+        (pas_backend_ldap_process_authenticate_user): support both
+        "ldap/simple-email" and "ldap/simple-binddn" auth methods.
+
+        * backend/idl/addressbook.idl: add "in string authMethod" to
+        authenticateUser.
 
 2002-02-22  Chris Toshok  <toshok@ximian.com>
 
@@ -301,15 +201,6 @@
 	cards together.  This is to keep the gui from falling further and
 	further behind the ldap backend, which is merrily spewing updates
 	at the gui.
-
-2002-02-21  Ettore Perazzoli  <ettore@ximian.com>
-
-	* gui/component/Makefile.am: Define $(iconsdir).
-
-	* gui/component/addressbook-component.c (add_creatable_item): New
-	helper function.
-	(create_component): Add the icons for the user creatable items as
-	well.
 
 2002-02-20  Chris Toshok  <toshok@ximian.com>
 
@@ -357,12 +248,7 @@
 	(rfc2254_escape): just use sprintf and %02X instead.
 
 2002-02-13  Christopher James Lahey  <clahey@ximian.com>
-
-	* gui/component/select-names/e-select-names.c (set_book): Keep a
-	ref of the model in this case as well.
-
-2002-02-13  Christopher James Lahey  <clahey@ximian.com>
-
+ 
 	* gui/component/select-names/e-select-names.c (set_book): Make
 	sure to only set the query once when creating a new book and not
 	at all on addressbook model creation.  This prevents an accidental
@@ -377,280 +263,6 @@
 	(e_addressbook_model_set_arg): When setting the book, set
 	first_get_view to TRUE.
 
-2002-02-13  Christopher James Lahey  <clahey@ximian.com>
-
-	* gui/widgets/e-addressbook-view.c (display_view): Attach to the
-	emvw instead of the emv here.
-
-	* gui/widgets/e-minicard-view-widget.c, e-minicard-view-widget.h:
-	Made this object have a "column_width" argument and a
-	"column_width_changed" signal which are a simple layer down to the
-	EMinicardView contained within.
-
-	* gui/widgets/gal-view-minicard.c, gui/widgets/gal-view-minicard.h
-	(gal_view_minicard_attach): Made this attach to an
-	EMinicardViewWidget instead of a EMinicardView.
-
-2002-02-13  Christopher James Lahey  <clahey@ximian.com>
-
-	* backend/ebook/e-book-util.c, backend/ebook/e-book-util.h
-	(e_book_expand_uri, e_book_load_address_book_by_uri,
-	e_book_use_address_book_by_uri): New functions that take a file://
-	url ending in the directory name and automatically append the
-	addressbook.db and do the appropriate thing.
-
-	* backend/pas/pas-backend-card-sexp.c,
-	backend/pas/pas-backend-card-sexp.h: Added copyright notice here.
-
-	* gui/component/addressbook-component.c
-	(destination_folder_handle_drop), gui/component/addressbook.c
-	(set_prop): Use e_book_expand_uri instead of
-	addressbook_expand_uri.
-
-	* gui/component/addressbook-storage.c: Fixed the fcntl include
-	here.
-
-	* gui/component/addressbook.c (ContactsCopyToFolder,
-	ContactsMoveToFolder): Added handlers for these two verbs.
-
-	* gui/component/addressbook.h: Removed addressbook_expand_uri in
-	favor of e_book_expand_uri.
-
-	* gui/widgets/e-addressbook-reflow-adapter.c (transfer_cards):
-	Added code to handle Move to and Copy to right click menu items.
-
-	* gui/widgets/e-addressbook-util.c,
-	gui/widgets/e-addressbook-util.h (e_addressbook_transfer_cards):
-	New function to pop up a dialog and transfer a set of cards to the
-	given folder.
-
-	* gui/widgets/e-addressbook-view.c,
-	gui/widgets/e-addressbook-view.h (display_view): Don't attach to
-	the view if it doesn't exist yet.  We have to make this then
-	attach later.
-	(e_addressbook_view_copy_to_folder,
-	e_addressbook_view_move_to_folder): New functions utilizing
-	e_addressbook_transfer_cards.
-	(table_right_click): Add copy_to_folder and move_to_folder to the
-	right click menu for tables here.
-	(e_addressbook_view_discard_menus): Handle menu unmerging here.
-
-	* gui/widgets/e-minicard-view-widget.h (struct
-	_EMinicardViewWidget): Removed unused field.
-
-2002-02-13  Christopher James Lahey  <clahey@ximian.com>
-
-	* gui/widgets/e-addressbook-view.c (display_view): Attach the
-	GalViewMinicard to the EMinicardView here.
-
-	* gui/widgets/gal-view-minicard.c, gui/widgets/gal-view-minicard.h
-	(gal_view_minicard_load, gal_view_minicard_save): Made these save
-	the column width of the view.
-	(gal_view_minicard_attach, gal_view_minicard_detach): Added these
-	functions to allow the GalViewMinicard to set the column width of
-	a EMinicardView and to monitor its changes.
-
-2002-02-12  Christopher James Lahey  <clahey@ximian.com>
-
-	* gui/widgets/e-addressbook-reflow-adapter.c
-	(addressbook_get_arg): Added an argument to get the model.
-
-	* gui/widgets/e-addressbook-view.c (writable_status): Don't bother
-	connecting to the writable_status callback on the book, simply
-	rely on the writable_status callback on the addressbook model.
-
-	* gui/widgets/e-minicard-view.c, gui/widgets/e-minicard-view.h
-	(set_empty_message): Handle the case of a read only view here.
-
-2002-02-07  JP Rosevear  <jpr@ximian.com>
-
-	* gui/component/addressbook-component.c (create_component): remove
-	"New" from user creatable menu items
-
-2002-02-07  Christopher James Lahey  <clahey@ximian.com>
-
-	* gui/widgets/e-addressbook-view.c,
-	gui/widgets/e-addressbook-view.h
-	(e_addressbook_view_setup_menus): Changed this function to use the
-	new GalViewMenus which takes a GalViewInstance, instead of a
-	GalViewCollection.
-
-2002-02-04  JP Rosevear  <jpr@ximian.com>
-
-	* gui/contact-editor/e-contact-editor.c (find_address_mailing): tidy
-
-	* conduit/address-conduit.c (addrconduit_load_configuration): load
-	default address setting
-	(addrconduit_save_configuration): save default address setting
-	(e_addr_gui_new): new gui routine for conduit settings
-	(e_addr_gui_fill_widgets): ditto
-	(e_addr_gui_fill_config): ditto
-	(e_addr_gui_destroy): ditto
-	(e_addr_context_destroy): destroy the gui and new_cfg
-	(local_record_from_ecard): reinstate commented out bits, determine
-	which address to sync to pilot
-	(ecard_from_remote_record): determine which address to sync from
-	pilot
-	(fill_widgets): put the gui widgets in
-	(create_settings_window): create gui
-	(save_settings): fill gui
-
-2002-02-04  JP Rosevear  <jpr@ximian.com>
-	
-	* gui/contact-editor/e-contact-editor.c (address_text_changed): if
-	the shown address in the mailing address or there is no mailing
-	address, set the default flag and make sure the button is checked
-	(address_mailing_changed): set the flags properly when the mailing
-	address changes
-	(e_contact_editor_init): listen for the check button being toggled
-	(find_address_mailing): find the address (if any) with the default
-	flag
-	(set_address_field): set the mailing address button appropriately
-	(fill_in_info): find the mailing address
-
-	* gui/contact-editor/e-contact-editor.h: add new class data member
-
-	* gui/contact-editor/contact-editor.glade: show mailing address
-	check button
-
-2002-02-01  Jeffrey Stedfast  <fejj@ximian.com>
-
-	* backend/ebook/e-destination.c (e_destination_is_auto_recipient):
-	New function to find out if a destination was one which was
-	auto-matically set by Evolution.
-	(e_destination_set_auto_recipient): Set whether or not the dest is
-	an auto-recipient.
-	(e_destination_touch): Don't touch the address if it is an
-	auto_recipient.
-	(e_destination_list_to_vector_sized): New function to avoid having
-	to calculate the length of the list ourselves. Allows for a bit of
-	optimization if our caller knows the length of the list.
-	(e_destination_xml_encode): Encode the auto_recipient bit.
-	(e_destination_xml_decode): Decode the auto_recipient bit.
-
-2002-02-01  Christopher James Lahey  <clahey@ximian.com>
-
-	* backend/ebook/e-card-simple.c (e_card_simple_sync_card): Made
-	this preserve addressbook flags other than the first three.
-
-	* backend/ebook/e-card-types.h: Added E_CARD_ADDR_MASK and
-	E_CARD_ADDR_DEFAULT.
-
-	* backend/ebook/e-card.c (get_address_flags): Added "PREF" to
-	E_CARD_ADDR_DEFAULT mapping.
-
-	* backend/ebook/test-client.c: Added #include "e-book-util.h".
-
-2002-01-30  Chris Toshok  <toshok@ximian.com>
-
-	* backend/pas/pas-backend-file.c (pas_backend_file_changes):
-	compute the change db filename based on our contact db filename.
-	(pas_backend_file_load_uri): store the filename in
-	bf->priv->filename.
-	(pas_backend_file_destroy): free the filename, and (!) free
-	bf->priv too.
-
-2002-01-28  Jeffrey Stedfast  <fejj@ximian.com>
-
-	* backend/ebook/e-destination.c (e_destination_is_valid): Revert
-	my previous change as trow says this will break auto-completion
-	stuff.
-
-2002-01-27  Ettore Perazzoli  <ettore@ximian.com>
-
-	* gui/contact-editor/Makefile.am: Use EVOLUTION_ADDRESSBOOK_CFLAGS.
-	* gui/contact-list-editor/Makefile.am: Likewise.
-	* gui/merging/Makefile.am: Likewise.
-	* gui/search/Makefile.am: Likewise.
-	* gui/component/select-names/Makefile.am: Likewise.
-
-2002-01-25  Jeffrey Stedfast  <fejj@ximian.com>
-
-	* backend/ebook/e-destination.c (e_destination_is_valid): Don't
-	check for an @ in the email address. This is to fix bug #10960.
-
-2002-01-24  Chris Toshok  <toshok@ximian.com>
-
-	[ fixes bug 16097 ]
-	* gui/component/addressbook-config.glade: gui love for the new
-	auth stuff.
-	
-	* gui/component/addressbook.c (load_uri_cb): track change to auth,
-	and offer up different prompt strings depending on which method
-	(binddn or email) we're using.
-	
-	* gui/component/addressbook-storage.c (ldap_unparse_auth): use the
-	new auth types for ldap.
-	(ldap_parse_auth): same.
-	(addressbook_storage_auth_type_to_string): new function.
-	(load_source_data): get the binddn too.
-	(ldap_source_foreach): store out binddn or emailaddr, depending on
-	the auth type chosen.
-
-	* gui/component/addressbook-storage.h: add the more detailed auth
-	types, add "binddn" to the source structure, and add a prototype
-	for addressbook_storage_auth_type_to_string.
-	
-	* gui/component/addressbook-config.c (auth_checkbutton_changed):
-	set the auth stuff  (in)sensitive.
-	(auth_optionmenu_activated): new function.
-	(addressbook_source_dialog_set_source): track UI change.
-	(addressbook_source_dialog_get_source): same.
-	(add_scope_activate_cb): rename add_activate_cb to this to
-	distinguish it from the auth stuff.
-	(add_auth_activate_cb): new function.
-	(addressbook_source_dialog): track change to auth UI stuff.
-	(addressbook_storage_auth_type_to_string): new function.
-
-	* backend/ebook/e-book.h: add auth_method arg to
-	e_book_authenticate_user.
-
-	* backend/ebook/e-book.c (e_book_authenticate_user): track change
-	to prototype - add auth_method arg, and pass it along to the CORBA
-	call.
-
-	* backend/ebook/test-client.c (book_open_cb): track api change -
-	keep this building.
-
-	* backend/pas/pas-book.h: add auth_method slot in PASRequest.
-
-	* backend/pas/pas-book.c (pas_book_queue_authenticate_user): add
-	auth_method arg and add it to the PASRequest.
-	(impl_GNOME_Evolution_Addressbook_Book_authenticateUser): track
-	idl change, add auth_method and pass it along to
-	pas_book_queue_authenticate_user.
-
-	* backend/pas/pas-backend-ldap.c
-	(pas_backend_ldap_process_authenticate_user): support both
-	"ldap/simple-email" and "ldap/simple-binddn" auth methods.
-
-	* backend/idl/addressbook.idl: add "in string authMethod" to
-	authenticateUser.
-
-2002-01-24  Ettore Perazzoli  <ettore@ximian.com>
-
-	* conduit/Makefile.am: Use EVOLUTION_ADDRESSBOOK_CONDUIT_CFLAGS
-	and EVOLUTION_ADDRESSBOOK_CONDUIT_LIBS and remove unused flags
-
-	* gui/component/Makefile.am: Use EVOLUTION_ADDRESSBOOK_CFLAGS and
-	EVOLUTION_ADDRESSBOOK_LIBS and remove unused flags.
-	* backend/pas/Makefile.am: Likewise.
-	* backend/ebook/Makefile.am: Likewise.
-	* printing/Makefile.am: Likewise.
-	* backend/ebook/Makefile.am: Likewise.
-	* gui/widgets/Makefile.am (INCLUDES): Likewise.
-
-2002-01-23  Ettore Perazzoli  <ettore@ximian.com>
-
-	* gui/component/addressbook-component.c (create_component): Pass a
-	NULL @icon to
-	`evolution_shell_component_add_user_creatable_item()'.
-
-2002-01-23  Ettore Perazzoli  <ettore@ximian.com>
-
-	* gui/contact-editor/e-contact-editor-address.c: #include
-	<locale.h>.
-
 2002-01-22  Chris Toshok  <toshok@ximian.com>
 
 	[ fixes bug # 16864 ]
@@ -658,224 +270,11 @@
 	return a GString here, instead of writing to a fixed size buffer.
 	(parseLine): use a GString here instead of a fixed size buffer.
 
-2002-01-21  Christopher James Lahey  <clahey@ximian.com>
-
-	* backend/pas/pas-backend-ldap.c (ldap_search_handler): Set the
-	number of cards to return to the value specified in the ldap uri,
-	leaving the default at 100.  Fixes Ximian bug #13953.
-
-	* gui/component/addressbook-config.c (addressbook_source_dialog),
-	gui/component/addressbook-config.glade: Added a limit entry here
-	to edit the limit field of the source.
-
-	* gui/component/addressbook-storage.c,
-	gui/component/addressbook-storage.h
-	(addressbook_storage_init_source_uri): Added a limit field to this
-	class and pass that value through in the uri that's generated.
-
-2002-01-18  Christopher James Lahey  <clahey@ximian.com>
-
-	* backend/ebook/e-card-compare.c: Made username match with no
-	domain match be vague instead of partial.  Fixes Ximian bug
-	#13612.
-
-2002-01-18  Christopher James Lahey  <clahey@ximian.com>
-
-	* gui/component/addressbook.c (view_contact_cb): New verb to open
-	a bunch of cards.
-
-	* gui/widgets/e-addressbook-reflow-adapter.c (open_card): Call
-	e_addressbook_show_multiple_cards instead of doing this ourselves.
-
-	* gui/widgets/e-addressbook-util.c,
-	gui/widgets/e-addressbook-util.h
-	(e_addressbook_show_multiple_cards): Added this function to show a
-	bunch of cards, including a dialog if lots of windows are going to
-	appear.
-
-	* gui/widgets/e-addressbook-view.c (e_addressbook_view_view,
-	e_addressbook_view_can_view): e_addressbook_view_view calls
-	e_addressbook_show_multiple_cards on the appropriate list of
-	cards.
-
-2002-01-18  Christopher James Lahey  <clahey@ximian.com>
-
-	* gui/contact-editor/e-contact-editor-address.c
-	(fill_in_countries), gui/contact-editor/fulladdr.glade: Sort
-	country list.  Country list moves from fulladdr.glade to
-	e-contact-editor-address.c, but only a few country names have
-	actually changed.  Fixes Ximian bug #16545.
-
 2001-12-20  Zbigniew Chyla  <cyba@gnome.pl>
-
-	Fixes #17725
 
 	* evolution/addressbook/printing/e-contact-print.c (complete_sequence):
 	Do not assume that the first byte of file_as is the first letter, use
 	utf8 functions instead.
-
-2002-01-16  JP Rosevear  <jpr@ximian.com>
-
-	* conduit/address-conduit.c: move all functions here, get rid of
-	header files, use e-pilot-settings to display gui
-
-2002-01-15  JP Rosevear  <jpr@ximian.com>
-
-	* gui/component/select-names/select-names.glade: remove misleading
-	title and fix spacing
-
-2002-01-11  Christopher James Lahey  <clahey@ximian.com>
-
-	* gui/component/addressbook.c (alphabet_state_changed): Handle
-	setting the search bar to "Advanced..." when the alphabet buttons
-	are pushed and back when they're cleared.  Fixes Ximian bug
-	#12904.
-	(addressbook_menu_activated): When the user calls Search->clear,
-	set the search to ESB_ANY and "", don't just set the text.  This
-	is especially useful when it's set to ESB_ADVANCED.
-
-	* gui/widgets/e-addressbook-view.c,
-	gui/widgets/e-addressbook-view.h (alphabet_state_change): Added
-	this signal which gets emitted when the alphabet buttons are
-	pushed.
-	(command_state_change): Removed the ref pair here.  It's not
-	necessary.  gtk_signal_emit refs the object itself.
-
-2002-01-11  Christopher James Lahey  <clahey@ximian.com>
-
-	* backend/ebook/e-card-compare.c (name_synonyms): Added a couple
-	of names here.
-
-	* gui/component/select-names/e-select-names-text-model.c
-	(e_select_names_text_model_get_nth_obj): Removed an unused
-	variable.
-
-2002-01-11  Christopher James Lahey  <clahey@ximian.com>
-
-	* gui/widgets/e-addressbook-view.c,
-	gui/widgets/e-addressbook-view.h (create_alphabet): Use toggle
-	buttons here.  Fixes Ximian bug #10734.
-
-2002-01-09  Christopher James Lahey  <clahey@ximian.com>
-
-	* gui/contact-editor/e-contact-editor.c (set_fields): Choose the
-	first filled in address field here.  Fixes Ximian bug #2222.
-
-2002-01-03  Joe Shaw  <joe@ximian.com>
-
-	* backend/ebook/test-card.c: Add a test for getting arbitrary
-        fields.
-
-	* backend/pas/pas-backend-card-sexp.c (compare_arbitrary): Added.
-	(prop_info_table): Add a LIST_PROP for arbitrary fields.
-
-2002-01-03  Nat Friedman  <nat@ximian.com>
-
-	* backend/ebook/e-book.c (activate_factories_for_uri): Free the
-	query if the oaf response is of zero length.
-
-2001-12-27  Jon Trowbridge  <trow@ximian.com>
-
-	* gui/component/select-names/e-select-names.c
-	(real_add_address_cb): When we clean, don't clean the model's last
-	element.  This helps keep things working properly when we have
-	signal-character separators.
-	(section_right_click_cb): Changed to work properly with our
-	EText-emitted popup signal.
-	(e_select_names_add_section): Use ETexts for the recipient
-	sections, rather than tables.  This lets us make them directly
-	editable. (Bug #1721)
-
-	* gui/component/select-names/e-select-names-popup.c
-	(popup_info_new): Pass in a ESelectNamesTextModel, not a
-	ESelectNamesModel.
-	(e_select_names_popup): Adjust for the new signature for
-	e_select_names_model_text_pos.
-
-	* gui/component/select-names/e-select-names-manager.c
-	(focus_out_cb): Schedule a cleaning when we focus out.
-	(focus_in_cb): Cancel pending cleaning when we get focus.  This
-	helps us avoid bad things happening during the fast focus out/ins
-	that happen when the completion dropdown appears.
-	(completion_handler): Adjust for new signatures of
-	e_select_names_model_text_pos and e_select_names_model_name_pos.
-	(e_select_names_manager_entry_new): Pass in our
-	ESelectNamesTextModel when constructing the
-	ESelectNamesCompletion.
-	(e_select_names_manager_entry_free): Cancel any pending clean-ups.
-
-	* gui/component/select-names/e-select-names-bonobo.c
-	(entry_get_property_fn): Get the text off of the text model.
-	Which is the only way that really makes sense when you think about
-	it.
-
-	* gui/component/select-names/e-select-names-completion.c: Added a
-	copy of the associated ESelectNamesTextModel to
-	ESelectNamesCompletionPrivate.  This replaces the
-	ESelectNamesModel.
-	(e_select_names_completion_destroy): Unref ->text_model.
-	(e_select_names_completion_handle_request): Pass in our text
-	model's separator info when calling e_select_names_model_text_pos.
-	(e_select_names_completion_new): Pass in the text model as an arg
-	instead of the model, and ref it as needed.
-
-	* gui/component/select-names/e-select-names-text-model.c
-	(e_select_names_text_model_init): Set separator as either ", " or
-	",", depending on the value of the EVOLUTION_DISABLE_MAGIC_COMMA
-	environment variable.
-	(e_select_names_text_model_destroy): Free the separator.
-	(changed_cb): Flush our cached text on changed.
-	(e_select_names_text_model_set_source): Use our own changed_cb
-	callback on changed, rather than just connecting up
-	e_text_model_changed.
-	(e_select_names_text_model_set_separator): Added.  Lets the
-	separator between recipients be specified.
-	(e_select_names_text_model_get_text): Cache the text we get from
-	calling e_select_names_model_get_textification.
-	(e_select_names_text_model_insert_length): A bunch of small
-	changes to properly support generic separators, rather than
-	(implicit and explicitly) assuming ", ".
-	(e_select_names_text_model_delete): More small tweaks to handle
-	generic separators.
-	(e_select_names_text_model_get_nth_obj): Use new signature when
-	calling e_select_names_model_name_pos, and use our cached text.
-
-	* gui/component/select-names/e-select-names-model.c
-	(e_select_names_model_destroy): We don't cache the text or
-	addr_text anymore, so no need to free them here.
-	(e_select_names_model_changed): ...and no need to reset our text
-	and addr_text caches here.
-	(e_select_names_model_get_textification): Take a separator as an
-	arg, rather than just using ", ".  Also, no caching.
-	(e_select_names_model_get_address_text): Take a separator as an
-	arg, rather than just using ", ".  And no caching here either.
-	(e_select_names_model_clean): Add arg that give us control over
-	whether or not the last entry should get cleaned.  We need this
-	when using a one-character separator, so that new destinations
-	that get tacked onto the end don't get immediately cleaned away
-	for being empty.
-	(e_select_names_model_name_pos): Take the separator length as an
-	argument, remove implicit assumption of length 2.
-	(e_select_names_model_text_pos): Take the separator length as an
-	argument, remove implicit assumption of length 2.
-
-2001-12-20  Ettore Perazzoli  <ettore@ximian.com>
-
-	[Fix #17377, Evolution doesn't work on multi-depth displays.]
-
-	* gui/component/addressbook-factory.c (main): Push GdkRGB visual
-	and colormap.
-
-2001-12-19  Jon Trowbridge  <trow@ximian.com>
-
-	* gui/widgets/e-addressbook-reflow-adapter.c
-	(e_addressbook_reflow_adapter_right_click): Add cut/copy/paste to
-	right-click menu.
-
-	* gui/widgets/e-addressbook-view.c (table_right_click): Add
-	cut/copy/paste to right-click menu.  (Fixes bug #14528.)  Also,
-	disable some right-click options if our addressbook isn't
-	editable.
 
 2001-12-18  JP Rosevear  <jpr@ximian.com>
 
@@ -907,7 +306,7 @@
 
 	* conduit/address-conduit.c (start_addressbook_server): use
 	e_book_load_default_book here.
-	
+
 2001-12-17  Chris Toshok  <toshok@ximian.com>
 
 	[ fixes bug 17355 ]
@@ -927,6 +326,13 @@
 	(e_minicard_view_widget_realize): Use an #ECanvasBackground here
 	instead of a #GnomeCanvasRect.
  
+2001-12-17  Ettore Perazzoli  <ettore@ximian.com>
+
+	[Fixes #17377, Evolution doesn't work on multi-depth displays.]
+
+	* gui/component/addressbook-factory.c (main): Push GdkRGB visual
+	and colormap.
+
 2001-12-16  Jon Trowbridge  <trow@ximian.com>
 
 	* gui/component/select-names/e-select-names-completion.c: Added
@@ -937,6 +343,12 @@
 	FALSE at the beginning of a potentially-cached query.
 	(e_select_names_completion_do_query): Only reuse cached cards
 	if cache_complete is TRUE.  (Fixes bug #10241)
+
+	* gui/component/select-names/e-select-names-bonobo.c
+	(impl_destroy): Disconnect from manager's 'changed' and 'ok'
+	signals.
+	(init): Store the handles when we connect to the 'changed' and
+	'ok' signals.  (Fixed bug #16852)
 
 2001-12-15  JP Rosevear  <jpr@ximian.com>
  
@@ -957,21 +369,6 @@
 	* backend/ebook/e-book-util.c (simple_query_new): Used
 	g_strdup_printf to dup a string.  Doh!  Changed to g_strdup.
 	(Bug #17126)
-
-2001-12-07  Jon Trowbridge  <trow@ximian.com>
-
-	* gui/component/select-names/e-select-names-manager.c
-	(e_select_names_manager_entry_new): Remove a reference to code
-	I don't want to commit yet. :-)
-
-	* gui/component/select-names/e-select-names-manager.c: Extensively
-	refactored -- this code had gotten _really_ ugly.  Untangle things
-	to the point where our reference counting problems are fixable.
-
-	* gui/component/select-names/e-select-names-bonobo.c
-	(impl_destroy): Remove all of the ugly hacks to work around our
-	memory management problems, and just unref the manager.
-	(Fixes #14412)
 
 2001-12-05  Chris Toshok  <toshok@ximian.com>
 

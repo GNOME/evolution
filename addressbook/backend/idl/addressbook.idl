@@ -99,9 +99,6 @@ module Addressbook {
 			AuthenticationFailed,
 			AuthenticationRequired,
 			UnsupportedField,
-
-			TLSNotAvailable,
-
 			OtherError
 		};
 

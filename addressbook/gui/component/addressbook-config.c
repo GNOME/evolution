@@ -2,30 +2,17 @@
 
 #include <config.h>
 
-#include "addressbook-config.h"
-
-#include "addressbook-storage.h"
-
-#include "evolution-config-control.h"
-
-#include <gal/widgets/e-unicode.h>
-#include <e-util/e-html-utils.h>
-
-#include <gtkhtml/gtkhtml.h>
-
+#include <glib.h>
 #include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
 #include <libgnomeui/gnome-dialog.h>
 #include <libgnomeui/gnome-stock.h>
-
-#include <bonobo/bonobo-generic-factory.h>
-
 #include <glade/glade.h>
-
-#include <stdlib.h>
-
-
-#define CONFIG_CONTROL_FACTORY_ID "OAFIID:GNOME_Evolution_Addressbook_ConfigControlFactory"
+#include <gal/widgets/e-unicode.h>
+#include <gtkhtml/gtkhtml.h>
+#include <e-util/e-html-utils.h>
+#include "addressbook-config.h"
+#include "addressbook-storage.h"
 
 typedef struct _AddressbookSourceDialog AddressbookSourceDialog;
 typedef struct _AddressbookSourcePageItem  AddressbookSourcePageItem;
@@ -51,7 +38,6 @@ struct _AddressbookSourceDialog {
 
 	GtkWidget *port;
 	GtkWidget *rootdn;
-	GtkWidget *limit;
 	GtkWidget *scope_optionmenu;
 	AddressbookLDAPScopeType ldap_scope;
 
@@ -98,7 +84,6 @@ auth_checkbutton_changed (GtkWidget *item, AddressbookSourceDialog *dialog)
 {
 	/* make sure the change is reflected by the state of the dialog's OK button */
 	addressbook_source_edit_changed (item, dialog);
-
 
 	gtk_widget_set_sensitive (dialog->auth_optionmenu,
 				  gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON(dialog->auth_checkbutton)));
@@ -157,7 +142,6 @@ add_focus_handler (GtkWidget *widget, GtkWidget *notebook, int page_num)
 static void
 addressbook_source_dialog_set_source (AddressbookSourceDialog *dialog, AddressbookSource *source)
 {
-	char *string;
 	e_utf8_gtk_entry_set_text (GTK_ENTRY (dialog->name), source ? source->name : "");
 	e_utf8_gtk_entry_set_text (GTK_ENTRY (dialog->host), source ? source->host : "");
 	e_utf8_gtk_entry_set_text (GTK_ENTRY (dialog->email), source ? source->email_addr : "");
@@ -165,14 +149,11 @@ addressbook_source_dialog_set_source (AddressbookSourceDialog *dialog, Addressbo
 	e_utf8_gtk_entry_set_text (GTK_ENTRY (dialog->port), source ? source->port : "389");
 	e_utf8_gtk_entry_set_text (GTK_ENTRY (dialog->rootdn), source ? source->rootdn : "");
 
-	string = g_strdup_printf ("%d", source ? source->limit : 100);
-	e_utf8_gtk_entry_set_text (GTK_ENTRY (dialog->limit), string);
-	g_free (string);
-
+	gtk_option_menu_set_history (GTK_OPTION_MENU(dialog->scope_optionmenu), source ? source->scope : ADDRESSBOOK_LDAP_SCOPE_ONELEVEL);
 	dialog->auth = source ? source->auth : ADDRESSBOOK_LDAP_AUTH_NONE;
 	if (dialog->auth != ADDRESSBOOK_LDAP_AUTH_NONE) {
 		gtk_option_menu_set_history (GTK_OPTION_MENU(dialog->auth_optionmenu), dialog->auth - 1);
-		gtk_notebook_set_page (GTK_NOTEBOOK(dialog->auth_notebook), dialog->auth - 1);
+        	gtk_notebook_set_page (GTK_NOTEBOOK(dialog->auth_notebook), dialog->auth - 1);
 	}
 
 	dialog->ldap_scope = source ? source->scope : ADDRESSBOOK_LDAP_SCOPE_ONELEVEL;
@@ -194,7 +175,6 @@ addressbook_source_dialog_get_source (AddressbookSourceDialog *dialog)
 	source->binddn     = e_utf8_gtk_entry_get_text (GTK_ENTRY (dialog->binddn));
 	source->port       = e_utf8_gtk_entry_get_text (GTK_ENTRY (dialog->port));
 	source->rootdn     = e_utf8_gtk_entry_get_text (GTK_ENTRY (dialog->rootdn));
-	source->limit      = atoi(e_utf8_gtk_entry_get_text (GTK_ENTRY (dialog->limit)));
 	source->scope      = dialog->ldap_scope;
 	source->auth       = dialog->auth;
 
@@ -273,9 +253,13 @@ addressbook_source_dialog (GladeXML *gui, AddressbookSource *source, GtkWidget *
 	add_focus_handler (dialog->auth_optionmenu, dialog->basic_notebook, 3);
 
 	dialog->email = glade_xml_get_widget (gui, "email-entry");
+	gtk_signal_connect (GTK_OBJECT (dialog->email), "changed",
+			    GTK_SIGNAL_FUNC (addressbook_source_edit_changed), dialog);
 	add_focus_handler (dialog->email, dialog->basic_notebook, 4);
 
 	dialog->binddn = glade_xml_get_widget (gui, "dn-entry");
+	gtk_signal_connect (GTK_OBJECT (dialog->binddn), "changed",
+			    GTK_SIGNAL_FUNC (addressbook_source_edit_changed), dialog);
 	add_focus_handler (dialog->binddn, dialog->basic_notebook, 5);
 
 	/* ADVANCED STUFF */
@@ -293,11 +277,6 @@ addressbook_source_dialog (GladeXML *gui, AddressbookSource *source, GtkWidget *
 	add_focus_handler (dialog->scope_optionmenu, dialog->advanced_notebook, 2);
 	menu = gtk_option_menu_get_menu (GTK_OPTION_MENU(dialog->scope_optionmenu));
 	gtk_container_foreach (GTK_CONTAINER (menu), (GtkCallback)add_scope_activate_cb, dialog);
-
-	dialog->limit = glade_xml_get_widget (gui, "limit-entry");
-	gtk_signal_connect (GTK_OBJECT (dialog->limit), "changed",
-			    GTK_SIGNAL_FUNC (addressbook_source_edit_changed), dialog);
-	add_focus_handler (dialog->limit, dialog->advanced_notebook, 3);
 
 	/* fill in source info if there is some */
 	addressbook_source_dialog_set_source (dialog, source);
@@ -360,12 +339,9 @@ addressbook_create_new_source (const char *new_source, GtkWidget *parent)
 
 
 typedef struct {
-	EvolutionConfigControl *config_control;
-	GtkWidget *page;
-
 	GladeXML *gui;
 	GNOME_Evolution_Shell shell;
-
+	GtkWidget *dialog;
 	GtkWidget *clistSources;
 	GtkWidget *addSource;
 	GtkWidget *editSource;
@@ -387,7 +363,7 @@ add_source_clicked (GtkWidget *widget, AddressbookDialog *dialog)
 {
 	AddressbookSourceDialog *sdialog;
 
-	sdialog = addressbook_config_source_with_gui (dialog->gui, NULL, dialog->page);
+	sdialog = addressbook_config_source_with_gui (dialog->gui, NULL, dialog->dialog);
 	if (sdialog->id == 0) {
 		/* Ok was clicked */
 		AddressbookSource *source = addressbook_source_copy(sdialog->source);
@@ -399,8 +375,8 @@ add_source_clicked (GtkWidget *widget, AddressbookDialog *dialog)
 
 		row = e_utf8_gtk_clist_append (GTK_CLIST(dialog->clistSources), text);
 		gtk_clist_set_row_data_full (GTK_CLIST(dialog->clistSources), row, source, (GtkDestroyNotify) addressbook_source_free);
-
-		evolution_config_control_changed (dialog->config_control);
+		gnome_dialog_set_sensitive (GNOME_DIALOG(dialog->dialog), 0, TRUE);
+		gnome_dialog_set_sensitive (GNOME_DIALOG(dialog->dialog), 1, TRUE);
 		update_sensitivity (dialog);
 	}
 }
@@ -413,7 +389,7 @@ edit_source_clicked (GtkWidget *widget, AddressbookDialog *dialog)
 
 	source = gtk_clist_get_row_data (GTK_CLIST (dialog->clistSources), dialog->source_row);
 
-	sdialog = addressbook_config_source_with_gui (dialog->gui, source, dialog->page);
+	sdialog = addressbook_config_source_with_gui (dialog->gui, source, dialog->dialog);
 	if (sdialog->id == 0) {
 		/* Ok was clicked */
 		source = addressbook_source_copy(sdialog->source);
@@ -421,9 +397,8 @@ edit_source_clicked (GtkWidget *widget, AddressbookDialog *dialog)
 		e_utf8_gtk_clist_set_text (GTK_CLIST (dialog->clistSources), dialog->source_row, 0, source->name);
 		e_utf8_gtk_clist_set_text (GTK_CLIST (dialog->clistSources), dialog->source_row, 1, source->host);
 		gtk_clist_set_row_data (GTK_CLIST (dialog->clistSources), dialog->source_row, source);
-
-		evolution_config_control_changed (dialog->config_control);
-
+		gnome_dialog_set_sensitive (GNOME_DIALOG(dialog->dialog), 0, TRUE);
+		gnome_dialog_set_sensitive (GNOME_DIALOG(dialog->dialog), 1, TRUE);
 		update_sensitivity (dialog);
 	}
 }
@@ -433,9 +408,8 @@ delete_source_clicked (GtkWidget *widget, AddressbookDialog *dialog)
 {
 	gtk_clist_remove (GTK_CLIST (dialog->clistSources), dialog->source_row);
 	dialog->source_row = -1;
-
-	evolution_config_control_changed (dialog->config_control);
-
+	gnome_dialog_set_sensitive (GNOME_DIALOG(dialog->dialog), 0, TRUE);
+	gnome_dialog_set_sensitive (GNOME_DIALOG(dialog->dialog), 1, TRUE);
 	update_sensitivity (dialog);
 }
 
@@ -449,25 +423,17 @@ sources_select_row (GtkWidget *widget, gint row, gint column,
 }
 
 static void
-config_control_destroy_callback (EvolutionConfigControl *config_control,
-				 void *data)
+addressbook_dialog_close (GtkWidget *w, AddressbookDialog *dialog)
 {
-	AddressbookDialog *dialog;
-
-	dialog = (AddressbookDialog *) data;
-
+	gtk_widget_destroy (dialog->dialog);
 	gtk_object_unref (GTK_OBJECT (dialog->gui));
 	g_free (dialog);
 }
 
 static void
-config_control_apply_callback (EvolutionConfigControl *config_control,
-			       void *data)
+addressbook_dialog_apply (GtkWidget *w, AddressbookDialog *dialog)
 {
-	AddressbookDialog *dialog;
 	int i;
-
-	dialog = (AddressbookDialog *) data;
 
 	addressbook_storage_clear_sources();
 
@@ -477,10 +443,20 @@ config_control_apply_callback (EvolutionConfigControl *config_control,
 	}
 
 	addressbook_storage_write_sources();
+
+	gnome_dialog_set_sensitive (GNOME_DIALOG(dialog->dialog), 0, FALSE);
+	gnome_dialog_set_sensitive (GNOME_DIALOG(dialog->dialog), 1, FALSE);
 }
 
-static EvolutionConfigControl *
-config_control_new (GNOME_Evolution_Shell shell)
+static void
+addressbook_dialog_ok (GtkWidget *w, AddressbookDialog *dialog)
+{
+	addressbook_dialog_apply(w, dialog);
+	addressbook_dialog_close(w, dialog);
+}
+
+void
+addressbook_config (GNOME_Evolution_Shell shell)
 {
 	AddressbookDialog *dialog;
 	GladeXML *gui;
@@ -495,18 +471,7 @@ config_control_new (GNOME_Evolution_Shell shell)
 	dialog->gui = gui;
 	dialog->shell = shell;
 
-	dialog->page = glade_xml_get_widget (gui, "addressbook_sources_main_hbox");
-
-	gtk_widget_ref (dialog->page);
-	gtk_container_remove (GTK_CONTAINER (dialog->page->parent), dialog->page);
-
-	dialog->config_control = evolution_config_control_new (dialog->page);
-	gtk_signal_connect (GTK_OBJECT (dialog->config_control), "apply",
-			    GTK_SIGNAL_FUNC (config_control_apply_callback), dialog);
-	gtk_signal_connect (GTK_OBJECT (dialog->config_control), "destroy",
-			    GTK_SIGNAL_FUNC (config_control_destroy_callback), dialog);
-
-	gtk_widget_unref (dialog->page);
+	dialog->dialog = glade_xml_get_widget (gui, "addressbook_sources");
 
 	clist = glade_xml_get_widget (gui, "clistSources");
 	dialog->clistSources = clist;
@@ -529,6 +494,8 @@ config_control_new (GNOME_Evolution_Shell shell)
 			    GTK_SIGNAL_FUNC (delete_source_clicked),
 			    dialog);
 
+	gnome_dialog_set_sensitive (GNOME_DIALOG(dialog->dialog), 0, FALSE);
+	gnome_dialog_set_sensitive (GNOME_DIALOG(dialog->dialog), 1, FALSE);
 	update_sensitivity (dialog);
 
 	l = addressbook_storage_get_sources ();
@@ -550,40 +517,14 @@ config_control_new (GNOME_Evolution_Shell shell)
 			    GTK_SIGNAL_FUNC (sources_select_row),
 			    dialog);
 
-	return dialog->config_control;
-}
+	gnome_dialog_button_connect (GNOME_DIALOG(dialog->dialog),
+				     0 /* OK */, addressbook_dialog_ok, dialog);
 
-
-/* Implementation of the factory for the configuration control.  */
+	gnome_dialog_button_connect (GNOME_DIALOG(dialog->dialog),
+				     1 /* APPLY */, addressbook_dialog_apply, dialog);
 
-static BonoboGenericFactory *factory = NULL;
+	gnome_dialog_button_connect (GNOME_DIALOG(dialog->dialog),
+				     2 /* CLOSE */, addressbook_dialog_close, dialog);
 
-static BonoboObject *
-config_control_factory_fn (BonoboGenericFactory *factory,
-			   void *data)
-{
-	GNOME_Evolution_Shell shell;
-	EvolutionConfigControl *control;
-
-	shell = (GNOME_Evolution_Shell) data;
-
-	control = config_control_new (shell);
-	return BONOBO_OBJECT (control);
-}
-
-gboolean
-addressbook_config_register_factory (GNOME_Evolution_Shell shell)
-{
-	g_return_val_if_fail (shell != CORBA_OBJECT_NIL, FALSE);
-
-	factory = bonobo_generic_factory_new (CONFIG_CONTROL_FACTORY_ID,
-					      config_control_factory_fn,
-					      shell);
-
-	if (factory != NULL) {
-		return TRUE;
-	} else {
-		g_warning ("Cannot register factory %s", CONFIG_CONTROL_FACTORY_ID);
-		return FALSE;
-	}
+	gnome_dialog_run (GNOME_DIALOG(dialog->dialog));
 }

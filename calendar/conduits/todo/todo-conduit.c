@@ -31,17 +31,22 @@
 #include <cal-util/timeutil.h>
 #include <pi-source.h>
 #include <pi-socket.h>
+#include <pi-file.h>
 #include <pi-dlp.h>
-#include <pi-todo.h>
 #include <libical/src/libical/icaltypes.h>
-#include <gpilotd/gnome-pilot-conduit.h>
-#include <gpilotd/gnome-pilot-conduit-sync-abs.h>
-#include <libgpilotdCM/gnome-pilot-conduit-management.h>
-#include <libgpilotdCM/gnome-pilot-conduit-config.h>
-#include <e-pilot-map.h>
-#include <e-pilot-settings.h>
 #include <e-pilot-util.h>
 
+#define TODO_CONFIG_LOAD 1
+#define TODO_CONFIG_SAVE 1
+#define TODO_CONFIG_DESTROY 1
+#include <todo-conduit-config.h>
+#undef TODO_CONFIG_LOAD
+#undef TODO_CONFIG_SAVE
+#undef TODO_CONFIG_DESTROY
+
+#include <todo-conduit.h>
+
+static void free_local (EToDoLocalRecord *local);
 GnomePilotConduit * conduit_get_gpilot_conduit (guint32);
 void conduit_destroy_gpilot_conduit (GnomePilotConduit*);
 
@@ -51,10 +56,10 @@ void conduit_destroy_gpilot_conduit (GnomePilotConduit*);
 #endif
 #define G_LOG_DOMAIN "etodoconduit"
 
-#define DEBUG_TODOCONDUIT 1
-/* #undef DEBUG_TODOCONDUIT */
+#define DEBUG_CALCONDUIT 1
+/* #undef DEBUG_CALCONDUIT */
 
-#ifdef DEBUG_TODOCONDUIT
+#ifdef DEBUG_CALCONDUIT
 #define LOG(e...) g_log (G_LOG_DOMAIN, G_LOG_LEVEL_MESSAGE, e)
 #else
 #define LOG(e...)
@@ -62,272 +67,6 @@ void conduit_destroy_gpilot_conduit (GnomePilotConduit*);
 
 #define WARN(e...) g_log (G_LOG_DOMAIN, G_LOG_LEVEL_WARNING, e)
 #define INFO(e...) g_log (G_LOG_DOMAIN, G_LOG_LEVEL_MESSAGE, e)
-
-typedef struct _EToDoLocalRecord EToDoLocalRecord;
-typedef struct _EToDoConduitCfg EToDoConduitCfg;
-typedef struct _EToDoConduitGui EToDoConduitGui;
-typedef struct _EToDoConduitContext EToDoConduitContext;
-
-/* Local Record */
-struct _EToDoLocalRecord {
-	/* The stuff from gnome-pilot-conduit-standard-abs.h
-	   Must be first in the structure, or instances of this
-	   structure cannot be used by gnome-pilot-conduit-standard-abs.
-	*/
-	GnomePilotDesktopRecord local;
-
-	/* The corresponding Comp object */
-	CalComponent *comp;
-
-        /* pilot-link todo structure */
-	struct ToDo *todo;
-};
-
-static void
-todoconduit_destroy_record (EToDoLocalRecord *local) 
-{
-	gtk_object_unref (GTK_OBJECT (local->comp));
-	free_ToDo (local->todo);
-	g_free (local->todo);	
-	g_free (local);
-}
-
-/* Configuration */
-struct _EToDoConduitCfg {
-	guint32 pilot_id;
-	GnomePilotConduitSyncType  sync_type;
-
-	gboolean secret;
-	gint priority;
-
-	gchar *last_uri;
-};
-
-static EToDoConduitCfg *
-todoconduit_load_configuration (guint32 pilot_id) 
-{
-	EToDoConduitCfg *c;
-	GnomePilotConduitManagement *management;
-	GnomePilotConduitConfig *config;
-	gchar prefix[256];
-	g_snprintf (prefix, 255, "/gnome-pilot.d/e-todo-conduit/Pilot_%u/",
-		    pilot_id);
-	
-	c = g_new0 (EToDoConduitCfg,1);
-	g_assert (c != NULL);
-
-	c->pilot_id = pilot_id;
-
-	management = gnome_pilot_conduit_management_new ("e_todo_conduit", GNOME_PILOT_CONDUIT_MGMT_ID);
-	config = gnome_pilot_conduit_config_new (management, pilot_id);
-	if (!gnome_pilot_conduit_config_is_enabled (config, &c->sync_type))
-		c->sync_type = GnomePilotConduitSyncTypeNotSet;
-	gtk_object_unref (GTK_OBJECT (config));
-	gtk_object_unref (GTK_OBJECT (management));
-	
-	/* Custom settings */
-	gnome_config_push_prefix (prefix);
-
-	c->secret = gnome_config_get_bool ("secret=FALSE");
-	c->priority = gnome_config_get_int ("priority=3");
-	c->last_uri = gnome_config_get_string ("last_uri");
-
-	gnome_config_pop_prefix ();
-
-	return c;
-}
-
-static void
-todoconduit_save_configuration (EToDoConduitCfg *c) 
-{
-	gchar prefix[256];
-
-	g_snprintf (prefix, 255, "/gnome-pilot.d/e-todo-conduit/Pilot_%u/",
-		    c->pilot_id);
-
-	gnome_config_push_prefix (prefix);
-	gnome_config_set_bool ("secret", c->secret);
-	gnome_config_set_int ("priority", c->priority);
-	gnome_config_set_string ("last_uri", c->last_uri);
-	gnome_config_pop_prefix ();
-
-	gnome_config_sync ();
-	gnome_config_drop_all ();
-}
-
-static EToDoConduitCfg*
-todoconduit_dupe_configuration (EToDoConduitCfg *c) 
-{
-	EToDoConduitCfg *retval;
-
-	g_return_val_if_fail (c != NULL, NULL);
-
-	retval = g_new0 (EToDoConduitCfg, 1);
-	retval->sync_type = c->sync_type;
-	retval->pilot_id = c->pilot_id;
-
-	retval->secret = c->secret;
-	retval->priority = c->priority;
-	retval->last_uri = g_strdup (c->last_uri);
-
-	return retval;
-}
-
-static void 
-todoconduit_destroy_configuration (EToDoConduitCfg *c) 
-{
-	g_return_if_fail (c != NULL);
-
-	g_free (c->last_uri);
-	g_free (c);
-}
-
-/* Gui */
-struct _EToDoConduitGui {
-	GtkWidget *priority;
-};
-
-static EToDoConduitGui *
-e_todo_gui_new (EPilotSettings *ps) 
-{
-	EToDoConduitGui *gui;
-	GtkWidget *lbl;
-	GtkObject *adj;
-	gint rows;
-	
-	g_return_val_if_fail (ps != NULL, NULL);
-	g_return_val_if_fail (E_IS_PILOT_SETTINGS (ps), NULL);
-
-	gtk_table_resize (GTK_TABLE (ps), E_PILOT_SETTINGS_TABLE_ROWS + 1, E_PILOT_SETTINGS_TABLE_COLS);
-
-	gui = g_new0 (EToDoConduitGui, 1);
-
-	rows = E_PILOT_SETTINGS_TABLE_ROWS;
-	lbl = gtk_label_new (_("Default Priority:"));
-	gtk_misc_set_alignment (GTK_MISC (lbl), 0.0, 0.5);
-	adj = gtk_adjustment_new (1, 1, 5, 1, 5, 5);
-	gui->priority = gtk_spin_button_new (GTK_ADJUSTMENT (adj), 1.0, 0);
-	gtk_spin_button_set_numeric (GTK_SPIN_BUTTON (gui->priority), TRUE);
-	gtk_table_attach_defaults (GTK_TABLE (ps), lbl, 0, 1, rows, rows + 1);
-        gtk_table_attach_defaults (GTK_TABLE (ps), gui->priority, 1, 2, rows, rows + 1);
-	gtk_widget_show (lbl);
-	gtk_widget_show (gui->priority);
-	
-	return gui;
-}
-
-static void
-e_todo_gui_fill_widgets (EToDoConduitGui *gui, EToDoConduitCfg *cfg) 
-{
-	g_return_if_fail (gui != NULL);
-	g_return_if_fail (cfg != NULL);
-
-	gtk_spin_button_set_value (GTK_SPIN_BUTTON (gui->priority), cfg->priority);
-}
-
-static void
-e_todo_gui_fill_config (EToDoConduitGui *gui, EToDoConduitCfg *cfg) 
-{
-	g_return_if_fail (gui != NULL);
-	g_return_if_fail (cfg != NULL);
-
-	cfg->priority = gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (gui->priority));
-}
-
-static void
-e_todo_gui_destroy (EToDoConduitGui *gui) 
-{
-	g_free (gui);
-}
-
-/* Context */
-struct _EToDoConduitContext {
-	GnomePilotDBInfo *dbi;
-
-	EToDoConduitCfg *cfg;
-	EToDoConduitCfg *new_cfg;
-	EToDoConduitGui *gui;
-	GtkWidget *ps;
-	
-	struct ToDoAppInfo ai;
-
-	CalClient *client;
-
-	icaltimezone *timezone;
-	GList *uids;
-	GList *changed;
-	GHashTable *changed_hash;
-	GList *locals;
-	
-	EPilotMap *map;
-};
-
-static EToDoConduitContext *
-e_todo_context_new (guint32 pilot_id) 
-{
-	EToDoConduitContext *ctxt = g_new0 (EToDoConduitContext, 1);
-
-	ctxt->cfg = todoconduit_load_configuration (pilot_id);
-	ctxt->new_cfg = todoconduit_dupe_configuration (ctxt->cfg);
-	ctxt->gui = NULL;
-	ctxt->ps = NULL;
-	ctxt->client = NULL;
-	ctxt->uids = NULL;
-	ctxt->changed_hash = NULL;
-	ctxt->changed = NULL;
-	ctxt->locals = NULL;
-	ctxt->map = NULL;
-
-	return ctxt;
-}
-
-static gboolean
-e_todo_context_foreach_change (gpointer key, gpointer value, gpointer data) 
-{
-	g_free (key);
-	
-	return TRUE;
-}
-
-static void
-e_todo_context_destroy (EToDoConduitContext *ctxt)
-{
-	GList *l;
-	
-	g_return_if_fail (ctxt != NULL);
-
-	if (ctxt->cfg != NULL)
-		todoconduit_destroy_configuration (ctxt->cfg);
-	if (ctxt->new_cfg != NULL)
-		todoconduit_destroy_configuration (ctxt->new_cfg);
-	if (ctxt->gui != NULL)
-		e_todo_gui_destroy (ctxt->gui);
-	
-	if (ctxt->client != NULL)
-		gtk_object_unref (GTK_OBJECT (ctxt->client));
-
-	if (ctxt->uids != NULL)
-		cal_obj_uid_list_free (ctxt->uids);
-
-	if (ctxt->changed_hash != NULL) {
-		g_hash_table_foreach_remove (ctxt->changed_hash, e_todo_context_foreach_change, NULL);
-		g_hash_table_destroy (ctxt->changed_hash);
-	}
-
-	if (ctxt->locals != NULL) {
-		for (l = ctxt->locals; l != NULL; l = l->next)
-			todoconduit_destroy_record (l->data);
-		g_list_free (ctxt->locals);
-	}
-	
-	if (ctxt->changed != NULL)
-		cal_client_change_list_free (ctxt->changed);
-	
-	if (ctxt->map != NULL)
-		e_pilot_map_destroy (ctxt->map);
-
-	g_free (ctxt);
-}
 
 /* Debug routines */
 static char *
@@ -384,6 +123,67 @@ static char *print_remote (GnomePilotRecord *remote)
 	return buff;
 }
 
+/* Context Routines */
+static EToDoConduitContext *
+e_todo_context_new (guint32 pilot_id) 
+{
+	EToDoConduitContext *ctxt = g_new0 (EToDoConduitContext, 1);
+
+	todoconduit_load_configuration (&ctxt->cfg, pilot_id);
+
+	ctxt->client = NULL;
+	ctxt->uids = NULL;
+	ctxt->changed_hash = NULL;
+	ctxt->changed = NULL;
+	ctxt->locals = NULL;
+	ctxt->map = NULL;
+
+	return ctxt;
+}
+
+static gboolean
+e_todo_context_foreach_change (gpointer key, gpointer value, gpointer data) 
+{
+	g_free (key);
+	
+	return TRUE;
+}
+
+static void
+e_todo_context_destroy (EToDoConduitContext *ctxt)
+{
+	GList *l;
+	
+	g_return_if_fail (ctxt != NULL);
+
+	if (ctxt->cfg != NULL)
+		todoconduit_destroy_configuration (&ctxt->cfg);
+
+	if (ctxt->client != NULL)
+		gtk_object_unref (GTK_OBJECT (ctxt->client));
+
+	if (ctxt->uids != NULL)
+		cal_obj_uid_list_free (ctxt->uids);
+
+	if (ctxt->changed_hash != NULL) {
+		g_hash_table_foreach_remove (ctxt->changed_hash, e_todo_context_foreach_change, NULL);
+		g_hash_table_destroy (ctxt->changed_hash);
+	}
+
+	if (ctxt->locals != NULL) {
+		for (l = ctxt->locals; l != NULL; l = l->next)
+			free_local (l->data);
+		g_list_free (ctxt->locals);
+	}
+	
+	if (ctxt->changed != NULL)
+		cal_client_change_list_free (ctxt->changed);
+	
+	if (ctxt->map != NULL)
+		e_pilot_map_destroy (ctxt->map);
+
+	g_free (ctxt);
+}
 
 /* Calendar Server routines */
 static void
@@ -542,6 +342,15 @@ compute_status (EToDoConduitContext *ctxt, EToDoLocalRecord *local, const char *
 	}
 }
 
+static void
+free_local (EToDoLocalRecord *local) 
+{
+	gtk_object_unref (GTK_OBJECT (local->comp));
+	free_ToDo (local->todo);
+	g_free (local->todo);	
+	g_free (local);
+}
+
 static GnomePilotRecord
 local_record_to_pilot_record (EToDoLocalRecord *local,
 			      EToDoConduitContext *ctxt)
@@ -661,7 +470,7 @@ local_record_from_comp (EToDoLocalRecord *local, CalComponent *comp, EToDoCondui
 		
 		cal_component_free_priority (priority);
 	} else {
-		local->todo->priority = ctxt->cfg->priority;
+		local->todo->priority = 3;
 	}	
 	
 	cal_component_get_classification (comp, &classif);
@@ -1280,7 +1089,7 @@ free_match (GnomePilotConduitSyncAbs *conduit,
 
 	g_return_val_if_fail (local != NULL, -1);
 
-	todoconduit_destroy_record (local);
+	free_local (local);
 
 	return 0;
 }
@@ -1296,62 +1105,6 @@ prepare (GnomePilotConduitSyncAbs *conduit,
 	*remote = local_record_to_pilot_record (local, ctxt);
 
 	return 0;
-}
-
-/* Pilot Settings Callbacks */
-static void
-fill_widgets (EToDoConduitContext *ctxt)
-{
-	e_pilot_settings_set_secret (E_PILOT_SETTINGS (ctxt->ps),
-				     ctxt->cfg->secret);
-
-	e_todo_gui_fill_widgets (ctxt->gui, ctxt->cfg);
-}
-
-static gint
-create_settings_window (GnomePilotConduit *conduit,
-			GtkWidget *parent,
-			EToDoConduitContext *ctxt)
-{
-	LOG ("create_settings_window");
-
-	ctxt->ps = e_pilot_settings_new ();
-	ctxt->gui = e_todo_gui_new (E_PILOT_SETTINGS (ctxt->ps));
-
-	gtk_container_add (GTK_CONTAINER (parent), ctxt->ps);
-	gtk_widget_show (ctxt->ps);
-
-	fill_widgets (ctxt);
-	
-	return 0;
-}
-static void
-display_settings (GnomePilotConduit *conduit, EToDoConduitContext *ctxt)
-{
-	LOG ("display_settings");
-	
-	fill_widgets (ctxt);
-}
-
-static void
-save_settings    (GnomePilotConduit *conduit, EToDoConduitContext *ctxt)
-{
-	LOG ("save_settings");
-
-	ctxt->new_cfg->secret = e_pilot_settings_get_secret (E_PILOT_SETTINGS (ctxt->ps));
-	e_todo_gui_fill_config (ctxt->gui, ctxt->new_cfg);
-	
-	todoconduit_save_configuration (ctxt->new_cfg);
-}
-
-static void
-revert_settings  (GnomePilotConduit *conduit, EToDoConduitContext *ctxt)
-{
-	LOG ("revert_settings");
-
-	todoconduit_save_configuration (ctxt->cfg);
-	todoconduit_destroy_configuration (ctxt->new_cfg);
-	ctxt->new_cfg = todoconduit_dupe_configuration (ctxt->cfg);
 }
 
 static ORBit_MessageValidationResult
@@ -1412,12 +1165,6 @@ conduit_get_gpilot_conduit (guint32 pilot_id)
   	gtk_signal_connect (retval, "free_match", (GtkSignalFunc) free_match, ctxt);
 
   	gtk_signal_connect (retval, "prepare", (GtkSignalFunc) prepare, ctxt);
-
-	/* Gui Settings */
-	gtk_signal_connect (retval, "create_settings_window", (GtkSignalFunc) create_settings_window, ctxt);
-	gtk_signal_connect (retval, "display_settings", (GtkSignalFunc) display_settings, ctxt);
-	gtk_signal_connect (retval, "save_settings", (GtkSignalFunc) save_settings, ctxt);
-	gtk_signal_connect (retval, "revert_settings", (GtkSignalFunc) revert_settings, ctxt);
 
 	return GNOME_PILOT_CONDUIT (retval);
 }

@@ -1,7 +1,7 @@
 /* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*- */
 /* e-shell-about-box.c
  *
- * Copyright (C) 2001, 2002  Ximian, Inc.
+ * Copyright (C) 2001  Ximian, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public
@@ -37,8 +37,8 @@ static GtkEventBoxClass *parent_class = NULL;
 
 static const char *text[] = {
 	"",
-	"Evolution " VERSION,
-	"Copyright 1999 - 2002 Ximian, Inc.",
+	N_("Evolution " VERSION),
+	N_("Copyright 1999, 2000, 2001 Ximian, Inc."),
 	"",
 	N_("Brought to you by"),
 	"",
@@ -74,6 +74,7 @@ static const char *text[] = {
 	"Gediminas Paulauskas",
 	"Jesse Pavel",
 	"Ettore Perazzoli",
+	"Hans Petter",
 	"JP Rosevear",
 	"Jeffrey Stedfast",
         "Jakub Steiner",

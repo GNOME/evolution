@@ -8,11 +8,15 @@ INCLUDES = \
 	-I$(top_builddir)/calendar/cal-client			\
 	-I$(top_srcdir)/libical/src/libical			\
 	-I$(top_builddir)/libical/src/libical			\
+	$(EXTRA_GNOME_CFLAGS)					\
+	$(GNOME_VFS_CFLAGS)					\
+	$(GTKHTML_CFLAGS)					\
+	$(BONOBO_CONF_CFLAGS)					\
+	$(BONOBO_GNOME_CFLAGS)					\
 	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"			\
 	-DEVOLUTION_LOCALEDIR=\""$(localedir)"\"		\
 	-DEVOLUTION_DATADIR=\""$(datadir)"\"            	\
-	-DG_LOG_DOMAIN=\"evolution-executive-summary\"		\
-	$(EVOLUTION_EXECUTIVE_SUMMARY_CFLAGS)
+	-DG_LOG_DOMAIN=\"evolution-executive-summary\"
 
 IDLS =								\
 	$(top_srcdir)/mail/Mail.idl
@@ -30,8 +34,6 @@ evolution_executive_summary_SOURCES =		\
 	$(MAIL_GENERATED)			\
 	component-factory.c		\
 	component-factory.h		\
-	e-cell-tri.c			\
-	e-cell-tri.h			\
 	e-summary.c			\
 	e-summary.h			\
 	e-summary-calendar.c		\
@@ -46,10 +48,6 @@ evolution_executive_summary_SOURCES =		\
 	e-summary-preferences.h		\
 	e-summary-rdf.c			\
 	e-summary-rdf.h			\
-	e-summary-shown.c		\
-	e-summary-shown.h		\
-	e-summary-table.c		\
-	e-summary-table.h		\
 	e-summary-tasks.c		\
 	e-summary-tasks.h		\
 	e-summary-type.h		\
@@ -62,16 +60,20 @@ evolution_executive_summary_SOURCES =		\
 	weather.h
 
 evolution_executive_summary_LDADD = 					\
-	$(top_builddir)/calendar/gui/alarm-notify/libalarm.a		\
-	$(top_builddir)/shell/libeshell.la				\
-	$(top_builddir)/widgets/misc/libemiscwidgets.a			\
-	$(top_builddir)/e-util/libeutil.la				\
+	$(top_builddir)/calendar/gui/alarm-notify/libalarm.a			\
+	$(top_builddir)/shell/libeshell.la		\
+	$(top_builddir)/widgets/misc/libemiscwidgets.a	\
+	$(top_builddir)/e-util/libeutil.la		\
 	$(top_builddir)/calendar/cal-client/libcal-client.la		\
 	$(top_builddir)/calendar/cal-util/libcal-util.la		\
-	$(top_builddir)/libversit/libversit.a				\
+	$(top_builddir)/libversit/libversit.la		\
 	$(top_builddir)/libical/src/libical/libical-evolution.la	\
-	$(top_builddir)/libwombat/libwombat.la				\
-	$(EVOLUTION_EXECUTIVE_SUMMARY_LIBS)
+	$(top_builddir)/libwombat/libwombat.la		\
+	$(BONOBO_VFS_GNOME_LIBS)			\
+	$(BONOBO_CONF_LIBS)				\
+	$(EXTRA_GNOME_LIBS)				\
+	-lgal						\
+	$(GTKHTML_LIBS)
 
 Locationdir = $(datadir)/evolution
 Location_DATA = Locations

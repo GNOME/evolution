@@ -14,7 +14,6 @@
 #include <signal.h>
 
 #include <libgnome/gnome-defs.h>
-#include <libgnome/gnome-sound.h>
 #include <libgnomeui/gnome-init.h>
 #include <bonobo/bonobo-main.h>
 #include <bonobo/bonobo-object-directory.h>
@@ -104,7 +103,7 @@ main (int argc, char *argv [])
 
 	gnome_init_with_popt_table ("evolution-mail-component", VERSION,
 				    argc, argv, oaf_popt_options, 0, NULL);
-	
+
 	sigaction (SIGSEGV, NULL, &osa);
 	if (osa.sa_handler != SIG_DFL) {
 		sa.sa_flags = 0;
@@ -145,8 +144,6 @@ main (int argc, char *argv [])
 	mail_config_init ();
 	mail_msg_init ();
 	
-	gnome_sound_init ("localhost");
-	
 	component_factory_init ();
 	evolution_composer_factory_init (composer_send_cb,
 					 composer_postpone_cb);
@@ -155,8 +152,6 @@ main (int argc, char *argv [])
 		g_mutex_free (gdk_threads_mutex);
 		gdk_threads_mutex = NULL;
 	}
-
-	g_print ("Evolution Mail ready and running.\n");
 
 	GDK_THREADS_ENTER ();
 	bonobo_main ();
@@ -168,8 +163,6 @@ main (int argc, char *argv [])
 	mail_config_write_on_exit ();
 
 	e_passwords_shutdown ();
-	
-	gnome_sound_shutdown ();
-	
+
 	return 0;
 }

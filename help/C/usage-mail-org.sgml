@@ -513,7 +513,7 @@
 		  </para></listitem>
 		
 		<listitem><para>
-		    Date Recieved - This works the same way as the <guilabel>Date Sent</guilabel> 
+		    Date Received - This works the same way as the <guilabel>Date Sent</guilabel> 
 		    option, except that it compares the time you got the message 
 		    with the dates you specify.
 		  </para></listitem>
@@ -521,7 +521,7 @@
 		<listitem><para>
 		    Score - Emails have a standard priority range from -3 (least
 		    important) to 3 (most important). You can have filters set the
-		    priority of messages you recieve, and then have other filters 
+		    priority of messages you receive, and then have other filters 
 		    applied only to those messages which have a certain priority.
 		  </para></listitem>
 		
@@ -972,7 +972,7 @@
 		  </para></listitem>
 		
 		<listitem><para>
-		    Date Recieved - This works the same way as the <guilabel>Date Sent</guilabel> 
+		    Date Received - This works the same way as the <guilabel>Date Sent</guilabel> 
 		    option, except that it compares the time you got the message 
 		    with the dates you specify.
 		  </para></listitem>
@@ -980,7 +980,7 @@
 		<listitem><para>
 		    Score - Emails have a standard priority range from -3 (least
 		    important) to 3 (most important). You can have vFolders set the
-		    priority of messages you recieve, and then have other
+		    priority of messages you receive, and then have other
 		    vFolders 
 		    applied only to those messages which have a certain priority.
 		  </para></listitem>

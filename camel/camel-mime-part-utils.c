@@ -2,8 +2,7 @@
 /* camel-mime-part-utils : Utility for mime parsing and so on
  *
  * Authors: Bertrand Guiheneuf <bertrand@helixcode.com>
- *          Michael Zucchi <notzed@ximian.com>
- *          Jeffrey Stedfast <fejj@ximian.com>
+ * 	    Michael Zucchi <notzed@ximian.com>
  *
  * Copyright 1999, 2000 Ximian, Inc. (www.ximian.com)
  *
@@ -45,7 +44,6 @@
 #include "camel-mime-filter-basic.h"
 #include "camel-mime-filter-charset.h"
 #include "camel-mime-filter-crlf.h"
-#include "camel-mime-filter-save.h"
 #include "camel-html-parser.h"
 #include "camel-charset-map.h"
 
@@ -99,8 +97,7 @@ check_html_charset(char *buffer, int length)
 	return charset;
 }
 
-static GByteArray *
-convert_buffer (GByteArray *in, const char *to, const char *from)
+static GByteArray *convert_buffer(GByteArray *in, const char *to, const char *from)
 {
 	iconv_t ic;
 	size_t inlen, outlen;
@@ -157,28 +154,6 @@ convert_buffer (GByteArray *in, const char *to, const char *from)
 	return out;
 }
 
-/* We don't really use the charset argument except for debugging... */
-static gboolean
-broken_windows_charset (GByteArray *buffer, const char *charset)
-{
-	register unsigned char *inptr;
-	unsigned char *inend;
-	
-	inptr = buffer->data;
-	inend = inptr + buffer->len;
-	
-	while (inptr < inend) {
-		register unsigned char c = *inptr++;
-		
-		if (c >= 128 && c <= 159) {
-			g_warning ("Encountered Windows charset parading as %s", charset);
-			return TRUE;
-		}
-	}
-	
-	return FALSE;
-}
-
 static gboolean
 is_7bit (GByteArray *buffer)
 {
@@ -196,31 +171,28 @@ static void
 simple_data_wrapper_construct_from_parser (CamelDataWrapper *dw, CamelMimeParser *mp)
 {
 	CamelMimeFilter *fdec = NULL, *fcrlf = NULL;
-	CamelMimeFilterBasicType enctype = 0;
 	int len, decid = -1, crlfid = -1;
 	struct _header_content_type *ct;
-	const char *charset = NULL;
 	GByteArray *buffer;
 	char *encoding, *buf;
+	const char *charset = NULL;
+	CamelMimeFilterBasicType enctype = 0;
 	CamelStream *mem;
-	
-	d(printf ("simple_data_wrapper_construct_from_parser()\n"));
+
+	d(printf("constructing data-wrapper\n"));
 	
 	/* first, work out conversion, if any, required, we dont care about what we dont know about */
-	encoding = header_content_encoding_decode (camel_mime_parser_header (mp, "Content-Transfer-Encoding", NULL));
+	encoding = header_content_encoding_decode(camel_mime_parser_header(mp, "content-transfer-encoding", NULL));
 	if (encoding) {
-		if (!strcasecmp (encoding, "base64")) {
+		if (!strcasecmp(encoding, "base64")) {
 			d(printf("Adding base64 decoder ...\n"));
 			enctype = CAMEL_MIME_FILTER_BASIC_BASE64_DEC;
-		} else if (!strcasecmp (encoding, "quoted-printable")) {
+		} else if (!strcasecmp(encoding, "quoted-printable")) {
 			d(printf("Adding quoted-printable decoder ...\n"));
 			enctype = CAMEL_MIME_FILTER_BASIC_QP_DEC;
-		} else if (!strcasecmp (encoding, "x-uuencode")) {
-			d(printf("Adding uudecoder ...\n"));
-			enctype = CAMEL_MIME_FILTER_BASIC_UU_DEC;
 		}
 		g_free (encoding);
-		
+
 		if (enctype != 0) {
 			fdec = (CamelMimeFilter *)camel_mime_filter_basic_new_type(enctype);
 			decid = camel_mime_parser_filter_add (mp, fdec);
@@ -253,32 +225,21 @@ simple_data_wrapper_construct_from_parser (CamelDataWrapper *dw, CamelMimeParser
 		charset = check_html_charset(buffer->data, buffer->len);
 	
 	/* if we need to do charset conversion, see if we can/it works/etc */
-	if (charset && !(strcasecmp (charset, "us-ascii") == 0
-			 || strcasecmp (charset, "utf-8") == 0
-			 || strncasecmp (charset, "x-", 2) == 0)) {
+	if (charset && !(strcasecmp(charset, "us-ascii") == 0
+			 || strcasecmp(charset, "utf-8") == 0
+			 || strncasecmp(charset, "x-", 2) == 0)) {
 		GByteArray *out;
 		
-		/* You often see Microsoft Windows users announcing their texts
-		 * as being in ISO-8859-1 even when in fact they contain funny
-		 * characters from the Windows-CP1252 superset.
-		 */
-		if (!strncasecmp (charset, "iso-8859", 8)) {
-			/* check for Windows-specific chars... */
-			if (broken_windows_charset (buffer, charset)) {
-				charset = camel_charset_iso_to_windows (charset);
-				charset = e_iconv_charset_name (charset);
-			}
-		}
-		
-		out = convert_buffer (buffer, "UTF-8", charset);
+		out = convert_buffer(buffer, "UTF-8", charset);
 		if (out) {
 			/* converted ok, use this data instead */
 			g_byte_array_free(buffer, TRUE);
 			buffer = out;
 		} else {
-			/* else failed to convert, leave as raw? */
 			g_warning("Storing text as raw, unknown charset '%s' or invalid format", charset);
+			/* else failed to convert, leave as raw? */
 			dw->rawtext = TRUE;
+			/* should we change the content-type header? */
 		}
 	} else if (header_content_type_is (ct, "text", "*")) {
 		if (charset == NULL) {
@@ -293,9 +254,10 @@ simple_data_wrapper_construct_from_parser (CamelDataWrapper *dw, CamelMimeParser
 			dw->rawtext = !g_utf8_validate (buffer->data, buffer->len, NULL);
 		}
 	}
-	
+			
+
 	d(printf("message part kept in memory!\n"));
-	
+		
 	mem = camel_stream_mem_new_with_byte_array(buffer);
 	camel_data_wrapper_construct_from_stream(dw, mem);
 	camel_object_unref((CamelObject *)mem);
@@ -331,12 +293,11 @@ camel_mime_part_construct_content_from_parser (CamelMimePart *dw, CamelMimeParse
 	case HSCAN_MULTIPART: {
 		struct _header_content_type *content_type;
 		CamelDataWrapper *bodypart;
-		
+
 		/* FIXME: we should use a came-mime-mutlipart, not jsut a camel-multipart, but who cares */
 		d(printf("Creating multi-part\n"));
-		
 		content = (CamelDataWrapper *)camel_multipart_new ();
-		
+
 		content_type = camel_mime_parser_content_type (mp);
 		camel_multipart_set_boundary ((CamelMultipart *)content,
 					      header_content_type_param (content_type, "boundary"));

@@ -36,6 +36,7 @@
 #include <camel/camel-mime-filter.h>
 #include <camel/camel-mime-filter-index.h>
 #include <camel/camel-mime-filter-charset.h>
+#include <camel/camel-mime-filter-save.h>
 #include <camel/camel-mime-filter-basic.h>
 #include <camel/camel-mime-filter-html.h>
 #include <camel/camel-mime-message.h>
@@ -206,8 +207,6 @@ camel_folder_summary_finalize (CamelObject *obj)
 		camel_object_unref((CamelObject *)p->filter_64);
 	if (p->filter_qp)
 		camel_object_unref((CamelObject *)p->filter_qp);
-	if (p->filter_uu)
-		camel_object_unref((CamelObject *)p->filter_uu);
 	if (p->filter_save)
 		camel_object_unref((CamelObject *)p->filter_save);
 	if (p->filter_html)
@@ -1905,13 +1904,6 @@ summary_build_content_info(CamelFolderSummary *s, CamelMessageInfo *msginfo, Cam
 					else
 						camel_mime_filter_reset((CamelMimeFilter *)p->filter_qp);
 					enc_id = camel_mime_parser_filter_add(mp, (CamelMimeFilter *)p->filter_qp);
-				} else if (!strcasecmp (encoding, "x-uuencode")) {
-					d(printf(" decoding x-uuencode\n"));
-					if (p->filter_uu == NULL)
-						p->filter_uu = camel_mime_filter_basic_new_type(CAMEL_MIME_FILTER_BASIC_UU_DEC);
-					else
-						camel_mime_filter_reset((CamelMimeFilter *)p->filter_uu);
-					enc_id = camel_mime_parser_filter_add(mp, (CamelMimeFilter *)p->filter_uu);
 				} else {
 					d(printf(" ignoring encoding %s\n", encoding));
 				}
@@ -2449,8 +2441,8 @@ camel_message_info_new_from_header (struct _header_raw *header)
 	CamelMessageInfo *info;
 	char *subject, *from, *to, *cc, *mlist;
 	struct _header_content_type *ct = NULL;
-	const char *content, *date, *charset = NULL;
-	
+	const char *content, *charset = NULL;
+
 	if ((content = header_raw_find(&header, "Content-Type", NULL))
 	    && (ct = header_content_type_decode(content))
 	    && (charset = header_content_type_param(ct, "charset"))
@@ -2463,7 +2455,6 @@ camel_message_info_new_from_header (struct _header_raw *header)
 	from = summary_format_address(header, "from");
 	to = summary_format_address(header, "to");
 	cc = summary_format_address(header, "cc");
-	date = header_raw_find(&header, "date", NULL);
 	mlist = header_raw_check_mailing_list(&header);
 
 	if (ct)
@@ -2476,21 +2467,7 @@ camel_message_info_new_from_header (struct _header_raw *header)
 	camel_message_info_set_to(info, to);
 	camel_message_info_set_cc(info, cc);
 	camel_message_info_set_mlist(info, mlist);
-	
-	if (date)
-		info->date_sent = header_decode_date (date, NULL);
-	else
-		info->date_sent = time (NULL);
-	
-	date = header_raw_find (&header, "received", NULL);
-	if (date && (date = strrchr (date, ';')))
-		date++;
-	
-	if (date)
-		info->date_received = header_decode_date (date, NULL);
-	else
-		info->date_received = time (NULL);
-	
+
 	return info;
 }
 

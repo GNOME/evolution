@@ -30,7 +30,8 @@ INCLUDES =						\
 	-I$(top_srcdir)/libical/src/libical		\
 	-I$(top_builddir)/libwombat			\
 	-I$(top_srcdir)/libwombat			\
-	$(EVOLUTION_CALENDAR_CFLAGS)
+	$(BONOBO_GNOME_CFLAGS)				\
+	$(BONOBO_CONF_CFLAGS)
 
 lib_LTLIBRARIES = libcal-client.la
 
@@ -75,12 +76,14 @@ client_test_INCLUDES =			\
 	$(INCLUDES)			\
 	-DG_LOG_DOMAIN=\"client-test\"
 
-client_test_LDADD =							\
-	$(EVOLUTION_CALENDAR_LIBS)					\
-	$(top_builddir)/calendar/cal-util/libcal-util.la		\
-	$(top_builddir)/libversit/libversit.a				\
+client_test_LDADD =						\
+	$(BONOBO_VFS_GNOME_LIBS)				\
+	$(EXTRA_GNOME_LIBS)					\
+	$(BONOBO_CONF_LIBS)					\
+	$(top_builddir)/calendar/cal-util/libcal-util.la	\
+	$(top_builddir)/libversit/libversit.la			\
 	$(top_builddir)/libical/src/libical/libical-evolution.la	\
-	$(top_builddir)/libwombat/libwombat.la				\
+	$(top_builddir)/libwombat/libwombat.la			\
 	libcal-client.la
 
 BUILT_SOURCES = $(CORBA_GENERATED)

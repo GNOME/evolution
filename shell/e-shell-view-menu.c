@@ -24,25 +24,7 @@
 
 /* FIXME: This file is a bit of a mess.  */
 
-#ifdef HAVE_CONFIG_H
 #include <config.h>
-#endif
-
-#include "e-shell-view-menu.h"
-
-#include "e-shell-folder-creation-dialog.h"
-#include "e-shell-folder-selection-dialog.h"
-
-#include "e-shell-settings-dialog.h"
-
-#include "e-shell-constants.h"
-
-#include "e-shell-importer.h"
-#include "e-shell-about-box.h"
-
-#include "e-shell-folder-commands.h"
-
-#include "evolution-shell-component-utils.h"
 
 #include <glib.h>
 
@@ -63,6 +45,19 @@
 #include <bonobo/bonobo-moniker-util.h>
 
 #include <gal/widgets/e-gui-utils.h>
+
+#include "e-shell-folder-creation-dialog.h"
+#include "e-shell-folder-selection-dialog.h"
+
+#include "e-shell-constants.h"
+
+#include "e-shell-view-menu.h"
+#include "e-shell-importer.h"
+#include "e-shell-about-box.h"
+
+#include "e-shell-folder-commands.h"
+
+#include "evolution-shell-component-utils.h"
 
 
 /* Utility functions.  */
@@ -270,20 +265,6 @@ command_toggle_shortcut_bar (BonoboUIComponent           *component,
 }
 
 
-static void
-command_send_receive (BonoboUIComponent *ui_component,
-		      void *data,
-		      const char *path)
-{
-	EShellView *shell_view;
-	EShell *shell;
-
-	shell_view = E_SHELL_VIEW (data);
-	shell = e_shell_view_get_shell (shell_view);
-
-	e_shell_send_receive (shell);
-}
-
 static void
 command_new_folder (BonoboUIComponent *uih,
 		    void *data,
@@ -583,23 +564,6 @@ command_new_shortcut (BonoboUIComponent *uih,
 /* Tools menu.  */
 
 static void
-command_settings (BonoboUIComponent *uih,
-		  void *data,
-		  const char *path)
-{
-	EShellView *shell_view;
-	GtkWidget *dialog;
-
-	shell_view = E_SHELL_VIEW (data);
-
-	dialog = e_shell_settings_dialog_new ();
-
-	gtk_window_set_transient_for (GTK_WINDOW (dialog), GTK_WINDOW (shell_view));
-	
-	gtk_widget_show (dialog);
-}
-
-static void
 command_pilot_settings (BonoboUIComponent *uih,
 			void *data,
 			const char *path)
@@ -625,14 +589,14 @@ command_pilot_settings (BonoboUIComponent *uih,
 }
 
 
-static BonoboUIVerb new_verbs [] = {
+BonoboUIVerb new_verbs [] = {
 	BONOBO_UI_VERB ("NewFolder", command_new_folder),
 	BONOBO_UI_VERB ("NewShortcut", command_new_shortcut),
 		  
 	BONOBO_UI_VERB_END
 };
 
-static BonoboUIVerb file_verbs [] = {
+BonoboUIVerb file_verbs [] = {
 	BONOBO_UI_VERB ("FileImporter", (BonoboUIVerbFn) show_import_wizard),
 	BONOBO_UI_VERB ("FileGoToFolder", command_goto_folder),
 	BONOBO_UI_VERB ("FileCreateFolder", command_create_folder),
@@ -645,7 +609,7 @@ static BonoboUIVerb file_verbs [] = {
 	BONOBO_UI_VERB_END
 };
 
-static BonoboUIVerb folder_verbs [] = {
+BonoboUIVerb folder_verbs [] = {
 	BONOBO_UI_VERB ("ActivateView", command_activate_view),
 	BONOBO_UI_VERB ("OpenFolderInNewWindow", command_open_folder_in_new_window),
 	BONOBO_UI_VERB ("MoveFolder", command_move_folder),
@@ -659,35 +623,23 @@ static BonoboUIVerb folder_verbs [] = {
 	BONOBO_UI_VERB_END
 };
 
-static BonoboUIVerb actions_verbs[] = {
-	BONOBO_UI_VERB ("SendReceive", command_send_receive),
-
-	BONOBO_UI_VERB_END
-};
-
-static BonoboUIVerb tools_verbs[] = {
-	BONOBO_UI_VERB ("Settings", command_settings),
-
+BonoboUIVerb tools_verbs[] = {
 	BONOBO_UI_VERB ("PilotSettings", command_pilot_settings),
 
 	BONOBO_UI_VERB_END
 };
 
-static BonoboUIVerb help_verbs [] = {
+BonoboUIVerb help_verbs [] = {
 	BONOBO_UI_VERB_DATA ("HelpFAQ", command_help_faq, NULL),
 
 	BONOBO_UI_VERB_END
 };
 
 static EPixmap pixmaps [] = {
-	E_PIXMAP ("/commands/SendReceive",      "send-receive.xpm"),
-
 	E_PIXMAP ("/menu/File/New/Folder",	"folder.xpm"),
 	E_PIXMAP ("/menu/File/Folder/Folder",	"folder.xpm"),
 	E_PIXMAP ("/menu/File/FileImporter",	"import.xpm"),
 	E_PIXMAP ("/menu/File/ToggleOffline",	"work_offline.xpm"),
-
-	E_PIXMAP ("/Toolbar/SendReceive",       "buttons/send-24-receive.png"),
 
 	E_PIXMAP_END
 };
@@ -809,7 +761,6 @@ e_shell_view_menu_setup (EShellView *shell_view)
 	bonobo_ui_component_add_verb_list_with_data (uic, folder_verbs, shell_view);
 	bonobo_ui_component_add_verb_list_with_data (uic, new_verbs, shell_view);
 
-	bonobo_ui_component_add_verb_list_with_data (uic, actions_verbs, shell_view);
 	bonobo_ui_component_add_verb_list_with_data (uic, tools_verbs, shell_view);
 
 	bonobo_ui_component_add_verb_list (uic, help_verbs);

@@ -24,12 +24,6 @@
 #include <config.h>
 #endif
 
-#include <stdio.h>
-#include <errno.h>
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <fcntl.h>
-
 #include <glib.h>
 #include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
@@ -39,6 +33,8 @@
 #include <gtkhtml/gtkhtml-stream.h>
 #include <gtkhtml/htmlengine.h>
 #include <gtkhtml/htmlselection.h>
+
+#include <libgnomevfs/gnome-vfs.h>
 
 #include <gal/util/e-util.h>
 #include <gal/widgets/e-gui-utils.h>
@@ -81,7 +77,15 @@ struct _ESummaryMailFolderInfo {
 	int unread;
 };
 
+typedef struct _DownloadInfo {
+	GtkHTMLStream *stream;
+	char *uri;
+	char *buffer, *ptr;
+	guint32 bufsize;
+} DownloadInfo;
+
 struct _ESummaryPrivate {
+	GNOME_Evolution_Shell shell;
 	GNOME_Evolution_ShellView shell_view_interface;
 
 	GtkWidget *html_scroller;
@@ -286,6 +290,74 @@ struct _imgcache {
 };
 
 static void
+close_callback (GnomeVFSAsyncHandle *handle,
+		GnomeVFSResult result,
+		gpointer data)
+{
+	DownloadInfo *info = data;
+	struct _imgcache *img;
+
+	if (images_cache == NULL) {
+		images_cache = g_hash_table_new (g_str_hash, g_str_equal);
+	}
+
+	img = g_new (struct _imgcache, 1);
+	img->buffer = info->buffer;
+	img->bufsize = info->bufsize;
+
+	g_hash_table_insert (images_cache, info->uri, img);
+	g_free (info);
+}
+
+/* The way this behaves is a workaround for ximian bug 10235: loading
+ * the image into gtkhtml progressively will result in garbage being
+ * drawn, so we wait until we've read the whole thing and then write
+ * it all at once.
+ */
+static void
+read_callback (GnomeVFSAsyncHandle *handle,
+	       GnomeVFSResult result,
+	       gpointer buffer,
+	       GnomeVFSFileSize bytes_requested,
+	       GnomeVFSFileSize bytes_read,
+	       gpointer data)
+{
+	DownloadInfo *info = data;
+
+	if (result != GNOME_VFS_OK && result != GNOME_VFS_ERROR_EOF) {
+		gtk_html_stream_close (info->stream, GTK_HTML_STREAM_ERROR);
+		gnome_vfs_async_close (handle, close_callback, info);
+	} else if (bytes_read == 0) {
+		gtk_html_stream_write (info->stream, info->buffer, info->bufsize);
+		gtk_html_stream_close (info->stream, GTK_HTML_STREAM_OK);
+		gnome_vfs_async_close (handle, close_callback, info);
+	} else {
+		bytes_read += info->ptr - info->buffer;
+		info->bufsize += 4096;
+		info->buffer = g_realloc (info->buffer, info->bufsize);
+		info->ptr = info->buffer + bytes_read;
+		gnome_vfs_async_read (handle, info->ptr, 4095, read_callback, info);
+	}
+}
+
+static void
+open_callback (GnomeVFSAsyncHandle *handle,
+	       GnomeVFSResult result,
+	       DownloadInfo *info)
+{
+	if (result != GNOME_VFS_OK) {
+		gtk_html_stream_close (info->stream, GTK_HTML_STREAM_ERROR);
+		g_free (info->uri);
+		g_free (info);
+		return;
+	}
+
+	info->bufsize = 4096;
+	info->buffer = info->ptr = g_new (char, info->bufsize);
+	gnome_vfs_async_read (handle, info->buffer, 4095, read_callback, info);
+}
+
+static void
 e_summary_url_clicked (GtkHTML *html,
 		       const char *url,
 		       ESummary *summary)
@@ -315,52 +387,6 @@ e_summary_url_clicked (GtkHTML *html,
 	protocol_listener->listener (summary, url, protocol_listener->closure);
 }
 
-static char *
-e_read_file_with_length (const char *filename,
-			 size_t *length)
-{
-	int fd;
-	struct stat stat_buf;
-	char *buf;
-	size_t bytes_read, size;
-
-	g_return_val_if_fail (filename != NULL, NULL);
-
-	fd = open (filename, O_RDONLY);
-	g_return_val_if_fail (fd != -1, NULL);
-
-	fstat (fd, &stat_buf);
-	size = stat_buf.st_size;
-	buf = g_new (char, size + 1);
-
-	bytes_read = 0;
-	while (bytes_read < size) {
-		ssize_t rc;
-
-		rc = read (fd, buf + bytes_read, size - bytes_read);
-		if (rc < 0) {
-			if (errno != EINTR) {
-				close (fd);
-				g_free (buf);
-				
-				return NULL;
-			}
-		} else if (rc == 0) {
-			break;
-		} else {
-			bytes_read += rc;
-		}
-	}
-
-	buf[bytes_read] = '\0';
-
-	if (length) {
-		*length = bytes_read;
-	}
-
-	return buf;
-}
-
 static void
 e_summary_url_requested (GtkHTML *html,
 			 const char *url,
@@ -368,6 +394,8 @@ e_summary_url_requested (GtkHTML *html,
 			 ESummary *summary)
 {
 	char *filename;
+	GnomeVFSAsyncHandle *handle;
+	DownloadInfo *info;
 	struct _imgcache *img = NULL;
 
 	if (strncasecmp (url, "file:", 5) == 0) {
@@ -386,28 +414,19 @@ e_summary_url_requested (GtkHTML *html,
 
 	if (images_cache != NULL) {
 		img = g_hash_table_lookup (images_cache, filename);
-	} else {
-		images_cache = g_hash_table_new (g_str_hash, g_str_equal);
 	}
 
 	if (img == NULL) {
-		size_t length;
-		char *contents;
+		info = g_new (DownloadInfo, 1);
+		info->stream = stream;
+		info->uri = filename;
 
-		contents = e_read_file_with_length (filename, &length);
-		if (contents == NULL) {
-			return;
-		}
-
-		img = g_new (struct _imgcache, 1);
-		img->buffer = contents;
-		img->bufsize = length;
-
-		g_hash_table_insert (images_cache, g_strdup (filename), img);
+		gnome_vfs_async_open (&handle, filename, GNOME_VFS_OPEN_READ,
+				      (GnomeVFSAsyncOpenCallback) open_callback, info);
+	} else {
+		gtk_html_stream_write (stream, img->buffer, img->bufsize);
+		gtk_html_stream_close (stream, GTK_HTML_STREAM_OK);
 	}
-
-	gtk_html_stream_write (stream, img->buffer, img->bufsize);
-	gtk_html_stream_close (stream, GTK_HTML_STREAM_OK);
 }
 
 static void
@@ -458,7 +477,7 @@ e_summary_init (ESummary *summary)
 
 	priv = summary->priv;
 
-	priv->frozen = TRUE;
+	priv->frozen = FALSE;
 	priv->redraw_pending = FALSE;
 	priv->pending_reload_tag = 0;
 
@@ -494,6 +513,9 @@ e_summary_init (ESummary *summary)
 	priv->protocol_hash = NULL;
 	priv->connections = NULL;
 
+	summary->prefs_window = NULL;
+	e_summary_preferences_init (summary);
+
 	CORBA_exception_init (&ev);
 	db = bonobo_get_object ("wombat:", "Bonobo/ConfigDatabase", &ev);
 	if (BONOBO_EX (&ev) || db == CORBA_OBJECT_NIL) {
@@ -527,16 +549,13 @@ E_MAKE_TYPE (e_summary, "ESummary", ESummary, e_summary_class_init,
 	     e_summary_init, PARENT_TYPE);
 
 GtkWidget *
-e_summary_new (const GNOME_Evolution_Shell shell,
-	       ESummaryPrefs *prefs)
+e_summary_new (const GNOME_Evolution_Shell shell)
 {
 	ESummary *summary;
 
 	summary = gtk_type_new (e_summary_get_type ());
-	summary->shell = shell;
-	/* Just get a pointer to the global preferences */
-	summary->preferences = prefs;
-	
+	summary->priv->shell = shell;
+
 	e_summary_add_protocol_listener (summary, "evolution", e_summary_evolution_protocol_listener, summary);
 
 	e_summary_mail_init (summary, shell);

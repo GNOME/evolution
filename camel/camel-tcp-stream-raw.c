@@ -48,8 +48,7 @@ static int stream_close  (CamelStream *stream);
 static int stream_connect (CamelTcpStream *stream, struct hostent *host, int port);
 static int stream_getsockopt (CamelTcpStream *stream, CamelSockOptData *data);
 static int stream_setsockopt (CamelTcpStream *stream, const CamelSockOptData *data);
-static CamelTcpAddress *stream_get_local_address (CamelTcpStream *stream);
-static CamelTcpAddress *stream_get_remote_address (CamelTcpStream *stream);
+static gpointer stream_get_socket (CamelTcpStream *stream);
 
 static void
 camel_tcp_stream_raw_class_init (CamelTcpStreamRawClass *camel_tcp_stream_raw_class)
@@ -69,9 +68,8 @@ camel_tcp_stream_raw_class_init (CamelTcpStreamRawClass *camel_tcp_stream_raw_cl
 	
 	camel_tcp_stream_class->connect = stream_connect;
 	camel_tcp_stream_class->getsockopt = stream_getsockopt;
-	camel_tcp_stream_class->setsockopt  = stream_setsockopt;
-	camel_tcp_stream_class->get_local_address  = stream_get_local_address;
-	camel_tcp_stream_class->get_remote_address = stream_get_remote_address;
+	camel_tcp_stream_class->setsockopt = stream_setsockopt;
+	camel_tcp_stream_class->get_socket = stream_get_socket;
 }
 
 static void
@@ -567,30 +565,8 @@ stream_setsockopt (CamelTcpStream *stream, const CamelSockOptData *data)
 			   sizeof (data->value));
 }
 
-static CamelTcpAddress *
-stream_get_local_address (CamelTcpStream *stream)
+static gpointer
+stream_get_socket (CamelTcpStream *stream)
 {
-	struct sockaddr_in sin;
-	socklen_t len;
-
-	if (getsockname (CAMEL_TCP_STREAM_RAW (stream)->sockfd,
-			 (struct sockaddr *)&sin, &len) == -1)
-		return NULL;
-
-	return camel_tcp_address_new (CAMEL_TCP_ADDRESS_IPV4, sin.sin_port,
-				      4, &sin.sin_addr);
-}
-
-static CamelTcpAddress *
-stream_get_remote_address (CamelTcpStream *stream)
-{
-	struct sockaddr_in sin;
-	socklen_t len;
-
-	if (getpeername (CAMEL_TCP_STREAM_RAW (stream)->sockfd,
-			 (struct sockaddr *)&sin, &len) == -1)
-		return NULL;
-
-	return camel_tcp_address_new (CAMEL_TCP_ADDRESS_IPV4, sin.sin_port,
-				      4, &sin.sin_addr);
+	return GINT_TO_POINTER (CAMEL_TCP_STREAM_RAW (stream)->sockfd);
 }

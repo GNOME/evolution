@@ -86,97 +86,72 @@ e_cal_comp_util_compare_event_timezones (CalComponent *comp,
 					 CalClient *client,
 					 icaltimezone *zone)
 {
-	CalClientGetStatus status;
-	CalComponentDateTime start_datetime, end_datetime;
-	const char *tzid;
-	gboolean retval = FALSE;
-	icaltimezone *start_zone, *end_zone;
-	int offset1, offset2;
+        CalClientGetStatus status;
+        CalComponentDateTime start_datetime, end_datetime;
+        const char *tzid;
+        gboolean retval = FALSE;
+        icaltimezone *start_zone, *end_zone;
+        int offset1, offset2;
 
-	tzid = icaltimezone_get_tzid (zone);
+        tzid = icaltimezone_get_tzid (zone);
 
-	cal_component_get_dtstart (comp, &start_datetime);
-	cal_component_get_dtend (comp, &end_datetime);
+        cal_component_get_dtstart (comp, &start_datetime);
+        cal_component_get_dtend (comp, &end_datetime);
 
 	/* If either the DTSTART or the DTEND is a DATE value, we return TRUE.
 	   Maybe if one was a DATE-TIME we should check that, but that should
 	   not happen often. */
-	if ((start_datetime.value && start_datetime.value->is_date)
-	    || (end_datetime.value && end_datetime.value->is_date)) {
+	if (start_datetime.value->is_date || end_datetime.value->is_date) {
 		retval = TRUE;
 		goto out;
 	}
 
-	/* If the event uses UTC for DTSTART & DTEND, return TRUE. Outlook
-	   will send single events as UTC, so we don't want to mark all of
-	   these. */
-	if ((!start_datetime.value || start_datetime.value->is_utc)
-	    && (!end_datetime.value || end_datetime.value->is_utc)) {
-		retval = TRUE;
-		goto out;
-	}
+        /* FIXME: DURATION may be used instead. */
+        if (cal_component_compare_tzid (tzid, start_datetime.tzid)
+            && cal_component_compare_tzid (tzid, end_datetime.tzid)) {
+                /* If both TZIDs are the same as the given zone's TZID, then
+                   we know the timezones are the same so we return TRUE. */
+                retval = TRUE;
+        } else {
+                /* If the TZIDs differ, we have to compare the UTC offsets
+                   of the start and end times, using their own timezones and
+                   the given timezone. */
+                status = cal_client_get_timezone (client,
+                                                  start_datetime.tzid,
+                                                  &start_zone);
+                if (status != CAL_CLIENT_GET_SUCCESS)
+                        goto out;
 
-	/* If the event uses floating time for DTSTART & DTEND, return TRUE.
-	   Imported vCalendar files will use floating times, so we don't want
-	   to mark all of these. */
-	if (!start_datetime.tzid && !end_datetime.tzid) {
-		retval = TRUE;
-		goto out;
-	}
+                offset1 = icaltimezone_get_utc_offset (start_zone,
+                                                       start_datetime.value,
+                                                       NULL);
+                offset2 = icaltimezone_get_utc_offset (zone,
+                                                       start_datetime.value,
+                                                       NULL);
+                if (offset1 == offset2) {
+                        status = cal_client_get_timezone (client,
+                                                          end_datetime.tzid,
+                                                          &end_zone);
+                        if (status != CAL_CLIENT_GET_SUCCESS)
+                                goto out;
 
-	/* FIXME: DURATION may be used instead. */
-	if (cal_component_compare_tzid (tzid, start_datetime.tzid)
-	    && cal_component_compare_tzid (tzid, end_datetime.tzid)) {
-		/* If both TZIDs are the same as the given zone's TZID, then
-		   we know the timezones are the same so we return TRUE. */
-		retval = TRUE;
-	} else {
-		/* If the TZIDs differ, we have to compare the UTC offsets
-		   of the start and end times, using their own timezones and
-		   the given timezone. */
-		status = cal_client_get_timezone (client,
-						  start_datetime.tzid,
-						  &start_zone);
-		if (status != CAL_CLIENT_GET_SUCCESS)
-			goto out;
-
-		if (start_datetime.value) {
-			offset1 = icaltimezone_get_utc_offset (start_zone,
-							       start_datetime.value,
-							       NULL);
-			offset2 = icaltimezone_get_utc_offset (zone,
-							       start_datetime.value,
-							       NULL);
-			if (offset1 != offset2)
-				goto out;
-		}
-
-		status = cal_client_get_timezone (client,
-						  end_datetime.tzid,
-						  &end_zone);
-		if (status != CAL_CLIENT_GET_SUCCESS)
-			goto out;
-
-		if (end_datetime.value) {
-			offset1 = icaltimezone_get_utc_offset (end_zone,
-							       end_datetime.value,
-							       NULL);
-			offset2 = icaltimezone_get_utc_offset (zone,
-							       end_datetime.value,
-							       NULL);
-			if (offset1 != offset2)
-				goto out;
-		}
-
-		retval = TRUE;
-	}
+                        offset1 = icaltimezone_get_utc_offset (end_zone,
+                                                               end_datetime.value,
+                                                               NULL);
+                        offset2 = icaltimezone_get_utc_offset (zone,
+                                                               end_datetime.value,
+                                                               NULL);
+                        if (offset1 == offset2)
+                                retval = TRUE;
+                }
+        }
 
  out:
 
-	cal_component_free_datetime (&start_datetime);
-	cal_component_free_datetime (&end_datetime);
+        cal_component_free_datetime (&start_datetime);
+        cal_component_free_datetime (&end_datetime);
 
-	return retval;
+        return retval;
 }
 
 static int

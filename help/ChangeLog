@@ -1,169 +1,28 @@
-2002-03-14  Kevin Breit  <mrproper@ximian.com>
+2002-03-16  Aaron Weber  <aaron@ximian.com>
 
-	* C/usage-mail.sgml: Linked "expunge" to the glossary.
-	Made some basic grammar changes.
-	Reindented a whole lot of things.
+	* C/usage-mail.sgml: Slight revisions to style.
+	
 
-	* C/apx-gloss.sgml: Added Postscript as a glossary definition.
+2002-02-22  Aaron Weber  <aaron@ximian.com>
 
-	* C/usage-print.sgml: Changed the introduction of this.  Do users really care about gnome-print?
-	Linked the Postscript line to the glossary.
+	* C/usage-mail.sgml: 
 
-	* C/usage-mail.sgml: Pulled warning about the HTML mail stuff.
+	* C/usage-mainwindow.sgml: validation issue.
 
-2002-03-12  Kevin Breit  <mrproper@ximian.com>
+	* C/usage-exchange.sgml: spelling, use faker email addresses for
+	examples.
 
-	* C/usage-mail.sgml: Replaced "png" with "PNG".  This shouldn't break the SGML build and it's a slow start to the XML porting process.
-	Included information about how to create an HTML signature.
+	* C/usage-calendar.sgml: spelling.
 
-2002-03-11  Kevin Breit  <mrproper@ximian.com>
+	* C/usage-mail.sgml: misspelled "receive"
 
-	* C/usage-mail.sgml: Redid wording on a title, minute change.
-	Fix indenting.
+	* C/usage-mainwindow.sgml: tm on vfolders, link on
+	support.ximian.com
 
-2002-02-10  Kevin Breit  <mrproper@ximian.com>
-
-	* C/evolution-C.omf: Removed "The" from title.
-
-2002-02-06  Aaron Weber  <aaron@ximian.com>
-
-	* C/Makefile.am: added
-	C/figures/schedule.png,exchange-identity.png exchange-receive.png,
-	exchange-receive-options.png
-
-	* C/usage-exchange.sgml: expanded note about active directory server.
-	added screenshot for Free/Busy feature. Doubled the size of the config instructions.
-
-	* C/figures/schedule.png: New file, screenshot for free/busy feature.
-
-	* C/evolution.sgml: added correct copyright years.
-
-	* C/usage-mail-org.sgml: warning about INBOX subfolder brokenness.
-
-2002-01-29  Kevin Breit  <mrproper@ximian.com>
-
-	* C/config-prefs.sgml: Started writing an LDAP config example
-
-2002-01-27  Kevin Breit  <mrproper@ximian.com>
-
-	* C/config-prefs.sgml: Added information regarding types of search scopes
-
-	* C/usage-contact.sgml: Fixed some linking brokenness
-
-	* C/apx-gloss.sgml: Added Search Base as an entry
-	Added Search Scope as an entry
-
-	* C/config-prefs.sgml: Fixed indenting, I guess.
-
-	* C/usage-contact.sgml: Rewrote LDAP introduction paragraph
-	Added information about setting up Evolution to use LDAP.  It's just a lazy xref.
-
-2002-01-27  Ettore Perazzoli  <ettore@ximian.com>
+2001-11-16  Ettore Perazzoli  <ettore@ximian.com>
 
 	* sgmldocs.make: Use `-f' instead of `-e' so installation of
 	topic.dat works on non-GNU systems too.
-
-2002-01-17  Aaron Weber  <aaron@ximian.com>
-
-	* C/apx-gloss.sgml: typos.
-
-2002-01-15  Aaron Weber  <aaron@ximian.com>
-
-	* C/config-prefs.sgml: Redo the whole options/account-creation
-	thing.
-
-	* C/usage-mainwindow.sgml: Redo the whole options/account-creation
-	thing.
-
-2002-01-07  Aaron Weber  <aaron@ximian.com>
-
-	* C/evolution.sgml: Touched this file but don't think I changed
-	it.
-
-	* C/usage-calendar.sgml: mention the full-advantage section and
-	the exchange features. Expand mention of "autopick" and general
-	polish on the appointment-scheduling and peer-to-peer groupware
-	functions. Also clarify palm-sync location information. All
-	features danw mentioned as critical are now docuemnted.
- 
-	* C/usage-exchange.sgml: Fix and expand as per Danw's notes about
-	Features that need to be documented.
-
-2002-01-04  Aaron Weber  <aaron@ximian.com>
-
-	* C/usage-exchange.sgml: Revised list of supported/unsupported
-	features. Changed installation instructions.
-
-2001-12-21  Aaron Weber  <aaron@ximian.com>
-
-	* C/usage-exchange.sgml: add notes about server/license
-	requirements, revise "your previous options" text to flow more
-	smoothly.
-
-2002-01-04  Kevin Breit  <mrproper@ximian.com>
-
-	* C/usage-mail.sgml: Added a tip about reply-to specification stuff
-
-	* C/usage-calendar.sgml: Fixed brokenness
-
-2001-12-27  Kevin Breit  <mrproper@ximian.com>
-
-	* C/usage-exchange.sgml: Small fix
-
-2001-12-24  Kevin Breit  <mrproper@ximian.com>
-
-	* C/apx-bugs.sgml: Updated indenting
-
-	* C/apx-authors.sgml: Updated my email address
-
-	* C/usage-print.sgml: Just, ya know, small change
-
-	* C/usage-exchange.sgml: Fixed wording, tags, and indenting
-
-2001-12-22  Kevin Breit  <mrproper@ximian.com>
-
-	* C/usage-mainwindow.sgml: Added information about importing mutt to Evolution.
-	Added a bit of info to the above.
-
-2001-12-20  Kevin Breit  <mrproper@ximian.com>
-
-	* C/usage-exchange.sgml: Added a <sect1> that discusses features of Connector
-
-2001-12-18  Aaron Weber  <aaron@ximian.com>
-
-	* C/usage-exchange.sgml: add notes about server requirements.
-
-	* C/topic.dat: Changed label of "Connecting to Exchange Servers"
-	
-2001-12-18  Kevin Breit  <mrproper@ximian.com>
-
-	* C/usage-mainwindow.sgml: Added information about importing KMail to Evolution.
-
-2001-12-14  Kevin Breit  <mrproper@ximian.com>
-
-	* C/apx-gloss.sgml: Slight glossary changes in wording
-
-	* C/usage-mail.sgml: Indenting changes, minor reorganization.
-
-2001-12-05  Aaron Weber  <aaron@ximian.com>
-
-	* C/usage-calendar.sgml: added "meeting-announce" note ("Simple
-	meeting announcements").
-
-	* C/config-prefs.sgml: Additional links to other portions of the
-	document.
-
-2001-11-30  Aaron Weber  <aaron@ximian.com>
-
-	* C/usage-mail.sgml: Tiny error fix.
-
-2001-11-29  Kevin Breit  <mrproper@ximian.com>
-
-	* C/usage-mail.sgml: Added more info about pretty emails.
-
-2001-11-28  Kevin Breit  <mrproper@ximian.com>
-
-	* C/usage-mail.sgml: Added section about how to make your email pretty.  I'll add more each day or something.
 
 2001-11-14  Ettore Perazzoli  <ettore@ximian.com>
 

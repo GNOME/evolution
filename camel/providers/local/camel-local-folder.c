@@ -214,6 +214,7 @@ camel_local_folder_construct(CamelLocalFolder *lf, CamelStore *parent_store, con
 	/* if we have no index file, force it */
 	forceindex = stat(lf->index_path, &st) == -1;
 	if (flags & CAMEL_STORE_FOLDER_BODY_INDEX) {
+
 		lf->index = ibex_open(lf->index_path, O_CREAT | O_RDWR, 0600);
 		if (lf->index == NULL) {
 			/* yes, this isn't fatal at all */

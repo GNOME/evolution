@@ -43,6 +43,7 @@
 #include <gconf/gconf.h>
 #endif
 
+#include <libgnomevfs/gnome-vfs.h>
 #include <glade/glade.h>
 
 #include "component-factory.h"
@@ -71,8 +72,8 @@ main (int argc,
 #endif
 
 	glade_gnome_init ();
+	gnome_vfs_init ();
 
-	e_cursors_init ();
 	gtk_widget_push_visual (gdk_rgb_get_visual ());
 	gtk_widget_push_colormap (gdk_rgb_get_cmap ());
 

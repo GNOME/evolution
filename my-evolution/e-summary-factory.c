@@ -39,6 +39,7 @@
 
 BonoboUIVerb verbs[] = {
 	BONOBO_UI_VERB ("PrintMyEvolution", e_summary_print),
+	BONOBO_UI_VERB ("ToolsSettings", e_summary_configure),
 	BONOBO_UI_VERB ("Reload", e_summary_reload),
 	BONOBO_UI_VERB_END
 };
@@ -46,6 +47,7 @@ BonoboUIVerb verbs[] = {
 
 static EPixmap pixmaps [] = {
 	E_PIXMAP ("/commands/PrintMyEvolution", "print.xpm"),
+	E_PIXMAP ("/commands/ToolsSettings", "configure_16_mail.xpm"),
 	E_PIXMAP ("/Toolbar/PrintMyEvolution", "buttons/print.png"),
 	E_PIXMAP_END
 };
@@ -126,13 +128,12 @@ control_destroy_cb (BonoboControl *control,
 BonoboControl *
 e_summary_factory_new_control (const char *uri,
 			       const GNOME_Evolution_Shell shell,
-			       ESummaryOfflineHandler *handler,
-			       ESummaryPrefs *global_preferences)
+			       ESummaryOfflineHandler *handler)
 {
 	BonoboControl *control;
 	GtkWidget *summary;
 
-	summary = e_summary_new (shell, global_preferences);
+	summary = e_summary_new (shell);
 	if (summary == NULL) {
 		return NULL;
 	}
@@ -151,11 +152,6 @@ e_summary_factory_new_control (const char *uri,
 			    control_activate_cb, summary);
 	gtk_signal_connect (GTK_OBJECT (control), "destroy",
 			    control_destroy_cb, summary);
-
-	/* FIXME: We register the factory here as it needs the summary object.
-	   Sigh, this is really wrong.  */
-
-	e_summary_preferences_register_config_control_factory (summary);
 
 	return control;
 }

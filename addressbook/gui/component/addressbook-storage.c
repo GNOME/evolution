@@ -31,7 +31,6 @@
 	   <rootdn></rootdn>
 	   <authmethod>simple</authmethod>
 	   <emailaddr>toshok@blubag.com</emailaddr>
-	   <limit>100</limit>
 	   <rememberpass/>
      </contactserver>
    </addressbooks>
@@ -44,7 +43,7 @@
 #include "addressbook-storage.h"
 
 #include <sys/types.h>
-#include <fcntl.h>
+#include <sys/fcntl.h>
 #include <sys/stat.h>
 #include <errno.h>
 
@@ -165,7 +164,7 @@ addressbook_get_other_contact_storage (void)
 	EvolutionStorageResult result;
 
 	if (storage == NULL) {
-		storage = evolution_storage_new (U_("Other Contacts"));
+		storage = evolution_storage_new (U_("Other Contacts"), NULL, NULL);
 		gtk_signal_connect (GTK_OBJECT (storage),
 				    "remove_folder",
 				    GTK_SIGNAL_FUNC(remove_ldap_folder), NULL);
@@ -228,30 +227,6 @@ get_string_value (xmlNode *node,
 
 	xml_string = xmlNodeListGetString (node->doc, p, 1);
 	retval = g_strdup ((char *) xml_string);
-	xmlFree (xml_string);
-
-	return retval;
-}
-
-static int
-get_integer_value (xmlNode *node,
-		   const char *name,
-		   int defval)
-{
-	xmlNode *p;
-	xmlChar *xml_string;
-	int retval;
-
-	p = e_xml_get_child_by_name (node, (xmlChar *) name);
-	if (p == NULL)
-		return defval;
-
-	p = e_xml_get_child_by_name (p, (xmlChar *) "text");
-	if (p == NULL) /* there's no text between the tags, return the default */
-		return defval;
-
-	xml_string = xmlNodeListGetString (node->doc, p, 1);
-	retval = atoi (xml_string);
 	xmlFree (xml_string);
 
 	return retval;
@@ -334,15 +309,9 @@ addressbook_storage_init_source_uri (AddressbookSource *source)
 	if (source->uri)
 		g_free (source->uri);
 
-	if (source->limit != 100)
-		source->uri = g_strdup_printf  ("ldap://%s:%s/%s?"/*trigraph prevention*/ "?%s;limit=%d",
-						source->host, source->port,
-						source->rootdn, ldap_unparse_scope(source->scope),
-						source->limit);
-	else 
-		source->uri = g_strdup_printf  ("ldap://%s:%s/%s?"/*trigraph prevention*/ "?%s",
-						source->host, source->port,
-						source->rootdn, ldap_unparse_scope(source->scope));
+	source->uri = g_strdup_printf  ("ldap://%s:%s/%s??%s",
+					source->host, source->port,
+					source->rootdn, ldap_unparse_scope(source->scope));
 }
 
 #ifdef HAVE_LDAP
@@ -371,7 +340,7 @@ load_source_data (const char *file_path)
 
 			if (rv < 0) {
 				g_error ("Failed to rename %s: %s\n",
-					 file_path,
+					 ADDRESSBOOK_SOURCES_XML,
 					 strerror(errno));
 				return FALSE;
 			} else
@@ -403,7 +372,6 @@ load_source_data (const char *file_path)
 			source->auth   = ldap_parse_auth (get_string_value (child, "authmethod"));
 			source->email_addr = get_string_value (child, "emailaddr");
 			source->binddn = get_string_value (child, "binddn");
-			source->limit  = get_integer_value (child, "limit", 100);
 		}
 		else {
 			g_warning ("unknown node '%s' in %s", child->name, file_path);
@@ -458,14 +426,6 @@ ldap_source_foreach(AddressbookSource *source, xmlNode *root)
 	xmlNewChild (source_root, NULL, (xmlChar *) "authmethod",
 		     (xmlChar *) ldap_unparse_auth(source->auth));
 
-	if (source->limit != 100) {
-		char *string;
-		string = g_strdup_printf ("%d", source->limit);
-		xmlNewChild (source_root, NULL, (xmlChar *) "limit",
-			     (xmlChar *) string);
-		g_free (string);
-	}
-
 	if (source->auth != ADDRESSBOOK_LDAP_AUTH_NONE) {
 		if (source->auth == ADDRESSBOOK_LDAP_AUTH_SIMPLE_BINDDN)
 			xmlNewChild (source_root, NULL, (xmlChar *) "binddn",
@@ -502,7 +462,7 @@ save_source_data (const char *file_path)
 	xmlDocDumpMemory (doc, &buf, &buf_size);
 
 	if (buf == NULL) {
-		g_error ("Failed to write %s: xmlBufferCreate() == NULL", file_path);
+		g_error ("Failed to write %s: xmlBufferCreate() == NULL", ADDRESSBOOK_SOURCES_XML);
 		return FALSE;
 	}
 
@@ -511,13 +471,13 @@ save_source_data (const char *file_path)
 	close (fd);
 
 	if (0 > rv) {
-		g_error ("Failed to write new %s: %s\n", file_path, strerror(errno));
+		g_error ("Failed to write new %s: %s\n", ADDRESSBOOK_SOURCES_XML, strerror(errno));
 		unlink (new_path);
 		return FALSE;
 	}
 	else {
 		if (0 > rename (new_path, file_path)) {
-			g_error ("Failed to rename %s: %s\n", file_path, strerror(errno));
+			g_error ("Failed to rename %s: %s\n", ADDRESSBOOK_SOURCES_XML, strerror(errno));
 			unlink (new_path);
 			return FALSE;
 		}
@@ -656,7 +616,6 @@ addressbook_source_copy (const AddressbookSource *source)
 	copy->email_addr = g_strdup (source->email_addr);
 	copy->binddn = g_strdup (source->binddn);
 	copy->remember_passwd = source->remember_passwd;
-	copy->limit = source->limit;
 
 	return copy;
 }

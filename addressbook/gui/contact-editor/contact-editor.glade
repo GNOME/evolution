@@ -1174,6 +1174,7 @@
 	  <widget>
 	    <class>GtkCheckButton</class>
 	    <name>checkbutton-mailingaddress</name>
+	    <visible>False</visible>
 	    <label>This is the _mailing address</label>
 	    <active>False</active>
 	    <draw_indicator>True</draw_indicator>

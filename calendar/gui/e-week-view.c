@@ -593,10 +593,6 @@ e_week_view_realize (GtkWidget *widget)
 	week_view->colors[E_WEEK_VIEW_COLOR_DATES_SELECTED].green = 65535;
 	week_view->colors[E_WEEK_VIEW_COLOR_DATES_SELECTED].blue  = 65535;
 
-	week_view->colors[E_WEEK_VIEW_COLOR_TODAY].red   = 65535;
-	week_view->colors[E_WEEK_VIEW_COLOR_TODAY].green = 0;
-	week_view->colors[E_WEEK_VIEW_COLOR_TODAY].blue  = 0;
-
 	nfailed = gdk_colormap_alloc_colors (colormap, week_view->colors,
 					     E_WEEK_VIEW_COLOR_LAST, FALSE,
 					     TRUE, success);
@@ -2137,7 +2133,7 @@ e_week_view_on_button_press (GtkWidget *widget,
 		dtend = week_view->day_starts[day + 1];
 		gnome_calendar_new_appointment_for (week_view->calendar,
 						    dtstart, dtend,
-						    TRUE, FALSE);
+						    TRUE);
 		return TRUE;
 	}
 
@@ -2973,7 +2969,7 @@ e_week_view_on_text_item_event (GnomeCanvasItem *item,
 
 		if (week_view->calendar)
 			gnome_calendar_edit_object (week_view->calendar,
-						    event->comp, FALSE);
+						    event->comp);
 		else
 			g_warning ("Calendar not set");
 
@@ -3192,9 +3188,8 @@ e_week_view_on_editing_stopped (EWeekView *week_view,
 		cal_component_set_summary (event->comp, &summary);
 
 		if (cal_client_update_object (week_view->client, event->comp)) {
-			if (cal_component_has_attendees (event->comp) && send_component_dialog (event->comp, FALSE))
-				itip_send_comp (CAL_COMPONENT_METHOD_REQUEST, event->comp,
-						week_view->client, NULL);
+			if (cal_component_has_attendees (event->comp) && send_component_dialog (event->comp))
+				itip_send_comp (CAL_COMPONENT_METHOD_REQUEST, event->comp, week_view->client, NULL);
 		} else {
 			g_message ("e_week_view_on_editing_stopped(): Could not update the object!");
 		}
@@ -3411,60 +3406,60 @@ enum {
 
 static EPopupMenu main_items [] = {
 	{ N_("New _Appointment..."), NULL,
-	  e_week_view_on_new_appointment, NULL, NULL, 0 },
+	  e_week_view_on_new_appointment, NULL, 0 },
 	{ N_("New All Day _Event"), NULL,
-	  e_week_view_on_new_event, NULL, NULL, 0 },
+	  e_week_view_on_new_event, NULL, 0 },
 
-	E_POPUP_SEPARATOR,
+	{ "", NULL, NULL, NULL, 0 },
 
 	{ N_("_Paste"), NULL,
-	  e_week_view_on_paste, NULL, NULL, 0 },
+	  e_week_view_on_paste, NULL, 0 },
 
-	E_POPUP_SEPARATOR,
-	
+	{ "", NULL, NULL, NULL, 0 },
+
 	{ N_("Go to _Today"), NULL,
-	  e_week_view_on_goto_today, NULL, NULL, 0 },
+	  e_week_view_on_goto_today, NULL, 0 },
 	{ N_("_Go to Date..."), NULL,
-	  e_week_view_on_goto_date, NULL, NULL, 0 },
-	
-	E_POPUP_TERMINATOR
+	  e_week_view_on_goto_date, NULL, 0 },
+	{ NULL, NULL, NULL, NULL, 0 }
 };
 
 static EPopupMenu child_items [] = {
 	{ N_("_Open"), NULL,
-	  e_week_view_on_edit_appointment, NULL, NULL, MASK_EDITABLE | MASK_EDITING },
+	  e_week_view_on_edit_appointment, NULL, MASK_EDITABLE | MASK_EDITING },
 	{ N_("_Delete this Appointment"), NULL,
-	  e_week_view_on_delete_appointment, NULL, NULL, MASK_EDITABLE | MASK_SINGLE | MASK_EDITING },
+	  e_week_view_on_delete_appointment, NULL, MASK_EDITABLE | MASK_SINGLE | MASK_EDITING },
 
 	/* Only show this separator if one of the above is shown. */
-	{ "", NULL, NULL, NULL, NULL, MASK_EDITABLE | MASK_EDITING },
+	{ "", NULL, NULL, NULL, MASK_EDITABLE | MASK_EDITING },
+
 
 	{ N_("C_ut"), NULL,
-	  e_week_view_on_cut, NULL, NULL, MASK_EDITING | MASK_EDITABLE },
+	  e_week_view_on_cut, NULL, MASK_EDITING | MASK_EDITABLE },
 	{ N_("_Copy"), NULL,
-	  e_week_view_on_copy, NULL, NULL, MASK_EDITING | MASK_EDITABLE },
+	  e_week_view_on_copy, NULL, MASK_EDITING | MASK_EDITABLE },
 	{ N_("_Paste"), NULL,
-	  e_week_view_on_paste, NULL, NULL, 0 },
+	  e_week_view_on_paste, NULL, 0 },
 
-	E_POPUP_SEPARATOR,
+	{ "", NULL, NULL, NULL, 0},
 
 	{ N_("New _Appointment..."), NULL,
-	  e_week_view_on_new_appointment, NULL, NULL, 0 },
+	  e_week_view_on_new_appointment, NULL, 0 },
 
-	{ "", NULL, NULL, NULL, NULL, MASK_SINGLE },
+	{ "", NULL, NULL, NULL, MASK_SINGLE },
 
 	/*
 	 * The following are only shown if this is a recurring event
 	 */
-	{ "", NULL, NULL, NULL, NULL, MASK_SINGLE },
+	{ "", NULL, NULL, NULL, MASK_SINGLE},
 	{ N_("Make this Occurrence _Movable"), NULL,
-	  e_week_view_on_unrecur_appointment, NULL, NULL, MASK_RECURRING | MASK_EDITING },
+	  e_week_view_on_unrecur_appointment, NULL, MASK_RECURRING | MASK_EDITING },
 	{ N_("Delete this _Occurrence"), NULL,
-	  e_week_view_on_delete_occurrence, NULL, NULL, MASK_RECURRING | MASK_EDITING },
+	  e_week_view_on_delete_occurrence, NULL, MASK_RECURRING | MASK_EDITING },
 	{ N_("Delete _All Occurrences"), NULL,
-	  e_week_view_on_delete_appointment, NULL, NULL, MASK_RECURRING | MASK_EDITING },
+	  e_week_view_on_delete_appointment, NULL, MASK_RECURRING | MASK_EDITING },
 
-	E_POPUP_TERMINATOR
+	{ NULL, NULL, NULL, NULL, 0 }
 };
 
 void
@@ -3532,7 +3527,7 @@ e_week_view_on_new_appointment (GtkWidget *widget, gpointer data)
 	}
 
 	gnome_calendar_new_appointment_for (
-		week_view->calendar, dtstart, dtend, FALSE, FALSE);
+		week_view->calendar, dtstart, dtend, FALSE);
 }
 
 static void
@@ -3544,7 +3539,7 @@ e_week_view_on_new_event (GtkWidget *widget, gpointer data)
 	dtstart = week_view->day_starts[week_view->selection_start_day];
 	dtend = week_view->day_starts[week_view->selection_end_day + 1];
 	gnome_calendar_new_appointment_for (
-		week_view->calendar, dtstart, dtend, TRUE, FALSE);
+		week_view->calendar, dtstart, dtend, TRUE);
 }
 
 static void
@@ -3578,8 +3573,7 @@ e_week_view_on_edit_appointment (GtkWidget *widget, gpointer data)
 				week_view->popup_event_num);
 
 	if (week_view->calendar)
-		gnome_calendar_edit_object (week_view->calendar, event->comp, 
-					    FALSE);
+		gnome_calendar_edit_object (week_view->calendar, event->comp);
 	else
 		g_warning ("Calendar not set");
 }

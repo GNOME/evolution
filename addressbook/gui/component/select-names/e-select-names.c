@@ -42,7 +42,7 @@
 
 #include "e-select-names.h"
 #include <addressbook/backend/ebook/e-card-simple.h>
-#include "e-select-names-text-model.h"
+#include "e-select-names-table-model.h"
 #include <gal/widgets/e-categories-master-list-combo.h>
 #include <gal/widgets/e-unicode.h>
 #include <gal/e-text/e-entry.h>
@@ -64,12 +64,11 @@ enum {
 };
 
 typedef struct {
-	char                  *title;
-	ETableModel           *model;
-	ESelectNamesModel     *source;
-	ESelectNamesTextModel *text_model;
-	ESelectNames          *names;
-	GtkWidget             *label;
+	char              *title;
+	ETableModel       *model;
+	ESelectNamesModel *source;
+	ESelectNames      *names;
+	GtkWidget         *label;
 } ESelectNamesChild;
 
 GtkType
@@ -236,7 +235,7 @@ real_add_address_cb (int model_row, gpointer closure)
 		e_destination_set_card (dest, card, 0);
 
 		e_select_names_model_append (child->source, dest);
-		e_select_names_model_clean (child->source, FALSE);
+		e_select_names_model_clean (child->source);
 
 		gtk_object_unref(GTK_OBJECT(card));
 	}
@@ -505,6 +504,15 @@ update_query (GtkWidget *button, ESelectNames *e_select_names)
 }
 
 static void
+status_message (EAddressbookModel *model, const gchar *message, ESelectNames *e_select_names)
+{
+	if (message == NULL)
+		gtk_label_set_text (GTK_LABEL (e_select_names->status_message), "");
+	else
+		gtk_label_set_text (GTK_LABEL (e_select_names->status_message), message);
+}
+
+static void
 hookup_listener (ESelectNames *e_select_names,
 		 GNOME_Evolution_Storage storage,
 		 EvolutionStorageListener *listener,
@@ -536,11 +544,10 @@ add_additional_select_names_uris (ESelectNames *e_select_names, CORBA_Environmen
 	Bonobo_ConfigDatabase config_db;
 	guint32 num_additional_uris;
 	int i;
-	gboolean flag;
 
 	config_db = addressbook_config_database (ev);
 
-	num_additional_uris = bonobo_config_get_ulong_with_default (config_db, "/Addressbook/additional_select_names_folders/num", 0, &flag);
+	num_additional_uris = bonobo_config_get_ulong_with_default (config_db, "/Addressbook/additional_select_names_folders/num", 0, ev);
 	for (i = 0; i < num_additional_uris; i ++) {
 		ESelectNamesFolder *e_folder;
 		char *config_path;
@@ -698,6 +705,13 @@ e_select_names_init (ESelectNames *e_select_names)
 	e_select_names->adapter = gtk_object_get_data(GTK_OBJECT(e_select_names->table), "adapter");
 	e_select_names->without = gtk_object_get_data(GTK_OBJECT(e_select_names->table), "without");
 
+	e_select_names->status_message = glade_xml_get_widget (gui, "status-message");
+	if (e_select_names->status_message && !GTK_IS_LABEL (e_select_names->status_message))
+		e_select_names->status_message = NULL;
+	if (e_select_names->status_message)
+		gtk_signal_connect (GTK_OBJECT (e_select_names->model), "status_message",
+				    GTK_SIGNAL_FUNC (status_message), e_select_names);
+
 	e_select_names->categories = glade_xml_get_widget (gui, "custom-categories");
 	if (e_select_names->categories && !GTK_IS_COMBO (e_select_names->categories))
 		e_select_names->categories = NULL;
@@ -799,21 +813,18 @@ button_clicked(GtkWidget *button, ESelectNamesChild *child)
 	real_add_address(child->names, child);
 }
 
-#if 0
 static void
 remove_address(ETable *table, int row, int col, GdkEvent *event, ESelectNamesChild *child)
 {
 	e_select_names_model_delete (child->source, row);
 }
-#endif
 
 struct _RightClickData {
+	ETable *table;
 	ESelectNamesChild *child;
-	int index;
 };
 typedef struct _RightClickData RightClickData;
 
-#if 0
 static GSList *selected_rows = NULL;
 
 static void
@@ -832,37 +843,47 @@ selected_rows_foreach_cb (void *row, void *data)
 
 	remove_address (NULL, GPOINTER_TO_INT (row), 0, NULL, child);
 }
-#endif
 
 static void
 remove_cb (GtkWidget *widget, void *data)
 {
 	RightClickData *rcdata = (RightClickData *)data;
 
-	e_select_names_model_delete (rcdata->child->source, rcdata->index);
+	e_select_names_model_freeze (rcdata->child->source);
+
+	/* Build a list of selected rows */
+	e_table_selected_row_foreach (rcdata->table,
+				      etable_selection_foreach_cb,
+				      rcdata->child);
+
+	/* Now process the list we made, removing each selected row */
+	g_slist_foreach (selected_rows,
+			 (GFunc)selected_rows_foreach_cb,
+			 rcdata->child);
+
+	e_select_names_model_thaw (rcdata->child->source);
 
 	/* Free everything we've created */
 	g_free (rcdata);
+	g_slist_free (selected_rows);
+	selected_rows = NULL;
 }
 
 static void
-section_right_click_cb (EText *text, GdkEventButton *ev, gint pos, ESelectNamesChild *child)
+section_right_click_cb (ETable *table, gint row, gint col, GdkEvent *event, ESelectNamesChild *child)
 {
 	EPopupMenu right_click_menu[] = {
-		{ N_("Remove"), NULL, GTK_SIGNAL_FUNC (remove_cb), NULL, NULL, 0 },
-		E_POPUP_TERMINATOR
+		{ N_("Remove"), NULL,
+		  GTK_SIGNAL_FUNC (remove_cb), NULL, 0 },
+		{ NULL, NULL, NULL, 0 }
 	};
-	gint index;
 
-	e_select_names_model_text_pos (child->source, child->text_model->seplen, pos, &index, NULL, NULL);
+	RightClickData *rcdata = g_new0 (RightClickData, 1);
+	rcdata->table = table;
+	rcdata->child = child;
 
-	if (index != -1) {
-		RightClickData *rcdata = g_new0 (RightClickData, 1);
-		rcdata->index = index;
-		rcdata->child = child;
-
-		e_popup_menu_run (right_click_menu, (GdkEvent *)ev, 0, 0, rcdata);
-	}
+	e_popup_menu_run (right_click_menu, event, 0, 0,
+			  rcdata);
 }
 
 void
@@ -875,8 +896,8 @@ e_select_names_add_section(ESelectNames *e_select_names, char *name, char *id, E
 	GtkTable *table;
 	char *label_text;
 
-	GtkWidget *sw;
-	GtkWidget *recipient_table;
+	ETableModel *model;
+	GtkWidget *etable;
 
 	if (g_hash_table_lookup(e_select_names->children, id)) {
 		return;
@@ -888,12 +909,6 @@ e_select_names_add_section(ESelectNames *e_select_names, char *name, char *id, E
 
 	child->names = e_select_names;
 	child->title = e_utf8_from_locale_string(_(name));
-
-	child->text_model = (ESelectNamesTextModel *) e_select_names_text_model_new (source);
-	e_select_names_text_model_set_separator (child->text_model, "\n");
-
-	child->source = source;
-	gtk_object_ref(GTK_OBJECT(child->source));
 
 	e_select_names->child_count++;
 
@@ -931,38 +946,28 @@ e_select_names_add_section(ESelectNames *e_select_names, char *name, char *id, E
 			 e_select_names->child_count + 1,
 			 GTK_FILL, GTK_FILL,
 			 0, 0);
-
 	
-	sw = gtk_scrolled_window_new (NULL, NULL);
-	recipient_table = e_entry_new ();
-	gtk_object_set (GTK_OBJECT (recipient_table),
-			"model", child->text_model,
-			"allow_newlines", TRUE,
-			NULL);
+	model = e_select_names_table_model_new(source);
+	etable = e_table_scrolled_new (model, NULL, SPEC2, NULL);
 
-	gtk_signal_connect (GTK_OBJECT (recipient_table),
-			    "popup",
-			    GTK_SIGNAL_FUNC (section_right_click_cb),
-			    child);
-
-	gtk_scrolled_window_add_with_viewport (GTK_SCROLLED_WINDOW (sw), recipient_table);
-	
-#if 0
 	gtk_signal_connect(GTK_OBJECT(e_table_scrolled_get_table(E_TABLE_SCROLLED(etable))), "right_click",
 			   GTK_SIGNAL_FUNC(section_right_click_cb), child);
 	gtk_signal_connect(GTK_OBJECT(e_table_scrolled_get_table(E_TABLE_SCROLLED(etable))), "double_click",
 			   GTK_SIGNAL_FUNC(remove_address), child);
-#endif
 
+	child->model = model;
+	child->source = source;
+	gtk_object_ref(GTK_OBJECT(child->model));
+	gtk_object_ref(GTK_OBJECT(child->source));
 
 	gtk_signal_connect (GTK_OBJECT (child->source),
 			    "changed",
 			    GTK_SIGNAL_FUNC (sync_table_and_models),
 			    e_select_names);
 	
-	gtk_widget_show_all (sw);
+	gtk_widget_show(etable);
 	
-	gtk_table_attach(table, sw,
+	gtk_table_attach(table, etable,
 			 1, 2,
 			 e_select_names->child_count,
 			 e_select_names->child_count + 1,

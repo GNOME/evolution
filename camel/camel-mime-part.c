@@ -92,11 +92,6 @@ static int             construct_from_parser           (CamelMimePart *, CamelMi
 /* forward references */
 static void set_disposition (CamelMimePart *mime_part, const gchar *disposition);
 
-/* format output of headers */
-static int write_references(CamelStream *stream, struct _header_raw *h);
-static int write_fold(CamelStream *stream, struct _header_raw *h);
-static int write_raw(CamelStream *stream, struct _header_raw *h);
-
 
 /* loads in a hash table the set of header names we */
 /* recognize and associate them with a unique enum  */
@@ -114,16 +109,14 @@ init_header_name_table()
 	g_hash_table_insert (header_name_table, "Content-Type", (gpointer)HEADER_CONTENT_TYPE);
 
 	header_formatted_table = g_hash_table_new(g_strcase_hash, g_strcase_equal);
-	g_hash_table_insert(header_formatted_table, "Content-Type", write_raw);
-	g_hash_table_insert(header_formatted_table, "Content-Disposition", write_raw);
-	g_hash_table_insert(header_formatted_table, "To", write_raw);
-	g_hash_table_insert(header_formatted_table, "From", write_raw);
-	g_hash_table_insert(header_formatted_table, "Reply-To", write_raw);
-	g_hash_table_insert(header_formatted_table, "Cc", write_raw);
-	g_hash_table_insert(header_formatted_table, "Bcc", write_raw);
-	g_hash_table_insert(header_formatted_table, "Message-ID", write_raw);
-	g_hash_table_insert(header_formatted_table, "In-Reply-To", write_raw);
-	g_hash_table_insert(header_formatted_table, "References", write_references);
+	g_hash_table_insert(header_formatted_table, "Content-Type", (void *)1);
+	g_hash_table_insert(header_formatted_table, "Content-Disposition", (void *)1);
+	g_hash_table_insert(header_formatted_table, "To", (void *)1);
+	g_hash_table_insert(header_formatted_table, "From", (void *)1);
+	g_hash_table_insert(header_formatted_table, "Reply-To", (void *)1);
+	g_hash_table_insert(header_formatted_table, "Cc", (void *)1);
+	g_hash_table_insert(header_formatted_table, "Bcc", (void *)1);
+	g_hash_table_insert(header_formatted_table, "Message-ID", (void *)1);
 }
 
 static void
@@ -170,7 +163,7 @@ static void
 camel_mime_part_finalize (CamelObject *object)
 {
 	CamelMimePart *mime_part = CAMEL_MIME_PART (object);
-	
+
 	g_free (mime_part->description);
 	g_free (mime_part->content_id);
 	g_free (mime_part->content_MD5);
@@ -554,77 +547,10 @@ set_content_object (CamelMedium *medium, CamelDataWrapper *content)
 /**********************************************************************/
 
 static int
-write_references(CamelStream *stream, struct _header_raw *h)
-{
-	int len, out, total;
-	char *v, *ids, *ide;
-
-	/* this is only approximate, based on the next >, this way it retains any content
-	   from the original which may not be properly formatted, etc.  It also doesn't handle
-	   the case where an individual messageid is too long, however thats a bad mail to
-	   start with ... */
-
-	v = h->value;
-	len = strlen(h->name)+1;
-	total = camel_stream_printf(stream, "%s%s", h->name, isspace(v[0])?":":": ");
-	if (total == -1)
-		return -1;
-	while (*v) {
-		ids = v;
-		ide = strchr(ids+1, '>');
-		if (ide)
-			v = ++ide;
-		else
-			ide = v = strlen(ids)+ids;
-
-		if (len>0 && len + (ide - ids) >= CAMEL_FOLD_SIZE) {
-			out = camel_stream_printf(stream, "\n\t");
-			if (out == -1)
-				return -1;
-			total += out;
-			len = 0;
-		}
-		out = camel_stream_write(stream, ids, ide-ids);
-		if (out == -1)
-			return -1;
-		len += out;
-		total += out;
-	}
-	camel_stream_write(stream, "\n", 1);
-
-	return total;
-}
-
-#if 0
-/* not needed - yet - handled by default case */
-static int
-write_fold(CamelStream *stream, struct _header_raw *h)
-{
-	char *val;
-	int count;
-
-	val = header_fold(h->value, strlen(h->name));
-	count = camel_stream_printf(stream, "%s%s%s\n", h->name, isspace(val[0]) ? ":" : ": ", val);
-	g_free(val);
-
-	return count;
-}
-#endif
-
-static int
-write_raw(CamelStream *stream, struct _header_raw *h)
-{
-	char *val = h->value;
-
-	return camel_stream_printf(stream, "%s%s%s\n", h->name, isspace(val[0]) ? ":" : ": ", val);
-}
-
-static int
 write_to_stream(CamelDataWrapper *data_wrapper, CamelStream *stream)
 {
 	CamelMimePart *mp = CAMEL_MIME_PART(data_wrapper);
 	CamelMedium *medium = CAMEL_MEDIUM(data_wrapper);
-	CamelStream *ostream = stream;
 	CamelDataWrapper *content;
 	int total = 0;
 	int count;
@@ -636,12 +562,11 @@ write_to_stream(CamelDataWrapper *data_wrapper, CamelStream *stream)
 #ifndef NO_WARNINGS
 #warning content-languages should be stored as a header
 #endif
-	
+
 	if (mp->headers) {
 		struct _header_raw *h = mp->headers;
 		char *val;
-		int (*writefn)(CamelStream *stream, struct _header_raw *);
-		
+
 		/* fold/write the headers.   But dont fold headers that are already formatted
 		   (e.g. ones with parameter-lists, that we know about, and have created) */
 		while (h) {
@@ -649,12 +574,12 @@ write_to_stream(CamelDataWrapper *data_wrapper, CamelStream *stream)
 			if (val == NULL) {
 				g_warning("h->value is NULL here for %s", h->name);
 				count = 0;
-			} else if ((writefn = g_hash_table_lookup(header_formatted_table, h->name)) == NULL) {
+			} else if (g_hash_table_lookup(header_formatted_table, h->name) == NULL) {
 				val = header_fold(val, strlen(h->name));
 				count = camel_stream_printf(stream, "%s%s%s\n", h->name, isspace(val[0]) ? ":" : ": ", val);
 				g_free(val);
 			} else {
-				count = writefn(stream, h);
+				count = camel_stream_printf(stream, "%s%s%s\n", h->name, isspace(val[0]) ? ":" : ": ", val);
 			}
 			if (count == -1)
 				return -1;
@@ -662,12 +587,12 @@ write_to_stream(CamelDataWrapper *data_wrapper, CamelStream *stream)
 			h = h->next;
 		}
 	}
-	
+
 	count = camel_stream_write(stream, "\n", 1);
 	if (count == -1)
 		return -1;
 	total += count;
-	
+
 	content = camel_medium_get_content_object(medium);
 	if (content) {
 		/* I dont really like this here, but i dont know where else it might go ... */
@@ -676,23 +601,14 @@ write_to_stream(CamelDataWrapper *data_wrapper, CamelStream *stream)
 		CamelMimeFilter *filter = NULL;
 		CamelStreamFilter *filter_stream = NULL;
 		CamelMimeFilter *charenc = NULL;
-		const char *filename;
 		const char *charset;
-		
-		switch (mp->encoding) {
+
+		switch(mp->encoding) {
 		case CAMEL_MIME_PART_ENCODING_BASE64:
 			filter = (CamelMimeFilter *)camel_mime_filter_basic_new_type(CAMEL_MIME_FILTER_BASIC_BASE64_ENC);
 			break;
 		case CAMEL_MIME_PART_ENCODING_QUOTEDPRINTABLE:
 			filter = (CamelMimeFilter *)camel_mime_filter_basic_new_type(CAMEL_MIME_FILTER_BASIC_QP_ENC);
-			break;
-		case CAMEL_MIME_PART_ENCODING_UUENCODE:
-			filename = camel_mime_part_get_filename (mp);
-			count = camel_stream_printf (ostream, "begin 644 %s\n", filename ? filename : "untitled");
-			if (count == -1)
-				return -1;
-			total += count;
-			filter = (CamelMimeFilter *)camel_mime_filter_basic_new_type(CAMEL_MIME_FILTER_BASIC_UU_ENC);
 			break;
 		default:
 			break;
@@ -707,34 +623,33 @@ write_to_stream(CamelDataWrapper *data_wrapper, CamelStream *stream)
 		
 		if (filter || charenc) {
 			filter_stream = camel_stream_filter_new_with_stream(stream);
-			
+
 			/* if we have a character encoder, add that always */
 			if (charenc) {
 				camel_stream_filter_add(filter_stream, charenc);
 				camel_object_unref((CamelObject *)charenc);
 			}
-			
+
 			/* we only re-do crlf on encoded blocks */
 			if (filter && header_content_type_is(mp->content_type, "text", "*")) {
 				CamelMimeFilter *crlf = camel_mime_filter_crlf_new(CAMEL_MIME_FILTER_CRLF_ENCODE,
 										   CAMEL_MIME_FILTER_CRLF_MODE_CRLF_ONLY);
-				
+
 				camel_stream_filter_add(filter_stream, crlf);
 				camel_object_unref((CamelObject *)crlf);
+
 			}
-			
+
 			if (filter) {
 				camel_stream_filter_add(filter_stream, filter);
 				camel_object_unref((CamelObject *)filter);
 			}
-			
+
 			stream = (CamelStream *)filter_stream;
 		}
 
 #endif
-		
 		count = camel_data_wrapper_write_to_stream(content, stream);
-		
 		if (filter_stream) {
 			camel_stream_flush((CamelStream *)filter_stream);
 			camel_object_unref((CamelObject *)filter_stream);
@@ -742,17 +657,9 @@ write_to_stream(CamelDataWrapper *data_wrapper, CamelStream *stream)
 		if (count == -1)
 			return -1;
 		total += count;
-		
-		if (mp->encoding == CAMEL_MIME_PART_ENCODING_UUENCODE) {
-			count = camel_stream_write (ostream, "end\n", 4);
-			if (count == -1)
-				return -1;
-			total += count;
-		}
 	} else {
 		g_warning("No content for medium, nothing to write");
 	}
-	
 	return total;
 }
 
@@ -849,8 +756,7 @@ static const char *encodings[] = {
 	"8bit",
 	"base64",
 	"quoted-printable",
-	"binary",
-	"x-uuencode",
+	"binary"
 };
 
 const char *
