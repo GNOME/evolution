@@ -1,3 +1,9 @@
+2001-10-30  Ettore Perazzoli  <ettore@ximian.com>
+
+	* main.c (development_warning): Removed.
+	(idle_cb): Don't call it.
+	(warning_dialog_clicked_callback): Removed.
+
 2001-10-30  Iain Holmes  <iain@ximian.com>
 
 	* e-shell-view.c (e_shell_view_load_settings): If the display uri is

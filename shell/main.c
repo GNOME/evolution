@@ -173,60 +173,6 @@ destroy_cb (GtkObject *object, gpointer data)
 }
 
 
-static void
-warning_dialog_clicked_callback (GnomeDialog *dialog,
-				 int button_number,
-				 void *data)
-{
-	gtk_widget_destroy (GTK_WIDGET (dialog));
-}
-
-static void
-development_warning (void)
-{
-	GtkWidget *label, *warning_dialog;
-	
-	warning_dialog = gnome_dialog_new ("Ximian Evolution " VERSION, GNOME_STOCK_BUTTON_OK, NULL);
-
-	label = gtk_label_new (
-		/* xgettext:no-c-format */
-		_("Hi.  Thanks for taking the time to download this preview release\n"
-		  "of the Ximian Evolution groupware suite.\n"
-		  "\n"
-		  "Ximian Evolution is not yet complete. It's getting close, but there are\n"
-		  "places where features are either missing or only half working. \n"
-		  "\n"
-		  "If you find bugs, please report them to us at bugzilla.ximian.com.\n"
-                  "This product comes with no warranty and is not intended for\n"
-		  "individuals prone to violent fits of anger.\n"
-                  "\n"
-		  "We hope that you enjoy the results of our hard work, and we\n"
-		  "eagerly await your contributions!\n"
-		  ));
-	gtk_label_set_justify (GTK_LABEL (label), GTK_JUSTIFY_LEFT);
-	gtk_widget_show (label);
-
-	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (warning_dialog)->vbox), 
-			    label, TRUE, TRUE, 4);
-
-	label = gtk_label_new (
-		_(
-		  "Thanks\n"
-		  "The Ximian Evolution Team\n"
-		  ));
-	gtk_label_set_justify(GTK_LABEL(label), GTK_JUSTIFY_RIGHT);
-	gtk_misc_set_alignment(GTK_MISC(label), 1, .5);
-	gtk_widget_show (label);
-
-	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (warning_dialog)->vbox), 
-			    label, TRUE, TRUE, 0);
-
-	gtk_widget_show (warning_dialog);
-	gtk_signal_connect (GTK_OBJECT (warning_dialog), "clicked",
-			    GTK_SIGNAL_FUNC (warning_dialog_clicked_callback), NULL);
-}
-
-
 /* This is for doing stuff that requires the GTK+ loop to be running already.  */
 
 static gint
@@ -253,10 +199,6 @@ idle_cb (void *data)
 				    GTK_SIGNAL_FUNC (no_views_left_cb), NULL);
 		gtk_signal_connect (GTK_OBJECT (shell), "destroy",
 				    GTK_SIGNAL_FUNC (destroy_cb), NULL);
-
-		if (!getenv ("EVOLVE_ME_HARDER"))
-			development_warning ();
-
 		corba_shell = bonobo_object_corba_objref (BONOBO_OBJECT (shell));
 		corba_shell = CORBA_Object_duplicate (corba_shell, &ev);
 		break;
