@@ -613,6 +613,15 @@ else
     esac
 fi
 
+dnl
+dnl Compose program
+dnl
+compose_libs="bonobo gnomeui"
+COMPOSE_LIBS="`gnome-config --libs $compose_libs`"
+COMPOSE_CFLAGS="`gnome-config --cflags $compose_libs`"
+AC_SUBST(COMPOSE_LIBS)
+AC_SUBST(COMPOSE_CFLAGS)
+
 dnl ******************
 dnl Sub-version number
 dnl ******************
@@ -695,6 +704,7 @@ calendar/conduits/calendar/Makefile
 calendar/conduits/todo/Makefile
 filter/Makefile
 wombat/Makefile
+composer/Makefile
 art/Makefile
 ui/Makefile
 default_user/Makefile
