@@ -1260,21 +1260,25 @@ imap_transfer_offline (CamelFolder *source, GPtrArray *uids,
 	}
 
 	changes = camel_folder_change_info_new ();
+
 	for (i = 0; i < uids->len; i++) {
 		uid = uids->pdata[i];
 
-		message = camel_folder_get_message (source, uid, NULL);
-		if (!message)
-			continue;
+		destuid = g_strdup_printf ("copy-%s:%s", source->full_name, uid);
+
 		mi = camel_folder_summary_uid (source->summary, uid);
 		g_return_if_fail (mi != NULL);
 
-		destuid = g_strdup_printf ("copy-%s:%s", source->full_name, uid);
-		camel_imap_summary_add_offline (dest->summary, destuid, message, mi);
+		message = camel_folder_get_message (source, uid, NULL);
+
+		if (message) {
+			camel_imap_summary_add_offline (dest->summary, destuid, message, mi);
+			camel_object_unref (CAMEL_OBJECT (message));
+		} else
+			camel_imap_summary_add_offline_uncached (dest->summary, destuid, mi);
 
 		camel_imap_message_cache_copy (sc, uid, dc, destuid, ex);
 		camel_folder_summary_info_free (source->summary, mi);
-		camel_object_unref (CAMEL_OBJECT (message));
 
 		camel_folder_change_info_add_uid (changes, destuid);
 		if (transferred_uids)

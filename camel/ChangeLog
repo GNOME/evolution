@@ -1,3 +1,21 @@
+2002-07-25  Peter Williams  <peterw@ximian.com>
+
+	* providers/imap/camel-imap-summary.h
+	(camel_imap_summary_add_offline_uncached): Prototype.
+
+	* providers/imap/camel-imap-summary.c
+	(camel_imap_summary_add_offline_uncached): New function to add an
+	uncached message to the summary while offline.
+
+	* providers/imap/camel-imap-store.c (imap_connect_online): Only
+	refresh the folders if the disco diary is empty (ie, we're not
+	resyncing.)
+
+	* providers/imap/camel-imap-folder.c (imap_transfer_offline): Emit
+	an event for the source if deleting its originals. Also, if we
+	can't load the message, still process it, using the new imap
+	summary function.
+
 2002-07-25  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* providers/smtp/camel-smtp-transport.c: Remove "possibly

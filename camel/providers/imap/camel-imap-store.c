@@ -1114,7 +1114,7 @@ imap_connect_online (CamelService *service, CamelException *ex)
 	
 	if (camel_exception_is_set (ex))
 		camel_service_disconnect (service, TRUE, NULL);
-	else
+	else if (camel_disco_diary_empty (disco_store->diary))
 		imap_store_refresh_folders (store, ex);
 	
 	return !camel_exception_is_set (ex);
