@@ -1873,9 +1873,6 @@ e_week_view_reshape_events (EWeekView *week_view)
 		else
 			max_rows = week_view->rows_per_compressed_cell;
 
-		g_print ("rows in the day:%i max rows:%i\n",
-			 week_view->rows_per_day[day], max_rows);
-
 		/* Determine whether the jump button should be shown. */
 		if (week_view->rows_per_day[day] <= max_rows) {
 			gnome_canvas_item_hide (week_view->jump_buttons[day]);

@@ -5,8 +5,8 @@
  */
 
 gchar *s = N_("event-editor-dialog");
-gchar *s = N_("_Owner:");
 gchar *s = N_("_Summary:");
+gchar *s = N_("_Owner:");
 gchar *s = N_("Time");
 gchar *s = N_("Start time:");
 gchar *s = N_("End time:");
@@ -32,8 +32,8 @@ gchar *s = N_("_Display");
 gchar *s = N_("_Audio");
 gchar *s = N_("_Program");
 gchar *s = N_("_Mail");
-gchar *s = N_("Mail _to");
-gchar *s = N_("_Run program");
+gchar *s = N_("Mail _to:");
+gchar *s = N_("_Run program:");
 gchar *s = N_("Classification");
 gchar *s = N_("Pu_blic");
 gchar *s = N_("Pri_vate");
@@ -60,8 +60,8 @@ gchar *s = N_("Sat");
 gchar *s = N_("Sun");
 gchar *s = N_("label25");
 gchar *s = N_("Recur on the");
-gchar *s = N_("th day of the month");
 gchar *s = N_("Recur on the");
+gchar *s = N_("th day of the month");
 gchar *s = N_("1st\n"
               "2nd\n"
               "3rd\n"
