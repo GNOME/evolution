@@ -41,6 +41,7 @@ enum {
 enum {
 	STRUCTURE_CHANGE,
 	DIMENSION_CHANGE,
+	EXPANSION_CHANGE,
 	REQUEST_WIDTH,
 	LAST_SIGNAL
 };
@@ -235,10 +236,11 @@ eth_get_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 static void
 e_table_header_class_init (GtkObjectClass *object_class)
 {
+	ETableHeaderClass *klass = E_TABLE_HEADER_CLASS (object_class);
+
 	object_class->destroy = eth_destroy;
 	object_class->set_arg = eth_set_arg;
 	object_class->get_arg = eth_get_arg;
-
 
 	e_table_header_parent_class = (gtk_type_class (gtk_object_get_type ()));
 
@@ -263,6 +265,13 @@ e_table_header_class_init (GtkObjectClass *object_class)
 				GTK_SIGNAL_OFFSET (ETableHeaderClass, dimension_change),
 				gtk_marshal_NONE__INT,
 				GTK_TYPE_NONE, 1, GTK_TYPE_INT);
+	eth_signals [EXPANSION_CHANGE] = 
+		gtk_signal_new ("expansion_change", 
+				GTK_RUN_LAST,
+				E_OBJECT_CLASS_TYPE (object_class),
+				GTK_SIGNAL_OFFSET (ETableHeaderClass, expansion_change),
+				gtk_marshal_NONE__NONE,
+				GTK_TYPE_NONE, 0);
 	eth_signals [REQUEST_WIDTH] = 
 		gtk_signal_new ("request_width",
 				GTK_RUN_LAST,
@@ -272,6 +281,11 @@ e_table_header_class_init (GtkObjectClass *object_class)
 				GTK_TYPE_INT, 1, GTK_TYPE_INT);
 
 	E_OBJECT_CLASS_ADD_SIGNALS (object_class, eth_signals, LAST_SIGNAL);
+
+	klass->structure_change = NULL;
+	klass->dimension_change = NULL;
+	klass->expansion_change = NULL;
+	klass->request_width = NULL;
 }
 
 static void
@@ -677,6 +691,8 @@ eth_set_size (ETableHeader *eth, int idx, int size)
 		for (i = idx + 1; i < eth->col_count; i++) {
 			eth->columns[i]->expansion = 0;
 		}
+
+		gtk_signal_emit (GTK_OBJECT (eth), eth_signals [EXPANSION_CHANGE]);
 		return;
 	}
 
@@ -686,6 +702,7 @@ eth_set_size (ETableHeader *eth, int idx, int size)
 		for (i = idx; i < eth->col_count; i++) {
 			eth->columns[i]->expansion = 0;
 		}
+		gtk_signal_emit (GTK_OBJECT (eth), eth_signals [EXPANSION_CHANGE]);
 		return;
 	}
 
@@ -702,6 +719,7 @@ eth_set_size (ETableHeader *eth, int idx, int size)
 		for (i = idx + 1; i < eth->col_count; i++) {
 			eth->columns[i]->expansion = 0;
 		}
+		gtk_signal_emit (GTK_OBJECT (eth), eth_signals [EXPANSION_CHANGE]);
 		return;
 	}
 	
@@ -726,6 +744,7 @@ eth_set_size (ETableHeader *eth, int idx, int size)
 				eth->columns[i]->expansion = expansion / expandable_count;
 			}
 		}
+		gtk_signal_emit (GTK_OBJECT (eth), eth_signals [EXPANSION_CHANGE]);
 		return;
 	}
 
@@ -737,6 +756,7 @@ eth_set_size (ETableHeader *eth, int idx, int size)
 			eth->columns[i]->expansion *= expansion / old_expansion;
 		}
 	}
+	gtk_signal_emit (GTK_OBJECT (eth), eth_signals [EXPANSION_CHANGE]);
 }
 
 /**
@@ -782,6 +802,11 @@ eth_calc_widths (ETableHeader *eth)
 	int last_position = 0;
 	double next_position = 0;
 	int last_resizable = -1;
+	int *widths;
+	gboolean changed;
+
+	widths = g_new (int, eth->col_count);
+
 	/* - 1 to account for the last pixel border. */
 	extra = eth->width - 1;
 	expansion = 0;
@@ -790,21 +815,31 @@ eth_calc_widths (ETableHeader *eth)
 		if (eth->columns[i]->resizable && eth->columns[i]->expansion > 0)
 			last_resizable = i;
 		expansion += eth->columns[i]->resizable ? eth->columns[i]->expansion : 0;
-		eth->columns[i]->width = eth->columns[i]->min_width + eth->width_extras;
+		widths[i] = eth->columns[i]->min_width + eth->width_extras;
 	}
 	if (eth->sort_info)
 		extra -= e_table_sort_info_grouping_get_count(eth->sort_info) * GROUP_INDENT;
 	if (expansion != 0 && extra > 0) {
 		for (i = 0; i < last_resizable; i++) {
 			next_position += extra * (eth->columns[i]->resizable ? eth->columns[i]->expansion : 0)/expansion;
-			eth->columns[i]->width += next_position - last_position;
+			widths[i] += next_position - last_position;
 			last_position = next_position;
 		}
-		eth->columns[i]->width += extra - last_position;
+		widths[i] += extra - last_position;
 	}
 
+	changed = FALSE;
+
+	for (i = 0; i < eth->col_count; i++) {
+		if (eth->columns[i]->width != widths[i]) {
+			changed = TRUE;
+			eth->columns[i]->width = widths[i];
+		}
+	}
+	g_free (widths);
+	if (changed)
+		gtk_signal_emit (GTK_OBJECT (eth), eth_signals [DIMENSION_CHANGE]);
 	eth_update_offsets (eth);
-	gtk_signal_emit (GTK_OBJECT (eth), eth_signals [DIMENSION_CHANGE]);
 }
 
 void
@@ -825,6 +860,7 @@ e_table_header_update_horizontal (ETableHeader *eth)
 		eth->columns[i]->expansion = 1;
 	}
 	enqueue(eth, -1, eth->nominal_width);
+	gtk_signal_emit (GTK_OBJECT (eth), eth_signals [EXPANSION_CHANGE]);
 }
 
 GtkType

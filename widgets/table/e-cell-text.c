@@ -2152,6 +2152,9 @@ e_cell_text_view_command (ETextEventProcessor *tep, ETextEventProcessorCommand *
 	case E_TEP_UNGRAB:
 		edit->actions = E_CELL_UNGRAB;
 		break;
+	case E_TEP_CAPS:
+		/* FIXME */
+		break;
 	case E_TEP_NOP:
 		break;
 	}

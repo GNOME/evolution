@@ -70,6 +70,7 @@ typedef struct {
 	gint        (*click)              (ETree *et, int row, ETreePath path, int col, GdkEvent *event);
 	gint        (*key_press)          (ETree *et, int row, ETreePath path, int col, GdkEvent *event);
 	gint        (*start_drag)         (ETree *et, int row, ETreePath path, int col, GdkEvent *event);
+	gint        (*state_change)       (ETree *et);
 
 	void  (*set_scroll_adjustments)   (ETree	 *tree,
 					   GtkAdjustment *hadjustment,

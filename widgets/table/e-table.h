@@ -81,6 +81,10 @@ typedef struct {
 	int table_rows_deleted_id;
 
 	int group_info_change_id;
+	int sort_info_change_id;
+
+	int structure_change_id;
+	int expansion_change_id;
 
 	int reflow_idle_id;
 	int scroll_idle_id;
@@ -150,6 +154,7 @@ typedef struct {
 	gint        (*click)              (ETable *et, int row, int col, GdkEvent *event);
 	gint        (*key_press)          (ETable *et, int row, int col, GdkEvent *event);
 	gint        (*start_drag)         (ETable *et, int row, int col, GdkEvent *event);
+	void        (*state_change)       (ETable *et);
 
 	void  (*set_scroll_adjustments)   (ETable	 *table,
 					   GtkAdjustment *hadjustment,
@@ -244,7 +249,7 @@ void             e_table_load_state                (ETable               *e_tabl
 void             e_table_set_cursor_row            (ETable               *e_table,
 						    int                   row);
 
-/* -1 means we don't have the cursor. */
+/* -1 means we don't have the cursor.  This is in model rows. */
 int              e_table_get_cursor_row            (ETable               *e_table);
 void             e_table_selected_row_foreach      (ETable               *e_table,
 						    EForeachFunc          callback,

@@ -75,6 +75,7 @@ enum {
 	CLICK,
 	KEY_PRESS,
 	START_DRAG,
+	STATE_CHANGE,
 
 	TREE_DRAG_BEGIN,
 	TREE_DRAG_END,
@@ -113,8 +114,12 @@ struct ETreePriv {
 
 	ETableHeader *full_header, *header;
 
+	guint structure_change_id, expansion_change_id;
+
 	ETableSortInfo *sort_info;
 	ESorter   *sorter;
+
+	guint sort_info_change_id, group_info_change_id;
 
 	ESelectionModel *selection;
 	ETableSpecification *spec;
@@ -257,6 +262,78 @@ et_disconnect_from_etta (ETree *et)
 }
 
 static void
+e_tree_state_change (ETree *et)
+{
+	gtk_signal_emit (GTK_OBJECT (et),
+			 et_signals [STATE_CHANGE]);
+}
+
+static void
+change_trigger (GtkObject *object, ETree *et)
+{
+	e_tree_state_change (et);
+}
+
+static void
+disconnect_header (ETree *e_tree)
+{
+	if (e_tree->priv->header == NULL)
+		return;
+
+	if (e_tree->priv->structure_change_id)
+		gtk_signal_disconnect (GTK_OBJECT (e_tree->priv->header),
+				       e_tree->priv->structure_change_id);
+	if (e_tree->priv->expansion_change_id)
+		gtk_signal_disconnect (GTK_OBJECT (e_tree->priv->header),
+				       e_tree->priv->expansion_change_id);
+	if (e_tree->priv->sort_info) {
+		if (e_tree->priv->sort_info_change_id)
+			gtk_signal_disconnect (GTK_OBJECT (e_tree->priv->sort_info),
+					       e_tree->priv->sort_info_change_id);
+		if (e_tree->priv->group_info_change_id)
+			gtk_signal_disconnect (GTK_OBJECT (e_tree->priv->sort_info),
+					       e_tree->priv->group_info_change_id);
+
+		gtk_object_unref(GTK_OBJECT(e_tree->priv->sort_info));
+	}
+	gtk_object_unref(GTK_OBJECT(e_tree->priv->header));
+	e_tree->priv->header = NULL;
+	e_tree->priv->sort_info = NULL;
+}
+
+static void
+connect_header (ETree *e_tree, ETableState *state)
+{
+	if (e_tree->priv->header != NULL)
+		disconnect_header (e_tree);
+
+	e_tree->priv->header = e_table_state_to_header (GTK_WIDGET(e_tree), e_tree->priv->full_header, state);
+
+	e_tree->priv->structure_change_id =
+		gtk_signal_connect (GTK_OBJECT (e_tree->priv->header), "structure_change",
+				    change_trigger, e_tree);
+	e_tree->priv->expansion_change_id =
+		gtk_signal_connect (GTK_OBJECT (e_tree->priv->header), "expansion_change",
+				    change_trigger, e_tree);
+
+	if (state->sort_info) {
+		e_tree->priv->sort_info = e_table_sort_info_duplicate(state->sort_info);
+		e_table_sort_info_set_can_group (e_tree->priv->sort_info, FALSE);
+		e_tree->priv->sort_info_change_id =
+			gtk_signal_connect (GTK_OBJECT (e_tree->priv->sort_info), "sort_info_changed",
+					    change_trigger, e_tree);
+		e_tree->priv->group_info_change_id =
+			gtk_signal_connect (GTK_OBJECT (e_tree->priv->sort_info), "group_info_changed",
+					    change_trigger, e_tree);
+	} else
+		e_tree->priv->sort_info = NULL;
+
+	gtk_object_set(GTK_OBJECT(e_tree->priv->header),
+		       "sort_info", e_tree->priv->sort_info,
+		       NULL);
+}
+
+static void
 et_destroy (GtkObject *object)
 {
 	ETree *et = E_TREE (object);
@@ -275,8 +352,7 @@ et_destroy (GtkObject *object)
 	gtk_object_unref (GTK_OBJECT (et->priv->model));
 	gtk_object_unref (GTK_OBJECT (et->priv->sorted));
 	gtk_object_unref (GTK_OBJECT (et->priv->full_header));
-	gtk_object_unref (GTK_OBJECT (et->priv->header));
-	gtk_object_unref (GTK_OBJECT (et->priv->sort_info));
+	disconnect_header (et);
 	gtk_object_unref (GTK_OBJECT (et->priv->selection));
 	if (et->priv->spec)
 		gtk_object_unref (GTK_OBJECT (et->priv->spec));
@@ -316,6 +392,11 @@ e_tree_init (GtkObject *object)
 
 	e_tree->priv->full_header                        = NULL;
 	e_tree->priv->header                             = NULL;
+
+	e_tree->priv->structure_change_id                = 0;
+	e_tree->priv->expansion_change_id                = 0;
+	e_tree->priv->sort_info_change_id                = 0;
+	e_tree->priv->group_info_change_id               = 0;
 
 	e_tree->priv->sort_info                          = NULL;
 	e_tree->priv->sorter                             = NULL;
@@ -853,22 +934,11 @@ e_tree_setup_table (ETree *e_tree)
 void
 e_tree_set_state_object(ETree *e_tree, ETableState *state)
 {
-	if (e_tree->priv->header)
-		gtk_object_unref(GTK_OBJECT(e_tree->priv->header));
-	e_tree->priv->header = e_table_state_to_header (GTK_WIDGET(e_tree), e_tree->priv->full_header, state);
+	connect_header (e_tree, state);
 
 	gtk_object_set (GTK_OBJECT (e_tree->priv->header),
 			"width", (double) (GTK_WIDGET(e_tree->priv->table_canvas)->allocation.width),
 			NULL);
-
-	if (e_tree->priv->sort_info)
-		gtk_object_unref(GTK_OBJECT(e_tree->priv->sort_info));
-
-	if (state->sort_info) {
-		e_tree->priv->sort_info = e_table_sort_info_duplicate(state->sort_info);
-		e_table_sort_info_set_can_group (e_tree->priv->sort_info, FALSE);
-	} else
-		e_tree->priv->sort_info = NULL;
 
 	if (e_tree->priv->header_item)
 		gtk_object_set(GTK_OBJECT(e_tree->priv->header_item),
@@ -1106,17 +1176,8 @@ et_real_construct (ETree *e_tree, ETreeModel *etm, ETableExtras *ete,
 	e_tree->priv->cursor_mode = specification->cursor_mode;
 	e_tree->priv->full_header = e_table_spec_to_full_header(specification, ete);
 
-	e_tree->priv->header = e_table_state_to_header (GTK_WIDGET(e_tree), e_tree->priv->full_header, state);
+	connect_header (e_tree, state);
 	e_tree->priv->horizontal_scrolling = specification->horizontal_scrolling;
-
-	e_tree->priv->sort_info = state->sort_info;
-	gtk_object_ref (GTK_OBJECT (e_tree->priv->sort_info));
-
-	e_table_sort_info_set_can_group (e_tree->priv->sort_info, FALSE);
-
-	gtk_object_set(GTK_OBJECT(e_tree->priv->header),
-		       "sort_info", e_tree->priv->sort_info,
-		       NULL);
 
 	e_tree->priv->model = etm;
 	gtk_object_ref (GTK_OBJECT (etm));
@@ -2724,6 +2785,7 @@ e_tree_class_init (ETreeClass *class)
 	class->click                   = NULL;
 	class->key_press               = NULL;
 	class->start_drag              = et_real_start_drag;
+	class->state_change            = NULL;
 
 	class->tree_drag_begin         = NULL;
 	class->tree_drag_end           = NULL;
@@ -2798,6 +2860,14 @@ e_tree_class_init (ETreeClass *class)
 				GTK_SIGNAL_OFFSET (ETreeClass, start_drag),
 				e_marshal_NONE__INT_POINTER_INT_POINTER,
 				GTK_TYPE_NONE, 4, GTK_TYPE_INT, GTK_TYPE_POINTER, GTK_TYPE_INT, GTK_TYPE_GDK_EVENT);
+
+	et_signals [STATE_CHANGE] =
+		gtk_signal_new ("state_change",
+				GTK_RUN_LAST,
+				E_OBJECT_CLASS_TYPE (object_class),
+				GTK_SIGNAL_OFFSET (ETreeClass, state_change),
+				gtk_marshal_NONE__NONE,
+				GTK_TYPE_NONE, 0);
 
 	et_signals[TREE_DRAG_BEGIN] =
 		gtk_signal_new ("tree_drag_begin",
