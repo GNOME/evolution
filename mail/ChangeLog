@@ -1,3 +1,13 @@
+2005-02-10  Not Zed  <NotZed@Ximian.com>
+
+	** See bug #72266
+
+	* em-folder-selection-button.c
+	(em_folder_selection_button_clicked): if the selector is already
+	up, just raise it.
+	(em_folder_selection_button_destroy): destroy the selector if it
+	is still up.
+
 2005-02-09  Not Zed  <NotZed@Ximian.com>
 
 	** See bug #71429

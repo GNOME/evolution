@@ -51,6 +51,8 @@ static GtkButtonClass *parent_class = NULL;
 struct _EMFolderSelectionButtonPrivate {
 	GtkWidget *icon;
 	GtkWidget *label;
+
+	GtkWidget *selector;
 	
 	char *uri;   /* for single-select mode */
 	GList *uris; /* for multi-select mode */
@@ -167,6 +169,13 @@ em_folder_selection_button_init (EMFolderSelectionButton *emfsb)
 static void
 em_folder_selection_button_destroy (GtkObject *obj)
 {
+	struct _EMFolderSelectionButtonPrivate *priv = ((EMFolderSelectionButton *) obj)->priv;
+
+	if (priv->selector) {
+		gtk_widget_destroy(priv->selector);
+		priv->selector = NULL;
+	}
+
 	GTK_OBJECT_CLASS (parent_class)->destroy (obj);
 }
 
@@ -217,7 +226,12 @@ em_folder_selection_button_clicked (GtkButton *button)
 	
 	if (GTK_BUTTON_CLASS (parent_class)->clicked != NULL)
 		(* GTK_BUTTON_CLASS (parent_class)->clicked) (button);
-	
+
+	if (priv->selector) {
+		gtk_window_present((GtkWindow *)priv->selector);
+		return;
+	}
+
 	model = mail_component_peek_tree_model (mail_component_peek ());
 	emft = (EMFolderTree *) em_folder_tree_new_with_model (model);
 	em_folder_tree_set_multiselect (emft, priv->multiple_select);
@@ -228,6 +242,8 @@ em_folder_selection_button_clicked (GtkButton *button)
 	else
 		em_folder_selector_set_selected ((EMFolderSelector *) dialog, priv->uri);
 	g_signal_connect (dialog, "response", G_CALLBACK (emfsb_selector_response), button);
+	priv->selector = dialog;
+	g_signal_connect(dialog, "destroy", G_CALLBACK(gtk_widget_destroyed), &priv->selector);
 	gtk_widget_show (dialog);
 }
 
