@@ -1,3 +1,14 @@
+2003-02-28  Hans Petter Jansson  <hpj@ximian.com>
+
+	* Makefile.am (SUBDIRS): Add importers/.
+
+	* importers/Makefile.am (server_in_files)
+	(server_DATA): Insert $(libexecdir).
+
+	* importers/icalendar-importer.c (connect_to_shell):
+	oaf_activate_from_id() -> bonobo_activation_activate_from_id().
+	(load_vcalendar_file): U_() -> _().
+
 2003-02-28  Dan Winship  <danw@ximian.com>
 
 	* gui/Makefile.am (libevolution_calendar_la_LIBADD): Remove

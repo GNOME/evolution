@@ -1365,6 +1365,7 @@ widgets/misc/Makefile
 wombat/Makefile
 libwombat/Makefile
 calendar/Makefile
+calendar/importers/Makefile
 calendar/idl/Makefile
 calendar/cal-util/Makefile
 calendar/cal-client/Makefile

@@ -1,3 +1,7 @@
+2003-02-28  Hans Petter Jansson  <hpj@ximian.com>
+
+	* configure.in: Add calendar/importers/Makefile to output.
+
 2003-02-27  Chris Toshok  <toshok@ximian.com>
 
 	* tools/.cvsignore: ignore some stuff, yo.

@@ -27,6 +27,7 @@
 #include <gtk/gtkhbox.h>
 #include <gtk/gtkmain.h>
 #include <libgnome/gnome-util.h>
+#include <libgnome/gnome-i18n.h>
 #include <bonobo/bonobo-control.h>
 #include <bonobo/bonobo-exception.h>
 #include <cal-client.h>
@@ -92,7 +93,7 @@ connect_to_shell (ICalImporter *ici)
 	GNOME_Evolution_Shell corba_shell;
 
 	CORBA_exception_init (&ev);
-	corba_shell = oaf_activate_from_id (E_SHELL_OAFIID, 0, NULL, &ev);
+	corba_shell = bonobo_activation_activate_from_id (E_SHELL_OAFIID, 0, NULL, &ev);
 	if (BONOBO_EX (&ev)) {
 		CORBA_exception_free (&ev);
 		return;
@@ -481,7 +482,7 @@ load_vcalendar_file (const char *filename)
 
 	defaults.alarm_audio_url = "file://" EVOLUTION_SOUNDDIR "/default_alarm.wav";
 	defaults.alarm_audio_fmttype = "audio/x-wav";
-	defaults.alarm_description = (char*) U_("Reminder!!");
+	defaults.alarm_description = (char*) _("Reminder!!");
 
 	contents = read_file (filename);
 
