@@ -1875,7 +1875,7 @@ em_migrate_imap_caches_1_4 (const char *evolution_dir, CamelException *ex)
 		return 0;
 	}
 	
-	dest = g_build_filename (evolution_dir, "imap", NULL);
+	dest = g_build_filename (evolution_dir, "mail", "imap", NULL);
 	
 	/* we don't care if this fails, it's only a cache... */
 	cp_r (src, dest);
