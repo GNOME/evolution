@@ -42,6 +42,8 @@
 #include <camel/camel-stream-filter.h>
 #include <camel/camel-stream-fs.h>
 #include <camel/camel-mime-filter-charset.h>
+#include <camel/camel-offline-folder.h>
+#include <camel/camel-offline-store.h>
 #include <camel/camel-disco-folder.h>
 #include <camel/camel-disco-store.h>
 #include <camel/camel-operation.h>
@@ -2107,6 +2109,8 @@ static void prep_offline_do(struct _mail_msg *mm)
 			camel_disco_folder_prepare_for_offline((CamelDiscoFolder *)folder,
 							       "(match-all)",
 							       &mm->ex);
+		} else if (CAMEL_IS_OFFLINE_FOLDER (folder)) {
+			camel_offline_folder_downsync ((CamelOfflineFolder *) folder, "(match-all)", &mm->ex);
 		}
 		/* prepare_for_offline should do this? */
 		/* of course it should all be atomic, but ... */
@@ -2198,6 +2202,18 @@ static void set_offline_do(struct _mail_msg *mm)
 			camel_disco_store_set_status (CAMEL_DISCO_STORE (m->store),
 						      CAMEL_DISCO_STORE_OFFLINE,
 						      &mm->ex);
+			return;
+		}
+	} else if (CAMEL_IS_OFFLINE_STORE (m->store)) {
+		if (!m->offline) {
+			camel_offline_store_set_network_state (CAMEL_OFFLINE_STORE (m->store),
+							       CAMEL_OFFLINE_STORE_NETWORK_AVAIL,
+							       &mm->ex);
+			return;
+		} else {
+			camel_offline_store_set_network_state (CAMEL_OFFLINE_STORE (m->store),
+							       CAMEL_OFFLINE_STORE_NETWORK_UNAVAIL,
+							       &mm->ex);
 			return;
 		}
 	}

@@ -1,3 +1,13 @@
+2005-01-06  Jeffrey Stedfast  <fejj@novell.com>
+
+	* mail-folder-cache.c (mail_note_store): Handle the
+	CamelOfflineStore case just like the CamelDiscoStore case.
+
+	* mail-ops.c (prep_offline_do): Since we can't kill off
+	CamelDisco* (groupwise is using it), we have to handle both
+	CamelOfflineFolder and CamelDiscoFolder for now.
+	(set_offline_do): Same.
+
 2005-01-05  Not Zed  <NotZed@Ximian.com>
 
 	* em-menu.c: (emph_targets[]): Add the widget target, missed this.

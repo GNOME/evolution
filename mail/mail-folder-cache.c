@@ -40,6 +40,7 @@
 #include <camel/camel-folder.h>
 #include <camel/camel-vtrash-folder.h>
 #include <camel/camel-vee-store.h>
+#include <camel/camel-offline-store.h>
 #include <camel/camel-disco-store.h>
 
 #include "mail-mt.h"
@@ -924,32 +925,36 @@ mail_note_store(CamelStore *store, CamelOperation *op,
 		e_dlist_init(&si->folderinfo_updates);
 		hook = TRUE;
 	}
-
+	
+	ud = g_malloc(sizeof(*ud));
+	ud->done = done;
+	ud->data = data;
+	ud->cancel = 0;
+	
 	/* We might get a race when setting up a store, such that it is still left in offline mode,
 	   after we've gone online.  This catches and fixes it up when the shell opens us */
-	if (CAMEL_IS_DISCO_STORE(store)
-	    && camel_session_is_online(session)
-	    && camel_disco_store_status (CAMEL_DISCO_STORE (store)) == CAMEL_DISCO_STORE_OFFLINE) {
-		ud = g_malloc(sizeof(*ud));
-		ud->done = done;
-		ud->data = data;
-		ud->cancel = 0;
-		/* Note: we use the 'id' here, even though its not the right id, its still ok */
-		ud->id = mail_store_set_offline (store, FALSE, store_online_cb, ud);
-
-		e_dlist_addtail (&si->folderinfo_updates, (EDListNode *) ud);
-	} else if (!CAMEL_IS_DISCO_STORE(store)
-		   || camel_disco_store_status (CAMEL_DISCO_STORE (store)) == CAMEL_DISCO_STORE_ONLINE
-		   || camel_disco_store_can_work_offline (CAMEL_DISCO_STORE (store))) {
-		ud = g_malloc (sizeof (*ud));
-		ud->done = done;
-		ud->data = data;
-		ud->cancel = 0;
+	if (CAMEL_IS_DISCO_STORE (store)) {
+		if (camel_session_is_online (session)
+		    && camel_disco_store_status (CAMEL_DISCO_STORE (store)) == CAMEL_DISCO_STORE_OFFLINE) {
+			/* Note: we use the 'id' here, even though its not the right id, its still ok */
+			ud->id = mail_store_set_offline (store, FALSE, store_online_cb, ud);
+		} else {
+			goto normal_setup;
+		}
+	} else if (CAMEL_IS_OFFLINE_STORE (store)) {
+		if (camel_session_is_online (session) && CAMEL_OFFLINE_STORE (store)->state == CAMEL_OFFLINE_STORE_NETWORK_UNAVAIL) {
+			/* Note: we use the 'id' here, even though its not the right id, its still ok */
+			ud->id = mail_store_set_offline (store, FALSE, store_online_cb, ud);
+		} else {
+			goto normal_setup;
+		}
+	} else {
+	normal_setup:
 		ud->id = mail_get_folderinfo (store, op, update_folders, ud);
-
-		e_dlist_addtail (&si->folderinfo_updates, (EDListNode *) ud);
 	}
-
+	
+	e_dlist_addtail (&si->folderinfo_updates, (EDListNode *) ud);
+	
 	UNLOCK(info_lock);
 
 	/* there is potential for race here, but it is safe as we check for the store anyway */
