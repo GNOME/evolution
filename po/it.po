@@ -5,12 +5,19 @@
 # Marco Ciampa <ciampix@libero.it>, 2003, 2004, 2005
 # Alessio Dessi <alessio.dessi@libero.it>, 2003
 # Monica Badia <Monica.Badia@Sun.COM>, 2003
+#
+# Convenzioni adottate:
+#
+# task = compito
+# meeting = riunione
+# appointment = appuntamento
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: it\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-01-13 09:52+0100\n"
-"PO-Revision-Date: 2005-01-13 13:55+0100\n"
+"POT-Creation-Date: 2005-01-14 10:41+0100\n"
+"PO-Revision-Date: 2005-01-14 15:27+0100\n"
 "Last-Translator: Marco Ciampa <ciampix@libero.it>\n"
 "Language-Team: Italian <tp@lists.linux.it>\n"
 "MIME-Version: 1.0\n"
@@ -111,7 +118,7 @@ msgstr "riunione"
 
 #: a11y/calendar/ea-cal-view-event.c:258
 msgid "event. Summary is "
-msgstr ""
+msgstr "evento. Il riassunto è "
 
 #: a11y/calendar/ea-cal-view-event.c:269
 msgid "empty"
@@ -155,7 +162,8 @@ msgstr "vista calendario per uno o più giorni"
 #: a11y/calendar/ea-day-view-main-item.c:299
 #: a11y/calendar/ea-week-view-main-item.c:301
 msgid "a table to view and select the current time range"
-msgstr "una tabella per visualizzare e selezionare l'ampiezza del tempo corrente"
+msgstr ""
+"una tabella per visualizzare e selezionare l'ampiezza del tempo corrente"
 
 #: a11y/calendar/ea-gnome-calendar.c:187 calendar/gui/calendar-component.c:520
 msgid "%A %d %b %Y"
@@ -1078,7 +1086,7 @@ msgstr "card"
 #: calendar/gui/alarm-notify/alarm-notify.glade.h:12
 #: calendar/gui/dialogs/alarm-dialog.glade.h:27
 #: calendar/gui/dialogs/calendar-setup.glade.h:14 filter/filter.glade.h:16
-#: mail/em-account-editor.c:1817 plugins/calendar-http/calendar-http.c:263
+#: mail/em-account-editor.c:1820 plugins/calendar-http/calendar-http.c:263
 msgid "minutes"
 msgstr "minuti"
 
@@ -2810,7 +2818,10 @@ msgid ""
 "We were unable to open this addressbook. This either means this book is not "
 "marked for offline usage or not yet downloaded for offline usage. Please "
 "load the addressbook once in online mode to download its contents"
-msgstr "Impossibile aprire questa rubrica. Può essere stata impostata solo per l'uso in linea o non è ancora stata scaricata. Caricare la rubrica una volta collegati in maniera da scaricarne i contenuti "
+msgstr ""
+"Impossibile aprire questa rubrica. Può essere stata impostata solo per l'uso "
+"in linea o non è ancora stata scaricata. Caricare la rubrica una volta "
+"collegati in maniera da scaricarne i contenuti "
 
 #: addressbook/gui/widgets/eab-gui-util.c:98
 msgid ""
@@ -3778,9 +3789,7 @@ msgstr ""
 msgid ""
 "If you don't send a cancellation notice, the other participants may not know "
 "the task has been deleted."
-msgstr ""
-"Se non spedisci un'avviso di cancellazione, gli altri partecipanti "
-"potrebbero non saper che l'attività è stata cancellata."
+msgstr "Se non spedisci un'avviso di cancellazione, gli altri partecipanti potrebbero non sapere che il compito è stato cancellato."
 
 #. calendar:prompt-delete-task primary
 #: calendar/calendar-errors.xml.h:18 calendar/calendar-errors.xml.h:44
@@ -3793,9 +3802,7 @@ msgstr "Cancellare questo contatto?"
 #: calendar/calendar-errors.xml.h:20 calendar/calendar-errors.xml.h:42
 #: calendar/calendar-errors.xml.h:46
 msgid "All information on this task will be deleted and can not be restored."
-msgstr ""
-"Tutte le informazioni su questa attività saranno cancellate e non potranno "
-"essere recuperate."
+msgstr "Tutte le informazioni su questo compito saranno cancellate e non potranno essere recuperate."
 
 #. calendar:prompt-cancel-journal primary
 #: calendar/calendar-errors.xml.h:22
@@ -3847,7 +3854,7 @@ msgstr "Cancellare questo appuntamento?"
 #. calendar:prompt-delete-named-task primary
 #: calendar/calendar-errors.xml.h:40
 msgid "Are you sure you want to delete the '{0}' task?"
-msgstr "Cancellare l'attività '{0}'?"
+msgstr "Cancellare il compito '{0}'?"
 
 #. calendar:prompt-delete-named-journal primary
 #: calendar/calendar-errors.xml.h:48
@@ -3880,14 +3887,12 @@ msgstr ""
 #. calendar:prompt-delete-tasks primary
 #: calendar/calendar-errors.xml.h:60
 msgid "Are you sure you want to delete these {0} tasks?"
-msgstr "Cancellare queste {0} attività?"
+msgstr "Cancellare questi {0} compiti?"
 
 #. calendar:prompt-delete-tasks secondary
 #: calendar/calendar-errors.xml.h:62
 msgid "All information on these tasks will be deleted and can not be restored."
-msgstr ""
-"Tutte le informazioni su queste attività saranno cancellate e non potranno "
-"essere recuperate."
+msgstr "Tutte le informazioni su questi compiti saranno cancellate e non potranno essere recuperate."
 
 #. calendar:prompt-delete-journals primary
 #: calendar/calendar-errors.xml.h:64
@@ -3982,40 +3987,36 @@ msgstr ""
 #. calendar:prompt-send-task primary
 #: calendar/calendar-errors.xml.h:96
 msgid "Would you like to send this task to participants?"
-msgstr "Spedire questa attività a tutti i partecipanti?"
+msgstr "Spedire questo compito a tutti i partecipanti?"
 
 #. calendar:prompt-send-task secondary
 #: calendar/calendar-errors.xml.h:98
 msgid ""
 "Email invitations will be sent to all participants and allow them to accept "
 "this task."
-msgstr ""
-"Gli inviti email saranno spediti a tutti i partecipanti e verrà permesso "
-"loro di accettare questa attività."
+msgstr "Gli inviti email saranno spediti a tutti i partecipanti e verrà permesso loro di accettare questo compito."
 
 #. calendar:prompt-send-updated-task-info primary
 #: calendar/calendar-errors.xml.h:102
 msgid "Would you like to send updated task information to participants?"
-msgstr "Spedire l'aggiornamento alle informazioni di attività ai partecipanti?"
+msgstr "Spedire le informazioni aggiornate del compito ai partecipanti?"
 
 #. calendar:prompt-send-updated-task-info secondary
 #: calendar/calendar-errors.xml.h:104
 msgid ""
 "Sending updated information allows other participants to keep their task "
 "lists up to date."
-msgstr ""
-"Spedizione delle informazioni di aggiornamento per permettere a tutti i "
-"partecipanti di mantenere i loro elenchi attività aggiornati."
+msgstr "Spedizione delle informazioni di aggiornamento per permettere a tutti i partecipanti di mantenere i loro elenchi compiti aggiornati."
 
 #. calendar:tasks-crashed primary
 #: calendar/calendar-errors.xml.h:108
 msgid "The Evolution tasks have quit unexpectedly."
-msgstr "Le attività di Evolution si è chiuso inaspettatamente."
+msgstr "I compiti di Evolution si è chiuso inaspettatamente."
 
 #. calendar:tasks-crashed secondary
 #: calendar/calendar-errors.xml.h:110
 msgid "Your tasks will not be available until Evolution is restarted."
-msgstr "Le tue attività non saranno disponibili se non riavviando Evolution."
+msgstr "I tuoi compiti non saranno disponibili se non riavviando Evolution."
 
 #. calendar:calendar-crashed primary
 #: calendar/calendar-errors.xml.h:112
@@ -4294,11 +4295,11 @@ msgstr "Calendari per i quali vengono eseguiti gli allarmi"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:3
 msgid "Color of tasks that are due today"
-msgstr "Colore attività per oggi"
+msgstr "Colore compiti per oggi"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:4
 msgid "Color of tasks that are overdue"
-msgstr "Colore attività a oggi scadute"
+msgstr "Colore compiti a oggi scaduti"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:5
 msgid "Days that are work days"
@@ -4339,7 +4340,7 @@ msgstr "Numero di unità del promemoria predefinito"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:14
 msgid "Number of units for determining when to hide tasks"
-msgstr "Numero di unità per determinare quando nascondere le attività"
+msgstr "Numero di unità per determinare quando nascondere i compiti"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:15
 msgid "Position of the horizontal pane"
@@ -4359,7 +4360,7 @@ msgstr "Posizione del pannello verticale nella vista mensile"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:19
 msgid "Position of the vertical pane in the task view"
-msgstr "Posizione del pannello verticale nella vista attività"
+msgstr "Posizione del pannello verticale nella vista compiti"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:20
 msgid "Programs that can run as part of alarms"
@@ -4379,7 +4380,7 @@ msgstr "Ora di esecuzione dell'ultimo allarme"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:24
 msgid "Units for determining when to hide tasks"
-msgstr "Unità per determinare quando nascondere le attività"
+msgstr "Unità per determinare quando nascondere i compiti"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:25
 msgid "Units of default reminder"
@@ -4403,7 +4404,7 @@ msgstr "Chiedi conferma prima di eliminare una cartella"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:30
 msgid "Whether to hide completed tasks"
-msgstr "Nascondi attività completate"
+msgstr "Nascondi compiti completati"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:31
 msgid "Whether to set a default reminder for events"
@@ -4722,7 +4723,7 @@ msgstr "C_olore:"
 
 #: calendar/gui/dialogs/calendar-setup.c:373
 msgid "Tasks List"
-msgstr "Elenco attività"
+msgstr "Elenco compiti"
 
 #: calendar/gui/dialogs/calendar-setup.c:440
 msgid "Calendar Properties"
@@ -4730,7 +4731,7 @@ msgstr "Proprietà calendario"
 
 #: calendar/gui/dialogs/calendar-setup.c:506
 msgid "Task List Properties"
-msgstr "Proprietà elenco attività"
+msgstr "Proprietà elenco compiti"
 
 #: calendar/gui/dialogs/calendar-setup.glade.h:2
 msgid "Add Calendar"
@@ -4842,13 +4843,12 @@ msgid "<b>General</b>"
 msgstr "<b>Generale</b>"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:9
-#, fuzzy
 msgid "<b>Publishing</b>"
-msgstr "<b>_Luogo per la pubblicazione</b>"
+msgstr "<b>Pubblicazione</b>"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:10
 msgid "<b>Task List</b>"
-msgstr "<b>Elenco attività</b>"
+msgstr "<b>Elenco compiti</b>"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:11
 msgid "<b>Time</b>"
@@ -4862,19 +4862,20 @@ msgstr "<b>Settimana lavorativa</b>"
 #, no-c-format
 msgid ""
 "<i>%u and %d will be replaced by user and domain from the email address.</i>"
-msgstr "<i>%u e %d verranno rimpiazzati da utente e dominio dall'indirizzo email.</i>"
+msgstr ""
+"<i>%u e %d verranno rimpiazzati da utente e dominio dall'indirizzo email.</i>"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:15
 msgid "Calendar and Tasks Settings"
-msgstr "Impostazioni calendario e attività"
+msgstr "Impostazioni calendario e compiti"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:16
 msgid "Color for overdue tasks"
-msgstr "Colore attività scadute"
+msgstr "Colore compiti scaduti"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:17
 msgid "Color for tasks due today"
-msgstr "Colore attività di oggi"
+msgstr "Colore compiti di oggi"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:18
 msgid "Day _ends:"
@@ -5019,7 +5020,7 @@ msgstr "_Ven"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:51
 msgid "_Hide completed tasks after"
-msgstr "_Nascondi le attività completate dopo"
+msgstr "_Nascondi i compiti completati dopo"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:52
 msgid "_Mon"
@@ -5027,7 +5028,7 @@ msgstr "_Lun"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:53
 msgid "_Overdue tasks:"
-msgstr "Attività scadute:"
+msgstr "Compiti scaduti:"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:54
 msgid "_Sat"
@@ -5068,7 +5069,7 @@ msgstr "Questo evento è stato cancellato."
 
 #: calendar/gui/dialogs/changed-comp.c:64
 msgid "This task has been deleted."
-msgstr "Questa attività è stata cancellata."
+msgstr "Questo compito è stato cancellato."
 
 #: calendar/gui/dialogs/changed-comp.c:68
 msgid "This journal entry has been deleted."
@@ -5092,7 +5093,7 @@ msgstr "Questo evento è stato modificato."
 
 #: calendar/gui/dialogs/changed-comp.c:88
 msgid "This task has been changed."
-msgstr "Questa attività è stata modificata."
+msgstr "Questo compito è stato modificato."
 
 #: calendar/gui/dialogs/changed-comp.c:92
 msgid "This journal entry has been changed."
@@ -5159,7 +5160,7 @@ msgstr "Compito assegna_to"
 #: calendar/gui/dialogs/comp-editor.c:1103
 #, c-format
 msgid "Task - %s"
-msgstr "Attività - %s"
+msgstr "Compiti - %s"
 
 #: calendar/gui/dialogs/comp-editor.c:1063
 #: calendar/gui/dialogs/comp-editor.c:1106
@@ -5603,19 +5604,19 @@ msgstr "Nome calendario"
 
 #: calendar/gui/dialogs/new-task-list.glade.h:2
 msgid "<b>Task List Options</b>"
-msgstr "<b>Opzioni elenco attività</b>"
+msgstr "<b>Opzioni elenco compiti</b>"
 
 #: calendar/gui/dialogs/new-task-list.glade.h:3
 msgid "Add New Task List"
-msgstr "Aggiungi nuovo elenco attività"
+msgstr "Aggiungi nuovo elenco compiti"
 
 #: calendar/gui/dialogs/new-task-list.glade.h:4
 msgid "Task List Group"
-msgstr "Gruppo elenco attività"
+msgstr "Gruppo elenco compiti"
 
 #: calendar/gui/dialogs/new-task-list.glade.h:5
 msgid "Task List Name"
-msgstr "Nome elenco attività"
+msgstr "Nome elenco compiti"
 
 #: calendar/gui/dialogs/recur-comp.c:51
 msgid "You are modifying a recurring event, what would you like to modify?"
@@ -5830,7 +5831,7 @@ msgstr "Pagina _web:"
 
 #: calendar/gui/dialogs/task-editor.c:136 calendar/gui/print.c:2300
 msgid "Task"
-msgstr "Attività"
+msgstr "Compiti"
 
 #: calendar/gui/dialogs/task-editor.c:156
 #: calendar/gui/dialogs/task-editor.c:218
@@ -5845,7 +5846,7 @@ msgstr "La data dovuta è errata"
 #: calendar/gui/dialogs/task-page.c:868
 #, c-format
 msgid "Unable to open tasks in '%s'."
-msgstr "Impossibile aprire le attività in '%s'."
+msgstr "Impossibile aprire i compiti in '%s'."
 
 #: calendar/gui/dialogs/task-page.glade.h:3
 msgid "<span weight=\"bold\">Basics</span>"
@@ -6154,7 +6155,7 @@ msgstr "_Incolla"
 
 #: calendar/gui/e-calendar-table.c:1164
 msgid "_Assign Task"
-msgstr "_Assegna attività"
+msgstr "_Assegna compito"
 
 #: calendar/gui/e-calendar-table.c:1165
 msgid "_Forward as iCalendar"
@@ -6166,7 +6167,7 @@ msgstr "_Segna come completato"
 
 #: calendar/gui/e-calendar-table.c:1167
 msgid "_Mark Selected Tasks as Complete"
-msgstr "Segna attività come co_mpletata"
+msgstr "Segna compito come co_mpletato"
 
 #. FIXME: need to disable for undeletable folders
 #: calendar/gui/e-calendar-table.c:1171 calendar/gui/e-calendar-view.c:1408
@@ -6178,12 +6179,12 @@ msgstr "_Elimina"
 
 #: calendar/gui/e-calendar-table.c:1172
 msgid "_Delete Selected Tasks"
-msgstr "_Elimina le attività selezionate"
+msgstr "_Elimina i compiti selezionati"
 
 #: calendar/gui/e-calendar-table.c:1323
 #: calendar/gui/e-calendar-table.etspec.h:4
 msgid "Click to add a task"
-msgstr "Fare clic qui per aggiungere un'attività"
+msgstr "Fare clic qui per aggiungere un compito"
 
 #: calendar/gui/e-calendar-table.etspec.h:2
 #, no-c-format
@@ -6217,7 +6218,7 @@ msgstr "Sommario"
 
 #: calendar/gui/e-calendar-table.etspec.h:12
 msgid "Task sort"
-msgstr "Ordina attività"
+msgstr "Ordina compiti"
 
 #: calendar/gui/e-calendar-view.c:1179
 msgid "Moving items"
@@ -6237,7 +6238,7 @@ msgstr "Nuovo _evento del giorno"
 
 #: calendar/gui/e-calendar-view.c:1367
 msgid "New Task"
-msgstr "Nuova attività"
+msgstr "Nuovo compito"
 
 #. FIXME: hook in this somehow
 #: calendar/gui/e-calendar-view.c:1377
@@ -6535,14 +6536,12 @@ msgstr "Annullato"
 msgid ""
 "The meeting has been cancelled, however it could not be found in your "
 "calendars"
-msgstr ""
-"L'incontro è stato cancellato e non potrà essere trovato nei tuoi calendari"
+msgstr "La riunione è stata cancellata e non potrà essere trovata nei tuoi calendari"
 
 #: calendar/gui/e-itip-control.c:1231
 msgid ""
 "The task has been cancelled, however it could not be found in your task lists"
-msgstr ""
-"L'azione è stata cancellata e non può essere trovata nell'elenco attività"
+msgstr "Il compito è stato cancellato e non può essere trovato nell'elenco compiti"
 
 #: calendar/gui/e-itip-control.c:1310
 #, c-format
@@ -6617,11 +6616,11 @@ msgstr "Messaggio di richiesta riunione non valido"
 #: calendar/gui/e-itip-control.c:1386
 #, c-format
 msgid "<b>%s</b> has published task information."
-msgstr "<b>%s</b> ha pubblicato informazioni sulle proprie attività."
+msgstr "<b>%s</b> ha pubblicato informazioni sui propri compiti"
 
 #: calendar/gui/e-itip-control.c:1387
 msgid "Task Information"
-msgstr "Informazioni sull'attività"
+msgstr "Informazioni sui compiti"
 
 #: calendar/gui/e-itip-control.c:1394
 #, c-format
@@ -6635,26 +6634,26 @@ msgstr "<b>%s</b> ha richiesto che venga eseguito un compito."
 
 #: calendar/gui/e-itip-control.c:1397
 msgid "Task Proposal"
-msgstr "Proposta di attività"
+msgstr "Proposta di compito"
 
 #. FIXME Whats going on here?
 #: calendar/gui/e-itip-control.c:1403
 #, c-format
 msgid "<b>%s</b> wishes to add to an existing task."
-msgstr "<b>%s</b> vuole aggiungere informazioni ad una attività esistente."
+msgstr "<b>%s</b> vuole aggiungere informazioni ad un compito esistente."
 
 #: calendar/gui/e-itip-control.c:1404
 msgid "Task Update"
-msgstr "Aggiornamento attività"
+msgstr "Aggiornamento compiti"
 
 #: calendar/gui/e-itip-control.c:1408
 #, c-format
 msgid "<b>%s</b> wishes to receive the latest task information."
-msgstr "<b>%s</b> vuole ricevere informazioni aggiornate sull'attività."
+msgstr "<b>%s</b> vuole ricevere informazioni aggiornate sui compiti."
 
 #: calendar/gui/e-itip-control.c:1409
 msgid "Task Update Request"
-msgstr "Richiesta di aggiornamento dell'attività"
+msgstr "Richiesta di aggiornamento compiti"
 
 #: calendar/gui/e-itip-control.c:1416
 #, c-format
@@ -6663,20 +6662,20 @@ msgstr "<b>%s</b> ha risposto all'assegnamento di un compito."
 
 #: calendar/gui/e-itip-control.c:1417
 msgid "Task Reply"
-msgstr "Risposta all'attività"
+msgstr "Risposta al compito"
 
 #: calendar/gui/e-itip-control.c:1424
 #, c-format
 msgid "<b>%s</b> has cancelled a task."
-msgstr "<b>%s</b> ha annullato un'attività."
+msgstr "<b>%s</b> ha annullato un compito."
 
 #: calendar/gui/e-itip-control.c:1425
 msgid "Task Cancellation"
-msgstr "Annullamento attività"
+msgstr "Annullamento compito"
 
 #: calendar/gui/e-itip-control.c:1436
 msgid "Bad Task Message"
-msgstr "Messaggio di attività errato"
+msgstr "Messaggio di compito errato"
 
 #: calendar/gui/e-itip-control.c:1460
 #, c-format
@@ -7016,12 +7015,12 @@ msgstr ""
 
 #: calendar/gui/e-tasks.c:782
 msgid "Loading tasks"
-msgstr "Caricamento attività"
+msgstr "Caricamento compiti"
 
 #: calendar/gui/e-tasks.c:864
 #, c-format
 msgid "Opening tasks at %s"
-msgstr "Lettura attività a %s"
+msgstr "Lettura compiti a %s"
 
 #: calendar/gui/e-tasks.c:1061
 msgid "Completing tasks..."
@@ -7043,7 +7042,7 @@ msgstr "Pulizia"
 #: calendar/importers/icalendar-importer.c:709
 #: plugins/groupwise-account-setup/camel-gw-listener.c:406
 msgid "Tasks"
-msgstr "Attività"
+msgstr "Compiti"
 
 # Novell Translation
 #: calendar/gui/e-timezone-entry.c:133
@@ -7082,7 +7081,7 @@ msgstr "Caricamento appuntamento a %s"
 #: calendar/gui/gnome-cal.c:2225
 #, c-format
 msgid "Loading tasks at %s"
-msgstr "Caricamento attività a %s"
+msgstr "Caricamento compiti a %s"
 
 #: calendar/gui/gnome-cal.c:2318
 #, c-format
@@ -7095,15 +7094,15 @@ msgstr "Pulizia"
 
 #: calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:1
 msgid "Calendar and Tasks"
-msgstr "Calendario e attività"
+msgstr "Calendario e compiti"
 
 #: calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:3
 msgid "Configure your timezone, Calendar and Task List here "
-msgstr "Configura quì il tuo fuso orario, il calendario e l'elenco attività"
+msgstr "Configura quì il tuo fuso orario, il calendario e l'elenco compiti"
 
 #: calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:4
 msgid "Evolution Calendar and Tasks"
-msgstr "Calendario e attività di Evolution"
+msgstr "Calendario e compiti di Evolution"
 
 #: calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:5
 msgid "Evolution Calendar configuration control"
@@ -7115,7 +7114,7 @@ msgstr "Visualizzatore di messaggi di scadenze del calendario di Evolution"
 
 #: calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:7
 msgid "Evolution Calendar/Task editor"
-msgstr "Editor del calendario/attività di Evolution"
+msgstr "Editor del calendario/compiti di Evolution"
 
 #: calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:8
 msgid "Evolution's Calendar component"
@@ -7123,7 +7122,7 @@ msgstr "Componente del calendario di Evolution"
 
 #: calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:9
 msgid "Evolution's Tasks component"
-msgstr "Componente delle attività di Evolution"
+msgstr "Componente dei compiti di Evolution"
 
 #: calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:11
 msgid "_Calendars"
@@ -7132,7 +7131,7 @@ msgstr "_Calendari"
 #: calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:12
 #: views/tasks/galview.xml.h:3
 msgid "_Tasks"
-msgstr "_Attività"
+msgstr "Compi_ti"
 
 #: calendar/gui/goto-dialog.glade.h:1
 msgid "April"
@@ -7205,7 +7204,7 @@ msgstr "Informazioni sul calendario"
 
 #: calendar/gui/itip-utils.c:396 calendar/gui/itip-utils.c:505
 msgid "Task information"
-msgstr "Informazioni sull'attività"
+msgstr "Informazioni sul compito"
 
 #: calendar/gui/itip-utils.c:398 calendar/gui/itip-utils.c:507
 msgid "Journal information"
@@ -7251,8 +7250,7 @@ msgid ""
 "\n"
 "Please be patient while Evolution migrates your folders..."
 msgstr ""
-"La posizione e la gerarchia delle cartelle delle attività di Evolution è "
-"cambiata dalla versione 1.x.\n"
+"La posizione e la gerarchia delle cartelle dei compiti di Evolution è cambiata dalla versione 1.x.\n"
 "\n"
 "Attendere che Evolution finisca la migrazione delle cartelle..."
 
@@ -7292,7 +7290,7 @@ msgstr "Impossibile migrare il calendario `%s'"
 #: calendar/gui/migration.c:934
 #, c-format
 msgid "Unable to migrate tasks `%s'"
-msgstr "Impossibile migrare le attività in `%s'."
+msgstr "Impossibile migrare i compiti in `%s'."
 
 #: calendar/gui/print.c:492
 msgid "1st"
@@ -7523,7 +7521,7 @@ msgstr "Impostazione pagina"
 
 #: calendar/gui/tasks-component.c:328
 msgid "New Task List"
-msgstr "Nuovo elenco attività"
+msgstr "Nuovo elenco compiti"
 
 #: calendar/gui/tasks-component.c:404
 #, c-format
@@ -7541,17 +7539,16 @@ msgstr[1] ", %d selezionati"
 
 #: calendar/gui/tasks-component.c:453
 msgid "Failed upgrading tasks."
-msgstr "Fallito aggiornamento attività."
+msgstr "Fallito aggiornamento compiti."
 
 #: calendar/gui/tasks-component.c:747
 #, c-format
 msgid "Unable to open the task list '%s' for creating events and meetings"
-msgstr ""
-"Impossibile aprire l'elenco attività '%s' per creare appuntamenti e riunioni"
+msgstr "Impossibile aprire l'elenco compiti '%s' per creare appuntamenti e riunioni"
 
 #: calendar/gui/tasks-component.c:762
 msgid "There is no calendar available for creating tasks"
-msgstr "Non c'è un calendario accessibile per creare delle attività"
+msgstr "Non c'è un calendario accessibile per creare dei compiti"
 
 #: calendar/gui/tasks-component.c:856
 #, fuzzy
@@ -7560,15 +7557,15 @@ msgstr "Nessuna sorgente è stata selezionata."
 
 #: calendar/gui/tasks-component.c:1039
 msgid "New task"
-msgstr "Nuova attività"
+msgstr "Nuovo compito"
 
 #: calendar/gui/tasks-component.c:1040
 msgid "_Task"
-msgstr "_Attività"
+msgstr "Compi_to"
 
 #: calendar/gui/tasks-component.c:1041
 msgid "Create a new task"
-msgstr "Crea una nuova attività"
+msgstr "Crea una nuovo compito"
 
 # Novell Translation
 #: calendar/gui/tasks-component.c:1047
@@ -7607,11 +7604,9 @@ msgid ""
 "\n"
 "Really erase these tasks?"
 msgstr ""
-"Questa operazione cancella definitivamente tutte le attività contrassegnate "
-"come completate. Se si continua, non sarà più possibile ripristinare questi "
-"messaggi.\n"
+"Questa operazione cancella definitivamente tutti i compiti contrassegnati come completati. Se si continua, non sarà più possibile ripristinare questi messaggi.\n"
 "\n"
-"Cancellare comunque queste attività?"
+"Cancellare comunque questi compiti?"
 
 #: calendar/gui/tasks-control.c:375
 msgid "Do not ask me again."
@@ -10124,26 +10119,26 @@ msgstr ""
 msgid "Select Folder"
 msgstr "Scegli cartella"
 
-#: mail/em-account-editor.c:1809
+#: mail/em-account-editor.c:1812
 #, fuzzy
 msgid "Automatically check for _new mail every"
 msgstr "Sincronizza la posta remota localmente automaticamente"
 
 #. Most sections for this is auto-generated fromt the camel config
-#: mail/em-account-editor.c:2078 mail/em-account-editor.c:2156
+#: mail/em-account-editor.c:2081 mail/em-account-editor.c:2159
 #, fuzzy
 msgid "Receiving Options"
 msgstr "Ricezione posta"
 
-#: mail/em-account-editor.c:2079 mail/em-account-editor.c:2157
+#: mail/em-account-editor.c:2082 mail/em-account-editor.c:2160
 msgid "Checking for New Mail"
 msgstr "Controllo nuova posta"
 
-#: mail/em-account-editor.c:2501 mail/mail-config.glade.h:34
+#: mail/em-account-editor.c:2504 mail/mail-config.glade.h:34
 msgid "Account Editor"
 msgstr "Editor account"
 
-#: mail/em-account-editor.c:2501 mail/mail-config.glade.h:80
+#: mail/em-account-editor.c:2504 mail/mail-config.glade.h:80
 msgid "Evolution Account Assistant"
 msgstr "Guida agli account di Evolution"
 
@@ -10490,7 +10485,7 @@ msgid "Create New Folder"
 msgstr "Crea nuova cartella"
 
 #: mail/em-folder-selector.c:166 mail/em-folder-tree.c:2471
-#: mail/mail-component.c:732 plugins/shared-folder/share-folder-common.c:332
+#: mail/mail-component.c:732 plugins/shared-folder/share-folder-common.c:347
 msgid "Specify where to create the folder:"
 msgstr "Specificare dove creare la cartella:"
 
@@ -10561,7 +10556,7 @@ msgid "Creating folder `%s'"
 msgstr "Creazione cartella `%s'"
 
 #: mail/em-folder-tree.c:2471 mail/mail-component.c:732
-#: plugins/shared-folder/share-folder-common.c:332
+#: plugins/shared-folder/share-folder-common.c:347
 msgid "Create folder"
 msgstr "Crea cartella"
 
@@ -13921,35 +13916,37 @@ msgstr "Salva e ripristina i dati e le impostazioni di Evolution"
 msgid "Restore Settings..."
 msgstr "Ripristina le impostazioni..."
 
-#: plugins/bbdb/bbdb.c:387
+#: plugins/bbdb/bbdb.c:388
 msgid "Automatic Contacts"
 msgstr "Contatti automatici"
 
-#: plugins/bbdb/bbdb.c:396
+#: plugins/bbdb/bbdb.c:397
 msgid "<span weight=\"bold\">Automatic Contacts</span>"
 msgstr "<span weight=\"bold\">Contatti automatici</span>"
 
 #. Enable BBDB checkbox
-#: plugins/bbdb/bbdb.c:409
+#: plugins/bbdb/bbdb.c:410
 msgid ""
 "_Automatically create entries in the addressbook when responding to mail"
-msgstr "_Automaticamente crea delle voci nella rubrica quando si risponde ad un messaggio di posta"
+msgstr ""
+"_Automaticamente crea delle voci nella rubrica quando si risponde ad un "
+"messaggio di posta"
 
-#: plugins/bbdb/bbdb.c:427
+#: plugins/bbdb/bbdb.c:428
 msgid "<span weight=\"bold\">Instant Messaging Contacts</span>"
 msgstr "<span weight=\"bold\">Contatti di messaggistica istantanea</span>"
 
 #. Enable Gaim Checkbox
-#: plugins/bbdb/bbdb.c:440
+#: plugins/bbdb/bbdb.c:441
 msgid ""
 "Periodically synchronize contact information and images from my _instant "
 "messenger"
-msgstr ""
+msgstr "Sincronizza periodicamente le informazioni e le immagini dalla messaggistica _istantanea"
 
 #. Synchronize now button.
-#: plugins/bbdb/bbdb.c:447
+#: plugins/bbdb/bbdb.c:448
 msgid "Synchronize with _buddy list now"
-msgstr ""
+msgstr "Sincronizza ora l'elenco _buddy"
 
 #: plugins/folder-unsubscribe/folder-unsubscribe.c:57
 #, fuzzy, c-format
@@ -13990,15 +13987,13 @@ msgid "Sent to calendar '%s' as cancelled"
 msgstr "Spedita al calendario '%s' come cancellata"
 
 #: plugins/itip-formatter/itip-formatter.c:825
-#, fuzzy
 msgid "Attendee status could not be updated because the status is invalid"
-msgstr ""
-"Impossibile aggiornare lo stato del partecipante: lo stato non è valido!\n"
+msgstr "Impossibile aggiornare lo stato del partecipante perché lo stato non è valido!"
 
 #: plugins/itip-formatter/itip-formatter.c:836
 #, c-format
 msgid "Unable to update attendee statusAttendee status updated. %s"
-msgstr ""
+msgstr "Impossibile aggiornare lo stato del partecipante. Stato partecipante aggiornato. %s "
 
 #: plugins/itip-formatter/itip-formatter.c:840
 msgid "Attendee status updated"
@@ -14012,12 +14007,12 @@ msgstr "Il calendario allegato non è valido"
 msgid ""
 "The message claims to contain a calendar, but the calendar is not valid "
 "iCalendar."
-msgstr ""
+msgstr "Il messaggio contiene un calendario ma il calendario non è un valido iCalendar."
 
 #: plugins/itip-formatter/itip-formatter.c:1000
 #: plugins/itip-formatter/itip-formatter.c:1056
 msgid "The item in the calendar is not valid"
-msgstr ""
+msgstr "La voce nel calendario non è valida"
 
 #: plugins/itip-formatter/itip-formatter.c:1001
 #: plugins/itip-formatter/itip-formatter.c:1057
@@ -14034,18 +14029,17 @@ msgstr "Il calendario allegato contiene voci multiple"
 msgid ""
 "To process all of these items, the file should be saved and the calendar "
 "imported"
-msgstr ""
+msgstr "Per elaborare tutte queste voci, il file dovrebbe essere salvato nel calendario importato"
 
 #: plugins/itip-formatter/itip-formatter.c:1628
-#, fuzzy
 msgid "Meetings and Tasks"
-msgstr "Calendario e attività"
+msgstr "Appuntamenti e compiti"
 
 #. Delete message after acting
 #. FIXME Need a schema for this
 #: plugins/itip-formatter/itip-formatter.c:1651
 msgid "_Delete message after acting"
-msgstr ""
+msgstr "Elimina il messaggio _dopo l'azione"
 
 #: plugins/itip-formatter/itip-formatter.c:1661
 msgid "<span weight=\"bold\">Conflict Search</span>"
@@ -14054,7 +14048,7 @@ msgstr "<span weight=\"bold\">Ricerca conflitti</span>"
 #. Source selector
 #: plugins/itip-formatter/itip-formatter.c:1674
 msgid "Select the calendars to search for meeting conflicts"
-msgstr ""
+msgstr "Seleziona i calendari per cercare gli appuntamenti in conflitto"
 
 #. strftime format of a weekday and a date.
 #: plugins/itip-formatter/itip-view.c:146 ui/evolution-calendar.xml.h:34
@@ -14218,60 +14212,60 @@ msgid "<b>%s</b> through %s wishes to add to an existing meeting:"
 msgstr "<b>%s</b> vuole aggiungersi ad una riunione esistente."
 
 #: plugins/itip-formatter/itip-view.c:311
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> wishes to add to an existing meeting:"
-msgstr "<b>%s</b> vuole aggiungersi ad una riunione esistente."
+msgstr "<b>%s</b> vuole aggiungersi ad una riunione esistente:"
 
 #: plugins/itip-formatter/itip-view.c:314
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "<b>%s</b> wishes to receive the latest information for the following meeting:"
-msgstr "<b>%s</b> vuole ricevere informazioni aggiornate sull'attività."
+msgstr "<b>%s</b> vuole ricevere informazioni aggiornate sulla seguente riunione:"
 
 #: plugins/itip-formatter/itip-view.c:317
-#, fuzzy, c-format
+#, c-format, fuzzy
 msgid "<b>%s</b> has sent back the following meeting response:"
-msgstr "<b>%s</b> ha mandato un messaggio incomprensibile."
+msgstr "<b>%s</b> ha spedito la seguente risposta di invito a riunione:"
 
 #: plugins/itip-formatter/itip-view.c:321
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> through %s has cancelled the following meeting:"
-msgstr "<b>%s</b> ha annullato una riunione."
+msgstr "<b>%s</b> attraverso %s ha annullato la seguente riunione:"
 
 #: plugins/itip-formatter/itip-view.c:323
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> has cancelled the following meeting."
-msgstr "<b>%s</b> ha annullato una riunione."
+msgstr "<b>%s</b> ha annullato la seguente riunione."
 
 #: plugins/itip-formatter/itip-view.c:326
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> has proposed the following meeting changes."
-msgstr "<b>%s</b> ha risposto ad una richiesta di riunione."
+msgstr "<b>%s</b> ha proposto il seguente cambiamento di riunione."
 
 #: plugins/itip-formatter/itip-view.c:330
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> through %s has declined the following meeting changes:"
-msgstr "<b>%s</b> ha risposto ad una richiesta di riunione."
+msgstr "<b>%s</b> attraverso %s ha declinato il seguente cambiamento di riunione:"
 
 #: plugins/itip-formatter/itip-view.c:332
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> has declined the following meeting changes."
-msgstr "<b>%s</b> ha risposto ad una richiesta di riunione."
+msgstr "<b>%s</b> ha declinato le seguenti richieste di modifica di riunione."
 
 #: plugins/itip-formatter/itip-view.c:359
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> through %s has published the following task:"
-msgstr "<b>%s</b> ha pubblicato informazioni sulle proprie attività."
+msgstr "<b>%s</b> attraverso %s ha pubblicato il seguente compito:"
 
 #: plugins/itip-formatter/itip-view.c:361
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> has published the following task:"
-msgstr "<b>%s</b> ha pubblicato informazioni sulle proprie attività."
+msgstr "<b>%s</b> ha pubblicato il seguente compito:"
 
 #: plugins/itip-formatter/itip-view.c:366
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> requests the assignment of %s to the following task:"
-msgstr "<b>%s</b> richiede la presenza di %s ad una riunione."
+msgstr "<b>%s</b> richiede l'assegnamento di %s al seguente compito:"
 
 #: plugins/itip-formatter/itip-view.c:369
 #, fuzzy, c-format
@@ -14311,24 +14305,24 @@ msgid "<b>%s</b> through %s has cancelled the following assigned task:"
 msgstr "<b>%s</b> ha annullato un'attività."
 
 #: plugins/itip-formatter/itip-view.c:391
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> has cancelled the following assigned task:"
-msgstr "<b>%s</b> ha annullato un'attività."
+msgstr "<b>%s</b> ha eliminato la seguente attività assegnata:"
 
 #: plugins/itip-formatter/itip-view.c:394
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> has proposed the following task assignment changes:"
-msgstr "<b>%s</b> ha risposto all'assegnamento di un compito."
+msgstr "<b>%s</b> ha proposto i seguenti cambiamenti all'assegnamento di un'attività:"
 
 #: plugins/itip-formatter/itip-view.c:398
 #, c-format
 msgid "<b>%s</b> through %s has declined the following assigned task:"
-msgstr ""
+msgstr "<b>%s</b> attraverso %s ha declinato la seguente attività assegnata:"
 
 #: plugins/itip-formatter/itip-view.c:400
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> has declined the following assigned task:"
-msgstr "<b>%s</b> ha risposto all'assegnamento di un compito."
+msgstr "<b>%s</b> ha risposto all'assegnamento di un'attività:"
 
 #. Comment
 #: plugins/itip-formatter/itip-view.c:846
@@ -14344,35 +14338,32 @@ msgstr "Calendario:"
 
 #. org.gnome.mailing-list-actions:no-header primary
 #: plugins/mailing-list-actions/org-gnome-mailing-list-actions-errors.xml.h:2
-#, fuzzy
 msgid "Action not available"
-msgstr "TLS non disponibile"
+msgstr "Azione non disponibile"
 
 #. org.gnome.mailing-list-actions:no-header secondary
 #: plugins/mailing-list-actions/org-gnome-mailing-list-actions-errors.xml.h:4
 msgid ""
 "This message does not contain the header information required for this "
 "action."
-msgstr ""
+msgstr "Questo messaggio non contiene le informazioni di intestazione richieste per questa azione."
 
 #. org.gnome.mailing-list-actions:posting-not-allowed primary
 #: plugins/mailing-list-actions/org-gnome-mailing-list-actions-errors.xml.h:6
-#, fuzzy
 msgid "Posting not allowed"
-msgstr "Fallito la spedizione della posta: %s"
+msgstr "Spedizione non permessa"
 
 #. org.gnome.mailing-list-actions:posting-not-allowed secondary
 #: plugins/mailing-list-actions/org-gnome-mailing-list-actions-errors.xml.h:8
 msgid ""
 "Posting to this mailing list is not allowed. Possibly, this is a read-only "
 "mailing list. Contact the list owner for details."
-msgstr ""
+msgstr "La spedizione a questa mailing list non è permessa. Probabilmente è una mailing list a sola letture. Contatta il gestore della lista per delucidazioni."
 
 #. org.gnome.mailing-list-actions:ask-send-message primary
 #: plugins/mailing-list-actions/org-gnome-mailing-list-actions-errors.xml.h:10
-#, fuzzy
 msgid "Send e-mail message to mailing list?"
-msgstr "Invia un _messaggio alla lista..."
+msgstr "Inviare un messaggio email alla lista?"
 
 #. org.gnome.mailing-list-actions:ask-send-message secondary
 #: plugins/mailing-list-actions/org-gnome-mailing-list-actions-errors.xml.h:12
@@ -14385,20 +14376,17 @@ msgid ""
 msgstr ""
 
 #: plugins/mailing-list-actions/org-gnome-mailing-list-actions-errors.xml.h:15
-#, fuzzy
 msgid "_Send message"
-msgstr "Invio messaggio"
+msgstr "Invia me_ssaggio"
 
 #: plugins/mailing-list-actions/org-gnome-mailing-list-actions-errors.xml.h:16
-#, fuzzy
 msgid "_Edit message"
-msgstr "Invio messaggio"
+msgstr "Modifica m_essaggio"
 
 #. org.gnome.mailing-list-actions:malformed-header primary
 #: plugins/mailing-list-actions/org-gnome-mailing-list-actions-errors.xml.h:18
-#, fuzzy
 msgid "Malformed header"
-msgstr "Firma malformata"
+msgstr "Intestazione malformata"
 
 #. org.gnome.mailing-list-actions:malformed-header secondary
 #: plugins/mailing-list-actions/org-gnome-mailing-list-actions-errors.xml.h:20
@@ -14410,9 +14398,8 @@ msgstr ""
 
 #. org.gnome.mailing-list-actions:no-action primary
 #: plugins/mailing-list-actions/org-gnome-mailing-list-actions-errors.xml.h:24
-#, fuzzy
 msgid "No e-mail action"
-msgstr "Azioni di filtraggio dei log"
+msgstr "Nessuna azione email"
 
 #. org.gnome.mailing-list-actions:no-action secondary
 #: plugins/mailing-list-actions/org-gnome-mailing-list-actions-errors.xml.h:26
@@ -14424,9 +14411,8 @@ msgid ""
 msgstr ""
 
 #: plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:1
-#, fuzzy
 msgid "Contact list _owner"
-msgstr "Editor dell'elenco dei contatti"
+msgstr "Contatta il gest_ore della lista"
 
 #: plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:2
 #, fuzzy
@@ -14451,9 +14437,8 @@ msgid "Get list _usage information"
 msgstr "Dettagli della riunione"
 
 #: plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:7
-#, fuzzy
 msgid "Mailing _List"
-msgstr "Mailing list"
+msgstr "Mailing _list"
 
 #: plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:8
 #, fuzzy
@@ -14471,90 +14456,77 @@ msgid "Unsubscribe to the mailing list this message belongs to"
 msgstr "Componi una risposta alla mailing list del messaggio selezionato"
 
 #: plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:11
-#, fuzzy
 msgid "_Post message to list"
-msgstr "Invia un _messaggio alla lista..."
+msgstr "In_via un messaggio alla lista"
 
 #: plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:12
-#, fuzzy
 msgid "_Subscribe to list"
-msgstr "_Iscrizione"
+msgstr "I_scrizione alla lista"
 
 #: plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:13
-#, fuzzy
 msgid "_Un-subscribe to list"
-msgstr "_Annulla iscrizione"
+msgstr "Ann_ulla iscrizione alla lista"
 
 #: plugins/plugin-manager/org-gnome-plugin-manager.xml.h:1
 msgid "Enable and disable plugins"
-msgstr ""
+msgstr "Abilita e disabilita plugin"
 
 #: plugins/plugin-manager/org-gnome-plugin-manager.xml.h:2
-#, fuzzy
 msgid "Manage Plugins..."
-msgstr "Annullamento..."
+msgstr "Gestione plugin..."
 
 #: plugins/plugin-manager/plugin-manager.c:45
-#, fuzzy
 msgid "Author(s)"
-msgstr "ora(e)"
+msgstr "Autore(i)"
 
 #: plugins/plugin-manager/plugin-manager.c:46
-#, fuzzy
 msgid "Id"
-msgstr "I"
+msgstr "Id"
 
 #: plugins/plugin-manager/plugin-manager.c:47
-#, fuzzy
 msgid "Path"
-msgstr "_Percorso:"
+msgstr "Percorso"
 
 #: plugins/plugin-manager/plugin-manager.c:48
-#, fuzzy
 msgid "Description"
-msgstr "Descrizione:"
+msgstr "Descrizione"
 
 #. Setup the ui
 #: plugins/plugin-manager/plugin-manager.c:188
-#, fuzzy
 msgid "Plugin Manager"
-msgstr "Manager"
+msgstr "Gestore plugin"
 
 #: plugins/plugin-manager/plugin-manager.c:201
 msgid "Note: Some changes will not take effect until restart"
 msgstr ""
 
 #: plugins/plugin-manager/plugin-manager.c:210
-#, fuzzy
 msgid "Plugin"
-msgstr "Pulizia"
+msgstr "Plugin"
 
 #: plugins/prefer-plain/prefer-plain.c:105
 msgid "Show HTML if present"
-msgstr ""
+msgstr "Mostra HTML se presente"
 
 #: plugins/prefer-plain/prefer-plain.c:106
 msgid "Prefer PLAIN"
-msgstr ""
+msgstr "Preferisci testo semplice"
 
 #: plugins/prefer-plain/prefer-plain.c:107
 msgid "Only ever show PLAIN"
-msgstr ""
+msgstr "Mostra solo testo semplice"
 
 #: plugins/prefer-plain/prefer-plain.c:150
-#, fuzzy
 msgid "HTML Mode"
-msgstr "Posta in HTML"
+msgstr "Modalità HTML"
 
 #: plugins/save-attachments/org-gnome-save-attachments.xml.h:1
-#, fuzzy
 msgid "Save Attachments ..."
-msgstr "_Allegato..."
+msgstr "Salva allegati..."
 
 #: plugins/save-attachments/org-gnome-save-attachments.xml.h:2
-#, fuzzy
 msgid "Save all attachments"
-msgstr "Salvataggio Allegati"
+msgstr "Salva tutti gli allegati"
 
 #: plugins/save-attachments/save-attachments.c:331
 #, fuzzy
@@ -14562,9 +14534,8 @@ msgid "Select save base name"
 msgstr "Selezionare un fuso orario"
 
 #: plugins/save-attachments/save-attachments.c:351
-#, fuzzy
 msgid "MIME Type"
-msgstr "Tipo MIME:"
+msgstr "Tipo MIME"
 
 #: plugins/save-attachments/save-attachments.c:359
 #: ui/evolution-message-composer.xml.h:16
@@ -14594,13 +14565,12 @@ msgid "Prepend a header"
 msgstr ""
 
 #: plugins/save-calendar/csv-format.c:535
-#, fuzzy
 msgid "Value delimiter:"
-msgstr "Consegne locali"
+msgstr "Delimitatore del valore:"
 
 #: plugins/save-calendar/csv-format.c:541
 msgid "Record delimiter:"
-msgstr ""
+msgstr "Delimitatore del record:"
 
 #: plugins/save-calendar/csv-format.c:547
 msgid "Encapsulate values with:"
@@ -14608,23 +14578,21 @@ msgstr ""
 
 #: plugins/save-calendar/csv-format.c:569
 msgid "Comma separated value format (.csv)"
-msgstr ""
+msgstr "Formato dati separati da virgole (.csv)"
 
 #: plugins/save-calendar/ical-format.c:120
-#, fuzzy
 msgid "iCalendar format (.ics)"
-msgstr "File iCalendar (.ics)"
+msgstr "Formato iCalendar (.ics)"
 
 #: plugins/save-calendar/rdf-format.c:390
 msgid "RDF format (.rdf)"
-msgstr ""
+msgstr "Formato RDF (.rdf)"
 
 # Novell Translation
 #: plugins/save-calendar/save-calendar.c:172
 #: plugins/save-calendar/save-calendar.c:182
-#, fuzzy
 msgid "Select destination file"
-msgstr "Seleziona un file"
+msgstr "Seleziona file di destinazione"
 
 #: plugins/save-calendar/save-calendar.c:217
 #, c-format
@@ -14634,35 +14602,30 @@ msgid ""
 msgstr ""
 
 #: plugins/shared-folder/properties.glade.h:1
-#, fuzzy
 msgid ""
 "\n"
 "Share List"
-msgstr "Elenco telefonico"
+msgstr "\nElenco condiviso"
 
 #: plugins/shared-folder/properties.glade.h:4
-#, fuzzy
 msgid "Ad_d"
-msgstr "_Aggiungi"
+msgstr "A_ggiungi"
 
 #: plugins/shared-folder/properties.glade.h:5
 msgid "Additional Access"
-msgstr ""
+msgstr "Accesso addizionale"
 
 #: plugins/shared-folder/properties.glade.h:7
-#, fuzzy
 msgid "Delet_e"
-msgstr "Elimina"
+msgstr "_Elimina"
 
 #: plugins/shared-folder/properties.glade.h:8
-#, fuzzy
 msgid "Edi_t"
-msgstr "Modifica"
+msgstr "Mo_difica"
 
 #: plugins/shared-folder/properties.glade.h:10
-#, fuzzy
 msgid "Message"
-msgstr "Mes_saggio:"
+msgstr "Messaggio"
 
 #: plugins/shared-folder/properties.glade.h:12
 msgid "Sen_d Custom Notification"
@@ -14670,39 +14633,35 @@ msgstr ""
 
 #: plugins/shared-folder/properties.glade.h:13
 msgid "Shared Folder Notification"
-msgstr ""
+msgstr "Notifica cartella condivisa"
 
 #: plugins/shared-folder/properties.glade.h:15
 msgid "The participants will receive the following notification.\n"
 msgstr ""
 
 #: plugins/shared-folder/properties.glade.h:18
-#, fuzzy
 msgid "_Not Shared"
-msgstr "Da cominciare"
+msgstr "_Non condivisa"
 
 #: plugins/shared-folder/properties.glade.h:20
 msgid "_Shared With ..."
-msgstr ""
+msgstr "Condivi_sa con ..."
 
 #: plugins/shared-folder/properties.glade.h:21
-#, fuzzy
 msgid "_Sharing"
-msgstr "Ombreggiatura"
+msgstr "Condivi_sione"
 
-#: plugins/shared-folder/share-folder-common.c:303
-#, fuzzy
+#: plugins/shared-folder/share-folder-common.c:316
 msgid "Users"
-msgstr "Nome utente"
+msgstr "Utenti"
 
-#: plugins/shared-folder/share-folder-common.c:304
+#: plugins/shared-folder/share-folder-common.c:317
 msgid "Enter the users and set permissions"
-msgstr ""
+msgstr "Inserisci utenti e imposta i permessi"
 
-#: plugins/shared-folder/share-folder-common.c:382
-#, fuzzy
+#: plugins/shared-folder/share-folder-common.c:397
 msgid "Sharing"
-msgstr "Ombreggiatura"
+msgstr "Condivisione"
 
 #. Create the checkbox we will display, complete with mnemonic that is unique in the dialog
 #: plugins/subject-thread/subject-thread.c:54
@@ -14711,11 +14670,11 @@ msgstr ""
 
 #: shell/apps_evolution_shell.schemas.in.in.h:1
 msgid "Button style"
-msgstr ""
+msgstr "Stile tasto"
 
 #: shell/apps_evolution_shell.schemas.in.in.h:2
 msgid "Buttons are visible"
-msgstr ""
+msgstr "I tasti sono visibili"
 
 # Novell Translation
 #: shell/apps_evolution_shell.schemas.in.in.h:3
