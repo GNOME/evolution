@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-07-14 19:36+0200\n"
-"PO-Revision-Date: 2004-07-14 23:00+0200\n"
+"POT-Creation-Date: 2004-07-16 14:57+0200\n"
+"PO-Revision-Date: 2004-07-16 17:26+0200\n"
 "Last-Translator: Miloslav Trmac <mitr@volny.cz>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -4893,13 +4893,13 @@ msgid "No summary"
 msgstr "Není shrnutí"
 
 #: calendar/gui/dialogs/comp-editor.c:1302
-#: calendar/gui/dialogs/comp-editor.c:1337
-#: calendar/gui/dialogs/comp-editor.c:1363
+#: calendar/gui/dialogs/comp-editor.c:1335
+#: calendar/gui/dialogs/comp-editor.c:1359
 msgid "Changes made to this item may be discarded if an update arrives"
 msgstr ""
 "Změny provedené v této položce mohou být ztraceny, pokud dorazí aktualizace"
 
-#: calendar/gui/dialogs/comp-editor.c:1387
+#: calendar/gui/dialogs/comp-editor.c:1383
 msgid "Unable to use current version!"
 msgstr "Nemohu používat aktuální verzi!"
 
@@ -8906,10 +8906,9 @@ msgstr "Pro dokončení této operace musíte pracovat on-line"
 msgid "Failed to create pipe to '%s': %s"
 msgstr "Nemohu vytvořit rouru k '%s': %s"
 
-#: camel/camel-filter-driver.c:713 camel/camel-filter-search.c:549
-#: camel/camel-process.c:90
+#: camel/camel-filter-driver.c:713 camel/camel-process.c:90
 #, c-format
-msgid "Failed to create create child process '%s': %s"
+msgid "Failed to create child process '%s': %s"
 msgstr "Nemohu vytvořit proces potomka '%s': %s"
 
 #: camel/camel-filter-driver.c:756
@@ -8978,6 +8977,11 @@ msgstr "Neplatné parametry pro (system-flag)"
 #: camel/camel-filter-search.c:401
 msgid "Invalid arguments to (user-tag)"
 msgstr "Neplatné parametry pro (user-tag)"
+
+#: camel/camel-filter-search.c:549
+#, c-format
+msgid "Failed to create create child process '%s': %s"
+msgstr "Nemohu vytvořit proces potomka '%s': %s"
 
 #: camel/camel-filter-search.c:670 camel/camel-filter-search.c:678
 #, c-format
