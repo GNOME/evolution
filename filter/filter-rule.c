@@ -766,7 +766,7 @@ get_widget (FilterRule *fr, struct _RuleContext *f)
 	gtk_menu_append (GTK_MENU (menu), item);
 	gtk_widget_show (item);
 	
-	item = gtk_menu_item_new_with_label (_("if any criteria are met"));
+	item = gtk_menu_item_new_with_label (_("if any criterion are met"));
 	gtk_signal_connect (GTK_OBJECT (item), "activate", match_any, fr);
 	gtk_menu_append (GTK_MENU (menu), item);
 	gtk_widget_show (item);

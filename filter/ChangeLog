@@ -1,3 +1,8 @@
+2002-04-12  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* filter-rule.c (get_widget): Fixed a grammer mistake, or so
+	according to bug #23376. Whatever.
+
 2002-04-11  Russell Steinthal  <rms39@columbia.edu>
 
 	* filtertypes.xml: Fix "Follow Up" searches by generating a
