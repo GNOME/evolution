@@ -343,6 +343,7 @@ shell/main.c
 tools/evolution-addressbook-abuse.c
 tools/evolution-addressbook-export.c
 tools/evolution-addressbook-import.c
+tools/evolution-launch-composer.c
 ui/evolution-addressbook.h
 ui/evolution-addressbook.xml
 ui/evolution-calendar.xml
