@@ -37,8 +37,6 @@
 #include "Evolution.h"
 #include "evolution-storage.h"
 
-#include "mail-local-storage.h"
-
 #include "filter/vfolder-context.h"
 
 #include <evolution-services/executive-summary-component.h>

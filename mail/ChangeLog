@@ -24,6 +24,8 @@
 	* Makefile.am (evolution_mail_SOURCES): Remove
 	mail-local-storage.[ch]
 
+	* mail-summary.c: Remove mail-local-storage.h include
+
 2000-11-06  Kjartan Maraas  <kmaraas@gnome.org>
 
 	* mail-autofilter.c: Fix up #include <config.h>
