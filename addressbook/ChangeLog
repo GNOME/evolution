@@ -1,5 +1,13 @@
 2002-11-08  Chris Toshok  <toshok@ximian.com>
 
+	* gui/contact-list-editor/contact-list-editor.glade: convert to glade-2
+
+	* gui/contact-list-editor/e-contact-list-editor.c: port work.
+	
+	* gui/contact-list-editor/e-contact-list-model.[ch]: port work.
+
+2002-11-08  Chris Toshok  <toshok@ximian.com>
+
 	* gui/contact-editor/e-contact-editor-address.[ch]: port work.
 
 	* gui/contact-editor/e-contact-editor-fullname.[ch]: port work.

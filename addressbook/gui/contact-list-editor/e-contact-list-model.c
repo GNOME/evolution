@@ -158,7 +158,7 @@ e_contact_list_model_new ()
 {
 	EContactListModel *model;
 
-	model = gtk_type_new (e_contact_list_model_get_type ());
+	model = g_object_new (E_TYPE_CONTACT_LIST_MODEL, NULL);
 
 	e_contact_list_model_construct (model);
 
