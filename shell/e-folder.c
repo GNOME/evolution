@@ -68,6 +68,7 @@ struct _EFolderPrivate {
 
 enum {
 	CHANGED,
+	NAME_CHANGED,
 	LAST_SIGNAL
 };
 
@@ -147,6 +148,13 @@ class_init (EFolderClass *klass)
 					   GTK_SIGNAL_OFFSET (EFolderClass, changed),
 					   gtk_marshal_NONE__NONE,
 					   GTK_TYPE_NONE, 0);
+
+	signals[NAME_CHANGED] = gtk_signal_new ("name_changed",
+						GTK_RUN_FIRST,
+						object_class->type,
+						GTK_SIGNAL_OFFSET (EFolderClass, name_changed),
+						gtk_marshal_NONE__NONE,
+						GTK_TYPE_NONE, 0);
 
 	gtk_object_class_add_signals (object_class, signals, LAST_SIGNAL);
 
@@ -336,6 +344,7 @@ e_folder_set_name (EFolder *folder,
 	g_free (folder->priv->name);
 	folder->priv->name = g_strdup (name);
 
+	gtk_signal_emit (GTK_OBJECT (folder), signals[NAME_CHANGED]);
 	gtk_signal_emit (GTK_OBJECT (folder), signals[CHANGED]);
 }
 

@@ -60,6 +60,7 @@ struct _EFolderClass {
 
 	/* Signals.  */
 	void (* changed) (EFolder *folder);
+	void (* name_changed) (EFolder *folder);
 };
 
 

@@ -1,3 +1,30 @@
+2002-09-17  Ettore Perazzoli  <ettore@ximian.com>
+
+	[Fix #28451.]
+
+	* e-storage-set-view.c: New member sort_idle_id in
+	EStorageSetViewPrivate.
+	(init): Init to zero.
+	(impl_destroy): Remove the idle source if not zero.
+	(queue_resort): New.
+	(sort_idle_callback): Idle function to sort.
+	(setup_folder_changed_callback): New.
+	(new_folder_cb): Call it on the new folder so we get the callback
+	for new folders too.
+	(popup_folder_menu): Ref the folder before popping up the menu,
+	unref it after popping it down [the folder might be unreffed in
+	gnome_popup_menu_do_popup_modal() because of a folder action].
+	(new_storage_cb): Just queue_resort() instead of sorting.
+	(new_folder_cb): Likewise.
+	(insert_folders): Likewise.
+	(insert_storages): Likewise.
+	(folder_changed_cb): Queue a resort here too.
+
+	* e-folder.c (class_init): Set up "name_changed" signal.
+	(e_folder_set_name): Emit "name_changed".
+
+	* e-folder.h: New signal "name_changed".
+
 2002-09-17  Kjartan Maraas  <kmaraas@gnome.org>
 
 	* e-shell-settings-dialog.c (page_new): Invoke gettext on 
