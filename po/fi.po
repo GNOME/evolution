@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2005-02-22 11:57+0200\n"
-"PO-Revision-Date: 2005-02-22 11:57+0200\n"
+"PO-Revision-Date: 2005-03-04 11:08+0200\n"
 "Last-Translator: Ilkka Tuohela <hile@iki.fi>\n"
 "Language-Team: Finnish <gnome-fi-laatu@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -10375,11 +10375,11 @@ msgstr "Valitse kansio"
 
 #: ../mail/em-account-editor.c:1662 ../mail/mail-config.glade.h:89
 msgid "Identity"
-msgstr "Identiteetti"
+msgstr "Omat tiedot"
 
 #: ../mail/em-account-editor.c:1698 ../mail/mail-config.glade.h:114
 msgid "Receiving Email"
-msgstr "Sähköpostin vastaanotto"
+msgstr "Vastaanotto"
 
 #: ../mail/em-account-editor.c:1875
 msgid "Automatically check for _new mail every"
@@ -10387,11 +10387,11 @@ msgstr "T_arkista onko uutta postia joka"
 
 #: ../mail/em-account-editor.c:2044 ../mail/mail-config.glade.h:124
 msgid "Sending Email"
-msgstr "Lähetetään sähköpostia"
+msgstr "Lähetys"
 
 #: ../mail/em-account-editor.c:2088 ../mail/mail-config.glade.h:67
 msgid "Defaults"
-msgstr "Oletukset"
+msgstr "Oletusasetukset"
 
 #: ../mail/em-account-editor.c:2147 ../mail/mail-config.glade.h:119
 msgid "Security"
@@ -10404,7 +10404,7 @@ msgstr "Vastaanoton asetukset"
 
 #: ../mail/em-account-editor.c:2185 ../mail/em-account-editor.c:2260
 msgid "Checking for New Mail"
-msgstr "Haetaan uusia viestejä"
+msgstr "Uusien viestien haku"
 
 #: ../mail/em-account-editor.c:2600 ../mail/mail-config.glade.h:33
 msgid "Account Editor"
