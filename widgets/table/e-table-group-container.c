@@ -30,7 +30,6 @@
 #include "e-table-group-leaf.h"
 #include "e-table-item.h"
 #include "gal/util/e-util.h"
-#include "gal/util/e-unicode-i18n.h"
 #include "gal/widgets/e-canvas.h"
 #include "gal/widgets/e-canvas-utils.h"
 #include "gal/widgets/e-unicode.h"
