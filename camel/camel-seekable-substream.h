@@ -1,7 +1,8 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/* camel-seekable-substream.h : stream
- *
- * Author :
+/* camel-seekable-substream.h: stream that piggybacks on another stream */
+
+/*
+ * Author:
  *  Bertrand Guiheneuf <bertrand@helixcode.com>
  *
  * Copyright 1999, 2000 Helix Code, Inc. (http://www.helixcode.com)
@@ -50,10 +51,6 @@ struct _CamelSeekableSubstream
 typedef struct {
 	CamelSeekableStreamClass parent_class;
 
-	/* Virtual methods */
-	void (*init_with_seekable_stream_and_bounds) (CamelSeekableSubstream *seekable_substream,
-						      CamelSeekableStream    *parent_stream,
-						      off_t start, off_t end);
 } CamelSeekableSubstreamClass;
 
 /* Standard Gtk function */

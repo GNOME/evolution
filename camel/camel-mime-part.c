@@ -36,6 +36,7 @@
 #include "camel-stream-mem.h"
 #include "camel-stream-filter.h"
 #include "camel-mime-filter-basic.h"
+#include "camel-exception.h"
 
 #define d(x)
 
@@ -66,7 +67,8 @@ static void            finalize (GtkObject *object);
 
 /* from CamelDataWrapper */
 static int             write_to_stream                 (CamelDataWrapper *data_wrapper, 
-							CamelStream *stream);
+							CamelStream *stream,
+							CamelException *ex);
 static int	       construct_from_stream	       (CamelDataWrapper *dw, CamelStream *s);
 
 /* from CamelMedia */ 
@@ -478,12 +480,13 @@ set_content_object (CamelMedium *medium, CamelDataWrapper *content)
 /**********************************************************************/
 
 static int
-write_to_stream (CamelDataWrapper *data_wrapper, CamelStream *stream)
+write_to_stream (CamelDataWrapper *data_wrapper, CamelStream *stream,
+		 CamelException *ex)
 {
 	CamelMimePart *mp = CAMEL_MIME_PART (data_wrapper);
 	CamelMedium *medium = CAMEL_MEDIUM (data_wrapper);
 	CamelDataWrapper *content;
-	int total = 0, count;
+	int total = 0;
 
 	d(printf("mime_part::write_to_stream\n"));
 
@@ -494,16 +497,19 @@ write_to_stream (CamelDataWrapper *data_wrapper, CamelStream *stream)
 	if (mp->headers) {
 		struct _header_raw *h = mp->headers;
 		while (h) {
-			if ( (count = camel_stream_write_strings (stream, h->name, isspace(h->value[0])?":":": ", h->value, "\n", NULL) ) == -1 )
+			total += camel_stream_printf (stream, ex, "%s%s%s\n",
+						      h->name,
+						      isspace(h->value[0]) ? ":" : ": ",
+						      h->value);
+			if (camel_exception_is_set (ex))
 				return -1;
-			total += count;
 			h = h->next;
 		}
 	}
 
-	if ( (count = camel_stream_write_string(stream,"\n")) == -1)
+	total += camel_stream_write (stream, "\n", 1, ex);
+	if (camel_exception_is_set (ex))
 		return -1;
-	total += count;
 
 	content = camel_medium_get_content_object (medium);
 	if (content) {
@@ -531,13 +537,11 @@ write_to_stream (CamelDataWrapper *data_wrapper, CamelStream *stream)
 		}
 
 #endif
-		if ( (count = camel_data_wrapper_write_to_stream(content, stream)) == -1 )
-			total = -1;
-		else
-			total += count;
-
+		total += camel_data_wrapper_write_to_stream (content, stream, ex);
 		if (filter_stream)
 			gtk_object_unref((GtkObject *)filter_stream);
+		if (camel_exception_is_set (ex))
+			return -1;
 	} else {
 		g_warning("No content for medium, nothing to write");
 	}

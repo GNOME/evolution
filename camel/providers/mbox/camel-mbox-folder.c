@@ -721,11 +721,11 @@ mbox_append_message (CamelFolder *folder, CamelMimeMessage *message, CamelExcept
 	if (stat(mbox_folder->folder_file_path, &st) != 0)
 		goto fail;
 
-	output_stream = camel_stream_fs_new_with_name (mbox_folder->folder_file_path, O_RDWR, 0600);
+	output_stream = camel_stream_fs_new_with_name (mbox_folder->folder_file_path, O_RDWR, 0600, ex);
 	if (output_stream == NULL)
 		goto fail;
 
-	seek = camel_seekable_stream_seek((CamelSeekableStream *)output_stream, st.st_size, SEEK_SET);
+	seek = camel_seekable_stream_seek((CamelSeekableStream *)output_stream, st.st_size, SEEK_SET, ex);
 	if (seek != st.st_size)
 		goto fail;
 
@@ -737,23 +737,21 @@ mbox_append_message (CamelFolder *folder, CamelMimeMessage *message, CamelExcept
 	g_free(xev);
 
 	/* we must write this to the non-filtered stream ... */
-	if (camel_stream_write_string (output_stream, "From - \n") == -1)
+	if (camel_stream_write_string (output_stream, "From - \n", ex) == -1)
 		goto fail;
 
 	/* and write the content to the filtering stream, that translated '\nFrom' into '\n>From' */
 	filter_stream = (CamelStream *)camel_stream_filter_new_with_stream(output_stream);
 	filter_from = (CamelMimeFilter *)camel_mime_filter_from_new();
 	camel_stream_filter_add((CamelStreamFilter *)filter_stream, filter_from);
-	if (camel_data_wrapper_write_to_stream (CAMEL_DATA_WRAPPER (message), filter_stream) == -1)
+	camel_data_wrapper_write_to_stream (CAMEL_DATA_WRAPPER (message),
+					    filter_stream, ex);
+	if (!camel_exception_is_set (ex))
+		camel_stream_flush (filter_stream, ex);
+
+	if (camel_exception_is_set (ex))
 		goto fail;
 
-#warning WE NEED A STREAM CLOSE OR THIS WILL FAIL TO WORK
-#warning WE NEED A STREAM CLOSE OR THIS WILL FAIL TO WORK
-#warning WE NEED A STREAM CLOSE OR THIS WILL FAIL TO WORK
-#warning WE NEED A STREAM CLOSE OR THIS WILL FAIL TO WORK
-
-	/* FIXME: stream_close doesn't return anything */
-/*	camel_stream_close (filter_stream);*/
 	gtk_object_unref (GTK_OBJECT (filter_stream));
 
 	/* force a summary update - will only update from the new position, if it can */
@@ -761,9 +759,15 @@ mbox_append_message (CamelFolder *folder, CamelMimeMessage *message, CamelExcept
 	return;
 
 fail:
-	camel_exception_setv (ex, 
-			      CAMEL_EXCEPTION_FOLDER_INSUFFICIENT_PERMISSION, /* FIXME: what code? */
-			      "Cannot append to mbox file: %s", strerror (errno));
+	if (camel_exception_is_set (ex)) {
+		camel_exception_setv (ex, camel_exception_get_id (ex),
+				      "Cannot append message to mbox file: %s",
+				      camel_exception_get_description (ex));
+	} else {
+		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
+				      "Cannot append message to mbox file: %s",
+				      g_strerror (errno));
+	}
 	if (filter_stream) {
 		/*camel_stream_close (filter_stream);*/
 		gtk_object_unref ((GtkObject *)filter_stream);
@@ -861,7 +865,7 @@ mbox_get_message_by_uid (CamelFolder *folder, const gchar *uid, CamelException *
 	g_assert(info->frompos != -1);
 
 	/* where we read from */
-	message_stream = camel_stream_fs_new_with_name (mbox_folder->folder_file_path, O_RDONLY, 0);
+	message_stream = camel_stream_fs_new_with_name (mbox_folder->folder_file_path, O_RDONLY, 0, ex);
 	if (message_stream == NULL)
 		goto fail;
 
@@ -900,9 +904,15 @@ mbox_get_message_by_uid (CamelFolder *folder, const gchar *uid, CamelException *
 	return message;
 
 fail:
-	camel_exception_setv (ex, 
-			      CAMEL_EXCEPTION_FOLDER_INVALID_UID,
-			      "Cannot get message: %s", strerror(errno));
+	if (camel_exception_is_set (ex)) {
+		camel_exception_setv (ex, camel_exception_get_id (ex),
+				      "Cannot get message: %s",
+				      camel_exception_get_description (ex));
+	} else {				      
+		camel_exception_setv (ex, CAMEL_EXCEPTION_FOLDER_INVALID_UID,
+				      "Cannot get message: %s",
+				      g_strerror(errno));
+	}
 	if (parser)
 		gtk_object_unref((GtkObject *)parser);
 	if (message_stream)

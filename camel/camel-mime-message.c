@@ -66,7 +66,8 @@ static guint signals[LAST_SIGNAL] = { 0 };
 
 static void set_message_number (CamelMimeMessage *mime_message, guint number);
 static guint get_message_number (CamelMimeMessage *mime_message);
-static int write_to_stream (CamelDataWrapper *data_wrapper, CamelStream *stream);
+static int write_to_stream (CamelDataWrapper *data_wrapper,
+			    CamelStream *stream, CamelException *ex);
 static void finalize (GtkObject *object);
 static void add_header (CamelMedium *medium, const char *header_name, const void *header_value);
 static void set_header (CamelMedium *medium, const char *header_name, const void *header_value);
@@ -536,7 +537,8 @@ construct_from_parser(CamelMimePart *dw, CamelMimeParser *mp)
 }
 
 static int
-write_to_stream (CamelDataWrapper *data_wrapper, CamelStream *stream)
+write_to_stream (CamelDataWrapper *data_wrapper, CamelStream *stream,
+		 CamelException *ex)
 {
 	CamelMimeMessage *mm = CAMEL_MIME_MESSAGE (data_wrapper);
 
@@ -554,11 +556,11 @@ write_to_stream (CamelDataWrapper *data_wrapper, CamelStream *stream)
 		camel_mime_message_set_subject(mm, "No Subject");
 	}
 
-	/* FIXME: "To" header needs to be set explcitly as well ... */
+	/* FIXME: "To" header needs to be set explicitly as well ... */
 
 	camel_medium_set_header((CamelMedium *)mm, "Mime-Version", "1.0");
 
-	return CAMEL_DATA_WRAPPER_CLASS (parent_class)->write_to_stream (data_wrapper, stream);
+	return CAMEL_DATA_WRAPPER_CLASS (parent_class)->write_to_stream (data_wrapper, stream, ex);
 }
 
 static char *

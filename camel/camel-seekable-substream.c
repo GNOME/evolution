@@ -23,34 +23,39 @@
  */
 #include <config.h>
 #include "camel-seekable-substream.h"
+#include "camel-exception.h"
 
 static CamelSeekableStreamClass *parent_class = NULL;
 
 /* Returns the class for a CamelSeekableSubStream */
 #define CSS_CLASS(so) CAMEL_SEEKABLE_SUBSTREAM_CLASS (GTK_OBJECT(so)->klass)
 
-static	gint	       stream_read	      (CamelStream *stream,
-					       gchar *buffer, gint n);
-static	gint	       stream_write	      (CamelStream *stream,
-					       const gchar *buffer,
-					       gint n);
-static	void	       stream_flush	      (CamelStream *stream);
+static	int	       stream_read	      (CamelStream *stream,
+					       char *buffer, unsigned int n,
+					       CamelException *ex);
+static	int	       stream_write	      (CamelStream *stream,
+					       const char *buffer,
+					       unsigned int n,
+					       CamelException *ex);
+static	void	       stream_flush	      (CamelStream *stream,
+					       CamelException *ex);
 static	gboolean       eos		      (CamelStream *stream);
 static	off_t	       stream_seek	      (CamelSeekableStream *stream,
 					       off_t offset,
-					       CamelStreamSeekPolicy policy);
+					       CamelStreamSeekPolicy policy,
+					       CamelException *ex);
 static	void	       finalize		      (GtkObject *object);
 
-static	void	       init_with_seekable_stream_and_bounds	 (CamelSeekableSubstream *seekable_substream,
-								  CamelSeekableStream *parent_stream,
-								  off_t start, off_t end);
 
 static void
 camel_seekable_substream_class_init (CamelSeekableSubstreamClass *camel_seekable_substream_class)
 {
-	CamelSeekableStreamClass *camel_seekable_stream_class =	CAMEL_SEEKABLE_STREAM_CLASS (camel_seekable_substream_class);
-	CamelStreamClass *camel_stream_class = CAMEL_STREAM_CLASS (camel_seekable_substream_class);
-	GtkObjectClass *gtk_object_class = GTK_OBJECT_CLASS (camel_seekable_substream_class);
+	CamelSeekableStreamClass *camel_seekable_stream_class =
+		CAMEL_SEEKABLE_STREAM_CLASS (camel_seekable_substream_class);
+	CamelStreamClass *camel_stream_class =
+		CAMEL_STREAM_CLASS (camel_seekable_substream_class);
+	GtkObjectClass *gtk_object_class =
+		GTK_OBJECT_CLASS (camel_seekable_substream_class);
 
 	parent_class = gtk_type_class (camel_seekable_stream_get_type ());
 
@@ -104,19 +109,6 @@ finalize (GtkObject *object)
 	GTK_OBJECT_CLASS (parent_class)->finalize (object);
 }
 
-static void
-init_with_seekable_stream_and_bounds (CamelSeekableSubstream *seekable_substream,
-				      CamelSeekableStream *parent_stream,
-				      off_t start, off_t end)
-{
-	/* Store the parent stream. */
-	seekable_substream->parent_stream = parent_stream;
-	gtk_object_ref (GTK_OBJECT (parent_stream));
-
-	/* Set the bound of the substream. */
-	camel_seekable_stream_set_bounds ((CamelSeekableStream *)seekable_substream, start, end);
-}
-
 /**
  * camel_seekable_substream_new_with_seekable_stream_and_bounds:
  * @parent_stream: a seekable parent stream
@@ -139,6 +131,7 @@ camel_seekable_substream_new_with_seekable_stream_and_bounds (CamelSeekableStrea
 							      off_t start, off_t end)
 {
 	CamelSeekableSubstream *seekable_substream;
+	CamelException ex;
 
 	g_return_val_if_fail (CAMEL_IS_SEEKABLE_STREAM (parent_stream), NULL);
 
@@ -146,46 +139,56 @@ camel_seekable_substream_new_with_seekable_stream_and_bounds (CamelSeekableStrea
 	seekable_substream = gtk_type_new (camel_seekable_substream_get_type ());
 
 	/* Initialize it. */
-	init_with_seekable_stream_and_bounds (seekable_substream,
-					      parent_stream,
-					      start, end);
+	seekable_substream->parent_stream = parent_stream;
+	gtk_object_ref (GTK_OBJECT (parent_stream));
+
+	/* Set the bound of the substream. We can ignore any possible error
+	 * here, because if we fail to seek now, it will try again later.
+	 */
+	camel_exception_init (&ex);
+	camel_seekable_stream_set_bounds ((CamelSeekableStream *)seekable_substream, start, end, &ex);
+	camel_exception_clear (&ex);
+
 	return CAMEL_STREAM (seekable_substream);
 }
 
 static gboolean
-parent_reset (CamelSeekableSubstream *seekable_substream)
+parent_reset (CamelSeekableSubstream *seekable_substream,
+	      CamelSeekableStream *parent, CamelException *ex)
 {
-	CamelSeekableStream *parent, *seekable_stream = CAMEL_SEEKABLE_STREAM (seekable_substream);
+	CamelSeekableStream *seekable_stream =
+		CAMEL_SEEKABLE_STREAM (seekable_substream);
 
-	parent = seekable_substream->parent_stream;
-
-	g_return_val_if_fail (parent != NULL, FALSE);
-
-	if (camel_seekable_stream_tell(parent) != seekable_stream->position) {
-		return camel_seekable_stream_seek(parent, seekable_stream->position, CAMEL_STREAM_SET)
-			== seekable_stream->position;
-	} else {
+	if (camel_seekable_stream_tell (parent) == seekable_stream->position)
 		return TRUE;
-	}
+
+	camel_seekable_stream_seek (parent, seekable_stream->position,
+				    CAMEL_STREAM_SET, ex);
+	return !camel_exception_is_set (ex);
 }
 
-static gint
-stream_read (CamelStream *stream, gchar *buffer, gint n)
+static int
+stream_read (CamelStream *stream, char *buffer, unsigned int n,
+	     CamelException *ex)
 {
+	CamelSeekableStream *parent;
 	CamelSeekableStream *seekable_stream = CAMEL_SEEKABLE_STREAM (stream);
-	CamelSeekableSubstream *seekable_substream = CAMEL_SEEKABLE_SUBSTREAM (stream);
+	CamelSeekableSubstream *seekable_substream =
+		CAMEL_SEEKABLE_SUBSTREAM (stream);
 	int v;
 
 	if (n == 0)
 		return 0;
 
+	parent = seekable_substream->parent_stream;
+
 	/* Go to our position in the parent stream. */
-	if (!parent_reset (seekable_substream)) {	
+	if (!parent_reset (seekable_substream, parent, ex)) {
 		stream->eos = TRUE;
 		return 0;
 	}
 
-	/* Compute how much byte should be read. */
+	/* Compute how many bytes should be read. */
 	if (seekable_stream->bound_end != CAMEL_STREAM_UNBOUND)
 		n = MIN (seekable_stream->bound_end -  seekable_stream->position, n);
 
@@ -194,7 +197,7 @@ stream_read (CamelStream *stream, gchar *buffer, gint n)
 		return 0;
 	}
 
-	v = camel_stream_read (CAMEL_STREAM (seekable_substream->parent_stream), buffer, n);
+	v = camel_stream_read (CAMEL_STREAM (parent), buffer, n, ex);
 
 	/* ignore <0 - its an error, let the caller deal */
 	if (v > 0)
@@ -203,8 +206,9 @@ stream_read (CamelStream *stream, gchar *buffer, gint n)
 	return v;
 }
 
-static gint
-stream_write (CamelStream *stream, const gchar *buffer, gint n)
+static int
+stream_write (CamelStream *stream, const char *buffer, unsigned int n,
+	      CamelException *ex)
 {
 	/* NOT VALID ON SEEKABLE SUBSTREAM */
 	/* Well, its entirely valid, just not implemented */
@@ -214,7 +218,7 @@ stream_write (CamelStream *stream, const gchar *buffer, gint n)
 }
 
 static void
-stream_flush (CamelStream *stream)
+stream_flush (CamelStream *stream, CamelException *ex)
 {
 	/* NOT VALID ON SEEKABLE SUBSTREAM */
 	g_warning ("CamelSeekableSubstream:: seekable substream doesn't "
@@ -224,37 +228,41 @@ stream_flush (CamelStream *stream)
 static gboolean
 eos (CamelStream *stream)
 {
-	CamelSeekableSubstream *seekable_substream = CAMEL_SEEKABLE_SUBSTREAM (stream);
+	CamelSeekableSubstream *seekable_substream =
+		CAMEL_SEEKABLE_SUBSTREAM (stream);
 	CamelSeekableStream *seekable_stream = CAMEL_SEEKABLE_STREAM (stream);
-	guint32 substream_len;
+	CamelSeekableStream *parent;
+	CamelException ex;
 	gboolean eos;
 
-	g_assert (stream);
-
-	if (stream->eos) {
+	if (stream->eos)
 		eos = TRUE;
-	} else {
-		parent_reset (seekable_substream);
+	else {
+		parent = seekable_substream->parent_stream;
+		camel_exception_init (&ex);
+		parent_reset (seekable_substream, parent, &ex);
+		if (camel_exception_is_set (&ex)) {
+			camel_exception_clear (&ex);
+			return TRUE;
+		}
 
-		eos = camel_stream_eos (CAMEL_STREAM (seekable_substream->parent_stream));
-		if ((!eos) && (seekable_stream->bound_end != CAMEL_STREAM_UNBOUND)) {
-			substream_len = seekable_stream->bound_start - seekable_stream->bound_end;
-			eos = ( seekable_stream->position >= substream_len);
+		eos = camel_stream_eos (CAMEL_STREAM (parent));
+		if (!eos && (seekable_stream->bound_end != CAMEL_STREAM_UNBOUND)) {
+			eos = seekable_stream->position >= seekable_stream->bound_end;
 		}
 	}
 
 	return eos;
 }
 
-/* seeks within a seekable substream follow the bound limits ... dont start at 0 */
 static off_t
 stream_seek (CamelSeekableStream *seekable_stream, off_t offset,
-	     CamelStreamSeekPolicy policy)
+	     CamelStreamSeekPolicy policy, CamelException *ex)
 {
-	CamelSeekableSubstream *seekable_substream = CAMEL_SEEKABLE_SUBSTREAM (seekable_stream);
-	CamelStream *stream = (CamelStream *)seekable_stream;
+	CamelSeekableSubstream *seekable_substream =
+		CAMEL_SEEKABLE_SUBSTREAM (seekable_stream);
+	CamelStream *stream = CAMEL_STREAM (seekable_stream);
 	off_t real_offset = 0;
-	off_t parent_pos;
 
 	stream->eos = FALSE;
 
@@ -268,20 +276,13 @@ stream_seek (CamelSeekableStream *seekable_stream, off_t offset,
 		break;
 
 	case CAMEL_STREAM_END:
-		if (seekable_stream->bound_end != CAMEL_STREAM_UNBOUND)
-			real_offset = seekable_stream->bound_end + offset;
-		else {
-			parent_pos = camel_seekable_stream_seek (seekable_substream->parent_stream,
-								 offset,
-								 CAMEL_STREAM_END);
-			if (parent_pos == -1)
-				return -1;
-			real_offset = parent_pos;
-		}
+		real_offset = camel_seekable_stream_seek (seekable_substream->parent_stream,
+							  offset,
+							  CAMEL_STREAM_END,
+							  ex);
+		if (camel_exception_is_set (ex))
+			return -1;
 		break;
-
-	default:
-		return -1;
 	}
 
 	if (seekable_stream->bound_end != CAMEL_STREAM_UNBOUND)

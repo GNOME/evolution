@@ -71,7 +71,8 @@ typedef struct {
 						       GMimeContentField *mime_type_field);
 
 	int                 (*write_to_stream)        (CamelDataWrapper *data_wrapper,
-						       CamelStream *stream);
+						       CamelStream *stream,
+						       CamelException *ex);
 
 	int                 (*construct_from_stream)  (CamelDataWrapper *data_wrapper,
 						       CamelStream *);
@@ -87,7 +88,8 @@ GtkType camel_data_wrapper_get_type (void);
 CamelDataWrapper    *camel_data_wrapper_new			(void);
 
 int                 camel_data_wrapper_write_to_stream          (CamelDataWrapper *data_wrapper,
-								 CamelStream *stream);
+								 CamelStream *stream,
+								 CamelException *ex);
 void                camel_data_wrapper_set_mime_type            (CamelDataWrapper *data_wrapper,
 								 const gchar *mime_type);
 gchar *             camel_data_wrapper_get_mime_type            (CamelDataWrapper *data_wrapper);

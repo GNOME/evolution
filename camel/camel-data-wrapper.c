@@ -24,6 +24,7 @@
  */
 #include <config.h>
 #include "camel-data-wrapper.h"
+#include "camel-exception.h"
 
 #include <errno.h>
 
@@ -41,7 +42,7 @@ static CamelStream *get_output_stream (CamelDataWrapper *data_wrapper);
 
 static int construct_from_stream(CamelDataWrapper *, CamelStream *);
 static int write_to_stream (CamelDataWrapper *data_wrapper,
-			    CamelStream *stream);
+			    CamelStream *stream, CamelException *ex);
 static void set_mime_type (CamelDataWrapper *data_wrapper,
 			   const gchar *mime_type);
 static gchar *get_mime_type (CamelDataWrapper *data_wrapper);
@@ -204,44 +205,44 @@ camel_data_wrapper_get_output_stream (CamelDataWrapper *data_wrapper)
 
 
 static int
-write_to_stream (CamelDataWrapper *data_wrapper, CamelStream *stream)
+write_to_stream (CamelDataWrapper *data_wrapper, CamelStream *stream,
+		 CamelException *ex)
 {
 	CamelStream *output_stream;
 
 	d(printf("data_wrapper::write_to_stream\n"));
 
 	output_stream = camel_data_wrapper_get_output_stream (data_wrapper);
-	if (!output_stream) {
-		g_warning("write to stream with no stream");
-		errno = EBADF;
+	g_return_val_if_fail (CAMEL_IS_STREAM (output_stream), -1);
+
+	camel_stream_reset (output_stream, ex);
+	if (camel_exception_is_set (ex))
 		return -1;
-	}
-
-	camel_stream_reset (output_stream);
-
-	return camel_stream_write_to_stream(output_stream, stream);
+	return camel_stream_write_to_stream (output_stream, stream, ex);
 }
 
 /**
  * camel_data_wrapper_write_to_stream:
  * @data_wrapper: a data wrapper
  * @stream: stream for data to be written to
+ * @ex: a CamelException
  *
  * Writes the data content to @stream in a machine-independent format
  * appropriate for the data. It should be possible to construct an
  * equivalent data wrapper object later by passing this stream to
  * camel_data_construct_from_stream().
  *
- * Returns the number of bytes written, and -1 for error.
+ * Return value: the number of bytes written, or -1 if an error occurs.
  **/
 int
 camel_data_wrapper_write_to_stream (CamelDataWrapper *data_wrapper,
-				    CamelStream *stream)
+				    CamelStream *stream, CamelException *ex)
 {
 	g_return_val_if_fail (CAMEL_IS_DATA_WRAPPER (data_wrapper), -1);
 	g_return_val_if_fail (CAMEL_IS_STREAM (stream), -1);
 
-	return CDW_CLASS (data_wrapper)->write_to_stream (data_wrapper, stream);
+	return CDW_CLASS (data_wrapper)->write_to_stream (data_wrapper,
+							  stream, ex);
 }
 
 static int

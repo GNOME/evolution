@@ -376,14 +376,15 @@ pop3_connect (CamelService *service, CamelException *ex)
 						  CAMEL_STREAM_BUFFER_READ);
 
 	/* Read the greeting, note APOP timestamp, if any. */
-	buf = camel_stream_buffer_read_line (CAMEL_STREAM_BUFFER (store->istream));
+	buf = camel_stream_buffer_read_line (CAMEL_STREAM_BUFFER (store->istream), ex);
 	if (!buf) {
-		camel_exception_set (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
-				     "Could not read greeting from POP "
-				     "server.");
-		return FALSE;
+		camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
+				      "Could not read greeting from POP "
+				      "server: %s",
+				      camel_exception_get_description (ex));
 		gtk_object_unref (GTK_OBJECT (store->ostream));
 		gtk_object_unref (GTK_OBJECT (store->istream));
+		return FALSE;
 	}
 	apoptime = strchr (buf, '<');
 	apopend = apoptime ? strchr (apoptime, '>') : NULL;
@@ -512,18 +513,30 @@ camel_pop3_command (CamelPop3Store *store, char **ret, char *fmt, ...)
 	char *cmdbuf, *respbuf;
 	va_list ap;
 	int status;
+	CamelException *ex = camel_exception_new ();
 
 	va_start (ap, fmt);
 	cmdbuf = g_strdup_vprintf (fmt, ap);
 	va_end (ap);
 
 	/* Send the command */
-	camel_stream_write (store->ostream, cmdbuf, strlen (cmdbuf));
+	camel_stream_printf (store->ostream, ex, "%s\r\n", cmdbuf);
 	g_free (cmdbuf);
-	camel_stream_write (store->ostream, "\r\n", 2);
+	if (camel_exception_is_set (ex)) {
+		if (*ret)
+			*ret = g_strdup (camel_exception_get_description (ex));
+		camel_exception_free (ex);
+		return CAMEL_POP3_FAIL;
+	}
 
 	/* Read the response */
-	respbuf = camel_stream_buffer_read_line (CAMEL_STREAM_BUFFER (store->istream));
+	respbuf = camel_stream_buffer_read_line (CAMEL_STREAM_BUFFER (store->istream), ex);
+	if (camel_exception_is_set (ex)) {
+		if (*ret)
+			*ret = g_strdup (camel_exception_get_description (ex));
+		camel_exception_free (ex);
+		return CAMEL_POP3_FAIL;
+	}
 	if (!strncmp (respbuf, "+OK", 3))
 		status = CAMEL_POP3_OK;
 	else if (!strncmp (respbuf, "-ERR", 4))
@@ -559,7 +572,8 @@ camel_pop3_command (CamelPop3Store *store, char **ret, char *fmt, ...)
  * Return value: the data, which the caller must free.
  **/
 char *
-camel_pop3_command_get_additional_data (CamelPop3Store *store)
+camel_pop3_command_get_additional_data (CamelPop3Store *store,
+					CamelException *ex)
 {
 	CamelStreamBuffer *stream = CAMEL_STREAM_BUFFER (store->istream);
 	GPtrArray *data;
@@ -568,7 +582,7 @@ camel_pop3_command_get_additional_data (CamelPop3Store *store)
 
 	data = g_ptr_array_new ();
 	while (1) {
-		buf = camel_stream_buffer_read_line (stream);
+		buf = camel_stream_buffer_read_line (stream, ex);
 		if (!buf) {
 			status = CAMEL_POP3_FAIL;
 			break;

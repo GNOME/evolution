@@ -196,12 +196,13 @@ get_message_by_number (CamelFolder *folder, gint number, CamelException *ex)
 	}
 	g_free (result);
 
-	body = camel_pop3_command_get_additional_data (CAMEL_POP3_STORE (folder->parent_store));
+	body = camel_pop3_command_get_additional_data (CAMEL_POP3_STORE (folder->parent_store), ex);
 	if (!body) {
 		CamelService *service = CAMEL_SERVICE (folder->parent_store);
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
 				      "Could not retrieve message from POP "
-				      "server %s.", service->url->host);
+				      "server %s: %s", service->url->host,
+				      camel_exception_get_description (ex));
 		return NULL;
 	}
 

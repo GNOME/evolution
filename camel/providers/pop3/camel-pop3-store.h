@@ -66,7 +66,8 @@ void camel_pop3_store_close (CamelPop3Store *store, gboolean expunge,
 /* support functions */
 enum { CAMEL_POP3_OK, CAMEL_POP3_ERR, CAMEL_POP3_FAIL };
 int camel_pop3_command (CamelPop3Store *store, char **ret, char *fmt, ...);
-char *camel_pop3_command_get_additional_data (CamelPop3Store *store);
+char *camel_pop3_command_get_additional_data (CamelPop3Store *store,
+					      CamelException *ex);
 
 /* Standard Gtk function */
 GtkType camel_pop3_store_get_type (void);

@@ -79,7 +79,7 @@ void                      camel_exception_xfer          (CamelException *ex_dst,
 ExceptionId               camel_exception_get_id        (CamelException *ex);
 const gchar *             camel_exception_get_description (CamelException *ex);
 
-
+#define camel_exception_is_set(ex) (camel_exception_get_id (ex) != CAMEL_EXCEPTION_NONE)
 
 #ifdef __cplusplus
 }

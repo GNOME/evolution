@@ -1,15 +1,15 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /* camel-stream-buffer.h :stream which buffers another stream */
 
-/* 
+/*
  *
- * Author : 
+ * Author :
  *  Michael Zucchi <notzed@helixcode.com>
  *
  * Copyright 2000 Helix Code Inc. (http://www.helixcode.com) .
  *
- * This program is free software; you can redistribute it and/or 
- * modify it under the terms of the GNU General Public License as 
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
  * License, or (at your option) any later version.
  *
@@ -42,7 +42,7 @@ extern "C" {
 #define CAMEL_STREAM_BUFFER_CLASS(k) (GTK_CHECK_CLASS_CAST ((k), CAMEL_STREAM_BUFFER_TYPE, CamelStreamBufferClass))
 #define CAMEL_IS_STREAM_BUFFER(o)    (GTK_CHECK_TYPE((o), CAMEL_STREAM_BUFFER_TYPE))
 
-typedef enum 
+typedef enum
 {
 	CAMEL_STREAM_BUFFER_BUFFER = 0,
 	CAMEL_STREAM_BUFFER_NEWLINE,
@@ -59,9 +59,7 @@ struct _CamelStreamBuffer
 	/* these are all of course, private */
 	CamelStream *stream;
 
-	unsigned char *buf,
-		*ptr,
-		*end;
+	unsigned char *buf, *ptr, *end;
 	int size;
 
 	CamelStreamBufferMode mode;
@@ -69,16 +67,17 @@ struct _CamelStreamBuffer
 };
 
 
-
 typedef struct {
 	CamelStreamClass parent_class;
-	
-	/* Virtual methods */	
-	void (*init) (CamelStreamBuffer *stream_buffer, CamelStream *stream, CamelStreamBufferMode mode);
-	void (*init_vbuf) (CamelStreamBuffer *stream_buffer, CamelStream *stream, CamelStreamBufferMode mode, char *buf, guint32 size);
+
+	/* Virtual methods */
+	void (*init) (CamelStreamBuffer *stream_buffer, CamelStream *stream,
+		      CamelStreamBufferMode mode);
+	void (*init_vbuf) (CamelStreamBuffer *stream_buffer,
+			   CamelStream *stream, CamelStreamBufferMode mode,
+			   char *buf, guint32 size);
 
 } CamelStreamBufferClass;
-
 
 
 /* Standard Gtk function */
@@ -86,16 +85,21 @@ GtkType camel_stream_buffer_get_type (void);
 
 
 /* public methods */
-CamelStream *camel_stream_buffer_new (CamelStream *s, CamelStreamBufferMode mode);
-CamelStream *camel_stream_buffer_new_with_vbuf (CamelStream *s, CamelStreamBufferMode mode, char *buf, guint32 size);
+CamelStream *camel_stream_buffer_new (CamelStream *s,
+				      CamelStreamBufferMode mode);
+CamelStream *camel_stream_buffer_new_with_vbuf (CamelStream *s,
+						CamelStreamBufferMode mode,
+						char *buf, guint32 size);
 
 /* unimplemented
    CamelStream *camel_stream_buffer_set_vbuf (CamelStreamBuffer *b, CamelStreamBufferMode mode, char *buf, guint32 size); */
 
 /* read a line of characters */
-int camel_stream_buffer_gets(CamelStreamBuffer *b, char *buf, int max);
+int camel_stream_buffer_gets (CamelStreamBuffer *b, char *buf,
+			      unsigned int max, CamelException *ex);
 
-char *camel_stream_buffer_read_line (CamelStreamBuffer *sbf);
+char *camel_stream_buffer_read_line (CamelStreamBuffer *sbf,
+				     CamelException *ex);
 
 #ifdef __cplusplus
 }

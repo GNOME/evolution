@@ -19,6 +19,7 @@
  */
 
 #include "camel-stream-filter.h"
+#include "camel-exception.h"
 
 struct _filter {
 	struct _filter *next;
@@ -47,11 +48,13 @@ struct _CamelStreamFilterPrivate {
 static void camel_stream_filter_class_init (CamelStreamFilterClass *klass);
 static void camel_stream_filter_init       (CamelStreamFilter *obj);
 
-static	gint      do_read       (CamelStream *stream, gchar *buffer, gint n);
-static	gint      do_write      (CamelStream *stream, const gchar *buffer, gint n);
-static	void      do_flush      (CamelStream *stream);
+static	int       do_read       (CamelStream *stream, char *buffer,
+				 unsigned int n, CamelException *ex);
+static	int       do_write      (CamelStream *stream, const char *buffer,
+				 unsigned int n, CamelException *ex);
+static	void      do_flush      (CamelStream *stream, CamelException *ex);
 static	gboolean  do_eos        (CamelStream *stream);
-static	void      do_reset      (CamelStream *stream);
+static	void      do_reset      (CamelStream *stream, CamelException *ex);
 
 static CamelStreamClass *camel_stream_filter_parent;
 
@@ -212,7 +215,8 @@ camel_stream_filter_remove(CamelStreamFilter *filter, int id)
 	}
 }
 
-static	gint      do_read       (CamelStream *stream, gchar *buffer, gint n)
+static int
+do_read (CamelStream *stream, char *buffer, unsigned int n, CamelException *ex)
 {
 	CamelStreamFilter *filter = (CamelStreamFilter *)stream;
 	struct _CamelStreamFilterPrivate *p = _PRIVATE(filter);
@@ -224,7 +228,7 @@ static	gint      do_read       (CamelStream *stream, gchar *buffer, gint n)
 	if (p->filteredlen<=0) {
 		int presize = READ_SIZE;
 
-		size = camel_stream_read(filter->source, p->buffer, READ_SIZE);
+		size = camel_stream_read(filter->source, p->buffer, READ_SIZE, ex);
 		if (size<=0) {
 			/* this is somewhat untested */
 			if (camel_stream_eos(filter->source)) {
@@ -258,7 +262,8 @@ static	gint      do_read       (CamelStream *stream, gchar *buffer, gint n)
 	return size;
 }
 
-static	gint      do_write      (CamelStream *stream, const gchar *buf, gint n)
+static int
+do_write (CamelStream *stream, const char *buf, unsigned int n, CamelException *ex)
 {
 	CamelStreamFilter *filter = (CamelStreamFilter *)stream;
 	struct _CamelStreamFilterPrivate *p = _PRIVATE(filter);
@@ -275,10 +280,11 @@ static	gint      do_write      (CamelStream *stream, const gchar *buf, gint n)
 		f = f->next;
 	}
 
-	return camel_stream_write(filter->source, buffer, n);
+	return camel_stream_write(filter->source, buffer, n, ex);
 }
 
-static	void      do_flush      (CamelStream *stream)
+static void
+do_flush (CamelStream *stream, CamelException *ex)
 {
 	CamelStreamFilter *filter = (CamelStreamFilter *)stream;
 	struct _CamelStreamFilterPrivate *p = _PRIVATE(filter);
@@ -299,14 +305,13 @@ static	void      do_flush      (CamelStream *stream)
 		camel_mime_filter_complete(f->filter, buffer, len, presize, &buffer, &len, &presize);
 		f = f->next;
 	}
-	if (camel_stream_write(filter->source, buffer, len) == -1) {
-		g_warning("Flushing filter failed to write, no way to signal failure ...");
-	}
-
-	return camel_stream_flush(filter->source);
+	camel_stream_write(filter->source, buffer, len, ex);
+	if (!camel_exception_is_set(ex))
+		camel_stream_flush(filter->source, ex);
 }
 
-static	gboolean  do_eos        (CamelStream *stream)
+static gboolean
+do_eos (CamelStream *stream)
 {
 	CamelStreamFilter *filter = (CamelStreamFilter *)stream;
 	struct _CamelStreamFilterPrivate *p = _PRIVATE(filter);
@@ -317,27 +322,15 @@ static	gboolean  do_eos        (CamelStream *stream)
 	return camel_stream_eos(filter->source);
 }
 
-static	void      do_close      (CamelStream *stream)
-{
-	CamelStreamFilter *filter = (CamelStreamFilter *)stream;
-	struct _CamelStreamFilterPrivate *p = _PRIVATE(filter);
-
-	if (p->last_was_read == 0) {
-		camel_stream_flush(stream);
-	}
-
-	p->filteredlen = 0;
-/*	camel_stream_close(filter->source);*/
-}
-
-static	void      do_reset      (CamelStream *stream)
+static void
+do_reset (CamelStream *stream, CamelException *ex)
 {
 	CamelStreamFilter *filter = (CamelStreamFilter *)stream;
 	struct _CamelStreamFilterPrivate *p = _PRIVATE(filter);
 	struct _filter *f;
 
 	p->filteredlen = 0;
-	camel_stream_reset(filter->source);
+	camel_stream_reset(filter->source, ex);
 
 	/* and reset filters */
 	f = p->filters;

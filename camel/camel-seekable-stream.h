@@ -1,15 +1,14 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /* camel-stream-fs.h :stream based on unix filesystem */
 
-/* 
- *
- * Author : 
+/*
+ * Author:
  *  Bertrand Guiheneuf <bertrand@helixcode.com>
  *
  * Copyright 1999, 2000 Helix Code, Inc. (http://www.helixcode.com)
  *
- * This program is free software; you can redistribute it and/or 
- * modify it under the terms of the GNU General Public License as 
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
  * License, or (at your option) any later version.
  *
@@ -64,22 +63,28 @@ struct _CamelSeekableStream
 
 typedef struct {
 	CamelStreamClass parent_class;
-	
-	/* Virtual methods */	
-	off_t (*seek)       (CamelSeekableStream *stream, off_t offset, CamelStreamSeekPolicy policy);
+
+	/* Virtual methods */
+	off_t (*seek)       (CamelSeekableStream *stream, off_t offset,
+			     CamelStreamSeekPolicy policy,
+			     CamelException *ex);
 	off_t (*tell)	    (CamelSeekableStream *stream);
-	void (*set_bounds) (CamelSeekableStream *stream, off_t start, off_t end);
+	void  (*set_bounds) (CamelSeekableStream *stream,
+			     off_t start, off_t end, CamelException *ex);
 } CamelSeekableStreamClass;
 
 /* Standard Gtk function */
 GtkType camel_seekable_stream_get_type (void);
 
 /* public methods */
-off_t    camel_seekable_stream_seek                      (CamelSeekableStream *stream, 
-							  off_t offset, 
-							  CamelStreamSeekPolicy policy);
-off_t	 camel_seekable_stream_tell    			 (CamelSeekableStream *stream);
-void	 camel_seekable_stream_set_bounds		 (CamelSeekableStream *, off_t, off_t);
+off_t    camel_seekable_stream_seek            (CamelSeekableStream *stream,
+						off_t offset,
+						CamelStreamSeekPolicy policy,
+						CamelException *ex);
+off_t	 camel_seekable_stream_tell    	       (CamelSeekableStream *stream);
+void	 camel_seekable_stream_set_bounds      (CamelSeekableStream *,
+						off_t, off_t,
+						CamelException *);
 
 #ifdef __cplusplus
 }

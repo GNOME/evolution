@@ -153,7 +153,8 @@ camel_exception_set (CamelException *ex,
  * camel_exception_setv: set an exception 
  * @ex: exception object 
  * @id: exception id 
- * @format: format of the description string. The format string is used as in printf().
+ * @format: format of the description string. The format string is
+ * used as in printf().
  * 
  * Set the value of an exception. The exception id is 
  * a unique number representing the exception. The 
@@ -161,6 +162,9 @@ camel_exception_set (CamelException *ex,
  * what happened and provoked the exception. 
  * In this version, the string is created from the format 
  * string and the variable argument list.
+ *
+ * It is safe to say:
+ *   camel_exception_setv (ex, ..., camel_exception_get_description (ex), ...);
  *
  * When @ex is NULL, nothing is done, this routine
  * simply returns.

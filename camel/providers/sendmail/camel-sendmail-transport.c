@@ -139,9 +139,17 @@ _send_internal (CamelMedium *message, char **argv, CamelException *ex)
 	/* Parent process. Write the message out. */
 	close (fd[0]);
 	out = camel_stream_fs_new_with_fd (fd[1]);
-	camel_data_wrapper_write_to_stream (CAMEL_DATA_WRAPPER (message), out);
-	camel_stream_flush (out);
+	camel_data_wrapper_write_to_stream (CAMEL_DATA_WRAPPER (message),
+					    out, ex);
+	if (!camel_exception_is_set (ex))
+		camel_stream_flush (out, ex);
 	gtk_object_unref (GTK_OBJECT (out));
+	if (camel_exception_is_set (ex)) {
+		camel_exception_setv (ex, camel_exception_get_id (ex),
+				      "Could not send message: %s",
+				      camel_exception_get_description (ex));
+		return FALSE;
+	}
 
 	/* Wait for sendmail to exit. */
 	while (waitpid (pid, &wstat, 0) == -1 && errno == EINTR)

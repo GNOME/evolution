@@ -1,3 +1,51 @@
+2000-05-08  Dan Winship  <danw@helixcode.com>
+
+	* camel-stream.c (camel_stream_read, camel_stream_write,
+	camel_stream_flush, camel_stream_reset, camel_stream_printf,
+	camel_stream_write_to_stream): Use CamelException to signal
+	failure.
+	(camel_stream_write_strings): Remove. camel_stream_printf is more
+	useful in most of the places that used this.
+	(camel_stream_write_string): Change from macro to function to
+	prevent problems with double-evaluation.
+
+	* camel-seekable-stream.c (camel_seekable_stream_seek,
+	camel_seekable_stream_set_bounds): Use CamelException.
+	(reset): Update.
+
+	* camel-seekable-substream.c, camel-stream-buffer.c,
+	camel-stream-filter.c, camel-stream-fs.c, camel-stream-mem.c:
+	Update.
+
+	* camel-stream-fs.c: Remove the virtual init functions and move
+	the code into the creator functions. Add CamelExceptions to
+	creation functions that could fail.
+
+	* camel-data-wrapper.c (camel_data_wrapper_write_to_stream): Use
+	CamelException.
+	* camel-mime-message.c, camel-mime-part.c, camel-multipart.c
+	(write_to_stream): Update.
+
+	* camel-mime-parser.c: add an exception to the mime parser private
+	data and pass that to stream functions as needed.
+	
+	* gmime-content-field.c, md5-utils.c: Update (badly) for stream
+	changes.
+	
+	* camel-exception.h (camel_exception_is_set): convenience macro.
+
+	* providers/Makefile.am: disable SMTP for now
+
+	* providers/mbox/camel-mbox-folder.c (mbox_append_message): Pass
+	CamelException to the functions that now need it. Check the
+	exception after calling camel_stream_flush, and fail if it fails.
+	(mbox_get_message_by_uid): More updates.
+
+	* providers/pop/camel-pop3-folder.c,
+	providers/pop/camel-pop3-store.c,
+	providers/sendmail/camel-sendmail/transport.c: Update.
+
+
 2000-05-08  NotZed  <NotZed@HelixCode.com>
 
 	* camel-mime-message.c (process_header): Format From and Reply-To

@@ -1,13 +1,14 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/* camel-stream-mem.h :stream based on memory buffer
- *
+/* camel-stream-mem.h: stream based on memory buffer */
+
+/*
  * Authors: Bertrand Guiheneuf <bertrand@helixcode.com>
  *	    Michael Zucchi <notzed@helixcode.com>
  *
  * Copyright 1999, 2000 Helix Code, Inc. (http://www.helixcode.com)
  *
- * This program is free software; you can redistribute it and/or 
- * modify it under the terms of the GNU General Public License as 
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
  * License, or (at your option) any later version.
  *
@@ -50,8 +51,8 @@ struct _CamelStreamMem
 
 typedef struct {
 	CamelSeekableStreamClass parent_class;
-	
-	/* Virtual methods */	
+
+	/* Virtual methods */
 } CamelStreamMemClass;
 
 /* Standard Gtk function */
@@ -64,7 +65,8 @@ CamelStream *camel_stream_mem_new_with_buffer (const char *buffer, size_t len);
 
 /* these are really only here for implementing classes */
 void camel_stream_mem_set_byte_array (CamelStreamMem *, GByteArray *buffer);
-void camel_stream_mem_set_buffer (CamelStreamMem *, const char *buffer, size_t len);
+void camel_stream_mem_set_buffer (CamelStreamMem *, const char *buffer,
+				  size_t len);
 
 #ifdef __cplusplus
 }
