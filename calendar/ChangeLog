@@ -1,3 +1,16 @@
+2000-10-31  Federico Mena Quintero  <federico@helixcode.com>
+
+	* gui/event-editor.c (count_by_xxx): Hmmm.  SHRT_MAX changed to
+	ICAL_RECURRENCE_ARRAY_MAX in libical.  Deal with it.
+	(fill_recurrence_widgets): Likewise.
+	(simple_recur_to_comp_object): Fixed incorrect assertion.  The
+	weekday picker is not the immediate child of the recurrence
+	special container.
+	(fill_recurrence_widgets): Call make_recurrence_special() after
+	setting the recurrence period type.
+	(fill_ending_date): Call make_recurrence_ending_special().  This
+	would be so much nicer if GTK+ were model/view all over.
+
 2000-10-31  JP Rosevear  <jpr@helixcode.com>
 
 	* conduits/todo/todo-conduit.h: Remove add/del/mod hashes and

@@ -1023,6 +1023,8 @@ fill_ending_date (EventEditor *ee, struct icalrecurrencetype *r)
 					  ENDING_FOR,
 					  ending_types_map);
 	}
+
+	make_recurrence_ending_special (ee);
 }
 
 /* Counts the number of elements in the by_xxx fields of an icalrecurrencetype */
@@ -1032,7 +1034,7 @@ count_by_xxx (short *field, int max_elements)
 	int i;
 
 	for (i = 0; i < max_elements; i++)
-		if (field[i] == SHRT_MAX)
+		if (field[i] == ICAL_RECURRENCE_ARRAY_MAX)
 			break;
 
 	return i;
@@ -1140,7 +1142,7 @@ fill_recurrence_widgets (EventEditor *ee)
 
 		day_mask = 0;
 
-		for (i = 0; i < 8 && r->by_day[i] != SHRT_MAX; i++) {
+		for (i = 0; i < 8 && r->by_day[i] != ICAL_RECURRENCE_ARRAY_MAX; i++) {
 			enum icalrecurrencetype_weekday weekday;
 			int pos;
 
@@ -1202,6 +1204,7 @@ fill_recurrence_widgets (EventEditor *ee)
 
 	e_dialog_radio_set (priv->recurrence_simple, RECUR_SIMPLE, recur_type_map);
 	sensitize_recur_widgets (ee);
+	make_recurrence_special (ee);
 	e_dialog_spin_set (priv->recurrence_interval_value, r->interval);
 
 	fill_ending_date (ee, r);
@@ -1335,11 +1338,11 @@ fill_widgets (EventEditor *ee)
 			e_dialog_radio_set (priv->recurrence_rule_monthly, ICAL_MONTHLY_RECURRENCE,
 					    recur_options_map);
 			
-			if (r->by_month_day[0] != SHRT_MAX) {
+			if (r->by_month_day[0] != ICAL_RECURRENCE_ARRAY_MAX) {
 				e_dialog_toggle_set (priv->recurrence_rule_monthly_on_day, TRUE);
 				e_dialog_spin_set (priv->recurrence_rule_monthly_day_nth, 
 						   r->by_month_day[0]);
-			} else if (r->by_day[0] != SHRT_MAX) {
+			} else if (r->by_day[0] != ICAL_RECURRENCE_ARRAY_MAX) {
 				e_dialog_toggle_set (priv->recurrence_rule_monthly_weekday, TRUE);
 				/* libical does not handle ints in by day */
 /*  				e_dialog_option_menu_set (priv->recurrence_rule_monthly_week, */
@@ -1438,8 +1441,7 @@ simple_recur_to_comp_object (EventEditor *ee)
 
 	case ICAL_WEEKLY_RECURRENCE:
 		g_assert (GTK_BIN (priv->recurrence_special)->child != NULL);
-		g_assert (GTK_BIN (priv->recurrence_special)->child
-			  == priv->recurrence_weekday_picker);
+		g_assert (priv->recurrence_weekday_picker != NULL);
 		g_assert (IS_WEEKDAY_PICKER (priv->recurrence_weekday_picker));
 
 		day_mask = weekday_picker_get_days (WEEKDAY_PICKER (priv->recurrence_weekday_picker));
