@@ -1,3 +1,7 @@
+1998-03-01  Mark Crichton <crichton@gimp.org>
+
+	* gnome-objc-checks : Added HAVE_GNOME_OBJC conditional
+
 1998-02-27  Gregory McLean <gregm@comstar.net>
 
 	* gnome-x-checks.m4 : Require at least gtk+ 1.2 (pointless getting
