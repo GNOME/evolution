@@ -74,6 +74,8 @@ typedef struct {
 	CamelFuncDef *open_cb_def;
 	CamelFuncDef *close_func_def;
 	CamelFuncDef *close_cb_def;
+	CamelFuncDef *set_name_func_def;
+	CamelFuncDef *set_name_cb_def;
 
 } CamelFolderPtProxyClass;
 

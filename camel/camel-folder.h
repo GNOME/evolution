@@ -101,7 +101,12 @@ typedef struct {
 			 CamelFolderAsyncCallback callback, 
 			 gpointer user_data, 
 			 CamelException *ex);
-	void   (*set_name) (CamelFolder *folder, const gchar *name, CamelException *ex);
+	/* void   (*set_name) (CamelFolder *folder, const gchar *name, CamelException *ex); */
+	void   (*set_name) (CamelFolder *folder, 
+			    const gchar *name, 
+			    CamelFolderAsyncCallback callback, 
+			    gpointer user_data, 
+			    CamelException *ex);
 	/*  	void   (*set_full_name) (CamelFolder *folder, const gchar *name); */
 	const gchar *  (*get_name) (CamelFolder *folder, CamelException *ex);
 	const gchar *  (*get_full_name) (CamelFolder *folder, CamelException *ex);
@@ -159,7 +164,12 @@ CamelStore *camel_folder_get_parent_store (CamelFolder *folder, CamelException *
 CamelFolderOpenMode camel_folder_get_mode (CamelFolder *folder, CamelException *ex);
 GList *camel_folder_list_subfolders (CamelFolder *folder, CamelException *ex);
 GList *camel_folder_expunge (CamelFolder *folder, gboolean want_list, CamelException *ex);
-void camel_folder_set_name (CamelFolder *folder, const gchar *name, CamelException *ex);
+void camel_folder_set_name (CamelFolder *folder, 
+			    const gchar *name, 
+			    CamelFolderAsyncCallback callback, 
+			    gpointer user_data,
+			    CamelException *ex);
+
 const gchar *camel_folder_get_name (CamelFolder *folder, CamelException *ex);
 /*  void camel_folder_set_full_name (CamelFolder *folder, const gchar *name); */
 const gchar *camel_folder_get_full_name (CamelFolder *folder, CamelException *ex);

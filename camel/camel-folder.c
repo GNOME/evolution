@@ -41,7 +41,12 @@ static void _close (CamelFolder *folder,
 		    CamelFolderAsyncCallback callback, 
 		    gpointer user_data, 
 		    CamelException *ex);
-static void _set_name (CamelFolder *folder, const gchar *name, CamelException *ex);
+/*  static void _set_name (CamelFolder *folder, const gchar *name, CamelException *ex); */
+static void _set_name (CamelFolder *folder, 
+		       const gchar *name, 
+		       CamelFolderAsyncCallback callback, 
+		       gpointer user_data, 
+		       CamelException *ex);
 /*  static void _set_full_name (CamelFolder *folder, const gchar *name); */
 static const gchar *_get_name (CamelFolder *folder, CamelException *ex);
 static const gchar *_get_full_name (CamelFolder *folder, CamelException *ex);
@@ -268,7 +273,11 @@ camel_folder_close (CamelFolder *folder,
 
 
 static void
-_set_name (CamelFolder *folder, const gchar *name, CamelException *ex)
+_set_name (CamelFolder *folder, 
+	   const gchar *name, 
+	   CamelFolderAsyncCallback callback, 
+	   gpointer user_data, 
+	   CamelException *ex)
 {
 	gchar separator;
 	gchar *full_name;
@@ -307,9 +316,13 @@ _set_name (CamelFolder *folder, const gchar *name, CamelException *ex)
  * 
  **/
 void 
-camel_folder_set_name (CamelFolder *folder, const gchar *name, CamelException *ex)
+camel_folder_set_name (CamelFolder *folder, 
+		       const gchar *name, 
+		       CamelFolderAsyncCallback callback, 
+		       gpointer user_data,
+		       CamelException *ex)
 {
-	CF_CLASS(folder)->set_name (folder, name, ex);
+	CF_CLASS(folder)->set_name (folder, name, callback, user_data, ex);
 }
 
 
