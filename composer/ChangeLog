@@ -1,3 +1,7 @@
+2003-07-21  Dan Winship  <danw@ximian.com>
+
+	* e-msg-composer.c (build_message): Make this work again.
+
 2003-07-17  Maxx Cao  <maxx.cao@sun.com>
 
 	** For bug #46013

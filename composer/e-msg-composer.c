@@ -402,14 +402,13 @@ build_message (EMsgComposer *composer, gboolean save_html_object_data)
 			header_content_type_set_param (type, "charset", charset);
 	}
 	
-	plain = camel_data_wrapper_new ();
-	
+	stream = camel_stream_mem_new_with_byte_array (data);
+
 	/* convert the stream to the appropriate charset */
 	if (charset && strcasecmp (charset, "UTF-8") != 0) {
 		CamelStreamFilter *filter_stream;
 		CamelMimeFilterCharset *filter;
 		
-		stream = camel_stream_mem_new_with_byte_array (data);
 		filter_stream = camel_stream_filter_new_with_stream (stream);
 		camel_object_unref (stream);
 		
@@ -420,6 +419,7 @@ build_message (EMsgComposer *composer, gboolean save_html_object_data)
 	}
 	
 	/* construct the content object */
+	plain = camel_data_wrapper_new ();
 	camel_data_wrapper_construct_from_stream (plain, stream);
 	camel_object_unref (stream);
 	
