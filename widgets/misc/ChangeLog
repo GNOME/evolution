@@ -1,3 +1,15 @@
+2004-02-02  Chris Toshok  <toshok@ximian.com>
+
+	* e-image-chooser.c (set_image_from_data): set
+	image_buf/image_buf_size here instead of in all callers.  also
+	emit the "changed" signal here.
+	(image_drag_data_received_cb): remove the copying to image_buf and
+	emitting of "changed" from here.
+	(e_image_chooser_set_from_file): only g_free (data) here if
+	set_image_from_data failed.
+	(e_image_chooser_set_image_data): copy the image data we're passed
+	before calling set_image_data.  free it if rv == FALSE.
+
 2004-01-30  Chris Toshok  <toshok@ximian.com>
 
 	* e-image-chooser.c (e_image_chooser_init): add an alignment

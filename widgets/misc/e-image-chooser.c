@@ -312,6 +312,13 @@ set_image_from_data (EImageChooser *chooser,
 
 		gdk_pixbuf_unref (pixbuf);
 
+		g_free (chooser->priv->image_buf);
+		chooser->priv->image_buf = data;
+		chooser->priv->image_buf_size = length;
+
+		g_signal_emit (chooser,
+			       image_chooser_signals [CHANGED], 0);
+
 		rv = TRUE;
 	}
 
@@ -397,7 +404,6 @@ image_drag_data_received_cb (GtkWidget *widget,
 			     guint info, guint time, EImageChooser *chooser)
 {
 	char *target_type;
-	gboolean changed = FALSE;
 	gboolean handled = FALSE;
 
 	target_type = gdk_atom_name (selection_data->target);
@@ -440,15 +446,10 @@ image_drag_data_received_cb (GtkWidget *widget,
 
 				printf ("read %d bytes\n", (int)total_read);
 				if (set_image_from_data (chooser, buf, total_read)) {
-					changed = TRUE;
 					handled = TRUE;
-					g_free (chooser->priv->image_buf);
-					chooser->priv->image_buf = buf;
-					chooser->priv->image_buf_size = total_read;
 				}
 				else {
-					/* XXX we should pop up a
-					   warning dialog here */
+					/* XXX we should pop up a warning dialog here */
 					g_free (buf);
 				}
 			}
@@ -460,11 +461,6 @@ image_drag_data_received_cb (GtkWidget *widget,
 		}
 
 		g_free (uri);
-
-		if (changed) {
-			g_signal_emit (chooser,
-				       image_chooser_signals [CHANGED], 0);
-		}
 	}
 
 	gtk_drag_finish (context, handled, FALSE, time);
@@ -485,9 +481,8 @@ e_image_chooser_set_from_file (EImageChooser *chooser, const char *filename)
 		return FALSE;
 	}
 
-	set_image_from_data (chooser, data, data_length);
-
-	g_free (data);
+	if (!set_image_from_data (chooser, data, data_length))
+		g_free (data);
 
 	return TRUE;
 }
@@ -519,10 +514,19 @@ e_image_chooser_get_image_data (EImageChooser *chooser, char **data, gsize *data
 gboolean
 e_image_chooser_set_image_data (EImageChooser *chooser, char *data, gsize data_length)
 {
+	char *buf;
+
 	g_return_val_if_fail (E_IS_IMAGE_CHOOSER (chooser), FALSE);
 	g_return_val_if_fail (data != NULL, FALSE);
 
-	set_image_from_data (chooser, data, data_length);
+	/* yuck, a copy... */
+	buf = g_malloc (data_length);
+	memcpy (buf, data, data_length);
+
+	if (!set_image_from_data (chooser, buf, data_length)) {
+		g_free (buf);
+		return FALSE;
+	}
 
 	return TRUE;
 }
