@@ -1,3 +1,10 @@
+2004-11-04  mengjie yu  <meng-jie.yu@sun.com>
+
+	fix for bugzilla #44876
+
+	* gui/component/select-names/e-select-names-manager.c:
+       (e_select_names_manager_entry_new):add a atk name for the entry.
+
 2004-11-2   Hao Sheng  <hao.sheng@sun.com>
 
 	* gui/widgets/e-minicard-view.c: popup right-click menu after

@@ -199,6 +199,18 @@ e_select_names_manager_entry_new (ESelectNamesManager *manager, ESelectNamesMode
 	entry->id = g_strdup (id);
 
 	entry->entry = E_ENTRY (e_entry_new ());
+
+	if (atk_get_root () != NULL) {
+		AtkObject *a11y = atk_gobject_accessible_for_object (entry->entry->item);
+		if (a11y != NULL) {
+			gchar *text;
+			if (pango_parse_markup (id, -1, '_', NULL,
+					&text, NULL, NULL))  {
+				atk_object_set_name (a11y, text);
+				g_free (text);
+			}
+		}
+	}
 	text_model = e_select_names_text_model_new (model);
 	g_object_set(entry->entry,
 		     "model",          text_model, /* The entry takes ownership of the text model */
