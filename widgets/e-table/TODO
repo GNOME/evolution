@@ -1,8 +1,11 @@
 Short Term TODO items:
 
+Bonobo Issues:
+	1. DnD does not seem to be working, it always defaults to "destroy column".
+	2. Cursor location is not propagated (no feedback).
+
 Functionality:
 
-#	1. Remove the internal XML API.
 	2. Implement GUI grouping.
 	3. Implement context menu on item-bars.
 	4. Implement config tool for the view.
@@ -14,9 +17,6 @@ GUI:
 	3. Use the theme information for the captions.
 	4. Use the font from the widget style.
 	5. Fix the update problems when a group is resized.
-
-GUI 2:
-	1. Make the insertion points be shaped X windows instead of canvas items.
 
 Implement e-cell-height
 Implement computation of heights from the e-cell-heights
@@ -47,14 +47,10 @@ mouse grabbing for scrolling
 
 * Add an ETable::get_specification method to get the current layout information.
 
-+ 	* Add frozen_columns output.
 	* Add input and output of column widths and minimum column widths.
 
 + * Add GUI sort
 
-+	* Create an ETableSortInfo class.
-+	* Add display of proper arrows to the ETableHeaderItem.
-+	* Add switching of sorting on clicks.
 	* Add depressed button state to ETableHeaderItem?
 
 * Add GUI grouping

@@ -1,3 +1,22 @@
+2000-04-11  Miguel de Icaza  <miguel@helixcode.com>
+
+	* e-table-header-item.c (ethi_add_destroy_marker): Add group
+	indent width here.
+	(is_pointer_on_division): Use the group indent here, so the
+	resize pointer is shown at the correct time.
+	(TOLERANCE): Bump it up to 3
+	(draw_button): Do not paint an arrow if there is an icon present,
+	and not enough space to paint.
+
+2000-04-10  Miguel de Icaza  <miguel@helixcode.com>
+
+	* e-table-header-item.c (make_shapped_window_from_xpm): New
+	routine, creates a shapped mask window from an xpm buffer.
+	(ethi_add_drop_marker): New version, uses shaped windows instead
+	of canvas items to signal the drop location.
+	(ethi_maybe_start_drag): Disable dragging if there is only one
+	column left.
+
 2000-04-10  Miguel de Icaza  <miguel@gnu.org>
 
 	* e-table-header-item.c (ethi_drag_motion): Drop frozen count

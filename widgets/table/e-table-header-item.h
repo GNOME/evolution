@@ -49,7 +49,7 @@ typedef struct {
 	int              drag_col, drag_mark;
         guint            drag_motion_id, drag_end_id, drag_leave_id, drag_drop_id;
 	guint            sort_info_changed_id, group_info_changed_id;
-	GnomeCanvasItem *drag_mark_item, *remove_item;
+	GnomeCanvasItem *remove_item;
 	GdkBitmap       *stipple;
 
 	/*

@@ -36,7 +36,6 @@
 #include <ctype.h>
 #include <math.h>
 
-
 
 /* This defines a line of text */
 struct line {
@@ -46,7 +45,6 @@ struct line {
 	int ellipsis_length;  /* Length before adding ellipsis */
 };
 
-
 
 /* Object argument IDs */
 enum {
@@ -81,8 +79,6 @@ enum {
 };
 
 static GdkAtom clipboard_atom = GDK_NONE;
-
-
 
 #define PARENT_TYPE e_cell_get_type ()
 
@@ -1837,8 +1833,6 @@ calc_line_widths (CurrentCell *cell)
 	int i;
 	int j;
 	
-	
-
 	lines = linebreaks->lines;
 	linebreaks->max_width = 0;
 
@@ -1892,11 +1886,14 @@ static void
 build_current_cell (CurrentCell *cell, ECellTextView *text_view, int model_col, int view_col, int row)
 {
 	ECellView *ecell_view = (ECellView *) text_view;
+
 	cell->text_view = text_view;
 	cell->model_col = model_col;
 	cell->view_col = view_col;
 	cell->row = row;
 	cell->breaks = NULL;
 	cell->text = e_table_model_value_at (ecell_view->e_table_model, model_col, row);
-	cell->width = e_table_header_get_column (((ETableItem *)ecell_view->e_table_item_view)->header, view_col)->width - 8;
+	cell->width = e_table_header_get_column (
+		((ETableItem *)ecell_view->e_table_item_view)->header,
+		view_col)->width - 8;
 }

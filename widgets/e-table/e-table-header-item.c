@@ -23,6 +23,11 @@
 
 #include "add-col.xpm"
 #include "remove-col.xpm"
+#include "arrow-up.xpm"
+#include "arrow-down.xpm"
+
+#define ARROW_DOWN_HEIGHT 16
+#define ARROW_PTR          7
 
 /* Padding above and below of the string in the header display */
 #define PADDING 4
@@ -32,7 +37,7 @@
 #define GROUP_INDENT         10
 
 /* Defines the tolerance for proximity of the column division to the cursor position */
-#define TOLERANCE 2
+#define TOLERANCE 3
 
 #define ETHI_RESIZING(x) ((x)->resize_col != -1)
 
@@ -45,6 +50,11 @@ static GnomeCanvasItemClass *ethi_parent_class;
 static void ethi_request_redraw (ETableHeaderItem *ethi);
 static void ethi_drop_table_header (ETableHeaderItem *ethi);
 
+/*
+ * They display the arrows for the drop location.
+ */
+	
+static GtkWidget *arrow_up, *arrow_down;
 
 /*
  * DnD icons
@@ -73,7 +83,7 @@ static GtkTargetEntry  ethi_drop_types [] = {
 static void
 ethi_destroy (GtkObject *object){
 	ETableHeaderItem *ethi = E_TABLE_HEADER_ITEM (object);
-	
+
 	ethi_drop_table_header (ethi);
 
 	if (ethi->sort_info){
@@ -83,7 +93,7 @@ ethi_destroy (GtkObject *object){
 			gtk_signal_disconnect (GTK_OBJECT(ethi->sort_info), ethi->group_info_changed_id);
 		gtk_object_unref (GTK_OBJECT(ethi->sort_info));
 	}
-	
+
 	if (GTK_OBJECT_CLASS (ethi_parent_class)->destroy)
 		(*GTK_OBJECT_CLASS (ethi_parent_class)->destroy) (object);
 }
@@ -256,12 +266,14 @@ ethi_remove_drop_marker (ETableHeaderItem *ethi)
 {
 	if (ethi->drag_mark == -1)
 		return;
+
+	gtk_widget_hide (arrow_up);
+	gtk_widget_hide (arrow_down);
 	
 	ethi->drag_mark = -1;
-	gtk_object_destroy (GTK_OBJECT (ethi->drag_mark_item));
-	ethi->drag_mark_item = NULL;
 }
 
+#if 0
 static void
 ethi_add_drop_marker (ETableHeaderItem *ethi, int col)
 {
@@ -318,6 +330,67 @@ ethi_add_drop_marker (ETableHeaderItem *ethi, int col)
 	
 	gnome_canvas_points_unref (points);
 }
+#endif
+
+static GtkWidget *
+make_shapped_window_from_xpm (const char **xpm)
+{
+	GdkPixbuf *pixbuf;
+	GdkPixmap *pixmap;
+	GdkBitmap *bitmap;
+	GtkWidget *win, *pix;
+	
+	pixbuf = gdk_pixbuf_new_from_xpm_data (xpm);
+	gdk_pixbuf_render_pixmap_and_mask (pixbuf, &pixmap, &bitmap, 128);
+	gdk_pixbuf_unref (pixbuf);
+
+	gtk_widget_push_visual (gdk_rgb_get_visual ());
+	gtk_widget_push_colormap (gdk_rgb_get_cmap ());
+	win = gtk_window_new (GTK_WINDOW_POPUP);
+	pix = gtk_pixmap_new (pixmap, bitmap);
+	gtk_widget_realize (win);
+	gtk_container_add (GTK_CONTAINER (win), pix);
+	gtk_widget_shape_combine_mask (win, bitmap, 0, 0);
+	gtk_widget_pop_visual ();
+	gtk_widget_pop_colormap ();
+	
+	gdk_pixmap_unref (pixmap);
+	gdk_bitmap_unref (bitmap);
+	
+	return win;
+}
+
+static void
+ethi_add_drop_marker (ETableHeaderItem *ethi, int col)
+{
+	int rx, ry;
+	int x, y;
+	
+	if (ethi->drag_mark == col)
+		return;
+
+	ethi->drag_mark = col;
+
+	x = e_table_header_col_diff (ethi->eth, 0, col);
+	if (col > 0)
+		x += ethi->group_indent_width;
+	
+	if (!arrow_up){
+		arrow_up   = make_shapped_window_from_xpm (arrow_up_xpm);
+		arrow_down = make_shapped_window_from_xpm (arrow_down_xpm);
+	}
+
+	gdk_window_get_origin (
+		GTK_WIDGET (GNOME_CANVAS_ITEM (ethi)->canvas)->window,
+		&rx, &ry);
+
+	printf ("Offset: %d, Location: %d\n", x, rx);
+	gtk_widget_set_uposition (arrow_down, rx + x - ARROW_PTR, ry - ARROW_DOWN_HEIGHT);
+	gtk_widget_show_all (arrow_down);
+
+	gtk_widget_set_uposition (arrow_up, rx + x - ARROW_PTR, ry + ethi->height);
+	gtk_widget_show_all (arrow_up);
+}
 
 #define gray50_width    2
 #define gray50_height   2
@@ -336,6 +409,9 @@ ethi_add_destroy_marker (ETableHeaderItem *ethi)
 		ethi->stipple = gdk_bitmap_create_from_data  (NULL, gray50_bits, gray50_width, gray50_height);
 	
 	x1 = ethi->x1 + (double) e_table_header_col_diff (ethi->eth, 0, ethi->drag_col);
+	if (ethi->drag_col > 0)
+		x1 += ethi->group_indent_width;
+	
 	ethi->remove_item = gnome_canvas_item_new (
 		GNOME_CANVAS_GROUP (GNOME_CANVAS_ITEM (ethi)->canvas->root),
 		gnome_canvas_rect_get_type (),
@@ -574,24 +650,31 @@ draw_button (ETableHeaderItem *ethi, ETableCol *col,
 			       col->text, strlen (col->text));
 	}
 
+	if (col->pixbuf){
+		if ((gdk_pixbuf_get_width (col->pixbuf) + MIN_ARROW_SIZE + 4) > width)
+			return;
+	}
+	
 	switch (arrow){
 	case E_TABLE_COL_ARROW_NONE:
 		break;
+		
 	case E_TABLE_COL_ARROW_UP:
 	case E_TABLE_COL_ARROW_DOWN:
-		gtk_paint_arrow   (gtk_widget_get_style (GTK_WIDGET(GNOME_CANVAS_ITEM(ethi)->canvas)),
-				   drawable,
-				   GTK_STATE_NORMAL,
-				   GTK_SHADOW_IN,
-				   &clip,
-				   GTK_WIDGET(GNOME_CANVAS_ITEM(ethi)->canvas),
-				   "header",
-				   (arrow == E_TABLE_COL_ARROW_UP) ? GTK_ARROW_UP : GTK_ARROW_DOWN,
-				   TRUE,
-				   x + PADDING / 2 + clip.width - MIN_ARROW_SIZE - 2,
-				   y + (ethi->height - MIN_ARROW_SIZE) / 2,
-				   MIN_ARROW_SIZE,
-				   MIN_ARROW_SIZE);
+		gtk_paint_arrow (
+			gtk_widget_get_style (GTK_WIDGET(GNOME_CANVAS_ITEM(ethi)->canvas)),
+			drawable,
+			GTK_STATE_NORMAL,
+			GTK_SHADOW_IN,
+			&clip,
+			GTK_WIDGET(GNOME_CANVAS_ITEM(ethi)->canvas),
+			"header",
+			(arrow == E_TABLE_COL_ARROW_UP) ? GTK_ARROW_UP : GTK_ARROW_DOWN,
+			TRUE,
+			x + PADDING / 2 + clip.width - MIN_ARROW_SIZE - 2,
+			y + (ethi->height - MIN_ARROW_SIZE) / 2,
+			MIN_ARROW_SIZE,
+			MIN_ARROW_SIZE);
 		break;
 	}
 }
@@ -692,6 +775,9 @@ is_pointer_on_division (ETableHeaderItem *ethi, int pos, int *the_total, int *re
 	for (col = 0; col < cols; col++){
 		ETableCol *ecol = e_table_header_get_column (ethi->eth, col);
 
+		if (col == 0)
+			total += ethi->group_indent_width;
+		
 		total += ecol->width;
 
 		if ((total - TOLERANCE < pos)&& (pos < total + TOLERANCE)){
@@ -754,6 +840,9 @@ ethi_maybe_start_drag (ETableHeaderItem *ethi, GdkEventMotion *event)
 	if (!ethi->maybe_drag)
 		return FALSE;
 
+	if (ethi->eth->col_count < 2)
+		return FALSE;
+	
 	if (MAX (abs (ethi->click_x - event->x),
 		 abs (ethi->click_y - event->y)) <= 3)
 		return FALSE;
@@ -778,7 +867,6 @@ ethi_start_drag (ETableHeaderItem *ethi, GdkEvent *event)
 
 	if (ethi->drag_col == -1)
 		return;
-
 
 	if (ethi->sort_info) {
 		int length = e_table_sort_info_grouping_get_count(ethi->sort_info);
@@ -851,6 +939,7 @@ ethi_event (GnomeCanvasItem *item, GdkEvent *e)
 		break;
 			    
 	case GDK_MOTION_NOTIFY:
+
 		convert (canvas, e->motion.x, e->motion.y, &x, &y);
 		if (resizing){
 			int new_width;

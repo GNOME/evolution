@@ -103,6 +103,8 @@ table_example_2_LDADD =				\
 table_example_2_LDFLAGS = `gnome-config --libs gdk_pixbuf`
 
 icons = 			\
+	arrow-down.xpm		\
+	arrow-up.xpm		\
 	add-col.xpm		\
 	check-empty.xpm		\
 	check-filled.xpm	\
