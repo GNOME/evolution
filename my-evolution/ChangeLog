@@ -1,3 +1,8 @@
+2001-07-13  Zbigniew Chyla  <cyba@gnome.pl>
+
+	* e-summary.c (e_summary_draw): Convert the date string to utf8 before
+	appending it to HTML.
+
 2001-07-12  Iain Holmes  <iain@ximian.com>
 
 	* metar.c: #include <config.h>

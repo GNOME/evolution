@@ -24,6 +24,7 @@
 
 #include <gal/util/e-util.h>
 #include <gal/widgets/e-gui-utils.h>
+#include <gal/widgets/e-unicode.h>
 
 #include <bonobo/bonobo-listener.h>
 #include <libgnome/gnome-paper.h>
@@ -128,7 +129,7 @@ e_summary_draw (ESummary *summary)
 	GString *string;
 	GtkHTMLStream *stream;
 	char *html;
-	char date[256];
+	char date[256], *date_utf;
 	time_t t;
 
 	g_return_if_fail (summary != NULL);
@@ -143,7 +144,9 @@ e_summary_draw (ESummary *summary)
 	t = time (NULL);
 	strftime (date, 255, _("%A, %d %B %Y"), localtime (&t));
 
-	html = g_strdup_printf (HTML_2, date);
+	date_utf = e_utf8_from_locale_string (date);
+	html = g_strdup_printf (HTML_2, date_utf);
+	g_free (date_utf);
 	g_string_append (string, html);
 	g_free (html);
 	g_string_append (string, HTML_3);
