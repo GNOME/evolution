@@ -1,3 +1,8 @@
+2001-09-23  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-mt.c (pass_got): Always cache POP and IMAP passwords, even
+	if the user didn't tell us to. Fixes bug #10569.
+
 2001-09-21    <NotZed@Ximian.com>
 
 	* mail-mt.c (mail_msg_check_error): If we have an operation that
