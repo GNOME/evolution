@@ -1,3 +1,8 @@
+2001-08-21  Iain Holmes  <iain@ximian.com>
+
+	* e-shell-startup-wizard.c (make_mail_dialog_pages): Show an error
+	window if mailer doesn't respond.
+
 2001-08-21  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-shell-folder-title-bar.c (label_realize_callback): Fix a leak:
