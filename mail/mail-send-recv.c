@@ -647,7 +647,8 @@ auto_timeout(void *data)
 {
 	struct _auto_data *info = data;
 
-	mail_receive_uri(info->uri, info->keep);
+	if (camel_session_is_online(session))
+		mail_receive_uri(info->uri, info->keep);
 
 	return TRUE;
 }
@@ -784,4 +785,3 @@ void mail_receive_uri(const char *uri, int keep)
 	}
 	gtk_object_unref((GtkObject *)fc);
 }
-

@@ -77,6 +77,8 @@ evolution_mail_SOURCES =		\
 	mail-mlist-magic.h		\
 	mail-mt.c			\
 	mail-mt.h			\
+	mail-offline-handler.c		\
+	mail-offline-handler.h		\
 	mail-ops.c			\
 	mail-ops.h			\
 	mail-search.c			\
@@ -104,11 +106,11 @@ evolution_mail_SOURCES =		\
 	mail.h
 
 evolution_mail_LDADD = 					\
+	$(top_builddir)/e-util/libeutil.la		\
 	$(top_builddir)/shell/libeshell.a		\
 	$(top_builddir)/composer/libcomposer.a		\
 	$(top_builddir)/widgets/misc/libemiscwidgets.a	\
 	$(top_builddir)/camel/libcamel.la		\
-	$(top_builddir)/e-util/libeutil.la		\
 	$(top_builddir)/e-util/ename/libename.la	\
 	$(top_builddir)/libibex/libibex.la		\
 	$(top_builddir)/filter/libfilter.la		\

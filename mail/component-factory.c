@@ -40,6 +40,7 @@
 #include "mail-config.h"
 #include "mail-tools.h"
 #include "mail-ops.h"
+#include "mail-offline-handler.h"
 #include "mail-local.h"
 #include "mail-session.h"
 #include "mail-mt.h"
@@ -287,12 +288,13 @@ static BonoboObject *
 component_fn (BonoboGenericFactory *factory, void *closure)
 {
 	EvolutionShellComponent *shell_component;
+	MailOfflineHandler *offline_handler;
 
 	shell_component = evolution_shell_component_new (folder_types,
 							 create_view,
 							 create_folder,
 							 NULL, /* remove_folder_fn */
-							 NULL, /* copy_folder_fn */
+							 NULL, /* xfer_folder_fn */
 							 NULL, /* populate_folder_context_menu_fn */
 							 NULL, /* get_dnd_selection_fn */
 							 NULL);
@@ -305,6 +307,9 @@ component_fn (BonoboGenericFactory *factory, void *closure)
 			    GTK_SIGNAL_FUNC (debug_cb), NULL);
 	gtk_signal_connect (GTK_OBJECT (shell_component), "destroy",
 			    GTK_SIGNAL_FUNC (owner_unset_cb), NULL);
+
+	offline_handler = mail_offline_handler_new ();
+	bonobo_object_add_interface (BONOBO_OBJECT (shell_component), BONOBO_OBJECT (offline_handler));
 
 	return BONOBO_OBJECT (shell_component);
 }
@@ -509,4 +514,16 @@ mail_lookup_storage (CamelStore *store)
 		gtk_object_ref (GTK_OBJECT (storage));
 
 	return storage;
+}
+
+int
+mail_storages_count (void)
+{
+	return g_hash_table_size (storages_hash);
+}
+
+void
+mail_storages_foreach (GHFunc func, gpointer data)
+{
+	g_hash_table_foreach (storages_hash, func, data);
 }

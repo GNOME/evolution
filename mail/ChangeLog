@@ -1,3 +1,19 @@
+2001-05-09  Dan Winship  <danw@ximian.com>
+
+	* mail-offline-handler.c: New file, started by Ettore, finished by
+	me, to implement the GNOME_Evolution_Offline interface.
+
+	* Makefile.am (evolution_mail_SOURCES): Add
+	mail-offline-handler.[ch]
+
+	* mail-ops.c (mail_store_set_offline): Set a store online or
+	offline.
+
+	* mail-send-recv.c (auto_timeout): Don't run auto-check-for-mail
+	while the session is offline.
+
+	* component-factory.c (component_fn): Set up offline handler.
+
 2001-05-09  Christopher James Lahey  <clahey@ximian.com>
 
 	* importers/evolution-mbox-importer.c (load_file_fn): Made a const

@@ -1917,3 +1917,98 @@ mail_save_part(CamelMimePart *part, const char *path,
 
 	return id;
 }
+
+
+/* ** GO OFFLINE ***************************************************** */
+
+struct _set_offline_msg {
+	struct _mail_msg msg;
+
+	CamelStore *store;
+	gboolean offline;
+	void (*done)(CamelStore *store, void *data);
+	void *data;
+};
+
+static char *set_offline_desc(struct _mail_msg *mm, int done)
+{
+	struct _set_offline_msg *m = (struct _set_offline_msg *)mm;
+	char *service_name = camel_service_get_name (CAMEL_SERVICE (m->store), TRUE);
+	char *msg;
+
+	msg = g_strdup_printf (_("Disconnecting from %s"), service_name);
+	g_free (service_name);
+	return msg;
+}
+
+static void set_offline_do(struct _mail_msg *mm)
+{
+	struct _set_offline_msg *m = (struct _set_offline_msg *)mm;
+
+	if (CAMEL_IS_DISCO_STORE (m->store) &&
+	    camel_disco_store_can_work_offline (CAMEL_DISCO_STORE (m->store))) {
+		if (m->offline) {
+			CamelFolder *inbox;
+
+			/* FIXME. Something more generic here... */
+			inbox = camel_store_get_inbox (m->store, NULL);
+			if (inbox) {
+				camel_disco_folder_prepare_for_offline (
+					CAMEL_DISCO_FOLDER (inbox),
+					"(match-all (not (system-flag \"Seen\")))",
+					&mm->ex);
+				camel_object_unref (CAMEL_OBJECT (inbox));
+				if (camel_exception_is_set (&mm->ex))
+					return;
+			}
+		}
+
+		camel_disco_store_set_status (CAMEL_DISCO_STORE (m->store),
+					      m->offline ? CAMEL_DISCO_STORE_OFFLINE :
+					      CAMEL_DISCO_STORE_ONLINE, &mm->ex);
+	} else {
+		if (m->offline) {
+			camel_service_disconnect (CAMEL_SERVICE (m->store),
+						  TRUE, &mm->ex);
+		}
+	}
+}
+
+static void set_offline_done(struct _mail_msg *mm)
+{
+	struct _set_offline_msg *m = (struct _set_offline_msg *)mm;
+
+	if (m->done)
+		m->done(m->store, m->data);
+}
+
+static void set_offline_free(struct _mail_msg *mm)
+{
+	struct _set_offline_msg *m = (struct _set_offline_msg *)mm;
+
+	camel_object_unref((CamelObject *)m->store);
+}
+
+static struct _mail_msg_op set_offline_op = {
+	set_offline_desc,
+	set_offline_do,
+	set_offline_done,
+	set_offline_free,
+};
+
+void
+mail_store_set_offline (CamelStore *store, gboolean offline,
+			void (*done)(CamelStore *, void *data),
+			void *data)
+{
+	struct _set_offline_msg *m;
+
+	m = mail_msg_new(&set_offline_op, NULL, sizeof(*m));
+	m->store = store;
+	camel_object_ref((CamelObject *)store);
+	m->offline = offline;
+	m->data = data;
+	m->done = done;
+
+	e_thread_put(mail_thread_queued, (EMsg *)m);
+}

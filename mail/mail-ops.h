@@ -140,6 +140,11 @@ void mail_filter_folder (CamelFolder *source_folder, GPtrArray *uids,
 /* convenience function for above */
 void mail_filter_on_demand (CamelFolder *folder, GPtrArray *uids);
 
+/* Work Offline */
+void mail_store_set_offline (CamelStore *store, gboolean offline,
+			     void (*done)(CamelStore *, void *data),
+			     void *data);
+
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */

@@ -70,3 +70,5 @@ void mail_load_storages (GNOME_Evolution_Shell shell, const GSList *sources, gbo
 
 void mail_hash_storage (CamelService *store, EvolutionStorage *storage);
 EvolutionStorage *mail_lookup_storage (CamelStore *store);
+void mail_storages_foreach (GHFunc func, gpointer data);
+int  mail_storages_count (void);
