@@ -1,3 +1,7 @@
+2001-06-09  Christopher James Lahey  <clahey@ximian.com>
+
+	* configure.in: Added addressbook/gui/merging/Makefile.
+
 2001-06-08  Jason Leach  <jleach@ximian.com>
 
 	* my-evolution/Makefile.am (INCLUDES): builddir != srcdir fix.

@@ -970,6 +970,7 @@ addressbook/backend/idl/Makefile
 addressbook/backend/pas/Makefile
 addressbook/backend/ebook/Makefile
 addressbook/gui/Makefile
+addressbook/gui/merging/Makefile
 addressbook/gui/widgets/Makefile
 addressbook/gui/search/Makefile
 addressbook/gui/component/Makefile
