@@ -539,10 +539,19 @@ mc_quit_sync_done(CamelStore *store, void *data)
 static void
 mc_quit_sync(CamelStore *store, struct _store_info *si, MailComponent *mc)
 {
-	int expunge = gconf_client_get_bool(mail_config_get_gconf_client(), "/apps/evolution/mail/trash/empty_on_exit", NULL);
+	GConfClient *gconf = mail_config_get_gconf_client();
+	gboolean expunge;
+	int now = time(NULL)/60/60/24, days;
+
+	expunge = gconf_client_get_bool(gconf, "/apps/evolution/mail/trash/empty_on_exit", NULL)
+		&& ((days = gconf_client_get_int(gconf, "/apps/evolution/mail/trash/empty_on_exit_days", NULL)) == 0
+		     || (days + gconf_client_get_int(gconf, "/apps/evolution/mail/trash/empty_date", NULL)) <= now);
 
 	mc->priv->quit_count++;
 	mail_sync_store(store, expunge, mc_quit_sync_done, mc);
+
+	if (expunge)
+		gconf_client_set_int(gconf, "/apps/evolution/mail/trash/empty_date", now, NULL);
 }
 
 static CORBA_boolean

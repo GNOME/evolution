@@ -1524,3 +1524,48 @@ mail_config_signature_set_html (MailConfigSignature *sig, gboolean html)
 		mail_config_signature_emit_event (MAIL_CONFIG_SIG_EVENT_HTML_CHANGED, sig);
 	}
 }
+
+static const struct _mc_perm {
+	const char *key;
+	guint32 perm;
+} mc_perms[] = {
+	{ "composer/charset", },
+	{ "composer/send_html", },
+	{ "composer/magic_smileys", },
+	{ "composer/inline_spelling", },
+	{ "format/forward_style", },
+	{ "format/reply_style", },
+	{ "trash/empty_on_exit", },
+	{ "trash/empty_on_exit_days", },
+	{ "display/charset" },
+	{ "display/headers" },
+	{ "display/labels" },
+	{ "display/fonts/monospace" },
+	{ "display/fonts/variable" },
+	{ "display/load_http_images" },
+};
+
+struct _mc_item {
+} mc_items[MAIL_CONFIG_ITEM_LAST] = {
+	{ /* MAIL_CONFIG_ACCOUNTS */  },
+	{ /* MAIL_CONFIG_COMPOSER_CHARSET */  },
+	{ /* MAIL_CONFIG_COMPOSER_SEND_HTML */  },
+	{ /* MAIL_CONFIG_COMPOSER_MAGIC_SMILEYS */  },
+	{ /* MAIL_CONFIG_COMPOSER_SPELL_CHECK */  },
+	{ /* MAIL_CONFIG_FORMAT_FORWARD_STYLE */  },
+	{ /* MAIL_CONFIG_FORMAT_REPLY_STYLE */  },
+	{ /* MAIL_CONFIG_TRASH_EMPTY_ON_EXIT */  },
+	{ /* MAIL_CONFIG_TRASH_EMPTY_ON_EXIT_DAYS */  },
+	{ /* MAIL_CONFIG_DISPLAY_CHARSET */  },
+	{ /* MAIL_CONFIG_DISPLAY_HEADERS */  },
+	{ /* MAIL_CONFIG_DISPLAY_LABELS */  },
+	{ /* MAIL_CONFIG_DISPLAY_FONT_MONO */  },
+	{ /* MAIL_CONFIG_DISPLAY_FONT_PROP */  },
+	{ /* MAIL_CONFIG_DISPLAY_LOAD_HTTP */  },
+};
+
+gboolean mail_config_writable(mail_config_item_t item)
+{
+
+}
+

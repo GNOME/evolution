@@ -76,6 +76,17 @@ static const struct {
 
 #define EM_FORMAT_HEADER_XMAILER "x-evolution-mailer"
 
+/* for empty trash on exit frequency */
+static const struct {
+	const char *label;
+	int days;
+} empty_trash_frequency[] = {
+	{ N_("Every time"), 0 },
+	{ N_("Once per day"), 1 },
+	{ N_("Once per week"), 7 },
+	{ N_("Once per month"), 30 },
+};
+
 GtkType
 em_mailer_prefs_get_type (void)
 {
@@ -233,7 +244,6 @@ option_menu_connect (GtkOptionMenu *omenu, gpointer user_data)
 		items = items->next;
 	}
 }
-
 
 static void
 emmp_header_remove_sensitivity (EMMailerPrefs *prefs)
@@ -445,6 +455,36 @@ toggle_button_init (GtkToggleButton *toggle, GConfClient *gconf, const char *key
 }
 
 static void
+emmp_empty_trash_init(EMMailerPrefs *prefs)
+{
+	int days, hist = 0, i;
+	GtkWidget *menu, *item;
+
+	toggle_button_init (prefs->empty_trash, prefs->gconf,
+			    "/apps/evolution/mail/trash/empty_on_exit",
+			    FALSE, G_CALLBACK (settings_changed), prefs);
+
+	days = gconf_client_get_int(prefs->gconf, "/apps/evolution/mail/trash/empty_on_exit_days", NULL);
+	menu = gtk_menu_new();
+	for (i=0;i<sizeof(empty_trash_frequency)/sizeof(empty_trash_frequency[0]);i++) {
+		if (days >= empty_trash_frequency[i].days)
+			hist = i;
+
+		item = gtk_menu_item_new_with_label(_(empty_trash_frequency[i].label));
+		gtk_widget_show(item);
+		gtk_menu_shell_append((GtkMenuShell *)menu, item);
+	}
+
+	gtk_widget_show(menu);
+	gtk_option_menu_set_menu((GtkOptionMenu *)prefs->empty_trash_days, menu);
+	gtk_option_menu_set_history((GtkOptionMenu *)prefs->empty_trash_days, hist);
+	g_signal_connect(prefs->empty_trash_days, "changed", G_CALLBACK(settings_changed), prefs);
+
+	gtk_widget_set_sensitive((GtkWidget *)prefs->empty_trash_days,
+				 gconf_client_key_is_writable(prefs->gconf, "/apps/evolution/mail/trash/empty_on_exit_days", NULL));
+}
+
+static void
 em_mailer_prefs_construct (EMMailerPrefs *prefs)
 {
 	GSList *list, *header_config_list, *header_add_list, *p;
@@ -507,9 +547,8 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs)
 	
 	/* Deleting Mail */
 	prefs->empty_trash = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui, "chkEmptyTrashOnExit"));
-	toggle_button_init (prefs->empty_trash, prefs->gconf,
-			    "/apps/evolution/mail/trash/empty_on_exit",
-			    FALSE, G_CALLBACK (settings_changed), prefs);
+	prefs->empty_trash_days = GTK_OPTION_MENU(glade_xml_get_widget (gui, "omenuEmptyTrashDays"));
+	emmp_empty_trash_init(prefs);
 	
 	prefs->confirm_expunge = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui, "chkConfirmExpunge"));
 	toggle_button_init (prefs->confirm_expunge, prefs->gconf,
@@ -813,6 +852,12 @@ em_mailer_prefs_apply (EMMailerPrefs *prefs)
 	/* Deleting Mail */
 	gconf_client_set_bool (prefs->gconf, "/apps/evolution/mail/trash/empty_on_exit",
 			       gtk_toggle_button_get_active (prefs->empty_trash), NULL);
+	val = gtk_option_menu_get_history(prefs->empty_trash_days);
+	if (val > sizeof(empty_trash_frequency)/sizeof(empty_trash_frequency[0]))
+		val = sizeof(empty_trash_frequency)/sizeof(empty_trash_frequency[0]);
+	if (val < 0)
+		val = 0;
+	gconf_client_set_int(prefs->gconf, "/apps/evolution/mail/trash/empty_on_exit_days", empty_trash_frequency[val].days, NULL);
 	
 	gconf_client_set_bool (prefs->gconf, "/apps/evolution/mail/prompts/expunge",
 			       gtk_toggle_button_get_active (prefs->confirm_expunge), NULL);

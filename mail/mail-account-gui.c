@@ -286,6 +286,8 @@ mail_account_gui_auto_detect_extra_conf (MailAccountGui *gui)
 		entries = service->provider->extra_conf;
 		
 		for (i = 0; entries[i].type != CAMEL_PROVIDER_CONF_END; i++) {
+			GtkWidget *enable_widget = NULL;
+
 			if (!entries[i].name)
 				continue;
 			
@@ -297,12 +299,14 @@ mail_account_gui_auto_detect_extra_conf (MailAccountGui *gui)
 			case CAMEL_PROVIDER_CONF_CHECKBOX:
 				toggle = g_hash_table_lookup (gui->extra_config, entries[i].name);
 				gtk_toggle_button_set_active (toggle, atoi (value));
+				enable_widget = (GtkWidget *)toggle;
 				break;
 				
 			case CAMEL_PROVIDER_CONF_ENTRY:
 				entry = g_hash_table_lookup (gui->extra_config, entries[i].name);
 				if (value)
 					gtk_entry_set_text (entry, value);
+				enable_widget = (GtkWidget *)entry;
 				break;
 				
 			case CAMEL_PROVIDER_CONF_CHECKSPIN:
@@ -321,11 +325,16 @@ mail_account_gui_auto_detect_extra_conf (MailAccountGui *gui)
 				g_assert (*value == ':');
 				val = strtod (++value, NULL);
 				gtk_spin_button_set_value (spin, val);
+				enable_widget = (GtkWidget *)spin;
 			}
 			break;
 			default:
 				break;
 			}
+
+			if (enable_widget)
+				gtk_widget_set_sensitive(enable_widget, e_account_writable_option(gui->account, prov->protocol, entries[i].name));
+
 		}
 		
 		g_hash_table_foreach (auto_detected, auto_detected_foreach, NULL);
@@ -811,6 +820,8 @@ mail_account_gui_build_extra_conf (MailAccountGui *gui, const char *url_string)
 	cur_table = main_table;
 	rows = main_table->nrows;
 	for (i = 0; ; i++) {
+		GtkWidget *enable_widget = NULL;
+
 		switch (entries[i].type) {
 		case CAMEL_PROVIDER_CONF_SECTION_START:
 		{
@@ -846,10 +857,13 @@ mail_account_gui_build_extra_conf (MailAccountGui *gui, const char *url_string)
 				
 				if (!strcmp (entries[i].name, "username")) {
 					gtk_label_set_text_with_mnemonic (GTK_LABEL (username_label), entries[i].text);
+					enable_widget = username_label;
 				} else if (!strcmp (entries[i].name, "hostname")) {
 					gtk_label_set_text_with_mnemonic (GTK_LABEL (hostname_label), entries[i].text);
+					enable_widget = hostname_label;
 				} else if (!strcmp (entries[i].name, "path")) {
 					gtk_label_set_text_with_mnemonic (GTK_LABEL (path_label), entries[i].text);
+					enable_widget = path_label;
 				} else {
 					/* make a new label */
 					label = gtk_label_new (entries[i].text);
@@ -857,6 +871,7 @@ mail_account_gui_build_extra_conf (MailAccountGui *gui, const char *url_string)
 					gtk_table_attach (cur_table, label, 0, 2, rows, rows + 1,
 							  GTK_EXPAND | GTK_FILL, 0, 0, 0);
 					rows++;
+					enable_widget = label;
 				}
 			}
 			break;
@@ -879,6 +894,8 @@ mail_account_gui_build_extra_conf (MailAccountGui *gui, const char *url_string)
 			g_hash_table_insert (gui->extra_config, entries[i].name, checkbox);
 			if (entries[i].depname)
 				setup_toggle (checkbox, entries[i].depname, gui);
+
+			enable_widget = checkbox;
 			break;
 		}
 		
@@ -926,7 +943,8 @@ mail_account_gui_build_extra_conf (MailAccountGui *gui, const char *url_string)
 			}
 
 			g_hash_table_insert (gui->extra_config, entries[i].name, entry);
-						
+
+			enable_widget = entry;
 			break;
 		}
 		
@@ -990,12 +1008,17 @@ mail_account_gui_build_extra_conf (MailAccountGui *gui, const char *url_string)
 				setup_toggle (spin, entries[i].depname, gui);
 				setup_toggle (label, entries[i].depname, gui);
 			}
+
+			enable_widget = hbox;
 			break;
 		}
 		
 		case CAMEL_PROVIDER_CONF_END:
 			goto done;
 		}
+
+		if (enable_widget)
+			gtk_widget_set_sensitive(enable_widget, e_account_writable_option(gui->account, gui->source.provider->protocol, entries[i].name));
 	}
 	
  done:
@@ -1099,7 +1122,7 @@ mail_account_gui_folder_selector_button_new (char *widget_name,
 }
 
 static gboolean
-setup_service (MailAccountGuiService *gsvc, EAccountService *service)
+setup_service (MailAccountGui *gui, MailAccountGuiService *gsvc, EAccountService *service)
 {
 	CamelURL *url = camel_url_new (service->url, NULL);
 	gboolean has_auth = FALSE;
@@ -1169,6 +1192,9 @@ setup_service (MailAccountGuiService *gsvc, EAccountService *service)
 	camel_url_free (url);
 	
 	gtk_toggle_button_set_active (gsvc->remember, service->save_passwd);
+
+	gtk_widget_set_sensitive((GtkWidget *)gsvc->authtype, e_account_writable_option(gui->account, gsvc->provider->protocol, "auth"));
+	gtk_widget_set_sensitive((GtkWidget *)gsvc->use_ssl, e_account_writable_option(gui->account, gsvc->provider->protocol, "use_ssl"));
 	
 	return has_auth;
 }
@@ -1599,8 +1625,8 @@ mail_account_gui_new (EAccount *account, EMAccountPrefs *dialog)
 	em_folder_selection_button_set_selection((EMFolderSelectionButton *)gui->sent_folder_button, gui->sent_folder_uri);
 	
 	/* Special Folders "Reset Defaults" button */
-	button = glade_xml_get_widget (gui->xml, "default_folders_button");
-	g_signal_connect (button, "clicked", G_CALLBACK (default_folders_clicked), gui);
+	gui->restore_folders_button = glade_xml_get_widget (gui->xml, "default_folders_button");
+	g_signal_connect (gui->restore_folders_button, "clicked", G_CALLBACK (default_folders_clicked), gui);
 	
 	/* Always Cc */
 	gui->always_cc = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui->xml, "always_cc"));
@@ -1663,7 +1689,7 @@ mail_account_gui_new (EAccount *account, EMAccountPrefs *dialog)
 		gtk_widget_destroy (frame);
 	}
 #endif /* HAVE_NSS */
-	
+
 	return gui;
 }
 
@@ -1677,6 +1703,8 @@ mail_account_gui_setup (MailAccountGui *gui, GtkWidget *top)
 	char *max_authname = NULL;
 	char *source_proto, *transport_proto;
 	GList *providers, *l;
+
+	printf("account gui setup\n");
 	
 	if (gui->account->source && gui->account->source->url) {
 		source_proto = gui->account->source->url;
@@ -1834,7 +1862,7 @@ mail_account_gui_setup (MailAccountGui *gui, GtkWidget *top)
 	}
 	
 	if (source_proto) {
-		setup_service (&gui->source, gui->account->source);
+		setup_service (gui, &gui->source, gui->account->source);
 		gui->source.provider_type = CAMEL_PROVIDER_STORE;
 		g_free (source_proto);
 		if (gui->account->source->auto_check) {
@@ -1845,11 +1873,32 @@ mail_account_gui_setup (MailAccountGui *gui, GtkWidget *top)
 	}
 	
 	if (transport_proto) {
-		if (setup_service (&gui->transport, gui->account->transport))
+		if (setup_service (gui, &gui->transport, gui->account->transport))
 			gtk_toggle_button_set_active (gui->transport_needs_auth, TRUE);
 		gui->transport.provider_type = CAMEL_PROVIDER_TRANSPORT;
 		g_free (transport_proto);
 	}
+
+	/* FIXME: drive by table?? */
+	if (gui->source.provider) {
+		gtk_widget_set_sensitive((GtkWidget *)gui->source.authtype, e_account_writable_option(gui->account, gui->source.provider->protocol, "auth"));
+		gtk_widget_set_sensitive((GtkWidget *)gui->source.use_ssl, e_account_writable_option(gui->account, gui->source.provider->protocol, "use_ssl"));
+	}
+	if (gui->transport.provider) {
+		gtk_widget_set_sensitive((GtkWidget *)gui->transport.authtype, e_account_writable_option(gui->account, gui->transport.provider->protocol, "auth"));
+		gtk_widget_set_sensitive((GtkWidget *)gui->transport.use_ssl, e_account_writable_option(gui->account, gui->transport.provider->protocol, "use_ssl"));
+	}
+
+	gtk_widget_set_sensitive((GtkWidget *)gui->drafts_folder_button, e_account_writable(gui->account, E_ACCOUNT_DRAFTS_FOLDER_URI));
+	gtk_widget_set_sensitive((GtkWidget *)gui->sent_folder_button, e_account_writable(gui->account, E_ACCOUNT_SENT_FOLDER_URI));
+	gtk_widget_set_sensitive((GtkWidget *)gui->restore_folders_button,
+				 e_account_writable(gui->account, E_ACCOUNT_SENT_FOLDER_URI)
+				 || e_account_writable(gui->account, E_ACCOUNT_DRAFTS_FOLDER_URI));
+	gtk_widget_set_sensitive((GtkWidget *)gui->source.remember, e_account_writable(gui->account, E_ACCOUNT_SOURCE_SAVE_PASSWD));
+	gtk_widget_set_sensitive((GtkWidget *)gui->transport.remember, e_account_writable(gui->account, E_ACCOUNT_TRANSPORT_SAVE_PASSWD));
+	gtk_widget_set_sensitive((GtkWidget *)gui->sig_option_menu, e_account_writable(gui->account, E_ACCOUNT_ID_DEF_SIGNATURE));
+	gtk_widget_set_sensitive((GtkWidget *)gui->source_auto_check, e_account_writable(gui->account, E_ACCOUNT_SOURCE_AUTO_CHECK));
+	gtk_widget_set_sensitive((GtkWidget *)gui->source_auto_check_min, e_account_writable(gui->account, E_ACCOUNT_SOURCE_AUTO_CHECK_TIME));
 }
 
 static void

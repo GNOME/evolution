@@ -179,6 +179,28 @@ void mail_config_signature_emit_event (MailConfigSigEvent event, MailConfigSigna
 void mail_config_write_account_sig (EAccount *account, int i);
 char *mail_config_signature_run_script (char *script);
 
+typedef enum _mail_config_item_t {
+	MAIL_CONFIG_ACCOUNTS,	/* should this be on e-account-list? */
+	MAIL_CONFIG_COMPOSER_CHARSET,
+	MAIL_CONFIG_COMPOSER_SEND_HTML,
+	MAIL_CONFIG_COMPOSER_MAGIC_SMILEYS,
+	MAIL_CONFIG_COMPOSER_SPELL_CHECK,
+	MAIL_CONFIG_FORMAT_FORWARD_STYLE,
+	MAIL_CONFIG_FORMAT_REPLY_STYLE,
+	MAIL_CONFIG_TRASH_EMPTY_ON_EXIT,
+	MAIL_CONFIG_TRASH_EMPTY_ON_EXIT_DAYS,
+	MAIL_CONFIG_DISPLAY_CHARSET,
+	MAIL_CONFIG_DISPLAY_HEADERS,
+	MAIL_CONFIG_DISPLAY_LABELS,
+	MAIL_CONFIG_DISPLAY_FONT_MONO,
+	MAIL_CONFIG_DISPLAY_FONT_PROP,
+	MAIL_CONFIG_DISPLAY_LOAD_HTTP,
+
+	MAIL_CONFIG_ITEM_LAST
+};
+
+gboolean mail_config_writable(mail_config_item_t item);
+
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */

@@ -1,3 +1,44 @@
+2004-03-18  Not Zed  <NotZed@Ximian.com>
+
+	* mail-config.c (mail_config_writable): started writing this, but
+	i couldn't be fucked right now - apparently gnome is supposed to
+	use the gconf thing which just doens't work.  i'll waste a few
+	hours trying to get it to work again first before i keep going
+	with this.
+
+2004-03-17  Not Zed  <NotZed@Ximian.com>
+
+	* em-format-html.c (efh_message_deliverystatus): format as plain
+	text too.
+
+	* em-format.c (emf_message_deliverystatus): format delivery
+	status messages as plain text, rather than as messages.  since
+	they wont be CamelMimeMessages.  Maybe they should be silently
+	hidden.
+
+	* mail-offline-handler.c (store_go_online): split this, only call
+	add_store/note_store once we've actually set the store online.
+	(store_went_online): set the store up once we're fully online.
+	Works around a deadlock in #55618.
+
+	* em-account-prefs.c (account_cursor_change): disable
+	editing/adding/removing accounts etc if accounts aren't editable.
+	(em_account_prefs_construct): call above after setup.
+
+	* mail-component.c (mc_quit_sync): if we have empty on exit days,
+	check that.  keep track of the last empty on exit time.
+
+	* em-mailer-prefs.c (emmp_empty_trash_init): init the trash stuff
+	here.
+	(em_mailer_prefs_apply): save empty trash on exit frequency.
+
+2004-03-16  Not Zed  <NotZed@Ximian.com>
+
+	* mail-account-gui.c (mail_account_gui_auto_detect_extra_conf):
+	check extra conf items are writable.
+	(mail_account_gui_build_extra_conf): same.
+	(setup_service): add gui arg, and do above for auth and ssl args.
+
 2004-03-16  Jeffrey Stedfast  <fejj@ximian.com>
 
 	Fix for bug #55358.

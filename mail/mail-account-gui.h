@@ -95,7 +95,8 @@ typedef struct {
 	char *drafts_folder_uri;
 	GtkButton *sent_folder_button;
 	char *sent_folder_uri;
-	
+	GtkButton *restore_folders_button;
+
 	/* always cc/bcc */
 	GtkToggleButton *always_cc;
 	GtkEntry *cc_addrs;

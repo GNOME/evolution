@@ -389,18 +389,23 @@ account_cursor_change (GtkTreeSelection *selection, EMAccountPrefs *prefs)
 	GtkTreeModel *model;
 	GtkTreeIter iter;
 	int state;
-	
-	state = gtk_tree_selection_get_selected (selection, &model, &iter);
+
+	state = gconf_client_key_is_writable(mail_config_get_gconf_client(), "/apps/evolution/mail/accounts", NULL);
 	if (state) {
-		gtk_tree_model_get (model, &iter, 3, &account, -1);
-		if (account->source && account->enabled)
-			gtk_button_set_label (prefs->mail_able, _("Disable"));
-		else
-			gtk_button_set_label (prefs->mail_able, _("Enable"));
+		state = gtk_tree_selection_get_selected (selection, &model, &iter);
+		if (state) {
+			gtk_tree_model_get (model, &iter, 3, &account, -1);
+			if (account->source && account->enabled)
+				gtk_button_set_label (prefs->mail_able, _("Disable"));
+			else
+				gtk_button_set_label (prefs->mail_able, _("Enable"));
+		} else {
+			gtk_widget_grab_focus (GTK_WIDGET (prefs->mail_add));
+		}
 	} else {
-		gtk_widget_grab_focus (GTK_WIDGET (prefs->mail_add));
+		gtk_widget_set_sensitive (GTK_WIDGET (prefs->mail_add), FALSE);
 	}
-	
+
 	gtk_widget_set_sensitive (GTK_WIDGET (prefs->mail_edit), state);
 	gtk_widget_set_sensitive (GTK_WIDGET (prefs->mail_delete), state);
 	gtk_widget_set_sensitive (GTK_WIDGET (prefs->mail_default), state);
@@ -557,8 +562,9 @@ em_account_prefs_construct (EMAccountPrefs *prefs)
 	
 	prefs->mail_able = GTK_BUTTON (glade_xml_get_widget (gui, "cmdAccountAble"));
 	g_signal_connect (prefs->mail_able, "clicked", G_CALLBACK (account_able_clicked), prefs);
-}
 
+	account_cursor_change(gtk_tree_view_get_selection(prefs->table), prefs);
+}
 
 GtkWidget *
 em_account_prefs_new (GNOME_Evolution_Shell shell)

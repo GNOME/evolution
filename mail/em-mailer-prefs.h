@@ -78,6 +78,7 @@ struct _EMMailerPrefs {
 	
 	/* Deleting Mail */
 	GtkToggleButton *empty_trash;
+	GtkOptionMenu *empty_trash_days;
 	GtkToggleButton *confirm_expunge;
 	
 	/* New Mail Notification */
