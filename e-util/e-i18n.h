@@ -17,7 +17,7 @@
 #include <glib.h>
 #include "libgnome/gnome-defs.h"
 
-BEGIN_GNOME_DECLS
+G_BEGIN_DECLS
 
 #ifdef ENABLE_NLS
 #    include <libintl.h>
@@ -58,6 +58,6 @@ void	   gnome_i18n_set_preferred_language (const char *val);
 const char *gnome_i18n_get_preferred_language (void);
 void gnome_i18n_init (void);
 
-END_GNOME_DECLS
+G_END_DECLS
 
 #endif /* __E_I18N_H__ */

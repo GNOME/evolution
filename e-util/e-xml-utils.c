@@ -27,8 +27,8 @@
 #include <locale.h>
 #include <math.h>
 #include <string.h>
-#include <gnome-xml/parser.h>
-#include <gnome-xml/xmlmemory.h>
+#include <libxml/parser.h>
+#include <libxml/xmlmemory.h>
 #include "gal/util/e-i18n.h"
 
 xmlNode *

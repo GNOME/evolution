@@ -3,7 +3,7 @@
 #define _E_TABLE_STATE_H_
 
 #include <gtk/gtkobject.h>
-#include <gnome-xml/tree.h>
+#include <libxml/tree.h>
 #include <gal/e-table/e-table-sort-info.h>
 
 #ifdef __cplusplus

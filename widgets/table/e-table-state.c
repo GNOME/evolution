@@ -13,8 +13,8 @@
 #include <string.h>
 #include <gtk/gtksignal.h>
 #include <gtk/gtkobject.h>
-#include <gnome-xml/parser.h>
-#include <gnome-xml/xmlmemory.h>
+#include <libxml/parser.h>
+#include <libxml/xmlmemory.h>
 #include "gal/util/e-util.h"
 #include "gal/util/e-xml-utils.h"
 #include "e-table-state.h"
@@ -31,7 +31,10 @@ etst_destroy (GtkObject *object)
 {
 	ETableState *etst = E_TABLE_STATE (object);
 
-	gtk_object_unref (GTK_OBJECT (etst->sort_info));
+	if (etst->sort_info)
+		gtk_object_unref (GTK_OBJECT (etst->sort_info));
+	etst->sort_info = NULL;
+
 	if (etst->columns) {
 		g_free (etst->columns);
 		etst->columns = NULL;

@@ -22,12 +22,10 @@
 #define __E_TABLE_FIELD_CHOOSER_H__
 
 #include <glade/glade.h>
+#include <gtk/gtkvbox.h>
 #include <gal/e-table/e-table-header.h>
 
-#ifdef __cplusplus
-extern "C" {
-#pragma }
-#endif /* __cplusplus */
+G_BEGIN_DECLS
 
 /* ETableFieldChooser - A dialog displaying information about a contact.
  *
@@ -73,9 +71,6 @@ struct _ETableFieldChooserClass
 GtkWidget *e_table_field_chooser_new(void);
 GtkType    e_table_field_chooser_get_type (void);
 
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
-
+G_END_DECLS
 
 #endif /* __E_TABLE_FIELD_CHOOSER_H__ */

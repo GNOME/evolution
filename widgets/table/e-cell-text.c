@@ -30,15 +30,10 @@
 #include <math.h>
 #include <string.h>
 #include <gdk/gdkx.h> /* for BlackPixel */
-#include <gtk/gtkenums.h>
-#include <gtk/gtkentry.h>
-#include <gtk/gtkwindow.h>
-#include <gtk/gtkinvisible.h>
-#include <gtk/gtksignal.h>
 #include <gdk/gdkkeysyms.h>
-#include <gtk/gtkwidget.h>
-#include <libgnomeui/gnome-canvas.h>
-#include <libgnomeui/gnome-canvas-rect-ellipse.h>
+#include <gtk/gtk.h>
+#include <libgnomecanvas/gnome-canvas.h>
+#include <libgnomecanvas/gnome-canvas-rect-ellipse.h>
 #include "e-cell-text.h"
 #include "gal/util/e-util.h"
 #include "gal/widgets/e-canvas.h"
@@ -51,7 +46,7 @@
 #include "e-table-tooltip.h"
 
 
-#define ECT_CLASS(c) (E_CELL_TEXT_CLASS(GTK_OBJECT((c))->klass))
+#define ECT_CLASS(c) (E_CELL_TEXT_CLASS(GTK_OBJECT_GET_CLASS ((c))))
 
 /* This defines a line of text */
 struct line {
@@ -365,8 +360,8 @@ ect_realize (ECellView *ecell_view)
 		text_view->font = e_font_from_gdk_name (ect->font_name);
 	}
 	if (!text_view->font){
-		gdk_font_ref (GTK_WIDGET (text_view->canvas)->style->font);
-		text_view->font = e_font_from_gdk_font (GTK_WIDGET (text_view->canvas)->style->font);
+		gdk_font_ref (gtk_style_get_font (GTK_WIDGET (text_view->canvas)->style));
+		text_view->font = e_font_from_gdk_font (gtk_style_get_font (GTK_WIDGET (text_view->canvas)->style));
 	}
 	
 	calc_ellipsis (text_view);
@@ -416,13 +411,14 @@ ect_unrealize (ECellView *ecv)
 static void
 ect_free_color (gchar *color_spec, GdkColor *color, GdkColormap *colormap)
 {
-
 	g_free (color_spec);
 
 	/* This frees the color. Note we don't free it if it is the special
 	   value. */
 	if (color != (GdkColor*) 1) {
-		gdk_colors_free (colormap, &color->pixel, 1, 0);
+		gulong pix = color->pixel;
+
+		gdk_colors_free (colormap, &pix, 1, 0);
 
 		/* This frees the memory for the GdkColor. */
 		gdk_color_free (color);
@@ -1030,7 +1026,7 @@ ect_print (ECellView *ecell_view, GnomePrintContext *context,
 	   int model_col, int view_col, int row,
 	   double width, double height)
 {
-	GnomeFont *font = gnome_font_new ("Helvetica", 12);
+	GnomeFont *font = gnome_font_find ("Helvetica", 12);
 	char *string;
 	ECellText *ect = E_CELL_TEXT(ecell_view->ecell);
 	string = ect_get_text(ect, ecell_view->e_table_model, model_col, row);
@@ -1293,13 +1289,13 @@ ect_show_tooltip (ECellView *ecell_view,
  * GtkObject::destroy method
  */
 static void
-ect_destroy (GtkObject *object)
+ect_finalize (GObject *object)
 {
 	ECellText *ect = E_CELL_TEXT (object);
 
 	g_free (ect->font_name);
 
-	GTK_OBJECT_CLASS (parent_class)->destroy (object);
+	G_OBJECT_CLASS (parent_class)->finalize (object);
 }
 /* Set_arg handler for the text item */
 static void
@@ -1368,7 +1364,7 @@ e_cell_text_class_init (GtkObjectClass *object_class)
 	ECellClass *ecc = (ECellClass *) object_class;
 	ECellTextClass *ectc = (ECellTextClass *) object_class;
 
-	object_class->destroy = ect_destroy;
+	G_OBJECT_CLASS (object_class)->finalize = ect_finalize;
 
 	ecc->new_view   = ect_new_view;
 	ecc->kill_view  = ect_kill_view;

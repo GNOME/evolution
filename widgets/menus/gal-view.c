@@ -12,7 +12,7 @@
 #include "gal-view.h"
 #include "gal/util/e-util.h"
 
-#define GV_CLASS(e) ((GalViewClass *)((GtkObject *)e)->klass)
+#define GV_CLASS(e) ((GalViewClass *)(GTK_OBJECT_GET_CLASS (e)))
 
 #define PARENT_TYPE gtk_object_get_type ()
 

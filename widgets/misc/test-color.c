@@ -17,10 +17,13 @@ main ( gint argc, gchar* argv[] )
 	GtkWidget * T;
 	ColorGroup *cg;
 
-	gnome_init ("tester", "1.0", argc, argv);
+	gnome_program_init ("tester", "1.0",
+			    LIBGNOMEUI_MODULE,
+			    argc, argv, NULL);
 
 	dialog = gnome_dialog_new ("TESTER", GNOME_STOCK_BUTTON_OK,
 				   GNOME_STOCK_BUTTON_CANCEL, NULL);
+
 	cg = color_group_fetch ("fore_color_group", dialog);
 	T = color_palette_new ("Color Palette", NULL, cg);
 

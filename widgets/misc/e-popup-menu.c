@@ -11,11 +11,9 @@ nnn *
  */
 #include <config.h>
 #include <string.h>
-#include <gdk/gdkkeysyms.h>
-#include <gtk/gtkaccellabel.h>
-#include <gtk/gtklabel.h>
-#include <gtk/gtkmenuitem.h>
+#include <gtk/gtkimage.h>
 #include <gtk/gtksignal.h>
+#include <gtk/gtkimagemenuitem.h>
 #include <libgnomeui/gtkpixmapmenuitem.h>
 #include <libgnomeui/gnome-stock.h>
 
@@ -54,12 +52,26 @@ gnome_app_helper_gettext (const gchar *str)
 static GtkWidget *
 make_item (GtkMenu *menu, const char *name, const char *pixname)
 {
-	GtkWidget *label, *item;
-	guint label_accel;
+	GtkWidget *item;
 
 	if (*name == '\0')
 		return gtk_menu_item_new ();
-	
+
+	item = gtk_image_menu_item_new_with_mnemonic (name);
+	gtk_image_menu_item_set_image (
+		GTK_IMAGE_MENU_ITEM (item),
+		gtk_image_new_from_stock (pixname, GTK_ICON_SIZE_MENU));
+
+	gtk_widget_show_all (GTK_WIDGET (item));
+
+#warning Horribly hacked ?
+#if 0	
+		GtkWidget *pixmap = gnome_stock_pixmap_widget (item, pixname);
+
+		gtk_widget_show (pixmap);
+		gtk_pixmap_menu_item_set_pixmap (
+			GTK_PIXMAP_MENU_ITEM (item), pixmap);
+
 	/*
 	 * Ugh.  This needs to go into Gtk+
 	 */
@@ -75,7 +87,7 @@ make_item (GtkMenu *menu, const char *name, const char *pixname)
 		gtk_widget_add_accelerator (
 			item,
 			"activate_item",
-			gtk_menu_ensure_uline_accel_group (GTK_MENU (menu)),
+			gtk_menu_get_accel_group (GTK_MENU (menu)),
 			label_accel, 0,
 			GTK_ACCEL_LOCKED);
 	}
@@ -87,6 +99,7 @@ make_item (GtkMenu *menu, const char *name, const char *pixname)
 		gtk_pixmap_menu_item_set_pixmap (
 			GTK_PIXMAP_MENU_ITEM (item), pixmap);
 	}
+#endif
 
 	return item;
 }

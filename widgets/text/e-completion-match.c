@@ -27,7 +27,6 @@
 
 #include <config.h>
 #include <string.h>
-#include <gal/unicode/gunicode.h>
 #include <gal/widgets/e-unicode.h>
 #include "e-completion-match.h"
 

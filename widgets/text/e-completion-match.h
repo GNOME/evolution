@@ -32,7 +32,7 @@
 #include <libgnome/gnome-defs.h>
 #include <gtk/gtkwidget.h>
 
-BEGIN_GNOME_DECLS
+G_BEGIN_DECLS
 
 typedef struct _ECompletionMatch ECompletionMatch;
 
@@ -67,7 +67,7 @@ ECompletionMatch *e_completion_match_new            (const gchar *match_text, co
 
 
 
-END_GNOME_DECLS
+G_END_DECLS
 
 #endif /* __E_COMPLETION_MATCH_H__ */
 

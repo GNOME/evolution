@@ -213,9 +213,10 @@ etsm_destroy (GtkObject *object)
 
 	etsm = E_TABLE_SELECTION_MODEL (object);
 
-	if (etsm->model_changed_idle_id) {
-		g_source_remove(etsm->model_changed_idle_id);
-	}
+	if (etsm->model_changed_idle_id)
+		g_source_remove (etsm->model_changed_idle_id);
+	etsm->model_changed_idle_id = 0;
+
 	drop_model(etsm);
 	free_hash(etsm);
 

@@ -12,7 +12,7 @@
 #include <gtk/gtksignal.h>
 #include "gal/util/e-util.h"
 
-#define ERM_CLASS(e) ((EReflowModelClass *)((GtkObject *)e)->klass)
+#define ERM_CLASS(e) ((EReflowModelClass *)(GTK_OBJECT_GET_CLASS (e)))
 
 #define PARENT_TYPE gtk_object_get_type ()
 

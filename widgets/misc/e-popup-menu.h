@@ -6,7 +6,7 @@
 #include <gtk/gtkwidget.h>
 #include <libgnome/gnome-defs.h>
 
-BEGIN_GNOME_DECLS
+G_BEGIN_DECLS
 
 #define E_POPUP_SEPARATOR  { "", NULL, (NULL), NULL,  0 }
 #define E_POPUP_TERMINATOR { NULL, NULL, (NULL), NULL,  0 }
@@ -16,7 +16,7 @@ typedef struct _EPopupMenu EPopupMenu;
 struct _EPopupMenu {
 	char *name;
 	char *pixname;
-	void (*fn) (GtkWidget *widget, void *closure);
+	GtkSignalFunc fn;
 	EPopupMenu *submenu;
 	guint32 disable_mask;
 };
@@ -32,6 +32,6 @@ void     e_popup_menu_run     (EPopupMenu     *menu_list,
 			       guint32         hide_mask,
 			       void           *closure);
 
-END_GNOME_DECLS
+G_END_DECLS
 
 #endif /* E_POPUP_MENU_H */

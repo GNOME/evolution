@@ -18,15 +18,15 @@
 #include <unistd.h>
 #include <fcntl.h>
 
-#include <gnome-xml/parser.h>
-#include <gnome-xml/xmlmemory.h>
+#include <libxml/parser.h>
+#include <libxml/xmlmemory.h>
 
 #include <gtk/gtksignal.h>
 #include "gal/util/e-util.h"
 #include "gal/util/e-xml-utils.h"
 #include "e-tree-model.h"
 
-#define ETM_CLASS(e) ((ETreeModelClass *)((GtkObject *)e)->klass)
+#define ETM_CLASS(e) ((ETreeModelClass *)(GTK_OBJECT_GET_CLASS(e)))
 
 #define PARENT_TYPE (gtk_object_get_type())
 
@@ -81,7 +81,7 @@ e_tree_model_class_init (GtkObjectClass *klass)
 				GTK_RUN_LAST,
 				E_OBJECT_CLASS_TYPE (klass),
 				GTK_SIGNAL_OFFSET (ETreeModelClass, node_col_changed),
-				gtk_marshal_NONE__POINTER_INT,
+				e_marshal_NONE__POINTER_INT,
 				GTK_TYPE_NONE, 2, GTK_TYPE_POINTER, GTK_TYPE_INT);
 
 	e_tree_model_signals [NODE_INSERTED] =
@@ -89,7 +89,7 @@ e_tree_model_class_init (GtkObjectClass *klass)
 				GTK_RUN_LAST,
 				E_OBJECT_CLASS_TYPE (klass),
 				GTK_SIGNAL_OFFSET (ETreeModelClass, node_inserted),
-				gtk_marshal_NONE__POINTER_POINTER,
+				e_marshal_NONE__POINTER_POINTER,
 				GTK_TYPE_NONE, 2, GTK_TYPE_POINTER, GTK_TYPE_POINTER);
 
 	e_tree_model_signals [NODE_REMOVED] =

@@ -53,7 +53,7 @@ e_table_header_compute_height (ETableCol *ecol, GtkStyle *style, GdkFont *font)
 	g_return_val_if_fail (E_IS_TABLE_COL (ecol), -1);
 	g_return_val_if_fail (style != NULL, -1);
 
-	ythick = style->klass->ythickness;
+	ythick = style->ythickness;
 
 	if (font)
 		height = font->ascent + font->descent;
@@ -77,7 +77,7 @@ e_table_header_width_extras (GtkStyle *style)
 {
 	g_return_val_if_fail (style != NULL, -1);
 
-	return 2 * (style->klass->xthickness + HEADER_PADDING);
+	return 2 * (style->xthickness + HEADER_PADDING);
 }
 
 /* Creates a pixmap that is a composite of a background color and the upper-left
@@ -231,8 +231,8 @@ e_table_header_draw_button (GdkDrawable *drawable, ETableCol *ecol,
 	g_return_if_fail (GTK_IS_WIDGET (widget));
 	g_return_if_fail (button_width > 0 && button_height > 0);
 
-	xthick = style->klass->xthickness;
-	ythick = style->klass->ythickness;
+	xthick = style->xthickness;
+	ythick = style->ythickness;
 
 	/* Button bevel */
 

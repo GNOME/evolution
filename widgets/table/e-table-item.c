@@ -19,6 +19,7 @@
 #include <math.h>
 #include <stdio.h>
 #include <gtk/gtksignal.h>
+#include <gtk/gtkmain.h>
 #include <gdk/gdkkeysyms.h>
 #include "e-table-subset.h"
 #include "e-cell.h"
@@ -1137,22 +1138,29 @@ eti_destroy (GtkObject *object)
 
 	if (eti->height_cache_idle_id)
 		g_source_remove(eti->height_cache_idle_id);
+	eti->height_cache_idle_count = 0;
 
 	if (eti->height_cache)
 		g_free (eti->height_cache);
 	eti->height_cache = NULL;
-	eti->height_cache_idle_count = 0;
 
-	e_canvas_hide_tooltip (E_CANVAS(GNOME_CANVAS_ITEM(eti)->canvas));
-	if (eti->tooltip->background)
-		gdk_color_free (eti->tooltip->background);
-	if (eti->tooltip->foreground)
-		gdk_color_free (eti->tooltip->foreground);
-	if (eti->tooltip->timer) {
-		gtk_timeout_remove (eti->tooltip->timer);
-		eti->tooltip->timer = 0;
+	if (eti->tooltip) {
+		e_canvas_hide_tooltip (E_CANVAS(GNOME_CANVAS_ITEM(eti)->canvas));
+		if (eti->tooltip->background)
+			gdk_color_free (eti->tooltip->background);
+		eti->tooltip->background = NULL;
+
+		if (eti->tooltip->foreground)
+			gdk_color_free (eti->tooltip->foreground);
+		eti->tooltip->foreground = NULL;
+
+		if (eti->tooltip->timer) {
+			gtk_timeout_remove (eti->tooltip->timer);
+			eti->tooltip->timer = 0;
+		}
+		g_free (eti->tooltip);
+		eti->tooltip = NULL;
 	}
-	g_free (eti->tooltip);
 
 	if (GTK_OBJECT_CLASS (eti_parent_class)->destroy)
 		(*GTK_OBJECT_CLASS (eti_parent_class)->destroy) (object);
@@ -2443,7 +2451,7 @@ eti_class_init (GtkObjectClass *object_class)
 				GTK_RUN_LAST,
 				E_OBJECT_CLASS_TYPE (object_class),
 				GTK_SIGNAL_OFFSET (ETableItemClass, cursor_activated),
-				gtk_marshal_NONE__INT,
+				e_marshal_NONE__INT,
 				GTK_TYPE_NONE, 1, GTK_TYPE_INT);
 
 	eti_signals [DOUBLE_CLICK] =
@@ -2451,43 +2459,47 @@ eti_class_init (GtkObjectClass *object_class)
 				GTK_RUN_LAST,
 				E_OBJECT_CLASS_TYPE (object_class),
 				GTK_SIGNAL_OFFSET (ETableItemClass, double_click),
-				gtk_marshal_NONE__INT_INT_POINTER,
-				GTK_TYPE_NONE, 3, GTK_TYPE_INT, GTK_TYPE_INT, GTK_TYPE_GDK_EVENT);
+				e_marshal_NONE__INT_INT_BOXED,
+				GTK_TYPE_NONE, 3, GTK_TYPE_INT,
+				GTK_TYPE_INT, GDK_TYPE_EVENT);
 
 	eti_signals [START_DRAG] =
 		gtk_signal_new ("start_drag",
 				GTK_RUN_LAST,
 				E_OBJECT_CLASS_TYPE (object_class),
 				GTK_SIGNAL_OFFSET (ETableItemClass, start_drag),
-				e_marshal_INT__INT_INT_POINTER,
-				GTK_TYPE_INT, 3, GTK_TYPE_INT, GTK_TYPE_INT, GTK_TYPE_GDK_EVENT);
+				e_marshal_INT__INT_INT_BOXED,
+				GTK_TYPE_INT, 3, GTK_TYPE_INT,
+				GTK_TYPE_INT, GDK_TYPE_EVENT);
 
 	eti_signals [RIGHT_CLICK] =
 		gtk_signal_new ("right_click",
 				GTK_RUN_LAST,
 				E_OBJECT_CLASS_TYPE (object_class),
 				GTK_SIGNAL_OFFSET (ETableItemClass, right_click),
-				e_marshal_INT__INT_INT_POINTER,
-				GTK_TYPE_INT, 3, GTK_TYPE_INT, GTK_TYPE_INT, GTK_TYPE_GDK_EVENT);
+				e_marshal_INT__INT_INT_BOXED,
+				GTK_TYPE_INT, 3, GTK_TYPE_INT,
+				GTK_TYPE_INT, GDK_TYPE_EVENT);
 
 	eti_signals [CLICK] =
 		gtk_signal_new ("click",
 				GTK_RUN_LAST,
 				E_OBJECT_CLASS_TYPE (object_class),
 				GTK_SIGNAL_OFFSET (ETableItemClass, click),
-				e_marshal_INT__INT_INT_POINTER,
-				GTK_TYPE_INT, 3, GTK_TYPE_INT, GTK_TYPE_INT, GTK_TYPE_GDK_EVENT);
+				e_marshal_INT__INT_INT_BOXED,
+				GTK_TYPE_INT, 3, GTK_TYPE_INT,
+				GTK_TYPE_INT, GDK_TYPE_EVENT);
 
 	eti_signals [KEY_PRESS] =
 		gtk_signal_new ("key_press",
 				GTK_RUN_LAST,
 				E_OBJECT_CLASS_TYPE (object_class),
 				GTK_SIGNAL_OFFSET (ETableItemClass, key_press),
-				e_marshal_INT__INT_INT_POINTER,
-				GTK_TYPE_INT, 3, GTK_TYPE_INT, GTK_TYPE_INT, GTK_TYPE_GDK_EVENT);
+				e_marshal_INT__INT_INT_BOXED,
+				GTK_TYPE_INT, 3, GTK_TYPE_INT,
+				GTK_TYPE_INT, GDK_TYPE_EVENT);
 
 	E_OBJECT_CLASS_ADD_SIGNALS (object_class, eti_signals, LAST_SIGNAL);
-
 }
 
 GtkType

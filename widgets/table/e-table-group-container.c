@@ -13,7 +13,7 @@
 #include <gdk/gdkkeysyms.h>
 #include <gtk/gtksignal.h>
 #include <libgnome/libgnome.h>
-#include <libgnomeui/gnome-canvas-rect-ellipse.h>
+#include <libgnomecanvas/gnome-canvas-rect-ellipse.h>
 #include "e-table-group-container.h"
 #include "e-table-group-leaf.h"
 #include "e-table-item.h"
@@ -86,6 +86,7 @@ e_table_group_container_list_free (ETableGroupContainer *etgc)
 	}
 
 	g_list_free (etgc->children);
+	etgc->children = NULL;
 }
 
 static void
@@ -95,19 +96,23 @@ etgc_destroy (GtkObject *object)
 
 	if (etgc->font)
 		gdk_font_unref (etgc->font);
-		etgc->font = NULL;
+	etgc->font = NULL;
 
 	if (etgc->ecol)
 		gtk_object_unref (GTK_OBJECT(etgc->ecol));
+	etgc->ecol = NULL;
 
 	if (etgc->sort_info)
 		gtk_object_unref (GTK_OBJECT(etgc->sort_info));
+	etgc->sort_info = NULL;
 
 	if (etgc->selection_model)
 		gtk_object_unref (GTK_OBJECT(etgc->selection_model));
+	etgc->selection_model = NULL;
 
 	if (etgc->rect)
 		gtk_object_destroy (GTK_OBJECT(etgc->rect));
+	etgc->rect = NULL;
 
 	e_table_group_container_list_free (etgc);
 
@@ -150,7 +155,7 @@ e_table_group_container_construct (GnomeCanvasGroup *parent, ETableGroupContaine
 	
 	etgc->font = gdk_font_load ("lucidasans-10");
 	if (!etgc->font){
-		etgc->font = GTK_WIDGET (GNOME_CANVAS_ITEM (etgc)->canvas)->style->font;
+		etgc->font = gtk_style_get_font (GTK_WIDGET (GNOME_CANVAS_ITEM (etgc)->canvas)->style);
 		
 		gdk_font_ref (etgc->font);
 	}
@@ -1025,7 +1030,7 @@ e_table_group_apply_to_leafs (ETableGroup *etg, ETableGroupLeafFn fn, void *clos
 		(*fn) (E_TABLE_GROUP_LEAF (etg)->item, closure);
 	} else {
 		g_error ("Unknown ETableGroup found: %s",
-			 gtk_type_name (GTK_OBJECT (etg)->klass->type));
+			 g_type_name (G_TYPE_FROM_INSTANCE (etg)));
 	}
 }
 
@@ -1081,8 +1086,7 @@ e_table_group_container_print_page  (EPrintable *ep,
 	GList *child;
 	EPrintable *child_printable;
 	gchar *string;
-
-	GnomeFont *font = gnome_font_new ("Helvetica", TEXT_HEIGHT);
+	GnomeFont *font = gnome_font_find ("Helvetica", TEXT_HEIGHT);
 
 	child_printable = groupcontext->child_printable;
 	child = groupcontext->child;
@@ -1378,7 +1382,7 @@ e_table_group_container_will_fit      (EPrintable *ep,
 
 static void
 e_table_group_container_printable_destroy (GtkObject *object,
-				ETGCPrintContext *groupcontext)
+					   ETGCPrintContext *groupcontext)
 {
 	gtk_object_unref(GTK_OBJECT(groupcontext->etgc));
 	if (groupcontext->child_printable)

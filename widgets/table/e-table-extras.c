@@ -49,13 +49,20 @@ ete_destroy (GtkObject *object)
 {
 	ETableExtras *ete = E_TABLE_EXTRAS (object);
 
-	g_hash_table_foreach (ete->cells, (GHFunc) cell_hash_free, NULL);
-	g_hash_table_foreach (ete->compares, (GHFunc) g_free, NULL);
-	g_hash_table_foreach (ete->pixbufs, (GHFunc) pixbuf_hash_free, NULL);
+	if (ete->cells) {
+		g_hash_table_foreach (ete->cells, (GHFunc) cell_hash_free, NULL);
+		g_hash_table_destroy (ete->cells);
+	}
 
-	g_hash_table_destroy (ete->cells);
-	g_hash_table_destroy (ete->compares);
-	g_hash_table_destroy (ete->pixbufs);
+	if (ete->compares) {
+		g_hash_table_foreach (ete->compares, (GHFunc) g_free, NULL);
+		g_hash_table_destroy (ete->compares);
+	}
+
+	if (ete->pixbufs) {
+		g_hash_table_foreach (ete->pixbufs, (GHFunc) pixbuf_hash_free, NULL);
+		g_hash_table_destroy (ete->pixbufs);
+	}
 
 	ete->cells = NULL;
 	ete->compares = NULL;

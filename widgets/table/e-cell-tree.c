@@ -25,7 +25,7 @@
 #include <gtk/gtkinvisible.h>
 #include <gtk/gtksignal.h>
 #include <gdk/gdkkeysyms.h>
-#include <libgnomeui/gnome-canvas.h>
+#include <libgnomecanvas/gnome-canvas.h>
 
 #include "e-tree-table-adapter.h"
 #include "e-tree-model.h"
@@ -622,8 +622,13 @@ ect_destroy (GtkObject *object)
 		gtk_object_unref (GTK_OBJECT (ect->subcell));
 	ect->subcell = NULL;
 
-	gdk_pixbuf_unref (ect->open_pixbuf);
-	gdk_pixbuf_unref (ect->closed_pixbuf);
+	if (ect->open_pixbuf)
+		gdk_pixbuf_unref (ect->open_pixbuf);
+	ect->open_pixbuf = NULL;
+
+	if (ect->closed_pixbuf)
+		gdk_pixbuf_unref (ect->closed_pixbuf);
+	ect->closed_pixbuf = NULL;
 
 	GTK_OBJECT_CLASS (parent_class)->destroy (object);
 }

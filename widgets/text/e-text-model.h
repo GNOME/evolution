@@ -24,7 +24,7 @@
 #include <gtk/gtkobject.h>
 #include <libgnome/gnome-defs.h>
 
-BEGIN_GNOME_DECLS
+G_BEGIN_DECLS
 
 #define E_TYPE_TEXT_MODEL            (e_text_model_get_type ())
 #define E_TEXT_MODEL(obj)            (GTK_CHECK_CAST ((obj), E_TYPE_TEXT_MODEL, ETextModel))
@@ -110,6 +110,6 @@ void         e_text_model_activate_nth_object   (ETextModel *model, gint n);
 
 
 
-END_GNOME_DECLS
+G_END_DECLS
 
 #endif

@@ -134,6 +134,7 @@ eba_destroy (GtkObject *object)
 	eba = E_BIT_ARRAY (object);
 
 	g_free(eba->data);
+	eba->data = NULL;
 
 	if (GTK_OBJECT_CLASS (parent_class)->destroy)
 		(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);

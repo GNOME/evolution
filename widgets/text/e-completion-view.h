@@ -34,7 +34,7 @@
 #include <gal/e-table/e-table.h>
 #include "e-completion.h"
 
-BEGIN_GNOME_DECLS
+G_BEGIN_DECLS
 
 #define E_COMPLETION_VIEW_TYPE        (e_completion_view_get_type ())
 #define E_COMPLETION_VIEW(o)          (GTK_CHECK_CAST ((o), E_COMPLETION_VIEW_TYPE, ECompletionView))
@@ -101,7 +101,7 @@ void       e_completion_view_set_uncomplete_key (ECompletionView *cv, gint keyva
 void       e_completion_view_set_width    (ECompletionView *cv, gint width);
 void       e_completion_view_set_editable (ECompletionView *cv, gboolean);
 
-END_GNOME_DECLS
+G_END_DECLS
 
 
 #endif /* E_COMPLETION_H */

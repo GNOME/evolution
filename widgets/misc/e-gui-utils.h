@@ -7,7 +7,7 @@
 
 #include <libgnomeui/gnome-messagebox.h>
 
-BEGIN_GNOME_DECLS
+G_BEGIN_DECLS
 
 void  e_popup_menu                    (GtkMenu      *menu,
 				       GdkEvent     *event);
@@ -24,6 +24,6 @@ void  e_container_focus_nth_entry     (GtkContainer *container,
 gint  e_container_change_tab_order    (GtkContainer *container,
 				       GList        *widgets);
 
-END_GNOME_DECLS
+G_END_DECLS
 
 #endif /* GAL_GUI_UTILS_H */

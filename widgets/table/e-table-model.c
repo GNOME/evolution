@@ -13,7 +13,7 @@
 #include "e-table-model.h"
 #include "gal/util/e-util.h"
 
-#define ETM_CLASS(e) ((ETableModelClass *)((GtkObject *)e)->klass)
+#define ETM_CLASS(e) ((ETableModelClass *)(GTK_OBJECT_GET_CLASS (e)))
 
 #define PARENT_TYPE gtk_object_get_type ()
 

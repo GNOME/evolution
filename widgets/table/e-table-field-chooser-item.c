@@ -11,10 +11,10 @@
 #include <string.h>
 #include <gtk/gtksignal.h>
 #include <gtk/gtkdnd.h>
-#include <libgnomeui/gnome-canvas.h>
-#include <libgnomeui/gnome-canvas-util.h>
-#include <libgnomeui/gnome-canvas-polygon.h>
-#include <libgnomeui/gnome-canvas-rect-ellipse.h>
+#include <libgnomecanvas/gnome-canvas.h>
+#include <libgnomecanvas/gnome-canvas-util.h>
+#include <libgnomecanvas/gnome-canvas-polygon.h>
+#include <libgnomecanvas/gnome-canvas-rect-ellipse.h>
 #include <gdk-pixbuf/gdk-pixbuf.h>
 
 #include "gal/util/e-util.h"
@@ -56,15 +56,20 @@ enum {
 };
 
 static void
-etfci_destroy (GtkObject *object){
+etfci_destroy (GtkObject *object)
+{
 	ETableFieldChooserItem *etfci = E_TABLE_FIELD_CHOOSER_ITEM (object);
 
 	etfci_drop_table_header (etfci);
 	etfci_drop_full_header (etfci);
-	if (etfci->combined_header != NULL)
+
+	if (etfci->combined_header)
 		gtk_object_unref (GTK_OBJECT (etfci->combined_header));
-	
-	gdk_font_unref(etfci->font);
+	etfci->combined_header = NULL;
+
+	if (etfci->font)
+		gdk_font_unref(etfci->font);
+	etfci->font = NULL;
 
 	if (GTK_OBJECT_CLASS (etfci_parent_class)->destroy)
 		(*GTK_OBJECT_CLASS (etfci_parent_class)->destroy) (object);
@@ -182,8 +187,10 @@ etfci_update (GnomeCanvasItem *item, double *affine, ArtSVP *clip_path, int flag
 			item->y1 = c1.y;
 			item->x2 = c2.x;
 			item->y2 = c2.y;
-
+#warning Group Child bounds !?
+#if 0
 			gnome_canvas_group_child_bounds (GNOME_CANVAS_GROUP (item->parent), item);
+#endif
 		}
 	gnome_canvas_request_redraw (item->canvas, item->x1, item->y1, item->x2, item->y2);
 }
@@ -199,7 +206,7 @@ etfci_font_load (ETableFieldChooserItem *etfci, char *font)
 		etfci->font = gdk_fontset_load (font);
 
 	if (etfci->font == NULL) {
-		etfci->font = GTK_WIDGET(GNOME_CANVAS_ITEM(etfci)->canvas)->style->font;
+		etfci->font = gtk_style_get_font (GTK_WIDGET(GNOME_CANVAS_ITEM(etfci)->canvas)->style);
 		gdk_font_ref(etfci->font);
 	}
 }

@@ -22,11 +22,12 @@
 #include <ctype.h>
 #include <string.h>
 #include <gtk/gtksignal.h>
+#include <gal/util/e-util.h>
 #include "e-text-model-repos.h"
 #include "e-text-model.h"
 #include "gal/util/e-util.h"
 
-#define CLASS(obj) (E_TEXT_MODEL_CLASS (GTK_OBJECT (obj)->klass))
+#define CLASS(obj) (E_TEXT_MODEL_CLASS (GTK_OBJECT_GET_CLASS (obj)))
 
 #define MAX_LENGTH (2047)
 
@@ -116,7 +117,7 @@ e_text_model_class_init (ETextModelClass *klass)
 				GTK_RUN_LAST,
 				E_OBJECT_CLASS_TYPE (object_class),
 				GTK_SIGNAL_OFFSET (ETextModelClass, reposition),
-				gtk_marshal_NONE__POINTER_POINTER,
+				e_marshal_NONE__POINTER_POINTER,
 				GTK_TYPE_NONE, 2,
 				GTK_TYPE_POINTER, GTK_TYPE_POINTER);
 
@@ -181,10 +182,12 @@ e_text_model_destroy (GtkObject *object)
 
 	model = E_TEXT_MODEL (object);
 
-	g_free (model->priv->text);
+	if (model->priv) {
+		g_free (model->priv->text);
 
-	g_free (model->priv);
-	model->priv = NULL;
+		g_free (model->priv);
+		model->priv = NULL;
+	}
 
 	if (GTK_OBJECT_CLASS (parent_class)->destroy)
 		GTK_OBJECT_CLASS (parent_class)->destroy (object);

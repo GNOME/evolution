@@ -12,7 +12,7 @@
 #include "e-selection-model-array.h"
 #include "gal/util/e-util.h"
 
-#define ESMA_CLASS(e) ((ESelectionModelArrayClass *)((GtkObject *)e)->klass)
+#define ESMA_CLASS(e) ((ESelectionModelArrayClass *)(GTK_OBJECT_GET_CLASS (e)))
 
 #define PARENT_TYPE e_selection_model_get_type ()
 

@@ -23,7 +23,7 @@
 #include <gal/e-table/e-table-model.h>
 
 
-BEGIN_GNOME_DECLS
+G_BEGIN_DECLS
 
 #define E_TYPE_TABLE_TEXT_MODEL            (e_table_text_model_get_type ())
 #define E_TABLE_TEXT_MODEL(obj)            (GTK_CHECK_CAST ((obj), E_TYPE_TABLE_TEXT_MODEL, ETableTextModel))
@@ -55,6 +55,6 @@ struct _ETableTextModelClass {
 GtkType e_table_text_model_get_type (void);
 ETableTextModel *e_table_text_model_new (ETableModel *table_model, int row, int model_col);
 
-END_GNOME_DECLS
+G_END_DECLS
 
 #endif

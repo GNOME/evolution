@@ -3,7 +3,7 @@
 #define _GAL_VIEW_H_
 
 #include <gtk/gtkobject.h>
-#include <gnome-xml/tree.h>
+#include <libxml/tree.h>
 
 #ifdef __cplusplus
 extern "C" {

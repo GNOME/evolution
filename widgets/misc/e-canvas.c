@@ -121,8 +121,10 @@ e_canvas_init (ECanvas *canvas)
 {
 	canvas->selection = NULL;
 	canvas->cursor = NULL;
+#ifdef GAL_GDK_IM
 	canvas->ic = NULL;
 	canvas->ic_attr = NULL;
+#endif
 	canvas->tooltip_window = NULL;
 }
 
@@ -133,6 +135,7 @@ e_canvas_destroy (GtkObject *object)
 
 	if (canvas->idle_id)
 		g_source_remove(canvas->idle_id);
+	canvas->idle_id = 0;
 
 	if (canvas->toplevel) {
 		if (canvas->visibility_notify_id)
@@ -334,7 +337,7 @@ gnome_canvas_item_invoke_point (GnomeCanvasItem *item, double x, double y, int c
 	y = i.y;
 #endif
 
-	return (* GNOME_CANVAS_ITEM_CLASS (item->object.klass)->point) (
+	return (* GNOME_CANVAS_ITEM_CLASS (GTK_OBJECT_GET_CLASS (item))->point) (
 		item, x, y, cx, cy, actual_item);
 }
 
@@ -629,8 +632,10 @@ e_canvas_focus_in (GtkWidget *widget, GdkEventFocus *event)
 
 	GTK_WIDGET_SET_FLAGS (widget, GTK_HAS_FOCUS);
 
+#ifdef GAL_GDK_IM
 	if (ecanvas->ic)
 		gdk_im_begin (ecanvas->ic, canvas->layout.bin_window);
+#endif
 
 	if (canvas->focused_item) {
 		full_event.focus_change = *event;
@@ -653,8 +658,10 @@ e_canvas_focus_out (GtkWidget *widget, GdkEventFocus *event)
 
 	GTK_WIDGET_UNSET_FLAGS (widget, GTK_HAS_FOCUS);
 
+#ifdef GAL_GDK_IM
 	if (ecanvas->ic)
 		gdk_im_end ();
+#endif
 
 	if (canvas->focused_item) {
 		full_event.focus_change = *event;
@@ -667,13 +674,16 @@ e_canvas_focus_out (GtkWidget *widget, GdkEventFocus *event)
 static void
 e_canvas_realize (GtkWidget *widget)
 {
+#ifdef GAL_GDK_IM
 	ECanvas *ecanvas = E_CANVAS (widget);
+#endif
 
 	if (GTK_WIDGET_CLASS (parent_class)->realize)
 		(* GTK_WIDGET_CLASS (parent_class)->realize) (widget);
 
 	gdk_window_set_back_pixmap (GTK_LAYOUT (widget)->bin_window, NULL, FALSE);
 
+#ifdef GAL_GDK_IM
 	if (gdk_im_ready () && (ecanvas->ic_attr = gdk_ic_attr_new ()) != NULL) {
 		GdkEventMask mask;
 		GdkICAttr *attr = ecanvas->ic_attr;
@@ -698,13 +708,15 @@ e_canvas_realize (GtkWidget *widget)
 		} else
 			g_warning ("Can't create input context.");
 	}
-
+#endif
 }
 
 static void
 e_canvas_unrealize (GtkWidget *widget)
 {
+#ifdef GAL_GDK_IM
 	ECanvas * ecanvas = E_CANVAS (widget);
+
 	if (ecanvas->ic) {
 		gdk_ic_destroy (ecanvas->ic);
 		ecanvas->ic = NULL;
@@ -713,6 +725,7 @@ e_canvas_unrealize (GtkWidget *widget)
 		gdk_ic_attr_destroy (ecanvas->ic_attr);
 		ecanvas->ic_attr = NULL;
 	}
+#endif
 	if (GTK_WIDGET_CLASS (parent_class)->unrealize)
 		(* GTK_WIDGET_CLASS (parent_class)->unrealize) (widget);
 }
@@ -1006,7 +1019,8 @@ void e_canvas_popup_tooltip (ECanvas *canvas, GtkWidget *widget, int x, int y)
 						    GTK_SIGNAL_FUNC (e_canvas_visibility), canvas);
 		}
 	}
-	gtk_widget_popup (widget, x, y);
+	gtk_widget_set_uposition (widget, x, y);
+	gtk_widget_show (widget);
 }
 
 void e_canvas_hide_tooltip  (ECanvas *canvas)

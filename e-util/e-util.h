@@ -9,6 +9,8 @@ extern "C" {
 #pragma }
 #endif /* __cplusplus */
 
+#include <gal/util/e-marshal.h>
+
 #define E_MAKE_TYPE(l,str,t,ci,i,parent) \
 GtkType l##_get_type(void)\
 {\
@@ -52,7 +54,7 @@ GtkType l##_get_type(void)\
 	return type;\
 }
 
-#if 1
+#if 0
 #  define E_OBJECT_CLASS_ADD_SIGNALS(oc,sigs,last) \
 	gtk_object_class_add_signals (oc, sigs, last)
 #  define E_OBJECT_CLASS_TYPE(oc) (oc)->type
@@ -117,107 +119,6 @@ size_t    e_strftime_fix_am_pm                                             (char
 									    size_t            max,
 									    const char       *fmt,
 									    const struct tm  *tm);
-void      e_marshal_INT__INT_INT_POINTER                                   (GtkObject        *object,
-									    GtkSignalFunc     func,
-									    gpointer          func_data,
-									    GtkArg           *args);
-void      e_marshal_INT__INT_POINTER_INT_POINTER                           (GtkObject        *object,
-									    GtkSignalFunc     func,
-									    gpointer          func_data,
-									    GtkArg           *args);
-void      e_marshal_NONE__OBJECT_DOUBLE_DOUBLE_BOOL                        (GtkObject        *object,
-									    GtkSignalFunc     func,
-									    gpointer          func_data,
-									    GtkArg           *args);
-void      e_marshal_DOUBLE__OBJECT_DOUBLE_DOUBLE_BOOL                      (GtkObject        *object,
-									    GtkSignalFunc     func,
-									    gpointer          func_data,
-									    GtkArg           *args);
-void      e_marshal_BOOL__OBJECT_DOUBLE_DOUBLE_BOOL                        (GtkObject        *object,
-									    GtkSignalFunc     func,
-									    gpointer          func_data,
-									    GtkArg           *args);
-
-#define e_marshal_NONE__INT_INT_POINTER_POINTER_UINT_UINT e_marshal_NONE__INT_INT_POINTER_POINTER_INT_INT
-void      e_marshal_NONE__INT_INT_POINTER_POINTER_INT_INT                  (GtkObject        *object,
-									    GtkSignalFunc     func,
-									    gpointer          func_data,
-									    GtkArg           *args);
-
-#define e_marshal_NONE__INT_POINTER_INT_POINTER_POINTER_UINT_UINT e_marshal_NONE__INT_POINTER_INT_POINTER_POINTER_INT_INT
-void      e_marshal_NONE__INT_POINTER_INT_POINTER_POINTER_INT_INT          (GtkObject        *object,
-									    GtkSignalFunc     func,
-									    gpointer          func_data,
-									    GtkArg           *args);
-
-#define e_marshal_NONE__INT_INT_POINTER_UINT e_marshal_NONE__INT_INT_POINTER_INT
-void      e_marshal_NONE__INT_INT_POINTER_INT                              (GtkObject        *object,
-									    GtkSignalFunc     func,
-									    gpointer          func_data,
-									    GtkArg           *args);
-
-#define e_marshal_NONE__INT_POINTER_INT_POINTER_UINT e_marshal_NONE__INT_POINTER_INT_POINTER_INT
-void      e_marshal_NONE__INT_POINTER_INT_POINTER_INT                      (GtkObject        *object,
-									    GtkSignalFunc     func,
-									    gpointer          func_data,
-									    GtkArg           *args);
-
-#define e_marshal_BOOL__INT_INT_POINTER_INT_INT_UINT e_marshal_BOOL__INT_INT_POINTER_INT_INT_INT
-void      e_marshal_BOOL__INT_INT_POINTER_INT_INT_INT                      (GtkObject        *object,
-									    GtkSignalFunc     func,
-									    gpointer          func_data,
-									    GtkArg           *args);
-
-#define e_marshal_BOOL__INT_POINTER_INT_POINTER_INT_INT_UINT e_marshal_BOOL__INT_POINTER_INT_POINTER_INT_INT_INT
-void      e_marshal_BOOL__INT_POINTER_INT_POINTER_INT_INT_INT              (GtkObject        *object,
-									    GtkSignalFunc     func,
-									    gpointer          func_data,
-									    GtkArg           *args);
-
-#define e_marshal_NONE__INT_INT_POINTER_INT_INT_POINTER_UINT_UINT e_marshal_NONE__INT_INT_POINTER_INT_INT_POINTER_INT_INT
-void      e_marshal_NONE__INT_INT_POINTER_INT_INT_POINTER_INT_INT          (GtkObject        *object,
-									    GtkSignalFunc     func,
-									    gpointer          func_data,
-									    GtkArg           *args);
-
-#define e_marshal_NONE__INT_POINTER_INT_POINTER_INT_INT_POINTER_UINT_UINT e_marshal_NONE__INT_POINTER_INT_POINTER_INT_INT_POINTER_INT_INT
-void      e_marshal_NONE__INT_POINTER_INT_POINTER_INT_INT_POINTER_INT_INT  (GtkObject        *object,
-									    GtkSignalFunc     func,
-									    gpointer          func_data,
-									    GtkArg           *args);
-void      e_marshal_NONE__POINTER_POINTER_INT                              (GtkObject        *object,
-									    GtkSignalFunc     func,
-									    gpointer          func_data,
-									    GtkArg           *args);
-void      e_marshal_NONE__INT_POINTER_INT_POINTER                          (GtkObject        *object,
-									    GtkSignalFunc     func,
-									    gpointer          func_data,
-									    GtkArg           *args);
-void      e_marshal_INT__POINTER_POINTER                                   (GtkObject        *object,
-									    GtkSignalFunc     func,
-									    gpointer          func_data,
-									    GtkArg           *args);
-void      e_marshal_INT__POINTER_POINTER_POINTER                           (GtkObject        *object,
-									    GtkSignalFunc     func,
-									    gpointer          func_data,
-									    GtkArg           *args);
-void      e_marshal_INT__POINTER_POINTER_POINTER_POINTER                   (GtkObject        *object,
-									    GtkSignalFunc     func,
-									    gpointer          func_data,
-									    GtkArg           *args);
-void      e_marshal_INT__POINTER_POINTER_POINTER_POINTER_POINTER           (GtkObject        *object,
-									    GtkSignalFunc     func,
-									    gpointer          func_data,
-									    GtkArg           *args);
-void      e_marshal_NONE__POINTER_INT_INT_INT                              (GtkObject        *object,
-									    GtkSignalFunc     func,
-									    gpointer          func_data,
-									    GtkArg           *args);
-void      e_marshal_INT__OBJECT_POINTER                                    (GtkObject        *object,
-									    GtkSignalFunc     func,
-									    gpointer          func_data,
-									    GtkArg           *args);
-
 
 #ifdef __cplusplus
 }

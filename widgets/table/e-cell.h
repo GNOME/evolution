@@ -4,16 +4,18 @@
 
 #include <gdk/gdktypes.h>
 #include <libgnomeprint/gnome-print.h>
+#include <libgnomeprint/gnome-font.h>
 #include <gal/e-table/e-table-model.h>
 #include <gal/e-table/e-table-tooltip.h>
 
-BEGIN_GNOME_DECLS
+G_BEGIN_DECLS
 
-#define E_CELL_TYPE        (e_cell_get_type ())
-#define E_CELL(o)          (GTK_CHECK_CAST ((o), E_CELL_TYPE, ECell))
-#define E_CELL_CLASS(k)    (GTK_CHECK_CLASS_CAST((k), E_CELL_TYPE, ECellClass))
-#define E_IS_CELL(o)       (GTK_CHECK_TYPE ((o), E_CELL_TYPE))
-#define E_IS_CELL_CLASS(k) (GTK_CHECK_CLASS_TYPE ((k), E_CELL_TYPE))
+#define E_CELL_TYPE         (e_cell_get_type ())
+#define E_CELL(o)           (GTK_CHECK_CAST ((o), E_CELL_TYPE, ECell))
+#define E_CELL_CLASS(k)     (GTK_CHECK_CLASS_CAST((k), E_CELL_TYPE, ECellClass))
+#define E_CELL_GET_CLASS(o) (GTK_CHECK_GET_CLASS((o), E_CELL_TYPE, ECellClass))
+#define E_IS_CELL(o)        (GTK_CHECK_TYPE ((o), E_CELL_TYPE))
+#define E_IS_CELL_CLASS(k)  (GTK_CHECK_CLASS_TYPE ((k), E_CELL_TYPE))
 
 typedef enum {
 	E_CELL_SELECTED       = 1 << 0,
@@ -108,6 +110,6 @@ int        e_cell_height    (ECellView *ecell_view, int model_col, int view_col,
 void      *e_cell_enter_edit (ECellView *ecell_view, int model_col, int view_col, int row);
 void       e_cell_leave_edit (ECellView *ecell_view, int model_col, int view_col, int row, void *edit_context);
 
-END_GNOME_DECLS
+G_END_DECLS
 
 #endif /* _E_CELL_H_ */

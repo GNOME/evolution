@@ -13,7 +13,7 @@
 #include <ctype.h>
 #include <string.h>
 #include <gtk/gtksignal.h>
-#include <gnome-xml/parser.h>
+#include <libxml/parser.h>
 #include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-util.h>
 #include <gal/util/e-util.h>
@@ -83,16 +83,25 @@ gal_view_collection_destroy (GtkObject *object)
 	for (i = 0; i < collection->view_count; i++) {
 		gal_view_collection_item_free (collection->view_data[i]);
 	}
-	g_free(collection->view_data);
-	e_free_object_list(collection->factory_list);
+	g_free (collection->view_data);
+	collection->view_data  = NULL;
+	collection->view_count = 0;
+
+	e_free_object_list (collection->factory_list);
+	collection->factory_list = NULL;
 
 	for (i = 0; i < collection->removed_view_count; i++) {
 		gal_view_collection_item_free (collection->removed_view_data[i]);
 	}
 	g_free(collection->removed_view_data);
+	collection->removed_view_data  = NULL;
+	collection->removed_view_count = 0;
 
 	g_free(collection->system_dir);
+	collection->system_dir = NULL;
+
 	g_free(collection->local_dir);
+	collection->local_dir = NULL;
 
 	if (gal_view_collection_parent_class->destroy)
 		(*gal_view_collection_parent_class->destroy)(object);
@@ -111,7 +120,7 @@ gal_view_collection_class_init (GtkObjectClass *object_class)
 				GTK_RUN_LAST,
 				E_OBJECT_CLASS_TYPE (object_class),
 				GTK_SIGNAL_OFFSET (GalViewCollectionClass, display_view),
-				gtk_marshal_NONE__OBJECT,
+				e_marshal_NONE__OBJECT,
 				GTK_TYPE_NONE, 1, GAL_VIEW_TYPE);
 
 	gal_view_collection_signals [CHANGED] =

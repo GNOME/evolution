@@ -15,8 +15,8 @@
 #include <stdlib.h>
 #include <string.h>
 #include <gtk/gtksignal.h>
-#include <gnome-xml/parser.h>
-#include <gnome-xml/xmlmemory.h>
+#include <libxml/parser.h>
+#include <libxml/xmlmemory.h>
 #include "gal/util/e-util.h"
 #include "gal/util/e-xml-utils.h"
 
@@ -35,14 +35,14 @@ etsp_destroy (GtkObject *object)
 			gtk_object_unref (GTK_OBJECT (etsp->columns[i]));
 		}
 		g_free (etsp->columns);
+		etsp->columns = NULL;
 	}
 
 	if (etsp->state)
 		gtk_object_unref (GTK_OBJECT (etsp->state));
-	g_free (etsp->click_to_add_message);
-
-	etsp->columns              = NULL;
 	etsp->state                = NULL;
+
+	g_free (etsp->click_to_add_message);
 	etsp->click_to_add_message = NULL;
 
 	GTK_OBJECT_CLASS (etsp_parent_class)->destroy (object);

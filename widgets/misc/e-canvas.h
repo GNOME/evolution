@@ -21,7 +21,7 @@
 #ifndef __E_CANVAS_H__
 #define __E_CANVAS_H__
 
-#include <libgnomeui/gnome-canvas.h>
+#include <libgnomecanvas/gnome-canvas.h>
 
 #ifdef __cplusplus
 extern "C" {
@@ -83,10 +83,11 @@ struct _ECanvas
 	int                   visibility_notify_id;
 	GtkWidget            *toplevel;
 	guint visibility_first : 1;
-
+#ifdef GAL_GDK_IM
 	/* Input context for dead key support */
 	GdkIC     *ic;
 	GdkICAttr *ic_attr;
+#endif
 };
 
 struct _ECanvasClass

@@ -4,7 +4,7 @@
 #include <gdk/gdk.h>
 #include <libgnome/gnome-defs.h>
 
-BEGIN_GNOME_DECLS
+G_BEGIN_DECLS
 
 typedef enum {
 	E_CURSOR_FAT_CROSS,
@@ -40,6 +40,6 @@ G_STMT_START {									     \
 
 GdkCursor *e_cursor_get (ECursorType type);
 
-END_GNOME_DECLS
+G_END_DECLS
 
 #endif /* GNOME_APP_LIB_CURSORS_H */

@@ -92,7 +92,7 @@ gal_view_new_dialog_init (GalViewNewDialog *dialog)
 	GladeXML *gui;
 	GtkWidget *widget;
 
-	gui = glade_xml_new_with_domain (GAL_GLADEDIR "/gal-view-new-dialog.glade", NULL, PACKAGE);
+	gui = glade_xml_new (GAL_GLADEDIR "/gal-view-new-dialog.glade", NULL, PACKAGE);
 	dialog->gui = gui;
 
 	widget = glade_xml_get_widget(gui, "table-top");
@@ -120,7 +120,9 @@ gal_view_new_dialog_destroy (GtkObject *object)
 {
 	GalViewNewDialog *gal_view_new_dialog = GAL_VIEW_NEW_DIALOG(object);
 	
-	gtk_object_unref(GTK_OBJECT(gal_view_new_dialog->gui));
+	if (gal_view_new_dialog->gui)
+		gtk_object_unref(GTK_OBJECT(gal_view_new_dialog->gui));
+	gal_view_new_dialog->gui = NULL;
 
 	if (GTK_OBJECT_CLASS (parent_class)->destroy)
 		(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);

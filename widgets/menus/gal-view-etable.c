@@ -99,11 +99,17 @@ static void
 gal_view_etable_destroy         (GtkObject *object)
 {
 	GalViewEtable *view = GAL_VIEW_ETABLE(object);
+
 	g_free(view->title);
+	view->title = NULL;
+
 	if (view->spec)
 		gtk_object_unref(GTK_OBJECT(view->spec));
+	view->spec = NULL;
+
 	if (view->state)
 		gtk_object_unref(GTK_OBJECT(view->state));
+	view->state = NULL;
 
 	if (GTK_OBJECT_CLASS (gal_view_etable_parent_class)->destroy)
 		(* GTK_OBJECT_CLASS (gal_view_etable_parent_class)->destroy) (object);

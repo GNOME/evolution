@@ -21,8 +21,13 @@ etcf_destroy (GtkObject *object)
 {
 	ETableConfigField *etcf = E_TABLE_CONFIG_FIELD (object);
 
-	gtk_object_unref(GTK_OBJECT(etcf->spec));
-	gtk_object_unref(GTK_OBJECT(etcf->sort_info));
+	if (etct->spec)
+		gtk_object_unref(GTK_OBJECT(etcf->spec));
+	etct->spec = NULL;
+
+	if (etct->sort_info)
+		gtk_object_unref(GTK_OBJECT(etcf->sort_info));
+	etct->sort_info = NULL;
 
 	GTK_OBJECT_CLASS (etcf_parent_class)->destroy (object);
 }

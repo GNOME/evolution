@@ -137,11 +137,17 @@ static void
 e_table_field_chooser_dialog_destroy (GtkObject *object)
 {
 	ETableFieldChooserDialog *etfcd = E_TABLE_FIELD_CHOOSER_DIALOG (object);
-	g_free(etfcd->dnd_code);
+
+	g_free (etfcd->dnd_code);
+	etfcd->dnd_code = NULL;
+
 	if (etfcd->full_header)
 		gtk_object_unref(GTK_OBJECT(etfcd->full_header));
+	etfcd->full_header = NULL;
+
 	if (etfcd->header)
 		gtk_object_unref(GTK_OBJECT(etfcd->header));
+	etfcd->header = NULL;
 }
 
 static void

@@ -21,7 +21,8 @@
  */
 
 #include <config.h>
-#include <libgnomeui/gnome-canvas-rect-ellipse.h>
+#include <gtk/gtksignal.h>
+#include <libgnomecanvas/gnome-canvas-rect-ellipse.h>
 #include "e-table-field-chooser.h"
 #include "e-table-field-chooser-item.h"
 
@@ -130,7 +131,7 @@ e_table_field_chooser_init (ETableFieldChooser *etfc)
 	GladeXML *gui;
 	GtkWidget *widget;
 
-	gui = glade_xml_new_with_domain (ETABLE_GLADEDIR "/e-table-field-chooser.glade", NULL, PACKAGE);
+	gui = glade_xml_new (ETABLE_GLADEDIR "/e-table-field-chooser.glade", NULL, PACKAGE);
 	etfc->gui = gui;
 
 	widget = glade_xml_get_widget(gui, "vbox-top");
@@ -185,14 +186,20 @@ e_table_field_chooser_destroy (GtkObject *object)
 {
 	ETableFieldChooser *etfc = E_TABLE_FIELD_CHOOSER(object);
 
-	g_free(etfc->dnd_code);
+	g_free (etfc->dnd_code);
+	etfc->dnd_code = NULL;
+
 	if (etfc->full_header)
 		gtk_object_unref(GTK_OBJECT(etfc->full_header));
+	etfc->full_header = NULL;
+	
 	if (etfc->header)
 		gtk_object_unref(GTK_OBJECT(etfc->header));
+	etfc->header = NULL;
 
 	if (etfc->gui)
 		gtk_object_unref(GTK_OBJECT(etfc->gui));
+	etfc->gui = NULL;
 
 	if (GTK_OBJECT_CLASS (parent_class)->destroy)
 		(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);

@@ -11,6 +11,8 @@
 #include <string.h>
 #include <gtk/gtkobject.h>
 #include <gtk/gtksignal.h>
+#include <gtk/gtkimage.h>
+#include <gal/util/e-util.h>
 #include "e-table-header.h"
 #include "e-table-defines.h"
 #include "gal/util/e-util.h"
@@ -137,12 +139,18 @@ eth_destroy (GtkObject *object)
 			gtk_signal_disconnect(GTK_OBJECT(eth->sort_info),
 					      eth->sort_info_group_change_id);
 		gtk_object_unref(GTK_OBJECT(eth->sort_info));
+		eth->sort_info = NULL;
 	}
 
 	if (eth->idle)
 		g_source_remove(eth->idle);
-	g_slist_foreach(eth->change_queue, (GFunc) g_free, NULL);
-	g_slist_free(eth->change_queue);
+	eth->idle = 0;
+
+	if (eth->change_queue) {
+		g_slist_foreach(eth->change_queue, (GFunc) g_free, NULL);
+		g_slist_free(eth->change_queue);
+		eth->change_queue = NULL;
+	}
 	
 	/*
 	 * Destroy columns
@@ -151,6 +159,9 @@ eth_destroy (GtkObject *object)
 		eth_do_remove (eth, i, TRUE);
 	}
 	g_free (eth->columns);
+
+	eth->col_count = 0;
+	eth->columns = NULL;
 
 	if (e_table_header_parent_class->destroy)
 		e_table_header_parent_class->destroy (object);
@@ -253,7 +264,7 @@ e_table_header_class_init (GtkObjectClass *object_class)
 				GTK_RUN_LAST,
 				E_OBJECT_CLASS_TYPE (object_class),
 				GTK_SIGNAL_OFFSET (ETableHeaderClass, request_width),
-				gtk_marshal_INT__INT,
+				e_marshal_INT__INT,
 				GTK_TYPE_INT, 1, GTK_TYPE_INT);
 
 	E_OBJECT_CLASS_ADD_SIGNALS (object_class, eth_signals, LAST_SIGNAL);

@@ -6,7 +6,7 @@
 #include <gal/e-table/e-table-model.h>
 #include <gal/e-table/e-table.h>
 
-BEGIN_GNOME_DECLS
+G_BEGIN_DECLS
 
 #define E_TABLE_SCROLLED_TYPE        (e_table_scrolled_get_type ())
 #define E_TABLE_SCROLLED(o)          (GTK_CHECK_CAST ((o), E_TABLE_SCROLLED_TYPE, ETableScrolled))
@@ -48,7 +48,7 @@ GtkWidget      *e_table_scrolled_new_from_spec_file        (ETableModel    *etm,
 
 ETable         *e_table_scrolled_get_table                 (ETableScrolled *ets);
 
-END_GNOME_DECLS
+G_END_DECLS
 
 #endif /* _E_TABLE_SCROLLED_H_ */
 

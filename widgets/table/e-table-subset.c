@@ -23,7 +23,7 @@ static void etss_proxy_model_cell_changed_real (ETableSubset *etss, ETableModel 
 
 static ETableModelClass *etss_parent_class;
 
-#define ETSS_CLASS(object) (E_TABLE_SUBSET_CLASS(GTK_OBJECT(object)->klass))
+#define ETSS_CLASS(object) (E_TABLE_SUBSET_CLASS(GTK_OBJECT_GET_CLASS(object)))
 
 static gint
 etss_get_view_row (ETableSubset *etss, int row)
@@ -93,6 +93,7 @@ etss_destroy (GtkObject *object)
 	}
 
 	g_free (etss->map_table);
+	etss->map_table = NULL;
 
 	GTK_OBJECT_CLASS (etss_parent_class)->destroy (object);
 }

@@ -29,8 +29,9 @@
 #include <gtk/gtkmain.h>
 #include <gtk/gtkselection.h>
 #include <gtk/gtkwindow.h>
-#include <libgnomeui/gnome-canvas-rect-ellipse.h>
+#include <libgnomecanvas/gnome-canvas-rect-ellipse.h>
 
+#include "gal/util/e-util.h"
 #include "gal/widgets/e-canvas.h"
 #include "gal/widgets/e-canvas-utils.h"
 #include "gal/widgets/e-unicode.h"
@@ -250,7 +251,7 @@ e_text_class_init (ETextClass *klass)
 				GTK_RUN_LAST,
 				E_OBJECT_CLASS_TYPE (object_class),
 				GTK_SIGNAL_OFFSET (ETextClass, popup),
-				gtk_marshal_NONE__POINTER_INT,
+				e_marshal_NONE__POINTER_INT,
 				GTK_TYPE_NONE, 2, GTK_TYPE_POINTER, GTK_TYPE_INT);
 
 	E_OBJECT_CLASS_ADD_SIGNALS (object_class, e_text_signals, E_TEXT_LAST_SIGNAL);
@@ -267,7 +268,7 @@ e_text_class_init (ETextClass *klass)
 	gtk_object_add_arg_type ("EText::fontset",
 				 GTK_TYPE_STRING, GTK_ARG_WRITABLE, ARG_FONTSET);
 	gtk_object_add_arg_type ("EText::font_gdk",
-				 GTK_TYPE_GDK_FONT, GTK_ARG_WRITABLE, ARG_FONT_GDK);
+				 GDK_TYPE_FONT, GTK_ARG_WRITABLE, ARG_FONT_GDK);
 	gtk_object_add_arg_type ("EText::font_e",
 				 GTK_TYPE_POINTER, GTK_ARG_READWRITE, ARG_FONT_E);
 	gtk_object_add_arg_type ("EText::bold",
@@ -293,11 +294,11 @@ e_text_class_init (ETextClass *klass)
 	gtk_object_add_arg_type ("EText::fill_color",
 				 GTK_TYPE_STRING, GTK_ARG_WRITABLE, ARG_FILL_COLOR);
 	gtk_object_add_arg_type ("EText::fill_color_gdk",
-				 GTK_TYPE_GDK_COLOR, GTK_ARG_READWRITE, ARG_FILL_COLOR_GDK);
+				 GDK_TYPE_COLOR, GTK_ARG_READWRITE, ARG_FILL_COLOR_GDK);
 	gtk_object_add_arg_type ("EText::fill_color_rgba",
 				 GTK_TYPE_UINT, GTK_ARG_READWRITE, ARG_FILL_COLOR_RGBA);
 	gtk_object_add_arg_type ("EText::fill_stipple",
-				 GTK_TYPE_GDK_WINDOW, GTK_ARG_READWRITE, ARG_FILL_STIPPLE);
+				 GDK_TYPE_WINDOW, GTK_ARG_READWRITE, ARG_FILL_STIPPLE);
 	gtk_object_add_arg_type ("EText::text_width",
 				 GTK_TYPE_DOUBLE, GTK_ARG_READABLE, ARG_TEXT_WIDTH);
 	gtk_object_add_arg_type ("EText::text_height",
@@ -414,15 +415,12 @@ e_text_init (EText *text)
 
 	text->pointer_in              = FALSE;
 	text->default_cursor_shown    = TRUE;
-
 	text->line_wrap               = FALSE;
 	text->break_characters        = NULL;
 	text->max_lines               = -1;
-
 	text->tooltip_timeout         = 0;
 	text->tooltip_count           = 0;
 	text->tooltip_owner           = FALSE;
-
 	text->dbl_timeout             = 0;
 	text->tpl_timeout             = 0;
 
@@ -448,34 +446,45 @@ e_text_destroy (GtkObject *object)
 
 	text = E_TEXT (object);
 
-	if (text->tooltip_owner) {
+	if (text->tooltip_owner)
 		e_canvas_hide_tooltip (E_CANVAS(GNOME_CANVAS_ITEM(text)->canvas));
-	}
+	text->tooltip_owner = 0;
 
 	if (text->model_changed_signal_id)
 		gtk_signal_disconnect (GTK_OBJECT (text->model), 
 				       text->model_changed_signal_id);
+	text->model_changed_signal_id = 0;
 
 	if (text->model_repos_signal_id)
 		gtk_signal_disconnect (GTK_OBJECT (text->model),
 				       text->model_repos_signal_id);
+	text->model_repos_signal_id = 0;
 
 	if (text->model)
 		gtk_object_unref(GTK_OBJECT(text->model));
+	text->model = NULL;
 
 	if (text->tep_command_id)
 		gtk_signal_disconnect(GTK_OBJECT(text->tep),
 				      text->tep_command_id);
+	text->tep_command_id = 0;
 
 	if (text->tep)
 		gtk_object_unref (GTK_OBJECT(text->tep));
+	text->tep = NULL;
 	
 	if (text->invisible)
 		gtk_object_unref (GTK_OBJECT(text->invisible));
+	text->invisible = NULL;
 
 	g_free (text->lines);
+	text->lines = NULL;
+
 	g_free (text->primary_selection);
+	text->primary_selection = NULL;
+
 	g_free (text->clipboard_selection);
+	text->clipboard_selection = NULL;
 
 	if (text->font)
 		e_font_unref (text->font);
@@ -488,6 +497,7 @@ e_text_destroy (GtkObject *object)
 
 	if (text->stipple)
 		gdk_bitmap_unref (text->stipple);
+	text->stipple = NULL;
 
 	if (text->timeout_id) {
 		g_source_remove(text->timeout_id);
@@ -917,7 +927,8 @@ text_draw_with_objects (ETextModel *model,
 	}
 }
 
-#define IS_BREAKCHAR(text,c) ((text)->break_characters && g_utf8_strchr ((text)->break_characters, (c)))
+#define IS_BREAKCHAR(text,c) ((text)->break_characters && \
+	g_utf8_strchr ((text)->break_characters, strlen ((text)->break_characters), c))
 /* Splits the text of the text item into lines */
 static void
 split_into_lines (EText *text)
@@ -1315,13 +1326,13 @@ e_text_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 		break;
 
 	case ARG_ANCHOR:
-		text->anchor = GTK_VALUE_ENUM (*arg);
+		text->anchor = GTK_VALUE_INT (*arg);
 		text->needs_recalc_bounds = 1;
 		needs_update = 1;
 		break;
 
 	case ARG_JUSTIFICATION:
-		text->justification = GTK_VALUE_ENUM (*arg);
+		text->justification = GTK_VALUE_INT (*arg);
 		text->needs_redraw = 1;
 		needs_update = 1;
 		break;
@@ -1509,8 +1520,11 @@ e_text_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 	}
 
 	if (color_changed) {
+#warning Color stuff ...
+#if 0
 		if (GNOME_CANVAS_ITEM_REALIZED & GTK_OBJECT_FLAGS(item))
 			gdk_color_context_query_color (item->canvas->cc, &color);
+#endif
 
 		text->color = color;
 
@@ -1563,11 +1577,11 @@ e_text_get_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 		break;
 
 	case ARG_ANCHOR:
-		GTK_VALUE_ENUM (*arg) = text->anchor;
+		GTK_VALUE_INT (*arg) = text->anchor;
 		break;
 
 	case ARG_JUSTIFICATION:
-		GTK_VALUE_ENUM (*arg) = text->justification;
+		GTK_VALUE_INT (*arg) = text->justification;
 		break;
 
 	case ARG_CLIP_WIDTH:
@@ -1803,14 +1817,17 @@ e_text_realize (GnomeCanvasItem *item)
 		(* parent_class->realize) (item);
 
 	text->gc = gdk_gc_new (item->canvas->layout.bin_window);
+#warning Color brokenness ...
+#if 0
 	gdk_color_context_query_color (item->canvas->cc, &text->color);
 	gdk_gc_set_foreground (text->gc, &text->color);
+#endif
 	
 	text->i_cursor = gdk_cursor_new (GDK_XTERM);
 	text->default_cursor = gdk_cursor_new (GDK_LEFT_PTR);
 	if (text->font == NULL) {
-		gdk_font_ref (GTK_WIDGET (item->canvas)->style->font);
-		text->font = e_font_from_gdk_font (GTK_WIDGET (item->canvas)->style->font);
+		gdk_font_ref (gtk_style_get_font (GTK_WIDGET (item->canvas)->style));
+		text->font = e_font_from_gdk_font (gtk_style_get_font (GTK_WIDGET (item->canvas)->style));
 	}
 }
 
@@ -2030,10 +2047,10 @@ e_text_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 			gtk_paint_flat_box (widget->style, drawable,
 					    GTK_WIDGET_STATE(widget), GTK_SHADOW_NONE,
 					    NULL, widget, "entry_bg", 
-					    thisx + widget->style->klass->xthickness,
-					    thisy + widget->style->klass->ythickness, 
-					    thiswidth - widget->style->klass->xthickness * 2,
-					    thisheight - widget->style->klass->ythickness * 2);
+					    thisx + widget->style->xthickness,
+					    thisy + widget->style->ythickness, 
+					    thiswidth - widget->style->xthickness * 2,
+					    thisheight - widget->style->ythickness * 2);
 		}
 	}
 

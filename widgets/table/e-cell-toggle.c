@@ -13,7 +13,7 @@
 #include <gtk/gtkwindow.h>
 #include <gtk/gtksignal.h>
 #include <gdk/gdkkeysyms.h>
-#include <libgnomeui/gnome-canvas.h>
+#include <libgnomecanvas/gnome-canvas.h>
 #include "e-cell-toggle.h"
 #include "gal/util/e-util.h"
 #include "e-table-item.h"
@@ -245,7 +245,7 @@ etog_max_width (ECellView *ecell_view, int model_col, int view_col)
 }
 
 static void
-etog_destroy (GtkObject *object)
+etog_finalize (GObject *object)
 {
 	ECellToggle *etog = E_CELL_TOGGLE (object);
 	int i;
@@ -255,7 +255,7 @@ etog_destroy (GtkObject *object)
 
 	g_free (etog->images);
 
-	GTK_OBJECT_CLASS (parent_class)->destroy (object);
+	G_OBJECT_CLASS (parent_class)->finalize (object);
 }
 
 static void
@@ -263,7 +263,7 @@ e_cell_toggle_class_init (GtkObjectClass *object_class)
 {
 	ECellClass *ecc = (ECellClass *) object_class;
 
-	object_class->destroy = etog_destroy;
+	G_OBJECT_CLASS (object_class)->finalize = etog_finalize;
 
 	ecc->new_view   = etog_new_view;
 	ecc->kill_view  = etog_kill_view;

@@ -29,12 +29,11 @@
 #ifndef __E_TEXT_EVENT_PROCESSOR_TYPES_H__
 #define __E_TEXT_EVENT_PROCESSOR_TYPES_H__
 
-#ifdef __cplusplus
-extern "C" {
-#pragma }
-#endif /* __cplusplus */
+#include <glib/gmacros.h>
 
-#include <gdk/gdktypes.h>
+G_BEGIN_DECLS
+
+#include <gdk/gdkevents.h>
 
 typedef union _ETextEventProcessorEvent ETextEventProcessorEvent;
 
@@ -125,9 +124,6 @@ union _ETextEventProcessorEvent {
 	ETextEventProcessorEventMotion motion;
 };
 
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
-
+G_END_DECLS
 
 #endif /* __E_TEXT_EVENT_PROCESSOR_TYPES_H__ */

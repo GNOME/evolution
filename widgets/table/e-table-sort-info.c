@@ -41,8 +41,11 @@ etsi_destroy (GtkObject *object)
 	
 	if (etsi->groupings)
 		g_free(etsi->groupings);
+	etsi->groupings = NULL;
+
 	if (etsi->sortings)
 		g_free(etsi->sortings);
+	etsi->sortings = NULL;
 
 	GTK_OBJECT_CLASS (e_table_sort_info_parent_class)->destroy (object);
 }

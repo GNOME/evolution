@@ -25,9 +25,9 @@
 
 #include <libgnome/gnome-defs.h>
 #include <glib.h>
-#include <gnome-xml/tree.h>
+#include <libxml/tree.h>
 
-BEGIN_GNOME_DECLS
+G_BEGIN_DECLS
 
 xmlNode *e_xml_get_child_by_name                     (const xmlNode *parent,
                                                       const xmlChar *child_name);
@@ -94,6 +94,6 @@ void      e_xml_set_string_prop_by_name              (xmlNode       *parent,
 gchar    *e_xml_get_translated_string_prop_by_name   (const xmlNode *parent,
                                                       const xmlChar *prop_name);
 
-END_GNOME_DECLS
+G_END_DECLS
 
 #endif /* __E_XML_UTILS__ */

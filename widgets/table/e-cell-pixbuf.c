@@ -8,7 +8,7 @@
  */
 
 #include <stdio.h>
-#include <libgnomeui/gnome-canvas.h>
+#include <libgnomecanvas/gnome-canvas.h>
 #include "e-cell-pixbuf.h"
 
 static ECellClass *parent_class;
@@ -215,8 +215,7 @@ e_cell_pixbuf_get_type (void)
             sizeof (ECellPixbufClass),
             (GtkClassInitFunc) e_cell_pixbuf_class_init,
             (GtkObjectInitFunc) e_cell_pixbuf_init,
-            (GtkArgSetFunc) NULL,
-            (GtkArgGetFunc) NULL,
+            NULL, NULL,
         };
 
         type = gtk_type_unique (e_cell_get_type (), &type_info);

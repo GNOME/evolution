@@ -10,9 +10,9 @@
 #include <config.h>
 #include <gdk/gdkkeysyms.h>
 #include <gtk/gtksignal.h>
-#include <libgnomeui/gnome-canvas.h>
-#include <libgnomeui/gnome-canvas-util.h>
-#include <libgnomeui/gnome-canvas-rect-ellipse.h>
+#include <libgnomecanvas/gnome-canvas.h>
+#include <libgnomecanvas/gnome-canvas-util.h>
+#include <libgnomecanvas/gnome-canvas-rect-ellipse.h>
 #include <gdk-pixbuf/gdk-pixbuf.h>
 
 #include "e-table-header.h"
@@ -140,13 +140,16 @@ etcta_drop_message (ETableClickToAdd *etcta)
 
 
 static void
-etcta_destroy (GtkObject *object){
+etcta_destroy (GtkObject *object)
+{
 	ETableClickToAdd *etcta = E_TABLE_CLICK_TO_ADD (object);
 
 	etcta_drop_table_header (etcta);
 	etcta_drop_model (etcta);
 	etcta_drop_message (etcta);
-	gtk_object_unref(GTK_OBJECT(etcta->selection));
+	if (etcta->selection)
+		gtk_object_unref (GTK_OBJECT(etcta->selection));
+	etcta->selection = NULL;
 
 	if (GTK_OBJECT_CLASS (etcta_parent_class)->destroy)
 		(*GTK_OBJECT_CLASS (etcta_parent_class)->destroy) (object);

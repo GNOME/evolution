@@ -13,10 +13,10 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdio.h>
-#include <libgnomeui/gnome-canvas.h>
+#include <libgnomecanvas/gnome-canvas.h>
 #include <gtk/gtksignal.h>
-#include <gnome-xml/parser.h>
-#include <gnome-xml/xmlmemory.h>
+#include <libxml/parser.h>
+#include <libxml/xmlmemory.h>
 #include <gal/util/e-util.h>
 
 #include "e-tree-scrolled.h"
@@ -174,13 +174,13 @@ ets_grab_focus (GtkWidget *widget)
 
 /* Focus handler for the scrolled ETree */
 static gint
-ets_focus (GtkContainer *container, GtkDirectionType direction)
+ets_focus (GtkWidget *container, GtkDirectionType direction)
 {
 	ETreeScrolled *ets;
 
 	ets = E_TREE_SCROLLED (container);
 
-	return gtk_container_focus (GTK_CONTAINER (ets->tree), direction);
+	return gtk_widget_child_focus (GTK_WIDGET (ets->tree), direction);
 }
 
 static void
@@ -200,7 +200,7 @@ e_tree_scrolled_class_init (ETreeScrolledClass *class)
 
 	widget_class->grab_focus = ets_grab_focus;
 
-	container_class->focus = ets_focus;
+	widget_class->focus = ets_focus;
 
 	gtk_object_add_arg_type ("ETreeScrolled::tree", GTK_TYPE_OBJECT,
 				 GTK_ARG_READABLE, ARG_TREE);

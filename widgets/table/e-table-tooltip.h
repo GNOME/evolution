@@ -2,9 +2,9 @@
 #ifndef _E_TABLE_TOOLTIP_H_
 #define _E_TABLE_TOOLTIP_H_
 
-#include <libgnomeui/gnome-canvas.h>
+#include <libgnomecanvas/gnome-canvas.h>
 
-BEGIN_GNOME_DECLS
+G_BEGIN_DECLS
 
 typedef struct {
 	gint timer;
@@ -17,6 +17,6 @@ typedef struct {
 	GnomeCanvasItem *eti;
 } ETableTooltip;
 
-END_GNOME_DECLS
+G_END_DECLS
 
 #endif

@@ -10,7 +10,7 @@
 
 #include <config.h>
 #include <gtk/gtksignal.h>
-#include <libgnomeui/gnome-canvas-rect-ellipse.h>
+#include <libgnomecanvas/gnome-canvas-rect-ellipse.h>
 #include "e-table-group-leaf.h"
 #include "e-table-item.h"
 #include "e-table-sorted-variable.h"

@@ -23,9 +23,9 @@
 #ifndef __E_CANVAS_UTILS__
 #define __E_CANVAS_UTILS__
 
-#include <libgnomeui/gnome-canvas.h>
+#include <libgnomecanvas/gnome-canvas.h>
 
-BEGIN_GNOME_DECLS
+G_BEGIN_DECLS
 
 void      e_canvas_item_move_absolute      (GnomeCanvasItem *item,
 					    double           dx,
@@ -50,6 +50,6 @@ gboolean  e_canvas_item_area_shown         (GnomeCanvasItem *item,
 					    double           x2,
 					    double           y2);
 
-END_GNOME_DECLS
+G_END_DECLS
 
 #endif /* __E_CANVAS_UTILS__ */

@@ -28,7 +28,7 @@
 #include <gal/e-text/e-text-model.h>
 #include <gal/widgets/e-canvas.h>
 
-BEGIN_GNOME_DECLS
+G_BEGIN_DECLS
 
 
 /* Text item for the canvas.  Text items are positioned by an anchor point and an anchor direction.
@@ -238,6 +238,6 @@ struct _ETextClass {
 /* Standard Gtk function */
 GtkType e_text_get_type (void);
 
-END_GNOME_DECLS
+G_END_DECLS
 
 #endif

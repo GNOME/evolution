@@ -141,7 +141,7 @@ E_MAKE_TYPE(e_cell, "ECell", ECell, e_cell_class_init, e_cell_init, PARENT_TYPE)
 gint
 e_cell_event (ECellView *ecell_view, GdkEvent *event, int model_col, int view_col, int row, ECellFlags flags, ECellActions *actions)
 {
-	return E_CELL_CLASS (GTK_OBJECT (ecell_view->ecell)->klass)->event (
+	return E_CELL_GET_CLASS (ecell_view->ecell)->event (
 		ecell_view, event, model_col, view_col, row, flags, actions);
 }
 
@@ -163,7 +163,7 @@ e_cell_event (ECellView *ecell_view, GdkEvent *event, int model_col, int view_co
 ECellView *
 e_cell_new_view (ECell *ecell, ETableModel *table_model, void *e_table_item_view)
 {
-	return E_CELL_CLASS (GTK_OBJECT (ecell)->klass)->new_view (
+	return E_CELL_GET_CLASS (ecell)->new_view (
 		ecell, table_model, e_table_item_view);
 }
 
@@ -178,7 +178,7 @@ e_cell_new_view (ECell *ecell, ETableModel *table_model, void *e_table_item_view
 void
 e_cell_realize (ECellView *ecell_view)
 {
-	E_CELL_CLASS (GTK_OBJECT (ecell_view->ecell)->klass)->realize (ecell_view);
+	E_CELL_GET_CLASS (ecell_view->ecell)->realize (ecell_view);
 }
 
 /**
@@ -190,7 +190,7 @@ e_cell_realize (ECellView *ecell_view)
 void
 e_cell_kill_view (ECellView *ecell_view)
 {
-	E_CELL_CLASS (GTK_OBJECT (ecell_view->ecell)->klass)->kill_view (ecell_view);
+	E_CELL_GET_CLASS (ecell_view->ecell)->kill_view (ecell_view);
 }
 
 /**
@@ -204,7 +204,7 @@ e_cell_kill_view (ECellView *ecell_view)
 void
 e_cell_unrealize (ECellView *ecell_view)
 {
-	E_CELL_CLASS (GTK_OBJECT (ecell_view->ecell)->klass)->unrealize (ecell_view);
+	E_CELL_GET_CLASS (ecell_view->ecell)->unrealize (ecell_view);
 }
 
 /**
@@ -235,7 +235,7 @@ e_cell_draw (ECellView *ecell_view, GdkDrawable *drawable,
 	g_return_if_fail (row >= 0);
 	g_return_if_fail (row < e_table_model_row_count(ecell_view->e_table_model));
 
-	E_CELL_CLASS (GTK_OBJECT (ecell_view->ecell)->klass)->draw (
+	E_CELL_GET_CLASS (ecell_view->ecell)->draw (
 		ecell_view, drawable, model_col, view_col, row, flags, x1, y1, x2, y2);
 }
 
@@ -256,7 +256,7 @@ e_cell_print (ECellView *ecell_view, GnomePrintContext *context,
 	      int model_col, int view_col, int row,
 	      double width, double height)
 {
-	E_CELL_CLASS (GTK_OBJECT (ecell_view->ecell)->klass)->print
+	E_CELL_GET_CLASS (ecell_view->ecell)->print
 		(ecell_view, context, model_col, view_col, row, width, height);
 }
 
@@ -270,8 +270,8 @@ e_cell_print_height (ECellView *ecell_view, GnomePrintContext *context,
 		     int model_col, int view_col, int row,
 		     double width)
 {
-	if (E_CELL_CLASS (GTK_OBJECT (ecell_view->ecell)->klass)->print_height)
-		return E_CELL_CLASS (GTK_OBJECT (ecell_view->ecell)->klass)->print_height
+	if (E_CELL_GET_CLASS (ecell_view->ecell)->print_height)
+		return E_CELL_GET_CLASS (ecell_view->ecell)->print_height
 			(ecell_view, context, model_col, view_col, row, width);
 	else
 		return 0.0;
@@ -290,7 +290,7 @@ e_cell_print_height (ECellView *ecell_view, GnomePrintContext *context,
 int
 e_cell_height (ECellView *ecell_view, int model_col, int view_col, int row)
 {
-	return E_CELL_CLASS (GTK_OBJECT (ecell_view->ecell)->klass)->height (
+	return E_CELL_GET_CLASS (ecell_view->ecell)->height (
 		ecell_view, model_col, view_col, row);
 }
 
@@ -307,7 +307,7 @@ e_cell_height (ECellView *ecell_view, int model_col, int view_col, int row)
 void *
 e_cell_enter_edit (ECellView *ecell_view, int model_col, int view_col, int row)
 {
-	return E_CELL_CLASS (GTK_OBJECT (ecell_view->ecell)->klass)->enter_edit (
+	return E_CELL_GET_CLASS (ecell_view->ecell)->enter_edit (
 		ecell_view, model_col, view_col, row);
 }
 
@@ -325,7 +325,7 @@ e_cell_enter_edit (ECellView *ecell_view, int model_col, int view_col, int row)
 void
 e_cell_leave_edit (ECellView *ecell_view, int model_col, int view_col, int row, void *edit_context)
 {
-	E_CELL_CLASS (GTK_OBJECT (ecell_view->ecell)->klass)->leave_edit (
+	E_CELL_GET_CLASS (ecell_view->ecell)->leave_edit (
 		ecell_view, model_col, view_col, row, edit_context);
 }
 
@@ -341,7 +341,7 @@ e_cell_leave_edit (ECellView *ecell_view, int model_col, int view_col, int row, 
 int
 e_cell_max_width (ECellView *ecell_view, int model_col, int view_col)
 {
-	return E_CELL_CLASS (GTK_OBJECT (ecell_view->ecell)->klass)->max_width 
+	return E_CELL_GET_CLASS (ecell_view->ecell)->max_width 
 		(ecell_view, model_col, view_col);
 }
 	      
@@ -349,6 +349,6 @@ void
 e_cell_show_tooltip (ECellView *ecell_view, int model_col, int view_col, 
 		     int row, int col_width, ETableTooltip *tooltip)
 {
-	E_CELL_CLASS (GTK_OBJECT (ecell_view->ecell)->klass)->show_tooltip
+	E_CELL_GET_CLASS (ecell_view->ecell)->show_tooltip
 		(ecell_view, model_col, view_col, row, col_width, tooltip);
 }

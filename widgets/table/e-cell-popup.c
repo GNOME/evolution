@@ -44,7 +44,7 @@
 
 static void	e_cell_popup_class_init	(GtkObjectClass	*object_class);
 static void	e_cell_popup_init	(ECellPopup	*ecp);
-static void	e_cell_popup_destroy	(GtkObject	*object);
+static void	e_cell_popup_dispose	(GObject	*object);
 
 
 static ECellView* ecp_new_view		(ECell		*ecell,
@@ -121,7 +121,7 @@ e_cell_popup_class_init		(GtkObjectClass	*object_class)
 {
 	ECellClass *ecc = (ECellClass *) object_class;
 
-	object_class->destroy = e_cell_popup_destroy;
+	G_OBJECT_CLASS (object_class)->dispose = e_cell_popup_dispose;
 
 	ecc->new_view     = ecp_new_view;
 	ecc->kill_view    = ecp_kill_view;
@@ -168,13 +168,15 @@ e_cell_popup_new		(void)
  * GtkObject::destroy method
  */
 static void
-e_cell_popup_destroy		(GtkObject *object)
+e_cell_popup_dispose (GObject *object)
 {
 	ECellPopup *ecp = E_CELL_POPUP (object);
 
-	gtk_object_unref (GTK_OBJECT (ecp->child));
+	if (ecp->child)
+		gtk_object_unref (GTK_OBJECT (ecp->child));
+	ecp->child = NULL;
 
-	GTK_OBJECT_CLASS (parent_class)->destroy (object);
+	G_OBJECT_CLASS (parent_class)->dispose (object);
 }
 
 
@@ -498,7 +500,7 @@ e_cell_popup_do_popup			(ECellPopupView	*ecp_view,
 
 	ecp->popup_cell_view = ecp_view;
 
-	popup_func = E_CELL_POPUP_CLASS (GTK_OBJECT (ecp)->klass)->popup;
+	popup_func = E_CELL_POPUP_CLASS (GTK_OBJECT_GET_CLASS (ecp))->popup;
 
 	return popup_func ? popup_func (ecp, event) : FALSE;
 }

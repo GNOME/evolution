@@ -22,6 +22,7 @@
 #include <config.h>
 #include <libgnomeui/gnome-dialog.h>
 #include <libgnomeui/gnome-stock.h>
+#include <gtk/gtksignal.h>
 #include "gal-define-views-dialog.h"
 #include "gal-define-views-model.h"
 #include "gal-view-new-dialog.h"
@@ -219,7 +220,7 @@ gal_define_views_dialog_init (GalDefineViewsDialog *dialog)
 
 	dialog->collection = NULL;
 
-	gui = glade_xml_new_with_domain (GAL_GLADEDIR "/gal-define-views.glade", NULL, PACKAGE);
+	gui = glade_xml_new (GAL_GLADEDIR "/gal-define-views.glade", NULL, PACKAGE);
 	dialog->gui = gui;
 
 	widget = glade_xml_get_widget(gui, "table-top");
@@ -258,7 +259,9 @@ gal_define_views_dialog_destroy (GtkObject *object)
 {
 	GalDefineViewsDialog *gal_define_views_dialog = GAL_DEFINE_VIEWS_DIALOG(object);
 
-	gtk_object_unref(GTK_OBJECT(gal_define_views_dialog->gui));
+	if (gal_define_views_dialog->gui)
+		gtk_object_unref(GTK_OBJECT(gal_define_views_dialog->gui));
+	gal_define_views_dialog->gui = NULL;
 
 	if (GTK_OBJECT_CLASS (parent_class)->destroy)
 		(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
