@@ -29,6 +29,7 @@
 #include <libgnomeprint/gnome-print.h>
 #include <libgnomeprint/gnome-print-job.h>
 #include <libgnomeprintui/gnome-print-job-preview.h>
+#include <e-util/e-print.h>
 
 #define ENVELOPE_HEIGHT (72.0 * 4.0)
 #define ENVELOPE_WIDTH (72.0 * 9.5)
@@ -209,7 +210,7 @@ e_contact_print_envelope_dialog_new(EContact *contact)
 {
 	GtkWidget *dialog;
 	
-	dialog = gnome_print_dialog_new(NULL, _("Print envelope"), GNOME_PRINT_DIALOG_COPIES);
+	dialog = e_print_get_dialog (_("Print envelope"), GNOME_PRINT_DIALOG_COPIES);
 
 	contact = e_contact_duplicate(contact);
 	g_object_set_data(G_OBJECT(dialog), "contact", contact);
@@ -230,7 +231,7 @@ e_contact_print_envelope_list_dialog_new(GList *list)
 	if (list == NULL)
 		return NULL;
 
-	dialog = gnome_print_dialog_new(NULL, _("Print envelope"), GNOME_PRINT_DIALOG_COPIES);
+	dialog = e_print_get_dialog(_("Print envelope"), GNOME_PRINT_DIALOG_COPIES);
 
 	contact = e_contact_duplicate(list->data);
 	g_object_set_data(G_OBJECT(dialog), "contact", contact);

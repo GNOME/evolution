@@ -47,6 +47,7 @@
 #include "addressbook/gui/widgets/eab-menu.h"
 
 #include "e-util/e-categories-master-list-wombat.h"
+#include "e-util/e-print.h"
 #include "libedataserver/e-sexp.h"
 
 #ifdef WITH_ADDRESSBOOK_VIEW_TREEVIEW
@@ -1728,7 +1729,7 @@ eab_view_print(EABView *view)
 			      NULL);
 		print = e_contact_print_dialog_new(book, query);
 		g_free(query);
-		gtk_widget_show_all(print);
+		gtk_widget_show(print);
 	}
 	else if (view->view_type == EAB_VIEW_TABLE) {
 		GtkWidget *dialog;
@@ -1736,7 +1737,7 @@ eab_view_print(EABView *view)
 		ETable *etable;
 		EContactPrintDialogWeakData *weak_data;
 
-		dialog = gnome_print_dialog_new(NULL, "Print cards", GNOME_PRINT_DIALOG_RANGE | GNOME_PRINT_DIALOG_COPIES);
+		dialog = e_print_get_dialog (_("Print cards"), GNOME_PRINT_DIALOG_RANGE | GNOME_PRINT_DIALOG_COPIES);
 		gnome_print_dialog_construct_range_any(GNOME_PRINT_DIALOG(dialog), GNOME_PRINT_RANGE_ALL | GNOME_PRINT_RANGE_SELECTION,
 						       NULL, NULL, NULL);
 
@@ -1796,9 +1797,8 @@ eab_view_print_preview(EABView *view)
 		g_object_ref (printable);
 		gtk_object_sink (GTK_OBJECT (printable));
 
-		master = gnome_print_job_new(NULL);
-		config = gnome_print_job_get_config (master);
-		gnome_print_config_set_int (config, GNOME_PRINT_KEY_NUM_COPIES, 1);
+		config = e_print_load_config ();
+		master = gnome_print_job_new (config);
 		pc = gnome_print_job_get_context( master );
 		e_printable_reset(printable);
 		while (e_printable_data_left(printable)) {

@@ -1,3 +1,21 @@
+2005-01-21  JP Rosevear  <jpr@novell.com>
+
+	Fixes #46404	
+	
+	* gui/widgets/e-addressbook-view.c (eab_view_print): just show the
+	dialog, not show all (margin settings aren't supposed to be used);
+	use e_print to get the dialog
+	(eab_view_print_preview): use e_print config for previewing
+
+	* printing/e-contact-print.c (e_contact_print_preview): get the
+	e_print config for previewing
+	(e_contact_print_contact_dialog_new): use e_print to get the
+	print dialog
+
+	* printing/e-contact-print-envelope.c
+	(e_contact_print_envelope_dialog_new): use e_print to get the
+	print dialog
+
 2005-01-21  Hans Petter Jansson  <hpj@novell.com>
 
 	* gui/contact-editor/e-contact-quick-add.c (quick_add_set_name)

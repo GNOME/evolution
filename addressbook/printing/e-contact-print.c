@@ -41,6 +41,7 @@
 #include <libebook/e-book.h>
 #include <libebook/e-contact.h>
 #include <gal/util/e-util.h>
+#include <e-util/e-print.h>
 
 #define SCALE 5
 #define HYPHEN_PIXELS 20
@@ -997,7 +998,7 @@ e_contact_print_dialog_new(EBook *book, char *query)
 	GtkWidget *dialog;
 	
 	
-	dialog = gnome_print_dialog_new(NULL, _("Print contacts"), GNOME_PRINT_DIALOG_RANGE | GNOME_PRINT_DIALOG_COPIES);
+	dialog = e_print_get_dialog(_("Print contacts"), GNOME_PRINT_DIALOG_RANGE | GNOME_PRINT_DIALOG_COPIES);
 	gnome_print_dialog_construct_range_any(GNOME_PRINT_DIALOG(dialog), GNOME_PRINT_RANGE_ALL | GNOME_PRINT_RANGE_SELECTION,
 					       NULL, NULL, NULL);
 
@@ -1023,9 +1024,8 @@ e_contact_print_preview(EBook *book, char *query)
 	GnomePrintConfig *config;
 	gdouble font_size;
 
-	master = gnome_print_job_new(NULL);
-	config = gnome_print_job_get_config (master);
-	gnome_print_config_set_int (config, GNOME_PRINT_KEY_NUM_COPIES, 1);
+	config = e_print_load_config ();
+	master = gnome_print_job_new (config);
 	pc = gnome_print_job_get_context (master);
 	e_contact_build_style (style);
 
@@ -1063,7 +1063,7 @@ e_contact_print_contact_dialog_new(EContact *contact)
 {
 	GtkWidget *dialog;
 	
-	dialog = gnome_print_dialog_new(NULL, _("Print contact"), GNOME_PRINT_DIALOG_COPIES);
+	dialog = e_print_get_dialog(_("Print contact"), GNOME_PRINT_DIALOG_COPIES);
 
 	contact = e_contact_duplicate(contact);
 	g_object_set_data(G_OBJECT(dialog), "contact", contact);
@@ -1090,7 +1090,7 @@ e_contact_print_contact_list_dialog_new(GList *list)
 	for (l = copied_list; l; l = l->next)
 		l->data = e_contact_duplicate (E_CONTACT (l->data));
 
-	dialog = gnome_print_dialog_new(NULL, _("Print contact"), GNOME_PRINT_DIALOG_COPIES);
+	dialog = e_print_get_dialog(_("Print contact"), GNOME_PRINT_DIALOG_COPIES);
 
 	g_object_set_data(G_OBJECT(dialog), "contact_list", copied_list);
 	g_object_set_data(G_OBJECT(dialog), "uses_list", GINT_TO_POINTER (TRUE));
