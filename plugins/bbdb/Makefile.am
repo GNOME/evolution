@@ -13,6 +13,6 @@ liborg_gnome_evolution_bbdb_la_LDFLAGS = -module -avoid-version
 
 # noinst_PROGRAMS = test-evobuddy
 
-test_evobuddy_LDADD = $(top_builddir)/camel/libcamel.la $(EVOLUTION_ADDRESSBOOK_LIBS) $(EVOLUTION_MAIL_LIBS) $(CAMEL_LIBS)
-test_evobuddy_SOURCES = test-evobuddy.c gaimbuddies.c bbdb.c
-test_evobuddy_INCLUDES = $(INCLUDES) 
+ #test_evobuddy_LDADD = $(top_builddir)/camel/libcamel.la $(EVOLUTION_ADDRESSBOOK_LIBS) $(EVOLUTION_MAIL_LIBS) $(CAMEL_LIBS)
+ #test_evobuddy_SOURCES = test-evobuddy.c gaimbuddies.c bbdb.c
+ #test_evobuddy_INCLUDES = $(INCLUDES) 
