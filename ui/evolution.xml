@@ -204,7 +204,7 @@
 	    behavior="exclusive"
 	    config="0"
 	    _tip="Main toolbar"
-	    hlook="text"
+	    hlook="both_horiz"
 	    vlook="icon">
 
     <control name="NewComboButton"/>
