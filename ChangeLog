@@ -1,3 +1,7 @@
+2001-03-22  Jakub Steiner <jimmac@ximian.com>
+
+	* art/splash.png: move it a bit up so the icons fit better
+
 2001-03-22  Christopher James Lahey  <clahey@ximian.com>
 
 	* configure.in: Bumped gal requirement to 0.5.99.11.
