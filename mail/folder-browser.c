@@ -1171,7 +1171,7 @@ folder_browser_search_do_search (ESearchBar *esb, FolderBrowser *fb)
 	if (fb->message_list == NULL)
 		return;
 	
-	d(printf("query changed\n"));
+	d(printf("do search\n"));
 	
 	gtk_object_get (GTK_OBJECT (esb),
 			"query", &search_word,
@@ -2267,8 +2267,6 @@ folder_browser_gui_init (FolderBrowser *fb)
 	
 	gtk_widget_show (GTK_WIDGET (fb->search));
 	
-	gtk_signal_connect (GTK_OBJECT (fb->search), "query_changed",
-			    GTK_SIGNAL_FUNC (folder_browser_search_do_search), fb);
 	gtk_signal_connect (GTK_OBJECT (fb->search), "menu_activated",
 			    GTK_SIGNAL_FUNC (folder_browser_search_menu_activated), fb);
 	gtk_signal_connect (GTK_OBJECT (fb->search), "search_activated",

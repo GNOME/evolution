@@ -1,5 +1,12 @@
 2002-07-02  Ettore Perazzoli  <ettore@ximian.com>
 
+	* folder-browser.c (folder_browser_gui_init): Don't connect
+	folder_browser_search_do_search to "query_changed" since we don't
+	want the search to happen unless the user clicks "Find Now", for
+	consistency.
+
+2002-07-02  Ettore Perazzoli  <ettore@ximian.com>
+
 	* component-factory.c (create_component): Pass a tooltip to
 	evolution_shell_component_add_user_creatable_item.
 
