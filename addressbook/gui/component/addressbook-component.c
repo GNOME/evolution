@@ -28,6 +28,7 @@
 #include <bonobo.h>
 
 #include "evolution-shell-component.h"
+#include "evolution-storage.h"
 
 #include "addressbook-component.h"
 
