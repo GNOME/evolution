@@ -26,14 +26,14 @@
 		 pixtype="stock" pixname="Stop"/>
 
 		<cmd name="ContactsCut" _label="Cut" _tip="Cut the selection"
-		 pixtype="stock" pixname="Cut" accel="*Control*x"/>
+		 accel="*Control*x"/>
 
                 <cmd name="ContactsCopy" _label="Copy"
-		 _tip="Copy the selection" pixtype="stock" pixname="Copy"
+		 _tip="Copy the selection"
 		 accel="*Control*c"/>
 
 		<cmd name="ContactsPaste" _label="Paste"
-		 _tip="Paste the clipboard" pixtype="stock" pixname="Paste"
+		 _tip="Paste the clipboard"
 		 accel="*Control*v"/>
 
 		<cmd name="ContactsSelectAll" _label="Select All"
@@ -42,7 +42,7 @@
 
 		<cmd name="ContactsSaveAsVCard" _label="Save as VCard"
 		 _tip="Save selected contacts as a VCard."
-		 pixtype="stock" pixname="Save" accel="*Control*v"/>
+		 accel="*Control*v"/>
 
 		<cmd name="ContactsSendContactToOther" _label="Forward Contact"
 		 _tip="Send selected contacts to another person."/>
@@ -56,7 +56,8 @@
 		<submenu name="File">
 		        <placeholder name="FileOps">
 			        <menuitem name="ContactsSaveAsVCard"
-				 verb="" _label="_Save as VCard"/>
+				 verb="" _label="_Save as VCard"
+				 pixtype="pixbuf"/>
 			</placeholder>
 
                         <submenu name="New">
@@ -84,11 +85,15 @@
 		</submenu>
 
 		<submenu name="Edit">
-			<menuitem name="ContactsCut" verb="" _label="C_ut"/>
+			<menuitem name="ContactsCut" verb="" _label="C_ut"
+			 pixtype="pixbuf"/>
 	
-			<menuitem name="ContactsCopy" verb="" _label="_Copy"/>
+			<menuitem name="ContactsCopy" verb="" _label="_Copy"
+			 pixtype="pixbuf"/>
 	
-			<menuitem name="ContactsPaste" verb="" _label="_Paste"/>
+			<menuitem name="ContactsPaste" verb="" _label="_Paste"
+			 pixtype="pixbuf"/>
+
 		        <menuitem name="ContactDelete" verb=""
 		        _label="Delete"/>
 			<separator/>
@@ -103,7 +108,8 @@
 			<submenu name="Tools" _label="_Tools">
 				<menuitem name="ToolSearch" verb=""
 				 _label="_Search for Contacts"
-				 pixtype="stock" pixname="Search" />
+				 pixtype="pixbuf"/>
+
 	        	        <menuitem name="AddressbookConfig" verb=""
 	        	         _label="_Addressbook Sources..."
 	        	         pixtype ="pixbuf"/>
