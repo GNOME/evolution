@@ -1,5 +1,13 @@
 2003-01-10  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-setup.c (set_default_folder_physical_uri_from_path): New
+	function.
+	(e_setup_check_config): Call it for each of the *_path keys.  Do
+	not set the default for *_path keys as those come from the GConf
+	schema anyways.
+
+2003-01-10  Ettore Perazzoli  <ettore@ximian.com>
+
 	* apps_evolution_shell.schemas: Set defaults for
 	/apps/evolution/shell/default_folders/... .
 

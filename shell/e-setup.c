@@ -31,6 +31,8 @@
 #include "e-shell-config.h"
 #include "e-shell-constants.h"
 
+#include "e-util/e-path.h"
+
 #include <gconf/gconf-client.h>
 
 #include <gtk/gtklabel.h>
@@ -421,40 +423,62 @@ e_setup (const char *evolution_directory)
 }
 
 
+static void
+set_default_folder_physical_uri_from_path (GConfClient *client,
+					   const char *evolution_directory,
+					   const char *path_key_name)
+{
+	char *gconf_path;
+	char *path_value;
+
+	gconf_path = g_strconcat ("/apps/evolution/shell/default_folders/", path_key_name, NULL);
+	path_value = gconf_client_get_string (client, gconf_path, NULL);
+	g_free (gconf_path);
+
+	if (path_value != NULL
+	    && strncmp (path_value, E_SHELL_URI_PREFIX, E_SHELL_URI_PREFIX_LEN) == 0
+	    && strncmp (path_value + E_SHELL_URI_PREFIX_LEN, "/local/", 7) == 0) {
+		char *key_prefix;
+		char *local_physical_uri;
+		char *file_uri_prefix;
+
+		key_prefix = g_strndup (path_key_name, strchr (path_key_name, '_') - path_key_name);
+		gconf_path = g_strconcat ("/apps/evolution/shell/default_folders/", key_prefix, "_uri", NULL);
+		file_uri_prefix = g_strconcat ("file://", evolution_directory, "/local", NULL);
+		local_physical_uri = e_path_to_physical (file_uri_prefix, path_value + E_SHELL_URI_PREFIX_LEN + 6);
+
+		gconf_client_set_string (client, gconf_path, local_physical_uri, NULL);
+
+		g_free (gconf_path);
+		g_free (key_prefix);
+		g_free (local_physical_uri);
+		g_free (file_uri_prefix);
+	}
+}
+
 void
 e_setup_check_config (const char *evolution_directory)
 {
 	GConfClient *client;
 	char *tmp;
-	char *uri;
 
 	client = gconf_client_get_default ();
 
-	tmp = gconf_client_get_string (client, "/apps/evolution/shell/default_folders/mail_path", NULL);
+	tmp = gconf_client_get_string (client, "/apps/evolution/shell/default_folders/mail_uri", NULL);
 	if (tmp != NULL && *tmp != 0) {
 		g_object_unref (client);
 		return;
 	}
 
-	gconf_client_set_string (client, "/apps/evolution/shell/default_folders/mail_path", E_LOCAL_INBOX_URI, NULL);
-	uri = g_strconcat ("file://", evolution_directory, "/local", strrchr (E_LOCAL_INBOX_URI, '/'), NULL);
-	gconf_client_set_string (client, "/apps/evolution/shell/default_folders/mail_uri", uri, NULL);
-	g_free (uri);
+	/* The following ugliness is to initially set up the physical URIs
+	   based on the default path values (which come from GConf).  Of
+	   course, this way of configuring the default folders is a bit of a
+	   mess and needs to be cleaned up...  */
 
-	gconf_client_set_string (client, "/apps/evolution/shell/default_folders/contacts_path", E_LOCAL_CONTACTS_URI, NULL);
-	uri = g_strconcat ("file://", evolution_directory, "/local", strrchr (E_LOCAL_CONTACTS_URI, '/'), NULL);
-	gconf_client_set_string (client, "/apps/evolution/shell/default_folders/contacts_uri", uri, NULL);
-	g_free (uri);
-
-	gconf_client_set_string (client, "/apps/evolution/shell/default_folders/tasks_path", E_LOCAL_TASKS_URI, NULL);
-	uri = g_strconcat ("file://", evolution_directory, "/local", strrchr (E_LOCAL_TASKS_URI, '/'), NULL);
-	gconf_client_set_string (client, "/apps/evolution/shell/default_folders/tasks_uri", uri, NULL);
-	g_free (uri);
-
-	gconf_client_set_string (client, "/apps/evolution/shell/default_folders/calendar_path", E_LOCAL_CALENDAR_URI, NULL);
-	uri = g_strconcat ("file://", evolution_directory, "/local", strrchr (E_LOCAL_CALENDAR_URI, '/'), NULL);
-	gconf_client_set_string (client, "/apps/evolution/shell/default_folders/calendar_uri", uri, NULL);
-	g_free (uri);
+	set_default_folder_physical_uri_from_path (client, evolution_directory, "mail_path");
+	set_default_folder_physical_uri_from_path (client, evolution_directory, "contacts_path");
+	set_default_folder_physical_uri_from_path (client, evolution_directory, "calendar_path");
+	set_default_folder_physical_uri_from_path (client, evolution_directory, "tasks_path");
 
 	g_object_unref (client);
 }
