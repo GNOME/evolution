@@ -1,5 +1,8 @@
 2000-08-04  Michael Meeks  <michael@helixcode.com>
 
+	* evolution-shell-component.c (impl_ShellComponent_populate_folder_context_menu):
+	unref.
+
 	* e-shell.c (e_shell_construct): Remove erroneous refs on
 	folder_type_registry, storage_set.
 

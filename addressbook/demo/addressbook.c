@@ -98,6 +98,7 @@ control_activate (BonoboControl *control, BonoboUIHandler *uih)
 	
 	remote_uih = bonobo_control_get_remote_ui_handler (control);
 	bonobo_ui_handler_set_container (uih, remote_uih);		
+	bonobo_object_release_unref (remote_uih, NULL);
 
 	bonobo_ui_handler_menu_new_item (uih, "/Actions/New Contact", N_("_New Contact"),       
 					 NULL, -1,

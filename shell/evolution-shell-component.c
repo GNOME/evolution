@@ -285,6 +285,7 @@ impl_ShellComponent_populate_folder_context_menu (PortableServer_Servant servant
 
 	uih = bonobo_ui_handler_new ();
 	bonobo_ui_handler_set_container (uih, corba_uih);
+	bonobo_object_release_unref (corba_uih, NULL);
 
 	(* priv->populate_folder_context_menu_fn) (shell_component, uih, physical_uri, type, priv->closure);
 

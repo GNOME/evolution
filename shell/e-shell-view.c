@@ -482,7 +482,7 @@ destroy (GtkObject *object)
 	g_hash_table_foreach (priv->uri_to_control, hash_forall_destroy_control, NULL);
 	g_hash_table_destroy (priv->uri_to_control);
 
-	bonobo_object_unref (priv->uih);
+	bonobo_object_unref (BONOBO_OBJECT (priv->uih));
 
 	g_free (priv->uri);
 

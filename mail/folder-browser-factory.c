@@ -51,7 +51,8 @@ control_activate (BonoboControl *control, BonoboUIHandler *uih,
 	char *toolbar_name = g_strdup_printf ("/Toolbar%d", fb->serial);
 
 	remote_uih = bonobo_control_get_remote_ui_handler (control);
-	bonobo_ui_handler_set_container (uih, remote_uih);		
+	bonobo_ui_handler_set_container (uih, remote_uih);
+	bonobo_object_release_unref (remote_uih, NULL);
 
 	folder_browser = bonobo_control_get_widget (control);
 

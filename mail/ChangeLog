@@ -1,3 +1,8 @@
+2000-08-04  Michael Meeks  <michael@helixcode.com>
+
+	* folder-browser-factory.c (control_activate): release the ui_handler
+	after set_container.
+
 2000-08-03  Michael Meeks  <michael@helixcode.com>
 
 	* mail-config.c (identity_page_new): only whack the sig in if the

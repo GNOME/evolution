@@ -43,6 +43,7 @@ control_activate (BonoboControl *control, BonoboUIHandler *uih)
 
 	remote_uih = bonobo_control_get_remote_ui_handler (control);
 	bonobo_ui_handler_set_container (uih, remote_uih);
+	bonobo_object_release_unref (remote_uih, NULL);
 
 	toolbar = gtk_toolbar_new (GTK_ORIENTATION_HORIZONTAL,
 				   GTK_TOOLBAR_BOTH);

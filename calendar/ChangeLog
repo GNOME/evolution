@@ -1,3 +1,7 @@
+2000-08-04  Michael Meeks  <michael@helixcode.com>
+
+	* gui/calendar-commands.c (calendar_control_activate): unref.
+
 2000-08-02  Seth Alves  <alves@hungry.com>
 
 	* pcs/cal-backend-imc.c (cal_backend_imc_update_pilot_id): call
