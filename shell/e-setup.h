@@ -23,13 +23,10 @@
 #ifndef _E_SETUP_H
 #define _E_SETUP_H
 
-#include "e-util/e-config-listener.h"
-
 #include <glib.h>
 
 gboolean  e_setup  (const char *evolution_directory);
 
-void  e_setup_check_config  (EConfigListener *config_listener,
-			     const char      *evolution_directory);
+void  e_setup_check_config  (const char *evolution_directory);
 
 #endif /* _E_SETUP_H */

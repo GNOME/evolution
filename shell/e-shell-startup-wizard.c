@@ -26,7 +26,13 @@
 
 #include "e-shell-startup-wizard.h"
 
-#include <errno.h>
+#include "e-timezone-dialog/e-timezone-dialog.h"
+#include "e-util/e-gtk-utils.h"
+
+#include <gconf/gconf-client.h>
+
+#include <evolution-wizard.h>
+#include "Evolution.h"
 
 #include <glib.h>
 #include <gtk/gtk.h>
@@ -43,13 +49,6 @@
 #include <gal/widgets/e-gui-utils.h>
 
 #include <widgets/e-timezone-dialog/e-timezone-dialog.h>
-
-#include "e-timezone-dialog/e-timezone-dialog.h"
-#include "e-util/e-gtk-utils.h"
-#include "e-util/e-config-listener.h"
-
-#include <evolution-wizard.h>
-#include "Evolution.h"
 
 typedef struct _TimezoneDialogPage {
 	GtkWidget *page;
@@ -95,8 +94,6 @@ typedef struct _SWData {
 	CORBA_Object mailer;
 	Bonobo_EventSource event_source;
 	BonoboListener *listener;
-
-	EConfigListener *config_listener;
 } SWData;
 
 typedef struct _IntelligentImporterData {
@@ -338,6 +335,7 @@ finish_func (GnomeDruidPage *page,
 	     GnomeDruid *druid,
 	     SWData *data)
 {
+	GConfClient *client;
 	CORBA_Environment ev;
 	const char *displayname;
 	char *tz;
@@ -358,8 +356,11 @@ finish_func (GnomeDruidPage *page,
 		tz = g_strdup ("UTC");
 	else
 		tz = g_strdup (icaltimezone_get_location (zone));
-	
-	e_config_listener_set_string (data->config_listener, "/Calendar/Display/Timezone", tz);
+
+	client = gconf_client_get_default ();
+	gconf_client_set_string (client, "/apps/evolution/calendar/display/timezone", tz, NULL);
+	g_object_unref (client);
+
 	g_free (tz);
 
 	do_import (data);
@@ -843,22 +844,23 @@ startup_wizard_cancel (GnomeDruid *druid,
 gboolean
 e_shell_startup_wizard_create (void)
 {
+	GConfClient *client;
 	SWData *data;
-	int num_accounts;
+	GSList *accounts;
 
 	return TRUE;
 
-	data = g_new0 (SWData, 1);
+	client = gconf_client_get_default ();
+	accounts = gconf_client_get_list (client, "/apps/evolution/mail/accounts", GCONF_VALUE_STRING, NULL);
+	g_object_unref (client);
 
-	data->config_listener = e_config_listener_new();
-
-	num_accounts = e_config_listener_get_long_with_default (data->config_listener, "/Mail/Accounts/num", 0, NULL);
-
-	if (num_accounts != 0) {
-		g_object_unref (data->config_listener);
-		g_free (data);
+	if (accounts != NULL) {
+		g_slist_foreach (accounts, (GFunc) g_free, NULL);
+		g_slist_free (accounts);
 		return TRUE;
 	}
+
+	data = g_new0 (SWData, 1);
 
 	data->wizard = glade_xml_new (EVOLUTION_GLADEDIR "/evolution-startup-wizard.glade", NULL, NULL);
 	g_return_val_if_fail (data->wizard != NULL, FALSE);
@@ -906,9 +908,6 @@ e_shell_startup_wizard_create (void)
 	gtk_widget_show_all (data->dialog);
 
 	gtk_main ();
-
-	g_object_unref (data->config_listener);
-	data->config_listener = NULL;
 
 	return !data->cancel;
 }

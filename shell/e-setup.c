@@ -25,6 +25,21 @@
 #include <config.h>
 #endif
 
+#include "e-setup.h"
+
+#include "e-local-folder.h"
+#include "e-shell-config.h"
+#include "e-shell-constants.h"
+
+#include <gconf/gconf-client.h>
+
+#include <gtk/gtklabel.h>
+
+#include <gal/widgets/e-gui-utils.h>
+
+#include <libgnome/gnome-i18n.h>
+#include <libgnome/gnome-util.h>
+
 #include <errno.h>
 #include <sys/stat.h>
 #include <sys/types.h>
@@ -32,17 +47,6 @@
 #include <stdio.h>
 #include <string.h>
 #include <unistd.h>
-
-#include <gtk/gtklabel.h>
-#include <libgnome/gnome-i18n.h>
-#include <libgnome/gnome-util.h>
-#include <gal/widgets/e-gui-utils.h>
-
-#include "e-local-folder.h"
-#include "e-shell-config.h"
-#include "e-shell-constants.h"
-
-#include "e-setup.h"
 
 
 static GList *
@@ -417,34 +421,39 @@ e_setup (const char *evolution_directory)
 
 
 void
-e_setup_check_config (EConfigListener *listener,
-		      const char *evolution_directory)
+e_setup_check_config (const char *evolution_directory)
 {
+	GConfClient *client;
+	char *tmp;
 	char *uri;
 
-	if (e_config_listener_get_string_with_default (listener, "/DefaultFolders/mail_path", NULL, NULL) == NULL) {
-		e_config_listener_set_string (listener, "/DefaultFolders/mail_path", E_LOCAL_INBOX_URI);
-		uri = g_strconcat ("file://", evolution_directory, "/local",
-				   strrchr (E_LOCAL_INBOX_URI, '/'), NULL);
-		e_config_listener_set_string (listener, "/DefaultFolders/mail_uri", uri);
-		g_free (uri);
+	client = gconf_client_get_default ();
 
-		e_config_listener_set_string (listener, "/DefaultFolders/contacts_path", E_LOCAL_CONTACTS_URI);
-		uri = g_strconcat ("file://", evolution_directory, "/local",
-				   strrchr (E_LOCAL_CONTACTS_URI, '/'), NULL);
-		e_config_listener_set_string (listener, "/DefaultFolders/contacts_uri", uri);
-		g_free (uri);
-
-		e_config_listener_set_string (listener, "/DefaultFolders/calendar_path", E_LOCAL_CALENDAR_URI);
-		uri = g_strconcat ("file://", evolution_directory, "/local",
-				   strrchr (E_LOCAL_CALENDAR_URI, '/'), NULL);
-		e_config_listener_set_string (listener, "/DefaultFolders/calendar_uri", uri);
-		g_free (uri);
-
-		e_config_listener_set_string (listener, "/DefaultFolders/tasks_path", E_LOCAL_TASKS_URI);
-		uri = g_strconcat ("file://", evolution_directory, "/local",
-				   strrchr (E_LOCAL_TASKS_URI, '/'), NULL);
-		e_config_listener_set_string (listener, "/DefaultFolders/tasks_uri", uri);
-		g_free (uri);
+	tmp = gconf_client_get_string (client, "/apps/evolution/shell/default_folders/mail_path", NULL);
+	if (tmp != NULL && *tmp != 0) {
+		g_object_unref (client);
+		return;
 	}
+
+	gconf_client_set_string (client, "/apps/evolution/shell/default_folders/mail_path", E_LOCAL_INBOX_URI, NULL);
+	uri = g_strconcat ("file://", evolution_directory, "/local", strrchr (E_LOCAL_INBOX_URI, '/'), NULL);
+	gconf_client_set_string (client, "/apps/evolution/shell/default_folders/mail_uri", uri, NULL);
+	g_free (uri);
+
+	gconf_client_set_string (client, "/apps/evolution/shell/default_folders/contacts_path", E_LOCAL_CONTACTS_URI, NULL);
+	uri = g_strconcat ("file://", evolution_directory, "/local", strrchr (E_LOCAL_CONTACTS_URI, '/'), NULL);
+	gconf_client_set_string (client, "/apps/evolution/shell/default_folders/contacts_uri", uri, NULL);
+	g_free (uri);
+
+	gconf_client_set_string (client, "/apps/evolution/shell/default_folders/tasks_path", E_LOCAL_TASKS_URI, NULL);
+	uri = g_strconcat ("file://", evolution_directory, "/local", strrchr (E_LOCAL_TASKS_URI, '/'), NULL);
+	gconf_client_set_string (client, "/apps/evolution/shell/default_folders/tasks_uri", uri, NULL);
+	g_free (uri);
+
+	gconf_client_set_string (client, "/apps/evolution/shell/default_folders/calendar_path", E_LOCAL_CALENDAR_URI, NULL);
+	uri = g_strconcat ("file://", evolution_directory, "/local", strrchr (E_LOCAL_CALENDAR_URI, '/'), NULL);
+	gconf_client_set_string (client, "/apps/evolution/shell/default_folders/calendar_uri", uri, NULL);
+	g_free (uri);
+
+	g_object_unref (client);
 }

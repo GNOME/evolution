@@ -38,13 +38,14 @@
 #include <gtk/gtkwidget.h>
 #include <gtk/gtksignal.h>
 
+#include <gconf/gconf-client.h>
+
 
 typedef struct {
 	EvolutionConfigControl *config_control;
 
 	GtkWidget *control_widget;
 
-	EConfigListener *config_listener;
 	EvolutionShellClient *shell_client;
 } EvolutionAutocompletionConfig;
 
@@ -62,7 +63,6 @@ config_control_destroy_notify (void *data,
 	EvolutionAutocompletionConfig *ac = (EvolutionAutocompletionConfig *) data;
 
 	g_object_unref (ac->shell_client);
-	g_object_unref (ac->config_listener);
 
 	g_free (ac);
 }
@@ -72,11 +72,16 @@ static void
 config_control_apply_callback (EvolutionConfigControl *config_control,
 			       EvolutionAutocompletionConfig *ac)
 {
+	GConfClient *client;
 	char *xml;
 
+	client = gconf_client_get_default ();
+
 	xml = e_folder_list_get_xml (E_FOLDER_LIST (ac->control_widget));
-	e_config_listener_set_string (ac->config_listener, "/Addressbook/Completion/uris", xml);
+	gconf_client_set_string (client, "/apps/evolution/addressbook/completion/uris", xml, NULL);
 	g_free (xml);
+
+	g_object_unref (client);
 }
 
 GtkWidget *
@@ -84,21 +89,21 @@ e_shell_config_autocompletion_create_widget (EShell *shell, EvolutionConfigContr
 {
 	GNOME_Evolution_Shell shell_dup;
 	EvolutionAutocompletionConfig *ac;
-	char *xml;
 	CORBA_Environment ev;
+	GConfClient *client;
 	static const char *possible_types[] = { "contacts/*", NULL };
+	char *xml;
 
 	ac = g_new0 (EvolutionAutocompletionConfig, 1);
-	ac->config_listener = e_config_listener_new ();
 
 	CORBA_exception_init (&ev);
 
 	shell_dup = CORBA_Object_duplicate (BONOBO_OBJREF (shell), &ev);
 	ac->shell_client = evolution_shell_client_new (shell_dup);
 
-	xml = e_config_listener_get_string_with_default (ac->config_listener,
-							 "/Addressbook/Completion/uris",
-							 NULL, NULL);
+	client = gconf_client_get_default ();
+	xml = gconf_client_get_string (client, "/apps/evolution/addressbook/completion/uris", NULL);
+	g_object_unref (client);
 
 	ac->control_widget = e_folder_list_new (ac->shell_client, xml);
 	g_free (xml);

@@ -1,7 +1,7 @@
 /* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*- */
 /* e-shell-view.c
  *
- * Copyright (C) 2000, 2001 Ximian, Inc.
+ * Copyright (C) 2000, 2001, 2002 Ximian, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public
@@ -63,6 +63,8 @@
 #include <libgnomeui/gnome-window.h>
 #include <libgnomeui/gnome-window-icon.h>
 #include <libgnomeui/gnome-app.h>
+
+#include <gconf/gconf-client.h>
 
 #include <bonobo/bonobo-socket.h>
 #include <bonobo/bonobo-ui-util.h>
@@ -377,6 +379,82 @@ remove_uri_from_history (EShellView *shell_view,
 	priv = shell_view->priv;
 	
 	e_history_remove_matching (priv->history, uri, history_uri_matching_func);
+}
+
+
+static void
+setup_defaults (EShellView *shell_view,
+		gboolean setup_default_uri)
+{
+	EShellViewPrivate *priv;
+	EShortcutBar *shortcut_bar;
+	GConfClient *client;
+	GSList *icon_types_list;
+	GSList *p;
+	char *path;
+	char *uri;
+	int shortcut_group;
+	int width;
+	int i;
+
+	g_return_if_fail (shell_view != NULL);
+	g_return_if_fail (E_IS_SHELL_VIEW (shell_view));
+
+	priv = shell_view->priv;
+	shortcut_bar = E_SHORTCUT_BAR (priv->shortcut_bar);
+
+	client = gconf_client_get_default ();
+
+	gtk_window_set_default_size (GTK_WINDOW (shell_view),
+				     gconf_client_get_int (client, "/apps/evolution/shell/view_defaults/width", NULL),
+				     gconf_client_get_int (client, "/apps/evolution/shell/view_defaults/height", NULL));
+
+	shortcut_group = gconf_client_get_int (client, "/apps/evolution/shell/view_defaults/selected_shortcut_group", NULL);
+	e_shell_view_set_current_shortcuts_group_num (shell_view, shortcut_group);
+
+	e_shell_view_show_folder_bar (shell_view,
+				      gconf_client_get_bool (client, "/apps/evolution/shell/view_defaults/show_folder_bar", NULL));
+	e_shell_view_show_shortcut_bar (shell_view,
+					gconf_client_get_bool (client, "/apps/evolution/shell/view_defaults/show_shortcut_bar", NULL));
+
+	width = gconf_client_get_int (client, "/apps/evolution/shell/view_defaults/shortcut_bar/width", NULL);
+	if (priv->shortcut_bar_shown)
+		e_paned_set_position (E_PANED (priv->hpaned), width);
+	priv->hpaned_position = width;
+
+	width = gconf_client_get_int (client, "/apps/evolution/shell/view_defaults/folder_bar/width", NULL);
+	if (priv->folder_bar_shown)
+		e_paned_set_position (E_PANED (priv->view_hpaned), width);
+	priv->view_hpaned_position = width;
+
+	if (setup_default_uri) {
+		path = gconf_client_get_string (client, "/apps/evolution/shell/view_defaults/folder_path", NULL);
+		uri = g_strconcat (E_SHELL_URI_PREFIX, path, NULL);
+
+		if (! e_shell_view_display_uri (shell_view, uri, FALSE)) {
+			e_shell_view_display_uri (shell_view, E_SHELL_VIEW_DEFAULT_URI, FALSE);
+			e_shell_view_display_uri (shell_view, uri, TRUE);
+		}
+
+		g_free (path);
+		g_free (uri);
+	}
+
+	icon_types_list = gconf_client_get_list (client, "/apps/evolution/shell/view_defaults/shortcut_bar/icon_types",
+						 GCONF_VALUE_INT, NULL);
+	for (p = icon_types_list, i = 0; p != NULL; p = p->next, i++)
+		e_shortcut_bar_set_view_type (shortcut_bar, i, GPOINTER_TO_INT (p->data));
+	g_slist_free (icon_types_list);
+
+#if 0
+	/* Load the expanded state for the ShellView's StorageSetView */
+	filename = g_strdup_printf ("%s/config/storage-set-view-expanded:view_%d",
+				    e_shell_get_local_directory (priv->shell),
+				    view_num);
+	e_tree_load_expanded_state (E_TREE (priv->storage_set_view),
+				    filename);
+	g_free (filename);
+#endif
 }
 
 
@@ -1681,7 +1759,8 @@ delete_event_cb (GtkWidget *widget,
 
 EShellView *
 e_shell_view_construct (EShellView *shell_view,
-			EShell     *shell)
+			EShell     *shell,
+			const char *uri)
 {
 	EShellViewPrivate *priv;
 	EShellView *view;
@@ -1744,6 +1823,8 @@ e_shell_view_construct (EShellView *shell_view,
 	e_shell_user_creatable_items_handler_attach_menus (e_shell_get_user_creatable_items_handler (priv->shell),
 							   shell_view);
 
+	setup_defaults (view, uri != NULL);
+
 	return view;
 }
 
@@ -1753,7 +1834,8 @@ e_shell_view_construct (EShellView *shell_view,
    bookkeeping for the created views.  Instead, the right way to create a new
    view is calling `e_shell_create_view()'.  */
 EShellView *
-e_shell_view_new (EShell *shell)
+e_shell_view_new (EShell *shell,
+		  const char *uri)
 {
 	GtkWidget *new;
 
@@ -1762,7 +1844,7 @@ e_shell_view_new (EShell *shell)
 
 	new = g_object_new (e_shell_view_get_type (), NULL);
 
-	return e_shell_view_construct (E_SHELL_VIEW (new), shell);
+	return e_shell_view_construct (E_SHELL_VIEW (new), shell, uri);
 }
 
 const GNOME_Evolution_ShellView
@@ -2676,92 +2758,78 @@ e_shell_view_get_current_component_id (EShellView *shell_view)
 
 
 /**
- * e_shell_view_save_settings:
+ * e_shell_view_save_defaults:
  * @shell_view: 
- * @prefix: 
- * 
- * Save settings for @shell_view at the specified gnome config @prefix
- * 
- * Return value: TRUE if successful, FALSE if not.
  **/
-gboolean
-e_shell_view_save_settings (EShellView *shell_view,
-			    int view_num)
+void
+e_shell_view_save_defaults (EShellView *shell_view)
 {
-	EConfigListener *config_listener;
+	GConfClient *client;
 	EShellViewPrivate *priv;
 	EShortcutBar *shortcut_bar;
+	GSList *shortcut_view_type_list;
 	const char *uri;
-	char *prefix, *key;
 	char *filename;
 	int num_groups;
 	int group;
 	struct stat temp;
 
-	g_return_val_if_fail (shell_view != NULL, FALSE);
-	g_return_val_if_fail (E_IS_SHELL_VIEW (shell_view), FALSE);
+	g_return_if_fail (shell_view != NULL);
+	g_return_if_fail (E_IS_SHELL_VIEW (shell_view));
 
 	priv = shell_view->priv;
 	shortcut_bar = E_SHORTCUT_BAR (priv->shortcut_bar);
 
-	config_listener = e_config_listener_new ();
+	client = gconf_client_get_default ();
 
-	prefix = g_strdup_printf ("/Shell/Views/%d/", view_num);
+	gconf_client_set_int (client, "/apps/evolution/shell/view_defaults/width",
+			      GTK_WIDGET (shell_view)->allocation.width, NULL);
+	gconf_client_set_int (client, "/apps/evolution/shell/view_defaults/height",
+			      GTK_WIDGET (shell_view)->allocation.height, NULL);
 
-	key = g_strconcat (prefix, "Width", NULL);
-	e_config_listener_set_long (config_listener, key, GTK_WIDGET (shell_view)->allocation.width);
-	g_free (key);
+	gconf_client_set_int (client, "/apps/evolution/shell/view_defaults/selected_shortcut_group",
+			      e_shell_view_get_current_shortcuts_group_num (shell_view), NULL);
 
-	key = g_strconcat (prefix, "Height", NULL);
-	e_config_listener_set_long (config_listener, key, GTK_WIDGET (shell_view)->allocation.height);
-	g_free (key);
+	gconf_client_set_bool (client, "/apps/evolution/shell/view_defaults/show_folder_bar",
+			       e_shell_view_folder_bar_shown (shell_view), NULL);
+	gconf_client_set_bool (client, "/apps/evolution/shell/view_defaults/show_shortcut_bar",
+			       e_shell_view_shortcut_bar_shown (shell_view), NULL);
 
-	key = g_strconcat (prefix, "CurrentShortcutsGroupNum", NULL);
-	e_config_listener_set_long (config_listener, key, 
-				    e_shell_view_get_current_shortcuts_group_num (shell_view));
-	g_free (key);
-
-	key = g_strconcat (prefix, "FolderBarShown", NULL);
-	e_config_listener_set_long (config_listener, key, e_shell_view_folder_bar_shown (shell_view));
-	g_free (key);
-
-	key = g_strconcat (prefix, "ShortcutBarShown", NULL);
-	e_config_listener_set_long (config_listener, key, e_shell_view_shortcut_bar_shown (shell_view));
-	g_free (key);
-
-	key = g_strconcat (prefix, "HPanedPosition", NULL);
-	if (GTK_WIDGET_VISIBLE (priv->shortcut_frame))
-		e_config_listener_set_long (config_listener, key, E_PANED (priv->hpaned)->child1_size); 
+	if (priv->shortcut_bar_shown)
+		gconf_client_set_int (client, "/apps/evolution/shell/view_defaults/shortcut_bar/width",
+				      E_PANED (priv->hpaned)->child1_size, NULL); 
 	else
-		e_config_listener_set_long (config_listener, key, priv->hpaned_position);
-	g_free (key);
+		gconf_client_set_int (client, "/apps/evolution/shell/view_defaults/shortcut_bar/width",
+				      priv->hpaned_position, NULL);
 
-	key = g_strconcat (prefix, "ViewHPanedPosition", NULL);
-	if (GTK_WIDGET_VISIBLE (priv->storage_set_view_box))
-		e_config_listener_set_long (config_listener, key, E_PANED (priv->view_hpaned)->child1_size); 
+	if (priv->folder_bar_shown)
+		gconf_client_set_int (client, "/apps/evolution/shell/view_defaults/folder_bar/width",
+				      E_PANED (priv->view_hpaned)->child1_size, NULL);
 	else
-		e_config_listener_set_long (config_listener, key, priv->view_hpaned_position);
-	g_free (key);
+		gconf_client_set_int (client, "/apps/evolution/shell/view_defaults/folder_bar/width",
+				      priv->view_hpaned_position, NULL);
 
-	key = g_strconcat (prefix, "DisplayedURI", NULL);
 	uri = e_shell_view_get_current_uri (shell_view);
 	if (uri != NULL)
-		e_config_listener_set_string (config_listener, key, uri);
+		gconf_client_set_string (client, "/apps/evolution/shell/view_defaults/folder_path",
+					 uri + E_SHELL_URI_PREFIX_LEN, NULL);
 	else
-		e_config_listener_set_string (config_listener, key, E_SHELL_VIEW_DEFAULT_URI);
-	g_free (key);
+		gconf_client_unset (client, "/apps/evolution/shell/view_defaults/folder_path", NULL);
 
 	num_groups = e_shortcut_model_get_num_groups (shortcut_bar->model);
 
+	shortcut_view_type_list = NULL;
 	for (group = 0; group < num_groups; group++) {
-		key = g_strdup_printf ("%sShortcutBarGroup%dIconMode", prefix,
-				       group);
-		e_config_listener_set_long (config_listener, key,
-					    e_shortcut_bar_get_view_type (shortcut_bar, group));
-		g_free (key);
+		EIconBarViewType view_type;
+
+		view_type = e_shortcut_bar_get_view_type (shortcut_bar, group);
+		shortcut_view_type_list = g_slist_prepend (shortcut_view_type_list, GINT_TO_POINTER (view_type));
 	}
 
-	g_free (prefix);
+	gconf_client_set_list (client, "/apps/evolution/shell/view_defaults/shortcut_bar/icon_types",
+			       GCONF_VALUE_INT, shortcut_view_type_list, NULL);
+
+	g_slist_free (shortcut_view_type_list);
 
 	/* If ~/evolution/config/ doesn't exist yet, make it */
 	filename = g_strdup_printf ("%s/config/", e_shell_get_local_directory (priv->shell));
@@ -2769,6 +2837,7 @@ e_shell_view_save_settings (EShellView *shell_view,
 		mkdir (filename, S_IRWXU);
 	g_free (filename);
 
+#if 0
 	/* Save the expanded state for this ShellView's StorageSetView */
 	filename = g_strdup_printf ("%s/config/storage-set-view-expanded:view_%d",
 				    e_shell_get_local_directory (priv->shell),
@@ -2776,110 +2845,9 @@ e_shell_view_save_settings (EShellView *shell_view,
 	e_tree_save_expanded_state (E_TREE (priv->storage_set_view),
 				    filename);
 	g_free (filename);
+#endif
 
-	return TRUE;
-}
-
-/**
- * e_shell_view_load_settings:
- * @shell_view: 
- * @prefix: 
- * 
- * Load settings for @shell_view at the specified gnome config @prefix
- * 
- * Return value: 
- **/
-gboolean
-e_shell_view_load_settings (EShellView *shell_view,
-			    int view_num)
-{
-	EShellViewPrivate *priv;
-	EShortcutBar *shortcut_bar;
-	EConfigListener *config_listener;
-	int num_groups, val;
-	long width, height;
-	char *stringval, *prefix, *filename, *key;
-	CORBA_Environment ev;
-
-	g_return_val_if_fail (shell_view != NULL, FALSE);
-	g_return_val_if_fail (E_IS_SHELL_VIEW (shell_view), FALSE);
-
-	priv = shell_view->priv;
-	shortcut_bar = E_SHORTCUT_BAR (priv->shortcut_bar);
-
-	config_listener = e_config_listener_new ();
-
-	prefix = g_strdup_printf ("/Shell/Views/%d/", view_num);
-
-	CORBA_exception_init (&ev);
-	key = g_strconcat (prefix, "Width", NULL);
-	width = e_config_listener_get_long_with_default (config_listener, key, 0, NULL);
-	g_free (key);
-
-	key = g_strconcat (prefix, "Height", NULL);
-	height = e_config_listener_get_long_with_default (config_listener, key, 0, NULL);
-	g_free (key);
-
-	gtk_window_set_default_size (GTK_WINDOW (shell_view), width, height);
-
-	key = g_strconcat (prefix, "CurrentShortcutsGroupNum", NULL);
-	val = e_config_listener_get_long_with_default (config_listener, key, 0, NULL);
-	e_shell_view_set_current_shortcuts_group_num (shell_view, val);
-	g_free (key);
-
-	key = g_strconcat (prefix, "FolderBarShown", NULL);
-	val = e_config_listener_get_long_with_default (config_listener, key, 0, NULL);
-	e_shell_view_show_folder_bar (shell_view, val);
-	g_free (key);
-
-	key = g_strconcat (prefix, "ShortcutBarShown", NULL);
-	val = e_config_listener_get_long_with_default (config_listener, key, 0, NULL);
-	e_shell_view_show_shortcut_bar (shell_view, val);
-	g_free (key);
-
-	key = g_strconcat (prefix, "HPanedPosition", NULL);
-	val = e_config_listener_get_long_with_default (config_listener, key, 0, NULL);
-	if (priv->shortcut_bar_shown)
-		e_paned_set_position (E_PANED (priv->hpaned), val);
-	priv->hpaned_position = val;
-	g_free (key);
-
-	key = g_strconcat (prefix, "ViewHPanedPosition", NULL);
-	val = e_config_listener_get_long_with_default (config_listener, key, 0, NULL);
-	if (priv->folder_bar_shown)
-		e_paned_set_position (E_PANED (priv->view_hpaned), val);
-	priv->view_hpaned_position = val;
-	g_free (key);
-
-	if (priv->uri == NULL && priv->delayed_selection == NULL) {
-		key = g_strconcat (prefix, "DisplayedURI", NULL);
-		stringval = e_config_listener_get_string_with_default (config_listener, key, NULL, NULL);
-		if (stringval) {
-			if (! e_shell_view_display_uri (shell_view, stringval, FALSE)) {
-				e_shell_view_display_uri (shell_view, E_SHELL_VIEW_DEFAULT_URI, FALSE);
-				e_shell_view_display_uri (shell_view, stringval, TRUE);
-			}
-		} else {
-			e_shell_view_display_uri (shell_view, E_SHELL_VIEW_DEFAULT_URI, TRUE);
-		}
-
-		g_free (stringval);
-		g_free (key);
-	}
-
-	num_groups = e_shortcut_model_get_num_groups (shortcut_bar->model);
-
-	g_free (prefix);
-
-	/* Load the expanded state for the ShellView's StorageSetView */
-	filename = g_strdup_printf ("%s/config/storage-set-view-expanded:view_%d",
-				    e_shell_get_local_directory (priv->shell),
-				    view_num);
-	e_tree_load_expanded_state (E_TREE (priv->storage_set_view),
-				    filename);
-	g_free (filename);
-
-	return TRUE;
+	g_object_unref (client);
 }
 
 

@@ -1,3 +1,60 @@
+2002-11-19  Ettore Perazzoli  <ettore@ximian.com>
+
+	* main.c (upgrade_from_1_0_if_needed): Disabled for now.
+
+	* e-shell-startup-wizard.c: Removed member config_listener from
+	struct SWData.
+	(e_shell_startup_wizard_create): Updated accordingly, just use
+	GConf, checking the /apps/evolution/mail/account-list key.
+	(finish_func): Use GConf.
+
+	* e-shell-config-default-folders.c: Removed member config_listener
+	in struct EvolutionDefaultFolderConfig.
+	(e_shell_config_default_folders_create_widget): Do not initialize
+	here.  GConfified the paths.
+	(config_control_destroy_notify): No unref of the config_listener
+	anymore.
+	(config_control_apply_cb): Use GConf.
+	(setup_folder_selector): Likewise.
+
+	* e-shell-config-autocompletion.c: Removed member config_listener
+	from EvolutionAutocompletionConfig.
+	(config_control_destroy_notify): Do not unref.
+	(config_control_apply_callback): Use a GConfClient.
+
+	* e-folder-list.c (e_folder_list_init): Add missing cast.
+
+	* main.c (show_development_warning): Use GConf.
+
+	* e-setup.c (e_setup_check_config): Removed arg @listener.
+	GConfified.
+
+	* e-shell-view.c (e_shell_view_save_defaults): New.
+	(e_shell_view_save_settings): Removed.
+	(e_shell_view_load_settings): Removed.
+	(setup_defaults): New helper function.
+	(e_shell_view_construct): New arg @uri.
+	(e_shell_view_new): New arg @uri.
+
+	* e-shell.c: Removed member config_listener in struct
+	EShellPrivate.
+	(impl_dispose): Do not unref.
+	(init): Do not initialize.
+	(get_config_start_offline): New helper function.
+	(e_shell_construct): Use this to get the startup mode in case
+	E_SHELL_STARTUP_LINE_MODE_CONFIG.
+	(save_misc_settings): Changed to use GConfClient instead of
+	EConfigListener.
+	(e_shell_create_view_from_settings): Removed.
+	(e_shell_restore_from_settings): Removed.
+	(e_shell_get_config_listener): Removed.
+	(e_shell_disconnect_db): Removed.
+	(parse_default_uri): Use GConf.
+
+	* main.c (idle_cb): Simplified the logic here.  Always assume that
+	the view will be created with the default folder open by just
+	using e_shell_create_view().
+
 2002-11-19  Not Zed  <NotZed@Ximian.com>
 
 	* e-shell-shared-folder-picker-dialog.c (show_dialog): Pass type

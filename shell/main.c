@@ -1,7 +1,7 @@
 /* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*- */
 /* main.c
  *
- * Copyright (C) 2000  Ximian, Inc.
+ * Copyright (C) 2000, 2001, 2002  Ximian, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public
@@ -21,9 +21,17 @@
  */
 
 #include <config.h>
-#include <fcntl.h>
-#include <glib.h>
-#include <stdio.h>
+
+#include "e-util/e-gtk-utils.h"
+
+#include "e-icon-factory.h"
+#include "e-shell-constants.h"
+#include "e-shell-config.h"
+#include "e-setup.h"
+
+#include "e-shell.h"
+
+#include <gconf/gconf-client.h>
 
 #include <gtk/gtkalignment.h>
 #include <gtk/gtkframe.h>
@@ -55,17 +63,11 @@
 #include <gal/widgets/e-gui-utils.h>
 #include <gal/widgets/e-cursors.h>
 
+#include <fcntl.h>
 #include <string.h>
+#include <sys/types.h>
+#include <sys/stat.h>
 #include <unistd.h>
-
-#include "e-util/e-gtk-utils.h"
-
-#include "e-icon-factory.h"
-#include "e-shell-constants.h"
-#include "e-shell-config.h"
-#include "e-setup.h"
-
-#include "e-shell.h"
 
 
 static EShell *shell = NULL;
@@ -142,29 +144,6 @@ no_views_left_cb (EShell *shell, gpointer data)
 
 	e_shell_unregister_all (shell);
 
-	/* FIXME: And this is another ugly hack.  We have a strange race
-	   condition that I cannot work around.  What happens is that the
-	   EShell object gets unreffed and its aggregate EActivityHandler gets
-	   destroyed too.  But for some reason, the EActivityHanlder GtkObject
-	   gets freed, while its CORBA object counterpart is still an active
-	   server.  So there is a slight chance that we receive CORBA
-	   invocation that act on an uninitialized object, and we crash.  (See
-	   #8615.) 
-
-	   The CORBA invocation on the dead object only happens because we
-	   ::unref the BonoboConf database server in the ::destroy method of
-	   the shell.  Since this is a CORBA call, it allows incoming CORBA
-	   calls to happen -- and these get invoked on the partially
-	   uninitialized object.
-
-	   Since I am not 100% sure what the reason for this half-stale object
-	   is, I am just going to make sure that no CORBA ops happen in
-	   ::destroy...  And this is achieved by placing this call here.  (If
-	   the DB is disconnected, there will be no ::unref of it in
-	   ::destroy.)  */
-
-	e_shell_disconnect_db (shell);
-
 	bonobo_object_unref (BONOBO_OBJECT (shell));
 
 	if (quit_box != NULL)
@@ -189,16 +168,15 @@ warning_dialog_clicked_callback (GnomeDialog *dialog,
 				 void *data)
 {
 	GtkCheckButton *dont_bother_me_again_checkbox;
-	EConfigListener *config_listener;
+	GConfClient *client;
 
 	dont_bother_me_again_checkbox = GTK_CHECK_BUTTON (data);
 
-	config_listener = e_config_listener_new ();
-
-	e_config_listener_set_boolean (config_listener, "/Shell/skip_warning_dialog_1_1",
-				       gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (dont_bother_me_again_checkbox)));
-
-	g_object_unref (config_listener);
+	client = gconf_client_get_default ();
+	gconf_client_set_bool (client, "/apps/evolution/shell/skip_warning_dialog",
+			       gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (dont_bother_me_again_checkbox)),
+			       NULL);
+	g_object_unref (client);
 
 	gtk_widget_destroy (GTK_WIDGET (dialog));
 }
@@ -210,11 +188,16 @@ show_development_warning (GtkWindow *parent)
 	GtkWidget *warning_dialog;
 	GtkWidget *dont_bother_me_again_checkbox;
 	GtkWidget *alignment;
-	EConfigListener *config_listener;
-	
-	config_listener = e_shell_get_config_listener (shell);
-	if (e_config_listener_get_boolean_with_default (config_listener, "/Shell/skip_warning_dialog_1_1", FALSE, NULL))
+	GConfClient *client;
+
+	client = gconf_client_get_default ();
+
+	if (gconf_client_get_bool (client, "/apps/evolution/shell/skip_warning_dialog", NULL)) {
+		g_object_unref (client);
 		return;
+	}
+
+	g_object_unref (client);
 
 	warning_dialog = gnome_dialog_new ("Ximian Evolution " VERSION, GNOME_STOCK_BUTTON_OK, NULL);
 	gtk_window_set_transient_for (GTK_WINDOW (warning_dialog), parent);
@@ -242,11 +225,8 @@ show_development_warning (GtkWindow *parent)
 	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (warning_dialog)->vbox), 
 			    label, TRUE, TRUE, 4);
 
-	label = gtk_label_new (
-		_(
-			"Thanks\n"
-			"The Ximian Evolution Team\n"
-			));
+	label = gtk_label_new (_("Thanks\n"
+				 "The Ximian Evolution Team\n"));
 	gtk_label_set_justify(GTK_LABEL(label), GTK_JUSTIFY_RIGHT);
 	gtk_misc_set_alignment(GTK_MISC(label), 1, .5);
 
@@ -299,6 +279,7 @@ new_view_created_callback (EShell *shell,
 static void
 upgrade_from_1_0_if_needed (void)
 {
+#if 0
 	EConfigListener *config_listener;
 	int result;
 
@@ -321,6 +302,7 @@ upgrade_from_1_0_if_needed (void)
 	e_config_listener_set_boolean (config_listener, "/Shell/upgrade_from_1_0_to_1_2_performed", TRUE);
 
 	g_object_unref (config_listener);
+#endif /* FIXME */
 }
 
 
@@ -402,24 +384,19 @@ idle_cb (void *data)
 	}
 
 	if (shell == NULL) {
-		/* We're talking to a remote shell. If the user didn't
-		 * ask us to open any particular URI, then open another
-		 * view of the default URI
-		 */
+		/* We're talking to a remote shell. If the user didn't ask us to open any particular
+ 		   URI, then open another view of the default URI.  */
 		if (uri_list == NULL)
 			display_default = TRUE;
 		else
 			display_default = FALSE;
 	} else {
-		/* We're starting a new shell. If the user didn't specify
-		 * any evolution: URIs to view, AND we can't load the
-		 * user's previous settings, then show the default URI.
-		 */
+		/* We're starting a new shell. If the user didn't specify any evolution: URIs to
+		   view, AND we can't load the user's previous settings, then show the default
+		   URI.  */
 		if (! have_evolution_uri) {
-			if (! e_shell_restore_from_settings (shell, FALSE)) 
-				display_default = TRUE;
-			else
-				display_default = FALSE;
+			e_shell_create_view (shell, NULL, NULL);
+			display_default = TRUE;
 		} else {
 			display_default = FALSE;
 		}

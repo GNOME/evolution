@@ -30,8 +30,6 @@
 #include "evolution-config-control.h"
 #include "e-storage-set-view.h"
 
-#include "e-util/e-config-listener.h"
-
 #include "Evolution.h"
 
 #include <bonobo/bonobo-exception.h>

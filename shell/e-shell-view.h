@@ -81,8 +81,10 @@ struct _EShellViewClass {
 
 GtkType     e_shell_view_get_type   (void);
 EShellView *e_shell_view_construct  (EShellView *shell_view,
-				     EShell     *shell);
-EShellView *e_shell_view_new        (EShell     *shell);
+				     EShell     *shell,
+				     const char *uri);
+EShellView *e_shell_view_new        (EShell     *shell,
+				     const char *uri);
 
 const GNOME_Evolution_ShellView  e_shell_view_get_corba_interface  (EShellView *view);
 
@@ -110,10 +112,7 @@ const char        *e_shell_view_get_current_folder_type    (EShellView *shell_vi
 const char        *e_shell_view_get_current_component_id   (EShellView *shell_view);
 const char        *e_shell_view_get_current_path           (EShellView *shell_view);
 
-gboolean  e_shell_view_save_settings  (EShellView *shell_view,
-				       int view_num);
-gboolean  e_shell_view_load_settings  (EShellView *shell_view,
-				       int view_num);
+void  e_shell_view_save_defaults  (EShellView *shell_view);
 
 int   e_shell_view_get_current_shortcuts_group_num  (EShellView *shell_view);
 void  e_shell_view_set_current_shortcuts_group_num  (EShellView *shell_view,

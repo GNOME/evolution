@@ -24,28 +24,7 @@
 #include <config.h>
 #endif
 
-#include <glib.h>
-
-#include <gtk/gtkmain.h>
-#include <gtk/gtksignal.h>
-#include <gdk/gdkx.h>
-
-#include <X11/Xatom.h>
-
-#include <libgnome/gnome-i18n.h>
-#include <libgnome/gnome-util.h>
-
-/* (For the displayName stuff.)  */
-#include <gdk/gdkprivate.h>
-#include <X11/Xlib.h>
-
-#include <bonobo/bonobo-exception.h>
-#include <bonobo/bonobo-moniker-util.h>
-
-#include <gal/widgets/e-gui-utils.h>
-#include <gal/util/e-util.h>
-
-#include "Evolution.h"
+#include "e-shell.h"
 
 #include "e-util/e-dialog-utils.h"
 
@@ -74,9 +53,32 @@
 #include "evolution-shell-component-utils.h"
 #include "evolution-storage-set-view-factory.h"
 
-#include "e-shell.h"
-
 #include "importer/intelligent.h"
+
+#include <glib.h>
+
+#include <gtk/gtkmain.h>
+#include <gtk/gtksignal.h>
+#include <gdk/gdkx.h>
+
+#include <X11/Xatom.h>
+
+#include <libgnome/gnome-i18n.h>
+#include <libgnome/gnome-util.h>
+
+/* (For the displayName stuff.)  */
+#include <gdk/gdkprivate.h>
+#include <X11/Xlib.h>
+
+#include <bonobo/bonobo-exception.h>
+#include <bonobo/bonobo-moniker-util.h>
+
+#include <gal/widgets/e-gui-utils.h>
+#include <gal/util/e-util.h>
+
+#include <gconf/gconf-client.h>
+
+#include "Evolution.h"
 
 
 #define PARENT_TYPE bonobo_x_object_get_type ()
@@ -124,9 +126,6 @@ struct _EShellPrivate {
 	/* Settings Dialog */
 	GtkWidget *settings_dialog;
 	
-	/* Configuration Database */
-	EConfigListener *config_listener;
-
 	/* Whether the shell is succesfully initialized.  This is needed during
 	   the start-up sequence, to avoid CORBA calls to do make wrong things
 	   to happen while the shell is initializing.  */
@@ -177,6 +176,21 @@ pop_up_activation_error_dialog (ESplash *splash,
 		    "%s"),
 		  id, error_message);
 	g_free (error_message);
+}
+
+static gboolean
+get_config_start_offline (void)
+{
+	GConfClient *client;
+	gboolean value;
+
+	client = gconf_client_get_default ();
+
+	value = gconf_client_get_bool (client, "/apps/evolution/shell/start_offline", NULL);
+
+	g_object_unref (client);
+
+	return value;
 }
 
 
@@ -415,7 +429,7 @@ impl_Shell_createNewView (PortableServer_Servant servant,
 		return CORBA_OBJECT_NIL;
 	}
 
-	shell_view = e_shell_create_view_from_uri_and_settings (shell, uri, 0);
+	shell_view = e_shell_create_view (shell, uri, NULL);
 	if (shell_view == NULL) {
 		CORBA_exception_set (ev, CORBA_USER_EXCEPTION,
 				     ex_GNOME_Evolution_Shell_NotFound, NULL);
@@ -452,7 +466,7 @@ impl_Shell_handleURI (PortableServer_Servant servant,
 
 	if (strncmp (uri, E_SHELL_URI_PREFIX, E_SHELL_URI_PREFIX_LEN) == 0
 	    || strncmp (uri, E_SHELL_DEFAULTURI_PREFIX, E_SHELL_DEFAULTURI_PREFIX_LEN) == 0) {
-		e_shell_create_view_from_uri_and_settings (shell, uri, 0);
+		e_shell_create_view (shell, uri, NULL);
 		return;
 	}
 
@@ -1008,7 +1022,7 @@ create_view (EShell *shell,
 
 	priv = shell->priv;
 
-	view = e_shell_view_new (shell);
+	view = e_shell_view_new (shell, uri);
 
 	g_signal_connect (view, "delete_event",
 			  G_CALLBACK (view_delete_event_cb), shell);
@@ -1121,11 +1135,6 @@ impl_dispose (GObject *object)
 		priv->settings_dialog = NULL;
 	}
 
-	if (priv->config_listener != NULL) {
-		g_object_unref (priv->config_listener);
-		priv->config_listener = NULL;
-	}
-
 	(* G_OBJECT_CLASS (parent_class)->dispose) (object);
 }
 
@@ -1229,7 +1238,6 @@ init (EShell *shell)
 	priv->crash_type_names             = NULL;
 	priv->line_status                  = E_SHELL_LINE_STATUS_OFFLINE;
 	priv->settings_dialog              = NULL;
-	priv->config_listener              = e_config_listener_new();
 	priv->is_initialized               = FALSE;
 	priv->is_interactive               = FALSE;
 	priv->preparing_to_quit            = FALSE;
@@ -1299,7 +1307,7 @@ e_shell_construct (EShell *shell,
 	if (! setup_corba_storages (shell))
 		return FALSE;
 
-	e_setup_check_config (priv->config_listener, local_directory);
+	e_setup_check_config (local_directory);
 	
 	/* Now we can register into OAF.  Notice that we shouldn't be
 	   registering into OAF until we are sure we can complete.  */
@@ -1369,9 +1377,7 @@ e_shell_construct (EShell *shell,
 
 	switch (startup_line_mode) {
 	case E_SHELL_STARTUP_LINE_MODE_CONFIG:
-		start_online = ! e_config_listener_get_boolean_with_default (priv->config_listener,
-									     "/Shell/StartOffline", FALSE,
-									     NULL);
+		start_online = ! get_config_start_offline ();
 		break;
 	case E_SHELL_STARTUP_LINE_MODE_ONLINE:
 		start_online = TRUE;
@@ -1469,28 +1475,6 @@ e_shell_create_view (EShell *shell,
 	view = create_view (shell, uri, template_view);
 
 	gtk_widget_show (GTK_WIDGET (view));
-
-	set_interactive (shell, TRUE);
-
-	return view;
-}
-
-EShellView *
-e_shell_create_view_from_uri_and_settings (EShell *shell,
-					   const char *uri,
-					   int view_num)
-{
-	EShellView *view;
-
-	g_return_val_if_fail (shell != NULL, NULL);
-	g_return_val_if_fail (E_IS_SHELL (shell), NULL);
-
-	view = create_view (shell, uri, NULL);
-	e_shell_view_load_settings (view, view_num);
-
-	gtk_widget_show (GTK_WIDGET (view));
-	while (gtk_events_pending ())
-		gtk_main_iteration ();
 
 	set_interactive (shell, TRUE);
 
@@ -1696,13 +1680,17 @@ save_settings_for_components (EShell *shell)
 static gboolean
 save_misc_settings (EShell *shell)
 {
+	GConfClient *client;
 	EShellPrivate *priv;
 	gboolean is_offline;
 
 	priv = shell->priv;
 
 	is_offline = ( e_shell_get_line_status (shell) == E_SHELL_LINE_STATUS_OFFLINE );
-	e_config_listener_set_boolean (priv->config_listener, "/Shell/StartOffline", is_offline);
+
+	client = gconf_client_get_default ();
+	gconf_client_set_bool (client, "/apps/evolution/shell/start_offline", is_offline, NULL);
+	g_object_unref (client);
 
 	return TRUE;
 }
@@ -1730,45 +1718,6 @@ e_shell_save_settings (EShell *shell)
 	misc_saved       = save_misc_settings (shell);
 
 	return components_saved && misc_saved;
-}
-
-/**
- * e_shell_restore_from_settings:
- * @shell: An EShell object.
- * @restore_all_views: whether to restore all the views
- * 
- * Restore the existing views from the saved configuration.  The shell must
- * have no views for this to work.  If @restore_all_views is TRUE, restore all
- * the views; otherwise, just the first one.
- * 
- * Return value: %FALSE if the shell has some open views or there is no saved
- * configuration.  %TRUE if the configuration could be restored successfully.
- **/
-gboolean
-e_shell_restore_from_settings (EShell *shell,
-			       gboolean restore_all_views)
-{
-	EShellPrivate *priv;
-	int num_views;
-	int i;
-
-	g_return_val_if_fail (shell != NULL, FALSE);
-	g_return_val_if_fail (E_IS_SHELL (shell), FALSE);
-	g_return_val_if_fail (shell->priv->views == NULL, FALSE);
-
-	priv = shell->priv;
-
-	num_views = e_config_listener_get_long_with_default (priv->config_listener,
-							     "/Shell/Views/NumberOfViews", 0, NULL);
-
-	for (i = 0; i < num_views; i++) {
-		e_shell_create_view_from_uri_and_settings (shell, NULL, i);
-
-		if (! restore_all_views)
-			break;
-	}
-
-	return (num_views > 0);
 }
 
 /**
@@ -2087,14 +2036,6 @@ e_shell_show_settings (EShell *shell, const char *type, EShellView *shell_view)
 }
 
 
-EConfigListener *
-e_shell_get_config_listener (EShell *shell)
-{
-	g_return_val_if_fail (E_IS_SHELL (shell), CORBA_OBJECT_NIL);
-
-	return shell->priv->config_listener;
-}
-
 EComponentRegistry *
 e_shell_get_component_registry (EShell *shell)
 {
@@ -2131,22 +2072,6 @@ e_shell_unregister_all (EShell *shell)
 
 	g_object_unref (priv->component_registry);
 	priv->component_registry = NULL;
-}
-
-void
-e_shell_disconnect_db (EShell *shell)
-{
-	EShellPrivate *priv;
-
-	g_return_if_fail (E_IS_SHELL (shell));
-
-	priv = shell->priv;
-
-	if (priv->config_listener == NULL)
-		return;
-
-	g_object_unref (priv->config_listener);
-	priv->config_listener = NULL;
 }
 
 
@@ -2243,10 +2168,11 @@ parse_default_uri (EShell *shell,
 		   char **path_return,
 		   char **extra_return)
 {
+	GConfClient *client;
 	const char *component_start;
 	const char *component;
 	const char *p;
-	char *db_path;
+	char *config_path;
 	char *path;
 	gboolean is_default;
 
@@ -2258,9 +2184,11 @@ parse_default_uri (EShell *shell,
 	else
 		component = g_strndup (component_start, p - component_start);
 
-	db_path = g_strdup_printf ("/DefaultFolders/%s_path", component);
-	path = e_config_listener_get_string_with_default (shell->priv->config_listener,
-							  db_path, NULL, &is_default);
+	client = gconf_client_get_default ();
+
+	config_path = g_strdup_printf ("/apps/evolution/shell/default_folders/%s_path", component);
+	path = gconf_client_get_string (client, config_path, NULL);
+	g_object_unref (client);
 
 	/* We expect an evolution: URI here, if we don't get it then something
 	   is messed up.  */

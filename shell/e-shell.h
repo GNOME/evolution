@@ -23,8 +23,6 @@
 #ifndef _E_SHELL_H_
 #define _E_SHELL_H_
 
-#include "e-util/e-config-listener.h"
-
 #include <bonobo-activation/bonobo-activation.h>
 #include <bonobo/bonobo-xobject.h>
 
@@ -130,13 +128,10 @@ EFolderTypeRegistry *e_shell_get_folder_type_registry  (EShell          *shell);
 EUriSchemaRegistry  *e_shell_get_uri_schema_registry   (EShell          *shell);
 
 gboolean             e_shell_save_settings             (EShell          *shell);
-gboolean             e_shell_restore_from_settings     (EShell          *shell,
-							gboolean         restore_all_views);
 
 void                 e_shell_destroy_all_views         (EShell          *shell);
 
 void                 e_shell_unregister_all            (EShell          *shell);
-void		     e_shell_disconnect_db	       (EShell	        *shell);
 
 void                 e_shell_component_maybe_crashed   (EShell          *shell,
 							const char      *uri,
@@ -157,7 +152,6 @@ void e_shell_show_settings (EShell     *shell,
 			    const char *type,
 			    EShellView *shell_view);
 
-EConfigListener                 *e_shell_get_config_listener               (EShell *shell);
 EComponentRegistry              *e_shell_get_component_registry            (EShell *shell);
 EShellUserCreatableItemsHandler *e_shell_get_user_creatable_items_handler  (EShell *shell);
 
