@@ -464,6 +464,14 @@ config_read (void)
 		config->thread_list = FALSE;
 	g_free (str);
 	
+	/* Show Message Preview */
+	str = g_strdup_printf ("=%s/config/Mail=/Display/preview_pane", 
+			       evolution_dir);
+	config->show_preview = gnome_config_get_bool_with_default (str, &def);
+	if (def)
+		config->show_preview = TRUE;
+	g_free (str);
+	
 	/* Hide deleted automatically */
 	str = g_strdup_printf ("=%s/config/Mail=/Display/hide_deleted", 
 			       evolution_dir);
@@ -667,11 +675,11 @@ mail_config_write (void)
 }
 
 static gboolean
-threaded_save_state (gpointer key, gpointer value, gpointer user_data)
+hash_save_state (gpointer key, gpointer value, gpointer user_data)
 {
-	gboolean threaded = GPOINTER_TO_INT (value);
+	gboolean bool = GPOINTER_TO_INT (value);
 	
-	gnome_config_set_bool ((char *) key, threaded);
+	gnome_config_set_bool ((char *) key, bool);
 	g_free (key);
 	
 	return TRUE;
@@ -688,6 +696,12 @@ mail_config_write_on_exit (void)
 	str = g_strdup_printf ("=%s/config/Mail=/Display/thread_list", 
 			       evolution_dir);
 	gnome_config_set_bool (str, config->thread_list);
+	g_free (str);
+	
+	/* Show Message Preview */
+	str = g_strdup_printf ("=%s/config/Mail=/Display/preview_pane", 
+			       evolution_dir);
+	gnome_config_set_bool (str, config->show_preview);
 	g_free (str);
 	
 	/* Hide deleted automatically */
@@ -777,7 +791,15 @@ mail_config_write_on_exit (void)
 	gnome_config_push_prefix (str);
 	g_free (str);
 	
-	g_hash_table_foreach_remove (config->threaded_hash, threaded_save_state, NULL);
+	g_hash_table_foreach_remove (config->threaded_hash, hash_save_state, NULL);
+	
+	gnome_config_pop_prefix ();
+	
+	str = g_strdup_printf ("=%s/config/Mail=/Preview/", evolution_dir);
+	gnome_config_push_prefix (str);
+	g_free (str);
+	
+	g_hash_table_foreach_remove (config->preview_hash, hash_save_state, NULL);
 	
 	gnome_config_pop_prefix ();
 	
@@ -1354,7 +1376,8 @@ struct _check_msg {
 	gboolean *success;
 };
 
-static void check_service_check(struct _mail_msg *mm)
+static void
+check_service_check (struct _mail_msg *mm)
 {
 	struct _check_msg *m = (struct _check_msg *)mm;
 	CamelService *service = NULL;

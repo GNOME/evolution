@@ -1,3 +1,11 @@
+2001-06-26  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-config.c (config_read): Read in the default show_preview
+	value.
+	(mail_config_write_on_exit): Save the default show_preview value
+	as well as saving the individual settings for each URI that has
+	been changed.
+
 2001-06-25  Joe Shaw  <joe@ximian.com>
 
 	* folder-browser.c (invisible_destroyed): Check to make sure that

@@ -145,44 +145,44 @@ filter_folder_filter(struct _mail_msg *mm)
 	struct _filter_mail_msg *m = (struct _filter_mail_msg *)mm;
 	CamelFolder *folder;
 	GPtrArray *uids, *folder_uids = NULL;
-
+	
 	if (m->cancel)
-		camel_operation_register(m->cancel);
-
+		camel_operation_register (m->cancel);
+	
 	folder = m->source_folder;
-
+	
 	if (folder == NULL || camel_folder_get_message_count (folder) == 0) {
 		if (m->cancel)
-			camel_operation_unregister(m->cancel);
+			camel_operation_unregister (m->cancel);
 		return;
 	}
-
+	
 	if (m->destination) {
-		camel_folder_freeze(m->destination);
-		camel_filter_driver_set_default_folder(m->driver, m->destination);
+		camel_folder_freeze (m->destination);
+		camel_filter_driver_set_default_folder (m->driver, m->destination);
 	}
-
-	camel_folder_freeze(folder);
-
+	
+	camel_folder_freeze (folder);
+	
 	if (m->source_uids)
 		uids = m->source_uids;
 	else
 		folder_uids = uids = camel_folder_get_uids (folder);
-
-	camel_filter_driver_filter_folder(m->driver, folder, uids, m->delete, &mm->ex);
-
+	
+	camel_filter_driver_filter_folder (m->driver, folder, uids, m->delete, &mm->ex);
+	
 	if (folder_uids)
-		camel_folder_free_uids(folder, folder_uids);
-
+		camel_folder_free_uids (folder, folder_uids);
+	
 	/* sync and expunge */
 	camel_folder_sync (folder, TRUE, &mm->ex);
-	camel_folder_thaw(folder);
-
+	camel_folder_thaw (folder);
+	
 	if (m->destination)
-		camel_folder_thaw(m->destination);
-
+		camel_folder_thaw (m->destination);
+	
 	if (m->cancel)
-		camel_operation_unregister(m->cancel);
+		camel_operation_unregister (m->cancel);
 }
 
 static void
@@ -195,20 +195,25 @@ filter_folder_free(struct _mail_msg *mm)
 {
 	struct _filter_mail_msg *m = (struct _filter_mail_msg *)mm;
 	int i;
-
+	
 	if (m->source_folder)
-		camel_object_unref((CamelObject *)m->source_folder);
+		camel_object_unref (CAMEL_OBJECT (m->source_folder));
+	
 	if (m->source_uids) {
-		for (i=0;i<m->source_uids->len;i++)
-			g_free(m->source_uids->pdata[i]);
-		g_ptr_array_free(m->source_uids, TRUE);
+		for (i = 0; i < m->source_uids->len; i++)
+			g_free (m->source_uids->pdata[i]);
+		
+		g_ptr_array_free (m->source_uids, TRUE);
 	}
+	
 	if (m->cancel)
-		camel_operation_unref(m->cancel);
+		camel_operation_unref (m->cancel);
+	
 	if (m->destination)
-		camel_object_unref((CamelObject *)m->destination);
+		camel_object_unref (CAMEL_OBJECT (m->destination));
+	
 	if (m->driver)
-		camel_object_unref((CamelObject *)m->driver);
+		camel_object_unref (CAMEL_OBJECT (m->driver));
 }
 
 static struct _mail_msg_op filter_folder_op = {
@@ -224,31 +229,32 @@ mail_filter_folder(CamelFolder *source_folder, GPtrArray *uids,
 		   CamelOperation *cancel)
 {
 	struct _filter_mail_msg *m;
-
-	m = mail_msg_new(&filter_folder_op, NULL, sizeof(*m));
+	
+	m = mail_msg_new (&filter_folder_op, NULL, sizeof (*m));
 	m->source_folder = source_folder;
-	camel_object_ref((CamelObject *)source_folder);
+	camel_object_ref (CAMEL_OBJECT (source_folder));
 	m->source_uids = uids;
 	m->delete = FALSE;
 	if (cancel) {
 		m->cancel = cancel;
-		camel_operation_ref(cancel);
+		camel_operation_ref (cancel);
 	}
-
-	m->driver = camel_filter_driver_new(filter_get_folder, NULL);
-	setup_filter_driver(m->driver, fc, type);
-
-	e_thread_put(mail_thread_new, (EMsg *)m);
+	
+	m->driver = camel_filter_driver_new (filter_get_folder, NULL);
+	setup_filter_driver (m->driver, fc, type);
+	
+	e_thread_put (mail_thread_new, (EMsg *)m);
 }
 
 /* convenience function for it */
-void mail_filter_on_demand(CamelFolder *folder, GPtrArray *uids)
+void
+mail_filter_on_demand (CamelFolder *folder, GPtrArray *uids)
 {
 	FilterContext *fc;
-
-	fc = mail_load_filter_context();
-	mail_filter_folder(folder, uids, fc, FILTER_SOURCE_INCOMING, NULL);
-	gtk_object_unref((GtkObject *)fc);
+	
+	fc = mail_load_filter_context ();
+	mail_filter_folder (folder, uids, fc, FILTER_SOURCE_INCOMING, NULL);
+	gtk_object_unref (GTK_OBJECT (fc));
 }
 
 /* ********************************************************************** */
