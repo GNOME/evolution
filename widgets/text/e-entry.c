@@ -1,17 +1,39 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+
 /*
- * E-table.c: A graphical view of a Table.
+ * EEntry: An EText-based entry widget
  *
- * Author:
- *   Miguel de Icaza (miguel@helixcode.com)
- *   Chris Lahey (clahey@helixcode.com)
+ * Authors:
+ *   Miguel de Icaza <miguel@helixcode.com>
+ *   Chris Lahey     <clahey@helixcode.com>
+ *   Jon Trowbridge  <trow@ximian.com>
  *
- * Copyright 1999, Helix Code, Inc
+ * Copyright (C) 1999, 2000, 2001 Ximian Inc.
  */
+
+/*
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
+ * published by the Free Software Foundation; either version 2 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307
+ * USA
+ */
+
 #include <config.h>
+#include <math.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <ctype.h>
 #ifdef HAVE_ALLOCA_H
 #include <alloca.h>
 #endif
@@ -22,6 +44,8 @@
 #include "gal/util/e-util.h"
 #include "gal/widgets/e-canvas.h"
 #include "gal/widgets/e-canvas-utils.h"
+#include "e-completion-view.h"
+#include "e-text.h"
 #include "e-entry.h"
 
 #define MIN_ENTRY_WIDTH  150
@@ -68,21 +92,54 @@ enum {
 	ARG_CURSOR_POS
 };
 
+typedef struct _EEntryPrivate EEntryPrivate;
+struct _EEntryPrivate {
+	GnomeCanvas *canvas;
+	EText *item;
+	GtkJustification justification;
+
+	guint changed_proxy_tag;
+	guint activate_proxy_tag;
+
+	/* Data related to completions */
+	ECompletion *completion;
+	EEntryCompletionHandler handler;
+	GtkWidget *completion_view;
+	guint nonempty_signal_id;
+	guint added_signal_id;
+	guint full_signal_id;
+	guint browse_signal_id;
+	guint unbrowse_signal_id;
+	guint activate_signal_id;
+	GtkWidget *completion_view_popup;
+	gboolean popup_is_visible;
+	gchar *pre_browse_text;
+	gint completion_delay;
+	guint completion_delay_tag;
+
+	guint draw_borders : 1;
+};
+
+static gboolean e_entry_is_empty              (EEntry *entry);
+static void e_entry_show_popup                (EEntry *entry, gboolean x);
+static void e_entry_start_completion          (EEntry *entry);
+static void e_entry_start_delayed_completion  (EEntry *entry, gint delay);
+static void e_entry_cancel_delayed_completion (EEntry *entry);
+
 static void
 canvas_size_allocate (GtkWidget *widget, GtkAllocation *alloc,
-		      EEntry *e_entry)
+		      EEntry *entry)
 {
 	gint xthick;
 	gint ythick;
-	gnome_canvas_set_scroll_region (
-		e_entry->canvas,
-		0, 0, alloc->width, alloc->height);
-	gtk_object_set (GTK_OBJECT (e_entry->item),
+	gnome_canvas_set_scroll_region (entry->priv->canvas,
+					0, 0, alloc->width, alloc->height);
+	gtk_object_set (GTK_OBJECT (entry->priv->item),
 			"clip_width", (double) (alloc->width),
 			"clip_height", (double) (alloc->height),
 			NULL);
 
-	if (e_entry->draw_borders) {
+	if (entry->priv->draw_borders) {
 		xthick = 0;
 		ythick = 0;
 	} else {
@@ -90,22 +147,25 @@ canvas_size_allocate (GtkWidget *widget, GtkAllocation *alloc,
 		ythick = widget->style->klass->ythickness;
 	}
 
-	switch (e_entry->justification) {
+	switch (entry->priv->justification) {
 	case GTK_JUSTIFY_RIGHT:
-		e_canvas_item_move_absolute(GNOME_CANVAS_ITEM(e_entry->item), alloc->width - xthick, ythick);
+		e_canvas_item_move_absolute(GNOME_CANVAS_ITEM(entry->priv->item),
+					    alloc->width - xthick, ythick);
 		break;
 	case GTK_JUSTIFY_CENTER:
-		e_canvas_item_move_absolute(GNOME_CANVAS_ITEM(e_entry->item), alloc->width / 2, ythick);
+		e_canvas_item_move_absolute(GNOME_CANVAS_ITEM(entry->priv->item),
+					    alloc->width / 2, ythick);
 		break;
 	default:
-		e_canvas_item_move_absolute(GNOME_CANVAS_ITEM(e_entry->item), xthick, ythick);
+		e_canvas_item_move_absolute(GNOME_CANVAS_ITEM(entry->priv->item),
+					    xthick, ythick);
 		break;
 	}
 }
 
 static void
 canvas_size_request (GtkWidget *widget, GtkRequisition *requisition,
-		     EEntry *ee)
+		     EEntry *entry)
 {
 	int border;
 	
@@ -113,7 +173,7 @@ canvas_size_request (GtkWidget *widget, GtkRequisition *requisition,
 	g_return_if_fail (GNOME_IS_CANVAS (widget));
 	g_return_if_fail (requisition != NULL);
 
-	if (ee->draw_borders)
+	if (entry->priv->draw_borders)
 		border = INNER_BORDER;
 	else
 		border = 0;
@@ -125,65 +185,94 @@ canvas_size_request (GtkWidget *widget, GtkRequisition *requisition,
 }
 
 static gint
-canvas_focus_in_event (GtkWidget *widget, GdkEventFocus *focus, EEntry *e_entry)
+canvas_focus_in_event (GtkWidget *widget, GdkEventFocus *focus, EEntry *entry)
 {
-	if (e_entry->canvas->focused_item != GNOME_CANVAS_ITEM(e_entry->item))
-		gnome_canvas_item_grab_focus(GNOME_CANVAS_ITEM(e_entry->item));
+	if (entry->priv->canvas->focused_item != GNOME_CANVAS_ITEM(entry->priv->item))
+		gnome_canvas_item_grab_focus(GNOME_CANVAS_ITEM(entry->priv->item));
 
 	return 0;
 }
 
 static void
-e_entry_proxy_changed (EText *text, EEntry *ee)
+e_entry_proxy_changed (EText *text, EEntry *entry)
 {
-	gtk_signal_emit (GTK_OBJECT (ee), e_entry_signals [E_ENTRY_CHANGED]);
+	if (e_entry_is_empty (entry)) {
+		e_entry_cancel_delayed_completion (entry);
+		e_entry_show_popup (entry, FALSE);
+	} else if (entry->priv->popup_is_visible)
+		e_entry_start_completion (entry);
+	else if (entry->priv->completion && entry->priv->completion_delay >= 0) 
+		e_entry_start_delayed_completion (entry, entry->priv->completion_delay);
+
+	gtk_signal_emit (GTK_OBJECT (entry), e_entry_signals [E_ENTRY_CHANGED]);
 }
 
 static void
-e_entry_proxy_activate (EText *text, EEntry *ee)
+e_entry_proxy_activate (EText *text, EEntry *entry)
 {
-	gtk_signal_emit (GTK_OBJECT (ee), e_entry_signals [E_ENTRY_ACTIVATE]);
+	gtk_signal_emit (GTK_OBJECT (entry), e_entry_signals [E_ENTRY_ACTIVATE]);
 }
 
 static void
 e_entry_init (GtkObject *object)
 {
-	EEntry *e_entry = E_ENTRY (object);
+	EEntry *entry = E_ENTRY (object);
 	GtkTable *gtk_table = GTK_TABLE (object);
+
+	entry->priv = g_new0 (EEntryPrivate, 1);
 	
-	e_entry->canvas = GNOME_CANVAS(e_canvas_new());
-	gtk_signal_connect(GTK_OBJECT(e_entry->canvas), "size_allocate",
-			   GTK_SIGNAL_FUNC(canvas_size_allocate), e_entry);
-	gtk_signal_connect(GTK_OBJECT(e_entry->canvas), "size_request",
-			   GTK_SIGNAL_FUNC(canvas_size_request), e_entry);
-	gtk_signal_connect(GTK_OBJECT(e_entry->canvas), "focus_in_event",
-			   GTK_SIGNAL_FUNC(canvas_focus_in_event), e_entry);
-	e_entry->draw_borders = TRUE;
-	e_entry->item = E_TEXT(gnome_canvas_item_new(gnome_canvas_root(e_entry->canvas),
-						     e_text_get_type(),
-						     "clip", TRUE,
-						     "fill_clip_rectangle", TRUE,
-						     "anchor", GTK_ANCHOR_NW,
-						     "draw_borders", TRUE,
-						     "draw_background", TRUE,
-						     NULL));
-	e_entry->justification = GTK_JUSTIFY_LEFT;
-	gtk_table_attach(gtk_table, GTK_WIDGET(e_entry->canvas),
-			 0, 1, 0, 1,
-			 GTK_EXPAND | GTK_FILL | GTK_SHRINK,
-			 GTK_EXPAND | GTK_FILL | GTK_SHRINK,
-			 0, 0);
-	gtk_widget_show(GTK_WIDGET(e_entry->canvas));
+	entry->priv->canvas = GNOME_CANVAS (e_canvas_new ());
+
+	gtk_signal_connect (GTK_OBJECT (entry->priv->canvas),
+			    "size_allocate",
+			    GTK_SIGNAL_FUNC (canvas_size_allocate),
+			    entry);
+
+	gtk_signal_connect (GTK_OBJECT (entry->priv->canvas),
+			    "size_request",
+			    GTK_SIGNAL_FUNC (canvas_size_request),
+			    entry);
+
+	gtk_signal_connect(GTK_OBJECT (entry->priv->canvas),
+			   "focus_in_event",
+			   GTK_SIGNAL_FUNC(canvas_focus_in_event),
+			   entry);
+
+	entry->priv->draw_borders = TRUE;
+
+	entry->priv->item = E_TEXT(gnome_canvas_item_new(gnome_canvas_root (entry->priv->canvas),
+							 e_text_get_type(),
+							 "clip", TRUE,
+							 "fill_clip_rectangle", TRUE,
+							 "anchor", GTK_ANCHOR_NW,
+							 "draw_borders", TRUE,
+							 "draw_background", TRUE,
+							 "max_lines", 1,
+							 "editable", TRUE,
+							 NULL));
+
+	entry->priv->justification = GTK_JUSTIFY_LEFT;
+	gtk_table_attach (gtk_table, GTK_WIDGET (entry->priv->canvas),
+			  0, 1, 0, 1,
+			  GTK_EXPAND | GTK_FILL | GTK_SHRINK,
+			  GTK_EXPAND | GTK_FILL | GTK_SHRINK,
+			  0, 0);
+	gtk_widget_show (GTK_WIDGET (entry->priv->canvas));
 
 	/*
 	 * Proxy functions: we proxy the changed and activate signals
 	 * from the item to outselves
 	 */
-	gtk_signal_connect (GTK_OBJECT (e_entry->item), "changed",
-			    GTK_SIGNAL_FUNC (e_entry_proxy_changed), e_entry);
-	gtk_signal_connect (GTK_OBJECT (e_entry->item), "activate",
-			    GTK_SIGNAL_FUNC (e_entry_proxy_activate), e_entry);
+	entry->priv->changed_proxy_tag = gtk_signal_connect (GTK_OBJECT (entry->priv->item),
+							     "changed",
+							     GTK_SIGNAL_FUNC (e_entry_proxy_changed),
+							     entry);
+	entry->priv->activate_proxy_tag = gtk_signal_connect (GTK_OBJECT (entry->priv->item),
+							      "activate",
+							      GTK_SIGNAL_FUNC (e_entry_proxy_activate),
+							      entry);
 
+	entry->priv->completion_delay = -1;
 }
 
 /**
@@ -191,12 +280,11 @@ e_entry_init (GtkObject *object)
  * 
  * Constructs the given EEntry.
  * 
- * Returns: The EEntry
  **/
-EEntry *
-e_entry_construct (EEntry *e_entry)
+void
+e_entry_construct (EEntry *entry)
 {
-	return e_entry;
+	/* Do nothing */
 }
 
 
@@ -210,18 +298,349 @@ e_entry_construct (EEntry *e_entry)
 GtkWidget *
 e_entry_new (void)
 {
-	EEntry *e_entry;
-	e_entry = gtk_type_new (e_entry_get_type ());
-	e_entry = e_entry_construct (e_entry);
+	EEntry *entry;
+	entry = gtk_type_new (e_entry_get_type ());
+	e_entry_construct (entry);
 
-	return GTK_WIDGET (e_entry);
+	return GTK_WIDGET (entry);
 }
+
+const gchar *
+e_entry_get_text (EEntry *entry)
+{
+	g_return_val_if_fail (entry != NULL && E_IS_ENTRY (entry), NULL);
+
+	return e_text_model_get_text (entry->priv->item->model);
+}
+
+void
+e_entry_set_text (EEntry *entry, const gchar *txt)
+{
+	g_return_if_fail (entry != NULL && E_IS_ENTRY (entry));
+
+	e_text_model_set_text (entry->priv->item->model, txt);
+}
+
+static void
+e_entry_set_text_quiet (EEntry *entry, const gchar *txt)
+{
+	g_return_if_fail (entry != NULL && E_IS_ENTRY (entry));
+
+	gtk_signal_handler_block (GTK_OBJECT (entry->priv->item), entry->priv->changed_proxy_tag);
+	e_entry_set_text (entry, txt);
+	gtk_signal_handler_unblock (GTK_OBJECT (entry->priv->item), entry->priv->changed_proxy_tag);
+}
+
+
+void
+e_entry_set_editable (EEntry *entry, gboolean am_i_editable)
+{
+	g_return_if_fail (entry != NULL && E_IS_ENTRY (entry));
+
+	gtk_object_set (GTK_OBJECT (entry->priv->item), "editable", am_i_editable, NULL);
+}
+
+gint
+e_entry_get_position (EEntry *entry)
+{
+	g_return_val_if_fail (entry != NULL && E_IS_ENTRY (entry), -1);
+
+	return entry->priv->item->selection_start;
+}
+
+void
+e_entry_set_position (EEntry *entry, gint pos)
+{
+	g_return_if_fail (entry != NULL && E_IS_ENTRY (entry));
+	if (pos < 0)
+		pos = 0;
+	else if (pos > e_text_model_get_text_length (entry->priv->item->model))
+		pos = e_text_model_get_text_length (entry->priv->item->model);
+
+	entry->priv->item->selection_start = pos;
+}
+
+void
+e_entry_select_region (EEntry *entry, gint pos1, gint pos2)
+{
+	g_return_if_fail (entry != NULL && E_IS_ENTRY (entry));
+
+	e_entry_set_position (entry, MAX (pos1, pos2));
+	entry->priv->item->selection_end = entry->priv->item->selection_start;
+	e_entry_set_position (entry, MIN (pos1, pos2));
+}
+
+/** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** **/
+
+/*** Completion-related code ***/
+
+static gboolean
+e_entry_is_empty (EEntry *entry)
+{
+	const gchar *txt = e_entry_get_text (entry);
+
+	if (txt == NULL)
+		return TRUE;
+
+	while (*txt) {
+		if (!isspace ((gint) *txt))
+			return FALSE;
+		++txt;
+	}
+	
+	return TRUE;
+}
+
+static void
+e_entry_show_popup (EEntry *entry, gboolean visible)
+{
+	GtkWidget *pop = entry->priv->completion_view_popup;
+
+	if (pop == NULL)
+		return;
+
+	if (visible) {
+		GtkAllocation *dim = &(GTK_WIDGET (entry)->allocation);
+		gint x, y;
+
+		/* Figure out where to put our popup. */
+		gdk_window_get_origin (GTK_WIDGET (entry)->window, &x, &y);
+		x += dim->x;
+		y += dim->height + dim->y;
+
+		gtk_widget_set_uposition (pop, x, y);
+		e_completion_view_set_width (E_COMPLETION_VIEW (entry->priv->completion_view), dim->width);
+
+		gtk_widget_show (pop);
+		
+	} else {
+
+		gtk_widget_hide (pop);
+
+	}
+
+	e_completion_view_set_editable (E_COMPLETION_VIEW (entry->priv->completion_view), visible);
+	entry->priv->popup_is_visible = visible;
+}
+
+static void
+e_entry_refresh_popup (EEntry *entry)
+{
+	if (entry->priv->popup_is_visible)
+		e_entry_show_popup (entry, TRUE);
+}
+
+static void
+e_entry_start_completion (EEntry *entry)
+{
+	if (entry->priv->completion == NULL)
+		return;
+
+	e_entry_cancel_delayed_completion (entry);
+
+	if (e_entry_is_empty (entry))
+		return;
+	
+	if (entry->priv->completion)
+		e_completion_begin_search (entry->priv->completion,
+					   e_entry_get_text (entry),
+					   e_entry_get_position (entry),
+					   0); /* No limit.  Probably a bad idea. */
+}
+
+static gboolean
+start_delayed_cb (gpointer user_data)
+{
+	EEntry *entry = E_ENTRY (user_data);
+	entry->priv->completion_delay_tag = 0;
+	e_entry_start_completion (entry);
+	return FALSE;
+}
+
+static void
+e_entry_start_delayed_completion (EEntry *entry, gint delay)
+{
+	if (delay < 0)
+		return;
+
+	e_entry_cancel_delayed_completion (entry);
+
+	if (delay == 0)
+		e_entry_start_completion (entry);
+	else 
+		entry->priv->completion_delay_tag = gtk_timeout_add (delay, start_delayed_cb, entry);
+}
+
+static void
+e_entry_cancel_delayed_completion (EEntry *entry)
+{
+	if (entry->priv->completion == NULL)
+		return;
+
+	e_completion_cancel_search (entry->priv->completion); /* just to be sure... */
+	if (entry->priv->completion_delay_tag) {
+		gtk_timeout_remove (entry->priv->completion_delay_tag);
+		entry->priv->completion_delay_tag = 0;
+	}
+}
+
+static void
+nonempty_cb (ECompletionView *view, gpointer user_data)
+{
+	EEntry *entry = E_ENTRY (user_data);
+
+	e_entry_show_popup (entry, TRUE);
+}
+
+static void
+added_cb (ECompletionView *view, gpointer user_data)
+{
+	EEntry *entry = E_ENTRY (user_data);
+	e_entry_refresh_popup (entry);
+}
+
+static void
+full_cb (ECompletionView *view, gpointer user_data)
+{
+	EEntry *entry = E_ENTRY (user_data);
+
+	e_entry_show_popup (entry, view->choice_count > 0);
+}
+
+static void
+browse_cb (ECompletionView *view, const gchar *txt, gpointer user_data)
+{
+	EEntry *entry = E_ENTRY (user_data);
+
+	if (txt == NULL) {
+		/* Requesting a completion. */
+		e_entry_start_completion (entry);
+		return;
+	}
+
+	if (entry->priv->pre_browse_text == NULL)
+		entry->priv->pre_browse_text = g_strdup (e_entry_get_text (entry));
+
+	/* If there is no other handler in place, echo the selected completion in
+	   the entry. */
+	if (entry->priv->handler == NULL)
+		e_entry_set_text_quiet (entry, txt);
+}
+
+static void
+unbrowse_cb (ECompletionView *view, gpointer user_data)
+{
+	EEntry *entry = E_ENTRY (user_data);
+
+	if (entry->priv->pre_browse_text) {
+
+		if (entry->priv->handler == NULL)
+			e_entry_set_text_quiet (entry, entry->priv->pre_browse_text);
+
+		g_free (entry->priv->pre_browse_text);
+		entry->priv->pre_browse_text = NULL;
+	}
+
+	e_entry_show_popup (entry, FALSE);
+}
+
+static void
+activate_cb (ECompletionView *view, const gchar *txt, gpointer extra_data, gpointer user_data)
+{
+	EEntry *entry = E_ENTRY (user_data);
+
+	e_entry_cancel_delayed_completion (entry);
+	
+	g_free (entry->priv->pre_browse_text);
+	entry->priv->pre_browse_text = NULL;
+	e_entry_show_popup (entry, FALSE);
+
+	if (entry->priv->handler)
+		entry->priv->handler (entry, txt, extra_data);
+	else
+		e_entry_set_text (entry, txt);
+
+	e_entry_cancel_delayed_completion (entry);
+}
+
+void
+e_entry_enable_completion (EEntry *entry, ECompletion *completion)
+{
+	g_return_if_fail (entry != NULL && E_IS_ENTRY (entry));
+	g_return_if_fail (completion != NULL && E_IS_COMPLETION (completion));
+
+	e_entry_enable_completion_full (entry, completion, -1, NULL);
+}
+
+void
+e_entry_enable_completion_full (EEntry *entry, ECompletion *completion, gint delay, EEntryCompletionHandler handler)
+{
+	g_return_if_fail (entry != NULL && E_IS_ENTRY (entry));
+	g_return_if_fail (completion != NULL && E_IS_COMPLETION (completion));
+
+	/* For now, completion can't be changed mid-stream. */
+	g_return_if_fail (entry->priv->completion == NULL);
+
+	entry->priv->completion = completion;
+	gtk_object_ref (GTK_OBJECT (completion));
+	gtk_object_sink (GTK_OBJECT (completion));
+	
+	entry->priv->completion_delay = delay;
+	entry->priv->handler = handler;
+
+	entry->priv->completion_view = e_completion_view_new (completion);
+	/* Make the up and down keys enable and disable completions. */
+	e_completion_view_set_complete_key (E_COMPLETION_VIEW (entry->priv->completion_view), GDK_Down);
+	e_completion_view_set_uncomplete_key (E_COMPLETION_VIEW (entry->priv->completion_view), GDK_Up);
+
+	entry->priv->nonempty_signal_id = gtk_signal_connect (GTK_OBJECT (entry->priv->completion_view),
+							      "nonempty",
+							      GTK_SIGNAL_FUNC (nonempty_cb),
+							      entry);
+
+	entry->priv->added_signal_id = gtk_signal_connect (GTK_OBJECT (entry->priv->completion_view),
+							   "added",
+							   GTK_SIGNAL_FUNC (added_cb),
+							   entry);
+
+	entry->priv->full_signal_id = gtk_signal_connect (GTK_OBJECT (entry->priv->completion_view),
+							  "full",
+							  GTK_SIGNAL_FUNC (full_cb),
+							  entry);
+
+	entry->priv->browse_signal_id = gtk_signal_connect (GTK_OBJECT (entry->priv->completion_view),
+							    "browse",
+							    GTK_SIGNAL_FUNC (browse_cb),
+							    entry);
+
+	entry->priv->unbrowse_signal_id = gtk_signal_connect (GTK_OBJECT (entry->priv->completion_view),
+							      "unbrowse",
+							      GTK_SIGNAL_FUNC (unbrowse_cb),
+							      entry);
+
+	entry->priv->activate_signal_id = gtk_signal_connect (GTK_OBJECT (entry->priv->completion_view),
+							      "activate",
+							      GTK_SIGNAL_FUNC (activate_cb),
+							      entry);
+
+	entry->priv->completion_view_popup = gtk_window_new (GTK_WINDOW_POPUP);
+	gtk_object_ref (GTK_OBJECT (entry->priv->completion_view_popup));
+	gtk_object_sink (GTK_OBJECT (entry->priv->completion_view_popup));
+	gtk_window_set_policy (GTK_WINDOW (entry->priv->completion_view_popup), FALSE, TRUE, FALSE);
+	gtk_container_add (GTK_CONTAINER (entry->priv->completion_view_popup), entry->priv->completion_view);
+	gtk_widget_show (entry->priv->completion_view);
+
+	e_completion_view_connect_keys (E_COMPLETION_VIEW (entry->priv->completion_view), GTK_WIDGET (entry->priv->canvas));
+}
+
+
+/** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** **/
 
 static void
 et_get_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 {
-	EEntry *ee = E_ENTRY (o);
-	GtkObject *item = GTK_OBJECT (ee->item);
+	EEntry *entry = E_ENTRY (o);
+	GtkObject *item = GTK_OBJECT (entry->priv->item);
 	
 	switch (arg_id){
 	case ARG_MODEL:
@@ -314,7 +733,7 @@ et_get_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 		break;
 
 	case ARG_DRAW_BORDERS:
-		GTK_VALUE_BOOL (*arg) = ee->draw_borders;
+		GTK_VALUE_BOOL (*arg) = entry->priv->draw_borders;
 		break;
 
 	case ARG_DRAW_BACKGROUND:
@@ -337,13 +756,13 @@ et_get_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 static void
 et_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 {
-	EEntry *ee = E_ENTRY (o);
-	GtkObject *item = GTK_OBJECT (ee->item);
+	EEntry *entry = E_ENTRY (o);
+	GtkObject *item = GTK_OBJECT (entry->priv->item);
 	GtkAnchorType anchor;
 	double width, height;
 	gint xthick;
 	gint ythick;
-	GtkWidget *widget = GTK_WIDGET(ee->canvas);
+	GtkWidget *widget = GTK_WIDGET(entry->priv->canvas);
 	
 	switch (arg_id){
 	case ARG_MODEL:
@@ -384,13 +803,13 @@ et_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 		break;
 
 	case ARG_JUSTIFICATION:
-		ee->justification = GTK_VALUE_ENUM (*arg);
+		entry->priv->justification = GTK_VALUE_ENUM (*arg);
 		gtk_object_get(item,
 			       "clip_width", &width,
 			       "clip_height", &height,
 			       NULL);
 
-		if (ee->draw_borders) {
+		if (entry->priv->draw_borders) {
 			xthick = 0;
 			ythick = 0;
 		} else {
@@ -398,22 +817,22 @@ et_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 			ythick = widget->style->klass->ythickness;
 		}
 
-		switch (ee->justification) {
+		switch (entry->priv->justification) {
 		case GTK_JUSTIFY_CENTER:
 			anchor = GTK_ANCHOR_N;
-			e_canvas_item_move_absolute(GNOME_CANVAS_ITEM(ee->item), width / 2, ythick);
+			e_canvas_item_move_absolute(GNOME_CANVAS_ITEM(entry->priv->item), width / 2, ythick);
 			break;
 		case GTK_JUSTIFY_RIGHT:
 			anchor = GTK_ANCHOR_NE;
-			e_canvas_item_move_absolute(GNOME_CANVAS_ITEM(ee->item), width - xthick, ythick);
+			e_canvas_item_move_absolute(GNOME_CANVAS_ITEM(entry->priv->item), width - xthick, ythick);
 			break;
 		default:
 			anchor = GTK_ANCHOR_NW;
-			e_canvas_item_move_absolute(GNOME_CANVAS_ITEM(ee->item), xthick, ythick);
+			e_canvas_item_move_absolute(GNOME_CANVAS_ITEM(entry->priv->item), xthick, ythick);
 			break;
 		}
 		gtk_object_set(item,
-			       "justification", ee->justification,
+			       "justification", entry->priv->justification,
 			       "anchor", anchor,
 			       NULL);
 		break;
@@ -487,11 +906,11 @@ et_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 	case ARG_DRAW_BORDERS: {
 		gboolean need_queue;
 		
-		need_queue = (ee->draw_borders ^ GTK_VALUE_BOOL (*arg));
+		need_queue = (entry->priv->draw_borders ^ GTK_VALUE_BOOL (*arg));
 		gtk_object_set (item, "draw_borders", GTK_VALUE_BOOL (*arg), NULL);
-		ee->draw_borders = GTK_VALUE_BOOL (*arg);
+		entry->priv->draw_borders = GTK_VALUE_BOOL (*arg);
 		if (need_queue)
-			gtk_widget_queue_resize (GTK_WIDGET (ee));
+			gtk_widget_queue_resize (GTK_WIDGET (entry));
 		break;
 	}
 
@@ -508,32 +927,50 @@ et_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 }
 
 static void
+e_entry_destroy (GtkObject *object)
+{
+	EEntry *entry = E_ENTRY (object);
+
+	if (entry->priv->completion_delay_tag)
+		gtk_timeout_remove (entry->priv->completion_delay_tag);
+
+	if (entry->priv->completion)
+		gtk_object_unref (GTK_OBJECT (entry->priv->completion));
+	if (entry->priv->completion_view_popup)
+		gtk_widget_destroy (entry->priv->completion_view_popup);
+	g_free (entry->priv->pre_browse_text);
+
+	g_free (entry->priv);
+	entry->priv = NULL;
+}
+
+static void
 e_entry_class_init (GtkObjectClass *object_class)
 {
 	EEntryClass *klass = E_ENTRY_CLASS(object_class);
+
 	parent_class = gtk_type_class (PARENT_TYPE);
 
 	object_class->set_arg = et_set_arg;
 	object_class->get_arg = et_get_arg;
+	object_class->destroy = e_entry_destroy;
 
 	klass->changed = NULL;
 	klass->activate = NULL;
 
-	e_entry_signals[E_ENTRY_CHANGED] =
-		gtk_signal_new ("changed",
-				GTK_RUN_LAST,
-				object_class->type,
-				GTK_SIGNAL_OFFSET (EEntryClass, changed),
-				gtk_marshal_NONE__NONE,
-				GTK_TYPE_NONE, 0);
+	e_entry_signals[E_ENTRY_CHANGED] = gtk_signal_new ("changed",
+							   GTK_RUN_LAST,
+							   object_class->type,
+							   GTK_SIGNAL_OFFSET (EEntryClass, changed),
+							   gtk_marshal_NONE__NONE,
+							   GTK_TYPE_NONE, 0);
 
-	e_entry_signals[E_ENTRY_ACTIVATE] =
-		gtk_signal_new ("activate",
-				GTK_RUN_LAST,
-				object_class->type,
-				GTK_SIGNAL_OFFSET (EEntryClass, activate),
-				gtk_marshal_NONE__NONE,
-				GTK_TYPE_NONE, 0);
+	e_entry_signals[E_ENTRY_ACTIVATE] = gtk_signal_new ("activate",
+							    GTK_RUN_LAST,
+							    object_class->type,
+							    GTK_SIGNAL_OFFSET (EEntryClass, activate),
+							    gtk_marshal_NONE__NONE,
+							    GTK_TYPE_NONE, 0);
 
 
 	gtk_object_class_add_signals (object_class, e_entry_signals, E_ENTRY_LAST_SIGNAL);

@@ -25,8 +25,10 @@ typedef struct _ETextModelURI ETextModelURI;
 typedef struct _ETextModelURIClass ETextModelURIClass;
 
 struct _ETextModelURI {
-  ETextModel item;
-  GList *uris;
+	ETextModel item;
+	GList *uris;
+	
+	guint objectify_idle;
 };
 
 struct _ETextModelURIClass {

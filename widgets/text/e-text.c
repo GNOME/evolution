@@ -46,11 +46,10 @@ static guint e_text_signals[E_TEXT_LAST_SIGNAL] = { 0 };
 
 /* This defines a line of text */
 struct line {
-	char *text;	/* Line's text, it is a pointer into the text->text string */
+	const char *text;	/* Line's text, it is a pointer into the text->text string */
 	int length;	/* Line's length IN BYTES */
 	int width;	/* Line's width in pixels */
 	int ellipsis_length;  /* Length before adding ellipsis */
-	gint first_obj; /* First embedded object number */
 };
 
 /* Object argument IDs */
@@ -128,6 +127,7 @@ static void e_text_get_selection(EText *text, GdkAtom selection, guint32 time);
 static void e_text_supply_selection (EText *text, guint time, GdkAtom selection, guchar *data, gint length);
 
 static void e_text_text_model_changed(ETextModel *model, EText *text);
+static void e_text_text_model_reposition (ETextModel *model, ETextModelReposFn fn, gpointer repos_data, gpointer data);
 
 static void _get_tep(EText *text);
 
@@ -152,9 +152,9 @@ static void e_suck_font_free (ETextSuckFont *suckfont);
 
 static void e_text_free_lines(EText *text);
 
-static gint text_width_with_objects (ETextModel *model, gint first_object,
+static gint text_width_with_objects (ETextModel *model,
 				     EFont *font, EFontStyle style,
-				     gchar *text, gint bytelen);
+				     const gchar *text, gint bytelen);
 
 static void calc_height (EText *text);
 static void calc_line_widths (EText *text);
@@ -321,16 +321,22 @@ e_text_class_init (ETextClass *klass)
 static void
 e_text_init (EText *text)
 {
-	text->model = e_text_model_new();
+	text->model = e_text_model_new ();
 	text->text = e_text_model_get_text (text->model);
 	
-	gtk_object_ref (GTK_OBJECT(text->model));
-	gtk_object_sink (GTK_OBJECT(text->model));
+	gtk_object_ref (GTK_OBJECT (text->model));
+	gtk_object_sink (GTK_OBJECT (text->model));
+
 	text->model_changed_signal_id =
-		gtk_signal_connect(GTK_OBJECT(text->model),
+		gtk_signal_connect (GTK_OBJECT (text->model),
 				   "changed",
-				   GTK_SIGNAL_FUNC(e_text_text_model_changed),
-				   text);
+				    GTK_SIGNAL_FUNC (e_text_text_model_changed),
+				    text);
+	text->model_repos_signal_id =
+		gtk_signal_connect (GTK_OBJECT (text->model),
+				    "reposition",
+				    GTK_SIGNAL_FUNC (e_text_text_model_reposition),
+				    text);
 
 	text->anchor = GTK_ANCHOR_CENTER;
 	text->justification = GTK_JUSTIFY_LEFT;
@@ -404,8 +410,12 @@ e_text_destroy (GtkObject *object)
 	text = E_TEXT (object);
 
 	if (text->model_changed_signal_id)
-		gtk_signal_disconnect(GTK_OBJECT(text->model), 
-				      text->model_changed_signal_id);
+		gtk_signal_disconnect (GTK_OBJECT (text->model), 
+				       text->model_changed_signal_id);
+
+	if (text->model_repos_signal_id)
+		gtk_signal_disconnect (GTK_OBJECT (text->model),
+				       text->model_repos_signal_id);
 
 	if (text->model)
 		gtk_object_unref(GTK_OBJECT(text->model));
@@ -472,6 +482,41 @@ e_text_text_model_changed (ETextModel *model, EText *text)
 	gtk_signal_emit (GTK_OBJECT (text), e_text_signals[E_TEXT_CHANGED]);
 	text->needs_split_into_lines = 1;
 	e_canvas_item_request_reflow (GNOME_CANVAS_ITEM(text));
+}
+
+static void
+e_text_text_model_reposition (ETextModel *model, ETextModelReposFn fn, gpointer repos_data, gpointer user_data)
+{
+	EText *text = E_TEXT (user_data);
+#if 0
+	gint org_start = text->selection_start, org_end = text->selection_end;
+#endif
+	gint model_len = e_text_model_get_text_length (model);
+
+	text->selection_start = fn (text->selection_start, repos_data);
+	text->selection_end   = fn (text->selection_end,   repos_data);
+
+	/* Our repos function should make sure we don't overrun the buffer, but it never
+	   hurts to be paranoid. */
+	text->selection_start = CLAMP (text->selection_start, 0, model_len);
+	text->selection_end   = CLAMP (text->selection_end,   0, model_len);
+
+	if (text->selection_start > text->selection_end) {
+		gint tmp = text->selection_start;
+		text->selection_start = text->selection_end;
+		text->selection_end = tmp;
+	}
+
+#if 0
+	if (org_start != text->selection_start || org_end != text->selection_end) {
+		/*
+		  In general we shouldn't need to do anything to refresh the
+		  canvas to redraw the (moved) selection, since "reposition" events
+		  will only be generated in association with ETextModel-changing
+		  activities.
+		*/
+	}
+#endif
 }
 
 static void
@@ -714,7 +759,7 @@ calc_line_widths (EText *text)
 	struct line *lines;
 	int i;
 	gdouble clip_width;
-	gchar *p;
+	const gchar *p;
 
 	/* Make sure line has been split */
 	if (text->text && text->num_lines == 0)
@@ -737,7 +782,7 @@ calc_line_widths (EText *text)
 	for (i = 0; i < text->num_lines; i++) {
 		if (lines->length != 0) {
 			if (text->font) {
-				lines->width = text_width_with_objects (text->model, lines->first_obj,
+				lines->width = text_width_with_objects (text->model,
 									text->font, E_FONT_PLAIN,
 									lines->text, lines->length);
 				lines->ellipsis_length = 0;
@@ -753,7 +798,7 @@ calc_line_widths (EText *text)
 				if (text->font) {
 					lines->ellipsis_length = 0;
 					for (p = lines->text; p && *p && (p - lines->text) < lines->length; p = unicode_next_utf8 (p)) {
-						gint text_width = text_width_with_objects (text->model, lines->first_obj,
+						gint text_width = text_width_with_objects (text->model,
 											   text->font, E_FONT_PLAIN,
 											   lines->text, p - lines->text);
 						if (clip_width >= text_width + text->ellipsis_width)
@@ -764,7 +809,7 @@ calc_line_widths (EText *text)
 				}
 				else
 					lines->ellipsis_length = 0;
-				lines->width = text_width_with_objects (text->model, lines->first_obj,
+				lines->width = text_width_with_objects (text->model,
 									text->font, E_FONT_PLAIN,
 									lines->text, lines->ellipsis_length) + 
 					text->ellipsis_width;
@@ -791,135 +836,74 @@ e_text_free_lines(EText *text)
 }
 
 static gint
-text_width_with_objects (ETextModel *model, gint object_num,
+text_width_with_objects (ETextModel *model,
 			 EFont *font, EFontStyle style,
-			 gchar *text, gint numbytes)
+			 const gchar *text, gint numbytes)
 {
-	gchar *c;
-	gint width = 0;
-
-	while (*text && numbytes > 0) {
-
-		c = text;
-
-		while (*c && *c != '\1' && numbytes > 0) {
-			++c;
-			--numbytes;
-		}
-
-		width += e_font_utf8_text_width (font, style, text, c-text);
-
-		if (*c == '\1' && numbytes > 0) {
-			const gchar *obj_str;
-			g_assert (object_num < e_text_model_object_count (model));
-			obj_str = e_text_model_get_nth_object (model, object_num);
-			width += e_font_utf8_text_width (font, E_FONT_BOLD, obj_str, strlen (obj_str));
-			++object_num;
-			++c;
-			--numbytes;
-		}
-
-		text = c;
-	}
-
-	return width;
-}
-
-static gint
-unicode_strlen_with_objects(ETextModel *model, gint object_num, gchar *s)
-{
-	gint unival;
-	gint len=0;
-	gchar *p;
-
-	for (p = unicode_get_utf8 (s, &unival); (unival && p); p = unicode_get_utf8 (p, &unival)) {
-		if (unival == '\1') {
-			const gchar *obj_str = e_text_model_get_nth_object (model, object_num);
-			len += unicode_strlen (obj_str, -1);
-			++object_num;
-		} else {
-			++len;
-		}
-	}
-
-	return len;
+	return e_font_utf8_text_width (font, style, text, numbytes);
 }
 
 static void
-text_draw_with_objects (ETextModel *model, gint object_num,
+text_draw_with_objects (ETextModel *model, 
 			GdkDrawable *drawable,
 			EFont *font, EFontStyle style,
 			GdkGC *gc,
 			gint x, gint y,
-			gchar *text, gint numbytes)
+			const gchar *text, gint numbytes)
 {
-	gchar *c;
+	const gchar *c;
 	
 	while (*text && numbytes > 0) {
+		gint obj_num = -1;
 		
 		c = text;
 
-		while (*c && *c != '\1' && numbytes > 0) {
+		while (*c
+		       && (obj_num = e_text_model_get_object_at_pointer (model, c)) == -1
+		       && numbytes > 0) {
 			++c;
 			--numbytes;
 		}
 
 		e_font_draw_utf8_text (drawable, font, style, gc, x, y, text, c-text);
 		x += e_font_utf8_text_width (font, style, text, c-text);
-
-		if (*c == '\1' && numbytes > 0) {
-			const gchar *obj_str;
-			gint start_x = x;
+		
+		if (obj_num != -1 && numbytes > 0) {
 			gint len;
-			g_assert (object_num < e_text_model_object_count (model));
+			gint start_x = x;
 
-			obj_str = e_text_model_get_nth_object (model, object_num);
+			e_text_model_get_nth_object (model, obj_num, &len);
 
-			len = strlen (obj_str);
-			e_font_draw_utf8_text (drawable, font, style, gc, x, y, obj_str, len);
-			x += e_font_utf8_text_width (font, style, obj_str, len);
+			if (len > numbytes)
+				len = numbytes;
+			e_font_draw_utf8_text (drawable, font, style, gc, x, y, c, len);
+			x += e_font_utf8_text_width (font, style, c, len);
 
 			/* We underline our objects. */
 			gdk_draw_line (drawable, gc, start_x, y+1, x, y+1);
 
-			++object_num;
-			++c;
-			--numbytes;
+			c += len;
+			numbytes -= len;
 		}
 		
 		text = c;
 	}
 }
 
-static gint
-object_number_advance (gint object_num, gchar *start, gint numbytes) 
-{
-	while (*start && numbytes > 0) {
-		if (*start == '\1')
-			++object_num;
-		++start;
-		--numbytes;
-	}
-	
-	return object_num;
-}
-
-
 #define IS_BREAKCHAR(text,c) ((text)->break_characters && unicode_strchr ((text)->break_characters, (c)))
 /* Splits the text of the text item into lines */
 static void
 split_into_lines (EText *text)
 {
-	char *p, *cp;
+	const char *p, *cp;
 	struct line *lines;
 	int len;
 	int line_num;
-	char *laststart;
-	char *lastend;
-	char *linestart;
+	const char *laststart;
+	const char *lastend;
+	const char *linestart;
 	double clip_width;
 	unicode_char_t unival;
-	int object_num;
 
 	/* Free old array of lines */
 	e_text_free_lines(text);
@@ -941,18 +925,17 @@ split_into_lines (EText *text)
 	}
 
 	cp = text->text;
-	object_num = 0;
 
 	for (p = unicode_get_utf8 (cp, &unival); (unival && p); cp = p, p = unicode_get_utf8 (p, &unival)) {
-		if (text->line_wrap && (unicode_isspace (unival) || unival == '\n')) {
+		if (text->line_wrap
+		    && (unicode_isspace (unival) || unival == '\n')
+		    && e_text_model_get_object_at_pointer (text->model, cp) == -1) { /* don't break mid-object */
 			if (laststart != lastend
-			    && clip_width < text_width_with_objects (text->model, object_num,
+			    && clip_width < text_width_with_objects (text->model,
 								     text->font, E_FONT_PLAIN,
 								     linestart, cp - linestart)) {
 				text->num_lines ++;
-
-				object_num = object_number_advance (object_num, linestart, lastend-linestart);
-
+				
 				linestart = laststart;
 				laststart = p;
 				lastend = cp;
@@ -960,17 +943,16 @@ split_into_lines (EText *text)
 				laststart = p;
 				lastend = cp;
 			}
-		} else if (text->line_wrap && (IS_BREAKCHAR(text, unival) || unival == '\1')) {
-
-			if ((unival == '\1' || laststart != lastend)
-			    && (unival == '\1' || unicode_index_to_offset (linestart, cp - linestart) != 1)
-			    && clip_width < text_width_with_objects (text->model, object_num,
+		} else if (text->line_wrap
+			   && IS_BREAKCHAR (text, unival)) {
+			
+			if (laststart != lastend
+			    && unicode_index_to_offset (linestart, cp - linestart) != 1
+			    && clip_width < text_width_with_objects (text->model,
 								     text->font, E_FONT_PLAIN,
 								     linestart, p - linestart)) {
 				text->num_lines ++;
-
-				object_num = object_number_advance (object_num, linestart, lastend-linestart);
-
+				
 				linestart = laststart;
 				laststart = p;
 				lastend = p;
@@ -979,10 +961,9 @@ split_into_lines (EText *text)
 				lastend = p;
 			}
 		}
+
 		if (unival == '\n') {
 			text->num_lines ++;
-
-			object_num = object_number_advance (object_num, linestart, lastend-linestart);
 
 			lastend = p;
 			laststart = p;
@@ -993,11 +974,10 @@ split_into_lines (EText *text)
 	if ( text->line_wrap
 	     && p
 	     && laststart != lastend
-	     && clip_width < text_width_with_objects (text->model, object_num,
+	     && clip_width < text_width_with_objects (text->model,
 						      text->font, E_FONT_PLAIN, 
 						      linestart, cp - linestart)) {
 		text->num_lines ++;
-		object_num = object_number_advance (object_num, linestart, lastend-linestart);
 	}
 
 	text->num_lines++;
@@ -1015,22 +995,21 @@ split_into_lines (EText *text)
 	laststart = text->text;
 
 	cp = text->text;
-	object_num = 0;
 
 	for (p = unicode_get_utf8 (cp, &unival); p && unival && line_num < text->num_lines; cp = p, p = unicode_get_utf8 (p, &unival)) {
 		gboolean handled = FALSE;
 
 		if (len == 0)
 			lines->text = cp;
-		if (text->line_wrap && (unicode_isspace (unival) || unival == '\n')) {
-			if (clip_width < text_width_with_objects (text->model, object_num,
+		if (text->line_wrap
+		    && (unicode_isspace (unival) || unival == '\n')
+		    && e_text_model_get_object_at_pointer (text->model, cp) == -1) { /* don't break mid-object */
+			if (clip_width < text_width_with_objects (text->model,
 								  text->font, E_FONT_PLAIN,
 								  lines->text, cp - lines->text)
 			    && laststart != lastend) {
 
 				lines->length = lastend - lines->text;
-				lines->first_obj = object_num;
-				object_num = object_number_advance (object_num, lines->text, lines->length);
 
 				lines++;
 				line_num++;
@@ -1044,16 +1023,16 @@ split_into_lines (EText *text)
 				len ++;
 			}
 			handled = TRUE;
-		} else if (text->line_wrap && (IS_BREAKCHAR(text, unival) || unival == '\1')) {
-			if ((unival == '\1' || laststart != lastend)
-			    && (unival == '\1' || unicode_index_to_offset (lines->text, cp - lines->text) != 1)
-			    && clip_width < text_width_with_objects (text->model, object_num,
+		} else if (text->line_wrap
+			   && IS_BREAKCHAR(text, unival) 
+			   && e_text_model_get_object_at_pointer (text->model, cp) == -1) {
+			if (laststart != lastend
+			    && unicode_index_to_offset (lines->text, cp - lines->text) != 1
+			    && clip_width < text_width_with_objects (text->model,
 								     text->font, E_FONT_PLAIN,
 								     lines->text, p - lines->text)) {
 
 				lines->length = lastend - lines->text;
-				lines->first_obj = object_num;
-				object_num = object_number_advance (object_num, lines->text, lines->length);
 
 				lines++;
 				line_num++;
@@ -1072,8 +1051,6 @@ split_into_lines (EText *text)
 		if (unival == '\n') {
 
 			lines->length = cp - lines->text;
-			lines->first_obj = object_num;
-			object_num = object_number_advance (object_num, lines->text, lines->length);
 			
 			lines++;
 			line_num++;
@@ -1087,14 +1064,12 @@ split_into_lines (EText *text)
 	}
 
 	if ( line_num < text->num_lines && text->line_wrap ) {
-		if (clip_width < text_width_with_objects (text->model, object_num,
+		if (clip_width < text_width_with_objects (text->model,
 							  text->font, E_FONT_PLAIN,
 							  lines->text, cp - lines->text)
 		    && laststart != lastend ) {
 
 			lines->length = lastend - lines->text;
-			lines->first_obj = object_num;
-			object_num = object_number_advance (object_num, lines->text, lines->length);
 
 			lines++;
 			line_num++;
@@ -1108,7 +1083,6 @@ split_into_lines (EText *text)
 	if (len == 0)
 		lines->text = cp;
 	lines->length = strlen (lines->text);
-	lines->first_obj = object_num;
 }
 
 /* Convenience function to set the text's GC's foreground color */
@@ -1163,18 +1137,30 @@ e_text_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 
 	switch (arg_id) {
 	case ARG_MODEL:
+
 		if ( text->model_changed_signal_id )
-			gtk_signal_disconnect(GTK_OBJECT(text->model),
-					      text->model_changed_signal_id);
-		gtk_object_unref(GTK_OBJECT(text->model));
-		text->model = E_TEXT_MODEL(GTK_VALUE_OBJECT (*arg));
-		gtk_object_ref(GTK_OBJECT(text->model));
+			gtk_signal_disconnect (GTK_OBJECT (text->model),
+					       text->model_changed_signal_id);
+
+		if ( text->model_repos_signal_id )
+			gtk_signal_disconnect (GTK_OBJECT (text->model),
+					       text->model_repos_signal_id);
+
+		gtk_object_unref (GTK_OBJECT (text->model));
+		text->model = E_TEXT_MODEL (GTK_VALUE_OBJECT (*arg));
+		gtk_object_ref (GTK_OBJECT (text->model));
 
 		text->model_changed_signal_id =
-			gtk_signal_connect(GTK_OBJECT(text->model),
-					   "changed",
-					   GTK_SIGNAL_FUNC(e_text_text_model_changed),
-					   text);
+			gtk_signal_connect (GTK_OBJECT (text->model),
+					    "changed",
+					    GTK_SIGNAL_FUNC (e_text_text_model_changed),
+					    text);
+
+		text->model_repos_signal_id =
+			gtk_signal_connect (GTK_OBJECT (text->model),
+					    "reposition",
+					    GTK_SIGNAL_FUNC (e_text_text_model_reposition),
+					    text);
 
 		e_text_free_lines(text);
 
@@ -1672,7 +1658,7 @@ e_text_reflow (GnomeCanvasItem *item, int flags)
 		}
 		lines --;
 		i--;
-		x = text_width_with_objects (text->model, lines->first_obj,
+		x = text_width_with_objects (text->model,
 					     text->font, E_FONT_PLAIN,
 					     lines->text,
 					     text->selection_end - (lines->text - text->text));
@@ -2050,12 +2036,12 @@ e_text_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 			if ( sel_end > end_char )
 				sel_end = end_char;
 			if ( sel_start < sel_end ) {
-				sel_rect.x = xpos - x + text_width_with_objects (text->model, lines->first_obj,
+				sel_rect.x = xpos - x + text_width_with_objects (text->model,
 										 text->font, E_FONT_PLAIN,
 										 lines->text,
 										 sel_start - start_char);
 				sel_rect.y = ypos - y - e_font_ascent (text->font);
-				sel_rect.width = text_width_with_objects (text->model, lines->first_obj,
+				sel_rect.width = text_width_with_objects (text->model,
 									  text->font, E_FONT_PLAIN,
 									  lines->text + sel_start - start_char,
 									  sel_end - sel_start);
@@ -2073,7 +2059,7 @@ e_text_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 						   sel_rect.y,
 						   sel_rect.width,
 						   sel_rect.height);
-				text_draw_with_objects (text->model, lines->first_obj,
+				text_draw_with_objects (text->model,
 							drawable,
 							text->font, E_FONT_PLAIN,
 							text->gc,
@@ -2081,22 +2067,22 @@ e_text_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 							ypos - y,
 							lines->text,
 							sel_start - start_char);
-				text_draw_with_objects (text->model, lines->first_obj,
+				text_draw_with_objects (text->model,
 							drawable,
 							text->font, E_FONT_PLAIN,
 							fg_gc,
-							xpos - x + text_width_with_objects (text->model, lines->first_obj,
+							xpos - x + text_width_with_objects (text->model,
 											    text->font, E_FONT_PLAIN,
 											    lines->text,
 											    sel_start - start_char),
 							ypos - y,
 							lines->text + sel_start - start_char,
 							sel_end - sel_start);
-				text_draw_with_objects (text->model, lines->first_obj,
+				text_draw_with_objects (text->model,
 							drawable,
 							text->font, E_FONT_PLAIN,
 							text->gc,
-							xpos - x + text_width_with_objects (text->model, lines->first_obj,
+							xpos - x + text_width_with_objects (text->model,
 											    text->font, E_FONT_PLAIN,
 											    lines->text,
 											    sel_end - start_char),
@@ -2104,7 +2090,7 @@ e_text_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 							lines->text + sel_end - start_char,
 							end_char - sel_end);
 			} else {
-				text_draw_with_objects (text->model, lines->first_obj,
+				text_draw_with_objects (text->model,
 							drawable,
 							text->font, E_FONT_PLAIN,
 							text->gc,
@@ -2120,7 +2106,7 @@ e_text_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 				gdk_draw_rectangle (drawable,
 						    text->gc,
 						    TRUE,
-						    xpos - x + text_width_with_objects (text->model, lines->first_obj,
+						    xpos - x + text_width_with_objects (text->model,
 											text->font, E_FONT_PLAIN,
 											lines->text,
 											sel_start - start_char),
@@ -2130,7 +2116,7 @@ e_text_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 			}
 		} else {
 			if (text->clip && text->use_ellipsis && lines->ellipsis_length < lines->length) {
-				text_draw_with_objects (text->model, lines->first_obj,
+				text_draw_with_objects (text->model,
 							drawable,
 							text->font, E_FONT_PLAIN,
 							text->gc,
@@ -2146,7 +2132,7 @@ e_text_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 						       text->ellipsis ? text->ellipsis : "...",
 						       text->ellipsis ? strlen (text->ellipsis) : 3);
 			} else
-				text_draw_with_objects (text->model, lines->first_obj,
+				text_draw_with_objects (text->model,
 							drawable,
 							text->font, E_FONT_PLAIN,
 							text->gc,
@@ -2450,7 +2436,7 @@ _get_xy_from_position (EText *text, gint position, gint *xp, gint *yp)
 		lines --;
 		y -= e_font_descent (text->font);
 		
-		x += text_width_with_objects (text->model, lines->first_obj,
+		x += text_width_with_objects (text->model,
 					      text->font, E_FONT_PLAIN,
 					      lines->text,
 					      position - (lines->text - text->text));
@@ -2474,9 +2460,8 @@ _get_position_from_xy (EText *text, gint x, gint y)
 	int ypos = text->yofs;
 	int xpos;
 	double xd, yd;
-	char *p;
+	const char *p;
 	unicode_char_t unival;
-	gint object_num;
 	gint font_ht, adjust=0;
 	struct line *lines;
 
@@ -2526,13 +2511,13 @@ _get_position_from_xy (EText *text, gint x, gint y)
 	x += text->xofs_edit;
 	xpos = get_line_xpos_item_relative (text, lines);
 
-	object_num = lines->first_obj;
 	for (i = 0, p = lines->text; p && i < lines->length; i++, p = unicode_get_utf8 (p, &unival)) {
 		int charwidth;
 		int step1, step2;
 
+#if 0
 		if (unival == '\1') {
-			const gchar *obj_str = e_text_model_get_nth_object (text->model, object_num);
+			const gchar *obj_str = NULL; /*e_text_model_get_nth_object (text->model, object_num);*/
 			charwidth = e_font_utf8_text_width (text->font, E_FONT_PLAIN, obj_str, strlen (obj_str));
 			++object_num;
 
@@ -2541,12 +2526,15 @@ _get_position_from_xy (EText *text, gint x, gint y)
 			adjust = -1;
 
 		} else {
-			charwidth = e_font_utf8_char_width (text->font, E_FONT_PLAIN, p);
+#endif
+			charwidth = e_font_utf8_char_width (text->font, E_FONT_PLAIN, (gchar *) p);
 			
 			step1 = charwidth / 2;
 			step2 = (charwidth + 1) / 2;
 			adjust = 0;
+#if 0
 		}
+#endif
 
 		xpos += step1;
 		if (xpos > x) {
@@ -2734,8 +2722,7 @@ _do_tooltip (gpointer data)
 	for (lines = text->lines, i = 0; i < text->num_lines; lines++, i++) {
 		gdouble line_width;
 
-		line_width = text_width_with_objects (text->model, lines->first_obj,
-						      text->font, E_FONT_PLAIN, lines->text, lines->length);
+		line_width = text_width_with_objects (text->model, text->font, E_FONT_PLAIN, lines->text, lines->length);
 		max_width = MAX (max_width, line_width);
 	}
 
@@ -2944,6 +2931,8 @@ e_text_event (GnomeCanvasItem *item, GdkEvent *event)
 			e_tep_event.key.state = key.state;
 			e_tep_event.key.keyval = key.keyval;
 
+			// g_print ("etext got keyval \"%s\"\n", gdk_keyval_name (key.keyval));
+
 			/* This is probably ugly hack, but we have to handle UTF-8 input somehow */
 #if 0
 			e_tep_event.key.length = key.length;
@@ -3114,139 +3103,178 @@ e_text_event (GnomeCanvasItem *item, GdkEvent *event)
 static int
 _get_position(EText *text, ETextEventProcessorCommand *command)
 {
-	int length;
+	int length, obj_num;
 	int x, y;
 	unicode_char_t unival;
-	char *p;
+	char *p = NULL;
+	gint new_pos = 0;
 	
 	switch (command->position) {
 		
 	case E_TEP_VALUE:
-		return command->value;
+		new_pos = command->value;
+		break;
 
 	case E_TEP_SELECTION:
-		return text->selection_end;
+		new_pos = text->selection_end;
+		break;
 
 	case E_TEP_START_OF_BUFFER:
-		return 0;
+		new_pos = 0;
+		break;
+
 	case E_TEP_END_OF_BUFFER:
-		return unicode_strlen_with_objects (text->model, 0, text->text);
+		new_pos = unicode_strlen (text->text, -1);
+		break;
 
 	case E_TEP_START_OF_LINE:
 
-		if (text->selection_end < 1) return 0;
-		p = unicode_previous_utf8 (text->text, text->text + text->selection_end);
-		if (p == text->text) return 0;
-		p = unicode_previous_utf8 (text->text, p);
+		new_pos = 0;
+		
+		if (text->selection_end >= 1) {
+			
+			p = unicode_previous_utf8 (text->text, text->text + text->selection_end);
+			if (p != text->text) {
+				p = unicode_previous_utf8 (text->text, p);
 
-		while (p && p > text->text) {
-			if (*p == '\n') return p - text->text + 1;
-			p = unicode_previous_utf8 (text->text, p);
+				while (p && p > text->text && !new_pos) {
+					if (*p == '\n')
+						new_pos = p - text->text + 1;
+					p = unicode_previous_utf8 (text->text, p);
+				}
+			}
 		}
 
-		return 0;
+		break;
 
 	case E_TEP_END_OF_LINE:
+		new_pos = -1;
 		length = strlen (text->text);
-		if (text->selection_end >= length) return length;
+		
+		if (text->selection_end >= length) {
+			new_pos = length;
+		} else {
 
-		p = unicode_next_utf8 (text->text + text->selection_end);
+			p = unicode_next_utf8 (text->text + text->selection_end);
 
-		while (*p) {
-			if (*p == '\n') return p - text->text;
-			p = unicode_next_utf8 (p);
+			while (p && *p) {
+				if (*p == '\n') {
+					new_pos = p - text->text;
+					p = NULL;
+				} else 
+					p = unicode_next_utf8 (p);
+			}
 		}
 
-		return p - text->text;
+		if (new_pos == -1)
+			new_pos = p - text->text;
+
+		break;
 
 	case E_TEP_FORWARD_CHARACTER:
 		length = strlen (text->text);
-		if (text->selection_end >= length) return length;
 
-		p = unicode_next_utf8 (text->text + text->selection_end);
+		if (text->selection_end >= length) {
+			new_pos = length;
+		} else {
+			p = unicode_next_utf8 (text->text + text->selection_end);
+			new_pos = p - text->text;
+		}
 
-		return p - text->text;
+		break;
 
 	case E_TEP_BACKWARD_CHARACTER:
-		if (text->selection_end < 1) return 0;
-		p = unicode_previous_utf8 (text->text, text->text + text->selection_end);
+		new_pos = 0;
+		if (text->selection_end >= 1) {
+			p = unicode_previous_utf8 (text->text, text->text + text->selection_end);
 
-		if (p == NULL) return 0;
+			if (p != NULL)
+				new_pos = p - text->text;
+		}
 
-		return p - text->text;
+		break;
 
 	case E_TEP_FORWARD_WORD:
+		new_pos = -1;
 		length = strlen (text->text);
-		if (text->selection_end >= length) return length;
 
-		p = unicode_next_utf8 (text->text + text->selection_end);
+		if (text->selection_end >= length) {
+			new_pos = length;
+		} else {
 
-		while (*p) {
-			unicode_get_utf8 (p, &unival);
-			if (unicode_isspace (unival)) return p - text->text;
-			p = unicode_next_utf8 (p);
+			p = unicode_next_utf8 (text->text + text->selection_end);
+
+			while (p && *p) {
+				unicode_get_utf8 (p, &unival);
+				if (unicode_isspace (unival)) {
+					new_pos = p - text->text;
+					p = NULL;
+				} else 
+					p = unicode_next_utf8 (p);
+			}
 		}
+			
+		if (new_pos == -1)
+			new_pos = p - text->text;
 
-		return p - text->text;
+		break;
 
 	case E_TEP_BACKWARD_WORD:
+		new_pos = 0;
+		if (text->selection_end >= 1) {
+			p = unicode_previous_utf8 (text->text, text->text + text->selection_end);
+			if (p != text->text) {
+				p = unicode_previous_utf8 (text->text, p);
 
-		if (text->selection_end < 1) return 0;
-		p = unicode_previous_utf8 (text->text, text->text + text->selection_end);
-		if (p == text->text) return 0;
-		p = unicode_previous_utf8 (text->text, p);
-
-		while (p && p > text->text) {
-			unicode_get_utf8 (p, &unival);
-			if (unicode_isspace (unival)) return (unicode_next_utf8 (p) - text->text);
-			p = unicode_previous_utf8 (text->text, p);
+				while (p && p > text->text) {
+					unicode_get_utf8 (p, &unival);
+					if (unicode_isspace (unival)) {
+						new_pos = unicode_next_utf8 (p) - text->text; 
+						p = NULL;
+					} else
+						p = unicode_previous_utf8 (text->text, p);
+				}
+			}
 		}
-
-		return 0;
+					
+		break;
 
 	case E_TEP_FORWARD_LINE:
 		_get_xy_from_position(text, text->selection_end, &x, &y);
 		y += e_font_height (text->font);
-		return _get_position_from_xy(text, x, y);
+		new_pos = _get_position_from_xy(text, x, y);
+		break;
+
 	case E_TEP_BACKWARD_LINE:
 		_get_xy_from_position(text, text->selection_end, &x, &y);
 		y -= e_font_height (text->font);
-		return _get_position_from_xy(text, x, y);
+		new_pos = _get_position_from_xy(text, x, y);
+		break;
 
 	case E_TEP_SELECT_WORD:
 
-		{
-			/* This is a silly hack to cause double-clicking on an object
-			   to activate that object.
-			   (Normally, double click == select word, which is why this is here.) */
-			
-			gchar c = text->text[text->selection_start];
-			gint i;
-			gint obj_num=0;
-			
-			if (c == '\0'
-			    && text->selection_start > 0
-			    && text->text[text->selection_start-1] == '\1') {
-				c = '\1';
-				--text->selection_start;
-			}
-
-			if (c == '\1') {
-
-				for (i=0; i<text->selection_start; ++i)
-					if (text->text[i] == '\1')
-						++obj_num;
-
-				e_text_model_activate_nth_object (text->model, obj_num);
-				
-				return text->selection_start;
-			}
+		/* This is a silly hack to cause double-clicking on an object
+		   to activate that object.
+		   (Normally, double click == select word, which is why this is here.) */
+		
+		obj_num = e_text_model_get_object_at_offset (text->model, text->selection_start);
+		if (obj_num != -1) {
+			e_text_model_activate_nth_object (text->model, obj_num);
+			new_pos = text->selection_start;
+			break;
 		}
 
 
-		if (text->selection_end < 1) return 0;
+		if (text->selection_end < 1) {
+			new_pos = 0;
+			break;
+		}
+
 		p = unicode_previous_utf8 (text->text, text->text + text->selection_end);
-		if (p == text->text) return 0;
+		if (p == text->text) {
+			new_pos = 0;
+			break;
+		}
 		p = unicode_previous_utf8 (text->text, p);
 
 		while (p && p > text->text) {
@@ -3263,34 +3291,51 @@ _get_position(EText *text, ETextEventProcessorCommand *command)
 		else
 			text->selection_start = p - text->text;
 
-		length = strlen (text->text);
-		if (text->selection_end >= length) return length;
 
+		text->selection_start = e_text_model_validate_position (text->model, text->selection_start);
+		
+		length = strlen (text->text);
+		if (text->selection_end >= length) {
+			new_pos = length;
+			break;
+		}
 
 		p = unicode_next_utf8 (text->text + text->selection_end);
 
-		while (*p) {
+		while (p && *p) {
 			unicode_get_utf8 (p, &unival);
-			if (unicode_isspace (unival)) return p - text->text;
-			p = unicode_next_utf8 (p);
+			if (unicode_isspace (unival)) {
+				new_pos =  p - text->text;
+				p = NULL;
+			} else
+				p = unicode_next_utf8 (p);
 		}
 
-		return p - text->text;
+		if (p)
+			new_pos = p - text->text;
+
+		return new_pos;
 
 	case E_TEP_SELECT_ALL:
 		text->selection_start = 0;
-		length = strlen (text->text);
-		return length;
+		new_pos = strlen (text->text);
+		break;
 
 	case E_TEP_FORWARD_PARAGRAPH:
 	case E_TEP_BACKWARD_PARAGRAPH:
 		
 	case E_TEP_FORWARD_PAGE:
 	case E_TEP_BACKWARD_PAGE:
-		return text->selection_end;
+		new_pos = text->selection_end;
+		break;
+
 	default:
-		return text->selection_end;
-		}
+		new_pos = text->selection_end;
+	}
+
+	new_pos = e_text_model_validate_position (text->model, new_pos);
+
+	return new_pos;
 }
 
 static void
@@ -3298,10 +3343,14 @@ _delete_selection(EText *text)
 {
 	if ( text->selection_start < text->selection_end ) {
 		e_text_model_delete(text->model, text->selection_start, text->selection_end - text->selection_start);
+#if 0
 		text->selection_end = text->selection_start;
+#endif
 	} else {
 		e_text_model_delete(text->model, text->selection_end, text->selection_start - text->selection_end);
+#if 0
 		text->selection_start = text->selection_end;
+#endif
 	}
 }
 
@@ -3311,8 +3360,10 @@ _insert(EText *text, char *string, int value)
 	if (value > 0) {
 		e_text_model_insert_length(text->model, text->selection_start, string, value);
 		
+#if 0
 		text->selection_start += value;
 		text->selection_end = text->selection_start;
+#endif
 	}
 }
 
@@ -3321,6 +3372,7 @@ e_text_command(ETextEventProcessor *tep, ETextEventProcessorCommand *command, gp
 {
 	EText *text = E_TEXT(data);
 	int sel_start, sel_end;
+
 	switch (command->action) {
 	case E_TEP_MOVE:
 		text->selection_start = _get_position(text, command);
@@ -3330,15 +3382,21 @@ e_text_command(ETextEventProcessor *tep, ETextEventProcessorCommand *command, gp
 		}
 		break;
 	case E_TEP_SELECT:
+		text->selection_start = e_text_model_validate_position (text->model, text->selection_start); /* paranoia */
 		text->selection_end = _get_position(text, command);
+		
 		sel_start = MIN(text->selection_start, text->selection_end);
-		sel_end = MAX(text->selection_start, text->selection_end);
+		sel_end   = MAX(text->selection_start, text->selection_end);
+
+		sel_start = e_text_model_validate_position (text->model, sel_start);
+		
 		if (sel_start != sel_end) {
 			e_text_supply_selection (text, command->time, GDK_SELECTION_PRIMARY,
-						 text->text + sel_start, sel_end - sel_start);
+						 (guchar *) text->text + sel_start, sel_end - sel_start);
 		} else if (text->timer) {
 			g_timer_reset(text->timer);
 		}
+
 		break;
 	case E_TEP_DELETE:
 		if (text->selection_end == text->selection_start) {
@@ -3364,7 +3422,7 @@ e_text_command(ETextEventProcessor *tep, ETextEventProcessorCommand *command, gp
 		sel_end = MAX(text->selection_start, text->selection_end);
 		if (sel_start != sel_end) {
 			e_text_supply_selection (text, command->time, clipboard_atom,
-						 text->text + sel_start, sel_end - sel_start);
+						 (guchar *) text->text + sel_start, sel_end - sel_start);
 		}
 		if (text->timer) {
 			g_timer_reset(text->timer);
@@ -3416,7 +3474,7 @@ e_text_command(ETextEventProcessor *tep, ETextEventProcessorCommand *command, gp
 		}
 		lines --;
 		i --;
-		x = text_width_with_objects (text->model, lines->first_obj,
+		x = text_width_with_objects (text->model,
 					     text->font, E_FONT_PLAIN,
 					     lines->text, 
 					     text->selection_end - (lines->text - text->text));

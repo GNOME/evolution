@@ -110,8 +110,9 @@ struct _EText {
 	
 	ETextModel *model;
 	gint model_changed_signal_id;
+	gint model_repos_signal_id;
 
-	char *text;			/* Text to display */
+	const gchar *text;              /* Text to display --- from the ETextModel */
 	gpointer lines;			/* Text split into lines (private field) */
 	int num_lines;			/* Number of lines of text */
 
