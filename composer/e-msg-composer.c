@@ -3719,8 +3719,10 @@ e_msg_composer_new_from_url (const char *url_in)
 			} else if (!g_strncasecmp (header, "body", len)) {
 				g_free (body);
 				body = g_strdup (content);
+			} else if (!g_strncasecmp (header, "attach", len)) {
+				e_msg_composer_attachment_bar_attach (E_MSG_COMPOSER_ATTACHMENT_BAR (composer->attachment_bar), content);
 			} else {
-				/* add an arbitrary header */
+				/* add an arbitrary header? */
 				e_msg_composer_add_header (composer, header, content);
 			}
 			
