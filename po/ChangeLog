@@ -1,3 +1,7 @@
+2001-04-11  Christopher James Lahey  <clahey@ximian.com>
+
+	* POTFILES.in: Add the galview.xml files here.
+
 2001-04-08  Akira TAGOH  <tagoh@gnome.gr.jp>
 
 	* ja.po: Updated Japanese translation.
