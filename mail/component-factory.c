@@ -39,7 +39,6 @@
 #include "e-util/e-gui-utils.h"
 #include "e-util/e-setup.h"
 
-#include "filter/filter-driver.h"
 #include "component-factory.h"
 
 static void create_vfolder_storage (EvolutionShellComponent *shell_component);
@@ -58,7 +57,7 @@ static const EvolutionShellComponentFolderType folder_types[] = {
 };
 
 /* GROSS HACK: for passing to other parts of the program */
-EvolutionShellClient *global_shell_client = NULL;
+/*EvolutionShellClient *global_shell_client = NULL;*/
 
 /* EvolutionShellComponent methods and signals.  */
 
@@ -83,10 +82,6 @@ create_view (EvolutionShellComponent *shell_component,
 
 	g_assert (folder_browser_widget != NULL);
 	g_assert (IS_FOLDER_BROWSER (folder_browser_widget));
-
-	/* dum de dum, hack to let the folder browser know the storage its in */
-	gtk_object_set_data (GTK_OBJECT (folder_browser_widget), "e-storage",
-			     gtk_object_get_data(GTK_OBJECT (shell_component), "e-storage"));
 
 	*control_return = control;
 
@@ -145,7 +140,7 @@ owner_set_cb (EvolutionShellComponent *shell_component,
 	g_print ("evolution-mail: Yeeeh! We have an owner!\n");	/* FIXME */
 
 	/* GROSS HACK */
-	global_shell_client = shell_client;
+	/*global_shell_client = shell_client;*/
 
 	create_vfolder_storage (shell_component);
 	create_imap_storage (shell_component);
@@ -195,75 +190,13 @@ component_factory_init (void)
 	}
 }
 
+/* FIXME: remove */
 static void
 create_vfolder_storage (EvolutionShellComponent *shell_component)
 {
-	EvolutionShellClient *shell_client;
-	Evolution_Shell corba_shell;
-	EvolutionStorage *storage;
-	
-	shell_client = evolution_shell_component_get_owner (shell_component);
-	if (shell_client == NULL) {
-		g_warning ("We have no shell!?");
-		return;
-	}
+	void vfolder_create_storage(EvolutionShellComponent *shell_component);
 
-	corba_shell = bonobo_object_corba_objref (BONOBO_OBJECT (shell_client));
-    
-	storage = evolution_storage_new ("VFolders");
-	if (evolution_storage_register_on_shell (storage, corba_shell) != EVOLUTION_STORAGE_OK) {
-		g_warning ("Cannot register storage");
-		return;
-	}
-
-	/* save the storage for later */
-	gtk_object_set_data(GTK_OBJECT (shell_component), "e-storage", storage);
-
-	/* this is totally not the way we want to do this - but the
-	   filter stuff needs work before we can remove it */
-	{
-		FilterDriver *fe;
-		int i, count;
-		char *user, *system;
-
-		user = g_strdup_printf ("%s/vfolders.xml", evolution_dir);
-		system = g_strdup_printf("%s/evolution/vfoldertypes.xml", EVOLUTION_DATADIR);
-		fe = filter_driver_new(system, user, mail_uri_to_folder);
-		g_free(user);
-		g_free(system);
-		count = filter_driver_rule_count(fe);
-
-		for (i = 0; i < count; i++) {
-			struct filter_option *fo;
-			GString *query;
-			struct filter_desc *desc = NULL;
-			char *desctext, descunknown[64];
-			char *name;
-
-			fo = filter_driver_rule_get(fe, i);
-			if (fo == NULL)
-				continue;
-			query = g_string_new("");
-			if (fo->description)
-				desc = fo->description->data;
-			if (desc)
-				desctext = desc->data;
-			else {
-				sprintf(descunknown, "vfolder-%p", fo);
-				desctext = descunknown;
-			}
-			g_string_sprintf(query, "vfolder:%s/vfolder/%s?", evolution_dir, desctext);
-			filter_driver_expand_option(fe, query, NULL, fo);
-			name = g_strdup_printf("/%s", desctext);
-			evolution_storage_new_folder (storage, name,
-						      "mail",
-						      query->str,
-						      desctext);
-			g_string_free(query, TRUE);
-			g_free(name);
-		}
-		gtk_object_unref(GTK_OBJECT (fe));
-	}
+	vfolder_create_storage(shell_component);
 }
 
 struct create_info_s {

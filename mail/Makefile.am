@@ -49,6 +49,7 @@ evolution_mail_SOURCES =		\
 	mail-threads.c			\
 	mail-threads.h			\
 	mail-types.h			\
+	mail-vfolder.c			\
 	main.c				\
 	message-list.c			\
 	message-list.h			\

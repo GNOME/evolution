@@ -1,3 +1,21 @@
+2000-07-29  Not Zed  <NotZed@HelixCode.com>
+
+	* component-factory.c (create_view): Remove hack to pass the
+	storage around.
+
+	* folder-browser-factory.c (control_activate): Changed to call
+	renamed vfolder editor.
+
+	* mail-ops.c (vfolder_edit_vfolders): renamed from vfolder_edit,
+	call new edit function.
+	(vfolder_editor_clicked): Removed.
+	(filter_druid_clicked):
+	(filter_edit): Updated for api change.
+	(real_fetch_mail): Fixed up for api change and fucked up indent.
+	(filter_get_folder): callback for filter driver.
+
+	* mail-vfolder.c: New file to manage virtual folders.
+
 2000-07-29  JP Rosevear  <jpr@helixcode.com>
 
 	* mail-format.c (mail_generate_reply): Use new mail config stuff

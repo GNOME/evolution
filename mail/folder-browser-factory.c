@@ -81,17 +81,17 @@ control_activate (BonoboControl *control, BonoboUIHandler *uih,
 					 GNOME_STOCK_PIXMAP_TRASH,
 					 0, 0, expunge_folder, folder_browser);
 
-	bonobo_ui_handler_menu_new_item (uih, "/Tools/Filter Druid ...", _("_Filter Druid ..."),
+	bonobo_ui_handler_menu_new_item (uih, "/Tools/Mail Filters ...", _("Mail _Filters ..."),
 					 NULL, -1,
 					 BONOBO_UI_HANDLER_PIXMAP_NONE,
 					 0,
 					 0, 0, filter_edit, folder_browser);
 
-	bonobo_ui_handler_menu_new_item (uih, "/Tools/Virtual Folder Druid ...", _("_Virtual Folder Druid ..."),
+	bonobo_ui_handler_menu_new_item (uih, "/Tools/vFolder Editor ...", _("_vFolder Editor ..."),
 					 NULL, -1,
 					 BONOBO_UI_HANDLER_PIXMAP_NONE,
 					 0,
-					 0, 0, vfolder_edit, folder_browser);
+					 0, 0, vfolder_edit_vfolders, folder_browser);
 
 	bonobo_ui_handler_menu_new_item (uih, "/Tools/Mail Configuration ...", _("_Mail Configuration ..."),
 					 NULL, -1,
@@ -139,8 +139,8 @@ control_deactivate (BonoboControl *control, BonoboUIHandler *uih,
 	bonobo_ui_handler_menu_remove (uih, "/View/Threaded");
 	bonobo_ui_handler_menu_remove (uih, "/Actions/Mark all seen");
 	bonobo_ui_handler_menu_remove (uih, "/Actions/Expunge");
-	bonobo_ui_handler_menu_remove (uih, "/Tools/Filter Druid ...");
-	bonobo_ui_handler_menu_remove (uih, "/Tools/Virtual Folder Druid ...");
+	bonobo_ui_handler_menu_remove (uih, "/Tools/Mail Filters ...");
+	bonobo_ui_handler_menu_remove (uih, "/Tools/vFolder Editor ...");
 	bonobo_ui_handler_menu_remove (uih, "/Tools/Mail Configuration ...");
 	bonobo_ui_handler_menu_remove (uih, "/Tools/Forget Passwords");
 	bonobo_ui_handler_dock_remove (uih, toolbar_name);

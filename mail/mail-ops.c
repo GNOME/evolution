@@ -125,6 +125,12 @@ select_first_unread (CamelFolder *folder, int type, gpointer data)
 			     0, CAMEL_MESSAGE_SEEN);
 }
 
+static CamelFolder *
+filter_get_folder(FilterDriver *fd, const char *uri, void *data)
+{
+	return mail_uri_to_folder(uri);
+}
+
 void
 real_fetch_mail (gpointer user_data)
 {
@@ -134,7 +140,8 @@ real_fetch_mail (gpointer user_data)
 	CamelStore *store = NULL, *dest_store = NULL;
 	CamelFolder *folder = NULL, *dest_folder = NULL;
 	char *url = NULL, *dest_url;
-	FilterDriver *filter = NULL;
+	FilterContext *fc = NULL;
+	FilterDriver *driver = NULL;
 	char *userrules, *systemrules;
 	char *tmp_mbox = NULL, *source;
 	guint handler_id = 0;
@@ -147,7 +154,7 @@ real_fetch_mail (gpointer user_data)
 	/* If using IMAP, don't do anything... */
 	if (!strncmp (url, "imap:", 5))
 		return;
-	
+
 	ex = camel_exception_new ();
 
 	dest_url = g_strdup_printf ("mbox://%s/local/Inbox", evolution_dir);
@@ -170,6 +177,19 @@ real_fetch_mail (gpointer user_data)
 	 * temporary store first.
 	 */
 	if (!strncmp (url, "mbox:", 5)) {
+		int tmpfd;
+
+		tmpfd = open (tmp_mbox, O_RDWR | O_CREAT | O_APPEND, 0660);
+
+		if (tmpfd == -1) {
+			camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
+					      "Couldn't create temporary "
+					      "mbox: %s", g_strerror (errno));
+			async_mail_exception_dialog ("Unable to move mail", ex, fb );
+			goto cleanup;
+		}
+		close (tmpfd);
+
 		/* Skip over "mbox:" plus host part (if any) of url. */
 		source = url + 5;
 		if (!strncmp (source, "//", 2))
@@ -196,22 +216,22 @@ real_fetch_mail (gpointer user_data)
 	} else {
 		CamelFolder *sourcefolder;
 
-		store = camel_session_get_store (session, url, ex);
+		store = camel_session_get_store(session, url, ex);
  		if (!store) {
- 			async_mail_exception_dialog ("Unable to get new mail", ex, fb);
+ 			async_mail_exception_dialog("Unable to get new mail", ex, fb);
  			goto cleanup;
  		}
 
-		camel_service_connect (CAMEL_SERVICE (store), ex);
-		if (camel_exception_get_id (ex) != CAMEL_EXCEPTION_NONE) {
-			if (camel_exception_get_id (ex) != CAMEL_EXCEPTION_USER_CANCEL)
-				async_mail_exception_dialog ("Unable to get new mail", ex, fb);
+		camel_service_connect(CAMEL_SERVICE (store), ex);
+		if (camel_exception_get_id(ex) != CAMEL_EXCEPTION_NONE) {
+			if (camel_exception_get_id(ex) != CAMEL_EXCEPTION_USER_CANCEL)
+				async_mail_exception_dialog("Unable to get new mail", ex, fb);
 			goto cleanup;
 		}
 
-		sourcefolder = camel_store_get_folder (store, "inbox", FALSE, ex);
-		if (camel_exception_get_id (ex) != CAMEL_EXCEPTION_NONE) {
-			async_mail_exception_dialog ("Unable to get new mail", ex, fb);
+		sourcefolder = camel_store_get_folder(store, "inbox", FALSE, ex);
+		if (camel_exception_get_id(ex) != CAMEL_EXCEPTION_NONE) {
+			async_mail_exception_dialog("Unable to get new mail", ex, fb);
 			goto cleanup;
 		}
 
@@ -277,11 +297,14 @@ real_fetch_mail (gpointer user_data)
 	folder_browser_clear_search (fb);
 
 	/* apply filtering rules to this inbox */
-	userrules = g_strdup_printf ("%s/filters.xml", evolution_dir);
-	systemrules = g_strdup_printf ("%s/evolution/filtertypes.xml", EVOLUTION_DATADIR);
-	filter = filter_driver_new (systemrules, userrules, mail_uri_to_folder);
+	fc = filter_context_new();
+	userrules = g_strdup_printf("%s/filters.xml", evolution_dir);
+	systemrules = g_strdup_printf("%s/evolution/filtertypes.xml", EVOLUTION_DATADIR);
+	rule_context_load((RuleContext *)fc, systemrules, userrules);
 	g_free (userrules);
 	g_free (systemrules);
+
+	driver = filter_driver_new(fc, filter_get_folder, 0);
 
 	/* Attach a handler to the destination folder to select the first unread
 	 * message iff it changes and iff it's the folder being viewed.
@@ -290,7 +313,7 @@ real_fetch_mail (gpointer user_data)
 		handler_id = gtk_signal_connect (GTK_OBJECT (dest_folder), "folder_changed",
 						 GTK_SIGNAL_FUNC (select_first_unread), fb);
 
-	if (filter_driver_run (filter, folder, dest_folder) == -1) {
+	if (filter_driver_run(driver, folder, dest_folder) == -1) {
 		async_mail_exception_dialog ("Unable to get new mail", ex, fb);
 		goto cleanup;
 	}
@@ -303,8 +326,10 @@ real_fetch_mail (gpointer user_data)
 		unlink (tmp_mbox); /* FIXME: should use camel to do this */
 	g_free (tmp_mbox);
 
-	if (filter)
-		gtk_object_unref (GTK_OBJECT (filter));
+	if (driver)
+		gtk_object_unref((GtkObject *)driver);
+	if (fc)
+		gtk_object_unref((GtkObject *)fc);
 	if (url)
 		g_free (url);
 
@@ -877,18 +902,21 @@ expunge_folder (BonoboUIHandler *uih, void *user_data, const char *path)
 }
 
 static void
-filter_druid_clicked (FilterEditor *fe, int button, FolderBrowser *fb)
+filter_druid_clicked(GtkWidget *w, int button, FolderBrowser *fb)
 {
+	FilterContext *fc;
+
 	if (button == 0) {
 		char *user;
 
-		user = g_strdup_printf ("%s/filters.xml", evolution_dir);
-		filter_editor_save_rules (fe, user);
-		g_free (user);
+		fc = gtk_object_get_data((GtkObject *)w, "context");
+		user = g_strdup_printf("%s/filters.xml", evolution_dir);
+		rule_context_save((RuleContext *)fc, user);
+		g_free(user);
 	}
 	
 	if (button != -1) {
-		gnome_dialog_close (GNOME_DIALOG (fe));
+		gnome_dialog_close((GnomeDialog *)w);
 	}
 }
 
@@ -896,107 +924,34 @@ void
 filter_edit (BonoboUIHandler *uih, void *user_data, const char *path)
 {
 	FolderBrowser *fb = FOLDER_BROWSER (user_data);
-	FilterEditor *fe;
+	FilterContext *fc;
 	char *user, *system;
+	GtkWidget *w;
 
-	fe = filter_editor_new ();
-
-	user = g_strdup_printf ("%s/filters.xml", evolution_dir);
-	system = g_strdup_printf ("%s/evolution/filtertypes.xml", EVOLUTION_DATADIR);
-	filter_editor_set_rule_files (fe, system, user);
-	g_free (user);
-	g_free (system);
-	gnome_dialog_append_buttons (GNOME_DIALOG (fe), GNOME_STOCK_BUTTON_OK, GNOME_STOCK_BUTTON_CANCEL, 0);
-	gtk_signal_connect (GTK_OBJECT (fe), "clicked", filter_druid_clicked, fb);
-	gtk_widget_show (GTK_WIDGET (fe));
-}
-
-static void
-vfolder_editor_clicked(FilterEditor *fe, int button, FolderBrowser *fb)
-{
-	if (button == 0) {
-		char *user;
-
-		user = g_strdup_printf ("%s/vfolders.xml", evolution_dir);
-		filter_editor_save_rules (fe, user);
-		g_free (user);
-
-		/* FIXME: this is also not the way to do this, see also
-		   component-factory.c */
-		{
-			EvolutionStorage *storage;
-			FilterDriver *fe;
-			int i, count;
-			char *user, *system;
-			extern char *evolution_dir;
-
-			storage = gtk_object_get_data (GTK_OBJECT (fb), "e-storage");
-	
-			user = g_strdup_printf ("%s/vfolders.xml", evolution_dir);
-			system = g_strdup_printf ("%s/evolution/vfoldertypes.xml", EVOLUTION_DATADIR);
-			fe = filter_driver_new (system, user, mail_uri_to_folder);
-			g_free (user);
-			g_free (system);
-			count = filter_driver_rule_count (fe);
-			for (i = 0; i < count; i++) {
-				struct filter_option *fo;
-				GString *query;
-				struct filter_desc *desc = NULL;
-				char *desctext, descunknown[64];
-				char *name;
-				
-				fo = filter_driver_rule_get (fe, i);
-				if (fo == NULL)
-					continue;
-				query = g_string_new ("");
-				if (fo->description)
-					desc = fo->description->data;
-				if (desc)
-					desctext = desc->data;
-				else {
-					sprintf (descunknown, "volder-%p", fo);
-					desctext = descunknown;
-				}
-				g_string_sprintf (query, "vfolder:/%s/vfolder/%s?", evolution_dir, desctext);
-				filter_driver_expand_option (fe, query, NULL, fo);
-				name = g_strdup_printf ("/%s", desctext);
-				evolution_storage_new_folder (storage, name, "mail",
-							      query->str, name + 1);
-				g_string_free (query, TRUE);
-				g_free (name);
-			}
-			gtk_object_unref (GTK_OBJECT (fe));
-		}
-
-	}
-	if (button != -1) {
-		gnome_dialog_close (GNOME_DIALOG (fe));
-	}
+	fc = filter_context_new();
+	user = g_strdup_printf("%s/filters.xml", evolution_dir);
+	system = g_strdup_printf("%s/evolution/filtertypes.xml", EVOLUTION_DATADIR);
+	rule_context_load((RuleContext *)fc, system, user);
+	g_free(user);
+	g_free(system);
+	w = filter_editor_construct(fc);
+	gtk_object_set_data_full((GtkObject *)w, "context", fc, (GtkDestroyNotify)gtk_object_unref);
+	gtk_signal_connect((GtkObject *)w, "clicked", filter_druid_clicked, fb);
+	gtk_widget_show(w);
 }
 
 void
-vfolder_edit (BonoboUIHandler *uih, void *user_data, const char *path)
+vfolder_edit_vfolders (BonoboUIHandler *uih, void *user_data, const char *path)
 {
-	FolderBrowser *fb = FOLDER_BROWSER (user_data);
-	FilterEditor *fe;
-	char *user, *system;
+	void vfolder_edit(void);
 
-	fe = filter_editor_new ();
-
-	user = g_strdup_printf ("%s/vfolders.xml", evolution_dir);
-	system = g_strdup_printf ("%s/evolution/vfoldertypes.xml", EVOLUTION_DATADIR);
-	filter_editor_set_rule_files (fe, system, user);
-	g_free (user);
-	g_free (system);
-	gnome_dialog_append_buttons (GNOME_DIALOG (fe), GNOME_STOCK_BUTTON_OK, GNOME_STOCK_BUTTON_CANCEL, 0);
-	gtk_signal_connect (GTK_OBJECT (fe), "clicked", vfolder_editor_clicked, fb);
-	gtk_widget_show (GTK_WIDGET (fe));
+	vfolder_edit();
 }
 
 void
 providers_config (BonoboUIHandler *uih, void *user_data, const char *path)
 {
-	mail_config ();
+	mail_config();
 }
 
 void
