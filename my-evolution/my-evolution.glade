@@ -330,7 +330,7 @@
 	<class>GtkFrame</class>
 	<name>frame3</name>
 	<border_width>3</border_width>
-	<label>Weather settings</label>
+	<label>Weather Settings</label>
 	<label_xalign>0</label_xalign>
 	<shadow_type>GTK_SHADOW_ETCHED_IN</shadow_type>
 	<child>

@@ -398,6 +398,8 @@ add_clicked (GtkWidget *button,
 
 	g_list_free (list);
 	gtk_signal_emit (GTK_OBJECT (shown), shown_signals[ITEM_CHANGED]);
+        
+        gtk_widget_set_sensitive (GTK_WIDGET (button), FALSE); 
 }
 
 static void
@@ -442,6 +444,8 @@ remove_clicked (GtkWidget *button,
 	g_list_free (list);
 
 	gtk_signal_emit (GTK_OBJECT (shown), shown_signals[ITEM_CHANGED]);
+
+	gtk_widget_set_sensitive (GTK_WIDGET (button), FALSE);
 }
 
 static TableData *
@@ -524,6 +528,7 @@ e_summary_shown_init (ESummaryShown *shown)
 {
 	ESummaryShownPrivate *priv;
 	GtkWidget *vbox;
+	GtkWidget *align;
 
 	gtk_box_set_spacing (GTK_BOX (shown), 3);
 
@@ -538,8 +543,11 @@ e_summary_shown_init (ESummaryShown *shown)
 	gtk_box_pack_start (GTK_BOX (shown), priv->all->etable, TRUE, TRUE, 2);
 	gtk_widget_show (priv->all->etable);
 	
-	vbox = gtk_vbox_new (TRUE, 0);
-	gtk_box_pack_start (GTK_BOX (shown), vbox, FALSE, FALSE, 2);
+	vbox = gtk_vbox_new (TRUE, 9);	
+	align = gtk_alignment_new (.5, .5, .5, 0.0);
+        gtk_container_add (GTK_CONTAINER (align), vbox);
+
+	gtk_box_pack_start (GTK_BOX (shown), align, FALSE, FALSE, 3);
 
 	/* Fixme: nice GFX version */
 	priv->add = construct_pixmap_button (_("Add"), GNOME_STOCK_BUTTON_NEXT);
@@ -555,7 +563,7 @@ e_summary_shown_init (ESummaryShown *shown)
 	gtk_signal_connect (GTK_OBJECT (priv->remove), "clicked",
 			    GTK_SIGNAL_FUNC (remove_clicked), shown);
 
-	gtk_widget_show_all (vbox);
+	gtk_widget_show_all (align);
 
 	priv->shown = make_table (shown->shown_model, _("Shown"), GTK_SIGNAL_FUNC (shown_selection_changed), shown);
 
