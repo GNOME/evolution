@@ -1,3 +1,11 @@
+2004-01-14  Rodrigo Moya <rodrigo@ximian.com>
+
+	* common/authentication.c (auth_new_cal_from_source): check
+	return value from e_cal_new().
+
+	* gui/gnome-cal.c (gnome_calendar_construct): if there is no
+	default tasks folder, don't create the ECal from it.
+
 2004-01-14  JP Rosevear <jpr@ximian.com>
 
 	* gui/tasks-component.c (impl_requestCreateItem): don't try to set

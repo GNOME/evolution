@@ -42,7 +42,8 @@ auth_new_cal_from_source (ESource *source, ECalSourceType type)
 	ECal *cal;
 
 	cal = e_cal_new (source, type);
-	e_cal_set_auth_func (cal, (ECalAuthFunc) auth_func_cb, NULL);
+	if (cal)
+		e_cal_set_auth_func (cal, (ECalAuthFunc) auth_func_cb, NULL);
 
 	return cal;
 }

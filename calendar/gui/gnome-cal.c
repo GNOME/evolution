@@ -1948,34 +1948,33 @@ gnome_calendar_construct (GnomeCalendar *gcal)
 	uid = calendar_config_get_primary_tasks ();
 	if (uid) {
 		ESourceList *source_list;
+		ESource *tasks_source;
 		GConfClient *conf_client;
 
 		conf_client = gconf_client_get_default ();
 		source_list = e_source_list_new_for_gconf (conf_client, "/apps/evolution/tasks/sources");
 
-		priv->task_pad_client = auth_new_cal_from_source (
-			e_source_list_peek_source_by_uid (source_list, uid), E_CAL_SOURCE_TYPE_TODO);
+		tasks_source = e_source_list_peek_source_by_uid (source_list, uid);
+		if (tasks_source) {
+			priv->task_pad_client = auth_new_cal_from_source (tasks_source, E_CAL_SOURCE_TYPE_TODO);
+
+			g_signal_connect (priv->task_pad_client, "backend_error",
+					  G_CALLBACK (backend_error_cb), gcal);
+			g_signal_connect (priv->task_pad_client, "categories_changed",
+					  G_CALLBACK (client_categories_changed_cb), gcal);
+			g_signal_connect (priv->task_pad_client, "backend_died",
+					  G_CALLBACK (backend_died_cb), gcal);
+
+			if (open_ecal (gcal, priv->task_pad_client, TRUE)) {
+				e_cal_model_add_client (e_calendar_table_get_model (E_CALENDAR_TABLE (priv->todo)),
+							priv->task_pad_client);
+			}
+		} else
+			priv->task_pad_client = NULL;
 
 		g_object_unref (conf_client);
 		g_object_unref (source_list);
-
-		if (!priv->task_pad_client)
-			return NULL;
-
-		g_signal_connect (priv->task_pad_client, "backend_error",
-				  G_CALLBACK (backend_error_cb), gcal);
-		g_signal_connect (priv->task_pad_client, "categories_changed",
-				  G_CALLBACK (client_categories_changed_cb), gcal);
-		g_signal_connect (priv->task_pad_client, "backend_died",
-				  G_CALLBACK (backend_died_cb), gcal);
-
 		g_free (uid);
-
-		if (!open_ecal (gcal, priv->task_pad_client, TRUE))
-			return NULL;
-
-		e_cal_model_add_client (e_calendar_table_get_model (E_CALENDAR_TABLE (priv->todo)),
-					priv->task_pad_client);
 	}
 
 	/* Get the default view to show. */
