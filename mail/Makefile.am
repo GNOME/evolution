@@ -33,7 +33,8 @@ SHELL_OBJS =					\
 	$(top_builddir)/shell/Evolution-common.o \
 	$(top_builddir)/shell/Evolution-stubs.o	\
 	$(top_builddir)/shell/Evolution-skels.o	\
-	$(top_builddir)/shell/evolution-shell-component.o
+	$(top_builddir)/shell/evolution-shell-component.o \
+	$(top_builddir)/shell/evolution-storage.o
 
 evolution_mail_SOURCES =		\
 	$(EVOLUTION_MAIL_CORBA_GENERATED)	\

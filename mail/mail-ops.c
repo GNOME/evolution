@@ -32,6 +32,10 @@
 #include "filter/filter-editor.h"
 #include "filter/filter-driver.h"
 
+/* FIXME: is there another way to do this? */
+#include "Evolution.h"
+#include "evolution-storage.h"
+
 #ifndef HAVE_MKSTEMP
 #include <fcntl.h>
 #include <sys/stat.h>
@@ -508,6 +512,94 @@ void filter_edit (GtkWidget *button, gpointer user_data)
 	g_free(system);
 	gnome_dialog_append_buttons((GnomeDialog *)fe, GNOME_STOCK_BUTTON_OK, GNOME_STOCK_BUTTON_CANCEL, 0);
 	gtk_signal_connect((GtkObject *)fe, "clicked", filter_druid_clicked, fb);
+	gtk_widget_show((GtkWidget *)fe);
+}
+
+static void
+vfolder_editor_clicked(FilterEditor *fe, int button, FolderBrowser *fb)
+{
+	printf("closing dialog\n");
+	if (button == 0) {
+		char *user;
+
+		user = g_strdup_printf ("%s/vfolders.xml", evolution_dir);
+		filter_editor_save_rules(fe, user);
+		printf("saving vfolders to '%s'\n", user);
+		g_free(user);
+
+		/* FIXME: this is also not the way to do this, see also
+		   component-factory.c */
+		{
+			EvolutionStorage *storage;
+			FilterDriver *fe;
+			int i, count;
+			char *user, *system;
+			extern char *evolution_dir;
+
+			storage = gtk_object_get_data((GtkObject *)fb, "e-storage");
+	
+			fe = filter_driver_new();
+			user = g_strdup_printf ("%s/vfolders.xml", evolution_dir);
+			system = g_strdup_printf("%s/evolution/vfoldertypes.xml", EVOLUTION_DATADIR);
+			filter_driver_set_rules(fe, system, user);
+			g_free(user);
+			g_free(system);
+			count = filter_driver_rule_count(fe);
+			for (i=0;i<count;i++) {
+				struct filter_option *fo;
+				GString *query;
+				struct filter_desc *desc = NULL;
+				char *desctext, descunknown[64];
+				char *name;
+				
+				fo = filter_driver_rule_get(fe, i);
+				if (fo == NULL)
+					continue;
+				query = g_string_new("");
+				if (fo->description)
+					desc = fo->description->data;
+				if (desc)
+					desctext = desc->data;
+				else {
+					sprintf(descunknown, "volder-%p", fo);
+					desctext = descunknown;
+				}
+				g_string_sprintf(query, "vfolder:/%s/vfolder/%s?", evolution_dir, desctext);
+				filter_driver_expand_option(fe, query, NULL, fo);
+				name = g_strdup_printf("/%s", desctext);
+				printf("Adding new vfolder: %s\n", query->str);
+				evolution_storage_new_folder (storage, name,
+							      "mail",
+							      query->str,
+							      name+1);
+				g_string_free(query, TRUE);
+				g_free(name);
+			}
+			gtk_object_unref((GtkObject *)fe);
+		}
+
+	}
+	if (button != -1) {
+		gnome_dialog_close((GnomeDialog *)fe);
+	}
+}
+
+void vfolder_edit (GtkWidget *button, gpointer user_data)
+{
+	FolderBrowser *fb = FOLDER_BROWSER(user_data);
+	FilterEditor *fe;
+	char *user, *system;
+
+	printf("Editing vfolders ...\n");
+	fe = filter_editor_new();
+
+	user = g_strdup_printf ("%s/vfolders.xml", evolution_dir);
+	system = g_strdup_printf("%s/evolution/vfoldertypes.xml", EVOLUTION_DATADIR);
+	filter_editor_set_rule_files(fe, system, user);
+	g_free(user);
+	g_free(system);
+	gnome_dialog_append_buttons((GnomeDialog *)fe, GNOME_STOCK_BUTTON_OK, GNOME_STOCK_BUTTON_CANCEL, 0);
+	gtk_signal_connect((GtkObject *)fe, "clicked", vfolder_editor_clicked, fb);
 	gtk_widget_show((GtkWidget *)fe);
 }
 

@@ -67,35 +67,59 @@ folder_browser_load_folder (FolderBrowser *fb, const char *name)
 {
 	char *store_name, *msg;
 	CamelStore *store;
-	CamelFolder *new_folder;
+	CamelFolder *new_folder = NULL;
 	CamelException *ex;
 	gboolean new_folder_exists = FALSE;
 
-	if (strncmp (name, "file:", 5) != 0) {
+	ex = camel_exception_new ();
+
+	if (!strncmp(name, "vfolder:", 8)) {
+		char *query, *newquery;
+		store_name = g_strdup(name);
+		query = strchr(store_name, '?');
+		if (query) {
+			*query++ = 0;
+		} else {
+			query = "";
+		}
+		newquery = g_strdup_printf("mbox?%s", query);
+		store = camel_session_get_store (session, store_name, ex);
+
+		if (store) {
+			new_folder = camel_store_get_folder (store, newquery, ex);
+		}
+		g_free(newquery);
+		g_free(store_name);
+
+		/* FIXME: Add the mbox folders we search!!! */
+	} else if (!strncmp(name, "file:", 5)) {
+		/* Change "file:" to "mbox:". */
+		store_name = g_strdup_printf ("mbox:%s", name + 5);
+		store = camel_session_get_store (session, store_name, ex);
+		g_free (store_name);
+		if (store) {
+			new_folder = camel_store_get_folder (store, "mbox", ex);
+		}
+	} else {
 		char *msg;
 
 		msg = g_strdup_printf ("Can't open URI %s", name);
 		gnome_error_dialog (msg);
 		g_free (msg);
+		camel_exception_free (ex);
 		return FALSE;
 	}
-
-	/* Change "file:" to "mbox:". */
-	store_name = g_strdup_printf ("mbox:%s", name + 5);
-
-	ex = camel_exception_new ();
-	store = camel_session_get_store (session, store_name, ex);
-	g_free (store_name);
-	if (store) {
-		new_folder = camel_store_get_folder (store, "mbox", ex);
+	
+	if (store)
 		gtk_object_unref (GTK_OBJECT (store));
-	}
 
 	if (camel_exception_get_id (ex)) {
 		msg = g_strdup_printf ("Unable to get folder %s: %s\n", name,
 				       camel_exception_get_description (ex));
 		gnome_error_dialog (msg);
 		camel_exception_free (ex);
+		if (new_folder)
+			gtk_object_unref((GtkObject *)new_folder);
 		return FALSE;
 	}
 	

@@ -1,3 +1,25 @@
+2000-05-27  Not Zed  <NotZed@HelixCode.com>
+
+	* Makefile.am (SHELL_OBJS): Include mail storage so we can
+	initialise folders.
+
+	* component-factory.c (create_test_storage): Parses vfolder
+	defintions and adds them to the storage.  Definetly needs more
+	work.
+
+	* folder-browser-factory.c (control_activate): Add the VFolder
+	druid menu item.
+	(control_deactivate): And remove it.
+
+	* mail-ops.c (vfolder_editor_clicked): For editing vfolder
+	definitions (rather like filters, oddly enough :).  Tries to
+	update the shell but it doesn't seem to work properly - requires a
+	mail component restart to take effect.
+
+	* folder-browser.c (folder_browser_load_folder): Handle vfolder:
+	urls' appropriately and map to camel.  Still needs a way to tell
+	the vfolder what folders to search! (all vfolders come up empty!).
+
 2000-05-28  Christopher James Lahey  <clahey@helixcode.com>
 
 	* message-list.c, message-list.h: Added a COL_DELETED and made it

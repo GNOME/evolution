@@ -70,11 +70,17 @@ control_activate (BonoboControl *control, BonoboUIHandler *uih)
 					 GNOME_STOCK_PIXMAP_TRASH,
 					 0, 0, expunge_folder, folder_browser);
 
-	bonobo_ui_handler_menu_new_item (uih, "/Tools/Filter Druid ...", N_("_Filter Druid"),
+	bonobo_ui_handler_menu_new_item (uih, "/Tools/Filter Druid ...", N_("_Filter Druid ..."),
 					 NULL, -1,
 					 BONOBO_UI_HANDLER_PIXMAP_NONE,
 					 0,
 					 0, 0, filter_edit, folder_browser);
+
+	bonobo_ui_handler_menu_new_item (uih, "/Tools/Vfolder Druid ...", N_("_Vfolder Druid ..."),
+					 NULL, -1,
+					 BONOBO_UI_HANDLER_PIXMAP_NONE,
+					 0,
+					 0, 0, vfolder_edit, folder_browser);
 
 	toolbar = gtk_toolbar_new (GTK_ORIENTATION_HORIZONTAL,
 				   GTK_TOOLBAR_BOTH);
@@ -99,6 +105,7 @@ control_deactivate (BonoboControl *control, BonoboUIHandler *uih)
 	bonobo_ui_handler_menu_remove (uih, "/File/Mail");
 	bonobo_ui_handler_menu_remove (uih, "/Tools/Expunge");
 	bonobo_ui_handler_menu_remove (uih, "/Tools/Filter Druid ...");
+	bonobo_ui_handler_menu_remove (uih, "/Tools/VFolder Druid ...");
 	bonobo_ui_handler_dock_remove (uih, "/Toolbar");
 }
 
