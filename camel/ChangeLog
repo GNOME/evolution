@@ -1,3 +1,14 @@
+2001-02-22  Dan Winship  <danw@ximian.com>
+
+	* providers/imap/camel-imap-summary.h (CAMEL_IMAP_SERVER_FLAGS):
+	#define this as the set of all IMAP system flags
+
+	* providers/imap/camel-imap-folder.c (sync_message): after syncing
+	flags, set server_flags to (flags & CAMEL_IMAP_SERVER_FLAGS)
+	rather than just "flags", since any other flags won't have been
+	synced. Prevents the CAMEL_MESSAGE_ATTACHMENTS flag from getting
+	lost.
+
 2001-02-22  Not Zed  <NotZed@Ximian.com>
 
 	* providers/vee/*: Removed all files.

@@ -32,6 +32,12 @@
 #define CAMEL_IMAP_SUMMARY_CLASS(klass) CAMEL_CHECK_CLASS_CAST (klass, camel_imap_summary_get_type (), CamelImapSummaryClass)
 #define CAMEL_IS_IMAP_SUMMARY(obj)      CAMEL_CHECK_TYPE (obj, camel_imap_summary_get_type ())
 
+#define CAMEL_IMAP_SERVER_FLAGS (CAMEL_MESSAGE_ANSWERED | \
+				 CAMEL_MESSAGE_DELETED | \
+				 CAMEL_MESSAGE_DRAFT | \
+				 CAMEL_MESSAGE_FLAGGED | \
+				 CAMEL_MESSAGE_SEEN)
+
 typedef struct _CamelImapSummaryClass CamelImapSummaryClass;
 
 typedef struct _CamelImapMessageContentInfo {

@@ -434,7 +434,8 @@ sync_message (CamelImapStore *store, CamelFolder *folder,
 	camel_imap_response_free (response);
 
 	mi->flags &= ~CAMEL_MESSAGE_FOLDER_FLAGGED;
-	((CamelImapMessageInfo *)mi)->server_flags = mi->flags;
+	((CamelImapMessageInfo *)mi)->server_flags =
+		mi->flags & CAMEL_IMAP_SERVER_FLAGS;
 }
 
 static void
