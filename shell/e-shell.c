@@ -349,8 +349,6 @@ impl_Shell_createNewView (PortableServer_Servant servant,
 		return CORBA_OBJECT_NIL;
 	}
 
-	gtk_widget_show (GTK_WIDGET (shell_view));
-
 	shell_view_interface = e_shell_view_get_corba_interface (shell_view);
 	if (shell_view_interface == CORBA_OBJECT_NIL) {
 		CORBA_exception_set (ev, CORBA_USER_EXCEPTION,
@@ -806,7 +804,7 @@ set_owner_on_components (EShell *shell)
 }
 
 
-/* EShellView destruction callback.  */
+/* EShellView handling and bookkeeping.  */
 
 static int
 view_delete_event_cb (GtkWidget *widget,
@@ -852,6 +850,45 @@ view_destroy_cb (GtkObject *object,
 		gtk_signal_emit (GTK_OBJECT (shell), signals [NO_VIEWS_LEFT]);
 		bonobo_object_unref (BONOBO_OBJECT (shell));
 	}
+}
+
+static EShellView *
+create_view (EShell *shell,
+	     const char *uri,
+	     EShellView *template_view)
+{
+	EShellPrivate *priv;
+	EShellView *view;
+	ETaskBar *task_bar;
+
+	priv = shell->priv;
+
+	view = e_shell_view_new (shell);
+
+	gtk_signal_connect (GTK_OBJECT (view), "delete_event",
+			    GTK_SIGNAL_FUNC (view_delete_event_cb), shell);
+	gtk_signal_connect (GTK_OBJECT (view), "destroy",
+			    GTK_SIGNAL_FUNC (view_destroy_cb), shell);
+
+	if (uri != NULL) {
+		if (!e_shell_view_display_uri (E_SHELL_VIEW (view), uri)) {
+			/* FIXME: Consider popping a dialog box up about how the provided URI does not
+			   exist/could not be displayed.  */
+			e_shell_view_display_uri (E_SHELL_VIEW (view), E_SHELL_VIEW_DEFAULT_URI);
+		}
+	}
+
+	shell->priv->views = g_list_prepend (shell->priv->views, view);
+
+	task_bar = e_shell_view_get_task_bar (view);
+	e_activity_handler_attach_task_bar (priv->activity_handler, task_bar);
+
+	if (template_view != NULL) {
+		e_shell_view_show_folder_bar (view, e_shell_view_folder_bar_shown (template_view));
+		e_shell_view_show_shortcut_bar (view, e_shell_view_shortcut_bar_shown (template_view));
+	}
+
+	return view;
 }
 
 
@@ -1204,37 +1241,42 @@ e_shell_create_view (EShell *shell,
 {
 	EShellView *view;
 	EShellPrivate *priv;
-	ETaskBar *task_bar;
 
 	g_return_val_if_fail (shell != NULL, NULL);
 	g_return_val_if_fail (E_IS_SHELL (shell), NULL);
 
 	priv = shell->priv;
 
-	view = e_shell_view_new (shell);
+	view = create_view (shell, uri, template_view);
 
-	gtk_signal_connect (GTK_OBJECT (view), "delete_event",
-			    GTK_SIGNAL_FUNC (view_delete_event_cb), shell);
-	gtk_signal_connect (GTK_OBJECT (view), "destroy",
-			    GTK_SIGNAL_FUNC (view_destroy_cb), shell);
+	gtk_widget_show (GTK_WIDGET (view));
+	while (gtk_events_pending ())
+		gtk_main_iteration ();
 
-	if (uri != NULL) {
-		if (!e_shell_view_display_uri (E_SHELL_VIEW (view), uri)) {
-			/* FIXME: Consider popping a dialog box up about how the provided URI does not
-			   exist/could not be displayed.  */
-			e_shell_view_display_uri (E_SHELL_VIEW (view), E_SHELL_VIEW_DEFAULT_URI);
-		}
-	}
+	set_interactive (shell, TRUE);
 
-	shell->priv->views = g_list_prepend (shell->priv->views, view);
+	return view;
+}
 
-	task_bar = e_shell_view_get_task_bar (view);
-	e_activity_handler_attach_task_bar (priv->activity_handler, task_bar);
+EShellView *
+e_shell_create_view_from_settings (EShell *shell,
+				   const char *uri,
+				   EShellView *template_view,
+				   int view_num,
+				   gboolean *settings_found)
+{
+	EShellView *view;
 
-	if (template_view != NULL) {
-		e_shell_view_show_folder_bar (view, e_shell_view_folder_bar_shown (template_view));
-		e_shell_view_show_shortcut_bar (view, e_shell_view_shortcut_bar_shown (template_view));
-	}
+	g_return_val_if_fail (shell != NULL, NULL);
+	g_return_val_if_fail (E_IS_SHELL (shell), NULL);
+
+	view = create_view (shell, uri, template_view);
+
+	*settings_found = e_shell_view_load_settings (view, view_num);
+
+	gtk_widget_show (GTK_WIDGET (view));
+	while (gtk_events_pending ())
+		gtk_main_iteration ();
 
 	set_interactive (shell, TRUE);
 
@@ -1504,15 +1546,11 @@ e_shell_restore_from_settings (EShell *shell)
 
 	for (i = 0; i < num_views; i++) {
 		EShellView *view;
+		gboolean settings_found;
 
-		view = e_shell_create_view (shell, NULL, NULL);
-
-		if (! e_shell_view_load_settings (view, i))
+		view = e_shell_create_view_from_settings (shell, NULL, NULL, i, &settings_found);
+		if (! settings_found)
 			retval = FALSE;
-
-		/* This needs to be done after loading the settings as the
-		   default size is in the settings as well.  */
-		gtk_widget_show (GTK_WIDGET (view));
 	}
 
 	return retval;

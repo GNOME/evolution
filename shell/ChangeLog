@@ -1,5 +1,28 @@
 2001-10-22  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-shell-view-menu.c (command_open_folder_in_new_window): No need
+	to gtk_widget_show() the view anymore.
+
+	* e-shell-view.c (activate_shortcut_cb): No need to
+	gtk_widget_show() the view anymore.
+
+	* e-shell.c (impl_Shell_createNewView): Don't explicitly show the
+	new view.
+	(e_shell_create_view): gtk_widget_show() the new view and flush
+	the GTK+ event loop before sending the ::interactive notification.
+	(create_view): New helper function.
+	(e_shell_create_view): Use it.
+	(e_shell_create_view_from_settings): New.
+	(e_shell_restore_from_settings): Use
+	`e_shell_create_view_from_settings()'.
+
+2001-10-22  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-shell-view-menu.c (command_open_folder_in_new_window): Don't
+	explicitly show the new view.
+
+2001-10-22  Ettore Perazzoli  <ettore@ximian.com>
+
 	* evolution-shell-component.c (impl_unsetOwner): Remove the ping
 	timeout.
 
