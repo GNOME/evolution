@@ -1,3 +1,15 @@
+2000-07-05  Dan Winship  <danw@helixcode.com>
+
+	* mail-identify.c (mail_identify_mime_part): Use the gnomevfs
+	sniff buffer interface to try to identify the MIME type when
+	everything else fails.
+
+	* mail-display.c (on_object_requested):
+	* mail-format.c (lookup_handler, handle_undisplayable,
+	handle_audio): s/gnome_mime/gnome_vfs_mime/
+
+	* Makefile.am: Add gnomevfs stuff
+
 2000-07-03  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* component-factory.c (create_folder): Get rid of a compiler

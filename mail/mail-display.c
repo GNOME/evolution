@@ -22,6 +22,7 @@
 #include <bonobo.h>
 #include <libgnorba/gnorba.h>
 #include <bonobo/bonobo-stream-memory.h>
+#include <libgnomevfs/gnome-vfs-mime-info.h>
 
 #define PARENT_TYPE (gtk_vbox_get_type ())
 
@@ -207,12 +208,13 @@ on_object_requested (GtkHTML *html, GtkHTMLEmbedded *eb, gpointer data)
 	g_return_val_if_fail (CAMEL_IS_MEDIUM (medium), FALSE);
 	wrapper = camel_medium_get_content_object (medium);
 
-	goad_id = gnome_mime_get_value (eb->type, "bonobo-goad-id");
+	goad_id = gnome_vfs_mime_get_value (eb->type, "bonobo-goad-id");
 	if (!goad_id) {
 		char *main_type =
 			g_strndup (eb->type, strcspn (eb->type, "/"));
 
-		goad_id = gnome_mime_get_value (main_type, "bonobo-goad-id");
+		goad_id = gnome_vfs_mime_get_value (main_type,
+						    "bonobo-goad-id");
 		g_free (main_type);
 	}
 	if (!goad_id)

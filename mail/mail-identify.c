@@ -28,7 +28,8 @@
 #include <string.h>
 
 #include <glib.h>
-#include <libgnome/libgnome.h>
+#include <libgnomevfs/gnome-vfs-mime.h>
+#include <libgnomevfs/gnome-vfs-mime-sniff-buffer.h>
 #include "mail.h"
 
 /**
@@ -43,6 +44,10 @@ mail_identify_mime_part (CamelMimePart *part)
 {
 	GMimeContentField *content_type;
 	const char *filename, *type;
+	GnomeVFSMimeSniffBuffer *sniffer;
+	CamelStream *memstream;
+	CamelDataWrapper *data;
+	GByteArray *ba;
 
 	content_type = camel_mime_part_get_content_type (part);
 
@@ -52,21 +57,35 @@ mail_identify_mime_part (CamelMimePart *part)
 	 */
 	filename = gmime_content_field_get_parameter (content_type, "name");
 	if (filename) {
-		type = gnome_mime_type_or_default (filename, NULL);
+		type = gnome_vfs_mime_type_or_default (filename, NULL);
 		if (type)
 			return g_strdup (type);
 	}
 
 	filename = camel_mime_part_get_filename (part);
 	if (filename) {
-		type = gnome_mime_type_or_default (filename, NULL);
+		type = gnome_vfs_mime_type_or_default (filename, NULL);
 		if (type)
 			return g_strdup (type);
 	}
 
 
 	/* Try file magic. */
-	/* FIXME */
+	data = camel_medium_get_content_object (CAMEL_MEDIUM (part));
+	ba = g_byte_array_new ();
+	memstream = camel_stream_mem_new_with_byte_array (ba);
+	camel_data_wrapper_write_to_stream (data, memstream);
+	if (ba->len) {
+		sniffer = gnome_vfs_mime_sniff_buffer_new_from_memory (
+			ba->data, ba->len);
+		type = gnome_vfs_get_mime_type_for_buffer (sniffer);
+		gnome_vfs_mime_sniff_buffer_free (sniffer);
+	} else
+		type = NULL;
+	gtk_object_unref (GTK_OBJECT (memstream));
+
+	if (type)
+		return g_strdup (type);
 
 
 	/* Another possibility to try is the x-mac-type / x-mac-creator

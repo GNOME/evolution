@@ -12,6 +12,7 @@ INCLUDES = \
 	-I$(top_builddir)/shell				\
 	-I$(top_srcdir)/shell				\
 	$(BONOBO_HTML_GNOME_CFLAGS)			\
+	$(GNOME_VFS_CFLAGS)				\
 	-DEVOLUTION_VERSION=\""$(VERSION)"\"		\
 	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"		\
 	-DEVOLUTION_ICONSDIR=\""$(iconsdir)"\"		\
@@ -66,7 +67,8 @@ evolution_mail_LDADD = 					\
 	$(top_builddir)/e-util/libeutil.la		\
 	$(top_builddir)/libibex/libibex.la		\
 	$(top_builddir)/filter/libfilter.la		\
-	$(BONOBO_HTML_GNOME_LIBS)			\
+	$(BONOBO_VFS_GNOME_LIBS)			\
+	$(GTKHTML_LIBS)					\
 	$(THREADS_LIBS)					\
 	$(UNICODE_LIBS)
 

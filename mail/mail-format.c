@@ -29,6 +29,7 @@
 #include "e-util/e-html-utils.h"
 #include "e-util/e-setup.h" /*for evolution_dir*/
 #include <libgnome/libgnome.h>
+#include <libgnomevfs/gnome-vfs-mime-info.h>
 
 #include <ctype.h>    /* for isprint */
 #include <string.h>   /* for strstr  */
@@ -268,9 +269,9 @@ lookup_handler (const char *mime_type, gboolean *generic)
 		return handler_function;
 	}
 
-	whole_goad_id = gnome_mime_get_value (mime_type, "bonobo-goad-id");
-	generic_goad_id = gnome_mime_get_value (mime_type_main,
-						"bonobo-goad-id");
+	whole_goad_id = gnome_vfs_mime_get_value (mime_type, "bonobo-goad-id");
+	generic_goad_id = gnome_vfs_mime_get_value (mime_type_main,
+						    "bonobo-goad-id");
 
 	if (whole_goad_id && (!generic_goad_id ||
 			      strcmp (whole_goad_id, generic_goad_id) != 0)) {
@@ -1002,7 +1003,7 @@ handle_audio (CamelMimePart *part, const char *mime_type,
 	char *id;
 	const char *desc;
 
-	desc = gnome_mime_get_value (mime_type, "description");
+	desc = gnome_vfs_mime_get_value (mime_type, "description");
 	if (desc)
 		id = g_strdup_printf ("%s data", desc);
 	else {
@@ -1149,7 +1150,7 @@ handle_undisplayable (CamelMimePart *part, const char *mime_type,
 	const char *desc;
 	char *id;
 
-	desc = gnome_mime_get_value (mime_type, "description");
+	desc = gnome_vfs_mime_get_value (mime_type, "description");
 	if (desc)
 		id = g_strdup (desc);
 	else
