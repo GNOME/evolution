@@ -45,6 +45,7 @@ typedef struct {
 	CamelFolder parent_object;
 	
 	gchar *directory_path;
+	GList *file_name_list;
 
 } CamelMhFolder;
 

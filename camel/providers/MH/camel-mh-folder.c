@@ -34,6 +34,7 @@
 #include "gstring-util.h"
 #include "camel-log.h"
 #include "camel-stream-fs.h"
+#include "camel-stream-buffered-fs.h"
 
 
 static CamelFolderClass *parent_class=NULL;
@@ -57,6 +58,7 @@ static gint _append_message (CamelFolder *folder, CamelMimeMessage *message);
 static void _expunge (CamelFolder *folder);
 static void _copy_message_to (CamelFolder *folder, CamelMimeMessage *message, CamelFolder *dest_folder);
 
+static gboolean _is_a_message_file (const gchar *file_name, const gchar *file_path);
 
 static void
 camel_mh_folder_class_init (CamelMhFolderClass *camel_mh_folder_class)
@@ -126,6 +128,16 @@ _init_with_store (CamelFolder *folder, CamelStore *parent_store)
 
 
 
+static gint
+_message_name_compare (gconstpointer a, gconstpointer b)
+{
+	gchar *m1 = (gchar *)a;
+	gchar *m2 = (gchar *)b;
+	gint len_diff;
+
+	return (atoi (m1) - atoi (m2));
+}
+
 /**
  * camel_mh_folder_set_name: set the name of an MH folder
  * @folder: the folder to set the name
@@ -142,6 +154,8 @@ _set_name (CamelFolder *folder, const gchar *name)
 	gchar *full_name;
 	const gchar *parent_full_name;
 	gchar separator;
+	struct dirent *dir_entry;
+	DIR *dir_handle;
 	
 	CAMEL_LOG_FULL_DEBUG ("Entering CamelMhFolder::set_name\n");
 	g_assert(folder);
@@ -161,7 +175,25 @@ _set_name (CamelFolder *folder, const gchar *name)
 	CAMEL_LOG_FULL_DEBUG ("CamelMhFolder::separator is %c\n", separator);
 
 	mh_folder->directory_path = g_strdup_printf ("%s%c%s", root_dir_path, separator, folder->full_name);
+	
+	if (!camel_folder_exists (folder)) return;
+	
+	/* create message list */
+	/* read the whole folder and sort message names */
+	dir_handle = opendir (mh_folder->directory_path);
+	/* read first entry in the directory */
+	dir_entry = readdir (dir_handle);
+	while (dir_entry != NULL) {
+		/* tests if the entry correspond to a message file */
+		if (_is_a_message_file (dir_entry->d_name, mh_folder->directory_path)) 
+			mh_folder->file_name_list = g_list_insert_sorted (mh_folder->file_name_list, g_strdup (dir_entry->d_name), 
+							     _message_name_compare);
+		/* read next entry */
+		dir_entry = readdir (dir_handle);
+	}		
 
+	closedir (dir_handle);
+	
 	CAMEL_LOG_FULL_DEBUG ("CamelMhFolder::set_name mh_folder->directory_path is %s\n", 
 			      mh_folder->directory_path);
 	CAMEL_LOG_FULL_DEBUG ("Leaving CamelMhFolder::set_name\n");
@@ -391,16 +423,6 @@ _is_a_message_file (const gchar *file_name, const gchar *file_path)
 }
 
 
-static gint
-_message_name_compare (gconstpointer a, gconstpointer b)
-{
-	gchar *m1 = (gchar *)a;
-	gchar *m2 = (gchar *)b;
-	gint len_diff;
-
-	return (atoi (m1) - atoi (m2));
-}
-
 static void
 _filename_free (gpointer data)
 {
@@ -417,8 +439,6 @@ _get_message (CamelFolder *folder, gint number)
 	const gchar *directory_path;
 	gchar *message_name;
 	gchar *message_file_name;
-	struct dirent *dir_entry;
-	DIR *dir_handle;
 	CamelStream *input_stream = NULL;
 	CamelMimeMessage *message = NULL;
 	GList *message_list = NULL;
@@ -428,31 +448,16 @@ _get_message (CamelFolder *folder, gint number)
 	
 	directory_path = mh_folder->directory_path;
 	if (!directory_path) return NULL;	
-	if (!camel_folder_exists (folder)) return NULL;
-	
-	/* read the whole folder and sort message names */
-	dir_handle = opendir (directory_path);
-	/* read first entry in the directory */
-	dir_entry = readdir (dir_handle);
-	while (dir_entry != NULL) {
-		/* tests if the entry correspond to a message file */
-		if (_is_a_message_file (dir_entry->d_name, directory_path)) 
-			message_list = g_list_insert_sorted (message_list, g_strdup (dir_entry->d_name), 
-							     _message_name_compare);
-		/* read next entry */
-		dir_entry = readdir (dir_handle);
-	}		
 
-	closedir (dir_handle);
 		
-
-	message_name = g_list_nth_data (message_list, number);
+	
+	message_name = g_list_nth_data (mh_folder->file_name_list, number);
 	
 	if (message_name != NULL) {
 		CAMEL_LOG_FULL_DEBUG  ("CanelMhFolder::get_message message number = %d, name = %s\n", 
 				       number, message_name);
 		message_file_name = g_strdup_printf ("%s/%s", directory_path, message_name);
-		input_stream = camel_stream_fs_new_with_name (message_file_name, CAMEL_STREAM_FS_READ);
+		input_stream = camel_stream_buffered_fs_new_with_name (message_file_name, CAMEL_STREAM_BUFFERED_FS_READ);
 		
 		if (input_stream != NULL) {
 #warning use session field here
@@ -468,7 +473,7 @@ _get_message (CamelFolder *folder, gint number)
 		g_free (message_file_name);
 	} else 
 		CAMEL_LOG_FULL_DEBUG  ("CanelMhFolder::get_message message number = %d, not found\n", number);
-	string_list_free (message_list);
+	
 	
 	return message;   
 }

@@ -1,3 +1,25 @@
+1999-08-24  bertrand  <Bertrand.Guiheneuf@aful.org>
+
+	* camel/camel-medium.c (camel_medium_class_init): 
+	new class. Will handle all sort of information media 
+	(Mime mail messages, Lotus Notes  mail messages, 
+	postit notes, faxes, who knows .... :)
+	CamelMimePart will inherit from it.
+
+	* camel/camel-mime-part.c (_set_disposition): 
+	(_set_description):
+	description and disposition parameters are now const.
+	 
+
+	* camel/gmime-content-field.c (gmime_content_field_free): added
+	assertion code.
+
+	* camel/providers/MH/camel-mh-folder.c (_get_message): 
+	uses buffered stream.
+
+	* camel/camel-stream-buffered-fs.c:
+	new stream to accelerate file ops.
+
 1999-08-20  bertrand  <Bertrand.Guiheneuf@aful.org>
 
 	* camel/camel-stream-fs.c (camel_stream_fs_new_with_name): 

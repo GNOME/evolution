@@ -4,7 +4,7 @@
 srcdir=`dirname $0`
 test -z "$srcdir" && srcdir=.
 
-PKG_NAME="gnome-mailer"
+PKG_NAME="evolution"
 
 
 . $srcdir/macros/autogen.sh

@@ -74,9 +74,10 @@ _free_parameter (gpointer name, gpointer value, gpointer user_data)
 void 
 gmime_content_field_free (GMimeContentField *content_field)
 {
+	g_assert (content_field);
 	g_hash_table_foreach (content_field->parameters, _free_parameter, NULL);
-	g_free (content_field->type);
-	g_free (content_field->subtype);
+	if (content_field->type) g_free (content_field->type);
+	if (content_field->subtype) g_free (content_field->subtype);
 	g_hash_table_destroy (content_field->parameters);
 	g_free (content_field);
 }

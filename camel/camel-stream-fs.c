@@ -33,7 +33,7 @@ static CamelStreamClass *parent_class=NULL;
 
 
 /* Returns the class for a CamelStreamFS */
-#define CS_CLASS(so) CAMEL_STREAM_FS_CLASS (GTK_OBJECT(so)->klass)
+#define CSFS_CLASS(so) CAMEL_STREAM_FS_CLASS (GTK_OBJECT(so)->klass)
 
 static gint _read (CamelStream *stream, gchar *buffer, gint n);
 static gint _write (CamelStream *stream, const gchar *buffer, gint n);
@@ -46,6 +46,9 @@ static gint _seek (CamelStream *stream, gint offset, CamelStreamSeekPolicy polic
 static void _finalize (GtkObject *object);
 static void _destroy (GtkObject *object);
 
+static void _init_with_fd (CamelStreamFs *stream_fs, int fd);
+static void _init_with_name (CamelStreamFs *stream_fs, const gchar *name, CamelStreamFsMode mode);
+
 static void
 camel_stream_fs_class_init (CamelStreamFsClass *camel_stream_fs_class)
 {
@@ -55,6 +58,8 @@ camel_stream_fs_class_init (CamelStreamFsClass *camel_stream_fs_class)
 	parent_class = gtk_type_class (camel_stream_get_type ());
 	
 	/* virtual method definition */
+	camel_stream_fs_class->init_with_fd = _init_with_fd;
+	camel_stream_fs_class->init_with_name = _init_with_name;
 
 	/* virtual method overload */
 	camel_stream_class->read = _read;
@@ -70,6 +75,13 @@ camel_stream_fs_class_init (CamelStreamFsClass *camel_stream_fs_class)
 
 }
 
+static void
+camel_stream_fs_init (gpointer   object,  gpointer   klass)
+{
+	CamelStreamFs *stream = CAMEL_STREAM_FS (object);
+
+	stream->name = NULL;
+}
 
 
 GtkType
@@ -84,7 +96,7 @@ camel_stream_fs_get_type (void)
 			sizeof (CamelStreamFs),
 			sizeof (CamelStreamFsClass),
 			(GtkClassInitFunc) camel_stream_fs_class_init,
-			(GtkObjectInitFunc) NULL,
+			(GtkObjectInitFunc) camel_stream_fs_init,
 				/* reserved_1 */ NULL,
 				/* reserved_2 */ NULL,
 			(GtkClassInitFunc) NULL,
@@ -130,14 +142,18 @@ _finalize (GtkObject *object)
 	CAMEL_LOG_FULL_DEBUG ("Leaving CamelStreamFs::finalize\n");
 }
 
+static void
+_init_with_fd (CamelStreamFs *stream_fs, int fd)
+{
+	stream_fs->fd = fd;
+}
 
-CamelStream *
-camel_stream_fs_new_with_name (const gchar *name, CamelStreamFsMode mode)
+static void
+_init_with_name (CamelStreamFs *stream_fs, const gchar *name, CamelStreamFsMode mode)
 {
 	struct stat s;
 	int v, fd;
 	int flags;
-	CamelStreamFs *stream_fs;
 
 	g_assert (name);
 	CAMEL_LOG_FULL_DEBUG ( "Entering CamelStream::new_with_name, name=\"%s\", mode=%d\n", name, mode); 
@@ -152,21 +168,33 @@ camel_stream_fs_new_with_name (const gchar *name, CamelStreamFsMode mode)
 		if (mode & CAMEL_STREAM_FS_WRITE)
 			flags = O_WRONLY | O_CREAT;
 		else
-			return NULL;
+			return;
 	}
 	if ( (mode & CAMEL_STREAM_FS_READ) && !(mode & CAMEL_STREAM_FS_WRITE) )
-		if (v == -1) return NULL;
+		if (v == -1) return;
 
 	fd = open (name, flags, 0600);
 	if (fd==-1) {
 		CAMEL_LOG_WARNING ( "CamelStreamFs::new_with_name can not obtain fd for file \"%s\"\n", name);
 		CAMEL_LOG_FULL_DEBUG ( "  Full error text is : %s\n", strerror(errno));
-		return NULL;
+		return;
 	}
 	
-	stream_fs = CAMEL_STREAM_FS (camel_stream_fs_new_with_fd (fd));
 	stream_fs->name = g_strdup (name);
+	CSFS_CLASS (stream_fs)->init_with_fd (stream_fs, fd);
+		
+	
 
+}
+
+
+CamelStream *
+camel_stream_fs_new_with_name (const gchar *name, CamelStreamFsMode mode)
+{
+	CamelStreamFs *stream_fs;
+	stream_fs = gtk_type_new (camel_stream_fs_get_type ());
+	CSFS_CLASS (stream_fs)->init_with_name (stream_fs, name, mode);
+	
 	return CAMEL_STREAM (stream_fs);
 	
 }
@@ -178,7 +206,9 @@ camel_stream_fs_new_with_fd (int fd)
 	
 	CAMEL_LOG_FULL_DEBUG ( "Entering CamelStream::new_with_fd  fd=%d\n",fd);
 	stream_fs = gtk_type_new (camel_stream_fs_get_type ());
-	stream_fs->fd = fd;
+	CSFS_CLASS (stream_fs)->init_with_fd (stream_fs, fd);
+
+	
 	return CAMEL_STREAM (stream_fs);
 }
 

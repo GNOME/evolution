@@ -54,9 +54,9 @@ static CamelDataWrapperClass *parent_class=NULL;
 static void _add_header (CamelMimePart *mime_part, gchar *header_name, gchar *header_value);
 static void _remove_header (CamelMimePart *mime_part, const gchar *header_name);
 static const gchar *_get_header (CamelMimePart *mime_part, const gchar *header_name);
-static void _set_description (CamelMimePart *mime_part, gchar *description);
+static void _set_description (CamelMimePart *mime_part, const gchar *description);
 static const gchar *_get_description (CamelMimePart *mime_part);
-static void _set_disposition (CamelMimePart *mime_part, gchar *disposition);
+static void _set_disposition (CamelMimePart *mime_part, const gchar *disposition);
 static const gchar *_get_disposition (CamelMimePart *mime_part);
 static void _set_filename (CamelMimePart *mime_part, gchar *filename);
 static const gchar *_get_filename (CamelMimePart *mime_part);
@@ -150,6 +150,15 @@ camel_mime_part_init (gpointer   object,  gpointer   klass)
 	
 	camel_mime_part->headers =  g_hash_table_new (g_str_hash, g_str_equal);
 	camel_mime_part->content_type = gmime_content_field_new (NULL, NULL);
+	camel_mime_part->description = NULL;
+	camel_mime_part->disposition = NULL;
+	camel_mime_part->content_id = NULL;
+	camel_mime_part->content_MD5 = NULL;
+	camel_mime_part->content_languages = NULL;
+	camel_mime_part->encoding = NULL;
+	camel_mime_part->filename = NULL;
+	camel_mime_part->header_lines = NULL;
+	camel_mime_part->content = NULL;
 }
 
 
@@ -296,14 +305,14 @@ camel_mime_part_get_header (CamelMimePart *mime_part, const gchar *header_name)
 
 
 static void
-_set_description (CamelMimePart *mime_part, gchar *description)
+_set_description (CamelMimePart *mime_part, const gchar *description)
 {
 	if (mime_part->description) g_free (mime_part->description);
-	mime_part->description = description;
+	mime_part->description = g_strdup (description);
 }
 
 void
-camel_mime_part_set_description (CamelMimePart *mime_part, gchar *description)
+camel_mime_part_set_description (CamelMimePart *mime_part, const gchar *description)
 {
 	CMP_CLASS(mime_part)->set_description (mime_part, description);
 }
@@ -326,19 +335,19 @@ camel_mime_part_get_description (CamelMimePart *mime_part)
 
 
 static void
-_set_disposition (CamelMimePart *mime_part, gchar *disposition)
+_set_disposition (CamelMimePart *mime_part, const gchar *disposition)
 {
 #warning Do not use MimeContentfield here !!!
-	//if (mime_part->disposition) g_free(mime_part->disposition);
+	if (mime_part->disposition) g_free(mime_part->disposition);
 	if (!mime_part->disposition) 
-		mime_part->disposition = g_new (GMimeContentField,1);
+		mime_part->disposition = g_new0 (GMimeContentField,1);
 	if ((mime_part->disposition)->type) g_free ((mime_part->disposition)->type);
-	(mime_part->disposition)->type = disposition;
+	(mime_part->disposition)->type = g_strdup (disposition);
 }
 
 
 void
-camel_mime_part_set_disposition (CamelMimePart *mime_part, gchar *disposition)
+camel_mime_part_set_disposition (CamelMimePart *mime_part, const gchar *disposition)
 {
 	CMP_CLASS(mime_part)->set_disposition (mime_part, disposition);
 }

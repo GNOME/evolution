@@ -60,6 +60,8 @@ typedef struct {
 	CamelStreamClass parent_class;
 	
 	/* Virtual methods */	
+	void (*init_with_fd) (CamelStreamFs *stream_fs, int fd);
+	void (*init_with_name) (CamelStreamFs *stream_fs, const gchar *name, CamelStreamFsMode mode);
 
 } CamelStreamFsClass;
 

@@ -17,6 +17,7 @@ libcamel_la_SOURCES = 				\
 	camel-data-wrapper.c			\
 	camel-simple-data-wrapper.c		\
 	camel-folder.c				\
+	camel-medium.c				\
 	camel-mime-body-part.c			\
 	camel-mime-message.c			\
 	camel-mime-part.c			\
@@ -26,6 +27,7 @@ libcamel_la_SOURCES = 				\
 	camel-session.c				\
 	camel-store.c				\
 	camel-stream.c				\
+	camel-stream-buffered-fs.c		\
 	camel-stream-fs.c			\
 	camel-stream-mem.c			\
 	data-wrapper-repository.c		\
@@ -43,6 +45,7 @@ libcamelinclude_HEADERS =			\
 	camel-simple-data-wrapper.h		\
 	camel-folder.h				\
 	camel-mime-body-part.h			\
+	camel-medium.h				\
 	camel-mime-message.h			\
 	camel-mime-part.h			\
 	camel-multipart.h			\
@@ -51,6 +54,7 @@ libcamelinclude_HEADERS =			\
 	camel-session.h				\
 	camel-store.h				\
 	camel-stream.h				\
+	camel-stream-buffered-fs.h		\
 	camel-stream-fs.h			\
 	camel-stream-mem.h			\
 	data-wrapper-repository.h		\
