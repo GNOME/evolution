@@ -1,3 +1,8 @@
+2004-02-25    <rodo@ximian.com>
+
+	* camel-folder.c (get_unread_message_count): do not avoid junk
+	mails in unread count
+
 2004-02-25  Not Zed  <NotZed@Ximian.com>
 
 	* providers/imap/camel-imap-summary.h (CAMEL_IMAP_MESSAGE_RECENT):
