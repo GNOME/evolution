@@ -5,8 +5,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution 1.0\n"
-"POT-Creation-Date: 2003-08-23 10:26+0200\n"
-"PO-Revision-Date: 2003-08-23 10:46+0200\n"
+"POT-Creation-Date: 2003-09-04 19:30+0200\n"
+"PO-Revision-Date: 2003-09-04 19:43+0200\n"
 "Last-Translator: Kjartan Maraas <kmaraas@gnome.org>\n"
 "Language-Team: Norwegian <no@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -390,7 +390,7 @@ msgstr "Organisasjonsenhet"
 msgid "Role"
 msgstr "Rolle"
 
-#: addressbook/backend/ebook/e-card.c:1436 mail/mail-format.c:963
+#: addressbook/backend/ebook/e-card.c:1436 mail/mail-format.c:966
 msgid "Mailer"
 msgstr "Postprogram"
 
@@ -750,6 +750,10 @@ msgid ""
 "more specific or raise the time limit in the directory server\n"
 "preferences for this addressbook."
 msgstr ""
+"Tiden for å utføre denne spørringen oversteg grensen på tjeneren\n"
+"eller grensen for denne adresseboken. Vennligst gjør søket mer\n"
+"spesifikt eller hev tidsgrensen i brukervalg for katalogtjener\n"
+"for denne adresseboken."
 
 #: addressbook/gui/component/addressbook.c:967
 msgid "The backend for this addressbook was unable to parse this query."
@@ -963,6 +967,9 @@ msgid ""
 "your connection. Ask your system administrator if your LDAP server uses "
 "these protocols."
 msgstr ""
+"Nå må du oppgi hvordan du ønsker å koble til LDAP-tjeneren. SSL- (Secure Sockets Layer)\n"
+"og TLS- (Transport Layer Security) protokollene brukes av noen tjenere for å beskytte din forbindelse\n"
+"kryptografisk. Spør din systemadministrator om din LDAP-tjener bruker disse protokollene."
 
 #: addressbook/gui/component/ldap-config.glade.h:32
 msgid "One"
@@ -3953,7 +3960,7 @@ msgstr ""
 #: mail/mail-config.glade.h:76
 #: widgets/e-timezone-dialog/e-timezone-dialog.c:194
 #: widgets/misc/e-cell-date-edit.c:257 widgets/misc/e-dateedit.c:442
-#: widgets/misc/e-dateedit.c:1458 widgets/misc/e-dateedit.c:1573
+#: widgets/misc/e-dateedit.c:1470 widgets/misc/e-dateedit.c:1585
 msgid "None"
 msgstr "Ingen"
 
@@ -5583,7 +5590,7 @@ msgstr "Avslått"
 #: camel/camel-gpg-context.c:1625 camel/camel-tcp-stream-openssl.c:634
 #: camel/providers/smtp/camel-smtp-transport.c:173
 #: camel/providers/smtp/camel-smtp-transport.c:228 mail/folder-browser.c:347
-#: mail/mail-display.c:932 widgets/misc/e-charset-picker.c:60
+#: mail/mail-display.c:936 widgets/misc/e-charset-picker.c:60
 msgid "Unknown"
 msgstr "Ukjent"
 
@@ -6012,7 +6019,7 @@ msgstr "%a %d.%m.%Y"
 #. This is a strftime() format string %m = month number,
 #. %d = month day, %Y = full year.
 #: calendar/gui/e-meeting-time-sel-item.c:466 e-util/e-time-utils.c:238
-#: e-util/e-time-utils.c:299 widgets/misc/e-dateedit.c:1582
+#: e-util/e-time-utils.c:299 widgets/misc/e-dateedit.c:1594
 msgid "%m/%d/%Y"
 msgstr "%d.%m.%Y"
 
@@ -8268,11 +8275,11 @@ msgstr ""
 "Feil under kjøring av søkeuttrykket %s:\n"
 "%s"
 
-#: camel/camel-folder-search.c:575 camel/camel-folder-search.c:603
+#: camel/camel-folder-search.c:569 camel/camel-folder-search.c:598
 msgid "(match-all) requires a single bool result"
 msgstr "(treff-alle) krever et enkelt bolsk resultat"
 
-#: camel/camel-folder-search.c:655
+#: camel/camel-folder-search.c:650
 #, c-format
 msgid "Performing query on unknown header: %s"
 msgstr "Utfører spørring på ukjent header: %s"
@@ -8617,7 +8624,7 @@ msgstr ""
 msgid ""
 "The specified mechanism is not supported by the provided credential, or is "
 "unrecognized by the implementation."
-msgstr ""
+msgstr "Oppgitt mekanisme er ikke støttet av brukerinformasjonen som ble gitt, eller gjenkjennes ikke av implmenentasjonen."
 
 #: camel/camel-sasl-gssapi.c:153
 msgid "The provided target_name parameter was ill-formed."
@@ -8627,41 +8634,42 @@ msgstr "Oppgitt parameter target_name var ikke riktig utformet."
 msgid ""
 "The provided target_name parameter contained an invalid or unsupported type "
 "of name."
-msgstr "Oppgitt parameter target_name inneholdt en ugyldig eller ustøttet type navn."
+msgstr ""
+"Oppgitt parameter target_name inneholdt en ugyldig eller ustøttet type navn."
 
 #: camel/camel-sasl-gssapi.c:160
 msgid ""
 "The input_token contains different channel bindings to those specified via "
 "the input_chan_bindings parameter."
-msgstr ""
+msgstr "input_token inneholder andre bindinger for kanaler enn det som er oppgit via parameteren input_chan_bindings."
 
 #: camel/camel-sasl-gssapi.c:165
 msgid ""
 "The input_token contains an invalid signature, or a signature that could not "
 "be verified."
-msgstr ""
+msgstr "input_token inneholder en ugyldig signatur eller en signatur som ikke kunne verifiseres."
 
 #: camel/camel-sasl-gssapi.c:169
 msgid ""
 "The supplied credentials were not valid for context initiation, or the "
 "credential handle did not reference any credentials."
-msgstr ""
+msgstr "Oppgitt brukerinformasjon var ikke gyldig for initiering av kontekst eller så refererte ikke håndtaket for brukerinformasjonen til noen brukerinformasjon."
 
 #: camel/camel-sasl-gssapi.c:174
 msgid "The supplied context handle did not refer to a valid context."
-msgstr ""
+msgstr "Oppgitt konteksthåndtak refererte ikke til en gyldig kontekst."
 
 #: camel/camel-sasl-gssapi.c:177
 msgid "The consistency checks performed on the input_token failed."
-msgstr ""
+msgstr "Konsistenssjekken som ble utført på input_token feilet."
 
 #: camel/camel-sasl-gssapi.c:180
 msgid "The consistency checks performed on the credential failed."
-msgstr ""
+msgstr "Konsistenssjekk utført på brukerinformasjonen feilet."
 
 #: camel/camel-sasl-gssapi.c:183
 msgid "The referenced credentials have expired."
-msgstr ""
+msgstr "Referert brukerinformasjon er utgått."
 
 #: camel/camel-sasl-gssapi.c:189 camel/camel-sasl-gssapi.c:238
 #: camel/camel-sasl-gssapi.c:274 camel/camel-sasl-gssapi.c:289
@@ -10793,6 +10801,8 @@ msgid ""
 "sent is read, and to specify what Evolution should do when someone requests "
 "a receipt from you.</small>"
 msgstr ""
+"<small>Denne siden lar deg velge om du ønsker å få meldinger via en lesekvittering når en melding du\n"
+"har sendt blir lest i tillegg til at du kan oppgi hva Evolution skal gjøre når noen forespør en kvittering fra deg.</small>"
 
 #: designs/read_receipts/read.glade.h:6
 msgid "Always send back a read reciept"
@@ -10816,13 +10826,16 @@ msgstr "Spør etter lesekvittering for alle meldinger jeg sender"
 
 #: designs/read_receipts/read.glade.h:11
 msgid "Unless the message is sent to a mailing list, and not to me personally"
-msgstr "Med mindre meldingen er sendt til en e-postliste, og ikke meg personlig"
+msgstr ""
+"Med mindre meldingen er sendt til en e-postliste, og ikke meg personlig"
 
 #: designs/read_receipts/read.glade.h:12
 msgid ""
 "When you receive an email with a read receipt request, what should Evolution "
 "do?"
-msgstr "Hva skal Evolution gjøre når du mottar en melding med en forespørsel om lesekvittering?"
+msgstr ""
+"Hva skal Evolution gjøre når du mottar en melding med en forespørsel om "
+"lesekvittering?"
 
 #: e-util/e-dialog-utils.c:247
 msgid ""
@@ -10923,13 +10936,13 @@ msgstr "%H.%M.%S"
 #. strptime format for time of day, without seconds,
 #. in 12-hour format.
 #: e-util/e-time-utils.c:348 e-util/e-time-utils.c:435
-#: widgets/misc/e-dateedit.c:1404 widgets/misc/e-dateedit.c:1617
+#: widgets/misc/e-dateedit.c:1404 widgets/misc/e-dateedit.c:1629
 msgid "%I:%M %p"
 msgstr "%H.%M"
 
 #. strptime format for time of day, without seconds 24-hour format.
 #: e-util/e-time-utils.c:352 e-util/e-time-utils.c:427
-#: widgets/misc/e-dateedit.c:1401 widgets/misc/e-dateedit.c:1614
+#: widgets/misc/e-dateedit.c:1401 widgets/misc/e-dateedit.c:1626
 msgid "%H:%M"
 msgstr "%H.%M"
 
@@ -11453,7 +11466,7 @@ msgstr "starter med"
 msgid "Stop Processing"
 msgstr "Stopp behandling"
 
-#: filter/libfilter-i18n.h:60 mail/mail-format.c:934
+#: filter/libfilter-i18n.h:60 mail/mail-format.c:937
 #: mail/message-list.etspec.h:13 mail/message-tag-followup.c:305
 msgid "Subject"
 msgstr "Emne"
@@ -11577,6 +11590,16 @@ msgid ""
 "of priorities. Check the imported filters to make sure\n"
 "everything still works as intended."
 msgstr ""
+"Noen av dine filter for Netscape e-post er basert på\n"
+"e-postprioriteter, som ikke brukes i Evolution.\n"
+"Evolution bruker poengsummer mellom -3 til 3 i stedet, og\n"
+"disse kan tildeles meldinger og filtreres på denne måten.\n"
+"\n"
+"I stedet ble et sett filtre kalt «Prioritetsfiltre»\n"
+"lagt til, og disse konverterer Netscape's e-postprioriteter\n"
+"til Evolution's poengsummer slik at filtrene bruker poeng i stedet\n"
+"for prioritet. Sjekk de importerte filtrene for å forsikre deg\n"
+"om at alt fungerer som ventet."
 
 #: importers/netscape-importer.c:677 mail/importers/netscape-importer.c:687
 msgid ""
@@ -11585,6 +11608,10 @@ msgid ""
 "feature, which is not supported in Evolution.\n"
 "These filters will be dropped."
 msgstr ""
+"Noen av dine filtre for Netscape e-post bruker\n"
+"«Ignorer tråd» eller «Overvåk tråd» funksjonen,\n"
+"og denne er ikke støttet i Evolution.\n"
+"Disse filtrene vil droppes."
 
 #: importers/netscape-importer.c:694 mail/importers/netscape-importer.c:704
 msgid ""
@@ -11594,6 +11621,11 @@ msgid ""
 "were modified to test whether that string is or is not\n"
 "contained in the message body."
 msgstr ""
+"Noen av dine filtre for Netscape e-post sjekker om\n"
+"kroppen av meldinger er lik en streng eller ikke,\n"
+"og dette støttes ikke av Evolution. Disse filtrene\n"
+"ble endret til å sjekke om strengen finnes i \n"
+"meldingskroppen eller ikke."
 
 #: importers/netscape-importer.c:1227 mail/importers/netscape-importer.c:1237
 msgid "Evolution is importing your old Netscape data"
@@ -11798,7 +11830,7 @@ msgstr "Egenskaper for «%s»"
 msgid "Properties"
 msgstr "Egenskaper"
 
-#: mail/folder-browser.c:329 mail/mail-display.c:393 mail/mail-display.c:921
+#: mail/folder-browser.c:329 mail/mail-display.c:397 mail/mail-display.c:925
 #, c-format
 msgid "Could not create temporary directory: %s"
 msgstr "Kunne ikke opprette midlertidig katalog: %s"
@@ -13051,70 +13083,70 @@ msgstr ""
 "Filen «%s»  eksisterer allerede.\n"
 "Overskriv den?"
 
-#: mail/mail-display.c:335
+#: mail/mail-display.c:339
 msgid "Save Attachment"
 msgstr "Lagre vedlegg"
 
-#: mail/mail-display.c:408
+#: mail/mail-display.c:412
 #, c-format
 msgid "Could not create temporary file '%s': %s"
 msgstr "Kunne ikke opprette midlertidig fil «%s»: %s"
 
-#: mail/mail-display.c:480
+#: mail/mail-display.c:484
 msgid "Save Attachment..."
 msgstr "Lagre vedlegg..."
 
-#: mail/mail-display.c:481
+#: mail/mail-display.c:485
 msgid "View Inline"
 msgstr "Vis «inline»"
 
-#: mail/mail-display.c:482
+#: mail/mail-display.c:486
 #, c-format
 msgid "Open in %s..."
 msgstr "Åpne i %s..."
 
-#: mail/mail-display.c:542
+#: mail/mail-display.c:546
 #, c-format
 msgid "View Inline (via %s)"
 msgstr "Vis «inline» (via %s)"
 
-#: mail/mail-display.c:546
+#: mail/mail-display.c:550
 msgid "Hide"
 msgstr "Skjul"
 
-#: mail/mail-display.c:566
+#: mail/mail-display.c:570
 msgid "External Viewer"
 msgstr "Ekstern visning"
 
-#: mail/mail-display.c:1352
+#: mail/mail-display.c:1356
 msgid "Downloading images"
 msgstr "Laster ned bilder"
 
-#: mail/mail-display.c:1529
+#: mail/mail-display.c:1533
 msgid "Loading message content"
 msgstr "Laster meldingsinnhold"
 
-#: mail/mail-display.c:1871
+#: mail/mail-display.c:1875
 msgid "Overdue:"
 msgstr "Utgått:"
 
-#: mail/mail-display.c:1875
+#: mail/mail-display.c:1879
 msgid "by %B %d, %Y, %l:%M %p"
 msgstr "ved %d %B %Y, %H:%M"
 
-#: mail/mail-display.c:2239
+#: mail/mail-display.c:2243
 msgid "Open Link in Browser"
 msgstr "Åpne lenke i nettleser"
 
-#: mail/mail-display.c:2240
+#: mail/mail-display.c:2244
 msgid "Copy Link Location"
 msgstr "Kopier lokasjon for lenke"
 
-#: mail/mail-display.c:2242
+#: mail/mail-display.c:2246
 msgid "Save Link as (FIXME)"
 msgstr "Lagre lenke som"
 
-#: mail/mail-display.c:2244
+#: mail/mail-display.c:2248
 msgid "Save Image as..."
 msgstr "Lagre bilde som..."
 
@@ -13123,89 +13155,89 @@ msgstr "Lagre bilde som..."
 msgid "Pinging %s"
 msgstr "Pinger %s"
 
-#: mail/mail-format.c:665
+#: mail/mail-format.c:668
 #, c-format
 msgid "%s attachment"
 msgstr "%s-vedlegg"
 
-#: mail/mail-format.c:707 mail/mail-format.c:1370 mail/mail-format.c:1439
-#: mail/mail-format.c:1559 mail/mail-format.c:1683 mail/mail-format.c:1708
+#: mail/mail-format.c:710 mail/mail-format.c:1513 mail/mail-format.c:1582
+#: mail/mail-format.c:1702 mail/mail-format.c:1826 mail/mail-format.c:1851
 msgid "Could not parse MIME message. Displaying as source."
 msgstr "Kunne ikke lese MIME-melding. Viser ren meldingstekst."
 
-#: mail/mail-format.c:785 mail/message-list.etspec.h:2
+#: mail/mail-format.c:788 mail/message-list.etspec.h:2
 msgid "Date"
 msgstr "Dato"
 
-#: mail/mail-format.c:871
+#: mail/mail-format.c:874
 msgid "Bad Address"
 msgstr "Ugyldig e-post-adresse:"
 
-#: mail/mail-format.c:912 mail/message-list.etspec.h:7
+#: mail/mail-format.c:915 mail/message-list.etspec.h:7
 #: mail/message-tag-followup.c:301
 msgid "From"
 msgstr "Fra"
 
-#: mail/mail-format.c:916
+#: mail/mail-format.c:919
 msgid "Reply-To"
 msgstr "Svar-til"
 
-#: mail/mail-format.c:921 mail/message-list.etspec.h:14
+#: mail/mail-format.c:924 mail/message-list.etspec.h:14
 msgid "To"
 msgstr "Til"
 
-#: mail/mail-format.c:926
+#: mail/mail-format.c:929
 msgid "Cc"
 msgstr "Cc"
 
-#: mail/mail-format.c:931
+#: mail/mail-format.c:934
 msgid "Bcc"
 msgstr "Bcc"
 
-#: mail/mail-format.c:1482
+#: mail/mail-format.c:1625
 msgid ""
 "This message is digitally signed. Click the lock icon for more information."
 msgstr ""
 "Denne meldingen er digitalt signert. Klikk låsikonet for mer informasjon."
 
-#: mail/mail-format.c:1510
+#: mail/mail-format.c:1653
 msgid "Could not create a PGP verfication context"
 msgstr "Kunne ikke opprette PGP verifiseringskontekst"
 
-#: mail/mail-format.c:1518
+#: mail/mail-format.c:1661
 msgid "This message is digitally signed and has been found to be authentic."
 msgstr "Denne meldingen er digitalt signert og er funnet autentisk."
 
-#: mail/mail-format.c:1525
+#: mail/mail-format.c:1668
 msgid "This message is digitally signed but can not be proven to be authentic."
 msgstr "Denne meldingen er digitalt signert, men kan ikke finnes autentisk."
 
-#: mail/mail-format.c:1789
+#: mail/mail-format.c:1932
 #, c-format
 msgid "Pointer to FTP site (%s)"
 msgstr "Peker til FTP-tjener (%s)"
 
-#: mail/mail-format.c:1800
+#: mail/mail-format.c:1943
 #, c-format
 msgid "Pointer to local file (%s) valid at site \"%s\""
 msgstr "Peker til lokal fil (%s) gyldig på nettsted «%s»"
 
-#: mail/mail-format.c:1803
+#: mail/mail-format.c:1946
 #, c-format
 msgid "Pointer to local file (%s)"
 msgstr "Peker til lokal fil (%s)"
 
-#: mail/mail-format.c:1830
+#: mail/mail-format.c:1973
 #, c-format
 msgid "Pointer to remote data (%s)"
 msgstr "Peker til eksterne data (%s)"
 
-#: mail/mail-format.c:1836
+#: mail/mail-format.c:1979
 #, c-format
 msgid "Pointer to unknown external data (\"%s\" type)"
 msgstr "Peker til ukjente eksterne data («%s»-type)"
 
-#: mail/mail-format.c:1838
+#: mail/mail-format.c:1981
 msgid "Malformed external-body part."
 msgstr "Feilutformet del for ekstern kropp."
 
@@ -27005,7 +27037,7 @@ msgid "Reset the text to its original size"
 msgstr "Ta teksten tilbake til sin opprinnelige størrelse"
 
 #: ui/evolution-mail-message.xml.h:77
-msgid "S_earch Message..."
+msgid "S_earch in Message..."
 msgstr "Søk i m_elding..."
 
 #: ui/evolution-mail-message.xml.h:78
