@@ -33,7 +33,7 @@ parse_headers ()
 {
 	char *p, *s;
 	int in_value = 0, i;
-	
+
 	fgets (buffer, sizeof (buffer)-1, stdin);
 
 	for (p = buffer; *p; p++){
@@ -47,7 +47,7 @@ parse_headers ()
 	}
 	if (in_value)
 		cols++;
-	
+
 	if (!cols){
 		fprintf (stderr, "No columns in first row\n");
 		exit (1);
@@ -75,7 +75,7 @@ load_line (char *buffer, int cols)
 	char **line = g_new0 (char *, cols);
 	char *p;
 	int i;
-	
+
 	for (i = 0; i < cols; i++){
 		p = strtok (buffer, " \t\n");
 		if (p == NULL){
@@ -110,10 +110,10 @@ load_data ()
 
 		if (loaded)
 			return;
-		
+
 		loaded = TRUE;
 	}
-	
+
 
 	parse_headers ();
 
@@ -240,7 +240,7 @@ table_browser_test (void)
 	ETableHeader *e_table_header;
 	ECell *cell_left_just;
 	GnomeCanvasItem *group;
-	int i;	
+	int i;
 
 	load_data ();
 
@@ -264,7 +264,7 @@ table_browser_test (void)
 	 */
 	e_table_header = e_table_header_new ();
 	cell_left_just = e_cell_text_new (NULL, GTK_JUSTIFY_LEFT);
-	
+
 	for (i = 0; i < cols; i++){
 		ETableCol *ecol = e_table_col_new (
 			i, column_labels [i],
@@ -283,7 +283,7 @@ table_browser_test (void)
 
 	gtk_signal_connect (GTK_OBJECT (canvas), "size_allocate",
 			    GTK_SIGNAL_FUNC (set_canvas_size), NULL);
-	
+
 	gtk_container_add (GTK_CONTAINER (window), canvas);
 	gtk_widget_show_all (window);
 	gnome_canvas_item_new (
@@ -298,7 +298,7 @@ table_browser_test (void)
 		"x", 30.0,
 		"y", 30.0,
 		NULL);
-	
+
 	gnome_canvas_item_new (
 		GNOME_CANVAS_GROUP (group),
 		e_table_item_get_type (),
@@ -354,7 +354,7 @@ do_e_table_demo (const char *spec)
 	static ETableModel *e_table_model = NULL;
 
 	if (e_table_model == NULL)
-		e_table_model = 
+		e_table_model =
 			e_table_simple_new (col_count, row_count, append_row,
 					    value_at, set_value_at, is_cell_editable,
 					    has_save_id, get_save_id,
@@ -375,21 +375,16 @@ do_e_table_demo (const char *spec)
 
 		e_table_header_add_column (full_header, ecol, i);
 	}
-	
-	state = "<ETableState>
-    <column source=\"0\"/>
-    <column source=\"3\"/>
-    <column source=\"1\"/>
-    <column source=\"2\"/>
-    <grouping>
-      <group column=\"2\" ascending=\"true\">
-	<leaf column=\"1\" ascending=\"true\"/>
-      </group>
-    </grouping>
-    <!-- Column that's been added by hand.  Not implemented yet.
-  <ETableColumn model_col=\"custom-string\" _title=\"Custom\" expansion=\"1.0\" minimum_widgth=\"20\" resizable=\"true\" cell=\"string\" compare=\"string\"/> -->
+
+	state = "\
+<ETableState>\n\
+    <column source=\"0\"/>\n\
+    <column source=\"1\"/>\n\
+    <column source=\"1\"/>\n\
+    <column source=\"3\"/>\n\
+    <grouping></grouping>\n\
 </ETableState>";
-	
+
 	window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
 	frame = gtk_frame_new (NULL);
 	e_table = e_table_new (e_table_model, extras, spec, state);
