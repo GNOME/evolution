@@ -1,3 +1,7 @@
+2004-02023  Adam Weinberger <adamw@FreeBSD.org>
+
+	* configure.in: Added "en_CA" (Canadian English) to ALL_LINGUAS.
+
 2004-02-19  Chris Toshok  <toshok@ximian.com>
 
 	* configure.in: add AC_ARG_ENABLE(smime...) -- "finally", i can

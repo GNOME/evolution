@@ -1,3 +1,7 @@
+2004-02022  Adam Weinberger  <adamw@FreeBSD.org>
+
+	* en_CA.po: Added "en_CA" (Canadian English) translation.
+
 2004-02-23  Francisco Javier F. Serrador  <serrador@cvs.gnome.org>
 
 	* es.po: Updated Spanish translation.
