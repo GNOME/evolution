@@ -106,7 +106,7 @@ fetch_mail (GtkWidget *button, gpointer user_data)
 		char *tmp_mbox, *source;
 		int tmpfd;
 
-		tmp_mbox = g_strdup_printf ("%s/movemail.XXXX", path);
+		tmp_mbox = g_strdup_printf ("%s/movemail.XXXXXX", path);
 #ifdef HAVE_MKSTEMP
 		tmpfd = mkstemp (tmp_mbox);
 #else

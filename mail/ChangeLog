@@ -1,3 +1,9 @@
+2000-05-12  NotZed  <NotZed@HelixCode.com>
+
+	* mail-ops.c (fetch_mail): Use 6 X's to mkstemp, as required by
+	the man page, just a temp fix, this should probably change to a
+	known filename.
+
 2000-05-11  Dan Winship  <danw@helixcode.com>
 
 	* folder-browser-factory.c (control_activate): Now that we depend
