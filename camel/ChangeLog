@@ -1,5 +1,10 @@
 2001-03-02  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* providers/smtp/camel-smtp-transport.c (get_smtp_error_string):
+	Updated with the extended AUTH return codes.
+
+2001-03-02  Jeffrey Stedfast  <fejj@ximian.com>
+	
 	* providers/imap/camel-imap-store.c (try_auth): Don't forget to
 	unref the SASL object.
 
