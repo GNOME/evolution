@@ -359,7 +359,7 @@ sig_selection_changed(GtkTreeSelection *selection, MailComposerPrefs *prefs)
 static void
 sig_fill_clist (GtkTreeView *clist)
 {
-	GList *l;
+	GSList *l;
 	GtkListStore *model;
 	GtkTreeIter iter;
 	

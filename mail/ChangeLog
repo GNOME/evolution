@@ -1,3 +1,20 @@
+2003-01-16  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-composer-prefs.c (sig_fill_clist): Same as below.
+
+	* mail-account-gui.c (sig_fill_options):
+	mail_config_get_signature_list() now returns a GSList instead of a
+	GList.
+
+	* mail-config.c (signature_new_from_xml): New function to parse a
+	signature xml blob into a MailConfigSignature structure.
+	(config_read_signatures): Rewritten to use above function.
+	(signature_to_xml): New function to write a signature to xml.
+	(config_write_signatures_num): Removed.
+	(config_write_signature): Removed.
+	(config_write_signatures): Rewritten to use signature_to_xml and
+	gconf.
+
 2003-01-16  Dan Winship  <danw@ximian.com>
 
 	* mail-config.h (MailConfigAccount): Add a UID field (to match

@@ -2454,7 +2454,7 @@ folder_browser_gui_init (FolderBrowser *fb)
 	gtk_paned_add1 (GTK_PANED (fb->vpaned), GTK_WIDGET (fb->message_list));
 	gtk_widget_show (GTK_WIDGET (fb->message_list));
 	
-	fb->paned_resize_id = g_signal_connect (fb->message_list, "size_allocate",
+	fb->paned_resize_id = g_signal_connect (fb->message_list, "size-allocate",
 						G_CALLBACK (fb_resize_cb), fb);
 	
 	gconf = gconf_client_get_default ();

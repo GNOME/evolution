@@ -1215,7 +1215,7 @@ sig_fill_options (MailAccountGui *gui)
 {
 	GtkWidget *menu;
 	GtkWidget *mi;
-	GList *l;
+	GSList *l;
 	MailConfigSignature *sig;
 	
 	menu = gtk_option_menu_get_menu (GTK_OPTION_MENU (gui->sig_option_menu));

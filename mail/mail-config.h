@@ -203,7 +203,7 @@ gboolean mail_config_check_service (const char *url, CamelProviderType type, GLi
 
 gboolean evolution_mail_config_factory_init (void);
 
-GList *mail_config_get_signature_list (void);
+GSList *mail_config_get_signature_list (void);
 MailConfigSignature *mail_config_signature_add (gboolean html, const gchar *script);
 void mail_config_signature_delete (MailConfigSignature *sig);
 void mail_config_signature_write (MailConfigSignature *sig);

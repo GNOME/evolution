@@ -83,8 +83,8 @@ typedef struct {
 	
 	GHashTable *threaded_hash;
 	
-	GList *signature_list;
-	int signatures;
+	GSList *signatures;
+	int sig_nextid;
 	
 	MailConfigLabel labels[5];
 	
@@ -322,18 +322,21 @@ xml_get_content (xmlNodePtr node)
 }
 
 static MailConfigSignature *
-lookup_signature (int i)
+lookup_signature (int id)
 {
 	MailConfigSignature *sig;
-	GList *l;
+	GSList *l;
 	
-	if (i == -1)
+	if (id == -1)
 		return NULL;
 	
-	for (l = config->signature_list; l; l = l->next) {
+	l = config->signatures;
+	while (l != NULL) {
 		sig = (MailConfigSignature *) l->data;
-		if (sig->id == i)
+		if (sig->id == id)
 			return sig;
+		
+		l = l->next;
 	}
 	
 	return NULL;
@@ -699,114 +702,159 @@ mail_config_clear (void)
 }
 
 static MailConfigSignature *
-config_read_signature (int i)
+signature_new_from_xml (char *in, int id)
 {
 	MailConfigSignature *sig;
-	char *path, *val;
+	xmlNodePtr node, cur;
+	xmlDocPtr doc;
+	char *buf;
+	
+	if (!(doc = xmlParseDoc (in)))
+		return NULL;
+	
+	node = doc->children;
+	if (strcmp (node->name, "signature") != 0) {
+		xmlFreeDoc (doc);
+		return NULL;
+	}
 	
 	sig = g_new0 (MailConfigSignature, 1);
+	sig->name = xml_get_prop (node, "name");
+	sig->id = id;
 	
-	sig->id = i;
-
-#warning "need to rewrite the config_read_signature()"
-#if 0
-	path = g_strdup_printf ("/apps/Evolution/Mail/Signatures/name_%d", i);
-	val = e_config_listener_get_string (config->db, path);
-	g_free (path);
-	if (val && *val)
-		sig->name = val;
+	buf = xml_get_prop (node, "format");
+	if (!strcmp (buf, "text/html"))
+		sig->html = TRUE;
 	else
-		g_free (val);
+		sig->html = FALSE;
+	g_free (buf);
 	
-	path = g_strdup_printf ("/apps/Evolution/Mail/Signatures/filename_%d", i);
-	val = e_config_listener_get_string (config->db, path);
-	g_free (path);
-	if (val && *val)
-		sig->filename = val;
-	else
-		g_free (val);
+	cur = node->children;
+	while (cur) {
+		if (!strcmp (cur->name, "filename")) {
+			g_free (sig->filename);
+			sig->filename = xml_get_content (cur);
+		} else if (!strcmp (cur->name, "script")) {
+			g_free (sig->script);
+			sig->script = xml_get_content (cur);
+		}
+		
+		cur = cur->next;
+	}
 	
-	path = g_strdup_printf ("/apps/Evolution/Mail/Signatures/script_%d", i);
-	val = e_config_listener_get_string (config->db, path);
-	g_free (path);
-	if (val && *val)
-		sig->script = val;
-	else
-		g_free (val);
-	
-	path = g_strdup_printf ("/apps/Evolution/Mail/Signatures/html_%d", i);
-	sig->html = e_config_listener_get_boolean_with_default (config->db, path, FALSE, NULL);
-	g_free (path);
-#endif
+	xmlDocFree (doc);
 	
 	return sig;
 }
 
 static void
-config_read_signatures ()
+config_read_signatures (void)
 {
 	MailConfigSignature *sig;
-	int i;
+	GSList *list, *l, *tail, *n;
+	int i = 0;
 	
-	config->signature_list = NULL;
-	config->signatures = 0;
+	config->signatures = NULL;
 	
-#warning "need to rewrite config_read_signatures()"
-#if 0
-	config->signatures = e_config_listener_get_long_with_default (config->db, "/apps/Evolution/Mail/Signatures/num", 0, NULL);
+	tail = NULL;
+	list = gconf_client_get_list (config->gconf, "/apps/evolution/mail/signatures",
+				      GCONF_VALUE_STRING, NULL);
 	
-	for (i = 0; i < config->signatures; i ++) {
-		sig = config_read_signature (i);
-		config->signature_list = g_list_append (config->signature_list, sig);
-	}
-#endif
-}
-
-static void
-config_write_signature (MailConfigSignature *sig, gint i)
-{
-#warning "need to rewrite config_write_signature()"
-#if 0
-	char *path;
-	
-	printf ("config_write_signature i: %d id: %d\n", i, sig->id);
-	
-	path = g_strdup_printf ("/apps/Evolution/Mail/Signatures/name_%d", i);
-	e_config_listener_set_string (config->db, path, sig->name ? sig->name : "");
-	g_free (path);
-	
-	path = g_strdup_printf ("/apps/Evolution/Mail/Signatures/filename_%d", i);
-	e_config_listener_set_string (config->db, path, sig->filename ? sig->filename : "");
-	g_free (path);
-	
-	path = g_strdup_printf ("/apps/Evolution/Mail/Signatures/script_%d", i);
-	e_config_listener_set_string (config->db, path, sig->script ? sig->script : "");
-	g_free (path);
-	
-	path = g_strdup_printf ("/apps/Evolution/Mail/Signatures/html_%d", i);
-	e_config_listener_set_boolean (config->db, path, sig->html);
-	g_free (path);
-#endif
-}
-
-static void
-config_write_signatures_num ()
-{
-#warning "need to rewrite config_write_signatures_num()"
-	/*e_config_listener_set_long (config->db, "/apps/Evolution/Mail/Signatures/num", config->signatures);*/
-}
-
-static void
-config_write_signatures ()
-{
-	GList *l;
-	int id;
-	
-	for (id = 0, l = config->signature_list; l; l = l->next, id ++) {
-		config_write_signature ((MailConfigSignature *) l->data, id);
+	l = list;
+	while (l != NULL) {
+		MailConfigSignature *sig;
+		
+		if ((sig = signature_new_from_xml ((char *) l->data, i++))) {
+			n = g_slist_alloc ();
+			n->next = NULL;
+			n->data = sig;
+			
+			if (tail == NULL)
+				config->signatures = n;
+			else
+				tail->next = n;
+			tail = n;
+		}
+		
+		n = l->next;
+		g_slist_free_1 (l);
+		l = n;
 	}
 	
-	config_write_signatures_num ();
+	config->sig_nextid = i + 1;
+}
+
+static char *
+signature_to_xml (MailConfigSignature *sig)
+{
+	char *xmlbuf, *tmp;
+	xmlNodePtr root;
+	xmlDocPtr doc;
+	int n;
+	
+	doc = xmlNewDoc ("1.0");
+	
+	root = xmlNewDocNode (doc, NULL, "signature", NULL);
+	xmlDocSetRootElement (doc, root);
+	
+	xmlSetProp (root, "name", sig->name);
+	xmlSetProp (root, "format", sig->html ? "text/html" : "text/plain");
+	
+	if (sig->filename)
+		xmlNewTextChild (root, NULL, "filename", sig->filename);
+	
+	if (sig->script)
+		xmlNewTextChild (root, NULL, "script", sig->script);
+	
+	xmlDocDumpMemory (doc, (xmlChar **) &xmlbuf, &n);
+	xmlFreeDoc (doc);
+	
+	/* remap to glib memory */
+	tmp = g_malloc (n + 1);
+	memcpy (tmp, xmlbuf, n);
+	tmp[n] = '\0';
+	xmlFree (xmlbuf);
+	
+	return tmp;
+}
+
+static void
+config_write_signatures (void)
+{
+	GSList *list, *tail, *n, *l;
+	char *xmlbuf;
+	
+	list = NULL;
+	tail = NULL;
+	
+	l = config->signatures;
+	while (l != NULL) {
+		if ((xmlbuf = signature_to_xml ((MailConfigSignature *) l->data))) {
+			n = g_slist_alloc ();
+			n->data = xmlbuf;
+			n->next = NULL;
+			
+			if (tail == NULL)
+				list = n;
+			else
+				tail->next = n;
+			tail = n;
+		}
+		
+		l = l->next;
+	}
+	
+	gconf_client_set_list (config->gconf, "/apps/evolution/mail/signatures", GCONF_VALUE_STRING, list, NULL);
+	
+	l = list;
+	while (l != NULL) {
+		n = l->next;
+		g_free (l->data);
+		g_slist_free_1 (l);
+		l = n;
+	}
+	
+	gconf_client_suggest_sync (config->gconf, NULL);
 }
 
 void
@@ -1711,21 +1759,21 @@ evolution_mail_config_factory_init (void)
 	return TRUE;
 }
 
-GList *
+GSList *
 mail_config_get_signature_list (void)
 {
-	return config->signature_list;
+	return config->signatures;
 }
 
-static gchar *
-get_new_signature_filename ()
+static char *
+get_new_signature_filename (void)
 {
-	struct stat st_buf;
-	gchar *filename;
-	gint i;
-
+	char *filename, *id;
+	struct stat st;
+	int i;
+	
 	filename = g_build_filename (evolution_dir, "/signatures", NULL);
-	if (lstat (filename, &st_buf)) {
+	if (lstat (filename, &st)) {
 		if (errno == ENOENT) {
 			if (mkdir (filename, 0700))
 				g_warning ("Fatal problem creating %s/signatures directory.", evolution_dir);
@@ -1733,109 +1781,119 @@ get_new_signature_filename ()
 			g_warning ("Fatal problem with %s/signatures directory.", evolution_dir);
 	}
 	g_free (filename);
-
-	for (i = 0; ; i ++) {
-		filename = g_strdup_printf ("%s/signatures/signature-%d", evolution_dir, i);
-		if (lstat (filename, &st_buf) == - 1 && errno == ENOENT) {
-			gint fd;
-
+	
+	filename = g_malloc (strlen (evolution_dir) + sizeof ("/signatures/signature-") + 12);
+	id = g_stpcpy (filename, evolution_dir);
+	id = g_stpcpy (id, "/signatures/signature-");
+	
+	for (i = 0; i < (INT_MAX - 1); i++) {
+		sprintf (id, "%d", i);
+		if (lstat (filename, &st) == -1 && errno == ENOENT) {
+			int fd;
+			
 			fd = creat (filename, 0600);
 			if (fd >= 0) {
 				close (fd);
 				return filename;
 			}
 		}
-		g_free (filename);
 	}
-
+	
+	g_free (filename);
+	
 	return NULL;
 }
 
 MailConfigSignature *
-mail_config_signature_add (gboolean html, const gchar *script)
+mail_config_signature_add (gboolean html, const char *script)
 {
 	MailConfigSignature *sig;
-
+	
 	sig = g_new0 (MailConfigSignature, 1);
-
-	/* printf ("mail_config_signature_add %d\n", config->signatures); */
-	sig->id = config->signatures;
+	
+	/* printf ("mail_config_signature_add %d\n", config->sig_nextid); */
+	sig->id = config->sig_nextid++;
 	sig->name = g_strdup (_("Unnamed"));
 	if (script)
 		sig->script = g_strdup (script);
 	else
 		sig->filename = get_new_signature_filename ();
 	sig->html = html;
-
-	config->signature_list = g_list_append (config->signature_list, sig);
-	config->signatures ++;
-
-	config_write_signature (sig, sig->id);
-	config_write_signatures_num ();
-
+	
+	config->signatures = g_slist_append (config->signatures, sig);
+	
+	config_write_signatures ();
+	
 	mail_config_signature_emit_event (MAIL_CONFIG_SIG_EVENT_ADDED, sig);
 	/* printf ("mail_config_signature_add end\n"); */
-
+	
 	return sig;
 }
 
 static void
-delete_unused_signature_file (const gchar *filename)
+delete_unused_signature_file (const char *filename)
 {
-	gint len;
-	gchar *signatures_dir;
-
+	char *signatures_dir;
+	int len;
+	
 	signatures_dir = g_strconcat (evolution_dir, "/signatures", NULL);
-
+	
 	/* remove signature file if it's in evolution dir and no other signature uses it */
 	len = strlen (signatures_dir);
 	if (filename && !strncmp (filename, signatures_dir, len)) {
-		GList *l;
 		gboolean only_one = TRUE;
-
-		for (l = config->signature_list; l; l = l->next) {
-			if (((MailConfigSignature *)l->data)->filename
-			    && !strcmp (filename, ((MailConfigSignature *)l->data)->filename)) {
+		GSList *node;
+		
+		node = config->signatures;
+		while (node != NULL) {
+			MailConfigSignature *sig = node->data;
+			
+			if (sig->filename && !strcmp (filename, sig->filename)) {
 				only_one = FALSE;
 				break;
 			}
+			
+			node = node->next;
 		}
-
-		if (only_one) {
+		
+		if (only_one)
 			unlink (filename);
-		}
 	}
-
+	
 	g_free (signatures_dir);
 }
 
 void
 mail_config_signature_delete (MailConfigSignature *sig)
 {
-	GList *l, *next;
-	GSList *al;
+	GSList *node, *next;
 	gboolean after = FALSE;
-
-	for (al = config->accounts; al; al = al->next) {
-		MailConfigAccount *account;
-
-		account = (MailConfigAccount *) al->data;
-
+	
+	node = config->accounts;
+	while (node != NULL) {
+		MailConfigAccount *account = node->data;
+		
 		if (account->id->def_signature == sig)
 			account->id->def_signature = NULL;
+		
+		node = node->next;
 	}
-
-	for (l = config->signature_list; l; l = next) {
-		next = l->next;
-		if (after)
-			((MailConfigSignature *) l->data)->id --;
-		else if (l->data == sig) {
-			config->signature_list = g_list_remove_link (config->signature_list, l);
+	
+	node = config->signatures;
+	while (node != NULL) {
+		next = node->next;
+		
+		if (after) {
+			((MailConfigSignature *) node->data)->id--;
+		} else if (node->data == sig) {
+			config->signatures = g_slist_remove_link (config->signatures, node);
+			config->sig_nextid--;
 			after = TRUE;
-			config->signatures --;
 		}
+		
+		node = next;
 	}
-
+	
 	config_write_signatures ();
 	delete_unused_signature_file (sig->filename);
 	/* printf ("signatures: %d\n", config->signatures); */
@@ -1850,7 +1908,7 @@ mail_config_signature_write (MailConfigSignature *sig)
 }
 
 void
-mail_config_signature_set_filename (MailConfigSignature *sig, const gchar *filename)
+mail_config_signature_set_filename (MailConfigSignature *sig, const char *filename)
 {
 	gchar *old_filename = sig->filename;
 
@@ -1863,7 +1921,7 @@ mail_config_signature_set_filename (MailConfigSignature *sig, const gchar *filen
 }
 
 void
-mail_config_signature_set_name (MailConfigSignature *sig, const gchar *name)
+mail_config_signature_set_name (MailConfigSignature *sig, const char *name)
 {
 	g_free (sig->name);
 	sig->name = g_strdup (name);

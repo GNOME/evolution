@@ -223,7 +223,7 @@
       <applyto>/apps/evolution/mail/display/paned_size</applyto>
       <owner>evolution-mail</owner>
       <type>long</type>
-      <default>122</default>
+      <default>130</default>
       <locale name="C">
          <short>Height of the message-list pane</short>
          <long>
