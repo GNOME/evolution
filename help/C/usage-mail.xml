@@ -1,5 +1,5 @@
 <chapter id="usage-mail">
-  <title>Using Evolution for Email</title>
+  <title>Getting and Sending Email</title>
   <para>
     This chapter, and <xref linkend="usage-mail-organize"/>, will
       provide you with an in-depth guide to the capabilities of
@@ -355,7 +355,7 @@
      <sect2 id="usage-mail-getnsend-get-attach">
 	 <title>Working with Attachments and HTML Mail</title>
 	 <para>
-	   If someone sends you an <glossterm linkend="attachment">attachment</glossterm>,
+	   If someone sends you an <link linkend="attachment">attachment</link>,
 	   a file attached to an email,
 	   Evolution will display the file
 	   at the bottom of the message to which it's attached.  Text,
@@ -953,8 +953,8 @@
               <listitem>
                 <para>
                   Find a regex, also called a
-                  <glossterm linkend="regular-expression">regular
-                  expression</glossterm>, in your composer window.
+                  <link linkend="regular-expression">regular
+                  expression</link>, in your composer window.
                </para>
              </listitem>
             </varlistentry>
@@ -997,8 +997,8 @@
             using far too many exclamation points to convey their
             feelings.  However, most newer email programs can display
             images and text styles as well as basic alignment and
-            paragraph formatting. They do this with <glossterm
-            linkend="html">HTML</glossterm>, just like web pages do.
+            paragraph formatting. They do this with <link
+            linkend="html">HTML</link>, just like web pages do.
         </para>
         <note>
           <title>HTML Mail is not a Default Setting</title>
@@ -1030,8 +1030,8 @@
 	<guimenu>Format</guimenu> menus.
       </para>
       <para>
-	The icons in the toolbar are explained in <glossterm
-            linkend="tooltip">tool-tips</glossterm>, which appear when
+	The icons in the toolbar are explained in <link
+            linkend="tooltip">tool-tips</link>, which appear when
             you hold your mouse over the buttons.  The buttons fall
             into four categories:
             <variablelist>
@@ -1411,7 +1411,7 @@
           have received a message and you think someone else would
           like to see it.  You can forward a message as an attachment
           to a new message (this is the default) or
-          you can send it <glossterm linkend="inline">inline</glossterm> as a quoted
+          you can send it <link linkend="inline">inline</link> as a quoted
           portion of the message you are sending.  Attachment
           forwarding is best if you want to send the full, unaltered
           message on to someone else.  Inline forwarding is best if
@@ -1428,8 +1428,8 @@
           <guimenuitem>Forward</guimenuitem> </menuchoice>, or press
           <keycombo
 action="simul"><keycap>Ctrl</keycap><keycap>J</keycap></keycombo>.  If
-          you prefer to forward the message <glossterm
-          linkend="inline">inline</glossterm>
+          you prefer to forward the message <link
+          linkend="inline">inline</link>
           instead of attached, select <menuchoice>
           <guimenu>Actions</guimenu><guisubmenu>Forward</guisubmenu><guimenuitem>
           Inline</guimenuitem> </menuchoice> from the menu.  Choose an
@@ -1641,8 +1641,8 @@ action="simul"><keycap>Ctrl</keycap><keycap>J</keycap></keycombo>.  If
 	from prying eyes. Evolution helps
 	you you protect your privacy by using
 	gpg, an implementation of strong
-	<glossterm linkend="public-key-encryption">Public Key
-	Encryption.</glossterm>
+	<link linkend="public-key-encryption">Public Key
+	Encryption.</link>
       </para>
 
 	<note id="pub-priv">

@@ -42,7 +42,7 @@ entity names correspond.  APX is for appendix.  -->
 
 <book id="index">
   <bookinfo>
-    <title>A User's Guide to  Evolution 1.5</title>
+    <title>Evolution 1.5 Manual</title>
     <authorgroup>
       <author><firstname>Aaron</firstname><surname>Weber</surname></author>
       <author><firstname>Kevin</firstname><surname>Breit</surname></author>
@@ -76,7 +76,7 @@ entity names correspond.  APX is for appendix.  -->
   </preface>
 
   <part id="usage">
-    <title>Getting Started with Novell  Evolution</title>
+    <title>Using Evolution</title>
      <partintro>
       <para>
         Part one of the Novell Evolution manual
@@ -97,7 +97,7 @@ entity names correspond.  APX is for appendix.  -->
     &USAGE-SYNC; 
   </part>
   <part id="config">
-  <title>Configuring and Managing Novell Evolution</title>
+  <title>Setting Preferences</title>
     <partintro>
       <para>
         Novell Evolution is highly
@@ -119,8 +119,8 @@ entity names correspond.  APX is for appendix.  -->
     &CONFIG-SYNC;
   </part>
 
-  &MENUREF;
   &APX-GLOSS;
+  &MENUREF;
   &APX-BUGS;
   &APX-AUTHORS; 
   &GPL;

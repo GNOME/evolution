@@ -3,7 +3,7 @@
 -->
 
 <chapter id="usage-contact">
-  <title>Working with Your Contacts</title>
+  <title>Evolution Contacts: the Address Book</title>
       <para>
         This chapter will show you how to use the
         Evolution contacts tool to organize
@@ -474,7 +474,7 @@
     <title>LDAP: Shared Contact Groups on a Network</title>
 
     <para>
-      The <glossterm linkend="ldap">LDAP</glossterm> protocol was
+      The <link linkend="ldap">LDAP</link> protocol was
       created to let users share contact information over a network by
       sharing access to a central directory.  LDAP allows a company
     to maintain a shared set of contact information.  Many companies

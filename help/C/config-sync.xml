@@ -1,5 +1,5 @@
   <chapter id="config-sync">
-     <title>Setting up your synchronization system</title> 
+     <title>Synchronization Settings</title>
      <para>
         Synchronization presents you with two issues you'll need to
         address. First, your computer needs to recognize and access
@@ -24,8 +24,8 @@
     </para>
     <para>
         Once your computer and your PalmOS device are talking happily
-        to each other, select the <glossterm
-        linkend="conduit">conduits</glossterm> you want under the
+        to each other, select the <link
+        linkend="conduit">conduits</link> you want under the
         <guilabel>Pilot Conduits</guilabel> section of the Control
         Center.  You may use conduits to synchronize data with several
         applications; the Novell Evolution

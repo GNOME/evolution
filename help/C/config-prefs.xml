@@ -191,10 +191,10 @@
            <listitem>
 	    <para>
              Here, select the way you will be getting mail: you may
-             download mail from a server (<glossterm
-             linkend="pop">POP</glossterm>), read and keep it on the
-             server (Microsoft Exchange or <glossterm
-             linkend="imap">IMAP</glossterm>), or read it from files
+             download mail from a server (<link
+             linkend="pop">POP</link>), read and keep it on the
+             server (Microsoft Exchange or <link
+             linkend="imap">IMAP</link>), or read it from files
              that already exist on your desktop computer.  If you use
              a server, it may permit or require you to use a Secure
              Socket Layer (SSL) connection.  To turn SSL connections
@@ -381,11 +381,11 @@ smtp.omniport.com:143
            <listitem>
 	    <para>
               In this section, you will choose and configure a method
-              for sending mail.  You may choose <glossterm
-              linkend="smtp">SMTP</glossterm>, Microsoft Exchange (if
+              for sending mail.  You may choose <link
+              linkend="smtp">SMTP</link>, Microsoft Exchange (if
               you have installed the Evolution Connector for Microsoft
-              Exchange) or <glossterm
-              linkend="sendmail">sendmail</glossterm>.
+              Exchange) or <link
+              linkend="sendmail">sendmail</link>.
              </para>
              <para>
                If you choose Exchange or Sendmail, you're done with
@@ -943,8 +943,8 @@ smtp.omniport.com:143
 	  <listitem>
 
 	    <para>
-              If you are creating an <glossterm
-              linkend="ldap">LDAP</glossterm> server, enter the server information
+              If you are creating an <link
+              linkend="ldap">LDAP</link> server, enter the server information
             as requested by the assistant:
 	    <variablelist>
 		<varlistentry>
@@ -998,8 +998,8 @@ smtp.omniport.com:143
                   <term><guilabel>Search base</guilabel></term>
 		  <listitem>
 		    <para>
-		      The <glossterm linkend="search-base">search
-                    base</glossterm> is the starting point for a directory search. 
+		      The <link linkend="search-base">search
+                    base</link> is the starting point for a directory search. 
 		      Contact your network administrator for information about
 		      the correct settings.
 		    </para>
@@ -1009,8 +1009,8 @@ smtp.omniport.com:143
                   <term><guilabel>Search scope</guilabel></term>
 		  <listitem>
 		    <para>
-                      The <glossterm linkend="search-scope">search
-                    scope</glossterm> is the breadth of a given search. 
+                      The <link linkend="search-scope">search
+                    scope</link> is the breadth of a given search. 
 		    The  following options are available:
 		      <variablelist>
 			<varlistentry>

@@ -1,5 +1,5 @@
  <chapter id="usage-exchange">
-    <title>The Evolution Connector for Microsoft Exchange</title>
+    <title>Connecting to Exchange Servers</title>
     <para>The Evolution Connector for Microsoft Exchange allows Novell
     Evolution clients to access accounts on Microsoft Exchange 2000
     servers. It is available through Novell Red Carpet in its own

@@ -1,5 +1,5 @@
 <chapter id="usage-mail-organize">
-    <title>Organizing and Managing your Email</title>
+    <title>Organizing your Email</title>
     <para>
       Even if you only get a few email messages a day, you probably
       want to sort and organize them.  When you get a hundred a day
@@ -779,8 +779,8 @@
 		<listitem>
 		  <para>
 		    Regex Match  - If you know your way around a
-		    <glossterm
-		    linkend="regular-expression">regex</glossterm>, or
+		    <link
+		    linkend="regular-expression">regex</link>, or
 		    regular expression, put your knowledge to use
 		    here. This allows you to search for complex
 		    patterns of letters, so that you can find, for
