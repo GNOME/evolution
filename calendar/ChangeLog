@@ -1,5 +1,11 @@
 2003-04-11  JP Rosevear  <jpr@ximian.com>
 
+	* gui/e-meeting-time-sel-item.c
+	(e_meeting_time_selector_item_destroy): guard against multiple
+	destroy calls
+
+2003-04-11  JP Rosevear  <jpr@ximian.com>
+	
 	* cal-client/cal-client.c (cal_client_get_free_busy): only print a
 	message if the exception isn't the reasonable NotFound
 
