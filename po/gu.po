@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: evolution.HEAD\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2004-07-14 03:30+0200\n"
-"PO-Revision-Date: 2004-08-02 13:00+0530\n"
+"PO-Revision-Date: 2004-08-03 16:52+0530\n"
 "Last-Translator: Ankit Patel <ankit@redhat.com>\n"
 "Language-Team: Gujarati\n"
 "MIME-Version: 1.0\n"
@@ -11513,28 +11513,32 @@ msgid ""
 "the APOP protocol. This may not work for all users even on servers that "
 "claim to support it."
 msgstr ""
+"આ વિકલ્પ POP સર્વર સાથે એનક્રિપ્ટેડ પાસવર્ડની મદદથી"
+"APOP પ્રોટોકોલ "
+"દ્વારા જોડાશે. આ કદાચ બધા વપરાશકર્તાઓ માટે નહિં ચાલે કે જેઓ તેને "
+"આધાર આપતા સર્વરને વાપરે છે."
 
 #: camel/providers/pop3/camel-pop3-store.c:195
 #, c-format
 msgid "Could not connect to POP server %s (port %d): %s"
-msgstr ""
+msgstr "POP સર્વર %s (પોર્ટ %d) સાથે જોડાઈ શક્યા નહિં: %s"
 
 #: camel/providers/pop3/camel-pop3-store.c:214
 #, c-format
 msgid "Failed to read a valid greeting from POP server %s (port %d)"
-msgstr ""
+msgstr "POP સર્વર %s (પોર્ટ %d) માંથી માન્ય શુભેચ્છાઓ વાંચવામાં નિષ્ફળ"
 
 #: camel/providers/pop3/camel-pop3-store.c:232
 #: camel/providers/pop3/camel-pop3-store.c:261
 #: camel/providers/pop3/camel-pop3-store.c:273
 #, c-format
 msgid "Failed to connect to POP server %s in secure mode: %s"
-msgstr ""
+msgstr "POP સર્વર %s સાથે સુરક્ષિત સ્થિતિમાં જોડાવામાં નિષ્ફળ: %s"
 
 #: camel/providers/pop3/camel-pop3-store.c:371
 #, c-format
 msgid "Could not connect to POP server %s"
-msgstr ""
+msgstr "POP સર્વર %s સાથે જોડાણ કરી શક્યા નહિં"
 
 #: camel/providers/pop3/camel-pop3-store.c:412
 #: camel/providers/pop3/camel-pop3-store.c:526
@@ -11543,26 +11547,28 @@ msgid ""
 "Unable to connect to POP server %s: No support for requested authentication "
 "mechanism."
 msgstr ""
+"POP સર્વર %s સાથે સંપર્ક કરવા સમર્થ નથી: મંજૂરી કરાયેલ સત્તાધિકરણ માટે "
+"કોઈ આધાર નથી."
 
 #: camel/providers/pop3/camel-pop3-store.c:428
 #, c-format
 msgid "SASL `%s' Login failed for POP server %s: %s"
-msgstr ""
+msgstr "POP સર્વર %s માટે SASL `%s' પ્રવેશ નિષ્ફળ: %s"
 
 #: camel/providers/pop3/camel-pop3-store.c:440
 #, c-format
 msgid "Cannot login to POP server %s: SASL Protocol error"
-msgstr ""
+msgstr "POP સર્વર %s માં પ્રવેશી શકતા નથી: SASL પ્રોટોકોલ ભૂલ"
 
 #: camel/providers/pop3/camel-pop3-store.c:459
 #, c-format
 msgid "Failed to authenticate on POP server %s: %s"
-msgstr ""
+msgstr "POP સર્વર %s પર સત્તાધિકરણ કરવામાં નિષ્ફળ: %s"
 
 #: camel/providers/pop3/camel-pop3-store.c:485
 #, c-format
 msgid "%sPlease enter the POP password for %s on host %s"
-msgstr ""
+msgstr "%s મહેરબાની કરીને %s માટે યજમાન %s પર POP પાસવર્ડ દાખલ કરો"
 
 #: camel/providers/pop3/camel-pop3-store.c:540
 #: camel/providers/pop3/camel-pop3-store.c:553
@@ -11571,6 +11577,8 @@ msgid ""
 "Unable to connect to POP server %s.\n"
 "Error sending password: %s"
 msgstr ""
+"POP સર્વર %s સાથે સંપર્ક કરવામાં અસમર્થ.\n"
+"પાસવર્ડ મોકલતી વખતે ભૂલ: %s"
 
 #: camel/providers/pop3/camel-pop3-store.c:547
 #, c-format
@@ -11578,205 +11586,211 @@ msgid ""
 "Unable to connect to POP server %s.\n"
 "Error sending username: %s"
 msgstr ""
+"POP સર્વર %s સાથે સંપર્ક કરવામાં અસમર્થ.\n"
+"વપરાશકર્તા નામ મોકલવામાં ભૂલ: %s"
 
 #: camel/providers/pop3/camel-pop3-store.c:652
 #, c-format
 msgid "No such folder `%s'."
-msgstr ""
+msgstr "આવું કોઈ ફોલ્ડર `%s' નથી."
 
 #: camel/providers/sendmail/camel-sendmail-provider.c:36
 #: mail/mail-config.glade.h:132
 msgid "Sendmail"
-msgstr ""
+msgstr "મેઈલમોકલો"
 
 #: camel/providers/sendmail/camel-sendmail-provider.c:38
 msgid ""
 "For delivering mail by passing it to the \"sendmail\" program on the local "
 "system."
 msgstr ""
+"મેઈલ મોકલવા માટે તેને સ્થાનિક સિસ્ટમ પર \"મેઈલમોકલો\" કાર્યક્રમ દ્વારા "
+"પસાર કરીને."
 
 #: camel/providers/sendmail/camel-sendmail-transport.c:113
 msgid "Could not parse recipient list"
-msgstr ""
+msgstr "મેળવનારની યાદી પદચ્છેદ કરી શક્યા નથી"
 
 #: camel/providers/sendmail/camel-sendmail-transport.c:144
 #, c-format
 msgid "Could not create pipe to sendmail: %s: mail not sent"
-msgstr ""
+msgstr "મેઈલમોકલોને pipe બનાવી શક્યા નહિં: %s: મેઈલ મોકલાયો નહિં"
 
 #: camel/providers/sendmail/camel-sendmail-transport.c:165
 #, c-format
 msgid "Could not fork sendmail: %s: mail not sent"
-msgstr ""
+msgstr "મેઈલમોકલોન fork કરી શક્યા નહિં: %s: મેઈલ મોકલાયો નથી"
 
 #: camel/providers/sendmail/camel-sendmail-transport.c:205
 #, c-format
 msgid "Could not send message: %s"
-msgstr ""
+msgstr "સંદેશો મોકલી શક્યા નહિં: %s"
 
 #: camel/providers/sendmail/camel-sendmail-transport.c:233
 #, c-format
 msgid "sendmail exited with signal %s: mail not sent."
-msgstr ""
+msgstr "મેઈલમોકલો સંકેત %s થી ઉત્તેજિત થઈ ગયો: મેઈલ મોકલાયો નથી."
 
 #: camel/providers/sendmail/camel-sendmail-transport.c:240
 #, c-format
 msgid "Could not execute %s: mail not sent."
-msgstr ""
+msgstr "%s ચલાવી શક્યા નથી: મેઈલ મોકલાયો નથી."
 
 #: camel/providers/sendmail/camel-sendmail-transport.c:245
 #, c-format
 msgid "sendmail exited with status %d: mail not sent."
-msgstr ""
+msgstr "મેઈલમોકલો સ્થિતિ %d થી ઉત્તેજિત થઈ ગયો છે: મેઈલ મોકલાયો નથી."
 
 #: camel/providers/sendmail/camel-sendmail-transport.c:259
 msgid "sendmail"
-msgstr ""
+msgstr "મેઈલમોકલો"
 
 #: camel/providers/sendmail/camel-sendmail-transport.c:261
 msgid "Mail delivery via the sendmail program"
-msgstr ""
+msgstr "મેઈલ મેળવવાનું મેઈલમોકલો કાર્યક્રમ દ્વારા"
 
 #: camel/providers/smtp/camel-smtp-provider.c:37 mail/mail-config.glade.h:122
 msgid "SMTP"
-msgstr ""
+msgstr "SMTP"
 
 #: camel/providers/smtp/camel-smtp-provider.c:39
 msgid "For delivering mail by connecting to a remote mailhub using SMTP."
-msgstr ""
+msgstr "દૂરસ્થ mailhub દ્વારા SMTP વાપરીને જોડાઈને મેઈલ મેળવવા માટે."
 
 #: camel/providers/smtp/camel-smtp-transport.c:174
 msgid "Syntax error, command unrecognized"
-msgstr ""
+msgstr "વાક્યરચના ભૂલ, આદેશ ઓળખાયો નથી"
 
 #: camel/providers/smtp/camel-smtp-transport.c:176
 msgid "Syntax error in parameters or arguments"
-msgstr ""
+msgstr "પરિમાણો અથવા દલીલોમાં વાક્યરચના ભૂલ"
 
 #: camel/providers/smtp/camel-smtp-transport.c:178
 msgid "Command not implemented"
-msgstr ""
+msgstr "આદેશ સુધારાયો નથી"
 
 #: camel/providers/smtp/camel-smtp-transport.c:180
 msgid "Command parameter not implemented"
-msgstr ""
+msgstr "આદેશ પરિમાણ સુધારાયો નથી"
 
 #: camel/providers/smtp/camel-smtp-transport.c:182
 msgid "System status, or system help reply"
-msgstr ""
+msgstr "સિસ્ટમની સ્થિતિ, અથવા સિસ્ટમ મદદનો વળતો જવાબ"
 
 #: camel/providers/smtp/camel-smtp-transport.c:184
 msgid "Help message"
-msgstr ""
+msgstr "મદદ સંદેશો"
 
 #: camel/providers/smtp/camel-smtp-transport.c:186
 msgid "Service ready"
-msgstr ""
+msgstr "સેવા તૈયાર છે"
 
 #: camel/providers/smtp/camel-smtp-transport.c:188
 msgid "Service closing transmission channel"
-msgstr ""
+msgstr "સેવા બંધ કરવાની પરિવહન ચેનલ"
 
 #: camel/providers/smtp/camel-smtp-transport.c:190
 msgid "Service not available, closing transmission channel"
-msgstr ""
+msgstr "સેવા ઉપ્લબ્ધ નથી, પરિવહન ચેનલ બંધ કરી રહ્યા છીએ"
 
 #: camel/providers/smtp/camel-smtp-transport.c:192
 msgid "Requested mail action okay, completed"
-msgstr ""
+msgstr "મંજૂરી થયેલ મેઈલ ક્રિયા બરાબર છે, પૂર્ણ થયેલ"
 
 #: camel/providers/smtp/camel-smtp-transport.c:194
 msgid "User not local; will forward to <forward-path>"
-msgstr ""
+msgstr "વપરાશકર્તા સ્થાનિક નથી; <forward-path> ને આગળ ધપાવાશે"
 
 #: camel/providers/smtp/camel-smtp-transport.c:196
 msgid "Requested mail action not taken: mailbox unavailable"
-msgstr ""
+msgstr "મંજૂરી થયેલ મેઈલની ક્રિયા લેવાઈ નથી: મેઈલબોક્સ ઉપ્લબ્ધ નથી"
 
 #: camel/providers/smtp/camel-smtp-transport.c:198
 msgid "Requested action not taken: mailbox unavailable"
-msgstr ""
+msgstr "મંજૂરી થયેલ ક્રિયા લેવાઈ નથી: મેઈલબોક્સ ઉપ્લબ્ધ નથી"
 
 #: camel/providers/smtp/camel-smtp-transport.c:200
 msgid "Requested action aborted: error in processing"
-msgstr ""
+msgstr "મંજૂરી થયેલ ક્રિયા અડધેથી બંધ થઈ ગઈ: પ્રક્રિયા કરવામાં ભૂલ"
 
 #: camel/providers/smtp/camel-smtp-transport.c:202
 msgid "User not local; please try <forward-path>"
-msgstr ""
+msgstr "વપરાશકર્તા સ્થાનિક નથી; મહેરબાની કરીને <forward-path> પ્રયત્ન કરો"
 
 #: camel/providers/smtp/camel-smtp-transport.c:204
 msgid "Requested action not taken: insufficient system storage"
-msgstr ""
+msgstr "મંજૂરી થયેલ ક્રિયા લેવાઈ નથી: અપૂરતી સિસ્ટમની જગ્યા"
 
 #: camel/providers/smtp/camel-smtp-transport.c:206
 msgid "Requested mail action aborted: exceeded storage allocation"
 msgstr ""
+"મંજૂરી થયેલ મેઈલની ક્રિયા અડધેથી બંધ થઈ ગઈ: સંગ્રહસ્થાનની "
+"વહેંચણી વધી ગઈ"
 
 #: camel/providers/smtp/camel-smtp-transport.c:208
 msgid "Requested action not taken: mailbox name not allowed"
-msgstr ""
+msgstr "મંજૂરી થયેલ ક્રિયા લેવાઈ નથી: મેઈલબોક્સ નામ માન્ય નથી"
 
 #: camel/providers/smtp/camel-smtp-transport.c:210
 msgid "Start mail input; end with <CRLF>.<CRLF>"
-msgstr ""
+msgstr "મેઈલ ઈનપુટ શરુ કરો; <CRLF>.<CRLF> થી અંત થાય છે"
 
 #: camel/providers/smtp/camel-smtp-transport.c:212
 msgid "Transaction failed"
-msgstr ""
+msgstr "પરિવહન નિષ્ફળ"
 
 #: camel/providers/smtp/camel-smtp-transport.c:216
 msgid "A password transition is needed"
-msgstr ""
+msgstr "પાસવર્ડનું પરિવહન જરુરી છે"
 
 #: camel/providers/smtp/camel-smtp-transport.c:218
 msgid "Authentication mechanism is too weak"
-msgstr ""
+msgstr "સત્તાધિકરણની ક્રિયા ખૂબ નબળી છે"
 
 #: camel/providers/smtp/camel-smtp-transport.c:220
 msgid "Encryption required for requested authentication mechanism"
-msgstr ""
+msgstr "મંજૂર થયેલ સત્તાધિકરણ ક્રિયા માટે એનક્રિપ્શન જરુરી છે"
 
 #: camel/providers/smtp/camel-smtp-transport.c:222
 msgid "Temporary authentication failure"
-msgstr ""
+msgstr "કામચલાઉ સત્તાધિકરણ નિષ્ફળ"
 
 #: camel/providers/smtp/camel-smtp-transport.c:224
 msgid "Authentication required"
-msgstr ""
+msgstr "સત્તાધિકરણ જરુરી છે"
 
 #: camel/providers/smtp/camel-smtp-transport.c:308
 msgid "Welcome response error"
-msgstr ""
+msgstr "જવાબની ભૂલમાં તમારુ સ્વાગત છે"
 
 #: camel/providers/smtp/camel-smtp-transport.c:343
 #: camel/providers/smtp/camel-smtp-transport.c:382
 #, c-format
 msgid "Failed to connect to SMTP server %s in secure mode: %s"
-msgstr ""
+msgstr "SMTP સર્વર %s સાથે સુરક્ષિત સ્થિતિમાં જોડાવામાં નિષ્ફળ: %s"
 
 #: camel/providers/smtp/camel-smtp-transport.c:344
 msgid "server does not appear to support SSL"
-msgstr ""
+msgstr "સર્વર SSL ને આધાર આપે એમ લાગતું નથી"
 
 #: camel/providers/smtp/camel-smtp-transport.c:358
 #, c-format
 msgid "STARTTLS command failed: %s"
-msgstr ""
+msgstr "STARTTLS આદેશ નિષ્ફળ: %s"
 
 #: camel/providers/smtp/camel-smtp-transport.c:373
 msgid "STARTTLS command failed"
-msgstr ""
+msgstr "STARTTLS આદેશ નિષ્ફળ"
 
 #: camel/providers/smtp/camel-smtp-transport.c:476
 #, c-format
 msgid "SMTP server %s does not support requested authentication type %s."
-msgstr ""
+msgstr "SMTP સર્વર %s માંગણી કરાયેલ સત્તાધિકરણના પ્રકારને આધાર આપતું નથી %s."
 
 #: camel/providers/smtp/camel-smtp-transport.c:514
 #, c-format
 msgid "%sPlease enter the SMTP password for %s on host %s"
-msgstr ""
+msgstr "%sમહેરબાની કરીને %s માટે યજમાન %s પર SMTP પાસવર્ડ દાખલ કરો"
 
 #: camel/providers/smtp/camel-smtp-transport.c:533
 #, c-format
@@ -11785,97 +11799,100 @@ msgid ""
 "%s\n"
 "\n"
 msgstr ""
+"SMTP સર્વર સાથે સત્તાધિકાર કરવા અસમર્થ.\n"
+"%s\n"
+"\n"
 
 #: camel/providers/smtp/camel-smtp-transport.c:657
 #, c-format
 msgid "SMTP server %s"
-msgstr ""
+msgstr "SMTP સર્વર %s"
 
 #: camel/providers/smtp/camel-smtp-transport.c:659
 #, c-format
 msgid "SMTP mail delivery via %s"
-msgstr ""
+msgstr "SMTP મેઈલ %s દ્વારા મેળવો"
 
 #: camel/providers/smtp/camel-smtp-transport.c:677
 msgid "Cannot send message: service not connected."
-msgstr ""
+msgstr "સંદેશો મોકલી શકતા નથી: સેવા જોડાયેલ નથી."
 
 #: camel/providers/smtp/camel-smtp-transport.c:683
 msgid "Cannot send message: sender address not valid."
-msgstr ""
+msgstr "સંદેશો મોકલી શકતા નથી: મોકલનાર સરનામું માન્ય નથી."
 
 #: camel/providers/smtp/camel-smtp-transport.c:687
 msgid "Sending message"
-msgstr ""
+msgstr "સંદેશો મોકલી રહ્યા છીએ"
 
 #: camel/providers/smtp/camel-smtp-transport.c:702
 msgid "Cannot send message: no recipients defined."
-msgstr ""
+msgstr "સંદેશો મોકલી શકતા નથી: કોઈ મેળવનારાઓ વ્યાખ્યાયિત નથી."
 
 #: camel/providers/smtp/camel-smtp-transport.c:713
 msgid "Cannot send message: one or more invalid recipients"
-msgstr ""
+msgstr "સંદેશો મોકલી શકતા નથી: એક અથવા વધુ મેળવનારાઓ"
 
 #: camel/providers/smtp/camel-smtp-transport.c:885
 msgid "SMTP Greeting"
-msgstr ""
+msgstr "SMTP શુભેચ્છા"
 
 #: camel/providers/smtp/camel-smtp-transport.c:934
 #, c-format
 msgid "HELO command failed: %s"
-msgstr ""
+msgstr "HELO આદેશ નિષ્ફળ: %s"
 
 #: camel/providers/smtp/camel-smtp-transport.c:951
 msgid "HELO command failed"
-msgstr ""
+msgstr "HELO આદેશ નિષ્ફળ"
 
 #: camel/providers/smtp/camel-smtp-transport.c:1017
 msgid "SMTP Authentication"
-msgstr ""
+msgstr "SMTP સત્તાધિકરણ"
 
 #: camel/providers/smtp/camel-smtp-transport.c:1023
 msgid "Error creating SASL authentication object."
-msgstr ""
+msgstr "SASL સત્તાધિકરણ ઓબ્જેક્ટ બનાવતી વખતે ભૂલ."
 
 #: camel/providers/smtp/camel-smtp-transport.c:1040
 #: camel/providers/smtp/camel-smtp-transport.c:1051
 #, c-format
 msgid "AUTH command failed: %s"
-msgstr ""
+msgstr "AUTH આદેશ નિષ્ફળ: %s"
 
 #: camel/providers/smtp/camel-smtp-transport.c:1057
 msgid "AUTH command failed"
-msgstr ""
+msgstr "AUTH આદેશ નિષ્ફળ"
 
 #: camel/providers/smtp/camel-smtp-transport.c:1119
 msgid "Bad authentication response from server.\n"
-msgstr ""
+msgstr "સર્વર તરફથી સત્તાધિકરણ જવાબ ખરાબ.\n"
 
 #: camel/providers/smtp/camel-smtp-transport.c:1144
 #, c-format
 msgid "MAIL FROM command failed: %s: mail not sent"
-msgstr ""
+msgstr "MAIL FROM આદેશ નિષ્ફળ: %s: મેઈલ મોકલાયો નથી"
 
 #: camel/providers/smtp/camel-smtp-transport.c:1161
 msgid "MAIL FROM command failed"
-msgstr ""
+msgstr "MAIL FROM આદેશ નિષ્ફળ"
 
 #: camel/providers/smtp/camel-smtp-transport.c:1185
 #, c-format
 msgid "RCPT TO command failed: %s: mail not sent"
-msgstr ""
+msgstr "RCPT TO આદેશ નિષ્ફળ: %s: મેઈલ મોકલાયો નથી"
 
 #: camel/providers/smtp/camel-smtp-transport.c:1204
 #, c-format
 msgid "RCPT TO <%s> failed"
-msgstr ""
+msgstr "RCPT TO <%s> નિષ્ફળ"
 
 #: camel/providers/smtp/camel-smtp-transport.c:1243
 #: camel/providers/smtp/camel-smtp-transport.c:1301
 #: camel/providers/smtp/camel-smtp-transport.c:1320
 #, c-format
 msgid "DATA command failed: %s: mail not sent"
-msgstr ""
+msgstr "DATA આદેશ નિષ્ફળ: %s: મેઈલ મોકલાયો નથી"
 
 #. we should have gotten instructions on how to use the DATA command:
 #. * 354 Enter mail, end with "." on a line by itself
@@ -11883,96 +11900,96 @@ msgstr ""
 #: camel/providers/smtp/camel-smtp-transport.c:1260
 #: camel/providers/smtp/camel-smtp-transport.c:1336
 msgid "DATA command failed"
-msgstr ""
+msgstr "DATA આદેશ નિષ્ફળ"
 
 #: camel/providers/smtp/camel-smtp-transport.c:1359
 #, c-format
 msgid "RSET command failed: %s"
-msgstr ""
+msgstr "RSET આદેશ નિષ્ફળ: %s"
 
 #: camel/providers/smtp/camel-smtp-transport.c:1375
 msgid "RSET command failed"
-msgstr ""
+msgstr "RSET આદેશ નિષ્ફળ"
 
 #: camel/providers/smtp/camel-smtp-transport.c:1398
 #, c-format
 msgid "QUIT command failed: %s"
-msgstr ""
+msgstr "QUIT આદેશ નિષ્ફળ: %s"
 
 #: camel/providers/smtp/camel-smtp-transport.c:1412
 msgid "QUIT command failed"
-msgstr ""
+msgstr "QUIT આદેશ નિષ્ફળ"
 
 #: composer/e-msg-composer-attachment-bar.c:106
 #, c-format
 msgid "%.0fK"
-msgstr ""
+msgstr "%.0fK"
 
 #: composer/e-msg-composer-attachment-bar.c:109
 #, c-format
 msgid "%.0fM"
-msgstr ""
+msgstr "%.0fM"
 
 #: composer/e-msg-composer-attachment-bar.c:112
 #, c-format
 msgid "%.0fG"
-msgstr ""
+msgstr "%.0fG"
 
 #: composer/e-msg-composer-attachment-bar.c:298 mail/em-utils.c:408
 msgid "attachment"
-msgstr ""
+msgstr "જોડાણ"
 
 #: composer/e-msg-composer-attachment-bar.c:454
 msgid "Remove selected items from the attachment list"
-msgstr ""
+msgstr "જોડાણ યાદીમાંથી પસંદ કરેલ વસ્તુઓ કાઢી નાંખો"
 
 #: composer/e-msg-composer-attachment-bar.c:494
 msgid "Add attachment..."
-msgstr ""
+msgstr "જોડાણ ઉમેરો..."
 
 #: composer/e-msg-composer-attachment-bar.c:495
 msgid "Attach a file to the message"
-msgstr ""
+msgstr "સંદેશામાં ફાઈલ જોડો"
 
 #: composer/e-msg-composer-attachment.c:169
 #: composer/e-msg-composer-attachment.c:185
 #, c-format
 msgid "Cannot attach file %s: %s"
-msgstr ""
+msgstr "ફાઈલ %s જોડી શકતા નથી: %s"
 
 #: composer/e-msg-composer-attachment.c:177
 #, c-format
 msgid "Cannot attach file %s: not a regular file"
-msgstr ""
+msgstr "ફાઈલ %s જોડી શકતા નથી: નિયમિત ફાઈલ નથી"
 
 #: composer/e-msg-composer-attachment.glade.h:2
 msgid "Attachment Properties"
-msgstr ""
+msgstr "જોડાણના ગુણધર્મો"
 
 #: composer/e-msg-composer-attachment.glade.h:4
 msgid "File name:"
-msgstr ""
+msgstr "ફાઈલનું નામ:"
 
 #: composer/e-msg-composer-attachment.glade.h:5
 msgid "MIME type:"
-msgstr ""
+msgstr "MIME પ્રકાર:"
 
 #: composer/e-msg-composer-attachment.glade.h:6
 #: composer/e-msg-composer-select-file.c:74
 msgid "Suggest automatic display of attachment"
-msgstr ""
+msgstr "જોડાણનું આપોઆપ પ્રદર્શન સૂચવો"
 
 #: composer/e-msg-composer-hdrs.c:512
 msgid "Posting destination"
-msgstr ""
+msgstr "અંતિમ મુકામ મોકલી રહ્યા છીએ"
 
 #: composer/e-msg-composer-hdrs.c:513
 msgid "Choose folders to post the message to."
-msgstr ""
+msgstr "સંદેશાઓ મોકલવા માટે ફોલ્ડર પસંદ કરો."
 
 #: composer/e-msg-composer-hdrs.c:547
 msgid "Click here for the address book"
-msgstr ""
+msgstr "સરનામાપોથી માટે અંહિ ક્લિક કરો"
 
 #.
 #. * Reply-To:
@@ -11983,92 +12000,98 @@ msgstr ""
 #.
 #: composer/e-msg-composer-hdrs.c:577
 msgid "Reply-To:"
-msgstr ""
+msgstr "ને જવાબ આપો:"
 
 #.
 #. * From
 #.
 #: composer/e-msg-composer-hdrs.c:583
 msgid "From:"
-msgstr ""
+msgstr "તરફથી:"
 
 #.
 #. * Subject
 #.
 #: composer/e-msg-composer-hdrs.c:589
 msgid "Subject:"
-msgstr ""
+msgstr "વિષય:"
 
 #: composer/e-msg-composer-hdrs.c:598
 msgid "To:"
-msgstr ""
+msgstr "પ્રતિ:"
 
 #: composer/e-msg-composer-hdrs.c:599
 msgid "Enter the recipients of the message"
-msgstr ""
+msgstr "સંદેશાના મેળવનારાઓ દાખલ કરો"
 
 #: composer/e-msg-composer-hdrs.c:602
 msgid "Cc:"
-msgstr ""
+msgstr "આને પણ:"
 
 #: composer/e-msg-composer-hdrs.c:603
 msgid "Enter the addresses that will receive a carbon copy of the message"
-msgstr ""
+msgstr "સરનામાઓ દાખલ કરો કે જેઓ પણ સંદેશાની કાર્બન નકલ મેળવે"
 
 #: composer/e-msg-composer-hdrs.c:606
 msgid "Bcc:"
-msgstr ""
+msgstr "આને પણ ખબર વિના:"
 
 #: composer/e-msg-composer-hdrs.c:607
 msgid ""
 "Enter the addresses that will receive a carbon copy of the message without "
 "appearing in the recipient list of the message."
 msgstr ""
+"સરનામાઓ દાખલ કરો કે જેઓ પણ સંદેશાની કાર્બન નકલ મેળવે કે જેની "
+"ખબર મેળવનારને નહિં પડે."
 
 #.
 #. * Post-To
 #.
 #: composer/e-msg-composer-hdrs.c:614
 msgid "Post To:"
-msgstr ""
+msgstr "ને પોસ્ટ કરો:"
 
 #: composer/e-msg-composer-hdrs.c:619
 msgid "Click here to select folders to post to"
-msgstr ""
+msgstr "અંહિ પોસ્ટ કરવા માટે ફોલ્ડરો પસંદ કરો"
 
 #: composer/e-msg-composer-select-file.c:127
 msgid "Attach file(s)"
-msgstr ""
+msgstr "ફાઈલો જોડો"
 
 #: composer/e-msg-composer.c:704
 msgid "Cannot sign outgoing message: No signing certificate set for this account"
 msgstr ""
+"જતા સંદેશાઓની સહી કરી શકતા નથી: આ ખાતા માટે સહી કરવાનું કોઈ "
+"પ્રમાણપત્ર નથી"
 
 #: composer/e-msg-composer.c:711
 msgid ""
 "Cannot encrypt outgoing message: No encryption certificate set for this "
 "account"
 msgstr ""
+"જતા સંદેશાઓને એનક્રિપ્ટ કરી શકતા નથી: આ ખાતા માટે કોઈ એનક્રિપ્શન "
+"પ્રમાણપત્ર નથી"
 
 #: composer/e-msg-composer.c:1283
 msgid "Could not open file"
-msgstr ""
+msgstr "ફાઈલ ખોલી શક્યા નથી"
 
 #: composer/e-msg-composer.c:1291
 msgid "Unable to retrieve message from editor"
-msgstr ""
+msgstr "સંપાદકમાંથી સંદેશો મેળવવા સમર્થ નથી"
 
 #: composer/e-msg-composer.c:1561
 msgid "Untitled Message"
-msgstr ""
+msgstr "શીર્ષક વગરનો સંદેશો"
 
 #: composer/e-msg-composer.c:1591
 msgid "Open file"
-msgstr ""
+msgstr "ફાઈલ ખોલો"
 
 #: composer/e-msg-composer.c:1998 mail/mail-account-gui.c:1491
 msgid "Autogenerated"
-msgstr ""
+msgstr "આપોઆપ બનતુ"
 
 #: composer/e-msg-composer.c:2097
 msgid "Signature:"
@@ -12078,55 +12101,57 @@ msgstr "સહી:"
 #, c-format
 msgid "<b>%d</b> File Attached"
 msgid_plural "<b>%d</b> Files Attached"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "<b>%d</b> ફાઈલ જોડાયેલ છે"
+msgstr[1] "b>%d</b> ફાઈલો જોડાયેલ છે"
 
 #: composer/e-msg-composer.c:2327
 msgid "Hide _Attachment Bar (drop attachments here)"
-msgstr ""
+msgstr "જોડાણ પટ્ટી છુપાવો (જોડાણો અંહિ છોડો)"
 
 #: composer/e-msg-composer.c:2330 composer/e-msg-composer.c:3286
 msgid "Show _Attachment Bar (drop attachments here)"
-msgstr ""
+msgstr "જોડાણ પટ્ટી બતાવો (જોડાણો અંહિ છોડો)"
 
 #: composer/e-msg-composer.c:2347 composer/e-msg-composer.c:3178
 #: composer/e-msg-composer.c:3179
 msgid "Compose a message"
-msgstr ""
+msgstr "સંદેશો બનાવો"
 
 #: composer/e-msg-composer.c:2649
 #, c-format
 msgid "Attached message - %s"
-msgstr ""
+msgstr "જોડાણ સંદેશો - %s"
 
 #. translators, this count will always be >1
 #: composer/e-msg-composer.c:2654 composer/e-msg-composer.c:2798
 #, c-format
 msgid "Attached message"
 msgid_plural "%d attached messages"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "જોડાયેલ સંદેશો"
+msgstr[1] "%d જોડાયેલ સંદેશાઓ"
 
 #: composer/e-msg-composer.c:4332
 msgid ""
 "<b>(The composer contains a non-text message body, which cannot be edited.)"
 "<b>"
 msgstr ""
+"<b>(કમ્પોઝર લખાણ-વિહીન સંદેશાનો ભાગ જ સમાવે છે, કે જેમાં ફેરફાર કરી શકાતો નથી.)"
+"<b>"
 
 #. mail-composer:no-attach primary
 #: composer/mail-composer-errors.xml.h:2
 msgid "You cannot attach the file `{0}' to this message."
-msgstr ""
+msgstr "તમે આ મદદપત્રિકામાં ફાઈલ `{0}' જોડી શકતા નથી."
 
 #. mail-composer:attach-notfile primary
 #: composer/mail-composer-errors.xml.h:6
 msgid "The file `{0}' is not a regular file and cannot be sent in a message."
-msgstr ""
+msgstr "ફાઈલ `{0}' નિયમિત ફાઈલ નથી અને સંદેશામાં મોકલી શકાતી નથી."
 
 #. mail-composer:attach-directory primary
 #: composer/mail-composer-errors.xml.h:8
 msgid "Directories can not be attached to Messages."
-msgstr ""
+msgstr "સંદેશાઓમાં ડિરેક્ટરીઓ જોડી શકાતી નથી."
 
 #. mail-composer:attach-directory secondary
 #: composer/mail-composer-errors.xml.h:10
@@ -12134,11 +12159,13 @@ msgid ""
 "To attach the contents of this directory, either attach the files in this "
 "directory individually, or create an archive of the directory and attach it."
 msgstr ""
+"આ ડિરેક્ટરીના સમાવિષ્ટો જોડવા માટે, ક્યાંતો આ ડિરેક્ટરીની ફાઈલો "
+"અંગત રીતે જોડો, અથવા તો ડિરેક્ટરીની પેટી બનાવો અને પછી તેને જોડો."
 
 #. mail-composer:attach-nomessages primary
 #: composer/mail-composer-errors.xml.h:12
 msgid "Could not retrieve messages to attach from {0}."
-msgstr ""
+msgstr "{0} માંથી જોડવા માટે સંદેશાઓ મેળવી શક્યા નથી."
 
 #. mail-composer:attach-nomessages secondary
 #. mail-composer:no-sig-file secondary
@@ -12151,17 +12178,17 @@ msgstr ""
 #: mail/mail-errors.xml.h:112 widgets/misc/e-system-errors.xml.h:11
 #: widgets/misc/e-system-errors.xml.h:15
 msgid "Because \"{1}\"."
-msgstr ""
+msgstr "કારણ કે \"{1}\"."
 
 #. mail-composer:recover-autosave title
 #: composer/mail-composer-errors.xml.h:16
 msgid "Unfinished messages found"
-msgstr ""
+msgstr "અપૂર્ણ સંદેશો મળ્યો નથી"
 
 #. mail-composer:recover-autosave primary
 #: composer/mail-composer-errors.xml.h:18
 msgid "Do you want to recover unfinished messages?"
-msgstr ""
+msgstr "શું તમને અપૂર્ણ સંદેશાઓ પાછા મેળવવાની જરુર છે?"
 
 #. mail-composer:recover-autosave secondary
 #: composer/mail-composer-errors.xml.h:20
@@ -12169,36 +12196,38 @@ msgid ""
 "Evolution quit unexpectedly while you were composing a new message. "
 "Recovering the message will allow you to continue where you left off."
 msgstr ""
+"ઈવોલ્યુશન અનિચ્છનિય રીતે બંધ થઈ ગયું જ્યારે તમે નવો સંદેશો બનાવી રહ્યા "
+"હતા. સંદેશો પાછો મેળવવાનું તમને જ્યાં હતા ત્યાં મૂકી દેશે."
 
 #: composer/mail-composer-errors.xml.h:21
 msgid "Don't Recover"
-msgstr ""
+msgstr "પાછા મેળવો નહિં"
 
 #: composer/mail-composer-errors.xml.h:22
 msgid "Recover"
-msgstr ""
+msgstr "પાછા મેળવો"
 
 #. mail-composer:no-autosave primary
 #: composer/mail-composer-errors.xml.h:24
 msgid "Could not save to autosave file \"{0}\"."
-msgstr ""
+msgstr "આપોઆપ સંગ્રહ થતી ફાઈલ \"{0}\" માં સંગ્રહી શક્યા નહિં."
 
 #. mail-composer:no-autosave secondary
 #: composer/mail-composer-errors.xml.h:26
 msgid "Error saving to autosave because \"{1}\"."
-msgstr ""
+msgstr "આપોઆપ સંગ્રહ કરતી વખતે ભૂલ આવી કારણકે \"{1}\"."
 
 #. mail-composer:exit-unsaved title
 #: composer/mail-composer-errors.xml.h:28
 msgid "Warning: Modified Message"
-msgstr ""
+msgstr "ચેતવણી: સુધારાયેલ સંદેશો"
 
 #. mail-composer:exit-unsaved primary
 #: composer/mail-composer-errors.xml.h:30
 msgid ""
 "Are you sure you want to discard the message, titled '{0}', you are "
 "composing?"
-msgstr ""
+msgstr "શું તમે સંદેશો કાઢી નાંખવા માંગો છો, '{0}' શીર્ષકવાળો, તમે બનાવી રહ્યા છો?"
 
 #. mail-composer:exit-unsaved secondary
 #: composer/mail-composer-errors.xml.h:32
@@ -12207,47 +12236,50 @@ msgid ""
 "you choose to save the message in your Drafts folder. This will allow you to "
 "continue the message at a later date."
 msgstr ""
+"કમ્પોઝીંગ વિન્ડો બંધ કરવાનું સંદેશાને કાયમી રીતે કાઢી નાંખશે, જ્યાં સુધી "
+"તમે સંદેશાને તમારા ડ્રાફ્ટ ફોલ્ડરમાં સંગ્રહો નહિં. આ તમને પછીની તારીખ "
+"સુધી સંદેશો ચલાવવાની પરવાનગી આપે છે."
 
 #: composer/mail-composer-errors.xml.h:34
 msgid "Save Message"
-msgstr ""
+msgstr "સંદેશો સંગ્રહો"
 
 #. mail-composer:no-build-message primary
 #: composer/mail-composer-errors.xml.h:36
 msgid "Could not create message."
-msgstr ""
+msgstr "સંદેશો બનાવી શક્યા નથી."
 
 #. mail-composer:no-build-message secondary
 #: composer/mail-composer-errors.xml.h:38
 msgid "Because \"{0}\", you may need to select different mail options."
-msgstr ""
+msgstr "કારણ \"{0}\", તમારે વિવિધ મેઈલ વિકલ્પો પસંદ કરવાની જરુર છે."
 
 #. mail-composer:no-sig-file primary
 #: composer/mail-composer-errors.xml.h:40
 msgid "Could not read signature file \"{0}\"."
-msgstr ""
+msgstr "સહી ફાઈલ \"{0}\" વાંચ શક્યા નહિં."
 
 #. mail-composer:all-accounts-deleted primary
 #: composer/mail-composer-errors.xml.h:44
 msgid "All accounts have been removed."
-msgstr ""
+msgstr "બધા ખાતાઓ કાઢી નંખાયેલ છે."
 
 #. mail-composer:all-accounts-deleted secondary
 #: composer/mail-composer-errors.xml.h:46
 msgid "You need to configure an account before you can compose mail."
-msgstr ""
+msgstr "તમે મેઈલ કમ્પોઝ કરો તે પહેલા ખાતુ રુપરેખાંકિત કરવાની જરુર છે."
 
 #. mail-composer:no-address-control primary
 #. mail-composer:no-editor-control primary
 #: composer/mail-composer-errors.xml.h:48
 #: composer/mail-composer-errors.xml.h:52
 msgid "Could not create composer window."
-msgstr ""
+msgstr "કમ્પોઝર વિન્ડો બનાવી શક્યા નહિં."
 
 #. mail-composer:no-address-control secondary
 #: composer/mail-composer-errors.xml.h:50
 msgid "Unable to activate the address selector control."
-msgstr ""
+msgstr "સરનામા પસંદ કરનાર નિયંત્રક સક્રિય કરવા સમર્થ નથી."
 
 #. mail-composer:no-editor-control secondary
 #: composer/mail-composer-errors.xml.h:54
@@ -12257,22 +12289,26 @@ msgid ""
 "Please make sure that you have the correct version of gtkhtml and libgtkhtml "
 "installed."
 msgstr ""
+"HTML સંપાદક નિયંત્રક સક્રિય કરવા સમર્થ નથી.\n"
+"\n"
+"મહેરબાની કરીને ખાતરી કરો કે તમારી પાસે gtkhtml અને libgtkhtml ની"
+"યોગ્ય આવૃત્તિ સ્થાપિત કરેલ છે ને."
 
 #: data/evolution.desktop.in.in.h:1
 msgid "The Ximian Evolution Groupware Suite"
-msgstr ""
+msgstr "Ximian ઈવોલ્યુશન ગ્રુપવેર સેવા"
 
 #: data/evolution.desktop.in.in.h:2
 msgid "Ximian Evolution (Unstable)"
-msgstr ""
+msgstr "Ximian ઈવોલ્યુશન (અસ્થાઈ)"
 
 #: data/evolution.keys.in.in.h:1
 msgid "address card"
-msgstr ""
+msgstr "સરનામા કાર્ડ"
 
 #: data/evolution.keys.in.in.h:2
 msgid "calendar information"
-msgstr ""
+msgstr "કેલેન્ડર જાણકારી"
 
 #: designs/OOA/ooa.glade.h:1
 msgid ""
@@ -12280,14 +12316,17 @@ msgid ""
 "\n"
 "Would you like to change your status to \"In the Office\"? "
 msgstr ""
+"<b>વર્તમાનમાં, તમારી સ્થિતિ \"ઓફિસની બહાર\" છે. </b>\n"
+"\n"
+"શું તમે તમારી સ્થિતિ \"ઓફિસમાં\" બદલવા માંગો છો? "
 
 #: designs/OOA/ooa.glade.h:4
 msgid "<b>Out of Office Message:</b>"
-msgstr ""
+msgstr "<b>ઓફિસની બહાર સંદેશો:</b>"
 
 #: designs/OOA/ooa.glade.h:5
 msgid "<b>Status:</b>"
-msgstr ""
+msgstr "<b>સ્થિતિ:</b>"
 
 #: designs/OOA/ooa.glade.h:6
 msgid ""
@@ -12295,38 +12334,41 @@ msgid ""
 "who sends\n"
 "mail to you while you are out of the office.</small>"
 msgstr ""
+"<small>નીચે સ્પષ્ટ કરેલ સંદેશો આપોઆપ દરેક વ્યક્તિને મોકલાઈ જશે "
+"જે તમને\n"
+"જ્યારે તમે ઓફિસની બહાર હોય ત્યારે મેઈલ મોકલો છો.</small>"
 
 #: designs/OOA/ooa.glade.h:8
 msgid "I am currently in the office"
-msgstr ""
+msgstr "હું હાલમાં ઓફિસમાં છું"
 
 #: designs/OOA/ooa.glade.h:9
 msgid "I am currently out of the office"
-msgstr ""
+msgstr "હું હાલમાં ઓફિસની બહાર છું"
 
 #: designs/OOA/ooa.glade.h:10
 msgid "No, Don't Change Status"
-msgstr ""
+msgstr "ના, સ્થિતિ બદલશો નહિં"
 
 #: designs/OOA/ooa.glade.h:12
 msgid "Out of Office Assistant"
-msgstr ""
+msgstr "ઓફિસની બહારનો મદદનીશ"
 
 #: designs/OOA/ooa.glade.h:13
 msgid "Yes, Change Status"
-msgstr ""
+msgstr "હા, સ્થિતિ બદલો"
 
 #: designs/read_receipts/read.glade.h:1
 msgid "      "
-msgstr ""
+msgstr "      "
 
 #: designs/read_receipts/read.glade.h:2
 msgid "<b>Receiving Email</b>"
-msgstr ""
+msgstr "<b>ઈ-મેઈલ મેળવી રહ્યા છીએ</b>"
 
 #: designs/read_receipts/read.glade.h:3
 msgid "<b>Sending Email:</b>"
-msgstr ""
+msgstr "<b>મેઈલ મોકલી રહ્યા છીએ:</b>"
 
 #: designs/read_receipts/read.glade.h:4
 msgid ""
@@ -12338,60 +12380,66 @@ msgstr ""
 
 #: designs/read_receipts/read.glade.h:6
 msgid "Always send back a read reciept"
-msgstr ""
+msgstr "હંમેશા વાંચવાની રસીદ પાછી મોકલો"
 
 #: designs/read_receipts/read.glade.h:7
 msgid "Ask me if I want to send back a read receipt"
-msgstr ""
+msgstr "મને પુછો કે શું હું વાંચવાની રસીદ પાછી મોકલવા માંગું છું"
 
 #: designs/read_receipts/read.glade.h:8
 msgid "Never send back a read receipt"
-msgstr ""
+msgstr "વાંચવાની રસીદ પાછી ક્યારેય મોકલો નહિં"
 
 #: designs/read_receipts/read.glade.h:9
 msgid "Read Receipts"
-msgstr ""
+msgstr "વાંચવાની રસીદો"
 
 #: designs/read_receipts/read.glade.h:10
 msgid "Request a read receipt for all messages I send"
-msgstr ""
+msgstr "મેં મોકલેલા બધા સંદેશાઓ માટે વાંચવાની રસીદની માંગણી મોકલો"
 
 #: designs/read_receipts/read.glade.h:11
 msgid "Unless the message is sent to a mailing list, and not to me personally"
 msgstr ""
+"જ્યાં સુધી સંદેશો મેઈલીંગ લીસ્ટમાં મોકલાય નહિ, અને મને પોતાને અંગત રીતે "
+"મોકલાય નહિં"
 
 #: designs/read_receipts/read.glade.h:12
 msgid ""
 "When you receive an email with a read receipt request, what should Evolution "
 "do?"
 msgstr ""
+"ક્યારે તમે વાંચવાની રસીદની માંગણી સાથે ઈ-મેઈલ મેળવવા માંગો છો, ઈવોલ્યુશન "
+"શું કરશે?"
 
 #: e-util/e-dialog-utils.c:249
 msgid ""
 "A file by that name already exists.\n"
 "Overwrite it?"
 msgstr ""
+"એ નામની ફાઈલ પહેલાથી જ હાજર છે.\n"
+"શું તેના ઉપર ફરીથી લખવું છે?"
 
 #. system:ask-save-file-exists-overwrite title
 #: e-util/e-dialog-utils.c:251 widgets/misc/e-system-errors.xml.h:2
 msgid "Overwrite file?"
-msgstr ""
+msgstr "શું તેના ઉપર ફરીથી લખવું છે?"
 
 #: e-util/e-passwords.c:358
 msgid "Remember this password"
-msgstr ""
+msgstr "આ પાસવર્ડ યાદ રાખો"
 
 #: e-util/e-passwords.c:360
 msgid "Remember this password for the remainder of this session"
-msgstr ""
+msgstr "આ સત્રના બાકીના ભાગ માટે પાસવર્ડ યાદ રાખો"
 
 #: e-util/e-pilot-settings.c:93
 msgid "Sync Private Records:"
-msgstr ""
+msgstr "સુમેળ ખાનગી રેકોર્ડ:"
 
 #: e-util/e-pilot-settings.c:102
 msgid "Sync Categories:"
-msgstr ""
+msgstr "સુમેળ વર્ગો:"
 
 #. strptime format of a weekday, a date and a time,
 #. in 12-hour format, without seconds.
@@ -12399,7 +12447,7 @@ msgstr ""
 #. time, in 12-hour format, without seconds.
 #: e-util/e-time-utils.c:185 e-util/e-time-utils.c:398
 msgid "%a %m/%d/%Y %I:%M %p"
-msgstr ""
+msgstr "%a %m/%d/%Y %I:%M %p"
 
 #. strptime format of a weekday, a date and a time,
 #. in 24-hour format, without seconds.
@@ -12407,65 +12455,65 @@ msgstr ""
 #. time, in 24-hour format, without seconds.
 #: e-util/e-time-utils.c:190 e-util/e-time-utils.c:389
 msgid "%a %m/%d/%Y %H:%M"
-msgstr ""
+msgstr "%a %m/%d/%Y %H:%M"
 
 #. strptime format of a weekday, a date and a time,
 #. in 12-hour format, without minutes or seconds.
 #: e-util/e-time-utils.c:195
 msgid "%a %m/%d/%Y %I %p"
-msgstr ""
+msgstr "%a %m/%d/%Y %I %p"
 
 #. strptime format of a weekday, a date and a time,
 #. in 24-hour format, without minutes or seconds.
 #: e-util/e-time-utils.c:200
 msgid "%a %m/%d/%Y %H"
-msgstr ""
+msgstr "%a %m/%d/%Y %H"
 
 #. strptime format of a date and a time, in 12-hour format.
 #: e-util/e-time-utils.c:211
 msgid "%m/%d/%Y %I:%M:%S %p"
-msgstr ""
+msgstr "%m/%d/%Y %I:%M:%S %p"
 
 #. strptime format of a date and a time, in 24-hour format.
 #: e-util/e-time-utils.c:215
 msgid "%m/%d/%Y %H:%M:%S"
-msgstr ""
+msgstr "%m/%d/%Y %H:%M:%S"
 
 #. strptime format of a date and a time, in 12-hour format,
 #. without seconds.
 #: e-util/e-time-utils.c:220
 msgid "%m/%d/%Y %I:%M %p"
-msgstr ""
+msgstr "%m/%d/%Y %I:%M %p"
 
 #. strptime format of a date and a time, in 24-hour format,
 #. without seconds.
 #: e-util/e-time-utils.c:225
 msgid "%m/%d/%Y %H:%M"
-msgstr ""
+msgstr "%m/%d/%Y %H:%M"
 
 #. strptime format of a date and a time, in 12-hour format,
 #. without minutes or seconds.
 #: e-util/e-time-utils.c:230
 msgid "%m/%d/%Y %I %p"
-msgstr ""
+msgstr "%m/%d/%Y %I %p"
 
 #. strptime format of a date and a time, in 24-hour format,
 #. without minutes or seconds.
 #: e-util/e-time-utils.c:235
 msgid "%m/%d/%Y %H"
-msgstr ""
+msgstr "%m/%d/%Y %H"
 
 #. strptime format for a time of day, in 12-hour format.
 #. strftime format of a time in 12-hour format.
 #: e-util/e-time-utils.c:339 e-util/e-time-utils.c:438
 msgid "%I:%M:%S %p"
-msgstr ""
+msgstr "%I:%M:%S %p"
 
 #. strptime format for a time of day, in 24-hour format.
 #. strftime format of a time in 24-hour format.
 #: e-util/e-time-utils.c:343 e-util/e-time-utils.c:430
 msgid "%H:%M:%S"
-msgstr ""
+msgstr "%H:%M:%S"
 
 #. strptime format for time of day, without seconds,
 #. in 12-hour format.
@@ -12475,7 +12523,7 @@ msgstr ""
 #: e-util/e-time-utils.c:348 e-util/e-time-utils.c:435
 #: widgets/misc/e-dateedit.c:1414 widgets/misc/e-dateedit.c:1639
 msgid "%I:%M %p"
-msgstr ""
+msgstr "%I:%M %p"
 
 #. strptime format for time of day, without seconds 24-hour format.
 #. strftime format of a time in 24-hour format,
@@ -12484,104 +12532,104 @@ msgstr ""
 #: e-util/e-time-utils.c:352 e-util/e-time-utils.c:427
 #: widgets/misc/e-dateedit.c:1411 widgets/misc/e-dateedit.c:1636
 msgid "%H:%M"
-msgstr ""
+msgstr "%H:%M"
 
 #. strptime format for hour and AM/PM, 12-hour format.
 #: e-util/e-time-utils.c:356
 msgid "%I %p"
-msgstr ""
+msgstr "%I %p"
 
 #: filter/filter-datespec.c:73
 #, c-format
 msgid "1 second ago"
 msgid_plural "%d seconds ago"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "૧ સેકન્ડ પહેલાં"
+msgstr[1] "%d સેકન્ડો પહેલા"
 
 #: filter/filter-datespec.c:74
 #, c-format
 msgid "1 minute ago"
 msgid_plural "%d minutes ago"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "૧ મિનિટ પહેલા"
+msgstr[1] "%d મિનિટો પહેલા"
 
 #: filter/filter-datespec.c:75
 #, c-format
 msgid "1 hour ago"
 msgid_plural "%d hours ago"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "૧ કલાક પહેલા"
+msgstr[1] "%d કલાકો પહેલા"
 
 #: filter/filter-datespec.c:76
 #, c-format
 msgid "1 day ago"
 msgid_plural "%d days ago"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "૧ દિવસ પહેલા"
+msgstr[1] "%d દિવસો પહેલા"
 
 #: filter/filter-datespec.c:77
 #, c-format
 msgid "1 week ago"
 msgid_plural "%d weeks ago"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "૧ અઠવાડિયા પહેલા"
+msgstr[1] "%d અઠવાડિયાઓ પહેલા"
 
 #: filter/filter-datespec.c:78
 #, c-format
 msgid "1 month ago"
 msgid_plural "%d months ago"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "૧ મહિના પહેલા"
+msgstr[1] "%d મહિનાઓ પહેલા"
 
 #: filter/filter-datespec.c:79
 #, c-format
 msgid "1 year ago"
 msgid_plural "%d years ago"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "૧ વર્ષ પહેલા"
+msgstr[1] "%d વર્ષો પહેલા"
 
 #: filter/filter-datespec.c:280
 msgid "<click here to select a date>"
-msgstr ""
+msgstr "<તારીખ પસંદ કરવા માટે અંહિ ક્લિક કરો>"
 
 #: filter/filter-datespec.c:283 filter/filter-datespec.c:294
 msgid "now"
-msgstr ""
+msgstr "હમણા"
 
 #. strftime for date filter display, only needs to show a day date (i.e. no time)
 #: filter/filter-datespec.c:290
 msgid "%d-%b-%Y"
-msgstr ""
+msgstr "%d-%b-%Y"
 
 #: filter/filter-datespec.c:406
 msgid "Select a time to compare against"
-msgstr ""
+msgstr "ની સાથે સરખાવવા માટે સમય પસંદ કરો"
 
 #. filter:no-date primary
 #: filter/filter-errors.xml.h:2
 msgid "Missing date."
-msgstr ""
+msgstr "ખોવાયેલ તારીખ."
 
 #. filter:no-date secondary
 #: filter/filter-errors.xml.h:4
 msgid "You must choose a date."
-msgstr ""
+msgstr "તમારે તારીખ પસંદ કરવી જ જોઈએ."
 
 #. filter:no-file primary
 #: filter/filter-errors.xml.h:6
 msgid "Missing file name."
-msgstr ""
+msgstr "ફાઈલ નામ ખોવાયેલ છે."
 
 #. filter:no-file secondary
 #. filter:bad-file secondary
 #: filter/filter-errors.xml.h:8 filter/filter-errors.xml.h:12
 msgid "You must specify a file name."
-msgstr ""
+msgstr "તમારે ફાઈલ નામ સ્પષ્ટ કરવું જ જોઈએ."
 
 #. filter:bad-file primary
 #: filter/filter-errors.xml.h:10
 msgid "File \"{0}\" does not exist or is not a regular file."
-msgstr ""
+msgstr "ફાઈલ \"{0}\" અસ્તિત્વમાં નથી અથવા નિયમિત ફાઈલ નથી."
 
 #. filter:bad-regexp primary
 #: filter/filter-errors.xml.h:14
