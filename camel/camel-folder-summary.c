@@ -1382,11 +1382,8 @@ static CamelMessageContentInfo * content_info_new_from_message(CamelFolderSummar
 	return ci;
 }
 
-#ifndef NO_WARNINGS
-#warning "These should be made private again, easy to fix (used in filter-driver)"
-#endif
-char *
-camel_folder_summary_format_address(struct _header_raw *h, const char *name)
+static char *
+summary_format_address(struct _header_raw *h, const char *name)
 {
 	struct _header_address *addr;
 	const char *text;
@@ -1404,16 +1401,15 @@ camel_folder_summary_format_address(struct _header_raw *h, const char *name)
 	return ret;
 }
 
-char *
-camel_folder_summary_format_string (struct _header_raw *h, const char *name)
+static char *
+summary_format_string (struct _header_raw *h, const char *name, const char *charset)
 {
-	const char *charset, *text;
+	const char *text;
 	
 	text = header_raw_find (&h, name, NULL);
 	if (text) {
 		while (isspace ((unsigned) *text))
 			text++;
-		charset = camel_charset_locale_name ();
 		return header_decode_string (text, charset);
 	} else {
 		return NULL;
@@ -1485,14 +1481,27 @@ message_info_new(CamelFolderSummary *s, struct _header_raw *h)
 	char *msgid;
 	int count;
 	char *subject, *from, *to, *cc, *mlist;
+	struct _header_content_type *ct = NULL;
+	const char *content, *charset = NULL;
 
 	mi = camel_folder_summary_info_new(s);
 
-	subject = camel_folder_summary_format_string(h, "subject");
-	from = camel_folder_summary_format_address(h, "from");
-	to = camel_folder_summary_format_address(h, "to");
-	cc = camel_folder_summary_format_address(h, "cc");
+	if ((content = header_raw_find(&h, "Content-Type", NULL))
+	     && (ct = header_content_type_decode(content))
+	     && (charset = header_content_type_param(ct, "charset"))
+	     && (strcasecmp(charset, "us-ascii") == 0))
+		charset = NULL;
+
+	charset = camel_charset_to_iconv(charset);
+
+	subject = summary_format_string(h, "subject", charset);
+	from = summary_format_address(h, "from");
+	to = summary_format_address(h, "to");
+	cc = summary_format_address(h, "cc");
 	mlist = header_raw_check_mailing_list(&h);
+
+	if (ct)
+		header_content_type_unref(ct);
 
 #ifdef DOEPOOLV
 	e_poolv_set(mi->strings, CAMEL_MESSAGE_INFO_SUBJECT, subject, TRUE);
@@ -2340,12 +2349,25 @@ camel_message_info_new_from_header (struct _header_raw *header)
 {
 	CamelMessageInfo *info;
 	char *subject, *from, *to, *cc, *mlist;
+	struct _header_content_type *ct = NULL;
+	const char *content, *charset = NULL;
+
+	if ((content = header_raw_find(&header, "Content-Type", NULL))
+	    && (ct = header_content_type_decode(content))
+	    && (charset = header_content_type_param(ct, "charset"))
+	    && (strcasecmp(charset, "us-ascii") == 0))
+		charset = NULL;
+
+	charset = camel_charset_to_iconv(charset);
 	
-	subject = camel_folder_summary_format_string(header, "subject");
-	from = camel_folder_summary_format_address(header, "from");
-	to = camel_folder_summary_format_address(header, "to");
-	cc = camel_folder_summary_format_address(header, "cc");
+	subject = summary_format_string(header, "subject", charset);
+	from = summary_format_address(header, "from");
+	to = summary_format_address(header, "to");
+	cc = summary_format_address(header, "cc");
 	mlist = header_raw_check_mailing_list(&header);
+
+	if (ct)
+		header_content_type_unref(ct);
 
 	info = camel_message_info_new();
 

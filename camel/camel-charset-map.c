@@ -397,6 +397,9 @@ camel_charset_to_iconv (const char *name)
 {
 	const char *charset;
 	
+	if (name == NULL)
+		return NULL;
+
 	ICONV_CHARSETS_LOCK ();
 	charset = g_hash_table_lookup (iconv_charsets, name);
 	if (!charset) {

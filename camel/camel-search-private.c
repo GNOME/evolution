@@ -391,7 +391,7 @@ header_match(const char *value, const char *match, camel_search_match_t how)
 /* searhces for match inside value, if match is mixed case, hten use case-sensitive,
    else insensitive */
 gboolean
-camel_search_header_match (const char *value, const char *match, camel_search_match_t how, camel_search_t type)
+camel_search_header_match (const char *value, const char *match, camel_search_match_t how, camel_search_t type, const char *default_charset)
 {
 	const char *name, *addr;
 	int truth = FALSE;
@@ -403,7 +403,7 @@ camel_search_header_match (const char *value, const char *match, camel_search_ma
 	
 	switch(type) {
 	case CAMEL_SEARCH_TYPE_ENCODED:
-		v = header_decode_string(value, camel_charset_locale_name());
+		v = header_decode_string(value, default_charset); /* FIXME: Find header charset */
 		truth = header_match(v, match, how);
 		g_free(v);
 		break;

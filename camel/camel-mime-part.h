@@ -60,19 +60,18 @@ typedef enum _CamelMimePartEncodingType CamelMimePartEncodingType;
 struct _CamelMimePart
 {
 	CamelMedium parent_object;
+
+	CamelContentType *content_type;
+	struct _header_raw *headers; /* mime headers */
 	
 	/* All fields here are -** PRIVATE **- */
-	gchar *description;
+	char *description;
 	CamelMimeDisposition *disposition;
-	gchar *content_id;
-	gchar *content_MD5;
-	gchar *content_location;
+	char *content_id;
+	char *content_MD5;
+	char *content_location;
 	GList *content_languages;
 	CamelMimePartEncodingType encoding;
-	
-	CamelContentType *content_type;
-
-	struct _header_raw *headers; /* mime headers */
 };
 
 typedef struct _CamelMimePartClass {

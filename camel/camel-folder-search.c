@@ -642,7 +642,8 @@ check_header(struct _ESExp *f, int argc, struct _ESExpResult **argv, CamelFolder
 			/* performs an OR of all words */
 			for (i=1;i<argc && !truth;i++) {
 				if (argv[i]->type == ESEXP_RES_STRING)
-					truth = camel_search_header_match(header, argv[i]->value.string, how, type);
+					truth = camel_search_header_match(header, argv[i]->value.string,
+									  how, type, NULL);
 			}
 		}
 	}

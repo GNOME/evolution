@@ -212,7 +212,10 @@ process_header(CamelMedium *medium, const char *header_name, const char *header_
 	switch (header_type) {
 	case HEADER_DESCRIPTION: /* raw header->utf8 conversion */
 		g_free (mime_part->description);
-		charset = camel_charset_locale_name ();
+		if (mime_part->content_type)
+			charset = camel_charset_to_iconv(header_content_type_param(mime_part->content_type, "charset"));
+		else
+			charset = NULL;
 		mime_part->description = g_strstrip (header_decode_string (header_value, charset));
 		break;
 	case HEADER_DISPOSITION:
@@ -299,7 +302,7 @@ get_headers (CamelMedium *medium)
 	headers = g_array_new (FALSE, FALSE, sizeof (CamelMediumHeader));
 	for (h = part->headers; h; h = h->next) {
 		header.name = h->name;
-		header.value = header_decode_string (h->value, NULL);
+		header.value = h->value;
 		g_array_append_val (headers, header);
 	}
 
@@ -660,6 +663,7 @@ static int
 construct_from_parser(CamelMimePart *dw, CamelMimeParser *mp)
 {
 	struct _header_raw *headers;
+	const char *content;
 	char *buf;
 	int len;
 
@@ -675,6 +679,12 @@ construct_from_parser(CamelMimePart *dw, CamelMimeParser *mp)
 	case HSCAN_MULTIPART:
 		/* we have the headers, build them into 'us' */
 		headers = camel_mime_parser_headers_raw(mp);
+
+		/* if content-type exists, process it first, set for fallback charset in headers */
+		content = header_raw_find(&headers, "content-type", NULL);
+		if (content)
+			process_header((CamelMedium *)dw, "content-type", content);
+
 		while (headers) {
 			camel_medium_add_header((CamelMedium *)dw, headers->name, headers->value);
 			headers = headers->next;

@@ -531,7 +531,10 @@ process_header (CamelMedium *medium, const char *header_name, const char *header
 		break;
 	case HEADER_SUBJECT:
 		g_free (message->subject);
-		charset = camel_charset_locale_name ();
+		if (((CamelMimePart *)message)->content_type)
+			charset = camel_charset_to_iconv(header_content_type_param(((CamelMimePart *)message)->content_type, "charset"));
+		else
+			charset = NULL;
 		message->subject = g_strstrip (header_decode_string (header_value, charset));
 		break;
 	case HEADER_TO:

@@ -1,3 +1,53 @@
+2001-09-24    <NotZed@Ximian.com>
+
+	* camel-filter-search.c (check_header): If the type is encoded,
+	get the fallback charset from the message content-type.
+
+	* camel-mime-part-utils.c (check_html_charset): Dont check for
+	charset==null before calling charset_to_iconv.
+	(simple_data_wrapper_construct_from_parser): "
+
+	* camel-mime-message.c (process_header): Try use content-type
+	charset param as the fallback charset.
+
+	* camel-charset-map.c (camel_charset_to_iconv): Handle name ==
+	NULL, return NULL.
+
+	* camel-folder-summary.c (camel_folder_summary_format_address):
+	(camel_folder_summary_format_string): Made private again, removed
+	#warning about it.  Renamed to s/camel_folder//.
+	(summary_format_string): Take default charset param.
+	(camel_message_info_new_from_header, message_info_new): Decode
+	content-type field to get the charset parameter to use as the
+	default charset for decoding strings.
+
+	* camel-search-private.c (camel_search_header_match): Pass NULL as
+	the charset, the locale charset is always tried.
+	(camel_search_header_match): Supply a default_charset parameter to
+	be used with TYPE_ENCODED params.
+
+	* camel-mime-utils.c
+	(header_param): get rid of the g_strcasecmp crap.
+	(header_set_param): Same here.
+	(header_decode_param_list): And here.
+	(header_decode_text): Totally rewritten.  30% of its size.  If the
+	word is not rfc2047 encoded, always try default_charset if
+	supplied, if that fails, try locale charset if it exists, if that
+	fails then assume latin1/7 bit ascii.
+	(append_8bit): Changed to return FALSE if we can't convert for
+	whatever reason, and dont append anything.
+
+	* camel-mime-part.h (struct _CamelMimePart): Move content_type and
+	headers out of the 'private' section.
+
+	* camel-mime-part.c (get_headers): Dont do any conversion on the
+	header.
+	(process_header): Get the content-type charset as the fallback
+	charset for decode_string.
+	(construct_from_parser): IF we have a content-type header, process
+	it before doing anything else, so we have access to a fallback
+	charset for invalid headers.
+
 2001-09-23  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-tcp-stream-openssl.c (ssl_verify): Don't even try to alert

@@ -1021,124 +1021,80 @@ append_latin1 (GString *out, const char *in, int len)
 	return out;
 }
 
-static void
-append_8bit (GString *out, const char *inbuf, int inlen, const char *default_charset)
+static int
+append_8bit (GString *out, const char *inbuf, int inlen, const char *charset)
 {
 	char *outbase, *outbuf;
 	int outlen;
 	iconv_t ic;
 	
-	ic = iconv_open ("UTF-8", default_charset);
-	if (ic != (iconv_t) -1) {
-		int ret;
+	ic = iconv_open ("UTF-8", charset);
+	if (ic == (iconv_t) -1)
+		return FALSE;
+
+	outlen = inlen * 6 + 16;
+	outbuf = outbase = g_malloc(outlen);
 		
-		outlen = inlen * 6 + 16;
-		outbuf = outbase = g_malloc (outlen);
-		
-		ret = iconv (ic, &inbuf, &inlen, &outbuf, &outlen);
-		if (ret >= 0) {
-			iconv (ic, NULL, 0, &outbuf, &outlen);
-			*outbuf = '\0';
-		}
-		
-		iconv_close (ic);
-		
-		/* FIXME: is outlen == strlen (outbuf) ?? */
-		g_string_append_len (out, outbase, strlen (outbase));
-	} else {
-		/* bah, completely broken...just append as raw text */
-		g_string_append_len (out, inbuf, inlen);
+	if (iconv(ic, &inbuf, &inlen, &outbuf, &outlen) == -1) {
+		w(g_warning("Conversion to '%s' failed: %s", charset, strerror(errno)));
+		g_free(outbase);
+		return FALSE;
 	}
+
+	*outbuf = 0;
+	g_string_append(out, outbase);
+	g_free(outbase);
+	iconv_close(ic);
+
+	return TRUE;
+	
 }
 
-/* decodes a simple text, rfc822 */
+/* decodes a simple text, rfc822 + rfc2047 */
 static char *
 header_decode_text (const char *in, int inlen, const char *default_charset)
 {
 	GString *out;
-	char *inptr, *inend, *start, *word_start;
-	char *decoded;
-	gboolean wasdword = FALSE;
-	gboolean wasspace = FALSE;
-	gboolean islatin1 = FALSE;
-	
-	out = g_string_new ("");
-	start = inptr = (char *) in;
+	const char *inptr, *inend, *start, *locale_charset;
+	char *dword = NULL;
+
+	locale_charset = camel_charset_locale_name();
+
+	out = g_string_new("");
+	inptr = in;
 	inend = inptr + inlen;
-	
-	word_start = NULL;
-	while (inptr && inptr < inend) {
-		unsigned char c = *inptr++;
-		
-		if (is_lwsp (c) && !wasspace) {
-			char *word, *dword;
-			
-			if (word_start)
-				word = word_start;
-			else
-				word = start;
-			
-			dword = rfc2047_decode_word (word, inptr - word - 1);
-			
-			if (dword) {
-				if (!wasdword && word_start)
-					g_string_append_len (out, start, word_start - start);
-				
-				g_string_append (out, dword);
-				g_free (dword);
-				wasdword = TRUE;
-			} else if (islatin1 || !default_charset) {
-				/* append_latin1 is safe for 7bit ascii too */
-				append_latin1 (out, start, inptr - start - 1);
-				wasdword = FALSE;
-			} else {
-				append_8bit (out, start, inptr - start - 1, default_charset);
-				wasdword = FALSE;
-			}
-			
-			start = inptr - 1;
-			word_start = NULL;
-			wasspace = TRUE;
-		} else if (!is_lwsp (c)) {
-			wasspace = FALSE;
-			if (!word_start)
-				word_start = inptr - 1;
-			
-			if (c & 0x80 || c <= 127)
-				islatin1 = TRUE;
-			else
-				islatin1 = FALSE;
-		}
-	}
-	
-	if (inptr - start) {
-		char *word, *dword;
-		
-		if (word_start)
-			word = word_start;
-		else
-			word = start;
-		
-		dword = rfc2047_decode_word (word, inptr - word);
-		
+
+	while (inptr < inend) {
+		start = inptr;
+		while (inptr < inend && is_lwsp(*inptr))
+			inptr++;
+
+		if (inptr == inend) {
+			g_string_append_len(out, start, inptr-start);
+			break;
+		} else if (dword == NULL)
+			g_string_append_len(out, start, inptr-start);
+
+		start = inptr;
+		while (inptr < inend && !is_lwsp(*inptr))
+			inptr++;
+
+		dword = rfc2047_decode_word(start, inptr-start);
 		if (dword) {
-			if (!wasdword && word_start)
-				g_string_append_len (out, start, word_start - start);
-			
-			g_string_append (out, dword);
-			g_free (dword);
-		} else if (islatin1 || !default_charset) {
-			/* append_latin1 is safe for 7bit ascii too */
-			append_latin1 (out, start, inptr - start);
-		} else {
-			append_8bit (out, start, inptr - start, default_charset);
+			g_string_append(out, dword);
+			g_free(dword);
+		} else if ((default_charset == NULL
+			    || !append_8bit(out, start, inptr-start, default_charset))
+			   && (locale_charset == NULL
+			       || !append_8bit(out, start, inptr-start, locale_charset))) {
+			append_latin1(out, start, inptr-start);
 		}
 	}
-	
-	decoded = out->str;
+
+	dword = out->str;
 	g_string_free (out, FALSE);
 	
-	return decoded;
+	return dword;
 }
 
 char *
@@ -1173,7 +1129,7 @@ rfc2047_encode_word(GString *outstring, const char *in, int len, const char *typ
 	
 	ascii = alloca (bufflen);
 	
-	if (g_strcasecmp (type, "UTF-8") != 0)
+	if (strcasecmp (type, "UTF-8") != 0)
 		ic = iconv_open (type, "UTF-8");
 	
 	while (inlen) {
@@ -2023,7 +1979,7 @@ header_decode_param (const char **in, char **paramp, char **valuep, int *is_rfc2
 char *
 header_param (struct _header_param *p, const char *name)
 {
-	while (p && g_strcasecmp (p->name, name) != 0)
+	while (p && strcasecmp (p->name, name) != 0)
 		p = p->next;
 	if (p)
 		return p->value;
@@ -2037,7 +1993,7 @@ header_set_param (struct _header_param **l, const char *name, const char *value)
 
 	while (p->next) {
 		pn = p->next;
-		if (!g_strcasecmp (pn->name, name)) {
+		if (!strcasecmp (pn->name, name)) {
 			g_free (pn->value);
 			if (value) {
 				pn->value = g_strdup (value);
@@ -2716,7 +2672,7 @@ header_decode_param_list(const char **in)
 		if (header_decode_param (&inptr, &name, &value, &is_rfc2184) != 0)
 			break;
 		
-		if (is_rfc2184 && tail && !g_strcasecmp (name, tail->name)) {
+		if (is_rfc2184 && tail && !strcasecmp (name, tail->name)) {
 			/* rfc2184 allows a parameter to be broken into multiple parts
 			 * and it looks like we've found one. Append this value to the
 			 * last value.

@@ -115,6 +115,8 @@ check_header (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMess
 		char *name = argv[0]->value.string;
 		const char *header;
 		camel_search_t type = CAMEL_SEARCH_TYPE_ENCODED;
+		CamelContentType *ct;
+		const char *charset = NULL;
 
 		if (strcasecmp(name, "x-camel-mlist") == 0) {
 			header = camel_message_info_mlist(fms->info);
@@ -123,12 +125,18 @@ check_header (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMess
 			header = camel_medium_get_header(CAMEL_MEDIUM(fms->message), argv[0]->value.string);
 			if (strcasecmp("to", name) == 0 || strcasecmp("cc", name) == 0 || strcasecmp("from", name) == 0)
 				type = CAMEL_SEARCH_TYPE_ADDRESS_ENCODED;
+			else {
+				ct = camel_mime_part_get_content_type(CAMEL_MIME_PART(fms->message));
+				if (ct)
+					charset = camel_charset_to_iconv(header_content_type_param(ct, "charset"));
+			}
 		}
 
 		if (header) {
 			for (i=1; i<argc && !matched; i++) {
 				if (argv[i]->type == ESEXP_RES_STRING)
-					matched = camel_search_header_match(header, argv[i]->value.string, how, type);
+					matched = camel_search_header_match(header, argv[i]->value.string,
+									    how, type, charset);
 			}
 		}
 	}

@@ -80,8 +80,7 @@ check_html_charset(char *buffer, int length)
 			    && (val = camel_html_parser_attr(hp, "content"))
 			    && (ct = header_content_type_decode(val))) {
 				charset = header_content_type_param(ct, "charset");
-				if (charset)
-					charset = camel_charset_to_iconv (charset);
+				charset = camel_charset_to_iconv (charset);
 				header_content_type_unref(ct);
 			}
 			break;
@@ -189,8 +188,7 @@ simple_data_wrapper_construct_from_parser (CamelDataWrapper *dw, CamelMimeParser
 	ct = camel_mime_parser_content_type(mp);
 	if (header_content_type_is(ct, "text", "*")) {
 		charset = header_content_type_param(ct, "charset");
-		if (charset)
-			charset = camel_charset_to_iconv (charset);
+		charset = camel_charset_to_iconv (charset);
 		
 		if (fdec) {
 			d(printf("Adding CRLF conversion filter\n"));
