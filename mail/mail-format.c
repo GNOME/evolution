@@ -39,6 +39,9 @@
 static void handle_text_plain            (CamelMimePart *part,
 					  CamelMimeMessage *root,
 					  GtkBox *box);
+static void handle_text_plain_flowed     (CamelMimePart *part,
+					  CamelMimeMessage *root,
+					  GtkBox *box);
 static void handle_text_enriched         (CamelMimePart *part,
 					  CamelMimeMessage *root,
 					  GtkBox *box);
@@ -78,7 +81,8 @@ static void handle_via_bonobo            (CamelMimePart *part,
  * so '<' turns into '&lt;', and '"' turns into '&quot;' */
 static gchar *text_to_html (const guchar *input, guint len,
 			    guint *encoded_len_return, gboolean add_pre,
-			    gboolean convert_newlines_to_br);
+			    gboolean convert_newlines_to_br,
+			    gboolean convert_space_hack);
 
 /* writes the header info for a mime message into an html stream */
 static void write_headers (CamelMimeMessage *mime_message, GtkBox *box);
@@ -347,7 +351,8 @@ call_handler_function (CamelMimePart *part, CamelMimeMessage *root,
 static gchar *
 text_to_html (const guchar *input, guint len,
 	      guint *encoded_len_return, gboolean add_pre,
-	      gboolean convert_newlines_to_br)
+	      gboolean convert_newlines_to_br,
+	      gboolean convert_space_hack)
 {
 	const guchar *cur = input;
 	guchar *buffer = NULL;
@@ -400,6 +405,17 @@ text_to_html (const guchar *input, guint len,
 			}
 			break;
 
+		case ' ':
+			if (convert_space_hack) {
+				if (cur == input ||
+				    (len > 0 && *(cur + 1) == ' ')) {
+					strcpy (out, "&nbsp;");
+					out += 6;
+					break;
+				}
+			}
+			/* otherwise, FALL THROUGH */
+
 		default:
 			if ((*cur >= 0x20 && *cur < 0x80) ||
 			    (*cur == '\r' || *cur == '\t')) {
@@ -434,7 +450,7 @@ write_field_to_stream (const char *description, const char *value,
 		unsigned char *p;
 
 		encoded_value = text_to_html (value, strlen(value),
-					      NULL, FALSE, TRUE);
+					      NULL, FALSE, TRUE, FALSE);
 		for (p = (unsigned char *)encoded_value; *p; p++) {
 			if (!isprint (*p))
 				*p = '?';
@@ -543,9 +559,19 @@ handle_text_plain (CamelMimePart *part, CamelMimeMessage *root, GtkBox *box)
 	gchar tmp_buffer[4096];
 	gint nb_bytes_read;
 	gboolean empty_text = TRUE;
+	GMimeContentField *type;
+	const char *format;
 
 	mail_html_new (&html, &stream, root, TRUE);
 	mail_html_write (html, stream, "\n<!-- text/plain -->\n<pre>\n");
+
+	/* Check for RFC 2646 flowed text. */
+	type = camel_mime_part_get_content_type (part);
+	format = gmime_content_field_get_parameter (type, "format");
+	if (format && !strcasecmp (format, "flowed")) {
+		handle_text_plain_flowed (part, root, box);
+		return;
+	}
 
 	/* Get the output stream of the data wrapper. */
 	wrapper_output_stream = camel_data_wrapper_get_output_stream (wrapper);
@@ -567,7 +593,7 @@ handle_text_plain (CamelMimePart *part, CamelMimeMessage *root, GtkBox *box)
 			text = text_to_html (tmp_buffer,
 					     nb_bytes_read,
 					     &returned_strlen,
-					     FALSE, FALSE);
+					     FALSE, FALSE, FALSE);
 			gtk_html_write (html, stream, text,
 					returned_strlen);
 			g_free (text);
@@ -578,6 +604,81 @@ handle_text_plain (CamelMimePart *part, CamelMimeMessage *root, GtkBox *box)
 		mail_html_write (html, stream, "<b>(empty)</b>");
 
 	mail_html_write (html, stream, "</pre>\n");
+	mail_html_end (html, stream, TRUE, box);
+}
+
+static void
+handle_text_plain_flowed (CamelMimePart *part, CamelMimeMessage *root,
+			  GtkBox *box)
+{
+	GtkHTML *html;
+	GtkHTMLStreamHandle *stream;
+	CamelDataWrapper *wrapper =
+		camel_medium_get_content_object (CAMEL_MEDIUM (part));
+	char *text, *line, *p;
+	CamelStream *wrapper_output_stream, *buffer;
+	int prevquoting = 0, quoting, len, returned_strlen;
+	gboolean br_pending = FALSE;
+
+	mail_html_new (&html, &stream, root, TRUE);
+	mail_html_write (html, stream,
+			 "\n<!-- text/plain, flowed -->\n<tt>\n");
+
+	/* Get the output stream of the data wrapper. */
+	wrapper_output_stream = camel_data_wrapper_get_output_stream (wrapper);
+	camel_stream_reset (wrapper_output_stream);
+	buffer = camel_stream_buffer_new (wrapper_output_stream,
+					  CAMEL_STREAM_BUFFER_READ);
+
+	do {
+		/* Read next chunk of text. */
+		line = camel_stream_buffer_read_line (
+			CAMEL_STREAM_BUFFER (buffer));
+		if (!line)
+			break;
+
+		quoting = 0;
+		for (p = line; *p == '>'; p++)
+			quoting++;
+		if (quoting != prevquoting) {
+			mail_html_write (html, stream, "%s\n",
+					 prevquoting == 0 ? "<i>\n" : "");
+			while (quoting > prevquoting) {
+				mail_html_write (html, stream, "<blockquote>");
+				prevquoting++;
+			}
+			while (quoting < prevquoting) {
+				mail_html_write (html, stream,
+						 "</blockquote>");
+				prevquoting--;
+			}
+			mail_html_write (html, stream, "%s\n",
+					 prevquoting == 0 ? "</i>\n" : "");
+		} else if (br_pending) {
+			mail_html_write (html, stream, "<br>\n");
+			br_pending = FALSE;
+		}
+
+		if (*p == ' ')
+			p++;
+
+		len = strlen (p);
+
+		/* replace '<' with '&lt;', etc. */
+		text = text_to_html (p, len, &returned_strlen,
+				     FALSE, FALSE, TRUE);
+		if (returned_strlen)
+			gtk_html_write (html, stream, text, returned_strlen);
+		g_free (text);
+
+		if (len == 0 || p[len - 1] != ' ' || !strcmp (p, "-- "))
+			br_pending = TRUE;
+		g_free (line);
+	} while (!camel_stream_eos (buffer));
+
+	camel_stream_close (buffer);
+
+	mail_html_write (html, stream, "</tt>\n");
 	mail_html_end (html, stream, TRUE, box);
 }
 
@@ -1245,7 +1346,7 @@ mail_generate_reply (CamelMimeMessage *message, gboolean to_all)
 			/* Now convert that to HTML. */
 			repl_text = text_to_html (quoted_text,
 						  strlen (quoted_text),
-						  &len, TRUE, FALSE);
+						  &len, TRUE, FALSE, FALSE);
 			g_free (quoted_text);
 		}
 		e_msg_composer_set_body_text (composer, repl_text);
