@@ -13,6 +13,9 @@
 
 #include <pthread.h>
 
+#define m(x)			/* msgport debug */
+#define t(x)			/* thread debug */
+
 void e_dlist_init(EDList *v)
 {
         v->head = (EDListNode *)&v->tail;
@@ -108,8 +111,6 @@ struct _EMsgPort {
 	GCond *cond;
 	GMutex *lock;
 };
-
-#define m(x) 
 
 EMsgPort *e_msgport_new(void)
 {
@@ -290,7 +291,7 @@ void e_thread_destroy(EThread *e)
 					pthread_join(id, 0);
 				pthread_mutex_lock(&e->mutex);
 			} else {
-				printf("thread still active, waiting for it to finish\n");
+				(printf("thread still active, waiting for it to finish\n"));
 				pthread_mutex_unlock(&e->mutex);
 				sleep(1);
 				pthread_mutex_lock(&e->mutex);
@@ -301,7 +302,7 @@ void e_thread_destroy(EThread *e)
 		break;
 	case E_THREAD_NEW:
 		while (g_list_length(e->id_list) && tries < 5) {
-			printf("thread(s) still active, waiting for them to finish\n");
+			(printf("thread(s) still active, waiting for them to finish\n"));
 			pthread_mutex_unlock(&e->mutex);
 			sleep(1);
 			pthread_mutex_lock(&e->mutex);
@@ -419,7 +420,7 @@ thread_dispatch(void *din)
 	EThread *e = din;
 	EMsg *m;
 
-	printf("dispatch thread started: %ld\n", pthread_self());
+	t(printf("dispatch thread started: %ld\n", pthread_self()));
 
 	while (1) {
 		pthread_mutex_lock(&e->mutex);
@@ -445,7 +446,7 @@ thread_dispatch(void *din)
 		}
 		pthread_mutex_unlock(&e->mutex);
 
-		printf("got message in dispatch thread\n");
+		t(printf("got message in dispatch thread\n"));
 
 		/* process it */
 		thread_received_msg(e, m);

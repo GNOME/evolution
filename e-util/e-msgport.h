@@ -14,6 +14,8 @@ typedef struct _EDList {
 	struct _EDListNode *tailpred;
 } EDList;
 
+#define E_DLIST_INITIALISER(l) { (EDListNode *)&l.tail, 0, (EDListNode *)&l.head }
+
 void e_dlist_init(EDList *v);
 EDListNode *e_dlist_addhead(EDList *l, EDListNode *n);
 EDListNode *e_dlist_addtail(EDList *l, EDListNode *n);
