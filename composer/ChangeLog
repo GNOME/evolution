@@ -1,3 +1,15 @@
+2001-10-19  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* e-msg-composer.c (handle_multipart): Now takes a 'attach_all'
+	argument. If !attach_all, then only attach the attachment if the
+	part has a content-id, otherwise we can safely assume that nothing
+	references it thus we don't need to attach it.
+	(e_msg_composer_add_message_attachments): Now takes a 'attach_all'
+	argument that overrides the "only attach attachments if they have
+	a content-id header" behavior.
+	(e_msg_composer_new_with_message): Pass TRUE as the attach_all
+	argument to add_message_attachments.
+
 2001-10-18  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* e-msg-composer.c (best_encoding): Don't use a

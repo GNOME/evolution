@@ -120,7 +120,8 @@ static GnomeAppClass *parent_class = NULL;
 
 /* local prototypes */
 static GList *add_recipients   (GList *list, const char *recips, gboolean decode);
-static void handle_multipart   (EMsgComposer *composer, CamelMultipart *multipart, int depth);
+static void handle_multipart   (EMsgComposer *composer, CamelMultipart *multipart,
+				gboolean attach_all, int depth);
 static void message_rfc822_dnd (EMsgComposer *composer, CamelStream *stream);
 
 
@@ -1264,8 +1265,7 @@ autosave_manager_register (AutosaveManager *am, EMsgComposer *composer)
 			am->ask = FALSE;
 			autosave_manager_query_load_orphans (am, composer);
 			am->ask = TRUE;
-		} 
-			
+		}
 	}
 	autosave_manager_start (am);
 }
@@ -1285,6 +1285,7 @@ autosave_manager_unregister (AutosaveManager *am, EMsgComposer *composer)
 	}
 	close (composer->autosave_fd);
 	g_free (composer->autosave_file);
+	composer->autosave_file = NULL;
 	
 	if (g_hash_table_size (am->table) == 0)
 		autosave_manager_stop (am);
@@ -2481,7 +2482,7 @@ handle_multipart_alternative (EMsgComposer *composer, CamelMultipart *multipart)
 			
 			contents = camel_medium_get_content_object (CAMEL_MEDIUM (mime_part));
 			text = mail_get_message_body (contents, FALSE, FALSE);
-
+			
 			if (text)
 				e_msg_composer_set_pending_body (composer, text);
 			
@@ -2491,7 +2492,7 @@ handle_multipart_alternative (EMsgComposer *composer, CamelMultipart *multipart)
 }
 
 static void
-handle_multipart (EMsgComposer *composer, CamelMultipart *multipart, int depth)
+handle_multipart (EMsgComposer *composer, CamelMultipart *multipart, gboolean attach_all, int depth)
 {
 	int i, nparts;
 	
@@ -2521,7 +2522,7 @@ handle_multipart (EMsgComposer *composer, CamelMultipart *multipart, int depth)
 			wrapper = camel_medium_get_content_object (CAMEL_MEDIUM (mime_part));
 			mpart = CAMEL_MULTIPART (wrapper);
 			
-			handle_multipart (composer, mpart, depth + 1);
+			handle_multipart (composer, mpart, attach_all, depth + 1);
 		} else if (depth == 0 && i == 0) {
 			/* Since the first part is not multipart/alternative, then this must be the body */
 			CamelDataWrapper *contents;
@@ -2529,12 +2530,13 @@ handle_multipart (EMsgComposer *composer, CamelMultipart *multipart, int depth)
 			
 			contents = camel_medium_get_content_object (CAMEL_MEDIUM (mime_part));
 			text = mail_get_message_body (contents, FALSE, FALSE);
-
+			
 			if (text)
 				e_msg_composer_set_pending_body (composer, text);
 		} else {
 			/* this is a leaf of the tree, so attach it */
-			e_msg_composer_attach (composer, mime_part);
+			if (attach_all || camel_mime_part_get_content_id (mime_part))
+				e_msg_composer_attach (composer, mime_part);
 		}
 	}
 }
@@ -2588,18 +2590,20 @@ is_special_header (const char *hdr_name)
  * @composer: the composer to add the attachments to.
  * @message: the source message to copy the attachments from.
  * @settext: set the text of the composer
+ * @attach_all: attach all attachments
  *
  * Walk through all the mime parts in @message and add them to the composer
  * specified in @composer.
  */
 void
-e_msg_composer_add_message_attachments (EMsgComposer *composer, CamelMimeMessage *message, gboolean settext)
+e_msg_composer_add_message_attachments (EMsgComposer *composer, CamelMimeMessage *message,
+					gboolean settext, gboolean attach_all)
 {
 	CamelContentType *content_type;
 	
 	content_type = camel_mime_part_get_content_type (CAMEL_MIME_PART (message));
 	if (header_content_type_is (content_type, "multipart", "alternative")) {
-		/* multipart/alternative contains the text/plain and text/html versions of the message body */
+		/* this contains the text/plain and text/html versions of the message body */
 		CamelDataWrapper *wrapper;
 		CamelMultipart *multipart;
 		
@@ -2615,7 +2619,7 @@ e_msg_composer_add_message_attachments (EMsgComposer *composer, CamelMimeMessage
 		wrapper = camel_medium_get_content_object (CAMEL_MEDIUM (CAMEL_MIME_PART (message)));
 		multipart = CAMEL_MULTIPART (wrapper);
 		
-		handle_multipart (composer, multipart, 0);
+		handle_multipart (composer, multipart, attach_all, 0);
 	} else if (settext) {
 		/* We either have a text/plain or a text/html part */
 		CamelDataWrapper *contents;
@@ -2752,7 +2756,7 @@ e_msg_composer_new_with_message (CamelMimeMessage *message)
 		headers = headers->next;
 	}
 	
-	e_msg_composer_add_message_attachments (new, message, TRUE);
+	e_msg_composer_add_message_attachments (new, message, TRUE, TRUE);
 	
 	return new;
 }
