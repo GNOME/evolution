@@ -1,3 +1,9 @@
+2005-02-19  JP Rosevear  <jpr@novell.com>
+
+	Fixes #71554
+	
+	* C/evolution-2.2.xml: add id="index"
+
 2004-10-11  Rodney Dawes  <dobey@novell.com>
 
 	* C/Makefile.am: Add new images to figures

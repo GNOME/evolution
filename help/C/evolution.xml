@@ -9,7 +9,7 @@
  <!ENTITY z-nbspace " " >
 ] >
 
-<book lang="en">
+<book id="index" lang="en">
 <title>Evolution User Guide 2.0</title>
 
  <bookinfo id="Front">
