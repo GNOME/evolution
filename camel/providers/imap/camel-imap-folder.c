@@ -736,6 +736,7 @@ camel_imap_folder_changed (CamelFolder *folder, int exists,
 			info = camel_folder_summary_index (folder->summary, id - 1);
 			camel_folder_change_info_remove_uid (changes, camel_message_info_uid (info));
 			camel_folder_summary_remove (folder->summary, info);
+			camel_folder_summary_info_free(folder->summary, info);
 		}
 	}
 

@@ -29,6 +29,7 @@
 	(imap_refresh_info): Free any info lookups.  Use folder->summary
 	not imap_folder->summary.  And lock around commands.
 	(camel_imap_folder_changed): Use folder->summary again.
+	(camel_imap_folder_changed): Make sure we unref the summary lookup.
 
 2000-12-22  Dan Winship  <danw@helixcode.com>
 
