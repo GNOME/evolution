@@ -33,8 +33,10 @@ struct _MonthView {
 
 	int year;			/* The year of the month we are displaying */
 	int month;			/* The month we are displaying */
-
 	int old_current_index;		/* The index of the day marked as current, or -1 if none */
+
+	GList *children;		/* The list of children (events) we are carrying */
+	int num_slots;			/* The number of slots we need to do the child layout (layout.h) */
 
 	GnomeCanvasItem *title;		/* The title heading with the month/year */
 	GnomeCanvasItem *mitem;		/* The canvas month item used by this month view */

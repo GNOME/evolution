@@ -16,6 +16,16 @@
 #define SPACING 4		/* Spacing between title and calendar */
 
 
+/* This is a child in the month view.  Each child has a number of canvas items associated to it --
+ * it can be more than one box because an event may span several weeks.
+ */
+struct child {
+	iCalObject *ico;	/* The calendar object this child refers to */
+	time_t start, end;	/* Start and end times for the instance of the event */
+	GList *items;		/* The list of canvas items needed to display this child */
+};
+
+
 static void month_view_class_init    (MonthViewClass *class);
 static void month_view_init          (MonthView      *mv);
 static void month_view_size_request  (GtkWidget      *widget,
@@ -26,6 +36,13 @@ static void month_view_size_allocate (GtkWidget      *widget,
 
 static GnomeCanvasClass *parent_class;
 
+
+/* Adjusts the child events of the month view to the appropriate size and position */
+static void
+adjust_children (MonthView *mv)
+{
+	
+}
 
 GtkType
 month_view_get_type (void)
@@ -158,16 +175,73 @@ month_view_size_allocate (GtkWidget *widget, GtkAllocation *allocation)
 			       "height", (double) (allocation->height - y - 1),
 			       NULL);
 
-	/* FIXME: adjust events */
+	/* Adjust children */
+
+	adjust_children (mv);
+}
+
+/* Destroys a child structure and its associated canvas items */
+static void
+child_destroy (MonthView *mv, struct child *child)
+{
+	GList *list;
+
+	/* Destroy the list of items */
+
+	for (list = child->items; list; list = list->next)
+		gtk_object_destroy (list->data);
+
+	g_list_free (child->items);
+
+	/* Destroy the child */
+
+	g_free (child);
+}
+
+/* This is the callback function used from the calendar iterator.  It adds events to the list of
+ * children in the month view.
+ */
+static int
+add_event (iCalObject *ico, time_t start, time_t end, void *data)
+{
+	MonthView *mv;
+	struct child *child;
+
+	mv = MONTH_VIEW (data);
+
+	child = g_new (struct child, 1);
+	child->ico = ico;
+	child->start = start;
+	child->end = end;
+
+	/* FIXME: create items */
 }
 
 void
 month_view_update (MonthView *mv, iCalObject *object, int flags)
 {
+	GList *list;
+	time_t t;
+	time_t month_begin, month_end;
+
 	g_return_if_fail (mv != NULL);
 	g_return_if_fail (IS_MONTH_VIEW (mv));
 
-	/* FIXME */
+	/* Destroy the old list of children */
+
+	for (list = mv->children; list; list = list->next)
+		child_destroy (mv, list->data);
+
+	g_list_free (mv->children);
+	mv->children = NULL;
+
+	/* Create a new list of children and lay them out */
+
+	t = time_from_day (mv->year, mv->month, 1);
+	month_begin = time_month_begin (t);
+	month_end = time_month_end (t);
+
+	calendar_iterate (mv->calendar->cal, month_begin, month_end, add_event, mv);
 }
 
 /* Unmarks the old day that was marked as current and marks the current day if appropriate */
