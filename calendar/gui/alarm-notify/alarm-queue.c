@@ -245,6 +245,7 @@ alarm_trigger_cb (gpointer alarm_id, time_t trigger, gpointer data)
 	comp = cqa->alarms->comp;
 
 	save_notification_time (trigger);
+	saved_notification_time = trigger;
 
 	qa = lookup_queued_alarm (cqa, alarm_id);
 	if (!qa)
