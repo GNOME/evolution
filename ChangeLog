@@ -1,3 +1,9 @@
+2000-03-28  Chris Toshok  <toshok@laptoph.xtoph.org>
+
+	* addressbook/backend/pas/pas-backend-file.c
+	(pas_backend_file_create_unique_id): create id's for entries using
+	the following format: ("pas-id-%08lX%08X", time(NULL), c++).
+	
 2000-03-27  Miguel de Icaza  <miguel@gnu.org>
 
 	* widgets/shortcut-bar/e-icon-bar.c (flatten_alpha): New function,

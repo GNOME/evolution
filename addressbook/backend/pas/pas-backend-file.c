@@ -9,6 +9,7 @@
 #include "config.h"  
 #include <gtk/gtksignal.h>
 #include <fcntl.h>
+#include <time.h>
 #ifdef HAVE_DB_185_H
 #include <db_185.h>
 #else
@@ -92,7 +93,11 @@ string_to_dbt(const char *str, DBT *dbt)
 static char *
 pas_backend_file_create_unique_id (char *vcard)
 {
-	return g_strdup ("foo");  /* XXX create unique id here */
+	/* use a 32 counter and the 32 bit timestamp to make an id.
+	   it's doubtful 2^32 id's will be created in a second, so we
+	   should be okay. */
+	static guint c = 0;
+	return g_strdup_printf ("pas-id-%08lX%08X", time(NULL), c++);
 }
 
 static void
