@@ -1,3 +1,8 @@
+2001-10-29  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-msg-composer.c (setup_ui): Put the charset encoding submenu in
+	the EncodingPlaceholder.
+
 2001-10-29  Dan Winship  <danw@ximian.com>
 
 	* evolution-composer.c (init): Set the (new) "no_body" flag on the
