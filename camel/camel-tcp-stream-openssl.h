@@ -30,10 +30,7 @@ extern "C" {
 #pragma }
 #endif /* __cplusplus */
 
-#ifdef HAVE_OPENSSL
-
 #include <camel/camel-tcp-stream.h>
-#include <openssl/ssl.h>
 
 #define CAMEL_TCP_STREAM_OPENSSL_TYPE     (camel_tcp_stream_openssl_get_type ())
 #define CAMEL_TCP_STREAM_OPENSSL(obj)     (CAMEL_CHECK_CAST((obj), CAMEL_TCP_STREAM_OPENSSL_TYPE, CamelTcpStreamOpenSSL))
@@ -44,8 +41,7 @@ struct _CamelTcpStreamOpenSSL
 {
 	CamelTcpStream parent_object;
 	
-	int sockfd;
-	SSL *ssl;
+	struct _CamelTcpStreamOpenSSLPrivate *priv;
 };
 
 typedef struct {
@@ -60,8 +56,6 @@ CamelType camel_tcp_stream_openssl_get_type (void);
 
 /* public methods */
 CamelStream *camel_tcp_stream_openssl_new (void);
-
-#endif /* HAVE_OPENSSL */
 
 #ifdef __cplusplus
 }

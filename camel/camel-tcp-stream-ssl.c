@@ -32,6 +32,7 @@
 #include <fcntl.h>
 #include <errno.h>
 #include <string.h>
+
 #include <nspr.h>
 #include <prio.h>
 #include <prerror.h>
@@ -52,7 +53,14 @@ static int stream_close  (CamelStream *stream);
 static int stream_connect    (CamelTcpStream *stream, struct hostent *host, int port);
 static int stream_getsockopt (CamelTcpStream *stream, CamelSockOptData *data);
 static int stream_setsockopt (CamelTcpStream *stream, const CamelSockOptData *data);
+static gpointer stream_get_socket (CamelTcpStream *stream);
 
+struct _CamelTcpStreamSSLPrivate {
+	PRFileDesc *sockfd;
+	
+	CamelService *service;
+	char *expected_host;
+};
 
 static void
 camel_tcp_stream_ssl_class_init (CamelTcpStreamSSLClass *camel_tcp_stream_ssl_class)
@@ -73,6 +81,7 @@ camel_tcp_stream_ssl_class_init (CamelTcpStreamSSLClass *camel_tcp_stream_ssl_cl
 	camel_tcp_stream_class->connect = stream_connect;
 	camel_tcp_stream_class->getsockopt = stream_getsockopt;
 	camel_tcp_stream_class->setsockopt = stream_setsockopt;
+	camel_tcp_stream_class->get_socket = stream_get_socket;
 }
 
 static void
@@ -80,9 +89,7 @@ camel_tcp_stream_ssl_init (gpointer object, gpointer klass)
 {
 	CamelTcpStreamSSL *stream = CAMEL_TCP_STREAM_SSL (object);
 	
-	stream->sockfd = NULL;
-	stream->service = NULL;
-	stream->expected_host = NULL;
+	stream->priv = g_new0 (struct _CamelTcpStreamSSLPrivate, 1);
 }
 
 static void
@@ -90,10 +97,12 @@ camel_tcp_stream_ssl_finalize (CamelObject *object)
 {
 	CamelTcpStreamSSL *stream = CAMEL_TCP_STREAM_SSL (object);
 	
-	if (stream->sockfd != NULL)
-		PR_Close (stream->sockfd);
+	if (stream->priv->sockfd != NULL)
+		PR_Close (stream->priv->sockfd);
 	
-	g_free (stream->expected_host);
+	g_free (stream->priv->expected_host);
+	
+	g_free (stream->priv);
 }
 
 
@@ -134,8 +143,8 @@ camel_tcp_stream_ssl_new (CamelService *service, const char *expected_host)
 	
 	stream = CAMEL_TCP_STREAM_SSL (camel_object_new (camel_tcp_stream_ssl_get_type ()));
 	
-	stream->service = service;
-	stream->expected_host = g_strdup (expected_host);
+	stream->priv->service = service;
+	stream->priv->expected_host = g_strdup (expected_host);
 	
 	return CAMEL_STREAM (stream);
 }
@@ -164,7 +173,7 @@ stream_read (CamelStream *stream, char *buffer, size_t n)
 	ssize_t nread;
 	
 	do {
-		nread = PR_Read (tcp_stream_ssl->sockfd, buffer, n);
+		nread = PR_Read (tcp_stream_ssl->priv->sockfd, buffer, n);
 	} while (nread == -1 && PR_GetError () == PR_PENDING_INTERRUPT_ERROR);
 	
 	if (nread == -1)
@@ -180,7 +189,7 @@ stream_write (CamelStream *stream, const char *buffer, size_t n)
 	ssize_t written = 0;
 	
 	do {
-		written = PR_Write (tcp_stream_ssl->sockfd, buffer, n);
+		written = PR_Write (tcp_stream_ssl->priv->sockfd, buffer, n);
 	} while (written == -1 && PR_GetError () == PR_PENDING_INTERRUPT_ERROR);
 	
 	if (written == -1)
@@ -192,16 +201,16 @@ stream_write (CamelStream *stream, const char *buffer, size_t n)
 static int
 stream_flush (CamelStream *stream)
 {
-	return PR_Sync (((CamelTcpStreamSSL *)stream)->sockfd);
+	return PR_Sync (((CamelTcpStreamSSL *)stream)->priv->sockfd);
 }
 
 static int
 stream_close (CamelStream *stream)
 {
-	if (PR_Close (((CamelTcpStreamSSL *)stream)->sockfd) == PR_FAILURE)
+	if (PR_Close (((CamelTcpStreamSSL *)stream)->priv->sockfd) == PR_FAILURE)
 		return -1;
 	
-	((CamelTcpStreamSSL *)stream)->sockfd = NULL;
+	((CamelTcpStreamSSL *)stream)->priv->sockfd = NULL;
 	
 	return 0;
 }
@@ -322,8 +331,9 @@ ssl_auth_cert (void *data, PRFileDesc *sockfd, PRBool checksig, PRBool is_server
 static SECStatus
 ssl_bad_cert (void *data, PRFileDesc *sockfd)
 {
+	CERTCertificate *cert;
 	CamelService *service;
-	char *prompt, *err;
+	char *prompt, *cert_str;
 	gpointer accept;
 	PRUint32 len;
 	
@@ -332,14 +342,27 @@ ssl_bad_cert (void *data, PRFileDesc *sockfd)
 	
 	service = CAMEL_SERVICE (data);
 	
-	len = PR_GetErrorTextLength ();
-	err = g_malloc0 (len + 1);
-	PR_GetErrorText (err);
+	cert = SSL_PeerCertificate (sockfd);
+	
+	cert_str = g_strdup_printf (_("EMail: %s\n"
+				      "Common Name: %s\n"
+				      "Organization Unit: %s\n"
+				      "Organization: %s\n"
+				      "Locality: %s\n"
+				      "State: %s\n"
+				      "Country: %s"),
+				    cert->emailAddr ? cert->emailAddr : "",
+				    CERT_GetCommonName (&cert->issuer) ? CERT_GetCommonName (&cert->issuer) : "",
+				    CERT_GetOrgUnitName (&cert->issuer) ? CERT_GetOrgUnitName (&cert->issuer) : "",
+				    CERT_GetOrgName (&cert->issuer) ? CERT_GetOrgName (&cert->issuer) : "",
+				    CERT_GetLocalityName (&cert->issuer) ? CERT_GetLocalityName (&cert->issuer) : "",
+				    CERT_GetStateName (&cert->issuer) ? CERT_GetStateName (&cert->issuer) : "",
+				    CERT_GetCountryName (&cert->issuer) ? CERT_GetCountryName (&cert->issuer) : "");
 	
 	/* construct our user prompt */
-	prompt = g_strdup_printf (_("Bad certificate from %s:%s\n\nDo you wish to accept anyway?"),
-				  service->url->host, err);
-	g_free (err);
+	prompt = g_strdup_printf (_("Bad certificate from %s:\n\n%s\n\nDo you wish to accept anyway?"),
+				  service->url->host, cert_str);
+	g_free (cert_str);
 	
 	/* query the user to find out if we want to accept this certificate */
 	accept = camel_session_query_authenticator (service->session, CAMEL_AUTHENTICATOR_ACCEPT,
@@ -372,7 +395,7 @@ stream_connect (CamelTcpStream *stream, struct hostent *host, int port)
 	fd = PR_OpenTCPSocket (host->h_addrtype);
 	ssl_fd = SSL_ImportFD (NULL, fd);
 	
-	SSL_SetURL (ssl_fd, ssl->expected_host);
+	SSL_SetURL (ssl_fd, ssl->priv->expected_host);
 	
 	if (ssl_fd == NULL || PR_Connect (ssl_fd, &netaddr, timeout) == PR_FAILURE) {
 		if (ssl_fd != NULL)
@@ -383,9 +406,9 @@ stream_connect (CamelTcpStream *stream, struct hostent *host, int port)
 	
 	/*SSL_GetClientAuthDataHook (sslSocket, ssl_get_client_auth, (void *)certNickname);*/
 	/*SSL_AuthCertificateHook (ssl_fd, ssl_auth_cert, (void *) CERT_GetDefaultCertDB ());*/
-	SSL_BadCertHook (ssl_fd, ssl_bad_cert, ssl->service);
+	SSL_BadCertHook (ssl_fd, ssl_bad_cert, ssl->priv->service);
 	
-	ssl->sockfd = ssl_fd;
+	ssl->priv->sockfd = ssl_fd;
 	
 	return 0;
 }
@@ -399,7 +422,7 @@ stream_getsockopt (CamelTcpStream *stream, CamelSockOptData *data)
 	memset ((void *) &sodata, 0, sizeof (sodata));
 	memcpy ((void *) &sodata, (void *) data, sizeof (CamelSockOptData));
 	
-	if (PR_GetSocketOption (((CamelTcpStreamSSL *)stream)->sockfd, &sodata) == PR_FAILURE)
+	if (PR_GetSocketOption (((CamelTcpStreamSSL *)stream)->priv->sockfd, &sodata) == PR_FAILURE)
 		return -1;
 	
 	memcpy ((void *) data, (void *) &sodata, sizeof (CamelSockOptData));
@@ -415,10 +438,16 @@ stream_setsockopt (CamelTcpStream *stream, const CamelSockOptData *data)
 	memset ((void *) &sodata, 0, sizeof (sodata));
 	memcpy ((void *) &sodata, (void *) data, sizeof (CamelSockOptData));
 	
-	if (PR_SetSocketOption (((CamelTcpStreamSSL *)stream)->sockfd, &sodata) == PR_FAILURE)
+	if (PR_SetSocketOption (((CamelTcpStreamSSL *)stream)->priv->sockfd, &sodata) == PR_FAILURE)
 		return -1;
 	
 	return 0;
+}
+
+static gpointer
+stream_get_socket (CamelTcpStream *stream)
+{
+	return (gpointer) CAMEL_TCP_STREAM_SSL (stream)->priv->sockfd;
 }
 
 #endif /* HAVE_NSS */

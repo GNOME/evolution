@@ -253,17 +253,19 @@ smtp_connect (CamelService *service, CamelException *ex)
 	addrlen = sizeof (transport->localaddr);
 #ifdef HAVE_NSS
 	if (use_ssl) {
+		PRFileDesc *sockfd = camel_tcp_stream_get_socket (CAMEL_TCP_STREAM (tcp_stream));
 		PRNetAddr addr;
 		char hname[1024];
 		
-		PR_GetSockName (CAMEL_TCP_STREAM_SSL (tcp_stream)->sockfd, &addr);
+		PR_GetSockName (sockfd, &addr);
 		memset (hname, 0, sizeof (hname));
 		PR_NetAddrToString (&addr, hname, 1023);
 		
 		inet_aton (hname, (struct in_addr *)&transport->localaddr.sin_addr);
 	} else {
-		getsockname (CAMEL_TCP_STREAM_RAW (tcp_stream)->sockfd,
-			     (struct sockaddr *)&transport->localaddr, &addrlen);
+		int sockfd = GPOINTER_TO_INT (camel_tcp_stream_get_socket (CAMEL_TCP_STREAM (tcp_stream)));
+		
+		getsockname (sockfd, (struct sockaddr *)&transport->localaddr, &addrlen);
 	}
 #else
 	getsockname (CAMEL_TCP_STREAM_RAW (tcp_stream)->sockfd,

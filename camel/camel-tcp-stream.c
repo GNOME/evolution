@@ -33,6 +33,7 @@ static CamelStreamClass *parent_class = NULL;
 static int tcp_connect    (CamelTcpStream *stream, struct hostent *host, int port);
 static int tcp_getsockopt (CamelTcpStream *stream, CamelSockOptData *data);
 static int tcp_setsockopt (CamelTcpStream *stream, const CamelSockOptData *data);
+static gpointer tcp_get_socket (CamelTcpStream *stream);
 
 static void
 camel_tcp_stream_class_init (CamelTcpStreamClass *camel_tcp_stream_class)
@@ -46,6 +47,7 @@ camel_tcp_stream_class_init (CamelTcpStreamClass *camel_tcp_stream_class)
 	camel_tcp_stream_class->connect    = tcp_connect;
 	camel_tcp_stream_class->getsockopt = tcp_getsockopt;
 	camel_tcp_stream_class->setsockopt = tcp_setsockopt;
+	camel_tcp_stream_class->get_socket = tcp_get_socket;
 }
 
 static void
@@ -149,4 +151,29 @@ camel_tcp_stream_setsockopt (CamelTcpStream *stream, const CamelSockOptData *dat
 	g_return_val_if_fail (CAMEL_IS_TCP_STREAM (stream), -1);
 	
 	return CTS_CLASS (stream)->setsockopt (stream, data);
+}
+
+
+static gpointer
+tcp_get_socket (CamelTcpStream *stream)
+{
+	g_warning ("CamelTcpStream::get_socket called on default implementation\n");
+	return NULL;
+}
+
+
+/**
+ * camel_tcp_stream_get_socket:
+ * @stream: tcp stream object
+ *
+ * Get the stream's socket.
+ *
+ * Return value: the stream's socket on success or NULL on failure.
+ **/
+gpointer
+camel_tcp_stream_get_socket (CamelTcpStream *stream)
+{
+	g_return_val_if_fail (CAMEL_IS_TCP_STREAM (stream), NULL);
+	
+	return CTS_CLASS (stream)->get_socket (stream);
 }

@@ -1,3 +1,19 @@
+2001-03-16  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-tcp-stream-ssl.c (ssl_bad_cert): Print info about the
+	issuer of the certificate.
+
+	* providers/smtp/camel-smtp-transport.c (smtp_connect): Use
+	camel_tcp_stream_get_socket().
+
+	* camel-tcp-stream-openssl.c (stream_get_socket): Implemented.
+
+	* camel-tcp-stream-ssl.c (stream_get_socket): Implemented.
+
+	* camel-tcp-stream-raw.c (stream_get_socket): Implemented.
+
+	* camel-tcp-stream.c (camel_tcp_stream_get_socket): New function.
+
 2001-03-16  Kjartan Maraas  <kmaraas@gnome.org>
 
 	* providers/pop3/camel-pop3-folder.c: Added #include <config.h>

@@ -100,7 +100,8 @@ typedef struct {
 	int (*connect)    (CamelTcpStream *stream, struct hostent *host, int port);
 	int (*getsockopt) (CamelTcpStream *stream, CamelSockOptData *data);
 	int (*setsockopt) (CamelTcpStream *stream, const CamelSockOptData *data);
-
+	
+	gpointer (*get_socket) (CamelTcpStream *stream);
 } CamelTcpStreamClass;
 
 /* Standard Camel function */
@@ -110,6 +111,8 @@ CamelType camel_tcp_stream_get_type (void);
 int         camel_tcp_stream_connect    (CamelTcpStream *stream, struct hostent *host, int port);
 int         camel_tcp_stream_getsockopt (CamelTcpStream *stream, CamelSockOptData *data);
 int         camel_tcp_stream_setsockopt (CamelTcpStream *stream, const CamelSockOptData *data);
+
+gpointer    camel_tcp_stream_get_socket (CamelTcpStream *stream);
 
 #ifdef __cplusplus
 }

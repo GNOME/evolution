@@ -45,6 +45,7 @@ static int stream_close  (CamelStream *stream);
 static int stream_connect (CamelTcpStream *stream, struct hostent *host, int port);
 static int stream_getsockopt (CamelTcpStream *stream, CamelSockOptData *data);
 static int stream_setsockopt (CamelTcpStream *stream, const CamelSockOptData *data);
+static gpointer stream_get_socket (CamelTcpStream *stream);
 
 static void
 camel_tcp_stream_raw_class_init (CamelTcpStreamRawClass *camel_tcp_stream_raw_class)
@@ -65,6 +66,7 @@ camel_tcp_stream_raw_class_init (CamelTcpStreamRawClass *camel_tcp_stream_raw_cl
 	camel_tcp_stream_class->connect = stream_connect;
 	camel_tcp_stream_class->getsockopt = stream_getsockopt;
 	camel_tcp_stream_class->setsockopt = stream_setsockopt;
+	camel_tcp_stream_class->get_socket = stream_get_socket;
 }
 
 static void
@@ -432,4 +434,10 @@ stream_setsockopt (CamelTcpStream *stream, const CamelSockOptData *data)
 			   optname,
 			   (void *) &data->value,
 			   sizeof (data->value));
+}
+
+static gpointer
+stream_get_socket (CamelTcpStream *stream)
+{
+	return GINT_TO_POINTER (CAMEL_TCP_STREAM_RAW (stream)->sockfd);
 }
