@@ -645,6 +645,12 @@ e_table_select_row (ETable *e_table, int row)
 	e_table_group_select_row(e_table->group, row);
 }
 
+int
+e_table_get_selected_view_row (ETable *e_table)
+{
+	return e_table_group_get_selected_view_row(e_table->group);
+}
+
 static void
 et_get_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 {

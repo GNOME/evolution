@@ -469,6 +469,22 @@ etgc_select_row (ETableGroup *etg, gint row)
 	}
 }
 
+static int
+etgc_get_selected_view_row (ETableGroup *etg)
+{
+	ETableGroupContainer *etgc = E_TABLE_GROUP_CONTAINER(etg);
+	GList *list;
+	int count = 0;
+	for (list = etgc->children; list; list = g_list_next(list)) {
+		ETableGroup *group = ((ETableGroupContainerChildNode *)list->data)->child;
+		int row = e_table_group_get_selected_view_row(group);
+		if (row != -1)
+			return count + row;
+		count += e_table_group_row_count(group);
+	}
+	return -1;
+}
+
 static void
 etgc_set_focus (ETableGroup *etg, EFocus direction, gint view_col)
 {
@@ -633,6 +649,7 @@ etgc_class_init (GtkObjectClass *object_class)
 	e_group_class->row_count  = etgc_row_count;
 	e_group_class->set_focus  = etgc_set_focus;
 	e_group_class->select_row = etgc_select_row;
+	e_group_class->get_selected_view_row = etgc_get_selected_view_row;
 	e_group_class->unfocus    = etgc_unfocus;
 	e_group_class->get_focus_column = etgc_get_focus_column;
 

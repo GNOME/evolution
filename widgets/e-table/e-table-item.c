@@ -45,6 +45,7 @@ enum {
 	ARG_CURSOR_MODE,
 	ARG_LENGTH_THRESHOLD,
 	ARG_HAS_CURSOR,
+	ARG_CURSOR_ROW,
 	
 	ARG_MINIMUM_WIDTH,
 	ARG_WIDTH,
@@ -793,6 +794,9 @@ eti_get_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 	case ARG_HAS_CURSOR:
 		GTK_VALUE_BOOL (*arg) = (eti->cursor_row != -1);
 		break;
+	case ARG_CURSOR_ROW:
+		GTK_VALUE_INT (*arg) = eti->cursor_row;
+		break;
 	default:
 		arg->type = GTK_TYPE_INVALID;
 	}
@@ -1406,6 +1410,8 @@ eti_class_init (GtkObjectClass *object_class)
 				 GTK_ARG_READABLE, ARG_HEIGHT);
 	gtk_object_add_arg_type ("ETableItem::has_cursor", GTK_TYPE_BOOL,
 				 GTK_ARG_READWRITE, ARG_HAS_CURSOR);
+	gtk_object_add_arg_type ("ETableItem::has_cursor", GTK_TYPE_INT,
+				 GTK_ARG_READABLE, ARG_CURSOR_ROW);
 
 	eti_signals [ROW_SELECTION] =
 		gtk_signal_new ("row_selection",

@@ -56,6 +56,7 @@ typedef struct {
 	void (*increment) (ETableGroup *etg, gint position, gint amount);
 	void (*set_focus) (ETableGroup *etg, EFocus direction, gint view_col);
 	void (*select_row) (ETableGroup *etg, gint row);
+	int  (*get_selected_view_row) (ETableGroup *etg);
 	void (*unfocus)   (ETableGroup *etg);
 	gboolean (*get_focus) (ETableGroup *etg);
 	gint (*get_focus_column) (ETableGroup *etg);
@@ -78,6 +79,7 @@ void             e_table_group_set_focus (ETableGroup      *etg,
 					  gint              view_col);
 void             e_table_group_select_row (ETableGroup     *etg,
 					   gint             row);
+int              e_table_group_get_selected_view_row (ETableGroup *etg);
 void             e_table_group_unfocus   (ETableGroup      *etg);
 gboolean         e_table_group_get_focus (ETableGroup      *etg);
 gint             e_table_group_get_focus_column (ETableGroup      *etg);

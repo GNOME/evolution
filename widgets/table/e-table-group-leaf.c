@@ -198,6 +198,17 @@ etgl_select_row (ETableGroup *etg, gint row)
 	e_table_item_focus(etgl->item, 0, row);
 }
 
+static int
+etgl_get_selected_view_row (ETableGroup *etg)
+{
+	ETableGroupLeaf *etgl = E_TABLE_GROUP_LEAF (etg);
+	int row;
+	gtk_object_get(GTK_OBJECT(etgl->item),
+		       "cursor_row", &row,
+		       NULL);
+	return row;
+}
+
 static void
 etgl_unfocus (ETableGroup *etg)
 {
@@ -321,6 +332,7 @@ etgl_class_init (GtkObjectClass *object_class)
 	e_group_class->set_focus  = etgl_set_focus;
 	e_group_class->select_row = etgl_select_row;
 	e_group_class->unfocus    = etgl_unfocus;
+	e_group_class->get_selected_view_row = etgl_get_selected_view_row;
 	e_group_class->get_focus_column = etgl_get_focus_column;
 
 	gtk_object_add_arg_type ("ETableGroupLeaf::drawgrid", GTK_TYPE_BOOL,

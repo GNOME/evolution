@@ -180,6 +180,18 @@ e_table_group_select_row (ETableGroup *etg,
 		ETG_CLASS (etg)->select_row (etg, row);
 }
 
+int
+e_table_group_get_selected_view_row (ETableGroup *etg)
+{
+	g_return_val_if_fail (etg != NULL, -1);
+	g_return_val_if_fail (E_IS_TABLE_GROUP (etg), -1);
+
+	if (ETG_CLASS (etg)->get_selected_view_row)
+		return ETG_CLASS (etg)->get_selected_view_row (etg);
+	else
+		return -1;
+}
+
 void
 e_table_group_unfocus (ETableGroup *etg)
 {
@@ -314,11 +326,12 @@ etg_class_init (GtkObjectClass *object_class)
 	klass->add = NULL;
 	klass->add_all = NULL;
 	klass->remove = NULL;
-	klass->get_count = NULL;
-	klass->row_count = NULL;
-	klass->increment = NULL;
-	klass->set_focus = NULL;
+	klass->get_count  = NULL;
+	klass->row_count  = NULL;
+	klass->increment  = NULL;
+	klass->set_focus  = NULL;
 	klass->select_row = NULL;
+	klass->get_selected_view_row = NULL;
 	klass->unfocus = NULL;
 	klass->get_focus = etg_get_focus;
 	klass->get_ecol = NULL;

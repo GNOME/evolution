@@ -84,6 +84,8 @@ void       e_table_save_specification       (ETable *e_table, gchar *filename);
 
 void       e_table_select_row               (ETable *e_table,
 					     int row);
+/* -1 means no selection. */
+int        e_table_get_selected_view_row    (ETable *e_table);
 
 END_GNOME_DECLS
 
