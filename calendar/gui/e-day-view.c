@@ -512,13 +512,13 @@ e_day_view_init (EDayView *day_view)
 
 	/* Allocate the colors. */
 #if 1
-	day_view->colors[E_DAY_VIEW_COLOR_BG_WORKING].red   = 255 * 257;
-	day_view->colors[E_DAY_VIEW_COLOR_BG_WORKING].green = 255 * 257;
-	day_view->colors[E_DAY_VIEW_COLOR_BG_WORKING].blue  = 131 * 257;
+	day_view->colors[E_DAY_VIEW_COLOR_BG_WORKING].red   = 247 * 257;
+	day_view->colors[E_DAY_VIEW_COLOR_BG_WORKING].green = 247 * 257;
+	day_view->colors[E_DAY_VIEW_COLOR_BG_WORKING].blue  = 244 * 257;
 
-	day_view->colors[E_DAY_VIEW_COLOR_BG_NOT_WORKING].red   = 211 * 257;
-	day_view->colors[E_DAY_VIEW_COLOR_BG_NOT_WORKING].green = 208 * 257;
-	day_view->colors[E_DAY_VIEW_COLOR_BG_NOT_WORKING].blue  =   6 * 257;
+	day_view->colors[E_DAY_VIEW_COLOR_BG_NOT_WORKING].red   = 216 * 257;
+	day_view->colors[E_DAY_VIEW_COLOR_BG_NOT_WORKING].green = 216 * 257;
+	day_view->colors[E_DAY_VIEW_COLOR_BG_NOT_WORKING].blue  = 214 * 257;
 #else
 
 	/* FG: MistyRose1, LightPink3 | RosyBrown | MistyRose3. */
@@ -3326,6 +3326,9 @@ e_day_view_reshape_long_event (EDayView *day_view,
 	gchar *text, *end_of_line;
 	gboolean show_icons = TRUE, use_max_width = FALSE;
 
+	event = &g_array_index (day_view->long_events, EDayViewEvent,
+				event_num);
+
 	if (!e_day_view_get_long_event_position (day_view, event_num,
 						 &start_day, &end_day,
 						 &item_x, &item_y,
@@ -3343,8 +3346,6 @@ e_day_view_reshape_long_event (EDayView *day_view,
 	item_y += E_DAY_VIEW_LONG_EVENT_BORDER_HEIGHT + E_DAY_VIEW_LONG_EVENT_Y_PAD;
 	item_h -= (E_DAY_VIEW_LONG_EVENT_BORDER_HEIGHT + E_DAY_VIEW_LONG_EVENT_Y_PAD) * 2;
 
-	event = &g_array_index (day_view->long_events, EDayViewEvent,
-				event_num);
 	/* We don't show the icons while resizing, since we'd have to
 	   draw them on top of the resize rect. Nor when editing. */
 	num_icons = 0;

@@ -1,3 +1,9 @@
+2000-06-21  Damon Chaplin  <damon@helixcode.com>
+
+	* gui/e-day-view.c (e_day_view_reshape_long_event): set event before
+	using it!
+	(e_day_view_init): used new colors from tigert.
+
 2000-06-21  Christopher James Lahey  <clahey@helixcode.com>
 
 	* gui/e-day-view.c, gui/e-week-view.c: Remove the usage of the "x"
