@@ -1100,6 +1100,30 @@ notify_listener (const Bonobo_Listener listener,
 }
 
 static void
+notify_listener_exception(const Bonobo_Listener listener, CamelException *ex)
+{
+	GNOME_Evolution_Storage_Result result;
+	
+	switch(camel_exception_get_id(ex)) {
+	case CAMEL_EXCEPTION_SERVICE_UNAVAILABLE:
+		result = GNOME_Evolution_Storage_NOT_ONLINE;
+		break;
+	case CAMEL_EXCEPTION_NONE:
+		result = GNOME_Evolution_Storage_OK;
+		break;
+	case CAMEL_EXCEPTION_FOLDER_INVALID_PATH:
+	case CAMEL_EXCEPTION_SERVICE_URL_INVALID:
+		result = GNOME_Evolution_Storage_INVALID_URI;
+		break;
+	default:
+		result = GNOME_Evolution_Storage_GENERIC_ERROR;
+		break;
+	}
+
+	notify_listener(listener, result);
+}
+
+static void
 storage_create_folder (EvolutionStorage *storage,
 		       const Bonobo_Listener listener,
 		       const char *path,
@@ -1142,9 +1166,8 @@ storage_create_folder (EvolutionStorage *storage,
 		root = camel_store_create_folder (store, NULL, name, &ex);
 	
 	if (camel_exception_is_set (&ex)) {
-		/* FIXME: do better than this */
+		notify_listener_exception(listener, &ex);
 		camel_exception_clear (&ex);
-		notify_listener (listener, GNOME_Evolution_Storage_INVALID_URI);
 		return;
 	}
 	
@@ -1234,11 +1257,10 @@ storage_remove_folder (EvolutionStorage *storage,
 	notify_listener (listener, GNOME_Evolution_Storage_OK);
 	return;
 	
- exception:
-	/* FIXME: do better than this... */
+exception:
+	notify_listener_exception(listener, &ex);
 	camel_exception_clear (&ex);
 	camel_store_free_folder_info (store, root);
-	notify_listener (listener, GNOME_Evolution_Storage_INVALID_URI);
 }
 
 static void
@@ -1265,10 +1287,7 @@ storage_xfer_folder (EvolutionStorage *storage,
 	if (remove_source) {
 		d(printf("trying to rename\n"));
 		camel_store_rename_folder(store, src, dst, &ex);
-		if (camel_exception_is_set(&ex))
-			notify_listener (listener, GNOME_Evolution_Storage_GENERIC_ERROR);
-		else
-			notify_listener (listener, GNOME_Evolution_Storage_OK);
+		notify_listener_exception(listener, &ex);
 	} else {
 		d(printf("No remove, can't rename\n"));
 		/* FIXME: Implement folder 'copy' for remote stores */

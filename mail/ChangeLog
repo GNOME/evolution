@@ -1,3 +1,11 @@
+2002-09-18  Not Zed  <NotZed@Ximian.com>
+
+	* component-factory.c (notify_listener_exception): helper to map a
+	camel excpeiton to a listener result.
+	(storage_create_folder): Use above to return more meaningful error.
+	(storage_remove_folder): "
+	(storage_xfer_folder): ".  For #28209.
+
 2002-09-17  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-display.c (mail_display_render): Use e_strftime_fix_am_pm
