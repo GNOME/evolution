@@ -1,3 +1,9 @@
+2003-03-10  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-session.c (request_password): No need to convert the prompt
+	from Camel into UTF-8 (first, gtk widgets don't want UTF-8 and
+	second, the camel strings are already translated).
+
 2003-03-04  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-callbacks.c (composer_get_message): Revert my prior change
