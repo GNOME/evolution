@@ -35,6 +35,8 @@
 static CamelFolder *vee_get_folder (CamelStore *store, const char *folder_name, guint32 flags, CamelException *ex);
 static void vee_delete_folder(CamelStore *store, const char *folder_name, CamelException *ex);
 static void vee_rename_folder(CamelStore *store, const char *old, const char *new, CamelException *ex);
+
+static void vee_sync (CamelStore *store, int expunge, CamelException *ex);
 static CamelFolder *vee_get_trash  (CamelStore *store, CamelException *ex);
 static CamelFolder *vee_get_junk  (CamelStore *store, CamelException *ex);
 
@@ -78,6 +80,7 @@ camel_vee_store_class_init (CamelVeeStoreClass *klass)
 	store_class->get_folder_info = vee_get_folder_info;
 	store_class->free_folder_info = camel_store_free_folder_info_full;
 
+	store_class->sync = vee_sync;
 	store_class->get_trash = vee_get_trash;
 	store_class->get_junk = vee_get_junk;
 }
@@ -181,6 +184,12 @@ vee_get_folder (CamelStore *store, const char *folder_name, guint32 flags, Camel
 	}
 
 	return (CamelFolder *)vf;
+}
+
+static void
+vee_sync(CamelStore *store, int expunge, CamelException *ex)
+{
+	/* noop */;
 }
 
 static CamelFolder *

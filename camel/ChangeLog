@@ -1,5 +1,9 @@
 2004-02-17  Not Zed  <NotZed@Ximian.com>
 
+	* camel-vee-store.c (vee_sync): implment, make sync a noop on vee
+	stores.  Speeds up exit, so we don't try and sync and re-sync
+	folders multiple times.
+
 	** See bug #53861.
 
 	* providers/nntp/camel-nntp-summary.c (add_range_xover): Fix from
