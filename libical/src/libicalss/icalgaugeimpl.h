@@ -24,8 +24,6 @@
 
 #include "ical.h"
 
-#include "pvl.h" 
-
 typedef enum icalgaugecompare {
     ICALGAUGECOMPARE_EQUAL=ICAL_XLICCOMPARETYPE_EQUAL,
     ICALGAUGECOMPARE_LESS=ICAL_XLICCOMPARETYPE_LESS,
@@ -34,6 +32,8 @@ typedef enum icalgaugecompare {
     ICALGAUGECOMPARE_GREATEREQUAL=ICAL_XLICCOMPARETYPE_GREATEREQUAL,
     ICALGAUGECOMPARE_NOTEQUAL=ICAL_XLICCOMPARETYPE_NOTEQUAL,
     ICALGAUGECOMPARE_REGEX=ICAL_XLICCOMPARETYPE_REGEX,
+    ICALGAUGECOMPARE_ISNULL=ICAL_XLICCOMPARETYPE_ISNULL,
+    ICALGAUGECOMPARE_ISNOTNULL=ICAL_XLICCOMPARETYPE_ISNOTNULL,
     ICALGAUGECOMPARE_NONE=0
 } icalgaugecompare;
 
@@ -54,10 +54,10 @@ struct icalgauge_where {
 
 struct icalgauge_impl
 {
-
-	pvl_list select; /*Of icalgaugecompare, using only prop and comp fields*/
-	pvl_list from; /* List of component_kinds, as integers */
-	pvl_list where; /* List of icalgaugecompare */
+	pvl_list select; /**< Of icalgaugecompare, using only prop and comp fields*/
+	pvl_list from;   /**< List of component_kinds, as integers */
+	pvl_list where;  /**< List of icalgaugecompare */
+        int      expand;
 };
 
 

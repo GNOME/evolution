@@ -30,123 +30,55 @@
 #include "icaltypes.h"
 #include "icalerror.h"
 #include "icalmemory.h"
-#include "icalvalueimpl.h"
 #include <stdlib.h> /* for malloc and abs() */
 #include <errno.h> /* for errno */
 #include <string.h> /* for icalmemory_strdup */
 #include <assert.h>
 
+#ifdef WIN32
+#define snprintf      _snprintf
+#define strcasecmp    stricmp
+#endif
+
 #define TEMP_MAX 1024
 
-icalattach *
-icalattach_new_from_url (const char *url)
+
+int icaltriggertype_is_null_trigger(struct icaltriggertype tr)
 {
-    icalattach *attach;
-    char *url_copy;
-
-    icalerror_check_arg_rz ((url != NULL), "url");
-
-    if ((attach = malloc (sizeof (icalattach))) == NULL) {
-	errno = ENOMEM;
-	return NULL;
+    if(icaltime_is_null_time(tr.time) && 
+       icaldurationtype_is_null_duration(tr.duration)){
+        return 1;
     }
 
-    if ((url_copy = strdup (url)) == NULL) {
-	free (attach);
-	errno = ENOMEM;
-	return NULL;
+    return 0;
+}
+    
+int icaltriggertype_is_bad_trigger(struct icaltriggertype tr)
+{
+    if(icaldurationtype_is_bad_duration(tr.duration)){
+        return 1;
     }
 
-    attach->refcount = 1;
-    attach->is_url = 1;
-    attach->u.url.url = url_copy;
-
-    return attach;
+    return 0;
 }
 
-icalattach *
-icalattach_new_from_data (const unsigned char *data, icalattach_free_fn_t free_fn,
-			  void *free_fn_data)
+struct icaltriggertype icaltriggertype_from_int(const int reltime)
 {
-    icalattach *attach;
+    struct icaltriggertype tr;
 
-    icalerror_check_arg_rz ((data != NULL), "data");
+    tr.time	= icaltime_null_time();
+    tr.duration = icaldurationtype_from_int(reltime);
 
-    if ((attach = malloc (sizeof (icalattach))) == NULL) {
-	errno = ENOMEM;
-	return NULL;
-    }
-
-    attach->refcount = 1;
-    attach->is_url = 0;
-    attach->u.data.data = (unsigned char *) data;
-    attach->u.data.free_fn = free_fn;
-    attach->u.data.free_fn_data = free_fn_data;
-
-    return attach;
+    return tr;
 }
-
-void
-icalattach_ref (icalattach *attach)
-{
-    icalerror_check_arg_rv ((attach != NULL), "attach");
-    icalerror_check_arg_rv ((attach->refcount > 0), "attach->refcount > 0");
-
-    attach->refcount++;
-}
-
-void
-icalattach_unref (icalattach *attach)
-{
-    icalerror_check_arg_rv ((attach != NULL), "attach");
-    icalerror_check_arg_rv ((attach->refcount > 0), "attach->refcount > 0");
-
-    attach->refcount--;
-
-    if (attach->refcount != 0)
-	return;
-
-    if (attach->is_url)
-	free (attach->u.url.url);
-    else if (attach->u.data.free_fn)
-	(* attach->u.data.free_fn) (attach->u.data.data, attach->u.data.free_fn_data);
-
-    free (attach);
-}
-
-int
-icalattach_get_is_url (icalattach *attach)
-{
-    icalerror_check_arg_rz ((attach != NULL), "attach");
-
-    return attach->is_url ? 1 : 0;
-}
-
-const char *
-icalattach_get_url (icalattach *attach)
-{
-    icalerror_check_arg_rz ((attach != NULL), "attach");
-    icalerror_check_arg_rz ((attach->is_url), "attach->is_url");
-
-    return attach->u.url.url;
-}
-
-unsigned char *
-icalattach_get_data (icalattach *attach)
-{
-    icalerror_check_arg_rz ((attach != NULL), "attach");
-    icalerror_check_arg_rz ((!attach->is_url), "!attach->is_url");
-
-    return attach->u.data.data;
-}
-
 
 struct icaltriggertype icaltriggertype_from_string(const char* str)
 {
 
     
     struct icaltriggertype tr, null_tr;
-    int old_ieaf = icalerror_errors_are_fatal;
+    icalerrorstate es;
+    icalerrorenum e;
 
     tr.time= icaltime_null_time();
     tr.duration = icaldurationtype_from_int(0);
@@ -155,34 +87,38 @@ struct icaltriggertype icaltriggertype_from_string(const char* str)
 
     if(str == 0) goto error;
 
-
-    icalerror_errors_are_fatal = 0;
+    /* Suppress errors so a failure in icaltime_from_string() does not cause an abort */
+    es = icalerror_get_error_state(ICAL_MALFORMEDDATA_ERROR);
+    icalerror_set_error_state(ICAL_MALFORMEDDATA_ERROR,ICAL_ERROR_NONFATAL);
+    e = icalerrno;
+    icalerror_set_errno(ICAL_NO_ERROR);
 
     tr.time = icaltime_from_string(str);
-
-    icalerror_errors_are_fatal = old_ieaf;
 
     if (icaltime_is_null_time(tr.time)){
 
 	tr.duration = icaldurationtype_from_string(str);
 
-	if(icaldurationtype_as_int(tr.duration) == 0) goto error;
+        if (icaldurationtype_is_bad_duration(tr.duration)) goto error;
     } 
 
+    icalerror_set_error_state(ICAL_MALFORMEDDATA_ERROR,es);
+    icalerror_set_errno(e);
     return tr;
 
  error:
+    icalerror_set_error_state(ICAL_MALFORMEDDATA_ERROR,es);
     icalerror_set_errno(ICAL_MALFORMEDDATA_ERROR);
-    return null_tr;
+    return tr;
 
 }
 
 
-struct icalreqstattype icalreqstattype_from_string(char* str)
+struct icalreqstattype icalreqstattype_from_string(const char* str)
 {
-  char *p1,*p2;
+  const char *p1,*p2;
   struct icalreqstattype stat;
-  int major, minor;
+  short major=0, minor=0;
 
   icalerror_check_arg((str != 0),"str");
 
@@ -192,17 +128,17 @@ struct icalreqstattype icalreqstattype_from_string(char* str)
 
   /* Get the status numbers */
 
-  sscanf(str, "%d.%d",&major, &minor);
+  sscanf(str, "%hd.%hd",&major, &minor);
 
   if (major <= 0 || minor < 0){
-    icalerror_set_errno(ICAL_BADARG_ERROR);
+    icalerror_set_errno(ICAL_MALFORMEDDATA_ERROR);
     return stat;
   }
 
   stat.code = icalenum_num_to_reqstat(major, minor);
 
   if (stat.code == ICAL_UNKNOWN_STATUS){
-    icalerror_set_errno(ICAL_BADARG_ERROR);
+    icalerror_set_errno(ICAL_MALFORMEDDATA_ERROR);
     return stat;
   }
   
@@ -228,7 +164,7 @@ struct icalreqstattype icalreqstattype_from_string(char* str)
   
 }
 
-char* icalreqstattype_as_string(struct icalreqstattype stat)
+const char* icalreqstattype_as_string(struct icalreqstattype stat)
 {
   char *temp;
 

@@ -36,14 +36,8 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-#ifdef ICAL_NO_LIBICAL
-#define icalerror_set_errno(x)
-#define  icalerror_check_arg_rv(x,y)
-#define  icalerror_check_arg_re(x,y,z)
-#else
 #include "icalerror.h"
 #include "icalmemory.h"
-#endif
 
 
 
@@ -96,15 +90,16 @@ struct icalperiodtype icalperiodtype_from_string (const char* str)
     } 
 
     icalerrno = e;
-  
-    icalmemory_free_buffer (s);
+
+    icalmemory_free_buffer(s);
+
     return p;
 
  error:
     icalerror_set_errno(ICAL_MALFORMEDDATA_ERROR);
 
     if (s)
-        icalmemory_free_buffer (s);
+	icalmemory_free_buffer (s);
     return null_p;
 }
 
@@ -137,14 +132,14 @@ const char* icalperiodtype_as_ical_string(struct icalperiodtype p)
 
     icalmemory_append_string(&buf, &buf_ptr, &buf_size, end); 
     
-    buf_ptr = icalmemory_tmp_copy (buf);
-    icalmemory_free_buffer (buf);
-    return buf_ptr;
+	icalmemory_add_tmp_buffer(buf);
+
+    return buf;
 }
 
 
 
-struct icalperiodtype icalperiodtype_null_period() {
+struct icalperiodtype icalperiodtype_null_period(void) {
     struct icalperiodtype p;
     p.start = icaltime_null_time();
     p.end = icaltime_null_time();

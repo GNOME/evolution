@@ -1,669 +1,308 @@
-2003-08-18  Rodrigo Moya <rodrigo@ximian.com>
+2002-07-09  Andrea Campi  <a.campi@inet.it>
 
-	* src/libical/icalcomponent.c (icalcomponent_set_uid): added missing
-	implementation.
+	* src/libical/icalcomponent.c
+	* src/libical/icalcomponent.h: Added a check for valid component kind
+	before instancing a new one.
 
-2003-08-07  Rodrigo Moya <rodrigo@ximian.com>
+2002-07-08  Andrea Campi  <a.campi@inet.it>
 
-	* src/libical/icalcomponent.c (icalcomponent_get_uid): added missing
-	implementation.
+	* src/python/Gauge.py
+	* src/python/LibicalWrap.i
+	* src/python/Property.py
+	* src/python/Store.py
+	* src/python/Time.py
+	* src/python/python-binding.txt
+	* src/python/test.py: Updated the python bindings to match the C API
+	changes.
+	Obtained from: Mark Tearle
 
-2003-05-14  Rodrigo Moya <rodrigo@ximian.com>
+2002-07-04  Andrea Campi  <a.campi@inet.it>
 
-	Fixes #41579
+	* src/libical/icalderivedproperty.c.in
+	* src/libical/icalproperty.c
+	* src/libical/icalproperty.h: Added a check for valid property kind
+	before instancing a new one.
 
-	* src/libical/icalcomponent.c (icalcomponent_new_clone): don't add the
-	property if it's NULL.
+	* src/libical/icalvalue.c: Fixed icalvalue_new_clone to properly clone
+	X- properties.
 
-2003-05-07  Rodrigo Moya <rodrigo@ximian.com>
+2002-06-28  Andrea Campi  <a.campi@inet.it>
 
-	Fixes crash in #41631
+	* design-data/parameters.csv
+	* src/libicalss/icalgauge.c
+	* src/libicalss/icalgaugeimpl.h
+	* src/libicalss/icalsslexer.c
+	* src/libicalss/icalsslexer.l
+	* src/libicalss/icalssyacc.c
+	* src/libicalss/icalssyacc.h
+	* src/libicalss/icalssyacc.y: Added IS NULL to icalgauge
+	syntax.
+	Obtained from: Paul Lindner
 
-	* src/libicalvcal/icalvcal.c (icalvcal_traverse_objects): changed to
-	return an error code and to return immediately if one of the recurrent
-	calls return an error.
-	(icalvcal_convert_with_defaults): if icalvcal_traverse_objects return
-	an error, return NULL.
+	* src/libical/icallexer.c
+	* src/libical/icallexer.l
+	* src/libical/icalyacc.c
+	* src/libical/icalyacc.h
+	* src/libical/icalyacc.y: Sent lex/yacc code to Attic.
 
-2003-03-17  Hans Petter Jansson  <hpj@ximian.com>
+	* src/libical/icalparameter.c: Changed icalparameter_as_ical_string
+	to also quote the param value if it contains a , (comma), as per RFC2445.
 
-	Part of fix for #34095
+	* src/libicalss/icalset.c
+	* src/libicalss/icalset.h: Added experimental code to support
+	dynamic loading of icalset derived classes.
 
-	* scripts/mkderivedparameters.pl: Generate code to free old
-	string value when a new one is set.
+	* src/libicalss/Makefile.am
+	* src/libicalss/icalspanlist_cxx.cpp
+	* src/libicalss/icalspanlist_cxx.h: Added C++ binding for libicalss.
+	Obtained from: Paul Lindner
 
-	* src/libical/icalperiod.c (icalperiodtype_as_ical_string):
-	Callers expect a temporary string, and thus won't free it, so
-	allocate returned memory from the temporary ring.
+2002-06-28  Eric Busboom  <eric@softwarestudio.org>
 
-2003-02-10  Ettore Perazzoli  <ettore@ximian.com>
+	* src/libical/Makefile.am
+	* src/libical/icalduration.c
+	* src/libical/icalparser.c
+	* src/libical/icalvalue.c
+	* src/libical/icalyacc.c
+	* src/libical/icalyacc.h: removed lex and yacc by writing
+	code to parse UTC-OFFSET
 
-	* src/libical/Makefile.am (libical_static_la_DEPENDENCIES): Make
-	libical-static.la depend on libical-evolution.la so they they are
-	not built in parallel by a parallel make, since that would break
-	libtool.
+2002-06-27  Andrea Campi  <a.campi@inet.it>
 
-2003-02-07  Christian Neumair  <chris@gnome-de.org>
+	* src/libical/icalcomponent.c
+	* src/libical/icalcomponent.h: Added icalcomponent_foreach_recurrence
+	as a better way of handling recurrences; deprecated
+	icalcomponent_get_span
+	Obtained from: Paul Lindner
 
-	* .cvsignore: Added missing files.
-	* configure.in: Added AC_PREREQ as defined in ../configure.in.
+	* src/libical/icalderivedvalue.c.in
+	* src/libical/icalvalue.c
+	* src/libical/icalvalue.h: Added a check for valid value kind before
+	instancing a new one.
+	Obtained from: Paul Lindner
 
-2003-02-06  Dan Winship  <danw@ximian.com>
+	* src/libical/icalproperty.c
+	* src/libical/icalproperty.h: Deprecated icalproperty_remove_parameter,
+	added 3 new functions to do the same in a safer way (wrt X- params).
+	Obtained from: Paul Lindner
 
-	* configure.in: AC_SUBST privlibdir, privincludedir, privdatadir
-	(sent from ../configure). Add descriptions to AC_DEFINEs. Don't
-	bother checking for python since we don't build it anyway.
+	* src/libical/icaltime.c
+	* src/libical/icaltime.h: Added functions to work with time spans.
+	Obtained from: Paul Lindner
 
-	* acconfig.h: Gone
+2002-06-26  Andrea Campi  <a.campi@inet.it>
 
-	* src/libical/Makefile.am: install library in privlibdir and
-	headers under privincludedir. Look for zone files in privdatadir
+	* src/libical/icalduration.c: Fixed icaldurationtype_from_int to
+	generate valid RFC2445 durations (it used to mix weeks and other
+	time units).
 
-	* src/libicalvcal/Makefile.am: install in privlibdir
+2002-06-13  Andrea Campi  <a.campi@inet.it>
 
-	* zoneinfo/Makefile.am (zoneinfodatadir): define in terms of
-	privdatadir
-	(install-data-local): update
+	* src/libical/icalvalue.c: Fixed escaping of TEXT values and
+	formatting of UTCOFFSET values to more closely match RFC2445.
 
-2002-12-19  Joe Shaw  <joe@ximian.com>
+	* configure.in
+	* src/libical/Makefile.am
+	* src/libical/icalparameter_cxx.cpp
+	* src/libical/icalparameter_cxx.h
+	* src/libical/icalproperty_cxx.cpp
+	* src/libical/icalproperty_cxx.h
+	* src/libical/icalvalue_cxx.cpp
+	* src/libical/icalvalue_cxx.h
+	* src/libical/vcomponent.cpp
+	* src/libical/vcomponent.h
+	* src/libicalss/icalbdbset_cxx.h: Added C++ binding.
+	Obtained from: Paul Lindner
 
-	* configure.in: Add AC_CONFIG_AUX_DIR(..) so it looks for ylwrap in
-	the toplevel evolution directory and not our directory.  Fixes the
-	build for automake >= 1.5
+	* configure.in
+	* src/libicalss/Makefile.am
+	* src/libicalss/icalbdbset.c
+	* src/libicalss/icalbdbset.h
+	* src/libicalss/icalbdbset.h
+	* src/libicalss/icalbdbsetimpl.h
+	* src/test/Makefile.am
+	* src/test/storage.c: Added BerkeleyDB 4.0 icalset implementation.
+	Obtained from: Paul Lindner
 
-2002-11-26  Rodrigo Moya <rodrigo@ximian.com>
+2002-06-11  Andrea Campi  <a.campi@inet.it>
 
-	* src/libical/icalyacc.y: added missing ';' for new bison to not
-	complain.
+	* src/test/Makefile.am
+	* src/test/regression-classify.c
+	* src/test/regression-component.c
+	* src/test/regression-recur.c
+	* src/test/regression-utils.c
+	* src/test/regression.c
+	* src/test/regression.h
+	* src/test/test_fileset.ics: New regression test suite
+	Obtained from: Paul Lindner
 
-2002-10-25  Dan Winship  <danw@ximian.com>
+	* src/libical/icalcomponent.c
+	* src/libical/icalproperty.c
+	* src/libical/icalproperty.h
+	* src/python/test.py
+	* src/test/regression.c: Improved X- parameter handling.
+	Obtained from: Mark Tearle
 
-	* src/libical/icaltimezone.c
-	(icaltimezone_get_vtimezone_properties): Free the location if it's
-	set. Otherwise one copy of the location of each built-in timezone
-	we use gets leaked.
+2002-06-07  Andrea Campi  <a.campi@inet.it>
 
-2002-10-15  Rodrigo Moya <rodrigo@ximian.com>
+	* configure.in
+	* src/libical/Makefile.am
+	* src/libical/icallexer.l
+	* src/libical/icalparser.c
+	* src/libical/icalparser.h
+	* src/libical/icalyacc.y
+	* src/libicalss/Makefile.am
+	* src/libicalss/icalgauge.c
+	* src/libicalss/icalsslexer.c
+	* src/libicalss/icalsslexer.l
+	* src/libicalss/icalssyacc.c
+	* src/libicalss/icalssyacc.h
+	* src/libicalss/icalssyacc.y: Made parser fully reentrant using
+	recent versions of flex/bison. Also committed the generated files
+	so that the library can be compiled even without those tools.
+	Obtained from: Paul Lindner
 
-	Fixes #25153
+	* src/python/LibicalWrap.i
+	* src/python/Property.py
+	* src/python/test.py: Support X- properties in the Python wrapper.
+	Obtained from: Mark Tearle
+
+2002-06-04  Andrea Campi  <a.campi@inet.it>
+
+	* *: Constifed a lot of functions, also made a few of them static
+	Obtained from: Paul Lindner <lindner@inuus.com>
+
+2002-06-03  Andrea Campi  <a.campi@inet.it>
+	* src/libical/icallangbind.c
+	* src/python/Component.py
+	* src/python/Gauge.py
+	* src/python/Libical.py
+	* src/python/LibicalWrap.i
+	* src/python/Store.py
+	* src/python/test.py: Fully implemented FileStore and Gauge
+	in the python bindings.
+	Obtained from: Mark Tearle <mtearle@tearle.com>
+
+2002-05-28  Andrea Campi  <a.campi@inet.it>
+
+	* src/libical/icalattach.c
+	* src/libical/icalattach.h
+	* src/libical/icalattachimpl.h
+	* src/libical/icalderivedproperty.c.in
+	* src/libical/icalderivedvalue.c.in
+	* src/libical/icalderivedvalue.h.in
+	* src/libical/icaltypes.c
+	* src/libical/icaltypes.h
+	* src/libical/icalvalue.c
+	* src/libical/icalvalueimpl.h: Changed ATTACH to be an opaque type
+
+2002-05-27  Eric Busboom  <eric@softwarestudio.org>
+
+	* scripts/mkderivedparameters.pl
+	* scripts/mkderivedproperties.pl
+	* scripts/mkderivedvalues.pl
+	* src/libical/icalderivedparameter.c.in
+	* src/libical/icalderivedparameter.h.in
+	* src/libical/icalderivedproperty.c.in
+	* src/libical/icalderivedproperty.h.in
+	* src/libical/icalderivedvalue.c.in
+	* src/libical/icalderivedvalue.h.in: changed the auto generated
+	files and scripts so that the generated code is inserted into the
+	middle of the template (.in) file, instead of the end. This means
+	we could get rid of the declaration for the maps.
+
+2002-05-27  Andrea Campi  <a.campi@inet.it>
+
+	* src/libical/icaltimezone.c: Worked around Outlook/Exchange brokenness.
+	Obtained from: evolution CVS repository
+
+2002-05-24  Andrea Campi  <a.campi@inet.it>
+
+	* src/libical/icalproperty.c: Implemented proper RFC2445 folding.
+	Obtained from: evolution CVS repository
+
+	* src/libical/icalrecur.c: Worked around Outlook/Exchange brokenness.
+	Obtained from: evolution CVS repository
+
+
+2002-05-21  Andrea Campi  <a.campi@inet.it>
+
+	* src/libical/*: Removed void * in favor of opaque typedef types.
+	This helped uncover a few bugs and made debugging easier.
+	Obtained from: Paul Lindner
+
+2002-05-10  Andrea Campi  <a.campi@inet.it>
+
+	* src/libical/icalmemory.c: Made the memory allocator threadsafe.
+	This code is currently conditional on USE_THREAD, but it might
+	become the default in the future.
+	Obtained from: Paul Lindner
+
+	* src/libical/icaltime.c: Implemented icaltime_is_date(), with the
+	intent of removing all direct accesses to is_date.
+
+2002-05-09  Andrea Campi  <a.campi@inet.it>
+
+	* icaltime.c Rewrote and documented icaltime API, with the goal of
+	keeping it stable until release 1.0. Some functions and internal
+	implementation details are now declared obsolete and removed from
+	the documentation; they will be removed at a later time.
+
+2001-12-12  Eric Busboom  <eric@softwarestudio.org>
+
+	* icalrecur.c implemented recurrence rule for "FREQ=YEARLY",
+	with no BY rules.
+
+2001-12-11  Eric Busboom  <eric@softwarestudio.org>
+
+	* icalrecur.c Fixed bug in next_month for MONTHLY rules that have
+	only BYDAY rules. The code would miss valid dates that fell on the
+	first of the month. created new routine is_day_in_byday()
+
+	* icaltime.c Fixed icaltime_from_day_of_year to correctly handle 
+	negative and over-range day-of-years
+
+	* icaltime.c collected all instances of leap year code into
+	icaltime_is_leap_year
+
+	* icaltime.c icaltime_day_of_year. Changed an assert into code
+	that advances the year when the day of year is lager than the
+	number of days in the given year
+
+	* icalerrno.c,h Added the function version
+	icalerror_set_errno. Only the define verson existed.
+
+	* icaltime.c Moved all of the getenv/putenv operations into icaltimegm()
 	
-	* scripts/mkderivedvalues.pl: changed the _get functions for
-	string values to return a NULL if arguments are wrong
+2001-06-29  Eric Busboom  <eric@softwarestudio.org>
 
-	* src/libical/icalderivedvalue.c.in (icalvalue_get_x): return from
-	function if pointer checking fails.
+	* icalderivedproperties.h,c Changed the signature if the CLASS
+	property from TEXT to CLASS. ( enum icalproperty_class) 
 
-2002-10-01  Ettore Perazzoli  <ettore@ximian.com>
+2001-06-22  Eric Busboom  <eric@softwarestudio.org>
 
-	* src/libicalvcal/vcc.y: Allocate the right number of bytes when
-	appending the string value [it was allocating one fewer than
-	necessary].  [#28321]
+	* icaltypes.c Fixed bug in icaltriggertype_new_from_string htat
+	caused it to fail.
 
-2002-06-18  JP Rosevear  <jpr@ximian.com>
+2001-04-12  Eric Busboom  <eric@softwarestudio.org>
 
-	* Update timezones (from Damon)
+	* icalvalue.c Added quoting to apostrophies ("'") in text
+ 	values. This is not required by the spec, but it is necessary in
+ 	icallangbind_property_eval_string, since ' is special in both perl
+ 	and python.
 
-2002-06-07  JP Rosevear  <jpr@ximian.com>
- 
- 	* src/libical/icalparameter.c (icalparameter_as_ical_string):
- 	quote if the item contains a comma
-	
-2002-04-01  Dan Winship  <danw@ximian.com>
+2001-04-10  Eric Busboom  <eric@softwarestudio.org>
 
-	Darwin/OS portability from Max Horn <max@quendi.de>
-	
-	* src/libical/icallangbind.c: #include <stdlib.h>, not <malloc.h>
+	* icalvalue.c Added routine icalvalue_reset_kind. This routine is
+ 	now called by all autogenerated icalvalue_set_*
+ 	routines. icalvalue_reset_kind() will change the kind of the value
+ 	based on the data in the value. Currently, it will set a value to
+ 	either DATETIME or DATE based on the is_date flag of icaltimetype.
 
-	* src/libicalvcal/vobject.c: Likewise
+2001-04-09  Eric Busboom  <eric@softwarestudio.org>
 
-	* src/libicalvcal/vcc.y: Likewise
-
-	* src/libicalss/icaldirset.c: Rearrange #includes slightly to make
-	Darwin happy.
-
-2002-02-08  Damon Chaplin  <damon@ximian.com>
-
-	* src/Makefile.am (SUBDIRS): added libicalvcal.
-
-	* configure.in (AC_OUTPUT): added src/libicalvcal/Makefile.
-
-2002-02-06  Damon Chaplin  <damon@ximian.com>
-
-	* src/libicalvcal/icalvcal.c: major changes to support RRULE/EXRULE,
-	VALARMS and several other properties.
-
-	* src/libicalvcal/icalvcal.h (icalvcal_convert_with_defaults): new
-	function to pass defaults for a few values into the importer. These
-	are used when the vCalendar file doesn't provide the property but it
-	is required in iCalendar.
-
-	* src/libicalvcal/vcc.y: support multi-valued properties, by appending
-	new ones and separating by ';'. This was pinched from our changes to
-	evolution/libversit/vcc.y.
-
-	* src/libicalvcal/Makefile.am: renamed library to libicalvcal-evolution
-	Don't install the headers.
-
-	* design-data/parameters.csv: added new error for error's parsing
-	vCalendar properties.
-
-2002-01-28  Dan Winship  <danw@ximian.com>
-
-	* src/libical/icalrecur.c (icalrecur_add_bydayrules): Skip over
-	illegal whitespace in Microsoft-generated BYDAY rules.
-
-2001-12-18  Damon Chaplin  <damon@ximian.com>
-
-	* src/libical/icalyacc.y: removed unused 'trigger:' production.
-
-	* configure.in (AC_OUTPUT): patch from Jeremy Katz <katzj@redhat.com>
-	to remove src/libicalss/Makefile and src/libicalvcal/Makefile, as we
-	don't ship those directories now.
-
-2001-12-10  Damon Chaplin  <damon@ximian.com>
-
-	* src/libical/icaltimezone.c (icaltimezone_get_display_name): if all
-	we have is the TZID, see if it is one of our TZIDs and if so get the
-	city name out of it. Fixes bug #16571.
-
-2001-11-13  Damon Chaplin  <damon@ximian.com>
-
-	* src/libical/icaltimezone.c (icaltimezone_get_tzid): initialize the
-	builtin timezones, to ensure that the TZID of the UTC zone is set.
-	Hopefully fixes bugs #14941 & #14622.
-
-2001-10-31  Damon Chaplin  <damon@ximian.com>
-
-	* src/libical/icalproperty.c (get_next_line_start): use MAX_LINE_LEN
-	rather than magic numbers all over the place.
-
-2001-10-31  Damon Chaplin  <damon@ximian.com>
-
-	* src/libical/icalproperty.c (icalproperty_as_ical_string): had to
-	redo the folding code since Outlook 2000 doesn't like parameter values
-	like 'TENTATIVE' cut in half. Now it tries to split after a ';', ':'
-	or space.
-
-2001-10-30  Damon Chaplin  <damon@ximian.com>
-
-	* src/libical/icalproperty.c (fold_property_line): forgot to account
-	for the spaces added, so it could have been writing over the end of
-	the allocated memory. Added check for buffer overflow as well.
-	This could well have been the problem causing bug #14067.
-
-2001-10-30  Damon Chaplin  <damon@ximian.com>
-
-	* zoneinfo/*.ics: Regenerated all VTIMEZONEs, to be compatable with
-	Outlook Web Access. They now only include 2 RRULEs components or
-	1 simple DTSTART component.
-
-2001-10-29  Damon Chaplin  <damon@ximian.com>
-
-	* src/libical/Makefile.am: renamed the library to libical-evolution.la,
-	install ical.h into $includedir/evolution, with the other Evo headers.
-
-	* src/libical/icalproperty.c (fold_property_line): new function to
-	fold property lines around every 70 characters. Outlook Web Access
-	doesn't seem to like some properties folded after the property name
-	(e.g. UID, VTIMEZONE stuff.) Slight chance of data corruption here.
-
-	* src/libical/icalvalue.c (icalvalue_text_as_ical_string): don't fold
-	the lines here.
-
-	* src/libical/icaltime.c (icaltime_from_string): DATE values should
-	not have is_utc set to 1 - they don't have a timezone.
-
-	* src/libical/icalvalue.c (icalvalue_utcoffset_as_ical_string): 
-	always round UTC offsets to the nearest minute, for compatability
-	with Outlook. Should round data when parsing as well.
-
-2001-10-27  Damon Chaplin  <damon@ximian.com>
-
-	* src/libical/icaltimezone.c (icaltimezone_get_display_name): added
-	function to get a reasonable name to display for the timezone.
-	(Though it won't be translated.)
-
-2001-10-25  Damon Chaplin  <damon@ximian.com>
-
-	* src/libical/icaltimezone.c (icaltimezone_get_tznames_from_vtimezone):
-	Outlooks (2000) places "Standard Time" and "Daylight Time" in the
-	TZNAME strings, which is useless, so return NULL in that case.
-	ETimezoneEntry will then use the TZID instead, in which Outlook does
-	place the actual timezone name. (I just hope Outlook doesn't translate
-	"Standard Time" to other languages, as we won't be able to fix it then)
-
-2001-10-23  Damon Chaplin  <damon@ximian.com>
-
-	* src/libical/icalrecur.c (icalrecur_two_byrule): use
-	sizeof(test_array) for the memset call. It was clearing 9 bytes but
-	the array uses shorts.
-
-2001-10-22  Damon Chaplin  <damon@ximian.com>
-
-	* zoneinfo/*: updated all files again, placing current RDATEs first,
-	so Outlook uses those. Also fixed a few bugs in vzic which resulted in
-	a few changes.
-	
-	* zoneinfo/Makefile.am (DIRS): added America/North_Dakota.
-
-2001-10-22  Damon Chaplin  <damon@ximian.com>
-
-	* src/libical/icaltimezone.c (icaltimezone_get_utc_offset): 
-	(icaltimezone_get_utc_offset_of_utc_time): if we go off the start of
-	the changes array, return the TZOFFSETFROM of the first change.
-	Also changed the maximum year to 2037.
-
-	* src/libical/icaltime.c (icaltime_day_of_week):
-	(icaltime_start_doy_of_week):
-	(icaltime_week_number): init tm_hour to 12. Sometimes mktime()
-	adjusts the time, if that local time doesn't actually exist, leading
-	to the wrong day being returned. It is unlikely to adjust by 12 hours.
-	(icaltime_as_timet_with_zone): 
-	(icaltime_from_timet_with_zone): change it back so it does convert
-	DATE values to/from the timezone. time_t values don't really go well
-	with DATE values, so be very careful when using them. We now assume
-	that the time_t points to the start of the day in the given timezone.
-	(We used to assume it pointed to the start of the day in UTC, but
-	that meant it was actually incorrect wrt the displayed calendar.)
-
-	* src/libical/icalrecur.c (expand_year_days): for FREQ=YEARLY with no
-	modifiers, we add one day, using the month and day from DTSTART.
-	(next_year): make sure we never go past 2037.
-
-	* scripts/mkderivedproperties.pl: Updated to allow DTSTART, DTEND, DUE
-	and RECURRENCE-ID to be set with DATE values. I think it now handles
-	all properties which can take DATE values, except RDATE which uses
-	DATE-TIME-PERIOD.
-
-2001-10-19  JP Rosevear  <jpr@ximian.com>
-
-	* src/libical/icalproperty.c (icalproperty_remove_parameter):
-	don't free the parameter
-
-2001-10-05  Ettore Perazzoli  <ettore@ximian.com>
-
-	* src/libical/Makefile.am (CLEANFILES): Assign with `=', not `+='.
-
-2001-09-26  Federico Mena Quintero  <federico@ximian.com>
-
-	Fix the libical-related part of Ximian bug #7892.
-
-	* src/libical/icalduration.c (icaldurationtype_as_ical_string):
-	The correct string for zero seconds is "PT0S", not "PTS0".  Also
-	handle "negative zero" durations.
-
-	* src/libical/icalvalue.c (icalvalue_new_from_string_with_error):
-	Use icalerrno to see if the duration string is invalid.  We cannot
-	use icaldurationtype_is_null_duration() because a duration of zero
-	*is* valid, not an error (icalduration_type_from_string() returns
-	a zero duration on parse error, too).
-
-2001-09-19  Larry Ewing  <lewing@ximian.com>
-
-	* src/libical/icalperiod.c (icalperiodtype_from_string): free the
-	temp dup'd string.
-
-2001-09-11  Federico Mena Quintero  <federico@ximian.com>
-
-	* src/libical/icalvalue.c (icalvalue_new_from_string_with_error):
-	Generate an ICAL_ATTACH_VALUE value from the string.
-
-2001-09-10  Damon Chaplin  <damon@ximian.com>
-
-	* src/libical/icalcomponent.c (icalcomponent_compare_vtimezones): 
-	strdup the result of the first call to ical_component_as_ical_string()
-	since the second call may free it.
-	Also, don't free the results of ical_component_as_ical_string() since
-	it is a tmp buffer which is freed elsewhere.
-
-2001-09-10  Federico Mena Quintero  <federico@ximian.com>
-
-	Replace struct icalattachtype by an opaque icalattach that is
-	properly reference-counted.
-
-	* src/libical/icalvalueimpl.h (struct icalattach_impl): Private
-	declaration for the icalattach type.
-	(struct icalvalue_impl): Make the v_attach field be an icalattach *.
-
-	* src/libical/icaltypes.h: Added declaration for icalattach.  This
-	is now an opaque type; the implementation is in icalvalueimpl.h.
-	(struct icalattachtype): Removed.
-
-	* src/libical/icaltypes.c (icalattach_new_from_url): New function.
-	(icalattach_new_from_data): New function.
-	(icalattach_ref): New function.
-	(icalattach_unref): New function.
-	(icalattach_get_is_url): New function.
-	(icalattach_get_url): New function.
-	(icalattach_get_data): New function.
-	(icalattachtype_new): Removed.
-	(icalattachtype_free): Removed.
-	(icalattachtype_add_reference): Removed.
-	(icalattachtype_set_url): Removed.
-	(icalattachtype_get_url): Removed.
-	(icalattachtype_set_base64): Removed.
-	(icalattachtype_get_base64): Removed.
-	(icalattachtype_set_binary): Removed.
-	(icalattachtype_get_binary): Removed.
-
-	* src/libical/icalderivedvalue.c.in (icalvalue_new_attach): New
-	function; we implement it ourselves.
-	(icalvalue_set_attach): New function.
-	(icalvalue_get_attach): New function.
-
-	* src/libical/icalvalue.c (icalmemory_strdup_and_dequote): Made
-	static.
-	(icalvalue_new_clone): Clone BINARY and ATTACH values by refing
-	the old attach value.
-	(icalvalue_free): Free BINARY and ATTACH values.
-	(icalvalue_attach_as_ical_string): Handle the new icalattachtype.
-	(icalvalue_compare): Ditto.
-
-	* src/libical/Makefile.am (CLEANFILES): Added ical.h.
-
-	* design-data/*: Mark ATTACH as a custom value.
-
-2001-09-06  Damon Chaplin  <damon@ximian.com>
-
-	* src/libical/icalcomponent.c (icalcomponent_merge_vtimezone): pass
-	the VTIMEZONE component to icalcomponent_compare_vtimezones(), not
-	the icaltimezone*. Strangely we weren't getting a compiler error.
-	Fixes bug #5275, hopefully.
-
-	* src/libical/icaltimezone.c (icaltimezone_dump_changes): updated so
-	it still outputs the same format, even though the '1 Jan 0001'
-	component isn't included any more. 
-
-2001-08-31  Damon Chaplin  <damon@ximian.com>
-
-	* zoneinfo/*: updated all of the VTIMEZONE files to try to be more
-	compatable with Outlook. i.e. We don't use seconds in UTC offsets,
-	we don't use BYMONTHDAY if we can avoid it (there are still a few uses
-	of this we need to fix), and we don't use years < 1600.
-
-	* src/libical/icalvalue.c (icalvalue_utcoffset_as_ical_string): if
-	seconds is 0 then don't output it. None of the builtin VTIMEZONE data
-	uses the seconds value any more, since it messes up iTIP with Outlook.
-	We may want to make it always round to the nearest minute, to avoid
-	interop problems.
-
-2001-08-22  Ettore Perazzoli  <ettore@ximian.com>
-
-	* configure.in: Remove src/python/Makefile and src/test/Makefile.
-
-2001-08-16  Federico Mena Quintero  <federico@ximian.com>
-
-	* src/libical/icalvalue.c (icalmemory_strdup_and_dequote): Dequote
-	the same characters that we know how to quote in
-	icalvalue_text_as_ical_string().  Fixes Ximian bug #7433.
-
-2001-08-01  Damon Chaplin  <damon@ximian.com>
-
-	* src/libical/icaltimezone.c: removed some debugging messages.
-
-2001-07-30  Damon Chaplin  <damon@ximian.com>
-
-	* src/libical/icaltimezone.c (icaltimezone_get_builtin_timezone): 
-	changed the debugging message to avoid a crash on non-glibc boxes.
-	(Using %s with a NULL argument will crash them.)
-
-2001-07-30  Damon Chaplin  <damon@ximian.com>
-
-	* src/libical/icalcomponent.c (icalcomponent_merge_vtimezone): copy
-	the TZID just in case the property we got it from gets modified.
-	(icalcomponent_rename_tzids_callback): break out of the loop if we
-	have renamed the TZID parameter. Otherwise our tzid variable would be
-	invalid.
-
-	* scripts/mkderivedproperties.pl (fudge_data): changed this so we can
-	set EXDATEs that are DATE values, by checking the is_date field.
-	I'm not entirely sure this is the way it should be done.
-	If it is, I'll also do this for other things like DTSTART/DTEND.
-
-	* src/libical/icalrecur.c (icalrecurrencetype_as_string): handle
-	UNTIL as a DATE value as well as a DATE-TIME.
-
-	* src/libical/icalcomponent.c (icalcomponent_compare_vtimezones): 
-	fixed stupid error, getting TZID property from wrong VTIMEZONE.
-	This would only have affected iTIP stuff, with VTIMEZONEs that don't
-	use the '/' prefix (i.e. from Outlook). It probably just meant we
-	kept multiple copies of the same VTIMEZONE.
-
-	* src/libical/icaltimezone.c: removed some debugging messages.
-
-2001-07-26  JP Rosevear  <jpr@ximian.com>
-
-	* src/libical/icalcomponent.c (icalcomponent_begin_component):
-	call pvl_next on i rather than itr.iter
-
-2001-07-26  Damon Chaplin  <damon@ximian.com>
-
-	* src/libical/icaltimezone.c (icaltimezone_convert_time): if from_zone
-	is NULL (i.e. it is a floating time), just return.
-
-2001-07-25  Damon Chaplin  <damon@ximian.com>
-
-	* src/libical/icaltimezone.c: accept an icaltimezone* of NULL for all
-	the public functions, since NULL is used to represent floating times.
-
-2001-07-25  JP Rosevear  <jpr@ximian.com>
-
-	* src/libical/icalparameter.c (icalparameter_as_ical_string): if
-	the property contains ':' or ';' put the value in quotes so it
-	parses correctly
-
-2001-07-23  JP Rosevear  <jpr@ximian.com>
-
-	* src/libical/icalparser.c: pass extra param to
-	icalparser_get_next_char
-	(icalparser_get_next_char): only use quote mode if the flag is set
-
-2001-07-23  Damon Chaplin  <damon@ximian.com>
-
-	* src/libical/icaltime.c (icaltime_day_of_year): changed so it doesn't
-	use mktime(). We are having problems because mktime() only works
-	post 1970.
-
-2001-07-17  JP Rosevear  <jpr@ximian.com>
-
-	* src/libical/icaltimezone.c
-	(icaltimezone_get_tznames_from_vtimezone): do not strdup a NULL
-	(valid) timezone
-
-2001-07-16  Damon Chaplin  <damon@ximian.com>
-
-	* src/libical/icaltimezone.c
-	(icaltimezone_get_location_from_vtimezone): return NULL if we
-	couldn't find the LOCATION.
-	(icaltimezone_get_utc_offset): ifdef'd out a debugging message.
-	(icaltimezone_get_location):
-	(icaltimezone_get_latitude):
-	(icaltimezone_get_longitude): don't load the builtin timezone for
-	these. We should already have the data from reading zones.tab.
-	(icaltimezone_get_builtin_timezone_from_tzid): return NULL if the
-	TZID given is NULL or "" (i.e. a floating time).
-
-2001-07-10  Peter Williams  <peterw@ximian.com>
-
-	* src/libicalss/Makefile.am (libicalss_la_SOURCES): Add the
-	COMBINEDHEADERS here and remove the EXTRA_DIST. This fixes distcheck.
-	We can't just put CONBINEDHEADERS at the bottom of _SOURCES because
-	of the $(srcdir).
-
-2001-07-11  Damon Chaplin  <damon@ximian.com>
-
-	* src/libical/icaltimezone.c: only create the timezones array when we
-	need to, and make sure we free things when necessary.
-	Also added timezones_sorted variable, which we set to 0 when adding a
-	timezone. We then sort the array before doing binary searches (oops!)
-
-	* src/libical/icaltimezone.[hc]: added free_struct() arg to
-	icaltimezone_free() to specify whether to free the icaltimezone struct.
-	Also added icaltimezone_array_free() function.
-
-2001-07-10  Damon Chaplin  <damon@ximian.com>
-
-	* src/libical/icaltimezone.c (icaltimezone_convert_time): don't convert
-	DATE values.
-
-	* src/libical/icaltime.c (icaltime_from_timet_with_zone): 
-	(icaltime_as_timet_with_zone): changed so they do not convert DATE
-	values according to the timezone.
-
-	* src/libical/icaltime.[hc]: added icaltime_current_time_with_zone()
-	and icaltime_today() functions.
-
-2001-07-09  Damon Chaplin  <damon@ximian.com>
-
-	* src/libical/icaltime.c (icaltime_adjust): forgot to compile before
-	committing. Idiot.
-
-2001-07-09  Damon Chaplin  <damon@ximian.com>
-
-	* src/libical/icaltimezone.c (icaltimezone_convert_time): if the 2
-	zones are the same just return.
-
-	* src/libical/icaltime.c (icaltime_adjust): normalize the month.
-
-2001-07-03  Damon Chaplin  <damon@ximian.com>
-
-	* src/libical/icalcomponent.c (icalcomponent_add_component): add the
-	icaltimezone to the timezone array of the toplevel VCALENDAR component.
-	
-2001-07-03  Damon Chaplin  <damon@ximian.com>
-
-	* src/libical/icalcomponent.c (icalcomponent_merge_component): fixed
-	bad assertion, '!=' -> '=='.
-	(icalcomponent_merge_vtimezone): get the TZID from vtimezone, not comp.
-
-2001-07-03  Damon Chaplin  <damon@ximian.com>
-
-	* src/libical/icaltime.c: 
-	* src/libical/icalcomponent.c: more timezone stuff.
-
-2001-06-28  Peter Williams  <peterw@ximian.com>
-
-	* zoneinfo/Makefile.am (dist-hook): Add $(srcdir) as in install-data-local
-	rule.
-
-2001-06-28  Damon Chaplin  <damon@ximian.com>
-
-	* configure.in: commented out AC_DEFINE(ICAL_ERRORS_ARE_FATAL,1).
-	We only want it to abort when there is no possibility of carrying on.
-
-2001-06-26  Damon Chaplin  <damon@ximian.com>
-
-	* zoneinfo/*: stripped all blank lines from iCalendar files.
-	Apparently they aren't exactly legal. Oops.
-
-2001-06-15  JP Rosevear  <jpr@ximian.com>
-
-	* zoneinfo/Makefile.am: Extra dist the zones.tab information
-
-2001-06-14  Damon Chaplin  <damon@ximian.com>
-
-	* src/libical/icaltimezone.c (icaltimezone_get_latitude): 
-	(icaltimezone_get_longitude): added functions to get the coords of
-	builtin timezones.
-
-2001-06-13  Damon Chaplin  <damon@ximian.com>
-
-	* src/libical/icalrecur.c: merged in some new stuff from libical CVS.
-	(icalrecur_add_byrules): If no sign is given set sign to 1 (i.e.
-	default to positive).
-	(icalrecur_iterator_new): when setting up the year days array, handle
-	the case where a year has no occurrences and we have to skip it.
-	Also initialize the last.day and last.month fields.
-	(expand_by_day): set the last day of the year explicitly rather than
-	adding 1 to year and subtracting 1 from day. It is more efficient,
-	and less prone to bugs. Also rewrote a bit.
-	(expand_year_days): added code to handle BY_MONTH_DAY and BY_DAY +
-	BY_MONTH_DAY, and rewrote code to handle BY_DAY + BY_MONTH.
-	(next_year): handled the case where there are no occurrences in the
-	year.
-
-	* src/libical/icaltime.c (icaltime_adjust): new function to adjust a
-	time by a number of days/hours/minutes/seconds.
-	(icaltime_day_of_week): rewrote using a single call to mktime().
-	(icaltime_day_of_year): rewrote using a single call to mktime().
-	(icaltime_from_day_of_year): rewrote in a simpler way. The old version
-	had a bug in it.
-	
-	* src/libical/icaltime.h (struct icaltimetype): added is_daylight
-	flag, so we can try to distinguish between standard and daylight time
-	when the clocks go back. Though this doesn't always resolve the
-	ambiguity.
-
-	* src/libical/icalcomponent.c: added some stuff to handle timezone
-	data connected to the calendar component. Unfinished.
-
-	* src/libical/icalyacc.y: merged in a fix from sourceforge CVS version
-	of libical, so we can handle -ve UTC offsets.
-
-	* src/libical/Makefile.am (CPPFLAGS): added PACKAGE_DATA_DIR define
-	for finding the VTIMEZONE files.
-	(libical_la_SOURCES): added icalarray.[hc] and icaltimezone.[hc].
-	(COMBINEDHEADERS): added icalarray.h and icaltimezone.h to the headers
-	to be combined into ical.h.
-
-2001-06-13  Damon Chaplin  <damon@ximian.com>
-
-	* src/libical/icaltimezone.[hc]: new files to contain support for
-	timezones.
-
-	* src/libical/icalarray.[hc]: new files to provide a simple expanding
-	array datatype.
-
-2001-06-13  Damon Chaplin  <damon@ximian.com>
-
-	* Makefile.am (SUBDIRS): added zoneinfo.
-
-	* configure.in (AC_OUTPUT): added zoneinfo/Makefile.
-
-	* zoneinfo/Makefile.am: new file to install & distribute the
-	VTIMEZONE data files, and the zones.tab file.
-
-	* zoneinfo/zones.tab: new file containing a list of all timezones
-	and their coordinates (so we can mark them on the world map).
-
-	* zoneinfo/*: Lots of VTIMEZONE data files added, one per timezone.
-
-2001-05-16  JP Rosevear  <jpr@ximian.com>
-
-	* src/libical/Makefile.am: Fixes to make it make dist and make
-	distcheck.  Kind of kludgy but they seem to work.  Time will tell.
-
-2001-05-10  JP Roseveaer  <jpr@ximian.com>
-
-	* src/libical/icaltime.c (set_tz, unset_tz): plug leak
-	(icaltime_as_timet): use altered functions
-	(icaltime_utc_offset): ditto
-	(icaltime_from_day_of_year): ditto
-
-2001-05-02  JP Rosevear  <jpr@ximian.com>
-
-	* src/libical/icalparser.c (icalparser_new): initialize
-	"continuation_line" to 0
-
-2001-04-18  Ettore Perazzoli  <ettore@ximian.com>
-
-	* src/Makefile.am (SUBDIRS): Don't compile the Python stuff nor
-	the tests for now; they are broken.
-
-2001-04-18  Ettore Perazzoli  <ettore@ximian.com>
-
-	* src/libicalss/Makefile.am (COMBINEDHEADERS): All of these have
-	to come from the srcdir: prepend `$(srcdir)'.
-
-2001-04-18  Ettore Perazzoli  <ettore@ximian.com>
-
-	* src/libical/Makefile.am (COMBINEDHEADERS): Shouldn't prepend
-	`$(top_builddir)/src/libical' to `icalderivedvalue.h',
-	`icalderivedparameter.h', `icalderivedproperty.h' here, that
-	confuses the dependencies for make.
-
-	* src/libical/Makefile.am (ical.h): Depend on
-	`$(COMBINEDHEADERS)', not `$(BUILT_SOURCES)'.
+	* icalproperty.h Converted REQUEST-STATUS to use the struct
+ 	icalreqstat structure instead of a string
 
 2001-04-01  Eric Busboom  <eric@softwarestudio.org>
 
@@ -822,10 +461,6 @@
  	than on standard value type. These non-standard types now delegate
  	to stadard types.
 
-2001-01-24  Dan Winship  <danw@helixcode.com>
-
-	* src/libical/icaltime.c: Remove unused "extern long timezone".
-
 2001-01-24  Eric Busboom  <eric@softwarestudio.org>
 
 	* icalfileset.c fixed icalfileset_read-from_file so it will handle
@@ -875,49 +510,26 @@
 	* icalgauge.c icalgaugeimpl.h, icalgauge.h., Rewrote gauge code to
  	use pvl-lists directly, instead of trying to reuse icalcomponent.
 
-2000-12-15  Ettore Perazzoli  <ettore@helixcode.com>
+2000-12-13  Ettore Perazzoli  <ettore@helixcode.com>
 
-	* src/libical/Makefile.am: Build `libical-static.la'.
+	* src/libicalvcal/Makefile.am (INCLUDES): Add
+	`$(top_builddir)/src/libical' to the include directory list.
 
-2000-12-14  Ettore Perazzoli  <ettore@helixcode.com>
-
-	* src/libical/Makefile.am (ical.h): 
-
-2000-12-13  Federico Mena Quintero  <federico@helixcode.com>
-
-	* src/libical/icaltime.c (icaltime_from_timet): Use gmtime()
-	unconditionally, since we want an UTC broken-down representation.
-	(icaltime_as_timet): Add the offset only if the time was supposed
-	to be in UTC; that way mktime() will get a proper localtime as
-	source data.
-
-2000-12-13  Federico Mena Quintero  <federico@helixcode.com>
-
-	* src/libical/icaltime.c (icaltime_from_timet): time_t values
-	*are* in UTC by definition, so the is_utc argument is useless.
-	Removed the conversion to UTC and made the icaltimetype.is_utc be
-	TRUE always.  This breaks libical's owne internal use of this
-	function, but since we do not use any of the functions that use it
-	that way, we can ignore this.  This is basically a temporary
-	measure until libical does the right thing.
-
-2000-12-12  Eric Busboom  <eric@softwarestudio.org>
-
-	* icalparser.c Addedd support for x-parameters. 
-
-	* icalenum.c Fixed icalenum_parameter_type_to_string and
- 	icalenum_property_type_to_string to property identify X- parameers
- 	and properties.
-
-	* icalparameter.c Fixed icalparameter_as_ical_string to property
- 	write out X-Parameters.
-
+	* src/libical/Makefile.am (icalparameter.h): Use `$(srcdir)'.
+	(icalparameter.c): Likewise.
+	(icalproperty.h): Likewise.
+	(icalproperty.c): Likewise.
+	(icalvalue.h): Likewise.
+	(icalvalue.c): Likewise.
+	(icalrestriction.c): Likewise.
+	(COMBINEDHEADERS): `icalvalue.h', `icalparameter.h' and
+	`icalproperty.h' are in builddir, not srcdir, so fix the list to
+	use `$(top_builddir)' instead of `$(top_srcdir)'.
+	(all): Removed.
+	(BUILT_SOURCES): Move `ical.h' here instead.
+	(ical.h): Don't depend on `(BUILT_SOURCES)'; this a built source
+	itself.
 	
-2000-12-13  Christopher James Lahey  <clahey@helixcode.com>
-
-	* src/libical/icalerror.h: Added a name to the parameter to
-	icalerror_set_errno.
-
 2000-12-12  Eric Busboom  <eric@softwarestudio.org>
 
 	* icalparser.c Addedd support for x-parameters. 
@@ -935,74 +547,6 @@
 	* icalcstp.c added empty bodies to prep_* routines so that shared
  	libraries would build.
 
-2000-12-13  Federico Mena Quintero  <federico@helixcode.com>
-
-	* src/libical/Makefile.am (COMBINEDHEADERS): Removed the explicit
-	paths.  Why it did *not* work on my original try when they were
-	not there, well, now I don't know.
-
-2000-12-13  Ettore Perazzoli  <ettore@helixcode.com>
-
-	* src/libicalvcal/Makefile.am (INCLUDES): Add
-	`$(top_builddir)/src/libical' to the include directory list.
-
-	* src/libical/Makefile.am (icalparameter.h): Use `$(srcdir)'.
-	(icalparameter.c): Likewise.
-	(icalproperty.h): Likewise.
-	(icalproperty.c): Likewise.
-	(icalvalue.h): Likewise.
-	(icalvalue.c): Likewise.
-	(icalrestriction.c): Likewise.
-	(CLEANFILES): Add `icalparameter.h', `icalparameter.c',
-	`icalproperty.h', `icalproperty.c', `icalrestriction.c',
-	`icalvalue.h', `icalvalue.c'.
-	(COMBINEDHEADERS): `icalvalue.h', `icalparameter.h' and
-	`icalproperty.h' are in builddir, not srcdir, so fix the list to
-	use `$(top_builddir)' instead of `$(top_srcdir)'.
-	(all): Removed.
-	(BUILT_SOURCES): Move `ical.h' here instead.
-	(ical.h): Don't depend on `(BUILT_SOURCES)'; this a built source
-	itself.
-
-2000-12-12  Joe Shaw  <joe@helixcode.com>
-
-	* src/libical/icalrecur.c: #if 0ed out some #if 1ed test code that
-	was breaking my build by #including ical.h. No cookie!
-
-2000-12-12  Dan Winship  <danw@helixcode.com>
-
-	* configure.in: Add a check for "extern int timezone;" vs struct
-	tm tm_gmtoff, stolen from Evolution's configure.in.
-
-	* src/libical/icaltime.c (icaltime_utc_offset,
-	icaltime_local_utc_offset): Use HAVE_TIMEZONE, add tm_gmtoff
-	support.
-
-	* src/libical/icallexer.l: Remove ical_yy_scan_buffer, ..._string,
-	and ..._bytes prototypes, since it compiles fine without them on
-	Linux, and bombs out due to prototype mismatch on my NetBSD box.
-
-2000-12-11  Federico Mena Quintero  <federico@helixcode.com>
-
-	* Makefile.am:
-	* configure.in: Disable compilation of the examples directory
-	until libicalss is fixed.
-
-	* configure.in: Make AC_INIT() check for a file that is not
-	autogenerated!
-
-	* configure.in: Added check for Perl.
-
-2000-12-11  Federico Mena Quintero  <federico@helixcode.com>
-
-	* configure.in (AC_OUTPUT): Fixed order of generated files to make
-	"make distcheck" work.  Turn on AM_MAINTAINER_MODE.
-
-	* src/libical/Makefile.am (EXTRA_DIST): Add icalversion.h.in.
-	(COMBINEDHEADERS): Added paths to make "make distcheck" work.
-	(libical_la_SOURCES): Added headers for distribution in our weird
-	setup.
-
 2000-12-11  JP Rosevear  <jpr@helixcode.com>
 
 	* src/libical/icaltime.c (icaltime_compare_date_only): New
@@ -1017,9 +561,19 @@
 
 	* src/libical/icalrecur.c: Likewise.
 
-	* src/libical/icalvalue.c.in: Likewise.
+	* src/libical/icalvalue.c: Likewise.
 
 	* src/libical/icalyacc.y: Likewise.
+
+2000-12-11  Federico Mena Quintero  <federico@helixcode.com>
+
+	* configure.in (AC_OUTPUT): Fixed order of generated files to make
+	"make distcheck" work.  Turn on AM_MAINTAINER_MODE.
+
+	* src/libical/Makefile.am (EXTRA_DIST): Add icalversion.h.in.
+	(COMBINEDHEADERS): Added paths to make "make distcheck" work.
+	(libical_la_SOURCES): Added headers for distribution in our weird
+	setup.
 
 2000-12-06  Eric Busboom  <eric@softwarestudio.org>
 
@@ -1053,7 +607,7 @@
 
 2000-11-20  Eric Busboom  <eric@softwarestudio.org>
 
-	* icalmessage.c Many routines to create new ical messages.
+	* icalmessage.c Many routines to create new ical messages. 
 
 	* icalspanlist.c Code to generate a list of the busy time f the
  	VEVENTS in a set. Also includes routiens to generate free and busy
@@ -1066,7 +620,7 @@
 	* icalrestriction.c Added more restrictions. Now handles mutual
  	and exclusive consitions, and checks for the reight values in
  	STATUS properties
-
+	
 
 2000-11-10  Eric Busboom  <eric@softwarestudio.org>
 
@@ -1092,18 +646,13 @@
  	get the next avaliable busy or free time after a given time.
 
 2000-11-06  Federico Mena Quintero  <federico@helixcode.com>
-
+ 
 	* src/libical/icalvalue.c (icalvalue_recur_as_ical_string): Handle
-        both the position and weekday in the by_day field.
-
-2000-10-20  Jesse Pavel	  	<jpavel@helixcode.com>
-
-	* src/libical/icalproperty.c: added support for the
-	icalproperty_remove_parameter() function.
+	both the position and weekday in the by_day field.
 
 2000-10-20  Eric Busboom  <eric@agony.busboom.org>
 
-	* Const correctness. Added 'const' all over everywhere.
+	* Const correctness. Added 'const' all over everywhere. 
 
 2000-10-19  Eric Busboom  <eric@agony.busboom.org>
 
@@ -1113,9 +662,9 @@
 	* icalclassify.h Added multiple include protection
 
 	* icalset.h and others, got rid of parameter named "new"
-
+	
 2000-10-15 Eric Busboom   <eric@softwarestudio.org>
-
+	
 	* icalcomponent Added convienience functions for constructing
  	components: icalcomponent_new_vcalendar(), etc.
 
@@ -1128,7 +677,7 @@
 
 	* libical. Changed flex/bison to use the -P/-p options to set
  	ical_yy as a prefix. Removed prefix redefinition from icalyacc.y
-
+	
 2000-10-12 Eric Busboom    <eric@softwarestudio.org>
 
 	* icalproperty.c Fixed icalproperty_get_{first,next}_parameter to
@@ -1137,88 +686,22 @@
 	* icalparameter.c Added, but did not complete, a new version of
  	icalparameters_from_string that does not use the hairy nested
  	case/switch statements of the previous version
-
-2000-10-11  Damon Chaplin  <damon@helixcode.com>
-
-	* src/libical/icalparameter.c (icalparameter_as_ical_string):
-	(icalparameter_new_from_string):
-	* src/libical/icalparser.c (icalparser_add_line): add support for
-	'X-' parameters.
-
-2000-10-07  Dan Winship  <danw@helixcode.com>
-
-	* src/libical/icalyacc.y (weekday_list): Fix the semicolons in
-	this rule. Noticed by x-virge.
-
-	* src/test/Makefile.in: While I'm here, remove this from CVS, as
-	it's a generated file.
-
+	
+	
 2000-10-02 Eric Busboom  <eric@softwarestudio.org>
 
 	* ical.h ical.h and icalss.h now are concatenations of all of the
  	public headers for their respective libraries. Thus, only ical.h,
  	icalss.h and icalvcal.h need to be installed.
 
-2000-09-12  Ettore Perazzoli  <ettore@helixcode.com>
-
-	* configure.in: AC_OUTPUT the Makefile in `src' before the stuff
-	in its subdirs.
-
-2000-09-12  JP Rosevear  <jpr@helixcode.com>
-
-	* test-data/stresstest.ics: Merge missing file for distcheck
-
-	* src/libicalss/icalcstp.h: ditto
-
-	* src/libicalss/icalcsdb.h: ditto
-
 2000-09-11  Eric Busboom  <eric@softwarestudio.org>
 
-	* icalvcal.c Added more comments
-
-2000-09-01  JP Rosevear  <jpr@helixcode.com>
-
-	* configure.in: We don't need AC_PROG_RANLIB and
-	AM_PROG_LIBTOOL
-
-	* src/libical/icalyacc.y (clear_recur): Explicitly
-	set the week_start to the Monday default in case the
-	recurrence rule does not.
-
-2000-08-31  JP Rosevear  <jpr@helixcode.com>
-
-	* Kill off more old, dead files
-
-2000-08-31  JP Rosevear  <jpr@helixcode.com>
-
-	* MacOS: This dir is not in 0.19
-
-2000-08-31  JP Rosevear  <jpr@helixcode.com>
-
-	* src/libical/CHANGES: This file is not in 0.19
-
-2000-08-31  JP Rosevear  <jpr@helixcode.com>
-
-	* src/libical/.gdb_history: Kill file
-
-	* src/libical/.gdb_history: Kill file
-
-2000-08-31  JP Rosevear  <jpr@helixcode.com>
-
-	* src/pvl/Makefile: Kill old file
-
-	* src/test/usecases.c: Kill old file
-
-	* src/test/.cvsignore: Update
-
-	* src/libicalvcal/.cvsignore: Update
-
-	* examples/.cvsignore: Shut up
-
+	* icalvcal.c Added more comments 
+	
 2000-08-31  JP Rosevear  <jpr@helixcode.com>
 
 	* configure.in: Don't list config.h in AC_OUTPUT
-
+	
 2000-08-26  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* examples/Makefile.am (INCLUDES): More `$(srcdir)' loving.
@@ -1243,14 +726,10 @@
 	use icalerror_check_arg_re so we can return an valid icalcompiter.
 	(icalcomponent_begin_component): Same.
 
-2000-08-24  JP Rosevear  <jpr@helixcode.com>
-
-	* src/libical/icalvcal.h: Remove this duplicate file to fix build
-
 2000-08-24  Federico Mena Quintero  <federico@helixcode.com>
 
 	* src/test/Makefile.am: Make it work.
-
+	
 2000-08-04  Eric Busboom  <eric@softwarestudio.org>
 
 	* stow.c Changed stow to write data to a file ( icalfileset) not a
@@ -1262,7 +741,7 @@
 	* icalmime.h New file that parses mime data and returns an
  	icalcomponent that includes all of the parts.
 
-
+	
 2000-07-26   Eric Busboom   <eric@softwarestudio.org>
 
 	* icaldirset.h misc bug fixes to get deleting components to work
@@ -1286,7 +765,7 @@
 	* icalstore.{c,h} CHanged name to icaldirset
 
 	* icalcluster.{c,h} Changed name to icalfileset
-
+	
 
 2000-06-12  Eric Busboom  <eric@softwarestudio.org>
 
@@ -1298,13 +777,6 @@
 
 	* icalyacc.y Added support for integers in by day lists
 
-2000-06-08  Ettore Perazzoli  <ettore@helixcode.com>
-
-	* src/test/Makefile.am (INCLUDES): Likewise.
-
-	* src/libicalss/Makefile.am (INCLUDES): Use $(srcdir) to allow
-	builddir != srcdir.
-
 2000-06-01  Eric Busboom  <eric@softwarestudio.org>
 
 	* icalrecur.c moved recur code into new files
@@ -1315,11 +787,11 @@
 
 	* icaltypes.h Changed signature icaltimetype_from_timet to include
  	is_utc flag.
-
+	
 
 2000-03-17  Eric Busboom  <eric@softwarestudio.org>
 
-	* icalstore.c Vastly improved icalstore_test.
+	* icalstore.c Vastly improved icalstore_test. 
 
 2000-03-16  Eric Busboom  <eric@softwarestudio.org>
 
@@ -1335,5 +807,5 @@
  	oriented parsing.
 
 	* icalparser.c Fixed icalparser_get_line to remove \r in input.
-
+	
 

@@ -755,13 +755,19 @@ cal_util_event_dates_match (icalcomponent *icalcomp1, icalcomponent *icalcomp2)
 			return FALSE;
 	}
 
+	
+
 	/* now match the timezones */
 	if (!(!c1_dtstart.zone && !c2_dtstart.zone) ||
-	    (c1_dtstart.zone && c2_dtstart.zone && !strcmp (c1_dtstart.zone, c2_dtstart.zone)))
+	    (c1_dtstart.zone && c2_dtstart.zone &&
+	     !strcmp (icaltimezone_get_tzid ((icaltimezone *) c1_dtstart.zone),
+		      icaltimezone_get_tzid ((icaltimezone *) c2_dtstart.zone))))
 		return FALSE;
 
 	if (!(!c1_dtend.zone && !c2_dtend.zone) ||
-	    (c1_dtend.zone && c2_dtend.zone && !strcmp (c1_dtend.zone, c2_dtend.zone)))
+	    (c1_dtend.zone && c2_dtend.zone &&
+	     !strcmp (icaltimezone_get_tzid ((icaltimezone *) c1_dtend.zone),
+		      icaltimezone_get_tzid ((icaltimezone *) c2_dtend.zone))))
 		return FALSE;
 
 	return TRUE;

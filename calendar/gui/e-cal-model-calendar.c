@@ -128,7 +128,7 @@ get_dtend (ECalModelComponent *comp_data)
 
 		/* FIXME: handle errors */
 		cal_client_get_timezone (comp_data->client,
-					 icaltimezone_get_tzid (icaltimezone_get_builtin_timezone (tt_end.zone)),
+					 icaltime_get_tzid (tt_end),
 					 &zone);
 		comp_data->dtend->zone = zone;
 	}
@@ -155,12 +155,14 @@ get_transparency (ECalModelComponent *comp_data)
 
 	prop = icalcomponent_get_first_property (comp_data->icalcomp, ICAL_TRANSP_PROPERTY);
 	if (prop) {
-		const char *transp;
+		icalproperty_transp transp;
 
 		transp = icalproperty_get_transp (prop);
-		if (strcasecmp (transp, "TRANSPARENT") == 0)
+		if (transp == ICAL_TRANSP_TRANSPARENT ||
+		    transp == ICAL_TRANSP_TRANSPARENTNOCONFLICT)
 			return _("Free");
-		else if (strcasecmp (transp, "OPAQUE") == 0)
+		else if (transp == ICAL_TRANSP_OPAQUE ||
+			 transp == ICAL_TRANSP_OPAQUENOCONFLICT)
 			return _("Busy");
 	}
 
@@ -251,12 +253,12 @@ set_transparency (ECalModelComponent *comp_data, const void *value)
 			icalproperty_free (prop);
 		}
 	} else {
-		const char *transp;
+		icalproperty_transp transp;
 
-		if (strcasecmp (value, "FREE"))
-			transp = "TRANSPARENT";
-		else if (strcasecmp (value, "OPAQUE"))
-			transp = "OPAQUE";
+		if (!strcasecmp (value, "FREE"))
+			transp = ICAL_TRANSP_TRANSPARENT;
+		else if (!strcasecmp (value, "OPAQUE"))
+			transp = ICAL_TRANSP_OPAQUE;
 		else {
 			if (prop) {
 				icalcomponent_remove_property (comp_data->icalcomp, prop);

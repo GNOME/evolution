@@ -1,3 +1,36 @@
+2003-09-11  Hans Petter Jansson  <hpj@ximian.com>
+
+	* cal-util/Makefile.am (libcal_util_la_LIBADD):
+	libical-evolution.la -> libical.la
+
+	* cal-util/cal-component.c (cal_component_get_classification)
+	(cal_component_set_classification)
+	(get_text_list)
+	(get_icaltimetype)
+	(get_datetime)
+	(get_period_list)
+	(get_recur_list)
+	(cal_component_get_transparency)
+	(cal_component_set_transparency): Adapt to new libical.
+
+	* cal-util/cal-util.c (cal_util_event_dates_match): Ditto.
+
+	* pcs/cal-backend-file.c (create_user_free_busy): Ditto.
+
+	* gui/e-cal-model-tasks.c (get_completed)
+	(get_due)
+	(get_due_status): Ditto.
+
+	* gui/e-cal-model.c (get_dtstart)
+	(set_classification): Ditto.
+
+	* gui/e-cal-model-calendar.c (get_dtend)
+	(get_transparency)
+	(set_transparency): Adapt to new libical and fix a comparison bug.
+
+	* importers/Makefile.am (libevolution_calendar_importers_la_LIBADD):
+	libical-evolution.la -> libical.la
+
 2003-09-11  Dan Winship  <danw@ximian.com>
 
 	* cal-util/Makefile.am (privlib_LTLIBRARIES): Remove

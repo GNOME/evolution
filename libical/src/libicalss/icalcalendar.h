@@ -38,7 +38,7 @@
  * components. It also has interfaces to access the free/busy list
  * and a list of calendar properties */
 
-typedef  void icalcalendar;
+typedef struct icalcalendar_impl icalcalendar;
 
 icalcalendar* icalcalendar_new(char* dir);
 

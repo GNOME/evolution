@@ -336,7 +336,7 @@ get_dtstart (ECalModel *model, ECalModelComponent *comp_data)
 
 		/* FIXME: handle errors */
 		cal_client_get_timezone (comp_data->client,
-					 icaltimezone_get_tzid (icaltimezone_get_builtin_timezone (tt_start.zone)),
+					 icaltime_get_tzid (tt_start),
 					 &zone);
 		comp_data->dtstart->zone = zone;
 	}
@@ -476,11 +476,22 @@ set_classification (ECalModelComponent *comp_data, const char *value)
 			icalproperty_free (prop);
 		}
 	} else {
+	  icalproperty_class ical_class;
+
+	  if (!strcasecmp (value, "PUBLIC"))
+	    ical_class = ICAL_CLASS_PUBLIC;
+	  else if (!strcasecmp (value, "PRIVATE"))
+	    ical_class = ICAL_CLASS_PRIVATE;
+	  else if (!strcasecmp (value, "CONFIDENTIAL"))
+	    ical_class = ICAL_CLASS_CONFIDENTIAL;
+	  else
+	    ical_class = ICAL_CLASS_NONE;
+
 		if (!prop) {
-			prop = icalproperty_new_class (value);
+			prop = icalproperty_new_class (ical_class);
 			icalcomponent_add_property (comp_data->icalcomp, prop);
 		} else
-			icalproperty_set_class (prop, value);
+			icalproperty_set_class (prop, ical_class);
 	}
 }
 

@@ -7,7 +7,6 @@
 #include <stdlib.h> /* for malloc */
 #include <stdio.h> /* for printf */
 #include <time.h> /* for time() */
-#include "icalmemory.h"
 
 void do_something(icalcomponent *c);
 
@@ -154,7 +153,7 @@ icalcomponent* create_new_component()
 
     icalcomponent_add_property(
 	event,
-	icalproperty_new_class("PUBLIC")
+	icalproperty_new_class(ICAL_CLASS_PUBLIC)
 	);
     
     icalcomponent_add_property(
@@ -242,7 +241,7 @@ icalcomponent* create_new_component_with_va_args()
 		icalproperty_new_description("Project XYZ Review Meeting"),
 
 		icalproperty_new_categories("MEETING"),
-		icalproperty_new_class("PUBLIC"),
+		icalproperty_new_class(ICAL_CLASS_PUBLIC),
 		icalproperty_new_created(atime),
 		icalproperty_new_summary("XYZ Project Review"),
 		icalproperty_vanew_dtstart(

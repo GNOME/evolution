@@ -29,7 +29,7 @@ libevolution_calendar_importers_la_LDFLAGS = -avoid-version -module
 
 libevolution_calendar_importers_la_LIBADD = \
 	$(top_builddir)/shell/importer/libevolution-importer.la \
-	$(top_builddir)/libical/src/libicalvcal/libicalvcal-evolution.la \
+	$(top_builddir)/libical/src/libicalvcal/libicalvcal.la \
 	$(IMPORTERS_LIBS)
 
 # evolution_calendar_importer_SOURCES = 	\
@@ -43,8 +43,8 @@ libevolution_calendar_importers_la_LIBADD = \
 # 	$(top_builddir)/calendar/cal-util/libcal-util.la	\
 # 	$(top_builddir)/calendar/cal-client/libcal-client.la	\
 # 	$(top_builddir)/libwombat/libwombat.la			\
-# 	$(top_builddir)/libical/src/libical/libical-evolution.la	\
-# 	$(top_builddir)/libical/src/libicalvcal/libicalvcal-evolution.la \
+# 	$(top_builddir)/libical/src/libical/libical.la	\
+# 	$(top_builddir)/libical/src/libicalvcal/libicalvcal.la \
 # 	$(EVOLUTION_CALENDAR_LIBS)
 
 server_in_files = GNOME_Evolution_Calendar_Importer.server.in.in

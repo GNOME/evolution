@@ -30,38 +30,6 @@
 #include "icalduration.h"
 #include "icalperiod.h"
 
-typedef struct icalattach_impl icalattach;
-
-typedef void (* icalattach_free_fn_t) (unsigned char *data, void *user_data);
-
-/* converts base64 to binary, fetches url and stores as binary, or
-   just returns data */
-
-icalattach *icalattach_new_from_url (const char *url);
-icalattach *icalattach_new_from_data (const unsigned char *data, icalattach_free_fn_t free_fn,
-				      void *free_fn_data);
-
-void icalattach_ref (icalattach *attach);
-void icalattach_unref (icalattach *attach);
-
-int icalattach_get_is_url (icalattach *attach);
-const char *icalattach_get_url (icalattach *attach);
-unsigned char *icalattach_get_data (icalattach *attach);
-
-struct icalattachtype* icalattachtype_new(void);
-void  icalattachtype_add_reference(struct icalattachtype* v);
-void icalattachtype_free(struct icalattachtype* v);
-
-void icalattachtype_set_url(struct icalattachtype* v, char* url);
-char* icalattachtype_get_url(struct icalattachtype* v);
-
-void icalattachtype_set_base64(struct icalattachtype* v, char* base64,
-				int owns);
-char* icalattachtype_get_base64(struct icalattachtype* v);
-
-void icalattachtype_set_binary(struct icalattachtype* v, char* binary,
-				int owns);
-void* icalattachtype_get_binary(struct icalattachtype* v);
 
 struct icalgeotype 
 {
@@ -83,7 +51,11 @@ struct icaltriggertype
 	struct icaldurationtype duration;
 };
 
+struct icaltriggertype icaltriggertype_from_int(const int reltime);
 struct icaltriggertype icaltriggertype_from_string(const char* str);
+
+int icaltriggertype_is_null_trigger(struct icaltriggertype tr);
+int icaltriggertype_is_bad_trigger(struct icaltriggertype tr);
 
 /* struct icalreqstattype. This struct contains two string pointers,
 but don't try to free either of them. The "desc" string is a pointer
@@ -103,8 +75,8 @@ struct icalreqstattype {
 	const char* debug;
 };
 
-struct icalreqstattype icalreqstattype_from_string(char* str);
-char* icalreqstattype_as_string(struct icalreqstattype);
+struct icalreqstattype icalreqstattype_from_string(const char* str);
+const char* icalreqstattype_as_string(struct icalreqstattype);
 
 
 

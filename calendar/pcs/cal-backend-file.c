@@ -1203,9 +1203,9 @@ create_user_free_busy (CalBackendFile *cbfile, const char *address, const char *
 		prop = icalcomponent_get_first_property (icalcomp,
 							 ICAL_TRANSP_PROPERTY);
 		if (prop) {
-			const char *transp_val = icalproperty_get_transp (prop);
-			if (transp_val
-			    && !strcasecmp (transp_val, "TRANSPARENT"))
+			icalproperty_transp transp_val = icalproperty_get_transp (prop);
+			if (transp_val == ICAL_TRANSP_TRANSPARENT ||
+			    transp_val == ICAL_TRANSP_TRANSPARENTNOCONFLICT)
 				continue;
 		}
 

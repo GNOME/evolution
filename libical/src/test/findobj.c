@@ -26,12 +26,11 @@
  ======================================================================*/
 
 #include <stdio.h> /* for printf */
-#include "ical.h"
-#include "icalcalendar.h"
-#include "icaldirset.h"
 #include <errno.h>
 #include <string.h> /* For strerror */
-#include "icalrestriction.h"
+
+#include "ical.h"
+#include "icalss.h"
 
 /* This program finds an object stored in a calendar */
 

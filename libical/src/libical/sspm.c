@@ -45,6 +45,11 @@
 #include "dmalloc.h"
 #endif
 
+#ifdef WIN32
+#define snprintf      _snprintf
+#define strcasecmp    stricmp
+#endif
+
 #define TMP_BUF_SIZE 1024
 
 
@@ -85,7 +90,7 @@ char* sspm_strdup(char* str){
 }
 
 
-struct  major_content_type_map 
+static struct  major_content_type_map 
 {
 	enum sspm_major_type type;
 	char* str;
@@ -104,7 +109,7 @@ struct  major_content_type_map
     {SSPM_UNKNOWN_MAJOR_TYPE,"" },
 };
 
-struct  minor_content_type_map 
+static struct  minor_content_type_map 
 {
 	enum sspm_minor_type type;
 	char* str;
@@ -233,7 +238,7 @@ char* sspm_value(char* line)
 
 }
 
-char *mime_headers[] = {
+static char *mime_headers[] = {
     "Content-Type",
     "Content-Transfer-Encoding",
     "Content-Disposition",
@@ -358,7 +363,7 @@ enum line_type {
 };
 
 
-enum line_type get_line_type(char* line){
+static enum line_type get_line_type(char* line){
 
     if (line == 0){
 	return EMPTY;
@@ -382,7 +387,7 @@ enum line_type get_line_type(char* line){
 }
 
 
-struct sspm_action_map get_action(struct mime_impl *impl,
+static struct sspm_action_map get_action(struct mime_impl *impl,
 				  enum sspm_major_type major,
 				  enum sspm_minor_type minor)
 {
@@ -948,7 +953,8 @@ void sspm_read_header(struct mime_impl *impl,struct sspm_header *header)
 		
 		assert(strlen(buf) < BUF_SIZE);
 		
-		strcpy(header_lines[current_line],buf);
+		strncpy(header_lines[current_line],buf,BUF_SIZE-1);
+		header_lines[current_line][BUF_SIZE-1] = '\0';
 		
 		break;
 	    }
@@ -983,7 +989,7 @@ void sspm_read_header(struct mime_impl *impl,struct sspm_header *header)
 		
 		assert( strlen(buf_start) + strlen(last_line) < BUF_SIZE);
 		
-		strcat(last_line,buf_start);
+		strncat(last_line,buf_start,BUF_SIZE-strlen(last_line)-1);
 		
 		break;
 	    }
@@ -1163,7 +1169,7 @@ char *decode_base64(char *dest,
 			     char *src,
 			     size_t *size)
 {
-    int cc;
+    int cc = 0;
     char buf[4] = {0,0,0,0};  
     int p = 0;
     int valid_data = 0;

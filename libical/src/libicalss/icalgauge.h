@@ -29,23 +29,33 @@
 #ifndef ICALGAUGE_H
 #define ICALGAUGE_H
 
-typedef void icalgauge;
+/** @file icalgauge.h
+ *  @brief Routines implementing a filter for ical components
+ */
 
-icalgauge* icalgauge_new_from_sql(char* sql);
+typedef struct icalgauge_impl icalgauge;
+
+icalgauge* icalgauge_new_from_sql(char* sql, int expand);
+
+int icalgauge_get_expand(icalgauge* gauge);
 
 void icalgauge_free(icalgauge* gauge);
 
 char* icalgauge_as_sql(icalcomponent* gauge);
 
-void icalgauge_dump(icalcomponent* gauge);
+void icalgauge_dump(icalgauge* gauge);
 
-/* Return true is comp matches the gauge. The component must be in
-   cannonical form -- a VCALENDAR with one VEVENT, VTODO or VJOURNAL
-   sub component */
+
+/** @brief Return true if comp matches the gauge.
+ *
+ * The component must be in
+ * cannonical form -- a VCALENDAR with one VEVENT, VTODO or VJOURNAL
+ * sub component 
+ */
 int icalgauge_compare(icalgauge* g, icalcomponent* comp);
 
-/* Clone the component, but only return the properties specified in
-   the gauge */
+/** Clone the component, but only return the properties 
+ *  specified in the gauge */
 icalcomponent* icalgauge_new_clone(icalgauge* g, icalcomponent* comp);
 
 #endif /* ICALGAUGE_H*/

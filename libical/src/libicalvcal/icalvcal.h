@@ -44,9 +44,9 @@ struct _icalvcal_defaults {
 
 icalcomponent* icalvcal_convert(VObject *object);
 
+
 icalcomponent* icalvcal_convert_with_defaults (VObject *object,
 					       icalvcal_defaults *defaults);
-
 
 #endif /* !ICALVCAL_H */
 

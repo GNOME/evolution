@@ -1,3 +1,7 @@
+2003-09-11  Hans Petter Jansson  <hpj@ximian.com>
+
+	* Makefile.am (evolution_LDADD): libical-evolution.la -> libical.la
+
 2003-09-05  Yuedong Du  <yuedong.du@sun.com>
 
 	* e-shell-importer.c: (importer_file_page_new),

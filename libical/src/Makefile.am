@@ -4,6 +4,16 @@ else
 PYTHON_DIR = 
 endif
 
-# For evolution we only build libical at present.
-SUBDIRS = libical libicalvcal
-#SUBDIRS = libical libicalss libicalvcal # $(PYTHON_DIR) test
+if WITH_JAVA
+JAVA_DIR = java
+else
+JAVA_DIR = 
+endif
+
+if WITH_CAP
+LIBICALCAP_DIR = libicalcap
+else
+LIBICALCAP_DIR = 
+endif
+
+SUBDIRS = libical libicalss $(LIBICALCAP_DIR) libicalvcal $(PYTHON_DIR) $(JAVA_DIR) test

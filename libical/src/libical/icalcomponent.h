@@ -27,15 +27,15 @@
 #include "icalproperty.h"
 #include "icalvalue.h"
 #include "icalenums.h" /* defines icalcomponent_kind */
-#include "icalattendee.h"
 #include "pvl.h"
 
-typedef void icalcomponent;
+typedef struct icalcomponent_impl icalcomponent;
 
-/* An opaque struct representing a timezone. We declare this here to avoid
-   a circular dependancy. */
-#ifndef ICALTIMEONE_DEFINED
-#define ICALTIMEONE_DEFINED
+#ifndef ICALTIMEZONE_DEFINED
+#define ICALTIMEZONE_DEFINED
+/** @brief An opaque struct representing a timezone.  
+ * We declare this here to avoid a circular dependancy. 
+ */
 typedef struct _icaltimezone		icaltimezone;
 #endif
 
@@ -59,7 +59,7 @@ char* icalcomponent_as_ical_string(icalcomponent* component);
 
 int icalcomponent_is_valid(icalcomponent* component);
 
-icalcomponent_kind icalcomponent_isa(icalcomponent* component);
+icalcomponent_kind icalcomponent_isa(const icalcomponent* component);
 
 int icalcomponent_isa_component (void* component);
 
@@ -105,7 +105,8 @@ void icalcomponent_remove_component(icalcomponent* parent,
 int icalcomponent_count_components(icalcomponent* component,
 				   icalcomponent_kind kind);
 
-/* This takes 2 VCALENDAR components and merges the second one into the first,
+/**
+   This takes 2 VCALENDAR components and merges the second one into the first,
    resolving any problems with conflicting TZIDs. comp_to_merge will no
    longer exist after calling this function. */
 void icalcomponent_merge_component(icalcomponent* comp,
@@ -136,16 +137,20 @@ icalcomponent* icalcompiter_prior(icalcompiter* i);
 icalcomponent* icalcompiter_deref(icalcompiter* i);
 
 
-
-
 /* Working with embedded error properties */
 
+
+/* Check the component against itip rules and insert error properties*/
+/* Working with embedded error properties */
+int icalcomponent_check_restrictions(icalcomponent* comp);
+
+/** Count embedded errors. */
 int icalcomponent_count_errors(icalcomponent* component);
 
-/* Remove all X-LIC-ERROR properties*/
+/** Remove all X-LIC-ERROR properties*/
 void icalcomponent_strip_errors(icalcomponent* component);
 
-/* Convert some X-LIC-ERROR properties into RETURN-STATUS properties*/
+/** Convert some X-LIC-ERROR properties into RETURN-STATUS properties*/
 void icalcomponent_convert_errors(icalcomponent* component);
 
 /* Internal operations. They are private, and you should not be using them. */
@@ -153,7 +158,9 @@ icalcomponent* icalcomponent_get_parent(icalcomponent* component);
 void icalcomponent_set_parent(icalcomponent* component, 
 			      icalcomponent* parent);
 
-/* Kind conversion routiens */
+/* Kind conversion routines */
+
+int icalcomponent_kind_is_valid(const icalcomponent_kind kind);
 
 icalcomponent_kind icalcomponent_string_to_kind(const char* string);
 
@@ -166,11 +173,11 @@ If the code was in an OO language, the remaining routines would be
 members of classes derived from icalcomponent. Don't call them on the
 wrong component subtypes. */
 
-/* For VCOMPONENT: Return a reference to the first VEVENT, VTODO or
+/** For VCOMPONENT: Return a reference to the first VEVENT, VTODO or
    VJOURNAL */
 icalcomponent* icalcomponent_get_first_real_component(icalcomponent *c);
 
-/* For VEVENT, VTODO, VJOURNAL and VTIMEZONE: report the start and end
+/** For VEVENT, VTODO, VJOURNAL and VTIMEZONE: report the start and end
    times of an event in UTC */
 struct icaltime_span icalcomponent_get_span(icalcomponent* comp);
 
@@ -192,6 +199,9 @@ struct icaltimetype icalcomponent_get_dtstart(icalcomponent* comp);
 struct icaltimetype icalcomponent_get_dtend(icalcomponent* comp);
 void icalcomponent_set_dtend(icalcomponent* comp, struct icaltimetype v);
 
+struct icaltimetype icalcomponent_get_due(icalcomponent* comp);
+void icalcomponent_set_due(icalcomponent* comp, struct icaltimetype v);
+
 void icalcomponent_set_duration(icalcomponent* comp, 
 				struct icaldurationtype v);
 struct icaldurationtype icalcomponent_get_duration(icalcomponent* comp);
@@ -202,7 +212,6 @@ icalproperty_method icalcomponent_get_method(icalcomponent* comp);
 struct icaltimetype icalcomponent_get_dtstamp(icalcomponent* comp);
 void icalcomponent_set_dtstamp(icalcomponent* comp, struct icaltimetype v);
 
-
 void icalcomponent_set_summary(icalcomponent* comp, const char* v);
 const char* icalcomponent_get_summary(icalcomponent* comp);
 
@@ -212,36 +221,48 @@ const char* icalcomponent_get_comment(icalcomponent* comp);
 void icalcomponent_set_uid(icalcomponent* comp, const char* v);
 const char* icalcomponent_get_uid(icalcomponent* comp);
 
+void icalcomponent_set_relcalid(icalcomponent* comp, const char* v);
+const char* icalcomponent_get_relcalid(icalcomponent* comp);
+
 void icalcomponent_set_recurrenceid(icalcomponent* comp, 
 				    struct icaltimetype v);
 struct icaltimetype icalcomponent_get_recurrenceid(icalcomponent* comp);
 
+void icalcomponent_set_description(icalcomponent* comp, const char* v);
+const char* icalcomponent_get_description(icalcomponent* comp);
 
-void icalcomponent_set_organizer(icalcomponent* comp, 
-				 struct icalorganizertype org);
-                                 struct icalorganizertype icalcomponent_get_organizer(icalcomponent* comp);
+void icalcomponent_set_location(icalcomponent* comp, const char* v);
+const char* icalcomponent_get_location(icalcomponent* comp);
+
+void icalcomponent_set_sequence(icalcomponent* comp, int v);
+int icalcomponent_get_sequence(icalcomponent* comp);
+
+void icalcomponent_set_status(icalcomponent* comp, enum icalproperty_status v);
+enum icalproperty_status icalcomponent_get_status(icalcomponent* comp);
 
 
-void icalcomponent_add_attendee(icalcomponent *comp,
-				struct icalattendeetype attendee);
-
-int icalcomponent_remove_attendee(icalcomponent *comp, char* cuid);
-
-/* Get the Nth attendee. Out of range indices return an attendee
-   with cuid == 0 */
-struct icalattendeetype icalcomponent_get_attendee(icalcomponent *comp,
-  int index);
-
-/* Calls the given function for each TZID parameter found in the component,
-   and any subcomponents. */
+/** Calls the given function for each TZID parameter found in the
+    component, and any subcomponents. */
 void icalcomponent_foreach_tzid(icalcomponent* comp,
 				void (*callback)(icalparameter *param, void *data),
 				void *callback_data);
 
-/* Returns the icaltimezone in the component corresponding to the TZID, or NULL
-   if it can't be found. */
+/** Returns the icaltimezone in the component corresponding to the
+    TZID, or NULL if it can't be found. */
 icaltimezone* icalcomponent_get_timezone(icalcomponent* comp,
 					 const char *tzid);
+
+int icalproperty_recurrence_is_excluded(icalcomponent *comp,
+                                       struct icaltimetype *dtstart,
+                                       struct icaltimetype *recurtime); 
+
+void icalcomponent_foreach_recurrence(icalcomponent* comp,
+				      struct icaltimetype start,
+				      struct icaltimetype end,
+			void (*callback)(icalcomponent *comp, 
+                                         struct icaltime_span *span, 
+                                         void *data),
+			      void *callback_data);
 
 
 /*************** Type Specific routines ***************/
@@ -255,10 +276,7 @@ icalcomponent* icalcomponent_new_vfreebusy();
 icalcomponent* icalcomponent_new_vtimezone();
 icalcomponent* icalcomponent_new_xstandard();
 icalcomponent* icalcomponent_new_xdaylight();
-
-
+icalcomponent* icalcomponent_new_vagenda();
+icalcomponent* icalcomponent_new_vquery();
 
 #endif /* !ICALCOMPONENT_H */
-
-
-

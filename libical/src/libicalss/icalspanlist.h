@@ -28,25 +28,48 @@
 #include "ical.h"
 #include "icalset.h"
 
-typedef void icalspanlist;
+/** @file icalspanlist.h
+ *  @brief Code that supports collections of free/busy spans of time
+ */
 
-/* Make a free list from a set of component. Start and end should be in UTC */
+typedef struct icalspanlist_impl icalspanlist;
+
+
+/** @brief Constructor
+ * Make a free list from a set of component. Start and end should be in UTC 
+ */
+
 icalspanlist* icalspanlist_new(icalset *set, 
 				struct icaltimetype start,
 				struct icaltimetype end);
 
+/** @brief Destructor
+ */
 void icalspanlist_free(icalspanlist* spl);
 
+/* Unimplemented functions */
 icalcomponent* icalspanlist_make_free_list(icalspanlist* sl);
 icalcomponent* icalspanlist_make_busy_list(icalspanlist* sl);
 
-/* Get first free or busy time after time t. all times are in UTC */
+/** Get first next free time after time t. all times are in UTC. */
 struct icalperiodtype icalspanlist_next_free_time(icalspanlist* sl,
 						struct icaltimetype t);
+/** Get first next busy time after time t. all times are in UTC. */
 struct icalperiodtype icalspanlist_next_busy_time(icalspanlist* sl,
 						struct icaltimetype t);
 
 void icalspanlist_dump(icalspanlist* s);
+
+/** @brief Return a valid VFREEBUSY component for this span */
+icalcomponent *icalspanlist_as_vfreebusy(icalspanlist* s_in,
+					 const char* organizer,
+					 const char* attendee);
+
+/** @brief Return an integer matrix of total events per delta_t timespan */
+int *icalspanlist_as_freebusy_matrix(icalspanlist* span, int delta_t);
+
+/** @brief Construct an icalspanlist from a VFREEBUSY component */
+icalspanlist *icalspanlist_from_vfreebusy(icalcomponent* c);
 
 #endif
 				    

@@ -40,7 +40,7 @@ icalcomponent* icalmessage_get_inner(icalcomponent* comp)
     }
 }
 
-char* lowercase(const char* str)
+static char* lowercase(const char* str)
 {
     char* p = 0;
     char* n = icalmemory_strdup(str);
@@ -158,8 +158,13 @@ icalcomponent *icalmessage_new_reply_base(icalcomponent* c,
 
     icalcomponent_add_property(reply,icalproperty_new_version("2.0"));
     
+#ifndef WIN32    
     sprintf(tmp,
            "-//SoftwareStudio//NONSGML %s %s //EN",PACKAGE,VERSION);
+#else
+    sprintf(tmp,
+           "-//SoftwareStudio//NONSGML %s %s //EN",ICAL_PACKAGE,ICAL_VERSION);
+#endif
     icalcomponent_add_property(reply,icalproperty_new_prodid(tmp));
 
     return reply;
@@ -230,11 +235,11 @@ icalcomponent* icalmessage_new_counterpropose_reply(icalcomponent* oldc,
     icalerror_check_arg_rz(oldc,"oldc");
     icalerror_check_arg_rz(newc,"newc");
     
-    reply = icalcomponent_new_clone(newc);
+    reply = icalmessage_new_reply_base(newc,user,msg);
 
     icalcomponent_set_method(reply,ICAL_METHOD_COUNTER);
 
-    return newc;
+    return reply;
 
 }
 
@@ -353,10 +358,7 @@ icalcomponent* icalmessage_new_error_reply(icalcomponent* c,
 	rs.debug = debug;
 	
 	icalcomponent_add_property(inner, 
-				   icalproperty_new_requeststatus(
-				       icalreqstattype_as_string(rs)
-				       ) 
-	    );
+				   icalproperty_new_requeststatus(rs));
     } else { /*  code == ICAL_UNKNOWN_STATUS */ 
 
 	/* Copy all of the request status properties */

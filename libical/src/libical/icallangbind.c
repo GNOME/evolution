@@ -22,8 +22,14 @@
 #include "icalproperty.h"
 #include "icalerror.h"
 #include "icalmemory.h"
+#include "icalvalue.h"
 #include <stdlib.h>
 #include <string.h>
+
+#ifdef WIN32
+#define snprintf      _snprintf
+#define strcasecmp    stricmp
+#endif
 
 int* icallangbind_new_array(int size){
     int* p = (int*)malloc(size*sizeof(int));
@@ -38,11 +44,28 @@ int icallangbind_access_array(int* array, int index) {
     return array[index];
 }                    
 
+/** Iterators to fetch parameters given property */
 
+icalparameter* icallangbind_get_first_parameter(icalproperty *prop)
 
-/* LIke icalcomponent_get_first_component, buut takes a string for the
+{
+    icalparameter_kind kind = ICAL_ANY_PARAMETER;
+    
+    return icalproperty_get_first_parameter(prop,kind);
+}
+
+icalparameter* icallangbind_get_next_parameter(icalproperty *prop)
+{
+    icalparameter_kind kind = ICAL_ANY_PARAMETER;
+    
+    return icalproperty_get_next_parameter(prop,kind);
+}
+		                                              
+
+/** Like icalcomponent_get_first_component(), but takes a string for the
    kind and can iterate over X properties as if each X name was a
    seperate kind */
+
 icalproperty* icallangbind_get_first_property(icalcomponent *c,
                                               const char* prop)
 {
@@ -129,6 +152,7 @@ icalcomponent* icallangbind_get_next_component(icalcomponent *c,
 
 #define APPENDC(x) icalmemory_append_char(&buf, &buf_ptr, &buf_size, x);
 
+
 const char* icallangbind_property_eval_string(icalproperty* prop, char* sep)
 {
     char tmp[25];
@@ -150,14 +174,14 @@ const char* icallangbind_property_eval_string(icalproperty* prop, char* sep)
     APPENDS(" 'name' ");
     APPENDS(sep);
     APPENDC('\'');
-    APPENDS(icalenum_property_kind_to_string(icalproperty_isa(prop)));
+    APPENDS(icalproperty_kind_to_string(icalproperty_isa(prop)));
     APPENDC('\'');
 
     if(value){
         APPENDS(", 'value_type' ");
         APPENDS(sep);
         APPENDC('\'');
-        APPENDS(icalenum_value_kind_to_string(icalvalue_isa(value)));
+        APPENDS(icalvalue_kind_to_string(icalvalue_isa(value)));
         APPENDC('\'');
     }
 
@@ -266,7 +290,23 @@ int icallangbind_string_to_open_flag(const char* str)
     if (strcmp(str,"r") == 0) {return O_RDONLY;}
     else if (strcmp(str,"r+") == 0) {return O_RDWR;}
     else if (strcmp(str,"w") == 0) {return O_WRONLY;}
+    else if (strcmp(str,"w+") == 0) {return O_RDWR|O_CREAT;}
     else if (strcmp(str,"a") == 0) {return O_WRONLY|O_APPEND;}
     else return -1;
 }
 
+
+const char* icallangbind_quote_as_ical(const char* str)
+{
+    size_t buf_size = 2 * strlen(str);
+
+    /* assume every char could be quoted */
+    char* buf = icalmemory_new_buffer(buf_size);
+    int result;
+
+    result = icalvalue_encode_ical_string(str, buf, buf_size);
+
+    icalmemory_add_tmp_buffer(buf);
+
+    return buf;
+}

@@ -22,6 +22,12 @@
 
  ======================================================================*/
 
+/** @file icalarray.c
+ *
+ *  @brief An array of arbitrarily-sized elements which grows
+ *  dynamically as elements are added. 
+ */
+
 #ifdef HAVE_CONFIG_H
 #include "config.h"
 #endif
@@ -36,6 +42,8 @@
 static void icalarray_expand		(icalarray	*array,
 					 int		 space_needed);
 
+/** @brief Constructor
+ */
 
 icalarray*
 icalarray_new			(int		 element_size,
@@ -58,6 +66,8 @@ icalarray_new			(int		 element_size,
     return array;
 }
 
+/** @brief Destructor
+ */
 
 void
 icalarray_free			(icalarray	*array)
@@ -75,7 +85,7 @@ icalarray_append		(icalarray	*array,
     if (array->num_elements >= array->space_allocated)
 	icalarray_expand (array, 1);
 
-    memcpy (array->data + array->num_elements * array->element_size, element,
+    memcpy ((char *)(array->data) + ( array->num_elements * array->element_size ), element,
 	    array->element_size);
     array->num_elements++;
 }
@@ -88,7 +98,7 @@ icalarray_element_at		(icalarray	*array,
     assert (position >= 0);
     assert (position < array->num_elements);
 
-    return array->data + position * array->element_size;
+    return (char *)(array->data) + (position * array->element_size);
 }
 
 
@@ -102,11 +112,11 @@ icalarray_remove_element_at	(icalarray	*array,
     assert (position >= 0);
     assert (position < array->num_elements);
 
-    dest = array->data + position * array->element_size;
+    dest = (char *)array->data + (position * array->element_size);
     elements_to_move = array->num_elements - position - 1;
 
     if (elements_to_move > 0)
-	memmove (dest, dest + array->element_size,
+	memmove (dest, (char *)dest + array->element_size,
 		 elements_to_move * array->element_size);
 
     array->num_elements--;
@@ -134,8 +144,14 @@ icalarray_expand		(icalarray	*array,
     if (space_needed > array->increment_size) 
 	new_space_allocated += space_needed;
 
+	/*
     new_data = realloc (array->data,
 			new_space_allocated * array->element_size);
+	*/
+	new_data = malloc(new_space_allocated * array->element_size);
+	memcpy(new_data,array->data,array->element_size*array->space_allocated);
+	free(array->data);
+
     if (new_data) {
 	array->data = new_data;
 	array->space_allocated = new_space_allocated;

@@ -36,14 +36,9 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-#ifdef ICAL_NO_LIBICAL
-#define icalerror_set_errno(x)
-#define  icalerror_check_arg_rv(x,y)
-#define  icalerror_check_arg_re(x,y,z)
-#else
 #include "icalerror.h"
 #include "icalmemory.h"
-#endif
+#include "icalvalue.h"
 
 
 
@@ -51,31 +46,32 @@
 /* From Seth Alves,  <alves@hungry.com>   */
 struct icaldurationtype icaldurationtype_from_int(int t)
 {
-        struct icaldurationtype dur;
-        int used = 0;
+    struct icaldurationtype dur;
+    int used = 0;
 
-        dur = icaldurationtype_null_duration();
+    dur = icaldurationtype_null_duration();
 
-        if(t < 0){
-            dur.is_neg = 1;
-            t = -t;
-        }
+    if(t < 0){
+	dur.is_neg = 1;
+	t = -t;
+    }
 
-        dur.weeks = (t - used) / (60 * 60 * 24 * 7);
-        used += dur.weeks * (60 * 60 * 24 * 7);
-        dur.days = (t - used) / (60 * 60 * 24);
-        used += dur.days * (60 * 60 * 24);
-        dur.hours = (t - used) / (60 * 60);
-        used += dur.hours * (60 * 60);
-        dur.minutes = (t - used) / (60);
-        used += dur.minutes * (60);
-        dur.seconds = (t - used);
+    if (t % (60 * 60 * 24 * 7) == 0) {
+	dur.weeks = t / (60 * 60 * 24 * 7);
+    } else {
+	used += dur.weeks * (60 * 60 * 24 * 7);
+	dur.days = (t - used) / (60 * 60 * 24);
+	used += dur.days * (60 * 60 * 24);
+	dur.hours = (t - used) / (60 * 60);
+	used += dur.hours * (60 * 60);
+	dur.minutes = (t - used) / (60);
+	used += dur.minutes * (60);
+	dur.seconds = (t - used);
+    }
  
-        return dur;
+    return dur;
 }
 
-#ifndef ICAL_NO_LIBICAL
-#include "icalvalue.h"
 struct icaldurationtype icaldurationtype_from_string(const char* str)
 {
 
@@ -135,7 +131,7 @@ struct icaldurationtype icaldurationtype_from_string(const char* str)
 
 		    if (begin_flag == 0) goto error;
 		    /* Get all of the digits, not one at a time */
-		    scan_size = sscanf((char*)(str+i),"%d",&digits);
+		    scan_size = sscanf(&str[i],"%d",&digits);
 		    if(scan_size == 0) goto error;
 		    break;
 		}
@@ -184,12 +180,11 @@ struct icaldurationtype icaldurationtype_from_string(const char* str)
 
  error:
     icalerror_set_errno(ICAL_MALFORMEDDATA_ERROR);
-    memset(&d, 0, sizeof(struct icaldurationtype));
-    return d;
-
+    return icaldurationtype_bad_duration();
 }
 
 #define TMP_BUF_SIZE 1024
+static
 void append_duration_segment(char** buf, char** buf_ptr, size_t* buf_size, 
 			     char* sep, unsigned int value) {
 
@@ -250,7 +245,7 @@ char* icaldurationtype_as_ical_string(struct icaldurationtype d)
 	    
 	}
     } else {
-	icalmemory_append_string(&buf, &buf_ptr, &buf_size, d.is_neg ? "-PT0S" : "PT0S");
+	icalmemory_append_string(&buf, &buf_ptr, &buf_size, "PT0S");
     }
  
     output_line = icalmemory_tmp_copy(buf);
@@ -259,8 +254,6 @@ char* icaldurationtype_as_ical_string(struct icaldurationtype d)
     return output_line;
     
 }
-
-#endif
 
 
 /* From Russel Steinthal */
@@ -292,6 +285,25 @@ int icaldurationtype_is_null_duration(struct icaldurationtype d)
     }
 }
 
+/* in icalvalue_new_from_string_with_error, we should not call
+   icaldurationtype_is_null_duration() to see if there is an error
+   condition. Null duration is perfectly valid for an alarm.
+   We cannot depend on the caller to check icalerrno either,
+   following the philosophy of unix errno. we set the is_neg
+   to -1 to indicate that this is a bad duration.
+*/
+struct icaldurationtype icaldurationtype_bad_duration()
+{
+    struct icaldurationtype d;
+    memset(&d,0,sizeof(struct icaldurationtype));
+    d.is_neg = -1;
+    return d;
+}
+
+int icaldurationtype_is_bad_duration(struct icaldurationtype d)
+{
+    return (d.is_neg == -1);
+}
 
 
 struct icaltimetype  icaltime_add(struct icaltimetype t,
@@ -313,7 +325,7 @@ struct icaldurationtype  icaltime_subtract(struct icaltimetype t1,
     time_t t1t = icaltime_as_timet(t1);
     time_t t2t = icaltime_as_timet(t2);
 
-    return icaldurationtype_from_int(t1t-t2t);
+    return icaldurationtype_from_int((int)(t1t-t2t));
 
 
 }

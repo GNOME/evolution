@@ -1,4 +1,4 @@
-#!/usr/local/bin/perl
+#!/usr/bin/env perl
 
 require "readvaluesfile.pl";
 
@@ -12,6 +12,8 @@ getopts('chspmi:');
 %valuemap  = read_values_file($ARGV[1]);
 
 
+$include_vanew = 1;
+
 # Write the file inline by copying everything before a demarcation
 # line, and putting the generated data after the demarcation
 
@@ -21,17 +23,14 @@ if ($opt_i) {
 
   while(<IN>){
 
-    if (/Do not edit/){
-      last;
-    }
-
-    print;
-
+    if (/<insert_code_here>/){
+      insert_code();
+    } else {
+      print;
+   }
+ 
   }    
-
-    print "/* Everything below this line is machine generated. Do not edit. */\n";
-
-
+ 
 }
 
 sub fudge_data {
@@ -56,12 +55,19 @@ sub fudge_data {
 
 }  
 
+sub insert_code {
+
 # Create the property map data
 if($opt_c){
 
-  print "static struct icalproperty_map property_map[] = {\n";
+
+  my @props = sort keys %propmap;
+  my $count = scalar(@props);
   
-  foreach $prop (sort keys %propmap) {
+
+  print "static struct icalproperty_map property_map[$count] = {\n";
+  
+  foreach $prop (@props) {
     
     next if !$prop;
     
@@ -79,10 +85,9 @@ if($opt_c){
   
   print "{ICAL_${uc}_PROPERTY,\"\",ICAL_NO_VALUE}};\n\n";
 
-
-  print "static struct icalproperty_enum_map enum_map[] = {\n";
-
   $idx = 10000;
+  $count = 1;
+  my $out = "";
 
   foreach $value (sort keys %valuemap) {
     
@@ -109,14 +114,20 @@ if($opt_c){
 	  $str = "";
 	}
 
-	print "    {ICAL_${ucv}_PROPERTY,ICAL_${ucv}_${uce},\"$str\" }, /*$idx*/\n";
+	$out.="    {ICAL_${ucv}_PROPERTY,ICAL_${ucv}_${uce},\"$str\" }, /*$idx*/\n";
 
 	$idx++;
+	$count++;
       }
       
     }
   }
+
+  $count++;
+  print "static struct icalproperty_enum_map enum_map[$count] = {\n";
+  print $out;
   print "    {ICAL_NO_PROPERTY,0,\"\"}\n};\n\n";
+  
 
 
 }
@@ -163,13 +174,9 @@ foreach $prop (sort keys %propmap) {
   my $set_pointer_check = "icalerror_check_arg_rv( (v!=0),\"v\");\n" if $type =~ /\*/;
 
   if($opt_c) { # Generate C source
- print<<EOM;
-/* $prop */
-icalproperty* icalproperty_new_${lc}($type v) {
-   struct icalproperty_impl *impl = icalproperty_new_impl(ICAL_${uc}_PROPERTY);   $pointer_check
-   icalproperty_set_${lc}((icalproperty*)impl,v);
-   return (icalproperty*)impl;
-}
+
+   if ($include_vanew) {
+     print<<EOM;
 icalproperty* icalproperty_vanew_${lc}($type v, ...){
    va_list args;
    struct icalproperty_impl *impl = icalproperty_new_impl(ICAL_${uc}_PROPERTY);   $pointer_check
@@ -180,7 +187,17 @@ icalproperty* icalproperty_vanew_${lc}($type v, ...){
    return (icalproperty*)impl;
 }
 EOM
+}
+	print<<EOM;
 
+/* $prop */
+icalproperty* icalproperty_new_${lc}($type v) {
+   struct icalproperty_impl *impl = icalproperty_new_impl(ICAL_${uc}_PROPERTY);   $pointer_check
+   icalproperty_set_${lc}((icalproperty*)impl,v);
+   return (icalproperty*)impl;
+}
+
+EOM
     # Allow DTSTART, DTEND, DUE, EXDATE and RECURRENCE-ID to take DATE values.
     if ($lc eq "dtstart" || $lc eq "dtend" || $lc eq "due" || $lc eq "exdate"
 	|| $lc eq "recurrenceid") {
@@ -197,35 +214,35 @@ void icalproperty_set_${lc}(icalproperty* prop, $type v){
 }
 EOM
     } else {
+
 	print<<EOM;
 void icalproperty_set_${lc}(icalproperty* prop, $type v){
-    icalvalue *value;
     $set_pointer_check
     icalerror_check_arg_rv( (prop!=0),"prop");
-    value = icalvalue_new_${lcvalue}(v);
-    icalproperty_set_value(prop,value);
+    icalproperty_set_value(prop,icalvalue_new_${lcvalue}(v));
 }
 EOM
-    }
-
- print<<EOM;
-$type icalproperty_get_${lc}(icalproperty* prop){
-    icalvalue *value;
+	}
+	print<<EOM;
+$type icalproperty_get_${lc}(const icalproperty* prop){
     icalerror_check_arg( (prop!=0),"prop");
-    value = icalproperty_get_value(prop);
-    return icalvalue_get_${lcvalue}(value);
+    return icalvalue_get_${lcvalue}(icalproperty_get_value(prop));
 }
 EOM
-
-
   } elsif ($opt_h) { # Generate C Header file
+
+
  print "\
 /* $prop */\
 icalproperty* icalproperty_new_${lc}($type v);\
-icalproperty* icalproperty_vanew_${lc}($type v, ...);\
 void icalproperty_set_${lc}(icalproperty* prop, $type v);\
-$type icalproperty_get_${lc}(icalproperty* prop);";
+$type icalproperty_get_${lc}(const icalproperty* prop);";
   
+
+if ($include_vanew){
+  print "icalproperty* icalproperty_vanew_${lc}($type v, ...);\n";
+}
+
 } 
 
 
@@ -238,3 +255,4 @@ if ($opt_h){
 print "\n\n#endif /*ICALPROPERTY_H*/\n"
 }
 
+}

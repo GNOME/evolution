@@ -25,6 +25,8 @@
 
  ======================================================================*/
 
+#ifndef ICALFILESETIMPL_H
+#define ICALFILESETIMPL_H
 
 #ifdef HAVE_CONFIG_H
 #include "config.h"
@@ -38,12 +40,14 @@
 #define ICALFILESET_ID "fset"
 
 struct icalfileset_impl {
+  icalset super;		/**< parent class */
+  char *path;			/**< pathname of file */
+  icalfileset_options options;  /**< copy of options passed to icalset_new() */
 
-  char id[5]; /*fset*/
-  char *path;
-  icalcomponent* cluster;
-  icalgauge* gauge;
-  int changed;
-  int fd; /* file descriptor */
+  icalcomponent* cluster;	/**< cluster containing data */
+  icalgauge* gauge;		/**< gauge for filtering out data */
+  int changed;			/**< boolean flag, 1 if data has changed */
+  int fd;			/**< file descriptor */
 };
 
+#endif

@@ -26,7 +26,7 @@ libcal_util_la_SOURCES = 	\
 	timeutil.c
 
 libcal_util_la_LIBADD =		\
-	 $(top_builddir)/libical/src/libical/libical-evolution.la
+	 $(top_builddir)/libical/src/libical/libical.la
 
 libcal_utilincludedir = $(privincludedir)/cal-util
 

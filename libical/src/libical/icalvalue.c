@@ -1,4 +1,5 @@
-/* -*- Mode: C -*- */
+/* -*- Mode: C; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- */
+/* vi:set ts=4 sts=4 sw=4 expandtab : */
 /*======================================================================
   FILE: icalvalue.c
   CREATOR: eric 02 May 1999
@@ -46,21 +47,28 @@
 #include <stdlib.h> /* for atoi and atof */
 #include <limits.h> /* for SHRT_MAX */         
 
+#ifdef WIN32
+#define snprintf      _snprintf
+#define strcasecmp    stricmp
+#endif
+
 #if _MAC_OS_
 #include "icalmemory_strdup.h"
 #endif
 
 #define TMP_BUF_SIZE 1024
 
-void print_datetime_to_string(char* str,  struct icaltimetype *data);
-void print_date_to_string(char* str,  struct icaltimetype *data);
-void print_time_to_string(char* str,  struct icaltimetype *data);
-void print_recur_to_string(char* str,  struct icaltimetype *data);
+void print_datetime_to_string(char* str,  const struct icaltimetype *data);
+void print_date_to_string(char* str,  const struct icaltimetype *data);
+void print_time_to_string(char* str,  const struct icaltimetype *data);
 
 
 struct icalvalue_impl*  icalvalue_new_impl(icalvalue_kind kind){
 
     struct icalvalue_impl* v;
+
+    if (!icalvalue_kind_is_valid(kind))
+      return NULL;
 
     if ( ( v = (struct icalvalue_impl*)
 	   malloc(sizeof(struct icalvalue_impl))) == 0) {
@@ -88,11 +96,8 @@ icalvalue_new (icalvalue_kind kind)
     return (icalvalue*)icalvalue_new_impl(kind);
 }
 
-icalvalue*
-icalvalue_new_clone(icalvalue* value)
-{
+icalvalue* icalvalue_new_clone(const icalvalue* old) {
     struct icalvalue_impl* new;
-    struct icalvalue_impl* old = (struct icalvalue_impl*)value;
 
     new = icalvalue_new_impl(old->kind);
 
@@ -100,7 +105,6 @@ icalvalue_new_clone(icalvalue* value)
 	return 0;
     }
 
-    
     strcpy(new->id, old->id);
     new->kind = old->kind;
     new->size = old->size;
@@ -119,7 +123,7 @@ icalvalue_new_clone(icalvalue* value)
 
 	    break;
 	}
-
+	case ICAL_QUERY_VALUE:
 	case ICAL_STRING_VALUE:
 	case ICAL_TEXT_VALUE:
 	case ICAL_CALADDRESS_VALUE:
@@ -147,6 +151,19 @@ icalvalue_new_clone(icalvalue* value)
 		memcpy(	new->data.v_recur, old->data.v_recur,
 			sizeof(struct icalrecurrencetype));	
 	    }
+	    break;
+	}
+
+	case ICAL_X_VALUE: 
+	{
+	    if (old->x_value != 0) {
+		new->x_value=icalmemory_strdup(old->x_value);
+
+		if (new->x_value == 0) {
+		    return 0;
+		}
+	    }
+
 	    break;
 	}
 
@@ -242,9 +259,16 @@ static char* icalmemory_strdup_and_dequote(const char* str)
     return out;
 }
 
+/*
+ * FIXME
+ *
+ * This is a bad API, as it forces callers to specify their own X type.
+ * This function should take care of this by itself.
+ */
+static
 icalvalue* icalvalue_new_enum(icalvalue_kind kind, int x_type, const char* str)
 {
-    int e = icalproperty_string_to_enum(str);
+    int e = icalproperty_kind_and_string_to_enum(kind, str);
     struct icalvalue_impl *value; 
 
     if(e != 0 && icalproperty_enum_belongs_to_property(
@@ -263,8 +287,7 @@ icalvalue* icalvalue_new_enum(icalvalue_kind kind, int x_type, const char* str)
 }
 
 
-icalvalue*
-icalvalue_new_from_string_with_error(icalvalue_kind kind,const char* str,icalproperty** error)
+icalvalue* icalvalue_new_from_string_with_error(icalvalue_kind kind,const char* str,icalproperty** error)
 {
 
     struct icalvalue_impl *value = 0;
@@ -276,6 +299,7 @@ icalvalue_new_from_string_with_error(icalvalue_kind kind,const char* str,icalpro
     }
 
     switch (kind){
+	
     case ICAL_ATTACH_VALUE:
 	{
 	    icalattach *attach;
@@ -298,7 +322,7 @@ icalvalue_new_from_string_with_error(icalvalue_kind kind,const char* str,icalpro
 	    if (error != 0){
 		char temp[TMP_BUF_SIZE];
 		sprintf(temp,"%s Values are not implemented",
-                        icalparameter_kind_to_string(kind)); 
+                        icalvalue_kind_to_string(kind)); 
 		*error = icalproperty_vanew_xlicerror( 
                                    temp, 
                                    icalparameter_new_xlicerrortype( 
@@ -310,37 +334,60 @@ icalvalue_new_from_string_with_error(icalvalue_kind kind,const char* str,icalpro
         
 
     case ICAL_TRANSP_VALUE:
-        value = icalvalue_new_enum(kind, ICAL_TRANSP_X,str);
+        value = icalvalue_new_enum(kind, (int)ICAL_TRANSP_X,str);
         break;
     case ICAL_METHOD_VALUE:
-        value = icalvalue_new_enum(kind, ICAL_METHOD_X,str);
+        value = icalvalue_new_enum(kind, (int)ICAL_METHOD_X,str);
         break;
     case ICAL_STATUS_VALUE:
-        value = icalvalue_new_enum(kind, ICAL_STATUS_X,str);
+        value = icalvalue_new_enum(kind, (int)ICAL_STATUS_X,str);
         break;
     case ICAL_ACTION_VALUE:
-        value = icalvalue_new_enum(kind, ICAL_ACTION_X,str);
+        value = icalvalue_new_enum(kind, (int)ICAL_ACTION_X,str);
         break;
+
+    case ICAL_QUERY_VALUE:
+	    value = icalvalue_new_query(str);
+	    break;
+
     case ICAL_CLASS_VALUE:
-        value = icalvalue_new_enum(kind, ICAL_CLASS_X,str);
+        value = icalvalue_new_enum(kind, (int)ICAL_CLASS_X,str);
+        break;
+
+    case ICAL_CMD_VALUE:
+        value = icalvalue_new_enum(kind, ICAL_CMD_X,str);
+        break;
+    case ICAL_QUERYLEVEL_VALUE:
+        value = icalvalue_new_enum(kind, ICAL_QUERYLEVEL_X,str);
+        break;
+    case ICAL_CARLEVEL_VALUE:
+        value = icalvalue_new_enum(kind, ICAL_CARLEVEL_X,str);
         break;
 
 
     case ICAL_INTEGER_VALUE:
-	{
 	    value = icalvalue_new_integer(atoi(str));
 	    break;
-	}
 
     case ICAL_FLOAT_VALUE:
-        {
-	    value = icalvalue_new_float(atof(str));
+	    value = icalvalue_new_float((float)atof(str));
 	    break;
-	}
-        
+
     case ICAL_UTCOFFSET_VALUE:
 	{
-	    value = icalparser_parse_value(kind,str,(icalcomponent*)0);
+            int t,utcoffset, hours, minutes, seconds;
+            /* treat the UTCOFSET string a a decimal number, disassemble its digits
+               and reconstruct it as sections */
+            t = strtol(str,0,10);
+            /* add phantom seconds field */
+            if(abs(t)<9999){t *= 100; }
+            hours = (t/10000);
+            minutes = (t-hours*10000)/100;
+            seconds = (t-hours*10000-minutes*100);
+            utcoffset = hours*3600+minutes*60+seconds;
+
+	    value = icalvalue_new_utcoffset(utcoffset);
+
 	    break;
 	}
         
@@ -352,28 +399,19 @@ icalvalue_new_from_string_with_error(icalvalue_kind kind,const char* str,icalpro
 	    break;
 	}
         
-        
     case ICAL_STRING_VALUE:
-	{
 	    value = icalvalue_new_string(str);
 	    break;
-	}
         
     case ICAL_CALADDRESS_VALUE:
-	{
 	    value = icalvalue_new_caladdress(str);
 	    break;
-	}
         
     case ICAL_URI_VALUE:
-	{
 	    value = icalvalue_new_uri(str);
 	    break;
-	}
         
-
     case ICAL_GEO_VALUE:
-	{
 	    value = 0;
 	    /* HACK */
             
@@ -390,31 +428,33 @@ icalvalue_new_from_string_with_error(icalvalue_kind kind,const char* str,icalpro
 	    /*icalerror_warn("Parsing GEO properties is unimplmeneted");*/
 
 	    break;
-	}
-
-	case ICAL_RECUR_VALUE:
+        
+    case ICAL_RECUR_VALUE:
 	{
 	    struct icalrecurrencetype rt;
 	    rt = icalrecurrencetype_from_string(str);
-	    value = icalvalue_new_recur(rt);
+            if(rt.freq != ICAL_NO_RECURRENCE){
+                value = icalvalue_new_recur(rt);
+            }
 	    break;
 	}
-
-	case ICAL_TIME_VALUE:
-	case ICAL_DATE_VALUE:
-	case ICAL_DATETIME_VALUE:
-	case ICAL_DATETIMEDATE_VALUE:
+        
+    case ICAL_DATE_VALUE:
+    case ICAL_DATETIME_VALUE:
 	{
 	    struct icaltimetype tt;
+      
 	    tt = icaltime_from_string(str);
             if(!icaltime_is_null_time(tt)){
                 value = icalvalue_new_impl(kind);
                 value->data.v_time = tt;
+
+                icalvalue_reset_kind(value);
             }
 	    break;
 	}
-
-	case ICAL_DATETIMEPERIOD_VALUE:
+        
+    case ICAL_DATETIMEPERIOD_VALUE:
 	{
 	    struct icaltimetype tt;
             struct icalperiodtype p;
@@ -432,43 +472,61 @@ icalvalue_new_from_string_with_error(icalvalue_kind kind,const char* str,icalpro
 
             break;
 	}
-
-        case ICAL_DURATION_VALUE:
+        
+    case ICAL_DURATION_VALUE:
 	{
             struct icaldurationtype dur = icaldurationtype_from_string(str);
-
-	    if (icalerrno == ICAL_MALFORMEDDATA_ERROR)
-		value = 0;
-	    else
+            
+            if (!icaldurationtype_is_bad_duration(dur)) {    /* failed to parse */
                 value = icalvalue_new_duration(dur);
-
+            }
+            
 	    break;
 	}
-
-         case ICAL_PERIOD_VALUE:
+        
+    case ICAL_PERIOD_VALUE:
 	{
-          struct icalperiodtype p;
-          p = icalperiodtype_from_string(str);  
-
-          if(!icalperiodtype_is_null_period(p)){
-              value = icalvalue_new_period(p);
-          }
-          break; 
+            struct icalperiodtype p;
+            p = icalperiodtype_from_string(str);  
+            
+            if(!icalperiodtype_is_null_period(p)){
+                value = icalvalue_new_period(p);
+            }
+            break; 
 	}
 	
-        case ICAL_TRIGGER_VALUE:
+    case ICAL_TRIGGER_VALUE:
 	{
 	    struct icaltriggertype tr = icaltriggertype_from_string(str);
-	    value = icalvalue_new_trigger(tr);
+            if (!icaltriggertype_is_bad_trigger(tr)) {
+                value = icalvalue_new_trigger(tr);
+            }
 	    break;
 	}
+        
+    case ICAL_REQUESTSTATUS_VALUE:
+        {
+            struct icalreqstattype rst = icalreqstattype_from_string(str);
+            if(rst.code != ICAL_UNKNOWN_STATUS){
+                value = icalvalue_new_requeststatus(rst);
+            }
+            break;
 
-	default:
-	{
+        }
 
-	    if (error != 0 ){
+    case ICAL_X_VALUE:
+        {
+            char* dequoted_str = icalmemory_strdup_and_dequote(str);
+            value = icalvalue_new_x(dequoted_str);
+            free(dequoted_str);
+        }
+        break;
+
+    default:
+        {
+            if (error != 0 ){
 		char temp[TMP_BUF_SIZE];
-
+                
                 snprintf(temp,TMP_BUF_SIZE,"Unknown type for \'%s\'",str);
 			    
 		*error = icalproperty_vanew_xlicerror( 
@@ -503,17 +561,15 @@ icalvalue_new_from_string_with_error(icalvalue_kind kind,const char* str,icalpro
 
 icalvalue* icalvalue_new_from_string(icalvalue_kind kind,const char* str)
 {
-    return icalvalue_new_from_string_with_error(kind,str,(icalproperty*)0);
+    return icalvalue_new_from_string_with_error(kind,str,(icalproperty**)0);
 }
 
 
 
 void
-icalvalue_free (icalvalue* value)
+icalvalue_free (icalvalue* v)
 {
-    struct icalvalue_impl* v = (struct icalvalue_impl*)value;
-
-    icalerror_check_arg_rv((value != 0),"value");
+    icalerror_check_arg_rv((v != 0),"value");
 
 #ifdef ICAL_FREE_ON_LIST_IS_ERROR
     icalerror_assert( (v->parent ==0),"This value is still attached to a property");
@@ -541,6 +597,7 @@ icalvalue_free (icalvalue* value)
 	case ICAL_TEXT_VALUE:
 	case ICAL_CALADDRESS_VALUE:
 	case ICAL_URI_VALUE:
+	case ICAL_QUERY_VALUE:
 	{
 	    if (v->data.v_string != 0) { 
 		free((void*)v->data.v_string);
@@ -572,10 +629,8 @@ icalvalue_free (icalvalue* value)
 }
 
 int
-icalvalue_is_valid (icalvalue* value)
+icalvalue_is_valid (const icalvalue* value)
 {
-    /*struct icalvalue_impl* v = (struct icalvalue_impl*)value;*/
-    
     if(value == 0){
 	return 0;
     }
@@ -583,7 +638,7 @@ icalvalue_is_valid (icalvalue* value)
     return 1;
 }
 
-char* icalvalue_binary_as_ical_string(icalvalue* value) {
+static char* icalvalue_binary_as_ical_string(const icalvalue* value) {
 
     const char* data;
     char* str;
@@ -599,8 +654,8 @@ char* icalvalue_binary_as_ical_string(icalvalue* value) {
 
 
 #define MAX_INT_DIGITS 12 /* Enough for 2^32 + sign*/ 
-char* icalvalue_int_as_ical_string(icalvalue* value) {
     
+static char* icalvalue_int_as_ical_string(const icalvalue* value) {
     int data;
     char* str = (char*)icalmemory_tmp_buffer(MAX_INT_DIGITS); 
 
@@ -613,7 +668,7 @@ char* icalvalue_int_as_ical_string(icalvalue* value) {
     return str;
 }
 
-char* icalvalue_utcoffset_as_ical_string(icalvalue* value)
+static char* icalvalue_utcoffset_as_ical_string(const icalvalue* value)
 {    
     int data,h,m,s;
     char sign;
@@ -629,32 +684,24 @@ char* icalvalue_utcoffset_as_ical_string(icalvalue* value)
 	sign = '-';
     }
 
-    /* We add 30 to +ve values or -29 to -ve values, since we will round to
-       the nearest minute, so we compatable with Outlook. */
-    if (data >= 0)
-      data += 30;
-    else
-      data -= 29;
-
     h = data/3600;
     m = (data - (h*3600))/ 60;
-    /*s = (data - (h*3600) - (m*60));*/
-    s = 0;
+    s = (data - (h*3600) - (m*60));
 
-    if (s == 0)
-      sprintf(str,"%c%02d%02d",sign,abs(h),abs(m));
+    if (s > 0)
+	sprintf(str,"%c%02d%02d%02d",sign,abs(h),abs(m),abs(s));
     else
-      sprintf(str,"%c%02d%02d%02d",sign,abs(h),abs(m),abs(s));
+	sprintf(str,"%c%02d%02d",sign,abs(h),abs(m));
 
     return str;
 }
 
-char* icalvalue_string_as_ical_string(icalvalue* value) {
+static char* icalvalue_string_as_ical_string(const icalvalue* value) {
 
     const char* data;
     char* str = 0;
     icalerror_check_arg_rz( (value!=0),"value");
-    data = ((struct icalvalue_impl*)value)->data.v_string;
+    data = value->data.v_string;
 
     str = (char*)icalmemory_tmp_buffer(strlen(data)+1);   
 
@@ -664,26 +711,27 @@ char* icalvalue_string_as_ical_string(icalvalue* value) {
 }
 
 
-char* icalvalue_recur_as_ical_string(icalvalue* value) 
+static char* icalvalue_recur_as_ical_string(const icalvalue* value) 
 {
-    struct icalvalue_impl *impl = (struct icalvalue_impl*)value;
-    struct icalrecurrencetype *recur = impl->data.v_recur;
+    struct icalrecurrencetype *recur = value->data.v_recur;
 
     return icalrecurrencetype_as_string(recur);
 }
 
-char* icalvalue_text_as_ical_string(icalvalue* value) {
+ /* @todo This is not RFC2445 compliant.
+ * The RFC only allows:
+ * TSAFE-CHAR = %x20-21 / %x23-2B / %x2D-39 / %x3C-5B / %x5D-7E / NON-US-ASCII
+ * As such, \t\r\b\f are not allowed, not even escaped
+ */
 
+static char* icalvalue_text_as_ical_string(const icalvalue* value) {
     char *str;
     char *str_p;
     char *rtrn;
     const char *p;
     size_t buf_sz;
-    int line_length;
 
-    line_length = 0;
-
-    buf_sz = strlen(((struct icalvalue_impl*)value)->data.v_string)+1;
+    buf_sz = strlen(value->data.v_string)+1;
 
     str_p = str = (char*)icalmemory_new_buffer(buf_sz);
 
@@ -691,33 +739,28 @@ char* icalvalue_text_as_ical_string(icalvalue* value) {
       return 0;
     }
 
-    for(p=((struct icalvalue_impl*)value)->data.v_string; *p!=0; p++){
+    for(p=value->data.v_string; *p!=0; p++){
 
 	switch(*p){
 	    case '\n': {
 		icalmemory_append_string(&str,&str_p,&buf_sz,"\\n");
-		line_length+=3;
 		break;
 	    }
 
 	    case '\t': {
 		icalmemory_append_string(&str,&str_p,&buf_sz,"\\t");
-		line_length+=3;
 		break;
 	    }
 	    case '\r': {
 		icalmemory_append_string(&str,&str_p,&buf_sz,"\\r");
-		line_length+=3;
 		break;
 	    }
 	    case '\b': {
 		icalmemory_append_string(&str,&str_p,&buf_sz,"\\b");
-		line_length+=3;
 		break;
 	    }
 	    case '\f': {
 		icalmemory_append_string(&str,&str_p,&buf_sz,"\\f");
-		line_length+=3;
 		break;
 	    }
 
@@ -727,32 +770,13 @@ char* icalvalue_text_as_ical_string(icalvalue* value) {
 	    case '\\':{
 		icalmemory_append_char(&str,&str_p,&buf_sz,'\\');
 		icalmemory_append_char(&str,&str_p,&buf_sz,*p);
-		line_length+=3;
 		break;
 	    }
 
 	    default: {
 		icalmemory_append_char(&str,&str_p,&buf_sz,*p);
-		line_length++;
 	    }
 	}
-
-
-	/* We don't do folding here any more. We do it in
-	   icalproperty_as_ical_string(). */
-#if 0
-	if (line_length > 65 && *p == ' '){
-	    icalmemory_append_string(&str,&str_p,&buf_sz,"\n ");
-	    line_length=0;
-	}
-
-
-	if (line_length > 75){
-	    icalmemory_append_string(&str,&str_p,&buf_sz,"\n ");
-	    line_length=0;
-	}
-#endif
-
     }
 
     /* Assume the last character is not a '\0' and add one. We could
@@ -770,8 +794,8 @@ char* icalvalue_text_as_ical_string(icalvalue* value) {
 }
 
 
-char*
-icalvalue_attach_as_ical_string(icalvalue* value)
+static char* 
+icalvalue_attach_as_ical_string(const icalvalue* value) 
 {
     icalattach *a;
     char * str;
@@ -792,7 +816,7 @@ icalvalue_attach_as_ical_string(icalvalue* value)
 }
 
 
-char* icalvalue_duration_as_ical_string(icalvalue* value) {
+static char* icalvalue_duration_as_ical_string(const icalvalue* value) {
 
     struct icaldurationtype data;
 
@@ -802,11 +826,11 @@ char* icalvalue_duration_as_ical_string(icalvalue* value) {
     return icaldurationtype_as_ical_string(data);
 }
 
-void print_time_to_string(char* str,  struct icaltimetype *data)
+void print_time_to_string(char* str, const struct icaltimetype *data)
 {
     char temp[20];
 
-    if (data->is_utc == 1){
+    if (icaltime_is_utc(*data)){
 	sprintf(temp,"%02d%02d%02dZ",data->hour,data->minute,data->second);
     } else {
 	sprintf(temp,"%02d%02d%02d",data->hour,data->minute,data->second);
@@ -816,22 +840,7 @@ void print_time_to_string(char* str,  struct icaltimetype *data)
 }
 
  
-char* icalvalue_time_as_ical_string(icalvalue* value) {
-
-    struct icaltimetype data;
-    char* str;
-    icalerror_check_arg_rz( (value!=0),"value");
-    data = icalvalue_get_time(value);
-    
-    str = (char*)icalmemory_tmp_buffer(8);
-
-    str[0] = 0;
-    print_time_to_string(str,&data);
-
-    return str;
-}
-
-void print_date_to_string(char* str,  struct icaltimetype *data)
+void print_date_to_string(char* str,  const struct icaltimetype *data)
 {
     char temp[20];
 
@@ -840,7 +849,7 @@ void print_date_to_string(char* str,  struct icaltimetype *data)
     strcat(str,temp);
 }
 
-char* icalvalue_date_as_ical_string(icalvalue* value) {
+static char* icalvalue_date_as_ical_string(const icalvalue* value) {
 
     struct icaltimetype data;
     char* str;
@@ -855,14 +864,14 @@ char* icalvalue_date_as_ical_string(icalvalue* value) {
     return str;
 }
 
-void print_datetime_to_string(char* str,  struct icaltimetype *data)
+void print_datetime_to_string(char* str,  const struct icaltimetype *data)
 {
     print_date_to_string(str,data);
     strcat(str,"T");
     print_time_to_string(str,data);
 }
 
-const char* icalvalue_datetime_as_ical_string(icalvalue* value) {
+static const char* icalvalue_datetime_as_ical_string(const icalvalue* value) {
     
     struct icaltimetype data;
     char* str;
@@ -871,10 +880,7 @@ const char* icalvalue_datetime_as_ical_string(icalvalue* value) {
     icalerror_check_arg_rz( (value!=0),"value");
 
 
-    if( !(kind == ICAL_DATETIMEDATE_VALUE ||
-	  kind == ICAL_DATE_VALUE ||
-	  kind == ICAL_DATETIME_VALUE ||
-	  kind == ICAL_TIME_VALUE))
+    if( !(kind == ICAL_DATE_VALUE || kind == ICAL_DATETIME_VALUE ))
 	{
 	    icalerror_set_errno(ICAL_BADARG_ERROR);
 	    return 0;
@@ -892,22 +898,7 @@ const char* icalvalue_datetime_as_ical_string(icalvalue* value) {
 
 }
 
-
-const char* icalvalue_datetimedate_as_ical_string(icalvalue* value) {
-
-    struct icaltimetype data;
-    icalerror_check_arg_rz( (value!=0),"value");
-    data = icalvalue_get_datetime(value);
-
-    if (data.is_date == 1){
-	return icalvalue_date_as_ical_string(value);
-    } else {
-	return icalvalue_datetime_as_ical_string(value);
-    }
-}
-
-
-char* icalvalue_float_as_ical_string(icalvalue* value) {
+static char* icalvalue_float_as_ical_string(const icalvalue* value) {
 
     float data;
     char* str;
@@ -921,7 +912,7 @@ char* icalvalue_float_as_ical_string(icalvalue* value) {
     return str;
 }
 
-char* icalvalue_geo_as_ical_string(icalvalue* value) {
+static char* icalvalue_geo_as_ical_string(const icalvalue* value) {
 
     struct icalgeotype data;
     char* str;
@@ -936,7 +927,7 @@ char* icalvalue_geo_as_ical_string(icalvalue* value) {
     return str;
 }
 
-const char* icalvalue_datetimeperiod_as_ical_string(icalvalue* value) {
+static const char* icalvalue_datetimeperiod_as_ical_string(const icalvalue* value) {
     struct icaldatetimeperiodtype dtp = icalvalue_get_datetimeperiod(value);
 
     icalerror_check_arg_rz( (value!=0),"value");
@@ -948,7 +939,7 @@ const char* icalvalue_datetimeperiod_as_ical_string(icalvalue* value) {
     }
 }
 
-const char* icalvalue_period_as_ical_string(icalvalue* value) {
+static const char* icalvalue_period_as_ical_string(const icalvalue* value) {
     struct icalperiodtype data;
     icalerror_check_arg_rz( (value!=0),"value");
     data = icalvalue_get_period(value);
@@ -957,7 +948,7 @@ const char* icalvalue_period_as_ical_string(icalvalue* value) {
 
 }
 
-char* icalvalue_trigger_as_ical_string(icalvalue* value) {
+static const char* icalvalue_trigger_as_ical_string(const icalvalue* value) {
 
     struct icaltriggertype data;
 
@@ -973,17 +964,13 @@ char* icalvalue_trigger_as_ical_string(icalvalue* value) {
 }
 
 const char*
-icalvalue_as_ical_string (icalvalue* value)
+icalvalue_as_ical_string(const icalvalue* value)
 {
-    struct icalvalue_impl* v = (struct icalvalue_impl*)value;
-
-    v=v;
-
     if(value == 0){
 	return 0;
     }
 
-    switch (v->kind){
+    switch (value->kind){
 
     case ICAL_ATTACH_VALUE:
         return icalvalue_attach_as_ical_string(value);
@@ -1001,6 +988,9 @@ icalvalue_as_ical_string (icalvalue* value)
     case ICAL_TEXT_VALUE:
         return icalvalue_text_as_ical_string(value);
         
+    case ICAL_QUERY_VALUE:
+        return icalvalue_string_as_ical_string(value);
+        
     case ICAL_STRING_VALUE:
     case ICAL_URI_VALUE:
     case ICAL_CALADDRESS_VALUE:
@@ -1010,12 +1000,8 @@ icalvalue_as_ical_string (icalvalue* value)
         return icalvalue_date_as_ical_string(value);
     case ICAL_DATETIME_VALUE:
         return icalvalue_datetime_as_ical_string(value);
-    case ICAL_DATETIMEDATE_VALUE:
-        return icalvalue_datetimedate_as_ical_string(value);
     case ICAL_DURATION_VALUE:
         return icalvalue_duration_as_ical_string(value);
-    case ICAL_TIME_VALUE:
-        return icalvalue_time_as_ical_string(value);
         
     case ICAL_PERIOD_VALUE:
         return icalvalue_period_as_ical_string(value);
@@ -1033,20 +1019,29 @@ icalvalue_as_ical_string (icalvalue* value)
         
     case ICAL_TRIGGER_VALUE:
         return icalvalue_trigger_as_ical_string(value);
+
+    case ICAL_REQUESTSTATUS_VALUE:
+        return icalreqstattype_as_string(value->data.v_requeststatus);
         
     case ICAL_ACTION_VALUE:
+    case ICAL_CMD_VALUE:
+    case ICAL_QUERYLEVEL_VALUE:
+    case ICAL_CARLEVEL_VALUE:
     case ICAL_METHOD_VALUE:
     case ICAL_STATUS_VALUE:
     case ICAL_TRANSP_VALUE:
     case ICAL_CLASS_VALUE:
-        if(v->x_value !=0){
-            return icalmemory_tmp_copy(v->x_value);
+        if(value->x_value !=0){
+            return icalmemory_tmp_copy(value->x_value);
         }
 
-        return icalproperty_enum_to_string(v->data.v_enum);
+        return icalproperty_enum_to_string(value->data.v_enum);
         
     case ICAL_X_VALUE: 
-        return icalmemory_tmp_copy(v->x_value);
+	if (value->x_value != 0)
+            return icalmemory_tmp_copy(value->x_value);
+
+    /* FALLTHRU */
 
     case ICAL_NO_VALUE:
     default:
@@ -1058,15 +1053,13 @@ icalvalue_as_ical_string (icalvalue* value)
 
 
 icalvalue_kind
-icalvalue_isa (icalvalue* value)
+icalvalue_isa (const icalvalue* value)
 {
-    struct icalvalue_impl* v = (struct icalvalue_impl*)value;
-
     if(value == 0){
 	return ICAL_NO_VALUE;
     }
 
-    return v->kind;
+    return value->kind;
 }
 
 
@@ -1085,13 +1078,11 @@ icalvalue_isa_value (void* value)
 }
 
 
-int icalvalue_is_time(icalvalue* a) {
+static int icalvalue_is_time(const icalvalue* a) {
     icalvalue_kind kind = icalvalue_isa(a);
 
-    if(kind == ICAL_DATETIMEDATE_VALUE ||
-       kind == ICAL_DATETIME_VALUE ||
-       kind == ICAL_DATE_VALUE ||
-       kind == ICAL_TIME_VALUE ){
+    if(kind == ICAL_DATETIME_VALUE ||
+       kind == ICAL_DATE_VALUE ){
 	return 1;
     }
 
@@ -1099,11 +1090,14 @@ int icalvalue_is_time(icalvalue* a) {
 
 }
 
+/*
+ * In case of error, this function returns 0. This is partly bogus, as 0 is
+ * not part of the returned enum.
+ * FIXME We should probably add an error value to the enum.
+ */
 icalparameter_xliccomparetype
-icalvalue_compare(icalvalue* a, icalvalue *b)
+icalvalue_compare(const icalvalue* a, const icalvalue *b)
 {
-    struct icalvalue_impl *impla = (struct icalvalue_impl *)a;
-    struct icalvalue_impl *implb = (struct icalvalue_impl *)b;
 
     icalerror_check_arg_rz( (a!=0), "a");
     icalerror_check_arg_rz( (b!=0), "b");
@@ -1115,10 +1109,27 @@ icalvalue_compare(icalvalue* a, icalvalue *b)
     }
 
     switch (icalvalue_isa(a)){
+
 	case ICAL_ATTACH_VALUE:
+	{
+	    if (icalattach_get_is_url(a->data.v_attach) &&
+	        icalattach_get_is_url(b->data.v_attach)) {
+		if (strcasecmp(icalattach_get_url(a->data.v_attach),
+			       icalattach_get_url(b->data.v_attach)) == 0)
+		    return ICAL_XLICCOMPARETYPE_EQUAL;
+		else
+		    return ICAL_XLICCOMPARETYPE_NOTEQUAL;
+	    }
+	    else {
+	        if (a->data.v_attach == b->data.v_attach)
+		    return ICAL_XLICCOMPARETYPE_EQUAL;
+	        else
+		    return ICAL_XLICCOMPARETYPE_NOTEQUAL;
+	    }
+	}
         case ICAL_BINARY_VALUE:
 	{
-	    if (impla->data.v_attach == implb->data.v_attach)
+	    if (a->data.v_attach == b->data.v_attach)
 		return ICAL_XLICCOMPARETYPE_EQUAL;
 	    else
 		return ICAL_XLICCOMPARETYPE_NOTEQUAL;
@@ -1135,9 +1146,9 @@ icalvalue_compare(icalvalue* a, icalvalue *b)
 
 	case ICAL_FLOAT_VALUE:
 	{
-	    if (impla->data.v_float > implb->data.v_float){
+	    if (a->data.v_float > b->data.v_float){
 		return ICAL_XLICCOMPARETYPE_GREATER;
-	    } else if (impla->data.v_float < implb->data.v_float){
+	    } else if (a->data.v_float < b->data.v_float){
 		return ICAL_XLICCOMPARETYPE_LESS;
 	    } else {
 		return ICAL_XLICCOMPARETYPE_EQUAL;
@@ -1147,9 +1158,9 @@ icalvalue_compare(icalvalue* a, icalvalue *b)
 	case ICAL_INTEGER_VALUE:
 	case ICAL_UTCOFFSET_VALUE:
 	{
-	    if (impla->data.v_int > implb->data.v_int){
+	    if (a->data.v_int > b->data.v_int){
 		return ICAL_XLICCOMPARETYPE_GREATER;
-	    } else if (impla->data.v_int < implb->data.v_int){
+	    } else if (a->data.v_int < b->data.v_int){
 		return ICAL_XLICCOMPARETYPE_LESS;
 	    } else {
 		return ICAL_XLICCOMPARETYPE_EQUAL;
@@ -1158,12 +1169,12 @@ icalvalue_compare(icalvalue* a, icalvalue *b)
 
 	case ICAL_DURATION_VALUE: 
 	{
-	    int a = icaldurationtype_as_int(impla->data.v_duration);
-	    int b = icaldurationtype_as_int(implb->data.v_duration);
+	    int dur_a = icaldurationtype_as_int(a->data.v_duration);
+	    int dur_b = icaldurationtype_as_int(b->data.v_duration);
 
-	    if (a > b){
+	    if (dur_a > dur_b){
 		return ICAL_XLICCOMPARETYPE_GREATER;
-	    } else if (a < b){
+	    } else if (dur_a < dur_b){
 		return ICAL_XLICCOMPARETYPE_LESS;
 	    } else {
 		return ICAL_XLICCOMPARETYPE_EQUAL;
@@ -1177,9 +1188,9 @@ icalvalue_compare(icalvalue* a, icalvalue *b)
 	case ICAL_TRIGGER_VALUE:
 	case ICAL_DATE_VALUE:
 	case ICAL_DATETIME_VALUE:
-	case ICAL_DATETIMEDATE_VALUE:
-	case ICAL_TIME_VALUE:
 	case ICAL_DATETIMEPERIOD_VALUE:
+	case ICAL_QUERY_VALUE:
+	case ICAL_RECUR_VALUE:
 	{
 	    int r;
 
@@ -1217,40 +1228,95 @@ icalvalue_compare(icalvalue* a, icalvalue *b)
 
 	}
 
+	case ICAL_TRANSP_VALUE:
+	{
+	    if (icalvalue_get_transp(a) == icalvalue_get_transp(b)){
+		return ICAL_XLICCOMPARETYPE_EQUAL;
+	    } else {
+		return ICAL_XLICCOMPARETYPE_NOTEQUAL;
+	    }
+	}
+
+	case ICAL_ACTION_VALUE:
+        {
+	    if (icalvalue_get_action(a) == icalvalue_get_action(b)){
+		return ICAL_XLICCOMPARETYPE_EQUAL;
+	    } else {
+		return ICAL_XLICCOMPARETYPE_NOTEQUAL;
+	    }
+        }
+
 	case ICAL_PERIOD_VALUE:
 	case ICAL_GEO_VALUE:
-	case ICAL_RECUR_VALUE:
 	case ICAL_NO_VALUE:
 	default:
 	{
 	    icalerror_warn("Comparison not implemented for value type");
-	    return ICAL_XLICCOMPARETYPE_REGEX+1; /* HACK */
+	    return 0;
 	}
     }   
 
 }
 
+/** Examine the value and possibly change the kind to agree with the
+ *  value 
+ */
+
+void icalvalue_reset_kind(icalvalue* value)
+{
+    if( (value->kind==ICAL_DATETIME_VALUE || value->kind==ICAL_DATE_VALUE )&&
+        !icaltime_is_null_time(value->data.v_time) ) {
+        
+        if(icaltime_is_date(value->data.v_time)){
+            value->kind = ICAL_DATE_VALUE;
+        } else {
+            value->kind = ICAL_DATETIME_VALUE;
+        }
+    }
+       
+}
+
 void icalvalue_set_parent(icalvalue* value,
 			     icalproperty* property)
 {
-    struct icalvalue_impl* v = (struct icalvalue_impl*)value;
-
-    v->parent = property;
-
+    value->parent = property;
 }
 
 icalproperty* icalvalue_get_parent(icalvalue* value)
 {
-    struct icalvalue_impl* v = (struct icalvalue_impl*)value;
-
-
-    return v->parent;
+    return value->parent;
 }
 
 
+int icalvalue_encode_ical_string(const char *szText, char *szEncText, int nMaxBufferLen)
+{
+    char   *ptr;
+    icalvalue *value = 0;
+
+    if ((szText == 0) || (szEncText == 0))
+        return 0;
+   
+    value = icalvalue_new_from_string(ICAL_STRING_VALUE, szText);
+    
+    if (value == 0)
+        return 0;
+    
+    ptr = icalvalue_text_as_ical_string(value);
+    if (ptr == 0)
+        return 0;
+    
+    if ((int)strlen(ptr) >= nMaxBufferLen)
+        {
+            icalvalue_free (value);
+            return 0;
+        }
+
+    strcpy(szEncText, ptr);
+
+    icalvalue_free ((icalvalue*)value);
+
+    return 1;
+}
 
 /* The remaining interfaces are 'new', 'set' and 'get' for each of the value
    types */
-
-
-/* Everything below this line is machine generated. Do not edit. */

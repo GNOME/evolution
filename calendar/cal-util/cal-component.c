@@ -1536,7 +1536,7 @@ void
 cal_component_get_classification (CalComponent *comp, CalComponentClassification *classif)
 {
 	CalComponentPrivate *priv;
-	const char *class;
+	icalproperty_class class;
 
 	g_return_if_fail (comp != NULL);
 	g_return_if_fail (IS_CAL_COMPONENT (comp));
@@ -1552,14 +1552,21 @@ cal_component_get_classification (CalComponent *comp, CalComponentClassification
 
 	class = icalproperty_get_class (priv->classification);
 
-	if (strcasecmp (class, "PUBLIC") == 0)
-		*classif = CAL_COMPONENT_CLASS_PUBLIC;
-	else if (strcasecmp (class, "PRIVATE") == 0)
-		*classif = CAL_COMPONENT_CLASS_PRIVATE;
-	else if (strcasecmp (class, "CONFIDENTIAL") == 0)
-		*classif = CAL_COMPONENT_CLASS_CONFIDENTIAL;
-	else
-		*classif = CAL_COMPONENT_CLASS_UNKNOWN;
+	switch (class)
+	{
+	case ICAL_CLASS_PUBLIC:
+	  *classif = CAL_COMPONENT_CLASS_PUBLIC;
+	  break;
+	case ICAL_CLASS_PRIVATE:
+	  *classif = CAL_COMPONENT_CLASS_PRIVATE;
+	  break;
+	case ICAL_CLASS_CONFIDENTIAL:
+	  *classif = CAL_COMPONENT_CLASS_CONFIDENTIAL;
+	  break;
+	default:
+	  *classif = CAL_COMPONENT_CLASS_UNKNOWN;
+	  break;
+	}
 }
 
 /**
@@ -1574,7 +1581,7 @@ void
 cal_component_set_classification (CalComponent *comp, CalComponentClassification classif)
 {
 	CalComponentPrivate *priv;
-	char *str;
+	icalproperty_class class;
 
 	g_return_if_fail (comp != NULL);
 	g_return_if_fail (IS_CAL_COMPONENT (comp));
@@ -1595,26 +1602,26 @@ cal_component_set_classification (CalComponent *comp, CalComponentClassification
 
 	switch (classif) {
 	case CAL_COMPONENT_CLASS_PUBLIC:
-		str = "PUBLIC";
+	  class = ICAL_CLASS_PUBLIC;
 		break;
 
 	case CAL_COMPONENT_CLASS_PRIVATE:
-		str = "PRIVATE";
+	  class = ICAL_CLASS_PRIVATE;
 		break;
 
 	case CAL_COMPONENT_CLASS_CONFIDENTIAL:
-		str = "CONFIDENTIAL";
+	  class = ICAL_CLASS_CONFIDENTIAL;
 		break;
 
 	default:
 		g_assert_not_reached ();
-		str = NULL;
+		class = ICAL_CLASS_NONE;
 	}
 
 	if (priv->classification)
-		icalproperty_set_class (priv->classification, str);
+		icalproperty_set_class (priv->classification, class);
 	else {
-		priv->classification = icalproperty_new_class (str);
+		priv->classification = icalproperty_new_class (class);
 		icalcomponent_add_property (priv->icalcomp, priv->classification);
 	}
 }
@@ -1622,7 +1629,7 @@ cal_component_set_classification (CalComponent *comp, CalComponentClassification
 /* Gets a text list value */
 static void
 get_text_list (GSList *text_list,
-	       const char *(* get_prop_func) (icalproperty *prop),
+	       const char *(* get_prop_func) (const icalproperty *prop),
 	       GSList **tl)
 {
 	GSList *l;
@@ -1808,7 +1815,7 @@ cal_component_set_contact_list (CalComponent *comp, GSList *text_list)
 /* Gets a struct icaltimetype value */
 static void
 get_icaltimetype (icalproperty *prop,
-		  struct icaltimetype (* get_prop_func) (icalproperty *prop),
+		  struct icaltimetype (* get_prop_func) (const icalproperty *prop),
 		  struct icaltimetype **t)
 {
 	if (!prop) {
@@ -2001,7 +2008,7 @@ cal_component_set_description_list (CalComponent *comp, GSList *text_list)
 /* Gets a date/time and timezone pair */
 static void
 get_datetime (struct datetime *datetime,
-	      struct icaltimetype (* get_prop_func) (icalproperty *prop),
+	      struct icaltimetype (* get_prop_func) (const icalproperty *prop),
 	      CalComponentDateTime *dt)
 {
 	if (datetime->prop) {
@@ -2353,7 +2360,7 @@ cal_component_set_due (CalComponent *comp, CalComponentDateTime *dt)
 /* Builds a list of CalComponentPeriod structures based on a list of icalproperties */
 static void
 get_period_list (GSList *period_list,
-		 struct icaldatetimeperiodtype (* get_prop_func) (icalproperty *prop),
+		 struct icaldatetimeperiodtype (* get_prop_func) (const icalproperty *prop),
 		 GSList **list)
 {
 	GSList *l;
@@ -2620,7 +2627,7 @@ cal_component_has_exdates (CalComponent *comp)
 /* Gets a list of recurrence rules */
 static void
 get_recur_list (GSList *recur_list,
-		struct icalrecurrencetype (* get_prop_func) (icalproperty *prop),
+		struct icalrecurrencetype (* get_prop_func) (const icalproperty *prop),
 		GSList **list)
 {
 	GSList *l;
@@ -3843,7 +3850,7 @@ void
 cal_component_get_transparency (CalComponent *comp, CalComponentTransparency *transp)
 {
 	CalComponentPrivate *priv;
-	const char *val;
+	icalproperty_transp ical_transp;
 
 	g_return_if_fail (comp != NULL);
 	g_return_if_fail (IS_CAL_COMPONENT (comp));
@@ -3857,14 +3864,24 @@ cal_component_get_transparency (CalComponent *comp, CalComponentTransparency *tr
 		return;
 	}
 
-	val = icalproperty_get_transp (priv->transparency);
+	ical_transp = icalproperty_get_transp (priv->transparency);
 
-	if (strcasecmp (val, "TRANSPARENT") == 0)
-		*transp = CAL_COMPONENT_TRANSP_TRANSPARENT;
-	else if (strcasecmp (val, "OPAQUE") == 0)
-		*transp = CAL_COMPONENT_TRANSP_OPAQUE;
-	else
-		*transp = CAL_COMPONENT_TRANSP_UNKNOWN;
+	switch (ical_transp)
+	{
+	case ICAL_TRANSP_TRANSPARENT:
+	case ICAL_TRANSP_TRANSPARENTNOCONFLICT:
+	  *transp = CAL_COMPONENT_TRANSP_TRANSPARENT;
+	  break;
+
+	case ICAL_TRANSP_OPAQUE:
+	case ICAL_TRANSP_OPAQUENOCONFLICT:
+	  *transp = CAL_COMPONENT_TRANSP_OPAQUE;
+	  break;
+
+	default:
+	  *transp = CAL_COMPONENT_TRANSP_UNKNOWN;
+	  break;
+	}
 }
 
 /**
@@ -3878,7 +3895,7 @@ void
 cal_component_set_transparency (CalComponent *comp, CalComponentTransparency transp)
 {
 	CalComponentPrivate *priv;
-	char *str;
+	icalproperty_transp ical_transp;
 
 	g_return_if_fail (comp != NULL);
 	g_return_if_fail (IS_CAL_COMPONENT (comp));
@@ -3900,22 +3917,22 @@ cal_component_set_transparency (CalComponent *comp, CalComponentTransparency tra
 
 	switch (transp) {
 	case CAL_COMPONENT_TRANSP_TRANSPARENT:
-		str = "TRANSPARENT";
+	  ical_transp = ICAL_TRANSP_TRANSPARENT;
 		break;
 
 	case CAL_COMPONENT_TRANSP_OPAQUE:
-		str = "OPAQUE";
+	  ical_transp = ICAL_TRANSP_OPAQUE;
 		break;
 
 	default:
 		g_assert_not_reached ();
-		str = NULL;
+		ical_transp = ICAL_TRANSP_NONE;
 	}
 
 	if (priv->transparency)
-		icalproperty_set_transp (priv->transparency, str);
+		icalproperty_set_transp (priv->transparency, ical_transp);
 	else {
-		priv->transparency = icalproperty_new_transp (str);
+		priv->transparency = icalproperty_new_transp (ical_transp);
 		icalcomponent_add_property (priv->icalcomp, priv->transparency);
 	}
 }

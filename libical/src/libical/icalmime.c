@@ -38,6 +38,10 @@
 #include "dmalloc.h"
 #endif
 
+#ifdef WIN32
+#define snprintf      _snprintf
+#define strcasecmp    stricmp
+#endif
 
 /* These *_part routines are called by the MIME parser via the
    local_action_map */
@@ -205,8 +209,12 @@ icalcomponent* icalmime_parse(char* (*get_string)(char *s, size_t size,
 	}
 
 	if(parts[i].header.error!=SSPM_NO_ERROR){
-	    char *str;
-	    char* temp[256];
+	    char *str = "Unknown error";
+	    char temp[256];
+
+	    if(parts[i].header.error==SSPM_MALFORMED_HEADER_ERROR){
+		str = "Malformed header, possibly due to input not in MIME format";
+	    }
 
 	    if(parts[i].header.error==SSPM_UNEXPECTED_BOUNDARY_ERROR){
 		str = "Got an unexpected boundary, possibly due to a MIME header for a MULTIPART part that is missing the Content-Type line";
@@ -227,16 +235,16 @@ line between the header and the previous boundary\?";
 	    }
 
 	    if(parts[i].header.error_text != 0){
-		snprintf((char*)temp,256,
+		snprintf(temp,sizeof(temp),
 			 "%s: %s",str,parts[i].header.error_text);
 	    } else {
-		strcpy((char*)temp,str);
+		strcpy(temp,str);
 	    }
 
 	    icalcomponent_add_property
 		(comp,
 		 icalproperty_vanew_xlicerror(
-		     (char*)temp,
+		     temp,
 		     icalparameter_new_xlicerrortype(
 			 ICAL_XLICERRORTYPE_MIMEPARSEERROR),
 		     0));  

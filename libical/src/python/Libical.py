@@ -25,15 +25,12 @@
 #    the License at http://www.mozilla.org/MPL/
 #======================================================================
 
-
-import LibicalWrap
-
 from Component import Component, NewComponent, Event, Todo, Journal
-
-# Will eventually remove Time for real Property events
-from Property import Property, Time, Duration, Period, Attendee, Organizer, \
-     Recurrence_Id, Attach, RecurrenceSet
-
-from DerivedProperties import RDate, Trigger
-
+from Property import Property, RecurrenceSet, test_enum
+from Time import Time
+from Period import Period
+from Duration import Duration
+from Attendee import Attendee, Organizer
+from DerivedProperties import RDate, Trigger,Recurrence_Id, Attach 
 from Store import Store, FileStore
+from Gauge import Gauge

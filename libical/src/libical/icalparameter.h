@@ -32,7 +32,7 @@
 #include "icalderivedparameter.h"
 
 /* Declared in icalderivedparameter.h */
-/*typedef void icalparameter;*/
+/*typedef struct icalparameter_impl icalparameter;*/
 
 icalparameter* icalparameter_new(icalparameter_kind kind);
 icalparameter* icalparameter_new_clone(icalparameter* p);

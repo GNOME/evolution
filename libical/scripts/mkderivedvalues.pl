@@ -24,11 +24,18 @@ if ($opt_i) {
   open(IN,$opt_i) || die "Can't open input file $opt_i";
   
   while(<IN>){
-    print;
-  }    
+    if (/<insert_code_here>/){
+      insert_code();
+    } else {
+      print;
+   }
+
+
+  }
 }
 
-
+sub insert_code
+{
  # Map type names to the value in the icalvalue_impl data union */
 
 %union_map = (
@@ -122,7 +129,8 @@ if($opt_c){
 
   # print out the value to string map
 
-  print "static struct icalvalue_kind_map value_map[]={\n"; 
+  my $count = scalar(keys %h) + 1;
+  print "static struct icalvalue_kind_map value_map[$count]={\n"; 
 
   foreach $value  (keys %h) {
 
@@ -157,10 +165,8 @@ foreach $value  (keys %h) {
   
   if ($type =~ /char/){
     $assign = "icalmemory_strdup(v);\n\n    if (impl->data.v_string == 0){\n      errno = ENOMEM;\n    }\n";
-    $check_arg = "icalerror_check_arg_rz( (value!=0),\"value\");";
   } else {
     $assign = "v;";
-    $check_arg = "icalerror_check_arg( (value!=0),\"value\");";
   }
   
   my $union_data;
@@ -196,10 +202,12 @@ void icalvalue_set_${lc}(icalvalue* value, $type v) {\
     }
     
 
-    print "\n    impl->data.v_$union_data = $assign \n }\n";
+    print "\n\
+    impl->data.v_$union_data = $assign \n\
+    icalvalue_reset_kind(impl);\n}\n";
 
-    print "$type\ icalvalue_get_${lc}(icalvalue* value)\ {\n\
-    $check_arg\
+    print "$type\ icalvalue_get_${lc}(const icalvalue* value)\ {\n\
+    icalerror_check_arg( (value!=0),\"value\");\
     icalerror_check_value_type(value, ICAL_${uc}_VALUE);\
     return ((struct icalvalue_impl*)value)->data.v_${union_data};\n}\n";
 
@@ -208,7 +216,7 @@ void icalvalue_set_${lc}(icalvalue* value, $type v) {\
     
     print "\n /* $value */ \
 icalvalue* icalvalue_new_${lc}($type v); \
-$type icalvalue_get_${lc}(icalvalue* value); \
+$type icalvalue_get_${lc}(const icalvalue* value); \
 void icalvalue_set_${lc}(icalvalue* value, ${type} v);\n\n";
 
   } 
@@ -220,6 +228,5 @@ if ($opt_h){
     print "#endif /*ICALVALUE_H*/\n";
   }
   
-  
-  __END__
-  
+
+}

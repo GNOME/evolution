@@ -29,11 +29,53 @@
 #include "config.h"
 #endif
 
+#include <stdlib.h>		/* for malloc() */
+#include <string.h>		/* for strcmp */
 #include "icalerror.h"
 
-icalerrorenum icalerrno;
+#ifdef HAVE_PTHREAD
+#include <pthread.h>
 
-int foo;
+static pthread_key_t  icalerrno_key;
+static pthread_once_t icalerrno_key_once = PTHREAD_ONCE_INIT;
+
+static void icalerrno_destroy(void* buf) {
+  free(buf);
+  pthread_setspecific(icalerrno_key, NULL);
+}
+
+static void icalerrno_key_alloc(void) {
+  pthread_key_create(&icalerrno_key, icalerrno_destroy);
+}
+
+icalerrorenum *icalerrno_return(void) {
+  icalerrorenum *_errno;
+
+  pthread_once(&icalerrno_key_once, icalerrno_key_alloc);
+  
+  _errno = (icalerrorenum*) pthread_getspecific(icalerrno_key);
+
+  if (!_errno) {
+    _errno = malloc(sizeof(icalerrorenum));
+    *_errno = ICAL_NO_ERROR;
+    pthread_setspecific(icalerrno_key, _errno);
+  }
+  return _errno;
+}
+
+#else
+
+static icalerrorenum icalerrno_storage = ICAL_NO_ERROR;
+
+icalerrorenum *icalerrno_return(void) {
+   return &icalerrno_storage;
+}
+
+#endif
+
+
+static int foo;
+
 void icalerror_stop_here(void)
 {
     foo++; /* Keep optimizers from removing routine */
@@ -47,6 +89,19 @@ void icalerror_crash_here(void)
     assert( *p);
 }
 
+#ifdef ICAL_SETERROR_ISFUNC
+void icalerror_set_errno(icalerrorenum x) 
+{
+    icalerrno = x; 
+    if(icalerror_get_error_state(x)==ICAL_ERROR_FATAL || 
+       (icalerror_get_error_state(x)==ICAL_ERROR_DEFAULT && 
+        icalerror_errors_are_fatal == 1 )){ 
+        icalerror_warn(icalerror_strerror(x)); 
+        assert(0); 
+    } 
+
+}
+#endif 
 
 void icalerror_clear_errno() {
     
@@ -64,10 +119,11 @@ struct icalerror_state {
     icalerrorstate state; 
 };
 
-struct icalerror_state error_state_map[] = 
+static struct icalerror_state error_state_map[] = 
 { 
     { ICAL_BADARG_ERROR,ICAL_ERROR_DEFAULT},
     { ICAL_NEWFAILED_ERROR,ICAL_ERROR_DEFAULT},
+    { ICAL_ALLOCATION_ERROR,ICAL_ERROR_DEFAULT},
     { ICAL_MALFORMEDDATA_ERROR,ICAL_ERROR_DEFAULT}, 
     { ICAL_PARSE_ERROR,ICAL_ERROR_DEFAULT},
     { ICAL_INTERNAL_ERROR,ICAL_ERROR_DEFAULT}, 
@@ -89,6 +145,7 @@ static struct icalerror_string_map string_map[] =
 {
     {"BADARG",ICAL_BADARG_ERROR,"BADARG: Bad argument to function"},
     { "NEWFAILED",ICAL_NEWFAILED_ERROR,"NEWFAILED: Failed to create a new object via a *_new() routine"},
+    { "ALLOCATION",ICAL_ALLOCATION_ERROR,"ALLOCATION: Failed to allocate new memory"},
     {"MALFORMEDDATA",ICAL_MALFORMEDDATA_ERROR,"MALFORMEDDATA: An input string was not correctly formed or a component has missing or extra properties"},
     { "PARSE",ICAL_PARSE_ERROR,"PARSE: Failed to parse a part of an iCal component"},
     {"INTERNAL",ICAL_INTERNAL_ERROR,"INTERNAL: Random internal error. This indicates an error in the library code, not an error in use"}, 
@@ -153,7 +210,7 @@ void icalerror_set_error_state( icalerrorenum error,
 {
     int i;
 
-    for(i = ICAL_BADARG_ERROR; error_state_map[i].error!= ICAL_NO_ERROR;i++){
+    for(i = 0; error_state_map[i].error!= ICAL_NO_ERROR;i++){
 	if(error_state_map[i].error == error){
 	    error_state_map[i].state = state; 	
 	}
@@ -164,7 +221,7 @@ icalerrorstate icalerror_get_error_state( icalerrorenum error)
 {
     int i;
 
-    for(i = ICAL_BADARG_ERROR; error_state_map[i].error!= ICAL_NO_ERROR;i++){
+    for(i = 0; error_state_map[i].error!= ICAL_NO_ERROR;i++){
 	if(error_state_map[i].error == error){
 	    return error_state_map[i].state; 	
 	}

@@ -42,12 +42,12 @@ struct icalperiodtype
 struct icalperiodtype icalperiodtype_from_string (const char* str);
 
 const char* icalperiodtype_as_ical_string(struct icalperiodtype p);
-struct icalperiodtype icalperiodtype_null_period();
+
+struct icalperiodtype icalperiodtype_null_period(void);
+
 int icalperiodtype_is_null_period(struct icalperiodtype p);
+
 int icalperiodtype_is_valid_period(struct icalperiodtype p);
-
-
-
 
 #endif /* !ICALTIME_H */
 

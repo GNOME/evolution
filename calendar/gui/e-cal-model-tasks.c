@@ -222,7 +222,7 @@ get_completed (ECalModelComponent *comp_data)
 
 		/* FIXME: handle errors */
 		cal_client_get_timezone (comp_data->client,
-					 icaltimezone_get_tzid (icaltimezone_get_builtin_timezone (tt_completed.zone)),
+					 icaltime_get_tzid (tt_completed),
 					 &zone);
 		comp_data->completed->zone = zone;
 	}
@@ -252,7 +252,7 @@ get_due (ECalModelComponent *comp_data)
 
 		/* FIXME: handle errors */
 		cal_client_get_timezone (comp_data->client,
-					 icaltimezone_get_tzid (icaltimezone_get_builtin_timezone (tt_due.zone)),
+					 icaltime_get_tzid (tt_due),
 					 &zone);
 		comp_data->due->zone = zone;
 	}
@@ -398,7 +398,7 @@ get_due_status (ECalModelTasks *model, ECalModelComponent *comp_data)
 		} else {
 			/* Get the current time in the same timezone as the DUE date.*/
 			status = cal_client_get_timezone (comp_data->client,
-							  icaltimezone_get_tzid (icaltimezone_get_builtin_timezone (due_tt.zone)),
+							  icaltime_get_tzid (due_tt),
 							  &zone);
 			if (status != CAL_CLIENT_GET_SUCCESS)
 				return E_CAL_MODEL_TASKS_DUE_FUTURE;

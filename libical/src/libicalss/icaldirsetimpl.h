@@ -30,18 +30,19 @@
 #include "config.h"
 #endif
 
+#include "icalcluster.h"
+
 /* This definition is in its own file so it can be kept out of the
    main header file, but used by "friend classes" like icalset*/
 
-#define ICALDIRSET_ID "dset"
-
 struct icaldirset_impl 
 {
-	char id[5]; /* "dset" */
-	char* dir;
-	icalcomponent* gauge;
-	icaldirset* cluster;
-	int first_component;
-	pvl_list directory;
-	pvl_elem directory_iterator;
+  icalset super;		/**< parent class */
+  char* dir;			/**< directory containing ics files  */
+  icaldirset_options options;	/**< copy of options passed to icalset_new() */
+  icalcluster* cluster;		/**< cluster containing data */
+  icalgauge* gauge;		/**< gauge for filtering out data  */
+  int first_component;		/**< ??? */
+  pvl_list directory;		/**< ??? */
+  pvl_elem directory_iterator;	/**< ??? */
 };

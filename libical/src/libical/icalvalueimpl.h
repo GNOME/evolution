@@ -35,31 +35,9 @@
 #define ICALVALUEIMPL_H
 
 #include "icalenums.h"
+#include "icalproperty.h"
 #include "icalderivedvalue.h"
-#include "icalderivedproperty.h"
 
-/* Private structure for ATTACH values */
-struct icalattach_impl {
-	/* Reference count */
-	int refcount;
-
-	union {
-		/* URL attachment data */
-		struct {
-			char *url;
-		} url;
-
-		/* Inline data */
-		struct {
-			unsigned char *data;
-			icalattach_free_fn_t free_fn;
-			void *free_fn_data;
-		} data;
-	} u;
-
-	/* TRUE if URL, FALSE if inline data */
-	unsigned int is_url : 1;
-};
 
 struct icalvalue_impl {
     icalvalue_kind kind; /*this is the kind that is visible from the outside*/
@@ -67,10 +45,10 @@ struct icalvalue_impl {
     char id[5];
     int size;
     icalproperty* parent;
-    const char* x_value;
+    char* x_value;
 
     union data {
-	icalattach *v_attach;
+	icalattach *v_attach;		
 	/* void *v_binary; */ /* use v_attach */
 	const char *v_string;
 	/*char *v_text;*/
@@ -92,6 +70,8 @@ struct icalvalue_impl {
 	/*struct icaltimetype v_datetime;*/
 	/*struct icaltimetype v_datetimedate;*/
 	
+        struct icalreqstattype v_requeststatus;
+
 	/* struct icalrecurrencetype was once included
 	   directly ( not referenced ) in this union, but it
 	   contributes 2000 bytes to every value, so now it is
@@ -111,7 +91,5 @@ struct icalvalue_impl {
 
     } data;
 };
-
-struct icalvalue_impl *icalvalue_new_impl(icalvalue_kind kind);
 
 #endif

@@ -42,6 +42,11 @@
 #include "icalvcal.h"
 #include <string.h>   
 
+#ifdef WIN32
+#define snprintf	_snprintf
+#define strcasecmp	stricmp
+#endif
+
 enum datatype {
     COMPONENT,
     PROPERTY,
@@ -61,6 +66,7 @@ int weekday_codes[] = {
   ICAL_FRIDAY_WEEKDAY,
   ICAL_SATURDAY_WEEKDAY
 };
+
 
 struct conversion_table_struct {
 	char* vcalname;
@@ -149,10 +155,10 @@ static void convert_floating_time_to_utc (struct icaltimetype *itt)
 }
 
 
-static int icalvcal_traverse_objects(VObject *object,
-				     icalcomponent* last_comp,
-				     icalproperty* last_prop,
-				     icalvcal_defaults *defaults)
+static void icalvcal_traverse_objects(VObject *object,
+				      icalcomponent* last_comp,
+				      icalproperty* last_prop,
+				      icalvcal_defaults *defaults)
 {
     VObjectIterator iterator;
     char* name = "[No Name]";
@@ -161,7 +167,8 @@ static int icalvcal_traverse_objects(VObject *object,
     
     if ( vObjectName(object)== 0){
 	printf("ERROR, object has no name");
-	return 0;
+	assert(0);
+	return;
     }
 
     name = (char*)vObjectName(object);
@@ -184,7 +191,8 @@ static int icalvcal_traverse_objects(VObject *object,
 	   icalproperty_set_x_name(prop,name);
 	   icalcomponent_add_property(last_comp,prop);
 	} else {
-	    return 0;
+	    assert(0);
+	    return;
 	}
 
     } else {
@@ -203,9 +211,8 @@ static int icalvcal_traverse_objects(VObject *object,
 				      object, last_comp, defaults));
 		
 		if (subc) {
-		    icalcomponent_add_component(last_comp,subc);
-		}
-		
+		icalcomponent_add_component(last_comp,subc);
+		}		
 		break;
 	    }
 	    
@@ -220,7 +227,7 @@ static int icalvcal_traverse_objects(VObject *object,
 					 object, last_comp, defaults));
 		    
 		    if (prop)
-			icalcomponent_add_property(last_comp,prop);
+		    icalcomponent_add_property(last_comp,prop);
 
 		    last_prop = prop;
 		    
@@ -260,6 +267,7 @@ static int icalvcal_traverse_objects(VObject *object,
 	      /* Do Nothing. */
 	      break;
 	    }
+
 	}
     }
 
@@ -274,16 +282,12 @@ static int icalvcal_traverse_objects(VObject *object,
            should use it as the 'last_comp' */
 
 	if(subc!=0){
-	    if (!icalvcal_traverse_objects(eachProp,subc,last_prop,defaults))
-	        return 0;
+	    icalvcal_traverse_objects(eachProp,subc,last_prop,defaults);
 	
 	} else {
-	    if (!icalvcal_traverse_objects(eachProp,last_comp,last_prop,defaults))
-		return 0;
+	    icalvcal_traverse_objects(eachProp,last_comp,last_prop,defaults);
 	}
     }
-
-    return 1;
 }
 
 icalcomponent* icalvcal_convert_with_defaults (VObject *object,
@@ -309,8 +313,7 @@ icalcomponent* icalvcal_convert_with_defaults (VObject *object,
    printf ("===========================================\n");
 #endif
 
-   if (!icalvcal_traverse_objects(object,container,0,defaults))
-	   return 0;
+   icalvcal_traverse_objects(object,container,0,defaults);
    
    /* HACK. I am using the extra 'container' component because I am
       lazy. I know there is a way to get rid of it, but I did not care
@@ -446,7 +449,7 @@ static int get_alarm_properties (icalcomponent *comp, VObject *object,
 
 		icalcomponent_add_property (comp, trigger_prop);
 	    }
-
+ 
 	} else if (!strcmp (name, VCSnoozeTimeProp)) {
 	    struct icaldurationtype d;
 
@@ -455,7 +458,7 @@ static int get_alarm_properties (icalcomponent *comp, VObject *object,
 	       which we don't handle at present. Though it is unlikely they
 	       will be used as a snooze time between repeated alarms! */
 	    d = icaldurationtype_from_string (s);
-
+ 
 	    duration_prop = icalproperty_new_duration (d);
 	    icalcomponent_add_property (comp, duration_prop);
 
@@ -531,7 +534,7 @@ static int get_alarm_properties (icalcomponent *comp, VObject *object,
 	    if (!summary_prop) {
 		summary_prop = icalproperty_new_summary (s);
 		icalcomponent_add_property (comp, summary_prop);
-	    }
+ }
 	}
 
 	if (free_string)
@@ -692,22 +695,22 @@ void* alarm_comp(int icaltype, VObject *o, icalcomponent *comp,
     int is_valid_alarm;
 
     icalcomponent* c = icalcomponent_new(ICAL_VALARM_COMPONENT);
-
+ 
     is_valid_alarm = get_alarm_properties (c, o, icaltype, defaults);
 
     if (is_valid_alarm) {
-	return (void*)c;
+    return (void*)c;
     } else {
 	icalcomponent_free (c);
 	return NULL;
     }
 }
 
+
 /* These #defines indicate conversion routines that are not defined yet. */
 
 #define parameter 0   
 #define rsvp_parameter 0   
-
 
 void* transp_prop(int icaltype, VObject *object, icalcomponent *comp,
 		  icalvcal_defaults *defaults)
@@ -718,11 +721,12 @@ void* transp_prop(int icaltype, VObject *object, icalcomponent *comp,
 
     s = get_string_value (object, &free_string);
 
+
     /* In vCalendar "0" means opaque, "1" means transparent, and >1 is
        implementation-specific. So we just check for "1" and output
        TRANSPARENT. For anything else, the default OPAQUE will be used. */
     if (!strcmp (s, "1")) {
-      prop = icalproperty_new_transp ("TRANSPARENT");
+      prop = icalproperty_new_transp (ICAL_TRANSP_TRANSPARENT);
     }
 
     if (free_string)
@@ -730,7 +734,6 @@ void* transp_prop(int icaltype, VObject *object, icalcomponent *comp,
 
     return (void*)prop;
 }
-
 
 void* sequence_prop(int icaltype, VObject *object, icalcomponent *comp,
 		    icalvcal_defaults *defaults)
@@ -1013,8 +1016,8 @@ static char* rrule_parse_weekly_days (char *s,
 		e = s + 2;
 		if (*e == ' ' || *e == '\t' || *e == '\0') {
 		    found_day = day;
-		    break;
-		}
+	    break;
+	}
 	    }
 	}
 
@@ -1067,8 +1070,8 @@ static char* rrule_parse_monthly_days (char *s,
 	    } else if (*e == '-') {
 		e++;
 		month_day = -month_day;
-	    }
 	}
+    }
 
 	/* Check the next char is whitespace or the end of the string. */
 	if (*e != ' ' && *e != '\t' && *e != '\0')
@@ -1388,8 +1391,9 @@ void* dc_prop(int icaltype, VObject *object, icalcomponent *comp,
     icalproperty *prop; 
     icalvalue *value;
     icalvalue_kind value_kind;
-    char *s;
+    char *s,*t=0;
     int free_string;
+
 
     prop = icalproperty_new(kind);
 
@@ -1418,7 +1422,6 @@ struct conversion_table_struct conversion_table[] =
 {VCCalProp,            COMPONENT, comp,         ICAL_VCALENDAR_COMPONENT},
 {VCTodoProp,           COMPONENT, comp,         ICAL_VTODO_COMPONENT},
 {VCEventProp,          COMPONENT, comp,         ICAL_VEVENT_COMPONENT},
-
 {VCAAlarmProp,         COMPONENT, alarm_comp,   ICAL_XAUDIOALARM_COMPONENT},
 {VCDAlarmProp,         COMPONENT, alarm_comp,   ICAL_XDISPLAYALARM_COMPONENT},
 {VCMAlarmProp,         COMPONENT, alarm_comp,   ICAL_XEMAILALARM_COMPONENT},
@@ -1478,7 +1481,6 @@ struct conversion_table_struct conversion_table[] =
 {VCSnoozeTimeProp,     IGNORE,0,            0},
 {VCRepeatCountProp,    IGNORE,0,            0},
 {VCValueProp,          IGNORE,0,            0},
-{VCAudioContentProp,   IGNORE,0,            0},
 {VCProcedureNameProp,  IGNORE,0,            0},
 {VCDisplayStringProp,  IGNORE,0,            0},
 {VCEmailAddressProp,   IGNORE,0,            0},
@@ -1495,6 +1497,7 @@ struct conversion_table_struct conversion_table[] =
 {VCAppleLinkProp,      UNSUPPORTED,0,            0},
 {VCAttachProp,         UNSUPPORTED,0,            0},
 {VCATTMailProp,        UNSUPPORTED,0,            0},
+{VCAudioContentProp,   UNSUPPORTED,0,            0},
 {VCAVIProp,            UNSUPPORTED,0,            0},
 {VCBase64Prop,         UNSUPPORTED,0,            0},
 {VCBBSProp,            UNSUPPORTED,0,            0},

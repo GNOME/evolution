@@ -2,7 +2,7 @@
 #  FILE: Makefile.am
 #  CREATOR: eric 
 #  
-#  $Id: Makefile.am,v 1.35 2003/02/10 15:53:20 ettore Exp $
+#  $Id: Makefile.am,v 1.36 2003/09/11 22:04:19 hansp Exp $
 #
 #
 # (C) COPYRIGHT 2000, Eric Busboom, http://www.softwarestudio.org
@@ -18,7 +18,7 @@
 #    The Mozilla Public License Version 1.0. You may obtain a copy of
 #    the License at http://www.mozilla.org/MPL/
 #
-#  The original code is icalcomponent.c
+#  
 #
 #======================================================================
 
@@ -26,21 +26,23 @@
 DESIGNDATA = $(top_srcdir)/design-data
 ICALSCRIPTS = $(top_srcdir)/scripts
 
-privlib_LTLIBRARIES = libical-evolution.la
+if WITH_CXX
+cxx_lib=libical_cxx.la
+cxx_headers=vcomponent.h icalparameter_cxx.h icalproperty_cxx.h icalvalue_cxx.h icptrholder.h
+else
+cxx_lib=
+cxx_headers=
+endif
+
+lib_LTLIBRARIES = libical.la $(cxx_lib)
 
 noinst_LTLIBRARIES = libical-static.la
-libical_static_la_SOURCES = $(libical_evolution_la_SOURCES)
+libical_static_la_SOURCES = $(libical_la_SOURCES)
 libical_static_la_LDFLAGS = --all-static
 
-# Make sure libical-evolution.la and libical-static.la are not built in
-# parallel when using a parallel make; libtool can't handle that.
-libical_static_la_DEPENDENCIES = libical-evolution.la
+CPPFLAGS = -DPACKAGE_DATA_DIR=\""$(datadir)/$(PACKAGE)"\"
 
-YFLAGS = -d -v -t -pical_yy
-LFLAGS = -Pical_yy
-LEX_OUTPUT_ROOT = lex.ical_yy
-
-CPPFLAGS = -DPACKAGE_DATA_DIR=\""$(privdatadir)"\"
+# CFLAGS = -g
 
 all: ical.h
 
@@ -50,21 +52,22 @@ INCLUDES =			\
 	-I$(top_builddir)/src	\
 	-I$(srcdir)
 
-libical_evolution_la_LDFLAGS = -version-info 0:0:0
+libical_la_LDFLAGS = -version-info 0:0:0
 
-libical_evolution_la_SOURCES =	\
+
+libical_la_SOURCES =		\
 	$(BUILT_SOURCES)	\
 	icalarray.c		\
 	icalarray.h		\
-	icalattendee.h		\
-	icalattendee.c		\
+	icalattach.h		\
+	icalattachimpl.h	\
+	icalattach.c		\
 	icalcomponent.c		\
 	icalcomponent.h		\
 	icalenums.c		\
 	icalenums.h		\
 	icalerror.c		\
 	icalerror.h		\
-	icallexer.l		\
 	icalmemory.c		\
 	icalmemory.h		\
 	icalmime.c		\
@@ -92,24 +95,38 @@ libical_evolution_la_SOURCES =	\
 	icalvalue.c		\
 	icalvalue.h		\
 	icalvalueimpl.h		\
-	icalyacc.h		\
-	icalyacc.y		\
 	pvl.c			\
 	pvl.h			\
 	sspm.c			\
 	sspm.h			\
 	vsnprintf.c		\
 	icallangbind.h		\
-	icallangbind.c
+	icallangbind.c \
+	caldate.c \
+	astime.h 
 
-#libicalincludedir = $(includedir)/$(PACKAGE)
-libicalincludedir = $(privincludedir)
+if WITH_CXX
+libical_cxx_la_SOURCES =	\
+	$(libical_la_SOURCES)	\
+	vcomponent.h		\
+	vcomponent.cpp		\
+	icalproperty_cxx.h	\
+	icalproperty_cxx.cpp	\
+	icalparameter_cxx.h	\
+	icalparameter_cxx.cpp	\
+	icalvalue_cxx.h		\
+	icalvalue_cxx.cpp       \
+	icptrholder.h
+endif
 
-libicalinclude_HEADERS =  ical.h 
+libicalincludedir = $(includedir)
+
+libicalinclude_HEADERS = ical.h icalmemory.h icalerror.h $(cxx_headers)
 
 # ORDERING OF HEADERS IS SIGNIFICANT. Don't change this ordering. It
 # is required to make the combined header ical.h properly
 COMBINEDHEADERS =					\
+        $(top_builddir)/config.h                        \
 	$(top_builddir)/src/libical/icalversion.h	\
 	$(top_srcdir)/src/libical/icaltime.h		\
 	$(top_srcdir)/src/libical/icalduration.h	\
@@ -117,13 +134,13 @@ COMBINEDHEADERS =					\
 	$(top_srcdir)/src/libical/icalenums.h		\
 	$(top_srcdir)/src/libical/icaltypes.h		\
 	$(top_srcdir)/src/libical/icalrecur.h		\
+	$(top_srcdir)/src/libical/icalattach.h		\
 	icalderivedvalue.h				\
 	icalderivedparameter.h				\
 	$(top_srcdir)/src/libical/icalvalue.h		\
 	$(top_srcdir)/src/libical/icalparameter.h	\
 	icalderivedproperty.h				\
 	$(top_srcdir)/src/libical/icalproperty.h	\
-	$(top_srcdir)/src/libical/icalattendee.h	\
 	$(top_srcdir)/src/libical/pvl.h			\
 	$(top_srcdir)/src/libical/icalarray.h		\
 	$(top_srcdir)/src/libical/icalcomponent.h	\
@@ -149,11 +166,20 @@ BUILT_SOURCES =			\
 	icalderivedvalue.c
 
 ical.h: $(COMBINEDHEADERS)
+	echo '#ifdef __cplusplus'         >  ical.h
+	echo 'extern "C" {'               >> ical.h
+	echo '#endif'                     >> ical.h
+	echo '/*'                         >> ical.h
+	echo ' $$''Id''$$'                >> ical.h
+	echo '*/'                         >> ical.h
 	cat $(COMBINEDHEADERS)				\
 	| egrep -v "#include.*\"ical"			\
-	| egrep -v "#include.*\"pvl\.h\"" > ical.h
-
-icallexer.c : icalyacc.h
+	| egrep -v "#include.*\"config"			\
+	| egrep -v "#include.*\"pvl\.h\""		\
+	| egrep -v '\$$(Id|Locker): .+\$$'>> ical.h
+	echo '#ifdef __cplusplus'         >> ical.h
+	echo '};'                         >> ical.h
+	echo '#endif'                     >> ical.h
 
 
 # parameters
@@ -206,7 +232,7 @@ icalrestriction.c: $(RESTRICTIONDEPS)
 VALUEDEPS =					\
 	$(ICALSCRIPTS)/mkderivedvalues.pl  	\
 	$(DESIGNDATA)/value-types.csv		\
-	icalderivedvalue.c.in			\
+	icalderivedvalue.c.in				\
 	icalderivedvalue.h.in
 
 icalderivedvalue.h: $(VALUEDEPS)
@@ -217,16 +243,21 @@ icalderivedvalue.c: $(VALUEDEPS) $(BUILT_COMBINEDHEADERS)
 	$(PERL)  -I$(ICALSCRIPTS) $(ICALSCRIPTS)/mkderivedvalues.pl \
 		-i $(srcdir)/icalderivedvalue.c.in -c $(DESIGNDATA)/value-types.csv > icalderivedvalue.c
 
+# c++ needs ical.h auto-generated.
+icalparameter_cxx.lo: ical.h
+icalproperty_cxx.lo: ical.h
+icalvalue_cxx.lo: ical.h
+vcomponent.lo: ical.h
 
 
 # housekeeping
 CONFIG_CLEAN_FILES = y.output
 
-CLEANFILES = $(BUILT_SOURCES) ical.h
+CLEANFILES = $(BUILT_SOURCES) $(BUILT_COMBINEDHEADERS)
 
 dist-hook:
 	cd $(distdir); rm -f $(BUILT_SOURCES)
-	cd $(distdir); rm -f ical.h
+	cd $(distdir); rm -f ical.h icalversion.h 
 
 EXTRA_DIST =			\
 	icalderivedparameter.c.in \
@@ -236,7 +267,18 @@ EXTRA_DIST =			\
 	icalrestriction.c.in	\
 	icalderivedvalue.c.in	\
 	icalderivedvalue.h.in	\
-	icalversion.h.in	\
-	icallexer.c		\
-	icalyacc.c
+	icalversion.h.in
 
+$(srcdir)/icalcomponent.c: icalderivedvalue.h icalderivedproperty.h icalderivedparameter.h
+icalderivedparameter.c: icalderivedvalue.h icalderivedproperty.h icalderivedparameter.h
+icalderivedproperty.c: icalderivedvalue.h icalderivedproperty.h icalderivedparameter.h
+icalderivedvalue.c: icalderivedvalue.h icalderivedproperty.h icalderivedparameter.h
+$(srcdir)/icalduration.c: icalderivedvalue.h icalderivedproperty.h icalderivedparameter.h
+$(srcdir)/icallangbind.c: icalderivedvalue.h icalderivedproperty.h icalderivedparameter.h
+$(srcdir)/icalmime.c: icalderivedvalue.h icalderivedproperty.h icalderivedparameter.h
+$(srcdir)/icalparameter.c: icalderivedvalue.h icalderivedproperty.h icalderivedparameter.h
+$(srcdir)/icalparser.c: icalderivedvalue.h icalderivedproperty.h icalderivedparameter.h
+$(srcdir)/icalproperty.c: icalderivedvalue.h icalderivedproperty.h icalderivedparameter.h
+$(srcdir)/icalrestriction.c: icalderivedvalue.h icalderivedproperty.h icalderivedparameter.h
+$(srcdir)/icaltime.c: icalderivedvalue.h icalderivedproperty.h icalderivedparameter.h
+$(srcdir)/icalvalue.c: icalderivedvalue.h icalderivedproperty.h icalderivedparameter.h

@@ -27,17 +27,19 @@
 #ifndef ICALARRAY_H
 #define ICALARRAY_H
 
-/* An array of arbitrarily-sized elements which grows dynamically as elements
-   are added. */
-
+/** @file icalarray.h 
+ *
+ *  @brief An array of arbitrarily-sized elements which grows
+ *  dynamically as elements are added. 
+ */
 
 typedef struct _icalarray icalarray;
 struct _icalarray {
-    int		 element_size;
-    int		 increment_size;
-    int		 num_elements;
-    int		 space_allocated;
-    void	*data;
+    unsigned int	 element_size;
+    unsigned int	 increment_size;
+    unsigned int	 num_elements;
+    unsigned int	 space_allocated;
+    void		*data;
 };
 
 

@@ -26,14 +26,14 @@
  ======================================================================*/
 
 #include <stdio.h> /* for printf */
-#include "ical.h"
-#include "icalss.h"
-#include "icalfileset.h"
 #include <errno.h>
 #include <string.h> /* For strerror */
 #include <signal.h> /* for signal */
 #include <unistd.h> /* for alarm */
-#include "icalrestriction.h"
+#include <stdlib.h> /* for exit */
+
+#include "ical.h"
+#include "icalss.h"
 
 static void sig_alrm(int i){
     fprintf(stderr,"Could not get lock on file\n");
@@ -48,7 +48,7 @@ void usage(char* arg0) {
 
 int main(int c, char *argv[]){
 
-    icalfileset *clusterin, *clusterout;
+    icalset *clusterin, *clusterout;
     icalcomponent *itr;
     int count=0;
     int tostdout = 0;
@@ -63,23 +63,26 @@ int main(int c, char *argv[]){
     }
 
 
-    icalerror_set_error_state(ICAL_PARSE_ERROR, ICAL_ERROR_NONFATAL);
-
+    /*icalerror_set_error_state(ICAL_PARSE_ERROR, ICAL_ERROR_NONFATAL);*/
 
     signal(SIGALRM,sig_alrm);
 
-    alarm(0);
+    alarm(10);
     clusterin = icalfileset_new(argv[1]);
     alarm(0);
 
     if (clusterin == 0){
-	printf("Could not open input cluster \"%s\"",argv[1]);
-	       
+	printf("Could not open input cluster \"%s\"\n",argv[1]);
+	if(icalerrno!= ICAL_NO_ERROR){
+          printf("Error: %s\n",icalerror_strerror(icalerrno));
+        }
 	exit(1);
     }
 
     if (!tostdout){
+        alarm(10);
 	clusterout = icalfileset_new(argv[2]);
+	alarm(0);
 	if (clusterout == 0){
 	    printf("Could not open output cluster \"%s\"\n",argv[2]);
 	    exit(1);
@@ -117,11 +120,11 @@ int main(int c, char *argv[]){
 
     printf("Transfered %d components\n",count);
 
-    icalfileset_free(clusterin);
+    icalset_free(clusterin);
 
     if (!tostdout){
 	icalfileset_mark(clusterout);
-	icalfileset_free(clusterout);
+	icalset_free(clusterout);
     }
 
      return 0;

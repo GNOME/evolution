@@ -32,11 +32,17 @@ Libical.py 		\
 LibicalWrap.i 		\
 python-binding.txt 	\
 test.py			\
+Attendee.py 		\
 Collection.py		\
 Component.py		\
 DerivedProperties.py	\
+Duration.py		\
+Error.py		\
+Gauge.py		\
+Period.py		\
 Property.py		\
 Store.py  		\
+Time.py			\
 ChangeLog
 
 

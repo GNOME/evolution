@@ -27,7 +27,8 @@
 
 from LibicalWrap import *
 from Error import LibicalError
-from Component import Component
+from Component import Component, CloneComponent
+from Gauge import Gauge
 
 class Store:
     """ 
@@ -88,19 +89,10 @@ class Store:
 
 class FileStore(Store):
 
-    def __init__(self, file,mode="r",flags=0664):
-
-        _flags = icallangbind_string_to_open_flag(mode)
-
-
-        if _flags == -1:
-            raise Store.ConstructorFailedError("Illegal value for mode: "+mode)
-
+    def __init__(self, file):
         e1=icalerror_supress("FILE")
-        self._ref = icalfileset_new_open(file,_flags,flags)
+        self._ref = icalfileset_new(file)
         icalerror_restore("FILE",e1)
-
-        print self._ref
 
         if self._ref == None or self._ref == 'NULL':
             raise  Store.ConstructorFailedError(file)
@@ -121,33 +113,46 @@ class FileStore(Store):
         if not isinstance(comp,Component):
             raise Store.AddFailedError("Argument is not a component")
             
-        error = icalfileset_add_component(self._ref,comp)
+        error = icalfileset_add_component(self._ref,comp.ref())
 
     def remove_component(self, comp):
         if not isinstance(comp,Component):
             raise Store.AddFailedError("Argument is not a component")
 
-        error = icalfileset_remove_component(self._ref,comp)
-
-
+        error = icalfileset_remove_component(self._ref,comp.ref())
 
     def count_components(self, kind):
-        pass
+	_kind = icalcomponent_string_to_kind(kind)
+
+	return icalfileset_count_components(self._ref, _kind)
 
     def select(self, gauge):
-        pass
+	error = icalfileset_select(self._ref, gauge.ref())
 
     def clearSelect(self):
-        pass
+	icalfileset_clear(self._ref)
 
     def fetch(self, uid):
-        pass
+	comp_ref = icalfileset_fetch(self._ref, uid)
+
+        if comp_ref == None:
+            return None
+
+        return CloneComponent(comp_ref)
 
     def fetchMatch(self, comp):
-        pass
+        if not isinstance(comp,Component):
+            raise Store.AddFailedError("Argument is not a component")
+            
+        comp_ref = icalfileset_fetch_match(self._ref,comp.ref())
+
+        if comp_ref == None:
+            return None
+
+        return CloneComponent(comp_ref)
 
     def modify(self, oldc, newc):
-        pass
+	pass
 
     def current_component(self):
         comp_ref = icalfileset_get_current_component(self._ref)
@@ -155,7 +160,7 @@ class FileStore(Store):
         if comp_ref == None:
             return None
 
-        return Component(ref=comp_ref)
+        return CloneComponent(comp_ref)
 
     def first_component(self):
         comp_ref = icalfileset_get_first_component(self._ref)
@@ -163,7 +168,7 @@ class FileStore(Store):
         if comp_ref == None:
             return None
 
-        return Component(ref=comp_ref)
+        return CloneComponent(comp_ref)
 
     def next_component(self):
         
@@ -172,5 +177,5 @@ class FileStore(Store):
         if comp_ref == None:
             return None
 
-        return Component(ref=comp_ref)
+        return CloneComponent(comp_ref)
 
