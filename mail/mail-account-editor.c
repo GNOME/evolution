@@ -194,7 +194,7 @@ apply_changes (MailAccountEditor *editor)
 		str = gtk_entry_get_text (editor->source_path);
 		source_url->path = str && *str ? g_strdup (str) : NULL;
 		
-		account->source->save_passwd = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (editor->save_passwd));
+		account->source->save_passwd = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (editor->source_save_passwd));
 		account->source->keep_on_server = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (editor->keep_on_server));
 		
 		account->source->enabled = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (editor->source_enabled));
@@ -226,6 +226,14 @@ apply_changes (MailAccountEditor *editor)
 	str = gtk_object_get_data (GTK_OBJECT (editor), "transport_authmech");
 	transport_url->authmech = str && *str ? g_strdup (str) : NULL;
 	
+	if (transport_url->authmech) {
+		str = gtk_entry_get_text (editor->transport_user);
+		transport_url->user = str && *str ? g_strdup (str) : NULL;
+		
+		str = gtk_entry_get_text (editor->transport_passwd);
+		transport_url->passwd = str && *str ? g_strdup (str) : NULL;
+	}
+	
 	host = g_strdup (gtk_entry_get_text (editor->transport_host));
 	if (host && (pport = strchr (host, ':'))) {
 		*pport = '\0';
@@ -243,6 +251,8 @@ apply_changes (MailAccountEditor *editor)
 	g_free (account->transport->url);
 	account->transport->url = camel_url_to_string (transport_url, FALSE);
 	
+	account->transport->save_passwd = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (editor->transport_save_passwd));
+	
 	/* check to make sure the source works */
 	if (source_url) {
 		if (mail_config_check_service (source_url, CAMEL_PROVIDER_STORE, FALSE, NULL)) {
@@ -258,8 +268,15 @@ apply_changes (MailAccountEditor *editor)
 	}
 	
 	/* check to make sure the transport works */
-	if (!mail_config_check_service (transport_url, CAMEL_PROVIDER_TRANSPORT, FALSE, NULL))
+	if (mail_config_check_service (transport_url, CAMEL_PROVIDER_TRANSPORT, FALSE, NULL)) {
+		/* save the password if we were requested to do so */
+		if (account->transport->save_passwd && transport_url->passwd) {
+			mail_session_set_password (account->transport->url, transport_url->passwd);
+			mail_session_remember_password (account->transport->url);
+		}
+	} else {
 		retval = FALSE;
+	}
 	
 	camel_url_free (transport_url);
 	
@@ -331,7 +348,7 @@ source_auth_type_changed (GtkWidget *widget, gpointer user_data)
 	label = glade_xml_get_widget (editor->gui, "lblSourcePasswd");
 	gtk_widget_set_sensitive (label, sensitive);
 	gtk_widget_set_sensitive (GTK_WIDGET (editor->source_passwd), sensitive);
-	gtk_widget_set_sensitive (GTK_WIDGET (editor->save_passwd), sensitive);
+	gtk_widget_set_sensitive (GTK_WIDGET (editor->source_save_passwd), sensitive);
 }
 
 static void
@@ -376,14 +393,14 @@ source_auth_init (MailAccountEditor *editor, CamelURL *url)
 			l = l->next;
 			i++;
 		}
-		
-		if (authmech) {
-			gtk_signal_emit_by_name (GTK_OBJECT (authmech), "activate", editor);
-			gtk_option_menu_set_history (editor->source_auth, history);
-		}
 	}
 	
 	gtk_option_menu_set_menu (editor->source_auth, menu);
+	
+	if (authmech) {
+		gtk_signal_emit_by_name (GTK_OBJECT (authmech), "activate", editor);
+		gtk_option_menu_set_history (editor->source_auth, history);
+	}
 }
 
 static void
@@ -398,7 +415,7 @@ transport_auth_type_changed (GtkWidget *widget, gpointer user_data)
 }
 
 static void
-transport_construct_authmenu (MailAccountEditor *editor, CamelURL *url)
+transport_auth_init (MailAccountEditor *editor, CamelURL *url)
 {
 	GtkWidget *authmech = NULL;
 	GtkWidget *menu, *item;
@@ -449,6 +466,13 @@ transport_construct_authmenu (MailAccountEditor *editor, CamelURL *url)
 	if (authmech) {
 		gtk_signal_emit_by_name (GTK_OBJECT (authmech), "activate", editor);
 		gtk_option_menu_set_history (editor->transport_auth, history);
+		if (url->authmech) {
+			gtk_entry_set_text (editor->transport_user, url->user ? url->user : "");
+			gtk_entry_set_text (editor->transport_passwd, url->passwd ? url->passwd : "");
+		} else {
+			gtk_entry_set_text (editor->transport_user, "");
+			gtk_entry_set_text (editor->transport_passwd, "");
+		}
 	}
 }
 
@@ -473,6 +497,30 @@ transport_type_changed (GtkWidget *widget, gpointer user_data)
 		gtk_widget_set_sensitive (label, FALSE);
 	}
 	
+	/* username */
+	label = glade_xml_get_widget (editor->gui, "lblTransportUser");
+	if (provider->url_flags & CAMEL_URL_ALLOW_AUTH) {
+		gtk_widget_set_sensitive (GTK_WIDGET (editor->transport_user), TRUE);
+		gtk_widget_set_sensitive (label, TRUE);
+	} else {
+		gtk_entry_set_text (editor->transport_user, "");
+		gtk_widget_set_sensitive (GTK_WIDGET (editor->transport_user), FALSE);
+		gtk_widget_set_sensitive (label, FALSE);
+	}
+	
+	/* password */
+	label = glade_xml_get_widget (editor->gui, "lblTransportPasswd");
+	if (provider->url_flags & CAMEL_URL_ALLOW_AUTH) {
+		gtk_widget_set_sensitive (GTK_WIDGET (editor->transport_passwd), TRUE);
+		gtk_widget_set_sensitive (GTK_WIDGET (editor->transport_save_passwd), TRUE);
+		gtk_widget_set_sensitive (label, TRUE);
+	} else {
+		gtk_entry_set_text (editor->transport_passwd, "");
+		gtk_widget_set_sensitive (GTK_WIDGET (editor->transport_passwd), FALSE);
+		gtk_widget_set_sensitive (GTK_WIDGET (editor->transport_save_passwd), FALSE);
+		gtk_widget_set_sensitive (label, FALSE);
+	}
+	
 	/* auth */
 	label = glade_xml_get_widget (editor->gui, "lblTransportAuth");
 	if (provider->url_flags & CAMEL_URL_ALLOW_AUTH) {
@@ -485,7 +533,7 @@ transport_type_changed (GtkWidget *widget, gpointer user_data)
 		url = g_new0 (CamelURL, 1);
 		url->protocol = g_strdup (provider->protocol);
 		url->host = g_strdup (gtk_entry_get_text (editor->transport_host));
-		transport_construct_authmenu (editor, url);
+		transport_auth_init (editor, url);
 		camel_url_free (url);
 	} else {
 		gtk_widget_set_sensitive (GTK_WIDGET (editor->transport_auth), FALSE);
@@ -622,11 +670,11 @@ source_check (MailAccountEditor *editor, CamelURL *url)
 				label = glade_xml_get_widget (editor->gui, "lblSourcePasswd");
 				if (url && provider->url_flags & CAMEL_URL_ALLOW_PASSWORD) {
 					gtk_widget_set_sensitive (GTK_WIDGET (editor->source_passwd), TRUE);
-					gtk_widget_set_sensitive (GTK_WIDGET (editor->save_passwd), TRUE);
+					gtk_widget_set_sensitive (GTK_WIDGET (editor->source_save_passwd), TRUE);
 					gtk_widget_set_sensitive (label, TRUE);
 				} else {
 					gtk_widget_set_sensitive (GTK_WIDGET (editor->source_passwd), FALSE);
-					gtk_widget_set_sensitive (GTK_WIDGET (editor->save_passwd), FALSE);
+					gtk_widget_set_sensitive (GTK_WIDGET (editor->source_save_passwd), FALSE);
 					gtk_widget_set_sensitive (label, FALSE);
 				}
 				
@@ -676,24 +724,25 @@ construct (MailAccountEditor *editor, const MailConfigAccount *account)
 	
 	/* General */
 	editor->account_name = GTK_ENTRY (glade_xml_get_widget (gui, "txtAccountName"));
-	e_utf8_gtk_entry_set_text (editor->account_name, account->name);
+	e_utf8_gtk_entry_set_text (editor->account_name, account->name ? account->name : _("Unspecified"));
 	gtk_signal_connect (GTK_OBJECT (editor->account_name), "changed", entry_changed, editor);
 	editor->name = GTK_ENTRY (glade_xml_get_widget (gui, "txtName"));
-	e_utf8_gtk_entry_set_text (editor->name, account->id->name);
+	e_utf8_gtk_entry_set_text (editor->name, account->id->name ? account->id->name : "");
 	gtk_signal_connect (GTK_OBJECT (editor->name), "changed", entry_changed, editor);
 	editor->email = GTK_ENTRY (glade_xml_get_widget (gui, "txtAddress"));
-	e_utf8_gtk_entry_set_text (editor->email, account->id->address);
+	e_utf8_gtk_entry_set_text (editor->email, account->id->address ? account->id->address : "");
 	gtk_signal_connect (GTK_OBJECT (editor->email), "changed", entry_changed, editor);
 	editor->reply_to = GTK_ENTRY (glade_xml_get_widget (gui, "txtReplyTo"));
 	if (editor->reply_to)
 		e_utf8_gtk_entry_set_text (editor->reply_to, account->id->reply_to ? account->id->reply_to : "");
 	editor->organization = GTK_ENTRY (glade_xml_get_widget (gui, "txtOrganization"));
 	if (editor->organization)
-		e_utf8_gtk_entry_set_text (editor->organization, account->id->organization);
+		e_utf8_gtk_entry_set_text (editor->organization, account->id->organization ?
+					   account->id->organization : "");
 	editor->signature = GNOME_FILE_ENTRY (glade_xml_get_widget (gui, "fileSignature"));
 	if (editor->signature) {
 		entry = gnome_file_entry_gtk_entry (editor->signature);
-		gtk_entry_set_text (GTK_ENTRY (entry), account->id->signature);
+		gtk_entry_set_text (GTK_ENTRY (entry), account->id->signature ? account->id->signature : "");
 	}
 	
 	/* Servers */
@@ -744,16 +793,16 @@ construct (MailAccountEditor *editor, const MailConfigAccount *account)
 		
 		if (provider) {
 			if (provider->url_flags & CAMEL_URL_PATH_IS_ABSOLUTE)
-				gtk_entry_set_text (editor->source_path, url->path);
+				gtk_entry_set_text (editor->source_path, url->path ? url->path : "");
 			else
-				gtk_entry_set_text (editor->source_path, url->path + 1);
+				gtk_entry_set_text (editor->source_path, url->path + 1 ? url->path + 1 : "");
 		} else {
 			/* we've got a serious problem if we ever get to here */
 			g_assert_not_reached ();
 		}
 	}
-	editor->save_passwd = GTK_CHECK_BUTTON (glade_xml_get_widget (gui, "chkSavePasswd"));
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (editor->save_passwd), account->source->save_passwd);
+	editor->source_save_passwd = GTK_CHECK_BUTTON (glade_xml_get_widget (gui, "chkSourceSavePasswd"));
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (editor->source_save_passwd), account->source->save_passwd);
 	editor->source_auth = GTK_OPTION_MENU (glade_xml_get_widget (gui, "omenuSourceAuth"));
 	editor->source_ssl = GTK_CHECK_BUTTON (glade_xml_get_widget (gui, "chkSourceSSL"));
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (editor->source_ssl), account->source->use_ssl);
@@ -789,6 +838,12 @@ construct (MailAccountEditor *editor, const MailConfigAccount *account)
 		gtk_entry_append_text (editor->transport_host, port);
 	}
 	editor->transport_auth = GTK_OPTION_MENU (glade_xml_get_widget (gui, "omenuTransportAuth"));
+	editor->transport_user = GTK_ENTRY (glade_xml_get_widget (gui, "txtTransportUser"));
+	gtk_entry_set_text (editor->transport_user, url && url->user ? url->user : "");
+	editor->transport_passwd = GTK_ENTRY (glade_xml_get_widget (gui, "txtTransportPasswd"));
+	gtk_entry_set_text (editor->transport_passwd, url && url->passwd ? url->passwd : "");
+	editor->transport_save_passwd = GTK_CHECK_BUTTON (glade_xml_get_widget (gui, "chkTransportSavePasswd"));
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (editor->transport_save_passwd), account->transport->save_passwd);
 	editor->transport_ssl = GTK_CHECK_BUTTON (glade_xml_get_widget (gui, "chkTransportSSL"));
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (editor->transport_ssl), account->transport->use_ssl);
 	if (GTK_IS_OPTION_MENU (editor->transport_type))
@@ -796,6 +851,8 @@ construct (MailAccountEditor *editor, const MailConfigAccount *account)
 	else
 		gtk_label_set_text (GTK_LABEL (editor->transport_type),
 				    url && url->protocol ? url->protocol : _("None"));
+	
+	transport_auth_init (editor, url);
 	
 	if (url)
 		camel_url_free (url);

@@ -1,3 +1,14 @@
+2001-03-07  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-account-editor.c (source_auth_init): Move the signal
+	emittion to after the set_menu call so that it actually works.
+	(transport_type_changed): Updated to manipulate the user/passwd
+	fields for the transport.
+	(construct): Updated to init the user/passwd fields for the
+	transport.
+	(transport_auth_init): Renamed. Also fill in the user/passwd
+	fields if available.
+
 2001-03-06  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-accounts.c (construct): Disable the NNTP code if NNTP is

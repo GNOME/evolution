@@ -60,7 +60,7 @@ struct _MailAccountEditor {
 	GtkEntry *source_user;
 	GtkEntry *source_passwd;
 	GtkEntry *source_path;
-	GtkCheckButton *save_passwd;
+	GtkCheckButton *source_save_passwd;
 	GtkOptionMenu *source_auth;
 	GtkCheckButton *source_ssl;
 	
@@ -75,6 +75,9 @@ struct _MailAccountEditor {
 	GtkWidget *transport_type;    /* Same here... */
 	GtkEntry *transport_host;
 	GtkOptionMenu *transport_auth;
+	GtkEntry *transport_user;
+	GtkEntry *transport_passwd;
+	GtkCheckButton *transport_save_passwd;
 	GtkCheckButton *transport_ssl;
 	
 	const CamelProvider *transport;
