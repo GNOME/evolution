@@ -1,3 +1,10 @@
+2000-04-27  Dan Winship  <danw@helixcode.com>
+
+	* mail-format.c (text_to_html): Improve URL converstion code.
+	Recognize https, recognize "www\..*" without a prefixed "http://".
+	Properly escape &, <, >, etc in URL strings. Don't be fooled by
+	"mailto:", "http://", etc with no following data.
+
 2000-04-26  Dan Winship  <danw@helixcode.com>
 
 	* mail-format.c (text_to_html): Reorganize a bit and add a new

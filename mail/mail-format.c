@@ -380,6 +380,31 @@ check_size (char **buffer, int *buffer_size, char *out, int len)
 	return out;
 }
 
+char *
+url_extract (const char **text, gboolean check)
+{
+	const char *end = *text, *p;
+	char *out;
+
+	while (*end && !isspace (*end) && *end != '"')
+		end++;
+
+	/* Back up if we probably went too far. */
+	while (end > *text && strchr (",.!?;:>", *(end - 1)))
+		end--;
+
+	if (check) {
+		/* Make sure we weren't fooled. */
+		p = memchr (*text, ':', end - *text);
+		if (!p || end - p < 3)
+			return NULL;
+	}
+
+	out = g_strndup (*text, end - *text);
+	*text = end;
+	return out;
+}
+
 /* Convert plain text into equivalent-looking valid HTML. */
 static char *
 text_to_html (const unsigned char *input, unsigned int flags)
@@ -399,28 +424,37 @@ text_to_html (const unsigned char *input, unsigned int flags)
 
 	while (*cur) {
 		if (isalpha (*cur) && (flags & TEXT_TO_HTML_CONVERT_URLS)) {
+			char *tmpurl = NULL, *refurl, *dispurl;
+
 			if (!strncasecmp (cur, "http://", 7) ||
+			    !strncasecmp (cur, "https://", 8) ||
 			    !strncasecmp (cur, "ftp://", 6) ||
 			    !strncasecmp (cur, "nntp://", 7) ||
 			    !strncasecmp (cur, "mailto:", 7) ||
 			    !strncasecmp (cur, "news:", 5)) {
-				/* Skip to end of URL. */
-				end = cur;
-				while (*end && !isspace (*end) && *end != '"')
-					end++;
+				tmpurl = url_extract (&cur, TRUE);
+				if (tmpurl) {
+					refurl = text_to_html (tmpurl, 0);
+					dispurl = g_strdup (refurl);
+				}
+			} else if (!strncasecmp (cur, "www.", 4) &&
+				   isalnum (*(cur + 4))) {
+				tmpurl = url_extract (&cur, FALSE);
+				dispurl = text_to_html (tmpurl, 0);
+				refurl = g_strdup_printf ("http://%s",
+							  dispurl);
+			}
 
-				/* Back up if we probably went too far. */
-				while (end > cur &&
-				       strchr (",.!?;:>", *(end - 1)))
-					end--;
-
+			if (tmpurl) {
 				out = check_size (&buffer, &buffer_size, out,
-						  (end - cur) * 2 + 15);
+						  strlen (refurl) +
+						  strlen (dispurl) + 15);
 				out += sprintf (out,
-						"<a href=\"%.*s\">%.*s</a>",
-						end - cur, cur,
-						end - cur, cur);
-				cur = end;
+						"<a href=\"%s\">%s</a>",
+						refurl, dispurl);
+				g_free (tmpurl);
+				g_free (refurl);
+				g_free (dispurl);
 			}
 		}
 
