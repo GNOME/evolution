@@ -1,3 +1,10 @@
+2000-04-22  Dan Winship  <danw@helixcode.com>
+
+	* e-msg-composer.c (e_msg_composer_add_header): new function to
+	make the composer record additional headers it should output.
+	(In-Reply-To), etc.
+	(build_message): output them
+
 2000-04-21  Dan Winship  <danw@helixcode.com>
 
 	* e-msg-composer.c (e_msg_composer_set_headers): 

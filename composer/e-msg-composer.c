@@ -141,11 +141,17 @@ build_message (EMsgComposer *composer)
 	CamelSimpleDataWrapper *sdr;
 	CamelMultipart *multipart;
 	char *text;
-
+	int i;
+	
 	new = camel_mime_message_new ();
 
 	e_msg_composer_hdrs_to_message (E_MSG_COMPOSER_HDRS (composer->hdrs),
 					new);
+	for (i = 0; i < composer->extra_hdr_names->len; i++) {
+		camel_medium_add_header (CAMEL_MEDIUM (new),
+					 composer->extra_hdr_names->pdata[i],
+					 composer->extra_hdr_values->pdata[i]);
+	}
 
 	multipart = camel_multipart_new ();
 	body_part = camel_mime_body_part_new ();
@@ -479,6 +485,19 @@ destroy (GtkObject *object)
 
 	if (composer->address_dialog != NULL)
 		gtk_widget_destroy (composer->address_dialog);
+	if (composer->hdrs != NULL)
+		gtk_widget_destroy (composer->hdrs);
+
+	if (composer->extra_hdr_names) {
+		int i;
+
+		for (i = 0; i < composer->extra_hdr_names->len; i++) {
+			g_free (composer->extra_hdr_names->pdata[i]);
+			g_free (composer->extra_hdr_values->pdata[i]);
+		}
+		g_ptr_array_free (composer->extra_hdr_names, TRUE);
+		g_ptr_array_free (composer->extra_hdr_values, TRUE);
+	}
 
 	if (GTK_OBJECT_CLASS (parent_class)->destroy != NULL)
 		(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
@@ -521,6 +540,8 @@ init (EMsgComposer *composer)
 	composer->uih = NULL;
 
 	composer->hdrs = NULL;
+	composer->extra_hdr_names = g_ptr_array_new ();
+	composer->extra_hdr_values = g_ptr_array_new ();
 
 	composer->editor = NULL;
 
@@ -700,6 +721,29 @@ e_msg_composer_set_body_text (EMsgComposer *composer, const char *text)
 	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
 
 	set_editor_text (BONOBO_WIDGET (composer->editor), text);
+}
+
+
+/**
+ * e_msg_composer_add_header:
+ * @composer: a composer object
+ * @name: the header name
+ * @value: the header value
+ *
+ * Adds a header with @name and @value to the message. This header
+ * may not be displayed by the composer, but will be included in
+ * the message it outputs.
+ **/
+void
+e_msg_composer_add_header (EMsgComposer *composer, const char *name,
+			   const char *value)
+{
+	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
+	g_return_if_fail (name != NULL);
+	g_return_if_fail (value != NULL);
+
+	g_ptr_array_add (composer->extra_hdr_names, g_strdup (name));
+	g_ptr_array_add (composer->extra_hdr_values, g_strdup (value));
 }
 
 

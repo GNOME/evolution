@@ -52,6 +52,7 @@ struct _EMsgComposer {
 	BonoboUIHandler *uih;
 
 	GtkWidget *hdrs;
+	GPtrArray *extra_hdr_names, *extra_hdr_values;
 
 	GtkWidget *editor;
 
@@ -85,6 +86,9 @@ void              e_msg_composer_set_headers       (EMsgComposer *composer,
 						    const char *subject);
 void              e_msg_composer_set_body_text     (EMsgComposer *composer,
 						    const char *text);
+void              e_msg_composer_add_header        (EMsgComposer *composer,
+						    const char *name,
+						    const char *value);
 
 CamelMimeMessage *e_msg_composer_get_message       (EMsgComposer *composer);
 
