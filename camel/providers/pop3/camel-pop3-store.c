@@ -46,13 +46,20 @@
 /* Specified in RFC 1939 */
 #define POP3_PORT 110
 
+#ifdef HAVE_KRB4
+/* Specified nowhere */
+#define KPOP_PORT 1109
+
+#include <krb.h>
+#endif
+
 static CamelServiceClass *service_class = NULL;
 
 static void finalize (GtkObject *object);
 
 static gboolean pop3_connect (CamelService *service, CamelException *ex);
 static gboolean pop3_disconnect (CamelService *service, CamelException *ex);
-static GList *query_auth_types (CamelService *service);
+static GList *query_auth_types (CamelService *service, CamelException *ex);
 static void free_auth_types (CamelService *service, GList *authtypes);
 
 static CamelFolder *get_folder (CamelStore *store, const char *folder_name, 
@@ -139,7 +146,7 @@ finalize (GtkObject *object)
 
 
 static CamelServiceAuthType password_authtype = {
-	"Password/APOP",
+	"Password",
 
 	"This option will connect to the POP server using the APOP "
 	"protocol if possible, or a plaintext password if not.",
@@ -148,12 +155,78 @@ static CamelServiceAuthType password_authtype = {
 	TRUE
 };
 
-static GList
-*query_auth_types (CamelService *service)
-{
-	GList *ret;
+#ifdef HAVE_KRB4
+static CamelServiceAuthType kpop_authtype = {
+	"Kerberos 4 (KPOP)",
 
-	ret = g_list_append (NULL, &password_authtype);
+	"This will connect to the POP server and use Kerberos 4 "
+	"to authenticate to it.",
+
+	"+KPOP",
+	FALSE
+};
+
+static gboolean
+try_connect (CamelService *service, CamelException *ex)
+{
+	struct hostent *h;
+	struct sockaddr_in sin;
+	int fd;
+
+	h = camel_service_gethost (service, ex);
+	if (!h)
+		return FALSE;
+
+	sin.sin_family = h->h_addrtype;
+	if (service->url->port)
+		sin.sin_port = htons (service->url->port);
+	else
+		sin.sin_port = htons (POP3_PORT);
+	memcpy (&sin.sin_addr, h->h_addr, sizeof (sin.sin_addr));
+
+	fd = socket (h->h_addrtype, SOCK_STREAM, 0);
+	if (fd == -1 ||
+	    connect (fd, (struct sockaddr *)&sin, sizeof(sin)) == -1) {
+		if (fd > -1)
+			close (fd);
+		return FALSE;
+	}
+
+	close (fd);
+	return TRUE;
+}
+#endif
+
+static GList *
+query_auth_types (CamelService *service, CamelException *ex)
+{
+	GList *ret = NULL;
+	gboolean passwd = TRUE;
+#ifdef HAVE_KRB4
+	gboolean kpop = TRUE;
+	int saved_port;
+#endif
+
+	if (service->url) {
+		passwd = try_connect (service, ex);
+		if (camel_exception_get_id (ex) != CAMEL_EXCEPTION_NONE)
+			return NULL;
+#ifdef HAVE_KRB4
+		saved_port = service->url->port;
+		service->url->port = KPOP_PORT;
+		kpop = try_connect (service, ex);
+		service->url->port = saved_port;
+		if (camel_exception_get_id (ex) != CAMEL_EXCEPTION_NONE)
+			return NULL;
+#endif
+	}
+
+	if (passwd)
+		ret = g_list_append (ret, &password_authtype);
+#ifdef HAVE_KRB4
+	if (kpop)
+		ret = g_list_append (ret, &kpop_authtype);
+#endif
 	return ret;
 }
 
@@ -213,12 +286,16 @@ pop3_connect (CamelService *service, CamelException *ex)
 	int fd, status;
 	char *buf, *apoptime, *apopend;
 	CamelPop3Store *store = CAMEL_POP3_STORE (service);
+#ifdef HAVE_KRB4
+	gboolean kpop = (service->url->authmech &&
+			 !strcmp (service->url->authmech, "+KPOP"));
+#endif
 
 	h = camel_service_gethost (service, ex);
 	if (!h)
 		return FALSE;
 
-	if (!service->url->passwd) {
+	if (!service->url->authmech && !service->url->passwd) {
 		char *prompt = g_strdup_printf ("Please enter the POP3 password for %s@%s",
 						service->url->user, h->h_name);
 		service->url->passwd =
@@ -232,7 +309,15 @@ pop3_connect (CamelService *service, CamelException *ex)
 	}
 
 	sin.sin_family = h->h_addrtype;
-	sin.sin_port = htons (service->url->port ? service->url->port : POP3_PORT);
+	if (service->url->port)
+		sin.sin_port = service->url->port;
+#ifdef HAVE_KRB4
+	else if (kpop)
+		sin.sin_port = KPOP_PORT;
+#endif
+	else
+		sin.sin_port = POP3_PORT;
+	sin.sin_port = htons (sin.sin_port);
 	memcpy (&sin.sin_addr, h->h_addr, sizeof (sin.sin_addr));
 
 	fd = socket (h->h_addrtype, SOCK_STREAM, 0);
@@ -246,6 +331,38 @@ pop3_connect (CamelService *service, CamelException *ex)
 			close (fd);
 		return FALSE;
 	}
+
+#ifdef HAVE_KRB4
+	if (kpop) {
+		KTEXT_ST ticket_st;
+		MSG_DAT msg_data;
+		CREDENTIALS cred;
+		Key_schedule schedule;
+		char *hostname;
+
+		/* Need to copy hostname, because krb_realmofhost will
+		 * call gethostbyname as well, and gethostbyname uses
+		 * static storage.
+		 */
+		hostname = g_strdup (h->h_name);
+		status = krb_sendauth (0, fd, &ticket_st, "pop", hostname,
+				       krb_realmofhost (hostname), 0,
+				       &msg_data, &cred, schedule,
+				       NULL, NULL, "KPOPV0.1");
+		g_free (hostname);
+		if (status != KSUCCESS) {
+			camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
+					      "Could not authenticate to KPOP "
+					      "server: %s",
+					      krb_err_txt[status]);
+			close (fd);
+			return FALSE;
+		}
+
+		if (!service->url->passwd)
+			service->url->passwd = g_strdup (service->url->user);
+	}
+#endif /* HAVE_KRB4 */
 
 	store->ostream = camel_stream_fs_new_with_fd (fd);
 	store->istream = camel_stream_buffer_new (store->ostream,

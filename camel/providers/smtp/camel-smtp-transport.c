@@ -57,7 +57,7 @@ static gboolean _send_to (CamelTransport *transport, CamelMedium *message, GList
 static gboolean smtp_connect (CamelService *service, CamelException *ex);
 static gboolean smtp_disconnect (CamelService *service, CamelException *ex);
 static GList *esmtp_get_authtypes(gchar *buffer);
-static GList *query_auth_types (CamelService *service);
+static GList *query_auth_types (CamelService *service, CamelException *ex);
 static void free_auth_types (CamelService *service, GList *authtypes);
 static gchar *smtp_get_email_addr_from_text (gchar *text);
 static gboolean smtp_helo (CamelSmtpTransport *transport, CamelException *ex);
@@ -89,6 +89,14 @@ camel_smtp_transport_class_init (CamelSmtpTransportClass *camel_smtp_transport_c
 	camel_transport_class->send_to = _send_to;
 }
 
+static void
+camel_smtp_transport_init (gpointer object, gpointer klass)
+{
+	CamelService *service = CAMEL_SERVICE (object);
+
+	service->url_flags = CAMEL_SERVICE_URL_NEED_HOST;
+}
+
 GtkType
 camel_smtp_transport_get_type (void)
 {
@@ -101,7 +109,7 @@ camel_smtp_transport_get_type (void)
 			sizeof (CamelSmtpTransport),
 			sizeof (CamelSmtpTransportClass),
 			(GtkClassInitFunc) camel_smtp_transport_class_init,
-			(GtkObjectInitFunc) NULL,
+			(GtkObjectInitFunc) camel_smtp_transport_init,
 			/* reserved_1 */ NULL,
 			/* reserved_2 */ NULL,
 			(GtkClassInitFunc) NULL,
@@ -209,23 +217,35 @@ static GList
 	return ret;
 }
 
-static CamelServiceAuthType password_authtype = {
-	"Password/CRAM-MD5",
+static CamelServiceAuthType no_authtype = {
+	"No authentication required",
 
-	"This option will connect to the ESMTP server using the CRAM-MD5 "
-	"authentication if possible.",
+	"This option will connect to the SMTP server without using any "
+	"kind of authentication. This should be fine for connecting to "
+	"most SMTP servers."
 
 	"",
+	FALSE
+};
+
+static CamelServiceAuthType cram_md5_authtype = {
+	"CRAM-MD5",
+
+	"This option will connect to the SMTP server using CRAM-MD5 "
+	"authentication.",
+
+	"CRAM-MD5",
 	TRUE
 };
 
 static GList
-*query_auth_types (CamelService *service)
+*query_auth_types (CamelService *service, CamelException *ex)
 {
-	GList *ret;
+	/* FIXME: Re-enable this when auth types are actually
+	 * implemented.
+	 */
 
-	ret = g_list_append (NULL, &password_authtype);
-	return ret;
+	return NULL;
 }
 
 static void

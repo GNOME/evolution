@@ -1,3 +1,26 @@
+2000-05-04  Dan Winship  <danw@helixcode.com>
+
+	* camel-session.c (camel_session_list_providers): New function to
+	replace camel_provider_scan. Returns a list of either (a) all
+	currently-loaded providers, or (b) all available providers.
+
+	* camel-url.[ch]: Add an "empty" flag to CamelURL (indicating that
+	it contains only a protocol).
+
+	* camel-service.c (camel_service_query_auth_types): Make this take
+	a CamelException (since it may have to try to connect to the
+	server, and it might not able to.)
+
+	* providers/pop3/camel-pop3-store.c: add KPOP (Kerberized POP)
+	support. This is mostly so I have two kinds of authmech to play
+	with instead of just one. (But it does actually work.)
+
+	* providers/smtp/camel-smtp-transport.c (query_auth_types): update
+	for prototype change, but disable the functionality, since it
+	doesn't really support any auth types yet.
+	(camel_smtp_transport_get_type): add an object init function to
+	set the service url_flags.
+
 2000-05-04  NotZed  <NotZed@HelixCode.com>
 
 	* providers/mbox/camel-mbox-summary.c: Yes, and anotherone.

@@ -1,5 +1,5 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/* camelService.c : Abstract class for an email service */
+/* camel-service.c : Abstract class for an email service */
 
 /* 
  *
@@ -40,7 +40,7 @@ static gboolean _connect_with_url (CamelService *service, CamelURL *url,
 				   CamelException *ex);
 static gboolean _disconnect(CamelService *service, CamelException *ex);
 static gboolean _is_connected (CamelService *service);
-static GList *  _query_auth_types (CamelService *service);
+static GList *  _query_auth_types (CamelService *service, CamelException *ex);
 static void     _free_auth_types (CamelService *service, GList *authtypes);
 static void     _finalize (GtkObject *object);
 static gboolean _set_url (CamelService *service, CamelURL *url,
@@ -129,7 +129,7 @@ camel_service_new (GtkType type, CamelSession *session, CamelURL *url,
 	service = CAMEL_SERVICE (gtk_object_new (type, NULL));
 	service->session = session;
 	gtk_object_ref (GTK_OBJECT (session));
-	if (url) {
+	if (!url->empty) {
 		if (!_set_url (service, url, ex))
 			return NULL;
 	}
@@ -372,7 +372,7 @@ camel_service_get_session (CamelService *service)
 
 
 GList *
-_query_auth_types (CamelService *service)
+_query_auth_types (CamelService *service, CamelException *ex)
 {
 	return NULL;
 }
@@ -381,6 +381,7 @@ _query_auth_types (CamelService *service)
  * camel_service_query_auth_types: return a list of supported
  * authentication types.
  * @service: a CamelService
+ * @ex: a CamelException
  *
  * This is used by the mail source wizard to get the list of
  * authentication types supported by the protocol, and information
@@ -388,17 +389,18 @@ _query_auth_types (CamelService *service)
  *
  * This may be called on a service with or without an associated URL.
  * If there is no URL, the routine must return a generic answer. If
- * the service does have a URL, the routine MAY connect to the server
- * and query what authentication mechanisms it supports.
+ * the service does have a URL, the routine SHOULD connect to the
+ * server and query what authentication mechanisms it supports. If
+ * it cannot do that for any reason, it should set @ex accordingly.
  *
  * Return value: a list of CamelServiceAuthType records. The caller
  * must free the list by calling camel_service_free_auth_types when
  * it is done.
  **/
 GList *
-camel_service_query_auth_types (CamelService *service)
+camel_service_query_auth_types (CamelService *service, CamelException *ex)
 {
-	return CSERV_CLASS (service)->query_auth_types (service);
+	return CSERV_CLASS (service)->query_auth_types (service, ex);
 }
 
 static void

@@ -95,6 +95,68 @@ camel_session_register_provider (CamelSession *session,
 	g_hash_table_insert (session->providers, provider->protocol, provider);
 }
 
+static void
+ensure_loaded (gpointer key, gpointer value, gpointer user_data)
+{
+	CamelSession *session = user_data;
+	char *name = key;
+	char *path = value;
+
+	if (!g_hash_table_lookup (session->providers, name)) {
+		CamelException ex;
+
+		camel_exception_init (&ex);
+		camel_provider_load (session, path, &ex);
+		camel_exception_clear (&ex);
+	}
+}
+
+static gint
+provider_compare (gconstpointer a, gconstpointer b)
+{
+	const CamelProvider *cpa = (const CamelProvider *)a;
+	const CamelProvider *cpb = (const CamelProvider *)b;
+
+	return strcmp (cpa->name, cpb->name);
+}
+
+static void
+add_to_list (gpointer key, gpointer value, gpointer user_data)
+{
+	GList **list = user_data;
+	CamelProvider *prov = value;
+
+	*list = g_list_insert_sorted (*list, prov, provider_compare);
+}
+
+/**
+ * camel_session_list_providers:
+ * @session: the session
+ * @load: whether or not to load in providers that are not already loaded
+ *
+ * This returns a list of available providers in this session. If @load
+ * is %TRUE, it will first load in all available providers that haven't
+ * yet been loaded.
+ *
+ * Return value: a GList of providers, which the caller must free.
+ **/
+GList *
+camel_session_list_providers (CamelSession *session, gboolean load)
+{
+	GList *list;
+
+	g_return_val_if_fail (CAMEL_IS_SESSION (session), NULL);
+
+	if (load) {
+		g_hash_table_foreach (session->modules, ensure_loaded,
+				      session);
+	}
+
+	list = NULL;
+	g_hash_table_foreach (session->providers, add_to_list, &list);
+	return list;
+}
+
 
 CamelService *
 camel_session_get_service (CamelSession *session, const char *url_string,

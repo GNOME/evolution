@@ -74,6 +74,8 @@ CamelSession *  camel_session_new                     (CamelAuthCallback
 
 void            camel_session_register_provider       (CamelSession *session,
 						       CamelProvider *provider);
+GList *         camel_session_list_providers          (CamelSession *session,
+						       gboolean load);
 
 CamelService *  camel_session_get_service             (CamelSession *session,
 						       const char *url_string,

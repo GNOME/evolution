@@ -17,7 +17,7 @@ INCLUDES =					\
 	-I$(top_srcdir)/intl			\
 	$(GTK_INCLUDEDIR)			\
 	-I$(top_srcdir)/camel			\
-	-I$(srcdir)/../mbox			\
+	$(KRB4_CFLAGS)				\
 	-DG_LOG_DOMAIN=\"camel-pop3-provider\"
 
 libcamelpop3_la_SOURCES = 			\
@@ -30,6 +30,6 @@ libcamelpop3include_HEADERS =			\
 	camel-pop3-store.h
 
 
-libcamelpop3_la_LDFLAGS = -version-info 0:0:0 -rpath $(libdir) 
+libcamelpop3_la_LDFLAGS = $(KRB4_LDFLAGS) -version-info 0:0:0 -rpath $(libdir) 
 
 EXTRA_DIST = libcamelpop3.urls

@@ -56,6 +56,9 @@
  *
  * The port, if present, must be numeric.
  * 
+ * If nothing but the protocol (and the ":") is present, the "empty"
+ * flag will be set on the returned URL.
+ *
  * Return value: a CamelURL structure containing the URL items.
  **/
 CamelURL *
@@ -95,7 +98,8 @@ camel_url_new (const char *url_string, CamelException *ex)
 		if (*(colon + 1)) {
 			url->path = g_strdup (colon + 1);
 			camel_url_decode (url->path);
-		}
+		} else
+			url->empty = TRUE;
 		return url;
 	}
 
