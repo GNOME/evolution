@@ -56,23 +56,23 @@ libicalinclude_HEADERS =  ical.h
 
 # ORDERING OF HEADERS IS SIGNIFICANT. Don't change this ordering. It
 # is required to make the combined header ical.h properly
-COMBINEDHEADERS =				\
-	icalversion.h				\
-	icaltime.h				\
-	icalenums.h				\
-	icaltypes.h				\
-	icalrecur.h				\
-	icalvalue.h				\
-	icalparameter.h				\
-	icalproperty.h				\
-	pvl.h					\
-	icalcomponent.h				\
-	icalparser.h				\
-	icalmemory.h				\
-	icalerror.h				\
-	icalrestriction.h			\
-	sspm.h					\
-	icalmime.h
+COMBINEDHEADERS =			\
+	icalversion.h			\
+	$(srcdir)/icaltime.h		\
+	$(srcdir)/icalenums.h		\
+	$(srcdir)/icaltypes.h		\
+	$(srcdir)/icalrecur.h		\
+	icalvalue.h			\
+	icalparameter.h			\
+	icalproperty.h			\
+	$(srcdir)/pvl.h			\
+	$(srcdir)/icalcomponent.h	\
+	$(srcdir)/icalparser.h		\
+	$(srcdir)/icalmemory.h		\
+	$(srcdir)/icalerror.h		\
+	$(srcdir)/icalrestriction.h	\
+	$(srcdir)/sspm.h		\
+	$(srcdir)/icalmime.h
 
 BUILT_SOURCES =			\
 	ical.h			\

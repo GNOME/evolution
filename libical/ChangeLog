@@ -1,3 +1,7 @@
+2000-12-14  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* src/libical/Makefile.am (ical.h): 
+
 2000-12-13  Federico Mena Quintero  <federico@helixcode.com>
 
 	* src/libical/icaltime.c (icaltime_from_timet): Use gmtime()
