@@ -1327,8 +1327,8 @@ pre_sync (GnomePilotConduit *conduit,
 	ctxt->client = NULL;
 
 	if (start_calendar_server (ctxt) != 0) {
-		WARN(_("Could not start wombat server"));
-		gnome_pilot_conduit_error (conduit, _("Could not start wombat"));
+		WARN(_("Could not start evolution-data-server"));
+		gnome_pilot_conduit_error (conduit, _("Could not start evolution-data-server"));
 		return -1;
 	}
 

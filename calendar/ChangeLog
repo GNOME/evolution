@@ -1,3 +1,12 @@
+2004-06-18  Jeffrey Stedfast  <fejj@novell.com>
+
+	Fixes bug #57592
+
+	* conduits/calendar/calendar-conduit.c (pre_sync): Same as below.
+
+	* conduits/todo/todo-conduit.c (pre_sync):
+	s/wombat/evolution-data-server/g
+
 2004-06-18  Rodrigo Moya <rodrigo@novell.com>
 
 	Fixes #58747
