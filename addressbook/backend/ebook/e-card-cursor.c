@@ -36,6 +36,15 @@ e_card_cursor_destroy (GtkObject *object)
 	if (ev._major != CORBA_NO_EXCEPTION) {
 		g_warning("e_card_cursor_destroy: Exception unreffing "
 			  "corba cursor.\n");
+		CORBA_exception_free (&ev);
+		CORBA_exception_init (&ev);
+	}
+
+	CORBA_Object_release (cursor->priv->corba_cursor, &ev);
+
+	if (ev._major != CORBA_NO_EXCEPTION) {
+		g_warning("e_card_cursor_destroy: Exception releasing "
+			  "corba cursor.\n");
 	}
 
 	CORBA_exception_free (&ev);
@@ -92,31 +101,24 @@ e_card_cursor_get_nth (ECardCursor *cursor,
 		       const long   n)
 {
 	if ( cursor->priv->corba_cursor != CORBA_OBJECT_NIL ) {
-		CORBA_Environment      ev;
-		CORBA_char * ret_val;
+		CORBA_Environment      en;
+		CORBA_char *vcard;
 		ECard *card;
 
-		CORBA_exception_init (&ev);
+		CORBA_exception_init (&en);
 
-		ret_val = Evolution_CardCursor_get_nth(cursor->priv->corba_cursor, n, &ev);
+		vcard = Evolution_CardCursor_get_nth(cursor->priv->corba_cursor, n, &en);
 		
-		if (ev._major != CORBA_NO_EXCEPTION) {
+		if (en._major != CORBA_NO_EXCEPTION) {
 			g_warning("e_card_cursor_get_nth: Exception during "
 				  "get_nth corba call.\n");
-			CORBA_exception_free (&ev);
-			CORBA_exception_init (&ev);
 		}
-
-		card = e_card_new (ret_val);
-#if 0		
-		CORBA_string__free(ret_val, &ev);
 		
-		if (ev._major != CORBA_NO_EXCEPTION) {
-			g_warning("e_card_cursor_get_nth: Exception freeing "
-				  "string.\n");
-		}
-#endif
-		CORBA_exception_free (&ev);
+		CORBA_exception_free (&en);
+
+		card = e_card_new (vcard);
+
+		CORBA_free(vcard);
 
 		return card;
 	}
@@ -183,14 +185,21 @@ e_card_cursor_construct (ECardCursor          *cursor,
 	g_return_val_if_fail (E_IS_CARD_CURSOR (cursor), NULL);
 	g_return_val_if_fail (corba_cursor != CORBA_OBJECT_NIL, NULL);
 
+	CORBA_exception_init (&ev);
+
 	/*
 	 * Initialize cursor
 	 */
-	cursor->priv->corba_cursor = corba_cursor;
+	cursor->priv->corba_cursor = CORBA_Object_duplicate(corba_cursor, &ev);
 
-	CORBA_exception_init (&ev);
+	if (ev._major != CORBA_NO_EXCEPTION) {
+		g_warning("e_card_cursor_construct: Exception duplicating "
+			  "corba cursor.\n");
+		CORBA_exception_free (&ev);
+		CORBA_exception_init (&ev);
+	}
 	
-	Evolution_CardCursor_ref(corba_cursor, &ev);
+	Evolution_CardCursor_ref(cursor->priv->corba_cursor, &ev);
 
 	if (ev._major != CORBA_NO_EXCEPTION) {
 		g_warning("e_card_cursor_construct: Exception reffing "
