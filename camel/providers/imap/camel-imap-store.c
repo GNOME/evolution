@@ -331,10 +331,10 @@ imap_create (CamelFolder *folder, CamelException *ex)
 		return FALSE;
 	}
 
-	if (!strcmp(folder->full_name, "INBOX"))
+	if (!strcmp (folder->full_name, "INBOX"))
 		return TRUE;
 	
-	if (camel_folder_get_subfolder(folder->parent_folder, folder->name, FALSE, ex))
+	if (camel_folder_get_subfolder (folder->parent_folder, folder->name, FALSE, ex))
 		return TRUE;
 	
         /* create the directory for the subfolder */
@@ -352,7 +352,7 @@ imap_create (CamelFolder *folder, CamelException *ex)
 		return FALSE;
 	}
 	
-	g_free(result);
+	g_free (result);
 
 	return TRUE;
 }
@@ -423,8 +423,8 @@ camel_imap_command (CamelImapStore *store, CamelFolder *folder, char **ret, char
 	va_list ap;
 	gint status = CAMEL_IMAP_OK;
 
-	if (folder && store->current_folder != folder && strncmp (fmt, "SELECT", 6) &&
-	    strncmp (fmt, "STATUS", 6) && strncmp (fmt, "CREATE", 5) && strcmp (fmt, "CAPABILITY")) {
+	if (folder && store->current_folder != folder && strncmp (fmt, "STATUS", 6) &&
+	    strncmp (fmt, "CREATE", 5) && strcmp (fmt, "CAPABILITY")) {
 		/* We need to select the correct mailbox first */
 		char *r;
 		int s;
@@ -433,6 +433,24 @@ camel_imap_command (CamelImapStore *store, CamelFolder *folder, char **ret, char
 		if (s != CAMEL_IMAP_OK) {
 			*ret = r;
 			return s;
+		} else {
+			/* parse the read-write mode */
+#if 0
+			char *p;
+
+			p = strstr (result, "\n");
+			while (p) {
+				if (*(p + 1) == '*')
+					p = strstr (p, "\n");
+				else
+					break;
+			}
+
+			if (p) {
+				if (strstrcase (p, "READ-WRITE"))
+					mode = 
+			}
+#endif
 		}
 
 		store->current_folder = folder;
@@ -565,7 +583,12 @@ camel_imap_command_extended (CamelImapStore *store, CamelFolder *folder, char **
 		g_ptr_array_add (data, respbuf);
 	}
 
-	status = camel_imap_status (cmdid, respbuf);
+	if (respbuf) {
+		g_ptr_array_add (data, respbuf);
+		status = camel_imap_status (cmdid, respbuf);
+	} else {
+		status = CAMEL_IMAP_FAIL;
+	}
 	g_free (cmdid);
 
 	if (status == CAMEL_IMAP_OK) {

@@ -282,6 +282,8 @@ imap_init (CamelFolder *folder, CamelStore *parent_store, CamelFolder *parent_fo
 				      folder->full_name, service->url->host, 
 				      status == CAMEL_IMAP_ERR ? result :
 				      "Unknown error");
+	} else {
+		/* parse the mode we opened it in */
 	}
 	g_free (result);
 }

@@ -1,10 +1,17 @@
 2000-06-20  Jeffrey Stedfast  <fejj@helixcode.com>
 
+	* providers/imap/camel-imap-store.c (camel_imap_command_extended): 
+	Now returns the last line of data that the server sends back as
+	well. This is needed for commands like SELECT (like Peter pointed
+	out).
+	(camel_imap_command): No longer checks for SELECT (no need)
+
 	* providers/imap/camel-imap-folder.c: Added namespace stuff
 	which we will need later on...
 	(imap_parse_subfolder_line): Convenience function for use in
 	get_subfolder_names()
-	(imap_get_subfolder_names): Updated.
+	(imap_get_subfolder_names): Updated. Also changed it to use LIST
+	instead of LSUB (temporary change).
 
 2000-06-19  Jeffrey Stedfast  <fejj@helixcode.com>
 
