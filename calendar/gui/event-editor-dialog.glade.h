@@ -11,7 +11,11 @@ gchar *s = N_("Time");
 gchar *s = N_("Start time:");
 gchar *s = N_("End time:");
 gchar *s = N_("A_ll day event");
-gchar *s = N_("Alarms");
+gchar *s = N_("Classification");
+gchar *s = N_("Pu_blic");
+gchar *s = N_("Pri_vate");
+gchar *s = N_("_Confidential");
+gchar *s = N_("General");
 gchar *s = N_("Minutes\n"
               "Hours\n"
               "Days\n"
@@ -34,11 +38,7 @@ gchar *s = N_("_Program");
 gchar *s = N_("_Mail");
 gchar *s = N_("Mail _to:");
 gchar *s = N_("_Run program:");
-gchar *s = N_("Classification");
-gchar *s = N_("Pu_blic");
-gchar *s = N_("Pri_vate");
-gchar *s = N_("_Confidential");
-gchar *s = N_("General");
+gchar *s = N_("Reminder");
 gchar *s = N_("Recurrence rule");
 gchar *s = N_("None");
 gchar *s = N_("Daily");

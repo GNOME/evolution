@@ -23,10 +23,10 @@
 #include <cal-util/timeutil.h>
 #include "dialogs/alarm-notify-dialog.h"
 #include "alarm.h"
+#include "e-calendar-table.h"
 #include "e-day-view.h"
 #include "e-week-view.h"
 #include "event-editor.h"
-#include "gncal-todo.h"
 #include "gnome-cal.h"
 #include "calendar-commands.h"
 
@@ -208,9 +208,17 @@ setup_widgets (GnomeCalendar *gcal)
 			    gcal);
 
 	/* The ToDo list. */
+#if 0
 	gcal->todo = gncal_todo_new (gcal);
 	e_paned_pack2 (E_PANED (vpane), gcal->todo, TRUE, TRUE);
 	gtk_widget_show (gcal->todo);
+#endif
+
+	gcal->todo = e_calendar_table_new ();
+	e_paned_pack2 (E_PANED (vpane), gcal->todo, TRUE, TRUE);
+	gtk_widget_show (gcal->todo);
+	e_calendar_table_set_cal_client (E_CALENDAR_TABLE (gcal->todo),
+					 gcal->client);
 
 
 	/* The Day View. */
@@ -796,7 +804,9 @@ gnome_calendar_update_all (GnomeCalendar *cal)
 	e_week_view_update_all_events (E_WEEK_VIEW (cal->week_view));
 	e_week_view_update_all_events (E_WEEK_VIEW (cal->month_view));
 
+#if 0
 	gncal_todo_update (GNCAL_TODO (cal->todo), NULL, TRUE);
+#endif
 	gnome_calendar_tag_calendar (cal, cal->gtk_calendar);
 }
 
@@ -870,7 +880,9 @@ gnome_calendar_object_updated_cb (GtkWidget *cal_client,
 	e_week_view_update_event (E_WEEK_VIEW (gcal->week_view), uid);
 	e_week_view_update_event (E_WEEK_VIEW (gcal->month_view), uid);
 
+#if 0
 	gncal_todo_update (GNCAL_TODO (gcal->todo), NULL, TRUE);
+#endif
 	gnome_calendar_tag_calendar (gcal, gcal->gtk_calendar);
 }
 
@@ -890,7 +902,9 @@ gnome_calendar_object_removed_cb (GtkWidget *cal_client,
 	e_week_view_remove_event (E_WEEK_VIEW (gcal->week_view), uid);
 	e_week_view_remove_event (E_WEEK_VIEW (gcal->month_view), uid);
 
+#if 0
 	gncal_todo_update (GNCAL_TODO (gcal->todo), NULL, CHANGE_ALL);
+#endif
 	gnome_calendar_tag_calendar (gcal, gcal->gtk_calendar);
 }
 
@@ -931,7 +945,7 @@ typedef struct
 
 
 static void
-gnome_calendar_load_cb (GtkWidget *cal_client,
+gnome_calendar_load_cb (CalClient *cal_client,
 			CalClientLoadStatus status,
 			load_or_create_data *locd)
 {
@@ -1242,7 +1256,9 @@ gnome_calendar_colors_changed (GnomeCalendar *gcal)
 	g_return_if_fail (GNOME_IS_CALENDAR (gcal));
 
 	todo_style_changed = 1;
+#if 0
 	gncal_todo_update (GNCAL_TODO (gcal->todo), NULL, 0);
+#endif
 }
 
 void
@@ -1252,7 +1268,9 @@ gnome_calendar_todo_properties_changed (GnomeCalendar *gcal)
 	g_return_if_fail (GNOME_IS_CALENDAR (gcal));
 
 	todo_style_changed = 1;
+#if 0
 	gncal_todo_update (GNCAL_TODO (gcal->todo), NULL, 0);
+#endif
 }
 
 

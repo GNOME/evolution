@@ -53,6 +53,8 @@ typedef struct {
 	GtkWidget *end_time;
 	GtkWidget *all_day_event;
 
+	GtkWidget *description;
+
 	GtkWidget *alarm_display;
 	GtkWidget *alarm_program;
 	GtkWidget *alarm_audio;
@@ -331,6 +333,8 @@ get_widgets (EventEditor *ee)
 	priv->end_time = GW ("end-time");
 	priv->all_day_event = GW ("all-day-event");
 
+	priv->description = GW ("description");
+
 	priv->alarm_display = GW ("alarm-display");
 	priv->alarm_program = GW ("alarm-program");
 	priv->alarm_audio = GW ("alarm-audio");
@@ -397,6 +401,7 @@ get_widgets (EventEditor *ee)
 		&& priv->start_time
 		&& priv->end_time
 		&& priv->all_day_event
+		&& priv->description
 		&& priv->alarm_display
 		&& priv->alarm_program
 		&& priv->alarm_audio
@@ -526,6 +531,8 @@ static void
 init_widgets (EventEditor *ee)
 {
 	EventEditorPrivate *priv;
+	GnomeDateEdit *gde;
+	GtkWidget *widget;
 
 	priv = ee->priv;
 
@@ -576,6 +583,27 @@ init_widgets (EventEditor *ee)
 			    GTK_SIGNAL_FUNC (recurrence_exception_deleted), ee);
 	gtk_signal_connect (GTK_OBJECT (priv->recurrence_exception_change), "clicked",
 			    GTK_SIGNAL_FUNC (recurrence_exception_changed), ee);
+
+	/* Hide the stupid 'Calendar' labels. */
+	gde = GNOME_DATE_EDIT (priv->start_time);
+	gtk_widget_hide (gde->cal_label);
+	widget = gde->date_entry;
+	gtk_box_set_child_packing (GTK_BOX (widget->parent), widget,
+				   FALSE, FALSE, 0, GTK_PACK_START);
+	widget = gde->time_entry;
+	gtk_box_set_child_packing (GTK_BOX (widget->parent), widget,
+				   FALSE, FALSE, 0, GTK_PACK_START);
+	gtk_box_set_spacing (GTK_BOX (widget->parent), 2);
+
+	gde = GNOME_DATE_EDIT (priv->end_time);
+	gtk_widget_hide (gde->cal_label);
+	widget = gde->date_entry;
+	gtk_box_set_child_packing (GTK_BOX (widget->parent), widget,
+				   FALSE, FALSE, 0, GTK_PACK_START);
+	widget = gde->time_entry;
+	gtk_box_set_child_packing (GTK_BOX (widget->parent), widget,
+				   FALSE, FALSE, 0, GTK_PACK_START);
+	gtk_box_set_spacing (GTK_BOX (widget->parent), 2);
 }
 
 /* Fills the widgets with default values */
@@ -593,6 +621,7 @@ clear_widgets (EventEditor *ee)
 
 	e_dialog_editable_set (priv->general_owner, _("?"));
 	e_dialog_editable_set (priv->general_summary, NULL);
+	e_dialog_editable_set (priv->description, NULL);
 
 	/* Start and end times */
 
@@ -673,6 +702,7 @@ fill_widgets (EventEditor *ee)
 {
 	EventEditorPrivate *priv;
 	GList *list;
+	time_t dtstart, dtend;
 
 	priv = ee->priv;
 
@@ -689,13 +719,26 @@ fill_widgets (EventEditor *ee)
 
 	e_dialog_editable_set (priv->general_summary, priv->ico->summary);
 
+	e_dialog_editable_set (priv->description, priv->ico->desc);
+
 	/* Start and end times */
 
 	gtk_signal_handler_block_by_data (GTK_OBJECT (priv->start_time), ee);
 	gtk_signal_handler_block_by_data (GTK_OBJECT (priv->end_time), ee);
 
-	e_dialog_dateedit_set (priv->start_time, priv->ico->dtstart);
-	e_dialog_dateedit_set (priv->end_time, priv->ico->dtend);
+	/* All-day events are inclusive, i.e. if the end date shown is 2nd Feb
+	   then the event includes all of the 2nd Feb. We would normally show
+	   3rd Feb as the end date, since it really ends at midnight on 3rd,
+	   so we have to subtract a day so we only show the 2nd. */
+	dtstart = priv->ico->dtstart;
+	dtend = priv->ico->dtend;
+	if (time_day_begin (dtstart) == dtstart
+	    && time_day_begin (dtend) == dtend) {
+		dtend = time_add_day (dtend, -1);
+	}
+
+	e_dialog_dateedit_set (priv->start_time, dtstart);
+	e_dialog_dateedit_set (priv->end_time, dtend);
 
 	gtk_signal_handler_unblock_by_data (GTK_OBJECT (priv->start_time), ee);
 	gtk_signal_handler_unblock_by_data (GTK_OBJECT (priv->end_time), ee);
@@ -875,13 +918,20 @@ dialog_to_ical_object (EventEditor *ee)
 
 	if (ico->summary)
 		g_free (ico->summary);
-
 	ico->summary  = e_dialog_editable_get (priv->general_summary);
+
+	if (ico->desc)
+		g_free (ico->desc);
+	ico->desc  = e_dialog_editable_get (priv->description);
 
 	ico->dtstart = e_dialog_dateedit_get (priv->start_time);
 	ico->dtend = e_dialog_dateedit_get (priv->end_time);
 
+	/* If the all_day toggle is set, the end date is inclusive of the
+	   entire day on which it points to. */
 	all_day_event = e_dialog_toggle_get (priv->all_day_event);
+	if (all_day_event)
+		ico->dtend = time_day_end (ico->dtend);
 
 	ico->dalarm.enabled = e_dialog_toggle_get (priv->alarm_display);
 	ico->aalarm.enabled = e_dialog_toggle_get (priv->alarm_program);
@@ -1586,8 +1636,8 @@ check_all_day (EventEditor *ee)
 	ev_end = e_dialog_dateedit_get (priv->end_time);
 
 	/* all day event checkbox */
-	if (get_time_t_hour (ev_start) <= day_begin &&
-	    get_time_t_hour (ev_end) >= day_end)
+	if (time_day_begin (ev_start) == ev_start
+	    && time_day_begin (ev_end) == ev_end)
 		e_dialog_toggle_set (priv->all_day_event, TRUE);
 	else
 		e_dialog_toggle_set (priv->all_day_event, FALSE);
@@ -1600,24 +1650,57 @@ static void
 set_all_day (GtkWidget *toggle, EventEditor *ee)
 {
 	EventEditorPrivate *priv;
-	struct tm tm;
-	time_t start_t;
+	struct tm start_tm, end_tm;
+	time_t start_t, end_t;
+	gboolean all_day;
+	int flags;
 
 	priv = ee->priv;
 
+	/* If the all_day toggle is set, the end date is inclusive of the
+	   entire day on which it points to. */
+	all_day = GTK_TOGGLE_BUTTON (toggle)->active;
+
 	start_t = e_dialog_dateedit_get (priv->start_time);
-	tm = *localtime (&start_t);
-	tm.tm_hour = day_begin;
-	tm.tm_min  = 0;
-	tm.tm_sec  = 0;
-	e_dialog_dateedit_set (priv->start_time, mktime (&tm));
+	start_tm = *localtime (&start_t);
+	start_tm.tm_min  = 0;
+	start_tm.tm_sec  = 0;
 
-	if (GTK_TOGGLE_BUTTON (toggle)->active)
-		tm.tm_hour = day_end;
+	if (all_day)
+		start_tm.tm_hour = 0;
 	else
-		tm.tm_hour++;
+		start_tm.tm_hour = day_begin;
 
-	e_dialog_dateedit_set (priv->end_time, mktime (&tm));
+	e_dialog_dateedit_set (priv->start_time, mktime (&start_tm));
+
+	end_t = e_dialog_dateedit_get (priv->end_time);
+	end_tm = *localtime (&end_t);
+	end_tm.tm_min  = 0;
+	end_tm.tm_sec  = 0;
+
+	if (all_day) {
+		/* mktime() will fix this if we go past the end of the month.*/
+		end_tm.tm_hour = 0;
+	} else {
+		if (end_tm.tm_year == start_tm.tm_year
+		    && end_tm.tm_mon == start_tm.tm_mon
+		    && end_tm.tm_mday == start_tm.tm_mday
+		    && end_tm.tm_hour <= start_tm.tm_hour)
+			end_tm.tm_hour = start_tm.tm_hour + 1;
+	}
+
+	flags = gnome_date_edit_get_flags (GNOME_DATE_EDIT (priv->start_time));
+	if (all_day)
+		flags &= ~GNOME_DATE_EDIT_SHOW_TIME;
+	else
+		flags |= GNOME_DATE_EDIT_SHOW_TIME;
+	gnome_date_edit_set_flags (GNOME_DATE_EDIT (priv->start_time), flags);
+	gnome_date_edit_set_flags (GNOME_DATE_EDIT (priv->end_time), flags);
+
+	e_dialog_dateedit_set (priv->end_time, mktime (&end_tm));
+
+	gtk_widget_hide (GNOME_DATE_EDIT (priv->start_time)->cal_label);
+	gtk_widget_hide (GNOME_DATE_EDIT (priv->end_time)->cal_label);
 }
 
 /*
@@ -1680,7 +1763,7 @@ check_times (GnomeDateEdit *gde, EventEditor *ee)
 	start = e_dialog_dateedit_get (priv->start_time);
 	end = e_dialog_dateedit_get (priv->end_time);
 
-	if (start >= end) {
+	if (start > end) {
 		tm_start = *localtime (&start);
 		tm_end = *localtime (&end);
 

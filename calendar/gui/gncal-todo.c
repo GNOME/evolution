@@ -9,6 +9,7 @@
 #include <config.h>
 #include <string.h>
 #include <gnome.h>
+#include <cal-client/cal-client.h>
 #include "event-editor.h"
 #include "gncal-todo.h"
 #include "calendar-commands.h"
@@ -59,7 +60,7 @@ static void
 ok_button (GtkWidget *widget, GnomeDialog *dialog)
 {
 	iCalObject *ico;
-	GncalTodo *todo;
+	CalClient *cal_client;
 	GtkEntry *entry;
 	GnomeDateEdit *due_date;
 	GtkText *comment;
@@ -67,7 +68,7 @@ ok_button (GtkWidget *widget, GnomeDialog *dialog)
 
 	ico = gtk_object_get_user_data (GTK_OBJECT (dialog));
 
-	todo = GNCAL_TODO (gtk_object_get_data (GTK_OBJECT (dialog), "gncal_todo"));
+	cal_client = (CalClient*) (gtk_object_get_data (GTK_OBJECT (dialog), "cal_client"));
 	entry = GTK_ENTRY (gtk_object_get_data (GTK_OBJECT (dialog), "summary_entry"));
 	due_date = GNOME_DATE_EDIT (gtk_object_get_data(GTK_OBJECT(dialog), "due_date"));
 	priority = GTK_SPIN_BUTTON (gtk_object_get_data(GTK_OBJECT(dialog), "priority"));
@@ -82,7 +83,7 @@ ok_button (GtkWidget *widget, GnomeDialog *dialog)
 	ico->comment = gtk_editable_get_chars( GTK_EDITABLE(comment), 0, -1);
 	ico->user_data = NULL;
 
-	if (!cal_client_update_object (todo->calendar->client, ico))
+	if (!cal_client_update_object (cal_client, ico))
 		g_message ("ok_button(): Could not update the object!");
 
 	ical_object_unref (ico);
@@ -113,8 +114,10 @@ delete_event (GtkWidget *widget, GdkEvent *event, GnomeDialog *dialog)
 	return TRUE;
 }
 
-static void
-simple_todo_editor (GncalTodo *todo, iCalObject *ico)
+/* I've hacked this so we can use it separate from the rest of GncalTodo.
+   This whole file will go once we've got the new editor working. */
+void
+gncal_todo_edit (CalClient *client, iCalObject *ico)
 {
 	GtkWidget *dialog;
 	GtkWidget *hbox;
@@ -138,8 +141,10 @@ simple_todo_editor (GncalTodo *todo, iCalObject *ico)
 				   GNOME_STOCK_BUTTON_OK,
 				   GNOME_STOCK_BUTTON_CANCEL,
 				   NULL);
+#if 0
 	gnome_dialog_set_parent (GNOME_DIALOG (dialog),
 	  GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (todo->calendar))));
+#endif
 	hbox = gtk_hbox_new (FALSE, 4);
 	gtk_container_border_width (GTK_CONTAINER (hbox), 4);
 	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (dialog)->vbox),
@@ -228,7 +233,7 @@ simple_todo_editor (GncalTodo *todo, iCalObject *ico)
 	gtk_object_set_user_data (GTK_OBJECT (dialog), ico);
 	ical_object_ref (ico);
 
-	gtk_object_set_data (GTK_OBJECT (dialog), "gncal_todo", todo);
+	gtk_object_set_data (GTK_OBJECT (dialog), "cal_client", client);
 	gtk_object_set_data (GTK_OBJECT (dialog), "summary_entry", entry);
 	gtk_object_set_data (GTK_OBJECT (dialog), "due_date", due_entry);
 	gtk_object_set_data (GTK_OBJECT (dialog), "priority", pri_spin);
@@ -271,14 +276,18 @@ add_todo (GncalTodo *todo)
 	ico->type = ICAL_TODO;
 	ico->new = TRUE;
 
-	simple_todo_editor (todo, ico);
+#if 0
+	gncal_todo_edit (todo, ico);
+#endif
 	ical_object_unref (ico);
 }
 
 static void
 edit_todo (GncalTodo *todo)
 {
-	simple_todo_editor (todo, get_clist_selected_ico (todo->clist));
+#if 0
+	gncal_todo_edit (todo, get_clist_selected_ico (todo->clist));
+#endif
 }
 
 static void

@@ -75,6 +75,7 @@ main (int argc, char **argv)
 	init_bonobo (&argc, argv);
 	glade_gnome_init ();
 	alarm_init ();
+	e_cursors_init ();
 
 	init_calendar ();
 

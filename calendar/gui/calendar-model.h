@@ -51,11 +51,22 @@ struct _CalendarModelClass {
 	ETableModelClass parent_class;
 };
 
-GtkType calendar_model_get_type (void);
+GtkType		calendar_model_get_type		  (void);
 
-CalendarModel *calendar_model_new (void);
+CalendarModel*	calendar_model_new		  (void);
 
-void calendar_model_set_cal_client (CalendarModel *model, CalClient *client, CalObjType type);
+CalClient*	calendar_model_get_cal_client	  (CalendarModel   *model);
+void		calendar_model_set_cal_client	  (CalendarModel   *model,
+						   CalClient	   *client,
+						   CalObjType	    type);
+
+void		calendar_model_mark_task_complete (CalendarModel   *model,
+						   gint		    row);
+void		calendar_model_delete_task	  (CalendarModel   *model,
+						   gint		    row);
+
+iCalObject*	calendar_model_get_cal_object	  (CalendarModel   *model,
+						   gint		    row);
 
 
 

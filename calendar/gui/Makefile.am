@@ -26,10 +26,11 @@ LINK_FLAGS =							\
 	dialogs/libcal-dialogs.a				\
 	$(top_builddir)/calendar/cal-client/libcal-client.la	\
 	$(top_builddir)/calendar/cal-util/libcal-util.la	\
-	$(top_builddir)/e-util/libeutil.la			\
 	$(top_builddir)/widgets/e-paned/libepaned.a		\
 	$(top_builddir)/widgets/e-text/libetext.a		\
 	$(top_builddir)/widgets/e-table/libetable.a		\
+	$(top_builddir)/widgets/misc/libemiscwidgets.a		\
+	$(top_builddir)/e-util/libeutil.la			\
 	$(top_builddir)/libversit/libversit.la			\
 	$(top_builddir)/libical/src/libical/libical.a
 
@@ -51,6 +52,8 @@ evolution_calendar_SOURCES =			\
 	control-factory.h			\
 	component-factory.c			\
 	component-factory.h			\
+	e-calendar-table.h			\
+	e-calendar-table.c			\
 	e-day-view-main-item.c			\
 	e-day-view-main-item.h			\
 	e-day-view-time-item.c			\

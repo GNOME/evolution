@@ -14,13 +14,17 @@ noinst_LIBRARIES = libcal-dialogs.a
 
 libcal_dialogs_a_SOURCES =	\
 	alarm-notify-dialog.c	\
-	alarm-notify-dialog.h
+	alarm-notify-dialog.h	\
+	task-editor.c		\
+	task-editor.h
 
 glade_DATA =			\
-	alarm-notify.glade
+	alarm-notify.glade	\
+	task-editor-dialog.glade
 
 glade_messages =		\
-	alarm-notify.glade.h
+	alarm-notify.glade.h	\
+	task-editor-dialog.glade.h
 
 EXTRA_DIST =			\
 	$(glade_DATA)		\

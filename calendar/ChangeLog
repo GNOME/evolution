@@ -1,3 +1,26 @@
+2000-07-25  Damon Chaplin  <damon@helixcode.com>
+
+	* gui/e-calendar-table.[hc]: new ECalendarTable to show an ETable view
+	for Todo/Event items.
+
+	* gui/task-assigned-to.xpm: 
+	* gui/task-recurring.xpm: 
+	* gui/task-assigned.xpm: 
+	* gui/task.xpm: new pixmaps (all the same at present) to go in the
+	icon column of the ETable.
+
+	* gui/event-editor.c: hid the silly 'Calendar' labels on the
+	GnomeDateEdits and hid the times when you select 'All day event'.
+	Also adjusted the time_t's so that when an all day event finishes on
+	say midnight 13th May, we show 12th May in the dialog, since it
+	implicitly includes all of that day up to midnight.
+
+	* gui/dialogs/task-editor-dialog.glade: 
+	* gui/dialogs/task-editor.[hc]: unfinished dialog to edit tasks.
+
+	* gui/gncal-todo.c: temporary hack so that we can use the simple dialog
+	with our new ETable.
+
 2000-07-23  Damon Chaplin  <damon@helixcode.com>
 
 	* cal-util/calobj.h: added a few more fields.

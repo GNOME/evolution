@@ -49,6 +49,7 @@ GtkWidget *gncal_todo_new      (GnomeCalendar *calendar);
 
 void       gncal_todo_update   (GncalTodo *todo, iCalObject *ico, int flags);
 
+void	   gncal_todo_edit     (CalClient *client, iCalObject *ico);
 
 END_GNOME_DECLS
 

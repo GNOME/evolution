@@ -1,3 +1,5 @@
+/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+
 /* Evolution calendar - Data model for ETable
  *
  * Copyright (C) 2000 Helix Code, Inc.
@@ -19,9 +21,17 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
 
+/* We need this for strptime. */
+#define _XOPEN_SOURCE
+
 #include <config.h>
+#include <ctype.h>
+#include <time.h>
 #include <gtk/gtksignal.h>
+#include <libgnomeui/gnome-messagebox.h>
+#include <libgnomeui/gnome-stock.h>
 #include "calendar-model.h"
+#include "calendar-commands.h"
 
 
 
@@ -38,6 +48,12 @@ typedef struct {
 
 	/* UID -> array index hash */
 	GHashTable *uid_index_hash;
+
+	/* The row currently being added via the 'click-to-add' row. */
+	gint row_being_added;
+
+	/* Source ID of our idle function to add the new row. */
+	guint idle_id;
 } CalendarModelPrivate;
 
 
@@ -51,11 +67,17 @@ static int calendar_model_row_count (ETableModel *etm);
 static void *calendar_model_value_at (ETableModel *etm, int col, int row);
 static void calendar_model_set_value_at (ETableModel *etm, int col, int row, const void *value);
 static gboolean calendar_model_is_cell_editable (ETableModel *etm, int col, int row);
+static gint calendar_model_append_row (ETableModel *etm);
+static gboolean calendar_model_commit_new_row (gpointer data);
 static void *calendar_model_duplicate_value (ETableModel *etm, int col, const void *value);
 static void calendar_model_free_value (ETableModel *etm, int col, void *value);
 static void *calendar_model_initialize_value (ETableModel *etm, int col);
 static gboolean calendar_model_value_is_empty (ETableModel *etm, int col, const void *value);
+#if 0
 static char * calendar_model_value_to_string (ETableModel *etm, int col, const void *value);
+#endif
+static void load_objects (CalendarModel *model);
+static int remove_object (CalendarModel *model, const char *uid);
 
 static ETableModelClass *parent_class;
 
@@ -112,6 +134,7 @@ calendar_model_class_init (CalendarModelClass *class)
 	etm_class->value_at = calendar_model_value_at;
 	etm_class->set_value_at = calendar_model_set_value_at;
 	etm_class->is_cell_editable = calendar_model_is_cell_editable;
+	etm_class->append_row = calendar_model_append_row;
 	etm_class->duplicate_value = calendar_model_duplicate_value;
 	etm_class->free_value = calendar_model_free_value;
 	etm_class->initialize_value = calendar_model_initialize_value;
@@ -132,6 +155,9 @@ calendar_model_init (CalendarModel *model)
 
 	priv->objects = g_array_new (FALSE, TRUE, sizeof (iCalObject *));
 	priv->uid_index_hash = g_hash_table_new (g_str_hash, g_str_equal);
+
+	priv->row_being_added = -1;
+	priv->idle_id = 0;
 }
 
 /* Called from g_hash_table_foreach_remove(), frees a stored UID->index
@@ -182,6 +208,10 @@ calendar_model_destroy (GtkObject *object)
 
 	model = CALENDAR_MODEL (object);
 	priv = model->priv;
+
+	/* Remove any idle function. */
+	if (priv->idle_id)
+		g_source_remove (priv->idle_id);
 
 	/* Free the calendar client interface object */
 
@@ -234,6 +264,42 @@ calendar_model_row_count (ETableModel *etm)
 	return priv->objects->len;
 }
 
+static char*
+get_time_t (time_t *t, gboolean skip_midnight)
+{
+	static char buffer[32];
+	struct tm *tmp_tm;
+
+	if (*t <= 0) {
+		buffer[0] = '\0';
+	} else {
+		tmp_tm = localtime (t);
+
+		if (skip_midnight && tmp_tm->tm_hour == 0
+		    && tmp_tm->tm_min == 0 && tmp_tm->tm_sec == 0)
+			strftime (buffer, 32, "%a %x", tmp_tm);
+		else
+			strftime (buffer, 32, "%a %x %T", tmp_tm);
+	}
+
+	return buffer;
+}
+
+static char*
+get_geo (iCalGeo *geo)
+{
+	static gchar buffer[32];
+
+	if (!geo->valid)
+		buffer[0] = '\0';
+	else
+		g_snprintf (buffer, 32, "%g, %g", geo->latitude,
+			    geo->longitude);
+
+	return buffer;
+}
+
+
 /* value_at handler for the calendar table model */
 static void *
 calendar_model_value_at (ETableModel *etm, int col, int row)
@@ -241,6 +307,7 @@ calendar_model_value_at (ETableModel *etm, int col, int row)
 	CalendarModel *model;
 	CalendarModelPrivate *priv;
 	iCalObject *ico;
+	static char buffer[16];
 
 	model = CALENDAR_MODEL (etm);
 	priv = model->priv;
@@ -256,40 +323,45 @@ calendar_model_value_at (ETableModel *etm, int col, int row)
 		return ico->comment ? ico->comment : "";
 
 	case ICAL_OBJECT_FIELD_COMPLETED:
-		return &ico->completed;
+		return get_time_t (&ico->completed, FALSE);
 
 	case ICAL_OBJECT_FIELD_CREATED:
-		return &ico->created;
+		return get_time_t (&ico->created, FALSE);
 
 	case ICAL_OBJECT_FIELD_DESCRIPTION:
 		return ico->desc ? ico->desc : "";
 
 	case ICAL_OBJECT_FIELD_DTSTAMP:
-		return &ico->dtstamp;
+		return get_time_t (&ico->dtstamp, FALSE);
 
 	case ICAL_OBJECT_FIELD_DTSTART:
-		return &ico->dtstart;
+		return get_time_t (&ico->dtstart, FALSE);
 
 	case ICAL_OBJECT_FIELD_DTEND:
-		return &ico->dtend;
+		return get_time_t (&ico->dtend, FALSE);
 
 	case ICAL_OBJECT_FIELD_GEO:
-		return &ico->geo;
+		return get_geo (&ico->geo);
 
 	case ICAL_OBJECT_FIELD_LAST_MOD:
-		return &ico->last_mod;
+		return get_time_t (&ico->last_mod, FALSE);
 
 	case ICAL_OBJECT_FIELD_LOCATION:
 		return ico->location ? ico->location : "";
 
 	case ICAL_OBJECT_FIELD_ORGANIZER:
-		return ico->organizer;
+		if (ico->organizer && ico->organizer->name)
+			return ico->organizer->name;
+		else
+			return "";
 
 	case ICAL_OBJECT_FIELD_PERCENT:
-		return &ico->percent;
+		g_snprintf (buffer, 16, "%i", ico->percent);
+		return buffer;
 
 	case ICAL_OBJECT_FIELD_PRIORITY:
-		return &ico->priority;
+		g_snprintf (buffer, 16, "%i", ico->priority);
+		return buffer;
 
 	case ICAL_OBJECT_FIELD_SUMMARY:
 		return ico->summary ? ico->summary : "";
@@ -300,6 +372,38 @@ calendar_model_value_at (ETableModel *etm, int col, int row)
 	case ICAL_OBJECT_FIELD_HAS_ALARMS:
 		return (gpointer) (ico->dalarm.enabled || ico->aalarm.enabled
 				   || ico->palarm.enabled || ico->malarm.enabled);
+
+	case ICAL_OBJECT_FIELD_ICON:
+		/* FIXME: Also support 'Assigned to me' & 'Assigned to someone
+		   else'. */
+		if (ico->recur)
+			return GINT_TO_POINTER (1);
+		else
+			return GINT_TO_POINTER (0);
+
+	case ICAL_OBJECT_FIELD_COMPLETE:
+		/* FIXME: Should check if the Completed field is set? */
+		return GINT_TO_POINTER (ico->completed > 0);
+
+	case ICAL_OBJECT_FIELD_RECURRING:
+		return GINT_TO_POINTER (ico->recur != NULL);
+
+	case ICAL_OBJECT_FIELD_OVERDUE:
+		/* I don't think calling time() is too slow. It takes about
+		   4 times as long as calling strlen() on a 20-char string
+		   on my machine. */
+		if (ico->percent != 100
+		    && ico->dtend > 0
+		    && ico->dtend < time (NULL))
+			return GINT_TO_POINTER (TRUE);
+		return GINT_TO_POINTER (FALSE);
+
+	case ICAL_OBJECT_FIELD_COLOR:
+		if (ico->percent != 100
+		    && ico->dtend > 0
+		    && ico->dtend < time (NULL))
+			return "red";
+		return NULL;
 
 	default:
 		g_message ("calendar_model_value_at(): Requested invalid column %d", col);
@@ -320,32 +424,217 @@ set_string (char **dest, const char *value)
 		*dest = NULL;
 }
 
+
+static gboolean
+string_is_empty (const char *value)
+{
+	const char *p;
+	gboolean empty = TRUE;
+
+	if (value) {
+		p = value;
+		while (*p) {
+			if (!isspace (*p)) {
+				empty = FALSE;
+				break;
+			}
+			p++;
+		}
+	}
+	return empty;
+}
+
+
+/* FIXME: We need to set the "transient_for" property for the dialog, but
+   the model doesn't know anything about the windows. */
+static void
+show_date_warning ()
+{
+	GtkWidget *dialog;
+	char buffer[32], message[256];
+	time_t t;
+	struct tm *tmp_tm;
+
+	t = time (NULL);
+	tmp_tm = localtime (&t);
+	strftime (buffer, 32, "%a %x %T", tmp_tm);
+
+	g_snprintf (message, 256,
+		    _("The date must be entered in the format: \n\n%s"),
+		    buffer);
+
+	dialog = gnome_message_box_new (message,
+					GNOME_MESSAGE_BOX_ERROR,
+					GNOME_STOCK_BUTTON_OK, NULL);
+	gtk_widget_show (dialog);
+}
+
+
 /* Replaces a time_t value */
 static void
-set_time_t (time_t *dest, const time_t *value)
+set_time_t (time_t *dest, const char *value)
 {
-	*dest = *value;
+	struct tm tmp_tm;
+	struct tm *today_tm;
+	time_t t;
+	const char *p;
+
+	if (string_is_empty (value)) {
+		*dest = 0;
+	} else {
+		/* Skip any weekday name. */
+		p = strptime (value, "%a", &tmp_tm);
+		if (!p)
+			p = value;
+
+		/* Try to match the full date & time, or without the seconds,
+		   or just the date, or just the time with/without seconds.
+		   The info pages say we should clear the tm before calling
+		   strptime. It also means that if we don't match a time we
+		   get 00:00:00 which is good. */
+		memset (&tmp_tm, 0, sizeof (tmp_tm));
+		if (!strptime (value, "%x %T", &tmp_tm)) {
+			memset (&tmp_tm, 0, sizeof (tmp_tm));
+			if (!strptime (value, "%x %H:%M", &tmp_tm)) {
+				memset (&tmp_tm, 0, sizeof (tmp_tm));
+				if (!strptime (value, "%x", &tmp_tm)) {
+					memset (&tmp_tm, 0, sizeof (tmp_tm));
+					if (!strptime (value, "%T", &tmp_tm)) {
+						memset (&tmp_tm, 0, sizeof (tmp_tm));
+						if (!strptime (value, "%H:%M", &tmp_tm)) {
+
+							g_warning ("Couldn't parse date string");
+							show_date_warning ();
+							return;
+						}
+					}
+
+					/* We only got a time, so we use the
+					   current day. */
+					t = time (NULL);
+					today_tm = localtime (&t);
+					tmp_tm.tm_mday = today_tm->tm_mday;
+					tmp_tm.tm_mon  = today_tm->tm_mon;
+					tmp_tm.tm_year = today_tm->tm_year;
+				}
+			}
+		}
+
+		tmp_tm.tm_isdst = -1;
+		*dest = mktime (&tmp_tm);
+	}
 }
+
+
+/* FIXME: We need to set the "transient_for" property for the dialog, but
+   the model doesn't know anything about the windows. */
+static void
+show_geo_warning ()
+{
+	GtkWidget *dialog;
+
+	dialog = gnome_message_box_new (_("The geographical position must be entered in the format: \n\n45.436845,125.862501"),
+					GNOME_MESSAGE_BOX_ERROR,
+					GNOME_STOCK_BUTTON_OK, NULL);
+	gtk_widget_show (dialog);
+}
+
 
 /* Replaces a geo value */
 static void
-set_geo (iCalGeo *dest, const iCalGeo *value)
+set_geo (iCalGeo *dest, const char *value)
 {
-	*dest = *value;
+	double latitude, longitude;
+	gint matched;
+
+	if (!string_is_empty (value)) {
+		matched = sscanf (value, "%lg , %lg", &latitude, &longitude);
+
+		if (matched != 2) {
+			show_geo_warning ();
+		} else {
+			dest->valid = TRUE;
+			dest->latitude = latitude;
+			dest->longitude = longitude;
+		}
+	} else {
+		dest->valid = FALSE;
+		dest->latitude = 0.0;
+		dest->longitude = 0.0;
+	}
 }
 
 /* Replaces a person value */
 static void
 set_person (iCalPerson **dest, const iCalPerson *value)
 {
-	/* FIXME */
+	/* FIXME: This can't be set at present so it shouldn't be called. */
 }
+
+/* FIXME: We need to set the "transient_for" property for the dialog, but
+   the model doesn't know anything about the windows. */
+static void
+show_percent_warning ()
+{
+	GtkWidget *dialog;
+
+	dialog = gnome_message_box_new (_("The percent value must be between 0 and 100"),
+					GNOME_MESSAGE_BOX_ERROR,
+					GNOME_STOCK_BUTTON_OK, NULL);
+	gtk_widget_show (dialog);
+}
+
 
 /* Sets an int value */
 static void
-set_int (int *dest, const int *value)
+set_percent (int *dest, const char *value)
 {
-	*dest = *value;
+	gint matched, percent;
+
+	if (!string_is_empty (value)) {
+		matched = sscanf (value, "%i", &percent);
+
+		if (matched != 1 || percent < 0 || percent > 100) {
+			show_percent_warning ();
+		} else {
+			*dest = percent;
+		}
+	} else {
+		*dest = 0;
+	}
+}
+
+/* FIXME: We need to set the "transient_for" property for the dialog, but
+   the model doesn't know anything about the windows. */
+static void
+show_priority_warning ()
+{
+	GtkWidget *dialog;
+
+	dialog = gnome_message_box_new (_("The priority must be between 0 and 10"),
+					GNOME_MESSAGE_BOX_ERROR,
+					GNOME_STOCK_BUTTON_OK, NULL);
+	gtk_widget_show (dialog);
+}
+
+
+/* Sets an int value */
+static void
+set_priority (int *dest, const char *value)
+{
+	gint matched, priority;
+
+	if (!string_is_empty (value)) {
+		matched = sscanf (value, "%i", &priority);
+
+		if (matched != 1 || priority < 0 || priority > 10) {
+			show_priority_warning ();
+		} else {
+			*dest = priority;
+		}
+	} else {
+		*dest = 0;
+	}
 }
 
 /* set_value_at handler for the calendar table model */
@@ -371,6 +660,7 @@ calendar_model_set_value_at (ETableModel *etm, int col, int row, const void *val
 		break;
 
 	case ICAL_OBJECT_FIELD_COMPLETED:
+		/* FIXME: Set status, percent etc. fields as well. */
 		set_time_t (&ico->completed, value);
 		break;
 
@@ -411,11 +701,12 @@ calendar_model_set_value_at (ETableModel *etm, int col, int row, const void *val
 		break;
 
 	case ICAL_OBJECT_FIELD_PERCENT:
-		set_int (&ico->percent, value);
+		/* FIXME: If set to 0 or 100 set other fields. */
+		set_percent (&ico->percent, value);
 		break;
 
 	case ICAL_OBJECT_FIELD_PRIORITY:
-		set_int (&ico->priority, value);
+		set_priority (&ico->priority, value);
 		break;
 
 	case ICAL_OBJECT_FIELD_SUMMARY:
@@ -426,8 +717,23 @@ calendar_model_set_value_at (ETableModel *etm, int col, int row, const void *val
 		set_string (&ico->url, value);
 		break;
 
+	case ICAL_OBJECT_FIELD_COMPLETE:
+		/* FIXME: Need a ical_object_XXX function to mark an item
+		   complete, which will also set the 'Completed' time and
+		   maybe others such as the last modified fields. */
+		ico->percent = 100;
+		ico->completed = time (NULL);
+		break;
+
 	case ICAL_OBJECT_FIELD_HAS_ALARMS:
-		g_message ("calendar_model_set_value_at(): HAS_ALARMS is not a settable field!");
+	case ICAL_OBJECT_FIELD_ICON:
+	case ICAL_OBJECT_FIELD_RECURRING:
+	case ICAL_OBJECT_FIELD_OVERDUE:
+	case ICAL_OBJECT_FIELD_COLOR:
+		/* These are all computed fields which can't be set, so we
+		   do nothing. Note that the 'click-to-add' item will set all
+		   fields when finished, so we don't want to output warnings
+		   here. */
 		break;
 
 	default:
@@ -435,7 +741,9 @@ calendar_model_set_value_at (ETableModel *etm, int col, int row, const void *val
 		break;
 	}
 
-	if (!cal_client_update_object (priv->client, ico))
+	if (ico->new)
+		g_print ("Skipping update - new iCalObject\n");
+	else if (!cal_client_update_object (priv->client, ico))
 		g_message ("calendar_model_set_value_at(): Could not update the object!");
 }
 
@@ -450,15 +758,100 @@ calendar_model_is_cell_editable (ETableModel *etm, int col, int row)
 	priv = model->priv;
 
 	g_return_val_if_fail (col >= 0 && col < ICAL_OBJECT_FIELD_NUM_FIELDS, FALSE);
-	g_return_val_if_fail (row >= 0 && row < priv->objects->len, FALSE);
+	/* We can't check this as 'click-to-add' passes row 0. */
+	/*g_return_val_if_fail (row >= 0 && row < priv->objects->len, FALSE);*/
 
 	switch (col) {
+	case ICAL_OBJECT_FIELD_CREATED:
+	case ICAL_OBJECT_FIELD_DTSTAMP:
+	case ICAL_OBJECT_FIELD_LAST_MOD:
+	case ICAL_OBJECT_FIELD_GEO:
 	case ICAL_OBJECT_FIELD_HAS_ALARMS:
+	case ICAL_OBJECT_FIELD_ICON:
+	case ICAL_OBJECT_FIELD_RECURRING:
+	case ICAL_OBJECT_FIELD_OVERDUE:
+	case ICAL_OBJECT_FIELD_COLOR:
 		return FALSE;
 
 	default:
 		return TRUE;
 	}
+}
+
+static gint
+calendar_model_append_row (ETableModel *etm)
+{
+	CalendarModel *model;
+	CalendarModelPrivate *priv;
+	iCalObject *ico;
+	gint *new_idx;
+
+	g_print ("In calendar_model_append_row\n");
+
+	model = CALENDAR_MODEL (etm);
+	priv = model->priv;
+
+	if (priv->row_being_added != -1 || priv->idle_id != 0) {
+		g_warning ("Already adding row");
+		return -1;
+	}
+
+	ico = ical_new ("", user_name, "");
+	ico->type = ICAL_TODO;
+	ico->new = TRUE;
+
+	g_array_append_val (priv->objects, ico);
+	new_idx = g_new (int, 1);
+	*new_idx = priv->objects->len - 1;
+	g_hash_table_insert (priv->uid_index_hash, ico->uid, new_idx);
+
+	/* Notify the views about the new row. */
+	e_table_model_row_inserted (etm, *new_idx);
+
+	/* We add an idle function to pass the new iCalObject to the server.
+	   We can't do it here since the values haven't been set yet.
+	   Maybe we could connect to the "row_inserted" signal, though I'm
+	   not sure when that is emitted. */
+	priv->row_being_added = *new_idx;
+	priv->idle_id = g_idle_add_full (G_PRIORITY_HIGH,
+					 calendar_model_commit_new_row,
+					 model, NULL);
+
+	return *new_idx;
+}
+
+static gboolean
+calendar_model_commit_new_row (gpointer data)
+{
+	CalendarModel *model;
+	CalendarModelPrivate *priv;
+	iCalObject *ico;
+
+	g_print ("Committing new row\n");
+
+	model = CALENDAR_MODEL (data);
+	priv = model->priv;
+
+	if (priv->row_being_added == -1) {
+		g_warning ("No row to commit");
+		priv->idle_id = 0;
+		return FALSE;
+	}
+
+	ico = g_array_index (priv->objects, iCalObject *,
+			     priv->row_being_added);
+
+	if (!cal_client_update_object (priv->client, ico)) {
+		/* FIXME: Show error dialog. */
+		g_message ("calendar_model_commit_new_row(): Could not add new object!");
+		remove_object (model, ico->uid);
+		e_table_model_row_deleted (E_TABLE_MODEL (model),
+					   priv->row_being_added);
+	}
+
+	priv->row_being_added = -1;
+	priv->idle_id = 0;
+	return FALSE;
 }
 
 /* Duplicates a string value */
@@ -469,44 +862,56 @@ dup_string (const char *value)
 }
 
 /* Duplicates a time_t value */
-static time_t *
-dup_time_t (const time_t *value)
+static char *
+dup_time_t (const char *value)
 {
+	return g_strdup (value);
+
+#if 0
 	time_t *t;
 
 	t = g_new (time_t, 1);
 	*t = *value;
 	return t;
+#endif
 }
 
 /* Duplicates a geo value */
-static iCalGeo *
-dup_geo (const iCalGeo *value)
+static char *
+dup_geo (const char *value)
 {
+	return g_strdup (value);
+
+#if 0
 	iCalGeo *geo;
 
 	geo = g_new (iCalGeo, 1);
 	*geo = *value;
 	return geo;
+#endif
 }
 
 /* Duplicates a person value */
-static iCalPerson *
-dup_person (const iCalPerson *value)
+static char *
+dup_person (const char *value)
 {
 	/* FIXME */
-	return NULL;
+	return g_strdup (value);
 }
 
 /* Duplicates an int value */
-static int *
-dup_int (const int *value)
+static char *
+dup_int (const char *value)
 {
+	return g_strdup (value);
+
+#if 0
 	int *v;
 
 	v = g_new (int, 1);
 	*v = *value;
 	return v;
+#endif
 }
 
 /* duplicate_value handler for the calendar table model */
@@ -564,6 +969,13 @@ calendar_model_duplicate_value (ETableModel *etm, int col, const void *value)
 	case ICAL_OBJECT_FIELD_HAS_ALARMS:
 		return (void *) value;
 
+	case ICAL_OBJECT_FIELD_ICON:
+	case ICAL_OBJECT_FIELD_COMPLETE:
+	case ICAL_OBJECT_FIELD_RECURRING:
+	case ICAL_OBJECT_FIELD_OVERDUE:
+	case ICAL_OBJECT_FIELD_COLOR:
+		return (void *) value;
+
 	default:
 		g_message ("calendar_model_duplicate_value(): Requested invalid column %d", col);
 		return NULL;
@@ -575,10 +987,23 @@ static void
 calendar_model_free_value (ETableModel *etm, int col, void *value)
 {
 	g_return_if_fail (col >= 0 && col < ICAL_OBJECT_FIELD_NUM_FIELDS);
-	g_return_if_fail (value != NULL);
 
-	/* FIXME: this requires special handling for iCalPerson */
-	g_free (value);
+	switch (col) {
+	case ICAL_OBJECT_FIELD_ORGANIZER:
+		/* FIXME: this requires special handling for iCalPerson */
+
+		break;
+	case ICAL_OBJECT_FIELD_HAS_ALARMS:
+	case ICAL_OBJECT_FIELD_ICON:
+	case ICAL_OBJECT_FIELD_COMPLETE:
+	case ICAL_OBJECT_FIELD_RECURRING:
+	case ICAL_OBJECT_FIELD_OVERDUE:
+	case ICAL_OBJECT_FIELD_COLOR:
+		/* Do nothing. */
+		break;
+	default:
+		g_free (value);
+	}
 }
 
 /* Initializes a string value */
@@ -589,20 +1014,25 @@ init_string (void)
 }
 
 /* Initializes a time_t value */
-static time_t *
+static char *
 init_time_t (void)
 {
+	return g_strdup ("");
+#if 0
 	time_t *t;
 
 	t = g_new (time_t, 1);
 	*t = -1;
 	return t;
+#endif
 }
 
 /* Initializes a geo value */
-static iCalGeo *
+static char *
 init_geo (void)
 {
+	return g_strdup ("");
+#if 0
 	iCalGeo *geo;
 
 	geo = g_new (iCalGeo, 1);
@@ -610,25 +1040,30 @@ init_geo (void)
 	geo->latitude = 0.0;
 	geo->longitude = 0.0;
 	return geo;
+#endif
 }
 
 /* Initializes a person value */
-static iCalPerson *
+static char *
 init_person (void)
 {
 	/* FIXME */
-	return NULL;
+	return g_strdup ("");
 }
 
 /* Initializes an int value */
-static int *
+static char *
 init_int (void)
 {
+	return g_strdup ("");
+
+#if 0
 	int *v;
 
 	v = g_new (int, 1);
 	*v = 0;
 	return v;
+#endif
 }
 
 /* initialize_value handler for the calendar table model */
@@ -686,49 +1121,54 @@ calendar_model_initialize_value (ETableModel *etm, int col)
 	case ICAL_OBJECT_FIELD_HAS_ALARMS:
 		return NULL; /* "false" */
 
+	case ICAL_OBJECT_FIELD_ICON:
+	case ICAL_OBJECT_FIELD_COMPLETE:
+	case ICAL_OBJECT_FIELD_RECURRING:
+	case ICAL_OBJECT_FIELD_OVERDUE:
+		return GINT_TO_POINTER (0);
+
+	case ICAL_OBJECT_FIELD_COLOR:
+		return NULL;
+
 	default:
 		g_message ("calendar_model_initialize_value(): Requested invalid column %d", col);
 		return NULL;
 	}
 }
 
-/* Returns whether a string is empty */
-static gboolean
-string_is_empty (const char *str)
-{
-	return !(str && *str);
-}
 
 /* Returns whether a time_t is empty */
 static gboolean
-time_t_is_empty (const time_t *t)
+time_t_is_empty (const char *str)
 {
-	return (*t == -1);
+	return string_is_empty (str);
+#if 0
+	return (*t <= 0);
+#endif
 }
 
 /* Returns whether a geo is empty */
 static gboolean
-geo_is_empty (const iCalGeo *geo)
+geo_is_empty (const char *str)
 {
+	return string_is_empty (str);
+#if 0
 	return !geo->valid;
+#endif
 }
 
 /* Returns whether a person is empty */
 static gboolean
-person_is_empty (const iCalPerson *person)
+person_is_empty (const char *str)
 {
 	/* FIXME */
-	return TRUE;
+	return string_is_empty (str);
 }
 
-/* Returns whether an int is empty */
-static gboolean
-int_is_empty (const int *value)
-{
-	return FALSE;
-}
-
-/* value_is_empty handler for the calendar model */
+/* value_is_empty handler for the calendar model. This should return TRUE
+   unless a significant value has been set. The 'click-to-add' feature
+   checks all fields to see if any are not empty and if so it adds a new
+   row, so we only want to return FALSE if we have a useful object. */
 static gboolean
 calendar_model_value_is_empty (ETableModel *etm, int col, const void *value)
 {
@@ -769,10 +1209,10 @@ calendar_model_value_is_empty (ETableModel *etm, int col, const void *value)
 		return person_is_empty (value);
 
 	case ICAL_OBJECT_FIELD_PERCENT:
-		return int_is_empty (value);
+		return string_is_empty (value);
 
 	case ICAL_OBJECT_FIELD_PRIORITY:
-		return int_is_empty (value);
+		return string_is_empty (value);
 
 	case ICAL_OBJECT_FIELD_SUMMARY:
 		return string_is_empty (value);
@@ -781,7 +1221,12 @@ calendar_model_value_is_empty (ETableModel *etm, int col, const void *value)
 		return string_is_empty (value);
 
 	case ICAL_OBJECT_FIELD_HAS_ALARMS:
-		return FALSE;
+	case ICAL_OBJECT_FIELD_ICON:
+	case ICAL_OBJECT_FIELD_COMPLETE:
+	case ICAL_OBJECT_FIELD_RECURRING:
+	case ICAL_OBJECT_FIELD_OVERDUE:
+	case ICAL_OBJECT_FIELD_COLOR:
+		return TRUE;
 
 	default:
 		g_message ("calendar_model_value_is_empty(): Requested invalid column %d", col);
@@ -804,6 +1249,20 @@ calendar_model_new (void)
 {
 	return CALENDAR_MODEL (gtk_type_new (TYPE_CALENDAR_MODEL));
 }
+
+
+/* Callback used when a calendar is loaded into the server */
+static void
+cal_loaded_cb (CalClient *client,
+	       CalClientLoadStatus status,
+	       CalendarModel *model)
+{
+	g_return_if_fail (IS_CALENDAR_MODEL (model));
+
+	load_objects (model);
+	e_table_model_changed (E_TABLE_MODEL (model));
+}
+
 
 /* Removes an object from the model and updates all the indices that follow.
  * Returns the index of the object that was removed, or -1 if no object with
@@ -996,6 +1455,8 @@ load_objects (CalendarModel *model)
 
 		g_assert (ico->uid != NULL);
 
+		/* FIXME: Why doesn't it just store the index in the hash
+		   table as a GINT_TO_POINTER? - Damon. */
 		idx = g_new (int, 1);
 
 		g_array_append_val (priv->objects, ico);
@@ -1006,6 +1467,17 @@ load_objects (CalendarModel *model)
 
 	cal_obj_uid_list_free (uids);
 }
+
+CalClient*
+calendar_model_get_cal_client	  (CalendarModel   *model)
+{
+	CalendarModelPrivate *priv;
+
+	priv = model->priv;
+
+	return priv->client;
+}
+
 
 /**
  * calendar_model_set_cal_client:
@@ -1046,6 +1518,8 @@ calendar_model_set_cal_client (CalendarModel *model, CalClient *client, CalObjTy
 	priv->type = type;
 
 	if (priv->client) {
+		gtk_signal_connect (GTK_OBJECT (priv->client), "cal_loaded",
+				    GTK_SIGNAL_FUNC (cal_loaded_cb), model);
 		gtk_signal_connect (GTK_OBJECT (priv->client), "obj_updated",
 				    GTK_SIGNAL_FUNC (obj_updated_cb), model);
 		gtk_signal_connect (GTK_OBJECT (priv->client), "obj_removed",
@@ -1056,3 +1530,51 @@ calendar_model_set_cal_client (CalendarModel *model, CalClient *client, CalObjTy
 
 	e_table_model_changed (E_TABLE_MODEL (model));
 }
+
+
+void
+calendar_model_delete_task (CalendarModel *model,
+			    gint row)
+{
+	CalendarModelPrivate *priv;
+	iCalObject *ico;
+
+	priv = model->priv;
+	ico = g_array_index (priv->objects, iCalObject *, row);
+
+	if (!cal_client_remove_object (priv->client, ico->uid))
+		g_message ("calendar_model_mark_task_complete(): Could not update the object!");
+}
+
+
+void
+calendar_model_mark_task_complete (CalendarModel *model,
+				   gint row)
+{
+	CalendarModelPrivate *priv;
+	iCalObject *ico;
+
+	priv = model->priv;
+	ico = g_array_index (priv->objects, iCalObject *, row);
+
+	/* FIXME: Need a function to do all this. */
+	ico->percent = 100;
+	ico->completed = time (NULL);
+
+	if (!cal_client_update_object (priv->client, ico))
+		g_message ("calendar_model_mark_task_complete(): Could not update the object!");
+}
+
+
+/* Frees the objects stored in the calendar model */
+iCalObject*
+calendar_model_get_cal_object (CalendarModel *model,
+			       gint	      row)
+{
+	CalendarModelPrivate *priv;
+
+	priv = model->priv;
+
+	return g_array_index (priv->objects, iCalObject *, row);
+}
+
