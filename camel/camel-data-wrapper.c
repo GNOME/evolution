@@ -31,10 +31,10 @@ static GtkObjectClass *parent_class=NULL;
 /* Returns the class for a CamelDataWrapper */
 #define CDH_CLASS(so) CAMEL_DATA_WRAPPER_CLASS (GTK_OBJECT(so)->klass)
 
-static void __camel_data_wrapper_write_to_buffer(CamelDataWrapper *data_wrapper, gchar *buffer);
-static void __camel_data_wrapper_write_to_file(CamelDataWrapper *data_wrapper, FILE *file);
-static void __camel_data_wrapper_construct_from_buffer(CamelDataWrapper *data_wrapper, gchar *buffer, guint size);
-static void __camel_data_wrapper_construct_from_file (CamelDataWrapper *data_wrapper, FILE *file, guint size);
+static void _write_to_buffer(CamelDataWrapper *data_wrapper, gchar *buffer);
+static void _write_to_file(CamelDataWrapper *data_wrapper, FILE *file);
+static void _construct_from_buffer(CamelDataWrapper *data_wrapper, gchar *buffer, guint size);
+static void _construct_from_file (CamelDataWrapper *data_wrapper, FILE *file, guint size);
 
 static void
 camel_data_wrapper_class_init (CamelDataWrapperClass *camel_data_wrapper_class)
@@ -42,10 +42,10 @@ camel_data_wrapper_class_init (CamelDataWrapperClass *camel_data_wrapper_class)
 	parent_class = gtk_type_class (gtk_object_get_type ());
 	
 	/* virtual method definition */
-	camel_data_wrapper_class->write_to_buffer = __camel_data_wrapper_write_to_buffer;
-	camel_data_wrapper_class->write_to_file = __camel_data_wrapper_write_to_file;
-	camel_data_wrapper_class->construct_from_buffer = __camel_data_wrapper_construct_from_buffer;
-	camel_data_wrapper_class->construct_from_file = __camel_data_wrapper_construct_from_file;
+	camel_data_wrapper_class->write_to_buffer = _write_to_buffer;
+	camel_data_wrapper_class->write_to_file = _write_to_file;
+	camel_data_wrapper_class->construct_from_buffer = _construct_from_buffer;
+	camel_data_wrapper_class->construct_from_file = _construct_from_file;
 
 	/* virtual method overload */
 }
@@ -84,7 +84,7 @@ camel_data_wrapper_get_type (void)
 
 
 /**
- * __camel_data_wrapper_write_to_buffer: write data content in a byte buffer
+ * _write_to_buffer: write data content in a byte buffer
  * @data_wrapper: the data wrapper object
  * @buffer: byte buffer where data will be written 
  * 
@@ -99,7 +99,7 @@ camel_data_wrapper_get_type (void)
  * 
  **/
 static void
-__camel_data_wrapper_write_to_buffer(CamelDataWrapper *data_wrapper, gchar *buffer)
+_write_to_buffer(CamelDataWrapper *data_wrapper, gchar *buffer)
 {
 	/* nothing */
 }
@@ -123,7 +123,7 @@ camel_data_wrapper_write_to_buffer(CamelDataWrapper *data_wrapper, gchar *buffer
 
 
 static void
-__camel_data_wrapper_write_to_file(CamelDataWrapper *data_wrapper, FILE *file)
+_write_to_file(CamelDataWrapper *data_wrapper, FILE *file)
 {
 	/* nothing */
 }
@@ -145,7 +145,7 @@ camel_data_wrapper_write_to_file(CamelDataWrapper *data_wrapper, FILE *file)
 
 
 static void
-__camel_data_wrapper_construct_from_buffer(CamelDataWrapper *data_wrapper, gchar *buffer, guint size)
+_construct_from_buffer(CamelDataWrapper *data_wrapper, gchar *buffer, guint size)
 {
 	/* nothing */
 }
@@ -159,7 +159,7 @@ camel_data_wrapper_construct_from_buffer(CamelDataWrapper *data_wrapper, gchar *
 
 
 static void
-__camel_data_wrapper_construct_from_file (CamelDataWrapper *data_wrapper, FILE *file, guint size)
+_construct_from_file (CamelDataWrapper *data_wrapper, FILE *file, guint size)
 {
 	/* nothing */
 }

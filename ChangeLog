@@ -1,4 +1,12 @@
-1999-05-11  Bertrand Guiheneuf  <Bertrand.Guiheneuf@inria.fr>
+1999-05-11  bertrand  <Bertrand.Guiheneuf@inria.fr>
+
+	* camel/camel-store.c: 
+	* camel/camel-service.c: 
+	* camel/camel-folder.c: 
+	* camel/camel-data-wrapper.c: 
+	* camel/camel-mime-part.c: 
+	static functions naming follows gnome 
+	coding style guide.
 
 	* camel/camel-mime-part.h: implemented public interfaces
 	

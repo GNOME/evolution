@@ -57,6 +57,8 @@ typedef struct
 	GString *filename;
 	GList *header_lines;
 
+	CamelDataWrapper *content; /* part real content */
+
 } CamelMimePart;
 
 
