@@ -1,3 +1,9 @@
+2004-11-27  Sushma Rai  <rsushma@novell.com>
+
+	* gui/widgets/e-minicard-view.c (set_empty_message):
+	Checking for the static capability "do-initial-query",
+	and setting the relevent empty addressbook message.
+
 2004-11-26  JP Rosevear  <jpr@novell.com>
 
 	* gui/component/select-names/e-select-names-popup.c

@@ -153,19 +153,33 @@ static void
 set_empty_message (EMinicardView *view)
 {
 	char *empty_message;
-	gboolean editable = FALSE;
+	gboolean editable = FALSE, perform_initial_query = FALSE;
+	EBook *book;
 
 	if (view->adapter) {
 		g_object_get (view->adapter,
 			      "editable", &editable,
 			      NULL);
+
+		g_object_get (view->adapter, "book", &book, NULL);
+		if (!e_book_check_static_capability (book, "do-initial-query"))
+			perform_initial_query = TRUE;
 	}
 
-	if (editable)
-		empty_message = _("\n\nThere are no items to show in this view.\n\n"
-				  "Double-click here to create a new Contact.");
-	else
-		empty_message = _("\n\nThere are no items to show in this view.");
+	if (editable) {
+		if (perform_initial_query)
+			empty_message = _("\n\nSearch for the Contact\n\n"
+					  "or double-click here to create a new Contact.");
+		else
+			empty_message = _("\n\nThere are no items to show in this view.\n\n"
+					  "Double-click here to create a new Contact.");
+	}
+	else {
+		if (perform_initial_query)
+			empty_message = _("\n\nSearch for the Contact.");
+		else
+			empty_message = _("\n\nThere are no items to show in this view.");
+	}
 
 	g_object_set (view,
 		      "empty_message", empty_message,
