@@ -34,7 +34,7 @@ SOURCE_FILES =							\
 
 IGNORED_HEADER_FILES =		\
 	Executive-Summary.h
-	
+
 scan_generated =						\
 	evolution-services-decl.txt			\
 	evolution-services.args				\
@@ -111,8 +111,8 @@ maintainer-clean-local: clean
 
 install-data-local:
 	$(mkinstalldirs) $(DOC_DIR)
-	for i in $(DOC_DIR_INSTALL_FILES); do		\
-		$(INSTALL_DATA) $$i $(DOC_DIR);		\
+	for i in $(DOC_DIR_INSTALL_FILES); do			\
+		$(INSTALL_DATA) $(srcdir)/$$i $(DOC_DIR);	\
 	done
 
 dist-hook:
