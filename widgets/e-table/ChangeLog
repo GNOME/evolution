@@ -1,5 +1,10 @@
 2000-03-06  Christopher James Lahey  <clahey@helixcode.com>
 
+	* e-table-item.c: Made rows get unselected when switching from one
+	group to the next.
+
+2000-03-06  Christopher James Lahey  <clahey@helixcode.com>
+
 	* e-table-group-container.c: Use the style's font if lucidasans-10
 	is not found.
 

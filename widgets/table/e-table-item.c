@@ -1224,6 +1224,9 @@ e_table_item_unfocus (ETableItem *eti)
 		const int row = eti->focused_row;
 		
 		eti_request_region_redraw (eti, col, row, col, row, FOCUSED_BORDER);
+		while ( eti->selection ) {
+			e_table_item_unselect_row (eti, GPOINTER_TO_INT(eti->selection->data));
+		}
 	}
 	eti->focused_col = -1;
 	eti->focused_row = -1;	
