@@ -1,3 +1,13 @@
+2004-09-28  JP Rosevear  <jpr@novell.com>
+ 
+ 	Fixes #61766
+ 	
+ 	* gui/migration.c (create_calendar_contact_source): set a color
+ 	for the contacts
+ 	(create_calendar_sources): set a color for the personal source and
+ 	make in primary and default if nothing else is either
+ 	(create_task_sources): ditto for tasks personal source
+	
 2004-09-24  Rodrigo Moya <rodrigo@novell.com>
 
 	Fixes #65599
@@ -6,6 +16,12 @@
 
 	* gui/e-pub-utils.c (e_pub_publish): use auth_new_cal_from_source()
 	instead of auth_new_cal_from_uri().
+
+2004-09-24  JP Rosevear  <jpr@novell.com>
+
+	Fixes #64955, Vincent Noel <vnoel@cox.net>
+	
+	* libecal/e-cal.c (e_cal_get_alarms_in_range): fix c99-ism
 
 2004-09-24  JP Rosevear  <jpr@novell.com>
  
