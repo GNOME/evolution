@@ -7,9 +7,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution beta\n"
 "POT-Creation-Date: 2000-04-12 19:25+0200\n"
-"PO-Revision-Date: 2000-04-14 23:38+0200\n"
+"PO-Revision-Date: 2000-04-19 13:38+0200\n"
 "Last-Translator: Keld Simonsen <keld@dkuug.dk>\n"
-"Language-Team: Danish <da@li.org>\n"
+"Language-Team: Danish <dansk@klid.dk>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=iso-8859-1\n"
 "Content-Transfer-Encoding: 8-bit\n"
@@ -20,7 +20,7 @@ msgstr "Klip"
 
 #: composer/e-msg-composer-address-dialog.c:184
 msgid "Cut selected item into clipboard"
-msgstr "Klip valgt punkt ud til udklipstavlen"
+msgstr "Klip valgt punkt ud til klippebordet"
 
 #: composer/e-msg-composer-address-dialog.c:187 composer/e-msg-composer.c:350
 msgid "Copy"
@@ -28,17 +28,17 @@ msgstr "Kopiér"
 
 #: composer/e-msg-composer-address-dialog.c:188
 msgid "Copy selected item into clipboard"
-msgstr "Kopiér valgt punkt til udklipstavlen"
+msgstr "Kopiér valgt punkt til klippebordet"
 
 #: composer/e-msg-composer-address-dialog.c:191
 #: composer/e-msg-composer-address-dialog.c:199 composer/e-msg-composer.c:351
 msgid "Paste"
-msgstr "Sæt ind"
+msgstr "Indsæt"
 
 #: composer/e-msg-composer-address-dialog.c:192
 #: composer/e-msg-composer-address-dialog.c:200
 msgid "Paste item from clipboard"
-msgstr "Sæt ind fra udklipstavlen"
+msgstr "Indsæt fra klippebordet"
 
 #: composer/e-msg-composer-address-dialog.c:528
 msgid "Select recipients' addresses"
@@ -141,6 +141,7 @@ msgid "Save the message in a specified folder"
 msgstr "Gem meddelelsen i en specificeret mappe"
 
 #: composer/e-msg-composer.c:310 composer/e-msg-composer.c:347
+#: mail/folder-browser-factory.c:145
 msgid "Send"
 msgstr "Send"
 
@@ -150,11 +151,11 @@ msgstr "Send meddelelsen"
 
 #: composer/e-msg-composer.c:318
 msgid "View _attachments"
-msgstr "Vis _billag"
+msgstr "Vis _bilag"
 
 #: composer/e-msg-composer.c:318
 msgid "View/hide attachments"
-msgstr "Vis/skjul billag"
+msgstr "Vis/skjul bilag"
 
 #: composer/e-msg-composer.c:347
 msgid "Send this message"
@@ -162,15 +163,15 @@ msgstr "Send denne meddelelse"
 
 #: composer/e-msg-composer.c:349
 msgid "Cut selected region into the clipboard"
-msgstr "Klip valgt område ud til udklipstavlen"
+msgstr "Klip valgt område ud til klippebordet"
 
 #: composer/e-msg-composer.c:350
 msgid "Copy selected region into the clipboard"
-msgstr "Kopiér valgt område til udklipstavlen"
+msgstr "Kopiér valgt område til klippebordet"
 
 #: composer/e-msg-composer.c:351
 msgid "Paste selected region into the clipboard"
-msgstr "Indsæt valgt område til udklipstavlen"
+msgstr "Indsæt valgt område til klippebordet"
 
 #: composer/e-msg-composer.c:352
 msgid "Undo"
@@ -191,24 +192,88 @@ msgstr "Vedhæft en fil"
 #: mail/folder-browser-factory.c:83
 msgid ""
 "This is a development version of Evolution.\n"
-" Using the mail component on your mail files\n"
-" is extremely hazardous.\n"
-"Please backup all your mails before trying\n"
-" this program. \n"
-"     You have been warned\n"
+"Using the mail component on your mail files\n"
+"is extremely hazardous.\n"
+"\n"
+"Do not run this program on your real mail\n"
+" and do not give it access to your real mail server.\n"
+"\n"
+"You have been warned\n"
 msgstr ""
 "Dette er en udviklingsudgave af Evolution.\n"
 " Brug af postdelen på dine postfiler\n"
 " er ekstremt farligt.\n"
-"Venligst lav sikkerhedskopi af alle dine breve før du prøver\n"
-" dette program. \n"
-"     Du er blevet advaret\n"
+"\n"
+"Kør ikke dette program på din rigtige post\n"
+"og giv det ikke adgang til din rigtige post-tjener.\n"
+"\n"
+"Du er blevet advaret\n"
 
-#: mail/folder-browser-factory.c:152
+#: mail/folder-browser-factory.c:144
+msgid "New mail"
+msgstr "Ny e-post"
+
+#: mail/folder-browser-factory.c:144
+msgid "Check for new mail"
+msgstr "Tjek for ny e-post"
+
+#: mail/folder-browser-factory.c:145
+msgid "Send a new message"
+msgstr "Send en ny meddelelse"
+
+#: mail/folder-browser-factory.c:146
+msgid "Find"
+msgstr "Find"
+
+#: mail/folder-browser-factory.c:146
+msgid "Find messages"
+msgstr "Find meddelelser"
+
+#: mail/folder-browser-factory.c:150
+msgid "Reply"
+msgstr "Svar"
+
+#: mail/folder-browser-factory.c:150
+msgid "Reply to the sender of this message"
+msgstr "Svar til afsenderen af denne meddelelse"
+
+#: mail/folder-browser-factory.c:151
+msgid "Reply to All"
+msgstr "Svar til alle"
+
+#: mail/folder-browser-factory.c:151
+msgid "Reply to all recipients of this message"
+msgstr "Svar til alle modtagere af denne meddelelse"
+
+#: mail/folder-browser-factory.c:153
+msgid "Forward"
+msgstr "Videresend"
+
+#: mail/folder-browser-factory.c:153
+msgid "Forward this message"
+msgstr "Videresend denne meddelelse"
+
+#: mail/folder-browser-factory.c:157
+msgid "Print"
+msgstr "Udskriv"
+
+#: mail/folder-browser-factory.c:157
+msgid "Print the selected message"
+msgstr "Udskriv den valgte meddelelse"
+
+#: mail/folder-browser-factory.c:159
+msgid "Delete"
+msgstr "Slet"
+
+#: mail/folder-browser-factory.c:159
+msgid "Delete this message"
+msgstr "Slet denne meddelelse"
+
+#: mail/folder-browser-factory.c:174
 msgid "_Mail"
 msgstr "_E-post"
 
-#: mail/folder-browser-factory.c:306
+#: mail/folder-browser-factory.c:301
 msgid "We are sorry, Evolution's Folder Browser can not be initialized."
 msgstr "Beklager, Evolutions mappebladrer kan ikke initialiseres."
 
@@ -224,7 +289,7 @@ msgstr "Om en forkig-besked skal vises"
 msgid "Mail Component: I could not initialize Bonobo"
 msgstr "Postdelen: kunne ikke initialisere Bonobo"
 
-#: mail/mail-display.c:98
+#: mail/mail-display.c:97
 msgid ""
 "An exception occured while trying to load data into the component with "
 "PersistStream"
@@ -232,42 +297,42 @@ msgstr ""
 "En undtagelse skete ved forsøg på at indlæse data til komponenten med "
 "PersistStream"
 
-#: mail/mail-display.c:234
+#: mail/mail-display.c:233
 #, c-format
 msgid "The %s component doesn't support PersistStream!\n"
 msgstr "%s komponenten understøtter ikke PersistStream!\n"
 
-#: mail/message-list.c:404
+#: mail/message-list.c:401
 msgid "Priority"
 msgstr "Prioritet"
 
-#: mail/message-list.c:418
+#: mail/message-list.c:415
 msgid "From"
 msgstr "Fra"
 
-#: mail/message-list.c:425
+#: mail/message-list.c:422
 msgid "Subject"
 msgstr "Emne"
 
-#: mail/message-list.c:432
+#: mail/message-list.c:429
 msgid "Sent"
 msgstr "Sendt"
 
-#: mail/message-list.c:439
+#: mail/message-list.c:436
 msgid "Receive"
 msgstr "Modtag"
 
-#: mail/message-list.c:446
+#: mail/message-list.c:443
 msgid "To"
 msgstr "Til"
 
-#: mail/message-list.c:453
+#: mail/message-list.c:450
 msgid "Size"
 msgstr "Størrelse"
 
 #: shell/e-folder.c:150
 msgid "A folder containing mail items"
-msgstr "En mappe som indeholder e-post opføringer"
+msgstr "En mappe som indeholder e-post ting"
 
 #: shell/e-folder.c:153
 msgid "A folder containing contacts"
@@ -275,7 +340,7 @@ msgstr "En mappe med kontakter"
 
 #: shell/e-folder.c:156
 msgid "A folder containing calendar entries"
-msgstr "En mappe med kalenderopføringer"
+msgstr "En mappe med kalenderting"
 
 #: shell/e-folder.c:159
 msgid "A folder containing tasks"
@@ -287,7 +352,7 @@ msgstr "Evolution kan ikke oprette sine lokale mapper"
 
 #: shell/e-service.c:166
 msgid "A service containing mail items"
-msgstr "En tjeneste som indeholder e-post opføringer"
+msgstr "En tjeneste som indeholder e-post ting"
 
 #: shell/e-service.c:169
 msgid "A service containing contacts"
@@ -295,7 +360,7 @@ msgstr "En tjeneste som indeholder kontakter"
 
 #: shell/e-service.c:172
 msgid "A service containing calendar entries"
-msgstr "En tjeneste som indeholder kalenderopføringer"
+msgstr "En tjeneste som indeholder kalenderting"
 
 #: shell/e-service.c:175
 msgid "A service containing tasks"
@@ -335,7 +400,7 @@ msgstr "Åbn i et nyt vindue"
 
 #: shell/e-shell-shortcut.c:210
 msgid "Advanced Find"
-msgstr "Avanceret søg"
+msgstr "Avanceret søgning"
 
 #: shell/e-shell-shortcut.c:212
 msgid "Remove From Shortcut Bar"
@@ -371,7 +436,7 @@ msgstr "_Aftale"
 
 #: shell/e-shell-view-menu.c:121
 msgid "Meeting Re_quest"
-msgstr "Møde Forespørgsel"
+msgstr "Møde-forespørgsel"
 
 #: shell/e-shell-view-menu.c:124
 msgid "_Contact"
@@ -395,7 +460,7 @@ msgstr "_Notat"
 
 #: shell/e-shell-view-menu.c:146
 msgid "_Selected Items"
-msgstr "_Valgte opføringer"
+msgstr "_Valgte ting"
 
 #: shell/e-shell-view-menu.c:154
 msgid "_New Folder"
@@ -411,11 +476,11 @@ msgstr "_Åbn"
 
 #: shell/e-shell-view-menu.c:164
 msgid "Clos_e All Items"
-msgstr "Luk all_e opføringer"
+msgstr "Luk all_e ting"
 
 #: shell/e-shell-view-menu.c:164
 msgid "Closes all the open items"
-msgstr "Lukker alle åbne opføringer"
+msgstr "Lukker alle åbne ting"
 
 #. FIXME: add Favorites here
 #: shell/e-shell-view-menu.c:203
