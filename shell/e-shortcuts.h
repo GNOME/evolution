@@ -46,9 +46,17 @@ typedef struct _EShortcutsPrivate EShortcutsPrivate;
 typedef struct _EShortcutsClass   EShortcutsClass;
 
 struct _EShortcutItem {
+	/* URI of the shortcut.  */
 	char *uri;
+
+	/* Name of the shortcut.  */
 	char *name;
+
+	/* Folder type for the shortcut.  If the shortcut doesn't point to a
+	   folder, this is NULL.  */
 	char *type;
+
+	/* Number of unread items in the folder.  Zero if not a folder.  */
 	int unread_count;
 };
 typedef struct _EShortcutItem EShortcutItem;

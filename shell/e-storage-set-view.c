@@ -1350,7 +1350,6 @@ etree_icon_at (ETreeModel *etree,
 	EFolderTypeRegistry *folder_type_registry;
 	EStorageSetView *storage_set_view;
 	EStorageSet *storage_set;
-	GdkPixbuf *icon_pixbuf;
 	EFolder *folder;
 	char *path;
 	int depth;
@@ -1361,28 +1360,31 @@ etree_icon_at (ETreeModel *etree,
 	/* Tree depth will indicate storages or folders */
 	depth = e_tree_model_node_depth (etree, tree_path);
 
-	path = (char*)e_tree_memory_node_get_data (E_TREE_MEMORY(etree), tree_path);
+	path = (char*) e_tree_memory_node_get_data (E_TREE_MEMORY(etree), tree_path);
 
-	/* Storages, Summary (nee My Evolution) is the only special case for now */
-	if (depth == 1 && !strcmp (path, "/summary")) { /* Storages */
-		
+	/* Is this a storage?  */
+
+	if (depth == 1) {
+		EStorage *storage;
+		const char *storage_type;
+
+		storage = e_storage_set_get_storage (storage_set, path + 1);
+
 		folder_type_registry = e_storage_set_get_folder_type_registry (storage_set);
-		
-		icon_pixbuf = e_folder_type_registry_get_icon_for_type (folder_type_registry,
-									"Summary", TRUE);
-		return icon_pixbuf;
-	}
-	/* Folders */
-	else if (depth >= 2) {
-		
-		folder = e_storage_set_get_folder (storage_set, path);
-		if (folder == NULL)
+		storage_type = e_storage_get_toplevel_node_type (storage);
+		if (storage_type != NULL)
+			return e_folder_type_registry_get_icon_for_type (folder_type_registry, storage_type, TRUE);
+		else
 			return NULL;
-		
-		return get_pixbuf_for_folder (storage_set_view, folder);
 	}
 
-	return NULL;
+	/* Folder.  */
+
+	folder = e_storage_set_get_folder (storage_set, path);
+	if (folder == NULL)
+		return NULL;
+		
+	return get_pixbuf_for_folder (storage_set_view, folder);
 }
 
 /* This function returns the number of columns in our ETreeModel. */

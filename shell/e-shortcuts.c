@@ -338,7 +338,22 @@ load_shortcuts (EShortcuts *shortcuts,
 				if (folder != NULL) {
 					if (type != NULL)
 						xmlFree (type);
-					type = g_strdup (e_folder_get_type_string (folder));
+					type = xmlMemStrdup (e_folder_get_type_string (folder));
+				} else {
+					EStorage *storage;
+					const char *storage_type;
+
+					storage = e_storage_set_get_storage (priv->storage_set,
+									     uri + E_SHELL_URI_PREFIX_LEN + 1);
+					if (type != NULL)
+						xmlFree (type);
+
+					storage_type = e_storage_get_toplevel_node_type (storage);
+
+					if (storage_type == NULL)
+						type = NULL;
+					else
+						type = xmlMemStrdup (storage_type);
 				}
 			}
 

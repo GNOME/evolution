@@ -1,3 +1,20 @@
+2001-08-19  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-shortcuts.c (load_shortcuts): Use xmlMemStrdup() to override
+	the type as it's expected to be allocated by libxml later on.
+	Also, get the icon for the storage if the shortcut points to a
+	storage.
+
+	* e-storage-set-view.c (etree_icon_at): Don't special case the
+	Summary storage.  Rather, use `e_storage_get_toplevel_node_type()'
+	for getting the type of the node.
+
+	* e-shortcuts-view-model.c (get_icon_for_item): New helper
+	function.
+	(shortcuts_update_shortcut_cb): Use it.
+	(shortcuts_new_shortcut_cb): Use it.
+	(load_group_into_model): Use it.
+
 2001-08-18  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-shell-view.c: New constant `MIN_POPUP_TREE_WIDTH'.

@@ -45,6 +45,35 @@ struct _EShortcutsViewModelPrivate {
 };
 
 
+/* Utility functions.  */
+
+static GdkPixbuf *
+get_icon_for_item (EShortcutsViewModel *shortcuts_view_model,
+		   const EShortcutItem *item,
+		   gboolean want_mini)
+{
+	EShortcutsViewModelPrivate *priv;
+
+	priv = shortcuts_view_model->priv;
+
+	if (item->type != NULL) {
+		EStorageSet *storage_set;
+		EFolderTypeRegistry *folder_type_registry;
+
+		storage_set = e_shortcuts_get_storage_set (priv->shortcuts);
+		folder_type_registry = e_storage_set_get_folder_type_registry (storage_set);
+
+		return e_folder_type_registry_get_icon_for_type (folder_type_registry,
+								 item->type,
+								 want_mini);
+	}
+
+	g_print ("(%s is not a folder!)\n", item->name);
+
+	return NULL;
+}
+
+
 /* View initialization.  */
 
 static char *
@@ -61,15 +90,10 @@ load_group_into_model (EShortcutsViewModel *shortcuts_view_model,
 		       int group_num)
 {
 	EShortcutsViewModelPrivate *priv;
-	EStorageSet *storage_set;
-	EFolderTypeRegistry *folder_type_registry;
 	const GSList *shortcut_list;
 	const GSList *p;
 
 	priv = shortcuts_view_model->priv;
-
-	storage_set = e_shortcuts_get_storage_set (priv->shortcuts);
- 	folder_type_registry = e_storage_set_get_folder_type_registry (storage_set);
 
 	shortcut_list = e_shortcuts_get_shortcuts_in_group (priv->shortcuts, group_num);
 	if (shortcut_list == NULL)
@@ -81,13 +105,13 @@ load_group_into_model (EShortcutsViewModel *shortcuts_view_model,
 
 		item = (const EShortcutItem *) p->data;
 		name_with_unread = get_name_with_unread (item);
+
 		e_shortcut_model_add_item (E_SHORTCUT_MODEL (shortcuts_view_model),
 					   group_num, -1,
 					   item->uri,
 					   name_with_unread,
-					   e_folder_type_registry_get_icon_for_type (folder_type_registry,
-										     item->type,
-										     FALSE));
+					   get_icon_for_item (shortcuts_view_model, item, FALSE));
+
 		g_free (name_with_unread);
 	}
 }
@@ -172,15 +196,10 @@ shortcuts_new_shortcut_cb (EShortcuts *shortcuts,
 	EShortcutsViewModel *shortcuts_view_model;
 	EShortcutsViewModelPrivate *priv;
 	const EShortcutItem *shortcut_item;
-	EStorageSet *storage_set;
-	EFolderTypeRegistry *folder_type_registry;
 	char *name_with_unread;
 
 	shortcuts_view_model = E_SHORTCUTS_VIEW_MODEL (data);
 	priv = shortcuts_view_model->priv;
-
-	storage_set = e_shortcuts_get_storage_set (priv->shortcuts);
-	folder_type_registry = e_storage_set_get_folder_type_registry (storage_set);
 
 	shortcut_item = e_shortcuts_get_shortcut (priv->shortcuts, group_num, item_num);
 	g_assert (shortcut_item != NULL);
@@ -190,9 +209,8 @@ shortcuts_new_shortcut_cb (EShortcuts *shortcuts,
 				   group_num, item_num,
 				   shortcut_item->uri,
 				   name_with_unread,
-				   e_folder_type_registry_get_icon_for_type (folder_type_registry,
-									     shortcut_item->type,
-									     FALSE));
+				   get_icon_for_item (shortcuts_view_model, shortcut_item, FALSE));
+
 	g_free (name_with_unread);
 }
 
@@ -216,16 +234,11 @@ shortcuts_update_shortcut_cb (EShortcuts *shortcuts,
 {
 	EShortcutsViewModel *shortcuts_view_model;
 	EShortcutsViewModelPrivate *priv;
-	EFolderTypeRegistry *folder_type_registry;
-	EStorageSet *storage_set;
 	const EShortcutItem *shortcut_item;
 	char *name_with_unread;
 
 	shortcuts_view_model = E_SHORTCUTS_VIEW_MODEL (data);
 	priv = shortcuts_view_model->priv;
-
-	storage_set = e_shortcuts_get_storage_set (shortcuts);
- 	folder_type_registry = e_storage_set_get_folder_type_registry (storage_set);
 
 	shortcut_item = e_shortcuts_get_shortcut (priv->shortcuts, group_num, item_num);
 	g_assert (shortcut_item != NULL);
@@ -235,9 +248,8 @@ shortcuts_update_shortcut_cb (EShortcuts *shortcuts,
 				      group_num, item_num,
 				      shortcut_item->uri,
 				      name_with_unread,
-				      e_folder_type_registry_get_icon_for_type (folder_type_registry,
-										shortcut_item->type,
-										FALSE));
+				      get_icon_for_item (shortcuts_view_model, shortcut_item, FALSE));
+
 	g_free (name_with_unread);
 }
 
