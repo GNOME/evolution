@@ -17,6 +17,8 @@ libemiscwidgets_a_SOURCES = 	\
 	e-calendar-item.h	\
 	e-clipped-label.c	\
 	e-clipped-label.h	\
+	e-dateedit.c		\
+	e-dateedit.h		\
 	e-scroll-frame.c	\
 	e-scroll-frame.h	\
 	e-title-bar.c		\
@@ -24,7 +26,8 @@ libemiscwidgets_a_SOURCES = 	\
 
 noinst_PROGRAMS = 	\
 	test-title-bar		\
-	test-calendar
+	test-calendar		\
+	test-dateedit
 
 test_title_bar_SOURCES = 	\
 	test-title-bar.c
@@ -40,3 +43,12 @@ test_calendar_LDADD = 						\
 	./libemiscwidgets.a					\
 	../../e-util/libeutil.la				\
 	$(EXTRA_GNOME_LIBS)
+
+test_dateedit_SOURCES = 	\
+	test-dateedit.c
+
+test_dateedit_LDADD = 						\
+	./libemiscwidgets.a					\
+	../../e-util/libeutil.la				\
+	$(EXTRA_GNOME_LIBS)
+

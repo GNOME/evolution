@@ -126,6 +126,11 @@ struct _ECalendarItem
 	   weeks, or -1 if we never switch. Defaults to -1. */
 	gint days_to_start_week_selection;
 
+	/* Whether the selection is moved when we move back/forward one month.
+	   Used for things like the EDateEdit which only want the selection to
+	   be changed when the user explicitly selects a day. */
+	gboolean move_selection_when_moving;
+
 	/* Whether the selection is rounded down to the nearest week when we
 	   move back/forward one month. Used for the week view. */
 	gboolean round_selection_when_moving;
@@ -165,6 +170,7 @@ struct _ECalendarItem
 	gboolean selecting;
 	gboolean selection_dragging_end;
 	gboolean selection_from_full_week;
+	gboolean selection_set;
 	gint selection_start_month_offset;
 	gint selection_start_day;
 	gint selection_end_month_offset;
@@ -236,9 +242,14 @@ void	 e_calendar_item_get_date_range		(ECalendarItem	*calitem,
 						 gint		*end_month,
 						 gint		*end_day);
 
+/* Returns the selected date range. It returns FALSE if no days are currently
+   selected. */
 gboolean e_calendar_item_get_selection		(ECalendarItem	*calitem,
 						 GDate		*start_date,
 						 GDate		*end_date);
+/* Sets the selected date range, and changes the date range shown so at least
+   the start of the selection is shown. If start_date is NULL it clears the
+   selection. */
 void	 e_calendar_item_set_selection		(ECalendarItem	*calitem,
 						 GDate		*start_date,
 						 GDate		*end_date);

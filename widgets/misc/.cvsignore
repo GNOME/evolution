@@ -7,3 +7,4 @@ Makefile.in
 *.la
 test-title-bar
 test-calendar
+test-dateedit

@@ -1,3 +1,18 @@
+2000-09-11  Damon Chaplin  <damon@helixcode.com>
+
+	* Makefile.am (libemiscwidgets_a_SOURCES): added e-dateedit.[hc]
+	and the test-dateedit app.
+
+	* e-dateedit.[hc]: new widget to use instead of GnomeDateEdit. It
+	uses the new ECalendar widget for the calendar and also supports
+	"None", "Today" and "Now" buttons, and goes away with a single click.
+
+	* test-dateedit.c: app to test the EDateEdit widget.
+
+	* e-calendar-item.c: updated to support the EDateEdit better,
+	mainly by adding the "move_selection_when_moving" arg so we can turn
+	it off to keep the same day selected when changing the months shown.
+
 2000-09-05  Damon Chaplin  <damon@helixcode.com>
 
 	* e-calendar-item.c (e_calendar_item_draw_month): make sure we get
