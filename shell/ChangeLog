@@ -1,5 +1,10 @@
 2001-10-22  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-shell.c (impl_Shell_selectUserFolder): Don't die if the parent
+	window has no WMHints.
+
+2001-10-22  Ettore Perazzoli  <ettore@ximian.com>
+
 	* e-shell-view.c (show_existing_view): If the view is dead, just
 	return FALSE.  Prevents crash #12483.
 

@@ -497,7 +497,7 @@ impl_Shell_selectUserFolder (PortableServer_Servant servant,
 
 		parent_wm_hints = XGetWMHints (GDK_DISPLAY (), (Window) parent_xid);
 
-		if (parent_wm_hints->flags & WindowGroupHint) {
+		if (parent_wm_hints != NULL && (parent_wm_hints->flags & WindowGroupHint)) {
 			XWMHints *wm_hints;
 
 			wm_hints = XAllocWMHints ();
@@ -505,9 +505,8 @@ impl_Shell_selectUserFolder (PortableServer_Servant servant,
 			wm_hints->window_group = parent_wm_hints->window_group;
 			XSetWMHints (GDK_DISPLAY (), GDK_WINDOW_XWINDOW (folder_selection_dialog->window), wm_hints);
 			XFree (wm_hints);
+			XFree (parent_wm_hints);
 		}
-
-		XFree (parent_wm_hints);
 	}
 }
 
