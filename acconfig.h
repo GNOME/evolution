@@ -16,11 +16,6 @@
 #undef HAVE_KRB4
 #undef HAVE_KRB5
 #undef MOVEMAIL_PATH
-#undef HAVE_LIBGPGME
-#undef PGP_PROGRAM
-#undef GPG_PATH
-#undef PGP5_PATH
-#undef PGP_PATH
 #undef USING_GNOME_PRINT_0_20
 #undef USE_DOT
 #undef USE_FCNTL
