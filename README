@@ -147,7 +147,7 @@ please back up your pilot) you will also need to do the following:
 1) pilot-link
 cvs -d :pserver:anonymous@cvs.gnu-designs.com:/cvs/openpalm login
 The password is just <ENTER>.
-cvs -d :pserver:anonymous@cvs.gnu-designs.com:/cvs/openpalm co pilot-link
+cvs -d :pserver:anonymous@cvs.gnu-designs.com:/cvs/pilot-link co pilot-link
 ./configure --prefix=<pilot-link-prefix> --with-perl=no --with-java=no
 --with-tcl=no --with-python=no
 make
