@@ -129,8 +129,8 @@ update_uris_for_selection (CalendarComponent *calendar_component)
 
 		if (!is_in_selection (selection, old_selected_source))
 			gnome_calendar_remove_event_source (priv->calendar, old_selected_source);
-	}	
-	
+	}
+
 	for (l = selection; l; l = l->next) {
 		ESource *selected_source = l->data;
 		
@@ -314,6 +314,8 @@ delete_calendar_cb (GtkWidget *widget, CalendarComponent *comp)
 									  selected_source))
 					e_source_selector_unselect_source (E_SOURCE_SELECTOR (priv->source_selector),
 									   selected_source);
+				else
+					gnome_calendar_remove_event_source (priv->calendar, selected_source);
 		
 				e_source_group_remove_source (e_source_peek_group (selected_source), selected_source);
 				e_source_list_sync (priv->source_list, NULL);

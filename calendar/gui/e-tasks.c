@@ -443,7 +443,7 @@ set_timezone (ETasks *tasks)
 	zone = calendar_config_get_icaltimezone ();
 	for (l = priv->clients_list; l != NULL; l = l->next) {
 		ECal *client = l->data;
-		
+
 		if (e_cal_get_load_state (client) == E_CAL_LOAD_LOADED)
 			/* FIXME Error checking */
 			e_cal_set_default_timezone (client, zone, NULL);
