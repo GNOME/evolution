@@ -42,6 +42,8 @@ CamelProviderConfEntry pop3_conf_entries[] = {
 	{ CAMEL_PROVIDER_CONF_CHECKSPIN, "delete_after", "UNIMPLEMENTED",
 	  N_("Delete after %s day(s)"), "0:1:7:365" },
 #endif
+	{ CAMEL_PROVIDER_CONF_CHECKBOX, "disable_extensions", NULL,
+	  N_("Disable support for all POP3 extensions"), "0" },
 	{ CAMEL_PROVIDER_CONF_SECTION_END },
 	{ CAMEL_PROVIDER_CONF_END }
 };

@@ -151,6 +151,7 @@ connect_to_server (CamelService *service, int ssl_mode, int try_starttls, CamelE
 	CamelStream *tcp_stream;
 	CamelPOP3Command *pc;
 	struct hostent *h;
+	guint32 flags = 0;
 	int clean_quit;
 	int ret, port;
 	
@@ -197,7 +198,10 @@ connect_to_server (CamelService *service, int ssl_mode, int try_starttls, CamelE
 		return FALSE;
 	}
 	
-	store->engine = camel_pop3_engine_new (tcp_stream);
+	if (camel_url_get_param (service->url, "disable_extensions"))
+		flags |= CAMEL_POP3_ENGINE_DISABLE_EXTENSIONS;
+	
+	store->engine = camel_pop3_engine_new (tcp_stream, flags);
 	
 #ifdef HAVE_SSL
 	if (store->engine) {

@@ -97,6 +97,7 @@ camel_pop3_engine_get_type (void)
 /**
  * camel_pop3_engine_new:
  * @source: source stream
+ * @flags: engine flags
  *
  * Returns a NULL stream.  A null stream is always at eof, and
  * always returns success for all reads and writes.
@@ -104,7 +105,7 @@ camel_pop3_engine_get_type (void)
  * Return value: the stream
  **/
 CamelPOP3Engine *
-camel_pop3_engine_new(CamelStream *source)
+camel_pop3_engine_new(CamelStream *source, guint32 flags)
 {
 	CamelPOP3Engine *pe;
 
@@ -112,7 +113,8 @@ camel_pop3_engine_new(CamelStream *source)
 
 	pe->stream = (CamelPOP3Stream *)camel_pop3_stream_new(source);
 	pe->state = CAMEL_POP3_ENGINE_AUTH;
-
+	pe->flags = flags;
+	
 	get_capabilities(pe, TRUE);
 
 	return pe;
@@ -213,21 +215,23 @@ get_capabilities(CamelPOP3Engine *pe, int read_greeting)
 		pe->auth = g_list_prepend(pe->auth, &camel_pop3_password_authtype);
 	}
 	
-	pc = camel_pop3_engine_command_new(pe, CAMEL_POP3_COMMAND_MULTI, cmd_capa, NULL, "CAPA\r\n");
-	while (camel_pop3_engine_iterate(pe, pc) > 0)
-		;
-	camel_pop3_engine_command_free(pe, pc);
-	
-	if (pe->state == CAMEL_POP3_ENGINE_TRANSACTION && !(pe->capa & CAMEL_POP3_CAP_UIDL)) {
-		/* check for UIDL support manually */
-		pc = camel_pop3_engine_command_new (pe, CAMEL_POP3_COMMAND_SIMPLE, NULL, NULL, "UIDL 1\r\n");
-		while (camel_pop3_engine_iterate (pe, pc) > 0)
+	if (!(pe->flags & CAMEL_POP3_ENGINE_DISABLE_EXTENSIONS)) {
+		pc = camel_pop3_engine_command_new(pe, CAMEL_POP3_COMMAND_MULTI, cmd_capa, NULL, "CAPA\r\n");
+		while (camel_pop3_engine_iterate(pe, pc) > 0)
 			;
+		camel_pop3_engine_command_free(pe, pc);
 		
-		if (pc->state == CAMEL_POP3_COMMAND_OK)
-			pe->capa |= CAMEL_POP3_CAP_UIDL;
-		
-		camel_pop3_engine_command_free (pe, pc);
+		if (pe->state == CAMEL_POP3_ENGINE_TRANSACTION && !(pe->capa & CAMEL_POP3_CAP_UIDL)) {
+			/* check for UIDL support manually */
+			pc = camel_pop3_engine_command_new (pe, CAMEL_POP3_COMMAND_SIMPLE, NULL, NULL, "UIDL 1\r\n");
+			while (camel_pop3_engine_iterate (pe, pc) > 0)
+				;
+			
+			if (pc->state == CAMEL_POP3_COMMAND_OK)
+				pe->capa |= CAMEL_POP3_CAP_UIDL;
+			
+			camel_pop3_engine_command_free (pe, pc);
+		}
 	}
 }
 
@@ -304,8 +308,8 @@ camel_pop3_engine_iterate(CamelPOP3Engine *pe, CamelPOP3Command *pcwait)
 	default:
 		/* what do we do now?  f'knows! */
 		g_warning("Bad server response: %s\n", p);
-		errno = EIO;
-		return -1;
+		pc->state = CAMEL_POP3_COMMAND_ERR;
+		break;
 	}
 
 	e_dlist_addtail(&pe->done, (EDListNode *)pc);
@@ -313,7 +317,7 @@ camel_pop3_engine_iterate(CamelPOP3Engine *pe, CamelPOP3Command *pcwait)
 
 	/* Set next command */
 	pe->current = (CamelPOP3Command *)e_dlist_remhead(&pe->active);
-
+	
 	/* check the queue for sending any we can now send also */
 	pw = (CamelPOP3Command *)pe->queue.head;
 	pn = pw->next;

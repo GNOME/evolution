@@ -1,3 +1,21 @@
+2003-06-05  Jeffrey Stedfast  <fejj@ximian.com>
+
+	Fix for bug #40788.
+
+	* providers/pop3/camel-pop3-engine.c (camel_pop3_engine_new): Now
+	takes a flags argument. Currently there is only 1 flag which can
+	be used to disable Pop3 server extensions.
+	(get_capabilities): Don't check for Pop3 server extensions if the
+	DISABLE_EXTENSIONS flag is set on the engine.
+	(camel_pop3_engine_iterate): If we get a response that is neither
+	+OK nor -ERR, default to treating it like a -ERR.
+
+	* providers/pop3/camel-pop3-store.c (connect_to_server): Check for
+	the disable_extensions param.
+
+	* providers/pop3/camel-pop3-provider.c: Define a checkbox to
+	disable all POP3 extension support.
+
 2003-06-11  Jeffrey Stedfast  <fejj@ximian.com>
 
 	Partial fix for bug #44457.

@@ -68,6 +68,11 @@ enum {
 	CAMEL_POP3_CAP_STLS = 1<<5
 };
 
+/* enable/disable flags for the engine itself */
+enum {
+	CAMEL_POP3_ENGINE_DISABLE_EXTENSIONS = 1<<0,
+};
+
 typedef void (*CamelPOP3CommandFunc)(CamelPOP3Engine *pe, CamelPOP3Stream *stream, void *data);
 
 struct _CamelPOP3Command {
@@ -86,7 +91,9 @@ struct _CamelPOP3Command {
 
 struct _CamelPOP3Engine {
 	CamelObject parent;
-
+	
+	guint32 flags;
+	
 	camel_pop3_engine_t state;
 
 	GList *auth;		/* authtypes supported */
@@ -114,7 +121,7 @@ struct _CamelPOP3EngineClass {
 
 CamelType		  camel_pop3_engine_get_type	(void);
 
-CamelPOP3Engine  *camel_pop3_engine_new		(CamelStream *source);
+CamelPOP3Engine  *camel_pop3_engine_new		(CamelStream *source, guint32 flags);
 
 void              camel_pop3_engine_reget_capabilities (CamelPOP3Engine *engine);
 
