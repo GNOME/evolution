@@ -1,3 +1,7 @@
+2001-04-12  Mikael Hallendal  <micke@codefactory.se>
+
+	* fi.po: Removed a trailing 'k' making an error while compiling.
+
 2001-04-11  Jarkko Ranta  <jjranta@cc.joensuu.fi>
 
 	* fi.po: Updated Finnish translation.

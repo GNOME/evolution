@@ -8246,4 +8246,4 @@ msgstr "init_corba(): GNOME:n alustus epäonnistui"
 #: wombat/wombat.c:198
 msgid "init_bonobo(): could not initialize Bonobo"
 msgstr "init_bonobo(): Bonobon alustus epäonnistui"
-k
+
