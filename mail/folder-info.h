@@ -30,7 +30,9 @@ extern "C" {
 #endif /* __cplusplus */
 
 #include <glib.h>
+#include <gtk/gtktypeutils.h>
 
+GtkType evolution_folder_info_get_type (void);
 gboolean evolution_folder_info_factory_init (void);
 
 void evolution_folder_info_notify_ready (void);

@@ -1089,12 +1089,12 @@ e_searching_tokenizer_begin (HTMLTokenizer *t, gchar *content_type)
 static void
 e_searching_tokenizer_end (HTMLTokenizer *t)
 {
-	ESearchingTokenizer *st = E_SEARCHING_TOKENIZER (t);
-	struct _ESearchingTokenizerPrivate *p = st->priv;
-
 	/* so end gets called before any get/next tokens.
 	   I dont get it.  */
 #if 0
+	ESearchingTokenizer *st = E_SEARCHING_TOKENIZER (t);
+	struct _ESearchingTokenizerPrivate *p = st->priv;
+
 	/* not sure if we should reset search every time ... *shrug* */
 	if (p->engine) {
 		searcher_free(p->engine);

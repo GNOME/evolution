@@ -43,6 +43,8 @@
 #include <gal/widgets/e-unicode.h>
 #include <e-util/e-dialog-utils.h>
 #include <filter/filter-editor.h>
+#include <gtkhtml.h>
+
 #include "mail.h"
 #include "folder-browser-window.h"
 #include "message-browser.h"

@@ -1,3 +1,14 @@
+2002-07-18  Ettore Perazzoli  <ettore@ximian.com>
+
+	* mail-folder-cache.c: Removed bogus static pre-declaration.
+
+	* e-searching-tokenizer.c (e_searching_tokenizer_end): Removed
+	unused variables.
+
+	* mail-callbacks.c: #include <gtkhtml.h>.
+
+	* folder-info.h (evolution_folder_info_get_type): Add prototype.
+
 2002-07-18  Peter Williams  <peterw@ximian.com>
 
 	* mail-format.c (handle_multipart_digest): Change the HTML to

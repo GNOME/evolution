@@ -100,7 +100,6 @@ struct _store_info {
 };
 
 static void folder_changed(CamelObject *o, gpointer event_data, gpointer user_data);
-static void folder_deleted(CamelObject *o, gpointer event_data, gpointer user_data);
 static void folder_renamed(CamelObject *o, gpointer event_data, gpointer user_data);
 static void folder_finalised(CamelObject *o, gpointer event_data, gpointer user_data);
 
