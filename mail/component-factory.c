@@ -441,7 +441,8 @@ mail_load_storages (GNOME_Evolution_Shell shell, const GSList *sources, gboolean
 		 * That issue can't be resolved on the provider level
 		 * -- it's a per-URL problem.
 		 */
-		if (!(prov->flags & (CAMEL_PROVIDER_IS_STORAGE | CAMEL_PROVIDER_IS_REMOTE)))
+		if (!(prov->flags & CAMEL_PROVIDER_IS_STORAGE) ||
+		    !(prov->flags & CAMEL_PROVIDER_IS_REMOTE))
 			continue;
 
 		store = camel_session_get_service (session, service->url,
