@@ -689,10 +689,14 @@ set_property (GObject *object, guint property_id, const GValue *value, GParamSpe
 			}
 			
 			xmlFreeDoc (doc);
+			
+			g_signal_emit_by_name (efb, "search-activated", NULL);
 		} else {
 			/* set default state */
 			e_search_bar_set_text ((ESearchBar *) efb, "");
 			e_search_bar_set_item_id ((ESearchBar *) efb, 0);
+			
+			g_signal_emit_by_name (efb, "search-activated", NULL);
 		}
 		break;
 	default:
