@@ -1,3 +1,8 @@
+2001-10-17  Dan Winship  <danw@ximian.com>
+
+	* mail-format.c (write_default_header): Make Reply-To bold too
+	since no one ever figures out why it's not currently.
+
 2001-10-17  Iain Holmes  <iain@ximian.com>
 	
 	* importers/evolution-mbox-importer.c: Fix the typo.

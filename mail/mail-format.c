@@ -909,7 +909,7 @@ write_default_header(CamelMimeMessage *message, MailDisplay *md, int index, int 
 		write_address (md, camel_mime_message_get_from (message), _("From"), flags | WRITE_BOLD);
 		break;
 	case 1:
-		write_address (md, camel_mime_message_get_reply_to (message), _("Reply-To"), flags);
+		write_address (md, camel_mime_message_get_reply_to (message), _("Reply-To"), flags | WRITE_BOLD);
 		break;
 	case 2:
 		write_address(md, camel_mime_message_get_recipients(message, CAMEL_RECIPIENT_TYPE_TO),
