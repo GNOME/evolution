@@ -34,8 +34,6 @@
 
 #include <bonobo/bonobo-generic-factory.h>
 
-#include <camel/camel-pgp-context.h>
-
 #include "mail-config.h"
 
 

@@ -1,3 +1,8 @@
+2002-07-02  Sean Atkinson  <sean@cantab.net>
+
+	* mail-preferences.c: remove dependency on removed file
+	camel/camel-pgp-context.h
+
 2002-07-01  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-format.c (handle_multipart_related): Make sure that cid is
