@@ -581,7 +581,7 @@ static ImportDialogFilePage *
 importer_file_page_new (ImportData *data)
 {
 	ImportDialogFilePage *page;
-	GtkWidget *table, *label;
+	GtkWidget *table, *label, *entry;
 	int row = 0;
 
 	page = g_new0 (ImportDialogFilePage, 1);
@@ -595,14 +595,15 @@ importer_file_page_new (ImportData *data)
 	gtk_container_set_border_width (GTK_CONTAINER (table), 8);
 	gtk_box_pack_start (GTK_BOX (page->vbox), table, TRUE, TRUE, 0);
 
-	label = gtk_label_new_with_mnemonic (_("_Filename:"));
+	label = gtk_label_new_with_mnemonic (_("F_ilename:"));
 	gtk_table_attach (GTK_TABLE (table), label, 0, 1, row, row + 1, 
 			  GTK_FILL, 0, 0, 0);
 	gtk_misc_set_alignment (GTK_MISC (label), 1, 0.5);
 
 	page->filename = gnome_file_entry_new ("Evolution_Importer_FileName", _("Select a file"));
-	g_signal_connect (gnome_file_entry_gtk_entry (GNOME_FILE_ENTRY (page->filename)), "changed",
-			  G_CALLBACK (filename_changed), data);
+	entry = gnome_file_entry_gtk_entry((GnomeFileEntry *)page->filename);
+	g_signal_connect (entry, "changed", G_CALLBACK (filename_changed), data);
+	gtk_entry_set_activates_default (GTK_ENTRY (entry), TRUE);
 
 	gtk_table_attach (GTK_TABLE (table), page->filename, 1, 2, 
 			  row, row + 1, GTK_EXPAND | GTK_FILL, 0, 0, 0);
@@ -1071,7 +1072,7 @@ prepare_dest_page (GnomeDruidPage *page,
 	if (data->control)
 		gtk_container_remove (GTK_CONTAINER (data->destpage->vbox), data->control);
 	data->control = evolution_importer_client_create_control (data->client);
-	gtk_container_add (GTK_CONTAINER (data->destpage->vbox), data->control);
+	gtk_box_pack_start((GtkBox *)data->destpage->vbox, data->control, FALSE, FALSE, 0);
 	gtk_widget_show_all (data->destpage->vbox);
 
 	return FALSE;

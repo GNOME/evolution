@@ -64,6 +64,8 @@ impl_GNOME_Evolution_Importer_createControl (PortableServer_Servant servant,
 
 	if (priv->create_control_fn != NULL)
 		(priv->create_control_fn) (importer, control, priv->closure);
+	else
+		CORBA_exception_set_system (ev, ex_CORBA_NO_IMPLEMENT, CORBA_COMPLETED_NO);
 }
 
 static CORBA_boolean

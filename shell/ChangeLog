@@ -1,3 +1,14 @@
+2004-05-26  Not Zed  <NotZed@Ximian.com>
+
+	* importer/evolution-importer.c
+	(impl_GNOME_Evolution_Importer_createControl): set exception if not
+	implemented.
+
+	* e-shell-importer.c (importer_file_page_new): set the entry to
+	activate default, and fixed the _Filename and _Forward shortcut
+	clash.  #58081.
+	(prepare_dest_page): pack the widget without expand/fill.
+
 2004-05-21  Jeffrey Stedfast  <fejj@novell.com>
 
 	* evolution-shell-component-utils.c (e_activation_failure_dialog):
