@@ -1,28 +1,42 @@
-Version 0.16 (Beta 6)
----------------------
-
-FIXME FIXME FIXME: Note that the "Version 0.15" header below does not
-have information beta date.
+Version 0.16 (Beta 6), 2001-10-10
+---------------------------------
 
 Shell:
+
+  - Now the shell restarts stale components from previous sessions
+    properly.  This should reduce the need for oaf-slay to only the
+    cases in which a specific component is completely stuck (which
+    hopefully should never happen).  (Ettore)
+
+  - Fixed the saving of the size of the shortcut bar and the folder
+    bar.  (Ettore)
+
+  - Always display a new default view for the shell, unless the user
+    specified an `evolution:' URI on the command-line.  (Ettore)
+
+  - Fix the weird behavior for right click -> open in new window in a
+    pop-up folder bar.  (Ettore)
+
+  - Make the copy/move and dnd code to detect copying of folders onto
+    themselves correctly.  (Ettore)
 
 Mailer:
 
   - Bcc: addresses are now visible when browsing messages in
-    the "Sent" folder. (Trow)
+    the "Sent" folder.  (Trow)
 
   - Various backend fixes like thread safeness of concurrent
     triggered events, more forgiving address header decoding,
     fixes for recent breakage to progress reports, adding a deleted
-    event/state for folders, various deadlocks. (Michael, Jeff)
+    event/state for folders, various deadlocks.  (Michael, Jeff)
 
-  - Fixed quick-searching by receipients to work. (Michael)
+  - Fixed quick-searching by receipients to work.  (Michael)
 
   - Caching of iconv handles to improve performance of many internal
-    mail reading/indexing operations. (Michael)
+    mail reading/indexing operations.  (Michael)
 
   - Major oops in mbox code that caused significant performance
-    problems getting/filtering mail fixed. (Michael)
+    problems getting/filtering mail fixed.  (Michael)
 
   - Message charsets can now be overridden by a user-chosen charset
     encoding in the mail display.  (Jeff)
@@ -30,11 +44,12 @@ Mailer:
   - Report errors when file cannot be attached in the composer.  (Jeff)
 
   - File->Folder->Properties and Delete Folder now work for VFolders.
+    (Michael)
 
   - VFolders, Filters and Searches are saved in a safe manner so that
-    they should not be lost with quota/filled disk problems. (Michael)
+    they should not be lost with quota/filled disk problems.  (Michael)
  
-  - VFolders now update with new mail on their sources. (Michael)
+  - VFolders now update with new mail on their sources.  (Michael)
 
   - Fixed the "Load HTML Images" radio button options in the mail
     config dialog to work properly.  (Jeff)
@@ -52,14 +67,14 @@ Addressbook:
 
   - New authentication work.  (Chris Toshok)
 
-  - Fixed crashes related to editing the Master Category List. (Trow)
+  - Fixed crashes related to editing the Master Category List.  (Trow)
 
-  - Address completion is no longer confused by whitespace. (Trow)
+  - Address completion is no longer confused by whitespace.  (Trow)
 
   - More work on having multiple wombats.  (Chris Toshok)
 
   - Contact names no longer mysteriously disappear when using the
-    SelectNames dialog. (Trow)
+    SelectNames dialog.  (Trow)
 
 Calendar:
 
@@ -67,27 +82,28 @@ Calendar:
 
   - Compilation fixes for latest Bonobo (Rodrigo)
 
-  - Fixed problem with exceptions to recurring events [#11278]. (Damon)
+  - Fixed problem with exceptions to recurring events.  (Damon)
 
-  - Fixed handling of UNTIL property in recurring events [#5034]. (Damon)
+  - Fixed handling of UNTIL property in recurring events. (Damon)
 
   - The alarm daemon will now notify you of alarms that should have
-    occurred while it was not running [#884].  (Federico)
+    occurred while it was not running.  (Federico)
 
   - Handle monthly-by-day and "last day" recurrences in the conduits.  (JP)
 
-  - Added priorities to the fields in the attendee list [#7158]. (Chris)
+  - Added priorities to the fields in the attendee list.  (Chris)
 
-  - Enhancements to the event editor for meetings. (JP)
+  - Enhancements to the event editor for meetings.  (JP)
 
 Summary:
 
-  - Bugfixes (iain)
+  - Bugfixes.  (Iain)
 
-  - Recurring events have the correct time and date (iain)
+  - Recurring events have the correct time and date.  (Iain)
 
-Version 0.15 (Beta 5)
----------------------
+
+Version 0.15 (Beta 5), 2001-10-02
+---------------------------------
 
 Shell:
 
