@@ -42,7 +42,8 @@ extern "C" {
 #define IS_CAMEL_MIME_PART(o)    (GTK_CHECK_TYPE((o), CAMEL_MIME_PART_TYPE))
 
 
-
+/* Do not change these values directly, you
+   would regret it one day */
 typedef struct 
 {
 	CamelDataWrapper parent_object;

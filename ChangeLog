@@ -1,3 +1,26 @@
+1999-05-13  bertrand  <Bertrand.Guiheneuf@inria.fr>
+
+	* camel/camel-mime-message.h: 
+	a bunch of get/set header field
+	method done. Does nothing yet though.
+
+	* camel/camel-mime-message.[ch] :
+	new file. 
+
+1999-05-12  bertrand  <Bertrand.Guiheneuf@inria.fr>
+
+	* camel/camel-mime-part.h (struct ): 
+	disposition is now a full GMimeContentField
+	object.
+
+	* camel/gmime-content-field.c: new file
+	handle "type/subtype ;parameter=value ; parameter=value ..."
+	BNF grammar elements
+	(gmime_content_field_write_to_file): new func
+	
+	* camel/gmime-utils.c (gmime_write_header_pair_to_file): 
+	namespace change
+
 1999-05-11  bertrand  <Bertrand.Guiheneuf@inria.fr>
 
 	* camel/camel-mime-part.c (_write_to_file): 

@@ -12,7 +12,7 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A MESSAGEICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
@@ -33,6 +33,8 @@ extern "C" {
 
 #include <gtk/gtk.h>
 #include "camel-mime-part.h"
+#include "camel-folder.h"
+#include "camel-session.h"
 
 
 
@@ -45,7 +47,27 @@ extern "C" {
 
 typedef struct 
 {
+	CamelMimePart *parent_class;
 
+	/* header fields */
+	GString *received_date;
+	GString *sent_date;
+
+	GString *subject;
+	GString *reply_to;
+
+	GString *from;
+	GHashTable *recipients;
+	/*   -> each value is a GList of address strings */
+	/*      each key is a recipient type string in lower-case */
+	
+	/* other fields */
+	GHashTable *flags; /* boolean values */
+	gboolean expunged;
+	guint message_number; /* set by folder object when retrieving message */
+	CamelFolder *folder;
+	CamelSession *session;
+	
 } CamelMimeMessage;
 
 
@@ -54,6 +76,16 @@ typedef struct {
 	CamelDataWrapperClass parent_class;
 	
 	/* Virtual methods */	
+	void  (*set_received_date) (CamelMimeMessage *mime_message, GString *received_date);
+	GString * (*get_received_date) (CamelMimeMessage *mime_message);
+	GString * (*get_sent_date) (CamelMimeMessage *mime_message);
+	void  (*set_reply_to) (CamelMimeMessage *mime_message, GString *reply_to);
+	GString * (*get_reply_to) (CamelMimeMessage *mime_message);
+	void  (*set_subject) (CamelMimeMessage *mime_message, GString *subject);
+	GString * (*get_subject) (CamelMimeMessage *mime_message);
+	void  (*set_from) (CamelMimeMessage *mime_message, GString *from);
+	GString * (*get_from) (CamelMimeMessage *mime_message);
+
 } CamelMimeMessageClass;
 
 
