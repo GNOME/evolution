@@ -104,6 +104,8 @@
 
 #define GNOME_GTKHTML_EDITOR_CONTROL_ID "OAFIID:GNOME_GtkHTML_Editor:1.1"
 
+#define d(x) x
+
 
 #define DEFAULT_WIDTH 600
 #define DEFAULT_HEIGHT 500
@@ -2346,6 +2348,7 @@ drag_data_received (EMsgComposer *composer, GdkDragContext *context,
 	
 	switch (info) {
 	case DND_TYPE_MESSAGE_RFC822:
+		d(printf ("dropping a message/rfc822\n"));
 		/* write the message(s) out to a CamelStream so we can use it */
 		stream = camel_stream_mem_new ();
 		camel_stream_write (stream, selection->data, selection->length);
@@ -2355,6 +2358,7 @@ drag_data_received (EMsgComposer *composer, GdkDragContext *context,
 		camel_object_unref (CAMEL_OBJECT (stream));
 		break;
 	case DND_TYPE_TEXT_URI_LIST:
+		d(printf ("dropping a text/uri-list\n"));
 		tmp = g_strndup (selection->data, selection->length);
 		filenames = g_strsplit (tmp, "\n", 0);
 		g_free (tmp);
@@ -2378,7 +2382,7 @@ drag_data_received (EMsgComposer *composer, GdkDragContext *context,
 		g_free (filenames);
 		break;
 	case DND_TYPE_TEXT_VCARD:
-		printf ("dropping a text/x-vcard\n");
+		d(printf ("dropping a text/x-vcard\n"));
 		mime_part = camel_mime_part_new ();
 		camel_mime_part_set_content (mime_part, selection->data,
 					     selection->length, "text/x-vcard");
@@ -2390,7 +2394,7 @@ drag_data_received (EMsgComposer *composer, GdkDragContext *context,
 		
 		camel_object_unref (CAMEL_OBJECT (mime_part));
 	default:
-		printf ("dropping an unknown\n");
+		d(printf ("dropping an unknown\n"));
 		break;
 	}
 }
