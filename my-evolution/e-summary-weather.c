@@ -34,6 +34,7 @@ struct _ESummaryWeather {
 	guint32 timeout;
 
 	gboolean online;
+	gboolean errorshown;
 };
 
 static GHashTable *locations_hash = NULL;
@@ -275,7 +276,12 @@ read_callback (GnomeVFSAsyncHandle *handle,
 	       Weather *w)
 {
 	if (result != GNOME_VFS_OK && result != GNOME_VFS_ERROR_EOF) {
-		w->html = g_strdup ("<b>Error downloading RDF</b>");
+		if (w->summary->weather->errorshown == FALSE) {
+			w->html = g_strdup ("<dd><b>An error occurred while downloading weather data</b></dd>");
+			w->summary->weather->errorshown = TRUE;
+		} else {
+			w->html = g_strdup ("<dd> </dd>");
+		}
 
 		e_summary_draw (w->summary);
 		w->handle = NULL;
@@ -301,7 +307,13 @@ open_callback (GnomeVFSAsyncHandle *handle,
 	       Weather *w)
 {
 	if (result != GNOME_VFS_OK) {
-		w->html = e_utf8_from_locale_string (_("<b>Error downloading Metar</b>"));
+		if (w->summary->weather->errorshown == FALSE) {
+			w->html = e_utf8_from_locale_string (_("<dd><b>The weather server could not be contacted</b></dd>"));
+
+			w->summary->weather->errorshown = TRUE;
+		} else {
+			w->html = g_strdup ("<dd> </dd>");
+		}
 
 		e_summary_draw (w->summary);
 		return;
@@ -319,6 +331,7 @@ e_summary_weather_update (ESummary *summary)
 {
 	GList *w;
 
+	summary->weather->errorshown = FALSE;
 	for (w = summary->weather->weathers; w; w = w->next) {
 		char *uri;
 		Weather *weather = w->data;

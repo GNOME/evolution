@@ -296,7 +296,7 @@ tree_walk (xmlNodePtr root,
 		g_string_append (html, tmp);
 		g_free (tmp);
 	}
-	g_string_append (html, "</UL></dl>");
+	g_string_append (html, "</UL>");
 }
 
 static void
@@ -307,11 +307,16 @@ display_doc (RDF *r)
 	html = g_string_new ("<dl><dt><img src=\"ico-rdf.png\" align=\"middle\" "
 			     "width=\"48\" height=\"48\"><b>");
 
-	tree_walk (r->cache->root, r, html);
+	if (r->cache == NULL) {
+		g_string_append (html, _("There was an error downloading news feed</dt>"));
+	} else {
+		tree_walk (r->cache->root, r, html);
+	}
 
 	if (r->html != NULL) {
 		g_free (r->html);
 	}
+	g_string_append (html, "</dl>");
 	r->html = html->str;
 	g_string_free (html, FALSE);
 
@@ -354,6 +359,7 @@ close_callback (GnomeVFSAsyncHandle *handle,
 	}
 
 	doc = xmlParseMemory (xml, strlen (xml));
+#if 0
 	if (doc == NULL) {
 		if (r->html != NULL) {
 			g_free (r->html);
@@ -364,7 +370,7 @@ close_callback (GnomeVFSAsyncHandle *handle,
 		g_free (xml);
 		return;
 	}
-
+#endif
 	g_free (xml);
 	r->cache = doc;
 
@@ -412,7 +418,7 @@ open_callback (GnomeVFSAsyncHandle *handle,
 	if (result != GNOME_VFS_OK) {
 		r->html = e_utf8_from_locale_string (_("<b>Error downloading RDF</b>"));
 
-		e_summary_draw (r->summary);
+		display_doc (r);
 		return;
 	}
 
