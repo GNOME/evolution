@@ -779,3 +779,175 @@ driver_resp_fetch(CamelIMAPPEngine *ie, guint32 id, CamelIMAPPDriver *sdata)
 
 	return camel_imapp_engine_skip(ie);
 }
+
+
+/* This code is for the separate thread per server idea */
+
+typedef enum {
+	CAMEL_IMAPP_MSG_FETCH,
+	CAMEL_IMAPP_MSG_LIST,
+	CAMEL_IMAPP_MSG_QUIT,
+	CAMEL_IMAPP_MSG_SEARCH,
+	CAMEL_IMAPP_MSG_SYNC,
+	CAMEL_IMAPP_MSG_UPDATE,
+} camel_imapp_msg_t;
+
+typedef struct _CamelIMAPPMsg CamelIMAPPMsg;
+
+struct _CamelIMAPPMsg {
+	EMsg msg;
+	CamelOperation *cancel;
+	CamelException *ex;
+	camel_imapp_msg_t type;
+	union {
+		struct {
+			struct _CamelIMAPPFolder *folder;
+			char *uid;
+			char *section;
+			struct _CamelStream *body;
+			struct _CamelIMAPPCommand *ic;
+		} fetch;
+		struct {
+			char *name;
+			guint32 flags;
+			GPtrArray *result;
+			GSList *ics;
+		} list;
+		struct {
+			guint32 flags;
+		} quit;
+		struct {
+			struct _CamelIMAPPFolder *folder;
+			char *search;
+			GPtrArray *results;
+		} search;
+		struct {
+			struct _CamelIMAPPFolder *folder;
+			guint32 flags;
+		} sync;
+		struct {
+			struct _CamelIMAPPFolder *folder;
+		} update;
+	} data;
+};
+
+CamelIMAPPMsg *camel_imapp_msg_new(camel_imapp_msg_t type, struct _CamelException *ex, struct _CamelOperation *cancel, ...);
+void camel_imapp_msg_free(CamelIMAPPMsg *m);
+void camel_imapp_driver_worker(CamelIMAPPDriver *id);
+
+CamelIMAPPMsg *
+camel_imapp_msg_new(camel_imapp_msg_t type, struct _CamelException *ex, struct _CamelOperation *cancel, ...)
+{
+	CamelIMAPPMsg *m;
+	va_list ap;
+
+	m = g_malloc0(sizeof(*m));
+	m->type = type;
+	m->cancel = cancel;
+	camel_operation_ref(cancel);
+	m->ex = ex;
+
+	va_start(ap, cancel);
+	switch (type) {
+	case CAMEL_IMAPP_MSG_FETCH:
+		m->data.fetch.folder = va_arg(ap, struct _CamelIMAPPFolder *);
+		camel_object_ref(m->data.fetch.folder);
+		m->data.fetch.uid = g_strdup(va_arg(ap, char *));
+		m->data.fetch.section = g_strdup(va_arg(ap, char *));
+		break;
+	case CAMEL_IMAPP_MSG_LIST:
+		m->data.list.name = g_strdup(va_arg(ap, char *));
+		m->data.list.flags = va_arg(ap, guint32);
+		break;
+	case CAMEL_IMAPP_MSG_QUIT:
+		m->data.quit.flags = va_arg(ap, guint32);
+		break;
+	case CAMEL_IMAPP_MSG_SEARCH:
+		m->data.search.folder = va_arg(ap, struct _CamelIMAPPFolder *);
+		camel_object_ref(m->data.search.folder);
+		m->data.search.search = g_strdup(va_arg(ap, char *));
+		break;
+	case CAMEL_IMAPP_MSG_SYNC:
+		m->data.sync.folder = va_arg(ap, struct _CamelIMAPPFolder *);
+		camel_object_ref(m->data.sync.folder);
+		m->data.sync.flags = va_arg(ap, guint32);
+		break;
+	case CAMEL_IMAPP_MSG_UPDATE:
+		m->data.update.folder = va_arg(ap, struct _CamelIMAPPFolder *);
+		camel_object_ref(m->data.update.folder);
+		break;
+	}
+	va_end(ap);
+
+	return m;
+}
+
+void
+camel_imapp_msg_free(CamelIMAPPMsg *m)
+{
+	switch (m->type) {
+	case CAMEL_IMAPP_MSG_FETCH:
+		camel_object_unref(m->data.fetch.folder);
+		g_free(m->data.fetch.uid);
+		g_free(m->data.fetch.section);
+
+		if (m->data.fetch.body)
+			camel_object_unref(m->data.fetch.body);
+		break;
+	case CAMEL_IMAPP_MSG_LIST:
+		g_free(m->data.list.name);
+		if (m->data.list.result)
+			/* FIXME: free list data ... */
+			g_ptr_array_free(m->data.list.result, TRUE);
+		break;
+	case CAMEL_IMAPP_MSG_QUIT:
+		break;
+	case CAMEL_IMAPP_MSG_SEARCH:
+		camel_object_unref(m->data.search.folder);
+		g_free(m->data.search.search);
+		if (m->data.search.results)
+			/* FIXME: free search data */
+			g_ptr_array_free(m->data.search.results, TRUE);
+		break;
+	case CAMEL_IMAPP_MSG_SYNC:
+		camel_object_unref(m->data.sync.folder);
+		break;
+	case CAMEL_IMAPP_MSG_UPDATE:
+		camel_object_unref(m->data.update.folder);
+		break;
+	}
+
+	camel_operation_unref(m->cancel);
+	g_free(m);
+}
+
+void
+camel_imapp_driver_worker(CamelIMAPPDriver *id)
+{
+	CamelIMAPPMsg *m;
+	int go = TRUE;
+
+	do {
+		/*m = (CamelIMAPPMsg *)e_msgport_get(id->queue);*/
+		switch (m->type) {
+		case CAMEL_IMAPP_MSG_FETCH:
+			/*e_dlist_addtail(&id->fetch_queue, (EDListNode *)m);*/
+			camel_imapp_driver_select(id, m->data.fetch.folder);
+			break;
+		case CAMEL_IMAPP_MSG_LIST:
+			m->data.list.result = camel_imapp_driver_list(id, m->data.list.name, m->data.list.flags);
+			break;
+		case CAMEL_IMAPP_MSG_QUIT:
+			camel_imapp_msg_free(m);
+			go = FALSE;
+			break;
+		case CAMEL_IMAPP_MSG_SEARCH:
+			break;
+		case CAMEL_IMAPP_MSG_SYNC:
+			break;
+		case CAMEL_IMAPP_MSG_UPDATE:
+			break;
+		}
+	} while (go);
+}
+
