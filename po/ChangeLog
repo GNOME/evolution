@@ -1,3 +1,7 @@
+2001-11-28  Christian Rose  <menthos@menthos.com>
+
+	* sv.po: Updated Swedish translation.
+
 2001-11-25  Matthias Warkus  <mawarkus@gnome.org>
 
 	* de.po: Updated German translation for release.
@@ -73,10 +77,6 @@
 2001-11-16  Andras Timar <timar@gnome.hu>
 
         * hu.po: Updated Hungarian translation.
-
-2001-11-14  gettextize  <bug-gnu-utils@gnu.org>
-
-	* Makefile.in.in: Upgrade to gettext-0.10.39.
 
 2001-11-14  Christian Rose  <menthos@menthos.com>
 
