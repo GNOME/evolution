@@ -1,3 +1,13 @@
+2004-10-01  Not Zed  <NotZed@Ximian.com>
+
+	* e-msg-composer.c (create_composer): enable ask drop action and
+	hook onto drag motion.
+	(drag_motion): implement.
+	(drop_action): do the work here now.
+	(drag_data_received): popup a menu if the action is ask.
+	(drop_popup_copy, drop_popup_move, drop_popup_cancel):
+	(drop_popup_free): Popup callbacks.
+
 2004-09-30  Kjartan Maraas  <kmaraas@gnome.org>
 
 	* e-msg-composer.c: (autosave_manager_start),
