@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: evolution 1.4\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2004-09-26 11:09+0200\n"
-"PO-Revision-Date: 2004-09-26 17:36+0330\n"
+"PO-Revision-Date: 2004-10-04 17:36+0330\n"
 "Last-Translator: Meelad Zakaria <meelad@bamdad.org>\n"
 "Language-Team: Persian <farsi@lists.sharif.edu>\n"
 "MIME-Version: 1.0\n"
@@ -96,17 +96,17 @@ msgstr ""
 #. addressbook:ldap-v3-schema primary
 #: addressbook/addressbook-errors.xml.h:14
 msgid "This server does not support LDAPv3 schema information."
-msgstr ""
+msgstr "این کارگزار از اطلاعات شمای LDAPv3 پشتیبانی نمی‌کند."
 
 #. addressbook:ldap-get-schema primary
 #: addressbook/addressbook-errors.xml.h:16
 msgid "Could not get schema information for LDAP server."
-msgstr ""
+msgstr "دسترسی به اطلاعات شما برای کارگزار LDAP مقدور نیست."
 
 #. addressbook:ldap-invalid-schema primary
 #: addressbook/addressbook-errors.xml.h:18
 msgid "LDAP server did not respond with valid schema information."
-msgstr ""
+msgstr "کارگزار LDAP با اطلاعات شمای معتبری پاسخ نداد."
 
 #. addressbook:remove-addressbook primary
 #: addressbook/addressbook-errors.xml.h:20
@@ -137,7 +137,7 @@ msgstr "ویرایش‌گر مقوله موجود نیست."
 #: mail/mail-errors.xml.h:80 mail/mail-errors.xml.h:84
 #: mail/mail-errors.xml.h:88
 msgid "{0}"
-msgstr ""
+msgstr "{0}"
 
 #. addressbook:generic-error secondary
 #. mail-composer:no-attach secondary
@@ -145,7 +145,7 @@ msgstr ""
 #: addressbook/addressbook-errors.xml.h:26
 #: composer/mail-composer-errors.xml.h:4 mail/mail-errors.xml.h:92
 msgid "{1}"
-msgstr ""
+msgstr "{1}"
 
 #. addressbook:load-error title
 #: addressbook/addressbook-errors.xml.h:28
@@ -188,7 +188,8 @@ msgstr "انتقال آشنا مقدور نیست."
 msgid ""
 "You are attempting to move a contact from one addressbook to another but it "
 "cannot be removed from the source. Do you want to save a copy instead?"
-msgstr ""
+msgstr "شما سعی می‌کنید آشنایی را از یک دفترچه‌ی نشانی به دفترچه‌ی دیگری منتقل کنید "
+"ولی نمی‌توان آشنا را از مبدأ حذف کرد. آیا می‌خواهید در عوض یک نسخه از آن را ذخیره کنید؟"
 
 #. addressbook:save-error primary
 #: addressbook/addressbook-errors.xml.h:47
@@ -209,7 +210,7 @@ msgstr ""
 #: addressbook/addressbook-errors.xml.h:53
 msgid ""
 "Your contacts for {0} will not be available until Evolution is restarted."
-msgstr ""
+msgstr "آشناهای شما برای {0} تا راه‌اندازی مجدد Evolution قابل دسترسی نخواهند بود."
 
 #: addressbook/conduit/address-conduit.c:298
 msgid "Default Sync Address:"
@@ -390,7 +391,9 @@ msgid ""
 "The way Evolution stores some phone numbers has changed.\n"
 "\n"
 "Please be patient while Evolution migrates your folders..."
-msgstr ""
+msgstr "روش ذخیره کردن بعضی از شماره تلفن‌ها در Evolution تغییر کرده است.\n"
+"\n"
+"لطفاْ در حینی که Evolution پوشه‌هایتان را انتقال می‌دهد صبور باشید..."
 
 #: addressbook/gui/component/addressbook-migrate.c:1156
 msgid ""
@@ -402,7 +405,7 @@ msgstr ""
 #: addressbook/gui/component/addressbook-view.c:711
 #, c-format
 msgid "Address book '%s' will be removed. Are you sure you want to continue?"
-msgstr ""
+msgstr "دفترچه‌ی نشانی '%s' حذف خواهد شد. آیا مطمئنید که می‌خواهید ادامه دهید؟"
 
 #: addressbook/gui/component/addressbook-view.c:814
 #: addressbook/gui/widgets/e-addressbook-view.c:1128
@@ -604,6 +607,9 @@ msgid ""
 "are behind a firewall at work, then Evolution doesn't need to use SSL/TLS "
 "because your connection is already secure."
 msgstr ""
+"انتخاب این گزینه به این معناست که Evolution تنها در صورتی برای استفاده از SSL/TLS تلاش خواهد کرد که شما در محیطی ناامن باشید . "
+"به عنوان مثال، اگر شما و کارگزار LDAPتان در محل کار پشت دیواره‌ی آتش قرار دارید، در این صورت Evolution مجبور به استفاده از SSL/TLS نیست چون "
+"اتصال شما به خودی خود امن است."
 
 #: addressbook/gui/component/ldap-config.glade.h:30
 msgid ""
@@ -611,6 +617,8 @@ msgid ""
 "TLS.  This means that your connection will be insecure, and that you will be "
 "vulnerable to security exploits. "
 msgstr ""
+"انتخاب این گزینه به این معناست که سیستم شما نه از SSL پشتیبانی می‌کند و نه از TLS. "
+"یعنی اتصال شما ناامن خواهد بود، و شما در برابر سوء استفاده‌های امنیتی آسیب‌پذیر خواهد بود. "
 
 #: addressbook/gui/component/ldap-config.glade.h:31
 msgid "Sub"
@@ -634,6 +642,9 @@ msgid ""
 "your search base. A search scope of \"one\" will only include the entries "
 "one level beneath your base."
 msgstr ""
+"محدوده‌ی جست و جو معین می‌کند که می‌خواهید جست و جویتان تا چه عمقی در شاخه‌های درخت پایین برود. حوزه‌ی جست و جوی "
+"\"sub\" همه‌ی ورودی‌های زیر پایه‌ی جست و جوی شما را در بر خواهد گرفت. حوزه‌ی جست و جوی "
+"\"one\" تنها ورودی‌های یکی پایین‌تر از پایه‌ی جست و جویتان را در بر خواهد گرفت."
 
 #: addressbook/gui/component/ldap-config.glade.h:35
 msgid ""
@@ -679,7 +690,7 @@ msgstr ""
 
 #: addressbook/gui/component/ldap-config.glade.h:40
 msgid "Using distinguished name (DN)"
-msgstr ""
+msgstr "استفاده از نام متمایز (DN)"
 
 #: addressbook/gui/component/ldap-config.glade.h:41
 msgid "Using email address"
@@ -691,9 +702,8 @@ msgid "Whenever Possible"
 msgstr "در صورت امکان"
 
 #: addressbook/gui/component/ldap-config.glade.h:43
-#, fuzzy
 msgid "_Add Address Book"
-msgstr "افزودن دفترچه‌ی نشانی"
+msgstr "_افزودن دفترچه‌ی نشانی"
 
 #: addressbook/gui/component/ldap-config.glade.h:44
 msgid "_Download limit:"
@@ -1101,7 +1111,7 @@ msgstr "آذربایجان"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:152
 msgid "Bahamas"
-msgstr "باهاماس"
+msgstr "جزایر باهاما"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:153
 msgid "Bahrain"
@@ -1113,7 +1123,7 @@ msgstr "بنگلادش"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:155
 msgid "Barbados"
-msgstr ""
+msgstr "بارابادوس"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:156
 msgid "Belarus"
@@ -1193,15 +1203,15 @@ msgstr "کانادا"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:175
 msgid "Cape Verde"
-msgstr ""
+msgstr "کیپ ورد"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:176
 msgid "Cayman Islands"
-msgstr ""
+msgstr "جزایر کی‌من"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:177
 msgid "Central African Republic"
-msgstr ""
+msgstr "جمهوری افریقای مرکزی"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:178
 msgid "Chad"
@@ -1237,11 +1247,11 @@ msgstr "کنگو"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:186
 msgid "Congo, The Democratic Republic Of The"
-msgstr ""
+msgstr "کنگو، جکهوری دموکراتیک"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:187
 msgid "Cook Islands"
-msgstr ""
+msgstr "جزایر کوک"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:188
 msgid "Costa Rica"
@@ -1281,7 +1291,7 @@ msgstr ""
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:197
 msgid "Dominican Republic"
-msgstr ""
+msgstr "جمهوری دومنیکن"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:198
 msgid "Ecuador"
@@ -1365,7 +1375,7 @@ msgstr "غنا"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:218
 msgid "Gibraltar"
-msgstr ""
+msgstr "خیورالتار"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:219
 msgid "Greece"
@@ -1529,11 +1539,11 @@ msgstr ""
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:259
 msgid "Liberia"
-msgstr ""
+msgstr "لیبریا"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:260
 msgid "Libya"
-msgstr ""
+msgstr "لیبی"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:261
 msgid "Liechtenstein"
@@ -1609,7 +1619,7 @@ msgstr ""
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:279
 msgid "Moldova, Republic Of"
-msgstr ""
+msgstr "مولدووا، جمهوری"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:280
 msgid "Monaco"
@@ -1621,7 +1631,7 @@ msgstr "مغولستان"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:282
 msgid "Montserrat"
-msgstr ""
+msgstr "مانتسرت"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:283
 msgid "Morocco"
@@ -1641,7 +1651,7 @@ msgstr "نامیبیا"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:287
 msgid "Nauru"
-msgstr ""
+msgstr "نائورو"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:288
 msgid "Nepal"
@@ -1657,7 +1667,7 @@ msgstr "آنتیل هلند"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:291
 msgid "New Caledonia"
-msgstr ""
+msgstr "کالیدونیای نو"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:292
 msgid "New Zealand"
@@ -1677,11 +1687,11 @@ msgstr "نیجریه"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:296
 msgid "Niue"
-msgstr ""
+msgstr "نیوئه"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:297
 msgid "Norfolk Island"
-msgstr ""
+msgstr "جزیره‌ی نورفوک"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:298
 msgid "Northern Mariana Islands"
@@ -1701,11 +1711,11 @@ msgstr "پاکستان"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:302
 msgid "Palau"
-msgstr ""
+msgstr "پالاو"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:303
 msgid "Palestinian Territory"
-msgstr ""
+msgstr "سرزمین‌های اشغالی"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:304
 msgid "Panama"
@@ -1897,7 +1907,7 @@ msgstr "تایلند"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:351
 msgid "Timor-Leste"
-msgstr ""
+msgstr "تیمور شرقی"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:352
 msgid "Togo"
@@ -1977,11 +1987,11 @@ msgstr "ویتنام"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:371
 msgid "Virgin Islands, British"
-msgstr ""
+msgstr "جزایر ویرجین، بریتانیا"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:372
 msgid "Virgin Islands, U.S."
-msgstr ""
+msgstr "جزایر ویرجین، ایالات متحده"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:373
 msgid "Wallis And Futuna Islands"
@@ -2523,7 +2533,7 @@ msgstr "دستیار"
 
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:2
 msgid "Assistant Phone"
-msgstr "تلفن "
+msgstr ""
 
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:3
 msgid "Business Fax"
@@ -2926,6 +2936,8 @@ msgid ""
 "you want to use LDAP in Evolution, you must install an LDAP-enabled "
 "Evolution package."
 msgstr ""
+"این نسخه از Evolution پشتیبانی LDAP را به صورت ترجمه شده‌ی توکار ندارد.  اگر "
+"می‌خواهید در Evolution از LDAP استفاده کنید، باید بسته‌ی Evolution دارای LDAP را نصب کنید."
 
 #: addressbook/gui/widgets/eab-gui-util.c:110
 msgid ""
@@ -2990,7 +3002,7 @@ msgid "Error removing contact"
 msgstr "خطا در حذف آشنا"
 
 #: addressbook/gui/widgets/eab-gui-util.c:275
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Opening %d contact will open %d new window as well.\n"
 "Do you really want to display this contact?"
@@ -3301,7 +3313,7 @@ msgstr "راست:"
 
 #: addressbook/printing/e-contact-print.glade.h:34
 msgid "Sections:"
-msgstr ""
+msgstr "بخش‌ها:"
 
 #: addressbook/printing/e-contact-print.glade.h:35
 msgid "Shading"
@@ -3371,7 +3383,7 @@ msgstr "پرونده‌ی خروجی را به جای خروجی استاندا�
 
 #: addressbook/tools/evolution-addressbook-export.c:57
 msgid "OUTPUTFILE"
-msgstr ""
+msgstr "OUTPUTFILE"
 
 #: addressbook/tools/evolution-addressbook-export.c:58
 msgid "List local addressbook folders"
@@ -3613,21 +3625,18 @@ msgstr "ذخیره‌ی تغییرات"
 
 #. calendar:prompt-save-task title
 #: calendar/calendar-errors.xml.h:76
-#, fuzzy
 msgid "Save Task"
-msgstr "ذخیره به نام"
+msgstr "ذخیره‌ی تکلیف"
 
 #. calendar:prompt-save-task primary
 #: calendar/calendar-errors.xml.h:78
-#, fuzzy
 msgid "Would you like to save your changes to this task?"
-msgstr "آیا می‌خواهید تغییراتتان را در این قرار ذخیره کنید؟"
+msgstr "آیا می‌خواهید تغییراتتان در این تکلیف را ذخیره کنید؟"
 
 #. calendar:prompt-save-task secondary
 #: calendar/calendar-errors.xml.h:80
-#, fuzzy
 msgid "You have made changes to this task, but not yet saved them."
-msgstr "شما در این قرار تغییراتی داده‌اید، ولی آنها را ذخیره نکرده‌اید."
+msgstr "شما در این تکلیف تغییراتی داده‌اید، ولی آنها را ذخیره نکرده‌اید."
 
 #. calendar:prompt-meeting-invite primary
 #: calendar/calendar-errors.xml.h:84
@@ -4667,9 +4676,8 @@ msgid "_Add Calendar"
 msgstr "افزودن تقویم"
 
 #: calendar/gui/dialogs/calendar-setup.glade.h:7
-#, fuzzy
 msgid "_Add Task List"
-msgstr "افزودن فهرست تکلیف"
+msgstr "_افزودن فهرست تکلیف"
 
 #: calendar/gui/dialogs/calendar-setup.glade.h:9
 msgid "_Refresh:"
@@ -4977,9 +4985,8 @@ msgstr "تقویم:"
 
 #: calendar/gui/dialogs/event-page.glade.h:11
 #: calendar/gui/dialogs/task-page.glade.h:5
-#, fuzzy
 msgid "Classi_fication:"
-msgstr "_خانوادگی"
+msgstr "_طبقه‌بندی"
 
 #: calendar/gui/dialogs/event-page.glade.h:12
 #: calendar/gui/dialogs/task-page.glade.h:6 calendar/gui/e-cal-list-view.c:259
@@ -5913,9 +5920,8 @@ msgid "_Forward as iCalendar..."
 msgstr ""
 
 #: calendar/gui/e-calendar-view.c:1452
-#, fuzzy
 msgid "Make this Occurrence _Movable"
-msgstr "حذف این مورد"
+msgstr "قابل انتقال کردن این مورد"
 
 #: calendar/gui/e-calendar-view.c:1453 calendar/gui/e-calendar-view.c:1485
 msgid "Delete this _Occurrence"
@@ -8688,9 +8694,8 @@ msgid "Encryption is not supported by this cipher"
 msgstr ""
 
 #: camel/camel-cipher-context.c:215
-#, fuzzy
 msgid "Encrypting message"
-msgstr "ایالات متحده"
+msgstr "در حال رمزنگاری پیغام"
 
 #: camel/camel-cipher-context.c:232
 msgid "Decryption is not supported by this cipher"
@@ -9914,7 +9919,6 @@ msgid "Automatically synchronize remote mail locally"
 msgstr ""
 
 #: camel/providers/groupwise/camel-groupwise-provider.c:69
-#, fuzzy
 msgid "Address Book and Calendar"
 msgstr "دفترچه‌ی نشانی و تقویم"
 
@@ -9927,7 +9931,6 @@ msgid "Post Office Agent SOAP Port:"
 msgstr ""
 
 #: camel/providers/groupwise/camel-groupwise-provider.c:78
-#, fuzzy
 msgid "Use Secure Connection (SSL)"
 msgstr "استفاده از اتصال امن (SSL)"
 
@@ -9993,7 +9996,7 @@ msgstr ""
 #: camel/providers/imap/camel-imap-command.c:389
 #, c-format
 msgid "Unexpected response from IMAP server: %s"
-msgstr "پاسخ غیر منتظه از کارگزار IMAP: %s"
+msgstr "پاسخ غیر منتظره از کارگزار IMAP: %s"
 
 #: camel/providers/imap/camel-imap-command.c:399
 #, c-format
@@ -10148,13 +10151,13 @@ msgstr "IMAP"
 
 #: camel/providers/imap/camel-imap-provider.c:78
 msgid "For reading and storing mail on IMAP servers."
-msgstr ""
+msgstr "برای خواندن و ذخیره‌ی نامه روی کارگزارهای IMAP."
 
 #: camel/providers/imap/camel-imap-store.c:424
 #: camel/providers/imap4/camel-imap4-store.c:177
 #, c-format
 msgid "IMAP server %s"
-msgstr "کارگزار IMAP %s"
+msgstr "‏‏کارگزار %s IMAP"
 
 #: camel/providers/imap/camel-imap-store.c:426
 #: camel/providers/imap4/camel-imap4-store.c:179
@@ -10169,9 +10172,9 @@ msgstr ""
 #: camel/providers/pop3/camel-pop3-store.c:177
 #: camel/providers/smtp/camel-smtp-transport.c:271
 #: camel/providers/smtp/camel-smtp-transport.c:292
-#, fuzzy, c-format
+#, c-format
 msgid "Could not connect to %s (port %s): %s"
-msgstr "اتصال به کارگزار POP %s مقدور نیست"
+msgstr "اتصال به  %s مقدور نیست(درگاه %s(: %s"
 
 #: camel/providers/imap/camel-imap-store.c:554
 #: camel/providers/imap4/camel-imap4-store.c:216
@@ -10462,9 +10465,8 @@ msgid "Cannot get %s information for pattern `%s' on IMAP server %s: %s"
 msgstr ""
 
 #: camel/providers/imap4/camel-imap4-store.c:1223
-#, fuzzy
 msgid "Bad command"
-msgstr "فرمان:"
+msgstr "فرمان نامناسب:"
 
 #: camel/providers/imap4/camel-imap4-store.c:1299
 #, c-format
@@ -11296,9 +11298,9 @@ msgid ""
 msgstr ""
 
 #: camel/providers/pop3/camel-pop3-store.c:202
-#, fuzzy, c-format
+#, c-format
 msgid "Could not connect to POP server %s (port %s): %s"
-msgstr "اتصال به کارگزار POP %s مقدور نیست"
+msgstr "اتصال به کارگزار ‏POP %s (درگاه %s) مقدور نیست: %s"
 
 #: camel/providers/pop3/camel-pop3-store.c:221
 #, fuzzy, c-format
@@ -12007,14 +12009,12 @@ msgstr ""
 "توانست بعدها پیغام را ادامه دهید."
 
 #: composer/mail-composer-errors.xml.h:33
-#, fuzzy
 msgid "_Discard Changes"
 msgstr "دور انداختن تغییرات"
 
 #: composer/mail-composer-errors.xml.h:34
-#, fuzzy
 msgid "_Save Message"
-msgstr "ذخیره‌ی پیغام"
+msgstr "_ذخیره‌ی پیغام"
 
 #. mail-composer:no-build-message primary
 #: composer/mail-composer-errors.xml.h:36
@@ -12039,7 +12039,7 @@ msgstr "همه‌ی حساب‌ها حذف شدند."
 #. mail-composer:all-accounts-deleted secondary
 #: composer/mail-composer-errors.xml.h:46
 msgid "You need to configure an account before you can compose mail."
-msgstr ""
+msgstr "پبش از آن که بتوانید نامه‌ای بنویسید لازم است یک حساب پیکربندی کنید."
 
 #. mail-composer:no-address-control primary
 #. mail-composer:no-editor-control primary
@@ -12051,7 +12051,7 @@ msgstr "ایجاد پنجره‌ی نگارش مقدور نیست."
 #. mail-composer:no-address-control secondary
 #: composer/mail-composer-errors.xml.h:50
 msgid "Unable to activate the address selector control."
-msgstr ""
+msgstr "فعال کردن کنترل انتخاب نشانی امکان پذیر نیست."
 
 #. mail-composer:no-editor-control secondary
 #: composer/mail-composer-errors.xml.h:54
@@ -12175,6 +12175,8 @@ msgid ""
 "A file by that name already exists.\n"
 "Overwrite it?"
 msgstr ""
+"پرونده‌ای با این نام از قبل وجود دارد.\n"
+"آیا رونویسی شود؟"
 
 #. system:ask-save-file-exists-overwrite title
 #: e-util/e-dialog-utils.c:269 widgets/misc/e-system-errors.xml.h:2
@@ -12895,9 +12897,8 @@ msgid "starts with"
 msgstr "تاجیکستان"
 
 #: mail/em-filter-i18n.h:63
-#, fuzzy
 msgid "Stop Processing"
-msgstr "_شغل:"
+msgstr "توقف پردازش"
 
 #: mail/em-filter-i18n.h:64 mail/em-format-html.c:1571
 #: mail/em-format-quote.c:305 mail/em-format.c:807 mail/em-mailer-prefs.c:87
@@ -14477,7 +14478,7 @@ msgstr ""
 #. * FIXME: make this whole function async to deal with this issue
 #: mail/mail-config.c:977 mail/mail-config.c:981
 msgid "Connecting to server..."
-msgstr "در حال اتصال به کارگزار"
+msgstr "در حال اتصال به کارگزار..."
 
 #: mail/mail-config.glade.h:1 mail/mail-dialogs.glade.h:5
 msgid "    "
@@ -14657,15 +14658,15 @@ msgstr ""
 
 #: mail/mail-config.glade.h:49
 msgid "Automatically check for _new mail every"
-msgstr ""
+msgstr "گشتن خودکار به دنبال نامه‌ی _جدید در هر"
 
 #: mail/mail-config.glade.h:50
 msgid "Baltic (ISO-8859-13)"
-msgstr ""
+msgstr "Baltic (ISO-8859-13)"
 
 #: mail/mail-config.glade.h:51
 msgid "Baltic (ISO-8859-4)"
-msgstr ""
+msgstr "Baltic (ISO-8859-4)"
 
 #: mail/mail-config.glade.h:52
 msgid "Beep w_hen new mail arrives"
@@ -14677,23 +14678,23 @@ msgstr "مجموعه نویسه:"
 
 #: mail/mail-config.glade.h:54
 msgid "Ch_eck for Supported Types "
-msgstr ""
+msgstr "ـگشتن به دنبال انواع پشتیبانی شده"
 
 #: mail/mail-config.glade.h:55
 msgid "Check _incoming mail for junk"
-msgstr ""
+msgstr "گشتن در نامه‌های وارده به دنبال آشغال"
 
 #: mail/mail-config.glade.h:56
 msgid "Check spelling while I _type"
-msgstr ""
+msgstr "غلط‌یابی املایی در حین تایپ کردن"
 
 #: mail/mail-config.glade.h:57
 msgid "Checks incoming mail messages to be Junk"
-msgstr ""
+msgstr "پیغام‌های دریافتی را می‌گردد که آشغال نباشند."
 
 #: mail/mail-config.glade.h:58
 msgid "Color for _misspelled words:"
-msgstr ""
+msgstr "رنگ کلماتی که غلط املایی دارند:"
 
 #: mail/mail-config.glade.h:59
 msgid "Colors"
@@ -14711,11 +14712,15 @@ msgid ""
 "using Evolution. \n"
 "\n"
 "Click \"Apply\" to save your settings."
-msgstr ""
+msgstr "تبریک می‌گوییم، پیکربندی نامه‌ی شما انجام شد.\n"
+"\n"
+"حالا می‌توانید با Evolution نامه دریافت یا ارسال کنید.\n"
+"\n"
+"برای ذخیره شدن تنظیماتتان روی «اعمال» کلیک کنید."
 
 #: mail/mail-config.glade.h:67
 msgid "De_fault"
-msgstr "پیش‌فرض"
+msgstr "_پیش‌فرض"
 
 #: mail/mail-config.glade.h:69
 msgid "Default character e_ncoding:"
@@ -14791,7 +14796,7 @@ msgstr ""
 
 #: mail/mail-config.glade.h:90
 msgid "IMAPv4 "
-msgstr ""
+msgstr "IMAPv4 "
 
 #: mail/mail-config.glade.h:91
 msgid "I_nclude remote tests"
@@ -14799,7 +14804,7 @@ msgstr ""
 
 #: mail/mail-config.glade.h:94
 msgid "Inline"
-msgstr ""
+msgstr "تورفتگی"
 
 #: mail/mail-config.glade.h:96
 msgid "Kerberos "
@@ -14829,7 +14834,7 @@ msgstr "سازمان"
 
 #: mail/mail-config.glade.h:106
 msgid "PGP/GPG _Key ID:"
-msgstr ""
+msgstr "شناسه‌ی _کلید PGP/GPG:"
 
 #: mail/mail-config.glade.h:111
 msgid "Play sound file when new mail arri_ves"
@@ -14913,7 +14918,7 @@ msgstr "کارگزار به تأیید هویت نیاز دارد"
 
 #: mail/mail-config.glade.h:135
 msgid "Server _Type: "
-msgstr "نوع کارگزار"
+msgstr "نوع کارگزار_:"
 
 #: mail/mail-config.glade.h:136
 msgid "Si_gning certificate:"
@@ -14941,18 +14946,18 @@ msgstr ""
 
 #: mail/mail-config.glade.h:142
 msgid "T_erminal Font:"
-msgstr ""
+msgstr "قلم _ترمینال:"
 
 #: mail/mail-config.glade.h:143
 msgid "T_ype: "
-msgstr "نوع: "
+msgstr "_نوع: "
 
 #: mail/mail-config.glade.h:144
 msgid ""
 "The output of this script will be used as your\n"
 "signature. The name you specify will be used\n"
 "for display purposes only. "
-msgstr ""
+msgstr "خروجی این "
 
 #: mail/mail-config.glade.h:147
 msgid ""
