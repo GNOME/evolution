@@ -1137,7 +1137,7 @@ e_reflow_selection_event_real (EReflow *reflow, GnomeCanvasItem *item, GdkEvent 
 			break;
 		case 3:
 			row = er_find_item (reflow, item);
-			e_selection_model_maybe_do_something(reflow->selection, row, 0, event->button.state);
+			e_selection_model_right_click_down(reflow->selection, row, 0, 0);
 			break;
 		default:
 			return_val = FALSE;
