@@ -1,5 +1,13 @@
 2002-08-26  Chris Toshok  <toshok@ximian.com>
 
+	[ fixes #29446 ]
+	* gui/component/addressbook-config.c (scope_optionmenu_activated):
+	searching_modify_func can be NULL (since we don't require changes
+	to enable the "Next" button on this page when you create a
+	directory server.)
+
+2002-08-26  Chris Toshok  <toshok@ximian.com>
+
 	[ Fixes (almost certainly) #24649, #25494, #27351, and other LDAP search crashes ]
 	* backend/pas/pas-backend-ldap.c (view_destroy): use an EList
 	instead of a GList to store the book_view's so we don't have weird

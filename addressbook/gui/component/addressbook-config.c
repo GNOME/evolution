@@ -725,7 +725,8 @@ scope_optionmenu_activated (GtkWidget *item, AddressbookSourceDialog *dialog)
 	dialog->scope = g_list_index (gtk_container_children (GTK_CONTAINER (item->parent)),
 				      item);
 
-	dialog->searching_modify_func (item, dialog);
+	if (dialog->searching_modify_func)
+		dialog->searching_modify_func (item, dialog);
 }
 
 static void
