@@ -156,6 +156,7 @@ best_encoding (GByteArray *buf, const char *charset)
 				count++;
 		}
 	} while (status == -1 && errno == E2BIG);
+	iconv_close (cd);
 
 	if (status == -1)
 		return -1;
