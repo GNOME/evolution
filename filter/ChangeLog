@@ -1,3 +1,16 @@
+2000-06-27  Michael Zucchi  <zucchi@zedzone.mmc.com.au>
+
+	* Makefile.am (INCLUDES): Add the shell dir for includes (for
+	corba interfaces).
+
+	* filter-arg-types.c (impl_FolderSelectionListener_selected):
+	Listener for folder query.  Sigh.
+	(create_listener): Create the listener object for the folder
+	dialogue query.  Uses a global for linkage to the shell object,
+	via the mail component.
+	(arg_folder_edit_value): Call the folder selection dialogue to
+	edit the value, rather than a simple text widget.
+
 2000-06-26  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* filter-editor.c: Added a #include <gnome-xml/parser.h> as this

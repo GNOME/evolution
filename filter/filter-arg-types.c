@@ -24,7 +24,6 @@
 
 #include "filter-arg-types.h"
 
-
 /* ********************************************************************** */
 /*                               String                                   */
 /* ********************************************************************** */
@@ -61,14 +60,12 @@ filter_arg_string_get_type (void)
 static void
 arg_string_write_html(FilterArg *argin, GtkHTML *html, GtkHTMLStream *stream)
 {
-	/*FilterArgString *arg = (FilterArgString *)argin;*/
 	/* empty */
 }
 
 static void
 arg_string_write_text(FilterArg *argin, GString *string)
 {
-	/*FilterArgString *arg = (FilterArgString *)argin;*/
 	GList *l;
 	char *a;
 
@@ -140,7 +137,6 @@ static xmlNodePtr
 arg_string_values_get_xml(FilterArg *argin)
 {
 	xmlNodePtr value;
-	/*FilterArgString *arg = (FilterArgString *)argin;*/
 	GList *l;
 	char *a;
 
@@ -181,7 +177,6 @@ arg_string_values_add_xml(FilterArg *arg, xmlNodePtr node)
 static char *
 arg_string_get_value_as_string(FilterArg *argin, void *data)
 {
-	/*FilterArgString *arg = (FilterArgString *)argin;*/
 	char *a = (char *)data;
 
 	return a;
@@ -282,14 +277,12 @@ filter_arg_address_get_type (void)
 static void
 arg_address_write_html(FilterArg *argin, GtkHTML *html, GtkHTMLStream *stream)
 {
-	/*FilterArgAddress *arg = (FilterArgAddress *)argin;*/
 	/* empty */
 }
 
 static void
 arg_address_write_text(FilterArg *argin, GString *string)
 {
-	/*FilterArgAddress *arg = (FilterArgAddress *)argin;*/
 	GList *l;
 	struct filter_arg_address *a;
 
@@ -364,7 +357,6 @@ static xmlNodePtr
 arg_address_values_get_xml(FilterArg *argin)
 {
 	xmlNodePtr value;
-	/*FilterArgAddress *arg = (FilterArgAddress *)argin;*/
 	GList *l;
 	struct filter_arg_address *a;
 
@@ -414,7 +406,6 @@ arg_address_values_add_xml(FilterArg *arg, xmlNodePtr node)
 static char *
 arg_address_get_value_as_string(FilterArg *argin, void *data)
 {
-	/*FilterArgAddress *arg = (FilterArgAddress *)argin;*/
 	struct filter_arg_address *a = (struct filter_arg_address *)data;
 
 	printf("geting address as string : %s %s\n", a->email, a->name);
@@ -502,10 +493,100 @@ filter_arg_address_remove(FilterArg *arg, char *name, char *email)
 /* ********************************************************************** */
 
 
+#include <bonobo/bonobo-object.h>
+#include <bonobo/bonobo-control.h>
+
+#include "Evolution.h"
+
 static void filter_arg_folder_class_init (FilterArgFolderClass *class);
 static void filter_arg_folder_init       (FilterArgFolder      *gspaper);
 
 static FilterArg *folder_parent_class;
+extern Evolution_Shell global_shell_interface;
+
+static PortableServer_ServantBase__epv            FolderSelectionListener_base_epv;
+static POA_Evolution_FolderSelectionListener__epv  FolderSelectionListener_epv;
+static POA_Evolution_FolderSelectionListener__vepv FolderSelectionListener_vepv;
+static gboolean FolderSelectionListener_vepv_initialized = FALSE;
+
+struct _FolderSelectionListenerServant {
+	POA_Evolution_FolderSelectionListener servant;
+	FilterArg *arg;
+	int index;
+	/*EvolutionShellComponentClient *component_client;*/
+};
+typedef struct _FolderSelectionListenerServant FolderSelectionListenerServant;
+
+static void
+impl_FolderSelectionListener_selected(PortableServer_Servant listener_servant, char *uri, char *physical, CORBA_Environment *ev)
+{
+	FolderSelectionListenerServant *servant = listener_servant;
+	GList *node;
+
+	/* only if we have a selection */
+	if (physical[0]) {
+		printf("user selected; %s, or did they select %s\n", uri, physical);
+
+		if (servant->index>=0
+		    && (node = g_list_index(servant->arg->values, servant->index))) {
+			node->data = g_strdup(physical);
+		} else {
+			servant->arg->values = g_list_append(servant->arg->values, g_strdup(physical));
+		}
+
+		gtk_signal_emit_by_name(GTK_OBJECT(servant->arg), "changed");
+	}
+	gtk_object_unref((GtkObject *)servant->arg);
+
+	g_free(servant);
+}
+
+static Evolution_FolderSelectionListener
+create_listener (FilterArg *arg, int index)
+{
+	PortableServer_Servant listener_servant;
+	Evolution_FolderSelectionListener corba_interface;
+	CORBA_Environment ev;
+	FolderSelectionListenerServant *servant;
+
+	if (! FolderSelectionListener_vepv_initialized) {
+		FolderSelectionListener_base_epv._private = NULL;
+		FolderSelectionListener_base_epv.finalize = NULL;
+		FolderSelectionListener_base_epv.default_POA = NULL;
+		
+		FolderSelectionListener_epv.selected = impl_FolderSelectionListener_selected;
+		
+		FolderSelectionListener_vepv._base_epv = & FolderSelectionListener_base_epv;
+		FolderSelectionListener_vepv.Evolution_FolderSelectionListener_epv = & FolderSelectionListener_epv;
+		
+		FolderSelectionListener_vepv_initialized = TRUE;
+	}
+	servant = g_malloc0(sizeof(*servant));
+	servant->servant.vepv     = &FolderSelectionListener_vepv;
+	servant->arg = arg;
+	gtk_object_ref((GtkObject *)arg);
+	servant->index = index;
+
+	listener_servant = (PortableServer_Servant) servant;
+
+	CORBA_exception_init (&ev);
+
+	POA_Evolution_FolderSelectionListener__init (listener_servant, &ev);
+	if (ev._major != CORBA_NO_EXCEPTION) {
+		g_free(servant);
+		return CORBA_OBJECT_NIL;
+	}
+
+	CORBA_free (PortableServer_POA_activate_object (bonobo_poa (), listener_servant, &ev));
+
+	corba_interface = PortableServer_POA_servant_to_reference (bonobo_poa (), listener_servant, &ev);
+	if (ev._major != CORBA_NO_EXCEPTION) {
+		corba_interface = CORBA_OBJECT_NIL;
+	}
+
+	CORBA_exception_free (&ev);
+	return corba_interface;
+}
 
 guint
 filter_arg_folder_get_type (void)
@@ -532,14 +613,12 @@ filter_arg_folder_get_type (void)
 static void
 arg_folder_write_html(FilterArg *argin, GtkHTML *html, GtkHTMLStream *stream)
 {
-	/*FilterArgFolder *arg = (FilterArgFolder *)argin;*/
 	/* empty */
 }
 
 static void
 arg_folder_write_text(FilterArg *argin, GString *string)
 {
-	/*FilterArgFolder *arg = (FilterArgFolder *)argin;*/
 	GList *l;
 	char *a;
 
@@ -555,6 +634,25 @@ arg_folder_write_text(FilterArg *argin, GString *string)
 		}
 		l = g_list_next(l);
 	}
+}
+
+static int
+arg_folder_edit_value(FilterArg *arg, int index)
+{
+	char *def;
+	CORBA_Environment ev;
+
+	printf("folder edit value %d\n", index);
+	if (index < 0) {
+		def = "";
+	} else {
+		def = filter_arg_get_value(arg, index);
+	}
+
+	CORBA_exception_init (&ev);
+	Evolution_Shell_user_select_folder(global_shell_interface,
+					   create_listener(arg, index), "Select Folder", def,
+					   &ev);
 }
 
 static void
@@ -711,6 +809,8 @@ filter_arg_folder_class_init (FilterArgFolderClass *class)
 		folder_parent_class = gtk_type_class (filter_arg_string_get_type ());
 
 	/* FIXME: only need to over-ride the edit values right? */
+	filter_class->edit_value = arg_folder_edit_value;
+
 	filter_class->write_html = arg_folder_write_html;
 	filter_class->write_text = arg_folder_write_text;
 	filter_class->edit_values = arg_folder_edit_values;
