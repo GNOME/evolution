@@ -1,3 +1,9 @@
+2002-01-30  Not Zed  <NotZed@Ximian.com>
+
+	* e-storage-set-view.c (popup_folder_menu): Use
+	right_click_row_path rather than selected_row_path, so clients get
+	the uri that was actually clicked on.
+
 2002-01-27  Ettore Perazzoli  <ettore@ximian.com>
 
 	* Makefile.am: Use SHELL_CFLAGS and SHELL_LIBS.

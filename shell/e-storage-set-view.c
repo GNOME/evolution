@@ -674,7 +674,7 @@ popup_folder_menu (EStorageSetView *storage_set_view,
 
 	priv = storage_set_view->priv;
 
-	folder = e_storage_set_get_folder (priv->storage_set, priv->selected_row_path);
+	folder = e_storage_set_get_folder (priv->storage_set, priv->right_click_row_path);
 	if (folder == NULL) {
 		/* Uh!?  */
 		return;
