@@ -258,6 +258,11 @@ delete_todo (GncalTodo *todo)
 static void
 add_activated (GtkWidget *widget, GncalTodo *todo)
 {
+	GtkWidget *w;
+
+	while ((w = gtk_grab_get_current ()) != NULL)
+		gtk_grab_remove (w);
+	
 	add_todo (todo);
 }
 

@@ -1,3 +1,7 @@
+1999-04-19  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* gncal-todo.c (add_activated): Use same hack used in edit_activated
+
 1999-04-16  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
 	* gncal-todo.c (edit_activated): Kill all grabs from the CList
