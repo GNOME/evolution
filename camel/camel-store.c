@@ -169,3 +169,5 @@ camel_store_get_default_folder(CamelStore *store)
     return NULL;
 }
 
+
+

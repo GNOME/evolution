@@ -28,7 +28,11 @@ static GtkObjectClass *camel_service_parent_class=NULL;
 /* Returns the class for a CamelService */
 #define CSERV_CLASS(so) CAMEL_SERVICE_CLASS (GTK_OBJECT(so)->klass)
 
-
+static void camel_service_connect(CamelService *service);
+static void camel_service_connect_to_with_login_passwd(CamelService *service, GString *host, GString *login, GString *passwd);
+static void camel_service_connect_to_with_login_passwd_port(CamelService *service, GString *host, GString *login, GString *passwd, guint port);
+static gboolean camel_service_is_connected(CamelService *service);
+static void camel_service_set_connected(CamelService *service, gboolean state);
 
 static void
 camel_service_class_init (CamelServiceClass *camel_service_class)
@@ -36,6 +40,13 @@ camel_service_class_init (CamelServiceClass *camel_service_class)
 	camel_service_parent_class = gtk_type_class (gtk_object_get_type ());
 	
 	/* virtual method definition */
+	camel_service_class->connect = camel_service_connect;
+	camel_service_class->connect_to_with_login_passwd = camel_service_connect_to_with_login_passwd;
+	camel_service_class->connect_to_with_login_passwd_port = camel_service_connect_to_with_login_passwd_port;
+	camel_service_class->is_connected = camel_service_is_connected;
+	camel_service_class->set_connected = camel_service_set_connected;
+ 
+
 	/* virtual method overload */
 }
 
@@ -69,5 +80,96 @@ camel_service__get_type (void)
 	return camel_service_type;
 }
 
+
+
+
+
+/**
+ * camel_service_connect : connect to a service 
+ *
+ * connect to the service using the parameters 
+ * stored in the session it is initialized with
+ * WARNING: session not implemented for the moment
+ *
+ * @service: object to connect
+ **/
+static void
+camel_service_connect(CamelService *service)
+{
+
+}
+
+
+
+/**
+ * camel_service_connect_to:login:password : connect to the specified address
+ * 
+ * Connect to the service, but do not use the session
+ * default parameters to retrieve server's address
+ *
+ * @service: object to connect
+ * @host: host to connect to
+ * @login: user name used to log in
+ * @passwd: password used to log in
+ **/
+static void
+camel_service_connect_to_with_login_passwd(CamelService *service, GString *host, GString *login, GString *passwd)
+{
+  camel_service_set_connected(service, TRUE);
+}
+
+
+/**
+ * camel_service_connect_to:login:password : connect to the specified address
+ * 
+ * Connect to the service, but do not use the session
+ * default parameters to retrieve server's address
+ *
+ * @service: object to connect
+ * @host: host to connect to
+ * @login: user name used to log in
+ * @passwd: password used to log in
+ * @port: port to connect to
+ *
+ **/
+static void
+camel_service_connect_to_with_login_passwd_port(CamelService *service, GString *host, GString *login, GString *passwd, guint port)
+{
+  camel_service_set_connected(service, TRUE);
+}
+
+
+
+
+/**
+ * camel_service_is_connected: test if the service object is connected
+ *
+ *
+ * @service: object to test
+ *  
+ **/
+static gboolean
+camel_service_is_connected(CamelService *service)
+{
+  return service->connected;
+}
+
+
+/**
+ * camel_service_set_connected: set the connected state
+ * 
+ * This routine has to be called by providers to set the 
+ * connection state, mainly when the service is disconnected
+ * wheras the close() method has not been called.
+ *
+ * @service: object to set the state of
+ * @state: connected/disconnected
+ *  
+ **/
+static void
+camel_service_set_connected(CamelService *service, gboolean state)
+{
+  service->connected = state;
+}
 
 

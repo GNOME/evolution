@@ -32,7 +32,6 @@ extern "C" {
 #endif /* __cplusplus }*/
 
 #include <gtk/gtk.h>
-#include "camel-folder.h"
 
 #define CAMEL_SERVICE_TYPE     (camel_service_get_type ())
 #define CAMEL_SERVICE(obj)     (GTK_CHECK_CAST((obj), CAMEL_SERVICE_TYPE, CamelService))
@@ -42,13 +41,23 @@ extern "C" {
 
 
 typedef struct {
-	GtkObject parent_object;	
+	GtkObject parent_object;
+
+	gboolean connected;
+
 } CamelService;
 
 
 
 typedef struct {
 	GtkObjectClass parent_class;
+
+	void (*connect) (CamelService *service);
+	void (*connect_to_with_login_passwd) (CamelService *service, GString *host, GString *login, GString *passwd);
+	void (*connect_to_with_login_passwd_port) (CamelService *service, GString *host, GString *login, GString *passwd, guint port);
+	gboolean (*is_connected) (CamelService *service);
+	void (*set_connected) (CamelService *service, gboolean state);
+	
 	
 } CamelServiceClass;
 
