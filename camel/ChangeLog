@@ -1,3 +1,8 @@
+2001-01-16  Chris Toshok  <toshok@ximian.com>
+
+	* providers/Makefile.am (NNTP_DIR): set to nntp if ENABLE_NNTP
+	(SUBDIRS): use $(NNTP_DIR)
+
 2001-01-16  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* providers/smtp/camel-smtp-transport.c (smtp_rcpt): Don't check
