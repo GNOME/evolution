@@ -16,7 +16,7 @@
 
 #define TEXT_BORDER 2
 #define HANDLE_SIZE 8
-#define MIN_WIDTH 200
+#define MIN_WIDTH 300
 #define XOR_RECT_WIDTH 2
 #define UNSELECT_TIMEOUT 150 /* ms */
 
@@ -1413,7 +1413,7 @@ button_1 (GncalFullDay *fullday, GdkEventButton *event)
 				   | GDK_POINTER_MOTION_HINT_MASK
 				   | GDK_BUTTON_RELEASE_MASK),
 				  NULL,
-				  NULL,
+				  fullday->up_down_cursor,
 				  event->time);
 
 		if (old_rows_used == 0) {
@@ -1460,7 +1460,7 @@ button_1 (GncalFullDay *fullday, GdkEventButton *event)
 				   | GDK_POINTER_MOTION_HINT_MASK
 				   | GDK_BUTTON_RELEASE_MASK),
 				  NULL,
-				  NULL,
+				  fullday->up_down_cursor,
 				  event->time);
 
 		draw_xor_rect (fullday);

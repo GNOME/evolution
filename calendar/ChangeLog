@@ -1,4 +1,11 @@
+1998-04-16  Federico Mena Quintero  <federico@nuclecu.unam.mx>
+
+	* bell.xpm recur.xpm: XPM files for events with alarm and
+	recurrence, respectively.
+
 1998-04-15  Federico Mena Quintero  <federico@nuclecu.unam.mx>
+
+	* gncal-full-day.c (button_1): Preserve the up/down cursor while dragging.
 
 	* gncal-full-day.c (child_draw): Now children have a vertical
 	handle as well.  This can be used to move the child anytime, not

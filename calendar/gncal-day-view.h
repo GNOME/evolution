@@ -11,7 +11,6 @@
 
 #include <gtk/gtkwidget.h>
 #include <libgnome/gnome-defs.h>
-#include "calendar.h"
 #include "gnome-cal.h"
 
 BEGIN_GNOME_DECLS
