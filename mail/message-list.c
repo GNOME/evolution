@@ -241,9 +241,11 @@ message_list_init_header (MessageList *message_list)
 	 * they are defined.  In the future e-table widget will take care
 	 * of this.
 	 */
-	for (i = 0; i < COL_LAST; i++)
+	for (i = 0; i < COL_LAST; i++) {
+		gtk_object_ref(GTK_OBJECT(message_list->table_cols [i]));
 		e_table_header_add_column (message_list->header_model,
 					   message_list->table_cols [i], i);
+	}
 }
 
 static void

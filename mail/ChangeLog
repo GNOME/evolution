@@ -1,3 +1,8 @@
+2000-03-03  Christopher James Lahey  <clahey@helixcode.com>
+
+	* message-list.c: Ref the table columns since we unref them at the
+	end.
+
 2000-03-01  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* Makefile.am (INCLUDES): Add `$(top_srcdir)'.  Also, the
