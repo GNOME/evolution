@@ -1,3 +1,9 @@
+2000-06-02  Dan Winship  <danw@helixcode.com>
+
+	* mail-ops.c (fetch_mail): Use camel_service_connect, not
+	connect_with_url, since we already passed the URL into
+	camel_session_get_store.
+
 2000-06-02  Christopher James Lahey  <clahey@helixcode.com>
 
 	* message-list.c: Use camel_folder_free_summary instead of
