@@ -6,8 +6,7 @@ INCLUDES = 					\
 	-I$(top_srcdir)/e-util			\
 	-I$(top_builddir)/e-util		\
 	$(PISOCK_CFLAGS)			\
-	$(EVOLUTION_ADDRESSBOOK_CONDUIT_CFLAGS)	\
-	-DCAMEL_PROVIDERDIR=\""$(providerdir)"\"
+	$(EVOLUTION_ADDRESSBOOK_CONDUIT_CFLAGS)
 
 # Address Conduit
 e_address_conduitsdir=$(libdir)/gnome-pilot/conduits
