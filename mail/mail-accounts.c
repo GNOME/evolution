@@ -826,7 +826,7 @@ construct (MailAccountsDialog *dialog)
 	
 	dialog->charset = GTK_OPTION_MENU (glade_xml_get_widget (gui, "omenuCharset"));
 	menu = e_charset_picker_new (mail_config_get_default_charset ());
-	gtk_option_menu_set_menu (dialog->charset, menu);
+	gtk_option_menu_set_menu (dialog->charset, GTK_WIDGET (menu));
 	gtk_signal_connect (GTK_OBJECT (menu), "deactivate",
 			    GTK_SIGNAL_FUNC (charset_menu_deactivate), NULL);
 	
