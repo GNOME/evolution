@@ -28,6 +28,7 @@
 
 #include <config.h>
 #include <time.h>
+#include <string.h>
 #include <glib.h>
 #include <gtk/gtkmain.h>
 #include <gtk/gtkmenu.h>
