@@ -1,3 +1,17 @@
+2003-02-23  Hans Petter Jansson  <hpj@ximan.com>
+
+	* gui/gnome-cal.c (backend_died_cb): Appease the compiler.
+	(gnome_calendar_update_paned_quanta): Don't actually try to set
+	the quantum properties. The quantum code should probably go away
+	entirely now that the panes update during resize, but let's keep
+	it around for a bit more.
+
+	* gui/dialogs/event-editor.c (event_editor_construct): Ref & sink
+	the pages.
+
+	* gui/dialogs/task-editor.c (task_editor_construct): Ref & sink
+	the pages.
+
 2003-02-23  Hans Petter Jansson  <hpj@ximian.com>
 
 	* gui/cal-search-bar.c (make_suboptions): Eliminate

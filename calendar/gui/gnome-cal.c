@@ -1767,8 +1767,10 @@ backend_died_cb (CalClient *client, gpointer data)
 					   uristr);
 		calendar_model_set_status_message (
 			e_calendar_table_get_model (E_CALENDAR_TABLE (priv->todo)), NULL);
-	} else
+	} else {
+		message = NULL;
 		g_assert_not_reached ();
+	}
 
 	gnome_error_dialog_parented (message, GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (gcal))));
 	g_free (message);
@@ -2666,7 +2668,7 @@ gnome_calendar_update_paned_quanta (GnomeCalendar	*gcal)
 	   months as will fit. But for that to work nicely the EPaned should
 	   resize the widgets as the bar is dragged. Otherwise the user has
 	   to mess around to get the number of months that they want. */
-#if 1
+#if 0
 	g_object_set (G_OBJECT (priv->hpane), "quantum", (guint) col_width, NULL);
 	g_object_set (G_OBJECT (priv->vpane), "quantum", (guint) row_height, NULL);
 #endif

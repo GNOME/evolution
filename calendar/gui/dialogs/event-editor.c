@@ -192,26 +192,36 @@ event_editor_construct (EventEditor *ee, CalClient *client)
 	priv = ee->priv;
 
 	priv->event_page = event_page_new ();
+	g_object_ref (priv->event_page);
+	gtk_object_sink (GTK_OBJECT (priv->event_page));
 	comp_editor_append_page (COMP_EDITOR (ee), 
 				 COMP_EDITOR_PAGE (priv->event_page),
 				 _("Appointment"));
 
 	priv->alarm_page = alarm_page_new ();
+	g_object_ref (priv->alarm_page);
+	gtk_object_sink (GTK_OBJECT (priv->alarm_page));
 	comp_editor_append_page (COMP_EDITOR (ee),
 				 COMP_EDITOR_PAGE (priv->alarm_page),
 				 _("Reminder"));
 
 	priv->recur_page = recurrence_page_new ();
+	g_object_ref (priv->recur_page);
+	gtk_object_sink (GTK_OBJECT (priv->recur_page));
 	comp_editor_append_page (COMP_EDITOR (ee),
 				 COMP_EDITOR_PAGE (priv->recur_page),
 				 _("Recurrence"));
 	
 	priv->sched_page = schedule_page_new (priv->model);
+	g_object_ref (priv->sched_page);
+	gtk_object_sink (GTK_OBJECT (priv->sched_page));
 	comp_editor_append_page (COMP_EDITOR (ee),
 				 COMP_EDITOR_PAGE (priv->sched_page),
 				 _("Scheduling"));
 
 	priv->meet_page = meeting_page_new (priv->model, client);
+	g_object_ref (priv->meet_page);
+	gtk_object_sink (GTK_OBJECT (priv->meet_page));
 	comp_editor_append_page (COMP_EDITOR (ee),
 				 COMP_EDITOR_PAGE (priv->meet_page),
 				 _("Meeting"));

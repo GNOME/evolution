@@ -181,16 +181,22 @@ task_editor_construct (TaskEditor *te, CalClient *client)
 	priv = te->priv;
 
 	priv->task_page = task_page_new ();
+	g_object_ref (priv->task_page);
+	gtk_object_sink (GTK_OBJECT (priv->task_page));
 	comp_editor_append_page (COMP_EDITOR (te), 
 				 COMP_EDITOR_PAGE (priv->task_page),
 				 _("Basic"));
 
 	priv->task_details_page = task_details_page_new ();
+	g_object_ref (priv->task_details_page);
+	gtk_object_sink (GTK_OBJECT (priv->task_details_page));
 	comp_editor_append_page (COMP_EDITOR (te),
 				 COMP_EDITOR_PAGE (priv->task_details_page),
 				 _("Details"));
 
 	priv->meet_page = meeting_page_new (priv->model, client);
+	g_object_ref (priv->meet_page);
+	gtk_object_sink (GTK_OBJECT (priv->meet_page));
 	comp_editor_append_page (COMP_EDITOR (te),
 				 COMP_EDITOR_PAGE (priv->meet_page),
 				 _("Assignment"));
