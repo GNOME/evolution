@@ -1,0 +1,105 @@
+<Root>
+	<menu>
+		<submenu name="File" _label="_File">
+			<submenu name="New" _label="_New">
+				<menuitem name="View" verb="NewView" _label="_View"
+				accel="&lt;Control&gt;&lt;Shift&gt;v"
+				pixtype="stock" pixname="Menu_New"/>
+
+				<menuitem name="Folder" verb="NewFolder"
+				_label="_Folder"
+				accel="&lt;Control&gt;&lt;Shift&gt;f"/>
+
+				<menuitem name="Shortcut" verb="NewBarShortcut"
+				_label="Evolution bar _shortcut"
+				accel="&lt;Control&gt;&lt;Shift&gt;s"/>
+
+				<menuitem/>
+
+				<menuitem name="Mail" verb="NewMailMessage"
+				_label="_Mail message (FIXME)"
+				accel="&lt;Control&gt;&lt;Shift&gt;m"/>
+
+				<menuitem name="Appointment" verb="NewAppointment"
+				_label="_Appointment (FIXME)"
+				accel="&lt;Control&gt;&lt;Shift&gt;a"/>
+
+				<menuitem name="Contact" verb="NewContact"
+				_label="_Contact (FIXME)"
+				accel="&lt;Control&gt;&lt;Shift&gt;c"/>
+
+				<menuitem name="Task" verb="NewTask"
+				_label="_Task (FIXME)"
+				accel="&lt;Control&gt;&lt;Shift&gt;t"/>
+			</submenu>
+
+			<menuitem/>
+
+			<menuitem name="FileGoToFolder" verb=""
+			_label="_Go to Folder..."
+			_descr="Display a different folder"/>
+
+			<menuitem name="FileCreateFolder" verb=""
+			_label="_Create New Folder..."
+			_descr="Create a new folder"/>
+
+			<placeholder name="Print" delimit="bottom"/>
+
+			<menuitem name="FileExit" verb=""
+			_label="E_xit" _descr="Exit the program"
+			pixtype="stock" pixname="Menu_Quit"
+			accel="&lt;Control&gt;q"/>
+			
+		</submenu>
+
+		<submenu name="Edit" _label="_Edit"/>
+
+		<submenu name="View" _label="_View">
+
+			<menuitem name="ShortcutBar" type="toggle"
+			id="ViewShortcutBar" _label="Show the _Shortcut Bar"
+			_descr="Toggle whether to show the shortcut bar"/>
+
+			<menuitem name="FolderBar" type="toggle"
+			id="ViewFolderBar" _label="Show the _Folder Bar"
+			_descr="Toggle whether to show the folder bar"/>
+
+		</submenu>
+
+		<submenu name="Settings" _label="_Settings"/>
+
+		<placeholder name="Component"/>
+
+		<submenu name="Help" _label="_Help">
+
+			<menuitem name="HelpIndex" verb=""
+			_label="_Index"/>
+
+			<menuitem name="HelpGetStarted" verb=""
+			_label="Getting _Started"/>
+
+			<menuitem name="HelpUsingMail" verb=""
+			_label="Using the _Mailer"/>
+
+			<menuitem name="HelpUsingCalender" verb=""
+			_label="Using the _Calender"/>
+
+			<menuitem name="HelpUsingContact" verb=""
+			_label="Using the C_ontact Manager"/>
+
+			<menuitem/>
+
+			<menuitem name="HelpSubmitBug" verb=""
+			_label="_Submit Bug Report"
+			_descr="Submit bug report using Bug Buddy"/>
+
+			<menuitem/>
+
+			<menuitem name="HelpAbout" verb=""
+			_label="_About Evolution..."
+			_descr="Show information about Evolution"
+			pixtype="stock" pixname="Menu_About"/>
+
+		</submenu>
+	</menu>
+</Root>

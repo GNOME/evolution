@@ -1,0 +1,62 @@
+<Root>
+
+	<menu>
+		<submenu name="File" _label="_File">
+
+			<placeholder name="Print">
+
+				<menuitem name="Print" verb="ContactsPrint"
+				_label="_Print Contacts..."
+				pixtype="stock" pixname="Menu_Print"/>
+				
+			</placeholder>
+
+		</submenu>
+
+		<submenu name="View" _label="_View">
+
+			<menuitem name="AsTable" _label="As _Table"
+			verb="ViewAsTable"/>
+
+			<menuitem name="ViewNewContact" verb=""
+			_label="_New Contact"/>
+
+		</submenu>
+
+		<placeholder name="Component">
+
+			<submenu name="Tools" _label="_Tools">
+
+				<menuitem name="Search" verb="ToolSearch"
+				_label="_Search for contacts"
+				pixtype="stock" pixname="Menu_Search"/>
+
+			</submenu>
+
+		</placeholder>
+	</menu>
+
+	<dockitem name="Toolbar">
+		<toolitem name="New" _label="New"
+		_decr="Create a new contact" verb="ContactNew"
+		pixtype="stock" pixname="New"/>
+
+		<toolitem type="separator"/>
+
+		<toolitem name="Find" _label="Find"
+		_descr="Find a contact" verb="ContactFind"
+		pixtype="stock" pixname="Search"/>
+
+		<toolitem name="Print" _label="Print"
+		_descr="Print contacts" verb="ContactsPrint"
+		pixtype="stock" pixname="Print"/>
+
+		<toolitem name="Delete" label="Delete"
+		_descr="Delete a contact" verb="ContactDelete"
+		pixtype="stock" pixname="Trash"/>
+
+		<toolitem type="separator"/>
+
+	</dockitem>
+
+</Root>

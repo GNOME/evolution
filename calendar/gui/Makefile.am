@@ -134,3 +134,8 @@ evolution-calendar.pure: evolution-calendar
 	$(PLINK) $(evolution_calendar_LDFLAGS) $(evolution_calendar_OBJECTS) $(evolution_calendar_LDADD) $(LIBS)
 
 endif
+
+uidir = $(datadir)/evolution/calendar
+ui_DATA = ui.xml
+
+EXTRA_DIST = ui.xml

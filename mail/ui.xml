@@ -1,0 +1,170 @@
+<Root>
+	<menu>
+		<submenu name="File" _label="_File">
+
+			<placeholder name="Print">
+
+				<menuitem name="Print" verb="PrintMessage"
+				_label="Print message..."
+				_descr="Print message to the printer"
+				pixtype="stock" pixname="Menu_Print"/>
+<!-- do we need this separator ? -->
+
+				<menuitem/>
+
+			</placeholder>
+
+		</submenu>
+
+		<submenu name="View" _label="_View">
+
+			<menuitem/>
+
+			<menuitem name="Threaded" verb="ViewThreaded"
+			_label="_Threaded" _descr="Threaded Message list"/>
+
+		</submenu>
+
+		<submenu name="Settings" _label="_Settings">
+
+			<menuitem name="MailFilters" verb="SetMailFilter"
+			_label="Mail _Filters..."/>
+
+			<menuitem name="VFolderEdit" verb="SetVFolder"
+			_label="_Virtual Folder Editor..."/>
+
+			<menuitem name="SetMailConfig" verb=""
+			_label="_Mail Configuration..."/>
+
+			<menuitem name="SetForgetPwd" verb=""
+			_label="Forget _Passwords"/>
+
+		</submenu>
+
+		<placeholder name="Component">
+
+			<submenu name="Message" _label="_Message">
+
+				<menuitem name="MessageOpenNewWnd" verb=""
+				_label="_Open in New Window"
+				accel="&lt;Control&gt;o"/>
+
+				<menuitem name="MessageEdit" verb=""
+				_label="_Edit Message"/>
+
+				<menuitem name="MessagePrint" verb=""
+				_label="_Print Message"/>
+
+				<menuitem/>
+
+				<menuitem name="MessageReplySndr" verb=""
+				_label="Reply to _Sender"/>
+
+				<menuitem name="MessageReplyAll" verb=""
+				_label="Reply to _All"/>
+
+				<menuitem name="MessageForward" verb=""
+				_label="_Forward"/>
+
+				<menuitem/>
+
+				<menuitem name="MessageDelete" verb=""
+				_label="_Delete Message"/>
+
+				<menuitem name="MessageMove" verb=""
+				_label="_Move Message"/>
+
+				<menuitem name="MessageCopy" verb=""
+				_label="_Copy Message"/>
+
+				<menuitem/>
+
+				<menuitem name="MessageVFolderSubj" verb=""
+				_label="_VFolder on Subject"/>
+
+				<menuitem name="MessageVFolderSndr" verb=""
+				_label="VFolder on Se_nder"/>
+
+				<menuitem name="MessageVFolderRecip" verb=""
+				_label="VFolder on _Recipients"/>
+
+				<menuitem/>
+
+				<menuitem name="MessageFilterSubj" verb=""
+				_label="_Filter on Subject"/>
+
+				<menuitem name="MessageFilterSndr" verb=""
+				_label="Fi_lter on Sender"/>
+
+				<menuitem name="MessageFilterRecip" verb=""
+				_label="Filter on Rec_ipients"/>
+
+			</submenu>
+			
+			<submenu name="Folder" _label="F_older">
+
+				<menuitem name="FolderMarkAllRead" verb=""
+				_label="_Mark all as Read"/>
+
+				<menuitem name="FolderDeleteAll" verb=""
+				_label="_Delete all"/>
+
+				<menuitem name="FolderExpunge" verb=""
+				_label="_Expunge"/>
+
+				<menuitem name="FolderConfig" verb=""
+				_label="_Configure Folder"/>
+
+			</submenu>
+
+		</placeholder>
+	</menu>
+
+	<dockitem name="Toolbar">
+
+		<toolitem name="MailGet" verb=""
+		_label="Get Mail" _descr="Send queued mail and retrieve new mail"
+		pixtype="stock" pixname="Receive Mail"/>
+
+		<toolitem name="MailCompose" verb=""
+		_label="Compose" _descr="Compose a new message"
+		pixtype="stock" pixname="New Mail"/>
+
+		<toolitem type="separator"/>
+
+		<toolitem name="Reply" verb="MessageReplySndr"
+		_label="Reply" _descr="Reply to the sender of this message"
+		pixtype="stock" pixname="Reply to Mail"/>
+
+		<toolitem name="ReplyAll" verb="MessageReplyAll"
+		_label="Reply to All" _descr="Reply to all recipients of this message"
+		pixtype="stock" pixname="Reply to Mail"/>
+
+		<toolitem name="Forward" verb="MessageForward"
+		_label="Forward" _descr="Forward this message"
+		pixtype="stock" pixname="Forward Mail"/>
+
+		<toolitem type="separator"/>
+
+		<toolitem name="Move" verb="MessageMove"
+		_label="Move" _descr="Move message to a new folder"
+		pixtype="stock" pixname="Send Mail"/>
+
+		<toolitem name="Copy" verb="MessageCopy"
+		_label="Copy" _descr="Copy message to a new folder"
+		pixtype="stock" pixname="Send Mail"/>
+
+		<toolitem name="Print" verb="MessagePrint"
+		_label="Print" _descr="Print the selected message"
+		pixtype="stock" pixname="Print"/>
+
+		<toolitem name="Copy" verb="MessageCopy"
+		_label="Copy" _descr="Copy message to a new folder"
+		pixtype="stock" pixname="Send Mail"/>
+
+		<toolitem name="Copy" verb="MessageDelete"
+		_label="Delete" _descr="Delete this message"
+		pixtype="stock" pixname="Trash"/>
+
+	</dockitem>
+</Root>

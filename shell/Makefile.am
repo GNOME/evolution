@@ -12,7 +12,7 @@ INCLUDES = 								\
 	-DEVOLUTION_GLADEDIR=\"$(datadir)/evolution/glade\"		\
 	-DG_LOG_DOMAIN=\"evolution-shell\"
 
-EXTRA_DIST = $(IDLS)
+EXTRA_DIST = $(IDLS) ui.xml
 
 CLEANFILES = $(IDL_GENERATED)
 
@@ -117,6 +117,9 @@ evolution_LDADD =						\
 	$(UNICODE_LIBS)						\
 	$(BONOBO_GNOME_LIBS)
 
+uidir = $(datadir)/evolution/shell
+ui_DATA = ui.xml
+
 # Purify support
 
 if ENABLE_PURIFY
@@ -130,5 +133,3 @@ evolution.pure: evolution
 	$(PLINK) $(evolution_LDFLAGS) $(evolution_OBJECTS) $(evolution_LDADD) $(LIBS)
 
 endif
-
-
