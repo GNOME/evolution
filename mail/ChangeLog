@@ -1,5 +1,13 @@
 2001-03-07  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* mail-autofilter.c (filter_rule_from_message): Add an action-part
+	widget.
+	(filter_rule_from_mlist): Same here. This should get rid of the
+	problem where people go to create a rule based on a message and
+	forget to fill-in the action part.
+
+2001-03-07  Jeffrey Stedfast  <fejj@ximian.com>
+
 	* mail-crypto.c (mail_crypto_is_smime_v3_signed): New function to
 	decide if a mime part is an S/MIME v3 signed part.
 	(mail_crypto_is_pkcs7_mime): New function to decide if a mime part

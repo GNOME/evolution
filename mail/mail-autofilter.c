@@ -253,14 +253,16 @@ vfolder_rule_from_message (VfolderContext *context, CamelMimeMessage *msg, int f
 }
 
 FilterRule *
-filter_rule_from_message(FilterContext *context, CamelMimeMessage *msg, int flags)
+filter_rule_from_message (FilterContext *context, CamelMimeMessage *msg, int flags)
 {
 	FilterFilter *rule;
+	FilterPart *part;
 	
 	rule = filter_filter_new ();
 	rule_from_message ((FilterRule *)rule, (RuleContext *)context, msg, flags);
 	
-	/* should we define the default action? */
+	part = filter_context_next_action (context, NULL);
+	filter_filter_add_action (rule, filter_part_clone (part));
 	
 	return (FilterRule *)rule;
 }
@@ -299,14 +301,16 @@ vfolder_rule_from_mlist(VfolderContext *context, const char *mlist, const char *
 }
 
 FilterRule *
-filter_rule_from_mlist(FilterContext *context, const char *mlist)
+filter_rule_from_mlist (FilterContext *context, const char *mlist)
 {
 	FilterFilter *rule;
+	FilterPart *part;
 	
 	rule = filter_filter_new ();
 	rule_from_mlist((FilterRule *)rule, (RuleContext *)context, mlist);
 	
-	/* should we define the default action? */
+	part = filter_context_next_action (context, NULL);
+	filter_filter_add_action (rule, filter_part_clone (part));
 	
 	return (FilterRule *)rule;
 }
