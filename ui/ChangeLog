@@ -1,3 +1,9 @@
+2001-01-08  Damon Chaplin  <damon@helixcode.com>
+
+	* evolution-tasks.xml: new file for the Tasks controls.
+
+	* Makefile.am (XML_FILES): added the above file.
+
 2001-01-02  Federico Mena Quintero  <federico@helixcode.com>
 
 	* evolution-event-editor.xml:

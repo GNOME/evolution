@@ -1,0 +1,70 @@
+<Root>
+
+	<menu>
+		<submenu name="File">
+
+			<placeholder name="FileOps">
+				
+				<menuitem name="TasksSaveAs" verb=""
+				_label="_Save As..."
+				_tip="Save task as something else"
+                                accel="*Control*a"/>
+
+			</placeholder>
+
+			<placeholder name="Print">
+
+				<menuitem name="Print" verb="TasksPrint"
+				_label="_Print"
+				pixtype="stock" pixname="Print"
+				accel="*Control*p"/>
+				
+			</placeholder>
+
+		</submenu>
+
+		<submenu name="Edit">
+
+
+		</submenu>
+
+		<submenu name="Settings">
+
+			<menuitem name="Preferences" _label="Tasks Preferences..."
+			verb="TasksPreferences" _tip="Alter preferences"
+                        />
+
+		</submenu>
+	</menu>
+
+	<dockitem name="Toolbar">
+		<toolitem name="New" _label="New"
+		_tip="Create a new task" verb="TasksNewTask"
+		pixtype="stock" pixname="New"/>
+
+		<separator/>
+
+		<toolitem name="Print" _label="Print"
+		_tip="Print" verb="TasksPrint"
+		pixtype="stock" pixname="Print"/>
+
+	</dockitem>
+
+</Root>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -8,7 +8,8 @@ XML_FILES =				\
 	evolution-mail.xml		\
 	evolution-message-composer.xml	\
 	evolution-subscribe.xml		\
-	evolution-task-editor-dialog.xml
+	evolution-task-editor-dialog.xml\
+	evolution-tasks.xml
 
 uidir = $(datadir)/gnome/ui
 ui_DATA = $(XML_FILES)
