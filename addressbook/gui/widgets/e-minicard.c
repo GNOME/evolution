@@ -552,6 +552,21 @@ e_minicard_event (GnomeCanvasItem *item, GdkEvent *event)
 	switch( event->type ) {
 	case GDK_FOCUS_CHANGE:
 		{
+			/* if there is an activated popup menu, skip current event */
+			GList *list;
+			gboolean popup = FALSE;
+                        for (list = e_minicard->fields; list; list = list->next) {
+				EMinicardField *field = E_MINICARD_FIELD(list->data);
+				EMinicardLabel *e_minicard_label = E_MINICARD_LABEL(GTK_OBJECT(field->label));
+				if (e_minicard_label->has_focus){
+					g_object_get (e_minicard_label->field, "has_popup", &popup, NULL);
+  					if (popup) break;
+				}
+			}
+
+			if (popup)
+				break;
+
 			GdkEventFocus *focus_event = (GdkEventFocus *) event;
 			d(g_print("%s: GDK_FOCUS_CHANGE: %s\n", G_GNUC_FUNCTION, focus_event->in?"in":"out"));
 			if (focus_event->in) {

@@ -1,3 +1,12 @@
+2003-10-28 Leon Zhang <leon.zhang@sun.com>
+
+	* gui/widgets/e-minicard.c: (e_minicard_event): skip focus change
+	event if there is an activated popup menu.
+
+	* gui/widgets/e-minicard-label.c: (e_minicard_label_event):
+	skip focus change event if there is an activated popup menu.
+	Fix crash bug 49912.
+
 2003-09-19  Gilbert Fang  <gilbert.fang@sun.com>
 
        * addressbook/gui/component/addressbook-component.c (xfer_folder):
