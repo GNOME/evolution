@@ -898,8 +898,11 @@ etsm_selected_count_recurse (ETreeSelectionModel *etsm,
 		ETreePath child = e_tree_model_node_get_first_child(E_TREE_MODEL(etsm->priv->model), path);
 		int i;
 		for (i = 0; child && i < selection_node->num_children; i++, child = e_tree_model_node_get_next(E_TREE_MODEL(etsm->priv->model), child))
-			if (selection_node->children[i])
+			if (selection_node->all_children_selected_array && e_bit_array_value_at(selection_node->all_children_selected_array, i))
+				etsm_selected_count_all_recurse (etsm, child, count);
+			else if (selection_node->children[i])
 				etsm_selected_count_recurse (etsm, selection_node->children[i], child, count);
+				
 	}
 }
 
@@ -1243,7 +1246,9 @@ etsm_foreach_recurse (ETreeSelectionModel *etsm,
 		ETreePath child = e_tree_model_node_get_first_child(E_TREE_MODEL(etsm->priv->model), path);
 		int i;
 		for (i = 0; i < selection_node->num_children; i++, child = e_tree_model_node_get_next(E_TREE_MODEL(etsm->priv->model), child))
-			if (selection_node->children[i])
+			if (selection_node->all_children_selected_array && e_bit_array_value_at(selection_node->all_children_selected_array, i))
+				etsm_foreach_all_recurse(etsm, child, callback, closure);
+			else if (selection_node->children[i])
 				etsm_foreach_recurse (etsm, selection_node->children[i], child, callback, closure);
 	}
 }
