@@ -1,3 +1,10 @@
+2002-01-31  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-callbacks.c (composer_get_message): Don't bother setting
+	the auto-cc/bcc recipients here. I'm moving the code to add them
+	in the GUI in the composer so they will already be in the
+	recipient list by this point.
+
 2002-01-31  Radek Doulik  <rodo@ximian.com>
 
 	* mail-callbacks.c (mail_generate_reply): ignore spell checking of

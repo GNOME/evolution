@@ -418,31 +418,6 @@ composer_get_message (EMsgComposer *composer)
 		camel_medium_set_header (CAMEL_MEDIUM (message), "X-Evolution-Fcc", account->sent_folder_uri);
 		if (account->id->organization)
 			camel_medium_set_header (CAMEL_MEDIUM (message), "Organization", account->id->organization);
-		
-		/* add the always-cc/bcc addresses */
-		if (account->always_cc && account->cc_addrs) {
-			CamelInternetAddress *addrs;
-			
-			addrs = camel_internet_address_new ();
-			camel_address_decode (CAMEL_ADDRESS (addrs), account->cc_addrs);
-			iaddr = camel_mime_message_get_recipients (message, CAMEL_RECIPIENT_TYPE_CC);
-			if (iaddr)
-				camel_address_cat (CAMEL_ADDRESS (addrs), CAMEL_ADDRESS (iaddr));
-			camel_mime_message_set_recipients (message, CAMEL_RECIPIENT_TYPE_CC, addrs);
-			camel_object_unref (CAMEL_OBJECT (addrs));
-		}
-		
-		if (account->always_bcc && account->bcc_addrs) {
-			CamelInternetAddress *addrs;
-			
-			addrs = camel_internet_address_new ();
-			camel_address_decode (CAMEL_ADDRESS (addrs), account->bcc_addrs);
-			iaddr = camel_mime_message_get_recipients (message, CAMEL_RECIPIENT_TYPE_BCC);
-			if (iaddr)
-				camel_address_cat (CAMEL_ADDRESS (addrs), CAMEL_ADDRESS (iaddr));
-			camel_mime_message_set_recipients (message, CAMEL_RECIPIENT_TYPE_BCC, addrs);
-			camel_object_unref (CAMEL_OBJECT (addrs));
-		}
 	}
 	
 	/* get the message recipients */
