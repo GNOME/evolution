@@ -172,6 +172,7 @@ pipe_to_sa_with_error (CamelMimeMessage *msg, const char *in, char **argv, int r
 		camel_object_unref (stream);
 	} else if (in) {
 		camel_write (fds[1], in, strlen (in));
+		close (fds[1]);
 	}
 	
 	result = waitpid (pid, &status, 0);
