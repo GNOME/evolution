@@ -1256,6 +1256,7 @@ e_meeting_time_selector_attendee_add (EMeetingTimeSelector *mts,
 		 "text", attendee_name ? attendee_name : "",
 		 "clip_width", (gdouble) item_width,
 		 "clip_height", (gdouble) font->ascent + font->descent,
+		 "draw_background", FALSE,
 		 NULL);
 	
 	e_canvas_item_move_absolute(attendee.text_item,

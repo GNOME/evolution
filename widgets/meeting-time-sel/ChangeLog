@@ -1,3 +1,8 @@
+2000-12-25  Miguel de Icaza  <miguel@helixcode.com>
+
+	* e-meeting-time-sel.c (e_meeting_time_selector_attendee_add): Set
+	draw_background to FALSE.
+
 2000-12-06  Christopher James Lahey  <clahey@helixcode.com>
 
 	* e-meeting-time-sel.c: Fixed a bunch of warnings.
