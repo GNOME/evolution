@@ -1178,8 +1178,8 @@ e_sexp_add_function(ESExp *f, int scope, char *name, ESExpFunc *func, void *data
 {
 	struct _ESExpSymbol *s;
 
-	g_return_if_fail(FILTER_IS_SEXP(f));
-	g_return_if_fail(name != NULL);
+	g_return_if_fail (E_IS_SEXP (f));
+	g_return_if_fail (name != NULL);
 
 	s = g_malloc0(sizeof(*s));
 	s->name = g_strdup(name);
@@ -1194,8 +1194,8 @@ e_sexp_add_ifunction(ESExp *f, int scope, char *name, ESExpIFunc *ifunc, void *d
 {
 	struct _ESExpSymbol *s;
 
-	g_return_if_fail(FILTER_IS_SEXP(f));
-	g_return_if_fail(name != NULL);
+	g_return_if_fail (E_IS_SEXP (f));
+	g_return_if_fail (name != NULL);
 
 	s = g_malloc0(sizeof(*s));
 	s->name = g_strdup(name);
@@ -1210,8 +1210,8 @@ e_sexp_add_variable(ESExp *f, int scope, char *name, ESExpTerm *value)
 {
 	struct _ESExpSymbol *s;
 
-	g_return_if_fail(FILTER_IS_SEXP(f));
-	g_return_if_fail(name != NULL);
+	g_return_if_fail (E_IS_SEXP (f));
+	g_return_if_fail (name != NULL);
 
 	s = g_malloc0(sizeof(*s));
 	s->name = g_strdup(name);
@@ -1226,8 +1226,8 @@ e_sexp_remove_symbol(ESExp *f, int scope, char *name)
 	int oldscope;
 	struct _ESExpSymbol *s;
 
-	g_return_if_fail(FILTER_IS_SEXP(f));
-	g_return_if_fail(name != NULL);
+	g_return_if_fail (E_IS_SEXP (f));
+	g_return_if_fail (name != NULL);
 
 	oldscope = g_scanner_set_scope(f->scanner, scope);
 	s = g_scanner_lookup_symbol(f->scanner, name);
@@ -1242,7 +1242,7 @@ e_sexp_remove_symbol(ESExp *f, int scope, char *name)
 int
 e_sexp_set_scope(ESExp *f, int scope)
 {
-	g_return_val_if_fail(FILTER_IS_SEXP(f), 0);
+	g_return_val_if_fail (E_IS_SEXP (f), 0);
 
 	return g_scanner_set_scope(f->scanner, scope);
 }
@@ -1250,8 +1250,8 @@ e_sexp_set_scope(ESExp *f, int scope)
 void
 e_sexp_input_text(ESExp *f, const char *text, int len)
 {
-	g_return_if_fail(FILTER_IS_SEXP(f));
-	g_return_if_fail(text != NULL);
+	g_return_if_fail (E_IS_SEXP (f));
+	g_return_if_fail (text != NULL);
 
 	g_scanner_input_text(f->scanner, text, len);
 }
@@ -1259,7 +1259,7 @@ e_sexp_input_text(ESExp *f, const char *text, int len)
 void
 e_sexp_input_file (ESExp *f, int fd)
 {
-	g_return_if_fail(FILTER_IS_SEXP(f));
+	g_return_if_fail (E_IS_SEXP (f));
 
 	g_scanner_input_file(f->scanner, fd);
 }
@@ -1268,7 +1268,7 @@ e_sexp_input_file (ESExp *f, int fd)
 int
 e_sexp_parse(ESExp *f)
 {
-	g_return_val_if_fail(FILTER_IS_SEXP(f), -1);
+	g_return_val_if_fail (E_IS_SEXP (f), -1);
 
 	if (setjmp(f->failenv)) {
 		g_warning("Error in parsing: %s", f->error);
@@ -1287,8 +1287,8 @@ e_sexp_parse(ESExp *f)
 struct _ESExpResult *
 e_sexp_eval(ESExp *f)
 {
-	g_return_val_if_fail(FILTER_IS_SEXP(f), NULL);
-	g_return_val_if_fail(f->tree != NULL, NULL);
+	g_return_val_if_fail (E_IS_SEXP (f), NULL);
+	g_return_val_if_fail (f->tree != NULL, NULL);
 
 	if (setjmp(f->failenv)) {
 		g_warning("Error in execution: %s", f->error);
