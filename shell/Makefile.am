@@ -111,6 +111,8 @@ evolution_SOURCES =				\
 	e-shortcuts-view.h			\
 	e-shortcuts.c				\
 	e-shortcuts.h				\
+	e-splash.c				\
+	e-splash.h				\
 	e-storage-set-view.c			\
 	e-storage-set-view.h			\
 	e-storage-set.c				\

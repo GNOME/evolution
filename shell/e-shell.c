@@ -42,6 +42,9 @@
 #include "e-shell-view.h"
 #include "e-shortcuts.h"
 #include "e-storage-set.h"
+#include "e-splash.h"
+
+#include "evolution-storage-set-view-factory.h"
 
 #include "e-shell.h"
 
@@ -343,8 +346,31 @@ setup_local_storage (EShell *shell)
 
 /* Initialization of the components.  */
 
+static char *
+get_icon_path_for_component_info (const OAF_ServerInfo *info)
+{
+	OAF_Property *property;
+	const char *shell_component_icon_value;
+
+	/* FIXME: liboaf is not const-safe.  */
+	property = oaf_server_info_prop_find ((OAF_ServerInfo *) info,
+					      "evolution:shell-component-icon");
+
+	if (property == NULL || property->v._d != OAF_P_STRING)
+		return gnome_pixmap_file ("gnome-question.png");
+
+	shell_component_icon_value = property->v._u.value_string;
+
+	if (g_path_is_absolute (shell_component_icon_value))
+		return g_strdup (shell_component_icon_value);
+
+	else
+		return g_concat_dir_and_file (EVOLUTION_IMAGES, shell_component_icon_value);
+}
+
 static void
-setup_components (EShell *shell)
+setup_components (EShell *shell,
+		  ESplash *splash)
 {
 	EShellPrivate *priv;
 	OAF_ServerInfoList *info_list;
@@ -363,6 +389,25 @@ setup_components (EShell *shell)
 
 	for (i = 0; i < info_list->_length; i++) {
 		const OAF_ServerInfo *info;
+		GdkPixbuf *icon_pixbuf;
+		char *icon_path;
+
+		info = info_list->_buffer + i;
+
+		icon_path = get_icon_path_for_component_info (info);
+
+		icon_pixbuf = gdk_pixbuf_new_from_file (icon_path);
+		e_splash_add_icon (splash, icon_pixbuf);
+		gdk_pixbuf_unref (icon_pixbuf);
+
+		g_free (icon_path);
+	}
+
+	while (gtk_events_pending ())
+		gtk_main_iteration ();
+
+	for (i = 0; i < info_list->_length; i++) {
+		const OAF_ServerInfo *info;
 
 		info = info_list->_buffer + i;
 
@@ -370,6 +415,11 @@ setup_components (EShell *shell)
 			g_warning ("Cannot activate Evolution component -- %s", info->iid);
 		else
 			g_print ("Evolution component activated successfully -- %s\n", info->iid);
+
+		e_splash_set_icon_highlight (splash, i, TRUE);
+
+		while (gtk_events_pending ())
+			gtk_main_iteration ();
 	}
 
 	if (info_list->_length == 0)
@@ -568,6 +618,7 @@ e_shell_construct (EShell *shell,
 		   Evolution_Shell corba_object,
 		   const char *local_directory)
 {
+	GtkWidget *splash;
 	EShellPrivate *priv;
 	gchar *shortcut_path;
 
@@ -576,6 +627,12 @@ e_shell_construct (EShell *shell,
 	g_return_if_fail (corba_object != CORBA_OBJECT_NIL);
 	g_return_if_fail (local_directory != NULL);
 	g_return_if_fail (g_path_is_absolute (local_directory));
+
+	splash = e_splash_new ();
+	gtk_widget_show (splash);
+
+	while (gtk_events_pending ())
+		gtk_main_iteration ();
 
 	bonobo_object_construct (BONOBO_OBJECT (shell), corba_object);
 
@@ -593,7 +650,7 @@ e_shell_construct (EShell *shell,
 	if (! setup_corba_storages (shell))
 		return;
 
-	setup_components (shell);
+	setup_components (shell, E_SPLASH (splash));
 
 	/* The local storage depends on the component registry.  */
 	setup_local_storage (shell);
@@ -612,6 +669,9 @@ e_shell_construct (EShell *shell,
 		gtk_object_ref (GTK_OBJECT (priv->shortcuts));
 
 	g_free (shortcut_path);
+
+	sleep (2);
+	gtk_widget_destroy (splash);
 }
 
 /**

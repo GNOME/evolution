@@ -1,6 +1,17 @@
-2000-10-13  Anna Marie Dirks   <anna@helixcode.com> 
-	*e-shell-folder-creation-dialog.glade: Added focus to the folder-name 
-	text entry.
+2000-10-14  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* e-shell.c (e_shell_construct): Display a splash screen.
+	(setup_components): New arg @splash, pointer to an ESplash.
+	Display the icons of the components in the splash and highlight
+	them as the components are activated.
+
+	* e-splash.c: New.
+	* e-splash.h: New.
+
+2000-10-13  Anna Marie Dirks  <anna@helixcode.com>
+	
+	* e-shell-folder-creation-dialog.glade: Added focus to the
+	folder-name text entry.
 
 2000-10-11  Christopher James Lahey  <clahey@helixcode.com>
 
