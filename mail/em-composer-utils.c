@@ -1717,7 +1717,8 @@ reply_to_message(CamelFolder *folder, const char *uid, CamelMimeMessage *message
 	if (message != NULL)
 		em_utils_reply_to_message(folder, uid, message, rd->mode, rd->source);
 
-	g_object_unref(rd->source);
+	if (rd->source)
+		g_object_unref(rd->source);
 	g_free(rd);
 }
 
@@ -1754,7 +1755,8 @@ em_utils_reply_to_message(CamelFolder *folder, const char *uid, CamelMimeMessage
 
 		rd->mode = mode;
 		rd->source = source;
-		g_object_ref(rd->source);
+		if (rd->source)
+			g_object_ref(rd->source);
 		mail_get_message(folder, uid, reply_to_message, rd, mail_thread_new);
 
 		return;

@@ -768,13 +768,28 @@ handleuri_got_folder(char *uri, CamelFolder *folder, void *data)
 	EMMessageBrowser *emmb;
 
 	if (folder != NULL) {
-		emmb = (EMMessageBrowser *)em_message_browser_window_new();
-		/*message_list_set_threaded(((EMFolderView *)emmb)->list, emfv->list->threaded);*/
-		/* FIXME: session needs to be passed easier than this */
-		em_format_set_session((EMFormat *)((EMFolderView *)emmb)->preview, session);
-		em_folder_view_set_folder((EMFolderView *)emmb, folder, uri);
-		em_folder_view_set_message((EMFolderView *)emmb, camel_url_get_param(url, "uid"), FALSE);
-		gtk_widget_show(emmb->window);
+		const char *reply = camel_url_get_param(url, "reply");
+
+		if (reply) {
+			int mode;
+
+			if (!strcmp(reply, "all"))
+				mode = REPLY_MODE_ALL;
+			else if (!strcmp(reply, "list"))
+				mode = REPLY_MODE_LIST;
+			else /* if "sender" or anything else */
+				mode = REPLY_MODE_SENDER;
+
+			em_utils_reply_to_message(folder, camel_url_get_param(url, "uid"), NULL, mode, NULL);
+		} else {
+			emmb = (EMMessageBrowser *)em_message_browser_window_new();
+			/*message_list_set_threaded(((EMFolderView *)emmb)->list, emfv->list->threaded);*/
+			/* FIXME: session needs to be passed easier than this */
+			em_format_set_session((EMFormat *)((EMFolderView *)emmb)->preview, session);
+			em_folder_view_set_folder((EMFolderView *)emmb, folder, uri);
+			em_folder_view_set_message((EMFolderView *)emmb, camel_url_get_param(url, "uid"), FALSE);
+			gtk_widget_show(emmb->window);
+		}
 	} else {
 		g_warning("Couldn't open folder '%s'", uri);
 	}
