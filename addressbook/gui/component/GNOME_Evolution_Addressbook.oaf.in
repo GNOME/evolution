@@ -1,6 +1,6 @@
 <oaf_info>
 
-<oaf_server iid="OAFIID:control-factory:addressbook:3e10597b-0591-4d45-b082-d781b7aa6e17"
+<oaf_server iid="OAFIID:control-factory:e_minicard:16bb7c25-c7d2-46dc-a5f0-a0975d0e0595"
             type="exe"
             location="evolution-addressbook">
 
@@ -9,13 +9,13 @@
 	</oaf_attribute>
 
 	<oaf_attribute name="description" type="string"
-                       value="Factory for the sample Addressbook control"/>
+                       value="Factory for the Addressbook Minicard control"/>
 
 </oaf_server>
 
-<oaf_server iid="OAFIID:e_minicard_factory:f9542709-fb31-4c6a-bc00-d462ba41e4b9"
+<oaf_server iid="OAFIID:control:e_minicard:f9542709-fb31-4c6a-bc00-d462ba41e4b9"
             type="factory"
-            location="OAFIID:control-factory:addressbook:3e10597b-0591-4d45-b082-d781b7aa6e17">
+            location="OAFIID:control-factory:e_minicard:16bb7c25-c7d2-46dc-a5f0-a0975d0e0595">
 
 	<oaf_attribute name="repo_ids" type="stringv">
 		<item value="IDL:Bonobo/Control:1.0"/>
@@ -29,6 +29,19 @@
 
 	<oaf_attribute name="description" type="string"
 	               value="Factory for the Evolution addressbook minicard control."/>
+
+</oaf_server>
+
+<oaf_server iid="OAFIID:control-factory:addressbook:3e10597b-0591-4d45-b082-d781b7aa6e17"
+            type="exe"
+            location="evolution-addressbook">
+
+	<oaf_attribute name="repo_ids" type="stringv">
+		<item value="IDL:GNOME/GenericFactory:1.0"/>
+	</oaf_attribute>
+
+	<oaf_attribute name="description" type="string"
+                       value="Factory for the sample Addressbook control"/>
 
 </oaf_server>
 

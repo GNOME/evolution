@@ -945,7 +945,7 @@ table_right_click(ETableScrolled *table, gint row, gint col, GdkEvent *event, Ad
 	ECard *card = e_addressbook_model_get_card(E_ADDRESSBOOK_MODEL(view->model), row);
 	EPopupMenu menu[] = { {"Save as VCard", NULL, GTK_SIGNAL_FUNC(save_as), 0}, {NULL, NULL, NULL, 0} };
 
-	e_popup_menu_run (menu, (GdkEventButton *)event, 0, card);
+	e_popup_menu_run (menu, (GdkEventButton *)event, 0, 0, card);
 
 	return TRUE;
 }

@@ -1,3 +1,15 @@
+2000-08-09  Christopher James Lahey  <clahey@helixcode.com>
+
+	* gui/component/addressbook.c, gui/minicard/e-minicard.c: Changed
+	e_popup_menu_run call to match the new arguments.
+
+	* gui/component/addressbook.oafinfo: Fixed this file to work
+	properly.
+
+	* gui/minicard/e-minicard-control.c: Use the correct oafinfo ID
+	here.  Also cleaned up the code a bit with the help of Michael
+	Meeks.
+
 2000-08-08  Chris Toshok  <toshok@helixcode.com>
 
 	* gui/component/e-addressbook-model.c (e_addressbook_model_init):

@@ -464,12 +464,12 @@ e_minicard_event (GnomeCanvasItem *item, GdkEvent *event)
 						      {"Print", NULL, GTK_SIGNAL_FUNC(print), 0},
 						      {"Delete", NULL, GTK_SIGNAL_FUNC(delete), 0},
 						      {NULL, NULL, NULL, 0}};
-				e_popup_menu_run (menu, (GdkEventButton *)event, 0, e_minicard);
+				e_popup_menu_run (menu, (GdkEventButton *)event, 0, 0, e_minicard);
 			} else {
 				EPopupMenu menu[] = { {"Save as VCard", NULL, GTK_SIGNAL_FUNC(save_as), 0}, 
 						      {"Print", NULL, GTK_SIGNAL_FUNC(print), 0},
 						      {NULL, NULL, NULL, 0}};
-				e_popup_menu_run (menu, (GdkEventButton *)event, 0, e_minicard);
+				e_popup_menu_run (menu, (GdkEventButton *)event, 0, 0, e_minicard);
 			}
 		}
 		break;

@@ -139,7 +139,7 @@ pstream_load (BonoboPersistStream *ps, const Bonobo_Stream stream,
 	char *vcard;
 	GtkWidget *minicard = data;
 
-	if (*type && g_strcasecmp (type, "text/vCard") != 0 &&	    
+	if (type && g_strcasecmp (type, "text/vCard") != 0 &&	    
 	    g_strcasecmp (type, "text/x-vCard") != 0) {	    
 		CORBA_exception_set (ev, CORBA_USER_EXCEPTION,
 				     ex_Bonobo_Persist_WrongDataType, NULL);
@@ -168,53 +168,25 @@ pstream_save (BonoboPersistStream *ps, const Bonobo_Stream stream,
 	      Bonobo_Persist_ContentType type, void *data,
 	      CORBA_Environment *ev)
 {
-	Bonobo_Stream_iobuf *buffer;
-	size_t               pos;
 	char                *vcard;
 	ECard               *card;
 	EMinicardWidget     *minicard = data;
 	int                  length;
 
-	if (*type && g_strcasecmp (type, "text/vCard") != 0 &&	    
+	if (type && g_strcasecmp (type, "text/vCard") != 0 &&	    
 	    g_strcasecmp (type, "text/x-vCard") != 0) {	    
 		CORBA_exception_set (ev, CORBA_USER_EXCEPTION,
 				     ex_Bonobo_Persist_WrongDataType, NULL);
 		return;
 	}
 
-	buffer = Bonobo_Stream_iobuf__alloc ();
-	
-	gtk_object_get(GTK_OBJECT(minicard),
-		       "card", &card,
-		       NULL);
+	gtk_object_get (GTK_OBJECT (minicard),
+			"card", &card,
+			NULL);
 	vcard = e_card_get_vcard(card);
-	length = strlen(vcard);
-	data = CORBA_sequence_CORBA_octet_allocbuf (length);
-	memcpy (data, vcard, length);
-
-	buffer->_buffer = data;
-	buffer->_length = length;
-
-	g_free(vcard);
-
-	pos = 0;
-	
-	while (pos < length) {
-		CORBA_long bytes_read;
-
-		bytes_read = Bonobo_Stream_write (stream, buffer, ev);
-
-		if (ev->_major != CORBA_NO_EXCEPTION) {
-			CORBA_free (buffer);
-			CORBA_free (data);
-			return;
-		}
-
-		pos += bytes_read;
-	}
-
-	CORBA_free (buffer);
-	CORBA_free (data);
+	length = strlen (vcard);
+	bonobo_stream_client_write (stream, vcard, length, ev);
+	g_free (vcard);
 } /* pstream_save */
 
 static CORBA_long
@@ -226,12 +198,11 @@ pstream_get_max_size (BonoboPersistStream *ps, void *data,
   char *vcard;
   gint length;
   
-  gtk_object_get(GTK_OBJECT(minicard),
-		 "card", &card,
-		 NULL);
+  gtk_object_get (GTK_OBJECT (minicard),
+		  "card", &card, NULL);
   vcard = e_card_get_vcard(card);
-  length = strlen(vcard);
-  g_free(vcard);
+  length = strlen (vcard);
+  g_free (vcard);
 
   return length;
 }
@@ -296,7 +267,7 @@ e_minicard_control_factory_init (void)
 #if USING_OAF
 	factory =
 		bonobo_generic_factory_new (
-			"OAFIID:e_minicard_factory:f9542709-fb31-4c6a-bc00-d462ba41e4b9",
+		        "OAFIID:control-factory:e_minicard:16bb7c25-c7d2-46dc-a5f0-a0975d0e0595",
 			e_minicard_control_factory, NULL);
 #else
 	factory =
