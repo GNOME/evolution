@@ -6,6 +6,9 @@
 
 2003-04-23  Not Zed  <NotZed@Ximian.com>
 
+	* providers/smtp/camel-smtp-transport.c (smtp_helo): only free the
+	host if it was set.  removes a run-time warning.
+
 	* camel-session.c (get_service): oops, the service owns the url
 	after we construct it.
 

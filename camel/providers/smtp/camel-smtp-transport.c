@@ -891,8 +891,10 @@ smtp_helo (CamelSmtpTransport *transport, CamelException *ex)
 	
 	camel_exception_clear (&err);
 	
-	if (host && host->h_name && *host->h_name) {
-		name = g_strdup (host->h_name);
+	if (host) {
+		if (host->h_name && *host->h_name)
+			name = g_strdup (host->h_name);
+		camel_free_host (host);
 	} else {
 #ifdef ENABLE_IPv6
 		char ip[MAXHOSTNAMELEN + 1];
@@ -909,9 +911,7 @@ smtp_helo (CamelSmtpTransport *transport, CamelException *ex)
 					transport->localaddr->address[3]);
 #endif
 	}
-	
-	camel_free_host (host);
-	
+		
 	/* hiya server! how are you today? */
 	if (transport->flags & CAMEL_SMTP_TRANSPORT_IS_ESMTP)
 		cmdbuf = g_strdup_printf ("EHLO %s\r\n", name);
