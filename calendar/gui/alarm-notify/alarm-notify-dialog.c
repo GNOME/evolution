@@ -23,6 +23,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <gtk/gtkdialog.h>
+#include <gtk/gtkimage.h>
 #include <gtk/gtklabel.h>
 #include <gtk/gtkspinbutton.h>
 #include <gtk/gtksignal.h>
@@ -34,8 +35,6 @@
 #endif
 #include <glade/glade.h>
 #include <e-util/e-time-utils.h>
-#include <gtkhtml/gtkhtml.h>
-#include <gtkhtml/gtkhtml-stream.h>
 #include <libecal/e-cal-time-util.h>
 #include "alarm-notify-dialog.h"
 #include "config-data.h"
@@ -43,238 +42,28 @@
 #include <e-util/e-icon-factory.h>
 
 
-GtkWidget *make_html_display (gchar *widget_name, char *s1, char *s2, int scroll, int shadow);
-
 /* The useful contents of the alarm notify dialog */
 typedef struct {
 	GladeXML *xml;
 
 	GtkWidget *dialog;
-	GtkWidget *close;
-	GtkWidget *snooze;
-	GtkWidget *edit;
+	GtkWidget *title;
 	GtkWidget *snooze_time;
-	GtkWidget *html;
+	GtkWidget *description;
+	GtkWidget *location;
+	GtkWidget *start;
+	GtkWidget *end;
 
 	AlarmNotifyFunc func;
 	gpointer func_data;
 } AlarmNotify;
 
+enum {
+        AN_RESPONSE_EDIT = 0,
+	AN_RESPONSE_SNOOZE = 1
+};
+
 
-
-/* Callback used when the notify dialog is destroyed */
-static void
-dialog_destroy_cb (GtkObject *object, gpointer data)
-{
-	AlarmNotify *an;
-
-	an = data;
-	g_object_unref (an->xml);
-	g_free (an);
-}
-
-/* Delete_event handler for the alarm notify dialog */
-static gint
-delete_event_cb (GtkWidget *widget, GdkEvent *event, gpointer data)
-{
-	AlarmNotify *an;
-
-	an = data;
-	g_assert (an->func != NULL);
-
-	(* an->func) (ALARM_NOTIFY_CLOSE, -1, an->func_data);
-
-	gtk_widget_destroy (widget);
-	return TRUE;
-}
-
-/* Callback for the close button */
-static void
-close_clicked_cb (GtkWidget *widget, gpointer data)
-{
-	AlarmNotify *an;
-
-	an = data;
-	g_assert (an->func != NULL);
-
-	(* an->func) (ALARM_NOTIFY_CLOSE, -1, an->func_data);
-
-	gtk_widget_destroy (an->dialog);
-}
-
-/* Callback for the snooze button */
-static void
-snooze_clicked_cb (GtkWidget *widget, gpointer data)
-{
-	AlarmNotify *an;
-	int snooze_time;
-
-	an = data;
-	g_assert (an->func != NULL);
-
-	snooze_time = gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (an->snooze_time));
-	(* an->func) (ALARM_NOTIFY_SNOOZE, snooze_time, an->func_data);
-
-	gtk_widget_destroy (an->dialog);
-}
-
-/* Callback for the edit button */
-static void
-edit_clicked_cb (GtkWidget *widget, gpointer data)
-{
-	AlarmNotify *an;
-
-	an = data;
-	g_assert (an->func != NULL);
-
-	(* an->func) (ALARM_NOTIFY_EDIT, -1, an->func_data);
-
-	gtk_widget_destroy (an->dialog);
-}
-
-static void
-url_requested_cb (GtkHTML *html, const char *url, GtkHTMLStream *stream, gpointer data)
-{
-
-	if (!strncmp ("file:///", url, strlen ("file:///"))) {
-		FILE *fp;
-		const char *filename = url + strlen ("file://");
-		char buf[4096];
-		size_t len;
-
-		fp = fopen (filename, "r");
-
-		if (fp == NULL) {
-			g_warning ("Error opening image: %s\n", url);
-			gtk_html_stream_close (stream, GTK_HTML_STREAM_ERROR);
-			return;
-		}
-
-		while ((len = fread (buf, 1, sizeof(buf), fp)) > 0)
-			gtk_html_stream_write (stream, buf, len);
-
-		if (feof (fp)) {
-			fclose (fp);
-			gtk_html_stream_close (stream, GTK_HTML_STREAM_OK);
-			return;
-		}
-
-		fclose (fp);
-	}
-
-	g_warning ("Error loading image");
-	gtk_html_stream_close (stream, GTK_HTML_STREAM_ERROR);
-	return;
-}
-
-GtkWidget *
-make_html_display (gchar *widget_name, char *s1, char *s2, int scroll, int shadow)
-{
-	GtkWidget *html, *scrolled_window;
-
-	gtk_widget_push_colormap (gdk_rgb_get_colormap ());
-
-	html = gtk_html_new();
-
-	gtk_html_set_default_content_type (GTK_HTML (html),
-					   "charset=utf-8");
-	gtk_html_load_empty (GTK_HTML (html));
-
-	g_signal_connect (html, "url_requested",
-			  G_CALLBACK (url_requested_cb),
-			  NULL);
-
-	gtk_widget_pop_colormap();
-
-	scrolled_window = gtk_scrolled_window_new(NULL, NULL);
-
-	gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrolled_window),
-				       GTK_POLICY_AUTOMATIC,
-				       GTK_POLICY_AUTOMATIC);
-
-
-	gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (scrolled_window),
-					     GTK_SHADOW_IN);
-
-	gtk_widget_set_size_request (scrolled_window, 300, 200);
-
-	gtk_container_add(GTK_CONTAINER (scrolled_window), html);
-
-	gtk_widget_show_all(scrolled_window);
-
-	g_object_set_data (G_OBJECT (scrolled_window), "html", html);
-	return scrolled_window;
-}
-
-static void
-write_times (GtkHTMLStream *stream, char *start, char *end)
-{
-	if (start)
-		gtk_html_stream_printf (stream, "<b>%s</b> %s<br>", _("Starting:"), start);
-	if (end)
-		gtk_html_stream_printf (stream, "<b>%s</b> %s<br>", _("Ending:"), end);
-
-}
-
-/* Creates a heading for the alarm notification dialog */
-static void
-write_html_heading (GtkHTMLStream *stream, const char *message,
-		    ECalComponentVType vtype, time_t occur_start, time_t occur_end)
-{
-	char *start, *end;
-	char *bg_path = "file://" EVOLUTION_IMAGESDIR "/bcg.png";
-	gchar *image_path;
-	gchar *icon_path;
-	icaltimezone *current_zone;
-
-	icon_path = e_icon_factory_get_icon_filename ("stock_alarm", E_ICON_SIZE_DIALOG);
-	image_path = g_strdup_printf ("file://%s", icon_path);
-	g_free (icon_path);
-
-	/* Stringize the times */
-
-	current_zone = config_data_get_timezone ();
-
-	start = timet_to_str_with_zone (occur_start, current_zone);
-	end = timet_to_str_with_zone (occur_end, current_zone);
-
-	/* Write the header */
-
-	gtk_html_stream_printf (stream,
-				"<HTML><BODY background=\"%s\">"
-				"<TABLE WIDTH=\"100%%\">"
-				"<TR>"
-				"<TD><IMG SRC=\"%s\" ALIGN=\"top\" BORDER=\"0\"></TD>"
-				"<TD><H1>%s</H1></TD>"
-				"</TR>"
-				"</TABLE>",
-				bg_path,
-				image_path,
-				_("Evolution Alarm"));
-
-	gtk_html_stream_printf (stream, "<br><br><font size=\"+2\">%s</font><br><br>", message);
-
-	/* Write the times */
-
-	switch (vtype) {
-	case E_CAL_COMPONENT_EVENT:
-		write_times (stream, start, end);
-		break;
-
-	case E_CAL_COMPONENT_TODO:
-		write_times (stream, start, end);
-		break;
-
-	default:
-		/* Only VEVENTs and VTODOs can have alarms */
-		g_assert_not_reached ();
-		break;
-	}
-
-	g_free (start);
-	g_free (end);
-	g_free (image_path);
-}
 
 /**
  * alarm_notify_dialog:
@@ -282,7 +71,9 @@ write_html_heading (GtkHTMLStream *stream, const char *message,
  * @occur_start: Start of occurrence time for the event.
  * @occur_end: End of occurrence time for the event.
  * @vtype: Type of the component which corresponds to the alarm.
- * @message; Message to display in the dialog; usually comes from the component.
+ * @summary: Short summary of the appointment
+ * @description: Long description of the appointment
+ * @location: Location of the appointment
  * @func: Function to be called when a dialog action is invoked.
  * @func_data: Closure data for @func.
  *
@@ -291,23 +82,30 @@ write_html_heading (GtkHTMLStream *stream, const char *message,
  *
  * Return value: a pointer to the dialog structure if successful or NULL if an error occurs.
  **/
-gpointer
+void
 alarm_notify_dialog (time_t trigger, time_t occur_start, time_t occur_end,
-		     ECalComponentVType vtype, const char *message,
+		     ECalComponentVType vtype, const char *summary,
+		     const char *description, const char *location,
 		     AlarmNotifyFunc func, gpointer func_data)
 {
 	AlarmNotify *an;
-	GtkHTMLStream *stream;
+	GtkWidget *image;
 	icaltimezone *current_zone;
-	char *buf, *title;
+	char *title;
+	char *start, *end;
+	char *icon_path;
 	GList *icon_list;
+	int snooze_timeout;
 
-	g_return_val_if_fail (trigger != -1, NULL);
+	g_return_if_fail (trigger != -1);
 
 	/* Only VEVENTs or VTODOs can have alarms */
-	g_return_val_if_fail (vtype == E_CAL_COMPONENT_EVENT || vtype == E_CAL_COMPONENT_TODO, NULL);
-	g_return_val_if_fail (message != NULL, NULL);
-	g_return_val_if_fail (func != NULL, NULL);
+	g_return_if_fail (vtype == E_CAL_COMPONENT_EVENT
+			  || vtype == E_CAL_COMPONENT_TODO);
+	g_return_if_fail (summary != NULL);
+	g_return_if_fail (description != NULL);
+	g_return_if_fail (location != NULL);
+	g_return_if_fail (func != NULL);
 
 	an = g_new0 (AlarmNotify, 1);
 
@@ -318,65 +116,56 @@ alarm_notify_dialog (time_t trigger, time_t occur_start, time_t occur_end,
 	if (!an->xml) {
 		g_message ("alarm_notify_dialog(): Could not load the Glade XML file!");
 		g_free (an);
-		return NULL;
+		return;
 	}
 
 	an->dialog = glade_xml_get_widget (an->xml, "alarm-notify");
-	an->close = glade_xml_get_widget (an->xml, "close");
-	an->snooze = glade_xml_get_widget (an->xml, "snooze");
-	an->edit = glade_xml_get_widget (an->xml, "edit");
+	an->title = glade_xml_get_widget (an->xml, "title-label");
 	an->snooze_time = glade_xml_get_widget (an->xml, "snooze-time");
-	an->html = g_object_get_data (G_OBJECT (glade_xml_get_widget (an->xml, "frame")), "html");
+	an->description = glade_xml_get_widget (an->xml, "description-label");
+	an->location = glade_xml_get_widget (an->xml, "location-label");
+	an->start = glade_xml_get_widget (an->xml, "start-label");
+	an->end = glade_xml_get_widget (an->xml, "end-label");
 
-	if (!(an->dialog && an->close && an->snooze && an->edit
-	      && an->snooze_time)) {
+	if (!(an->dialog && an->title && an->snooze_time
+	      && an->description && an->location && an->start && an->end)) {
 		g_message ("alarm_notify_dialog(): Could not find all widgets in Glade file!");
 		g_object_unref (an->xml);
 		g_free (an);
-		return NULL;
+		return;
 	}
 
 	gtk_widget_realize (an->dialog);
 	gtk_container_set_border_width (GTK_CONTAINER (GTK_DIALOG (an->dialog)->vbox), 0);
 	gtk_container_set_border_width (GTK_CONTAINER (GTK_DIALOG (an->dialog)->action_area), 12);
 
-	g_signal_connect (G_OBJECT (an->dialog), "destroy",
-			  G_CALLBACK (dialog_destroy_cb),
-			  an);
+	image = glade_xml_get_widget (an->xml, "alarm-image");
+	icon_path = e_icon_factory_get_icon_filename ("stock_alarm", E_ICON_SIZE_DIALOG);
+	gtk_image_set_from_file (GTK_IMAGE (image), icon_path);
+	g_free (icon_path);
 
 	/* Title */
 
-	current_zone = config_data_get_timezone ();
+	gtk_window_set_title (GTK_WINDOW (an->dialog), summary);
 
-	buf = timet_to_str_with_zone (trigger, current_zone);
-	title = g_strdup_printf (_("Alarm on %s"), buf);
-	g_free (buf);
+	/* Set the widget contents */
 
-	gtk_window_set_title (GTK_WINDOW (an->dialog), title);
+	title = g_strdup_printf ("<big><b>%s</b></big>", summary);
+	gtk_label_set_markup (GTK_LABEL (an->title), title);
 	g_free (title);
 
-	/* html heading */
-	stream = gtk_html_begin (GTK_HTML (an->html));
-	write_html_heading (stream, message, vtype, occur_start, occur_end);
-	gtk_html_stream_close (stream, GTK_HTML_STREAM_OK);
+	gtk_label_set_text (GTK_LABEL (an->description), description);
+	gtk_label_set_text (GTK_LABEL (an->location), location);
 
-	/* Connect actions */
+	/* Stringize the times */
 
-	g_signal_connect (an->dialog, "delete_event",
-			  G_CALLBACK (delete_event_cb),
-			  an);
+	current_zone = config_data_get_timezone ();
 
-	g_signal_connect (an->close, "clicked",
-			  G_CALLBACK (close_clicked_cb),
-			  an);
+	start = timet_to_str_with_zone (occur_start, current_zone);
+	gtk_label_set_text (GTK_LABEL (an->start), start);
 
-	g_signal_connect (an->snooze, "clicked",
-			  G_CALLBACK (snooze_clicked_cb),
-			  an);
-
-	g_signal_connect (an->edit, "clicked",
-			  G_CALLBACK (edit_clicked_cb),
-			  an);
+	end = timet_to_str_with_zone (occur_end, current_zone);
+	gtk_label_set_text (GTK_LABEL (an->end), end);
 
 	/* Run! */
 
@@ -390,15 +179,20 @@ alarm_notify_dialog (time_t trigger, time_t occur_start, time_t occur_end,
 		g_list_free (icon_list);
 	}
 
-	gtk_widget_show (an->dialog);
-	return an;
-}
-
-void
-alarm_notify_dialog_disable_buttons (gpointer dialog)
-{
-	AlarmNotify *an = dialog;
-
-	gtk_widget_set_sensitive (an->snooze, FALSE);
-	gtk_widget_set_sensitive (an->edit, FALSE);
+	switch (gtk_dialog_run (GTK_DIALOG (an->dialog))) {
+	case AN_RESPONSE_EDIT:
+	  (* an->func) (ALARM_NOTIFY_EDIT, -1, an->func_data);
+	  break;
+	case AN_RESPONSE_SNOOZE:
+	  snooze_timeout = gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (an->snooze_time));
+	  (* an->func) (ALARM_NOTIFY_SNOOZE, snooze_timeout, an->func_data);
+	  break;
+	case GTK_RESPONSE_CLOSE:
+	case GTK_RESPONSE_DELETE_EVENT:
+	  break;
+	}
+	gtk_widget_destroy (an->dialog);
+	
+	g_object_unref (an->xml);
+	g_free (an);
 }

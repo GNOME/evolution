@@ -1,3 +1,34 @@
+2004-11-23  Rodney Dawes  <dobey@novell.com>
+
+	* gui/alarm-notify/alarm-notify-dialog.[ch]:
+	Add gtkimage.h to includes, and remove gtkhtml headers
+	Add and remove some widgets in the AlarmNotify struct
+	(dialog_destroy_cb, delete_event_cb, close_clicked_cb):
+	(snooze_clicked_cb, edit_clicked_cb, url_requested_cb):
+	(make_html_display, write_times, write_html_heading):
+	(alarm_notify_dialog_disable_buttons): 
+	Remove all these unneeded functions (no more GtkHTML in the dialog)
+	(alarm_notify_dialog): Add description and location arguments
+	Rename message argument to summary
+	Update gtk-doc comment block to reflect API changes
+	Clean up code to use gtk_dialog_run () and use a HIG compliant dialog
+
+	* gui/alarm-notify/alarm-notify.glade: Update the alarm notify
+	dialog to be HIG compliant and not use GtkHTML, and display more
+	information that is relevant to the appointment we are alerting of
+
+	* gui/alarm-notify/alarm-queue.c: Add new variables to the
+	TrayIconData structure so we can access the description and location
+	(on_dialog_objs_removed_cb): Remove alarm_dialog bits
+	(notify_dialog_cb): Remove alarm_dialog bits
+	(tray_icon_destroyed_cb): Free the description and location as well
+	(open_alarm_dialog): alarm_notify_dialog does all the work now, we
+	don't need to trap the dialog widget here
+	(display_notification): Add code to get the description and location
+	information from the cal component
+	Avoid using an alarm component which has less useful API
+	Fix a warning when creating the tray_icon widget
+	
 2004-11-08  Rodney Dawes  <dobey@novell.com>
 
 	* gui/alarm-notify/alarm-notify-dialog.c (write_html_heading):

@@ -699,7 +699,9 @@ edit_component (ECal *client, ECalComponent *comp)
 }
 
 typedef struct {
-	char *message;
+	char *summary;
+	char *description;
+	char *location;
 	gboolean blink_state;
 	gint blink_id;
 	time_t trigger;
@@ -730,8 +732,6 @@ on_dialog_objs_removed_cb (ECal *client, GList *objects, gpointer data)
 			continue;
 
 		if (!strcmp (uid, our_uid)) {
-			if (tray_data->alarm_dialog)
-				alarm_notify_dialog_disable_buttons (tray_data->alarm_dialog);
 			tray_data->cqa = NULL;
 			tray_data->alarm_id = NULL;
 
@@ -767,7 +767,6 @@ notify_dialog_cb (AlarmNotifyResult result, int snooze_mins, gpointer data)
 		g_assert_not_reached ();
 	}
 
-	tray_data->alarm_dialog = NULL;
 	gtk_widget_destroy (tray_data->tray_icon);
 }
 
@@ -782,9 +781,19 @@ tray_icon_destroyed_cb (GtkWidget *tray, gpointer user_data)
 	if (tray_data->cqa != NULL)
 		remove_queued_alarm (tray_data->cqa, tray_data->alarm_id, TRUE, TRUE);
 
-	if (tray_data->message != NULL) {
-		g_free (tray_data->message);
-		tray_data->message = NULL;
+	if (tray_data->summary != NULL) {
+		g_free (tray_data->summary);
+		tray_data->summary = NULL;
+	}
+
+	if (tray_data->description != NULL) {
+		g_free (tray_data->description);
+		tray_data->description = NULL;
+	}
+
+	if (tray_data->location != NULL) {
+		g_free (tray_data->location);
+		tray_data->location = NULL;
 	}
 
 	if (tray_data->blink_id)
@@ -806,19 +815,17 @@ open_alarm_dialog (TrayIconData *tray_data)
 {
 	QueuedAlarm *qa;
 
-	if (tray_data->alarm_dialog != NULL)
-		return FALSE;
-
 	qa = lookup_queued_alarm (tray_data->cqa, tray_data->alarm_id);
 	if (qa) {
 		gtk_widget_hide (tray_data->tray_icon);
-		tray_data->alarm_dialog = alarm_notify_dialog (
-			tray_data->trigger,
-			qa->instance->occur_start,
-			qa->instance->occur_end,
-			e_cal_component_get_vtype (tray_data->comp),
-			tray_data->message,
-			notify_dialog_cb, tray_data);
+		alarm_notify_dialog (tray_data->trigger,
+				     qa->instance->occur_start,
+				     qa->instance->occur_end,
+				     e_cal_component_get_vtype (tray_data->comp),
+				     tray_data->summary,
+				     tray_data->description,
+				     tray_data->location,
+				     notify_dialog_cb, tray_data);
 	}
 
 	return TRUE;
@@ -917,12 +924,12 @@ display_notification (time_t trigger, CompQueuedAlarms *cqa,
 {
 	QueuedAlarm *qa;
 	ECalComponent *comp;
-	const char *message;
-	ECalComponentAlarm *alarm;
+	const char *summary, *description, *location;
 	GtkWidget *tray_icon, *image, *ebox;
 	GtkTooltips *tooltips;
 	TrayIconData *tray_data;
 	ECalComponentText text;
+	GSList *text_list;
 	char *str, *start_str, *end_str, *alarm_str;
 	icaltimezone *current_zone;
 	GdkPixbuf *pixbuf;
@@ -933,26 +940,32 @@ display_notification (time_t trigger, CompQueuedAlarms *cqa,
 		return;
 	
 	/* get a sensible description for the event */
-	alarm = e_cal_component_get_alarm (comp, qa->instance->auid);
-	g_assert (alarm != NULL);
-
-	e_cal_component_alarm_get_description (alarm, &text);
-	e_cal_component_alarm_free (alarm);
+	e_cal_component_get_summary (comp, &text);
 
 	if (text.value)
-		message = text.value;
-	else {
-		e_cal_component_get_summary (comp, &text); 
- 		if (text.value)
- 			message = text.value;
- 		else
- 			message = _("No description available.");
-	}
+		summary = text.value;
+	else
+	        summary = _("No summary available.");
+
+	e_cal_component_get_description_list (comp, &text_list);
+
+	text = *((ECalComponentText *)text_list->data);
+	if (text.value)
+		description = text.value;
+	else
+	        description = _("No description available.");
+
+	e_cal_component_free_text_list (text_list);
+
+	e_cal_component_get_location (comp, &location);
+
+	if (!location)
+	        location = _("No location information available.");
 
 	/* create the tray icon */
 	tooltips = gtk_tooltips_new ();
 
-	tray_icon = egg_tray_icon_new (qa->instance->auid);
+	tray_icon = GTK_WIDGET (egg_tray_icon_new (qa->instance->auid));
 	pixbuf = e_icon_factory_get_icon  ("stock_appointment-reminder", E_ICON_SIZE_LARGE_TOOLBAR);
 	image = gtk_image_new_from_pixbuf (pixbuf);
 	gdk_pixbuf_unref (pixbuf);
@@ -966,7 +979,7 @@ display_notification (time_t trigger, CompQueuedAlarms *cqa,
 	start_str = timet_to_str_with_zone (qa->instance->occur_start, current_zone);
 	end_str = timet_to_str_with_zone (qa->instance->occur_end, current_zone);
 	str = g_strdup_printf (_("Alarm on %s\n%s\nStarting at %s\nEnding at %s"),
-			       alarm_str, message, start_str, end_str);
+			       alarm_str, summary, start_str, end_str);
 	gtk_tooltips_set_tip (GTK_TOOLTIPS (tooltips), ebox, str, str);
 	g_free (start_str);
 	g_free (end_str);
@@ -981,7 +994,9 @@ display_notification (time_t trigger, CompQueuedAlarms *cqa,
 
 	/* create the private structure */
 	tray_data = g_new0 (TrayIconData, 1);
-	tray_data->message = g_strdup (message);
+	tray_data->summary = g_strdup (summary);
+	tray_data->description = g_strdup (description);
+	tray_data->location = g_strdup (location);
 	tray_data->trigger = trigger;
 	tray_data->cqa = cqa;
 	tray_data->alarm_id = alarm_id;
