@@ -1,5 +1,23 @@
 2000-08-21  Chris Toshok  <toshok@helixcode.com>
 
+	* e-tree-example-1.c (remove_node): we can remove nodes with
+	children now.
+
+	* e-tree-model.h: add prototype for e_tree_model_node_sort.
+
+	* e-tree-model.c (etree_set_expanded): if the node is invisible,
+	just set its expanded flag and return.
+	(e_tree_model_root_node_set_visible): call set_expanded before we
+	remove it from the row array or else the aforementioned change
+	will result in nothing happening.
+	(e_tree_model_node_insert): use a position of -1 as "append".
+	(e_tree_model_node_insert): if the model was marked with
+	root_visible == FALSE, make sure to set it's expanded flag to TRUE
+	when the root node is inserted.
+	(e_tree_model_node_sort): new function.
+
+2000-08-21  Chris Toshok  <toshok@helixcode.com>
+
 	* e-table.c (e_table_drag_source_set): pass table, not site as the
 	closure for these drag signals, since e_table_drag_source_event_cb
 	assumes it's the table.

@@ -94,6 +94,9 @@ int        e_tree_model_row_of_node           (ETreeModel *etree, ETreePath *pat
 void       e_tree_model_root_node_set_visible (ETreeModel *etree, gboolean visible);
 gboolean   e_tree_model_root_node_is_visible  (ETreeModel *etree);
 
+/* sort routine, analogous to gtk_ctree_node_sort */
+void e_tree_model_node_sort (ETreeModel *tree_model, ETreePath *node, GCompareFunc compare);
+
 /*
 ** Routines for emitting signals on the ETreeModel
 */

@@ -138,7 +138,11 @@ etree_set_expanded (ETreeModel *etm, ETreePath* node, gboolean expanded)
 
 	enode->expanded = expanded;
 
-	row = e_tree_model_row_of_node (etm, node) + 1;
+	/* if the node wasn't visible at present */
+	if ((row = e_tree_model_row_of_node (etm, node)) == -1)
+		return;
+
+	row++;
 
 	if (expanded) {
 		GNode *parent;
@@ -445,6 +449,8 @@ e_tree_model_row_of_node (ETreeModel *etree, ETreePath *node)
 		if (g_array_index (etree->row_array, GNode*, i) == node)
 			return i;
 
+	g_warning ("e_tree_model_row_of_node failed for node %p\n", node);
+
 	return -1;
 }
 
@@ -459,8 +465,8 @@ e_tree_model_root_node_set_visible (ETreeModel *etm, gboolean visible)
 			}
 			else {
 				ETreePath *root_path = e_tree_model_get_root (etm);
-				etm->row_array = g_array_remove_index (etm->row_array, 0);
 				e_tree_model_node_set_expanded (etm, root_path, TRUE);
+				etm->row_array = g_array_remove_index (etm->row_array, 0);
 			}
 			
 			e_table_model_changed (E_TABLE_MODEL (etm));
@@ -597,17 +603,20 @@ e_tree_model_node_insert (ETreeModel *tree_model,
 
 		if (e_tree_model_node_is_visible (tree_model, new_path)) {
 			int parent_row;
-			GNode *node;
+			GNode *n;
 
 			/* we need to iterate back up to the root, incrementing the number of visible
 			   descendents */
-			for (node = parent_path; node; node = node->parent) {
-				ENode *parent_enode = (ENode*)node->data;
+			for (n = parent_path; n; n = n->parent) {
+				ENode *parent_enode = (ENode*)n->data;
 
 				parent_enode->visible_descendents ++;
 			}
 				
 			/* finally, insert a row into the table */
+			if (position == -1)
+				position = e_tree_model_node_num_visible_descendents (tree_model, parent_path) - 1;
+
 			parent_row = e_tree_model_row_of_node (tree_model, parent_path);
 
 			tree_model->row_array = g_array_insert_val (tree_model->row_array,
@@ -621,6 +630,11 @@ e_tree_model_node_insert (ETreeModel *tree_model,
 		if (tree_model->root_visible) {
 			tree_model->row_array = g_array_insert_val (tree_model->row_array, 0, tree_model->root);
 			e_table_model_row_inserted (E_TABLE_MODEL (tree_model), 0);
+		}
+		else {
+			/* need to mark the new node as expanded or
+                           we'll never see it's children */
+			node->expanded = TRUE;
 		}
 		new_path = tree_model->root;
 	}
@@ -712,4 +726,34 @@ add_visible_descendents_to_array (ETreeModel *etm, GNode *gnode, int *row, int *
 			add_visible_descendents_to_array (etm, child, row, count);
 		}
 	}
+}
+
+void
+e_tree_model_node_sort (ETreeModel *tree_model,
+			ETreePath *node,
+			GCompareFunc compare)
+{
+	int num_nodes = g_node_n_children (node);
+	ETreePath **path_array;
+	int i;
+
+	if (num_nodes == 0)
+		return;
+
+	path_array = g_new (ETreePath*, num_nodes);
+
+	for (i = 0; i < num_nodes; i ++) {
+		path_array[i] = g_node_first_child(node);
+		g_node_unlink (path_array[i]);
+	}
+
+	qsort (path_array, num_nodes, sizeof(ETreePath*), compare);
+
+	for (i = 0; i < num_nodes; i ++) {
+		g_node_append (node, path_array[i]);
+	}
+
+	g_free (path_array);
+
+	e_table_model_changed (E_TABLE_MODEL (tree_model));
 }
