@@ -97,6 +97,7 @@ struct _CalBackendClass {
 
 	const char *(* get_cal_address) (CalBackend *backend);
 	const char *(* get_alarm_email_address) (CalBackend *backend);
+	const char *(* get_ldap_attribute) (CalBackend *backend);
 	
 	const char *(* get_static_capabilities) (CalBackend *backend);
 	
@@ -157,6 +158,7 @@ const char *cal_backend_get_uri (CalBackend *backend);
 
 const char *cal_backend_get_cal_address (CalBackend *backend);
 const char *cal_backend_get_alarm_email_address (CalBackend *backend);
+const char *cal_backend_get_ldap_attribute (CalBackend *backend);
 
 const char *cal_backend_get_static_capabilities (CalBackend *backend);
 

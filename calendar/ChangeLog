@@ -1,4 +1,30 @@
 2003-03-04  JP Rosevear  <jpr@ximian.com>
+ 
+ 	* pcs/cal.c (impl_Cal_get_ldap_attribute): implement
+ 
+ 	* pcs/cal-backend.h: add virtual method
+ 
+ 	* pcs/cal-backend.c (cal_backend_get_ldap_attribute): call
+ 	get_ldap_attribute_method
+ 
+ 	* pcs/cal-backend-file.c (cal_backend_file_class_init): overrid
+ 	get_ldap_attribute method
+ 
+ 	* idl/evolution-calendar.idl: add getLdapAttribute method
+ 
+ 	* gui/e-meeting-model.c (process_section): take simple card list
+ 	as arg and try to use the ldap attribute (if any) as the attendee,
+ 	else use the email address
+ 	(select_names_ok_cb): get the simple card list 
+ 
+ 	* cal-client/cal-client.h: add proto
+ 
+ 	* cal-client/cal-client.c (cal_client_init): init ldap_attribute
+ 	to NULL
+ 	(cal_client_destroy): free ldap_attribute
+ 	(cal_client_get_ldap_attribute): accessor
+	
+2003-03-04  JP Rosevear  <jpr@ximian.com>
 
        * gui/itip-utils.c (itip_organizer_is_user): call
        cal_client_get_cal_address instead of cal_client_get_email_address

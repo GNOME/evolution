@@ -158,6 +158,9 @@ module Calendar {
 		string getAlarmEmailAddress ()
 			raises (NotFound);
 
+		/* Returns the LDAP attribute to get attendees from */
+		string getLdapAttribute ();
+
 		/* For going online/offline */
 		void setMode (in CalMode mode);
 		

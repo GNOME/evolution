@@ -50,6 +50,7 @@ struct _CalClientPrivate {
 	/* Email address associated with this calendar, or NULL */
 	char *cal_address;
 	char *alarm_email_address;
+	char *ldap_attribute;
 
 	/* Scheduling info */
 	char *capabilities;
@@ -314,6 +315,7 @@ cal_client_init (CalClient *client, CalClientClass *klass)
 	priv->uri = NULL;
 	priv->cal_address = NULL;
 	priv->alarm_email_address = NULL;
+	priv->ldap_attribute = NULL;
 	priv->capabilities = FALSE;
 	priv->factories = NULL;
 	priv->timezones = g_hash_table_new (g_str_hash, g_str_equal);
@@ -456,6 +458,10 @@ cal_client_finalize (GObject *object)
 	if (priv->alarm_email_address) {
 		g_free (priv->alarm_email_address);
 		priv->alarm_email_address = NULL;
+	}
+	if (priv->ldap_attribute) {
+		g_free (priv->ldap_attribute);
+		priv->ldap_attribute = NULL;
 	}
 	if (priv->capabilities) {
 		g_free (priv->capabilities);
@@ -1217,6 +1223,33 @@ cal_client_get_alarm_email_address (CalClient *client)
 	}
 
 	return priv->alarm_email_address;
+}
+
+const char *
+cal_client_get_ldap_attribute (CalClient *client)
+{
+	CalClientPrivate *priv;
+
+	g_return_val_if_fail (client != NULL, NULL);
+	g_return_val_if_fail (IS_CAL_CLIENT (client), NULL);
+
+	priv = client->priv;
+	g_return_val_if_fail (priv->load_state == CAL_CLIENT_LOAD_LOADED, NULL);
+
+	if (priv->ldap_attribute == NULL) {
+		CORBA_Environment ev;
+		CORBA_char *ldap_attribute;
+
+		CORBA_exception_init (&ev);
+		ldap_attribute = GNOME_Evolution_Calendar_Cal_getLdapAttribute (priv->cal, &ev);
+		if (!BONOBO_EX (&ev)) {
+			priv->ldap_attribute = g_strdup (ldap_attribute);
+			CORBA_free (ldap_attribute);
+		}
+		CORBA_exception_free (&ev);
+	}
+
+	return priv->ldap_attribute;
 }
 
 static void
