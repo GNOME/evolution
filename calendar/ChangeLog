@@ -1,3 +1,19 @@
+2004-01-27  Rodrigo Moya <rodrigo@ximian.com>
+
+	Fixes #53338
+
+	* gui/dialogs/calendar-setup.c (dialog_to_source): set the relative
+	URI on the source for remote sources.
+
+2004-01-27  Rodrigo Moya <rodrigo@ximian.com>
+
+	Fixes #52312
+
+	* gui/dialogs/calendar-setup.c (create_new_source_with_group):
+	* gui/migration.c (migrate_ical_folder, create_calendar_sources,
+	create_task_sources): set the relative URI for local calendars and
+	task lists to be the source UID.
+
 2004-01-24  Rodrigo Moya <rodrigo@ximian.com>
 
 	* gui/calendar-component.[ch]

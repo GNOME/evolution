@@ -304,6 +304,7 @@ migrate_ical_folder (char *old_path, ESourceGroup *dest_group, char *source_name
 	g_object_unref (group);
 
 	new_source = e_source_new (source_name, source_name);
+	e_source_set_relative_uri (new_source, e_source_peek_uid (new_source));
 	e_source_set_group (new_source, dest_group);
 
 	dialog_set_folder_name (source_name);
@@ -389,6 +390,7 @@ create_calendar_sources (CalendarComponent *component,
 		new_dir = g_build_filename (base_uri, "Personal/", NULL);
 		if (!e_mkdir_hier (new_dir, 0700)) {
 			source = e_source_new (_("Personal"), "Personal");
+			e_source_set_relative_uri (source, e_source_peek_uid (source));
 			e_source_group_add_source (group, source, -1);
 			g_object_unref (source);
 		}
@@ -454,6 +456,7 @@ create_task_sources (TasksComponent *component,
 		new_dir = g_build_filename (base_uri, "Personal/", NULL);
 		if (!e_mkdir_hier (new_dir, 0700)) {
 			source = e_source_new (_("Personal"), "Personal");
+			e_source_set_relative_uri (source, e_source_peek_uid (source));
 			e_source_group_add_source (group, source, -1);
 			g_object_unref (source);
 		}

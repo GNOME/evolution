@@ -247,6 +247,7 @@ create_new_source_with_group (GtkWindow *parent,
 	} else {
 		/* Local source */
 		source = e_source_new (source_name, source_name);
+		e_source_set_relative_uri (source, e_source_peek_uid (source));
 	}
 
 	e_source_group_add_source (group, source, -1);
@@ -340,6 +341,8 @@ dialog_to_source (SourceDialog *source_dialog)
 		}
 
 		relative_uri = print_uri_noproto (uri);
+		e_source_set_relative_uri (source, relative_uri);
+		g_free (relative_uri);
 		e_uri_free (uri);
 
 		refresh_str = g_strdup_printf ("%d",
