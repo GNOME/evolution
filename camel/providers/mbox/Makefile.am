@@ -34,8 +34,8 @@ libcamelmboxinclude_HEADERS =			\
 
 libcamelmbox_la_LDFLAGS = -version-info 0:0:0 -rpath $(libdir) 
 
-#libcamelmbox_la_LIBADD = -L$(top_builddir)/libibex -libex
+libcamelmbox_la_LIBADD = -L$(top_builddir)/libibex -libex
 #libcamelmbox_la_LIBADD = $(top_builddir)/libibex/libibex.la $(UNICODE_LIBS)
-libcamelmbox_la_LIBADD =   $(UNICODE_LIBS)
+#libcamelmbox_la_LIBADD =   $(UNICODE_LIBS)
 
 EXTRA_DIST = 
