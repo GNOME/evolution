@@ -371,20 +371,13 @@ e_itip_control_new (void)
 }
 
 static void
-find_my_address (EItipControl *itip, icalcomponent *ical_comp)
+find_my_address (EItipControl *itip, icalcomponent *ical_comp, icalparameter_partstat *status)
 {
 	EItipControlPrivate *priv;
 	icalproperty *prop;
 	char *my_alt_address = NULL;
 	
 	priv = itip->priv;
-
-	/* If the mailer told us the address to use, use that */
-	if (priv->delegator_address != NULL) {
-		priv->my_address = g_strdup (itip_strip_mailto (priv->delegator_address));
-		priv->my_address = g_strstrip (priv->my_address);
-		return;
-	}
 	
 	for (prop = icalcomponent_get_first_property (ical_comp, ICAL_ATTENDEE_PROPERTY);
 	     prop != NULL;
@@ -415,34 +408,62 @@ find_my_address (EItipControl *itip, icalcomponent *ical_comp)
 			name_clean = NULL;
 		}
 
-		it = e_list_get_iterator((EList *)priv->accounts);
-		while (e_iterator_is_valid(it)) {
-			const EAccount *account = e_iterator_get(it);
-
-			/* Check for a matching address */
-			if (attendee_clean != NULL
-			    && !g_ascii_strcasecmp (account->id->address, attendee_clean)) {
-				priv->my_address = g_strdup (account->id->address);
-				g_free (attendee_clean);
-				g_free (name_clean);
-				g_free (my_alt_address);
-				g_object_unref(it);
-				return;
-			}
+		if (priv->delegator_address) {
+			char *delegator_clean;
 			
-			/* Check for a matching cname to fall back on */
-			if (name_clean != NULL 
-			    && !g_ascii_strcasecmp (account->id->name, name_clean))
-				my_alt_address = g_strdup (attendee_clean);
+			delegator_clean = g_strdup (itip_strip_mailto (attendee));
+			delegator_clean = g_strstrip (delegator_clean);
+			
+			/* If the mailer told us the address to use, use that */
+			if (delegator_clean != NULL
+			    && !g_ascii_strcasecmp (attendee_clean, delegator_clean)) {
+				priv->my_address = g_strdup (itip_strip_mailto (priv->delegator_address));
+				priv->my_address = g_strstrip (priv->my_address);
 
-			e_iterator_next(it);
+				if (status) {
+					param = icalproperty_get_first_parameter (prop, ICAL_PARTSTAT_PARAMETER);
+					*status = param ? icalparameter_get_partstat (param) : ICAL_PARTSTAT_NEEDSACTION;
+				}
+			}
+
+			g_free (delegator_clean);
+		} else {
+			it = e_list_get_iterator((EList *)priv->accounts);
+			while (e_iterator_is_valid(it)) {
+				const EAccount *account = e_iterator_get(it);
+				
+				/* Check for a matching address */
+				if (attendee_clean != NULL
+				    && !g_ascii_strcasecmp (account->id->address, attendee_clean)) {
+					priv->my_address = g_strdup (account->id->address);
+					if (status) {
+						param = icalproperty_get_first_parameter (prop, ICAL_PARTSTAT_PARAMETER);
+						*status = param ? icalparameter_get_partstat (param) : ICAL_PARTSTAT_NEEDSACTION;
+					}
+					g_free (attendee_clean);
+					g_free (name_clean);
+					g_free (my_alt_address);
+					g_object_unref(it);
+					return;
+				}
+				
+				/* Check for a matching cname to fall back on */
+				if (name_clean != NULL 
+				    && !g_ascii_strcasecmp (account->id->name, name_clean))
+					my_alt_address = g_strdup (attendee_clean);
+				
+				e_iterator_next(it);
+			}
+			g_object_unref(it);
 		}
+		
 		g_free (attendee_clean);
 		g_free (name_clean);
-		g_object_unref(it);
 	}
 
 	priv->my_address = my_alt_address;
+	if (status)
+		*status = ICAL_PARTSTAT_NEEDSACTION;
 }
 
 static icalproperty *
@@ -1222,33 +1243,20 @@ show_current_event (EItipControl *itip)
 			itip_desc = _("<b>%s</b> requests your presence at a meeting.");
 		itip_title = _("Meeting Proposal");
 		if (priv->current_ecal) {
-			ECalComponentAttendee *attendee= NULL, *tmp;
-			GList *attendee_list, *l;
+			icalparameter_partstat status;
 			
-			e_cal_component_get_attendee_list (priv->comp, &attendee_list);
-			if (priv->my_address == NULL)
-				find_my_address (itip, priv->ical_comp);
-			g_assert (priv->my_address != NULL);
-	
-			for (l = attendee_list; l ; l = g_slist_next (l)) {
-				tmp = (ECalComponentAttendee *) (l->data);
-				if (!strcmp (tmp->value + 7, priv->my_address)) {
-					attendee = tmp;
-					break;
-				}
-			 }
-			if (attendee) {
-				switch (attendee->status) {
-					case ICAL_PARTSTAT_ACCEPTED: 
-					case ICAL_PARTSTAT_DECLINED:
-					case ICAL_PARTSTAT_TENTATIVE:
-						options = get_request_options (FALSE);
-						break;
+			find_my_address (itip, priv->ical_comp, &status);
 
-					/* otherwise it must be needs action */			
-					default:
-						options = get_request_options (TRUE);
-				}
+			switch (status) {
+			case ICAL_PARTSTAT_ACCEPTED: 
+			case ICAL_PARTSTAT_DECLINED:
+			case ICAL_PARTSTAT_TENTATIVE:
+				options = get_request_options (FALSE);
+				break;
+				
+				/* otherwise it must be needs action */			
+			default:
+				options = get_request_options (TRUE);
 			}
 		} else
 			options = get_request_options (TRUE);
@@ -1524,7 +1532,7 @@ show_current (EItipControl *itip)
 		write_error_html (itip, _("The message contains only unsupported requests."));
 	}
 
-	find_my_address (itip, priv->ical_comp);
+	find_my_address (itip, priv->ical_comp, NULL);
 
 	g_object_unref (itip);
 }
@@ -2173,7 +2181,7 @@ ok_clicked_cb (GtkHTML *html, const gchar *method, const gchar *url, const gchar
 		vtype = e_cal_component_get_vtype (comp);
 		
 		if (priv->my_address == NULL)
-			find_my_address (itip, priv->ical_comp);
+			find_my_address (itip, priv->ical_comp, NULL);
 		g_assert (priv->my_address != NULL);
 		
 		ical_comp = e_cal_component_get_icalcomponent (comp);

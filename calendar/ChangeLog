@@ -1,5 +1,17 @@
 2004-08-06  JP Rosevear  <jpr@ximian.com>
  
+ 	Fixes #62452
+ 	
+ 	* gui/e-itip-control.c (find_my_address): take option to retrieve
+ 	current status as well, actually look for the delegator in the
+ 	list so we can retrieve status there as well
+ 	(show_current_event): use find_my_address to get the status so we
+ 	properly handle not finding the address in the list of attendees
+ 	(show_current): pass extra param
+ 	(ok_clicked_cb): ditto
+
+2004-08-06  JP Rosevear  <jpr@ximian.com>
+ 
  	Fixes #62021
  	
  	* gui/dialogs/event-page.c (source_changed_cb): set the default
