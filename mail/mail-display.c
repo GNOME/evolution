@@ -307,8 +307,7 @@ launch_cb (GtkWidget *widget, gpointer user_data)
 	tmpdir = e_mkdtemp ("evolution.XXXXXX");
 	
 	if (!tmpdir) {
-		char *msg = g_strdup_printf (_("Could not create temporary "
-					       "directory: %s"),
+		char *msg = g_strdup_printf (_("Could not create temporary directory: %s"),
 					     g_strerror (errno));
 		gnome_error_dialog (msg);
 		g_free (msg);
@@ -318,16 +317,21 @@ launch_cb (GtkWidget *widget, gpointer user_data)
 	filename = make_safe_filename (tmpdir, part);
 	
 	if (!write_data_to_file (part, filename, TRUE)) {
+		char *msg = g_strdup_printf (_("Could not create temporary file '%s': %s"),
+					     filename, g_strerror (errno));
+		gnome_error_dialog (msg);
 		g_free (filename);
+		g_free (msg);
 		return;
 	}
 	
 	command = g_strdup_printf ("%s %s%s &", app->command,
-				   app->expects_uris == GNOME_VFS_MIME_APPLICATION_ARGUMENT_TYPE_URIS ? "file:" : "",
+				   app->expects_uris == GNOME_VFS_MIME_APPLICATION_ARGUMENT_TYPE_URIS ? "file://" : "",
 				   filename);
+	g_free (filename);
+	
 	system (command);
 	g_free (command);
-	g_free (filename);
 }
 
 static void

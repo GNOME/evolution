@@ -2,6 +2,8 @@
 
 	* mail-display.c (do_attachment_header): Don't display a
 	down-arrow if the attachment is undisplayable. Fixes bug #6919.
+	(launch_cb): Some programs are buggy when it comes to parsing
+	file: uris, so make sure we do file://%s. Fixes bug #20456.
 
 2002-02-14  Jeffrey Stedfast  <fejj@ximian.com>
 
