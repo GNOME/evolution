@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution 0.13\n"
 "POT-Creation-Date: 2001-10-10 11:08-0400\n"
-"PO-Revision-Date: 2001-10-03 17:50+0200\n"
+"PO-Revision-Date: 2001-10-12 22:43+0200\n"
 "Last-Translator: Héctor García Álvarez <hector@scouts-es.org>\n"
 "Language-Team: Spanish <es@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -1077,8 +1077,8 @@ msgid ""
 "Evolution is unable to get the addressbook local storage. This may have been "
 "caused by the evolution-addressbook component crashing. To help us better "
 "understand and ultimately resolve this problem, please send an e-mail to Jon "
-"Trowbridge <trow@ximian.com> with a detailed description of the "
-"circumstances under which this error occurred.  Thank you."
+"Trowbridge <trow@ximian.com> with a detailed description of the circumstances "
+"under which this error occurred.  Thank you."
 msgstr ""
 "Evolution no puede obtener la agenda local. Esto se puede deber a que haya "
 "fallado el componente evolution-addressbook. Para ayudarnos a entender mejor "
@@ -3325,9 +3325,8 @@ msgid ""
 "This is an email reminder, but Evolution does not yet support this kind of "
 "reminders.  You will not be able to edit the options for this reminder."
 msgstr ""
-"Este es un recordatorio por correo, pero Evolution todavía no implementa "
-"esta clase de recordatorios.  No podrá editar las opciones de este "
-"recordatorio."
+"Este es un recordatorio por correo, pero Evolution todavía no implementa esta "
+"clase de recordatorios.  No podrá editar las opciones de este recordatorio."
 
 #: calendar/gui/dialogs/alarm-options.glade.h:7
 msgid "With these arguments:"
@@ -4464,6 +4463,8 @@ msgid ""
 "<br> Please review the following information, and then select an action from "
 "the menu below."
 msgstr ""
+"<br> Por favor revise la siguiente información, y seleccione una acción del "
+"menú de debajo."
 
 #: calendar/gui/e-itip-control.c:692
 #, c-format
@@ -5211,8 +5212,8 @@ msgid ""
 msgstr ""
 "Evolution ha intentado tomar las tareas que estaban en su carpeta de "
 "calendario y migrarlas automáticamente a la nueva carpeta de tareas.\n"
-"Algunas tareas no han podido ser migradas, así que este proceso puede que "
-"sea reintentado otra vez en el futuro."
+"Algunas tareas no han podido ser migradas, así que este proceso puede que sea "
+"reintentado otra vez en el futuro."
 
 #: calendar/gui/tasks-migrate.c:121
 #, c-format
@@ -5220,14 +5221,14 @@ msgid ""
 "Could not open `%s'; no items from the calendar folder will be migrated to "
 "the tasks folder."
 msgstr ""
-"No pude abrir `%s'; no se migrarán elementos de la carpeta de calendario a "
-"la carpeta de tareas."
+"No pude abrir `%s'; no se migrarán elementos de la carpeta de calendario a la "
+"carpeta de tareas."
 
 #: calendar/gui/tasks-migrate.c:134
 #, c-format
 msgid ""
-"The method required to load `%s' is not supported; no items from the "
-"calendar folder will be migrated to the tasks folder."
+"The method required to load `%s' is not supported; no items from the calendar "
+"folder will be migrated to the tasks folder."
 msgstr ""
 "El método requerido para cargar `%s' no está implementado. No se migrarán "
 "elementos de la carpeta de calendario a la carpeta de tareas."
@@ -5311,11 +5312,11 @@ msgstr "contains? espera que el argumento 2 sea una cadena"
 
 #: calendar/pcs/query.c:676
 msgid ""
-"contains? expects argument 1 to be one of \"any\", \"summary\", \"description"
-"\""
+"contains? expects argument 1 to be one of \"any\", \"summary\", "
+"\"description\""
 msgstr ""
-"contains? espera que el argumento 1 sea \"any\", \"summary\" ó \"description"
-"\""
+"contains? espera que el argumento 1 sea \"any\", \"summary\" ó "
+"\"description\""
 
 #: calendar/pcs/query.c:718
 msgid "has-categories? expects at least 1 argument"
@@ -5326,8 +5327,8 @@ msgid ""
 "has-categories? expects all arguments to be strings or one and only one "
 "argument to be a boolean false (#f)"
 msgstr ""
-"has-categories? espera que todos los argumentos sean cadenas o que uno y "
-"solo un argumento sea un booleano falso (#f)"
+"has-categories? espera que todos los argumentos sean cadenas o que uno y solo "
+"un argumento sea un booleano falso (#f)"
 
 #: calendar/pcs/query.c:818
 msgid "is-completed? expects 0 arguments"
@@ -5765,8 +5766,8 @@ msgid ""
 "This option will connect to the server using a secure CRAM-MD5 password, if "
 "the server supports it."
 msgstr ""
-"Esta opción conectará con el servidor usando una clave segura CRAM-MD5, si "
-"el servidor lo implementa."
+"Esta opción conectará con el servidor usando una clave segura CRAM-MD5, si el "
+"servidor lo implementa."
 
 #: camel/camel-sasl-digest-md5.c:43
 msgid "DIGEST-MD5"
@@ -5774,8 +5775,8 @@ msgstr "DIGEST-MD5"
 
 #: camel/camel-sasl-digest-md5.c:45
 msgid ""
-"This option will connect to the server using a secure DIGEST-MD5 password, "
-"if the server supports it."
+"This option will connect to the server using a secure DIGEST-MD5 password, if "
+"the server supports it."
 msgstr ""
 "Esta opción conectará con el servidor usando una clave segura DIGEST-MD5, si "
 "el servidor lo implementa."
@@ -5811,7 +5812,8 @@ msgid "Kerberos 4"
 msgstr "Kerberos 4"
 
 #: camel/camel-sasl-kerberos4.c:42
-msgid "This option will connect to the server using Kerberos 4 authentication."
+msgid ""
+"This option will connect to the server using Kerberos 4 authentication."
 msgstr "Esta opción conectará con el servidor usando autenticación Kerberos 4."
 
 #: camel/camel-sasl-kerberos4.c:161
@@ -5844,7 +5846,7 @@ msgstr "Estado de la autenticación desconocido."
 #: camel/providers/nntp/camel-nntp-store.c:302
 #: camel/providers/pop3/camel-pop3-provider.c:68 mail/mail-config.glade.h:55
 msgid "Password"
-msgstr "Clave"
+msgstr "Contraseña"
 
 #: camel/camel-sasl-popb4smtp.c:34
 msgid "POP before SMTP"
@@ -6167,7 +6169,8 @@ msgid "For reading and storing mail on IMAP servers."
 msgstr "Para leer y guardar correo en los servidores IMAP."
 
 #: camel/providers/imap/camel-imap-provider.c:82
-msgid "This option will connect to the IMAP server using a plaintext password."
+msgid ""
+"This option will connect to the IMAP server using a plaintext password."
 msgstr "Conectará con el servidor IMAP usando una contraseña de texto plano"
 
 #: camel/providers/imap/camel-imap-store.c:517
@@ -6700,8 +6703,8 @@ msgid ""
 "This option will authenticate with the NNTP server using a plaintext "
 "password."
 msgstr ""
-"Esta opción es para autentificarse con el servidor NNTP usando una "
-"contraseña de texto."
+"Esta opción es para autentificarse con el servidor NNTP usando una contraseña "
+"de texto."
 
 #: camel/providers/nntp/camel-nntp-store.c:334
 #: camel/providers/nntp/camel-nntp-store.c:496
@@ -6778,12 +6781,12 @@ msgstr ""
 #: camel/providers/pop3/camel-pop3-provider.c:80
 msgid ""
 "This option will connect to the POP server using an encrypted password via "
-"the APOP protocol. This may not work for all users even on servers that "
-"claim to support it."
+"the APOP protocol. This may not work for all users even on servers that claim "
+"to support it."
 msgstr ""
-"Esta opción es para conectar con servidores POP usando una contraseña "
-"cifrada por medio del protocolo APOP. Esto no funcionará para todos los "
-"usuarios ni siquiera en servidores que dicen implementarlo."
+"Esta opción es para conectar con servidores POP usando una contraseña cifrada "
+"por medio del protocolo APOP. Esto no funcionará para todos los usuarios ni "
+"siquiera en servidores que dicen implementarlo."
 
 #: camel/providers/pop3/camel-pop3-provider.c:92
 msgid ""
@@ -8416,8 +8419,7 @@ msgid ""
 "(such as lack of disk space) may not be automatically\n"
 "recoverable.  Please use this feature with care."
 msgstr ""
-"Nota: Cuando se convierte entre distintos formatos de buzón de correo, "
-"puede\n"
+"Nota: Cuando se convierte entre distintos formatos de buzón de correo, puede\n"
 "que un fallo (como la falta de disco) no sea recuperable automáticamente.\n"
 "Por favor use esta opción con cuidado."
 
@@ -8716,8 +8718,8 @@ msgstr "¿Esta seguro que quiere abrir %d mensajes en ventanas separadas?"
 
 #: mail/mail-config-druid.c:146
 msgid ""
-"Please enter your name and email address below. The \"optional\" fields "
-"below do not need to be filled in,\n"
+"Please enter your name and email address below. The \"optional\" fields below "
+"do not need to be filled in,\n"
 "unless you wish to include this information in email you send."
 msgstr ""
 "Por favor escribe debajo tu nombre y dirección de correo. Los campos  "
@@ -8730,8 +8732,8 @@ msgid ""
 "not sure, ask your system\n"
 "administrator or Internet Service Provider."
 msgstr ""
-"Por favor rellena la información acerca del servidor de correo de entrada. "
-"Si no estas seguro, pregúntale a tu\n"
+"Por favor rellena la información acerca del servidor de correo de entrada. Si "
+"no estas seguro, pregúntale a tu\n"
 "administrador de sistemas o a tu Proveedor de Servicios de Internet."
 
 #: mail/mail-config-druid.c:150
@@ -8753,13 +8755,12 @@ msgid ""
 "You are almost done with the mail configuration process. The identity, "
 "incoming mail server and\n"
 "outgoing mail transport method which you provided will be grouped together "
-"to\n"
-"make an Evolution mail account. Please enter a name for this account in the "
-"space below.\n"
+"to\nmake an Evolution mail account. Please enter a name for this account in "
+"the space below.\n"
 "This name will be used for display purposes only."
 msgstr ""
-"Casi has acabado con el proceso de configuración del correo. La identidad, "
-"el servidor de correo de entrada y\n"
+"Casi has acabado con el proceso de configuración del correo. La identidad, el "
+"servidor de correo de entrada y\n"
 "el método de envío de correo que has especificado serán agrupados para crear "
 "una cuenta\n"
 "de correo de Evolution. Por favor escriba un nombre para esta cuenta.\n"
@@ -9361,7 +9362,8 @@ msgid "This message is digitally signed and has been found to be authentic."
 msgstr "Este mensaje está firmado digitalmente y es auténtico."
 
 #: mail/mail-format.c:1464
-msgid "This message is digitally signed but can not be proven to be authentic."
+msgid ""
+"This message is digitally signed but can not be proven to be authentic."
 msgstr ""
 "Este mensaje está firmado digitalmente pero no se puede verificar su "
 "autenticidad."
@@ -10255,7 +10257,7 @@ msgstr "Lluvia parcial"
 
 #: my-evolution/metar.c:101
 msgid "Blowing rainfall"
-msgstr ""
+msgstr "Aguacero"
 
 #: my-evolution/metar.c:101
 msgid "Rain showers"
@@ -10320,56 +10322,56 @@ msgstr "Rachas de nieve"
 
 #: my-evolution/metar.c:102
 msgid "Freezing snow"
-msgstr ""
+msgstr "Heladas"
 
 #. SNOW_GRAINS
 #: my-evolution/metar.c:103
 msgid "Snow grains"
-msgstr ""
+msgstr "Copos de nieve"
 
 #: my-evolution/metar.c:103
 msgid "Snow grains in the vicinity"
-msgstr ""
+msgstr "Granizo en los alrededores"
 
 #: my-evolution/metar.c:103
 msgid "Light snow grains"
-msgstr ""
+msgstr "Granizada ligera"
 
 #: my-evolution/metar.c:103
 msgid "Moderate snow grains"
-msgstr ""
+msgstr "Granizada moderada"
 
 #: my-evolution/metar.c:103
 msgid "Heavy snow grains"
-msgstr ""
+msgstr "Granizada abundante"
 
 #: my-evolution/metar.c:103
 msgid "Shallow snow grains"
-msgstr ""
+msgstr "Granizada muy intensa"
 
 #: my-evolution/metar.c:103
 msgid "Patches of snow grains"
-msgstr ""
+msgstr "Lugares con granizo"
 
 #: my-evolution/metar.c:103
 msgid "Partial snow grains"
-msgstr ""
+msgstr "Granizada parcial"
 
 #: my-evolution/metar.c:103
 msgid "Blowing snow grains"
-msgstr ""
+msgstr "Granizo abundante"
 
 #: my-evolution/metar.c:103
 msgid "Snow grain showers"
-msgstr ""
+msgstr "Granizada"
 
 #: my-evolution/metar.c:103
 msgid "Drifting snow grains"
-msgstr ""
+msgstr "Granizada cambiando"
 
 #: my-evolution/metar.c:103
 msgid "Freezing snow grains"
-msgstr ""
+msgstr "Granizo con heladas"
 
 #. ICE_CRYSTALS
 #: my-evolution/metar.c:104
@@ -10394,7 +10396,7 @@ msgstr "Helada intensa"
 
 #: my-evolution/metar.c:104
 msgid "Patches of ice crystals"
-msgstr ""
+msgstr "Lugares con cristales de hielo"
 
 #: my-evolution/metar.c:104
 msgid "Partial ice crystals"
@@ -10410,68 +10412,68 @@ msgstr "Ventisca de hielo"
 
 #: my-evolution/metar.c:104
 msgid "Showers of ice crystals"
-msgstr ""
+msgstr "Tormenta de cristales de hielo"
 
 #: my-evolution/metar.c:104
 msgid "Drifting ice crystals"
-msgstr ""
+msgstr "Cristales de hielo cambiando"
 
 #: my-evolution/metar.c:104
 msgid "Freezing ice crystals"
-msgstr ""
+msgstr "Cristales de hielo congelados"
 
 #. ICE_PELLETS
 #: my-evolution/metar.c:105
 msgid "Ice pellets"
-msgstr ""
+msgstr "Bolas de hielo"
 
 #: my-evolution/metar.c:105
 msgid "Ice pellets in the vicinity"
-msgstr ""
+msgstr "Granizo en los alrededores"
 
 #: my-evolution/metar.c:105
 msgid "Few ice pellets"
-msgstr ""
+msgstr "Poco granizo"
 
 #: my-evolution/metar.c:105
 msgid "Moderate ice pellets"
-msgstr ""
+msgstr "Granizo moderado"
 
 #: my-evolution/metar.c:105
 msgid "Heavy ice pellets"
-msgstr ""
+msgstr "Granizo abundante"
 
 #: my-evolution/metar.c:105
 msgid "Shallow ice pellets"
-msgstr ""
+msgstr "Granizo muy abundante"
 
 #: my-evolution/metar.c:105
 msgid "Patches of ice pellets"
-msgstr ""
+msgstr "Lugares con granizo"
 
 #: my-evolution/metar.c:105
 msgid "Partial ice pellets"
-msgstr ""
+msgstr "Granizo parcial"
 
 #: my-evolution/metar.c:105
 msgid "Ice pellet storm"
-msgstr ""
+msgstr "Tormenta de granizo"
 
 #: my-evolution/metar.c:105
 msgid "Blowing ice pellets"
-msgstr ""
+msgstr "Tormenta de granizo"
 
 #: my-evolution/metar.c:105
 msgid "Showers of ice pellets"
-msgstr ""
+msgstr "Granizo con lluvia"
 
 #: my-evolution/metar.c:105
 msgid "Drifting ice pellets"
-msgstr ""
+msgstr "Granizada cambiando"
 
 #: my-evolution/metar.c:105
 msgid "Freezing ice pellets"
-msgstr ""
+msgstr "Granizada con hielo"
 
 #. HAIL
 #: my-evolution/metar.c:106
@@ -10524,7 +10526,7 @@ msgstr "Rachas de granizo"
 
 #: my-evolution/metar.c:106
 msgid "Freezing hail"
-msgstr ""
+msgstr "Granizada con hielo"
 
 #. SMALL_HAIL
 #: my-evolution/metar.c:107
@@ -10533,47 +10535,47 @@ msgstr "Granizo pequeño"
 
 #: my-evolution/metar.c:107
 msgid "Small hail in the vicinity"
-msgstr ""
+msgstr "Granizo en los alrededores"
 
 #: my-evolution/metar.c:107
 msgid "Moderate small hail"
-msgstr ""
+msgstr "Granizo moderado"
 
 #: my-evolution/metar.c:107
 msgid "Heavy small hail"
-msgstr ""
+msgstr "Granizo abundante"
 
 #: my-evolution/metar.c:107
 msgid "Shallow small hail"
-msgstr ""
+msgstr "Granizo muy abundante"
 
 #: my-evolution/metar.c:107
 msgid "Patches of small hail"
-msgstr ""
+msgstr "Lugares con granizo"
 
 #: my-evolution/metar.c:107
 msgid "Partial small hail"
-msgstr ""
+msgstr "Granizada parcial"
 
 #: my-evolution/metar.c:107
 msgid "Small hailstorm"
-msgstr ""
+msgstr "Pequeña granizada"
 
 #: my-evolution/metar.c:107
 msgid "Blowing small hail"
-msgstr ""
+msgstr "Granizada muy abundante"
 
 #: my-evolution/metar.c:107
 msgid "Showers of small hail"
-msgstr ""
+msgstr "Granizo con lluvia"
 
 #: my-evolution/metar.c:107
 msgid "Drifting small hail"
-msgstr ""
+msgstr "Granizada cambiando"
 
 #: my-evolution/metar.c:107
 msgid "Freezing small hail"
-msgstr ""
+msgstr "Granizo con hielo"
 
 #. PRECIPITATION
 #: my-evolution/metar.c:108
@@ -10582,51 +10584,51 @@ msgstr "Precipitaciones indeterminadas"
 
 #: my-evolution/metar.c:108
 msgid "Precipitation in the vicinity"
-msgstr ""
+msgstr "Precipitación en los alrededores"
 
 #: my-evolution/metar.c:108
 msgid "Light precipitation"
-msgstr ""
+msgstr "Precipitación ligera"
 
 #: my-evolution/metar.c:108
 msgid "Moderate precipitation"
-msgstr ""
+msgstr "Precipitación moderada"
 
 #: my-evolution/metar.c:108
 msgid "Heavy precipitation"
-msgstr ""
+msgstr "Precipitación abundante"
 
 #: my-evolution/metar.c:108
 msgid "Shallow precipitation"
-msgstr ""
+msgstr "Precipitación torrencial"
 
 #: my-evolution/metar.c:108
 msgid "Patches of precipitation"
-msgstr ""
+msgstr "Lugares con precipitación"
 
 #: my-evolution/metar.c:108
 msgid "Partial precipitation"
-msgstr ""
+msgstr "Precipitación parcial"
 
 #: my-evolution/metar.c:108
 msgid "Unknown thunderstorm"
-msgstr ""
+msgstr "Tormenta desconocida"
 
 #: my-evolution/metar.c:108
 msgid "Blowing precipitation"
-msgstr ""
+msgstr "Precipitación torrencial"
 
 #: my-evolution/metar.c:108
 msgid "Showers, type unknown"
-msgstr ""
+msgstr "Lluvia, de tipo desconocido"
 
 #: my-evolution/metar.c:108
 msgid "Drifting precipitation"
-msgstr ""
+msgstr "Precipitación cambiando"
 
 #: my-evolution/metar.c:108
 msgid "Freezing precipitation"
-msgstr ""
+msgstr "Precipitación con hielo"
 
 #. MIST
 #: my-evolution/metar.c:109
@@ -10635,43 +10637,43 @@ msgstr "Niebla"
 
 #: my-evolution/metar.c:109
 msgid "Mist in the vicinity"
-msgstr ""
+msgstr "Neblina en los alrededores"
 
 #: my-evolution/metar.c:109
 msgid "Light mist"
-msgstr ""
+msgstr "Neblina ligera"
 
 #: my-evolution/metar.c:109
 msgid "Moderate mist"
-msgstr ""
+msgstr "Neblina moderada"
 
 #: my-evolution/metar.c:109
 msgid "Thick mist"
-msgstr ""
+msgstr "Neblina gruesa"
 
 #: my-evolution/metar.c:109
 msgid "Shallow mist"
-msgstr ""
+msgstr "Cortina de neblina"
 
 #: my-evolution/metar.c:109
 msgid "Patches of mist"
-msgstr ""
+msgstr "Lugares con neblina"
 
 #: my-evolution/metar.c:109
 msgid "Partial mist"
-msgstr ""
+msgstr "Neblina parcial"
 
 #: my-evolution/metar.c:109
 msgid "Mist with wind"
-msgstr ""
+msgstr "Neblina con viento"
 
 #: my-evolution/metar.c:109
 msgid "Drifting mist"
-msgstr ""
+msgstr "Neblina cambiando"
 
 #: my-evolution/metar.c:109
 msgid "Freezing mist"
-msgstr ""
+msgstr "Neblina con hielo"
 
 #. FOG
 #: my-evolution/metar.c:110
@@ -10680,43 +10682,43 @@ msgstr "neblina"
 
 #: my-evolution/metar.c:110
 msgid "Fog in the vicinity"
-msgstr ""
+msgstr "Niebla en los alrededores"
 
 #: my-evolution/metar.c:110
 msgid "Light fog"
-msgstr ""
+msgstr "Niebla ligera"
 
 #: my-evolution/metar.c:110
 msgid "Moderate fog"
-msgstr ""
+msgstr "Niebla moderada"
 
 #: my-evolution/metar.c:110
 msgid "Thick fog"
-msgstr ""
+msgstr "Niebla gruesa"
 
 #: my-evolution/metar.c:110
 msgid "Shallow fog"
-msgstr ""
+msgstr "Niebla muy gruesa"
 
 #: my-evolution/metar.c:110
 msgid "Patches of fog"
-msgstr ""
+msgstr "Lugares con niebla"
 
 #: my-evolution/metar.c:110
 msgid "Partial fog"
-msgstr ""
+msgstr "Niebla parcial"
 
 #: my-evolution/metar.c:110
 msgid "Fog with wind"
-msgstr ""
+msgstr "Niebla con viento"
 
 #: my-evolution/metar.c:110
 msgid "Drifting fog"
-msgstr ""
+msgstr "Niebla cambiando"
 
 #: my-evolution/metar.c:110
 msgid "Freezing fog"
-msgstr ""
+msgstr "Niebla con hielo"
 
 #. SMOKE
 #: my-evolution/metar.c:111
@@ -10725,43 +10727,43 @@ msgstr "Humo"
 
 #: my-evolution/metar.c:111
 msgid "Smoke in the vicinity"
-msgstr ""
+msgstr "Humo en los alrededores"
 
 #: my-evolution/metar.c:111
 msgid "Thin smoke"
-msgstr ""
+msgstr "Humo ligero"
 
 #: my-evolution/metar.c:111
 msgid "Moderate smoke"
-msgstr ""
+msgstr "Humo moderado"
 
 #: my-evolution/metar.c:111
 msgid "Thick smoke"
-msgstr ""
+msgstr "Humo grueso"
 
 #: my-evolution/metar.c:111
 msgid "Shallow smoke"
-msgstr ""
+msgstr "Cortina de humo"
 
 #: my-evolution/metar.c:111
 msgid "Patches of smoke"
-msgstr ""
+msgstr "Lugares con humo"
 
 #: my-evolution/metar.c:111
 msgid "Partial smoke"
-msgstr ""
+msgstr "Humo parcial"
 
 #: my-evolution/metar.c:111
 msgid "Smoke w/ thunders"
-msgstr ""
+msgstr "Humo con truenos"
 
 #: my-evolution/metar.c:111
 msgid "Smoke with wind"
-msgstr ""
+msgstr "Humo con viento"
 
 #: my-evolution/metar.c:111
 msgid "Drifting smoke"
-msgstr ""
+msgstr "Humo cambiando"
 
 #. VOLCANIC_ASH
 #: my-evolution/metar.c:112
@@ -10770,47 +10772,47 @@ msgstr "Ceniza volcánica"
 
 #: my-evolution/metar.c:112
 msgid "Volcanic ash in the vicinity"
-msgstr ""
+msgstr "Cenizas volcánicas en los alrededores"
 
 #: my-evolution/metar.c:112
 msgid "Moderate volcanic ash"
-msgstr ""
+msgstr "Cenizas volcánicas moderadas"
 
 #: my-evolution/metar.c:112
 msgid "Thick volcanic ash"
-msgstr ""
+msgstr "Cenizas volcánicas gruesas"
 
 #: my-evolution/metar.c:112
 msgid "Shallow volcanic ash"
-msgstr ""
+msgstr "Cortina de cenizas volcánicas"
 
 #: my-evolution/metar.c:112
 msgid "Patches of volcanic ash"
-msgstr ""
+msgstr "Lugares con cenizas volcánicas"
 
 #: my-evolution/metar.c:112
 msgid "Partial volcanic ash"
-msgstr ""
+msgstr "Cenizas volcánicas parciales"
 
 #: my-evolution/metar.c:112
 msgid "Volcanic ash w/ thunders"
-msgstr ""
+msgstr "Cenizas volcánicas con truenos"
 
 #: my-evolution/metar.c:112
 msgid "Blowing volcanic ash"
-msgstr ""
+msgstr "Cenizas volcánicas abundantes"
 
 #: my-evolution/metar.c:112
 msgid "Showers of volcanic ash "
-msgstr ""
+msgstr "Lluvia de cenizas volcánicas"
 
 #: my-evolution/metar.c:112
 msgid "Drifting volcanic ash"
-msgstr ""
+msgstr "Cambiando cenizas volcánicas"
 
 #: my-evolution/metar.c:112
 msgid "Freezing volcanic ash"
-msgstr ""
+msgstr "Cenizas volcánicas con hielo"
 
 #. SAND
 #: my-evolution/metar.c:113
@@ -10819,35 +10821,35 @@ msgstr "Arena"
 
 #: my-evolution/metar.c:113
 msgid "Sand in the vicinity"
-msgstr ""
+msgstr "Arena en los alrededores"
 
 #: my-evolution/metar.c:113
 msgid "Light sand"
-msgstr ""
+msgstr "Arena ligera"
 
 #: my-evolution/metar.c:113
 msgid "Moderate sand"
-msgstr ""
+msgstr "Arena moderada"
 
 #: my-evolution/metar.c:113
 msgid "Heavy sand"
-msgstr ""
+msgstr "Arena abundante"
 
 #: my-evolution/metar.c:113
 msgid "Patches of sand"
-msgstr ""
+msgstr "Lugares con arena"
 
 #: my-evolution/metar.c:113
 msgid "Partial sand"
-msgstr ""
+msgstr "Arena parcial"
 
 #: my-evolution/metar.c:113
 msgid "Blowing sand"
-msgstr ""
+msgstr "Arena muy abundante"
 
 #: my-evolution/metar.c:113
 msgid "Drifting sand"
-msgstr ""
+msgstr "Arena cambiando"
 
 #. HAZE
 #: my-evolution/metar.c:114
@@ -10856,43 +10858,43 @@ msgstr "Bruma"
 
 #: my-evolution/metar.c:114
 msgid "Haze in the vicinity"
-msgstr ""
+msgstr "Bruma en los alrededores"
 
 #: my-evolution/metar.c:114
 msgid "Light haze"
-msgstr ""
+msgstr "Bruma ligera"
 
 #: my-evolution/metar.c:114
 msgid "Moderate haze"
-msgstr ""
+msgstr "Bruma moderada"
 
 #: my-evolution/metar.c:114
 msgid "Thick haze"
-msgstr ""
+msgstr "Bruma gruesa"
 
 #: my-evolution/metar.c:114
 msgid "Shallow haze"
-msgstr ""
+msgstr "Cortina de bruma"
 
 #: my-evolution/metar.c:114
 msgid "Patches of haze"
-msgstr ""
+msgstr "Lugares con bruma"
 
 #: my-evolution/metar.c:114
 msgid "Partial haze"
-msgstr ""
+msgstr "Bruma parcial"
 
 #: my-evolution/metar.c:114
 msgid "Haze with wind"
-msgstr ""
+msgstr "Bruma con vientos"
 
 #: my-evolution/metar.c:114
 msgid "Drifting haze"
-msgstr ""
+msgstr "Cambiando la bruma"
 
 #: my-evolution/metar.c:114
 msgid "Freezing haze"
-msgstr ""
+msgstr "Bruma con hielo"
 
 #. SPRAY
 #: my-evolution/metar.c:115
@@ -10901,43 +10903,43 @@ msgstr "Rocío"
 
 #: my-evolution/metar.c:115
 msgid "Sprays in the vicinity"
-msgstr ""
+msgstr "Rocío en los alrededores"
 
 #: my-evolution/metar.c:115
 msgid "Light sprays"
-msgstr ""
+msgstr "Rocío ligero"
 
 #: my-evolution/metar.c:115
 msgid "Moderate sprays"
-msgstr ""
+msgstr "Rocío moderado"
 
 #: my-evolution/metar.c:115
 msgid "Heavy sprays"
-msgstr ""
+msgstr "Rocío abundante"
 
 #: my-evolution/metar.c:115
 msgid "Shallow sprays"
-msgstr ""
+msgstr "Rocío muy abundante"
 
 #: my-evolution/metar.c:115
 msgid "Patches of sprays"
-msgstr ""
+msgstr "Lugares con rocío"
 
 #: my-evolution/metar.c:115
 msgid "Partial sprays"
-msgstr ""
+msgstr "Rocío parcial"
 
 #: my-evolution/metar.c:115
 msgid "Blowing sprays"
-msgstr ""
+msgstr "Cortina de rocío"
 
 #: my-evolution/metar.c:115
 msgid "Drifting sprays"
-msgstr ""
+msgstr "Rocío cambiando"
 
 #: my-evolution/metar.c:115
 msgid "Freezing sprays"
-msgstr ""
+msgstr "Rocío con hielo"
 
 #. DUST
 #: my-evolution/metar.c:116
@@ -10946,35 +10948,35 @@ msgstr "Polvo"
 
 #: my-evolution/metar.c:116
 msgid "Dust in the vicinity"
-msgstr ""
+msgstr "Polvo en los alrededores"
 
 #: my-evolution/metar.c:116
 msgid "Light dust"
-msgstr ""
+msgstr "Polvo ligero"
 
 #: my-evolution/metar.c:116
 msgid "Moderate dust"
-msgstr ""
+msgstr "Polvo moderado"
 
 #: my-evolution/metar.c:116
 msgid "Heavy dust"
-msgstr ""
+msgstr "Polvo abundante"
 
 #: my-evolution/metar.c:116
 msgid "Patches of dust"
-msgstr ""
+msgstr "Lugares con polvo"
 
 #: my-evolution/metar.c:116
 msgid "Partial dust"
-msgstr ""
+msgstr "Polvo parcial"
 
 #: my-evolution/metar.c:116
 msgid "Blowing dust"
-msgstr ""
+msgstr "Cortina de polvo"
 
 #: my-evolution/metar.c:116
 msgid "Drifting dust"
-msgstr ""
+msgstr "Cambiando el polvo"
 
 #. SQUALL
 #: my-evolution/metar.c:117
@@ -10983,39 +10985,39 @@ msgstr "Borrasca"
 
 #: my-evolution/metar.c:117
 msgid "Squall in the vicinity"
-msgstr ""
+msgstr "Chubasco en los alrededores"
 
 #: my-evolution/metar.c:117
 msgid "Light squall"
-msgstr ""
+msgstr "Chubascos ligeros"
 
 #: my-evolution/metar.c:117
 msgid "Moderate squall"
-msgstr ""
+msgstr "Chubascos moderados"
 
 #: my-evolution/metar.c:117
 msgid "Heavy squall"
-msgstr ""
+msgstr "Chubascos abundantes"
 
 #: my-evolution/metar.c:117
 msgid "Partial squall"
-msgstr ""
+msgstr "Chubascos parciales"
 
 #: my-evolution/metar.c:117
 msgid "Thunderous squall"
-msgstr ""
+msgstr "Chubascos con truenos"
 
 #: my-evolution/metar.c:117
 msgid "Blowing squall"
-msgstr ""
+msgstr "Chubascos muy abundantes"
 
 #: my-evolution/metar.c:117
 msgid "Drifting squall"
-msgstr ""
+msgstr "Cambiando chubascos"
 
 #: my-evolution/metar.c:117
 msgid "Freezing squall"
-msgstr ""
+msgstr "Chubascos con heladas"
 
 #. SANDSTORM
 #: my-evolution/metar.c:118
@@ -11024,43 +11026,43 @@ msgstr "Tormenta de arena"
 
 #: my-evolution/metar.c:118
 msgid "Sandstorm in the vicinity"
-msgstr ""
+msgstr "Tormenta de arena en los alrededores"
 
 #: my-evolution/metar.c:118
 msgid "Light standstorm"
-msgstr ""
+msgstr "Tormenta de arena ligera"
 
 #: my-evolution/metar.c:118
 msgid "Moderate sandstorm"
-msgstr ""
+msgstr "Tormenta de arena moderada"
 
 #: my-evolution/metar.c:118
 msgid "Heavy sandstorm"
-msgstr ""
+msgstr "Tormenta de arena abundante"
 
 #: my-evolution/metar.c:118
 msgid "Shallow sandstorm"
-msgstr ""
+msgstr "Tormenta de arena muy abundante"
 
 #: my-evolution/metar.c:118
 msgid "Partial sandstorm"
-msgstr ""
+msgstr "Tormenta de arena parcial"
 
 #: my-evolution/metar.c:118
 msgid "Thunderous sandstorm"
-msgstr ""
+msgstr "Tormenta de arena con truenos"
 
 #: my-evolution/metar.c:118
 msgid "Blowing sandstorm"
-msgstr ""
+msgstr "Tormenta de arena muy intensa"
 
 #: my-evolution/metar.c:118
 msgid "Drifting sandstorm"
-msgstr ""
+msgstr "Cambiando la tormenta de arena"
 
 #: my-evolution/metar.c:118
 msgid "Freezing sandstorm"
-msgstr ""
+msgstr "Tormenta de arena helada"
 
 #. DUSTSTORM
 #: my-evolution/metar.c:119
@@ -11069,117 +11071,117 @@ msgstr "Tormenta de polvo"
 
 #: my-evolution/metar.c:119
 msgid "Duststorm in the vicinity"
-msgstr ""
+msgstr "Tormenta de polvo en los alrededores"
 
 #: my-evolution/metar.c:119
 msgid "Light duststorm"
-msgstr ""
+msgstr "Tormenta de polvo ligera"
 
 #: my-evolution/metar.c:119
 msgid "Moderate duststorm"
-msgstr ""
+msgstr "Tormenta de polvo moderada"
 
 #: my-evolution/metar.c:119
 msgid "Heavy duststorm"
-msgstr ""
+msgstr "Tormenta de polvo abundante"
 
 #: my-evolution/metar.c:119
 msgid "Shallow duststorm"
-msgstr ""
+msgstr "Tormenta de polvo muy abundante"
 
 #: my-evolution/metar.c:119
 msgid "Partial duststorm"
-msgstr ""
+msgstr "Tormenta de polvo parcial"
 
 #: my-evolution/metar.c:119
 msgid "Thunderous duststorm"
-msgstr ""
+msgstr "Tormenta de polvo con truenos"
 
 #: my-evolution/metar.c:119
 msgid "Blowing duststorm"
-msgstr ""
+msgstr "Tormenta de polvo muy intensa"
 
 #: my-evolution/metar.c:119
 msgid "Drifting duststorm"
-msgstr ""
+msgstr "Tormenta de polvo cambiando"
 
 #: my-evolution/metar.c:119
 msgid "Freezing duststorm"
-msgstr ""
+msgstr "Tormenta de polvo helada"
 
 #. FUNNEL_CLOUD
 #: my-evolution/metar.c:120
 msgid "Funnel cloud"
-msgstr ""
+msgstr "Nublado"
 
 #: my-evolution/metar.c:120
 msgid "Funnel cloud in the vicinity"
-msgstr ""
+msgstr "Nublado en los alrededores"
 
 #: my-evolution/metar.c:120
 msgid "Light funnel cloud"
-msgstr ""
+msgstr "Nublado ligero"
 
 #: my-evolution/metar.c:120
 msgid "Moderate funnel cloud"
-msgstr ""
+msgstr "Nublado moderado"
 
 #: my-evolution/metar.c:120
 msgid "Thick funnel cloud"
-msgstr ""
+msgstr "Nublado abundante"
 
 #: my-evolution/metar.c:120
 msgid "Shallow funnel cloud"
-msgstr ""
+msgstr "Nublado muy abundante"
 
 #: my-evolution/metar.c:120
 msgid "Patches of funnel clouds"
-msgstr ""
+msgstr "Lugares con nublado"
 
 #: my-evolution/metar.c:120
 msgid "Partial funnel clouds"
-msgstr ""
+msgstr "Nublado parcial"
 
 #: my-evolution/metar.c:120
 msgid "Funnel cloud w/ wind"
-msgstr ""
+msgstr "Nublado con vientos"
 
 #: my-evolution/metar.c:120
 msgid "Drifting funnel cloud"
-msgstr ""
+msgstr "Nublado cambiando"
 
 #. TORNADO
 #: my-evolution/metar.c:121
 msgid "Tornado"
-msgstr ""
+msgstr "Tornado"
 
 #: my-evolution/metar.c:121
 msgid "Tornado in the vicinity"
-msgstr ""
+msgstr "Tornado en los alrededores"
 
 #: my-evolution/metar.c:121
 msgid "Moderate tornado"
-msgstr ""
+msgstr "Tornado moderado"
 
 #: my-evolution/metar.c:121
 msgid "Raging tornado"
-msgstr ""
+msgstr "Tornado violento"
 
 #: my-evolution/metar.c:121
 msgid "Partial tornado"
-msgstr ""
+msgstr "Tornado parcial"
 
 #: my-evolution/metar.c:121
 msgid "Thunderous tornado"
-msgstr ""
+msgstr "Tornado con truenos"
 
 #: my-evolution/metar.c:121
 msgid "Drifting tornado"
-msgstr ""
+msgstr "Cambiando el tornado"
 
 #: my-evolution/metar.c:121
 msgid "Freezing tornado"
-msgstr ""
+msgstr "Tornado helado"
 
 #. DUST_WHIRLS
 #: my-evolution/metar.c:122
@@ -11188,39 +11190,39 @@ msgstr "Remolinos de polvo"
 
 #: my-evolution/metar.c:122
 msgid "Dust whirls in the vicinity"
-msgstr ""
+msgstr "Remolino de polvo en los alrededores"
 
 #: my-evolution/metar.c:122
 msgid "Light dust whirls"
-msgstr ""
+msgstr "Remolino de polvo ligero"
 
 #: my-evolution/metar.c:122
 msgid "Moderate dust whirls"
-msgstr ""
+msgstr "Remolino de polvo moderado"
 
 #: my-evolution/metar.c:122
 msgid "Heavy dust whirls"
-msgstr ""
+msgstr "Remolino de polvo abundante"
 
 #: my-evolution/metar.c:122
 msgid "Shallow dust whirls"
-msgstr ""
+msgstr "Remolino de polvo intenso"
 
 #: my-evolution/metar.c:122
 msgid "Patches of dust whirls"
-msgstr ""
+msgstr "Lugares con remolino de polvo"
 
 #: my-evolution/metar.c:122
 msgid "Partial dust whirls"
-msgstr ""
+msgstr "Remolinos de polvo parciales"
 
 #: my-evolution/metar.c:122
 msgid "Blowing dust whirls"
-msgstr ""
+msgstr "Remolinos de polvo muy intensos"
 
 #: my-evolution/metar.c:122
 msgid "Drifting dust whirls"
-msgstr ""
+msgstr "Remolinos de polvo cambiando"
 
 #: my-evolution/my-evolution.glade.h:1
 msgid " _Remove"
@@ -11371,8 +11373,8 @@ msgid ""
 "This new version of Evolution needs to install additional files\n"
 "into your personal Evolution directory"
 msgstr ""
-"Esta nueva versión de Evolution necesita instalar archivos adicionales\n"
-"en su carpeta personal de Evolution"
+"Esta nueva versión de Evolution necesita instalar archivos "
+"adicionales\nen su carpeta personal de Evolution"
 
 #: shell/e-setup.c:130
 msgid "Please click \"OK\" to install the files, or \"Cancel\" to exit."
@@ -11571,8 +11573,8 @@ msgid ""
 "You can select \"Automatic\" if you do not know, and Evolution will attempt "
 "to work it out."
 msgstr ""
-"Elija el archivo que quiere importar a Evolution, y seleccione de la lista "
-"el tipo de archivo que es.\n"
+"Elija el archivo que quiere importar a Evolution, y seleccione de la lista el "
+"tipo de archivo que es.\n"
 "\n"
 "Si no lo sabe, puede elegir «Automático» y Evolution tratará de encargarse."
 
@@ -11617,8 +11619,8 @@ msgid ""
 "There is no importer that is able to handle\n"
 "%s"
 msgstr ""
-"No hay ninguna herramienta para importar datos que pueda encargarse de\n"
-"%s"
+"No hay ninguna herramienta para importar datos que pueda encargarse "
+"de\n%s"
 
 #: shell/e-shell-importer.c:433
 msgid "Importing"
@@ -12187,8 +12189,7 @@ msgid ""
 "We hope that you enjoy the results of our hard work, and we\n"
 "eagerly await your contributions!\n"
 msgstr ""
-"Hola. Gracias por tomarse la molestia de descargar esta liberación de "
-"prueba\n"
+"Hola. Gracias por tomarse la molestia de descargar esta liberación de prueba\n"
 "de la herramienta de trabajo en grupo Ximian Evolution.\n"
 "\n"
 "Ximian Evolution todavía no está completa. Se está acercando, pero hay\n"
