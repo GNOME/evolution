@@ -10,6 +10,12 @@ Bugzilla bugs fixed (see http://bugzilla.ximian.com/show_bug.cgi):
     #45276 - Use the key "Esc" to escape editing current event and give focusi
              to day/week view (Bolian Yin)
 
+Other bugs
+
+  * Calendar
+
+    - Made all dialogs be centered on the Evolution window (Rodrigo)
+
 Evolution 1.4.1, 2003-06-25
 ---------------------------
 
