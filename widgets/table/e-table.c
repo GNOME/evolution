@@ -146,6 +146,7 @@ et_destroy (GtkObject *object)
 	gtk_object_unref (GTK_OBJECT (et->header));
 	gtk_object_unref (GTK_OBJECT (et->sort_info));
 	gtk_object_unref (GTK_OBJECT (et->sorter));
+	gtk_object_unref (GTK_OBJECT (et->selection));
 
 	if (et->header_canvas != NULL)
 		gtk_widget_destroy (GTK_WIDGET (et->header_canvas));

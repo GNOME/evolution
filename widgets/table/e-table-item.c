@@ -857,9 +857,6 @@ eti_destroy (GtkObject *object)
 	eti_remove_table_model (eti);
 	eti_remove_table_selection_model (eti);
 
-	if (eti->selection)
-		gtk_object_unref(GTK_OBJECT(eti->selection));
-
 	if (eti->height_cache_idle_id)
 		g_source_remove(eti->height_cache_idle_id);
 
