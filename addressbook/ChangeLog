@@ -1,3 +1,9 @@
+2001-11-08  Jon Trowbridge  <trow@ximian.com>
+
+	* gui/component/select-names/e-select-names-bonobo.c
+	(impl_destroy): Explicitly destroy entries.  Part of the fix for
+	the lingering completion window bug.
+
 2001-11-04  JP Rosevear  <jpr@ximian.com>
 
 	* conduit/address-conduit.c: Use ordering of the pilot's phone
