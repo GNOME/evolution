@@ -1,5 +1,10 @@
 2002-11-14  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-shell.c (save_settings_for_views): Removed.
+	(e_shell_save_settings): Do not call it here.
+
+2002-11-14  Ettore Perazzoli  <ettore@ximian.com>
+
 	* e-storage-set-view.c (impl_dispose): NULL priv->ui_component
 	after unreffing it.
 

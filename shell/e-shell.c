@@ -1613,33 +1613,6 @@ e_shell_get_local_storage (EShell *shell)
 
 
 static gboolean
-save_settings_for_views (EShell *shell)
-{
-	EShellPrivate *priv;
-	GList *p;
-	gboolean retval;
-	int i;
-
-	priv = shell->priv;
-	retval = TRUE;
-
-	for (p = priv->views, i = 0; p != NULL; p = p->next, i++) {
-		EShellView *view;
-
-		view = E_SHELL_VIEW (p->data);
-
-		if (! e_shell_view_save_settings (view, i)) {
-			g_warning ("Cannot save settings for view -- %d", i);
-			retval = FALSE;
-		}
-	}
-
-	e_config_listener_set_long (priv->config_listener, "/Shell/Views/NumberOfViews", g_list_length (priv->views));
-
-	return TRUE;
-}
-
-static gboolean
 save_settings_for_component (EShell *shell,
 			     const char *id,
 			     EvolutionShellComponentClient *client)
@@ -1734,18 +1707,16 @@ save_misc_settings (EShell *shell)
 gboolean
 e_shell_save_settings (EShell *shell)
 {
-	gboolean views_saved;
 	gboolean components_saved;
 	gboolean misc_saved;
 
 	g_return_val_if_fail (shell != NULL, FALSE);
 	g_return_val_if_fail (E_IS_SHELL (shell), FALSE);
 
-	views_saved      = save_settings_for_views (shell);
 	components_saved = save_settings_for_components (shell);
 	misc_saved       = save_misc_settings (shell);
 
-	return views_saved && components_saved && misc_saved;
+	return components_saved && misc_saved;
 }
 
 /**
