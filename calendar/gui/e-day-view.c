@@ -2318,7 +2318,7 @@ e_day_view_on_new_appointment (GtkWidget *widget, gpointer data)
 					    &ico->dtend);
 	event_editor = event_editor_new (day_view->calendar, ico);
 	ical_object_unref (ico);
-	gtk_widget_show (event_editor);
+	//gtk_widget_show (event_editor);
 }
 
 
@@ -2342,7 +2342,7 @@ e_day_view_on_edit_appointment (GtkWidget *widget, gpointer data)
 
 	event_editor = event_editor_new (day_view->calendar, ico);
 	ical_object_unref (ico);
-	gtk_widget_show (event_editor);
+	//gtk_widget_show (event_editor);
 }
 
 

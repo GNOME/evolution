@@ -6,6 +6,10 @@ help_base = $(datadir)/gnome/help/cal
 #		 calendar-pilot-sync
 #endif
 
+
+CPPFLAGS =					\
+	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"
+
 INCLUDES = 						\
 	-DG_LOG_DOMAIN=\"calendar-gui\"			\
 	-I$(top_srcdir)					\
@@ -15,6 +19,7 @@ INCLUDES = 						\
 	$(BONOBO_VFS_GNOME_CFLAGS)			\
 	$(GNOME_CONDUIT_INCLUDEDIR)			\
 	$(PISOCK_INCLUDEDIR)                  		\
+	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"		\
         -DGNOMELOCALEDIR=\""$(datadir)/locale"\"
 
 LINK_FLAGS =							\
@@ -26,6 +31,9 @@ LINK_FLAGS =							\
 	$(top_builddir)/widgets/e-text/libetext.a		\
 	$(top_builddir)/libversit/libversit.la			\
 	$(top_builddir)/libical/src/libical/libical.la
+
+gladedir   = $(datadir)/evolution/glade
+glade_DATA = event-editor-dialog.glade
 
 bin_PROGRAMS = evolution-calendar
 
@@ -48,8 +56,8 @@ evolution_calendar_SOURCES =			\
 	e-week-view-titles-item.h		\
 	e-week-view.c				\
 	e-week-view.h				\
-	eventedit.c				\
-	eventedit.h				\
+	event-editor-utils.c			\
+	event-editor-utils.h			\
 	getdate.y				\
 	gncal-todo.c				\
 	gncal-todo.h				\
@@ -70,7 +78,17 @@ evolution_calendar_SOURCES =			\
 	year-view.h				\
 	calendar-commands.c			\
 	calendar-commands.h			\
+	event-editor.c				\
+	event-editor.h				\
 	evolution-calendar-control.c
+
+#	eventedit.c				\
+#	eventedit.h				\
+
+
+
+
+
 
 evolution_calendar_LDADD =					\
 	$(EXTRA_GNOME_LIBS)					\

@@ -4,6 +4,7 @@
 #include <gnome.h>
 #include <bonobo.h>
 #include <bonobo/bonobo-control.h>
+#include <glade/glade.h>
 
 #ifdef USING_OAF
 #include <liboaf/liboaf.h>
@@ -61,6 +62,8 @@ init_bonobo (int *argc, char **argv)
 
 	if (bonobo_init (CORBA_OBJECT_NIL, CORBA_OBJECT_NIL, CORBA_OBJECT_NIL) == FALSE)
 		g_error (_("Could not initialize Bonobo"));
+
+	glade_gnome_init ();
 }
 
 
@@ -71,7 +74,7 @@ get_prop (BonoboPropertyBag *bag,
 	  guint              arg_id,
 	  gpointer           user_data)
 {
-	GnomeCalendar *gcal = user_data;
+	/*GnomeCalendar *gcal = user_data;*/
 
 	switch (arg_id) {
 
@@ -184,6 +187,9 @@ main (int argc, char **argv)
 	init_calendar ();
 
 	//g_log_set_always_fatal ((GLogLevelFlags) 0xFFFF);
+	g_log_set_always_fatal (G_LOG_LEVEL_ERROR |
+				G_LOG_LEVEL_CRITICAL |
+				G_LOG_LEVEL_WARNING);
 
 	CORBA_exception_init (&ev);
 

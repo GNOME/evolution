@@ -1537,6 +1537,8 @@ event_editor_new (GnomeCalendar *gcal, iCalObject *ical)
 	ee->ical = ical;
 	ee->gnome_cal = gcal;
 	event_editor_init_widgets (ee);
+
+	gtk_widget_show (retval);
 	
 	return retval;
 }
@@ -1571,5 +1573,4 @@ event_editor_new_whole_day (GnomeCalendar *owner, time_t day)
 	/* Launch the event editor */
 
 	ee = event_editor_new (owner, ico);
-	gtk_widget_show (ee);
 }

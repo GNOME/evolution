@@ -841,7 +841,9 @@ create_alarm_page (void)
 	gtk_table_set_row_spacings (GTK_TABLE (default_table), 4);
 	gtk_table_set_col_spacings (GTK_TABLE (default_table), 4);
 	gtk_container_add (GTK_CONTAINER (default_frame), default_table);
-		    
+
+#warning "FIX ME"
+	/*
 	ee_create_ae (GTK_TABLE (default_table), _("Display"), 
 		      &alarm_defaults [ALARM_DISPLAY], ALARM_DISPLAY, 1, 
 		      FALSE, prop_changed);
@@ -854,12 +856,14 @@ create_alarm_page (void)
 	ee_create_ae (GTK_TABLE (default_table), _("Mail"), 
 		      &alarm_defaults [ALARM_MAIL], ALARM_MAIL, 4, 
 		      FALSE, prop_changed);
+	*/
 }
 	
 static void
 prop_store_alarm_default_values (CalendarAlarm* alarm)
 {
-	ee_store_alarm (alarm, alarm->type);
+#warning "FIX ME"
+  //	ee_store_alarm (alarm, alarm->type);
 
 	switch (alarm->type) {
 	case ALARM_DISPLAY:
