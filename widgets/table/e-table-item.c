@@ -850,7 +850,7 @@ eti_show_cursor (ETableItem *eti, int delay)
 	if (cursor_row != -1) {
 		cursor_row = model_to_view_row (eti, cursor_row);
 		eti_request_region_show (eti,
-					 0, cursor_row, eti->cols + 1, cursor_row + 1,
+					 0, cursor_row, eti->cols - 1, cursor_row,
 					 delay);
 	}
 }
@@ -902,7 +902,7 @@ eti_check_cursor_bounds (ETableItem *eti)
 	d(g_print ("%s: cursor row: %d\n", __FUNCTION__, cursor_row));
 
 	eti_get_region (eti,
-			0, cursor_row, eti->cols + 1, cursor_row + 1,
+			0, cursor_row, eti->cols - 1, cursor_row,
 			&x1, &y1, &x2, &y2);
 	eti->cursor_x1 = x1;
 	eti->cursor_y1 = y1;
