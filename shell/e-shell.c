@@ -95,6 +95,9 @@ struct _EShellPrivate {
 	/* Settings Dialog */
 	GtkWidget *settings_dialog;
 
+	/* If we're quitting and things are still busy, a timeout handler */
+	guint quit_timeout;
+
 	/* Whether the shell is succesfully initialized.  This is needed during
 	   the start-up sequence, to avoid CORBA calls to do make wrong things
 	   to happen while the shell is initializing.  */
@@ -352,6 +355,11 @@ impl_dispose (GObject *object)
 	if (priv->offline_handler != NULL) {
 		g_object_unref (priv->offline_handler);
 		priv->offline_handler = NULL;
+	}
+
+	if (priv->quit_timeout) {
+		g_source_remove(priv->quit_timeout);
+		priv->quit_timeout = 0;
 	}
 
 	for (p = priv->windows; p != NULL; p = p->next) {
@@ -756,20 +764,8 @@ e_shell_request_close_window (EShell *shell,
 		return TRUE;
 	}
 
-	if (shell->priv->preparing_to_quit)
-		return FALSE;
-
-	/* If it's the last window, save settings and ask for confirmation before
-	   quitting. */
-
-	e_shell_window_save_defaults (shell_window);
-
-	if (e_shell_prepare_for_quit (shell))
-		return TRUE;
-	else
-		return FALSE;
+	return e_shell_quit(shell);
 }
-
 
 #if 0				/* FIXME */
 /**
@@ -862,7 +858,6 @@ e_shell_close_all_windows (EShell *shell)
 		gtk_widget_destroy (GTK_WIDGET (p->data));
 	}
 }
-
 
 /**
  * e_shell_get_line_status:
@@ -1077,25 +1072,67 @@ e_shell_construct_result_to_string (EShellConstructResult result)
 	}
 }
 
-
-gboolean
-e_shell_prepare_for_quit (EShell *shell)
+/* timeout handler, so returns TRUE if we can't quit yet */
+static gboolean
+es_run_quit(EShell *shell)
 {
 	EShellPrivate *priv;
 	GSList *component_infos;
-	GList *p;
 	GSList *sp;
-	CORBA_boolean can_quit;
+	CORBA_boolean done_quit;
 
 	g_return_val_if_fail (E_IS_SHELL (shell), FALSE);
 
 	priv = shell->priv;
 	priv->preparing_to_quit = TRUE;
 
-	/* Make all the windows insensitive so we have some modal-like
-	   behavior.  */
-	for (p = priv->windows; p != NULL; p = p->next)
-		gtk_widget_set_sensitive (GTK_WIDGET (p->data), FALSE);
+	component_infos = e_component_registry_peek_list (priv->component_registry);
+	done_quit = TRUE;
+	for (sp = component_infos; sp != NULL; sp = sp->next) {
+		EComponentInfo *info = sp->data;
+		CORBA_Environment ev;
+
+		CORBA_exception_init (&ev);
+
+		done_quit = GNOME_Evolution_Component_quit(info->iface, &ev);
+		if (BONOBO_EX (&ev)) {
+			/* The component might not implement the interface, in which case we assume we can quit. */
+			done_quit = TRUE;
+		}
+
+		CORBA_exception_free (&ev);
+
+		if (!done_quit)
+			break;
+	}
+
+	if (done_quit) {
+		if  (priv->quit_timeout) {
+			g_source_remove(priv->quit_timeout);
+			priv->quit_timeout = 0;
+		}
+		e_shell_close_all_windows(shell);
+	} else if (priv->quit_timeout == 0) {
+		priv->quit_timeout = g_timeout_add(500, (GSourceFunc)es_run_quit, shell);
+	}
+
+	return !done_quit;
+}
+
+gboolean
+e_shell_quit(EShell *shell)
+{
+	if (shell->priv->preparing_to_quit)
+		return FALSE;
+
+	EShellPrivate *priv;
+	GSList *component_infos;
+	GSList *sp;
+	CORBA_boolean can_quit;
+
+	g_return_val_if_fail (E_IS_SHELL (shell), FALSE);
+
+	priv = shell->priv;
 
 	component_infos = e_component_registry_peek_list (priv->component_registry);
 	can_quit = TRUE;
@@ -1117,14 +1154,16 @@ e_shell_prepare_for_quit (EShell *shell)
 			break;
 	}
 
-	/* Restore all the windows to be sensitive.  */
-	for (p = priv->windows; p != NULL; p = p->next)
-		gtk_widget_set_sensitive (GTK_WIDGET (p->data), TRUE);
+	if (can_quit) {
+		GList *p = shell->priv->windows;
 
-	priv->preparing_to_quit = FALSE;
+		for (; p != NULL; p = p->next)
+			gtk_widget_set_sensitive (GTK_WIDGET (p->data), FALSE);
+		can_quit = !es_run_quit(shell);
+	}
+
 	return can_quit;
 }
-
 
 EUserCreatableItemsHandler *
 e_shell_peek_user_creatable_items_handler (EShell *shell)

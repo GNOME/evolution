@@ -97,9 +97,7 @@ command_quit (BonoboUIComponent *uih,
 	EShell *shell = e_shell_window_peek_shell (window);
 
 	e_shell_window_save_defaults (window);
-
-	if (e_shell_prepare_for_quit (shell))
-		e_shell_close_all_windows (shell);
+	e_shell_quit(shell);
 }
 
 static void

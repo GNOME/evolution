@@ -12,7 +12,6 @@
 
 module GNOME {
 module Evolution {
-
 	/* A type of item that the component can create when asked by the user,
 	   e.g. a mail message or an appointment.  */
 	struct CreatableItemType {
@@ -29,7 +28,6 @@ module Evolution {
 		exception Failed {};
 		exception UnknownType {};
 
-
 		/*** Upgrade path.  ***/
 
 		boolean upgradeFromVersion (in short major, in short minor, in short revision);
@@ -43,9 +41,16 @@ module Evolution {
 				     out Bonobo::Control statusbar_control)
 			raises (Failed);
 
-		/* Request the component to quit.  The component will return TRUE
-		   if it agrees to quit and FALSE if it doesn't want to.  */
+		/* Check if the component can quit.
+		   Do not perform any quit-related tasks however.
+		   May be called multiple times, depending on user interaction. */
 		boolean requestQuit ();
+
+		/* Ask the component to quit.  Returns TRUE when the
+		   component has completed any closing-down tasks, and
+		   is ready to exit().  This will be called repeatedly
+		   at intervals until it returns TRUE. */
+		boolean quit ();
 
 		/* Notify the component of whether the shell is currently
 		   running in interactive mode or not.  (I.e. basically,

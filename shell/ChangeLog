@@ -1,3 +1,25 @@
+2004-02-04  Not Zed  <NotZed@Ximian.com>
+
+	** See bug #53683.
+
+	* Evolution-Component.idl: added EvolutionComponent::quit() call.
+
+	* main.c (quit_box_new): removed, dont show quit box anymore at
+	the end, we've already shutdown by now with the new shutdown
+	sequence.
+	
+	* e-shell-window-commands.c (command_quit): call e_shell_quit to
+	quit.
+
+	* e-shell.c (e_shell_prepare_for_quit): renamed es_run_quit, now
+	internal, and a gtktimeout function, so return code inverted.
+	(e_shell_quit): new public entry, find out if we can shutdown, if
+	so, then trigger a shutdown.
+	(e_shell_request_close_window): just call e_shell_quit to exit
+	when we've run out of windows.
+	(e_shell_quit): desensitise all of the app windows before running
+	shutdown.  looks a bit weird, but not doing so looks worse.
+
 2004-02-03  Dan Winship  <danw@ximian.com>
 
 	* e-activity-handler.c: 

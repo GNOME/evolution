@@ -97,68 +97,10 @@ static gboolean force_migrate = FALSE;
 static char *default_component_id = NULL;
 static char *evolution_debug_log = NULL;
 
-
-static GtkWidget *
-quit_box_new (void)
-{
-	GtkWidget *window;
-	GtkWidget *label;
-	GtkWidget *frame;
-
-	window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
-	gtk_window_set_resizable (GTK_WINDOW (window), FALSE);
-	gtk_window_set_position (GTK_WINDOW (window), GTK_WIN_POS_CENTER);
-
-	/* (Just to prevent smart-ass window managers like Sawfish from setting
-	   the make the dialog as big as the standard Evolution window).  */
-	gtk_window_set_wmclass (GTK_WINDOW (window), "evolution-quit", "Evolution:quit");
-
-	e_make_widget_backing_stored (window);
-
-	gtk_window_set_title (GTK_WINDOW (window), _("Evolution"));
-
-	frame = gtk_frame_new (NULL);
-	gtk_frame_set_shadow_type (GTK_FRAME (frame), GTK_SHADOW_OUT);
-	gtk_container_add (GTK_CONTAINER (window), frame);
-
-	label = gtk_label_new (_("Evolution is now exiting ..."));
-	gtk_misc_set_padding (GTK_MISC (label), 30, 25);
-
-	gtk_container_add (GTK_CONTAINER (frame), label);
-
-	gtk_widget_show_now (frame);
-	gtk_widget_show_now (label);
-	gtk_widget_show_now (window);
-
-	/* For some reason, the window fails to update without this
-	   sometimes.  */
-	gtk_widget_queue_draw (window);
-	gtk_widget_queue_draw (label);
-	gtk_widget_queue_draw (frame);
-
-	gdk_flush ();
-
-	while (gtk_events_pending ())
-		gtk_main_iteration ();
-
-	gdk_flush ();
-
-	return window;
-}
-
 static void
 no_windows_left_cb (EShell *shell, gpointer data)
 {
-	GtkWidget *quit_box;
-
-	quit_box = quit_box_new ();
-	g_object_add_weak_pointer (G_OBJECT (quit_box), (void **) &quit_box);
-
 	bonobo_object_unref (BONOBO_OBJECT (shell));
-
-	if (quit_box != NULL)
-		gtk_widget_destroy (quit_box);
-
 	bonobo_main_quit ();
 }
 
