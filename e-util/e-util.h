@@ -26,6 +26,7 @@
 
 #include <sys/types.h>
 #include <gtk/gtktypeutils.h>
+#include <limits.h>
 
 #ifdef __cplusplus
 extern "C" {
@@ -188,7 +189,7 @@ gdouble   e_flexible_strtod                                                (cons
 /* 29 bytes should enough for all possible values that
  * g_ascii_dtostr can produce with the %.17g format.
  * Then add 10 for good measure */
-#define E_ASCII_DTOSTR_BUF_SIZE (29 + 10)
+#define E_ASCII_DTOSTR_BUF_SIZE (DBL_DIG + 12 + 10)
 gchar    *e_ascii_dtostr                                                   (gchar             *buffer,
 									    gint               buf_len,
 									    const gchar       *format,
