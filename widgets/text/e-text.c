@@ -2698,6 +2698,7 @@ popup_targets_received (GtkClipboard     *clipboard,
       }
 
       g_object_unref (text);
+      gdk_event_free ((GdkEvent *)button);
 }
 
 static void
@@ -2707,7 +2708,7 @@ e_text_do_popup (EText *text, GdkEventButton *button, int position)
 
 	closure->text = text;
 	g_object_ref (closure->text);
-	closure->button = button;
+	closure->button = (GdkEventButton *) gdk_event_copy ((GdkEvent *)button);
 	closure->position = position;
 
 	gtk_clipboard_request_contents (
