@@ -1,3 +1,46 @@
+2001-08-05  Zbigniew Chyla  <cyba@gnome.pl>
+
+	I18n fixes (mainly making buttons on the right side less Anglocentric :-)
+
+	* backend/ebook/e-card-simple.c
+	(field_data): Marked "name" and "short_name" fields for translation.
+	(e_card_simple_get_name, e_card_simple_get_short_name): Return
+	localized version of the name (using U_() macro).
+
+	* gui/contact-editor/e-contact-editor.c (set_entry_changed_signals):
+	Connect "changed" signal from "entry-web" entry to widget_changed.
+	(changing this field wasn't making "Save and Close" button sensitive)
+
+	* gui/widgets/Makefile.am (glade_DATA): Removed alphabet.glade.
+
+	* gui/widgets/e-addressbook-view.c
+	(button_labels, button_letters): New strings containing a list of
+	labels and "values" of all buttons placed on the right side of the
+	addressbook view (intended for localization).
+	(struct LetterClosure): Changed the type of letter field to gunichar.
+	(e_utf8_split): New function, similar to g_strsplit, but operates on
+	UTF-8 strings.
+	(jump_to_letter): Don't hardcode letters, build queries dynamically
+	using UTF-8 and localized letters stored in button_letters.
+	(connect_button): Removed.
+	(create_alphabet): Don't use glade file, build buttons manually using
+	(localized) labels from button_labels. Use (localized) values from
+	button_letters when creating LetterClosure.
+
+	* gui/widgets/e-minicard-view-widget.[ch]
+	(e_minicard_view_widget_jump_to_letter): Changed the type of the
+	second argument from char to gunichar.
+
+	* gui/widgets/e-minicard-view.c
+	(compare_to_utf_str): Renamed from compare_to_letter, now operates on
+	UTF-8 string.
+	(e_minicard_view_jump_to_letter): Changed the type of the second
+	argument from char to gunichar + conversion to UTF-8 string.
+
+	* gui/widgets/e-minicard-view.h
+	(e_minicard_view_jump_to_letter): Changed the type of the second
+	argument from char to gunichar.
+
 2001-09-02  Christopher James Lahey  <clahey@ximian.com>
 
 	* backend/ebook/e-book.c (e_book_add_card, e_book_commit_card),

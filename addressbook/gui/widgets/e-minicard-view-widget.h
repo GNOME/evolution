@@ -22,6 +22,7 @@
 #define __E_MINICARD_VIEW_WIDGET_H__
 
 #include <gal/widgets/e-canvas.h>
+#include <gal/unicode/gunicode.h>
 #include "addressbook/backend/ebook/e-book.h"
 #include "e-minicard-view.h"
 
@@ -66,7 +67,7 @@ void       e_minicard_view_widget_remove_selection (EMinicardViewWidget *view,
 						    EBookCallback  cb,
 						    gpointer       closure);
 void       e_minicard_view_widget_jump_to_letter   (EMinicardViewWidget *view,
-						    char           letter);
+                                                    gunichar letter);
 GtkWidget *e_minicard_view_widget_new              (EAddressbookReflowAdapter *adapter);
 
 ESelectionModel *e_minicard_view_widget_get_selection_model (EMinicardViewWidget *view);

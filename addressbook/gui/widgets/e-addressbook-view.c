@@ -31,14 +31,18 @@
 #include <gal/e-table/e-table-model.h>
 #include <gal/widgets/e-scroll-frame.h>
 #include <gal/widgets/e-popup-menu.h>
+#include <gal/widgets/e-unicode.h>
 #include <gal/menus/gal-view-factory-etable.h>
 #include <gal/menus/gal-view-etable.h>
+#include <gal/unicode/gunicode.h>
 #include <libgnomeui/gnome-dialog-util.h>
 
 #include <libgnomeprint/gnome-print.h>
 #include <libgnomeprint/gnome-print-dialog.h>
 #include <libgnomeprint/gnome-print-master.h>
 #include <libgnomeprint/gnome-print-master-preview.h>
+
+#include <e-util/e-unicode-i18n.h>
 
 #include "addressbook/printing/e-contact-print.h"
 #include "addressbook/printing/e-contact-print-envelope.h"
@@ -389,80 +393,97 @@ e_addressbook_view_get_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 }
 
 
+/* Translators: put here a list of labels you want to see on buttons in
+   addressbook. You may use any character to separate labels but it must
+   also be placed at the begining ot the string */
+const char *button_labels = N_(",123,a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z");
+/* Translators: put here a list of characters that correspond to buttons
+   in addressbook. You may use any character to separate labels but it
+   must also be placed at the begining ot the string.
+   Use lower case letters if possible. */
+const char *button_letters = N_(",0,a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z");
 
 typedef struct {
 	EAddressbookView *view;
-	char letter;
+	gunichar letter;
 } LetterClosure;
+
+static char **
+e_utf8_split (const char *utf8_str, gunichar delim)
+{
+	GSList *str_list = NULL, *sl;
+	int n = 0;
+	const char *str, *s;
+	char **str_array;
+
+	g_return_val_if_fail (utf8_str != NULL, NULL);
+
+	str = utf8_str;
+	while (*str != '\0') {
+		int len;
+		char *new_str;
+
+		for (s = str; *s != '\0' && g_utf8_get_char (s) != delim; s = g_utf8_next_char (s))
+			;
+		len = s - str;
+		new_str = g_new (char, len + 1);
+		if (len > 0) {
+			memcpy (new_str, str, len);
+		}
+		new_str[len] = '\0';
+		str_list = g_slist_prepend (str_list, new_str);
+		n++;
+		if (*s != '\0') {
+			str = g_utf8_next_char (s);
+		} else {
+			str = s;
+		}		
+	}
+
+	str_array = g_new (char *, n + 1);
+	str_array[n--] = NULL;
+	for (sl = str_list; sl != NULL; sl = sl->next) {
+		str_array[n--] = sl->data;
+	}
+	g_slist_free (str_list);
+
+	return str_array;
+}
 
 static void
 jump_to_letter(GtkWidget *button, LetterClosure *closure)
 {
 	char *query;
-	switch (closure->letter) {
-	case '1':
-		query = g_strdup ("(not (or "
-				  "(beginswith \"file_as\" \"a\") "
-				  "(beginswith \"file_as\" \"b\") "
-				  "(beginswith \"file_as\" \"c\") "
-				  "(beginswith \"file_as\" \"d\") "
-				  "(beginswith \"file_as\" \"e\") "
-				  "(beginswith \"file_as\" \"f\") "
-				  "(beginswith \"file_as\" \"g\") "
-				  "(beginswith \"file_as\" \"h\") "
-				  "(beginswith \"file_as\" \"i\") "
-				  "(beginswith \"file_as\" \"j\") "
-				  "(beginswith \"file_as\" \"k\") "
-				  "(beginswith \"file_as\" \"l\") "
-				  "(beginswith \"file_as\" \"m\") "
-				  "(beginswith \"file_as\" \"n\") "
-				  "(beginswith \"file_as\" \"o\") "
-				  "(beginswith \"file_as\" \"p\") "
-				  "(beginswith \"file_as\" \"q\") "
-				  "(beginswith \"file_as\" \"r\") "
-				  "(beginswith \"file_as\" \"s\") "
-				  "(beginswith \"file_as\" \"t\") "
-				  "(beginswith \"file_as\" \"u\") "
-				  "(beginswith \"file_as\" \"v\") "
-				  "(beginswith \"file_as\" \"w\") "
-				  "(beginswith \"file_as\" \"x\") "
-				  "(beginswith \"file_as\" \"y\") "
-				  "(beginswith \"file_as\" \"z\") "
 
-				  "(beginswith \"file_as\" \"A\") "
-				  "(beginswith \"file_as\" \"B\") "
-				  "(beginswith \"file_as\" \"C\") "
-				  "(beginswith \"file_as\" \"D\") "
-				  "(beginswith \"file_as\" \"E\") "
-				  "(beginswith \"file_as\" \"F\") "
-				  "(beginswith \"file_as\" \"G\") "
-				  "(beginswith \"file_as\" \"H\") "
-				  "(beginswith \"file_as\" \"I\") "
-				  "(beginswith \"file_as\" \"J\") "
-				  "(beginswith \"file_as\" \"K\") "
-				  "(beginswith \"file_as\" \"L\") "
-				  "(beginswith \"file_as\" \"M\") "
-				  "(beginswith \"file_as\" \"N\") "
-				  "(beginswith \"file_as\" \"O\") "
-				  "(beginswith \"file_as\" \"P\") "
-				  "(beginswith \"file_as\" \"Q\") "
-				  "(beginswith \"file_as\" \"R\") "
-				  "(beginswith \"file_as\" \"S\") "
-				  "(beginswith \"file_as\" \"T\") "
-				  "(beginswith \"file_as\" \"U\") "
-				  "(beginswith \"file_as\" \"V\") "
-				  "(beginswith \"file_as\" \"W\") "
-				  "(beginswith \"file_as\" \"X\") "
-				  "(beginswith \"file_as\" \"Y\") "
-				  "(beginswith \"file_as\" \"Z\") "
-				  "))");
-		break;
-	default:
+	if (g_unichar_isdigit (closure->letter)) {
+		const char *letters = U_(button_letters);
+		char **letter_v;
+		GString *gstr;
+		char **p;
+
+		letter_v = e_utf8_split (g_utf8_next_char (letters),
+		                         g_utf8_get_char (letters));
+		g_assert (letter_v != NULL && letter_v[0] != NULL);
+		gstr = g_string_new ("(not (or ");
+		for (p = letter_v + 1; *p != NULL; p++) {
+			char s[7];
+
+			g_string_sprintfa (gstr, "(beginswith \"file_as\" \"%s\")", *p);
+			s[g_unichar_to_utf8 (g_unichar_toupper (g_utf8_get_char (*p)), s)] = '\0';
+			g_string_sprintfa (gstr, "(beginswith \"file_as\" \"%s\")", s);
+		}
+		g_string_append (gstr, "))");
+		query = gstr->str;
+		g_string_free (gstr, FALSE);
+	} else {
+		char s1[6 + 1], s2[6 + 1];
+
+		s1 [g_unichar_to_utf8 (closure->letter, s1)] = '\0';
+		s2 [g_unichar_to_utf8 (g_unichar_toupper (closure->letter), s2)] = '\0';
 		query = g_strdup_printf ("(or "
-					 "(beginswith \"file_as\" \"%c\")"
-					 "(beginswith \"file_as\" \"%c\")"
-					 ")", closure->letter, toupper (closure->letter));
-		break;
+		                         "(beginswith \"file_as\" \"%s\")"
+		                         "(beginswith \"file_as\" \"%s\")"
+		                         ")", s1, s2);
 	}
 	gtk_object_set (GTK_OBJECT (closure->view),
 			"query", query,
@@ -476,44 +497,59 @@ free_closure(GtkWidget *button, LetterClosure *closure)
 	g_free(closure);
 }
 
-static void
-connect_button (EAddressbookView *view, GladeXML *gui, char letter)
-{
-	char *name;
-	GtkWidget *button;
-	LetterClosure *closure;
-	name = g_strdup_printf("button-%c", letter);
-	button = glade_xml_get_widget(gui, name);
-	g_free(name);
-	if (!button)
-		return;
-	closure = g_new(LetterClosure, 1);
-	closure->view = view;
-	closure->letter = letter;
-	gtk_signal_connect(GTK_OBJECT(button), "clicked",
-			   GTK_SIGNAL_FUNC(jump_to_letter), closure);
-	gtk_signal_connect(GTK_OBJECT(button), "destroy",
-			   GTK_SIGNAL_FUNC(free_closure), closure);
-}
-
 static GtkWidget *
 create_alphabet (EAddressbookView *view)
 {
-	GtkWidget *widget;
-	char letter;
-	GladeXML *gui = glade_xml_new (EVOLUTION_GLADEDIR "/alphabet.glade", NULL);
+	GtkWidget *widget, *viewport, *vbox;
+	const char *labels, *letters;
+	char **label_v, **letter_v;
+	char **pl, **pc;
+	gunichar sep;
 
-	widget = glade_xml_get_widget(gui, "scrolledwindow-top");
-	if (!widget) {
-		return NULL;
+	widget = gtk_scrolled_window_new (NULL, NULL);
+	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (widget),
+	                                GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
+
+	viewport = gtk_viewport_new (NULL, NULL);
+	gtk_container_add (GTK_CONTAINER (widget), viewport);
+	gtk_container_set_border_width (GTK_CONTAINER (viewport), 4);
+	gtk_viewport_set_shadow_type (GTK_VIEWPORT (viewport), GTK_SHADOW_NONE);
+
+	vbox = gtk_vbox_new (FALSE, 4);
+	gtk_container_add (GTK_CONTAINER (viewport), vbox);
+	gtk_widget_set_usize (vbox, 27, 0);
+
+	labels = U_(button_labels);
+	sep = g_utf8_get_char (labels);
+	label_v = e_utf8_split (g_utf8_next_char (labels), sep);
+	letters = U_(button_letters);
+	sep = g_utf8_get_char (letters);
+	letter_v = e_utf8_split (g_utf8_next_char (letters), sep);
+	g_assert (label_v != NULL && letter_v != NULL);
+	for (pl = label_v, pc = letter_v; *pl != NULL && *pc != NULL; pl++, pc++) {
+		GtkWidget *button;
+		LetterClosure *closure;
+		char *label;
+
+		label = e_utf8_to_locale_string (*pl);
+		button = gtk_button_new_with_label (label);
+		g_free (label);
+		gtk_box_pack_start (GTK_BOX (vbox), button, FALSE, FALSE, 0);
+
+		closure = g_new (LetterClosure, 1);
+		closure->view = view;
+		closure->letter = g_utf8_get_char (*pc);
+		gtk_signal_connect(GTK_OBJECT(button), "clicked",
+		                   GTK_SIGNAL_FUNC (jump_to_letter), closure);
+		gtk_signal_connect(GTK_OBJECT(button), "destroy",
+		                   GTK_SIGNAL_FUNC (free_closure), closure);
+
 	}
-	
-	connect_button(view, gui, '1');
-	for (letter = 'a'; letter <= 'z'; letter ++) {
-		connect_button(view, gui, letter);
-	}
-	
-	gtk_object_unref(GTK_OBJECT(gui));
+	g_strfreev (label_v);
+	g_strfreev (letter_v);
+
+	gtk_widget_show_all (widget);
+
 	return widget;
 }
 

@@ -14,6 +14,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <gtk/gtkobject.h>
+#include <e-util/e-unicode-i18n.h>
 
 #include <libversit/vcc.h>
 #include "e-card-simple.h"
@@ -54,51 +55,51 @@ struct _ECardSimpleFieldData {
    for the get_supported functionality.  */
 static ECardSimpleFieldData field_data[] =
 {
-	{ E_CARD_SIMPLE_FIELD_FILE_AS,            "file_as",         "File As",       "",         0,                                   E_CARD_SIMPLE_INTERNAL_TYPE_STRING },
-	{ E_CARD_SIMPLE_FIELD_FULL_NAME,          "full_name",       "Name",          "Name",     0,                                   E_CARD_SIMPLE_INTERNAL_TYPE_STRING },
-	{ E_CARD_SIMPLE_FIELD_FAMILY_NAME,        "family_name",     "Family Name",   "Family Name",  0,                               E_CARD_SIMPLE_INTERNAL_TYPE_SPECIAL },
-	{ E_CARD_SIMPLE_FIELD_EMAIL,              "email",           "Email",         "Email",    E_CARD_SIMPLE_EMAIL_ID_EMAIL,        E_CARD_SIMPLE_INTERNAL_TYPE_EMAIL },
-	{ E_CARD_SIMPLE_FIELD_PHONE_PRIMARY,      "primary_phone",   "Primary",       "Prim",     E_CARD_SIMPLE_PHONE_ID_PRIMARY,      E_CARD_SIMPLE_INTERNAL_TYPE_PHONE },
-	{ E_CARD_SIMPLE_FIELD_PHONE_ASSISTANT,    "assistant_phone", "Assistant",     "Assistant",E_CARD_SIMPLE_PHONE_ID_ASSISTANT,    E_CARD_SIMPLE_INTERNAL_TYPE_PHONE },
-	{ E_CARD_SIMPLE_FIELD_PHONE_BUSINESS,     "business_phone",  "Business",      "Bus",      E_CARD_SIMPLE_PHONE_ID_BUSINESS,     E_CARD_SIMPLE_INTERNAL_TYPE_PHONE },
-	{ E_CARD_SIMPLE_FIELD_PHONE_CALLBACK,     "callback_phone",  "Callback",      "Callback", E_CARD_SIMPLE_PHONE_ID_CALLBACK,     E_CARD_SIMPLE_INTERNAL_TYPE_PHONE },
-	{ E_CARD_SIMPLE_FIELD_PHONE_COMPANY,      "company_phone",   "Company",       "Comp",     E_CARD_SIMPLE_PHONE_ID_COMPANY,      E_CARD_SIMPLE_INTERNAL_TYPE_PHONE },
-	{ E_CARD_SIMPLE_FIELD_PHONE_HOME,         "home_phone",      "Home",          "Home",     E_CARD_SIMPLE_PHONE_ID_HOME,         E_CARD_SIMPLE_INTERNAL_TYPE_PHONE },
-	{ E_CARD_SIMPLE_FIELD_ORG,                "org",             "Organization",  "Org",      0,                                   E_CARD_SIMPLE_INTERNAL_TYPE_STRING },
-	{ E_CARD_SIMPLE_FIELD_ADDRESS_BUSINESS,   "business_address","Business",      "Bus",      E_CARD_SIMPLE_ADDRESS_ID_BUSINESS,   E_CARD_SIMPLE_INTERNAL_TYPE_ADDRESS },
-	{ E_CARD_SIMPLE_FIELD_ADDRESS_HOME,       "home_address",    "Home",          "Home",     E_CARD_SIMPLE_ADDRESS_ID_HOME,       E_CARD_SIMPLE_INTERNAL_TYPE_ADDRESS },
-	{ E_CARD_SIMPLE_FIELD_PHONE_MOBILE,       "mobile_phone",    "Mobile",        "Mobile",   E_CARD_SIMPLE_PHONE_ID_MOBILE,       E_CARD_SIMPLE_INTERNAL_TYPE_PHONE },
-	{ E_CARD_SIMPLE_FIELD_PHONE_CAR,          "car_phone",       "Car",           "Car",      E_CARD_SIMPLE_PHONE_ID_CAR,          E_CARD_SIMPLE_INTERNAL_TYPE_PHONE },
-	{ E_CARD_SIMPLE_FIELD_PHONE_BUSINESS_FAX, "business_fax",    "Business Fax",  "Bus Fax",  E_CARD_SIMPLE_PHONE_ID_BUSINESS_FAX, E_CARD_SIMPLE_INTERNAL_TYPE_PHONE },
-	{ E_CARD_SIMPLE_FIELD_PHONE_HOME_FAX,     "home_fax",        "Home Fax",      "Home Fax", E_CARD_SIMPLE_PHONE_ID_HOME_FAX,     E_CARD_SIMPLE_INTERNAL_TYPE_PHONE },
-	{ E_CARD_SIMPLE_FIELD_PHONE_BUSINESS_2,   "business_phone_2","Business 2",    "Bus 2",    E_CARD_SIMPLE_PHONE_ID_BUSINESS_2,   E_CARD_SIMPLE_INTERNAL_TYPE_PHONE },
-	{ E_CARD_SIMPLE_FIELD_PHONE_HOME_2,       "home_phone_2",    "Home 2",        "Home 2",   E_CARD_SIMPLE_PHONE_ID_HOME_2,       E_CARD_SIMPLE_INTERNAL_TYPE_PHONE },
-	{ E_CARD_SIMPLE_FIELD_PHONE_ISDN,         "isdn",            "ISDN",          "ISDN",     E_CARD_SIMPLE_PHONE_ID_ISDN,         E_CARD_SIMPLE_INTERNAL_TYPE_PHONE },
-	{ E_CARD_SIMPLE_FIELD_PHONE_OTHER,        "other_phone",     "Other",         "Other",    E_CARD_SIMPLE_PHONE_ID_OTHER,        E_CARD_SIMPLE_INTERNAL_TYPE_PHONE },
-	{ E_CARD_SIMPLE_FIELD_PHONE_OTHER_FAX,    "other_fax",       "Other Fax",     "Other Fax", E_CARD_SIMPLE_PHONE_ID_OTHER_FAX,   E_CARD_SIMPLE_INTERNAL_TYPE_PHONE },
-	{ E_CARD_SIMPLE_FIELD_PHONE_PAGER,        "pager",           "Pager",         "Pager",    E_CARD_SIMPLE_PHONE_ID_PAGER,        E_CARD_SIMPLE_INTERNAL_TYPE_PHONE },
-	{ E_CARD_SIMPLE_FIELD_PHONE_RADIO,        "radio",           "Radio",         "Radio",    E_CARD_SIMPLE_PHONE_ID_RADIO,        E_CARD_SIMPLE_INTERNAL_TYPE_PHONE },
-	{ E_CARD_SIMPLE_FIELD_PHONE_TELEX,        "telex",           "Telex",         "Telex",    E_CARD_SIMPLE_PHONE_ID_TELEX,        E_CARD_SIMPLE_INTERNAL_TYPE_PHONE },
-	{ E_CARD_SIMPLE_FIELD_PHONE_TTYTTD,       "tty",             "TTY",           "TTY",      E_CARD_SIMPLE_PHONE_ID_TTYTTD,       E_CARD_SIMPLE_INTERNAL_TYPE_PHONE },
-	{ E_CARD_SIMPLE_FIELD_ADDRESS_OTHER,      "other_address",   "Other",         "Other",    E_CARD_SIMPLE_ADDRESS_ID_OTHER,      E_CARD_SIMPLE_INTERNAL_TYPE_ADDRESS },
-	{ E_CARD_SIMPLE_FIELD_EMAIL_2,            "email_2",         "Email 2",       "Email 2",  E_CARD_SIMPLE_EMAIL_ID_EMAIL_2,      E_CARD_SIMPLE_INTERNAL_TYPE_EMAIL },
-	{ E_CARD_SIMPLE_FIELD_EMAIL_3,            "email_3",         "Email 3",       "Email 3",  E_CARD_SIMPLE_EMAIL_ID_EMAIL_3,      E_CARD_SIMPLE_INTERNAL_TYPE_EMAIL },
-	{ E_CARD_SIMPLE_FIELD_URL,                "url",             "Web Site",      "Url",      0,                                   E_CARD_SIMPLE_INTERNAL_TYPE_STRING },
-	{ E_CARD_SIMPLE_FIELD_ORG_UNIT,           "org_unit",        "Department",    "Dep",      0,                                   E_CARD_SIMPLE_INTERNAL_TYPE_STRING },
-	{ E_CARD_SIMPLE_FIELD_OFFICE,             "office",          "Office",        "Off",      0,                                   E_CARD_SIMPLE_INTERNAL_TYPE_STRING },
-	{ E_CARD_SIMPLE_FIELD_TITLE,              "title",           "Title",         "Title",    0,                                   E_CARD_SIMPLE_INTERNAL_TYPE_STRING },
-	{ E_CARD_SIMPLE_FIELD_ROLE,               "role",            "Profession",    "Prof",     0,                                   E_CARD_SIMPLE_INTERNAL_TYPE_STRING },
-	{ E_CARD_SIMPLE_FIELD_MANAGER,            "manager",         "Manager",       "Man",      0,                                   E_CARD_SIMPLE_INTERNAL_TYPE_STRING },
-	{ E_CARD_SIMPLE_FIELD_ASSISTANT,          "assistant",       "Assistant",     "Ass",      0,                                   E_CARD_SIMPLE_INTERNAL_TYPE_STRING },
-	{ E_CARD_SIMPLE_FIELD_NICKNAME,           "nickname",        "Nickname",      "Nick",     0,                                   E_CARD_SIMPLE_INTERNAL_TYPE_STRING },
-	{ E_CARD_SIMPLE_FIELD_SPOUSE,             "spouse",          "Spouse",        "Spouse",   0,                                   E_CARD_SIMPLE_INTERNAL_TYPE_STRING },
-	{ E_CARD_SIMPLE_FIELD_NOTE,               "note",            "Note",          "Note",     0,                                   E_CARD_SIMPLE_INTERNAL_TYPE_STRING },
-	{ E_CARD_SIMPLE_FIELD_FBURL,              "fburl",           "Free-busy URL", "FBUrl",    0,                                   E_CARD_SIMPLE_INTERNAL_TYPE_STRING },
-	{ E_CARD_SIMPLE_FIELD_ANNIVERSARY,        "anniversary",     "Anniversary",   "Anniv",    0,                                   E_CARD_SIMPLE_INTERNAL_TYPE_DATE },
-	{ E_CARD_SIMPLE_FIELD_BIRTH_DATE,         "birth_date",      "Birth Date",    "",         0,                                   E_CARD_SIMPLE_INTERNAL_TYPE_DATE },
-	{ E_CARD_SIMPLE_FIELD_MAILER,             "mailer",          "",              "",         0,                                   E_CARD_SIMPLE_INTERNAL_TYPE_STRING },
-	{ E_CARD_SIMPLE_FIELD_NAME_OR_ORG,        "nameororg",       "",              "",         0,                                   E_CARD_SIMPLE_INTERNAL_TYPE_SPECIAL },
-	{ E_CARD_SIMPLE_FIELD_CATEGORIES,         "categories",      "Categories",    "Categories", 0,                                 E_CARD_SIMPLE_INTERNAL_TYPE_STRING },
+	{ E_CARD_SIMPLE_FIELD_FILE_AS,            "file_as",         N_("File As"),       "",             0,                                   E_CARD_SIMPLE_INTERNAL_TYPE_STRING },
+	{ E_CARD_SIMPLE_FIELD_FULL_NAME,          "full_name",       N_("Name"),          N_("Name"),     0,                                   E_CARD_SIMPLE_INTERNAL_TYPE_STRING },
+	{ E_CARD_SIMPLE_FIELD_FAMILY_NAME,        "family_name",     N_("Family Name"),   N_("Family Name"), 0,                                E_CARD_SIMPLE_INTERNAL_TYPE_SPECIAL },
+	{ E_CARD_SIMPLE_FIELD_EMAIL,              "email",           N_("Email"),         N_("Email"),    E_CARD_SIMPLE_EMAIL_ID_EMAIL,        E_CARD_SIMPLE_INTERNAL_TYPE_EMAIL },
+	{ E_CARD_SIMPLE_FIELD_PHONE_PRIMARY,      "primary_phone",   N_("Primary"),       N_("Prim"),     E_CARD_SIMPLE_PHONE_ID_PRIMARY,      E_CARD_SIMPLE_INTERNAL_TYPE_PHONE },
+	{ E_CARD_SIMPLE_FIELD_PHONE_ASSISTANT,    "assistant_phone", N_("Assistant"),     N_("Assistant"),E_CARD_SIMPLE_PHONE_ID_ASSISTANT,    E_CARD_SIMPLE_INTERNAL_TYPE_PHONE },
+	{ E_CARD_SIMPLE_FIELD_PHONE_BUSINESS,     "business_phone",  N_("Business"),      N_("Bus"),      E_CARD_SIMPLE_PHONE_ID_BUSINESS,     E_CARD_SIMPLE_INTERNAL_TYPE_PHONE },
+	{ E_CARD_SIMPLE_FIELD_PHONE_CALLBACK,     "callback_phone",  N_("Callback"),      N_("Callback"), E_CARD_SIMPLE_PHONE_ID_CALLBACK,     E_CARD_SIMPLE_INTERNAL_TYPE_PHONE },
+	{ E_CARD_SIMPLE_FIELD_PHONE_COMPANY,      "company_phone",   N_("Company"),       N_("Comp"),     E_CARD_SIMPLE_PHONE_ID_COMPANY,      E_CARD_SIMPLE_INTERNAL_TYPE_PHONE },
+	{ E_CARD_SIMPLE_FIELD_PHONE_HOME,         "home_phone",      N_("Home"),          N_("Home"),     E_CARD_SIMPLE_PHONE_ID_HOME,         E_CARD_SIMPLE_INTERNAL_TYPE_PHONE },
+	{ E_CARD_SIMPLE_FIELD_ORG,                "org",             N_("Organization"),  N_("Org"),      0,                                   E_CARD_SIMPLE_INTERNAL_TYPE_STRING },
+	{ E_CARD_SIMPLE_FIELD_ADDRESS_BUSINESS,   "business_address",N_("Business"),      N_("Bus"),      E_CARD_SIMPLE_ADDRESS_ID_BUSINESS,   E_CARD_SIMPLE_INTERNAL_TYPE_ADDRESS },
+	{ E_CARD_SIMPLE_FIELD_ADDRESS_HOME,       "home_address",    N_("Home"),          N_("Home"),     E_CARD_SIMPLE_ADDRESS_ID_HOME,       E_CARD_SIMPLE_INTERNAL_TYPE_ADDRESS },
+	{ E_CARD_SIMPLE_FIELD_PHONE_MOBILE,       "mobile_phone",    N_("Mobile"),        N_("Mobile"),   E_CARD_SIMPLE_PHONE_ID_MOBILE,       E_CARD_SIMPLE_INTERNAL_TYPE_PHONE },
+	{ E_CARD_SIMPLE_FIELD_PHONE_CAR,          "car_phone",       N_("Car"),           N_("Car"),      E_CARD_SIMPLE_PHONE_ID_CAR,          E_CARD_SIMPLE_INTERNAL_TYPE_PHONE },
+	{ E_CARD_SIMPLE_FIELD_PHONE_BUSINESS_FAX, "business_fax",    N_("Business Fax"),  N_("Bus Fax"),  E_CARD_SIMPLE_PHONE_ID_BUSINESS_FAX, E_CARD_SIMPLE_INTERNAL_TYPE_PHONE },
+	{ E_CARD_SIMPLE_FIELD_PHONE_HOME_FAX,     "home_fax",        N_("Home Fax"),      N_("Home Fax"), E_CARD_SIMPLE_PHONE_ID_HOME_FAX,     E_CARD_SIMPLE_INTERNAL_TYPE_PHONE },
+	{ E_CARD_SIMPLE_FIELD_PHONE_BUSINESS_2,   "business_phone_2",N_("Business 2"),    N_("Bus 2"),    E_CARD_SIMPLE_PHONE_ID_BUSINESS_2,   E_CARD_SIMPLE_INTERNAL_TYPE_PHONE },
+	{ E_CARD_SIMPLE_FIELD_PHONE_HOME_2,       "home_phone_2",    N_("Home 2"),        N_("Home 2"),   E_CARD_SIMPLE_PHONE_ID_HOME_2,       E_CARD_SIMPLE_INTERNAL_TYPE_PHONE },
+	{ E_CARD_SIMPLE_FIELD_PHONE_ISDN,         "isdn",            N_("ISDN"),          N_("ISDN"),     E_CARD_SIMPLE_PHONE_ID_ISDN,         E_CARD_SIMPLE_INTERNAL_TYPE_PHONE },
+	{ E_CARD_SIMPLE_FIELD_PHONE_OTHER,        "other_phone",     N_("Other"),         N_("Other"),    E_CARD_SIMPLE_PHONE_ID_OTHER,        E_CARD_SIMPLE_INTERNAL_TYPE_PHONE },
+	{ E_CARD_SIMPLE_FIELD_PHONE_OTHER_FAX,    "other_fax",       N_("Other Fax"),     N_("Other Fax"), E_CARD_SIMPLE_PHONE_ID_OTHER_FAX,   E_CARD_SIMPLE_INTERNAL_TYPE_PHONE },
+	{ E_CARD_SIMPLE_FIELD_PHONE_PAGER,        "pager",           N_("Pager"),         N_("Pager"),    E_CARD_SIMPLE_PHONE_ID_PAGER,        E_CARD_SIMPLE_INTERNAL_TYPE_PHONE },
+	{ E_CARD_SIMPLE_FIELD_PHONE_RADIO,        "radio",           N_("Radio"),         N_("Radio"),    E_CARD_SIMPLE_PHONE_ID_RADIO,        E_CARD_SIMPLE_INTERNAL_TYPE_PHONE },
+	{ E_CARD_SIMPLE_FIELD_PHONE_TELEX,        "telex",           N_("Telex"),         N_("Telex"),    E_CARD_SIMPLE_PHONE_ID_TELEX,        E_CARD_SIMPLE_INTERNAL_TYPE_PHONE },
+	{ E_CARD_SIMPLE_FIELD_PHONE_TTYTTD,       "tty",             N_("TTY"),           N_("TTY"),      E_CARD_SIMPLE_PHONE_ID_TTYTTD,       E_CARD_SIMPLE_INTERNAL_TYPE_PHONE },
+	{ E_CARD_SIMPLE_FIELD_ADDRESS_OTHER,      "other_address",   N_("Other"),         N_("Other"),    E_CARD_SIMPLE_ADDRESS_ID_OTHER,      E_CARD_SIMPLE_INTERNAL_TYPE_ADDRESS },
+	{ E_CARD_SIMPLE_FIELD_EMAIL_2,            "email_2",         N_("Email 2"),       N_("Email 2"),  E_CARD_SIMPLE_EMAIL_ID_EMAIL_2,      E_CARD_SIMPLE_INTERNAL_TYPE_EMAIL },
+	{ E_CARD_SIMPLE_FIELD_EMAIL_3,            "email_3",         N_("Email 3"),       N_("Email 3"),  E_CARD_SIMPLE_EMAIL_ID_EMAIL_3,      E_CARD_SIMPLE_INTERNAL_TYPE_EMAIL },
+	{ E_CARD_SIMPLE_FIELD_URL,                "url",             N_("Web Site"),      N_("Url"),      0,                                   E_CARD_SIMPLE_INTERNAL_TYPE_STRING },
+	{ E_CARD_SIMPLE_FIELD_ORG_UNIT,           "org_unit",        N_("Department"),    N_("Dep"),      0,                                   E_CARD_SIMPLE_INTERNAL_TYPE_STRING },
+	{ E_CARD_SIMPLE_FIELD_OFFICE,             "office",          N_("Office"),        N_("Off"),      0,                                   E_CARD_SIMPLE_INTERNAL_TYPE_STRING },
+	{ E_CARD_SIMPLE_FIELD_TITLE,              "title",           N_("Title"),         N_("Title"),    0,                                   E_CARD_SIMPLE_INTERNAL_TYPE_STRING },
+	{ E_CARD_SIMPLE_FIELD_ROLE,               "role",            N_("Profession"),    N_("Prof"),     0,                                   E_CARD_SIMPLE_INTERNAL_TYPE_STRING },
+	{ E_CARD_SIMPLE_FIELD_MANAGER,            "manager",         N_("Manager"),       N_("Man"),      0,                                   E_CARD_SIMPLE_INTERNAL_TYPE_STRING },
+	{ E_CARD_SIMPLE_FIELD_ASSISTANT,          "assistant",       N_("Assistant"),     N_("Ass"),      0,                                   E_CARD_SIMPLE_INTERNAL_TYPE_STRING },
+	{ E_CARD_SIMPLE_FIELD_NICKNAME,           "nickname",        N_("Nickname"),      N_("Nick"),     0,                                   E_CARD_SIMPLE_INTERNAL_TYPE_STRING },
+	{ E_CARD_SIMPLE_FIELD_SPOUSE,             "spouse",          N_("Spouse"),        N_("Spouse"),   0,                                   E_CARD_SIMPLE_INTERNAL_TYPE_STRING },
+	{ E_CARD_SIMPLE_FIELD_NOTE,               "note",            N_("Note"),          N_("Note"),     0,                                   E_CARD_SIMPLE_INTERNAL_TYPE_STRING },
+	{ E_CARD_SIMPLE_FIELD_FBURL,              "fburl",           N_("Free-busy URL"), N_("FBUrl"),    0,                                   E_CARD_SIMPLE_INTERNAL_TYPE_STRING },
+	{ E_CARD_SIMPLE_FIELD_ANNIVERSARY,        "anniversary",     N_("Anniversary"),   N_("Anniv"),    0,                                   E_CARD_SIMPLE_INTERNAL_TYPE_DATE },
+	{ E_CARD_SIMPLE_FIELD_BIRTH_DATE,         "birth_date",      N_("Birth Date"),    "",             0,                                   E_CARD_SIMPLE_INTERNAL_TYPE_DATE },
+	{ E_CARD_SIMPLE_FIELD_MAILER,             "mailer",          "",                  "",             0,                                   E_CARD_SIMPLE_INTERNAL_TYPE_STRING },
+	{ E_CARD_SIMPLE_FIELD_NAME_OR_ORG,        "nameororg",       "",                  "",             0,                                   E_CARD_SIMPLE_INTERNAL_TYPE_SPECIAL },
+	{ E_CARD_SIMPLE_FIELD_CATEGORIES,         "categories",      N_("Categories"),    N_("Categories"), 0,                                 E_CARD_SIMPLE_INTERNAL_TYPE_STRING },
 };
 static int field_data_count = sizeof (field_data) / sizeof (field_data[0]);
 
@@ -1042,13 +1043,13 @@ const char     *e_card_simple_get_ecard_field (ECardSimple         *simple,
 const char     *e_card_simple_get_name       (ECardSimple          *simple,
 					      ECardSimpleField      field)
 {
-	return field_data[field].name;
+	return U_(field_data[field].name);
 }
 
 const char     *e_card_simple_get_short_name (ECardSimple          *simple,
 					      ECardSimpleField      field)
 {
-	return field_data[field].short_name;
+	return U_(field_data[field].short_name);
 }
 
 void                  e_card_simple_arbitrary_foreach (ECardSimple                  *simple,

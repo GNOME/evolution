@@ -326,8 +326,9 @@ e_minicard_view_widget_remove_selection(EMinicardViewWidget *view,
 		e_minicard_view_remove_selection(E_MINICARD_VIEW(view->emv), cb, closure);
 }
 
-void       e_minicard_view_widget_jump_to_letter   (EMinicardViewWidget *view,
-						    char           letter)
+void
+e_minicard_view_widget_jump_to_letter (EMinicardViewWidget *view,
+                                       gunichar letter)
 {
 	if (view->emv)
 		e_minicard_view_jump_to_letter(E_MINICARD_VIEW(view->emv), letter);

@@ -342,13 +342,14 @@ e_minicard_view_remove_selection(EMinicardView *view,
 
 #if 0
 static int
-compare_to_letter(EMinicard *card, char *letter)
+compare_to_utf_str (EMinicard *card, const char *utf_str)
 {
 	g_return_val_if_fail(card != NULL, 0);
 	g_return_val_if_fail(E_IS_MINICARD(card), 0);
 
-	if (*letter == '1')
+	if (g_unichar_isdigit (g_utf8_get_char (utf_str))) {
 		return 1;
+	}
 
 	if (card->card) {
 		char *file_as;
@@ -356,7 +357,7 @@ compare_to_letter(EMinicard *card, char *letter)
 			       "file_as", &file_as,
 			       NULL);
 		if (file_as)
-			return strncasecmp(file_as, letter, 1);
+			return g_utf8_strcasecmp (file_as, utf_str);
 		else
 			return 0;
 	} else {
@@ -368,13 +369,16 @@ compare_to_letter(EMinicard *card, char *letter)
 
 
 void
-e_minicard_view_jump_to_letter   (EMinicardView *view,
-					     char           letter)
+e_minicard_view_jump_to_letter (EMinicardView *view,
+                                gunichar letter)
 {
 #if 0
-	e_reflow_sorted_jump(E_REFLOW_SORTED(view),
-			     (GCompareFunc) compare_to_letter,
-			     &letter);
+	char uft_str[6 + 1];
+
+	utf_str [g_unichar_to_utf8 (letter, utf_str)] = '\0';
+	e_reflow_sorted_jump (E_REFLOW_SORTED (view),
+	                      (GCompareFunc) compare_to_utf_str,
+	                      utf_str);
 #endif
 }
 

@@ -134,7 +134,7 @@ libeminicard_a_SOURCES =			\
 #	 $(GNOME_PRINT_LIBS)
 
 gladedir   = $(datadir)/evolution/glade
-glade_DATA = alphabet.glade 
+glade_DATA = 
 
 EXTRA_DIST = 			\
 	$(glade_DATA)
