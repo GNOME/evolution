@@ -246,12 +246,12 @@ generate_html (gpointer data)
 			cal_component_get_completed (comp, &completed);
 			
 			if (completed == NULL) {
-				tmp = g_strdup_printf ("<img align=\"middle\" src=\"es-appointments.png\" "
+				tmp = g_strdup_printf ("<img align=\"middle\" src=\"task.xpm\" "
 						       "alt=\"\" width=\"16\" height=\"16\">  &#160; "
 						       "<font size=\"-1\"><a href=\"evolution:/local/Tasks\">%s</a></font><br>", 
 						       text.value);
 			} else {
-				tmp = g_strdup_printf ("<img align=\"middle\" src=\"es-appointments.png\" "
+				tmp = g_strdup_printf ("<img align=\"middle\" src=\"task.xpm\" "
 						       "alt=\"\" width=\"16\" height=\"16\">  &#160; "
 						       "<font size=\"-1\"><strike><a href=\"evolution:/local/Tasks\">%s</a></strike></font><br>",
 						       text.value);

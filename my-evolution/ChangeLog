@@ -1,3 +1,12 @@
+2001-08-21  Damon Chaplin  <damon@ximian.com>
+
+	* e-summary-calendar.c (generate_html): 
+	* e-summary-tasks.c (generate_html): changed the icons. For calendar
+	events we use the 'new appointment' icon from the menu. For tasks we
+	use the task icon from the ETable - I wasn't sure about using the
+	'New Task' icon as it has a tick in it which may make people think it
+	is complete.
+
 2001-08-19  Ettore Perazzoli  <ettore@ximian.com>
 
 	* component-factory.c: Change the type from "Summary" to "summary"

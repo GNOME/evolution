@@ -240,7 +240,7 @@ generate_html (gpointer data)
 				strftime (start_str, 19, _("%d %B"), start_tm);
 			}
 
-			tmp = g_strdup_printf ("<img align=\"middle\" src=\"es-appointments.png\" "
+			tmp = g_strdup_printf ("<img align=\"middle\" src=\"new_appointment.xpm\" "
 					       "alt=\"\" width=\"16\" height=\"16\">  &#160; "
 					       "<font size=\"-1\"><a href=\"evolution:/local/Calendar\">%s, %s</a></font><br>", 
 					       start_str, text.value);
