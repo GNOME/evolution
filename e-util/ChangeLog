@@ -1,3 +1,10 @@
+2001-09-30  Chris Toshok  <toshok@ximian.com>
+
+	* e-passwords.c: copy/rename the mail specific password stuff
+	here.
+
+	* e-passwords.h: same.
+
 2001-09-28    <NotZed@Ximian.com>
 
 	* e-msgport.c (e_msgport_put): Write the pipe notification outside
