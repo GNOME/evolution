@@ -43,6 +43,7 @@ static BonoboUIVerb message_verbs [] = {
 	BONOBO_UI_UNSAFE_VERB ("MailPrevious", previous_msg),
 	BONOBO_UI_UNSAFE_VERB ("MailPreviousFlagged", previous_flagged_msg),
 	BONOBO_UI_UNSAFE_VERB ("MailPreviousUnread", previous_unread_msg),
+	BONOBO_UI_UNSAFE_VERB ("AddSenderToAddressbook", add_sender_to_addrbook),
 	BONOBO_UI_UNSAFE_VERB ("MessageApplyFilters", apply_filters),
 	BONOBO_UI_UNSAFE_VERB ("MessageCopy", copy_msg),
 	BONOBO_UI_UNSAFE_VERB ("MessageDelete", delete_msg),

@@ -1,3 +1,11 @@
+2001-12-03  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* folder-browser-ui.c: Setup the UI for the AddSenderToAddressbook
+	ui verb thingy.
+
+	* mail-callbacks.c (add_sender_to_addrbook): New bonobo-ui
+	callback that adds a sender to the addressbook.
+
 2001-12-04  Jon Trowbridge  <trow@ximian.com>
 
 	* folder-browser-ui.c (folder_browser_ui_set_selection_state):
