@@ -1,3 +1,13 @@
+2000-05-26  Christopher James Lahey  <clahey@helixcode.com>
+
+	* e-table-group-container.c, e-table-group-container.h,
+	e-table-group-leaf.c, e-table-group-leaf.h, e-table.c, e-table.h:
+	Made "drawgrid", "drawfocus", "spreadsheet", and
+	"length_threshold" arguments set from the ETable effect all the
+	end ETableItems.
+
+	* e-table-header.c: Made column resize a bit less bumpy.
+
 2000-05-25  Christopher James Lahey  <clahey@helixcode.com>
 
 	* e-table-header.c: Account for extra pixel at right end of

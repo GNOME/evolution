@@ -26,6 +26,12 @@ typedef struct {
 	gdouble minimum_width;
 
 	ETableSubsetVariable *subset;
+
+	int length_threshold;
+
+	guint draw_grid : 1;
+	guint draw_focus : 1;
+	guint mode_spreadsheet : 1;
 } ETableGroupLeaf;
 
 typedef struct {

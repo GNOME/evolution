@@ -41,15 +41,17 @@ typedef struct {
 
 	GnomeCanvasItem *header_item, *root;
 
-	guint need_rebuild:1;
+	gint length_threshold;
+
 	gint rebuild_idle_id;
+	guint need_rebuild:1;
 
 	/*
 	 * Configuration settings
 	 */
-	guint draw_grid:1;
-	guint draw_focus:1;
-	guint spreadsheet:1;
+	guint draw_grid : 1;
+	guint draw_focus : 1;
+	guint spreadsheet : 1;
 } ETable;
 
 typedef struct {

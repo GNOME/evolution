@@ -30,6 +30,10 @@ enum {
 	ARG_WIDTH,
 	ARG_MINIMUM_WIDTH,
 	ARG_FROZEN,
+	ARG_TABLE_DRAW_GRID,
+	ARG_TABLE_DRAW_FOCUS,
+	ARG_MODE_SPREADSHEET,
+	ARG_LENGTH_THRESHOLD,
 };
 
 static void etgl_set_arg (GtkObject *object, GtkArg *arg, guint arg_id);
@@ -111,11 +115,11 @@ etgl_realize (GnomeCanvasItem *item)
 							 e_table_item_get_type (),
 							 "ETableHeader", E_TABLE_GROUP(etgl)->header,
 							 "ETableModel", etgl->subset,
-							 "drawgrid", TRUE,
-							 "drawfocus", TRUE,
-							 "spreadsheet", TRUE,
+							 "drawgrid", etgl->draw_grid,
+							 "drawfocus", etgl->draw_focus,
+							 "spreadsheet", etgl->mode_spreadsheet,
 							 "minimum_width", etgl->minimum_width,
-							 "length_threshold", 200,
+							 "length_threshold", etgl->length_threshold,
 							 NULL));
 	
 	gtk_signal_connect (GTK_OBJECT(etgl->item), "row_selection",
@@ -191,6 +195,41 @@ etgl_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 					       NULL);
 		}
 		break;
+	case ARG_LENGTH_THRESHOLD:
+		etgl->length_threshold = GTK_VALUE_INT (*arg);
+		if (etgl->item) {
+			gnome_canvas_item_set (GNOME_CANVAS_ITEM(etgl->item),
+					       "length_threshold", GTK_VALUE_INT (*arg),
+					       NULL);
+		}
+		break;
+
+	case ARG_TABLE_DRAW_GRID:
+		etgl->draw_grid = GTK_VALUE_BOOL (*arg);
+		if (etgl->item) {
+			gnome_canvas_item_set (GNOME_CANVAS_ITEM(etgl->item),
+					       "drawgrid", GTK_VALUE_BOOL (*arg),
+					       NULL);
+		}
+		break;
+
+	case ARG_TABLE_DRAW_FOCUS:
+		etgl->draw_focus = GTK_VALUE_BOOL (*arg);
+		if (etgl->item) {
+			gnome_canvas_item_set (GNOME_CANVAS_ITEM(etgl->item),
+					"drawfocus", GTK_VALUE_BOOL (*arg),
+					NULL);
+		}
+		break;
+
+	case ARG_MODE_SPREADSHEET:
+		etgl->mode_spreadsheet = GTK_VALUE_BOOL (*arg);
+		if (etgl->item) {
+			gnome_canvas_item_set (GNOME_CANVAS_ITEM(etgl->item),
+					"spreadsheet", GTK_VALUE_BOOL (*arg),
+					NULL);
+		}
+		break;
 	default:
 		break;
 	}
@@ -242,6 +281,15 @@ etgl_class_init (GtkObjectClass *object_class)
 	e_group_class->set_focus = etgl_set_focus;
 	e_group_class->get_focus_column = etgl_get_focus_column;
 
+	gtk_object_add_arg_type ("ETableGroupLeaf::drawgrid", GTK_TYPE_BOOL,
+				 GTK_ARG_WRITABLE, ARG_TABLE_DRAW_GRID);
+	gtk_object_add_arg_type ("ETableGroupLeaf::drawfocus", GTK_TYPE_BOOL,
+				 GTK_ARG_WRITABLE, ARG_TABLE_DRAW_FOCUS);
+	gtk_object_add_arg_type ("ETableGroupLeaf::spreadsheet", GTK_TYPE_BOOL,
+				 GTK_ARG_WRITABLE, ARG_MODE_SPREADSHEET);
+	gtk_object_add_arg_type ("ETableGroupLeaf::length_threshold", GTK_TYPE_INT,
+				 GTK_ARG_WRITABLE, ARG_LENGTH_THRESHOLD);
+
 	gtk_object_add_arg_type ("ETableGroupLeaf::height", GTK_TYPE_DOUBLE, 
 				 GTK_ARG_READABLE, ARG_HEIGHT);
 	gtk_object_add_arg_type ("ETableGroupLeaf::width", GTK_TYPE_DOUBLE, 
@@ -264,6 +312,11 @@ etgl_init (GtkObject *object)
 	etgl->subset = NULL;
 	etgl->item = NULL;
 	
+	etgl->draw_grid = 1;
+	etgl->draw_focus = 1;
+	etgl->mode_spreadsheet = 1;
+	etgl->length_threshold = -1;
+
 	e_canvas_item_set_reflow_callback (GNOME_CANVAS_ITEM(object), etgl_reflow);
 }
 

@@ -34,6 +34,10 @@ enum {
 	ARG_WIDTH,
 	ARG_MINIMUM_WIDTH,
 	ARG_FROZEN,
+	ARG_TABLE_DRAW_GRID,
+	ARG_TABLE_DRAW_FOCUS,
+	ARG_MODE_SPREADSHEET,
+	ARG_LENGTH_THRESHOLD,
 };
 
 typedef struct {
@@ -330,6 +334,12 @@ etgc_add (ETableGroup *etg, gint row)
 						  NULL);
 	child = e_table_group_new (GNOME_CANVAS_GROUP (etgc), etg->full_header,
 				   etg->header, etg->model, etgc->sort_info, etgc->n + 1);
+	gnome_canvas_item_set(GNOME_CANVAS_ITEM(child),
+			      "drawgrid", etgc->draw_grid,
+			      "drawfocus", etgc->draw_focus,
+			      "spreadsheet", etgc->mode_spreadsheet,
+			      "length_threshold", etgc->length_threshold,
+			      NULL);
 	gtk_signal_connect (GTK_OBJECT (child), "row_selection",
 			    GTK_SIGNAL_FUNC (child_row_selection), etgc);
 	child_node->child = child;
@@ -455,6 +465,45 @@ etgc_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 					NULL);
 		}
 		break;
+	case ARG_LENGTH_THRESHOLD:
+		etgc->length_threshold = GTK_VALUE_INT (*arg);
+		for (list = etgc->children; list; list = g_list_next (list)) {
+			ETableGroupContainerChildNode *child_node = (ETableGroupContainerChildNode *)list->data;
+			gtk_object_set (GTK_OBJECT(child_node->child),
+					"length_threshold", GTK_VALUE_INT (*arg),
+					NULL);
+		}
+		break;
+
+	case ARG_TABLE_DRAW_GRID:
+		etgc->draw_grid = GTK_VALUE_BOOL (*arg);
+		for (list = etgc->children; list; list = g_list_next (list)) {
+			ETableGroupContainerChildNode *child_node = (ETableGroupContainerChildNode *)list->data;
+			gtk_object_set (GTK_OBJECT(child_node->child),
+					"draw_grid", GTK_VALUE_BOOL (*arg),
+					NULL);
+		}
+		break;
+
+	case ARG_TABLE_DRAW_FOCUS:
+		etgc->draw_focus = GTK_VALUE_BOOL (*arg);
+		for (list = etgc->children; list; list = g_list_next (list)) {
+			ETableGroupContainerChildNode *child_node = (ETableGroupContainerChildNode *)list->data;
+			gtk_object_set (GTK_OBJECT(child_node->child),
+					"draw_focus", GTK_VALUE_BOOL (*arg),
+					NULL);
+		}
+		break;
+
+	case ARG_MODE_SPREADSHEET:
+		etgc->mode_spreadsheet = GTK_VALUE_BOOL (*arg);
+		for (list = etgc->children; list; list = g_list_next (list)) {
+			ETableGroupContainerChildNode *child_node = (ETableGroupContainerChildNode *)list->data;
+			gtk_object_set (GTK_OBJECT(child_node->child),
+					"mode_spreadsheet", GTK_VALUE_BOOL (*arg),
+					NULL);
+		}
+		break;
 	default:
 		break;
 	}
@@ -507,6 +556,15 @@ etgc_class_init (GtkObjectClass *object_class)
 	e_group_class->increment = etgc_increment;
 	e_group_class->set_focus = etgc_set_focus;
 	e_group_class->get_focus_column = etgc_get_focus_column;
+
+	gtk_object_add_arg_type ("ETableGroupContainer::drawgrid", GTK_TYPE_BOOL,
+				 GTK_ARG_WRITABLE, ARG_TABLE_DRAW_GRID);
+	gtk_object_add_arg_type ("ETableGroupContainer::drawfocus", GTK_TYPE_BOOL,
+				 GTK_ARG_WRITABLE, ARG_TABLE_DRAW_FOCUS);
+	gtk_object_add_arg_type ("ETableGroupContainer::spreadsheet", GTK_TYPE_BOOL,
+				 GTK_ARG_WRITABLE, ARG_MODE_SPREADSHEET);
+	gtk_object_add_arg_type ("ETableGroupContainer::length_threshold", GTK_TYPE_INT,
+				 GTK_ARG_WRITABLE, ARG_LENGTH_THRESHOLD);
 
 	gtk_object_add_arg_type ("ETableGroupContainer::frozen", GTK_TYPE_BOOL,
 				 GTK_ARG_READWRITE, ARG_FROZEN);
@@ -606,6 +664,11 @@ etgc_init (GtkObject *object)
 	container->children = FALSE;
 	
 	e_canvas_item_set_reflow_callback (GNOME_CANVAS_ITEM(object), etgc_reflow);
+
+	container->draw_grid = 1;
+	container->draw_focus = 1;
+	container->mode_spreadsheet = 1;
+	container->length_threshold = -1;
 }
 
 E_MAKE_TYPE (e_table_group_container, "ETableGroupContainer", ETableGroupContainer, etgc_class_init, etgc_init, PARENT_TYPE);

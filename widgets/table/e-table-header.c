@@ -629,34 +629,31 @@ static void
 eth_calc_widths (ETableHeader *eth)
 {
 	int i;
-	int extra, extra_left;
+	int extra;
 	double expansion;
-	int last_resizeable = -1;
+	int last_position = 0;
+	double next_position = 0;
+	int last_resizable = -1;
 	/* - 1 to account for the last pixel border. */
 	extra = eth->width - 1;
 	expansion = 0;
 	for (i = 0; i < eth->col_count; i++) {
 		extra -= eth->columns[i]->min_width;
-		if (eth->columns[i]->resizeable && eth->columns[i]->expansion != 0.0) {
-			expansion += eth->columns[i]->expansion;
-			last_resizeable = i;
-		}
+		if (eth->columns[i]->resizeable && eth->columns[i]->expansion > 0)
+			last_resizable = i;
+		expansion += eth->columns[i]->resizeable ? eth->columns[i]->expansion : 0;
 		eth->columns[i]->width = eth->columns[i]->min_width;
 	}
 	if (eth->sort_info)
 		extra -= e_table_sort_info_grouping_get_count(eth->sort_info) * GROUP_INDENT;
-	if (expansion == 0 || extra < 0)
+	if (expansion == 0 || extra <= 0)
 		return;
-	extra_left = extra;
-	for (i = 0; i < last_resizeable; i++) {
-		if (eth->columns[i]->resizeable) {
-			int this_extra = MIN(extra_left, extra * (eth->columns[i]->expansion / expansion));
-			eth->columns[i]->width += this_extra;
-			extra_left -= this_extra;
-		}
+	for (i = 0; i < last_resizable; i++) {
+		next_position += extra * (eth->columns[i]->resizeable ? eth->columns[i]->expansion : 0)/expansion;
+		eth->columns[i]->width += next_position - last_position;
+		last_position = next_position;
 	}
-	if (i >= 0 && i < eth->col_count && eth->columns[i]->resizeable)
-		eth->columns[i]->width += extra_left;
+	eth->columns[i]->width += extra - last_position;
 
 	eth_update_offsets (eth);
 	gtk_signal_emit (GTK_OBJECT (eth), eth_signals [DIMENSION_CHANGE]);

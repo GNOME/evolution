@@ -46,7 +46,9 @@ enum {
 enum {
 	ARG_0,
 	ARG_TABLE_DRAW_GRID,
-	ARG_TABLE_DRAW_FOCUS
+	ARG_TABLE_DRAW_FOCUS,
+	ARG_MODE_SPREADSHEET,
+	ARG_LENGTH_THRESHOLD,
 };
 
 static gint et_signals [LAST_SIGNAL] = { 0, };
@@ -103,6 +105,7 @@ e_table_init (GtkObject *object)
 	e_table->draw_grid = 1;
 	e_table->draw_focus = 1;
 	e_table->spreadsheet = 1;
+	e_table->length_threshold = 200;
 	
 	e_table->need_rebuild = 0;
 	e_table->rebuild_idle_id = 0;
@@ -198,6 +201,12 @@ changed_idle (gpointer data)
 					       et->model,
 					       et->sort_info,
 					       0);
+		gnome_canvas_item_set(GNOME_CANVAS_ITEM(et->group),
+				      "drawgrid", et->draw_grid,
+				      "drawfocus", et->draw_focus,
+				      "spreadsheet", et->spreadsheet,
+				      "length_threshold", et->length_threshold,
+				      NULL);
 		gtk_signal_connect (GTK_OBJECT (et->group), "row_selection",
 				    GTK_SIGNAL_FUNC (group_row_selection), et);
 		e_table_fill_table (et, et->model);
@@ -270,6 +279,13 @@ e_table_setup_table (ETable *e_table, ETableHeader *full_header, ETableHeader *h
 		GNOME_CANVAS_GROUP (e_table->table_canvas->root),
 		full_header, header,
 		model, e_table->sort_info, 0);
+
+	gnome_canvas_item_set(GNOME_CANVAS_ITEM(e_table->group),
+			      "drawgrid", e_table->draw_grid,
+			      "drawfocus", e_table->draw_focus,
+			      "spreadsheet", e_table->spreadsheet,
+			      "length_threshold", e_table->length_threshold,
+			      NULL);
 
 	gtk_signal_connect (GTK_OBJECT (e_table->group), "row_selection",
 			    GTK_SIGNAL_FUNC(group_row_selection), e_table);
@@ -625,32 +641,45 @@ typedef struct {
 } bool_closure;
 
 static void
-leaf_bool_change (void *etgl, void *closure)
-{
-	bool_closure *bc = closure;
-	
-	gtk_object_set (GTK_OBJECT (etgl), bc->arg, bc->setting, NULL);
-}
-
-static void
 et_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 {
 	ETable *etable = E_TABLE (o);
-	bool_closure bc;
 	
 	switch (arg_id){
+	case ARG_LENGTH_THRESHOLD:
+		etable->length_threshold = GTK_VALUE_INT (*arg);
+		if (etable->group) {
+			gnome_canvas_item_set (GNOME_CANVAS_ITEM(etable->group),
+					       "length_threshold", GTK_VALUE_INT (*arg),
+					       NULL);
+		}
+		break;
+		
 	case ARG_TABLE_DRAW_GRID:
 		etable->draw_grid = GTK_VALUE_BOOL (*arg);
-		bc.arg = "drawgrid";
-		bc.setting = etable->draw_grid;
-		e_table_group_apply_to_leafs (etable->group, leaf_bool_change, &bc);
+		if (etable->group) {
+			gnome_canvas_item_set (GNOME_CANVAS_ITEM(etable->group),
+					       "drawgrid", GTK_VALUE_BOOL (*arg),
+					       NULL);
+		}
 		break;
 
 	case ARG_TABLE_DRAW_FOCUS:
 		etable->draw_focus = GTK_VALUE_BOOL (*arg);
-		bc.arg = "drawfocus";
-		bc.setting = etable->draw_focus;
-		e_table_group_apply_to_leafs (etable->group, leaf_bool_change, &bc);
+		if (etable->group) {
+			gnome_canvas_item_set (GNOME_CANVAS_ITEM(etable->group),
+					"drawfocus", GTK_VALUE_BOOL (*arg),
+					NULL);
+		}
+		break;
+
+	case ARG_MODE_SPREADSHEET:
+		etable->spreadsheet = GTK_VALUE_BOOL (*arg);
+		if (etable->group) {
+			gnome_canvas_item_set (GNOME_CANVAS_ITEM(etable->group),
+					"spreadsheet", GTK_VALUE_BOOL (*arg),
+					NULL);
+		}
 		break;
 	}
 }
@@ -681,6 +710,10 @@ e_table_class_init (GtkObjectClass *object_class)
 				 GTK_ARG_READWRITE, ARG_TABLE_DRAW_GRID);
 	gtk_object_add_arg_type ("ETable::drawfocus", GTK_TYPE_BOOL,
 				 GTK_ARG_READWRITE, ARG_TABLE_DRAW_FOCUS);
+	gtk_object_add_arg_type ("ETable::spreadsheet", GTK_TYPE_BOOL,
+				 GTK_ARG_WRITABLE, ARG_MODE_SPREADSHEET);
+	gtk_object_add_arg_type ("ETable::length_threshold", GTK_TYPE_INT,
+				 GTK_ARG_WRITABLE, ARG_LENGTH_THRESHOLD);
 	
 	
 }

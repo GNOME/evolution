@@ -38,6 +38,11 @@ typedef struct {
 
 	ETableSortInfo *sort_info;
 	int n;
+	int length_threshold;
+
+	guint draw_grid : 1;
+	guint draw_focus : 1;
+	guint mode_spreadsheet : 1;
 
 	/*
 	 * State: the ETableGroup is open or closed
