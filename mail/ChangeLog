@@ -1,3 +1,44 @@
+2001-07-16  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-ops.c (add_vtrash_info): Use g_strcasecmp() when looking
+	for a Trash folder - it may be lowercase or something funky.
+	(transfer_messages_transfer): Special-case vtrash folders.
+
+	* mail-local.c (init_trash): No need to specify the vfolder
+	expression here. This code was moved into camel-vtrash-folder.c
+	ages ago.
+
+2001-07-16  Peter Williams  <peterw@ximian.com>
+
+	* mail-display.c (mail_display_redisplay): Use our own
+	display_style member instead of the global setting.
+	(mail_display_init): Initialize display_style.
+
+	* mail-display.h: Include "mail-config.h" and add a display_style
+	member.
+
+	* mail-format.c (write_headers): Look at the MailDisplay's
+	display_style instead of using the full_headers data.
+
+	* folder-browser.c (folder_browser_set_message_display_style): Set
+	the MailDisplay's display style as well as the global display
+	style.
+	(my_folder_browser_init): Don't save preference changes by
+	default. (This is only observered wrt. the message display style
+	but should apply to other items.)
+
+	* folder-browser-factory.c (folder_browser_factory_new_control):
+	Set this FB to save the preferences set in it.
+
+	* folder-browser-ui.c (folder_browser_ui_add_message): Read our
+	display's state instead of the global setting.
+
+2001-07-15  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-account-gui.c (mail_account_gui_save): Call
+	mail_autoreceive_setup() so that any changes to the list of
+	accounts will be respected the next time mail is checked.
+
 2001-07-16  Peter Williams  <peterw@ximian.com>
 
 	* mail-folder-cache.c (mail_folder_cache_set_folder_browser): DUH. 
