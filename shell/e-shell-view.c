@@ -93,6 +93,7 @@ struct _EShellViewPrivate {
 	GtkWidget *view_hpaned;
 	GtkWidget *contents;
 	GtkWidget *notebook;
+	GtkWidget *shortcut_frame;
 	GtkWidget *shortcut_bar;
 	GtkWidget *storage_set_title_bar;
 	GtkWidget *storage_set_view;
@@ -687,7 +688,7 @@ setup_widgets (EShellView *shell_view)
 
 	/* The progress bar.  */
 
-	setup_progress_bar (shell_view);
+	setup_progress_bar (shell_view);       
 
 	/* The shortcut bar.  */
 
@@ -697,6 +698,9 @@ setup_widgets (EShellView *shell_view)
 
 	gtk_signal_connect (GTK_OBJECT (priv->shortcut_bar), "hide_requested",
 			    GTK_SIGNAL_FUNC (hide_requested_cb), shell_view);
+
+	priv->shortcut_frame = gtk_frame_new (NULL);
+	gtk_frame_set_shadow_type (GTK_FRAME (priv->shortcut_frame), GTK_SHADOW_IN);
 
 	/* The storage set view.  */
 
@@ -732,7 +736,8 @@ setup_widgets (EShellView *shell_view)
 			    TRUE, TRUE, 2);
 
 	priv->hpaned = e_hpaned_new ();
-	e_paned_pack1 (E_PANED (priv->hpaned), priv->shortcut_bar, FALSE, FALSE);
+	gtk_container_add (GTK_CONTAINER (priv->shortcut_frame), priv->shortcut_bar);
+	e_paned_pack1 (E_PANED (priv->hpaned), priv->shortcut_frame, FALSE, FALSE);
 	e_paned_pack2 (E_PANED (priv->hpaned), priv->view_vbox, TRUE, FALSE);
 	e_paned_set_position (E_PANED (priv->hpaned), DEFAULT_SHORTCUT_BAR_WIDTH);
 
@@ -740,6 +745,7 @@ setup_widgets (EShellView *shell_view)
 
 	/* Show stuff.  */
 
+	gtk_widget_show (priv->shortcut_frame);
 	gtk_widget_show (priv->shortcut_bar);
 	gtk_widget_show (priv->storage_set_view);
 	gtk_widget_show (priv->storage_set_view_box);
@@ -1799,13 +1805,13 @@ e_shell_view_set_shortcut_bar_mode (EShellView *shell_view,
 		return;
 
 	if (mode == E_SHELL_VIEW_SUBWINDOW_STICKY) {
-		if (! GTK_WIDGET_VISIBLE (priv->shortcut_bar)) {
-			gtk_widget_show (priv->shortcut_bar);
+		if (! GTK_WIDGET_VISIBLE (priv->shortcut_frame)) {
+			gtk_widget_show (priv->shortcut_frame);
 			e_paned_set_position (E_PANED (priv->hpaned), priv->hpaned_position);
 		}
 	} else {
-		if (GTK_WIDGET_VISIBLE (priv->shortcut_bar)) {
-			gtk_widget_hide (priv->shortcut_bar);
+		if (GTK_WIDGET_VISIBLE (priv->shortcut_frame)) {
+			gtk_widget_hide (priv->shortcut_frame);
 			/* FIXME this is a private field!  */
 			priv->hpaned_position = E_PANED (priv->hpaned)->child1_size;
 			e_paned_set_position (E_PANED (priv->hpaned), 0);
