@@ -1,5 +1,7 @@
 2001-10-27  Kevin Breit  <mrproper@ximian.com>
 
+	* C/figures/mail-inbox.png: Added labels and changed which image is used
+
 	* C/evolution.sgml: Bumped the version # to 1.0
 
 	* C/figures/summary.png: I played with the labels a bit
