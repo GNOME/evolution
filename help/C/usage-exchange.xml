@@ -277,7 +277,7 @@ There are, however, some features which are not available:
     </para>
  </sect1>
 
-  <sect1 id="configure">
+  <sect1 id="exchange-configure">
     <title>Configuration</title>
     <para>
       Once you have installed the Connector, you need to set up access
@@ -406,34 +406,52 @@ There are, however, some features which are not available:
                        checkbox and enter an interval in minutes.
                      </para>
 		  </listitem>
-		  <listitem>
-		    <para>
-                      Exchange Server: If your Exchange mailbox name
-                      is different from your Windows name, enter your
-                      mailbox name here.
-                     </para>
-		  </listitem>
-	          <listitem>
-		    <para>
-                      Override Outlook Web Access Path: In most cases,
-                      the URL for web access is
-                      "http://server.company.com/exchange." If your
-                      system has a path that is not "exchange," check
-                      the box and enter the custom path here.
+                  <listitem>
+                    <para>
+                      Global Address List/Active Directory: Enter the
+                      name of your global catalog server (directory
+                      server). This will allow you to use the Global
+                      Address List (GAL). Normally,
+                      <application>Evolution</application> will fetch
+                      a maximum of 500 responses to any query, but you
+                      may increase or decrease this number if you
+                      wish. A lower number decreases load on the
+                      server, and many servers will refuse to return
+                      more than 1000 results, no matter how many you
+                      ask for.
                      </para>
 		  </listitem>
 
 		  <listitem>
 		    <para>
-                     Active Directory: If you would like to use the
-    			   Global Address List (GAL), check the box
-    			   labeled <guilabel>Create a Global Address
-    			   List folder</guilabel> and enter the name
-    			   of the directory server.  To avoid strain
-    			   on the server, the maximum number of
-    			   responses to any Active Directory query has
-    			   been set to 500. If you would like to
-    			   change that, you may do so here as well.
+                      Exchange Server: There are two options here:
+                      <itemizedlist>
+                        <listitem>
+                          <para>
+                            Exchange mailbox name is different
+                            from user name: If your exchange mailbox
+                            name is different from your user name,
+                            check this box and enter the mailbox name
+                            here.
+                          </para>
+                        </listitem>
+                        <listitem>
+                          <para>
+                            OWA path is not /exchange: In most cases,
+                            the URL for Outlook Web Access is
+                            "http://server.company.com/exchange." If your
+                            system has a path that is not "/exchange," check
+                            the box and enter the custom path here.
+                          </para>
+                        </listitem>
+                      </itemizedlist>
+                    </para>
+                  </listitem>
+	          <listitem>
+		    <para>
+                      Apply filters to new messages in Inbox on this
+                      server: Check this box to filter messages in
+                      this account.
                      </para>
 		  </listitem>
 		</orderedlist>

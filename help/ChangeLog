@@ -1,3 +1,11 @@
+2003-02-18  Aaron Weber  <aaron@ximian.com>
+
+	* C/usage-exchange.xml: replaced image, updated for 1.2 layout
+	(different order, mostly). Changed name of a section for better
+	clarity; this may cause filenames to differ in future builds.
+	
+	* C/figures/exchange-receive-options.png: updated image. 
+
 2003-02-04  Aaron Weber  <aaron@ximian.com>
 
 	* C/apx-authors.xml: thx to Baris, adjust phrasing in assorted
