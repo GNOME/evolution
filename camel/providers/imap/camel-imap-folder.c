@@ -510,6 +510,47 @@ imap_append_message (CamelFolder *folder, CamelMimeMessage *message, CamelExcept
 	g_free (folder_path);
 }
 
+static void
+imap_move_message_to (CamelFolder *source, const char *uid, CamelFolder *destination, CamelException *ex)
+{
+	CamelStore *store = CAMEL_STORE (source->parent_store);
+	CamelURL *url = CAMEL_SERVICE (store)->url;
+	CamelMessageInfo *info;
+	char *result, *folder_path;
+	int status;
+	
+	if (url && url->path && *(url->path + 1) && strcmp (destination->full_name, "INBOX"))
+		folder_path = g_strdup_printf ("%s/%s", url->path + 1, destination->full_name);
+	else
+		folder_path = g_strdup (destination->full_name);
+	
+	status = camel_imap_command (CAMEL_IMAP_STORE (store), NULL, &result,
+				     "COPY %s %s", uid, folder_path);
+	
+	if (status != CAMEL_IMAP_OK) {
+		CamelService *service = CAMEL_SERVICE (store);
+		camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
+				      "Could not COPY message %s to %s on IMAP server %s: %s.",
+				      uid, folder_path, service->url->host,
+				      status == CAMEL_IMAP_ERR ? result :
+				      "Unknown error");
+		g_free (result);
+		g_free (folder_path);
+		return;
+	}
+
+	if (!(info = (CamelMessageInfo *)imap_summary_get_by_uid (source, uid))) {
+		CamelService *service = CAMEL_SERVICE (store);
+		
+		camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
+				      "Could not set flags for message %s on IMAP server %s: %s",
+				      uid, service->url->host, "Unknown error");
+		return;
+	}
+
+	info->flags |= CAMEL_MESSAGE_DELETED | CAMEL_MESSAGE_FOLDER_FLAGGED;
+}
+
 static GPtrArray *
 imap_get_uids (CamelFolder *folder, CamelException *ex) 
 {
