@@ -42,6 +42,9 @@
 
 #include "art/mark.xpm"
 
+
+#define d(x)
+
 static void mail_composer_prefs_class_init (MailComposerPrefsClass *class);
 static void mail_composer_prefs_init       (MailComposerPrefs *dialog);
 static void mail_composer_prefs_destroy    (GtkObject *obj);
@@ -277,24 +280,26 @@ sig_add (GtkWidget *widget, MailComposerPrefs *prefs)
 static void
 sig_add_script_add (GtkWidget *widget, MailComposerPrefs *prefs)
 {
-	gchar *script, *name;
-
-	script = gtk_entry_get_text (GTK_ENTRY (gnome_file_entry_gtk_entry
-					      (GNOME_FILE_ENTRY (glade_xml_get_widget (prefs->sig_script_gui,
-										       "fileentry_add_script_script")))));
-	name = e_utf8_gtk_entry_get_text (GTK_ENTRY (glade_xml_get_widget (prefs->sig_script_gui, "entry_add_script_name")));
+	char *script, *name;
+	GtkWidget *entry;
+	
+	entry = glade_xml_get_widget (prefs->sig_script_gui, "fileentry_add_script_script");
+	script = gtk_entry_get_text (GTK_ENTRY (gnome_file_entry_gtk_entry (GNOME_FILE_ENTRY (entry))));
+	
+	entry = glade_xml_get_widget (prefs->sig_script_gui, "entry_add_script_script");
+	name = e_utf8_gtk_entry_get_text (GTK_ENTRY (entry));
 	if (script && *script) {
 		struct stat st;
-	
+		
 		if (!stat (script, &st)
 		    && S_ISREG (st.st_mode) && (st.st_mode & (S_IXOTH | S_IXGRP | S_IXUSR))) {
 			MailConfigSignature *sig;
-
+			
 			sig = mail_composer_prefs_new_signature (prefs, TRUE, script);
 			mail_config_signature_set_name (sig, name);
 			g_free (name);
 			gtk_widget_hide (prefs->sig_script_dialog);
-
+			
 			return;
 		}
 	}
@@ -312,10 +317,10 @@ static void
 sig_add_script (GtkWidget *widget, MailComposerPrefs *prefs)
 {
 	GtkWidget *entry;
-
+	
 	entry = glade_xml_get_widget (prefs->sig_script_gui, "entry_add_script_name");
 	gtk_entry_set_text (GTK_ENTRY (entry), _("Unnamed"));
-
+	
 	gtk_widget_show_all (prefs->sig_script_dialog);
 	gdk_window_raise (prefs->sig_script_dialog->window);
 }
@@ -325,7 +330,7 @@ sig_row_select (GtkCList *clist, int row, int col, GdkEvent *event, MailComposer
 {
 	MailConfigSignature *sig;
 	
-	printf ("sig_row_select\n");
+	d(printf ("sig_row_select\n"));
 	sig = gtk_clist_get_row_data (prefs->sig_clist, row);
 	prefs->sig_row = row;
 	
@@ -338,7 +343,7 @@ sig_row_select (GtkCList *clist, int row, int col, GdkEvent *event, MailComposer
 static void
 sig_row_unselect (GtkCList *clist, int row, int col, GdkEvent *event, MailComposerPrefs *prefs)
 {
-	printf ("sig_row_unselect\n");
+	d(printf ("sig_row_unselect\n"));
 	gtk_widget_set_sensitive ((GtkWidget *) prefs->sig_delete, FALSE);
 	gtk_widget_set_sensitive ((GtkWidget *) prefs->sig_edit, FALSE);
 }
@@ -347,17 +352,17 @@ static void
 sig_fill_clist (GtkCList *clist)
 {
 	GList *l;
-	gchar *name [1];
+	char *name[1];
 	int row;
 	
 	gtk_clist_freeze (clist);
 	for (l = mail_config_get_signature_list (); l; l = l->next) {
-		name [0] = e_utf8_to_gtk_string (GTK_WIDGET (clist), ((MailConfigSignature *) l->data)->name);
+		name[0] = e_utf8_to_gtk_string (GTK_WIDGET (clist), ((MailConfigSignature *) l->data)->name);
 		if (((MailConfigSignature *) l->data)->script) {
-			gchar *tmp;
-
+			char *tmp;
+			
 			tmp = name [0];
-			name [0] = g_strconcat (name [0], _(" [script]"), NULL);
+			name[0] = g_strconcat (name[0], _(" [script]"), NULL);
 			g_free (tmp);
 		}
 		row = gtk_clist_append (clist, name);
@@ -397,11 +402,11 @@ url_requested (GtkHTML *html, const char *url, GtkHTMLStream *handle)
 static void
 sig_event_client (MailConfigSigEvent event, MailConfigSignature *sig, MailComposerPrefs *prefs)
 {
-	gchar *tmp, *tmp1;
-
+	char *tmp, *tmp1;
+	
 	switch (event) {
 	case MAIL_CONFIG_SIG_EVENT_NAME_CHANGED:
-		printf ("accounts NAME CHANGED\n");
+		d(printf ("accounts NAME CHANGED\n"));
 		tmp = e_utf8_to_gtk_string (GTK_WIDGET (prefs->sig_clist), sig->name);
 		if (sig->script) {
 			tmp1 = tmp;
@@ -417,7 +422,7 @@ sig_event_client (MailConfigSigEvent event, MailConfigSignature *sig, MailCompos
 		}
 		break;
 	case MAIL_CONFIG_SIG_EVENT_CONTENT_CHANGED:
-		printf ("accounts CONTENT CHANGED\n");
+		d(printf ("accounts CONTENT CHANGED\n"));
 		if (sig == sig_current_sig (prefs))
 			sig_load_preview (prefs, sig);
 		break;
@@ -440,8 +445,8 @@ sig_event_client (MailConfigSigEvent event, MailConfigSignature *sig, MailCompos
 static void
 spell_select_lang (MailComposerPrefs *prefs, const gchar *abrev)
 {
-	gint i;
-
+	int i;
+	
 	for (i = 0; i < prefs->language_seq->_length; i ++) {
 		if (!strcasecmp (abrev, prefs->language_seq->_buffer [i].abrev)) {
 			gtk_clist_set_pixmap (GTK_CLIST (prefs->language), i, 0, prefs->mark_pixmap, prefs->mark_bitmap);
@@ -452,16 +457,16 @@ spell_select_lang (MailComposerPrefs *prefs, const gchar *abrev)
 static void
 spell_set_ui_language (MailComposerPrefs *prefs)
 {
-	gint i;
-	gchar *l, *last, *lang;
-
+	char *l, *last, *lang;
+	int i;
+	
 	gtk_clist_freeze (GTK_CLIST (prefs->language));
 	gtk_clist_unselect_all (GTK_CLIST (prefs->language));
-
+	
 	for (i = 0; i < prefs->language_seq->_length; i ++) {
 		gtk_clist_set_pixmap (GTK_CLIST (prefs->language), i, 0, NULL, NULL);
 	}
-
+	
 	last = prefs->language_str;
 	while ((l = strchr (last, ' '))) {
 		if (l != last) {
@@ -469,7 +474,7 @@ spell_set_ui_language (MailComposerPrefs *prefs)
 			spell_select_lang (prefs, lang);
 			g_free (lang);
 		}
-
+		
 		last = l + 1;
 	}
 	if (last)
@@ -481,11 +486,13 @@ static void
 spell_set_ui (MailComposerPrefs *prefs)
 {
 	prefs->spell_active = FALSE;
-
+	
 	spell_set_ui_language (prefs);
 	gnome_color_picker_set_i16 (GNOME_COLOR_PICKER (prefs->colour),
-				    prefs->spell_error_color.red, prefs->spell_error_color.green, prefs->spell_error_color.blue, 0xffff);
-
+				    prefs->spell_error_color.red,
+				    prefs->spell_error_color.green,
+				    prefs->spell_error_color.blue, 0xffff);
+	
 	prefs->spell_active = TRUE;
 }
 
@@ -493,13 +500,13 @@ static gchar *
 spell_get_language_str (MailComposerPrefs *prefs)
 {
 	GString *str = g_string_new (NULL);
-	gint i;
-	gchar *rv;
-
+	char *rv;
+	int i;
+	
 	for (i = 0; i < GTK_CLIST (prefs->language)->rows; i ++) {
 		GdkPixmap *pmap = NULL;
 		GdkBitmap *bmap;
-
+		
 		gtk_clist_get_pixmap (GTK_CLIST (prefs->language), i, 0, &pmap, &bmap);
 		if (pmap) {
 			if (str->len)
@@ -507,10 +514,10 @@ spell_get_language_str (MailComposerPrefs *prefs)
 			g_string_append (str, gtk_clist_get_row_data (GTK_CLIST (prefs->language), i));
 		}
 	}
-
+	
 	rv = str->str;
 	g_string_free (str, FALSE);
-
+	
 	return rv ? rv : g_strdup ("");
 }
 
@@ -550,25 +557,25 @@ static void
 spell_load_values (MailComposerPrefs *prefs)
 {
 	GConfValue *val;
-	gchar *def_lang;
-
+	char *def_lang;
+	
 	def_lang = g_strdup (_("en"));
 	g_free (prefs->language_str);
 	prefs->language_str = g_strdup (def_lang);
 	prefs->spell_error_color.red   = 0xffff;
 	prefs->spell_error_color.green = 0;
 	prefs->spell_error_color.blue  = 0;
-
+	
 	GET (int, "/spell_error_color_red",   prefs->spell_error_color.red,,);
 	GET (int, "/spell_error_color_green", prefs->spell_error_color.green,,);
 	GET (int, "/spell_error_color_blue",  prefs->spell_error_color.blue,,);
 	GET (string, "/language", prefs->language_str, g_free (prefs->language_str), g_strdup);
-
+	
 	if (prefs->language_str == NULL)
 		prefs->language_str = g_strdup (def_lang);
-
+	
 	spell_save_orig (prefs);
-
+	
 	g_free (def_lang);
 }
 
@@ -585,11 +592,11 @@ spell_save_values (MailComposerPrefs *prefs, gboolean force)
 		SET (int, "/spell_error_color_green", prefs->spell_error_color.green);
 		SET (int, "/spell_error_color_blue",  prefs->spell_error_color.blue);
 	}
-
+	
 	if (force || !STR_EQUAL (prefs->language_str, prefs->language_str_orig)) {
 		SET (string, "/language", prefs->language_str ? prefs->language_str : "");
 	}
-
+	
 	gconf_client_suggest_sync (prefs->gconf, NULL);
 }
 
@@ -627,19 +634,19 @@ static void
 spell_language_select_row (GtkWidget *widget, gint row, gint column, GdkEvent *event, MailComposerPrefs *prefs)
 {
 	GList *sel = GTK_CLIST (prefs->language)->selection;
-
+	
 	if (sel) {
 		GdkPixmap *pmap = NULL;
 		GdkBitmap *bmap;
-		gint row = GPOINTER_TO_INT (sel->data);
-
+		int row = GPOINTER_TO_INT (sel->data);
+		
 		gtk_clist_get_pixmap (GTK_CLIST (prefs->language), row, 0, &pmap, &bmap);
 		if (pmap)
 			gtk_label_set_text (GTK_LABEL (GTK_BIN (prefs->spell_able_button)->child), _("Disable"));
 		else
 			gtk_label_set_text (GTK_LABEL (GTK_BIN (prefs->spell_able_button)->child), _("Enable"));
 	}
-
+	
 	gtk_widget_set_sensitive (prefs->spell_able_button, TRUE);
 }
 
@@ -653,12 +660,12 @@ static void
 spell_language_enable (GtkWidget *widget, MailComposerPrefs *prefs)
 {
 	GList *sel = GTK_CLIST (prefs->language)->selection;
-
+	
 	if (sel) {
 		GdkPixmap *pmap = NULL;
 		GdkBitmap *bmap;
-		gint row = GPOINTER_TO_INT (sel->data);
-
+		int row = GPOINTER_TO_INT (sel->data);
+		
 		gtk_clist_get_pixmap (GTK_CLIST (prefs->language), row, 0, &pmap, &bmap);
 		if (pmap) {
 			gtk_clist_set_pixmap (GTK_CLIST (prefs->language), row, 0, NULL, NULL);
@@ -667,7 +674,7 @@ spell_language_enable (GtkWidget *widget, MailComposerPrefs *prefs)
 			gtk_label_set_text (GTK_LABEL (GTK_BIN (prefs->spell_able_button)->child), _("Disable"));
 			gtk_clist_set_pixmap (GTK_CLIST (prefs->language), row, 0, prefs->mark_pixmap, prefs->mark_bitmap);
 		}
-
+		
 		spell_changed (prefs);
 	}
 }
@@ -675,27 +682,27 @@ spell_language_enable (GtkWidget *widget, MailComposerPrefs *prefs)
 static void
 spell_language_button_press (GtkWidget *widget, GdkEventButton *event, MailComposerPrefs *prefs)
 {
-	gint row, col;
-
+	int row, col;
+	
 	if (gtk_clist_get_selection_info (prefs->language, event->x, event->y, &row, &col)) {
 		if (col == 0) {
 			GList *sel = GTK_CLIST (prefs->language)->selection;
 			GdkPixmap *pmap = NULL;
 			GdkBitmap *bmap;
-
+			
 			gtk_signal_emit_stop_by_name (GTK_OBJECT (widget), "button_press_event");
-
+			
 			gtk_clist_get_pixmap (GTK_CLIST (prefs->language), row, 0, &pmap, &bmap);
 			if (pmap)
 				gtk_clist_set_pixmap (GTK_CLIST (prefs->language), row, 0, NULL, NULL);
 			else
 				gtk_clist_set_pixmap (GTK_CLIST (prefs->language), row, 0,
 						      prefs->mark_pixmap, prefs->mark_bitmap);
-
+			
 			if (sel && GPOINTER_TO_INT (sel->data) == row)
 				gtk_label_set_text (GTK_LABEL (GTK_BIN (prefs->spell_able_button)->child),
 						    pmap ? _("Enable") : _("Disable"));
-
+			
 			spell_changed (prefs);
 		}
 	}
@@ -704,29 +711,29 @@ spell_language_button_press (GtkWidget *widget, GdkEventButton *event, MailCompo
 static void
 spell_setup (MailComposerPrefs *prefs)
 {
-	gint i;
-
+	int i;
+	
 	gtk_clist_freeze (GTK_CLIST (prefs->language));
 	for (i = 0; i < prefs->language_seq->_length; i ++) {
-		gchar *texts [2];
-
-		texts [0] = NULL;
-		texts [1] = _(prefs->language_seq->_buffer [i].name);
+		char *texts[2];
+		
+		texts[0] = NULL;
+		texts[1] = _(prefs->language_seq->_buffer [i].name);
 		gtk_clist_append (GTK_CLIST (prefs->language), texts);
 		gtk_clist_set_row_data (GTK_CLIST (prefs->language), i, prefs->language_seq->_buffer [i].abrev);
 	}
 	gtk_clist_thaw (GTK_CLIST (prefs->language));
-
+	
 	spell_load_values (prefs);
 	spell_set_ui (prefs);
-
+	
 	glade_xml_signal_connect_data (prefs->gui, "spellColorSet", GTK_SIGNAL_FUNC (spell_color_set), prefs);
 	glade_xml_signal_connect_data (prefs->gui, "spellLanguageSelectRow",
 				       GTK_SIGNAL_FUNC (spell_language_select_row), prefs);
 	glade_xml_signal_connect_data (prefs->gui, "spellLanguageUnselectRow",
 				       GTK_SIGNAL_FUNC (spell_language_unselect_row), prefs);
 	glade_xml_signal_connect_data (prefs->gui, "spellLanguageEnable", GTK_SIGNAL_FUNC (spell_language_enable), prefs);
-
+	
 	gtk_signal_connect (GTK_OBJECT (prefs->language), "button_press_event", spell_language_button_press, prefs);
 }
 
@@ -736,26 +743,26 @@ spell_setup_check_options (MailComposerPrefs *prefs)
 	BonoboObjectClient *dictionary_client;
 	GNOME_Spell_Dictionary dict;
 	CORBA_Environment ev;
-	gchar *dictionary_id;
-
+	char *dictionary_id;
+	
 	dictionary_id = "OAFIID:GNOME_Spell_Dictionary:" SPELL_API_VERSION;
 	dictionary_client = bonobo_object_activate (dictionary_id, 0);
-
+	
 	if (!dictionary_client) {
 		g_warning ("Cannot activate %s", dictionary_id);
-
+		
 		return FALSE;
 	}
 	dict = bonobo_object_corba_objref (BONOBO_OBJECT (dictionary_client));
-
+	
 	CORBA_exception_init (&ev);
 	prefs->language_seq = GNOME_Spell_Dictionary_getLanguages (dict, &ev);
 	CORBA_exception_free (&ev);
-
+	
 	gconf_client_add_dir (prefs->gconf, GNOME_SPELL_GCONF_DIR, GCONF_CLIENT_PRELOAD_NONE, NULL);
-
+	
         spell_setup (prefs);
-
+	
 	return TRUE;
 }
 
@@ -769,17 +776,19 @@ mail_composer_prefs_construct (MailComposerPrefs *prefs)
 	GtkWidget *toplevel, *widget, *menu, *info_pixmap;
 	GladeXML *gui;
 	int style;
-	char *names[][2] = {{"live_spell_check", "chkEnableSpellChecking"},
-			    {"magic_smileys_check", "chkAutoSmileys"},
-			    {"gtk_html_prop_keymap_option", "omenuShortcutsType"},
-			    {NULL, NULL}};
-
+	char *names[][2] = {
+		{ "live_spell_check", "chkEnableSpellChecking" },
+		{ "magic_smileys_check", "chkAutoSmileys" },
+		{ "gtk_html_prop_keymap_option", "omenuShortcutsType" },
+		{ NULL, NULL }
+	};
+	
 	prefs->gconf = gconf_client_get_default ();
-
+	
 	gui = glade_xml_new (EVOLUTION_GLADEDIR "/mail-config.glade", "composer_tab");
 	prefs->gui = gui;
 	prefs->sig_script_gui = glade_xml_new (EVOLUTION_GLADEDIR "/mail-config.glade", "vbox_add_script_signature");
-
+	
 	/* get our toplevel widget */
 	toplevel = glade_xml_get_widget (gui, "toplevel");
 	
@@ -800,7 +809,7 @@ mail_composer_prefs_construct (MailComposerPrefs *prefs)
 	prefs->auto_smileys = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui, "chkAutoSmileys"));
 	gtk_signal_connect (GTK_OBJECT (prefs->auto_smileys), "toggled",
 			    toggle_button_toggled, prefs);
-
+	
 	prefs->prompt_empty_subject = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui, "chkPromptEmptySubject"));
 	gtk_toggle_button_set_active (prefs->prompt_empty_subject, mail_config_get_prompt_empty_subject ());
 	gtk_signal_connect (GTK_OBJECT (prefs->prompt_empty_subject), "toggled",
@@ -820,10 +829,10 @@ mail_composer_prefs_construct (MailComposerPrefs *prefs)
 	prefs->pman = GTK_HTML_PROPMANAGER (gtk_html_propmanager_new (NULL));
 	gtk_signal_connect (GTK_OBJECT (prefs->pman), "changed", toggle_button_toggled, prefs);
 	gtk_object_ref (GTK_OBJECT (prefs->pman));
-
+	
 	gtk_html_propmanager_set_names (prefs->pman, names);
 	gtk_html_propmanager_set_gui (prefs->pman, gui, NULL);
-
+	
 	/* Spell Checking: GNOME Spell part */
 	prefs->colour = GNOME_COLOR_PICKER (glade_xml_get_widget (gui, "colorpickerSpellCheckColor"));
 	prefs->language = GTK_CLIST (glade_xml_get_widget (gui, "clistSpellCheckLanguage"));
@@ -832,12 +841,12 @@ mail_composer_prefs_construct (MailComposerPrefs *prefs)
 	gtk_clist_set_column_justification (prefs->language, 0, GTK_JUSTIFY_RIGHT);
 	gtk_clist_set_column_auto_resize (prefs->language, 0, TRUE);
 	gnome_pixmap_load_file (GNOME_PIXMAP (info_pixmap), EVOLUTION_IMAGES "/info-bulb.png");
-
+	
 	if (!spell_setup_check_options (prefs)) {
 		gtk_widget_hide (GTK_WIDGET (prefs->colour));
 		gtk_widget_hide (GTK_WIDGET (prefs->language));
 	}
-
+	
 	/* Forwards and Replies */
 	prefs->forward_style = GTK_OPTION_MENU (glade_xml_get_widget (gui, "omenuForwardStyle"));
 	gtk_option_menu_set_history (prefs->forward_style, mail_config_get_default_forward_style ());
@@ -857,7 +866,7 @@ mail_composer_prefs_construct (MailComposerPrefs *prefs)
 	prefs->sig_add = GTK_BUTTON (glade_xml_get_widget (gui, "cmdSignatureAdd"));
 	gtk_signal_connect (GTK_OBJECT (prefs->sig_add), "clicked",
 			    GTK_SIGNAL_FUNC (sig_add), prefs);
-
+	
 	prefs->sig_script_dialog = gnome_dialog_new (_("Add script signature"),
 						     _("Add Signature"), GNOME_STOCK_BUTTON_CANCEL, NULL);
 	gnome_dialog_close_hides (GNOME_DIALOG (prefs->sig_script_dialog), TRUE);
@@ -865,9 +874,9 @@ mail_composer_prefs_construct (MailComposerPrefs *prefs)
 				     glade_xml_get_widget (prefs->sig_script_gui, "vbox_add_script_signature"));
 	gnome_dialog_button_connect (GNOME_DIALOG (prefs->sig_script_dialog), 0, sig_add_script_add, prefs);
 	gnome_dialog_button_connect (GNOME_DIALOG (prefs->sig_script_dialog), 1, sig_add_script_cancel, prefs);
-
+	
 	glade_xml_signal_connect_data (gui, "cmdSignatureAddScriptClicked", sig_add_script, prefs);
-
+	
 	prefs->sig_edit = GTK_BUTTON (glade_xml_get_widget (gui, "cmdSignatureEdit"));
 	gtk_signal_connect (GTK_OBJECT (prefs->sig_edit), "clicked",
 			    GTK_SIGNAL_FUNC (sig_edit), prefs);
@@ -886,7 +895,7 @@ mail_composer_prefs_construct (MailComposerPrefs *prefs)
 		gtk_widget_set_sensitive ((GtkWidget *) prefs->sig_delete, FALSE);
 		gtk_widget_set_sensitive ((GtkWidget *) prefs->sig_edit, FALSE);
 	}
-
+	
 	/* preview GtkHTML widget */
 	widget = glade_xml_get_widget (gui, "scrolled-sig");
 	prefs->sig_preview = (GtkHTML *) gtk_html_new ();
