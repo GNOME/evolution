@@ -1,3 +1,7 @@
+2001-12-26  Fatih Demir <kabalak@gtranslator.org>
+
+	* tr.po: Small correction in the charset field of the po file.
+
 2001-12-22  Simos Xenitellis  <simos@hellug.gr>
 
 	* el.po: Run xml-i18n-update on the file.
