@@ -46,9 +46,14 @@ gchar *e_utf8_from_gtk_event_key (GtkWidget *widget, guint keyval, const gchar *
 gchar *e_utf8_from_gtk_string (GtkWidget *widget, const gchar *string);
 gchar *e_utf8_from_gtk_string_sized (GtkWidget *widget, const gchar *string, gint bytes);
 
-gchar * e_utf8_to_gtk_string (GtkWidget *widget, const gchar *string);
-gchar * e_utf8_to_gtk_string_sized (GtkWidget *widget, const gchar *string, gint bytes);
+gchar *e_utf8_to_gtk_string (GtkWidget *widget, const gchar *string);
+gchar *e_utf8_to_gtk_string_sized (GtkWidget *widget, const gchar *string, gint bytes);
 
+gchar *e_utf8_from_locale_string (const gchar *string);
+gchar *e_utf8_from_locale_string_sized (const gchar *string, gint bytes);
+
+gchar *e_utf8_to_locale_string (const gchar *string);
+gchar *e_utf8_to_locale_string_sized (const gchar *string, gint bytes);
 /*
  * These are simple wrappers that save us some typing
  */
