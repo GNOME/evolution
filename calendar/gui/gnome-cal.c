@@ -786,8 +786,6 @@ program_notification (char *command, int close_standard)
 	sigaction (SIGQUIT, &save_quit, NULL);
 }
 
-#endif
-
 /* Queues a snooze alarm */
 static void
 snooze (GnomeCalendar *gcal, CalComponent *comp, time_t occur, int snooze_mins, gboolean audio)
@@ -1040,10 +1038,13 @@ midnight_refresh_cb (gpointer alarm_id, time_t trigger, gpointer data)
 	load_alarms (cal);
 }
 
+#endif
+
 /* Loads and queues the alarms from the current time up to midnight. */
 static void
 load_alarms (GnomeCalendar *gcal)
 {
+#if 0
 	GnomeCalendarPrivate *priv;
 	time_t now;
 	time_t end_of_day;
@@ -1070,6 +1071,7 @@ load_alarms (GnomeCalendar *gcal)
 		g_message ("load_alarms(): Could not set up the midnight refresh alarm!");
 		/* FIXME: what to do? */
 	}
+#endif
 }
 
 /* Loads the initial data into the calendar; this should be called right after
@@ -1086,6 +1088,7 @@ initial_load (GnomeCalendar *gcal)
 	tag_calendar_by_client (priv->date_navigator, priv->client);
 }
 
+#if 0
 /* Removes any queued alarms for the specified UID */
 static void
 remove_alarms_for_object (GnomeCalendar *gcal, const char *uid)
@@ -1142,6 +1145,7 @@ add_alarms_for_object (GnomeCalendar *gcal, const char *uid)
 
 	cal_alarm_instance_list_free (alarms);
 }
+#endif
 
 /* Displays an error to indicate that loading a calendar failed */
 static void
@@ -1276,8 +1280,10 @@ obj_updated_cb (CalClient *client, const char *uid, gpointer data)
 	gcal = GNOME_CALENDAR (data);
 	priv = gcal->priv;
 
+#if 0
 	remove_alarms_for_object (gcal, uid);
 	add_alarms_for_object (gcal, uid);
+#endif
 
 	tag_calendar_by_client (priv->date_navigator, priv->client);
 }
@@ -1292,7 +1298,9 @@ obj_removed_cb (CalClient *client, const char *uid, gpointer data)
 	gcal = GNOME_CALENDAR (data);
 	priv = gcal->priv;
 
+#if 0
 	remove_alarms_for_object (gcal, uid);
+#endif
 
 	tag_calendar_by_client (priv->date_navigator, priv->client);
 }

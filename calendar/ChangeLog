@@ -1,3 +1,73 @@
+2000-12-18  Federico Mena Quintero  <federico@helixcode.com>
+
+	Alarm instance generation support for the Wombat.
+
+	* idl/evolution-calendar.idl (Cal::CalAlarmInstance): Changed to
+	have an alarm UID, the trigger time, and the actual occurrence
+	time.
+	(Cal::CalComponentAlarms): New structure to hold a pair of a
+	component and its alarms that trigger in a particular range of
+	time.
+	(Cal::getAlarmsInRange): Changed to return a CalComponentAlarmsSeq.
+
+	* cal-util/cal-component.h (CalAlarmInstance): New C-side
+	structure to match the one on the IDL.
+	(CalComponentAlarms): Ditto.
+	(CalAlarmAction): Renamed from CalComponentAlarmAction.
+	(CalAlarmTriggerType): Renamed from CalComponentAlarmTriggerType.
+	Encoded the START and END parameters for the RELATED parameter in
+	this enum, too.  Added a NONE value for invalid or missing trigger
+	specifications.
+	(CalComponentAlarmTriggerRelated): Removed.
+	(CalAlarmTrigger): Renamed from CalComponentAlarmTrigger.  Renamed
+	the duration/time fields to rel_duration/abs_time, respectively.
+
+	* cal-util/cal-component.c (cal_component_alarm_get_trigger):
+	Changed to use the new trigger structure.
+	(cal_component_alarm_set_trigger): Likewise.
+	(cal_component_alarm_free_trigger): Removed function.
+	(cal_component_has_alarms): Count the elements in the
+	alarm_uid_hash instead of trying to fetch the first alarm subcomponent.
+	(cal_component_alarms_free): New function to free a
+	CalComponentAlarms structure.
+	(CalComponentAlarmPrivate): Added an uid property pointer.
+	(scan_alarm_property): Scan for the our extension UID property.
+	(cal_component_alarm_get_uid): New function.
+
+	* pcs/cal-backend.h (CalBackendClass): Changed the signatures of
+	the ::get_alarms_in_range() and ::get_alarms_for_object() methods.
+
+	* pcs/cal-backend.c (cal_backend_get_alarms_in_range): Changed
+	signature; use the new method.
+	(cal_backend_get_alarms_for_object): Likewise.
+
+	* pcs/cal-backend-file.c (compute_alarm_range): New spiffy
+	function to compute a range of time for alarm occurrences.
+	(add_alarm_occurrences_cb): New function to add alarms for a
+	particular occurrence of the component.
+	(generate_absolute_triggers): New function to add the absolute
+	alarm triggers.
+	(generate_alarms_for_comp): New function to generate all the alarm
+	instances for a component.
+	(cal_backend_file_get_alarms_in_range): Implemented.
+
+	* pcs/cal.c (Cal_get_alarms_in_range): Use the new CalBackend API.
+	(Cal_get_alarms_for_object): Likewise.
+	(build_alarm_instance_seq): Removed old function.
+
+	* cal-util/cal-util.c (cal_alarm_instance_list_free): Removed
+	function.
+
+	* cal-client/cal-client.c (build_component_alarms_list): New
+	function to demarshal the component alarms sequence.
+	(build_alarm_instance_list): New function to demarshal the alarm
+	instances sequence.
+	(cal_client_get_alarms_in_range): Updated for the new API.
+	(cal_client_get_alarms_for_object): Updated for the new API.
+
+	* gui/gnome-cal.c: Temporary #ifdef-ing out of alarm-related stuff
+	to make it build.
+
 2000-12-15  Federico Mena Quintero  <federico@helixcode.com>
 
 	* cal-util/timeutil.[ch] (time_from_isodate): Removed unused

@@ -51,7 +51,9 @@ typedef enum {
 	CAL_COMPONENT_TIMEZONE
 } CalComponentVType;
 
-/* Field identifiers for a calendar component */
+/* Field identifiers for a calendar component; these are used by the data model
+ * for ETable.
+ */
 typedef enum {
 	CAL_COMPONENT_FIELD_CATEGORIES,		/* concatenation of the categories list */
 	CAL_COMPONENT_FIELD_CLASSIFICATION,
@@ -74,8 +76,9 @@ typedef enum {
 	CAL_COMPONENT_FIELD_NUM_FIELDS
 } CalComponentField;
 
-/* Structures to return properties and their parameters */
+/* Structures and enumerations to return properties and their parameters */
 
+/* CLASSIFICATION property */
 typedef enum {
 	CAL_COMPONENT_CLASS_NONE,
 	CAL_COMPONENT_CLASS_PUBLIC,
@@ -84,6 +87,7 @@ typedef enum {
 	CAL_COMPONENT_CLASS_UNKNOWN
 } CalComponentClassification;
 
+/* Properties that have time and timezone information */
 typedef struct {
 	/* Actual date/time value */
 	struct icaltimetype *value;
@@ -92,11 +96,13 @@ typedef struct {
 	const char *tzid;
 } CalComponentDateTime;
 
+/* Way in which a period of time is specified */
 typedef enum {
 	CAL_COMPONENT_PERIOD_DATETIME,
 	CAL_COMPONENT_PERIOD_DURATION
 } CalComponentPeriodType;
 
+/* Period of time, can have explicit start/end times or start/duration instead */
 typedef struct {
 	CalComponentPeriodType type;
 
@@ -108,6 +114,7 @@ typedef struct {
 	} u;
 } CalComponentPeriod;
 
+/* Text properties */
 typedef struct {
 	/* Description string */
 	const char *value;
@@ -116,6 +123,7 @@ typedef struct {
 	const char *altrep;
 } CalComponentText;
 
+/* Time transparency */
 typedef enum {
 	CAL_COMPONENT_TRANSP_NONE,
 	CAL_COMPONENT_TRANSP_TRANSPARENT,
@@ -123,7 +131,7 @@ typedef enum {
 	CAL_COMPONENT_TRANSP_UNKNOWN
 } CalComponentTransparency;
 
-typedef struct _CalComponentAlarm CalComponentAlarm;
+/* Main calendar component object */
 
 typedef struct _CalComponent CalComponent;
 typedef struct _CalComponentClass CalComponentClass;
@@ -262,37 +270,58 @@ void cal_component_free_text_list (GSList *text_list);
 
 /* Alarms */
 
-typedef enum {
-	CAL_COMPONENT_ALARM_NONE,
-	CAL_COMPONENT_ALARM_AUDIO,
-	CAL_COMPONENT_ALARM_DISPLAY,
-	CAL_COMPONENT_ALARM_EMAIL,
-	CAL_COMPONENT_ALARM_PROCEDURE,
-	CAL_COMPONENT_ALARM_UNKNOWN
-} CalComponentAlarmAction;
+/* Opaque structure used to represent alarm subcomponents */
+typedef struct _CalComponentAlarm CalComponentAlarm;
 
-typedef enum {
-	CAL_COMPONENT_ALARM_TRIGGER_RELATIVE,
-	CAL_COMPONENT_ALARM_TRIGGER_ABSOLUTE
-} CalComponentAlarmTriggerType;
+/* An alarm occurrence, i.e. a trigger instance */
+typedef struct {
+	/* UID of the alarm that triggered */
+	const char *auid;
 
+	/* Trigger time, i.e. "5 minutes before the appointment" */
+	time_t trigger;
+
+	/* Actual event occurrence to which this trigger corresponds */
+	time_t occur;
+} CalAlarmInstance;
+
+/* Alarm trigger instances for a particular component */
+typedef struct {
+	/* The actual component */
+	CalComponent *comp;
+
+	/* List of CalAlarmInstance structures */
+	GSList *alarms;
+} CalComponentAlarms;
+
+/* Alarm types */
 typedef enum {
-	CAL_COMPONENT_ALARM_TRIGGER_RELATED_START,
-	CAL_COMPONENT_ALARM_TRIGGER_RELATED_END
-} CalComponentAlarmTriggerRelated;
+	CAL_ALARM_NONE,
+	CAL_ALARM_AUDIO,
+	CAL_ALARM_DISPLAY,
+	CAL_ALARM_EMAIL,
+	CAL_ALARM_PROCEDURE,
+	CAL_ALARM_UNKNOWN
+} CalAlarmAction;
+
+/* Whether a trigger is relative to the start or end of an event occurrence, or
+ * whether it is specified to occur at an absolute time.
+ */
+typedef enum {
+	CAL_ALARM_TRIGGER_NONE,
+	CAL_ALARM_TRIGGER_RELATIVE_START,
+	CAL_ALARM_TRIGGER_RELATIVE_END,
+	CAL_ALARM_TRIGGER_ABSOLUTE
+} CalAlarmTriggerType;
 
 typedef struct {
-	CalComponentAlarmTriggerType type;
+	CalAlarmTriggerType type;
 
 	union {
-		struct {
-			struct icaldurationtype duration;
-			CalComponentAlarmTriggerRelated related;
-		} relative;
-
-		struct icaltimetype absolute;
+		struct icaldurationtype rel_duration;
+		struct icaltimetype abs_time;
 	} u;
-} CalComponentAlarmTrigger;
+} CalAlarmTrigger;
 
 gboolean cal_component_has_alarms (CalComponent *comp);
 GList *cal_component_get_alarm_uids (CalComponent *comp);
@@ -300,12 +329,16 @@ CalComponentAlarm *cal_component_get_alarm (CalComponent *comp, const char *auid
 
 void cal_component_alarm_free (CalComponentAlarm *alarm);
 
-void cal_component_alarm_get_action (CalComponentAlarm *alarm, CalComponentAlarmAction *action);
-void cal_component_alarm_set_action (CalComponentAlarm *alarm, CalComponentAlarmAction action);
+void cal_component_alarms_free (CalComponentAlarms *alarms);
 
-void cal_component_alarm_get_trigger (CalComponentAlarm *alarm, CalComponentAlarmTrigger **trigger);
-void cal_component_alarm_set_trigger (CalComponentAlarm *alarm, CalComponentAlarmTrigger *trigger);
-void cal_component_alarm_free_trigger (CalComponentAlarmTrigger *trigger);
+const char *cal_component_alarm_get_uid (CalComponentAlarm *alarm);
+
+void cal_component_alarm_get_action (CalComponentAlarm *alarm, CalAlarmAction *action);
+void cal_component_alarm_set_action (CalComponentAlarm *alarm, CalAlarmAction action);
+
+void cal_component_alarm_get_trigger (CalComponentAlarm *alarm, CalAlarmTrigger *trigger);
+void cal_component_alarm_set_trigger (CalComponentAlarm *alarm, CalAlarmTrigger trigger);
+
 
 
 

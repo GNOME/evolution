@@ -27,7 +27,7 @@
 #include <libgnomevfs/gnome-vfs.h>
 #include <cal-util/cal-util.h>
 #include <cal-util/cal-component.h>
-#include "calendar/pcs/evolution-calendar.h"
+#include "evolution-calendar.h"
 #include "cal-common.h"
 #include "cal.h"
 
@@ -47,6 +47,13 @@ typedef enum {
 	CAL_BACKEND_LOAD_SUCCESS,	/* Loading OK */
 	CAL_BACKEND_LOAD_ERROR		/* We need better error reporting in libversit */
 } CalBackendLoadStatus;
+
+/* Result codes for ::get_alarms_in_range() */
+typedef enum {
+	CAL_BACKEND_GET_ALARMS_SUCCESS,
+	CAL_BACKEND_GET_ALARMS_NOT_FOUND,
+	CAL_BACKEND_GET_ALARMS_INVALID_RANGE
+} CalBackendGetAlarmsForObjectResult;
 
 struct _CalBackend {
 	GtkObject object;
@@ -70,12 +77,16 @@ struct _CalBackendClass {
 	char *(* get_object) (CalBackend *backend, const char *uid);
 	CalObjType(* get_type_by_uid) (CalBackend *backend, const char *uid);
 	GList *(* get_uids) (CalBackend *backend, CalObjType type);
+
 	GList *(* get_objects_in_range) (CalBackend *backend, CalObjType type,
 					 time_t start, time_t end);
-	GList *(* get_alarms_in_range) (CalBackend *backend, time_t start, time_t end);
-	gboolean (* get_alarms_for_object) (CalBackend *backend, const char *uid,
-					    time_t start, time_t end,
-					    GList **alarms);
+
+	GNOME_Evolution_Calendar_CalComponentAlarmsSeq *(* get_alarms_in_range) (
+		CalBackend *backend, time_t start, time_t end);
+	GNOME_Evolution_Calendar_CalComponentAlarms *(* get_alarms_for_object) (
+		CalBackend *backend, const char *uid,
+		time_t start, time_t end, gboolean *object_found);
+
 	gboolean (* update_object) (CalBackend *backend, const char *uid, const char *calobj);
 	gboolean (* remove_object) (CalBackend *backend, const char *uid);
 };
@@ -101,11 +112,13 @@ GNOME_Evolution_Calendar_CalObjChangeSeq * cal_backend_get_changes (CalBackend *
 GList *cal_backend_get_objects_in_range (CalBackend *backend, CalObjType type,
 					 time_t start, time_t end);
 
-GList *cal_backend_get_alarms_in_range (CalBackend *backend, time_t start, time_t end);
+GNOME_Evolution_Calendar_CalComponentAlarmsSeq *cal_backend_get_alarms_in_range (
+	CalBackend *backend, time_t start, time_t end, gboolean *valid_range);
 
-gboolean cal_backend_get_alarms_for_object (CalBackend *backend, const char *uid,
-					    time_t start, time_t end,
-					    GList **alarms);
+GNOME_Evolution_Calendar_CalComponentAlarms *cal_backend_get_alarms_for_object (
+	CalBackend *backend, const char *uid,
+	time_t start, time_t end,
+	CalBackendGetAlarmsForObjectResult *result);
 
 
 gboolean cal_backend_update_object (CalBackend *backend, const char *uid, const char *calobj);

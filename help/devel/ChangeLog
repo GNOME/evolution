@@ -1,3 +1,15 @@
+2000-12-18  Federico Mena Quintero  <federico@helixcode.com>
+
+	* calendar/alarm-generation.sgml: New file with a description of
+	the algorithm used to generate alarm instances.
+
+	* evolution-devel-guide.sgml: Added an entity for the above
+	chapter.
+
+	* calendar/evolution-calendar.sgml: Reference the entity here.
+
+	* calendar/Makefile.am (EXTRA_DIST): Added alarm-generation.sgml.
+
 2000-12-13  Larry Ewing  <lewing@helixcode.com>
 
 	* calendar/Makefile.am (EXTRA_DIST): make it public-reference.sgml

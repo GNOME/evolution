@@ -334,68 +334,8 @@ Cal_get_objects_in_range (PortableServer_Servant servant,
 	return seq;
 }
 
-#if 0
-/* Translates an enum AlarmType to its CORBA representation */
-static Evolution_Calendar_AlarmType
-corba_alarm_type (enum AlarmType type)
-{
-	switch (type) {
-	case ALARM_MAIL:
-		return Evolution_Calendar_MAIL;
-
-	case ALARM_PROGRAM:
-		return Evolution_Calendar_PROGRAM;
-
-	case ALARM_DISPLAY:
-		return Evolution_Calendar_DISPLAY;
-
-	case ALARM_AUDIO:
-		return Evolution_Calendar_AUDIO;
-
-	default:
-		g_assert_not_reached ();
-		return Evolution_Calendar_DISPLAY;
-	}
-}
-#endif
-
-/* Builds a CORBA sequence of alarm instances from a CalAlarmInstance list. */
-static GNOME_Evolution_Calendar_CalAlarmInstanceSeq *
-build_alarm_instance_seq (GList *alarms)
-{
-	GList *l;
-	int n, i;
-	GNOME_Evolution_Calendar_CalAlarmInstanceSeq *seq;
-
-	n = g_list_length (alarms);
-
-	seq = GNOME_Evolution_Calendar_CalAlarmInstanceSeq__alloc ();
-	CORBA_sequence_set_release (seq, TRUE);
-	seq->_length = n;
-	seq->_buffer = CORBA_sequence_GNOME_Evolution_Calendar_CalAlarmInstance_allocbuf (n);
-
-	/* Fill the sequence */
-
-	for (i = 0, l = alarms; l; i++, l = l->next) {
-		CalAlarmInstance *ai;
-		GNOME_Evolution_Calendar_CalAlarmInstance *corba_ai;
-
-		ai = l->data;
-		corba_ai = &seq->_buffer[i];
-
-		corba_ai->uid = CORBA_string_dup (ai->uid);
-#if 0
-		corba_ai->type = corba_alarm_type (ai->type);
-#endif
-		corba_ai->trigger = ai->trigger;
-		corba_ai->occur = ai->occur;
-	}
-
-	return seq;
-}
-
 /* Cal::get_alarms_in_range method */
-static GNOME_Evolution_Calendar_CalAlarmInstanceSeq *
+static GNOME_Evolution_Calendar_CalComponentAlarmsSeq *
 Cal_get_alarms_in_range (PortableServer_Servant servant,
 			 GNOME_Evolution_Calendar_Time_t start,
 			 GNOME_Evolution_Calendar_Time_t end,
@@ -404,8 +344,8 @@ Cal_get_alarms_in_range (PortableServer_Servant servant,
 	Cal *cal;
 	CalPrivate *priv;
 	time_t t_start, t_end;
-	GNOME_Evolution_Calendar_CalAlarmInstanceSeq *seq;
-	GList *alarms;
+	gboolean valid_range;
+	GNOME_Evolution_Calendar_CalComponentAlarmsSeq *seq;
 
 	cal = CAL (bonobo_object_from_servant (servant));
 	priv = cal->priv;
@@ -413,36 +353,30 @@ Cal_get_alarms_in_range (PortableServer_Servant servant,
 	t_start = (time_t) start;
 	t_end = (time_t) end;
 
-	if (t_start > t_end || t_start == -1 || t_end == -1) {
+	seq = cal_backend_get_alarms_in_range (priv->backend, t_start, t_end, &valid_range);
+	if (!valid_range) {
 		CORBA_exception_set (ev, CORBA_USER_EXCEPTION,
 				     ex_GNOME_Evolution_Calendar_Cal_InvalidRange,
 				     NULL);
 		return NULL;
 	}
-
-	/* Figure out the list and allocate the sequence */
-
-	alarms = cal_backend_get_alarms_in_range (priv->backend, t_start, t_end);
-	seq = build_alarm_instance_seq (alarms);
-	cal_alarm_instance_list_free (alarms);
 
 	return seq;
 }
 
 /* Cal::get_alarms_for_object method */
-static GNOME_Evolution_Calendar_CalAlarmInstanceSeq *
+static GNOME_Evolution_Calendar_CalComponentAlarms *
 Cal_get_alarms_for_object (PortableServer_Servant servant,
 			   const GNOME_Evolution_Calendar_CalObjUID uid,
 			   GNOME_Evolution_Calendar_Time_t start,
 			   GNOME_Evolution_Calendar_Time_t end,
-			   CORBA_Environment *ev)
+			   CORBA_Environment * ev)
 {
 	Cal *cal;
 	CalPrivate *priv;
 	time_t t_start, t_end;
-	GNOME_Evolution_Calendar_CalAlarmInstanceSeq *seq;
-	GList *alarms;
-	gboolean result;
+	GNOME_Evolution_Calendar_CalComponentAlarms *alarms;
+	CalBackendGetAlarmsForObjectResult result;
 
 	cal = CAL (bonobo_object_from_servant (servant));
 	priv = cal->priv;
@@ -450,25 +384,28 @@ Cal_get_alarms_for_object (PortableServer_Servant servant,
 	t_start = (time_t) start;
 	t_end = (time_t) end;
 
-	if (t_start > t_end || t_start == -1 || t_end == -1) {
-		CORBA_exception_set (ev, CORBA_USER_EXCEPTION,
-				     ex_GNOME_Evolution_Calendar_Cal_InvalidRange,
-				     NULL);
-		return NULL;
-	}
+	alarms = cal_backend_get_alarms_for_object (priv->backend, uid, t_start, t_end, &result);
 
-	result = cal_backend_get_alarms_for_object (priv->backend, uid, t_start, t_end, &alarms);
-	if (!result) {
+	switch (result) {
+	case CAL_BACKEND_GET_ALARMS_SUCCESS:
+		return alarms;
+
+	case CAL_BACKEND_GET_ALARMS_NOT_FOUND:
 		CORBA_exception_set (ev, CORBA_USER_EXCEPTION,
 				     ex_GNOME_Evolution_Calendar_Cal_NotFound,
 				     NULL);
 		return NULL;
+
+	case CAL_BACKEND_GET_ALARMS_INVALID_RANGE:
+		CORBA_exception_set (ev, CORBA_USER_EXCEPTION,
+				     ex_GNOME_Evolution_Calendar_Cal_InvalidRange,
+				     NULL);
+		return NULL;
+
+	default:
+		g_assert_not_reached ();
+		return NULL;
 	}
-
-	seq = build_alarm_instance_seq (alarms);
-	cal_alarm_instance_list_free (alarms);
-
-	return seq;
 }
 
 /* Cal::update_object method */

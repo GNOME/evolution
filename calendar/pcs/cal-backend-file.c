@@ -74,10 +74,14 @@ static CalObjType cal_backend_file_get_type_by_uid (CalBackend *backend, const c
 static GList *cal_backend_file_get_uids (CalBackend *backend, CalObjType type);
 static GList *cal_backend_file_get_objects_in_range (CalBackend *backend, CalObjType type,
 						     time_t start, time_t end);
-static GList *cal_backend_file_get_alarms_in_range (CalBackend *backend, time_t start, time_t end);
-static gboolean cal_backend_file_get_alarms_for_object (CalBackend *backend, const char *uid,
-							time_t start, time_t end,
-							GList **alarms);
+
+static GNOME_Evolution_Calendar_CalComponentAlarmsSeq *cal_backend_file_get_alarms_in_range (
+	CalBackend *backend, time_t start, time_t end);
+
+static GNOME_Evolution_Calendar_CalComponentAlarms *cal_backend_file_get_alarms_for_object (
+	CalBackend *backend, const char *uid,
+	time_t start, time_t end, gboolean *object_found);
+
 static gboolean cal_backend_file_update_object (CalBackend *backend, const char *uid,
 					       const char *calobj);
 static gboolean cal_backend_file_remove_object (CalBackend *backend, const char *uid);
@@ -922,12 +926,300 @@ cal_backend_file_get_objects_in_range (CalBackend *backend, CalObjType type,
 	return event_list;
 }
 
+/* Computes the range of time in which recurrences should be generated for a
+ * component in order to compute alarm trigger times.
+ */
+static void
+compute_alarm_range (CalComponent *comp, GList *alarm_uids, time_t start, time_t end,
+		     time_t *alarm_start, time_t *alarm_end)
+{
+	GList *l;
+
+	*alarm_start = start;
+	*alarm_end = end;
+
+	for (l = alarm_uids; l; l = l->next) {
+		const char *auid;
+		CalComponentAlarm *alarm;
+		CalAlarmTrigger trigger;
+		struct icaldurationtype *dur;
+		time_t dur_time;
+
+		auid = l->data;
+		alarm = cal_component_get_alarm (comp, auid);
+		g_assert (alarm != NULL);
+
+		cal_component_alarm_get_trigger (alarm, &trigger);
+		cal_component_alarm_free (alarm);
+
+		switch (trigger.type) {
+		case CAL_ALARM_TRIGGER_NONE:
+		case CAL_ALARM_TRIGGER_ABSOLUTE:
+			continue;
+
+		case CAL_ALARM_TRIGGER_RELATIVE_START:
+			dur = &trigger.u.rel_duration;
+			dur_time = icaldurationtype_as_timet (*dur);
+
+			if (dur->is_neg)
+				*alarm_start = MIN (*alarm_start, start - dur_time);
+			else
+				*alarm_end = MAX (*alarm_end, start + dur_time);
+
+			break;
+
+		case CAL_ALARM_TRIGGER_RELATIVE_END:
+			dur = &trigger.u.rel_duration;
+			dur_time = icaldurationtype_as_timet (*dur);
+
+			if (dur->is_neg)
+				*alarm_start = MIN (*alarm_start, end - dur_time);
+			else
+				*alarm_end = MAX (*alarm_end, end + dur_time);
+
+			break;
+
+		default:
+			g_assert_not_reached ();
+		}
+	}
+
+	g_assert (*alarm_start <= *alarm_end);
+}
+
+/* Closure data to generate alarm occurrences */
+struct alarm_occurrence_data {
+	/* These are the info we have */
+	GList *alarm_uids;
+	time_t start;
+	time_t end;
+
+	/* This is what we compute */
+	GSList *triggers;
+	int n_triggers;
+};
+
+/* Callback used from cal_recur_generate_instances(); generates triggers for all
+ * of a component's RELATIVE alarms.
+ */
+static gboolean
+add_alarm_occurrences_cb (CalComponent *comp, time_t start, time_t end, gpointer data)
+{
+	struct alarm_occurrence_data *aod;
+	GList *l;
+
+	aod = data;
+
+	for (l = aod->alarm_uids; l; l = l->next) {
+		const char *auid;
+		CalComponentAlarm *alarm;
+		CalAlarmTrigger trigger;
+		struct icaldurationtype *dur;
+		time_t dur_time;
+		time_t occur_time, trigger_time;
+		CalAlarmInstance *instance;
+
+		auid = l->data;
+		alarm = cal_component_get_alarm (comp, auid);
+		g_assert (alarm != NULL);
+
+		cal_component_alarm_get_trigger (alarm, &trigger);
+		cal_component_alarm_free (alarm);
+
+		if (trigger.type != CAL_ALARM_TRIGGER_RELATIVE_START
+		    && trigger.type != CAL_ALARM_TRIGGER_RELATIVE_END)
+			continue;
+
+		dur = &trigger.u.rel_duration;
+		dur_time = icaldurationtype_as_timet (*dur);
+
+		if (trigger.type == CAL_ALARM_TRIGGER_RELATIVE_START)
+			occur_time = start;
+		else
+			occur_time = end;
+
+		if (dur->is_neg)
+			trigger_time = occur_time - dur_time;
+		else
+			trigger_time = occur_time + dur_time;
+
+		if (trigger_time < aod->start || trigger_time >= aod->end)
+			continue;
+
+		instance = g_new (CalAlarmInstance, 1);
+		instance->auid = auid;
+		instance->trigger = trigger_time;
+		instance->occur = occur_time;
+
+		aod->triggers = g_slist_prepend (aod->triggers, instance);
+		aod->n_triggers++;
+	}
+
+	return TRUE;
+}
+
+/* Generates the absolute triggers for a component */
+static void
+generate_absolute_triggers (CalComponent *comp, struct alarm_occurrence_data *aod)
+{
+	GList *l;
+
+	for (l = aod->alarm_uids; l; l = l->next) {
+		const char *auid;
+		CalComponentAlarm *alarm;
+		CalAlarmTrigger trigger;
+		time_t abs_time;
+		CalAlarmInstance *instance;
+
+		auid = l->data;
+		alarm = cal_component_get_alarm (comp, auid);
+		g_assert (alarm != NULL);
+
+		cal_component_alarm_get_trigger (alarm, &trigger);
+		cal_component_alarm_free (alarm);
+
+		if (trigger.type != CAL_ALARM_TRIGGER_ABSOLUTE)
+			continue;
+
+		abs_time = icaltime_as_timet (trigger.u.abs_time);
+
+		if (abs_time < aod->start || abs_time >= aod->end)
+			continue;
+
+		instance = g_new (CalAlarmInstance, 1);
+		instance->auid = auid;
+		instance->trigger = abs_time;
+		instance->occur = abs_time; /* No particular occurrence, so just use the same time */
+
+		aod->triggers = g_slist_prepend (aod->triggers, instance);
+		aod->n_triggers++;
+	}
+}
+
+/* Compares two alarm instances; called from g_slist_sort() */
+static gint
+compare_alarm_instance (gconstpointer a, gconstpointer b)
+{
+	const CalAlarmInstance *aia, *aib;
+
+	aia = a;
+	aib = b;
+
+	if (aia->trigger < aib->trigger)
+		return -1;
+	else if (aia->trigger > aib->trigger)
+		return 1;
+	else
+		return 0;
+}
+
+/* Generates alarm instances for a calendar component.  Returns the instances
+ * structure, or NULL if no alarm instances occurred in the specified time
+ * range.
+ */
+static CalComponentAlarms *
+generate_alarms_for_comp (CalComponent *comp, time_t start, time_t end)
+{
+	GList *alarm_uids;
+	time_t alarm_start, alarm_end;
+	struct alarm_occurrence_data aod;
+	CalComponentAlarms *alarms;
+
+	if (!cal_component_has_alarms (comp))
+		return NULL;
+
+	alarm_uids = cal_component_get_alarm_uids (comp);
+	compute_alarm_range (comp, alarm_uids, start, end, &alarm_start, &alarm_end);
+
+	aod.alarm_uids = alarm_uids;
+	aod.start = start;
+	aod.end = end;
+	aod.triggers = NULL;
+	aod.n_triggers = 0;
+	cal_recur_generate_instances (comp, alarm_start, alarm_end, add_alarm_occurrences_cb, &aod);
+
+	/* We add the ABSOLUTE triggers separately */
+	generate_absolute_triggers (comp, &aod);
+
+	if (aod.n_triggers == 0)
+		return NULL;
+
+	/* Create the component alarm instances structure */
+
+	alarms = g_new (CalComponentAlarms, 1);
+	alarms->comp = comp;
+	gtk_object_ref (GTK_OBJECT (alarms->comp));
+	alarms->alarms = g_slist_sort (aod.triggers, compare_alarm_instance);
+
+	return alarms;
+}
+
+/* Iterates through all the components in the comps list and generates alarm
+ * instances for them; putting them in the comp_alarms list.  Returns the number
+ * of elements it added to that list.
+ */
+static int
+generate_alarms_for_list (GList *comps, time_t start, time_t end, GSList **comp_alarms)
+{
+	GList *l;
+	int n;
+
+	n = 0;
+
+	for (l = comps; l; l = l->next) {
+		CalComponent *comp;
+		CalComponentAlarms *alarms;
+
+		comp = CAL_COMPONENT (l->data);
+		alarms = generate_alarms_for_comp (comp, start, end);
+
+		if (alarms) {
+			*comp_alarms = g_slist_prepend (*comp_alarms, alarms);
+			n++;
+		}
+	}
+
+	return n;
+}
+
+/* Fills a CORBA sequence of alarm instances */
+static void
+fill_alarm_instances_seq (GNOME_Evolution_Calendar_CalAlarmInstanceSeq *seq, GSList *alarms)
+{
+	int n_alarms;
+	GSList *l;
+	int i;
+
+	n_alarms = g_slist_length (alarms);
+
+	CORBA_sequence_set_release (seq, TRUE);
+	seq->_length = n_alarms;
+	seq->_buffer = CORBA_sequence_GNOME_Evolution_Calendar_CalAlarmInstance_allocbuf (n_alarms);
+
+	for (l = alarms, i = 0; l; l = l->next, i++) {
+		CalAlarmInstance *instance;
+		GNOME_Evolution_Calendar_CalAlarmInstance *corba_instance;
+
+		instance = l->data;
+		corba_instance = seq->_buffer + i;
+
+		corba_instance->auid = CORBA_string_dup (instance->auid);
+		corba_instance->trigger = (long) instance->trigger;
+		corba_instance->occur = (long) instance->occur;
+	}
+}
+
 /* Get_alarms_in_range handler for the file backend */
-static GList *
+static GNOME_Evolution_Calendar_CalComponentAlarmsSeq *
 cal_backend_file_get_alarms_in_range (CalBackend *backend, time_t start, time_t end)
 {
 	CalBackendFile *cbfile;
 	CalBackendFilePrivate *priv;
+	int n_comp_alarms;
+	GSList *comp_alarms;
+	GSList *l;
+	int i;
+	GNOME_Evolution_Calendar_CalComponentAlarmsSeq *seq;
 
 	cbfile = CAL_BACKEND_FILE (backend);
 	priv = cbfile->priv;
@@ -937,35 +1229,81 @@ cal_backend_file_get_alarms_in_range (CalBackend *backend, time_t start, time_t 
 	g_return_val_if_fail (start != -1 && end != -1, NULL);
 	g_return_val_if_fail (start <= end, NULL);
 
-	/* FIXME: have to deal with an unknown number of alarms; we can't just
-	 * do the same thing as in cal-backend-imc.
-	 */
-	return NULL;
+	/* Per RFC 2445, only VEVENTs and VTODOs can have alarms */
+
+	n_comp_alarms = 0;
+	comp_alarms = NULL;
+
+	n_comp_alarms += generate_alarms_for_list (priv->events, start, end, &comp_alarms);
+	n_comp_alarms += generate_alarms_for_list (priv->todos, start, end, &comp_alarms);
+
+	seq = GNOME_Evolution_Calendar_CalComponentAlarmsSeq__alloc ();
+	CORBA_sequence_set_release (seq, TRUE);
+	seq->_length = n_comp_alarms;
+	seq->_buffer = CORBA_sequence_GNOME_Evolution_Calendar_CalComponentAlarms_allocbuf (
+		n_comp_alarms);
+
+	for (l = comp_alarms, i = 0; l; l = l->next, i++) {
+		CalComponentAlarms *alarms;
+		char *comp_str;
+
+		alarms = l->data;
+
+		comp_str = cal_component_get_as_string (alarms->comp);
+		seq->_buffer[i].calobj = CORBA_string_dup (comp_str);
+		g_free (comp_str);
+
+		fill_alarm_instances_seq (&seq->_buffer[i].alarms, alarms->alarms);
+
+		cal_component_alarms_free (alarms);
+	}
+
+	g_slist_free (comp_alarms);
+
+	return seq;
 }
 
 /* Get_alarms_for_object handler for the file backend */
-static gboolean
+static GNOME_Evolution_Calendar_CalComponentAlarms *
 cal_backend_file_get_alarms_for_object (CalBackend *backend, const char *uid,
-					time_t start, time_t end,
-					GList **alarms)
+					time_t start, time_t end, gboolean *object_found)
 {
 	CalBackendFile *cbfile;
 	CalBackendFilePrivate *priv;
+	CalComponent *comp;
+	char *comp_str;
+	GNOME_Evolution_Calendar_CalComponentAlarms *corba_alarms;
+	CalComponentAlarms *alarms;
 
 	cbfile = CAL_BACKEND_FILE (backend);
 	priv = cbfile->priv;
 
-	g_return_val_if_fail (priv->icalcomp != NULL, FALSE);
+	g_return_val_if_fail (priv->icalcomp != NULL, NULL);
 
-	g_return_val_if_fail (uid != NULL, FALSE);
-	g_return_val_if_fail (start != -1 && end != -1, FALSE);
-	g_return_val_if_fail (start <= end, FALSE);
-	g_return_val_if_fail (alarms != NULL, FALSE);
+	g_return_val_if_fail (uid != NULL, NULL);
+	g_return_val_if_fail (start != -1 && end != -1, NULL);
+	g_return_val_if_fail (start <= end, NULL);
+	g_return_val_if_fail (object_found != NULL, NULL);
 
-	/* FIXME */
+	comp = lookup_component (cbfile, uid);
+	if (!comp) {
+		*object_found = FALSE;
+		return NULL;
+	}
 
-	*alarms = NULL;
-	return FALSE;
+	*object_found = TRUE;
+
+	comp_str = cal_component_get_as_string (comp);
+	corba_alarms = GNOME_Evolution_Calendar_CalComponentAlarms__alloc ();
+
+	corba_alarms->calobj = CORBA_string_dup (comp_str);
+	g_free (comp_str);
+
+	alarms = generate_alarms_for_comp (comp, start, end);
+	fill_alarm_instances_seq (&corba_alarms->alarms, alarms->alarms);
+	cal_component_alarms_free (alarms);
+
+	return corba_alarms;
 }
 
 /* Notifies a backend's clients that an object was updated */

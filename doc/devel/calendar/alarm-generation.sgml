@@ -1,0 +1,54 @@
+  <chapter id="calendar-alarm-generation">
+    <title>How the Wombat generates alarm instances</title>
+
+    <para>
+      This chapter describes the algorithm that the &Wombat; uses
+      internally to generate instances of a calendar component's
+      alarms.  You do not need to read this chapter if you are simply
+      using the client-side functions.
+    </para>
+
+    <sect1 id="what-makes-up-an-alarm-trigger">
+      <title>What makes up an alarm trigger</title>
+
+      <para>
+	VTODO and VEVENT calendar components can have any number of
+	alarms defined for them.  Each alarm has a trigger
+	specification, an alarm type (display, audio, email, or
+	procedure), and data corresponding to the alarm type.  The
+	Wombat side of things is interested only in the trigger
+	specification, since this is all that the Wombat needs to
+	produce alarm instances.
+      </para>
+
+      <para>
+	An alarm trigger can be relative or absolute.  Relative
+	triggers occur a certain time before or after the start or end
+	of a calendar component's occurrence.  For example, you could
+	configure a trigger to notify you 15 minutes before an
+	appointment starts, so that you can get to its location on
+	time; or another one to notify you 5 minutes after another
+	person's meeting has ended, so that you can call that person
+	on the phone after the meeting and not disturb him while
+	there.  Absolute triggers occur at a specific point in time;
+	you can configure an alarm to trigger exactly at a particular
+	date and time that has no relation to the component's
+	occurrences at all.
+      </para>
+    </sect1>
+
+    <sect1 id="generating-trigger-instances">
+      <title>Generating trigger instances</title>
+
+      <para>
+	
+      </para>
+    </sect1>
+  </chapter>
+
+<!--
+Local variables:
+mode: sgml
+sgml-parent-document: ("../evolution-devel-guide.sgml" "book" "part" "")
+End:
+-->

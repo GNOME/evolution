@@ -5,6 +5,7 @@
 
 <!ENTITY evolution-calendar SYSTEM "calendar/evolution-calendar.sgml">
 <!ENTITY calendar-architecture SYSTEM "calendar/architecture.sgml">
+<!ENTITY calendar-alarm-generation SYSTEM "calendar/alarm-generation.sgml">
 <!ENTITY calendar-public-reference SYSTEM "calendar/public-reference.sgml">
 <!ENTITY CalClient SYSTEM "calendar/cal-client/sgml/cal-client.sgml">
 <!ENTITY CalComponent SYSTEM "calendar/cal-util/sgml/cal-component.sgml">

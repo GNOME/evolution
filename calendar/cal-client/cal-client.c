@@ -622,7 +622,7 @@ cal_client_get_object (CalClient *client, const char *uid, CalComponent **comp)
 {
 	CalClientPrivate *priv;
 	CORBA_Environment ev;
-	GNOME_Evolution_Calendar_CalObj calobj_str;
+	GNOME_Evolution_Calendar_CalObj comp_str;
 	CalClientGetStatus retval;
 	icalcomponent *icalcomp;
 
@@ -639,7 +639,7 @@ cal_client_get_object (CalClient *client, const char *uid, CalComponent **comp)
 	*comp = NULL;
 
 	CORBA_exception_init (&ev);
-	calobj_str = GNOME_Evolution_Calendar_Cal_getObject (priv->cal, (char *) uid, &ev);
+	comp_str = GNOME_Evolution_Calendar_Cal_getObject (priv->cal, (char *) uid, &ev);
 
 	if (ev._major == CORBA_USER_EXCEPTION
 	    && strcmp (CORBA_exception_id (&ev), ex_GNOME_Evolution_Calendar_Cal_NotFound) == 0)
@@ -649,8 +649,8 @@ cal_client_get_object (CalClient *client, const char *uid, CalComponent **comp)
 		goto out;
 	}
 
-	icalcomp = icalparser_parse_string (calobj_str);
-	CORBA_free (calobj_str);
+	icalcomp = icalparser_parse_string (comp_str);
+	CORBA_free (comp_str);
 
 	if (!icalcomp) {
 		retval = CAL_CLIENT_GET_SYNTAX_ERROR;
@@ -1160,61 +1160,81 @@ cal_client_generate_instances (CalClient *client, CalObjType type,
 	g_list_free (instances);
 }
 
-
-#if 0
-/* Translates the CORBA representation of an AlarmType */
-static enum AlarmType
-uncorba_alarm_type (Evolution_Calendar_AlarmType corba_type)
+/* Builds a list of CalAlarmInstance structures */
+static GSList *
+build_alarm_instance_list (CalComponent *comp, GNOME_Evolution_Calendar_CalAlarmInstanceSeq *seq)
 {
-	switch (corba_type) {
-	case Evolution_Calendar_MAIL:
-		return ALARM_MAIL;
-
-	case Evolution_Calendar_PROGRAM:
-		return ALARM_PROGRAM;
-
-	case Evolution_Calendar_DISPLAY:
-		return ALARM_DISPLAY;
-
-	case Evolution_Calendar_AUDIO:
-		return ALARM_AUDIO;
-
-	default:
-		g_assert_not_reached ();
-		return ALARM_DISPLAY;
-	}
-}
-#endif
-
-/* Builds a GList of CalAlarmInstance structures from the CORBA sequence */
-static GList *
-build_alarm_instance_list (GNOME_Evolution_Calendar_CalAlarmInstanceSeq *seq)
-{
-	GList *list;
+	GSList *alarms;
 	int i;
 
-	/* Create the list in reverse order */
+	alarms = NULL;
 
-	list = NULL;
 	for (i = 0; i < seq->_length; i++) {
-		GNOME_Evolution_Calendar_CalAlarmInstance *corba_ai;
-		CalAlarmInstance *ai;
+		GNOME_Evolution_Calendar_CalAlarmInstance *corba_instance;
+		CalComponentAlarm *alarm;
+		const char *auid;
+		CalAlarmInstance *instance;
 
-		corba_ai = &seq->_buffer[i];
-		ai = g_new (CalAlarmInstance, 1);
+		corba_instance = seq->_buffer + i;
 
-		ai->uid = g_strdup (corba_ai->uid);
-#if 0
-		ai->type = uncorba_alarm_type (corba_ai->type);
-#endif
-		ai->trigger = corba_ai->trigger;
-		ai->occur = corba_ai->occur;
+		/* Since we want the in-commponent auid, we look for the alarm
+		 * in the component and fetch its "real" auid.
+		 */
 
-		list = g_list_prepend (list, ai);
+		alarm = cal_component_get_alarm (comp, corba_instance->auid);
+		if (!alarm)
+			continue;
+
+		auid = cal_component_alarm_get_uid (alarm);
+		cal_component_alarm_free (alarm);
+
+		instance = g_new (CalAlarmInstance, 1);
+		instance->auid = auid;
+		instance->trigger = corba_instance->trigger;
+		instance->occur = corba_instance->occur;
+
+		alarms = g_slist_prepend (alarms, instance);
 	}
 
-	list = g_list_reverse (list);
-	return list;
+	return g_slist_reverse (alarms);
+}
+
+/* Builds a list of CalComponentAlarms structures */
+static GSList *
+build_component_alarms_list (GNOME_Evolution_Calendar_CalComponentAlarmsSeq *seq)
+{
+	GSList *comp_alarms;
+	int i;
+
+	comp_alarms = NULL;
+
+	for (i = 0; i < seq->_length; i++) {
+		GNOME_Evolution_Calendar_CalComponentAlarms *corba_alarms;
+		CalComponent *comp;
+		CalComponentAlarms *alarms;
+		icalcomponent *icalcomp;
+
+		corba_alarms = seq->_buffer + i;
+
+		icalcomp = icalparser_parse_string (corba_alarms->calobj);
+		if (!icalcomp)
+			continue;
+
+		comp = cal_component_new ();
+		if (!cal_component_set_icalcomponent (comp, icalcomp)) {
+			icalcomponent_free (icalcomp);
+			gtk_object_unref (GTK_OBJECT (comp));
+			continue;
+		}
+
+		alarms = g_new (CalComponentAlarms, 1);
+		alarms->comp = comp;
+		alarms->alarms = build_alarm_instance_list (comp, &corba_alarms->alarms);
+
+		comp_alarms = g_slist_prepend (comp_alarms, alarms);
+	}
+
+	return comp_alarms;
 }
 
 /**
@@ -1226,15 +1246,16 @@ build_alarm_instance_list (GNOME_Evolution_Calendar_CalAlarmInstanceSeq *seq)
  * Queries a calendar for the alarms that trigger in the specified range of
  * time.
  *
- * Return value: A list of #CalAlarmInstance structures.
+ * Return value: A list of #CalComponentAlarms structures.  This should be freed
+ * using the cal_client_free_alarms() function.
  **/
-GList *
+GSList *
 cal_client_get_alarms_in_range (CalClient *client, time_t start, time_t end)
 {
 	CalClientPrivate *priv;
 	CORBA_Environment ev;
-	GNOME_Evolution_Calendar_CalAlarmInstanceSeq *seq;
-	GList *alarms;
+	GNOME_Evolution_Calendar_CalComponentAlarmsSeq *seq;
+	GSList *alarms;
 
 	g_return_val_if_fail (client != NULL, NULL);
 	g_return_val_if_fail (IS_CAL_CLIENT (client), NULL);
@@ -1255,7 +1276,7 @@ cal_client_get_alarms_in_range (CalClient *client, time_t start, time_t end)
 	}
 	CORBA_exception_free (&ev);
 
-	alarms = build_alarm_instance_list (seq);
+	alarms = build_component_alarms_list (seq);
 	CORBA_free (seq);
 
 	return alarms;
@@ -1264,10 +1285,11 @@ cal_client_get_alarms_in_range (CalClient *client, time_t start, time_t end)
 /**
  * cal_client_get_alarms_for_object:
  * @client: A calendar client.
- * @uid: Unique identifier for a calendar object.
+ * @uid: Unique identifier for a calendar component.
  * @start: Start time for query.
  * @end: End time for query.
- * @alarms: Return value for the list of alarm instances.
+ * @alarms: Return value for the component's alarm instances.  Will return NULL
+ * if no instances occur within the specified time range.
  *
  * Queries a calendar for the alarms of a particular object that trigger in the
  * specified range of time.
@@ -1277,12 +1299,14 @@ cal_client_get_alarms_in_range (CalClient *client, time_t start, time_t end)
 gboolean
 cal_client_get_alarms_for_object (CalClient *client, const char *uid,
 				  time_t start, time_t end,
-				  GList **alarms)
+				  CalComponentAlarms **alarms)
 {
 	CalClientPrivate *priv;
 	CORBA_Environment ev;
-	GNOME_Evolution_Calendar_CalAlarmInstanceSeq *seq;
+	GNOME_Evolution_Calendar_CalComponentAlarms *corba_alarms;
 	gboolean retval;
+	icalcomponent *icalcomp;
+	CalComponent *comp;
 
 	g_return_val_if_fail (client != NULL, FALSE);
 	g_return_val_if_fail (IS_CAL_CLIENT (client), FALSE);
@@ -1300,7 +1324,8 @@ cal_client_get_alarms_for_object (CalClient *client, const char *uid,
 
 	CORBA_exception_init (&ev);
 
-	seq = GNOME_Evolution_Calendar_Cal_getAlarmsForObject (priv->cal, (char *) uid, start, end, &ev);
+	corba_alarms = GNOME_Evolution_Calendar_Cal_getAlarmsForObject (priv->cal, (char *) uid,
+									start, end, &ev);
 	if (ev._major == CORBA_USER_EXCEPTION
 	    && strcmp (CORBA_exception_id (&ev), ex_GNOME_Evolution_Calendar_Cal_NotFound) == 0)
 		goto out;
@@ -1309,14 +1334,27 @@ cal_client_get_alarms_for_object (CalClient *client, const char *uid,
 		goto out;
 	}
 
+	icalcomp = icalparser_parse_string (corba_alarms->calobj);
+	if (!icalcomp)
+		goto out;
+
+	comp = cal_component_new ();
+	if (!cal_component_set_icalcomponent (comp, icalcomp)) {
+		icalcomponent_free (icalcomp);
+		gtk_object_unref (GTK_OBJECT (comp));
+		goto out;
+	}
+
 	retval = TRUE;
-	*alarms = build_alarm_instance_list (seq);
-	CORBA_free (seq);
+
+	*alarms = g_new (CalComponentAlarms, 1);
+	(*alarms)->comp = comp;
+	(*alarms)->alarms = build_alarm_instance_list (comp, &corba_alarms->alarms);
+	CORBA_free (corba_alarms);
 
  out:
 	CORBA_exception_free (&ev);
 	return retval;
-
 }
 
 /**

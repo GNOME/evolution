@@ -102,11 +102,13 @@ void cal_client_generate_instances (CalClient *client, CalObjType type,
 				    time_t start, time_t end,
 				    CalRecurInstanceFn cb, gpointer cb_data);
 
-GList *cal_client_get_alarms_in_range (CalClient *client, time_t start, time_t end);
+GSList *cal_client_get_alarms_in_range (CalClient *client, time_t start, time_t end);
+
+void cal_client_free_alarms (GSList *alarms);
 
 gboolean cal_client_get_alarms_for_object (CalClient *client, const char *uid,
 					   time_t start, time_t end,
-					   GList **alarms);
+					   CalComponentAlarms **alarms);
 
 gboolean cal_client_update_object (CalClient *client, CalComponent *comp);
 
