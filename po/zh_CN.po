@@ -5,12 +5,12 @@
 # Partly comes from Sun_l10n group, 2003
 # Funda Wang <fundawang@linux.net.cn>, 2003, 2004.
 #
-#: plugins/exchange-account-setup/exchange-account-setup.c:118
+#: plugins/exchange-account-setup/exchange-account-setup.c:119
 msgid ""
 msgstr ""
 "Project-Id-Version: Evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-01-22 15:42+0800\n"
+"POT-Creation-Date: 2005-01-24 17:39+0800\n"
 "PO-Revision-Date: 2005-01-22 15:52+0800\n"
 "Last-Translator: Funda Wang <fundawang@linux.net.cn>\n"
 "Language-Team: zh_CN <i18n-translation@lists.linux.net.cn>\n"
@@ -9410,7 +9410,7 @@ msgid "<b>Out of Office Message:</b>"
 msgstr "<b>办公室以外信件：</b>"
 
 #: designs/OOA/ooa.glade.h:5
-#: plugins/exchange-account-setup/exchange-account-setup.c:105
+#: plugins/exchange-account-setup/exchange-account-setup.c:106
 msgid "<b>Status:</b>"
 msgstr "<b>状态：</b>"
 
@@ -12938,36 +12938,25 @@ msgid "Review"
 msgstr "回顾"
 
 #: mail/searchtypes.xml.h:1
-msgid "Body contains"
-msgstr "邮件体含有"
-
-#: mail/searchtypes.xml.h:2
-msgid "Body does not contain"
-msgstr "邮件体不含有"
-
-#: mail/searchtypes.xml.h:3
-msgid "Body or subject contains"
-msgstr "邮件体或主题含有"
-
-#: mail/searchtypes.xml.h:4
 msgid "Message contains"
 msgstr "信件含有"
 
-#: mail/searchtypes.xml.h:5
+#: mail/searchtypes.xml.h:2
 msgid "Recipients contain"
 msgstr "收件人含有"
 
-#: mail/searchtypes.xml.h:6
+#: mail/searchtypes.xml.h:3
 msgid "Sender contains"
 msgstr "发件人含有"
 
-#: mail/searchtypes.xml.h:7
+#: mail/searchtypes.xml.h:4
 msgid "Subject contains"
 msgstr "主题含有"
 
-#: mail/searchtypes.xml.h:8
-msgid "Subject does not contain"
-msgstr "主题不含有"
+#: mail/searchtypes.xml.h:5
+#, fuzzy
+msgid "Subject or Sender contains"
+msgstr "主题含有"
 
 #: plugins/backup-restore/backup.c:109
 msgid "Backup Evolution directory"
@@ -13101,7 +13090,7 @@ msgid "Mark as default folder"
 msgstr "标为默认文件夹"
 
 #. Description section
-#: plugins/exchange-account-setup/exchange-account-setup.c:90
+#: plugins/exchange-account-setup/exchange-account-setup.c:91
 msgid ""
 "The message specified below will be automatically sent to \n"
 "each person who sends mail to you while you are out of the office."
@@ -13109,25 +13098,26 @@ msgstr ""
 "在您位于办公室外时，如果有人给您发送邮件，则会自动将下面指定的信件\n"
 "送回。"
 
-#: plugins/exchange-account-setup/exchange-account-setup.c:114
+#: plugins/exchange-account-setup/exchange-account-setup.c:115
 msgid "I am in the office"
 msgstr "我正在办公室内"
 
-#: plugins/exchange-account-setup/exchange-account-setup.c:128
+#: plugins/exchange-account-setup/exchange-account-setup.c:129
 msgid "I am out of the office"
 msgstr "我正在办公室外"
 
-#: plugins/exchange-account-setup/exchange-account-setup.c:142
+#: plugins/exchange-account-setup/exchange-account-setup.c:143
 msgid "Out of office Message:"
 msgstr "办公室以外信件："
 
-#: plugins/exchange-account-setup/exchange-account-setup.c:193
+#: plugins/exchange-account-setup/exchange-account-setup.c:194
 msgid "Exchange Settings"
 msgstr "Exchange 设置"
 
-#: plugins/exchange-account-setup/exchange-account-setup.c:291
-#: plugins/exchange-account-setup/exchange-ask-password.c:158
-msgid "_Url:"
+#: plugins/exchange-account-setup/exchange-account-setup.c:336
+#: plugins/exchange-account-setup/exchange-ask-password.c:200
+#, fuzzy
+msgid "_OWA Url:"
 msgstr "_URL："
 
 #: plugins/folder-unsubscribe/folder-unsubscribe.c:57
@@ -16812,20 +16802,27 @@ msgstr "常规选项(_R)"
 msgid ""
 "None\n"
 "Mail Receipt"
-msgstr "无\n阅读收条"
+msgstr ""
+"无\n"
+"阅读收条"
 
 #: widgets/misc/e-send-options.glade.h:12
 msgid ""
 "None\n"
 "Mail Receipt\n"
-msgstr "无\n阅读收条\n"
+msgstr ""
+"无\n"
+"阅读收条\n"
 
 #: widgets/misc/e-send-options.glade.h:15
 msgid ""
 "Public\n"
 "Private\n"
 "Confidential\n"
-msgstr "公开\n私人\n机密\n"
+msgstr ""
+"公开\n"
+"私人\n"
+"机密\n"
 
 #: widgets/misc/e-send-options.glade.h:19
 msgid "R_eply requested"
@@ -16841,7 +16838,11 @@ msgid ""
 "High\n"
 "Standard\n"
 "Low"
-msgstr "未定义\n高\n标准\n低"
+msgstr ""
+"未定义\n"
+"高\n"
+"标准\n"
+"低"
 
 #: widgets/misc/e-send-options.glade.h:26
 #, fuzzy
@@ -16926,3 +16927,14 @@ msgstr "%s (...)"
 msgid "%s (%d%% complete)"
 msgstr "%s (%d%% 完成)"
 
+#~ msgid "Body contains"
+#~ msgstr "邮件体含有"
+
+#~ msgid "Body does not contain"
+#~ msgstr "邮件体不含有"
+
+#~ msgid "Body or subject contains"
+#~ msgstr "邮件体或主题含有"
+
+#~ msgid "Subject does not contain"
+#~ msgstr "主题不含有"
