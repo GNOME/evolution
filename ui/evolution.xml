@@ -85,7 +85,7 @@
 			<placeholder/>
 
 			<menuitem name="BonoboCustomize" verb=""
-			 _label="Customi_ze" pos="bottom"/>
+			 _label="Customi_ze..." pos="bottom"/>
 
 		</submenu>
 
