@@ -288,9 +288,6 @@ clean_up (EItipControl *itip)
 	priv->current = 0;
 	priv->total = 0;
 
-	itip_addresses_free (priv->addresses);
-	priv->addresses = NULL;
-
 	priv->my_address = NULL;
 	g_free (priv->from_address);
 	priv->from_address = NULL;
@@ -305,6 +302,9 @@ destroy (GtkObject *obj)
 	priv = itip->priv;
 
 	clean_up (itip);
+
+	itip_addresses_free (priv->addresses);
+	priv->addresses = NULL;
 	
 	gtk_object_unref (GTK_OBJECT (priv->event_client));
 	gtk_object_unref (GTK_OBJECT (priv->task_client));
