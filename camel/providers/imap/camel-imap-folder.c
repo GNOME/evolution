@@ -1175,7 +1175,7 @@ imap_get_summary_internal (CamelFolder *folder, CamelException *ex)
 		d(fprintf (stderr, "*** info->uid = %s\n", info->uid));
 		
 		/* now lets grab the FLAGS */
-		if (!(flags = strstr (q, "FLAGS "))) {
+		if (!(flags = strstr (headers->pdata[i], "FLAGS "))) {
 			d(fprintf (stderr, "We didn't seem to get any flags for %d...\n", i));
 			g_free (info->uid);
 			g_free (info);
@@ -1204,7 +1204,7 @@ imap_get_summary_internal (CamelFolder *folder, CamelException *ex)
 		
 		/* construct the header list */
 		/* fast-forward to beginning of header info... */
-		for (header = q; *header && *header != '\n'; header++);
+		for (header = headers->pdata[i]; *header && *header != '\n'; header++);
 		h = NULL;
 		for (j = 0; *header_fields[j]; j++) {
 			struct _header_raw *raw;
