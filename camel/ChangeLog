@@ -1,9 +1,23 @@
-2001-07-14  Jeffrey Stedfast  <fejj@ximian.com>
+2001-07-16  JP Rosevear  <jpr@ximian.com>
 
-	* providers/imap/camel-imap-folder.c (camel_imap_folder_changed):
-	If the message info for an expunged message is NULL, then just
-	break out - maybe a message was expunged that we were never
-	notified even existed?
+	* tests/smime/pgp-mime.c (main): update call for pgp context api
+	changes
+
+	* tests/smime/pgp.c (main): ditto
+
+	* tests/folder/test9.c (main): update calls for filter api changes
+
+	* tests/folder/Makefile.am: Get tests building again
+
+	* tests/stream/Makefile.am: ditto
+
+	* tests/smime/Makefile.am: ditto
+
+	* tests/misc/Makefile.am: ditto
+
+	* tests/mime-filter/Makefile.am: ditto
+
+	* tests/message/Makefile.am: ditto
 
 2001-07-13  Jeffrey Stedfast  <fejj@ximian.com>
 

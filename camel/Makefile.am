@@ -1,6 +1,8 @@
 ## Process this file with automake to produce Makefile.in
 
-SUBDIRS = providers tests
+SUBDIRS = providers
+
+DIST_SUBDIRS = tests
 
 libcamelincludedir = $(includedir)/camel
 providerdir = $(libdir)/evolution/camel-providers/$(VERSION)

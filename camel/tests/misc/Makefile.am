@@ -10,7 +10,7 @@ LDADD = \
 	$(top_builddir)/libibex/libibex.la 	\
 	$(GNOME_LIBDIR) 			\
 	$(top_builddir)/camel/tests/lib/libcameltest.a			\
-	$(GNOMEUI_LIBS) $(INTLLIBS) $(EXTRA_GNOME_LIBS)
+	$(GNOMEUI_LIBS) $(INTLLIBS) $(MAILER_LIBS)
 
 check_PROGRAMS =  	\
 	url
