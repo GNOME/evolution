@@ -1,3 +1,7 @@
+2004-12-22  JP Rosevear  <jpr@novell.com>
+
+	* Makefile.am: list format-handler.h as a source so it dists
+
 2004-12-20  Philip Van Hoof  <pvanhoof@gnome.org>
 
 	* Makefile.am: Code splitup, each format has it's own c-file
