@@ -1,3 +1,9 @@
+2000-12-19  Christopher James Lahey  <clahey@helixcode.com>
+
+	* gui/widgets/e-addressbook-view.c (delete): Made it so that if
+	you select multiple contacts, the right click menu to delete
+	deletes them all.
+
 2000-12-18  Chris Toshok  <toshok@helixcode.com>
 
 	* backend/pas/pas-backend-ldap.c (ldap_error_to_response): always

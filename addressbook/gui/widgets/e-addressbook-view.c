@@ -401,7 +401,9 @@ table_double_click(ETableScrolled *table, gint row, EAddressbookView *view)
 typedef struct {
 	EBook *book;
 	ECard *card;
+	EAddressbookView *view;
 	GtkWidget *widget;
+	gpointer closure;
 } CardAndBook;
 
 static void
@@ -409,6 +411,38 @@ card_and_book_free (CardAndBook *card_and_book)
 {
 	gtk_object_unref(GTK_OBJECT(card_and_book->card));
 	gtk_object_unref(GTK_OBJECT(card_and_book->book));
+	gtk_object_unref(GTK_OBJECT(card_and_book->view));
+}
+
+static void
+get_card_list_1(gint model_row,
+	      gpointer closure)
+{
+	CardAndBook *card_and_book;
+	GList **list;
+	EAddressbookView *view;
+	ECard *card;
+
+	card_and_book = closure;
+	list = card_and_book->closure;
+	view = card_and_book->view;
+
+	card = e_addressbook_model_get_card(E_ADDRESSBOOK_MODEL(view->object), model_row);
+	*list = g_list_prepend(*list, card);
+}
+
+static GList *
+get_card_list (CardAndBook *card_and_book)
+{
+	GList *list = NULL;
+	ETable *table;
+
+	table = E_TABLE(card_and_book->widget);
+	card_and_book->closure = &list;
+	e_table_selected_row_foreach(table,
+				     get_card_list_1,
+				     card_and_book);
+	return list;
 }
 
 static void
@@ -427,6 +461,7 @@ send_as (GtkWidget *widget, CardAndBook *card_and_book)
 
 static void
 send_to (GtkWidget *widget, CardAndBook *card_and_book)
+
 {
 	e_card_send(card_and_book->card, E_CARD_DISPOSITION_AS_TO);
 	card_and_book_free(card_and_book);
@@ -450,11 +485,17 @@ static void
 delete (GtkWidget *widget, CardAndBook *card_and_book)
 {
 	if (e_contact_editor_confirm_delete(GTK_WINDOW(gtk_widget_get_toplevel(card_and_book->widget)))) {
-		/* Add the card in the contact editor to our ebook */
-		e_book_remove_card (card_and_book->book,
-				    card_and_book->card,
-				    NULL,
-				    NULL);
+		GList *list = get_card_list(card_and_book);
+		GList *iterator;
+		for (iterator = list; iterator; iterator = iterator->next) {
+			ECard *card = iterator->data;
+			/* Add the card in the contact editor to our ebook */
+			e_book_remove_card (card_and_book->book,
+					    card,
+					    NULL,
+					    NULL);
+		}
+		e_free_object_list(list);
 	}
 	card_and_book_free(card_and_book);
 }
@@ -465,7 +506,7 @@ table_right_click(ETableScrolled *table, gint row, gint col, GdkEvent *event, EA
 	if (E_IS_ADDRESSBOOK_MODEL(view->object)) {
 		EAddressbookModel *model = E_ADDRESSBOOK_MODEL(view->object);
 		CardAndBook *card_and_book;
-		
+
 		EPopupMenu menu[] = {
 			{"Save as VCard", NULL, GTK_SIGNAL_FUNC(save_as), NULL, 0}, 
 			{"Send contact to other", NULL, GTK_SIGNAL_FUNC(send_as), NULL, 0},
@@ -475,21 +516,24 @@ table_right_click(ETableScrolled *table, gint row, gint col, GdkEvent *event, EA
 			{"Delete", NULL, GTK_SIGNAL_FUNC(delete), NULL, 0},
 			{NULL, NULL, NULL, NULL, 0}
 		};
-		
+
 		card_and_book = g_new(CardAndBook, 1);
 		card_and_book->card = e_addressbook_model_get_card(model, row);
 		card_and_book->widget = GTK_WIDGET(table);
+		card_and_book->view = view;
 		gtk_object_get(GTK_OBJECT(model),
 			       "book", &(card_and_book->book),
 			       NULL);
-		
+
 		gtk_object_ref(GTK_OBJECT(card_and_book->book));
-		
+		gtk_object_ref(GTK_OBJECT(card_and_book->view));
+
 		e_popup_menu_run (menu, (GdkEventButton *)event, 0, 0, card_and_book);
 		return TRUE;
 	} else
 		return FALSE;
 }
+
 #define SPEC "<?xml version=\"1.0\"?>      \
 <ETableSpecification click-to-add=\"true\" draw-grid=\"true\" _click-to-add-message=\"* Click here to add a contact *\">   \
   <ETableColumn model_col= \"0\" _title=\"Name\"          expansion=\"1.0\" minimum_width=\"20\" resizable=\"true\" cell=\"string\"       compare=\"string\"/> \
