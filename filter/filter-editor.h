@@ -1,7 +1,9 @@
+/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- *  Copyright (C) 2000, 2001 Ximian Inc.
+ *  Copyright (C) 2000-2002 Ximian Inc.
  *
  *  Authors: Not Zed <notzed@lostzed.mmc.com.au>
+ *           Jeffrey Stedfast <fejj@ximian.com>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public
@@ -22,33 +24,35 @@
 #define _FILTER_EDITOR_H
 
 #include "rule-editor.h"
+#include "filter-context.h"
 
-#define FILTER_EDITOR(obj)	GTK_CHECK_CAST (obj, filter_editor_get_type (), FilterEditor)
-#define FILTER_EDITOR_CLASS(klass)	GTK_CHECK_CLASS_CAST (klass, filter_editor_get_type (), FilterEditorClass)
-#define IS_FILTER_EDITOR(obj)      GTK_CHECK_TYPE (obj, filter_editor_get_type ())
+#define FILTER_TYPE_EDITOR            (filter_editor_get_type ())
+#define FILTER_EDITOR(obj)            (GTK_CHECK_CAST ((obj), FILTER_TYPE_EDITOR, FilterEditor))
+#define FILTER_EDITOR_CLASS(klass)    (GTK_CHECK_CLASS_CAST ((klass), FILTER_TYPE_EDITOR, FilterEditorClass))
+#define IS_FILTER_EDITOR(obj)         (GTK_CHECK_TYPE ((obj), FILTER_TYPE_EDITOR))
+#define IS_FILTER_EDITOR_CLASS(klass) (GTK_CHECK_CLASS_TYPE ((klass), FILTER_TYPE_EDITOR))
+#define FILTER_EDITOR_GET_CLASS(obj)  (GTK_CHECK_GET_CLASS ((obj), FILTER_TYPE_EDITOR, FilterEditorClass))
 
-typedef struct _FilterEditor	FilterEditor;
-typedef struct _FilterEditorClass	FilterEditorClass;
+typedef struct _FilterEditor FilterEditor;
+typedef struct _FilterEditorClass FilterEditorClass;
 
 struct _FilterEditor {
-	RuleEditor parent;
+	RuleEditor parent_object;
 	struct _FilterEditorPrivate *priv;
-
+	
 };
 
 struct _FilterEditorClass {
 	RuleEditorClass parent_class;
-
+	
 	/* virtual methods */
-
+	
 	/* signals */
 };
 
-struct _FilterContext;
+GtkType filter_editor_get_type (void);
 
-guint		filter_editor_get_type	(void);
-FilterEditor    *filter_editor_new(struct _FilterContext *f, const char **source_names);
-void		filter_editor_construct(FilterEditor *fe, struct _FilterContext *fc, struct _GladeXML *gui, const char **source_names);
+FilterEditor *filter_editor_new (FilterContext *f, const char **source_names);
+void filter_editor_construct (FilterEditor *fe, FilterContext *fc, GladeXML *gui, const char **source_names);
 
 #endif /* ! _FILTER_EDITOR_H */
-
