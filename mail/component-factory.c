@@ -36,12 +36,14 @@
 #include "folder-browser.h"
 #include "mail.h"		/* YUCK FIXME */
 #include "e-util/e-gui-utils.h"
+#include "e-util/e-setup.h"
 
 #include "filter/filter-driver.h"
 #include "component-factory.h"
 
 static void create_vfolder_storage (EvolutionShellComponent *shell_component);
 static void create_imap_storage (EvolutionShellComponent *shell_component);
+static void create_news_storage (EvolutionShellComponent *shell_component);
 
 #ifdef USING_OAF
 #define COMPONENT_FACTORY_ID "OAFIID:evolution-shell-component-factory:evolution-mail:0ea887d5-622b-4b8c-b525-18aa1cbe18a6"
@@ -203,7 +205,6 @@ create_vfolder_storage (EvolutionShellComponent *shell_component)
 		FilterDriver *fe;
 		int i, count;
 		char *user, *system;
-		extern char *evolution_dir;
 
 		fe = filter_driver_new();
 		user = g_strdup_printf ("%s/vfolders.xml", evolution_dir);
@@ -250,8 +251,6 @@ create_vfolder_storage (EvolutionShellComponent *shell_component)
 static void
 create_imap_storage (EvolutionShellComponent *shell_component)
 {
-	/* FIXME: KLUDGE! */
-	extern gchar *evolution_dir;
 	Evolution_Shell corba_shell;
 	EvolutionStorage *storage;
 	char *cpath, *source, *server, *p;
@@ -337,8 +336,6 @@ create_imap_storage (EvolutionShellComponent *shell_component)
 static void
 create_news_storage (EvolutionShellComponent *shell_component)
 {
-	/* FIXME: KLUDGE! */
-	extern gchar *evolution_dir;
 	Evolution_Shell corba_shell;
 	EvolutionStorage *storage;
 	char *cpath, *source, *server, *p;
