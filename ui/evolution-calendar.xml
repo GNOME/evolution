@@ -9,7 +9,6 @@
     <cmd name="CalendarPrint" _tip="Print this calendar" pixtype="pixbuf" 
 	 accel="*Control*p"/>
     <cmd name="CalendarPrintPreview" _tip="Previews the calendar to be printed" pixtype="pixbuf"/>
-    <cmd name="CalendarSettings" _tip="Configure the calendar's settings"/>
 
     <cmd name="CalendarPrev" _tip="Go back" pixtype="pixbuf"/>
     <cmd name="CalendarToday" _tip="Go to today" pixtype="stock" pixname="Home"/>
@@ -77,13 +76,6 @@
       </placeholder>
 
      </submenu>
-
-    <submenu name="Tools">
-      <placeholder name="ComponentPlaceholder">
-	<menuitem name="CalendarSettings" verb="" _label="_Calendar Settings..." pixtype="pixbuf"/>
-	<separator f="" name="ecal"/>
-      </placeholder>
-    </submenu>
 
     <placeholder name="ComponentActionsPlaceholder">
       <submenu name="Actions" _label="_Actions">

@@ -14,8 +14,6 @@
 
     <cmd name="TasksExpunge" _label="_Expunge" _tip="Delete completed tasks" 
          accel="*Control*e"/>
-
-    <cmd name="TasksSettings" _tip="Configure the task view's settings"/>
   </commands>
   
   <menu>
@@ -65,13 +63,6 @@
       </submenu>
     </placeholder>
 
-    <submenu name="Tools">
-      <placeholder name="ComponentPlaceholder">
-        <menuitem name="TasksSettings" _label="Tasks Settings..." verb="" pixtype="pixbuf"/>
-
-	<separator/>
-      </placeholder>
-    </submenu>
   </menu>
 
   <dockitem name="Toolbar">

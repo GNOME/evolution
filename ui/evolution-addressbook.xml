@@ -140,10 +140,6 @@
 					  verb=""
 					  _label="_Search for Contacts"
 					  pixtype="pixbuf"/>
-
-	        		<menuitem name="AddressbookConfig" verb=""
-					  _label="_Addressbook Sources..."
-					  pixtype ="pixbuf"/>
 				<separator f="" name="eadbk3"/>
 			</placeholder>
 		</submenu>
