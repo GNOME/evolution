@@ -8,9 +8,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution 1.0.3.99\n"
-"POT-Creation-Date: 2002-04-13 13:07+0200\n"
-"PO-Revision-Date: 2002-04-13 13:07+0200\n"
-"Last-Translator: Frédéric Riss <frederic.riss@laposte.net>\n"
+"POT-Creation-Date: 2002-04-16 10:10+0200\n"
+"PO-Revision-Date: 2002-04-16 10:10+0200\n"
+"Last-Translator: Christophe Merlet (RedFox) <redfox@eikonex.org>\n"
 "Language-Team: GNOME French Team <gnomefr@traduc.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=ISO-8859-1\n"
@@ -994,8 +994,8 @@ msgid ""
 "We were unable to open this addressbook.  Please check that the\n"
 "path exists and that you have permission to access it."
 msgstr ""
-"Nous n'avons pas pu ouvrir ce carnet d'adresse. Vérifiez que le\n"
-"chemin existe que que vous avez la permission d'accès S.V.P."
+"Nous n'avons pas pu ouvrir ce carnet d'adresse. Veuillez vérifiez\n"
+"que le chemin existe que que vous avez la permission d'accès."
 
 #: addressbook/gui/component/addressbook.c:641
 #: addressbook/gui/component/addressbook.c:644
@@ -7834,7 +7834,7 @@ msgstr "Veuillez saisir votre mot de passe pour %s"
 
 #: camel/camel-smime-context.c:203
 msgid "Please indicate the nickname of a certificate to sign with."
-msgstr "Indiquez le surnom du certificat pour signer grâce à lui S.V.P."
+msgstr "Veuillez indiquer le surnom du certificat avec lequel signer."
 
 #: camel/camel-smime-context.c:209
 #, c-format
@@ -8194,7 +8194,7 @@ msgid "Could not save summary: %s: %s"
 msgstr "Impossible de sauvegarder le résumé : %s : %s"
 
 #: camel/providers/local/camel-local-summary.c:423
-#: camel/providers/local/camel-spool-summary.c:1157
+#: camel/providers/local/camel-spool-summary.c:1164
 msgid "Unable to add message to summary: unknown reason"
 msgstr "Impossible d'ajouter un message au résumé : raison inconnue"
 
@@ -8380,7 +8380,7 @@ msgstr "Le dossier « %s » n'est pas vide. Non supprimé."
 #: camel/providers/local/camel-mbox-summary.c:698
 #: camel/providers/local/camel-spool-summary.c:378
 #: camel/providers/local/camel-spool-summary.c:643
-#: camel/providers/local/camel-spool-summary.c:935
+#: camel/providers/local/camel-spool-summary.c:942
 msgid "Storing folder"
 msgstr "Ecriture du dossier"
 
@@ -8423,8 +8423,8 @@ msgstr "Ne peut ouvrir la boîte à lettres temporaire : %s"
 #: camel/providers/local/camel-mbox-summary.c:749
 #: camel/providers/local/camel-spool-summary.c:697
 #: camel/providers/local/camel-spool-summary.c:705
-#: camel/providers/local/camel-spool-summary.c:978
-#: camel/providers/local/camel-spool-summary.c:986
+#: camel/providers/local/camel-spool-summary.c:985
+#: camel/providers/local/camel-spool-summary.c:993
 msgid "Summary and folder mismatch, even after a sync"
 msgstr ""
 "Le résumé et le dossier ne correspondent pas, même après une synchronisation"
@@ -8443,7 +8443,7 @@ msgstr "Échec d'écriture dans la boite à lettres temporaire : %s : %s"
 
 #: camel/providers/local/camel-mbox-summary.c:630
 #: camel/providers/local/camel-mbox-summary.c:799
-#: camel/providers/local/camel-spool-summary.c:1036
+#: camel/providers/local/camel-spool-summary.c:1043
 #, c-format
 msgid "Could not close source folder %s: %s"
 msgstr "Impossible de fermer le dossier source %s : %s"
@@ -8460,7 +8460,7 @@ msgstr "Impossible de renommer le dossier : %s"
 
 #: camel/providers/local/camel-mbox-summary.c:873
 #: camel/providers/local/camel-spool-summary.c:544
-#: camel/providers/local/camel-spool-summary.c:1110
+#: camel/providers/local/camel-spool-summary.c:1117
 #, c-format
 msgid "Unknown error: %s"
 msgstr "Erreur inconnue : %s"
@@ -8512,21 +8512,21 @@ msgstr "Les dossiers spool  ne peuvent être renommés."
 msgid "Spool folders cannot be deleted"
 msgstr "Les dossiers spool  ne peuvent être effacés."
 
-#: camel/providers/local/camel-spool-summary.c:788
-#: camel/providers/local/camel-spool-summary.c:797
-#: camel/providers/local/camel-spool-summary.c:806
+#: camel/providers/local/camel-spool-summary.c:795
+#: camel/providers/local/camel-spool-summary.c:804
+#: camel/providers/local/camel-spool-summary.c:813
 #, c-format
 msgid "Could not sync temporary folder %s: %s"
 msgstr "Ne peut synchroniser le dossier de courrier temporaire %s : %s"
 
-#: camel/providers/local/camel-spool-summary.c:821
+#: camel/providers/local/camel-spool-summary.c:828
 #, c-format
 msgid "Could not sync spool folder %s: %s"
 msgstr "Ne peut synchroniser le dossier de spool %s : %s"
 
-#: camel/providers/local/camel-spool-summary.c:851
-#: camel/providers/local/camel-spool-summary.c:869
-#: camel/providers/local/camel-spool-summary.c:881
+#: camel/providers/local/camel-spool-summary.c:858
+#: camel/providers/local/camel-spool-summary.c:876
+#: camel/providers/local/camel-spool-summary.c:888
 #, c-format
 msgid ""
 "Could not sync spool folder %s: %s\n"
@@ -8535,7 +8535,7 @@ msgstr ""
 "Ne peut synchroniser le dossier de spool %s : %s\n"
 "Le dossier est peut-être corrompu, copie enregistrée dans '%s'"
 
-#: camel/providers/local/camel-spool-summary.c:940
+#: camel/providers/local/camel-spool-summary.c:947
 #, c-format
 msgid "Could not file: %s: %s"
 msgstr "Impossible d'ouvrir le fichier : %s : %s"
@@ -8880,7 +8880,7 @@ msgstr "Action demandée abandonnée : erreur traitement"
 
 #: camel/providers/smtp/camel-smtp-transport.c:200
 msgid "User not local; please try <forward-path>"
-msgstr "Utilisateur non local; essayez <forward-path> S.V.P"
+msgstr "Utilisateur non local; veuillez essayer <forward-path>"
 
 #: camel/providers/smtp/camel-smtp-transport.c:202
 msgid "Requested action not taken: insufficient system storage"
@@ -9968,7 +9968,7 @@ msgstr "Importation"
 #: importers/elm-importer.c:98 importers/netscape-importer.c:109
 #: importers/pine-importer.c:103
 msgid "Please wait"
-msgstr "Attendez S.V.P"
+msgstr "Veuillez attendre"
 
 #: importers/elm-importer.c:169 importers/netscape-importer.c:689
 #: importers/pine-importer.c:365
@@ -10390,7 +10390,7 @@ msgstr "mh"
 
 #: mail/mail-account-editor-news.c:105 mail/mail-account-editor.c:107
 msgid "You have not filled in all of the required information."
-msgstr "Vous n'avez pas saisi toutes les informations demandées."
+msgstr "Vous n'avez pas saisi toutes les informations requises."
 
 #. give our dialog an OK button and title
 #: mail/mail-account-editor-news.c:160
@@ -10681,10 +10681,10 @@ msgid ""
 "below do not need to be filled in,\n"
 "unless you wish to include this information in email you send."
 msgstr ""
-"Veillez saisir votre nom et votre adresse électronique. Les champs « "
-"optionnels » ci-dessous n'ont pas besoin d'être remplis,\n"
-"à moins que vous ne désiriez inclure ces informations dans le message que "
-"vous envoyez."
+"Veuillez saisir votre nom et votre adresse électronique. Les champs « "
+"optionnels » ci-dessous n'ont pas besoin\n"
+"d'être remplis, à moins que vous ne désiriez inclure ces informations "
+"dans les messages que vous envoyez."
 
 #: mail/mail-config-druid.c:148
 msgid ""
@@ -10994,7 +10994,7 @@ msgstr "Options de réception"
 
 #: mail/mail-config.glade.h:64
 msgid "Required Information"
-msgstr "Informations demandées"
+msgstr "Informations requises"
 
 #: mail/mail-config.glade.h:66
 msgid "Secure MIME"
@@ -23445,7 +23445,7 @@ msgid ""
 "Please wait...\n"
 "Scanning for existing setups"
 msgstr ""
-"Attendez S.V.P...\n"
+"Veuillez attendre...\n"
 "Recherche des paramétrages existants"
 
 #: shell/e-shell-importer.c:735 shell/e-shell-startup-wizard.c:641
