@@ -1450,9 +1450,21 @@ obj_updated_cb (CalClient *client, const char *uid, gpointer data)
 
 	if (!strcmp (uid, edit_uid) && !priv->updating) {
 		if (changed_component_dialog ((GtkWindow *) editor, priv->comp, FALSE, priv->changed)) {
-			status = cal_client_get_object (priv->client, uid, &comp);
+			icalcomponent *icalcomp;
+
+			status = cal_client_get_object (priv->client, uid, &icalcomp);
 			if (status == CAL_CLIENT_GET_SUCCESS) {
-				comp_editor_edit_comp (editor, comp);
+				comp = cal_component_new ();
+				if (cal_component_set_icalcomponent (comp, icalcomp))
+					comp_editor_edit_comp (editor, comp);
+				else {
+					GtkWidget *dlg;
+
+					dlg = gnome_error_dialog (_("Unable to obtain current version!"));
+					gnome_dialog_run_and_close (GNOME_DIALOG (dlg));
+					icalcomponent_free (icalcomp);
+				}
+
 				g_object_unref((comp));
 			} else {
 				GtkWidget *dlg;

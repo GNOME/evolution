@@ -1354,13 +1354,12 @@ struct _CalClientGetTimezonesData {
 };
 
 CalClientGetStatus 
-cal_client_get_default_object (CalClient *client, CalObjType type, CalComponent **comp)
+cal_client_get_default_object (CalClient *client, CalObjType type, icalcomponent **icalcomp)
 {
 	CalClientPrivate *priv;
 	CORBA_Environment ev;
 	GNOME_Evolution_Calendar_CalObj comp_str;
 	CalClientGetStatus retval;
-	icalcomponent *icalcomp;
 	CalClientGetTimezonesData cb_data;
 
 	g_return_val_if_fail (client != NULL, CAL_CLIENT_GET_NOT_FOUND);
@@ -1369,10 +1368,10 @@ cal_client_get_default_object (CalClient *client, CalObjType type, CalComponent 
 	priv = client->priv;
 	g_return_val_if_fail (priv->load_state == CAL_CLIENT_LOAD_LOADED, CAL_CLIENT_GET_NOT_FOUND);
 
-	g_return_val_if_fail (comp != NULL, CAL_CLIENT_GET_NOT_FOUND);
+	g_return_val_if_fail (icalcomp != NULL, CAL_CLIENT_GET_NOT_FOUND);
 
 	retval = CAL_CLIENT_GET_NOT_FOUND;
-	*comp = NULL;
+	*icalcomp = NULL;
 
 	CORBA_exception_init (&ev);
 	comp_str = GNOME_Evolution_Calendar_Cal_getDefaultObject (priv->cal, type, &ev);
@@ -1380,24 +1379,14 @@ cal_client_get_default_object (CalClient *client, CalObjType type, CalComponent 
 	if (BONOBO_USER_EX (&ev, ex_GNOME_Evolution_Calendar_Cal_NotFound))
 		goto out;
 	else if (BONOBO_EX (&ev)) {		
-		g_message ("cal_client_get_object(): could not get the object");
+		g_message ("cal_client_get_default_object(): could not get the object");
 		goto out;
 	}
 
-	icalcomp = icalparser_parse_string (comp_str);
+	*icalcomp = icalparser_parse_string (comp_str);
 	CORBA_free (comp_str);
 
-	if (!icalcomp) {
-		retval = CAL_CLIENT_GET_SYNTAX_ERROR;
-		goto out;
-	}
-
-	*comp = cal_component_new ();
-	if (!cal_component_set_icalcomponent (*comp, icalcomp)) {
-		icalcomponent_free (icalcomp);
-		g_object_unref (*comp);
-		*comp = NULL;
-
+	if (!*icalcomp) {
 		retval = CAL_CLIENT_GET_SYNTAX_ERROR;
 		goto out;
 	}
@@ -1411,7 +1400,7 @@ cal_client_get_default_object (CalClient *client, CalObjType type, CalComponent 
 	   resize pending, which leads to an assert failure and an abort. */
 	cb_data.client = client;
 	cb_data.status = CAL_CLIENT_GET_SUCCESS;
-	icalcomponent_foreach_tzid (icalcomp,
+	icalcomponent_foreach_tzid (*icalcomp,
 				    cal_client_get_object_timezones_cb,
 				    &cb_data);
 
@@ -1427,7 +1416,7 @@ cal_client_get_default_object (CalClient *client, CalObjType type, CalComponent 
  * cal_client_get_object:
  * @client: A calendar client.
  * @uid: Unique identifier for a calendar component.
- * @comp: Return value for the calendar component object.
+ * @icalcomp: Return value for the calendar component object.
  *
  * Queries a calendar for a calendar component object based on its unique
  * identifier.
@@ -1435,13 +1424,12 @@ cal_client_get_default_object (CalClient *client, CalObjType type, CalComponent 
  * Return value: Result code based on the status of the operation.
  **/
 CalClientGetStatus
-cal_client_get_object (CalClient *client, const char *uid, CalComponent **comp)
+cal_client_get_object (CalClient *client, const char *uid, icalcomponent **icalcomp)
 {
 	CalClientPrivate *priv;
 	CORBA_Environment ev;
 	GNOME_Evolution_Calendar_CalObj comp_str;
 	CalClientGetStatus retval;
-	icalcomponent *icalcomp;
 	CalClientGetTimezonesData cb_data;
 
 	g_return_val_if_fail (client != NULL, CAL_CLIENT_GET_NOT_FOUND);
@@ -1451,10 +1439,10 @@ cal_client_get_object (CalClient *client, const char *uid, CalComponent **comp)
 	g_return_val_if_fail (priv->load_state == CAL_CLIENT_LOAD_LOADED, CAL_CLIENT_GET_NOT_FOUND);
 
 	g_return_val_if_fail (uid != NULL, CAL_CLIENT_GET_NOT_FOUND);
-	g_return_val_if_fail (comp != NULL, CAL_CLIENT_GET_NOT_FOUND);
+	g_return_val_if_fail (icalcomp != NULL, CAL_CLIENT_GET_NOT_FOUND);
 
 	retval = CAL_CLIENT_GET_NOT_FOUND;
-	*comp = NULL;
+	*icalcomp = NULL;
 
 	CORBA_exception_init (&ev);
 	comp_str = GNOME_Evolution_Calendar_Cal_getObject (priv->cal, (char *) uid, &ev);
@@ -1466,20 +1454,10 @@ cal_client_get_object (CalClient *client, const char *uid, CalComponent **comp)
 		goto out;
 	}
 
-	icalcomp = icalparser_parse_string (comp_str);
+	*icalcomp = icalparser_parse_string (comp_str);
 	CORBA_free (comp_str);
 
-	if (!icalcomp) {
-		retval = CAL_CLIENT_GET_SYNTAX_ERROR;
-		goto out;
-	}
-
-	*comp = cal_component_new ();
-	if (!cal_component_set_icalcomponent (*comp, icalcomp)) {
-		icalcomponent_free (icalcomp);
-		g_object_unref (G_OBJECT (*comp));
-		*comp = NULL;
-
+	if (!*icalcomp) {
 		retval = CAL_CLIENT_GET_SYNTAX_ERROR;
 		goto out;
 	}
@@ -1493,7 +1471,7 @@ cal_client_get_object (CalClient *client, const char *uid, CalComponent **comp)
 	   resize pending, which leads to an assert failure and an abort. */
 	cb_data.client = client;
 	cb_data.status = CAL_CLIENT_GET_SUCCESS;
-	icalcomponent_foreach_tzid (icalcomp,
+	icalcomponent_foreach_tzid (*icalcomp,
 				    cal_client_get_object_timezones_cb,
 				    &cb_data);
 
@@ -1936,6 +1914,7 @@ generate_instances_obj_updated_cb (CalClient *client, const char *uid, gpointer 
 {
 	GHashTable *uid_comp_hash;
 	CalComponent *comp;
+	icalcomponent *icalcomp;
 	CalClientGetStatus status;
 	const char *comp_uid;
 
@@ -1953,13 +1932,19 @@ generate_instances_obj_updated_cb (CalClient *client, const char *uid, gpointer 
 	g_hash_table_remove (uid_comp_hash, uid);
 	g_object_unref (G_OBJECT (comp));
 
-	status = cal_client_get_object (client, uid, &comp);
+	status = cal_client_get_object (client, uid, &icalcomp);
 
 	switch (status) {
 	case CAL_CLIENT_GET_SUCCESS:
-		/* The hash key comes from the component's internal data */
-		cal_component_get_uid (comp, &comp_uid);
-		g_hash_table_insert (uid_comp_hash, (char *) comp_uid, comp);
+		comp = cal_component_new ();
+		if (cal_component_set_icalcomponent (comp, icalcomp)) {
+			/* The hash key comes from the component's internal data */
+			cal_component_get_uid (comp, &comp_uid);
+			g_hash_table_insert (uid_comp_hash, (char *) comp_uid, comp);
+		} else {
+			g_object_unref (comp);
+			icalcomponent_free (icalcomp);
+		}
 		break;
 
 	case CAL_CLIENT_GET_NOT_FOUND:
@@ -2037,21 +2022,28 @@ get_objects_atomically (CalClient *client, CalObjType type, time_t start, time_t
 
 	for (l = uids; l; l = l->next) {
 		CalComponent *comp;
+		icalcomponent *icalcomp;
 		CalClientGetStatus status;
 		char *uid;
 		const char *comp_uid;
 
 		uid = l->data;
 
-		status = cal_client_get_object (client, uid, &comp);
+		status = cal_client_get_object (client, uid, &icalcomp);
 
 		switch (status) {
 		case CAL_CLIENT_GET_SUCCESS:
-			/* The hash key comes from the component's internal data
-			 * instead of the duped UID from the list of UIDS.
-			 */
-			cal_component_get_uid (comp, &comp_uid);
-			g_hash_table_insert (uid_comp_hash, (char *) comp_uid, comp);
+			comp = cal_component_new ();
+			if (cal_component_set_icalcomponent (comp, icalcomp)) {
+				/* The hash key comes from the component's internal data
+				 * instead of the duped UID from the list of UIDS.
+				 */
+				cal_component_get_uid (comp, &comp_uid);
+				g_hash_table_insert (uid_comp_hash, (char *) comp_uid, comp);
+			} else {
+				g_object_unref (comp);
+				icalcomponent_free (icalcomp);
+			}
 			break;
 
 		case CAL_CLIENT_GET_NOT_FOUND:
@@ -2912,7 +2904,7 @@ cal_client_get_query (CalClient *client, const char *sexp)
 
 	g_return_val_if_fail (sexp != NULL, NULL);
 
-	return cal_query_new (priv->cal, sexp);
+	return cal_query_new (client, priv->cal, sexp);
 }
 
 

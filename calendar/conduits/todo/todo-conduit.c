@@ -675,13 +675,21 @@ local_record_from_uid (EToDoLocalRecord *local,
 		       EToDoConduitContext *ctxt)
 {
 	CalComponent *comp;
+	icalcomponent *icalcomp;
 	CalClientGetStatus status;
 
 	g_assert(local!=NULL);
 
-	status = cal_client_get_object (ctxt->client, uid, &comp);
+	status = cal_client_get_object (ctxt->client, uid, &icalcomp);
 
 	if (status == CAL_CLIENT_GET_SUCCESS) {
+		comp = cal_component_new ();
+		if (!cal_component_set_icalcomponent (comp, icalcomp)) {
+			g_object_unref (comp);
+			icalcomponent_free (icalcomp);
+			return;
+		}
+
 		local_record_from_comp (local, comp, ctxt);
 		g_object_unref (comp);
 	} else if (status == CAL_CLIENT_GET_NOT_FOUND) {
@@ -869,6 +877,7 @@ pre_sync (GnomePilotConduit *conduit,
 	int len;
 	unsigned char *buf;
 	char *filename, *change_id;
+	icalcomponent *icalcomp;
 	gint num_records, add_records = 0, mod_records = 0, del_records = 0;
 
 	abs_conduit = GNOME_PILOT_CONDUIT_SYNC_ABS (conduit);
@@ -897,8 +906,15 @@ pre_sync (GnomePilotConduit *conduit,
 		cal_client_set_default_timezone (ctxt->client, ctxt->timezone);
 
 	/* Get the default component */
-	if (cal_client_get_default_object (ctxt->client, CALOBJ_TYPE_TODO, &ctxt->default_comp) != CAL_CLIENT_GET_SUCCESS)
+	if (cal_client_get_default_object (ctxt->client, CALOBJ_TYPE_TODO, &icalcomp) != CAL_CLIENT_GET_SUCCESS)
 		return -1;
+
+	ctxt->default_comp = cal_component_new ();
+	if (!cal_component_set_icalcomponent (ctxt->default_comp, icalcomp)) {
+		g_object_unref (ctxt->default_comp);
+		icalcomponent_free (icalcomp);
+		return -1;
+	}
 
 	/* Load the uid <--> pilot id map */
 	filename = map_name (ctxt);

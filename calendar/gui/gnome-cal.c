@@ -363,7 +363,8 @@ dn_query_obj_updated_cb (CalQuery *query, const char *uid,
 {
 	GnomeCalendar *gcal;
 	GnomeCalendarPrivate *priv;
-	CalComponent *comp;
+	CalComponent *comp = NULL;
+	icalcomponent *icalcomp;
 	CalClientGetStatus status;
 
 	gcal = GNOME_CALENDAR (data);
@@ -379,20 +380,25 @@ dn_query_obj_updated_cb (CalQuery *query, const char *uid,
 		return;
 	}
 
-	status = cal_client_get_object (priv->client, uid, &comp);
+	status = cal_client_get_object (priv->client, uid, &icalcomp);
 
 	switch (status) {
 	case CAL_CLIENT_GET_SUCCESS:
-		/* Everything is fine */
+		comp = cal_component_new ();
+		if (!cal_component_set_icalcomponent (comp, icalcomp)) {
+			g_object_unref (comp);
+			icalcomponent_free (icalcomp);
+			return;
+		}
 		break;
 
 	case CAL_CLIENT_GET_SYNTAX_ERROR:
 		g_message ("dn_query_obj_updated_cb(): Syntax error while getting object `%s'", uid);
-		break;
+		return;
 
 	case CAL_CLIENT_GET_NOT_FOUND:
 		/* The object is no longer in the server, so do nothing */
-		break;
+		return;
 
 	default:
 		g_assert_not_reached ();
@@ -3001,13 +3007,21 @@ purging_obj_updated_cb (CalQuery *query, const char *uid,
 	GnomeCalendarPrivate *priv;
 	GnomeCalendar *gcal = data;
 	CalComponent *comp;
+	icalcomponent *icalcomp;
 	obj_updated_closure closure;
 	gchar *msg;
 
 	priv = gcal->priv;
 
-	if (cal_client_get_object (priv->client, uid, &comp) != CAL_CLIENT_GET_SUCCESS)
+	if (cal_client_get_object (priv->client, uid, &icalcomp) != CAL_CLIENT_GET_SUCCESS)
 		return;
+
+	comp = cal_component_new ();
+	if (!cal_component_set_icalcomponent (comp, icalcomp)) {
+		g_object_unref (comp);
+		icalcomponent_free (icalcomp);
+		return;
+	}
 
 	msg = g_strdup_printf (_("Purging event %s"), uid);
 

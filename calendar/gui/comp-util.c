@@ -211,7 +211,7 @@ cal_comp_is_on_server (CalComponent *comp, CalClient *client)
 {
 	const char *uid;
 	CalClientGetStatus status;
-	CalComponent *server_comp;
+	icalcomponent *icalcomp;
 
 	g_return_val_if_fail (comp != NULL, FALSE);
 	g_return_val_if_fail (IS_CAL_COMPONENT (comp), FALSE);
@@ -226,11 +226,11 @@ cal_comp_is_on_server (CalComponent *comp, CalClient *client)
 	 */
 	cal_component_get_uid (comp, &uid);
 
-	status = cal_client_get_object (client, uid, &server_comp);
+	status = cal_client_get_object (client, uid, &icalcomp);
 
 	switch (status) {
 	case CAL_CLIENT_GET_SUCCESS:
-		g_object_unref (server_comp);
+		icalcomponent_free (icalcomp);
 		return TRUE;
 
 	case CAL_CLIENT_GET_SYNTAX_ERROR:
@@ -260,16 +260,23 @@ cal_comp_is_on_server (CalComponent *comp, CalClient *client)
 CalComponent *
 cal_comp_event_new_with_defaults (CalClient *client)
 {
+	icalcomponent *icalcomp;
 	CalComponent *comp;
 	int interval;
 	CalUnits units;
 	CalComponentAlarm *alarm;
-	icalcomponent *icalcomp;
 	icalproperty *icalprop;
 	CalAlarmTrigger trigger;
 
-	if (cal_client_get_default_object (client, CALOBJ_TYPE_EVENT, &comp) != CAL_CLIENT_GET_SUCCESS)
+	if (cal_client_get_default_object (client, CALOBJ_TYPE_EVENT, &icalcomp) != CAL_CLIENT_GET_SUCCESS)
 		return NULL;
+
+	comp = cal_component_new ();
+	if (!cal_component_set_icalcomponent (comp, icalcomp)) {
+		g_object_unref (comp);
+		icalcomponent_free (icalcomp);
+		return NULL;
+	}
 	
 	if (!calendar_config_get_use_default_reminder ())
 		return comp;
@@ -325,9 +332,17 @@ CalComponent *
 cal_comp_task_new_with_defaults (CalClient *client)
 {
 	CalComponent *comp;
+	icalcomponent *icalcomp;
 
-	if (cal_client_get_default_object (client, CALOBJ_TYPE_TODO, &comp) != CAL_CLIENT_GET_SUCCESS)
+	if (cal_client_get_default_object (client, CALOBJ_TYPE_TODO, &icalcomp) != CAL_CLIENT_GET_SUCCESS)
 		return NULL;
+
+	comp = cal_component_new ();
+	if (!cal_component_set_icalcomponent (comp, icalcomp)) {
+		g_object_unref (comp);
+		icalcomponent_free (icalcomp);
+		return NULL;
+	}
 
 	return comp;
 }

@@ -1763,6 +1763,7 @@ query_obj_updated_cb (CalQuery *query, const char *uid,
 	CalendarModelPrivate *priv;
 	int orig_idx;
 	CalComponent *new_comp;
+	icalcomponent *icalcomp;
 	const char *new_comp_uid;
 	int *new_idx;
 	CalClientGetStatus status;
@@ -1775,10 +1776,22 @@ query_obj_updated_cb (CalQuery *query, const char *uid,
 
 	orig_idx = remove_object (model, uid);
 
-	status = cal_client_get_object (priv->client, uid, &new_comp);
+	status = cal_client_get_object (priv->client, uid, &icalcomp);
 
 	switch (status) {
 	case CAL_CLIENT_GET_SUCCESS:
+		new_comp = cal_component_new ();
+		if (!cal_component_set_icalcomponent (new_comp, icalcomp)) {
+			g_object_unref (new_comp);
+			icalcomponent_free (icalcomp);
+			
+			if (orig_idx != -1)
+				e_table_model_row_deleted (E_TABLE_MODEL (model), orig_idx);
+			else
+				e_table_model_no_change (E_TABLE_MODEL (model));
+			break;
+		}
+
 		/* Insert the object into the model */
 
 		cal_component_get_uid (new_comp, &new_comp_uid);

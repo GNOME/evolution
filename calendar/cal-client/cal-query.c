@@ -37,6 +37,9 @@ struct _CalQueryPrivate {
 
 	/* Handle to the query in the server */
 	GNOME_Evolution_Calendar_Query corba_query;
+
+	/* The CalClient associated with this query */
+	CalClient *client;
 };
 
 
@@ -366,6 +369,7 @@ cal_query_construct (CalQuery *query,
 
 /**
  * cal_query_new:
+ * @client: Client from which the query is being created.
  * @cal: Handle to an open calendar.
  * @sexp: S-expression that defines the query.
  * 
@@ -375,7 +379,8 @@ cal_query_construct (CalQuery *query,
  * Return value: A newly-created query object, or NULL if the request failed.
  **/
 CalQuery *
-cal_query_new (GNOME_Evolution_Calendar_Cal cal,
+cal_query_new (CalClient *client,
+	       GNOME_Evolution_Calendar_Cal cal,
 	       const char *sexp)
 {
 	CalQuery *query;
@@ -387,5 +392,23 @@ cal_query_new (GNOME_Evolution_Calendar_Cal cal,
 		return NULL;
 	}
 
+	query->priv->client = client;
+
 	return query;
+}
+
+/**
+ * cal_query_get_client
+ * @query: A #CalQuery object.
+ *
+ * Get the #CalClient associated with this query.
+ *
+ * Returns: the associated client.
+ */
+CalClient *
+cal_query_get_client (CalQuery *query)
+{
+	g_return_val_if_fail (IS_CAL_QUERY (query), NULL);
+
+	return query->priv->client;
 }

@@ -1065,7 +1065,8 @@ query_obj_updated_cb (CalQuery *query, const char *uid,
 	EWeekView *week_view;
 	EWeekViewEvent *event;
 	gint event_num, num_days;
-	CalComponent *comp;
+	CalComponent *comp = NULL;
+	icalcomponent *icalcomp;
 	CalClientGetStatus status;
 
 	week_view = E_WEEK_VIEW (data);
@@ -1075,11 +1076,18 @@ query_obj_updated_cb (CalQuery *query, const char *uid,
 		return;
 
 	/* Get the event from the server. */
-	status = cal_client_get_object (e_cal_view_get_cal_client (E_CAL_VIEW (week_view)), uid, &comp);
+	status = cal_client_get_object (e_cal_view_get_cal_client (E_CAL_VIEW (week_view)), uid, &icalcomp);
 
 	switch (status) {
 	case CAL_CLIENT_GET_SUCCESS:
-		/* Everything is fine */
+		comp = cal_component_new ();
+		if (!cal_component_set_icalcomponent (comp, icalcomp)) {
+			g_object_unref (comp);
+			icalcomponent_free (icalcomp);
+
+			g_message ("query_obj_updated_cb(): Could not set icalcomponent on CalComponent");
+			return;
+		}
 		break;
 
 	case CAL_CLIENT_GET_SYNTAX_ERROR:

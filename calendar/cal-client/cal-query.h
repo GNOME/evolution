@@ -27,6 +27,8 @@
 
 G_BEGIN_DECLS
 
+typedef struct _CalClient CalClient;
+
 
 
 #define CAL_QUERY_TYPE            (cal_query_get_type ())
@@ -66,16 +68,18 @@ typedef struct {
 	void (* eval_error) (CalQuery *query, const char *error_str);
 } CalQueryClass;
 
-GType     cal_query_get_type (void);
+GType      cal_query_get_type (void);
 
-GType     cal_query_done_status_enum_get_type (void);
+GType      cal_query_done_status_enum_get_type (void);
 
-CalQuery *cal_query_construct (CalQuery *query,
-			       GNOME_Evolution_Calendar_Cal cal,
-			       const char *sexp);
+CalQuery  *cal_query_construct (CalQuery *query,
+				GNOME_Evolution_Calendar_Cal cal,
+				const char *sexp);
 
-CalQuery *cal_query_new (GNOME_Evolution_Calendar_Cal cal,
-			 const char *sexp);
+CalQuery  *cal_query_new (CalClient *client,
+			  GNOME_Evolution_Calendar_Cal cal,
+			  const char *sexp);
+CalClient *cal_query_get_client (CalQuery *query);
 
 
 

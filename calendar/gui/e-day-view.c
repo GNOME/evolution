@@ -5,7 +5,7 @@
  *  Damon Chaplin <damon@ximian.com>
  *  Rodrigo Moya <rodrigo@ximian.com>
  *
- * Copyright 1999, Ximian, Inc.
+ * Copyright 1999-2003, Ximian, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public
@@ -1434,6 +1434,7 @@ query_obj_updated_cb (CalQuery *query, const char *uid,
 	EDayView *day_view;
 	EDayViewEvent *event;
 	CalComponent *comp;
+	icalcomponent *icalcomp;
 	CalClientGetStatus status;
 	gint day, event_num;
 
@@ -1444,11 +1445,18 @@ query_obj_updated_cb (CalQuery *query, const char *uid,
 		return;
 
 	/* Get the event from the server. */
-	status = cal_client_get_object (e_cal_view_get_cal_client (E_CAL_VIEW (day_view)), uid, &comp);
+	status = cal_client_get_object (e_cal_view_get_cal_client (E_CAL_VIEW (day_view)), uid, &icalcomp);
 
 	switch (status) {
 	case CAL_CLIENT_GET_SUCCESS:
-		/* Everything is fine */
+		comp = cal_component_new ();
+		if (!cal_component_set_icalcomponent (comp, icalcomp)) {
+			g_object_unref (comp);
+			icalcomponent_free (icalcomp);
+
+			g_message ("query_obj_updated_cb(): Invalid object %s", uid);
+			return;
+		}
 		break;
 
 	case CAL_CLIENT_GET_SYNTAX_ERROR:

@@ -1,12 +1,119 @@
+2003-08-06  Rodrigo Moya <rodrigo@ximian.com>
+
+	* gui/e-cal-model.[ch]: removed 'create_component_with_defaults'
+	virtual method.
+	(e_cal_component_create_component_with_defaults):
+	(e_cal_component_get_color_for_component): new functions.
+
+2003-08-06  Rodrigo Moya <rodrigo@ximian.com>
+
+	* gui/e-cal-model.[ch] (e_cal_model_set_query): new function.
+	(e_cal_model_remove_all_clients): implemented.
+	(remove_client): also remove all objects belonging to the
+	client being removed.
+
+2003-08-06  Rodrigo Moya <rodrigo@ximian.com>
+
+	* gui/e-cal-model.c (get_dtstart, set_dtstart): implemented.
+	(ecm_value_at, ecm_set_value_at, ecm_duplicate_value,
+	 ecm_free_value, ecm_value_to_string): added case for DTSTART
+	 field.
+	(free_comp_data): free also the other date values in the
+	ECalModelComponent struct.
+	(e_cal_model_date_value_to_string): new function.
+
+	* gui/e-cal-model.h: added new prototypes.
+
+	* gui/e-cal-model-calendar.[ch]: new ECalModel-based class for
+	containing events.
+
+	* gui/e-cal-model-tasks.c (ecmt_value_to_string): implemented
+	the case for date fields.
+
+2003-08-05  Rodrigo Moya <rodrigo@ximian.com>
+
+	* cal-client/cal-client.c (generate_instances_obj_updated_cb): fixed
+	parameters in call to cal_client_get_object().
+	(get_objects_atomatically): same.
+
+	* gui/e-cal-model.[ch]: added "get_color_for_component" virtual method.
+	(get_color): new function to return the color. It calls the virtual
+	method of the current class.
+	(ecm_value_at): return a value for the color and icon columns.
+	(e_cal_model_class_init): initialize virtual methods.
+
+	* gui/e-cal-model-tasks.c (ecmt_get_color_for_component): implemented
+	new class' virtual method.
+
 2003-08-05  Jack Jia  <jack.jia@sun.com>
 
 	* gui/dialogs/event-page.glade: changed one of the "Con_fidential" to 
 	"Co_nfidential" since we already have "File" using the same 'F' key.
 
+2003-08-05  Rodrigo Moya <rodrigo@ximian.com>
+
+	* cal-client_/cal-client.c (cal_client_get_default_object): use
+	correctly the pointer to pointer.
+
+	* gui/e-week-view.c (query_obj_updated_cb): fixed the call to
+	cal_client_get_object().
+
+2003-08-04  Rodrigo Moya <rodrigo@ximian.com>
+
+	* cal-client/cal-client.[ch] (cal_client_get_default_object):
+	(cal_client_get_object): use icalcomponent instead of CalComponent.
+
+	* gui/e-cal-model.c (get_dtstart): implemented.
+	(query_obj_updated_cb):
+	(query_obj_removed_cb):
+	(query_done_cb):
+	(query_eval_error_cb): implemented missing functions.
+
+	* gui/calendar-model.c:
+	* gui/comp-editor-factory.c:
+	* gui/comp-util.c:
+	* gui/e-day-view.c:
+	* gui/e-itip-control.c:
+	* gui/e-week-view.c:
+	* gui/gnome-cal.c:
+	* gui/dialogs/comp-editor.c:
+	* conduits/todo/todo-conduit.c:
+	* conduits/calendar/calendar-conduit.c: adapted to changes
+	in CalClient API.
+
+2003-08-04  Rodrigo Moya <rodrigo@ximian.com>
+
+	* cal-client/cal-query.[ch] (cal_query_new): added a 'CalClient'
+	argument to this function.
+	(cal_query_get_client): new function.
+
+	* cal-client/cal-client.c (cal_client_get_query): added new parameter
+	in call to cal_query_new ().
+
+2003-08-01  Lorenzo Gil <lgs@sicem.biz>
+
+	* gui/e-alarm-list.c: added the include <config.h> line at the
+        beginning to enable gettext.
+
+2003-08-01  Rodrigo Moya <rodrigo@ximian.com>
+
+	* gui/e-cal-model.[ch] (e_cal_model_get_component_at): new function.
+	(ecm_append_row): use the client from the source model.
+	(e_cal_model_get_timezone, e_cal_model_set_timezone): new functions.
+
+	* gui/e-cal-model-tasks.[ch]: new class for the tasks model.
+
 2003-08-01  Lorenzo Gil <lgs@sicem.biz>
 
 	* gui/e-alarm-list.c: added the include <config.h> line at the
 	beginning to enable gettext.
+
+2003-07-31  Rodrigo Moya <rodrigo@ximian.com>
+
+	* gui/e-cal-model.[ch]: new class, based on CalendarModel to be
+	an abstract class for calendar models.
+
+	* gui/Makefile.am: added new files to build.
 
 2003-07-30  Rodrigo Moya <rodrigo@ximian.com>
 

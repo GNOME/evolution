@@ -240,6 +240,7 @@ static void
 edit_existing (OpenClient *oc, const char *uid)
 {
 	CalComponent *comp;
+	icalcomponent *icalcomp;
 	CalClientGetStatus status;
 	CompEditor *editor;
 	CalComponentVType vtype;
@@ -248,11 +249,16 @@ edit_existing (OpenClient *oc, const char *uid)
 
 	/* Get the object */
 
-	status = cal_client_get_object (oc->client, uid, &comp);
+	status = cal_client_get_object (oc->client, uid, &icalcomp);
 
 	switch (status) {
 	case CAL_CLIENT_GET_SUCCESS:
-		/* see below */
+		comp = cal_component_new ();
+		if (!cal_component_set_icalcomponent (comp, icalcomp)) {
+			g_object_unref (comp);
+			icalcomponent_free (icalcomp);
+			return;
+		}
 		break;
 
 	case CAL_CLIENT_GET_NOT_FOUND:
