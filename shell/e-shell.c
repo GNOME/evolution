@@ -948,9 +948,9 @@ view_destroy_cb (GtkObject *object,
 
 	num_views = g_list_length (shell->priv->views);
 
-	/* If this is our last view, save settings now because in the
-	   callback for no_views_left shell->priv->views will be NULL
-	   and settings won't be saved because of that */
+	/* If this is our last view, save settings now because in the callback
+	   for no_views_left shell->priv->views will be NULL and settings won't
+	   be saved because of that.  */
 	if (num_views - 1 == 0)
 		e_shell_save_settings (shell);
 
