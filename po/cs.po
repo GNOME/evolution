@@ -1,14 +1,16 @@
 # Czech translation of evolution.
 # Copyright (C) 2002,2003 Free Software Foundation, Inc.
+# Copyright (C) 2004 Miloslav Trmac <mitr@volny.cz>
 # Radka Doulíková <doulikova@centrum.cz>, 2002.
 # Michal Bukovjan <bukm@centrum.cz>, 2003
+# Miloslav Trmac <mitr@volny.cz>, 2004.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2003-12-18 14:20+0100\n"
-"PO-Revision-Date: 2003-12-18 17:38+0100\n"
+"POT-Creation-Date: 2004-01-03 03:21+0100\n"
+"PO-Revision-Date: 2004-01-24 22:08+0100\n"
 "Last-Translator: Miloslav Trmac <mitr@volny.cz>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -3654,7 +3656,7 @@ msgstr "Prohlížeč úkolů Evolution"
 
 #: calendar/gui/alarm-notify/GNOME_Evolution_Calendar_AlarmNotify.server.in.in.h:1
 msgid "Evolution Calendar alarm notification service"
-msgstr "Sloužba upozornění na alarm kalendáře Evolution"
+msgstr "Služba upozornění na alarm kalendáře Evolution"
 
 #: calendar/gui/alarm-notify/alarm-notify-dialog.c:212
 msgid "Starting:"
@@ -5831,7 +5833,7 @@ msgstr "Objekt není platný a není možné jej aktualizovat\n"
 
 #: calendar/gui/e-itip-control.c:1882 calendar/gui/e-itip-control.c:1974
 msgid "There was an error on the CORBA system\n"
-msgstr "Nastala chyba v systému CORBA\n"
+msgstr "Došlo k chybě v systému CORBA\n"
 
 #: calendar/gui/e-itip-control.c:1885 calendar/gui/e-itip-control.c:1977
 msgid "Object could not be found\n"
@@ -6428,7 +6430,7 @@ msgstr "NPÚSČPS"
 
 #: calendar/importers/GNOME_Evolution_Calendar_Importer.server.in.in.h:1
 msgid "Evolution Calendar intelligent importer"
-msgstr "Imteligentní importér kalendáře Evolution"
+msgstr "Inteligentní importér kalendáře Evolution"
 
 #: calendar/importers/GNOME_Evolution_Calendar_Importer.server.in.in.h:2
 msgid "Evolution iCalendar importer"
@@ -11395,7 +11397,7 @@ msgstr "Příjemce"
 
 #: filter/libfilter-i18n.h:44
 msgid "Regex Match"
-msgstr "Odp. regul. výrazu"
+msgstr "Odp. regexu"
 
 #: filter/libfilter-i18n.h:45
 msgid "Replied to"
@@ -12016,7 +12018,7 @@ msgstr "Importér Evolution z Netscape Mail"
 
 #: mail/importers/GNOME_Evolution_Mail_Outlook_Importer.server.in.in.h:1
 msgid "Evolution Outlook Express 4 importer"
-msgstr "Importéer Evolution z Outlook Express 4"
+msgstr "Importér Evolution z Outlook Express 4"
 
 #: mail/importers/GNOME_Evolution_Mail_Outlook_Importer.server.in.in.h:2
 msgid "Outlook Express 4 (.mbx)"
@@ -23753,7 +23755,7 @@ msgstr "Moje počasí"
 
 #: my-evolution/e-summary-weather.c:262
 msgid "There was an error downloading data for"
-msgstr "Nastala chyba při stahování dat pro"
+msgstr "Došlo k chybě při stahování dat pro"
 
 #: my-evolution/e-summary-weather.c:479 my-evolution/my-evolution.glade.h:16
 msgid "Weather"
@@ -25121,7 +25123,7 @@ msgid ""
 "An error occurred in copying files into\n"
 "`%s'."
 msgstr ""
-"Nastala chyba při kopírování souborů do\n"
+"Došlo k chybě při kopírování souborů do\n"
 "`%s'."
 
 #: shell/e-setup.c:244
@@ -26161,7 +26163,7 @@ msgid ""
 "The Ximian Evolution Team\n"
 msgstr ""
 "Děkujeme\n"
-"Team Ximian Evolution\n"
+"Tým Ximian Evolution\n"
 
 #: shell/main.c:306
 msgid "Don't tell me again"
@@ -27582,7 +27584,7 @@ msgstr "Přepínač"
 
 #: ui/evolution.xml.h:35
 msgid "Toggle whether to show the folder bar"
-msgstr "Přepnout zobrazení lišty složkek"
+msgstr "Přepnout zobrazení lišty složek"
 
 #: ui/evolution.xml.h:36
 msgid "Toggle whether to show the shortcut bar"
