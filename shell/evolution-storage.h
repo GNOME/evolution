@@ -26,9 +26,9 @@
 #include "Evolution.h"
 
 #include <glib.h>
+#include <glib-object.h>
 
 #include <gdk-pixbuf/gdk-pixbuf.h>
-#include <gtk/gtktypeutils.h>
 
 #include <bonobo/bonobo-xobject.h>
 
@@ -38,10 +38,10 @@ extern "C" {
 #endif /* __cplusplus */
 
 #define EVOLUTION_TYPE_STORAGE            (evolution_storage_get_type ())
-#define EVOLUTION_STORAGE(obj)            (GTK_CHECK_CAST ((obj), EVOLUTION_TYPE_STORAGE, EvolutionStorage))
-#define EVOLUTION_STORAGE_CLASS(klass)    (GTK_CHECK_CLASS_CAST ((klass), EVOLUTION_TYPE_STORAGE, EvolutionStorageClass))
-#define EVOLUTION_IS_STORAGE(obj)         (GTK_CHECK_TYPE ((obj), EVOLUTION_TYPE_STORAGE))
-#define EVOLUTION_IS_STORAGE_CLASS(klass) (GTK_CHECK_CLASS_TYPE ((obj), EVOLUTION_TYPE_STORAGE))
+#define EVOLUTION_STORAGE(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), EVOLUTION_TYPE_STORAGE, EvolutionStorage))
+#define EVOLUTION_STORAGE_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), EVOLUTION_TYPE_STORAGE, EvolutionStorageClass))
+#define EVOLUTION_IS_STORAGE(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), EVOLUTION_TYPE_STORAGE))
+#define EVOLUTION_IS_STORAGE_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((obj), EVOLUTION_TYPE_STORAGE))
 
 
 typedef struct _EvolutionStorage        EvolutionStorage;
@@ -132,7 +132,7 @@ struct _EvolutionStorageClass {
 };
 
 
-GtkType                 evolution_storage_get_type             (void);
+GType                   evolution_storage_get_type             (void);
 void                    evolution_storage_construct            (EvolutionStorage                *storage,
 								const char                      *name,
 								gboolean                         has_shared_folders);

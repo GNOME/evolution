@@ -1,3 +1,10 @@
+2002-11-13  Not Zed  <NotZed@Ximian.com>
+
+	* evolution-storage.c: remove GTK_OBJECT cast and other GTK stuff.
+
+	* evolution-storage.h: this is a gobject not a gtkobject, fix cast
+	macros, and get_type call.
+
 2002-11-11  Chris Toshok  <toshok@ximian.com>
 
 	* e-task-widget.c (impl_finalize): need to assign priv here, fixes
