@@ -245,7 +245,7 @@ entry_compare(PASBackendFileSearchContext *ctx, struct _ESExp *f,
 	ESExpResult *r;
 	int truth = FALSE;
 
-	if (argc>1
+	if (argc == 2
 	    && argv[0]->type == ESEXP_RES_STRING
 	    && argv[1]->type == ESEXP_RES_STRING) {
 		char *propname, *prop = NULL;
@@ -371,6 +371,8 @@ vcard_matches_search (PASBackendFileBookView *view, char *vcard_string)
 	retval = (r && r->type == ESEXP_RES_BOOL && r->value.bool);
 
 	gtk_object_unref(GTK_OBJECT(view->search_context->ecard));
+
+	e_sexp_result_free(r);
 
 	return retval;
 }

@@ -33,6 +33,8 @@
 	contact (unimplemented as yet).
 	(entry_compare): add support for searching the list items "email",
 	"phone" and "address".
+	(vcard_matches_search): free the esexp_result.
+	(entry_compare): we want comparison functions to take 2 args.
 
 2000-04-11  Christopher James Lahey  <clahey@helixcode.com>
 
