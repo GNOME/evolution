@@ -24,8 +24,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-09-07 16:17+0200\n"
-"PO-Revision-Date: 2004-09-08 01:08+0200\n"
+"POT-Creation-Date: 2004-09-08 23:56+0200\n"
+"PO-Revision-Date: 2004-09-08 23:46+0200\n"
 "Last-Translator: Martin Willemoes Hansen <mwh@sysrq.dk>\n"
 "Language-Team: Danish <dansk@klid.dk>\n"
 "MIME-Version: 1.0\n"
@@ -4061,23 +4061,23 @@ msgstr "Antal enheder for at bestemme hvornår opgaver skal skjules"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:15
 msgid "Position of the horizontal pane"
-msgstr "Det horisontale panel's position"
+msgstr "Positionen for det horisontale panel"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:16
 msgid "Position of the horizontal pane in the month view"
-msgstr "Det horisontale panel's position i månedsvisning"
+msgstr "Positionen for det horisontale panel i månedsvisning"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:17
 msgid "Position of the vertical pane"
-msgstr "Det vertikale panel's position"
+msgstr "Positionen for det vertikale panel"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:18
 msgid "Position of the vertical pane in the month view"
-msgstr "Det vertikale panel's position i månedsvisning"
+msgstr "Positionen for det vertikale panel i månedsvisning"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:19
 msgid "Position of the vertical pane in the task view"
-msgstr "Det vertikale panel's position i opgavevisning"
+msgstr "Positionen for det vertikale panel i opgavevisning"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:20
 msgid "Programs that can run as part of alarms"
@@ -4105,7 +4105,7 @@ msgstr "Ugedagen hvorpå ugen starter"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:26
 msgid "Whether or not to use the notification tray for display alarms"
-msgstr "Om påmindelsesfeltet skal anvendes til visning af alarmer"
+msgstr "Om statusfeltet skal anvendes til visning af alarmer"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:27
 msgid "Whether to ask for confirmation on appointment deletion"
@@ -14232,8 +14232,8 @@ msgstr "Spørg brugeren når han eller hun prøver at tømme en folder."
 msgid ""
 "Prompt the user when he or she tries to send a message without a Subject."
 msgstr ""
-"Spørg når brugeren når han eller hun forsøger at sende beskeder med et "
-"tomt emne."
+"Spørg når brugeren når han eller hun forsøger at sende beskeder med et tomt "
+"emne."
 
 #: mail/evolution-mail.schemas.in.in.h:57
 msgid "Prompt when user expunges"
@@ -14309,7 +14309,8 @@ msgstr "Lydfilen der skal afspilles når ny e-post ankommer."
 
 #: mail/evolution-mail.schemas.in.in.h:74
 msgid "Specifies the type of New Mail Notification the user wishes to use."
-msgstr "Anfører typen af påmindelse om ny e-post, som brugeren ønsker at bruge."
+msgstr ""
+"Anfører typen af påmindelse om ny e-post, som brugeren ønsker at bruge."
 
 #: mail/evolution-mail.schemas.in.in.h:75
 msgid "Spell check inline"
