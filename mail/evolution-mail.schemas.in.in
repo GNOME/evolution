@@ -262,7 +262,6 @@
       <owner>evolution-mail</owner>
       <type>list</type>
       <list_type>string</list_type>
-      <default>[]</default>
       <locale name="C">
          <short>List of custom headers and whether they are enabled.</short>
          <long>
@@ -280,7 +279,6 @@
       <owner>evolution-mail</owner>
       <type>list</type>
       <list_type>string</list_type>
-      <default>[]</default>
       <locale name="C">
          <short>List of mime types to check for bonobo component viewers</short>
          <long>
@@ -806,12 +804,10 @@
       <owner>evolution-mail</owner>
       <type>list</type>
       <list_type>string</list_type>
-      <default></default>
       <locale name="C">
          <short>List of accepted licenses</short>
          <long>
-                List of protocol names whose license
-                has been accepted
+           List of protocol names whose license has been accepted.
          </long>
       </locale>
     </schema>
