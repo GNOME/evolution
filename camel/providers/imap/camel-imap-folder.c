@@ -319,13 +319,13 @@ imap_sync (CamelFolder *folder, gboolean expunge, CamelException *ex)
 								      "Could not set flags on message %s on IMAP "
 								      "server %s: %s.", info->uid,
 								      service->url->host,
-								      status != CAMEL_IMAP_FAIL && result ? result :
+								      s != CAMEL_IMAP_FAIL && result ? result :
 								      "Unknown error");
 						g_free (result);
 						return;
 					}
 					
-					g_free(result);
+					g_free (result);
 				}
 				g_free (flags);
 			}
