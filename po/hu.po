@@ -1445,7 +1445,7 @@ msgstr "Tud fogadni _HTML levelet"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:25
 msgid "_Add"
-msgstr "Hozzá_adás"
+msgstr "_Hozzáadás"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:26
 msgid "_Business:"
@@ -10782,7 +10782,7 @@ msgstr "<b>\"Házon kívül\" üzenet:</b>"
 
 #: designs/OOA/ooa.glade.h:5
 msgid "<b>Status:</b>"
-msgstr "<b>Állapot:</b> "
+msgstr "<b>Állapot:</b>"
 
 #: designs/OOA/ooa.glade.h:6
 msgid ""
@@ -26260,7 +26260,7 @@ msgstr "Névjegyek másolása másik mappába..."
 
 #: ui/evolution-addressbook.xml.h:4 ui/evolution-calendar.xml.h:2
 msgid "Copy the selection"
-msgstr "Kijelölés másolása"
+msgstr "A kijelölés másolása"
 
 #: ui/evolution-addressbook.xml.h:5
 msgid "Copy to Folder..."
@@ -26268,11 +26268,11 @@ msgstr "Mappába másolás..."
 
 #: ui/evolution-addressbook.xml.h:7 ui/evolution-calendar.xml.h:3
 msgid "Cut the selection"
-msgstr "Kijelölés kivágása"
+msgstr "A kijelölés kivágása"
 
 #: ui/evolution-addressbook.xml.h:9
 msgid "Delete selected contacts"
-msgstr "Kijelölt névjegyek törlése"
+msgstr "A kijelölt névjegyek törlése"
 
 #: ui/evolution-addressbook.xml.h:11
 msgid "Move Contact(s) to Another Folder..."
@@ -26284,7 +26284,7 @@ msgstr "Áthelyezés mappába..."
 
 #: ui/evolution-addressbook.xml.h:14 ui/evolution-calendar.xml.h:17
 msgid "Paste the clipboard"
-msgstr "Vágólap beillesztése"
+msgstr "A vágólap tartalmának beillesztése"
 
 #: ui/evolution-addressbook.xml.h:15
 msgid "Previews the contacts to be printed"
