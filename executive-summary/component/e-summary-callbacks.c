@@ -32,6 +32,8 @@
 #include <liboaf/liboaf.h>
 #include <glade/glade.h>
 #include <e-summary-callbacks.h>
+#include <gtkhtml/gtkhtml.h>
+#include <e-util/e-html-utils.h>
 
 #include "e-summary.h"
 
@@ -43,6 +45,70 @@ typedef struct _PropertyData {
 	GnomePropertyBox *box;
 	GladeXML *xml;
 } PropertyData;
+
+/* HTML helper functions from mail/mail-config-gui.c */
+static void
+html_size_req (GtkWidget *widget,
+	       GtkRequisition *requisition)
+{
+	requisition->height = GTK_LAYOUT (widget)->height;
+}
+
+/* Returns a GtkHTML which is already inside a GtkScrolledWindow. If
+ * @white is TRUE, the GtkScrolledWindow will be inside a GtkFrame.
+ */
+static GtkWidget *
+html_new (gboolean white)
+{
+	GtkWidget *html, *scrolled, *frame;
+	GtkStyle *style;
+
+	html = gtk_html_new ();
+	GTK_LAYOUT (html)->height = 0;
+	gtk_signal_connect (GTK_OBJECT (html), "size_request",
+			    GTK_SIGNAL_FUNC (html_size_req), NULL);
+	gtk_html_set_editable (GTK_HTML (html), FALSE);
+	style = gtk_rc_get_style (html);
+
+	if (style) {
+		gtk_html_set_default_background_color (GTK_HTML (html),
+						       white ? &style->white:
+						       &style->bg[0]);
+	}
+
+	gtk_widget_set_sensitive (html, FALSE);
+	scrolled = gtk_scrolled_window_new (NULL, NULL);
+	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolled),
+					GTK_POLICY_NEVER, GTK_POLICY_NEVER);
+	gtk_container_add (GTK_CONTAINER (scrolled), html);
+	if (white) {
+		frame = gtk_frame_new (NULL);
+		gtk_frame_set_shadow_type (GTK_FRAME (frame),
+					   GTK_SHADOW_ETCHED_IN);
+		gtk_container_add (GTK_CONTAINER (frame), scrolled);
+		gtk_widget_show_all (frame);
+	} else {
+		gtk_widget_show_all (scrolled);
+	}
+
+	return html;
+}
+
+static void
+put_html (GtkHTML *html,
+	  const char *text)
+{
+	GtkHTMLStream *handle;
+	char *htmltext;
+
+	htmltext = e_text_to_html (text, E_TEXT_TO_HTML_CONVERT_NL);
+	handle = gtk_html_begin (html);
+	gtk_html_write (html, handle, "<HTML><BODY>", 12);
+	gtk_html_write (html, handle, text, strlen (text));
+	gtk_html_write (html, handle, "</BODY></HTML>", 14);
+	g_free (htmltext);
+	gtk_html_end (html, handle, GTK_HTML_STREAM_OK);
+}
 
 void
 embed_service (GtkWidget *widget,
@@ -172,6 +238,7 @@ configure_summary (GtkWidget *widget,
 	static GtkWidget *prefs = NULL;
 	PropertyData *data;
 	GtkWidget *html_page;
+	GtkWidget *vbox, *html;
 
 	if (prefs != NULL) {
 		g_assert (GTK_WIDGET_REALIZED (prefs));
@@ -188,11 +255,21 @@ configure_summary (GtkWidget *widget,
 	}
 
 	esummary->tmp_prefs = e_summary_prefs_copy (esummary->prefs);
-
+	
 	data->xml = glade_xml_new (EVOLUTION_GLADEDIR
 				   "/executive-summary-config.glade", NULL);
 	prefs = glade_xml_get_widget (data->xml, "summaryprefs");
 	data->box = GNOME_PROPERTY_BOX(prefs);
+
+	vbox = glade_xml_get_widget (data->xml, "vbox");
+	html = html_new (TRUE);
+	put_html (html,
+		  _("You can select a different HTML page for the background "
+		    "of the Executive Summary.\n\nJust leave it blank for the "
+		    "default"));
+	gtk_box_pack_start (GTK_BOX (vbox), html->parent->parent, TRUE, TRUE, 0);
+	gtk_box_reorder_child (GTK_BOX (vbox), html->parent->parent, 0);
+
 	html_page = glade_xml_get_widget (data->xml, "htmlpage");
 
 	if (esummary->prefs->page != NULL)

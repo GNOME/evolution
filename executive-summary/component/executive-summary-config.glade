@@ -51,11 +51,15 @@
 
     <widget>
       <class>GtkVBox</class>
-      <name>vbox1</name>
+      <name>vbox</name>
       <border_width>2</border_width>
       <cxx_use_heap>True</cxx_use_heap>
       <homogeneous>False</homogeneous>
-      <spacing>0</spacing>
+      <spacing>8</spacing>
+
+      <widget>
+	<class>Placeholder</class>
+      </widget>
 
       <widget>
 	<class>GtkFrame</class>
@@ -74,9 +78,10 @@
 	<widget>
 	  <class>GtkVBox</class>
 	  <name>vbox2</name>
+	  <border_width>2</border_width>
 	  <cxx_use_heap>True</cxx_use_heap>
 	  <homogeneous>False</homogeneous>
-	  <spacing>0</spacing>
+	  <spacing>5</spacing>
 
 	  <widget>
 	    <class>GtkHBox</class>
@@ -139,10 +144,6 @@
 	    <class>Placeholder</class>
 	  </widget>
 	</widget>
-      </widget>
-
-      <widget>
-	<class>Placeholder</class>
       </widget>
 
       <widget>

@@ -25,5 +25,6 @@
 #define _E_SUMMARY_UTIL_H__
 
 char *e_pixmap_file (const char *filename);
+void e_summary_rm_dir (const char *filename);
 
 #endif

@@ -542,28 +542,32 @@ e_summary_rebuild_page (ESummary *esummary)
 	gtk_html_write (GTK_HTML (priv->html), priv->stream, service_table,
 			strlen (service_table));
 	/* Load each of the services */
-	numwindows = g_list_length (priv->window_list) - 1;
+	numwindows = g_list_length (priv->window_list);
 
 	windows = priv->window_list;
-	if ( (numwindows % 3) == 0)
+	if (numwindows % 3 == 0)
 		numrows = numwindows / 3;
 	else
-		numrows = (numwindows / 3) + 1;
+		numrows = numwindows / 3 + 1;
 
 	for (i = 0; i < numrows; i++) {
 		GList *window = windows;
-
+		
 		g_print ("i: %d/%d\n", i, numrows);
 		/* Do the same row twice: 
 		   Once for the title, once for the contents */
 		for (j = 0; j < 2; j++) {
-
+			
 			gtk_html_write (GTK_HTML (priv->html), priv->stream,
 					"<tr>", 4);
-			/* For each window on row i */
-			for (k = 0; k < 3; k++) {
+				/* For each window on row i */
+			for (k = 0; k < MIN (3, (numwindows - (i * 3))); k++) {
+				
+				g_print ("%d of %d\n", k, 
+					 MIN (3, (numwindows - (i * 3))));
+				if (window == NULL)
+					break;
 
-				g_print ("%d of 3\n", k);
 				if (j == 0) {
 					e_summary_display_window_title (esummary,
 									window->data,
@@ -575,35 +579,35 @@ e_summary_rebuild_page (ESummary *esummary)
 								  k, k,
 								  numwindows);
 				}
+				
+				if (window != NULL)
+					window = window->next;
 
-				window = window->next;
 				if (window == NULL)
 					break;
 			}
-
+			
 			gtk_html_write (GTK_HTML (priv->html), priv->stream,
 					"</tr>", 5);
 			if (j == 0)
 				window = windows;
 			else {
 				if (window)
-					windows = window->next;
+					windows = window;
 				else 
 					break;
 			}
 		}
 	}
-			
-	gtk_html_write (GTK_HTML (priv->html), priv->stream, "</tr></table>",
-			13);
-
+	gtk_html_write (GTK_HTML (priv->html), priv->stream, "</tr></table>", 13);
+	
 	if (priv->footer == NULL) {
 		load_default_footer (esummary);
 	} else {
 		gtk_html_write (GTK_HTML (priv->html), priv->stream,
 				priv->footer, priv->footer_len);
 	}
-
+	
 	e_summary_end_load (esummary);
 	gtk_layout_thaw (GTK_LAYOUT (priv->html));
 
@@ -1276,7 +1280,7 @@ save_component (BonoboStorage *storage,
 		bonobo_object_release_unref (corba_subdir, &ev);
 	CORBA_exception_free (&ev);
 }
-		
+
 static void
 e_summary_save_state (ESummary *esummary,
 		      const char *path)
@@ -1298,7 +1302,7 @@ e_summary_save_state (ESummary *esummary,
 	g_print ("fullpath: %s\n", fullpath);
 
 	/* FIXME: Use RC's rmdir function */
-	remove (fullpath);
+	e_summary_rm_dir (fullpath);
 
 	storage = bonobo_storage_open (STORAGE_TYPE, fullpath,
 				       Bonobo_Storage_READ |

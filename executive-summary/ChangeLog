@@ -1,5 +1,18 @@
 2000-12-13  Iain Holmes  <iain@helixcode.com>
 
+	* component/e-summary.c (e_summary_rebuild_page): Display all the windows
+	correctly.
+	(e_summary_save_state): Remove the whole of the Executive-Summary dir.
+
+	* component/e-summary-util.[ch]: Add e_summary_rm_dir, a function to reove
+	everything in the path. RC people have a function to do it too, but I can't
+	remember how to get RC :)
+
+	* component/e-summary-callbacks.c: (configure_summary): Put an HTML 
+	explanation into the configure dialog.
+
+2000-12-13  Iain Holmes  <iain@helixcode.com>
+
 	* component/e-summary.c (e_summary_rebuild_page): Count the number
 	of rows correctly.
 

@@ -25,6 +25,20 @@
 
 #include <gnome.h>
 
+#include <unistd.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <dirent.h>
+
+/**
+ * e_pixmap_file:
+ * @filename: Filename of pixmap.
+ *
+ * Finds @filename in the Evolution or GNOME installation dir.
+ *
+ * Returns: A newly allocated absolute path to @filename, or NULL
+ * if it cannot be found.
+ */
 char *
 e_pixmap_file (const char *filename)
 {
@@ -65,3 +79,48 @@ e_pixmap_file (const char *filename)
 	return gnome_pixmap_file (filename);
 }
 	
+/**
+ * e_summary_rm_dir:
+ * @path: Full path to the directory or file to be removed.
+ *
+ * Deletes everything in fullpath.
+ */
+void
+e_summary_rm_dir (const char *path)
+{
+	DIR *base;
+	struct stat statbuf;
+	struct dirent *contents;
+
+	stat (path, &statbuf);
+	if (!S_ISDIR (statbuf.st_mode)) {
+		/* Not a directory */
+		g_warning ("Removing: %s", path);
+		unlink (path);
+		return;
+	} else {
+		g_warning ("Opening: %s", path);
+		base = opendir (path);
+
+		contents = readdir (base);
+		while (contents != NULL) {
+			char *fullpath;
+
+			if (strcmp (contents->d_name, ".") == 0|| 
+			    strcmp (contents->d_name, "..") ==0) {
+				contents = readdir (base);
+				continue;
+			}
+
+			fullpath = g_concat_dir_and_file (path, contents->d_name);
+			e_summary_rm_dir (fullpath);
+			g_free (fullpath);
+
+			contents = readdir (base);
+		}
+
+		closedir (base);
+		rmdir (path);
+	}
+}
+
