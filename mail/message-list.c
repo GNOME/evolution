@@ -157,7 +157,8 @@ mark_msg_seen (gpointer data)
  * @mask: a mask for comparing against @flags
  *
  * This moves the message list selection to a suitable row. @base_row
- * lists the first row to try, and @flags and @mask combine to specify
+ * lists the first (model) row to try, but as a special case, model
+ * row -1 is mapped to view row 0. @flags and @mask combine to specify
  * what constitutes a suitable row. @direction is
  * %MESSAGE_LIST_SELECT_NEXT if it should find the next matching
  * message, or %MESSAGE_LIST_SELECT_PREVIOUS if it should find the
@@ -178,7 +179,10 @@ message_list_select (MessageList *message_list, int base_row,
 	else
 		last = e_table_model_row_count (message_list->table_model);
 
-	vrow = e_table_model_to_view_row (ets->table, base_row);
+	if (base_row == -1)
+		vrow = 0;
+	else
+		vrow = e_table_model_to_view_row (ets->table, base_row);
 
 	/* We don't know whether to use < or > due to "direction" */
 	while (vrow != last) {
@@ -930,10 +934,8 @@ idle_select_row (gpointer user_data)
 {
 	MessageList *ml = MESSAGE_LIST (user_data);
 	ETableScrolled *ets = E_TABLE_SCROLLED (ml->etable);
-	int mrow;
 
-	mrow = e_table_view_to_model_row (ets->table, 0);
-	message_list_select (ml, mrow, MESSAGE_LIST_SELECT_NEXT,
+	message_list_select (ml, -1, MESSAGE_LIST_SELECT_NEXT,
 			     0, CAMEL_MESSAGE_SEEN);
 	return FALSE;
 }

@@ -1,3 +1,12 @@
+2000-08-11  Dan Winship  <danw@helixcode.com>
+
+	* message-list.c (message_list_select): If the caller passes "-1"
+	for the model row, translate that to view row 0.
+
+	* message-list.c (idle_select_row): 
+	* mail-callbacks.c (select_first_unread): Use new
+	message_list_select kludge^H^H^H^H^H^Hfeature
+
 2000-08-11  JP Rosevear  <jpr@helixcode.com>
 
 	* mail-config-gui.c (source_dialog): Allow the window
