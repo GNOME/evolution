@@ -943,7 +943,7 @@ add_vtrash_info (CamelFolderInfo *info)
 	/* create our vTrash URL */
 	url = camel_url_new (info->url, NULL);
 	g_free (url->path);
-	url->path = g_strdup (_("Trash"));
+	url->path = g_strdup_printf ("/%s", _("Trash"));
 	uri = camel_url_to_string (url, FALSE);
 	camel_url_free (url);
 	

@@ -2,6 +2,7 @@
 
 	* mail-ops.c (transfer_messages_transfer): Updated to reflect
 	changes made to the move/copy API in camel-folder.c
+	(add_vtrash_info): Use /Trash as the path instead of Trash.
 
 	* mail-local.c (reconfigure_folder_reconfigure): Updated this too.
 
