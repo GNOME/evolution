@@ -31,6 +31,8 @@
 
 #define PARENT_TYPE (gtk_table_get_type ())
 
+static void fb_resize_cb (GtkWidget *w, GtkAllocation *a);
+
 static GtkObjectClass *folder_browser_parent_class;
 
 static void oc_destroy (gpointer obj, gpointer user)
@@ -386,9 +388,12 @@ folder_browser_gui_init (FolderBrowser *fb)
 	e_paned_add1 (E_PANED (fb->vpaned), fb->message_list_w);
 	gtk_widget_show (fb->message_list_w);
 
+	/* (jwise) <-- for searching purposes :) */
+	gtk_signal_connect (GTK_OBJECT (fb->message_list_w), "size_allocate",
+	                    GTK_SIGNAL_FUNC (fb_resize_cb), NULL);
+
 	e_paned_add2 (E_PANED (fb->vpaned), GTK_WIDGET (fb->mail_display));
 	e_paned_set_position (E_PANED (fb->vpaned), mail_config_paned_size());
-
 	gtk_widget_show (GTK_WIDGET (fb->mail_display));
 	gtk_widget_show (GTK_WIDGET (fb));
 }
@@ -439,3 +444,8 @@ folder_browser_new (void)
 
 
 E_MAKE_TYPE (folder_browser, "FolderBrowser", FolderBrowser, folder_browser_class_init, folder_browser_init, PARENT_TYPE);
+
+static void fb_resize_cb (GtkWidget *w, GtkAllocation *a)
+{
+	mail_config_set_paned_size (a->height + 90);
+}
