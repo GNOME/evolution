@@ -1,5 +1,9 @@
 2003-12-01  Not Zed  <NotZed@Ximian.com>
 
+	* em-folder-browser.c (emfb_edit_cut, emfb_edit_copy)
+	(emfb_edit_paste): override the em-folder-view impl, and handle
+	the search bar properly.  For #48746.
+
 	* mail-security.glade: added some padding to the security details
 	frames.
 

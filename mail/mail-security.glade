@@ -2,7 +2,6 @@
 <!DOCTYPE glade-interface SYSTEM "http://glade.gnome.org/glade-2.0.dtd">
 
 <glade-interface>
-<requires lib="gnome"/>
 
 <widget class="GtkDialog" id="message_security_dialog">
   <property name="visible">True</property>
@@ -71,6 +70,7 @@
 
 		  <child>
 		    <widget class="GtkVBox" id="signature_vbox">
+		      <property name="border_width">6</property>
 		      <property name="visible">True</property>
 		      <property name="homogeneous">False</property>
 		      <property name="spacing">0</property>
@@ -116,6 +116,7 @@
 
 		  <child>
 		    <widget class="GtkVBox" id="encryption_vbox">
+		      <property name="border_width">6</property>
 		      <property name="visible">True</property>
 		      <property name="homogeneous">False</property>
 		      <property name="spacing">0</property>

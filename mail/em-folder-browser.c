@@ -440,6 +440,45 @@ emfb_list_key_press(ETree *tree, int row, ETreePath path, int col, GdkEvent *ev,
 /* ********************************************************************** */
 
 static void
+emfb_edit_cut(BonoboUIComponent *uid, void *data, const char *path)
+{
+	EMFolderBrowser *emfb = data;
+
+	/* TODO: pity we can't sucblass this method, ugh, virtualise it? */
+
+	if (GTK_WIDGET_HAS_FOCUS(((ESearchBar *)emfb->search)->entry))
+		gtk_editable_cut_clipboard((GtkEditable *)((ESearchBar *)emfb->search)->entry);
+	else if (message_list_has_primary_selection(emfb->view.list))
+		message_list_copy(emfb->view.list, TRUE);
+	else if (emfb->view.preview_active)
+		em_format_html_display_cut(emfb->view.preview);
+}
+
+static void
+emfb_edit_copy(BonoboUIComponent *uid, void *data, const char *path)
+{
+	EMFolderBrowser *emfb = data;
+
+	if (GTK_WIDGET_HAS_FOCUS(((ESearchBar *)emfb->search)->entry))
+		gtk_editable_copy_clipboard((GtkEditable *)((ESearchBar *)emfb->search)->entry);
+	else if (message_list_has_primary_selection(emfb->view.list))
+		message_list_copy(emfb->view.list, FALSE);
+	else if (emfb->view.preview_active)
+		em_format_html_display_copy(emfb->view.preview);
+}
+
+static void
+emfb_edit_paste(BonoboUIComponent *uid, void *data, const char *path)
+{
+	EMFolderBrowser *emfb = data;
+
+	if (GTK_WIDGET_HAS_FOCUS(((ESearchBar *)emfb->search)->entry))
+		gtk_editable_paste_clipboard((GtkEditable *)((ESearchBar *)emfb->search)->entry);
+	else
+		message_list_paste(emfb->view.list);
+}
+
+static void
 emfb_edit_invert_selection(BonoboUIComponent *uid, void *data, const char *path)
 {
 	EMFolderView *emfv = data;
@@ -600,6 +639,10 @@ emfb_tools_vfolders(BonoboUIComponent *uid, void *data, const char *path)
 }
 
 static BonoboUIVerb emfb_verbs[] = {
+	BONOBO_UI_UNSAFE_VERB ("EditCut", emfb_edit_cut),
+	BONOBO_UI_UNSAFE_VERB ("EditCopy", emfb_edit_copy),
+	BONOBO_UI_UNSAFE_VERB ("EditPaste", emfb_edit_paste),
+
 	BONOBO_UI_UNSAFE_VERB ("EditInvertSelection", emfb_edit_invert_selection),
 	BONOBO_UI_UNSAFE_VERB ("EditSelectAll", emfb_edit_select_all),
         BONOBO_UI_UNSAFE_VERB ("EditSelectThread", emfb_edit_select_thread),
