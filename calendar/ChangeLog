@@ -1,5 +1,11 @@
 2000-09-20  JP Rosevear  <jpr@helixcode.com>
 
+	* pcs/cal-backend.c (cal_backend_log_name): Make the log file
+	name relevant to the actual calendar file, rather than just the
+	directory.
+
+2000-09-20  JP Rosevear  <jpr@helixcode.com>
+
 	* pcs/cal-backend.c (cal_backend_get_log_entries): Oops
 
 2000-09-20  JP Rosevear  <jpr@helixcode.com>

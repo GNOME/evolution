@@ -447,11 +447,11 @@ typedef struct {
 static gchar *
 cal_backend_log_name (GnomeVFSURI *uri)
 {	
-	gchar *path, *filename;
+	const gchar *path;
+	gchar *filename;
 	
-	path = gnome_vfs_uri_extract_dirname (uri);
-	filename = g_strdup_printf ("%slog.xml", path);
-	g_free (path);
+	path = gnome_vfs_uri_get_path (uri);
+	filename = g_strdup_printf ("%s.log.xml", path);
 
 	return filename;
 }
