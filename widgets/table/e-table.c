@@ -1503,7 +1503,8 @@ e_table_right_click_up (ETable *table)
 void
 e_table_commit_click_to_add (ETable *table)
 {
-	e_table_click_to_add_commit(E_TABLE_CLICK_TO_ADD(table->click_to_add));
+	if (table->click_to_add)
+		e_table_click_to_add_commit(E_TABLE_CLICK_TO_ADD(table->click_to_add));
 }
 
 static void

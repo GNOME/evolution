@@ -271,14 +271,6 @@ etcta_unrealize (GnomeCanvasItem *item)
 		(*GNOME_CANVAS_ITEM_CLASS (etcta_parent_class)->unrealize)(item);
 }
 
-static double
-etcta_point (GnomeCanvasItem *item, double x, double y, int cx, int cy,
-	    GnomeCanvasItem **actual_item)
-{
-	*actual_item = item;
-	return 0.0;
-}
-
 static void finish_editing (ETableClickToAdd *etcta);
 
 static int
@@ -345,7 +337,7 @@ static int
 etcta_event (GnomeCanvasItem *item, GdkEvent *e)
 {
 	ETableClickToAdd *etcta = E_TABLE_CLICK_TO_ADD (item);
-	
+
 	switch (e->type){
 	case GDK_BUTTON_PRESS:
 		if (etcta->text) {
@@ -447,7 +439,6 @@ etcta_class_init (ETableClickToAddClass *klass)
 
 	item_class->realize     = etcta_realize;
 	item_class->unrealize   = etcta_unrealize;
-	item_class->point       = etcta_point;
 	item_class->event       = etcta_event;
 
 	gtk_object_add_arg_type ("ETableClickToAdd::header", GTK_TYPE_OBJECT,
