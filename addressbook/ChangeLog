@@ -1,3 +1,11 @@
+2004-06-18  Chris Toshok  <toshok@ximian.com>
+
+	[ fixes bug #59376 ]
+
+	* gui/component/addressbook-view.c (fill_popup_menu_callback):
+	make this work with absolute uris in sources.  Thanks to Sushma
+	Rai for the initial patch to fix this.
+
 2004-06-17  Chris Toshok  <toshok@ximian.com>
 
 	[ fixes bug #58696 ]
