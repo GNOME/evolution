@@ -1,3 +1,18 @@
+Version 0.15
+------------
+
+Calendar:
+
+  - Backend improvements (JP, Rodrigo).
+
+  - The alarm daemon can now re-enter properly [#10840] (Federico).
+
+  - Alarms can now have zero-time offsets [#7892] (Federico).
+
+  - Warning fixes (Chris).
+
+  - Fixed custom Glade widgets on non-Linux systems (Dan).
+
 Version 0.14 (Beta 4), 2001-09-21
 ---------------------------------
 
