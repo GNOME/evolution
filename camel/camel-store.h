@@ -4,8 +4,10 @@
 /* 
  *
  * Authors: Bertrand Guiheneuf <bertrand@helixcode.com>
+ *          Michael Zucchi <NotZed@ximian.com>
+ *          Jeffrey Stedfast <fejj@ximian.com>
  *
- * Copyright 1999, 2000 Ximian, Inc. (www.ximian.com)
+ * Copyright 1999, 2003 Ximian, Inc. (www.ximian.com)
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of version 2 of the GNU General Public 
@@ -30,7 +32,7 @@
 #ifdef __cplusplus
 extern "C" {
 #pragma }
-#endif /* __cplusplus }*/
+#endif /* __cplusplus */
 
 /* for mode_t */
 #include <sys/types.h>
@@ -225,9 +227,6 @@ void             camel_store_noop                     (CamelStore *store,
 						       CamelException *ex);
 
 gboolean	 camel_store_uri_cmp		      (CamelStore *store, const char *uria, const char *urib);
-
-/* utility needed by some stores */
-int camel_mkdir_hier (const char *path, mode_t mode);
 
 #ifdef __cplusplus
 }

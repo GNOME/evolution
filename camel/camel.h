@@ -84,7 +84,7 @@ extern "C" {
 #include <camel/camel-transport.h>
 #include <camel/camel-uid-cache.h>
 #include <camel/camel-url.h>
-#include <camel/string-utils.h>
+#include <camel/camel-string-utils.h>
 
 gint camel_init (const char *certdb_dir, gboolean nss_init);
 

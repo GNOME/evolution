@@ -1052,31 +1052,6 @@ camel_store_noop (CamelStore *store, CamelException *ex)
 }
 
 
-int
-camel_mkdir_hier (const char *path, mode_t mode)
-{
-	char *copy, *p;
-	
-	p = copy = g_strdup (path);
-	do {
-		p = strchr (p + 1, '/');
-		if (p)
-			*p = '\0';
-		if (access (copy, F_OK) == -1) {
-			if (mkdir (copy, mode) == -1) {
-				g_free (copy);
-				return -1;
-			}
-		}
-		if (p)
-			*p = '/';
-	} while (p);
-	
-	g_free (copy);
-	return 0;
-}
-
-
 /* Return true if these uri's refer to the same object */
 gboolean
 camel_store_uri_cmp(CamelStore *store, const char *uria, const char *urib)

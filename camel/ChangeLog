@@ -1,5 +1,31 @@
 2003-07-07  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* providers/nntp/camel-nntp-folder.c (camel_nntp_folder_new): Use
+	camel_mkdir().
+
+	* providers/imap/camel-imap-folder.c (camel_imap_folder_new): Use
+	camel_mkdir().
+
+	* camel-session.c (get_storage_path): Use camel_mkdir().
+
+	* camel-store.c (camel_mkdir_hier): Removed.
+
+	* camel-data-cache.c (camel_data_cache_new): Updated to use
+	camel_mkdir().
+	(data_cache_path): Same.
+
+	* camel-file-utils.c (camel_mkdir): Renamed and documented.
+	(camel_file_util_safe_filename): Documented.
+	(camel_read): Moved here from camel-io.c
+	(camel_write): Same.
+
+	* camel-io.[c,h]: Removed.
+
+	* camel-uid-cache.c (camel_uid_cache_new): Use the
+	camel-file-utils.c version of mkdir.
+
+2003-07-07  Jeffrey Stedfast  <fejj@ximian.com>
+
 	* camel-session.c (camel_session_init): Updated for string-utils
 	namespace changes.
 

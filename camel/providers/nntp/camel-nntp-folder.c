@@ -33,7 +33,7 @@
 #include <string.h>
 #include <fcntl.h>
 
-#include "camel/string-utils.h"
+#include "camel/camel-file-utils.h"
 #include "camel/camel-stream-mem.h"
 #include "camel/camel-data-wrapper.h"
 #include "camel/camel-mime-message.h"
@@ -377,7 +377,7 @@ camel_nntp_folder_new (CamelStore *parent, const char *folder_name, CamelExcepti
 		return NULL;
 
 	/* If this doesn't work, stuff wont save, but let it continue anyway */
-	(void) camel_mkdir_hier(root, 0777);
+	camel_mkdir (root, 0777);
 
 	folder = (CamelFolder *) camel_object_new (CAMEL_NNTP_FOLDER_TYPE);
 	nntp_folder = (CamelNNTPFolder *)folder;

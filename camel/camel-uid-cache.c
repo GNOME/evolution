@@ -32,9 +32,8 @@
 #include <sys/stat.h>
 #include <unistd.h>
 
-#include "camel-io.h"
-#include "camel-store.h"      /* for camel_mkdir_hier */
 #include "camel-uid-cache.h"
+#include "camel-file-utils.h"
 
 struct _uid_state {
 	int level;
@@ -61,7 +60,7 @@ camel_uid_cache_new (const char *filename)
 	int fd, i;
 	
 	dirname = g_path_get_dirname (filename);
-	if (camel_mkdir_hier (dirname, 0777) == -1) {
+	if (camel_mkdir (dirname, 0777) == -1) {
 		g_free (dirname);
 		return NULL;
 	}

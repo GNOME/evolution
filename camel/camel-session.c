@@ -38,6 +38,7 @@
 #include "camel-store.h"
 #include "camel-transport.h"
 #include "camel-exception.h"
+#include "camel-file-utils.h"
 #include "camel-string-utils.h"
 #include "camel-url.h"
 #include "camel-vee-store.h"
@@ -523,7 +524,7 @@ get_storage_path (CamelSession *session, CamelService *service, CamelException *
 	if (access (path, F_OK) == 0)
 		return path;
 
-	if (camel_mkdir_hier (path, S_IRWXU) == -1) {
+	if (camel_mkdir (path, S_IRWXU) == -1) {
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
 				      _("Could not create directory %s:\n%s"),
 				      path, g_strerror (errno));
