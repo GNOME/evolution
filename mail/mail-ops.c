@@ -430,7 +430,7 @@ mail_send_message (CamelMimeMessage *message, const char *destination,
 	XEvolution *xev;
 	
 	camel_medium_add_header (CAMEL_MEDIUM (message), "X-Mailer",
-				 "Evolution/" VERSION SUB_VERSION " " VERSION_COMMENT);
+				 "Ximian Evolution " VERSION SUB_VERSION " " VERSION_COMMENT);
 	
 	camel_mime_message_set_date (message, CAMEL_MESSAGE_DATE_CURRENT, 0);
 	

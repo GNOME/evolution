@@ -1,3 +1,10 @@
+2002-03-04  Ettore Perazzoli  <ettore@ximian.com>
+
+	[Fix #19303.]
+
+	* mail-ops.c (mail_send_message): Set X-Mailer to say "Ximian
+	Evolution", not just "Evolution".
+
 2002-02-24  Chris Toshok  <toshok@ximian.com>
 
 	* folder-browser.c (folder_browser_search_do_search): rename
