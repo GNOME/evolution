@@ -168,7 +168,7 @@ mail_incorporate_messages (CamelFolder *folder,
 		 */
 		time (&now);
 		if (last_message || ((now - last_update) > 2)){
-			mail_op_set_message ("Retrieving message %d of %d", i + 1, uids->len);
+			mail_op_set_message (_("Retrieving message %d of %d"), i + 1, uids->len);
 			last_update = now;
 		}
 		
@@ -1118,7 +1118,7 @@ do_flag_messages (gpointer in_data, gpointer op_data, CamelException *ex)
 
 		time (&now);
 		if (last_message || ((now - last_update) > 2)){
-			mail_op_set_message ("Marking message %d of %d", i + 1,
+			mail_op_set_message (_("Marking message %d of %d"), i + 1,
 					     input->uids->len);
 			last_update = now;
 		}
@@ -1544,7 +1544,7 @@ do_forward_messages (gpointer in_data, gpointer op_data, CamelException *ex)
 		if (!part) {
 			camel_exception_set (ex, CAMEL_EXCEPTION_SYSTEM,
 					     _("Failed to generate mime part from "
-					     "message while generating forwarded message."));
+					       "message while generating forwarded message."));
 			mail_tool_camel_lock_down ();
 			return;
 		}
@@ -1782,7 +1782,7 @@ cleanup_create_folder (gpointer in_data, gpointer op_data,
 	if (ev._major != CORBA_NO_EXCEPTION)
 		camel_exception_set (ex, CAMEL_EXCEPTION_SYSTEM,
 				     _("Exception while reporting result to shell "
-				     "component listener."));
+				       "component listener."));
 	CORBA_Object_release (input->listener, &ev);
 
 	g_free (input->uri);

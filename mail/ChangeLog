@@ -1,5 +1,8 @@
 2000-10-08  Miguel de Icaza  <miguel@helixcode.com>
 
+	* mail-ops.c (mail_incorporate_messages): Tag string for translation
+	(do_flag_messages): ditto.
+
 	* mail-threads.c (pipe_write): Repeates writes on EINTRS.
 	(pipe_read): Repeats reads on EINTRS.
 	(mail_operation_queue): Use pipe_write
