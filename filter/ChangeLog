@@ -1,3 +1,11 @@
+2004-01-20  Not Zed  <NotZed@Ximian.com>
+
+	* rule-context.c (revert): load from the just-loaded 'userdoc'
+	rather than rc->user.
+	(rule_context_finalise): remove user and system xmldoc files.
+	(load): make rc->system and rc->user locals systemdoc userdoc, and
+	free them immediately.
+
 2004-01-16  Not Zed  <NotZed@Ximian.com>
 
 	** See bug #52467.

@@ -184,12 +184,7 @@ rule_context_finalise(GObject *obj)
 	g_list_free(rc->parts);
 	g_list_foreach(rc->rules, (GFunc)g_object_unref, NULL);
 	g_list_free(rc->rules);
-	
-	if (rc->system)
-		xmlFreeDoc(rc->system);
-	if (rc->user)
-		xmlFreeDoc(rc->user);
-	
+
 	g_free(rc->priv);
 	
 	G_OBJECT_CLASS(parent_class)->finalize(obj);
@@ -288,6 +283,7 @@ static int
 load(RuleContext *rc, const char *system, const char *user)
 {
 	xmlNodePtr set, rule, root;
+	xmlDocPtr systemdoc, userdoc;
 	struct _part_set_map *part_map;
 	struct _rule_set_map *rule_map;
 	struct stat st;
@@ -296,24 +292,23 @@ load(RuleContext *rc, const char *system, const char *user)
 	
 	d(printf("loading rules %s %s\n", system, user));
 	
-	rc->system = xmlParseFile(system);
-	if (rc->system == NULL) {
+	systemdoc = xmlParseFile(system);
+	if (systemdoc == NULL) {
 		rule_context_set_error(rc, g_strdup_printf("Unable to load system rules '%s': %s",
 							     system, g_strerror(errno)));
 		return -1;
 	}
 
-	root = xmlDocGetRootElement(rc->system);
+	root = xmlDocGetRootElement(systemdoc);
 	if (root == NULL || strcmp(root->name, "filterdescription")) {
 		rule_context_set_error(rc, g_strdup_printf("Unable to load system rules '%s': Invalid format", system));
-		xmlFreeDoc(rc->system);
-		rc->system = NULL;
+		xmlFreeDoc(systemdoc);
 		return -1;
 	}
 	/* doesn't matter if this doens't exist */
-	rc->user = NULL;
+	userdoc = NULL;
 	if (stat (user, &st) != -1 && S_ISREG (st.st_mode))
-		rc->user = xmlParseFile(user);
+		userdoc = xmlParseFile(user);
 	
 	/* now parse structure */
 	/* get rule parts */
@@ -360,8 +355,8 @@ load(RuleContext *rc, const char *system, const char *user)
 	}
 	
 	/* now load actual rules */
-	if (rc->user) {
-		root = xmlDocGetRootElement(rc->user);
+	if (userdoc) {
+		root = xmlDocGetRootElement(userdoc);
 		set = root?root->children:NULL;
 		while (set) {
 			d(printf("set name = %s\n", set->name));
@@ -387,6 +382,9 @@ load(RuleContext *rc, const char *system, const char *user)
 			set = set->next;
 		}
 	}
+
+	xmlFreeDoc(userdoc);
+	xmlFreeDoc(systemdoc);
 	
 	return 0;
 }
@@ -461,7 +459,7 @@ rule_context_revert(RuleContext *rc, const char *user)
 {
 	g_assert(rc);
 	
-	d(printf("rule_context: restoring %s %s\n", user));
+	d(printf("rule_context: restoring %s\n", user));
 	
 	return RULE_CONTEXT_GET_CLASS(rc)->revert(rc, user);
 }
@@ -514,7 +512,7 @@ revert(RuleContext *rc, const char *user)
 	
 	rule_context_set_error(rc, NULL);
 	
-	d(printf("restoring rules %s %s\n", user));
+	d(printf("restoring rules %s\n", user));
 	
 	userdoc = xmlParseFile(user);
 	if (userdoc == NULL)
@@ -538,7 +536,7 @@ revert(RuleContext *rc, const char *user)
 	}
 	
 	/* make what we have, match what we load */
-	set = xmlDocGetRootElement(rc->user);
+	set = xmlDocGetRootElement(userdoc);
 	set = set?set->children:NULL;
 	while (set) {
 		d(printf("set name = %s\n", set->name));

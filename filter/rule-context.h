@@ -46,10 +46,7 @@ struct _RuleContext {
 	struct _RuleContextPrivate *priv;
 	
 	char *error;              /* string version of error */
-	
-	xmlDocPtr system;         /* system rules source */
-	xmlDocPtr user;           /* user defined rules source */
-	
+
 	GList *parts;
 	GList *rules;
 	
