@@ -530,7 +530,7 @@ pop3_try_authenticate (CamelService *service, gboolean reprompt, const char *err
 				      _("Unable to connect to POP server %s.\n"
 					"Error sending password: %s"),
 				      CAMEL_SERVICE (store)->url->host,
-				      store->engine->line ? store->engine->line : _("Unknown error"));
+				      store->engine->line ? (char *)store->engine->line : _("Unknown error"));
 	
 	camel_pop3_engine_command_free(store->engine, pcp);
 	

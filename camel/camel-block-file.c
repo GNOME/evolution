@@ -36,6 +36,7 @@
 #include "e-util/e-msgport.h"
 
 #include "camel-block-file.h"
+#include "camel-file-utils.h"
 
 #define d(x) /*(printf("%s(%d):%s: ",  __FILE__, __LINE__, __PRETTY_FUNCTION__),(x))*/
 

@@ -36,6 +36,7 @@
 #include "camel-exception.h"
 #include "camel-mime-utils.h"
 #include "camel-object.h"
+#include "camel-string-utils.h"
 
 static void copy_param (GQuark key_id, gpointer data, gpointer user_data);
 static void output_param (GQuark key_id, gpointer data, gpointer user_data);

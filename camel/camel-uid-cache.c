@@ -148,7 +148,6 @@ maybe_write_uid (gpointer key, gpointer value, gpointer data)
 gboolean
 camel_uid_cache_save (CamelUIDCache *cache)
 {
-	struct stat st;
 	char *filename;
 	int errnosav;
 	int fd;
@@ -167,7 +166,6 @@ camel_uid_cache_save (CamelUIDCache *cache)
 	if (cache->fd == -1)
 		goto exception;
 	
- overwrite:
 	if (fsync (fd) == -1)
 		goto exception;
 	

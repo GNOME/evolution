@@ -1,3 +1,15 @@
+2003-07-23  Dan Winship  <danw@ximian.com>
+
+	* camel-block-file.c: #include camel-file-utils.h for camel_read()
+
+	* camel-uid-cache.c (camel_uid_cache_save): Remove unused variable
+	and label.
+
+	* camel-url.c: #include camel-string-utils.h for camel_strdown
+
+	* providers/pop3/camel-pop3-store.c (pop3_try_authenticate): Cast
+	an (unsigned char *) to (char *) to fix a warning
+
 2003-07-17  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-mime-message.c (find_best_encoding): Updated to convert
