@@ -155,6 +155,8 @@ command_quit (BonoboUIComponent *uih,
 	e_shell_quit (shell);
 }
 
+#if 0
+
 static void
 command_run_bugbuddy (BonoboUIComponent *uih,
 		      void *data,
@@ -179,6 +181,22 @@ command_run_bugbuddy (BonoboUIComponent *uih,
                 gnome_error_dialog (_("Bug buddy could not be run."));
         }
 }
+
+#else
+
+/* We have no mail interface in the Ximian bug tracker (yet), so Bug Buddy
+   cannot talk to it.  For the time being, it's better to just fire up a
+   browser window with bugzilla.ximian.com in it.  */
+
+static void
+command_submit_bug (BonoboUIComponent *uic,
+		    void *data,
+		    const char *path)
+{
+	gnome_url_show ("http://bugzilla.ximian.com");
+}
+
+#endif
 
 static void
 zero_pointer(GtkObject *object, void **pointer)
@@ -533,7 +551,7 @@ menu_do_misc (BonoboUIComponent *component,
 					  command_toggle_folder_bar, shell_view);
 
 	bonobo_ui_component_add_verb (component, "HelpSubmitBug",
-				      (BonoboUIVerbFn) command_run_bugbuddy, shell_view);
+				      (BonoboUIVerbFn) command_submit_bug, shell_view);
 	bonobo_ui_component_add_verb (component, "HelpAbout",
 				      (BonoboUIVerbFn) command_about_box, shell_view);
 	bonobo_ui_component_add_verb (component, "DebugDumpXml",

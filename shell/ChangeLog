@@ -1,5 +1,13 @@
 2001-05-15  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-shell-view-menu.c (command_run_bugbuddy): `#if 0'ed out.
+	(command_submit_bug): New.  Just fire up the web browser with
+	`http://bugzilla.ximian.com' in it.
+	(menu_do_misc): Associate the latter instead of the former to the
+	"HelpSubmitBug" verb.
+
+2001-05-15  Ettore Perazzoli  <ettore@ximian.com>
+
 	* e-shell-view-menu.c: Add an `HelpFAQ' verb.
 
 2001-05-14  jacob berkman  <jacob@ximian.com>
