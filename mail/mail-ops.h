@@ -69,6 +69,7 @@ void mail_do_display_message (MessageList *ml, MailDisplay *md, const char *uid,
 void mail_do_edit_messages (CamelFolder *folder, GPtrArray *uids,
 			    GtkSignalFunc signal);
 void mail_do_setup_folder (const char *name, CamelFolder **folder);
+void mail_do_setup_trash (const char *name, const char *store_uri, CamelFolder **folder);
 void mail_do_view_messages (CamelFolder *folder, GPtrArray *uids,
 			    FolderBrowser *fb);
 void mail_do_save_messages (CamelFolder *folder, GPtrArray *uids, gchar *path);

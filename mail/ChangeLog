@@ -1,3 +1,19 @@
+2000-12-26  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* mail-crypto.c (mail_crypto_openpgp_verify): Implemented.
+
+2000-12-23  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* mail-ops.c (mail_do_setup_trash): New function similar to
+	mail_do_setup_folder() except that this creates the Trash VFolder
+	(special-case).
+
+2000-12-21  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* mail-ops.c (do_send_mail): Don't free info inside the last
+	if-statement, if sent_folder doesn't exist we'll have a memory
+	leak. Instead free it afterward.
+
 2000-12-29  Dan Winship  <danw@helixcode.com>
 
 	* mail-crypto.c: Oops. Update this for CamelContentType stuff too.
@@ -77,6 +93,7 @@
 	* component-factory.c (factory_destroy): Wait till all views have
 	gone and then destroy both factories.
 
+>>>>>>> 1.805
 2000-12-21  Dan Winship  <danw@helixcode.com>
 
 	* mail-display.c (pixbuf_for_mime_type): Deal with the possibility

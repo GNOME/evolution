@@ -640,12 +640,11 @@ do_send_mail (gpointer in_data, gpointer op_data, CamelException *ex)
 	/* now to save the message in Sent */
 	if (sent_folder) {
 		mail_tool_camel_lock_up ();
-		
 		camel_folder_append_message (sent_folder, input->message, info, ex);
-		g_free (info);
-		
 		mail_tool_camel_lock_down ();
 	}
+	
+	g_free (info);
 }
 
 static void
@@ -1939,6 +1938,7 @@ mail_do_create_folder (const GNOME_Evolution_ShellComponentListener listener,
 	mail_operation_queue (&op_create_folder, input, FALSE);
 }
 
+
 /* ** SYNC FOLDER ********************************************************* */
 
 static gchar *
@@ -1954,8 +1954,7 @@ describe_sync_folder (gpointer in_data, gboolean gerund)
 }
 
 static void
-setup_sync_folder (gpointer in_data, gpointer op_data, CamelException *ex)
-{
+setup_sync_folder (gpointer in_data, gpointer op_data, CamelException *ex) {
 	camel_object_ref (CAMEL_OBJECT (in_data));
 }
 
@@ -2367,6 +2366,175 @@ mail_do_setup_folder (const char *name, CamelFolder **folder)
 	input->folder = folder;
 	mail_operation_queue (&op_setup_folder, input, TRUE);
 }
+
+/* ** SETUP TRASH VFOLDER ************************************************* */
+
+typedef struct setup_trash_input_s {
+	gchar *name;
+	gchar *store_uri;
+	CamelFolder **folder;
+} setup_trash_input_t;
+
+static gchar *
+describe_setup_trash (gpointer in_data, gboolean gerund)
+{
+	setup_trash_input_t *input = (setup_trash_input_t *) in_data;
+	
+	if (gerund)
+		return g_strdup_printf (_("Loading %s Folder for %s"), input->name, input->store_uri);
+	else
+		return g_strdup_printf (_("Load %s Folder for %s"), input->name, input->store_uri);
+}
+
+/* maps the shell's uri to the real vfolder uri and open the folder */
+static CamelFolder *
+create_trash_vfolder (const char *name, GPtrArray *urls, CamelException *ex)
+{
+	void camel_vee_folder_add_folder (CamelFolder *, CamelFolder *);
+	
+	char *storeuri, *foldername;
+	CamelFolder *folder = NULL, *sourcefolder;
+	const char *sourceuri;
+	int source = 0;
+	
+	d(fprintf (stderr, "Creating Trash vfolder\n"));
+	
+	storeuri = g_strdup_printf ("vfolder:%s/vfolder/%s", evolution_dir, name);
+	foldername = g_strdup ("mbox?(match-all (system-flag Deleted))");
+	
+	/* we dont have indexing on vfolders */
+	folder = mail_tool_get_folder_from_urlname (storeuri, foldername, CAMEL_STORE_FOLDER_CREATE, ex);
+	
+	sourceuri = NULL;
+	while (source < urls->len) {
+		sourceuri = urls->pdata[source];
+		fprintf (stderr, "adding vfolder source: %s\n", sourceuri);
+		
+		sourcefolder = mail_tool_uri_to_folder (sourceuri, ex);
+		d(fprintf (stderr, "source folder = %p\n", sourcefolder));
+		
+		if (sourcefolder) {
+			mail_tool_camel_lock_up ();
+			camel_vee_folder_add_folder (folder, sourcefolder);
+			mail_tool_camel_lock_down ();
+		} else {
+			/* we'll just silently ignore now-missing sources */
+			camel_exception_clear (ex);
+		}
+		
+		g_free (urls->pdata[source]);
+		source++;
+	}
+	
+	g_ptr_array_free (urls, TRUE);
+	
+	g_free (foldername);
+	g_free (storeuri);
+	
+	return folder;
+}
+
+static void
+populate_folder_urls (CamelFolderInfo *info, GPtrArray *urls)
+{
+	if (!info)
+		return;
+	
+	g_ptr_array_add (urls, info->url);
+	
+	if (info->child)
+		populate_folder_urls (info->child, urls);
+	
+	if (info->sibling)
+		populate_folder_urls (info->sibling, urls);
+}
+
+static void
+local_folder_urls (gpointer key, gpointer value, gpointer user_data)
+{
+	GPtrArray *urls = user_data;
+	CamelFolder *folder = value;
+	
+	g_ptr_array_add (urls, g_strdup_printf ("file://%s/local/%s",
+						evolution_dir,
+						folder->full_name));
+}
+
+static void
+do_setup_trash (gpointer in_data, gpointer op_data, CamelException *ex)
+{
+	setup_trash_input_t *input = (setup_trash_input_t *) in_data;
+	EvolutionStorage *storage;
+	CamelFolderInfo *info;
+	CamelStore *store;
+	GPtrArray *urls;
+	
+	urls = g_ptr_array_new ();
+	
+	/* we don't want to connect */
+	store = (CamelStore *) camel_session_get_service (session, input->store_uri,
+							  CAMEL_PROVIDER_STORE, ex);
+	if (store == NULL) {
+		g_warning ("Couldn't get service %s: %s\n", input->store_uri,
+			   camel_exception_get_description (ex));
+		camel_exception_clear (ex);
+	} else {
+		char *path, *uri;
+		
+		if (!strcmp (input->store_uri, "file:/")) {
+			/* Yeah - this is a hack but then again so are local folders */
+			g_hash_table_foreach (store->folders, local_folder_urls, urls);
+		} else {
+			info = camel_store_get_folder_info (store, "/", TRUE, TRUE, TRUE, ex);
+			populate_folder_urls (info, urls);
+			camel_store_free_folder_info (store, info);
+		}
+		
+		*(input->folder) = create_trash_vfolder (input->name, urls, ex);
+		
+		uri = g_strdup_printf ("vfolder:%s", input->name);
+		path = g_strdup_printf ("/%s", input->name);
+		storage = mail_lookup_storage (store);
+		evolution_storage_new_folder (storage, path, g_basename (path),
+					      "mail", uri, input->name, FALSE);
+		gtk_object_unref (GTK_OBJECT (storage));
+		g_free (path);
+		g_free (uri);
+	}
+}
+
+static void
+cleanup_setup_trash (gpointer in_data, gpointer op_data, CamelException *ex)
+{
+	setup_trash_input_t *input = (setup_trash_input_t *) in_data;
+	
+	g_free (input->name);
+	g_free (input->store_uri);
+}
+
+static const mail_operation_spec op_setup_trash = {
+	describe_setup_trash,
+	0,
+	NULL,
+	do_setup_trash,
+	cleanup_setup_trash
+};
+
+void
+mail_do_setup_trash (const char *name, const char *store_uri, CamelFolder **folder)
+{
+	setup_trash_input_t *input;
+	
+	g_return_if_fail (name != NULL);
+	g_return_if_fail (folder != NULL);
+	
+	input = g_new (setup_trash_input_t, 1);
+	input->name = g_strdup (name);
+	input->store_uri = g_strdup (store_uri);
+	input->folder = folder;
+	mail_operation_queue (&op_setup_trash, input, TRUE);
+}
+
 
 /* ** VIEW MESSAGES ******************************************************* */
 

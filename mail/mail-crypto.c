@@ -898,6 +898,25 @@ mail_crypto_openpgp_sign (const char *in, int inlen, const char *userid,
 	return cyphertext;
 }
 
+static char *
+swrite (const char *data, int len)
+{
+	char *template;
+	int fd;
+	
+	template = g_strdup ("/tmp/mail-crypto-XXXXXX");
+	fd = mkstemp (template);
+	if (fd == -1) {
+		g_free (template);
+		return NULL;
+	}
+	
+	write (fd, data, len);
+	close (fd);
+	
+	return template;
+}
+
 gboolean
 mail_crypto_openpgp_verify (const char *in, int inlen, const char *sigin, int siglen, CamelException *ex)
 {
@@ -907,7 +926,7 @@ mail_crypto_openpgp_verify (const char *in, int inlen, const char *sigin, int si
 	char *path;
 	int passwd_fds[2];
 	char passwd_fd[32];
-	char *tmp = "/tmp/mail-crypto-XXXXXX";
+	char *sigfile;
 	int retval, i, clearlen;
 	gboolean valid = TRUE;
 	
@@ -925,6 +944,18 @@ mail_crypto_openpgp_verify (const char *in, int inlen, const char *sigin, int si
 		return FALSE;
 	}
 	
+	if (sigin != NULL && siglen) {
+		/* We are going to verify a detached signature so save
+		   the signature to a temp file. */
+		sigfile = swrite (sigin, siglen);
+		if (!sigfile) {
+			camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
+					      _("Couldn't create temp file: %s"),
+					      g_strerror (errno));
+			return FALSE;
+		}
+	}
+	
 	i = 0;
 #if defined(GPG_PATH)
 	path = GPG_PATH;
@@ -933,44 +964,36 @@ mail_crypto_openpgp_verify (const char *in, int inlen, const char *sigin, int si
 	
 	argv[i++] = "--verify";
 	
-	if (sigin != NULL && siglen) {
-		/* We are going to verify a detached signature so save
-                   the signature to a temp file and write the data to
-                   verify to stdin */
-		int fd;
-		
-		fd = mkstemp (tmp);
-		if (fd == -1) {
-			camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
-					      _("Couldn't create temp file: %s"),
-					      g_strerror (errno));
-			return FALSE;
-		}
-		
-		write (fd, sigin, siglen);
-		close (fd);
-		
-		argv[i++] = tmp;
-		argv[i++] = "-";
-	} else {
-		/* We are going to verify using stdin */
-		argv[i++] = "-";
-	}
+	if (sigin != NULL && siglen)
+		argv[i++] = sigfile;
 	
-	argv[i++] = "--verbose";
-	argv[i++] = "--yes";
-	argv[i++] = "--batch";
+	/* We are going to verify using stdin */
+	argv[i++] = "-";
 	
-	argv[i++] = "--output";
-	argv[i++] = "-";            /* output to stdout */
+	/*argv[i++] = "--verbose";
+	  argv[i++] = "--yes";
+	  argv[i++] = "--batch";*/
 #elif defined (PGP5_PATH)
 	path = PGP5_PATH;
 	
 	argv[i++] = "pgpv";
+	
+	argv[i++] = "-z";
+	
+	if (sigin != NULL && siglen)
+		argv[i++] = sigfile;
+	
+	argv[i++] = "-f";
+		
 #else
 	path = PGP_PATH;
 	
 	argv[i++] = "pgp";
+	
+	if (sigin != NULL && siglen)
+		argv[i++] = sigfile;
+	
+	argv[i++] = "-f";
 #endif
 	
 	argv[i++] = NULL;
@@ -982,8 +1005,14 @@ mail_crypto_openpgp_verify (const char *in, int inlen, const char *sigin, int si
 					  &cleartext, &clearlen,
 					  &diagnostics);
 	
+	/* cleanup */
+	if (sigfile) {
+		unlink (sigfile);
+		g_free (sigfile);
+	}
+	
 	/* FIXME: maybe we should always set an exception? */
-	if (retval != 0 || clearlen == 0) {
+	if (retval != 0) {
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
 				      "%s", diagnostics);
 		valid = FALSE;
