@@ -28,6 +28,7 @@ addressbook/gui/component/select-names/e-select-names-popup.c
 addressbook/gui/component/select-names/e-select-names.c
 addressbook/gui/component/select-names/select-names.glade
 addressbook/gui/contact-editor/contact-editor.glade
+addressbook/gui/contact-editor/e-contact-editor-address.c
 addressbook/gui/contact-editor/e-contact-editor-confirm-delete.glade
 addressbook/gui/contact-editor/e-contact-editor.c
 addressbook/gui/contact-editor/e-contact-quick-add.c
@@ -299,6 +300,7 @@ shell/e-shell-folder-title-bar.c
 shell/e-shell-importer.c
 shell/e-shell-offline-handler.c
 shell/e-shell-startup-wizard.c
+shell/e-shell-user-creatable-items-handler.c
 shell/e-shell-utils.c
 shell/e-shell-view-menu.c
 shell/e-shell-view.c
