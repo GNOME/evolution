@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-08-14 21:51+0300\n"
-"PO-Revision-Date: 2004-06-13 21:10+0200\n"
+"POT-Creation-Date: 2004-08-14 22:47+0300\n"
+"PO-Revision-Date: 2004-08-14 22:48+0300\n"
 "Last-Translator: Ilkka Tuohela <hile@iki.fi>\n"
 "Language-Team: Finnish <gnome-fi-laatu@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -3702,7 +3702,8 @@ msgstr "Haluatko tallentaa muutoksesi tähän tehtävään?"
 #. calendar:prompt-save-task secondary
 #: calendar/calendar-errors.xml.h:80
 msgid "You have made changes to this task, but not yet saved them."
-msgstr "Olet tehnyt muutoksia tähän tehtävään, mutta et ole vielä tallentanut niitä."
+msgstr ""
+"Olet tehnyt muutoksia tähän tehtävään, mutta et ole vielä tallentanut niitä."
 
 #. calendar:prompt-meeting-invite primary
 #: calendar/calendar-errors.xml.h:84
