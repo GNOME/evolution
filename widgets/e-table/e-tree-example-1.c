@@ -86,10 +86,8 @@ my_value_at (ETreeModel *etm, ETreePath *path, int col, void *model_data)
 static GdkPixbuf *
 my_icon_at (ETreeModel *etm, ETreePath *path, void *model_data)
 {
-	if (e_tree_model_node_is_expanded (etm, path))
-		return tree_expanded_pixbuf;
-	else
-		return tree_unexpanded_pixbuf;
+	/* No icon, since the cell tree renderer takes care of the +/- icons itself. */
+	return NULL;
 }
 
 /* This function sets the value at a particular point in our ETreeModel. */
@@ -254,6 +252,8 @@ create_tree (void)
 					      0,
 					      g_strdup("Root Node"));
 
+	e_tree_model_root_node_set_visible (e_tree_model, FALSE);
+
 	for (i = 0; i < 5; i++){
 		ETreePath *n = e_tree_model_node_insert (e_tree_model,
 							 root_node, 0,
@@ -368,6 +368,8 @@ create_tree (void)
 	
 	/* Size the initial window. */
 	gtk_widget_set_usize (window, 200, 200);
+
+	gtk_signal_connect (GTK_OBJECT (window), "delete-event", gtk_main_quit, NULL);
 
 	/* Show it all. */
 	gtk_widget_show_all (window);

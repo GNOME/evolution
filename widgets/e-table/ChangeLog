@@ -1,3 +1,11 @@
+2000-08-31  Richard Hult  <rhult@codefactory.se>
+
+	* e-tree-example-1.c (create_tree):  Don't show the root node.
+	Also quit when the window is closed.
+	(my_icon_at): Don't use icons here since the cell tree renderer takes
+	care of the +/- signs itself. This stops the tree example from showing
+	two sets of expand/unexpand icons at every node. 
+
 2000-08-28  Christopher James Lahey  <clahey@helixcode.com>
 
 	* e-table-group-container.c: Make printing of groups work better
