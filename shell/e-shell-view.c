@@ -636,6 +636,7 @@ init (EShellView *shell_view)
 	priv->shell                   = NULL;
 	priv->uih                     = NULL;
 	priv->uri                     = NULL;
+	priv->delayed_selection       = NULL;
 
 	priv->appbar                  = NULL;
 	priv->hpaned                  = NULL;
