@@ -27,9 +27,9 @@
 
 #include "camel-gw-listener.h"
 #include <string.h>
-#include  "camel-i18n.h"
+#include  <camel/camel-i18n.h>
 #include <e-gw-connection.h>
-#include <e-passwords.h>
+#include <e-util/e-passwords.h>
 #include "widgets/misc/e-error.h"
 
 /*stores some info about all currently existing groupwise accounts 
