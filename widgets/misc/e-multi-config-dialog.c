@@ -200,7 +200,7 @@ impl_response (GtkDialog *dialog, int response_id)
 		gnome_help_display_desktop (NULL,
 					    "evolution-" BASE_VERSION,
 					    "evolution-" BASE_VERSION ".xml", 
-					    "config",
+					    "config-prefs",
 					    &error);
 		if (error != NULL)
 			g_warning ("%s", error->message);
