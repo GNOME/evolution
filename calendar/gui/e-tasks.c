@@ -54,6 +54,10 @@ struct _ETasksPrivate {
 	/* The option menu showing the categories, and the popup menu. */
 	GtkWidget *categories_option_menu;
 	GtkWidget *categories_menu;
+
+	/* View collection and the view menus handler */
+	GalViewCollection *view_collection;
+	GalViewMenus *view_menus;
 };
 
 

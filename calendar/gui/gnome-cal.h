@@ -29,6 +29,7 @@
 #include <time.h>
 #include <libgnome/gnome-defs.h>
 #include <gtk/gtkvbox.h>
+#include <bonobo/bonobo-ui-component.h>
 #include <widgets/misc/e-calendar.h>
 #include <cal-client/cal-client.h>
 
@@ -46,6 +47,14 @@ BEGIN_GNOME_DECLS
 typedef struct _GnomeCalendar GnomeCalendar;
 typedef struct _GnomeCalendarClass GnomeCalendarClass;
 typedef struct _GnomeCalendarPrivate GnomeCalendarPrivate;
+
+/* View types */
+typedef enum {
+	GNOME_CAL_DAY_VIEW,
+	GNOME_CAL_WORK_WEEK_VIEW,
+	GNOME_CAL_WEEK_VIEW,
+	GNOME_CAL_MONTH_VIEW
+} GnomeCalendarViewType;
 
 struct _GnomeCalendar {
 	GtkVBox vbox;
@@ -69,6 +78,8 @@ CalClient *gnome_calendar_get_task_pad_cal_client(GnomeCalendar *gcal);
 
 gboolean   gnome_calendar_open                  (GnomeCalendar *gcal, const char *str_uri);
 
+void gnome_calendar_set_query (GnomeCalendar *gcal, char *sexp);
+
 void       gnome_calendar_next             	(GnomeCalendar *gcal);
 void       gnome_calendar_previous         	(GnomeCalendar *gcal);
 void       gnome_calendar_goto             	(GnomeCalendar *gcal,
@@ -77,11 +88,13 @@ void       gnome_calendar_dayjump          	(GnomeCalendar *gcal,
 						 time_t time);
 /* Jumps to the current day */
 void       gnome_calendar_goto_today            (GnomeCalendar *gcal);
-char      *gnome_calendar_get_current_view_name (GnomeCalendar *gcal);
-void	   gnome_calendar_set_view		(GnomeCalendar	*gcal,
-						 char		*page_name,
-						 gboolean	 reset_range_shown,
-						 gboolean	 focus);
+
+GnomeCalendarViewType gnome_calendar_get_view (GnomeCalendar *gcal);
+void gnome_calendar_set_view (GnomeCalendar *gcal, GnomeCalendarViewType view_type,
+			      gboolean range_selected, gboolean grab_focus);
+
+void gnome_calendar_setup_view_menus (GnomeCalendar *gcal, BonoboUIComponent *uic);
+void gnome_calendar_discard_view_menus (GnomeCalendar *gcal);
 
 void	   gnome_calendar_set_selected_time_range (GnomeCalendar *gcal,
 						   time_t	  start_time,

@@ -1,1 +1,1 @@
-SUBDIRS = addressbook mail tasks
+SUBDIRS = addressbook mail tasks calendar

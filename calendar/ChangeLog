@@ -41,6 +41,35 @@
 	(conduit_get_gpilot_conduit):
 	Tweaked for some gnome-pilot api changes
 
+2001-06-15  Federico Mena Quintero  <federico@ximian.com>
+
+	* gui/calendar-view.[ch]: New files with the generic calendar view
+	object.  It sucks that we have to implement at least two classes
+	to define a GalView and its factory.
+
+	* gui/calendar-view-factory.[ch]: New files; factory for calendar
+	views.
+
+	* gui/gnome-cal.h (GnomeCalendarViewType): Moved from gnome-cal.c
+	and renamed from ViewType.  We no longer use strings to identify
+	the view types.
+
+	* gui/gnome-cal.c (gnome_calendar_get_view_type): New function.
+	(set_view): Renamed from gnome_calendar_set_view_internal().
+	(gnome_calendar_set_query): Made public; renamed from set_query().
+	(gnome_calendar_setup_view_menus): New function to set up the view
+	collection and the GalViewMenus.
+	(gnome_calendar_discard_view_menus): New function to discard them.
+
+	* gui/calendar-commands.c (calendar_control_activate): Set up the
+	GalView menus.
+	(calendar_control_deactivate): Discard the GalView menus.
+
+	* gui/e-day-view.c: #include <gtk/gtkinvisible.h>
+
+	* gui/dialogs/comp-editor.c (comp_editor_get_type): The type info
+	structure should be static.
+
 2001-06-15  Rodrigo Moya <rodrigo@ximian.com>
 
 	* gui/e-day-view.c (selection_received): generate a new UID

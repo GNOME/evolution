@@ -75,7 +75,7 @@ comp_editor_get_type (void)
 	static GtkType comp_editor_type = 0;
 
 	if (!comp_editor_type) {
-		GtkTypeInfo comp_editor_info = {
+		static const GtkTypeInfo comp_editor_info = {
 			"CompEditor",
 			sizeof (CompEditor),
 			sizeof (CompEditorClass),

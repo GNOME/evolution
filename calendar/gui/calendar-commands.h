@@ -34,9 +34,8 @@ void update_all_config_settings (void);
 
 GnomeCalendar *new_calendar (void);
 
-void calendar_control_activate (BonoboControl *control,
-				GnomeCalendar *cal);
-void calendar_control_deactivate (BonoboControl *control);
+void calendar_control_activate (BonoboControl *control, GnomeCalendar *gcal);
+void calendar_control_deactivate (BonoboControl *control, GnomeCalendar *gcal);
 
 void calendar_goto_today (GnomeCalendar *gcal);
 

@@ -49,14 +49,16 @@ CORBA_ORB orb;
 
 
 static void
-control_activate_cb (BonoboControl *control,
-		     gboolean activate,
-		     gpointer user_data)
+control_activate_cb (BonoboControl *control, gboolean activate, gpointer data)
 {
+	GnomeCalendar *gcal;
+
+	gcal = GNOME_CALENDAR (data);
+
 	if (activate)
-		calendar_control_activate (control, user_data);
+		calendar_control_activate (control, gcal);
 	else
-		calendar_control_deactivate (control);
+		calendar_control_deactivate (control, gcal);
 }
 
 

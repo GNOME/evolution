@@ -19,6 +19,10 @@
 	variables for camel/Makefile to make camel-lock-helper
 	setuid/setgid.
 
+2001-06-15  Federico Mena Quintero  <federico@ximian.com>
+
+	* configure.in (AC_OUTPUT): Added views/calendar/Makefile.
+
 2001-06-11  JP Rosevear  <jpr@ximian.com>
 
 	* configure.in: One slight db3 check correction

@@ -75,7 +75,7 @@ new_event_cb (BonoboUIComponent *uic, gpointer data, const char *path)
 {
 	GnomeCalendar *gcal;
 	time_t dtstart, dtend;
-	
+
 	gcal = GNOME_CALENDAR (data);
 	gnome_calendar_get_current_time_range (gcal, &dtstart, &dtend);
 	gnome_calendar_new_appointment_for (gcal, dtstart, dtend, TRUE);
@@ -86,21 +86,29 @@ static void
 print (GnomeCalendar *gcal, gboolean preview)
 {
 	time_t start;
-	const char *view;
+	GnomeCalendarViewType view_type;
 	PrintView print_view;
 
 	gnome_calendar_get_current_time_range (gcal, &start, NULL);
-	view = gnome_calendar_get_current_view_name (gcal);
+	view_type = gnome_calendar_get_view (gcal);
 
-	if (strcmp (view, "dayview") == 0)
+	switch (view_type) {
+	case GNOME_CAL_DAY_VIEW:
 		print_view = PRINT_VIEW_DAY;
-	else if (strcmp (view, "workweekview") == 0 || strcmp (view, "weekview") == 0)
+		break;
+
+	case GNOME_CAL_WORK_WEEK_VIEW:
+	case GNOME_CAL_WEEK_VIEW:
 		print_view = PRINT_VIEW_WEEK;
-	else if (strcmp (view, "monthview") == 0)
+		break;
+
+	case GNOME_CAL_MONTH_VIEW:
 		print_view = PRINT_VIEW_MONTH;
-	else {
+		break;
+
+	default:
 		g_assert_not_reached ();
-		print_view = PRINT_VIEW_DAY;
+		return;
 	}
 
 	print_calendar (gcal, preview, start, print_view);
@@ -216,7 +224,7 @@ show_day_view_clicked (BonoboUIComponent *uic, gpointer data, const char *path)
 
 	gcal = GNOME_CALENDAR (data);
 
-	gnome_calendar_set_view (gcal, "dayview", FALSE, TRUE);
+	gnome_calendar_set_view (gcal, GNOME_CAL_DAY_VIEW, FALSE, TRUE);
 }
 
 static void
@@ -226,7 +234,7 @@ show_work_week_view_clicked (BonoboUIComponent *uic, gpointer data, const char *
 
 	gcal = GNOME_CALENDAR (data);
 
-	gnome_calendar_set_view (gcal, "workweekview", FALSE, TRUE);
+	gnome_calendar_set_view (gcal, GNOME_CAL_WORK_WEEK_VIEW, FALSE, TRUE);
 }
 
 static void
@@ -236,7 +244,7 @@ show_week_view_clicked (BonoboUIComponent *uic, gpointer data, const char *path)
 
 	gcal = GNOME_CALENDAR (data);
 
-	gnome_calendar_set_view (gcal, "weekview", FALSE, TRUE);
+	gnome_calendar_set_view (gcal, GNOME_CAL_WEEK_VIEW, FALSE, TRUE);
 }
 
 static void
@@ -246,7 +254,7 @@ show_month_view_clicked (BonoboUIComponent *uic, gpointer data, const char *path
 
 	gcal = GNOME_CALENDAR (data);
 
-	gnome_calendar_set_view (gcal, "monthview", FALSE, TRUE);
+	gnome_calendar_set_view (gcal, GNOME_CAL_MONTH_VIEW, FALSE, TRUE);
 }
 
 
@@ -366,12 +374,12 @@ static BonoboUIVerb verbs [] = {
 	BONOBO_UI_VERB ("EditNewAppointment", new_appointment_cb),
 	BONOBO_UI_VERB ("EditNewEvent", new_event_cb),
 	BONOBO_UI_VERB ("CalendarPreferences", properties_cmd),
-		  
+
 	BONOBO_UI_VERB ("CalendarPrev", previous_clicked),
 	BONOBO_UI_VERB ("CalendarToday", today_clicked),
 	BONOBO_UI_VERB ("CalendarNext", next_clicked),
 	BONOBO_UI_VERB ("CalendarGoto", goto_clicked),
-		  
+
 	BONOBO_UI_VERB ("ShowDayView", show_day_view_clicked),
 	BONOBO_UI_VERB ("ShowWorkWeekView", show_work_week_view_clicked),
 	BONOBO_UI_VERB ("ShowWeekView", show_week_view_clicked),
@@ -399,7 +407,7 @@ static EPixmap pixmaps [] =
 
 void
 calendar_control_activate (BonoboControl *control,
-			   GnomeCalendar *cal)
+			   GnomeCalendar *gcal)
 {
 	Bonobo_UIContainer remote_uih;
 	BonoboUIComponent *uic;
@@ -426,9 +434,8 @@ calendar_control_activate (BonoboControl *control,
 	/* This makes the appropriate radio button in the toolbar active. */
 	gnome_calendar_update_view_buttons (cal);
 #endif
-	
-	bonobo_ui_component_add_verb_list_with_data (
-		uic, verbs, cal);
+
+	bonobo_ui_component_add_verb_list_with_data (uic, verbs, gcal);
 
 	bonobo_ui_component_freeze (uic, NULL);
 
@@ -438,14 +445,18 @@ calendar_control_activate (BonoboControl *control,
 
 	e_pixmaps_update (uic, pixmaps);
 
+	gnome_calendar_setup_view_menus (gcal, uic);
+
 	bonobo_ui_component_thaw (uic, NULL);
 }
 
 void
-calendar_control_deactivate (BonoboControl *control)
+calendar_control_deactivate (BonoboControl *control, GnomeCalendar *gcal)
 {
 	BonoboUIComponent *uic = bonobo_control_get_ui_component (control);
 	g_assert (uic != NULL);
+
+	gnome_calendar_discard_view_menus (gcal);
 
 	bonobo_ui_component_rm (uic, "/", NULL);
  	bonobo_ui_component_unset_container (uic);
