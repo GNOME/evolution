@@ -311,13 +311,6 @@ start(void)
 	return x;
 }
 
-static void
-search_cb(CamelFolder *f, int id, gboolean complete, GList *matches, struct exec_context *x)
-{
-	printf("appending matches ...\n");
-	x->matches =  g_list_concat(x->matches, g_list_copy(matches));
-}
-
 int main(int argc, char **argv)
 {
 	ESExp *f;
@@ -361,12 +354,8 @@ int main(int argc, char **argv)
 		expand_filter_option(s, a, fo);
 
 		printf("searching expression %s\n", s->str);
-		x->matches= NULL;
-		id = camel_folder_search_by_expression  (x->folder, s->str, search_cb, x, x->ex);
+		x->matches = camel_folder_search_by_expression  (x->folder, s->str, x->ex);
 
-		/* wait for it to finish */
-		camel_folder_search_complete(x->folder, id, TRUE, x->ex);
-		
 		/* remove uid's for which processing is complete ... */
 		m = x->matches;
 		while (m) {

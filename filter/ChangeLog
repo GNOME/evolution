@@ -1,3 +1,7 @@
+2000-05-01  NotZed  <NotZed@HelixCode.com>
+
+	* filter-driver.c (main): Fix for api.
+
 2000-04-30  Dan Winship  <danw@helixcode.com>
 
 	* filter-driver.c (start): Remove no-longer-necessary call to
