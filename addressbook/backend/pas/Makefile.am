@@ -70,20 +70,32 @@ libpas_la_SOURCES =					\
 	pas-marshal.c					\
 	ximian-vcard.h
 
+libpas_la_LIBADD =					\
+	$(top_builddir)/addressbook/backend/ebook/libebook.la
+
 libpasfile_la_SOURCES =					\
 	pas-backend-file.c				\
 	pas-backend-file.h
+
+libpasfile_la_LIBADD =					\
+	libpas.la					\
+	$(top_builddir)/e-util/libedb3util.la
 
 libpasvcf_la_SOURCES =					\
 	pas-backend-vcf.c				\
 	pas-backend-vcf.h
 
+libpasvcf_la_LIBADD =					\
+	libpas.la
+
 if ENABLE_LDAP
 libpasldap_la_SOURCES =					\
 	$(LDAP_BACKEND_FILES)
-endif
 
-libpas_la_LIBADD = libpasfile.la libpasvcf.la $(LDAP_BACKEND) $(DB3_LDADD)
+libpasldap_la_LIBADD =					\
+	libpas.la					\
+	$(LDAP_LIBS)
+endif
 
 MARSHAL_GENERATED = pas-marshal.c pas-marshal.h
 @EVO_MARSHAL_RULE@

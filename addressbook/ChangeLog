@@ -1,3 +1,23 @@
+2003-10-24  Dan Winship  <danw@ximian.com>
+
+	* backend/pas/Makefile.am (libpas_la_LIBADD): libpas should depend
+	on libebook, but NOT on libpasfile, etc, since it needs to be
+	linked into all backends, not just the wombat.
+	(libpasfile_la_LIBADD): depend on libpas.la and libedb3util.la
+	(libpasvcf_la_LIBADD): depend on libpas.la
+	(libpasldap_la_LIBADD): depend on libpas.la and  $(LDAP_LIBS)
+
+2003-10-23  Dan Winship  <danw@ximian.com>
+
+	* backend/ebook/e-contact.c (e_contact_date_equal): new util func
+
+	* backend/pas/pas-backend-ldap.c (anniversary_compare,
+	birthday_compare): Use it
+
+	* backend/pas/pas-backend-summary.c
+	(pas_backend_summary_check_contact): Check if an ID exists in the
+	summary.
+
 2003-10-23  Chris Toshok  <toshok@ximian.com>
 
 	* tools/Makefile.am: convert 8 spaces to a tab.
