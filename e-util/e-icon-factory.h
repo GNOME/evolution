@@ -35,6 +35,14 @@ enum {
 	E_ICON_NUM_SIZES
 };
 
+/* standard size for list/tree widgets (16x16) */
+#define E_ICON_SIZE_LIST E_ICON_SIZE_MENU
+
+/* standard size for status bar icons (16x16) */
+#define E_ICON_SIZE_STATUS E_ICON_SIZE_MENU
+
+
+
 void       e_icon_factory_init              (void);
 void       e_icon_factory_shutdown          (void);
 
