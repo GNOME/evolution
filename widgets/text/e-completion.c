@@ -314,25 +314,9 @@ e_completion_sort (ECompletion *complete)
 	gboolean diff;
 	gint count;
 
-	FILE *out = fopen ("/tmp/assbarn", "a");
-	fprintf (out, "---------------------------------------\n");
-
 	for (i = complete->priv->matches; i != NULL; i = g_list_next (i)) {
 		sort_list = g_list_append (sort_list, i->data);
-		{
-			ECompletionMatch *match = (ECompletionMatch *) i->data;
-			fprintf (out, "%s / %s / %g / %d / %d\n", 
-				 match->match_text, 
-				 match->menu_text,
-				 match->score,
-				 match->sort_major,
-				 match->sort_minor);
-		}
-
-
 	}
-
-	fclose (out);
 
 	sort_list = g_list_sort (sort_list, (GCompareFunc) e_completion_match_compare_alpha);
 
