@@ -630,7 +630,7 @@ write_field_row_begin (const char *name, gint flags, GtkHTML *html, GtkHTMLStrea
 				 bold ? "<b>" : "", encoded_name,
 				 bold ? "</b>" : "");
 	} else {
-		mail_html_write (html, stream, "<tr><%s align=\"right\" valign=\"top\">%s:</%s><td>",
+		mail_html_write (html, stream, "<tr><%s align=\"right\" valign=\"top\">%s:</%s><td>&nbsp;</td><td>",
 				 bold ? "th" : "td", encoded_name, bold ? "th" : "td");
 	}
 
