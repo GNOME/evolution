@@ -1,3 +1,7 @@
+2000-10-09  Iain Holmes  <iain@helixcode.com>
+
+	* mail-summary.c: Removed the extra arguments to rule_context_load.
+
 2000-10-09  Chris Toshok  <toshok@helixcode.com>
 
 	* subscribe-dialog.c, subscribe-dialog.h: use our own etable to
