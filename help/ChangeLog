@@ -1,3 +1,13 @@
+2002-12-16  Aaron Weber  <aaron@ximian.com>
+
+	* C/config-sync.xml: spelling/typos
+
+	* C/usage-exchange.xml: spelling/typos
+
+	* C/usage-mail.xml: spelling/typos
+
+	* C/usage-mainwindow.xml: spelling/typos
+
 2002-12-10  Aaron Weber  <aaron@ximian.com>
 
 	* C/config-prefs.xml: change directory server description.

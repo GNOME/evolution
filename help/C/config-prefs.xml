@@ -291,7 +291,7 @@ smtp.omniport.com:143
 
 	      <listitem>
 		<para>Create a Global Address List folder: If you would
-		like to have a seperate folder for the Active Directory's
+		like to have a separate folder for the Active Directory's
 		Global Address List, leave this box checked. </para>
 	      </listitem>
 
@@ -540,7 +540,7 @@ smtp.omniport.com:143
        including the language or languages you will use. Note that you
        must install the gnome-spell package, available through Red
        Carpet, for spell-checking to be available in
-       Evolution. Alternate dictionaries are aslo available through
+       Evolution. Alternate dictionaries are also available through
        Red Carpet and are detected automatically if you have installed
        them.
     </para>
@@ -904,7 +904,7 @@ smtp.omniport.com:143
 	  </listitem>
 	  <listitem>
 	    <para>
-	      Click <guibutton>OK</guibutton> to permanenty make
+	      Click <guibutton>OK</guibutton> to permanently make
 	      changes or <guibutton>Apply</guibutton> to temporarily
 	      set the changes.
 	    </para>

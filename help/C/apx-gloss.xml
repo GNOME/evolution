@@ -6,7 +6,9 @@
     <glossterm>Assistant:</glossterm>
     <glossdef>
       <para>
-	See druid
+            A tool which guides a user through a series of steps,
+    usually to configure or set up a program.  Equivalent to "Wizard"
+    and "Druid."
       </para>
     </glossdef>
   </glossentry>
@@ -71,9 +73,7 @@
   <glossterm>Druid:</glossterm>
   <glossdef>
    <para>
-    A tool which guides a user through a series of steps, usually to
-    configure or set up a program.  Equivalent to "Assistant" and
-    "Wizard."
+     See "Assistant."
    </para>
   </glossdef>
  </glossentry>
@@ -122,7 +122,7 @@
      perversity typical of computer (and especially Unix and Linux)
      nomenclature, the top of the tree is called the root directory,
      and denoted by <filename>/</filename>.
-     The rest of the "branches" spread downwards from the root.  Don't
+     The rest of the "branches" spread downward from the root.  Don't
      confuse the root directory with the root
      account, or root's home directory, normally
      <filename>/root</filename>.
@@ -441,11 +441,11 @@
  </glossentry>
 
   <glossentry id="vcard">
-    <glossterm>vCard:</glossterm>
+    <glossterm>VCard:</glossterm>
     <glossdef>
       <para>
 	A file format for the exchange of contact information. When you
-	get an address card attached to an email, it's probably in vCard
+	get an address card attached to an email, it's probably in VCard
 	format.  Not to be confused with <glossterm
 	linkend="vfolder">vFolder:</glossterm>.
       </para>

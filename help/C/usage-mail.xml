@@ -35,7 +35,7 @@
       <tip id="spaceandbs">
 	<title>Reading Mail with the Keyboard</title>
 	<para>
-	  You can click the spacebar to page down while you're reading
+	  You can click the space bar to page down while you're reading
 	  an email, and press backspace to page up in an email.  This
 	  may help to make reading your email faster.
 	</para>
@@ -614,7 +614,7 @@
 	      from the Internet while you work. When you want to
 	      reconnect, choose
 	      <menuchoice><guimenu>File</guimenu><guimenuitem>Work
-	      Online</guimenuitem></menuchoice>.  Alternativly, you
+	      Online</guimenuitem></menuchoice>.  Alternatively, you
 	      can click the connection button at the bottom left side
 	      of the window.
             </para>
@@ -1015,10 +1015,11 @@
 		<title>Using Bullets to Make Your Email More
 		Attractive</title>
 		<para>
-		  Often times, people use asterisks instead of real bullets.
-		  Not only do asterisks look nicer, but
-		  <application>Evolution</application> will word wrap for you,
-		  which makes your text looks nicer.
+		  Instead of using asterisks to mark a bulleted list,
+		  try the Bulleted List style from the style dropdown
+		  list.  <application>Evolution</application> uses
+		  more attractive bullets and handles word wrap and
+		  multiple levels of indentation.
 		</para>
 	      </tip>
 	    </listitem>
@@ -1121,7 +1122,7 @@
 	      </para>
 	      <note>
 		<para>
-		  If you're typing a webpage address to be automatically formatted, keep in mind that a space terminates the link.
+		  If you're typing a web page address to be automatically formatted, keep in mind that a space terminates the link.
 		</para>
 	      </note>
 	    </listitem>
@@ -1360,7 +1361,7 @@
         right-clicking on the message background and selecting
         <guimenuitem>Page</guimenuitem>. From that dialog, you may
         also select background color and set other general options
-        about the html message you are composing.
+        about the HTML message you are composing.
      </para>
       <sect3 id="html-templates">
 	<title>HTML Templates</title>
@@ -1667,12 +1668,12 @@
 	</para>
 	<para>
 	  This message is not only more attractive, but more
-	  informative.  Each section is broken down into subsctions.
+	  informative.  Each section is broken down into subsections.
 	  The title for each section is in bold text, with the
 	  following content indented.
 	</para>
 	<para>
-	You may want to increase the size of your section headlings
+	You may want to increase the size of your section headlines
 	instead of merely putting them in bold.  Header size 4 is
 	often the best choice, since it is not too large.  You can
 	change your text to size 4 by selecting it and pressing
@@ -1932,7 +1933,7 @@
       </para>
 
 	<example> 
-         <title>Sending an Encrypted Messagee</title>
+         <title>Sending an Encrypted Message</title>
 	  <para>
 	    Kevin wants to send an encrypted message to his friend
 	    Rachel.  He looks up her public key on a general key
@@ -1996,7 +1997,7 @@
 
 	  <listitem>
       	   <para> 
-             Choose the default algorythm, "DSA and ElGamal."
+             Choose the default algorithm, "DSA and ElGamal."
 	  </para>
          </listitem>
 
@@ -2063,7 +2064,7 @@
          give other people your key, send them that file.
       </para>
       <para>
-          If you wish, you can upload your keys to a keyserver. Here's
+          If you wish, you can upload your keys to a key server. Here's
           how:
         <orderedlist>
 	  <listitem>
@@ -2083,14 +2084,14 @@ wwwkeys.pgp.net 32j38dk2</command>.  Substitute your key ID for
     </orderedlist>
 
 	<note id="why-keyserver">
-	  <title>Why Use a Keyserver?</title>
+	  <title>Why Use a Key Server?</title>
 	  <para>
-	    Keyservers store your public keys for you so that your
+	    Key servers store your public keys for you so that your
 	    friends can decrypt your messages.  If you choose not to
-	    use a keyserver, you can manually send your people public
+	    use a key server, you can manually send your people public
 	    key, include it in your signature file, or put it on your
 	    own web page. However, it's easier to publish them once,
-	    and then let people download them from the keyserver when
+	    and then let people download them from a central place when
 	    they want.
 	  </para>
           <para>
@@ -2175,8 +2176,9 @@ wwwkeys.pgp.net 32j38dk2</command>.  Substitute your key ID for
 	  <guimenu>Security</guimenu>
 	  <guimenuitem>PGP Sign</guimenuitem>
 	</menuchoice>
-	.  You will be prompted for your PGP password.  Once you enter it,
-	click <guibutton>OK</guibutton> and your message will be signed.
+	.  You will be prompted for your encryption password.  Once
+	you enter it, click <guibutton>OK</guibutton> and your message
+	will be signed.
       </para>
     </sect2>
       

@@ -808,12 +808,13 @@ the workaround described in the note below.
       <inlinemediaobject>
         <imageobject>
           <imagedata  fileref="figures/full-1" format="PNG"/></imageobject></inlinemediaobject>
-      <guilabel>Menubar</guilabel>
+      <guilabel>Menu Bar</guilabel>
     </para>
     
     <para>
-      The <guilabel>Menubar</guilabel> gives you access to nearly all the
-      features that can be found in <application>Ximian Evolution</application>.
+      The <guilabel>menu bar</guilabel> gives you access to nearly all
+      the features that can be found in <application>Ximian
+      Evolution</application>.
     </para>
 
     <para>
@@ -946,7 +947,7 @@ the workaround described in the note below.
       appointments, address cards, and email in a tree that's a lot
       like a <glossterm linkend="filetree">file
       tree</glossterm>-- it starts small at the top, and branches
-      downwards. On most computers, there will be three or four
+      downward. On most computers, there will be three or four
       folders at the base.  First, of course, is the
       <guilabel>Summary</guilabel>, a customizable summary of your
       information. Below that are your <guilabel>Local
