@@ -1405,12 +1405,23 @@ struct _phrase_word {
 	int encoding;
 };
 
-/* split the input into words
-   with info about each word
-   merge common word types
-   clean up
-*/
+static gboolean
+word_types_compatable (enum _phrase_word_t type1, enum _phrase_word_t type2)
+{
+	switch (type1) {
+	case WORD_ATOM:
+		return type2 == WORD_QSTRING;
+	case WORD_QSTRING:
+		return type2 != WORD_2047;
+	case WORD_2047:
+		return type2 == WORD_2047;
+	default:
+		return FALSE;
+	}
+}
 
+/* split the input into words with info about each word
+ * merge common word types clean up */
 static GList *
 header_encode_phrase_get_words (const unsigned char *in)
 {
@@ -1431,14 +1442,13 @@ header_encode_phrase_get_words (const unsigned char *in)
 		
 		newinptr = g_utf8_next_char (inptr);
 		c = g_utf8_get_char (inptr);
-
+		
 		if (!g_unichar_validate (c)) {
 			w(g_warning ("Invalid UTF-8 sequence encountered (pos %d, char '%c'): %s",
 				     (inptr - in), inptr[0], in));
 			inptr++;
 			continue;
 		}
-
 		
 		inptr = newinptr;
 		if (g_unichar_isspace (c)) {
@@ -1494,29 +1504,31 @@ header_encode_phrase_merge_words (GList **wordsp)
 	wordl = words;
 	while (wordl) {
 		word = wordl->data;
-		/* leave atoms as atoms (unless they're surrounded by quoted words??) */
-		if (word->type != WORD_ATOM) {
-			nextl = g_list_next (wordl);
-			while (nextl) {
-				next = nextl->data;
-				/* merge nodes of the same type AND we are not creating too long a string */
-				if (word->type == next->type) {
-					if (next->end - word->start < CAMEL_FOLD_PREENCODED) {
-						word->end = next->end;
-						words = g_list_remove_link (words, nextl);
-						g_free (next);
-						nextl = g_list_next (wordl);
-					} else {
-						/* if it is going to be too long, make sure we include the
-						   separating whitespace */
-						word->end = next->start;
-						break;
-					}
+		nextl = g_list_next (wordl);
+		
+		while (nextl) {
+			next = nextl->data;
+			/* merge nodes of the same type AND we are not creating too long a string */
+			if (word_types_compatable (word->type, next->type)) {
+				if (next->end - word->start < CAMEL_FOLD_PREENCODED) {
+					/* the resulting word type is the MAX of the 2 types */
+					word->type = MAX(word->type, next->type);
+					
+					word->end = next->end;
+					words = g_list_remove_link (words, nextl);
+					g_free (next);
+					nextl = g_list_next (wordl);
 				} else {
+					/* if it is going to be too long, make sure we include the
+					   separating whitespace */
+					word->end = next->start;
 					break;
 				}
+			} else {
+				break;
 			}
 		}
+		
 		wordl = g_list_next (wordl);
 	}
 	

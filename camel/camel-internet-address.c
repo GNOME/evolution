@@ -132,7 +132,7 @@ internet_encode	(CamelAddress *a)
 			g_string_append(out, ", ");
 
 		enc = camel_internet_address_encode_address(&len, addr->name, addr->address);
-		g_string_sprintfa(out, "%s", enc);
+		g_string_append(out, enc);
 		g_free(enc);
 	}
 	
@@ -228,7 +228,7 @@ internet_format	(CamelAddress *a)
 			g_string_append(out, ", ");
 
 		enc = camel_internet_address_format_address(addr->name, addr->address);
-		g_string_sprintfa(out, "%s", enc);
+		g_string_append(out, enc);
 		g_free(enc);
 	}
 	
@@ -238,7 +238,8 @@ internet_format	(CamelAddress *a)
 	return ret;
 }
 
-static int    internet_cat		(CamelAddress *dest, const CamelAddress *source)
+static int
+internet_cat (CamelAddress *dest, const CamelAddress *source)
 {
 	int i;
 
@@ -292,7 +293,7 @@ camel_internet_address_new (void)
  * Return value: Index of added entry.
  **/
 int
-camel_internet_address_add	(CamelInternetAddress *a, const char *name, const char *address)
+camel_internet_address_add (CamelInternetAddress *a, const char *name, const char *address)
 {
 	struct _address *new;
 	int index;
@@ -320,7 +321,7 @@ camel_internet_address_add	(CamelInternetAddress *a, const char *name, const cha
  * Return value: TRUE if such an address exists, or FALSE otherwise.
  **/
 gboolean
-camel_internet_address_get	(const CamelInternetAddress *a, int index, const char **namep, const char **addressp)
+camel_internet_address_get (const CamelInternetAddress *a, int index, const char **namep, const char **addressp)
 {
 	struct _address *addr;
 

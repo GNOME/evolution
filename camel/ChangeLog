@@ -1,5 +1,21 @@
 2001-06-21  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* camel-mime-utils.c (word_types_compatable): New function that
+	decides if 2 word types are mergeable. An atom and a qstring are
+	mergeable; 2 qstrings are mergeable; and 2 encoded words are
+	mergeable.
+	(header_encode_phrase_merge_words): If 2 words are merged, the new
+	word type is the MAX of the combined types. This means that if we
+	merge a qstring and an atom, the resulting word type is a
+	qstring.
+
+	* camel-internet-address.c (internet_format):
+	s/g_string_sprintfa/g_string_append since this makes more sense in
+	this particular case.
+	(internet_encode): Same here.
+
+2001-06-21  Jeffrey Stedfast  <fejj@ximian.com>
+
 	* providers/smtp/camel-smtp-transport.c (smtp_send): Use
 	camel_address_length() rather than casting and accessing data
 	members.
