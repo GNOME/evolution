@@ -512,8 +512,6 @@ update_dialog_clist_hash_foreach (void *key,
 		columns[2] = NULL;
 
 		gtk_clist_prepend (GTK_CLIST (clist), columns);
-
-		g_free (columns[1]);
 	}
 }
 
