@@ -1,0 +1,3 @@
+X-Evolution-List			boolean if this is a mailing list.
+X-Evolution-List-Show-Addresses		boolean whether to list all email addresses in the To: line or to treat the list kind of like a BCC.
+REV					last changed date.
