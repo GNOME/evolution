@@ -313,11 +313,11 @@ update (EMsgComposerAttachmentBar *bar)
 			
 			mime_type = camel_content_type_simple (content_type);
 			pixbuf = e_icon_for_mime_type (mime_type, 48);
-			if (pixbuf == NULL)
+			if (pixbuf == NULL) {
+				g_warning("cannot find icon for mime type %s (installation problem?)", mime_type);
 				/* stock_attach would be better, but its fugly scaled up */
 				pixbuf = e_icon_factory_get_icon("stock_unknown", E_ICON_SIZE_DIALOG);
-			else
-				g_warning("cannot find icon for mime type %s (installation problem?)", content_type);
+			}
 			g_free (mime_type);
 		}
 
