@@ -212,11 +212,11 @@ task_editor_edit_comp (CompEditor *editor, CalComponent *comp)
 	priv->updating = TRUE;
 
 	priv->existing_org = cal_component_has_organizer (comp);
-	
 	cal_component_get_attendee_list (comp, &attendees);
+
+	e_meeting_model_remove_all_attendees (priv->model);
 	if (attendees == NULL) {
-		if (priv->meeting_shown)
-			comp_editor_remove_page (editor, COMP_EDITOR_PAGE (priv->meet_page));
+		comp_editor_remove_page (editor, COMP_EDITOR_PAGE (priv->meet_page));
 		priv->meeting_shown = FALSE;
 	} else {
 		GSList *l;

@@ -1,3 +1,15 @@
+2001-11-06  JP Rosevear  <jpr@ximian.com>
+
+	* gui/dialogs/event-editor.c (event_editor_edit_comp): make sure
+	to remove all attendees from the model when we edit a new comp,
+	append the pages if they are needed and we weren't showing them
+	before
+
+	* gui/dialogs/task-editor.c (task_editor_edit_comp): same as above
+
+ 	* gui/dialogs/comp-editor.c (comp_editor_remove_page): check for a
+ 	return value indicating the page was not found and return if so
+ 
 2001-11-05  Ettore Perazzoli  <ettore@ximian.com>
 
 	* gui/dialogs/e-delegate-dialog.c: #include

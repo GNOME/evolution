@@ -244,24 +244,34 @@ event_editor_edit_comp (CompEditor *editor, CalComponent *comp)
 	priv->updating = TRUE;
 
 	priv->existing_org = cal_component_has_organizer (comp);
-	
 	cal_component_get_attendee_list (comp, &attendees);
+
+	e_meeting_model_remove_all_attendees (priv->model);
 	if (attendees == NULL) {
 		comp_editor_remove_page (editor, COMP_EDITOR_PAGE (priv->meet_page));
 		comp_editor_remove_page (editor, COMP_EDITOR_PAGE (priv->sched_page));
-		e_meeting_model_remove_all_attendees (priv->model);
 		priv->meeting_shown = FALSE;
 	} else {
 		GSList *l;
 
+		if (!priv->meeting_shown) {
+			comp_editor_append_page (COMP_EDITOR (ee),
+						 COMP_EDITOR_PAGE (priv->sched_page),
+						 _("Scheduling"));
+			comp_editor_append_page (COMP_EDITOR (ee),
+						 COMP_EDITOR_PAGE (priv->meet_page),
+						 _("Meeting"));
+		}
+		
 		for (l = attendees; l != NULL; l = l->next) {
 			CalComponentAttendee *ca = l->data;
-			EMeetingAttendee *ia = E_MEETING_ATTENDEE (e_meeting_attendee_new_from_cal_component_attendee (ca));
-			
+			EMeetingAttendee *ia;
+
+			ia = E_MEETING_ATTENDEE (e_meeting_attendee_new_from_cal_component_attendee (ca));
 			e_meeting_model_add_attendee (priv->model, ia);
 			gtk_object_unref (GTK_OBJECT (ia));
 		}
-		priv->meeting_shown = TRUE;		
+		priv->meeting_shown = TRUE;
 	}	
 	cal_component_free_attendee_list (attendees);
 
