@@ -1,3 +1,11 @@
+2001-10-29  Rodrigo Moya <rodrigo@ximian.com>
+
+	* e-summary-calendar.c (e_summary_calendar_init): retrieve the
+	default URI for calendars from the configuration instead of
+	hard-coding it
+
+	* e-summary-tasks.c (e_summary_tasks_init): likewise for tasks
+
 2001-10-29  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-summary-preferences.c (make_initial_weather_list): We only

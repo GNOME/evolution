@@ -34,6 +34,8 @@
 
 #include <bonobo/bonobo-exception.h>
 #include <bonobo/bonobo-object.h>
+#include <bonobo/bonobo-moniker-util.h>
+#include <bonobo-conf/bonobo-config-database.h>
 #include <liboaf/liboaf.h>
 
 struct _ESummaryTasks {
@@ -374,6 +376,9 @@ e_summary_tasks_init (ESummary *summary)
 	ESummaryTasks *tasks;
 	gboolean result;
 	char *uri;
+	char *default_uri;
+	Bonobo_ConfigDatabase db;
+	CORBA_Environment ev;
 
 	g_return_if_fail (summary != NULL);
 
@@ -381,8 +386,18 @@ e_summary_tasks_init (ESummary *summary)
 	summary->tasks = tasks;
 	tasks->html = NULL;
 
+	CORBA_exception_init (&ev);
+	db = bonobo_get_object ("wombat:", "Bonobo/ConfigDatabase", &ev);
+	if (BONOBO_EX (&ev) || db == CORBA_OBJECT_NIL) {
+		CORBA_exception_free (&ev);
+		g_warning ("Error getting Wombat. Using defaults");
+	}
+
+	CORBA_exception_free (&ev);
+
 	tasks->client = cal_client_new ();
 	if (tasks->client == NULL) {
+		bonobo_object_release_unref (db, NULL);
 		g_warning ("Error making the client");
 		return;
 	}
@@ -394,7 +409,12 @@ e_summary_tasks_init (ESummary *summary)
 	gtk_signal_connect (GTK_OBJECT (tasks->client), "obj-removed",
 			    GTK_SIGNAL_FUNC (obj_changed_cb), summary);
 
-	uri = gnome_util_prepend_user_home ("evolution/local/Tasks/tasks.ics");
+	default_uri = bonobo_config_get_string (db, "/Calendar/DefaultTasksUri", NULL);
+	if (!default_uri)
+		uri = gnome_util_prepend_user_home ("evolution/local/Tasks/tasks.ics");
+	else
+		uri = g_strdup (default_uri);
+
 	result = cal_client_open_calendar (tasks->client, uri, FALSE);
 	g_free (uri);
 	if (result == FALSE) {
@@ -402,6 +422,7 @@ e_summary_tasks_init (ESummary *summary)
 	}
 
 	e_summary_add_protocol_listener (summary, "tasks", e_summary_tasks_protocol, tasks);
+	bonobo_object_release_unref (db, NULL);
 }
 
 void
