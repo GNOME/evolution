@@ -29,9 +29,15 @@
 #include <unistd.h>
 #include <stdio.h>
 
+#include <glib.h>
+
+#include "camel-private.h"
+
 #include "camel-local-store.h"
 #include "camel-exception.h"
 #include "camel-url.h"
+
+#include "camel-local-folder.h"
 
 #define d(x)
 
@@ -305,19 +311,48 @@ static void
 rename_folder(CamelStore *store, const char *old, const char *new, CamelException *ex)
 {
 	char *path = CAMEL_LOCAL_STORE (store)->toplevel_dir;
+	CamelLocalFolder *folder;
+	char *newibex = g_strdup_printf("%s%s.ibex", path, new);
+	char *oldibex = g_strdup_printf("%s%s.ibex", path, old);
 
 	/* try to rollback failures, has obvious races */
-	if (xrename(old, new, path, ".ibex", TRUE, ex)) {
-		return;
+
+	CAMEL_STORE_LOCK(store, cache_lock);
+	folder = g_hash_table_lookup(store->folders, old);
+	if (folder) {
+		if (ibex_move(folder->index, newibex) == -1)
+			goto ibex_failed;
+	} else {
+		if (xrename(old, new, path, ".ibex", TRUE, ex))
+			goto ibex_failed;
 	}
-	if (xrename(old, new, path, ".ev-summary", TRUE, ex)) {
+
+	if (xrename(old, new, path, ".ev-summary", TRUE, ex))
+		goto summary_failed;
+
+	if (xrename(old, new, path, "", FALSE, ex))
+		goto base_failed;
+
+	CAMEL_STORE_UNLOCK(store, cache_lock);
+
+	g_free(newibex);
+	g_free(oldibex);
+
+	return;
+
+base_failed:
+	xrename(new, old, path, ".ev-summary", TRUE, ex);
+
+summary_failed:
+	if (folder)
+		ibex_move(folder->index, oldibex);
+	else
 		xrename(new, old, path, ".ibex", TRUE, ex);
-		return;
-	}
-	if (xrename(old, new, path, "", FALSE, ex)) {
-		xrename(new, old, path, ".ev-summary", TRUE, ex);
-		xrename(new, old, path, ".ibex", TRUE, ex);
-	}
+
+ibex_failed:
+	CAMEL_STORE_UNLOCK(store, cache_lock);
+	g_free(newibex);
+	g_free(oldibex);
 }
 
 /* default implementation, only delete metadata */
