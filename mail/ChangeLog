@@ -1,3 +1,9 @@
+2002-07-26  Peter Williams  <peterw@ximian.com>
+
+	* mail-offline-handler.c (storage_go_online): Call mail_note_store
+	to get the folders to be updated and new ones to be inserted into
+	the tree.
+
 2002-07-29  Ettore Perazzoli  <ettore@ximian.com>
 
 	* mail-session.c (request_password): Add an accelerator for the

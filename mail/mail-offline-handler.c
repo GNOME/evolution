@@ -264,8 +264,11 @@ storage_go_online (gpointer key, gpointer value, gpointer data)
 {
 	CamelStore *store = key;
 
-	if (service_is_relevant (CAMEL_SERVICE (store), FALSE))
+	if (service_is_relevant (CAMEL_SERVICE (store), FALSE)) {
 		mail_store_set_offline (store, FALSE, NULL, NULL);
+		mail_note_store (store, NULL, CORBA_OBJECT_NIL,
+				 NULL, NULL);
+	}
 }
 
 static void
