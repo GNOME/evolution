@@ -112,6 +112,9 @@ struct _EReflow
 	guint need_reflow_columns : 1;
 
 	guint default_cursor_shown : 1;
+
+	guint maybe_did_something : 1;
+	guint maybe_in_drag : 1;
 	GdkCursor *arrow_cursor;
 	GdkCursor *default_cursor;
 };

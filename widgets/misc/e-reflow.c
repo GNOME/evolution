@@ -1216,7 +1216,13 @@ e_reflow_selection_event_real (EReflow *reflow, GnomeCanvasItem *item, GdkEvent 
 		case 1: /* Fall through. */
 		case 2:
 			row = er_find_item (reflow, item);
-			e_selection_model_do_something(reflow->selection, row, 0, event->button.state);
+			if (event->button.button == 1) {
+				reflow->maybe_did_something = 
+					e_selection_model_maybe_do_something(reflow->selection, row, 0, event->button.state);
+				reflow->maybe_in_drag = TRUE;
+			} else {
+				e_selection_model_do_something(reflow->selection, row, 0, event->button.state);
+			}
 			break;
 		case 3:
 			row = er_find_item (reflow, item);
@@ -1225,6 +1231,17 @@ e_reflow_selection_event_real (EReflow *reflow, GnomeCanvasItem *item, GdkEvent 
 		default:
 			return_val = FALSE;
 			break;
+		}
+		break;
+	case GDK_BUTTON_RELEASE:
+		if (event->button.button == 1) {
+			if (reflow->maybe_in_drag) {
+				reflow->maybe_in_drag = FALSE;
+				if (!reflow->maybe_did_something) {
+					row = er_find_item (reflow, item);
+					e_selection_model_do_something(reflow->selection, row, 0, event->button.state);
+				}
+			}
 		}
 		break;
 	case GDK_KEY_PRESS:
@@ -1320,6 +1337,10 @@ e_reflow_init (EReflow *reflow)
 
 	reflow->need_height_update        = FALSE;
 	reflow->need_column_resize        = FALSE;
+	reflow->need_reflow_columns       = FALSE;
+
+	reflow->maybe_did_something       = FALSE;
+	reflow->maybe_in_drag             = FALSE;
 
 	reflow->default_cursor_shown      = TRUE;
 	reflow->arrow_cursor              = NULL;
