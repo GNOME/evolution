@@ -11,6 +11,7 @@
 #include <gnome.h>
 #include <glade/glade.h>
 #include "calendar-commands.h"
+#include "tag-calendar.h"
 #include "goto.h"
 
 typedef struct 
@@ -56,6 +57,17 @@ month_changed (GtkToggleButton *toggle, gpointer data)
 	e_calendar_item_set_first_month (dlg->ecal->calitem, dlg->year_val, dlg->month_val);
 }
 
+static void
+ecal_date_range_changed (ECalendarItem *calitem, gpointer user_data)
+{
+	GoToDialog *dlg = user_data;
+	CalClient *client;
+	
+	client = gnome_calendar_get_cal_client (dlg->gcal);
+	if (client)
+		tag_calendar_by_client (dlg->ecal, client);
+}
+
 /* Event handler for day groups in the month item.  A button press makes the calendar jump to the
  * selected day and destroys the Go-to dialog box.
  */
@@ -76,17 +88,16 @@ ecal_event (ECalendarItem *calitem, gpointer user_data)
 	gnome_dialog_close (GNOME_DIALOG (dlg->dialog));
 }
 
-/* Creates the canvas with the month item for selecting days */
-static ECalendar *
-create_ecal (void)
+/* Creates the ecalendar */
+static void
+create_ecal (GoToDialog *dlg)
 {
-	ECalendar *ecal;
+	dlg->ecal = E_CALENDAR (e_calendar_new ());
+	e_calendar_item_set_display_popup (dlg->ecal->calitem, FALSE);
+	gtk_widget_show (GTK_WIDGET (dlg->ecal));
+	gtk_box_pack_start (GTK_BOX (dlg->vbox), GTK_WIDGET (dlg->ecal), TRUE, TRUE, 0);
 
-	ecal = E_CALENDAR (e_calendar_new ());
-
-	e_calendar_item_set_display_popup (ecal->calitem, FALSE);
-	
-	return ecal;
+	ecal_date_range_changed (dlg->ecal->calitem, dlg);
 }
 
 static void
@@ -95,8 +106,7 @@ goto_today (GoToDialog *dlg)
 	gnome_calendar_goto_today (dlg->gcal);
 }
 
-/* Gets the widgets from the XML file and returns if they are all available.
- */
+/* Gets the widgets from the XML file and returns if they are all available. */
 static gboolean
 get_widgets (GoToDialog *dlg)
 {
@@ -132,6 +142,10 @@ goto_dialog_init_widgets (GoToDialog *dlg)
 	gtk_signal_connect (GTK_OBJECT (adj), "value_changed",
 			    (GtkSignalFunc) year_changed, dlg);
 
+	gtk_signal_connect (GTK_OBJECT (dlg->ecal->calitem),
+			    "date_range_changed",
+			    GTK_SIGNAL_FUNC (ecal_date_range_changed),
+			    dlg);
 	gtk_signal_connect (GTK_OBJECT (dlg->ecal->calitem),
 			    "selection_changed",
 			    (GtkSignalFunc) ecal_event,
@@ -176,9 +190,7 @@ goto_dialog (GnomeCalendar *gcal)
 	gtk_option_menu_set_history (GTK_OPTION_MENU (dlg->month), dlg->month_val);
 	gtk_spin_button_set_value (GTK_SPIN_BUTTON (dlg->year), dlg->year_val);
 	
-	dlg->ecal = create_ecal ();
-	gtk_box_pack_start (GTK_BOX (dlg->vbox), GTK_WIDGET (dlg->ecal), TRUE, TRUE, 0);
-	gtk_widget_show (GTK_WIDGET (dlg->ecal));
+	create_ecal (dlg);
 
 	goto_dialog_init_widgets (dlg);
 

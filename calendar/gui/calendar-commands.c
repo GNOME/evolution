@@ -599,19 +599,6 @@ init_calendar (void)
 		day_end   = 17;
 	}
 
-	/* Read color settings */
-
-	for (i = 0; i < COLOR_PROP_LAST; i++) {
-		cspec = build_color_spec (color_props[i].r, color_props[i].g, color_props[i].b);
-		str = g_strconcat (color_props[i].key, "=", cspec, NULL);
-
-		color = gnome_config_get_string (str);
-		parse_color_spec (color, &color_props[i].r, &color_props[i].g, &color_props[i].b);
-
-		g_free (str);
-		g_free (color);
-	}
-
 	/* read alarm settings */
 	beep_on_display = gnome_config_get_bool ("/calendar/alarms/beep_on_display=FALSE");
 	enable_aalarm_timeout = gnome_config_get_bool ("/calendar/alarms/enable_audio_timeout=FALSE");

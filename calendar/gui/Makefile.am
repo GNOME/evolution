@@ -116,13 +116,10 @@ evolution_calendar_SOURCES =			\
 	itip-utils.c				\
 	itip-utils.h				\
 	main.c					\
-	mark.c					\
-	mark.h					\
 	popup-menu.c				\
 	popup-menu.h				\
 	print.c					\
 	print.h					\
-	prop.c					\
 	tag-calendar.c				\
 	tag-calendar.h				\
 	weekday-picker.c			\

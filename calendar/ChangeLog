@@ -1,5 +1,19 @@
 2000-12-22  JP Rosevear  <jpr@helixcode.com>
 
+	* gui/goto.c (ecal_date_range_changed): New function to keep the
+	ecal marked properly
+	(create_ecal): move more creation code here, update marks
+	(goto_dialog_init_widgets): listen for date_range_changed signal
+	in the ecal
+
+	* gui/calendar-commands.c (init_calendar): Remove ancient gnomecal
+	cruft
+
+	* gui/mark.[hc], gui/prop.c: Remove ancient gnomecal code that is
+	no longer needed, last bit of bug 904
+	
+2000-12-22  JP Rosevear  <jpr@helixcode.com>
+
 	* gui/goto-dialog.glade.h: translations
 	
 	* gui/goto-dialog.glade: new glade file for goto dialog
