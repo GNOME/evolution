@@ -395,7 +395,7 @@
 
       <para>
          If the image isn't included in the message, but is, instead,
-         a link to an image, <application>Evolution</application> can
+         a link to an image, <application>Evolution</application> can 
          download the image from the Internet for you.  However,
          <application>Evolution</application> will not display the
          image unless you ask it to. This is because remotely hosted

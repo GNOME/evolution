@@ -196,9 +196,22 @@
               </para>
 	    </listitem>
 	  </varlistentry>
-	</variablelist>
-	    
+	</variablelist>	    
       </para>
+
+
+       <note id="reminders-when-not-running-evo">
+         <title>Reminders Without Evolution</title>
+         <para>
+            If you have stored reminders in a local calendar, they
+          will work from the moment you log in. However, for reminders
+          stored on an Exchange server, you must run Evolution at
+          least once after logging in. No matter where the reminders
+          are stored, you can quit Evolution and still be reminded of
+          an upcoming appointment.
+         </para>
+        </note>
+
       <para>
          <guilabel>Classification</guilabel> 
          only applies to calendars on a
@@ -440,13 +453,14 @@
     </sect2>
  ########## END UNIMPLEMENTED FEATURESET ############ -->
     <sect2 id="usage-calendar-freebusy">
-      <title>The Free/Busy View</title>
+      <title>Scheduling Meetings and The Free/Busy View</title>
       <para>
-	<application>Evolution</application> has a Free/Busy window so
-	that you can view people's schedules together to help you
-	schedule appointments. Read <xref linkend="full-advantage"> to
-	learn about how to use this feature with the Ximian Connector
-	for Microsoft Exchange.
+        In addition to the standard meeting scheduling tools, you can
+	 use the Free/Busy view to check whether people are available
+	 in advance. At this time, the Free/Busy feature only works
+	 with Microsoft Exchange servers. However, you can still use
+	 iCal event invitations to coordinate schedules with other
+	 people no matter what server you're using.
       </para>
       <para>
 	To access the free/busy view:
@@ -474,11 +488,11 @@
 	</orderedlist>
       </para>
       <figure>
-        <title>Appointment Scheduling Window</title>
+        <title>Appointment Scheduing Window</title>
 	<screenshot>
 	  <screeninfo>Appointment Scheduling Window</screeninfo>
 	  <mediaobject><imageobject>
-	      <imagedata  format="png" fileref="figures/schedule"
+	      <imagedata  format="png" fileref="figures/freebusy"
 	  srccredit="Kevin Breit">
 	    </imageobject></mediaobject>
 	</screenshot>
@@ -548,8 +562,15 @@
           automatically; others will receive email notification of any
           change in plans.
         </para>
+
+        <para>
+         Read <xref linkend="full-advantage"> to learn about how to
+	 use this feature with the Ximian Connector for Microsoft
+	 Exchange.
+       </para>
       </sect3>
     </sect2>
+
   </sect1>
 
   <sect1 id="usage-calendar-todo">
