@@ -164,7 +164,7 @@ idle_cb (void *data)
 		if (uri_list == NULL)
 			restored = e_shell_restore_from_settings (shell);
 		else
-			restored = NULL;
+			restored = FALSE;
 
 		if (!getenv ("EVOLVE_ME_HARDER"))
 			development_warning ();
@@ -215,12 +215,13 @@ main (int argc, char **argv)
 		{ NULL, '\0', 0, NULL, 0, NULL, NULL }
 	};
 	GSList *uri_list;
-	int i;
+	const char **args;
+	poptContext popt_context;
 
 	bindtextdomain (PACKAGE, EVOLUTION_LOCALEDIR);
 	textdomain (PACKAGE);
 
-	gnome_init_with_popt_table ("Evolution", VERSION, argc, argv, options, 0, NULL);
+	gnome_init_with_popt_table ("Evolution", VERSION, argc, argv, options, 0, &popt_context);
 
 	if (evolution_debug_log) {
 		int fd;
@@ -254,8 +255,14 @@ main (int argc, char **argv)
 		exit (1);
 
 	uri_list = NULL;
-	for (i = 1; i < argc; i++)
-		uri_list = g_slist_prepend (uri_list, argv[i]);
+
+	args = poptGetArgs (popt_context);
+	if (args == NULL) {
+		const char **p;
+
+		for (p = args; *p != NULL; p++)
+			uri_list = g_slist_prepend (uri_list, (char *) *p);
+	}
 
 	gtk_idle_add (idle_cb, uri_list);
 

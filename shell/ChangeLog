@@ -1,5 +1,11 @@
 2001-06-28  Ettore Perazzoli  <ettore@ximian.com>
 
+	[Fix #3756, `--debug' option not working anymore.]
+
+	* main.c (main): Get the URI
+
+2001-06-28  Ettore Perazzoli  <ettore@ximian.com>
+
 	[Fix #3382, shortcut bar crashes when checking mail, and all the
 	different incarnations involving updates to an shortcut bar having
 	shortcuts to non-existent folders.  Also, this fixes #1643,
