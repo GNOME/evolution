@@ -1,3 +1,9 @@
+2001-09-26  Anna Marie Dirks  <anna@ximian.com>
+
+	* mail-config.glade: Added a "Description:" label and moved 
+	the source_description and transport_description labels to
+	a more appropriate place. 
+
 2001-09-26  Christopher James Lahey  <clahey@ximian.com>
 
 	* message-list.c (mlfe_callback): Check for the root node here.
@@ -34,6 +40,7 @@
 	* component-factory.c (component_factory_init): warn and exit if
 	oaf_active_server_register returns OAF_REG_ALREADY_ACTIVE.
 
+>>>>>>> 1.1748
 2001-09-26  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-config.c (config_read): Oops, translate the fake account
