@@ -719,10 +719,10 @@ camel_imap_command_extended (CamelImapStore *store, CamelFolder *folder, char **
 	CamelService *service = CAMEL_SERVICE (store);
 	CamelURL *url = service->url;
 	CamelStreamBuffer *stream = CAMEL_STREAM_BUFFER (store->istream);
-	GPtrArray *data;
+	gint len = 0, recent = 0, status = CAMEL_IMAP_OK;
 	gchar *cmdid, *cmdbuf, *respbuf;
+	GPtrArray *data;
 	va_list app;
-	gint len = 0, status = CAMEL_IMAP_OK;
 
 	/* First make sure we're connected... */
 	if (!service->connected) {
@@ -786,6 +786,8 @@ camel_imap_command_extended (CamelImapStore *store, CamelFolder *folder, char **
 	data = g_ptr_array_new ();
 
 	while (1) {
+		char *ptr;
+		
 		respbuf = camel_stream_buffer_read_line (stream);
 		if (!respbuf || !strncmp (respbuf, cmdid, strlen (cmdid))) {
 			/* IMAP's last response starts with our command id */
@@ -797,6 +799,15 @@ camel_imap_command_extended (CamelImapStore *store, CamelFolder *folder, char **
 
 		g_ptr_array_add (data, respbuf);
 		len += strlen (respbuf) + 1;
+
+		if (folder && *respbuf == '*' && (ptr = e_strstrcase (respbuf, "RECENT"))) {
+			char *rcnt;
+
+			for (rcnt = respbuf; rcnt < ptr && (*rcnt < '0' || *rcnt > '9'); rcnt++);
+
+			if (rcnt < ptr)
+				recent = atoi (rcnt);
+		}
 	}
 
 	if (respbuf) {
@@ -834,6 +845,9 @@ camel_imap_command_extended (CamelImapStore *store, CamelFolder *folder, char **
 	}
 
 	g_ptr_array_free (data, TRUE);
+
+	if (folder && recent > 0)
+		gtk_signal_emit_by_name (GTK_OBJECT (folder), "folder_changed", 0);
 	
 	return status;
 }

@@ -1,5 +1,15 @@
 2000-07-19  Jeffrey Stedfast  <fejj@helixcode.com>
 
+	* providers/imap/camel-imap-folder.c: General cleanup working towards
+	getting Actions->Expunge working correctly.
+
+	* providers/imap/camel-imap-store.c (cammel_imap_command_extended): Added
+	code to look for "* %d RECENT" and to emit the folder_changed signal if 
+	there are any recent messages. Note: this is a hack and needs to be rewritten 
+	badly.
+
+2000-07-19  Jeffrey Stedfast  <fejj@helixcode.com>
+
 	* providers/imap/camel-imap-folder.c (imap_get_summary): If the folder's
 	message count is not the same as the number of summaries, free the old
 	summary and create a new summary.
