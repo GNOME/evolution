@@ -1,3 +1,7 @@
+2001-07-12  JP Rosevear  <jpr@ximian.com>
+
+	* backend/pas/Makefile.am: add ldap cflags
+
 2001-07-12  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* backend/ebook/e-destination.c (e_destination_xml_decode):

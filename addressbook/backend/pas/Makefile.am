@@ -14,6 +14,7 @@ $(CORBA_SOURCE): $(idls)
 
 INCLUDES =						\
 	$(DB3_CFLAGS)					\
+	$(LDAP_CFLAGS)					\
         -DGNOMELOCALEDIR=\""$(localedir)"\"		\
 	-DG_LOG_DOMAIN=\"wombat-pas\"			\
 	-I$(top_srcdir) 				\
