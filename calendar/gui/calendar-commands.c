@@ -69,11 +69,8 @@ struct color_prop color_props[] = {
 	{ 0xbbbb, 0xdddd, 0x0000, N_("To-Do item that is overdue:"),     "/calendar/Colors/todo_overdue" }
 };
 
-/* Number of active calendars */
-int active_calendars = 0;
-
 /* A list of all of the calendars started */
-GList *all_calendars = NULL;
+static GList *all_calendars = NULL;
 
 /* If set, beep on display alarms */
 gboolean beep_on_display = 0;
@@ -348,7 +345,7 @@ show_month_view_clicked (BonoboUIComponent *uih, void *user_data, const char *pa
 static void
 new_calendar_cmd (BonoboUIComponent *uih, void *user_data, const char *path)
 {
-	new_calendar (full_name, NULL, FALSE);
+	new_calendar (full_name);
 }
 
 static void
@@ -358,9 +355,8 @@ close_cmd (BonoboUIComponent *uih, void *user_data, const char *path)
 	all_calendars = g_list_remove (all_calendars, gcal);
 
 	gtk_widget_destroy (GTK_WIDGET (gcal));
-	active_calendars--;
 
-	if (active_calendars == 0)
+	if (all_calendars == NULL)
 		gtk_main_quit ();
 }
 
@@ -396,7 +392,7 @@ open_ok (GtkWidget *widget, GtkFileSelection *fs)
 #warning "FIXME: find out who owns this calendar and use that name"
 #endif
 		/*
-		new_calendar ("Somebody", gtk_file_selection_get_filename (fs), NULL, FALSE);
+		new_calendar ("Somebody", gtk_file_selection_get_filename (fs));
 		*/
 		gtk_widget_destroy (GTK_WIDGET (fs));
 	}
@@ -576,51 +572,17 @@ calendar_control_deactivate (BonoboControl *control)
  	bonobo_ui_component_unset_container (uic);
 }
 
-
-
-
-static gint
-calendar_close_event (GtkWidget *widget, GdkEvent *event, GnomeCalendar *gcal)
-{
-	close_cmd (NULL, gcal, NULL);
-	return TRUE;
-}
-
-
 GnomeCalendar *
-new_calendar (char *full_name, char *geometry, gboolean hidden)
+new_calendar (char *full_name)
 {
-	GtkWidget   *toplevel;
-	int         xpos, ypos, width, height;
+	GtkWidget *gcal;
 
+	gcal = gnome_calendar_new ();
 
-	toplevel = gnome_calendar_new ();
+	all_calendars = g_list_prepend (all_calendars, gcal);
 
-	if (gnome_parse_geometry (geometry, &xpos, &ypos, &width, &height)) {
-		if (xpos != -1)
-			gtk_widget_set_uposition (toplevel, xpos, ypos);
-	}
-
-	gtk_signal_connect (GTK_OBJECT (toplevel), "delete_event",
-			    GTK_SIGNAL_FUNC(calendar_close_event), toplevel);
-
-	active_calendars++;
-	all_calendars = g_list_prepend (all_calendars, toplevel);
-
-	if (hidden){
-		GnomeWinState state;
-
-		/* Realize the toplevel window to prevent a segfault */
-		gtk_widget_realize (toplevel);
-		state = gnome_win_hints_get_state (toplevel);
-
-		state |= WIN_STATE_MINIMIZED;
-		gnome_win_hints_set_state (toplevel, state);
-	}
-
-	gtk_widget_show (toplevel);
-
-	return GNOME_CALENDAR (toplevel);
+	gtk_widget_show (gcal);
+	return GNOME_CALENDAR (gcal);
 }
 
 

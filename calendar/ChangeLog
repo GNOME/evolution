@@ -1,5 +1,13 @@
 2000-10-30  Federico Mena Quintero  <federico@helixcode.com>
 
+	* gui/calendar-commands.c (new_calendar): Removed the geometry and
+	hidden arguments.  This code is ancient.
+	(all_calendars): Made static.  This sucks; configuration should be
+	notification-based instead of "let's iterate through all open
+	calendars".
+	(active_calendars): Removed.  Functions can check the length of
+	the all_calendars list if they are interested.
+
 	* gui/event-editor.c (sync_entries): Do not take in an extra data
 	pointer.
 	(summary_changed_cb): Use a single call back to sync both entries.

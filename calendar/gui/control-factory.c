@@ -167,7 +167,7 @@ control_factory_new_control (void)
 	BonoboControl *control;
 	GnomeCalendar *gcal;
 
-	gcal = new_calendar (full_name, NULL, 0);
+	gcal = new_calendar (full_name);
 	gtk_widget_show (GTK_WIDGET (gcal));
 
 	control = bonobo_control_new (GTK_WIDGET (gcal));
