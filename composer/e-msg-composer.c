@@ -676,7 +676,7 @@ build_message (EMsgComposer *composer, gboolean save_html_object_data)
 
 			/* check to see if we should encrypt to self, NB gets removed immediately after use */
 			if (hdrs->account && hdrs->account->pgp_encrypt_to_self && pgp_userid)
-				g_ptr_array_add (recipients, (char *)pgp_userid);
+				g_ptr_array_add (recipients, g_strdup (pgp_userid));
 
 			cipher = mail_crypto_get_pgp_cipher_context (hdrs->account);
 			camel_cipher_encrypt(cipher, pgp_userid, recipients, part, npart, &ex);
@@ -755,7 +755,7 @@ build_message (EMsgComposer *composer, gboolean save_html_object_data)
 		if (composer->smime_encrypt) {
 			/* check to see if we should encrypt to self, NB removed after use */
 			if (hdrs->account->smime_encrypt_to_self)
-				g_ptr_array_add(recipients, hdrs->account->smime_encrypt_key);
+				g_ptr_array_add(recipients, g_strdup (hdrs->account->smime_encrypt_key));
 
 			cipher = camel_smime_context_new(session);
 			camel_smime_context_set_encrypt_key((CamelSMIMEContext *)cipher, TRUE, hdrs->account->smime_encrypt_key);
