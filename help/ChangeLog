@@ -1,3 +1,7 @@
+2001-08-16  Aaron Weber  <aaron@ximian.com>
+
+	* C/usage-mail.sgml: minor edits. Added <tip> about bug 7428.
+
 2001-08-16  Kjartan Maraas  <kmaraas@gnome.org>
 
 	* C/evolution-C.omf: Place it under <category="GNOME|Applications"/>

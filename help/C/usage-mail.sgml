@@ -1,6 +1,5 @@
-<!--
 <!DOCTYPE Chapter PUBLIC "-//GNOME//DTD DocBook PNG Variant V1.1//EN">
--->
+
 <chapter id="usage-mail">
   <title>Using Evolution for Email</title>
   <abstract>
@@ -64,6 +63,15 @@
        start with the <interface>Inbox</interface> open and show you a
        message from Ximian welcoming you to the application.
       </para>
+
+      <tip id="spaceandbs">
+	<title>Reading Mail with the Keyboard</title>
+	<para>
+	  You can click the spacebar to page down while you're reading
+	  an email, and press backspace to page up in an email.  This
+	  may help to make reading your email faster.
+	</para>
+      </tip>
 
       <para>
         Your <application>Evolution</application>
@@ -331,16 +339,9 @@
 	   a file attached to an email,
 	   <application>Evolution</application> will display the file
 	   at the bottom of the message to which it's attached.  Text,
-	   including HTML formatting, will appear as part of the
-	   message.  To minimize download time, and to foil spammers
-	   who use server information to track their messages, images
-	   linked from an HTML message <emphasis>not</emphasis>
-	   display unless you select the
-	   <menuchoice><guimenu>View</guimenu><guisubmenu>Message
-	   Display</guisubmenu><guimenuitem>Load Images
-	   </guimenuitem></menuchoice> option.  For other files,
-	   <application>Evolution</application> will show an icon at
-	   the end of the message.
+	   including HTML formatting and embedded images, will appear
+	   as part of the message, rather than at the end of the
+	   message as an attachment.
      </para>
      <para>
        To Save an Attachment to Disk:
@@ -373,15 +374,124 @@
 	 </listitem>
        </orderedlist>
       </para>
+      <para>
+         When someone sends you HTML mail, and includes an image in
+         the actual mail (that is, they use the <menuchoice>
+         <guimenu>Insert</guimenu> <guimenuitem>Image</guimenuitem>
+         </menuchoice> tool, not the <guibutton>Attach</guibutton>
+         tool), <application>Evolution</application> will display the
+         image inside the message.
+      </para>
+      <para>
+         If an HTML mail with images does not include an image, but
+         asks <application>Evolution</application> to go download the
+         image from a website, <application>Evolution</application>
+         won't display the image unless you ask it to. This is because
+         remotely hosted images can slow down your system, and can be
+         used by spammers to track reads their email.  So having them
+         not load automatically helps protect your privacy.
+      </para>
+      <para>
+	 If you want the images to load, select 
+	 <menuchoice>
+	   <guimenu>View</guimenu>
+	   <guisubmenu>Message Display</guisubmenu>
+	   <guimenuitem>Load Images</guimenuitem>
+         </menuchoice>.  
+         You can also set image loading behavior in the
+         <guilabel>Display</guilabel> tab of the        
+         <menuchoice>
+	   <guimenu>Tools</guimenu>
+	   <guimenuitem>Mail Settings</guimenuitem>
+         </menuchoice> dialog.
+      </para>
+      <note id="http-proxy">
+	<title>Loading Images from the Net through an HTTP Proxy</title>
+        <para>
+           If you use an HTTP proxy,
+           <application>Evolution</application> must be able to find
+           it through the <systemitem>gnome-vfs</systemitem> subsystem
+           before it can load iamges from the net.
+            <variablelist>
+	    <varlistentry>
+	      <term>Configure it with Nautilus</term>
+	      <listitem>
+		<para>
+                 <orderedlist numeration="arabic">
+		    <listitem>
+		      <para>
+			Open a Nautilus window
+	               </para>
+		    </listitem>
+      		    <listitem>
+		      <para>
+	                 Select <menuchoice>
+			  <guimenu>Preferences</guimenu>
+			  <guimenuitem>Edit Preferences</guimenuitem>
+			</menuchoice>.
+	               </para>
+		    </listitem>
+      		    <listitem>
+		      <para>
+			Go to the <guilabel>Navigation</guilabel> tab.
+	               </para>
+		    </listitem>
+      		    <listitem>
+		      <para>
+			Click the <guilabel>Use HTTP Proxy</guilabel>
+			checkbox and enter the location of your HTTP
+			proxy in the <guilabel>Location</guilabel> field.
+	               </para>
+		    </listitem>
+		  </orderedlist>
+                </para>
+	      </listitem>
+	    </varlistentry>
+	    <varlistentry>
+	      <term>Configure it with the gconftool command</term>
+	      <listitem>
+	      <para>
+                 <orderedlist numeration="arabic">
+		    <listitem>
+		      <para>
+                        Open a terminal.
+                      </para>
+		    </listitem>
+		    <listitem>
+		      <para>
+                        Enter the command 
+                        <command>
+                        gconftool --type=bool --set /system/gnome-vfs/use-http-proxy "TRUE"
+                        </command>
+                      </para>
+		    </listitem>
+		    <listitem>
+		      <para>
+                        Enter the command 
+                        <command>
+                        --type=string --set /system/gnome-vfs/http-proxy-host "your-proxy-url"
+                        </command>
+                      </para>
+		    </listitem>
+		    <listitem>
+		      <para>
+                        Enter the command 
+                        <command>
+                        $ gconftool --type=int --set /system/gnome-vfs/http-proxy-port "8080"
+                        </command>                  
+                      </para>
+		    </listitem>
+		  </orderedlist>
+                </para>
+		<para>
+                  For more information about the gconftool command,
+                  read the gconftool man page.
+                </para>
+	      </listitem>
+	    </varlistentry>
+         </para>
+      </note>
 
-      <tip id="spaceandbs">
-	<title>Reading email with keyboard</title>
-	<para>
-	  You can click the spacebar to page down while you're reading an email,
-	  and press backspace to page up in an email.  This may help to make
-	  reading your email faster.
-	</para>
-      </tip>
       <para>
 	To Open an Attachment in a Program:
 	<orderedlist numeration="arabic">
@@ -404,14 +514,6 @@
 	</orderedlist>
       </para>
     
-        <para>
-           <application>Evolution</application> can also display
-           HTML-formatted mail, complete with graphics.  Graphics
-           don't load automatically by default, because they can be
-           large and take a long time to download.  They can also be
-           used by spammers to help track who reads their email.  So
-           having them not load automatically helps protect your
-           privacy.
       </para>
     </sect2>
   </sect1>
@@ -543,14 +645,7 @@
             will go with it.  Be aware that big attachments can take a
             long time to download.
         </para>
-        <para>
-            When receiving a message that has an attached image,
-            <application>Evolution</application> gives you the choice
-            whether to view it or not.  You can choose to have it
-            always shown, load images only if the sender is in your
-            addressbook, or never load images.
-        </para>
-      </sect3>
+       </sect3>
 
       <sect3 id="usage-mail-getnsend-send-to-types">
 	<title>Types of Recipients</title>
