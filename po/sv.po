@@ -6,13 +6,13 @@
 # Martin Norbäck <d95mback@dtek.chalmers.se>, 2001.
 # Johan Dahlin <zilch.am@home.se>, 2001.
 #
-# $Id: sv.po,v 1.156.2.3 2003/01/08 17:06:18 menthos Exp $
+# $Id: sv.po,v 1.156.2.4 2003/01/10 14:13:37 menthos Exp $
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
-"POT-Creation-Date: 2003-01-08 18:03+0100\n"
-"PO-Revision-Date: 2003-01-08 18:04+0100\n"
+"POT-Creation-Date: 2003-01-10 15:11+0100\n"
+"PO-Revision-Date: 2003-01-10 15:12+0100\n"
 "Last-Translator: Christian Rose <menthos@menthos.com>\n"
 "Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -8266,7 +8266,7 @@ msgstr "Misslyckades med att skapa rör till \"%s\": %s"
 
 #: camel/camel-filter-search.c:550
 #, c-format
-msgid "Failed to create create child process '%s': %s"
+msgid "Failed to create child process '%s': %s"
 msgstr "Misslyckades med att skapa barnprocessen \"%s\": %s"
 
 #: camel/camel-filter-search.c:656 camel/camel-filter-search.c:664
@@ -11308,7 +11308,7 @@ msgid "You must name this vfolder."
 msgstr "Du måste ge denna virtuella mapp ett namn."
 
 #: filter/vfolder-rule.c:215
-msgid "You need to to specify at least one folder as a source."
+msgid "You need to specify at least one folder as a source."
 msgstr "Du måste ange minst en mapp som källa."
 
 #: importers/elm-importer.c:95
@@ -13688,12 +13688,7 @@ msgstr "Välj en server."
 msgid "All folders"
 msgstr "Alla mappar"
 
-# Osäker
-#: mail/subscribe-dialog.glade.h:4
-msgid "Apri file"
-msgstr "Apri-fil"
-
-#: mail/subscribe-dialog.glade.h:5 ui/evolution-comp-editor.xml.h:2
+#: mail/subscribe-dialog.glade.h:4 ui/evolution-comp-editor.xml.h:2
 #: ui/evolution-contact-editor.xml.h:1
 #: ui/evolution-contact-list-editor.xml.h:1
 #: ui/evolution-mail-messagedisplay.xml.h:1 ui/evolution-message-composer.h:15
@@ -13702,36 +13697,35 @@ msgstr "Apri-fil"
 msgid "Close"
 msgstr "Stäng"
 
-#: mail/subscribe-dialog.glade.h:6
+#: mail/subscribe-dialog.glade.h:5
 msgid "Display Options"
 msgstr "Visningsalternativ"
 
-#: mail/subscribe-dialog.glade.h:7
+#: mail/subscribe-dialog.glade.h:6
 msgid "Folders whose names begin with:"
 msgstr "Mappar vars namn börjar med:"
 
-#: mail/subscribe-dialog.glade.h:8
+#: mail/subscribe-dialog.glade.h:7
 msgid "Manage Subscriptions"
 msgstr "Hantera prenumerationer"
 
-#: mail/subscribe-dialog.glade.h:9 ui/evolution-subscribe.xml.h:3
+#: mail/subscribe-dialog.glade.h:8 ui/evolution-subscribe.xml.h:3
 msgid "Refresh List"
 msgstr "Uppdatera lista"
+
+#: mail/subscribe-dialog.glade.h:9
+msgid "Refresh folder listing"
+msgstr "Uppdatera mapplistning"
 
 #: mail/subscribe-dialog.glade.h:10
 msgid "S_elect server: "
 msgstr "V_älj server: "
 
-# Osäker
 #: mail/subscribe-dialog.glade.h:11
-msgid "Salve file"
-msgstr "Salve-fil"
-
-#: mail/subscribe-dialog.glade.h:12
 msgid "_Subscribe"
 msgstr "_Prenumerera"
 
-#: mail/subscribe-dialog.glade.h:13
+#: mail/subscribe-dialog.glade.h:12
 msgid "_Unsubscribe"
 msgstr "_Säg upp prenumeration"
 
@@ -27917,6 +27911,14 @@ msgstr "init_corba(): kunde inte initiera GNOME"
 #: wombat/wombat.c:224
 msgid "init_bonobo(): could not initialize Bonobo"
 msgstr "init_bonobo(): kunde inte initiera Bonobo"
+
+# Osäker
+#~ msgid "Apri file"
+#~ msgstr "Apri-fil"
+
+# Osäker
+#~ msgid "Salve file"
+#~ msgstr "Salve-fil"
 
 #~ msgid "[script]"
 #~ msgstr "[skript]"
