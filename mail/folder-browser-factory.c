@@ -189,14 +189,14 @@ control_activate (BonoboControl     *control,
 
 	if (mail_config_thread_list ())
 		bonobo_ui_component_set_prop (
-			uic, "/menu/View/Threaded", "state", "1", NULL);
+			uic, "/commands/ViewThreaded", "state", "1", NULL);
 	else
 		bonobo_ui_component_set_prop (
-			uic, "/menu/View/Threaded", "state", "0", NULL);
+			uic, "/commands/ViewThreaded", "state", "0", NULL);
 
-	bonobo_ui_component_add_verb (
+	bonobo_ui_component_add_listener (
 		uic, "ViewThreaded",
-		(BonoboUIVerbFn) message_list_toggle_threads,
+		message_list_toggle_threads,
 		FOLDER_BROWSER (folder_browser)->message_list);
 
 	create_ondemand_hooks (fb, uic);

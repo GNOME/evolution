@@ -1655,12 +1655,18 @@ message_list_foreach (MessageList *message_list,
 }
 
 void
-message_list_toggle_threads (BonoboUIHandler *uih, void *user_data,
-			     const char *path)
+message_list_toggle_threads (BonoboUIComponent           *component,
+			     const char                  *path,
+			     Bonobo_UIComponent_EventType type,
+			     const char                  *state,
+			     gpointer                     user_data)
 {
 	MessageList *ml = user_data;
 
-	mail_config_set_thread_list (bonobo_ui_handler_menu_get_toggle_state (uih, path));
+	if (type != Bonobo_UIComponent_STATE_CHANGED)
+		return;
+	
+	mail_config_set_thread_list (atoi (state));
 	mail_do_regenerate_messagelist (ml, ml->search);
 }
 

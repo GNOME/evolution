@@ -6,7 +6,7 @@
 #include "mail-types.h"
 #include <bonobo/bonobo-main.h>
 #include <bonobo/bonobo-object.h>
-#include <bonobo/bonobo-ui-compat.h>
+#include <bonobo/bonobo-ui-component.h>
 #include <gal/e-table/e-table-scrolled.h>
 #include <gal/e-table/e-table-simple.h>
 #include <gal/e-table/e-tree-simple.h>
@@ -113,8 +113,10 @@ void           message_list_home       (MessageList *message_list);
 void           message_list_end        (MessageList *message_list);
 
 extern gboolean threaded_view;
-void           message_list_toggle_threads (BonoboUIHandler *uih,
-					    void *user_data,
-					    const char *path);
+void           message_list_toggle_threads (BonoboUIComponent           *component,
+					    const char                  *path,
+					    Bonobo_UIComponent_EventType type,
+					    const char                  *state,
+					    gpointer                     user_data);
 
 #endif /* _MESSAGE_LIST_H_ */
