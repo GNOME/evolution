@@ -421,11 +421,10 @@ msgid "Email address"
 msgstr "Adres e-mail"
 
 #: addressbook/gui/component/ldap-config.glade.h:22
-#, fuzzy
 msgid ""
 "Evolution will use this email address to authenticate you with the server."
 msgstr ""
-"Evolution wykorzysta przy uwierzytelnianiu na serwerze podany adres e-mail."
+"Evolution wykorzysta podany adres e-mail przy uwierzytelnianiu na serwerze."
 
 #: addressbook/gui/component/ldap-config.glade.h:23
 msgid "Find Possible Search Bases"
@@ -447,9 +446,8 @@ msgid "Only locations within starting point"
 msgstr "Położenia w obrębie punktu startowego"
 
 #: addressbook/gui/component/ldap-config.glade.h:27
-#, fuzzy
 msgid "Search _base:"
-msgstr "Podstawa wyszukiwania:"
+msgstr "Po_dstawa wyszukiwania:"
 
 #: addressbook/gui/component/ldap-config.glade.h:28
 msgid "Search base only"
@@ -464,16 +462,14 @@ msgid "Search scope:"
 msgstr "Zakres wyszukiwania:"
 
 #: addressbook/gui/component/ldap-config.glade.h:31
-#, fuzzy
 msgid ""
 "Selecting this option means that Evolution will only connect to your LDAP "
 "server if your LDAP server supports SSL or TLS."
 msgstr ""
-"Wybranie tej opcji powoduje, że Evolution nawiąże połączenie z serwerem\n"
+"Wybranie tej opcji powoduje, że Evolution nawiąże połączenie z serwerem "
 "LDAP, tylko, jeśli obsługuje on protokół SSL lub TLS."
 
 #: addressbook/gui/component/ldap-config.glade.h:32
-#, fuzzy
 msgid ""
 "Selecting this option means that Evolution will only try to use SSL/TLS if "
 "you are in a insecure environment. For example, if you and your LDAP server "
@@ -481,25 +477,20 @@ msgid ""
 "because your connection is already secure."
 msgstr ""
 "Zaznaczenie tej opcji powoduje, że Evolution będzie próbował wykorzystywać "
-"tylko SSL/TLS\n"
-"w przypadku pracy w niezabezpieczonych środowiskach. Na przykład, jeśli ty i "
-"twój serwer\n"
-"LDAP znajdujecie się za działającą zaporą sieciową, wówczas Evolution nie "
-"musi\n"
-"wykorzystywać protokołów SSL/TLS, gdyż twoje połączenie jest już bezpieczne."
+"tylko SSL/TLS w przypadku pracy w niezabezpieczonych środowiskach. Na "
+"przykład, jeśli program i twój serwer LDAP znajdują się za działającą zaporą "
+"sieciową, wówczas Evolution nie musi wykorzystywać protokołów SSL/TLS, gdyż "
+"połączenie jest już bezpieczne."
 
 #: addressbook/gui/component/ldap-config.glade.h:33
-#, fuzzy
 msgid ""
 "Selecting this option means that your server does not support either SSL or "
 "TLS.  This means that your connection will be insecure, and that you will be "
 "vulnerable to security exploits. "
 msgstr ""
 "Wybranie tej opcji powoduje, że używany serwer nie obsługuje ani protokołu "
-"SSL ani TLS.\n"
-"Oznacza to, że połączenia z nim nie będą zabezpieczone, zaś przesyłane dane "
-"będą podatne\n"
-"na ewentualne ataki z zewnątrz."
+"SSL ani TLS. Oznacza to, że połączenia z nim nie będą zabezpieczone, zaś "
+"przesyłane dane będą podatne na ewentualne ataki z zewnątrz."
 
 #: addressbook/gui/component/ldap-config.glade.h:34
 msgid "Starting point and locations within it"
@@ -510,7 +501,6 @@ msgid "Supported Search Bases"
 msgstr "Obsługiwane podstawy wyszukiwania"
 
 #: addressbook/gui/component/ldap-config.glade.h:36
-#, fuzzy
 msgid ""
 "The search base is the distinguished name (DN)  of the entry where your "
 "searches will begin. If you leave this blank, the search will begin at the "
@@ -521,18 +511,16 @@ msgstr ""
 "się od głównego katalogu drzewa katalogów."
 
 #: addressbook/gui/component/ldap-config.glade.h:37
-#, fuzzy
 msgid ""
 "The search scope defines how deep you would like the search to extend down "
 "the directory tree. A search scope of \"sub\" will include all entries below "
 "your search base. A search scope of \"one\" will only include the entries "
 "one level beneath your base."
 msgstr ""
-"Zakres wyszukiwania określa głębokość wyszukiwania wgłąb drzewa katalogów.\n"
+"Zakres wyszukiwania określa głębokość wyszukiwania wgłąb drzewa katalogów. "
 "Zakres wyszukiwania \"sub\" dołączy wszystkie poniższe wpisy do podstawy "
-"wyszukiwania.\n"
-"Zakres wyszukiwania \"one\" dołączy tylko wpisy leżące poziom ponad\n"
-"podstawą wyszukiwania.\n"
+"wyszukiwania. Zakres wyszukiwania \"one\" (jeden) dołączy tylko wpisy leżące "
+"poziom ponad podstawą wyszukiwania."
 
 #: addressbook/gui/component/ldap-config.glade.h:38
 msgid ""
@@ -541,14 +529,12 @@ msgid ""
 msgstr "Jest to pełna nazwa serwera LDAP. Na przykład: \"ldap.mojafirma.com\"."
 
 #: addressbook/gui/component/ldap-config.glade.h:39
-#, fuzzy
 msgid ""
 "This is the maximum number of entries to download. Setting this number to be "
 "too large will slow down your address book."
 msgstr ""
 "Jest to maksymalna liczba pobieranych pozycji. Zbytnie zwiększenie tej "
-"liczby \n"
-"spowoduje spowolnienie działania książki adresowej."
+"liczby spowoduje spowolnienie działania książki adresowej."
 
 #: addressbook/gui/component/ldap-config.glade.h:40
 msgid ""
@@ -561,24 +547,22 @@ msgstr ""
 "anonimowego dostępu do serwera LDAP."
 
 #: addressbook/gui/component/ldap-config.glade.h:41
-#, fuzzy
 msgid ""
 "This is the name for this server that will appear in your Evolution folder "
 "list. It is for display purposes only. "
 msgstr ""
-"Jest to nazwa serwera, która będzie widoczna na liście folderów Evolution.\n"
+"Jest to nazwa serwera, która będzie widoczna na liście folderów Evolution. "
 "Nazwa ta przeznaczona jest tylko do wyświetlania."
 
 #: addressbook/gui/component/ldap-config.glade.h:42
-#, fuzzy
 msgid ""
 "This is the port on the LDAP server that Evolution will try to connect to. A "
 "list of standard ports has been provided. Ask your system administrator what "
 "port you should specify."
 msgstr ""
-"Jest to port na serwerze LDAP, z którym Evolution nawiąże połączenie.\n"
-"Podano listę standardowych portów. Informacje na temat numeru\n"
-"portu można uzyskać u administratora systemu."
+"Jest to port na serwerze LDAP, z którym Evolution nawiąże połączenie. Podano "
+"listę standardowych portów. Informacje na temat numeru portu można uzyskać u "
+"administratora systemu."
 
 #: addressbook/gui/component/ldap-config.glade.h:43
 msgid "Timeout:"
@@ -610,18 +594,16 @@ msgid "_Email address:"
 msgstr "Adr_es e-mail:"
 
 #: addressbook/gui/component/ldap-config.glade.h:50
-#, fuzzy
 msgid "_Find Possible Search Bases"
-msgstr "Znajdź możliwe podstawy wyszukiwania"
+msgstr "Z_najdź możliwe podstawy wyszukiwania"
 
 #: addressbook/gui/component/ldap-config.glade.h:51
 msgid "_Log in method:"
 msgstr "_Metoda logowania:"
 
 #: addressbook/gui/component/ldap-config.glade.h:52
-#, fuzzy
 msgid "_Log in:"
-msgstr "Logowanie"
+msgstr "_Użytkownik:"
 
 #: addressbook/gui/component/ldap-config.glade.h:53
 #: calendar/gui/dialogs/calendar-setup.glade.h:8 mail/mail-config.glade.h:171
@@ -633,18 +615,16 @@ msgid "_Port:"
 msgstr "_Port:"
 
 #: addressbook/gui/component/ldap-config.glade.h:55
-#, fuzzy
 msgid "_Search scope:"
-msgstr "Zakres wyszukiwania:"
+msgstr "Z_akres wyszukiwania:"
 
 #: addressbook/gui/component/ldap-config.glade.h:56
 msgid "_Server:"
 msgstr "_Serwer:"
 
 #: addressbook/gui/component/ldap-config.glade.h:57
-#, fuzzy
 msgid "_Timeout:"
-msgstr "Przekroczenie czasu:"
+msgstr "P_rzekroczenie czasu:"
 
 #: addressbook/gui/component/ldap-config.glade.h:58
 msgid "_Use secure connection:"
@@ -866,9 +846,8 @@ msgid "Novell Groupwise"
 msgstr "Novell Groupwise"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:32
-#, fuzzy
 msgid "Office:"
-msgstr "Biuro"
+msgstr "Biuro:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:33
 msgid "PO Box:"
@@ -883,9 +862,8 @@ msgid "Profession:"
 msgstr "Zawód:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:37
-#, fuzzy
 msgid "Spouse:"
-msgstr "Małżonek"
+msgstr "Małżonek:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:38
 msgid "State/Province:"
@@ -897,16 +875,15 @@ msgstr "Tytuł:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:40
 msgid "Video Chat:"
-msgstr ""
+msgstr "Rozmowa wideo:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:41
 msgid "Wants to receive HTML mail"
 msgstr "Chce otrzymywać listy w formacie HTML"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:42
-#, fuzzy
 msgid "Web Log:"
-msgstr "Witryna WWW:"
+msgstr "Dziennik WWW:"
 
 #. red
 #: addressbook/gui/contact-editor/contact-editor.glade.h:43
@@ -2023,9 +2000,8 @@ msgstr ""
 "\n"
 
 #: addressbook/gui/contact-editor/e-contact-editor.c:2664
-#, fuzzy
 msgid "Invalid contact."
-msgstr "%d kontakt"
+msgstr "Nieprawidłowy kontakt."
 
 #: addressbook/gui/contact-editor/e-contact-editor.c:2723
 msgid ""
@@ -2494,15 +2470,13 @@ msgstr ""
 "niepoprawnego adresu URI lub niedostępnością serwera LDAP."
 
 #: addressbook/gui/widgets/eab-gui-util.c:102
-#, fuzzy
 msgid ""
 "This version of Evolution does not have LDAP support compiled in to it.  If "
 "you want to use LDAP in Evolution, you must install an LDAP-enabled "
 "Evolution package."
 msgstr ""
 "Używana kopia Evolution została skompilowana bez obsługi LDAP. Aby móc "
-"wykorzystać LDAP, należy pobrać OpenLDAP spod podanego poniżej adresu i "
-"ponownie skompilować Evolution ze źródeł dostępnych w CVS."
+"wykorzystać LDAP, należy pobrać Evolution z obsługą LDAP."
 
 #: addressbook/gui/widgets/eab-gui-util.c:109
 msgid ""
@@ -4764,9 +4738,8 @@ msgid "Add A_ttendee"
 msgstr "Dodaj uczes_tnika"
 
 #: calendar/gui/dialogs/meeting-page.glade.h:3
-#, fuzzy
 msgid "Add attendees from addressbook."
-msgstr "Dodaj nadawcę do _książki adresowej"
+msgstr "Dodaj uczestników z książki adresowej."
 
 #: calendar/gui/dialogs/meeting-page.glade.h:5
 #: calendar/gui/e-itip-control.glade.h:9
@@ -6164,26 +6137,22 @@ msgid "No Information"
 msgstr "Brak informacji"
 
 #: calendar/gui/e-meeting-time-sel.c:417
-#, fuzzy
 msgid "Add attendees from addressbook"
-msgstr "Dodaj nadawcę do _książki adresowej"
+msgstr "Dodaj uczestników z książki adresowej"
 
 #: calendar/gui/e-meeting-time-sel.c:440
 msgid "_Options"
 msgstr "Opcj_e"
 
 #: calendar/gui/e-meeting-time-sel.c:457
-#, fuzzy
 msgid "Show _only working hours"
 msgstr "Wyświetlanie _tylko godzin roboczych"
 
 #: calendar/gui/e-meeting-time-sel.c:467
-#, fuzzy
 msgid "Show _zoomed out"
-msgstr "Wyświetlanie w p_owiększeniu"
+msgstr "Wyświetlanie w pomniejs_zeniu"
 
 #: calendar/gui/e-meeting-time-sel.c:482
-#, fuzzy
 msgid "_Update free/busy"
 msgstr "_Uaktualnij informację o zajętości"
 
@@ -6200,22 +6169,18 @@ msgid ">_>"
 msgstr ">_>"
 
 #: calendar/gui/e-meeting-time-sel.c:547
-#, fuzzy
 msgid "_All people and resources"
 msgstr "_Wszyscy ludzie i zasoby"
 
 #: calendar/gui/e-meeting-time-sel.c:556
-#, fuzzy
 msgid "All _people and one resource"
 msgstr "Wszyscy _ludzie i jeden zasób"
 
 #: calendar/gui/e-meeting-time-sel.c:565
-#, fuzzy
 msgid "_Required people"
 msgstr "Wy_magani ludzie"
 
 #: calendar/gui/e-meeting-time-sel.c:574
-#, fuzzy
 msgid "Required people and _one resource"
 msgstr "Wymagani ludzie i j_eden zasób"
 
@@ -8660,7 +8625,7 @@ msgstr "(match-threads) nie jest dopuszczalne wewnątz match-all"
 
 #: camel/camel-folder-search.c:758 camel/camel-folder-search.c:762
 msgid "(match-threads) requires a match type string"
-msgstr ""
+msgstr "(match-threads) wymaga pasującego typu ciągu"
 
 #: camel/camel-folder-search.c:784
 msgid "(match-threads) expects an array result"
@@ -9362,20 +9327,19 @@ msgstr "Błąd przetwarzania"
 msgid "No signedData in signature"
 msgstr "Brak pola signedData w podpisie"
 
+# FIXME - jak tłumaczyć digest?
 #: camel/camel-smime-context.c:576
 msgid "Digests missing from enveloped data"
-msgstr ""
+msgstr "Brak deklaracji w opakowanych danych"
 
 #: camel/camel-smime-context.c:589 camel/camel-smime-context.c:599
-#, fuzzy
 msgid "Cannot calculate digests"
-msgstr "Nie można utworzyć folderu: %s: %s"
+msgstr "Nie można wyliczyć deklaracji"
 
 # c-format
 #: camel/camel-smime-context.c:604
-#, fuzzy
 msgid "Cannot set message digests"
-msgstr "Nie można pobrać listu %s: %s"
+msgstr "Nie można ustawić deklaracji listu"
 
 #: camel/camel-smime-context.c:614 camel/camel-smime-context.c:619
 msgid "Certificate import failed"
@@ -9383,16 +9347,16 @@ msgstr "Zaimportowanie certyfikatu nie powiodło się"
 
 #: camel/camel-smime-context.c:628
 msgid "Certificate only message, cannot verify certificates"
-msgstr ""
+msgstr "Certyfikacja samej wiadomości, nie można zweryfikować certyfikatów"
 
 #: camel/camel-smime-context.c:631
 msgid "Certificate only message, certificates imported and verified"
 msgstr ""
+"Certyfikacja samej wiadomości, certyfikaty zaimportowane i zweryfikowane"
 
 #: camel/camel-smime-context.c:635
-#, fuzzy
 msgid "Can't find signature digests"
-msgstr "Podpis prawidłowy"
+msgstr "Nie można odnaleźć deklaracji podpisu"
 
 #: camel/camel-smime-context.c:651
 #, c-format
@@ -9401,7 +9365,7 @@ msgstr "Podpisujący: %s <%s>: %s\n"
 
 #: camel/camel-smime-context.c:752
 msgid "Decoder failed"
-msgstr ""
+msgstr "Dekoder zakończył pracę z błędem"
 
 #: camel/camel-smime-context.c:804
 #, c-format
@@ -9452,11 +9416,11 @@ msgstr "Nie można dodać danych do szyfratora"
 #: camel/camel-smime-context.c:974
 #, c-format
 msgid "Decoder failed, error %d"
-msgstr ""
+msgstr "Dekoder zakończył pracę z błędem %d"
 
 #: camel/camel-smime-context.c:981
 msgid "S/MIME Decrypt: No encrypted content found"
-msgstr ""
+msgstr "Odszyfrowywanie S/MIME: Nie znaleziono zaszyfrowanej zawartości"
 
 #: camel/camel-smime-context.c:1008
 msgid "import keys: unimplemented"
@@ -10950,9 +10914,9 @@ msgstr "Błąd wewnętrzny: uid w niepoporawnej postaci: %s"
 #: camel/providers/nntp/camel-nntp-folder.c:331
 #: camel/providers/nntp/camel-nntp-folder.c:373
 #: camel/providers/nntp/camel-nntp-folder.c:375
-#, fuzzy, c-format
+#, c-format
 msgid "Posting failed: %s"
-msgstr "Operacja nie powiodła się: %s"
+msgstr "Wysłanie nie powiodło się: %s"
 
 #: camel/providers/nntp/camel-nntp-folder.c:393
 msgid "You cannot post NNTP messages while working offline!"
@@ -11074,19 +11038,17 @@ msgstr ""
 "Nie można usunąć folderu w magazynie nowin: zamiast tego odsubskrybuj grupę."
 
 #: camel/providers/nntp/camel-nntp-store.c:1118
-#, fuzzy
 msgid "Authentication requested but not username provided"
-msgstr "Wymagane uwierzytelnienie"
+msgstr "Wymagane uwierzytelnienie ale nie podano nazwy użytkownika"
 
 #: camel/providers/nntp/camel-nntp-store.c:1146
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot authenticate to server: %s"
-msgstr "Nie można uwierzytelnić na serwerze IMAP %s przy użyciu %s"
+msgstr "Nie można uwierzytelnić na serwerze: %s"
 
 #: camel/providers/nntp/camel-nntp-store.c:1262
-#, fuzzy
 msgid "Not connected."
-msgstr "Brak kontaktów"
+msgstr "Brak połączenia."
 
 #: camel/providers/nntp/camel-nntp-store.c:1311
 #, c-format
@@ -11099,15 +11061,16 @@ msgstr "Folder nie istnieje: %s"
 msgid "%s: Scanning new messages"
 msgstr "%s: Wyszukiwanie nowych listów"
 
+# FIXME - xover? A może z końca?
 #: camel/providers/nntp/camel-nntp-summary.c:225
-#, fuzzy, c-format
+#, c-format
 msgid "Unexpected server response from xover: %s"
-msgstr "Nieoczekiwana odpowiedź od serwera IMAP: %s"
+msgstr "Nieoczekiwana odpowiedź serwera od xover: %s"
 
 #: camel/providers/nntp/camel-nntp-summary.c:328
-#, fuzzy, c-format
+#, c-format
 msgid "Unexpected server response from head: %s"
-msgstr "Nieoczekiwana odpowiedź od programu GnuPG: %s"
+msgstr "Nieoczekiwana odpowiedź serwera z początku: %s"
 
 #: camel/providers/nntp/camel-nntp-summary.c:368
 msgid "Use cancel"
@@ -11819,9 +11782,8 @@ msgstr "Załączenie plików"
 
 #. mail-composer:no-attach primary
 #: composer/mail-composer-errors.xml.h:2
-#, fuzzy
 msgid "You cannot attach the file `{0}' to this message."
-msgstr "Nie można załączyć do tego listu pliku \"${0}\"."
+msgstr "Nie można załączyć do tego listu pliku \"{0}\"."
 
 #. mail-composer:no-attach secondary
 #: composer/mail-composer-errors.xml.h:4 mail/mail-errors.xml.h:92
@@ -11830,10 +11792,9 @@ msgstr "{1}"
 
 #. mail-composer:attach-notfile primary
 #: composer/mail-composer-errors.xml.h:6
-#, fuzzy
 msgid "The file `{0}' is not a regular file and cannot be sent in a message."
 msgstr ""
-"Plik \"${0}\" nie jest zwykłym plikiem i nie może być wysłany w wiadomości."
+"Plik \"{0}\" nie jest zwykłym plikiem i nie może być wysłany w wiadomości."
 
 #. mail-composer:attach-directory primary
 #: composer/mail-composer-errors.xml.h:8
@@ -11925,9 +11886,8 @@ msgstr "Nie można utworzyć wiadomości."
 
 #. mail-composer:no-build-message secondary
 #: composer/mail-composer-errors.xml.h:34
-#, fuzzy
 msgid "Because \"{0}\", you may need to select different mail options."
-msgstr "Ponieważ \"${0}\", możesz potrzebować wybrać inne opcje poczty."
+msgstr "Ponieważ \"{0}\", możesz potrzebować wybrać inne opcje poczty."
 
 #. mail-composer:no-sig-file primary
 #: composer/mail-composer-errors.xml.h:36
@@ -14988,6 +14948,13 @@ msgid ""
 "your message. To avoid this, you should add at least one To: or CC: "
 "recipient. "
 msgstr ""
+"Wysyłana lista kontaktów ma skonfigurowane ukrywanie listy odbiorców.\n"
+"\n"
+"Wiele systemów pocztowych dodaje nagłówek Apparently-To (Najwyraźniej-Do) do "
+"listów które posiadają tylko odbiorców BCC (ukrytych adresatów). Nagłówek "
+"ten w przypadku dołożenia, wyświetli wszystkich odbiorców w liście. Aby temu "
+"zpobiec, należy dodać przynajmniej jednego odbiorę do pola Dla: lub CC: "
+"(kopia)."
 
 #. mail:ask-send-only-bcc secondary
 #: mail/mail-errors.xml.h:31
@@ -14997,6 +14964,11 @@ msgid ""
 "your message anyway. To avoid this, you should add at least one To: or CC: "
 "recipient."
 msgstr ""
+"Wiele systemów pocztowych dodaje nagłówek Apparently-To (Najwyraźniej-Do) do "
+"listów które posiadają tylko odbiorców BCC (ukrytych adresatów). Nagłówek "
+"ten w przypadku dołożenia, wyświetli wszystkich odbiorców w liście. Aby temu "
+"zpobiec, należy dodać przynajmniej jednego odbiorę do pola Dla: lub CC: "
+"(kopia)."
 
 #. mail:send-no-recipients primary
 #: mail/mail-errors.xml.h:34
@@ -15078,7 +15050,6 @@ msgstr ""
 
 #. mail:camel-exception primary
 #: mail/mail-errors.xml.h:57
-#, fuzzy
 msgid "Your message with the subject \"{0}\" was not delivered."
 msgstr "Wiadomość z tematem \"{0}\" nie została dostarczona."
 
@@ -15330,12 +15301,15 @@ msgstr "_Porzuć zmiany"
 msgid "Cannot edit vFolder \"{0}\" as it does not exist."
 msgstr "Nie można zmodyfikować vFolderu \"{0}\" ponieważ on nie istnieje."
 
+# FIXME -Bełkot
 #. mail:vfolder-notexist secondary
 #: mail/mail-errors.xml.h:188
 msgid ""
 "This folder may have been added implictly, go to the virtual folder editor "
 "to add it explictly, if required."
 msgstr ""
+"Ten folder mógł zostać dodany bezwarunkowo, jeżeli jest potrzeba dodania go "
+"warunkowo, przejdź do edytora wirtualnych folderów aby to zmienić."
 
 #. mail:vfolder-notunique primary
 #: mail/mail-errors.xml.h:190
@@ -15970,7 +15944,7 @@ msgstr ""
 
 #: shell/apps_evolution_shell.schemas.in.in.h:10
 msgid "Toolbar is visible"
-msgstr ""
+msgstr "Wiodoczność paska narzędzi"
 
 #: shell/apps_evolution_shell.schemas.in.in.h:11
 msgid "Whether Evolution should start up in offline mode"
@@ -15979,7 +15953,7 @@ msgstr ""
 
 #: shell/apps_evolution_shell.schemas.in.in.h:12
 msgid "Whether the toolbar should be visible."
-msgstr ""
+msgstr "Określa, czy pasek narzędzi jest widoczny."
 
 #: shell/apps_evolution_shell.schemas.in.in.h:13
 msgid "Whether to skip the development warning dialog"
@@ -16103,9 +16077,8 @@ msgid "Automatic"
 msgstr "Automatycznie"
 
 #: shell/e-shell-importer.c:626
-#, fuzzy
 msgid "F_ilename:"
-msgstr "Nazwa pliku:"
+msgstr "Nazwa pl_iku:"
 
 #: shell/e-shell-importer.c:631
 msgid "Select a file"
@@ -16239,9 +16212,8 @@ msgid "Bug buddy could not be run."
 msgstr "Nie można uruchomić Bug buddy."
 
 #: shell/e-shell-window-commands.c:323
-#, fuzzy
 msgid "Groupware Suite"
-msgstr "Groupwise"
+msgstr "Pakiet Groupware"
 
 #: shell/e-shell-window-commands.c:563
 msgid "_Work Online"
@@ -16757,7 +16729,7 @@ msgstr "Certyfikaty kontaktu"
 
 #: smime/gui/smime-ui.glade.h:20
 msgid "Do not trust the authenticity of this certificate"
-msgstr ""
+msgstr "Brak zaufania do autentyczności tego certyfikatu"
 
 #: smime/gui/smime-ui.glade.h:21
 msgid "Dummy window only"
@@ -16768,9 +16740,8 @@ msgid "Edit"
 msgstr "Edycja"
 
 #: smime/gui/smime-ui.glade.h:23
-#, fuzzy
 msgid "Email Certificate Trust Settings"
-msgstr "Ośrodek certyfikacji e-mail"
+msgstr "Ustawienia zaufania certyfikatu e-mail"
 
 #: smime/gui/smime-ui.glade.h:24
 msgid "Email Recipient Certificate"
@@ -16814,7 +16785,7 @@ msgstr "Certyfikat serwera SSL"
 
 #: smime/gui/smime-ui.glade.h:37
 msgid "Trust the authenticity of this certificate"
-msgstr ""
+msgstr "Zaufanie do autentyczności tego certyfikatu"
 
 #: smime/gui/smime-ui.glade.h:38
 msgid "Trust this CA to identify email users."
@@ -16856,7 +16827,7 @@ msgstr "Dostępne certyfikaty"
 
 #: smime/gui/smime-ui.glade.h:46
 msgid "_Edit CA Trust"
-msgstr ""
+msgstr "_Modyfikuj zaufanie CA"
 
 #: smime/lib/e-cert.c:238 smime/lib/e-cert.c:248
 msgid "%d/%m/%Y"
@@ -16864,14 +16835,12 @@ msgstr "%d/%m/%Y"
 
 #. x509 certificate usage types
 #: smime/lib/e-cert.c:424
-#, fuzzy
 msgid "Sign"
 msgstr "Podpisywanie"
 
 #: smime/lib/e-cert.c:425
-#, fuzzy
 msgid "Encrypt"
-msgstr "Zaszyfrowana"
+msgstr "Szyfrowanie"
 
 #: smime/lib/e-cert.c:530
 msgid "Version"
@@ -18392,18 +18361,16 @@ msgid "_Open Task"
 msgstr "_Otwórz zadanie"
 
 #: ui/evolution.xml.h:1
-#, fuzzy
 msgid "About Evolution..."
-msgstr "Informacje o programie Evolution"
+msgstr "Informacje o Evolution..."
 
 #: ui/evolution.xml.h:2
 msgid "Change Evolution's settings"
 msgstr "Zmienia ustawienia Evolution"
 
 #: ui/evolution.xml.h:3
-#, fuzzy
 msgid "Change the visibility of the toolbar"
-msgstr "Zmienia właściwości folderu"
+msgstr "Zmienia widoczność paska narzędziowego"
 
 #: ui/evolution.xml.h:6
 msgid "Create a new window displaying this folder"
@@ -18414,7 +18381,6 @@ msgid "E_xit"
 msgstr "_Zakończ"
 
 #: ui/evolution.xml.h:8
-#, fuzzy
 msgid "Evolution _FAQ"
 msgstr "_Najczęściej zadawane pytania"
 
@@ -18455,9 +18421,8 @@ msgid "Set up Pilot configuration"
 msgstr "Ustawia konfigurację Pilota"
 
 #: ui/evolution.xml.h:19
-#, fuzzy
 msgid "Show information about Evolution"
-msgstr "Wyświetla informacje o programie Ximian Evolution"
+msgstr "Wyświetla informacje o programie Evolution"
 
 #: ui/evolution.xml.h:20
 msgid "Submit Bug Report"
@@ -18472,9 +18437,8 @@ msgid "Submit a bug report using Bug Buddy"
 msgstr "Wysyła zgłoszenie błędu za pomocą Bug Buddy"
 
 #: ui/evolution.xml.h:23
-#, fuzzy
 msgid "T_oolbar"
-msgstr "Główny pasek narzędziowy"
+msgstr "Pasek narzędzi_owy"
 
 #: ui/evolution.xml.h:24
 msgid "Toggle whether we are working offline."
@@ -18482,9 +18446,8 @@ msgstr ""
 "Przełącza pomiędzy trybami pracy z podłączeniem i bez podłączenia do sieci."
 
 #: ui/evolution.xml.h:26
-#, fuzzy
 msgid "_About Evolution..."
-msgstr "Informacje o programie Evolution"
+msgstr "_Informacje o Evolution..."
 
 #: ui/evolution.xml.h:30
 msgid "_Help"
