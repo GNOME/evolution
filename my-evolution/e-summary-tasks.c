@@ -136,8 +136,8 @@ sort_uids (gconstpointer a,
 	CalComponent *comp_a, *comp_b;
 	CalClient *client = user_data;
 	CalClientGetStatus status;
-	CalComponentDateTime start_a, start_b;
-	int retval;
+	int real_a = 0, real_b = 0;
+	int *pri_a, *pri_b;
 
 	/* a after b then return > 0 */
 
@@ -149,20 +149,13 @@ sort_uids (gconstpointer a,
 	if (status != CAL_CLIENT_GET_SUCCESS)
 		return 1;
 
-	cal_component_get_dtstart (comp_a, &start_a);
-	cal_component_get_dtstart (comp_b, &start_b);
+	pri_a = &real_a;
+	pri_b = &real_b;
 
-	if (start_a.value == NULL || start_b.value == NULL) {
-		/* Try to do something reasonable if one or more of our .values is NULL */
-		retval = (start_a.value ? 1 : 0) - (start_b.value ? 1 : 0);
-	} else {
-		retval = icaltime_compare (*start_a.value, *start_b.value);
-	}
+	cal_component_get_priority (comp_a, &pri_a);
+	cal_component_get_priority (comp_b, &pri_b);
 
-	cal_component_free_datetime (&start_a);
-	cal_component_free_datetime (&start_b);
-
-	return retval;
+	return *pri_a - *pri_b;
 }
 
 static GList *
@@ -258,6 +251,7 @@ generate_html (gpointer data)
 	} else {
 		char *s;
 
+		uids = cal_list_sort (uids, sort_uids, tasks->client);
 		string = g_string_new ("<dl><dt><img src=\"myevo-post-it.png\" align=\"middle\" "
 		                       "alt=\"\" width=\"48\" height=\"48\"> <b><a href=\"evolution:/local/Tasks\">");
 		s = e_utf8_from_locale_string (_("Tasks"));

@@ -34,7 +34,6 @@
 
 #include <gal/widgets/e-unicode.h>
 
-#include <libgnomevfs/gnome-vfs.h>
 #include "e-summary.h"
 #include "e-summary-weather.h"
 #include "weather.h"
@@ -251,10 +250,10 @@ parse_metar (const char *metar,
 }
 
 static void
-close_callback (GnomeVFSAsyncHandle *handle,
-		GnomeVFSResult result,
-		Weather *w)
+message_finished (SoupMessage *msg,
+		  gpointer userdata)
 {
+	Weather *w = (Weather *) userdata;
 	ESummary *summary;
 	char *html, *metar, *end;
 	char *search_str;
@@ -265,27 +264,39 @@ close_callback (GnomeVFSAsyncHandle *handle,
 		connection->callback (summary, connection->callback_closure);
 	}
 
-	if (w->handle == NULL) {
-		g_free (w->buffer);
-		w->buffer = NULL;
-		g_string_free (w->string, TRUE);
-		w->string = NULL;
+	if (SOUP_MESSAGE_IS_ERROR (msg)) {
+		GString *string;
+		ESummaryWeatherLocation *location;
+
+		g_warning ("Message failed: %d\n%s", msg->errorcode,
+			   msg->errorphrase);
+		w->message = NULL;
+
+		location = g_hash_table_lookup (locations_hash, w->location);
+
+		string = g_string_new ("<br><b>There was an error downloading data for ");
+		if (location == NULL) {
+			g_string_append (string, w->location);
+		} else {
+			g_string_append (string, location->name);
+		}
+
+		g_string_append (string, "</b><br>");
+		w->html = e_utf8_from_locale_string (string->str);
+		g_string_free (string, TRUE);
+
+		e_summary_draw (w->summary);
 		return;
 	}
 
-	w->handle = NULL;
-	g_free (w->buffer);
-	w->buffer = NULL;
-	html = w->string->str;
-	g_string_free (w->string, FALSE);
-	w->string = NULL;
+	html = g_strdup (msg->response.body);
+	w->message = NULL;
 
 	/* Find the metar data */
 	search_str = g_strdup_printf ("\n%s", w->location);
 	metar = strstr (html, search_str);
 	if (metar == NULL) {
 		g_free (search_str);
-		g_free (html);
 		return;
 	}
 
@@ -293,75 +304,13 @@ close_callback (GnomeVFSAsyncHandle *handle,
 	end = strchr (metar, '\n');
 	if (end == NULL) {
 		g_free (search_str);
-		g_free (html);
 		return;
 	}
 	*end = '\0';
 
 	parse_metar (metar, w);
-	g_free (html);
 	g_free (search_str);
 	return;
-}
-
-static void
-read_callback (GnomeVFSAsyncHandle *handle,
-	       GnomeVFSResult result,
-	       gpointer buffer,
-	       GnomeVFSFileSize bytes_requested,
-	       GnomeVFSFileSize bytes_read,
-	       Weather *w)
-{
-	if (result != GNOME_VFS_OK && result != GNOME_VFS_ERROR_EOF) {
-		if (w->summary->weather->errorshown == FALSE) {
-			w->html = g_strdup ("<dd><b>An error occurred while downloading weather data</b></dd>");
-			w->summary->weather->errorshown = TRUE;
-		} else {
-			w->html = g_strdup ("<dd> </dd>");
-		}
-
-		e_summary_draw (w->summary);
-		w->handle = NULL;
-		gnome_vfs_async_close (handle, 
-				       (GnomeVFSAsyncCloseCallback) close_callback, w);
-		return;
-	}
-
-	if (bytes_read == 0) {
-		gnome_vfs_async_close (handle,
-				       (GnomeVFSAsyncCloseCallback) close_callback, w);
-	} else {
-		*((char *) buffer + bytes_read) = 0;
-		g_string_append (w->string, (const char *) buffer);
-		gnome_vfs_async_read (handle, buffer, 4095,
-				      (GnomeVFSAsyncReadCallback) read_callback, w);
-	}
-}
-
-static void
-open_callback (GnomeVFSAsyncHandle *handle,
-	       GnomeVFSResult result,
-	       Weather *w)
-{
-	if (result != GNOME_VFS_OK) {
-		if (w->summary->weather->errorshown == FALSE) {
-			w->html = e_utf8_from_locale_string (_("<dd><b>The weather server could not be contacted</b></dd>"));
-
-			w->summary->weather->errorshown = TRUE;
-		} else {
-			w->html = g_strdup ("<dd> </dd>");
-		}
-
-		w->handle = NULL;
-		e_summary_draw (w->summary);
-		return;
-	}
-
-	w->string = g_string_new ("");
-	w->buffer = g_new (char, 4096);
-
-	gnome_vfs_async_read (handle, w->buffer, 4095,
-			      (GnomeVFSAsyncReadCallback) read_callback, w);
 }
 
 gboolean
@@ -376,26 +325,28 @@ e_summary_weather_update (ESummary *summary)
 
 	summary->weather->errorshown = FALSE;
 	for (w = summary->weather->weathers; w; w = w->next) {
+		SoupContext *context;
 		char *uri;
 		Weather *weather = w->data;
 
-		if (weather->handle != NULL) {
-			gnome_vfs_async_cancel (weather->handle);
-			weather->handle = NULL;
-		}
-		if (weather->string) {
-			g_string_free (weather->string, TRUE);
-			weather->string = NULL;
-		}
-		if (weather->buffer) {
-			g_free (weather->buffer);
-			weather->buffer = NULL;
+		if (weather->message != NULL) {
+			soup_message_cancel (weather->message);
+			weather->message = NULL;
 		}
 
 		uri = g_strdup_printf ("http://weather.noaa.gov/cgi-bin/mgetmetar.pl?cccc=%s", weather->location);
+		context = soup_context_get (uri);
+		if (context == NULL) {
+			g_warning ("Invalid URL: %s", uri);
+			soup_context_unref (context);
+			g_free (uri);
+			continue;
+		}
 
-		gnome_vfs_async_open (&weather->handle, uri, GNOME_VFS_OPEN_READ,
-				      (GnomeVFSAsyncOpenCallback) open_callback, weather);
+		weather->message = soup_message_new (context, SOUP_METHOD_GET);
+		soup_context_unref (context);
+		soup_message_queue (weather->message, message_finished, weather);
+
 		g_free (uri);
 	}
 
@@ -407,14 +358,8 @@ weather_free (Weather *w)
 {
 	g_return_if_fail (w != NULL);
 
-	if (w->handle != NULL) {
-		gnome_vfs_async_cancel (w->handle);
-	}
-	if (w->string) {
-		g_string_free (w->string, TRUE);
-	}
-	if (w->buffer) {
-		g_free (w->buffer);
+	if (w->message != NULL) {
+		soup_message_cancel (w->message);
 	}
 
 	g_free (w->location);
@@ -541,7 +486,7 @@ e_summary_weather_count (ESummary *summary,
 	for (p = weather->weathers; p; p = p->next) {
 		Weather *w = p->data;
 
-		if (w->handle != NULL) {
+		if (w->message != NULL) {
 			count++;
 		}
 	}
@@ -572,7 +517,7 @@ e_summary_weather_add (ESummary *summary,
 	for (p = weather->weathers; p; p = p->next) {
 		Weather *w = p->data;
 
-		if (w->handle != NULL) {
+		if (w->message != NULL) {
 			ESummaryConnectionData *d;
 
 			d = make_connection (w);
@@ -607,9 +552,9 @@ e_summary_weather_set_online (ESummary *summary,
 			Weather *w;
 
 			w = p->data;
-			if (w->handle) {
-				gnome_vfs_async_cancel (w->handle);
-				w->handle = NULL;
+			if (w->message) {
+				soup_message_cancel (w->message);
+				w->message = NULL;
 			}
 		}
 

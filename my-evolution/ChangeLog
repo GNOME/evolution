@@ -1,3 +1,49 @@
+2002-01-04  Iain Holmes  <iain@ximian.com>
+
+	* e-summary-weather.c (message_finished): Made the Weather message
+	more verbose, and say which station data could not be retrieved for.
+
+2002-01-03  Iain Holmes <iain@ximian.com>
+
+	* Makefile.am: Use SOUP_CFLAGS and SOUP_LIBS
+
+	* e-summary-rdf.c: Include soup.h
+	(close_callback): Remove.
+	(message_finished): Generate the cache and other stuff and redraw.
+	(read_callback): Remove.
+	(open_callback): Remove.
+	(e_summary_rdf_update): Replace gnome-vfs with Soup stuff.
+	(e_summary_rdf_count): Replace gnome-vfs with soup.
+	(rdf_free): ditto
+	(e_summary_rdf_set_online): Ditto
+
+	* e-summary-weather.c: Include soup.h
+	(close_callback): Remove.
+	(message_finished): Parse all the downloaded html.
+	(read_callback): Remove.
+	(open_callback): Remove.
+	(e_summary_weather_update): Use soup instead of gnome-vfs
+	(weather_free): Ditto.
+	(e_summary_weather_count): Ditto.
+	(e_summary_weather_add): ditto;
+	(e_summary_weather_set_online): Ditto.
+
+	* e-summary.c (close_callback): Remove.
+	(read_callback): Remove.
+	(open_callback): Remove.
+	(e_read_file_with_length): Read a file.
+	(e_summary_url_requested): Create the images cache. Load the image
+	with e_read_file_with_length instead of gnome-vfs.
+
+	* main.c (main): Remove gnome_vfs_init.
+
+	* weather.h: Replace gnome-vfs stuff.
+
+2002-01-03  Iain Holmes <iain@ximian.com>
+
+	* e-summary-offline-handler.c (impl_prepareForOffline): Create an
+	empty list if the summary == NULL. Fixes bug 18025
+
 2001-12-20  Ettore Perazzoli  <ettore@ximian.com>
 
 	[Fixes #17377, Evolution doesn't work on multi-depth displays.]

@@ -25,14 +25,13 @@
 
 #include "e-summary-weather.h"
 
-#include <libgnomevfs/gnome-vfs.h>
+#include <libsoup/soup.h>
 
 typedef struct _Weather {
 	char *location;
 	char *html;
-	GnomeVFSAsyncHandle *handle;
-	GString *string;
-	char *buffer;
+
+	SoupMessage *message;
 
 	ESummary *summary;
 
