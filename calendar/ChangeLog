@@ -1,3 +1,16 @@
+2000-07-26  Federico Mena Quintero  <federico@helixcode.com>
+
+	* cal-util/cal-component.c: Put all the functions used to free
+	returned values all together.
+	(cal_component_set_rdate_list): Oops, mark SEQUENCE property to be
+	incremented since the RFC requires it.
+	(scan_property): Handle the EXDATE property.
+	(scan_exdate): Likewise.
+	(free_icalcomponent): Likewise.
+	(cal_component_get_exdate_list): Likewise.
+	(cal_component_set_exdate_list): Likewise.
+	(cal_component_free_exdate_list): Likewise.
+
 2000-07-26  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* gui/Makefile.am: Fixed a typo

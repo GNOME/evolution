@@ -140,17 +140,12 @@ void cal_component_set_uid (CalComponent *comp, const char *uid);
 
 void cal_component_get_categories_list (CalComponent *comp, GSList **categ_list);
 void cal_component_set_categories_list (CalComponent *comp, GSList *categ_list);
-void cal_component_free_categories_list (GSList *categ_list);
 
 void cal_component_get_classification (CalComponent *comp, CalComponentClassification *classif);
 void cal_component_set_classification (CalComponent *comp, CalComponentClassification classif);
 
-void cal_component_free_text_list (GSList *text_list);
-
 void cal_component_get_comment_list (CalComponent *comp, GSList **text_list);
 void cal_component_set_comment_list (CalComponent *comp, GSList *text_list);
-
-void cal_component_free_icaltimetype (struct icaltimetype *t);
 
 void cal_component_get_completed (CalComponent *comp, struct icaltimetype **t);
 void cal_component_set_completed (CalComponent *comp, struct icaltimetype *t);
@@ -160,8 +155,6 @@ void cal_component_set_created (CalComponent *comp, struct icaltimetype *t);
 
 void cal_component_get_description_list (CalComponent *comp, GSList **text_list);
 void cal_component_set_description_list (CalComponent *comp, GSList *text_list);
-
-void cal_component_free_datetime (CalComponentDateTime *dt);
 
 void cal_component_get_dtend (CalComponent *comp, CalComponentDateTime *dt);
 void cal_component_set_dtend (CalComponent *comp, CalComponentDateTime *dt);
@@ -175,17 +168,17 @@ void cal_component_set_dtstart (CalComponent *comp, CalComponentDateTime *dt);
 void cal_component_get_due (CalComponent *comp, CalComponentDateTime *dt);
 void cal_component_set_due (CalComponent *comp, CalComponentDateTime *dt);
 
+void cal_component_get_exdate_list (CalComponent *comp, GSList **period_list);
+void cal_component_set_exdate_list (CalComponent *comp, GSList *period_list);
+
 void cal_component_get_last_modified (CalComponent *comp, struct icaltimetype **t);
 void cal_component_set_last_modified (CalComponent *comp, struct icaltimetype *t);
-
-void cal_component_free_period_list (GSList *period_list);
 
 void cal_component_get_rdate_list (CalComponent *comp, GSList **period_list);
 void cal_component_set_rdate_list (CalComponent *comp, GSList *period_list);
 
 void cal_component_get_sequence (CalComponent *comp, int **sequence);
 void cal_component_set_sequence (CalComponent *comp, int *sequence);
-void cal_component_free_sequence (int *sequence);
 
 void cal_component_get_summary (CalComponent *comp, CalComponentText *summary);
 void cal_component_set_summary (CalComponent *comp, CalComponentText *summary);
@@ -195,6 +188,16 @@ void cal_component_set_transparency (CalComponent *comp, CalComponentTransparenc
 
 void cal_component_get_url (CalComponent *comp, const char **url);
 void cal_component_set_url (CalComponent *comp, const char *url);
+
+/* Functions to free returned values */
+
+void cal_component_free_categories_list (GSList *categ_list);
+void cal_component_free_datetime (CalComponentDateTime *dt);
+void cal_component_free_exdate_list (GSList *exdate_list);
+void cal_component_free_icaltimetype (struct icaltimetype *t);
+void cal_component_free_period_list (GSList *period_list);
+void cal_component_free_sequence (int *sequence);
+void cal_component_free_text_list (GSList *text_list);
 
 /* Alarms */
 
