@@ -1,5 +1,9 @@
 2005-01-21  JP Rosevear  <jpr@novell.com>
 
+	* apps_evolution_shell.schemas.in.in: add print_config schema item
+
+2005-01-21  JP Rosevear  <jpr@novell.com>
+	
 	* e-shell-offline-handler.c
 	(impl_OfflineProgressListener_updateProgress): mark priv->finished
 	as true first so we don't access freed memory if we get finalized

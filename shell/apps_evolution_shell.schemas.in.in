@@ -155,5 +155,18 @@
       </locale>
     </schema>
 
+    <!-- Print defaults -->
+
+    <schema>
+      <key>/schemas/apps/evolution/shell/print_config</key>
+      <applyto>/apps/evolution/shell/print_config</applyto>
+      <owner>evolution</owner>
+      <type>string</type>
+      <locale name="C">
+        <short>Printer settings</short>
+        <long>A GNOME Print description of the current printer settings</>
+      </locale>
+    </schema>
+
   </schemalist>  
 </gconfschemafile>
