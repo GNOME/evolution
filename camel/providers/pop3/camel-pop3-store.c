@@ -23,6 +23,8 @@
  * USA
  */
 
+#define d(x)
+
 #include "config.h"
 
 #include <sys/types.h>
@@ -423,6 +425,7 @@ pop3_connect (CamelService *service, CamelException *ex)
 		service->url->port = KPOP_PORT;
 #endif
 
+	d(printf ("POP3: Connecting to %s\n", service->url->host));
 	if (!connect_to_server (service, TRUE, ex))
 		return FALSE;
 
@@ -542,6 +545,8 @@ pop3_disconnect (CamelService *service, CamelException *ex)
 	if (!service_class->disconnect (service, ex))
 		return FALSE;
 
+	d(printf ("POP3: Disconnecting from %s\n", service->url->host));
+
 	if (store->ostream) {
 		gtk_object_unref (GTK_OBJECT (store->ostream));
 		store->ostream = NULL;
@@ -634,11 +639,19 @@ camel_pop3_command (CamelPop3Store *store, char **ret, char *fmt, ...)
 	cmdbuf = g_strdup_vprintf (fmt, ap);
 	va_end (ap);
 
+#if d(!)0
+	if (!strncmp (cmdbuf, "PASS", 4))
+		printf ("POP3: >>> PASS xxx\n");
+	else
+		printf ("POP3: >>> %s\n", cmdbuf);
+#endif
+
 	/* Send the command */
 	if (camel_stream_printf (store->ostream, "%s\r\n", cmdbuf) == -1) {
 		g_free (cmdbuf);
 		if (*ret)
-			*ret = g_strdup(strerror(errno));
+			*ret = g_strdup (g_strerror (errno));
+		d(printf ("POP3: !!! %s\n", g_strerror (errno)));
 		return CAMEL_POP3_FAIL;
 	}
 	g_free (cmdbuf);
@@ -656,9 +669,12 @@ pop3_get_response (CamelPop3Store *store, char **ret)
 		CAMEL_STREAM_BUFFER (store->istream));
 	if (respbuf == NULL) {
 		if (ret)
-			*ret = g_strdup(strerror(errno));
+			*ret = g_strdup (g_strerror (errno));
+		d(printf ("POP3: !!! %s\n", g_strerror (errno)));
 		return CAMEL_POP3_FAIL;
 	}
+	d(printf ("POP3: <<< %s\n", respbuf));
+
 	if (!strncmp (respbuf, "+OK", 3))
 		status = CAMEL_POP3_OK;
 	else if (!strncmp (respbuf, "-ERR", 4))
@@ -726,6 +742,12 @@ camel_pop3_command_get_additional_data (CamelPop3Store *store, CamelException *e
 			datap = (char *) data->pdata[i];
 			ptr = (*datap == '.') ? datap + 1 : datap;
 			len = strlen (ptr);
+#if d(!)0
+			if (i == data->len - 1)
+				printf ("POP3: <<<<<< %s\n", ptr);
+			else if (i == 0)
+				printf ("POP3: <<<<<< %s...\n", ptr);
+#endif
 			memcpy (p, ptr, len);
 			p += len;
 			*p++ = '\n';

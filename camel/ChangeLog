@@ -1,3 +1,8 @@
+2000-08-04  Dan Winship  <danw@helixcode.com>
+
+	* providers/pop3/camel-pop3-store.c: add a debugging macro for
+	doing protocol tracing.
+
 2000-08-03  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* providers/imap/camel-imap-folder.c (camel_imap_folder_new): Only
