@@ -1,3 +1,13 @@
+2003-01-04  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-callbacks.c (composer_get_message): Use
+	e_destination_get_email() instead of e_destination_get_address()
+	when checking that we have a list of valid recipients to send the
+	message to because get_email() returns the addr-spec portion of
+	the address, which is what we care about. if that doesn't exist,
+	then the address is useless. This does all we can do mailer-side
+	for the recent "SMTP Problem" thread.
+
 2003-01-03  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-display.c: Fixed some build issues.
