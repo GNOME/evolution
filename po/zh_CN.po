@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-02-07 20:44+0100\n"
-"PO-Revision-Date: 2005-02-08 06:33+0800\n"
+"POT-Creation-Date: 2005-02-08 12:38+0100\n"
+"PO-Revision-Date: 2005-02-09 02:29+0800\n"
 "Last-Translator: Funda Wang <fundawang@linux.net.cn>\n"
 "Language-Team: zh_CN <i18n-translation@lists.linux.net.cn>\n"
 "MIME-Version: 1.0\n"
@@ -684,50 +684,49 @@ msgid "Contact Source Selector"
 msgstr "联系人源选择器"
 
 #: addressbook/gui/component/apps_evolution_addressbook.schemas.in.in.h:1
+msgid "Autocomplete length"
+msgstr "自动补全长度"
+
+#: addressbook/gui/component/apps_evolution_addressbook.schemas.in.in.h:2
 msgid "EFolderList XML for the list of completion URIs"
 msgstr "补全 URIs 列表的 EFolderList xml"
 
-#: addressbook/gui/component/apps_evolution_addressbook.schemas.in.in.h:2
+#: addressbook/gui/component/apps_evolution_addressbook.schemas.in.in.h:3
 msgid "EFolderList XML for the list of completion URIs."
 msgstr "补全 URIs 列表的 EFolderList xml"
 
-#: addressbook/gui/component/apps_evolution_addressbook.schemas.in.in.h:3
-msgid "Position of the vertical pane in main view"
-msgstr "主视图中垂直面板的位置"
-
 #: addressbook/gui/component/apps_evolution_addressbook.schemas.in.in.h:4
-msgid "Position of the vertical pane in main view."
-msgstr "主视图中垂直面板的位置。"
+msgid ""
+"Position of the vertical pane, between the card and list views and the "
+"preview pane, in pixels."
+msgstr "卡片和列表视图及预览面板之间垂直面板的位置，以像素计。"
 
 #: addressbook/gui/component/apps_evolution_addressbook.schemas.in.in.h:5
-#: mail/evolution-mail.schemas.in.in.h:73
-msgid "Show the \"Preview\" pane"
-msgstr "显示“预览”面板"
+msgid "Show preview pane"
+msgstr "显示预览面板"
 
 #: addressbook/gui/component/apps_evolution_addressbook.schemas.in.in.h:6
-#: mail/evolution-mail.schemas.in.in.h:74
-msgid "Show the \"Preview\" pane."
-msgstr "显示“预览”面板。"
-
-#: addressbook/gui/component/apps_evolution_addressbook.schemas.in.in.h:7
-msgid ""
-"The number of characters that must be typed before Evolution will attempt to "
-"autocomplete"
-msgstr "在 Evolution 试图进行自动补全之前应该输入多少个字符"
-
-#: addressbook/gui/component/apps_evolution_addressbook.schemas.in.in.h:8
 msgid ""
 "The number of characters that must be typed before Evolution will attempt to "
 "autocomplete."
 msgstr "在 Evolution 试图进行自动补全之前应该输入多少个字符。"
 
-#: addressbook/gui/component/apps_evolution_addressbook.schemas.in.in.h:9
+#: addressbook/gui/component/apps_evolution_addressbook.schemas.in.in.h:7
 msgid "URI for the folder last used in the select names dialog"
 msgstr "选择名称对话框中上次使用的文件夹 URI"
 
-#: addressbook/gui/component/apps_evolution_addressbook.schemas.in.in.h:10
+#: addressbook/gui/component/apps_evolution_addressbook.schemas.in.in.h:8
 msgid "URI for the folder last used in the select names dialog."
 msgstr "选择名称对话框中上次使用的文件夹 URI。"
+
+#: addressbook/gui/component/apps_evolution_addressbook.schemas.in.in.h:9
+#: calendar/gui/apps_evolution_calendar.schemas.in.in.h:49
+msgid "Vertical pane position"
+msgstr "垂直面板的位置"
+
+#: addressbook/gui/component/apps_evolution_addressbook.schemas.in.in.h:10
+msgid "Whether to show the preview pane."
+msgstr "是否显示预览面板。"
 
 #: addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:1
 msgid "Autocompletion"
@@ -4191,136 +4190,285 @@ msgid "invalid time"
 msgstr "无效时间"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:1
-msgid "Allocate less space to weekend appointments"
-msgstr "为周末约会分配较少的空间"
+msgid "Alarm programs"
+msgstr "提醒程序"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:2
+msgid "Ask for confirmation when deleting items"
+msgstr "删除项时要求确认"
+
+#: calendar/gui/apps_evolution_calendar.schemas.in.in.h:3
+msgid "Background color of tasks that are due today, in \"#rrggbb\" format."
+msgstr "今天到期任务的背景颜色，以“#rrggbb”格式。"
+
+#: calendar/gui/apps_evolution_calendar.schemas.in.in.h:4
+msgid "Background color of tasks that are overdue, in \"#rrggbb\" format."
+msgstr "延期任务的背景颜色，以“#rrggbb”格式。"
+
+#: calendar/gui/apps_evolution_calendar.schemas.in.in.h:5
 msgid "Calendars to run alarms for"
 msgstr "运行提醒的日历"
 
-#: calendar/gui/apps_evolution_calendar.schemas.in.in.h:3
-msgid "Color of tasks that are due today"
-msgstr "今天到期任务的颜色"
-
-#: calendar/gui/apps_evolution_calendar.schemas.in.in.h:4
-msgid "Color of tasks that are overdue"
-msgstr "迟到任务的颜色"
-
-#: calendar/gui/apps_evolution_calendar.schemas.in.in.h:5
-msgid "Days that are work days"
-msgstr "工作日天数"
-
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:6
-msgid "Default timezone for meetings"
-msgstr "会议的默认时区"
+msgid "Compress weekends in month view"
+msgstr "在月视图中压缩周末"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:7
-msgid "Hour the workday ends on"
-msgstr "工作日结束的小时"
+msgid "Confirm expunge"
+msgstr "确认销毁"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:8
-msgid "Hour the workday starts on"
-msgstr "工作日开始的小时"
+msgid "Days on which the start and end of work hours should be indicated."
+msgstr "标为工作日的日子。"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:9
-msgid "Intervals shown in Day and Work Week views"
-msgstr "日视图和工作日视图中显示的间隔"
+msgid "Default appointment reminder"
+msgstr "默认约会提醒"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:10
-msgid "List of urls for free/busy publishing"
-msgstr "列出发表忙/闲的 URL"
+msgid "Default reminder units"
+msgstr "默认提醒单位"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:11
-msgid "Minute the workday ends on"
-msgstr "工作日结束的分钟"
+msgid "Default reminder value"
+msgstr "默认提醒值"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:12
-msgid "Minute the workday starts on"
-msgstr "工作日开始的分钟"
+msgid "Free/busy server urls"
+msgstr "忙/闲服务器 URL"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:13
-msgid "Number of units for default reminder"
-msgstr "默认提醒的单位数量"
+msgid "Free/busy template url"
+msgstr "忙/闲模板 URL"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:14
-msgid "Number of units for determining when to hide tasks"
-msgstr "决定何时隐藏任务的数字单位"
+msgid "Hide completed tasks"
+msgstr "隐藏已完成的任务"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:15
-msgid "Position of the horizontal pane"
-msgstr "水平面板的位置"
+msgid "Hide task units"
+msgstr "隐藏任务单位"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:16
-msgid "Position of the horizontal pane in the month view"
-msgstr "月视图中水平面板的位置"
+msgid "Hide task value"
+msgstr "隐藏任务值"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:17
-msgid "Position of the vertical pane"
-msgstr "垂直面板的位置"
+msgid "Horizontal pane position"
+msgstr "水平面板位置"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:18
-msgid "Position of the vertical pane in the month view"
-msgstr "月视图中垂直面板的位置"
+msgid "Hour the workday ends on, in twenty four hour format, 0 to 23."
+msgstr "工作日结束的小时，以 24 小时格式表示，0 到 23。"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:19
-msgid "Position of the vertical pane in the task view"
-msgstr "任务视图中垂直面板的位置"
+msgid "Hour the workday starts on, in twenty four hour format, 0 to 23."
+msgstr "工作日开始的小时，以 24 小时格式表示，0 到 23。"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:20
-msgid "Programs that can run as part of alarms"
-msgstr "可运行为提醒部分的程序"
+msgid "Last alarm time"
+msgstr "上次提醒时间"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:21
-msgid "Show where events end in week and month views"
-msgstr "在周视图和月视图中显示事件结束"
+msgid "List of server urls for free/busy publishing."
+msgstr "列出发表忙/闲的服务器 URL。"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:22
-msgid "The url template to use as a free/busy data fallback"
-msgstr "用作默认忙/闲数据的 URL 模板"
+msgid "Minute the workday ends on, 0 to 59"
+msgstr "工作日结束的分钟，0 到 59"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:23
-msgid "Time last alarm ran"
-msgstr "提醒上次运行的时间"
+msgid "Minute the workday starts on, 0 to 59."
+msgstr "工作日开始的分钟，0 到 59。"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:24
-msgid "Units for determining when to hide tasks"
-msgstr "决定是否隐藏任务的单位"
+msgid "Month view horizontal pane position"
+msgstr "月视图水平面板的位置"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:25
-msgid "Units of default reminder"
-msgstr "默认提醒的单元"
+msgid "Month view vertical pane position"
+msgstr "月视图中垂直面板的位置"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:26
-msgid "Weekday the week starts on"
-msgstr "一周开始的日子"
+msgid "Number of units for determining for a default reminder."
+msgstr "默认提醒的单位数量。"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:27
-msgid "Whether or not to use the notification tray for display alarms"
-msgstr "是否使用通知托盘来显示提醒"
+msgid "Number of units for determining when to hide tasks."
+msgstr "决定何时隐藏任务的数字单位。"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:28
-msgid "Whether to ask for confirmation on appointment deletion"
-msgstr "删除约会时是否要求确认"
+msgid "Overdue tasks color"
+msgstr "延期任务的颜色"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:29
-msgid "Whether to ask for confirmation when folder is expunged"
-msgstr "销毁文件夹会时是否要求确认"
+msgid ""
+"Position of the horizontal pane, between the date navigator calendar and the "
+"task list when not in the month view, in pixels."
+msgstr ""
+"非月视图中日期导航器日历和任务列表之间水平面板的位置，以像素计。"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:30
-msgid "Whether to hide completed tasks"
-msgstr "是否隐藏已完成的任务"
+msgid ""
+"Position of the horizontal pane, between the view and the date navigator "
+"calendar and task list in the month view, in pixels."
+msgstr ""
+"月视图中视图和日期导航器日历之间水平面板的位置，以像素计。"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:31
-msgid "Whether to set a default reminder for events"
-msgstr "是否为事件发送默认提醒"
+msgid ""
+"Position of the vertical pane, between task list and the task preview pane, "
+"in pixels."
+msgstr "任务列表和任务预览面板间垂直面板的位置，以像素计。"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:32
-msgid "Whether to show times in 24h format instead of using am/pm"
-msgstr "是以 24 小时格式还是以 12 小时格式显示时间"
+msgid ""
+"Position of the vertical pane, between the view and the date navigator "
+"calendar and task list in the month view, in pixels."
+msgstr ""
+"月视图中视图和日期导航器日历及任务列表之间垂直面板的位置，以像素计。"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:33
-msgid "Whether to show week numbers in date navigator"
-msgstr "是否在日期浏览器中显示周数"
+msgid ""
+"Position of the vertical pane, between the view and the date navigator "
+"calendar and task list when not in the month view, in pixels."
+msgstr ""
+"非月视图中视图和日期导航器日历及任务列表之间垂直面板的位置，以像素计。"
+
+#: calendar/gui/apps_evolution_calendar.schemas.in.in.h:34
+msgid "Programs that are allowed to be run by alarms."
+msgstr "允许提醒运行的程序。"
+
+#: calendar/gui/apps_evolution_calendar.schemas.in.in.h:35
+msgid "Show appointment end times in week and month views"
+msgstr "在周视图和月视图中显示约会结束时间"
+
+#: calendar/gui/apps_evolution_calendar.schemas.in.in.h:36
+msgid "Show display alarms in notification tray"
+msgstr "在通知托盘中显示提醒"
+
+#: calendar/gui/apps_evolution_calendar.schemas.in.in.h:37
+msgid "Show week numbers in date navigator"
+msgstr "在日期浏览器中显示周数"
+
+#: calendar/gui/apps_evolution_calendar.schemas.in.in.h:38
+msgid "Tasks due today color"
+msgstr "今天到期的任务颜色"
+
+#: calendar/gui/apps_evolution_calendar.schemas.in.in.h:39
+msgid "Tasks vertical pane position"
+msgstr "任务垂直面板位置"
+
+#: calendar/gui/apps_evolution_calendar.schemas.in.in.h:40
+msgid ""
+"The default timezone to use for dates and times in the calendar, as an "
+"untranslated Olsen timezone database location like \"America/New York\"."
+msgstr ""
+"日历中日期和时间所使用的默认时区，以未翻译的时区数据库位置表示，如“Asia/Shanghai”。"
+
+#: calendar/gui/apps_evolution_calendar.schemas.in.in.h:42
+#, no-c-format
+msgid ""
+"The url template to use as a free/busy data fallback, %u is replaced by the "
+"user part of the mail address and %d is replaced by the domain."
+msgstr ""
+"用作忙/闲数据发布的 URL 模板，%u 将替换为电子邮件的拥护不分，而 %d 将替换为域名。"
+
+#: calendar/gui/apps_evolution_calendar.schemas.in.in.h:43
+#, fuzzy
+msgid ""
+"Time divisions</short> <short>Intervals shown in Day and Work Week views, in "
+"minutes."
+msgstr "日视图和工作日视图中显示的间隔"
+
+#: calendar/gui/apps_evolution_calendar.schemas.in.in.h:44
+msgid "Time the last alarm ran, in time_t."
+msgstr "提醒上次运行的时间，以 time_t 格式。"
+
+#: calendar/gui/apps_evolution_calendar.schemas.in.in.h:45
+msgid "Timezone"
+msgstr "时区"
+
+#: calendar/gui/apps_evolution_calendar.schemas.in.in.h:46
+msgid "Twenty four hour time format"
+msgstr "二十四小时时间格式"
+
+#: calendar/gui/apps_evolution_calendar.schemas.in.in.h:47
+msgid "Units for a default reminder, \"minutes\", \"hours\" or \"days\"."
+msgstr "默认提醒的单位，可为“minutes”，“hours”或“days”。"
+
+#: calendar/gui/apps_evolution_calendar.schemas.in.in.h:48
+msgid ""
+"Units for determining when to hide tasks, \"minutes\", \"hours\" or \"days\"."
+msgstr "决定是否隐藏任务的单位，可为“minutes”，“hours”或“days”。"
+
+#: calendar/gui/apps_evolution_calendar.schemas.in.in.h:50
+msgid "Week start"
+msgstr "一周开始"
+
+#: calendar/gui/apps_evolution_calendar.schemas.in.in.h:51
+msgid "Weekday the week starts on, from Sunday (0) to Saturday (6)."
+msgstr "一周开始的日子，从星期日(0)到星期六(6)。"
+
+#: calendar/gui/apps_evolution_calendar.schemas.in.in.h:52
+msgid "Whether or not to use the notification tray for display alarms."
+msgstr "是否使用通知托盘来显示提醒。"
+
+#: calendar/gui/apps_evolution_calendar.schemas.in.in.h:53
+msgid "Whether to ask for confirmation when deleting an appointment or task."
+msgstr "删除约会或任务时是否要求确认。"
+
+#: calendar/gui/apps_evolution_calendar.schemas.in.in.h:54
+msgid "Whether to ask for confirmation when expunging appointments and tasks."
+msgstr "销毁约会和任务时是否要求确认。"
+
+#: calendar/gui/apps_evolution_calendar.schemas.in.in.h:55
+msgid ""
+"Whether to compress weekends in the month view, which puts Saturday and "
+"Sunday in the space of one weekday."
+msgstr ""
+"在月视图中是否压缩周末；压缩时将把周六和周日用一个单元格显示。"
+
+#: calendar/gui/apps_evolution_calendar.schemas.in.in.h:56
+msgid "Whether to display the end time of events in the week and month views."
+msgstr "是否在周视图和月视图中显示事件的结束时间。"
+
+#: calendar/gui/apps_evolution_calendar.schemas.in.in.h:57
+msgid "Whether to hide completed tasks in the tasks view."
+msgstr "是否在任务视图中隐藏已完成的任务。"
+
+#: calendar/gui/apps_evolution_calendar.schemas.in.in.h:58
+msgid "Whether to set a default reminder for appointments."
+msgstr "是否为约会设置默认提醒。"
+
+#: calendar/gui/apps_evolution_calendar.schemas.in.in.h:59
+msgid ""
+"Whether to show times in twenty four hour format instead of using am/pm."
+msgstr "是以 24 小时格式还是以 12 小时格式显示时间。"
+
+#: calendar/gui/apps_evolution_calendar.schemas.in.in.h:60
+msgid "Whether to show week numbers in the date navigator."
+msgstr "是否在日期浏览器中显示周数。"
+
+#: calendar/gui/apps_evolution_calendar.schemas.in.in.h:61
+msgid "Work days"
+msgstr "工作日"
+
+#: calendar/gui/apps_evolution_calendar.schemas.in.in.h:62
+msgid "Workday end hour"
+msgstr "工作日结束小时"
+
+#: calendar/gui/apps_evolution_calendar.schemas.in.in.h:63
+msgid "Workday end minute"
+msgstr "工作日结束分钟"
+
+#: calendar/gui/apps_evolution_calendar.schemas.in.in.h:64
+msgid "Workday start hour"
+msgstr "工作日开始小时"
+
+#: calendar/gui/apps_evolution_calendar.schemas.in.in.h:65
+msgid "Workday start minute"
+msgstr "工作日开始分钟"
 
 #: calendar/gui/calendar-commands.c:120 calendar/gui/calendar-component.c:568
 #: calendar/gui/dialogs/calendar-setup.c:362 calendar/gui/gnome-cal.c:1942
@@ -4685,7 +4833,7 @@ msgid "_Remove"
 msgstr "删除(_R)"
 
 #: calendar/gui/dialogs/cal-attachment-bar.c:440
-#: composer/e-msg-composer-attachment-bar.c:441 mail/em-folder-tree.c:2775
+#: composer/e-msg-composer-attachment-bar.c:441 mail/em-folder-tree.c:2818
 #: ui/evolution-mail-list.xml.h:27
 msgid "_Properties"
 msgstr "属性(_P)"
@@ -4841,7 +4989,7 @@ msgstr "日历和任务设置"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:17
 msgid "Color for overdue tasks"
-msgstr "被延误任务的颜色"
+msgstr "被延期任务的颜色"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:18
 msgid "Color for tasks due today"
@@ -4996,7 +5144,7 @@ msgstr "周一(_M)"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:54
 msgid "_Overdue tasks:"
-msgstr "延误的任务(_O)："
+msgstr "延期任务(_O)："
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:55
 msgid "_Sat"
@@ -5090,7 +5238,7 @@ msgstr[0] "%d 封附加的信件"
 
 #: calendar/gui/dialogs/comp-editor.c:412 calendar/gui/e-calendar-table.c:1164
 #: calendar/gui/e-calendar-view.c:1402 composer/e-msg-composer.c:2901
-#: mail/em-folder-tree.c:1041 mail/message-list.c:1712
+#: mail/em-folder-tree.c:1046 mail/message-list.c:1712
 #: ui/evolution-addressbook.xml.h:31 ui/evolution-calendar.xml.h:39
 #: ui/evolution-composer-entries.xml.h:7 ui/evolution-mail-message.xml.h:105
 #: ui/evolution-tasks.xml.h:20
@@ -5098,13 +5246,13 @@ msgid "_Copy"
 msgstr "复制(_C)"
 
 #: calendar/gui/dialogs/comp-editor.c:413 composer/e-msg-composer.c:2902
-#: mail/em-folder-tree.c:1042 mail/em-folder-tree.c:2268
+#: mail/em-folder-tree.c:1047 mail/em-folder-tree.c:2311
 #: mail/em-folder-view.c:860 mail/message-list.c:1713
 msgid "_Move"
 msgstr "移动(_M)"
 
 #: calendar/gui/dialogs/comp-editor.c:415 composer/e-msg-composer.c:2904
-#: mail/em-folder-tree.c:1044 mail/message-list.c:1715
+#: mail/em-folder-tree.c:1049 mail/message-list.c:1715
 msgid "Cancel _Drag"
 msgstr "取消拖曳(_D)"
 
@@ -5974,7 +6122,7 @@ msgstr "在 %2$s 时 %1$s"
 msgid "%s for an unknown trigger type"
 msgstr "%s 为未知触发类型"
 
-#: calendar/gui/e-cal-component-preview.c:70 mail/em-folder-view.c:2503
+#: calendar/gui/e-cal-component-preview.c:70 mail/em-folder-view.c:2516
 #, c-format
 msgid "Click to open %s"
 msgstr "单击以打开 %s"
@@ -6138,7 +6286,7 @@ msgstr "把任务标记为完成(_M)"
 
 #. FIXME: need to disable for undeletable folders
 #: calendar/gui/e-calendar-table.c:1176 calendar/gui/e-calendar-view.c:1414
-#: mail/em-folder-tree.c:2771 mail/em-folder-view.c:989
+#: mail/em-folder-tree.c:2814 mail/em-folder-view.c:989
 #: ui/evolution-addressbook.xml.h:33 ui/evolution-calendar.xml.h:40
 #: ui/evolution-mail-message.xml.h:108 ui/evolution-tasks.xml.h:21
 msgid "_Delete"
@@ -10288,7 +10436,7 @@ msgstr "<单击此处以便选择文件夹>"
 msgid "Create New Folder"
 msgstr "创建新文件夹"
 
-#: mail/em-folder-selector.c:166 mail/em-folder-tree.c:2484
+#: mail/em-folder-selector.c:166 mail/em-folder-tree.c:2527
 #: mail/mail-component.c:739 plugins/shared-folder/install-shared.c:144
 #: plugins/shared-folder/share-folder-common.c:345
 msgid "Specify where to create the folder:"
@@ -10302,111 +10450,111 @@ msgstr "创建"
 msgid "Folder _name:"
 msgstr "文件夹名称(_N)："
 
-#: mail/em-folder-tree.c:683
+#: mail/em-folder-tree.c:688
 msgid "Mail Folder Tree"
 msgstr "邮件文件夹树"
 
-#: mail/em-folder-tree.c:916
+#: mail/em-folder-tree.c:921
 #, c-format
 msgid "Moving folder %s"
 msgstr "移动文件夹“%s”"
 
-#: mail/em-folder-tree.c:918
+#: mail/em-folder-tree.c:923
 #, c-format
 msgid "Copying folder %s"
 msgstr "复制文件夹 %s"
 
-#: mail/em-folder-tree.c:925 mail/message-list.c:1617
+#: mail/em-folder-tree.c:930 mail/message-list.c:1617
 #, c-format
 msgid "Moving messages into folder %s"
 msgstr "把信件移动到文件夹 %s"
 
-#: mail/em-folder-tree.c:927 mail/message-list.c:1619
+#: mail/em-folder-tree.c:932 mail/message-list.c:1619
 #, c-format
 msgid "Copying messages into folder %s"
 msgstr "把信件复制到文件夹 %s"
 
-#: mail/em-folder-tree.c:943
+#: mail/em-folder-tree.c:948
 msgid "Cannot drop message(s) into toplevel store"
 msgstr "无法将信件放到顶级文件夹存储"
 
-#: mail/em-folder-tree.c:1039 ui/evolution-mail-message.xml.h:106
+#: mail/em-folder-tree.c:1044 ui/evolution-mail-message.xml.h:106
 msgid "_Copy to Folder"
 msgstr "复制到文件夹(_C)"
 
-#: mail/em-folder-tree.c:1040 ui/evolution-mail-message.xml.h:115
+#: mail/em-folder-tree.c:1045 ui/evolution-mail-message.xml.h:115
 msgid "_Move to Folder"
 msgstr "移动到文件夹(_M)"
 
-#: mail/em-folder-tree.c:1739 mail/mail-ops.c:1017
+#: mail/em-folder-tree.c:1750 mail/mail-ops.c:1026
 #, c-format
 msgid "Scanning folders in \"%s\""
 msgstr "在“%s”中扫描文件夹"
 
-#: mail/em-folder-tree.c:2012
+#: mail/em-folder-tree.c:2023
 #, c-format
 msgid "Copying `%s' to `%s'"
 msgstr "把“%s”复制到“%s”"
 
-#: mail/em-folder-tree.c:2254 mail/em-folder-tree.c:2268
+#: mail/em-folder-tree.c:2297 mail/em-folder-tree.c:2311
 #: mail/em-folder-view.c:860 mail/em-folder-view.c:875
 #: mail/importers/evolution-mbox-importer.c:120
 #: mail/importers/evolution-outlook-importer.c:134
 msgid "Select folder"
 msgstr "选择文件夹"
 
-#: mail/em-folder-tree.c:2254 mail/em-folder-view.c:875
+#: mail/em-folder-tree.c:2297 mail/em-folder-view.c:875
 msgid "C_opy"
 msgstr "复制(_O)"
 
-#: mail/em-folder-tree.c:2295 plugins/shared-folder/share-folder-common.c:138
+#: mail/em-folder-tree.c:2338 plugins/shared-folder/share-folder-common.c:138
 #, c-format
 msgid "Creating folder `%s'"
 msgstr "创建文件夹“%s”"
 
-#: mail/em-folder-tree.c:2484 mail/mail-component.c:739
+#: mail/em-folder-tree.c:2527 mail/mail-component.c:739
 #: plugins/shared-folder/install-shared.c:144
 #: plugins/shared-folder/share-folder-common.c:345
 msgid "Create folder"
 msgstr "创建文件夹"
 
-#: mail/em-folder-tree.c:2677
+#: mail/em-folder-tree.c:2720
 #, c-format
 msgid "Rename the \"%s\" folder to:"
 msgstr "把文件夹“%s”重命名为："
 
-#: mail/em-folder-tree.c:2679
+#: mail/em-folder-tree.c:2722
 msgid "Rename Folder"
 msgstr "重命名文件夹"
 
-#: mail/em-folder-tree.c:2685
+#: mail/em-folder-tree.c:2728
 msgid "Folder names cannot contain '/'"
 msgstr "文件夹名不能含有字符“/”"
 
-#: mail/em-folder-tree.c:2759 ui/evolution-addressbook.xml.h:44
+#: mail/em-folder-tree.c:2802 ui/evolution-addressbook.xml.h:44
 #: ui/evolution-mail-global.xml.h:17 ui/evolution-mail-messagedisplay.xml.h:8
 #: ui/evolution-message-composer.xml.h:53 ui/evolution.xml.h:49
 msgid "_View"
 msgstr "查看(_V)"
 
-#: mail/em-folder-tree.c:2760
+#: mail/em-folder-tree.c:2803
 msgid "Open in _New Window"
 msgstr "在新窗口中打开(_N)"
 
-#: mail/em-folder-tree.c:2764
+#: mail/em-folder-tree.c:2807
 msgid "_Copy..."
 msgstr "复制(_C)..."
 
-#: mail/em-folder-tree.c:2765
+#: mail/em-folder-tree.c:2808
 msgid "_Move..."
 msgstr "移动(_M)..."
 
 #. FIXME: need to disable for nochildren folders
-#: mail/em-folder-tree.c:2769
+#: mail/em-folder-tree.c:2812
 msgid "_New Folder..."
 msgstr "新建文件夹(_N)..."
 
-#: mail/em-folder-tree.c:2772
+#: mail/em-folder-tree.c:2815
 msgid "_Rename..."
 msgstr "重命名(_R)..."
 
@@ -10580,11 +10728,11 @@ msgstr "默认"
 msgid "Print Message"
 msgstr "打印信件"
 
-#: mail/em-folder-view.c:2215
+#: mail/em-folder-view.c:2225
 msgid "_Copy Link Location"
 msgstr "复制链接位置(_C)"
 
-#: mail/em-folder-view.c:2498
+#: mail/em-folder-view.c:2511
 #, c-format
 msgid "Click to mail %s"
 msgstr "单击以给 %s 发送邮件"
@@ -10658,15 +10806,15 @@ msgstr "校验签名发生了未知错误"
 msgid "Retrieving `%s'"
 msgstr "收取“%s”"
 
-#: mail/em-format-html.c:579 mail/em-format-html-display.c:645
+#: mail/em-format-html.c:579 mail/em-format-html-display.c:680
 msgid "Unsigned"
 msgstr "未签名"
 
-#: mail/em-format-html.c:580 mail/em-format-html-display.c:646
+#: mail/em-format-html.c:580 mail/em-format-html-display.c:681
 msgid "Valid signature"
 msgstr "有效签名"
 
-#: mail/em-format-html.c:581 mail/em-format-html-display.c:647
+#: mail/em-format-html.c:581 mail/em-format-html-display.c:682
 msgid "Invalid signature"
 msgstr "无效签名"
 
@@ -10674,19 +10822,19 @@ msgstr "无效签名"
 msgid "Valid signature but cannot verify sender"
 msgstr "签名有效但是无法校验发送者"
 
-#: mail/em-format-html.c:588 mail/em-format-html-display.c:654
+#: mail/em-format-html.c:588 mail/em-format-html-display.c:689
 msgid "Unencrypted"
 msgstr "未加密"
 
-#: mail/em-format-html.c:589 mail/em-format-html-display.c:655
+#: mail/em-format-html.c:589 mail/em-format-html-display.c:690
 msgid "Encrypted, weak"
 msgstr "弱加密"
 
-#: mail/em-format-html.c:590 mail/em-format-html-display.c:656
+#: mail/em-format-html.c:590 mail/em-format-html-display.c:691
 msgid "Encrypted"
 msgstr "加密"
 
-#: mail/em-format-html.c:591 mail/em-format-html-display.c:657
+#: mail/em-format-html.c:591 mail/em-format-html-display.c:692
 msgid "Encrypted, strong"
 msgstr "强加密"
 
@@ -10745,41 +10893,41 @@ msgstr "<I> (%R %Z)</I>"
 msgid "Matches: %d"
 msgstr "匹配：%d"
 
-#: mail/em-format-html-display.c:645
+#: mail/em-format-html-display.c:680
 msgid ""
 "This message is not signed. There is no guarantee that this message is "
 "authentic."
 msgstr "此信件未签名。无法保证这封信是可信的。"
 
-#: mail/em-format-html-display.c:646
+#: mail/em-format-html-display.c:681
 msgid ""
 "This message is signed and is valid meaning that it is very likely that this "
 "message is authentic."
 msgstr "此信件已签名，而且签名是有效的。这意味着这封信应该是可信的。"
 
-#: mail/em-format-html-display.c:647
+#: mail/em-format-html-display.c:682
 msgid ""
 "The signature of this message cannot be verified, it may have been altered "
 "in transit."
 msgstr "无法校验这封信的签名，可能在传送的过程中邮件被篡改了。"
 
-#: mail/em-format-html-display.c:648
+#: mail/em-format-html-display.c:683
 msgid "Valid signature, cannot verify sender"
 msgstr "签名有效，无法校验发送者"
 
-#: mail/em-format-html-display.c:648
+#: mail/em-format-html-display.c:683
 msgid ""
 "This message is signed with a valid signature, but the sender of the message "
 "cannot be verified."
 msgstr "这封信的签名有效，但是无法校验邮件的发送者。"
 
-#: mail/em-format-html-display.c:654
+#: mail/em-format-html-display.c:689
 msgid ""
 "This message is not encrypted.  Its content may be viewed in transit across "
 "the Internet."
 msgstr "这封信未加密。在 Internet 上传送时所有人都可以看到其内容。"
 
-#: mail/em-format-html-display.c:655
+#: mail/em-format-html-display.c:690
 msgid ""
 "This message is encrypted, but with a weak encryption algorithm.  It would "
 "be difficult, but not impossible for an outsider to view the content of this "
@@ -10788,13 +10936,13 @@ msgstr ""
 "这封信已加密，但使用的是弱加密算法。如果外人想要查看这封信的内容，可能要花大"
 "量时间进行暴力破解，这很困难但并不是不可能。"
 
-#: mail/em-format-html-display.c:656
+#: mail/em-format-html-display.c:691
 msgid ""
 "This message is encrypted.  It would be difficult for an outsider to view "
 "the content of this message."
 msgstr "这封信已加密。外人要想查看这封信的内容十分困难。"
 
-#: mail/em-format-html-display.c:657
+#: mail/em-format-html-display.c:692
 msgid ""
 "This message is encrypted, with a strong encryption algorithm.  It would be "
 "very difficult for an outsider to view the content of this message in a "
@@ -10803,35 +10951,35 @@ msgstr ""
 "这封信已加密，且使用的是强加密算法。如果外人想要查看这封信的内容，可能要花大"
 "量时间进行暴力破解，这十分困难。"
 
-#: mail/em-format-html-display.c:758 smime/gui/smime-ui.glade.h:47
+#: mail/em-format-html-display.c:793 smime/gui/smime-ui.glade.h:47
 msgid "_View Certificate"
 msgstr "查看证书(_V)"
 
-#: mail/em-format-html-display.c:773
+#: mail/em-format-html-display.c:808
 msgid "This certificate is not viewable"
 msgstr "此证书不可查看"
 
-#: mail/em-format-html-display.c:1002
+#: mail/em-format-html-display.c:1037
 msgid "Completed on %B %d, %Y, %l:%M %p"
 msgstr "%Y年%m月%d日%A，%H:%M完成"
 
-#: mail/em-format-html-display.c:1010
+#: mail/em-format-html-display.c:1045
 msgid "Overdue:"
-msgstr "延误："
+msgstr "延期："
 
-#: mail/em-format-html-display.c:1013
+#: mail/em-format-html-display.c:1048
 msgid "by %B %d, %Y, %l:%M %p"
 msgstr "到 %m月%d日%A，%H:%M"
 
-#: mail/em-format-html-display.c:1060
+#: mail/em-format-html-display.c:1095
 msgid "_View Inline"
 msgstr "嵌入视图(_V)"
 
-#: mail/em-format-html-display.c:1061
+#: mail/em-format-html-display.c:1096
 msgid "_Hide"
 msgstr "隐藏(_H)"
 
-#: mail/em-format-html-display.c:1305
+#: mail/em-format-html-display.c:1340
 msgid "Attachment Button"
 msgstr "附件按钮"
 
@@ -11319,6 +11467,14 @@ msgstr "在信件列表中显示删除了的信件(带有删除线)。"
 #: mail/evolution-mail.schemas.in.in.h:72
 msgid "Show deleted messages in the message-list"
 msgstr "在信件列表中显示删除了的信件"
+
+#: mail/evolution-mail.schemas.in.in.h:73
+msgid "Show the \"Preview\" pane"
+msgstr "显示“预览”面板"
+
+#: mail/evolution-mail.schemas.in.in.h:74
+msgid "Show the \"Preview\" pane."
+msgstr "显示“预览”面板。"
 
 #: mail/evolution-mail.schemas.in.in.h:75
 msgid "Sound file to play when new mail arrives."
@@ -13118,12 +13274,7 @@ msgstr "过滤文件夹"
 msgid "Fetching Mail"
 msgstr "收取邮件"
 
-#: mail/mail-ops.c:556
-#, c-format
-msgid "Failed to apply outgoing filters: %s"
-msgstr "应用寄出过滤器失败：%s"
-
-#: mail/mail-ops.c:581
+#: mail/mail-ops.c:542 mail/mail-ops.c:585
 #, c-format
 msgid ""
 "Failed to append to %s: %s\n"
@@ -13132,112 +13283,118 @@ msgstr ""
 "追加到 %s：%s 失败\n"
 "转而追加到本地“已发”文件夹。"
 
-#: mail/mail-ops.c:590
+#. sending mail, filtering failed
+#: mail/mail-ops.c:564
+#, c-format
+msgid "Failed to apply outgoing filters: %s"
+msgstr "应用寄出过滤器失败：%s"
+
+#: mail/mail-ops.c:602
 #, c-format
 msgid "Failed to append to local `Sent' folder: %s"
 msgstr "追加到本地“已发”文件夹失败：%s"
 
-#: mail/mail-ops.c:687
+#: mail/mail-ops.c:702
 #, c-format
 msgid "Sending message %d of %d"
 msgstr "发送第%d封信，共%d封"
 
-#: mail/mail-ops.c:718
+#: mail/mail-ops.c:727
 #, c-format
 msgid "Failed to send %d of %d messages"
 msgstr "在第%d封信失败，共%d封"
 
-#: mail/mail-ops.c:720 mail/mail-send-recv.c:613
+#: mail/mail-ops.c:729 mail/mail-send-recv.c:613
 msgid "Cancelled."
 msgstr "已取消。"
 
-#: mail/mail-ops.c:722
+#: mail/mail-ops.c:731
 msgid "Complete."
 msgstr "完成。"
 
-#: mail/mail-ops.c:819
+#: mail/mail-ops.c:828
 msgid "Saving message to folder"
 msgstr "把信件保存到文件夹中"
 
-#: mail/mail-ops.c:904
+#: mail/mail-ops.c:913
 #, c-format
 msgid "Moving messages to %s"
 msgstr "把信件移动到 %s"
 
-#: mail/mail-ops.c:904
+#: mail/mail-ops.c:913
 #, c-format
 msgid "Copying messages to %s"
 msgstr "把信件复制到 %s"
 
-#: mail/mail-ops.c:1130
+#: mail/mail-ops.c:1139
 msgid "Forwarded messages"
 msgstr "转发的信件"
 
-#: mail/mail-ops.c:1173
+#: mail/mail-ops.c:1182
 #, c-format
 msgid "Opening folder %s"
 msgstr "打开文件夹 %s"
 
-#: mail/mail-ops.c:1245
+#: mail/mail-ops.c:1254
 #, c-format
 msgid "Opening store %s"
 msgstr "打开存储 %s"
 
-#: mail/mail-ops.c:1323
+#: mail/mail-ops.c:1332
 #, c-format
 msgid "Removing folder %s"
 msgstr "删除文件夹“%s”"
 
-#: mail/mail-ops.c:1417
+#: mail/mail-ops.c:1426
 #, c-format
 msgid "Storing folder '%s'"
 msgstr "存储文件夹“%s”"
 
-#: mail/mail-ops.c:1482
+#: mail/mail-ops.c:1491
 #, c-format
 msgid "Expunging and storing account '%s'"
 msgstr "销毁并存储账户“%s”"
 
-#: mail/mail-ops.c:1483
+#: mail/mail-ops.c:1492
 #, c-format
 msgid "Storing account '%s'"
 msgstr "存储账户“%s”"
 
-#: mail/mail-ops.c:1538
+#: mail/mail-ops.c:1547
 msgid "Refreshing folder"
 msgstr "刷新文件夹"
 
-#: mail/mail-ops.c:1574 mail/mail-ops.c:1625
+#: mail/mail-ops.c:1583 mail/mail-ops.c:1634
 msgid "Expunging folder"
 msgstr "销毁文件夹"
 
-#: mail/mail-ops.c:1622
+#: mail/mail-ops.c:1631
 #, c-format
 msgid "Emptying trash in '%s'"
 msgstr "清空“%s”中的回收站"
 
-#: mail/mail-ops.c:1623
+#: mail/mail-ops.c:1632
 msgid "Local Folders"
 msgstr "本地文件夹"
 
-#: mail/mail-ops.c:1706
+#: mail/mail-ops.c:1715
 #, c-format
 msgid "Retrieving message %s"
 msgstr "收取信件 %s"
 
-#: mail/mail-ops.c:1778
+#: mail/mail-ops.c:1787
 #, c-format
 msgid "Retrieving %d message"
 msgid_plural "Retrieving %d messages"
 msgstr[0] "收取 %d 封信"
 
-#: mail/mail-ops.c:1864
+#: mail/mail-ops.c:1873
 #, c-format
 msgid "Saving %d message"
 msgid_plural "Saving %d messsages"
 msgstr[0] "保存 %d 封信"
 
-#: mail/mail-ops.c:1914
+#: mail/mail-ops.c:1923
 #, c-format
 msgid ""
 "Unable to create output file: %s\n"
@@ -13246,7 +13403,7 @@ msgstr ""
 "无法创建输出文件：%s\n"
 " %s"
 
-#: mail/mail-ops.c:1942
+#: mail/mail-ops.c:1951
 #, c-format
 msgid ""
 "Error saving messages to: %s:\n"
@@ -13255,11 +13412,11 @@ msgstr ""
 "在将信件保存到 %s 时发生错误：\n"
 " %s"
 
-#: mail/mail-ops.c:2013
+#: mail/mail-ops.c:2022
 msgid "Saving attachment"
 msgstr "保存附件"
 
-#: mail/mail-ops.c:2025
+#: mail/mail-ops.c:2034
 #, c-format
 msgid ""
 "Cannot create output file: %s:\n"
@@ -13268,22 +13425,22 @@ msgstr ""
 "无法创建输出文件：%s：\n"
 " %s"
 
-#: mail/mail-ops.c:2035
+#: mail/mail-ops.c:2044
 #, c-format
 msgid "Could not write data: %s"
 msgstr "无法写数据：%s"
 
-#: mail/mail-ops.c:2185
+#: mail/mail-ops.c:2194
 #, c-format
 msgid "Disconnecting from %s"
 msgstr "断开与 %s 的连接"
 
-#: mail/mail-ops.c:2185
+#: mail/mail-ops.c:2194
 #, c-format
 msgid "Reconnecting to %s"
 msgstr "重新连接到 %s"
 
-#: mail/mail-ops.c:2301
+#: mail/mail-ops.c:2310
 msgid "Checking Service"
 msgstr "检查服务"
 
@@ -13693,8 +13850,7 @@ msgstr "安全密码"
 msgid ""
 "This option will connect to the Exchange server using secure password (NTLM) "
 "authentication."
-msgstr ""
-"此选项将使用安全密码(NTLM)身份验证连接到 Exchange 服务器。"
+msgstr "此选项将使用安全密码(NTLM)身份验证连接到 Exchange 服务器。"
 
 #: plugins/exchange-account-setup/exchange-account-setup.c:64
 msgid "Plaintext Password"
@@ -13704,8 +13860,7 @@ msgstr "纯文本密码"
 msgid ""
 "This option will connect to the Exchange server using standard plaintext "
 "password authentication."
-msgstr ""
-"此选项将使用标准的纯文本密码身份验证连接到 Exchange 服务器。"
+msgstr "此选项将使用标准的纯文本密码身份验证连接到 Exchange 服务器。"
 
 #. Description section
 #: plugins/exchange-account-setup/exchange-account-setup.c:113
@@ -14467,86 +14622,106 @@ msgid "A GNOME Print description of the current printer settings"
 msgstr "当前打印机设置的 GNOME 打印描述"
 
 #: shell/apps_evolution_shell.schemas.in.in.h:2
-msgid "Button style"
-msgstr "按钮样式"
+msgid "Configuration version"
+msgstr "配置版本"
 
 #: shell/apps_evolution_shell.schemas.in.in.h:3
-msgid "Buttons are visible"
-msgstr "按钮可见"
+msgid "Default sidebar width"
+msgstr "默认侧边栏宽度"
 
 #: shell/apps_evolution_shell.schemas.in.in.h:4
-msgid "Default width of the folder bar pane"
-msgstr "文件夹栏面板的默认宽度"
-
-#: shell/apps_evolution_shell.schemas.in.in.h:5
 msgid "Default window height"
 msgstr "默认窗口高度"
 
-#: shell/apps_evolution_shell.schemas.in.in.h:6
+#: shell/apps_evolution_shell.schemas.in.in.h:5
 msgid "Default window width"
 msgstr "默认窗口宽度"
 
-#: shell/apps_evolution_shell.schemas.in.in.h:7
-msgid "Evolution configuration version"
-msgstr "Evolution 配置版本"
-
-#: shell/apps_evolution_shell.schemas.in.in.h:8
+#: shell/apps_evolution_shell.schemas.in.in.h:6
 msgid "ID or alias of the component to be shown by default at start-up."
 msgstr "启动时默认显示的组件 ID 或别名。"
 
-#: shell/apps_evolution_shell.schemas.in.in.h:9
-msgid ""
-"If set to true, Evolution will start up in offline mode instead of online "
-"mode."
-msgstr "若设为 true，Evolution 将以脱机模式启动，而不是联机模式启动。"
+#: shell/apps_evolution_shell.schemas.in.in.h:7
+msgid "Last upgraded configuration version"
+msgstr "上次升级的配置版本"
 
-#: shell/apps_evolution_shell.schemas.in.in.h:10
-msgid ""
-"If set to true, the warning dialog in development versions of Evolution is "
-"not displayed."
-msgstr "若设为 true，将不会显示 Evoltuion 开发版本的警告。"
-
-#: shell/apps_evolution_shell.schemas.in.in.h:11
-msgid "Last upgraded Evolution configuration version"
-msgstr "上次升级的 Evolution 配置版本"
-
-#: shell/apps_evolution_shell.schemas.in.in.h:12
+#: shell/apps_evolution_shell.schemas.in.in.h:8
 msgid ""
 "List of paths for the folders to be synchronized to disk for offline usage"
 msgstr "列出脱机使用时要同步到磁盘的文件夹路径"
 
-#: shell/apps_evolution_shell.schemas.in.in.h:13
+#: shell/apps_evolution_shell.schemas.in.in.h:9
 msgid "Printer settings"
 msgstr "打印机设置"
 
-#: shell/apps_evolution_shell.schemas.in.in.h:14
+#: shell/apps_evolution_shell.schemas.in.in.h:10
+msgid "Skip development warning dialog"
+msgstr "跳过开发警告对话框"
+
+#: shell/apps_evolution_shell.schemas.in.in.h:11 shell/main.c:475
+msgid "Start in offline mode"
+msgstr "以脱机模式启动"
+
+#: shell/apps_evolution_shell.schemas.in.in.h:12
 msgid ""
-"The style of the displayed buttons. Can be text, icons, both, toolbar. If "
-"toolbar is set, the style of the toolbar is followed as determined by the "
-"GNOME setting."
+"The configuration version of Evolution, with major/minor/configuration level"
+msgstr "Evolution 的配置版本，带主/次/配置级别"
+
+#: shell/apps_evolution_shell.schemas.in.in.h:13
+msgid "The default height for the main window, in pixels."
+msgstr "主窗口的默认高度，以像素计。"
+
+#: shell/apps_evolution_shell.schemas.in.in.h:14
+msgid "The default width for the main window, in pixels."
+msgstr "主窗口的默认宽度，以像素计。"
+
+#: shell/apps_evolution_shell.schemas.in.in.h:15
+msgid "The default width for the sidebar, in pixels."
+msgstr "侧边栏的默认宽度，以像素计。"
+
+#: shell/apps_evolution_shell.schemas.in.in.h:16
+msgid ""
+"The last upgraded configuration version of Evolution, with major/minor/"
+"configuration level"
+msgstr "上次升级的 Evolution 配置版本，带主/次/配置级别"
+
+#: shell/apps_evolution_shell.schemas.in.in.h:17
+msgid ""
+"The style of the window buttons. Can be \"text\", \"icons\", \"both\", "
+"\"toolbar\". If \"toolbar\" is set, the style of the buutons is determined "
+"by the GNOME toolbar setting."
 msgstr ""
 "所显示按钮的样式。可以是文字、图标、二者、工具栏。如果设置为工具栏，则工具栏"
 "的样式由 GNOME 设置决定。"
 
-#: shell/apps_evolution_shell.schemas.in.in.h:15
+#: shell/apps_evolution_shell.schemas.in.in.h:18
 msgid "Toolbar is visible"
 msgstr "工具栏可见"
 
-#: shell/apps_evolution_shell.schemas.in.in.h:16
-msgid "Whether Evolution should start up in offline mode"
-msgstr "Evolution 是否要以脱机模式启动"
+#: shell/apps_evolution_shell.schemas.in.in.h:19
+msgid "Whether Evolution will start up in offline mode instead of online mode."
+msgstr "是否以脱机模式而非联机模式启动 Evolution。"
 
-#: shell/apps_evolution_shell.schemas.in.in.h:17
-msgid "Whether the buttons should be visible."
-msgstr "按钮是否可见。"
-
-#: shell/apps_evolution_shell.schemas.in.in.h:18
+#: shell/apps_evolution_shell.schemas.in.in.h:20
 msgid "Whether the toolbar should be visible."
 msgstr "工具栏是否可见。"
 
-#: shell/apps_evolution_shell.schemas.in.in.h:19
-msgid "Whether to skip the development warning dialog"
-msgstr "是否跳过开发警告对话框"
+#: shell/apps_evolution_shell.schemas.in.in.h:21
+msgid ""
+"Whether the warning dialog in development versions of Evolution is skipped."
+msgstr "是否跳过 Evoltuion 开发版本的警告。"
+
+#: shell/apps_evolution_shell.schemas.in.in.h:22
+msgid "Whether the window buttons should be visible."
+msgstr "窗口按钮是否可见。"
+
+#: shell/apps_evolution_shell.schemas.in.in.h:23
+msgid "Window button style"
+msgstr "窗口按钮样式"
+
+#: shell/apps_evolution_shell.schemas.in.in.h:24
+msgid "Window buttons are visible"
+msgstr "窗口按钮可见"
 
 #: shell/e-active-connection-dialog.glade.h:1
 msgid "<b>Active Connections</b>"
@@ -14997,10 +15172,6 @@ msgstr "不要再问我"
 #: shell/main.c:473
 msgid "Start Evolution activating the specified component"
 msgstr "启动 Evolution 并激活指定组件"
-
-#: shell/main.c:475
-msgid "Start in offline mode"
-msgstr "以脱机模式启动"
 
 #: shell/main.c:477
 msgid "Start in online mode"
