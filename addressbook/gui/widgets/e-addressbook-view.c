@@ -1490,7 +1490,7 @@ static void
 search_menu_activated (ESearchBar *esb, int id, EABView *view)
 {
 	if (id == ESB_ADVANCED)
-		gtk_widget_show(eab_search_dialog_new(view));
+		e_search_bar_set_item_id (esb, id);
 }
 
 static void
