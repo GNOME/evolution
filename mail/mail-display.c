@@ -387,7 +387,7 @@ static gboolean
 pixmap_press (GtkWidget *widget, GdkEventButton *event, EScrollFrame *user_data)
 {
 	EPopupMenu *menu;
-	EPopupMenu save_item = E_POPUP_ITEM (N_("Save to Disk..."), GTK_SIGNAL_FUNC (save_cb), 0);
+	EPopupMenu save_item = E_POPUP_ITEM (N_("Save Attachment..."), GTK_SIGNAL_FUNC (save_cb), 0);
 	EPopupMenu view_item = E_POPUP_ITEM (N_("View Inline"), GTK_SIGNAL_FUNC (inline_cb), 2);
 	EPopupMenu open_item = E_POPUP_ITEM (N_("Open in %s..."), GTK_SIGNAL_FUNC (launch_cb), 1);
 	MailDisplay *md;

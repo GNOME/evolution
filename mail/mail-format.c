@@ -1792,24 +1792,24 @@ handle_multipart_signed (CamelMimePart *part, const char *mime_type,
 	
 	g_return_val_if_fail (CAMEL_IS_MULTIPART_SIGNED (wrapper), FALSE);
 	
-	mps = CAMEL_MULTIPART_SIGNED(wrapper);
-
+	mps = CAMEL_MULTIPART_SIGNED (wrapper);
+	
 	/* if subpart & signature is null, what do we do?  just write it out raw?
 	   multipart_signed will, if it cannot parse properly, put everything in the first part
 	   this includes: more or less than 2 parts */
-
+	
 	/* output the content */
 	subpart = camel_multipart_get_part((CamelMultipart *)mps, CAMEL_MULTIPART_SIGNED_CONTENT);
 	if (subpart == NULL)
 		return FALSE;
-
+	
 	output = format_mime_part (subpart, md, html, stream);
-
+	
 	/* now handle the signature */
 	subpart = camel_multipart_get_part((CamelMultipart *)mps, CAMEL_MULTIPART_SIGNED_SIGNATURE);
 	if (subpart == NULL)
 		return FALSE;
-
+	
 	mail_part_set_default_displayed_inline(subpart, md, FALSE);
 	
 	if (!mail_part_is_displayed_inline (subpart, md) && !md->printing) {
