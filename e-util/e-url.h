@@ -6,6 +6,7 @@
  * Copyright (C) 2001 Ximian, Inc.
  *
  * Developed by Jon Trowbridge <trow@ximian.com>
+ *              Rodrigo Moya   <rodrigo@ximian.com>
  */
 
 /*
@@ -32,6 +33,23 @@
 
 char *e_url_shroud (const char *url);
 gboolean e_url_equal (const char *url1, const char *url2);
+
+typedef struct {
+	char  *protocol;
+	char  *user;
+	char  *authmech;
+	char  *passwd;
+	char  *host;
+	int    port;
+	char  *path;
+	GData *params;
+	char  *query;
+	char  *fragment;
+} EUri;
+
+EUri       *e_uri_new       (const char *uri_string);
+void        e_uri_free      (EUri *uri);
+const char *e_uri_get_param (EUri *uri, const char *name);
 
 #endif /* __E_URL_H__ */
 
