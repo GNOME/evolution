@@ -26,6 +26,7 @@
 #include <string.h>
 #include <camel/camel-url.h>
 
+extern CamelSession *session;
 
 static void mail_account_editor_class_init (MailAccountEditorClass *class);
 static void mail_account_editor_init       (MailAccountEditor *editor);
@@ -89,12 +90,12 @@ static void
 apply_clicked (GtkWidget *widget, gpointer data)
 {
 	MailAccountEditor *editor = data;
-	const MailConfigAccount *account;
+	MailConfigAccount *account;
 	char *host, *pport;
 	CamelURL *url;
 	int port;
 	
-	account = editor->account;
+	account = (MailConfigAccount *) editor->account;
 	
 	/* account name */
 	g_free (account->name);
@@ -139,12 +140,12 @@ apply_clicked (GtkWidget *widget, gpointer data)
 	url->host = host;
 	url->port = port;
 	
-	g_free (account->source->url);
-	account->source->url = camel_url_to_string (url);
-	camel_url_free (url);
-	
 	account->source->save_passwd = GTK_TOGGLE_BUTTON (editor->save_passwd)->active;
 	account->source->keep_on_server = GTK_TOGGLE_BUTTON (editor->keep_on_server)->active;
+	
+	g_free (account->source->url);
+	account->source->url = camel_url_to_string (url, account->source->save_passwd);
+	camel_url_free (url);
 	
 	/* transport */
 	url = camel_url_new (account->transport->url, NULL);
@@ -164,7 +165,7 @@ apply_clicked (GtkWidget *widget, gpointer data)
 	url->port = port;
 	
 	g_free (account->transport->url);
-	account->transport->url = camel_url_to_string (url);
+	account->transport->url = camel_url_to_string (url, FALSE);
 	camel_url_free (url);
 }
 
@@ -251,7 +252,6 @@ transport_auth_type_changed (GtkWidget *widget, gpointer user_data)
 {
 	MailAccountEditor *editor = user_data;
 	CamelServiceAuthType *authtype;
-	gboolean sensitive;
 	
 	authtype = gtk_object_get_data (GTK_OBJECT (widget), "authtype");
 	
@@ -323,16 +323,16 @@ transport_type_changed (GtkWidget *widget, gpointer user_data)
 	if (provider->url_flags & CAMEL_URL_ALLOW_AUTH) {
 		CamelURL *url;
 		
-		gtk_widget_set_sensitive (GTK_WIDGET (editor->transport_auth_type), TRUE);
+		gtk_widget_set_sensitive (GTK_WIDGET (editor->transport_auth), TRUE);
 		
 		/* regen the auth list */
 		url = g_new0 (CamelURL, 1);
 		url->protocol = g_strdup (provider->protocol);
 		url->host = g_strdup (gtk_entry_get_text (editor->transport_host));
-		transport_contstruct_authmenu (editor, url);
+		transport_construct_authmenu (editor, url);
 		camel_url_free (url);
 	} else {
-		gtk_widget_set_sensitive (GTK_WIDGET (editor->transport_auth_type), FALSE);
+		gtk_widget_set_sensitive (GTK_WIDGET (editor->transport_auth), FALSE);
 	}
 }
 
@@ -384,19 +384,21 @@ construct (MailAccountEditor *editor, const MailConfigAccount *account)
 	GtkWidget *notebook, *entry;
 	CamelURL *url;
 	
-	gui = glade_xml_new (EVOLUTION_DATA_DIR "/mail-config-druid.glade", "mail-account-editor");
+	gui = glade_xml_new (EVOLUTION_GLADEDIR "/mail-config-druid.glade", "mail-account-editor");
 	editor->gui = gui;
 	
 	/* get our toplevel widget */
 	notebook = glade_xml_get_widget (gui, "notebook");
 	
 	/* reparent */
-	gtk_widget_reparent (widget, GTK_WIDGET (editor));
+	gtk_widget_reparent (notebook, GTK_WIDGET (editor));
 	
 	/* give our dialog an OK button and title */
-	gnome_dialog_construct (GNOME_DIALOG (editor), _("Evolution Account Editor"),
-				GNOME_STOCK_BUTTON_OK, GNOME_STOCK_BUTTON_APPLY,
-				GNOME_STOCK_BUTTON_CANCEL);
+	gtk_window_set_title (GTK_WINDOW (editor), _("Evolution Account Editor"));
+	gnome_dialog_append_buttons (GNOME_DIALOG (editor),
+				     GNOME_STOCK_BUTTON_OK,
+				     GNOME_STOCK_BUTTON_APPLY,
+				     GNOME_STOCK_BUTTON_CANCEL);
 	
 	gnome_dialog_button_connect (GNOME_DIALOG (editor), 0 /* OK */,
 				     GTK_SIGNAL_FUNC (ok_clicked),
@@ -432,7 +434,7 @@ construct (MailAccountEditor *editor, const MailConfigAccount *account)
 	if (url->port) {
 		char port[10];
 		
-		g_snprintf (port, 9, ":%d", port);
+		g_snprintf (port, 9, ":%d", url->port);
 		gtk_entry_append_text (editor->source_host, port);
 	}
 	editor->source_user = GTK_ENTRY (glade_xml_get_widget (gui, "txtSourceUser"));
@@ -440,7 +442,7 @@ construct (MailAccountEditor *editor, const MailConfigAccount *account)
 	editor->source_passwd = GTK_ENTRY (glade_xml_get_widget (gui, "txtSourcePasswd"));
 	gtk_entry_set_text (editor->source_passwd, url->passwd);
 	editor->save_passwd = GTK_CHECK_BUTTON (glade_xml_get_widget (gui, "chkSavePasswd"));
-	gtk_check_button_set_active (GTK_TOGGLE_BUTTON (editor->save_passwd), account->source->save_passwd);
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (editor->save_passwd), account->source->save_passwd);
 	editor->source_auth = GTK_OPTION_MENU (glade_xml_get_widget (gui, "omenuSourceAuth"));
 	editor->source_ssl = GTK_CHECK_BUTTON (glade_xml_get_widget (gui, "chkSourceSSL"));
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (editor->source_ssl), account->source->use_ssl);
@@ -452,17 +454,15 @@ construct (MailAccountEditor *editor, const MailConfigAccount *account)
 	/* Transport */
 	url = camel_url_new (account->transport->url, NULL);
 	editor->transport_type = GTK_OPTION_MENU (glade_xml_get_widget (gui, "omenuTransportType"));
-	gtk_entry_set_text (editor->transport_type, url->protocol);
 	editor->transport_host = GTK_ENTRY (glade_xml_get_widget (gui, "txtTransportHost"));
 	gtk_entry_set_text (editor->transport_host, url->host);
 	if (url->port) {
 		char port[10];
 		
-		g_snprintf (port, 9, ":%d", port);
+		g_snprintf (port, 9, ":%d", url->port);
 		gtk_entry_append_text (editor->transport_host, port);
 	}
 	editor->transport_auth = GTK_OPTION_MENU (glade_xml_get_widget (gui, "omenuTransportAuth"));
-	transport_auth_init (editor);
 	editor->transport_ssl = GTK_CHECK_BUTTON (glade_xml_get_widget (gui, "chkTransportSSL"));
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (editor->transport_ssl), account->transport->use_ssl);
 	transport_type_init (editor, url);
@@ -474,7 +474,7 @@ construct (MailAccountEditor *editor, const MailConfigAccount *account)
 MailAccountEditor *
 mail_account_editor_new (const MailConfigAccount *account)
 {
-	MailAccountsDialog *new;
+	MailAccountEditor *new;
 	
 	new = (MailAccountEditor *) gtk_type_new (mail_account_editor_get_type ());
 	construct (new, account);

@@ -1,5 +1,31 @@
 2001-01-07  Jeffrey Stedfast  <fejj@helixcode.com>
 
+	* mail-callbacks.c (check_send_configuration): Updated to reflect
+	changes to the mail-config API.
+	(create_msg_composer): Same.
+	(forward_get_composer): Same.
+	(send_queued_mail): Same.
+	(composer_send_cb): Same.
+
+	* mail-account-editor.c: Updated to build cleanly.  *
+	mail-config-druid.c: Same.  * mail-accounts.c: Same.
+
+	* folder-browser-factory.c (control_activate): Updated for API
+	changes in mail-config.
+
+	* folder-browser.c (done_message_selected): Updated for API
+	changed in mail-config.
+	(folder_browser_gui_init): Same.
+	(got_folder): Same.
+
+	* component-factory.c (owner_set_cb): After using the sources
+	list, free it as it is no longer a const GSList as with the older
+	mail-config code.
+
+	* mail-config.c: Totally rewritten.
+
+2001-01-07  Jeffrey Stedfast  <fejj@helixcode.com>
+	
 	* mail-accounts.c (mail_edit): Implemented.
 
 	* mail-account-editor.c (apply_clicked): Implemented.

@@ -98,17 +98,18 @@ check_configured (FolderBrowser *fb)
 static gboolean
 check_send_configuration (FolderBrowser *fb)
 {
-	MailConfigService *xport = NULL;
+	const MailConfigAccount *account;
 	
 	/* Check general */
-	
 	if (!check_configured (fb)) {
 		return FALSE;
 	}
 	
-	/* Check for an identity */
+	/* Get the default account */
+	account = mail_config_get_default_account ();
 	
-	if (!mail_config_get_default_identity ()) {
+	/* Check for an identity */
+	if (!account->id) {
 		GtkWidget *message;
 		
 		message = gnome_warning_dialog_parented (_("You need to configure an identity\n"
@@ -120,9 +121,7 @@ check_send_configuration (FolderBrowser *fb)
 	}
 	
 	/* Check for a transport */
-	
-	xport = mail_config_get_transport ();
-	if (!xport || !xport->url) {
+	if (!account->transport || !account->transport->url) {
 		GtkWidget *message;
 		
 		message = gnome_warning_dialog_parented (_("You need to configure a mail transport\n"
@@ -199,14 +198,14 @@ void
 send_queued_mail (GtkWidget *widget, gpointer user_data)
 {
 	extern CamelFolder *outbox_folder;
-	MailConfigService *transport;
+	const MailConfigAccount *account;
 	
 	if (!mail_config_is_configured ()) {
 		return;
 	}
 	
-	transport = mail_config_get_transport ();
-	if (!transport) {
+	account = mail_config_get_default_account ();
+	if (!account->transport) {
 		GtkWidget *win = gtk_widget_get_ancestor (GTK_WIDGET (user_data),
 							  GTK_TYPE_WINDOW);
 		
@@ -224,7 +223,7 @@ send_queued_mail (GtkWidget *widget, gpointer user_data)
 		return;
 	}
 	
-	mail_do_send_queue (outbox_folder, transport->url);
+	mail_do_send_queue (outbox_folder, account->transport->url);
 }
 
 void
@@ -291,7 +290,7 @@ composer_sent_cb(char *uri, CamelMimeMessage *message, gboolean sent, void *data
 void
 composer_send_cb (EMsgComposer *composer, gpointer data)
 {
-	MailConfigService *xport = NULL;
+	const MailConfigAccount *account = NULL;
 	CamelMimeMessage *message;
 	const CamelInternetAddress *iaddr;
 	const char *subject;
@@ -299,7 +298,7 @@ composer_send_cb (EMsgComposer *composer, gpointer data)
 	struct _send_data *send;
 
 	/* Config info */
-	xport = mail_config_get_transport ();
+        account = mail_config_get_default_account ();
 	
 	/* Get the message */
 	message = e_msg_composer_get_message (composer);
@@ -328,13 +327,13 @@ composer_send_cb (EMsgComposer *composer, gpointer data)
 			return;
 		}
 	}
-
+	
 	send = g_malloc(sizeof(*send));
 	send->psd = psd;
 	send->composer = composer;
 	gtk_object_ref((GtkObject *)composer);
 	gtk_widget_hide((GtkWidget *)composer);
-	mail_send_mail(xport->url, message, composer_sent_cb, send);
+	mail_send_mail (account->transport->url, message, composer_sent_cb, send);
 }
 
 void
@@ -374,25 +373,25 @@ composer_postpone_cb (EMsgComposer *composer, gpointer data)
 static GtkWidget *
 create_msg_composer (const char *url)
 {
-       MailConfigIdentity *id;
-       gboolean send_html;
-       gchar *sig_file = NULL;
-       EMsgComposer *composer;
-       
-       id = mail_config_get_default_identity ();
-       send_html = mail_config_send_html ();
-       
-       if (id)
-               sig_file = id->sig;
-       
-       if (url != NULL) {
-               composer = e_msg_composer_new_from_url (url);
-	       if (composer)
-		       e_msg_composer_set_send_html (composer, send_html);
-       } else
-               composer = e_msg_composer_new_with_sig_file (sig_file, send_html);
-
-       return (GtkWidget *)composer;
+	const MailConfigAccount *account;
+	gboolean send_html;
+	gchar *sig_file = NULL;
+	EMsgComposer *composer;
+	
+	account = mail_config_get_default_account ();
+	send_html = mail_config_get_send_html ();
+	
+	if (account->id)
+		sig_file = account->id->signature;
+	
+	if (url != NULL) {
+		composer = e_msg_composer_new_from_url (url);
+		if (composer)
+			e_msg_composer_set_send_html (composer, send_html);
+	} else
+		composer = e_msg_composer_new_with_sig_file (sig_file, send_html);
+	
+	return (GtkWidget *)composer;
 }
 
 void
@@ -499,13 +498,15 @@ enumerate_msg (MessageList *ml, const char *uid, gpointer data)
 }
 
 
-static EMsgComposer *forward_get_composer(const char *subject)
+static EMsgComposer *
+forward_get_composer (const char *subject)
 {
+	const MailConfigAccount *account;
 	EMsgComposer *composer;
-	MailConfigIdentity *id;
-
-	id = mail_config_get_default_identity ();
-	composer = e_msg_composer_new_with_sig_file(id?id->sig:NULL, mail_config_send_html());
+	
+	account = mail_config_get_default_account ();
+	composer = e_msg_composer_new_with_sig_file (account && account->id ? account->id->signature : NULL,
+						     mail_config_get_send_html ());
 	if (composer) {
 		gtk_signal_connect (GTK_OBJECT (composer), "send",
 				    GTK_SIGNAL_FUNC (composer_send_cb), NULL);

@@ -50,7 +50,7 @@ struct _MailConfigDruid {
 	/* account management */
 	GtkWidget *account_text;
 	GtkEntry *account_name;
-	GtkCheckBox *default_account;
+	GtkCheckButton *default_account;
 	
 	/* identity */
 	GtkWidget *identity_text;
@@ -66,19 +66,19 @@ struct _MailConfigDruid {
 	GtkEntry *incoming_hostname;
 	GtkEntry *incoming_username;
 	GtkEntry *incoming_path;
-	GtkCheckBox *incoming_keep_mail;
+	GtkCheckButton *incoming_keep_mail;
 	
 	/* authentication */
 	GtkWidget *auth_text;
 	GtkOptionMenu *auth_type;
 	GtkEntry *password;
-	GtkCheckBox *save_password;
+	GtkCheckButton *save_password;
 	
 	/* outgoing mail */
 	GtkWidget *outgoing_text;
 	GtkOptionMenu *outgoing_type;
 	GtkEntry *outgoing_hostname;
-	GtkCheckBox *outgoing_requires_auth;
+	GtkCheckButton *outgoing_requires_auth;
 	
 	const CamelProvider *source_provider;
 	const CamelProvider *transport_provider;

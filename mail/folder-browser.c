@@ -175,7 +175,7 @@ got_folder(char *uri, CamelFolder *folder, void *data)
 				  camel_folder_has_search_capability (folder));
 	gtk_widget_set_sensitive (GTK_WIDGET (fb->search->option),
 				  camel_folder_has_search_capability (folder));
-	message_list_set_threaded(fb->message_list, mail_config_thread_list());
+	message_list_set_threaded(fb->message_list, mail_config_get_thread_list());
 	message_list_set_folder(fb->message_list, folder);
 done:
 	gtk_object_unref((GtkObject *)fb);
@@ -927,7 +927,7 @@ folder_browser_gui_init (FolderBrowser *fb)
 	                    GTK_SIGNAL_FUNC (fb_resize_cb), NULL);
 	
 	e_paned_add2 (E_PANED (fb->vpaned), GTK_WIDGET (fb->mail_display));
-	e_paned_set_position (E_PANED (fb->vpaned), mail_config_paned_size ());
+	e_paned_set_position (E_PANED (fb->vpaned), mail_config_get_paned_size ());
 	gtk_widget_show (GTK_WIDGET (fb->mail_display));
 	gtk_widget_show (GTK_WIDGET (fb));
 }
@@ -952,7 +952,7 @@ do_mark_seen (gpointer data)
 static void done_message_selected(CamelFolder *folder, char *uid, CamelMimeMessage *msg, void *data)
 {
 	FolderBrowser *fb = data;
-	int timeout = mail_config_mark_as_seen_timeout ();
+	int timeout = mail_config_get_mark_as_seen_timeout ();
 
 	if (folder != fb->folder)
 		return;

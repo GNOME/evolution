@@ -43,15 +43,19 @@ struct _MailAccountsDialog {
 	
 	GladeXML *gui;
 	
-	const GList *accounts;
-	GtkClist *mail_accounts;
+	const GSList *accounts;
+	gint accounts_row;
+	
+	GtkCList *mail_accounts;
 	GtkButton *mail_add;
 	GtkButton *mail_edit;
 	GtkButton *mail_delete;
 	GtkButton *mail_default;
 	
-	const GList *news;
-	GtkClist *news_accounts;
+	const GSList *news;
+	gint news_row;
+	
+	GtkCList *news_accounts;
 	GtkButton *news_add;
 	GtkButton *news_edit;
 	GtkButton *news_delete;

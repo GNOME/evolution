@@ -20,7 +20,12 @@
  *
  */
 
+#include "config.h"
+
+#include "mail-accounts.h"
 #include "mail-config.h"
+#include "mail-config-druid.h"
+#include "mail-account-editor.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -87,7 +92,7 @@ static void
 load_accounts (MailAccountsDialog *dialog)
 {
 	const MailConfigAccount *account;
-	const GList *node = dialog->accounts;
+	const GSList *node = dialog->accounts;
 	int i = 0;
 	
 	gtk_clist_freeze (dialog->mail_accounts);
@@ -103,7 +108,7 @@ load_accounts (MailAccountsDialog *dialog)
 		url = camel_url_new (account->source->url, NULL);
 		text[0] = g_strdup (account->name);
 		text[1] = g_strdup_printf ("%s%s", url->protocol,
-					   account->default ? " (default)" : "");
+					   account->default_account ? " (default)" : "");
 		camel_url_free (url);
 		
 		gtk_clist_append (dialog->mail_accounts, text);
@@ -111,7 +116,7 @@ load_accounts (MailAccountsDialog *dialog)
 		g_free (text[1]);
 		
 		/* set the account on the row */
-		gtk_clist_set_row_data (dialog->mail_accounts, i, account);
+		gtk_clist_set_row_data (dialog->mail_accounts, i, (gpointer) account);
 		
 		node = node->next;
 		i++;
@@ -167,7 +172,7 @@ mail_add (GtkButton *button, gpointer data)
 	MailConfigDruid *druid;
 	
 	druid = mail_config_druid_new ();
-	gtk_signal_connect (GTK_OBJECT (druid), "destroy"
+	gtk_signal_connect (GTK_OBJECT (druid), "destroy",
 			    GTK_SIGNAL_FUNC (mail_add_finished), dialog);
 	
 	gtk_widget_show (GTK_WIDGET (druid));
@@ -184,11 +189,11 @@ mail_edit (GtkButton *button, gpointer data)
 {
 	MailAccountsDialog *dialog = data;
 	
-	if (dialog->accounts->row >= 0) {
+	if (dialog->accounts_row >= 0) {
 		const MailConfigAccount *account;
 		MailAccountEditor *editor;
 		
-		account = gtk_clist_get_row_data (dialog->accounts, dialog->accounts_row);
+		account = gtk_clist_get_row_data (dialog->mail_accounts, dialog->accounts_row);
 		editor = mail_account_editor_new (account);
 		gtk_signal_connect (GTK_OBJECT (editor), "destroy",
 				    GTK_SIGNAL_FUNC (mail_editor_destroyed),
@@ -211,7 +216,7 @@ mail_delete (GtkButton *button, gpointer data)
 		account_destroy (account);
 		gtk_clist_remove (dialog->mail_accounts, dialog->accounts_row);
 		
-		len = g_list_length (dialog->accounts);
+		len = g_slist_length ((GSList *) dialog->accounts);
 		if (len > 0) {
 			row = dialog->accounts_row;
 			row = row >= len ? len - 1 : row;
@@ -295,7 +300,7 @@ news_delete (GtkButton *button, gpointer data)
 		service_destroy (server);
 		gtk_clist_remove (dialog->news_accounts, dialog->news_row);
 		
-		len = g_list_length (dialog->news);
+		len = g_slist_length ((GSList *) dialog->news);
 		if (len > 0) {
 			row = dialog->news_row;
 			row = row >= len ? len - 1 : row;
@@ -314,14 +319,14 @@ construct (MailAccountsDialog *dialog)
 	GladeXML *gui;
 	GtkWidget *notebook;
 	
-	gui = glade_xml_new (EVOLUTION_DATA_DIR "/mail-config-druid.glade", "mail-accounts-dialog");
+	gui = glade_xml_new (EVOLUTION_GLADEDIR "/mail-config-druid.glade", "mail-accounts-dialog");
 	dialog->gui = gui;
 	
 	/* get our toplevel widget */
 	notebook = glade_xml_get_widget (gui, "notebook");
 	
 	/* reparent */
-	gtk_widget_reparent (widget, GTK_WIDGET (dialog));
+	gtk_widget_reparent (notebook, GTK_WIDGET (dialog));
 	
 	/* give our dialog an OK button and title */
 	gnome_dialog_construct (GNOME_DIALOG (dialog), _("Evolution Accounts"),

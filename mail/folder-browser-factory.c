@@ -155,7 +155,7 @@ control_activate (BonoboControl     *control,
 		uic, EVOLUTION_DATADIR,
 		"evolution-mail.xml", "evolution-mail");
 
-	if (mail_config_thread_list ())
+	if (mail_config_get_thread_list ())
 		bonobo_ui_component_set_prop (
 			uic, "/commands/ViewThreaded", "state", "1", NULL);
 	else
@@ -166,7 +166,7 @@ control_activate (BonoboControl     *control,
 		uic, "ViewThreaded",
 		folder_browser_toggle_threads, folder_browser);
 	
-	if (mail_config_view_source ())
+	if (mail_config_get_view_source ())
 		bonobo_ui_component_set_prop (uic, "/commands/ViewSource",
 					      "state", "1", NULL);
 	else
