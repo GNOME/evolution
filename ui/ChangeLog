@@ -1,3 +1,8 @@
+2001-05-17  Ettore Perazzoli  <ettore@ximian.com>
+
+	* evolution.xml: Added a "FolderPopup" element and reformatted
+	lots of it.
+
 2001-05-16  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* evolution-message-composer.xml: Added S/MIME menu items.
