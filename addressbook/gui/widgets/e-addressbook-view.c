@@ -468,6 +468,7 @@ display_view(GalViewInstance *instance,
 		gal_view_etable_attach_table (GAL_VIEW_ETABLE(view), e_table_scrolled_get_table(E_TABLE_SCROLLED(address_view->widget)));
 	} else if (GAL_IS_VIEW_MINICARD(view)) {
 		change_view_type (address_view, E_ADDRESSBOOK_VIEW_MINICARD);
+		gal_view_minicard_attach (GAL_VIEW_MINICARD(view), E_MINICARD_VIEW (E_MINICARD_VIEW_WIDGET (address_view->object)->emv));
 	}
 	address_view->current_view = view;
 }

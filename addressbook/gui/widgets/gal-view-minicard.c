@@ -9,8 +9,11 @@
  */
 #include <config.h>
 #include "gal-view-minicard.h"
+#include <gnome-xml/parser.h>
+#include <gal/util/e-xml-utils.h>
 
 #define PARENT_TYPE gal_view_get_type ()
+#define d(x) x
 
 static GalViewClass *gal_view_minicard_parent_class;
 
@@ -21,15 +24,31 @@ gal_view_minicard_edit            (GalView *view)
 }
 
 static void  
-gal_view_minicard_load  (GalView *view,
-			 const char *filename)
+gal_view_minicard_load (GalView *view,
+			const char *filename)
 {
+	xmlDoc *doc;
+	doc = xmlParseFile (filename);
+	if (doc) {
+		xmlNode *root = xmlDocGetRootElement(doc);
+		GAL_VIEW_MINICARD (view)->column_width = e_xml_get_double_prop_by_name_with_default (root, "column_width", 150);
+		xmlFreeDoc(doc);
+	}
 }
 
 static void
-gal_view_minicard_save    (GalView *view,
-			 const char *filename)
+gal_view_minicard_save (GalView *view,
+			const char *filename)
 {
+	xmlDoc *doc;
+	xmlNode *root;
+
+	doc = xmlNewDoc("1.0");
+	root = xmlNewNode (NULL, "EMinicardViewState");
+	e_xml_set_double_prop_by_name (root, "column_width", GAL_VIEW_MINICARD (view)->column_width);
+	xmlDocSetRootElement(doc, root);
+	xmlSaveFile(filename, doc);
+	xmlFreeDoc(doc);
 }
 
 static const char *
@@ -55,12 +74,13 @@ gal_view_minicard_get_type_code (GalView *view)
 static GalView *
 gal_view_minicard_clone       (GalView *view)
 {
-	GalViewMinicard *gve, *new;
+	GalViewMinicard *gvm, *new;
 
-	gve = GAL_VIEW_MINICARD(view);
+	gvm = GAL_VIEW_MINICARD(view);
 
-	new        = gtk_type_new (gal_view_minicard_get_type ());
-	new->title = g_strdup (gve->title);
+	new               = gtk_type_new (gal_view_minicard_get_type ());
+	new->title        = g_strdup (gvm->title);
+	new->column_width = gvm->column_width;
 
 	return GAL_VIEW(new);
 }
@@ -69,6 +89,7 @@ static void
 gal_view_minicard_destroy         (GtkObject *object)
 {
 	GalViewMinicard *view = GAL_VIEW_MINICARD(object);
+	gal_view_minicard_detach (view);
 	g_free(view->title);
 }
 
@@ -90,9 +111,13 @@ gal_view_minicard_class_init      (GtkObjectClass *object_class)
 }
 
 static void
-gal_view_minicard_init      (GalViewMinicard *gve)
+gal_view_minicard_init      (GalViewMinicard *gvm)
 {
-	gve->title = NULL;
+	gvm->title = NULL;
+	gvm->column_width = 150.0;
+
+	gvm->emv = NULL;
+	gvm->emv_column_width_changed_id = 0;
 }
 
 /**
@@ -151,4 +176,46 @@ gal_view_minicard_get_type        (void)
 	}
 
 	return type;
+}
+
+static void
+column_width_changed (ETable *table, double width, GalViewMinicard *view)
+{
+	d(g_print("%s: Old width = %f, New width = %f\n", __FUNCTION__, view->column_width, width));
+	if (view->column_width != width) {
+		view->column_width = width;
+		gal_view_changed(GAL_VIEW(view));
+	}
+}
+
+void
+gal_view_minicard_attach (GalViewMinicard *view, EMinicardView *emv)
+{
+	gal_view_minicard_detach (view);
+
+	view->emv = emv;
+
+	gtk_object_ref (GTK_OBJECT (view->emv));
+
+	gtk_object_set (GTK_OBJECT (view->emv),
+			"column_width", (int) view->column_width,
+			NULL);
+
+	view->emv_column_width_changed_id =
+		gtk_signal_connect(GTK_OBJECT(view->emv), "column_width_changed",
+				   GTK_SIGNAL_FUNC (column_width_changed), view);
+}
+
+void
+gal_view_minicard_detach (GalViewMinicard *view)
+{
+	if (view->emv == NULL)
+		return;
+	if (view->emv_column_width_changed_id) {
+		gtk_signal_disconnect (GTK_OBJECT (view->emv),
+				       view->emv_column_width_changed_id);
+		view->emv_column_width_changed_id = 0;
+	}
+	gtk_object_unref (GTK_OBJECT (view->emv));
+	view->emv = NULL;
 }
