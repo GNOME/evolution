@@ -269,7 +269,6 @@ do_write (CamelStream *stream, const char *buf, size_t n)
 	CamelStreamFilter *filter = (CamelStreamFilter *)stream;
 	struct _CamelStreamFilterPrivate *p = _PRIVATE(filter);
 	struct _filter *f;
-	ssize_t w, written = 0;
 	int presize;
 	char *buffer = (char *)buf;
 	size_t len = n;
@@ -292,13 +291,10 @@ do_write (CamelStream *stream, const char *buf, size_t n)
 
 		f = f->next;
 	}
-	
-	do {
-		w = camel_stream_write (filter->source, buffer + written, len - written);
-		if (w > 0)
-			written += w;
-	} while (written < len);
-	
+
+	if (camel_stream_write(filter->source, buffer, len) != len)
+		return -1;
+
 	return n;
 }
 

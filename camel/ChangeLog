@@ -1,3 +1,13 @@
+2001-02-05  Not Zed  <NotZed@Ximian.com>
+
+	* camel-stream-filter.c (do_write): Revert jeff's earlier change,
+	the change below is the more-correct fix.  All his was doing was
+	ignoring the return code & looping actually :)
+
+	* camel-stream-fs.c (stream_write): Since we are non-blocking on
+	the outgoing fd, keep looping if writing out large blocks, so we
+	can keep checking for cancel, etc.
+
 2001-02-02  Not Zed  <NotZed@Ximian.com>
 
 	* camel-folder-thread.c (camel_folder_thread_messages_new): When
