@@ -1,3 +1,8 @@
+2003-03-23  Chris Toshok  <toshok@ximian.com>
+
+	* mail-callbacks.c (ask_confirm_for_unwanted_html_mail): pass
+	FALSE for e_destination_get_textrep's include_email arg.
+
 2003-03-21  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-format.c (mail_format_data_wrapper_write_to_stream):

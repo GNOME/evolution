@@ -41,7 +41,6 @@
 
 #include <libgnomeprint/gnome-print-job.h>
 #include <libgnomeprintui/gnome-print-dialog.h>
-#include <libgnomeprintui/gnome-print-job-preview.h>
 
 #include <bonobo/bonobo-widget.h>
 #include <bonobo/bonobo-socket.h>
@@ -259,7 +258,7 @@ ask_confirm_for_unwanted_html_mail (EMsgComposer *composer, EDestination **recip
 		if (!e_destination_get_html_mail_pref (recipients[i])) {
 			const char *name;
 			
-			name = e_destination_get_textrep (recipients[i]);
+			name = e_destination_get_textrep (recipients[i], FALSE);
 			
 			g_string_append_printf (str, "     %s\n", name);
 		}
