@@ -13031,7 +13031,7 @@ msgstr "De"
 
 #: mail/mail-format.c:917
 msgid "Reply-To"
-msgstr "Répondre-À :"
+msgstr "Répondre-À"
 
 #: mail/mail-format.c:922 mail/message-list.etspec.h:14
 msgid "To"
@@ -13047,7 +13047,7 @@ msgstr "Bcc"
 
 #: mail/mail-format.c:963
 msgid "Mailer"
-msgstr "Logiciel de messagerie"
+msgstr "Logiciel"
 
 #: mail/mail-format.c:1848
 msgid ""
