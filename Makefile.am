@@ -7,7 +7,8 @@ EXTRA_DIST =			\
 	README			\
 	HACKING			\
 	MAINTAINERS		\
-	NEWS
+	NEWS			\
+	evolution.spec.in
 
 SUBDIRS =			\
 	intl			\
@@ -30,3 +31,6 @@ SUBDIRS =			\
 	default_user		\
 	tools			\
 	po
+
+dist-hook: evolution.spec
+	cp evolution.spec $(distdir)

@@ -421,6 +421,7 @@ AC_CONFIG_SUBDIRS(libical)
 
 AC_OUTPUT([
 Makefile
+evolution.spec
 macros/Makefile
 intl/Makefile
 po/Makefile.in

@@ -1,0 +1,124 @@
+# Note this is NOT a relocatable thing :)
+%define name		evolution
+%define ver		@VERSION@
+%define RELEASE		1
+%define rel		%{?CUSTOM_RELEASE} %{!?CUSTOM_RELEASE:%RELEASE}
+%define prefix		/usr
+%define sysconfdir	/etc
+
+Name:		%name
+Summary:	Integrated GNOME mail client, calendar and address book.
+Version: 	%ver
+Release: 	%rel
+Copyright: 	GPL
+Group:		System Environment/Libraries
+Source: 	%{name}-%{ver}.tar.gz
+URL: 		http://www.gnome.org/
+BuildRoot:	/var/tmp/%{name}-%{ver}-root
+Docdir: 	%{prefix}/doc
+
+%description
+
+%package devel
+Summary:	Libraries and include files for developing Evolution components
+Group:		Development/Libraries
+Requires:	%name = %{PACKAGE_VERSION}
+Obsoletes:	%{name}-devel
+
+%description devel
+This package provides the necessary development libraries and include
+files to allow you to develop evolution components.
+
+%changelog
+* Sun May 21 2000 Ross Golder <rossigee@bigfoot.com>
+- created spec file
+
+%prep
+%setup
+
+%build
+%ifarch alpha
+  MYARCH_FLAGS="--host=alpha-redhat-linux"
+%endif
+
+LC_ALL=""
+LINGUAS=""
+LANG=""
+export LC_ALL LINGUAS LANG
+
+CFLAGS="$RPM_OPT_FLAGS" ./configure $MYARCH_FLAGS --prefix=%{prefix} \
+	--sysconfdir=%{sysconfdir}
+
+if [ "$SMP" != "" ]; then
+  (make "MAKE=make -k -j $SMP"; exit 0)
+  make
+else
+  make
+fi
+
+%install
+[ -n "$RPM_BUILD_ROOT" -a "$RPM_BUILD_ROOT" != / ] && rm -rf $RPM_BUILD_ROOT
+
+make prefix=$RPM_BUILD_ROOT%{prefix} sysconfdir=$RPM_BUILD_ROOT%{sysconfdir} install
+
+for FILE in "$RPM_BUILD_ROOT/bin/*"; do
+	file "$FILE" | grep -q not\ stripped && strip $FILE
+done
+
+%clean
+[ -n "$RPM_BUILD_ROOT" -a "$RPM_BUILD_ROOT" != / ] && rm -rf $RPM_BUILD_ROOT
+
+%post
+if ! grep %{prefix}/lib /etc/ld.so.conf > /dev/null ; then
+  echo "%{prefix}/lib" >> /etc/ld.so.conf
+fi
+  
+/sbin/ldconfig
+  
+%postun -p /sbin/ldconfig
+
+%files
+%defattr(0555, bin, bin)
+
+%doc AUTHORS COPYING ChangeLog NEWS README
+%{prefix}/bin/evolution
+%{prefix}/bin/evolution-mail
+%{prefix}/bin/evolution-addressbook
+%{prefix}/bin/evolution-calendar
+%{prefix}/bin/wombat
+%{prefix}/bin/killev
+%{prefix}/lib/lib*.so.*
+%{prefix}/lib/evolution/camel-providers/*/lib*.so.*
+#%{prefix}/lib/evolution/camel-providers/*/*.url
+%{prefix}/share/evolution/default_user/local/*
+
+%defattr(0644, bin, bin)
+%{prefix}/share/evolution/glade/*.glade
+%{prefix}/share/evolution/filtertypes.xml
+%{prefix}/share/evolution/default_user/shortcuts.xml
+
+%defattr (0444, bin, bin)
+%{prefix}/share/locale/*/LC_MESSAGES/*
+%{prefix}/share/gnome/help/gnomecal/*
+%{prefix}/share/images/evolution/*.png
+%{sysconfdir}/CORBA/servers/*
+
+%files devel
+
+%defattr(0555, bin, bin)
+%{prefix}/lib/*.a
+%{prefix}/lib/*.so
+%{prefix}/lib/*.la
+%{prefix}/lib/evolution/camel-providers/*/*.a
+%{prefix}/lib/evolution/camel-providers/*/*.so
+%{prefix}/lib/evolution/camel-providers/*/*.la
+
+%defattr(0444, bin, bin)
+%{prefix}/include/*.h
+%{prefix}/include/camel/*.h
+%{prefix}/include/composer/*.h
+%{prefix}/include/ename/*.h
+%{prefix}/include/evolution/ebook/*.h
+%{prefix}/include/evolution/cal-util/*.h
+%{prefix}/include/evolution/cal-client/*.h
+%{prefix}/share/idl/*.idl
