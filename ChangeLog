@@ -1,3 +1,7 @@
+2002-02-13  Christopher James Lahey  <clahey@ximian.com>
+
+	* configure.in: Bumped the required version of gal.
+
 2002-02-12  Tõivo Leedjärv  <leedjarv@interest.ee>
 
 	* configure.in: Added et to ALL_LINGUAS.
