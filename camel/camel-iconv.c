@@ -201,7 +201,7 @@ iconv_cache_bucket_expire (struct _iconv_cache_bucket *bucket)
 	}
 	
 	g_free (bucket->key);
-	iconv_close (bucket->cd);
+	g_iconv_close (bucket->cd);
 	e_memchunk_free (cache_chunk, bucket);
 	
 	iconv_cache_size--;
@@ -461,7 +461,7 @@ camel_iconv_open (const char *to, const char *from)
 size_t
 camel_iconv (iconv_t cd, const char **inbuf, size_t *inleft, char **outbuf, size_t *outleft)
 {
-	return iconv (cd, inbuf, inleft, outbuf, outleft);
+	return g_iconv (cd, (char **) inbuf, inleft, outbuf, outleft);
 }
 
 

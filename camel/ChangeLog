@@ -1,3 +1,10 @@
+2003-02-24  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-iconv.c (iconv_cache_bucket_expire): Use g_iconv_close()
+	here, missed this before.
+	(camel_iconv): Might as well call g_iconv here even though it just
+	calls iconv directly.
+
 2003-02-21  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-iconv.c (camel_iconv_charset_name): New function...back
