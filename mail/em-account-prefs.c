@@ -20,7 +20,6 @@
  *
  */
 
-
 #ifdef HAVE_CONFIG_H
 #include <config.h>
 #endif
@@ -30,7 +29,6 @@
 #include <gtk/gtkliststore.h>
 #include <gtk/gtktreeselection.h>
 
-#include "mail.h"
 #include "mail-component.h"
 #include "mail-config.h"
 #include "mail-config-druid.h"
@@ -38,10 +36,11 @@
 #include "mail-ops.h"
 #include "mail-send-recv.h"
 
+#include "e-util/e-account-list.h"
+
 #include "art/mark.xpm"
 
 #include "em-account-prefs.h"
-
 
 static void em_account_prefs_class_init (EMAccountPrefsClass *class);
 static void em_account_prefs_init       (EMAccountPrefs *prefs);

@@ -1,3 +1,47 @@
+2004-03-31  Not Zed  <NotZed@Ximian.com>
+
+	* *.[ch]: Cleaned up header inclusions and added plenty of forward
+	declarations.  Sped up complete re-compilation by upto 20%.
+	
+	** See bug #55950.
+
+	* em-utils.c (em_utils_in_addressbook): utility for checking if an
+	email address is in the addressbook.  I can't tell if it works
+	'cause it crashes eds.
+
+	* em-format-html.c (emfh_gethttp): handle addressbook checking.
+
+2004-03-30  Not Zed  <NotZed@Ximian.com>
+
+	* mail-config.h: clean up the headers and use some forward decl's
+	instead.
+
+	* em-format-html.c (em_format_html_set_load_http): change state to
+	an int 'style' instead.
+
+	* em-folder-view.c (emfv_setting_notify): set the format load http
+	option to the config value directly.
+
+	** See bug #56147.
+
+	* message-list.c (clear_info): set the node data to NULL when we
+	unref its data.
+	(ml_get_save_id): use a different test for the root node, and
+	return NULL if we don't have any data on the node (because we're
+	cleaing it).
+
+	** See bug #54962.
+
+	* em-folder-tree.c (emft_popup_new_folder_response): put back the
+	old hack to open the vfolder editor if you try to create a folder
+	under vfolders.
+
+	** See bug #55940.
+
+	* mail-autofilter.c (mail_filter_rename_uri): map the uri to an
+	email uri before passing to filter code.
+	(mail_filter_delete_uri): same here.
+
 2004-03-30  Radek Doulik  <rodo@ximian.com>
 
 	* mail-config.glade: add spellLiveToggled signal

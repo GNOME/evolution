@@ -40,9 +40,14 @@
 #include <gtk/gtkstock.h>
 #include <gtk/gtkimage.h>
 #include <gtk/gtkarrow.h>
-
+#include <gtk/gtklabel.h>
+#include <gtk/gtkentry.h>
+#include <gtk/gtktogglebutton.h>
+#include <gtk/gtktable.h>
 #include <gtk/gtkmenu.h>
 #include <gtk/gtkmenuitem.h>
+#include <gtk/gtkmain.h>
+#include <gtk/gtkdnd.h>
 
 #include <glade/glade.h>
 
@@ -66,6 +71,8 @@
 #include <camel/camel-internet-address.h>
 #include <camel/camel-mime-message.h>
 #include <camel/camel-cipher-context.h>
+#include <camel/camel-folder.h>
+#include <camel/camel-string-utils.h>
 
 /* should this be in e-util rather than gal? */
 #include <gal/util/e-util.h>
@@ -304,7 +311,7 @@ efhd_class_init(GObjectClass *klass)
 			     G_SIGNAL_RUN_LAST,
 			     G_STRUCT_OFFSET(EMFormatHTMLDisplayClass, on_url),
 			     NULL, NULL,
-			     gtk_marshal_VOID__STRING,
+			     g_cclosure_marshal_VOID__STRING,
 			     G_TYPE_NONE, 1,
 			     G_TYPE_STRING);
 

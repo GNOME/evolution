@@ -27,10 +27,11 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include <camel/camel-gpg-context.h>
+#include <e-util/e-account.h>
+
 #include "mail-crypto.h"
 #include "mail-session.h"
-#include "mail-config.h"
-
 
 /**
  * mail_crypto_get_pgp_cipher_context:

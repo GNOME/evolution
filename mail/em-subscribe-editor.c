@@ -29,8 +29,6 @@
 
 #include <pthread.h>
 
-/*#include "evolution-shell-component-utils.h"
-  #include "mail.h"*/
 #include "mail-tools.h"
 #include "mail-ops.h"
 #include "mail-mt.h"

@@ -51,11 +51,14 @@
 #include "e-util/e-request.h"
 #include "e-util/e-dialog-utils.h"
 
+#include "filter/vfolder-rule.h"
+
 #include "mail-mt.h"
 #include "mail-ops.h"
 #include "mail-tools.h"
 #include "mail-config.h"
 #include "mail-component.h"
+#include "mail-vfolder.h"
 
 #include "em-utils.h"
 #include "em-popup.h"
@@ -2200,11 +2203,20 @@ emft_popup_new_folder_response (EMFolderSelector *emfs, int response, EMFolderTr
 		camel_object_unref (store);
 		return;
 	}
-	
+
+	/* HACK: we need to create vfolders using the vfolder editor */
+	if (CAMEL_IS_VEE_STORE(store)) {
+		VfolderRule *rule;
+
+		rule = vfolder_rule_new();
+		filter_rule_set_name((FilterRule *)rule, path);
+		vfolder_gui_add_rule(rule);
+	} else {
+		g_object_ref (emfs);
+		emft_create_folder (si->store, path, new_folder_created_cb, emfs);
+	}
+
 	camel_object_unref (store);
-	
-	g_object_ref (emfs);
-	emft_create_folder (si->store, path, new_folder_created_cb, emfs);
 }
 
 static void

@@ -32,9 +32,15 @@
 #include <gtk/gtkmain.h>
 #include <gtk/gtkdialog.h>
 #include <gtk/gtkstock.h>
+#include <gtk/gtkprogressbar.h>
+#include <gtk/gtktable.h>
+#include <gtk/gtklabel.h>
+#include <gtk/gtkimage.h>
+#include <gtk/gtkbox.h>
 #include <libgnomeui/gnome-window-icon.h>
 
 #include "e-util/e-gtk-utils.h"
+#include "e-util/e-account-list.h"
 
 #include "widgets/misc/e-clipped-label.h"
 #include "filter/filter-filter.h"
@@ -42,7 +48,6 @@
 #include "camel/camel-folder.h"
 #include "camel/camel-operation.h"
 
-#include "mail.h"
 #include "mail-mt.h"
 #include "mail-component.h"
 #include "mail-config.h"

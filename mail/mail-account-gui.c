@@ -36,6 +36,7 @@
 #include <e-util/e-account-list.h>
 #include <e-util/e-dialog-utils.h>
 
+#include "em-account-prefs.h"
 #include "em-folder-selection-button.h"
 #include "mail-account-gui.h"
 #include "mail-session.h"
@@ -47,7 +48,6 @@
 #include "mail-config.h"
 #include "mail-ops.h"
 #include "mail-mt.h"
-#include "mail.h"
 
 #if defined (HAVE_NSS)
 #include "smime/gui/e-cert-selector.h"

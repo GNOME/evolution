@@ -34,6 +34,7 @@ extern "C" {
 struct _GtkWidget;
 struct _GtkWindow;
 struct _CamelFolder;
+struct _CamelInternetAddress;
 struct _CamelStream;
 struct _CamelMimeMessage;
 struct _CamelMimePart;
@@ -128,6 +129,9 @@ char *em_utils_folder_name_from_uri (const char *uri);
 /* internal/camel uri translation */
 char *em_uri_from_camel (const char *curi);
 char *em_uri_to_camel (const char *euri);
+
+/* is this address in the addressbook?  caches results */
+gboolean em_utils_in_addressbook(struct _CamelInternetAddress *addr);
 
 #ifdef __cplusplus
 }

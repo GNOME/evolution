@@ -23,17 +23,15 @@
 #ifndef MAIL_CRYPTO_H
 #define MAIL_CRYPTO_H
 
-#include <camel/camel.h>
-#include "mail-config.h"
-
 #ifdef __cplusplus
 extern "C" {
 #pragma }
 #endif /* __cplusplus  */
 
+struct _EAccount;
 
 /* PGP/MIME convenience wrappers */
-CamelCipherContext *mail_crypto_get_pgp_cipher_context (EAccount *account);
+struct _CamelCipherContext *mail_crypto_get_pgp_cipher_context(struct _EAccount *account);
 
 #ifdef __cplusplus
 }

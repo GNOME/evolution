@@ -45,7 +45,6 @@
 #include "mail-config-druid.h"
 #include "mail-config.h"
 #include "mail-ops.h"
-#include "mail.h"
 #include "mail-session.h"
 
 #include <evolution-wizard.h>

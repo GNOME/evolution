@@ -29,15 +29,16 @@
 #include <libgnome/gnome-i18n.h>
 
 #include "mail-component.h"
+#include "mail-config.h"
 #include "mail-vfolder.h"
 #include "mail-tools.h"
 #include "mail-autofilter.h"
 #include "mail-folder-cache.h"
-#include "mail.h"
 #include "mail-ops.h"
 #include "mail-mt.h"
 #include "em-utils.h"
 
+#include "e-util/e-account-list.h"
 #include "e-util/e-dialog-utils.h"
 
 #include "camel/camel.h"

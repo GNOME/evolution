@@ -60,10 +60,10 @@
 #include <camel/camel-data-cache.h>
 #include <camel/camel-file-utils.h>
 
-
 #include <e-util/e-msgport.h>
 
 #include "mail-component.h"
+#include "mail-config.h"
 #include "mail-mt.h"
 
 #include "em-format-html.h"
@@ -261,10 +261,10 @@ void em_format_html_load_http(EMFormatHTML *emfh)
 }
 
 void
-em_format_html_set_load_http(EMFormatHTML *emfh, int state)
+em_format_html_set_load_http(EMFormatHTML *emfh, int style)
 {
-	if (emfh->load_http ^ state) {
-		emfh->load_http = state;
+	if (emfh->load_http != style) {
+		emfh->load_http = style;
 		em_format_redraw((EMFormat *)emfh);
 	}
 }
@@ -439,11 +439,13 @@ static void emfh_gethttp(struct _EMFormatHTMLJob *job, int cancelled)
 	if (instream == NULL) {
 		char *proxy;
 
-		if (!job->format->load_http_now) {
+		if ((job->format->load_http != MAIL_CONFIG_HTTP_ALWAYS && !job->format->load_http_now)
+		    || job->format->load_http == MAIL_CONFIG_HTTP_NEVER
+		    || (job->format->load_http == MAIL_CONFIG_HTTP_SOMETIMES
+			&& !em_utils_in_addressbook(camel_mime_message_get_from(job->format->format.message)))) {
 			/* TODO: Ideally we would put the http requests into another queue and only send them out
 			   if the user selects 'load images', when they do.  The problem is how to maintain this
 			   state with multiple renderings, and how to adjust the thread dispatch/setup routine to handle it */
-			/* FIXME: Need to handle 'load if sender in addressbook' case too */
 			camel_url_free(url);
 			goto done;
 		}

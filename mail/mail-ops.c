@@ -37,7 +37,6 @@
 #include <camel/camel-operation.h>
 #include <camel/camel-vtrash-folder.h>
 #include <camel/camel-vee-store.h>
-#include "mail.h"
 #include "mail-component.h"
 #include "mail-tools.h"
 #include "mail-ops.h"

@@ -378,17 +378,20 @@ filter_gui_add_from_message (CamelMimeMessage *msg, const char *source, int flag
 void
 mail_filter_rename_uri(CamelStore *store, const char *olduri, const char *newuri)
 {
-	GCompareFunc uri_cmp = CAMEL_STORE_CLASS(CAMEL_OBJECT_GET_CLASS(store))->compare_folder_name;
 	FilterContext *fc;
 	char *user, *system;
 	GList *changed;
-	
+	char *eolduri, *enewuri;
+
+	eolduri = em_uri_from_camel(olduri);
+	enewuri = em_uri_from_camel(newuri);
+
 	fc = filter_context_new ();
 	user = g_strdup_printf ("%s/mail/filters.xml", mail_component_peek_base_directory (mail_component_peek ()));
 	system = EVOLUTION_PRIVDATADIR "/filtertypes.xml";
 	rule_context_load ((RuleContext *)fc, system, user);
 	
-	changed = rule_context_rename_uri((RuleContext *)fc, olduri, newuri, uri_cmp);
+	changed = rule_context_rename_uri((RuleContext *)fc, eolduri, enewuri, g_str_equal);
 	if (changed) {
 		printf("Folder rename '%s' -> '%s' changed filters, resaving\n", olduri, newuri);
 		if (rule_context_save((RuleContext *)fc, user) == -1)
@@ -397,23 +400,28 @@ mail_filter_rename_uri(CamelStore *store, const char *olduri, const char *newuri
 	}
 	
 	g_free(user);
-	g_object_unref (fc);
+	g_object_unref(fc);
+
+	g_free(enewuri);
+	g_free(eolduri);
 }
 
 void
 mail_filter_delete_uri(CamelStore *store, const char *uri)
 {
-	GCompareFunc uri_cmp = CAMEL_STORE_CLASS(CAMEL_OBJECT_GET_CLASS(store))->compare_folder_name;
 	FilterContext *fc;
 	char *user, *system;
 	GList *deleted;
-	
+	char *euri;
+
+	euri = em_uri_from_camel(uri);
+
 	fc = filter_context_new ();
 	user = g_strdup_printf ("%s/mail/filters.xml", mail_component_peek_base_directory (mail_component_peek ()));
 	system = EVOLUTION_PRIVDATADIR "/filtertypes.xml";
 	rule_context_load ((RuleContext *)fc, system, user);
 	
-	deleted = rule_context_delete_uri ((RuleContext *) fc, uri, uri_cmp);
+	deleted = rule_context_delete_uri ((RuleContext *) fc, euri, g_str_equal);
 	if (deleted) {
 		GtkWidget *dialog;
 		GString *s;
@@ -426,7 +434,7 @@ mail_filter_delete_uri(CamelStore *store, const char *uri)
 			l = l->next;
 		}
 		g_string_append_printf (s, _("Used the removed folder:\n    '%s'\n"
-					     "And have been updated."), uri);
+					     "And have been updated."), euri);
 		
 		dialog = gtk_message_dialog_new (NULL, GTK_DIALOG_MODAL, GTK_MESSAGE_INFO,
 						 GTK_BUTTONS_CLOSE, "%s", s->str);
@@ -436,12 +444,13 @@ mail_filter_delete_uri(CamelStore *store, const char *uri)
 		
 		gtk_widget_show (dialog);
 		
-		printf("Folder deleterename '%s' changed filters, resaving\n", uri);
+		printf("Folder deleterename '%s' changed filters, resaving\n", euri);
 		if (rule_context_save ((RuleContext *) fc, user) == -1)
 			g_warning ("Could not write out changed filter rules\n");
 		rule_context_free_uri_list ((RuleContext *) fc, deleted);
 	}
 	
-	g_free (user);
-	g_object_unref (fc);
+	g_free(user);
+	g_object_unref(fc);
+	g_free(euri);
 }

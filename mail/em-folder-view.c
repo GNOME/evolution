@@ -2063,12 +2063,9 @@ emfv_setting_notify(GConfClient *gconf, guint cnxn_id, GConfEntry *entry, EMFold
 	case EMFV_MARK_SEEN_TIMEOUT:
 		emfv->mark_seen_timeout = gconf_value_get_int (value);
 		break;
-	case EMFV_LOAD_HTTP: {
-		int style = gconf_value_get_int (value);
-
-		/* FIXME: this doesn't handle the 'sometimes' case, only the always case */
-		em_format_html_set_load_http((EMFormatHTML *)emfv->preview, style == 2);
-		break; }
+	case EMFV_LOAD_HTTP:
+		em_format_html_set_load_http((EMFormatHTML *)emfv->preview, gconf_value_get_int(value));
+		break;
 	case EMFV_XMAILER_MASK:
 		em_format_html_set_xmailer_mask((EMFormatHTML *)emfv->preview, gconf_value_get_int (value));
 		break;

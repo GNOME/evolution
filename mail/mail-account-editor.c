@@ -30,9 +30,17 @@
 #include <stdlib.h>
 #include <string.h>
 #include <camel/camel-url.h>
-#include <e-util/e-dialog-utils.h>
 
+#include <e-util/e-dialog-utils.h>
+#include <e-util/e-account.h>
+
+#include <gtk/gtknotebook.h>
+#include <gtk/gtkstock.h>
+
+#include "em-account-prefs.h"
+#include "mail-config.h"
 #include "mail-account-editor.h"
+#include "mail-account-gui.h"
 #include "mail-session.h"
 
 static void mail_account_editor_class_init (MailAccountEditorClass *class);

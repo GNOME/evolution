@@ -34,6 +34,7 @@
 #include <gtk/gtkvpaned.h>
 #include <gtkhtml/gtkhtml.h>
 #include <gdk/gdkkeysyms.h>
+#include <gconf/gconf-client.h>
 
 #include <libgnomeprintui/gnome-print-dialog.h>
 
@@ -44,14 +45,14 @@
 
 #include <e-util/e-dialog-utils.h>
 
-#include <camel/camel-mime-message.h>
+/*#include <camel/camel-mime-message.h>*/
 #include <camel/camel-stream.h>
-#include <camel/camel-stream-filter.h>
+/*#include <camel/camel-stream-filter.h>
 #include <camel/camel-mime-filter.h>
 #include <camel/camel-mime-filter-tohtml.h>
 #include <camel/camel-mime-filter-enriched.h>
 #include <camel/camel-multipart.h>
-#include <camel/camel-stream-mem.h>
+#include <camel/camel-stream-mem.h>*/
 #include <camel/camel-url.h>
 
 #include <bonobo/bonobo-main.h>

@@ -47,6 +47,9 @@
 
 #include <e-util/e-mktemp.h>
 #include <e-util/e-dialog-utils.h>
+#include <e-util/e-account-list.h>
+
+#include <gal/util/e-util.h>
 
 #include "em-utils.h"
 #include "em-composer-utils.h"
@@ -2665,4 +2668,126 @@ char *em_uri_to_camel(const char *euri)
 	d(printf("em uri to camel '%s' -> '%s'\n", euri, curi));
 
 	return curi;
+}
+
+/* ********************************************************************** */
+#include <libebook/e-book.h>
+
+struct _addr_node {
+	char *addr;
+	time_t stamp;
+	int found;
+};
+
+#define EMU_ADDR_CACHE_TIME (60*30) /* in seconds */
+
+static GSList *emu_addr_sources;
+static GHashTable *emu_addr_cache;
+
+static void
+emu_addr_sources_refresh(void)
+{
+	GError *err = NULL;
+	ESourceList *list;
+	GSList *g, *s, *groups, *sources;
+
+	g_slist_foreach(emu_addr_sources, (GFunc)g_object_unref, NULL);
+	g_slist_free(emu_addr_sources);
+	emu_addr_sources = NULL;
+
+	if (!e_book_get_addressbooks(&list, &err)) {
+		g_error_free(err);
+		return;
+	}
+
+	groups = e_source_list_peek_groups(list);
+	for (g=groups;g;g=g_slist_next(g)) {
+		sources = e_source_group_peek_sources((ESourceGroup *)g->data);
+		for (s=sources;s;s=g_slist_next(s)) {
+			emu_addr_sources = g_slist_prepend(emu_addr_sources, g_object_ref(s->data));
+		}
+	}
+
+	g_object_unref(list);
+}
+
+gboolean
+em_utils_in_addressbook(CamelInternetAddress *iaddr)
+{
+	GError *err = NULL;
+	GSList *s;
+	int found = FALSE;
+	EBookQuery *query;
+	const char *addr;
+	struct _addr_node *node;
+	time_t now;
+
+	/* TODO: check all addresses? */
+	if (!camel_internet_address_get(iaddr, 0, NULL, &addr))
+		return FALSE;
+
+	if (emu_addr_cache == NULL) {
+		emu_addr_cache = g_hash_table_new(g_str_hash, g_str_equal);
+		emu_addr_sources_refresh();
+	}
+
+	now = time(0);
+
+	printf("Checking '%s' is in addressbook", addr);
+
+	node = g_hash_table_lookup(emu_addr_cache, addr);
+	if (node) {
+		printf(" -> cached, found %s\n", node->found?"yes":"no");
+		if (node->stamp + EMU_ADDR_CACHE_TIME > now)
+			return node->found;
+		printf("    but expired!\n");
+	} else {
+		printf(" -> not found in cache\n");
+		node = g_malloc0(sizeof(*node));
+		node->addr = g_strdup(addr);
+	}
+
+	query = e_book_query_field_test(E_CONTACT_EMAIL, E_BOOK_QUERY_IS, addr);
+
+	for (s = emu_addr_sources;!found && s;s=g_slist_next(s)) {
+		ESource *source = s->data;
+		GList *contacts;
+		EBook *book;
+
+		book = e_book_new();
+
+		printf(" checking '%s'\n", e_source_get_uri(source));
+
+		if (!e_book_load_source(book, source, TRUE, &err)) {
+			printf("couldn't load source?\n");
+			g_clear_error(&err);
+			g_object_unref(book);
+			continue;
+		}
+
+		if (!e_book_get_contacts(book, query, &contacts, &err)) {
+			printf("Can't get contacts?\n");
+			g_clear_error(&err);
+			g_object_unref(book);
+			continue;
+		}
+
+		found = contacts != NULL;
+
+		printf(" %s\n", found?"found":"not found");
+
+		g_list_foreach(contacts, (GFunc)g_object_unref, NULL);
+		g_list_free(contacts);
+
+		g_object_unref(book);
+	}
+
+	e_book_query_unref(query);
+
+	node->found = found;
+	node->stamp = now;
+
+	g_hash_table_insert(emu_addr_cache, node->addr, node);
+
+	return found;
 }

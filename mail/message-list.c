@@ -32,8 +32,10 @@
 
 #include <glib/gunicode.h>
 
-#include <gconf/gconf.h>
 #include <gconf/gconf-client.h>
+
+#include <gtk/gtkmain.h>
+#include <gtk/gtkinvisible.h>
 
 #include <gal/util/e-util.h>
 #include <gal/widgets/e-gui-utils.h>
@@ -774,9 +776,15 @@ ml_get_save_id (ETreeModel *etm, ETreePath path, void *data)
 {
 	CamelMessageInfo *info;
 
+	if (e_tree_model_node_is_root(etm, path))
+		return g_strdup("root");
+
+	/* Note: etable can ask for the save_id while we're clearing it,
+	   which is the only time data should be null */
 	info = e_tree_memory_node_get_data (E_TREE_MEMORY(etm), path);
 	if (info == NULL)
-		return g_strdup("root");
+		return NULL;
+
 	return g_strdup (camel_message_info_uid(info));
 }
 
@@ -1844,6 +1852,7 @@ clear_info(char *key, ETreePath *node, MessageList *ml)
 
 	info = e_tree_memory_node_get_data((ETreeMemory *)ml->model, node);
 	camel_folder_free_message_info(ml->folder, info);
+	e_tree_memory_node_set_data((ETreeMemory *)ml->model, node, NULL);
 }
 
 static void

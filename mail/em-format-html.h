@@ -20,7 +20,6 @@
  *
  */
 
-
 /*
   Concrete class for formatting mails to html
 */
@@ -117,7 +116,7 @@ struct _EMFormatHTML {
 	guint32 content_colour;
 	guint32 citation_colour;
 	unsigned int xmailer_mask:4;
-	unsigned int load_http:1;
+	unsigned int load_http:2;
 	unsigned int load_http_now:1;
 	unsigned int mark_citations:1;
 	unsigned int simple_headers:1; /* simple header format, no box/table */
@@ -134,7 +133,7 @@ EMFormatHTML *em_format_html_new(void);
 
 void em_format_html_load_http(EMFormatHTML *emf);
 
-void em_format_html_set_load_http(EMFormatHTML *emf, int state);
+void em_format_html_set_load_http(EMFormatHTML *emf, int style);
 void em_format_html_set_mark_citations(EMFormatHTML *emf, int state, guint32 citation_colour);
 void em_format_html_set_xmailer_mask(EMFormatHTML *emf, unsigned int xmailer_mask);
 

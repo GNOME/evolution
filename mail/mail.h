@@ -27,7 +27,4 @@
 #include "mail-session.h"
 #include "mail-types.h"
 
-/* mail-identify */
-char *mail_identify_mime_part (CamelMimePart *part, MailDisplay *md);
-gboolean evolution_folder_info_factory_init (void);
 

@@ -14,6 +14,7 @@
 #include <gtk/gtkwidget.h>
 #include <gtk/gtkdialog.h>
 #include <gtk/gtkstock.h>
+#include <gtk/gtkmessagedialog.h>
 #include <libgnome/gnome-i18n.h>
 #include <gal/widgets/e-gui-utils.h>
 

@@ -29,8 +29,12 @@
 
 #include <gtk/gtkdialog.h>
 #include <gtk/gtkstock.h>
+#include <gtk/gtkentry.h>
+#include <gtk/gtkmessagedialog.h>
+#include <gtk/gtktogglebutton.h>
+#include <gtk/gtkbox.h>
+#include <gtk/gtkcheckbutton.h>
 
-#include <gconf/gconf.h>
 #include <gconf/gconf-client.h>
 
 #include <libgnome/gnome-config.h>
@@ -39,7 +43,6 @@
 #include "camel/camel-filter-driver.h"
 #include "filter/filter-context.h"
 #include "filter/filter-filter.h"
-#include "mail.h"
 #include "mail-component.h"
 #include "mail-config.h"
 #include "mail-session.h"
