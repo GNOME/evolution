@@ -1,3 +1,12 @@
+2002-03-19  Dan Winship  <danw@ximian.com>
+
+	* backend/ebook/Makefile.am: Update for libversit change: Use .a
+	rather than .la now.
+
+	* printing/Makefile.am: Likewise
+
+	* gui/component/Makefile.am: Likewise
+
 2002-03-18  Ettore Perazzoli  <ettore@ximian.com>
 
 	* gui/component/addressbook.c (addressbook_menu_activated):
