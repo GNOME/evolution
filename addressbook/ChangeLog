@@ -1,5 +1,14 @@
 2001-08-01  Christopher James Lahey  <clahey@ximian.com>
 
+	* gui/contact-editor/Makefile.am: Added file-exists.glade.
+
+	* gui/contact-editor/e-contact-save-as.c (file_exists),
+	gui/contact-editor/file-exists.glade: Added a dialog to ask the
+	user whether to replace an already existing file.  Mostly from a
+	patch by Jos Dehaes.  Fixes Ximian bug #2231.
+
+2001-08-01  Christopher James Lahey  <clahey@ximian.com>
+
 	* backend/ebook/e-book-view-listener.c
 	(e_book_view_listener_check_queue): Removed thrash checking code
 	here since thrashing shouldn't happen now that we've cleaned this

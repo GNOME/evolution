@@ -58,6 +58,7 @@ glade_DATA = 				\
 	contact-editor.glade		\
 	fulladdr.glade			\
 	fullname.glade			\
+	file-exists.glade		\
 	e-contact-editor-confirm-delete.glade
 
 EXTRA_DIST = $(evolution_DATA)		\
