@@ -1,3 +1,7 @@
+2001-07-05  Christopher James Lahey  <clahey@ximian.com>
+
+	* configure.in: Upped the required version of gal.
+
 2001-07-03  Dietmar Maurer  <dietmar@ximian.com>
 
 	* *: use bonobo-conf everywhere

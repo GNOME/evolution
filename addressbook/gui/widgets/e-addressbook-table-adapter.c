@@ -159,11 +159,16 @@ addressbook_is_cell_editable (ETableModel *etc, int col, int row)
 {
 	EAddressbookTableAdapter *adapter = E_ADDRESSBOOK_TABLE_ADAPTER(etc);
 	EAddressbookTableAdapterPrivate *priv = adapter->priv;
-	ECard *card = e_addressbook_model_card_at (priv->model, row);
+	ECard *card;
+
+	if (row >= 0 && row < e_addressbook_model_card_count (priv->model))
+		card = e_addressbook_model_card_at (priv->model, row);
+	else
+		card = NULL;
 
 	if (!e_addressbook_model_editable(priv->model))
 		return FALSE;
-	else if (e_card_evolution_list (card))
+	else if (card && e_card_evolution_list (card))
 		/* we only allow editing of the name and file as for
                    lists */
 		return col == E_CARD_SIMPLE_FIELD_FULL_NAME || col == E_CARD_SIMPLE_FIELD_FILE_AS; 
