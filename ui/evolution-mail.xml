@@ -103,7 +103,7 @@
 		  
         <menuitem name="MessageMarkAsRead" verb=""
         _label="Mar_k as Read"
-         accel="*Control*q"/>
+         accel="*Control*k"/>
 
         <menuitem name="MessageMarkAsUnRead" verb=""
         _label="Mark as U_nread"
