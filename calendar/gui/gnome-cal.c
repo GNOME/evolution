@@ -979,9 +979,9 @@ setup_widgets (GnomeCalendar *gcal)
 
 	/* The Day View. */
 	priv->day_view = e_day_view_new ();
+	e_calendar_view_set_calendar (E_CALENDAR_VIEW (priv->day_view), gcal);
 	g_signal_connect (priv->day_view, "selection_changed",
 			  G_CALLBACK (view_selection_changed_cb), gcal);
-
 	connect_day_view_focus (gcal, E_DAY_VIEW (priv->day_view));
 
 	/* The Work Week View. */

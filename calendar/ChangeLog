@@ -1,3 +1,8 @@
+2003-12-15  JP Rosevear <jpr@ximian.com>
+
+	* gui/gnome-cal.c (setup_widgets): set the calendar for the day
+	view
+
 2003-12-14  JP Rosevear <jpr@ximian.com>
 
 	* gui/calendar-component.c (impl_requestCreateItem): set a proper
