@@ -130,7 +130,7 @@
 
 	* providers/imap/camel-imap-folder.c (imap_update_summary): Use
 	the summary's last uid as the one to fetch from, ignoring the
-	cache.  Use strtoul instead of atoi as well.
+	cache.  Use strotul instead of atoi as well.
 
 	* providers/imap/camel-imap-store.c (get_folder_counts): If we
 	have the folder open, and the unread count has changed, refresh

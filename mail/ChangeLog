@@ -6,24 +6,6 @@
 	descend into the tree until we find the folder we want to delete
 	and start deleting from there.
 
-2002-10-08  Jeffrey Stedfast  <fejj@ximian.com>
-
-	* mail-signature-editor.c (mail_signature_editor): Mark a string
-	for translation, fixes bug #31942. Thanks to kmaraas@gnome.org for
-	this patch.
-
-	* mail-offline-handler.h: Don't #include config.h here. Fixes bug
-	#31941.
-
-2002-10-07  Jeffrey Stedfast  <fejj@ximian.com>
-
-	* mail-composer-prefs.c (spell_load_values): Don't mark "en" for
-	translation. Fixes bug #31788.
-
-	* mail-config.glade: Removed a "xxxxxxxxxxx" string so that
-	translators don't need to translate it. It was only a filler
-	string. Fixes bug #31789.
-
 2002-10-02  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-callbacks.c (mail_generate_reply): Don't default 'me' to
