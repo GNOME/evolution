@@ -28,7 +28,6 @@
 #include <sys/types.h>
 #include <dirent.h>
 #include <gmodule.h>
-#include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-util.h>
 #include <evolution-storage.h>
 #include <camel/camel-folder.h>

@@ -32,11 +32,11 @@
 #include <time.h>
 #include <errno.h>
 #include <gtkhtml/gtkhtml.h>
-#include <libgnome/gnome-paper.h>
-#include <libgnome/gnome-paper.h>
+
 #include <libgnomeprint/gnome-print-master.h>
 #include <libgnomeprintui/gnome-print-dialog.h>
 #include <libgnomeprintui/gnome-print-master-preview.h>
+
 #include <bonobo/bonobo-widget.h>
 #include <bonobo/bonobo-socket.h>
 #include <gal/e-table/e-table.h>
@@ -3056,7 +3056,6 @@ do_mail_print (FolderBrowser *fb, gboolean preview)
 	GnomePrintMaster *print_master;
 	GnomePrintDialog *dialog;
 	GnomePrintConfig *config = NULL;
-	GnomePaper *paper;
 	gdouble line = 0.0;
 	struct footer_info *info;
 

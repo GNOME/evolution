@@ -13,9 +13,7 @@
 
 #include <signal.h>
 
-#include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-sound.h>
-#include <libgnomeui/gnome-init.h>
 #include <bonobo/bonobo-main.h>
 #include <bonobo-activation/bonobo-activation-init.h>
 #include <glade/glade.h>

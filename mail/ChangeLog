@@ -1,3 +1,18 @@
+2002-11-13  Ettore Perazzoli  <ettore@ximian.com>
+
+	* mail-format.c: Do not #include <libgnome/gnome-defs.h>.
+	* mail-importer.c: Likewise.
+	* mail-mt.c: Likewise.
+	* mail-ops.c: Likewise.
+	* mail-search-dialogue.c: Likewise.
+	* mail-session.c: Likewise.
+	* mail-vfolder.c: Likewise.
+	* message-tag-followup.c: Likewise.
+	* main.c: Likewise, and <libgnomeui/gnome-init.h>.
+
+	* mail-callbacks.c: Do not #include <libgnome/gnome-paper.h>.
+	(do_mail_print): Remove the GnomePaper local variable.
+
 2002-11-13  Not Zed  <NotZed@Ximian.com>
 
 	* component-factory.c (owner_set_cb): destroy->weak ref.

@@ -30,7 +30,6 @@
 #include <ctype.h>
 #include <fcntl.h>
 
-#include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-util.h>
 #include <libgnomevfs/gnome-vfs-mime-handlers.h>
 #include <gal/widgets/e-unicode.h>

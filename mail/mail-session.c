@@ -29,7 +29,6 @@
 #include <gtk/gtkdialog.h>
 #include <gtk/gtkstock.h>
 
-#include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-config.h>
 #include <libgnome/gnome-sound.h>
 #include <gal/widgets/e-unicode.h>

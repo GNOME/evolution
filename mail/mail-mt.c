@@ -13,7 +13,6 @@
 #include <gtk/gtkwidget.h>
 #include <gtk/gtkdialog.h>
 #include <gtk/gtkstock.h>
-#include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
 #include <gal/widgets/e-gui-utils.h>
 #include <gal/widgets/e-unicode.h>

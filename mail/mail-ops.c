@@ -31,7 +31,6 @@
 /* #include <ctype.h> */
 #include <string.h>
 #include <errno.h>
-#include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-exec.h>
 #include <gal/util/e-util.h>
 #include <gal/widgets/e-unicode.h>

@@ -27,7 +27,6 @@
 #include <gtk/gtkdialog.h>
 #include <gtk/gtkstock.h>
 #include <gtk/gtkbox.h>
-#include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
 
 #include "mail-search-dialogue.h"

@@ -30,7 +30,6 @@
 
 #include <glade/glade.h>
 
-#include <libgnome/gnome-defs.h>
 #include <libgnomeui/gnome-window-icon.h>
 #include <libgnomeui/gnome-pixmap.h>
 
