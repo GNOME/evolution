@@ -3665,23 +3665,6 @@ static struct {
 	char *pattern;
 	regex_t regex;
 } mail_list_magic[] = {
-	/* Sender: owner-gnome-hackers@gnome.org */
-	/* Sender: owner-gnome-hacekrs */
-	{ "Sender", " *owner-([^@]+)@?([^ @\n\t\r>]*)" },
-	/* Sender: gnome-hackers-owner@gnome.org */
-	/* Sender: gnome-hackers-owner */
-	{ "Sender", " *([^@]+)-owner@?([^ @\n\t\r>]*)" },
-	/* Sender: owner-gnome-hackers@gnome.org */
-	/* Sender: <owner-gnome-hackers@gnome.org> */
-	/* Sender: owner-gnome-hackers */
-	/* Sender: <owner-gnome-hackers> */
-	{ "Return-Path", " <?owner-([^@>]+)@?([^ \n\t\r>]*)" },
-	/* X-BeenThere: gnome-hackers@gnome.org */
-	/* X-BeenThere: gnome-hackers */
-	{ "X-BeenThere", " *([^@]+)@?([^ \n\t\r>]*)" },
-	/* Delivered-To: mailing list gnome-hackers@gnome.org */
-	/* Delivered-To: mailing list gnome-hackers */
-	{ "Delivered-To", " *mailing list ([^@]+)@?([^ \n\t\r>]*)" },
 	/* X-Mailing-List: <gnome-hackers@gnome.org> arcive/latest/100 */
 	/* X-Mailing-List: gnome-hackers@gnome.org */
 	/* X-Mailing-List: gnome-hackers */
@@ -3704,6 +3687,23 @@ static struct {
 	/* X-List: gnome-hackers */
 	/* X-List: gnome-hackers@gnome.org */
 	{ "X-List", " *([^@]+)@?([^ \n\t\r>]*)" },	
+	/* Sender: owner-gnome-hackers@gnome.org */
+	/* Sender: owner-gnome-hacekrs */
+	{ "Sender", " *owner-([^@]+)@?([^ @\n\t\r>]*)" },
+	/* Sender: gnome-hackers-owner@gnome.org */
+	/* Sender: gnome-hackers-owner */
+	{ "Sender", " *([^@]+)-owner@?([^ @\n\t\r>]*)" },
+	/* Delivered-To: mailing list gnome-hackers@gnome.org */
+	/* Delivered-To: mailing list gnome-hackers */
+	{ "Delivered-To", " *mailing list ([^@]+)@?([^ \n\t\r>]*)" },
+	/* Sender: owner-gnome-hackers@gnome.org */
+	/* Sender: <owner-gnome-hackers@gnome.org> */
+	/* Sender: owner-gnome-hackers */
+	/* Sender: <owner-gnome-hackers> */
+	{ "Return-Path", " <?owner-([^@>]+)@?([^ \n\t\r>]*)" },
+	/* X-BeenThere: gnome-hackers@gnome.org */
+	/* X-BeenThere: gnome-hackers */
+	{ "X-BeenThere", " *([^@]+)@?([^ \n\t\r>]*)" },
 };
 
 char *

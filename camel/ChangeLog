@@ -1,3 +1,9 @@
+2002-03-11  Ettore Perazzoli  <ettore@ximian.com>
+
+	* camel-mime-utils.c: Change the order of the mailing list magic
+	patterns so that the more mailing-list specific ones are on the
+	top.
+
 2002-03-11  Jeffrey Stedfast  <fejj@ximian.com>
 
 	These fixes should fix bug #21737.
