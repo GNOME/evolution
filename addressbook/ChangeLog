@@ -1,3 +1,8 @@
+2002-03-13  Ettore Perazzoli  <ettore@ximian.com>
+
+	* gui/component/GNOME_Evolution_Addressbook.oaf.in: Add an icon
+	for the LDAP sources configuration control.
+
 2002-03-12  Ettore Perazzoli  <ettore@ximian.com>
 
 	* gui/component/addressbook.c: Remove verb "AddressbookConfig".
