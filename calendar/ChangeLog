@@ -1,3 +1,7 @@
+2003-04-25  JP Rosevear  <jpr@ximian.com>
+
+	* gui/itip-utils.c (itip_send_comp): kill warnings
+
 2003-04-28  Anna Marie Dirks  <anna@ximian.com>
 
 	* gui/dialogs/alarm-options.glade: Added HIG-blessed padding

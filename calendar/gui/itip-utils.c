@@ -823,7 +823,7 @@ gboolean
 itip_send_comp (CalComponentItipMethod method, CalComponent *send_comp,
 		CalClient *client, icalcomponent *zones)
 {
-	CORBA_Object *composer_server;
+	GNOME_Evolution_Composer composer_server;
 	CalComponent *comp = NULL;
 	icalcomponent *top_level = NULL;
 	GList *users = NULL;
