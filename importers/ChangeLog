@@ -1,3 +1,9 @@
+2001-07-16  Iain Holmes  <iain@ximian.com>
+
+	* netscape-importer.c (is_dir_empty): Find out if a dir is either empty
+	or contains only 0 length files.
+	(netscape_can_import): Only import a file if the dir isn't empty.
+
 2001-07-12  Iain Holmes  <iain@ximian.com>
 
 	* netscape-importer.c (netscape_init_prefs): Ignore comments.
