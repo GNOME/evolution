@@ -6557,7 +6557,7 @@ msgstr "La Cartella `%s' non è vuota.  Non cancellata."
 #: camel/providers/local/camel-spool-summary.c:644
 #: camel/providers/local/camel-spool-summary.c:936
 msgid "Storing folder"
-msgstr "Cartella di archivio"
+msgstr "Salvataggio della cartella in corso"
 
 #: camel/providers/local/camel-mbox-summary.c:254
 #, c-format
@@ -9691,9 +9691,8 @@ msgstr "Scansione delle cartelle in \"%s\" in corso"
 
 #. Fill in the new fields
 #: mail/mail-ops.c:1061 shell/e-local-storage.c:179
-#, fuzzy
 msgid "Trash"
-msgstr "Turco"
+msgstr "Cestino"
 
 #: mail/mail-ops.c:1194
 msgid "Forwarded messages"
