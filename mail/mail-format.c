@@ -1444,6 +1444,8 @@ mail_generate_forward (CamelMimeMessage *mime_message,
 {
 	EMsgComposer *composer;
 	CamelMimePart *part;
+	const char *from, *subject;
+	char *fwd_subj;
 
 	if (!forward_as_attachment)
 		g_warning ("Forward as non-attachment not implemented.");
@@ -1462,7 +1464,20 @@ mail_generate_forward (CamelMimeMessage *mime_message,
 	e_msg_composer_attach (composer, part);
 	gtk_object_unref (GTK_OBJECT (part));
 
-	/* FIXME: should we default a subject? */
+	from = camel_mime_message_get_from (mime_message);
+	subject = camel_mime_message_get_subject (mime_message);
+	if (from) {
+		if (subject && *subject) {
+			while (*subject == ' ')
+				subject++;
+			fwd_subj = g_strdup_printf ("[%s] %s", from, subject);
+		} else {
+			fwd_subj = g_strdup_printf ("[%s] (forwarded message)",
+						    from);
+		}
+	}
+	e_msg_composer_set_headers (composer, NULL, NULL, NULL, fwd_subj);
+	g_free (fwd_subj);
 
 	return composer;
 }
