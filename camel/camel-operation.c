@@ -563,9 +563,9 @@ void camel_operation_progress(CamelOperation *cc, int pc)
 	s->pc = pc;
 
 	now = stamp();
-	if (cc->status_update != now
-	    && s->flags & CAMEL_OPERATION_TRANSIENT
-	    && s->stamp/16 > now/16)
+	if (cc->status_update == now
+	    || (s->flags & CAMEL_OPERATION_TRANSIENT
+		&& s->stamp/16 > now/16))
 		cc = NULL;
 	else {
 		s->stamp = cc->status_update = now;

@@ -1,5 +1,11 @@
 2001-10-02    <NotZed@Ximian.com>
 
+	* providers/local/camel-maildir-store.c (get_folder_info): Go back
+	to using the store url's path, not the toplevel_dir thing.
+
+	* camel-operation.c (camel_operation_progress): Fix the progress
+	logic, so we dont update too often.
+
 	* camel-object.c (camel_object_get_hooks): Change the lock to a
 	recursive e-mutex.
 	(camel_object_hook_event): Maintain list length of hook list.
