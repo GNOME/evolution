@@ -477,6 +477,11 @@ e_entry_show_popup (EEntry *entry, gboolean visible)
 	if (pop == NULL)
 		return;
 
+	/* The async query can give us a result after the focus was lost by the
+	   widget.  In that case, we don't want to show the pop-up.   */
+	if (! GTK_WIDGET_HAS_FOCUS (entry->canvas))
+		return;
+
 	if (visible) {
 		GtkAllocation *dim = &(GTK_WIDGET (entry)->allocation);
 		gint x, y, xo, yo, fudge;
