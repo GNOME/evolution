@@ -648,7 +648,7 @@ store_sync (CamelStore *store, int expunge, CamelException *ex)
 		for (i=0;i<folders->len;i++) {
 			folder = folders->pdata[i];
 			if (!camel_exception_is_set(&x))
-				camel_folder_sync(folder, FALSE, &x);
+				camel_folder_sync(folder, expunge, &x);
 			camel_object_unref(folder);
 		}
 		camel_exception_xfer(ex, &x);

@@ -2,6 +2,7 @@
 
 	* camel-store.c (camel_store_sync): added 'expunge' parameter,
 	easier 'empty trash on exit' call.
+	(store_sync): duh, actually pass expunge to folder_sync.
 
 2004-02-04  Not Zed  <NotZed@Ximian.com>
 
