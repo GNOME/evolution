@@ -310,7 +310,7 @@ evolution_shell_client_new (Evolution_Shell corba_shell)
  * evolution_shell_client_user_select_folder:
  * @shell_client: A EvolutionShellClient object
  * @title: The title for the folder selection dialog
- * @default_folder: The folder initially selected on the dialog
+ * @default_folder: URI (physical or evolution:) of the folder initially selected on the dialog
  * @uri_return: 
  * @physical_uri_return: 
  * 
