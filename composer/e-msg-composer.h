@@ -105,7 +105,7 @@ CamelMimeMessage *e_msg_composer_get_message       (EMsgComposer *composer);
 
 void              e_msg_composer_set_sig_file      (EMsgComposer *composer,
 						    const char *sig_file);
-char              *e_msg_composer_get_sig_file     (EMsgComposer *composer);
+const char       *e_msg_composer_get_sig_file      (EMsgComposer *composer);
 
 void              e_msg_composer_set_send_html     (EMsgComposer *composer,
 						    gboolean send_html);

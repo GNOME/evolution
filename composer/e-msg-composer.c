@@ -1719,7 +1719,7 @@ e_msg_composer_set_sig_file (EMsgComposer *composer, const char *sig_file)
  * 
  * Return value: The signature file.
  **/
-char *
+const char *
 e_msg_composer_get_sig_file (EMsgComposer *composer)
 {
 	g_return_val_if_fail (composer != NULL, NULL);

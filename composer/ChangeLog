@@ -1,3 +1,9 @@
+2000-09-01  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* e-msg-composer.c (e_msg_composer_get_sig_file): This needs to
+	return a const char * and not a char *, because we're not actually
+	allocating memory here.
+
 2000-08-28  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* e-msg-composer.c (e_msg_composer_new_with_message): Always
