@@ -14,4 +14,5 @@
 
 /* Define this if you want to build against the development gtk */
 #undef HAVE_DEVGTK
-
+#undef HAVE_TIMEZONE
+#undef HAVE_TM_GMTOFF

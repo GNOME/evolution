@@ -63,7 +63,7 @@ AC_CACHE_CHECK(for timezone variable, ac_cv_var_timezone,
 		timezone = 1;
 	], ac_cv_var_timezone=yes, ac_cv_var_timezone=no))
 if test $ac_cv_var_timezone = yes; then
-	AC_DEFUN(HAVE_TIMEZONE)
+	AC_DEFINE(HAVE_TIMEZONE)
 else
 	AC_CACHE_CHECK(for tm_gmtoff in struct tm, ac_cv_struct_tm_gmtoff,
 		AC_TRY_COMPILE([
@@ -73,7 +73,7 @@ else
 			tm.tm_gmtoff = 1;
 			], ac_cv_struct_tm_gmtoff=yes, ac_cv_struct_tm_gmtoff=no))
 	if test $ac_cv_struct_tm_gmtoff = yes; then
-		AC_DEFUN(HAVE_TM_GMTOFF)
+		AC_DEFINE(HAVE_TM_GMTOFF)
 	else
 		AC_ERROR(unable to find a way to determine timezone)
 	fi
