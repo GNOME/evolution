@@ -1,5 +1,13 @@
 2000-08-13  Chris Toshok  <toshok@helixcode.com>
 
+	* conduit/Makefile.am (libaddress_conduit_la_SOURCES): add
+	address-conduit.h
+
+	* Makefile.am (CONDUIT_SUBDIR): only set subdir if
+	ENABLE_PILOT_CONDUITS is set.
+
+2000-08-13  Chris Toshok  <toshok@helixcode.com>
+
 	* Makefile.am (SUBDIRS): add conduit subdir.
 
 2000-08-13  Chris Toshok  <toshok@helixcode.com>

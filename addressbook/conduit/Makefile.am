@@ -26,7 +26,8 @@ address_conduitsdir=$(libdir)/gnome-pilot/conduits
 address_conduits_LTLIBRARIES = libaddress_conduit.la
 
 libaddress_conduit_la_SOURCES = \
-	address-conduit.c
+	address-conduit.c \
+	address-conduit.h
 
 # address-conduit.c: my_gnomecal_idl
 
