@@ -1,3 +1,7 @@
+2004-04-29  Not Zed  <NotZed@Ximian.com>
+
+	* mail-errors.xml.in: fix the password dialogue text.
+
 2004-04-28  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* em-folder-tree-model.c (sort_cb): Sort the VFolders. Fixes bug

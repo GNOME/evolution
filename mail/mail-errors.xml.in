@@ -123,7 +123,8 @@ The message is stored in the Outbox folder.  Check the message for errors and re
  </error>
 
  <error id="ask-session-password" type="question" default="GTK_RESPONSE_OK">
-  <_primary>Enter password for {0}</_primary>
+  <_primary>Enter password.</_primary>
+  <_secondary>{0}</_secondary>
   <button stock="gtk-cancel" response="GTK_RESPONSE_CANCEL"/>
   <button stock="gtk-ok" response="GTK_RESPONSE_OK"/>
  </error>
