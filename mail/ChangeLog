@@ -1,3 +1,10 @@
+2004-01-07  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* em-format-html.c (efh_format_address): Removed.
+	(efh_format_header): Handle address formatting a little
+	differently to address dwmw's complaints. Also now handles other
+	headers such as Resent-* and Sender as well.
+
 2004-01-07  Radek Doulik  <rodo@ximian.com>
 
 	* em-message-browser.c (emmb_init): as below

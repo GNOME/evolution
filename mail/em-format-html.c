@@ -1406,110 +1406,131 @@ efh_format_text_header(EMFormat *emf, CamelStream *stream, const char *label, co
 	g_free(mhtml);
 }
 
-static void
-efh_format_address(EMFormat *emf, CamelStream *stream, const CamelInternetAddress *cia, const char *name, guint32 flags)
-{
-	char *text;
+static char *addrspec_hdrs[] = {
+	"sender", "from", "reply-to", "to", "cc", "bcc",
+	"resent-sender", "resent-from", "resent-reply-to",
+	"resent-to", "resent-cc", "resent-bcc", NULL
+};
 
-	if (cia == NULL || !camel_internet_address_get(cia, 0, NULL, NULL))
-		return;
-
-	text = camel_address_format((CamelAddress *)cia);
-	efh_format_text_header(emf, stream, name, text, flags | EM_FORMAT_HEADER_BOLD);
-	g_free(text);
-}
+#if 0
+/* FIXME: include Sender and Resent-* headers too? */
+/* For Translators only: The following strings are used in the header table in the preview pane */
+static char *i18n_hdrs[] = {
+	N_("From"), N_("Reply-To"), N_("To"), N_("Cc"), N_("Bcc")
+};
+#endif
 
 static void
 efh_format_header(EMFormat *emf, CamelStream *stream, CamelMedium *part, const char *namein, guint32 flags, const char *charset)
 {
-#define msg ((CamelMimeMessage *)part)
-#define efh ((EMFormatHTML *)emf)
-	char *name;
-
+	CamelMimeMessage *msg = (CamelMimeMessage *) part;
+	EMFormatHTML *efh = (EMFormatHTML *) emf;
+	char *name, *value = NULL, *p;
+	const char *txt, *label;
+	int addrspec = 0, i;
+	
 	name = alloca(strlen(namein)+1);
 	strcpy(name, namein);
 	camel_strdown(name);
-
-	if (!strcmp(name, "from"))
-		efh_format_address(emf, stream, camel_mime_message_get_from(msg), _("From"), flags);
-	else if (!strcmp(name, "reply-to"))
-		efh_format_address(emf, stream, camel_mime_message_get_reply_to(msg), _("Reply-To"), flags);
-	else if (!strcmp(name, "to"))
-		efh_format_address(emf, stream, camel_mime_message_get_recipients(msg, CAMEL_RECIPIENT_TYPE_TO), _("To"), flags);
-	else if (!strcmp(name, "cc"))
-		efh_format_address(emf, stream, camel_mime_message_get_recipients(msg, CAMEL_RECIPIENT_TYPE_CC), _("Cc"), flags);
-	else if (!strcmp(name, "bcc"))
-		efh_format_address(emf, stream, camel_mime_message_get_recipients(msg, CAMEL_RECIPIENT_TYPE_BCC), _("Bcc"), flags);
-	else {
-		const char *txt, *label;
-		char *value = NULL;
-
-		if (!strcmp(name, "subject")) {
-			txt = camel_mime_message_get_subject(msg);
-			label = _("Subject");
-			flags |= EM_FORMAT_HEADER_BOLD;
-		} else if (!strcmp(name, "x-evolution-mailer")) { /* pseudo-header */
-			txt = camel_medium_get_header(part, "x-mailer");
-			if (txt == NULL)
-				txt = camel_medium_get_header(part, "user-agent");
-			if (txt == NULL)
-				return;
-
-			label = _("Mailer");
-			flags |= EM_FORMAT_HEADER_BOLD;
-		} else if (!strcmp(name, "date")) {
-			int msg_offset, local_tz;
-               		time_t msg_date;
-               		struct tm local;
-			const char *date;
-
-			date = camel_medium_get_header(part, "date");
-			if (date == NULL)
-				return;
-
-			/* Show the local timezone equivalent in brackets if the sender is remote */
-               		msg_date = camel_header_decode_date (date, &msg_offset);
-			e_localtime_with_offset(msg_date, &local, &local_tz);
-
-               		/* Convert message offset to minutes (e.g. -0400 --> -240) */
-               		msg_offset = ((msg_offset / 100) * 60) + (msg_offset % 100);
-               		/* Turn into offset from localtime, not UTC */
-               		msg_offset -= local_tz / 60;
-
-               		if (msg_offset) {
-				char buf[32], *html;
-
-				msg_offset += (local.tm_hour * 60) + local.tm_min;
-				if (msg_offset >= (24 * 60) || msg_offset < 0) {
-					/* translators: strftime format for local time equivalent in Date header display, with day */
-              				e_utf8_strftime(buf, sizeof(buf), _("<I> (%a, %R %Z)</I>"), &local);
-               			} else {
-					/* translators: strftime format for local time equivalent in Date header display, without day */
-               				e_utf8_strftime(buf, sizeof(buf), _("<I> (%R %Z)</I>"), &local);
-				}
-
-				html = camel_text_to_html(date, ((EMFormatHTML *)emf)->text_html_flags, 0);
-				txt = value = g_strdup_printf("%s %s", html, buf);
-				g_free(html);
-				flags |= EM_FORMAT_HTML_HEADER_HTML;
-			} else {
-				txt = date;
-			}
-
-			label = _("Date");
-			flags |= EM_FORMAT_HEADER_BOLD;
-		} else {
-			txt = camel_medium_get_header(part, name);
-			value = camel_header_decode_string (txt, charset);
-			txt = value;
-			label = namein;
+	
+	for (i = 0; addrspec_hdrs[i]; i++) {
+		if (!strcmp (name, addrspec_hdrs[i])) {
+			addrspec = 1;
+			break;
 		}
-
-		efh_format_text_header(emf, stream, label, txt, flags);
-		g_free(value);
 	}
-#undef msg
-#undef efh
+	
+	if (addrspec) {
+		struct _camel_header_address *addrs;
+		
+		if (!(txt = camel_medium_get_header (part, name)))
+			return;
+		
+		if (!(addrs = camel_header_address_decode (txt, emf->charset ? emf->charset : emf->default_charset)))
+			return;
+		
+		/* canonicalise the header name... first letter is
+		 * capitalised and any letter following a '-' also gets
+		 * capitalised */
+		p = name;
+		*p -= 0x20;
+		do {
+			p++;
+			if (p[-1] == '-' && *p >= 'a' && *p <= 'z')
+				*p -= 0x20;
+		} while (*p);
+		
+		label = _(name);
+		
+		if ((value = camel_header_address_list_format (addrs)))
+			txt = value;
+		
+		flags |= EM_FORMAT_HEADER_BOLD;
+		camel_header_address_unref (addrs);
+	} else if (!strcmp (name, "subject")) {
+		txt = camel_mime_message_get_subject (msg);
+		label = _("Subject");
+		flags |= EM_FORMAT_HEADER_BOLD;
+	} else if (!strcmp (name, "x-evolution-mailer")) { /* pseudo-header */
+		if (!(txt = camel_medium_get_header (part, "x-mailer")))
+			if (!(txt = camel_medium_get_header (part, "user-agent")))
+				return;
+		
+		label = _("Mailer");
+		flags |= EM_FORMAT_HEADER_BOLD;
+	} else if (!strcmp (name, "date") || !strcmp (name, "resent-date")) {
+		int msg_offset, local_tz;
+		time_t msg_date;
+		struct tm local;
+		const char *date;
+		
+		if (!(date = camel_medium_get_header (part, name)))
+			return;
+		
+		/* Show the local timezone equivalent in brackets if the sender is remote */
+		msg_date = camel_header_decode_date (date, &msg_offset);
+		e_localtime_with_offset (msg_date, &local, &local_tz);
+		
+		/* Convert message offset to minutes (e.g. -0400 --> -240) */
+		msg_offset = ((msg_offset / 100) * 60) + (msg_offset % 100);
+		/* Turn into offset from localtime, not UTC */
+		msg_offset -= local_tz / 60;
+		
+		if (msg_offset) {
+			char buf[32], *html;
+			
+			msg_offset += (local.tm_hour * 60) + local.tm_min;
+			if (msg_offset >= (24 * 60) || msg_offset < 0) {
+				/* translators: strftime format for local time equivalent in Date header display, with day */
+				e_utf8_strftime (buf, sizeof (buf), _("<I> (%a, %R %Z)</I>"), &local);
+			} else {
+				/* translators: strftime format for local time equivalent in Date header display, without day */
+				e_utf8_strftime (buf, sizeof (buf), _("<I> (%R %Z)</I>"), &local);
+			}
+			
+			html = camel_text_to_html (date, efh->text_html_flags, 0);
+			txt = value = g_strdup_printf ("%s %s", html, buf);
+			g_free (html);
+			flags |= EM_FORMAT_HTML_HEADER_HTML;
+		} else {
+			txt = date;
+		}
+		
+		if (!strcmp (name, "date"))
+			label = _("Date");
+		else
+			label = "Resent-Date";
+		
+		flags |= EM_FORMAT_HEADER_BOLD;
+	} else {
+		txt = camel_medium_get_header (part, name);
+		value = camel_header_decode_string (txt, charset);
+		txt = value;
+		label = namein;
+	}
+	
+	efh_format_text_header (emf, stream, label, txt, flags);
+	g_free (value);
 }
 
 void
