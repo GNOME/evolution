@@ -1150,7 +1150,7 @@ ecard_from_remote_record(EAddrConduitContext *ctxt,
 		find++;
 	}
 	delivery->street = txt;
-	delivery->ext = find != NULL ? find : g_strdup ("");
+	delivery->ext = find != NULL ? g_strdup (find) : g_strdup ("");
 	delivery->city = get_entry_text (address, entryCity);
 	delivery->region = get_entry_text (address, entryState);
 	delivery->country = get_entry_text (address, entryCountry);
