@@ -784,7 +784,7 @@ camel_text_index_get_type(void)
 	static CamelType type = CAMEL_INVALID_TYPE;
 	
 	if (type == CAMEL_INVALID_TYPE) {
-		type = camel_type_register(camel_object_get_type(), "CamelTextIndex",
+		type = camel_type_register(camel_index_get_type(), "CamelTextIndex",
 					   sizeof (CamelTextIndex),
 					   sizeof (CamelTextIndexClass),
 					   (CamelObjectClassInitFunc) camel_text_index_class_init,
@@ -1504,7 +1504,7 @@ camel_text_index_name_get_type(void)
 	static CamelType type = CAMEL_INVALID_TYPE;
 	
 	if (type == CAMEL_INVALID_TYPE) {
-		type = camel_type_register(camel_object_get_type(), "CamelTextIndexName",
+		type = camel_type_register(camel_index_name_get_type(), "CamelTextIndexName",
 					   sizeof (CamelTextIndexName),
 					   sizeof (CamelTextIndexNameClass),
 					   (CamelObjectClassInitFunc) camel_text_index_name_class_init,
@@ -1620,7 +1620,7 @@ camel_text_index_cursor_get_type(void)
 	static CamelType type = CAMEL_INVALID_TYPE;
 	
 	if (type == CAMEL_INVALID_TYPE) {
-		type = camel_type_register(camel_object_get_type(), "CamelTextIndexCursor",
+		type = camel_type_register(camel_index_cursor_get_type(), "CamelTextIndexCursor",
 					   sizeof (CamelTextIndexCursor),
 					   sizeof (CamelTextIndexCursorClass),
 					   (CamelObjectClassInitFunc) camel_text_index_cursor_class_init,
@@ -1732,7 +1732,7 @@ camel_text_index_key_cursor_get_type(void)
 	static CamelType type = CAMEL_INVALID_TYPE;
 	
 	if (type == CAMEL_INVALID_TYPE) {
-		type = camel_type_register(camel_object_get_type(), "CamelTextIndexKeyCursor",
+		type = camel_type_register(camel_index_cursor_get_type(), "CamelTextIndexKeyCursor",
 					   sizeof (CamelTextIndexKeyCursor),
 					   sizeof (CamelTextIndexKeyCursorClass),
 					   (CamelObjectClassInitFunc) camel_text_index_key_cursor_class_init,

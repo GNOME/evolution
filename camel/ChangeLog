@@ -1,3 +1,16 @@
+2002-08-19  Peter Williams  <peterw@ximian.com>
+
+	Plug some large leaks in the indexing code.
+	
+	* camel-mime-filter-index.c (camel_mime_filter_index_set_index): Unref
+	the old index if necessary.
+
+	* camel-text-index.c (camel_text_index_get_type): Give it the correct
+	parent type so that finalize handlers chain.
+	(camel_text_index_name_get_type): Here too.
+	(camel_text_index_cursor_get_type): Here too.
+	(camel_text_index_key_cursor_get_type): Here too.
+
 2002-08-20  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* providers/imap/camel-imap-store.c (get_folders): Don't let the

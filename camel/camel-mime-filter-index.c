@@ -145,6 +145,7 @@ void camel_mime_filter_index_set_index (CamelMimeFilterIndex *mf, CamelIndex *in
 		size_t outlen, outspace;
 
 		camel_mime_filter_complete((CamelMimeFilter *)mf, "", 0, 0, &out, &outlen, &outspace);
+		camel_object_unref ((CamelObject *)index);
 	}
 
 	mf->index = index;
