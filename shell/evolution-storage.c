@@ -699,7 +699,7 @@ evolution_storage_deregister_on_shell (EvolutionStorage *evolution_storage,
 							     priv->name,
 							     &ev);
 
-	if (ev._major = CORBA_NO_EXCEPTION)
+	if (ev._major == CORBA_NO_EXCEPTION)
 		result = EVOLUTION_STORAGE_OK;
 	else {
 		if (ev._major != CORBA_USER_EXCEPTION)
