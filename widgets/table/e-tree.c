@@ -3292,6 +3292,23 @@ e_tree_class_init (ETreeClass *class)
 							       _( "Always search" ),
 							       FALSE,
 							       G_PARAM_READWRITE));
+
+	gtk_widget_class_install_style_property (widget_class,
+			   g_param_spec_boolean ("retro_look",
+						 _("Retro Look"),
+						 _("Draw lines and +/- expanders."),
+						 FALSE,
+						 G_PARAM_READABLE));
+
+	gtk_widget_class_install_style_property (widget_class,
+			   g_param_spec_int ("expander_size",
+					     _("Expander Size"),
+					     _("Size of the expander arrow"),
+					     0,
+					     G_MAXINT,
+					     10,
+					     G_PARAM_READABLE));
+
 }
 
 E_MAKE_TYPE(e_tree, "ETree", ETree, e_tree_class_init, e_tree_init, PARENT_TYPE)

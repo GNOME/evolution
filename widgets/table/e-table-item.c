@@ -1558,6 +1558,8 @@ eti_init (GnomeCanvasItem *item)
 {
 	ETableItem *eti = E_TABLE_ITEM (item);
 
+	eti->motion_row 	       = -1;
+	eti->motion_col 	       = -1;
 	eti->editing_col               = -1;
 	eti->editing_row               = -1;
 	eti->height                    = 0;
@@ -2512,7 +2514,7 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 		break;
 	}
 	case GDK_MOTION_NOTIFY: {
-		int col, row;
+		int col, row, flags;
 		double x1, y1;
 		gint cursor_col, cursor_row;
 
@@ -2536,6 +2538,19 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 		if (!find_cell (eti, e->motion.x, e->motion.y, &col, &row, &x1, &y1))
 			return TRUE;
 
+		if (eti->motion_row != -1 && eti->motion_col != -1 &&
+		    (row != eti->motion_row || col != eti->motion_col)) {
+			GdkEvent *cross = gdk_event_new (GDK_LEAVE_NOTIFY);
+			cross->crossing.time = e->motion.time;
+			return_val = eti_e_cell_event (eti, eti->cell_views [eti->motion_col],
+						       cross, cross->crossing.time,
+					               view_to_model_col(eti, eti->motion_col), 
+						       eti->motion_col, eti->motion_row, 0);
+		}
+
+		eti->motion_row = row;
+		eti->motion_col = col;
+
 		g_object_get(eti->selection,
 			     "cursor_row", &cursor_row,
 			     "cursor_col", &cursor_col,
@@ -2555,18 +2570,21 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 		}
 #endif
 
+		flags = 0;
 		if (cursor_row == view_to_model_row(eti, row) && cursor_col == view_to_model_col(eti, col)){
-			ecell_view = eti->cell_views [col];
-
-			/*
-			 * Adjust the event positions
-			 */
-			e->motion.x = x1;
-			e->motion.y = y1;
-
-			return_val = eti_e_cell_event (eti, ecell_view, e, e->motion.time,
-						       view_to_model_col(eti, col), col, row, E_CELL_EDITING | E_CELL_CURSOR);
+			flags = E_CELL_EDITING | E_CELL_CURSOR;
 		}
+
+		ecell_view = eti->cell_views [col];
+
+		/*
+		 * Adjust the event positions
+		 */
+		e->motion.x = x1;
+		e->motion.y = y1;
+
+		return_val = eti_e_cell_event (eti, ecell_view, e, e->motion.time,
+					       view_to_model_col(eti, col), col, row, flags);
 		break;
 	}
 
@@ -2782,6 +2800,14 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 		if (eti->tooltip->timer)
 			gtk_timeout_remove (eti->tooltip->timer);
 		eti->tooltip->timer = 0;
+		if (eti->motion_row != -1 && eti->motion_col != -1)
+			return_val = eti_e_cell_event (eti, eti->cell_views [eti->motion_col],
+						       e, e->crossing.time,
+					               view_to_model_col(eti, eti->motion_col), 
+						       eti->motion_col, eti->motion_row, 0);
+		eti->motion_row = -1;
+		eti->motion_col = -1;
+
 		break;
 
 	case GDK_FOCUS_CHANGE:

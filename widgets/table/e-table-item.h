@@ -150,6 +150,8 @@ typedef struct {
 	gint             row_guess;
 	ECursorMode      cursor_mode;
 
+	int              motion_col, motion_row;
+
 	/*
 	 * During editing
 	 */
