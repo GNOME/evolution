@@ -644,8 +644,7 @@
               </para>
 
               <programlisting>
-                cd ~/evolution/local/Contacts
-                cp addressbook.db addressbook.db.backup
+                cp ~/evolution/local/Contacts/addressbook.db addressbook.db.backup
               </programlisting>
             </listitem>
 
