@@ -31,9 +31,3 @@
 
 /* Define if ctime_r takes three arguments */
 #undef CTIME_R_THREE_ARGS
-
-#undef GPG_PATH
-#undef HAVE_LIBGPGME
-#undef PGP5_PATH
-#undef PGP_PATH
-#undef PGP_PROGRAM
