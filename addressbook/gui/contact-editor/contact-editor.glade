@@ -2554,7 +2554,7 @@
 		      <property name="column_spacing">6</property>
 
 		      <child>
-			<widget class="GtkLabel" id="label425">
+			<widget class="GtkLabel" id="label-home-city">
 			  <property name="visible">True</property>
 			  <property name="label" translatable="yes">City:</property>
 			  <property name="use_underline">False</property>
@@ -2599,7 +2599,7 @@
 		      </child>
 
 		      <child>
-			<widget class="GtkLabel" id="label427">
+			<widget class="GtkLabel" id="label-home-zip">
 			  <property name="visible">True</property>
 			  <property name="label" translatable="yes">Zip/Postal Code:</property>
 			  <property name="use_underline">False</property>
@@ -2644,7 +2644,7 @@
 		      </child>
 
 		      <child>
-			<widget class="GtkLabel" id="label426">
+			<widget class="GtkLabel" id="label-home-state">
 			  <property name="visible">True</property>
 			  <property name="label" translatable="yes">State/Province:</property>
 			  <property name="use_underline">False</property>
@@ -2689,7 +2689,7 @@
 		      </child>
 
 		      <child>
-			<widget class="GtkLabel" id="label428">
+			<widget class="GtkLabel" id="label-home-country">
 			  <property name="visible">True</property>
 			  <property name="label" translatable="yes">Country:</property>
 			  <property name="use_underline">False</property>
@@ -2734,7 +2734,7 @@
 		      </child>
 
 		      <child>
-			<widget class="GtkLabel" id="label445">
+			<widget class="GtkLabel" id="label-home-address">
 			  <property name="visible">True</property>
 			  <property name="label" translatable="yes">Address:</property>
 			  <property name="use_underline">False</property>
@@ -2815,7 +2815,7 @@
 		      </child>
 
 		      <child>
-			<widget class="GtkLabel" id="label447">
+			<widget class="GtkLabel" id="label-home-pobox">
 			  <property name="visible">True</property>
 			  <property name="label" translatable="yes">PO Box:</property>
 			  <property name="use_underline">False</property>
@@ -2884,7 +2884,7 @@
 		      <property name="column_spacing">6</property>
 
 		      <child>
-			<widget class="GtkLabel" id="label432">
+			<widget class="GtkLabel" id="label-work-city">
 			  <property name="visible">True</property>
 			  <property name="label" translatable="yes">City:</property>
 			  <property name="use_underline">False</property>
@@ -2929,7 +2929,7 @@
 		      </child>
 
 		      <child>
-			<widget class="GtkLabel" id="label433">
+			<widget class="GtkLabel" id="label-work-state">
 			  <property name="visible">True</property>
 			  <property name="label" translatable="yes">State/Province:</property>
 			  <property name="use_underline">False</property>
@@ -2974,7 +2974,7 @@
 		      </child>
 
 		      <child>
-			<widget class="GtkLabel" id="label434">
+			<widget class="GtkLabel" id="label-work-zip">
 			  <property name="visible">True</property>
 			  <property name="label" translatable="yes">Zip/Postal Code:</property>
 			  <property name="use_underline">False</property>
@@ -3019,7 +3019,7 @@
 		      </child>
 
 		      <child>
-			<widget class="GtkLabel" id="label435">
+			<widget class="GtkLabel" id="label-work-country">
 			  <property name="visible">True</property>
 			  <property name="label" translatable="yes">Country:</property>
 			  <property name="use_underline">False</property>
@@ -3064,7 +3064,7 @@
 		      </child>
 
 		      <child>
-			<widget class="GtkLabel" id="label430">
+			<widget class="GtkLabel" id="label-work-address">
 			  <property name="visible">True</property>
 			  <property name="label" translatable="yes">Address:</property>
 			  <property name="use_underline">False</property>
@@ -3145,7 +3145,7 @@
 		      </child>
 
 		      <child>
-			<widget class="GtkLabel" id="label448">
+			<widget class="GtkLabel" id="label-work-pobox">
 			  <property name="visible">True</property>
 			  <property name="label" translatable="yes">PO Box:</property>
 			  <property name="use_underline">False</property>
@@ -3214,7 +3214,7 @@
 		      <property name="column_spacing">6</property>
 
 		      <child>
-			<widget class="GtkLabel" id="label440">
+			<widget class="GtkLabel" id="label-other-city">
 			  <property name="visible">True</property>
 			  <property name="label" translatable="yes">City:</property>
 			  <property name="use_underline">False</property>
@@ -3259,7 +3259,7 @@
 		      </child>
 
 		      <child>
-			<widget class="GtkLabel" id="label446">
+			<widget class="GtkLabel" id="label-other-address">
 			  <property name="visible">True</property>
 			  <property name="label" translatable="yes">Address:</property>
 			  <property name="use_underline">False</property>
@@ -3304,7 +3304,7 @@
 		      </child>
 
 		      <child>
-			<widget class="GtkLabel" id="label441">
+			<widget class="GtkLabel" id="label-other-state">
 			  <property name="visible">True</property>
 			  <property name="label" translatable="yes">State/Province:</property>
 			  <property name="use_underline">False</property>
@@ -3328,7 +3328,7 @@
 		      </child>
 
 		      <child>
-			<widget class="GtkLabel" id="label442">
+			<widget class="GtkLabel" id="label-other-zip">
 			  <property name="visible">True</property>
 			  <property name="label" translatable="yes">Zip/Postal Code:</property>
 			  <property name="use_underline">False</property>
@@ -3373,7 +3373,7 @@
 		      </child>
 
 		      <child>
-			<widget class="GtkLabel" id="label443">
+			<widget class="GtkLabel" id="label-other-country">
 			  <property name="visible">True</property>
 			  <property name="label" translatable="yes">Country:</property>
 			  <property name="use_underline">False</property>
@@ -3475,7 +3475,7 @@
 		      </child>
 
 		      <child>
-			<widget class="GtkLabel" id="label449">
+			<widget class="GtkLabel" id="label-other-pobox">
 			  <property name="visible">True</property>
 			  <property name="label" translatable="yes">PO Box:</property>
 			  <property name="use_underline">False</property>

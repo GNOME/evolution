@@ -1,5 +1,18 @@
 2004-06-22  Hans Petter Jansson  <hpj@ximian.com>
 
+	* gui/contact-editor/contact-editor.glade: Name the labels.
+
+	* gui/contact-editor/e-contact-editor.c (sensitize_email_record)
+	(sensitize_phone_record)
+	(sensitize_im_record)
+	(sensitize_address_textview)
+	(sensitize_address_field)
+	(simple_field_map)
+	(sensitize_simple_field): Make entries uneditable and labels
+	insensitive, if field is disabled or read-only.
+
+2004-06-22  Hans Petter Jansson  <hpj@ximian.com>
+
 	Fixes #59622.
 
 	* gui/widgets/e-minicard-view.c (e_minicard_view_init): Clear drag_list

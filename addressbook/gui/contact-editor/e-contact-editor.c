@@ -962,7 +962,7 @@ sensitize_email_record (EContactEditor *editor, gint record, gboolean enabled)
 	g_free (widget_name);
 
 	gtk_widget_set_sensitive (location_option_menu, enabled);
-	gtk_widget_set_sensitive (email_entry, enabled);
+	gtk_editable_set_editable (GTK_EDITABLE (email_entry), enabled);
 }
 
 static void
@@ -1265,7 +1265,7 @@ sensitize_phone_record (EContactEditor *editor, gint record, gboolean enabled)
 	g_free (widget_name);
 
 	gtk_widget_set_sensitive (phone_type_option_menu, enabled);
-	gtk_widget_set_sensitive (phone_entry, enabled);
+	gtk_editable_set_editable (GTK_EDITABLE (phone_entry), enabled);
 
 	sensitize_phone_types (editor, phone_type_option_menu);
 }
@@ -1556,7 +1556,7 @@ sensitize_im_record (EContactEditor *editor, gint record, gboolean enabled)
 #ifdef ENABLE_IM_LOCATION
 	gtk_widget_set_sensitive (location_option_menu, enabled);
 #endif
-	gtk_widget_set_sensitive (name_entry, enabled);
+	gtk_editable_set_editable (GTK_EDITABLE (name_entry), enabled);
 }
 
 static void
@@ -1776,28 +1776,40 @@ extract_address (EContactEditor *editor)
 static void
 sensitize_address_textview (EContactEditor *editor, gint record, gboolean enabled)
 {
-	gchar         *textview_name;
+	gchar         *widget_name;
 	GtkWidget     *textview;
+	GtkWidget     *label;
 
-	textview_name = g_strdup_printf ("textview-%s-address", address_name [record]);
-	textview = glade_xml_get_widget (editor->gui, textview_name);
-	g_free (textview_name);
+	widget_name = g_strdup_printf ("textview-%s-address", address_name [record]);
+	textview = glade_xml_get_widget (editor->gui, widget_name);
+	g_free (widget_name);
 
-	gtk_widget_set_sensitive (textview, enabled);
+	widget_name = g_strdup_printf ("label-%s-address", address_name [record]);
+	label = glade_xml_get_widget (editor->gui, widget_name);
+	g_free (widget_name);
+
+	gtk_text_view_set_editable (GTK_TEXT_VIEW (textview), enabled);
+	gtk_widget_set_sensitive (label, enabled);
 }
 
 static void
 sensitize_address_field (EContactEditor *editor, gint record, const gchar *widget_field_name,
 			 gboolean enabled)
 {
-	gchar     *entry_name;
+	gchar     *widget_name;
 	GtkWidget *entry;
+	GtkWidget *label;
 
-	entry_name = g_strdup_printf ("entry-%s-%s", address_name [record], widget_field_name);
-	entry = glade_xml_get_widget (editor->gui, entry_name);
-	g_free (entry_name);
+	widget_name = g_strdup_printf ("entry-%s-%s", address_name [record], widget_field_name);
+	entry = glade_xml_get_widget (editor->gui, widget_name);
+	g_free (widget_name);
 
-	gtk_widget_set_sensitive (entry, enabled);
+	widget_name = g_strdup_printf ("label-%s-%s", address_name [record], widget_field_name);
+	label = glade_xml_get_widget (editor->gui, widget_name);
+	g_free (widget_name);
+
+	gtk_editable_set_editable (GTK_EDITABLE (entry), enabled);
+	gtk_widget_set_sensitive (label, enabled);
 }
 
 static void
@@ -1844,61 +1856,61 @@ FieldMapping;
 
 static FieldMapping simple_field_map [] = {
 	{ "entry-homepage",       E_CONTACT_HOMEPAGE_URL, TRUE,  TRUE  },
-	{ "accellabel-homepage",  E_CONTACT_HOMEPAGE_URL, FALSE, FALSE },
+	{ "accellabel-homepage",  E_CONTACT_HOMEPAGE_URL, FALSE, TRUE  },
 
 	{ "entry-jobtitle",       E_CONTACT_TITLE,        TRUE,  TRUE  },
-	{ "label-jobtitle",       E_CONTACT_TITLE,        FALSE, FALSE },
+	{ "label-jobtitle",       E_CONTACT_TITLE,        FALSE, TRUE  },
 
 	{ "entry-company",        E_CONTACT_ORG,          TRUE,  TRUE  },
-	{ "label-company",        E_CONTACT_ORG,          FALSE, FALSE },
+	{ "label-company",        E_CONTACT_ORG,          FALSE, TRUE  },
 
 	{ "entry-department",     E_CONTACT_ORG_UNIT,     TRUE,  TRUE  },
-	{ "label-department",     E_CONTACT_ORG_UNIT,     FALSE, FALSE },
+	{ "label-department",     E_CONTACT_ORG_UNIT,     FALSE, TRUE  },
 
 	{ "entry-profession",     E_CONTACT_ROLE,         TRUE,  TRUE  },
-	{ "label-profession",     E_CONTACT_ROLE,         FALSE, FALSE },
+	{ "label-profession",     E_CONTACT_ROLE,         FALSE, TRUE  },
 
 	{ "entry-manager",        E_CONTACT_MANAGER,      TRUE,  TRUE  },
-	{ "label-manager",        E_CONTACT_MANAGER,      FALSE, FALSE },
+	{ "label-manager",        E_CONTACT_MANAGER,      FALSE, TRUE  },
 
 	{ "entry-assistant",      E_CONTACT_ASSISTANT,    TRUE,  TRUE  },
-	{ "label-assistant",      E_CONTACT_ASSISTANT,    FALSE, FALSE },
+	{ "label-assistant",      E_CONTACT_ASSISTANT,    FALSE, TRUE  },
 
 	{ "entry-nickname",       E_CONTACT_NICKNAME,     TRUE,  TRUE  },
-	{ "label-nickname",       E_CONTACT_NICKNAME,     FALSE, FALSE },
+	{ "label-nickname",       E_CONTACT_NICKNAME,     FALSE, TRUE  },
 
 	{ "dateedit-birthday",    E_CONTACT_BIRTH_DATE,   TRUE,  TRUE  },
-	{ "label-birthday",       E_CONTACT_BIRTH_DATE,   FALSE, FALSE },
+	{ "label-birthday",       E_CONTACT_BIRTH_DATE,   FALSE, TRUE  },
 
 	{ "dateedit-anniversary", E_CONTACT_ANNIVERSARY,  TRUE,  TRUE  },
-	{ "label-anniversary",    E_CONTACT_ANNIVERSARY,  FALSE, FALSE },
+	{ "label-anniversary",    E_CONTACT_ANNIVERSARY,  FALSE, TRUE  },
 
 	{ "entry-spouse",         E_CONTACT_SPOUSE,       TRUE,  TRUE  },
-	{ "label-spouse",         E_CONTACT_SPOUSE,       FALSE, FALSE },
+	{ "label-spouse",         E_CONTACT_SPOUSE,       FALSE, TRUE  },
 
 	{ "entry-office",         E_CONTACT_OFFICE,       TRUE,  TRUE  },
-	{ "label-office",         E_CONTACT_OFFICE,       FALSE, FALSE },
+	{ "label-office",         E_CONTACT_OFFICE,       FALSE, TRUE  },
 
 	{ "text-comments",        E_CONTACT_NOTE,         TRUE,  TRUE  },
-	{ "label-comments",       E_CONTACT_NOTE,         FALSE, FALSE },
+	{ "label-comments",       E_CONTACT_NOTE,         FALSE, TRUE  },
 
 	{ "entry-fullname",       E_CONTACT_FULL_NAME,    TRUE,  TRUE  },
-	{ "button-fullname",      E_CONTACT_FULL_NAME,    FALSE, FALSE },
+	{ "button-fullname",      E_CONTACT_FULL_NAME,    FALSE, TRUE  },
 
 	{ "entry-categories",     E_CONTACT_CATEGORIES,   TRUE,  TRUE  },
 	{ "button-categories",    E_CONTACT_CATEGORIES,   FALSE, TRUE  },
 
 	{ "entry-weblog",         E_CONTACT_BLOG_URL,     TRUE,  TRUE  },
-	{ "label-weblog",         E_CONTACT_BLOG_URL,     FALSE, FALSE },
+	{ "label-weblog",         E_CONTACT_BLOG_URL,     FALSE, TRUE  },
 
 	{ "entry-caluri",         E_CONTACT_CALENDAR_URI, TRUE,  TRUE  },
-	{ "label-caluri",         E_CONTACT_CALENDAR_URI, FALSE, FALSE },
+	{ "label-caluri",         E_CONTACT_CALENDAR_URI, FALSE, TRUE  },
 
 	{ "entry-fburl",          E_CONTACT_FREEBUSY_URL, TRUE,  TRUE  },
-	{ "label-fburl",          E_CONTACT_FREEBUSY_URL, FALSE, FALSE },
+	{ "label-fburl",          E_CONTACT_FREEBUSY_URL, FALSE, TRUE  },
 
 	{ "entry-videourl",       E_CONTACT_VIDEO_URL,    TRUE,  TRUE  },
-	{ "label-videourl",       E_CONTACT_VIDEO_URL,    FALSE, FALSE },
+	{ "label-videourl",       E_CONTACT_VIDEO_URL,    FALSE, TRUE  },
 
 	{ "checkbutton-htmlmail", E_CONTACT_WANTS_HTML,   TRUE,  TRUE  },
 
@@ -1907,7 +1919,7 @@ static FieldMapping simple_field_map [] = {
 
 	{ "combo-file-as",        E_CONTACT_FILE_AS,      FALSE, TRUE  },
 	{ "entry-file-as",        E_CONTACT_FILE_AS,      TRUE,  TRUE  },
-	{ "accellabel-fileas",    E_CONTACT_FILE_AS,      FALSE, FALSE },
+	{ "accellabel-fileas",    E_CONTACT_FILE_AS,      FALSE, TRUE  },
 };
 
 static void
@@ -2073,7 +2085,18 @@ extract_simple_field (EContactEditor *editor, GtkWidget *widget, gint field_id)
 static void
 sensitize_simple_field (GtkWidget *widget, gboolean enabled)
 {
-	gtk_widget_set_sensitive (widget, enabled);
+	if (GTK_IS_ENTRY (widget))
+		gtk_editable_set_editable (GTK_EDITABLE (widget), enabled);
+	else if (GTK_IS_TEXT_VIEW (widget))
+		gtk_text_view_set_editable (GTK_TEXT_VIEW (widget), enabled);
+	else if (E_IS_URL_ENTRY (widget)) {
+		GtkWidget *entry = e_url_entry_get_entry (E_URL_ENTRY (widget));
+		gtk_editable_set_editable (GTK_EDITABLE (entry), enabled);
+	}
+	else if (E_IS_DATE_EDIT (widget))
+		e_date_edit_set_editable (E_DATE_EDIT (widget), enabled);
+	else
+		gtk_widget_set_sensitive (widget, enabled);
 }
 
 static void
