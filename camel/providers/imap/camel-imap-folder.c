@@ -456,7 +456,7 @@ imap_append_message (CamelFolder *folder, CamelMimeMessage *message, CamelExcept
 	g_return_if_fail (message != NULL);
 
 	/* write the message to a CamelStreamMem so we can get it's size */
-	mem = CAMEL_STREAM_MEM (camel_stream_mem_new());
+	mem = CAMEL_STREAM_MEM (camel_stream_mem_new ());
 	if (camel_data_wrapper_write_to_stream (CAMEL_DATA_WRAPPER (message), CAMEL_STREAM (mem)) == -1) {
 		CamelService *service = CAMEL_SERVICE (folder->parent_store);
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
@@ -467,20 +467,18 @@ imap_append_message (CamelFolder *folder, CamelMimeMessage *message, CamelExcept
 	        return;
 	}
 
-	mem->buffer = g_byte_array_append (mem->buffer, g_strdup("\r\n"), 3);
+	mem->buffer = g_byte_array_append (mem->buffer, g_strdup ("\r\n"), 3);
 	
-	if (url && url->path && *(url->path + 1) && strcmp(folder->full_name, "INBOX"))
-		folder_path = g_strdup_printf ("%s/%s", url->path, folder->full_name);
+	if (url && url->path && *(url->path + 1) && strcmp (folder->full_name, "INBOX"))
+		folder_path = g_strdup_printf ("%s/%s", url->path + 1, folder->full_name);
 	else
 		folder_path = g_strdup (folder->full_name);
 
 	/* FIXME: len isn't really correct I don't think, we need to filter and possibly other things */
-	status = camel_imap_command (CAMEL_IMAP_STORE (folder->parent_store),
-				     folder, &result,
-				     "APPEND %s (\\Seen) {%d}\r\n%s",
-				     folder_path,
-				     mem->buffer->len,
-				     mem->buffer->data);
+	status = camel_imap_command_extended (CAMEL_IMAP_STORE (folder->parent_store),
+					      folder, &result,
+					      "APPEND %s (\\Seen) {%d}\r\n%s",
+					      folder_path, mem->buffer->len - 1, mem->buffer->data);
 
 	if (status != CAMEL_IMAP_OK) {
 		CamelService *service = CAMEL_SERVICE (folder->parent_store);
