@@ -1,3 +1,59 @@
+2002-03-14  Dan Winship  <danw@ximian.com>
+
+	Support for delayed filling-in of storages/folders.
+
+	* Evolution-Storage.idl (StorageListener): add
+	notifyHasSubfolders, to announce that a folder has currently-
+	unknown subfolders.
+	(Storage): add asyncOpenFolder, to request that previously-
+	announced subfolders be filled in.
+
+	* evolution-storage.c (impl_Storage_async_open_folder): emit
+	OPEN_FOLDER.
+	(evolution_storage_has_subfolders): Implement by calling
+	notifyHasSubfolders on all of its listeners.
+
+	* evolution-storage-listener.c
+	(impl_GNOME_Evolution_StorageListener_notifyHasSubfolders): emit
+	HAS_SUBFOLDERS.
+
+	* e-corba-storage.c (impl_StorageListener_notifyHasSubfolders):
+	Implement by calling e_storage_has_subfolders.
+	(async_open_folder): Implement by calling asyncOpenFolder on the
+	CORBA storage.
+
+	* e-storage.c (EStoragePrivate, init, destroy): Keep a list of
+	pseudofolders representing un-filled-in subtrees.
+	(impl_async_open_folder): No-op default implementation
+	(e_storage_async_open_folder): New function to request that
+	un-filled-in subtrees be filled in.
+	(e_storage_new_folder): If the new folder's parent has an
+	"un-filled-in children" pseudofolder, remove it.
+	(e_storage_has_subfolders): New function to note that a folder has
+	unknown children. If the folder previously was marked as having
+	real children, remove them, and emit CLOSE_FOLDER to reset it back
+	to an a "unknown subfolders" state.
+
+	* e-storage-set.c (make_full_path): Make this deal with path being
+	"/", since that case gets used from storage_close_folder_cb
+	sometimes.
+	(storage_close_folder_cb): Proxy EStorage's CLOSE_FOLDER signal.
+	(storage_set_view_folder_opened): Handle EStorageSetView's
+	FOLDER_OPENED signal by calling e_storage_async_open_folder.
+
+	* e-storage-set-view.c (etree_fill_in_children): If the given node
+	is its parent's first child, emit FOLDER_OPENED for the parent.
+	(close_folder_cb): Handler for EStorageSet's CLOSE_FOLDER signal.
+	Ask the model to close that node.
+	(e_storage_set_view_construct): Set the default expanded state for
+	the tree to FALSE rather than TRUE, to prevent unwanted expansion
+	of delayed nodes. (This only affects the very first time the tree
+	is displayed anyway: after that its state is loaded off disk.)
+
+	* e-shell.c (e_shell_construct): Register the "noselect" type with
+	the folder type registry, so icon lookups on placeholder folders
+	will work.
+
 2002-03-13  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-shell-settings-dialog.c (load_pages): Use

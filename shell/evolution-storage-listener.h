@@ -61,6 +61,9 @@ struct _EvolutionStorageListenerClass {
 				  int unread_count);
 	void (* removed_folder)  (EvolutionStorageListener *storage_listener,
 				  const char *path);
+	void (* has_subfolders)  (EvolutionStorageListener *storage_listener,
+				  const char *path,
+				  const char *message);
 };
 
 

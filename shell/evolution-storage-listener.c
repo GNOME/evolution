@@ -45,6 +45,7 @@ enum {
 	NEW_FOLDER,
 	UPDATE_FOLDER,
 	REMOVED_FOLDER,
+	HAS_SUBFOLDERS,
 	LAST_SIGNAL
 };
 static guint signals[LAST_SIGNAL] = { 0 };
@@ -119,6 +120,21 @@ impl_GNOME_Evolution_StorageListener_notifyFolderRemoved (PortableServer_Servant
 	priv = listener->priv;
 
 	gtk_signal_emit (GTK_OBJECT (listener), signals[REMOVED_FOLDER], path);
+}
+
+static void
+impl_GNOME_Evolution_StorageListener_notifyHasSubfolders (PortableServer_Servant servant,
+							  const CORBA_char *path,
+							  const CORBA_char *message,
+							  CORBA_Environment *ev)
+{
+	EvolutionStorageListener *listener;
+	EvolutionStorageListenerPrivate *priv;
+
+	listener = gtk_object_from_servant (servant);
+	priv = listener->priv;
+
+	gtk_signal_emit (GTK_OBJECT (listener), signals[HAS_SUBFOLDERS], path, message);
 }
 
 static EvolutionStorageListenerServant *
@@ -224,6 +240,7 @@ corba_class_init (void)
 	epv->notifyFolderCreated = impl_GNOME_Evolution_StorageListener_notifyFolderCreated;
 	epv->notifyFolderUpdated = impl_GNOME_Evolution_StorageListener_notifyFolderUpdated;
 	epv->notifyFolderRemoved = impl_GNOME_Evolution_StorageListener_notifyFolderRemoved;
+	epv->notifyHasSubfolders = impl_GNOME_Evolution_StorageListener_notifyHasSubfolders;
 
 	vepv = & my_GNOME_Evolution_StorageListener_vepv;
 	vepv->_base_epv                     = base_epv;
@@ -271,6 +288,15 @@ class_init (EvolutionStorageListenerClass *klass)
 						  GTK_SIGNAL_OFFSET (EvolutionStorageListenerClass, removed_folder),
 						  gtk_marshal_NONE__POINTER,
 						  GTK_TYPE_NONE, 1,
+						  GTK_TYPE_STRING);
+
+	signals[HAS_SUBFOLDERS] = gtk_signal_new ("has_subfolders",
+						  GTK_RUN_FIRST,
+						  object_class->type,
+						  GTK_SIGNAL_OFFSET (EvolutionStorageListenerClass, has_subfolders),
+						  gtk_marshal_NONE__POINTER_POINTER,
+						  GTK_TYPE_NONE, 2,
+						  GTK_TYPE_STRING,
 						  GTK_TYPE_STRING);
 
 	gtk_object_class_add_signals (object_class, signals, LAST_SIGNAL);

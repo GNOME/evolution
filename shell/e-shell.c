@@ -1097,6 +1097,11 @@ e_shell_construct (EShell *shell,
 	priv->uri_schema_registry  = e_uri_schema_registry_new ();
 	priv->storage_set          = e_storage_set_new (priv->folder_type_registry);
 	
+	e_folder_type_registry_register_type (priv->folder_type_registry,
+					      "noselect", "empty.gif",
+					      "noselect", "", FALSE,
+					      0, NULL, 0, NULL);
+
 	/* CORBA storages must be set up before the components, because otherwise components
            cannot register their own storages.  */
 	if (! setup_corba_storages (shell))

@@ -61,8 +61,9 @@ struct _EvolutionStoragePrivate {
 enum {
 	CREATE_FOLDER,
 	REMOVE_FOLDER,
-	UPDATE_FOLDER,
 	XFER_FOLDER,
+	UPDATE_FOLDER,
+	OPEN_FOLDER,
 
 	LAST_SIGNAL
 };
@@ -354,6 +355,20 @@ impl_Storage_updateFolder (PortableServer_Servant servant,
 }
 
 static void
+impl_Storage_async_open_folder (PortableServer_Servant servant,
+				const CORBA_char *path,
+				CORBA_Environment *ev)
+{
+	BonoboObject *bonobo_object;
+	EvolutionStorage *storage;
+
+	bonobo_object = bonobo_object_from_servant (servant);
+	storage = EVOLUTION_STORAGE (bonobo_object);
+
+	gtk_signal_emit (GTK_OBJECT (storage), signals[OPEN_FOLDER], path);
+}
+
+static void
 impl_Storage_add_listener (PortableServer_Servant servant,
 			   const GNOME_Evolution_StorageListener listener,
 			   CORBA_Environment *ev)
@@ -552,6 +567,15 @@ class_init (EvolutionStorageClass *klass)
 						 GTK_TYPE_STRING,
 						 GTK_TYPE_INT);
 
+	signals[OPEN_FOLDER] = gtk_signal_new ("open_folder",
+					       GTK_RUN_LAST,
+					       object_class->type,
+					       GTK_SIGNAL_OFFSET (EvolutionStorageClass,
+								  open_folder),
+					       gtk_marshal_NONE__POINTER,
+					       GTK_TYPE_NONE, 1,
+					       GTK_TYPE_STRING);
+
 	gtk_object_class_add_signals (object_class, signals, LAST_SIGNAL);
 
 	corba_class_init ();
@@ -582,6 +606,7 @@ evolution_storage_get_epv (void)
 	epv->asyncCreateFolder = impl_Storage_async_create_folder;
 	epv->asyncRemoveFolder = impl_Storage_async_remove_folder;
 	epv->asyncXferFolder   = impl_Storage_async_xfer_folder;
+	epv->asyncOpenFolder   = impl_Storage_async_open_folder;
 	epv->updateFolder      = impl_Storage_updateFolder;
 	epv->addListener       = impl_Storage_add_listener;
 	epv->removeListener    = impl_Storage_remove_listener;
@@ -1007,6 +1032,57 @@ evolution_storage_folder_exists (EvolutionStorage *evolution_storage,
 
 	return e_folder_tree_get_folder (priv->folder_tree, path) != NULL;
 }
+
+EvolutionStorageResult
+evolution_storage_has_subfolders (EvolutionStorage *evolution_storage,
+				  const char       *path,
+				  const char       *message)
+{
+	EvolutionStorageResult result;
+	EvolutionStoragePrivate *priv;
+	CORBA_Environment ev;
+	GList *p;
+
+	g_return_val_if_fail (evolution_storage != NULL,
+			      EVOLUTION_STORAGE_ERROR_INVALIDPARAMETER);
+	g_return_val_if_fail (EVOLUTION_IS_STORAGE (evolution_storage),
+			      EVOLUTION_STORAGE_ERROR_INVALIDPARAMETER);
+	g_return_val_if_fail (path != NULL, EVOLUTION_STORAGE_ERROR_INVALIDPARAMETER);
+	g_return_val_if_fail (g_path_is_absolute (path), EVOLUTION_STORAGE_ERROR_INVALIDPARAMETER);
+	g_return_val_if_fail (message != NULL, EVOLUTION_STORAGE_ERROR_INVALIDPARAMETER);
+
+	priv = evolution_storage->priv;
+
+	if (priv->corba_storage_listeners == NULL)
+		return EVOLUTION_STORAGE_ERROR_NOTREGISTERED;
+
+	CORBA_exception_init (&ev);
+
+	result = EVOLUTION_STORAGE_OK;
+
+	for (p = priv->corba_storage_listeners; p != NULL; p = p->next) {
+		GNOME_Evolution_StorageListener listener;
+
+		listener = p->data;
+		GNOME_Evolution_StorageListener_notifyHasSubfolders (listener, path, message, &ev);
+
+		if (ev._major != CORBA_NO_EXCEPTION)
+			continue;
+		if (ev._major != CORBA_USER_EXCEPTION)
+			result = EVOLUTION_STORAGE_ERROR_CORBA;
+		else if (strcmp (CORBA_exception_id (&ev), ex_GNOME_Evolution_StorageListener_NotFound) == 0)
+			result = EVOLUTION_STORAGE_ERROR_NOTFOUND;
+		else
+			result = EVOLUTION_STORAGE_ERROR_GENERIC;
+
+		break;
+	}
+
+	CORBA_exception_free (&ev);
+
+	return result;
+}
+
 
 
 E_MAKE_TYPE (evolution_storage, "EvolutionStorage", EvolutionStorage, class_init, init, PARENT_TYPE)

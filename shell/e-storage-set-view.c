@@ -101,6 +101,7 @@ struct _EStorageSetViewPrivate {
 
 enum {
 	FOLDER_SELECTED,
+	FOLDER_OPENED,
 	DND_ACTION,
 	FOLDER_CONTEXT_MENU_POPPING_UP,
 	FOLDER_CONTEXT_MENU_POPPED_DOWN,
@@ -1474,6 +1475,27 @@ etree_value_at (ETreeModel *etree,
 }
 
 static void
+etree_fill_in_children (ETreeModel *etree,
+			ETreePath tree_path,
+			void *model_data)
+{
+	EStorageSetView *storage_set_view;
+	EStorageSet *storage_set;
+	ETreePath *parent;
+	char *path;
+
+	storage_set_view = E_STORAGE_SET_VIEW (model_data);
+	storage_set = storage_set_view->priv->storage_set;
+
+	parent = e_tree_model_node_get_parent (etree, tree_path);
+	path = (char *) e_tree_memory_node_get_data (E_TREE_MEMORY(etree), parent);
+	if (tree_path == e_tree_model_node_get_first_child (etree, parent)) {
+		gtk_signal_emit (GTK_OBJECT (storage_set_view),
+				 signals[FOLDER_OPENED], path);
+	}
+}
+
+static void
 etree_set_value_at (ETreeModel *etree,
 		    ETreePath path,
 		    int col,
@@ -1699,6 +1721,24 @@ removed_folder_cb (EStorageSet *storage_set,
 	e_tree_memory_node_remove (E_TREE_MEMORY(etree), node);
 }
 
+static void
+close_folder_cb (EStorageSet *storage_set,
+		 const char *path,
+		 void *data)
+{
+	EStorageSetView *storage_set_view;
+	EStorageSetViewPrivate *priv;
+	ETreeModel *etree;
+	ETreePath node;
+
+	storage_set_view = E_STORAGE_SET_VIEW (data);
+	priv = storage_set_view->priv;
+	etree = priv->etree_model;
+
+	node = lookup_node_in_hash (storage_set_view, path);
+	e_tree_model_node_request_collapse (priv->etree_model, node);
+}
+
 
 static void
 class_init (EStorageSetViewClass *klass)
@@ -1729,6 +1769,15 @@ class_init (EStorageSetViewClass *klass)
 				  GTK_RUN_FIRST,
 				  object_class->type,
 				  GTK_SIGNAL_OFFSET (EStorageSetViewClass, folder_selected),
+				  gtk_marshal_NONE__STRING,
+				  GTK_TYPE_NONE, 1,
+				  GTK_TYPE_STRING);
+
+	signals[FOLDER_OPENED]
+		= gtk_signal_new ("folder_opened",
+				  GTK_RUN_FIRST,
+				  object_class->type,
+				  GTK_SIGNAL_OFFSET (EStorageSetViewClass, folder_opened),
 				  gtk_marshal_NONE__STRING,
 				  GTK_TYPE_NONE, 1,
 				  GTK_TYPE_STRING);
@@ -1969,7 +2018,7 @@ e_storage_set_view_construct (EStorageSetView   *storage_set_view,
 
 	e_tree_memory_set_node_destroy_func (E_TREE_MEMORY (priv->etree_model),
 					     etree_node_destroy_func, storage_set_view);
-	e_tree_memory_set_expanded_default (E_TREE_MEMORY (priv->etree_model), TRUE);
+	e_tree_memory_set_expanded_default (E_TREE_MEMORY (priv->etree_model), FALSE);
 
 	priv->root_node = e_tree_memory_node_insert (E_TREE_MEMORY(priv->etree_model), NULL, -1,
 						     g_strdup (ROOT_NODE_NAME));
@@ -2007,6 +2056,13 @@ e_storage_set_view_construct (EStorageSetView   *storage_set_view,
 					GTK_OBJECT (storage_set_view));
 	gtk_signal_connect_while_alive (GTK_OBJECT (storage_set), "removed_folder",
 					GTK_SIGNAL_FUNC (removed_folder_cb), storage_set_view,
+					GTK_OBJECT (storage_set_view));
+	gtk_signal_connect_while_alive (GTK_OBJECT (storage_set), "close_folder",
+					GTK_SIGNAL_FUNC (close_folder_cb), storage_set_view,
+					GTK_OBJECT (storage_set_view));
+
+	gtk_signal_connect_while_alive (GTK_OBJECT (priv->etree_model), "fill_in_children",
+					GTK_SIGNAL_FUNC (etree_fill_in_children), storage_set_view,
 					GTK_OBJECT (storage_set_view));
 
 	insert_storages (storage_set_view);

@@ -80,6 +80,7 @@ struct _EStorageClass {
 	void * (* new_folder)     (EStorage *storage, const char *path);
 	void * (* updated_folder) (EStorage *storage, const char *path);
 	void * (* removed_folder) (EStorage *storage, const char *path);
+	void * (* close_folder)   (EStorage *storage, const char *path);
 
 	/* Virtual methods.  */
 
@@ -105,6 +106,9 @@ struct _EStorageClass {
 					       const gboolean remove_source,
 					       EStorageResultCallback callback,
 					       void *data);
+
+	void         (* async_open_folder)    (EStorage *storage,
+					       const char *path);
 };
 
 
@@ -143,6 +147,8 @@ void  e_storage_async_xfer_folder    (EStorage               *storage,
 				      const gboolean          remove_source,
 				      EStorageResultCallback  callback,
 				      void                   *data);
+void  e_storage_async_open_folder    (EStorage               *storage,
+				      const char             *path);
 
 const char *e_storage_result_to_string  (EStorageResult result);
 
@@ -153,6 +159,7 @@ char *e_storage_get_path_for_physical_uri  (EStorage   *storage,
 
 /* Protected.  C++ anyone?  */
 gboolean  e_storage_new_folder      (EStorage *storage, const char *path, EFolder *folder);
+gboolean  e_storage_has_subfolders  (EStorage *storage, const char *path, const char *message);
 gboolean  e_storage_removed_folder  (EStorage *storage, const char *path);
 
 #ifdef __cplusplus

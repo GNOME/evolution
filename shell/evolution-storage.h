@@ -99,6 +99,9 @@ struct _EvolutionStorageClass {
 			     const char *destination_path,
 			     gboolean remove_source);
 
+	void (*open_folder) (EvolutionStorage *storage,
+			     const char *path);
+
 	void (*update_folder) (EvolutionStorage *storage,
 			       const char *path,
 			       int unread_count);
@@ -139,6 +142,9 @@ EvolutionStorageResult  evolution_storage_removed_folder       (EvolutionStorage
 								const char                      *path);
 gboolean                evolution_storage_folder_exists        (EvolutionStorage                *evolution_storage,
 								const char                      *path);
+EvolutionStorageResult  evolution_storage_has_subfolders       (EvolutionStorage                *evolution_storage,
+								const char                      *path,
+								const char                      *message);
 
 #ifdef __cplusplus
 }

@@ -163,6 +163,27 @@ impl_StorageListener_notifyFolderRemoved (PortableServer_Servant servant,
 				     NULL);
 }
 
+static void
+impl_StorageListener_notifyHasSubfolders (PortableServer_Servant servant,
+					  const CORBA_char *path,
+					  const CORBA_char *message,
+					  CORBA_Environment *ev)
+{
+	StorageListenerServant *storage_listener_servant;
+	EStorage *storage;
+
+	storage_listener_servant = (StorageListenerServant *) servant;
+	storage = storage_listener_servant->storage;
+
+	if (! e_storage_has_subfolders (storage, path, message)) {
+		g_warning ("Cannot register subfolder tree -- %s\n", path);
+		CORBA_exception_set (ev,
+				     CORBA_USER_EXCEPTION,
+				     ex_GNOME_Evolution_StorageListener_Exists,
+				     NULL);
+	}
+}
+
 
 static gboolean
 setup_storage_listener (ECorbaStorage *corba_storage)
@@ -433,6 +454,23 @@ async_xfer_folder (EStorage *storage,
 	CORBA_exception_free (&ev);
 }
 
+static void
+async_open_folder (EStorage *storage,
+		   const char *path)
+{
+	ECorbaStorage *corba_storage;
+	ECorbaStoragePrivate *priv;
+	CORBA_Environment ev;
+
+	corba_storage = E_CORBA_STORAGE (storage);
+	priv = corba_storage->priv;
+
+	CORBA_exception_init (&ev);
+	GNOME_Evolution_Storage_asyncOpenFolder (priv->storage_interface,
+						 path, &ev);
+	CORBA_exception_free (&ev);
+}
+
 
 static void
 corba_class_init (void)
@@ -450,6 +488,7 @@ corba_class_init (void)
 	epv->notifyFolderCreated = impl_StorageListener_notifyFolderCreated;
 	epv->notifyFolderUpdated = impl_StorageListener_notifyFolderUpdated;
 	epv->notifyFolderRemoved = impl_StorageListener_notifyFolderRemoved;
+	epv->notifyHasSubfolders = impl_StorageListener_notifyHasSubfolders;
 
 	vepv = &storage_listener_vepv;
 	vepv->_base_epv                     = base_epv;
@@ -469,6 +508,7 @@ class_init (ECorbaStorageClass *klass)
 	storage_class->async_create_folder = async_create_folder;
 	storage_class->async_remove_folder = async_remove_folder;
 	storage_class->async_xfer_folder = async_xfer_folder;
+	storage_class->async_open_folder = async_open_folder;
 
 	corba_class_init ();
 

@@ -61,6 +61,7 @@ enum {
 	NEW_FOLDER,
 	UPDATED_FOLDER,
 	REMOVED_FOLDER,
+	CLOSE_FOLDER,
 	LAST_SIGNAL
 };
 
@@ -153,7 +154,10 @@ make_full_path (EStorage *storage,
 
 	storage_name = e_storage_get_name (storage);
 
-	if (! g_path_is_absolute (path))
+	if (strcmp (path, G_DIR_SEPARATOR_S) == 0)
+		full_path = g_strconcat (G_DIR_SEPARATOR_S, storage_name,
+					 NULL);
+	else if (! g_path_is_absolute (path))
 		full_path = g_strconcat (G_DIR_SEPARATOR_S, storage_name,
 					 G_DIR_SEPARATOR_S, path, NULL);
 	else
@@ -205,6 +209,21 @@ storage_removed_folder_cb (EStorage *storage,
 
 	full_path = make_full_path (storage, path);
 	gtk_signal_emit (GTK_OBJECT (storage_set), signals[REMOVED_FOLDER], full_path);
+	g_free (full_path);
+}
+
+static void
+storage_close_folder_cb (EStorage *storage,
+			 const char *path,
+			 void *data)
+{
+	EStorageSet *storage_set;
+	char *full_path;
+
+	storage_set = E_STORAGE_SET (data);
+
+	full_path = make_full_path (storage, path);
+	gtk_signal_emit (GTK_OBJECT (storage_set), signals[CLOSE_FOLDER], full_path);
 	g_free (full_path);
 }
 
@@ -355,6 +374,14 @@ class_init (EStorageSetClass *klass)
 				gtk_marshal_NONE__STRING,
 				GTK_TYPE_NONE, 1,
 				GTK_TYPE_STRING);
+	signals[CLOSE_FOLDER] = 
+		gtk_signal_new ("close_folder",
+				GTK_RUN_FIRST,
+				object_class->type,
+				GTK_SIGNAL_OFFSET (EStorageSetClass, close_folder),
+				gtk_marshal_NONE__STRING,
+				GTK_TYPE_NONE, 1,
+				GTK_TYPE_STRING);
 
 	gtk_object_class_add_signals (object_class, signals, LAST_SIGNAL);
 }
@@ -456,6 +483,8 @@ e_storage_set_add_storage (EStorageSet *storage_set,
 			    GTK_SIGNAL_FUNC (storage_updated_folder_cb), storage_set);
 	gtk_signal_connect (GTK_OBJECT (storage), "removed_folder",
 			    GTK_SIGNAL_FUNC (storage_removed_folder_cb), storage_set);
+	gtk_signal_connect (GTK_OBJECT (storage), "close_folder",
+			    GTK_SIGNAL_FUNC (storage_close_folder_cb), storage_set);
 
 	priv->storages = g_list_append (priv->storages, storage);
 
@@ -568,6 +597,21 @@ e_storage_set_get_folder (EStorageSet *storage_set,
 }
 
 
+static void
+storage_set_view_folder_opened (EStorageSetView *storage_set_view,
+				const char *path,
+				EStorageSet *storage_set)
+{
+	EStorage *storage;
+	const char *subpath;
+
+	storage = get_storage_for_path (storage_set, path, &subpath);
+	if (storage == NULL)
+		return;
+
+	e_storage_async_open_folder (storage, subpath);
+}
+
 GtkWidget *
 e_storage_set_new_view (EStorageSet *storage_set, BonoboUIContainer *container)
 {
@@ -577,6 +621,9 @@ e_storage_set_new_view (EStorageSet *storage_set, BonoboUIContainer *container)
 	g_return_val_if_fail (E_IS_STORAGE_SET (storage_set), NULL);
 
 	storage_set_view = e_storage_set_view_new (storage_set, container);
+	gtk_signal_connect (GTK_OBJECT (storage_set_view), "folder_opened",
+			    GTK_SIGNAL_FUNC (storage_set_view_folder_opened),
+			    storage_set);
 
 	return storage_set_view;
 }

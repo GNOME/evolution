@@ -54,6 +54,8 @@ module Evolution {
 				      in boolean remove_source,
 				      in Bonobo::Listener listener);
 
+		void asyncOpenFolder (in string path);
+
 		void updateFolder (in string path,
 				   in long unread_count);
 
@@ -72,15 +74,19 @@ module Evolution {
 
 		/* FIXME exceptions don't make much sense here...  */
 
-		void notifyFolderCreated (in string  path,
-					  in Folder  folder)
+		void notifyFolderCreated (in string path,
+					  in Folder folder)
 			raises (Exists);
 		
-		void notifyFolderUpdated (in string  path,
-					  in long    unread_count)
+		void notifyFolderUpdated (in string path,
+					  in long   unread_count)
 			raises (NotFound);
 
-		void notifyFolderRemoved (in string  path)
+		void notifyFolderRemoved (in string path)
+			raises (NotFound);
+
+		void notifyHasSubfolders (in string path,
+					  in string message)
 			raises (NotFound);
 	};
 
