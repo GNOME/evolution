@@ -536,7 +536,7 @@ mlf_class_init (CamelObjectClass *camel_object_class)
 }
 
 static void
-mlf_init (CamelObject *obj)
+mlf_init (CamelObject *obj, CamelObjectClass *klass)
 {
 	MailLocalFolder *mlf = MAIL_LOCAL_FOLDER (obj);
 

@@ -100,7 +100,6 @@ folder_browser_window_new (FolderBrowser *fb)
 	FolderBrowserWindow *new;
 	BonoboUIContainer *uicont;
 	BonoboUIComponent *uic;
-	CORBA_Environment ev;
 	
 	g_return_val_if_fail (IS_FOLDER_BROWSER (fb), NULL);
 	

@@ -89,7 +89,6 @@ mail_account_editor_finalize (GtkObject *obj)
 static gboolean
 apply_changes (MailAccountEditor *editor)
 {
-	MailConfigAccount *account;
 	GtkWidget *incomplete;
 	int page = -1;
 	

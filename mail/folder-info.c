@@ -10,6 +10,8 @@
 #include <config.h>
 #endif
 
+#include "folder-info.h"
+
 #include "Mail.h"
 
 #include <glib.h>
@@ -61,7 +63,6 @@ struct _folder_info_msg {
 	int unread;
 };
 
-static GtkType evolution_folder_info_get_type (void);
 gboolean ready;
 
 static char *
@@ -168,6 +169,7 @@ impl_GNOME_Evolution_FolderInfo_getInfo (PortableServer_Servant servant,
 	mail_get_info (foldername, listener);
 }
 
+#if 0
 static void
 destroy (GtkObject *object)
 {
@@ -175,6 +177,7 @@ destroy (GtkObject *object)
 
 	bonobo_object_unref (BONOBO_OBJECT (info->pb));
 }
+#endif
 
 static void
 evolution_folder_info_class_init (EvolutionFolderInfoClass *klass)

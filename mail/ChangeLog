@@ -1,3 +1,26 @@
+2002-05-14  Christopher James Lahey  <clahey@ximian.com>
+
+	* component-factory.c: Added #include "folder-info.h".
+
+	* folder-browser-window.c (folder_browser_window_new),
+	mail-account-editor.c (apply_changes), mail-account-gui.c
+	(mail_account_gui_save), message-tag-editor.c: Removed some unused
+	variables.
+
+	* folder-info.c: Added #include "folder-info.h".  Removed static
+	declaration of evolution_folder_info_get_type.
+
+	* folder-info.c (destroy), mail-callbacks.c
+	(confirm_goto_next_folder, find_current_folder,
+	find_next_folder_r, find_next_folder,
+	do_evil_kludgy_goto_next_folder_hack), mail-composer-prefs.c
+	(sig_name_changed): Commented out these unused functions.
+
+	* mail-config.c (add_new_storage): Removed this unused function.
+
+	* mail-local.c (mlf_init): Fix the declaration of this function to
+	match the required signature.
+
 2002-05-13  Christopher James Lahey  <clahey@ximian.com>
 
 	* message-list.etspec: Added search="string" where appropriate.

@@ -40,12 +40,6 @@ static void tag_set_value (MessageTagEditor *editor, const char *value);
 
 static GnomeDialogClass *parent_class;
 
-enum {
-	LAST_SIGNAL
-};
-
-static guint signals[LAST_SIGNAL] = { 0 };
-
 GtkType
 message_tag_editor_get_type (void)
 {
@@ -100,7 +94,7 @@ message_tag_editor_init (MessageTagEditor *editor)
 static void
 message_tag_editor_finalise (GtkObject *obj)
 {
-	MessageTagEditor *editor = (MessageTagEditor *) obj;
+	/*	MessageTagEditor *editor = (MessageTagEditor *) obj;*/
 	
         ((GtkObjectClass *)(parent_class))->finalize (obj);
 }

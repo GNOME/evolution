@@ -2362,6 +2362,7 @@ undelete_msg (GtkWidget *button, gpointer user_data)
 }
 
 
+#if 0
 static gboolean
 confirm_goto_next_folder (FolderBrowser *fb)
 {
@@ -2505,6 +2506,7 @@ do_evil_kludgy_goto_next_folder_hack (FolderBrowser *fb)
 	
 	camel_store_free_folder_info (store, root);
 }
+#endif
 
 void
 next_msg (GtkWidget *button, gpointer user_data)

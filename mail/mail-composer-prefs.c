@@ -358,6 +358,7 @@ sig_fill_clist (GtkCList *clist)
 	gtk_clist_thaw (clist);
 }
 
+#if 0
 static void
 sig_name_changed (GtkWidget *widget, MailComposerPrefs *prefs)
 {
@@ -371,6 +372,7 @@ sig_name_changed (GtkWidget *widget, MailComposerPrefs *prefs)
 	
 	sig_write_and_update_preview (prefs, sig);
 }
+#endif
 
 static void
 sig_random_toggled (GtkWidget *widget, MailComposerPrefs *prefs)

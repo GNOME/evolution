@@ -1964,7 +1964,7 @@ mail_account_gui_save (MailAccountGui *gui)
 	const MailConfigAccount *old_account;
 	CamelProvider *provider = NULL;
 	CamelURL *source_url = NULL, *url;
-	char *new_name, *string;
+	char *new_name;
 	gboolean old_enabled;
 	
 	if (!mail_account_gui_identity_complete (gui, NULL) ||

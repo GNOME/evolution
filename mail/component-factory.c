@@ -37,6 +37,7 @@
 #include "evolution-shell-component.h"
 #include "evolution-shell-component-dnd.h"
 #include "folder-browser.h"
+#include "folder-info.h"
 #include "mail.h"
 #include "mail-config.h"
 #include "mail-config-factory.h"

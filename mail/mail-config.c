@@ -2355,16 +2355,6 @@ mail_config_get_accounts (void)
 	return config->accounts;
 }
 
-static void
-add_new_storage (const char *url, const char *name)
-{
-	extern EvolutionShellClient *global_shell_client;
-	GNOME_Evolution_Shell corba_shell;
-
-	corba_shell = bonobo_object_corba_objref (BONOBO_OBJECT (global_shell_client));
-	mail_load_storage_by_uri (corba_shell, url, name);
-}
-
 void
 mail_config_add_account (MailConfigAccount *account)
 {
