@@ -27,6 +27,7 @@
 #include <libxml/xmlmemory.h>
 
 #include <glib.h>
+#include <gtk/gtkbutton.h>
 #include <gtk/gtkhbox.h>
 #include <gtk/gtkstock.h>
 #include <gtk/gtkdialog.h>
@@ -177,7 +178,7 @@ find_node(xmlNodePtr base, const char *name)
   <_title>Window Title</_title>?
   <_primary>Primary error text.</_primary>?
   <_secondary>Secondary error text.</_secondary>?
-  <button ( stock="stock-button-id" | _label="button label" ) response="response_id"? > *
+  <button stock="stock-button-id"? _label="button label"? response="response_id"? > *
  </error>
 
  Because we use intltool we need to do some weird shit to do with
@@ -406,6 +407,7 @@ e_error_newv(GtkWindow *parent, const char *tag, const char *arg0, va_list ap)
 		/* setup a dummy error */
 		tmp = g_strdup_printf(_("<span weight=\"bold\">Internal error, unknown error '%s' requested</span>"), tag);
 		w = gtk_label_new(NULL);
+		gtk_label_set_selectable((GtkLabel *)w, TRUE);
 		gtk_label_set_line_wrap((GtkLabel *)w, TRUE);
 		gtk_label_set_markup((GtkLabel *)w, tmp);
 		gtk_widget_show(w);
@@ -423,10 +425,15 @@ e_error_newv(GtkWindow *parent, const char *tag, const char *arg0, va_list ap)
 		gtk_dialog_add_button(dialog, GTK_STOCK_OK, GTK_RESPONSE_OK);
 	} else {
 		for (b = e->buttons;b;b=b->next) {
-			/* TODO: allow stock icons on non-stock labels */
-			if (b->stock)
-				gtk_dialog_add_button(dialog, b->stock, b->response);
-			else
+			if (b->stock) {
+				if (b->label) {
+					w = gtk_button_new_from_stock(b->stock);
+					gtk_button_set_label((GtkButton *)w, b->label);
+					gtk_widget_show(w);
+					gtk_dialog_add_action_widget(dialog, w, b->response);
+				} else
+					gtk_dialog_add_button(dialog, b->stock, b->response);
+			} else
 				gtk_dialog_add_button(dialog, b->label, b->response);
 		}
 	}
@@ -469,6 +476,7 @@ e_error_newv(GtkWindow *parent, const char *tag, const char *arg0, va_list ap)
 	g_ptr_array_free(args, TRUE);
 
 	w = gtk_label_new(NULL);
+	gtk_label_set_selectable((GtkLabel *)w, TRUE);
 	gtk_label_set_line_wrap((GtkLabel *)w, TRUE);
 	gtk_label_set_markup((GtkLabel *)w, out->str);
 	g_string_free(out, TRUE);

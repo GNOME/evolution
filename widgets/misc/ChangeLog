@@ -1,3 +1,9 @@
+2004-04-29  Not Zed  <NotZed@Ximian.com>
+
+	* e-error.c (e_error_newv): make the label selectable.
+	(e_error_newv): if we have stock and label set, then use a stock
+	button with an override label.
+
 2004-04-28  Not Zed  <NotZed@Ximian.com>
 
 	* e-system-errors.xml.in: holder for system errors.
