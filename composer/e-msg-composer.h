@@ -76,15 +76,17 @@ struct _EMsgComposer {
 	char *sig_file;
 	
 	gboolean attachment_bar_visible : 1;
-	gboolean send_html    : 1;
-	gboolean pgp_sign     : 1;
-	gboolean pgp_encrypt  : 1;
-	gboolean view_from    : 1;
-	gboolean view_replyto : 1;
-	gboolean view_bcc     : 1;
-	gboolean view_cc      : 1;
-	gboolean view_subject : 1;
-	gboolean has_changed  : 1;
+	gboolean send_html     : 1;
+	gboolean pgp_sign      : 1;
+	gboolean pgp_encrypt   : 1;
+	gboolean smime_sign    : 1;
+	gboolean smime_encrypt : 1;
+	gboolean view_from     : 1;
+	gboolean view_replyto  : 1;
+	gboolean view_bcc      : 1;
+	gboolean view_cc       : 1;
+	gboolean view_subject  : 1;
+	gboolean has_changed   : 1;
 
 	gboolean in_signature_insert : 1;
 };
@@ -143,6 +145,13 @@ void              e_msg_composer_set_view_cc          (EMsgComposer     *compose
 
 const MailConfigAccount *e_msg_composer_get_preferred_account (EMsgComposer *composer);
 
+void              e_msg_composer_clear_inlined_table  (EMsgComposer     *composer);
+gchar *           e_msg_composer_guess_mime_type      (const gchar *file_name);
+
+void              e_msg_composer_set_changed          (EMsgComposer *composer);
+void              e_msg_composer_unset_changed        (EMsgComposer *composer);
+
+/* PGP */
 void              e_msg_composer_set_pgp_sign         (EMsgComposer     *composer,
 						       gboolean          pgp_sign);
 gboolean          e_msg_composer_get_pgp_sign         (EMsgComposer     *composer);
@@ -150,11 +159,13 @@ void              e_msg_composer_set_pgp_encrypt      (EMsgComposer     *compose
 						       gboolean          pgp_encrypt);
 gboolean          e_msg_composer_get_pgp_encrypt      (EMsgComposer     *composer);
 
-void              e_msg_composer_clear_inlined_table  (EMsgComposer     *composer);
-gchar *           e_msg_composer_guess_mime_type      (const gchar *file_name);
-
-void              e_msg_composer_set_changed          (EMsgComposer *composer);
-void              e_msg_composer_unset_changed        (EMsgComposer *composer);
+/* S/MIME */
+void              e_msg_composer_set_smime_sign         (EMsgComposer     *composer,
+							 gboolean          smime_sign);
+gboolean          e_msg_composer_get_smime_sign         (EMsgComposer     *composer);
+void              e_msg_composer_set_smime_encrypt      (EMsgComposer     *composer,
+							 gboolean          smime_encrypt);
+gboolean          e_msg_composer_get_smime_encrypt      (EMsgComposer     *composer);
 
 #ifdef __cplusplus
 }

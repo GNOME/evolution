@@ -1,3 +1,15 @@
+2001-05-16  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* e-msg-composer.c (build_message): Added S/MIME sign/encrypt code.
+	(init): Initalize smime_sign/encrypt.
+	(e_msg_composer_get_smime_encrypt): new
+	(e_msg_composer_set_smime_encrypt): new
+	(e_msg_composer_get_smime_sign): new
+	(e_msg_composer_set_smime_sign): new
+	(menu_security_smime_sign_cb): new
+	(menu_security_smime_encrypt_cb): new
+	(setup_ui): Setup the UI for S/MIME stuff.
+
 2001-05-10  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* e-msg-composer.c (build_message): If we are creating a message

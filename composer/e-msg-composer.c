@@ -413,7 +413,8 @@ build_message (EMsgComposer *composer)
 			break;
 		case MSG_FORMAT_PLAIN:
 			/* FIXME: this is just evil... */
-			if (!(composer->pgp_sign || composer->pgp_encrypt))
+			if (!(composer->pgp_sign || composer->pgp_encrypt ||
+			      composer->smime_sign || composer->smime_encrypt))
 				part = CAMEL_MIME_PART (new);
 			else
 				part = camel_mime_part_new ();
@@ -485,6 +486,70 @@ build_message (EMsgComposer *composer)
 		if (camel_exception_is_set (&ex))
 			goto exception;
 	}
+	
+#ifdef HAVE_NSS
+	if (composer->smime_sign) {
+		/* FIXME: should use the S/MIME signature certificate email address */
+		const char *address;
+		
+		camel_exception_init (&ex);
+		from = e_msg_composer_hdrs_get_from (E_MSG_COMPOSER_HDRS (composer->hdrs));
+		camel_internet_address_get (from, 0, NULL, &address);
+		mail_crypto_smime_part_sign (&part, address, CAMEL_CIPHER_HASH_SHA1,
+					     &ex);
+		camel_object_unref (CAMEL_OBJECT (from));
+		if (camel_exception_is_set (&ex))
+			goto exception;
+	}
+	
+	if (composer->smime_encrypt) {
+		/* FIXME: recipients should be an array of certificates rather than email addresses */
+		const CamelInternetAddress *addr;
+		const char *address;
+		GPtrArray *recipients;
+		int i, len;
+		
+		camel_exception_init (&ex);
+		recipients = g_ptr_array_new ();
+		
+		addr = camel_mime_message_get_recipients (new, CAMEL_RECIPIENT_TYPE_TO);
+		len = camel_address_length (CAMEL_ADDRESS (addr));
+		for (i = 0; i < len; i++) {
+			camel_internet_address_get (addr, i, NULL, &address);
+			g_ptr_array_add (recipients, g_strdup (address));
+		}
+		
+		addr = camel_mime_message_get_recipients (new, CAMEL_RECIPIENT_TYPE_CC);
+		len = camel_address_length (CAMEL_ADDRESS (addr));
+		for (i = 0; i < len; i++) {
+			camel_internet_address_get (addr, i, NULL, &address);
+			g_ptr_array_add (recipients, g_strdup (address));
+		}
+		
+		addr = camel_mime_message_get_recipients (new, CAMEL_RECIPIENT_TYPE_BCC);
+		len = camel_address_length (CAMEL_ADDRESS (addr));
+		for (i = 0; i < len; i++) {
+			camel_internet_address_get (addr, i, NULL, &address);
+			g_ptr_array_add (recipients, g_strdup (address));
+		}
+		
+		mail_crypto_smime_part_encrypt (&part, recipients, &ex);
+		for (i = 0; i < recipients->len; i++)
+			g_free (recipients->pdata[i]);
+		g_ptr_array_free (recipients, TRUE);
+		if (camel_exception_is_set (&ex))
+			goto exception;
+	}
+#else
+	if (composer->smime_sign || composer->smime_encrypt) {
+		camel_exception_setv (&ex, CAMEL_EXCEPTION_SYSTEM,
+				      _("This version of Evolution was not built with support for S/MIME.\n"
+					"You may wish to instead use PGP to %s your document."),
+				      composer->smime_sign && composer->smime_encrypt ? _("sign and encrypt") :
+				      (composer->smime_sign ? _("sign") : _("encrypt")));
+		goto exception;
+	}
+#endif /* HAVE_NSS */
 	
 	/* set the toplevel mime part of the message */
 	if (part != CAMEL_MIME_PART (new)) {
@@ -1193,7 +1258,7 @@ menu_security_pgp_sign_cb (BonoboUIComponent           *component,
 {
 	if (type != Bonobo_UIComponent_STATE_CHANGED)
 		return;
-
+	
 	e_msg_composer_set_pgp_sign (E_MSG_COMPOSER (composer), atoi (state));
 }
 
@@ -1210,6 +1275,35 @@ menu_security_pgp_encrypt_cb (BonoboUIComponent           *component,
 	
 	e_msg_composer_set_pgp_encrypt (E_MSG_COMPOSER (composer), atoi (state));
 }
+
+static void
+menu_security_smime_sign_cb (BonoboUIComponent           *component,
+			     const char                  *path,
+			     Bonobo_UIComponent_EventType type,
+			     const char                  *state,
+			     gpointer                     composer)
+
+{
+	if (type != Bonobo_UIComponent_STATE_CHANGED)
+		return;
+	
+	e_msg_composer_set_smime_sign (E_MSG_COMPOSER (composer), atoi (state));
+}
+
+static void
+menu_security_smime_encrypt_cb (BonoboUIComponent           *component,
+				const char                  *path,
+				Bonobo_UIComponent_EventType type,
+				const char                  *state,
+				gpointer                     composer)
+
+{
+	if (type != Bonobo_UIComponent_STATE_CHANGED)
+		return;
+	
+	e_msg_composer_set_smime_encrypt (E_MSG_COMPOSER (composer), atoi (state));
+}
+
 
 static void
 menu_view_from_cb (BonoboUIComponent           *component,
@@ -1285,6 +1379,7 @@ static void
 setup_ui (EMsgComposer *composer)
 {
 	BonoboUIContainer *container;
+	gboolean hide_smime;
 	
 	container = bonobo_ui_container_new ();
 	bonobo_ui_container_set_win (container, BONOBO_WINDOW (composer));
@@ -1358,6 +1453,36 @@ setup_ui (EMsgComposer *composer)
 	bonobo_ui_component_add_listener (
 		composer->uic, "SecurityPGPEncrypt",
 		menu_security_pgp_encrypt_cb, composer);
+	
+#ifdef HAVE_NSS
+	hide_smime = FALSE;
+#else
+	hide_smime = TRUE;
+#endif
+	
+	/* Security -> S/MIME Sign */
+	bonobo_ui_component_set_prop (
+		composer->uic, "/commands/SecuritySMimeSign",
+		"state", composer->smime_sign ? "1" : "0", NULL);
+	bonobo_ui_component_set_prop (
+		composer->uic, "/commands/SecuritySMimeSign",
+		"hidden", hide_smime ? "1" : "0", NULL);
+	
+	bonobo_ui_component_add_listener (
+		composer->uic, "SecuritySMimeSign",
+		menu_security_smime_sign_cb, composer);
+	
+	/* Security -> S/MIME Encrypt */
+	bonobo_ui_component_set_prop (
+		composer->uic, "/commands/SecuritySMimeEncrypt",
+		"state", composer->smime_encrypt ? "1" : "0", NULL);
+	bonobo_ui_component_set_prop (
+		composer->uic, "/commands/SecuritySMimeEncrypt",
+		"hidden", hide_smime ? "1" : "0", NULL);
+	
+	bonobo_ui_component_add_listener (
+		composer->uic, "SecuritySMimeEncrypt",
+		menu_security_smime_encrypt_cb, composer);
 	
 	/* View -> Attachments */
 	bonobo_ui_component_add_listener (
@@ -1596,7 +1721,9 @@ init (EMsgComposer *composer)
 	composer->send_html                = FALSE;
 	composer->pgp_sign                 = FALSE;
 	composer->pgp_encrypt              = FALSE;
-
+	composer->smime_sign               = FALSE;
+	composer->smime_encrypt            = FALSE;
+	
 	composer->has_changed              = FALSE;
 }
 
@@ -2583,7 +2710,7 @@ e_msg_composer_get_pgp_sign (EMsgComposer *composer)
 {
 	g_return_val_if_fail (composer != NULL, FALSE);
 	g_return_val_if_fail (E_IS_MSG_COMPOSER (composer), FALSE);
-
+	
 	return composer->pgp_sign;
 }
 
@@ -2626,8 +2753,93 @@ e_msg_composer_get_pgp_encrypt (EMsgComposer *composer)
 {
 	g_return_val_if_fail (composer != NULL, FALSE);
 	g_return_val_if_fail (E_IS_MSG_COMPOSER (composer), FALSE);
-
+	
 	return composer->pgp_encrypt;
+}
+
+
+/**
+ * e_msg_composer_set_smime_sign:
+ * @composer: A message composer widget
+ * @send_html: Whether the composer should have the "S/MIME Sign" flag set
+ * 
+ * Set the status of the "S/MIME Sign" toggle item.  The user can override it.
+ **/
+void
+e_msg_composer_set_smime_sign (EMsgComposer *composer, gboolean smime_sign)
+{
+	g_return_if_fail (composer != NULL);
+	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
+	
+	if (composer->smime_sign && smime_sign)
+		return;
+	if (!composer->smime_sign && !smime_sign)
+		return;
+	
+	composer->smime_sign = smime_sign;
+	
+	bonobo_ui_component_set_prop (composer->uic, "/commands/SecuritySMimeSign",
+				      "state", composer->smime_sign ? "1" : "0", NULL);
+}
+
+/**
+ * e_msg_composer_get_smime_sign:
+ * @composer: A message composer widget
+ * 
+ * Get the status of the "S/MIME Sign" flag.
+ * 
+ * Return value: The status of the "S/MIME Sign" flag.
+ **/
+gboolean
+e_msg_composer_get_smime_sign (EMsgComposer *composer)
+{
+	g_return_val_if_fail (composer != NULL, FALSE);
+	g_return_val_if_fail (E_IS_MSG_COMPOSER (composer), FALSE);
+	
+	return composer->smime_sign;
+}
+
+
+/**
+ * e_msg_composer_set_smime_encrypt:
+ * @composer: A message composer widget
+ * @send_html: Whether the composer should have the "S/MIME Encrypt" flag set
+ * 
+ * Set the status of the "S/MIME Encrypt" toggle item.  The user can override it.
+ **/
+void
+e_msg_composer_set_smime_encrypt (EMsgComposer *composer, gboolean smime_encrypt)
+{
+	g_return_if_fail (composer != NULL);
+	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
+	
+	if (composer->smime_encrypt && smime_encrypt)
+		return;
+	if (!composer->smime_encrypt && !smime_encrypt)
+		return;
+	
+	composer->smime_encrypt = smime_encrypt;
+	
+	bonobo_ui_component_set_prop (composer->uic, "/commands/SecuritySMimeEncrypt",
+				      "state", composer->smime_encrypt ? "1" : "0", NULL);
+}
+
+
+/**
+ * e_msg_composer_get_smime_encrypt:
+ * @composer: A message composer widget
+ * 
+ * Get the status of the "S/MIME Encrypt" flag.
+ * 
+ * Return value: The status of the "S/MIME Encrypt" flag.
+ **/
+gboolean
+e_msg_composer_get_smime_encrypt (EMsgComposer *composer)
+{
+	g_return_val_if_fail (composer != NULL, FALSE);
+	g_return_val_if_fail (E_IS_MSG_COMPOSER (composer), FALSE);
+	
+	return composer->smime_encrypt;
 }
 
 
