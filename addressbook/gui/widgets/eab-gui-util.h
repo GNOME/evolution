@@ -66,6 +66,7 @@ typedef enum {
 } EABDisposition;
 
 void                eab_send_contact              (EContact       *contact,
+						   int             email_num,
 						   EABDisposition  disposition);
 void                eab_send_contact_list         (GList          *contacts,
 						   EABDisposition  disposition);

@@ -744,78 +744,85 @@ eab_transfer_contacts (EBook *source, GList *contacts /* adopted */, gboolean de
 
 #define COMPOSER_OAFID "OAFIID:GNOME_Evolution_Mail_Composer:" BASE_VERSION
 
-void
-eab_send_contact_list (GList *contacts, EABDisposition disposition)
+typedef struct {
+	EContact *contact;
+	int email_num; /* if the contact is a person (not a list), the email address to use */
+} ContactAndEmailNum;
+
+static void
+eab_send_to_contact_and_email_num_list (GList *c)
 {
 	GNOME_Evolution_Composer composer_server;
 	CORBA_Environment ev;
+	GNOME_Evolution_Composer_RecipientList *to_list, *cc_list, *bcc_list;
+	CORBA_char *subject;
+	int to_i, bcc_i;
+	GList *iter;
+	gint to_length = 0, bcc_length = 0;
 
-	if (contacts == NULL)
+	if (c == NULL)
 		return;
 
 	CORBA_exception_init (&ev);
 	
 	composer_server = bonobo_activation_activate_from_id (COMPOSER_OAFID, 0, NULL, &ev);
 
-	if (disposition == EAB_DISPOSITION_AS_TO) {
-		GNOME_Evolution_Composer_RecipientList *to_list, *cc_list, *bcc_list;
-		CORBA_char *subject;
-		int to_i, bcc_i;
-		GList *iter;
-		gint to_length = 0, bcc_length = 0;
-
-		/* Figure out how many addresses of each kind we have. */
-		for (iter = contacts; iter != NULL; iter = g_list_next (iter)) {
-			EContact *contact = E_CONTACT (iter->data);
-			GList *emails = e_contact_get (contact, E_CONTACT_EMAIL);
-			if (e_contact_get (contact, E_CONTACT_IS_LIST)) {
-				gint len = g_list_length (emails);
-				if (e_contact_get (contact, E_CONTACT_LIST_SHOW_ADDRESSES))
-					to_length += len;
-				else
-					bcc_length += len;
-			} else {
-				if (emails != NULL)
-					++to_length;
-			}
-			g_list_foreach (emails, (GFunc)g_free, NULL);
-			g_list_free (emails);
+	/* Figure out how many addresses of each kind we have. */
+	for (iter = c; iter != NULL; iter = g_list_next (iter)) {
+		ContactAndEmailNum *ce = iter->data;
+		EContact *contact = ce->contact;
+		GList *emails = e_contact_get (contact, E_CONTACT_EMAIL);
+		if (e_contact_get (contact, E_CONTACT_IS_LIST)) {
+			gint len = g_list_length (emails);
+			if (e_contact_get (contact, E_CONTACT_LIST_SHOW_ADDRESSES))
+				to_length += len;
+			else
+				bcc_length += len;
+		} else {
+			if (emails != NULL)
+				++to_length;
 		}
+		g_list_foreach (emails, (GFunc)g_free, NULL);
+		g_list_free (emails);
+	}
 
-		/* Now I have to make a CORBA sequences that represents a recipient list with
-		   the right number of entries, for the contacts. */
-		to_list = GNOME_Evolution_Composer_RecipientList__alloc ();
-		to_list->_maximum = to_length;
-		to_list->_length = to_length;
-		if (to_length > 0) {
-			to_list->_buffer = CORBA_sequence_GNOME_Evolution_Composer_Recipient_allocbuf (to_length);
-		}
+	/* Now I have to make a CORBA sequences that represents a recipient list with
+	   the right number of entries, for the contacts. */
+	to_list = GNOME_Evolution_Composer_RecipientList__alloc ();
+	to_list->_maximum = to_length;
+	to_list->_length = to_length;
+	if (to_length > 0) {
+		to_list->_buffer = CORBA_sequence_GNOME_Evolution_Composer_Recipient_allocbuf (to_length);
+	}
 
-		cc_list = GNOME_Evolution_Composer_RecipientList__alloc ();
-		cc_list->_maximum = cc_list->_length = 0;
+	cc_list = GNOME_Evolution_Composer_RecipientList__alloc ();
+	cc_list->_maximum = cc_list->_length = 0;
 		
-		bcc_list = GNOME_Evolution_Composer_RecipientList__alloc ();
-		bcc_list->_maximum = bcc_length;
-		bcc_list->_length = bcc_length;
-		if (bcc_length > 0) {
-			bcc_list->_buffer = CORBA_sequence_GNOME_Evolution_Composer_Recipient_allocbuf (bcc_length);
-		}
+	bcc_list = GNOME_Evolution_Composer_RecipientList__alloc ();
+	bcc_list->_maximum = bcc_length;
+	bcc_list->_length = bcc_length;
+	if (bcc_length > 0) {
+		bcc_list->_buffer = CORBA_sequence_GNOME_Evolution_Composer_Recipient_allocbuf (bcc_length);
+	}
 
-		to_i = 0;
-		bcc_i = 0;
-		while (contacts != NULL) {
-			EContact *contact = contacts->data;
-			gchar *name, *addr;
-			gboolean is_list, is_hidden;
-			GNOME_Evolution_Composer_Recipient *recipient;
-			GList *emails = e_contact_get (contact, E_CONTACT_EMAIL);
-			GList *iterator;
+	to_i = 0;
+	bcc_i = 0;
+	while (c != NULL) {
+		ContactAndEmailNum *ce = c->data;
+		EContact *contact = ce->contact;
+		int nth = ce->email_num;
+		char *name, *addr;
+		gboolean is_list, is_hidden;
+		GNOME_Evolution_Composer_Recipient *recipient;
+		GList *emails = e_contact_get (contact, E_CONTACT_EMAIL);
+		GList *iterator;
 
-			if (emails != NULL) {
+		if (emails != NULL) {
 
-				is_list = (gboolean)e_contact_get (contact, E_CONTACT_IS_LIST);
-				is_hidden = is_list && !e_contact_get (contact, E_CONTACT_LIST_SHOW_ADDRESSES);
-			
+			is_list = (gboolean)e_contact_get (contact, E_CONTACT_IS_LIST);
+			is_hidden = is_list && !e_contact_get (contact, E_CONTACT_LIST_SHOW_ADDRESSES);
+
+			if (is_list) {
 				for (iterator = emails; iterator; iterator = iterator->next) {
 					
 					if (is_hidden) {
@@ -829,139 +836,181 @@ eab_send_contact_list (GList *contacts, EABDisposition disposition)
 					name = NULL;
 					addr = NULL;
 					if (iterator && iterator->data) {
-						if (is_list) {
-							/* XXX we should probably try to get the name from the attribute parameter here.. */
-							addr = g_strdup ((char*)iterator->data);
-						} else { /* is just a plain old card */
-							EContactName *contact_name = e_contact_get (contact, E_CONTACT_NAME);
-							if (contact_name) {
-								name = e_contact_name_to_string (contact_name);
-								e_contact_name_free (contact_name);
-							}
-							addr = g_strdup ((char *) iterator->data);
-						}
+						/* XXX we should probably try to get the name from the attribute parameter here.. */
+						addr = g_strdup ((char*)iterator->data);
 					}
-					
+
 					recipient->name    = CORBA_string_dup (name ? name : "");
 					recipient->address = CORBA_string_dup (addr ? addr : "");
 					
-					g_free ((gchar *) name);
-					g_free ((gchar *) addr);
-					
-					/* If this isn't a list, we quit after the first (i.e. the default) address. */
-					if (!is_list)
-						break;
-					
+					g_free (name);
+					g_free (addr);
 				}
-				g_list_foreach (emails, (GFunc)g_free, NULL);
-				g_list_free (emails);
+			}
+			else {
+				EContactName *contact_name = e_contact_get (contact, E_CONTACT_NAME);
+				int length = g_list_length (emails);
+
+				if (is_hidden) {
+					recipient = &(bcc_list->_buffer[bcc_i]);
+					++bcc_i;
+				} else {
+					recipient = &(to_list->_buffer[to_i]);
+					++to_i;
+				}
+
+				if (nth >= length)
+					nth = 0;
+					
+				if (contact_name) {
+					name = e_contact_name_to_string (contact_name);
+					e_contact_name_free (contact_name);
+				}
+				else
+					name = NULL;
+
+				addr = g_strdup (g_list_nth_data (emails, nth));
+					
+
+				recipient->name    = CORBA_string_dup (name ? name : "");
+				recipient->address = CORBA_string_dup (addr ? addr : "");
+
+				g_free (name);
+				g_free (addr);
 			}
 
-			contacts = g_list_next (contacts);
+			g_list_foreach (emails, (GFunc)g_free, NULL);
+			g_list_free (emails);
 		}
 
-		subject = CORBA_string_dup ("");
-
-		GNOME_Evolution_Composer_setHeaders (composer_server, "", to_list, cc_list, bcc_list, subject, &ev);
-		if (ev._major != CORBA_NO_EXCEPTION) {
-			g_printerr ("gui/e-meeting-edit.c: I couldn't set the composer headers via CORBA! Aagh.\n");
-			CORBA_exception_free (&ev);
-			return;
-		}
-
-		CORBA_free (to_list);
-		CORBA_free (cc_list);
-		CORBA_free (bcc_list);
-		CORBA_free (subject);
-	} else if (disposition == EAB_DISPOSITION_AS_ATTACHMENT) {
-		CORBA_char *content_type, *filename, *description;
-		GNOME_Evolution_Composer_AttachmentData *attach_data;
-		CORBA_boolean show_inline;
-		char *tempstr;
-
-		GNOME_Evolution_Composer_RecipientList *to_list, *cc_list, *bcc_list;
-		CORBA_char *subject;
-		
-		content_type = CORBA_string_dup ("text/x-vcard");
-		filename = CORBA_string_dup ("");
-
-		if (contacts->next) {
-			description = CORBA_string_dup (_("Multiple VCards"));
-		} else {
-			char *file_as = e_contact_get (E_CONTACT (contacts->data), E_CONTACT_FILE_AS);
-			tempstr = g_strdup_printf (_("VCard for %s"), file_as);
-			description = CORBA_string_dup (tempstr);
-			g_free (tempstr);
-			g_free (file_as);
-		}
-
-		show_inline = FALSE;
-
-		tempstr = eab_contact_list_to_string (contacts);
-		attach_data = GNOME_Evolution_Composer_AttachmentData__alloc();
-		attach_data->_maximum = attach_data->_length = strlen (tempstr);
-		attach_data->_buffer = CORBA_sequence_CORBA_char_allocbuf (attach_data->_length);
-		strcpy (attach_data->_buffer, tempstr);
-		g_free (tempstr);
-
-		GNOME_Evolution_Composer_attachData (composer_server, 
-						     content_type, filename, description,
-						     show_inline, attach_data,
-						     &ev);
-	
-		if (ev._major != CORBA_NO_EXCEPTION) {
-			g_printerr ("gui/e-meeting-edit.c: I couldn't attach data to the composer via CORBA! Aagh.\n");
-			CORBA_exception_free (&ev);
-			return;
-		}
-	
-		CORBA_free (content_type);
-		CORBA_free (filename);
-		CORBA_free (description);
-		CORBA_free (attach_data);
-
-		to_list = GNOME_Evolution_Composer_RecipientList__alloc ();
-		to_list->_maximum = to_list->_length = 0;
-		
-		cc_list = GNOME_Evolution_Composer_RecipientList__alloc ();
-		cc_list->_maximum = cc_list->_length = 0;
-
-		bcc_list = GNOME_Evolution_Composer_RecipientList__alloc ();
-		bcc_list->_maximum = bcc_list->_length = 0;
-
-		if (!contacts || contacts->next) {
-			subject = CORBA_string_dup ("Contact information");
-		} else {
-			EContact *contact = contacts->data;
-			const gchar *tempstr2;
-
-			tempstr2 = e_contact_get_const (contact, E_CONTACT_FILE_AS);
-			if (!tempstr2 || !*tempstr2)
-				tempstr2 = e_contact_get_const (contact, E_CONTACT_FULL_NAME);
-			if (!tempstr2 || !*tempstr2)
-				tempstr2 = e_contact_get_const (contact, E_CONTACT_ORG);
-			if (!tempstr2 || !*tempstr2)
-				tempstr2 = e_contact_get_const (contact, E_CONTACT_EMAIL_1);
-			if (!tempstr2 || !*tempstr2)
-				tempstr2 = e_contact_get_const (contact, E_CONTACT_EMAIL_2);
-			if (!tempstr2 || !*tempstr2)
-				tempstr2 = e_contact_get_const (contact, E_CONTACT_EMAIL_3);
-
-			if (!tempstr2 || !*tempstr2)
-				tempstr = g_strdup_printf ("Contact information");
-			else
-				tempstr = g_strdup_printf ("Contact information for %s", tempstr2);
-			subject = CORBA_string_dup (tempstr);
-			g_free (tempstr);
-		}
-		
-		GNOME_Evolution_Composer_setHeaders (composer_server, "", to_list, cc_list, bcc_list, subject, &ev);
-
-		CORBA_free (to_list);
-		CORBA_free (cc_list);
-		CORBA_free (bcc_list);
-		CORBA_free (subject);
+		c = c->next;
 	}
+
+	subject = CORBA_string_dup ("");
+
+	GNOME_Evolution_Composer_setHeaders (composer_server, "", to_list, cc_list, bcc_list, subject, &ev);
+	if (ev._major != CORBA_NO_EXCEPTION) {
+		g_printerr ("gui/e-meeting-edit.c: I couldn't set the composer headers via CORBA! Aagh.\n");
+		CORBA_exception_free (&ev);
+		return;
+	}
+
+	CORBA_free (to_list);
+	CORBA_free (cc_list);
+	CORBA_free (bcc_list);
+	CORBA_free (subject);
+
+	GNOME_Evolution_Composer_show (composer_server, &ev);
+
+	if (ev._major != CORBA_NO_EXCEPTION) {
+		g_printerr ("gui/e-meeting-edit.c: I couldn't show the composer via CORBA! Aagh.\n");
+		CORBA_exception_free (&ev);
+		return;
+	}
+
+	CORBA_exception_free (&ev);
+}
+
+static void
+eab_send_contact_list_as_attachment (GList *contacts)
+{
+	GNOME_Evolution_Composer composer_server;
+	CORBA_Environment ev;
+	CORBA_char *content_type, *filename, *description;
+	GNOME_Evolution_Composer_AttachmentData *attach_data;
+	CORBA_boolean show_inline;
+	char *tempstr;
+	GNOME_Evolution_Composer_RecipientList *to_list, *cc_list, *bcc_list;
+	CORBA_char *subject;
+
+	if (contacts == NULL)
+		return;
+
+	CORBA_exception_init (&ev);
+	
+	composer_server = bonobo_activation_activate_from_id (COMPOSER_OAFID, 0, NULL, &ev);
+
+
+		
+	content_type = CORBA_string_dup ("text/x-vcard");
+	filename = CORBA_string_dup ("");
+
+	if (contacts->next) {
+		description = CORBA_string_dup (_("Multiple VCards"));
+	} else {
+		char *file_as = e_contact_get (E_CONTACT (contacts->data), E_CONTACT_FILE_AS);
+		tempstr = g_strdup_printf (_("VCard for %s"), file_as);
+		description = CORBA_string_dup (tempstr);
+		g_free (tempstr);
+		g_free (file_as);
+	}
+
+	show_inline = FALSE;
+
+	tempstr = eab_contact_list_to_string (contacts);
+	attach_data = GNOME_Evolution_Composer_AttachmentData__alloc();
+	attach_data->_maximum = attach_data->_length = strlen (tempstr);
+	attach_data->_buffer = CORBA_sequence_CORBA_char_allocbuf (attach_data->_length);
+	strcpy (attach_data->_buffer, tempstr);
+	g_free (tempstr);
+
+	GNOME_Evolution_Composer_attachData (composer_server, 
+					     content_type, filename, description,
+					     show_inline, attach_data,
+					     &ev);
+	
+	if (ev._major != CORBA_NO_EXCEPTION) {
+		g_printerr ("gui/e-meeting-edit.c: I couldn't attach data to the composer via CORBA! Aagh.\n");
+		CORBA_exception_free (&ev);
+		return;
+	}
+	
+	CORBA_free (content_type);
+	CORBA_free (filename);
+	CORBA_free (description);
+	CORBA_free (attach_data);
+
+	to_list = GNOME_Evolution_Composer_RecipientList__alloc ();
+	to_list->_maximum = to_list->_length = 0;
+		
+	cc_list = GNOME_Evolution_Composer_RecipientList__alloc ();
+	cc_list->_maximum = cc_list->_length = 0;
+
+	bcc_list = GNOME_Evolution_Composer_RecipientList__alloc ();
+	bcc_list->_maximum = bcc_list->_length = 0;
+
+	if (!contacts || contacts->next) {
+		subject = CORBA_string_dup ("Contact information");
+	} else {
+		EContact *contact = contacts->data;
+		const gchar *tempstr2;
+
+		tempstr2 = e_contact_get_const (contact, E_CONTACT_FILE_AS);
+		if (!tempstr2 || !*tempstr2)
+			tempstr2 = e_contact_get_const (contact, E_CONTACT_FULL_NAME);
+		if (!tempstr2 || !*tempstr2)
+			tempstr2 = e_contact_get_const (contact, E_CONTACT_ORG);
+		if (!tempstr2 || !*tempstr2)
+			tempstr2 = e_contact_get_const (contact, E_CONTACT_EMAIL_1);
+		if (!tempstr2 || !*tempstr2)
+			tempstr2 = e_contact_get_const (contact, E_CONTACT_EMAIL_2);
+		if (!tempstr2 || !*tempstr2)
+			tempstr2 = e_contact_get_const (contact, E_CONTACT_EMAIL_3);
+
+		if (!tempstr2 || !*tempstr2)
+			tempstr = g_strdup_printf ("Contact information");
+		else
+			tempstr = g_strdup_printf ("Contact information for %s", tempstr2);
+		subject = CORBA_string_dup (tempstr);
+		g_free (tempstr);
+	}
+		
+	GNOME_Evolution_Composer_setHeaders (composer_server, "", to_list, cc_list, bcc_list, subject, &ev);
+
+	CORBA_free (to_list);
+	CORBA_free (cc_list);
+	CORBA_free (bcc_list);
+	CORBA_free (subject);
 
 	GNOME_Evolution_Composer_show (composer_server, &ev);
 
@@ -975,11 +1024,55 @@ eab_send_contact_list (GList *contacts, EABDisposition disposition)
 }
 
 void
-eab_send_contact (EContact *contact, EABDisposition disposition)
+eab_send_contact_list (GList *contacts, EABDisposition disposition)
 {
-	GList *list;
-	list = g_list_prepend (NULL, contact);
-	eab_send_contact_list (list, disposition);
+	switch (disposition) {
+	case EAB_DISPOSITION_AS_TO: {
+		GList *list = NULL, *l;
+
+		for (l = contacts; l; l = l->next) {
+			ContactAndEmailNum *ce = g_new (ContactAndEmailNum, 1);
+			ce->contact = l->data;
+			ce->email_num = 0; /* hardcode this */
+
+			list = g_list_append (list, ce);
+		}
+
+		eab_send_to_contact_and_email_num_list (list);
+
+		g_list_foreach (list, (GFunc)g_free, NULL);
+		g_list_free (list);
+		break;
+	}
+	case EAB_DISPOSITION_AS_ATTACHMENT:
+		eab_send_contact_list_as_attachment (contacts);
+		break;
+	}
+}
+
+void
+eab_send_contact (EContact *contact, int email_num, EABDisposition disposition)
+{
+	GList *list = NULL;
+
+	switch (disposition) {
+	case EAB_DISPOSITION_AS_TO: {
+		ContactAndEmailNum ce;
+
+		ce.contact = contact;
+		ce.email_num = email_num;
+
+		list = g_list_prepend (NULL, &ce);
+		eab_send_to_contact_and_email_num_list (list);
+		break;
+	}
+	case EAB_DISPOSITION_AS_ATTACHMENT: {
+		list = g_list_prepend (NULL, contact);
+		eab_send_contact_list_as_attachment (list);
+		break;
+	}
+	}
+
 	g_list_free (list);
 }
 

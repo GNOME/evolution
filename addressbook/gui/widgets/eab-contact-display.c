@@ -22,6 +22,7 @@
 
 #include "eab-contact-display.h"
 
+#include "eab-gui-util.h"
 #include "e-util/e-html-utils.h"
 #include "e-util/e-icon-factory.h"
 
@@ -92,7 +93,20 @@ static void
 on_link_clicked (GtkHTML *html, const char *url, EABContactDisplay *display)
 {
 	GError *err = NULL;
-		
+
+#ifdef HANDLE_MAILTO_INTERNALLY
+	if (!strncmp (url, "internal-mailto:", strlen ("internal-mailto:"))) {
+		int mail_num = atoi (url + strlen ("internal-mailto:"));
+
+		if (mail_num == -1)
+			return;
+
+		eab_send_contact (display->priv->contact, mail_num, EAB_DISPOSITION_AS_TO);
+
+		return;
+	}
+#endif
+
 	gnome_url_show (url, &err);
 		
 	if (err) {
@@ -276,23 +290,48 @@ render_contact (GtkHTMLStream *html_stream, EContact *contact)
 	nl = "";
 	e = e_contact_get_const (contact, E_CONTACT_EMAIL_1);
 	if (e) {
+#ifdef HANDLE_MAILTO_INTERNALLY
+		g_string_append_printf (accum, "<a href=\"internal-mailto:0\">%s</a>", e);
+		nl = "<br>";
+#else
 		g_string_append_printf (accum, "%s", e);
 		nl = "\n";
+#endif
 	}
 	e = e_contact_get_const (contact, E_CONTACT_EMAIL_2);
 	if (e) {
+#ifdef HANDLE_MAILTO_INTERNALLY
+		g_string_append_printf (accum, "<a href=\"internal-mailto:1\">%s</a>", e);
+		nl = "<br>";
+#else
 		g_string_append_printf (accum, "%s%s", nl, e);
 		nl = "\n";
+#endif
 	}
 	e = e_contact_get_const (contact, E_CONTACT_EMAIL_3);
 	if (e) {
+#ifdef HANDLE_MAILTO_INTERNALLY
+		g_string_append_printf (accum, "<a href=\"internal-mailto:2\">%s</a>", e);
+		nl = "<br>";
+#else
 		g_string_append_printf (accum, "%s%s", nl, e);
+		nl = "\n";
+#endif
 	}
 
 	if (accum->len) {
 		start_block (html_stream, "");
+
+#ifdef HANDLE_MAILTO_INTERNALLY
+		gtk_html_stream_printf (html_stream, "<tr><td valign=\"top\" width=\"" IMAGE_COL_WIDTH "\">");
+		gtk_html_stream_printf (html_stream,
+					"</td><td valign=\"top\" width=\"100\" nowrap><font color=" HEADER_COLOR ">%s:</font></td> <td valign=\"top\">%s</td></tr>",
+					_("E-mail"), accum->str);
+#else
 		render_name_value (html_stream, _("E-mail"), accum->str, NULL,
 				   E_TEXT_TO_HTML_CONVERT_ADDRESSES | E_TEXT_TO_HTML_CONVERT_NL);
+#endif
+
 		end_block (html_stream);
 	}
 

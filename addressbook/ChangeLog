@@ -1,3 +1,25 @@
+2004-05-18  Chris Toshok  <toshok@ximian.com>
+
+	* gui/widgets/eab-gui-util.c
+	(eab_send_to_contact_and_email_num_list): split out the
+	DISPOSITION_AS_TO stuff here, and make it take a GList of
+	ContactAndEmailNum, so we can set it for the single contact case.
+	(eab_send_contact_list_as_attachment): split out the
+	DISPOSITION_AS_ATTACHMENT stuff here.
+	(eab_send_contact_list): call one or the other of the above,
+	munging the list if disposition is set to TO.
+	(eab_send_contact): call eab_send_to_contact_and_email_num_list
+	directly with the supplied email_num, instead of calling
+	eab_send_contact_list.
+
+	* gui/widgets/eab-gui-util.h (eab_send_contact) add "email_num"
+	arg, so we can specify the email address we want to be selected.
+
+	* gui/widgets/eab-contact-display.c (on_link_clicked): add
+	(ifdefed out at the moment) code to handle mailto: urls
+	internally, instead of farming them out to gnome_url_show.
+	(render_contact): same.
+
 2004-05-18  Jerome Lacoste  <jerome@coffeebreaks.org>
 
 	Fixes #57940
@@ -185,7 +207,6 @@
 
 	* gui/component/ldap-config.glade: remove unused colorpicker.
 
->>>>>>> 1.1697
 2004-05-03  JP Rosevear  <jpr@ximian.com>
 
 	* gui/component/GNOME_Evolution_Addressbook.server.in.in: set the
