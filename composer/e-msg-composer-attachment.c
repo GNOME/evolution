@@ -1,7 +1,7 @@
 /* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*- */
 /* e-msg-composer-attachment.c
  *
- * Copyright (C) 1999  Ximian, Inc.
+ * Copyright (C) 1999,2001  Ximian, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public
@@ -185,6 +185,7 @@ e_msg_composer_attachment_new (const char *file_name,
 				      file_name, g_strerror (errno));
 		return NULL;
 	}
+	
 	wrapper = camel_data_wrapper_new ();
 	camel_data_wrapper_construct_from_stream (wrapper, stream);
 	camel_object_unref (CAMEL_OBJECT (stream));
