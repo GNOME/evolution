@@ -2473,12 +2473,16 @@ do_message_selected (FolderBrowser *fb)
 	
 	/* if we are loading, then set a pending, but leave the loading, coudl cancel here (?) */
 	if (fb->loading_uid) {
-		g_free (fb->pending_uid);
-		fb->pending_uid = g_strdup (fb->new_uid);
+		if (fb->new_uid == NULL || strcmp(fb->pending_uid, fb->new_uid) != 0) {
+			g_free (fb->pending_uid);
+			fb->pending_uid = g_strdup (fb->new_uid);
+		}
 	} else {
 		if (fb->new_uid) {
-			fb->loading_uid = g_strdup (fb->new_uid);
-			mail_get_message (fb->folder, fb->loading_uid, done_message_selected, fb, mail_thread_new);
+			if (fb->loaded_uid == NULL || strcmp(fb->new_uid, fb->loaded_uid) != 0) {
+				fb->loading_uid = g_strdup (fb->new_uid);
+				mail_get_message (fb->folder, fb->loading_uid, done_message_selected, fb, mail_thread_new);
+			}
 		} else {
 			mail_display_set_message (fb->mail_display, NULL, NULL, NULL);
 		}

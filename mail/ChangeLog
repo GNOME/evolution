@@ -1,3 +1,11 @@
+2003-06-19  Not Zed  <NotZed@Ximian.com>
+
+	** See bug #45063
+
+	* folder-browser.c (do_message_selected): dont re-load if the same
+	message gets selected again as one we've already shown.  Etree
+	sends out selection changed events even when when it hasn't.
+
 2003-06-18  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* message-list.c (hide_save_state): Only save state if we have a
