@@ -18,6 +18,7 @@ typedef struct {
 	int  n_map;
 	int *map_table;
 
+	int              table_model_pre_change_id;
 	int              table_model_changed_id;
 	int              table_model_row_changed_id;
 	int              table_model_cell_changed_id;

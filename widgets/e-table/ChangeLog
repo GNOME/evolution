@@ -1,5 +1,19 @@
 2000-08-02  Christopher James Lahey  <clahey@helixcode.com>
 
+	* e-table-item.c, e-table-item.h: Add a handler for
+	"model_pre_change" and properly stop editing.
+
+	* e-table-model.c, e-table-model.h: Added a "model_pre_change"
+	signal that gets sent before any row numbers are changed.
+
+	* e-table-sorted-variable.c, e-table-subset-variable.c: Emit
+	"model_pre_change" signals as appropriate.
+
+	* e-table-subset.c, e-table-subset.h: Proxy "model_pre_changed"
+	signals.
+
+2000-08-02  Christopher James Lahey  <clahey@helixcode.com>
+
 	* e-table-model.c, e-table-model.h: Changed the API for the
 	append_row function.  Now accepts a model to copy data from
 	instead of returning a row number and leaving it up to ETableOne

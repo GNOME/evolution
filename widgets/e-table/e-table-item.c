@@ -303,6 +303,8 @@ eti_remove_table_model (ETableItem *eti)
 		return;
 
 	gtk_signal_disconnect (GTK_OBJECT (eti->table_model),
+			       eti->table_model_pre_change_id);
+	gtk_signal_disconnect (GTK_OBJECT (eti->table_model),
 			       eti->table_model_change_id);
 	gtk_signal_disconnect (GTK_OBJECT (eti->table_model),
 			       eti->table_model_row_change_id);
@@ -316,6 +318,7 @@ eti_remove_table_model (ETableItem *eti)
 	if (eti->source_model)
 		gtk_object_unref (GTK_OBJECT (eti->source_model));
 
+	eti->table_model_pre_change_id = 0;
 	eti->table_model_change_id = 0;
 	eti->table_model_row_change_id = 0;
 	eti->table_model_cell_change_id = 0;
@@ -559,6 +562,16 @@ eti_item_region_redraw (ETableItem *eti, int x0, int y0, int x1, int y1)
 }
 
 /*
+ * Callback routine: invoked before the ETableModel has suffers a change
+ */
+static void
+eti_table_model_pre_change (ETableModel *table_model, ETableItem *eti)
+{
+	if (eti_editing (eti))
+		e_table_item_leave_edit (eti);
+}
+
+/*
  * Callback routine: invoked when the ETableModel has suffered a change
  */
 static void
@@ -720,7 +733,11 @@ eti_add_table_model (ETableItem *eti, ETableModel *table_model)
 	
 	eti->table_model = table_model;
 	gtk_object_ref (GTK_OBJECT (eti->table_model));
-	
+
+	eti->table_model_pre_change_id = gtk_signal_connect (
+		GTK_OBJECT (table_model), "model_pre_change",
+		GTK_SIGNAL_FUNC (eti_table_model_pre_change), eti);
+
 	eti->table_model_change_id = gtk_signal_connect (
 		GTK_OBJECT (table_model), "model_changed",
 		GTK_SIGNAL_FUNC (eti_table_model_changed), eti);
@@ -841,12 +858,12 @@ eti_destroy (GtkObject *object)
 
 	if (eti->selection)
 		gtk_object_unref(GTK_OBJECT(eti->selection));
-	
+
 	if (eti->height_cache_idle_id)
 		g_source_remove(eti->height_cache_idle_id);
-	
+
 	g_free (eti->height_cache);
-	
+
 	if (GTK_OBJECT_CLASS (eti_parent_class)->destroy)
 		(*GTK_OBJECT_CLASS (eti_parent_class)->destroy) (object);
 }
@@ -1033,6 +1050,9 @@ eti_unrealize (GnomeCanvasItem *item)
 {
 	ETableItem *eti = E_TABLE_ITEM (item);
 	
+	if (eti_editing (eti))
+		e_table_item_leave_edit (eti);
+
 	gdk_gc_unref (eti->fill_gc);
 	eti->fill_gc = NULL;
 	gdk_gc_unref (eti->grid_gc);
@@ -1844,18 +1864,26 @@ e_table_item_enter_edit (ETableItem *eti, int col, int row)
 void
 e_table_item_leave_edit (ETableItem *eti)
 {
+	int col, row;
+	void *edit_ctx;
+	
 	g_return_if_fail (eti != NULL);
 	g_return_if_fail (E_IS_TABLE_ITEM (eti));
 
 	if (!eti_editing (eti))
 		return;
 
-	e_cell_leave_edit (eti->cell_views [eti->editing_col],
-			   view_to_model_col(eti, eti->editing_col), eti->editing_col, eti->editing_row,
-			   eti->edit_ctx);
+	col = eti->editing_col;
+	row = eti->editing_row;
+	edit_ctx = eti->edit_ctx;
+
 	eti->editing_col = -1;
 	eti->editing_row = -1;
 	eti->edit_ctx = NULL;
+
+	e_cell_leave_edit (eti->cell_views [col],
+			   view_to_model_col(eti, col),
+			   col, row, edit_ctx);
 }
 
 typedef struct {

@@ -40,6 +40,7 @@ typedef struct {
 	 */
 	int              header_dim_change_id;
 	int              header_structure_change_id;
+	int              table_model_pre_change_id;
 	int              table_model_change_id;
 	int              table_model_row_change_id;
 	int              table_model_cell_change_id;

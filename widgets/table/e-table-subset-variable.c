@@ -30,6 +30,8 @@ etssv_add       (ETableSubsetVariable *etssv,
 	ETableSubset *etss = E_TABLE_SUBSET(etssv);
 	int i;
 	
+	e_table_model_pre_change(etm);
+
 	if (etss->n_map + 1 > etssv->n_vals_allocated){
 		etss->map_table = g_realloc (etss->map_table, (etssv->n_vals_allocated + INCREMENT_AMOUNT) * sizeof(int));
 		etssv->n_vals_allocated += INCREMENT_AMOUNT;
@@ -48,9 +50,12 @@ etssv_add_all   (ETableSubsetVariable *etssv)
 {
 	ETableModel *etm = E_TABLE_MODEL(etssv);
 	ETableSubset *etss = E_TABLE_SUBSET(etssv);
-	int rows = e_table_model_row_count(etss->source);
+	int rows;
 	int i;
+
+	e_table_model_pre_change(etm);
 	
+	rows = e_table_model_row_count(etss->source);
 	if (etss->n_map + rows > etssv->n_vals_allocated){
 		etssv->n_vals_allocated += MAX(INCREMENT_AMOUNT, rows);
 		etss->map_table = g_realloc (etss->map_table, etssv->n_vals_allocated * sizeof(int));
@@ -72,6 +77,7 @@ etssv_remove    (ETableSubsetVariable *etssv,
 	
 	for (i = 0; i < etss->n_map; i++){
 		if (etss->map_table[i] == row) {
+			e_table_model_pre_change (etm);
 			memmove (etss->map_table + i, etss->map_table + i + 1, (etss->n_map - i - 1) * sizeof(int));
 			etss->n_map --;
 

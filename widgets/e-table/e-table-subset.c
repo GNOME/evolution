@@ -26,12 +26,15 @@ etss_destroy (GtkObject *object)
 		gtk_object_unref (GTK_OBJECT (etss->source));
 
 	gtk_signal_disconnect (GTK_OBJECT (etss->source),
+			       etss->table_model_pre_change_id);
+	gtk_signal_disconnect (GTK_OBJECT (etss->source),
 			       etss->table_model_changed_id);
 	gtk_signal_disconnect (GTK_OBJECT (etss->source),
 			       etss->table_model_row_changed_id);
 	gtk_signal_disconnect (GTK_OBJECT (etss->source),
 			       etss->table_model_cell_changed_id);
 
+	etss->table_model_pre_change_id = 0;
 	etss->table_model_changed_id = 0;
 	etss->table_model_row_changed_id = 0;
 	etss->table_model_cell_changed_id = 0;
@@ -153,6 +156,12 @@ etss_class_init (GtkObjectClass *klass)
 E_MAKE_TYPE(e_table_subset, "ETableSubset", ETableSubset, etss_class_init, NULL, PARENT_TYPE);
 
 static void
+etss_proxy_model_pre_change (ETableModel *etm, ETableSubset *etss)
+{
+	e_table_model_pre_change (E_TABLE_MODEL (etss));
+}
+
+static void
 etss_proxy_model_changed (ETableModel *etm, ETableSubset *etss)
 {
 	e_table_model_changed (E_TABLE_MODEL (etss));
@@ -206,6 +215,8 @@ e_table_subset_construct (ETableSubset *etss, ETableModel *source, int nvals)
 	for (i = 0; i < nvals; i++)
 		etss->map_table [i] = i;
 
+	etss->table_model_pre_change_id = gtk_signal_connect (GTK_OBJECT (source), "model_pre_change",
+							      GTK_SIGNAL_FUNC (etss_proxy_model_pre_change), etss);
 	etss->table_model_changed_id = gtk_signal_connect (GTK_OBJECT (source), "model_changed",
 						     GTK_SIGNAL_FUNC (etss_proxy_model_changed), etss);
 	etss->table_model_row_changed_id = gtk_signal_connect (GTK_OBJECT (source), "model_row_changed",

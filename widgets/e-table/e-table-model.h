@@ -50,6 +50,8 @@ typedef struct {
 	 * A row inserted: row_inserted
 	 * A row deleted: row_deleted
 	 */
+	void        (*model_pre_change)   (ETableModel *etm);
+
 	void        (*model_changed)      (ETableModel *etm);
 	void        (*model_row_changed)  (ETableModel *etm, int row);
 	void        (*model_cell_changed) (ETableModel *etm, int col, int row);
@@ -76,6 +78,7 @@ char       *e_table_model_value_to_string  (ETableModel *e_table_model, int col,
 /*
  * Routines for emitting signals on the e_table
  */
+void        e_table_model_pre_change       (ETableModel *e_table_model);
 void        e_table_model_changed          (ETableModel *e_table_model);
 void        e_table_model_row_changed      (ETableModel *e_table_model, int row);
 void        e_table_model_cell_changed     (ETableModel *e_table_model, int col, int row);

@@ -20,6 +20,7 @@ static GtkObjectClass *e_table_model_parent_class;
 
 enum {
 	MODEL_CHANGED,
+	MODEL_PRE_CHANGE,
 	MODEL_ROW_CHANGED,
 	MODEL_CELL_CHANGED,
 	MODEL_ROW_INSERTED,
@@ -176,6 +177,14 @@ e_table_model_class_init (GtkObjectClass *object_class)
 				gtk_marshal_NONE__NONE,
 				GTK_TYPE_NONE, 0);
 
+	e_table_model_signals [MODEL_PRE_CHANGE] =
+		gtk_signal_new ("model_pre_change",
+				GTK_RUN_LAST,
+				object_class->type,
+				GTK_SIGNAL_OFFSET (ETableModelClass, model_pre_change),
+				gtk_marshal_NONE__NONE,
+				GTK_TYPE_NONE, 0);
+
 	e_table_model_signals [MODEL_ROW_CHANGED] =
 		gtk_signal_new ("model_row_changed",
 				GTK_RUN_LAST,
@@ -253,6 +262,16 @@ e_table_model_get_type (void)
     }
 
   return type;
+}
+
+void
+e_table_model_pre_change (ETableModel *e_table_model)
+{
+	g_return_if_fail (e_table_model != NULL);
+	g_return_if_fail (E_IS_TABLE_MODEL (e_table_model));
+	
+	gtk_signal_emit (GTK_OBJECT (e_table_model),
+			 e_table_model_signals [MODEL_PRE_CHANGE]);
 }
 
 void

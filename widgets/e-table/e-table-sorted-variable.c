@@ -169,8 +169,12 @@ etsv_add_all   (ETableSubsetVariable *etssv)
 	ETableModel *etm = E_TABLE_MODEL(etssv);
 	ETableSubset *etss = E_TABLE_SUBSET(etssv);
 	ETableSortedVariable *etsv = E_TABLE_SORTED_VARIABLE (etssv);
-	int rows = e_table_model_row_count(etss->source);
+	int rows;
 	int i;
+
+	e_table_model_pre_change(etm);
+
+	rows = e_table_model_row_count(etss->source);
 	
 	if (etss->n_map + rows > etssv->n_vals_allocated){
 		etssv->n_vals_allocated += MAX(INCREMENT_AMOUNT, rows);
@@ -285,13 +289,17 @@ etsv_sort(ETableSortedVariable *etsv)
 	ETableSubset *etss = E_TABLE_SUBSET(etsv);
 	static int reentering = 0;
 	int rows = E_TABLE_SUBSET(etsv)->n_map;
-	int total_rows = e_table_model_row_count(E_TABLE_SUBSET(etsv)->source);
+	int total_rows;
 	int i;
 	int j;
 	int cols;
 	if (reentering)
 		return;
 	reentering = 1;
+
+	e_table_model_pre_change(E_TABLE_MODEL(etsv));
+
+	total_rows = e_table_model_row_count(E_TABLE_SUBSET(etsv)->source);
 	cols = e_table_sort_info_sorting_get_count(etsv->sort_info);
 	cols_closure = cols;
 	etsv_closure = etsv;
