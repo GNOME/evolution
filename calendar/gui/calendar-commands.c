@@ -720,7 +720,7 @@ calendar_control_activate (BonoboControl *control,
 	bonobo_ui_component_freeze (uic, NULL);
 
 	bonobo_ui_util_set_ui (uic, EVOLUTION_DATADIR,
-			       "evolution-calendar.xml",
+			       EVOLUTION_UIDIR "/evolution-calendar.xml",
 			       "evolution-calendar",
 			       NULL);
 

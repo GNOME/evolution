@@ -31,41 +31,41 @@ BUILT_SOURCES = $(IDL_GENERATED)
 
 SUBDIRS = alarm-notify dialogs
 
-help_base = $(datadir)/gnome/help/cal
-
 componentdir = $(COMPONENT_DIR)
 component_LTLIBRARIES = libevolution-calendar.la
 
-INCLUDES = 							\
-	-DG_LOG_DOMAIN=\"calendar-gui\"				\
-	-I$(top_builddir)/shell					\
-	-I$(top_srcdir)/shell					\
-	-I$(top_srcdir)						\
-	-I$(top_srcdir)/calendar				\
-	-I$(top_srcdir)/calendar/cal-client			\
-	-I$(top_builddir)/calendar/cal-client			\
-	-I$(top_srcdir)/libical/src/libical			\
-	-I$(top_builddir)/libical/src/libical			\
-	-I$(top_srcdir)/addressbook/backend			\
-	-I$(top_builddir)/addressbook/backend			\
-	-I$(top_srcdir)/widgets					\
-	-I$(includedir)						\
-	-DEVOLUTION_DATADIR=\""$(datadir)"\"			\
-	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"			\
-        -DEVOLUTION_ETSPECDIR=\""$(etspecdir)"\"        	\
-	-DEVOLUTION_ICONSDIR=\""$(iconsdir)"\"			\
-	-DEVOLUTION_LOCALEDIR=\""$(localedir)"\"		\
-	-DEVOLUTION_IMAGESDIR=\""$(datadir)"/evolution/images\" \
+INCLUDES =										\
+	-DG_LOG_DOMAIN=\"calendar-gui\"							\
+	-I$(top_builddir)/shell								\
+	-I$(top_srcdir)/shell								\
+	-I$(top_srcdir)									\
+	-I$(top_srcdir)/calendar							\
+	-I$(top_srcdir)/calendar/cal-client						\
+	-I$(top_builddir)/calendar/cal-client						\
+	-I$(top_srcdir)/libical/src/libical						\
+	-I$(top_builddir)/libical/src/libical						\
+	-I$(top_srcdir)/addressbook/backend						\
+	-I$(top_builddir)/addressbook/backend						\
+	-I$(top_srcdir)/widgets								\
+	-I$(includedir)									\
+	-DEVOLUTION_DATADIR=\""$(datadir)"\"						\
+	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"						\
+        -DEVOLUTION_ETSPECDIR=\""$(etspecdir)"\"					\
+	-DEVOLUTION_ICONSDIR=\""$(iconsdir)"\"						\
+	-DEVOLUTION_LOCALEDIR=\""$(localedir)"\"					\
+	-DEVOLUTION_IMAGESDIR=\""$(datadir)"/evolution-$(BASE_VERSION)/images\"		\
+	-DEVOLUTION_GALVIEWSDIR=\""$(datadir)"/evolution-$(BASE_VERSION)/views\"	\
+	-DEVOLUTION_UIDIR=\""$(evolutionuidir)\""					\
 	$(EVOLUTION_CALENDAR_CFLAGS)
 
-iconsdir = $(datadir)/evolution/images
+iconsdir = $(datadir)/evolution-$(BASE_VERSION)/images
 
-gladedir   = $(datadir)/evolution/glade
+gladedir   = $(datadir)/evolution-$(BASE_VERSION)/glade
 glade_DATA = 					\
 	e-itip-control.glade			\
 	goto-dialog.glade
 
-etspecdir = $(datadir)/evolution/etspec/
+etspecdir = $(datadir)/evolution-$(BASE_VERSION)/etspec/
 etspec_DATA = e-calendar-table.etspec e-meeting-time-sel.etspec
 
 libevolution_calendar_la_SOURCES =		\
@@ -200,7 +200,6 @@ EXTRA_DIST =	 			\
 CLEANFILES = $(BUILT_SOURCES)
 
 install-data-local:
-	$(mkinstalldirs) $(DESTDIR)$(help_base)/C
 	$(mkinstalldirs) $(Conduitsdir)
 
 dist-hook:

@@ -11,7 +11,8 @@ idl_flags = $(IDL_INCLUDES)
 $(CORBA_GENERATED): $(idls)
 	$(ORBIT_IDL) $(idl_flags) $(top_srcdir)/calendar/idl/evolution-calendar.idl
 
-bin_PROGRAMS = evolution-alarm-notify
+evolibexecdir = $(libexecdir)/evolution/$(BASE_VERSION)
+evolibexec_PROGRAMS = evolution-alarm-notify
 
 noinst_LIBRARIES = libalarm.a
 
@@ -34,9 +35,8 @@ INCLUDES = 						\
 	-DEVOLUTION_LOCALEDIR=\""$(localedir)"\"	\
 	$(EVOLUTION_CALENDAR_CFLAGS)
 
-iconsdir = $(datadir)/evolution/images
-
-gladedir   = $(datadir)/evolution/glade
+iconsdir = $(datadir)/evolution-$(BASE_VERSION)/images
+gladedir   = $(datadir)/evolution-$(BASE_VERSION)/glade
 
 glade_DATA =		\
 	alarm-notify.glade

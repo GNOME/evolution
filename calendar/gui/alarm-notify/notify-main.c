@@ -1,7 +1,6 @@
 /* Evolution calendar - Alarm notification service main file
  *
  * Copyright (C) 2000 Ximian, Inc.
- * Copyright (C) 2000 Ximian, Inc.
  *
  * Author: Federico Mena-Quintero <federico@ximian.com>
  *

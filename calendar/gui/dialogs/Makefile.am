@@ -29,6 +29,7 @@ INCLUDES = 								\
 	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"				\
 	-DEVOLUTION_ICONSDIR=\""$(iconsdir)"\"				\
 	-DEVOLUTION_ETSPECDIR=\""$(etspecdir)"\"			\
+	-DEVOLUTION_UIDIR=\""$(evolutionuidir)"\"			\
         -DGNOMELOCALEDIR=\""$(localedir)"\"				\
 	$(EVOLUTION_CALENDAR_CFLAGS)
 
@@ -77,9 +78,9 @@ libcal_dialogs_a_SOURCES =	\
 	task-page.c		\
 	task-page.h
 
-iconsdir = $(datadir)/evolution/images
+iconsdir = $(datadir)/evolution-$(BASE_VERSION)/images
 
-gladedir = $(datadir)/evolution/glade
+gladedir = $(datadir)/evolution-$(BASE_VERSION)/glade
 glade_DATA =				\
 	alarm-options.glade		\
 	alarm-page.glade		\
@@ -92,7 +93,7 @@ glade_DATA =				\
 	task-details-page.glade		\
 	task-page.glade
 
-etspecdir = $(datadir)/evolution/etspec/
+etspecdir = $(datadir)/evolution-$(BASE_VERSION)/etspec/
 etspec_DATA = meeting-page.etspec
 
 CLEANFILES = $(BUILT_SOURCES)

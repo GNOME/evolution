@@ -1,6 +1,5 @@
-bin_PROGRAMS = evolution-calendar-importer
-
-sounddir = $(datadir)/evolution/sounds
+evolibexecdir = $(libexecdir)/evolution/$(BASE_VERSION)
+evolibexecdir_PROGRAMS = evolution-calendar-importer
 
 INCLUDES = 						\
 	-DEVOLUTION_LOCALEDIR=\""$(localedir)"\"	\

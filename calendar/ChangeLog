@@ -1,3 +1,55 @@
+2003-01-22  Ettore Perazzoli  <ettore@ximian.com>
+
+	* gui/gnome-cal.c (gnome_calendar_setup_view_menus): Use
+	EVOLUTION_GALVIEWSDIR.
+
+	* gui/e-tasks.c (e_tasks_setup_view_menus): Use
+	EVOLUTION_GALVIEWSDIR.
+
+	* cal-util/Makefile.am: Install libcal-util.la in $(privlibdir)
+	instead of $(libdir).
+
+	* gui/dialogs/comp-editor.c (setup_widgets): Get
+	evolution-comp-editor.xml from EVOLUTION_UIDIR.
+	(comp_editor_merge_ui): Get the file in EVOLUTION_UIDIR.
+
+	* gui/tasks-control.c (tasks_control_activate): Get
+	evolution-tasks.xml from EVOLUTION_UI_DIRECTORY.
+
+	* gui/calendar-commands.c (calendar_control_activate): Get
+	evolution-calendar.xml from EVOLUTION_UI_DIRECTORY.
+
+	* pcs/Makefile.am (pcsincludedir): Version using $(BASE_VERSION).
+
+	* importers/Makefile.am: Install evolution-calendar-importer in
+	$(libexecdir)/evolution/$(BASE_VERSION).
+	(sounddir): Remove.
+
+	* gui/dialogs/Makefile.am (iconsdir): Version using
+	$(BASE_VERSION).
+	(gladedir): Likewise.
+	(etspecdir): Likewise.
+
+	* gui/Makefile.am (help_base): Remove.
+	(install-data-local): Do not make the $(help_base)/C directory.
+	(etspecdir): Version using $(BASE_VERSION).
+	(gladedir): Likewise.
+	(iconsdir): Likewise.
+	(INCLUDES): Update the EVOLUTION_IMAGESDIR define to be versioned,
+	and add a -DEVOLUTION_GALVIEWSDIR.
+
+	* cal-util/Makefile.am: Install evolution-alarm-notify in
+	$(libexecdir)/evolution/$(BASE_VERSION).
+
+	* cal-util/Makefile.am (libcal_utilincludedir): Version using
+	$(BASE_VERSION).
+	* gui/alarm-notify/Makefile.am (iconsdir): Likewise.
+	(gladedir): Likewise.
+
+	* cal-client/Makefile.am: Install libcal-client.la in privlibdir
+	instead of libdir.
+	(libcal_clientincludedir): Version using $(BASE_VERSION).
+
 2003-01-18  Hans Petter Jansson  <hpj@ximian.com>
 
 	* gui/print.c (print_calendar): Create a GnomePrintDialog,

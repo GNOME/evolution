@@ -34,9 +34,9 @@ INCLUDES =						\
 	-I$(top_srcdir)/libwombat			\
 	$(EVOLUTION_CALENDAR_CFLAGS)
 
-lib_LTLIBRARIES = libcal-client.la
+privlib_LTLIBRARIES = libcal-client.la
 
-libcal_clientincludedir = $(includedir)/evolution/cal-client
+libcal_clientincludedir = $(includedir)/evolution-$(BASE_VERSION)/cal-client
 
 libcal_client_la_SOURCES =	\
 	$(CORBA_SOURCES_GENERATED)	\

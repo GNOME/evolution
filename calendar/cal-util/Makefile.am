@@ -16,8 +16,7 @@ INCLUDES =						\
 # cal util library
 #
 
-lib_LTLIBRARIES = libcal-util.la
-privlib_LTLIBRARIES = libcal-util-static.la
+privlib_LTLIBRARIES = libcal-util-static.la libcal-util.la
 
 libcal_util_la_SOURCES = 	\
 	cal-util-marshal.c	\
@@ -27,7 +26,7 @@ libcal_util_la_SOURCES = 	\
 	cal-util.c		\
 	timeutil.c
 
-libcal_utilincludedir = $(includedir)/evolution/cal-util
+libcal_utilincludedir = $(includedir)/evolution-$(BASE_VERSION)/cal-util
 
 libcal_utilinclude_HEADERS =	\
 	cal-component.h		\

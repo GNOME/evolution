@@ -736,7 +736,7 @@ e_tasks_setup_view_menus (ETasks *tasks, BonoboUIComponent *uic)
 
 		dir = gnome_util_prepend_user_home ("/evolution/views/tasks/");
 		gal_view_collection_set_storage_directories (collection,
-							     EVOLUTION_DATADIR "/evolution/views/tasks/",
+							     EVOLUTION_GALVIEWSDIR "/tasks/",
 							     dir);
 		g_free (dir);
 

@@ -28,7 +28,7 @@ idl_flags = -I $(srcdir) $(IDL_INCLUDES)
 $(CORBA_GENERATED): $(idls)
 	$(ORBIT_IDL) $(idl_flags) $(srcdir)/../idl/evolution-calendar.idl
 
-pcsincludedir = $(includedir)/evolution/pcs
+pcsincludedir = $(includedir)/evolution-$(BASE_VERSION)/pcs
 
 privlib_LIBRARIES = libpcs.a
 noinst_LIBRARIES = libpcsfile.a

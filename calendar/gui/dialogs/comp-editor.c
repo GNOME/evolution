@@ -197,7 +197,7 @@ setup_widgets (CompEditor *editor)
 
 	bonobo_ui_component_add_verb_list_with_data (priv->uic, verbs, editor);
 	bonobo_ui_util_set_ui (priv->uic, EVOLUTION_DATADIR,
-			       "evolution-comp-editor.xml",
+			       EVOLUTION_UIDIR "/evolution-comp-editor.xml",
 			       "evolution-calendar", NULL);
 	e_pixmaps_update (priv->uic, pixmaps);
 
@@ -1094,14 +1094,19 @@ comp_editor_merge_ui (CompEditor *editor,
 		      EPixmap *component_pixmaps)
 {
 	CompEditorPrivate *priv;
+	char *path;
 
 	g_return_if_fail (editor != NULL);
 	g_return_if_fail (IS_COMP_EDITOR (editor));
 
 	priv = editor->priv;
 
-	bonobo_ui_util_set_ui (priv->uic, EVOLUTION_DATADIR, filename, "evolution-calendar", NULL);
+	path = g_strconcat (EVOLUTION_UIDIR "/", filename);
+
+	bonobo_ui_util_set_ui (priv->uic, EVOLUTION_DATADIR, path, "evolution-calendar", NULL);
 	bonobo_ui_component_add_verb_list_with_data (priv->uic, verbs, editor);
+
+	g_free (path);
 
 	if (component_pixmaps != NULL)
 		e_pixmaps_update (priv->uic, component_pixmaps);
