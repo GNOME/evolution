@@ -1,3 +1,8 @@
+2001-06-30  Zbigniew Chyla  <cyba@gnome.pl>
+
+	* gui/component/e-address-popup.c (e_address_popup_construct): Marked
+	strings for translation.
+
 2001-06-30  Jon Trowbridge  <trow@ximian.com>
 
 	* gui/merging/e-card-merging.c (match_query_callback): Make the

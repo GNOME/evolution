@@ -856,7 +856,7 @@ e_address_popup_construct (EAddressPopup *pop)
 	gtk_box_pack_start (GTK_BOX (pop->main_vbox), pop->generic_view, TRUE, TRUE, 0);
 	gtk_widget_show_all (pop->generic_view);
 
-	pop->query_msg = gtk_label_new ("Querying Addressbook...");
+	pop->query_msg = gtk_label_new (_("Querying Addressbook..."));
 	gtk_box_pack_start (GTK_BOX (pop->main_vbox), pop->query_msg, TRUE, TRUE, 0);
 	gtk_widget_show (pop->query_msg);
 
@@ -913,7 +913,7 @@ e_address_popup_cardify (EAddressPopup *pop, ECard *card)
 	gtk_widget_show (pop->minicard_view);
 	gtk_widget_hide (pop->generic_view);
 
-	b = gtk_button_new_with_label ("Edit Contact Info");
+	b = gtk_button_new_with_label (_("Edit Contact Info"));
 	gtk_box_pack_start (GTK_BOX (pop->main_vbox), b, TRUE, TRUE, 0);
 	gtk_signal_connect_object (GTK_OBJECT (b),
 				   "clicked",
@@ -943,7 +943,7 @@ e_address_popup_no_matches (EAddressPopup *pop)
 
 	g_return_if_fail (pop && E_IS_ADDRESS_POPUP (pop));
 
-	b = gtk_button_new_with_label ("Add to Contacts");
+	b = gtk_button_new_with_label (_("Add to Contacts"));
 	gtk_box_pack_start (GTK_BOX (pop->main_vbox), b, TRUE, TRUE, 0);
 	gtk_signal_connect_object (GTK_OBJECT (b),
 				   "clicked",
