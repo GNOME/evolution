@@ -746,19 +746,20 @@ dnl ****************************************************************************
 msg_ssl=no
 
 dnl these 2 enable's are inverses of each other
-AC_ARG_ENABLE(nss, [  --enable-nss=[yes,no]        Attempt to use Mozilla libnss for SSL support.],
+AC_ARG_ENABLE(nss, [  --enable-nss=[yes,no,static]        Attempt to use Mozilla libnss for SSL support.],
 	enable_nss="$enableval", enable_nss="yes")
 
-AC_ARG_ENABLE(openssl, [  --enable-openssl=[yes,no]        Attempt to use OpenSSL for SSL support.],
-	enable_openssl="$enableval", enable_openssl="auto")
+AC_ARG_ENABLE(openssl, [  --enable-openssl=[no,yes]        Attempt to use OpenSSL for SSL support.],
+	enable_openssl="$enableval", enable_openssl="no")
 
 if test "x${enable_openssl}" = "xyes"; then
 dnl User wants to override nss with OpenSSL
 	enable_nss="no"
+	AC_MSG_WARN([OpenSSL enabled, disabling NSS.])
 fi
 
-if test "x${enable_nss}" = "xyes"; then
-	AC_ARG_WITH(nspr-includes, [  --with-nspr-includes=PREFIX     Location of Mozilla nspr4 includes.],
+if test "x${enable_nss}" = "xyes" || test "x${enable_nss}" = "xstatic"; then
+	AC_ARG_WITH(nspr-includes, [  --with-nspr-includes=PREFIX     Location of NSPR header files.],
 		with_nspr_includes="$withval", with_nspr_includes="/usr/include/nspr")
 	have_nspr_includes="no"
 	if test "x${with_nspr_includes}" != "xno"; then
@@ -786,21 +787,36 @@ if test "x${enable_nss}" = "xyes"; then
 	if test "x${with_nspr_libs}" != "xno" -a "x${have_nspr_includes}" != "xno"; then
 		CFLAGS_save="$CFLAGS"
 		LDFLAGS_save="$LDFLAGS"
-		
-		nsprlibs="-lplc4 -lplds4 -lnspr4 $PTHREAD_LIB"
+
+		if test "$enable_nss" = "static"; then
+		    if test -z "${with_nspr_libs}"; then
+			AC_MSG_ERROR([Static linkage requested, but path to nspr libraries not set]
+				     [Please specify the path to libnspr4.a]
+				     [Example: --with-nspr-libs=/usr/lib])
+       		    else
+               		nsprlibs="-ldl $with_nspr_libs/libplc4.a $with_nspr_libs/libplds4.a $with_nspr_libs/libnspr4.a $PTHREAD_LIB"
+      		    fi
+		else
+               	    nsprlibs="-ldl -lplc4 -lplds4 -lnspr4 $PTHREAD_LIB"
+		fi
+
 		AC_CACHE_CHECK([for Mozilla nspr libraries], moz_nspr_libs,
 		[
+	               	LIBS_save="$LIBS"
 			CFLAGS="$CFLAGS $NSPR_CFLAGS"
-			
+
 			if test "x${with_nspr_libs}" != "x"; then
-				LDFLAGS="$LDFLAGS -L$with_nspr_libs $nsprlibs"
-			else
-				LDFLAGS="$LDFLAGS $nsprlibs"
+                       		LIBS="$nsprlibs"
+                       		LDFLAGS="$LDFLAGS -L$with_nspr_libs"
+        		else
+                       		LIBS="$nsprlibs"
+                       		LDFLAGS="$LDFLAGS"
 			fi
 			
 			AC_TRY_LINK_FUNC(PR_Init, moz_nspr_libs="yes", moz_nspr_libs="no")
 			CFLAGS="$CFLAGS_save"
 			LDFLAGS="$LDFLAGS_save"
+	 		LIBS="$LIBS_save"
 		])
 		if test "x$moz_nspr_libs" != "xno"; then
 			have_nspr_libs="yes"
@@ -813,7 +829,7 @@ if test "x${enable_nss}" = "xyes"; then
 		AC_MSG_RESULT(no)
 	fi
 	
-	AC_ARG_WITH(nss-includes, [  --with-nss-includes=PREFIX     Location of Mozilla nss3 includes.],
+	AC_ARG_WITH(nss-includes, [  --with-nss-includes=PREFIX     Location of NSS3 headers.],
 		with_nss_includes="$withval", with_nss_includes="/usr/include/moznss")
 	if test "x${with_nss_includes}" != "xno" -a "x${have_nspr_libs}" != "xno"; then
 		CPPFLAGS_save="$CPPFLAGS"
@@ -849,12 +865,29 @@ if test "x${enable_nss}" = "xyes"; then
 		with_nss_libs="$withval")
 	if test "x${with_nss_libs}" != "xno" -a "x${have_nss_includes}" != "xno"; then
 		LDFLAGS_save="$LDFLAGS"
-		
-		nsprlibs="-lplc4 -lplds4 -lnspr4 $PTHREAD_LIB"
-		nsslibs="-lssl3 -lsmime3 -lnss3"
+	
+		if test "$enable_nss" = "static"; then
+		    if test -z "${with_nss_libs}"; then
+                        AC_MSG_ERROR([Static linkage requested, but path to nss libraries not set]
+                                     [Please specify the path to libnss3.a]
+                                     [Example: --with-nspr-libs=/usr/lib/mozilla])
+         	    else
+                 	nsslibs="-ldb1 $with_nss_libs/libnssckfw.a $with_nss_libs/libasn1.a $with_nss_libs/libcrmf.a $with_nss_libs/libswfci.a $with_nss_libs/libjar.a $with_nss_libs/libpkcs12.a $with_nss_libs/libpkcs7.a $with_nss_libs/libpki1.a $with_nss_libs/libsmime.a $with_nss_libs/libssl.a $with_nss_libs/libnss.a $with_nss_libs/libpk11wrap.a $with_nss_libs/libsoftokn.a $with_nss_libs/libfreebl.a $with_nss_libs/libnsspki.a $with_nss_libs/libnssdev.a $with_nss_libs/libcryptohi.a $with_nss_libs/libcerthi.a $with_nss_libs/libcertdb.a $with_nss_libs/libsecutil.a $with_nss_libs/libnssb.a"
+                 	case "$host" in
+                     		*solaris*)
+                         	nsslibs="$nsslibs $with_nss_libs/libfreebl.a"
+                     	;;
+                 	esac
+		    fi
+		else
+                 	nsslibs="-lssl3 -lsmime3 -lnss3 -lsoftokn3"
+         	fi	
+
 		AC_CACHE_CHECK([for Mozilla nss libraries], moz_nss_libs,
 		[
+	 		LIBS_save="$LIBS"
 			LDFLAGS="$LDFLAGS -L$with_nspr_libs $nsprlibs -L$with_nss_libs $nsslibs"
+	              	LIBS="$nsslibs $nsprlibs"
 			AC_TRY_LINK_FUNC(NSS_Init, moz_nss_libs="yes", moz_nss_libs="no")
 			if test "$moz_nss_libs" = no; then
 				nsslibs="-lssl3 -lsmime3 -lnss3 -lsoftokn3"
@@ -862,11 +895,16 @@ if test "x${enable_nss}" = "xyes"; then
 				AC_TRY_LINK_FUNC(NSS_Init, moz_nss_libs="yes", moz_nss_libs="no")	
 			fi
 			LDFLAGS="$LDFLAGS_save"
+	 		LIBS="$LIBS_save"
 		])
 		if test "$moz_nss_libs" != no; then
 			AC_DEFINE(HAVE_NSS)
 			AC_DEFINE(HAVE_SSL)
-			msg_ssl="yes (Mozilla NSS)"
+	               	if test "$enable_nss" = "static"; then
+           	        	msg_ssl="yes (Mozilla NSS:static)"
+                 	else
+                       		msg_ssl="yes (Mozilla NSS)"
+                 	fi # static_nss
 			NSS_LDFLAGS="-L$with_nss_libs $nsslibs"
 		else
 			NSS_CFLAGS=""
@@ -1156,20 +1194,24 @@ dnl KDE applnk directory
 dnl ********************
 AC_ARG_WITH(kde-applnk-path, [  --with-kde-applnk-path=PATH    Location of KDE applnk files],
             [with_kde_applnk_path="$withval"])
-if test -z "$with_kde_applnk_path"; then
-	with_kde_applnk_path="$prefix/share/applnk"
-fi
-if test -d "$with_kde_applnk_path" ; then
-	AC_DEFINE(HAVE_KDE_APPLNK)
-	KDE_APPLNK_DIR="$with_kde_applnk_path"
-else
-	AC_PATH_PROG(KDECONFIG, kde-config)
-	if test -n "$KDECONFIG"; then
-		KDE_APPLNK_DIR=`$KDECONFIG --expandvars --install apps`
-		AC_DEFINE(HAVE_KDE_APPLNK)
-	else
-		KDE_APPLNK_DIR=""
+if test x"$with_kde_applnk_path" != x"no"; then
+	if test -z "$with_kde_applnk_path"; then
+		with_kde_applnk_path="$prefix/share/applnk"
 	fi
+	if test -d "$with_kde_applnk_path" ; then
+		AC_DEFINE(HAVE_KDE_APPLNK)
+		KDE_APPLNK_DIR="$with_kde_applnk_path"
+	else
+		AC_PATH_PROG(KDECONFIG, kde-config)
+		if test -n "$KDECONFIG"; then
+			KDE_APPLNK_DIR=`$KDECONFIG --expandvars --install apps`
+			AC_DEFINE(HAVE_KDE_APPLNK)
+		else
+			KDE_APPLNK_DIR=""
+		fi
+	fi
+else
+	KDE_APPLNK_DIR=""
 fi
 AM_CONDITIONAL(HAVE_KDE_APPLNK, test x"$KDE_APPLNK_DIR" != x)
 AC_SUBST(KDE_APPLNK_DIR)
