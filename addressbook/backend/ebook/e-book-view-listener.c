@@ -36,15 +36,24 @@ struct _EBookViewListenerPrivate {
 static gboolean
 e_book_view_listener_check_queue (EBookViewListener *listener)
 {
+	gboolean retval;
+
 	if (listener->priv->stopped) {
 		listener->priv->idle_id = 0;
 		bonobo_object_unref (BONOBO_OBJECT (listener));
 		return FALSE;
 	}
 
+	/* An extra ref to keep listener from being destroyed during the
+	   signal emission. */
+	bonobo_object_ref (BONOBO_OBJECT (listener));
+	retval = TRUE;
+
 	if (listener->priv->response_queue != NULL) {
+
 		gtk_signal_emit (GTK_OBJECT (listener),
 				 e_book_view_listener_signals [RESPONSES_QUEUED]);
+
 	}
 
 	/* this callback could be (and indeed is) called from signal emited above,
@@ -53,10 +62,13 @@ e_book_view_listener_check_queue (EBookViewListener *listener)
 	if (listener->priv->response_queue == NULL && listener->priv->idle_id != 0) {
 		listener->priv->idle_id = 0;
 		bonobo_object_unref (BONOBO_OBJECT (listener));
-		return FALSE;
+		retval = FALSE;
 	}
 
-	return TRUE;
+	/* Drop our extra reference from above. */
+	bonobo_object_unref (BONOBO_OBJECT (listener));
+
+	return retval;
 }
 
 static void
