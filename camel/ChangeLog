@@ -1,3 +1,9 @@
+2001-01-22  Dan Winship  <danw@ximian.com>
+
+	* providers/vee/camel-vee-folder.c (camel_vee_folder_new): Set the
+	CamelFolder::name to just the base part of the vfolder name (the
+	non-query part)
+
 2001-01-23  Not Zed  <NotZed@Ximian.com>
 
 	* camel-filter-search.c (camel_filter_search_match): Perform error

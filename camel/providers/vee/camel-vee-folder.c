@@ -179,8 +179,6 @@ camel_vee_folder_new (CamelStore *parent_store, const char *name, CamelException
 	folder =  CAMEL_FOLDER (camel_object_new (camel_vee_folder_get_type()));
 	vf = (CamelVeeFolder *)folder;
 
-	camel_folder_construct (folder, parent_store, name, name);
-
 	namepart = g_strdup(name);
 	searchpart = strchr(namepart, '?');
 	if (searchpart == NULL) {
@@ -189,6 +187,8 @@ camel_vee_folder_new (CamelStore *parent_store, const char *name, CamelException
 	} else {
 		*searchpart++ = 0;
 	}
+
+	camel_folder_construct (folder, parent_store, namepart, namepart);
 
 	folder->summary = camel_folder_summary_new();
 	folder->summary->message_info_size = sizeof(CamelVeeMessageInfo);
