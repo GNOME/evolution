@@ -1037,6 +1037,7 @@ e_tasks_delete_selected (ETasks *tasks)
 	set_status_message (tasks, _("Deleting selected objects..."));
 	e_calendar_table_delete_selected (cal_table);
 	set_status_message (tasks, NULL);
+	gtk_html_load_empty (GTK_HTML (priv->html));
 }
 
 /**

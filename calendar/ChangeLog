@@ -1,3 +1,10 @@
+2004-03-23 Umesh Tiwari   <tiwariumesh232@rediffmaiil.com>
+
+	For bug#53417
+
+	* gui/e-tasks.c:
+	Clear the preview panel after the last task is deleted.
+
 2004-03-23  Alfred Peng <alfred.peng@sun.com>
 
 	* gui/dialogs/alarm-options.c (malarm_widgets_to_alarm): get
