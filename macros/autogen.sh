@@ -11,7 +11,7 @@ DIE=0
     DIE=1
 }
 
-(grep -q "^AM_PROG_LIBTOOL" configure.in) && {
+(grep "^AM_PROG_LIBTOOL" configure.in >/dev/null) && {
 (libtool --version) < /dev/null > /dev/null 2>&1 || {
     echo
     echo "**Error**: You must have "\`libtool\'" installed to compile Gnome."
@@ -21,8 +21,8 @@ DIE=0
 }
 }
 
-grep -q "^AM_GNU_GETTEXT" configure.in && {
-grep -q "sed.*POTFILES" configure.in || \
+grep "^AM_GNU_GETTEXT" configure.in >/dev/null && {
+grep "sed.*POTFILES" configure.in >/dev/null || \
 (gettext --version) < /dev/null > /dev/null 2>&1 || {
     echo
     echo "**Error**: You must have "\`gettext\'" installed to compile Gnome."
@@ -84,20 +84,20 @@ do
     	    if test -d $k; then aclocalinclude="$aclocalinclude -I $k"; \
     	    else echo "**Warning**: No such directory \`$k'.  Ignored."; fi; \
     	done; \
-	if grep -q "^AM_GNU_GETTEXT" configure.in; then \
-	    if grep -q "sed.*POTFILES" configure.in; then \
+	if grep "^AM_GNU_GETTEXT" configure.in >/dev/null; then \
+	    if grep "sed.*POTFILES" configure.in >/dev/null; then \
 		: do nothing -- we still have an old unmodified configure.in
 	    else
 		echo "Running gettextize...  Ignore non-fatal messages."; \
 		echo "no" | gettextize --force; \
 	    fi \
 	fi; \
-	if grep -q "^AM_PROG_LIBTOOL" configure.in; then \
+	if grep "^AM_PROG_LIBTOOL" configure.in >/dev/null; then \
 	    echo "Running libtoolize..."; \
 	    libtoolize --force; \
 	fi
     	aclocal $aclocalinclude; \
-	if grep -q "^AM_CONFIG_HEADER" configure.in; then \
+	if grep "^AM_CONFIG_HEADER" configure.in >/dev/null; then \
 	    echo "Running autoheader..."; \
 	    autoheader; \
 	fi
