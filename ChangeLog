@@ -1,5 +1,9 @@
 2004-11-04  Not Zed  <NotZed@Ximian.com>
 
+	* configure.in: added mailing-list-actions plugin.
+
+2004-11-04  Not Zed  <NotZed@Ximian.com>
+
 	* configure.in: modified base vs optional logic slightly and added
 	a warning if you build with --enable-plugins=no.
 
