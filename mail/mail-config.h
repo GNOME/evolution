@@ -121,6 +121,7 @@ void mail_config_service_set_save_passwd (EAccountService *service, gboolean sav
 gboolean      mail_config_find_account                 (EAccount *account);
 EAccount     *mail_config_get_default_account          (void);
 EAccount     *mail_config_get_account_by_name          (const char *account_name);
+EAccount     *mail_config_get_account_by_uid           (const char *uid);
 EAccount     *mail_config_get_account_by_source_url    (const char *url);
 EAccount     *mail_config_get_account_by_transport_url (const char *url);
 EAccountList *mail_config_get_accounts                 (void);

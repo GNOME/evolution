@@ -1,3 +1,26 @@
+2003-12-01  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* em-folder-tree.c (em_folder_tree_get_folder_info__got): Make
+	sure our parent folder hasn't been unsubscribed or else we get a
+	segfault here if it has.
+
+03-11-28  Dave Camp  <dave@ximian.com>
+
+	* em-folder-tree.c (render_pixbuf): Set the pixbuf renderer
+	invisible for stores.
+
+2003-11-25  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-config.c (mail_config_get_account_by_uid): New function.
+
+	* em-folder-tree.c (tree_store_set_folder_info): Expand the tree
+	node if the saved state tells us it was expanded the previous
+	session.
+	(em_folder_tree_load_state): Load the saved state.
+	(em_folder_tree_add_store): Conditionally expand the store node.
+	(em_folder_tree_new_with_model): Expand all the nodes that should
+	be expanded.
+
 2003-12-01  Radek Doulik  <rodo@ximian.com>
 
 	* em-folder-tree.c (render_pixbuf): use CAMEL_VTRASH_NAME,

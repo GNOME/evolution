@@ -768,6 +768,12 @@ mail_config_get_account_by_name (const char *account_name)
 }
 
 EAccount *
+mail_config_get_account_by_uid (const char *uid)
+{
+	return (EAccount *) e_account_list_find (config->accounts, E_ACCOUNT_FIND_UID, uid);
+}
+
+EAccount *
 mail_config_get_account_by_source_url (const char *source_url)
 {
 	CamelProvider *provider;

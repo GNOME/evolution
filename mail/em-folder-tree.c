@@ -93,6 +93,8 @@ struct _EMFolderTreePrivate {
 	GtkTreeView *treeview;
 	EMFolderTreeModel *model;
 	
+	GHashTable *expanded;
+	
 	char *selected_uri;
 	char *selected_path;
 	
@@ -123,7 +125,7 @@ enum DndDropType {
 };
 
 static GtkTargetEntry drag_types[] = {
-	{ "x-uid-list",       0, DND_DRAG_TYPE_FOLDER         },
+	{ "x-folder",         0, DND_DRAG_TYPE_FOLDER         },
 	{ "text/uri-list",    0, DND_DRAG_TYPE_TEXT_URI_LIST  },
 };
 
@@ -275,7 +277,7 @@ render_pixbuf (GtkTreeViewColumn *column, GtkCellRenderer *renderer,
 			pixbuf = folder_icons[FOLDER_ICON_NORMAL];
 	}
 	
-	g_object_set (renderer, "pixbuf", pixbuf, NULL);
+	g_object_set (renderer, "pixbuf", pixbuf, "visible", !is_store, NULL);
 }
 
 static void
@@ -309,23 +311,61 @@ render_display_name (GtkTreeViewColumn *column, GtkCellRenderer *renderer,
 	g_free (display);
 }
 
+
+static gboolean
+expanded_free (gpointer key, gpointer value, gpointer user_data)
+{
+	g_free (key);
+	return TRUE;
+}
+
+static void
+em_folder_tree_load_state (EMFolderTree *emft)
+{
+	struct _EMFolderTreePrivate *priv = emft->priv;
+	char *filename, *node;
+	const char *dirname;
+	FILE *fp;
+	
+	g_hash_table_foreach_remove (priv->expanded, expanded_free, NULL);
+	
+	/*dirname = mail_component_peek_base_directory (mail_component_peek ());*/
+	dirname = "/home/null/.evolution";
+	filename = g_build_filename (dirname, "mail", "config", "folder-tree.state", NULL);
+	if ((fp = fopen (filename, "r")) == NULL) {
+		g_free (filename);
+		return;
+	}
+	
+	while (camel_file_util_decode_string (fp, &node) != -1)
+		g_hash_table_insert (priv->expanded, node, GINT_TO_POINTER (TRUE));
+	
+	fclose (fp);
+}
+
 static void
 em_folder_tree_init (EMFolderTree *emft)
 {
 	struct _EMFolderTreePrivate *priv;
 	
 	priv = g_new0 (struct _EMFolderTreePrivate, 1);
+	priv->expanded = g_hash_table_new (g_str_hash, g_str_equal);
 	priv->selected_uri = NULL;
 	priv->selected_path = NULL;
 	priv->treeview = NULL;
 	priv->model = NULL;
 	emft->priv = priv;
+	
+	em_folder_tree_load_state (emft);
 }
 
 static void
 em_folder_tree_finalize (GObject *obj)
 {
 	EMFolderTree *emft = (EMFolderTree *) obj;
+	
+	g_hash_table_foreach (emft->priv->expanded, (GHFunc) g_free, NULL);
+	g_hash_table_destroy (emft->priv->expanded);
 	
 	g_free (emft->priv->selected_uri);
 	g_free (emft->priv->selected_path);
@@ -863,6 +903,72 @@ em_folder_tree_new (void)
 }
 
 
+struct _gsbn {
+	struct _EMFolderTreeModelStoreInfo *si;
+	const char *name;
+};
+
+static void
+get_store_by_name (CamelStore *store, struct _EMFolderTreeModelStoreInfo *si, struct _gsbn *gsbn)
+{
+	if (!strcmp (si->display_name, gsbn->name))
+		gsbn->si = si;
+}
+
+static void
+expand_node (char *key, gpointer value, EMFolderTree *emft)
+{
+	struct _EMFolderTreePrivate *priv = emft->priv;
+	struct _EMFolderTreeModelStoreInfo *si;
+	GtkTreeRowReference *row;
+	GtkTreePath *path;
+	EAccount *account;
+	char *id, *p;
+	
+	if (!(p = strchr (key, ':')))
+		return;
+	
+	id = g_strndup (key, p - key);
+	if ((account = mail_config_get_account_by_uid (id))) {
+		CamelException ex;
+		CamelStore *store;
+		
+		camel_exception_init (&ex);
+		store = (CamelStore *) camel_session_get_service (session, account->source->url, CAMEL_PROVIDER_STORE, &ex);
+		camel_exception_clear (&ex);
+		
+		if (store == NULL || !(si = g_hash_table_lookup (priv->model->store_hash, store))) {
+			if (store)
+				camel_object_unref (store);
+			g_free (id);
+			return;
+		}
+	} else {
+		struct _gsbn gsbn;
+		
+		gsbn.si = NULL;
+		gsbn.name = id;
+		
+		g_hash_table_foreach (priv->model->store_hash, (GHFunc) get_store_by_name, &gsbn);
+		if (!(si = gsbn.si)) {
+			g_free (id);
+			return;
+		}
+	}
+	
+	g_free (id);
+	
+	p++;
+	if (!strcmp (p, "/"))
+		row = si->row;
+	else if (!(row = g_hash_table_lookup (si->path_hash, p)))
+		return;
+	
+	path = gtk_tree_row_reference_get_path (row);
+	gtk_tree_view_expand_to_path (priv->treeview, path);
+	gtk_tree_path_free (path);
+}
+
 GtkWidget *
 em_folder_tree_new_with_model (EMFolderTreeModel *model)
 {
@@ -871,6 +977,8 @@ em_folder_tree_new_with_model (EMFolderTreeModel *model)
 	emft = g_object_new (EM_TYPE_FOLDER_TREE, NULL);
 	em_folder_tree_construct (emft, model);
 	g_object_ref (model);
+	
+	g_hash_table_foreach (emft->priv->expanded, (GHFunc) expand_node, emft);
 	
 	return (GtkWidget *) emft;
 }
@@ -884,16 +992,18 @@ tree_store_set_folder_info (GtkTreeStore *model, GtkTreeIter *iter,
 {
 	GtkTreeRowReference *uri_row, *path_row;
 	unsigned int unread;
+	EAccount *account;
 	GtkTreePath *path;
 	GtkTreeIter sub;
 	gboolean load;
+	char *node;
 	
 	load = !fi->child && (fi->flags & CAMEL_FOLDER_CHILDREN) && !(fi->flags & CAMEL_FOLDER_NOINFERIORS);
 	
 	path = gtk_tree_model_get_path ((GtkTreeModel *) model, iter);
 	uri_row = gtk_tree_row_reference_new ((GtkTreeModel *) model, path);
 	path_row = gtk_tree_row_reference_copy (uri_row);
-	gtk_tree_path_free (path);
+	/*gtk_tree_path_free (path);*/
 	
 	g_hash_table_insert (priv->model->uri_hash, g_strdup (fi->url), uri_row);
 	g_hash_table_insert (si->path_hash, g_strdup (fi->path), path_row);
@@ -909,6 +1019,8 @@ tree_store_set_folder_info (GtkTreeStore *model, GtkTreeIter *iter,
 			    COL_BOOL_IS_STORE, FALSE,
 			    COL_BOOL_LOAD_SUBDIRS, load,
 			    -1);
+	
+	node = fi->path;
 	
 	if (fi->child) {
 		fi = fi->child;
@@ -930,7 +1042,36 @@ tree_store_set_folder_info (GtkTreeStore *model, GtkTreeIter *iter,
 				    COL_STRING_URI, fi->url,
 				    COL_UINT_UNREAD, 0,
 				    -1);
+#if 0
+		if ((account = mail_config_get_account_by_name (si->display_name)))
+			node = g_strdup_printf ("%s:%s", account->uid, fi->path);
+		else
+			node = g_strdup_printf ("%s:%s", si->display_name, fi->path);
+		
+		if (g_hash_table_lookup (priv->expanded, node)) {
+			printf ("expanding node '%s'\n", node);
+			path = gtk_tree_model_get_path ((GtkTreeModel *) model, &sub);
+			gtk_tree_view_expand_to_path (priv->treeview, path);
+			gtk_tree_path_free (path);
+		}
+		
+		g_free (node);
+#endif
 	}
+#if 1
+	if ((account = mail_config_get_account_by_name (si->display_name)))
+		node = g_strdup_printf ("%s:%s", account->uid, node);
+	else
+		node = g_strdup_printf ("%s:%s", si->display_name, node);
+	
+	if (g_hash_table_lookup (priv->expanded, node)) {
+		printf ("expanding node '%s'\n", node);
+		gtk_tree_view_expand_to_path (priv->treeview, path);
+	}
+	
+	gtk_tree_path_free (path);
+	g_free (node);
+#endif
 }
 
 #if 0
@@ -996,6 +1137,10 @@ em_folder_tree_get_folder_info__got (struct _mail_msg *mm)
 	
 	/* check that we haven't been destroyed */
 	if (priv->treeview == NULL)
+		return;
+	
+	/* check that our parent folder hasn't been deleted/unsubscribed */
+	if (!gtk_tree_row_reference_is_valid (m->root))
 		return;
 	
 	if (!(si = g_hash_table_lookup (priv->model->store_hash, m->store))) {
@@ -2136,7 +2281,8 @@ em_folder_tree_add_store (EMFolderTree *emft, CamelStore *store, const char *dis
 	GtkTreeIter root, iter;
 	GtkTreeStore *model;
 	GtkTreePath *path;
-	char *uri;
+	EAccount *account;
+	char *node, *uri;
 	
 	g_return_if_fail (EM_IS_FOLDER_TREE (emft));
 	g_return_if_fail (CAMEL_IS_STORE (store));
@@ -2198,6 +2344,19 @@ em_folder_tree_add_store (EMFolderTree *emft, CamelStore *store, const char *dis
 			    -1);
 	
 	g_free (uri);
+	
+	if ((account = mail_config_get_account_by_name (display_name)))
+		node = g_strdup_printf ("%s:/", account->uid);
+	else
+		node = g_strdup_printf ("%s:/", display_name);
+	
+	if (g_hash_table_lookup (priv->expanded, node)) {
+		path = gtk_tree_model_get_path ((GtkTreeModel *) model, &iter);
+		gtk_tree_view_expand_to_path (priv->treeview, path);
+		gtk_tree_path_free (path);
+	}
+	
+	g_free (node);
 	
 	/* listen to store events */
 #define CAMEL_CALLBACK(func) ((CamelObjectEventHookFunc) func)
