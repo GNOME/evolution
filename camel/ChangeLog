@@ -10,6 +10,8 @@
 	(imap_sync): Added code to set flags on messages that have had
 	their flags changed (however I #if'd it out until we are more
 	confidant in the IMAP code :)
+	(imap_summary_get_by_uid): Now parese flags correctly.
+	(imap_get_summary): Now parese flags correctly.
 
 	* camel-url.c (check_equal): No need to check s1 if s2 is NULL
 	(camel_url_equal): Don't check the passwd component of the url.

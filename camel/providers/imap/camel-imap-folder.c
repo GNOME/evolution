@@ -956,17 +956,17 @@ imap_get_summary (CamelFolder *folder, CamelException *ex)
 
 		/* now we gotta parse for the flags */
 		info->flags = 0;
-		if (!strstr (p, "\\Seen"))
+		if (strstr (p, "\\Seen"))
 			info->flags |= CAMEL_MESSAGE_SEEN;
-		if (!strstr (p, "\\Answered"))
+		if (strstr (p, "\\Answered"))
 			info->flags |= CAMEL_MESSAGE_ANSWERED;
-		if (!strstr (p, "\\Flagged"))
+		if (strstr (p, "\\Flagged"))
 			info->flags |= CAMEL_MESSAGE_FLAGGED;
-		if (!strstr (p, "\\Deleted"))
+		if (strstr (p, "\\Deleted"))
 			info->flags |= CAMEL_MESSAGE_DELETED;
-		if (!strstr (p, "\\Draft"))
+		if (strstr (p, "\\Draft"))
 			info->flags |= CAMEL_MESSAGE_DRAFT;
-		
+
 		g_free (result);
 
 		g_ptr_array_add (array, info);
@@ -1055,17 +1055,17 @@ imap_summary_get_by_uid (CamelFolder *folder, const char *uid)
 	
 	/* now we gotta parse for the flags */
 	info->flags = 0;
-	if (!strstr (p, "\\Seen"))
+	if (strstr (p, "\\Seen"))
 		info->flags |= CAMEL_MESSAGE_SEEN;
-	if (!strstr (p, "\\Answered"))
+	if (strstr (p, "\\Answered"))
 		info->flags |= CAMEL_MESSAGE_ANSWERED;
-	if (!strstr (p, "\\Flagged"))
+	if (strstr (p, "\\Flagged"))
 		info->flags |= CAMEL_MESSAGE_FLAGGED;
-	if (!strstr (p, "\\Deleted"))
+	if (strstr (p, "\\Deleted"))
 		info->flags |= CAMEL_MESSAGE_DELETED;
-	if (!strstr (p, "\\Draft"))
+	if (strstr (p, "\\Draft"))
 		info->flags |= CAMEL_MESSAGE_DRAFT;
-	
+
 	g_free (result);
 
 	/* since we didn't have it cached, lets add it to our cache */
