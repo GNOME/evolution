@@ -41,6 +41,7 @@
 #include "Evolution.h"
 #include "evolution-storage.h"
 #include "evolution-wizard.h"
+#include "evolution-composer.h"
 
 #include "folder-browser-factory.h"
 #include "evolution-shell-component.h"
@@ -1370,7 +1371,6 @@ add_storage (const char *name, const char *uri, CamelService *store,
 	}
 }
 
-
 void
 mail_add_storage (CamelStore *store, const char *name, const char *uri)
 {
@@ -1586,6 +1586,7 @@ mail_storages_foreach (GHFunc func, gpointer data)
 #define MAIL_CONFIG_IID "OAFIID:GNOME_Evolution_MailConfig"
 #define WIZARD_IID "OAFIID:GNOME_Evolution_Mail_Wizard"
 #define FOLDER_INFO_IID "OAFIID:GNOME_Evolution_FolderInfo"
+#define COMPOSER_IID "OAFIID:GNOME_Evolution_Mail_Composer"
 
 static BonoboObject *
 factory (BonoboGenericFactory *factory,
@@ -1609,6 +1610,8 @@ factory (BonoboGenericFactory *factory,
 		 || strcmp (component_id, MAIL_COMPOSER_PREFS_CONTROL_ID) == 0
 		 /* || strcmp (component_id, MAIL_FONT_PREFS_CONTROL_ID) == 0 */)
 		return mail_config_control_factory_cb (factory, component_id, evolution_shell_client_corba_objref (global_shell_client));
+	else if (strcmp(component_id, COMPOSER_IID) == 0)
+		return (BonoboObject *)evolution_composer_new(composer_send_cb, composer_save_draft_cb);
 
 	g_warning (FACTORY_ID ": Don't know what to do with %s", component_id);
 	return NULL;

@@ -5,7 +5,8 @@
 
 	* component-factory.c (component_factory_init): Remove, not used
 	anymore, causes linking problems some places.
-	(factory): Removed the debug printf.
+	(factory): Removed the debug printf.  Added a case for the
+	composer.  Part of fixing #39256.
 
 2003-03-07  Jeffrey Stedfast  <fejj@ximian.com>
 
