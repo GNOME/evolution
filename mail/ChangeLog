@@ -1,5 +1,8 @@
 2001-09-10  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* mail-account-gui.c (save_service): Don't save the authmech if
+	the username doesn't exist. Fixes bug #9474.
+
 	* mail-callbacks.c (do_edit_messages): Remove some mailer-set
 	headers. Fixes bug #9462.
 
