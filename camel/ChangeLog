@@ -1,5 +1,7 @@
 2000-05-02  NotZed  <NotZed@HelixCode.com>
 
+	* camel-folder-search.c: Added some header doco.
+
 	* camel.h: REmove gmime-utils.h from here.
 
 	* providers/mbox/camel-mbox-search.[ch]: Removed.  Functionally
