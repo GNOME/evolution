@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution VERSION\n"
-"POT-Creation-Date: 2003-04-09 11:50+0200\n"
+"POT-Creation-Date: 2003-04-09 14:07-0400\n"
 "PO-Revision-Date: 2003-04-09 19:39+0200\n"
 "Last-Translator: Miloslav Trmac <mitr@volny.cz>\n"
 "Language-Team: Czech <cs@li.org>\n"
@@ -961,7 +961,7 @@ msgid "LDAP Configuration Assistant"
 msgstr "Pomocník nastavení LDAP"
 
 #: addressbook/gui/component/ldap-config.glade.h:29 mail/mail-account-gui.c:63
-#: mail/mail-config.glade.h:76
+#: mail/mail-config.glade.h:77
 msgid "Never"
 msgstr "Nikdy"
 
@@ -991,7 +991,7 @@ msgstr "_Rozsah vyhledávání: "
 
 #. No time range is set, so don't start a query
 #: addressbook/gui/component/ldap-config.glade.h:35
-#: calendar/gui/calendar-model.c:1975 calendar/gui/e-day-view.c:1683
+#: calendar/gui/calendar-model.c:1978 calendar/gui/e-day-view.c:1683
 #: calendar/gui/e-week-view.c:1233
 msgid "Searching"
 msgstr "Vyhledávání"
@@ -2884,7 +2884,7 @@ msgid "Protocol not supported"
 msgstr "Protokol není podporován"
 
 #: addressbook/gui/widgets/e-addressbook-util.c:43
-#: calendar/gui/calendar-model.c:751 calendar/gui/calendar-model.c:1176
+#: calendar/gui/calendar-model.c:754 calendar/gui/calendar-model.c:1179
 #: calendar/gui/dialogs/task-details-page.glade.h:3
 #: calendar/gui/e-calendar-table.c:469 calendar/gui/print.c:2319
 #: camel/camel-service.c:737 camel/camel-service.c:779
@@ -3580,7 +3580,7 @@ msgid "High"
 msgstr "Vysoká"
 
 #: calendar/cal-util/cal-util.c:552 calendar/cal-util/cal-util.c:574
-#: calendar/gui/calendar-model.c:1701
+#: calendar/gui/calendar-model.c:1704
 #: calendar/gui/dialogs/task-details-page.glade.h:9
 #: calendar/gui/e-calendar-table.c:394 mail/message-list.c:751
 msgid "Normal"
@@ -3891,12 +3891,12 @@ msgstr "_Celodenní událost"
 msgid "Create a new all-day appointment"
 msgstr "Vytvořit novou celodenní událost"
 
-#: calendar/gui/calendar-model.c:404 calendar/gui/calendar-model.c:956
+#: calendar/gui/calendar-model.c:404 calendar/gui/calendar-model.c:959
 #: calendar/gui/e-calendar-table.c:372
 msgid "Private"
 msgstr "Soukromé"
 
-#: calendar/gui/calendar-model.c:407 calendar/gui/calendar-model.c:958
+#: calendar/gui/calendar-model.c:407 calendar/gui/calendar-model.c:961
 #: calendar/gui/e-calendar-table.c:373
 msgid "Confidential"
 msgstr "Důvěrné"
@@ -3921,7 +3921,7 @@ msgstr "V"
 msgid "W"
 msgstr "Z"
 
-#: calendar/gui/calendar-model.c:589 calendar/gui/calendar-model.c:1126
+#: calendar/gui/calendar-model.c:589 calendar/gui/calendar-model.c:1129
 #: calendar/gui/e-calendar-table.c:445
 msgid "Free"
 msgstr "Volný"
@@ -3932,26 +3932,26 @@ msgstr "Volný"
 msgid "Busy"
 msgstr "Obsazený"
 
-#: calendar/gui/calendar-model.c:742 calendar/gui/calendar-model.c:1170
+#: calendar/gui/calendar-model.c:745 calendar/gui/calendar-model.c:1173
 #: calendar/gui/dialogs/task-details-page.glade.h:10
 #: calendar/gui/e-calendar-table.c:466 calendar/gui/print.c:2310
 msgid "Not Started"
 msgstr "Nezačato"
 
-#: calendar/gui/calendar-model.c:745 calendar/gui/calendar-model.c:1172
+#: calendar/gui/calendar-model.c:748 calendar/gui/calendar-model.c:1175
 #: calendar/gui/dialogs/task-details-page.glade.h:7
 #: calendar/gui/e-calendar-table.c:467 calendar/gui/print.c:2313
 msgid "In Progress"
 msgstr "Probíhá"
 
-#: calendar/gui/calendar-model.c:748 calendar/gui/calendar-model.c:1174
+#: calendar/gui/calendar-model.c:751 calendar/gui/calendar-model.c:1177
 #: calendar/gui/dialogs/task-details-page.glade.h:4
 #: calendar/gui/e-calendar-table.c:468 calendar/gui/e-meeting-model.c:304
 #: calendar/gui/e-meeting-model.c:327 calendar/gui/print.c:2316
 msgid "Completed"
 msgstr "Dokončeno"
 
-#: calendar/gui/calendar-model.c:1028
+#: calendar/gui/calendar-model.c:1031
 msgid ""
 "The geographical position must be entered in the format: \n"
 "\n"
@@ -3962,32 +3962,32 @@ msgstr ""
 "\"45.436845,125.862501\""
 
 #. An empty string is the same as 'None'.
-#: calendar/gui/calendar-model.c:1168 calendar/gui/dialogs/meeting-page.c:322
+#: calendar/gui/calendar-model.c:1171 calendar/gui/dialogs/meeting-page.c:322
 #: calendar/gui/dialogs/meeting-page.glade.h:1 composer/e-msg-composer.c:2054
 #: mail/folder-browser.c:1745 mail/mail-account-gui.c:1253
 #: mail/mail-account-gui.c:1685 mail/mail-accounts.c:442
-#: mail/mail-config.glade.h:78
+#: mail/mail-config.glade.h:79
 #: widgets/e-timezone-dialog/e-timezone-dialog.c:194
 #: widgets/misc/e-cell-date-edit.c:257 widgets/misc/e-dateedit.c:450
 #: widgets/misc/e-dateedit.c:1484 widgets/misc/e-dateedit.c:1599
 msgid "None"
 msgstr "žádný"
 
-#: calendar/gui/calendar-model.c:1703
+#: calendar/gui/calendar-model.c:1706
 msgid "Recurring"
 msgstr "Opakovaný"
 
-#: calendar/gui/calendar-model.c:1705
+#: calendar/gui/calendar-model.c:1708
 msgid "Assigned"
 msgstr "Přiřazeno"
 
-#: calendar/gui/calendar-model.c:1711 calendar/gui/e-meeting-model.c:276
+#: calendar/gui/calendar-model.c:1714 calendar/gui/e-meeting-model.c:276
 #: calendar/gui/e-meeting-model.c:286 calendar/gui/e-meeting-model.c:544
 #: calendar/gui/e-meeting-model.c:838
 msgid "Yes"
 msgstr "Ano"
 
-#: calendar/gui/calendar-model.c:1711 calendar/gui/e-meeting-model.c:288
+#: calendar/gui/calendar-model.c:1714 calendar/gui/e-meeting-model.c:288
 #: calendar/gui/e-meeting-model.c:839
 msgid "No"
 msgstr "Ne"
@@ -4167,7 +4167,7 @@ msgstr "skončení(-m) události"
 msgid "hour(s)"
 msgstr "hodin(-u,-y)"
 
-#: calendar/gui/dialogs/alarm-page.glade.h:17 mail/mail-config.glade.h:180
+#: calendar/gui/dialogs/alarm-page.glade.h:17 mail/mail-config.glade.h:181
 msgid "minute(s)"
 msgstr "minut(-u,-y)"
 
@@ -4347,7 +4347,7 @@ msgid "_Fri"
 msgstr "p_á"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:40
-#: mail/mail-config.glade.h:155
+#: mail/mail-config.glade.h:154
 msgid "_General"
 msgstr "O_becné"
 
@@ -5086,46 +5086,57 @@ msgid "%s for an unknown trigger type"
 msgstr "%s pro neznámý typ spouštění"
 
 #: calendar/gui/e-calendar-table.c:415
+#, c-format
 msgid "0%"
 msgstr "0%"
 
 #: calendar/gui/e-calendar-table.c:416
+#, c-format
 msgid "10%"
 msgstr "10%"
 
 #: calendar/gui/e-calendar-table.c:417
+#, c-format
 msgid "20%"
 msgstr "20%"
 
 #: calendar/gui/e-calendar-table.c:418
+#, c-format
 msgid "30%"
 msgstr "30%"
 
 #: calendar/gui/e-calendar-table.c:419
+#, c-format
 msgid "40%"
 msgstr "40%"
 
 #: calendar/gui/e-calendar-table.c:420
+#, c-format
 msgid "50%"
 msgstr "50%"
 
 #: calendar/gui/e-calendar-table.c:421
+#, c-format
 msgid "60%"
 msgstr "60%"
 
 #: calendar/gui/e-calendar-table.c:422
+#, c-format
 msgid "70%"
 msgstr "70%"
 
 #: calendar/gui/e-calendar-table.c:423
+#, c-format
 msgid "80%"
 msgstr "80%"
 
 #: calendar/gui/e-calendar-table.c:424
+#, c-format
 msgid "90%"
 msgstr "90%"
 
 #: calendar/gui/e-calendar-table.c:425
+#, c-format
 msgid "100%"
 msgstr "100%"
 
@@ -11115,7 +11126,7 @@ msgstr "nazpět"
 msgid "months"
 msgstr "měsíce/-ů"
 
-#: filter/filter.glade.h:24 mail/mail-config.glade.h:181
+#: filter/filter.glade.h:24 mail/mail-config.glade.h:182
 msgid "seconds"
 msgstr "vteřině(-ách)"
 
@@ -12004,7 +12015,7 @@ msgstr "Nevyplnili jste všechny požadované informace."
 msgid "Evolution Account Editor"
 msgstr "Editor účtů Evolution"
 
-#: mail/mail-account-gui.c:751 mail/mail-config.glade.h:157
+#: mail/mail-account-gui.c:751 mail/mail-config.glade.h:156
 msgid "_Host:"
 msgstr "_Počítač:"
 
@@ -12012,7 +12023,7 @@ msgstr "_Počítač:"
 msgid "User_name:"
 msgstr "_Jméno uživatele:"
 
-#: mail/mail-account-gui.c:759 mail/mail-config.glade.h:164
+#: mail/mail-account-gui.c:759 mail/mail-config.glade.h:163
 msgid "_Path:"
 msgstr "_Cesta:"
 
@@ -12301,13 +12312,13 @@ msgstr "Tisknout zprávu"
 msgid "Printing of message failed"
 msgstr "Tisk zprávy selhal"
 
-#: mail/mail-callbacks.c:3146
+#: mail/mail-callbacks.c:3147
 #, c-format
 msgid "Are you sure you want to open all %d messages in separate windows?"
 msgstr "Opravdu chcete otevřít všechny zprávy (%d) v samostatných oknech?"
 
 #: mail/mail-composer-prefs.c:227 mail/mail-composer-prefs.c:350
-#: mail/mail-config.c:1220
+#: mail/mail-config.c:1290
 msgid "Unnamed"
 msgstr "Beze jména"
 
@@ -12390,11 +12401,11 @@ msgstr ""
 "pro vytvoření poštovního účtu Evolution. Zadejte prosím níže název pro tento "
 "účet. Tento název bude použit pouze pro zobrazení."
 
-#: mail/mail-config.c:924
+#: mail/mail-config.c:994
 msgid "Checking Service"
 msgstr "Kontroluje se služba"
 
-#: mail/mail-config.c:1002 mail/mail-config.c:1006
+#: mail/mail-config.c:1072 mail/mail-config.c:1076
 msgid "Connecting to server..."
 msgstr "Připojuji se k serveru..."
 
@@ -12639,23 +12650,24 @@ msgid "Message Display"
 msgstr "Zobrazení zprávy"
 
 #: mail/mail-config.glade.h:75
+#, fuzzy
+msgid "Message Fonts"
+msgstr "Zpráva obsahuje"
+
+#: mail/mail-config.glade.h:76
 msgid "Microsoft"
 msgstr "Microsoft"
 
-#: mail/mail-config.glade.h:77
+#: mail/mail-config.glade.h:78
 msgid "New Mail Notification"
 msgstr "Upozornění na novou poštu"
 
-#: mail/mail-config.glade.h:79
+#: mail/mail-config.glade.h:80
 msgid ""
 "Note: you will not be prompted for a password until you connect for the "
 "first time"
 msgstr ""
 "Poznámka: na heslo budete dotázáni, až když se pokusíte poprvé připojit"
-
-#: mail/mail-config.glade.h:80
-msgid "On Screen fonts"
-msgstr "Písma na obrazovce"
 
 #: mail/mail-config.glade.h:81
 msgid "Optional Information"
@@ -12894,103 +12906,109 @@ msgid "_Enable"
 msgstr "_Povolit"
 
 #: mail/mail-config.glade.h:152
-msgid "_Fixed-width:"
-msgstr "P_evná šířka:"
-
-#: mail/mail-config.glade.h:153
 msgid "_Forward style:"
 msgstr "_Styl přeposílání:"
 
-#: mail/mail-config.glade.h:154
+#: mail/mail-config.glade.h:153
 msgid "_Full name:"
 msgstr "_Celé jméno:"
 
-#: mail/mail-config.glade.h:156
+#: mail/mail-config.glade.h:155
 msgid "_HTML Mail"
 msgstr "_HTML dopis"
 
-#: mail/mail-config.glade.h:158
+#: mail/mail-config.glade.h:157
 msgid "_Identity"
 msgstr "_Identita"
 
-#: mail/mail-config.glade.h:159
+#: mail/mail-config.glade.h:158
 msgid "_Load images if sender is in addressbook"
 msgstr "_Načíst obrázky, pokud je odesílatel v adresáři"
 
-#: mail/mail-config.glade.h:160
+#: mail/mail-config.glade.h:159
 msgid "_Make this my default account"
 msgstr "Použít tento jako _výchozí účet"
 
-#: mail/mail-config.glade.h:161
+#: mail/mail-config.glade.h:160
 msgid "_Mark messages as read after"
 msgstr "_Označit zprávu jako přečtenou po"
 
-#: mail/mail-config.glade.h:162
+#: mail/mail-config.glade.h:161
 msgid "_Name:"
 msgstr "_Jméno:"
 
-#: mail/mail-config.glade.h:163
+#: mail/mail-config.glade.h:162
 msgid "_Never load images off the net"
 msgstr "_Nikdy nenačítat obrázky ze sítě"
 
-#: mail/mail-config.glade.h:165
+#: mail/mail-config.glade.h:164
 msgid "_Play sound file when new mail arrives"
 msgstr "_Zahrát zvuk, když přijde nová pošta"
 
-#: mail/mail-config.glade.h:166
+#: mail/mail-config.glade.h:165
 msgid "_Prompt when sending HTML messages to contacts that don't want them"
 msgstr ""
 "_Upozornit, když posílám zprávu v HTML formátu kontaktům, které si to nepřejí"
 
-#: mail/mail-config.glade.h:167
+#: mail/mail-config.glade.h:166
 msgid "_Prompt when sending messages with an empty subject line"
 msgstr "_Upozornit, když posílám zprávu s prázdným políčkem \"Předmět\""
 
-#: mail/mail-config.glade.h:168
+#: mail/mail-config.glade.h:167
 msgid "_Receiving Mail"
 msgstr "_Příjem pošty"
 
-#: mail/mail-config.glade.h:169
+#: mail/mail-config.glade.h:168
 msgid "_Reply style:"
 msgstr "Styl _odpovědí:"
 
-#: mail/mail-config.glade.h:170
+#: mail/mail-config.glade.h:169
 msgid "_Restore defaults"
 msgstr "_Obnovit výchozí hodnoty"
 
-#: mail/mail-config.glade.h:171
+#: mail/mail-config.glade.h:170
 msgid "_Script:"
 msgstr "_Skript:"
 
-#: mail/mail-config.glade.h:172
+#: mail/mail-config.glade.h:171
 msgid "_Sending Mail"
 msgstr "Ode_sílání pošty"
 
-#: mail/mail-config.glade.h:173
+#: mail/mail-config.glade.h:172
 msgid "_Show animated images"
 msgstr "_Zobrazovat animované obrázky"
 
-#: mail/mail-config.glade.h:174
+#: mail/mail-config.glade.h:173
 msgid "_Signatures"
 msgstr "_Podpisy"
 
+#: mail/mail-config.glade.h:174
+#, fuzzy
+msgid "_Standard Font:"
+msgstr "Sand Point"
+
 #: mail/mail-config.glade.h:175
+#, fuzzy
+msgid "_Terminal Font:"
+msgstr "Původní kontakt:"
+
+#: mail/mail-config.glade.h:176
 msgid "_Use secure connection (SSL):"
 msgstr "Použít _bezpečné připojení (SSL):"
 
-#: mail/mail-config.glade.h:176
-msgid "_Variable-width:"
-msgstr "_Proměnlivá šířka:"
-
 #: mail/mail-config.glade.h:177
+msgid "_Use the same fonts as other applications"
+msgstr ""
+
+#: mail/mail-config.glade.h:178
 msgid "_every"
 msgstr "_každých"
 
-#: mail/mail-config.glade.h:178
+#: mail/mail-config.glade.h:179
 msgid "color"
 msgstr "barva"
 
-#: mail/mail-config.glade.h:179
+#: mail/mail-config.glade.h:180
 msgid "description"
 msgstr "popis"
 
@@ -13746,40 +13764,40 @@ msgstr "Termín _dokončení:"
 msgid "_Flag:"
 msgstr "_Značka:"
 
-#: mail/subscribe-dialog.c:231
+#: mail/subscribe-dialog.c:233
 #, c-format
 msgid "Scanning folders under %s on \"%s\""
 msgstr "Prochází se složky pod %s na \"%s\""
 
-#: mail/subscribe-dialog.c:233
+#: mail/subscribe-dialog.c:235
 #, c-format
 msgid "Scanning root-level folders on \"%s\""
 msgstr "Prochází se kořenové složky na \"%s\""
 
-#: mail/subscribe-dialog.c:331
+#: mail/subscribe-dialog.c:332
 #, c-format
 msgid "Subscribing to folder \"%s\""
 msgstr "Přihlašuji si složku \"%s\""
 
-#: mail/subscribe-dialog.c:333
+#: mail/subscribe-dialog.c:334
 #, c-format
 msgid "Unsubscribing to folder \"%s\""
 msgstr "Odhlašuji se ze složky \"%s\""
 
-#: mail/subscribe-dialog.c:1246 mail/subscribe-dialog.etspec.h:1
+#: mail/subscribe-dialog.c:1273 mail/subscribe-dialog.etspec.h:1
 #: shell/e-storage-set-view.etspec.h:2
 msgid "Folder"
 msgstr "Složka"
 
-#: mail/subscribe-dialog.c:1356
+#: mail/subscribe-dialog.c:1389
 msgid "Scanning folders..."
 msgstr "Prochází se složky..."
 
-#: mail/subscribe-dialog.c:1470
+#: mail/subscribe-dialog.c:1503
 msgid "No server has been selected"
 msgstr "Nebyl vybrán žádný server"
 
-#: mail/subscribe-dialog.c:1545
+#: mail/subscribe-dialog.c:1602
 msgid "Please select a server."
 msgstr "Vyberte prosím server."
 
@@ -26026,16 +26044,16 @@ msgstr "Příště se neptat"
 msgid "Evolution can import data from the following files:"
 msgstr "Evolution našel tyto soubory dat vhodné pro import:"
 
-#: shell/main.c:111 shell/main.c:561
+#: shell/main.c:112 shell/main.c:564
 msgid "Evolution"
 msgstr "Evolution"
 
-#: shell/main.c:117
+#: shell/main.c:118
 msgid "Evolution is now exiting ..."
 msgstr "Evolution se právě zavírá ..."
 
 #. Preview/Alpha/Beta version warning message
-#: shell/main.c:265
+#: shell/main.c:266
 #, no-c-format
 msgid ""
 "Hi.  Thanks for taking the time to download this preview release\n"
@@ -26071,7 +26089,7 @@ msgstr ""
 "Doufáme, že si užijete výsledků naší tvrdé práce a nedočkavě čekáme\n"
 "na vaše přispění!\n"
 
-#: shell/main.c:289
+#: shell/main.c:290
 msgid ""
 "Thanks\n"
 "The Ximian Evolution Team\n"
@@ -26079,44 +26097,44 @@ msgstr ""
 "Děkujeme\n"
 "Team Ximian Evolution\n"
 
-#: shell/main.c:297
+#: shell/main.c:298
 msgid "Don't tell me again"
 msgstr "Příště neupozorňovat"
 
-#: shell/main.c:386
+#: shell/main.c:387
 msgid "Cannot access the Ximian Evolution shell."
 msgstr "Nelze inicializovat shell Ximian Evolution."
 
-#: shell/main.c:395
+#: shell/main.c:396
 #, c-format
 msgid "Cannot initialize the Ximian Evolution shell: %s"
 msgstr "Nelze inicializovat shell Ximian Evolution: %s"
 
-#: shell/main.c:527
+#: shell/main.c:528
 msgid "Disable splash screen"
 msgstr "Zakázat úvodní okno"
 
-#: shell/main.c:529
+#: shell/main.c:530
 msgid "Start in offline mode"
 msgstr "Spustit v režimu odpojení"
 
-#: shell/main.c:531
+#: shell/main.c:532
 msgid "Start in online mode"
 msgstr "Spustit v režimu on-line"
 
-#: shell/main.c:534
+#: shell/main.c:535
 msgid "Forcibly shut down all evolution components"
 msgstr "Vynuceně ukončit všechny komponenty evolution"
 
-#: shell/main.c:537
+#: shell/main.c:538
 msgid "Send the debugging output of all components to a file."
 msgstr "Poslat ladící výstup ze všech komponent do souboru."
 
-#: shell/main.c:540
+#: shell/main.c:541
 msgid "Force upgrading of configuration files from Evolution 1.0.x"
 msgstr "Přinutit k aktualizaci souborů s nastavením z Evolution 1.0.x"
 
-#: shell/main.c:565
+#: shell/main.c:568
 #, c-format
 msgid ""
 "%s: --online and --offline cannot be used together.\n"
@@ -27853,6 +27871,15 @@ msgstr "Obsluha místního souboru kalendáře Evolution"
 #: wombat/GNOME_Evolution_WombatNOLDAP.server.in.in.h:1
 msgid "Evolution Addressbook local file backend"
 msgstr "Obsluha místního souboru adresáře Evolution"
+
+#~ msgid "On Screen fonts"
+#~ msgstr "Písma na obrazovce"
+
+#~ msgid "_Fixed-width:"
+#~ msgstr "P_evná šířka:"
+
+#~ msgid "_Variable-width:"
+#~ msgstr "_Proměnlivá šířka:"
 
 #~ msgid "(%d not shown)"
 #~ msgstr "<(%d nezobrazeno)"
