@@ -33,9 +33,10 @@ idldir = $(datadir)/idl
 idl_DATA = $(IDLS)
 
 gladedir = $(datadir)/evolution/glade
-
 glade_DATA =					\
 	e-msg-composer-attachment.glade
+
+iconsdir = $(datadir)/images/evolution
 
 libcomposerincludedir = $(includedir)/composer
 
@@ -54,6 +55,7 @@ INCLUDES =								\
 	-I$(top_builddir)/shell						\
 	-I$(top_srcdir)/shell						\
 	-DEVOLUTION_DATADIR=\"$(datadir)\"				\
+	-DEVOLUTION_ICONSDIR=\"$(iconsdir)\"				\
 	-DE_GLADEDIR=\"$(gladedir)\"					\
 	-DG_LOG_DOMAIN=\"composer\"					\
 	$(GNOME_FULL_CFLAGS)

@@ -220,7 +220,23 @@ pixbuf_for_mime_type (const char *mime_type)
 	const char *icon_name;
 	char *filename = NULL;
 	GdkPixbuf *pixbuf;
-	
+
+	/* Special-case these two since GNOME VFS doesn't know about them and
+	   they are used every time the user forwards one or more messages
+	   inline.  (See #9786.)  */
+	if (strcmp (mime_type, "message/digest") == 0
+	    || strcmp (mime_type, "multipart/digest") == 0
+	    || strcmp (mime_type, "message/rfc822") == 0) {
+		char *name;
+
+		name = g_concat_dir_and_file (EVOLUTION_ICONSDIR, "mail.png");
+		pixbuf = gdk_pixbuf_new_from_file (name);
+		g_free (name);
+
+		if (pixbuf != NULL)
+			return pixbuf;
+	}
+
 	icon_name = gnome_vfs_mime_get_value (mime_type, "icon-filename");
 	if (icon_name) {
 		if (*icon_name == '/') {
