@@ -1,0 +1,30 @@
+/*
+ * mail.idl: Mail interfaces for Evolution
+ *
+ * Author:
+ *   Miguel de Icaza (miguel@helixcode.com)
+ * 
+ * (C) 2000 Helix Code, Inc.
+ */
+
+#include <bonobo.idl>
+
+module Evolution {
+	
+	interface MessageList : GNOME::Unknown {
+		
+		void select_message (in long message_number);
+		void open_message   (in long message_number);
+	};
+	
+	/*
+	 * FolderBrowser object.
+	 *
+	 * configuration of this widget is done trough 
+	 * Bonobo Properties
+	 */
+	interface FolderBrowser : GNOME::Unknown {
+		MessageList get_message_list ();
+	};
+};
+

@@ -10,7 +10,6 @@
 #include <gnome.h>
 #include <bonobo/gnome-main.h>
 #include "e-util/e-gui-utils.h"
-#include "main.h"
 
 CORBA_Environment ev;
 CORBA_ORB orb;
@@ -41,7 +40,7 @@ main (int argc, char *argv [])
 
 	init_bonobo (argc, argv);
 
-	mail_folder_browser_factory_init ();
+	mail_display_factory_init ();
 
 	bonobo_main ();
 
