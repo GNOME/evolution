@@ -605,6 +605,7 @@ addressbook_source_free (AddressbookSource *source)
 	g_free (source->port);
 	g_free (source->rootdn);
 	g_free (source->email_addr);
+	g_free (source->binddn);
 
 	g_free (source);
 }
@@ -653,6 +654,7 @@ addressbook_source_copy (const AddressbookSource *source)
 	copy->scope = source->scope;
 	copy->auth = source->auth;
 	copy->email_addr = g_strdup (source->email_addr);
+	copy->binddn = g_strdup (source->binddn);
 	copy->remember_passwd = source->remember_passwd;
 	copy->limit = source->limit;
 

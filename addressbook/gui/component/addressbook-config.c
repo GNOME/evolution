@@ -157,8 +157,10 @@ addressbook_source_dialog_set_source (AddressbookSourceDialog *dialog, Addressbo
 	g_free (string);
 
 	dialog->auth = source ? source->auth : ADDRESSBOOK_LDAP_AUTH_NONE;
-	if (dialog->auth != ADDRESSBOOK_LDAP_AUTH_NONE)
+	if (dialog->auth != ADDRESSBOOK_LDAP_AUTH_NONE) {
 		gtk_option_menu_set_history (GTK_OPTION_MENU(dialog->auth_optionmenu), dialog->auth - 1);
+		gtk_notebook_set_page (GTK_NOTEBOOK(dialog->auth_notebook), dialog->auth - 1);
+	}
 
 	dialog->ldap_scope = source ? source->scope : ADDRESSBOOK_LDAP_SCOPE_ONELEVEL;
 	gtk_option_menu_set_history (GTK_OPTION_MENU(dialog->scope_optionmenu), dialog->ldap_scope);

@@ -1,3 +1,13 @@
+2002-02-24  Chris Toshok  <toshok@ximian.com>
+
+	* gui/component/addressbook-config.c
+	(addressbook_source_dialog_set_source): make the right auth page
+	start up open.
+
+	* gui/component/addressbook-storage.c (addressbook_source_free):
+	free the binddn.
+	(addressbook_source_copy): copy the binddn;
+
 2002-02-22  Chris Toshok  <toshok@ximian.com>
 
 	[ Fixes bugs 20740, 16680, and god knows what else :) ]
