@@ -1971,7 +1971,7 @@ on_cursor_activated_cmd (ETree *tree, int row, ETreePath path, gpointer user_dat
 	else
 		new_uid = get_message_uid(message_list, path);
 
-	if (message_list->cursor_uid != NULL && !strcmp (message_list->cursor_uid, new_uid))
+	if (message_list->cursor_uid != NULL && new_uid != NULL && !strcmp (message_list->cursor_uid, new_uid))
 		return;
 
 	message_list->cursor_row = row;
