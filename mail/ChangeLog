@@ -1,3 +1,8 @@
+2001-06-21  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-ops.c (mail_send_message): Temporarily remove the Bcc
+	header before sending the message.
+
 2001-06-21  Jon Trowbridge  <trow@ximian.com>
 
 	* mail-display.c (html_button_press_event): Remove empty "name"

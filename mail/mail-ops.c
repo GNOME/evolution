@@ -420,7 +420,8 @@ struct _update_info {
 	void *data;
 };
 
-static void do_update_subfolders_rec(CamelStore *store, CamelFolderInfo *info, EvolutionStorage *storage, const char *prefix)
+static void
+do_update_subfolders_rec (CamelStore *store, CamelFolderInfo *info, EvolutionStorage *storage, const char *prefix)
 {
 	char *path, *name;
 	
@@ -439,7 +440,8 @@ static void do_update_subfolders_rec(CamelStore *store, CamelFolderInfo *info, E
 	g_free(path);
 }
 
-static void do_update_subfolders(CamelStore *store, CamelFolderInfo *info, void *data)
+static void
+do_update_subfolders (CamelStore *store, CamelFolderInfo *info, void *data)
 {
 	struct _update_info *uinfo = data;
 	
@@ -455,8 +457,9 @@ static void do_update_subfolders(CamelStore *store, CamelFolderInfo *info, void 
 }
 
 /* this interface is a little icky */
-int mail_update_subfolders(CamelStore *store, EvolutionStorage *storage,
-			   void (*done)(CamelStore *, void *data), void *data)
+int
+mail_update_subfolders (CamelStore *store, EvolutionStorage *storage,
+			void (*done)(CamelStore *, void *data), void *data)
 {
 	struct _update_info *info;
 
@@ -485,7 +488,7 @@ mail_send_message(CamelMimeMessage *message, const char *destination, CamelFilte
 	CamelTransport *xport = NULL;
 	CamelFolder *folder;
 	const char *version, *header;
-	gchar *acct_header;
+	gchar *acct_header, *bcc_header;
 	char *transport_url = NULL, *sent_folder_uri = NULL;
 	
 	if (SUB_VERSION[0] == '\0')
@@ -530,6 +533,9 @@ mail_send_message(CamelMimeMessage *message, const char *destination, CamelFilte
 		}
 	}
 	
+	bcc_header = g_strdup (camel_medium_get_header (CAMEL_MEDIUM (message), "Bcc"));
+	camel_medium_remove_header (CAMEL_MEDIUM (message), "Bcc");
+	
 	xport = camel_session_get_transport (session, transport_url ? transport_url : destination, ex);
 	g_free (transport_url);
 	if (!xport) {
@@ -547,11 +553,17 @@ mail_send_message(CamelMimeMessage *message, const char *destination, CamelFilte
 	/* post-process */
 	info = camel_message_info_new ();
 	info->flags = CAMEL_MESSAGE_SEEN;
-
+	
 	/* Re-attach account header */
 	if (acct_header) {
 		camel_medium_add_header (CAMEL_MEDIUM (message), "X-Evolution-Account", acct_header);
 		g_free (acct_header);
+	}
+	
+	/* Re-attach the Bcc header */
+	if (bcc_header) {
+		camel_medium_add_header (CAMEL_MEDIUM (message), "Bcc", bcc_header);
+		g_free (bcc_header);
 	}
 	
 	if (driver)
