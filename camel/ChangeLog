@@ -1,5 +1,9 @@
 2000-10-20  Chris Toshok  <toshok@helixcode.com>
 
+	* providers/Makefile.am (SUBDIRS): re-enable the nntp provider.
+
+2000-10-20  Chris Toshok  <toshok@helixcode.com>
+
 	* providers/nntp/camel-nntp-store.c (build_folder_info): add
 	function to build a tree from the nntp group names (using '.' as a
 	heirarchy separator.)  #ifdefed INFO_AS_TREE only.
