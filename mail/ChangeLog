@@ -1,3 +1,8 @@
+2001-08-15  Jason Leach  <jleach@ximian.com>
+
+	* message-list.c (message_list_init): Use ALWAYS for scroll frame
+	policy because ETable acts lame with AUTOMATIC.  Bug #6925.
+
 2001-08-16  Not Zed  <NotZed@Ximian.com>
 
 	* mail-callbacks.c (expunge_folder): Don't confirm expunge.
@@ -26,46 +31,6 @@
 	(mail_accounts_dialog_finalise): Free it here.
 
 	* mail-accounts.h: Prototype it here.
-
-2001-08-09  Peter Williams  <peterw@ximian.com>
-
-	Fix bug #215... desensitize menu items based on the number of
-	selected messages (and whether there's a message in the pane)
-
-	* folder-browser-ui.c (folder_browser_ui_add_message): Sensitize
-	the menu items appropriately based on the old state.
-	(fbui_sensitize_items): New function. Set the sensitivity of a
-	list of commands.
-	(folder_browser_ui_set_selection_state): New function. Move the FB
-	to a new state of selected-ness, and sensitize menu items
-	appropriately.
-	(folder_browser_ui_message_loaded): New function. When notified
-	that a message has been loaded, sensitize some menu items.
-
-	* folder-browser-ui.h: Prototype new functions.
-
-	* folder-browser.h: New enumeration, 
-	FolderBrowserSelectionState, that records the previous state
-	of the selection (_NONE, _SINGLE, _MULTIPLE).
-
-	* folder-browser.c (got_folder): If the component is set,
-	set our selection state to _NONE, because that's the default
-	state of the ETree.
-	(on_selection_changed): When the number of selected messages
-	is updated, notify the FBUI code of our new state.
-	(folder_browser_gui_init): Hook up to the selection_changed
-	signal and default to the _NONE selection state.
-	(done_message_selected): Notify when a message is loaded.
-
-2001-08-08  Peter Williams  <peterw@ximian.com>
-
-	* mail-folder-cache.c: Display how many messages are selected,
-	too.
-	(make_folder_status): If multiple messages are selected, add that
-	to the string (the 0 and 1 cases are boring)
-	(selection_changed): New function, update the selected count.
-	(mail_folder_cache_note_fb): Connect to the selection_changed
-	signal.
 
 2001-08-14  Dan Winship  <danw@ximian.com>
 
@@ -181,112 +146,6 @@
 	(mail_config_remove_account): When deleting the account, remove
 	its shortcuts.
 
-2001-08-10  Peter Williams  <peterw@ximian.com>
-
-	* mail-config-druid.c (druid_finish): Whoa, fatal typo. Sorry.
-
-2001-08-13  Jason Leach  <jleach@ximian.com>
-
-	* mail-local.c (init_trash): Tell folder cache the path for our
-	Trash is /Trash, because that's what Shell needs to hear for
-	updating folders.
-
-2001-08-11  Jason Leach  <jleach@ximian.com>
-
-	* mail-offline-handler.c (impl_goOnline): Set the session as
-	online so auto mail checking (and the composer) will be doing the
-	right things when you go online.  Bug #6343 and #4601.
-
-	* folder-browser.c: Make the right click "Resend..." into "Edit as
-	New Message...", bug #6838.
-
-	* mail-accounts.h: Remove unecessary #include <camel.h>
-
-	* mail.h: Removed a prototype for a non-existant
-	mail_view_create().
-
-2001-08-10  Jeffrey Stedfast  <fejj@ximian.com>
-
-	* mail-account-gui.c (build_auth_menu): Fix bug #4523 for good.
-	(save_service): If service->authitem is NULL, then the user tried
-	to enable authentication but the provider doesn't actually support
-	it.
-
-2001-08-10  Jon Trowbridge  <trow@ximian.com>
-
-	* folder-browser.c: Set our ESearchBarItems subitems to NULL.
-
-2001-08-10  Jeffrey Stedfast  <fejj@ximian.com>
-
-	* mail-callbacks.c (transfer_msg): Prepend the uri with evolution:
-	to fix bug #6916.
-
-2001-08-10  Jason Leach  <jleach@ximian.com>
-
-	* folder-browser.c: Make the context menu for the Sent folder have
-	"Resend..." instead of "Resend", to clarify that it will bring up
-	a dialog needing your input rather than just blindly sending the
-	message again.  Also give it the 'e' accelerator.  Bug #6838.
-
-	* mail-callbacks.c (next_unread_msg): Since 'N' keypresses go
-	through here now, use wrap-around selecting.
-	(previous_unread_msg): Same for 'P' here.
-
-	* message-list.c (on_cursor_activated_idle): Stop this idle timer
-	when we have multiple items selected, this keeps it from loading
-	and then marking the last item in your selection list as read.
-	Bug #4693.
-
-2001-08-10  Peter Williams  <peterw@ximian.com>
-
-	* mail-accounts.c (mail_delete): Don't remove the account from the
-	tree if it's not enabled.
-
-2001-08-10  Jason Leach  <jleach@ximian.com>
-
-	* mail-ops.c (remove_folder_get): Remove all the messages from a
-	folder that's being deleted before actually doing the
-	camel_store_delete_folder, so it won't leave behind an mbox file
-	that's going to prevent the actual directory from being deleted,
-	and strange effects like new folders with the same name being made
-	in it's place.  Bug #5618.
-
-	* mail-folder-cache.c (mail_folder_cache_remove_folder): New
-	function, a way to get something out of the folder cache, like
-	folders being deleted.  Bug #6878.
-
-2001-08-10  Peter Williams  <peterw@ximian.com>
-
-	* mail-accounts.c (news_add_destroyed): Whoops, compile fix.
-
-2001-08-10  Jason Leach  <jleach@ximian.com>
-
-	* mail-callbacks.c (mark_as_unseen): If marking messages as
-	unread, remove the automatic mark-as-read timer.  Bug #4153.
-
-2001-08-08  Peter Williams  <peterw@ximian.com>
-
-	* component-factory.c (mail_load_storages): Don't load the storage
-	if it isn't enabled.
-	(mail_remove_storage_by_uri): New function. Goes through the
-	gymnastics of getting a CamelStore from the URI and calling 
-	mail_remove_storage. Copied from mail_delete().
-	(mail_load_storage_by_uri): Break out the storage-loading part of
-	mail_load_storages into a single function.
-	(mail_load_storages): Just call mail_load_storage_by_uri several
-	times.
-
-	* mail.h: Prototype our new _by_uri functions.
-
-	* mail-accounts.c (news_add_destroyed): Instead of hacking around
-	mail_load_storages, call mail_load_storage_by_uri.
-	(mail_delete): Move this chunk of code into 
-	mail_remove_storage_by_uri.
-	(mail_able): Add or remove the storage as necessary, with our
-	new _by_uri functions.
-
-	* mail-config-druid.c (druid_finish): See news_add_destroyed above.
-
 2001-08-10  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-config.c (mail_config_get_show_preview): Free dbkey if we
@@ -349,11 +208,6 @@
 	* mail-config.c (account_copy): Copy the always-sign options over
 	too.
 
-2001-08-07  Ettore Perazzoli  <ettore@ximian.com>
-
-	* message-browser.c (set_bonobo_ui): Remove the "Customize
-	Toolbar" thing.
-
 2001-08-08  Not Zed  <NotZed@Ximian.com>
 
 	* mail-ops.c (send_mail_send): Dont double-register this
@@ -385,6 +239,11 @@
 	* component-factory.c (mail_lookup_storage): And here.
 
 	* mail-vfolder.c (mail_vfolder_get_vfolder_storage): And here.
+
+2001-08-07  Ettore Perazzoli  <ettore@ximian.com>
+
+	* message-browser.c (set_bonobo_ui): Remove the "Customize
+	Toolbar" thing.
 
 2001-08-07  Not Zed  <NotZed@Ximian.com>
 

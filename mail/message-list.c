@@ -1101,7 +1101,7 @@ message_list_init (GtkObject *object)
 
 	e_scroll_frame_set_policy (E_SCROLL_FRAME (message_list),
 				   GTK_POLICY_NEVER,
-				   GTK_POLICY_AUTOMATIC);
+				   GTK_POLICY_ALWAYS);
 
 	message_list->hidden = NULL;
 	message_list->hidden_pool = NULL;
@@ -1123,23 +1123,21 @@ message_list_destroy (GtkObject *object)
 	if (message_list->folder) {
 		save_tree_state(message_list);
 		hide_save_state(message_list);
-	}
 
-	gtk_object_unref (GTK_OBJECT (message_list->model));
-
-	if (message_list->idle_id != 0)
-		g_source_remove(message_list->idle_id);
-	
-	if (message_list->seen_id)
-		gtk_timeout_remove (message_list->seen_id);
-	
-	if (message_list->folder) {
 		camel_object_unhook_event((CamelObject *)message_list->folder, "folder_changed",
 					  folder_changed, message_list);
 		camel_object_unhook_event((CamelObject *)message_list->folder, "message_changed",
 					  message_changed, message_list);
 		camel_object_unref (CAMEL_OBJECT (message_list->folder));
 	}
+
+	gtk_object_unref (GTK_OBJECT (message_list->model));
+
+	if (message_list->idle_id != 0)
+		g_source_remove (message_list->idle_id);
+	
+	if (message_list->seen_id)
+		gtk_timeout_remove (message_list->seen_id);
 
 	if (message_list->hidden) {
 		g_hash_table_destroy(message_list->hidden);
@@ -2091,7 +2089,7 @@ message_list_foreach (MessageList *message_list,
 void
 message_list_set_threaded(MessageList *ml, gboolean threaded)
 {
-	if (ml->threaded ^ threaded) {
+	if (ml->threaded != threaded) {
 		ml->threaded = threaded;
 
 		mail_regen_list(ml, ml->search, NULL, NULL);
@@ -2104,7 +2102,7 @@ message_list_set_hidedeleted(MessageList *ml, gboolean hidedeleted)
 	if (ml->folder && CAMEL_IS_VTRASH_FOLDER(ml->folder))
 		hidedeleted = FALSE;
 
-	if (ml->hidedeleted ^ hidedeleted) {
+	if (ml->hidedeleted != hidedeleted) {
 		ml->hidedeleted = hidedeleted;
 
 		mail_regen_list(ml, ml->search, NULL, NULL);
