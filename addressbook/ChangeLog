@@ -1,3 +1,9 @@
+2003-05-19  Anna Marie Dirks  <anna@ximian.com>
+
+	* gui/merging/e-card-duplicate-detected.glade: Changed button 
+	order, and added HIG-appropriate spacing/padding. Fixes bug
+	#41229 and #41231.
+
 2003-05-19  Sean Gao  <sean.gao@sun.com>
 
 	* gui/component/addressbook-component.c (xfer_folder): remove the
