@@ -1,11 +1,12 @@
 /* Evolution calendar - Recurrence page of the calendar component dialogs
  *
- * Copyright (C) 2001 Ximian, Inc.
+ * Copyright (C) 2001-2003 Ximian, Inc.
  *
  * Authors: Federico Mena-Quintero <federico@ximian.com>
  *          Miguel de Icaza <miguel@ximian.com>
  *          Seth Alves <alves@hungry.com>
  *          JP Rosevear <jpr@ximian.com>
+ *          Hans Petter Jansson <hpj@ximian.com>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public

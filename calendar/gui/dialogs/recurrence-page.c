@@ -2,12 +2,13 @@
 
 /* Evolution calendar - Recurrence page of the calendar component dialogs
  *
- * Copyright (C) 2001 Ximian, Inc.
+ * Copyright (C) 2001-2003 Ximian, Inc.
  *
  * Authors: Federico Mena-Quintero <federico@ximian.com>
  *          Miguel de Icaza <miguel@ximian.com>
  *          Seth Alves <alves@hungry.com>
  *          JP Rosevear <jpr@ximian.com>
+ *          Hans Petter Jansson <hpj@ximiman.com>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public
@@ -32,7 +33,6 @@
 #include <gtk/gtktogglebutton.h>
 #include <gtk/gtksignal.h>
 #include <gtk/gtkspinbutton.h>
-#include <gtk/gtkliststore.h>
 #include <gtk/gtktreeview.h>
 #include <libgnome/gnome-i18n.h>
 #include <glade/glade.h>
@@ -321,15 +321,6 @@ recurrence_page_init (RecurrencePage *rpage)
 	priv->comp = NULL;
 }
 
-/* Frees the CalComponentDateTime stored in the GtkCList */
-static void
-free_exception_date_time (CalComponentDateTime *dt)
-{
-	g_free (dt->value);
-	g_free ((char*)dt->tzid);
-	g_free (dt);
-}
-
 /* Destroy handler for the recurrence page */
 static void
 recurrence_page_finalize (GObject *object)
@@ -496,13 +487,10 @@ fill_exception_widgets (RecurrencePage *rpage, CalComponent *comp)
 {
 	RecurrencePagePrivate *priv;
 	GSList *list, *l;
-	gboolean added;
+	gboolean added = FALSE;
 
 	priv = rpage->priv;
-
 	cal_component_get_exdate_list (comp, &list);
-
-	added = FALSE;
 
 	for (l = list; l; l = l->next) {
 		CalComponentDateTime *cdt;
@@ -514,9 +502,6 @@ fill_exception_widgets (RecurrencePage *rpage, CalComponent *comp)
 	}
 
 	cal_component_free_exdate_list (list);
-
-	if (added)
-		gtk_clist_select_row (GTK_CLIST (priv->exception_list), 0, 0);
 }
 
 /* Computes a weekday mask for the start day of a calendar component,

@@ -1,3 +1,17 @@
+2003-01-16  Hans Petter Jansson  <hpj@ximian.com>
+
+	* gui/e-alarm-list.[ch]: Implement EAlarmList as CalComponentAlarm
+	list with a GtkTreeModel interface.
+
+	* gui/Makefile.am: Add e-alarm-list.[ch].
+
+	* gui/dialogs/alarm-page.[ch]: Use GtkTreeView with the new
+	EAlarmList as model for the alarm list. Update copyright.
+
+	* gui/dialogs/recurrence-page.[ch]: Update copyright.
+	(free_exception_date_time): Removed.
+	(fill_exception_widgets): Kill a lingering clist operation.
+
 2003-01-15  Hans Petter Jansson  <hpj@ximian.com>
 
 	* gui/e-meeting-time-sel.c (e_meeting_time_selector_construct):

@@ -92,6 +92,8 @@ libevolution_calendar_la_SOURCES =		\
 	comp-util.h				\
 	control-factory.c			\
 	control-factory.h			\
+	e-alarm-list.c				\
+	e-alarm-list.h				\
 	e-calendar-table.h			\
 	e-calendar-table.c			\
 	e-cell-date-edit-text.h			\

@@ -1,11 +1,14 @@
+/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+
 /* Evolution calendar - Alarm page of the calendar component dialogs
  *
- * Copyright (C) 2001 Ximian, Inc.
+ * Copyright (C) 2001-2003 Ximian, Inc.
  *
  * Authors: Federico Mena-Quintero <federico@ximian.com>
  *          Miguel de Icaza <miguel@ximian.com>
  *          Seth Alves <alves@hungry.com>
  *          JP Rosevear <jpr@ximian.com>
+ *          Hans Petter Jansson <hpj@ximian.com>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public
@@ -27,6 +30,7 @@
 
 #include <string.h>
 #include <gtk/gtksignal.h>
+#include <gtk/gtktreeview.h>
 #include <libgnome/gnome-i18n.h>
 #include <glade/glade.h>
 #include <gal/widgets/e-unicode.h>
@@ -37,6 +41,7 @@
 #include "../calendar-config.h"
 #include "comp-editor-util.h"
 #include "alarm-options.h"
+#include "../e-alarm-list.h"
 #include "alarm-page.h"
 
 
@@ -67,6 +72,9 @@ struct _AlarmPagePrivate {
 
 	/* Alarm options dialog and the alarm we maintain */
 	CalComponentAlarm *alarm;
+
+	/* Alarm store for the GtkTreeView list widget */
+	EAlarmList *list_store;
 
 	gboolean updating;
 };
@@ -190,7 +198,7 @@ alarm_page_init (AlarmPage *apage)
 
 	/* create the default alarm, which will contain the
 	 * X-EVOLUTION-NEEDS-DESCRIPTION property, so that we
-	 * set a correct description if none is ser */
+	 * set a correct description if none is set */
 	priv->alarm = cal_component_alarm_new ();
 
 	icalcomp = cal_component_alarm_get_icalcomponent (priv->alarm);
@@ -215,13 +223,18 @@ alarm_page_finalize (GObject *object)
 	priv = apage->priv;
 
 	if (priv->xml) {
-		g_object_unref((priv->xml));
+		g_object_unref (priv->xml);
 		priv->xml = NULL;
 	}
 
 	if (priv->alarm) {
 		cal_component_alarm_free (priv->alarm);
 		priv->alarm = NULL;
+	}
+
+	if (priv->list_store) {
+		g_object_unref (priv->list_store);
+		priv->list_store = NULL;
 	}
 
 	g_free (priv);
@@ -281,7 +294,7 @@ clear_widgets (AlarmPage *apage)
 	e_dialog_option_menu_set (priv->time, CAL_ALARM_TRIGGER_RELATIVE_START, time_map);
 
 	/* List data */
-	gtk_clist_clear (GTK_CLIST (priv->list));
+	e_alarm_list_clear (priv->list_store);
 }
 
 /* Builds a string for the duration of the alarm.  If the duration is zero, returns NULL. */
@@ -456,21 +469,15 @@ static void
 append_reminder (AlarmPage *apage, CalComponentAlarm *alarm)
 {
 	AlarmPagePrivate *priv;
-	GtkCList *clist;
-	char *c[1];
+	GtkTreeView *view;
+	GtkTreeIter  iter;
 	int i;
 
 	priv = apage->priv;
+	view = GTK_TREE_VIEW (priv->list);
 
-	clist = GTK_CLIST (priv->list);
-
-	c[0] = get_alarm_string (alarm);
-	i = gtk_clist_append (clist, c);
-
-	gtk_clist_set_row_data_full (clist, i, alarm, (GtkDestroyNotify) cal_component_alarm_free);
-	gtk_clist_select_row (clist, i, 0);
-	g_free (c[0]);
-
+	e_alarm_list_append (priv->list_store, &iter, alarm);
+	gtk_tree_selection_select_iter (gtk_tree_view_get_selection (view), &iter);
 	gtk_widget_set_sensitive (priv->delete, TRUE);
 }
 
@@ -482,7 +489,6 @@ alarm_page_fill_widgets (CompEditorPage *page, CalComponent *comp)
 	AlarmPagePrivate *priv;
 	CalComponentText text;
 	GList *alarms, *l;
-	GtkCList *clist;
 	CompEditorPageDates dates;
 
 	apage = ALARM_PAGE (page);
@@ -509,7 +515,6 @@ alarm_page_fill_widgets (CompEditorPage *page, CalComponent *comp)
 
 	alarms = cal_component_get_alarm_uids (comp);
 
-	clist = GTK_CLIST (priv->list);
 	for (l = alarms; l != NULL; l = l->next) {
 		CalComponentAlarm *ca, *ca_copy;
 		const char *auid;
@@ -536,8 +541,11 @@ alarm_page_fill_component (CompEditorPage *page, CalComponent *comp)
 {
 	AlarmPage *apage;
 	AlarmPagePrivate *priv;
+	GtkTreeView *view;
+	GtkTreeModel *model;
+	GtkTreeIter iter;
+	gboolean valid_iter;
 	GList *list, *l;
-	GtkCList *clist;
 	int i;
 
 	apage = ALARM_PAGE (page);
@@ -556,13 +564,16 @@ alarm_page_fill_component (CompEditorPage *page, CalComponent *comp)
 
 	/* Add the new alarms */
 
-	clist = GTK_CLIST (priv->list);
-	for (i = 0; i < clist->rows; i++) {
+	view  = GTK_TREE_VIEW  (priv->list);
+	model = GTK_TREE_MODEL (priv->list_store);
+
+	for (valid_iter = gtk_tree_model_get_iter_first (model, &iter); valid_iter;
+	     valid_iter = gtk_tree_model_iter_next (model, &iter)) {
 		CalComponentAlarm *alarm, *alarm_copy;
 		icalcomponent *icalcomp;
 		icalproperty *icalprop;
 
-		alarm = gtk_clist_get_row_data (clist, i);
+		alarm = (CalComponentAlarm *) e_alarm_list_get_alarm (priv->list_store, &iter);
 		g_assert (alarm != NULL);
 
 		/* We set the description of the alarm if it's got
@@ -755,26 +766,39 @@ delete_clicked_cb (GtkButton *button, gpointer data)
 {
 	AlarmPage *apage;
 	AlarmPagePrivate *priv;
-	GtkCList *clist;
+	GtkTreeSelection *selection;
+	GtkTreeIter iter;
+	GtkTreePath *path;
+	gboolean valid_iter;
 	int sel;
 
 	apage = ALARM_PAGE (data);
 	priv = apage->priv;
 
-	clist = GTK_CLIST (priv->list);
-	if (!clist->selection)
+	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (priv->list));
+	if (!gtk_tree_selection_get_selected (selection, NULL, &iter)) {
+		g_warning ("Could not get a selection to delete.");
 		return;
+	}
 
-	sel = GPOINTER_TO_INT (clist->selection->data);
+	path = gtk_tree_model_get_path (GTK_TREE_MODEL (priv->list_store), &iter);
+	e_alarm_list_remove (priv->list_store, &iter);
 
-	gtk_clist_remove (clist, sel);
-	if (sel >= clist->rows)
-		sel--;
+	/* Select closest item after removal */
+	valid_iter = gtk_tree_model_get_iter (GTK_TREE_MODEL (priv->list_store), &iter, path);
+	if (!valid_iter) {
+		gtk_tree_path_prev (path);
+		valid_iter = gtk_tree_model_get_iter (GTK_TREE_MODEL (priv->list_store), &iter, path);
+	}
 
-	if (clist->rows > 0)
-		gtk_clist_select_row (clist, sel, 0);
+	if (valid_iter) {
+		gtk_tree_selection_select_iter (selection, &iter);
+		gtk_widget_set_sensitive (priv->delete, TRUE);
+	}
 	else
 		gtk_widget_set_sensitive (priv->delete, FALSE);
+
+	gtk_tree_path_free (path);
 }
 
 /* Callback used when the alarm options button is clicked */
@@ -799,26 +823,52 @@ static void
 init_widgets (AlarmPage *apage)
 {
 	AlarmPagePrivate *priv;
+	GtkTreeViewColumn *column;
+	GtkCellRenderer *cell_renderer;
 
 	priv = apage->priv;
 
 	/* Reminder buttons */
-	g_signal_connect((priv->add), "clicked",
-			    G_CALLBACK (add_clicked_cb), apage);
-	g_signal_connect((priv->delete), "clicked",
-			    G_CALLBACK (delete_clicked_cb), apage);
+	g_signal_connect ((priv->add), "clicked",
+			  G_CALLBACK (add_clicked_cb), apage);
+	g_signal_connect ((priv->delete), "clicked",
+			  G_CALLBACK (delete_clicked_cb), apage);
+
+	gtk_widget_set_sensitive (priv->delete, FALSE);
 
 	/* Connect the default signal handler to use to make sure we notify
 	 * upstream of changes to the widget values.
 	 */
-	g_signal_connect((priv->add), "clicked",
-			    G_CALLBACK (field_changed_cb), apage);
-	g_signal_connect((priv->delete), "clicked",
-			    G_CALLBACK (field_changed_cb), apage);
+	g_signal_connect ((priv->add), "clicked",
+			  G_CALLBACK (field_changed_cb), apage);
+	g_signal_connect ((priv->delete), "clicked",
+			  G_CALLBACK (field_changed_cb), apage);
 
 	/* Options button */
-	g_signal_connect((priv->button_options), "clicked",
-			    G_CALLBACK (button_options_clicked_cb), apage);
+	g_signal_connect ((priv->button_options), "clicked",
+			  G_CALLBACK (button_options_clicked_cb), apage);
+
+	/* Alarm list */
+
+	/* Model */
+	priv->list_store = e_alarm_list_new ();
+	gtk_tree_view_set_model (GTK_TREE_VIEW (priv->list),
+				 GTK_TREE_MODEL (priv->list_store));
+
+	/* View */
+	column = gtk_tree_view_column_new ();
+	gtk_tree_view_column_set_title (column, "Action/Trigger");  /* Not shown */
+	cell_renderer = GTK_CELL_RENDERER (gtk_cell_renderer_text_new ());
+	gtk_tree_view_column_pack_start (column, cell_renderer, TRUE);
+	gtk_tree_view_column_add_attribute (column, cell_renderer, "text", E_ALARM_LIST_COLUMN_DESCRIPTION);
+	gtk_tree_view_append_column (GTK_TREE_VIEW (priv->list), column);
+
+#if 0
+	/* If we want the alarm setup widgets to reflect the currently selected alarm, we
+	 * need to do something like this */
+	g_signal_connect (gtk_tree_view_get_selection (GTK_TREE_VIEW (priv->list)), "changed",
+			  G_CALLBACK (alarm_selection_changed_cb), apage);
+#endif
 }
 
 
