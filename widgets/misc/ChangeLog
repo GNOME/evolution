@@ -1,3 +1,8 @@
+2000-07-21  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* e-title-bar.c (e_title_bar_set_title): We have a `EClippedLabel',
+	not a `GtkLabel' here: use the right function to change the text.
+
 2000-07-12  Christopher James Lahey  <clahey@helixcode.com>
 
 	* e-scroll-frame.c: Tried rearranging the casts to try for a more

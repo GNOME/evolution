@@ -247,7 +247,7 @@ e_title_bar_set_title (ETitleBar *title_bar,
 	g_return_if_fail (title_bar != NULL);
 	g_return_if_fail (E_IS_TITLE_BAR (title_bar));
 
-	gtk_label_set_text (GTK_LABEL (title_bar->priv->label), title);
+	e_clipped_label_set_text (E_CLIPPED_LABEL (title_bar->priv->label), title);
 }
 
 void
