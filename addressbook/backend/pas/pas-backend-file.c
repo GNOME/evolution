@@ -508,6 +508,7 @@ do_create(PASBackend *backend,
 
 	}
 	else {
+		g_free (id);
 		ret_val = NULL;
 	}
 
@@ -575,8 +576,20 @@ pas_backend_file_process_remove_card (PASBackend *backend,
 	int            db_error;
 	EIterator     *iterator;
 	char          *vcard_string;
+	const char    *id;
 
-	string_to_dbt (req->id, &id_dbt);
+	/* This is disgusting, but for a time cards were added with
+           ID's that are no longer used (they contained both the uri
+           and the id.) If we recognize it as a uri (file:///...) trim
+           off everything before the last '/', and use that as the
+           id.*/
+	if (!strncmp (req->id, "file:///", strlen ("file:///"))) {
+		id = strrchr (req->id, '/') + 1;
+	}
+	else
+		id = req->id;
+
+	string_to_dbt (id, &id_dbt);
 	memset (&vcard_dbt, 0, sizeof (vcard_dbt));
 
 	db_error = db->get (db, NULL, &id_dbt, &vcard_dbt, 0);
@@ -632,14 +645,25 @@ pas_backend_file_process_modify_card (PASBackend *backend,
 	int            db_error;
 	EIterator     *iterator;
 	ECard         *card;
-	const char    *id;
+	const char    *id, *lookup_id;
 	char          *old_vcard_string;
 
 	/* create a new ecard from the request data */
 	card = e_card_new(req->vcard);
 	id = e_card_get_id(card);
 
-	string_to_dbt (id, &id_dbt);	
+	/* This is disgusting, but for a time cards were added with
+           ID's that are no longer used (they contained both the uri
+           and the id.) If we recognize it as a uri (file:///...) trim
+           off everything before the last '/', and use that as the
+           id.*/
+	if (!strncmp (id, "file:///", strlen ("file:///"))) {
+		lookup_id = strrchr (id, '/') + 1;
+	}
+	else
+		lookup_id = id;
+
+	string_to_dbt (lookup_id, &id_dbt);	
 	memset (&vcard_dbt, 0, sizeof (vcard_dbt));
 
 	/* get the old ecard - the one that's presently in the db */
