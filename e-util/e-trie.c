@@ -213,7 +213,7 @@ dump_trie (struct _trie_state *s, int depth)
 */
 
 void
-e_trie_add (ETrie *trie, const char *pattern)
+e_trie_add (ETrie *trie, const char *pattern, int pattern_id)
 {
 	const unsigned char *inptr = (const unsigned char *) pattern;
 	struct _trie_state *q, *q1, *r;
