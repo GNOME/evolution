@@ -1,5 +1,16 @@
 2003-06-25  Rodrigo Moya <rodrigo@ximian.com>
 
+	Fixes #44723
+
+	* gui/dialogs/alarm-page.c: added a new field to the private structure
+	to keep track of the old summary.
+	(alarm_page_init): initialize new field.
+	(alarm_page_finalize): free new field.
+	(alarm_page_set_summary): iterate over the list of alarms to change
+	their description if it was the same as the event's summary.
+
+2003-06-25  Rodrigo Moya <rodrigo@ximian.com>
+
 	Fixes #44719
 
 	* gui/alarm-notify/alarm-notify-dialog.c (alarm_notify_dialog): use
