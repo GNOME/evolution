@@ -693,7 +693,7 @@ impl_quit(PortableServer_Servant servant, CORBA_Environment *ev)
 		/* Falls through */
 	case MC_QUIT_SYNC:
 		if (mc->priv->quit_count > 0)
-			return TRUE;
+			return FALSE;
 
 		mail_cancel_all();
 		mc->priv->quit_state = MC_QUIT_THREADS;
@@ -701,7 +701,7 @@ impl_quit(PortableServer_Servant servant, CORBA_Environment *ev)
 		/* Falls through */
 	case MC_QUIT_THREADS:
 		/* should we keep cancelling? */
-		return mail_msg_active((unsigned int)-1) == 0;
+		return !mail_msg_active((unsigned int)-1);
 	}
 
 	return TRUE;

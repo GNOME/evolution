@@ -1,3 +1,9 @@
+2005-03-16  Not Zed  <NotZed@Ximian.com>
+
+	** See bug #71003, again.
+
+	* mail-component.c (impl_quit): fix sense of 'can quit' logic.
+
 2005-03-14  Not Zed  <NotZed@Ximian.com>
 
 	** See bug #73550
