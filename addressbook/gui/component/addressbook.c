@@ -79,7 +79,8 @@ static void
 control_deactivate (BonoboControl *control, BonoboUIHandler *uih)
 {
 	/* how to remove a menu item */
-	bonobo_ui_handler_menu_remove (uih, "/File/Print");
+	bonobo_ui_handler_menu_remove (uih, "/File/<Print Placeholder>/Print contacts...");
+	bonobo_ui_handler_menu_remove (uih, "/File/<Print Placeholder>/separator1");
 	bonobo_ui_handler_menu_remove (uih, "/File/TestSelectNames");
 	bonobo_ui_handler_menu_remove (uih, "/View/<sep>");
 	bonobo_ui_handler_menu_remove (uih, "/View/Toggle View"); 
@@ -489,12 +490,14 @@ control_activate (BonoboControl *control, BonoboUIHandler *uih,
 
 	bonobo_ui_handler_menu_new_separator (uih, "/View/<sep>", -1);
 
-	bonobo_ui_handler_menu_new_item (uih, "/File/Print",
-					 N_("Print"),
+	bonobo_ui_handler_menu_new_item (uih, "/File/<Print Placeholder>/Print contacts...",
+					 N_("_Print Contacts..."),
 					 NULL, -1,
 					 BONOBO_UI_HANDLER_PIXMAP_NONE, NULL,
 					 0, 0, print_cb,
 					 (gpointer) view);
+
+	bonobo_ui_handler_menu_new_separator (uih, "/File/<Print Placeholder>/separator1", -1);
 
 	bonobo_ui_handler_menu_new_item (uih, "/View/Toggle View",
 					 N_("As _Table"),
