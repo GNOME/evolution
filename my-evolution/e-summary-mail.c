@@ -51,7 +51,7 @@ typedef struct _FolderStore {
 	GNOME_Evolution_Shell shell;
 	GNOME_Evolution_FolderInfo folder_info;
 	GNOME_Evolution_StorageRegistry registry;
-	BonoboListener *listener;
+	Bonobo_Listener corba_listener;
 	EvolutionStorageListener *storage_listener;
 	
 	GSList *storage_list;
@@ -185,18 +185,15 @@ e_summary_mail_get_html (ESummary *summary)
 }
 
 static void
-e_summary_mail_get_info (const char *uri,
-			 BonoboListener *listener)
+e_summary_mail_get_info (const char *uri)
 {
-	Bonobo_Listener corba_listener;
 	CORBA_Environment ev;
 
 	g_return_if_fail (folder_store->folder_info != CORBA_OBJECT_NIL);
 
-	corba_listener = bonobo_object_corba_objref (BONOBO_OBJECT (listener));
 	CORBA_exception_init (&ev);
 	GNOME_Evolution_FolderInfo_getInfo (folder_store->folder_info, uri ? uri : "",
-					    corba_listener, &ev);
+					    folder_store->corba_listener, &ev);
 	if (BONOBO_EX (&ev)) {
 		g_warning ("Error getting info for %s:\n%s", uri,
 			   CORBA_exception_id (&ev));
@@ -206,6 +203,16 @@ e_summary_mail_get_info (const char *uri,
 	
 	CORBA_exception_free (&ev);
 	return;
+}
+
+static gboolean
+e_summary_mail_idle_get_info (gpointer user_data)
+{
+	char *uri = user_data;
+
+	e_summary_mail_get_info (uri);
+	g_free (uri);
+	return FALSE;
 }
 
 static void
@@ -240,8 +247,8 @@ new_folder_cb (EvolutionStorageListener *listener,
 		
 		if (strcmp (f->physical_uri, folder->physicalUri) == 0) {
 			folder_store->shown = g_list_append (folder_store->shown, mail_folder);
-			e_summary_mail_get_info (mail_folder->path, 
-						 folder_store->listener);
+			g_idle_add (e_summary_mail_idle_get_info,
+				    g_strdup (mail_folder->path));
 		}
 	}
 }
@@ -271,9 +278,7 @@ update_folder_cb (EvolutionStorageListener *listener,
 		g_print ("uri: %s\n", uri);
 	}
 
-	e_summary_mail_get_info (uri, folder_store->listener);
-
-	g_free (uri);
+	g_idle_add (e_summary_mail_idle_get_info, uri);
 }
 
 static void
@@ -537,8 +542,7 @@ e_summary_mail_reconfigure (void)
 		folder = g_hash_table_lookup (folder_store->folders, uri);
 		if (folder != NULL) {
 			if (folder->init == FALSE) {
-				e_summary_mail_get_info (folder->path, 
-							 folder_store->listener);
+				e_summary_mail_get_info (folder->path);
 			}
 			folder_store->shown = g_list_append (folder_store->shown, folder);
 		}
@@ -895,7 +899,8 @@ gboolean
 e_summary_folder_init_folder_store (GNOME_Evolution_Shell shell)
 {
 	CORBA_Environment ev;
-	
+	BonoboListener *listener;
+
 	if (folder_store != NULL) {
 		return TRUE;
 	}
@@ -913,9 +918,11 @@ e_summary_folder_init_folder_store (GNOME_Evolution_Shell shell)
 	}
 
 	CORBA_exception_free (&ev);
-	folder_store->listener = bonobo_listener_new (NULL, NULL);
-	gtk_signal_connect (GTK_OBJECT (folder_store->listener), "event-notify",
+
+	listener = bonobo_listener_new (NULL, NULL);
+	gtk_signal_connect (GTK_OBJECT (listener), "event-notify",
 			    GTK_SIGNAL_FUNC (mail_change_notify), NULL);
+	folder_store->corba_listener = bonobo_object_corba_objref (BONOBO_OBJECT (listener));
 	
 	/* Create a hash table for the folders */
 	folder_store->folders = g_hash_table_new (g_str_hash, g_str_equal);

@@ -1,3 +1,11 @@
+2002-06-28  Dan Winship  <danw@ximian.com>
+
+	* e-summary-mail.c (e_summary_mail_idle_get_info): Add this, to
+	call e_summary_mail_get_info from an idle handler.
+	(new_folder_cb, update_folder_cb): Use idle_get_info rather than
+	making another corba call from inside the corba handler. (Fixes a
+	three-way deadlock between mail, summary, and exchange.)
+
 2002-06-26  Iain <iain@ximian.com>
 
 	* e-summary-rdf.c (layer_find_url): If w == NULL return. Fixes crash
