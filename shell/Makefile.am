@@ -231,6 +231,8 @@ evolution_LDADD =							\
 	$(top_builddir)/libical/src/libical/libical-evolution.la	\
 	$(SHELL_LIBS)
 
+evolution_LDFLAGS = -export-dynamic
+
 # Test component
 
 noinst_PROGRAMS =			\

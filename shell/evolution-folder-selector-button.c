@@ -127,8 +127,9 @@ set_folder (EvolutionFolderSelectorButton *folder_selector_button,
 		label_text = g_strdup_printf (_("\"%s\" in \"%s\""), folder->displayName,
 					      storage_lname);
 		g_free (storage_lname);
-	} else
+	} else {
 		label_text = g_strdup_printf ("\"%s\"", folder->displayName);
+	}
 
 	gtk_label_set_text (GTK_LABEL (priv->label), label_text);
 	g_free (label_text);
