@@ -2526,6 +2526,12 @@ message_list_set_folder (MessageList *message_list, CamelFolder *folder, const c
 	
 	camel_exception_init (&ex);
 	
+	/* remove the cursor activate idle handler */
+	if (message_list->idle_id != 0) {
+		g_source_remove (message_list->idle_id);
+		message_list->idle_id = 0;
+	}
+	
 	/* cancel any outstanding regeneration requests */
 	if (message_list->regen) {
 		GList *l = message_list->regen;
@@ -2616,7 +2622,7 @@ on_cursor_activated_idle (gpointer data)
 	MessageList *message_list = data;
 	ESelectionModel *esm = e_tree_get_selection_model (message_list->tree);
 	int selected = e_selection_model_selected_count (esm);
-
+	
 	if (selected == 1 && message_list->cursor_uid) {
 		d(printf ("emitting cursor changed signal, for uid %s\n", message_list->cursor_uid));
 		g_signal_emit (message_list, message_list_signals[MESSAGE_SELECTED], 0, message_list->cursor_uid);

@@ -1,5 +1,11 @@
 2004-01-05  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* em-folder-browser.c (emfb_list_message_selected): Check that the
+	folder isn't NULL (ie. no folder is selected). Fixes bug #52207.
+
+	* message-list.c (message_list_set_folder): Remove the
+	cursor-activated idle callback.
+
 	* mail-send-recv.c (build_dialog): Set the send/recv dialog to
 	non-modal. Fixes bug #50127.
 

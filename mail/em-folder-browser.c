@@ -450,6 +450,9 @@ emfb_list_message_selected (MessageList *ml, const char *uid, EMFolderBrowser *e
 {
 	EMFolderView *emfv = (EMFolderView *) emfb;
 	
+	if (emfv->folder == NULL)
+		return;
+	
 	camel_object_meta_set (emfv->folder, "evolution:selected_uid", uid);
 	camel_object_state_write (emfv->folder);
 }
