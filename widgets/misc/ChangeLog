@@ -1,3 +1,30 @@
+2003-02-25  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* e-dateedit.c (on_date_popup_date_selected): Same as below.
+
+	* e-cell-date-edit.c (e_cell_date_edit_on_ok_clicked): Also
+	updated to use the new GDate API from glib 2.0
+
+	* test-calendar.c (on_selection_changed): Fixed to use glib 2.0's
+	GDate API.
+
+	* e-calendar-item.c (e_calendar_item_get_week_number): Port to
+	glib 2.0's GDate API.
+	(e_calendar_item_set_selection): Same.
+
+	* e-search-bar.c (append_xml_menu_item): Use
+	g_string_append_printf instead of g_string_sprintfa since the
+	latter is now deprecated.
+	(setup_bonobo_menus): Same.
+
+	* e-filter-bar.c (do_advanced): Use gtk_window_set_resizable()
+
+	* e-charset-picker.c: Fixes to make it build cleanly with
+	-DG_DISABLE_DEPRECATED
+	(add_charset): Escape _'s so we don't get underline weirdness due
+	to GtkLabel thinking the _ means to underline the next char.
+	(e_charset_picker_bonobo_ui_populate): Same here.
+
 2003-02-20  Dan Winship  <danw@ximian.com>
 
 	* Makefile.am: Make libemiscwidgets and libefilterbar dynamic

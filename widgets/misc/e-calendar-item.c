@@ -25,7 +25,10 @@
  * ECalendarItem - canvas item displaying a calendar.
  */
 
+
+#ifdef HAVE_CONFIG_H
 #include <config.h>
+#endif
 
 #include "e-calendar-item.h"
 
@@ -1498,37 +1501,38 @@ e_calendar_item_get_week_number	(ECalendarItem *calitem,
 				 gint		month,
 				 gint		year)
 {
-	GDate tmp_date;
-	gint weekday, yearday, offset, week_num;
-
+	GDate date;
+	guint weekday, yearday;
+	int offset, week_num;
+	
 	/* FIXME: check what happens at year boundaries. */
-
-	g_date_clear (&tmp_date, 1);
-	g_date_set_dmy (&tmp_date, day, month + 1, year);
-
-	/* This results in a value of 0 (Monday) - 6 (Sunday). */
-	weekday = g_date_weekday (&tmp_date) - 1;
-
+	
+	g_date_clear (&date, 1);
+	g_date_set_dmy (&date, day, month + 1, year);
+	
+	/* This results in a value of 0 (Monday) - 6 (Sunday). (or -1 on error - oops!!) */
+	weekday = g_date_get_weekday (&date) - 1;
+	
 	/* Calculate the offset from the start of the week. */
 	offset = (calitem->week_start_day + 7 - weekday) % 7;
-
+	
 	/* Calculate the day of the year, from 0 to 365. */
-	yearday = g_date_day_of_year (&tmp_date) - 1;
-
+	yearday = g_date_get_day_of_year (&date) - 1;
+	
 	/* If the week starts on or after 29th December, it is week 1 of the
 	   next year, since there are 4 days in the next year. */
-	g_date_subtract_days (&tmp_date, offset);
-	if (g_date_month (&tmp_date) == 12 && g_date_day (&tmp_date) >= 29)
+	g_date_subtract_days (&date, offset);
+	if (g_date_get_month (&date) == 12 && g_date_get_day (&date) >= 29)
 		return 1;
-
+	
 	/* Calculate the week number, from 0. */
 	week_num = (yearday - offset) / 7;
-
+	
 	/* If the first week starts on or after Jan 5th, then we need to add
 	   1 since the previous week will really be the first week. */
 	if ((yearday - offset) % 7 >= 4)
 		week_num++;
-
+	
 	/* Add 1 so week numbers are from 1 to 53. */
 	return week_num + 1;
 }
@@ -2683,16 +2687,16 @@ e_calendar_item_set_selection	(ECalendarItem	*calitem,
 
 	if (end_date == NULL)
 		end_date = start_date;
-		
+	
 	g_return_if_fail (g_date_compare (start_date, end_date) <= 0);
-
-	start_year = g_date_year (start_date);
-	start_month = g_date_month (start_date) - 1;
-	start_day = g_date_day (start_date);
-	end_year = g_date_year (end_date);
-	end_month = g_date_month (end_date) - 1;
-	end_day = g_date_day (end_date);
-
+	
+	start_year = g_date_get_year (start_date);
+	start_month = g_date_get_month (start_date) - 1;
+	start_day = g_date_get_day (start_date);
+	end_year = g_date_get_year (end_date);
+	end_month = g_date_get_month (end_date) - 1;
+	end_day = g_date_get_day (end_date);
+	
 	need_update = e_calendar_item_ensure_days_visible (calitem,
 							   start_year,
 							   start_month,

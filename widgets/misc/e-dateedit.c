@@ -29,7 +29,10 @@
  * time field with popups for entering a date.
  */
 
+
+#ifdef HAVE_CONFIG_H
 #include <config.h>
+#endif
 
 #include "e-dateedit.h"
 #include "e-util-marshal.h"
@@ -1257,9 +1260,9 @@ on_date_popup_date_selected	(ECalendarItem	*calitem,
 	if (!e_calendar_item_get_selection (calitem, &start_date, &end_date))
 		return;
 
-	e_date_edit_set_date (dedit, g_date_year (&start_date),
-			      g_date_month (&start_date),
-			      g_date_day (&start_date));
+	e_date_edit_set_date (dedit, g_date_get_year (&start_date),
+			      g_date_get_month (&start_date),
+			      g_date_get_day (&start_date));
 }
 
 

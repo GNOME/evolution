@@ -6,6 +6,7 @@ INCLUDES =								\
 	-I$(top_srcdir)/widgets/shortcut-bar				\
 	-DMAP_DIR=\""$(imagesdir)"\"					\
 	-DG_LOG_DOMAIN=__FILE__						\
+	-DG_DISABLE_DEPRECATED						\
 	$(GNOME_FULL_CFLAGS)
 
 privlib_LTLIBRARIES =	\

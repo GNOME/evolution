@@ -25,6 +25,7 @@
 #include "e-charset-picker.h"
 #include <gal/widgets/e-gui-utils.h>
 
+#include <string.h>
 #include <iconv.h>
 
 #include <gtk/gtkvbox.h>
@@ -116,38 +117,57 @@ select_item (GtkMenuShell *menu_shell, GtkWidget *item)
 static void
 activate (GtkWidget *item, gpointer menu)
 {
-	g_object_set_data(G_OBJECT(menu), "activated_item", item);
+	g_object_set_data ((GObject *) menu, "activated_item", item);
 }
 
 static GtkWidget *
 add_charset (GtkWidget *menu, ECharset *charset, gboolean free_name)
 {
+	char *charset_name, *label, *u;
 	GtkWidget *item;
-	char *label;
+	
+	/* escape _'s in the charset name so that it doesn't become an underline in a GtkLabel */
+	if ((u = strchr (charset->name, '_'))) {
+		int extra = 1;
+		char *s, *d;
+		
+		while ((u = strchr (u + 1, '_')))
+			extra++;
+		
+		d = charset_name = g_alloca (strlen (charset->name) + extra + 1);
+		s = charset->name;
+		while (*s != '\0') {
+			if (*s == '_')
+				*d++ = '_';
+			*d++ = *s++;
+		}
+		*d = '\0';
+	} else {
+		charset_name = charset->name;
+	}
 	
 	if (charset->subclass) {
 		label = g_strdup_printf ("%s, %s (%s)",
 					 _(classnames[charset->class]),
 					 _(charset->subclass),
-					 charset->name);
+					 charset_name);
 	} else if (charset->class) {
 		label = g_strdup_printf ("%s (%s)",
 					 _(classnames[charset->class]),
-					 charset->name);
+					 charset_name);
 	} else {
-		label = g_strdup (charset->name);
+		label = g_strdup (charset_name);
 	}
 	
 	item = gtk_menu_item_new_with_label (label);
-	g_object_set_data_full(G_OBJECT(item), "charset",
-				  charset->name, free_name ? g_free : NULL);
+	g_object_set_data_full ((GObject *) item, "charset",
+				charset->name, free_name ? g_free : NULL);
 	g_free (label);
-
+	
 	gtk_widget_show (item);
-	gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
-	g_signal_connect((item), "activate",
-			    G_CALLBACK (activate), menu);
-
+	gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
+	g_signal_connect (item, "activate", G_CALLBACK (activate), menu);
+	
 	return item;
 }
 
@@ -157,7 +177,7 @@ add_other_charset (GtkWidget *menu, GtkWidget *other, char *new_charset)
 	ECharset charset = { NULL, E_CHARSET_UNKNOWN, NULL };
 	GtkWidget *item;
 	iconv_t ic;
-
+	
 	ic = iconv_open ("UTF-8", new_charset);
 	if (ic == (iconv_t)-1) {
 		GtkWidget *window = gtk_widget_get_ancestor (other, GTK_TYPE_WINDOW);
@@ -166,24 +186,25 @@ add_other_charset (GtkWidget *menu, GtkWidget *other, char *new_charset)
 		return FALSE;
 	}
 	iconv_close (ic);
-
+	
 	/* Temporarily remove the "Other..." item */
-	g_object_ref((other));
+	g_object_ref (other);
 	gtk_container_remove (GTK_CONTAINER (menu), other);
-
+	
 	/* Create new menu item */
 	charset.name = new_charset;
 	item = add_charset (menu, &charset, TRUE);
-
+	
 	/* And re-add "Other..." */
-	gtk_menu_shell_append(GTK_MENU_SHELL(menu), other);
-	g_object_unref((other));
-
-	g_object_set_data_full(G_OBJECT(menu), "other_charset",
-				  g_strdup (new_charset), g_free);
-
-	g_object_set_data(G_OBJECT(menu), "activated_item", item);
+	gtk_menu_shell_append (GTK_MENU_SHELL (menu), other);
+	g_object_unref (other);
+	
+	g_object_set_data_full ((GObject *) menu, "other_charset",
+				g_strdup (new_charset), g_free);
+	
+	g_object_set_data ((GObject *) menu, "activated_item", item);
 	select_item (GTK_MENU_SHELL (menu), item);
+	
 	return TRUE;
 }
 
@@ -242,18 +263,18 @@ e_charset_picker_new (const char *default_charset)
 	GtkWidget *menu, *item;
 	int def, i;
 	const char *locale_charset;
-
+	
 	g_get_charset (&locale_charset);
-	if (!g_strcasecmp (locale_charset, "US-ASCII"))
+	if (!strcasecmp (locale_charset, "US-ASCII"))
 		locale_charset = "iso-8859-1";
-
+	
 	if (!default_charset)
 		default_charset = locale_charset;
 	for (def = 0; def < num_charsets; def++) {
-		if (!g_strcasecmp (charsets[def].name, default_charset))
+		if (!strcasecmp (charsets[def].name, default_charset))
 			break;
 	}
-
+	
 	menu = gtk_menu_new ();
 	for (i = 0; i < num_charsets; i++) {
 		item = add_charset (menu, &charsets[i], FALSE);
@@ -262,29 +283,29 @@ e_charset_picker_new (const char *default_charset)
 			select_item (GTK_MENU_SHELL (menu), item);
 		}
 	}
-
+	
 	/* do the Unknown/Other section */
-	gtk_menu_shell_append(GTK_MENU_SHELL(menu), gtk_menu_item_new ());
-
+	gtk_menu_shell_append (GTK_MENU_SHELL (menu), gtk_menu_item_new ());
+	
 	if (def == num_charsets) {
 		ECharset other = { NULL, E_CHARSET_UNKNOWN, NULL };
-
+		
 		/* Add an entry for @default_charset */
 		other.name = g_strdup (default_charset);
 		item = add_charset (menu, &other, TRUE);
 		activate (item, menu);
 		select_item (GTK_MENU_SHELL (menu), item);
-		g_object_set_data_full(G_OBJECT(menu), "other_charset",
-					  g_strdup (default_charset), g_free);
+		g_object_set_data_full ((GObject *) menu, "other_charset",
+					g_strdup (default_charset), g_free);
 		def++;
 	}
-
+	
 	item = gtk_menu_item_new_with_label (_("Other..."));
-	g_signal_connect((item), "activate",
-			    G_CALLBACK (activate_other), menu);
-	gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
-
+	g_signal_connect (item, "activate", G_CALLBACK (activate_other), menu);
+	gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
+	
 	gtk_widget_show_all (menu);
+	
 	return menu;
 }
 
@@ -302,10 +323,10 @@ e_charset_picker_get_charset (GtkWidget *menu)
 	char *charset;
 
 	g_return_val_if_fail (GTK_IS_MENU (menu), NULL);
-
+	
 	item = gtk_menu_get_active (GTK_MENU (menu));
-	charset = g_object_get_data(G_OBJECT(item), "charset");
-
+	charset = g_object_get_data ((GObject *) item, "charset");
+	
 	return g_strdup (charset);
 }
 
@@ -389,35 +410,57 @@ e_charset_picker_bonobo_ui_populate (BonoboUIComponent *uic, const char *path,
 	int def, i;
 	
 	g_get_charset (&locale_charset);
-	if (!g_strcasecmp (locale_charset, "US-ASCII"))
+	if (!strcasecmp (locale_charset, "US-ASCII"))
 		locale_charset = "iso-8859-1";
 	
 	if (!default_charset)
 		default_charset = locale_charset;
 	for (def = 0; def < num_charsets; def++) {
-		if (!g_strcasecmp (charsets[def].name, default_charset))
+		if (!strcasecmp (charsets[def].name, default_charset))
 			break;
 	}
 	
 	label = g_strdup (_("Character Encoding"));
 	encoded_label = bonobo_ui_util_encode_str (label);
 	menuitems = g_string_new ("");
-	g_string_sprintf (menuitems, "<submenu name=\"ECharsetPicker\" label=\"%s\">\n", encoded_label);
+	g_string_append_printf (menuitems, "<submenu name=\"ECharsetPicker\" label=\"%s\">\n",
+				encoded_label);
 	g_free (encoded_label);
 	g_free (label);
 	
 	for (i = 0; i < num_charsets; i++) {
 		char *command, *label, *encoded_label;
+		char *charset_name, *u;
+		
+		/* escape _'s in the charset name so that it doesn't become an underline in a GtkLabel */
+		if ((u = strchr (charsets[i].name, '_'))) {
+			int extra = 1;
+			char *s, *d;
+			
+			while ((u = strchr (u + 1, '_')))
+				extra++;
+			
+			d = charset_name = g_alloca (strlen (charsets[i].name) + extra + 1);
+			s = charsets[i].name;
+			while (*s != '\0') {
+				if (*s == '_')
+					*d++ = '_';
+				*d++ = *s++;
+			}
+			*d = '\0';
+		} else {
+			charset_name = charsets[i].name;
+		}
 		
 		if (charsets[i].subclass) {
 			label = g_strdup_printf ("%s, %s (%s)",
 						 _(classnames[charsets[i].class]),
 						 _(charsets[i].subclass),
-						 charsets[i].name);
+						 charset_name);
 		} else {
 			label = g_strdup_printf ("%s (%s)",
 						 _(classnames[charsets[i].class]),
-						 charsets[i].name);
+						 charset_name);
 		}
 		
 		encoded_label = bonobo_ui_util_encode_str (label);
@@ -430,8 +473,8 @@ e_charset_picker_bonobo_ui_populate (BonoboUIComponent *uic, const char *path,
 		bonobo_ui_component_set (uic, "/commands", command, NULL);
 		g_free (command);
 		
-		g_string_sprintfa (menuitems, "  <menuitem name=\"Charset-%s\" verb=\"\"/>\n",
-				   charsets[i].name);
+		g_string_append_printf (menuitems, "  <menuitem name=\"Charset-%s\" verb=\"\"/>\n",
+					charsets[i].name);
 		
 		g_free (encoded_label);
 		
@@ -442,8 +485,29 @@ e_charset_picker_bonobo_ui_populate (BonoboUIComponent *uic, const char *path,
 	
 	if (def == num_charsets) {
 		char *command, *label, *encoded_label;
+		char *charset_name, *u;
 		
-		label = g_strdup_printf ("%s (%s)", _("Unknown"), default_charset);
+		/* escape _'s in the charset name so that it doesn't become an underline in a GtkLabel */
+		if ((u = strchr (default_charset, '_'))) {
+			int extra = 1;
+			char *s, *d;
+			
+			while ((u = strchr (u + 1, '_')))
+				extra++;
+			
+			d = charset_name = g_alloca (strlen (default_charset) + extra + 1);
+			s = (char *) default_charset;
+			while (*s != '\0') {
+				if (*s == '_')
+					*d++ = '_';
+				*d++ = *s++;
+			}
+			*d = '\0';
+		} else {
+			charset_name = (char *) default_charset;
+		}
+		
+		label = g_strdup_printf ("%s (%s)", _("Unknown"), charset_name);
 		encoded_label = bonobo_ui_util_encode_str (label);
 		g_free (label);
 		
@@ -455,8 +519,8 @@ e_charset_picker_bonobo_ui_populate (BonoboUIComponent *uic, const char *path,
 		g_free (command);
 		
 		g_string_append (menuitems, "  <separator/>\n");
-		g_string_sprintfa (menuitems, "  <menuitem name=\"Charset-%s\" verb=\"\"/>\n",
-				   default_charset);
+		g_string_append_printf (menuitems, "  <menuitem name=\"Charset-%s\" verb=\"\"/>\n",
+					default_charset);
 		
 		g_free (encoded_label);
 		

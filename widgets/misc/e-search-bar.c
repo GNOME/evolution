@@ -25,7 +25,10 @@
  * Boston, MA 02111-1307, USA.
  */
 
+
+#ifdef HAVE_CONFIG_H
 #include <config.h>
+#endif
 
 #include <gtk/gtkdrawingarea.h>
 #include <gtk/gtkeventbox.h>
@@ -490,16 +493,16 @@ append_xml_menu_item (GString *xml,
 		      const char *accelerator)
 {
 	char *encoded_label;
-
+	
 	encoded_label = bonobo_ui_util_encode_str (label);
-	g_string_sprintfa (xml, "<menuitem name=\"%s\" verb=\"%s\" label=\"%s\"",
-			   name, verb, encoded_label);
+	g_string_append_printf (xml, "<menuitem name=\"%s\" verb=\"%s\" label=\"%s\"",
+				name, verb, encoded_label);
 	g_free (encoded_label);
-
+	
 	if (accelerator != NULL)
-		g_string_sprintfa (xml, " accel=\"%s\"", accelerator);
-
-	g_string_sprintfa (xml, "/>");
+		g_string_append_printf (xml, " accel=\"%s\"", accelerator);
+	
+	g_string_append (xml, "/>");
 }
 
 static void
@@ -509,37 +512,37 @@ setup_bonobo_menus (ESearchBar *esb)
 	GSList *p;
 	char *verb_name;
 	char *encoded_title;
-
+	
 	xml = g_string_new ("");
-
+	
 	encoded_title = bonobo_ui_util_encode_str (_("_Search"));
-	g_string_sprintfa (xml, "<submenu name=\"Search\" label=\"%s\">", encoded_title);
+	g_string_append_printf (xml, "<submenu name=\"Search\" label=\"%s\">", encoded_title);
 	g_free (encoded_title);
-
-	g_string_sprintfa (xml, "<placeholder name=\"SearchBar\">");
-
+	
+	g_string_append (xml, "<placeholder name=\"SearchBar\">");
+	
 	append_xml_menu_item (xml, "FindNow", _("_Find Now"), "ESearchBar:FindNow", NULL);
 	append_xml_menu_item (xml, "Clear", _("_Clear"), "ESearchBar:Clear", "*Control**Shift*b");
-
+	
 	for (p = esb->menu_items; p != NULL; p = p->next) {
 		const ESearchBarItem *item;
-
+		
 		item = (const ESearchBarItem *) p->data;
-
+		
 		verb_name = verb_name_from_id (item->id);
 		bonobo_ui_component_add_verb (esb->ui_component, verb_name, search_verb_cb, esb);
-
+		
 		if (item->text == NULL)
 			g_string_append (xml, "<separator/>");
 		else
 			append_xml_menu_item (xml, verb_name, item->text, verb_name, NULL);
-
+		
 		g_free (verb_name);
 	}
-
-	g_string_sprintfa (xml, "</placeholder>");
-	g_string_sprintfa (xml, "</submenu>");
-
+	
+	g_string_append (xml, "</placeholder>");
+	g_string_append (xml, "</submenu>");
+	
 	bonobo_ui_component_set (esb->ui_component, "/menu/SearchPlaceholder", xml->str, NULL);
 
 	g_string_free (xml, TRUE);

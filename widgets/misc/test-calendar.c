@@ -154,12 +154,12 @@ on_selection_changed (ECalendarItem *calitem)
 	e_calendar_item_get_selection	(calitem, &start_date, &end_date);
 
 	g_print ("Selection changed (D/M/Y): %i/%i/%i - %i/%i/%i\n",
-		 g_date_day (&start_date),
-		 g_date_month (&start_date),
-		 g_date_year (&start_date),
-		 g_date_day (&end_date),
-		 g_date_month (&end_date),
-		 g_date_year (&end_date));
+		 g_date_get_day (&start_date),
+		 g_date_get_month (&start_date),
+		 g_date_get_year (&start_date),
+		 g_date_get_day (&end_date),
+		 g_date_get_month (&end_date),
+		 g_date_get_year (&end_date));
 }
 
 

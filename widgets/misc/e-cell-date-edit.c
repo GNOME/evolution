@@ -26,7 +26,10 @@
  * window to edit it.
  */
 
+
+#ifdef HAVE_CONFIG_H
 #include <config.h>
+#endif
 
 #include "e-cell-date-edit.h"
 
@@ -763,9 +766,9 @@ e_cell_date_edit_on_ok_clicked		(GtkWidget	*button,
 	}
 
 	if (day_selected) {
-		date_tm.tm_year = g_date_year (&start_date) - 1900;
-		date_tm.tm_mon = g_date_month (&start_date) - 1;
-		date_tm.tm_mday = g_date_day (&start_date);
+		date_tm.tm_year = g_date_get_year (&start_date) - 1900;
+		date_tm.tm_mon = g_date_get_month (&start_date) - 1;
+		date_tm.tm_mday = g_date_get_day (&start_date);
 		/* We need to call this to set the weekday. */
 		mktime (&date_tm);
 		e_time_format_date_and_time (&date_tm,
