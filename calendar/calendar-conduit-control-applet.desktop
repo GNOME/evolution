@@ -1,6 +1,0 @@
-[Desktop Entry]
-Name=Calendar conduit 
-Comment=Configure the calendar conduit
-Exec=calendar-conduit-control-applet --cap-id=1
-Terminal=0
-Type=Application
