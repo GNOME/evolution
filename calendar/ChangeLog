@@ -1,6 +1,15 @@
 2003-04-07  JP Rosevear  <jpr@ximian.com>
 
-	* gui/dialogs/event-page.glade: create button properly
+	Fixes #40876
+	
+	* gui/e-meeting-time-sel.c
+	(e_meeting_time_selector_refresh_free_busy): guard against
+	callbacks after destruction
+	(e_meeting_time_selector_refresh_cb): ditto
+
+2003-04-07  JP Rosevear  <jpr@ximian.com>
+	
+	* gui/dialogs/event-page.glade: create buttons properly
 
 	* gui/itip-utils.c (comp_server_send): for errors other than busy,
 	we want to email the results
