@@ -6,8 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution 0.4\n"
-"POT-Creation-Date: 2000-10-26 14:58+0200\n"
-"PO-Revision-Date: 2000-10-26 15:02+02:00\n"
+"POT-Creation-Date: 2000-10-29 14:15+0100\n"
+"PO-Revision-Date: 2000-10-29 14:19+01:00\n"
 "Last-Translator: Matthias Warkus <mawarkus@gnome.org>\n"
 "Language-Team: German <gnome-de@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -20,8 +20,8 @@ msgstr ""
 #: addressbook/backend/ebook/test-client.c:29
 #: addressbook/conduit/address-conduit.c:1064
 #: addressbook/gui/component/addressbook-factory.c:38
-#: calendar/conduits/calendar/calendar-conduit.c:1053
-#: calendar/conduits/todo/todo-conduit.c:934 calendar/gui/main.c:55
+#: calendar/conduits/calendar/calendar-conduit.c:1058
+#: calendar/conduits/todo/todo-conduit.c:932 calendar/gui/main.c:55
 msgid "Could not initialize Bonobo"
 msgstr "Konnte Bonobo nicht initialisieren"
 
@@ -150,13 +150,13 @@ msgid "BLARG\n"
 msgstr "BLARG\n"
 
 #: addressbook/conduit/address-conduit.c:638
-#: calendar/conduits/calendar/calendar-conduit.c:615
+#: calendar/conduits/calendar/calendar-conduit.c:622
 #: calendar/conduits/todo/todo-conduit.c:495
 msgid "Could not start wombat server"
 msgstr "Konnte den wombat-Server nicht starten"
 
 #: addressbook/conduit/address-conduit.c:639
-#: calendar/conduits/calendar/calendar-conduit.c:616
+#: calendar/conduits/calendar/calendar-conduit.c:623
 #: calendar/conduits/todo/todo-conduit.c:496
 msgid "Could not start wombat"
 msgstr "Konnte wombat nicht starten"
@@ -317,7 +317,7 @@ msgid "New phone type"
 msgstr "Neuer Telefon-Typ"
 
 #: addressbook/contact-editor/e-contact-editor-strings.h:11
-#: calendar/gui/event-editor-dialog.glade.h:90 filter/filter.glade.h:12
+#: calendar/gui/event-editor-dialog.glade.h:71 filter/filter.glade.h:12
 #: filter/filter.glade.h:17 filter/filter.glade.h:21 filter/filter.glade.h:24
 #: mail/mail-config.glade.h:11 mail/mail-config.glade.h:16
 #: mail/mail-config.glade.h:22
@@ -892,7 +892,6 @@ msgstr "Typ:"
 
 #: addressbook/printing/e-contact-print.glade.h:31
 #: addressbook/printing/e-contact-print.glade.h:43
-#: calendar/gui/event-editor-dialog.glade.h:80
 msgid "label26"
 msgstr "label26"
 
@@ -987,13 +986,13 @@ msgstr "Evolution-Kalender-Verbindung"
 msgid "Configuration utility for the evolution calendar conduit.\n"
 msgstr "Konfigurationswerkzeug für die Evolution-Kalender-Verbindung.\n"
 
-#: calendar/conduits/calendar/calendar-conduit.c:571
+#: calendar/conduits/calendar/calendar-conduit.c:578
 #: calendar/conduits/todo/todo-conduit.c:451
 msgid "Error while communicating with calendar server"
 msgstr "Fehler bei der Kommunikation mit dem Kalender-Server"
 
-#: calendar/conduits/calendar/calendar-conduit.c:669
-#: calendar/conduits/calendar/calendar-conduit.c:672
+#: calendar/conduits/calendar/calendar-conduit.c:676
+#: calendar/conduits/calendar/calendar-conduit.c:679
 msgid "Could not read pilot's Calendar application block"
 msgstr "Konnte Calendar-Anwendungsblock des Pilot nicht lesen"
 
@@ -1235,44 +1234,37 @@ msgid "Work week"
 msgstr "Arbeitswoche"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:9
-#: calendar/gui/event-editor-dialog.glade.h:53
 #: calendar/gui/gnome-month-item.c:737
 msgid "Mon"
 msgstr "Mo"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:10
-#: calendar/gui/event-editor-dialog.glade.h:54
 #: calendar/gui/gnome-month-item.c:738
 msgid "Tue"
 msgstr "Di"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:11
-#: calendar/gui/event-editor-dialog.glade.h:55
 #: calendar/gui/gnome-month-item.c:739
 msgid "Wed"
 msgstr "Mi"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:12
-#: calendar/gui/event-editor-dialog.glade.h:56
 #: calendar/gui/gnome-month-item.c:740
 msgid "Thu"
 msgstr "Do"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:13
-#: calendar/gui/event-editor-dialog.glade.h:57
 #: calendar/gui/gnome-month-item.c:741
 msgid "Fri"
 msgstr "Fr"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:14
-#: calendar/gui/event-editor-dialog.glade.h:58
 #: calendar/gui/gnome-month-item.c:742
 msgid "Sat"
 msgstr "Sa"
 
 #. Initialize by default to three-letter day names
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:15
-#: calendar/gui/event-editor-dialog.glade.h:59
 #: calendar/gui/gnome-month-item.c:736
 msgid "Sun"
 msgstr "So"
@@ -1281,31 +1273,38 @@ msgstr "So"
 msgid "First day of week:"
 msgstr "Erster Tag der Woche:"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:17 calendar/gui/prop.c:354
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:17
+#: calendar/gui/event-editor-dialog.glade.h:45 calendar/gui/prop.c:354
 msgid "Monday"
 msgstr "Montag"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:18
+#: calendar/gui/event-editor-dialog.glade.h:46
 msgid "Tuesday"
 msgstr "Dienstag"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:19
+#: calendar/gui/event-editor-dialog.glade.h:47
 msgid "Wednesday"
 msgstr "Mittwoch"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:20
+#: calendar/gui/event-editor-dialog.glade.h:48
 msgid "Thursday"
 msgstr "Donnerstag"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:21
+#: calendar/gui/event-editor-dialog.glade.h:49
 msgid "Friday"
 msgstr "Freitag"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:22
+#: calendar/gui/event-editor-dialog.glade.h:50
 msgid "Saturday"
 msgstr "Samstag"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:23 calendar/gui/prop.c:353
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:23
+#: calendar/gui/event-editor-dialog.glade.h:51 calendar/gui/prop.c:353
 msgid "Sunday"
 msgstr "Sonntag"
 
@@ -1482,21 +1481,21 @@ msgstr "Erinnerungen"
 msgid "Edit Task"
 msgstr "Auftrag bearbeiten"
 
-#: calendar/gui/dialogs/task-editor.c:663 calendar/gui/event-editor.c:285
+#: calendar/gui/dialogs/task-editor.c:663 calendar/gui/event-editor.c:303
 msgid "No summary"
 msgstr "Keine Zusammenfassung"
 
-#: calendar/gui/dialogs/task-editor.c:669 calendar/gui/event-editor.c:291
+#: calendar/gui/dialogs/task-editor.c:669 calendar/gui/event-editor.c:309
 #, c-format
 msgid "Appointment - %s"
 msgstr "Termin - %s"
 
-#: calendar/gui/dialogs/task-editor.c:672 calendar/gui/event-editor.c:294
+#: calendar/gui/dialogs/task-editor.c:672 calendar/gui/event-editor.c:312
 #, c-format
 msgid "Task - %s"
 msgstr "Auftrag - %s"
 
-#: calendar/gui/dialogs/task-editor.c:675 calendar/gui/event-editor.c:297
+#: calendar/gui/dialogs/task-editor.c:675 calendar/gui/event-editor.c:315
 #, c-format
 msgid "Journal entry - %s"
 msgstr "Journal-Eintrag  - %s"
@@ -1566,8 +1565,7 @@ msgstr "Niedrig"
 msgid "C_lassification:"
 msgstr "Klassifikation:"
 
-#: calendar/gui/dialogs/task-editor-dialog.glade.h:22
-#: calendar/gui/event-editor-dialog.glade.h:42 shell/e-shell-view.c:989
+#: calendar/gui/dialogs/task-editor-dialog.glade.h:22 shell/e-shell-view.c:989
 #: widgets/misc/e-dateedit.c:337 widgets/misc/e-dateedit.c:709
 #: widgets/misc/e-dateedit.c:1171
 msgid "None"
@@ -1606,7 +1604,7 @@ msgid "Mark the task complete"
 msgstr "Den Auftrag als abgeschlossen markieren"
 
 #: calendar/gui/e-calendar-table.c:300
-#: calendar/gui/event-editor-dialog.glade.h:92 filter/filter.glade.h:14
+#: calendar/gui/event-editor-dialog.glade.h:73 filter/filter.glade.h:14
 #: filter/filter.glade.h:19 filter/libfilter-i18n.h:7
 #: mail/mail-config.glade.h:13 mail/mail-config.glade.h:18
 #: mail/mail-config.glade.h:24 mail/mail-view.c:163
@@ -1679,19 +1677,24 @@ msgstr "Jedes Auftreten löschen"
 msgid "%d %B"
 msgstr "%d. %B"
 
-#: calendar/gui/event-editor.c:279
+#: calendar/gui/event-editor.c:297
 msgid "Edit Appointment"
 msgstr "Termin bearbeiten"
 
-#: calendar/gui/event-editor.c:1749 calendar/gui/print.c:1085
+#: calendar/gui/event-editor.c:342
+msgid "on"
+msgstr "bei"
+
+#: calendar/gui/event-editor.c:470
+msgid "ocurrences"
+msgstr "maligem Auftreten"
+
+#: calendar/gui/event-editor.c:2371 calendar/gui/print.c:1085
 #: calendar/gui/print.c:1087 calendar/gui/print.c:1088
 msgid "%a %b %d %Y"
 msgstr "%a, %d. %b %Y"
 
 #. todo
-#.
-#. build some of the recur stuff by hand to take into account
-#. the start-on-monday preference?
 #.
 #. get the apply button to work right
 #.
@@ -1713,7 +1716,8 @@ msgid "event-editor-dialog"
 msgstr "event-editor-dialog"
 
 #: calendar/gui/event-editor-dialog.glade.h:8
-msgid "_Summary:"
+#: calendar/gui/event-editor-dialog.glade.h:56
+msgid "Su_mmary:"
 msgstr "Zusammenfassung:"
 
 #: calendar/gui/event-editor-dialog.glade.h:9
@@ -1721,11 +1725,11 @@ msgid "Time"
 msgstr "Zeit"
 
 #: calendar/gui/event-editor-dialog.glade.h:10
-msgid "Start time:"
+msgid "_Start time:"
 msgstr "Anfangszeit:"
 
 #: calendar/gui/event-editor-dialog.glade.h:11
-msgid "End time:"
+msgid "_End time:"
 msgstr "Endzeit:"
 
 #: calendar/gui/event-editor-dialog.glade.h:12
@@ -1749,180 +1753,169 @@ msgid "_Confidential"
 msgstr "Vertraulich"
 
 #: calendar/gui/event-editor-dialog.glade.h:18
-#: calendar/gui/event-editor-dialog.glade.h:22
-#: calendar/gui/event-editor-dialog.glade.h:26
-#: calendar/gui/event-editor-dialog.glade.h:30
-msgid ""
-"Minutes\n"
-"Hours\n"
-"Days\n"
-msgstr ""
-"Minuten\n"
-"Stunden\n"
-"Tage\n"
+#: calendar/gui/event-editor-dialog.glade.h:21
+#: calendar/gui/event-editor-dialog.glade.h:24
+#: calendar/gui/event-editor-dialog.glade.h:27
+msgid "Minutes"
+msgstr "Minuten"
 
-#: calendar/gui/event-editor-dialog.glade.h:34
+#: calendar/gui/event-editor-dialog.glade.h:19
+#: calendar/gui/event-editor-dialog.glade.h:22
+#: calendar/gui/event-editor-dialog.glade.h:25
+#: calendar/gui/event-editor-dialog.glade.h:28
+msgid "Hours"
+msgstr "Stunden"
+
+#: calendar/gui/event-editor-dialog.glade.h:20
+#: calendar/gui/event-editor-dialog.glade.h:23
+#: calendar/gui/event-editor-dialog.glade.h:26
+#: calendar/gui/event-editor-dialog.glade.h:29
+msgid "Days"
+msgstr "Tage"
+
+#: calendar/gui/event-editor-dialog.glade.h:30
 msgid "_Display"
 msgstr "Anzeige"
+
+#: calendar/gui/event-editor-dialog.glade.h:31
+msgid "_Program"
+msgstr "_Programm"
+
+#: calendar/gui/event-editor-dialog.glade.h:32
+msgid "_Mail"
+msgstr "Mail"
+
+#: calendar/gui/event-editor-dialog.glade.h:33
+msgid "Mail _to:"
+msgstr "Mail an:"
+
+#: calendar/gui/event-editor-dialog.glade.h:34
+msgid "_Run program:"
+msgstr "Programm ausführen:"
 
 #: calendar/gui/event-editor-dialog.glade.h:35
 msgid "_Audio"
 msgstr "Audio"
 
 #: calendar/gui/event-editor-dialog.glade.h:36
-msgid "_Program"
-msgstr "_Programm"
-
-#: calendar/gui/event-editor-dialog.glade.h:37
-msgid "_Mail"
-msgstr "Mail"
-
-#: calendar/gui/event-editor-dialog.glade.h:38
-msgid "Mail _to:"
-msgstr "Mail an:"
-
-#: calendar/gui/event-editor-dialog.glade.h:39
-msgid "_Run program:"
-msgstr "Programm ausführen:"
-
-#: calendar/gui/event-editor-dialog.glade.h:40
 msgid "Reminder"
 msgstr "Erinnerung"
 
-#: calendar/gui/event-editor-dialog.glade.h:41
-msgid "Recurrence rule"
-msgstr "Wiederholungsregel"
-
-#: calendar/gui/event-editor-dialog.glade.h:43
-msgid "Daily"
-msgstr "Täglich"
-
-#: calendar/gui/event-editor-dialog.glade.h:44
-msgid "Weekly"
-msgstr "Wöchentlich"
-
-#: calendar/gui/event-editor-dialog.glade.h:45
-msgid "Monthly"
-msgstr "Monatlich"
-
-#: calendar/gui/event-editor-dialog.glade.h:46
-msgid "Yearly"
-msgstr "Jährlich"
-
-#: calendar/gui/event-editor-dialog.glade.h:47
-msgid "label23"
-msgstr "label23"
-
-#: calendar/gui/event-editor-dialog.glade.h:48
-#: calendar/gui/event-editor-dialog.glade.h:51
-#: calendar/gui/event-editor-dialog.glade.h:81
-msgid "Every "
-msgstr "Alle "
-
-#: calendar/gui/event-editor-dialog.glade.h:49
-msgid "day(s)"
-msgstr "Tag(e)"
-
-#: calendar/gui/event-editor-dialog.glade.h:50
-msgid "label24"
-msgstr "label24"
-
-#: calendar/gui/event-editor-dialog.glade.h:52
-msgid "week(s)"
-msgstr "Woche(n)"
-
-#: calendar/gui/event-editor-dialog.glade.h:60
-msgid "label25"
-msgstr "label25"
-
-#: calendar/gui/event-editor-dialog.glade.h:61
-#: calendar/gui/event-editor-dialog.glade.h:62
+#: calendar/gui/event-editor-dialog.glade.h:37
+#: calendar/gui/event-editor-dialog.glade.h:38
 msgid "Recur on the"
 msgstr "Wiederholen am"
 
-#: calendar/gui/event-editor-dialog.glade.h:63
+#: calendar/gui/event-editor-dialog.glade.h:39
 msgid "th day of the month"
 msgstr ". Tag des Monats"
 
-#: calendar/gui/event-editor-dialog.glade.h:64
-msgid ""
-"1st\n"
-"2nd\n"
-"3rd\n"
-"4th\n"
-"5th\n"
-msgstr ""
-"1.\n"
-"2.\n"
-"3.\n"
-"4.\n"
-"5.\n"
+#: calendar/gui/event-editor-dialog.glade.h:40 calendar/gui/print.c:288
+msgid "1st"
+msgstr "1."
 
-#: calendar/gui/event-editor-dialog.glade.h:70
-msgid ""
-"Monday\n"
-"Tuesday\n"
-"Wednesday\n"
-"Thursday\n"
-"Friday\n"
-"Saturday\n"
-"Sunday\n"
-msgstr ""
-"Montag\n"
-"Dienstag\n"
-"Mittwoch\n"
-"Donnerstag\n"
-"Freitag\n"
-"Samstag\n"
-"Sonntag\n"
+#: calendar/gui/event-editor-dialog.glade.h:41 calendar/gui/print.c:288
+msgid "2nd"
+msgstr "2."
 
-#: calendar/gui/event-editor-dialog.glade.h:78
+#: calendar/gui/event-editor-dialog.glade.h:42 calendar/gui/print.c:288
+msgid "3rd"
+msgstr "3."
+
+#: calendar/gui/event-editor-dialog.glade.h:43 calendar/gui/print.c:288
+msgid "4th"
+msgstr "4."
+
+#: calendar/gui/event-editor-dialog.glade.h:44 calendar/gui/print.c:288
+msgid "5th"
+msgstr "5."
+
+#: calendar/gui/event-editor-dialog.glade.h:52
+#: calendar/gui/event-editor-dialog.glade.h:62
 msgid "Every"
 msgstr "Alle"
 
-#: calendar/gui/event-editor-dialog.glade.h:79
+#: calendar/gui/event-editor-dialog.glade.h:53
+#: calendar/gui/event-editor-dialog.glade.h:65
 msgid "month(s)"
 msgstr "Monat(e)"
 
-#: calendar/gui/event-editor-dialog.glade.h:82
+#: calendar/gui/event-editor-dialog.glade.h:54
+#: calendar/gui/event-editor-dialog.glade.h:78
+msgid "Recurrence"
+msgstr "Wiederholung"
+
+#: calendar/gui/event-editor-dialog.glade.h:55
+msgid "Appointment Basics"
+msgstr "Termin-Grundeinstellungen"
+
+#: calendar/gui/event-editor-dialog.glade.h:57
+msgid "_Starting date:"
+msgstr "Anfangsdatum:"
+
+#: calendar/gui/event-editor-dialog.glade.h:58
+msgid "Recurrence Rule"
+msgstr "Wiederholungsregel"
+
+#: calendar/gui/event-editor-dialog.glade.h:59
+msgid "No recurrence"
+msgstr "Keine Wiederholung"
+
+#: calendar/gui/event-editor-dialog.glade.h:60
+msgid "Simple recurrence"
+msgstr "Einfache Wiederholung"
+
+#: calendar/gui/event-editor-dialog.glade.h:61
+msgid "Custom recurrence"
+msgstr "Benutzerdefinierte Wiederholung"
+
+#: calendar/gui/event-editor-dialog.glade.h:63
+msgid "day(s)"
+msgstr "Tag(e)"
+
+#: calendar/gui/event-editor-dialog.glade.h:64
+msgid "week(s)"
+msgstr "Woche(n)"
+
+#: calendar/gui/event-editor-dialog.glade.h:66
 msgid "year(s)"
 msgstr "Jahr(e)"
 
-#: calendar/gui/event-editor-dialog.glade.h:83
-msgid "label27"
-msgstr "label27"
+#: calendar/gui/event-editor-dialog.glade.h:67
+msgid "for"
+msgstr "für"
 
-#: calendar/gui/event-editor-dialog.glade.h:84
-msgid "Ending date"
-msgstr "Enddatum"
+#: calendar/gui/event-editor-dialog.glade.h:68
+msgid "until"
+msgstr "bis"
 
-#: calendar/gui/event-editor-dialog.glade.h:85
-msgid "Repeat forever"
-msgstr "Für immer wiederholen"
+#: calendar/gui/event-editor-dialog.glade.h:69
+msgid "forever"
+msgstr "für immer"
 
-#: calendar/gui/event-editor-dialog.glade.h:86
-msgid "End on "
-msgstr "Ende am "
-
-#: calendar/gui/event-editor-dialog.glade.h:87
-msgid "End after"
-msgstr "Ende nach"
-
-#: calendar/gui/event-editor-dialog.glade.h:88
-msgid "occurrence(s)"
-msgstr "maligem Auftreten"
-
-#: calendar/gui/event-editor-dialog.glade.h:89
+#: calendar/gui/event-editor-dialog.glade.h:70
 msgid "Exceptions"
 msgstr "Ausnahmen"
 
-#: calendar/gui/event-editor-dialog.glade.h:91
-msgid "Change"
+#: calendar/gui/event-editor-dialog.glade.h:72
+msgid "Modify"
 msgstr "Ändern"
 
-#: calendar/gui/event-editor-dialog.glade.h:93
-msgid "Recurrence"
-msgstr "Wiederholung"
+#: calendar/gui/event-editor-dialog.glade.h:74
+msgid "label21"
+msgstr "label21"
+
+#: calendar/gui/event-editor-dialog.glade.h:75
+msgid ""
+"This appointment has custom recurrence rules that cannot be edited by "
+"Evolution.\n"
+"\n"
+"However, the appointment will recur at the appropriate time and will be "
+"displayed properly in the calendar views."
+msgstr ""
+"Dieser Termin hat benutzerdefinierte Wiederholungsregeln, die von Evolution nicht bearbeitet werden können.\n"
+"\n"
+"Trotzdem wird der Termin sich auf die angebrachte Weise wiederholen und in den Kalenderansichten korrekt angezeigt werden."
 
 #: calendar/gui/getdate.y:391
 msgid "january"
@@ -2211,26 +2204,6 @@ msgstr ""
 msgid "Go to today"
 msgstr "Zum heutigen Tag"
 
-#: calendar/gui/print.c:288
-msgid "1st"
-msgstr "1."
-
-#: calendar/gui/print.c:288
-msgid "2nd"
-msgstr "2."
-
-#: calendar/gui/print.c:288
-msgid "3rd"
-msgstr "3."
-
-#: calendar/gui/print.c:288
-msgid "4th"
-msgstr "4."
-
-#: calendar/gui/print.c:288
-msgid "5th"
-msgstr "5."
-
 #: calendar/gui/print.c:289
 msgid "6th"
 msgstr "6."
@@ -2399,7 +2372,7 @@ msgstr "Aktuelles Jahr (%Y)"
 msgid "Print Calendar"
 msgstr "Kalender drucken"
 
-#: calendar/gui/print.c:1309 mail/mail-callbacks.c:822
+#: calendar/gui/print.c:1309 mail/mail-callbacks.c:833
 msgid "Print Preview"
 msgstr "Druckvorschau"
 
@@ -3214,7 +3187,7 @@ msgid "%.1fG"
 msgstr "%.1f GB"
 
 #. This is a filename. Translators take note.
-#: composer/e-msg-composer-attachment-bar.c:299 mail/mail-display.c:119
+#: composer/e-msg-composer-attachment-bar.c:299 mail/mail-display.c:118
 msgid "attachment"
 msgstr "anlage"
 
@@ -3664,42 +3637,66 @@ msgid "does not contain"
 msgstr "enthält nicht"
 
 #: filter/libfilter-i18n.h:24
+msgid "does not end with"
+msgstr "endet nicht mit"
+
+#: filter/libfilter-i18n.h:25
+msgid "does not exist"
+msgstr "existiert nicht"
+
+#: filter/libfilter-i18n.h:26
 msgid "does not match regex"
 msgstr "passt nicht auf Regex"
 
-#: filter/libfilter-i18n.h:25
+#: filter/libfilter-i18n.h:27
+msgid "does not start with"
+msgstr "beginnt nicht mit"
+
+#: filter/libfilter-i18n.h:28
+msgid "ends with"
+msgstr "endet mit"
+
+#: filter/libfilter-i18n.h:29
+msgid "exists"
+msgstr "existiert"
+
+#: filter/libfilter-i18n.h:30
 msgid "is greater than"
 msgstr "ist größer als"
 
-#: filter/libfilter-i18n.h:26
+#: filter/libfilter-i18n.h:31
 msgid "is less than"
 msgstr "ist kleiner als"
 
-#: filter/libfilter-i18n.h:27
+#: filter/libfilter-i18n.h:32
 msgid "is not"
 msgstr "ist nicht"
 
-#: filter/libfilter-i18n.h:28
+#: filter/libfilter-i18n.h:33
 msgid "is"
 msgstr "ist"
 
-#: filter/libfilter-i18n.h:29
+#: filter/libfilter-i18n.h:34
 msgid "matches regex"
 msgstr "passt auf Regex"
 
-#: filter/libfilter-i18n.h:30
+#: filter/libfilter-i18n.h:35
 msgid "on or after"
 msgstr "am oder nach"
 
-#: filter/libfilter-i18n.h:31
+#: filter/libfilter-i18n.h:36
 msgid "on or before"
 msgstr "am oder vor"
 
-#: filter/libfilter-i18n.h:32
+#: filter/libfilter-i18n.h:37
+msgid "starts with"
+msgstr "beginnt mit"
+
+#: filter/libfilter-i18n.h:38
 msgid "was after"
 msgstr "war nach"
 
-#: filter/libfilter-i18n.h:33
+#: filter/libfilter-i18n.h:39
 msgid "was before"
 msgstr "war vor"
 
@@ -3844,15 +3841,19 @@ msgstr ""
 "Diese Nachricht hat keine Betreffzeile.\n"
 "Wirklich senden?"
 
-#: mail/mail-callbacks.c:521
+#: mail/mail-callbacks.c:290
+msgid "You must specify recipients in order to send this message."
+msgstr "Sie müssen Empfänger angeben, um diese Nachricht zu senden."
+
+#: mail/mail-callbacks.c:532
 msgid "Move message(s) to"
 msgstr "Machricht(en) verschieben in"
 
-#: mail/mail-callbacks.c:523
+#: mail/mail-callbacks.c:534
 msgid "Copy message(s) to"
 msgstr "Machricht(en) kopieren in"
 
-#: mail/mail-callbacks.c:638
+#: mail/mail-callbacks.c:649
 msgid ""
 "You may only edit messages saved\n"
 "in the Drafts folder."
@@ -3860,7 +3861,7 @@ msgstr ""
 "Sie können nur im Entwürfe-Ordner\n"
 "abgespeicherte Nachrichten bearbeiten."
 
-#: mail/mail-callbacks.c:737
+#: mail/mail-callbacks.c:748
 #, c-format
 msgid ""
 "Error loading filter information:\n"
@@ -3869,11 +3870,11 @@ msgstr ""
 "Fehler beim Laden von Filterinformation:\n"
 "%s"
 
-#: mail/mail-callbacks.c:782 mail/message-list.c:1574
+#: mail/mail-callbacks.c:793 mail/message-list.c:1574
 msgid "Print Message"
 msgstr "Nachricht drucken"
 
-#: mail/mail-callbacks.c:829
+#: mail/mail-callbacks.c:840
 msgid "Printing of message failed"
 msgstr "Drucken der Nachricht fehlgeschlagen"
 
@@ -4153,7 +4154,7 @@ msgstr ""
 "Eine Datei mit diesem Namen existiert bereits.\n"
 "Überschreiben?"
 
-#: mail/mail-display.c:87
+#: mail/mail-display.c:86
 #, c-format
 msgid ""
 "Could not open file %s:\n"
@@ -4162,43 +4163,43 @@ msgstr ""
 "Datei %s konnte nicht geöffnet werden:\n"
 "%s"
 
-#: mail/mail-display.c:99
+#: mail/mail-display.c:98
 #, c-format
 msgid "Could not write data: %s"
 msgstr "Daten konnten nicht geschrieben werden: %s"
 
-#: mail/mail-display.c:195
+#: mail/mail-display.c:194
 msgid "Save Attachment"
 msgstr "Anlage speichern"
 
-#: mail/mail-display.c:235
+#: mail/mail-display.c:234
 #, c-format
 msgid "Could not create temporary directory: %s"
 msgstr "Temporäres Verzeichnis konnte nicht angelegt werden: %s"
 
-#: mail/mail-display.c:277
+#: mail/mail-display.c:276
 msgid "Save to Disk..."
 msgstr "Auf Platte speichern..."
 
-#: mail/mail-display.c:279
+#: mail/mail-display.c:278
 #, c-format
 msgid "Open in %s..."
 msgstr "Öffnen in %s..."
 
-#: mail/mail-display.c:281
+#: mail/mail-display.c:280
 msgid "View Inline"
 msgstr "An Ort und Stelle betrachten"
 
-#: mail/mail-display.c:305
+#: mail/mail-display.c:304
 msgid "External Viewer"
 msgstr "Externer Betrachter"
 
-#: mail/mail-display.c:328
+#: mail/mail-display.c:327
 #, c-format
 msgid "View Inline (via %s)"
 msgstr "An Ort und Stelle betrachten (über %s)"
 
-#: mail/mail-display.c:332
+#: mail/mail-display.c:331
 msgid "Hide"
 msgstr "Verbergen"
 
