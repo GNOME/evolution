@@ -146,7 +146,7 @@ backend_cal_set_mode (CalClient *client, CalClientSetModeStatus status, CalMode 
 }
 
 static void
-backend_cal_opened (CalClient *client, CalClientOpenStatus status, gpointer data)
+backend_cal_opened_offline (CalClient *client, CalClientOpenStatus status, gpointer data)
 {
 	CalendarOfflineHandler *offline_handler = data;
 
@@ -162,6 +162,19 @@ backend_cal_opened (CalClient *client, CalClientOpenStatus status, gpointer data
 }
 
 static void
+backend_cal_opened_online (CalClient *client, CalClientOpenStatus status, gpointer data)
+{
+	CalendarOfflineHandler *offline_handler = data;
+
+	if (status != CAL_CLIENT_OPEN_SUCCESS) {
+		gtk_object_unref (GTK_OBJECT (client));
+		return;
+	}
+
+	cal_client_set_mode (client, CAL_MODE_REMOTE);
+}
+
+static void
 backend_go_offline (gpointer data, gpointer user_data)
 {
 	CalendarOfflineHandler *offline_handler = user_data;
@@ -171,10 +184,28 @@ backend_go_offline (gpointer data, gpointer user_data)
 	
 	client = cal_client_new ();
 	gtk_signal_connect (GTK_OBJECT (client), "cal_opened", 
-			    backend_cal_opened, offline_handler);
+			    backend_cal_opened_offline, offline_handler);
 	success = cal_client_open_calendar (client, uri, TRUE);
 	if (!success) {
 		update_offline (offline_handler);
+		gtk_object_unref (GTK_OBJECT (client));
+		return;		
+	}	
+}
+
+static void
+backend_go_online (gpointer data, gpointer user_data)
+{
+	CalendarOfflineHandler *offline_handler = user_data;
+	char *uri = data;
+	CalClient *client;
+	gboolean success;
+	
+	client = cal_client_new ();
+	gtk_signal_connect (GTK_OBJECT (client), "cal_opened", 
+			    backend_cal_opened_online, offline_handler);
+	success = cal_client_open_calendar (client, uri, TRUE);
+	if (!success) {
 		gtk_object_unref (GTK_OBJECT (client));
 		return;		
 	}	
@@ -206,9 +237,14 @@ impl_goOnline (PortableServer_Servant servant,
 {
 	CalendarOfflineHandler *offline_handler;
 	CalendarOfflineHandlerPrivate *priv;
+	GList *uris;
 
 	offline_handler = CALENDAR_OFFLINE_HANDLER (bonobo_object_from_servant (servant));
 	priv = offline_handler->priv;
+
+	uris = cal_client_uri_list (priv->client, CAL_MODE_LOCAL);
+
+	g_list_foreach (uris, backend_go_online, offline_handler);
 }
 
 /* GtkObject methods.  */

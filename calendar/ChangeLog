@@ -1,3 +1,12 @@
+2003-02-18  JP Rosevear  <jpr@ximian.com>
+
+	Fixes #38218
+	
+	* gui/calendar-offline-handler.c (backend_cal_opened_online): set
+	the backend to REMOTE mode when it opens
+	(backend_go_online): prepare to set calendar mode to REMOTE
+	(impl_goOnline): get all the local calendars and set to REMOTE
+
 2003-02-11  JP Rosevear  <jpr@ximian.com>
 
 	Fixes #37881
