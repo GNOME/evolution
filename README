@@ -98,17 +98,14 @@ ftp.gnome.org. The (*)ed packages are available in Helix GNOME.
 
  - gdk-pixbuf - 0.7.0 or later (*)
 
- - ORBit - 0.5.1 (*) or later from the orbit-stable-0-5 branch in CVS.
-   (i.e. do 'cvs co -r orbit-stable-0-5 ORBit')
+ - ORBit - 0.5.2 or later (*, but 0.5.2 is very new, so be sure to
+   check if you have 0.5.1 and update if you do.)
 
- - oaf - 0.3 or later. Note that if you build a version newer than
-   0.3, you will need a newer version of ORBit than 0.5.1 (see above).
+ - oaf - 0.3 or later (0.4 will not build with ORBit 0.5.1)
 
  - gnome-vfs - 0.2 or later
 
- - bonobo - Evolution always tracks the latest CVS versions of bonobo.
-   Released versions will virtually always be too old (although as of
-   June 2, bonobo 0.15 is recent enough).
+ - bonobo - 0.15 or later
 
    *** Note that bonobo must be installed with the same --prefix as
    *** either gnome-libs or evolution for the Makefiles to work
@@ -119,16 +116,17 @@ ftp.gnome.org. The (*)ed packages are available in Helix GNOME.
 
  - gconf - 0.5 or later
 
- - gtkhtml - from CVS
+ - gtkhtml - 0.5 or later
 
  - libglade (*)
 
 If you want support for PalmPilot syncing (currently only supported by
-the calendar), you will also need the following packages:
+the calendar and not yet very stable/functional), you will also need
+the following packages:
 
  - pilot-link (*)
 
- - gnome-pilot (*)
+ - gnome-pilot - from CVS, with --enable-oaf
 
 
 
