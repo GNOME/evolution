@@ -1,3 +1,9 @@
+2003-01-08  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-timezone-dialog/Makefile.am: Images are now in
+	$(datadir)/evolution/images instead of
+	$(datadir)/images/evolution.
+
 2002-11-14  Chris Toshok  <toshok@ximian.com>
 
 	* menus/gal-view-menus.c (define_views): use GtkDialog's
