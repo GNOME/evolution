@@ -281,9 +281,15 @@ void            e_tree_load_expanded_state        (ETree                *et,
 						   char                 *filename);
 int             e_tree_row_count                  (ETree                *et);
 GtkWidget      *e_tree_get_tooltip                (ETree                *et);
+
+typedef enum {
+	E_TREE_FIND_NEXT_BACKWARD = 0,
+	E_TREE_FIND_NEXT_FORWARD  = 1 << 0,
+	E_TREE_FIND_NEXT_WRAP     = 1 << 1
+} ETreeFindNextParams;
+
 gboolean        e_tree_find_next                  (ETree                *et,
-						   gboolean              forward_direction,
-						   gboolean              wrap,
+						   ETreeFindNextParams   params,
 						   ETreePathFunc         func,
 						   gpointer              data);
 

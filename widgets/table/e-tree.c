@@ -1738,7 +1738,7 @@ e_tree_get_tooltip (ETree *et)
 }
 
 gboolean
-e_tree_find_next (ETree *et, gboolean forward_direction, gboolean wrap, ETreePathFunc func, gpointer data)
+e_tree_find_next (ETree *et, ETreeFindNextParams params, ETreePathFunc func, gpointer data)
 {
 	ETreePath cursor;
 	ETreePath found;
@@ -1746,7 +1746,7 @@ e_tree_find_next (ETree *et, gboolean forward_direction, gboolean wrap, ETreePat
 	cursor = e_tree_get_cursor (et);
 	cursor = e_tree_sorted_model_to_view_path (et->priv->sorted, cursor);
 
-	found = e_tree_model_node_find (E_TREE_MODEL (et->priv->sorted), cursor, NULL, forward_direction, func, data);
+	found = e_tree_model_node_find (E_TREE_MODEL (et->priv->sorted), cursor, NULL, params & E_TREE_FIND_NEXT_FORWARD, func, data);
 
 	if (found) {
 		e_tree_table_adapter_show_node (et->priv->etta, found);
@@ -1755,8 +1755,8 @@ e_tree_find_next (ETree *et, gboolean forward_direction, gboolean wrap, ETreePat
 		return TRUE;
 	}
 
-	if (wrap) {
-		found = e_tree_model_node_find (E_TREE_MODEL (et->priv->sorted), NULL, cursor, forward_direction, func, data);
+	if (params & E_TREE_FIND_NEXT_WRAP) {
+		found = e_tree_model_node_find (E_TREE_MODEL (et->priv->sorted), NULL, cursor, params & E_TREE_FIND_NEXT_FORWARD, func, data);
 
 		if (found && found != cursor) {
 			e_tree_table_adapter_show_node (et->priv->etta, found);
