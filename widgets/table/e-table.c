@@ -404,7 +404,7 @@ et_real_construct (ETable *e_table, ETableHeader *full_header, ETableModel *etm,
 	
 	gtk_scrolled_window_set_policy (
 		GTK_SCROLLED_WINDOW (scrolledwindow),
-		GTK_POLICY_NEVER,
+		GTK_POLICY_AUTOMATIC,
 		GTK_POLICY_AUTOMATIC);
 	
 	gtk_container_add (
