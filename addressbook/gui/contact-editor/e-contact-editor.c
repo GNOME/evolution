@@ -530,7 +530,7 @@ im_treeview_drag_data_get_cb(GtkWidget *widget, GdkDragContext *dc,
 		GString *str;
 		char *mime_str;
 		EContactField service_field;
-		static char *protocols[] = { "aim", "jabber", "yahoo", "msn", "icq" };
+		static char *protocols[] = { "aim", "nov", "jabber", "yahoo", "msn", "icq" };
 
 		ref = g_object_get_data(G_OBJECT(dc), "gtk-tree-view-source-row");
 		sourcerow = gtk_tree_row_reference_get_path(ref);
@@ -631,6 +631,8 @@ im_treeview_drag_data_rcv_cb(GtkWidget *widget, GdkDragContext *dc,
 
 			if (!strcmp(protocol, "aim"))
 				field = E_CONTACT_IM_AIM;
+			else if (!strcmp(protocol, "nov"))
+				field = E_CONTACT_IM_GROUPWISE;
 			else if (!strcmp(protocol, "icq"))
 				field = E_CONTACT_IM_ICQ;
 			else if (!strcmp(protocol, "yahoo"))
@@ -2853,6 +2855,7 @@ set_im_fields(EContactEditor *editor)
 	add_im_field(editor, E_CONTACT_IM_YAHOO,  "yahoo",  _("Yahoo"));
 	add_im_field(editor, E_CONTACT_IM_MSN,    "msn",    _("MSN"));
 	add_im_field(editor, E_CONTACT_IM_ICQ,    "icq",    _("ICQ"));
+	add_im_field(editor, E_CONTACT_IM_GROUPWISE, "nov", _("GroupWise"));
 }
 
 static void

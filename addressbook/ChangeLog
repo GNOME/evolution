@@ -1,3 +1,12 @@
+2004-02-25 Sivaiah Nallagatla <snallagatla@novell.com>
+	* gui/contact-editor/e-contact-editor-im.c : added 
+	groupwise im related label and icon image file name
+	
+	* gui/contact-editor/e-contact-editor.c : 
+	(im_treeview_drag_data_get_cb), (im_treeview_drag_data_rcv_cb) :
+	(set_im_fields) : added code to add Gw Im id to contact-editor 
+	
+
 2004-02-24  Hans petter Jansson  <hpj@ximian.com>
 
 	* gui/contact-editor/e-contact-quick-add.c (quick_add_set_name):

@@ -60,6 +60,7 @@ enum {
 
 static const char *im_labels[] = {
 	N_("AOL Instant Messenger"),
+        N_("Novell Groupwise"),
 	N_("Jabber"),
 	N_("Yahoo Messenger"),
 	N_("MSN Messenger"),
@@ -68,6 +69,7 @@ static const char *im_labels[] = {
 
 static const char *im_images[] = {
 	"im-aim.png",
+	"im-nov.png",
 	"im-jabber.png",
 	"im-yahoo.png",
 	"im-msn.png",
