@@ -136,6 +136,8 @@ Bugzilla bugs fixed (see http://bugzilla.ximian.com/show_bug.cgi):
     #39803 - Bottom part of text cut off in month view (Hans Petter)
     #40655 - Mini-calendar always showed January 1970 (Hans Petter)
     #39735 - View settings not persistent between sessions (Jeff)
+    #35926 - Contacts entry in appointment editor to be removed
+             (Hans Petter)
 
 Other bugs:
 
