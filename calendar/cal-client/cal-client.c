@@ -218,31 +218,8 @@ cal_client_init (CalClient *client)
 	priv->uri = NULL;
 	priv->factories = NULL;
 	priv->timezones = g_hash_table_new (g_str_hash, g_str_equal);
+	priv->w_client = NULL;
 	priv->default_zone = icaltimezone_get_utc_timezone ();
-
-	/* create the WombatClient */
-	priv->w_client = wombat_client_new (
-		(WombatClientGetPasswordFn) client_get_password_cb,
-                (WombatClientForgetPasswordFn) client_forget_password_cb,
-                (gpointer) client);
-}
-
-/* Gets rid of the WombatClient that a client knows about */
-static void
-destroy_wombat_client (CalClient *client)
-{
-        CalClientPrivate *priv;
-
-	g_return_if_fail (client != NULL);
-	g_return_if_fail (IS_CAL_CLIENT (client));
-
-        priv = client->priv;
-
-        if (!priv->w_client)
-                return;
-
-        bonobo_object_unref (BONOBO_OBJECT (priv->w_client));
-        priv->w_client = NULL;
 }
 
 /* Gets rid of the factories that a client knows about */
@@ -352,7 +329,7 @@ cal_client_destroy (GtkObject *object)
 		priv->listener = NULL;
 	}
 
-	destroy_wombat_client (client);
+	priv->w_client = NULL;
 	destroy_factories (client);
 	destroy_cal (client);
 
@@ -745,6 +722,11 @@ cal_client_open_calendar (CalClient *client, const char *str_uri, gboolean only_
 		return FALSE;
 	}
 
+	/* create the WombatClient */
+	priv->w_client = wombat_client_new (
+		(WombatClientGetPasswordFn) client_get_password_cb,
+                (WombatClientForgetPasswordFn) client_forget_password_cb,
+                (gpointer) client);
 	bonobo_object_add_interface (BONOBO_OBJECT (priv->listener),
 				     BONOBO_OBJECT (priv->w_client));
 

@@ -1,3 +1,11 @@
+2001-10-28  Rodrigo Moya <rodrigo@ximian.com>
+
+	* cal-client/cal-client.c (destroy_wombat_client): removed this
+	function, as we don't need to unref at all the WombatClient
+	object, since it is aggregated to the CalListener object, which
+	will take care of unrefing it (Fixes Ximian #12001)
+	(cal_client_open_calendar): create the WombatClient here
+
 2001-10-28  Damon Chaplin  <damon@ximian.com>
 
 	* gui/print.c (print_todo_details): get the tasks directly from the
