@@ -1223,8 +1223,11 @@ handle_multipart_signed (CamelMimePart *part, const char *mime_type,
 			 MailDisplay *md)
 {
 	CamelDataWrapper *wrapper;
-	CamelException ex;
+	CamelMultipart *mp;
+	CamelException *ex;
+	gboolean output = FALSE;
 	gboolean valid;
+	int nparts, i;
 	
 	wrapper = camel_medium_get_content_object (CAMEL_MEDIUM (part));
 	g_return_val_if_fail (CAMEL_IS_MULTIPART (wrapper), FALSE);
@@ -1233,15 +1236,46 @@ handle_multipart_signed (CamelMimePart *part, const char *mime_type,
 	if (!mail_crypto_is_rfc2015_signed (part))
 		return handle_multipart_mixed (part, mime_type, md);
 	
-	camel_exception_init (&ex);
-	valid = pgp_mime_part_verify (part, &ex);
+	ex = camel_exception_new ();
+	valid = pgp_mime_part_verify (part, ex);
 	
-	if (camel_exception_is_set (&ex)) {
-		/* FIXME: maybe we should warn the user? */
-		handle_multipart_mixed (part, mime_type, md);
+	/* now display all the subparts *except* the signature */
+	mp = CAMEL_MULTIPART (wrapper);
+	
+	nparts = camel_multipart_get_number (mp);	
+	for (i = 0; i < nparts - 1; i++) {
+		if (i != 0 && output)
+			mail_html_write (md->html, md->stream, "<hr>\n");
+		
+		part = camel_multipart_get_part (mp, i);
+		
+		output = call_handler_function (part, md);
 	}
 	
-	return valid;
+	/* Now display the "seal-of-authenticity" or something... */
+#if 0
+	if (valid) {
+		mail_html_write (md->html, md->stream,
+				 "<table><tr valign=top>"
+				 "<td><img src=\"%s\"></td>"
+				 "<td>%s<br><br></td></table>",
+				 get_url_for_icon ("wax-seal2.png", md),
+				 _("This message is digitally signed and "
+				   "has been found to be authentic."));
+	} else {
+		mail_html_write (md->html, md->stream,
+				 "<table><tr valign=top>"
+				 "<td><img src=\"%s\"></td><td>",
+				 get_url_for_icon ("wax-seal-broken.png", md));
+		mail_error_write (md->html, md->stream,
+				  camel_exception_get_description (ex));
+		mail_html_write (md->html, md->stream,
+				 "<br><br></td></table>");
+	}
+#endif
+	camel_exception_free (ex);
+	
+	return TRUE;
 }
 
 /* As seen in RFC 2387! */
