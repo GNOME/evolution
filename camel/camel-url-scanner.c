@@ -25,6 +25,7 @@
 #include <config.h>
 #endif
 
+#include <stdio.h>
 #include <string.h>
 #include <ctype.h>
 
@@ -329,12 +330,15 @@ camel_url_web_end (const char *in, const char *pos, const char *inend, urlmatch_
 	const char *save;
 	char close_brace;
 	
+	fprintf (stderr, "camel_url_web_end(%s): %.*s\n", match->pattern, inend - pos, pos);
+	
 	inptr += strlen (match->pattern);
 	
 	close_brace = url_stop_at_brace (in, match->um_so);
 	
 	/* find the end of the domain */
 	if (is_digit (*inptr)) {
+	domain_literal:
 		/* domain-literal */
 		do {
 			digits = 0;
@@ -353,6 +357,8 @@ camel_url_web_end (const char *in, const char *pos, const char *inend, urlmatch_
 		} while (parts < 4);
 	} else if (is_atom (*inptr)) {
 		/* might be a domain or user@domain */
+		fprintf (stderr, "found atom (user@domain?)...\n");
+		save = inptr;
 		while (inptr < inend) {
 			if (!is_atom (*inptr))
 				break;
@@ -362,7 +368,7 @@ camel_url_web_end (const char *in, const char *pos, const char *inend, urlmatch_
 			while (inptr < inend && is_atom (*inptr))
 				inptr++;
 			
-			if (inptr < inend && *inptr == '.' && is_atom (inptr[1]))
+			if ((inptr + 1) < inend && *inptr == '.' && is_atom (inptr[1]))
 				inptr++;
 		}
 		
@@ -383,7 +389,7 @@ camel_url_web_end (const char *in, const char *pos, const char *inend, urlmatch_
 			while (inptr < inend && is_domain (*inptr))
 				inptr++;
 			
-			if (inptr < inend && *inptr == '.' && is_domain (inptr[1]))
+			if ((inptr + 1) < inend && *inptr == '.' && is_domain (inptr[1]))
 				inptr++;
 		}
 	} else {
@@ -396,13 +402,13 @@ camel_url_web_end (const char *in, const char *pos, const char *inend, urlmatch_
 			inptr++;
 			
 			if (is_digit (*inptr) || passwd) {
-				port = 0;
+				port = (*inptr++ - '0');
 				
 				while (inptr < inend && is_digit (*inptr) && port < 65536)
 					port = (port * 10) + (*inptr++ - '0');
 				
 				if (port >= 65536) {
-					if (!passwd) {
+					if (!passwd && inptr < inend) {
 						/* this must be a password? */
 						goto passwd;
 					}
@@ -417,15 +423,16 @@ camel_url_web_end (const char *in, const char *pos, const char *inend, urlmatch_
 				while (inptr < inend && is_atom (*inptr))
 					inptr++;
 				
-				if (inptr < inend) {
+				if ((inptr + 2) < inend) {
 					if (*inptr == '@') {
-						/* there should be a domain next */
 						inptr++;
-						goto domain;
-					} else {
-						/* no idea what this is... so don't keep it */
-						inptr = save;
+						if (is_digit (*inptr))
+							goto domain_literal;
+						else if (is_domain (*inptr))
+							goto domain;
 					}
+					
+					return FALSE;
 				}
 			}
 			
