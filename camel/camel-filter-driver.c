@@ -71,6 +71,7 @@ struct _CamelFilterDriverPrivate {
 	
 	/* run-time data */
 	GHashTable *folders;       /* folders that message has been copied to */
+	int closed;		/* close count */
 	GHashTable *forwards;      /* addresses that have been forwarded the message */
 	
 	gboolean terminated;       /* message processing was terminated */
@@ -359,7 +360,7 @@ do_copy (struct _ESExp *f, int argc, struct _ESExpResult **argv, CamelFilterDriv
 			
 			outbox = open_folder (driver, folder);
 			if (!outbox)
-				continue;
+				break;
 			
 			p->copied = TRUE;
 			camel_folder_append_message (outbox, p->message, p->info, p->ex);
@@ -390,7 +391,7 @@ do_move (struct _ESExp *f, int argc, struct _ESExpResult **argv, CamelFilterDriv
 			
 			outbox = open_folder (driver, folder);
 			if (!outbox)
-				continue;
+				break;
 			
 			p->copied = TRUE;
 			p->deleted = TRUE;  /* a 'move' is a copy & delete */
@@ -475,7 +476,7 @@ open_folder (CamelFilterDriver *driver, const char *folder_url)
 	if (camelfolder)
 		return camelfolder;
 	
-	camelfolder = p->get_folder (driver, folder_url, p->data);
+	camelfolder = p->get_folder (driver, folder_url, p->data, p->ex);
 	
 	if (camelfolder) {
 		g_hash_table_insert (p->folders, g_strdup (folder_url), camelfolder);
@@ -492,6 +493,9 @@ close_folder (void *key, void *value, void *data)
 	CamelFilterDriver *driver = data;
 	struct _CamelFilterDriverPrivate *p = _PRIVATE (driver);
 	
+	report_status(driver, FILTER_STATUS_PROGRESS, g_hash_table_size(p->folders) * 100 / p->closed, "Syncing folders");
+	p->closed++;
+
 	g_free (key);
 	camel_folder_sync (folder, FALSE, p->ex);
 	camel_folder_thaw (folder);
@@ -504,6 +508,7 @@ close_folders (CamelFilterDriver *driver)
 {
 	struct _CamelFilterDriverPrivate *p = _PRIVATE (driver);
 	
+	p->closed = 0;
 	g_hash_table_foreach (p->folders, close_folder, driver);
 	g_hash_table_destroy (p->folders);
 	p->folders = g_hash_table_new (g_str_hash, g_str_equal);
@@ -576,7 +581,7 @@ camel_filter_driver_log (CamelFilterDriver *driver, enum filter_log_t status, co
 
 /* will filter only an mbox - is more efficient as it doesn't need to open the folder through camel directly */
 void
-camel_filter_driver_filter_mbox (CamelFilterDriver *driver, const char *mbox, const char *source, CamelException *ex)
+camel_filter_driver_filter_mbox (CamelFilterDriver *driver, const char *mbox, CamelException *ex)
 {
 	struct _CamelFilterDriverPrivate *p = _PRIVATE (driver);
 	CamelMimeParser *mp = NULL;
@@ -620,7 +625,7 @@ camel_filter_driver_filter_mbox (CamelFilterDriver *driver, const char *mbox, co
 			goto fail;
 		}
 		
-		camel_filter_driver_filter_message (driver, msg, NULL, source_url, source, ex);
+		camel_filter_driver_filter_message (driver, msg, NULL, source_url, ex);
 		camel_object_unref (CAMEL_OBJECT (msg));
 		if (camel_exception_is_set (ex)) {
 			report_status (driver, FILTER_STATUS_END, 100, "Failed message %d", i);
@@ -634,10 +639,12 @@ camel_filter_driver_filter_mbox (CamelFilterDriver *driver, const char *mbox, co
 		camel_mime_parser_step (mp, 0, 0);
 	}
 
+	if (p->defaultfolder) {
+		report_status(driver, FILTER_STATUS_PROGRESS, 100, "Syncing folder");
+		camel_folder_sync(p->defaultfolder, FALSE, ex);
+	}
+
 	report_status (driver, FILTER_STATUS_END, 100, "Complete");
-	
-	if (p->defaultfolder)
-		camel_folder_sync (p->defaultfolder, FALSE, ex);
 	
 fail:
 	g_free (source_url);
@@ -649,7 +656,7 @@ fail:
 
 /* will filter a folder */
 void
-camel_filter_driver_filter_folder (CamelFilterDriver *driver, CamelFolder *folder, const char *source,
+camel_filter_driver_filter_folder (CamelFilterDriver *driver, CamelFolder *folder,
 				   GPtrArray *uids, gboolean remove, CamelException *ex)
 {
 	struct _CamelFilterDriverPrivate *p = _PRIVATE (driver);
@@ -684,7 +691,7 @@ camel_filter_driver_filter_folder (CamelFilterDriver *driver, CamelFolder *folde
 		else
 			info = NULL;
 		
-		camel_filter_driver_filter_message (driver, message, info, source_url, source, ex);
+		camel_filter_driver_filter_message (driver, message, info, source_url, ex);
 
 		if (camel_folder_has_summary_capability (folder))
 			camel_folder_free_message_info (folder, info);
@@ -701,21 +708,25 @@ camel_filter_driver_filter_folder (CamelFilterDriver *driver, CamelFolder *folde
 		camel_object_unref (CAMEL_OBJECT (message));
 	}
 
+	if (freeuids)
+		camel_folder_free_uids (folder, uids);
+
+	
+	if (p->defaultfolder) {
+		report_status(driver, FILTER_STATUS_PROGRESS, 100, "Syncing folder");
+		camel_folder_sync (p->defaultfolder, FALSE, ex);
+	}
+
 	if (i == uids->len)
 		report_status (driver, FILTER_STATUS_END, 100, "Complete");
 	
-	if (freeuids)
-		camel_folder_free_uids (folder, uids);
-	
-	if (p->defaultfolder)
-		camel_folder_sync (p->defaultfolder, FALSE, ex);
 	
 	g_free (source_url);
 }
 
 void
 camel_filter_driver_filter_message (CamelFilterDriver *driver, CamelMimeMessage *message, CamelMessageInfo *info,
-				    const char *source_url, const char *source, CamelException *ex)
+				    const char *source_url, CamelException *ex)
 {
 	struct _CamelFilterDriverPrivate *p = _PRIVATE (driver);
 	ESExpResult *r;

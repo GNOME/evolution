@@ -55,7 +55,7 @@ enum camel_filter_status_t {
 	FILTER_STATUS_END,	/* end of message */
 };
 
-typedef CamelFolder * (*CamelFilterGetFolderFunc) (CamelFilterDriver *, const char *uri, void *data);
+typedef CamelFolder * (*CamelFilterGetFolderFunc) (CamelFilterDriver *, const char *uri, void *data, CamelException *ex);
 /* report status */
 typedef void (CamelFilterStatusFunc)(CamelFilterDriver *driver, enum camel_filter_status_t status, int pc, const char *desc, void *data);
 
@@ -71,9 +71,9 @@ void 	camel_filter_driver_add_rule		(CamelFilterDriver *d, const char *name, con
 /*void camel_filter_driver_set_global(CamelFilterDriver *, const char *name, const char *value);*/
 
 void    camel_filter_driver_filter_message      (CamelFilterDriver *driver, CamelMimeMessage *message, CamelMessageInfo *info,
-						 const char *source_url, const char *source, CamelException *ex);
-void    camel_filter_driver_filter_mbox         (CamelFilterDriver *driver, const char *mbox, const char *source, CamelException *ex);
-void    camel_filter_driver_filter_folder       (CamelFilterDriver *driver, CamelFolder *folder, const char *source,
+						 const char *source_url, CamelException *ex);
+void    camel_filter_driver_filter_mbox         (CamelFilterDriver *driver, const char *mbox, CamelException *ex);
+void    camel_filter_driver_filter_folder       (CamelFilterDriver *driver, CamelFolder *folder,
 						 GPtrArray *uids, gboolean remove, CamelException *ex);
 
 #if 0

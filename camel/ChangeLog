@@ -1,3 +1,21 @@
+2001-01-21  Not Zed  <NotZed@Ximian.com>
+
+	* camel-filter-driver.h: Added an exception to
+	CamelFilterGetFolderFunc.
+
+	* camel-filter-driver.c (camel_filter_driver_filter_message):
+	Remove source parameter, as it is determined elsewhere now.
+	(camel_filter_driver_filter_folder): Same here.
+	(camel_filter_driver_filter_mbox): And here.
+	(do_move): If we cannot open a folder, quit, rather than ignoring
+	it.
+	(do_copy): Here too.
+	(open_folder): Pass an exception into get_folder callback.
+	(camel_filter_driver_filter_folder): Report that we're syncing,
+	when we are.
+	(camel_filter_driver_filter_mbox): And here too.
+	(close_folder): And here.
+
 2001-01-19  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-filter-driver.c (camel_filter_driver_filter_message): Set
