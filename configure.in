@@ -1281,6 +1281,7 @@ a11y/Makefile
 a11y/calendar/Makefile
 a11y/widgets/Makefile
 addressbook/Makefile
+addressbook/conduit/Makefile
 addressbook/gui/Makefile
 addressbook/gui/component/Makefile
 addressbook/gui/component/select-names/Makefile
@@ -1289,7 +1290,7 @@ addressbook/gui/contact-list-editor/Makefile
 addressbook/gui/merging/Makefile
 addressbook/gui/search/Makefile
 addressbook/gui/widgets/Makefile
-addressbook/conduit/Makefile
+addressbook/importers/Makefile
 addressbook/printing/Makefile
 addressbook/util/Makefile
 art/Makefile
