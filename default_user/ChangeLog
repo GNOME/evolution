@@ -1,3 +1,9 @@
+2000-09-01  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* local/Makefile.am: Added Sentbox
+
+	* local/Sentbox/*: New folder for storing sent messages
+
 2000-07-12  Chris Toshok  <toshok@helixcode.com>
 
 	(install-data-hook): ignore error on mkdir.
@@ -67,3 +73,5 @@
 000-05-06  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* default_user/local/Inbox/Makefile.am: Install `mbox'.
+
+	
