@@ -216,6 +216,7 @@ my-evolution/e-summary-weather.c
 my-evolution/e-summary.c
 my-evolution/main.c
 my-evolution/metar.c
+my-evolution/my-evolution.glade
 shell/e-activity-handler.c
 shell/e-setup.c
 shell/e-shell.c
