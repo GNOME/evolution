@@ -21,7 +21,13 @@ e_unicode_init (void)
 	static gboolean initialized = FALSE;
 
 	if (!initialized) {
-		unicode_init ();
+		unicode_iconv_t hackhack;
+
+		if ((hackhack = unicode_iconv_open("ASCII", "ASCII")) == (unicode_iconv_t) -1)
+			unicode_init ();
+		else
+			unicode_iconv_close(hackhack);
+
 		initialized = TRUE;
 	}
 }
@@ -202,6 +208,7 @@ e_utf8_to_gtk_string (GtkWidget *widget, const gchar *string)
 {
 	return e_utf8_to_gtk_string_sized (widget, string, strlen (string));
 }
+
 gchar *
 e_utf8_gtk_entry_get_text (GtkEntry *entry)
 {
@@ -211,6 +218,12 @@ e_utf8_gtk_entry_get_text (GtkEntry *entry)
 	if (!s) return NULL;
 	u = e_utf8_from_gtk_string ((GtkWidget *) entry, s);
 	return u;
+}
+
+gchar *
+e_utf8_gtk_editable_get_text (GtkEditable *editable)
+{
+	return e_utf8_gtk_editable_get_chars(editable, 0, -1);
 }
 
 gchar *
@@ -238,18 +251,29 @@ e_utf8_gtk_editable_insert_text (GtkEditable *editable, const gchar *text, gint 
 }
 
 void
-e_utf8_gtk_entry_set_text (GtkEntry *entry, const gchar *text)
+e_utf8_gtk_editable_set_text (GtkEditable *editable, const gchar *text)
 {
-	gchar *s;
-
-	if (!text) return;
-
-	s = e_utf8_to_gtk_string ((GtkWidget *) entry, text);
-	gtk_entry_set_text (entry, s);
-
-	if (s) g_free (s);
+	int position;
+	gtk_editable_delete_text(editable, 0, -1);
+	if (text)
+		e_utf8_gtk_editable_insert_text(editable, text, strlen(text), &position);
 }
 
+void
+e_utf8_gtk_entry_set_text (GtkEntry *entry, const gchar *text)
+{
+	if (!text)
+		gtk_entry_set_text(entry, "");
+	else {
+		gchar *s;
+
+		s = e_utf8_to_gtk_string ((GtkWidget *) entry, text);
+		gtk_entry_set_text (entry, s);
+		
+		if (s) g_free (s);
+	}
+}
+	
 GtkWidget *
 e_utf8_gtk_menu_item_new_with_label (GtkMenu *menu, const gchar *label)
 {

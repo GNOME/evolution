@@ -37,6 +37,8 @@ gchar * e_utf8_to_gtk_string_sized (GtkWidget *widget, const gchar *string, gint
 gchar *e_utf8_gtk_entry_get_text (GtkEntry *entry);
 void e_utf8_gtk_entry_set_text (GtkEntry *entry, const gchar *text);
 
+gchar *e_utf8_gtk_editable_get_text (GtkEditable *editable);
+void e_utf8_gtk_editable_set_text (GtkEditable *editable, const gchar *text);
 gchar *e_utf8_gtk_editable_get_chars (GtkEditable *editable, gint start, gint end);
 void e_utf8_gtk_editable_insert_text (GtkEditable *editable, const gchar *text, gint length, gint *position);
 
