@@ -856,10 +856,8 @@ ecard_from_remote_record(EAddrConduitContext *ctxt,
 
 	/* Name */
 	name = e_card_name_copy (ecard->name);
-	if (address.entry[entryFirstname] && *address.entry[entryFirstname])
-		name->given = g_strdup (address.entry[entryFirstname]);
-	if (address.entry[entryLastname] && *address.entry[entryLastname])
-		name->family = g_strdup (address.entry[entryLastname]);
+	name->given = get_entry_text (address, entryFirstname);
+	name->family = get_entry_text (address, entryLastname);
 
 	simple = e_card_simple_new (ecard);
 	txt = e_card_name_to_string (name);	

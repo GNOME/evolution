@@ -1,5 +1,9 @@
 2001-10-30  JP Rosevear  <jpr@ximian.com>
 
+	* conduit/address-conduit.c (ecard_from_remote_record): make sure
+	to translate the character sets of the names
+
+2001-10-30  JP Rosevear  <jpr@ximian.com>	
 	* gui/component/select-names/e-select-names-bonobo.c
 	(manager_ok_cb): send a null bonobo arg to prevent explosion
 
