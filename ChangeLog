@@ -1,5 +1,13 @@
 1999-11-17  Ettore Perazzoli  <ettore@gnu.org>
 
+	* composer/Makefile.am (EXTRA_DIST): Added `$(glade_DATA)'.
+
+	* camel/Makefile.am (EXTRA_DIST): Added
+	`$(libcamel_extra_sources)'.
+	(libcamelinclude_HEADERS): Added `gmime-base64.h'.
+
+1999-11-17  Ettore Perazzoli  <ettore@gnu.org>
+
 	* camel/camel-mime-message.c (_write_to_stream): Removed extra ':'
 	in the `Mime-Version' header.
 

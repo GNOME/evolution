@@ -41,4 +41,5 @@ evolution_msg_composer_LDADD = 			\
 
 
 EXTRA_DIST =					\
+	$(glade_DATA)				\
 	ChangeLog

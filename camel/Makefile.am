@@ -96,6 +96,7 @@ libcamelinclude_HEADERS =			\
 	camel-stream-fs.h			\
 	camel-stream-mem.h			\
 	data-wrapper-repository.h		\
+	gmime-base64.h				\
 	gmime-content-field.h			\
 	gmime-utils.h				\
 	gstring-util.h				\
@@ -106,10 +107,11 @@ libcamelinclude_HEADERS =			\
 	camel-exception-list.def		\
 	$(pthread_HDR)
 
-libcamel_extra_sources = \
+libcamel_extra_sources =			\
 	camel-arg-collector.c
 
 libcamel_la_LDFLAGS = -version-info 0:0:0 -rpath $(libdir)
 
-
-EXTRA_DIST = README 
+EXTRA_DIST =					\
+	$(libcamel_extra_sources)		\
+	README 
