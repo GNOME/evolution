@@ -1,3 +1,8 @@
+2000-03-28  Matt Loper  <matt@helixcode.com>
+
+	* pcs/Makefile.am: create a libpcs.la library, for use in the
+	wombat.
+
 2000-03-28  Seth Alves  <alves@hungry.com>
 
 	* gui/Makefile.am (LINK_FLAGS): added libeutil.la and libetext.a

@@ -3,6 +3,7 @@
 #
 
 bin_PROGRAMS = tlacuache
+lib_LTLIBRARIES = libpcs.la
 
 #INCLUDES = \
 #        -DGNOMELOCALEDIR=\""$(datadir)/locale"\" \
@@ -65,6 +66,23 @@ tlacuache_SOURCES =		\
 #	cal-util.c		\
 #	cal-util.h		\
 
+libpcs_la_SOURCES =             \
+	$(CORBA_GENERATED)	\
+	cal.c			\
+	cal-backend.c		\
+	cal-factory.c		\
+	icalendar.c		\
+	job.c			
+
+libpcsincludedir = $(includedir)/calendar/pcs
+
+libpcsinclude_HEADERS =					\
+	cal.h			\
+	cal-backend.h		\
+	cal-common.h		\
+	cal-factory.h		\
+	icalendar.h		\
+	job.h			
 
 ICAL_LINK_FLAGS = $(top_builddir)/libical/src/libical/libical.la
 

@@ -7,3 +7,4 @@ evolution-calendar-common.c
 evolution-calendar.h
 tlacuache
 .libs
+*.la

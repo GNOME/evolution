@@ -1,3 +1,13 @@
+2000-03-28  Matt Loper  <matt@helixcode.com>
+
+	* wombat/wombat.gnorba: new file.
+
+	* wombat/.cvsignore: new file.
+
+	* wombat/wombat.c (setup_pcs): fill out this function some.
+
+	* configure.in: added wombat.
+
 2000-03-28  Chris Toshok  <toshok@laptoph.xtoph.org>
 
 	* addressbook/backend/pas/pas-backend-file.c

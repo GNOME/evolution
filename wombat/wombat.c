@@ -7,8 +7,8 @@
 
 #include <config.h>
 #include <bonobo.h>
-#include <addressbook/backend/pas/pas-book-factory.h>
-#include <addressbook/backend/pas/pas-backend-file.h>
+#include <backend/pas-book-factory.h>
+#include <backend/pas-backend-file.h>
 
 CORBA_Environment ev;
 CORBA_ORB orb;
@@ -26,9 +26,20 @@ setup_pas (int argc, char **argv)
 	pas_book_factory_activate (factory);
 }
 
+#include "cal-factory.h"
+#include "calobj.h"
 static void
 setup_pcs (int argc, char **argv)
 {
+	CalFactory *factory;
+
+	factory = cal_factory_new ();
+	if (!factory) {
+		g_message ("%s: %d: couldn't create a Calendar factory\n",
+			   __FILE__, __LINE__);
+	}
+	
+		
 }
 
 static void
@@ -36,6 +47,7 @@ setup_config (int argc, char **argv)
 {
 }
 
+#include <libgnomevfs/gnome-vfs-init.h>
 static void
 setup_vfs (int argc, char **argv)
 {
@@ -45,6 +57,7 @@ setup_vfs (int argc, char **argv)
 	}
 }
 
+#include <libgnorba/gnorba.h>
 static void
 init_bonobo (int argc, char **argv)
 {
