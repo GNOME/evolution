@@ -872,6 +872,7 @@ mbox_get_message_by_uid (CamelFolder *folder, const gchar *uid, CamelException *
 	/* we use a parser to verify the message is correct, and in the correct position */
 	parser = camel_mime_parser_new();
 	camel_mime_parser_init_with_stream(parser, message_stream);
+	gtk_object_unref((GtkObject *)message_stream);
 	camel_mime_parser_scan_from(parser, TRUE);
 
 	camel_mime_parser_seek(parser, info->frompos, SEEK_SET);
@@ -915,8 +916,6 @@ fail:
 	}
 	if (parser)
 		gtk_object_unref((GtkObject *)parser);
-	if (message_stream)
-		gtk_object_unref((GtkObject *)message_stream);
 	if (message)
 		gtk_object_unref((GtkObject *)message);
 
