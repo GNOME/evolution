@@ -461,7 +461,7 @@ cal_backend_file_get_alarm_email_address (CalBackend *backend)
 static const char *
 cal_backend_file_get_static_capabilities (CalBackend *backend)
 {
- 	return "no-email-alarms";
+ 	return CAL_STATIC_CAPABILITY_NO_EMAIL_ALARMS;
 }
 
 /* Idle handler; we save the calendar since it is dirty */

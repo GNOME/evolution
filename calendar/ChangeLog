@@ -1,3 +1,10 @@
+2003-04-10  Rodrigo Moya <rodrigo@ximian.com>
+
+	* cal-util/cal-util.h: added #define's for static capabilities.
+
+	* pcs/cal-backend-file.c (cal_backend_file_get_static_capabilities):
+	use the #define's above.
+
 2003-04-09  Chris Toshok  <toshok@ximian.com>
 
 	Fixes #40133

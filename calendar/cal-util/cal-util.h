@@ -99,6 +99,17 @@ char *cal_util_expand_uri (char *uri, gboolean tasks);
 void cal_util_add_timezones_from_component (icalcomponent *vcal_comp,
 					    CalComponent *comp);
 
+/* The static capabilities to be supported by backends */
+#define CAL_STATIC_CAPABILITY_NO_ALARM_REPEAT             "no-alarm-repeat"
+#define CAL_STATIC_CAPABILITY_NO_EMAIL_ALARMS             "no-email-alarms"
+#define CAL_STATIC_CAPABILITY_NO_TASK_ASSIGNMENT          "no-task-assignment"
+#define CAL_STATIC_CAPABILITY_NO_TRANSPARENCY             "no-transparency"
+#define CAL_STATIC_CAPABILITY_ONE_ALARM_ONLY              "one-alarm-only"
+#define CAL_STATIC_CAPABILITY_ORGANIZER_MUST_ATTEND       "organizer-must-attend"
+#define CAL_STATIC_CAPABILITY_ORGANIZER_NOT_EMAIL_ADDRESS "organizer-not-email-address"
+#define CAL_STATIC_CAPABILITY_REMOVE_ALARMS               "remove-alarms"
+#define CAL_STATIC_CAPABILITY_SAVE_SCHEDULES              "save-schedules"
+
 G_END_DECLS
 
 #endif
