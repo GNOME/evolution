@@ -39,7 +39,8 @@ evolution_mail_LDADD = 					\
 	../widgets/e-text/libetext.a			\
 	../camel/libcamel.la				\
 	../e-util/libeutil.a				\
-	$(BONOBO_HTML_GNOME_LIBS)				
+	$(BONOBO_HTML_GNOME_LIBS)			\
+        -lunicode
 
 test_mail_SOURCES = \
 	test-mail.c
