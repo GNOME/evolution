@@ -1,3 +1,12 @@
+2001-10-03  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* e-msg-composer.c (autosave_save_draft): Make sure to unref the
+	message object so we don't leak it or any references to
+	attachments (child mime parts).
+
+	* e-msg-composer-attachment.c (e_msg_composer_attachment_new):
+	Unref the mime part after passing it along to new_from_mime_part.
+
 2001-10-02  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* e-msg-composer.c (save_draft): Pass an empty flags argument to

@@ -1022,7 +1022,7 @@ static AutosaveManager *am = NULL;
 static gboolean
 autosave_save_draft (EMsgComposer *composer)
 {
-	CamelMimeMessage *msg;
+	CamelMimeMessage *message;
 	CamelStream *stream;
 	char *file;
 	gint fd;
@@ -1037,21 +1037,23 @@ autosave_save_draft (EMsgComposer *composer)
 		return FALSE;
 	}
 	
-	msg = e_msg_composer_get_message_draft (composer);
+	message = e_msg_composer_get_message_draft (composer);
 	
-	if (msg == NULL) {
+	if (message == NULL) {
 		e_notice (GTK_WINDOW (composer), GNOME_MESSAGE_BOX_ERROR,
 			  _("Unable to retrieve message from editor"));
 		return FALSE;
 	}
 	
 	if (lseek (fd, (off_t)0, SEEK_SET) == -1) {
+		camel_object_unref (CAMEL_OBJECT (message));
 		e_notice (GTK_WINDOW (composer), GNOME_MESSAGE_BOX_ERROR,
 			  _("Unable to seek on file: %s\n%s"), file, g_strerror (errno));
 		return FALSE;
 	}
 	
 	if (ftruncate (fd, (off_t)0) == -1) {
+		camel_object_unref (CAMEL_OBJECT (message));
 		e_notice (GTK_WINDOW (composer), GNOME_MESSAGE_BOX_ERROR,
 			  _("Unable to truncate file: %s\n%s"), file, g_strerror (errno));
 		return FALSE;
@@ -1059,7 +1061,7 @@ autosave_save_draft (EMsgComposer *composer)
 	
 	/* this does an lseek so we don't have to */
 	stream = camel_stream_fs_new_with_fd (fd);
-	if (camel_data_wrapper_write_to_stream ((CamelDataWrapper *)msg, stream) == -1
+	if (camel_data_wrapper_write_to_stream (CAMEL_DATA_WRAPPER (message), stream) == -1
 	    || camel_stream_flush (CAMEL_STREAM (stream)) == -1) {
 		e_notice (GTK_WINDOW (composer), GNOME_MESSAGE_BOX_ERROR,
 			  _("Error autosaving message: %s\n %s"), file, strerror(errno));
@@ -1070,7 +1072,9 @@ autosave_save_draft (EMsgComposer *composer)
 	/* set the fd to -1 in the stream so camel doesn't close it we want to keep it open */
 	CAMEL_STREAM_FS (stream)->fd = -1;
 	camel_object_unref (CAMEL_OBJECT (stream));
-
+	
+	camel_object_unref (CAMEL_OBJECT (message));
+	
 	return success;
 }
 

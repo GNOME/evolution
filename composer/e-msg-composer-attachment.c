@@ -63,7 +63,7 @@ destroy (GtkObject *object)
 	EMsgComposerAttachment *attachment;
 
 	attachment = E_MSG_COMPOSER_ATTACHMENT (object);
-
+	
 	camel_object_unref (CAMEL_OBJECT (attachment->body));
 	if (attachment->pixbuf_cache != NULL)
 		gdk_pixbuf_unref (attachment->pixbuf_cache);
@@ -193,7 +193,7 @@ e_msg_composer_attachment_new (const gchar *file_name,
 	
 	camel_mime_part_set_filename (part, filename);
 	g_free (filename);
-
+	
 #if 0
 	/* Note: Outlook 2002 is broken with respect to Content-Ids on
            non-multipart/related parts, so as an interoperability
@@ -206,6 +206,7 @@ e_msg_composer_attachment_new (const gchar *file_name,
 #endif
 	
 	new = e_msg_composer_attachment_new_from_mime_part (part);
+	camel_object_unref (CAMEL_OBJECT (part));
 	
 	new->size = statbuf.st_size;
 	new->guessed_type = TRUE;
@@ -346,7 +347,7 @@ ok_cb (GtkWidget *widget,
 
 	str = e_utf8_gtk_entry_get_text (dialog_data->mime_type_entry);
 	camel_mime_part_set_content_type (attachment->body, str);
-
+	
 	camel_data_wrapper_set_mime_type (
 		camel_medium_get_content_object (CAMEL_MEDIUM (attachment->body)), str);
 	g_free (str);
