@@ -1,5 +1,9 @@
 2001-08-29  Jon Trowbridge  <trow@ximian.com>
 
+	* gui/component/select-names/e-select-names-completion.c
+	(book_query_score): Make sure that comp->priv->query_text isn't
+	NULL.  (Fixes bug #8195)
+
 	* backend/ebook/e-book-listener.c (e_book_listener_check_queue):
 	This function can be re-entrant during the signal emission; Added
 	extra ref/unrefs and checks to avoid problems if this happens.

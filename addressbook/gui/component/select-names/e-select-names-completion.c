@@ -135,9 +135,11 @@ static ECompletionMatch *
 match_nickname (ESelectNamesCompletion *comp, EDestination *dest)
 {
 	ECompletionMatch *match = NULL;
-	gint len = strlen (comp->priv->query_text);
+	gint len;
 	ECard *card = e_destination_get_card (dest);
 	double score;
+
+	len = strlen (comp->priv->query_text);
 
 	if (card->nickname
 	    && !g_utf8_strncasecmp (comp->priv->query_text, card->nickname, len)) {
@@ -555,9 +557,12 @@ book_query_score (ESelectNamesCompletion *comp, EDestination *dest)
 	ECompletionMatch *best_match = NULL;
 	gint i;
 
-	g_return_val_if_fail (comp && E_IS_SELECT_NAMES_COMPLETION (comp), NULL);
-	g_return_val_if_fail (dest && E_IS_DESTINATION (dest), NULL);
+	g_return_val_if_fail (E_IS_SELECT_NAMES_COMPLETION (comp), NULL);
+	g_return_val_if_fail (E_IS_DESTINATION (dest), NULL);
 
+	if (! (comp->priv->query_text && *comp->priv->query_text))
+		return NULL;
+	
 	for (i=0; i<book_query_count; ++i) {
 
 		ECompletionMatch *this_match = NULL;
