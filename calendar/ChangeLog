@@ -1,5 +1,26 @@
 2000-07-26  Federico Mena Quintero  <federico@helixcode.com>
 
+	OK, it seems that we have all the interesting properties for
+	single-user calendars now.  RFC 2445 can bite me.
+
+	* cal-util/cal-component.c (scan_property): Handle the RRULE
+	property.  Yay!.
+	(scan_recur): Likewise, yow!
+	(get_recur_list): Likewise, yeehaw!
+	(get_recur_list): Likewise, honk honk!
+	(set_recur_list): Likewise, booooga booooga!
+	(cal_component_get_rrule_list): Likewise, squeek squeek!
+	(cal_component_set_rrule_list): That's it, I ran out of sounds.
+	(cal_component_free_recur_list): Likewise.
+	(scan_property): Handle the EXRULE property.
+	(free_icalcomponent): Likewise.
+	(cal_component_get_exrule_list): Likewise.
+	(cal_component_set_exrule_list): Likewise.
+	(set_period_list): Oops, free the old properties as well as
+	removing them.
+	(set_text_list): Ditto.
+	(cal_component_set_exdate_list): Ditto.
+
 	* cal-util/cal-component.c: Put all the functions used to free
 	returned values all together.
 	(cal_component_set_rdate_list): Oops, mark SEQUENCE property to be

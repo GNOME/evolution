@@ -69,6 +69,7 @@ struct _CalComponentPrivate {
 	struct datetime due;
 
 	GSList *exdate_list; /* list of icalproperty objects */
+	GSList *exrule_list; /* list of icalproperty objects */
 
 	icalproperty *last_modified;
 
@@ -78,6 +79,8 @@ struct _CalComponentPrivate {
 	};
 
 	GSList *rdate_list; /* list of struct period */
+
+	GSList *rrule_list; /* list of icalproperty objects */
 
 	icalproperty *sequence;
 
@@ -236,9 +239,15 @@ free_icalcomponent (CalComponent *comp)
 	g_slist_free (priv->exdate_list);
 	priv->exdate_list = NULL;
 
+	g_slist_free (priv->exrule_list);
+	priv->exrule_list = NULL;
+
 	priv->last_modified = NULL;
 
 	priv->rdate_list = free_slist (priv->rdate_list);
+
+	g_slist_free (priv->rrule_list);
+	priv->rrule_list = NULL;
 
 	priv->sequence = NULL;
 
@@ -366,6 +375,7 @@ scan_exdate (CalComponent *comp, icalproperty *prop)
 	priv->exdate_list = g_slist_append (priv->exdate_list, prop);
 }
 
+/* Scans an icalperiodtype property */
 static void
 scan_period (CalComponent *comp, GSList **list, icalproperty *prop)
 {
@@ -376,6 +386,13 @@ scan_period (CalComponent *comp, GSList **list, icalproperty *prop)
 	period->value_param = icalproperty_get_first_parameter (prop, ICAL_VALUE_PARAMETER);
 
 	*list = g_slist_append (*list, period);
+}
+
+/* Scans an icalrecurtype property */
+static void
+scan_recur (CalComponent *comp, GSList **list, icalproperty *prop)
+{
+	*list = g_slist_append (*list, prop);
 }
 
 /* Scans the summary property */
@@ -459,12 +476,20 @@ scan_property (CalComponent *comp, icalproperty *prop)
 		scan_exdate (comp, prop);
 		break;
 
+	case ICAL_EXRULE_PROPERTY:
+		scan_recur (comp, &priv->exrule_list, prop);
+		break;
+
 	case ICAL_LASTMODIFIED_PROPERTY:
 		priv->last_modified = prop;
 		break;
 
 	case ICAL_RDATE_PROPERTY:
 		scan_period (comp, &priv->rdate_list, prop);
+		break;
+
+	case ICAL_RRULE_PROPERTY:
+		scan_recur (comp, &priv->rrule_list, prop);
 		break;
 
 	case ICAL_SEQUENCE_PROPERTY:
@@ -1083,6 +1108,7 @@ set_text_list (CalComponent *comp,
 		g_assert (text->prop != NULL);
 
 		icalcomponent_remove_property (priv->icalcomp, text->prop);
+		icalproperty_free (text->prop);
 		g_free (text);
 	}
 
@@ -1710,6 +1736,7 @@ set_period_list (CalComponent *comp,
 		g_assert (period->prop != NULL);
 
 		icalcomponent_remove_property (priv->icalcomp, period->prop);
+		icalproperty_free (period->prop);
 		g_free (period);
 	}
 
@@ -1824,6 +1851,7 @@ cal_component_set_exdate_list (CalComponent *comp, GSList *exdate_list)
 
 		prop = l->data;
 		icalcomponent_remove_property (priv->icalcomp, prop);
+		icalproperty_free (prop);
 	}
 
 	g_slist_free (priv->exdate_list);
@@ -1845,6 +1873,123 @@ cal_component_set_exdate_list (CalComponent *comp, GSList *exdate_list)
 	}
 
 	priv->exdate_list = g_slist_reverse (priv->exdate_list);
+
+	priv->need_sequence_inc = TRUE;
+}
+
+/* Gets a list of recurrence rules */
+static void
+get_recur_list (GSList *recur_list,
+		struct icalrecurrencetype (* get_prop_func) (icalproperty *prop),
+		GSList **list)
+{
+	GSList *l;
+
+	*list = NULL;
+
+	for (l = recur_list; l; l = l->next) {
+		icalproperty *prop;
+		struct icalrecurrencetype *r;
+
+		prop = l->data;
+
+		r = g_new (struct icalrecurrencetype, 1);
+		*r = (* get_prop_func) (prop);
+
+		*list = g_slist_prepend (*list, r);
+	}
+
+	*list = g_slist_reverse (*list);
+}
+
+/* Sets a list of recurrence rules */
+static void
+set_recur_list (CalComponent *comp,
+		icalproperty *(* new_prop_func) (struct icalrecurrencetype recur),
+		GSList **recur_list,
+		GSList *rl)
+{
+	CalComponentPrivate *priv;
+	GSList *l;
+
+	priv = comp->priv;
+
+	/* Remove old recurrences */
+
+	for (l = *recur_list; l; l = l->next) {
+		icalproperty *prop;
+
+		prop = l->data;
+		icalcomponent_remove_property (priv->icalcomp, prop);
+		icalproperty_free (prop);
+	}
+
+	g_slist_free (*recur_list);
+	*recur_list = NULL;
+
+	/* Add in new recurrences */
+
+	for (l = rl; l; l = l->next) {
+		icalproperty *prop;
+		struct icalrecurrencetype *recur;
+
+		g_assert (l->data != NULL);
+		recur = l->data;
+
+		prop = (* new_prop_func) (*recur);
+		icalcomponent_add_property (priv->icalcomp, prop);
+
+		*recur_list = g_slist_prepend (*recur_list, prop);
+	}
+
+	*recur_list = g_slist_reverse (*recur_list);
+}
+
+/**
+ * cal_component_get_exrule_list:
+ * @comp: A calendar component object.
+ * @recur_list: List of exception rules as struct #icalrecurrencetype
+ * structures.  This should be freed using the cal_component_free_recur_list()
+ * function.
+ * 
+ * Queries the list of exception rule properties of a calendar component
+ * object.
+ **/
+void
+cal_component_get_exrule_list (CalComponent *comp, GSList **recur_list)
+{
+	CalComponentPrivate *priv;
+
+	g_return_if_fail (comp != NULL);
+	g_return_if_fail (IS_CAL_COMPONENT (comp));
+	g_return_if_fail (recur_list != NULL);
+
+	priv = comp->priv;
+	g_return_if_fail (priv->icalcomp != NULL);
+
+	get_recur_list (priv->exrule_list, icalproperty_get_exrule, recur_list);
+}
+
+/**
+ * cal_component_set_exrule_list:
+ * @comp: A calendar component object.
+ * @recur_list: List of struct #icalrecurrencetype structures.
+ * 
+ * Sets the list of exception rules in a calendar component object.
+ **/
+void
+cal_component_set_exrule_list (CalComponent *comp, GSList *recur_list)
+{
+	CalComponentPrivate *priv;
+
+	g_return_if_fail (comp != NULL);
+	g_return_if_fail (IS_CAL_COMPONENT (comp));
+	g_return_if_fail (recur_list != NULL);
+
+	priv = comp->priv;
+	g_return_if_fail (priv->icalcomp != NULL);
+
+	set_recur_list (comp, icalproperty_new_exrule, &priv->exrule_list, recur_list);
 
 	priv->need_sequence_inc = TRUE;
 }
@@ -1942,6 +2087,55 @@ cal_component_set_rdate_list (CalComponent *comp, GSList *period_list)
 	g_return_if_fail (priv->icalcomp != NULL);
 
 	set_period_list (comp, icalproperty_new_rdate, &priv->rdate_list, period_list);
+
+	priv->need_sequence_inc = TRUE;
+}
+
+/**
+ * cal_component_get_rrule_list:
+ * @comp: A calendar component object.
+ * @recur_list: List of recurrence rules as struct #icalrecurrencetype
+ * structures.  This should be freed using the cal_component_free_recur_list()
+ * function.
+ * 
+ * Queries the list of recurrence rule properties of a calendar component
+ * object.
+ **/
+void
+cal_component_get_rrule_list (CalComponent *comp, GSList **recur_list)
+{
+	CalComponentPrivate *priv;
+
+	g_return_if_fail (comp != NULL);
+	g_return_if_fail (IS_CAL_COMPONENT (comp));
+	g_return_if_fail (recur_list != NULL);
+
+	priv = comp->priv;
+	g_return_if_fail (priv->icalcomp != NULL);
+
+	get_recur_list (priv->rrule_list, icalproperty_get_rrule, recur_list);
+}
+
+/**
+ * cal_component_set_rrule_list:
+ * @comp: A calendar component object.
+ * @recur_list: List of struct #icalrecurrencetype structures.
+ * 
+ * Sets the list of recurrence rules in a calendar component object.
+ **/
+void
+cal_component_set_rrule_list (CalComponent *comp, GSList *recur_list)
+{
+	CalComponentPrivate *priv;
+
+	g_return_if_fail (comp != NULL);
+	g_return_if_fail (IS_CAL_COMPONENT (comp));
+	g_return_if_fail (recur_list != NULL);
+
+	priv = comp->priv;
+	g_return_if_fail (priv->icalcomp != NULL);
+
+	set_recur_list (comp, icalproperty_new_rrule, &priv->rrule_list, recur_list);
 
 	priv->need_sequence_inc = TRUE;
 }
@@ -2348,6 +2542,29 @@ cal_component_free_period_list (GSList *period_list)
 	}
 
 	g_slist_free (period_list);
+}
+
+/**
+ * cal_component_free_recur_list:
+ * @recur_list: List of struct #icalrecurrencetype structures.
+ * 
+ * Frees a list of struct #icalrecurrencetype structures.
+ **/
+void
+cal_component_free_recur_list (GSList *recur_list)
+{
+	GSList *l;
+
+	for (l = recur_list; l; l = l->next) {
+		struct icalrecurrencetype *r;
+
+		g_assert (l->data != NULL);
+		r = l->data;
+
+		g_free (l);
+	}
+
+	g_slist_free (recur_list);
 }
 
 /**
