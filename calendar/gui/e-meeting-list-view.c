@@ -334,7 +334,7 @@ process_section (EMeetingListView *view, EDestination **cards, icalparameter_rol
 	int i;
 
 	priv = view->priv;
-	for (i = 0; i < G_N_ELEMENTS (cards); i++) {
+	for (i = 0; cards[i] != NULL; i++) {
 		const char *name, *attendee = NULL;
 		char *attr = NULL;
 

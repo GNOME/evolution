@@ -1,3 +1,10 @@
+2004-05-07  Umeshtej <umeshtej@gawab.com>
+
+	Fixes #58014
+	
+	* gui/e-meeting-list-view.c (process_section):Run the for loop 
+	for the number of elements in cards.
+	
 2004-05-10  Trent Lloyd  <lathiat@bur.st>
 
 	* gui/dialogs/select-source-dialog.c: Include gtkhbox.h and gtkvbox.h
