@@ -1,3 +1,8 @@
+2000-11-21  Dan Winship  <danw@helixcode.com>
+
+	* configure.in: Check for libgpgme. (Support not added to mail
+	yet.)
+
 2000-11-21  Federico Mena Quintero  <federico@helixcode.com>
 
 	* configure.in (EVOLUTION_DIR): Removed the

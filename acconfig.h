@@ -16,6 +16,7 @@
 #undef HAVE_KRB4
 #undef HAVE_KRB5
 #undef MOVEMAIL_PATH
+#undef HAVE_LIBGPGME
 #undef PGP_PROGRAM
 #undef GPG_PATH
 #undef PGP5_PATH
