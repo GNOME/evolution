@@ -1,3 +1,8 @@
+2001-10-17    <NotZed@Ximian.com>
+
+	* mail-callbacks.c (empty_trash): Only empty trash on enabled
+	accounts, fixes #12821.
+
 2001-10-17  Dan Winship  <danw@ximian.com>
 
 	* mail-format.c (write_default_header): Make Reply-To bold too

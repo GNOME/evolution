@@ -2340,7 +2340,7 @@ empty_trash (BonoboUIComponent *uih, void *user_data, const char *path)
 		account = accounts->data;
 		
 		/* make sure this is a valid source */
-		if (account->source && account->source->url) {
+		if (account->source && account->source->enabled && account->source->url) {
 			provider = camel_session_get_provider (session, account->source->url, &ex);			
 			if (provider) {
 				/* make sure this store is a remote store */
