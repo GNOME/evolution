@@ -1,3 +1,8 @@
+2004-05-25  Alexander Shopov  <ash@contact.bg>
+
+	* bg.po: Updated Bulgarian translation by
+	Vladimir "Kaladan" Petkov <vpetkov@i-space.org>
+
 2004-05-25  Joop Stakenborg  <pg4i@xs4all.nl>
 
 	* nl.po: fixed attribution to not cause crash.  See #58882.
