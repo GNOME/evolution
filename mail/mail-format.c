@@ -875,7 +875,7 @@ write_headers (CamelMimeMessage *message, MailDisplay *md)
 		{ "Date", NULL }
 	};
 	int i, len, flags;
-	gboolean full = GPOINTER_TO_INT (g_datalist_get_data (md->data, "full_headers"));
+	gboolean full = (md->display_style == MAIL_CONFIG_DISPLAY_FULL_HEADERS);
 
 	mail_html_write (md->html, md->stream,
 			 "<table width=\"100%%\" cellpadding=0 cellspacing=0>"

@@ -13,6 +13,7 @@
 #include <camel/camel-medium.h>
 
 #include "mail-types.h"
+#include "mail-config.h" /*display_style*/
 
 #define MAIL_DISPLAY_TYPE        (mail_display_get_type ())
 #define MAIL_DISPLAY(o)          (GTK_CHECK_CAST ((o), MAIL_DISPLAY_TYPE, MailDisplay))
@@ -37,6 +38,8 @@ struct _MailDisplay {
 	/* Sigh.  This shouldn't be needed.  I haven't figured out why it is
 	   though.  */
 	GtkWidget *invisible;
+
+	MailConfigDisplayStyle display_style;
 };
 
 typedef struct {

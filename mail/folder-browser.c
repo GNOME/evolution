@@ -1029,8 +1029,11 @@ folder_browser_set_message_display_style (BonoboUIComponent           *component
 
 	for (i = 0; i < MAIL_CONFIG_DISPLAY_MAX; i++) {
 		if (strstr (message_display_styles[i], path)) {
-			mail_config_set_message_display_style (i);
+			fb->mail_display->display_style = i;
 			mail_display_redisplay (fb->mail_display, TRUE);
+
+			if (fb->pref_master)
+				mail_config_set_message_display_style (i);
 			return;
 		}
 	}
@@ -1763,7 +1766,9 @@ my_folder_browser_init (GtkObject *object)
 	
 	fb->view_collection = NULL;
 	fb->view_menus = NULL;
-	
+
+	fb->pref_master = FALSE;
+
 	/*
 	 * Setup parent class fields.
 	 */ 

@@ -61,7 +61,8 @@ struct  _FolderBrowser {
 	
 	gboolean     preview_shown;
 	gboolean     threaded;
-	
+	gboolean     pref_master;
+
 	/* View collection and the menu handler object */
 	GalViewCollection *view_collection;
 	GalViewMenus *view_menus;
