@@ -1,3 +1,11 @@
+1999-05-09  bertrand <Bertrand.Guiheneuf@inria.fr>
+
+	* camel/camel-mime-part.c (__camel_mime_part_add_header): 
+	new method
+
+	* camel/camel-mime-part.h (struct CamelMimePart):
+	added core fields.
+
 1999-05-08  bertrand <Bertrand.Guiheneuf@inria.fr>
 
 	* camel/camel-mime-part.[ch]: 

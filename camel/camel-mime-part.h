@@ -42,10 +42,19 @@ extern "C" {
 #define IS_CAMEL_MIME_PART(o)    (GTK_CHECK_TYPE((o), CAMEL_MIME_PART_TYPE))
 
 
+
 typedef struct 
 {
 	CamelDataWrapper parent_object;
 	
+	GHashTable *headers;
+	GString *description;
+	GString *disposition;
+	GString *content_id;
+	GString *content_md5;
+	GString *encoding;
+	GList *languages;
+
 } CamelMimePart;
 
 

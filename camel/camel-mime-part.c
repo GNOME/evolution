@@ -73,3 +73,21 @@ camel_mime_part_get_type (void)
 
 
 
+
+static void
+__camel_mime_part_add_header (CamelMimePart *mime_part, GString *header_name, GString *header_value)
+{
+	gboolean header_exists;
+	GString *old_header_name;
+	GString *old_header_value;
+
+	header_exists = g_hash_table_lookup_extended (mime_part->headers, header_name, 
+						      (gpointer *) &old_header_name,
+						      (gpointer *) &old_header_value);
+	if (header_exists) {
+		g_string_free (old_header_name, TRUE);
+		g_string_free (old_header_value, TRUE);
+	}
+	
+	g_hash_table_insert (mime_part->headers, header_name, header_value);
+}

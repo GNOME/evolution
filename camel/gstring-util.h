@@ -47,6 +47,8 @@ GString *g_string_clone(GString *string);
 gchar g_string_right_dichotomy( GString *string, gchar sep, GString **prefix, GString **suffix, DichotomyOption options);
 void g_string_append_g_string(GString *dest_string, GString *other_string);
 
+gboolean g_string_equal_for_hash (gconstpointer v, gconstpointer v2);
+guint g_string_hash (gconstpointer v);
 
 #ifdef __cplusplus
 }

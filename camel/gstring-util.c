@@ -175,3 +175,33 @@ g_string_append_g_string(GString *dest_string, GString *other_string)
 
 	g_string_append(dest_string, other_string->str);
 }
+
+
+
+/**
+ * g_string_equal_for_hash: test equality of two GStrings for hash tables
+ * @v: string 1
+ * @v2: string 2
+ * 
+ * 
+ * 
+ * Return value: 
+ **/
+g_string_equal_for_hash (gconstpointer v, gconstpointer v2)
+{
+  return strcmp ( ((const GString*)v)->str, ((const GString*)v2)->str) == 0;
+}
+
+
+/**
+ * g_string_hash: computes a hash value for a Gstring
+ * @v: Gstring object
+ * 
+ * 
+ * 
+ * Return value: 
+ **/
+guint g_string_hash (gconstpointer v)
+{
+	return g_str_hash(((const GString*)v)->str);
+}
