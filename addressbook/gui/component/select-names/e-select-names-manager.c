@@ -227,8 +227,6 @@ e_select_names_manager_entry_new (ESelectNamesManager *manager, ESelectNamesMode
 	if (manager->completion_book)
 		e_select_names_completion_add_book (E_SELECT_NAMES_COMPLETION (comp),
 						    manager->completion_book);
-	e_select_names_completion_add_destination_cache (E_SELECT_NAMES_COMPLETION (comp),
-							 addressbook_destination_cache ());
 
 	e_entry_enable_completion_full (entry->entry, comp, 50, completion_handler);
 

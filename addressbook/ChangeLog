@@ -1,5 +1,9 @@
 2001-12-07  Jon Trowbridge  <trow@ximian.com>
 
+	* gui/component/select-names/e-select-names-manager.c
+	(e_select_names_manager_entry_new): Remove a reference to code
+	I don't want to commit yet. :-)
+
 	* gui/component/select-names/e-select-names-manager.c: Extensively
 	refactored -- this code had gotten _really_ ugly.  Untangle things
 	to the point where our reference counting problems are fixable.
