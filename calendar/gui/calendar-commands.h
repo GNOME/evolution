@@ -37,6 +37,4 @@ void calendar_control_sensitize_calendar_commands (BonoboControl *control, Gnome
 
 void calendar_goto_today (GnomeCalendar *gcal);
 
-const gchar * calendar_get_text_for_folder_bar_label (GnomeCalendar *gcal);
-
 #endif /* CALENDAR_COMMANDS_H */

@@ -1,3 +1,9 @@
+2004-10-15  JP Rosevear  <jpr@novell.com>
+
+	* gui/calendar-commands.h (calendar_goto_today): remove prototype
+
+	* gui/calendar-commands.c: remove dead function
+
 2004-10-14  JP Rosevear  <jpr@novell.com>
 
 	* gui/e-meeting-attendee.c: convert to G_DEFINE_TYPE
