@@ -1,3 +1,8 @@
+2000-07-07  Christopher James Lahey  <clahey@helixcode.com>
+
+	* e-iterator.c, e-iterator.h, e-list-iterator.c,
+	e-list-iterator.h: Added last and insert functions.
+
 2000-07-06  Federico Mena Quintero  <federico@helixcode.com>
 
 	* e-dialog-widgets.c: Added docstrings.  This file did not have

@@ -82,9 +82,11 @@ e_iterator_class_init (EIteratorClass *klass)
 	klass->invalidate = NULL;
 	klass->get        = NULL;
 	klass->reset      = NULL;
+	klass->last       = NULL;
 	klass->next       = NULL;
 	klass->prev       = NULL;
 	klass->delete     = NULL;
+	klass->insert     = NULL;
 	klass->set        = NULL;
 	klass->is_valid   = NULL;
 }
@@ -116,6 +118,13 @@ e_iterator_reset    (EIterator *iterator)
 		ECI_CLASS(iterator)->reset(iterator);
 }
 
+void
+e_iterator_last     (EIterator *iterator)
+{
+	if (ECI_CLASS(iterator)->last)
+		ECI_CLASS(iterator)->last(iterator);
+}
+
 gboolean
 e_iterator_next     (EIterator *iterator)
 {
@@ -139,6 +148,14 @@ e_iterator_delete   (EIterator *iterator)
 {
 	if (ECI_CLASS(iterator)->delete)
 		ECI_CLASS(iterator)->delete(iterator);
+}
+
+void           e_iterator_insert     (EIterator  *iterator,
+				      const void *object,
+				      gboolean    before)
+{
+	if (ECI_CLASS(iterator)->insert)
+		ECI_CLASS(iterator)->insert(iterator, object, before);
 }
 
 void

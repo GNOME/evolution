@@ -31,29 +31,37 @@ struct _EIteratorClass {
 	GtkObjectClass parent_class;
 
 	/* Signals */
-	void         (*invalidate) (EIterator *iterator);
+	void         (*invalidate) (EIterator  *iterator);
 	
 	/* Virtual functions */
-	const void * (*get)        (EIterator *iterator);
-	void         (*reset)      (EIterator *iterator);
-	gboolean     (*next)       (EIterator *iterator);
-	gboolean     (*prev)       (EIterator *iterator);
-	void         (*delete)     (EIterator *iterator);
-	void         (*set)        (EIterator *iterator,
-				    const void    *object);
-	gboolean     (*is_valid)   (EIterator *iterator);
+	const void * (*get)        (EIterator  *iterator);
+	void         (*reset)      (EIterator  *iterator);
+	void         (*last)       (EIterator  *iterator);
+	gboolean     (*next)       (EIterator  *iterator);
+	gboolean     (*prev)       (EIterator  *iterator);
+	void         (*delete)     (EIterator  *iterator);
+	void         (*insert)     (EIterator  *iterator,
+				    const void *object,
+				    gboolean   	before);
+	void         (*set)        (EIterator  *iterator,
+				    const void *object);
+	gboolean     (*is_valid)   (EIterator  *iterator);
 };
 
-const void    *e_iterator_get        (EIterator *iterator);
-void           e_iterator_reset      (EIterator *iterator);
-gboolean       e_iterator_next       (EIterator *iterator);
-gboolean       e_iterator_prev       (EIterator *iterator);
-void           e_iterator_delete     (EIterator *iterator);
-void           e_iterator_set        (EIterator *iterator, 
-				      const void    *object);
-gboolean       e_iterator_is_valid   (EIterator *iterator);
+const void    *e_iterator_get        (EIterator  *iterator);
+void           e_iterator_reset      (EIterator  *iterator);
+void           e_iterator_last       (EIterator  *iterator);
+gboolean       e_iterator_next       (EIterator  *iterator);
+gboolean       e_iterator_prev       (EIterator  *iterator);
+void           e_iterator_delete     (EIterator  *iterator);
+void           e_iterator_insert     (EIterator  *iterator,
+				      const void *object,
+				      gboolean    before);
+void           e_iterator_set        (EIterator  *iterator, 
+				      const void *object);
+gboolean       e_iterator_is_valid   (EIterator  *iterator);
 
-void           e_iterator_invalidate (EIterator *iterator);
+void           e_iterator_invalidate (EIterator  *iterator);
 
 /* Standard Gtk function */
 GtkType        e_iterator_get_type   (void);
