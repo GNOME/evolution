@@ -1,3 +1,15 @@
+2003-11-05  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* providers/smtp/camel-smtp-transport.c (connect_to_server): Don't
+	bother trying to see if the server advertises EHLO. Simply always
+	try EHLO and fall back to HELO if EHLO fails. Fixes bug #50535.
+
+2003-11-04  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-gpg-context.c (gpg_ctx_parse_status): We might need to
+	convert the passwd from UTF-8 into the locale charset. Fixes bug
+	#50485.
+
 2003-10-28  Frederic Crozat  <fcrozat@mandrakesoft.com>
 
 	* camel-mime-utils.c (header_decode_date): better detection of

@@ -300,27 +300,18 @@ connect_to_server (CamelService *service, int try_starttls, CamelException *ex)
 			g_free (respbuf);
 			return FALSE;
 		}
-		if (strstr (respbuf, "ESMTP"))
-			transport->flags |= CAMEL_SMTP_TRANSPORT_IS_ESMTP;
 	} while (*(respbuf+3) == '-'); /* if we got "220-" then loop again */
 	g_free (respbuf);
 	
-	/* send EHLO (or HELO, depending on the service type) */
-	if (!(transport->flags & CAMEL_SMTP_TRANSPORT_IS_ESMTP)) {
-		/* If we did not auto-detect ESMTP, we should still send EHLO */
-		transport->flags |= CAMEL_SMTP_TRANSPORT_IS_ESMTP;
-		if (!smtp_helo (transport, ex)) {
-			if (!transport->connected)
-				return FALSE;
-			
-			/* Okay, apprently this server doesn't support ESMTP */
-			camel_exception_clear (ex);
-			transport->flags &= ~CAMEL_SMTP_TRANSPORT_IS_ESMTP;
-			if (!smtp_helo (transport, ex) && !transport->connected)
-				return FALSE;
-		}
-	} else {
-		/* send EHLO */
+	/* Try sending EHLO */
+	transport->flags |= CAMEL_SMTP_TRANSPORT_IS_ESMTP;
+	if (!smtp_helo (transport, ex)) {
+		if (!transport->connected)
+			return FALSE;
+		
+		/* Fall back to HELO */
+		camel_exception_clear (ex);
+		transport->flags &= ~CAMEL_SMTP_TRANSPORT_IS_ESMTP;
 		if (!smtp_helo (transport, ex) && !transport->connected)
 			return FALSE;
 	}

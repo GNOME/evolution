@@ -284,7 +284,9 @@ struct _GpgCtx {
 	
 	unsigned int diagflushed:1;
 	
-	unsigned int padding:17;
+	unsigned int utf8:1;
+	
+	unsigned int padding:16;
 };
 
 static struct _GpgCtx *
@@ -342,6 +344,8 @@ gpg_ctx_new (CamelSession *session)
 		CamelMimeFilterCharset *filter;
 		CamelStreamFilter *fstream;
 		
+		gpg->utf8 = FALSE;
+		
 		if ((filter = camel_mime_filter_charset_new_convert (charset, "UTF-8"))) {
 			fstream = camel_stream_filter_new_with_stream (stream);
 			camel_stream_filter_add (fstream, (CamelMimeFilter *) filter);
@@ -350,6 +354,8 @@ gpg_ctx_new (CamelSession *session)
 			
 			stream = (CamelStream *) fstream;
 		}
+	} else {
+		gpg->utf8 = TRUE;
 	}
 	
 	gpg->diagnostics = stream;
@@ -739,6 +745,7 @@ gpg_ctx_parse_status (struct _GpgCtx *gpg, CamelException *ex)
 {
 	register unsigned char *inptr;
 	const unsigned char *status;
+	size_t nread, nwritten;
 	int len;
 	
  parse:
@@ -767,7 +774,6 @@ gpg_ctx_parse_status (struct _GpgCtx *gpg, CamelException *ex)
 	status += 9;
 	
 	if (!strncmp (status, "USERID_HINT ", 12)) {
-		size_t nread, nwritten;
 		char *hint, *user;
 		
 		status += 12;
@@ -784,7 +790,7 @@ gpg_ctx_parse_status (struct _GpgCtx *gpg, CamelException *ex)
 			goto recycle;
 		}
 		
-		if (!(user = g_locale_to_utf8 (status, -1, &nread, &nwritten, NULL)))
+		if (gpg->utf8 || !(user = g_locale_to_utf8 (status, -1, &nread, &nwritten, NULL)))
 			user = g_strdup (status);
 		
 		g_strstrip (user);
@@ -810,7 +816,16 @@ gpg_ctx_parse_status (struct _GpgCtx *gpg, CamelException *ex)
 		prompt = g_strdup_printf (_("You need a passphrase to unlock the key for\n"
 					    "user: \"%s\""), name);
 		
-		passwd = camel_session_get_password (gpg->session, prompt, FALSE, TRUE, NULL, userid, ex);
+		if ((passwd = camel_session_get_password (gpg->session, prompt, FALSE, TRUE, NULL, userid, ex)) && !gpg->utf8) {
+			char *opasswd = passwd;
+			
+			if ((passwd = g_locale_to_utf8 (passwd, -1, &nread, &nwritten, NULL))) {
+				memset (opasswd, 0, strlen (opasswd));
+				g_free (opasswd);
+			} else {
+				passwd = opasswd;
+			}
+		}
 		g_free (prompt);
 		
 		g_free (gpg->userid);
