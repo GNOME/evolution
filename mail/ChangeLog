@@ -1,5 +1,8 @@
 2003-04-08  Dan Winship  <danw@ximian.com>
 
+	* mail-config.glade: Remove color specs from the druid so it will
+	use the theme colors
+
 	* importers/GNOME_Evolution_Mail_Elm_Intelligent_Importer.server.in.in:
 	* importers/GNOME_Evolution_Mail_Netscape_Intelligent_Importer.server.in.in:
 	* importers/GNOME_Evolution_Mail_Pine_Intelligent_Importer.server.in.in: 
