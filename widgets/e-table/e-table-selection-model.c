@@ -341,6 +341,7 @@ void             e_table_selection_model_do_something      (ETableSelectionModel
 			old_end = MAX (selection->selection_start_row, selection->cursor_row) + 1;
 			new_start = MIN (selection->selection_start_row, row);
 			new_end = MAX (selection->selection_start_row, row) + 1;
+			/* This wouldn't work nearly so smoothly if one end of the selection held in place. */
 			if (old_start < new_start)
 				change_selection(selection, old_start, new_start, FALSE);
 			if (new_start < old_start)
