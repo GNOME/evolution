@@ -1087,7 +1087,9 @@ ethi_popup_sort_ascending(GtkWidget *widget, EthiHeaderInfo *info)
 		}
 	}
 	if (!found) {
-		ETableSortColumn column = { model_col, 1 };
+		ETableSortColumn column;
+		column.column = model_col;
+		column.ascending =  1;
 		length = e_table_sort_info_sorting_get_count(ethi->sort_info);
 		if (length == 0)
 			length++;
@@ -1137,7 +1139,9 @@ ethi_popup_sort_descending(GtkWidget *widget, EthiHeaderInfo *info)
 		}
 	}
 	if (!found) {
-		ETableSortColumn column = { model_col, 0 };
+		ETableSortColumn column;
+		column.column = model_col;
+		column.ascending = 0;
 		length = e_table_sort_info_sorting_get_count (ethi->sort_info);
 		if (length == 0)
 			length++;
@@ -1355,7 +1359,9 @@ ethi_change_sort_state (ETableHeaderItem *ethi, gdouble x)
 	}
 
 	if (!found) {
-		ETableSortColumn column = { model_col, 1 };
+		ETableSortColumn column;
+		column.column = model_col;
+		column.ascending = 1;
 		length = e_table_sort_info_sorting_get_count(ethi->sort_info);
 		if (length == 0)
 			length++;

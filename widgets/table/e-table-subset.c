@@ -92,7 +92,7 @@ etss_set_value_at (ETableModel *etm, int col, int row, const void *val)
 
 	etss->last_access = row;
 	d(g_print("h) Setting last_access to %d\n", row));
-	return e_table_model_set_value_at (etss->source, col, etss->map_table [row], val);
+	e_table_model_set_value_at (etss->source, col, etss->map_table [row], val);
 }
 
 static gboolean

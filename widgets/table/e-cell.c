@@ -178,7 +178,7 @@ e_cell_new_view (ECell *ecell, ETableModel *table_model, void *e_table_item_view
 void
 e_cell_realize (ECellView *ecell_view)
 {
-	return E_CELL_CLASS (GTK_OBJECT (ecell_view->ecell)->klass)->realize (ecell_view);
+	E_CELL_CLASS (GTK_OBJECT (ecell_view->ecell)->klass)->realize (ecell_view);
 }
 
 /**
@@ -349,6 +349,6 @@ void
 e_cell_show_tooltip (ECellView *ecell_view, int model_col, int view_col, 
 		     int row, int col_width, ETableTooltip *tooltip)
 {
-	return E_CELL_CLASS (GTK_OBJECT (ecell_view->ecell)->klass)->show_tooltip
+	E_CELL_CLASS (GTK_OBJECT (ecell_view->ecell)->klass)->show_tooltip
 		(ecell_view, model_col, view_col, row, col_width, tooltip);
 }
