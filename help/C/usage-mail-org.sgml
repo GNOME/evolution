@@ -309,6 +309,20 @@
 	<interface>filter assistant</interface>, you can have mail
 	filed automatically.
       </para>
+
+      <warning id="imap-subfolders">
+        <title>Subfolders in IMAP</title>
+        <para>
+          The INBOX folder on most IMAP servers cannot contain both
+          subfolders and messages. When you create additional folders
+          on your IMAP mail server, branch them from the root of the
+          IMAP account's folder, tree, not from INBOX. If you create
+          subfolders in your INBOX folder, you will lose the ability
+          to read messages that exist in your INBOX until you move the
+          folders out of the way.
+        </para>
+      </warning>
+
   </sect1>    
 
   <sect1 id="usage-mail-organize-search">
