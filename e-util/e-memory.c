@@ -397,7 +397,7 @@ MemPool *e_mempool_new(int blocksize, int threshold, EMemPoolFlags flags)
  * be rounded up to the mempool's alignment restrictions
  * before being used.
  **/
-void *e_mempool_alloc(MemPool *pool, int size)
+void *e_mempool_alloc(MemPool *pool, register int size)
 {
 	size = (size + pool->align) & (~(pool->align));
 	if (size>=pool->threshold) {
@@ -408,16 +408,16 @@ void *e_mempool_alloc(MemPool *pool, int size)
 		pool->threshold_blocks = n;
 		return &n->data[0];
 	} else {
-		MemPoolNode *n;
+		register MemPoolNode *n;
 
 		n = pool->blocks;
-		while (n) {
-			if (n->free >= size) {
-				n->free -= size;
-				return &n->data[n->free];
-			}
-			n = n->next;
+		if (n && n->free >= size) {
+			n->free -= size;
+			return &n->data[n->free];
 		}
+
+		/* maybe we could do some sort of the free blocks based on size, but
+		   it doubt its worth it at all */
 
 		n = g_malloc(sizeof(*n) - sizeof(char) + pool->blocksize);
 		n->next = pool->blocks;
@@ -431,7 +431,7 @@ char *e_mempool_strdup(EMemPool *pool, const char *str)
 {
 	char *out;
 
-	out = e_mempool_alloc(pool, strlen(str));
+	out = e_mempool_alloc(pool, strlen(str)+1);
 	strcpy(out, str);
 
 	return out;

@@ -1,3 +1,11 @@
+2000-11-22  Not Zed  <NotZed@HelixCode.com>
+
+	* e-memory.c (e_mempool_alloc): If we dont get a big enough chunk
+	in the first node, give up.  Otherwise we spend too much time
+	searching.
+	(e_mempool_strdup): Doh, and allocate enough for the terminating
+	NUL at that.
+
 2000-11-21  Not Zed  <NotZed@HelixCode.com>
 
 	* e-memory.c (e_memchunk_alloc0): New function to allocate a
