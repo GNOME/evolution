@@ -1,3 +1,10 @@
+2002-01-14  JP Rosevear  <jpr@ximian.com>
+
+	* Makefile.am: compile new files
+
+	* e-pilot-settings.[hc]: beginnings of a general conduit
+	configuration gui
+
 2002-01-10  Christopher James Lahey  <clahey@ximian.com>
 
 	* ename/e-name-western.c (e_name_western_word_is_suffix): Allow

@@ -73,9 +73,11 @@ libeutil_static_la_LIBADD  = $(libeutil_la_LIBADD)
 libeutil_static_la_LDFLAGS = --all-static
 
 pilot_sources = \
-	e-pilot-map.c	\
-	e-pilot-map.h	\
-	e-pilot-util.c	\
+	e-pilot-map.c		\
+	e-pilot-map.h		\
+	e-pilot-settings.c	\
+	e-pilot-settings.h	\
+	e-pilot-util.c		\
 	e-pilot-util.h
 
 if ENABLE_PILOT_CONDUITS
