@@ -106,6 +106,7 @@ add_dropdown (ESearchBar *esb,
 	      ESearchBarItem *items)
 {
 	GtkWidget *menu;
+	GtkWidget *event_box;
 	int i;
 
 	menu = gtk_menu_new ();
@@ -131,13 +132,23 @@ add_dropdown (ESearchBar *esb,
 	GTK_WIDGET_UNSET_FLAGS (esb->dropdown, GTK_CAN_FOCUS);
 	gtk_widget_show (esb->dropdown);
 
-	gtk_box_pack_start(GTK_BOX(esb), esb->dropdown, FALSE, FALSE, 0);
+	/* So, GtkOptionMenu is stupid; it adds a 1-pixel-wide empty border
+           around the button for no reason.  So we add a 1-pixel-wide border
+           around the button as well, by using an event box.  */
+	event_box = gtk_event_box_new ();
+	gtk_container_set_border_width (GTK_CONTAINER (event_box), 1);
+	gtk_container_add (GTK_CONTAINER (event_box), esb->dropdown);
+	gtk_widget_show (event_box);
+
+	gtk_box_pack_start(GTK_BOX(esb), event_box, FALSE, FALSE, 0);
 }
 
 static void
 add_option(ESearchBar *esb, ESearchBarItem *items)
 {
 	GtkWidget *menu;
+	GtkRequisition dropdown_requisition;
+	GtkRequisition option_requisition;
 	int i;
 
 	esb->option = gtk_option_menu_new();
@@ -167,6 +178,15 @@ add_option(ESearchBar *esb, ESearchBarItem *items)
 	gtk_option_menu_set_history (GTK_OPTION_MENU (esb->option), 0);
 
 	gtk_widget_set_sensitive (esb->option, TRUE);
+
+	/* Set the minimum height of this widget to that of the dropdown
+           button, for a better look.  */
+	g_assert (esb->dropdown != NULL);
+
+	gtk_widget_size_request (esb->dropdown, &dropdown_requisition);
+	gtk_widget_size_request (esb->option, &option_requisition);
+
+	gtk_container_set_border_width (GTK_CONTAINER (esb->dropdown), GTK_CONTAINER (esb->option)->border_width);
 }
 
 static void
@@ -187,7 +207,8 @@ add_spacer (ESearchBar *esb)
 	spacer = gtk_drawing_area_new();
 	gtk_widget_show(spacer);
 	gtk_box_pack_start(GTK_BOX(esb), spacer, FALSE, FALSE, 0);
-	gtk_widget_set_usize(spacer, 15, 1);
+
+	gtk_widget_set_usize(spacer, 19, 1);
 }
 
 
@@ -303,7 +324,7 @@ e_search_bar_construct (ESearchBar *search_bar,
 	g_return_if_fail (menu_items != NULL);
 	g_return_if_fail (option_items != NULL);
 	
-	gtk_box_set_spacing(GTK_BOX (search_bar), 1);
+	gtk_box_set_spacing (GTK_BOX (search_bar), 1);
 
 	add_dropdown (search_bar, menu_items);
 

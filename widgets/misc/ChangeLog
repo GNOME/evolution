@@ -1,5 +1,12 @@
 2001-01-28  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-search-bar.c (add_spacer): Make the spacer 4 pixels wider.
+	(add_dropdown): Put the dropdown button into an event box with a
+	1-pixel border, so that we match the [Hardcoded! Stupid GTK+!]
+	border around the option menu.
+
+2001-01-28  Ettore Perazzoli  <ettore@ximian.com>
+
 	* e-dropdown-button.c (menu_deactivate_cb): New function to change
 	the state of the toggle button when the pop-up menu disappears.
 	(impl_clicked): Removed.
