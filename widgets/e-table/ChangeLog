@@ -1,3 +1,8 @@
+2000-05-04  Christopher James Lahey  <clahey@helixcode.com>
+
+	* e-table-sorted-variable.c: Changed the insert sort to be binary
+	instead of linear.
+
 2000-05-02  Matt Loper  <matt@helixcode.com>
 
 	* Makefile.am: set G_LOG_DOMAIN.
