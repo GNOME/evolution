@@ -485,6 +485,8 @@ do_get_pass (struct _mail_msg *mm)
 	
 	/* hrm, we can't run this async since the gui_port from which we're called
 	   will reply to our message for us */
+	
+	gtk_window_set_title (GTK_WINDOW(dialogue), "Enter Password");
 	gnome_dialog_run_and_close ((GnomeDialog *)dialogue);
 	
 	/*gtk_widget_show(dialogue);*/

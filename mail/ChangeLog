@@ -1,3 +1,7 @@
+2001-07-31  Anna Marie Dirks <anna@ximian.com>
+	* mail-mt.c (do_get_pass): Changed the title of this dialog
+	to "Enter Password". 
+	
 2001-07-30  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-mt.c (do_get_pass): We are not guarenteed to have a
@@ -33,6 +37,7 @@
 	* mail-account-gui.c (mail_account_gui_new): Restore old security
 	settings from the saved configuration. Fixes bug #5710.
 
+>>>>>>> 1.1477
 2001-07-30  Not Zed  <NotZed@Ximian.com>
 
 	* mail-session.c (do_register_timeout): Actually add the timeout,
