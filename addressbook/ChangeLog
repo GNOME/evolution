@@ -1,5 +1,13 @@
 2003-04-29  Chris Toshok  <toshok@ximian.com>
 
+	[ fixes bug #41144 ]
+	* gui/component/ldap-config.glade: use stock buttons for the
+	Add/Delete buttons.  Switch from "Delete" to "Remove", though, as
+	"Remove" fits much better with the one for "Add".  Also, add our
+	stock-edit-24.png icon for "Edit".
+	
+2003-04-29  Chris Toshok  <toshok@ximian.com>
+
 	[ fixes bug #41211 ]
 	* gui/component/e-address-popup.c (e_address_popup_no_matches):
 	call e_button_new_with_stock_icon to create our button and give it
