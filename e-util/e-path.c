@@ -23,6 +23,7 @@
 #include <dirent.h>
 #include <string.h>
 #include <sys/stat.h>
+#include <unistd.h>
 #include <glib.h>
 
 #include "e-path.h"
@@ -203,4 +204,51 @@ e_path_find_folders (const char *prefix,
 		     gpointer data)
 {
 	return find_folders_recursive (prefix, "", callback, data);
+}
+
+
+/**
+ * e_path_rmdir:
+ * @prefix: a prefix to prepend to the path, or %NULL
+ * @path: the virtual path to convert to a filesystem path.
+ *
+ * This removes the directory pointed to by @prefix and @path
+ * and attempts to remove its parent "subfolders" directory too
+ * if it's empty.
+ *
+ * Return value: -1 (with errno set) if it failed to rmdir the
+ * specified directory. 0 otherwise, whether or not it removed
+ * the parent directory.
+ **/
+int
+e_path_rmdir (const char *prefix, const char *vpath)
+{
+	char *physical_path, *p;
+
+	/* Remove the directory itself */
+	physical_path = e_path_to_physical (prefix, vpath);
+	if (rmdir (physical_path) == -1) {
+		g_free (physical_path);
+		return -1;
+	}
+
+	/* Attempt to remove its parent "subfolders" directory,
+	 * ignoring errors since it might not be empty.
+	 */
+
+	p = strrchr (physical_path, '/');
+	if (p[1] == '\0') {
+		g_free (physical_path);
+		return 0;
+	}
+	*p = '\0';
+	p = strrchr (physical_path, '/');
+	if (!p || strcmp (p + 1, SUBFOLDER_DIR_NAME) != 0) {
+		g_free (physical_path);
+		return 0;
+	}
+
+	rmdir (physical_path);
+	g_free (physical_path);
+	return 0;
 }

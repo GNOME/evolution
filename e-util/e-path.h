@@ -32,4 +32,5 @@ gboolean e_path_find_folders (const char *prefix,
 			      EPathFindFoldersCallback callback,
 			      gpointer data);
 
+int      e_path_rmdir        (const char *prefix, const char *vpath);
 #endif /* __E_PATH__ */
