@@ -160,7 +160,7 @@ create_view (EvolutionShellComponent *shell_component,
 			mail_scan_subfolders (CAMEL_STORE (store), storage);
 		camel_object_unref (CAMEL_OBJECT (store));
 		
-		control = folder_browser_factory_new_control ("", corba_shell);
+		control = create_noselect_control ();
 	} else if (!g_strcasecmp (folder_type, "vtrash")) {
 		if (!g_strncasecmp (physical_uri, "file:", 5))
 			control = folder_browser_factory_new_control ("vtrash:file:/", corba_shell);

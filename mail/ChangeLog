@@ -2,6 +2,9 @@
 
 	* component-factory.c (owner_unset_cb): Disable interaction once
 	the shell has quit.
+	(create_view): Instead of 
+	folder_browser_factory_new_control ("", corba_shell) when looking
+	at a mailstorage folder, use create_noselect_control().
 
 2001-08-27  Ettore Perazzoli  <ettore@ximian.com>
 
