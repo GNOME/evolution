@@ -8,6 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution 0.12\n"
 "POT-Creation-Date: 2001-08-22 18:50-0400\n"
+"PO-Revision-Date: 2001-09-12 16:59+0800\n"
 "Last-Translator: Tiberiu Micu <tibimicu@gmx.net>\n"
 "Language-Team: Românã <ro@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -3845,12 +3846,12 @@ msgstr "Sunteþi sigur cã doriþi sã ºtergeþi aceastã intrare din jurnal?"
 #: calendar/gui/dialogs/delete-comp.c:120
 #, c-format
 msgid "Are you sure you want to delete %d appointments?"
-msgstr "Sunteþi sigur cã doriþi sã ºtergeþi întãlnirea `%s'?"
+msgstr "Sunteþi sigur cã doriþi sã ºtergeþi întãlnirea `%d'?"
 
 #: calendar/gui/dialogs/delete-comp.c:125
 #, c-format
 msgid "Are you sure you want to delete %d tasks?"
-msgstr "Sunteþi sigur cã doriþi sã ºtergeþi task-ul `%s'?"
+msgstr "Sunteþi sigur cã doriþi sã ºtergeþi task-ul `%d'?"
 
 #: calendar/gui/dialogs/delete-comp.c:130
 #, c-format
@@ -5258,7 +5259,7 @@ msgstr "Nu pot procesa dosarul spool"
 #: camel/camel-filter-driver.c:667
 #, c-format
 msgid "Getting message %d (%d%%)"
-msgstr "Primesc mesaj &d (%d%%)"
+msgstr "Primesc mesaj %d (%d%%)"
 
 #: camel/camel-filter-driver.c:671 camel/camel-filter-driver.c:684
 #, c-format
@@ -6385,7 +6386,7 @@ msgstr "Nu pot deschide dosarul pentru rezumare: %s: %s"
 #: camel/providers/local/camel-spool-summary.c:784
 #: camel/providers/local/camel-spool-summary.c:793
 #: camel/providers/local/camel-spool-summary.c:802
-#, c-format
+#, fuzzy, c-format
 msgid "Could not sync temporary folder %s: %s"
 msgstr "Nu pot sincroniza dosarul temporar: %s"
 

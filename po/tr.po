@@ -3882,7 +3882,7 @@ msgstr "Gerçekten %d görevi silmek istiyor musunuz?"
 #: calendar/gui/dialogs/delete-comp.c:130
 #, c-format
 msgid "Are you sure you want to delete %d journal entries?"
-msgstr "Gerçekten %s günlük girdisini silmek istiyor musunuz?"
+msgstr "Gerçekten %d günlük girdisini silmek istiyor musunuz?"
 
 #: calendar/gui/dialogs/e-delegate-dialog.glade.h:1
 #, fuzzy
