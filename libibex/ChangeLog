@@ -1,3 +1,7 @@
+2000-10-24  JP Rosevear  <jpr@helixcode.com>
+
+	* .cvsignore: Shush
+
 2000-10-24  Not Zed  <NotZed@HelixCode.com>
 
 	* dumpindex.c: Dumps the contents of indexs.
