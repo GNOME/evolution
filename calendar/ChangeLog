@@ -1,3 +1,8 @@
+2001-10-23  Rodrigo Moya <rodrigo@ximian.com>
+
+	* cal-client/cal-query.c (cal_query_construct) set priv->corba_query
+	to CORBA_OBJECT_NIL if there was an error
+
 2001-10-22  Damon Chaplin  <damon@ximian.com>
 
 	* idl/evolution-calendar.idl: added setDefaultTimezone() method.

@@ -376,6 +376,7 @@ cal_query_construct (CalQuery *query,
 
 	bonobo_object_unref (BONOBO_OBJECT (priv->ql));
 	priv->ql = NULL;
+	priv->corba_query = CORBA_OBJECT_NIL;
 	return NULL;
 }
 
