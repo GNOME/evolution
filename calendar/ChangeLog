@@ -1,3 +1,35 @@
+2002-12-20  JP Rosevear  <jpr@ximian.com>
+
+	* gui/dialogs/alarm-options.c (get_widgets): get mail alarm
+	widgets
+	(setup_select_names): add the select names widget
+	(alarm_to_malarm_widgets): show the attendees and description
+	(alarm_to_dialog): set the title for mail alarms properly
+	(malarm_widgets_to_alarm): save attendees and descriptions in
+	alarm
+	(alarm_options_dialog_run): call setup_select_names
+
+	* gui/dialogs/alarm-page.c: add email to alarm types
+
+	* gui/dialogs/alarm-options.glade: add mail alarm widgets
+
+	* gui/dialogs/alarm-page.glade: add email to alarm types
+
+	* cal-util/cal-component.c (scan_attendee): kill unnecessary
+	CalComponent param
+	(scan_property): don't pass same
+	(set_attendee_list): take an icalcomp instead of a CalComponent
+	(cal_component_set_attendee_list): pass same
+	(scan_alarm_property): if its an attendee, scan it
+	(make_alarm): set attendee_list member to null
+	(cal_component_alarm_new): ditto
+	(cal_component_alarm_free): free attendee list
+	(cal_component_alarm_get_attendee_list): return attendee list
+	(cal_component_alarm_set_attendee_list): set attendee list
+	(cal_component_alarm_has_attendees): return true if alarm has attendees
+
+	* cal-util/cal-component.h: new protos
+
 2002-12-18  JP Rosevear  <jpr@ximian.com>
 
 	* gui/calendar-model.c (calendar_model_append_row): use

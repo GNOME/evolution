@@ -1,3 +1,4 @@
+
 /* Evolution calendar - Alarm page of the calendar component dialogs
  *
  * Copyright (C) 2001 Ximian, Inc.
@@ -27,6 +28,7 @@
 
 #include <string.h>
 #include <gtk/gtksignal.h>
+#include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
 #include <glade/glade.h>
 #include <gal/widgets/e-unicode.h>
@@ -89,6 +91,7 @@ static const int action_map[] = {
 	CAL_ALARM_DISPLAY,
 	CAL_ALARM_AUDIO,
 	CAL_ALARM_PROCEDURE,
+	CAL_ALARM_EMAIL,
 	-1
 };
 
@@ -860,7 +863,7 @@ alarm_page_construct (AlarmPage *apage)
 	priv = apage->priv;
 
 	priv->xml = glade_xml_new (EVOLUTION_GLADEDIR "/alarm-page.glade",
-				   NULL, NULL);
+				   NULL);
 	if (!priv->xml) {
 		g_message ("alarm_page_construct(): "
 			   "Could not load the Glade XML file!");

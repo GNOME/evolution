@@ -436,6 +436,10 @@ void cal_component_alarm_set_repeat (CalComponentAlarm *alarm, CalAlarmRepeat re
 void cal_component_alarm_get_trigger (CalComponentAlarm *alarm, CalAlarmTrigger *trigger);
 void cal_component_alarm_set_trigger (CalComponentAlarm *alarm, CalAlarmTrigger trigger);
 
+void cal_component_alarm_get_attendee_list (CalComponentAlarm *alarm, GSList **attendee_list);
+void cal_component_alarm_set_attendee_list (CalComponentAlarm *alarm, GSList *attendee_list);
+gboolean cal_component_alarm_has_attendees (CalComponentAlarm *alarm);
+
 icalcomponent *cal_component_alarm_get_icalcomponent (CalComponentAlarm *alarm);
 
 
