@@ -1,3 +1,13 @@
+2003-12-01  Radek Doulik  <rodo@ximian.com>
+
+	* em-folder-tree.c (render_pixbuf): use CAMEL_VTRASH_NAME,
+	CAMEL_VJUNK_NAME
+
+2003-11-28  Radek Doulik  <rodo@ximian.com>
+
+	* em-folder-tree.c (render_pixbuf): added junk icon to folder
+	icons
+
 2003-12-01  Not Zed  <NotZed@Ximian.com>
 
 	* em-folder-browser.c (emfb_edit_cut, emfb_edit_copy)

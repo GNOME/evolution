@@ -233,10 +233,12 @@ enum {
 	FOLDER_ICON_NORMAL,
 	FOLDER_ICON_INBOX,
 	FOLDER_ICON_OUTBOX,
-	FOLDER_ICON_TRASH
+	FOLDER_ICON_TRASH,
+	FOLDER_ICON_JUNK,
+	FOLDER_ICON_LAST
 };
 
-static GdkPixbuf *folder_icons[4];
+static GdkPixbuf *folder_icons[FOLDER_ICON_LAST];
 
 static void
 render_pixbuf (GtkTreeViewColumn *column, GtkCellRenderer *renderer,
@@ -248,10 +250,11 @@ render_pixbuf (GtkTreeViewColumn *column, GtkCellRenderer *renderer,
 	char *path;
 	
 	if (!initialised) {
-		folder_icons[0] = gdk_pixbuf_new_from_file (EVOLUTION_ICONSDIR "/folder-mini.png", NULL);
-		folder_icons[1] = gdk_pixbuf_new_from_file (EVOLUTION_ICONSDIR "/inbox-mini.png", NULL);
-		folder_icons[2] = gdk_pixbuf_new_from_file (EVOLUTION_ICONSDIR "/outbox-mini.png", NULL);
-		folder_icons[3] = gdk_pixbuf_new_from_file (EVOLUTION_ICONSDIR "/evolution-trash-mini.png", NULL);
+		folder_icons[FOLDER_ICON_NORMAL] = gdk_pixbuf_new_from_file (EVOLUTION_ICONSDIR "/folder-mini.png", NULL);
+		folder_icons[FOLDER_ICON_INBOX] = gdk_pixbuf_new_from_file (EVOLUTION_ICONSDIR "/inbox-mini.png", NULL);
+		folder_icons[FOLDER_ICON_OUTBOX] = gdk_pixbuf_new_from_file (EVOLUTION_ICONSDIR "/outbox-mini.png", NULL);
+		folder_icons[FOLDER_ICON_TRASH] = gdk_pixbuf_new_from_file (EVOLUTION_ICONSDIR "/evolution-trash-mini.png", NULL);
+		folder_icons[FOLDER_ICON_JUNK] = gdk_pixbuf_new_from_file (EVOLUTION_ICONSDIR "/evolution-junk-mini.png", NULL);
 		initialised = TRUE;
 	}
 	
@@ -263,8 +266,10 @@ render_pixbuf (GtkTreeViewColumn *column, GtkCellRenderer *renderer,
 			pixbuf = folder_icons[FOLDER_ICON_INBOX];
 		else if (!strcasecmp (path, "/Outbox"))
 			pixbuf = folder_icons[FOLDER_ICON_OUTBOX];
-		else if (!strcasecmp (path, "/Trash"))
+		else if if (*path == '/' && !strcasecmp (path + 1, CAMEL_VTRASH_NAME))
 			pixbuf = folder_icons[FOLDER_ICON_TRASH];
+		else if (*path == '/' && !strcasecmp (path + 1, CAMEL_VJUNK_NAME))
+			pixbuf = folder_icons[FOLDER_ICON_JUNK];
 		else
 			pixbuf = folder_icons[FOLDER_ICON_NORMAL];
 	}
