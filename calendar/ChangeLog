@@ -1,5 +1,16 @@
 2004-04-15  JP Rosevear  <jpr@ximian.com>
 
+	Fixes #53903
+	
+	* gui/dialogs/meeting-page.c (meeting_page_fill_widgets):
+	show/hide add button properly
+	(change_clicked_cb): ditto
+
+	* gui/dialogs/comp-editor.c (needs_send_cb): call back when "needs_send"
+	(page_changed_cb): use accessor
+	
+2004-04-15  JP Rosevear  <jpr@ximian.com>
+
 	* gui/dialogs/comp-editor.c (save_comp): stop listening to changes
 	since we are just going to save and close
 	(save_cmd): remove, its ok since we are toasting menus shortly
@@ -58,7 +69,6 @@
 	could be NULL if the source was deleted rather than unchecked
 	(update_primary_task_selection): look at the task source list
 
->>>>>>> 1.2252
 2004-04-14  JP Rosevear <jpr@ximian.com>
 
 	Fixes #56553

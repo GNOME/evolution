@@ -102,6 +102,7 @@ static void delete_comp (CompEditor *editor);
 static void close_dialog (CompEditor *editor);
 
 static void page_changed_cb (GtkObject *obj, gpointer data);
+static void needs_send_cb (GtkObject *obj, gpointer data);
 static void page_summary_changed_cb (GtkObject *obj, const char *summary, gpointer data);
 static void page_dates_changed_cb (GtkObject *obj, CompEditorPageDates *dates, gpointer data);
 static void page_client_changed_cb (GtkObject *obj, ECal *client, gpointer data);
@@ -469,11 +470,9 @@ save_comp_with_send (CompEditor *editor)
 
 	send = priv->changed && priv->needs_send;
 
-	g_message ("Save and Send");
 	if (!save_comp (editor))
 		return FALSE;
 
-	g_message ("Send dialog");
  	if (send && send_component_dialog ((GtkWindow *) editor, priv->client, priv->comp, !priv->existing_org)) {
  		if (itip_organizer_is_user (priv->comp, priv->client))
  			return comp_editor_send_comp (editor, E_CAL_COMPONENT_METHOD_REQUEST);
@@ -765,6 +764,8 @@ comp_editor_append_page (CompEditor *editor,
 	/* Listen for things happening on the page */
 	g_signal_connect(page, "changed",
 			    G_CALLBACK (page_changed_cb), editor);
+	g_signal_connect(page, "needs_send",
+			    G_CALLBACK (needs_send_cb), editor);
 	g_signal_connect(page, "summary_changed",
 			    G_CALLBACK (page_summary_changed_cb), editor);
 	g_signal_connect(page, "dates_changed",
@@ -1465,7 +1466,7 @@ page_changed_cb (GtkObject *obj, gpointer data)
 
 	priv = editor->priv;
 
-	priv->changed = TRUE;
+	comp_editor_set_changed (editor, TRUE);
 
 	if (!priv->warned && priv->existing_org && !priv->user_org) {
 		e_notice (editor, GTK_MESSAGE_INFO,
@@ -1473,6 +1474,17 @@ page_changed_cb (GtkObject *obj, gpointer data)
 		priv->warned = TRUE;
 	}
 	
+}
+
+static void
+needs_send_cb (GtkObject *obj, gpointer data)
+{
+	CompEditor *editor = COMP_EDITOR (data);
+	CompEditorPrivate *priv;
+
+	priv = editor->priv;
+
+	comp_editor_set_needs_send (editor, TRUE);
 }
 
 /* Page signal callbacks */

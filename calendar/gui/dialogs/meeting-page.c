@@ -354,6 +354,7 @@ meeting_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
 			gtk_widget_show (priv->existing_organizer_table);
 			if (itip_organizer_is_user (comp, page->client)) {
 				gtk_widget_show (priv->invite);
+				gtk_widget_show (priv->add);
 				if (e_cal_get_static_capability (
 					    page->client,
 					    CAL_STATIC_CAPABILITY_ORGANIZER_NOT_EMAIL_ADDRESS))
@@ -364,6 +365,7 @@ meeting_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
 					    CAL_STATIC_CAPABILITY_ORGANIZER_NOT_EMAIL_ADDRESS))
 					gtk_widget_hide (priv->existing_organizer_btn);
 				gtk_widget_hide (priv->invite);
+				gtk_widget_hide (priv->add);
 			}
 			
 			if (organizer.cn != NULL)
@@ -543,8 +545,9 @@ change_clicked_cb (GtkWidget *widget, gpointer data)
 	gtk_widget_show (priv->organizer_table);
 	gtk_widget_hide (priv->existing_organizer_table);
 	gtk_widget_show (priv->invite);
+	gtk_widget_show (priv->add);
 
-	comp_editor_page_notify_needs_send (COMP_EDITOR_PAGE (mpage));
+	comp_editor_page_notify_changed (COMP_EDITOR_PAGE (mpage));
 	
 	priv->existing = FALSE;
 }
