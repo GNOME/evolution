@@ -742,7 +742,7 @@ AC_ARG_WITH(nss-libs, [  --with-nss-libs=PREFIX         	Location of Mozilla nss
 	with_nss_libs="$withval")
 
 if test "x${enable_nss}" = "xyes" || test "x${enable_nss}" = "xstatic"; then
-	if test -z "${with_nspr_includes}" || test -z "${with_nspr_libs}" || test -z "${with_nss_includes}" || test -z "${with_nss_libs}" || test "x${enable_nss}" = "xstatic"; then
+	if test -n "${with_nspr_includes}" || test -n "${with_nspr_libs}" || test -n "${with_nss_includes}" || test -n "${with_nss_libs}" || test "x${enable_nss}" = "xstatic"; then
 dnl If the user specifies --with-foo or --enable-nss=static, then we have to do this manually
 		check_manually="yes"
 	else
@@ -757,10 +757,10 @@ dnl If the user specifies --with-foo or --enable-nss=static, then we have to do 
 			mozilla_nss="mozilla-nss"
 			AC_DEFINE(HAVE_NSS)
 			AC_DEFINE(HAVE_SSL)
-			NSPR_CFLAGS=""
-			NSPR_LIBS=""
-			NSS_CFLAGS=""
-			NSS_LIBS=""
+			MANUAL_NSPR_CFLAGS=""
+			MANUAL_NSPR_LIBS=""
+			MANUAL_NSS_CFLAGS=""
+			MANUAL_NSS_LIBS=""
 		else
 			check_manually="yes"
 		fi
@@ -781,7 +781,7 @@ dnl If the user specifies --with-foo or --enable-nss=static, then we have to do 
 			
 			if test "x{$moz_nspr_includes}" != "xno" -a "x{$moz_nspr_includes}" != "x" ; then
 				have_nspr_includes="yes"
-				NSPR_CFLAGS="-I$with_nspr_includes"
+				MANUAL_NSPR_CFLAGS="-I$with_nspr_includes"
 			fi
 		else
 			AC_MSG_CHECKING(for Mozilla nspr4 includes)
@@ -808,7 +808,7 @@ dnl If the user specifies --with-foo or --enable-nss=static, then we have to do 
 			AC_CACHE_CHECK([for Mozilla nspr libraries], moz_nspr_libs,
 			[
 		       		LIBS_save="$LIBS"
-				CFLAGS="$CFLAGS $NSPR_CFLAGS"
+				CFLAGS="$CFLAGS $MANUAL_NSPR_CFLAGS"
 				
 				if test "x${with_nspr_libs}" != "x"; then
 		       			LIBS="$nsprlibs"
@@ -825,9 +825,9 @@ dnl If the user specifies --with-foo or --enable-nss=static, then we have to do 
 			])
 			if test "x$moz_nspr_libs" != "xno"; then
 				have_nspr_libs="yes"
-				NSPR_LIBS="-L$with_nspr_libs $nsprlibs"
+				MANUAL_NSPR_LIBS="-L$with_nspr_libs $nsprlibs"
 			else
-				NSPR_CLFAGS=""
+				MANUAL_NSPR_CLFAGS=""
 			fi
 		else
 			AC_MSG_CHECKING(for Mozilla nspr4 libraries)
@@ -854,10 +854,10 @@ dnl If the user specifies --with-foo or --enable-nss=static, then we have to do 
 			
 			if test "x${have_nss_includes}" = "xyes"; then	
 				have_nss_includes="yes"
-				NSS_CFLAGS="-I$with_nss_includes"
+				MANUAL_NSS_CFLAGS="-I$with_nss_includes"
 			else
-				NSPR_CFLAGS=""
-				NSPR_LIBS=""
+				MANUAL_NSPR_CFLAGS=""
+				MANUAL_NSPR_LIBS=""
 			fi
 		else
 			AC_MSG_CHECKING(for Mozilla nss3 includes)
@@ -906,26 +906,26 @@ dnl If the user specifies --with-foo or --enable-nss=static, then we have to do 
 		 		else
 					msg_ssl="yes (Mozilla NSS)"
 				fi # static_nss
-				NSS_LIBS="-L$with_nss_libs $nsslibs"
+				MANUAL_NSS_LIBS="-L$with_nss_libs $nsslibs"
 			else
-				NSS_CFLAGS=""
-				NSPR_CFLAGS=""
-				NSPR_LIBS=""
+				MANUAL_NSS_CFLAGS=""
+				MANUAL_NSPR_CFLAGS=""
+				MANUAL_NSPR_LIBS=""
 			fi
 		else
 			AC_MSG_CHECKING(for Mozilla nss libraries)
 			AC_MSG_RESULT(no)
 		fi
 		
-		NSS_CFLAGS="$NSPR_CFLAGS $NSS_CFLAGS"
-		NSS_LIBS="$NSPR_LIBS $NSS_LIBS"
+		MANUAL_NSS_CFLAGS="$MANUAL_NSPR_CFLAGS $MANUAL_NSS_CFLAGS"
+		MANUAL_NSS_LIBS="$MANUAL_NSPR_LIBS $MANUAL_NSS_LIBS"
 	fi
 fi
 
-AC_SUBST(NSPR_CFLAGS)
-AC_SUBST(NSPR_LIBS)
-AC_SUBST(NSS_CFLAGS)
-AC_SUBST(NSS_LIBS)
+AC_SUBST(MANUAL_NSPR_CFLAGS)
+AC_SUBST(MANUAL_NSPR_LIBS)
+AC_SUBST(MANUAL_NSS_CFLAGS)
+AC_SUBST(MANUAL_NSS_LIBS)
 
 dnl ******************
 dnl CDE dtappintegrate
@@ -1044,9 +1044,9 @@ AC_DEFUN(EVO_SET_COMPILE_FLAGS, [
 	deps="$2"
 	extra_cflags="$3"
 	extra_libs="$4"
-	PKG_CHECK_MODULES($1, $deps)
-	${1}_CFLAGS="${1}_CFLAGS \$(WERROR) $extra_cflags"
-	${1}_LIBS="${1}_LIBS $extra_libs"
+	PKG_CHECK_MODULES(EVOLUTION, $deps)
+	$1_CFLAGS="$EVOLUTION_CFLAGS \$(WERROR) $extra_cflags"
+	$1_LIBS="$EVOLUTION_LIBS $extra_libs"
 ])
 
 dnl --- Flags to get all the GNOME stuff
