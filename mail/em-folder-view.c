@@ -857,7 +857,7 @@ emfv_popup_move(EPopup *ep, EPopupItem *pitem, void *data)
 	d->uids = message_list_get_selected(emfv->list);
 	d->delete = TRUE;
 	
-	em_select_folder ((GtkWindow *) emfv, _("Select folder"), _("_Move"), default_xfer_messages_uri, emfv_popup_move_cb, d);
+	em_select_folder ((GtkWindow *) emfv, _("Select folder"), _("_Move"), default_xfer_messages_uri, NULL, emfv_popup_move_cb, d);
 }
 
 static void
@@ -872,7 +872,7 @@ emfv_popup_copy(EPopup *ep, EPopupItem *pitem, void *data)
 	d->uids = message_list_get_selected(emfv->list);
 	d->delete = FALSE;
 	
-	em_select_folder ((GtkWindow *) emfv, _("Select folder"), _("C_opy"), default_xfer_messages_uri, emfv_popup_move_cb, d);
+	em_select_folder ((GtkWindow *) emfv, _("Select folder"), _("C_opy"), default_xfer_messages_uri, NULL, emfv_popup_move_cb, d);
 }
 
 static void

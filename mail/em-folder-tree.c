@@ -88,6 +88,8 @@ struct _EMFolderTreePrivate {
 	GHashTable *select_uris_table; /*Removed as they're encountered, so use this to find uri's not presnet but selected */
 	
 	guint32 excluded;
+	gboolean (*excluded_func)(EMFolderTree *emft, GtkTreeModel *model, GtkTreeIter *iter, void *data);
+	void *excluded_data;
 
 	int do_multiselect:1;	/* multiple select mode */
 	int cursor_set:1;	/* set to TRUE means we or something
@@ -360,11 +362,14 @@ emft_select_func(GtkTreeSelection *selection, GtkTreeModel *model, GtkTreePath *
 	GtkTreeIter iter;
 
 	/* NB: This will be called with selection==NULL from tree_row_activated */
-	if (emft->priv->excluded == 0)
+	if (emft->priv->excluded == 0 && emft->priv->excluded_func == NULL)
 		return TRUE;
 
 	if (!gtk_tree_model_get_iter(model, &iter, path))
 		return TRUE;
+
+	if (emft->priv->excluded_func != NULL)
+		return emft->priv->excluded_func(emft, model, &iter, emft->priv->excluded_data);
 
 	gtk_tree_model_get(model, &iter, COL_UINT_FLAGS, &flags, COL_BOOL_IS_STORE, &is_store, -1);
 	if (is_store)
@@ -1566,6 +1571,12 @@ void em_folder_tree_set_excluded(EMFolderTree *emft, guint32 flags)
 	emft->priv->excluded = flags;
 }
 
+void em_folder_tree_set_excluded_func(EMFolderTree *emft, EMFTExcludeFunc exclude, void *data)
+{
+	emft->priv->excluded_func = exclude;
+	emft->priv->excluded_data = data;
+}
+
 GList *
 em_folder_tree_get_selected_uris (EMFolderTree *emft)
 {
@@ -2215,10 +2226,10 @@ emft_popup_copy_folder_selected (const char *uri, void *data)
 	
 	if (!(tostore = camel_session_get_store (session, uri, &ex))) {
 		e_error_run((GtkWindow *)gtk_widget_get_toplevel((GtkWidget *) cfd->emft),
-			    cfd->delete?"mail:no-move-folder-to-notexist":"mail:no-move-folder-to-notexist", frombase, uri, ex.desc, NULL);
+			    cfd->delete?"mail:no-move-folder-to-notexist":"mail:no-copy-folder-to-notexist", frombase, uri, ex.desc, NULL);
 		goto fail;
 	}
-	
+
 	url = camel_url_new (uri, NULL);
 	if (((CamelService *)tostore)->provider->url_flags & CAMEL_URL_FRAGMENT_IS_PATH)
 		tobase = url->fragment;
@@ -2241,6 +2252,38 @@ fail:
 	g_free (cfd);
 }
 
+/* tree here is the 'destination' selector, not 'self' */
+static gboolean
+emft_popup_copy_folder_exclude(EMFolderTree *tree, GtkTreeModel *model, GtkTreeIter *iter, void *data)
+{
+	struct _copy_folder_data *cfd = data;
+	int fromvfolder, tovfolder;
+	char *fromuri, *touri;
+	guint flags;
+	gboolean is_store;
+
+	/* handles moving to/from vfolders */
+
+	fromuri = em_folder_tree_get_selected_uri(cfd->emft);
+	fromvfolder = strncmp(fromuri, "vfolder:", 8) == 0;
+	gtk_tree_model_get(model, iter, COL_STRING_URI, &touri, COL_UINT_FLAGS, &flags, COL_BOOL_IS_STORE, &is_store, -1);
+	tovfolder = strncmp(touri, "vfolder:", 8) == 0;
+	g_free(fromuri);
+	g_free(touri);
+
+	/* moving from vfolder to normal- not allowed */
+	if (fromvfolder && !tovfolder && cfd->delete)
+		return FALSE;
+	/* copy/move from normal folder to vfolder - not allowed */
+	if (!fromvfolder && tovfolder)
+		return FALSE;
+	/* copying to vfolder - not allowed */
+	if (tovfolder && !cfd->delete)
+		return FALSE;
+
+	return (flags & EMFT_EXCLUDE_NOINFERIORS) == 0;
+}
+
 static void
 emft_popup_copy(EPopup *ep, EPopupItem *item, void *data)
 {
@@ -2252,7 +2295,7 @@ emft_popup_copy(EPopup *ep, EPopupItem *item, void *data)
 	cfd->delete = FALSE;
 	
 	em_select_folder (NULL, _("Select folder"), _("C_opy"),
-			  NULL, emft_popup_copy_folder_selected, cfd);
+			  NULL, emft_popup_copy_folder_exclude, emft_popup_copy_folder_selected, cfd);
 }
 
 static void
@@ -2266,7 +2309,7 @@ emft_popup_move(EPopup *ep, EPopupItem *item, void *data)
 	cfd->delete = TRUE;
 	
 	em_select_folder (NULL, _("Select folder"), _("_Move"),
-			  NULL, emft_popup_copy_folder_selected, cfd);
+			  NULL, emft_popup_copy_folder_exclude, emft_popup_copy_folder_selected, cfd);
 }
 
 

@@ -1,3 +1,18 @@
+2005-02-07  Not Zed  <NotZed@Ximian.com>
+
+	** See bug #72209
+
+	* em-folder-tree.c (emft_popup_copy_folder_exclude): implement one
+	for copying/moving folders.
+
+	* em-folder-selection.c (em_select_folder): add an excluded func
+	argument, fix callers.
+
+	* em-folder-tree.c
+	(em_folder_tree_set_exclude_func): allow custom callback for
+	exclusion.
+	(emft_select_func): handle the custom excluded callback.
+
 2005-02-07  Harry Lu  <harry.lu@sun.com>
 
 	Fix for 72275.

@@ -29,9 +29,12 @@ extern "C" {
 #pragma }
 #endif /* __cplusplus */
 
+#include "em-folder-tree.h"
+
 struct _GtkWindow;
 
 void em_select_folder (struct _GtkWindow *parent_window, const char *title, const char *oklabel, const char *default_uri,
+		       EMFTExcludeFunc exclude,
 		       void (*done)(const char *uri, void *data),
 		       void *data);
 

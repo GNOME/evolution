@@ -51,6 +51,8 @@ typedef struct _EMFolderTreeClass EMFolderTreeClass;
 #define EMFT_EXCLUDE_SYSTEM CAMEL_FOLDER_SYSTEM
 #define EMFT_EXCLUDE_VTRASH CAMEL_FOLDER_VTRASH
 
+typedef gboolean (*EMFTExcludeFunc)(EMFolderTree *emft, GtkTreeModel *model, GtkTreeIter *iter, void *data);
+
 struct _EMFolderTree {
 	GtkVBox parent_object;
 
@@ -74,6 +76,7 @@ void em_folder_tree_enable_drag_and_drop (EMFolderTree *emft);
 
 void em_folder_tree_set_multiselect (EMFolderTree *emft, gboolean mode);
 void em_folder_tree_set_excluded(EMFolderTree *emft, guint32 flags);
+void em_folder_tree_set_excluded_func(EMFolderTree *emft, EMFTExcludeFunc exclude, void *data);
 
 void em_folder_tree_set_selected_list (EMFolderTree *emft, GList *list);
 GList *em_folder_tree_get_selected_uris (EMFolderTree *emft);

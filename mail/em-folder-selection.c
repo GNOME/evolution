@@ -55,6 +55,7 @@ emfs_selector_response(EMFolderSelector *emfs, int response, struct _select_fold
 
 void
 em_select_folder (GtkWindow *parent_window, const char *title, const char *oklabel, const char *default_uri,
+		  EMFTExcludeFunc exclude,
 		  void (*done) (const char *uri, void *user_data), void *user_data)
 {
 	struct _select_folder_data *d;
@@ -64,7 +65,10 @@ em_select_folder (GtkWindow *parent_window, const char *title, const char *oklab
 	
 	model = mail_component_peek_tree_model (mail_component_peek ());
 	emft = (EMFolderTree *) em_folder_tree_new_with_model (model);
-	em_folder_tree_set_excluded (emft, EMFT_EXCLUDE_NOSELECT|EMFT_EXCLUDE_VIRTUAL|EMFT_EXCLUDE_VTRASH);
+	if (exclude)
+		em_folder_tree_set_excluded_func(emft, exclude, user_data);
+	else
+		em_folder_tree_set_excluded (emft, EMFT_EXCLUDE_NOSELECT|EMFT_EXCLUDE_VIRTUAL|EMFT_EXCLUDE_VTRASH);
 	
 	dialog = em_folder_selector_new(emft, EM_FOLDER_SELECTOR_CAN_CREATE, title, NULL, oklabel);
 	
