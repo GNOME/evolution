@@ -1,5 +1,10 @@
 2000-09-08  Ettore Perazzoli  <ettore@helixcode.com>
 
+	* evolution-storage.c (list_through_listener_foreach): Don't crash
+	on nodes with no data.  [The root node has none indeed.]
+
+2000-09-08  Ettore Perazzoli  <ettore@helixcode.com>
+
 	* e-folder-tree.c (e_folder_tree_get_folder): Return NULL if there
 	is no folder with that @path, instead of segfaulting.
 

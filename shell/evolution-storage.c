@@ -63,6 +63,10 @@ list_through_listener_foreach (EFolderTree *tree,
 	corba_folder = (Evolution_Folder *) data;
 	corba_listener = (Evolution_StorageListener) closure;
 
+	/* The root folder has no data.  */
+	if (corba_folder == NULL)
+		return;
+	
 	CORBA_exception_init (&ev);
 	Evolution_StorageListener_new_folder (corba_listener, path, corba_folder, &ev);
 	CORBA_exception_free (&ev);
