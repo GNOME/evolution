@@ -1,3 +1,24 @@
+2004-04-15  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* e-msg-composer-attachment-bar.c (attach_to_multipart): Same idea
+	here as with build_mesage(), don't convert th gconf charset
+	setting to the iconv name before setting it on the mime part.
+
+	* e-msg-composer.c (best_charset): Now returns a malloc'd string
+	bufefr containing the charset that has NOT been converted to the
+	iconv name. This is important in order to avoid using the iconv
+	charset name which may or may not necessarily be the IANA blessed
+	name.
+	(composer_get_default_charset_setting): Changed to always return
+	the actual value in the settings (eg. don't return the iconv
+	name).
+	(build_message): Updated for changes to best_charset(). Set the
+	actual charset name as the charset param and then get the
+	iconv_charset from that. Use iconv_charset everywhere else.
+	(get_file_content): Updated for changes to
+	get_default_charset_setting().
+	(setup_ui): Same.
+
 2004-04-13  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* e-msg-composer.c (get_file_content): To be on the safe side

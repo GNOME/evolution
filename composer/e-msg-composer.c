@@ -280,40 +280,37 @@ best_encoding (GByteArray *buf, const char *charset)
 		return CAMEL_TRANSFER_ENCODING_BASE64;
 }
 
-static const char *
+static char *
 composer_get_default_charset_setting (void)
 {
 	GConfClient *gconf;
-	const char *charset;
-	char *buf;
+	const char *locale;
+	char *charset;
 	
 	gconf = gconf_client_get_default ();
-	buf = gconf_client_get_string (gconf, "/apps/evolution/mail/composer/charset", NULL);
+	charset = gconf_client_get_string (gconf, "/apps/evolution/mail/composer/charset", NULL);
 	
-	if (buf == NULL || buf[0] == '\0') {
-		g_free (buf);
-		buf = gconf_client_get_string (gconf, "/apps/evolution/mail/format/charset", NULL);
-		if (buf && buf[0] == '\0') {
-			g_free (buf);
-			buf = NULL;
+	if (!charset || charset[0] == '\0') {
+		g_free (charset);
+		charset = gconf_client_get_string (gconf, "/apps/evolution/mail/format/charset", NULL);
+		if (charset && charset[0] == '\0') {
+			g_free (charset);
+			charset = NULL;
 		}
 	}
 	
 	g_object_unref (gconf);
 	
-	if (buf != NULL) {
-		charset = e_iconv_charset_name (buf);
-		g_free (buf);
-	} else
-		charset = e_iconv_locale_charset ();
+	if (!charset && (locale = e_iconv_locale_charset ()))
+		charset = g_strdup (locale);
 	
-	return charset ? charset : "us-ascii";
+	return charset ? charset : g_strdup ("us-ascii");
 }
 
-static const char *
+static char *
 best_charset (GByteArray *buf, const char *default_charset, CamelTransferEncoding *encoding)
 {
-	const char *charset;
+	char *charset;
 	
 	/* First try US-ASCII */
 	*encoding = best_encoding (buf, "US-ASCII");
@@ -321,10 +318,9 @@ best_charset (GByteArray *buf, const char *default_charset, CamelTransferEncodin
 		return NULL;
 	
 	/* Next try the user-specified charset for this message */
-	charset = default_charset;
-	*encoding = best_encoding (buf, charset);
+	*encoding = best_encoding (buf, default_charset);
 	if (*encoding != -1)
-		return charset;
+		return g_strdup (default_charset);
 	
 	/* Now try the user's default charset from the mail config */
 	charset = composer_get_default_charset_setting ();
@@ -333,13 +329,14 @@ best_charset (GByteArray *buf, const char *default_charset, CamelTransferEncodin
 		return charset;
 	
 	/* Try to find something that will work */
-	charset = camel_charset_best (buf->data, buf->len);
-	if (!charset)
+	if (!(charset = (char *) camel_charset_best (buf->data, buf->len))) {
 		*encoding = CAMEL_TRANSFER_ENCODING_7BIT;
-	else
-		*encoding = best_encoding (buf, charset);
+		return NULL;
+	}
 	
-	return charset;
+	*encoding = best_encoding (buf, charset);
+	
+	return g_strdup (charset);
 }
 
 static gboolean
@@ -403,15 +400,16 @@ build_message (EMsgComposer *composer, gboolean save_html_object_data)
 	EMsgComposerHdrs *hdrs = E_MSG_COMPOSER_HDRS (composer->hdrs);
 	CamelDataWrapper *plain, *html, *current;
 	CamelTransferEncoding plain_encoding;
+	const char *iconv_charset = NULL;
 	GPtrArray *recipients = NULL;
 	CamelMultipart *body = NULL;
 	CamelContentType *type;
 	CamelMimeMessage *new;
-	const char *charset = NULL;
 	CamelStream *stream;
 	CamelMimePart *part;
 	CamelException ex;
 	GByteArray *data;
+	char *charset;
 	int i;
 	
 	if (composer->persist_stream_interface == CORBA_OBJECT_NIL)
@@ -454,14 +452,17 @@ build_message (EMsgComposer *composer, gboolean save_html_object_data)
 		/* FIXME: we may want to do better than this... */
 		charset = best_charset (data, composer->charset, &plain_encoding);
 		type = camel_content_type_new ("text", "plain");
-		if (charset)
+		if ((charset = best_charset (data, composer->charset, &plain_encoding))) {
 			camel_content_type_set_param (type, "charset", charset);
+			iconv_charset = e_iconv_charset_name (charset);
+			g_free (charset);
+		}
 	}
 	
 	stream = camel_stream_mem_new_with_byte_array (data);
 	
 	/* convert the stream to the appropriate charset */
-	if (charset && strcasecmp (charset, "UTF-8") != 0) {
+	if (iconv_charset && g_ascii_strcasecmp (iconv_charset, "UTF-8") != 0) {
 		CamelStreamFilter *filter_stream;
 		CamelMimeFilterCharset *filter;
 		
@@ -469,7 +470,7 @@ build_message (EMsgComposer *composer, gboolean save_html_object_data)
 		camel_object_unref (stream);
 		
 		stream = (CamelStream *) filter_stream;
-		filter = camel_mime_filter_charset_new_convert ("UTF-8", charset);
+		filter = camel_mime_filter_charset_new_convert ("UTF-8", iconv_charset);
 		camel_stream_filter_add (filter_stream, (CamelMimeFilter *) filter);
 		camel_object_unref (filter);
 	}
@@ -816,7 +817,7 @@ get_file_content (EMsgComposer *composer, const char *file_name, gboolean want_h
 	CamelMimeFilter *html, *charenc;
 	CamelStream *stream;
 	GByteArray *buffer;
-	const char *charset;
+	char *charset;
 	char *content;
 	int fd;
 	
@@ -824,7 +825,7 @@ get_file_content (EMsgComposer *composer, const char *file_name, gboolean want_h
 	if (fd == -1) {
 		if (warn) {
 			GtkWidget *dialog;
-
+			
 			dialog = gtk_message_dialog_new(GTK_WINDOW(composer),
 							GTK_DIALOG_MODAL|GTK_DIALOG_DESTROY_WITH_PARENT,
 							GTK_MESSAGE_ERROR, GTK_BUTTONS_OK,
@@ -869,11 +870,14 @@ get_file_content (EMsgComposer *composer, const char *file_name, gboolean want_h
 		filtered_stream = camel_stream_filter_new_with_stream (stream);
 		camel_object_unref (stream);
 		
-		charset = composer ? composer->charset : composer_get_default_charset_setting ();
-		if ((charenc = (CamelMimeFilter *) camel_mime_filter_charset_new_convert (charset, "utf-8"))) {
+		charset = composer && composer->charset ? composer->charset : NULL;
+		charset = charset ? g_strdup (charset) : composer_get_default_charset_setting ();
+		if ((charenc = (CamelMimeFilter *) camel_mime_filter_charset_new_convert (charset, "UTF-8"))) {
 			camel_stream_filter_add (filtered_stream, charenc);
 			camel_object_unref (charenc);
 		}
+		
+		g_free (charset);
 		
 		camel_stream_write_to_stream ((CamelStream *) filtered_stream, (CamelStream *) memstream);
 		camel_object_unref (filtered_stream);
@@ -2194,8 +2198,8 @@ static void
 setup_ui (EMsgComposer *composer)
 {
 	BonoboUIContainer *container;
-	const char *default_charset;
 	gboolean hide_smime;
+	char *charset;
 	
 	container = bonobo_window_get_ui_container (BONOBO_WINDOW (composer));
 	
@@ -2215,11 +2219,12 @@ setup_ui (EMsgComposer *composer)
 	
 	/* Populate the Charset Encoding menu and default it to whatever the user
 	   chose as his default charset in the mailer */
-	default_charset = composer_get_default_charset_setting ();
+	charset = composer_get_default_charset_setting ();
 	e_charset_picker_bonobo_ui_populate (composer->uic, "/menu/Edit/EncodingPlaceholder",
-					     default_charset,
+					     charset,
 					     menu_changed_charset_cb,
 					     composer);
+	g_free (charset);
 	
 	/* Format -> HTML */
 	bonobo_ui_component_set_prop (

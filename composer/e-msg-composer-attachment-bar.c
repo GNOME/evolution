@@ -743,29 +743,31 @@ e_msg_composer_attachment_bar_new (GtkAdjustment *adj)
 	return GTK_WIDGET (new);
 }
 
-static const char *
+static char *
 get_default_charset (void)
 {
 	GConfClient *gconf;
-	const char *charset;
-	char *buf;
+	const char *locale;
+	char *charset;
 	
 	gconf = gconf_client_get_default ();
-	buf = gconf_client_get_string (gconf, "/apps/evolution/mail/composer/charset", NULL);
-	if (buf && buf[0] == '\0') {
-		g_free (buf);
-		buf = NULL;
+	charset = gconf_client_get_string (gconf, "/apps/evolution/mail/composer/charset", NULL);
+	
+	if (!charset || charset[0] == '\0') {
+		g_free (charset);
+		charset = gconf_client_get_string (gconf, "/apps/evolution/mail/format/charset", NULL);
+		if (charset && charset[0] == '\0') {
+			g_free (charset);
+			charset = NULL;
+		}
 	}
 	
 	g_object_unref (gconf);
 	
-	if (buf != NULL) {
-		charset = e_iconv_charset_name (buf);
-		g_free (buf);
-	} else
-		charset = e_iconv_locale_charset ();
+	if (!charset && (locale = e_iconv_locale_charset ()))
+		charset = g_strdup (locale);
 	
-	return charset;
+	return charset ? charset : g_strdup ("us-ascii");
 }
 
 static void
@@ -786,6 +788,7 @@ attach_to_multipart (CamelMultipart *multipart,
 			CamelMimeFilterBestenc *bestenc;
 			CamelStream *stream;
 			const char *charset;
+			char *buf = NULL;
 			char *type;
 			
 			charset = camel_content_type_param (content_type, "charset");
@@ -808,7 +811,7 @@ attach_to_multipart (CamelMultipart *multipart,
 				default_charset = "us-ascii";
 			} else if (!charset) {
 				if (!default_charset)
-					default_charset = get_default_charset ();
+					default_charset = buf = get_default_charset ();
 				
 				/* FIXME: We should really check that this fits within the
                                    default_charset and if not find one that does and/or
@@ -821,6 +824,7 @@ attach_to_multipart (CamelMultipart *multipart,
 				type = camel_content_type_format (content_type);
 				camel_mime_part_set_content_type (attachment->body, type);
 				g_free (type);
+				g_free (buf);
 			}
 			
 			camel_object_unref (bestenc);
