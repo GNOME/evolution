@@ -1,3 +1,8 @@
+2001-04-12  Jason Leach  <jasonleach@usa.net>
+
+	* backend/pas/pas-backend-file.c (INITIAL_VCARD): Update the Voice
+	and Fax phone numbers too, finishing off bug #1667.
+
 2001-04-11  Christopher James Lahey  <clahey@ximian.com>
 
 	* backend/pas/pas-backend-file.c (INITIAL_VCARD): Update the built
