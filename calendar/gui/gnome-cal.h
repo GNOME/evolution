@@ -28,6 +28,7 @@ typedef struct {
 	GtkWidget   *week_view;
 	GtkWidget   *month_view;
 	GtkWidget   *year_view;
+	GtkWidget   *year_view_sw;
 	void        *event_editor;
 } GnomeCalendar;
 

@@ -1,3 +1,9 @@
+1999-06-04  Robert Brady  <rwb197@ecs.soton.ac.uk>
+
+	* gnome-cal.h, gnome-cal.c: Fix abort() problem with the year view.
+	(Bug #1367). Thanks to Owen Cliffe <oc197@ecs.soton.ac.uk> for
+	helping track it down.
+
 1999-06-03  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
 	* calobj.c (daynumberlist): One line bug fix from Sergey I Panov.

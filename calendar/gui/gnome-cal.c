@@ -44,7 +44,6 @@ gnome_calendar_get_type (void)
 static void
 setup_widgets (GnomeCalendar *gcal)
 {
-	GtkWidget *sw;
 	time_t now;
 
 	now = time (NULL);
@@ -55,16 +54,16 @@ setup_widgets (GnomeCalendar *gcal)
 	gcal->month_view = month_view_new (gcal, now);
 	gcal->year_view  = year_view_new (gcal, now);
 
-	sw = gtk_scrolled_window_new (NULL, NULL);
-	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (sw),
+	gcal->year_view_sw = gtk_scrolled_window_new (NULL, NULL);
+	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (gcal->year_view_sw),
 					GTK_POLICY_NEVER,
 					GTK_POLICY_AUTOMATIC);
-	gtk_container_add (GTK_CONTAINER (sw), gcal->year_view);
+	gtk_container_add (GTK_CONTAINER (gcal->year_view_sw), gcal->year_view);
 
 	gtk_notebook_append_page (GTK_NOTEBOOK (gcal->notebook), gcal->day_view,   gtk_label_new (_("Day View")));
 	gtk_notebook_append_page (GTK_NOTEBOOK (gcal->notebook), gcal->week_view,  gtk_label_new (_("Week View")));
 	gtk_notebook_append_page (GTK_NOTEBOOK (gcal->notebook), gcal->month_view, gtk_label_new (_("Month View")));
-	gtk_notebook_append_page (GTK_NOTEBOOK (gcal->notebook), sw,  gtk_label_new (_("Year View"))); 
+	gtk_notebook_append_page (GTK_NOTEBOOK (gcal->notebook), gcal->year_view_sw,  gtk_label_new (_("Year View"))); 
 
 	gtk_widget_show_all (gcal->notebook);
 
@@ -93,7 +92,7 @@ gnome_calendar_get_current_view_name (GnomeCalendar *gcal)
 		return "weekview";
 	else if (page == gcal->month_view)
 		return "monthview";
-	else if (page == gcal->year_view)
+	else if (page == gcal->year_view_sw)
 		return "yearview";
 	else
 		return "dayview";
@@ -117,7 +116,7 @@ gnome_calendar_goto (GnomeCalendar *gcal, time_t new_time)
 		gncal_week_view_set (GNCAL_WEEK_VIEW (gcal->week_view), new_time);
 	else if (current == gcal->month_view)
 		month_view_set (MONTH_VIEW (gcal->month_view), new_time);
-	else if (current == gcal->year_view)
+	else if (current == gcal->year_view_sw)
 		year_view_set (YEAR_VIEW (gcal->year_view), new_time);
 	else {
 		g_warning ("My penguin is gone!");
@@ -139,7 +138,7 @@ gnome_calendar_direction (GnomeCalendar *gcal, int direction)
 		new_time = time_add_week (time_week_begin (gcal->current_display), 1 * direction);
 	else if (cp == gcal->month_view)
 		new_time = time_add_month (time_month_begin (gcal->current_display), 1 * direction);
-	else if (cp == gcal->year_view)
+	else if (cp == gcal->year_view_sw)
 		new_time = time_add_year (time_year_begin (gcal->current_display), 1 * direction);
 	else {
 		g_warning ("Weee!  Where did the penguin go?");
