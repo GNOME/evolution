@@ -1,3 +1,13 @@
+2003-09-22  Not Zed  <NotZed@Ximian.com>
+
+	* em-popup.c (emp_uri_popup_link_copy): removed, moved to
+	em-folder-view, for now, it has access to an invisible.
+
+	* em-folder-view.c (emfv_setting_notify): honour the load_http
+	setting, at least the all setting.
+	(emfv_format_popup_event): setup the popup menu item for copy link
+	location here.
+
 2003-09-22  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-preferences.c (mail_preferences_construct): Connect to

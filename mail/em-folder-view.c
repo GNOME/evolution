@@ -1754,6 +1754,44 @@ emfv_format_link_clicked(EMFormatHTMLDisplay *efhd, const char *uri, EMFolderVie
 	}
 }
 
+struct _EMFVPopupItem {
+	EMPopupItem item;
+
+	EMFolderView *emfv;
+	char *uri;
+};
+
+static void
+emp_uri_popup_link_copy(GtkWidget *w, struct _EMFVPopupItem *item)
+{
+	struct _EMFolderViewPrivate *p = item->emfv->priv;
+
+	g_free(p->selection_uri);
+	p->selection_uri = g_strdup(item->uri);
+
+	gtk_selection_owner_set(p->invisible, GDK_SELECTION_PRIMARY, gtk_get_current_event_time());
+	gtk_selection_owner_set(p->invisible, GDK_SELECTION_CLIPBOARD, gtk_get_current_event_time());
+}
+
+static struct _EMFVPopupItem emfv_uri_popups[] = {
+	{ { EM_POPUP_ITEM, "00.uri.01", N_("_Copy Link Location"), G_CALLBACK(emp_uri_popup_link_copy), NULL, NULL, EM_POPUP_URI_NOT_MAILTO }, },
+};
+
+static void
+emfv_uri_popup_free(GSList *list)
+{
+	while (list) {
+		GSList *n = list->next;
+		struct _EMFVPopupItem *item = list->data;
+
+		g_free(item->uri);
+		g_object_unref(item->emfv);
+		g_slist_free_1(list);
+
+		list = n;
+	}
+}
+
 static int
 emfv_format_popup_event(EMFormatHTMLDisplay *efhd, GdkEventButton *event, const char *uri, CamelMimePart *part, EMFolderView *emfv)
 {
@@ -1767,8 +1805,21 @@ emfv_format_popup_event(EMFormatHTMLDisplay *efhd, GdkEventButton *event, const 
 	emp = em_popup_new("com.ximian.mail.folderview.popup.uri");
 	if (part)
 		target = em_popup_target_new_part(part, NULL);
-	else
+	else {
+		GSList *menus = NULL;
+		int i;
+
 		target = em_popup_target_new_uri(uri);
+
+		for (i=0;i<sizeof(emfv_uri_popups)/sizeof(emfv_uri_popups[0]);i++) {
+			emfv_uri_popups[i].item.activate_data = &emfv_uri_popups[i];
+			emfv_uri_popups[i].emfv = emfv;
+			g_object_ref(emfv);
+			emfv_uri_popups[i].uri = g_strdup(target->data.uri);
+			menus = g_slist_prepend(menus, &emfv_uri_popups[i]);
+		}
+		em_popup_add_items(emp, menus, (GDestroyNotify)emfv_uri_popup_free);
+	}
 
 	menu = em_popup_create_menu_once(emp, target, target->mask, target->mask);
 	gtk_menu_popup(menu, NULL, NULL, NULL, NULL, event->button, event->time);
@@ -1799,6 +1850,7 @@ enum {
 	EMFV_MESSAGE_STYLE,
 	EMFV_MARK_SEEN,
 	EMFV_MARK_SEEN_TIMEOUT,
+	EMFV_LOAD_HTTP,
 	EMFV_SETTINGS		/* last, for loop count */
 };
 
@@ -1810,7 +1862,8 @@ static const char * const emfv_display_keys[] = {
 	"caret_mode",
 	"message_style",
 	"mark_seen",
-	"mark_seen_timeout"
+	"mark_seen_timeout",
+	"load_http_images"
 };
 
 static GHashTable *emfv_setting_key;
@@ -1862,6 +1915,12 @@ emfv_setting_notify(GConfClient *gconf, guint cnxn_id, GConfEntry *entry, EMFold
 	case EMFV_MARK_SEEN_TIMEOUT:
 		emfv->mark_seen_timeout = gconf_value_get_int(gconf_entry_get_value(entry));
 		break;
+	case EMFV_LOAD_HTTP: {
+		int style = gconf_value_get_int(gconf_entry_get_value(entry));
+
+		/* FIXME: this doesn't handle the 'sometimes' case, only the always case */
+		em_format_html_set_load_http((EMFormatHTML *)emfv->preview, style == 2);
+		break; }
 	}
 }
 

@@ -659,18 +659,6 @@ emp_uri_popup_link_open(GtkWidget *w, EMPopupTarget *t)
 }
 
 static void
-emp_uri_popup_link_copy(GtkWidget *w, EMPopupTarget *t)
-{
-#if 0
-	g_free(p->selection_uri);
-	p->selection_uri = g_strdup(t->data.uri);
-
-	gtk_selection_owner_set(p->invisible, GDK_SELECTION_PRIMARY, gtk_get_current_event_time());
-	gtk_selection_owner_set(p->invisible, GDK_SELECTION_CLIPBOARD, gtk_get_current_event_time());
-#endif
-}
-
-static void
 emp_uri_popup_address_send(GtkWidget *w, EMPopupTarget *t)
 {
 	em_utils_compose_new_message_with_mailto(t->widget, t->data.uri);
@@ -684,7 +672,6 @@ emp_uri_popup_address_add(GtkWidget *w, EMPopupTarget *t)
 
 static EMPopupItem emp_standard_uri_popups[] = {
 	{ EM_POPUP_ITEM, "00.uri.00", N_("_Open Link in Browser"), G_CALLBACK(emp_uri_popup_link_open), NULL, NULL, EM_POPUP_URI_NOT_MAILTO },
-	{ EM_POPUP_ITEM, "00.uri.01", N_("_Copy Link Location"), G_CALLBACK(emp_uri_popup_link_copy), NULL, NULL, EM_POPUP_URI_NOT_MAILTO },
 	{ EM_POPUP_ITEM, "00.uri.10", N_("Se_nd message to..."), G_CALLBACK(emp_uri_popup_address_send), NULL, NULL, EM_POPUP_URI_MAILTO },
 	{ EM_POPUP_ITEM, "00.uri.20", N_("_Add to Addressbook"), G_CALLBACK(emp_uri_popup_address_add), NULL, NULL, EM_POPUP_URI_MAILTO },
 };
