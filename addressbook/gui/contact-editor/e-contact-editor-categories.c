@@ -28,6 +28,7 @@
 #include <e-table-simple.h>
 #include <e-cell-text.h>
 #include <e-cell-checkbox.h>
+#include <e-util/e-unicode.h>
 
 static void e_contact_editor_categories_init		(EContactEditorCategories		 *card);
 static void e_contact_editor_categories_class_init	(EContactEditorCategoriesClass	 *klass);
