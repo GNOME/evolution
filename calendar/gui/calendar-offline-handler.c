@@ -156,10 +156,9 @@ backend_cal_opened (CalClient *client, CalClientOpenStatus status, gpointer data
 		return;
 	}
 
-	cal_client_set_mode (client, CAL_MODE_LOCAL);
-
-	gtk_signal_connect (GTK_OBJECT (client), "cal_mode_set", 
+	gtk_signal_connect (GTK_OBJECT (client), "cal_set_mode", 
 			    backend_cal_set_mode, offline_handler);
+	cal_client_set_mode (client, CAL_MODE_LOCAL);
 }
 
 static void
@@ -171,15 +170,14 @@ backend_go_offline (gpointer data, gpointer user_data)
 	gboolean success;
 	
 	client = cal_client_new ();
+	gtk_signal_connect (GTK_OBJECT (client), "cal_opened", 
+			    backend_cal_opened, offline_handler);
 	success = cal_client_open_calendar (client, uri, TRUE);
 	if (!success) {
 		update_offline (offline_handler);
 		gtk_object_unref (GTK_OBJECT (client));
 		return;		
 	}	
-	
-	gtk_signal_connect (GTK_OBJECT (client), "cal_opened", 
-			    backend_cal_opened, offline_handler);
 }
 
 static void
@@ -268,7 +266,7 @@ calendar_offline_handler_init (CalendarOfflineHandler *offline_handler)
 
 	priv->client = cal_client_new ();
 	priv->listener_interface = CORBA_OBJECT_NIL;
-	priv->is_offline = FALSE;	
+	priv->is_offline = FALSE;
 }
 
 CalendarOfflineHandler *
