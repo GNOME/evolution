@@ -5,6 +5,10 @@
     <cmd name="AddSenderToAddressbook"
      _tip="Add Sender to Addressbook"/>
 
+    <cmd name="CaretMode"
+    _tip="Show a blinking cursor in the body of displayed messages"
+    type = "toggle" state = "0" accel="F7"/>
+
     <cmd name="MailNext"
      _tip="Display the next message"/>
 
@@ -264,6 +268,7 @@
 	</submenu>
         <submenu name="MessageDisplay" _label="_Message Display">
           <menuitem name="ViewLoadImages" verb="" _label="Load _Images"/>
+          <menuitem name="CaretMode" verb="" _label="Caret _Mode"/>
 
 	  <separator f="" name="emaillist"/>
 

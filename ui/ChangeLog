@@ -1,3 +1,8 @@
+2003-07-10  Yuedong Du  <yuedong.du@sun.com>
+
+	* evolution-mail-message.xml: add a menu entry corresponding to new
+	introduced caret mode, see bug #44607
+
 2003-07-09  Anna Marie Dirks  <anna@ximian.com>
 
 	* evolution-mail-list.xml: Change the accelerator for "Mark All Read"
