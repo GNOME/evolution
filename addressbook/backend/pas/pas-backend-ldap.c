@@ -1764,15 +1764,16 @@ func_and(struct _ESExp *f, int argc, struct _ESExpResult **argv, void *data)
 	if (argc > 0) {
 		int i;
 
-		strings = g_new(char*, argc+3);
+		strings = g_new0(char*, argc+3);
 		strings[0] = g_strdup ("(&");
 		strings[argc+3 - 2] = g_strdup (")");
-		strings[argc+3 - 1] = NULL;
 		
 		for (i = 0; i < argc; i ++) {
 			GList *list_head = *list;
-			strings[argc - i] = (*list)->data;
-			*list = g_list_remove_link(*list, *list);
+			if (!list_head)
+				break;
+			strings[argc - i] = list_head->data;
+			*list = g_list_remove_link(list_head, list_head);
 			g_list_free_1(list_head);
 		}
 
@@ -1800,14 +1801,16 @@ func_or(struct _ESExp *f, int argc, struct _ESExpResult **argv, void *data)
 	if (argc > 0) {
 		int i;
 
-		strings = g_new(char*, argc+3);
+		strings = g_new0(char*, argc+3);
 		strings[0] = g_strdup ("(|");
 		strings[argc+3 - 2] = g_strdup (")");
-		strings[argc+3 - 1] = NULL;
+
 		for (i = 0; i < argc; i ++) {
 			GList *list_head = *list;
-			strings[argc - i] = (*list)->data;
-			*list = g_list_remove_link(*list, *list);
+			if (!list_head)
+				break;
+			strings[argc - i] = list_head->data;
+			*list = g_list_remove_link(list_head, list_head);
 			g_list_free_1(list_head);
 		}
 

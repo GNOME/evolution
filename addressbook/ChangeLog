@@ -1,3 +1,11 @@
+2001-11-12  Chris Toshok  <toshok@ximian.com>
+
+	[ Fixes Ximian bug #14843 ]
+	* backend/pas/pas-backend-ldap.c (func_and): don't crash if a
+	subexpression wasn't filled in.
+
+	* backend/pas/pas-backend-ldap.c (func_or): same.
+
 2001-11-12  Jon Trowbridge  <trow@ximian.com>
 
 	* gui/contact-list-editor/e-contact-list-editor.c (list_added_cb):
