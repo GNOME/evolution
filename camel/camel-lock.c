@@ -119,7 +119,7 @@ camel_lock_dot(const char *path, CamelException *ex)
 
 		/* but we check stat instead (again, see link(2)) */
 		if (stat(locktmp, &st) == -1) {
-			d(printf("Out lock file %s vanished!?\n", locktmp));
+			d(printf("Our lock file %s vanished!?\n", locktmp));
 
 			/* well that was unexpected, try cleanup/retry */
 			unlink(locktmp);
