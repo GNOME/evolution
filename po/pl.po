@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "POT-Creation-Date: 2001-08-24 15:53+0200\n"
-"PO-Revision-Date: 2001-08-24 16:27+0200\n"
+"PO-Revision-Date: 2001-08-24 19:01+0200\n"
 "Last-Translator: GNOME PL Team <translators@gnome.pl>\n"
 "Language-Team: Polish <pl@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -1243,7 +1243,7 @@ msgstr "Albania"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
 msgid "Algeria"
-msgstr ""
+msgstr "Algieria"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
 msgid "American Samoa"
@@ -1311,7 +1311,7 @@ msgstr "Barbados"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
 msgid "Belarus"
-msgstr ""
+msgstr "Bia³ogu¶"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
 msgid "Belgium"
@@ -1471,7 +1471,7 @@ msgstr "Republika Czeska"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
 msgid "Denmark"
-msgstr ""
+msgstr "Dania"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
 msgid "Djibouti"
@@ -1487,11 +1487,11 @@ msgstr "Republika Dominikany"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
 msgid "East Timor"
-msgstr ""
+msgstr "Wschodni Timor"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
 msgid "Ecuador"
-msgstr ""
+msgstr "Ekwador"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
 msgid "Egypt"
@@ -1555,7 +1555,7 @@ msgstr ""
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
 msgid "Gambia"
-msgstr ""
+msgstr "Gambia"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
 msgid "Georgia"
@@ -1567,11 +1567,11 @@ msgstr "Niemcy"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
 msgid "Ghana"
-msgstr ""
+msgstr "Ghana"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
 msgid "Gibraltar"
-msgstr ""
+msgstr "Gibraltar"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
 msgid "Greece"
@@ -1587,7 +1587,7 @@ msgstr "Grenada"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
 msgid "Guadeloupe"
-msgstr ""
+msgstr "Gwadelupa"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
 msgid "Guam"
@@ -1631,7 +1631,7 @@ msgstr "Hong Kong"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
 msgid "Hungary"
-msgstr ""
+msgstr "Wêgry"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
 msgid "Iceland"
@@ -1675,7 +1675,7 @@ msgstr ""
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
 msgid "Kenya"
-msgstr ""
+msgstr "Kenia"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
 msgid "Kiribati"
@@ -1795,7 +1795,7 @@ msgstr ""
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
 msgid "Morocco"
-msgstr ""
+msgstr "Maroko"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
 msgid "Mozambique"
@@ -2075,7 +2075,7 @@ msgstr "Trynidad i Tobago"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
 msgid "Tunisia"
-msgstr ""
+msgstr "Tunezja"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
 msgid "Turkey"
@@ -8052,7 +8052,7 @@ msgstr ""
 
 #: mail/mail-account-gui.c:1
 msgid "You may not create two accounts with the same name."
-msgstr ""
+msgstr "Nie mo¿na stworzyæ dwóch kont o tej samej nazwie."
 
 #: mail/mail-accounts.c:1
 msgid " (default)"
@@ -8157,10 +8157,13 @@ msgid ""
 "Since the contact list you are sending to is configured to hide the list's "
 "addresses, this message will contain only Bcc recipients."
 msgstr ""
+"Poniewa¿ lista kontaktów, do której wysy³asz, jest skonfigurowana tak, aby "
+"ukrywaæ adresy jej cz³onków, list zawiera³ bêdzie tylko ukrytych adresatów "
+"(bcc)."
 
 #: mail/mail-callbacks.c:1
 msgid "This message contains only Bcc recipients."
-msgstr "Ten list zawiera tylko ukrytych adresatów (bcc:)"
+msgstr "Ten list zawiera tylko ukrytych adresatów (bcc)"
 
 #: mail/mail-callbacks.c:1
 msgid ""
@@ -8168,6 +8171,9 @@ msgid ""
 "Apparently-To header.\n"
 "Send anyway?"
 msgstr ""
+"Istnieje prawdopodobieñstwo, ¿e serwer pocztowy ujawni adresatów, dodaj±c "
+"nag³ówek Apparently-To.\n"
+"Czy pomimo tego wys³aæ?"
 
 #: mail/mail-callbacks.c:1
 msgid "You must specify recipients in order to send this message."
@@ -8242,6 +8248,11 @@ msgid ""
 "\n"
 "Really erase these messages?"
 msgstr ""
+"Wykonanie tej operacji spowoduje trwa³e usuniêcie wszystkich listów "
+"oznaczonych do usuniêcia. W przypadku kontynuowania operacji pó¼niejsze "
+"odzyskanie listów nie bêdzie mo¿liwe.\n"
+"\n"
+"Czy rzeczywi¶cie usun±æ te listy?"
 
 #: mail/mail-callbacks.c:1
 msgid "Do not ask me again."
@@ -8289,10 +8300,13 @@ msgid ""
 "not sure, ask your system\n"
 "administrator or Internet Service Provider."
 msgstr ""
+"Podaj informacje o serwerze, z którego odbierasz pocztê. Je¶li nie masz "
+"pewno¶ci co do tych informacji, zapytaj administratora lub dostawcê "
+"Internetu (ISP)."
 
 #: mail/mail-config-druid.c:1
 msgid "Please select among the following options"
-msgstr ""
+msgstr "Wybierz spo¶ród poni¿szych opcji"
 
 #: mail/mail-config-druid.c:1
 msgid ""
@@ -8300,6 +8314,9 @@ msgid ""
 "sure, ask your system\n"
 "administrator or Internet Service Provider."
 msgstr ""
+"Podaj informacje o sposobie, w jaki bêdziesz wysy³aæ listy. Je¶li nie masz "
+"pewno¶ci co do tych informacji, zapytaj administratora lub dostawcê "
+"Internetu (ISP)."
 
 #: mail/mail-config-druid.c:1
 msgid ""
@@ -8311,6 +8328,12 @@ msgid ""
 "space below.\n"
 "This name will be used for display purposes only."
 msgstr ""
+"Proces konfiguracji poczty zbli¿a siê ku koñcowi. Konto Evolution zostanie "
+"stworzone poprzez zgrupowanie podanych informacji o to¿samo¶ci, serwerze z "
+"nadchodz±c± poczt± oraz sposobie wysy³ania poczty. Wprowad¼ poni¿ej nazwê "
+"tego konta.\n"
+"Nazwa bêdzie u¿ywana tylko przy wy¶wietlaniu celem rozró¿nienia go od innych "
+"kont."
 
 #. set window title
 #: mail/mail-config-druid.c:1
@@ -8533,7 +8556,7 @@ msgstr "Potwierdzanie przy wysy³aniu listu bez _tematu"
 
 #: mail/mail-config.glade.h:1
 msgid "Prompt when sending messages with only _Bcc recipients defined"
-msgstr "Potwierdzanie przy wysy³aniu listu tylko z _ukrytymi adresatami (bcc:)"
+msgstr "Potwierdzanie przy wysy³aniu listu tylko z _ukrytymi adresatami (bcc)"
 
 #: mail/mail-config.glade.h:1
 msgid "Qmail maildir "
@@ -8979,6 +9002,8 @@ msgid ""
 "If you can no longer open this mailbox, then\n"
 "you may need to repair it manually."
 msgstr ""
+"Je¶li otwarcie tej skrzynki nie bêdzie ju¿ mo¿liwe,\n"
+"wówczas mo¿e byæ konieczne rêczne jej naprawienie."
 
 #: mail/mail-local.c:1
 msgid "You cannot change the format of a non-local folder."
@@ -9443,7 +9468,7 @@ msgstr "Zestawienie poczty"
 #: my-evolution/e-summary-preferences.c:1
 #: my-evolution/e-summary-weather.c:1
 msgid "KBOS:ZSAM:EGAA"
-msgstr ""
+msgstr "EPPO:EPGD:EPKK:EPWA"
 
 #: my-evolution/e-summary-preferences.c:1
 msgid "Dictionary.com Word of the Day"
@@ -11134,6 +11159,8 @@ msgid ""
 "Could not start the Evolution Mailer Wizard interface\n"
 "%s"
 msgstr ""
+"Nie mo¿na uruchomiæ interfejsu druida pocztowego Evolution\n"
+"%s"
 
 #: shell/e-shell-startup-wizard.c:1
 msgid "Cannot initialize the Evolution Mailer Wizard interface"
