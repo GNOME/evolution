@@ -475,7 +475,7 @@ imap_parse_body (char **body_p, CamelFolder *folder,
 	CamelContentType *type;
 	int len;
 	
-	if (*body++ != '(') {
+	if (!body || *body++ != '(') {
 		*body_p = NULL;
 		return;
 	}

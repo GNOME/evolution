@@ -1,5 +1,8 @@
 2001-11-16  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* providers/imap/camel-imap-utils.c (imap_parse_body): Abort if
+	body == NULL.
+
 	* camel-mime-filter-tohtml.c (camel_mime_filter_tohtml_new): New
 	mime filter to convert plain text to html.
 
