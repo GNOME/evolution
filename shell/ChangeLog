@@ -1,3 +1,7 @@
+2004-05-21  Not Zed  <NotZed@Ximian.com>
+
+	* e-shell.c (e_shell_attempt_upgrade): remove unused.
+
 2004-05-19  Not Zed  <NotZed@Ximian.com>
 
 	* e-shell-window.c (setup_widgets): use the menu icon not the

@@ -716,7 +716,6 @@ e_shell_attempt_upgrade (EShell *shell, int major, int minor, int revision)
 	for (p = component_infos; success && p != NULL; p = p->next) {
 		const EComponentInfo *info = p->data;
 		CORBA_Environment ev;
-		gboolean component_upgraded;
 
 		CORBA_exception_init (&ev);
 		
