@@ -427,14 +427,11 @@ mail_send_message (CamelMimeMessage *message, const char *destination,
 	char *transport_url = NULL;
 	char *sent_folder_uri = NULL;
 	CamelFolder *folder;
-	const char *version;
 	XEvolution *xev;
 	
-	if (SUB_VERSION[0] == '\0')
-		version = "Evolution/" VERSION " (Preview Release)";
-	else
-		version = "Evolution/" VERSION SUB_VERSION " (Preview Release)";
-	camel_medium_add_header (CAMEL_MEDIUM (message), "X-Mailer", version);
+	camel_medium_add_header (CAMEL_MEDIUM (message), "X-Mailer",
+				 "Evolution/" VERSION SUB_VERSION PREVIEW_RELEASE);
+	
 	camel_mime_message_set_date (message, CAMEL_MESSAGE_DATE_CURRENT, 0);
 	
 	xev = mail_tool_remove_xevolution_headers (message);
