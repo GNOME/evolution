@@ -1,3 +1,14 @@
+2001-01-12  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* component-factory.c (mail_load_storages): Now takes a
+	'is_account_data' variable to specify whether the sources is a
+	list of accounts of a list of services. Basically, the only time
+	you should pass in FALSE is when you are setting up NNTP storages.
+	(add_storage): Now takes a 'name' argument that specifies the name
+	to use in the storage.
+	(owner_set_cb): Updated to pass TRUE for accounts and FALSE for
+	news servers into mail_load_storages.
+
 2001-01-12  Christopher James Lahey  <clahey@helixcode.com>
 
 	* message-list.c: Changed filter_date and filter_size to match the

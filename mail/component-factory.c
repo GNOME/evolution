@@ -172,7 +172,7 @@ owner_set_cb (EvolutionShellComponent *shell_component,
 	      gpointer user_data)
 {
 	GNOME_Evolution_Shell corba_shell;
-	GSList *sources;
+	const GSList *accounts, *news;
 	int i;
 
 	g_print ("evolution-mail: Yeeeh! We have an owner!\n");	/* FIXME */
@@ -186,14 +186,12 @@ owner_set_cb (EvolutionShellComponent *shell_component,
 	create_vfolder_storage (shell_component);
 
 	corba_shell = bonobo_object_corba_objref (BONOBO_OBJECT (shell_client));
-
-	sources = mail_config_get_sources ();
-	mail_load_storages (corba_shell, sources);
-	/* only this one gets free'd because it's created on-the-fly */
-	g_slist_free (sources);
 	
-	sources = (GSList *) mail_config_get_news ();
-	mail_load_storages (corba_shell, sources);
+	accounts = mail_config_get_accounts ();
+	mail_load_storages (corba_shell, accounts, TRUE);
+	
+	news = mail_config_get_news ();
+	mail_load_storages (corba_shell, news, FALSE);
 
 	mail_local_storage_startup (shell_client, evolution_dir);
 
@@ -296,19 +294,16 @@ create_vfolder_storage (EvolutionShellComponent *shell_component)
 }
 
 static void
-add_storage (const char *uri, CamelService *store,
+add_storage (const char *name, const char *uri, CamelService *store,
 	     GNOME_Evolution_Shell corba_shell, CamelException *ex)
 {
 	EvolutionStorage *storage;
 	EvolutionStorageResult res;
-	char *name;
-
-	name = camel_service_get_name (store, TRUE);
+	
 	storage = evolution_storage_new (name, uri, "mailstorage");
-	g_free (name);
-
+	
 	res = evolution_storage_register_on_shell (storage, corba_shell);
-
+	
 	switch (res) {
 	case EVOLUTION_STORAGE_OK:
 		g_hash_table_insert (storages_hash, store, storage);
@@ -325,14 +320,15 @@ add_storage (const char *uri, CamelService *store,
 	}
 }
 
+
+/* FIXME: 'is_account_data' is an ugly hack, if we remove support for NNTP we can take it out -- fejj */
 void
-mail_load_storages (GNOME_Evolution_Shell corba_shell, GSList *sources)
+mail_load_storages (GNOME_Evolution_Shell shell, const GSList *sources, gboolean is_account_data)
 {
 	CamelException ex;
-	MailConfigService *svc;
-	GSList *iter;
-
-	camel_exception_init (&ex);	
+	const GSList *iter;
+	
+	camel_exception_init (&ex);
 
 	/* Load each service (don't connect!). Check its provider and
 	 * see if this belongs in the shell's folder list. If so, add
@@ -340,18 +336,26 @@ mail_load_storages (GNOME_Evolution_Shell corba_shell, GSList *sources)
 	 */
 
 	for (iter = sources; iter; iter = iter->next) {
+		const MailConfigAccount *account = NULL;
+		const MailConfigService *service = NULL;
 		CamelService *store;
 		CamelProvider *prov;
-
-		svc = (MailConfigService *) iter->data;
-		if (svc->url == NULL || svc->url[0] == '\0')
+		
+		if (is_account_data) {
+			account = iter->data;
+			service = account->source;
+		} else {
+			service = iter->data;
+		}
+		
+		if (service->url == NULL || service->url[0] == '\0')
 			continue;
 
-		store = camel_session_get_service (session, svc->url, 
+		store = camel_session_get_service (session, service->url, 
 						   CAMEL_PROVIDER_STORE, &ex);
 		if (store == NULL) {
 			/* FIXME: real error dialog */
-			g_warning ("couldn't get service %s: %s\n", svc->url,
+			g_warning ("couldn't get service %s: %s\n", service->url,
 				   camel_exception_get_description (&ex));
 			camel_exception_clear (&ex);
 			continue;
@@ -365,9 +369,17 @@ mail_load_storages (GNOME_Evolution_Shell corba_shell, GSList *sources)
 		 * That issue can't be resolved on the provider level
 		 * -- it's a per-URL problem.
 		 */
-		if (prov->flags & CAMEL_PROVIDER_IS_STORAGE &&
-		    prov->flags & CAMEL_PROVIDER_IS_REMOTE) {
-			add_storage (svc->url, store, corba_shell, &ex);
+		if (prov->flags & CAMEL_PROVIDER_IS_STORAGE && prov->flags & CAMEL_PROVIDER_IS_REMOTE) {
+			char *name;
+			
+			if (is_account_data) {
+				name = g_strdup (account->name);
+			} else {
+				name = camel_service_get_name (store, TRUE);
+			}
+			add_storage (name, service->url, store, shell, &ex);
+			g_free (name);
+			
 			if (camel_exception_is_set (&ex)) {
 				/* FIXME: real error dialog */
 				g_warning ("Cannot load storage: %s",
@@ -375,7 +387,7 @@ mail_load_storages (GNOME_Evolution_Shell corba_shell, GSList *sources)
 				camel_exception_clear (&ex);
 			}
 		}
-
+		
 		camel_object_unref (CAMEL_OBJECT (store));
 	}
 }

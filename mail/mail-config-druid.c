@@ -225,7 +225,7 @@ druid_finish (GnomeDruidPage *page, gpointer arg1, gpointer user_data)
 	mail_config_write ();
 	
 	mini = g_slist_prepend (NULL, account->source);
-	mail_load_storages (druid->shell, mini);
+	mail_load_storages (druid->shell, mini, TRUE);
 	g_slist_free (mini);
 	
 	gtk_widget_destroy (GTK_WIDGET (druid));
