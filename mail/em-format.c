@@ -1022,7 +1022,7 @@ emf_snoop_part(CamelMimePart *part)
 	   see bug #11778 for some discussion */
 }
 
-#ifdef HAVE_NSS
+#ifdef ENABLE_SMIME
 static void
 emf_application_xpkcs7mime(EMFormat *emf, CamelStream *stream, CamelMimePart *part, const EMFormatHandler *info)
 {
@@ -1299,7 +1299,7 @@ emf_multipart_signed(EMFormat *emf, CamelStream *stream, CamelMimePart *part, co
 
 	/* FIXME: Should be done via a plugin interface */
 	/* FIXME: duplicated in em-format-html-display.c */
-#ifdef HAVE_NSS
+#ifdef ENABLE_SMIME
 	if (g_ascii_strcasecmp("application/x-pkcs7-signature", mps->protocol) == 0
 	    || g_ascii_strcasecmp("application/pkcs7-signature", mps->protocol) == 0)
 		cipher = camel_smime_context_new(emf->session);
@@ -1346,7 +1346,7 @@ emf_message_rfc822(EMFormat *emf, CamelStream *stream, CamelMimePart *part, cons
 }
 
 static EMFormatHandler type_builtin_table[] = {
-#ifdef HAVE_NSS
+#ifdef ENABLE_SMIME
 	{ "application/x-pkcs7-mime", (EMFormatFunc)emf_application_xpkcs7mime, EM_FORMAT_HANDLER_INLINE_DISPOSITION },
 #endif
 	{ "multipart/alternative", emf_multipart_alternative },
@@ -1361,7 +1361,7 @@ static EMFormatHandler type_builtin_table[] = {
 	{ "message/*", emf_message_rfc822, EM_FORMAT_HANDLER_INLINE },
 
 	/* Insert brokenly-named parts here */
-#ifdef HAVE_NSS
+#ifdef ENABLE_SMIME
 	{ "application/pkcs7-mime", (EMFormatFunc)emf_application_xpkcs7mime, EM_FORMAT_HANDLER_INLINE_DISPOSITION },
 #endif
 

@@ -1,3 +1,10 @@
+2004-02-19  Chris Toshok  <toshok@ximian.com>
+
+	* em-format.c (emf_application_xpkcs7mime): wrap code with
+	ENABLE_SMIME instead of HAVE_NSS.
+	(emf_multipart_signed): same.
+	(type_builtin_table): same.
+
 2004-02-19  Rodney Dawes  <dobey@ximian.com>
 
 	* em-folder-tree.c (emft_save_state): Revert previous change, doh
