@@ -108,7 +108,7 @@ apply_changes (MailAccountEditor *editor)
 {
 	MailConfigAccount *account;
 	char *host, *pport, *str;
-	CamelURL *source_url, *transport_url;
+	CamelURL *source_url = NULL, *transport_url;
 	gboolean retval = TRUE;
 	int port;
 	
@@ -143,40 +143,42 @@ apply_changes (MailAccountEditor *editor)
 	}
 	
 	/* source */
-	source_url = camel_url_new (account->source->url, NULL);
-	
-	g_free (source_url->user);
-	str = gtk_entry_get_text (editor->source_user);
-	source_url->user = str && *str ? g_strdup (str) : NULL;
-	
-	g_free (source_url->passwd);
-	str = gtk_entry_get_text (editor->source_passwd);
-	source_url->passwd = str && *str ? g_strdup (str) : NULL;
-	
-	g_free (source_url->authmech);
-	str = gtk_object_get_data (GTK_OBJECT (editor), "source_authmech");
-	source_url->authmech = str && *str ? g_strdup (str) : NULL;
-	
-	g_free (source_url->host);
-        host = g_strdup (gtk_entry_get_text (editor->source_host));
-	if (host && (pport = strchr (host, ':'))) {
-		*pport = '\0';
-		port = atoi (pport + 1);
-	} else {
-		port = 0;
+	if (account->source->url) {
+		source_url = camel_url_new (account->source->url, NULL);
+		
+		g_free (source_url->user);
+		str = gtk_entry_get_text (editor->source_user);
+		source_url->user = str && *str ? g_strdup (str) : NULL;
+		
+		g_free (source_url->passwd);
+		str = gtk_entry_get_text (editor->source_passwd);
+		source_url->passwd = str && *str ? g_strdup (str) : NULL;
+		
+		g_free (source_url->authmech);
+		str = gtk_object_get_data (GTK_OBJECT (editor), "source_authmech");
+		source_url->authmech = str && *str ? g_strdup (str) : NULL;
+		
+		g_free (source_url->host);
+		host = g_strdup (gtk_entry_get_text (editor->source_host));
+		if (host && (pport = strchr (host, ':'))) {
+			*pport = '\0';
+			port = atoi (pport + 1);
+		} else {
+			port = 0;
+		}
+		source_url->host = host;
+		source_url->port = port;
+		
+		g_free (source_url->path);
+		str = gtk_entry_get_text (editor->source_path);
+		source_url->path = str && *str ? g_strdup (str) : NULL;
+		
+		account->source->save_passwd = GTK_TOGGLE_BUTTON (editor->save_passwd)->active;
+		account->source->keep_on_server = GTK_TOGGLE_BUTTON (editor->keep_on_server)->active;
+		
+		if (editor->source_ssl)
+			account->source->use_ssl = GTK_TOGGLE_BUTTON (editor->source_ssl)->active;
 	}
-	source_url->host = host;
-	source_url->port = port;
-	
-	g_free (source_url->path);
-	str = gtk_entry_get_text (editor->source_path);
-	source_url->path = str && *str ? g_strdup (str) : NULL;
-	
-	account->source->save_passwd = GTK_TOGGLE_BUTTON (editor->save_passwd)->active;
-	account->source->keep_on_server = GTK_TOGGLE_BUTTON (editor->keep_on_server)->active;
-	
-	if (editor->source_ssl)
-		account->source->use_ssl = GTK_TOGGLE_BUTTON (editor->source_ssl)->active;
 	
 	/* transport */
 	transport_url = g_new0 (CamelURL, 1);
@@ -209,20 +211,22 @@ apply_changes (MailAccountEditor *editor)
 	 */
 	
 	/* check to make sure the source works */
-	if (!mail_config_check_service (source_url, CAMEL_PROVIDER_STORE, NULL)) {
-		/* set the new source url */
-		g_free (account->source->url);
-		account->source->url = camel_url_to_string (source_url, FALSE);
-		
-		/* save the password if we were requested to do so */
-		if (account->source->save_passwd && source_url->passwd) {
-			mail_session_set_password (account->source->url, source_url->passwd);
-			mail_session_remember_password (account->source->url);
+	if (source_url) {
+		if (!mail_config_check_service (source_url, CAMEL_PROVIDER_STORE, NULL)) {
+			/* set the new source url */
+			g_free (account->source->url);
+			account->source->url = camel_url_to_string (source_url, FALSE);
+			
+			/* save the password if we were requested to do so */
+			if (account->source->save_passwd && source_url->passwd) {
+				mail_session_set_password (account->source->url, source_url->passwd);
+				mail_session_remember_password (account->source->url);
+			}
+		} else {
+			retval = FALSE;
 		}
-	} else {
-		retval = FALSE;
+		camel_url_free (source_url);
 	}
-	camel_url_free (source_url);
 	
 	/* check to make sure the transport works */
 	if (mail_config_check_service (transport_url, CAMEL_PROVIDER_TRANSPORT, NULL)) {	
@@ -299,8 +303,7 @@ source_auth_init (MailAccountEditor *editor, CamelURL *url)
 	menu = gtk_menu_new ();
 	gtk_option_menu_remove_menu (editor->source_auth);
 	
-	/* If we can't connect, don't let them continue. */
-	if (!mail_config_check_service (url, CAMEL_PROVIDER_STORE, &authtypes)) {
+	if (!url || !mail_config_check_service (url, CAMEL_PROVIDER_STORE, &authtypes)) {
 		gtk_option_menu_set_menu (editor->source_auth, menu);
 		
 		return;
@@ -364,7 +367,7 @@ transport_construct_authmenu (MailAccountEditor *editor, CamelURL *url)
 	menu = gtk_menu_new ();
 	gtk_option_menu_remove_menu (editor->transport_auth);
 	
-	if (!mail_config_check_service (url, CAMEL_PROVIDER_TRANSPORT, &authtypes)) {
+	if (!url || !mail_config_check_service (url, CAMEL_PROVIDER_TRANSPORT, &authtypes)) {
 		gtk_option_menu_set_menu (editor->transport_auth, menu);
 		
 		return;
@@ -516,18 +519,18 @@ source_check (MailAccountEditor *editor, CamelURL *url)
 		}
 		
 		if (provider->object_types[CAMEL_PROVIDER_STORE] && provider->flags & CAMEL_PROVIDER_IS_SOURCE) {
-			if (!g_strcasecmp (provider->protocol, url->protocol)) {
+			if (!url || !g_strcasecmp (provider->protocol, url->protocol)) {
 				GtkWidget *label;
 				
 				/* keep-on-server */
-				if (!(provider->flags & CAMEL_PROVIDER_IS_STORAGE))
+				if (url && !(provider->flags & CAMEL_PROVIDER_IS_STORAGE))
 					gtk_widget_set_sensitive (GTK_WIDGET (editor->keep_on_server), TRUE);
 				else
 					gtk_widget_set_sensitive (GTK_WIDGET (editor->keep_on_server), FALSE);
 				
 				/* host */
 				label = glade_xml_get_widget (editor->gui, "lblSourceHost");
-				if (provider->url_flags & CAMEL_URL_ALLOW_HOST) {
+				if (url && provider->url_flags & CAMEL_URL_ALLOW_HOST) {
 					gtk_widget_set_sensitive (GTK_WIDGET (editor->source_host), TRUE);
 					gtk_widget_set_sensitive (label, TRUE);
 				} else {
@@ -537,7 +540,7 @@ source_check (MailAccountEditor *editor, CamelURL *url)
 				
 				/* user */
 				label = glade_xml_get_widget (editor->gui, "lblSourceUser");
-				if (provider->url_flags & CAMEL_URL_ALLOW_USER) {
+				if (url && provider->url_flags & CAMEL_URL_ALLOW_USER) {
 					gtk_widget_set_sensitive (GTK_WIDGET (editor->source_user), TRUE);
 					gtk_widget_set_sensitive (label, TRUE);
 				} else {
@@ -547,7 +550,7 @@ source_check (MailAccountEditor *editor, CamelURL *url)
 				
 				/* path */
 				label = glade_xml_get_widget (editor->gui, "lblSourcePath");
-				if (provider->url_flags & CAMEL_URL_ALLOW_PATH) {
+				if (url && provider->url_flags & CAMEL_URL_ALLOW_PATH) {
 					gtk_widget_set_sensitive (GTK_WIDGET (editor->source_path), TRUE);
 					gtk_widget_set_sensitive (label, TRUE);
 				} else {
@@ -557,7 +560,7 @@ source_check (MailAccountEditor *editor, CamelURL *url)
 				
 				/* auth */
 				label = glade_xml_get_widget (editor->gui, "lblSourceAuth");
-				if (provider->url_flags & CAMEL_URL_ALLOW_AUTH) {
+				if (url && provider->url_flags & CAMEL_URL_ALLOW_AUTH) {
 					gtk_widget_set_sensitive (GTK_WIDGET (editor->source_auth), TRUE);
 					gtk_widget_set_sensitive (label, TRUE);
 				} else {
@@ -567,7 +570,7 @@ source_check (MailAccountEditor *editor, CamelURL *url)
 				
 				/* passwd */
 				label = glade_xml_get_widget (editor->gui, "lblSourcePasswd");
-				if (provider->url_flags & CAMEL_URL_ALLOW_PASSWORD) {
+				if (url && provider->url_flags & CAMEL_URL_ALLOW_PASSWORD) {
 					gtk_widget_set_sensitive (GTK_WIDGET (editor->source_passwd), TRUE);
 					gtk_widget_set_sensitive (GTK_WIDGET (editor->save_passwd), TRUE);
 					gtk_widget_set_sensitive (label, TRUE);
@@ -645,23 +648,23 @@ construct (MailAccountEditor *editor, const MailConfigAccount *account)
 	url = camel_url_new (account->source->url, NULL);
 	editor->source_type = glade_xml_get_widget (gui, "txtSourceType");
 	if (GTK_IS_LABEL (editor->source_type))
-		gtk_label_set_text (GTK_LABEL (editor->source_type), url->protocol);
+		gtk_label_set_text (GTK_LABEL (editor->source_type), url ? url->protocol : _("None"));
 	else
-		gtk_entry_set_text (GTK_ENTRY (editor->source_type), url->protocol);
+		gtk_entry_set_text (GTK_ENTRY (editor->source_type), url ? url->protocol : _("None"));
 	editor->source_host = GTK_ENTRY (glade_xml_get_widget (gui, "txtSourceHost"));
-	gtk_entry_set_text (editor->source_host, url->host ? url->host : "");
-	if (url->port) {
+	gtk_entry_set_text (editor->source_host, url && url->host ? url->host : "");
+	if (url && url->port) {
 		char port[10];
 		
 		g_snprintf (port, 9, ":%d", url->port);
 		gtk_entry_append_text (editor->source_host, port);
 	}
 	editor->source_user = GTK_ENTRY (glade_xml_get_widget (gui, "txtSourceUser"));
-	gtk_entry_set_text (editor->source_user, url->user ? url->user : "");
+	gtk_entry_set_text (editor->source_user, url && url->user ? url->user : "");
 	editor->source_passwd = GTK_ENTRY (glade_xml_get_widget (gui, "txtSourcePasswd"));
-	gtk_entry_set_text (editor->source_passwd, url->passwd ? url->passwd : "");
+	gtk_entry_set_text (editor->source_passwd, url && url->passwd ? url->passwd : "");
 	editor->source_path = GTK_ENTRY (glade_xml_get_widget (gui, "txtSourcePath"));
-	gtk_entry_set_text (editor->source_path, url->path);
+	gtk_entry_set_text (editor->source_path, url && url->path);
 	editor->save_passwd = GTK_CHECK_BUTTON (glade_xml_get_widget (gui, "chkSavePasswd"));
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (editor->save_passwd), account->source->save_passwd);
 	editor->source_auth = GTK_OPTION_MENU (glade_xml_get_widget (gui, "omenuSourceAuth"));
@@ -679,8 +682,8 @@ construct (MailAccountEditor *editor, const MailConfigAccount *account)
 	url = camel_url_new (account->transport->url, NULL);
 	editor->transport_type = GTK_OPTION_MENU (glade_xml_get_widget (gui, "omenuTransportType"));
 	editor->transport_host = GTK_ENTRY (glade_xml_get_widget (gui, "txtTransportHost"));
-	gtk_entry_set_text (editor->transport_host, url->host ? url->host : "");
-	if (url->port) {
+	gtk_entry_set_text (editor->transport_host, url && url->host ? url->host : "");
+	if (url && url->port) {
 		char port[10];
 		
 		g_snprintf (port, 9, ":%d", url->port);

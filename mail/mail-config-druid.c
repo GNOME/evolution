@@ -204,14 +204,16 @@ druid_finish (GnomeDruidPage *page, gpointer arg1, gpointer user_data)
 	source->keep_on_server = mail_config_druid_get_keep_mail_on_server (druid);
 	source->save_passwd = mail_config_druid_get_save_password (druid);
 	str = mail_config_druid_get_source_url (druid);
-	url = camel_url_new (str, NULL);
-	g_free (str);
-	source->url = camel_url_to_string (url, FALSE);
-	if (source->save_passwd && url->passwd) {
-		mail_session_set_password (source->url, url->passwd);
-		mail_session_remember_password (source->url);
+	if (str) {
+		/* cache the password and rewrite the url without the password part */
+		url = camel_url_new (str, NULL);
+		source->url = camel_url_to_string (url, FALSE);
+		if (source->save_passwd && url->passwd) {
+			mail_session_set_password (source->url, url->passwd);
+			mail_session_remember_password (source->url);
+		}
+		camel_url_free (url);
 	}
-	camel_url_free (url);
 	
 	/* construct the transport */
 	transport = g_new0 (MailConfigService, 1);
@@ -275,13 +277,13 @@ incoming_check (MailConfigDruid *druid)
 	gboolean host = TRUE, user = TRUE, path = TRUE;
 	gboolean next_sensitive = TRUE;
 	
-	if (prov->url_flags & CAMEL_URL_NEED_HOST)
+	if (prov && prov->url_flags & CAMEL_URL_NEED_HOST)
 		host = gtk_entry_get_text (druid->incoming_hostname) != NULL;
 	
-	if (prov->url_flags & CAMEL_URL_NEED_USER)
+	if (prov && prov->url_flags & CAMEL_URL_NEED_USER)
 		user = gtk_entry_get_text (druid->incoming_username) != NULL;
 	
-	if (prov->url_flags & CAMEL_URL_NEED_PATH)
+	if (prov && prov->url_flags & CAMEL_URL_NEED_PATH)
 		path = gtk_entry_get_text (druid->incoming_path) != NULL;
 	
 	next_sensitive = host && user && path;
@@ -332,6 +334,18 @@ incoming_next (GnomeDruidPage *page, GnomeDruid *druid, gpointer data)
 	config->have_auth_page = TRUE;
 	
 	source_url = mail_config_druid_get_source_url (config);
+	if (!source_url) {
+		/* User opted to not setup a source for this account,
+		 * so jump past the auth page */
+		
+		/* Skip to transport page. */
+		config->have_auth_page = FALSE;
+		transport_page = glade_xml_get_widget (config->gui, "druidTransportPage");
+		gnome_druid_set_page (config->druid, GNOME_DRUID_PAGE (transport_page));
+		
+		return TRUE;
+	}
+	
 	url = camel_url_new (source_url, NULL);
 	g_free (source_url);
 	
@@ -388,7 +402,7 @@ incoming_type_changed (GtkWidget *widget, gpointer user_data)
 	
 	/* hostname */
 	label = glade_xml_get_widget (druid->gui, "lblSourceHost");
-	if (provider->url_flags & CAMEL_URL_ALLOW_HOST) {
+	if (provider && provider->url_flags & CAMEL_URL_ALLOW_HOST) {
 		dwidget = GTK_WIDGET (druid->incoming_hostname);
 		gtk_widget_set_sensitive (GTK_WIDGET (druid->incoming_hostname), TRUE);
 		gtk_widget_set_sensitive (label, TRUE);
@@ -400,7 +414,7 @@ incoming_type_changed (GtkWidget *widget, gpointer user_data)
 	
 	/* username */
 	label = glade_xml_get_widget (druid->gui, "lblSourceUser");
-	if (provider->url_flags & CAMEL_URL_ALLOW_USER) {
+	if (provider && provider->url_flags & CAMEL_URL_ALLOW_USER) {
 		if (!dwidget)
 			dwidget = GTK_WIDGET (druid->incoming_username);
 		gtk_widget_set_sensitive (GTK_WIDGET (druid->incoming_username), TRUE);
@@ -413,7 +427,7 @@ incoming_type_changed (GtkWidget *widget, gpointer user_data)
 	
 	/* password */
 	label = glade_xml_get_widget (druid->gui, "lblSourcePasswd");
-	if (provider->url_flags & CAMEL_URL_ALLOW_PASSWORD) {
+	if (provider && provider->url_flags & CAMEL_URL_ALLOW_PASSWORD) {
 		if (!dwidget)
 			dwidget = GTK_WIDGET (druid->password);
 		gtk_widget_set_sensitive (GTK_WIDGET (druid->password), TRUE);
@@ -426,7 +440,7 @@ incoming_type_changed (GtkWidget *widget, gpointer user_data)
 	
 	/* auth */
 	label = glade_xml_get_widget (druid->gui, "lblSourceAuth");
-	if (provider->url_flags & CAMEL_URL_ALLOW_AUTH) {
+	if (provider && provider->url_flags & CAMEL_URL_ALLOW_AUTH) {
 		gtk_widget_set_sensitive (GTK_WIDGET (druid->auth_type), TRUE);
 		gtk_widget_set_sensitive (label, TRUE);
 	} else {
@@ -436,7 +450,7 @@ incoming_type_changed (GtkWidget *widget, gpointer user_data)
 	
 	/* path */
 	label = glade_xml_get_widget (druid->gui, "lblSourcePath");
-	if (provider->url_flags & CAMEL_URL_ALLOW_PATH) {
+	if (provider && provider->url_flags & CAMEL_URL_ALLOW_PATH) {
 		if (!dwidget)
 			dwidget = GTK_WIDGET (druid->incoming_path);
 		
@@ -456,7 +470,7 @@ incoming_type_changed (GtkWidget *widget, gpointer user_data)
 	}
 	
 	/* keep mail on server */
-	if (!(provider->flags & CAMEL_PROVIDER_IS_STORAGE))
+	if (provider && !(provider->flags & CAMEL_PROVIDER_IS_STORAGE))
 		gtk_widget_set_sensitive (GTK_WIDGET (druid->incoming_keep_mail), TRUE);
 	else
 		gtk_widget_set_sensitive (GTK_WIDGET (druid->incoming_keep_mail), FALSE);
@@ -719,11 +733,27 @@ management_next (GnomeDruidPage *page, GnomeDruid *druid, gpointer data)
 	return FALSE;
 }
 
+static gint
+provider_compare (const CamelProvider *p1, const CamelProvider *p2)
+{
+	/* sort providers based on "location" (ie. local or remote) */	
+	if (p1->flags & CAMEL_PROVIDER_IS_REMOTE) {
+		if (p2->flags & CAMEL_PROVIDER_IS_REMOTE)
+			return 0;
+		return -1;
+	} else {
+		if (p2->flags & CAMEL_PROVIDER_IS_REMOTE)
+			return 1;
+		return 0;
+	}
+}
+
 static void
 set_defaults (MailConfigDruid *druid)
 {
-	GtkWidget *stores, *transports;
+	GtkWidget *stores, *transports, *item;
 	GtkWidget *fstore = NULL, *ftransport = NULL;
+	int si = 0, hstore = 0, ti = 0, htransport = 0;
 	char *user, *realname;
 	char hostname[1024];
 	char domain[1024];
@@ -753,6 +783,10 @@ set_defaults (MailConfigDruid *druid)
 	stores = gtk_menu_new ();
 	transports = gtk_menu_new ();
 	druid->providers = camel_session_list_providers (session, TRUE);
+	
+	/* sort the providers, remote first */
+	druid->providers = g_list_sort (druid->providers, (GCompareFunc) provider_compare);
+	
 	l = druid->providers;
 	while (l) {
 		CamelProvider *provider = l->data;
@@ -763,8 +797,6 @@ set_defaults (MailConfigDruid *druid)
 		}
 		
 		if (provider->object_types[CAMEL_PROVIDER_STORE] && provider->flags & CAMEL_PROVIDER_IS_SOURCE) {
-			GtkWidget *item;
-			
 			item = gtk_menu_item_new_with_label (provider->name);
 			gtk_object_set_data (GTK_OBJECT (item), "provider", provider);
 			gtk_signal_connect (GTK_OBJECT (item), "activate",
@@ -775,13 +807,15 @@ set_defaults (MailConfigDruid *druid)
 			
 			gtk_widget_show (item);
 			
-			if (!fstore)
+			if (!fstore) {
 				fstore = item;
+				hstore = si;
+			}
+			
+			si++;
 		}
 		
 		if (provider->object_types[CAMEL_PROVIDER_TRANSPORT]) {
-			GtkWidget *item;
-			
 			item = gtk_menu_item_new_with_label (provider->name);
 			gtk_object_set_data (GTK_OBJECT (item), "provider", provider);
 			gtk_signal_connect (GTK_OBJECT (item), "activate",
@@ -792,18 +826,41 @@ set_defaults (MailConfigDruid *druid)
 			
 			gtk_widget_show (item);
 			
-			if (!ftransport)
+			if (!ftransport) {
 				ftransport = item;
+				htransport = ti;
+			}
+			
+			ti++;
 		}
 		
 		l = l->next;
 	}
 	
+	/* add a "None" option to the stores menu */
+	item = gtk_menu_item_new_with_label (_("None"));
+	gtk_object_set_data (GTK_OBJECT (item), "provider", NULL);
+	gtk_signal_connect (GTK_OBJECT (item), "activate",
+			    GTK_SIGNAL_FUNC (incoming_type_changed),
+			    druid);
+	
+	gtk_menu_append (GTK_MENU (stores), item);
+	
+	gtk_widget_show (item);
+	
+	if (!fstore) {
+		fstore = item;
+		hstore = si;
+	}
+	
+	/* set the menus on the optionmenus */
 	gtk_option_menu_remove_menu (druid->incoming_type);
 	gtk_option_menu_set_menu (druid->incoming_type, stores);
+	gtk_option_menu_set_history (druid->incoming_type, hstore);
 	
 	gtk_option_menu_remove_menu (druid->outgoing_type);
 	gtk_option_menu_set_menu (druid->outgoing_type, transports);
+	gtk_option_menu_set_history (druid->outgoing_type, htransport);
 	
 	if (fstore)
 		gtk_signal_emit_by_name (GTK_OBJECT (fstore), "activate", druid);
@@ -1036,6 +1093,8 @@ mail_config_druid_get_source_url (MailConfigDruid *druid)
 	g_return_val_if_fail (IS_MAIL_CONFIG_DRUID (druid), NULL);
 	
 	provider = druid->source_provider;
+	if (!provider)
+		return NULL;
 	
 	url = g_new0 (CamelURL, 1);
 	url->protocol = g_strdup (provider->protocol);
@@ -1095,6 +1154,8 @@ mail_config_druid_get_transport_url (MailConfigDruid *druid)
 	g_return_val_if_fail (IS_MAIL_CONFIG_DRUID (druid), NULL);
 	
 	provider = druid->transport_provider;
+	if (!provider)
+		return NULL;
 	
 	url = g_new0 (CamelURL, 1);
 	url->protocol = g_strdup (provider->protocol);

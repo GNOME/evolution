@@ -246,17 +246,37 @@ config_read (void)
 		path = g_strdup_printf ("source_url_%d", i);
 		source->url = gnome_config_get_string (path);
 		g_free (path);
+		
+		if (!*source->url) {
+			/* no source associated with this account */
+			g_free (source->url);
+			source->url = NULL;
+		}
+		
 		path = g_strdup_printf ("source_keep_on_server_%d", i);
 		source->keep_on_server = gnome_config_get_bool (path);
 		g_free (path);
 		path = g_strdup_printf ("source_save_passwd_%d", i);
 		source->save_passwd = gnome_config_get_bool (path);
 		g_free (path);
+		path = g_strdup_printf ("source_use_ssl_%d", i);
+		source->use_ssl = gnome_config_get_bool (path);
+		g_free (path);
 		
 		/* get the transport */
 		transport = g_new0 (MailConfigService, 1);
 		path = g_strdup_printf ("transport_url_%d", i);
 		transport->url = gnome_config_get_string (path);
+		g_free (path);
+		
+		if (!*transport->url) {
+			/* no transport associated with this account */
+			g_free (transport->url);
+			transport->url = NULL;
+		}
+		
+		path = g_strdup_printf ("transport_use_ssl_%d", i);
+		transport->use_ssl = gnome_config_get_bool (path);
 		g_free (path);
 		
 		account->id = id;
@@ -357,7 +377,7 @@ mail_config_write (void)
 		
 		/* source info */
 		path = g_strdup_printf ("source_url_%d", i);
-		gnome_config_set_string (path, account->source->url);
+		gnome_config_set_string (path, account->source->url ? account->source->url : "");
 		g_free (path);
 		path = g_strdup_printf ("source_keep_on_server_%d", i);
 		gnome_config_set_bool (path, account->source->keep_on_server);
@@ -368,7 +388,7 @@ mail_config_write (void)
 		
 		/* transport info */
 		path = g_strdup_printf ("transport_url_%d", i);
-		gnome_config_set_string (path, account->transport->url);
+		gnome_config_set_string (path, account->transport->url ? account->transport->url : "");
 		g_free (path);
 	}
 	gnome_config_pop_prefix ();

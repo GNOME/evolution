@@ -1,3 +1,28 @@
+2001-01-16  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-account-editor.c (apply_changes): Modify to be able to
+	handle a NULL source_url.
+	(source_auth_init): Allow for a NULL source url.
+	(source_check): Same.
+
+	* mail-config.c (mail_config_write): Allow for NULL source
+	URLs. And while we're at it, NULL transport URLs as well. Might as
+	well save the use_ssl variable too.
+	(config_read): Same.
+
+	* mail-config-druid.c (druid_finish): Modify to allow a NULL
+	source url.
+	(incoming_next): Modify to check for a NULL source and jump to the
+	transport page if one is encountered (this means the user decided
+	not to config a source).
+	(incoming_type_changed): Modify to set all widgets insensitive if
+	the user selected the "None" source menu item (aka NULL provider).
+	(incoming_check): Modify to allow the user to go to the next page
+	when he/she has chosen "None" for their source type.
+	(mail_config_druid_get_source_url): Return NULL if the provider is
+	NULL.
+	(mail_config_druid_get_transport_url): Same.
+
 2001-01-16  Dan Winship  <danw@ximian.com>
 
 	* mail-display.c (on_object_requested): Don't do thumbnails for
