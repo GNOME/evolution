@@ -594,7 +594,7 @@ local_record_from_ecard (EAddrLocalRecord *local, ECard *ecard, EAddrConduitCont
 	gtk_object_ref (GTK_OBJECT (ecard));
 	simple = e_card_simple_new (ecard);
 	
-	local->local.ID = e_pilot_map_lookup_pid (ctxt->map, ecard->id);
+	local->local.ID = e_pilot_map_lookup_pid (ctxt->map, ecard->id, TRUE);
 
 	compute_status (ctxt, local, ecard->id);
 
@@ -944,10 +944,12 @@ check_for_slow_setting (GnomePilotConduit *c, EAddrConduitContext *ctxt)
 	if (map_count == 0)
 		gnome_pilot_conduit_standard_set_slow (conduit, TRUE);
 
-	if (gnome_pilot_conduit_standard_get_slow (conduit))
+	if (gnome_pilot_conduit_standard_get_slow (conduit)) {
+		ctxt->map->write_touched_only = TRUE;
 		LOG ("    doing slow sync\n");
-	else
+	} else {
 		LOG ("    doing fast sync\n");
+	}
 }
 
 static void
@@ -1006,7 +1008,7 @@ card_removed (EBookView *book_view, const char *id, EAddrConduitContext *ctxt)
 	archived = e_pilot_map_uid_is_archived (ctxt->map, id);
 	
 	/* If its deleted, not in the archive and not in the map its a list */
-	if (!archived && e_pilot_map_lookup_pid (ctxt->map, id) == 0)
+	if (!archived && e_pilot_map_lookup_pid (ctxt->map, id, FALSE) == 0)
 		return;	
 	
 	coc = g_new0 (CardObjectChange, 1);
@@ -1447,7 +1449,7 @@ match (GnomePilotConduitSyncAbs *conduit,
 	g_return_val_if_fail (remote != NULL, -1);
 
 	*local = NULL;
-	uid = e_pilot_map_lookup_uid (ctxt->map, remote->ID);
+	uid = e_pilot_map_lookup_uid (ctxt->map, remote->ID, TRUE);
 	
 	if (!uid)
 		return 0;
