@@ -25,6 +25,14 @@
 #include "calendar-commands.h"
 #include "mark.h"
 
+/* Closure data */
+struct minfo
+{
+	GnomeMonthItem *mitem;
+	time_t start;
+	time_t end;
+};
+
 
 
 /* Frees the specified data when an object is destroyed */
@@ -115,37 +123,34 @@ mark_event_in_month (GnomeMonthItem *mitem, time_t start, time_t end)
 	}
 }
 
+static gboolean
+mark_month_item_cb (CalComponent *comp, time_t istart, time_t iend, gpointer data)
+{
+	struct minfo *mi = (struct minfo *)data;
+	
+	mark_event_in_month (mi->mitem, MAX (istart, mi->start), MIN (iend, mi->end));
+
+	return TRUE;
+}
+
 void
 mark_month_item (GnomeMonthItem *mitem, GnomeCalendar *gcal)
 {
-	time_t month_begin, month_end;
-	GList *events;
-	GList *l;
+	struct minfo mi;
 
 	g_return_if_fail (mitem != NULL);
 	g_return_if_fail (GNOME_IS_MONTH_ITEM (mitem));
 	g_return_if_fail (gcal != NULL);
 	g_return_if_fail (GNOME_IS_CALENDAR (gcal));
 
-	month_begin = time_month_begin (time_from_day (mitem->year, mitem->month, 1));
-	month_end = time_month_end (month_begin);
-
-	events = cal_client_get_events_in_range (gcal->client, month_begin, month_end);
-
-	for (l = events; l; l = l->next) {
-		CalObjInstance *coi;
-
-		coi = l->data;
-
-		/* We clip the event's start and end times to the month's limits */
-
-		mark_event_in_month (mitem,
-				     MAX (coi->start, month_begin),
-				     MIN (coi->end, month_end));
-	}
-
-	cal_obj_instance_list_free (events);
+	mi.mitem = mitem;
+	mi.start = time_month_begin (time_from_day (mitem->year, mitem->month, 1));
+	mi.end = time_month_end (mi.start);
+	
+	cal_client_generate_instances (gcal->client, CALOBJ_TYPE_EVENT, mi.start, mi.end,
+				       mark_month_item_cb, &mi);	
 }
+
 
 void
 mark_month_item_index (GnomeMonthItem *mitem, int index, GetColorFunc func, gpointer func_data)
@@ -287,3 +292,6 @@ default_color_func (ColorProp propnum, gpointer data)
 {
 	return color_spec_from_prop (propnum);
 }
+
+
+

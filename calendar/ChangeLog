@@ -1,3 +1,29 @@
+2000-08-15  JP Rosevear  <jpr@helixcode.com>
+
+	* gui/mark.c (mark_month_item_cb): Callback used to mark every
+	event in a month.
+	(mark_month_item): Use cal_client_generate_instances with
+	above callback
+	
+2000-08-15  JP Rosevear  <jpr@helixcode.com>
+
+	* gui/print.c (print_month_small): Use 
+	cal_client_get_objects_in_range
+	(print_day_details_cb): Callback used to create columns and fill 
+	events into a day view.  Code should be shared with e-day-view 
+	in reality.  Maybe need to go back to layout.[hc] a bit later
+	(print_day_details): Use cal_client_generate_instances with 
+	above callback. Iterate over results to expand events to fit.
+	(print_day_summary_cb): Callback to build list of event info 
+	for a day
+	(print_day_summary): Use cal_client_generate_instances with 
+	above callback to generate the required event info for printing
+	(print_todo_details_cb): Callback used create list of todo info
+	(print_todo_details): Use cal_client_generate_instances with 
+	above callback to generate required todo info for printing.
+
+	* gui/layout.[hc]: No longer used.
+
 2000-08-12  Federico Mena Quintero  <federico@helixcode.com>
 
 	* gui/calendar-model.c (get_is_overdue): Finished implementing.
