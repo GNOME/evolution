@@ -1,3 +1,8 @@
+1998-02-12  Raja R Harinath  <harinath@cs.umn.edu>
+
+	* gnome-support.m4: New file.  Defines GNOME_SUPPORT_CHECKS for
+	libsupport.a support.
+
 1998-02-10  Raja R Harinath  <harinath@cs.umn.edu>
 
 	* gnome.m4: New file.  Moved AC_CHECK_GNOME from `configure.in' to
