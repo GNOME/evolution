@@ -808,8 +808,8 @@ switch_on_folder_tree_click (EShellView *shell_view,
 
 /* Callbacks.  */
 
-/* Callback when a new folder is added.  removed when we clear the
-   delayed_selection */
+/* Callback when a new folder is added.  Removed when we clear the
+   delayed_selection.  */
 static void
 new_folder_cb (EStorageSet *storage_set,
 	       const char *path,
@@ -821,6 +821,8 @@ new_folder_cb (EStorageSet *storage_set,
 
 	shell_view = E_SHELL_VIEW (data);
 	priv = shell_view->priv;
+
+	g_print ("%s %s -- delayed_selection %s\n", __FUNCTION__, path, priv->delayed_selection);
 
 	delayed_path = strchr (priv->delayed_selection, ':');
 	if (delayed_path) {
@@ -1310,10 +1312,6 @@ destroy (GtkObject *object)
 
 	shell_view = E_SHELL_VIEW (object);
 	priv = shell_view->priv;
-
-	/* This is necessary to remove the signal handler for folder_new on the
-	   storage set used for the delayed selection mechanism.  */
-	cleanup_delayed_selection (shell_view);
 
 	/* This is necessary to remove the signal handler for folder_new on the
 	   storage set used for the delayed selection mechanism.  */
@@ -2188,6 +2186,8 @@ create_new_view_for_uri (EShellView *shell_view,
 
 	priv = shell_view->priv;
 
+	g_print ("%s %s\n", __FUNCTION__, uri);
+
 	view = get_view_for_uri (shell_view, uri, view_info);
 	if (view == NULL)
 		return FALSE;
@@ -2202,6 +2202,8 @@ create_new_view_for_uri (EShellView *shell_view,
 	page_num = gtk_notebook_page_num (GTK_NOTEBOOK (priv->notebook), view->control);
 	g_assert (page_num != -1);
 	set_current_notebook_page (shell_view, page_num);
+
+	g_print ("%s set notebook page %d\n", __FUNCTION__, page_num);
 
 	g_hash_table_insert (priv->uri_to_view, view->uri, view);
 

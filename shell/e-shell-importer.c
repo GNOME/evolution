@@ -1234,6 +1234,7 @@ show_import_wizard (BonoboUIComponent *component,
 	gtk_window_set_transient_for (GTK_WINDOW (data->dialog), GTK_WINDOW (user_data));
 	gtk_signal_connect (GTK_OBJECT (data->dialog), "destroy",
 			    GTK_SIGNAL_FUNC (close_dialog), &dialog_open);
+	gnome_dialog_close_hides (GNOME_DIALOG (data->dialog), TRUE);
 	
 	data->druid = glade_xml_get_widget (data->wizard, "druid1");
 	gtk_signal_connect (GTK_OBJECT (data->druid), "cancel",
@@ -1251,8 +1252,6 @@ show_import_wizard (BonoboUIComponent *component,
 	gtk_box_reorder_child (GTK_BOX (data->typepage->vbox), html, 0);
 
 	gtk_box_pack_start (GTK_BOX (GNOME_DRUID_PAGE_STANDARD (data->typedialog)->vbox), data->typepage->vbox, TRUE, TRUE, 0);
-
-
 
 	data->intelligent = glade_xml_get_widget (data->wizard, "page2-intelligent");
 	gtk_signal_connect (GTK_OBJECT (data->intelligent), "next",

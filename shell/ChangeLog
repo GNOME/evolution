@@ -1,3 +1,9 @@
+2002-09-03  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-shell-importer.c (show_import_wizard): Make the WM close
+	button in the dialog hide instead of destroying, using
+	gnome_dialog_close_hides().  [#15572]
+
 2002-08-28  Dan Winship  <danw@ximian.com>
 
 	* e-shell.c (setup_components): Pass a selection_order to
