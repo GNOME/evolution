@@ -34,6 +34,7 @@
 #include "camel-mbox-store.h"
 #include "camel-maildir-store.h"
 #include "camel-spool-store.h"
+#include "camel-spoold-store.h"
 
 #define d(x)
 
@@ -68,8 +69,7 @@ static CamelProvider maildir_provider = {
 	N_("Maildir-format mail directories"),
 	N_("For storing local mail in maildir directories."),
 	"mail",
-	CAMEL_PROVIDER_IS_SOURCE | CAMEL_PROVIDER_IS_STORAGE |
-	CAMEL_PROVIDER_IS_LOCAL,
+	CAMEL_PROVIDER_IS_SOURCE | CAMEL_PROVIDER_IS_STORAGE | CAMEL_PROVIDER_IS_LOCAL,
 	CAMEL_URL_NEED_PATH | CAMEL_URL_PATH_IS_ABSOLUTE,
 	local_conf_entries,
 	/* ... */
@@ -83,6 +83,16 @@ static CamelProvider spool_provider = {
 	CAMEL_PROVIDER_IS_SOURCE | CAMEL_PROVIDER_IS_STORAGE,
 	CAMEL_URL_NEED_PATH | CAMEL_URL_PATH_IS_ABSOLUTE,
 	local_conf_entries,
+	/* ... */
+};
+
+static CamelProvider spoold_provider = {
+	"spoold",
+	N_("Directory tree of mbox files"),
+	N_("For accessing mail storedin an external tree of mbox files.\nThis will allow you to directly access pine and elm folders.\nNOTE: This provider is still experimental so ensure you backup any mail folders first."),
+	"mail",
+	CAMEL_PROVIDER_IS_SOURCE | CAMEL_PROVIDER_IS_STORAGE | CAMEL_PROVIDER_IS_LOCAL,
+	CAMEL_URL_NEED_PATH | CAMEL_URL_PATH_IS_ABSOLUTE,
 	/* ... */
 };
 
@@ -193,4 +203,10 @@ void camel_provider_module_init(CamelSession * session)
 	spool_provider.url_hash = local_url_hash;
 	spool_provider.url_equal = local_url_equal;
 	camel_session_register_provider(session, &spool_provider);
+
+	spoold_provider.object_types[CAMEL_PROVIDER_STORE] = camel_spoold_store_get_type();
+	spoold_provider.service_cache = g_hash_table_new(local_url_hash, local_url_equal);
+	spoold_provider.url_hash = local_url_hash;
+	spoold_provider.url_equal = local_url_equal;
+	camel_session_register_provider(session, &spoold_provider);
 }

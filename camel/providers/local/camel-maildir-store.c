@@ -225,7 +225,7 @@ static CamelFolderInfo *camel_folder_info_new(const char *url, const char *full,
 	fi->unread_message_count = unread;
 	camel_folder_info_build_path(fi, '/');
 
-	d(printf("Adding maildir info: '%s' '%s' '%s'\n", fi->path, fi->name, fi->full_name));
+	d(printf("Adding maildir info: '%s' '%s' '%s' '%s'\n", fi->path, fi->name, fi->full_name, fi->url));
 
 	return fi;
 }

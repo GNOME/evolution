@@ -82,12 +82,12 @@ typedef struct {
 /* public methods */
 /* flags are taken from CAMEL_STORE_FOLDER_* flags */
 CamelSpoolFolder *camel_spool_folder_construct(CamelSpoolFolder *lf, CamelStore *parent_store,
-					       const char *full_name, guint32 flags, CamelException *ex);
+					       const char *full_name, const char *path, guint32 flags, CamelException *ex);
 
 /* Standard Camel function */
 CamelType camel_spool_folder_get_type(void);
 
-CamelFolder *camel_spool_folder_new(CamelStore *parent_store, const char *full_name,
+CamelFolder *camel_spool_folder_new(CamelStore *parent_store, const char *full_name, const char *path,
 				    guint32 flags, CamelException *ex);
 
 /* Lock the folder for internal use.  May be called repeatedly */

@@ -171,7 +171,7 @@ CamelType camel_spool_folder_get_type(void)
 }
 
 CamelSpoolFolder *
-camel_spool_folder_construct(CamelSpoolFolder *lf, CamelStore *parent_store, const char *full_name, guint32 flags, CamelException *ex)
+camel_spool_folder_construct(CamelSpoolFolder *lf, CamelStore *parent_store, const char *full_name, const char *path, guint32 flags, CamelException *ex)
 {
 	CamelFolderInfo *fi;
 	CamelFolder *folder;
@@ -189,9 +189,13 @@ camel_spool_folder_construct(CamelSpoolFolder *lf, CamelStore *parent_store, con
 
 	root_dir_path = camel_spool_store_get_toplevel_dir(CAMEL_SPOOL_STORE(folder->parent_store));
 
+#if 0
 	lf->base_path = g_strdup(root_dir_path);
 	lf->folder_path = g_strdup(root_dir_path);
-
+#else
+	lf->base_path = g_strdup(path);
+	lf->folder_path = g_strdup(path);
+#endif
 	lf->changes = camel_folder_change_info_new();
 	lf->flags = flags;
 
@@ -207,7 +211,7 @@ camel_spool_folder_construct(CamelSpoolFolder *lf, CamelStore *parent_store, con
 	fi = g_malloc0(sizeof(*fi));
 	fi->full_name = g_strdup(full_name);
 	fi->name = g_strdup(name);
-	fi->url = g_strdup_printf("spool:%s#%s", ((CamelService *)parent_store)->url->path, fi->name);
+	fi->url = g_strdup_printf("spool:%s#%s", ((CamelService *)parent_store)->url->path, full_name);
 	fi->unread_message_count = camel_folder_get_unread_message_count(folder);
 	camel_folder_info_build_path(fi, '/');
 	
@@ -218,7 +222,7 @@ camel_spool_folder_construct(CamelSpoolFolder *lf, CamelStore *parent_store, con
 }
 
 CamelFolder *
-camel_spool_folder_new(CamelStore *parent_store, const char *full_name, guint32 flags, CamelException *ex)
+camel_spool_folder_new(CamelStore *parent_store, const char *full_name, const char *path, guint32 flags, CamelException *ex)
 {
 	CamelFolder *folder;
 
@@ -229,8 +233,7 @@ camel_spool_folder_new(CamelStore *parent_store, const char *full_name, guint32 
 	if (parent_store->flags & CAMEL_STORE_FILTER_INBOX
 	    && strcmp(full_name, "INBOX") == 0)
 		folder->folder_flags |= CAMEL_FOLDER_FILTER_RECENT;
-	folder = (CamelFolder *)camel_spool_folder_construct((CamelSpoolFolder *)folder,
-							     parent_store, full_name, flags, ex);
+	folder = (CamelFolder *)camel_spool_folder_construct((CamelSpoolFolder *)folder, parent_store, full_name, path, flags, ex);
 
 	return folder;
 }

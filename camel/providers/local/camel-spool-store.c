@@ -143,7 +143,7 @@ get_folder(CamelStore * store, const char *folder_name, guint32 flags, CamelExce
 		return NULL;
 	}
 
-	folder = camel_spool_folder_new(store, folder_name, flags, ex);
+	folder = camel_spool_folder_new(store, folder_name, path, flags, ex);
 
 	return folder;
 }

@@ -1552,7 +1552,7 @@ get_folder_info_online (CamelStore *store, const char *top,
 		g_ptr_array_free (folders, TRUE);
 		return NULL;
 	}
-	
+
 	/* Add INBOX, if necessary */
 	if (need_inbox) {
 		for (i = 0; i < folders->len; i++) {
@@ -1582,7 +1582,7 @@ get_folder_info_online (CamelStore *store, const char *top,
 			g_ptr_array_add (folders, fi);
 		}
 	}
-	
+
 	/* Assemble. */
 	tree = camel_folder_info_build (folders, name, imap_store->dir_sep, TRUE);
 	if (flags & CAMEL_STORE_FOLDER_INFO_FAST) {
@@ -1643,19 +1643,23 @@ get_one_folder_offline (const char *physical_path, const char *path, gpointer da
 	GPtrArray *folders = data;
 	CamelImapStore *imap_store = folders->pdata[0];
 	CamelFolderInfo *fi;
+	CamelURL *url;
 
-	if (*path++ != '/')
+	if (*path != '/')
 		return TRUE;
 
 	fi = g_new0 (CamelFolderInfo, 1);
-	fi->full_name = g_strdup (path);
+	fi->full_name = g_strdup (path+1);
 	fi->name = strrchr (fi->full_name, imap_store->dir_sep);
 	if (fi->name)
 		fi->name = g_strdup (fi->name + 1);
 	else
 		fi->name = g_strdup (fi->full_name);
 
-	fi->url = g_strdup_printf ("%s/%s", imap_store->base_url, path);
+	url = camel_url_new(imap_store->base_url, NULL);
+	camel_url_set_path(url, path);
+	fi->url = camel_url_to_string(url, 0);
+	camel_url_free(url);
 
 	/* FIXME: check summary */
 	fi->unread_message_count = -1;
