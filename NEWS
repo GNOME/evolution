@@ -216,6 +216,8 @@ New features:
     - Remote inline HTML images are now downloaded incrementally using
       libsoup and are fully cancellable.
 
+    - Improved quotation display for format=flowed messages.
+
   * Mail Composer
 
     - You can now edit a set of signatures within Evolution, and pick
@@ -227,6 +229,18 @@ New features:
 
     - Evolution can now generate graphical smileys automatically as
       you type.
+
+    - Quotation logic has been improved, rewrapping long lines in
+      replies now preserves quotation marks.
+
+    - Multiple simulataneous language support in the spell checker.
+
+    - Cut & Paste support for html between netscape/mozilla/evolution.
+
+    - Optimized rendering of long messages.
+
+    - Improved html rendering, including support for the clear
+      attribute in <br> elements.
 
   * Summary
 
