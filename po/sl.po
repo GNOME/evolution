@@ -3554,7 +3554,7 @@ msgstr "Uporaba _koledarja"
 
 #: shell/e-shell-view-menu.c:569
 msgid "Using the c_ontact manager"
-msgstr "Uporaba upravnika _stikov"
+msgstr "Uporaba upravljalnika _stikov"
 
 #: shell/e-shell-view-menu.c:579
 msgid "_Submit bug report"
