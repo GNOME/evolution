@@ -45,15 +45,18 @@ static void
 confirm (FileSelectionInfo *info)
 {
 	const char *filename;
-	GtkWidget *file_list;
+	GtkCList *file_list;
 	char *path;
 	GList *l;
 	
-	if (info->multiple) {
+	file_list = GTK_CLIST (GTK_FILE_SELECTION (info->widget)->file_list);
+	
+	if (info->multiple && file_list->selection) {
 		/* evil kludgy hack cuz the gtk file selector fucking sucks ass */
 		path = g_dirname (gtk_file_selection_get_filename (GTK_FILE_SELECTION (info->widget)));
-		file_list = GTK_FILE_SELECTION (info->widget)->file_list;
-		l = GTK_CLIST (file_list)->selection;
+		
+		l = file_list->selection;
+		
 		while (l) {
 			int row;
 			

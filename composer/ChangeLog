@@ -1,5 +1,11 @@
 2001-12-11  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* e-msg-composer-select-file.c (confirm): If multiple-selection is
+	enabled but nothing is slected, fall back to using the filename in
+	the entry box as the "selected" file.
+
+2001-12-11  Jeffrey Stedfast  <fejj@ximian.com>
+
 	* e-msg-composer-select-file.c
 	(file_selection_info_destroy_notify): If the widget is non-NULL,
 	then gtk_widget_destroy that bad boy...
