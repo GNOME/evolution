@@ -636,7 +636,7 @@ e_week_view_event_item_draw_icons (EWeekViewEventItem *wveitem,
 
 		category = (char *) elem->data;
 		e_categories_config_get_icon_for (category, &pixmap, &mask);
-		if (pixmap == NULL || mask == NULL)
+		if (pixmap == NULL)
 			continue;
 
 		if (icon_x + E_WEEK_VIEW_ICON_WIDTH <= x2) {
@@ -650,6 +650,9 @@ e_week_view_event_item_draw_icons (EWeekViewEventItem *wveitem,
 					 E_WEEK_VIEW_ICON_HEIGHT);
 			icon_x += icon_x_inc;
 		}
+		gdk_pixmap_unref (pixmap);
+		if (mask != NULL)
+			gdk_bitmap_unref (mask);
 	}
 
 	cal_component_free_categories_list (categories_list);

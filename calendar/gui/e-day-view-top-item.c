@@ -603,6 +603,10 @@ e_day_view_top_item_draw_long_event (EDayViewTopItem *dvtitem,
 					 E_DAY_VIEW_ICON_HEIGHT);
 			icon_x -= icon_x_inc;
 		}
+
+		gdk_pixmap_unref (pixmap);
+		if (mask != NULL)
+			gdk_bitmap_unref (mask);
 	}
 
 	cal_component_free_categories_list (categories_list);

@@ -704,6 +704,10 @@ e_day_view_main_item_draw_day_event (EDayViewMainItem *dvmitem,
 					 MIN (E_DAY_VIEW_ICON_HEIGHT,
 					      max_icon_h));
 
+			gdk_pixmap_unref (pixmap);
+			if (mask != NULL)
+				gdk_bitmap_unref (mask);
+
 			icon_x += icon_x_inc;
 			icon_y += icon_y_inc;
 		}
