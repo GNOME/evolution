@@ -1,3 +1,8 @@
+2005-03-11  Sushma Rai  <rsushma@novell.com>
+
+	* misc/e-send-options.c (setup_widgets): Not showing the send options
+	notebook tabs, in case general options page is disabled. Fixes #73501
+
 2005-02-09  Hans Petter Jansson  <hpj@novell.com>
 
 	* e-timezone-dialog/Makefile.am:

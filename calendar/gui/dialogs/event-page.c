@@ -655,10 +655,6 @@ event_page_show_options (EventPage *page)
 	g_return_if_fail (IS_EVENT_PAGE (page));
 
 	gtk_widget_show (page->priv->sendoptions_frame);
-
-	if (e_cal_get_static_capability (COMP_EDITOR_PAGE (page)->client, CAL_STATIC_CAPABILITY_NO_GEN_OPTIONS))
-		e_sendoptions_set_need_general_options (page->priv->sod, FALSE);
-	
 	page->priv->sendoptions_shown = TRUE;
 }
 
@@ -1619,7 +1615,7 @@ e_sendoptions_clicked_cb (GtkWidget *button, gpointer data)
 	EventPagePrivate *priv;
 	GtkWidget *toplevel;
 	ESource *source;
-	
+
 	epage = EVENT_PAGE (data);
 	priv = epage->priv;
 
@@ -1629,6 +1625,11 @@ e_sendoptions_clicked_cb (GtkWidget *button, gpointer data)
 		e_sendoptions_utils_set_default_data (priv->sod, source, "calendar");
 		priv->sod->data->initialized = TRUE;
 	}	
+
+	if (e_cal_get_static_capability (COMP_EDITOR_PAGE (epage)->client, 
+					 CAL_STATIC_CAPABILITY_NO_GEN_OPTIONS)) {
+		e_sendoptions_set_need_general_options (priv->sod, FALSE);
+	}
 
 	toplevel = gtk_widget_get_toplevel (priv->main);
 	e_sendoptions_dialog_run (priv->sod, toplevel, E_ITEM_CALENDAR);

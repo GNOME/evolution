@@ -1,3 +1,15 @@
+2005-03-11  Sushma Rai  <rsushma@novell.com>
+
+	* gui/dialogs/event-page.c (event_page_show_options): Removed the check
+	for general options page static capability. Send options dialog will
+	not be created at this point.
+	(e_sendoptions_clicked_cb): Checking for the general options page
+	static capability, when used clicks send options button.
+
+	* gui/dialogs/task-page.c (task_page_show_options)
+	(e_sendoptions_clicked_cb): Similar.
+	Fixes #73501
+
 2005-03-09  Not Zed  <NotZed@Ximian.com>
 
 	* gui/e-week-view-event-item.c (e_week_view_event_item_draw_icons):
