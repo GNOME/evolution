@@ -77,6 +77,57 @@ typedef struct {
 	void  (*set_scroll_adjustments)   (ETable	 *table,
 					   GtkAdjustment *hadjustment,
 					   GtkAdjustment *vadjustment);
+
+	/* Source side drag signals */
+	void (* drag_begin)	           (ETable	       *table,
+					    int                 row,
+					    int                 col,
+					    GdkDragContext     *context);
+	void (* drag_end)	           (ETable	       *table,
+					    int                 row,
+					    int                 col,
+					    GdkDragContext     *context);
+	void (* drag_data_get)             (ETable             *table,
+					    int                 row,
+					    int                 col,
+					    GdkDragContext     *context,
+					    GtkSelectionData   *selection_data,
+					    guint               info,
+					    guint               time);
+	void (* drag_data_delete)          (ETable	       *table,
+					    int                 row,
+					    int                 col,
+					    GdkDragContext     *context);
+
+	/* Target side drag signals */	   
+	void (* drag_leave)	           (ETable	       *table,
+					    int                 row,
+					    int                 col,
+					    GdkDragContext     *context,
+					    guint               time);
+	gboolean (* drag_motion)           (ETable	       *table,
+					    int                 row,
+					    int                 col,
+					    GdkDragContext     *context,
+					    gint                x,
+					    gint                y,
+					    guint               time);
+	gboolean (* drag_drop)             (ETable	       *table,
+					    int                 row,
+					    int                 col,
+					    GdkDragContext     *context,
+					    gint                x,
+					    gint                y,
+					    guint               time);
+	void (* drag_data_received)        (ETable             *table,
+					    int                 row,
+					    int                 col,
+					    GdkDragContext     *context,
+					    gint                x,
+					    gint                y,
+					    GtkSelectionData   *selection_data,
+					    guint               info,
+					    guint               time);
 } ETableClass;
 
 GtkType     e_table_get_type   		    (void);
@@ -105,6 +156,60 @@ void        e_table_selected_row_foreach     (ETable *e_table,
 					      ETableForeachFunc callback,
 					      gpointer closure);
 EPrintable *e_table_get_printable            (ETable *e_table);
+
+
+/* Drag & drop stuff. */
+/* Target */
+void e_table_drag_get_data (ETable         *table,
+			    int             row,
+			    int             col,
+			    GdkDragContext *context,
+			    GdkAtom         target,
+			    guint32         time);
+
+void e_table_drag_highlight   (ETable     *table,
+			       int         row,
+			       int         col); /* col == -1 to highlight entire row. */
+void e_table_drag_unhighlight (ETable     *table);
+
+void e_table_drag_dest_set   (ETable               *table,
+			      GtkDestDefaults       flags,
+			      const GtkTargetEntry *targets,
+			      gint                  n_targets,
+			      GdkDragAction         actions);
+
+void e_table_drag_dest_set_proxy (ETable         *table,
+				  GdkWindow      *proxy_window,
+				  GdkDragProtocol protocol,
+				  gboolean        use_coordinates);
+
+/* There probably should be functions for setting the targets
+ * as a GtkTargetList
+ */
+
+void e_table_drag_dest_unset (GtkWidget          *widget);
+
+/* Source side */
+
+void e_table_drag_source_set  (ETable               *table,
+			       GdkModifierType       start_button_mask,
+			       const GtkTargetEntry *targets,
+			       gint                  n_targets,
+			       GdkDragAction         actions);
+
+void e_table_drag_source_unset (ETable        *table);
+
+/* There probably should be functions for setting the targets
+ * as a GtkTargetList
+ */
+
+GdkDragContext *e_table_drag_begin (ETable            *table,
+				    int row,
+				    int col,
+				    GtkTargetList     *targets,
+				    GdkDragAction      actions,
+				    gint               button,
+				    GdkEvent          *event);
 
 END_GNOME_DECLS
 

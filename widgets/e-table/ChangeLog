@@ -1,3 +1,8 @@
+2000-07-21  Christopher James Lahey  <clahey@helixcode.com>
+
+	* e-table.h: Added some unused declarations for drag and drop
+	work.
+
 2000-07-14  Michael Meeks  <michael@helixcode.com>
 
 	* e-table-subset.c (etss_destroy): g_free things we g_malloc.
