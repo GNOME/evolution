@@ -1,3 +1,8 @@
+2005-01-13  Rodney Dawes  <dobey@novell.com>
+
+	* configure.in: Add new-mail-notify to the plugins_all listing
+	so that it gets disted properly
+
 2005-01-12  JP Rosevear  <jpr@novell.com>
 
 	* configure.in: fix plugin listing, bump upgrade revision so
