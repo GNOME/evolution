@@ -741,7 +741,6 @@ e_select_names_text_model_get_nth_obj (ETextModel *model, gint n, gint *len)
 {
 	ESelectNamesTextModel *text_model = E_SELECT_NAMES_TEXT_MODEL (model);
 	ESelectNamesModel *source = text_model->source;
-	const gchar *txt;
 	gint i, pos;
 
 	i = nth_obj_index (source, n);

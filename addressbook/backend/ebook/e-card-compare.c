@@ -57,6 +57,7 @@ static gchar *name_synonyms[][2] = {
 	{ "ian", "iain" },
 	{ "richard", "dick" },
 	{ "william", "bill" },
+	{ "william", "will" },
 	{ "anthony", "tony" },
 	{ "michael", "mike" },
 	{ "eric", "erik" },
@@ -70,11 +71,13 @@ static gchar *name_synonyms[][2] = {
 	{ "amanda", "amy" },
 	{ "amanda", "manda" },
 	{ "jennifer", "jenny" },
+	{ "christopher", "chris" },
 	{ "rebecca", "becca" },
 	{ "rebecca", "becky" },
 	{ "anderson", "andersen" },
 	{ "johnson", "johnsen" },
 	/* We could go on and on... */
+	/* We should add soundex here. */
 	{ NULL, NULL }
 };
 	

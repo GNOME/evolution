@@ -2,7 +2,7 @@
 
 	* gui/widgets/e-addressbook-view.c,
 	gui/widgets/e-addressbook-view.h (create_alphabet): Use toggle
-	buttons here.
+	buttons here.  Fixes Ximian bug #10734.
 
 2002-01-09  Christopher James Lahey  <clahey@ximian.com>
 
