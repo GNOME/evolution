@@ -35,7 +35,11 @@
 #endif
 
 #include <gnome.h>
+#include <libgnorba/gnorba.h>
+#include <bonobo.h>
+
 #include <glade/glade.h>
+
 #include <camel/camel.h>
 
 #include "e-msg-composer.h"
@@ -57,6 +61,25 @@ enum {
 static guint signals[LAST_SIGNAL] = { 0 };
 
 static GnomeAppClass *parent_class = NULL;
+
+
+static GtkWidget *
+create_editor (EMsgComposer *composer)
+{
+	GtkWidget *control;
+	Bonobo_UIHandler corba_uih;
+
+	corba_uih = bonobo_object_corba_objref (BONOBO_OBJECT (composer->uih));
+
+	/* FIXME: Hardcoded value sucks!  */
+	control = bonobo_widget_new_control ("control:html-editor", corba_uih);
+	if (control == NULL) {
+		g_warning ("Cannot get the `control:html-editor' component.");
+		return NULL;
+	}
+
+	return control;
+}
 
 
 static void
@@ -81,7 +104,6 @@ build_message (EMsgComposer *composer)
 	CamelMimeMessage *new;
 	CamelMimeBodyPart *body_part;
 	CamelMultipart *multipart;
-	gchar *text;
 
 	new = camel_mime_message_new_with_session (NULL);
 
@@ -91,9 +113,11 @@ build_message (EMsgComposer *composer)
 	multipart = camel_multipart_new ();
 	body_part = camel_mime_body_part_new ();
 
+#if 0
 	text = gtk_editable_get_chars (GTK_EDITABLE (composer->text), 0, -1);
 	camel_mime_part_set_text (CAMEL_MIME_PART (body_part), text);
 	camel_multipart_add_part (multipart, body_part);
+#endif
 
 	e_msg_composer_attachment_bar_to_multipart
 		(E_MSG_COMPOSER_ATTACHMENT_BAR (composer->attachment_bar),
@@ -274,6 +298,75 @@ attachment_bar_changed (EMsgComposerAttachmentBar *bar,
 }
 
 
+/* Menu bar implementation.  */
+
+static GnomeUIInfo file_tree[] = {
+	GNOMEUIINFO_MENU_OPEN_ITEM (NULL, NULL),
+	GNOMEUIINFO_MENU_SAVE_ITEM (NULL, NULL),
+	GNOMEUIINFO_MENU_SAVE_AS_ITEM (NULL, NULL),
+	GNOMEUIINFO_ITEM_NONE (N_("Save in _folder..."), N_("Save the message in a specified folder"), NULL),
+	GNOMEUIINFO_SEPARATOR,
+	GNOMEUIINFO_ITEM_STOCK (N_("Send"), N_("Send the message"), NULL, GNOME_STOCK_MENU_MAIL_SND),
+	GNOMEUIINFO_SEPARATOR,
+	GNOMEUIINFO_MENU_EXIT_ITEM (NULL, NULL),
+	GNOMEUIINFO_END
+};
+
+static GnomeUIInfo view_tree[] = {
+	GNOMEUIINFO_ITEM_STOCK (N_("View _attachments"), N_("View/hide attachments"), NULL, GNOME_STOCK_MENU_ATTACH),
+	GNOMEUIINFO_END
+};
+
+static GnomeUIInfo menubar_info[] = {
+	GNOMEUIINFO_MENU_FILE_TREE (file_tree),
+	GNOMEUIINFO_MENU_VIEW_TREE (view_tree),
+	GNOMEUIINFO_END
+};
+
+static void
+create_menubar (EMsgComposer *composer)
+{
+	BonoboUIHandler *uih;
+	BonoboUIHandlerMenuItem *list;
+
+	uih = composer->uih;
+
+	bonobo_ui_handler_create_menubar (uih);
+
+	list = bonobo_ui_handler_menu_parse_uiinfo_list (menubar_info);
+	bonobo_ui_handler_menu_add_list (uih, "/", list);
+}
+
+
+/* Toolbar implementation.  */
+
+static GnomeUIInfo toolbar_info[] = {
+	GNOMEUIINFO_ITEM_STOCK (N_("Send"), N_("Send this message"), NULL, GNOME_STOCK_PIXMAP_MAIL_SND),
+	GNOMEUIINFO_SEPARATOR,
+	GNOMEUIINFO_ITEM_STOCK (N_("Cut"), N_("Cut selected region into the clipboard"), NULL, GNOME_STOCK_PIXMAP_CUT),
+	GNOMEUIINFO_ITEM_STOCK (N_("Copy"), N_("Copy selected region into the clipboard"), NULL, GNOME_STOCK_PIXMAP_COPY),
+	GNOMEUIINFO_ITEM_STOCK (N_("Paste"), N_("Paste selected region into the clipboard"), NULL, GNOME_STOCK_PIXMAP_PASTE),
+	GNOMEUIINFO_ITEM_STOCK (N_("Undo"), N_("Undo last operation"), NULL, GNOME_STOCK_PIXMAP_UNDO),
+	GNOMEUIINFO_SEPARATOR,
+	GNOMEUIINFO_ITEM_STOCK (N_("Attach"), N_("Attach a file"), NULL, GNOME_STOCK_PIXMAP_ATTACH),
+	GNOMEUIINFO_END
+};
+
+static void
+create_toolbar (EMsgComposer *composer)
+{
+	BonoboUIHandler *uih;
+	BonoboUIHandlerToolbarItem *list;
+
+	uih = composer->uih;
+
+	bonobo_ui_handler_create_toolbar (uih, "Toolbar");
+
+	list = bonobo_ui_handler_toolbar_parse_uiinfo_list (toolbar_info);
+	bonobo_ui_handler_toolbar_add_list (uih, "/Toolbar", list);
+}
+
+
 /* GtkObject methods.  */
 
 static void
@@ -282,6 +375,11 @@ destroy (GtkObject *object)
 	EMsgComposer *composer;
 
 	composer = E_MSG_COMPOSER (object);
+
+	bonobo_object_unref (BONOBO_OBJECT (composer->uih));
+
+	/* FIXME?  I assume the Bonobo widget will get destroyed
+           normally?  */
 
 	if (composer->address_dialog != NULL)
 		gtk_widget_destroy (composer->address_dialog);
@@ -324,10 +422,11 @@ class_init (EMsgComposerClass *klass)
 static void
 init (EMsgComposer *composer)
 {
+	composer->uih = NULL;
+
 	composer->hdrs = NULL;
 
-	composer->text = NULL;
-	composer->text_scrolled_window = NULL;
+	composer->editor = NULL;
 
 	composer->address_dialog = NULL;
 
@@ -371,11 +470,16 @@ e_msg_composer_construct (EMsgComposer *composer)
 {
 	GtkWidget *vbox;
 
+	g_return_if_fail (gtk_main_level () > 0);
+
 	gtk_window_set_default_size (GTK_WINDOW (composer),
 				     DEFAULT_WIDTH, DEFAULT_HEIGHT);
 
 	gnome_app_construct (GNOME_APP (composer), "e-msg-composer",
 			     "Compose a message");
+
+	composer->uih = bonobo_ui_handler_new ();
+	bonobo_ui_handler_set_app (composer->uih, GNOME_APP (composer));
 
 	vbox = gtk_vbox_new (FALSE, 0);
 
@@ -383,22 +487,13 @@ e_msg_composer_construct (EMsgComposer *composer)
 	gtk_box_pack_start (GTK_BOX (vbox), composer->hdrs, FALSE, TRUE, 0);
 	gtk_widget_show (composer->hdrs);
 
-	/* GtkText for message body editing, wrapped into a
-	   GtkScrolledWindow.  */
+	/* Editor component.  */
 
-	composer->text_scrolled_window = gtk_scrolled_window_new (NULL, NULL);
-	gtk_scrolled_window_set_policy
-		(GTK_SCROLLED_WINDOW (composer->text_scrolled_window),
-		 GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
-	composer->text = gtk_text_new (NULL, NULL);
-	gtk_text_set_word_wrap (GTK_TEXT (composer->text), FALSE);
-	gtk_text_set_editable (GTK_TEXT (composer->text), TRUE);
-	gtk_container_add (GTK_CONTAINER (composer->text_scrolled_window),
-			   composer->text);
-	gtk_widget_show (composer->text);
-	gtk_box_pack_start (GTK_BOX (vbox), composer->text_scrolled_window,
-			    TRUE, TRUE, 0);
-	gtk_widget_show (composer->text_scrolled_window);
+	composer->editor = create_editor (composer);
+
+	gtk_widget_show (composer->editor);
+	gtk_box_pack_start (GTK_BOX (vbox), composer->editor, TRUE, TRUE, 0);
+	gtk_widget_show (composer->editor);
 
 	/* Attachment editor, wrapped into a GtkScrolledWindow.  We don't
            show it for now.  */
@@ -420,12 +515,16 @@ e_msg_composer_construct (EMsgComposer *composer)
 	gtk_widget_show (vbox);
 
 	e_msg_composer_show_attachments (composer, FALSE);
+
+	create_menubar (composer);
+	create_toolbar (composer);
 }
 
 /**
  * e_msg_composer_new:
  *
- * Create a new message composer widget.
+ * Create a new message composer widget.  This function must be called
+ * within the GTK+ main loop, or it will fail.
  * 
  * Return value: A pointer to the newly created widget
  **/
@@ -433,6 +532,8 @@ GtkWidget *
 e_msg_composer_new (void)
 {
 	GtkWidget *new;
+
+	g_return_val_if_fail (gtk_main_level () > 0, NULL);
  
 	new = gtk_type_new (e_msg_composer_get_type ());
 	e_msg_composer_construct (E_MSG_COMPOSER (new));

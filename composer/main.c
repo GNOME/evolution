@@ -1,6 +1,10 @@
 /* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*- */
 
 #include <gnome.h>
+#include <libgnorba/gnorba.h>
+#include <bonobo.h>
+
+#include <glade/glade.h>
 
 #include <camel/camel-data-wrapper.h>
 #include <camel/camel-stream-fs.h>
@@ -32,21 +36,41 @@ send_cb (EMsgComposer *composer,
 #endif
 }
 
-int
-main (int argc, char **argv)
+static guint
+create_composer (void)
 {
 	GtkWidget *composer;
-
-	gnome_init ("test", "0.0", argc, argv);
-	glade_gnome_init ();
 
 	composer = e_msg_composer_new ();
 	gtk_widget_show (composer);
 
-	gtk_signal_connect (GTK_OBJECT (composer), "send",
-			    GTK_SIGNAL_FUNC (send_cb), NULL);
+	gtk_signal_connect (GTK_OBJECT (composer), "send", GTK_SIGNAL_FUNC (send_cb), NULL);
 
-	gtk_main ();
+	return FALSE;
+}
+
+int
+main (int argc, char **argv)
+{
+	CORBA_Environment ev;
+	CORBA_ORB orb;
+
+	CORBA_exception_init (&ev);
+	gnome_CORBA_init ("evolution-test-msg-composer", "0.0", &argc, argv, 0, &ev);
+	CORBA_exception_free (&ev);
+
+	orb = gnome_CORBA_ORB ();
+
+	glade_gnome_init ();
+
+	if (bonobo_init (orb, NULL, NULL) == FALSE)
+		g_error ("Could not initialize Bonobo\n");
+
+	/* We can't make any CORBA calls unless we're in the main loop.  So we
+	   delay creating the container here. */
+	gtk_idle_add ((GtkFunction) create_composer, NULL);
+
+	bonobo_main ();
 
 	return 0;
 }

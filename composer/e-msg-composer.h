@@ -25,7 +25,7 @@
 #define ___E_MSG_COMPOSER_H__
 
 #include <gnome.h>
-#include <glade/glade.h>
+#include <bonobo.h>
 
 #include "e-msg-composer-attachment-bar.h"
 #include "e-msg-composer-hdrs.h"
@@ -49,10 +49,11 @@ typedef struct _EMsgComposerClass  EMsgComposerClass;
 struct _EMsgComposer {
 	GnomeApp parent;
 
+	BonoboUIHandler *uih;
+
 	GtkWidget *hdrs;
 
-	GtkWidget *text;
-	GtkWidget *text_scrolled_window;
+	GtkWidget *editor;
 
 	GtkWidget *attachment_bar;
 	GtkWidget *attachment_scrolled_window;
@@ -70,11 +71,12 @@ struct _EMsgComposerClass {
 };
 
 
-GtkType e_msg_composer_get_type (void);
-void e_msg_composer_construct (EMsgComposer *composer);
-GtkWidget *e_msg_composer_new (void);
-void e_msg_composer_show_attachments (EMsgComposer *composer, gboolean show);
-CamelMimeMessage *e_msg_composer_get_message (EMsgComposer *composer);
+GtkType           e_msg_composer_get_type          (void);
+void              e_msg_composer_construct         (EMsgComposer *composer);
+GtkWidget        *e_msg_composer_new               (void);
+void              e_msg_composer_show_attachments  (EMsgComposer *composer,
+						    gboolean      show);
+CamelMimeMessage *e_msg_composer_get_message       (EMsgComposer *composer);
 
 #ifdef __cplusplus
 }

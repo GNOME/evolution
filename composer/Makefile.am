@@ -9,7 +9,8 @@ INCLUDES =					\
 	-I$(top_builddir)			\
 	-I$(top_srcdir)/camel			\
 	-I$(top_builddir)/camel			\
-	$(GNOME_INCLUDEDIR)
+	$(GNOME_INCLUDEDIR)			\
+	$(BONOBO_GNOME_CFLAGS)
 
 CPPFLAGS =					\
 	-DE_GLADEDIR=\"$(gladedir)\"
@@ -34,6 +35,7 @@ evolution_msg_composer_SOURCES =		\
 
 evolution_msg_composer_LDADD = 			\
 	$(top_builddir)/camel/libcamel.la	\
+	$(BONOBO_GNOME_LIBS)			\
 	$(GNOME_LIBDIR)				\
 	$(GNOMEUI_LIBS)				\
 	$(INTLLIBS)				\

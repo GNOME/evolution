@@ -1,5 +1,28 @@
 2000-03-02  Ettore Perazzoli  <ettore@helixcode.com>
 
+	* e-msg-composer.c (e_msg_composer_new): Precondition:
+	gtk_main_level() greater than zero.
+	(e_msg_composer_construct): Likewise.
+	(create_menus): New function.  Set up menus through
+	BonoboUIHandler.
+	(e_msg_composer_construct): Use it.
+
+	* main.c (main): Initialize Bonobo.
+
+	* e-msg-composer.c (init): Initialize `uih' and `editor' to NULL.
+	Do not init `text' and `text_scrolled_window' anymore.
+	(destroy): Unref `uih'.
+	(e_msg_composer_construct): Create a new BonoboUIHandler and put
+	it into `uih'.
+	(create_editor): New helper function.
+	(e_msg_composer_construct): Use it to set up the editor.
+
+	* e-msg-composer.h: New member `uih' in `EMsgComposer'.  Removed
+	members `text', `text_scrolled_window'.  New member `editor'.
+
+	* Makefile.am (INCLUDES): Add `$(BONOBO_GNOME_CFLAGS)'.
+	(evolution_msg_composer_LDADD): Add `$(BONOBO_GNOME_LIBS)'.
+
 	* e-msg-composer.c (glade_connect): Removed.
 	(setup_signals): Removed.
 	(e_msg_composer_construct): Do not use libglade to set the toolbar
