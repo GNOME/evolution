@@ -117,7 +117,7 @@ mail_op_report_status (FilterDriver *driver, enum filter_status_t status, const 
 	/* FIXME: make it work */
 	switch (status) {
 	case FILTER_STATUS_START:
-		mail_op_set_message (desc);
+		mail_op_set_message_plain (desc);
 		break;
 	case FILTER_STATUS_END:
 		break;

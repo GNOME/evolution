@@ -387,6 +387,32 @@ mail_op_show_progressbar (void)
 
 /**
  * mail_op_set_message:
+ * @str: message
+ *
+ * Set the message displayed above the progress bar for the currently
+ * executing operation.
+ * Threadsafe for, nay, intended to be called by, the dispatching thread.
+ **/
+
+static void
+set_message (gchar *str)
+{
+	com_msg_t msg;
+
+	msg.type = MESSAGE;
+	msg.message = str;
+
+	pipe_write (MAIN_WRITER, &msg, sizeof (msg));
+}
+
+void
+mail_op_set_message_plain (const gchar *str)
+{
+	set_message (g_strdup (str));
+}
+
+/**
+ * mail_op_set_message:
  * @fmt: printf-style format string for the message
  * @...: arguments to the format string
  *
@@ -398,15 +424,14 @@ mail_op_show_progressbar (void)
 void
 mail_op_set_message (const gchar *fmt, ...)
 {
-	com_msg_t msg;
+	gchar *str;
 	va_list val;
 
 	va_start (val, fmt);
-	msg.type = MESSAGE;
-	msg.message = g_strdup_vprintf (fmt, val);
+	str = g_strdup_vprintf (fmt, val);
 	va_end (val);
 
-	pipe_write (MAIN_WRITER, &msg, sizeof (msg));
+	set_message (str);
 }
 
 /**
