@@ -10,6 +10,18 @@
 #include <pthread.h>
 #endif
 
+#define TIMEIT
+/*#define DO_MCHECK*/
+
+#ifdef TIMEIT
+#include <sys/time.h>
+#include <unistd.h>
+#endif
+
+#ifdef DO_MCHECK
+#include <mcheck.h>
+#endif
+
 void word_index_mem_dump_info(struct _IBEXWord *idx);
 
 /*
@@ -97,27 +109,64 @@ read_words(void *in)
 }
 #endif
 
+
+
+#ifdef DO_MCHECK
+static int blowup(int status)
+{
+	switch(status) {
+	case 1:
+		printf("Double free failure\n");
+		break;
+	case 2:
+		printf("Memory clobbered before block\n");
+		break;
+	case 3:
+		printf("Memory clobbered after block\n");
+		break;
+	}
+	abort();
+	return status;
+}
+#endif
+
 int main(int argc, char **argv)
 {
 	int i, j;
-	GPtrArray *words = g_ptr_array_new();
+	GPtrArray *words;
 	char line[256];
 	int len;
 	FILE *file;
 	float m, s;
 	ibex *ib;
-	GString *buffer = g_string_new("");
+	GString *buffer;
 	int files;
 	char *dict;
-
+	int synccount;
+#ifdef TIMEIT
+	struct timeval start, end;
+	unsigned long diff;
+#endif
 #ifdef ENABLE_THREADS
 	pthread_t id;
+#endif
+	mcheck(blowup);
 
+	words = g_ptr_array_new();
+	buffer = g_string_new("");
+
+#ifdef ENABLE_THREADS
 	g_thread_init(0);
+#undef ENABLE_THREADS
+#endif
+
+#ifdef TIMEIT
+	gettimeofday(&start, NULL);
 #endif
 
 	srand(0xABADF00D);
 
+	synccount = 1000;
 	files = 8000;
 	dict = "/usr/dict/words";
 
@@ -158,35 +207,96 @@ int main(int argc, char **argv)
 #endif
 	printf("Adding %d files\n", files);
 
+	
 	/* simulate adding new words to a bunch of files */
-	for (j=0;j<files;j++) {
+	for (j=0;j<200000;j++) {
 		/* always new name */
-		char *name = words->pdata[j % words->len];
+		char *name;
 		/* something like 60 words in a typical message, say */
 		int count = (int)box_muller(60.0, 20.0);
+		int word = (int)box_muller(m, 4000);
+		GPtrArray *a;
+		static int lastlen = 0;
 
-		if (j%1000 == 0)
+		/* random name */
+		name = words->pdata[word % words->len];
+
+		if (j%1000 == 0) {
+			IBEX_LOCK(ib);
 			word_index_mem_dump_info(ib->words);
-
-		/* cache the name info */
-		ibex_contains_name(ib, name);
-
-		/*printf("Adding %d words to '%s'\n", count, name);*/
-
-		g_string_truncate(buffer, 0);
-
-		/* build up the word buffer */
-		for (i=0;i<count;i++) {
-			if (i>0)
-				g_string_append_c(buffer, ' ');
-			g_string_append(buffer, getword(words, m, s));
+			IBEX_UNLOCK(ib);
 		}
 
-		/* and index it */
-		ibex_index_buffer(ib, name, buffer->str, buffer->len, NULL);
+		/* lookup word just to test lookup */
+		a = ibex_find(ib, name);
+		if (a) {
+			for (i=0;i<a->len;i++)
+				g_free(a->pdata[i]);
+			g_ptr_array_free(a, TRUE);
+		}
+
+		/* half the time, remove items from the index */
+		if (rand() < RAND_MAX/2) {
+			ibex_unindex(ib, name);
+		} else {
+			/* cache the name info */
+			ibex_contains_name(ib, name);
+
+			/*printf("Adding %d words to '%s'\n", count, name);*/
+
+			g_string_truncate(buffer, 0);
+
+			/* build up the word buffer */
+			for (i=0;i<count;i++) {
+				if (i>0)
+					g_string_append_c(buffer, ' ');
+				g_string_append(buffer, getword(words, m, 2000));
+			}
+
+			/* and index it */
+			ibex_index_buffer(ib, name, buffer->str, buffer->len, NULL);
+		}
+
+
+		a = ibex_find(ib, "joneses");
+		if (a) {
+			if (a->len != lastlen) {
+				printf("Found %d joneses!\n", a->len);
+				lastlen = a->len;
+			}
+			for (i=0;i<a->len;i++)
+				g_free(a->pdata[i]);
+			g_ptr_array_free(a, TRUE);
+		}
+
+		if (j%synccount == 0) {
+			printf("Reloading index\n");
+			IBEX_LOCK(ib);
+			word_index_mem_dump_info(ib->words);
+			IBEX_UNLOCK(ib);
+#ifdef ENABLE_THREADS
+			do_read_words = 0;
+			pthread_join(id, 0);
+#endif
+			ibex_save(ib);
+			ibex_close(ib);
+
+			ib = ibex_open("test.ibex", O_RDWR|O_CREAT, 0600);
+			IBEX_LOCK(ib);
+			word_index_mem_dump_info(ib->words);
+			IBEX_UNLOCK(ib);
+#ifdef ENABLE_THREADS
+			do_read_words = 1;
+			pthread_create(&id, 0, read_words, ib);
+#endif
+		}
+
 	}
 
+
+	IBEX_LOCK(ib);
 	word_index_mem_dump_info(ib->words);
+	IBEX_UNLOCK(ib);
 
 #ifdef ENABLE_THREADS
 	do_read_words = 0;
@@ -194,6 +304,13 @@ int main(int argc, char **argv)
 #endif
 
 	ibex_close(ib);
+
+#ifdef TIMEIT
+	gettimeofday(&end, NULL);
+	diff = end.tv_sec * 1000 + end.tv_usec/1000;
+	diff -= start.tv_sec * 1000 + start.tv_usec/1000;
+	printf("Total time taken %ld.%03ld seconds\n", diff / 1000, diff % 1000);
+#endif
 
 	return 0;
 }
