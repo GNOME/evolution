@@ -83,7 +83,6 @@ module Evolution {
 				 in boolean show_inline,
 				 in string data);
 
-
 		/**
 		 * show:
 		 *
@@ -91,6 +90,14 @@ module Evolution {
 		 * and send the message.
 		 **/
 		void show ();
+
+
+		/**
+		 * send:
+		 *
+		 * Send the message without showing the user the composer
+		 **/
+		void send ();
 	};
 };
 };

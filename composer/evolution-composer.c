@@ -196,6 +196,19 @@ impl_Composer_show (PortableServer_Servant servant,
 	gtk_widget_show (GTK_WIDGET (composer->composer));
 }
 
+static void
+impl_Composer_send (PortableServer_Servant servant,
+		    CORBA_Environment *ev)
+{
+	BonoboObject *bonobo_object;
+	EvolutionComposer *composer;
+
+	bonobo_object = bonobo_object_from_servant (servant);
+	composer = EVOLUTION_COMPOSER (bonobo_object);
+
+	send_cb (composer->composer, NULL);
+}
+
 POA_GNOME_Evolution_Composer__epv *
 evolution_composer_get_epv (void)
 {
@@ -207,6 +220,7 @@ evolution_composer_get_epv (void)
 	epv->attachMIME  = impl_Composer_attach_MIME;
 	epv->attachData  = impl_Composer_attach_data;
 	epv->show        = impl_Composer_show;
+	epv->send        = impl_Composer_send;
 
 	return epv;
 }

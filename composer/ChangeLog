@@ -1,3 +1,10 @@
+2001-06-19  JP Rosevear  <jpr@ximian.com>
+
+	* evolution-composer.c (impl_Composer_send): send the message
+
+	* Evolution-Composer.idl: add a "send" method to send a message
+	without showing the editor
+
 2001-06-19  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* e-msg-composer.c (e_msg_composer_construct): Don't define the
