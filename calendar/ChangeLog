@@ -1,3 +1,15 @@
+2002-11-19  Ettore Perazzoli  <ettore@ximian.com>
+
+	* Makefile.am: Added rule to generate
+	GNOME_Evolution_Calendar.server.in from
+	GNOME_Evolution_Calendar.server.in.in, substituting @LIBEXECDIR@.
+	Also, install evolution-calendar in $libexecdir instead of
+	$bindir.
+
+	* gui/GNOME_Evolution_Calendar.server.in.in: Renamed from
+	GNOME_Evolution_Calendar.server.in.  Prepended the executable name
+	with @LIBEXECDIR@.
+
 2002-11-19  Not Zed  <NotZed@Ximian.com>
 
 	* gui/e-meeting-model.c (get_select_name_dialog): pass type to

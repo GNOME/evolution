@@ -33,7 +33,7 @@ SUBDIRS = alarm-notify dialogs
 
 help_base = $(datadir)/gnome/help/cal
 
-bin_PROGRAMS = evolution-calendar
+libexec_PROGRAMS = evolution-calendar
 
 INCLUDES = 							\
 	-DG_LOG_DOMAIN=\"calendar-gui\"				\
@@ -181,11 +181,12 @@ evolution_calendar_LDADD =								\
 
 evolution_calendar_LDFLAGS = -export-dynamic
 
-serversdir = $(libdir)/bonobo/servers
-servers_in_files = \
-	GNOME_Evolution_Calendar.server.in
+server_in_files = GNOME_Evolution_Calendar.server.in.in
 
-servers_DATA = $(servers_in_files:.server.in=.server)
+serverdir = $(libdir)/bonobo/servers
+server_DATA = $(server_in_files:.server.in.in=.server)
+$(server_in_files:.server.in.in=.server.in): $(server_in_files)
+	sed -e "s|\@LIBEXECDIR\@|$(libexecdir)|" $< > $@
 
 @INTLTOOL_SERVER_RULE@
 
