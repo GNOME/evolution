@@ -270,18 +270,19 @@ icalproperty_free (icalproperty* prop)
 static char*
 fold_property_line (char *text)
 {
-    int len, max_lines, line_length;
+    int len, max_lines, line_length, buf_len;
     char *buf, *src, *dest, ch;
 
     len = strlen (text);
 
     /* The minimum length we split a line at is 65 characters, so calculate
        the maximum number of newlines we will need. */
-    max_lines = ((len - 1) / 65);
+    max_lines = len / 65;
 
     /* Calculate the maximum size for the buffer we need, if we add a newline
-       character for each line, and a '\0' at the end. */
-    buf = icalmemory_tmp_buffer (len + max_lines + 1);
+       and a space character for each line, and a '\0' at the end. */
+    buf_len = len + (max_lines * 2);
+    buf = icalmemory_tmp_buffer (buf_len + 1);
 
     src = text;
     dest = buf;
@@ -299,6 +300,10 @@ fold_property_line (char *text)
 	line_length++;
 
 	src++;
+
+	if (dest - buf > buf_len) {
+	    icalerror_warn ("Buffer overflow.");
+	}
     }
     *dest = '\0';
 

@@ -1,5 +1,12 @@
 2001-10-30  Damon Chaplin  <damon@ximian.com>
 
+	* src/libical/icalproperty.c (fold_property_line): forgot to account
+	for the spaces added, so it could have been writing over the end of
+	the allocated memory. Added check for buffer overflow as well.
+	This could well have been the problem causing bug #14067.
+
+2001-10-30  Damon Chaplin  <damon@ximian.com>
+
 	* zoneinfo/*.ics: Regenerated all VTIMEZONEs, to be compatable with
 	Outlook Web Access. They now only include 2 RRULEs components or
 	1 simple DTSTART component.
