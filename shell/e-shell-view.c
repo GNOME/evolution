@@ -59,7 +59,6 @@
 #include "e-shell-view.h"
 #include "e-shell-view-menu.h"
 
-
 
 static BonoboWindowClass *parent_class = NULL;
 
@@ -83,6 +82,9 @@ struct _EShellViewPrivate {
            "folder_selected" */
 	char *delayed_selection;
 
+	/* Tooltips.  */
+	GtkTooltips *tooltips;
+
 	/* The widgetry.  */
 	GtkWidget *appbar;
 	GtkWidget *hpaned;
@@ -95,6 +97,10 @@ struct _EShellViewPrivate {
 	GtkWidget *storage_set_title_bar;
 	GtkWidget *storage_set_view;
 	GtkWidget *storage_set_view_box;
+
+	/* The status bar widgetry.  */
+	GtkWidget *offline_toggle;
+	GtkWidget *offline_toggle_pixmap;
 	GtkWidget *progress_bar;
 
 	/* The view we have already open.  */
@@ -135,8 +141,19 @@ static guint signals[LAST_SIGNAL] = { 0 };
 
 #define DEFAULT_URI "evolution:/local/Inbox"
 
-static void update_for_current_uri (EShellView *shell_view);
-static const char * get_storage_set_path_from_uri (const char *uri);
+
+/* The icons for the offline/online status.  */
+
+static GdkPixmap *offline_pixmap = NULL;
+static GdkBitmap *offline_mask = NULL;
+
+static GdkPixmap *online_pixmap = NULL;
+static GdkBitmap *online_mask = NULL;
+
+
+static void        update_for_current_uri         (EShellView *shell_view);
+static void        update_offline_toggle_status   (EShellView *shell_view);
+static const char *get_storage_set_path_from_uri  (const char *uri);
 
 
 /* Utility functions.  */
@@ -150,6 +167,29 @@ create_label_for_empty_page (void)
 	gtk_widget_show (label);
 
 	return label;
+}
+
+/* Initialize the icons.  */
+static void
+load_images (void)
+{
+	GdkPixbuf *pixbuf;
+
+	pixbuf = gdk_pixbuf_new_from_file (EVOLUTION_IMAGES "/offline.png");
+	if (pixbuf == NULL) {
+		g_warning ("Cannot load `%s'", EVOLUTION_IMAGES "/offline.png");
+	} else {
+		gdk_pixbuf_render_pixmap_and_mask (pixbuf, &offline_pixmap, &offline_mask, 128);
+		gdk_pixbuf_unref (pixbuf);
+	}
+
+	pixbuf = gdk_pixbuf_new_from_file (EVOLUTION_IMAGES "/online.png");
+	if (pixbuf == NULL) {
+		g_warning ("Cannot load `%s'", EVOLUTION_IMAGES "/online.png");
+	} else {
+		gdk_pixbuf_render_pixmap_and_mask (pixbuf, &online_pixmap, &online_mask, 128);
+		gdk_pixbuf_unref (pixbuf);
+	}
 }
 
 /* FIXME this is broken.  */
@@ -169,23 +209,6 @@ bonobo_widget_is_dead (BonoboWidget *bonobo_widget)
 	CORBA_exception_free (&ev);
 
 	return is_dead;
-}
-
-
-/* Shell signal handling.  */
-
-static void
-shell_line_status_changed_cb (EShell *shell,
-			      EShellLineStatus new_status,
-			      void *data)
-{
-	EShellView *shell_view;
-	EShellViewPrivate *priv;
-
-	shell_view = E_SHELL_VIEW (data);
-	priv = shell_view->priv;
-
-	g_warning ("Shell status changed -- %d", new_status);
 }
 
 
@@ -506,7 +529,7 @@ storage_set_view_button_clicked_cb (ETitleBar *title_bar,
 	e_shell_view_set_folder_bar_mode (shell_view, E_SHELL_VIEW_SUBWINDOW_HIDDEN);
 }
 
-/* Callback called when the title bar button has been pressed.  */
+/* Callback called when the title bar button is clicked.  */
 static void
 title_bar_toggled_cb (EShellFolderTitleBar *title_bar,
 		      gboolean state,
@@ -521,6 +544,29 @@ title_bar_toggled_cb (EShellFolderTitleBar *title_bar,
 
 	if (e_shell_view_get_folder_bar_mode (shell_view) != E_SHELL_VIEW_SUBWINDOW_TRANSIENT)
 		pop_up_folder_bar (shell_view);
+}
+
+/* Callback called when the offline toggle button is clicked.  */
+static void
+offline_toggle_clicked_cb (GtkButton *button,
+			   void *data)
+{
+	EShellView *shell_view;
+	EShellViewPrivate *priv;
+
+	shell_view = E_SHELL_VIEW (data);
+	priv = shell_view->priv;
+
+	switch (e_shell_get_line_status (priv->shell)) {
+	case E_SHELL_LINE_STATUS_ONLINE:
+		e_shell_go_offline (priv->shell, shell_view);
+		break;
+	case E_SHELL_LINE_STATUS_OFFLINE:
+		e_shell_go_online (priv->shell, shell_view);
+		break;
+	default:
+		g_assert_not_reached ();
+	}
 }
 
 
@@ -567,10 +613,50 @@ setup_storage_set_subwindow (EShellView *shell_view)
 }
 
 static void
-setup_progress_bar (EShellViewPrivate *priv)
+setup_offline_toggle (EShellView *shell_view)
 {
+	EShellViewPrivate *priv;
+	BonoboControl *control;
+	GtkWidget *toggle;
+	GtkWidget *pixmap;
+
+	priv = shell_view->priv;
+
+	toggle = gtk_button_new ();
+	GTK_WIDGET_UNSET_FLAGS (toggle, GTK_CAN_FOCUS);
+	gtk_button_set_relief (GTK_BUTTON (toggle), GTK_RELIEF_NONE);
+
+	gtk_signal_connect (GTK_OBJECT (toggle), "clicked",
+			    GTK_SIGNAL_FUNC (offline_toggle_clicked_cb), shell_view);
+
+	pixmap = gtk_pixmap_new (offline_pixmap, offline_mask);
+
+	gtk_container_add (GTK_CONTAINER (toggle), pixmap);
+
+	gtk_widget_show (toggle);
+	gtk_widget_show (pixmap);
+
+	control = bonobo_control_new (toggle);
+	g_return_if_fail (control != NULL);
+
+	bonobo_ui_component_object_set (priv->ui_component, "/status/OfflineToggle",
+					bonobo_object_corba_objref (BONOBO_OBJECT (control)),
+					NULL);
+
+	priv->offline_toggle        = toggle;
+	priv->offline_toggle_pixmap = pixmap;
+
+	update_offline_toggle_status (shell_view);
+}
+
+static void
+setup_progress_bar (EShellView *shell_view)
+{
+	EShellViewPrivate *priv;
 	GtkProgressBar *progress_bar;
 	BonoboControl  *control;
+
+	priv = shell_view->priv;
 
 	progress_bar = (GTK_PROGRESS_BAR (gtk_progress_bar_new ()));
 
@@ -595,9 +681,13 @@ setup_widgets (EShellView *shell_view)
 
 	priv = shell_view->priv;
 
+	/* The offline/online button toggle.  */
+
+	setup_offline_toggle (shell_view);
+
 	/* The progress bar.  */
 
-	setup_progress_bar (priv);
+	setup_progress_bar (shell_view);
 
 	/* The shortcut bar.  */
 
@@ -693,6 +783,8 @@ destroy (GtkObject *object)
 	shell_view = E_SHELL_VIEW (object);
 	priv = shell_view->priv;
 
+	gtk_object_unref (GTK_OBJECT (priv->tooltips));
+
 	if (priv->corba_interface != NULL)
 		bonobo_object_unref (BONOBO_OBJECT (priv->corba_interface));
 
@@ -766,6 +858,8 @@ class_init (EShellViewClass *klass)
 				  GTK_TYPE_INT);
 
 	gtk_object_class_add_signals (object_class, signals, LAST_SIGNAL);
+
+	load_images ();
 }
 
 static void
@@ -781,6 +875,8 @@ init (EShellView *shell_view)
 	priv->uri                     = NULL;
 	priv->delayed_selection       = NULL;
 
+	priv->tooltips                = gtk_tooltips_new ();
+
 	priv->appbar                  = NULL;
 	priv->hpaned                  = NULL;
 	priv->view_hpaned             = NULL;
@@ -791,6 +887,10 @@ init (EShellView *shell_view)
 	priv->storage_set_view        = NULL;
 	priv->storage_set_view_box    = NULL;
 	priv->shortcut_bar            = NULL;
+
+	priv->progress_bar            = NULL;
+	priv->offline_toggle          = NULL;
+	priv->offline_toggle_pixmap   = NULL;
 
 	priv->shortcut_bar_mode       = E_SHELL_VIEW_SUBWINDOW_HIDDEN;
 	priv->folder_bar_mode         = E_SHELL_VIEW_SUBWINDOW_HIDDEN;
@@ -989,6 +1089,20 @@ updated_folder_cb (EStorageSet *storage_set,
 }
 
 
+/* Shell callbacks.  */
+
+static void
+shell_line_status_changed_cb (EShell *shell,
+			      EShellLineStatus new_status,
+			      void *data)
+{
+	EShellView *shell_view;
+
+	shell_view = E_SHELL_VIEW (data);
+	update_offline_toggle_status (shell_view);
+}
+
+
 EShellView *
 e_shell_view_construct (EShellView *shell_view,
 			EShell     *shell)
@@ -1222,6 +1336,47 @@ update_for_current_uri (EShellView *shell_view)
 	gtk_signal_handler_unblock_by_func (GTK_OBJECT (priv->storage_set_view),
 					    GTK_SIGNAL_FUNC (folder_selected_cb),
 					    shell_view);
+}
+
+static void
+update_offline_toggle_status (EShellView *shell_view)
+{
+	EShellViewPrivate *priv;
+	GdkPixmap *icon_pixmap;
+	GdkBitmap *icon_mask;
+	const char *tooltip;
+	gboolean sensitive;
+
+	priv = shell_view->priv;
+
+	switch (e_shell_get_line_status (priv->shell)) {
+	case E_SHELL_LINE_STATUS_ONLINE:
+		icon_pixmap = online_pixmap;
+		icon_mask   = online_mask;
+		sensitive   = TRUE;
+		tooltip     = _("Evolution is currently online.  "
+				"Click on this button to work offline.");
+		break;
+	case E_SHELL_LINE_STATUS_GOING_OFFLINE:
+		icon_pixmap = online_pixmap;
+		icon_mask   = online_mask;
+		sensitive   = FALSE;
+		tooltip     = _("Evolution is in the process of going offline.");
+		break;
+	case E_SHELL_LINE_STATUS_OFFLINE:
+		icon_pixmap = offline_pixmap;
+		icon_mask   = offline_mask;
+		sensitive   = TRUE;
+		tooltip     = _("Evolution is currently offline.  "
+				"Click on this button to work online.");
+		break;
+	default:
+		g_assert_not_reached ();
+	}
+
+	gtk_pixmap_set (GTK_PIXMAP (priv->offline_toggle_pixmap), icon_pixmap, icon_mask);
+	gtk_widget_set_sensitive (priv->offline_toggle, sensitive);
+	gtk_tooltips_set_tip (priv->tooltips, priv->offline_toggle, tooltip, NULL);
 }
 
 /* This displays the specified page, doing the appropriate Bonobo activation/deactivation

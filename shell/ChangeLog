@@ -1,5 +1,28 @@
 2001-05-20  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-shell-view.c: New static members `offline_pixmap',
+	`offline_mask', `online_pixmap', `online_mask'.  Add members
+	`tooltips', `offline_toggle' and `offline_toggle_pixmap' to
+	`EShellViewPrivate'.
+	(init): Init to NULL.  Also init the `progress_bar' member to NULL
+	as well, as we were not initializing it.
+	(destroy): Unref the tooltips.
+	(load_images): New static function to load the offline and online
+	icons into the pixmaps/masks.
+	(class_init): Call it.
+	(update_offline_toggle_status): New.
+	(shell_line_status_changed_cb): Call it.
+	(offline_toggle_clicked_cb): New, callback for the "clicked"
+	signal on the offline/online button.
+	(setup_offline_button): New function to set up the
+	`offline_button'.
+	(setup_widgets): Call it.
+	(setup_progress_bar): Changed to get an `EShellView' pointer,
+	instead of an `EShellViewPriv' pointer.
+	(setup_widgets): Updated accordingly.
+
+2001-05-20  Ettore Perazzoli  <ettore@ximian.com>
+
 	* e-shell-view-menu.c: Define the verb for "CopyFolder" as well.
 	(command_copy_folder): Implementation for the "CopyFolder" verb.
 

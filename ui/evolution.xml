@@ -283,6 +283,7 @@
   </popups>
 
   <status>
+    <control name="OfflineToggle"/>
     <item name="main"/>
     <control name="Progress"/>
   </status>
