@@ -214,7 +214,9 @@ etsv_add       (ETableSubsetVariable *etssv,
 						if (grouplen == newgrouplen) {
 							if (etsv_compare(etsv, etss->map_table[i], row) >= 0)
 								break;
-						}
+						} else if (strncmp(newgroup + cmp, group + cmp, grouplen - cmp) == 0)
+							/* Found a child of the inserted node.  Insert here. */
+							break;
 					} else {
 						/* ran out of common parents, insert here */
 						break;
