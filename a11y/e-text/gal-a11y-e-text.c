@@ -452,6 +452,8 @@ et_class_init (GalA11yETextClass *klass)
 
 	parent_class                          = g_type_class_ref (PARENT_TYPE);
 
+	component_parent_iface                = g_type_interface_peek(parent_class, ATK_TYPE_COMPONENT);
+	
 	object_class->dispose                 = et_dispose;
 }
 

@@ -22,11 +22,11 @@ typedef struct _GalA11yETextFactory GalA11yETextFactory;
 typedef struct _GalA11yETextFactoryClass GalA11yETextFactoryClass;
 
 struct _GalA11yETextFactory {
-	AtkObject object;
+	AtkObjectFactory object;
 };
 
 struct _GalA11yETextFactoryClass {
-	AtkObjectClass parent_class;
+	AtkObjectFactoryClass parent_class;
 };
 
 
