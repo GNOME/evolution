@@ -4,9 +4,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: evolution 1.3.4\n"
-"POT-Creation-Date: 2003-06-02 15:28-0400\n"
-"PO-Revision-Date: 2003-05-17 11:03-0300\n"
+"Project-Id-Version: evolution 1.4\n"
+"POT-Creation-Date: 2003-06-10 18:23-0300\n"
+"PO-Revision-Date: 2003-06-10 18:33-0300\n"
 "Last-Translator: Gustavo Maciel Dias Vieira <gdvieira@zaz.com.br>\n"
 "Language-Team: Brazilian Portuguese <gnome-l10n-br@listas.cipsga.org.br>\n"
 "MIME-Version: 1.0\n"
@@ -932,9 +932,8 @@ msgid "Edit LDAP Server"
 msgstr "Editar servidor LDAP"
 
 #: addressbook/gui/component/ldap-config.glade.h:22
-#, fuzzy
 msgid "Email address:"
-msgstr "Endereço de e-_mail:"
+msgstr "Endereço de e-mail:"
 
 #: addressbook/gui/component/ldap-config.glade.h:23
 msgid "Evolution will use this DN to authenticate you with the server"
@@ -1138,7 +1137,6 @@ msgstr ""
 "sua base.\n"
 
 #: addressbook/gui/component/ldap-config.glade.h:65
-#, fuzzy
 msgid ""
 "This assistant will help you to access online directory services\n"
 "using LDAP (Lightweight Directory Access Protocol) servers. \n"
@@ -2608,19 +2606,16 @@ msgid "Contact Quick-Add"
 msgstr "Adicionar rápido de contato"
 
 #: addressbook/gui/contact-editor/e-contact-quick-add.c:301
-#, fuzzy
 msgid "_Edit Full"
-msgstr "Editar completo"
+msgstr "_Editar completo"
 
 #: addressbook/gui/contact-editor/e-contact-quick-add.c:319
-#, fuzzy
 msgid "_Full Name:"
 msgstr "Nome _completo:"
 
 #: addressbook/gui/contact-editor/e-contact-quick-add.c:325
-#, fuzzy
 msgid "E-_mail:"
-msgstr "E-mail"
+msgstr "E-_mail:"
 
 #: addressbook/gui/contact-editor/e-contact-save-as.c:66
 #, c-format
@@ -3973,7 +3968,7 @@ msgstr ""
 
 #. An empty string is the same as 'None'.
 #: calendar/gui/calendar-model.c:1176 calendar/gui/dialogs/meeting-page.c:330
-#: calendar/gui/dialogs/meeting-page.glade.h:2 composer/e-msg-composer.c:2054
+#: calendar/gui/dialogs/meeting-page.glade.h:2 composer/e-msg-composer.c:2056
 #: mail/folder-browser.c:1748 mail/mail-account-gui.c:1254
 #: mail/mail-account-gui.c:1686 mail/mail-accounts.c:442
 #: mail/mail-config.glade.h:76
@@ -4543,7 +4538,7 @@ msgstr "Sem resumo"
 
 #: calendar/gui/dialogs/comp-editor.c:1233
 #: calendar/gui/e-calendar-table.c:1039 calendar/gui/e-day-view.c:3948
-#: calendar/gui/e-week-view.c:3817 composer/e-msg-composer.c:1162
+#: calendar/gui/e-week-view.c:3817 composer/e-msg-composer.c:1164
 msgid "Save as..."
 msgstr "Salvar como..."
 
@@ -4990,24 +4985,22 @@ msgid "year(s)"
 msgstr "ano(s)"
 
 #: calendar/gui/dialogs/save-comp.c:54
-#, fuzzy
 msgid ""
 "This event has been changed, but has not been saved.\n"
 "\n"
 "Do you wish to save your changes?"
 msgstr ""
-"Esta assinatura foi modificada, mas não foi salva.\n"
+"Este evento foi modificado, mas não foi salvo.\n"
 "\n"
 "Você deseja salvar as suas modificações?"
 
-#: calendar/gui/dialogs/save-comp.c:58 composer/e-msg-composer.c:1555
+#: calendar/gui/dialogs/save-comp.c:58 composer/e-msg-composer.c:1557
 msgid "_Discard Changes"
 msgstr "_Descartar mudanças"
 
 #: calendar/gui/dialogs/save-comp.c:63
-#, fuzzy
 msgid "Save Event"
-msgstr "Eventos de agenda"
+msgstr "Salvar evento"
 
 #: calendar/gui/dialogs/send-comp.c:58
 msgid "The meeting information has been created. Send it?"
@@ -10473,7 +10466,7 @@ msgstr "Sugerir exibição automática de anexo"
 msgid "Hey you, dunce. You need an account to send mail doncha know."
 msgstr "Ei, mano. Você precisa de uma conta para enviar correio, tá ligado."
 
-#: composer/e-msg-composer-hdrs.c:481
+#: composer/e-msg-composer-hdrs.c:482
 msgid "Click here for the address book"
 msgstr "Clique aqui para o catálogo de endereços"
 
@@ -10484,45 +10477,45 @@ msgstr "Clique aqui para o catálogo de endereços"
 #. * because that causes from_changed to be called, which
 #. * expects the reply_to fields to be initialized.
 #.
-#: composer/e-msg-composer-hdrs.c:512
+#: composer/e-msg-composer-hdrs.c:513
 msgid "Reply-To:"
 msgstr "Responder-a:"
 
 #.
 #. * From
 #.
-#: composer/e-msg-composer-hdrs.c:518
+#: composer/e-msg-composer-hdrs.c:519
 msgid "From:"
 msgstr "De:"
 
 #.
 #. * Subject
 #.
-#: composer/e-msg-composer-hdrs.c:524
+#: composer/e-msg-composer-hdrs.c:525
 msgid "Subject:"
 msgstr "Assunto:"
 
-#: composer/e-msg-composer-hdrs.c:533
+#: composer/e-msg-composer-hdrs.c:534
 msgid "To:"
 msgstr "Para:"
 
-#: composer/e-msg-composer-hdrs.c:534
+#: composer/e-msg-composer-hdrs.c:535
 msgid "Enter the recipients of the message"
 msgstr "Entre os destinatários da mensagem"
 
-#: composer/e-msg-composer-hdrs.c:537
+#: composer/e-msg-composer-hdrs.c:538
 msgid "Cc:"
 msgstr "Cc:"
 
-#: composer/e-msg-composer-hdrs.c:538
+#: composer/e-msg-composer-hdrs.c:539
 msgid "Enter the addresses that will receive a carbon copy of the message"
 msgstr "Entre os endereços que receberão uma cópia da mensagem"
 
-#: composer/e-msg-composer-hdrs.c:541
+#: composer/e-msg-composer-hdrs.c:542
 msgid "Bcc:"
 msgstr "Bcc:"
 
-#: composer/e-msg-composer-hdrs.c:542
+#: composer/e-msg-composer-hdrs.c:543
 msgid ""
 "Enter the addresses that will receive a carbon copy of the message without "
 "appearing in the recipient list of the message."
@@ -10533,11 +10526,11 @@ msgstr ""
 #.
 #. * Post-To
 #.
-#: composer/e-msg-composer-hdrs.c:549
+#: composer/e-msg-composer-hdrs.c:550
 msgid "Post To:"
 msgstr "Publicar para:"
 
-#: composer/e-msg-composer-hdrs.c:551
+#: composer/e-msg-composer-hdrs.c:552
 msgid "Posting destination"
 msgstr "Publicando destino"
 
@@ -10546,11 +10539,11 @@ msgstr "Publicando destino"
 msgid "Attach file(s)"
 msgstr "Anexar arquivo(s)"
 
-#: composer/e-msg-composer.c:533
+#: composer/e-msg-composer.c:535
 msgid "Could not create a PGP signature context"
 msgstr "Não foi possível criar um contexto de assinatura PGP"
 
-#: composer/e-msg-composer.c:812
+#: composer/e-msg-composer.c:814
 #, c-format
 msgid ""
 "Error while reading file %s:\n"
@@ -10559,30 +10552,30 @@ msgstr ""
 "Erro ao ler arquivo %s:\n"
 "%s"
 
-#: composer/e-msg-composer.c:1175
+#: composer/e-msg-composer.c:1177
 msgid "File exists, overwrite?"
 msgstr "Arquivo existe, sobrescrever?"
 
-#: composer/e-msg-composer.c:1193
+#: composer/e-msg-composer.c:1195
 #, c-format
 msgid "Error saving file: %s"
 msgstr "Erro ao salvar arquivo: %s"
 
-#: composer/e-msg-composer.c:1216
+#: composer/e-msg-composer.c:1218
 #, c-format
 msgid "Error loading file: %s"
 msgstr "Erro ao carregar arquivo: %s"
 
-#: composer/e-msg-composer.c:1254
+#: composer/e-msg-composer.c:1256
 #, c-format
 msgid "Error accessing file: %s"
 msgstr "Erro ao acessar arquivo: %s"
 
-#: composer/e-msg-composer.c:1262
+#: composer/e-msg-composer.c:1264
 msgid "Unable to retrieve message from editor"
 msgstr "Não foi possível recuperar mensagem do editor"
 
-#: composer/e-msg-composer.c:1269
+#: composer/e-msg-composer.c:1271
 #, c-format
 msgid ""
 "Unable to seek on file: %s\n"
@@ -10591,7 +10584,7 @@ msgstr ""
 "Não é possível buscar no arquivo: %s\n"
 "%s"
 
-#: composer/e-msg-composer.c:1276
+#: composer/e-msg-composer.c:1278
 #, c-format
 msgid ""
 "Unable to truncate file: %s\n"
@@ -10600,7 +10593,7 @@ msgstr ""
 "Não é possível truncar arquivo: %s\n"
 "%s"
 
-#: composer/e-msg-composer.c:1285
+#: composer/e-msg-composer.c:1287
 #, c-format
 msgid ""
 "Unable to copy file descriptor: %s\n"
@@ -10609,7 +10602,7 @@ msgstr ""
 "Não é possível copiar descritor de arquivo: %s\n"
 "%s"
 
-#: composer/e-msg-composer.c:1294
+#: composer/e-msg-composer.c:1296
 #, c-format
 msgid ""
 "Error autosaving message: %s\n"
@@ -10618,7 +10611,7 @@ msgstr ""
 "Erro ao salvar automaticamente mensagem: %s:\n"
 " %s"
 
-#: composer/e-msg-composer.c:1388
+#: composer/e-msg-composer.c:1390
 msgid ""
 "Ximian Evolution has found unsaved files from a previous session.\n"
 "Would you like to try to recover them?"
@@ -10626,7 +10619,7 @@ msgstr ""
 "O Ximian Evolution encontrou arquivos não salvos de uma sessão anterior.\n"
 "Você gostaria de tentar recuperá-los?"
 
-#: composer/e-msg-composer.c:1550
+#: composer/e-msg-composer.c:1552
 #, c-format
 msgid ""
 "The message \"%s\" has not been sent.\n"
@@ -10637,28 +10630,28 @@ msgstr ""
 "\n"
 "Você deseja salvar as suas modificações?"
 
-#: composer/e-msg-composer.c:1559
+#: composer/e-msg-composer.c:1561
 msgid "Warning: Modified Message"
 msgstr "Alerta: Mensagem modificada"
 
-#: composer/e-msg-composer.c:1591
+#: composer/e-msg-composer.c:1593
 msgid "Open file"
 msgstr "Abrir arquivo"
 
-#: composer/e-msg-composer.c:2015
+#: composer/e-msg-composer.c:2017
 msgid "Signature:"
 msgstr "Assinatura:"
 
-#: composer/e-msg-composer.c:2055 mail/mail-account-gui.c:1255
+#: composer/e-msg-composer.c:2057 mail/mail-account-gui.c:1255
 msgid "Autogenerated"
 msgstr "Auto-gerado"
 
-#: composer/e-msg-composer.c:2233 composer/e-msg-composer.c:2900
-#: composer/e-msg-composer.c:2901
+#: composer/e-msg-composer.c:2233 composer/e-msg-composer.c:2902
+#: composer/e-msg-composer.c:2903
 msgid "Compose a message"
 msgstr "Redigir uma mensagem"
 
-#: composer/e-msg-composer.c:2932
+#: composer/e-msg-composer.c:2934
 msgid ""
 "Could not create composer window:\n"
 "Unable to activate address selector control."
@@ -10666,7 +10659,7 @@ msgstr ""
 "Não foi possível criar janela de redator:\n"
 "Não é possível ativar o controle seletor de endereços."
 
-#: composer/e-msg-composer.c:2958
+#: composer/e-msg-composer.c:2960
 msgid ""
 "Could not create composer window:\n"
 "Unable to activate HTML editor component.\n"
@@ -10678,7 +10671,7 @@ msgstr ""
 "Por favor, verifique se você possui as versões\n"
 "corretas de gtkhtml e libgtkhtml instaladas.\n"
 
-#: composer/e-msg-composer.c:3026
+#: composer/e-msg-composer.c:3027
 msgid ""
 "Could not create composer window:\n"
 "Unable to activate HTML editor component."
@@ -10686,7 +10679,7 @@ msgstr ""
 "Não foi possível criar janela de redator:\n"
 "Não é possível ativar o componente editor de HTML."
 
-#: composer/e-msg-composer.c:4040
+#: composer/e-msg-composer.c:4043
 msgid ""
 "<b>(The composer contains a non-text message body, which cannot be edited.)"
 "<b>"
@@ -10855,13 +10848,6 @@ msgid ""
 msgstr ""
 "Quando você receber uma mensagem com um pedido de recibo de leitura, o que o "
 "Evolution deve fazer?"
-
-#: e-util/e-component-listener.c:128
-msgid ""
-"ping_timeout_callback: could not determine if the CORBA object is nil or not"
-msgstr ""
-"ping_timeout_callback: não foi possível determinar se objeto CORBA é nil ou "
-"não"
 
 #: e-util/e-dialog-utils.c:247
 msgid ""
@@ -11074,7 +11060,7 @@ msgstr "Você deve especificar um nome de arquivo."
 msgid "File '%s' does not exist or is not a regular file."
 msgstr "Arquivo '%s' não existe ou não é um arquivo comum."
 
-#: filter/filter-file.c:298
+#: filter/filter-file.c:299
 msgid "Choose a file"
 msgstr "Escolher um arquivo"
 
@@ -13435,11 +13421,11 @@ msgid "Expunging folder"
 msgstr "Excluindo permanentemente pasta"
 
 #: mail/mail-ops.c:1642
-#, fuzzy, c-format
+#, c-format
 msgid "Emptying trash in '%s'"
-msgstr "Importando %s como %s"
+msgstr "Esvaziando lixeira em '%s'"
 
-#: mail/mail-ops.c:1643 my-evolution/e-summary-mail.c:480
+#: mail/mail-ops.c:1643 my-evolution/e-summary-mail.c:483
 #: shell/e-local-storage.c:1151
 msgid "Local Folders"
 msgstr "Pastas locais"
@@ -13505,39 +13491,35 @@ msgstr "Desconectando de %s"
 msgid "Reconnecting to %s"
 msgstr "Reconectando a %s"
 
-#: mail/mail-search.c:153
+#: mail/mail-search.c:154
 msgid "(Untitled Message)"
 msgstr "(Mensagem sem nome)"
 
-#: mail/mail-search.c:235
+#: mail/mail-search.c:236
 msgid "Untitled Message"
 msgstr "Mensagem sem nome"
 
-#: mail/mail-search.c:237
+#: mail/mail-search.c:238
 msgid "Empty Message"
 msgstr "Mensagem vazia"
 
-#: mail/mail-search.c:285
+#: mail/mail-search.c:287
 msgid "Find in Message"
 msgstr "Localizar na mensagem"
 
-#: mail/mail-search.c:288
-msgid "Search"
-msgstr "Buscar"
-
-#: mail/mail-search.c:316
+#: mail/mail-search.c:320
 msgid "Case Sensitive"
 msgstr "Diferenciar maiúsculas de minúsculas"
 
-#: mail/mail-search.c:318
+#: mail/mail-search.c:322
 msgid "Search Forward"
 msgstr "Buscar a frente"
 
-#: mail/mail-search.c:338
+#: mail/mail-search.c:342
 msgid "Find:"
 msgstr "Localizar:"
 
-#: mail/mail-search.c:342
+#: mail/mail-search.c:346
 msgid "Matches:"
 msgstr "Casa:"
 
@@ -23749,14 +23731,12 @@ msgid "Quotes of the Day"
 msgstr "Citações do dia"
 
 #: my-evolution/e-summary-preferences.c:565
-#, fuzzy
 msgid "New News Feed"
-msgstr "Fonte de notícias"
+msgstr "Nova fonte de notícias"
 
 #: my-evolution/e-summary-preferences.c:581
-#, fuzzy
 msgid "_URL:"
-msgstr "URL:"
+msgstr "_URL:"
 
 #: my-evolution/e-summary-rdf.c:315
 msgid "Error downloading RDF"
@@ -25005,9 +24985,8 @@ msgid "News Feed Settings"
 msgstr "Configurações de fontes de notícias"
 
 #: my-evolution/my-evolution.glade.h:6
-#, fuzzy
 msgid "News Feeds"
-msgstr "_Fontes de notícias"
+msgstr "Fontes de notícias"
 
 #: my-evolution/my-evolution.glade.h:7
 msgid "One mont_h"
@@ -25026,9 +25005,8 @@ msgid "Refresh _time (seconds):"
 msgstr "Tem_po de atualização (segundos):"
 
 #: my-evolution/my-evolution.glade.h:11
-#, fuzzy
 msgid "Schedule"
-msgstr "A_genda"
+msgstr "Agenda"
 
 #: my-evolution/my-evolution.glade.h:12
 msgid "Show _all tasks"
@@ -25051,9 +25029,8 @@ msgid "Weather Settings"
 msgstr "Configurações de tempo"
 
 #: my-evolution/my-evolution.glade.h:18
-#, fuzzy
 msgid "_Delete Feed"
-msgstr "Excluída"
+msgstr "E_xcluir fonte"
 
 #: my-evolution/my-evolution.glade.h:19
 msgid "_Fahrenheit"
@@ -25064,21 +25041,18 @@ msgid "_Five days"
 msgstr "Ci_nco dias"
 
 #: my-evolution/my-evolution.glade.h:21
-#, fuzzy
 msgid "_Max number of items shown:"
 msgstr "Número _máximo de itens exibidos:"
 
 #: my-evolution/my-evolution.glade.h:22
-#, fuzzy
 msgid "_New Feed"
-msgstr "_Fontes de notícias"
+msgstr "_Nova fonte"
 
 #: my-evolution/my-evolution.glade.h:23
 msgid "_One day"
 msgstr "_Um dia"
 
 #: my-evolution/my-evolution.glade.h:24
-#, fuzzy
 msgid "_Show full path for folders"
 msgstr "E_xibir caminho completo para pastas"
 
@@ -27764,7 +27738,6 @@ msgid "Time Zones"
 msgstr "Fusos horários"
 
 #: widgets/e-timezone-dialog/e-timezone-dialog.glade.h:4
-#, fuzzy
 msgid ""
 "Use the left mouse button to zoom in on an area of the map and select a time "
 "zone.\n"
@@ -27775,9 +27748,8 @@ msgstr ""
 "Use o botão direito do mouse para distanciar o mapa."
 
 #: widgets/e-timezone-dialog/e-timezone-dialog.glade.h:6
-#, fuzzy
 msgid "_Selection:"
-msgstr "Seleção:"
+msgstr "_Seleção:"
 
 #: widgets/menus/gal-view-menus.c:290
 msgid "_Current View"
@@ -27986,58 +27958,3 @@ msgstr "Backend para arquivo local da agenda do Evolution"
 #: wombat/GNOME_Evolution_WombatNOLDAP.server.in.in.h:1
 msgid "Evolution Addressbook local file backend"
 msgstr "Backend para arquivo local do catálogo de endereços do Evolution"
-
-#~ msgid "Email Address:"
-#~ msgstr "Endereço eletrônico:"
-
-#~ msgid "Add Anyway"
-#~ msgstr "Adicionar mesmo assim"
-
-#~ msgid "Change Anyway"
-#~ msgstr "Alterar mesmo assim"
-
-#~ msgid "Configure the fonts used by Evolution here"
-#~ msgstr "Configure as fontes usadas pelo Evolution aqui"
-
-#~ msgid "Evolution Mail font configuration control"
-#~ msgstr "Controle de configuração de fontes do correio do Evolution"
-
-#~ msgid "Font Preferences"
-#~ msgstr "Preferências de fontes"
-
-#~ msgid "Automatically _detect links"
-#~ msgstr "_Detectar vínculos automaticamente"
-
-#~ msgid "Emacs"
-#~ msgstr "Emacs"
-
-#~ msgid "Microsoft"
-#~ msgstr "Microsoft"
-
-#~ msgid "Shortcuts _type:"
-#~ msgstr "_Tipo dos atalhos:"
-
-#~ msgid "XEmacs"
-#~ msgstr "XEmacs"
-
-#~ msgid "Add a news feed"
-#~ msgstr "Adicionar uma fonte de notícias"
-
-#~ msgid "Enter the URL of the news feed you wish to add"
-#~ msgstr "Entre a URL da fonte notícias que você deseja adicionar"
-
-#~ msgid "Add n_ews feed"
-#~ msgstr "Adicionar f_onte de notícias"
-
-#~ msgid "Delete news feed"
-#~ msgstr "Excluir fonte de notícias"
-
-#~ msgid "_Mail"
-#~ msgstr "_Correio"
-
-#~ msgid "_Weather"
-#~ msgstr "_Tempo"
-
-#~ msgid "Force upgrading of configuration files from Evolution 1.0.x"
-#~ msgstr ""
-#~ "Forçar a atualização dos arquivos de configuração do Evolution 1.0.x"
