@@ -57,9 +57,7 @@
 		<para>
 		  Allows you to access mail, address book (including
 		  Global Address List folder), and calendars, and task
-		  folders on an <application>Exchange
-		  2000</application> server from
-		  <application>Evolution</application>.
+		  folders on an Exchange 2000 server from Evolution.
 		</para>
 	      </listitem>
 	    </varlistentry>
@@ -80,7 +78,7 @@
 	  </para>
 	  <variablelist>
 	    <varlistentry>
-	      <term>Viewing Mail in <application>Exchange</application>Folder</term>
+	      <term>Viewing Mail in Exchange Folder</term>
 	      <listitem>
 		<para></para>
 	      </listitem>
@@ -94,7 +92,7 @@
 		  you have entered as your email address is exactly
 		  the one that the Exchange server has on file. This
 		  may be "yourname@exchange-server.ximian.com" rather
-		  than "yourname@ximian.com.a"
+		  than "yourname@ximian.com."
 		</para>
 	      </listitem>
 	    </varlistentry>
@@ -109,11 +107,11 @@
 	      <term>Meeting Request/Proposal</term>
 	      <listitem>
 		<para>
-		  Allows <application>Evolution</application> users to
+		  Allows Evolution users to
 		  schedule meetings and view attendee availability for
-		  other users (<application>Evolution</application> or
-		  <application>Outlook</application> users) on
-		  <application>Exchange</application>.
+		  other users (Evolution  or
+		  Outlook  users) on
+		  Exchange.
 		</para>
 	      </listitem>
 	    </varlistentry>
@@ -123,7 +121,7 @@
 		<para>
 		  If you receive an iCalendar meeting request and add it
 		  to your calendar, it will be saved to your
-		  <application>Exchange</application> calendar.
+		  Exchange calendar.
 		</para>
 	      </listitem>
 	    </varlistentry>
@@ -138,7 +136,7 @@
 	      <term>Address Completion</term>
 	      <listitem>
 		<para>
-		  Supported for your <application>Exchange</application>
+		  Supported for your Exchange
 		  Contacts folder.  Not yet supported for the Global
 		  Address List.
 		</para>
@@ -150,13 +148,13 @@
 		<para>
 		  If you receive a VCard attachment and click
 		  <guibutton>Save in Address Book</guibutton>, it will
-		  be saved to your <application>Exchange</application>address book.
+		  be saved to your Exchange address book.
 		</para>
 	      </listitem>
 	    </varlistentry>
 	    <varlistentry>
 	      <term>New Address Book entries can be created on
-		<application>Exchange</application> from received email
+		Exchange from received email
 		messages with a single click</term>
 	      <listitem>
 		<para>
@@ -192,7 +190,7 @@ There are, however, some features which are not available:
        Software</guimenuitem></menuchoice>.  Subscribe to the Ximian
        Connector for Microsoft Exchange channel, select the Ximian
        Connector for Microsoft
-       <application>Exchange</application>2000, and click the
+       Exchange2000, and click the
        <guibutton>Install</guibutton> button.  You can also install
        the Connector by downloading the individual packages from
        ftp.ximian.com if you wish.
@@ -209,7 +207,7 @@ There are, however, some features which are not available:
        license, the store will mail you the license file with
        instructions for installation. Once installed, the license file
        unlocks the Ximian Connector functionality and you may connect
-       to an <application>Exchange</application>server.
+       to an Exchange server.
     </para>
  </sect1>
 
@@ -217,8 +215,8 @@ There are, however, some features which are not available:
     <title>Adding your Exchange Account in Ximian Evolution</title>
     <para>
       Once you have installed the Connector, you need to set up access
-      for your <application>Exchange</application>account on both the
-      <application>Exchange</application>server and within Evolution.
+      for your Exchange account on both the
+      Exchange server and within Evolution.
     </para>
 
        <sect2 id="config-server">
@@ -228,13 +226,13 @@ There are, however, some features which are not available:
 	<itemizedlist>
 	  <listitem>
 	    <para> 
-	      You have a valid account on the <application>Exchange</application>server.
+	      You have a valid account on the Exchange server.
 	    </para>
 	  </listitem>
 	  <listitem>
 	    <para> You are permitted to access the account with
 	      WebDAV. This is the default setting for the
-	      <application>Exchange</application>server, so unless
+	      Exchange server, so unless
 	      your system administrator has specifically turned it
 	      off, no changes should be necessary.
 	    </para>
@@ -246,7 +244,7 @@ There are, however, some features which are not available:
 	The Ximian website knowledge base, at <ulink type="http"
 	url="http://support.ximian.com">support.ximian.com</ulink>,
 	has additional information about checking to make sure that
-	your <application>Exchange</application>server will accept
+	your Exchange server will accept
 	connections from Ximian Evolution.
       </para>
     </sect2>
@@ -284,8 +282,8 @@ There are, however, some features which are not available:
           <para>
             If you have no accounts configured, and your system
             administrator has preinstalled a license key file,            
-            the simple assistant will start when you start <application>Ximian
-            Evolution.</application> It asks only for the name of your Outlook
+            the simple assistant will start when you start Ximian
+            Evolution. It asks only for the name of your Outlook
             Web Access server, and your username and password. Ximian
             Connector will determine the remaining information on its own.
           </para>
@@ -329,13 +327,13 @@ There are, however, some features which are not available:
        <para>
          Be aware that the <systemitem>evolution</systemitem> directory in
          your home directory won't exist if you haven't already run 
-         <application>Ximian Evolution</application>. If you have not
-         done so already, start <application>Ximian
-         Evolution</application> and configure an account as described
-         below.  Then, quit the application and pllace the
+         Ximian Evolution. If you have not
+         done so already, start Ximian
+         Evolution and configure an account as described
+         below.  Then, quit the application and place the
          <systemitem>connector-key.data</systemitem> file in your
          <systemitem>evolution</systemitem> directory. When you start
-         <application>Evolution</application> again, the license will
+         Evolution again, the license will
          be verified and Ximian Connector will work properly.
        </para>
      </note>
@@ -386,7 +384,7 @@ There are, however, some features which are not available:
 		  <listitem>
 		    <para>
                        If you would like
-                       <application>Evolution</application> to
+                       Evolution to
                        remember your password, check the box labeled
                        <guilabel>Remember this password</guilabel>.
                      </para>
@@ -414,7 +412,7 @@ There are, however, some features which are not available:
                       name of your global catalog server (directory
                       server). This will allow you to use the Global
                       Address List (GAL). Normally,
-                      <application>Evolution</application> will fetch
+                      Evolution will fetch
                       a maximum of 500 responses to any query, but you
                       may increase or decrease this number if you
                       wish. A lower number decreases load on the
@@ -493,7 +491,7 @@ There are, however, some features which are not available:
 	<para>
           You're done.  Click <guibutton>Finish</guibutton> and
           <guibutton>OK</guibutton>, then quit
-          <application>Evolution</application> and start it again. Now
+          Evolution and start it again. Now
           you're ready to get to work on the Exchange server.
         </para>
 
@@ -640,7 +638,7 @@ There are, however, some features which are not available:
         <guibutton>OK</guibutton> button.
       </para>
 	<para>
-          Then, quit <application>Evolution</application> and start it
+          Then, quit Evolution and start it
           up again. Changes to the Ximian Connector accounts
           configuration are not active until you have restarted the
           application.
@@ -650,13 +648,13 @@ There are, however, some features which are not available:
   </sect1>
   
   <sect1 id="access">
-    <title>Accessing the <application>Exchange</application>Server</title>
+    <title>Accessing the Exchange Server</title>
     <para>
       Like IMAP and LDAP data, information for
-      <application>Exchange</application>accounts is stored on the
+      Exchange accounts is stored on the
       server, not on your desktop computer.  This means that you can
       access it from multiple locations. It also means that your
-      Microsoft <application>Exchange</application>account information
+      Microsoft Exchange account information
       is in a separate folder tree from the <guilabel>Local</guilabel>
       tree in your folder bar. You'll see it below the local tree,
       with the name you gave the account. If you have multiple
@@ -667,7 +665,7 @@ There are, however, some features which are not available:
       have to enter your server password.  You can now create contact
       cards, send and receive email as you would normally. If there
       are items in your local calendar or addressbook that you'd like
-      to add to your <application>Exchange</application>stores, you
+      to add to your Exchange stores, you
       can copy and paste them over, or just drag items from one folder
       to another as you would with two local stores.
     </para>
@@ -885,9 +883,9 @@ There are, however, some features which are not available:
       <title>Scheduling Appointments with Free/Busy</title>
       <para>
         When you schedule a meeting with your calendar on the
-        <application>Exchange</application>server, you can check when
+        Exchange server, you can check when
         other local Exchange users are busy according to their
-        <application>Exchange</application>calendars. To do so:
+        Exchange calendars. To do so:
      </para>
       <figure>
         <title>Scheduling With Free/Busy Information</title>
@@ -946,7 +944,7 @@ There are, however, some features which are not available:
          have scheduled a meeting, you can "nudge" the meeting forward
          or backward to the nearest available time.  To do so, just
          click the arrows to the left or right of the
-         <guilabel>Autopick</guilabel> button. The autopick tool will
+         <guilabel>Autopick</guilabel> button. The Autopick tool will
          move the meeting to the nearest time during which all
          attendees are available.  If you aren't satisfied with those
          results, you can drag the edges of the meeting time to the

@@ -1243,15 +1243,17 @@ the workaround described in the note below.
          folder in the folder bar.
       </para>
 
-      <para>
-<figure>
+      <figure>
 	<title>The Evolution Summary</title>
-
-<screenshot>
-<graphic  format="PNG" fileref="figures/summary" srccredit="Kevin Breit"/>
-</screenshot>
-</figure>
-      </para>
+        <screenshot>
+          <screeninfo>The Evolution Summary gives you a quick view of your day</screeninfo>
+          <mediaobject>
+            <imageobject>
+              <imagedata  format="PNG" fileref="figures/summary" srccredit="Kevin Breit"/>
+            </imageobject>
+          </mediaobject>
+        </screenshot>
+      </figure>
 
 <para>
 <inlinemediaobject><imageobject><imagedata fileref="figures/full-1" format="PNG"/></imageobject></inlinemediaobject> <guilabel>Weather Summary</guilabel>
