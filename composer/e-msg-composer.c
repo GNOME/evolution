@@ -249,7 +249,6 @@ build_message (EMsgComposer *composer)
 	char *content_type = NULL;
 	int i;
 	
-
 	if (composer->persist_stream_interface == CORBA_OBJECT_NIL)
 		return NULL;
 	
@@ -287,10 +286,9 @@ build_message (EMsgComposer *composer)
 	/* the component has probably died */ 
 	if (plain == NULL)
 		return NULL;
-
+	
 	plain_e8bit = is_8bit (plain);
-	content_type = best_content (plain);
-
+	
 	if (type != MSG_FORMAT_PLAIN) {
 		e_msg_composer_clear_inlined_table (composer);
 		html = get_text (composer->persist_stream_interface, "text/html");
@@ -299,7 +297,6 @@ build_message (EMsgComposer *composer)
 		/* the component has probably died */
 		if (html == NULL) {
 			g_free (plain);
-			g_free (content_type);
 			return NULL;
 		}
 	}
@@ -311,14 +308,15 @@ build_message (EMsgComposer *composer)
 		camel_multipart_set_boundary (body, NULL);
 		
 		part = camel_mime_part_new ();
-
+		
+		content_type = best_content (plain);
 		camel_mime_part_set_content (part, plain, strlen (plain), content_type);
-
+		g_free (content_type);
+		
 		if (plain_e8bit)
 			camel_mime_part_set_encoding (part, best_encoding (plain));		
 
 		g_free (plain);
-		g_free (content_type);
 		camel_multipart_add_part (body, part);
 		camel_object_unref (CAMEL_OBJECT (part));
 		
@@ -352,6 +350,7 @@ build_message (EMsgComposer *composer)
 		}
 
 		g_free (html);
+		
 		camel_multipart_add_part (body, part);
 		camel_object_unref (CAMEL_OBJECT (part));
 	}
@@ -370,13 +369,14 @@ build_message (EMsgComposer *composer)
 			camel_object_unref (CAMEL_OBJECT (body));
 			break;
 		case MSG_FORMAT_PLAIN:
-			camel_mime_part_set_content (part, plain, strlen (plain), best_content (plain));
-
+			content_type = best_content (plain);
+			camel_mime_part_set_content (part, plain, strlen (plain), content_type);
+			g_free (content_type);
+			
 			if (plain_e8bit)
 				camel_mime_part_set_encoding (part, best_encoding (plain));
-
+			
 			g_free (plain);
-			g_free (content_type);
 			break;
 		}
 		camel_multipart_add_part (multipart, part);
@@ -384,26 +384,93 @@ build_message (EMsgComposer *composer)
 		
 		e_msg_composer_attachment_bar_to_multipart (attachment_bar, multipart);
 		
-		camel_medium_set_content_object (CAMEL_MEDIUM (new), CAMEL_DATA_WRAPPER (multipart));
+		part = camel_mime_part_new ();
+		camel_medium_set_content_object (CAMEL_MEDIUM (part), CAMEL_DATA_WRAPPER (multipart));
 		camel_object_unref (CAMEL_OBJECT (multipart));
 	} else {
 		switch (type) {
 		case MSG_FORMAT_ALTERNATIVE:
-			camel_medium_set_content_object (CAMEL_MEDIUM (new), CAMEL_DATA_WRAPPER (body));
+			part = camel_mime_part_new ();
+			
+			camel_medium_set_content_object (CAMEL_MEDIUM (part), CAMEL_DATA_WRAPPER (body));
 			camel_object_unref (CAMEL_OBJECT (body));
 			break;
 		case MSG_FORMAT_PLAIN:
-			camel_mime_part_set_content (CAMEL_MIME_PART (new), plain, strlen (plain), best_content (plain));
+			part = camel_mime_part_new ();
+			
+			content_type = best_content (plain);
+			camel_mime_part_set_content (CAMEL_MIME_PART (part), plain, strlen (plain), content_type);
+			g_free (content_type);
 			
 			if (plain_e8bit)
-				camel_mime_part_set_encoding (CAMEL_MIME_PART (new), best_encoding (plain));
+				camel_mime_part_set_encoding (part, best_encoding (plain));
 			
 			g_free (plain);
-			g_free (content_type);
 			
 			break;
 		}
 	}
+	
+	if (composer->pgp_sign) {
+		/* FIXME: should use the PGP key id rather than email address */
+		CamelException ex;
+		const char *pgpid;
+		
+		camel_exception_init (&ex);
+		from = e_msg_composer_hdrs_get_from (E_MSG_COMPOSER_HDRS (composer->hdrs));
+		camel_internet_address_get (from, 0, NULL, &pgpid);
+		pgp_mime_part_sign (&part, pgpid, PGP_HASH_TYPE_SHA1,
+				    &ex);
+		camel_object_unref (CAMEL_OBJECT (from));
+		if (camel_exception_is_set (&ex)) {
+			g_warning ("EEEEEEEEEEEEEEEEEEEEEEKKKKKKKKKKKKKKK!!!");
+		}
+	}
+	
+	if (composer->pgp_encrypt) {
+		/* FIXME: recipients should be an array of key ids rather than email addresses */
+		const CamelInternetAddress *addr;
+		const char *address;
+		CamelException ex;
+		GPtrArray *recipients;
+		int i, len;
+		
+		camel_exception_init (&ex);
+		recipients = g_ptr_array_new ();
+		
+		addr = camel_mime_message_get_recipients (new, CAMEL_RECIPIENT_TYPE_TO);
+		len = camel_address_length (CAMEL_ADDRESS (addr));
+		for (i = 0; i < len; i++) {
+			camel_internet_address_get (addr, i, NULL, &address);
+			g_ptr_array_add (recipients, g_strdup (address));
+		}
+		
+		addr = camel_mime_message_get_recipients (new, CAMEL_RECIPIENT_TYPE_CC);
+		len = camel_address_length (CAMEL_ADDRESS (addr));
+		for (i = 0; i < len; i++) {
+			camel_internet_address_get (addr, i, NULL, &address);
+			g_ptr_array_add (recipients, g_strdup (address));
+		}
+		
+		addr = camel_mime_message_get_recipients (new, CAMEL_RECIPIENT_TYPE_BCC);
+		len = camel_address_length (CAMEL_ADDRESS (addr));
+		for (i = 0; i < len; i++) {
+			camel_internet_address_get (addr, i, NULL, &address);
+			g_ptr_array_add (recipients, g_strdup (address));
+		}
+		
+		pgp_mime_part_encrypt (&part, recipients, &ex);
+		for (i = 0; i < recipients->len; i++)
+			g_free (recipients->pdata[i]);
+		g_ptr_array_free (recipients, TRUE);
+		if (camel_exception_is_set (&ex)) {
+			g_warning ("EEEEEEEEEEEEEEEEEEEEEEKKKKKKKKKKKKKKK!!!");
+		}
+	}
+	
+	camel_medium_set_content_object (CAMEL_MEDIUM (new),
+					 camel_medium_get_content_object (CAMEL_MEDIUM (part)));
+	camel_object_unref (CAMEL_OBJECT (part));
 	
 	return new;
 }
