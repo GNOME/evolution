@@ -3,11 +3,8 @@
 
 
 
-/* 
-   gcc -o store_listing `gnome-config --cflags gnomeui libglade` \
-   store_listing.c `gnome-config --libs gnomeui libglade`
-*/
-/******************************************************************************/
+/* A simple and very dirty hack written to test 
+   (and perhaps demonstrate) Camel */
 
 
 #include <gnome.h>

@@ -43,6 +43,8 @@ static const gchar *_get_boundary (CamelMultipart *multipart);
 static void _write_to_stream (CamelDataWrapper *data_wrapper, CamelStream *stream);
 static void _construct_from_stream (CamelDataWrapper *data_wrapper, CamelStream *stream);
 
+static void _finalize (GtkObject *object);
+
 static CamelDataWrapperClass *parent_class=NULL;
 
 /* Returns the class for a CamelMultipart */
@@ -56,6 +58,8 @@ static void
 camel_multipart_class_init (CamelMultipartClass *camel_multipart_class)
 {
 	CamelDataWrapperClass *camel_data_wrapper_class = CAMEL_DATA_WRAPPER_CLASS (camel_multipart_class);
+	GtkObjectClass *gtk_object_class = GTK_OBJECT_CLASS (camel_multipart_class);
+
 	parent_class = gtk_type_class (camel_data_wrapper_get_type ());
 		
 	/* virtual method definition */
@@ -73,6 +77,8 @@ camel_multipart_class_init (CamelMultipartClass *camel_multipart_class)
 	/* virtual method overload */
 	camel_data_wrapper_class->write_to_stream = _write_to_stream;
 	camel_data_wrapper_class->construct_from_stream = _construct_from_stream;
+
+	gtk_object_class->finalize = _finalize;
 }
 
 static void
@@ -113,6 +119,33 @@ camel_multipart_get_type (void)
 	return camel_multipart_type;
 }
 
+static void
+_unref_part (gpointer data, gpointer user_data)
+{
+	GtkObject *body_part = GTK_OBJECT (data);
+	
+	gtk_object_unref (body_part);
+}
+
+static void           
+_finalize (GtkObject *object)
+{
+	CamelMultipart *multipart = CAMEL_MULTIPART (object);
+
+	CAMEL_LOG_FULL_DEBUG ("Entering CamelMultipart::finalize\n");
+
+	if (multipart->parent) gtk_object_unref (GTK_OBJECT (multipart->parent));
+
+	g_list_foreach (multipart->parts, _unref_part, NULL);
+	
+	if (multipart->boundary) g_free (multipart->boundary);
+	if (multipart->preface)  g_free (multipart->preface);
+	if (multipart->postface) g_free (multipart->postface);
+
+	GTK_OBJECT_CLASS (parent_class)->finalize (object);
+	CAMEL_LOG_FULL_DEBUG ("Leaving CamelMultipart::finalize\n");
+}
+
 
 CamelMultipart *
 camel_multipart_new ()
@@ -123,7 +156,8 @@ camel_multipart_new ()
 	multipart = (CamelMultipart *)gtk_type_new (CAMEL_MULTIPART_TYPE);
 	multipart->preface = NULL;
 	multipart->postface = NULL;
-	
+
+
 	CAMEL_LOG_FULL_DEBUG ("CamelMultipart:: Leaving new()\n");
 	return multipart;
 }
@@ -133,6 +167,7 @@ static void
 _add_part (CamelMultipart *multipart, CamelMimeBodyPart *part)
 {
 	multipart->parts = g_list_append (multipart->parts, part);
+	if (part) gtk_object_ref (GTK_OBJECT (part));
 }
 
 void 
@@ -146,6 +181,7 @@ static void
 _add_part_at (CamelMultipart *multipart, CamelMimeBodyPart *part, guint index)
 {
 	multipart->parts = g_list_insert (multipart->parts, part, index);
+	if (part) gtk_object_ref (GTK_OBJECT (part));
 }
 
 void 
@@ -162,6 +198,7 @@ _remove_part (CamelMultipart *multipart, CamelMimeBodyPart *part)
 		return;
 	}
 	multipart->parts = g_list_remove (multipart->parts, part);
+	if (part) gtk_object_unref (GTK_OBJECT (part));
 }
 
 void 
@@ -197,8 +234,9 @@ _remove_part_at (CamelMultipart *multipart, guint index)
 	removed_body_part = CAMEL_MIME_BODY_PART (part_to_remove->data);
 
 	multipart->parts = g_list_remove_link (parts_list, part_to_remove);
+	if (part_to_remove->data) gtk_object_unref (GTK_OBJECT (part_to_remove->data));
 	g_list_free_1 (part_to_remove);
-
+	
 	CAMEL_LOG_FULL_DEBUG ("CamelMultipart:: Leaving remove_part_at\n");
 	return removed_body_part;
 	
@@ -252,6 +290,7 @@ static void
 _set_parent (CamelMultipart *multipart, CamelMimePart *parent)
 {
 	multipart->parent = parent;
+	if (parent) gtk_object_ref (GTK_OBJECT (parent));
 }
 
 void
@@ -390,7 +429,6 @@ _read_part (CamelStream *new_part_stream, CamelStream *stream, gchar *normal_bou
 
 	new_line = gmime_read_line_from_stream (stream);
 	while (new_line && !end_of_part && !last_part) {
-		printf ("++ new line = \"%s\"\n", new_line);
 		end_of_part = (strcmp (new_line, normal_boundary) == 0);
 		last_part   = (strcmp (new_line, end_boundary) == 0);
 		if (!end_of_part && !last_part) {

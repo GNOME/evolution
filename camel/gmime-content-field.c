@@ -50,9 +50,70 @@ gmime_content_field_new (const gchar *type, const gchar *subtype)
 	ctf->type = g_strdup (type);
 	ctf->subtype = g_strdup (subtype);
 	ctf->parameters =  g_hash_table_new (g_str_hash, g_str_equal);
-	
+	ctf->ref = 1;
+
 	return ctf;
 } 
+
+
+static void
+_free_parameter (gpointer name, gpointer value, gpointer user_data)
+{
+	g_free (name);
+	g_free (value);
+}
+
+/**
+ * gmime_content_field_free: free a GMimeContentField object
+ * @content_field: GMimeContentField object
+ * 
+ * This method destroys the object and should be used very carefully.
+ * Use gmime_content_field_unref instead.
+ *
+ **/
+void 
+gmime_content_field_free (GMimeContentField *content_field)
+{
+	g_hash_table_foreach (content_field->parameters, _free_parameter, NULL);
+	g_free (content_field->type);
+	g_free (content_field->subtype);
+	g_hash_table_destroy (content_field->parameters);
+	g_free (content_field);
+}
+
+/**
+ * gmime_content_field_ref: add a reference to a GMimeContentField object
+ * @content_field: GMimeContentField object
+ * 
+ * Tell a GMimeContentField object that something holds a reference
+ * on him. This, coupled with the corresponding 
+ * gmime_content_field_unref() method allow several 
+ * objects to use the same GMimeContentField object.
+ **/
+void 
+gmime_content_field_ref (GMimeContentField *content_field)
+{
+	content_field->ref += 1;
+}
+
+/**
+ * gmime_content_field_unref: remove a reference to a GMimeContentField object
+ * @content_field: GMimeContentField object
+ * 
+ * Tell a GMimeContentField object that something which 
+ * was holding a reference to him does not need it anymore.
+ * When no more reference exist, the GMimeContentField object
+ * is freed using gmime_content_field_free().
+ *
+ **/
+void 
+gmime_content_field_unref (GMimeContentField *content_field)
+{
+	content_field->ref -= 1;
+	if (content_field->ref <= 0)
+		gmime_content_field_free (content_field);
+}
+
 
 
 /**
@@ -125,7 +186,6 @@ gmime_content_field_write_to_stream (GMimeContentField *content_field, CamelStre
 	if (!content_field) return;
 
 	g_assert (stream);
-	printf ("Content-field address = %p\n", content_field);
 	if (content_field->type) {
 		camel_stream_write_strings (stream, "Content-Type: ", content_field->type, NULL);
 		if (content_field->subtype) {
@@ -304,20 +364,3 @@ gmime_content_field_construct_from_string (GMimeContentField *content_field, con
 
 }
 
-
-static void
-_free_parameter (gpointer name, gpointer value, gpointer user_data)
-{
-	g_free (name);
-	g_free (value);
-}
-
-void 
-gmime_content_field_free (GMimeContentField *content_field)
-{
-	g_hash_table_foreach (content_field->parameters, _free_parameter, NULL);
-	g_free (content_field->type);
-	g_free (content_field->subtype);
-	g_hash_table_destroy (content_field->parameters);
-	g_free (content_field);
-}

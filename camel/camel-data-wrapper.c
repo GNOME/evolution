@@ -38,11 +38,13 @@ static void _set_mime_type (CamelDataWrapper *data_wrapper, gchar *mime_type);
 static gchar *_get_mime_type (CamelDataWrapper *data_wrapper);
 static GMimeContentField *_get_mime_type_field (CamelDataWrapper *data_wrapper);
 static void _set_mime_type_field (CamelDataWrapper *data_wrapper, GMimeContentField *mime_type);
-
+static void _finalize (GtkObject *object);
 
 static void
 camel_data_wrapper_class_init (CamelDataWrapperClass *camel_data_wrapper_class)
 {
+	GtkObjectClass *gtk_object_class = GTK_OBJECT_CLASS (camel_data_wrapper_class);
+
 	parent_class = gtk_type_class (gtk_object_get_type ());
 	
 	/* virtual method definition */
@@ -52,7 +54,9 @@ camel_data_wrapper_class_init (CamelDataWrapperClass *camel_data_wrapper_class)
 	camel_data_wrapper_class->get_mime_type = _get_mime_type;
 	camel_data_wrapper_class->get_mime_type_field = _get_mime_type_field;
 	camel_data_wrapper_class->set_mime_type_field = _set_mime_type_field;
+
 	/* virtual method overload */
+	gtk_object_class->finalize = _finalize;
 }
 
 
@@ -95,6 +99,20 @@ camel_data_wrapper_get_type (void)
 	return camel_data_wrapper_type;
 }
 
+
+static void           
+_finalize (GtkObject *object)
+{
+	CamelDataWrapper *camel_data_wrapper = CAMEL_DATA_WRAPPER (object);
+
+	CAMEL_LOG_FULL_DEBUG ("Entering CamelDataWrapper::finalize\n");
+	printf ("CamelDataWrapper::finalize, finalizing object %p\n", object);
+	if (camel_data_wrapper->mime_type)
+		gmime_content_field_unref (camel_data_wrapper->mime_type);
+
+	parent_class->finalize (object);
+	CAMEL_LOG_FULL_DEBUG ("Leaving CamelDataWrapper::finalize\n");
+}
 
 
 /**

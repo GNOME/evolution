@@ -41,9 +41,14 @@ typedef struct {
 	gchar *subtype;
 	GHashTable *parameters;
 
+	gint ref;
+
 } GMimeContentField;
 
 GMimeContentField *gmime_content_field_new (const gchar *type, const gchar *subtype);
+void gmime_content_field_ref (GMimeContentField *content_field);
+void gmime_content_field_unref (GMimeContentField *content_field);
+
 void gmime_content_field_set_parameter (GMimeContentField *content_field, const gchar *attribute, const gchar *value);
 void gmime_content_field_write_to_stream (GMimeContentField *content_field, CamelStream *stream);
 void gmime_content_field_construct_from_string (GMimeContentField *content_field, const gchar *string);

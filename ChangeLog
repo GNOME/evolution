@@ -1,4 +1,23 @@
-1999-08-09  bertrand  <Bertrand.Guiheneuf@aful.org>
+1999-08-11  bertrand  <Bertrand.Guiheneuf@aful.org>
+
+	* camel/camel-multipart.c (_finalize): 
+	* camel/camel-simple-data-wrapper.c (_finalize): 
+	* camel/camel-mime-part.c (_finalize): 
+	implemented destructors.
+	
+	* camel/gmime-content-field.c (gmime_content_field_ref): 
+	(gmime_content_field_unref): 
+	New reference mechanism for GMimeContentField objects.
+
+	* camel/camel-data-wrapper.c (_finalize): 
+	Started implementing destructors.
+
+	* camel/camel-mime-part.c (_construct_from_stream): 
+	* camel/gmime-content-field.c (gmime_content_field_write_to_stream): 
+	* camel/camel-multipart.c (_construct_from_stream): 
+	removed forgotten anarchic traces.
+
+1999-08-10  bertrand  <Bertrand.Guiheneuf@aful.org>
 
 	* tests/ui-tests/store_listing.c: 
 	* tests/ui-tests/store_listing.glade:

@@ -74,6 +74,8 @@ static guint _get_message_number (CamelMimeMessage *mime_message);
 static void _write_to_stream (CamelDataWrapper *data_wrapper, CamelStream *stream);
 static gboolean _parse_header_pair (CamelMimePart *mime_part, gchar *header_name, gchar *header_value);
 
+static void _finalize (GtkObject *object);
+
 /* Returns the class for a CamelMimeMessage */
 #define CMM_CLASS(so) CAMEL_MIME_MESSAGE_CLASS (GTK_OBJECT(so)->klass)
 #define CDW_CLASS(so) CAMEL_DATA_WRAPPER_CLASS (GTK_OBJECT(so)->klass)
@@ -97,6 +99,7 @@ camel_mime_message_class_init (CamelMimeMessageClass *camel_mime_message_class)
 {
 	CamelDataWrapperClass *camel_data_wrapper_class = CAMEL_DATA_WRAPPER_CLASS (camel_mime_message_class);
 	CamelMimePartClass *camel_mime_part_class = CAMEL_MIME_PART_CLASS (camel_mime_message_class);
+	GtkObjectClass *gtk_object_class = GTK_OBJECT_CLASS (camel_data_wrapper_class);
 
 	parent_class = gtk_type_class (camel_mime_part_get_type ());
 	_init_header_name_table();
@@ -129,6 +132,7 @@ camel_mime_message_class_init (CamelMimeMessageClass *camel_mime_message_class)
 	camel_data_wrapper_class->write_to_stream = _write_to_stream;
 	camel_mime_part_class->parse_header_pair = _parse_header_pair;
 
+	gtk_object_class->finalize = _finalize;
 }
 
 
@@ -168,12 +172,36 @@ camel_mime_message_get_type (void)
 }
 
 
+static void           
+_finalize (GtkObject *object)
+{
+	CamelMimeMessage *message = CAMEL_MIME_MESSAGE (object);
+
+	CAMEL_LOG_FULL_DEBUG ("Entering CamelMimeMessage::finalize\n");
+	if (message->received_date) g_free (message->received_date);
+	if (message->sent_date) g_free (message->sent_date);
+	if (message->subject) g_free (message->subject);
+	if (message->reply_to) g_free (message->reply_to);
+	if (message->from) g_free (message->from);
+		
+#warning free recipients and flags.
+	if (message->folder) gtk_object_unref (GTK_OBJECT (message->folder));
+	if (message->session) gtk_object_unref (GTK_OBJECT (message->session));
+	
+	GTK_OBJECT_CLASS (parent_class)->finalize (object);
+	CAMEL_LOG_FULL_DEBUG ("Leaving CamelMimeMessage::finalize\n");
+}
+
+
+
 CamelMimeMessage *
 camel_mime_message_new_with_session (CamelSession *session) 
 {
 	CamelMimeMessage *mime_message;
 	mime_message = gtk_type_new (CAMEL_MIME_MESSAGE_TYPE);
 	mime_message->session = session;
+	if (session) gtk_object_ref (GTK_OBJECT (session));
+
 	return mime_message;
 }
 

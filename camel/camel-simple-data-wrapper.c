@@ -32,18 +32,22 @@ static  CamelDataWrapperClass *parent_class=NULL;
 
 static void _construct_from_stream (CamelDataWrapper *data_wrapper, CamelStream *stream);
 static void _write_to_stream (CamelDataWrapper *data_wrapper, CamelStream *stream);
+static void _finalize (GtkObject *object);
 
 static void
 camel_simple_data_wrapper_class_init (CamelSimpleDataWrapperClass *camel_simple_data_wrapper_class)
 {
 	CamelDataWrapperClass *camel_data_wrapper_class = CAMEL_DATA_WRAPPER_CLASS (camel_simple_data_wrapper_class);
-	
+	GtkObjectClass *gtk_object_class = GTK_OBJECT_CLASS (camel_data_wrapper_class);
+
 	parent_class = gtk_type_class (camel_data_wrapper_get_type ());
 	/* virtual method definition */
 
 	/* virtual method overload */
 	camel_data_wrapper_class->write_to_stream = _write_to_stream;
 	camel_data_wrapper_class->construct_from_stream = _construct_from_stream;
+
+	gtk_object_class->finalize = _finalize;
 }
 
 
@@ -75,6 +79,18 @@ camel_simple_data_wrapper_get_type (void)
 	return camel_simple_data_wrapper_type;
 }
 
+
+static void           
+_finalize (GtkObject *object)
+{
+	CamelSimpleDataWrapper *simple_data_wrapper = CAMEL_SIMPLE_DATA_WRAPPER (object);
+
+	CAMEL_LOG_FULL_DEBUG ("Entering CamelMimePart::finalize\n");
+	if (simple_data_wrapper->byte_array) g_byte_array_free (simple_data_wrapper->byte_array, TRUE);
+
+	GTK_OBJECT_CLASS (parent_class)->finalize (object);
+	CAMEL_LOG_FULL_DEBUG ("Leaving CamelMimePart::finalize\n");
+}
 
 
 /**
