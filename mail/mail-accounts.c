@@ -250,6 +250,7 @@ mail_edit (GtkButton *button, gpointer data)
 		
 		account = gtk_clist_get_row_data (dialog->mail_accounts, dialog->accounts_row);
 		editor = mail_account_editor_new (account);
+		gnome_dialog_set_parent((GnomeDialog *)editor, GTK_WINDOW (dialog));
 		gtk_signal_connect (GTK_OBJECT (editor), "destroy",
 				    GTK_SIGNAL_FUNC (mail_editor_destroyed),
 				    dialog);

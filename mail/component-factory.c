@@ -886,7 +886,7 @@ owner_unset_cb (EvolutionShellComponent *shell_component, gpointer user_data)
 	gtk_object_unref (GTK_OBJECT (search_context));
 	search_context = NULL;
 	
-	g_idle_add_full (G_PRIORITY_LOW, idle_quit, NULL, NULL);
+	g_timeout_add(100, idle_quit, NULL);
 }
 
 static BonoboObject *

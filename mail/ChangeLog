@@ -1,3 +1,11 @@
+2001-10-26    <NotZed@Ximian.com>
+
+	* component-factory.c (owner_unset_cb): Use a timeout not an idle handler.
+
+	* mail-callbacks.c (providers_config): Only set the parent window.
+
+	* mail-accounts.c (mail_edit): Set the parent on the account editor.
+
 2001-10-25    <NotZed@Ximian.com>
 
 	* openpgp-utils.c (openpgp_verify): s/iconv/e_iconv/.
