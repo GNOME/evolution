@@ -31,7 +31,7 @@
 
 
 #define ENVELOPE_HEIGHT (72.0 * 4.0)
-#define ENVELOPE_WIDTH (72.0 * 10.0)
+#define ENVELOPE_WIDTH (72.0 * 9.5)
 
 typedef struct {
 	int start;
@@ -129,7 +129,7 @@ e_contact_print_envelope_close(GnomeDialog *dialog, gpointer data)
 }
 
 static void
-ecpe_print(GnomePrintContext *pc, ECard *ecard)
+ecpe_print(GnomePrintContext *pc, ECard *ecard, gboolean as_return)
 {
 	ECardSimple *card = e_card_simple_new(ecard);
 	char *address;
@@ -144,10 +144,18 @@ ecpe_print(GnomePrintContext *pc, ECard *ecard)
 
 	address = e_card_simple_get(card, E_CARD_SIMPLE_FIELD_ADDRESS_BUSINESS);
 	linelist = ecpe_break(address);
-	font = gnome_font_new("Helvetica", 12);
-	ecpe_linelist_dimensions(font, address, linelist, &x, &y);
-	x = (ENVELOPE_WIDTH - x) / 2;
-	y = (ENVELOPE_HEIGHT - y) / 2;
+	if (as_return)
+		font = gnome_font_new("Helvetica", 9);
+	else
+		font = gnome_font_new("Helvetica", 12);
+	ecpe_linelist_dimensions(font, address, linelist, NULL, &y);
+	if (as_return) {
+		x = 36;
+		y = ENVELOPE_HEIGHT - 36;
+	} else {
+		x = ENVELOPE_WIDTH / 2;
+		y = (ENVELOPE_HEIGHT - y) / 2;
+	}
 	ecpe_linelist_print(pc, font, address, linelist, x, y);
 	gtk_object_unref(GTK_OBJECT(font));
 	g_free(linelist);
@@ -175,7 +183,7 @@ e_contact_print_envelope_button(GnomeDialog *dialog, gint button, gpointer data)
 		master = gnome_print_master_new_from_dialog( GNOME_PRINT_DIALOG(dialog) );
 		pc = gnome_print_master_get_context( master );
 
-		ecpe_print(pc, card);
+		ecpe_print(pc, card, FALSE);
 		
 		gnome_print_master_print(master);
 		gnome_dialog_close(dialog);
@@ -184,7 +192,7 @@ e_contact_print_envelope_button(GnomeDialog *dialog, gint button, gpointer data)
 		master = gnome_print_master_new_from_dialog( GNOME_PRINT_DIALOG(dialog) );
 		pc = gnome_print_master_get_context( master );
 
-		ecpe_print(pc, card);
+		ecpe_print(pc, card, FALSE);
 		
 		preview = GTK_WIDGET(gnome_print_master_preview_new(master, "Print Preview"));
 		gtk_widget_show_all(preview);

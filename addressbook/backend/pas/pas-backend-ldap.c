@@ -1567,6 +1567,10 @@ pas_backend_ldap_process_client_requests (PASBook *book)
 	case GetBookView:
 		pas_backend_ldap_process_get_book_view (backend, book, req);
 		break;
+
+	case GetChanges:
+		/* FIXME: Code this. */
+		break;
 	}
 
 	g_free (req);
