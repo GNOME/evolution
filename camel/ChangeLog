@@ -1,3 +1,11 @@
+2002-04-25  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* providers/smtp/camel-smtp-transport.c (smtp_rcpt): Don't put a
+	space between the "RCPT TO:" and the "<recipient>" strings -
+	rfc0821 was not clear on this but it seems rfc2821 defines a
+	grammar excluding that SP.
+	(smtp_mail): Same.
+
 2002-04-24  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* providers/local/camel-local-provider.c

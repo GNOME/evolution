@@ -1054,11 +1054,10 @@ smtp_mail (CamelSmtpTransport *transport, const char *sender, gboolean has_8bit_
 	/* we gotta tell the smtp server who we are. (our email addy) */
 	char *cmdbuf, *respbuf = NULL;
 	
-	/* enclose address in <>'s since some SMTP daemons *require* that */
 	if (transport->flags & CAMEL_SMTP_TRANSPORT_8BITMIME && has_8bit_parts)
-		cmdbuf = g_strdup_printf ("MAIL FROM: <%s> BODY=8BITMIME\r\n", sender);
+		cmdbuf = g_strdup_printf ("MAIL FROM:<%s> BODY=8BITMIME\r\n", sender);
 	else
-		cmdbuf = g_strdup_printf ("MAIL FROM: <%s>\r\n", sender);
+		cmdbuf = g_strdup_printf ("MAIL FROM:<%s>\r\n", sender);
 	
 	d(fprintf (stderr, "sending : %s", cmdbuf));
 	
@@ -1096,8 +1095,7 @@ smtp_rcpt (CamelSmtpTransport *transport, const char *recipient, CamelException 
 	 * our email to */
 	char *cmdbuf, *respbuf = NULL;
 	
-	/* enclose address in <>'s since some SMTP daemons *require* that */
-	cmdbuf = g_strdup_printf ("RCPT TO: <%s>\r\n", recipient);
+	cmdbuf = g_strdup_printf ("RCPT TO:<%s>\r\n", recipient);
 	
 	d(fprintf (stderr, "sending : %s", cmdbuf));
 	
