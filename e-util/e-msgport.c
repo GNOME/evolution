@@ -93,7 +93,7 @@ int e_dlist_length(EDList *l)
 		nn = n->next;
 	}
 
-	return 0;
+	return count;
 }
 
 struct _EMsgPort {
