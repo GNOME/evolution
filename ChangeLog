@@ -1,3 +1,12 @@
+2001-10-27  Dan Winship  <danw@ximian.com>
+
+	* configure.in: Change the help string on "--enable-nntp" to
+	mention the fact that NNTP support is incomplete and unsupported.
+	If the user doesn't pass --enable-nntp, don't mention NNTP at all
+	in the summary at the end. Also, mention which SSL library is
+	being used when SSL support is enabled, and don't mention anything
+	about S/MIME since it doesn't work.
+
 2001-10-26  Ettore Perazzoli  <ettore@ximian.com>
 
 	* configure.in: GAL 0.15.99.5.
