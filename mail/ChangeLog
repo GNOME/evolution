@@ -1,5 +1,8 @@
 2001-09-10  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* mail-callbacks.c (mail_generate_reply): Pass along the right
+	string, this fixes bug #9518.
+
 	* mail-account-gui.c (save_service): Don't save the authmech if
 	the username doesn't exist. Fixes bug #9474.
 

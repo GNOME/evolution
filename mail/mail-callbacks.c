@@ -779,7 +779,7 @@ mail_generate_reply (CamelFolder *folder, CamelMimeMessage *message, const char 
 	strftime (date_str, sizeof (date_str), _("On %a, %Y-%m-%d at %H:%M, %%s wrote:"),
 		  localtime (&date));
 	format = e_utf8_from_locale_string (date_str);
-	text = mail_tool_quote_message (message, date_str, name && *name ? name : address);
+	text = mail_tool_quote_message (message, format, name && *name ? name : address);
 	g_free (format);
 	
 	if (text) {
