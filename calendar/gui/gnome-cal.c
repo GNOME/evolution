@@ -1753,6 +1753,8 @@ client_cal_opened_cb (ECal *ecal, ECalendarStatus status, GnomeCalendar *gcal)
 		return;
 	}
 
+	e_cal_set_default_timezone (ecal, priv->zone, NULL);
+
 	switch (source_type) {
 	case E_CAL_SOURCE_TYPE_EVENT:
 		msg = g_strdup_printf (_("Loading appointments at %s"), e_cal_get_uri (ecal));

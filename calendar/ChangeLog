@@ -1,3 +1,8 @@
+2004-04-01  Rodrigo Moya <rodrigo@ximian.com>
+
+	* gui/gnome-cal.c (client_cal_opened_cb): set the default timezone
+	on all clients when opened.
+
 2004-04-01  Radek Doulik  <rodo@ximian.com>
 
 	* gui/e-calendar-view.c
