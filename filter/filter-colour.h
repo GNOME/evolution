@@ -1,7 +1,9 @@
+/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- *  Copyright (C) 2000 Ximian Inc.
+ *  Copyright (C) 2000-2002 Ximian Inc.
  *
  *  Authors: Not Zed <notzed@lostzed.mmc.com.au>
+ *           Jeffrey Stedfast <fejj@ximian.com>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public
@@ -18,37 +20,39 @@
  * Boston, MA 02111-1307, USA.
  */
 
+
 #ifndef _FILTER_COLOUR_H
 #define _FILTER_COLOUR_H
 
 #include "filter-element.h"
 
-#define FILTER_COLOUR(obj)	GTK_CHECK_CAST (obj, filter_colour_get_type (), FilterColour)
-#define FILTER_COLOUR_CLASS(klass)	GTK_CHECK_CLASS_CAST (klass, filter_colour_get_type (), FilterColourClass)
-#define IS_FILTER_COLOUR(obj)      GTK_CHECK_TYPE (obj, filter_colour_get_type ())
+#define FILTER_TYPE_COLOUR            (filter_colour_get_type ())
+#define FILTER_COLOUR(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), FILTER_TYPE_COLOUR, FilterColour))
+#define FILTER_COLOUR_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), FILTER_TYPE_COLOUR, FilterColourClass))
+#define IS_FILTER_COLOUR(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), FILTER_TYPE_COLOUR))
+#define IS_FILTER_COLOUR_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), FILTER_TYPE_COLOUR))
+#define FILTER_COLOUR_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS ((obj), FILTER_TYPE_COLOUR, FilterColourClass))
 
-typedef struct _FilterColour	FilterColour;
-typedef struct _FilterColourClass	FilterColourClass;
+typedef struct _FilterColour FilterColour;
+typedef struct _FilterColourClass FilterColourClass;
 
 struct _FilterColour {
-	FilterElement parent;
-	struct _FilterColourPrivate *priv;
-
-	guint16 r,g,b,a;
+	FilterElement parent_object;
+	
+	guint16 r, g, b, a;
 };
 
 struct _FilterColourClass {
 	FilterElementClass parent_class;
-
+	
 	/* virtual methods */
-
+	
 	/* signals */
 };
 
-guint		filter_colour_get_type	(void);
-FilterColour	*filter_colour_new	(void);
+GType filter_colour_get_type (void);
+FilterColour *filter_colour_new (void);
 
 /* methods */
 
 #endif /* ! _FILTER_COLOUR_H */
-

@@ -3,6 +3,7 @@
  *  Copyright (C) 2000 Ximian Inc.
  *
  *  Authors: Not Zed <notzed@lostzed.mmc.com.au>
+ *           Jeffrey Stedfast <fejj@ximian.com>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public
@@ -19,13 +20,13 @@
  * Boston, MA 02111-1307, USA.
  */
 
+
 #ifdef HAVE_CONFIG_H
 #include <config.h>
 #endif
 
 #include <string.h>
 #include <stdlib.h>
-#include <gtk/gtktypeutils.h>
 
 #include "filter-element.h"
 #include "filter-input.h"
@@ -45,63 +46,56 @@ static int element_eq(FilterElement *fe, FilterElement *cm);
 static void xml_create(FilterElement *fe, xmlNodePtr node);
 static FilterElement *clone(FilterElement *fe);
 
-static void filter_element_class_init	(FilterElementClass *class);
-static void filter_element_init	(FilterElement *gspaper);
-static void filter_element_finalise	(GtkObject *obj);
+static void filter_element_class_init (FilterElementClass *klass);
+static void filter_element_init	(FilterElement *fe);
+static void filter_element_finalise (GObject *obj);
 
-static GtkObjectClass *parent_class;
 
-enum {
-	LAST_SIGNAL
-};
+static GObjectClass *parent_class;
 
-static guint signals[LAST_SIGNAL] = { 0 };
 
-GtkType
+GType
 filter_element_get_type (void)
 {
-	static GtkType type = 0;
+	static GType type = 0;
 	
 	if (!type) {
-		GtkTypeInfo type_info = {
-			"FilterElement",
-			sizeof(FilterElement),
-			sizeof(FilterElementClass),
-			(GtkClassInitFunc)filter_element_class_init,
-			(GtkObjectInitFunc)filter_element_init,
-			(GtkArgSetFunc)NULL,
-			(GtkArgGetFunc)NULL
+		static const GTypeInfo info = {
+			sizeof (FilterElementClass),
+			NULL, /* base_class_init */
+			NULL, /* base_class_finalize */
+			(GClassInitFunc) filter_element_class_init,
+			NULL, /* class_finalize */
+			NULL, /* class_data */
+			sizeof (FilterElement),
+			0,    /* n_preallocs */
+			(GInstanceInitFunc) filter_element_init,
 		};
 		
-		type = gtk_type_unique(gtk_object_get_type (), &type_info);
+		type = g_type_register_static (G_TYPE_OBJECT, "FilterElement", &info, 0);
 	}
 	
 	return type;
 }
 
 static void
-filter_element_class_init (FilterElementClass *class)
+filter_element_class_init (FilterElementClass *klass)
 {
-	GtkObjectClass *object_class;
+	GObjectClass *object_class = G_OBJECT_CLASS (klass);
 	
-	object_class = (GtkObjectClass *)class;
-	parent_class = gtk_type_class (gtk_object_get_type ());
-
+	parent_class = g_type_class_ref (G_TYPE_OBJECT);
+	
 	object_class->finalize = filter_element_finalise;
-
+	
 	/* override methods */
-	class->validate = validate;
-	class->eq = element_eq;
-	class->xml_create = xml_create;
-	class->clone = clone;
-
-	/* signals */
-
-	gtk_object_class_add_signals (object_class, signals, LAST_SIGNAL);
+	klass->validate = validate;
+	klass->eq = element_eq;
+	klass->xml_create = xml_create;
+	klass->clone = clone;
 }
 
 static void
-filter_element_init (FilterElement *o)
+filter_element_init (FilterElement *fe)
 {
 	;
 }
@@ -110,10 +104,10 @@ static void
 filter_element_finalise (GtkObject *obj)
 {
 	FilterElement *o = (FilterElement *)obj;
-
-	xmlFree(o->name);
-
-        ((GtkObjectClass *)(parent_class))->finalize(obj);
+	
+	xmlFree (o->name);
+	
+        G_OBJECT_CLASS (parent_class)->finalize (obj);
 }
 
 /**
@@ -126,21 +120,22 @@ filter_element_finalise (GtkObject *obj)
 FilterElement *
 filter_element_new (void)
 {
-	FilterElement *o = (FilterElement *)gtk_type_new(filter_element_get_type ());
-	return o;
+	return (FilterElement *) g_object_new (FILTER_TYPE_ELEMENT, NULL, NULL);
 }
 
 gboolean
 filter_element_validate (FilterElement *fe)
 {
-	return ((FilterElementClass *)((GtkObject *)fe)->klass)->validate (fe);
+	return FILTER_ELEMENT_GET_CLASS (fe)->validate (fe);
 }
 
 int
-filter_element_eq(FilterElement *fe, FilterElement *cm)
+filter_element_eq (FilterElement *fe, FilterElement *cm)
 {
-	return ((GtkObject *)fe)->klass == ((GtkObject *)cm)->klass
-		&& ((FilterElementClass *)((GtkObject *)fe)->klass)->eq(fe, cm);
+	FilterElementClass *klass;
+	
+	klass = FILTER_ELEMENT_GET_CLASS (fe);
+	return (klass == FILTER_ELEMENT_GET_CLASS (cm)) && klass->eq (fe, cm);
 }
 
 /**
@@ -154,7 +149,7 @@ filter_element_eq(FilterElement *fe, FilterElement *cm)
 void
 filter_element_xml_create (FilterElement *fe, xmlNodePtr node)
 {
-	return ((FilterElementClass *)((GtkObject *)fe)->klass)->xml_create(fe, node);
+	return FILTER_ELEMENT_GET_CLASS (fe)->xml_create (fe, node);
 }
 
 /**
@@ -168,7 +163,7 @@ filter_element_xml_create (FilterElement *fe, xmlNodePtr node)
 xmlNodePtr
 filter_element_xml_encode (FilterElement *fe)
 {
-	return ((FilterElementClass *)((GtkObject *)fe)->klass)->xml_encode(fe);
+	return FILTER_ELEMENT_GET_CLASS (fe)->xml_encode (fe);
 }
 
 /**
@@ -183,7 +178,7 @@ filter_element_xml_encode (FilterElement *fe)
 int
 filter_element_xml_decode (FilterElement *fe, xmlNodePtr node)
 {
-	return ((FilterElementClass *)((GtkObject *)fe)->klass)->xml_decode(fe, node);
+	return FILTER_ELEMENT_GET_CLASS (fe)->xml_decode (fe, node);
 }
 
 /**
@@ -197,7 +192,7 @@ filter_element_xml_decode (FilterElement *fe, xmlNodePtr node)
 FilterElement *
 filter_element_clone (FilterElement *fe)
 {
-	return ((FilterElementClass *)((GtkObject *)fe)->klass)->clone(fe);
+	return FILTER_ELEMENT_GET_CLASS (fe)->clone (fe);
 }
 
 /**
@@ -212,7 +207,7 @@ filter_element_clone (FilterElement *fe)
 GtkWidget *
 filter_element_get_widget (FilterElement *fe)
 {
-	return ((FilterElementClass *)((GtkObject *)fe)->klass)->get_widget(fe);
+	return FILTER_ELEMENT_GET_CLASS (fe)->get_widget (fe);
 }
 
 /**
@@ -226,7 +221,7 @@ filter_element_get_widget (FilterElement *fe)
 void
 filter_element_build_code (FilterElement *fe, GString *out, struct _FilterPart *ff)
 {
-	return ((FilterElementClass *)((GtkObject *)fe)->klass)->build_code(fe, out, ff);
+	return FILTER_ELEMENT_GET_CLASS (fe)->build_code (fe, out, ff);
 }
 
 /**
@@ -240,7 +235,7 @@ filter_element_build_code (FilterElement *fe, GString *out, struct _FilterPart *
 void
 filter_element_format_sexp (FilterElement *fe, GString *out)
 {
-	return ((FilterElementClass *)((GtkObject *)fe)->klass)->format_sexp(fe, out);
+	return FILTER_ELEMENT_GET_CLASS (fe)->format_sexp (fe, out);
 }
 
 /**
@@ -256,30 +251,30 @@ filter_element_new_type_name (const char *type)
 {
 	if (type == NULL)
 		return NULL;
-
+	
 	if (!strcmp (type, "string")) {
-		return (FilterElement *)filter_input_new ();
+		return (FilterElement *) filter_input_new ();
 	} else if (!strcmp (type, "folder")) {
-		return (FilterElement *)filter_folder_new ();
+		return (FilterElement *) filter_folder_new ();
 	} else if (!strcmp (type, "address")) {
 		/* FIXME: temporary ... need real address type */
-		return (FilterElement *)filter_input_new_type_name (type);
+		return (FilterElement *) filter_input_new_type_name (type);
 	} else if (!strcmp (type, "code")) {
-		return (FilterElement *)filter_code_new ();
+		return (FilterElement *) filter_code_new ();
 	} else if (!strcmp (type, "colour")) {
-		return (FilterElement *)filter_colour_new ();
+		return (FilterElement *) filter_colour_new ();
 	} else if (!strcmp (type, "optionlist") || !strcmp (type, "system-flag")) {
-		return (FilterElement *)filter_option_new ();
+		return (FilterElement *) filter_option_new ();
 	} else if (!strcmp (type, "datespec")) {
-		return (FilterElement *)filter_datespec_new ();
+		return (FilterElement *) filter_datespec_new ();
 	} else if (!strcmp (type, "score")) {
-		return (FilterElement *)filter_int_new_type("score", -3, 3);
+		return (FilterElement *) filter_int_new_type("score", -3, 3);
 	} else if (!strcmp (type, "integer")) {
-		return (FilterElement *)filter_int_new ();
+		return (FilterElement *) filter_int_new ();
 	} else if (!strcmp (type, "regex")) {
-		return (FilterElement *)filter_input_new_type_name (type);
+		return (FilterElement *) filter_input_new_type_name (type);
 	} else if (!strcmp (type, "source")) {
-    	        return (FilterElement *)filter_source_new ();
+    	        return (FilterElement *) filter_source_new ();
 	} else if (!strcmp (type, "command")) {
 		return (FilterElement *) filter_file_new_type_name (type);
 	} else if (!strcmp (type, "file")) {
@@ -288,7 +283,7 @@ filter_element_new_type_name (const char *type)
 		return (FilterElement *) filter_label_new ();
 	} else {
 		g_warning("Unknown filter type '%s'", type);
-		return 0;
+		return NULL;
 	}
 }
 
@@ -306,9 +301,9 @@ validate (FilterElement *fe)
 }
 
 static int
-element_eq(FilterElement *fe, FilterElement *cm)
+element_eq (FilterElement *fe, FilterElement *cm)
 {
-	return ((fe->name && cm->name && strcmp(fe->name, cm->name) == 0)
+	return ((fe->name && cm->name && strcmp (fe->name, cm->name) == 0)
 		|| (fe->name == NULL && cm->name == NULL));
 }
 
@@ -323,8 +318,8 @@ clone (FilterElement *fe)
 {
 	xmlNodePtr node;
 	FilterElement *new;
-
-	new = (FilterElement *)gtk_type_new (GTK_OBJECT (fe)->klass->type);
+	
+	new = (FilterElement *) g_object_new (G_OBJECT_TYPE (fe), NULL, NULL);
 	node = filter_element_xml_encode (fe);
 	filter_element_xml_decode (new, node);
 	xmlFreeNodeList (node);
@@ -334,7 +329,7 @@ clone (FilterElement *fe)
 
 /* only copies the value, not the name/type */
 void
-filter_element_copy_value(FilterElement *de, FilterElement *se)
+filter_element_copy_value (FilterElement *de, FilterElement *se)
 {
 	/* bit of a hack, but saves having to do the same in each type ? */
 
@@ -388,4 +383,3 @@ filter_element_copy_value(FilterElement *de, FilterElement *se)
 		}
 	}
 }
-

@@ -1,7 +1,9 @@
+/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- *  Copyright (C) 2000 Ximian Inc.
+ *  Copyright (C) 2000-2002 Ximian Inc.
  *
  *  Authors: Not Zed <notzed@lostzed.mmc.com.au>
+ *           Jeffrey Stedfast <fejj@ximian.com>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public
@@ -18,34 +20,37 @@
  * Boston, MA 02111-1307, USA.
  */
 
+
 #ifndef _FILTER_CODE_H
 #define _FILTER_CODE_H
 
 #include "filter-input.h"
 
-#define FILTER_CODE(obj)	GTK_CHECK_CAST (obj, filter_code_get_type (), FilterCode)
-#define FILTER_CODE_CLASS(klass)	GTK_CHECK_CLASS_CAST (klass, filter_code_get_type (), FilterCodeClass)
-#define IS_FILTER_CODE(obj)      GTK_CHECK_TYPE (obj, filter_code_get_type ())
+#define FILTER_TYPE_CODE            (filter_code_get_type ())
+#define FILTER_CODE(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), FILTER_TYPE_CODE, FilterCode))
+#define FILTER_CODE_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), FILTER_TYPE_CODE, FilterCodeClass))
+#define IS_FILTER_CODE(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), FILTER_TYPE_CODE))
+#define IS_FILTER_CODE_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), FILTER_TYPE_CODE))
+#define FILTER_CODE_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS ((obj), FILTER_TYPE_CODE, FilterCodeClass))
 
-typedef struct _FilterCode	FilterCode;
+typedef struct _FilterCode FilterCode;
 typedef struct _FilterCodeClass	FilterCodeClass;
 
 struct _FilterCode {
-	FilterInput parent;
+	FilterInput parent_object;
 };
 
 struct _FilterCodeClass {
 	FilterInputClass parent_class;
-
+	
 	/* virtual methods */
-
+	
 	/* signals */
 };
 
-guint		filter_code_get_type	(void);
-FilterCode	*filter_code_new	(void);
+GType filter_code_get_type (void);
+FilterCode *filter_code_new (void);
 
 /* methods */
 
 #endif /* ! _FILTER_CODE_H */
-

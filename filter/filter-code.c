@@ -1,7 +1,9 @@
+/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- *  Copyright (C) 2000 Ximian Inc.
+ *  Copyright (C) 2000-2002 Ximian Inc.
  *
  *  Authors: Not Zed <notzed@lostzed.mmc.com.au>
+ *           Jeffrey Stedfast <fejj@ximian.com>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public
@@ -18,75 +20,75 @@
  * Boston, MA 02111-1307, USA.
  */
 
+
 #ifdef HAVE_CONFIG_H
 #include <config.h>
 #endif
 
 #include "filter-code.h"
 
-static void build_code(FilterElement *fe, GString *out, struct _FilterPart *ff);
-static void format_sexp(FilterElement *, GString *);
+static void build_code (FilterElement *fe, GString *out, struct _FilterPart *ff);
+static void format_sexp (FilterElement *, GString *);
 
-static void filter_code_class_init	(FilterCodeClass *class);
-static void filter_code_init	(FilterCode *gspaper);
-static void filter_code_finalise	(GtkObject *obj);
+static void filter_code_class_init (FilterCodeClass *class);
+static void filter_code_init (FilterCode *fc);
+static void filter_code_finalise (GObject *obj);
+
 
 static FilterInputClass *parent_class;
 
-guint
+
+GType
 filter_code_get_type (void)
 {
-	static guint type = 0;
+	static GType type = 0;
 	
 	if (!type) {
-		GtkTypeInfo type_info = {
-			"FilterCode",
-			sizeof(FilterCode),
-			sizeof(FilterCodeClass),
-			(GtkClassInitFunc)filter_code_class_init,
-			(GtkObjectInitFunc)filter_code_init,
-			(GtkArgSetFunc)NULL,
-			(GtkArgGetFunc)NULL
+		static const GTypeInfo info = {
+			sizeof (FilterCodeClass),
+			NULL, /* base_class_init */
+			NULL, /* base_class_finalize */
+			(GClassInitFunc) filter_code_class_init,
+			NULL, /* class_finalize */
+			NULL, /* class_data */
+			sizeof (FilterCode),
+			0,    /* n_preallocs */
+			(GInstanceInitFunc) filter_code_init,
 		};
 		
-		type = gtk_type_unique(filter_input_get_type (), &type_info);
+		type = g_type_register_static (FILTER_TYPE_INPUT, "FilterCode", &info, 0);
 	}
 	
 	return type;
 }
 
 static void
-filter_code_class_init (FilterCodeClass *class)
+filter_code_class_init (FilterCodeClass *klass)
 {
-	GtkObjectClass *object_class;
-	FilterElementClass *filter_element = (FilterElementClass *)class;
+	GObjectClass *object_class = G_OBJECT_CLASS (klass);
+	FilterElementClass *fe_class = FILTER_ELEMENT_CLASS (klass);
 	
-	object_class = (GtkObjectClass *)class;
-	parent_class = gtk_type_class(filter_input_get_type ());
-
-	filter_element->build_code = build_code;
-	filter_element->format_sexp = format_sexp;
-
+	parent_class = g_type_class_ref (FILTER_TYPE_INPUT);
+	
 	object_class->finalize = filter_code_finalise;
+	
 	/* override methods */
-
+	fe_class->build_code = build_code;
+	fe_class->format_sexp = format_sexp;
 }
 
 static void
-filter_code_init (FilterCode *o)
+filter_code_init (FilterCode *fc)
 {
-	((FilterInput *)o)->type = xmlStrdup("code");
+	((FilterInput *) fc)->type = xmlStrdup ("code");
 }
 
 static void
-filter_code_finalise(GtkObject *obj)
+filter_code_finalise (GObject *obj)
 {
-	FilterCode *o = (FilterCode *)obj;
-
-	o = o;
-
-        ((GtkObjectClass *)(parent_class))->finalize(obj);
+        G_OBJECT_CLASS (parent_class)->finalize (obj);
 }
+
 
 /**
  * filter_code_new:
@@ -96,18 +98,18 @@ filter_code_finalise(GtkObject *obj)
  * Return value: A new #FilterCode object.
  **/
 FilterCode *
-filter_code_new(void)
+filter_code_new (void)
 {
-	FilterCode *o = (FilterCode *)gtk_type_new(filter_code_get_type ());
-	return o;
+	return (FilterCode *) g_object_new (FILTER_TYPE_CODE, NULL, NULL);
 }
 
 /* here, the string IS the code */
-static void build_code(FilterElement *fe, GString *out, struct _FilterPart *ff)
+static void
+build_code (FilterElement *fe, GString *out, struct _FilterPart *ff)
 {
 	GList *l;
 	FilterInput *fi = (FilterInput *)fe;
-
+	
 	l = fi->values;
 	while (l) {
 		g_string_append(out, (char *)l->data);
@@ -116,7 +118,8 @@ static void build_code(FilterElement *fe, GString *out, struct _FilterPart *ff)
 }
 
 /* and we have no value */
-static void format_sexp(FilterElement *fe, GString *out)
+static void
+format_sexp (FilterElement *fe, GString *out)
 {
-	return;
+	;
 }

@@ -1,3 +1,13 @@
+2002-11-01  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* filter-element.c: Ported to GObject.
+
+	* filter-input.c: Same.
+
+	* filter-code.c: This too.
+
+	* filter-colour.c: And this.
+
 2002-10-30  Dan Winship  <danw@ximian.com>
 
 	* rule-editor.c (rule_add): Adjust default rule editor size to

@@ -1,7 +1,9 @@
+/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- *  Copyright (C) 2000 Ximian Inc.
+ *  Copyright (C) 2000-2002 Ximian Inc.
  *
  *  Authors: Not Zed <notzed@lostzed.mmc.com.au>
+ *           Jeffrey Stedfast <fejj@ximian.com>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public
@@ -21,21 +23,25 @@
 #ifndef _FILTER_ELEMENT_H
 #define _FILTER_ELEMENT_H
 
-#include <gtk/gtkobject.h>
+#include <glib.h>
+#include <glib-object.h>
 #include <gtk/gtkwidget.h>
 #include <gnome-xml/parser.h>
 #include <gnome-xml/xmlmemory.h>
 
-#define FILTER_ELEMENT(obj)	GTK_CHECK_CAST (obj, filter_element_get_type (), FilterElement)
-#define FILTER_ELEMENT_CLASS(klass)	GTK_CHECK_CLASS_CAST (klass, filter_element_get_type (), FilterElementClass)
-#define IS_FILTER_ELEMENT(obj)      GTK_CHECK_TYPE (obj, filter_element_get_type ())
+#define FILTER_TYPE_ELEMENT            (filter_element_get_type ())
+#define FILTER_ELEMENT(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), FILTER_TYPE_ELEMENT, FilterElement))
+#define FILTER_ELEMENT_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), FILTER_TYPE_ELEMENT, FilterElementClass))
+#define IS_FILTER_ELEMENT(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), FILTER_TYPE_ELEMENT))
+#define IS_FILTER_ELEMENT_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), FILTER_TYPE_ELEMENT))
+#define FILTER_ELEMENT_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS ((obj), FILTER_TYPE_ELEMENT, FilterElementClass))
 
-typedef struct _FilterElement	FilterElement;
-typedef struct _FilterElementClass	FilterElementClass;
+typedef struct _FilterElement FilterElement;
+typedef struct _FilterElementClass FilterElementClass;
 
 struct _FilterElement {
-	GtkObject parent;
-
+	GObject parent_object;
+	
 	char *name;
 	gpointer data;
 };
@@ -43,26 +49,26 @@ struct _FilterElement {
 struct _FilterPart;
 
 struct _FilterElementClass {
-	GtkObjectClass parent_class;
-
+	GObjectClass parent_class;
+	
 	/* virtual methods */
-	gboolean (*validate)(FilterElement *fe);
-	int (*eq)(FilterElement *fe, FilterElement *cm);
-
-	void (*xml_create)(FilterElement *, xmlNodePtr);
-	xmlNodePtr (*xml_encode)(FilterElement *);
-	int (*xml_decode)(FilterElement *, xmlNodePtr);
-
-	FilterElement *(*clone)(FilterElement *fe);
-
-	GtkWidget *(*get_widget)(FilterElement *);
-	void (*build_code)(FilterElement *, GString *, struct _FilterPart *ff);
-	void (*format_sexp)(FilterElement *, GString *);
-
+	gboolean (*validate) (FilterElement *fe);
+	int (*eq) (FilterElement *fe, FilterElement *cm);
+	
+	void (*xml_create) (FilterElement *, xmlNodePtr);
+	xmlNodePtr (*xml_encode) (FilterElement *);
+	int (*xml_decode) (FilterElement *, xmlNodePtr);
+	
+	FilterElement *(*clone) (FilterElement *fe);
+	
+	GtkWidget *(*get_widget) (FilterElement *);
+	void (*build_code) (FilterElement *, GString *, struct _FilterPart *ff);
+	void (*format_sexp) (FilterElement *, GString *);
+	
 	/* signals */
 };
 
-GtkType		filter_element_get_type	(void);
+GType		filter_element_get_type	(void);
 FilterElement	*filter_element_new	(void);
 
 FilterElement	*filter_element_new_type_name	(const char *type);
@@ -85,4 +91,3 @@ void		filter_element_build_code	(FilterElement *fe, GString *out, struct _Filter
 void		filter_element_format_sexp	(FilterElement *fe, GString *out);
 
 #endif /* ! _FILTER_ELEMENT_H */
-

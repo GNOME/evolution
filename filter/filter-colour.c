@@ -1,7 +1,9 @@
+/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- *  Copyright (C) 2000 Ximian Inc.
+ *  Copyright (C) 2000-2002 Ximian Inc.
  *
  *  Authors: Not Zed <notzed@lostzed.mmc.com.au>
+ *           Jeffrey Stedfast <fejj@ximian.com>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public
@@ -18,6 +20,7 @@
  * Boston, MA 02111-1307, USA.
  */
 
+
 #ifdef HAVE_CONFIG_H
 #include <config.h>
 #endif
@@ -30,92 +33,76 @@
 
 #define d(x)
 
-static int colour_eq(FilterElement *fe, FilterElement *cm);
-static void xml_create(FilterElement *fe, xmlNodePtr node);
-static xmlNodePtr xml_encode(FilterElement *fe);
-static int xml_decode(FilterElement *fe, xmlNodePtr node);
-static GtkWidget *get_widget(FilterElement *fe);
-static void build_code(FilterElement *fe, GString *out, struct _FilterPart *ff);
-static void format_sexp(FilterElement *, GString *);
+static int colour_eq (FilterElement *fe, FilterElement *cm);
+static void xml_create (FilterElement *fe, xmlNodePtr node);
+static xmlNodePtr xml_encode (FilterElement *fe);
+static int xml_decode (FilterElement *fe, xmlNodePtr node);
+static GtkWidget *get_widget (FilterElement *fe);
+static void build_code (FilterElement *fe, GString *out, struct _FilterPart *ff);
+static void format_sexp (FilterElement *, GString *);
 
-static void filter_colour_class_init	(FilterColourClass *class);
-static void filter_colour_init	(FilterColour *gspaper);
-static void filter_colour_finalise	(GtkObject *obj);
+static void filter_colour_class_init (FilterColourClass *klass);
+static void filter_colour_init (FilterColour *fc);
+static void filter_colour_finalise (GObject *obj);
 
-#define _PRIVATE(x) (((FilterColour *)(x))->priv)
-
-struct _FilterColourPrivate {
-};
 
 static FilterElementClass *parent_class;
 
-enum {
-	LAST_SIGNAL
-};
 
-static guint signals[LAST_SIGNAL] = { 0 };
-
-guint
+GType
 filter_colour_get_type (void)
 {
-	static guint type = 0;
+	static GType type = 0;
 	
 	if (!type) {
-		GtkTypeInfo type_info = {
-			"FilterColour",
-			sizeof(FilterColour),
-			sizeof(FilterColourClass),
-			(GtkClassInitFunc)filter_colour_class_init,
-			(GtkObjectInitFunc)filter_colour_init,
-			(GtkArgSetFunc)NULL,
-			(GtkArgGetFunc)NULL
+		static const GTypeInfo info = {
+			sizeof (FilterColourClass),
+			NULL, /* base_class_init */
+			NULL, /* base_class_finalize */
+			(GClassInitFunc) filter_colour_class_init,
+			NULL, /* class_finalize */
+			NULL, /* class_data */
+			sizeof (FilterColour),
+			0,    /* n_preallocs */
+			(GInstanceInitFunc) filter_colour_init,
 		};
 		
-		type = gtk_type_unique(filter_element_get_type (), &type_info);
+		type = g_type_register_static (FILTER_TYPE_ELEMENT, "FilterColour", &info, 0);
 	}
 	
 	return type;
 }
 
 static void
-filter_colour_class_init (FilterColourClass *class)
+filter_colour_class_init (FilterColourClass *klass)
 {
-	GtkObjectClass *object_class;
-	FilterElementClass *filter_element = (FilterElementClass *)class;
+	GObjectClass *object_class = G_OBJECT_CLASS (klass);
+	FilterElementClass *fe_class = FILTER_ELEMENT_CLASS (klass);
 	
-	object_class = (GtkObjectClass *)class;
-	parent_class = gtk_type_class(filter_element_get_type ());
-
+	parent_class = g_type_class_ref (FILTER_TYPE_ELEMENT);
+	
 	object_class->finalize = filter_colour_finalise;
-
+	
 	/* override methods */
-	filter_element->eq = colour_eq;
-	filter_element->xml_create = xml_create;
-	filter_element->xml_encode = xml_encode;
-	filter_element->xml_decode = xml_decode;
-	filter_element->get_widget = get_widget;
-	filter_element->build_code = build_code;
-	filter_element->format_sexp = format_sexp;
-
-	/* signals */
-
-	gtk_object_class_add_signals(object_class, signals, LAST_SIGNAL);
+	fe_class->eq = colour_eq;
+	fe_class->xml_create = xml_create;
+	fe_class->xml_encode = xml_encode;
+	fe_class->xml_decode = xml_decode;
+	fe_class->get_widget = get_widget;
+	fe_class->build_code = build_code;
+	fe_class->format_sexp = format_sexp;
 }
 
 static void
-filter_colour_init (FilterColour *o)
+filter_colour_init (FilterColour *fc)
 {
-	o->priv = g_malloc0(sizeof(*o->priv));
+	;
 }
 
 static void
-filter_colour_finalise(GtkObject *obj)
+filter_colour_finalise (GObject *obj)
 {
-	FilterColour *o = (FilterColour *)obj;
-
-	o = o;
-
-        ((GtkObjectClass *)(parent_class))->finalize(obj);
+        G_OBJECT_CLASS (parent_class)->finalize (obj);
 }
 
 /**
@@ -126,43 +113,42 @@ filter_colour_finalise(GtkObject *obj)
  * Return value: A new #FilterColour object.
  **/
 FilterColour *
-filter_colour_new(void)
+filter_colour_new (void)
 {
-	FilterColour *o = (FilterColour *)gtk_type_new(filter_colour_get_type ());
-	return o;
+	return (FilterColour *) g_object_new (FILTER_TYPE_COLOUR, NULL, NULL);
 }
 
 static int
-colour_eq(FilterElement *fe, FilterElement *cm)
+colour_eq (FilterElement *fe, FilterElement *cm)
 {
 	FilterColour *fc = (FilterColour *)fe, *cc = (FilterColour *)cm;
-
-        return ((FilterElementClass *)(parent_class))->eq(fe, cm)
+	
+        return FILTER_ELEMENT_CLASS (parent_class)->eq (fe, cm)
 		&& fc->r == cc->r
 		&& fc->g == cc->g
 		&& fc->b == cc->b
 		&& fc->a == cc->a;
 }
 
-static void xml_create(FilterElement *fe, xmlNodePtr node)
+static void
+xml_create (FilterElement *fe, xmlNodePtr node)
 {
-	/*FilterColour *fc = (FilterColour *)fe;*/
-
 	/* parent implementation */
-        ((FilterElementClass *)(parent_class))->xml_create(fe, node);
+        FILTER_ELEMENT_CLASS (parent_class)->xml_create (fe, node);
 }
 
-static xmlNodePtr xml_encode(FilterElement *fe)
+static xmlNodePtr
+xml_encode (FilterElement *fe)
 {
 	xmlNodePtr value;
 	FilterColour *fc = (FilterColour *)fe;
 	char hex[16];
-
+	
 	d(printf("Encoding colour as xml\n"));
 	value = xmlNewNode(NULL, "value");
 	xmlSetProp(value, "name", fe->name);
 	xmlSetProp(value, "type", "colour");
-
+	
 	sprintf(hex, "%04x", fc->r);
 	xmlSetProp(value, "red", hex);
 	sprintf(hex, "%04x", fc->g);
@@ -171,16 +157,16 @@ static xmlNodePtr xml_encode(FilterElement *fe)
 	xmlSetProp(value, "blue", hex);
 	sprintf(hex, "%04x", fc->a);
 	xmlSetProp(value, "alpha", hex);
-
+	
 	return value;
 }
 
 static guint16
-get_value(xmlNodePtr node, char *name)
+get_value (xmlNodePtr node, char *name)
 {
 	unsigned int ret;
 	char *value;
-
+	
 	value = xmlGetProp(node, name);
 	sscanf(value, "%04x", &ret);
 	xmlFree(value);
@@ -188,21 +174,23 @@ get_value(xmlNodePtr node, char *name)
 }
 
 
-static int xml_decode(FilterElement *fe, xmlNodePtr node)
+static int
+xml_decode (FilterElement *fe, xmlNodePtr node)
 {
 	FilterColour *fc = (FilterColour *)fe;
-
+	
 	xmlFree (fe->name);
 	fe->name = xmlGetProp(node, "name");
 	fc->r = get_value(node, "red");
 	fc->g = get_value(node, "green");
 	fc->b = get_value(node, "blue");
 	fc->a = get_value(node, "alpha");
-
+	
 	return 0;
 }
 
-static void set_colour(GnomeColorPicker *cp, guint r, guint g, guint b, guint a, FilterColour *fc)
+static void
+set_colour (GnomeColorPicker *cp, guint r, guint g, guint b, guint a, FilterColour *fc)
 {
 	fc->r = r;
 	fc->g = g;
@@ -210,29 +198,33 @@ static void set_colour(GnomeColorPicker *cp, guint r, guint g, guint b, guint a,
 	fc->a = a;
 }
 
-static GtkWidget *get_widget(FilterElement *fe)
+static GtkWidget *
+get_widget (FilterElement *fe)
 {
 	FilterColour *fc = (FilterColour *)fe;
 	GnomeColorPicker *cp;
-
+	
 	cp = (GnomeColorPicker *)gnome_color_picker_new();
 	gnome_color_picker_set_i16(cp, fc->r, fc->g, fc->b, fc->a);
 	gtk_widget_show((GtkWidget *)cp);
-	gtk_signal_connect((GtkObject *)cp, "color_set", set_colour, fe);
-	return (GtkWidget *)cp;
+	g_signal_connect (cp, "color_set", set_colour, fe);
+	
+	return (GtkWidget *) cp;
 }
 
-static void build_code(FilterElement *fe, GString *out, struct _FilterPart *ff)
+static void
+build_code (FilterElement *fe, GString *out, struct _FilterPart *ff)
 {
 	return;
 }
 
-static void format_sexp(FilterElement *fe, GString *out)
+static void
+format_sexp (FilterElement *fe, GString *out)
 {
-	char *str;
 	FilterColour *fc = (FilterColour *)fe;
-
-	str =g_strdup_printf("rgb:%04x/%04x/%04x", fc->r, fc->g, fc->b);
-	e_sexp_encode_string(out, str);
-	g_free(str);
+	char *str;
+	
+	str = g_strdup_printf ("rgb:%04x/%04x/%04x", fc->r, fc->g, fc->b);
+	e_sexp_encode_string (out, str);
+	g_free (str);
 }
