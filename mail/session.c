@@ -1,5 +1,5 @@
 /*
- * session.c: handles the session information and resource manipulation
+ * mail-session.c: handles the session information and resource manipulation
  *
  * Author:
  *   Miguel de Icaza (miguel@gnu.org)
@@ -9,6 +9,7 @@
 #include <config.h>
 #include <gnome.h>
 #include "mail.h"
+#include "mail-session.h"
 #include "mail-threads.h"
 
 CamelSession *session;
@@ -26,8 +27,8 @@ request_callback (gchar *string, gpointer data)
 }
 
 char *
-mail_request_dialog (const char *prompt, gboolean secret, const char *key,
-		     gboolean async)
+mail_session_request_dialog (const char *prompt, gboolean secret, const char *key,
+			     gboolean async)
 {
 	GtkWidget *dialog;
 
@@ -90,7 +91,7 @@ auth_callback (CamelAuthCallbackMode mode, char *data, gboolean secret,
 		return NULL;
 	}
 
-	ans = mail_request_dialog (data, secret, key, TRUE);
+	ans = mail_session_request_dialog (data, secret, key, TRUE);
 	g_free (key);
 
 	if (!ans) {
@@ -187,7 +188,7 @@ remove_callback (guint handle)
 /* ******************** */
 
 void
-session_init (void)
+mail_session_init (void)
 {
 	char *camel_dir;
 
@@ -208,7 +209,8 @@ free_entry (gpointer key, gpointer value, gpointer user_data)
 }
 
 void
-forget_passwords (BonoboUIComponent *uih, void *user_data, const char *path)
+mail_session_forget_passwords (BonoboUIComponent *uih, void *user_data,
+			       const char *path)
 {
 	g_hash_table_foreach_remove (passwords, free_entry, NULL);
 }

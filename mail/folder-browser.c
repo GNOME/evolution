@@ -13,6 +13,7 @@
 #include "e-util/e-sexp.h"
 #include "folder-browser.h"
 #include "mail.h"
+#include "mail-callbacks.h"
 #include "mail-tools.h"
 #include "message-list.h"
 #include "mail-threads.h"

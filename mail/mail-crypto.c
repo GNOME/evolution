@@ -1,7 +1,7 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 
 /*
- * mail-crypto.h: OpenPGP en/decryption & signature code
+ * mail-crypto.c: OpenPGP en/decryption & signature code
  *
  * FIXME FIXME FIXME: This should be in its own library or component
  */
@@ -37,10 +37,9 @@
 #ifdef PGP_PROGRAM
 #include <stdlib.h>
 #include <string.h>
-#include <glib.h>
-#include <gnome.h>
 
-#include "mail.h"
+#include "mail-crypto.h"
+#include "mail-session.h"
 
 #include <dirent.h>
 #include <errno.h>
@@ -341,7 +340,7 @@ mail_crypto_openpgp_decrypt (const char *ciphertext, CamelException *ex)
 	int passwd_fds[2];
 	char passwd_fd[32];
 
-	passphrase = mail_request_dialog (
+	passphrase = mail_session_request_dialog (
 		_("Please enter your PGP/GPG passphrase."),
 		TRUE, "pgp", FALSE);
 	if (!passphrase) {
@@ -437,7 +436,7 @@ mail_crypto_openpgp_encrypt (const char *plaintext,
 	
 	if (sign) {
 		/* we only need the passphrase if we plan to sign */
-		passphrase = mail_request_dialog (
+		passphrase = mail_session_request_dialog (
 			_("Please enter your PGP/GPG passphrase."),
 			TRUE, "pgp", FALSE);
 		if (!passphrase) {
@@ -601,8 +600,8 @@ mail_crypto_openpgp_clearsign (const char *plaintext, const char *userid,
 	return NULL;
 #endif
 
-	passphrase = mail_request_dialog (_("Please enter your PGP/GPG passphrase."),
-					  TRUE, "pgp", FALSE);
+	passphrase = mail_session_request_dialog (_("Please enter your PGP/GPG passphrase."),
+						  TRUE, "pgp", FALSE);
 	
 	if (!passphrase) {
 		camel_exception_set (ex, CAMEL_EXCEPTION_SYSTEM,

@@ -31,6 +31,7 @@
 #include <libgnomeprint/gnome-print-master.h>
 #include <libgnomeprint/gnome-print-master-preview.h>
 #include "mail.h"
+#include "mail-callbacks.h"
 #include "mail-config.h"
 #include "mail-threads.h"
 #include "mail-tools.h"

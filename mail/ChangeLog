@@ -1,3 +1,39 @@
+2000-11-03  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* Makefile.am: Added new header files.
+	
+	* component-factory.c (owner_set_cb):
+	s/session_init/mail_session_init
+
+	* session.c: Renamed public functions to mail_session_*.
+	FIXME: Rename session.c to mail-session.c
+
+	* folder-browser-factory.c: #include "mail-callbacks.h", #include
+	"mail-session.h" and replace forget_passwords with
+	mail_session_forget_passwords
+
+	* mail.h: Move session prototypes to mail-session.h, Move
+	mail-crypto prototypes to mail-crypto.h, Move mail-callback
+	prototypes to mail-callbacks.h
+
+	* mail-session.h: New header file containing public prototypes
+	for session.c
+
+	* mail-format.c: #include "mail-crypto.h"
+
+	* mail-view.c: 
+	* folder-browser.c: #include "mail-callbacks.h"
+
+	* mail-crypto.h: New header file containing public prototypes
+	for mail-crypto.c
+
+	* mail-callbacks.h: New header file containing public prototypes
+	for mail-callbacks.c
+
+	* message-list.c (message_list_get_layout): Set useful defaults.
+	(message_list_setup_etable): Don't set the Outbox defaults on a
+	folder just because it doesn't have a corresponding saved file.
+
 2000-11-03  Dan Winship  <danw@helixcode.com>
 
 	* mail-config-gui.c (service_page_item_new): url_flags are now on
@@ -54,19 +90,20 @@
 	list is sorted in mailbox order, not reverse mailbox order.
 
 	* message-list.c (free_tree_ids): Fix a merge foo.
-	(remove_node_diff): Removed unused row argument.  Fixed callers/prototype.
+	(remove_node_diff): Removed unused row argument.  Fixed
+	callers/prototype.
 	(clear_tree): pre_change on the removal of the root node.
 	(build_flat): Only perform pre_change if we are rebuilding the
 	whole lot.  For incremental change let etable do its thing.
 	(build_tree): Likewise for building the tree view.  If making
 	incremental updates, do them as we build it.
-	(vfolder_subject): 
-	(vfolder_sender): 
-	(vfolder_recipient): 
-	(filter_subject): 
-	(filter_sender): 
-	(filter_recipient): 
-	(filter_mlist): 
+	(vfolder_subject):
+	(vfolder_sender):
+	(vfolder_recipient):
+	(filter_subject):
+	(filter_sender):
+	(filter_recipient):
+	(filter_mlist):
 	(on_right_click): Moved to folder-browser.c, where they belong.
 	(message_list_init): Dont connect to right_click anymore.
 	(message_list_toggle_threads): Moved to folder-browser.c, renamed.

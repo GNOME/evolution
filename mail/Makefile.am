@@ -50,11 +50,13 @@ evolution_mail_SOURCES =		\
 	mail-autofilter.c		\
 	mail-autofilter.h		\
 	mail-callbacks.c		\
+	mail-callbacks.h		\
 	mail-config.c			\
 	mail-config.h			\
 	mail-config-gui.c		\
 	mail-config-gui.h		\
 	mail-crypto.c			\
+	mail-crypto.h			\
 	mail-display.c			\
 	mail-display.h			\
 	mail-format.c			\
@@ -85,6 +87,7 @@ evolution_mail_SOURCES =		\
 	message-thread.c		\
 	message-thread.h		\
 	session.c			\
+	mail-session.h			\
 	subscribe-dialog.c		\
 	subscribe-dialog.h		\
 	mail.h

@@ -25,6 +25,7 @@
 #include "mail-ops.h"
 #include "camel/camel.h"
 #include "mail-display.h"
+#include "mail-callbacks.h"
 
 typedef struct mail_view_data_s {
 	CamelFolder *source;

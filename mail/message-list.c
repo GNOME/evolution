@@ -359,8 +359,8 @@ message_list_drag_data_get (ETable             *table,
 	char *url;
 	
 	switch (info) {
-	case DND_TARGET_TYPE_URI_LIST:
-		dirname = mkdtemp (dirname);
+	case DND_TARGET_LIST_TYPE_URI:
+		mktemp (dirname);
 		filename = g_strdup_printf ("%s.eml", info->subject);
 		url = g_strdup_printf ("file:%s", dirname);
 		
@@ -382,7 +382,6 @@ message_list_drag_data_get (ETable             *table,
 	default:
 		break;
 	}
-	e_table_drag_source_set (table, GDK_BUTTON1_MASK, drag_types, num_drag_types, GDK_ACTION_MOVE);
 }
 #endif
 
@@ -904,7 +903,7 @@ save_header_state(MessageList *ml)
 static char *
 message_list_get_layout (MessageList *message_list)
 {
-	/* Message status, From, Subject, Sent Date */
+	/* Default: Status, Attachments, Priority, From, Subject, Date */
 	return g_strdup ("<ETableSpecification cursor-mode=\"line\" draw-grid=\"true\">"
 			 "<ETableColumn model_col= \"0\" pixbuf=\"status\" expansion=\"0.0\" minimum_width=\"18\" resizable=\"false\" cell=\"render_message_status\" compare=\"integer\" sortable=\"false\"/>"
 			 "<ETableColumn model_col= \"1\" pixbuf=\"flagged\" expansion=\"0.0\" minimum_width=\"20\" resizable=\"false\" cell=\"render_flagged\" compare=\"integer\"/>"
@@ -916,8 +915,8 @@ message_list_get_layout (MessageList *message_list)
 			 "<ETableColumn model_col= \"7\" _title=\"Received\" expansion=\"20.0\" minimum_width=\"32\" resizable=\"true\" cell=\"render_date\" compare=\"integer\"/>"
 			 "<ETableColumn model_col= \"8\" _title=\"To\" expansion=\"24.0\" minimum_width=\"32\" resizable=\"true\" cell=\"render_text\" compare=\"address_compare\"/>"
 			 "<ETableColumn model_col= \"9\" _title=\"Size\" expansion=\"6.0\" minimum_width=\"32\" resizable=\"true\" cell=\"render_text\" compare=\"string\"/>"
-			 "<ETableState> <column source=\"0\"/> <column source=\"1\"/> <column source=\"4\"/>"
-			 "<column source=\"5\"/> <column source=\"6\"/>"
+			 "<ETableState> <column source=\"0\"/> <column source=\"3\"/> <column source=\"1\"/>"
+			 "<column source=\"4\"/> <column source=\"5\"/> <column source=\"6\"/>"
 			 "<grouping> </grouping> </ETableState>"
 			 "</ETableSpecification>");
 }
@@ -925,32 +924,32 @@ message_list_get_layout (MessageList *message_list)
 static void
 message_list_setup_etable(MessageList *message_list)
 {
-	char *state = "<ETableState>"
-		"<column source=\"0\"/> <column source=\"1\"/> "
-		"<column source=\"8\"/> <column source=\"5\"/> "
-		"<column source=\"6\"/> <grouping> </grouping> </ETableState>";
-
 	/* build the spec based on the folder, and possibly from a saved file */
 	/* otherwise, leave default */
 	if (message_list->folder) {
-		char *name;
 		char *path;
+		char *name;
 		struct stat st;
 		
-		path = mail_config_folder_to_cachename(message_list->folder, "et-header-");
-		if (path && stat(path, &st) == 0 && st.st_size > 0 && S_ISREG(st.st_mode)) {
-			e_table_scrolled_load_state(E_TABLE_SCROLLED (message_list->etable), path);
-		} else {
-			/* I wonder if there's a better way to do this ...? */
-			name = camel_service_get_name(CAMEL_SERVICE(message_list->folder->parent_store), TRUE);
-			printf ("folder name is '%s'\n", name);
-			if (strstr (name, "/Drafts") != NULL
-			    || strstr (name, "/Outbox") != NULL
-			    || strstr (name, "/Sent") != NULL) {
-				e_table_scrolled_set_state(E_TABLE_SCROLLED(message_list->etable), state);
-			}
+		name = camel_service_get_name (CAMEL_SERVICE (message_list->folder->parent_store), TRUE);
+		printf ("folder name is '%s'\n", name);
+		path = mail_config_folder_to_cachename (message_list->folder, "et-header-");
+		
+		if (path && stat (path, &st) == 0 && st.st_size > 0 && S_ISREG (st.st_mode)) {
+			/* build based on saved file */
+			e_table_scrolled_load_state (E_TABLE_SCROLLED (message_list->etable), path);
+		} else if (strstr (name, "/Drafts") || strstr (name, "/Outbox") || strstr (name, "/Sent")) {
+			/* these folders have special defaults */
+			char *state = "<ETableState>"
+				"<column source=\"0\"/> <column source=\"1\"/> "
+				"<column source=\"8\"/> <column source=\"5\"/> "
+				"<column source=\"6\"/> <grouping> </grouping> </ETableState>";
+			
+			e_table_scrolled_set_state (E_TABLE_SCROLLED (message_list->etable), state);
 		}
+		
 		g_free (path);
+		g_free (name);
 	}
 }
 

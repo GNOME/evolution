@@ -24,9 +24,11 @@
 
 #include "folder-browser.h"
 #include "mail.h"
+#include "mail-callbacks.h"
 #include "shell/Evolution.h"
 #include "mail-config.h"
 #include "mail-ops.h"
+#include "mail-session.h"
 
 /* The FolderBrowser BonoboControls we have.  */
 static GList *control_list = NULL;
@@ -47,7 +49,7 @@ BonoboUIVerb verbs [] = {
 	BONOBO_UI_UNSAFE_VERB ("SetVFolder", vfolder_edit_vfolders),
 	BONOBO_UI_UNSAFE_VERB ("SetMailConfig", providers_config),
 	BONOBO_UI_UNSAFE_VERB ("SetSubscribe", manage_subscriptions),
-	BONOBO_UI_UNSAFE_VERB ("SetForgetPwd", forget_passwords),
+	BONOBO_UI_UNSAFE_VERB ("SetForgetPwd", mail_session_forget_passwords),
 	
 	/* Message Menu */
 	BONOBO_UI_UNSAFE_VERB ("MessageOpenNewWnd", view_message),

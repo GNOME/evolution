@@ -24,9 +24,10 @@
  */
 
 #include <config.h>
+#include "mail.h"
 #include "mail-tools.h"
 #include "mail-display.h"
-#include "mail.h"
+#include "mail-crypto.h"
 #include "shell/e-setup.h"
 #include "e-util/e-html-utils.h"
 #include <camel/camel-mime-utils.h>
