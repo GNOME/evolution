@@ -3,6 +3,9 @@
 	[Automake 1.5 fixes pointed out by Richard Boulton
 	<richard@tartarus.org>, as per #9258.]
 
+	* gui/component/select-names/Makefile.am: Set CLEANFILES directly
+	instead of using `+='.
+
 	* backend/pas/Makefile.am: Rename `LDAP_BACKEND_SOURCES' to
 	`LDAP_BACKEND_FILES'.
 

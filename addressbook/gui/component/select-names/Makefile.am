@@ -79,7 +79,7 @@ EXTRA_DIST = 			\
 	$(IDLS)
 
 BUILT_SOURCES = $(IDL_GENERATED)
-CLEANFILES   += $(BUILT_SOURCES)
+CLEANFILES = $(BUILT_SOURCES)
 
 dist-hook:
 	cd $(distdir); rm -f $(BUILT_SOURCES)
