@@ -30,12 +30,18 @@ extern "C" {
 #pragma }
 #endif /* __cplusplus */
 
-#include <stdio.h>
 #include <glib.h>
 
+#include <stdio.h>
+#include <sys/types.h>
+
 typedef struct {
-	int fd, level;
+	char *filename;
 	GHashTable *uids;
+	unsigned int level;
+	size_t expired;
+	size_t size;
+	int fd;
 } CamelUIDCache;
 
 CamelUIDCache *camel_uid_cache_new (const char *filename);

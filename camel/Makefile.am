@@ -49,6 +49,7 @@ libcamel_la_SOURCES = 				\
 	camel-http-stream.c			\
 	camel-index.c				\
 	camel-internet-address.c		\
+	camel-io.c				\
 	camel-lock.c				\
 	camel-lock-client.c			\
 	camel-medium.c				\
@@ -150,6 +151,7 @@ libcamelinclude_HEADERS =			\
 	camel-http-stream.h			\
 	camel-index.h				\
 	camel-internet-address.h		\
+	camel-io.h				\
 	camel-i18n.h				\
 	camel-lock.h				\
 	camel-lock-client.h			\

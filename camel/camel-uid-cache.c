@@ -32,6 +32,8 @@
 #include <sys/stat.h>
 #include <unistd.h>
 
+#include "camel-io.h"
+#include "camel-store.h"      /* for camel_mkdir_hier */
 #include "camel-uid-cache.h"
 
 struct _uid_state {
@@ -39,33 +41,6 @@ struct _uid_state {
 	gboolean save;
 };
 
-static void free_uid (gpointer key, gpointer value, gpointer data);
-static void maybe_write_uid (gpointer key, gpointer value, gpointer data);
-
-
-static int
-mkdir_heir (const char *path, mode_t mode)
-{
-	char *copy, *p;
-	
-	p = copy = g_strdup (path);
-	do {
-		p = strchr (p + 1, '/');
-		if (p)
-			*p = '\0';
-		if (access (copy, F_OK) == -1) {
-			if (mkdir (copy, mode) == -1) {
-				g_free (copy);
-				return -1;
-			}
-		}
-		if (p)
-			*p = '/';
-	} while (p);
-	
-	g_free (copy);
-	return 0;
-}
 
 /**
  * camel_uid_cache_new:
@@ -86,30 +61,40 @@ camel_uid_cache_new (const char *filename)
 	int fd, i;
 	
 	dirname = g_path_get_dirname (filename);
-	mkdir_heir (dirname, 0700);
+	if (camel_mkdir_hier (dirname, 0777) == -1) {
+		g_free (dirname);
+		return NULL;
+	}
+	
 	g_free (dirname);
 	
-	fd = open (filename, O_RDWR | O_CREAT, 0700);
-	if (fd == -1)
+	if ((fd = open (filename, O_RDONLY | O_CREAT, 0666)) == -1)
 		return NULL;
 	
-	if (fstat (fd, &st) != 0) {
+	if (fstat (fd, &st) == -1) {
 		close (fd);
 		return NULL;
 	}
+	
 	buf = g_malloc (st.st_size + 1);
 	
-	if (read (fd, buf, st.st_size) == -1) {
+	if (st.st_size > 0 && camel_read (fd, buf, st.st_size) == -1) {
 		close (fd);
 		g_free (buf);
 		return NULL;
 	}
+	
 	buf[st.st_size] = '\0';
 	
+	close (fd);
+	
 	cache = g_new (CamelUIDCache, 1);
-	cache->fd = fd;
-	cache->level = 1;
 	cache->uids = g_hash_table_new (g_str_hash, g_str_equal);
+	cache->filename = g_strdup (filename);
+	cache->level = 1;
+	cache->expired = 0;
+	cache->size = 0;
+	cache->fd = -1;
 	
 	uids = g_strsplit (buf, "\n", 0);
 	g_free (buf);
@@ -122,10 +107,36 @@ camel_uid_cache_new (const char *filename)
 		
 		g_hash_table_insert (cache->uids, uids[i], state);
 	}
+	
 	g_free (uids);
 	
 	return cache;
 }
+
+
+static void
+maybe_write_uid (gpointer key, gpointer value, gpointer data)
+{
+	CamelUIDCache *cache = data;
+	struct _uid_state *state = value;
+	
+	if (cache->fd == -1)
+		return;
+	
+	if (state && state->level == cache->level && state->save) {
+		if (camel_write (cache->fd, key, strlen (key)) == -1 || 
+		    camel_write (cache->fd, "\n", 1) == -1) {
+			cache->fd = -1;
+		} else {
+			cache->size += strlen (key) + 1;
+		}
+	} else {
+		/* keep track of how much space the expired uids would
+		 * have taken up in the cache */
+		cache->expired += strlen (key) + 1;
+	}
+}
+
 
 /**
  * camel_uid_cache_save:
@@ -138,22 +149,87 @@ camel_uid_cache_new (const char *filename)
 gboolean
 camel_uid_cache_save (CamelUIDCache *cache)
 {
-	if (lseek (cache->fd, 0, SEEK_SET) != 0)
+	struct stat st;
+	char *filename;
+	int errnosav;
+	int fd;
+	
+	filename = g_strdup_printf ("%s~", cache->filename);
+	if ((fd = open (filename, O_WRONLY | O_CREAT | O_EXCL, 0666)) == -1) {
+		g_free (filename);
 		return FALSE;
+	}
+	
+	cache->fd = fd;
+	cache->size = 0;
+	cache->expired = 0;
 	g_hash_table_foreach (cache->uids, maybe_write_uid, cache);
-	return ftruncate (cache->fd, lseek (cache->fd, 0, SEEK_CUR)) == 0;
+	
+	if (cache->fd == -1)
+		goto exception;
+	
+ overwrite:
+	if (fsync (fd) == -1)
+		goto exception;
+	
+	close (fd);
+	fd = -1;
+	
+	if (rename (filename, cache->filename) == -1)
+		goto exception;
+	
+	g_free (filename);
+	
+	return TRUE;
+	
+ exception:
+	
+	errnosav = errno;
+	
+#ifdef ENABLE_SPASMOLYTIC
+	if (fd != -1) {
+		/**
+		 * If our new cache size is larger than the old cache,
+		 * even if we haven't finished writing it out
+		 * successfully, we should still attempt to replace
+		 * the old cache with the new cache because it will at
+		 * least avoid re-downloading a few extra messages
+		 * than if we just kept the old cache.
+		 *
+		 * Similarly, even if the new cache size is smaller
+		 * than the old cache size, but we've expired enough
+		 * uids to make up for the difference in size (or
+		 * more), then we should replace the old cache with
+		 * the new cache as well.
+		 **/
+		
+		if (stat (cache->filename, &st) == 0 &&
+		    (cache->size > st.st_size || cache->size + cache->expired > st.st_size)) {
+			if (ftruncate (fd, (off_t) cache->size) != -1) {
+				cache->size = 0;
+				cache->expired = 0;
+				goto overwrite;
+			}
+		}
+		
+		close (fd);
+	}
+#endif
+	
+	unlink (filename);
+	g_free (filename);
+	
+	errno = errnosav;
+	
+	return FALSE;
 }
 
+
 static void
-maybe_write_uid (gpointer key, gpointer value, gpointer data)
+free_uid (gpointer key, gpointer value, gpointer data)
 {
-	CamelUIDCache *cache = data;
-	struct _uid_state *state = value;
-	
-	if (state && state->level == cache->level && state->save) {
-		write (cache->fd, key, strlen (key));
-		write (cache->fd, "\n", 1);
-	}
+	g_free (key);
+	g_free (value);
 }
 
 
@@ -168,15 +244,8 @@ camel_uid_cache_destroy (CamelUIDCache *cache)
 {
 	g_hash_table_foreach (cache->uids, free_uid, NULL);
 	g_hash_table_destroy (cache->uids);
-	close (cache->fd);
+	g_free (cache->filename);
 	g_free (cache);
-}
-
-static void
-free_uid (gpointer key, gpointer value, gpointer data)
-{
-	g_free (key);
-	g_free (value);
 }
 
 

@@ -35,6 +35,10 @@
 #include "camel-operation.h"
 
 
+#ifndef MAX
+#define MAX(a,b) ((a) > (b) ? (a) : (b))
+#endif
+
 /* FIXME: should we trade out select() for a poll() instead? */
 
 ssize_t

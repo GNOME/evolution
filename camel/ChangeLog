@@ -1,3 +1,23 @@
+2003-06-04  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-uid-cache.c (camel_uid_cache_new): Create the directory
+	with mode 0777 and the cache file itself with mode 0666. Let the
+	user's umask filter the permissions. Instead of saving the fd on
+	the Cache object, instead save the filename. Use camel_read()
+	instead of expecting read() to just always work without getting an
+	EINTR/etc.
+	(maybe_write_uid): Don't do anything if cache->fd == -1, this
+	means an error has occured in a previous callback. Replace the 2
+	calls to write() with camel_write() and check their return
+	values. If either of them fails, set cache->fd to -1 (GHashTable
+	doesn't give us a way to abort foreach'ing thru the table).
+	(camel_uid_cache_save): Save to a temp file instead of overwriting
+	the original. Do proper error checking, etc. Also added some
+	smarts about whether to try and overwrite the old cache even if we
+	haven't successfully saved all the uids in the cache.
+	(camel_uid_cache_destroy): Free the cache->filename, no longer
+	need to close (cache->fd).
+
 2003-06-11  Larry Ewing  <lewing@ximian.com>
 
 	* camel-text-index.c (text_index_normalise): use g_utf8_strdown properly.
