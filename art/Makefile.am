@@ -36,6 +36,9 @@ images_DATA = \
 	outbox-16.png 			\
 	outbox-full-16.png 		\
 	pattern.png			\
+   pgp-signature-bad.png \
+   pgp-signature-nokey.png \
+   pgp-signature-ok.png \
 	print.xpm			\
 	print-preview.xpm		\
 	rdf.png				\
