@@ -1,3 +1,8 @@
+2001-08-09  Christopher James Lahey  <clahey@ximian.com>
+
+	* gui/widgets/e-addressbook-view.c (SPEC): Upped the minimum width
+	on all addressbook columns to 75.  Fixes Ximian bug #2773.
+
 2001-08-08  Chris Toshok  <toshok@ximian.com>
 
 	* gui/contact-editor/e-contact-quick-add.c (ce_have_book): mark
