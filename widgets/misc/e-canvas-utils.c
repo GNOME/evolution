@@ -35,6 +35,34 @@ e_canvas_item_move_absolute (GnomeCanvasItem *item, double dx, double dy)
 	gnome_canvas_item_affine_absolute (item, translate);
 }
 
+static double
+compute_offset(double top, double bottom, double page_top, double page_bottom, double min, double max)
+{
+	double size = bottom - top;
+	double offset = 0;
+
+	if (top <= page_top && bottom >= page_bottom)
+		return CLAMP(0, min - top, max - top);
+
+	if (bottom > page_bottom)
+		offset = (bottom - page_bottom);
+	if (top < page_top + offset)
+		offset = (top - page_top);
+
+	if (top <= page_top + offset && bottom >= page_bottom + offset)
+		return CLAMP(offset, min - top, max - top);
+
+	if (top < page_top + offset + size * 1.5)
+		offset = top - (page_top + size * 1.5);
+	if (bottom > page_bottom + offset - size * 1.5)
+		offset = bottom - (page_bottom - size * 1.5);
+	if (top < page_top + offset + size * 1.5)
+		offset = top - ((page_top + page_bottom - (bottom - top)) / 2);
+
+	return CLAMP(offset, min - top, max - top);
+}
+
+
 void
 e_canvas_item_show_area (GnomeCanvasItem *item, double x1, double y1, double x2, double y2)
 {
@@ -48,20 +76,12 @@ e_canvas_item_show_area (GnomeCanvasItem *item, double x1, double y1, double x2,
 	gnome_canvas_item_i2w(item, &x2, &y2);
 
 	h = gtk_layout_get_hadjustment(GTK_LAYOUT(item->canvas));
-	v = gtk_layout_get_vadjustment(GTK_LAYOUT(item->canvas));
-
-	if (x2 > h->value + h->page_size)
-		dx = (x2 - (h->value + h->page_size));
-	if (y2 > v->value + v->page_size)
-		dy = (y2 - (v->value + v->page_size));
-
-	if (x1 < h->value + dx)
-		dx = (x1 - h->value);
-	if (y1 < v->value + dy)
-		dy = (y1 - v->value);
-
+	dx = compute_offset(x1, x2, h->value, h->value + h->page_size, 0, h->upper - h->page_size);
 	if (dx)
 		gtk_adjustment_set_value(h, h->value + dx);
+
+	v = gtk_layout_get_vadjustment(GTK_LAYOUT(item->canvas));
+	dy = compute_offset(y1, y2, v->value, v->value + v->page_size, 0, v->upper - v->page_size);
 	if (dy)
 		gtk_adjustment_set_value(v, v->value + dy);
 }
