@@ -1,5 +1,10 @@
 2001-07-24  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* mail-ops.c (add_vtrash_info): When dumping the CamelURL to a
+	string, hide all the params.
+
+2001-07-24  Jeffrey Stedfast  <fejj@ximian.com>
+
 	* mail-callbacks.c (guess_me): Do a case-insensitive comparison.
 	(mail_generate_reply): Only resort to the source account's
 	identity if we can't find out which identity to use based on the

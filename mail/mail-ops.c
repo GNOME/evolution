@@ -1019,11 +1019,11 @@ get_folderinfo_desc (struct _mail_msg *mm, int done)
 }
 
 static void
-add_vtrash_info (CamelFolderInfo *info)
+add_vtrash_info (CamelStore *store, CamelFolderInfo *info)
 {
 	CamelFolderInfo *fi, *vtrash;
+	char *uri, *path;
 	CamelURL *url;
-	char *uri;
 	
 	g_return_if_fail (info != NULL);
 	
@@ -1034,9 +1034,9 @@ add_vtrash_info (CamelFolderInfo *info)
 	
 	/* create our vTrash URL */
 	url = camel_url_new (info->url, NULL);
-	g_free (url->path);
-	url->path = g_strdup_printf ("/%s", CAMEL_VTRASH_NAME);
-	uri = camel_url_to_string (url, 0);
+	path = g_strdup_printf ("/%s", CAMEL_VTRASH_NAME);
+	camel_url_set_path (url, path);
+	uri = camel_url_to_string (url, CAMEL_URL_HIDE_ALL);
 	camel_url_free (url);
 	
 	if (fi->sibling) {
@@ -1065,15 +1065,15 @@ get_folderinfo_get (struct _mail_msg *mm)
 {
 	struct _get_folderinfo_msg *m = (struct _get_folderinfo_msg *)mm;
 	guint32 flags = CAMEL_STORE_FOLDER_INFO_RECURSIVE;
-
+	
 	if (camel_store_supports_subscriptions (m->store))
 		flags |= CAMEL_STORE_FOLDER_INFO_SUBSCRIBED;
-
-	camel_operation_register(mm->cancel);
+	
+	camel_operation_register (mm->cancel);
 	m->info = camel_store_get_folder_info (m->store, NULL, flags, &mm->ex);
 	if (m->info && m->info->url)
-		add_vtrash_info (m->info);
-	camel_operation_unregister(mm->cancel);
+		add_vtrash_info (m->store, m->info);
+	camel_operation_unregister (mm->cancel);
 }
 
 static void
