@@ -18,9 +18,6 @@ AC_CACHE_VAL(gcc_cv_decl_needed_$1,
 #ifdef HAVE_UNISTD_H
 #include <unistd.h>
 #endif
-#ifdef HAVE_DIRENT_H
-#include <dirent.h>
-#endif
 $2],
 [char *(*pfn) = (char *(*)) $1],
 eval "gcc_cv_decl_needed_$1=no", eval "gcc_cv_decl_needed_$1=yes")])

@@ -1,3 +1,9 @@
+1999-01-05  Raja R Harinath  <harinath@cs.umn.edu>
+
+	* gnome-support.m4: Include dirent.h before checking whether
+	`scandir' needs to be declared.
+	* need-declaration.m4: Revert unlogged change.
+
 1998-12-22  Jeff Garzik  <jgarzik@pobox.com>
 
 	* gnome.m4:  Added and exported GNOME_APPLET_LIBS.
