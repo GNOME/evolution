@@ -1,5 +1,12 @@
 2001-05-04  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-shell-offline-handler.c
+	(e_shell_offline_handler_put_components_offline): Only display the
+	dialog if there are active connections.  [It was displaying it all
+	the time before just for testing purposes.]
+
+2001-05-04  Ettore Perazzoli  <ettore@ximian.com>
+
 	* evolution-storage.c (evolution_storage_new_folder): Ooops.  The
 	`corba_folder' is needed after returning; don't free it.
 

@@ -801,9 +801,6 @@ e_shell_offline_handler_put_components_offline (EShellOfflineHandler *offline_ha
 		return;
 	}
 
-	pop_up_confirmation_dialog (offline_handler);
-	return;
-
 	if (priv->num_total_connections == 0 && priv->parent_shell_view != NULL)
 		pop_up_confirmation_dialog (offline_handler);
 	else
