@@ -1,8 +1,14 @@
 2001-10-27  Christopher James Lahey  <clahey@ximian.com>
 
+	* backend/ebook/e-destination.c (name_and_email_simple_query_cb,
+	nickname_simple_query_cb): Set book_uri when cardification occurs.
+
+2001-10-27  Christopher James Lahey  <clahey@ximian.com>
+
 	* gui/component/select-names/e-select-names.c
 	(e_select_names_add_section): Turned off use_ellipsis (it breaks
-	emulate_label_resize) and on emulate_label_resize.
+	emulate_label_resize) and on emulate_label_resize.  Fixes Ximian
+	bug #13693.
 
 2001-10-27  Jon Trowbridge  <trow@ximian.com>
 

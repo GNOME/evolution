@@ -67,20 +67,23 @@ struct _EDestinationPrivate {
 	gchar *addr;
 	gchar *textrep;
 
-	gboolean html_mail_override;
-	gboolean wants_html_mail;
-
 	GList *list_dests;
-	gboolean show_addresses;
 
-	gboolean has_been_cardified;
-	gboolean allow_cardify;
-	gboolean cannot_cardify;
+	guint html_mail_override : 1;
+	guint wants_html_mail : 1;
+
+	guint show_addresses : 1;
+
+	guint has_been_cardified : 1;
+	guint allow_cardify : 1;
+	guint cannot_cardify : 1;
 	guint pending_cardification;
+
+	guint pending_change : 1;
+
 	EBook *cardify_book;
 
 	gint freeze_count;
-	gboolean pending_change;
 };
 
 static void e_destination_clear_card    (EDestination *);
@@ -588,11 +591,8 @@ e_destination_use_card (EDestination *dest, EDestinationCardCallback cb, gpointe
 	g_return_if_fail (dest && E_IS_DESTINATION (dest));
 
 	if (dest->priv->card != NULL) {
-
-		if (cb) {
+		if (cb)
 			cb (dest, dest->priv->card, closure);
-		}
-
 	} else if (dest->priv->book_uri != NULL && dest->priv->card_uid != NULL) {
 
 		UseCard *uc = g_new (UseCard, 1);
@@ -602,6 +602,9 @@ e_destination_use_card (EDestination *dest, EDestinationCardCallback cb, gpointe
 		uc->cb = cb;
 		uc->closure = closure;
 		e_card_load_uri (dest->priv->book_uri, dest->priv->card_uid, use_card_cb, uc);
+	} else {
+		if (cb)
+			cb (dest, NULL, closure);
 	}
 }
 
@@ -941,8 +944,13 @@ name_and_email_simple_query_cb (EBook *book, EBookSimpleQueryStatus status, cons
 		}
 
 		if (email_num >= 0) {
+			const char *book_uri;
+
+			book_uri = e_book_get_uri (book);
+
 			dest->priv->has_been_cardified = TRUE;
 			e_destination_set_card (dest, card, email_num);
+			e_destination_set_book_uri (dest, book_uri);
 			gtk_signal_emit (GTK_OBJECT (dest), e_destination_signals[CARDIFIED]);
 		}
 	}
@@ -963,8 +971,13 @@ nickname_simple_query_cb (EBook *book, EBookSimpleQueryStatus status, const GLis
 	if (status == E_BOOK_SIMPLE_QUERY_STATUS_SUCCESS) {
 
 		if (g_list_length ((GList *) cards) == 1) {
+			const char *book_uri;
+
+			book_uri = e_book_get_uri (book);
+
 			dest->priv->has_been_cardified = TRUE;
 			e_destination_set_card (dest, E_CARD (cards->data), 0); /* Uses primary e-mail by default. */
+			e_destination_set_book_uri (dest, book_uri);
 			gtk_signal_emit (GTK_OBJECT (dest), e_destination_signals[CARDIFIED]);
 			
 			gtk_object_unref (GTK_OBJECT (dest)); /* drop the reference held by the query */
