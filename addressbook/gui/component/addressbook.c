@@ -597,7 +597,6 @@ get_prop (BonoboPropertyBag *bag,
 }
 
 typedef struct {
-	char *uri;
 	EBookCallback cb;
 	gpointer closure;
 } LoadUriData;
@@ -614,7 +613,6 @@ load_uri_auth_cb (EBook *book, EBookStatus status, gpointer closure)
 
 	data->cb (book, status, data->closure);
 
-	g_free (data->uri);
 	g_free (data);
 }
 
@@ -625,7 +623,7 @@ load_uri_cb (EBook *book, EBookStatus status, gpointer closure)
 	AddressbookSource *source;
 	LoadUriData *load_uri_data = closure;
 
-	source = addressbook_storage_get_source_by_uri (load_uri_data->uri);
+	source = addressbook_storage_get_source_by_uri (e_book_get_uri (book));
 
 	if (status == E_BOOK_STATUS_SUCCESS) {
 		/* check if the addressbook needs authentication */
@@ -636,7 +634,7 @@ load_uri_cb (EBook *book, EBookStatus status, gpointer closure)
 			const char *password;
 			char *pass_dup = NULL;
 
-			password = e_passwords_get_password(load_uri_data->uri);
+			password = e_passwords_get_password (e_book_get_uri (book));
 
 			if (!password) {
 				char *prompt;
@@ -650,7 +648,7 @@ load_uri_cb (EBook *book, EBookStatus status, gpointer closure)
 								  source->name, source->email_addr);
 				remember = source->remember_passwd;
 				pass_dup = e_passwords_ask_password (
-								     prompt, load_uri_data->uri, prompt, TRUE,
+								     prompt, e_book_get_uri (book), prompt, TRUE,
 								     E_PASSWORDS_REMEMBER_FOREVER, &remember,
 								     NULL);
 				if (remember != source->remember_passwd) {
@@ -679,7 +677,6 @@ load_uri_cb (EBook *book, EBookStatus status, gpointer closure)
 	}
 
 	load_uri_data->cb (book, status, load_uri_data->closure);
-	g_free (load_uri_data->uri);
 	g_free (load_uri_data);
 }
 
@@ -690,79 +687,30 @@ addressbook_load_uri (EBook *book, const char *uri,
 	LoadUriData *load_uri_data = g_new (LoadUriData, 1);
 	gboolean rv;
 
-	load_uri_data->uri = g_strdup (uri);
 	load_uri_data->cb = cb;
 	load_uri_data->closure = closure;
 
 	rv = e_book_load_uri (book, uri, load_uri_cb, load_uri_data);
 
-	if (!rv) {
-		g_free (load_uri_data->uri);
+	if (!rv)
 		g_free (load_uri_data);
-	}
 
 	return rv;
 }
 
-typedef struct {
-	gpointer closure;
-	EBookCallback open_response;
-} DefaultBookClosure;
-
-static void
-addressbook_default_book_open (EBook *book, EBookStatus status, gpointer closure)
-{
-	DefaultBookClosure *default_book_closure = closure;
-	gpointer user_closure = default_book_closure->closure;
-	EBookCallback user_response = default_book_closure->open_response;
-
-	g_free (default_book_closure);
-
-	/* special case the protocol not supported error, since we
-	   really only want to failover to the local book in the case
-	   where there's no installed backend for that protocol.  all
-	   other errors (failure to connect, etc.) should get reported
-	   to the caller as normal. */
-	if (status == E_BOOK_STATUS_PROTOCOL_NOT_SUPPORTED) {
-		e_book_load_local_address_book (book, user_response, user_closure);
-	}
-	else {
-		user_response (book, status, user_closure);
-	}
-}
-
 gboolean
-addressbook_load_default_book (EBook *book, EBookCallback open_response, gpointer closure)
+addressbook_load_default_book (EBook *book, EBookCallback cb, gpointer closure)
 {
-	char *val;
+	LoadUriData *load_uri_data = g_new (LoadUriData, 1);
 	gboolean rv;
-	CORBA_Environment ev;
-	Bonobo_ConfigDatabase config_db;
 
-	g_return_val_if_fail (book != NULL,          FALSE);
-	g_return_val_if_fail (E_IS_BOOK (book),      FALSE);
-	g_return_val_if_fail (open_response != NULL, FALSE);
+	load_uri_data->cb = cb;
+	load_uri_data->closure = closure;
 
-	CORBA_exception_init (&ev);
-	config_db = addressbook_config_database (&ev);
-	val = bonobo_config_get_string (config_db, "/Addressbook/default_book_uri", &ev);
-	CORBA_exception_free (&ev);
+	rv = e_book_load_default_book (book, load_uri_cb, load_uri_data);
 
-	if (val) {
-		DefaultBookClosure *default_book_closure = g_new (DefaultBookClosure, 1);
-		default_book_closure->closure = closure;
-		default_book_closure->open_response = open_response;
-		rv = addressbook_load_uri (book, val,
-					   addressbook_default_book_open, default_book_closure);
-		g_free (val);
-	}
-	else {
-		rv = e_book_load_local_address_book (book, open_response, closure);
-	}
-
-	if (!rv) {
-		g_warning ("Couldn't load default addressbook");
-	}
+	if (!rv)
+		g_free (load_uri_data);
 
 	return rv;
 }

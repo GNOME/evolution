@@ -1,3 +1,14 @@
+2002-04-09  Dan Winship  <danw@ximian.com>
+
+	* backend/ebook/e-book-util.c (e_book_load_default_book): Update
+	for new-and-improved consistent default folder uri.
+
+	* gui/component/addressbook.c (addressbook_load_default_book): Use
+	e_book_load_default_book rather than duplicating most of its logic
+	here.
+	(load_uri_cb): Modify to work as a callback for
+	addressbook_load_default_book as well as addressbook_load_uri.
+
 2002-04-08  Dan Winship  <danw@ximian.com>
 
 	* gui/component/addressbook-component.c (create_view): Add

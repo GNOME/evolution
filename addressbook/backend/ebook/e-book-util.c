@@ -253,7 +253,7 @@ e_book_load_default_book (EBook *book, EBookCallback open_response, gpointer clo
 
 	CORBA_exception_init (&ev);
 	config_db = e_book_get_config_database (&ev);
-	val = bonobo_config_get_string (config_db, "/Addressbook/default_book_uri", &ev);
+	val = bonobo_config_get_string (config_db, "/DefaultFolders/contacts_uri", &ev);
 	CORBA_exception_free (&ev);
 
 	if (val) {
