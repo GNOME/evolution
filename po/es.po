@@ -899,9 +899,8 @@ msgid "_Server name:"
 msgstr "Nombre del _servidor:"
 
 #: addressbook/gui/component/addressbook-storage.c:168
-#, fuzzy
 msgid "Other Contacts"
-msgstr "Contactos"
+msgstr "Otros contactos"
 
 #: addressbook/gui/component/addressbook.c:400
 msgid "Unable to open addressbook"
@@ -1282,11 +1281,12 @@ msgid "_Web page address:"
 msgstr "Dirección de la página _web:"
 
 #: addressbook/gui/contact-editor/e-contact-editor-confirm-delete.glade.h:1
-#, fuzzy
 msgid ""
 "Are you sure you want\n"
 "to delete this contact?"
-msgstr "¿Esta seguro que quiere borrar esta cuenta?"
+msgstr ""
+"¿Esta seguro que quiere\n"
+"borrar esta cuenta?"
 
 #: addressbook/gui/contact-editor/e-contact-editor-confirm-delete.glade.h:3
 msgid "Delete Contact?"
@@ -1976,9 +1976,8 @@ msgid "Palau"
 msgstr "Palau"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:162
-#, fuzzy
 msgid "Palestinian Territory"
-msgstr "Territorios británicos en el océano Índico"
+msgstr "Territorios palestinos"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:163
 msgid "Panama"
@@ -3416,7 +3415,7 @@ msgstr "Ejecutar un programa"
 
 #: calendar/gui/dialogs/alarm-page.c:391
 msgid "Unknown action to be performed"
-msgstr ""
+msgstr "Acción a realizar desconocida"
 
 #: calendar/gui/dialogs/alarm-page.c:403
 #, c-format
@@ -4012,9 +4011,8 @@ msgstr "Participantes"
 
 #: calendar/gui/dialogs/meeting-page.etspec.h:2
 #: calendar/gui/e-meeting-time-sel.etspec.h:2
-#, fuzzy
 msgid "Click here to add an attendee"
-msgstr "* Pulse aquí para añadir un contacto *"
+msgstr "Pulse aquí para añadir un asistente"
 
 #: calendar/gui/dialogs/meeting-page.etspec.h:3
 #: calendar/gui/e-meeting-time-sel.etspec.h:3
@@ -4446,20 +4444,19 @@ msgstr "Borrar tod_as las ocurrencias"
 
 #: calendar/gui/e-itip-control.c:469
 msgid "Meeting begins: <b>"
-msgstr ""
+msgstr "La reunión comienza: <b>"
 
 #: calendar/gui/e-itip-control.c:474
 msgid "Task begins: <b>"
-msgstr ""
+msgstr "La tarea comienzan: <b>"
 
 #: calendar/gui/e-itip-control.c:479
-#, fuzzy
 msgid "Free/Busy info begins: <b>"
-msgstr "Información de disponibilidad"
+msgstr "Información de disponibilidad comienza: <b>"
 
 #: calendar/gui/e-itip-control.c:483
 msgid "Begins: <b>"
-msgstr ""
+msgstr "Comienza: <b>"
 
 #. Describe what the user can do
 #: calendar/gui/e-itip-control.c:677
@@ -4471,16 +4468,15 @@ msgstr ""
 #: calendar/gui/e-itip-control.c:692
 #, c-format
 msgid "<b>Summary:</b> %s<br><br>"
-msgstr ""
+msgstr "<b>Resumen:</b> %s<br><br>"
 
 #: calendar/gui/e-itip-control.c:692
 msgid "<i>None</i>"
-msgstr ""
+msgstr "<i>Ninguno</i>"
 
 #: calendar/gui/e-itip-control.c:702
-#, fuzzy, c-format
 msgid "<b>Description:</b> %s"
-msgstr "Descripción:"
+msgstr "<b>Descripción:</b> %s"
 
 #: calendar/gui/e-itip-control.c:737
 #, c-format
@@ -4648,9 +4644,8 @@ msgid "The attachment does not contain a valid calendar message"
 msgstr "El adjunto no contiene un mensaje de calendario válido"
 
 #: calendar/gui/e-itip-control.c:995
-#, fuzzy
 msgid "The attachment has no viewable calendar items"
-msgstr "El adjunto no contiene un mensaje de calendario válido"
+msgstr "El adjunto no tiene ningún elemento de calendario visible"
 
 #: calendar/gui/e-itip-control.c:1094
 msgid "Calendar file could not be updated!\n"
@@ -4982,7 +4977,7 @@ msgstr "Septiembre"
 
 #: calendar/gui/itip-utils.c:253
 msgid "Atleast one attendee is necessary"
-msgstr ""
+msgstr "Es necesario por lo menos un asistente"
 
 #: calendar/gui/itip-utils.c:283
 msgid "An organizer must be set."
@@ -5467,9 +5462,8 @@ msgid "Unsupported operation: search by expression: for %s"
 msgstr "Operación no implementada: búsqueda según la expresión %s"
 
 #: camel/camel-folder.c:1087
-#, fuzzy, c-format
 msgid "Unsupported operation: search by uids: for %s"
-msgstr "Operación no implementada: búsqueda según la expresión %s"
+msgstr "Operación no implementada: búsqueda por uids: para %s"
 
 #: camel/camel-folder.c:1266
 msgid "Moving messages"
@@ -7218,14 +7212,12 @@ msgstr "Adjuntar un archivo al mensaje"
 
 #: composer/e-msg-composer-attachment.c:168
 #: composer/e-msg-composer-attachment.c:184
-#, fuzzy, c-format
 msgid "Cannot attach file %s: %s"
-msgstr "No pude comprobar la carpeta: %s: %s"
+msgstr "No puedo adjuntar el archivo %s: %s"
 
 #: composer/e-msg-composer-attachment.c:176
-#, fuzzy, c-format
 msgid "Cannot attach file %s: not a regular file"
-msgstr "`%s' no es un archivo normal."
+msgstr "No puedo adjuntar el archivo %s: no es un archivo normal"
 
 #: composer/e-msg-composer-attachment.glade.h:1
 msgid "Attachment properties"
@@ -8165,9 +8157,8 @@ msgid "Virtual Trash folder"
 msgstr "Carpetas de papeleras virtuales"
 
 #: mail/component-factory.c:125
-#, fuzzy, c-format
 msgid "Cannot connect to store: %s"
-msgstr "No pude conectar con el servidor: %s"
+msgstr "No puedo conectar con el almacén: %s"
 
 #: mail/component-factory.c:146
 msgid "This folder cannot contain messages."
@@ -8216,12 +8207,12 @@ msgstr ""
 msgid "Cannot register storage with shell"
 msgstr "No puedo registrar un sistema de guardado con la shell"
 
-#: mail/folder-browser-ui.c:267
+#: mail/folder-browser-ui.c:266
 #, c-format
 msgid "Properties for \"%s\""
 msgstr "Propiedades para «%s»"
 
-#: mail/folder-browser-ui.c:269
+#: mail/folder-browser-ui.c:268
 msgid "Properties"
 msgstr "Propiedades"
 
@@ -8780,9 +8771,8 @@ msgid "Evolution Account Assistant"
 msgstr "Asistente de cuentas de Evolution"
 
 #: mail/mail-config.c:315
-#, fuzzy, c-format
 msgid "Account %d"
-msgstr "Cuenta"
+msgstr "Cuenta %d"
 
 #: mail/mail-config.c:1618
 #, c-format
@@ -9347,9 +9337,8 @@ msgid "Cc"
 msgstr "Cc"
 
 #: mail/mail-format.c:923
-#, fuzzy
 msgid "Bcc"
-msgstr "Bcc:"
+msgstr "Bcc"
 
 #: mail/mail-format.c:1370
 msgid "No GPG/PGP program configured."
@@ -9542,9 +9531,8 @@ msgid "Copying messages to %s"
 msgstr "Copiando mensajes a %s"
 
 #: mail/mail-ops.c:877
-#, fuzzy, c-format
 msgid "Cannot copy a folder `%s' to itself"
-msgstr "No puedo copiar una carpeta sobre si misma."
+msgstr "No puedo copiar una carpeta `%s' sobre si misma."
 
 #: mail/mail-ops.c:884
 msgid "Moving"
@@ -9561,9 +9549,8 @@ msgstr "Analizando carpetas en «%s»"
 
 #. Fill in the new fields
 #: mail/mail-ops.c:1047 shell/e-local-storage.c:179
-#, fuzzy
 msgid "Trash"
-msgstr "Turco"
+msgstr "Papelera"
 
 #: mail/mail-ops.c:1180
 msgid "Forwarded messages"
@@ -9770,9 +9757,8 @@ msgid ""
 msgstr ""
 
 #: mail/mail-vfolder.c:638
-#, fuzzy
 msgid "VFolders"
-msgstr "Carpetas"
+msgstr "Carpetas virtuales"
 
 #: mail/mail-vfolder.c:736
 msgid "Edit VFolder"
@@ -9781,7 +9767,7 @@ msgstr "Editar carpeta virtual"
 #: mail/mail-vfolder.c:751
 #, c-format
 msgid "Trying to edit a vfolder '%s' which doesn't exist."
-msgstr ""
+msgstr "Tratando de editar una carpeta virtual `%s' que no existe."
 
 #: mail/mail-vfolder.c:805
 msgid "New VFolder"
@@ -13497,7 +13483,7 @@ msgstr "Salir del programa"
 
 #: ui/evolution.xml.h:15
 msgid "Import data from other programs"
-msgstr ""
+msgstr "Importar datos de otros programas"
 
 #: ui/evolution.xml.h:17
 msgid "Move this folder to another place"
@@ -13857,18 +13843,3 @@ msgstr "init_corba(): no pude inicializar GNOME"
 msgid "init_bonobo(): could not initialize Bonobo"
 msgstr "init_bonob(): no pude inicializar Bonobo"
 
-#~ msgid "Sent By:"
-#~ msgstr "Enviado Por:"
-
-#~ msgid "Couldn't create temporary mbox `%s': %s"
-#~ msgstr "No puedo crear el mbox temporal `%s': %s"
-
-#~ msgid "Please enter your email address and password for access to %s"
-#~ msgstr ""
-#~ "Por favor introduzca su dirección correo y su contraseña para acceder a %s"
-
-#~ msgid "LDAP Authentication"
-#~ msgstr "Autenticación LDAP"
-
-#~ msgid "Password:"
-#~ msgstr "Clave:"
