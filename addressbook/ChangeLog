@@ -1,3 +1,99 @@
+2001-09-08  Jon Trowbridge  <trow@ximian.com>
+
+	* backend/ebook/e-book-view-listener.c
+	(e_book_view_listener_check_queue): See
+	e_book_listener_check_queue below.
+	(e_book_view_listener_queue_response): See
+	e_book_listener_queue_response below.
+
+	* backend/ebook/e-book-listener.c (e_book_listener_check_queue):
+	Explicitly prohibit reentrancy.  Use gtk-unref rather than
+	bobobo-unref.
+	(e_book_listener_queue_response): Hold a gtk-ref to the listener
+	while the idle function runs, not a bonobo-ref.  As far as I can
+	tell, it is impossible to avoid a race condition here when we have
+	to worry about bonobo reentrancy.
+
+	* gui/component/select-names/e-select-names-text-model.c
+	(e_select_names_text_model_insert_length): Alter a copy of the
+	original EDestination, rather than just using a new one.  We need
+	to do this to preserve prior-card information for possible
+	reversion later.
+	(e_select_names_text_model_delete): Ditto.
+
+	* backend/ebook/e-destination.c (e_destination_clear_card): When
+	clearing a destination where ->card != NULL, store it for possible
+	reversion later.
+	(e_destination_revert): If we have an old card stored, go back to
+	using it for the destination.
+	(e_destination_is_valid): Tries to detect obviously broken
+	addresses.
+	(e_destination_cardify): If our destination is invalid, first try
+	to cardify simply by reverting to an older card.
+	(e_destination_destroy): Unref any cached old card.
+	(e_destination_copy): Copy the old card information.
+
+2001-09-07  Jon Trowbridge  <trow@ximian.com>
+
+	* gui/component/select-names/e-select-names.c
+	(sync_table_and_models): Show all rows in the table, and then
+	remove the rows that correspond to entries in the
+	ESelectNamesModels in the children.
+	(real_add_address): Freeze/thaw our ESelectNamesModel, so that we
+	don't change our table while we are in the middle of iterating
+	over the selection.
+	(remove_address): Just delete the address from the
+	ESelectNamesModel, the signal handler will do the rest.
+	(selected_rows_foreach_cb): Call remove_address to do our dirty
+	work.
+	(e_select_names_add_section): Connect to the 'changed' signal from
+	the ESelectNamesModel, and call sync_table_and_models explicitly to
+	get our initial state correct.
+
+	* gui/component/select-names/e-select-names-table-model.c
+	(fill_in_info): Deal with EDestinations in our table that don't
+	come from cards.
+
+	* gui/component/select-names/e-select-names-manager.c: Added
+	another ESelectNamesModel* to the ESelectNamesManagerSection
+	struct.  Called 'original_model', this contains a copy of the
+	model as it is when we begin using the SelectNames dialog.
+	(section_copy): Copy the original model.
+	(section_free): Free the original model.
+	(e_select_names_manager_add_section_with_limit): Initialize the
+	original model.
+	(e_select_names_clicked): I've changed the semantics of this
+	dialog quite a bit... no UI freeze can stop me!  If OK is clicked,
+	we do nothing.  If Cancel is clicked, we revert to the
+	'original_model' copy of our address entry state before we started
+	editting.  Finally, we close the dialog before any of thing. Doing
+	it last caused problems, because signals were being triggered
+	which had dangling pointers as their closures.
+	(e_select_names_manager_activate_dialog): Copy our current state
+	to the original model, and share the same ESelectNamesModel
+	between the dialog and the address entry in the composer..
+	(e_select_names_manager_get_cards): Removed.  It had been
+	#if 0/#endif-ed out for a while.
+
+	* gui/component/select-names/e-select-names-model.c
+	(e_select_names_model_freeze): Added.
+	(e_select_names_model_thaw): Added.
+	(e_select_names_model_uncardify): Added.  If possible,
+	"uncardifies" a specific model entry.
+	(e_select_names_model_changed): Changed to pay attention
+	to the freeze count.
+
+	* gui/component/select-names/e-select-names-completion.c
+	(clean_query_text): Strip leading/trailing whitespace from
+	queries.
+
+	* backend/ebook/e-destination.c (e_destination_uncardify): Added.
+	Converts a card-associated destination into a text-associated
+	destination w/ the e-mail address.
+	(e_destination_list_to_vector): Added.  A convenience routine.
+	(e_destination_freev): Added.  A convenience routine.
+	(e_destination_touchv): Added.  I'm lazy.
+
 2001-09-08  Chris Toshok  <toshok@ximian.com>
 
 	(make_contact_editor_cb): show the right contact editor (the list
@@ -32,6 +128,7 @@
 	* gui/component/addressbook-component.c: Removed unused factory
 	variable.
 
+>>>>>>> 1.757
 2001-09-06  Chris Toshok  <toshok@ximian.com>
 
 	* gui/component/addressbook-storage.c (notify_listener): new
