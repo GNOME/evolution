@@ -45,6 +45,8 @@ static GnomeCanvasItem *month_item;
 /* Widgets for the todo page */
 static GtkWidget *due_date_show_button;
 static GtkWidget *due_date_overdue_highlight;
+static GtkWidget *priority_show_button;
+
 /* Callback used when the property box is closed -- just sets the prop_win variable to null. */
 static int
 prop_cancel (void)
@@ -115,11 +117,13 @@ prop_apply_todo(void)
 {
 	todo_show_due_date = GTK_TOGGLE_BUTTON (due_date_show_button)->active;
 	todo_due_date_overdue_highlight = GTK_TOGGLE_BUTTON (due_date_overdue_highlight)->active;
-	
+
+	todo_show_priority = GTK_TOGGLE_BUTTON (priority_show_button)->active;
+
 	/* storing the values */
 	gnome_config_set_bool("/calendar/Todo/show_due_date", todo_show_due_date);
 	gnome_config_set_bool("/calendar/Todo/highlight_overdue_tasks", todo_due_date_overdue_highlight);
-	
+	gnome_config_set_bool("/calendar/Todo/show_priority", todo_show_priority);
 	/* need to sync our config changes. */
 	gnome_config_sync ();
 
@@ -565,6 +569,7 @@ build_list_options_frame(void)
 	
 	due_date_show_button = gtk_check_button_new_with_label (_("Summary"));
 	due_date_show_button = gtk_check_button_new_with_label (_("Due Date"));
+	priority_show_button = gtk_check_button_new_with_label (_("Priority"));
 	
 	gtk_toggle_button_set_state (GTK_TOGGLE_BUTTON(due_date_show_button), todo_show_due_date);
 	gtk_signal_connect (GTK_OBJECT(due_date_show_button),
@@ -572,6 +577,13 @@ build_list_options_frame(void)
 			    (GtkSignalFunc) todo_option_set,
 			    NULL);
 	gtk_box_pack_start (GTK_BOX (vbox), due_date_show_button, FALSE, FALSE, 0);
+	
+	gtk_toggle_button_set_state (GTK_TOGGLE_BUTTON(priority_show_button), todo_show_priority);
+	gtk_signal_connect (GTK_OBJECT(priority_show_button), 
+			    "clicked",
+			    (GtkSignalFunc) todo_option_set,
+			    NULL);
+	gtk_box_pack_start (GTK_BOX (vbox), priority_show_button, FALSE, FALSE, 0);
 	return frame;
 }
 static GtkWidget *
@@ -689,3 +701,6 @@ color_spec_from_prop (ColorProp propnum)
 {
 	return build_color_spec (color_props[propnum].r, color_props[propnum].g, color_props[propnum].b);
 }
+
+
+

@@ -148,6 +148,7 @@ init_calendar (void)
 	
 	todo_current_sort_type = gnome_config_get_int("/calendar/Todo/sort_type");
 	
+	todo_show_priority = gnome_config_get_bool("/calendar/Todo/show_priority");
 
 	/* Done */
 

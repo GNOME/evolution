@@ -37,6 +37,7 @@ extern struct color_prop color_props[];
 /* todo preferences */
 extern int todo_show_due_date;
 extern int todo_due_date_overdue_highlight;
+extern int todo_show_priority;
 extern char *todo_overdue_font_text;
 extern struct color_prop todo_overdue_highlight_color;
 extern gboolean todo_style_changed;

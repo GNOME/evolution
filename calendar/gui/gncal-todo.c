@@ -14,6 +14,7 @@
 #include "eventedit.h"
 
 int todo_show_due_date = 0;
+int todo_show_priority = 0;
 int todo_due_date_overdue_highlight = 0;
 char *todo_overdue_font_text;
 gint todo_current_sort_column = 0;
@@ -55,11 +56,14 @@ ok_button (GtkWidget *widget, GnomeDialog *dialog)
 	GtkEntry *entry;
 	GnomeDateEdit *due_date;
 	GtkText *comment;
+	GtkSpinButton *priority;
+
 	ico = gtk_object_get_user_data (GTK_OBJECT (dialog));
 
 	todo = GNCAL_TODO (gtk_object_get_data (GTK_OBJECT (dialog), "gncal_todo"));
 	entry = GTK_ENTRY (gtk_object_get_data (GTK_OBJECT (dialog), "summary_entry"));
 	due_date = GNOME_DATE_EDIT (gtk_object_get_data(GTK_OBJECT(dialog), "due_date"));
+	priority = GTK_SPIN_BUTTON (gtk_object_get_data(GTK_OBJECT(dialog), "priority"));
 	comment = GTK_TEXT(gtk_object_get_data (GTK_OBJECT(dialog), "comment"));
 	if (ico->summary)
 	  g_free (ico->summary);
@@ -67,6 +71,7 @@ ok_button (GtkWidget *widget, GnomeDialog *dialog)
 	  g_free (ico->comment);
 	ico->dtend = gnome_date_edit_get_date (due_date);
 	ico->summary = g_strdup (gtk_entry_get_text (entry));
+	ico->priority = gtk_spin_button_get_value_as_int (priority);
 	ico->comment = gtk_editable_get_chars( GTK_EDITABLE(comment), 0, -1);
 	ico->user_data = NULL;
 
@@ -118,7 +123,10 @@ simple_todo_editor (GncalTodo *todo, iCalObject *ico)
 	GtkWidget *comment_internal_box;
 	GtkWidget *comment_sep;
 	GtkWidget *w;
-
+	GtkWidget *pri_box;
+	GtkWidget *pri_label;
+	GtkWidget *pri_spin;
+	GtkObject *pri_adj;
 
 	GtkWidget *entry;
 
@@ -138,6 +146,11 @@ simple_todo_editor (GncalTodo *todo, iCalObject *ico)
 	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (dialog)->vbox), due_box, FALSE, FALSE, 0);
 	gtk_widget_show (due_box);
 
+	pri_box = gtk_hbox_new (FALSE, 4);
+	gtk_container_border_width (GTK_CONTAINER (pri_box), 4);
+	gtk_box_pack_start(GTK_BOX (GNOME_DIALOG (dialog)->vbox), pri_box, FALSE, FALSE, 0);
+	gtk_widget_show (pri_box);
+	
 	comment_box = gtk_hbox_new (FALSE, 4);
 	gtk_container_border_width (GTK_CONTAINER (comment_box), 4);
 	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (dialog)->vbox), comment_box, FALSE, FALSE, 0);
@@ -168,7 +181,18 @@ simple_todo_editor (GncalTodo *todo, iCalObject *ico)
 	gtk_box_pack_start (GTK_BOX (due_box), due_entry, TRUE, TRUE, 0);
 	gtk_widget_show (due_entry);
 
+	pri_label = gtk_label_new (_("Priority:"));
+	gtk_box_pack_start (GTK_BOX (pri_box), pri_label, FALSE, FALSE, 0);
+	gtk_widget_show (pri_label);
 
+	pri_adj = gtk_adjustment_new (5.0, 1.0, 9.0, 1.0, 3.0, 0.0);
+	pri_spin = gtk_spin_button_new (GTK_ADJUSTMENT(pri_adj), 0.0, 0);
+	gtk_spin_button_set_numeric (GTK_SPIN_BUTTON (pri_spin), TRUE);
+	gtk_spin_button_set_wrap (GTK_SPIN_BUTTON (pri_spin), FALSE);
+	gtk_spin_button_set_snap_to_ticks (GTK_SPIN_BUTTON (pri_spin), FALSE);
+	gtk_box_pack_start (GTK_BOX (pri_box), pri_spin, FALSE, FALSE, 0);
+	gtk_widget_show (pri_spin);
+       
 	comment_sep = gtk_hseparator_new ();
 	gtk_box_pack_start (GTK_BOX (comment_box), comment_sep, FALSE, FALSE, 0);
 	gtk_widget_show(comment_sep);
@@ -199,8 +223,9 @@ simple_todo_editor (GncalTodo *todo, iCalObject *ico)
 	gtk_object_set_data (GTK_OBJECT (dialog), "gncal_todo", todo);
 	gtk_object_set_data (GTK_OBJECT (dialog), "summary_entry", entry);
 	gtk_object_set_data (GTK_OBJECT (dialog), "due_date", due_entry);
+	gtk_object_set_data (GTK_OBJECT (dialog), "priority", pri_spin);
 	gtk_object_set_data (GTK_OBJECT (dialog), "comment", comment_text);
-
+	
 	gnome_dialog_button_connect (GNOME_DIALOG (dialog), 0, (GtkSignalFunc) ok_button, dialog);
 	gnome_dialog_button_connect (GNOME_DIALOG (dialog), 1, (GtkSignalFunc) cancel_button, dialog);
 
@@ -387,13 +412,15 @@ gncal_todo_init (GncalTodo *todo)
 	GtkWidget *w;
 	GtkWidget *sw;
 	GtkWidget *hbox;
-	gchar *titles[2] = {
+	gchar *titles[3] = {
 	    N_("Summary"),
-	    N_("Due Date")
+	    N_("Due Date"),
+	    N_("Priority")
 	};
-	char *tmp[2];
+	char *tmp[3];
 	tmp[0] = _(titles[0]);
 	tmp[1] = _(titles[1]);
+	tmp[2] = _(titles[2]);
 
 	gtk_box_set_spacing (GTK_BOX (todo), 4);
 
@@ -412,7 +439,7 @@ gncal_todo_init (GncalTodo *todo)
 	gtk_widget_show (sw);
 
 
-	w = gtk_clist_new_with_titles(2, tmp);
+	w = gtk_clist_new_with_titles(3, tmp);
 
 	todo->clist = GTK_CLIST (w);
 	gtk_clist_set_selection_mode (todo->clist, GTK_SELECTION_BROWSE);
@@ -517,7 +544,7 @@ static void
 insert_in_clist (GncalTodo *todo, iCalObject *ico)
 {
 	int i;
-	char *text[2];
+	char *text[3];
         static GtkStyle *overdue_style = NULL;
 	
       
@@ -546,7 +573,14 @@ insert_in_clist (GncalTodo *todo, iCalObject *ico)
 	else
 		text[1] = NULL;
 	
-	
+	if(ico->priority && todo_show_priority)
+	  {
+	    text[2] = g_strdup_printf ("%d", ico->priority);
+	    todo->data_ptrs = g_slist_append (todo->data_ptrs, text[2]);
+	  }
+	else
+	  text[2] = NULL;
+
 	i = gtk_clist_append (todo->clist, text);
 	
 	gtk_clist_set_row_data (todo->clist, i, ico);
@@ -596,6 +630,11 @@ gncal_todo_update (GncalTodo *todo, iCalObject *ico, int flags)
 		gtk_clist_set_column_visibility (todo->clist, 1, 1);
 	else
 		gtk_clist_set_column_visibility (todo->clist, 1, 0);
+
+	if(todo_show_priority)
+	  gtk_clist_set_column_visibility (todo->clist, 2, 1);
+	else
+	  gtk_clist_set_column_visibility (todo->clist, 2, 0);
 	
 	/* free the memory locations that were used in the previous display */
 	for (current_list = todo->data_ptrs; current_list != NULL; current_list = g_slist_next(current_list)){
@@ -621,3 +660,11 @@ gncal_todo_update (GncalTodo *todo, iCalObject *ico, int flags)
 	gtk_widget_set_sensitive (todo->delete_button, (todo->clist->selection != NULL));
 	todo_list_redraw_in_progess = 0;
 }
+
+
+
+
+
+
+
+
