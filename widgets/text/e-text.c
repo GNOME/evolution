@@ -1,9 +1,11 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/* EText - Text item for evolution.
- * Copyright (C) 2000, 2001 Ximian Inc.
+/* 
+ * e-text.c - Text item for evolution.
+ * Copyright 2000, 2001, Ximian, Inc.
  *
- * Author: Chris Lahey <clahey@ximian.com>
- * Further hacking by Jon Trowbridge <trow@ximian.com>
+ * Authors:
+ *   Chris Lahey <clahey@ximian.com>
+ *   Jon Trowbridge <trow@ximian.com>
  *
  * A majority of code taken from:
  *
@@ -15,7 +17,22 @@
  *
  * Copyright (C) 1998 The Free Software Foundation
  *
- * Author: Federico Mena <federico@nuclecu.unam.mx> */
+ * Author: Federico Mena <federico@nuclecu.unam.mx>
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Library General Public
+ * License, version 2, as published by the Free Software Foundation.
+ *
+ * This library is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Library General Public License for more details.
+ *
+ * You should have received a copy of the GNU Library General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+ * 02111-1307, USA.
+ */
 
 #include <config.h>
 
