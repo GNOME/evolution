@@ -143,6 +143,8 @@ and -devel packages for each library.
 
  - gtkhtml - later than 0.16.1
 
+ - SOUP: later than 0.6.99
+
 Other non-GNOME Dependencies:
 
  - Berkeley's libdb - 3.1.17

@@ -581,6 +581,7 @@ EVO_CHECK_LIB(bonobo-conf, bonobo_conf, 0.11)
 
 EVO_CHECK_LIB(GAL, gal, 0.18.1)
 EVO_CHECK_LIB(GtkHTML, gtkhtml, 1.0)
+EVO_CHECK_LIB(Libsoup, soup, 0.6)
 
 dnl *************************
 dnl CFLAGS and LIBS and stuff
@@ -655,6 +656,11 @@ MAILER_CFLAGS="`gnome-config --cflags gtkhtml libglade gdk_pixbuf gnomecanvaspix
 MAILER_LIBS="`gnome-config --libs gtkhtml libglade gdk_pixbuf gnomecanvaspixbuf gnomeui gal bonobo_conf bonobox bonobox_print vfs oaf` $THREADS_LIBS"
 AC_SUBST(MAILER_CFLAGS)
 AC_SUBST(MAILER_LIBS)
+
+SOUP_CFLAGS="`gnome-config --cflags soup`"
+SOUP_LIBS="`gnome-config --libs soup`"
+AC_SUBST(SOUP_CFLAGS)
+AC_SUBST(SOUP_LIBS)
 
 dnl ******************************
 dnl Pilot checking
