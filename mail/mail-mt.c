@@ -18,7 +18,7 @@
 #include <libgnome/gnome-i18n.h>
 #include <gal/widgets/e-gui-utils.h>
 
-#include "e-util/e-msgport.h"
+#include "libedataserver/e-msgport.h"
 #include "widgets/misc/e-error.h"
 
 #include "e-activity-handler.h"

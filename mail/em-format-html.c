@@ -31,9 +31,9 @@
 #include <fcntl.h>
 #include <ctype.h>
 
-#include <gal/util/e-iconv.h>
-#include <gal/util/e-util.h>	/* for e_utf8_strftime, what about e_time_format_time? */
-#include "e-util/e-time-utils.h"
+#include <libedataserver/e-iconv.h>
+#include <libedataserver/e-util.h>	/* for e_utf8_strftime, what about e_time_format_time? */
+#include <libedataserver/e-time-utils.h>
 #include "e-util/e-icon-factory.h"
 
 #include <gtkhtml/gtkhtml.h>
@@ -59,7 +59,7 @@
 #include <camel/camel-data-cache.h>
 #include <camel/camel-file-utils.h>
 
-#include <e-util/e-msgport.h>
+#include <libedataserver/e-msgport.h>
 
 #include "mail-component.h"
 #include "mail-config.h"

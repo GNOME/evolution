@@ -96,6 +96,28 @@
 
 	Fixes #61065
 
+2004-11-16  Not Zed  <NotZed@Ximian.com>
+
+	* Makefile.am:
+	* importers/Makefile.am: Removed camel linking.
+
+2004-11-15  Not Zed  <NotZed@Ximian.com>
+
+	* *.c: Moved various things from e-util to libedataserver.
+
+	* GNOME_Evolution_Mail.server.in.in: remove the startup wizard stuff.
+
+	* mail-config-druid.[ch]:
+	* mail-account-editor.[ch]:
+	* mail-account-gui.[ch]: removed & deleted.
+
+	* mail-session.c (mail_session_init): and here too.
+	* em-migrate.c (em_migrate_1_4): init camel-provider library too.
+	(e_path_to_physical): copy from e-util/e-path.c.
+
+	* Makefile.am (libevolution_mail_la_LIBADD): link to new libcamel
+	provider too.
+
 2004-11-12  Not Zed  <NotZed@Ximian.com>
 
 	* filtertypes.xml:

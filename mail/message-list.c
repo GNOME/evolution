@@ -57,7 +57,7 @@
 #include <camel/camel-folder.h>
 #include <camel/camel-folder-thread.h>
 #include <camel/camel-vee-folder.h>
-#include <e-util/e-memory.h>
+#include <libedataserver/e-memory.h>
 
 #include "filter/filter-label.h"
 

@@ -37,7 +37,7 @@ struct _GtkHTML;
 struct _GtkHTMLStream;
 
 #include <camel/camel-stream.h>
-#include "e-util/e-msgport.h"
+#include "libedataserver/e-msgport.h"
 
 typedef struct _EMCamelStream {
 	CamelStream parent_stream;

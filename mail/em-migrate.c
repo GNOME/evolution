@@ -42,6 +42,7 @@
 #include <libgnome/gnome-config.h>
 
 #include <camel/camel.h>
+#include <camel/camel-store.h>
 #include <camel/camel-session.h>
 #include <camel/camel-file-utils.h>
 #include <camel/camel-disco-folder.h>
@@ -53,13 +54,12 @@
 #include <libgnome/gnome-i18n.h>
 
 #include <gal/util/e-util.h>
-#include <gal/util/e-iconv.h>
+#include <libedataserver/e-iconv.h>
 #include <gal/util/e-xml-utils.h>
 
 #include "e-util/e-bconf-map.h"
 #include "e-util/e-account-list.h"
 #include "e-util/e-signature-list.h"
-#include "e-util/e-path.h"
 #include "widgets/misc/e-error.h"
 
 #include "mail-config.h"
@@ -2315,6 +2315,84 @@ em_migrate_folder_view_settings_1_4 (const char *evolution_dir, CamelException *
 	return 0;
 }
 
+#define SUBFOLDER_DIR_NAME     "subfolders"
+#define SUBFOLDER_DIR_NAME_LEN 10
+
+static char *
+e_path_to_physical (const char *prefix, const char *vpath)
+{
+	const char *p, *newp;
+	char *dp;
+	char *ppath;
+	int ppath_len;
+	int prefix_len;
+
+	while (*vpath == '/')
+		vpath++;
+	if (!prefix)
+		prefix = "";
+
+	/* Calculate the length of the real path. */
+	ppath_len = strlen (vpath);
+	ppath_len++;	/* For the ending zero.  */
+
+	prefix_len = strlen (prefix);
+	ppath_len += prefix_len;
+	ppath_len++;	/* For the separating slash.  */
+
+	/* Take account of the fact that we need to translate every
+	 * separator into `subfolders/'.
+	 */
+	p = vpath;
+	while (1) {
+		newp = strchr (p, '/');
+		if (newp == NULL)
+			break;
+
+		ppath_len += SUBFOLDER_DIR_NAME_LEN;
+		ppath_len++; /* For the separating slash.  */
+
+		/* Skip consecutive slashes.  */
+		while (*newp == '/')
+			newp++;
+
+		p = newp;
+	};
+
+	ppath = g_malloc (ppath_len);
+	dp = ppath;
+
+	memcpy (dp, prefix, prefix_len);
+	dp += prefix_len;
+	*(dp++) = '/';
+
+	/* Copy the mangled path.  */
+	p = vpath;
+ 	while (1) {
+		newp = strchr (p, '/');
+		if (newp == NULL) {
+			strcpy (dp, p);
+			break;
+		}
+
+		memcpy (dp, p, newp - p + 1); /* `+ 1' to copy the slash too.  */
+		dp += newp - p + 1;
+
+		memcpy (dp, SUBFOLDER_DIR_NAME, SUBFOLDER_DIR_NAME_LEN);
+		dp += SUBFOLDER_DIR_NAME_LEN;
+
+		*(dp++) = '/';
+
+		/* Skip consecutive slashes.  */
+		while (*newp == '/')
+			newp++;
+
+		p = newp;
+	}
+
+	return ppath;
+}
+
 static int
 em_migrate_imap_cmeta_1_4(const char *evolution_dir, CamelException *ex)
 {
@@ -2403,6 +2481,7 @@ em_migrate_1_4 (const char *evolution_dir, xmlDocPtr filters, xmlDocPtr vfolders
 	path = g_build_filename (evolution_dir, "mail", NULL);
 
 	camel_init (path, TRUE);
+	camel_provider_init();
 	session = (EMMigrateSession *) em_migrate_session_new (path);
 	g_free (path);
 	

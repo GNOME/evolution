@@ -26,6 +26,7 @@
 
 #include <camel/camel-url.h>
 
+#include <gtk/gtkdialog.h>
 #include <gtk/gtkliststore.h>
 #include <gtk/gtktreeselection.h>
 #include <gtk/gtkscrolledwindow.h>
@@ -36,8 +37,6 @@
 
 #include "mail-component.h"
 #include "mail-config.h"
-#include "mail-config-druid.h"
-#include "mail-account-editor.h"
 #include "mail-ops.h"
 #include "mail-send-recv.h"
 

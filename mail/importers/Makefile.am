@@ -23,7 +23,6 @@ libevolution_mail_importers_la_SOURCES =	\
 
 libevolution_mail_importers_la_LIBADD =				\
 	$(top_builddir)/shell/importer/libevolution-importer.la	\
-	$(top_builddir)/camel/libcamel.la			\
 	$(top_builddir)/e-util/libeutil.la			\
 	$(top_builddir)/filter/libfilter.la			\
 	$(top_builddir)/shell/libeshell.la			\

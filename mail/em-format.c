@@ -33,7 +33,7 @@
 #include <libgnomevfs/gnome-vfs-mime-handlers.h>
 #include <libgnome/gnome-i18n.h>
 
-#include <e-util/e-msgport.h>
+#include <libedataserver/e-msgport.h>
 #include <camel/camel-url.h>
 #include <camel/camel-stream.h>
 #include <camel/camel-stream-mem.h>

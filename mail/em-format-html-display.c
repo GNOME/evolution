@@ -72,7 +72,7 @@
 /* should this be in e-util rather than gal? */
 #include <gal/util/e-util.h>
 
-#include <e-util/e-msgport.h>
+#include <libedataserver/e-msgport.h>
 #include <e-util/e-gui-utils.h>
 #include <e-util/e-dialog-utils.h>
 #include <e-util/e-icon-factory.h>

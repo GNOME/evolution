@@ -60,7 +60,7 @@
 #include <bonobo/bonobo-ui-util.h>
 
 /* for efilterbar stuff */
-#include <e-util/e-sexp.h>
+#include <libedataserver/e-sexp.h>
 #include "mail-vfolder.h"
 #include "em-vfolder-rule.h"
 #include <widgets/misc/e-filter-bar.h>

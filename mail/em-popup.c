@@ -43,7 +43,7 @@
 #include <libgnome/gnome-i18n.h>
 
 #include "em-popup.h"
-#include "e-util/e-msgport.h"
+#include "libedataserver/e-msgport.h"
 #include <e-util/e-icon-factory.h>
 #include "em-utils.h"
 #include "em-composer-utils.h"

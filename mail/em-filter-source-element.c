@@ -32,8 +32,8 @@
 
 #include <gtk/gtk.h>
 #include <e-util/e-url.h>
-#include <e-util/e-sexp.h>
-#include <e-util/e-account-list.h>
+#include <libedataserver/e-sexp.h>
+#include <libedataserver/e-account-list.h>
 #include <camel/camel-url.h>
 
 
