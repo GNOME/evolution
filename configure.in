@@ -280,6 +280,20 @@ EVO_CHECK_LIB(GtkHTML, 0.8, gtkhtml)
 EVO_CHECK_LIB(GNOME-VFS, 0.4.2, vfs)
 EVO_CHECK_LIB(libxml, 1.8.10, xml)
 
+dnl **********
+dnl libunicode
+dnl **********
+AC_MSG_CHECKING(for libunicode)
+if unicode-config --libs > /dev/null 2>&1; then 
+    UNICODE_LIBS=`unicode-config --libs`
+    UNICODE_CFLAGS=`unicode-config --cflags`
+    AC_SUBST(UNICODE_LIBS)
+    AC_SUBST(UNICODE_CFLAGS)
+    AC_MSG_RESULT(found)
+else
+    AC_MSG_ERROR(libunicode not found)
+fi
+
 
 dnl *************************
 dnl CFLAGS and LIBS and stuff
