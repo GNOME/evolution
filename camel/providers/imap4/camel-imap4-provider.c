@@ -26,6 +26,7 @@
 
 #include <camel/camel-sasl.h>
 #include <camel/camel-provider.h>
+#include <camel/camel-i18n.h>
 
 #include "camel-imap4-store.h"
 

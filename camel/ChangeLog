@@ -1,3 +1,7 @@
+2004-10-04  JP Rosevear  <jpr@novell.com>
+
+	* providers/imap4/camel-imap4-provider.c: include camel-i18n.h
+
 2004-10-01  Jeffrey Stedfast  <fejj@novell.com>
 
 	* camel-service.c (camel_getaddrinfo): Avoid assigning a value to
