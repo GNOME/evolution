@@ -524,8 +524,8 @@ composer_send_cb (EMsgComposer *composer, gpointer data)
 
 		message = gnome_warning_dialog_parented (_("You need to configure an identity\n"
 							   "before you can send mail."),
-							 gtk_widget_get_ancestor (GTK_WIDGET (composer),
-										  GTK_TYPE_WINDOW));
+							 GTK_WINDOW (gtk_widget_get_ancestor (GTK_WIDGET (composer),
+											      GTK_TYPE_WINDOW)));
 		gnome_dialog_run_and_close (GNOME_DIALOG (message));
 		return;
 	}
@@ -791,12 +791,11 @@ move_msg (GtkWidget *button, gpointer user_data)
 	char *uri, *physical, *path;
 	struct move_data rfd;
 	const char *allowed_types[] = { "mail", NULL };
-
 	extern EvolutionShellClient *global_shell_client;
-	static char *last;
+	static char *last = NULL;
 
-	if (last == NULL)
-		last = g_strdup ("");
+	if (!last)
+		g_strdup ("");
 
 	evolution_shell_client_user_select_folder  (global_shell_client,
 						    _("Move message(s) to"),
@@ -817,12 +816,12 @@ move_msg (GtkWidget *button, gpointer user_data)
 	if (!rfd.dest)
 		return;
 	rfd.ex = camel_exception_new ();
-
+	
 	message_list_foreach (ml, real_move_msg, &rfd);
 	gtk_object_unref (GTK_OBJECT (rfd.dest));
-
+	
 	if (camel_exception_is_set (rfd.ex))
-	    mail_exception_dialog ("Could not move message", rfd.ex, fb);
+		mail_exception_dialog ("Could not move message", rfd.ex, fb);
 	camel_exception_free (rfd.ex);
 }
 
