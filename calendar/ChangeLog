@@ -1,3 +1,10 @@
+2005-03-25  Harry Lu  <harry.lu@sun.com>
+
+	Fix a string break by 44579's patch.
+
+	* gui/print.c: (print_comp_item): split the strings to 
+	reuse existing strings.
+
 2005-03-24  JP Rosevear  <jpr@novell.com>
 
 	Fixes #69272
