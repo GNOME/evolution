@@ -71,6 +71,7 @@ char *mail_get_message_body (CamelDataWrapper *data, gboolean want_plain, gboole
 char *mail_identify_mime_part (CamelMimePart *part, MailDisplay *md);
 
 /* component factory for lack of a better place */
+void mail_add_storage (CamelStore *store, const char *name, const char *uri);
 void mail_load_storage_by_uri (GNOME_Evolution_Shell shell, const char *uri, const char *name);
 /*takes a GSList of MailConfigServices */
 void mail_load_storages (GNOME_Evolution_Shell shell, const GSList *sources, gboolean is_account_data);

@@ -1,3 +1,13 @@
+2002-06-06  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-account-gui.c (mail_account_gui_save): If this account is
+	not a completely new account (ie, it is an edited account), then
+	remove any trace of it from the shell storages. If the new account
+	belongs in the folder-tree, add it to the list of storages.
+
+	* component-factory.c (mail_add_storage): New function to add a
+	single storage.
+
 2002-06-06  Radek Doulik  <rodo@ximian.com>
 
 	* mail-composer-prefs.c (mail_composer_prefs_construct): disable

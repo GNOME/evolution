@@ -1283,6 +1283,34 @@ add_storage (const char *name, const char *uri, CamelService *store,
 	}
 }
 
+
+void
+mail_add_storage (CamelStore *store, const char *name, const char *uri)
+{
+	EvolutionShellClient *shell_client;
+	GNOME_Evolution_Shell shell;
+	CamelException ex;
+	
+	g_return_if_fail (CAMEL_IS_STORE (store));
+	
+	shell_client = evolution_shell_component_get_owner (shell_component);
+	shell = bonobo_object_corba_objref (BONOBO_OBJECT (shell_client));
+	
+	camel_exception_init (&ex);
+	
+	if (name == NULL) {
+		char *service_name;
+		
+		service_name = camel_service_get_name (store, TRUE);
+		add_storage (service_name, uri, store, shell, &ex);
+		g_free (service_name);
+	} else {
+		add_storage (name, uri, store, shell, &ex);
+	}
+	
+	camel_exception_clear (&ex);
+}
+
 void
 mail_load_storage_by_uri (GNOME_Evolution_Shell shell, const char *uri, const char *name)
 {
@@ -1338,7 +1366,8 @@ mail_load_storage_by_uri (GNOME_Evolution_Shell shell, const char *uri, const ch
 	camel_object_unref (CAMEL_OBJECT (store));
 }
 
-/* FIXME: 'is_account_data' is an ugly hack, if we remove support for NNTP we can take it out -- fejj */
+/* FIXME: 'is_account_data' is an ugly hack, if we move support for
+   NNTP into the normal Account stuff, we can take it out -- fejj */
 void
 mail_load_storages (GNOME_Evolution_Shell shell, const GSList *sources, gboolean is_account_data)
 {
@@ -1380,7 +1409,7 @@ mail_hash_storage (CamelService *store, EvolutionStorage *storage)
 	g_hash_table_insert (storages_hash, store, storage);
 }
 
-EvolutionStorage*
+EvolutionStorage *
 mail_lookup_storage (CamelStore *store)
 {
 	EvolutionStorage *storage;
@@ -1423,7 +1452,7 @@ mail_remove_storage (CamelStore *store)
 		return;
 	
 	g_hash_table_remove (storages_hash, store);
-
+	
 	/* so i guess potentially we could have a race, add a store while one
 	   being removed.  ?? */
 	mail_note_store_remove(store);
@@ -1432,7 +1461,7 @@ mail_remove_storage (CamelStore *store)
 	corba_shell = bonobo_object_corba_objref (BONOBO_OBJECT (shell_client));
 	
 	evolution_storage_deregister_on_shell (storage, corba_shell);
-
+	
 	mail_async_event_emit(async_event, MAIL_ASYNC_THREAD, (MailAsyncFunc)store_disconnect, store, NULL, NULL);
 }
 

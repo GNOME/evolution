@@ -39,6 +39,8 @@
 #include "mail-send-recv.h"
 #include "mail-signature-editor.h"
 #include "mail-composer-prefs.h"
+#include "mail-ops.h"
+#include "mail.h"
 
 #define d(x)
 
@@ -1765,11 +1767,32 @@ save_service (MailAccountGuiService *gsvc, GHashTable *extra_config,
 	camel_url_free (url);
 }
 
+
+static void
+add_new_store (char *uri, CamelStore *store, void *user_data)
+{
+	MailConfigAccount *account = user_data;
+	EvolutionStorage *storage;
+	
+	if (store == NULL)
+		return;
+	
+	storage = mail_lookup_storage (store);
+	if (storage) {
+		/* store is already in the folder tree, no need to fret... */
+		bonobo_object_unref (BONOBO_OBJECT (storage));
+		return;
+	}
+	
+	/* store is *not* in the folder tree, so lets add it. */
+	mail_add_storage (store, account->name, account->source->url);
+}
+
 gboolean
 mail_account_gui_save (MailAccountGui *gui)
 {
 	MailConfigAccount *account = gui->account;
-	const MailConfigAccount *old_account;
+	MailConfigAccount *old_account;
 	CamelProvider *provider = NULL;
 	CamelURL *source_url = NULL, *url;
 	char *new_name;
@@ -1786,13 +1809,16 @@ mail_account_gui_save (MailAccountGui *gui)
 	 * here. */
 	
 	new_name = e_utf8_gtk_entry_get_text (gui->account_name);
-	old_account = mail_config_get_account_by_name (new_name);
+	old_account = (MailConfigAccount *) mail_config_get_account_by_name (new_name);
 	
 	if (old_account && old_account != account) {
 		e_notice (NULL, GNOME_MESSAGE_BOX_ERROR,
 			  _("You may not create two accounts with the same name."));
 		return FALSE;
 	}
+	
+	/* make a copy of the old account for later use... */
+	old_account = account_copy (account);
 	
 	g_free (account->name);
 	account->name = new_name;
@@ -1882,8 +1908,27 @@ mail_account_gui_save (MailAccountGui *gui)
 	account->smime_always_sign = gtk_toggle_button_get_active (gui->smime_always_sign);
 #endif /* HAVE_NSS && SMIME_SUPPORTED */
 	
-	if (!mail_config_find_account (account))
+	if (!mail_config_find_account (account)) {
+		/* this is a new account so it it to our account-list */
 		mail_config_add_account (account);
+	} else if (old_account->source && old_account->source->url) {
+		/* this means the account was edited */
+		
+		/* remove the old store from the folder-tree as it is probably no longer valid */
+		mail_remove_storage_by_uri (old_account->source->url);
+	}
+	
+	/* destroy the copy of the old account */
+	account_destroy (old_account);
+	
+	/* if the account provider is something we can stick
+	   in the folder-tree and not added by some other
+	   component, then get the CamelStore and add it to
+	   the shell storages */
+	if (provider && (provider->flags & CAMEL_PROVIDER_IS_STORAGE) &&
+	    !(provider->flags & CAMEL_PROVIDER_IS_EXTERNAL))
+		mail_get_store (account->source->url, add_new_store, account);
+	
 	if (gtk_toggle_button_get_active (gui->default_account))
 		mail_config_set_default_account (account);
 	
