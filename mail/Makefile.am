@@ -8,8 +8,10 @@ INCLUDES = \
 	-I$(top_srcdir)/widgets				\
 	-I$(top_srcdir)/widgets/e-text			\
 	-I$(top_srcdir)/widgets/misc			\
-	-I$(top_srcdir)					\
 	-I$(top_srcdir)/camel				\
+	-I$(top_srcdir)					\
+	-I$(top_srcdir)/composer			\
+	-I$(top_builddir)/composer			\
 	-I$(top_builddir)/shell				\
 	-I$(top_srcdir)/shell				\
 	-I$(top_builddir)/executive-summary		\

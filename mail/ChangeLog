@@ -1,3 +1,7 @@
+2000-11-07  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* Makefile.am (INCLUDES): Add the composer dirs.
+
 2000-11-07  Not Zed  <NotZed@HelixCode.com>
 
 	* mail-display.c (on_object_requested): God, I sure wish people
