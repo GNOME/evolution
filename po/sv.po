@@ -11,14 +11,14 @@
 # meeting = sammanträde
 # event = evenemang
 #
-# $Id: sv.po,v 1.206 2005/02/20 21:39:23 menthos Exp $
+# $Id: sv.po,v 1.207 2005/02/21 10:13:25 menthos Exp $
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-02-20 22:38+0100\n"
-"PO-Revision-Date: 2005-02-20 22:38+0100\n"
+"POT-Creation-Date: 2005-02-21 11:11+0100\n"
+"PO-Revision-Date: 2005-02-21 11:12+0100\n"
 "Last-Translator: Christian Rose <menthos@menthos.com>\n"
 "Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -874,7 +874,7 @@ msgid "Add Address Book"
 msgstr "Lägg till adressbok"
 
 #: addressbook/gui/component/ldap-config.glade.h:15
-#: mail/em-account-editor.c:292
+#: mail/em-account-editor.c:300
 msgid "Always"
 msgstr "Alltid"
 
@@ -910,7 +910,7 @@ msgid "Lo_gin:"
 msgstr "Inlo_ggning:"
 
 #: addressbook/gui/component/ldap-config.glade.h:25
-#: mail/em-account-editor.c:290
+#: mail/em-account-editor.c:298
 msgid "Never"
 msgstr "Aldrig"
 
@@ -1035,7 +1035,7 @@ msgid "Using email address"
 msgstr "Använder e-postadress"
 
 #: addressbook/gui/component/ldap-config.glade.h:42
-#: mail/em-account-editor.c:291
+#: mail/em-account-editor.c:299
 msgid "Whenever Possible"
 msgstr "Närsomhelst"
 
@@ -1089,7 +1089,7 @@ msgstr "kort"
 #: calendar/gui/alarm-notify/alarm-notify.glade.h:12
 #: calendar/gui/dialogs/alarm-dialog.glade.h:26
 #: calendar/gui/dialogs/calendar-setup.glade.h:14 filter/filter.glade.h:16
-#: mail/em-account-editor.c:1825 plugins/calendar-http/calendar-http.c:263
+#: mail/em-account-editor.c:1883 plugins/calendar-http/calendar-http.c:263
 #: plugins/calendar-weather/calendar-weather.c:564
 msgid "minutes"
 msgstr "minut"
@@ -5116,6 +5116,8 @@ msgstr "<b>Arbetsvecka</b>"
 msgid ""
 "<i>%u and %d will be replaced by user and domain from the email address.</i>"
 msgstr ""
+"<i>%u och %d kommer att ersättas med användaren och domänen från e-"
+"postadressen.</i>"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:16
 msgid "Calendar and Tasks Settings"
@@ -5460,7 +5462,7 @@ msgstr[1] "%d bifogade meddelanden"
 
 #: calendar/gui/dialogs/comp-editor.c:412 calendar/gui/e-calendar-table.c:1164
 #: calendar/gui/e-calendar-view.c:1402 composer/e-msg-composer.c:2906
-#: mail/em-folder-tree.c:1046 mail/em-folder-view.c:972
+#: mail/em-folder-tree.c:1046 mail/em-folder-view.c:973
 #: mail/message-list.c:1712 ui/evolution-addressbook.xml.h:31
 #: ui/evolution-calendar.xml.h:39 ui/evolution-composer-entries.xml.h:7
 #: ui/evolution-mail-message.xml.h:105 ui/evolution-tasks.xml.h:20
@@ -5469,7 +5471,7 @@ msgstr "_Kopiera"
 
 #: calendar/gui/dialogs/comp-editor.c:413 composer/e-msg-composer.c:2907
 #: mail/em-folder-tree.c:1047 mail/em-folder-tree.c:2311
-#: mail/em-folder-view.c:868 mail/message-list.c:1713
+#: mail/em-folder-view.c:869 mail/message-list.c:1713
 msgid "_Move"
 msgstr "_Flytta"
 
@@ -5814,8 +5816,8 @@ msgstr "_Starttid:"
 #: calendar/gui/dialogs/meeting-page.glade.h:5
 #: calendar/gui/e-cal-model-tasks.c:652 calendar/gui/e-itip-control.c:1104
 #: composer/e-msg-composer.c:2117 filter/filter-rule.c:878
-#: mail/em-account-editor.c:675 mail/em-account-editor.c:1273
-#: mail/em-account-prefs.c:421 mail/em-folder-view.c:999
+#: mail/em-account-editor.c:683 mail/em-account-editor.c:1289
+#: mail/em-account-prefs.c:421 mail/em-folder-view.c:1000
 #: plugins/calendar-weather/calendar-weather.c:371
 #: plugins/calendar-weather/calendar-weather.c:425
 #: plugins/itip-formatter/itip-formatter.c:1376
@@ -6346,7 +6348,7 @@ msgstr "%s vid %s"
 msgid "%s for an unknown trigger type"
 msgstr "%s för en okänd triggertyp"
 
-#: calendar/gui/e-cal-component-preview.c:70 mail/em-folder-view.c:2587
+#: calendar/gui/e-cal-component-preview.c:70 mail/em-folder-view.c:2588
 #, c-format
 msgid "Click to open %s"
 msgstr "Klicka för att öppna %s"
@@ -6550,7 +6552,7 @@ msgid "Open _Web Page"
 msgstr "Öppna _webbsida"
 
 #: calendar/gui/e-calendar-table.c:1158 calendar/gui/e-calendar-view.c:1396
-#: mail/em-folder-view.c:982 mail/em-popup.c:493
+#: mail/em-folder-view.c:983 mail/em-popup.c:493
 #: ui/evolution-mail-message.xml.h:124
 msgid "_Save As..."
 msgstr "_Spara som..."
@@ -6593,7 +6595,7 @@ msgstr "_Markera markerade uppgifter som färdiga"
 
 #. FIXME: need to disable for undeletable folders
 #: calendar/gui/e-calendar-table.c:1176 calendar/gui/e-calendar-view.c:1414
-#: mail/em-folder-tree.c:2814 mail/em-folder-view.c:986
+#: mail/em-folder-tree.c:2814 mail/em-folder-view.c:987
 #: ui/evolution-addressbook.xml.h:33 ui/evolution-calendar.xml.h:40
 #: ui/evolution-mail-message.xml.h:108 ui/evolution-tasks.xml.h:21
 msgid "_Delete"
@@ -7104,17 +7106,17 @@ msgstr ""
 
 #: calendar/gui/e-itip-control.c:1959
 msgid "Attendee status could not be updated because of an invalid status!\n"
-msgstr "Närvarostatus kunde inte uppdateras på grund av ogiltig status!\n"
+msgstr "Deltagarstatus kunde inte uppdateras på grund av ogiltig status!\n"
 
 #: calendar/gui/e-itip-control.c:1976
 msgid "Attendee status updated\n"
-msgstr "Närvarostatus är uppdaterad\n"
+msgstr "Deltagarstatus är uppdaterad\n"
 
 #: calendar/gui/e-itip-control.c:1979
 #: plugins/itip-formatter/itip-formatter.c:852
 msgid "Attendee status can not be updated because the item no longer exists"
 msgstr ""
-"Närvarostatusen kan inte uppdateras eftersom objektet inte längre finns"
+"Deltagarstatusen kan inte uppdateras eftersom objektet inte längre finns"
 
 #: calendar/gui/e-itip-control.c:2006
 msgid "Removal Complete"
@@ -7146,7 +7148,7 @@ msgstr "Acceptera preliminärt"
 
 #: calendar/gui/e-itip-control.c:2262
 msgid "Decline"
-msgstr "Neka"
+msgstr "Avslå"
 
 #: calendar/gui/e-itip-control.c:2291
 msgid "Send Free/Busy Information"
@@ -9610,8 +9612,8 @@ msgstr "Namnlöst meddelande"
 msgid "Open File"
 msgstr "Öppna fil"
 
-#: composer/e-msg-composer.c:2001 mail/em-account-editor.c:578
-#: mail/em-account-editor.c:623 mail/em-account-editor.c:690
+#: composer/e-msg-composer.c:2001 mail/em-account-editor.c:586
+#: mail/em-account-editor.c:631 mail/em-account-editor.c:698
 msgid "Autogenerated"
 msgstr "Automatiskt genererad"
 
@@ -10357,7 +10359,7 @@ msgstr "Evolutions e-postredigerarkonfigurationskontroll"
 msgid "Evolution Mail preferences control"
 msgstr "Evolutions e-postinställningskontroll"
 
-#: mail/GNOME_Evolution_Mail.server.in.in.h:11 mail/em-folder-view.c:472
+#: mail/GNOME_Evolution_Mail.server.in.in.h:11 mail/em-folder-view.c:473
 #: mail/importers/elm-importer.c:418 mail/importers/netscape-importer.c:1902
 #: mail/importers/pine-importer.c:474 mail/mail-component.c:536
 #: mail/mail-component.c:587
@@ -10376,12 +10378,12 @@ msgstr "E-postinställningar"
 msgid "_Mail"
 msgstr "_E-post"
 
-#: mail/em-account-editor.c:377
+#: mail/em-account-editor.c:385
 #, c-format
 msgid "%s License Agreement"
 msgstr "Licensavtal för %s"
 
-#: mail/em-account-editor.c:384
+#: mail/em-account-editor.c:392
 #, c-format
 msgid ""
 "\n"
@@ -10390,29 +10392,49 @@ msgid ""
 "and tick the check box for accepting it\n"
 msgstr ""
 
-#: mail/em-account-editor.c:454 mail/em-filter-folder-element.c:237
+#: mail/em-account-editor.c:462 mail/em-filter-folder-element.c:237
 #: mail/em-vfolder-rule.c:494
 msgid "Select Folder"
 msgstr "Välj mapp"
 
-#: mail/em-account-editor.c:1817
+#: mail/em-account-editor.c:1662 mail/mail-config.glade.h:89
+msgid "Identity"
+msgstr "Identitet"
+
+#: mail/em-account-editor.c:1698 mail/mail-config.glade.h:114
+msgid "Receiving Email"
+msgstr "Mottagande av e-post"
+
+#: mail/em-account-editor.c:1875
 msgid "Automatically check for _new mail every"
 msgstr "Kontrollera automatiskt _ny e-post var"
 
+#: mail/em-account-editor.c:2044 mail/mail-config.glade.h:124
+msgid "Sending Email"
+msgstr "Skickande av e-post"
+
+#: mail/em-account-editor.c:2088 mail/mail-config.glade.h:67
+msgid "Defaults"
+msgstr "Standardvärden"
+
+#: mail/em-account-editor.c:2147 mail/mail-config.glade.h:119
+msgid "Security"
+msgstr "Säkerhet"
+
 #. Most sections for this is auto-generated fromt the camel config
-#: mail/em-account-editor.c:2086 mail/em-account-editor.c:2164
+#: mail/em-account-editor.c:2184 mail/em-account-editor.c:2259
 msgid "Receiving Options"
 msgstr "Alternativ för mottagning"
 
-#: mail/em-account-editor.c:2087 mail/em-account-editor.c:2165
+#: mail/em-account-editor.c:2185 mail/em-account-editor.c:2260
 msgid "Checking for New Mail"
 msgstr "Kontroll av ny e-post"
 
-#: mail/em-account-editor.c:2509 mail/mail-config.glade.h:33
+#: mail/em-account-editor.c:2600 mail/mail-config.glade.h:33
 msgid "Account Editor"
 msgstr "Kontoredigerare"
 
-#: mail/em-account-editor.c:2509 mail/mail-config.glade.h:79
+#: mail/em-account-editor.c:2600 mail/mail-config.glade.h:79
 msgid "Evolution Account Assistant"
 msgstr "Evolutions kontoassistent"
 
@@ -10603,7 +10625,7 @@ msgstr "Skräp"
 msgid "Junk Test"
 msgstr "Skräptest"
 
-#: mail/em-filter-i18n.h:37 mail/em-folder-view.c:998
+#: mail/em-filter-i18n.h:37 mail/em-folder-view.c:999
 #: widgets/misc/e-expander.c:189
 msgid "Label"
 msgstr "Etikett"
@@ -10851,13 +10873,13 @@ msgid "Copying `%s' to `%s'"
 msgstr "Kopierar \"%s\" till \"%s\""
 
 #: mail/em-folder-tree.c:2297 mail/em-folder-tree.c:2311
-#: mail/em-folder-view.c:868 mail/em-folder-view.c:883
+#: mail/em-folder-view.c:869 mail/em-folder-view.c:884
 #: mail/importers/evolution-mbox-importer.c:120
 #: mail/importers/evolution-outlook-importer.c:134
 msgid "Select folder"
 msgstr "Välj mapp"
 
-#: mail/em-folder-tree.c:2297 mail/em-folder-view.c:883
+#: mail/em-folder-tree.c:2297 mail/em-folder-view.c:884
 msgid "C_opy"
 msgstr "_Kopiera"
 
@@ -10912,130 +10934,130 @@ msgstr "_Ny mapp..."
 msgid "_Rename..."
 msgstr "_Byt namn..."
 
-#: mail/em-folder-view.c:976 mail/em-popup.c:498
+#: mail/em-folder-view.c:977 mail/em-popup.c:498
 #: ui/evolution-mail-message.xml.h:87
 msgid "Reply to _All"
 msgstr "Svara till _alla"
 
-#: mail/em-folder-view.c:977 ui/evolution-mail-message.xml.h:123
+#: mail/em-folder-view.c:978 ui/evolution-mail-message.xml.h:123
 msgid "_Reply to Sender"
 msgstr "Sva_ra till avsändaren"
 
-#: mail/em-folder-view.c:978 mail/em-popup.c:500
+#: mail/em-folder-view.c:979 mail/em-popup.c:500
 #: ui/evolution-mail-message.xml.h:110
 msgid "_Forward"
 msgstr "Vidare_befordra"
 
-#: mail/em-folder-view.c:981 ui/evolution-mail-message.xml.h:109
+#: mail/em-folder-view.c:982 ui/evolution-mail-message.xml.h:109
 msgid "_Edit as New Message..."
 msgstr "_Redigera som nytt meddelande..."
 
-#: mail/em-folder-view.c:983
+#: mail/em-folder-view.c:984
 msgid "_Print"
 msgstr "Skriv _ut"
 
-#: mail/em-folder-view.c:987
+#: mail/em-folder-view.c:988
 msgid "U_ndelete"
 msgstr "_Ångra borttagning"
 
-#: mail/em-folder-view.c:988
+#: mail/em-folder-view.c:989
 msgid "Mo_ve to Folder..."
 msgstr "Fl_ytta till mapp..."
 
-#: mail/em-folder-view.c:989 ui/evolution-addressbook.xml.h:32
+#: mail/em-folder-view.c:990 ui/evolution-addressbook.xml.h:32
 msgid "_Copy to Folder..."
 msgstr "_Kopiera till mapp..."
 
-#: mail/em-folder-view.c:992
+#: mail/em-folder-view.c:993
 msgid "Mark as _Important"
 msgstr "Markera som _viktigt"
 
-#: mail/em-folder-view.c:993
+#: mail/em-folder-view.c:994
 msgid "_Mark as Unimportant"
 msgstr "Markera som ovi_ktigt"
 
-#: mail/em-folder-view.c:994 ui/evolution-mail-message.xml.h:54
+#: mail/em-folder-view.c:995 ui/evolution-mail-message.xml.h:54
 msgid "Mark as _Junk"
 msgstr "Markera som _skräp"
 
-#: mail/em-folder-view.c:995 ui/evolution-mail-message.xml.h:55
+#: mail/em-folder-view.c:996 ui/evolution-mail-message.xml.h:55
 msgid "Mark as _Not Junk"
 msgstr "Markera som _inte skräp"
 
-#: mail/em-folder-view.c:996
+#: mail/em-folder-view.c:997
 msgid "Mark for Follo_w Up..."
 msgstr "Markera för _uppföljning..."
 
-#: mail/em-folder-view.c:1004
+#: mail/em-folder-view.c:1005
 msgid "Fla_g Completed"
 msgstr "Fla_gga färdig"
 
-#: mail/em-folder-view.c:1005
+#: mail/em-folder-view.c:1006
 msgid "Cl_ear Flag"
 msgstr "T_öm flagga"
 
-#: mail/em-folder-view.c:1008
+#: mail/em-folder-view.c:1009
 msgid "Crea_te Rule From Message"
 msgstr "Ska_pa regel från meddelande"
 
-#: mail/em-folder-view.c:1009
+#: mail/em-folder-view.c:1010
 msgid "vFolder on _Subject"
 msgstr "Virtuell mapp på _ämne"
 
-#: mail/em-folder-view.c:1010
+#: mail/em-folder-view.c:1011
 msgid "vFolder on Se_nder"
 msgstr "Virtuell mapp på _avsändare"
 
-#: mail/em-folder-view.c:1011
+#: mail/em-folder-view.c:1012
 msgid "vFolder on _Recipients"
 msgstr "Virtuell mapp på _mottagare"
 
-#: mail/em-folder-view.c:1012
+#: mail/em-folder-view.c:1013
 msgid "vFolder on Mailing _List"
 msgstr "Virtuell mapp på sänd_lista"
 
-#: mail/em-folder-view.c:1016
+#: mail/em-folder-view.c:1017
 msgid "Filter on Sub_ject"
 msgstr "Filtrera på _ämne"
 
-#: mail/em-folder-view.c:1017
+#: mail/em-folder-view.c:1018
 msgid "Filter on Sen_der"
 msgstr "Filtrera på _avsändare"
 
-#: mail/em-folder-view.c:1018
+#: mail/em-folder-view.c:1019
 msgid "Filter on Re_cipients"
 msgstr "Filtrera på _mottagare"
 
-#: mail/em-folder-view.c:1019
+#: mail/em-folder-view.c:1020
 msgid "Filter on _Mailing List"
 msgstr "Filtrera på sä_ndlista"
 
 #. default charset used in mail view
-#: mail/em-folder-view.c:1850 mail/em-folder-view.c:1894
+#: mail/em-folder-view.c:1851 mail/em-folder-view.c:1895
 msgid "Default"
 msgstr "Standard"
 
-#: mail/em-folder-view.c:1993
+#: mail/em-folder-view.c:1994
 msgid "Print Message"
 msgstr "Skriv ut meddelande"
 
-#: mail/em-folder-view.c:2292
+#: mail/em-folder-view.c:2293
 msgid "_Copy Link Location"
 msgstr "_Kopiera länkplats"
 
-#: mail/em-folder-view.c:2294
+#: mail/em-folder-view.c:2295
 msgid "Create _vFolder"
 msgstr "Skapa _virtuell mapp"
 
-#: mail/em-folder-view.c:2295
+#: mail/em-folder-view.c:2296
 msgid "_From this Address"
 msgstr "_Från denna adress"
 
-#: mail/em-folder-view.c:2296
+#: mail/em-folder-view.c:2297
 msgid "_To this Address"
 msgstr "_Till denna adress"
 
-#: mail/em-folder-view.c:2582
+#: mail/em-folder-view.c:2583
 #, c-format
 msgid "Click to mail %s"
 msgstr "Klicka för att skicka e-post till %s"
@@ -12499,10 +12521,6 @@ msgstr "_Standard"
 msgid "Default character e_ncoding:"
 msgstr "Standardtecken_kodning:"
 
-#: mail/mail-config.glade.h:67
-msgid "Defaults"
-msgstr "Standardvärden"
-
 #: mail/mail-config.glade.h:69
 msgid "Digitally _sign outgoing messages (by default)"
 msgstr "_Signera utgående meddelanden digitalt (som standard)"
@@ -12570,10 +12588,6 @@ msgstr "Markera _citat med"
 #: mail/mail-config.glade.h:88
 msgid "I_nclude remote tests"
 msgstr "_Inkludera fjärrtester"
-
-#: mail/mail-config.glade.h:89
-msgid "Identity"
-msgstr "Identitet"
 
 #: mail/mail-config.glade.h:91
 msgid "Inline"
@@ -12659,10 +12673,6 @@ msgstr "Ko_m ihåg lösenord"
 msgid "Re_ply-To:"
 msgstr "Sva_ra till:"
 
-#: mail/mail-config.glade.h:114
-msgid "Receiving Email"
-msgstr "Mottagande av e-post"
-
 #: mail/mail-config.glade.h:115
 msgid "Remember _password"
 msgstr "Kom ihåg _lösenord"
@@ -12679,10 +12689,6 @@ msgstr "_Standardtypsnitt:"
 msgid "Se_lect..."
 msgstr "V_älj..."
 
-#: mail/mail-config.glade.h:119
-msgid "Security"
-msgstr "Säkerhet"
-
 #: mail/mail-config.glade.h:120
 msgid "Select HTML fixed width font"
 msgstr "Välj HTML-typsnitt med fast breddsteg"
@@ -12698,10 +12704,6 @@ msgstr "Välj HTML-typsnitt med variabelt breddsteg"
 #: mail/mail-config.glade.h:123
 msgid "Select HTML variable width font for printing"
 msgstr "Välj HTML-typsnitt med variabelt breddsteg för utskrift"
-
-#: mail/mail-config.glade.h:124
-msgid "Sending Email"
-msgstr "Skickande av e-post"
 
 #: mail/mail-config.glade.h:125
 msgid "Sending Mail"
@@ -13060,6 +13062,12 @@ msgid ""
 "your message. To avoid this, you should add at least one To: or CC: "
 "recipient. "
 msgstr ""
+"Kontaktlistan som du skickar till är konfigurerad att dölja listmottagare.\n"
+"\n"
+"Många e-postsystem lägger till ett \"Apparently-To\"-huvud till meddelanden "
+"som endast har blindkopiemottagare. Detta huvud kommer, om det läggs till, "
+"att lista alla dina mottagare i ditt brev. För att undvika detta bör du "
+"lägga till åtminstone en Till:- eller Kopia:-mottagare."
 
 #. mail:ask-send-only-bcc secondary
 #: mail/mail-errors.xml.h:31
@@ -13069,12 +13077,18 @@ msgid ""
 "your message anyway. To avoid this, you should add at least one To: or CC: "
 "recipient."
 msgstr ""
+"Många e-postsystem lägger till ett \"Apparently-To\"-huvud till meddelanden "
+"som endast har blindkopiemottagare. Detta huvud kommer, om det läggs till, "
+"att ändå lista alla dina mottagare i ditt brev. För att undvika detta bör du "
+"lägga till åtminstone en Till:- eller Kopia:-mottagare."
 
 #. mail:send-no-recipients primary
 #: mail/mail-errors.xml.h:34
 msgid ""
 "This message cannot be sent because you have not specified any Recipients"
 msgstr ""
+"Detta meddelande kan inte skickas eftersom du inte har angivit några "
+"mottagare"
 
 #. mail:send-no-recipients secondary
 #: mail/mail-errors.xml.h:36
@@ -13082,22 +13096,22 @@ msgid ""
 "Please enter a valid email address in the To: field. You can search for "
 "email addresses by clicking on the To: button next to the entry box."
 msgstr ""
+"Ange en giltig e-postadress i Till:-fältet. Du kan söka efter en e-"
+"postadress genom att klicka på Till:-knappen bredvid inmatningsfältet."
 
 #. mail:ask-default-drafts primary
 #: mail/mail-errors.xml.h:38
-#, fuzzy
 msgid "Use default drafts folder?"
-msgstr "Öppnar standarduppgiftsmappen"
+msgstr "Använda standardutkastmappen?"
 
 #. mail:ask-default-drafts secondary
 #: mail/mail-errors.xml.h:40
-#, fuzzy
 msgid ""
 "Unable to open the drafts folder for this account.  Use the system drafts "
 "folder instead?"
 msgstr ""
-"Kan inte öppna utkastmappen för detta konto.\n"
-"Vill du använda standardmappen för utkast?"
+"Kan inte öppna utkastmappen för detta konto. Vill du använda standardmappen "
+"för utkast istället?"
 
 #: mail/mail-errors.xml.h:41
 msgid "Use _Default"
@@ -13105,12 +13119,12 @@ msgstr "Använd _standard"
 
 #. mail:ask-expunge primary
 #: mail/mail-errors.xml.h:43
-#, fuzzy
 msgid ""
 "Are you sure you want to permanently remove all the deleted message in "
 "folder \"{0}\"?"
 msgstr ""
-"Är du säker på att du vill öppna alla %d meddelanden i separata fönster?"
+"Är du säker på att du vill ta bort alla borttagna meddelande i mappen \"{0}"
+"\"?"
 
 #. mail:ask-expunge secondary
 #. mail:ask-empty-trash secondary
@@ -13125,11 +13139,12 @@ msgstr "_Töm"
 
 #. mail:ask-empty-trash primary
 #: mail/mail-errors.xml.h:48
-#, fuzzy
 msgid ""
 "Are you sure you want to permanently remove all the deleted messages in all "
 "folders?"
-msgstr "Ta bort alla borttagna meddelanden från alla mappar permanent"
+msgstr ""
+"Är du säker på att du vill permanent ta bort alla borttagna meddelanden i "
+"alla mappar?"
 
 #: mail/mail-errors.xml.h:51
 msgid "_Empty Trash"
@@ -13156,13 +13171,12 @@ msgstr "Du har oskickade meddelanden, vill du ändå avsluta?"
 
 #. mail:exit-unsaved secondary
 #: mail/mail-errors.xml.h:60
-#, fuzzy
 msgid ""
 "If you quit, these messages will not be sent until Evolution is started "
 "again."
 msgstr ""
-"Dina uppgifter kommer inte att vara tillgängliga innan Evolution har "
-"startats om."
+"Om du avslutar kommer dessa meddelanden inte att skickas förrän Evolution "
+"startas på nytt."
 
 #. mail:camel-exception primary
 #: mail/mail-errors.xml.h:62
@@ -13177,6 +13191,11 @@ msgid ""
 "The message is stored in the Outbox folder.  Check the message for errors "
 "and resend."
 msgstr ""
+"Meddelandet skickades via det externa programmet \"sendmail\". Sendmail "
+"rapporterar följande fel: \"status 67: mail not sent\" (brevet skickades "
+"inte).\n"
+"Meddelandet lagras i utkorgsmappen. Kontrollera om meddelandet innehåller "
+"fel och skicka på nytt."
 
 #. mail:async-error primary
 #: mail/mail-errors.xml.h:67
@@ -13262,12 +13281,13 @@ msgid ""
 "System folders are required for Ximian Evolution to function correctly and "
 "cannot be renamed, moved, or deleted."
 msgstr ""
+"Systemmappar krävs för att Ximian Evolution ska fungera korrekt och de kan "
+"inte flyttas, tas bort eller döpas om."
 
 #. mail:no-rename-special-folder primary
 #: mail/mail-errors.xml.h:123
-#, fuzzy
 msgid "Cannot rename or move system folder \"{0}\"."
-msgstr "Kan inte byta namn på mapp: %s: Det finns ingen sådan mapp"
+msgstr "Kan inte byta namn på eller flytta systemmappen \"{0}\"."
 
 #. mail:ask-delete-folder title
 #: mail/mail-errors.xml.h:127
@@ -13276,9 +13296,8 @@ msgstr "Ta bort \"{0}\"?"
 
 #. mail:ask-delete-folder primary
 #: mail/mail-errors.xml.h:129
-#, fuzzy
 msgid "Really delete folder \"{0}\" and all of its subfolders?"
-msgstr "Verkligen ta bort mappen \"%s\"?"
+msgstr "Vill du verkligen ta bort mappen \"{0}\" och alla dess undermappar?"
 
 #. mail:ask-delete-folder secondary
 #: mail/mail-errors.xml.h:131
@@ -13286,61 +13305,55 @@ msgid ""
 "If you delete the folder, all of its contents and its subfolders contents "
 "will be deleted permanently."
 msgstr ""
+"Om du tar bort denna mapp kommer hela dess innehåll och innehållet i alla "
+"dess undermappar att tas bort permanent."
 
 #. mail:no-rename-folder-exists primary
 #. mail:no-rename-folder primary
 #: mail/mail-errors.xml.h:133 mail/mail-errors.xml.h:137
-#, fuzzy
 msgid "Cannot rename \"{0}\" to \"{1}\"."
-msgstr "Kan inte flytta mapp: %s"
+msgstr "Kan inte byta namn på \"{0}\" till \"{1}\"."
 
 #. mail:no-rename-folder-exists secondary
 #. mail:vfolder-notunique secondary
 #: mail/mail-errors.xml.h:135 mail/mail-errors.xml.h:197
-#, fuzzy
 msgid "A folder named \"{1}\" already exists. Please use a different name."
-msgstr "En mapp med namnet \"%s\" finns redan. Använd ett annat namn."
+msgstr "En mapp med namnet \"{1}\" finns redan. Använd ett annat namn."
 
 # Mycket konstigt meddelande...
 #. mail:no-rename-folder secondary
 #: mail/mail-errors.xml.h:139
-#, fuzzy
 msgid "Because \"{2}\"."
-msgstr "Eftersom \"{1}\"."
+msgstr "Eftersom \"{2}\"."
 
 #. mail:no-move-folder-nostore primary
 #. mail:no-move-folder-to-nostore primary
 #: mail/mail-errors.xml.h:141 mail/mail-errors.xml.h:145
-#, fuzzy
 msgid "Cannot move folder \"{0}\" to \"{1}\"."
-msgstr "Kan inte flytta mapp: %s"
+msgstr "Kan inte flytta mappen \"{0}\" till \"{1}\"."
 
 #. mail:no-move-folder-nostore secondary
 #. mail:no-copy-folder-nostore secondary
 #: mail/mail-errors.xml.h:143 mail/mail-errors.xml.h:151
-#, fuzzy
 msgid "Cannot open source \"{2}\"."
-msgstr "Kunde inte uppdatera objekt"
+msgstr "Kunde inte öppna källan \"{2}\"."
 
 #. mail:no-move-folder-to-nostore secondary
 #. mail:no-copy-folder-to-nostore secondary
 #: mail/mail-errors.xml.h:147 mail/mail-errors.xml.h:155
-#, fuzzy
 msgid "Cannot open target \"{2}\"."
-msgstr "Kan inte öppna meddelande"
+msgstr "Kan inte öppna målet \"{2}\"."
 
 #. mail:no-copy-folder-nostore primary
 #. mail:no-copy-folder-to-nostore primary
 #: mail/mail-errors.xml.h:149 mail/mail-errors.xml.h:153
-#, fuzzy
 msgid "Cannot copy folder \"{0}\" to \"{1}\"."
-msgstr "Kan inte kopiera mapp: %s"
+msgstr "Kan inte kopiera mappen \"{0}\" till \"{1}\"."
 
 #. mail:no-create-folder-nostore primary
 #: mail/mail-errors.xml.h:157
-#, fuzzy
 msgid "Cannot create folder \"{0}\"."
-msgstr "Kan inte få mapp: %s: %s"
+msgstr "Kan inte skapa mappen \"{0}\"."
 
 #. mail:no-create-folder-nostore secondary
 #: mail/mail-errors.xml.h:159
@@ -13376,7 +13389,7 @@ msgstr "Är du säker på att du vill ta bort detta konto?"
 #. mail:ask-delete-account secondary
 #: mail/mail-errors.xml.h:173
 msgid "If you proceed, the account information will be deleted permanently."
-msgstr ""
+msgstr "Om du fortsätter kommer kontoinformationen att tas bort permanent."
 
 #: mail/mail-errors.xml.h:174
 msgid "Don't delete"
@@ -13395,35 +13408,28 @@ msgstr "Eftersom \"{0}\"."
 
 #. mail:signature-notscript primary
 #: mail/mail-errors.xml.h:180
-#, fuzzy
 msgid "Cannot set signature script \"{0}\"."
-msgstr "Välj ett signaturskript"
+msgstr "Kan inte ställa in signaturskriptet \"{0}\"."
 
 #. mail:signature-notscript secondary
 #: mail/mail-errors.xml.h:182
 msgid "The script file must exist and be executable."
-msgstr ""
+msgstr "Skriptfilen måste finnas och vara körbar."
 
 #. mail:ask-signature-changed title
 #: mail/mail-errors.xml.h:184
-#, fuzzy
 msgid "Discard changed?"
-msgstr "_Förkasta ändringar"
+msgstr "Förkasta ändrad?"
 
 #. mail:ask-signature-changed primary
 #: mail/mail-errors.xml.h:186
-#, fuzzy
 msgid "Do you wish to save your changes?"
-msgstr "Vill du spara ändringar?"
+msgstr "Vill du spara dina ändringar?"
 
 #. mail:ask-signature-changed secondary
 #: mail/mail-errors.xml.h:188
-#, fuzzy
 msgid "This signature has been changed, but has not been saved."
-msgstr ""
-"Denna signatur har ändrats, men har inte sparats.\n"
-"\n"
-"Vill du spara dina ändringar?"
+msgstr "Denna signatur har ändrats, men har inte sparats."
 
 #: mail/mail-errors.xml.h:189
 msgid "_Discard changes"
@@ -13431,9 +13437,9 @@ msgstr "_Förkasta ändringar"
 
 #. mail:vfolder-notexist primary
 #: mail/mail-errors.xml.h:191
-#, fuzzy
 msgid "Cannot edit vFolder \"{0}\" as it does not exist."
-msgstr "Mappen \"%s\" finns inte."
+msgstr ""
+"Kan inte redigera den virtuella mappen \"{0}\" eftersom den inte finns."
 
 #. mail:vfolder-notexist secondary
 #: mail/mail-errors.xml.h:193
@@ -13441,24 +13447,21 @@ msgid ""
 "This folder may have been added implicitly, go to the vFolder editor to add "
 "it explicitly, if required."
 msgstr ""
+"Denna mapp kan ha lagts till implicit. Gå till redigeraren för virtuella "
+"mappar och lägg till den explicit, om så krävs."
 
 #. mail:vfolder-notunique primary
 #: mail/mail-errors.xml.h:195
-#, fuzzy
 msgid "Cannot add vFolder \"{0}\"."
-msgstr ""
-"Kan inte ta bort mapp:\n"
-"%s"
+msgstr "Kan inte lägga till den virtuella mappen \"{0}\"."
 
 #. mail:vfolder-updated primary
 #: mail/mail-errors.xml.h:199
-#, fuzzy
 msgid "vFolders automatically updated."
-msgstr "Uppdatera automatiskt"
+msgstr "Virtuella mappar har automatiskt blivit uppdaterade."
 
 #. mail:vfolder-updated secondary
 #: mail/mail-errors.xml.h:201
-#, fuzzy
 msgid ""
 "The following vFolder(s):\n"
 "{0}\n"
@@ -13467,19 +13470,18 @@ msgid ""
 "And have been updated."
 msgstr ""
 "Följande virtuella mappar:\n"
-"%sAnvände den borttagna mappen:\n"
-"    \"%s\"\n"
+"{0}\n"
+"Använde den nu borttagna mappen:\n"
+"    \"{1}\"\n"
 "och har uppdaterats."
 
 #. mail:filter-updated primary
 #: mail/mail-errors.xml.h:207
-#, fuzzy
 msgid "Mail filters automatically updated."
-msgstr "Uppdatera automatiskt"
+msgstr "E-postfilter har automatiskt blivit uppdaterade."
 
 #. mail:filter-updated secondary
 #: mail/mail-errors.xml.h:209
-#, fuzzy
 msgid ""
 "The following filter rule(s):\n"
 "{0}\n"
@@ -13487,16 +13489,16 @@ msgid ""
 "    \"{1}\"\n"
 "And have been updated."
 msgstr ""
-"Följande virtuella mappar:\n"
-"%sAnvände den borttagna mappen:\n"
-"    \"%s\"\n"
+"Följande filterregler:\n"
+"{0}\n"
+"Använde den nu borttagna mappen:\n"
+"    \"{1}\"\n"
 "och har uppdaterats."
 
 #. mail:no-folder primary
 #: mail/mail-errors.xml.h:215
-#, fuzzy
 msgid "Missing folder."
-msgstr "Sammanfattar mapp"
+msgstr "Mapp saknas."
 
 #. mail:no-folder secondary
 #: mail/mail-errors.xml.h:217
@@ -13505,15 +13507,13 @@ msgstr "Du måste ange en mapp."
 
 #. mail:no-name-vfolder secondary
 #: mail/mail-errors.xml.h:221
-#, fuzzy
 msgid "You must name this vFolder."
 msgstr "Du måste ge denna virtuella mapp ett namn."
 
 #. mail:vfolder-no-source primary
 #: mail/mail-errors.xml.h:223
-#, fuzzy
 msgid "No sources selected."
-msgstr "Ingen server har valts"
+msgstr "Inga källor har valts."
 
 #. mail:vfolder-no-source secondary
 #: mail/mail-errors.xml.h:225
@@ -13522,11 +13522,14 @@ msgid ""
 "Either by selecting the folders individually, and/or by selecting\n"
 "all local folders, all remote folders, or both."
 msgstr ""
+"Du måste ange minst en mapp som en källa.\n"
+"Antingen genom att markera mapparna individuellt, och/eller genom\n"
+"att markera alla lokala mappar, alla fjärrmappar, eller bådadera."
 
 #. mail:ask-migrate-existing primary
 #: mail/mail-errors.xml.h:229
 msgid "Problem migrating old mail folder \"{0}\"."
-msgstr ""
+msgstr "Problem vid migrering av den gamla e-postmappen \"{0}\"."
 
 #. mail:ask-migrate-existing secondary
 #: mail/mail-errors.xml.h:231
@@ -13536,28 +13539,27 @@ msgid ""
 "You can choose to ignore this folder, overwrite or append its contents, or "
 "quit.\n"
 msgstr ""
+"En icke-tom mapp finns redan vid \"{1}\".\n"
+"\n"
+"Du kan välja att ignorera denna mapp, skriva över eller lägga till dess "
+"innehåll, eller avsluta.\n"
 
 #: mail/mail-errors.xml.h:235
 msgid "Ignore"
-msgstr ""
+msgstr "Ignorera"
 
 #: mail/mail-errors.xml.h:236 widgets/misc/e-system-errors.xml.h:7
-#, fuzzy
 msgid "_Overwrite"
-msgstr "Skriv över"
+msgstr "Skriv _över"
 
 #: mail/mail-errors.xml.h:237
-#, fuzzy
 msgid "_Append"
-msgstr "Aspen"
+msgstr "_Lägg till"
 
 #. mail:no-load-license primary
 #: mail/mail-errors.xml.h:239
-#, fuzzy
 msgid "Unable to read license file."
-msgstr ""
-"Kan inte spola filen: %s\n"
-"%s"
+msgstr "Kan inte läsa licensfilen."
 
 #. mail:no-load-license secondary
 #: mail/mail-errors.xml.h:241
@@ -13567,31 +13569,35 @@ msgid ""
 "until\n"
 "      you can accept its license."
 msgstr ""
+"Kan inte läsa licensfilen \"{0}\" på grund av ett\n"
+"      problem med installationen. Du kommer inte att kunna använda denna "
+"leverantör\n"
+"      innan du accepterar dess licens."
 
 #. mail:checking-service title
 #: mail/mail-errors.xml.h:245
 msgid "Querying server"
-msgstr ""
+msgstr "Rådfrågar server"
 
 #. mail:checking-service primary
 #: mail/mail-errors.xml.h:247
-#, fuzzy
 msgid "Please wait."
-msgstr "Var vänlig vänta"
+msgstr "Var vänlig vänta."
 
 #. mail:checking-service secondary
 #: mail/mail-errors.xml.h:249
-#, fuzzy
 msgid "Querying server for a list of supported authentication mechanisms."
-msgstr "Kryptering behövs för begärd autentiseringsmekanism"
+msgstr ""
+"Rådfrågar servern om en lista över de autentiseringsmekanismer som stöds."
 
 #. mail:gw-accountsetup-error primary
 #: mail/mail-errors.xml.h:251
-#, fuzzy
 msgid ""
 "Unable to connect to the GroupWise\n"
 "server."
-msgstr "Misslyckades med att ansluta till LDAP-server"
+msgstr ""
+"Kan inte ansluta till GroupWise-\n"
+"servern."
 
 #. mail:gw-accountsetup-error secondary
 #: mail/mail-errors.xml.h:254
@@ -13599,6 +13605,8 @@ msgid ""
 "\n"
 "Please check your account settings and try again.\n"
 msgstr ""
+"\n"
+"Kontrollera dina kontoinställningar och försök igen.\n"
 
 #: mail/mail-folder-cache.c:813
 #, c-format
@@ -13639,9 +13647,9 @@ msgid "Sending message %d of %d"
 msgstr "Skickar meddelande %d av %d"
 
 #: mail/mail-ops.c:727
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to send %d of %d messages"
-msgstr "Misslyckades med att avkoda meddelandet."
+msgstr "Misslyckades med att skicka %d av %d meddelanden"
 
 #: mail/mail-ops.c:729 mail/mail-send-recv.c:613
 msgid "Cancelled."
@@ -13692,12 +13700,12 @@ msgstr "Lagrar mappen \"%s\""
 #: mail/mail-ops.c:1491
 #, c-format
 msgid "Expunging and storing account '%s'"
-msgstr ""
+msgstr "Tömmer och lagrar kontot \"%s\""
 
 #: mail/mail-ops.c:1492
-#, fuzzy, c-format
+#, c-format
 msgid "Storing account '%s'"
-msgstr "Lagrar mappen \"%s\""
+msgstr "Lagrar kontot \"%s\""
 
 #: mail/mail-ops.c:1547
 msgid "Refreshing folder"
@@ -13722,18 +13730,18 @@ msgid "Retrieving message %s"
 msgstr "Hämtar meddelande %s"
 
 #: mail/mail-ops.c:1787
-#, fuzzy, c-format
+#, c-format
 msgid "Retrieving %d message"
 msgid_plural "Retrieving %d messages"
-msgstr[0] "Hämtar %d meddelande(n)"
-msgstr[1] "Hämtar %d meddelande(n)"
+msgstr[0] "Hämtar %d meddelande"
+msgstr[1] "Hämtar %d meddelanden"
 
 #: mail/mail-ops.c:1873
-#, fuzzy, c-format
+#, c-format
 msgid "Saving %d message"
 msgid_plural "Saving %d messsages"
-msgstr[0] "Sparar %d meddelande(n)"
-msgstr[1] "Sparar %d meddelande(n)"
+msgstr[0] "Sparar %d meddelande"
+msgstr[1] "Sparar %d meddelanden"
 
 #: mail/mail-ops.c:1923
 #, c-format
@@ -13846,14 +13854,14 @@ msgid "Name:"
 msgstr "Namn:"
 
 #: mail/mail-tools.c:115
-#, fuzzy, c-format
+#, c-format
 msgid "Could not create spool directory `%s': %s"
-msgstr "Kunde inte skapa katalogen %s: %s"
+msgstr "Kunde inte skapa spool-katalogen \"%s\": %s"
 
 #: mail/mail-tools.c:142
 #, c-format
 msgid "Trying to movemail a non-mbox source `%s'"
-msgstr ""
+msgstr "Försöker att movemail:a en källa \"%s\" som inte är en mbox"
 
 #: mail/mail-tools.c:277
 #, c-format
@@ -13865,24 +13873,24 @@ msgid "Forwarded message"
 msgstr "Vidarebefordrat meddelande"
 
 #: mail/mail-tools.c:320
-#, fuzzy, c-format
+#, c-format
 msgid "Invalid folder: `%s'"
-msgstr "Öppnar mappen %s"
+msgstr "Ogiltig mapp: \"%s\""
 
 #: mail/mail-vfolder.c:90
-#, fuzzy, c-format
+#, c-format
 msgid "Setting up vFolder: %s"
-msgstr "Ställer in virtuell mapp: %s"
+msgstr "Konfigurerar virtuell mapp: %s"
 
 #: mail/mail-vfolder.c:239
-#, fuzzy, c-format
+#, c-format
 msgid "Updating vFolders for '%s:%s'"
-msgstr "Uppdaterar virtuella mappar för uri: %s"
+msgstr "Uppdaterar virtuella mappar för \"%s:%s\""
 
 #: mail/mail-vfolder.c:246
-#, fuzzy, c-format
+#, c-format
 msgid "Updating vFolders for '%s'"
-msgstr "Uppdaterar virtuella mappar för uri: %s"
+msgstr "Uppdaterar virtuella mappar för \"%s\""
 
 #: mail/mail-vfolder.c:1008
 msgid "Edit vFolder"
@@ -13936,7 +13944,7 @@ msgstr "?"
 #. in 12-hour format, without seconds.
 #: mail/message-list.c:1348 plugins/itip-formatter/itip-view.c:189
 msgid "Today %l:%M %p"
-msgstr "Idag %H.%M"
+msgstr "Idag %l.%M"
 
 #: mail/message-list.c:1357
 msgid "Yesterday %l:%M %p"
@@ -13955,9 +13963,8 @@ msgid "%b %d %Y"
 msgstr "%d %b %Y"
 
 #: mail/message-list.c:2046
-#, fuzzy
 msgid "Message List"
-msgstr "Meddelanden"
+msgstr "Meddelandelista"
 
 #: mail/message-list.c:3386
 msgid "Generating message list"
@@ -14048,86 +14055,70 @@ msgid "Subject contains"
 msgstr "Ämnet innehåller"
 
 #: mail/searchtypes.xml.h:6
-#, fuzzy
 msgid "Subject or Sender contains"
-msgstr "Ämnet innehåller"
+msgstr "Ämnet eller avsändaren innehåller"
 
 #: plugins/backup-restore/backup-restore.c:51
-#, fuzzy
 msgid "Select name of Evolution archive"
-msgstr "Utskrift av Mitt Evolution misslyckades"
+msgstr "Välj namn på Evolution-arkiv"
 
 #: plugins/backup-restore/backup-restore.c:61
-#, fuzzy
 msgid "_Restart Evolution after backup"
-msgstr "_Evolution-attribut:"
+msgstr "Starta _om Evolution efter säkerhetskopiering"
 
 #: plugins/backup-restore/backup-restore.c:89
 msgid "Select Evolution archive to restore"
-msgstr ""
+msgstr "Välj Evolution-arkiv att återställa"
 
 #: plugins/backup-restore/backup-restore.c:97
-#, fuzzy
 msgid "_Restart Evolution after restore"
-msgstr "_Evolution-attribut:"
+msgstr "Starta _om Evolution efter återställning"
 
 #: plugins/backup-restore/backup.c:109
-#, fuzzy
 msgid "Backup Evolution directory"
-msgstr "Evolution-fel"
+msgstr "Säkerhetskopiera Evolution-katalog"
 
 #: plugins/backup-restore/backup.c:111
-#, fuzzy
 msgid "Restore Evolution directory"
-msgstr "Evolution-fel"
+msgstr "Återställ Evolution-katalogen"
 
 #: plugins/backup-restore/backup.c:113
-#, fuzzy
 msgid "Check Evolution archive"
-msgstr "Grupprogramvarusviten Evolution"
+msgstr "Kontrollera Evolution-arkiv"
 
 #: plugins/backup-restore/backup.c:115
-#, fuzzy
 msgid "Restart Evolution"
-msgstr "Skriv ut Mitt Evolution"
+msgstr "Starta om Evolution"
 
 #: plugins/backup-restore/org-gnome-backup-restore.xml.h:1
-#, fuzzy
 msgid "Backup Settings..."
-msgstr "Uppgiftsinställningar..."
+msgstr "Säkerhetskopiera inställningar..."
 
 #: plugins/backup-restore/org-gnome-backup-restore.xml.h:2
-#, fuzzy
 msgid "Backup and restore Evolution data and settings"
-msgstr "Ändra Evolutions inställningar"
+msgstr "Säkerhetskopiera och återställ data och inställningar i Evolution"
 
 #: plugins/backup-restore/org-gnome-backup-restore.xml.h:3
-#, fuzzy
 msgid "Restore Settings..."
-msgstr "Uppgiftsinställningar..."
+msgstr "Återställ inställningar..."
 
 #: plugins/bbdb/bbdb.c:388
-#, fuzzy
 msgid "Automatic Contacts"
-msgstr "Lägg till i kontakter"
+msgstr "Automatiska kontakter"
 
-# Finns både med <b> och <span blah blah. Varför?
-# http://bugzilla.ximian.com/show_bug.cgi?id=61078
 #: plugins/bbdb/bbdb.c:397
-#, fuzzy
 msgid "<span weight=\"bold\">Automatic Contacts</span>"
-msgstr "<span weight=\"bold\">Grundläggande</span>"
+msgstr "<span weight=\"bold\">Automatiska kontakter</span>"
 
 #. Enable BBDB checkbox
 #: plugins/bbdb/bbdb.c:410
 msgid ""
 "_Automatically create entries in the addressbook when responding to mail"
-msgstr ""
+msgstr "Skapa _automatiskt poster i adressboken då e-post besvaras"
 
 #: plugins/bbdb/bbdb.c:428
-#, fuzzy
 msgid "<span weight=\"bold\">Instant Messaging Contacts</span>"
-msgstr "Skickade meddelanden och utkast"
+msgstr "<span weight=\"bold\">Kontakter för snabbmeddelanden</span>"
 
 #. Enable Gaim Checkbox
 #: plugins/bbdb/bbdb.c:441
@@ -14135,162 +14126,143 @@ msgid ""
 "Periodically synchronize contact information and images from my _instant "
 "messenger"
 msgstr ""
+"Synkronisera periodiskt kontaktinformation och bilder från mitt "
+"snabb_meddelandeprogram"
 
 #. Synchronize now button.
 #: plugins/bbdb/bbdb.c:448
-#, fuzzy
 msgid "Synchronize with _buddy list now"
-msgstr "Synkroniseringsåtgärd"
+msgstr "Synkronisera med _kompislistan nu"
 
 #: plugins/calendar-weather/calendar-weather.c:54
 #: plugins/calendar-weather/calendar-weather.c:60
-#, fuzzy
 msgid "Weather: Cloudy"
-msgstr "Väder"
+msgstr "Väder: Molnigt"
 
 #: plugins/calendar-weather/calendar-weather.c:61
-#, fuzzy
 msgid "Weather: Fog"
-msgstr "Väder"
+msgstr "Väder: Dimma"
 
 #: plugins/calendar-weather/calendar-weather.c:62
 msgid "Weather: Partly Cloudy"
-msgstr ""
+msgstr "Väder: Delvis molnigt"
 
 #: plugins/calendar-weather/calendar-weather.c:63
-#, fuzzy
 msgid "Weather: Rain"
-msgstr "Väder"
+msgstr "Väder: Regn"
 
 #: plugins/calendar-weather/calendar-weather.c:64
-#, fuzzy
 msgid "Weather: Snow"
-msgstr "Väder"
+msgstr "Väder: Snö"
 
 #: plugins/calendar-weather/calendar-weather.c:65
-#, fuzzy
 msgid "Weather: Sunny"
-msgstr "Väderinställningar"
+msgstr "Väder: Soligt"
 
 #: plugins/calendar-weather/calendar-weather.c:66
-#, fuzzy
 msgid "Weather: Thunderstorms"
-msgstr "Åska"
+msgstr "Väder: Åska"
 
 #: plugins/calendar-weather/calendar-weather.c:100
 msgid "Weather"
 msgstr "Väder"
 
 #: plugins/calendar-weather/calendar-weather.c:268
-#, fuzzy
 msgid "Select a location"
-msgstr "Välj en åtgärd"
+msgstr "Välj en plats"
 
 #: plugins/calendar-weather/calendar-weather.c:655
-#, fuzzy
 msgid "_Units:"
-msgstr "Enheter: "
+msgstr "_Enheter:"
 
 #: plugins/calendar-weather/calendar-weather.c:662
 msgid "Metric (Celsius, cm, etc)"
-msgstr ""
+msgstr "Metriska (Celsius, cm, osv.)"
 
 #: plugins/calendar-weather/calendar-weather.c:663
 msgid "Imperial (Fahrenheit, inches, etc)"
-msgstr ""
+msgstr "Amerikanska (Fahrenheit, tum, osv.)"
 
 #: plugins/default-source/default-source.c:82
-#, fuzzy
 msgid "Mark  as default folder"
-msgstr "Öppnar standarduppgiftsmappen"
+msgstr "Markera som standardmapp"
 
 #: plugins/default-source/default-source.c:108
-#, fuzzy
 msgid "Mark as default folder"
-msgstr "Öppnar standarduppgiftsmappen"
+msgstr "Markera som standardmapp"
 
 #. i18n: "Secure Password Authentication" is an Outlookism
 #: plugins/exchange-account-setup/exchange-account-setup.c:53
-#, fuzzy
 msgid "Secure Password"
-msgstr "Ange lösenord"
+msgstr "Säkert lösenord"
 
 #. i18n: "NTLM" probably doesn't translate
 #: plugins/exchange-account-setup/exchange-account-setup.c:56
-#, fuzzy
 msgid ""
 "This option will connect to the Exchange server using secure password (NTLM) "
 "authentication."
 msgstr ""
-"Detta alternativ kommer att ansluta till servern med Kerberos 4-"
-"autentisering."
+"Detta alternativ kommer att ansluta till Exchange-servern genom att använda "
+"säker lösenordsautentisering (NTLM)."
 
 #: plugins/exchange-account-setup/exchange-account-setup.c:64
-#, fuzzy
 msgid "Plaintext Password"
-msgstr "Ange lösenord"
+msgstr "Lösenord i klartext"
 
 #: plugins/exchange-account-setup/exchange-account-setup.c:66
-#, fuzzy
 msgid ""
 "This option will connect to the Exchange server using standard plaintext "
 "password authentication."
 msgstr ""
-"Detta alternativ ansluter till IMAP-servern med ett lösenord i klartext."
+"Detta alternativ kommer att ansluta till Exchange-servern genom att använda "
+"autentisering med lösenord i klartext."
 
 #. Description section
 #: plugins/exchange-account-setup/exchange-account-setup.c:113
-#, fuzzy
 msgid ""
 "The message specified below will be automatically sent to \n"
 "each person who sends mail to you while you are out of the office."
 msgstr ""
-"Meddelandet nedan kommer automatiskt att skickas till varje person som "
-"skickar e-post till dig när du inte är inne på kontoret."
+"Meddelandet som anges nedan kommer automatiskt att skickas\n"
+"till varje person som skickar e-post till dig när du inte är\n"
+"på kontoret."
 
 #: plugins/exchange-account-setup/exchange-account-setup.c:140
-#, fuzzy
 msgid "I am in the office"
-msgstr "Jag är på kontoret för tillfället"
+msgstr "Jag är på kontoret"
 
 #: plugins/exchange-account-setup/exchange-account-setup.c:154
-#, fuzzy
 msgid "I am out of the office"
-msgstr "Jag är inte på kontoret för tillfället"
+msgstr "Jag är inte på kontoret"
 
 #: plugins/exchange-account-setup/exchange-account-setup.c:168
-#, fuzzy
 msgid "Out of office Message:"
-msgstr "<b>Inte inne-meddelande:</b>"
+msgstr "Inte inne-meddelande:"
 
 #: plugins/exchange-account-setup/exchange-account-setup.c:194
-#, fuzzy
 msgid "Exchange Settings"
-msgstr "Väderinställningar"
+msgstr "Exchange-inställningar"
 
 #: plugins/exchange-account-setup/exchange-account-setup.c:332
 #: plugins/exchange-account-setup/exchange-ask-password.c:200
 msgid "_OWA Url:"
-msgstr ""
+msgstr "_OWA-URL:"
 
 #: plugins/exchange-account-setup/exchange-account-setup.c:340
 #: plugins/exchange-account-setup/exchange-ask-password.c:193
-#, fuzzy
 msgid "A_uthenticate"
-msgstr "Autentisering"
+msgstr "A_utentisera"
 
 #: plugins/exchange-account-setup/exchange-account-setup.c:457
-#, fuzzy
 msgid "Authentication Type"
-msgstr "_Autentiseringstyp: "
+msgstr "Autentiseringstyp"
 
 #: plugins/exchange-account-setup/exchange-account-setup.c:471
-#, fuzzy
 msgid "Ch_eck for Supported Types"
-msgstr " _Kontrollera vilka typer som stöds "
+msgstr "_Kontrollera vilka typer som stöds"
 
 #: plugins/folder-unsubscribe/folder-unsubscribe.c:57
-#, fuzzy, c-format
+#, c-format
 msgid "Unsubscribing from folder \"%s\""
 msgstr "Säger upp prenumeration på mappen \"%s\""
 
@@ -14300,75 +14272,71 @@ msgstr "Kontrollista"
 
 #: plugins/groupwise-send-options/org-gnome-compose-send-options.xml.h:1
 msgid "Add Send Options to groupwise messages"
-msgstr ""
+msgstr "Lägger till alternativ för skickande till groupwise-meddelanden"
 
 #: plugins/groupwise-send-options/org-gnome-compose-send-options.xml.h:2
 #: widgets/misc/e-send-options.glade.h:20
-#, fuzzy
 msgid "Send Options"
-msgstr "Alternativ"
+msgstr "Alternativ för skickande"
 
 #: plugins/itip-formatter/itip-formatter.c:704
-#, fuzzy
 msgid "Unable to parse item"
-msgstr "Kunde inte tolka meddelandeinnehåll"
+msgstr "Kan inte tolka objekt"
 
 #: plugins/itip-formatter/itip-formatter.c:757
-#, fuzzy, c-format
+#, c-format
 msgid "Unable to send item to calendar '%s'.  %s"
-msgstr "Kan inte öppna kalendern \"%s\"."
+msgstr "Kan inte skicka objekt till kalendern \"%s\". %s"
 
 #: plugins/itip-formatter/itip-formatter.c:768
 #, c-format
 msgid "Sent to calendar '%s' as accepted"
-msgstr ""
+msgstr "Skickade till kalendern \"%s\" som accepterat"
 
 #: plugins/itip-formatter/itip-formatter.c:772
 #, c-format
 msgid "Sent to calendar '%s' as tentative"
-msgstr ""
+msgstr "Skickade till kalendern \"%s\" som preliminärt"
 
 #: plugins/itip-formatter/itip-formatter.c:777
 #, c-format
 msgid "Sent to calendar '%s' as declined"
-msgstr ""
+msgstr "Skickade till kalendern \"%s\" som avslaget"
 
 #: plugins/itip-formatter/itip-formatter.c:782
 #, c-format
 msgid "Sent to calendar '%s' as cancelled"
-msgstr ""
+msgstr "Skickade till kalendern \"%s\" som avbrutet"
 
 #: plugins/itip-formatter/itip-formatter.c:833
-#, fuzzy
 msgid "Attendee status could not be updated because the status is invalid"
-msgstr "Närvarostatus kunde inte uppdateras på grund av ogiltig status!\n"
+msgstr "Deltagarstatus kunde inte uppdateras eftersom statusen är ogiltig"
 
 #: plugins/itip-formatter/itip-formatter.c:844
-#, fuzzy, c-format
+#, c-format
 msgid "Unable to update attendee. %s"
-msgstr "Kan inte migrera kalendern \"%s\""
+msgstr "Kan inte uppdatera deltagare. %s"
 
 #: plugins/itip-formatter/itip-formatter.c:848
-#, fuzzy
 msgid "Attendee status updated"
-msgstr "Närvarostatus är uppdaterad\n"
+msgstr "Deltagarstatusen är uppdaterad"
 
 #: plugins/itip-formatter/itip-formatter.c:973
-#, fuzzy
 msgid "The calendar attached is not valid"
-msgstr "Den angivna mapptypen är inte giltig"
+msgstr "Den bifogade kalendern är inte giltig"
 
 #: plugins/itip-formatter/itip-formatter.c:974
 msgid ""
 "The message claims to contain a calendar, but the calendar is not valid "
 "iCalendar."
 msgstr ""
+"Meddelandet påstår sig innehålla en kalender, men kalendern är inte en "
+"giltig iCalendar."
 
 #: plugins/itip-formatter/itip-formatter.c:1008
 #: plugins/itip-formatter/itip-formatter.c:1064
-#, fuzzy
 msgid "The item in the calendar is not valid"
-msgstr "Förhandsgranskar kalendern som ska skrivas ut"
+msgstr "Objektet i kalendern är inte giltigt"
 
 #: plugins/itip-formatter/itip-formatter.c:1009
 #: plugins/itip-formatter/itip-formatter.c:1065
@@ -14376,40 +14344,39 @@ msgid ""
 "The message does contain a calendar, but the calendar contains no events, "
 "tasks or free/busy information"
 msgstr ""
+"Meddelandet innehåller en kalender, men kalendern innehåller inga händelser, "
+"uppgifter eller ledig-/upptageninformation"
 
 #: plugins/itip-formatter/itip-formatter.c:1020
 msgid "The calendar attached contains multiple items"
-msgstr ""
+msgstr "Den bifogade kalendern innehåller flera objekt"
 
 #: plugins/itip-formatter/itip-formatter.c:1021
 msgid ""
 "To process all of these items, the file should be saved and the calendar "
 "imported"
 msgstr ""
+"För att kunna behandla alla dessa objekt bör filen sparas och kalendern "
+"importeras"
 
 #: plugins/itip-formatter/itip-formatter.c:1658
-#, fuzzy
 msgid "Meetings and Tasks"
-msgstr "Sammanträde - %s"
+msgstr "Sammanträden och uppgifter"
 
 #. Delete message after acting
 #. FIXME Need a schema for this
 #: plugins/itip-formatter/itip-formatter.c:1681
-#, fuzzy
 msgid "_Delete message after acting"
-msgstr "Skicka meddelandet nu"
+msgstr "_Ta bort meddelande efter åtgärd"
 
-# Finns både med <b> och <span blah blah. Varför?
-# http://bugzilla.ximian.com/show_bug.cgi?id=61078
 #: plugins/itip-formatter/itip-formatter.c:1691
-#, fuzzy
 msgid "<span weight=\"bold\">Conflict Search</span>"
-msgstr "<span weight=\"bold\">Grundläggande</span>"
+msgstr "<span weight=\"bold\">Konfliktsökning</span>"
 
 #. Source selector
 #: plugins/itip-formatter/itip-formatter.c:1704
 msgid "Select the calendars to search for meeting conflicts"
-msgstr ""
+msgstr "Välj de kalendrar som ska genomsökas efter sammanträdeskonflikter"
 
 #. strftime format of a weekday and a date.
 #: plugins/itip-formatter/itip-view.c:175 ui/evolution-calendar.xml.h:34
@@ -14420,318 +14387,294 @@ msgstr "Idag"
 #. strftime format of a time,
 #. in 24-hour format, without seconds.
 #: plugins/itip-formatter/itip-view.c:180
-#, fuzzy
 msgid "Today %H:%M"
 msgstr "Idag %H.%M"
 
 #. strftime format of a time,
 #. in 24-hour format.
 #: plugins/itip-formatter/itip-view.c:184
-#, fuzzy
 msgid "Today %H:%M:%S"
-msgstr "Idag %H.%M"
+msgstr "Idag %H.%M.%S"
 
 #. strftime format of a time,
 #. in 12-hour format.
 #: plugins/itip-formatter/itip-view.c:193
-#, fuzzy
 msgid "Today %l:%M:%S %p"
-msgstr "Idag %H.%M"
+msgstr "Idag %l.%M.%S %p"
 
 #. strftime format of a weekday and a date.
 #: plugins/itip-formatter/itip-view.c:203
-#, fuzzy
 msgid "Tomorrow"
-msgstr "Torreon"
+msgstr "Imorgon"
 
 #. strftime format of a time,
 #. in 24-hour format, without seconds.
 #: plugins/itip-formatter/itip-view.c:208
 msgid "Tomorrow %H:%M"
-msgstr ""
+msgstr "Imorgon %H.%M"
 
 #. strftime format of a time,
 #. in 24-hour format.
 #: plugins/itip-formatter/itip-view.c:212
-#, fuzzy
 msgid "Tomorrow %H:%M:%S"
-msgstr "%H.%M.%S"
+msgstr "Imorgon %H.%M.%S"
 
 #. strftime format of a time,
 #. in 12-hour format, without seconds.
 #: plugins/itip-formatter/itip-view.c:217
-#, fuzzy
 msgid "Tomorrow %l:%M %p"
-msgstr "Idag %H.%M"
+msgstr "Imorgon %l.%M %p"
 
 #. strftime format of a time,
 #. in 12-hour format.
 #: plugins/itip-formatter/itip-view.c:221
-#, fuzzy
 msgid "Tomorrow %l:%M:%S %p"
-msgstr "Idag %H.%M"
+msgstr "Imorgon %l.%M.%S %p"
 
 #. strftime format of a weekday.
 #: plugins/itip-formatter/itip-view.c:240
 #, c-format
 msgid "%A"
-msgstr ""
+msgstr "%A"
 
 #. strftime format of a weekday and a
 #. time, in 24-hour format, without seconds.
 #: plugins/itip-formatter/itip-view.c:245
-#, fuzzy
 msgid "%A %H:%M"
-msgstr "%H.%M"
+msgstr "%A %H.%M"
 
 #. strftime format of a weekday and a
 #. time, in 24-hour format.
 #: plugins/itip-formatter/itip-view.c:249
-#, fuzzy
 msgid "%A %H:%M:%S"
-msgstr "%H.%M.%S"
+msgstr "%A %H.%M.%S"
 
 #. strftime format of a weekday and a
 #. time, in 12-hour format, without seconds.
 #: plugins/itip-formatter/itip-view.c:254
-#, fuzzy
 msgid "%A %l:%M %p"
-msgstr "%a %H.%M"
+msgstr "%a %l.%M %p"
 
 #. strftime format of a weekday and a
 #. time, in 12-hour format.
 #: plugins/itip-formatter/itip-view.c:258
-#, fuzzy
 msgid "%A %l:%M:%S %p"
-msgstr "%H.%M.%S %p"
+msgstr "%A %l.%M.%S %p"
 
 #. strftime format of a weekday and a date
 #. without a year.
 #: plugins/itip-formatter/itip-view.c:267
-#, fuzzy
 msgid "%A, %B %e"
-msgstr "%A %e %B %Y"
+msgstr "%A %e %B"
 
 #. strftime format of a weekday, a date
 #. without a year and a time,
 #. in 24-hour format, without seconds.
 #: plugins/itip-formatter/itip-view.c:273
-#, fuzzy
 msgid "%A, %B %e %H:%M"
-msgstr "%A %e %B %Y"
+msgstr "%A %e %B %H.%M"
 
 #. strftime format of a weekday, a date without a year
 #. and a time, in 24-hour format.
 #: plugins/itip-formatter/itip-view.c:277
-#, fuzzy
 msgid "%A, %B %e %H:%M:%S"
-msgstr "%A %e %B %Y"
+msgstr "%A %e %B %H.%M.%S"
 
 #. strftime format of a weekday, a date without a year
 #. and a time, in 12-hour format, without seconds.
 #: plugins/itip-formatter/itip-view.c:282
-#, fuzzy
 msgid "%A, %B %e %l:%M %p"
-msgstr "%d %b %H.%M"
+msgstr "%A %e %B %l.%M %p"
 
 #. strftime format of a weekday, a date without a year
 #. and a time, in 12-hour format.
 #: plugins/itip-formatter/itip-view.c:286
-#, fuzzy
 msgid "%A, %B %e %l:%M:%S %p"
-msgstr "%d %b %H.%M"
+msgstr "%A %e %B %l.%M.%S %p"
 
 #. strftime format of a weekday and a date.
 #: plugins/itip-formatter/itip-view.c:292
-#, fuzzy
 msgid "%A, %B %e, %Y"
 msgstr "%A %e %B %Y"
 
 #. strftime format of a weekday, a date and a
 #. time, in 24-hour format, without seconds.
 #: plugins/itip-formatter/itip-view.c:297
-#, fuzzy
 msgid "%A, %B %e, %Y %H:%M"
-msgstr "%A %e %B %Y"
+msgstr "%A %e %B %Y %H.%M"
 
 #. strftime format of a weekday, a date and a
 #. time, in 24-hour format.
 #: plugins/itip-formatter/itip-view.c:301
-#, fuzzy
 msgid "%A, %B %e, %Y %H:%M:%S"
-msgstr "%a %Y-%m-%d %H.%M.%S"
+msgstr "%A %e %B %Y %H.%M.%S"
 
 #. strftime format of a weekday, a date and a
 #. time, in 12-hour format, without seconds.
 #: plugins/itip-formatter/itip-view.c:306
-#, fuzzy
 msgid "%A, %B %e, %Y %l:%M %p"
-msgstr "den %d %B %Y %k.%M"
+msgstr "%A %e %B %Y %l.%M %p"
 
 #. strftime format of a weekday, a date and a
 #. time, in 12-hour format.
 #: plugins/itip-formatter/itip-view.c:310
-#, fuzzy
 msgid "%A, %B %e, %Y %l:%M:%S %p"
-msgstr "den %d %B %Y %k.%M"
+msgstr "%A %e %B %Y %l.%M.%S %p"
 
 #: plugins/itip-formatter/itip-view.c:335
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> through %s has published the following meeting information:"
-msgstr "<b>%s</b> har publicerat sammanträdesinformation."
+msgstr "<b>%s</b> har genom %s publicerat följande sammanträdesinformation:"
 
 #: plugins/itip-formatter/itip-view.c:337
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> has published the following meeting information:"
-msgstr "<b>%s</b> har publicerat sammanträdesinformation."
+msgstr "<b>%s</b> har publicerat följande sammanträdesinformation:"
 
 #: plugins/itip-formatter/itip-view.c:342
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> requests the presence of %s at the following meeting:"
-msgstr "<b>%s</b> begär att %s närvarar vid ett sammanträde."
+msgstr "<b>%s</b> begär att %s närvarar vid följande sammanträde:"
 
 #: plugins/itip-formatter/itip-view.c:345
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> through %s requests your presence at the following meeting:"
-msgstr "<b>%s</b> begär din närvaro vid ett sammanträde."
+msgstr "<b>%s</b> begär genom %s din närvaro vid följande sammanträde:"
 
 #: plugins/itip-formatter/itip-view.c:347
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> requests your presence at the following meeting:"
-msgstr "<b>%s</b> begär din närvaro vid ett sammanträde."
+msgstr "<b>%s</b> begär din närvaro vid följande sammanträde:"
 
 #: plugins/itip-formatter/itip-view.c:353
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> through %s wishes to add to an existing meeting:"
-msgstr "<b>%s</b> vill lägga till i ett befintligt sammanträde."
+msgstr "<b>%s</b> vill genom %s lägga till i ett befintligt sammanträde:"
 
 #: plugins/itip-formatter/itip-view.c:355
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> wishes to add to an existing meeting:"
-msgstr "<b>%s</b> vill lägga till i ett befintligt sammanträde."
+msgstr "<b>%s</b> vill lägga till i ett befintligt sammanträde:"
 
 #: plugins/itip-formatter/itip-view.c:358
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "<b>%s</b> wishes to receive the latest information for the following meeting:"
-msgstr "<b>%s</b> vill få den senaste uppgiftsinformationen."
+msgstr "<b>%s</b> vill få den senaste informationen för följande sammanträde:"
 
 #: plugins/itip-formatter/itip-view.c:361
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> has sent back the following meeting response:"
-msgstr "<b>%s</b> har skickat ett obegripligt meddelande."
+msgstr "<b>%s</b> har skickat tillbaka följande sammanträdessvar:"
 
 #: plugins/itip-formatter/itip-view.c:365
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> through %s has cancelled the following meeting:"
-msgstr "<b>%s</b> har avbokat ett sammanträde."
+msgstr "<b>%s</b> har genom %s avbokat följande sammanträde:"
 
 #: plugins/itip-formatter/itip-view.c:367
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> has cancelled the following meeting."
-msgstr "<b>%s</b> har avbokat ett sammanträde."
+msgstr "<b>%s</b> har avbokat följande sammanträde."
 
 #: plugins/itip-formatter/itip-view.c:370
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> has proposed the following meeting changes."
-msgstr "<b>%s</b> har svarat på en sammanträdesbegäran."
+msgstr "<b>%s</b> har föreslagit följande sammanträdesändringar."
 
 #: plugins/itip-formatter/itip-view.c:374
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> through %s has declined the following meeting changes:"
-msgstr "<b>%s</b> har svarat på en sammanträdesbegäran."
+msgstr "<b>%s</b> har genom %s avslagit följande sammanträdesändringar:"
 
 #: plugins/itip-formatter/itip-view.c:376
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> has declined the following meeting changes."
-msgstr "<b>%s</b> har svarat på en sammanträdesbegäran."
+msgstr "<b>%s</b> har avslagit följande sammanträdesändringar."
 
 #: plugins/itip-formatter/itip-view.c:403
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> through %s has published the following task:"
-msgstr "<b>%s</b> har publicerat uppgiftsinformation."
+msgstr "<b>%s</b> har genom %s publicerat följande uppgift:"
 
 #: plugins/itip-formatter/itip-view.c:405
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> has published the following task:"
-msgstr "<b>%s</b> har publicerat uppgiftsinformation."
+msgstr "<b>%s</b> har publicerat följande uppgift:"
 
 #: plugins/itip-formatter/itip-view.c:410
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> requests the assignment of %s to the following task:"
-msgstr "<b>%s</b> begär att %s närvarar vid ett sammanträde."
+msgstr "<b>%s</b> begär att %s tilldelas följande uppgift:"
 
 #: plugins/itip-formatter/itip-view.c:413
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> through %s has assigned you a task:"
-msgstr "<b>%s</b> har avbokat en uppgift."
+msgstr "<b>%s</b> har genom %s tilldelat dig en uppgift:"
 
 #: plugins/itip-formatter/itip-view.c:415
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> has assigned you a task:"
-msgstr "<b>%s</b> har avbokat en uppgift."
+msgstr "<b>%s</b> har tilldelat dig en uppgift:"
 
 #: plugins/itip-formatter/itip-view.c:421
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> through %s wishes to add to an existing task:"
-msgstr "<b>%s</b> vill lägga till i en befintlig uppgift."
+msgstr "<b>%s</b> genom %s önskar att lägga till i en befintlig uppgift:"
 
 #: plugins/itip-formatter/itip-view.c:423
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> wishes to add to an existing task:"
-msgstr "<b>%s</b> vill lägga till i en befintlig uppgift."
+msgstr "<b>%s</b> vill lägga till i en befintlig uppgift:"
 
 #: plugins/itip-formatter/itip-view.c:426
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "<b>%s</b> wishes to receive the latest information for the following "
 "assigned task:"
-msgstr "<b>%s</b> vill få den senaste uppgiftsinformationen."
+msgstr ""
+"<b>%s</b> vill få den senaste informationen för följande tilldelade uppgift:"
 
 #: plugins/itip-formatter/itip-view.c:429
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> has sent back the following assigned task response:"
-msgstr "<b>%s</b> har skickat ett obegripligt meddelande."
+msgstr "<b>%s</b> har skickat tillbaka följande svar på en tilldelad uppgift:"
 
 #: plugins/itip-formatter/itip-view.c:433
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> through %s has cancelled the following assigned task:"
-msgstr "<b>%s</b> har avbokat en uppgift."
+msgstr "<b>%s</b> har genom %s avbokat följande tilldelade uppgift:"
 
 #: plugins/itip-formatter/itip-view.c:435
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> has cancelled the following assigned task:"
-msgstr "<b>%s</b> har avbokat en uppgift."
+msgstr "<b>%s</b> har avbokat följande tilldelade uppgift:"
 
 #: plugins/itip-formatter/itip-view.c:438
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> has proposed the following task assignment changes:"
-msgstr "<b>%s</b> har svarat på en uppgiftstilldelning."
+msgstr "<b>%s</b> har föreslagit följande ändringar i uppgiftstilldelningen:"
 
 #: plugins/itip-formatter/itip-view.c:442
 #, c-format
 msgid "<b>%s</b> through %s has declined the following assigned task:"
-msgstr ""
+msgstr "<b>%s</b> har genom %s avslagit följande tilldelade uppgift:"
 
 #: plugins/itip-formatter/itip-view.c:444
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> has declined the following assigned task:"
-msgstr "<b>%s</b> har svarat på en uppgiftstilldelning."
+msgstr "<b>%s</b> har avslagit följande tilldelade uppgift:"
 
 #. Comment
 #: plugins/itip-formatter/itip-view.c:892
 #: plugins/itip-formatter/itip-view.c:942
-#, fuzzy
 msgid "Comment:"
-msgstr ""
-"\n"
-"Kommentar: "
+msgstr "Kommentar: "
 
 #. org.gnome.mailing-list-actions:no-header primary
 #: plugins/mailing-list-actions/org-gnome-mailing-list-actions-errors.xml.h:2
-#, fuzzy
 msgid "Action not available"
-msgstr "Ingen platsinformation finns tillgänglig."
+msgstr "Åtgärd är inte tillgänglig"
 
 #. org.gnome.mailing-list-actions:no-header secondary
 #: plugins/mailing-list-actions/org-gnome-mailing-list-actions-errors.xml.h:4
@@ -14739,12 +14682,13 @@ msgid ""
 "This message does not contain the header information required for this "
 "action."
 msgstr ""
+"Detta meddelande innehåller inte den huvudinformation som krävs för denna "
+"åtgärd."
 
 #. org.gnome.mailing-list-actions:posting-not-allowed primary
 #: plugins/mailing-list-actions/org-gnome-mailing-list-actions-errors.xml.h:6
-#, fuzzy
 msgid "Posting not allowed"
-msgstr "Postande misslyckades: %s"
+msgstr "Postande inte tillåtet"
 
 #. org.gnome.mailing-list-actions:posting-not-allowed secondary
 #: plugins/mailing-list-actions/org-gnome-mailing-list-actions-errors.xml.h:8
@@ -14752,12 +14696,13 @@ msgid ""
 "Posting to this mailing list is not allowed. Possibly, this is a read-only "
 "mailing list. Contact the list owner for details."
 msgstr ""
+"Postande till denna sändlista är inte tillåtet. Detta kan möjligtvis vara en "
+"skrivskyddad sändlista. Kontakta listans ägare för mer information."
 
 #. org.gnome.mailing-list-actions:ask-send-message primary
 #: plugins/mailing-list-actions/org-gnome-mailing-list-actions-errors.xml.h:10
-#, fuzzy
 msgid "Send e-mail message to mailing list?"
-msgstr "Skicka _meddelande till lista..."
+msgstr "Skicka e-postmeddelande till sändlista?"
 
 #. org.gnome.mailing-list-actions:ask-send-message secondary
 #: plugins/mailing-list-actions/org-gnome-mailing-list-actions-errors.xml.h:12
@@ -14768,22 +14713,23 @@ msgid ""
 "You should receive an answer from the mailing list shortly after the message "
 "has been sent."
 msgstr ""
+"Ett e-postmeddelande kommer att skickas till URL:en \"{0}\". Du kan antingen "
+"skicka meddelandet automatiskt eller titta på det och ändra i det först.\n"
+"\n"
+"Du bör få ett svar från sändlistan kort efter det att meddelandet skickats."
 
 #: plugins/mailing-list-actions/org-gnome-mailing-list-actions-errors.xml.h:15
-#, fuzzy
 msgid "_Send message"
-msgstr "Skickar meddelande"
+msgstr "_Skicka meddelande"
 
 #: plugins/mailing-list-actions/org-gnome-mailing-list-actions-errors.xml.h:16
-#, fuzzy
 msgid "_Edit message"
-msgstr "Skickar meddelande"
+msgstr "_Redigera meddelande"
 
 #. org.gnome.mailing-list-actions:malformed-header primary
 #: plugins/mailing-list-actions/org-gnome-mailing-list-actions-errors.xml.h:18
-#, fuzzy
 msgid "Malformed header"
-msgstr "Felaktig signatur"
+msgstr "Felaktigt huvud"
 
 #. org.gnome.mailing-list-actions:malformed-header secondary
 #: plugins/mailing-list-actions/org-gnome-mailing-list-actions-errors.xml.h:20
@@ -14792,12 +14738,14 @@ msgid ""
 "\n"
 "Header: {1}"
 msgstr ""
+"Huvudet {0} i detta meddelande är felaktigt och kunde inte behandlas.\n"
+"\n"
+"Huvud: {1}"
 
 #. org.gnome.mailing-list-actions:no-action primary
 #: plugins/mailing-list-actions/org-gnome-mailing-list-actions-errors.xml.h:24
-#, fuzzy
 msgid "No e-mail action"
-msgstr "Logga filteråtgärder"
+msgstr "Ingen e-poståtgärd"
 
 #. org.gnome.mailing-list-actions:no-action secondary
 #: plugins/mailing-list-actions/org-gnome-mailing-list-actions-errors.xml.h:26
@@ -14807,6 +14755,10 @@ msgid ""
 "\n"
 "Header: {0}"
 msgstr ""
+"Åtgärden kunde inte utföras. Detta betyder att huvudet för denna åtgärd inte "
+"innehöll någon åtgärd som vi kan hantera.\n"
+"\n"
+"Huvud: {0}"
 
 #. Create the checkbox we will display, complete with mnemonic that is unique in the dialog
 #: plugins/new-mail-notify/new-mail-notify.c:66
@@ -18374,6 +18326,76 @@ msgstr "%s (%d%% färdigt)"
 #, fuzzy
 msgid "click here to go to url"
 msgstr "<klicka här för att välja en mapp>"
+
+#~ msgid ""
+#~ "%u and %d will be replaced by user and domain from the email address."
+#~ msgstr ""
+#~ "%u och %d kommer att ersättas med användaren och domänen från e-"
+#~ "postadressen."
+
+#~ msgid ""
+#~ "Are you sure you want to permanently remove all the deleted messages in "
+#~ "folder \"{0}\"?"
+#~ msgstr ""
+#~ "Är du säker på att du vill ta bort alla borttagna meddelanden i mappen "
+#~ "\"{0}\"?"
+
+#~ msgid "Discard changes?"
+#~ msgstr "Förkasta ändringar?"
+
+#~ msgid "_Ignore"
+#~ msgstr "_Ignorera"
+
+#~ msgid "Unable to connect to the GroupWise server."
+#~ msgstr "Kan inte ansluta till GroupWise-servern."
+
+#~ msgid "Messages"
+#~ msgstr "Meddelanden"
+
+#~ msgid "Instant Messaging Contacts"
+#~ msgstr "Kontakter för snabbmeddelanden"
+
+#~ msgid "Cloudy"
+#~ msgstr "Molnigt"
+
+#~ msgid "Partly Cloudy"
+#~ msgstr "Delvis molnigt"
+
+#~ msgid "Sunny"
+#~ msgstr "Soligt"
+
+#~ msgid "Weather:"
+#~ msgstr "Väder:"
+
+#~ msgid "Thunderstorms"
+#~ msgstr "Åska"
+
+#~ msgid "Units:"
+#~ msgstr "Enheter:"
+
+#~ msgid "Authenticate"
+#~ msgstr "Autentisera"
+
+#~ msgid "Add Send Options to GroupWise messages"
+#~ msgstr "Lägger till alternativ för skickande till GroupWise-meddelanden"
+
+#~ msgid "Unable to send item to calendar '%s'."
+#~ msgstr "Kan inte skicka objekt till kalendern \"%s\"."
+
+#~ msgid "Unable to update attendee."
+#~ msgstr "Kan inte uppdatera deltagare."
+
+#~ msgid "Conflict Search"
+#~ msgstr "Konfliktsökning"
+
+#~ msgid "<b>%s</b> has cancelled the following meeting:"
+#~ msgstr "<b>%s</b> har avbokat följande sammanträde:"
+
+#~ msgid "<b>%s</b> has proposed the following meeting changes:"
+#~ msgstr "<b>%s</b> har föreslagit följande sammanträdesändringar:"
+
+#~ msgid "<b>%s</b> has declined the following meeting changes:"
+#~ msgstr "<b>%s</b> har avslagit följande sammanträdesändringar:"
 
 #~ msgid "Time divisions"
 #~ msgstr "Tidsdivisioner"
@@ -22105,11 +22127,10 @@ msgstr "<klicka här för att välja en mapp>"
 #~ msgstr "Du har inte rätt rättigheter för att uppdatera kalendern\n"
 
 #~ msgid "Attendee status could not be updated!\n"
-#~ msgstr "Närvarostatus kunde inte uppdateras!\n"
+#~ msgstr "Deltagarstatus kunde inte uppdateras!\n"
 
-#, fuzzy
 #~ msgid "Add attendees from addressbook"
-#~ msgstr "Lägg till avsändaren i adress_boken"
+#~ msgstr "Lägg till deltagare från adressboken"
 
 #~ msgid "_Options"
 #~ msgstr "_Alternativ"
@@ -33974,7 +33995,7 @@ msgstr "<klicka här för att välja en mapp>"
 #~ msgstr "_Annat"
 
 #~ msgid "Unable to find any of your identities in the attendees list!\n"
-#~ msgstr "Kan inte hitta någon av dina identiteter i närvarolistan!\n"
+#~ msgstr "Kan inte hitta någon av dina identiteter i deltagarlistan!\n"
 
 #~ msgid "Error hashing password."
 #~ msgstr "Fel vid hashning av lösenord."
@@ -34860,7 +34881,7 @@ msgstr "<klicka här för att välja en mapp>"
 #~ msgstr "Informationen i denna bilaga var inte giltig"
 
 #~ msgid "Unable to find any of your identitiesin the attendees list!\n"
-#~ msgstr "Kan inte hitta någon av dina identiteter i närvarolistan!\n"
+#~ msgstr "Kan inte hitta någon av dina identiteter i deltagarlistan!\n"
 
 #~ msgid "I couldn't update your calendar file!\n"
 #~ msgstr "Jag kunde inte uppdatera din kalenderfil!\n"
