@@ -7,6 +7,8 @@
 	* gui/widgets/eab-popup-control.c (eab_popup_control_contstruct):
 	Address Book, not Addressbook
 
+	Fixes #54166 and #54120
+
 2004-02-10  JP Rosevear <jpr@ximian.com>
 
 	* Makefile.am: build importers dir
