@@ -1,3 +1,24 @@
+2002-03-28  Dan Winship  <danw@ximian.com>
+
+	* camel-transport.c (camel_transport_send_to): Change the message
+	arg to a CamelMimeMessage instead of a CamelMedium. Even the NNTP
+	provider returns CamelMimeMessages, and we're never going to
+	support anything more exotic than that. Also do a few more
+	g_return_if_fails here instead of in the providers.
+	(camel_transport_can_send): No longer needed.
+	(camel_transport_send): Remove this too. It wasn't being used any
+	more, and it doesn't behave exactly the same in sendmail and smtp.
+
+	* providers/smtp/camel-smtp-transport.c (smtp_send,
+	smtp_can_send): Gone.
+	(smtp_send_to): Update for arg change.
+	(smtp_data): Make this take a CamelMimeMessage too.
+
+	* providers/sendmail/camel-sendmail-transport.c (sendmail_send,
+	sendmail_can_send): Gone.
+	(sendmail_send_to): Update for arg change, and merge in the part
+	that used to be shared with sendmail_send.
+
 2002-03-27  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-filter-driver.c (camel_filter_driver_filter_folder):

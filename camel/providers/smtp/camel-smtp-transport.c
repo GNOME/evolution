@@ -63,9 +63,7 @@
 #define SMTP_PORT 25
 
 /* camel smtp transport class prototypes */
-static gboolean smtp_can_send (CamelTransport *transport, CamelMedium *message);
-static gboolean smtp_send (CamelTransport *transport, CamelMedium *message, CamelException *ex);
-static gboolean smtp_send_to (CamelTransport *transport, CamelMedium *message,
+static gboolean smtp_send_to (CamelTransport *transport, CamelMimeMessage *message,
 			      CamelAddress *from, CamelAddress *recipients, CamelException *ex);
 
 /* support prototypes */
@@ -83,7 +81,7 @@ static gboolean smtp_auth (CamelSmtpTransport *transport, const char *mech, Came
 static gboolean smtp_mail (CamelSmtpTransport *transport, const char *sender,
 			   gboolean has_8bit_parts, CamelException *ex);
 static gboolean smtp_rcpt (CamelSmtpTransport *transport, const char *recipient, CamelException *ex);
-static gboolean smtp_data (CamelSmtpTransport *transport, CamelMedium *message,
+static gboolean smtp_data (CamelSmtpTransport *transport, CamelMimeMessage *message,
 			   gboolean has_8bit_parts, CamelException *ex);
 static gboolean smtp_rset (CamelSmtpTransport *transport, CamelException *ex);
 static gboolean smtp_quit (CamelSmtpTransport *transport, CamelException *ex);
@@ -111,8 +109,6 @@ camel_smtp_transport_class_init (CamelSmtpTransportClass *camel_smtp_transport_c
 	camel_service_class->query_auth_types = query_auth_types;
 	camel_service_class->get_name = get_name;
 	
-	camel_transport_class->can_send = smtp_can_send;
-	camel_transport_class->send = smtp_send;
 	camel_transport_class->send_to = smtp_send_to;
 }
 
@@ -651,13 +647,7 @@ get_name (CamelService *service, gboolean brief)
 }
 
 static gboolean
-smtp_can_send (CamelTransport *transport, CamelMedium *message)
-{
-	return CAMEL_IS_MIME_MESSAGE (message);
-}
-
-static gboolean
-smtp_send_to (CamelTransport *transport, CamelMedium *message,
+smtp_send_to (CamelTransport *transport, CamelMimeMessage *message,
 	      CamelAddress *from, CamelAddress *recipients,
 	      CamelException *ex)
 {
@@ -666,13 +656,6 @@ smtp_send_to (CamelTransport *transport, CamelMedium *message,
 	gboolean has_8bit_parts;
 	const char *addr;
 	int i, len;
-	
-	if (!from) {
-		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
-				      _("Cannot send message: "
-					"sender address not defined."));
-		return FALSE;
-	}
 	
 	if (!camel_internet_address_get (CAMEL_INTERNET_ADDRESS (from), 0, NULL, &addr)) {
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
@@ -684,7 +667,7 @@ smtp_send_to (CamelTransport *transport, CamelMedium *message,
 	camel_operation_start (NULL, _("Sending message"));
 	
 	/* find out if the message has 8bit mime parts */
-	has_8bit_parts = camel_mime_message_has_8bit_parts (CAMEL_MIME_MESSAGE (message));
+	has_8bit_parts = camel_mime_message_has_8bit_parts (message);
 	
 	/* rfc1652 (8BITMIME) requires that you notify the ESMTP daemon that
 	   you'll be sending an 8bit mime message at "MAIL FROM:" time. */
@@ -727,31 +710,6 @@ smtp_send_to (CamelTransport *transport, CamelMedium *message,
 	camel_operation_end (NULL);
 	
 	return TRUE;
-}
-
-static gboolean
-smtp_send (CamelTransport *transport, CamelMedium *message, CamelException *ex)
-{
-	const CamelInternetAddress *from, *to, *cc, *bcc;
-	CamelInternetAddress *recipients = NULL;
-	gboolean status;
-	
-	from = camel_mime_message_get_from (CAMEL_MIME_MESSAGE (message));
-	
-	to = camel_mime_message_get_recipients (CAMEL_MIME_MESSAGE (message), CAMEL_RECIPIENT_TYPE_TO);
-	cc = camel_mime_message_get_recipients (CAMEL_MIME_MESSAGE (message), CAMEL_RECIPIENT_TYPE_CC);
-	bcc = camel_mime_message_get_recipients (CAMEL_MIME_MESSAGE (message), CAMEL_RECIPIENT_TYPE_BCC);
-	
-	recipients = camel_internet_address_new ();
-	camel_address_cat (CAMEL_ADDRESS (recipients), CAMEL_ADDRESS (to));
-	camel_address_cat (CAMEL_ADDRESS (recipients), CAMEL_ADDRESS (cc));
-	camel_address_cat (CAMEL_ADDRESS (recipients), CAMEL_ADDRESS (bcc));
-	
-	status = smtp_send_to (transport, message, CAMEL_ADDRESS (from), CAMEL_ADDRESS (recipients), ex);
-	
-	camel_object_unref (CAMEL_OBJECT (recipients));
-	
-	return status;
 }
 
 static const char *
@@ -1169,7 +1127,7 @@ smtp_rcpt (CamelSmtpTransport *transport, const char *recipient, CamelException 
 }
 
 static gboolean
-smtp_data (CamelSmtpTransport *transport, CamelMedium *message, gboolean has_8bit_parts, CamelException *ex)
+smtp_data (CamelSmtpTransport *transport, CamelMimeMessage *message, gboolean has_8bit_parts, CamelException *ex)
 {
 	/* now we can actually send what's important :p */
 	char *cmdbuf, *respbuf = NULL;
@@ -1183,7 +1141,7 @@ smtp_data (CamelSmtpTransport *transport, CamelMedium *message, gboolean has_8bi
            doesn't support it, encode 8bit parts to the best
            encoding.  This will also enforce an encoding to keep the lines in limit */
 	if (has_8bit_parts && !(transport->flags & CAMEL_SMTP_TRANSPORT_8BITMIME))
-		camel_mime_message_encode_8bit_parts (CAMEL_MIME_MESSAGE (message));
+		camel_mime_message_encode_8bit_parts (message);
 	
 	cmdbuf = g_strdup ("DATA\r\n");
 	

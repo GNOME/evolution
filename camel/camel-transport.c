@@ -28,7 +28,8 @@
 #endif
 
 #include "camel-transport.h"
-#include "camel-exception.h"
+#include "camel-address.h"
+#include "camel-mime-message.h"
 #include "camel-private.h"
 
 /* Returns the class for a CamelTransport */
@@ -77,68 +78,30 @@ camel_transport_get_type (void)
 
 
 /**
- * camel_transport_can_send: Determine if a message is send-able on a transport
- * @transport: the transport
- * @message: the message
- *
- * Determines if a CamelMedium is of an appropriate subclass to send
- * via the given @transport. (Mail transports are not able to send
- * netnews articles, and vice versa.)
- *
- * Return value: TRUE or FALSE
- **/
-gboolean
-camel_transport_can_send (CamelTransport *transport, CamelMedium *message)
-{
-	return CT_CLASS (transport)->can_send (transport, message);
-}
-
-/**
- * camel_transport_send: Send a message via a transport
- * @transport: the transport
- * @message: the message
- * @ex: a CamelException
- *
- * Sends the message to the recipients indicated in the message.
- *
- * Return value: success or failure.
- **/
-gboolean
-camel_transport_send (CamelTransport *transport, CamelMedium *message,
-		      CamelException *ex)
-{
-	gboolean sent;
-	
-	g_return_val_if_fail (CAMEL_IS_TRANSPORT (transport), FALSE);
-	
-	CAMEL_TRANSPORT_LOCK (transport, send_lock);
-	sent = CT_CLASS (transport)->send (transport, message, ex);
-	CAMEL_TRANSPORT_UNLOCK (transport, send_lock);
-	
-	return sent;
-}
-
-/**
- * camel_transport_send_to: Send a message non-standard recipients
+ * camel_transport_send_to:
  * @transport: the transport
  * @message: the message
  * @from: from address
  * @recipients: the recipients
  * @ex: a CamelException
  *
- * Sends the message to the given recipients, rather than to the
- * recipients indicated in the message.
+ * Sends the message to the given recipients, regardless of the contents
+ * of @message. If the message contains a "Bcc" header, the transport
+ * is responsible for stripping it.
  *
  * Return value: success or failure.
  **/
 gboolean
-camel_transport_send_to (CamelTransport *transport, CamelMedium *message,
+camel_transport_send_to (CamelTransport *transport, CamelMimeMessage *message,
 			 CamelAddress *from, CamelAddress *recipients,
 			 CamelException *ex)
 {
 	gboolean sent;
 	
 	g_return_val_if_fail (CAMEL_IS_TRANSPORT (transport), FALSE);
+	g_return_val_if_fail (CAMEL_IS_MIME_MESSAGE (message), FALSE);
+	g_return_val_if_fail (CAMEL_IS_ADDRESS (from), FALSE);
+	g_return_val_if_fail (CAMEL_IS_ADDRESS (recipients), FALSE);
 	
 	CAMEL_TRANSPORT_LOCK (transport, send_lock);
 	sent = CT_CLASS (transport)->send_to (transport, message,

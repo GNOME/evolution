@@ -54,25 +54,16 @@ struct _CamelTransport
 typedef struct {
 	CamelServiceClass parent_class;
 
-	gboolean (*can_send) (CamelTransport *transport, CamelMedium *message);
-	gboolean (*send) (CamelTransport *transport, CamelMedium *message,
-			  CamelException *ex);
-	gboolean (*send_to) (CamelTransport *transport, CamelMedium *message,
+	gboolean (*send_to) (CamelTransport *transport,
+			     CamelMimeMessage *message,
 			     CamelAddress *from, CamelAddress *recipients,
 			     CamelException *ex);
 } CamelTransportClass;
 
 
 /* public methods */
-gboolean camel_transport_can_send (CamelTransport *transport,
-				   CamelMedium *message);
-
-gboolean camel_transport_send (CamelTransport *transport,
-			       CamelMedium *message,
-			       CamelException *ex);
-
 gboolean camel_transport_send_to (CamelTransport *transport,
-				  CamelMedium *message,
+				  CamelMimeMessage *message,
 				  CamelAddress *from,
 				  CamelAddress *recipients,
 				  CamelException *ex);
