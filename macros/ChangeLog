@@ -1,3 +1,7 @@
+2000-02-08  Miguel de Icaza  <miguel@gnu.org>
+
+	* autogen.sh: Handle non GNU find programs. 
+
 2000-02-05  Martin Baulig  <martin@home-of-linux.org>
 
 	* gnome-libgtop-types.m4 (AC_LIBGTOP_CHECK_TYPE): New macro. This
