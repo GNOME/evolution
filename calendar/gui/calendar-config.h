@@ -161,6 +161,9 @@ char*	  calendar_config_get_hide_completed_tasks_sexp (void);
 gboolean  calendar_config_get_confirm_delete (void);
 void      calendar_config_set_confirm_delete (gboolean confirm);
 
+gboolean  calendar_config_get_confirm_expunge (void);
+void      calendar_config_set_confirm_expunge (gboolean confirm);
+
 /* Default reminder options */
 gboolean calendar_config_get_use_default_reminder (void);
 void     calendar_config_set_use_default_reminder (gboolean value);

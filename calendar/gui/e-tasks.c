@@ -46,7 +46,8 @@ static GList *all_tasks = NULL;
 struct _ETasksPrivate {
 	/* The calendar client object we monitor */
 	CalClient   *client;
-
+	CalQuery    *query;
+	
 	/* The ECalendarTable showing the tasks. */
 	GtkWidget   *tasks_view;
 
@@ -119,6 +120,8 @@ e_tasks_init (ETasks *tasks)
 	priv = g_new0 (ETasksPrivate, 1);
 	tasks->priv = priv;
 
+	priv->client = NULL;
+	priv->query = NULL;
 	priv->view_collection = NULL;
 	priv->view_menus = NULL;
 
@@ -310,6 +313,17 @@ e_tasks_destroy (GtkObject *object)
 		(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
 }
 
+static void
+set_status_message (ETasks *tasks, const char *message)
+{
+	ETasksPrivate *priv;
+	CalendarModel *model;
+	
+	priv = tasks->priv;
+	
+	model = e_calendar_table_get_model (E_CALENDAR_TABLE (priv->tasks_view));
+	calendar_model_set_status_message (model, message);
+}
 
 gboolean
 e_tasks_open			(ETasks		*tasks,
@@ -326,9 +340,7 @@ e_tasks_open			(ETasks		*tasks,
 	priv = tasks->priv;
 
 	message = g_strdup_printf (_("Opening tasks at %s"), file);
-	calendar_model_set_status_message (
-		e_calendar_table_get_model (E_CALENDAR_TABLE (priv->tasks_view)),
-		message);
+	set_status_message (tasks, message);
 	g_free (message);
 
 	if (!cal_client_open_calendar (priv->client, file, FALSE)) {
@@ -383,8 +395,7 @@ cal_opened_cb				(CalClient	*client,
 	tasks = E_TASKS (data);
 	priv = tasks->priv;
 
-	calendar_model_set_status_message (
-		e_calendar_table_get_model (E_CALENDAR_TABLE (priv->tasks_view)), NULL);
+	set_status_message (tasks, NULL);
 
 	switch (status) {
 	case CAL_CLIENT_OPEN_SUCCESS:
@@ -504,6 +515,120 @@ e_tasks_delete_selected (ETasks *tasks)
 
 	cal_table = E_CALENDAR_TABLE (priv->tasks_view);
 	e_calendar_table_delete_selected (cal_table);
+}
+
+static char *
+create_sexp (void)
+{
+	char *completed_sexp;
+	char *new_sexp;
+
+	/* Create a sub-expression for filtering out completed tasks, based on
+	   the config settings. */
+	completed_sexp = calendar_config_get_hide_completed_tasks_sexp ();
+
+	new_sexp = g_strdup_printf ("(and (= (get-vtype) \"VTODO\") (not %s))",
+				    completed_sexp ? completed_sexp : "");
+	g_free (completed_sexp);
+
+#if 0
+	g_print ("Calendar model sexp:\n%s\n", new_sexp);
+#endif
+
+	return new_sexp;
+}
+
+/* Callback used when a component is updated in the live query */
+static void
+query_obj_updated_cb (CalQuery *query, const char *uid,
+		      gboolean query_in_progress, int n_scanned, int total,
+		      gpointer data)
+{
+	ETasks *tasks;
+	ETasksPrivate *priv;
+	
+	tasks = E_TASKS (data);
+	priv = tasks->priv;
+	
+	cal_client_remove_object (priv->client, uid);
+}
+
+/* Callback used when an evaluation error occurs when running a query */
+static void
+query_eval_error_cb (CalQuery *query, const char *error_str, gpointer data)
+{
+	ETasks *tasks;
+	ETasksPrivate *priv;
+	
+	tasks = E_TASKS (data);
+	priv = tasks->priv;
+	
+	g_warning ("eval error: %s\n", error_str);
+
+	set_status_message (tasks, NULL);
+
+	gtk_signal_disconnect_by_data (GTK_OBJECT (priv->query), tasks);
+	gtk_object_unref (GTK_OBJECT (priv->query));
+	priv->query = NULL;
+}
+
+static void
+query_query_done_cb (CalQuery *query, CalQueryDoneStatus status, const char *error_str, gpointer data)
+{
+	ETasks *tasks;
+	ETasksPrivate *priv;
+	
+	tasks = E_TASKS (data);
+	priv = tasks->priv;
+	
+	if (status != CAL_QUERY_DONE_SUCCESS)
+		g_warning ("query done: %s\n", error_str);
+
+	set_status_message (tasks, NULL);
+
+	gtk_signal_disconnect_by_data (GTK_OBJECT (priv->query), tasks);
+	gtk_object_unref (GTK_OBJECT (priv->query));
+	priv->query = NULL;
+}
+/**
+ * e_tasks_expunge:
+ * @tasks: A tasks control widget
+ * 
+ * Removes all tasks marked as completed
+ **/
+void
+e_tasks_delete_completed (ETasks *tasks)
+{
+	ETasksPrivate *priv;
+	char *sexp;
+	
+	g_return_if_fail (tasks != NULL);
+	g_return_if_fail (E_IS_TASKS (tasks));
+
+	priv = tasks->priv;
+
+	/* If we have a query, we are already expunging */
+	if (priv->query)
+		return;
+
+	sexp = create_sexp ();
+
+	set_status_message (tasks, _("Expunging"));
+	priv->query = cal_client_get_query (priv->client, sexp);
+	g_free (sexp);
+
+	if (!priv->query) {
+		set_status_message (tasks, NULL);
+		g_message ("update_query(): Could not create the query");
+		return;
+	}
+
+	gtk_signal_connect (GTK_OBJECT (priv->query), "obj_updated",
+			    GTK_SIGNAL_FUNC (query_obj_updated_cb), tasks);
+	gtk_signal_connect (GTK_OBJECT (priv->query), "query_done",
+			    GTK_SIGNAL_FUNC (query_query_done_cb), tasks);
+	gtk_signal_connect (GTK_OBJECT (priv->query), "eval_error",
+			    GTK_SIGNAL_FUNC (query_eval_error_cb), tasks);
 }
 
 /* Callback used from the view collection when we need to display a new view */

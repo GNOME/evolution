@@ -154,7 +154,7 @@ tag_calendar_by_client (ECalendar *ecal, CalClient *client)
 /* Resolves TZIDs for the recurrence generator, for when the comp is not on
    the server. We need to try to use builtin timezones first, as they may not
    be added to the server yet. */
-icaltimezone*
+static icaltimezone*
 resolve_tzid_cb (const char *tzid, gpointer data)
 {
 	CalClient *client;

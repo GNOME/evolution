@@ -1,3 +1,39 @@
+2002-01-03  JP Rosevear  <jpr@ximian.com>
+
+	* gui/tasks-control.c (confirm_expunge): confirm expunging of the
+	tasks
+	(tasks_control_expunge_cmd): verb callback
+
+	* gui/calendar-config.c (config_read): read confirm expunge value
+	(calendar_config_write): write confirm expunge value
+	(calendar_config_write_on_exit): ditto
+	(calendar_config_get_confirm_expunge): get value
+	(calendar_config_set_confirm_expunge): set value
+
+	* gui/calendar-config.h: new proto
+
+	* gui/e-itip-control.c (start_calendar_server): kill warning
+
+	* gui/e-tasks.c (e_tasks_init): init query member to NULL
+	(set_status_message): util function to set status message
+	(e_tasks_open): use above
+	(cal_opened_cb): ditto
+	(create_sexp): create sexp of items to be deleted
+	(query_obj_updated_cb): remove any items found
+	(query_eval_error_cb): bail out on error
+	(query_query_done_cb): tidy when done
+	(e_tasks_delete_completed): set up query
+
+	* gui/e-tasks.h: new proto
+
+	* gui/calendar-model.c (query_query_done_cb): use g_warning
+	instead of printing to stderr
+	(query_eval_error_cb): ditto
+	(update_query): clear the status message if we can't create the
+	query
+
+	* gui/tag-calendar.c (resolve_tzid_cb): make this static
+
 2001-12-21  JP Rosevear  <jpr@ximian.com>
 
 	* gui/dialogs/comp-editor.c: remove needs send signal related

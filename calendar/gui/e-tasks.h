@@ -67,6 +67,7 @@ CalClient *e_tasks_get_cal_client  (ETasks            *tasks);
 
 void       e_tasks_new_task        (ETasks            *tasks);
 void       e_tasks_delete_selected (ETasks            *tasks);
+void       e_tasks_delete_completed(ETasks            *tasks);
 
 
 void e_tasks_setup_view_menus (ETasks *tasks, BonoboUIComponent *uic);
