@@ -119,6 +119,11 @@
 	Avoid using an alarm component which has less useful API
 	Fix a warning when creating the tray_icon widget
 	
+2004-11-15  Not Zed  <NotZed@Ximian.com>
+
+	* gui/dialogs/Makefile.am (libcal_dialogs_la_LIBADD): add
+	libeabutil, since we use e-destination.
+
 2004-11-08  Rodney Dawes  <dobey@novell.com>
 
 	* gui/alarm-notify/alarm-notify-dialog.c (write_html_heading):
