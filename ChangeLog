@@ -1,5 +1,9 @@
+2005-01-21  JP Rosevear  <jpr@novell.com>
+
+	* configure.in: e-util needs libgnomeprintui now 
+
 2005-01-21  Sivaiah Nallagatla <snallagatla@novell.com>
-                                                                                
+                                                                               
         * configure.in : added addressbook-file plugin 
 
 2005-01-21  Sivaiah Nallagatla <snallagatla@novell.com>
