@@ -2,6 +2,9 @@
 
 	* tests/ui-tests/message-browser.c (handle_tree_item): 
 	show the item. 
+	(handle_tree_item): show the containers and the containees
+	(get_message_tree_ctrl): call handle_tree_item
+	on the message itself
 
 	* camel/camel-mime-message.c (camel_mime_message_init): 
 	set the mime type to "mime/message".

@@ -30,36 +30,58 @@ handle_tree_item (CamelDataWrapper* object, GtkWidget* tree_ctrl)
 {
 	GtkWidget* tree_item;
 	gchar* label = gmime_content_field_get_mime_type (object->mime_type);
-	
+
+	CamelDataWrapper* containee;
+	GtkWidget* containee_tree_item;
+	gchar* containee_label;
+	      
+	GtkWidget* subtree = NULL;
+
+
 	tree_item = gtk_tree_item_new_with_label (label);
 	gtk_tree_append (GTK_TREE (tree_ctrl), tree_item);
 
-	if (CAMEL_IS_MULTIPART (object))
-	{
-		CamelMultipart* multipart = CAMEL_MULTIPART (object);
-		GtkWidget* subtree = NULL;
-		int max_multiparts = camel_multipart_get_number (multipart);
-		int i;
-
-		g_print ("found a multipart w/ %d parts\n", max_multiparts);
-		
-		if (max_multiparts > 0) {
-			subtree = gtk_tree_new();
-			gtk_tree_item_set_subtree (GTK_TREE_ITEM(tree_item),
-						   GTK_WIDGET (subtree));
-		}
-		
-		for (i = 0; i < max_multiparts; i++) {
-			CamelMimeBodyPart* body_part =
-				camel_multipart_get_part (multipart, i);
-
-			g_print ("handling part %d\n", i);
-			handle_tree_item (CAMEL_DATA_WRAPPER (body_part),
-					  GTK_WIDGET (subtree));
-		}	
-	}
-
 	gtk_widget_show(tree_item);
+
+	containee = 
+	  camel_medium_get_content_object (CAMEL_MEDIUM (object));
+
+	if (containee) {
+	  containee_label = camel_data_wrapper_get_mime_type (containee);
+
+	  subtree = gtk_tree_new();
+	  containee_tree_item = gtk_tree_item_new_with_label (containee_label);
+	  gtk_tree_append (GTK_TREE (subtree), containee_tree_item);
+
+	  gtk_tree_item_set_subtree (GTK_TREE_ITEM(tree_item),
+				     GTK_WIDGET (subtree));
+	  gtk_widget_show(containee_tree_item);
+
+	  if (CAMEL_IS_MULTIPART (containee))
+	    {
+	      CamelMultipart* multipart = CAMEL_MULTIPART (containee);
+	      int max_multiparts = camel_multipart_get_number (multipart);
+	      int i;
+	      
+	      g_print ("found a multipart w/ %d parts\n", max_multiparts);
+	      
+	      if (max_multiparts > 0) {
+		subtree = gtk_tree_new();
+		gtk_tree_item_set_subtree (GTK_TREE_ITEM(containee_tree_item),
+					   GTK_WIDGET (subtree));
+	      }
+	      
+	      for (i = 0; i < max_multiparts; i++) {
+		CamelMimeBodyPart* body_part =
+		  camel_multipart_get_part (multipart, i);
+		
+		g_print ("handling part %d\n", i);
+		handle_tree_item (CAMEL_DATA_WRAPPER (body_part),
+				  GTK_WIDGET (subtree));
+	      }	
+	    }
+	}
+	
 }
 
 
@@ -81,7 +103,7 @@ get_message_tree_ctrl (CamelMimeMessage* message)
 /*
  * Recursively insert tree items in the tree
  */
-	handle_tree_item (message_contents, tree_ctrl);
+	handle_tree_item (CAMEL_DATA_WRAPPER (message), tree_ctrl);
 	
 	return scroll_wnd;
 }
