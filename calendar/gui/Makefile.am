@@ -176,26 +176,6 @@ calendar_pilot_sync_LDADD =	\
 	$(PISOCK_LIBDIR) $(PISOCK_LIBS)		\
 	$(LINK_FLAGS)
 
-noinst_PROGRAMS = tl-test
-
-tl_test_SOURCES =				\
-	$(EVOLUTION_CALENDAR_CORBA_GENERATED)	\
-	cal-client.c				\
-	cal-client.h				\
-	cal-listener.c				\
-	cal-listener.h				\
-	cal-util.c				\
-	cal-util.h				\
-	tl-test.c
-
-tl_test_INCLUDES =			\
-	$(INCLUDES)			\
-	-DG_LOG_DOMAIN=\"tl-test\"
-
-tl_test_LDADD =				\
-	$(BONOBO_VFS_GNOME_LIBS)	\
-	../libversit/libversit.la
-
 if HAVE_GNOME_PILOT
 #calendar_conduit
 calendar_conduitsdir=$(libdir)/gnome-pilot/conduits

@@ -1,3 +1,7 @@
+#
+# libcal-client
+#
+
 CORBA_GENERATED =				\
 	evolution-calendar.h			\
 	evolution-calendar-common.c		\
@@ -36,3 +40,20 @@ libcal_client_la_SOURCES =	\
 libcal_clientinclude_HEADERS =	\
 	cal-client.h		\
 	cal-util.h
+
+#
+# client-test program
+
+noinst_PROGRAMS = client-test
+
+client_test_SOURCES =	\
+	tl-test.c
+
+client_test_INCLUDES =			\
+	$(INCLUDES)			\
+	-DG_LOG_DOMAIN=\"tl-test\"
+
+client_test_LDADD =			\
+	$(BONOBO_VFS_GNOME_LIBS)	\
+	../libversit/libversit.la	\
+	libcal-client.la
