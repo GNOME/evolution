@@ -1,5 +1,5 @@
 Version 0.4, "Alewife", 2000-08-14
-------------------------------------
+----------------------------------
 
 Shell:
 
@@ -10,7 +10,7 @@ Shell:
     such as "Print" in the right places.  (Ettore)
 
   - Added code to check if an existing `~/evolution' directory
-    actually has the content we expect and, if not, complain with the
+    actually has the content we expect and, if not, complain to the
     user.  (Dan)
 
   - Fixed some Bonobo-related refcounting problems.  (Michael Meeks)
