@@ -119,9 +119,7 @@ message_list_select_next (MessageList *message_list, int row,
 
 	while (row < e_table_model_row_count (message_list->table_model)) {
 		info = get_message_info (message_list, row);
-		if (!info)
-			continue;
-		if ((info->flags & mask) == flags) {
+		if (info && (info->flags & mask) == flags) {
 			e_table_set_cursor_row (E_TABLE (message_list->etable),
 						row);
 			return;
