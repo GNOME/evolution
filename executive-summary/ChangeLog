@@ -1,5 +1,12 @@
 2001-05-10  Iain Holmes  <iain@ximian.com>
 
+	* test-service/rdf-summary.c (load_from_stream): Set the time, not the
+	timeout id. (duh!)
+	(summary_to_string): Get the time, not the timeout id. (DUH!)
+	(property_control): Connect the spin button to the item_changed callback.
+
+2001-05-10  Iain Holmes  <iain@ximian.com>
+
 	* test-service/rdf-summary.c (property_control): Don't let the spinner 
 	be set to 0
 

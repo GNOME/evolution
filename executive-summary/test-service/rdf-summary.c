@@ -390,7 +390,7 @@ load_from_stream (BonoboPersistStream *ps,
 
 		if (strcasecmp (children->name, "timer") == 0) {
 			xml_str = xmlNodeListGetString (doc, children->childs, 1);
-			summary->timer = atoi (xml_str);
+			summary->time = atoi (xml_str);
 			xmlFree (xml_str);
 
 			children = children->next;
@@ -431,7 +431,7 @@ summary_to_string (RdfSummary *summary)
 	xmlNewChild (doc->root, ns, "usetimer", tmp_str);
 	g_free (tmp_str);
 
-	tmp_str = g_strdup_printf ("%d", summary->timer);
+	tmp_str = g_strdup_printf ("%d", summary->time);
 	xmlNewChild (doc->root, ns, "timer", tmp_str);
 	g_free (tmp_str);
 
@@ -798,6 +798,9 @@ property_control (BonoboPropertyControl *property_control,
 	summary->adjustment = GTK_ADJUSTMENT(gtk_adjustment_new (summary->time / 1000 / 60,
 								 1.0, 1000.0, 1.0, 10.0, 1.0));
 	spinner = gtk_spin_button_new (summary->adjustment, 1.0, 0);
+	gtk_signal_connect (GTK_OBJECT (spinner), "changed",
+			    GTK_SIGNAL_FUNC (item_changed), summary);
+
 	gtk_box_pack_start (GTK_BOX (hbox), spinner, FALSE, FALSE, 0);
 	
 	label = gtk_label_new (_("minutes"));
