@@ -1,3 +1,7 @@
+2000-07-26  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* configure.in: Bump version number to 0.3.
+
 2000-07-26  Peter Williams  <peterw@helixcode.com>
 
 	* widgets/e-table/e-table-scrolled.c (right_click_proxy): Default

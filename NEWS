@@ -1,53 +1,96 @@
-Version 0.3
------------
+Version 0.3 "Jelly Fish"
+------------------------
 
-Mail:
+Shell:
 
-  Major features:
+  - Pop-up folder selection.  (Ettore)
 
-  * Lots of IMAP fixes (fejj)
+  - Added support for multiple views.  (Ettore)
 
-  * You can use an external setuid/setgid movemail program (although
-    we don't ship our own yet). If you have one installed with emacs,
-    the configure script will find that. Otherwise, you can specify
-    --with-movemail=/path (danw)
+  - Added support for saving component-specific settings, and
+    some initial code to save the view's configuration.
+     (Ettore)
 
-  * You can toggle HTML/plain text for an individual message in the
-    composer now. (ettore)
+  - Fixed the Bonobo menu code so that it works with all the
+    locales.  (Ettore)
 
-  * Bonobo embedding sort of works again, but there are problems with
-    size allocation somewhere. Attachments can now also be handled by
-    external applications.
+Mailer:
 
-  * text/plain mail is now line-wrapped in the mail display, to deal
-    with people who don't put newlines in their mail.
+  - Lots of IMAP fixes.  (Jeff) 
 
-  Minor features / bugfixes:
+  - You can use an external setuid/setgid movemail program
+    (although we don't ship our own yet). If you have one
+    installed with emacs, the configure script will find
+    that. Otherwise, you can specify --with-movemail=/path.
+    (Dan)
 
-  * Allow user to specify IMAP namespace in the mail config dialog
-    (danw, fejj)
+  - You can toggle HTML/plain text for an individual message
+    in the composer now.  (Ettore)
 
-  * Quoted-printable encoder fixes (NotZed)
+  - Bonobo embedding sort of works again, but there are
+    problems with size allocation somewhere. Attachments can now
+    also be handled by external applications.  (Dan)
 
-  * Various NNTP fixes, include a news pane in the config dialog
-    (toshok)
+  - text/plain mail is now line-wrapped in the mail display,
+    to deal with people who don't put newlines in their mail.
+    (Radek)
 
-  * Purification (peterw)
+  - Allow user to specify IMAP namespace in the mail config
+    dialog.  (Dan, Jeff)
 
-  * Fix for message not being re-drawn as deleted (peterw, fejj)
+  - Quoted-printable encoder fixes.  (Michael Zucchi)
 
-  * Moving a message to another folder copies the flags now (fejj)
+  - Various NNTP fixes, include a news pane in the config
+    dialog.  (Chris Toshok)
 
-  * Close signature in HTML mail with </PRE>, not <PRE>, and default
-    to ~/.signature. (mmeeks)
+  - Some memory corruption fixes.  (Peter Williams)
 
-  * Fixed some confusing behavior in the message threading algorithm
-    (danw)
+  - Fix for message not being re-drawn as deleted.  (Peter
+    Williams, Jeff)
 
+  - Moving a message to another folder copies the flags now
+    (Jeff)
 
+  - Close signature in HTML mail with </PRE>, not <PRE>, and
+    default to ~/.signature.  (Michael Meeks)
 
-Version 0.2
------------
+  - Fixed some confusing behavior in the message threading
+    algorithm.  (Dan)
+
+Calendar:
+
+  - Added support for a bunch of previously unsupported iCalendar
+    properties.  (Federico)
+
+  - Conduit for synchronizing the calendar with gnome-pilot
+    (requires gnome-pilot from CVS).  (Seth)
+
+  - ETable-based to-do list view ("taskpad"), for your viewing
+    pleasure.
+
+Addressbook:
+
+  - Conduit for synchronizing the addressbook with gnome-pilot
+    (requires gnome-pilot from CVS).  (Chris Toshok)
+
+  - Conduit for synchronizing the addressbook with gnome-pilot
+    (requires gnome-pilot from CVS).  (Chris Toshok)
+
+  - Fixed some random crashes.  (Chris Lahey)
+
+  - Implemented a vCard Bonobo control so that we can support
+    inline vCard viewing in the mailer.  (Chris Lahey)
+
+  - Quick search looks at both the name and the company name now.
+    (Chris Lahey)
+
+  - Added more functionality to the contact editor's toolbar.  (Chris
+    Lahey)
+
+  - Support for printing single cards.  (Chris Lahey)
+
+Version 0.2 "Saccharomices"
+---------------------------
 
 Shell:
 
@@ -69,7 +112,6 @@ Addressbook:
     Lahey).
   
   * Many miscellaneous bugs fixed (everyone).
-
 
 Calendar:
 

@@ -123,6 +123,7 @@ ftp.gnome.org. The (*)ed packages are available in Helix GNOME.
  - libglade (*)
 
 If you want support for PalmPilot syncing (currently only supported by
+
 the calendar and not yet very stable/functional), you will also need
 the following packages:
 
