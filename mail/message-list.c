@@ -557,7 +557,6 @@ ml_duplicate_value (ETreeModel *etm, int col, const void *value, void *data)
 {
 	switch (col){
 	case COL_MESSAGE_STATUS:
-	case COL_NEED_REPLY:
 	case COL_FLAGGED:
 	case COL_SCORE:
 	case COL_ATTACHMENT:
@@ -584,7 +583,6 @@ ml_free_value (ETreeModel *etm, int col, void *value, void *data)
 {
 	switch (col){
 	case COL_MESSAGE_STATUS:
-	case COL_NEED_REPLY:
 	case COL_FLAGGED:
 	case COL_SCORE:
 	case COL_ATTACHMENT:
@@ -610,7 +608,6 @@ ml_initialize_value (ETreeModel *etm, int col, void *data)
 {
 	switch (col){
 	case COL_MESSAGE_STATUS:
-	case COL_NEED_REPLY:
 	case COL_FLAGGED:
 	case COL_SCORE:
 	case COL_ATTACHMENT:
@@ -637,7 +634,6 @@ ml_value_is_empty (ETreeModel *etm, int col, const void *value, void *data)
 {
 	switch (col){
 	case COL_MESSAGE_STATUS:
-	case COL_NEED_REPLY:
 	case COL_FLAGGED:
 	case COL_SCORE:
 	case COL_ATTACHMENT:
@@ -666,11 +662,6 @@ static const char *status_map[] = {
 	N_("Multiple Messages"),
 };
 
-static const char *needs_reply_map[] = {
-	"",
-	N_("Needs Reply"),
-};
-
 static const char *score_map[] = {
 	N_("Lowest"),
 	N_("Lower"),
@@ -692,10 +683,6 @@ ml_value_to_string (ETreeModel *etm, int col, const void *value, void *data)
 		if (i > 4)
 			return g_strdup("");
 		return g_strdup(_(status_map[i]));
-
-	case COL_NEED_REPLY:
-		i = (unsigned int)value;
-		return g_strdup (_(needs_reply_map[i]));
 
 	case COL_SCORE:
 		i = (unsigned int)value + 3;
@@ -837,8 +824,6 @@ ml_tree_value_at (ETreeModel *etm, ETreePath path, int col, void *model_data)
 			return GINT_TO_POINTER (0);
 		break;
 	}
-	case COL_NEED_REPLY:
-		return GINT_TO_POINTER ((msg_info->flags & CAMEL_MESSAGE_NEEDS_REPLY) != 0);
 	case COL_FLAGGED:
 		return GINT_TO_POINTER ((msg_info->flags & CAMEL_MESSAGE_FLAGGED) != 0);
 	case COL_SCORE: {
@@ -2067,8 +2052,6 @@ on_click (ETree *tree, gint row, ETreePath path, gint col, GdkEvent *event, Mess
 		flag = CAMEL_MESSAGE_SEEN;
 	else if (col == COL_FLAGGED)
 		flag = CAMEL_MESSAGE_FLAGGED;
-	else if (col == COL_NEED_REPLY)
-		flag = CAMEL_MESSAGE_NEEDS_REPLY;
 	else
 		return FALSE;
 	
@@ -2083,9 +2066,6 @@ on_click (ETree *tree, gint row, ETreePath path, gint col, GdkEvent *event, Mess
 	if (info->flags & CAMEL_MESSAGE_DELETED) {
 		
 		if (col == COL_FLAGGED && !(info->flags & CAMEL_MESSAGE_FLAGGED))
-			flag |= CAMEL_MESSAGE_DELETED;
-
-		if (col == COL_NEED_REPLY && !(info->flags & CAMEL_MESSAGE_NEEDS_REPLY))
 			flag |= CAMEL_MESSAGE_DELETED;
 
 		if (col == COL_MESSAGE_STATUS && (info->flags & CAMEL_MESSAGE_SEEN))

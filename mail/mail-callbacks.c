@@ -1076,7 +1076,7 @@ mail_reply (CamelFolder *folder, CamelMimeMessage *msg, const char *uid, int mod
 	psd->folder = folder;
 	camel_object_ref (CAMEL_OBJECT (psd->folder));
 	psd->uid = g_strdup (uid);
-	psd->flags = CAMEL_MESSAGE_ANSWERED | CAMEL_MESSAGE_NEEDS_REPLY;
+	psd->flags = CAMEL_MESSAGE_ANSWERED;
 	psd->set = CAMEL_MESSAGE_ANSWERED;
 	
 	composer = mail_generate_reply (folder, msg, uid, mode);
@@ -1805,25 +1805,6 @@ void
 toggle_as_important (BonoboUIComponent *uih, void *user_data, const char *path)
 {
 	toggle_flags (FOLDER_BROWSER (user_data), CAMEL_MESSAGE_FLAGGED);
-}
-
-void
-mark_as_needing_reply (BonoboUIComponent *uih, void *user_data, const char *path)
-{
-	flag_messages (FOLDER_BROWSER (user_data), CAMEL_MESSAGE_DELETED, 0);
-	flag_messages (FOLDER_BROWSER (user_data), CAMEL_MESSAGE_NEEDS_REPLY, CAMEL_MESSAGE_NEEDS_REPLY);
-}
-
-void
-mark_as_not_needing_reply (BonoboUIComponent *uih, void *user_data, const char *path)
-{
-	flag_messages (FOLDER_BROWSER (user_data), CAMEL_MESSAGE_NEEDS_REPLY, 0);
-}
-
-void
-toggle_need_reply (BonoboUIComponent *uih, void *user_data, const char *path)
-{
-	toggle_flags (FOLDER_BROWSER (user_data), CAMEL_MESSAGE_NEEDS_REPLY);
 }
 
 void

@@ -1,5 +1,15 @@
 2002-02-06  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* message-list.c: Removed references to NEEDS_REPLY.
+
+	* mail-callbacks.c (mark_as_needing_reply): Removed.
+	(mark_as_not_needing_reply): Removed.
+	(toggle_need_reply): Removed.
+
+	* folder-browser.c (on_right_click): Remove CAN_MARK_NEEDS_REPLY
+	stuff, this is going to be implemented in an entirely different
+	way.
+
 	* mail-format.c (handle_text_plain): Look for DOCTYPE XML comments
 	too to decide if the message content is really HTML.
 

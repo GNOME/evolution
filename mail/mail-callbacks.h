@@ -96,9 +96,6 @@ void mark_as_unseen            (BonoboUIComponent *uih, void *user_data, const c
 void mark_as_important         (BonoboUIComponent *uih, void *user_data, const char *path);
 void mark_as_unimportant       (BonoboUIComponent *uih, void *user_data, const char *path);
 void toggle_as_important       (BonoboUIComponent *uih, void *user_data, const char *path);
-void mark_as_needing_reply     (BonoboUIComponent *uih, void *user_data, const char *path);
-void mark_as_not_needing_reply (BonoboUIComponent *uih, void *user_data, const char *path);
-void toggle_need_reply         (BonoboUIComponent *uih, void *user_data, const char *path);
 
 void zoom_in               (BonoboUIComponent *uih, void *user_data, const char *path);
 void zoom_out              (BonoboUIComponent *uih, void *user_data, const char *path);
