@@ -126,10 +126,6 @@ prepare_events (icalcomponent *icalcomp, GList **vtodos)
 				*vtodos = g_list_prepend (*vtodos, subcomp);
 			else
                                 icalcomponent_free (subcomp);
-
-			icalcomponent_free (subcomp);
-
-			continue;
 		}
 
 		icalcompiter_next (&iter);
@@ -155,8 +151,6 @@ prepare_tasks (icalcomponent *icalcomp, GList *vtodos)
 			icalcompiter_next (&iter);
 			icalcomponent_remove_component (icalcomp, subcomp);
 			icalcomponent_free (subcomp);
-
-			continue;
 		}
 
 		icalcompiter_next (&iter);

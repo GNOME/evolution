@@ -1,3 +1,11 @@
+2004-04-14  JP Rosevear <jpr@ximian.com>
+
+	Fixes #56553
+	
+	* importers/icalendar-importer.c (prepare_events): don't double
+	free or continue, we need to move to the next item
+	 (prepare_tasks): don't continue, move to the next item
+	
 2004-04-14  Not Zed  <NotZed@Ximian.com>
 
 	* gui/tasks-component.c (impl_createControls): Same as below for
