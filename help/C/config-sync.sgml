@@ -22,7 +22,8 @@
        before, you'll need to run the GNOME <application>Control
        Center</application> and make sure that <application>Pilot
        Link</application> is properly configured. Then, select the
-       <application>Evolution</application> conduits under the
+       <application>Evolution</application> <glossterm
+       linkend="conduit">conduits</glossterm> under the
        <guilabel>Pilot Conduits</guilabel> section of the Control
        Center.
       </para>

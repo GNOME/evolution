@@ -63,9 +63,8 @@ implemented. -->
        </para>
     </legalnotice>
 
-    <releaseinfo>
-       This is version 0.6 of the Evolution manual, describing version 
-       0.6 of Evolution.  
+   <releaseinfo>
+      This is version 0.9 of the Evolution manual.
    </releaseinfo>
 
   </bookinfo>
@@ -77,11 +76,11 @@ implemented. -->
      <partintro>
       <para>
         Part one of the <application>Evolution</application> manual
-        describes how to use <application>Evolution</application>
-        for email, contact management, and appointment and task
-        scheduling.  You'll find as you go along that, as with most of
-        Linux, there's more than one way to do things, and you can
-        pick whichever method you like best.
+        describes how to use <application>Evolution</application> for
+        email, contact management, and appointment and task
+        scheduling.  You'll find as you go along that there's more
+        than one way to do things, and you can pick whichever method
+        you like best.
       </para>
     </partintro>
 

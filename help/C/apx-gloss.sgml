@@ -46,6 +46,18 @@
   </glossdef>
  </glossentry>
 
+ <glossentry id="conduit">
+  <glossterm>Conduit</glossterm>
+  <glossdef>
+   <para>
+     A synchronization conduit is a small application which controls
+     the transfer of data between a handheld device and a desktop
+     computer.
+   </para>
+  </glossdef>
+ </glossentry>
+
+
  <glossentry id="druid">
   <glossterm>Druid</glossterm>
   <glossdef>

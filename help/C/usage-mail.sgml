@@ -953,7 +953,7 @@ possibly never will be due to security evil. -->
       <title>Searching for Messages</title>
       <para>
 	Most mail clients can search through your messages for you,
-	but <application>Evolution</application> does it faster.  You
+	but <application>Evolution</application> does it faster. You
 	can search through just the message subjects, just the message
 	body, or both body and subject.
       </para>
@@ -1015,8 +1015,40 @@ possibly never will be due to security evil. -->
         When you've entered your search phrase, press
         <keycap>Enter</keycap>.  <application>Evolution</application>
         will show your search results in the message list.
-
       </para>
+
+      <para>
+         If you think you'll want to return to a search again, you can
+         save it as a virtual folder by selecting <guilabel>Store
+         Search as Virtual Folder</guilabel>.
+      </para>
+
+      <para>
+         When you're done with the search, go back to seeing all your
+         messages by choosing <guimenuitem>Show All</guimenuitem> from
+         the <guilabel>Search</guilabel> drop-down box. If you're
+         sneaky, just enter a blank search: since every message has at
+         least one space in it, you'll see every message in the
+         folder.
+      </para>
+
+      <para>
+        If you'd like to perform a more complex search, open the
+        advanced search dialog by selecting
+        <guilabel>Advanced...</guilabel> from the
+        <guilabel>Search</guilabel> drop-down menu.  Then, create your
+        search criteria (each with the same options you saw in the
+        regular search bar), and decide whether you want to find
+        messages that match all of them, or messages that match even
+        one. Then, click <guibutton>Search</guibutton> to go and find
+        those messages.
+     </para>
+
+     <para>
+        You'll see a similar approach to sorting messages when you
+        create filters and virtual folders in the next few sections.
+     </para>
+
     </sect2>
 
     <sect2 id="usage-mail-organize-filters">
@@ -1030,8 +1062,9 @@ possibly never will be due to security evil. -->
         actions that may effect the same message in several ways.  For
         example, your filters could put copies of one message into
         multiple folders, or keep a copy and send one to another
-        person as well.  Which is to say, it's quite a bit more
-        flexible than an actual person with a pile of envelopes.
+        person as well, and it can do that in under a second. Which is
+        to say, it's faster and more flexible than an actual person
+        with a pile of envelopes.
       </para>
       <para>
         Most often, you'll want to have
