@@ -1,3 +1,8 @@
+2001-10-15  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* filter-folder.c (button_clicked): Kludge to raise the filter
+	dialog when the folder-selection window is closed.
+
 2001-10-15    <NotZed@Ximian.com>
 
 	* filter-input.c (xml_decode): If we have no node content, dont

@@ -286,8 +286,9 @@ button_clicked (GtkButton *button, FilterFolder *ff)
 	case -1:
 		/* nothing */
 	}
-
 #endif
+	
+	gdk_window_raise (GTK_WIDGET (gtk_widget_get_ancestor (GTK_WIDGET (button), GTK_TYPE_WINDOW))->window);
 }
 
 static GtkWidget *
