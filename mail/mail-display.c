@@ -1233,7 +1233,7 @@ on_url_requested (GtkHTML *html, const char *url, GtkHTMLStream *handle,
 			
 			/* Make sure we aren't deal w/ some sort of a pathological message w/o a From: header */
 			if (from != NULL && camel_internet_address_get (from, 0, &name, &addr))
-				e_book_query_address_locally (addr, ebook_callback, md);
+				e_book_query_address_default (addr, ebook_callback, md);
 			else
 				gtk_html_end (html, handle, GTK_HTML_STREAM_ERROR);
 		}

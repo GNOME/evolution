@@ -1,3 +1,8 @@
+2002-08-12  Dan Winship  <danw@ximian.com>
+
+	* mail-display.c (on_url_requested): Replace no-longer-existent
+	e_book_query_address_locally with e_book_query_address_default.
+
 2002-08-12  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-callbacks.c (forward_message): Use mail_get_messages()
