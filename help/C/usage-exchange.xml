@@ -444,6 +444,14 @@ There are, however, some features which are not available:
                             the box and enter the custom path here.
                           </para>
                         </listitem>
+                        <listitem>
+                          <para>
+                            Public Folder Location: If your Exchange
+                            system has a custom or nonstandard Public
+                            Folder location, check this box and enter
+                            the URL for public folders here.
+                          </para>
+                        </listitem>
                       </itemizedlist>
                     </para>
                   </listitem>

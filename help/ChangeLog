@@ -1,3 +1,13 @@
+2003-03-19  Aaron Weber  <aaron@ximian.com>
+
+	* Makefile.am: s/sgml/xml/ (DOH)
+
+2003-02-19  Aaron Weber  <aaron@ximian.com>
+
+	* C/preface.xml: add a couple "expert tips" that don't really go
+	anywhere else.
+	
+
 2003-02-18  Aaron Weber  <aaron@ximian.com>
 
 	* C/usage-exchange.xml: replaced image, updated for 1.2 layout
