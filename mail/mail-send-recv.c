@@ -653,7 +653,10 @@ void mail_send_receive (void)
 		}
 		return;
 	}
-
+	
+	if (!camel_session_is_online (session))
+		return;
+	
 	sources = mail_config_get_sources();
 	if (!sources)
 		return;
@@ -661,10 +664,6 @@ void mail_send_receive (void)
 	if (!account || !account->transport)
 		return;
 	
-	/* what to do about pop before smtp ?
-	   Well, probably hook into receive_done or receive_status on
-	   the right pop account, and when it is, then kick off the
-	   smtp one. */
 	data = build_dialogue(sources, outbox_folder, account->transport->url);
 	scan = data->infos;
 	while (scan) {

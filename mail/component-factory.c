@@ -1382,10 +1382,8 @@ mail_lookup_storage (CamelStore *store)
 static void
 store_disconnect(CamelStore *store, void *event_data, void *data)
 {
-	if (store) {
-		camel_service_disconnect (CAMEL_SERVICE (store), TRUE, NULL);
-		camel_object_unref (CAMEL_OBJECT (store));
-	}
+	camel_service_disconnect (CAMEL_SERVICE (store), TRUE, NULL);
+	camel_object_unref (CAMEL_OBJECT (store));
 }
 
 void
@@ -1402,6 +1400,9 @@ mail_remove_storage (CamelStore *store)
 	 */
 	
 	storage = g_hash_table_lookup (storages_hash, store);
+	if (!storage)
+		return;
+	
 	g_hash_table_remove (storages_hash, store);
 
 	/* so i guess potentially we could have a race, add a store while one
