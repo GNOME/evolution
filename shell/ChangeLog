@@ -1,3 +1,8 @@
+2001-04-12  Christopher James Lahey  <clahey@ximian.com>
+
+	* e-storage-set-view.c (etree_has_get_node_by_id,
+	etree_get_node_by_id): Implemented these.
+
 2001-04-11  Dan Winship  <danw@ximian.com>
 
 	* e-shell-view.c (switch_on_folder_tree_click): Don't get into an
