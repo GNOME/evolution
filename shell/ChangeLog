@@ -1,3 +1,11 @@
+2001-08-01  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-shell-view.c (switch_on_folder_tree_click): Set the
+	`set_folder_uri' to NULL when freeing it.
+
+	* e-task-bar.c (e_task_bar_remove_task): Just destroy the widget.
+	No need to `gtk_container_remove()' it.
+
 2001-08-01  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* e-shell-view-menu.c (command_new_folder): Do a NULL-check on

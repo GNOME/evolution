@@ -455,7 +455,9 @@ switch_on_folder_tree_click (EShellView *shell_view,
 
 	if (priv->set_folder_timeout != 0)
 		gtk_timeout_remove (priv->set_folder_timeout);
+
 	g_free (priv->set_folder_uri);
+	priv->set_folder_uri = NULL;
 
 	cleanup_delayed_selection (shell_view);
 

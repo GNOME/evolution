@@ -132,8 +132,7 @@ e_task_bar_remove_task (ETaskBar *task_bar,
 	g_return_if_fail (n >= 0);
 
 	task_widget = e_task_bar_get_task_widget (task_bar, n);
-
-	gtk_container_remove (GTK_CONTAINER (task_bar), GTK_WIDGET (task_widget));
+	gtk_widget_destroy (GTK_WIDGET (task_widget));
 }
 	
 ETaskWidget *
