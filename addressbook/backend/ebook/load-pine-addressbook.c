@@ -27,27 +27,16 @@ add_card_cb (EBook *book, EBookStatus status, const gchar *id, gpointer closure)
 }
 
 static void
-book_open_cb (EBook *book, EBookStatus status, gpointer closure)
+parse_line (EBook *book, char *line)
 {
-	FILE *fp = fopen (".addressbook", "r");
-	char line[1024];
+	char **strings;
+	ECardName *name;
+	ECard *card;
+	EList *list;
 
-	if (!fp) {
-		g_warning ("Can't find .addressbook");
-		return;
-	}
-
-	while(fgets(line, 1024, fp)) {
-		int length = strlen(line);
-		char **strings;
-		ECardName *name;
-		ECard *card;
-		EList *list;
-		if (line[length - 1] == '\n')
-			line[--length] = 0;
-		
-		card = e_card_new("");
-		strings = g_strsplit(line, "\t", 3);
+	card = e_card_new("");
+	strings = g_strsplit(line, "\t", 3);
+	if (strings[0] && strings[1] && strings[2]) {
 		name = e_card_name_from_string(strings[1]);
 		gtk_object_set(GTK_OBJECT(card),
 			       "nickname", strings[0],
@@ -60,6 +49,47 @@ book_open_cb (EBook *book, EBookStatus status, gpointer closure)
 		e_list_append(list, strings[2]);
 		g_strfreev(strings);
 		e_book_add_card(book, card, add_card_cb, card);
+	}
+}
+
+static void
+book_open_cb (EBook *book, EBookStatus status, gpointer closure)
+{
+	FILE *fp = fopen (".addressbook", "r");
+	char line[2 * 1024];
+	int which = 0;
+	char *lastline = NULL;
+
+	if (!fp) {
+		g_warning ("Can't find .addressbook");
+		return;
+	}
+
+	while(fgets(line + which * 1024, 1024, fp)) {
+		int length;
+		char *thisline = line + which * 1024;
+		length = strlen(thisline);
+		if (thisline[length - 1] == '\n')
+			line[--length] = 0;
+		if (lastline && *thisline && isspace(*thisline)) {
+			char *temp;
+			while(*thisline && isspace(*thisline))
+				thisline ++;
+			temp = lastline;
+			lastline = g_strdup_printf("%s%s", lastline, thisline);
+			g_free(temp);
+			continue;
+		}
+		if (lastline) {
+			parse_line (book, lastline);
+			g_free(lastline);
+		}
+		lastline = g_strdup(thisline);
+	}
+
+	if (lastline) {
+		parse_line (book, lastline);
+		g_free(lastline);
 	}
 }
 
