@@ -1,3 +1,10 @@
+2002-06-24  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-gpg-context.c (gpg_ctx_get_argv): Use --command-fd rather
+	than --passphrase-fd since what we really want is an interactive
+	mode (besides, --passphrase-fd requires a passphrase to be sent
+	before --status-fd will send a NEED_PASSPHRASE status message).
+
 2002-06-23  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-gpg-context.c (gpg_ctx_parse_status): Check for ERRSIG

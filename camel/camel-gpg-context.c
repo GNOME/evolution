@@ -43,6 +43,8 @@
 #include "camel-stream-fs.h"
 #include "camel-operation.h"
 
+#define d(x) x
+
 static void camel_gpg_context_class_init (CamelGpgContextClass *klass);
 static void camel_gpg_context_init       (CamelGpgContext *obj);
 static void camel_gpg_context_finalise   (CamelObject *obj);
@@ -230,7 +232,9 @@ struct _GpgCtx {
 	unsigned int need_passwd:1;
 	unsigned int send_passwd:1;
 	
-	unsigned int padding:26;
+	unsigned int bad_passwds:2;
+	
+	unsigned int padding:24;
 };
 
 static struct _GpgCtx *
@@ -265,6 +269,7 @@ gpg_ctx_new (CamelSession *session, const char *path)
 	gpg->statusptr = gpg->statusbuf;
 	gpg->statusleft = 128;
 	
+	gpg->bad_passwds = 0;
 	gpg->need_passwd = FALSE;
 	gpg->send_passwd = FALSE;
 	gpg->passwd = NULL;
@@ -441,21 +446,26 @@ gpg_ctx_get_argv (struct _GpgCtx *gpg, int status_fd, char **sfd, int passwd_fd,
 	g_ptr_array_add (argv, "--verbose");
 	g_ptr_array_add (argv, "--no-secmem-warning");
 	g_ptr_array_add (argv, "--no-greeting");
-	g_ptr_array_add (argv, "--batch");
-	g_ptr_array_add (argv, "--yes");
+	g_ptr_array_add (argv, "--no-tty");
+	if (passwd_fd == -1) {
+		/* only use batch mode if we don't intend on using the
+                   interactive --command-fd option */
+		g_ptr_array_add (argv, "--batch");
+		g_ptr_array_add (argv, "--yes");
+	}
 	
 	*sfd = buf = g_strdup_printf ("--status-fd=%d", status_fd);
 	g_ptr_array_add (argv, buf);
 	
 	if (passwd_fd != -1) {
-		*pfd = buf = g_strdup_printf ("--passphrase-fd=%d", passwd_fd);
+		*pfd = buf = g_strdup_printf ("--command-fd=%d", passwd_fd);
 		g_ptr_array_add (argv, buf);
 	}
 	
 	switch (gpg->mode) {
 	case GPG_CTX_MODE_SIGN:
 		g_ptr_array_add (argv, "--sign");
-		g_ptr_array_add (argv, "-b");
+		g_ptr_array_add (argv, "--detach");
 		if (gpg->armor)
 			g_ptr_array_add (argv, "--armor");
 		hash_str = gpg_hash_str (gpg->hash);
@@ -473,7 +483,6 @@ gpg_ctx_get_argv (struct _GpgCtx *gpg, int status_fd, char **sfd, int passwd_fd,
 	case GPG_CTX_MODE_VERIFY:
 		if (!camel_session_is_online (gpg->session))
 			g_ptr_array_add (argv, "--no-auto-key-retrieve");
-		g_ptr_array_add (argv, "--no-tty");
 		g_ptr_array_add (argv, "--verify");
 		if (gpg->sigfile)
 			g_ptr_array_add (argv, gpg->sigfile);
@@ -504,11 +513,6 @@ gpg_ctx_get_argv (struct _GpgCtx *gpg, int status_fd, char **sfd, int passwd_fd,
 		g_ptr_array_add (argv, "-");
 		break;
 	}
-	
-	printf ("gpg command-line: ");
-	for (i = 0; i < argv->len; i++)
-		printf ("%s ", argv->pdata[i]);
-	printf ("\n");
 	
 	g_ptr_array_add (argv, NULL);
 	
@@ -651,11 +655,14 @@ gpg_ctx_parse_status (struct _GpgCtx *gpg, CamelException *ex)
 	*inptr++ = '\0';
 	status = gpg->statusbuf;
 	
-	printf ("status: %s\n", status);
-	fflush (stdout);
+	d(printf ("status: %s\n", status));
 	
-	if (strncmp (status, "[GNUPG:] ", 9) != 0)
+	if (strncmp (status, "[GNUPG:] ", 9) != 0) {
+		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
+				      _("Unexpected GnuPG status message encountered:\n\n%s"),
+				      status);
 		return -1;
+	}
 	
 	status += 9;
 	
@@ -681,7 +688,7 @@ gpg_ctx_parse_status (struct _GpgCtx *gpg, CamelException *ex)
 		
 		g_hash_table_insert (gpg->userid_hint, hint, user);
 	} else if (!strncmp (status, "NEED_PASSPHRASE ", 16)) {
-		char *prompt, *userid;
+		char *prompt, *userid, *passwd;
 		const char *name;
 		
 		status += 16;
@@ -700,25 +707,35 @@ gpg_ctx_parse_status (struct _GpgCtx *gpg, CamelException *ex)
 		prompt = g_strdup_printf (_("You need a passphrase to unlock the key for\n"
 					    "user: \"%s\""), name);
 		
-		gpg->passwd = camel_session_get_password (gpg->session, prompt, TRUE, NULL, userid, ex);
+		passwd = camel_session_get_password (gpg->session, prompt, TRUE, NULL, userid, ex);
 		g_free (prompt);
 		g_free (userid);
 		
-		if (gpg->passwd == NULL) {
+		if (passwd == NULL) {
 			if (!camel_exception_is_set (ex))
 				camel_exception_set (ex, CAMEL_EXCEPTION_USER_CANCEL, _("Cancelled."));
 			return -1;
 		}
 		
+		gpg->passwd = g_strdup_printf ("%s\n", passwd);
+		memset (passwd, 0, strlen (passwd));
+		g_free (passwd);
+		
 		gpg->send_passwd = TRUE;
 	} else if (!strncmp (status, "GOOD_PASSPHRASE ", 16)) {
-		g_free (gpg->passwd);
-		gpg->passwd = NULL;
+		gpg->bad_passwds = 0;
 	} else if (!strncmp (status, "BAD_PASSPHRASE ", 15)) {
-		g_free (gpg->passwd);
-		gpg->passwd = NULL;
+		gpg->bad_passwds++;
+		if (gpg->bad_passwds == 3) {
+			camel_exception_set (ex, CAMEL_EXCEPTION_SERVICE_CANT_AUTHENTICATE,
+					     _("Failed to unlock secret key: 3 bad passphrases given."));
+			return -1;
+		}
 	} else if (!strncmp (status, "UNEXPECTED ", 11)) {
 		/* this is an error */
+		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
+				      _("Unexpected response from GnuPG: %s"),
+				      status + 11);
 		return -1;
 	} else {
 		/* check to see if we are complete */
@@ -746,7 +763,7 @@ gpg_ctx_parse_status (struct _GpgCtx *gpg, CamelException *ex)
 		}
 		
 		if (gpg->complete)
-			printf ("okay, that's all folks...\n");
+			d(printf ("okay, that's all folks...\n"));
 	}
 	
  recycle:
@@ -828,7 +845,7 @@ gpg_ctx_op_step (struct _GpgCtx *gpg, CamelException *ex)
 		if (errno == EINTR)
 			goto retry;
 		
-		printf ("select() failed: %s\n", g_strerror (errno));
+		d(printf ("select() failed: %s\n", g_strerror (errno)));
 		
 		return -1;
 	}
@@ -844,8 +861,7 @@ gpg_ctx_op_step (struct _GpgCtx *gpg, CamelException *ex)
 		char buffer[4096];
 		ssize_t nread;
 		
-		printf ("reading from gpg's status-fd...\n");
-		fflush (stdout);
+		d(printf ("reading from gpg's status-fd...\n"));
 		
 		nread = read (gpg->status_fd, buffer, sizeof (buffer));
 		if (nread == -1)
@@ -864,7 +880,7 @@ gpg_ctx_op_step (struct _GpgCtx *gpg, CamelException *ex)
 		char buffer[4096];
 		ssize_t nread;
 		
-		printf ("reading gpg's stdout...\n");
+		d(printf ("reading gpg's stdout...\n"));
 		
 		nread = read (gpg->stdout, buffer, sizeof (buffer));
 		if (nread == -1)
@@ -883,7 +899,7 @@ gpg_ctx_op_step (struct _GpgCtx *gpg, CamelException *ex)
 		char buffer[4096];
 		ssize_t nread;
 		
-		printf ("reading gpg's stderr...\n");
+		d(printf ("reading gpg's stderr...\n"));
 		
 		nread = read (gpg->stderr, buffer, sizeof (buffer));
 		if (nread == -1)
@@ -892,75 +908,39 @@ gpg_ctx_op_step (struct _GpgCtx *gpg, CamelException *ex)
 		g_byte_array_append (gpg->diagnostics, buffer, nread);
 	}
 	
-	if (wrsetp && gpg->passwd_fd != -1 && FD_ISSET (gpg->passwd_fd, &wrset) && gpg->need_passwd) {
-		if (gpg->send_passwd) {
-			ssize_t w, nwritten = 0;
-			size_t n;
-			
-			printf ("sending gpg our passphrase...\n");
-			
-			if (!gpg->passwd) {
-				const char *name, *userid;
-				char *prompt;
-				
-				userid = gpg->userid;
-				if (userid) {
-					name = g_hash_table_lookup (gpg->userid_hint, gpg->userid);
-					if (name == NULL)
-						name = gpg->userid;
-					
-					prompt = g_strdup_printf (_("You need a passphrase to unlock the key for\n"
-								    "user: \"%s\""), name);
-				} else {
-					name = "GnuPG";
-					userid = "passphrase";
-					
-					prompt = g_strdup (_("You need a passphrase to unlock your GnuPG key"));
-				}
-				
-				gpg->passwd = camel_session_get_password (gpg->session, prompt, TRUE, NULL,
-									  userid, ex);
-				g_free (prompt);
-				
-				if (gpg->passwd == NULL) {
-					camel_exception_set (ex, CAMEL_EXCEPTION_USER_CANCEL, _("Cancelled"));
-					return -1;
-				}
-			}
-			
-			/* send the passphrase to gpg */
-			n = strlen (gpg->passwd);
+	if (wrsetp && gpg->passwd_fd != -1 && FD_ISSET (gpg->passwd_fd, &wrset) && gpg->need_passwd && gpg->send_passwd) {
+		ssize_t w, nwritten = 0;
+		size_t n;
+		
+		d(printf ("sending gpg our passphrase...\n"));
+		
+		/* send the passphrase to gpg */
+		n = strlen (gpg->passwd);
+		do {
 			do {
-				do {
-					w = write (gpg->passwd_fd, gpg->passwd + nwritten, n - nwritten);
-				} while (w == -1 && (errno == EINTR || errno == EAGAIN));
-				
-				if (w > 0)
-					nwritten += w;
-			} while (nwritten < n && w != -1);
+				w = write (gpg->passwd_fd, gpg->passwd + nwritten, n - nwritten);
+			} while (w == -1 && (errno == EINTR || errno == EAGAIN));
 			
-			if (w == -1)
-				goto exception;
-			
-			g_free (gpg->passwd);
-			gpg->passwd = NULL;
-			gpg->send_passwd = FALSE;
-			
-			close (gpg->passwd_fd);
-			gpg->passwd_fd = -1;
-		} else {
-			printf ("gpg seems to be expecting a passphrase from us...\n");
-			printf ("yet we have not received a NEED_PASSPHRASE status message yet?\n");
-			fflush (stdout);
-		}
+			if (w > 0)
+				nwritten += w;
+		} while (nwritten < n && w != -1);
+		
+		/* zero and free our passwd buffer */
+		memset (gpg->passwd, 0, n);
+		g_free (gpg->passwd);
+		gpg->passwd = NULL;
+		
+		if (w == -1)
+			goto exception;
+		
+		gpg->send_passwd = FALSE;
 	}
 	
 	if (wrsetp && gpg->stdin != -1 && FD_ISSET (gpg->stdin, &wrset)) {
 		char buffer[4096];
 		ssize_t nread;
 		
-		printf ("writing to gpg's stdin...");
-		fflush (stdout);
+		d(printf ("writing to gpg's stdin..."));
 		
 		/* write our stream to gpg's stdin */
 		nread = camel_stream_read (gpg->istream, buffer, sizeof (buffer));
@@ -969,7 +949,6 @@ gpg_ctx_op_step (struct _GpgCtx *gpg, CamelException *ex)
 			
 			do {
 				do {
-					printf (".");
 					w = write (gpg->stdin, buffer + nwritten, nread - nwritten);
 				} while (w == -1 && (errno == EINTR || errno == EAGAIN));
 				
@@ -977,19 +956,14 @@ gpg_ctx_op_step (struct _GpgCtx *gpg, CamelException *ex)
 					nwritten += w;
 			} while (nwritten < nread && w != -1);
 			
-			if (w == -1) {
-				printf ("write failed: %s\n", g_strerror (errno));
+			if (w == -1)
 				goto exception;
-			}
 		}
 		
 		if (camel_stream_eos (gpg->istream)) {
-			printf ("closing stdin...");
 			close (gpg->stdin);
 			gpg->stdin = -1;
 		}
-		
-		printf ("done.\n");
 	}
 	
 	return 0;
@@ -1223,7 +1197,6 @@ gpg_verify (CamelCipherContext *context, CamelCipherHash hash,
 	if (gpg_ctx_op_start (gpg) == -1) {
 		camel_exception_set (ex, CAMEL_EXCEPTION_SYSTEM,
 				     _("Failed to execute gpg."));
-		printf ("gpg_ctx_op_start() failed\n");
 		gpg_ctx_free (gpg);
 		goto exception;
 	}
@@ -1232,16 +1205,12 @@ gpg_verify (CamelCipherContext *context, CamelCipherHash hash,
 		if (camel_operation_cancel_check (NULL)) {
 			camel_exception_set (ex, CAMEL_EXCEPTION_USER_CANCEL,
 					     _("Cancelled."));
-			printf ("user cancelled gpg operation\n");
 			gpg_ctx_op_cancel (gpg);
 			goto exception;
 		}
 		
 		if (gpg_ctx_op_step (gpg, ex) == -1) {
-			diagnostics = gpg_ctx_get_diagnostics (gpg);
-			printf ("gpg_ctx_op_step() failed: \n%s\n\n", diagnostics);
 			gpg_ctx_op_cancel (gpg);
-			g_free (diagnostics);
 			goto exception;
 		}
 	}
