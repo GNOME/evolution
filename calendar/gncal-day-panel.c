@@ -133,7 +133,7 @@ gncal_day_panel_new (GnomeCalendar *calendar, time_t start_of_day)
 	gtk_signal_connect (GTK_OBJECT (dpanel->fullday), "range_activated",
 			    (GtkSignalFunc) day_view_range_activated,
 			    dpanel);
-	gtk_container_add (GTK_CONTAINER (dpanel->fullday_sw), w);
+	gtk_scrolled_window_add_with_viewport (GTK_SCROLLED_WINDOW (dpanel->fullday_sw), w);
 	gtk_widget_show (w);
 
 	/* We'll scroll the list to the proper initial position */

@@ -1,3 +1,9 @@
+1998-11-23  Andrew T. Veliath  <andrewtv@usa.net>
+
+	* gncal-day-panel.c (gncal_day_panel_new): Use
+	gtk_scrolled_window_add_with_viewport instead of
+	gtk_container_add (gtk_clist change).
+
 1998-11-23  Herbert V. Riedel <hvr@hvrlab.ml.org>
 
 	* eventedit.c: use GPOINTER_TO_INT 
