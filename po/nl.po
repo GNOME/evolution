@@ -5,7 +5,7 @@
 # Gerard Oskamp <gerard@linuxfreak.nl>, 2000
 # Dennis Smit <synap@area101.penguin.nl>, 2000
 # Almer S. Tigelaar <almer@gnome.org>, 2000, 2001
-#
+#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: Evolution CVS\n"
@@ -150,7 +150,9 @@ msgstr ""
 msgid ""
 "\n"
 "Delivery Label: "
-msgstr "\nAfleveringsetiket: "
+msgstr ""
+"\n"
+"Afleveringslabel: "
 
 #: addressbook/backend/ebook/e-card.c:3118
 msgid ""
@@ -434,7 +436,7 @@ msgstr "Aa_ntekeningen:"
 # addressbook/contact-editor/e-contact-editor-strings.h:9
 #: addressbook/contact-editor/contact-editor.glade.h:13
 msgid "Phone Types"
-msgstr "Telefoontypen"
+msgstr "Telefoontypes"
 
 # addressbook/contact-editor/e-contact-editor-strings.h:23
 # addressbook/contact-editor/e-contact-editor.c:1340
@@ -446,7 +448,7 @@ msgstr "Primaire E-mail"
 # addressbook/contact-editor/e-contact-editor-strings.h:17
 #: addressbook/contact-editor/contact-editor.glade.h:15
 msgid "Wants to receive _HTML mail"
-msgstr "Ontvangt liefst _HTML berichten"
+msgstr "Bij voorkeur _HTML-berichten"
 
 # addressbook/contact-editor/e-contact-editor-strings.h:16
 #: addressbook/contact-editor/contact-editor.glade.h:16
@@ -477,7 +479,7 @@ msgstr "Ge_boortedatum:"
 # addressbook/contact-editor/e-contact-editor-strings.h:19
 #: addressbook/contact-editor/contact-editor.glade.h:21
 msgid "_Business"
-msgstr "_Zakelijk"
+msgstr "_Werk"
 
 # addressbook/contact-editor/e-contact-editor-strings.h:29
 #: addressbook/contact-editor/contact-editor.glade.h:22
@@ -505,7 +507,7 @@ msgstr "_Volledige Naam..."
 # addressbook/contact-editor/e-contact-editor-strings.h:20
 #: addressbook/contact-editor/contact-editor.glade.h:26
 msgid "_Home"
-msgstr "T_huis"
+msgstr "Privé"
 
 # addressbook/contact-editor/e-contact-editor-strings.h:28
 #: addressbook/contact-editor/contact-editor.glade.h:27
@@ -727,7 +729,7 @@ msgstr "Finland"
 
 #: addressbook/contact-editor/fulladdr.glade.h:6
 msgid "USA"
-msgstr "VS"
+msgstr "Verenigde Staten"
 
 # addressbook/contact-editor/e-contact-editor-strings.h:18
 #: addressbook/contact-editor/fulladdr.glade.h:7
@@ -1387,7 +1389,7 @@ msgstr "Bijnaam"
 # addressbook/contact-editor/e-contact-editor-strings.h:35
 #: addressbook/gui/widgets/e-addressbook-view.c:603
 msgid "Spouse"
-msgstr "Echtgeno(o)t(e)"
+msgstr "Echtgenoot/Echtgenote"
 
 # shell/e-shell-view.c:596
 #: addressbook/gui/widgets/e-addressbook-view.c:604
@@ -4950,7 +4952,7 @@ msgstr "Van:"
 #.
 #: composer/e-msg-composer-hdrs.c:351 mail/mail-format.c:681
 msgid "Reply-To:"
-msgstr "Antwoord-Naar (Reply-To):"
+msgstr "Antwoordadres:"
 
 # composer/e-msg-composer-hdrs.c:234
 #.
@@ -5206,7 +5208,7 @@ msgstr "Open %s met de standaard GNOME- webbladeraar"
 #: executive-summary/component/e-summary-url.c:71
 #, c-format
 msgid "Send an email to %s"
-msgstr "Verstuur een e-mail naar %s"
+msgstr "Verstuur een bericht naar %s"
 
 #: executive-summary/component/e-summary-url.c:72
 #, c-format
@@ -6387,7 +6389,7 @@ msgstr "Platte Tekst"
 
 #: mail/mail-config.glade.h:51
 msgid "Receiving Email"
-msgstr "Bezig met ontvangen E-mail"
+msgstr "Berichten aan het ontvangen"
 
 #: mail/mail-config.glade.h:52
 msgid "Remember my password"
@@ -6425,7 +6427,7 @@ msgstr "Stuur post standaard in HTML-formaat."
 # composer/e-msg-composer.c:894 composer/e-msg-composer.c:942
 #: mail/mail-config.glade.h:60
 msgid "Sending Email"
-msgstr "Bezig met versturen E-mail"
+msgstr "Berichten aan het versturen"
 
 # mail/mail-config.c:1163 mail/mail-config.c:1242
 #: mail/mail-config.glade.h:62
@@ -6879,23 +6881,23 @@ msgstr "Bezig met annuleren ..."
 
 #: mail/mail-send-recv.c:231
 msgid "Send & Receive mail"
-msgstr "Verstuur & Ontvang e-mail"
+msgstr "Versturen en ontvangen van berichten"
 
 #: mail/mail-send-recv.c:234
 msgid "Receiving"
-msgstr "Bezig met ontvangen"
+msgstr "Aan het ontvangen"
 
 #: mail/mail-send-recv.c:283
 msgid "Updating ..."
-msgstr "Bezig met Actualiseren ..."
+msgstr "Aan het Actualiseren ..."
 
 #: mail/mail-send-recv.c:285 mail/mail-send-recv.c:331
 msgid "Waiting ..."
-msgstr "Bezig met wachten ..."
+msgstr "Aan het Wachten ..."
 
 #: mail/mail-send-recv.c:304
 msgid "Sending"
-msgstr "Bezig met verzenden"
+msgstr "Aan het Verzenden"
 
 #: mail/mail-send-recv.c:469
 msgid "Cancelled."
@@ -7256,11 +7258,11 @@ msgid ""
 "You can select \"Automatic\" if you do not know, and Evolution will attempt "
 "to work it out."
 msgstr ""
-"Kies het bestand dat u wilt importeren in Evolution en selecteer kies "
-"het bestandstype uit de lijst.\n"
+"Kies het bestand dat u wilt importeren in Evolution, en kies "
+"het bijbehorende bestandstype uit de lijst.\n"
 "\n"
-"U kunt \"Automatisch\" selecteren als u het niet weet, Evolution zal "
-"dan proberen om het uit te zoeken."
+"U kunt \"Automatisch\" kiezen als u het niet weet; Evolution probeert "
+"het dan voor u uit te zoeken."
 
 #: shell/importer/import.glade.h:1
 msgid "Click \"Import\" to begin importing the file into Evolution. "
@@ -7284,8 +7286,8 @@ msgid ""
 "With this wizard you will be guided through the process of\n"
 "importing external files into Evolution."
 msgstr ""
-"Welkom bij het Evolution Import.\n"
-"Deze wizard zal u begeleiden bij het proces van het importeren\n"
+"Welkom bij Evolution Import.\n"
+"Deze wizard helpt u bij het importeren\n"
 "van externe bestanden in Evolution."
 
 # shell/e-setup.c:47
@@ -7545,7 +7547,7 @@ msgstr "Verwijder deze snelkoppelingsgroep"
 # shell/e-shell-view-menu.c:419
 #: shell/e-shortcuts-view.c:289
 msgid "_Hide the Shortcut Bar"
-msgstr "_Verberg de Snelkoppelingenbalk"
+msgstr "_Verberg de Snelkoppelingsbalk"
 
 # shell/e-shell-view-menu.c:419
 #: shell/e-shortcuts-view.c:290
@@ -8366,7 +8368,7 @@ msgstr "Samenvattingsinstellingen..."
 # mail/folder-browser-factory.c:29
 #: ui/evolution-executive-summary.xml.h:5
 msgid "New Mail"
-msgstr "Nieuwe E-Mail"
+msgstr "Nieuwe Berichten"
 
 # mail/folder-browser-factory.c:30
 #: ui/evolution-mail.xml.h:2
@@ -8516,7 +8518,7 @@ msgstr "Post in de wachtrij versturen en nieuwe post ophalen"
 
 #: ui/evolution-mail.xml.h:48
 msgid "Show _All"
-msgstr "Toon _Alle"
+msgstr "Toon _Alle Berichten"
 
 # mail/folder-browser-factory.c:37
 #: ui/evolution-mail.xml.h:50
@@ -8675,11 +8677,11 @@ msgstr "Bestand openen"
 
 #: ui/evolution-message-composer.xml.h:12
 msgid "PGP Encrypt"
-msgstr "PGP-versleutelen"
+msgstr "Versleutelen met PGP"
 
 #: ui/evolution-message-composer.xml.h:13
 msgid "PGP Sign"
-msgstr "PGP-signeren"
+msgstr "Signeren met PGP"
 
 #: ui/evolution-message-composer.xml.h:17
 msgid "Save _Draft"
@@ -8773,7 +8775,7 @@ msgstr "Schakel de Afzenderkiezer-weergave aan/uit"
 
 #: ui/evolution-message-composer.xml.h:37
 msgid "Toggles whether the Reply-To field is displayed"
-msgstr "Schakel 'Antwoord-Naar' (Reply-To:)-weergave aan/uit"
+msgstr "Schakel Antwoordadres-weergave aan/uit"
 
 # widgets/e-table/e-table-config.glade.h:7
 #: ui/evolution-message-composer.xml.h:39
@@ -8807,7 +8809,7 @@ msgstr "_Openen..."
 # mail/folder-browser-factory.c:34
 #: ui/evolution-message-composer.xml.h:50
 msgid "_Reply-To Field"
-msgstr "Antwoord-Naar (Reply-To)-veld:"
+msgstr "Antwoordadres-veld:"
 
 #: ui/evolution-message-composer.xml.h:52
 msgid "_Security"
@@ -8964,7 +8966,7 @@ msgstr "Dit venster sluiten"
 
 #: ui/evolution.xml.h:4
 msgid "Customi_ze Toolbars..."
-msgstr "Gereedschapsbalken aanpassen"
+msgstr "Gereedschapsbalken _Aanpassen"
 
 # composer/e-msg-composer-address-dialog.c:183 composer/e-msg-composer.c:945
 #: ui/evolution.xml.h:5
@@ -9048,7 +9050,7 @@ msgstr "Gebruik van de _Kalender"
 # shell/e-shell-view-menu.c:446
 #: ui/evolution.xml.h:22
 msgid "Using the _Mailer"
-msgstr "Het _Mailcomponent Gebruiken"
+msgstr "Gebruik van het _Mailcomponent"
 
 # calendar/gui/gnome-month-item.c:737
 #: ui/evolution.xml.h:23
@@ -9656,7 +9658,7 @@ msgstr "init_bonobo(): kon Bonobo niet initializeren"
 
 # shell/e-shell-view-menu.c:419
 #~ msgid "Show the _Shortcut Bar"
-#~ msgstr "_Snelkoppelingenbalk Tonen"
+#~ msgstr "_Snelkoppelingsbalk Tonen"
 
 # addressbook/printing/e-contact-print.glade.h:12
 #~ msgid "_Settings"
@@ -11678,5 +11680,3 @@ msgstr "init_bonobo(): kon Bonobo niet initializeren"
 #~ msgstr ""
 #~ "Het was niet mogelijk om de Evolution opstartbestanden de installeren.\n"
 #~ "Repareer het probleem, en start Evolution overnieuw."
-
-
