@@ -5,10 +5,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: evolution\n"
+"Project-Id-Version: evolution 1.4.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2003-09-27 03:44+0200\n"
-"PO-Revision-Date: 2003-09-27 03:48+0200\n"
+"POT-Creation-Date: 2003-09-28 03:18+0200\n"
+"PO-Revision-Date: 2003-09-28 03:15+0200\n"
 "Last-Translator: Laurent Dhima <laurenti@alblinux.net>\n"
 "Language-Team: Albanian <gnome-albanian-perkthyesit@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -942,8 +942,10 @@ msgid "Evolution will use this DN to authenticate you with the server"
 msgstr "Evolution do të përdorë këtë DN për t'ju autentifikuar me server-in"
 
 #: addressbook/gui/component/ldap-config.glade.h:24
-msgid "Evolution will use this email address to authenticate you with the server"
-msgstr "Evolution do të përdorë këtë adresë email për t'ju autentifikuar me server-in"
+msgid ""
+"Evolution will use this email address to authenticate you with the server"
+msgstr ""
+"Evolution do të përdorë këtë adresë email për t'ju autentifikuar me server-in"
 
 #: addressbook/gui/component/ldap-config.glade.h:25
 msgid "Finished"
@@ -1103,6 +1105,11 @@ msgid ""
 "if you\n"
 "need to change these options."
 msgstr ""
+"Opcionet në këtë faqe kontrollojnë se sa zëra duhen përfshirë në kërkimet "
+"tuaja\n"
+"dhe se sa mund të zgjasë një kërkim. Kërkoini administratorit tuaj të "
+"sistemit nëse\n"
+"keni nevojë të ndryshoni këto opcione."
 
 #: addressbook/gui/component/ldap-config.glade.h:59
 msgid ""
@@ -1111,6 +1118,10 @@ msgid ""
 "begin. If you leave this blank, the search will begin at the root of the "
 "directory tree."
 msgstr ""
+"Baza e kërkimit është emri i veçantë (DN)  i zërit ku kërkimet tuaja do "
+"tëfillojnë.\n"
+"Nëse kjo fushë lihet bosh kërkimi do të fillojë nga rrënja e pemës së "
+"directory."
 
 #: addressbook/gui/component/ldap-config.glade.h:61
 msgid ""
@@ -1121,6 +1132,11 @@ msgid ""
 "A search scope of \"one\" will only include the entries one level beneath "
 "your base.\n"
 msgstr ""
+"Gjerësia e kërkimit përcakton se sa në thellësi dëshironi të zgjerohet "
+"kërkimi gjatë\n"
+"degëzimeve të directory. Një gjerësi \"sub\" do të përfshijë të gjithë zërat "
+"nën bazën e kërkimit.\n"
+"Një gjerësi kërkimi \"një\" do të përfshijë vetëm zërat një nivel nën bazë.\n"
 
 #: addressbook/gui/component/ldap-config.glade.h:65
 msgid ""
@@ -1131,14 +1147,20 @@ msgid ""
 "server. Please contact your system administrator if you need help finding "
 "this information."
 msgstr ""
+"Asistenti do t'ju ndihmojë të shfrytëzoni shërbimet e directory në linjë\n"
+"duke përdorur server-in LDAP (Lightweight Directory Access Protocol).\n"
+"\n"
+"Shtimi i një server-i të ri LDAP ka nevojë për disa informacione të veçanta "
+"në lidhje me server-in. Lidhuni me administratorin e sistemit tuaj nëse keni "
+"nevojë për ndihmë për të gjetur këto informacione."
 
 #: addressbook/gui/component/ldap-config.glade.h:69
 msgid ""
 "This is the full name of your ldap server. For example, \"ldap.mycompany.com"
 "\"."
 msgstr ""
-"Ky është emri i plotë i server-it tuaj ldap. Për shembull, \"ldap.shoqëriaime.com"
-"\"."
+"Ky është emri i plotë i server-it tuaj ldap. Për shembull, \"ldap."
+"shoqëriaime.com\"."
 
 #: addressbook/gui/component/ldap-config.glade.h:70
 msgid ""
@@ -1146,6 +1168,9 @@ msgid ""
 "be \n"
 "too large will slow down your addressbook."
 msgstr ""
+"Ky është numri maksimum i zërave për tu shkarkuar. Duke e vendosur këtë "
+"numër \n"
+"tepër të madh do të ngadalsoni në menyrë të ndjeshme rubrikën tuaj."
 
 #: addressbook/gui/component/ldap-config.glade.h:72
 msgid ""
@@ -1153,6 +1178,9 @@ msgid ""
 "setting this to \"Email Address\" requires anonymous access to your ldap "
 "server."
 msgstr ""
+"Kjo është metoda e përdorur nga evolution për identifikimin.  Ki parasysh që "
+"për t'a vendosur këtë si \"Adresa Email\" kërkon hyrje anonime tek server-i "
+"juaj ldap."
 
 #: addressbook/gui/component/ldap-config.glade.h:73
 msgid ""
@@ -1160,6 +1188,8 @@ msgid ""
 "list.\n"
 "It is for display purposes only. "
 msgstr ""
+"Ky emër përdoret për të identifikuar llogarinë tuaj.\n"
+"Shërben vetëm për të shfaqur një emër. "
 
 #: addressbook/gui/component/ldap-config.glade.h:75
 msgid ""
@@ -1168,6 +1198,11 @@ msgid ""
 "list of standard ports has been provided. Ask your system administrator\n"
 "what port you should specify."
 msgstr ""
+"Kjo është porta tek server-i LDAP me të cilën Evolution do të përpiqet të "
+"lidhet. Një \n"
+"listë me portat standart ju vihet në dispozicion. Pyetni administratorin "
+"tuaj të sistemit\n"
+"se çfarë porte duhet të përdorni."
 
 #: addressbook/gui/component/ldap-config.glade.h:78
 msgid "This option controls how long a search will be run."
@@ -1234,23 +1269,23 @@ msgstr "cards"
 
 #: addressbook/gui/component/ldap-config.glade.h:92
 msgid "connecting-tab"
-msgstr ""
+msgstr "gjuhëza-lidhjes"
 
 #: addressbook/gui/component/ldap-config.glade.h:93
 msgid "general-tab"
-msgstr ""
+msgstr "gjuhëza-e përgjithshme"
 
 #: addressbook/gui/component/ldap-config.glade.h:94
 msgid "searching-tab"
-msgstr ""
+msgstr "gjuhëza-kërkimit"
 
 #: addressbook/gui/component/select-names/GNOME_Evolution_Addressbook_SelectNames.server.in.in.h:1
 msgid "Evolution Addressbook name selection interface"
-msgstr ""
+msgstr "Interfaqja për zgjedhjen e emrave të rubrikës së Evolution"
 
 #: addressbook/gui/component/select-names/e-select-names-popup.c:204
 msgid "Remove All"
-msgstr ""
+msgstr "Hiqi të gjithë"
 
 #: addressbook/gui/component/select-names/e-select-names-popup.c:211
 #: addressbook/gui/component/select-names/e-select-names.c:694
@@ -1260,20 +1295,20 @@ msgstr "Hiq"
 
 #: addressbook/gui/component/select-names/e-select-names-popup.c:218
 msgid "View Contact List"
-msgstr ""
+msgstr "Shfaq listën e kontakteve"
 
 #: addressbook/gui/component/select-names/e-select-names-popup.c:218
 msgid "View Contact Info"
-msgstr ""
+msgstr "Shfaq informacionet mbi kontaktet"
 
 #: addressbook/gui/component/select-names/e-select-names-popup.c:225
 #: addressbook/gui/component/select-names/e-select-names-popup.c:332
 msgid "Send HTML Mail?"
-msgstr ""
+msgstr "Dërgoj postën në HTML?"
 
 #: addressbook/gui/component/select-names/e-select-names-popup.c:350
 msgid "Unnamed Contact"
-msgstr ""
+msgstr "Kontakt pa emër"
 
 #: addressbook/gui/component/select-names/e-select-names-table-model.c:354
 #: addressbook/gui/component/select-names/e-select-names-text-model.c:104
@@ -1282,11 +1317,11 @@ msgstr "Buruesi"
 
 #: addressbook/gui/component/select-names/e-select-names.c:509
 msgid "Select Contacts from Addressbook"
-msgstr ""
+msgstr "Zgjidh kontaktet nga rubrika"
 
 #: addressbook/gui/component/select-names/e-select-names.c:650
 msgid "Find contact in"
-msgstr ""
+msgstr "Gjej kontaktin në"
 
 #: addressbook/gui/component/select-names/select-names.glade.h:2
 msgid "Find"
@@ -1294,53 +1329,55 @@ msgstr "Gjej"
 
 #: addressbook/gui/component/select-names/select-names.glade.h:3
 msgid "Select Names"
-msgstr ""
+msgstr "Zgjidh emrat"
 
 #: addressbook/gui/component/select-names/select-names.glade.h:4
 msgid "Selected Contacts:"
-msgstr ""
+msgstr "Kontaktet e zgjedhur:"
 
 #: addressbook/gui/component/select-names/select-names.glade.h:5
 msgid "Show Contacts"
-msgstr ""
+msgstr "Shfaq kontektet"
 
 #: addressbook/gui/component/select-names/select-names.glade.h:6
 msgid ""
 "Type a name into the entry, or\n"
 "select one from the list below:"
 msgstr ""
+"Shkruaj një emër ose zgjidh\n"
+"një nga lista e mëposhtme:"
 
 #: addressbook/gui/component/select-names/select-names.glade.h:8
 msgid "_Category:"
-msgstr ""
+msgstr "_Kategoria:"
 
 #: addressbook/gui/component/select-names/select-names.glade.h:9
 msgid "_Folder:"
-msgstr ""
+msgstr "_Kartela:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:1
 msgid " B_usiness:"
-msgstr ""
+msgstr "Z_yra:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:3
 msgid "A_ddress..."
-msgstr ""
+msgstr "A_dresa..."
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:4
 msgid "A_ssistant's name:"
-msgstr ""
+msgstr "Emri i a_sistentit:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:5
 msgid "Anni_versary:"
-msgstr ""
+msgstr "Për_kujtimore:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:6
 msgid "Birthda_y:"
-msgstr ""
+msgstr "Ditë_lindja:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:7
 msgid "Business fa_x:"
-msgstr ""
+msgstr "F_ax në zyrë:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:8
 msgid "Collaboration"
@@ -1350,11 +1387,11 @@ msgstr "Bashkpunim"
 #: addressbook/gui/contact-editor/contact-editor.glade.h:9
 #: addressbook/gui/contact-editor/e-contact-editor.c:1334
 msgid "Contact Editor"
-msgstr ""
+msgstr "Editori i kontakteve"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:10
 msgid "D_epartment:"
-msgstr ""
+msgstr "_Dipartimenti:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:11
 #: calendar/gui/dialogs/task-editor.c:199
@@ -1363,15 +1400,15 @@ msgstr "Hollësi"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:12
 msgid "F_ree/Busy URL:"
-msgstr ""
+msgstr "URL i lirë/i zënë:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:13
 msgid "File a_s:"
-msgstr ""
+msgstr "File _si:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:14
 msgid "Full _Name..."
-msgstr ""
+msgstr "Emri dhe _mbiemri..."
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:16
 msgid ""
@@ -1379,34 +1416,36 @@ msgid ""
 "Internet, enter the address\n"
 "of that information here."
 msgstr ""
+"Nëse ky person publikon informacionet e kalendarit në internet,\n"
+"shkruani këtu URL e informacioneve."
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:18
 msgid "New phone type"
-msgstr ""
+msgstr "Lloj i ri telefoni"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:19
 msgid "No_tes:"
-msgstr ""
+msgstr "Shë_nime:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:20
 msgid "Organi_zation:"
-msgstr ""
+msgstr "Organi_zata:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:21
 msgid "P_rofession:"
-msgstr ""
+msgstr "P_rofesioni:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:22
 msgid "Primary _email:"
-msgstr ""
+msgstr "Email _kryesor:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:23
 msgid "S_pouse:"
-msgstr ""
+msgstr "Bashkë_shorti/ja:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:24
 msgid "Wants to receive _HTML mail"
-msgstr ""
+msgstr "Dëshiron të marrë mail në _HTML"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:25
 msgid "_Add"
@@ -1414,11 +1453,11 @@ msgstr "_Shto"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:26
 msgid "_Business:"
-msgstr ""
+msgstr "_Zyra:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:27
 msgid "_Categories..."
-msgstr ""
+msgstr "_Kategoritë..."
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:28
 #: calendar/gui/dialogs/meeting-page.c:717 calendar/gui/e-calendar-table.c:977
@@ -1432,39 +1471,39 @@ msgstr "_Fshi"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:29
 msgid "_Home:"
-msgstr ""
+msgstr "_Shtëpi:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:30
 msgid "_Job title:"
-msgstr ""
+msgstr "_Titulli:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:31
 msgid "_Manager's name:"
-msgstr ""
+msgstr "Emri i _manazherit:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:32
 msgid "_Mobile:"
-msgstr ""
+msgstr "_Telefonini:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:33
 msgid "_Nickname:"
-msgstr ""
+msgstr "_Nickname:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:34
 msgid "_Office:"
-msgstr ""
+msgstr "_Zyra:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:35
 msgid "_Public Calendar URL:"
-msgstr ""
+msgstr "URL e kalendarit _publik:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:36
 msgid "_This is the mailing address"
-msgstr ""
+msgstr "_Adresa ku të dërgohen"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:37
 msgid "_Web page address:"
-msgstr ""
+msgstr "Adresa e faqes _web:"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:102
 #: addressbook/gui/contact-editor/e-contact-editor-fullname.c:95
@@ -1482,440 +1521,440 @@ msgstr "I ndryshueshëm"
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:135
 #: my-evolution/Locations.h:2340
 msgid "United States"
-msgstr ""
+msgstr "Shtetet e Bashkuara"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:136
 msgid "Afghanistan"
-msgstr ""
+msgstr "Afganistan"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:137
 #: my-evolution/Locations.h:42
 msgid "Albania"
-msgstr ""
+msgstr "Shqipëri"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:138
 #: my-evolution/Locations.h:54
 msgid "Algeria"
-msgstr ""
+msgstr "Algjeria"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:139
 msgid "American Samoa"
-msgstr ""
+msgstr "American Samoa"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:140
 msgid "Andorra"
-msgstr ""
+msgstr "Andorra"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:141
 msgid "Angola"
-msgstr ""
+msgstr "Angola"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:142
 msgid "Anguilla"
-msgstr ""
+msgstr "Anguilla"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:143
 msgid "Antarctica"
-msgstr ""
+msgstr "Antartika"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:144
 msgid "Antigua And Barbuda"
-msgstr ""
+msgstr "Antigua dhe Barbuda"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:145
 #: my-evolution/Locations.h:120
 msgid "Argentina"
-msgstr ""
+msgstr "Argjentinë"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:146
 msgid "Armenia"
-msgstr ""
+msgstr "Armeni"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:147
 msgid "Aruba"
-msgstr ""
+msgstr "Aruba"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:148
 #: my-evolution/Locations.h:154
 msgid "Australia"
-msgstr ""
+msgstr "Australia"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:149
 #: my-evolution/Locations.h:155
 msgid "Austria"
-msgstr ""
+msgstr "Austria"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:150
 msgid "Azerbaijan"
-msgstr ""
+msgstr "Azerbaijan"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:151
 #: my-evolution/Locations.h:161
 msgid "Bahamas"
-msgstr ""
+msgstr "Bahamas"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:152
 #: my-evolution/Locations.h:164
 msgid "Bahrain"
-msgstr ""
+msgstr "Bahrain"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:153
 msgid "Bangladesh"
-msgstr ""
+msgstr "Bangladesh"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:154
 msgid "Barbados"
-msgstr ""
+msgstr "Barbados"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:155
 msgid "Belarus"
-msgstr ""
+msgstr "Belarus"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:156
 #: my-evolution/Locations.h:216
 msgid "Belgium"
-msgstr ""
+msgstr "Belgjikë"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:157
 #: my-evolution/Locations.h:218
 msgid "Belize"
-msgstr ""
+msgstr "Belize"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:158
 msgid "Benin"
-msgstr ""
+msgstr "Benin"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:159
 msgid "Bermuda"
-msgstr ""
+msgstr "Bermuda"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:160
 msgid "Bhutan"
-msgstr ""
+msgstr "Bhutan"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:161
 #: my-evolution/Locations.h:270
 msgid "Bolivia"
-msgstr ""
+msgstr "Bolivia"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:162
 msgid "Bosnia And Herzegowina"
-msgstr ""
+msgstr "Bosnja dhe Herzegovina"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:163
 msgid "Botswana"
-msgstr ""
+msgstr "Botswana"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:164
 msgid "Bouvet Island"
-msgstr ""
+msgstr "Ishulli Bouvet"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:165
 #: my-evolution/Locations.h:294
 msgid "Brazil"
-msgstr ""
+msgstr "Brazil"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:166
 msgid "British Indian Ocean Territory"
-msgstr ""
+msgstr "Territoret Britanikë të Oqeanit Indian"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:167
 msgid "Brunei Darussalam"
-msgstr ""
+msgstr "Brunei Darussalam"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:168
 #: my-evolution/Locations.h:320
 msgid "Bulgaria"
-msgstr ""
+msgstr "Bullgari"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:169
 msgid "Burkina Faso"
-msgstr ""
+msgstr "Burkina Faso"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:170
 msgid "Burundi"
-msgstr ""
+msgstr "Burundi"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:171
 msgid "Cambodia"
-msgstr ""
+msgstr "Kamboxhia"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:172
 msgid "Cameroon"
-msgstr ""
+msgstr "Kamerun"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:173
 #: my-evolution/Locations.h:354
 msgid "Canada"
-msgstr ""
+msgstr "Kanada"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:174
 msgid "Cape Verde"
-msgstr ""
+msgstr "Cape Verde"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:175
 #: my-evolution/Locations.h:389
 msgid "Cayman Islands"
-msgstr ""
+msgstr "Ishujt Cayman"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:176
 msgid "Central African Republic"
-msgstr ""
+msgstr "Republika e Afrikës Qendrore"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:177
 msgid "Chad"
-msgstr ""
+msgstr "Chad"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:178
 #: my-evolution/Locations.h:438
 msgid "Chile"
-msgstr ""
+msgstr "Kili"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:179
 msgid "China"
-msgstr ""
+msgstr "Kinë"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:180
 #: my-evolution/Locations.h:451
 msgid "Christmas Island"
-msgstr ""
+msgstr "Ishulli Christmas"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:181
 msgid "Cocos (Keeling) Islands"
-msgstr ""
+msgstr "Ishujt Cocos (Keeling)"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:182
 #: my-evolution/Locations.h:483
 msgid "Colombia"
-msgstr ""
+msgstr "Colombia"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:183
 msgid "Comoros"
-msgstr ""
+msgstr "Comoros"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:184
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:185
 msgid "Congo"
-msgstr ""
+msgstr "Kongo"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:186
 msgid "Cook Islands"
-msgstr ""
+msgstr "Ishujt Cook"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:187
 #: my-evolution/Locations.h:517
 msgid "Costa Rica"
-msgstr ""
+msgstr "Costa Rica"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:188
 msgid "Cote d'Ivoire"
-msgstr ""
+msgstr "Cote d'Ivoire"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:189
 #: my-evolution/Locations.h:528
 msgid "Croatia"
-msgstr ""
+msgstr "Kroaci"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:190
 #: my-evolution/Locations.h:532
 msgid "Cuba"
-msgstr ""
+msgstr "Kuba"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:191
 #: my-evolution/Locations.h:545
 msgid "Cyprus"
-msgstr ""
+msgstr "Qipro"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:192
 #: my-evolution/Locations.h:546
 msgid "Czech Republic"
-msgstr ""
+msgstr "Republika Çeke"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:193
 #: my-evolution/Locations.h:580
 msgid "Denmark"
-msgstr ""
+msgstr "Danimarka"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:194
 msgid "Djibouti"
-msgstr ""
+msgstr "Djibouti"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:195
 msgid "Dominica"
-msgstr ""
+msgstr "Dominica"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:196
 #: my-evolution/Locations.h:608
 msgid "Dominican Republic"
-msgstr ""
+msgstr "Republika Domenikane"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:197
 msgid "East Timor"
-msgstr ""
+msgstr "East Timor"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:198
 #: my-evolution/Locations.h:641
 msgid "Ecuador"
-msgstr ""
+msgstr "Ekuador"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:199
 #: my-evolution/Locations.h:650
 msgid "Egypt"
-msgstr ""
+msgstr "Egjipt"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:200
 #: my-evolution/Locations.h:666
 msgid "El Salvador"
-msgstr ""
+msgstr "El Salvador"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:201
 msgid "Equatorial Guinea"
-msgstr ""
+msgstr "Guinea ekuatoriale"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:202
 msgid "Eritrea"
-msgstr ""
+msgstr "Eritrea"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:203
 #: my-evolution/Locations.h:684
 msgid "Estonia"
-msgstr ""
+msgstr "Estonia"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:204
 msgid "Ethiopia"
-msgstr ""
+msgstr "Etiopia"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:205
 msgid "Falkland Islands"
-msgstr ""
+msgstr "Ishujt Falkland"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:206
 msgid "Faroe Islands"
-msgstr ""
+msgstr "Ishujt Faroe"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:207
 msgid "Fiji"
-msgstr ""
+msgstr "Fiji"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:208
 #: my-evolution/Locations.h:716
 msgid "Finland"
-msgstr ""
+msgstr "Finlanda"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:209
 #: my-evolution/Locations.h:766
 msgid "France"
-msgstr ""
+msgstr "Franca"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:210
 msgid "French Guiana"
-msgstr ""
+msgstr "Guiana franceze"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:211
 msgid "French Polynesia"
-msgstr ""
+msgstr "Polinezia franceze"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:212
 msgid "French Southern Territories"
-msgstr ""
+msgstr "French Southern Territories"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:213
 msgid "Gabon"
-msgstr ""
+msgstr "Gabon"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:214
 msgid "Gambia"
-msgstr ""
+msgstr "Gambia"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:215
 #: my-evolution/Locations.h:811
 msgid "Georgia"
-msgstr ""
+msgstr "Georgia"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:216
 #: my-evolution/Locations.h:812
 msgid "Germany"
-msgstr ""
+msgstr "Gjermani"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:217
 msgid "Ghana"
-msgstr ""
+msgstr "Ghana"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:218
 #: my-evolution/Locations.h:815
 msgid "Gibraltar"
-msgstr ""
+msgstr "Gibraltar"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:219
 #: my-evolution/Locations.h:846
 msgid "Greece"
-msgstr ""
+msgstr "Greqia"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:220
 msgid "Greenland"
-msgstr ""
+msgstr "Greenland"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:221
 msgid "Grenada"
-msgstr ""
+msgstr "Grenada"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:222
 msgid "Guadeloupe"
-msgstr ""
+msgstr "Guadeloupe"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:223
 msgid "Guam"
-msgstr ""
+msgstr "Guam"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:224
 #: my-evolution/Locations.h:867
 msgid "Guatemala"
-msgstr ""
+msgstr "Guatemala"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:225
 msgid "Guinea"
-msgstr ""
+msgstr "Guinea"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:226
 msgid "Guinea-bissau"
-msgstr ""
+msgstr "Guinea-bissau"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:227
 msgid "Guyana"
-msgstr ""
+msgstr "Guyana"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:228
 #: my-evolution/Locations.h:888
 msgid "Haiti"
-msgstr ""
+msgstr "Haiti"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:229
 msgid "Heard And McDonald Islands"
-msgstr ""
+msgstr "Heard And McDonald Islands"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:230
 msgid "Holy See"
-msgstr ""
+msgstr "Holy See"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:231
 #: my-evolution/Locations.h:945
 msgid "Honduras"
-msgstr ""
+msgstr "Honduras"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:232
 #: my-evolution/Locations.h:946
 msgid "Hong Kong"
-msgstr ""
+msgstr "Hong Kong"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:233
 #: my-evolution/Locations.h:966
 msgid "Hungary"
-msgstr ""
+msgstr "Hungaria"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:234
 #: my-evolution/Locations.h:978
 msgid "Iceland"
-msgstr ""
+msgstr "Islanda"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:235
 #: my-evolution/Locations.h:991
@@ -1924,184 +1963,184 @@ msgstr "India"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:236
 msgid "Indonesia"
-msgstr ""
+msgstr "Indonesia"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:237
 #: my-evolution/Locations.h:1007
 msgid "Ireland"
-msgstr ""
+msgstr "Ireland"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:238
 msgid "Israel"
-msgstr ""
+msgstr "Israel"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:239
 #: my-evolution/Locations.h:1016
 msgid "Italy"
-msgstr ""
+msgstr "Italia"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:240
 #: my-evolution/Locations.h:1031
 msgid "Jamaica"
-msgstr ""
+msgstr "Jamaica"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:241
 #: my-evolution/Locations.h:1035
 msgid "Japan"
-msgstr ""
+msgstr "Japonia"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:242
 #: my-evolution/Locations.h:1046
 msgid "Jordan"
-msgstr ""
+msgstr "Jordan"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:243
 msgid "Kazakhstan"
-msgstr ""
+msgstr "Kazakhstan"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:244
 msgid "Kenya"
-msgstr ""
+msgstr "Kenya"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:245
 msgid "Kiribati"
-msgstr ""
+msgstr "Kiribati"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:246
 msgid "Korea, Republic Of"
-msgstr ""
+msgstr "Korea, Republika e"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:247
 #: my-evolution/Locations.h:1146
 msgid "Kuwait"
-msgstr ""
+msgstr "Kuwait"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:248
 msgid "Kyrgyzstan"
-msgstr ""
+msgstr "Kyrgyzstan"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:249
 msgid "Laos"
-msgstr ""
+msgstr "Laos"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:250
 msgid "Latvia"
-msgstr ""
+msgstr "Latvia"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:251
 #: my-evolution/Locations.h:1197
 msgid "Lebanon"
-msgstr ""
+msgstr "Lebanon"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:252
 msgid "Lesotho"
-msgstr ""
+msgstr "Lesotho"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:253
 #: my-evolution/Locations.h:1217
 msgid "Liberia"
-msgstr ""
+msgstr "Liberia"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:254
 msgid "Liechtenstein"
-msgstr ""
+msgstr "Liechtenstein"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:255
 #: my-evolution/Locations.h:1233
 msgid "Lithuania"
-msgstr ""
+msgstr "Lithuania"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:256
 #: my-evolution/Locations.h:1267
 msgid "Luxembourg"
-msgstr ""
+msgstr "Luxembourg"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:257
 msgid "Macau"
-msgstr ""
+msgstr "Macau"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:258
 msgid "Macedonia"
-msgstr ""
+msgstr "Maqedonia"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:259
 msgid "Madagascar"
-msgstr ""
+msgstr "Madagascar"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:260
 msgid "Malawi"
-msgstr ""
+msgstr "Malawi"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:261
 msgid "Malaysia"
-msgstr ""
+msgstr "Malaysia"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:262
 msgid "Maldives"
-msgstr ""
+msgstr "Maldives"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:263
 msgid "Mali"
-msgstr ""
+msgstr "Mali"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:264
 #: my-evolution/Locations.h:1296
 msgid "Malta"
-msgstr ""
+msgstr "Malta"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:265
 msgid "Marshall Islands"
-msgstr ""
+msgstr "Ishujt Marshall"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:266
 msgid "Martinique"
-msgstr ""
+msgstr "Martinique"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:267
 msgid "Mauritania"
-msgstr ""
+msgstr "Mauritania"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:268
 msgid "Mauritius"
-msgstr ""
+msgstr "Mauritius"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:269
 msgid "Mayotte"
-msgstr ""
+msgstr "Mayotte"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:270
 #: my-evolution/Locations.h:1385
 msgid "Mexico"
-msgstr ""
+msgstr "Meksikë"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:271
 msgid "Micronesia"
-msgstr ""
+msgstr "Micronesia"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:272
 msgid "Moldova, Republic Of"
-msgstr ""
+msgstr "Moldovia, Republika e"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:273
 msgid "Monaco"
-msgstr ""
+msgstr "Monaco"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:274
 msgid "Mongolia"
-msgstr ""
+msgstr "Mongolia"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:275
 msgid "Montserrat"
-msgstr ""
+msgstr "Montserrat"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:276
 #: my-evolution/Locations.h:1468
 msgid "Morocco"
-msgstr ""
+msgstr "Maroku"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:277
 msgid "Mozambique"
-msgstr ""
+msgstr "Mozambique"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:278
 msgid "Myanmar"
@@ -2109,396 +2148,396 @@ msgstr "Myanmar"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:279
 msgid "Namibia"
-msgstr ""
+msgstr "Namibia"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:280
 msgid "Nauru"
-msgstr ""
+msgstr "Nauru"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:281
 msgid "Nepal"
-msgstr ""
+msgstr "Nepal"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:282
 #: my-evolution/Locations.h:1529
 msgid "Netherlands"
-msgstr ""
+msgstr "Hollanda"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:283
 msgid "Netherlands Antilles"
-msgstr ""
+msgstr "Netherlands Antilles"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:284
 msgid "New Caledonia"
-msgstr ""
+msgstr "New Caledonia"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:285
 #: my-evolution/Locations.h:1558
 msgid "New Zealand"
-msgstr ""
+msgstr "Zelanda e Re"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:286
 #: my-evolution/Locations.h:1560
 msgid "Nicaragua"
-msgstr ""
+msgstr "Nikaragua"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:287
 msgid "Niger"
-msgstr ""
+msgstr "Niger"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:288
 msgid "Nigeria"
-msgstr ""
+msgstr "Nigjeria"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:289
 msgid "Niue"
-msgstr ""
+msgstr "Niue"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:290
 #: my-evolution/Locations.h:1572
 msgid "Norfolk Island"
-msgstr ""
+msgstr "Ishulli Norfolk"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:291
 msgid "Northern Mariana Islands"
-msgstr ""
+msgstr "Northern Mariana Islands"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:292
 #: my-evolution/Locations.h:1585
 msgid "Norway"
-msgstr ""
+msgstr "Norvegjia"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:293
 #: my-evolution/Locations.h:1630
 msgid "Oman"
-msgstr ""
+msgstr "Oman"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:294
 #: my-evolution/Locations.h:1671
 msgid "Pakistan"
-msgstr ""
+msgstr "Pakistan"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:295
 msgid "Palau"
-msgstr ""
+msgstr "Palau"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:296
 msgid "Palestinian Territory"
-msgstr ""
+msgstr "Territoret Palestineze"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:297
 #: my-evolution/Locations.h:1681
 msgid "Panama"
-msgstr ""
+msgstr "Panama"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:298
 msgid "Papua New Guinea"
-msgstr ""
+msgstr "Papua New Guinea"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:299
 #: my-evolution/Locations.h:1686
 msgid "Paraguay"
-msgstr ""
+msgstr "Paraguai"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:300
 #: my-evolution/Locations.h:1721
 msgid "Peru"
-msgstr ""
+msgstr "Peru"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:301
 msgid "Philippines"
-msgstr ""
+msgstr "Filipines"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:302
 msgid "Pitcairn"
-msgstr ""
+msgstr "Pitcairn"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:303
 #: my-evolution/Locations.h:1762
 msgid "Poland"
-msgstr ""
+msgstr "Poloni"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:304
 #: my-evolution/Locations.h:1789
 msgid "Portugal"
-msgstr ""
+msgstr "Portugali"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:305
 #: my-evolution/Locations.h:1822
 msgid "Puerto Rico"
-msgstr ""
+msgstr "Puerto Rico"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:306
 #: my-evolution/Locations.h:1834
 msgid "Qatar"
-msgstr ""
+msgstr "Qatar"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:307
 msgid "Reunion"
-msgstr ""
+msgstr "Reunion"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:308
 #: my-evolution/Locations.h:1909
 msgid "Romania"
-msgstr ""
+msgstr "Romania"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:309
 msgid "Russian Federation"
-msgstr ""
+msgstr "Federata Ruse"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:310
 msgid "Rwanda"
-msgstr ""
+msgstr "Ruanda"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:311
 msgid "Saint Kitts And Nevis"
-msgstr ""
+msgstr "Saint Kitts And Nevis"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:312
 msgid "Saint Lucia"
-msgstr ""
+msgstr "Saint Lucia"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:313
 msgid "Saint Vincent And The Grena-dines"
-msgstr ""
+msgstr "Saint Vincent And The Grena-dines"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:314
 msgid "Samoa"
-msgstr ""
+msgstr "Samoa"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:315
 msgid "San Marino"
-msgstr ""
+msgstr "San Marino"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:316
 msgid "Sao Tome And Principe"
-msgstr ""
+msgstr "Sao Tome And Principe"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:317
 #: my-evolution/Locations.h:2032
 msgid "Saudi Arabia"
-msgstr ""
+msgstr "Arabia Saudite"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:318
 msgid "Senegal"
-msgstr ""
+msgstr "Senegal"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:319
 msgid "Seychelles"
-msgstr ""
+msgstr "Seychelles"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:320
 msgid "Sierra Leone"
-msgstr ""
+msgstr "Sierra Leone"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:321
 #: my-evolution/Locations.h:2087
 msgid "Singapore"
-msgstr ""
+msgstr "Singapor"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:322
 #: my-evolution/Locations.h:2100
 msgid "Slovakia"
-msgstr ""
+msgstr "Sllovakia"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:323
 #: my-evolution/Locations.h:2101
 msgid "Slovenia"
-msgstr ""
+msgstr "Sllovenia"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:324
 msgid "Solomon Islands"
-msgstr ""
+msgstr "Ishujt Solomon"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:325
 msgid "Somalia"
-msgstr ""
+msgstr "Somalia"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:326
 #: my-evolution/Locations.h:2116
 msgid "South Africa"
-msgstr ""
+msgstr "Afrika e Jugut"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:327
 msgid "South Georgia And The South Sandwich Islands"
-msgstr ""
+msgstr "South Georgia And The South Sandwich Islands"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:328
 #: my-evolution/Locations.h:2124
 msgid "Spain"
-msgstr ""
+msgstr "Spanja"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:329
 msgid "Sri Lanka"
-msgstr ""
+msgstr "Sri Lanka"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:330
 msgid "St. Helena"
-msgstr ""
+msgstr "St. Helena"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:331
 msgid "St. Pierre And Miquelon"
-msgstr ""
+msgstr "St. Pierre And Miquelon"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:332
 msgid "Sudan"
-msgstr ""
+msgstr "Sudan"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:333
 #: my-evolution/Locations.h:2173
 msgid "Suriname"
-msgstr ""
+msgstr "Suriname"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:334
 msgid "Svalbard And Jan Mayen Islands"
-msgstr ""
+msgstr "Svalbard And Jan Mayen Islands"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:335
 msgid "Swaziland"
-msgstr ""
+msgstr "Swaziland"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:336
 #: my-evolution/Locations.h:2178
 msgid "Sweden"
-msgstr ""
+msgstr "Suedia"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:337
 #: my-evolution/Locations.h:2180
 msgid "Switzerland"
-msgstr ""
+msgstr "Zvicra"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:338
 #: my-evolution/Locations.h:2202
 msgid "Taiwan"
-msgstr ""
+msgstr "Taiwan"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:339
 msgid "Tajikistan"
-msgstr ""
+msgstr "Tajikistan"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:340
 msgid "Tanzania, United Republic Of"
-msgstr ""
+msgstr "Tanzania, Republika e Bashkuar e"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:341
 msgid "Thailand"
-msgstr ""
+msgstr "Tailanda"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:342
 msgid "Togo"
-msgstr ""
+msgstr "Togo"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:343
 msgid "Tokelau"
-msgstr ""
+msgstr "Tokelau"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:344
 msgid "Tonga"
-msgstr ""
+msgstr "Tonga"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:345
 msgid "Trinidad And Tobago"
-msgstr ""
+msgstr "Trinidad And Tobago"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:346
 msgid "Tunisia"
-msgstr ""
+msgstr "Tunisia"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:347
 #: my-evolution/Locations.h:2318
 msgid "Turkey"
-msgstr ""
+msgstr "Turqia"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:348
 msgid "Turkmenistan"
-msgstr ""
+msgstr "Turkmenistan"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:349
 msgid "Turks And Caicos Islands"
-msgstr ""
+msgstr "Turks And Caicos Islands"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:350
 msgid "Tuvalu"
-msgstr ""
+msgstr "Tuvalu"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:351
 msgid "Uganda"
-msgstr ""
+msgstr "Uganda"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:352
 #: my-evolution/Locations.h:2331
 msgid "Ukraine"
-msgstr ""
+msgstr "Ukrahina"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:353
 msgid "United Arab Emirates"
-msgstr ""
+msgstr "Emiratet e Bashkuara Arabe"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:354
 #: my-evolution/Locations.h:2339
 msgid "United Kingdom"
-msgstr ""
+msgstr "United Kingdom"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:355
 msgid "United States Minor Outlying Islands"
-msgstr ""
+msgstr "United States Minor Outlying Islands"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:356
 #: my-evolution/Locations.h:2345
 msgid "Uruguay"
-msgstr ""
+msgstr "Uruguay"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:357
 msgid "Uzbekistan"
-msgstr ""
+msgstr "Uzbekistan"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:358
 msgid "Vanuatu"
-msgstr ""
+msgstr "Vanuatu"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:359
 #: my-evolution/Locations.h:2377
 msgid "Venezuela"
-msgstr ""
+msgstr "Venezuela"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:360
 #: my-evolution/Locations.h:2389
 msgid "Viet Nam"
-msgstr ""
+msgstr "Viet Nam"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:361
 msgid "Virgin Islands, British"
-msgstr ""
+msgstr "Virgin Islands, British"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:362
 msgid "Virgin Islands, U.S."
-msgstr ""
+msgstr "Virgin Islands, U.S."
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:363
 msgid "Wallis And Futuna Islands"
-msgstr ""
+msgstr "Wallis And Futuna Islands"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:364
 msgid "Western Sahara"
-msgstr ""
+msgstr "Western Sahara"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:365
 #: my-evolution/Locations.h:2509
 msgid "Yemen"
-msgstr ""
+msgstr "Yemen"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:366
 #: my-evolution/Locations.h:2521
 msgid "Yugoslavia"
-msgstr ""
+msgstr "Yugoslavia"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:367
 msgid "Zambia"
-msgstr ""
+msgstr "Zambia"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:368
 msgid "Zimbabwe"
-msgstr ""
+msgstr "Zimbabwe"
 
 #: addressbook/gui/contact-editor/e-contact-editor.c:156
 #: addressbook/gui/contact-list-editor/e-contact-list-editor.c:142
@@ -2508,89 +2547,93 @@ msgstr ""
 #: addressbook/gui/widgets/e-minicard-view-widget.c:106
 #: addressbook/gui/widgets/e-minicard-view.c:464
 msgid "Book"
-msgstr ""
+msgstr "Libri"
 
 #: addressbook/gui/contact-editor/e-contact-editor.c:163
 #: addressbook/gui/contact-list-editor/e-contact-list-editor.c:149
 #: addressbook/gui/widgets/e-minicard-widget.c:93
 #: addressbook/gui/widgets/e-minicard.c:190
 msgid "Card"
-msgstr ""
+msgstr "Card"
 
 #: addressbook/gui/contact-editor/e-contact-editor.c:170
 msgid "Is New Card"
-msgstr ""
+msgstr "Është një card e re"
 
 #: addressbook/gui/contact-editor/e-contact-editor.c:177
 msgid "Writable Fields"
-msgstr ""
+msgstr "Fusha të ndryshueshme"
 
 #: addressbook/gui/contact-editor/e-contact-editor.c:191
 msgid "Changed"
-msgstr ""
+msgstr "Ndryshuar"
 
 #: addressbook/gui/contact-editor/e-contact-editor.c:827
 msgid "Category editor not available."
-msgstr ""
+msgstr "Editori i kategorive nuk është disponibël."
 
 #: addressbook/gui/contact-editor/e-contact-editor.c:835
 msgid "This contact belongs to these categories:"
-msgstr ""
+msgstr "Ky kontak u takon këtyre kategorive:"
 
 #: addressbook/gui/contact-editor/e-contact-editor.c:1009
 msgid "Save Contact as VCard"
-msgstr ""
+msgstr "Ruaj kontaktin si VCard"
 
 #: addressbook/gui/contact-editor/e-contact-editor.c:1055
 msgid ""
 "Are you sure you want\n"
 "to delete these contacts?"
 msgstr ""
+"Jeni i sigurt që dëshiron\n"
+"të eleminosh këto kontakte?"
 
 #: addressbook/gui/contact-editor/e-contact-editor.c:1058
 msgid ""
 "Are you sure you want\n"
 "to delete this contact?"
 msgstr ""
+"Jeni i sigurt që dëshiron\n"
+"të eleminosh këtë kontakt?"
 
 #: addressbook/gui/contact-editor/e-contact-editor.c:1755
 msgid "TTY/TDD"
-msgstr ""
+msgstr "TTY/TDD"
 
 #: addressbook/gui/contact-editor/e-contact-editor.c:2376
 #, c-format
 msgid "Could not find widget for a field: `%s'"
-msgstr ""
+msgstr "E pamundur gjetja e widget për një fushë: `%s'"
 
 #: addressbook/gui/contact-editor/e-contact-quick-add.c:298
 msgid "Contact Quick-Add"
-msgstr ""
+msgstr "Shtimi i shpejtë i një kontakti"
 
 #: addressbook/gui/contact-editor/e-contact-quick-add.c:301
 msgid "_Edit Full"
-msgstr ""
+msgstr "Ndrysho _plotësisht"
 
 #: addressbook/gui/contact-editor/e-contact-quick-add.c:319
 msgid "_Full Name:"
-msgstr ""
+msgstr "Emri dhe _mbiemri:"
 
 #: addressbook/gui/contact-editor/e-contact-quick-add.c:325
 msgid "E-_mail:"
-msgstr ""
+msgstr "E-_mail:"
 
 #: addressbook/gui/contact-editor/e-contact-save-as.c:66
 #, c-format
 msgid "Error saving %s: %s"
-msgstr ""
+msgstr "Gabim gjatë ruajtjes së %s: %s"
 
 #. This is a filename. Translators take note.
 #: addressbook/gui/contact-editor/e-contact-save-as.c:103
 msgid "card.vcf"
-msgstr ""
+msgstr "card.vcf"
 
 #: addressbook/gui/contact-editor/e-contact-save-as.c:175
 msgid "list"
-msgstr "list"
+msgstr "lista"
 
 #: addressbook/gui/contact-editor/e-contact-save-as.c:208
 #, c-format
@@ -2598,6 +2641,8 @@ msgid ""
 "%s already exists\n"
 "Do you want to overwrite it?"
 msgstr ""
+"%s ekziston\n"
+"Dëshiron t'a mbishkruash?"
 
 #: addressbook/gui/contact-editor/e-contact-save-as.c:212
 msgid "Overwrite"
@@ -2605,19 +2650,19 @@ msgstr "Mbishkruaj"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:2
 msgid "Address _2:"
-msgstr ""
+msgstr "Adresa _2:"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:3
 msgid "Ci_ty:"
-msgstr ""
+msgstr "Qy_teti:"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:4
 msgid "Countr_y:"
-msgstr ""
+msgstr "Shtet_i:"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:5
 msgid "Full Address"
-msgstr ""
+msgstr "Adresa e plotë"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:6
 msgid "_Address:"
@@ -2625,23 +2670,23 @@ msgstr "_Adresa:"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:7
 msgid "_PO Box:"
-msgstr ""
+msgstr "_Kutia e postës:"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:8
 msgid "_State/Province:"
-msgstr ""
+msgstr "_Shteti/Rrethi:"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:9
 msgid "_ZIP Code:"
-msgstr ""
+msgstr "Kodi _ZIP (postal):"
 
 #: addressbook/gui/contact-editor/fullname.glade.h:2
 msgid "Dr."
-msgstr ""
+msgstr "Dokt."
 
 #: addressbook/gui/contact-editor/fullname.glade.h:3
 msgid "Esq."
-msgstr ""
+msgstr "I nder."
 
 #: addressbook/gui/contact-editor/fullname.glade.h:5
 msgid "I"
@@ -2649,51 +2694,51 @@ msgstr "I"
 
 #: addressbook/gui/contact-editor/fullname.glade.h:6
 msgid "II"
-msgstr ""
+msgstr "II"
 
 #: addressbook/gui/contact-editor/fullname.glade.h:7
 msgid "III"
-msgstr ""
+msgstr "III"
 
 #: addressbook/gui/contact-editor/fullname.glade.h:8
 msgid "Jr."
-msgstr ""
+msgstr "Jr."
 
 #: addressbook/gui/contact-editor/fullname.glade.h:9
 msgid "Miss"
-msgstr ""
+msgstr "Znj.sha"
 
 #: addressbook/gui/contact-editor/fullname.glade.h:10
 msgid "Mr."
-msgstr ""
+msgstr "Zt."
 
 #: addressbook/gui/contact-editor/fullname.glade.h:11
 msgid "Mrs."
-msgstr ""
+msgstr "Zt."
 
 #: addressbook/gui/contact-editor/fullname.glade.h:12
 msgid "Ms."
-msgstr ""
+msgstr "Znj."
 
 #: addressbook/gui/contact-editor/fullname.glade.h:13
 msgid "Sr."
-msgstr ""
+msgstr "Sr."
 
 #: addressbook/gui/contact-editor/fullname.glade.h:14
 msgid "_First:"
-msgstr ""
+msgstr "_Emri:"
 
 #: addressbook/gui/contact-editor/fullname.glade.h:15
 msgid "_Last:"
-msgstr ""
+msgstr "_Mbiemri:"
 
 #: addressbook/gui/contact-editor/fullname.glade.h:16
 msgid "_Middle:"
-msgstr ""
+msgstr "Emri i _dytë:"
 
 #: addressbook/gui/contact-editor/fullname.glade.h:17
 msgid "_Suffix:"
-msgstr ""
+msgstr "P_arashtesa:"
 
 #: addressbook/gui/contact-editor/fullname.glade.h:18
 msgid "_Title:"
@@ -2701,36 +2746,37 @@ msgstr "_Titulli:"
 
 #: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:4
 msgid "Members"
-msgstr ""
+msgstr "Anëtarë"
 
 #: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:5
 msgid "_Hide addresses when sending mail to this list"
-msgstr ""
+msgstr "_Mbulo adresën kur i dërgon një mail kësaj adrese"
 
 #: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:6
 msgid "_List name:"
-msgstr ""
+msgstr "Emri i _listës:"
 
 #: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:7
 msgid "_Type an email address or drag a contact into the list below:"
 msgstr ""
+"_Shkruaj një adresë email ose zvarrit një kontakt nga lista e mëposhtme:"
 
 #: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:8
 msgid "contact-list-editor"
-msgstr ""
+msgstr "editor i listës së kontakteve"
 
 #: addressbook/gui/contact-list-editor/e-contact-list-editor.c:156
 msgid "Is New List"
-msgstr ""
+msgstr "Është një listë e re"
 
 #. Construct the app
 #: addressbook/gui/contact-list-editor/e-contact-list-editor.c:242
 msgid "Contact List Editor"
-msgstr ""
+msgstr "Editori i listës së kontakteve"
 
 #: addressbook/gui/contact-list-editor/e-contact-list-editor.c:457
 msgid "Save List as VCard"
-msgstr ""
+msgstr "Ruaje listën si VCard"
 
 #: addressbook/gui/contact-list-editor/e-contact-list-editor.etspec.h:1
 msgid "Contact"
@@ -2739,54 +2785,58 @@ msgstr "Kontakti"
 #: addressbook/gui/merging/e-card-duplicate-detected.glade.h:1
 #: addressbook/gui/merging/e-card-merging-book-commit-duplicate-detected.glade.h:3
 msgid "Duplicate Contact Detected"
-msgstr ""
+msgstr "U zbulua një kontakt i dyfishuar"
 
 #: addressbook/gui/merging/e-card-duplicate-detected.glade.h:2
 msgid "New Contact:"
-msgstr ""
+msgstr "Kontakti i ri:"
 
 #: addressbook/gui/merging/e-card-duplicate-detected.glade.h:3
 msgid "Original Contact:"
-msgstr ""
+msgstr "Kontakti origjinal:"
 
 #: addressbook/gui/merging/e-card-duplicate-detected.glade.h:4
 msgid ""
 "The name or email address of this contact already exists\n"
 "in this folder.  Would you like to add it anyway?"
 msgstr ""
+"Emri apo adresa email e këtij kontakti ekziston në këtë\n"
+"kartelë.  Dëshironi t'a shtoni sidoqoftë?"
 
 #: addressbook/gui/merging/e-card-merging-book-commit-duplicate-detected.glade.h:1
 msgid "Changed Contact:"
-msgstr ""
+msgstr "Kontakti i ndryshuar:"
 
 #: addressbook/gui/merging/e-card-merging-book-commit-duplicate-detected.glade.h:2
 msgid "Conflicting Contact:"
-msgstr ""
+msgstr "Kontakti në konflikt:"
 
 #: addressbook/gui/merging/e-card-merging-book-commit-duplicate-detected.glade.h:4
 msgid ""
 "The changed email or name of this contact already\n"
 "exists in this folder.  Would you like to add it anyway?"
 msgstr ""
+"Adresa e ndryshuar apo emri i këtij kontakti ekziston\n"
+"në këtë kartelë.  Dëshironi t'a shtoni sidoqoftë?"
 
 #. FIXME: get the toplevel window...
 #: addressbook/gui/search/e-addressbook-search-dialog.c:117
 #: widgets/misc/e-filter-bar.c:148
 msgid "Advanced Search"
-msgstr ""
+msgstr "Kërkim i hollësishëm"
 
 #: addressbook/gui/widgets/e-addressbook-model.c:156
 msgid "No cards"
-msgstr ""
+msgstr "Asnjë card"
 
 #: addressbook/gui/widgets/e-addressbook-model.c:159
 msgid "1 card"
-msgstr ""
+msgstr "1 card"
 
 #: addressbook/gui/widgets/e-addressbook-model.c:162
 #, c-format
 msgid "%d cards"
-msgstr ""
+msgstr "%d cards"
 
 #: addressbook/gui/widgets/e-addressbook-model.c:311
 #: addressbook/gui/widgets/e-addressbook-reflow-adapter.c:389
@@ -2794,11 +2844,11 @@ msgstr ""
 #: addressbook/gui/widgets/e-minicard-view-widget.c:113
 #: addressbook/gui/widgets/e-minicard-view.c:471
 msgid "Query"
-msgstr "Pyet"
+msgstr "Pyetje"
 
 #: addressbook/gui/widgets/e-addressbook-model.c:457
 msgid "Error getting book view"
-msgstr ""
+msgstr "Gabim gjatë marrjes së paraqitjes si libër"
 
 #: addressbook/gui/widgets/e-addressbook-reflow-adapter.c:403
 msgid "Model"
@@ -2808,7 +2858,7 @@ msgstr "Modeli"
 #: addressbook/gui/widgets/e-addressbook-util.c:105
 #: addressbook/gui/widgets/e-minicard.c:531
 msgid "Error modifying card"
-msgstr ""
+msgstr "Gabim gjatë ndryshimit të card"
 
 #: addressbook/gui/widgets/e-addressbook-util.c:36
 #: shell/evolution-shell-component.c:1183
@@ -2826,7 +2876,7 @@ msgstr "Gabim i panjohur"
 
 #: addressbook/gui/widgets/e-addressbook-util.c:38
 msgid "Repository offline"
-msgstr ""
+msgstr "Depozita është jashtë linje"
 
 #: addressbook/gui/widgets/e-addressbook-util.c:39 shell/e-storage.c:584
 #: shell/evolution-shell-component.c:1213
@@ -2835,15 +2885,15 @@ msgstr "Leja nuk u pranua"
 
 #: addressbook/gui/widgets/e-addressbook-util.c:40
 msgid "Card not found"
-msgstr ""
+msgstr "Card nuk u gjet"
 
 #: addressbook/gui/widgets/e-addressbook-util.c:41
 msgid "Card ID already exists"
-msgstr ""
+msgstr "ID e card ekziston"
 
 #: addressbook/gui/widgets/e-addressbook-util.c:42
 msgid "Protocol not supported"
-msgstr ""
+msgstr "Protokoll i pasuportuar"
 
 #: addressbook/gui/widgets/e-addressbook-util.c:43
 #: calendar/gui/calendar-model.c:759 calendar/gui/calendar-model.c:1184
@@ -2854,11 +2904,11 @@ msgstr ""
 #: camel/providers/pop3/camel-pop3-store.c:443
 #: camel/providers/pop3/camel-pop3-store.c:520
 msgid "Cancelled"
-msgstr ""
+msgstr "Anulluar"
 
 #: addressbook/gui/widgets/e-addressbook-util.c:44
 msgid "Authentication Failed"
-msgstr ""
+msgstr "Identifikimi dështoi"
 
 #: addressbook/gui/widgets/e-addressbook-util.c:45
 msgid "Authentication Required"
@@ -2866,45 +2916,45 @@ msgstr "Është i nevojshëm identifikimi"
 
 #: addressbook/gui/widgets/e-addressbook-util.c:46
 msgid "TLS not Available"
-msgstr ""
+msgstr "TLS jo në dispozicion"
 
 #: addressbook/gui/widgets/e-addressbook-util.c:47
 msgid "Addressbook does not exist"
-msgstr ""
+msgstr "Rubrika nuk ekziston"
 
 #: addressbook/gui/widgets/e-addressbook-util.c:48
 msgid "Other error"
-msgstr ""
+msgstr "Gabim tjetër"
 
 #: addressbook/gui/widgets/e-addressbook-util.c:75
 msgid "Do you want to save changes?"
-msgstr ""
+msgstr "Dëshiron të ruash ndryshimet e kryera?"
 
 #: addressbook/gui/widgets/e-addressbook-util.c:77
 msgid "_Discard"
-msgstr ""
+msgstr "_Anullo"
 
 #: addressbook/gui/widgets/e-addressbook-util.c:96
 msgid "Error adding list"
-msgstr ""
+msgstr "Gabim gjatë shtimit të listës"
 
 #: addressbook/gui/widgets/e-addressbook-util.c:96
 #: addressbook/gui/widgets/e-addressbook-util.c:272
 msgid "Error adding card"
-msgstr ""
+msgstr "Gabim gjatë shtimit të card"
 
 #: addressbook/gui/widgets/e-addressbook-util.c:105
 msgid "Error modifying list"
-msgstr ""
+msgstr "Gabim gjatë ndryshimit të listës"
 
 #: addressbook/gui/widgets/e-addressbook-util.c:115
 msgid "Error removing list"
-msgstr ""
+msgstr "Gabim gjatë eleminimit të listës"
 
 #: addressbook/gui/widgets/e-addressbook-util.c:115
 #: addressbook/gui/widgets/e-addressbook-util.c:230
 msgid "Error removing card"
-msgstr ""
+msgstr "Gabim gjatë eleminimit të card"
 
 #: addressbook/gui/widgets/e-addressbook-util.c:197
 #, c-format
@@ -2912,31 +2962,33 @@ msgid ""
 "Opening %d cards will open %d new windows as well.\n"
 "Do you really want to display all of these cards?"
 msgstr ""
+"Hapja e %d cards do të ketë si pasojë hapjen e %d dritareve të reja.\n"
+"Me të vërtetë dëshiron t'i shikosh të gjitha?"
 
 #: addressbook/gui/widgets/e-addressbook-util.c:328
 msgid "Move card to"
-msgstr ""
+msgstr "Lëviz card tek"
 
 #: addressbook/gui/widgets/e-addressbook-util.c:330
 msgid "Copy card to"
-msgstr ""
+msgstr "Kopjo card tek"
 
 #: addressbook/gui/widgets/e-addressbook-util.c:333
 msgid "Move cards to"
-msgstr ""
+msgstr "Lëviz cards tek"
 
 #: addressbook/gui/widgets/e-addressbook-util.c:335
 msgid "Copy cards to"
-msgstr ""
+msgstr "Kopjo cards tek"
 
 #: addressbook/gui/widgets/e-addressbook-util.c:517
 msgid "Multiple VCards"
-msgstr ""
+msgstr "VCards shumëfishe"
 
 #: addressbook/gui/widgets/e-addressbook-util.c:525
 #, c-format
 msgid "VCard for %s"
-msgstr ""
+msgstr "VCard për %s"
 
 #: addressbook/gui/widgets/e-addressbook-view.c:194
 #: calendar/gui/dialogs/meeting-page.etspec.h:11
@@ -2949,51 +3001,51 @@ msgstr "Lloji"
 #: importers/evolution-gnomecard-importer.c:228 importers/pine-importer.c:642
 #: mail/importers/pine-importer.c:577
 msgid "Addressbook"
-msgstr ""
+msgstr "Rubrika"
 
 #: addressbook/gui/widgets/e-addressbook-view.c:680
 #: addressbook/gui/widgets/e-addressbook-view.c:899
 #: addressbook/gui/widgets/e-addressbook-view.c:1883
 #: ui/evolution-addressbook.xml.h:19
 msgid "Save as VCard"
-msgstr ""
+msgstr "Ruaje si VCard"
 
 #: addressbook/gui/widgets/e-addressbook-view.c:886
 msgid "New Contact..."
-msgstr ""
+msgstr "Kontakt i ri..."
 
 #: addressbook/gui/widgets/e-addressbook-view.c:887
 msgid "New Contact List..."
-msgstr ""
+msgstr "Listë e re kontaktesh..."
 
 #: addressbook/gui/widgets/e-addressbook-view.c:890
 msgid "Go to Folder..."
-msgstr ""
+msgstr "Shko tek kartela..."
 
 #: addressbook/gui/widgets/e-addressbook-view.c:891
 msgid "Import..."
-msgstr ""
+msgstr "Importo..."
 
 #: addressbook/gui/widgets/e-addressbook-view.c:893
 msgid "Search for Contacts..."
-msgstr ""
+msgstr "Kërko për kontaktet..."
 
 #: addressbook/gui/widgets/e-addressbook-view.c:894
 msgid "Addressbook Sources..."
-msgstr ""
+msgstr "Burimet e rubrikës..."
 
 #: addressbook/gui/widgets/e-addressbook-view.c:896
 msgid "Pilot Settings..."
-msgstr ""
+msgstr "Rregullimet Pilot..."
 
 #: addressbook/gui/widgets/e-addressbook-view.c:900
 #: ui/evolution-addressbook.xml.h:10
 msgid "Forward Contact"
-msgstr ""
+msgstr "Përcill kontaktin"
 
 #: addressbook/gui/widgets/e-addressbook-view.c:901
 msgid "Send Message to Contact"
-msgstr ""
+msgstr "Dërgo një mesazh tek kontakti"
 
 #: addressbook/gui/widgets/e-addressbook-view.c:902 calendar/gui/print.c:2439
 #: ui/evolution-addressbook.xml.h:16 ui/evolution-comp-editor.xml.h:8
@@ -3004,15 +3056,15 @@ msgstr "Printo"
 
 #: addressbook/gui/widgets/e-addressbook-view.c:904
 msgid "Print Envelope"
-msgstr ""
+msgstr "Printo zarfin"
 
 #: addressbook/gui/widgets/e-addressbook-view.c:908
 msgid "Copy to folder..."
-msgstr ""
+msgstr "Kopjoje tek kartela..."
 
 #: addressbook/gui/widgets/e-addressbook-view.c:909
 msgid "Move to folder..."
-msgstr ""
+msgstr "Lëvize tek kartela..."
 
 #: addressbook/gui/widgets/e-addressbook-view.c:912
 #: ui/evolution-addressbook.xml.h:6 ui/evolution-tasks.xml.h:4
@@ -3040,7 +3092,7 @@ msgstr "Elemino"
 #: addressbook/gui/widgets/e-addressbook-view.c:919
 #: calendar/gui/e-day-view.c:3715 calendar/gui/e-week-view.c:3706
 msgid "Current View"
-msgstr ""
+msgstr "Paraqitja aktuale"
 
 #. Minicard view stuff
 #. Translators: put here a list of labels you want to see on buttons in
@@ -3048,7 +3100,7 @@ msgstr ""
 #. also be placed at the begining ot the string
 #: addressbook/gui/widgets/e-addressbook-view.c:953
 msgid ",123,a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z"
-msgstr ""
+msgstr ",123,a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z"
 
 #. Translators: put here a list of characters that correspond to buttons
 #. in addressbook. You may use any character to separate labels but it
@@ -3056,7 +3108,7 @@ msgstr ""
 #. Use lower case letters if possible.
 #: addressbook/gui/widgets/e-addressbook-view.c:958
 msgid ",0,a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z"
-msgstr ""
+msgstr ",0,a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z"
 
 #: addressbook/gui/widgets/e-addressbook-view.c:1356
 #, c-format
@@ -3065,79 +3117,82 @@ msgid ""
 "%s\n"
 "has crashed. You will have to restart Evolution in order to use it again"
 msgstr ""
+"Backend i rubrikës për\n"
+"%s\n"
+"shkoi në krash. Do t'ju duhet të rinisni Evolution që ta përdorni përsëri"
 
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:1
 msgid "* Click here to add a contact *"
-msgstr ""
+msgstr "* Kliko këtu për të shtuar një kontakt *"
 
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:3
 msgid "Assistant Phone"
-msgstr ""
+msgstr "Telefoni asistentit"
 
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:4
 msgid "Business Address"
-msgstr ""
+msgstr "Adresa në punë"
 
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:6
 msgid "Business Phone"
-msgstr ""
+msgstr "Telefoni në zyrë"
 
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:7
 msgid "Business Phone 2"
-msgstr ""
+msgstr "Telefoni në zyrë 2"
 
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:8
 msgid "Callback Phone"
-msgstr ""
+msgstr "Telefoni ku të rithirret"
 
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:9
 msgid "Car Phone"
-msgstr ""
+msgstr "Telefoni në makinë"
 
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:10
 msgid "Company Phone"
-msgstr ""
+msgstr "Telefoni i ndërmarrjes"
 
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:18
 msgid "Home Address"
-msgstr ""
+msgstr "Adresa e shtëpisë"
 
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:20
 msgid "Home Phone"
-msgstr ""
+msgstr "Telefoni në shtëpi"
 
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:21
 msgid "Home Phone 2"
-msgstr ""
+msgstr "Telefoni në shtëpi 2"
 
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:24
 msgid "Mobile Phone"
-msgstr ""
+msgstr "Celulari"
 
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:29
 msgid "Other Address"
-msgstr ""
+msgstr "Adresa të tjera"
 
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:31
 msgid "Other Phone"
-msgstr ""
+msgstr "Telefonë të tjerë"
 
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:33
 msgid "Primary Phone"
-msgstr ""
+msgstr "Telefoni kryesor"
 
 #: addressbook/gui/widgets/e-minicard-control.c:204
 #, c-format
 msgid "and %d other cards."
-msgstr ""
+msgstr "dhe %d cards të tjera."
 
 #: addressbook/gui/widgets/e-minicard-control.c:206
 msgid "and one other card."
-msgstr ""
+msgstr "dhe një card tjetër."
 
 #: addressbook/gui/widgets/e-minicard-control.c:318
 msgid "Save in addressbook"
-msgstr ""
+msgstr "Ruaje në rubrikë"
 
 #: addressbook/gui/widgets/e-minicard-label.c:115
 #: addressbook/gui/widgets/e-minicard.c:146
@@ -3152,7 +3207,7 @@ msgstr "Lartësia"
 #: addressbook/gui/widgets/e-minicard-label.c:129
 #: addressbook/gui/widgets/e-minicard.c:161
 msgid "Has Focus"
-msgstr ""
+msgstr "Ka fokusin"
 
 #: addressbook/gui/widgets/e-minicard-label.c:136
 msgid "Field"
@@ -3160,19 +3215,19 @@ msgstr "Fusha"
 
 #: addressbook/gui/widgets/e-minicard-label.c:143
 msgid "Field Name"
-msgstr ""
+msgstr "Emri i fushës"
 
 #: addressbook/gui/widgets/e-minicard-label.c:150
 msgid "Text Model"
-msgstr ""
+msgstr "Modeli i tekstit"
 
 #: addressbook/gui/widgets/e-minicard-label.c:157
 msgid "Max field name length"
-msgstr ""
+msgstr "Gjatësia maksimum e emrit të fushës"
 
 #: addressbook/gui/widgets/e-minicard-view-widget.c:127
 msgid "Column Width"
-msgstr ""
+msgstr "Gjërësia e kollonës"
 
 #: addressbook/gui/widgets/e-minicard-view.c:141
 msgid ""
@@ -3182,6 +3237,11 @@ msgid ""
 "\n"
 "Double-click here to create a new Contact."
 msgstr ""
+"\n"
+"\n"
+"Asnjë element për t'u shfaqur në këtë paraqitje.\n"
+"\n"
+"Dopjo-klik këtu për të krijuar një kontakt të ri."
 
 #: addressbook/gui/widgets/e-minicard-view.c:144
 msgid ""
@@ -3189,56 +3249,59 @@ msgid ""
 "\n"
 "There are no items to show in this view."
 msgstr ""
+"\n"
+"\n"
+"Asnjë element për t'u shfaqur në këtë paraqitje."
 
 #: addressbook/gui/widgets/e-minicard-view.c:457
 msgid "Adapter"
-msgstr ""
+msgstr "Adaptues"
 
 #: addressbook/gui/widgets/e-minicard.c:169
 msgid "Selected"
-msgstr ""
+msgstr "I zgjedhur"
 
 #: addressbook/gui/widgets/e-minicard.c:176
 msgid "Has Cursor"
-msgstr ""
+msgstr "Ka kursorin"
 
 #: addressbook/gui/widgets/gal-view-factory-minicard.c:24
 msgid "Card View"
-msgstr ""
+msgstr "Paraqitja e card"
 
 #: addressbook/gui/widgets/gal-view-factory-treeview.c:25
 msgid "GTK Tree View"
-msgstr ""
+msgstr "Paraqitja si pemë e GTK"
 
 #: addressbook/printing/e-contact-print-envelope.c:217
 #: addressbook/printing/e-contact-print-envelope.c:238
 msgid "Print envelope"
-msgstr ""
+msgstr "Printo zarfin"
 
 #: addressbook/printing/e-contact-print.c:1158
 msgid "Print cards"
-msgstr ""
+msgstr "Printo cards"
 
 #: addressbook/printing/e-contact-print.c:1224
 #: addressbook/printing/e-contact-print.c:1250
 msgid "Print card"
-msgstr ""
+msgstr "Printo card"
 
 #: addressbook/printing/e-contact-print.glade.h:1
 msgid "10 pt. Tahoma"
-msgstr ""
+msgstr "10 pt. Tahoma"
 
 #: addressbook/printing/e-contact-print.glade.h:2
 msgid "8 pt. Tahoma"
-msgstr ""
+msgstr "8 pt. Tahoma"
 
 #: addressbook/printing/e-contact-print.glade.h:3
 msgid "Blank forms at end:"
-msgstr ""
+msgstr "Modulë të bardhë në fund:"
 
 #: addressbook/printing/e-contact-print.glade.h:4
 msgid "Body"
-msgstr ""
+msgstr "Trupi"
 
 #: addressbook/printing/e-contact-print.glade.h:5
 msgid "Bottom:"
@@ -3246,11 +3309,11 @@ msgstr "Poshtë:"
 
 #: addressbook/printing/e-contact-print.glade.h:6
 msgid "Dimensions:"
-msgstr ""
+msgstr "Përmasat:"
 
 #: addressbook/printing/e-contact-print.glade.h:7
 msgid "F_ont..."
-msgstr ""
+msgstr "_Gërmat..."
 
 #: addressbook/printing/e-contact-print.glade.h:8
 msgid "Fonts"
@@ -3258,7 +3321,7 @@ msgstr "Gërmat"
 
 #: addressbook/printing/e-contact-print.glade.h:9
 msgid "Footer:"
-msgstr ""
+msgstr "Fund'faqe:"
 
 #: addressbook/printing/e-contact-print.glade.h:10
 msgid "Format"
@@ -3270,27 +3333,27 @@ msgstr "Kreu i faqes"
 
 #: addressbook/printing/e-contact-print.glade.h:12
 msgid "Header/Footer"
-msgstr ""
+msgstr "Kreu/Fundi"
 
 #: addressbook/printing/e-contact-print.glade.h:13
 msgid "Headings"
-msgstr ""
+msgstr "Titujt"
 
 #: addressbook/printing/e-contact-print.glade.h:14
 msgid "Headings for each letter"
-msgstr ""
+msgstr "Titull për çdo letër"
 
 #: addressbook/printing/e-contact-print.glade.h:15
 msgid "Height:"
-msgstr ""
+msgstr "Lartësia:"
 
 #: addressbook/printing/e-contact-print.glade.h:16
 msgid "Immediately follow each other"
-msgstr ""
+msgstr "Zinxhir njëri pas tjetrit"
 
 #: addressbook/printing/e-contact-print.glade.h:17
 msgid "Include:"
-msgstr ""
+msgstr "Përfshi:"
 
 #: addressbook/printing/e-contact-print.glade.h:18
 msgid "Landscape"
@@ -3310,7 +3373,7 @@ msgstr "Kufijtë"
 
 #: addressbook/printing/e-contact-print.glade.h:22
 msgid "Number of columns:"
-msgstr ""
+msgstr "Numri i kollonave:"
 
 #: addressbook/printing/e-contact-print.glade.h:23 mail/mail-config.glade.h:79
 msgid "Options"
@@ -3327,7 +3390,7 @@ msgstr "Faqja"
 
 #: addressbook/printing/e-contact-print.glade.h:26
 msgid "Page Setup:"
-msgstr ""
+msgstr "Rregullimi i faqes:"
 
 #: addressbook/printing/e-contact-print.glade.h:27
 msgid "Paper"
@@ -3335,7 +3398,7 @@ msgstr "Letra"
 
 #: addressbook/printing/e-contact-print.glade.h:28
 msgid "Paper source:"
-msgstr ""
+msgstr "Ngarkuesi i letrës:"
 
 #: addressbook/printing/e-contact-print.glade.h:29
 msgid "Portrait"
@@ -3347,11 +3410,11 @@ msgstr "Shikoje:"
 
 #: addressbook/printing/e-contact-print.glade.h:31
 msgid "Print using gray shading"
-msgstr ""
+msgstr "Printo duke përdorur hije gri"
 
 #: addressbook/printing/e-contact-print.glade.h:32
 msgid "Reverse on even pages"
-msgstr ""
+msgstr "Inverto faqet çifte"
 
 #: addressbook/printing/e-contact-print.glade.h:33
 msgid "Right:"
@@ -3359,11 +3422,11 @@ msgstr "Djathtas:"
 
 #: addressbook/printing/e-contact-print.glade.h:34
 msgid "Sections:"
-msgstr ""
+msgstr "Seksionet:"
 
 #: addressbook/printing/e-contact-print.glade.h:35
 msgid "Shading"
-msgstr ""
+msgstr "Hija"
 
 #: addressbook/printing/e-contact-print.glade.h:36
 msgid "Size:"
@@ -3371,11 +3434,11 @@ msgstr "Madhësia:"
 
 #: addressbook/printing/e-contact-print.glade.h:37
 msgid "Start on a new page"
-msgstr ""
+msgstr "Fillo në një faqe të re"
 
 #: addressbook/printing/e-contact-print.glade.h:38
 msgid "Style name:"
-msgstr ""
+msgstr "Emri i stilit:"
 
 #: addressbook/printing/e-contact-print.glade.h:39
 msgid "Top:"
@@ -3387,145 +3450,145 @@ msgstr "Lloji:"
 
 #: addressbook/printing/e-contact-print.glade.h:41
 msgid "Width:"
-msgstr ""
+msgstr "Gjerësia:"
 
 #: addressbook/printing/e-contact-print.glade.h:42
 msgid "_Font..."
-msgstr ""
+msgstr "_Gërmat..."
 
 #: calendar/cal-util/cal-component.c:1218
 msgid "Untitled appointment"
-msgstr ""
+msgstr "Takim pa titull"
 
 #: calendar/cal-util/cal-recur.c:3985 calendar/gui/print.c:477
 msgid "1st"
-msgstr ""
+msgstr "1-ri"
 
 #: calendar/cal-util/cal-recur.c:3986 calendar/gui/print.c:477
 msgid "2nd"
-msgstr ""
+msgstr "2-ti"
 
 #: calendar/cal-util/cal-recur.c:3987 calendar/gui/print.c:477
 msgid "3rd"
-msgstr ""
+msgstr "3-ti"
 
 #: calendar/cal-util/cal-recur.c:3988 calendar/gui/print.c:477
 msgid "4th"
-msgstr ""
+msgstr "4-ti"
 
 #: calendar/cal-util/cal-recur.c:3989 calendar/gui/print.c:477
 msgid "5th"
-msgstr ""
+msgstr "5-ti"
 
 #: calendar/cal-util/cal-recur.c:3990 calendar/gui/print.c:478
 msgid "6th"
-msgstr ""
+msgstr "6-ti"
 
 #: calendar/cal-util/cal-recur.c:3991 calendar/gui/print.c:478
 msgid "7th"
-msgstr ""
+msgstr "7-ti"
 
 #: calendar/cal-util/cal-recur.c:3992 calendar/gui/print.c:478
 msgid "8th"
-msgstr ""
+msgstr "8-ti"
 
 #: calendar/cal-util/cal-recur.c:3993 calendar/gui/print.c:478
 msgid "9th"
-msgstr ""
+msgstr "9-ti"
 
 #: calendar/cal-util/cal-recur.c:3994 calendar/gui/print.c:478
 msgid "10th"
-msgstr ""
+msgstr "10-ti"
 
 #: calendar/cal-util/cal-recur.c:3995 calendar/gui/print.c:479
 msgid "11th"
-msgstr ""
+msgstr "11-ti"
 
 #: calendar/cal-util/cal-recur.c:3996 calendar/gui/print.c:479
 msgid "12th"
-msgstr ""
+msgstr "12-ti"
 
 #: calendar/cal-util/cal-recur.c:3997 calendar/gui/print.c:479
 msgid "13th"
-msgstr ""
+msgstr "13-ti"
 
 #: calendar/cal-util/cal-recur.c:3998 calendar/gui/print.c:479
 msgid "14th"
-msgstr ""
+msgstr "14-ti"
 
 #: calendar/cal-util/cal-recur.c:3999 calendar/gui/print.c:479
 msgid "15th"
-msgstr ""
+msgstr "15-ti"
 
 #: calendar/cal-util/cal-recur.c:4000 calendar/gui/print.c:480
 msgid "16th"
-msgstr ""
+msgstr "16-ti"
 
 #: calendar/cal-util/cal-recur.c:4001 calendar/gui/print.c:480
 msgid "17th"
-msgstr ""
+msgstr "17-ti"
 
 #: calendar/cal-util/cal-recur.c:4002 calendar/gui/print.c:480
 msgid "18th"
-msgstr ""
+msgstr "18-ti"
 
 #: calendar/cal-util/cal-recur.c:4003 calendar/gui/print.c:480
 msgid "19th"
-msgstr ""
+msgstr "19-ti"
 
 #: calendar/cal-util/cal-recur.c:4004 calendar/gui/print.c:480
 msgid "20th"
-msgstr ""
+msgstr "20-ti"
 
 #: calendar/cal-util/cal-recur.c:4005 calendar/gui/print.c:481
 msgid "21st"
-msgstr ""
+msgstr "21-ti"
 
 #: calendar/cal-util/cal-recur.c:4006 calendar/gui/print.c:481
 msgid "22nd"
-msgstr ""
+msgstr "22-ti"
 
 #: calendar/cal-util/cal-recur.c:4007 calendar/gui/print.c:481
 msgid "23rd"
-msgstr ""
+msgstr "23-ti"
 
 #: calendar/cal-util/cal-recur.c:4008 calendar/gui/print.c:481
 msgid "24th"
-msgstr ""
+msgstr "24-ti"
 
 #: calendar/cal-util/cal-recur.c:4009 calendar/gui/print.c:481
 msgid "25th"
-msgstr ""
+msgstr "25-ti"
 
 #: calendar/cal-util/cal-recur.c:4010 calendar/gui/print.c:482
 msgid "26th"
-msgstr ""
+msgstr "26-ti"
 
 #: calendar/cal-util/cal-recur.c:4011 calendar/gui/print.c:482
 msgid "27th"
-msgstr ""
+msgstr "27-ti"
 
 #: calendar/cal-util/cal-recur.c:4012 calendar/gui/print.c:482
 msgid "28th"
-msgstr ""
+msgstr "28-ti"
 
 #: calendar/cal-util/cal-recur.c:4013 calendar/gui/print.c:482
 msgid "29th"
-msgstr ""
+msgstr "29-ti"
 
 #: calendar/cal-util/cal-recur.c:4014 calendar/gui/print.c:482
 msgid "30th"
-msgstr ""
+msgstr "30-ti"
 
 #: calendar/cal-util/cal-recur.c:4015 calendar/gui/print.c:483
 msgid "31st"
-msgstr ""
+msgstr "31-ti"
 
 #: calendar/cal-util/cal-util.c:550 calendar/cal-util/cal-util.c:572
 #: calendar/gui/dialogs/task-details-page.glade.h:6
 #: calendar/gui/e-calendar-table.c:401 mail/message-list.c:753
 msgid "High"
-msgstr "I lartë"
+msgstr "E lartë"
 
 #: calendar/cal-util/cal-util.c:552 calendar/cal-util/cal-util.c:574
 #: calendar/gui/calendar-model.c:1709
@@ -3538,119 +3601,120 @@ msgstr "Normal"
 #: calendar/gui/dialogs/task-details-page.glade.h:8
 #: calendar/gui/e-calendar-table.c:403 mail/message-list.c:751
 msgid "Low"
-msgstr "I ulët"
+msgstr "E ulët"
 
 #. An empty string is the same as 'None'.
 #: calendar/cal-util/cal-util.c:570
 #: calendar/gui/dialogs/task-details-page.glade.h:13
 #: calendar/gui/e-calendar-table.c:404
 msgid "Undefined"
-msgstr ""
+msgstr "E pa përcaktuar"
 
 #: calendar/conduits/calendar/calendar-conduit.c:206
 msgid "Split Multi-Day Events:"
-msgstr ""
+msgstr "Veço ngjarjet shumë-ditëshe:"
 
 #: calendar/conduits/calendar/calendar-conduit.c:1289
 #: calendar/conduits/todo/todo-conduit.c:830
 msgid "Error while communicating with calendar server"
-msgstr ""
+msgstr "Gabim gjatë komunikimit me server-in e kalendarit"
 
 #: calendar/conduits/calendar/calendar-conduit.c:1440
 #: calendar/conduits/calendar/calendar-conduit.c:1443
 msgid "Could not read pilot's Calendar application block"
-msgstr ""
+msgstr "I pamundur leximi i bllokut të aplikativit të kalendarit"
 
 #: calendar/conduits/todo/todo-conduit.c:206
 msgid "Default Priority:"
-msgstr ""
+msgstr "Prioriteti i prezgjedhur:"
 
 #: calendar/conduits/todo/todo-conduit.c:954
 #: calendar/conduits/todo/todo-conduit.c:957
 msgid "Could not read pilot's ToDo application block"
-msgstr ""
+msgstr "I pamundur leximi i aplikativëve që duhen bërë të Pilot"
 
 #: calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:1
 msgid "Calendar and Tasks"
-msgstr ""
+msgstr "Kalendari dhe aktivitetet"
 
 #: calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:2
 msgid "Configure your timezone, Calendar and Task List here "
 msgstr ""
+"Konfiguro këtu zonën tënde të orës, kalendarin dhe listën e aktiviteteve"
 
 #: calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:3
 msgid "Evolution Calendar and Tasks"
-msgstr ""
+msgstr "Kalendari dhe aktivitetet e Evolution"
 
 #: calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:4
 msgid "Evolution Calendar and Tasks component"
-msgstr ""
+msgstr "Komponues i Evolution për kalendarin dhe aktivitetet"
 
 #: calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:5
 msgid "Evolution Calendar configuration control"
-msgstr ""
+msgstr "Kontrolli i konfigurimit të kalendarit të Evolution"
 
 #: calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:6
 msgid "Evolution Calendar scheduling message viewer"
-msgstr ""
+msgstr "Shfaqësi i mesazheve të skadimit të afateve të kalendarit të Evolution"
 
 #: calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:7
 msgid "Evolution Calendar viewer"
-msgstr ""
+msgstr "Shfaqësi i kalendarit të Evolution"
 
 #: calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:8
 msgid "Evolution Calendar/Task editor"
-msgstr ""
+msgstr "Editori i kalendarit/aktiviteteve të Evolution"
 
 #: calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:9
 msgid "Evolution Tasks viewer"
-msgstr ""
+msgstr "Shikuesi i aktiviteteve të Evolution"
 
 #: calendar/gui/alarm-notify/GNOME_Evolution_Calendar_AlarmNotify.server.in.in.h:1
 msgid "Evolution Calendar alarm notification service"
-msgstr ""
+msgstr "Shërbimi i njoftimit të alarmit të kalendarit të Evolution"
 
 #: calendar/gui/alarm-notify/alarm-notify-dialog.c:212
 msgid "Starting:"
-msgstr ""
+msgstr "Fillimi:"
 
 #: calendar/gui/alarm-notify/alarm-notify-dialog.c:214
 msgid "Ending:"
-msgstr ""
+msgstr "Mbarimi:"
 
 #: calendar/gui/alarm-notify/alarm-notify-dialog.c:227
 msgid "invalid time"
-msgstr ""
+msgstr "orë e pavlefshme"
 
 #: calendar/gui/alarm-notify/alarm-notify-dialog.c:272
 msgid "Evolution Alarm"
-msgstr ""
+msgstr "Alarmi i Evolution"
 
 #: calendar/gui/alarm-notify/alarm-notify-dialog.c:366
 #, c-format
 msgid "Alarm on %s"
-msgstr ""
+msgstr "Alarm tek %s"
 
 #: calendar/gui/alarm-notify/alarm-notify.glade.h:1
 #: ui/evolution-comp-editor.xml.h:1
 msgid "C_lose"
-msgstr ""
+msgstr "M_byll"
 
 #: calendar/gui/alarm-notify/alarm-notify.glade.h:2
 msgid "Snoo_ze"
-msgstr ""
+msgstr "Z_ilja"
 
 #: calendar/gui/alarm-notify/alarm-notify.glade.h:3
 msgid "Snooze time (minutes)"
-msgstr ""
+msgstr "Zilja (në minuta)"
 
 #: calendar/gui/alarm-notify/alarm-notify.glade.h:4
 msgid "_Edit appointment"
-msgstr ""
+msgstr "_Ndrysho takimet"
 
 #: calendar/gui/alarm-notify/alarm-queue.c:770
 msgid "No description available."
-msgstr ""
+msgstr "Asnjë përshkrim."
 
 #: calendar/gui/alarm-notify/alarm-queue.c:843
 #: calendar/gui/alarm-notify/alarm-queue.c:867 widgets/misc/e-messagebox.c:161
@@ -3664,6 +3728,10 @@ msgid ""
 "configured to send an email.  Evolution will display\n"
 "a normal reminder dialog box instead."
 msgstr ""
+"Kalendari i Evolution për momentin nuk lejon dërgimin e\n"
+"njoftimeve me anë të postës elektronike, edhe pse\n"
+"ky paralajmërim kërkon nisjen e një mesazhi email.  Për këtë,\n"
+"Evolution do të hapë një mesazh normal viziv (në ekran)."
 
 #: calendar/gui/alarm-notify/alarm-queue.c:873
 #, c-format
@@ -3675,55 +3743,63 @@ msgid ""
 "\n"
 "Are you sure you want to run this program?"
 msgstr ""
+"Një përkujtues i kalendarit të Evolution është duke u aktivuar. Ky "
+"përkujtues është konfiguruar për të ekzekutuar programin në vazhdim:\n"
+"\n"
+"        %s\n"
+"\n"
+"Dëshironi me të vërtetë që ky program të ekzekutohet?"
 
 #: calendar/gui/alarm-notify/alarm-queue.c:887
 msgid "Do not ask me about this program again."
-msgstr ""
+msgstr "Mos më pyet më për këtë program."
 
 #: calendar/gui/alarm-notify/notify-main.c:176
 msgid "Could not initialize gnome-vfs"
-msgstr ""
+msgstr "E pamundur nisja e gnome-vfs"
 
 #: calendar/gui/alarm-notify/notify-main.c:185
 msgid "Could not create the alarm notify service factory"
 msgstr ""
+"I pamundur krijimi i fabrikës për shërbimin e njoftimit të paralajmërimit "
+"audio"
 
 #: calendar/gui/cal-search-bar.c:50
 msgid "Summary contains"
-msgstr ""
+msgstr "Përmbledhja përmban"
 
 #: calendar/gui/cal-search-bar.c:51
 msgid "Description contains"
-msgstr ""
+msgstr "Përshkrimi përmban"
 
 #: calendar/gui/cal-search-bar.c:52
 msgid "Comment contains"
-msgstr ""
+msgstr "Komenti përmban"
 
 #: calendar/gui/cal-search-bar.c:358 mail/mail-ops.c:1130
 msgid "Unmatched"
-msgstr ""
+msgstr "Jo korrispondues"
 
 #: calendar/gui/calendar-commands.c:419
 msgid "%A %d %B %Y"
-msgstr ""
+msgstr "%A %d %B %Y"
 
 #. strftime format %a = abbreviated weekday name, %d = day of month,
 #. %b = abbreviated month name. Don't use any other specifiers.
 #: calendar/gui/calendar-commands.c:422 calendar/gui/e-day-view-top-item.c:265
 #: calendar/gui/e-day-view.c:1440 calendar/gui/e-week-view-main-item.c:325
 msgid "%a %d %b"
-msgstr ""
+msgstr "%a %d %b"
 
 #: calendar/gui/calendar-commands.c:424 calendar/gui/calendar-commands.c:429
 #: calendar/gui/calendar-commands.c:431
 msgid "%a %d %b %Y"
-msgstr ""
+msgstr "%a %d %b %Y"
 
 #: calendar/gui/calendar-commands.c:442 calendar/gui/calendar-commands.c:449
 #: calendar/gui/calendar-commands.c:455 calendar/gui/calendar-commands.c:457
 msgid "%d %B %Y"
-msgstr ""
+msgstr "%d %B %Y"
 
 #. strftime format %d = day of month, %B = full
 #. month name. You can change the order but don't
@@ -3731,11 +3807,14 @@ msgstr ""
 #: calendar/gui/calendar-commands.c:447
 #: calendar/gui/e-week-view-main-item.c:333 calendar/gui/print.c:1509
 msgid "%d %B"
-msgstr ""
+msgstr "%d %B"
 
 #: calendar/gui/calendar-commands.c:834
-msgid "Could not create the calendar view.  Please check your ORBit and OAF setup."
+msgid ""
+"Could not create the calendar view.  Please check your ORBit and OAF setup."
 msgstr ""
+"I pamundur krijimi i paraqitjes së kalendarit.  Kontrollo konfigurimin e "
+"ORBit dhe OAF."
 
 #: calendar/gui/calendar-component.c:70 calendar/gui/gnome-cal.c:1543
 #: importers/netscape-importer.c:1873 mail/importers/netscape-importer.c:1843
@@ -3746,15 +3825,15 @@ msgstr "Kalendari"
 
 #: calendar/gui/calendar-component.c:71
 msgid "Folder containing appointments and events"
-msgstr ""
+msgstr "Kartela që përmban takime dhe ngjarje"
 
 #: calendar/gui/calendar-component.c:75
 msgid "Public Calendar"
-msgstr ""
+msgstr "Kalendar publik"
 
 #: calendar/gui/calendar-component.c:76
 msgid "Public folder containing appointments and events"
-msgstr ""
+msgstr "Kartelë publike që përmban takime dhe ngjarje"
 
 #: calendar/gui/calendar-component.c:80 calendar/gui/e-tasks.c:738
 #: calendar/gui/print.c:1789 calendar/gui/tasks-control.c:487
@@ -3763,72 +3842,72 @@ msgstr ""
 #: my-evolution/e-summary-tasks.c:329 my-evolution/e-summary-tasks.c:338
 #: shell/e-local-storage.c:183 shell/e-shortcuts.c:1086
 msgid "Tasks"
-msgstr ""
+msgstr "Aktivitete"
 
 #: calendar/gui/calendar-component.c:81
 msgid "Folder containing to-do items"
-msgstr ""
+msgstr "Kartela që përmban gjërat për të bërë"
 
 #: calendar/gui/calendar-component.c:85
 msgid "Public Tasks"
-msgstr ""
+msgstr "Aktivitete publike"
 
 #: calendar/gui/calendar-component.c:86
 msgid "Public folder containing to-do items"
-msgstr ""
+msgstr "Kartelë publike që përmban gjërat pë të bërë"
 
 #: calendar/gui/calendar-component.c:732
 msgid "New appointment"
-msgstr ""
+msgstr "Takim i ri"
 
 #: calendar/gui/calendar-component.c:732
 msgid "_Appointment"
-msgstr ""
+msgstr "_Takim"
 
 #: calendar/gui/calendar-component.c:733
 msgid "Create a new appointment"
-msgstr ""
+msgstr "Krijo një takim të ri"
 
 #: calendar/gui/calendar-component.c:737
 msgid "New meeting"
-msgstr ""
+msgstr "Mbledhje e re"
 
 #: calendar/gui/calendar-component.c:737
 msgid "M_eeting"
-msgstr ""
+msgstr "Mbl_edhje"
 
 #: calendar/gui/calendar-component.c:738
 msgid "Create a new meeting request"
-msgstr ""
+msgstr "Krijo një kërkesë të re për mbledhje"
 
 #: calendar/gui/calendar-component.c:742
 msgid "New task"
-msgstr ""
+msgstr "Aktivitet i ri"
 
 #: calendar/gui/calendar-component.c:742
 msgid "_Task"
-msgstr ""
+msgstr "_Aktivitet"
 
 #: calendar/gui/calendar-component.c:743
 msgid "Create a new task"
-msgstr ""
+msgstr "Krijo një aktivitet të ri"
 
 #: calendar/gui/calendar-component.c:747
 msgid "New All Day Appointment"
-msgstr ""
+msgstr "Takim i ri i përditshëm"
 
 #: calendar/gui/calendar-component.c:747
 msgid "All _Day Appointment"
-msgstr ""
+msgstr "Takim i _përditshëm"
 
 #: calendar/gui/calendar-component.c:748
 msgid "Create a new all-day appointment"
-msgstr ""
+msgstr "Krijo një takim të ri të përditshëm"
 
 #: calendar/gui/calendar-model.c:405 calendar/gui/calendar-model.c:964
 #: calendar/gui/e-calendar-table.c:380
 msgid "Private"
-msgstr ""
+msgstr "Privat"
 
 #: calendar/gui/calendar-model.c:408 calendar/gui/calendar-model.c:966
 #: calendar/gui/e-calendar-table.c:381
@@ -3837,7 +3916,7 @@ msgstr "Në konfidencë"
 
 #: calendar/gui/calendar-model.c:411 calendar/gui/e-calendar-table.c:379
 msgid "Public"
-msgstr ""
+msgstr "Publik"
 
 #: calendar/gui/calendar-model.c:523
 msgid "N"
@@ -3858,7 +3937,7 @@ msgstr "W"
 #: calendar/gui/calendar-model.c:590 calendar/gui/calendar-model.c:1134
 #: calendar/gui/e-calendar-table.c:453
 msgid "Free"
-msgstr ""
+msgstr "I lirë"
 
 #: calendar/gui/calendar-model.c:592 calendar/gui/e-calendar-table.c:454
 #: calendar/gui/e-meeting-time-sel.c:406
@@ -3870,20 +3949,20 @@ msgstr "I zënë"
 #: calendar/gui/dialogs/task-details-page.glade.h:10
 #: calendar/gui/e-calendar-table.c:474 calendar/gui/print.c:2298
 msgid "Not Started"
-msgstr ""
+msgstr "Për t'u filluar"
 
 #: calendar/gui/calendar-model.c:753 calendar/gui/calendar-model.c:1180
 #: calendar/gui/dialogs/task-details-page.glade.h:7
 #: calendar/gui/e-calendar-table.c:475 calendar/gui/print.c:2301
 msgid "In Progress"
-msgstr ""
+msgstr "Në zhvillim"
 
 #: calendar/gui/calendar-model.c:756 calendar/gui/calendar-model.c:1182
 #: calendar/gui/dialogs/task-details-page.glade.h:4
 #: calendar/gui/e-calendar-table.c:476 calendar/gui/e-meeting-model.c:294
 #: calendar/gui/e-meeting-model.c:317 calendar/gui/print.c:2304
 msgid "Completed"
-msgstr ""
+msgstr "I përfunduar"
 
 #: calendar/gui/calendar-model.c:1036
 msgid ""
@@ -3891,6 +3970,9 @@ msgid ""
 "\n"
 "45.436845,125.862501"
 msgstr ""
+"Pozicioni gjeografik duhet të jetë i formatit: \n"
+"\n"
+"45.436845,125.862501"
 
 #. An empty string is the same as 'None'.
 #: calendar/gui/calendar-model.c:1176 calendar/gui/dialogs/meeting-page.c:330
@@ -3910,7 +3992,7 @@ msgstr ""
 
 #: calendar/gui/calendar-model.c:1713
 msgid "Assigned"
-msgstr ""
+msgstr "Caktuar"
 
 #: calendar/gui/calendar-model.c:1719 calendar/gui/e-meeting-model.c:266
 #: calendar/gui/e-meeting-model.c:276 calendar/gui/e-meeting-model.c:534
@@ -3925,100 +4007,100 @@ msgstr "Jo"
 
 #: calendar/gui/calendar-view-factory.c:118
 msgid "Day View"
-msgstr ""
+msgstr "Paraqitja ditore"
 
 #: calendar/gui/calendar-view-factory.c:121
 msgid "Work Week View"
-msgstr ""
+msgstr "Paraqitja e javës së punës"
 
 #: calendar/gui/calendar-view-factory.c:124
 msgid "Week View"
-msgstr ""
+msgstr "Paraqitja javore"
 
 #: calendar/gui/calendar-view-factory.c:127
 msgid "Month View"
-msgstr ""
+msgstr "Paraqitja mujore"
 
 #: calendar/gui/comp-editor-factory.c:456
 msgid "Error while opening the calendar"
-msgstr ""
+msgstr "Gabim gjatë hapjes së kalendarit"
 
 #: calendar/gui/comp-editor-factory.c:467
 msgid "Method not supported when opening the calendar"
-msgstr ""
+msgstr "Metodë e pasuportuar gjatë hapjes së kalendarit"
 
 #: calendar/gui/comp-editor-factory.c:473
 msgid "Permission denied to open the calendar"
-msgstr ""
+msgstr "Nuk ke të drejtë të hapësh kalendarin"
 
 #: calendar/gui/control-factory.c:119
 #, c-format
 msgid "Could not open the folder in '%s'"
-msgstr ""
+msgstr "E pamundur hapja e kartelës tek '%s'"
 
 #: calendar/gui/control-factory.c:165
 msgid "The URI that the calendar will display"
-msgstr ""
+msgstr "URI që do të shfaqë kalendari"
 
 #: calendar/gui/control-factory.c:172
 msgid "The type of view to show"
-msgstr ""
+msgstr "Lloji i paraqitjes që duhet shfaqur"
 
 #: calendar/gui/dialogs/alarm-options.c:466
 msgid "Audio Alarm Options"
-msgstr ""
+msgstr "Opcionet e alarmit audio"
 
 #: calendar/gui/dialogs/alarm-options.c:475
 msgid "Message Alarm Options"
-msgstr ""
+msgstr "Opcionet e alarmit me mesazh"
 
 #: calendar/gui/dialogs/alarm-options.c:484
 msgid "Email Alarm Options"
-msgstr ""
+msgstr "Opcionet e alarmit me email"
 
 #: calendar/gui/dialogs/alarm-options.c:493
 msgid "Program Alarm Options"
-msgstr ""
+msgstr "Opcionet e programit të alarmit"
 
 #: calendar/gui/dialogs/alarm-options.c:509
 msgid "Unknown Alarm Options"
-msgstr ""
+msgstr "Opcione alarmi të panjohura"
 
 #: calendar/gui/dialogs/alarm-options.glade.h:2
 msgid "Alarm Repeat"
-msgstr ""
+msgstr "Përsëritja e alarmit"
 
 #: calendar/gui/dialogs/alarm-options.glade.h:3
 msgid "Message to Display:"
-msgstr ""
+msgstr "Mesazhi që duhet shfaqur:"
 
 #: calendar/gui/dialogs/alarm-options.glade.h:4
 msgid "Message to Send"
-msgstr ""
+msgstr "Mesazhi që duhet dërguar"
 
 #: calendar/gui/dialogs/alarm-options.glade.h:5
 msgid "Play sound:"
-msgstr ""
+msgstr "Lësho tingullin:"
 
 #: calendar/gui/dialogs/alarm-options.glade.h:6
 msgid "Repeat the alarm"
-msgstr ""
+msgstr "Përsërit alarmin"
 
 #: calendar/gui/dialogs/alarm-options.glade.h:7
 msgid "Run program:"
-msgstr ""
+msgstr "Ekzekuto programin:"
 
 #: calendar/gui/dialogs/alarm-options.glade.h:8
 msgid "Send To:"
-msgstr ""
+msgstr "Dërgo tek:"
 
 #: calendar/gui/dialogs/alarm-options.glade.h:9
 msgid "With these arguments:"
-msgstr ""
+msgstr "Me këto argumente:"
 
 #: calendar/gui/dialogs/alarm-options.glade.h:10 filter/filter.glade.h:17
 msgid "days"
-msgstr ""
+msgstr "ditë"
 
 #: calendar/gui/dialogs/alarm-options.glade.h:11
 msgid "dialog1"
@@ -4026,7 +4108,7 @@ msgstr "dialogu1"
 
 #: calendar/gui/dialogs/alarm-options.glade.h:12
 msgid "extra times every"
-msgstr ""
+msgstr "kohë më tepër çdo"
 
 #: calendar/gui/dialogs/alarm-options.glade.h:13 filter/filter.glade.h:18
 msgid "hours"
@@ -4039,24 +4121,24 @@ msgstr "minuta"
 #: calendar/gui/dialogs/alarm-page.glade.h:1
 #: calendar/gui/dialogs/recurrence-page.glade.h:2
 msgid "Basics"
-msgstr ""
+msgstr "Bazë"
 
 #: calendar/gui/dialogs/alarm-page.glade.h:2
 #: calendar/gui/dialogs/recurrence-page.glade.h:3
 msgid "Date/Time:"
-msgstr ""
+msgstr "Data/Ora:"
 
 #: calendar/gui/dialogs/alarm-page.glade.h:3 calendar/gui/e-alarm-list.c:465
 msgid "Display a message"
-msgstr ""
+msgstr "Shfaq një mesazh"
 
 #: calendar/gui/dialogs/alarm-page.glade.h:4 calendar/gui/e-alarm-list.c:461
 msgid "Play a sound"
-msgstr ""
+msgstr "Lësho një tingull"
 
 #: calendar/gui/dialogs/alarm-page.glade.h:5
 msgid "Reminders"
-msgstr ""
+msgstr "Përkujtesë"
 
 #: calendar/gui/dialogs/alarm-page.glade.h:6 calendar/gui/e-alarm-list.c:473
 msgid "Run a program"
@@ -4064,152 +4146,152 @@ msgstr "Ekzekuto një program"
 
 #: calendar/gui/dialogs/alarm-page.glade.h:7
 msgid "Send an Email"
-msgstr ""
+msgstr "Dërgo një email"
 
 #: calendar/gui/dialogs/alarm-page.glade.h:8
 #: calendar/gui/dialogs/recurrence-page.glade.h:8
 #: calendar/gui/e-itip-control.c:1022 calendar/gui/e-itip-control.glade.h:11
 msgid "Summary:"
-msgstr ""
+msgstr "Përmbledhja:"
 
 #: calendar/gui/dialogs/alarm-page.glade.h:9
 msgid "_Options..."
-msgstr ""
+msgstr "_Opcionet..."
 
 #: calendar/gui/dialogs/alarm-page.glade.h:10
 msgid "after"
-msgstr ""
+msgstr "mbas"
 
 #: calendar/gui/dialogs/alarm-page.glade.h:11
 msgid "before"
-msgstr ""
+msgstr "përpara"
 
 #: calendar/gui/dialogs/alarm-page.glade.h:12
 #: calendar/gui/dialogs/recurrence-page.glade.h:14
 msgid "day(s)"
-msgstr ""
+msgstr "ditë"
 
 #: calendar/gui/dialogs/alarm-page.glade.h:13
 msgid "end of appointment"
-msgstr ""
+msgstr "fundit të takimit"
 
 #: calendar/gui/dialogs/alarm-page.glade.h:14
 msgid "hour(s)"
-msgstr ""
+msgstr "orë"
 
 #: calendar/gui/dialogs/alarm-page.glade.h:15 mail/mail-config.glade.h:173
 msgid "minute(s)"
-msgstr ""
+msgstr "minutë(a)"
 
 #: calendar/gui/dialogs/alarm-page.glade.h:16
 msgid "start of appointment"
-msgstr ""
+msgstr "fillimit të takimit"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:1
 msgid "05 minutes"
-msgstr ""
+msgstr "05 minuta"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:2
 msgid "10 minutes"
-msgstr ""
+msgstr "10 minuta"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:3
 msgid "15 minutes"
-msgstr ""
+msgstr "15 minuta"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:4
 msgid "30 minutes"
-msgstr ""
+msgstr "30 minuta"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:5
 msgid "60 minutes"
-msgstr ""
+msgstr "60 minuta"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:6 mail/mail-config.glade.h:14
 msgid "Alerts"
-msgstr ""
+msgstr "Alarme"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:7
 msgid "Calendar and Tasks Settings"
-msgstr ""
+msgstr "Konfigurimi i kalendarit dhe aktiviteteve"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:8
 msgid "Color for overdue tasks"
-msgstr ""
+msgstr "Ngjyra për aktivitetet e skaduara"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:9
 msgid "Color for tasks due today"
-msgstr ""
+msgstr "Ngjyra për aktivitetet e sotme"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:10
 msgid "Day _ends:"
-msgstr ""
+msgstr "Funde dit_e:"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:11
 msgid "Days"
-msgstr ""
+msgstr "Ditët"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:12
 #: calendar/gui/dialogs/recurrence-page.c:1040
 #: calendar/gui/e-itip-control.c:647
 msgid "Friday"
-msgstr ""
+msgstr "E premte"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:13
 msgid "Hours"
-msgstr ""
+msgstr "Orë"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:14
 msgid "Minutes"
-msgstr ""
+msgstr "Minuta"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:15
 #: calendar/gui/dialogs/recurrence-page.c:1036
 #: calendar/gui/e-itip-control.c:643
 msgid "Monday"
-msgstr ""
+msgstr "E hënë"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:16
 msgid "S_un"
-msgstr ""
+msgstr "D_ie"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:17
 #: calendar/gui/dialogs/recurrence-page.c:1041
 #: calendar/gui/e-itip-control.c:648
 msgid "Saturday"
-msgstr ""
+msgstr "E shtunë"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:18
 msgid "Sh_ow a reminder"
-msgstr ""
+msgstr "Sh_faq një përkujtues"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:19
 msgid "Show week _numbers in date navigator"
-msgstr ""
+msgstr "Shfaq _numrat e javëve"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:20
 #: calendar/gui/dialogs/recurrence-page.c:1042
 #: calendar/gui/e-itip-control.c:642
 msgid "Sunday"
-msgstr ""
+msgstr "E djelë"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:21
 msgid "T_asks due today:"
-msgstr ""
+msgstr "A_ktivitetet për ditën e sotme:"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:22
 msgid "T_hu"
-msgstr ""
+msgstr "E_nj"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:23
 msgid "Task List"
-msgstr ""
+msgstr "Lista e aktiviteteve"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:24
 #: calendar/gui/dialogs/recurrence-page.c:1039
 #: calendar/gui/e-itip-control.c:646
 msgid "Thursday"
-msgstr ""
+msgstr "E enjte"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:25
 msgid "Time"
@@ -4217,56 +4299,56 @@ msgstr "Ora"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:26
 msgid "Time _zone:"
-msgstr ""
+msgstr "Zona e orës:"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:27
 msgid "Time format:"
-msgstr ""
+msgstr "Formati i orës:"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:28
 #: calendar/gui/dialogs/recurrence-page.c:1037
 #: calendar/gui/e-itip-control.c:644
 msgid "Tuesday"
-msgstr ""
+msgstr "E martë"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:29
 msgid "W_eek starts:"
-msgstr ""
+msgstr "Fillim jav_e:"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:30
 #: calendar/gui/dialogs/recurrence-page.c:1038
 #: calendar/gui/e-itip-control.c:645
 msgid "Wednesday"
-msgstr ""
+msgstr "E mërkurë"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:31
 #: ui/evolution-calendar.xml.h:27
 msgid "Work Week"
-msgstr ""
+msgstr "Java punuese"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:32
 msgid "Work days:"
-msgstr ""
+msgstr "Ditët e punës:"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:33
 msgid "_12 hour (AM/PM)"
-msgstr ""
+msgstr "_12 orë (AM/PM)"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:34
 msgid "_24 hour"
-msgstr ""
+msgstr "_24 orë"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:35
 msgid "_Ask for confirmation when deleting items"
-msgstr ""
+msgstr "_Kërko konfermimin para se të eleminosh elementët"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:36
 msgid "_Compress weekends in month view"
-msgstr ""
+msgstr "_Kompreso fundjavën tek paraqitja mujore"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:37
 msgid "_Day begins:"
-msgstr ""
+msgstr "Fillimi i _ditës:"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:38
 msgid "_Display"
@@ -4274,191 +4356,196 @@ msgstr "_Shfaq"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:39
 msgid "_Fri"
-msgstr ""
+msgstr "_Pre"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:40
 #: mail/mail-config.glade.h:147
 msgid "_General"
-msgstr ""
+msgstr "_E përgjithshme"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:41
 msgid "_Hide completed tasks after"
-msgstr ""
+msgstr "_Fshih aktivitetet e plotësuara mbas"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:42
 msgid "_Mon"
-msgstr ""
+msgstr "_Hën"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:43
 msgid "_Overdue tasks:"
-msgstr ""
+msgstr "_Aktivitete të skaduara:"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:44
 msgid "_Sat"
-msgstr ""
+msgstr "_Sht"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:45
 msgid "_Show appointment end times in week and month views"
-msgstr ""
+msgstr "_Shfaq skadimet e takimeve tek paraqitjet javore dhe mujore"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:46
 msgid "_Time divisions:"
-msgstr ""
+msgstr "Ndarja e _kohës:"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:47
 msgid "_Tue"
-msgstr ""
+msgstr "_Mar"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:48
 msgid "_Wed"
-msgstr ""
+msgstr "_Mër"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:49
 msgid "before every appointment"
-msgstr ""
+msgstr "para çdo takimi"
 
 #: calendar/gui/dialogs/cancel-comp.c:58
 msgid ""
 "The event being deleted is a meeting, would you like to send a cancellation "
 "notice?"
 msgstr ""
+"Ngjarja e fshirë është një mbledhje, dëshiron të dërgosh një njoftim "
+"anullimi?"
 
 #: calendar/gui/dialogs/cancel-comp.c:61
 msgid "Are you sure you want to cancel and delete this meeting?"
-msgstr ""
+msgstr "Jeni i sigurt që dëshironi të anulloni dhe të fshini këtë mbledhje?"
 
 #: calendar/gui/dialogs/cancel-comp.c:67
 msgid ""
 "The task being deleted is assigned, would you like to send a cancellation "
 "notice?"
-msgstr ""
+msgstr "Ngjarja e fshirë u caktua, dëshiron të dërgosh një njoftim fshirje?"
 
 #: calendar/gui/dialogs/cancel-comp.c:70
 msgid "Are you sure you want to cancel and delete this task?"
-msgstr ""
+msgstr "Jeni i sigurt që dëshironi të anulloni dhe të fshini këtë aktivitet?"
 
 #: calendar/gui/dialogs/cancel-comp.c:76
 msgid ""
 "The journal entry being deleted is published, would you like to send a "
 "cancellation notice?"
-msgstr ""
+msgstr "Zëri i fshirë u publikua, dëshiron të dërgosh një njoftim fshirje?"
 
 #: calendar/gui/dialogs/cancel-comp.c:79
 msgid "Are you sure you want to cancel and delete this journal entry?"
-msgstr ""
+msgstr "Jeni i sigurt që dëshironi të anulloni dhe të fshini këtë zë?"
 
 #: calendar/gui/dialogs/changed-comp.c:59
 msgid "This event has been deleted."
-msgstr ""
+msgstr "Kjo ngjarje u eleminua."
 
 #: calendar/gui/dialogs/changed-comp.c:63
 msgid "This task has been deleted."
-msgstr ""
+msgstr "Ky aktivitet u eleminua."
 
 #: calendar/gui/dialogs/changed-comp.c:67
 msgid "This journal entry has been deleted."
-msgstr ""
+msgstr "Ky zë u eleminua."
 
 #: calendar/gui/dialogs/changed-comp.c:76
 #, c-format
 msgid "%s  You have made changes. Forget those changes and close the editor?"
 msgstr ""
+"%s  Keni kryer ndryshime. T'i harrojmë ndryshimet dhe të mbyll editorin?"
 
 #: calendar/gui/dialogs/changed-comp.c:78
 #, c-format
 msgid "%s  You have made no changes, close the editor?"
-msgstr ""
+msgstr "%s  Nuk keni kryer ndryshime, mbyll editorin?"
 
 #: calendar/gui/dialogs/changed-comp.c:83
 msgid "This event has been changed."
-msgstr ""
+msgstr "Kjo ngjarje është ndryshuar."
 
 #: calendar/gui/dialogs/changed-comp.c:87
 msgid "This task has been changed."
-msgstr ""
+msgstr "Ky aktivitet është ndryshuar."
 
 #: calendar/gui/dialogs/changed-comp.c:91
 msgid "This journal entry has been changed."
-msgstr ""
+msgstr "Ky zë ditari është ndryshuar."
 
 #: calendar/gui/dialogs/changed-comp.c:100
 #, c-format
 msgid "%s  You have made changes. Forget those changes and update the editor?"
 msgstr ""
+"%s  Keni kryer ndryshime. T'i harrojmë ndryshimet dhe të rifreskojmë "
+"editorin?"
 
 #: calendar/gui/dialogs/changed-comp.c:102
 #, c-format
 msgid "%s  You have made no changes, update the editor?"
-msgstr ""
+msgstr "%s  Nuk keni kryer ndryshime, rifreskoj editorin?"
 
 #: calendar/gui/dialogs/comp-editor-page.c:409
 #, c-format
 msgid "Validation error: %s"
-msgstr ""
+msgstr "Gabim gjatë vleftësimit: %s"
 
 #: calendar/gui/dialogs/comp-editor-util.c:187 calendar/gui/print.c:2216
 msgid " to "
-msgstr ""
+msgstr " për "
 
 #: calendar/gui/dialogs/comp-editor-util.c:191 calendar/gui/print.c:2220
 msgid " (Completed "
-msgstr ""
+msgstr " (U plotësua "
 
 #: calendar/gui/dialogs/comp-editor-util.c:193 calendar/gui/print.c:2222
 msgid "Completed "
-msgstr ""
+msgstr "U plotësua"
 
 #: calendar/gui/dialogs/comp-editor-util.c:198 calendar/gui/print.c:2227
 msgid " (Due "
-msgstr ""
+msgstr " (Skadimi "
 
 #: calendar/gui/dialogs/comp-editor-util.c:200 calendar/gui/print.c:2229
 msgid "Due "
-msgstr ""
+msgstr "Skadimi "
 
 #: calendar/gui/dialogs/comp-editor.c:334
 msgid "Could not update invalid object"
-msgstr ""
+msgstr "I pamundur rifreskimi i objektit të pavlefshëm"
 
 #: calendar/gui/dialogs/comp-editor.c:337
 msgid "Object not found, not updated"
-msgstr ""
+msgstr "Objekti nuk u gjet, nuk u rifreskua"
 
 #: calendar/gui/dialogs/comp-editor.c:340
 msgid "You don't have permissions to update this object"
-msgstr ""
+msgstr "Nuk keni të drejta të mjaftueshme për të rifreskuar këtë objekt"
 
 #: calendar/gui/dialogs/comp-editor.c:343
 msgid "Could not update object"
-msgstr ""
+msgstr "I pamundur rifreskimi i objektit"
 
 #: calendar/gui/dialogs/comp-editor.c:793
 #: calendar/gui/dialogs/comp-editor.c:830
 msgid "Edit Appointment"
-msgstr ""
+msgstr "Ndrysho takimin"
 
 #: calendar/gui/dialogs/comp-editor.c:798
 #: calendar/gui/dialogs/comp-editor.c:835
 #, c-format
 msgid "Appointment - %s"
-msgstr ""
+msgstr "Takimi - %s"
 
 #: calendar/gui/dialogs/comp-editor.c:801
 #: calendar/gui/dialogs/comp-editor.c:838
 #, c-format
 msgid "Task - %s"
-msgstr ""
+msgstr "Aktiviteti - %s"
 
 #: calendar/gui/dialogs/comp-editor.c:804
 #: calendar/gui/dialogs/comp-editor.c:841
 #, c-format
 msgid "Journal entry - %s"
-msgstr ""
+msgstr "Zë i ditarit - %s"
 
 #: calendar/gui/dialogs/comp-editor.c:815
 #: calendar/gui/dialogs/comp-editor.c:851
 msgid "No summary"
-msgstr ""
+msgstr "Asnjë përmbledhje"
 
 #: calendar/gui/dialogs/comp-editor.c:1281
 #: calendar/gui/e-calendar-table.c:1068 calendar/gui/e-day-view.c:3993
@@ -4471,84 +4558,86 @@ msgstr "Ruaje si..."
 #: calendar/gui/dialogs/comp-editor.c:1433
 msgid "Changes made to this item may be discarded if an update arrives"
 msgstr ""
+"Ndryshimet e kryera në këtë element mund të anullohen nëse arrin një "
+"rifreskim"
 
 #: calendar/gui/dialogs/comp-editor.c:1460
 msgid "Unable to obtain current version!"
-msgstr ""
+msgstr "E pamundur marrja e versionit aktual!"
 
 #: calendar/gui/dialogs/delete-comp.c:96
 #, c-format
 msgid "Are you sure you want to delete the appointment `%s'?"
-msgstr ""
+msgstr "Jeni i sigurt që dëshironi të eleminoni takimin `%s'?"
 
 #: calendar/gui/dialogs/delete-comp.c:99
 msgid "Are you sure you want to delete this untitled appointment?"
-msgstr ""
+msgstr "Jeni i sigurt që dëshironi të eleminoni këtë takim pa emër?"
 
 #: calendar/gui/dialogs/delete-comp.c:105
 #, c-format
 msgid "Are you sure you want to delete the task `%s'?"
-msgstr ""
+msgstr "Jeni i sigurt që dëshironi të eleminoni aktivitetin `%s'?"
 
 #: calendar/gui/dialogs/delete-comp.c:108
 msgid "Are you sure you want to delete this untitled task?"
-msgstr ""
+msgstr "Jeni i sigurt që dëshironi të eleminoni aktivitetin pa emër?"
 
 #: calendar/gui/dialogs/delete-comp.c:114
 #, c-format
 msgid "Are you sure you want to delete the journal entry `%s'?"
-msgstr ""
+msgstr "Jeni i sigurt që dëshironi të eleminoni zërin e ditarit `%s'?"
 
 #: calendar/gui/dialogs/delete-comp.c:117
 msgid "Are you sure want to delete this untitled journal entry?"
-msgstr ""
+msgstr "Jeni i sigurt që dëshironi të eleminoni këtë zë ditari pa emër? "
 
 #: calendar/gui/dialogs/delete-comp.c:132
 #, c-format
 msgid "Are you sure you want to delete %d appointments?"
-msgstr ""
+msgstr "Jeni i sigurt që dëshironi të eleminoni %d takimet?"
 
 #: calendar/gui/dialogs/delete-comp.c:137
 #, c-format
 msgid "Are you sure you want to delete %d tasks?"
-msgstr ""
+msgstr "Jeni i sigurt që dëshironi të eleminoni %d aktivitetet?"
 
 #: calendar/gui/dialogs/delete-comp.c:142
 #, c-format
 msgid "Are you sure you want to delete %d journal entries?"
-msgstr ""
+msgstr "Jeni i sigurt që dëshironi të eleminoni %d zërat e ditarit?"
 
 #: calendar/gui/dialogs/delete-error.c:50
 msgid "The event could not be deleted due to a corba error"
-msgstr ""
+msgstr "Ngjarja nuk mund të anullohet për shkak të një gabimi të corba"
 
 #: calendar/gui/dialogs/delete-error.c:53
 msgid "The task could not be deleted due to a corba error"
-msgstr ""
+msgstr "Aktiviteti nuk mund të anullohet për shkak të një gabimi të corba"
 
 #: calendar/gui/dialogs/delete-error.c:56
 msgid "The journal entry could not be deleted due to a corba error"
-msgstr ""
+msgstr "Zëri i ditarit nuk mund të anullohet për shkak të një gabimi të corba"
 
 #: calendar/gui/dialogs/delete-error.c:59
 msgid "The item could not be deleted due to a corba error"
-msgstr ""
+msgstr "Elementi nuk mund të eleminohet për shkak të një gabimi të corba"
 
 #: calendar/gui/dialogs/delete-error.c:66
 msgid "The event could not be deleted because permission was denied"
-msgstr ""
+msgstr "Ngjarja nuk do të fshihet pasi mungojnë të drejtat e nevojshme"
 
 #: calendar/gui/dialogs/delete-error.c:69
 msgid "The task could not be deleted because permission was denied"
-msgstr ""
+msgstr "Aktiviteti nuk do të fshihet pasi mungojnë të drejtat e nevojshme"
 
 #: calendar/gui/dialogs/delete-error.c:72
 msgid "The journal entry could not be deleted because permission was denied"
-msgstr ""
+msgstr "Zëri i ditarit nuk do të fshihet pasi mungojnë të drejtat e nevojshme"
 
 #: calendar/gui/dialogs/delete-error.c:75
 msgid "The item could not be deleted because permission was denied"
-msgstr ""
+msgstr "Elementi nuk do të fshihet pasi mungojnë të drejtat e nevojshme"
 
 #: calendar/gui/dialogs/delete-error.c:82
 msgid "The event could not be deleted because it was invalid"
@@ -4773,7 +4862,8 @@ msgid "You are modifying a recurring task, what would you like to modify?"
 msgstr ""
 
 #: calendar/gui/dialogs/recur-comp.c:58
-msgid "You are modifying a recurring journal entry, what would you like to modify?"
+msgid ""
+"You are modifying a recurring journal entry, what would you like to modify?"
 msgstr ""
 
 #: calendar/gui/dialogs/recur-comp.c:72
@@ -9208,7 +9298,8 @@ msgstr ""
 
 #: camel/providers/imap/camel-imap-store.c:1841
 #, c-format
-msgid "The folder name \"%s\" is invalid because it containes the character \"%c\""
+msgid ""
+"The folder name \"%s\" is invalid because it containes the character \"%c\""
 msgstr ""
 
 #: camel/providers/imap/camel-imap-store.c:1853
@@ -11401,7 +11492,8 @@ msgid "Composer Preferences"
 msgstr ""
 
 #: mail/GNOME_Evolution_Mail.server.in.in.h:2
-msgid "Configure mail preferences, including security and message display, here"
+msgid ""
+"Configure mail preferences, including security and message display, here"
 msgstr ""
 
 #: mail/GNOME_Evolution_Mail.server.in.in.h:3
@@ -12830,7 +12922,8 @@ msgid "Bcc"
 msgstr ""
 
 #: mail/mail-format.c:1640
-msgid "This message is digitally signed. Click the lock icon for more information."
+msgid ""
+"This message is digitally signed. Click the lock icon for more information."
 msgstr ""
 
 #: mail/mail-format.c:1668
@@ -25173,7 +25266,8 @@ msgid "(None)"
 msgstr "(Asnjë)"
 
 #: shell/e-shell-view.c:2083
-msgid "Ximian Evolution is currently online.  Click on this button to work offline."
+msgid ""
+"Ximian Evolution is currently online.  Click on this button to work offline."
 msgstr ""
 "Ximian Evolution aktualisht është online.  Kliko tek ky buton për të punuar "
 "offline."
@@ -25183,7 +25277,8 @@ msgid "Ximian Evolution is in the process of going offline."
 msgstr "Ximian Evolution është në procesin e daljes offline."
 
 #: shell/e-shell-view.c:2096
-msgid "Ximian Evolution is currently offline.  Click on this button to work online."
+msgid ""
+"Ximian Evolution is currently offline.  Click on this button to work online."
 msgstr ""
 "Ximian Evolution aktualisht është offline.  Kliko tek ky buton për të punuar "
 "online."
@@ -26230,7 +26325,8 @@ msgid "Hide _Read Messages"
 msgstr ""
 
 #: ui/evolution-mail-list.xml.h:8
-msgid "Hide deleted messages rather than displaying them with a line through them"
+msgid ""
+"Hide deleted messages rather than displaying them with a line through them"
 msgstr ""
 
 #: ui/evolution-mail-list.xml.h:9
@@ -27494,4 +27590,3 @@ msgstr ""
 #: wombat/GNOME_Evolution_WombatNOLDAP.server.in.in.h:1
 msgid "Evolution Addressbook local file backend"
 msgstr ""
-
