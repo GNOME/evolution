@@ -1,5 +1,8 @@
 2001-04-12  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* session.c (auth_callback): If the service is NULL, just use the
+	item as the key.
+
 	* mail-crypto.c (mail_crypto_pgp_mime_part_sign): Use the
 	CamelCipherHash enum.
 	(mail_crypto_pgp_mime_part_verify): Use a CamelCipherValidity.

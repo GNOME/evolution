@@ -125,9 +125,12 @@ auth_callback (CamelAuthCallbackMode mode, char *data, gboolean secret,
 	char *key, *ans, *url;
 	gboolean accept;
 	
-	url = camel_url_to_string (service->url, CAMEL_URL_HIDE_PASSWORD | CAMEL_URL_HIDE_PARAMS);
-	key = g_strdup_printf ("%s:%s", url, item);
-	g_free (url);
+	if (service) {
+		url = camel_url_to_string (service->url, CAMEL_URL_HIDE_PASSWORD | CAMEL_URL_HIDE_PARAMS);
+		key = g_strdup_printf ("%s:%s", url, item);
+		g_free (url);
+	} else
+		key = g_strdup (item);
 	
 	switch (mode) {
 	case CAMEL_AUTHENTICATOR_TELL:
