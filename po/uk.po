@@ -965,18 +965,16 @@ msgid ""
 msgstr ""
 
 #: addressbook/gui/component/ldap-config.glade.h:65
-#, fuzzy
 msgid "Step 1: Server Information"
-msgstr "Вихідна інформація"
+msgstr "Крок 1: Інформація про сервер"
 
 #: addressbook/gui/component/ldap-config.glade.h:66
-#, fuzzy
 msgid "Step 2: Connecting to Server"
-msgstr "З'єднання з сервером..."
+msgstr "Крок 2: З'єднання з сервером..."
 
 #: addressbook/gui/component/ldap-config.glade.h:67
 msgid "Step 3: Searching the Directory"
-msgstr ""
+msgstr "Крок 3: Пошук каталога"
 
 #: addressbook/gui/component/ldap-config.glade.h:68
 msgid "Step 4: Display Name"
@@ -1112,9 +1110,8 @@ msgid "_Add"
 msgstr "Додати"
 
 #: addressbook/gui/component/ldap-config.glade.h:105
-#, fuzzy
 msgid "_Add ->"
-msgstr "Додати"
+msgstr "Додати ->"
 
 #: addressbook/gui/component/ldap-config.glade.h:106
 #, fuzzy
@@ -1127,9 +1124,8 @@ msgid "_Add to DN"
 msgstr "Додати дію"
 
 #: addressbook/gui/component/ldap-config.glade.h:108
-#, fuzzy
 msgid "_Always"
-msgstr "Сповіщення"
+msgstr "Завжди"
 
 #: addressbook/gui/component/ldap-config.glade.h:109
 #, fuzzy
@@ -1147,7 +1143,7 @@ msgstr ""
 
 #: addressbook/gui/component/ldap-config.glade.h:112
 msgid "_Don't use SSL/TLS"
-msgstr ""
+msgstr "Не викристовувати SSL/TLS"
 
 #: addressbook/gui/component/ldap-config.glade.h:113
 msgid "_Download limit:"
@@ -1195,7 +1191,6 @@ msgid "_More Options >>"
 msgstr "Параметри"
 
 #: addressbook/gui/component/ldap-config.glade.h:122
-#, fuzzy
 msgid "_Port number:"
 msgstr "Порт:"
 
@@ -9043,7 +9038,7 @@ msgstr "Отримання повідомлення POP %d"
 #, c-format
 msgid "Cannot get message %s: %s"
 msgstr ""
-"Неможливо отримати повідомлення %s: %s  %s"
+"Неможливо отримати повідомлення %s: %s"
 
 #: camel/providers/pop3/camel-pop3-folder.c:514
 msgid "Unknown reason"
@@ -9096,9 +9091,8 @@ msgstr ""
 "Помилка відсилання пароля: %s"
 
 #: camel/providers/pop3/camel-pop3-store.c:210
-#, fuzzy
 msgid "SSL/TLS extension not supported."
-msgstr "Операція не підтримується"
+msgstr "SSL/TLS розширення не підтримується"
 
 #: camel/providers/pop3/camel-pop3-store.c:251
 #, fuzzy
@@ -9106,10 +9100,10 @@ msgid "SSL negotiations failed"
 msgstr "Збій автенфікації."
 
 #: camel/providers/pop3/camel-pop3-store.c:348
-#, fuzzy, c-format
+#, c-format
 msgid "Could not connect to POP server on %s"
 msgstr ""
-"Не вдалося з'єднатись з сервером POP на %s."
+"Не вдалося з'єднатись з сервером POP на %s"
 
 #: camel/providers/pop3/camel-pop3-store.c:389
 #: camel/providers/pop3/camel-pop3-store.c:492
@@ -9133,9 +9127,9 @@ msgid "I/O Error: %s"
 msgstr "Помилка вводу-виводу: %s"
 
 #: camel/providers/pop3/camel-pop3-store.c:452
-#, fuzzy, c-format
+#, c-format
 msgid "%sPlease enter the POP password for %s@%s"
-msgstr "%sБудь ласка, введіть пароль POP3 для %s@%s"
+msgstr "%sБудь ласка, введіть пароль POP для %s@%s"
 
 #: camel/providers/pop3/camel-pop3-store.c:504
 #: camel/providers/pop3/camel-pop3-store.c:508
@@ -10722,9 +10716,8 @@ msgstr ""
 "компонент Evolutuion."
 
 #: mail/component-factory.c:1209 mail/component-factory.c:1240
-#, fuzzy
 msgid "Connecting..."
-msgstr "З'єднання з сервером..."
+msgstr "З'єднання..."
 
 #: mail/component-factory.c:1250
 msgid "Cannot register storage with shell"
@@ -10768,7 +10761,7 @@ msgstr ""
 #: mail/folder-browser.c:772
 #, c-format
 msgid "%d selected"
-msgstr "d вибрано"
+msgstr "%d вибрано"
 
 #: mail/folder-browser.c:777
 #, c-format
@@ -10869,7 +10862,6 @@ msgid "Mar_k as Read"
 msgstr "Позначити прочитаним"
 
 #: mail/folder-browser.c:1629
-#, fuzzy
 msgid "Mark as _Unread"
 msgstr "Позначити непрочитаним"
 
@@ -10878,17 +10870,14 @@ msgid "Mark as _Important"
 msgstr "Позначити як важливе"
 
 #: mail/folder-browser.c:1631
-#, fuzzy
 msgid "_Mark as Unimportant"
 msgstr "Позначити як неважливе"
 
 #: mail/folder-browser.c:1636
-#, fuzzy
 msgid "U_ndelete"
 msgstr "Відновити"
 
 #: mail/folder-browser.c:1640
-#, fuzzy
 msgid "Mo_ve to Folder..."
 msgstr "Перенести в теку..."
 
@@ -10902,17 +10891,14 @@ msgid "Label"
 msgstr "Більше"
 
 #: mail/folder-browser.c:1649
-#, fuzzy
 msgid "Add Sender to Address_book"
 msgstr "Додати відправника в адресну книгу"
 
 #: mail/folder-browser.c:1653
-#, fuzzy
 msgid "Appl_y Filters"
 msgstr "Застосувати фільтри"
 
 #: mail/folder-browser.c:1657
-#, fuzzy
 msgid "Crea_te Rule From Message"
 msgstr "Створити правило з повідомлення"
 
@@ -10922,12 +10908,12 @@ msgid "VFolder on M_ailing List"
 msgstr "Віртуальна теку списку листування"
 
 #: mail/folder-browser.c:1938
-#, fuzzy, c-format
+#, c-format
 msgid "Filter on _Mailing List (%s)"
 msgstr "Фільтр списку листування (%s)"
 
 #: mail/folder-browser.c:1939
-#, fuzzy, c-format
+#, c-format
 msgid "VFolder on M_ailing List (%s)"
 msgstr "Віртуальна тека списку листування (%s)"
 
@@ -11006,7 +10992,6 @@ msgid "_Host:"
 msgstr "Комп'ютер:"
 
 #: mail/mail-account-gui.c:742 mail/mail-config.glade.h:131
-#, fuzzy
 msgid "User_name:"
 msgstr "Назва користувача:"
 
@@ -11070,9 +11055,8 @@ msgid "Account name"
 msgstr "Назва рахунку:"
 
 #: mail/mail-accounts.c:733 mail/mail-accounts.etspec.h:3
-#, fuzzy
 msgid "Protocol"
-msgstr "Пуерто Ріко"
+msgstr "Протокол"
 
 #: mail/mail-autofilter.c:338 mail/mail-autofilter.c:358
 msgid "Add Filter Rule"
@@ -11247,9 +11231,9 @@ msgid "Filters"
 msgstr "Фільтри"
 
 #: mail/mail-callbacks.c:2783
-#, fuzzy, c-format
+#, c-format
 msgid "Page %d of %d"
-msgstr "Отримання повідомлення %d з %d"
+msgstr "Сторінка %d з %d"
 
 #: mail/mail-callbacks.c:2836
 msgid "Print Message"
@@ -11360,9 +11344,8 @@ msgid "Cannot execute signature script"
 msgstr ""
 
 #: mail/mail-config.glade.h:1
-#, fuzzy
 msgid " "
-msgstr ", "
+msgstr " "
 
 #: mail/mail-config.glade.h:2
 #, fuzzy
@@ -11370,12 +11353,10 @@ msgid " Edit "
 msgstr "Редагування"
 
 #: mail/mail-config.glade.h:3
-#, fuzzy
 msgid " New "
-msgstr "Новий"
+msgstr " Новий "
 
 #: mail/mail-config.glade.h:4
-#, fuzzy
 msgid " _Check for supported types "
 msgstr "Визначити типи, що підтримуються..."
 
@@ -11419,9 +11400,8 @@ msgid "Al_ways encrypt to myself when sending encrypted mail"
 msgstr ""
 
 #: mail/mail-config.glade.h:14
-#, fuzzy
 msgid "Alerts"
-msgstr "Алґерія"
+msgstr "Попередження"
 
 #: mail/mail-config.glade.h:15
 msgid "Alwa_ys sign outgoing messages when using this account"
@@ -11471,16 +11451,14 @@ msgid "C_haracter set:"
 msgstr "Невідомий набір символів: %s"
 
 #: mail/mail-config.glade.h:27
-#, fuzzy
 msgid "C_olors"
-msgstr "Закрити"
+msgstr "Кольори"
 
 #: mail/mail-config.glade.h:28
 msgid "Checking for New Mail"
 msgstr ""
 
 #: mail/mail-config.glade.h:29
-#, fuzzy
 msgid "Composing Messages"
 msgstr "Підготувати повідомлення"
 
@@ -11508,12 +11486,10 @@ msgid "De_fault"
 msgstr "Типово"
 
 #: mail/mail-config.glade.h:39
-#, fuzzy
 msgid "Default Behavior"
-msgstr "Gjxfnrjdbq пріоритет:"
+msgstr "Типова поведінка"
 
 #: mail/mail-config.glade.h:40
-#, fuzzy
 msgid "Default character _encoding:"
 msgstr "Типове кодування символів: "
 
@@ -11536,7 +11512,6 @@ msgid "Done"
 msgstr "Готово"
 
 #: mail/mail-config.glade.h:46
-#, fuzzy
 msgid "Drafts _folder:"
 msgstr "Тека чернеток:"
 
@@ -11549,9 +11524,8 @@ msgid "E_nable advanced options"
 msgstr ""
 
 #: mail/mail-config.glade.h:49
-#, fuzzy
 msgid "Emacs"
-msgstr "Схід"
+msgstr "Emacs"
 
 #: mail/mail-config.glade.h:50
 #, fuzzy
@@ -11559,18 +11533,16 @@ msgid "Email Accounts"
 msgstr "Електронна адреса містить"
 
 #: mail/mail-config.glade.h:51
-#, fuzzy
 msgid "Email _address:"
 msgstr "_Електронна адреса:"
 
 #: mail/mail-config.glade.h:52
-#, fuzzy
 msgid "Empty _trash folders on exit"
 msgstr "Спорожнити теку смітника на виході"
 
 #: mail/mail-config.glade.h:53
 msgid "Execute Command..."
-msgstr ""
+msgstr "Виконати команду..."
 
 #: mail/mail-config.glade.h:54
 #, fuzzy
@@ -11578,9 +11550,8 @@ msgid "Fi_xed -width:"
 msgstr "закінчується на"
 
 #: mail/mail-config.glade.h:55
-#, fuzzy
 msgid "Font Properties"
-msgstr "Властивості"
+msgstr "Властивості шрифтів"
 
 #: mail/mail-config.glade.h:56
 #, fuzzy
@@ -11623,9 +11594,8 @@ msgid "Labels and Colors"
 msgstr "Зберегти та закрити"
 
 #: mail/mail-config.glade.h:67
-#, fuzzy
 msgid "Loading Images"
-msgstr "Завантажити зображення"
+msgstr "Завантажити зображеннь"
 
 #: mail/mail-config.glade.h:69
 msgid "Mail Configuration"
@@ -11658,9 +11628,8 @@ msgid "New Mail Notification"
 msgstr "Повідомляти про нову пошту"
 
 #: mail/mail-config.glade.h:78
-#, fuzzy
 msgid "News Servers"
-msgstr "Новини"
+msgstr "Сервери новин"
 
 #: mail/mail-config.glade.h:80
 msgid "On Screen fonts"
@@ -11814,9 +11783,8 @@ msgid "Shortcuts _type:"
 msgstr "Ярлики"
 
 #: mail/mail-config.glade.h:121
-#, fuzzy
 msgid "Signature"
-msgstr "Зберегти підпис"
+msgstr "Підпис"
 
 #: mail/mail-config.glade.h:122
 msgid "Source"
@@ -11824,7 +11792,7 @@ msgstr "Джерело"
 
 #: mail/mail-config.glade.h:123
 msgid "Source Information"
-msgstr "Вихідна інформація"
+msgstr "Вхідна інформація"
 
 #: mail/mail-config.glade.h:124
 #, fuzzy
@@ -11833,7 +11801,7 @@ msgstr "Назва стилю:"
 
 #: mail/mail-config.glade.h:125
 msgid "Spell Checking"
-msgstr ""
+msgstr "Перевірка орфографії"
 
 #: mail/mail-config.glade.h:126
 msgid "Standard Unix mbox"
@@ -11862,9 +11830,8 @@ msgid ""
 msgstr ""
 
 #: mail/mail-config.glade.h:138
-#, fuzzy
 msgid "XEmacs"
-msgstr "Схід"
+msgstr "XEmacs"
 
 #: mail/mail-config.glade.h:140
 msgid "_Always load images off the net"
@@ -11917,7 +11884,6 @@ msgid "_Enable spell checking"
 msgstr ""
 
 #: mail/mail-config.glade.h:154
-#, fuzzy
 msgid "_Filename:"
 msgstr "Назва файлу:"
 
@@ -11935,12 +11901,10 @@ msgid "_Full name:"
 msgstr "_Повне ім'я:"
 
 #: mail/mail-config.glade.h:159
-#, fuzzy
 msgid "_HTML Mail"
 msgstr "В HTML"
 
 #: mail/mail-config.glade.h:160
-#, fuzzy
 msgid "_HTML Signature:"
 msgstr "Підпис _HTML:"
 
@@ -11949,9 +11913,8 @@ msgid "_Identity"
 msgstr ""
 
 #: mail/mail-config.glade.h:163
-#, fuzzy
 msgid "_Language:"
-msgstr "Мова"
+msgstr "Мова:"
 
 #: mail/mail-config.glade.h:164
 msgid "_Load images if sender is in addressbook"
@@ -11960,7 +11923,6 @@ msgstr ""
 "відправник у адресній книзі"
 
 #: mail/mail-config.glade.h:165
-#, fuzzy
 msgid "_Make this my default account"
 msgstr "Зробити це моїм _початковим рахунком"
 
@@ -12006,7 +11968,6 @@ msgid "_Random"
 msgstr "Радіо"
 
 #: mail/mail-config.glade.h:175
-#, fuzzy
 msgid "_Receiving Mail"
 msgstr "Отримання пошти"
 
@@ -12029,19 +11990,16 @@ msgid "_Security"
 msgstr "Безпека"
 
 #: mail/mail-config.glade.h:180
-#, fuzzy
 msgid "_Sending Mail"
 msgstr "Відсилання пошти"
 
 #: mail/mail-config.glade.h:181
-#, fuzzy
 msgid "_Show animated images"
-msgstr "Показати"
+msgstr "Показати анімовані зображення"
 
 #: mail/mail-config.glade.h:182
-#, fuzzy
 msgid "_Signatures"
-msgstr "Файл підпису:"
+msgstr "Підписи"
 
 #: mail/mail-config.glade.h:183
 #, fuzzy
@@ -12049,7 +12007,6 @@ msgid "_Text Signature:"
 msgstr "Підпис _HTML:"
 
 #: mail/mail-config.glade.h:184
-#, fuzzy
 msgid "_Use secure connection (SSL):"
 msgstr ""
 "Використовувати безпечне з'єднання (SSL)"
@@ -12063,7 +12020,6 @@ msgid "_every"
 msgstr "кожні"
 
 #: mail/mail-config.glade.h:187
-#, fuzzy
 msgid "color"
 msgstr " колір"
 
@@ -12123,10 +12079,10 @@ msgid "Save Attachment"
 msgstr "Зберегти долучення"
 
 #: mail/mail-display.c:344
-#, fuzzy, c-format
+#, c-format
 msgid "Could not create temporary file '%s': %s"
 msgstr ""
-"Неможливо створити тимчасовий каталог: %s"
+"Неможливо створити тимчасовий файл '%s': %s"
 
 #: mail/mail-display.c:390
 msgid "Save to Disk..."
@@ -12206,14 +12162,12 @@ msgid "To"
 msgstr "До"
 
 #: mail/mail-format.c:879
-#, fuzzy
 msgid "Cc"
-msgstr "Cc:"
+msgstr "Cc"
 
 #: mail/mail-format.c:884
-#, fuzzy
 msgid "Bcc"
-msgstr "Bcc:"
+msgstr "Bcc"
 
 #: mail/mail-format.c:915
 #, fuzzy
@@ -12574,9 +12528,9 @@ msgid "Enter Password"
 msgstr "Ввід пароля"
 
 #: mail/mail-signature-editor.c:79
-#, fuzzy, c-format
+#, c-format
 msgid "Could not save signature file: %s"
-msgstr "Не вдалося зберегти файл підпису."
+msgstr "Не вдалося зберегти файл підпису: %s"
 
 #: mail/mail-signature-editor.c:172
 msgid "Save signature"
@@ -13068,9 +13022,8 @@ msgid "Albenga"
 msgstr "Албанія"
 
 #: my-evolution/Locations.h:45
-#, fuzzy
 msgid "Alberta"
-msgstr "Алґерія"
+msgstr "Альберта"
 
 #: my-evolution/Locations.h:46
 msgid "Alborg"
@@ -13078,7 +13031,7 @@ msgstr ""
 
 #: my-evolution/Locations.h:47
 msgid "Albuquerque"
-msgstr ""
+msgstr "Альбукерка"
 
 #: my-evolution/Locations.h:48
 #, fuzzy
@@ -13403,7 +13356,6 @@ msgid "Arica"
 msgstr "Алґерія"
 
 #: my-evolution/Locations.h:122
-#, fuzzy
 msgid "Arizona"
 msgstr "Аризона"
 
@@ -13416,9 +13368,8 @@ msgid "Arkhangelsk"
 msgstr "Архангельськ"
 
 #: my-evolution/Locations.h:125
-#, fuzzy
 msgid "Arlington"
-msgstr "Орієнтація"
+msgstr "Арлінгтон"
 
 #: my-evolution/Locations.h:126
 #, fuzzy
@@ -13475,9 +13426,8 @@ msgid "Astoria"
 msgstr "Австрія"
 
 #: my-evolution/Locations.h:138
-#, fuzzy
 msgid "Astrakhan"
-msgstr "Австралія"
+msgstr "Астрахань"
 
 #: my-evolution/Locations.h:139
 #, fuzzy
@@ -13490,9 +13440,8 @@ msgid "Asuncion"
 msgstr "Автенфікація"
 
 #: my-evolution/Locations.h:141
-#, fuzzy
 msgid "Athens"
-msgstr "Долучення"
+msgstr "Афіни"
 
 #: my-evolution/Locations.h:142
 #, fuzzy
@@ -13500,9 +13449,8 @@ msgid "Athinai"
 msgstr "Китай"
 
 #: my-evolution/Locations.h:143
-#, fuzzy
 msgid "Atlanta"
-msgstr "Албанія"
+msgstr "Атланта"
 
 #: my-evolution/Locations.h:144
 #, fuzzy
@@ -13605,9 +13553,8 @@ msgid "Ball Mountain"
 msgstr "Електронна адреса містить"
 
 #: my-evolution/Locations.h:171
-#, fuzzy
 msgid "Baltimore"
-msgstr "Балтійський"
+msgstr "Балтімор"
 
 #: my-evolution/Locations.h:172
 msgid "Baltimore-Glen Burnie"
@@ -13638,9 +13585,8 @@ msgid "Barbers Point"
 msgstr ""
 
 #: my-evolution/Locations.h:178
-#, fuzzy
 msgid "Barcelona"
-msgstr "Македонія"
+msgstr "Барселона"
 
 #: my-evolution/Locations.h:179
 #, fuzzy
@@ -13675,9 +13621,8 @@ msgid "Barksdale"
 msgstr "Вставити"
 
 #: my-evolution/Locations.h:186
-#, fuzzy
 msgid "Barnaul"
-msgstr "Бразилія"
+msgstr "Барнаул"
 
 #: my-evolution/Locations.h:187
 msgid "Barquisimeto"
@@ -13783,14 +13728,12 @@ msgid "Bedford"
 msgstr "перед"
 
 #: my-evolution/Locations.h:210
-#, fuzzy
 msgid "Beijing"
-msgstr "Бенін"
+msgstr "Пекін"
 
 #: my-evolution/Locations.h:211
-#, fuzzy
 msgid "Beirut"
-msgstr "Білорусь"
+msgstr "Бейрут"
 
 #: my-evolution/Locations.h:212
 msgid "Beja"
@@ -13864,7 +13807,7 @@ msgstr "Перезавантажити"
 
 #: my-evolution/Locations.h:230
 msgid "Bergamo"
-msgstr "Берґамо"
+msgstr "Бергамо"
 
 #: my-evolution/Locations.h:231
 #, fuzzy
@@ -14068,14 +14011,12 @@ msgid "Boscombe Down"
 msgstr ""
 
 #: my-evolution/Locations.h:279
-#, fuzzy
 msgid "Bosnia-Herzegovina"
 msgstr "Боснія і Герцеговина"
 
 #: my-evolution/Locations.h:280
-#, fuzzy
 msgid "Boston"
-msgstr "Естонія"
+msgstr "Бостон"
 
 #: my-evolution/Locations.h:281
 #, fuzzy
@@ -14115,7 +14056,6 @@ msgid "Brainerd"
 msgstr "Бахрейн"
 
 #: my-evolution/Locations.h:289
-#, fuzzy
 msgid "Brasilia"
 msgstr "Бразилія"
 
@@ -14124,9 +14064,8 @@ msgid "Brasschaat"
 msgstr ""
 
 #: my-evolution/Locations.h:291
-#, fuzzy
 msgid "Bratislava"
-msgstr "Бразилія"
+msgstr "Братіслава"
 
 #: my-evolution/Locations.h:292
 msgid "Bratsk"
@@ -14320,7 +14259,7 @@ msgstr ""
 
 #: my-evolution/Locations.h:338
 msgid "Calgary"
-msgstr "Калґарі"
+msgstr "Калгарі"
 
 #: my-evolution/Locations.h:339
 msgid "Cali/Alfonso Bonillaaragon"
@@ -14877,9 +14816,8 @@ msgid "Clermont-Ferrand"
 msgstr ""
 
 #: my-evolution/Locations.h:468
-#, fuzzy
 msgid "Cleveland"
-msgstr "Ґренландія"
+msgstr "Клівленд"
 
 #: my-evolution/Locations.h:469
 msgid "Cleveland/Cuyahoga"
@@ -15266,9 +15204,8 @@ msgid "Dawadmi"
 msgstr ""
 
 #: my-evolution/Locations.h:562
-#, fuzzy
 msgid "Dayton"
-msgstr "День"
+msgstr "Дейтон"
 
 #: my-evolution/Locations.h:563
 msgid "Daytona Beach"
@@ -16029,7 +15966,7 @@ msgstr ""
 
 #: my-evolution/Locations.h:745
 msgid "Fort Knox"
-msgstr ""
+msgstr "Форт Нокс"
 
 #: my-evolution/Locations.h:746
 msgid "Fort Lauderdale"
@@ -16122,7 +16059,7 @@ msgstr ""
 
 #: my-evolution/Locations.h:768
 msgid "Frankfurt/Main"
-msgstr ""
+msgstr "Франкфурт-на-Майне"
 
 #: my-evolution/Locations.h:769
 #, fuzzy
@@ -17364,9 +17301,8 @@ msgid "Kaohsiung"
 msgstr ""
 
 #: my-evolution/Locations.h:1071
-#, fuzzy
 msgid "Karachi"
-msgstr "Березень"
+msgstr "Карачі"
 
 #: my-evolution/Locations.h:1072
 #, fuzzy
@@ -17398,9 +17334,8 @@ msgid "Kayseri"
 msgstr "Кайзері"
 
 #: my-evolution/Locations.h:1079
-#, fuzzy
 msgid "Kazan"
-msgstr "Казахстан"
+msgstr "Казань"
 
 #: my-evolution/Locations.h:1080
 #, fuzzy
@@ -17503,7 +17438,7 @@ msgstr ""
 
 #: my-evolution/Locations.h:1103
 msgid "Kingston"
-msgstr "Кінґстон"
+msgstr "Кінгстон"
 
 #: my-evolution/Locations.h:1104
 msgid "Kingsville"
@@ -18229,9 +18164,8 @@ msgid "Lyon-Satolas"
 msgstr ""
 
 #: my-evolution/Locations.h:1276
-#, fuzzy
 msgid "Maastricht"
-msgstr "Березень"
+msgstr "Маастріхт"
 
 #: my-evolution/Locations.h:1277
 #, fuzzy
@@ -18281,7 +18215,7 @@ msgstr "Магадан"
 
 #: my-evolution/Locations.h:1287
 msgid "Magdalena"
-msgstr ""
+msgstr "Магдалена"
 
 #: my-evolution/Locations.h:1288
 #, fuzzy
@@ -18307,9 +18241,8 @@ msgid "Malad City"
 msgstr "Малаві"
 
 #: my-evolution/Locations.h:1293
-#, fuzzy
 msgid "Malaga"
-msgstr "Мальта"
+msgstr "Малага"
 
 #: my-evolution/Locations.h:1294
 #, fuzzy
@@ -18329,9 +18262,8 @@ msgid "Mammoth Lakes"
 msgstr ""
 
 #: my-evolution/Locations.h:1299
-#, fuzzy
 msgid "Managua"
-msgstr "Керівник"
+msgstr "Манагуа"
 
 #: my-evolution/Locations.h:1300
 #, fuzzy
@@ -18354,7 +18286,7 @@ msgstr ""
 
 #: my-evolution/Locations.h:1304
 msgid "Manhattan"
-msgstr ""
+msgstr "Манхеттен"
 
 #: my-evolution/Locations.h:1305
 #, fuzzy
@@ -18501,9 +18433,8 @@ msgid "Martinsville"
 msgstr "Мартініка"
 
 #: my-evolution/Locations.h:1336
-#, fuzzy
 msgid "Maryland"
-msgstr "Ірландія"
+msgstr "Меріленд"
 
 #: my-evolution/Locations.h:1337
 msgid "Marysville"
@@ -18840,9 +18771,8 @@ msgid "Minneapolis [3]"
 msgstr "Мінеаполіс [3]"
 
 #: my-evolution/Locations.h:1414
-#, fuzzy
 msgid "Minnesota"
-msgstr "Мікронезія"
+msgstr "Міннесота"
 
 #: my-evolution/Locations.h:1415
 msgid "Minocqua"
@@ -18871,9 +18801,8 @@ msgid "Missoula"
 msgstr "існує"
 
 #: my-evolution/Locations.h:1421
-#, fuzzy
 msgid "Missouri"
-msgstr "існує"
+msgstr "Міссурі"
 
 #: my-evolution/Locations.h:1422
 #, fuzzy
