@@ -1,3 +1,10 @@
+2005-03-31  JP Rosevear  <jpr@novell.com>
+
+	Fixes #73844
+	
+	* itip-formatter.c (extract_itip_data): make sure we check the
+	kind of the correct item
+
 2005-03-11  JP Rosevear  <jpr@novell.com>
 
 	* itip-formatter.c (extract_itip_data): set the type appropriately
