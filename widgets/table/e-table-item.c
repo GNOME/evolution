@@ -2225,7 +2225,6 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 			if (return_val)
 				return TRUE;
 
-			return_val = FALSE;
 			gtk_signal_emit (GTK_OBJECT (eti), eti_signals [CLICK],
 					 row, view_to_model_col(eti, col), &button, &return_val);
 
@@ -2486,7 +2485,7 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 		e_canvas_hide_tooltip (E_CANVAS(GNOME_CANVAS_ITEM(eti)->canvas));
 
 #ifdef DO_TOOLTIPS
-		if (g_getenv ("GAL_DO_TOOLTIPS")) {
+		if (!g_getenv ("GAL_DONT_DO_TOOLTIPS")) {
 			if (eti->tooltip->timer > 0)
 				gtk_timeout_remove (eti->tooltip->timer);
 			eti->tooltip->col = col;
