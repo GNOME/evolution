@@ -1,4 +1,4 @@
-# evolution fr.po
+# French translation of evolution.
 # Copyright (C) 2000-2002 Free Software Foundation, Inc.
 # Vincent Renardias <vincent@debian.org>, 2000.
 # Christophe Merlet (RedFox) <christophe@merlet.net>, 2000-2002.
@@ -7,9 +7,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: evolution 1.0.5.99\n"
-"POT-Creation-Date: 2002-06-19 17:07-0400\n"
-"PO-Revision-Date: 2002-05-14 02:14+0200\n"
+"Project-Id-Version: evolution 1.0.8.99\n"
+"POT-Creation-Date: 2002-08-25 22:10+0200\n"
+"PO-Revision-Date: 2002-08-25 22:00+0200\n"
 "Last-Translator: Christophe Merlet (RedFox) <christophe@merlet.net>\n"
 "Language-Team: GNOME French Team <gnomefr@traduc.org>\n"
 "MIME-Version: 1.0\n"
@@ -956,7 +956,7 @@ msgid "_Server name:"
 msgstr "Nom du _serveur :"
 
 #: addressbook/gui/component/addressbook-factory.c:70
-#: calendar/gui/alarm-notify/notify-main.c:176 calendar/gui/main.c:134
+#: calendar/gui/alarm-notify/notify-main.c:176 calendar/gui/main.c:137
 msgid "Could not initialize gnome-vfs"
 msgstr "Ne peut initialiser gnome-vfs"
 
@@ -2726,14 +2726,12 @@ msgid "Cancelled"
 msgstr "Annulée"
 
 #: addressbook/gui/widgets/e-addressbook-util.c:41
-#, fuzzy
 msgid "Authentication Failed"
-msgstr " Échec d'authentification"
+msgstr "Échec d'authentification"
 
 #: addressbook/gui/widgets/e-addressbook-util.c:42
-#, fuzzy
 msgid "Authentication Required"
-msgstr "Identification requise"
+msgstr "Authentification requise"
 
 #: addressbook/gui/widgets/e-addressbook-util.c:43
 msgid "Other error"
@@ -2854,7 +2852,6 @@ msgid "Save in addressbook"
 msgstr "Enregistrer dans le carnet d'adresses"
 
 #: addressbook/gui/widgets/e-minicard-view.c:156
-#, fuzzy
 msgid ""
 "\n"
 "\n"
@@ -2869,7 +2866,6 @@ msgstr ""
 "Double-cliquez ici pour créer un nouveau Contact."
 
 #: addressbook/gui/widgets/e-minicard-view.c:159
-#, fuzzy
 msgid ""
 "\n"
 "\n"
@@ -2877,9 +2873,7 @@ msgid ""
 msgstr ""
 "\n"
 "\n"
-"Il n'y a aucun éléments à afficher dans cette vue.\n"
-"\n"
-"Double-cliquez ici pour créer un nouveau Contact."
+"Il n'y a aucun éléments à afficher dans cette vue."
 
 #: addressbook/gui/widgets/gal-view-factory-minicard.c:26
 msgid "Card View"
@@ -3966,18 +3960,16 @@ msgid "Asia/Macao"
 msgstr "Asie/Macao"
 
 #: calendar/zones.h:230
-#, fuzzy
 msgid "Asia/Macau"
-msgstr "Asie/Macao"
+msgstr "Asie/Macau"
 
 #: calendar/zones.h:231
 msgid "Asia/Magadan"
 msgstr "Asie/Magadan"
 
 #: calendar/zones.h:232
-#, fuzzy
 msgid "Asia/Makassar"
-msgstr "Asie/Magadan"
+msgstr "Asie/Makassar"
 
 #: calendar/zones.h:233
 msgid "Asia/Manila"
@@ -4000,9 +3992,8 @@ msgid "Asia/Omsk"
 msgstr "Asie/Omsk"
 
 #: calendar/zones.h:238
-#, fuzzy
 msgid "Asia/Oral"
-msgstr "Asie/Kaboul"
+msgstr "Asie/Oral"
 
 #: calendar/zones.h:239
 msgid "Asia/Phnom_Penh"
@@ -4021,9 +4012,8 @@ msgid "Asia/Qatar"
 msgstr "Asie/Qatar"
 
 #: calendar/zones.h:243
-#, fuzzy
 msgid "Asia/Qyzylorda"
-msgstr "Asie/Gaza"
+msgstr "Asie/Qyzylorda"
 
 #: calendar/zones.h:244
 msgid "Asia/Rangoon"
@@ -5569,6 +5559,8 @@ msgstr "Enregistrer sous..."
 msgid ""
 "Changes made to this item may be discarded if an update arrives via email"
 msgstr ""
+"Les changements effectués sur cet élément peuvent être supprimés si une mise "
+"à jour arrive par courrier électronique"
 
 #: calendar/gui/dialogs/comp-editor.c:1367
 msgid "Unable to obtain current version!"
@@ -5954,57 +5946,46 @@ msgid "_Due Date:"
 msgstr "Date d'_échéance :"
 
 #: calendar/gui/e-calendar-table.c:427
-#, c-format
 msgid "0%"
 msgstr "0%"
 
 #: calendar/gui/e-calendar-table.c:428
-#, c-format
 msgid "10%"
 msgstr "10%"
 
 #: calendar/gui/e-calendar-table.c:429
-#, c-format
 msgid "20%"
 msgstr "20%"
 
 #: calendar/gui/e-calendar-table.c:430
-#, c-format
 msgid "30%"
 msgstr "30%"
 
 #: calendar/gui/e-calendar-table.c:431
-#, c-format
 msgid "40%"
 msgstr "40%"
 
 #: calendar/gui/e-calendar-table.c:432
-#, c-format
 msgid "50%"
 msgstr "50%"
 
 #: calendar/gui/e-calendar-table.c:433
-#, c-format
 msgid "60%"
 msgstr "60%"
 
 #: calendar/gui/e-calendar-table.c:434
-#, c-format
 msgid "70%"
 msgstr "70%"
 
 #: calendar/gui/e-calendar-table.c:435
-#, c-format
 msgid "80%"
 msgstr "80%"
 
 #: calendar/gui/e-calendar-table.c:436
-#, c-format
 msgid "90%"
 msgstr "90%"
 
 #: calendar/gui/e-calendar-table.c:437
-#, c-format
 msgid "100%"
 msgstr "100%"
 
@@ -6878,7 +6859,11 @@ msgstr "Counter-proposal"
 msgid "You must be an attendee of the event."
 msgstr "Vous devez être inscrit comme participant à l'événement."
 
-#: calendar/gui/main.c:91
+#: calendar/gui/main.c:65
+msgid "Could not activate Bonobo"
+msgstr "Ne peut activer Bonobo"
+
+#: calendar/gui/main.c:94
 msgid "Could not create the component editor factory"
 msgstr "Impossible de créer l'usine à éditeurs de composants"
 
@@ -12509,7 +12494,7 @@ msgid "Freezing ice pellets"
 msgstr "Boulettes de glace verglassantes"
 
 #. HAIL
-#: my-evolution/Locations.h:883 my-evolution/metar.c:217
+#: my-evolution/metar.c:217 my-evolution/Locations.h:883
 msgid "Hail"
 msgstr "Grêle"
 
@@ -23255,9 +23240,8 @@ msgid "Evolution "
 msgstr "Evolution "
 
 #: shell/e-shell-about-box.c:41
-#, fuzzy
 msgid "Copyright 1999-2002 Ximian, Inc."
-msgstr "Copyright 1999, 2000, 2001 Ximian, Inc."
+msgstr "Copyright 1999-2002 Ximian, Inc."
 
 #: shell/e-shell-about-box.c:43
 msgid "Brought to you by"
@@ -25094,7 +25078,7 @@ msgstr "_Fermer"
 #: ui/evolution-mail-messagedisplay.xml.h:8
 #: ui/evolution-message-composer.xml.h:55 ui/evolution.xml.h:50
 msgid "_View"
-msgstr "_Vue"
+msgstr "Afficha_ge"
 
 #: ui/evolution-message-composer.xml.h:1
 msgid "Attach"
@@ -25596,7 +25580,7 @@ msgstr ""
 
 #: widgets/menus/gal-view-menus.c:195
 msgid "_Current View"
-msgstr "Vue courante"
+msgstr "Vue _courante"
 
 #: widgets/menus/gal-view-menus.c:222
 msgid "Define Views"
