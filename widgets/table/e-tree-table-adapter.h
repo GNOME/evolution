@@ -25,19 +25,18 @@
 #ifndef _E_TREE_TABLE_ADAPTER_H_
 #define _E_TREE_TABLE_ADAPTER_H_
 
-#include <gtk/gtkobject.h>
+#include <glib-object.h>
 #include <gal/e-table/e-table-model.h>
 #include <gal/e-table/e-tree-model.h>
 
-#ifdef __cplusplus
-extern "C" {
-#endif /* __cplusplus */
+G_BEGIN_DECLS
 
 #define E_TREE_TABLE_ADAPTER_TYPE        (e_tree_table_adapter_get_type ())
-#define E_TREE_TABLE_ADAPTER(o)          (GTK_CHECK_CAST ((o), E_TREE_TABLE_ADAPTER_TYPE, ETreeTableAdapter))
-#define E_TREE_TABLE_ADAPTER_CLASS(k)    (GTK_CHECK_CLASS_CAST((k), E_TREE_TABLE_ADAPTER_TYPE, ETreeTableAdapterClass))
-#define E_IS_TREE_TABLE_ADAPTER(o)       (GTK_CHECK_TYPE ((o), E_TREE_TABLE_ADAPTER_TYPE))
-#define E_IS_TREE_TABLE_ADAPTER_CLASS(k) (GTK_CHECK_CLASS_TYPE ((k), E_TREE_TABLE_ADAPTER_TYPE))
+#define E_TREE_TABLE_ADAPTER(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), E_TREE_TABLE_ADAPTER_TYPE, ETreeTableAdapter))
+#define E_TREE_TABLE_ADAPTER_CLASS(k)    (G_TYPE_CHECK_CLASS_CAST((k), E_TREE_TABLE_ADAPTER_TYPE, ETreeTableAdapterClass))
+#define E_IS_TREE_TABLE_ADAPTER(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), E_TREE_TABLE_ADAPTER_TYPE))
+#define E_IS_TREE_TABLE_ADAPTER_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE ((k), E_TREE_TABLE_ADAPTER_TYPE))
+#define E_TREE_TABLE_ADAPTER_GET_CLASS(o) (G_TYPE_CHECK_CLASS_CAST((o), E_TREE_TABLE_ADAPTER_TYPE, ETreeTableAdapterClass))
 
 typedef struct ETreeTableAdapterPriv ETreeTableAdapterPriv;
 
@@ -51,7 +50,7 @@ typedef struct {
 	ETableModelClass parent_class;
 } ETreeTableAdapterClass;
 
-GtkType      e_tree_table_adapter_get_type                   (void);
+GType        e_tree_table_adapter_get_type                   (void);
 ETableModel *e_tree_table_adapter_new                        (ETreeModel        *source);
 ETableModel *e_tree_table_adapter_construct                  (ETreeTableAdapter *ets,
 							      ETreeModel        *source);
@@ -80,8 +79,6 @@ void         e_tree_table_adapter_save_expanded_state        (ETreeTableAdapter 
 void         e_tree_table_adapter_load_expanded_state        (ETreeTableAdapter *etta,
 							      const char        *filename);
 
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
+G_END_DECLS
 
 #endif /* _E_TREE_TABLE_ADAPTER_H_ */

@@ -27,16 +27,14 @@
 #include <gdk-pixbuf/gdk-pixbuf.h>
 #include <gal/e-table/e-table-model.h>
 
-#ifdef __cplusplus
-extern "C" {
-#endif /* __cplusplus */
-
+G_BEGIN_DECLS
 
 #define E_TABLE_MEMORY_TYPE        (e_table_memory_get_type ())
-#define E_TABLE_MEMORY(o)          (GTK_CHECK_CAST ((o), E_TABLE_MEMORY_TYPE, ETableMemory))
-#define E_TABLE_MEMORY_CLASS(k)    (GTK_CHECK_CLASS_CAST((k), E_TABLE_MEMORY_TYPE, ETableMemoryClass))
-#define E_IS_TABLE_MEMORY(o)       (GTK_CHECK_TYPE ((o), E_TABLE_MEMORY_TYPE))
-#define E_IS_TABLE_MEMORY_CLASS(k) (GTK_CHECK_CLASS_TYPE ((k), E_TABLE_MEMORY_TYPE))
+#define E_TABLE_MEMORY(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), E_TABLE_MEMORY_TYPE, ETableMemory))
+#define E_TABLE_MEMORY_CLASS(k)    (G_TYPE_CHECK_CLASS_CAST((k), E_TABLE_MEMORY_TYPE, ETableMemoryClass))
+#define E_IS_TABLE_MEMORY(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), E_TABLE_MEMORY_TYPE))
+#define E_IS_TABLE_MEMORY_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE ((k), E_TABLE_MEMORY_TYPE))
+#define E_TABLE_MEMORY_GET_CLASS(o) (G_TYPE_INSTANCE_GET_CLASS((o), E_TABLE_MEMORY_TYPE, ETableMemoryClass))
 
 typedef struct ETableMemory ETableMemory;
 typedef struct ETableMemoryPriv ETableMemoryPriv;
@@ -52,7 +50,7 @@ struct ETableMemoryClass {
 };
 
 
-GtkType       e_table_memory_get_type     (void);
+GType         e_table_memory_get_type     (void);
 void          e_table_memory_construct    (ETableMemory *etable);
 ETableMemory *e_table_memory_new          (void);
 
@@ -73,8 +71,6 @@ void          e_table_memory_set_data     (ETableMemory *etm,
 					   int           row,
 					   gpointer      data);
 
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
+G_END_DECLS
 
 #endif /* _E_TABLE_MEMORY_H */

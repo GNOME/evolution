@@ -128,9 +128,9 @@ e_tree_selection_model_node_free(ETreeSelectionModelNode *node)
 	int i;
 
 	if (node->all_children_selected_array)
-		gtk_object_unref(GTK_OBJECT(node->all_children_selected_array));
+		g_object_unref(node->all_children_selected_array);
 	if (node->any_children_selected_array)
-		gtk_object_unref(GTK_OBJECT(node->any_children_selected_array));
+		g_object_unref(node->any_children_selected_array);
 
 	for (i = 0; i < node->num_children; i++)
 		if (node->children[i])
@@ -537,23 +537,23 @@ add_model(ETreeSelectionModel *etsm, ETreeModel *model)
 	if (!priv->model)
 		return;
 
-	gtk_object_ref(GTK_OBJECT(priv->model));
-	priv->tree_model_pre_change_id        = gtk_signal_connect_after (GTK_OBJECT (priv->model), "pre_change",
-									  GTK_SIGNAL_FUNC (etsm_pre_change), etsm);
-	priv->tree_model_no_change_id         = gtk_signal_connect_after (GTK_OBJECT (priv->model), "no_change",
-									  GTK_SIGNAL_FUNC (etsm_no_change), etsm);
-	priv->tree_model_node_changed_id      = gtk_signal_connect_after (GTK_OBJECT (priv->model), "node_changed",
-									  GTK_SIGNAL_FUNC (etsm_node_changed), etsm);
-	priv->tree_model_node_data_changed_id = gtk_signal_connect_after (GTK_OBJECT (priv->model), "node_data_changed",
-									  GTK_SIGNAL_FUNC (etsm_node_data_changed), etsm);
-	priv->tree_model_node_col_changed_id  = gtk_signal_connect_after (GTK_OBJECT (priv->model), "node_col_changed",
-									  GTK_SIGNAL_FUNC (etsm_node_col_changed), etsm);
-	priv->tree_model_node_inserted_id     = gtk_signal_connect_after (GTK_OBJECT (priv->model), "node_inserted",
-									  GTK_SIGNAL_FUNC (etsm_node_inserted), etsm);
-	priv->tree_model_node_removed_id      = gtk_signal_connect_after (GTK_OBJECT (priv->model), "node_removed",
-									  GTK_SIGNAL_FUNC (etsm_node_removed), etsm);
-	priv->tree_model_node_deleted_id      = gtk_signal_connect_after (GTK_OBJECT (priv->model), "node_deleted",
-									  GTK_SIGNAL_FUNC (etsm_node_deleted), etsm);
+	g_object_ref(priv->model);
+	priv->tree_model_pre_change_id        = g_signal_connect_after (G_OBJECT (priv->model), "pre_change",
+									G_CALLBACK (etsm_pre_change), etsm);
+	priv->tree_model_no_change_id         = g_signal_connect_after (G_OBJECT (priv->model), "no_change",
+									G_CALLBACK (etsm_no_change), etsm);
+	priv->tree_model_node_changed_id      = g_signal_connect_after (G_OBJECT (priv->model), "node_changed",
+									G_CALLBACK (etsm_node_changed), etsm);
+	priv->tree_model_node_data_changed_id = g_signal_connect_after (G_OBJECT (priv->model), "node_data_changed",
+									G_CALLBACK (etsm_node_data_changed), etsm);
+	priv->tree_model_node_col_changed_id  = g_signal_connect_after (G_OBJECT (priv->model), "node_col_changed",
+									G_CALLBACK (etsm_node_col_changed), etsm);
+	priv->tree_model_node_inserted_id     = g_signal_connect_after (G_OBJECT (priv->model), "node_inserted",
+									G_CALLBACK (etsm_node_inserted), etsm);
+	priv->tree_model_node_removed_id      = g_signal_connect_after (G_OBJECT (priv->model), "node_removed",
+									G_CALLBACK (etsm_node_removed), etsm);
+	priv->tree_model_node_deleted_id      = g_signal_connect_after (G_OBJECT (priv->model), "node_deleted",
+									G_CALLBACK (etsm_node_deleted), etsm);
 }
 
 static void
@@ -564,24 +564,24 @@ drop_model(ETreeSelectionModel *etsm)
 	if (!priv->model)
 		return;
 
-	gtk_signal_disconnect (GTK_OBJECT (priv->model),
-			       priv->tree_model_pre_change_id);
-	gtk_signal_disconnect (GTK_OBJECT (priv->model),
-			       priv->tree_model_no_change_id);
-	gtk_signal_disconnect (GTK_OBJECT (priv->model),
-			       priv->tree_model_node_changed_id);
-	gtk_signal_disconnect (GTK_OBJECT (priv->model),
-			       priv->tree_model_node_data_changed_id);
-	gtk_signal_disconnect (GTK_OBJECT (priv->model),
-			       priv->tree_model_node_col_changed_id);
-	gtk_signal_disconnect (GTK_OBJECT (priv->model),
-			       priv->tree_model_node_inserted_id);
-	gtk_signal_disconnect (GTK_OBJECT (priv->model),
-			       priv->tree_model_node_removed_id);
-	gtk_signal_disconnect (GTK_OBJECT (priv->model),
-			       priv->tree_model_node_deleted_id);
+	g_signal_handler_disconnect (G_OBJECT (priv->model),
+			             priv->tree_model_pre_change_id);
+	g_signal_handler_disconnect (G_OBJECT (priv->model),
+			             priv->tree_model_no_change_id);
+	g_signal_handler_disconnect (G_OBJECT (priv->model),
+			             priv->tree_model_node_changed_id);
+	g_signal_handler_disconnect (G_OBJECT (priv->model),
+			             priv->tree_model_node_data_changed_id);
+	g_signal_handler_disconnect (G_OBJECT (priv->model),
+			             priv->tree_model_node_col_changed_id);
+	g_signal_handler_disconnect (G_OBJECT (priv->model),
+			             priv->tree_model_node_inserted_id);
+	g_signal_handler_disconnect (G_OBJECT (priv->model),
+			             priv->tree_model_node_removed_id);
+	g_signal_handler_disconnect (G_OBJECT (priv->model),
+			             priv->tree_model_node_deleted_id);
 
-	gtk_object_unref (GTK_OBJECT (priv->model));
+	g_object_unref (priv->model);
 	priv->model = NULL;
 
 	priv->tree_model_pre_change_id = 0;
@@ -605,9 +605,9 @@ add_ets(ETreeSelectionModel *etsm, ETreeSorted *ets)
 	if (!priv->ets)
 		return;
 
-	gtk_object_ref(GTK_OBJECT(priv->ets));
-	priv->sorted_model_node_resorted_id      = gtk_signal_connect (GTK_OBJECT (priv->ets), "node_resorted",
-								       GTK_SIGNAL_FUNC (etsm_sorted_node_resorted), etsm);
+	g_object_ref(priv->ets);
+	priv->sorted_model_node_resorted_id      = g_signal_connect (G_OBJECT (priv->ets), "node_resorted",
+								     G_CALLBACK (etsm_sorted_node_resorted), etsm);
 }
 
 static void
@@ -618,10 +618,10 @@ drop_ets(ETreeSelectionModel *etsm)
 	if (!priv->ets)
 		return;
 
-	gtk_signal_disconnect (GTK_OBJECT (priv->ets),
-			       priv->sorted_model_node_resorted_id);
+	g_signal_handler_disconnect (G_OBJECT (priv->ets),
+			             priv->sorted_model_node_resorted_id);
 
-	gtk_object_unref (GTK_OBJECT (priv->ets));
+	g_object_unref (priv->ets);
 	priv->ets = NULL;
 
 	priv->sorted_model_node_resorted_id = 0;

@@ -30,10 +30,11 @@
 G_BEGIN_DECLS
 
 #define E_TABLE_SIMPLE_TYPE        (e_table_simple_get_type ())
-#define E_TABLE_SIMPLE(o)          (GTK_CHECK_CAST ((o), E_TABLE_SIMPLE_TYPE, ETableSimple))
-#define E_TABLE_SIMPLE_CLASS(k)    (GTK_CHECK_CLASS_CAST((k), E_TABLE_SIMPLE_TYPE, ETableSimpleClass))
-#define E_IS_TABLE_SIMPLE(o)       (GTK_CHECK_TYPE ((o), E_TABLE_SIMPLE_TYPE))
-#define E_IS_TABLE_SIMPLE_CLASS(k) (GTK_CHECK_CLASS_TYPE ((k), E_TABLE_SIMPLE_TYPE))
+#define E_TABLE_SIMPLE(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), E_TABLE_SIMPLE_TYPE, ETableSimple))
+#define E_TABLE_SIMPLE_CLASS(k)    (G_TYPE_CHECK_CLASS_CAST((k), E_TABLE_SIMPLE_TYPE, ETableSimpleClass))
+#define E_IS_TABLE_SIMPLE(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), E_TABLE_SIMPLE_TYPE))
+#define E_IS_TABLE_SIMPLE_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE ((k), E_TABLE_SIMPLE_TYPE))
+#define E_TABLE_SIMPLE_GET_CLASS(o) (G_TYPE_INSTANCE_GET_CLASS((o), E_TABLE_SIMPLE_TYPE, ETableSimpleClass))
 
 typedef int         (*ETableSimpleColumnCountFn)     (ETableModel *etm, void *data);
 typedef	int         (*ETableSimpleRowCountFn)        (ETableModel *etm, void *data);
@@ -78,7 +79,7 @@ typedef struct {
 	ETableModelClass parent_class;
 } ETableSimpleClass;
 
-GtkType      e_table_simple_get_type                 (void);
+GType        e_table_simple_get_type                 (void);
 ETableModel *e_table_simple_new                      (ETableSimpleColumnCountFn      col_count,
 						      ETableSimpleRowCountFn         row_count,
 						      ETableSimpleAppendRowFn        append_row,

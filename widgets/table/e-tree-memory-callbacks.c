@@ -246,7 +246,7 @@ e_tree_memory_callbacks_new  (ETreeMemoryCallbacksIconAtFn icon_at,
 {
 	ETreeMemoryCallbacks *etmc;
 
-	etmc = gtk_type_new (e_tree_memory_callbacks_get_type ());
+	etmc = g_object_new (E_TREE_MEMORY_CALLBACKS_TYPE, NULL);
 
 	etmc->icon_at            = icon_at;
 

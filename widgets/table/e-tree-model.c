@@ -38,13 +38,11 @@
 #include "gal/util/e-xml-utils.h"
 #include "e-tree-model.h"
 
-#define ETM_CLASS(e) ((ETreeModelClass *)(GTK_OBJECT_GET_CLASS(e)))
-
-#define PARENT_TYPE (gtk_object_get_type())
+#define ETM_CLASS(e) (E_TREE_MODEL_GET_CLASS(e))
 
 #define d(x)
 
-static GtkObjectClass *parent_class;
+static GObjectClass *parent_class;
 
 enum {
 	PRE_CHANGE,
@@ -63,85 +61,92 @@ static guint e_tree_model_signals [LAST_SIGNAL] = {0, };
 
 
 static void
-e_tree_model_class_init (GtkObjectClass *klass)
+e_tree_model_class_init (GObjectClass *klass)
 {
 	ETreeModelClass *tree_class = (ETreeModelClass *) klass;
 
-	parent_class = gtk_type_class (PARENT_TYPE);
+	parent_class = g_type_class_peek_parent (klass);
 
 	e_tree_model_signals [PRE_CHANGE] =
-		gtk_signal_new ("pre_change",
-				GTK_RUN_LAST,
-				E_OBJECT_CLASS_TYPE (klass),
-				GTK_SIGNAL_OFFSET (ETreeModelClass, pre_change),
-				gtk_marshal_NONE__NONE,
-				GTK_TYPE_NONE, 0);
+		g_signal_new ("pre_change",
+			      E_OBJECT_CLASS_TYPE (klass),
+			      G_SIGNAL_RUN_LAST,
+			      G_STRUCT_OFFSET (ETreeModelClass, pre_change),
+			      (GSignalAccumulator) NULL, NULL,
+			      g_cclosure_marshal_VOID__VOID,
+			      G_TYPE_NONE, 0);
 
 	e_tree_model_signals [NO_CHANGE] =
-		gtk_signal_new ("no_change",
-				GTK_RUN_LAST,
-				E_OBJECT_CLASS_TYPE (klass),
-				GTK_SIGNAL_OFFSET (ETreeModelClass, no_change),
-				gtk_marshal_NONE__NONE,
-				GTK_TYPE_NONE, 0);
+		g_signal_new ("no_change",
+			      E_OBJECT_CLASS_TYPE (klass),
+			      G_SIGNAL_RUN_LAST,
+			      G_STRUCT_OFFSET (ETreeModelClass, no_change),
+			      (GSignalAccumulator) NULL, NULL,
+			      g_cclosure_marshal_VOID__VOID,
+			      G_TYPE_NONE, 0);
 
 	e_tree_model_signals [NODE_CHANGED] =
-		gtk_signal_new ("node_changed",
-				GTK_RUN_LAST,
-				E_OBJECT_CLASS_TYPE (klass),
-				GTK_SIGNAL_OFFSET (ETreeModelClass, node_changed),
-				gtk_marshal_NONE__POINTER,
-				GTK_TYPE_NONE, 1, GTK_TYPE_POINTER);
+		g_signal_new ("node_changed",
+			      E_OBJECT_CLASS_TYPE (klass),
+			      G_SIGNAL_RUN_LAST,
+			      G_STRUCT_OFFSET (ETreeModelClass, node_changed),
+			      (GSignalAccumulator) NULL, NULL,
+			      g_cclosure_marshal_VOID__POINTER,
+			      G_TYPE_NONE, 1, G_TYPE_POINTER);
 
 	e_tree_model_signals [NODE_DATA_CHANGED] =
-		gtk_signal_new ("node_data_changed",
-				GTK_RUN_LAST,
-				E_OBJECT_CLASS_TYPE (klass),
-				GTK_SIGNAL_OFFSET (ETreeModelClass, node_data_changed),
-				gtk_marshal_NONE__POINTER,
-				GTK_TYPE_NONE, 1, GTK_TYPE_POINTER);
+		g_signal_new ("node_data_changed",
+			      E_OBJECT_CLASS_TYPE (klass),
+			      G_SIGNAL_RUN_LAST,
+			      G_STRUCT_OFFSET (ETreeModelClass, node_data_changed),
+			      (GSignalAccumulator) NULL, NULL,
+			      g_cclosure_marshal_VOID__POINTER,
+			      G_TYPE_NONE, 1, G_TYPE_POINTER);
 
 	e_tree_model_signals [NODE_COL_CHANGED] =
-		gtk_signal_new ("node_col_changed",
-				GTK_RUN_LAST,
-				E_OBJECT_CLASS_TYPE (klass),
-				GTK_SIGNAL_OFFSET (ETreeModelClass, node_col_changed),
-				e_marshal_NONE__POINTER_INT,
-				GTK_TYPE_NONE, 2, GTK_TYPE_POINTER, GTK_TYPE_INT);
+		g_signal_new ("node_col_changed",
+			      E_OBJECT_CLASS_TYPE (klass),
+			      G_SIGNAL_RUN_LAST,
+			      G_STRUCT_OFFSET (ETreeModelClass, node_col_changed),
+			      (GSignalAccumulator) NULL, NULL,
+			      e_marshal_VOID__POINTER_INT,
+			      G_TYPE_NONE, 2, G_TYPE_POINTER, G_TYPE_INT);
 
 	e_tree_model_signals [NODE_INSERTED] =
-		gtk_signal_new ("node_inserted",
-				GTK_RUN_LAST,
-				E_OBJECT_CLASS_TYPE (klass),
-				GTK_SIGNAL_OFFSET (ETreeModelClass, node_inserted),
-				e_marshal_NONE__POINTER_POINTER,
-				GTK_TYPE_NONE, 2, GTK_TYPE_POINTER, GTK_TYPE_POINTER);
+		g_signal_new ("node_inserted",
+			      E_OBJECT_CLASS_TYPE (klass),
+			      G_SIGNAL_RUN_LAST,
+			      G_STRUCT_OFFSET (ETreeModelClass, node_inserted),
+			      (GSignalAccumulator) NULL, NULL,
+			      e_marshal_VOID__POINTER_POINTER,
+			      G_TYPE_NONE, 2, G_TYPE_POINTER, G_TYPE_POINTER);
 
 	e_tree_model_signals [NODE_REMOVED] =
-		gtk_signal_new ("node_removed",
-				GTK_RUN_LAST,
-				E_OBJECT_CLASS_TYPE (klass),
-				GTK_SIGNAL_OFFSET (ETreeModelClass, node_removed),
-				e_marshal_NONE__POINTER_POINTER_INT,
-				GTK_TYPE_NONE, 3, GTK_TYPE_POINTER, GTK_TYPE_POINTER, GTK_TYPE_INT);
+		g_signal_new ("node_removed",
+			      E_OBJECT_CLASS_TYPE (klass),
+			      G_SIGNAL_RUN_LAST,
+			      G_STRUCT_OFFSET (ETreeModelClass, node_removed),
+			      (GSignalAccumulator) NULL, NULL,
+			      e_marshal_VOID__POINTER_POINTER_INT,
+			      G_TYPE_NONE, 3, G_TYPE_POINTER, G_TYPE_POINTER, G_TYPE_INT);
 
 	e_tree_model_signals [NODE_DELETED] =
-		gtk_signal_new ("node_deleted",
-				GTK_RUN_LAST,
-				E_OBJECT_CLASS_TYPE (klass),
-				GTK_SIGNAL_OFFSET (ETreeModelClass, node_deleted),
-				gtk_marshal_NONE__POINTER,
-				GTK_TYPE_NONE, 1, GTK_TYPE_POINTER);
+		g_signal_new ("node_deleted",
+			      E_OBJECT_CLASS_TYPE (klass),
+			      G_SIGNAL_RUN_LAST,
+			      G_STRUCT_OFFSET (ETreeModelClass, node_deleted),
+			      (GSignalAccumulator) NULL, NULL,
+			      g_cclosure_marshal_VOID__POINTER,
+			      G_TYPE_NONE, 1, G_TYPE_POINTER);
 
 	e_tree_model_signals [NODE_REQUEST_COLLAPSE] =
-		gtk_signal_new ("node_request_collapse",
-				GTK_RUN_LAST,
-				E_OBJECT_CLASS_TYPE (klass),
-				GTK_SIGNAL_OFFSET (ETreeModelClass, node_request_collapse),
-				gtk_marshal_NONE__POINTER,
-				GTK_TYPE_NONE, 1, GTK_TYPE_POINTER);
-
-	E_OBJECT_CLASS_ADD_SIGNALS (klass, e_tree_model_signals, LAST_SIGNAL);
+		g_signal_new ("node_request_collapse",
+			      E_OBJECT_CLASS_TYPE (klass),
+			      G_SIGNAL_RUN_LAST,
+			      G_STRUCT_OFFSET (ETreeModelClass, node_request_collapse),
+			      (GSignalAccumulator) NULL, NULL,
+			      g_cclosure_marshal_VOID__POINTER,
+			      G_TYPE_NONE, 1, G_TYPE_POINTER);
 
 	tree_class->get_root              = NULL;
 
@@ -189,12 +194,7 @@ e_tree_model_class_init (GtkObjectClass *klass)
 	tree_class->node_request_collapse = NULL;
 }
 
-static void
-e_tree_init (GtkObject *object)
-{
-}
-
-E_MAKE_TYPE(e_tree_model, "ETreeModel", ETreeModel, e_tree_model_class_init, e_tree_init, PARENT_TYPE)
+E_MAKE_TYPE(e_tree_model, "ETreeModel", ETreeModel, e_tree_model_class_init, NULL, G_TYPE_OBJECT)
 
 
 /* signals */
@@ -216,8 +216,7 @@ e_tree_model_pre_change  (ETreeModel *tree_model)
 	
 	d(g_print("Emitting pre_change on model 0x%p, a %s.\n", tree_model, gtk_type_name (GTK_OBJECT(tree_model)->klass->type)));
 
-	gtk_signal_emit (GTK_OBJECT (tree_model),
-			 e_tree_model_signals [PRE_CHANGE]);
+	g_signal_emit (G_OBJECT (tree_model), e_tree_model_signals [PRE_CHANGE], 0);
 }
 
 /**
@@ -237,8 +236,7 @@ e_tree_model_no_change  (ETreeModel *tree_model)
 	
 	d(g_print("Emitting no_change on model 0x%p, a %s.\n", tree_model, gtk_type_name (GTK_OBJECT(tree_model)->klass->type)));
 
-	gtk_signal_emit (GTK_OBJECT (tree_model),
-			 e_tree_model_signals [NO_CHANGE]);
+	g_signal_emit (G_OBJECT (tree_model), e_tree_model_signals [NO_CHANGE], 0);
 }
 
 /**
@@ -258,8 +256,7 @@ e_tree_model_node_changed  (ETreeModel *tree_model, ETreePath node)
 	
 	d(g_print("Emitting node_changed on model 0x%p, a %s.\n", tree_model, gtk_type_name (GTK_OBJECT(tree_model)->klass->type)));
 
-	gtk_signal_emit (GTK_OBJECT (tree_model),
-			 e_tree_model_signals [NODE_CHANGED], node);
+	g_signal_emit (G_OBJECT (tree_model), e_tree_model_signals [NODE_CHANGED], 0, node);
 }
 
 /**
@@ -279,8 +276,7 @@ e_tree_model_node_data_changed  (ETreeModel *tree_model, ETreePath node)
 	
 	d(g_print("Emitting node_data_changed on model 0x%p, a %s.\n", tree_model, gtk_type_name (GTK_OBJECT(tree_model)->klass->type)));
 
-	gtk_signal_emit (GTK_OBJECT (tree_model),
-			 e_tree_model_signals [NODE_DATA_CHANGED], node);
+	g_signal_emit (G_OBJECT (tree_model), e_tree_model_signals [NODE_DATA_CHANGED], 0, node);
 }
 
 /**
@@ -300,8 +296,7 @@ e_tree_model_node_col_changed  (ETreeModel *tree_model, ETreePath node, int col)
 	
 	d(g_print("Emitting node_col_changed on model 0x%p, a %s.\n", tree_model, gtk_type_name (GTK_OBJECT(tree_model)->klass->type)));
 
-	gtk_signal_emit (GTK_OBJECT (tree_model),
-			 e_tree_model_signals [NODE_COL_CHANGED], node, col);
+	g_signal_emit (G_OBJECT (tree_model), e_tree_model_signals [NODE_COL_CHANGED], 0, node, col);
 }
 
 /**
@@ -322,9 +317,8 @@ e_tree_model_node_inserted (ETreeModel *tree_model,
 
 	d(g_print("Emitting node_inserted on model 0x%p, a %s.\n", tree_model, gtk_type_name (GTK_OBJECT(tree_model)->klass->type)));
 
-	gtk_signal_emit (GTK_OBJECT (tree_model),
-			 e_tree_model_signals [NODE_INSERTED],
-			 parent_node, inserted_node);
+	g_signal_emit (G_OBJECT (tree_model), e_tree_model_signals [NODE_INSERTED], 0,
+		       parent_node, inserted_node);
 }
 
 /**
@@ -343,9 +337,8 @@ e_tree_model_node_removed  (ETreeModel *tree_model, ETreePath parent_node, ETree
 	
 	d(g_print("Emitting node_removed on model 0x%p, a %s.\n", tree_model, gtk_type_name (GTK_OBJECT(tree_model)->klass->type)));
 
-	gtk_signal_emit (GTK_OBJECT (tree_model),
-			 e_tree_model_signals [NODE_REMOVED],
-			 parent_node, removed_node, old_position);
+	g_signal_emit (G_OBJECT (tree_model), e_tree_model_signals [NODE_REMOVED], 0,
+		       parent_node, removed_node, old_position);
 }
 
 /**
@@ -363,9 +356,7 @@ e_tree_model_node_deleted  (ETreeModel *tree_model, ETreePath deleted_node)
 	
 	d(g_print("Emitting node_deleted on model 0x%p, a %s.\n", tree_model, gtk_type_name (GTK_OBJECT(tree_model)->klass->type)));
 
-	gtk_signal_emit (GTK_OBJECT (tree_model),
-			 e_tree_model_signals [NODE_DELETED],
-			 deleted_node);
+	g_signal_emit (G_OBJECT (tree_model), e_tree_model_signals [NODE_DELETED], 0, deleted_node);
 }
 
 /**
@@ -383,9 +374,7 @@ e_tree_model_node_request_collapse  (ETreeModel *tree_model, ETreePath collapsed
 	
 	d(g_print("Emitting node_request_collapse on model 0x%p, a %s.\n", tree_model, gtk_type_name (GTK_OBJECT(tree_model)->klass->type)));
 
-	gtk_signal_emit (GTK_OBJECT (tree_model),
-			 e_tree_model_signals [NODE_REQUEST_COLLAPSE],
-			 collapsed_node);
+	g_signal_emit (G_OBJECT (tree_model), e_tree_model_signals [NODE_REQUEST_COLLAPSE], 0, collapsed_node);
 }
 
 
@@ -400,11 +389,7 @@ e_tree_model_node_request_collapse  (ETreeModel *tree_model, ETreePath collapsed
 ETreeModel *
 e_tree_model_new ()
 {
-	ETreeModel *et;
-
-	et = gtk_type_new (e_tree_model_get_type ());
-
-	return et;
+	return (ETreeModel *) g_object_new (E_TREE_MODEL_TYPE, NULL);
 }
 
 /**

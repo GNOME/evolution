@@ -24,10 +24,11 @@
 #include <config.h>
 #include <string.h>
 #include "e-table-memory-store.h"
-
-#define PARENT_TYPE e_table_memory_get_type ()
+#include "gal/util/e-util.h"
 
 #define STORE_LOCATOR(etms, col, row) (*((etms)->priv->store + (row) * (etms)->priv->col_count + (col)))
+
+static ETableMemoryClass *parent_class;
 
 struct _ETableMemoryStorePrivate {
 	int col_count;
@@ -47,7 +48,7 @@ duplicate_value (ETableMemoryStore *etms, int col, const void *val)
 		return (void *) val;
 	case E_TABLE_MEMORY_STORE_COLUMN_TYPE_OBJECT:
 		if (val)
-			gtk_object_ref ((void *) val);
+			g_object_ref ((void *) val);
 		return (void *) val;
 	case E_TABLE_MEMORY_STORE_COLUMN_TYPE_CUSTOM:
 		if (etms->priv->columns[col].custom.duplicate_value)
@@ -72,7 +73,7 @@ free_value (ETableMemoryStore *etms, int col, void *value)
 		break;
 	case E_TABLE_MEMORY_STORE_COLUMN_TYPE_OBJECT:
 		if (value)
-			gtk_object_unref (value);
+			g_object_unref (value);
 		break;
 	case E_TABLE_MEMORY_STORE_COLUMN_TYPE_CUSTOM:
 		if (etms->priv->columns[col].custom.free_value)
@@ -219,6 +220,21 @@ etms_append_row (ETableModel *etm, ETableModel *source, int row)
 }
 
 static void
+etms_finalize (GObject *obj)
+{
+	ETableMemoryStore *etms = (ETableMemoryStore *) obj;
+
+	if (etms->priv) {
+		g_free (etms->priv->columns);
+		g_free (etms->priv->store);
+		g_free (etms->priv);
+	}
+
+	if (G_OBJECT_CLASS (parent_class)->finalize)
+		G_OBJECT_CLASS (parent_class)->finalize (obj);
+}
+	
+static void
 e_table_memory_store_init (ETableMemoryStore *etms)
 {
 	etms->priv            = g_new (ETableMemoryStorePrivate, 1);
@@ -229,9 +245,13 @@ e_table_memory_store_init (ETableMemoryStore *etms)
 }
 
 static void
-e_table_memory_store_class_init (GtkObjectClass *object_class)
+e_table_memory_store_class_init (GObjectClass *object_class)
 {
 	ETableModelClass *model_class = (ETableModelClass *) object_class;
+
+	parent_class = g_type_class_peek_parent (object_class);
+
+	object_class->finalize	      = etms_finalize;
 
 	model_class->column_count     = etms_column_count;
 	model_class->value_at         = etms_value_at;
@@ -245,28 +265,7 @@ e_table_memory_store_class_init (GtkObjectClass *object_class)
 	model_class->append_row       = etms_append_row;
 }
 
-GtkType
-e_table_memory_store_get_type (void)
-{
-	static GtkType type = 0;
-
-	if (!type){
-		GtkTypeInfo info = {
-			"ETableMemoryStore",
-			sizeof (ETableMemoryStore),
-			sizeof (ETableMemoryStoreClass),
-			(GtkClassInitFunc) e_table_memory_store_class_init,
-			(GtkObjectInitFunc) e_table_memory_store_init,
-			NULL, /* reserved 1 */
-			NULL, /* reserved 2 */
-			(GtkClassInitFunc) NULL
-		};
-
-		type = gtk_type_unique (PARENT_TYPE, &info);
-	}
-
-	return type;
-}
+E_MAKE_TYPE(e_table_memory_store, "ETableMemoryStore", ETableMemoryStore, e_table_memory_store_class_init, e_table_memory_store_init, E_TABLE_MEMORY_TYPE)
 
 /**
  * e_table_memory_store_new:
@@ -297,14 +296,12 @@ e_table_memory_store_get_type (void)
 ETableModel *
 e_table_memory_store_new (ETableMemoryStoreColumnInfo *columns)
 {
-	ETableMemoryStore *et;
-
-	et = gtk_type_new (e_table_memory_store_get_type ());
+	ETableMemoryStore *et = g_object_new (E_TABLE_MEMORY_STORE_TYPE, NULL);
 
 	if (e_table_memory_store_construct (et, columns)) {
 		return (ETableModel *) et;
 	} else {
-		gtk_object_unref (GTK_OBJECT (et));
+		g_object_unref (G_OBJECT (et));
 		return NULL;
 	}
 }

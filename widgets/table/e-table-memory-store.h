@@ -30,10 +30,11 @@
 G_BEGIN_DECLS
 
 #define E_TABLE_MEMORY_STORE_TYPE        (e_table_memory_store_get_type ())
-#define E_TABLE_MEMORY_STORE(o)          (GTK_CHECK_CAST ((o), E_TABLE_MEMORY_STORE_TYPE, ETableMemoryStore))
-#define E_TABLE_MEMORY_STORE_CLASS(k)    (GTK_CHECK_CLASS_CAST((k), E_TABLE_MEMORY_STORE_TYPE, ETableMemoryStoreClass))
-#define E_IS_TABLE_MEMORY_STORE(o)       (GTK_CHECK_TYPE ((o), E_TABLE_MEMORY_STORE_TYPE))
-#define E_IS_TABLE_MEMORY_STORE_CLASS(k) (GTK_CHECK_CLASS_TYPE ((k), E_TABLE_MEMORY_STORE_TYPE))
+#define E_TABLE_MEMORY_STORE(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), E_TABLE_MEMORY_STORE_TYPE, ETableMemoryStore))
+#define E_TABLE_MEMORY_STORE_CLASS(k)    (G_TYPE_CHECK_CLASS_CAST((k), E_TABLE_MEMORY_STORE_TYPE, ETableMemoryStoreClass))
+#define E_IS_TABLE_MEMORY_STORE(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), E_TABLE_MEMORY_STORE_TYPE))
+#define E_IS_TABLE_MEMORY_STORE_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE ((k), E_TABLE_MEMORY_STORE_TYPE))
+#define E_TABLE_MEMORY_STORE_GET_CLASS(o) (G_TYPE_CHECK_CLASS_CAST((o), E_TABLE_MEMORY_STORE_TYPE, ETableMemoryStoreClass))
 
 typedef enum {
 	E_TABLE_MEMORY_STORE_COLUMN_TYPE_TERMINATOR,
@@ -82,7 +83,7 @@ typedef struct {
 	ETableMemoryClass parent_class;
 } ETableMemoryStoreClass;
 
-GtkType      e_table_memory_store_get_type            (void);
+GType        e_table_memory_store_get_type            (void);
 
 /* Object Creation */
 ETableModel *e_table_memory_store_new                 (ETableMemoryStoreColumnInfo  *columns);

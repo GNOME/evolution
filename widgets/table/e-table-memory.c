@@ -31,15 +31,12 @@
 #include <unistd.h>
 #include <fcntl.h>
 
-#include <gtk/gtksignal.h>
 #include <libxml/parser.h>
 #include <libxml/xmlmemory.h>
 
 #include "gal/util/e-util.h"
 #include "gal/util/e-xml-utils.h"
 #include <string.h>
-
-#define PARENT_TYPE E_TABLE_MODEL_TYPE
 
 static ETableModel *parent_class;
 
@@ -53,7 +50,7 @@ struct ETableMemoryPriv {
 /* virtual methods */
 
 static void
-etmm_destroy (GtkObject *object)
+etmm_finalize (GObject *object)
 {
 	ETableMemory *etmm = E_TABLE_MEMORY (object);
 	ETableMemoryPriv *priv = etmm->priv;
@@ -65,7 +62,7 @@ etmm_destroy (GtkObject *object)
 	}
 	etmm->priv = NULL;
 
-	GTK_OBJECT_CLASS (parent_class)->destroy (object);
+	G_OBJECT_CLASS (parent_class)->finalize (object);
 }
 
 static int
@@ -78,19 +75,19 @@ etmm_row_count (ETableModel *etm)
 
 
 static void
-e_table_memory_class_init (GtkObjectClass *klass)
+e_table_memory_class_init (GObjectClass *klass)
 {
 	ETableModelClass *table_class = (ETableModelClass *) klass;
 
-	parent_class               = gtk_type_class (PARENT_TYPE);
+	parent_class               = g_type_class_peek_parent (klass);
 	
-	klass->destroy             = etmm_destroy;
+	klass->finalize            = etmm_finalize;
 
 	table_class->row_count     = etmm_row_count;
 }
 
 static void
-e_table_memory_init (GtkObject *object)
+e_table_memory_init (GObject *object)
 {
 	ETableMemory *etmm = (ETableMemory *)object;
 
@@ -104,20 +101,9 @@ e_table_memory_init (GtkObject *object)
 	priv->frozen = 0;
 }
 
-E_MAKE_TYPE(e_table_memory, "ETableMemory", ETableMemory, e_table_memory_class_init, e_table_memory_init, PARENT_TYPE)
+E_MAKE_TYPE(e_table_memory, "ETableMemory", ETableMemory, e_table_memory_class_init, e_table_memory_init, E_TABLE_MODEL_TYPE)
 
 
-
-/**
- * e_table_memory_construct:
- * @etable: 
- * 
- * 
- **/
-void
-e_table_memory_construct (ETableMemory *etmm)
-{
-}
 
 /**
  * e_table_memory_new
@@ -129,13 +115,7 @@ e_table_memory_construct (ETableMemory *etmm)
 ETableMemory *
 e_table_memory_new (void)
 {
-	ETableMemory *etmm;
-
-	etmm = gtk_type_new (e_table_memory_get_type ());
-
-	e_table_memory_construct(etmm);
-
-	return etmm;
+	return g_object_new (E_TABLE_MEMORY_TYPE, NULL);
 }
 
 /**

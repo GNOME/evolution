@@ -28,16 +28,14 @@
 #include <gdk-pixbuf/gdk-pixbuf.h>
 #include <gal/e-table/e-tree-model.h>
 
-#ifdef __cplusplus
-extern "C" {
-#endif /* __cplusplus */
-
+G_BEGIN_DECLS
 
 #define E_TREE_MEMORY_TYPE        (e_tree_memory_get_type ())
-#define E_TREE_MEMORY(o)          (GTK_CHECK_CAST ((o), E_TREE_MEMORY_TYPE, ETreeMemory))
-#define E_TREE_MEMORY_CLASS(k)    (GTK_CHECK_CLASS_CAST((k), E_TREE_MEMORY_TYPE, ETreeMemoryClass))
-#define E_IS_TREE_MEMORY(o)       (GTK_CHECK_TYPE ((o), E_TREE_MEMORY_TYPE))
-#define E_IS_TREE_MEMORY_CLASS(k) (GTK_CHECK_CLASS_TYPE ((k), E_TREE_MEMORY_TYPE))
+#define E_TREE_MEMORY(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), E_TREE_MEMORY_TYPE, ETreeMemory))
+#define E_TREE_MEMORY_CLASS(k)    (G_TYPE_CHECK_CLASS_CAST((k), E_TREE_MEMORY_TYPE, ETreeMemoryClass))
+#define E_IS_TREE_MEMORY(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), E_TREE_MEMORY_TYPE))
+#define E_IS_TREE_MEMORY_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE ((k), E_TREE_MEMORY_TYPE))
+#define E_TREE_MEMORY_GET_CLASS(o) (G_TYPE_INSTANCE_GET_CLASS((o), E_TREE_MEMORY_TYPE, ETreeMemoryClass))
 
 typedef struct ETreeMemory ETreeMemory;
 typedef struct ETreeMemoryPriv ETreeMemoryPriv;
@@ -58,7 +56,7 @@ struct ETreeMemoryClass {
 };
 
 
-GtkType      e_tree_memory_get_type               (void);
+GType        e_tree_memory_get_type               (void);
 void         e_tree_memory_construct              (ETreeMemory             *etree);
 ETreeMemory *e_tree_memory_new                    (void);
 
@@ -97,9 +95,7 @@ void         e_tree_memory_set_node_destroy_func  (ETreeMemory             *etmm
 						   GFunc                    destroy_func,
 						   gpointer                 user_data);
 
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
+G_END_DECLS
 
 #endif /* _E_TREE_MEMORY_H */
 

@@ -30,14 +30,12 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include <gtk/gtksignal.h>
 #include <libxml/tree.h>
 #include <libxml/parser.h>
 #include "gal/util/e-util.h"
 #include "gal/util/e-xml-utils.h"
 #include "e-tree-table-adapter.h"
 
-#define PARENT_TYPE E_TABLE_MODEL_TYPE
 #define d(x)
 
 #define INCREMENT_AMOUNT 100
@@ -401,39 +399,32 @@ free_string (gpointer key, gpointer value, gpointer data)
 }
 
 static void
-etta_destroy (GtkObject *object)
+etta_dispose (GObject *object)
 {
 	ETreeTableAdapter *etta = E_TREE_TABLE_ADAPTER (object);
 
-	if (!etta->priv) {
-		GTK_OBJECT_CLASS (parent_class)->destroy (object);
-		return;
-	}
-
-	if (etta->priv->source && e_tree_model_has_save_id(etta->priv->source)) {
-		g_hash_table_foreach(etta->priv->attributes, free_string, NULL);
-	}
-	g_hash_table_destroy (etta->priv->attributes);
-
 	if (etta->priv->source) {
-		gtk_signal_disconnect (GTK_OBJECT (etta->priv->source),
-				       etta->priv->tree_model_pre_change_id);
-		gtk_signal_disconnect (GTK_OBJECT (etta->priv->source),
-				       etta->priv->tree_model_no_change_id);
-		gtk_signal_disconnect (GTK_OBJECT (etta->priv->source),
-				       etta->priv->tree_model_node_changed_id);
-		gtk_signal_disconnect (GTK_OBJECT (etta->priv->source),
-				       etta->priv->tree_model_node_data_changed_id);
-		gtk_signal_disconnect (GTK_OBJECT (etta->priv->source),
-				       etta->priv->tree_model_node_col_changed_id);
-		gtk_signal_disconnect (GTK_OBJECT (etta->priv->source),
-				       etta->priv->tree_model_node_inserted_id);
-		gtk_signal_disconnect (GTK_OBJECT (etta->priv->source),
-				       etta->priv->tree_model_node_removed_id);
-		gtk_signal_disconnect (GTK_OBJECT (etta->priv->source),
-				       etta->priv->tree_model_node_request_collapse_id);
+		if (e_tree_model_has_save_id(etta->priv->source))
+			g_hash_table_foreach(etta->priv->attributes, free_string, NULL);
 
-		gtk_object_unref (GTK_OBJECT (etta->priv->source));
+		g_signal_handler_disconnect (G_OBJECT (etta->priv->source),
+				             etta->priv->tree_model_pre_change_id);
+		g_signal_handler_disconnect (G_OBJECT (etta->priv->source),
+				             etta->priv->tree_model_no_change_id);
+		g_signal_handler_disconnect (G_OBJECT (etta->priv->source),
+				             etta->priv->tree_model_node_changed_id);
+		g_signal_handler_disconnect (G_OBJECT (etta->priv->source),
+				             etta->priv->tree_model_node_data_changed_id);
+		g_signal_handler_disconnect (G_OBJECT (etta->priv->source),
+				             etta->priv->tree_model_node_col_changed_id);
+		g_signal_handler_disconnect (G_OBJECT (etta->priv->source),
+				             etta->priv->tree_model_node_inserted_id);
+		g_signal_handler_disconnect (G_OBJECT (etta->priv->source),
+				             etta->priv->tree_model_node_removed_id);
+		g_signal_handler_disconnect (G_OBJECT (etta->priv->source),
+				             etta->priv->tree_model_node_request_collapse_id);
+
+		g_object_unref (G_OBJECT (etta->priv->source));
 		etta->priv->source = NULL;
 
 		etta->priv->tree_model_pre_change_id = 0;
@@ -446,12 +437,21 @@ etta_destroy (GtkObject *object)
 		etta->priv->tree_model_node_request_collapse_id = 0;
 	}
 
+	G_OBJECT_CLASS (parent_class)->dispose (object);
+}
+
+static void
+etta_finalize (GObject *object)
+{
+	ETreeTableAdapter *etta = (ETreeTableAdapter *) object;
+
+	g_hash_table_destroy (etta->priv->attributes);
 	g_free (etta->priv->map_table);
 
 	g_free (etta->priv);
 	etta->priv = NULL;
 
-	GTK_OBJECT_CLASS (parent_class)->destroy (object);
+	G_OBJECT_CLASS (parent_class)->finalize (object);
 }
 
 static int
@@ -509,11 +509,6 @@ static void *
 etta_value_at (ETableModel *etm, int col, int row)
 {
 	ETreeTableAdapter *etta = (ETreeTableAdapter *)etm;
-
-#if 0
-	etta->priv->last_access = row;
-	d(g_print("g) Setting last_access to %d\n", row));
-#endif
 
 	switch (col) {
 	case -1:
@@ -610,11 +605,12 @@ static void
 etta_class_init (ETreeTableAdapterClass *klass)
 {
 	ETableModelClass *table_class   = (ETableModelClass *) klass;
-	GtkObjectClass *object_class    = (GtkObjectClass *) klass;
+	GObjectClass *object_class      = (GObjectClass *) klass;
 
-	parent_class                    = gtk_type_class (PARENT_TYPE);
+	parent_class                    = g_type_class_peek_parent (klass);
 	
-	object_class->destroy           = etta_destroy;
+	object_class->dispose           = etta_dispose;
+	object_class->finalize          = etta_finalize;
 
 	table_class->column_count       = etta_column_count;
 	table_class->row_count          = etta_row_count;
@@ -661,7 +657,7 @@ etta_init (ETreeTableAdapter *etta)
 	etta->priv->tree_model_node_request_collapse_id = 0;
 }
 
-E_MAKE_TYPE(e_tree_table_adapter, "ETreeTableAdapter", ETreeTableAdapter, etta_class_init, etta_init, PARENT_TYPE)
+E_MAKE_TYPE(e_tree_table_adapter, "ETreeTableAdapter", ETreeTableAdapter, etta_class_init, etta_init, E_TABLE_MODEL_TYPE)
 
 static void
 etta_proxy_pre_change (ETreeModel *etm, ETreeTableAdapter *etta)
@@ -872,7 +868,7 @@ e_tree_table_adapter_construct (ETreeTableAdapter *etta, ETreeModel *source)
 	ETreePath root;
 
 	etta->priv->source = source;
-	gtk_object_ref (GTK_OBJECT (source));
+	g_object_ref (G_OBJECT (source));
 
 	if (e_tree_model_has_save_id(source))
 		etta->priv->attributes = g_hash_table_new(g_str_hash, g_str_equal);
@@ -888,22 +884,22 @@ e_tree_table_adapter_construct (ETreeTableAdapter *etta, ETreeModel *source)
 		fill_array_from_path(etta, etta->priv->map_table, root);
 	}
 
-	etta->priv->tree_model_pre_change_id            = gtk_signal_connect (GTK_OBJECT (source), "pre_change",
-									      GTK_SIGNAL_FUNC (etta_proxy_pre_change), etta);
-	etta->priv->tree_model_no_change_id             = gtk_signal_connect (GTK_OBJECT (source), "no_change",
-									      GTK_SIGNAL_FUNC (etta_proxy_no_change), etta);
-	etta->priv->tree_model_node_changed_id          = gtk_signal_connect (GTK_OBJECT (source), "node_changed",
-									      GTK_SIGNAL_FUNC (etta_proxy_node_changed), etta);
-	etta->priv->tree_model_node_data_changed_id     = gtk_signal_connect (GTK_OBJECT (source), "node_data_changed",
-									      GTK_SIGNAL_FUNC (etta_proxy_node_data_changed), etta);
-	etta->priv->tree_model_node_col_changed_id      = gtk_signal_connect (GTK_OBJECT (source), "node_col_changed",
-									      GTK_SIGNAL_FUNC (etta_proxy_node_col_changed), etta);
-	etta->priv->tree_model_node_inserted_id         = gtk_signal_connect (GTK_OBJECT (source), "node_inserted",
-									      GTK_SIGNAL_FUNC (etta_proxy_node_inserted), etta);
-	etta->priv->tree_model_node_removed_id          = gtk_signal_connect (GTK_OBJECT (source), "node_removed",
-									      GTK_SIGNAL_FUNC (etta_proxy_node_removed), etta);
-	etta->priv->tree_model_node_request_collapse_id = gtk_signal_connect (GTK_OBJECT (source), "node_request_collapse",
-									      GTK_SIGNAL_FUNC (etta_proxy_node_request_collapse), etta);
+	etta->priv->tree_model_pre_change_id            = g_signal_connect (G_OBJECT (source), "pre_change",
+									    G_CALLBACK (etta_proxy_pre_change), etta);
+	etta->priv->tree_model_no_change_id             = g_signal_connect (G_OBJECT (source), "no_change",
+									    G_CALLBACK (etta_proxy_no_change), etta);
+	etta->priv->tree_model_node_changed_id          = g_signal_connect (G_OBJECT (source), "node_changed",
+									    G_CALLBACK (etta_proxy_node_changed), etta);
+	etta->priv->tree_model_node_data_changed_id     = g_signal_connect (G_OBJECT (source), "node_data_changed",
+									    G_CALLBACK (etta_proxy_node_data_changed), etta);
+	etta->priv->tree_model_node_col_changed_id      = g_signal_connect (G_OBJECT (source), "node_col_changed",
+									    G_CALLBACK (etta_proxy_node_col_changed), etta);
+	etta->priv->tree_model_node_inserted_id         = g_signal_connect (G_OBJECT (source), "node_inserted",
+									    G_CALLBACK (etta_proxy_node_inserted), etta);
+	etta->priv->tree_model_node_removed_id          = g_signal_connect (G_OBJECT (source), "node_removed",
+									    G_CALLBACK (etta_proxy_node_removed), etta);
+	etta->priv->tree_model_node_request_collapse_id = g_signal_connect (G_OBJECT (source), "node_request_collapse",
+									    G_CALLBACK (etta_proxy_node_request_collapse), etta);
 
 	return E_TABLE_MODEL (etta);
 }
@@ -911,7 +907,7 @@ e_tree_table_adapter_construct (ETreeTableAdapter *etta, ETreeModel *source)
 ETableModel *
 e_tree_table_adapter_new (ETreeModel *source)
 {
-	ETreeTableAdapter *etta = gtk_type_new (E_TREE_TABLE_ADAPTER_TYPE);
+	ETreeTableAdapter *etta = g_object_new (E_TREE_TABLE_ADAPTER_TYPE, NULL);
 
 	e_tree_table_adapter_construct (etta, source);
 

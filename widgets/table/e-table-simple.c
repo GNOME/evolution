@@ -24,8 +24,7 @@
 
 #include <config.h>
 #include "e-table-simple.h"
-
-#define PARENT_TYPE e_table_model_get_type ()
+#include "gal/util/e-util.h"
 
 static int
 simple_column_count (ETableModel *etm)
@@ -166,7 +165,7 @@ simple_value_to_string (ETableModel *etm, int col, const void *value)
 }
 
 static void
-e_table_simple_class_init (GtkObjectClass *object_class)
+e_table_simple_class_init (GObjectClass *object_class)
 {
 	ETableModelClass *model_class = (ETableModelClass *) object_class;
 
@@ -188,28 +187,7 @@ e_table_simple_class_init (GtkObjectClass *object_class)
 	model_class->value_to_string   = simple_value_to_string;
 }
 
-GtkType
-e_table_simple_get_type (void)
-{
-	static GtkType type = 0;
-
-	if (!type){
-		GtkTypeInfo info = {
-			"ETableSimple",
-			sizeof (ETableSimple),
-			sizeof (ETableSimpleClass),
-			(GtkClassInitFunc) e_table_simple_class_init,
-			(GtkObjectInitFunc) NULL,
-			NULL, /* reserved 1 */
-			NULL, /* reserved 2 */
-			(GtkClassInitFunc) NULL
-		};
-
-		type = gtk_type_unique (PARENT_TYPE, &info);
-	}
-
-	return type;
-}
+E_MAKE_TYPE(e_table_simple, "ETableSimple", ETableSimple, e_table_simple_class_init, NULL, E_TABLE_MODEL_TYPE)
 
 /**
  * e_table_simple_new:
@@ -257,9 +235,7 @@ e_table_simple_new  (ETableSimpleColumnCountFn      col_count,
 		     ETableSimpleValueToStringFn    value_to_string,
 		     void                          *data)
 {
-	ETableSimple *et;
-
-	et                    = gtk_type_new (e_table_simple_get_type ());
+	ETableSimple *et = g_object_new (E_TABLE_SIMPLE_TYPE, NULL);
 
 	et->col_count         = col_count;
 	et->row_count         = row_count;

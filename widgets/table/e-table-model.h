@@ -24,24 +24,23 @@
 #ifndef _E_TABLE_MODEL_H_
 #define _E_TABLE_MODEL_H_
 
-#include <gtk/gtkobject.h>
+#include <glib-object.h>
 
-#ifdef __cplusplus
-extern "C" {
-#endif /* __cplusplus */
+G_BEGIN_DECLS
 
 #define E_TABLE_MODEL_TYPE        (e_table_model_get_type ())
-#define E_TABLE_MODEL(o)          (GTK_CHECK_CAST ((o), E_TABLE_MODEL_TYPE, ETableModel))
-#define E_TABLE_MODEL_CLASS(k)    (GTK_CHECK_CLASS_CAST((k), E_TABLE_MODEL_TYPE, ETableModelClass))
-#define E_IS_TABLE_MODEL(o)       (GTK_CHECK_TYPE ((o), E_TABLE_MODEL_TYPE))
-#define E_IS_TABLE_MODEL_CLASS(k) (GTK_CHECK_CLASS_TYPE ((k), E_TABLE_MODEL_TYPE))
+#define E_TABLE_MODEL(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), E_TABLE_MODEL_TYPE, ETableModel))
+#define E_TABLE_MODEL_CLASS(k)    (G_TYPE_CHECK_CLASS_CAST((k), E_TABLE_MODEL_TYPE, ETableModelClass))
+#define E_IS_TABLE_MODEL(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), E_TABLE_MODEL_TYPE))
+#define E_IS_TABLE_MODEL_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE ((k), E_TABLE_MODEL_TYPE))
+#define E_TABLE_MODEL_GET_CLASS(o) (G_TYPE_INSTANCE_GET_CLASS((o), E_TABLE_MODEL_TYPE, ETableModelClass))
 
 typedef struct {
-	GtkObject   base;
+	GObject   base;
 } ETableModel;
 
 typedef struct {
-	GtkObjectClass parent_class;
+	GObjectClass parent_class;
 
 	/*
 	 * Virtual methods
@@ -94,7 +93,7 @@ typedef struct {
 	void        (*model_rows_deleted)  (ETableModel *etm, int row, int count);
 } ETableModelClass;
 
-GtkType     e_table_model_get_type            (void);
+GType       e_table_model_get_type            (void);
 
 /**/
 int         e_table_model_column_count        (ETableModel *e_table_model);
@@ -166,8 +165,6 @@ int          row);
 void        e_table_model_row_deleted         (ETableModel *e_table_model,
 int          row);
 
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
+G_END_DECLS
 
 #endif /* _E_TABLE_MODEL_H_ */

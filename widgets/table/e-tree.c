@@ -251,20 +251,20 @@ static void
 et_disconnect_from_etta (ETree *et)
 {
 	if (et->priv->table_model_change_id != 0)
-		gtk_signal_disconnect (GTK_OBJECT (et->priv->etta),
-				       et->priv->table_model_change_id);
+		g_signal_handler_disconnect (G_OBJECT (et->priv->etta),
+				             et->priv->table_model_change_id);
 	if (et->priv->table_row_change_id != 0)
-		gtk_signal_disconnect (GTK_OBJECT (et->priv->etta),
-				       et->priv->table_row_change_id);
+		g_signal_handler_disconnect (G_OBJECT (et->priv->etta),
+				             et->priv->table_row_change_id);
 	if (et->priv->table_cell_change_id != 0)
-		gtk_signal_disconnect (GTK_OBJECT (et->priv->etta),
-				       et->priv->table_cell_change_id);
+		g_signal_handler_disconnect (G_OBJECT (et->priv->etta),
+				             et->priv->table_cell_change_id);
 	if (et->priv->table_rows_inserted_id != 0)
-		gtk_signal_disconnect (GTK_OBJECT (et->priv->etta),
-				       et->priv->table_rows_inserted_id);
+		g_signal_handler_disconnect (G_OBJECT (et->priv->etta),
+				             et->priv->table_rows_inserted_id);
 	if (et->priv->table_rows_deleted_id != 0)
-		gtk_signal_disconnect (GTK_OBJECT (et->priv->etta),
-				       et->priv->table_rows_deleted_id);
+		g_signal_handler_disconnect (G_OBJECT (et->priv->etta),
+				             et->priv->table_rows_deleted_id);
 
 	et->priv->table_model_change_id = 0;
 	et->priv->table_row_change_id = 0;
@@ -297,8 +297,7 @@ current_search_col (ETree *et)
 static void
 e_tree_state_change (ETree *et)
 {
-	gtk_signal_emit (GTK_OBJECT (et),
-			 et_signals [STATE_CHANGE]);
+	g_signal_emit (G_OBJECT (et), et_signals [STATE_CHANGE], 0);
 }
 
 static void
@@ -328,13 +327,13 @@ disconnect_header (ETree *e_tree)
 				       	     e_tree->priv->expansion_change_id);
 	if (e_tree->priv->sort_info) {
 		if (e_tree->priv->sort_info_change_id)
-			gtk_signal_disconnect (GTK_OBJECT (e_tree->priv->sort_info),
-					       e_tree->priv->sort_info_change_id);
+			g_signal_handler_disconnect (G_OBJECT (e_tree->priv->sort_info),
+					             e_tree->priv->sort_info_change_id);
 		if (e_tree->priv->group_info_change_id)
-			gtk_signal_disconnect (GTK_OBJECT (e_tree->priv->sort_info),
-					       e_tree->priv->group_info_change_id);
+			g_signal_handler_disconnect (G_OBJECT (e_tree->priv->sort_info),
+					             e_tree->priv->group_info_change_id);
 
-		gtk_object_unref(GTK_OBJECT(e_tree->priv->sort_info));
+		g_object_unref(G_OBJECT(e_tree->priv->sort_info));
 	}
 	g_object_unref(G_OBJECT(e_tree->priv->header));
 	e_tree->priv->header = NULL;
@@ -362,11 +361,11 @@ connect_header (ETree *e_tree, ETableState *state)
 		e_tree->priv->sort_info = e_table_sort_info_duplicate(state->sort_info);
 		e_table_sort_info_set_can_group (e_tree->priv->sort_info, FALSE);
 		e_tree->priv->sort_info_change_id =
-			gtk_signal_connect (GTK_OBJECT (e_tree->priv->sort_info), "sort_info_changed",
-					    GTK_SIGNAL_FUNC (search_col_change_trigger), e_tree);
+			g_signal_connect (G_OBJECT (e_tree->priv->sort_info), "sort_info_changed",
+					  G_CALLBACK (search_col_change_trigger), e_tree);
 		e_tree->priv->group_info_change_id =
-			gtk_signal_connect (GTK_OBJECT (e_tree->priv->sort_info), "group_info_changed",
-					    GTK_SIGNAL_FUNC (search_col_change_trigger), e_tree);
+			g_signal_connect (G_OBJECT (e_tree->priv->sort_info), "group_info_changed",
+					  G_CALLBACK (search_col_change_trigger), e_tree);
 	} else
 		e_tree->priv->sort_info = NULL;
 
@@ -403,18 +402,18 @@ et_destroy (GtkObject *object)
 
 		et_disconnect_from_etta (et);
 
-		gtk_object_unref (GTK_OBJECT (et->priv->etta));
-		gtk_object_unref (GTK_OBJECT (et->priv->model));
-		gtk_object_unref (GTK_OBJECT (et->priv->sorted));
+		g_object_unref (G_OBJECT (et->priv->etta));
+		g_object_unref (G_OBJECT (et->priv->model));
+		g_object_unref (G_OBJECT (et->priv->sorted));
 		g_object_unref (G_OBJECT (et->priv->full_header));
 		disconnect_header (et);
-		gtk_object_unref (GTK_OBJECT (et->priv->selection));
+		g_object_unref (G_OBJECT (et->priv->selection));
 		if (et->priv->spec)
 			g_object_unref (G_OBJECT (et->priv->spec));
 		et->priv->spec = NULL;
 
 		if (et->priv->sorter)
-			gtk_object_unref (GTK_OBJECT (et->priv->sorter));
+			g_object_unref (G_OBJECT (et->priv->sorter));
 		et->priv->sorter = NULL;
 
 		if (et->priv->header_canvas)
@@ -1142,11 +1141,14 @@ e_tree_set_search_column (ETree *e_tree, gint  col)
 void
 e_tree_set_state_object(ETree *e_tree, ETableState *state)
 {
+	GValue *val = g_new0 (GValue, 1);
+	g_value_init (val, G_TYPE_DOUBLE);
+
 	connect_header (e_tree, state);
 
-	gtk_object_set (GTK_OBJECT (e_tree->priv->header),
-			"width", (double) (GTK_WIDGET(e_tree->priv->table_canvas)->allocation.width),
-			NULL);
+	g_value_set_double (val, (double) (GTK_WIDGET(e_tree->priv->table_canvas)->allocation.width));
+	g_object_set_property (G_OBJECT (e_tree->priv->header), "width", val);
+	g_free (val);
 
 	if (e_tree->priv->header_item)
 		gtk_object_set(GTK_OBJECT(e_tree->priv->header_item),
@@ -1160,9 +1162,7 @@ e_tree_set_state_object(ETree *e_tree, ETableState *state)
 			       NULL);
 
 	if (e_tree->priv->sorted)
-		gtk_object_set(GTK_OBJECT(e_tree->priv->sorted),
-			       "sort_info", e_tree->priv->sort_info,
-			       NULL);
+		e_tree_sorted_set_sort_info (e_tree->priv->sorted, e_tree->priv->sort_info);
 
 	e_tree_state_change (e_tree);
 }
@@ -1191,7 +1191,7 @@ e_tree_set_state (ETree      *e_tree,
 	if (state->col_count > 0)
 		e_tree_set_state_object(e_tree, state);
 
-	gtk_object_unref(GTK_OBJECT(state));
+	g_object_unref(G_OBJECT(state));
 }
 
 /**
@@ -1218,7 +1218,7 @@ e_tree_load_state (ETree      *e_tree,
 	if (state->col_count > 0)
 		e_tree_set_state_object(e_tree, state);
 
-	gtk_object_unref(GTK_OBJECT(state));
+	g_object_unref(G_OBJECT(state));
 }
 
 /**
@@ -1241,7 +1241,7 @@ e_tree_get_state_object (ETree *e_tree)
 	state = e_table_state_new();
 	state->sort_info = e_tree->priv->sort_info;
 	if (state->sort_info)
-		gtk_object_ref(GTK_OBJECT(state->sort_info));
+		g_object_ref(G_OBJECT(state->sort_info));
 
 	state->col_count = e_table_header_count (e_tree->priv->header);
 	full_col_count = e_table_header_count (e_tree->priv->full_header);
@@ -1280,7 +1280,7 @@ e_tree_get_state (ETree *e_tree)
 
 	state = e_tree_get_state_object(e_tree);
 	string = e_table_state_save_to_string(state);
-	gtk_object_unref(GTK_OBJECT(state));
+	g_object_unref(G_OBJECT(state));
 	return string;
 }
 
@@ -1300,7 +1300,7 @@ e_tree_save_state (ETree      *e_tree,
 
 	state = e_tree_get_state_object(e_tree);
 	e_table_state_save_to_file(state, filename);
-	gtk_object_unref(GTK_OBJECT(state));
+	g_object_unref(G_OBJECT(state));
 }
 
 /**
@@ -1351,20 +1351,20 @@ et_table_rows_deleted (ETableModel *table_model, int row, int count, ETree *et)
 static void
 et_connect_to_etta (ETree *et)
 {
-	et->priv->table_model_change_id = gtk_signal_connect (GTK_OBJECT (et->priv->etta), "model_changed",
-							      GTK_SIGNAL_FUNC (et_table_model_changed), et);
+	et->priv->table_model_change_id = g_signal_connect (G_OBJECT (et->priv->etta), "model_changed",
+							    G_CALLBACK (et_table_model_changed), et);
 
-	et->priv->table_row_change_id = gtk_signal_connect (GTK_OBJECT (et->priv->etta), "model_row_changed",
-							    GTK_SIGNAL_FUNC (et_table_row_changed), et);
+	et->priv->table_row_change_id = g_signal_connect (G_OBJECT (et->priv->etta), "model_row_changed",
+							  G_CALLBACK (et_table_row_changed), et);
 
-	et->priv->table_cell_change_id = gtk_signal_connect (GTK_OBJECT (et->priv->etta), "model_cell_changed",
-							     GTK_SIGNAL_FUNC (et_table_cell_changed), et);
+	et->priv->table_cell_change_id = g_signal_connect (G_OBJECT (et->priv->etta), "model_cell_changed",
+							   G_CALLBACK (et_table_cell_changed), et);
 
-	et->priv->table_rows_inserted_id = gtk_signal_connect (GTK_OBJECT (et->priv->etta), "model_rows_inserted",
-							       GTK_SIGNAL_FUNC (et_table_rows_inserted), et);
+	et->priv->table_rows_inserted_id = g_signal_connect (G_OBJECT (et->priv->etta), "model_rows_inserted",
+							     G_CALLBACK (et_table_rows_inserted), et);
 
-	et->priv->table_rows_deleted_id = gtk_signal_connect (GTK_OBJECT (et->priv->etta), "model_rows_deleted",
-							      GTK_SIGNAL_FUNC (et_table_rows_deleted), et);
+	et->priv->table_rows_deleted_id = g_signal_connect (G_OBJECT (et->priv->etta), "model_rows_deleted",
+							    G_CALLBACK (et_table_rows_deleted), et);
 
 }
 
@@ -1376,7 +1376,7 @@ et_real_construct (ETree *e_tree, ETreeModel *etm, ETableExtras *ete,
 	int i, col_count;
 
 	if (ete)
-		gtk_object_ref(GTK_OBJECT(ete));
+		g_object_ref(G_OBJECT(ete));
 	else
 		ete = e_table_extras_new();
 
@@ -1392,7 +1392,7 @@ et_real_construct (ETree *e_tree, ETreeModel *etm, ETableExtras *ete,
 	e_tree->priv->horizontal_scrolling = specification->horizontal_scrolling;
 
 	e_tree->priv->model = etm;
-	gtk_object_ref (GTK_OBJECT (etm));
+	g_object_ref (G_OBJECT (etm));
 
 	e_tree->priv->sorted = e_tree_sorted_new(etm, e_tree->priv->full_header, e_tree->priv->sort_info);
 
@@ -1489,19 +1489,19 @@ e_tree_construct (ETree *e_tree, ETreeModel *etm, ETableExtras *ete,
 		state = e_table_state_new();
 		e_table_state_load_from_string(state, state_str);
 		if (state->col_count <= 0) {
-			gtk_object_unref(GTK_OBJECT(state));
+			g_object_unref(G_OBJECT(state));
 			state = specification->state;
-			gtk_object_ref(GTK_OBJECT(state));
+			g_object_ref(G_OBJECT(state));
 		}
 	} else {
 		state = specification->state;
-		gtk_object_ref(GTK_OBJECT(state));
+		g_object_ref(G_OBJECT(state));
 	}
 
 	e_tree = et_real_construct (e_tree, etm, ete, specification, state);
 
 	e_tree->priv->spec = specification;
-	gtk_object_unref(GTK_OBJECT(state));
+	g_object_unref(G_OBJECT(state));
 
 	return e_tree;
 }
@@ -1544,24 +1544,24 @@ e_tree_construct_from_spec_file (ETree *e_tree, ETreeModel *etm, ETableExtras *e
 	if (state_fn) {
 		state = e_table_state_new();
 		if (!e_table_state_load_from_file(state, state_fn)) {
-			gtk_object_unref(GTK_OBJECT(state));
+			g_object_unref(G_OBJECT(state));
 			state = specification->state;
-			gtk_object_ref(GTK_OBJECT(state));
+			g_object_ref(G_OBJECT(state));
 		}
 		if (state->col_count <= 0) {
-			gtk_object_unref(GTK_OBJECT(state));
+			g_object_unref(G_OBJECT(state));
 			state = specification->state;
-			gtk_object_ref(GTK_OBJECT(state));
+			g_object_ref(G_OBJECT(state));
 		}
 	} else {
 		state = specification->state;
-		gtk_object_ref(GTK_OBJECT(state));
+		g_object_ref(G_OBJECT(state));
 	}
 
 	e_tree = et_real_construct (e_tree, etm, ete, specification, state);
 
 	e_tree->priv->spec = specification;
-	gtk_object_unref(GTK_OBJECT(state));
+	g_object_unref(G_OBJECT(state));
 
 	return e_tree;
 }
@@ -1602,7 +1602,7 @@ e_tree_new (ETreeModel *etm, ETableExtras *ete, const char *spec, const char *st
 	ret_val = e_tree_construct (e_tree, etm, ete, spec, state);
 
 	if (ret_val == NULL) {
-		gtk_object_unref (GTK_OBJECT (e_tree));
+		g_object_unref (G_OBJECT (e_tree));
 	}
 
 	return (GtkWidget *) ret_val;
@@ -1643,7 +1643,7 @@ e_tree_new_from_spec_file (ETreeModel *etm, ETableExtras *ete, const char *spec_
 	ret_val = e_tree_construct_from_spec_file (e_tree, etm, ete, spec_fn, state_fn);
 
 	if (ret_val == NULL) {
-		gtk_object_unref (GTK_OBJECT (e_tree));
+		g_object_unref (G_OBJECT (e_tree));
 	}
 
 	return (GtkWidget *) ret_val;
@@ -2846,14 +2846,14 @@ context_destroyed (gpointer data)
 		scroll_off (et);
 		hover_off (et);
 	}
-	gtk_object_unref (GTK_OBJECT (et));
+	g_object_unref (G_OBJECT (et));
 }
 
 static void
 context_connect (ETree *et, GdkDragContext *context)
 {
 	if (g_dataset_get_data (context, "e-tree") == NULL) {
-		gtk_object_ref (GTK_OBJECT (et));
+		g_object_ref (G_OBJECT (et));
 		g_dataset_set_data_full (context, "e-tree", et, context_destroyed);
 	}
 }

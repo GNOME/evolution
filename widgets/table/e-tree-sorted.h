@@ -29,16 +29,14 @@
 #include <gal/e-table/e-table-sort-info.h>
 #include <gal/e-table/e-table-header.h>
 
-#ifdef __cplusplus
-extern "C" {
-#endif /* __cplusplus */
-
+G_BEGIN_DECLS
 
 #define E_TREE_SORTED_TYPE        (e_tree_sorted_get_type ())
-#define E_TREE_SORTED(o)          (GTK_CHECK_CAST ((o), E_TREE_SORTED_TYPE, ETreeSorted))
-#define E_TREE_SORTED_CLASS(k)    (GTK_CHECK_CLASS_CAST((k), E_TREE_SORTED_TYPE, ETreeSortedClass))
-#define E_IS_TREE_SORTED(o)       (GTK_CHECK_TYPE ((o), E_TREE_SORTED_TYPE))
-#define E_IS_TREE_SORTED_CLASS(k) (GTK_CHECK_CLASS_TYPE ((k), E_TREE_SORTED_TYPE))
+#define E_TREE_SORTED(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), E_TREE_SORTED_TYPE, ETreeSorted))
+#define E_TREE_SORTED_CLASS(k)    (G_TYPE_CHECK_CLASS_CAST((k), E_TREE_SORTED_TYPE, ETreeSortedClass))
+#define E_IS_TREE_SORTED(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), E_TREE_SORTED_TYPE))
+#define E_IS_TREE_SORTED_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE ((k), E_TREE_SORTED_TYPE))
+#define E_TREE_SORTED_GET_CLASS(o) (G_TYPE_INSTANCE_GET_CLASS((o), E_TREE_SORTED_TYPE, ETreeSortedClass))
 
 typedef struct ETreeSorted ETreeSorted;
 typedef struct ETreeSortedPriv ETreeSortedPriv;
@@ -58,7 +56,7 @@ struct ETreeSortedClass {
 };
 
 
-GtkType      e_tree_sorted_get_type            (void);
+GType        e_tree_sorted_get_type            (void);
 void         e_tree_sorted_construct           (ETreeSorted    *etree,
 						ETreeModel     *source,
 						ETableHeader   *full_header,
@@ -79,9 +77,10 @@ int          e_tree_sorted_node_num_children   (ETreeSorted    *ets,
 void         e_tree_sorted_node_resorted       (ETreeSorted    *tree_model,
 						ETreePath       node);
 
+ETableSortInfo* e_tree_sorted_get_sort_info       (ETreeSorted    *tree_model);
+void            e_tree_sorted_set_sort_info       (ETreeSorted    *tree_model,
+						   ETableSortInfo *sort_info);
 
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
+G_END_DECLS
 
 #endif /* _E_TREE_SORTED_H */

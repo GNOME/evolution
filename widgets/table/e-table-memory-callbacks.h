@@ -26,15 +26,14 @@
 
 #include <gal/e-table/e-table-memory.h>
 
-#ifdef __cplusplus
-extern "C" {
-#endif /* __cplusplus */
+G_BEGIN_DECLS
 
 #define E_TABLE_MEMORY_CALLBACKS_TYPE        (e_table_memory_callbacks_get_type ())
-#define E_TABLE_MEMORY_CALLBACKS(o)          (GTK_CHECK_CAST ((o), E_TABLE_MEMORY_CALLBACKS_TYPE, ETableMemoryCalbacks))
-#define E_TABLE_MEMORY_CALLBACKS_CLASS(k)    (GTK_CHECK_CLASS_CAST((k), E_TABLE_MEMORY_CALLBACKS_TYPE, ETableMemoryCalbacksClass))
-#define E_IS_TABLE_MEMORY_CALLBACKS(o)       (GTK_CHECK_TYPE ((o), E_TABLE_MEMORY_CALLBACKS_TYPE))
-#define E_IS_TABLE_MEMORY_CALLBACKS_CLASS(k) (GTK_CHECK_CLASS_TYPE ((k), E_TABLE_MEMORY_CALLBACKS_TYPE))
+#define E_TABLE_MEMORY_CALLBACKS(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), E_TABLE_MEMORY_CALLBACKS_TYPE, ETableMemoryCalbacks))
+#define E_TABLE_MEMORY_CALLBACKS_CLASS(k)    (G_TYPE_CHECK_CLASS_CAST((k), E_TABLE_MEMORY_CALLBACKS_TYPE, ETableMemoryCalbacksClass))
+#define E_IS_TABLE_MEMORY_CALLBACKS(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), E_TABLE_MEMORY_CALLBACKS_TYPE))
+#define E_IS_TABLE_MEMORY_CALLBACKS_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE ((k), E_TABLE_MEMORY_CALLBACKS_TYPE))
+#define E_TABLE_MEMORY_CALLBACKS_GET_CLASS(k) (G_TYPE_INSTANCE_GET_CLASS((k), E_TABLE_MEMORY_CALLBACKS_TYPE, ETableMemoryCalbacksClass))
 
 typedef int         (*ETableMemoryCalbacksColumnCountFn)     (ETableModel *etm, void *data);
 typedef void        (*ETableMemoryCalbacksAppendRowFn)       (ETableModel *etm, ETableModel *model, int row, void *data);
@@ -71,7 +70,7 @@ typedef struct {
 	ETableMemoryClass parent_class;
 } ETableMemoryCalbacksClass;
 
-GtkType e_table_memory_callbacks_get_type (void);
+GType e_table_memory_callbacks_get_type (void);
 
 ETableModel *e_table_memory_callbacks_new (ETableMemoryCalbacksColumnCountFn col_count,
 
@@ -86,9 +85,7 @@ ETableModel *e_table_memory_callbacks_new (ETableMemoryCalbacksColumnCountFn col
 				 ETableMemoryCalbacksValueToStringFn value_to_string,
 				 void *data);
 
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
+G_END_DECLS
 
 #endif /* _E_TABLE_MEMORY_CALLBACKS_H_ */
 

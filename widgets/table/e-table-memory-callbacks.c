@@ -23,13 +23,7 @@
 
 #include <config.h>
 #include "e-table-memory-callbacks.h"
-
-enum {
-	ARG_0,
-	ARG_APPEND_ROW
-};
-
-#define PARENT_TYPE e_table_memory_get_type ()
+#include "gal/util/e-util.h"
 
 static int
 etmc_column_count (ETableModel *etm)
@@ -137,38 +131,9 @@ etmc_append_row (ETableModel *etm, ETableModel *source, int row)
 }
 
 static void
-etmc_get_arg (GtkObject *o, GtkArg *arg, guint arg_id)
-{
-	ETableMemoryCalbacks *etmc = E_TABLE_MEMORY_CALLBACKS (o);
-
-	switch (arg_id){
-	case ARG_APPEND_ROW:
-		GTK_VALUE_POINTER(*arg) = (gpointer)etmc->append_row;
-		break;
-	}
-}
-
-static void
-etmc_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
-{
-	ETableMemoryCalbacks *etmc = E_TABLE_MEMORY_CALLBACKS (o);
-	
-	switch (arg_id){
-	case ARG_APPEND_ROW:
-		etmc->append_row = (ETableMemoryCalbacksAppendRowFn)GTK_VALUE_POINTER(*arg);
-		break;
-	default:
-		arg->type = GTK_TYPE_INVALID;
-	}
-}
-
-static void
-e_table_memory_callbacks_class_init (GtkObjectClass *object_class)
+e_table_memory_callbacks_class_init (GObjectClass *object_class)
 {
 	ETableModelClass *model_class = (ETableModelClass *) object_class;
-
-	object_class->set_arg         = etmc_set_arg;
-	object_class->get_arg         = etmc_get_arg;
 
 	model_class->column_count     = etmc_column_count;
 	model_class->value_at         = etmc_value_at;
@@ -181,32 +146,10 @@ e_table_memory_callbacks_class_init (GtkObjectClass *object_class)
 	model_class->value_to_string  = etmc_value_to_string;
 	model_class->append_row       = etmc_append_row;
 
-	gtk_object_add_arg_type ("ETableMemoryCalbacks::append_row", GTK_TYPE_POINTER,
-				 GTK_ARG_READWRITE, ARG_APPEND_ROW);
 }
 
-GtkType
-e_table_memory_callbacks_get_type (void)
-{
-	static GtkType type = 0;
+E_MAKE_TYPE(e_table_memory_callbacks, "ETableMemoryCalbacks", ETableMemoryCalbacks, e_table_memory_callbacks_class_init, NULL, E_TABLE_MEMORY_TYPE)
 
-	if (!type){
-		GtkTypeInfo info = {
-			"ETableMemoryCalbacks",
-			sizeof (ETableMemoryCalbacks),
-			sizeof (ETableMemoryCalbacksClass),
-			(GtkClassInitFunc) e_table_memory_callbacks_class_init,
-			(GtkObjectInitFunc) NULL,
-			NULL, /* reserved 1 */
-			NULL, /* reserved 2 */
-			(GtkClassInitFunc) NULL
-		};
-
-		type = gtk_type_unique (PARENT_TYPE, &info);
-	}
-
-	return type;
-}
 
 /**
  * e_table_memory_callbacks_new:
@@ -248,7 +191,7 @@ e_table_memory_callbacks_new (ETableMemoryCalbacksColumnCountFn col_count,
 {
 	ETableMemoryCalbacks *et;
 
-	et                   = gtk_type_new (e_table_memory_callbacks_get_type ());
+	et                   = g_object_new (E_TABLE_MEMORY_CALLBACKS_TYPE, NULL);
 
 	et->col_count        = col_count;
 	et->value_at         = value_at;

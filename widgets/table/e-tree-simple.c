@@ -22,11 +22,8 @@
  */
 
 #include <config.h>
-#include <gtk/gtksignal.h>
 #include "gal/util/e-util.h"
 #include "e-tree-simple.h"
-
-#define PARENT_TYPE E_TREE_MODEL_TYPE
 
 static int
 simple_column_count (ETableModel *etm)
@@ -126,7 +123,7 @@ simple_is_editable (ETreeModel *etm, ETreePath *node, int col)
 }
 
 static void
-e_tree_simple_class_init (GtkObjectClass *object_class)
+e_tree_simple_class_init (GObjectClass *object_class)
 {
 	ETreeModelClass *model_class        = (ETreeModelClass *) object_class;
 	ETableModelClass *table_model_class = (ETableModelClass *) object_class;
@@ -144,7 +141,7 @@ e_tree_simple_class_init (GtkObjectClass *object_class)
 	model_class      ->is_editable      = simple_is_editable;
 }
 
-E_MAKE_TYPE(e_tree_simple, "ETreeSimple", ETreeSimple, e_tree_simple_class_init, NULL, PARENT_TYPE)
+E_MAKE_TYPE(e_tree_simple, "ETreeSimple", ETreeSimple, e_tree_simple_class_init, NULL, E_TREE_MODEL_TYPE)
 
 /**
  * e_tree_simple_new:
@@ -190,9 +187,7 @@ e_tree_simple_new  (ETableSimpleColumnCountFn     col_count,
 
 		    gpointer                 	  model_data)
 {
-	ETreeSimple *etg;
-
-	etg = gtk_type_new (e_tree_simple_get_type ());
+	ETreeSimple *etg = g_object_new (E_TREE_SIMPLE_TYPE, NULL);
 
 	etg->col_count        = col_count;
 	etg->duplicate_value  = duplicate_value;

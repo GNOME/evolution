@@ -33,12 +33,9 @@
 #include <libxml/parser.h>
 #include <libxml/xmlmemory.h>
 
-#include <gtk/gtksignal.h>
 #include "gal/util/e-util.h"
 #include "gal/util/e-xml-utils.h"
 #include "e-tree-memory.h"
-
-#define PARENT_TYPE E_TREE_MODEL_TYPE
 
 #define TREEPATH_CHUNK_AREA_SIZE (30 * sizeof (ETreeMemoryPath))
 
@@ -85,8 +82,7 @@ check_children (ETreeMemory *memory, ETreePath node)
 {
 	ETreeMemoryPath *path = node;
 	if (!path->children_computed) {
-		gtk_signal_emit (GTK_OBJECT (memory),
-				 signals[FILL_IN_CHILDREN], node);
+		g_signal_emit (G_OBJECT (memory), signals[FILL_IN_CHILDREN], 0, node);
 		path->children_computed = TRUE;
 	}
 }
@@ -214,7 +210,7 @@ e_tree_memory_thaw(ETreeMemory *etmm)
 /* virtual methods */
 
 static void
-etmm_destroy (GtkObject *object)
+etmm_finalize (GObject *object)
 {
 	ETreeMemory *etmm = E_TREE_MEMORY (object);
 	ETreeMemoryPriv *priv = etmm->priv;
@@ -229,7 +225,7 @@ etmm_destroy (GtkObject *object)
 	}
 	etmm->priv = NULL;
 
-	GTK_OBJECT_CLASS (parent_class)->destroy (object);
+	G_OBJECT_CLASS (parent_class)->finalize (object);
 }
 
 static ETreePath
@@ -356,24 +352,23 @@ etmm_node_request_collapse (ETreeModel *etm, ETreePath node)
 static void
 e_tree_memory_class_init (ETreeMemoryClass *klass)
 {
-	ETreeModelClass *tree_class   = (ETreeModelClass *) klass;
-	GtkObjectClass  *object_class = (GtkObjectClass *) klass;
+	ETreeModelClass *tree_class = (ETreeModelClass *) klass;
+	GObjectClass  *object_class = (GObjectClass *) klass;
 
-	parent_class                     = gtk_type_class (PARENT_TYPE);
+	parent_class                     = g_type_class_peek_parent (klass);
 	
 	node_chunk                       = g_mem_chunk_create (ETreeMemoryPath, TREEPATH_CHUNK_AREA_SIZE, G_ALLOC_AND_FREE);
 
 	signals [FILL_IN_CHILDREN] =
-		gtk_signal_new ("fill_in_children",
-				GTK_RUN_LAST,
-				E_OBJECT_CLASS_TYPE (object_class),
-				GTK_SIGNAL_OFFSET (ETreeMemoryClass, fill_in_children),
-				gtk_marshal_NONE__POINTER,
-				GTK_TYPE_NONE, 1, GTK_TYPE_POINTER);
+		g_signal_new ("fill_in_children",
+			      E_OBJECT_CLASS_TYPE (object_class),
+			      G_SIGNAL_RUN_LAST,
+			      G_STRUCT_OFFSET (ETreeMemoryClass, fill_in_children),
+			      (GSignalAccumulator) NULL, NULL,
+			      g_cclosure_marshal_VOID__POINTER,
+			      G_TYPE_NONE, 1, G_TYPE_POINTER);
 
-	E_OBJECT_CLASS_ADD_SIGNALS (object_class, signals, LAST_SIGNAL);
-
-	object_class->destroy             = etmm_destroy;
+	object_class->finalize            = etmm_finalize;
 
 	tree_class->get_root              = etmm_get_root;
 	tree_class->get_prev              = etmm_get_prev;
@@ -394,7 +389,7 @@ e_tree_memory_class_init (ETreeMemoryClass *klass)
 }
 
 static void
-e_tree_memory_init (GtkObject *object)
+e_tree_memory_init (GObject *object)
 {
 	ETreeMemory *etmm = (ETreeMemory *)object;
 
@@ -410,7 +405,7 @@ e_tree_memory_init (GtkObject *object)
 	priv->destroy_user_data = NULL;
 }
 
-E_MAKE_TYPE(e_tree_memory, "ETreeMemory", ETreeMemory, e_tree_memory_class_init, e_tree_memory_init, PARENT_TYPE)
+E_MAKE_TYPE(e_tree_memory, "ETreeMemory", ETreeMemory, e_tree_memory_class_init, e_tree_memory_init, E_TREE_MODEL_TYPE)
 
 
 
@@ -435,13 +430,7 @@ e_tree_memory_construct (ETreeMemory *etmm)
 ETreeMemory *
 e_tree_memory_new (void)
 {
-	ETreeMemory *etmm;
-
-	etmm = gtk_type_new (e_tree_memory_get_type ());
-
-	e_tree_memory_construct(etmm);
-
-	return etmm;
+	return (ETreeMemory *) g_object_new (E_TREE_MEMORY_TYPE, NULL);
 }
 
 void

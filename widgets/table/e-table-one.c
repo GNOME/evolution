@@ -23,8 +23,7 @@
 
 #include <config.h>
 #include "e-table-one.h"
-
-#define PARENT_TYPE e_table_model_get_type ()
+#include "gal/util/e-util.h"
 
 static ETableModelClass *parent_class = NULL;
 
@@ -158,19 +157,18 @@ one_dispose (GObject *object)
 	ETableOne *one = E_TABLE_ONE (object);
 	
 	if (one->source)
-		gtk_object_unref(GTK_OBJECT(one->source));
+		g_object_unref(G_OBJECT(one->source));
 	one->source = NULL;
 
 	G_OBJECT_CLASS (parent_class)->dispose (object);
 }
 
 static void
-e_table_one_class_init (GtkObjectClass *object_class)
+e_table_one_class_init (GObjectClass *object_class)
 {
 	ETableModelClass *model_class = (ETableModelClass *) object_class;
-	GObjectClass     *gobject_class = (GObjectClass *) object_class;
 
-	parent_class = gtk_type_class (E_TABLE_MODEL_TYPE);
+	parent_class = g_type_class_peek_parent (object_class);
 
 	model_class->column_count = one_column_count;
 	model_class->row_count = one_row_count;
@@ -183,12 +181,12 @@ e_table_one_class_init (GtkObjectClass *object_class)
 	model_class->value_is_empty = one_value_is_empty;
 	model_class->value_to_string = one_value_to_string;
 
-	gobject_class->dispose = one_dispose;
-	gobject_class->finalize = one_finalize;
+	object_class->dispose = one_dispose;
+	object_class->finalize = one_finalize;
 }
 
 static void
-e_table_one_init (GtkObject *object)
+e_table_one_init (GObject *object)
 {
 	ETableOne *one = E_TABLE_ONE(object);
 
@@ -196,28 +194,8 @@ e_table_one_init (GtkObject *object)
 	one->data = NULL;
 }
 
-GtkType
-e_table_one_get_type (void)
-{
-	static GtkType type = 0;
+E_MAKE_TYPE(e_table_one, "ETableOne", ETableOne, e_table_one_class_init, e_table_one_init, E_TABLE_MODEL_TYPE)
 
-	if (!type){
-		GtkTypeInfo info = {
-			"ETableOne",
-			sizeof (ETableOne),
-			sizeof (ETableOneClass),
-			(GtkClassInitFunc) e_table_one_class_init,
-			(GtkObjectInitFunc) e_table_one_init,
-			NULL, /* reserved 1 */
-			NULL, /* reserved 2 */
-			(GtkClassInitFunc) NULL
-		};
-
-		type = gtk_type_unique (PARENT_TYPE, &info);
-	}
-
-	return type;
-}
 
 ETableModel *
 e_table_one_new (ETableModel *source)
@@ -226,8 +204,7 @@ e_table_one_new (ETableModel *source)
 	int col_count;
 	int i;
 
-	eto = gtk_type_new (e_table_one_get_type ());
-
+	eto = g_object_new (E_TABLE_ONE_TYPE, NULL);
 	eto->source = source;
 	
 	col_count = e_table_model_column_count(source);
@@ -237,7 +214,7 @@ e_table_one_new (ETableModel *source)
 	}
 	
 	if (source)
-		gtk_object_ref(GTK_OBJECT(source));
+		g_object_ref(G_OBJECT(source));
 	
 	return (ETableModel *) eto;
 }

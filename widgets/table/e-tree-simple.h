@@ -27,15 +27,14 @@
 #include <gal/e-table/e-tree-model.h>
 #include <gal/e-table/e-table-simple.h>
 
-#ifdef __cplusplus
-extern "C" {
-#endif /* __cplusplus */
+G_BEGIN_DECLS
 
 #define E_TREE_SIMPLE_TYPE        (e_tree_simple_get_type ())
-#define E_TREE_SIMPLE(o)          (GTK_CHECK_CAST ((o), E_TREE_SIMPLE_TYPE, ETreeSimple))
-#define E_TREE_SIMPLE_CLASS(k)    (GTK_CHECK_CLASS_CAST((k), E_TREE_SIMPLE_TYPE, ETreeSimpleClass))
-#define E_IS_TREE_SIMPLE(o)       (GTK_CHECK_TYPE ((o), E_TREE_SIMPLE_TYPE))
-#define E_IS_TREE_SIMPLE_CLASS(k) (GTK_CHECK_CLASS_TYPE ((k), E_TREE_SIMPLE_TYPE))
+#define E_TREE_SIMPLE(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), E_TREE_SIMPLE_TYPE, ETreeSimple))
+#define E_TREE_SIMPLE_CLASS(k)    (G_TYPE_CHECK_CLASS_CAST((k), E_TREE_SIMPLE_TYPE, ETreeSimpleClass))
+#define E_IS_TREE_SIMPLE(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), E_TREE_SIMPLE_TYPE))
+#define E_IS_TREE_SIMPLE_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE ((k), E_TREE_SIMPLE_TYPE))
+#define E_TREE_SIMPLE_GET_CLASS(o) (G_TYPE_INSTANCE_GET_CLASS((o), E_TREE_SIMPLE_TYPE, ETreeSimpleClass))
 
 
 typedef GdkPixbuf* (*ETreeSimpleIconAtFn)     (ETreeModel *etree, ETreePath *path, void *model_data);
@@ -67,7 +66,7 @@ typedef struct {
 	ETreeModelClass parent_class;
 } ETreeSimpleClass;
 
-GtkType e_tree_simple_get_type (void);
+GType e_tree_simple_get_type (void);
 
 ETreeModel *e_tree_simple_new  (ETableSimpleColumnCountFn     col_count,
 				ETableSimpleDuplicateValueFn  duplicate_value,
@@ -81,8 +80,6 @@ ETreeModel *e_tree_simple_new  (ETableSimpleColumnCountFn     col_count,
 				ETreeSimpleIsEditableFn       is_editable,
 				gpointer                      model_data);
 
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
+G_END_DECLS
 
 #endif /* _E_TREE_SIMPLE_H_ */

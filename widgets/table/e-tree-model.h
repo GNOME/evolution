@@ -26,17 +26,18 @@
 #define _E_TREE_MODEL_H_
 
 #include <gdk-pixbuf/gdk-pixbuf.h>
-#include <gtk/gtkobject.h>
+#include <glib-object.h>
 
 
 G_BEGIN_DECLS
 
 
 #define E_TREE_MODEL_TYPE        (e_tree_model_get_type ())
-#define E_TREE_MODEL(o)          (GTK_CHECK_CAST ((o), E_TREE_MODEL_TYPE, ETreeModel))
-#define E_TREE_MODEL_CLASS(k)    (GTK_CHECK_CLASS_CAST((k), E_TREE_MODEL_TYPE, ETreeModelClass))
-#define E_IS_TREE_MODEL(o)       (GTK_CHECK_TYPE ((o), E_TREE_MODEL_TYPE))
-#define E_IS_TREE_MODEL_CLASS(k) (GTK_CHECK_CLASS_TYPE ((k), E_TREE_MODEL_TYPE))
+#define E_TREE_MODEL(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), E_TREE_MODEL_TYPE, ETreeModel))
+#define E_TREE_MODEL_CLASS(k)    (G_TYPE_CHECK_CLASS_CAST((k), E_TREE_MODEL_TYPE, ETreeModelClass))
+#define E_IS_TREE_MODEL(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), E_TREE_MODEL_TYPE))
+#define E_IS_TREE_MODEL_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE ((k), E_TREE_MODEL_TYPE))
+#define E_TREE_MODEL_GET_CLASS(o) (G_TYPE_INSTANCE_GET_CLASS((o), E_TREE_MODEL_TYPE, ETreeModelClass))
 
 typedef void * ETreePath;
 typedef struct ETreeModel ETreeModel;
@@ -45,11 +46,11 @@ typedef gint (*ETreePathCompareFunc)(ETreeModel *model, ETreePath path1, ETreePa
 typedef gboolean (*ETreePathFunc)(ETreeModel *model, ETreePath path, gpointer data);
 
 struct ETreeModel {
-	GtkObject base;
+	GObject base;
 };
 
 struct ETreeModelClass {
-	GtkObjectClass parent_class;
+	GObjectClass parent_class;
 
 	/*
 	 * Virtual methods
@@ -118,7 +119,7 @@ struct ETreeModelClass {
 };
 
 
-GtkType     e_tree_model_get_type                (void);
+GType       e_tree_model_get_type                (void);
 ETreeModel *e_tree_model_new                     (void);
 
 /* tree traversal operations */
