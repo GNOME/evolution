@@ -85,7 +85,12 @@ main (int argc, char**argv)
 
 	printf("Search for messages\n");
 
-	matches = camel_folder_search_by_expression  (folder, "(match-all (header-contains \"subject\" \"gnome\"))", ex);
+#warning "track api change here"
+	matches = camel_folder_search_by_expression  (folder,
+			"(match-all (header-contains \"subject\" \"gnome\"))",
+						      /* func */ NULL,
+						      /* data */ NULL,
+						      ex);
 
 	if (matches) {
 		GList *n;
@@ -94,7 +99,7 @@ main (int argc, char**argv)
 		while (n) {
 			CamelMimeMessage *m;
 
-			printf("uid: %s\n", n->data);
+			printf("uid: %s\n", (char *) n->data);
 			m = camel_folder_get_message_by_uid(folder, n->data, ex);
 
 			if (camel_exception_get_id (ex)) {
