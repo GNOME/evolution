@@ -472,7 +472,7 @@ base64_encode_simple (const char *data, int len)
 	unsigned char *out;
 	int state = 0, outlen;
 	unsigned int save = 0;
-
+	
 	out = g_malloc (len * 4 / 3 + 5);
 	outlen = base64_encode_close ((unsigned char *)data, len, FALSE,
 				      out, &state, &save);

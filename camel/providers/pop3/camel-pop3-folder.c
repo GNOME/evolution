@@ -144,10 +144,6 @@ camel_pop3_folder_new (CamelStore *parent, CamelException *ex)
 static GPtrArray *
 pop3_generate_uids (CamelFolder *folder, int count, CamelException *ex)
 {
-	/* FIXME: This is extremely inefficient but there's no way
-           around it. Because of that, perhaps we should have some way
-           of caching these messages so we don't have to download them
-           a second time for this session? */
 	GPtrArray *uids;
 	int i;
 	
@@ -167,7 +163,8 @@ pop3_generate_uids (CamelFolder *folder, int count, CamelException *ex)
 		camel_object_unref (CAMEL_OBJECT (stream));
 		
 		uid = base64_encode_simple (digest, 16);
-		g_ptr_array_add (uids, uid);
+		if (uid && *uid)
+			g_ptr_array_add (uids, uid);
 	}
 	
 	return uids;
