@@ -107,7 +107,7 @@ typedef struct {
 	gboolean filter_log;
 	char *filter_log_path;
 	
-	MailConfigNewMailNotification notify;
+	MailConfigNewMailNotify notify;
 	char *notify_command;
 } MailConfig;
 
@@ -614,7 +614,7 @@ config_read (void)
 	/* New Mail Notification */
 	config->notify = bonobo_config_get_long_with_default (
 		config->db, "/Mail/Notify/new_mail_notification", 
-		MAIL_CONFIG_NEW_MAIL_NOTIFICATION_NONE, NULL);
+		MAIL_CONFIG_NOTIFY_NOT, NULL);
 	
 	config->notify_command = bonobo_config_get_string (
 		config->db, "/Mail/Notify/new_mail_notification_command", NULL);
@@ -1628,26 +1628,26 @@ mail_config_set_default_charset (const char *charset)
 	config->default_charset = g_strdup (charset);
 }
 
-MailConfigNewMailNotification
-mail_config_get_new_mail_notification (void)
+MailConfigNewMailNotify
+mail_config_get_new_mail_notify (void)
 {
 	return config->notify;
 }
 
 void
-mail_config_set_new_mail_notification (MailConfigNewMailNotification type)
+mail_config_set_new_mail_notify (MailConfigNewMailNotify type)
 {
 	config->notify = type;
 }
 
 const char *
-mail_config_get_new_mail_notification_command (void)
+mail_config_get_new_mail_notify_command (void)
 {
 	return config->notify_command;
 }
 
 void
-mail_config_set_new_mail_notification_command (const char *command)
+mail_config_set_new_mail_notify_command (const char *command)
 {
 	g_free (config->notify_command);
 	config->notify_command = g_strdup (command);

@@ -1,3 +1,14 @@
+2001-12-18  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-accounts.c (construct): Setup the new-mail-notification
+	widgets.
+	(notify_command_changed): Update the command-line for new mail
+	notification.
+	(notify_radio_toggled): Update the new-mail-notification type.
+
+	* mail-ops.c (filter_folder_free): See if we got any new mail and
+	"sound the alarm" if we did.
+
 2001-12-17  Jon Trowbridge  <trow@ximian.com>
 
 	* mail-format.c (handle_text_plain_flowed): Set citation color to

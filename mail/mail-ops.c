@@ -145,7 +145,7 @@ static void
 filter_folder_free (struct _mail_msg *mm)
 {
 	struct _filter_mail_msg *m = (struct _filter_mail_msg *)mm;
-	int i;
+	int count, i;
 	
 	if (m->source_folder)
 		camel_object_unref (CAMEL_OBJECT (m->source_folder));
@@ -162,6 +162,22 @@ filter_folder_free (struct _mail_msg *mm)
 	
 	if (m->destination)
 		camel_object_unref (CAMEL_OBJECT (m->destination));
+	
+	count = camel_filter_driver_get_filtered_count (m->driver);
+	camel_filter_driver_reset_filtered_count (m->driver);
+	
+	if (count > 0) {
+		switch (mail_config_get_new_mail_notify ()) {
+		case MAIL_CONFIG_NOTIFY_BEEP:
+			gdk_beep ();
+			break;
+		case MAIL_CONFIG_NOTIFY_EXEC:
+			mail_execute_shell_command (m->driver, mail_config_get_new_mail_notify_command (), NULL);
+			break;
+		default:
+			break;
+		}
+	}
 	
 	if (m->driver)
 		camel_object_unref (CAMEL_OBJECT (m->driver));

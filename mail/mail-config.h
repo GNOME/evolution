@@ -88,10 +88,10 @@ typedef enum {
 } MailConfigDisplayStyle;
 
 typedef enum {
-	MAIL_CONFIG_NEW_MAIL_NOTIFICATION_NONE,
-	MAIL_CONFIG_NEW_MAIL_NOTIFICATION_BEEP,
-	MAIL_CONFIG_NEW_MAIL_NOTIFICATION_COMMAND,
-} MailConfigNewMailNotification;
+	MAIL_CONFIG_NOTIFY_NOT,
+	MAIL_CONFIG_NOTIFY_BEEP,
+	MAIL_CONFIG_NOTIFY_EXEC,
+} MailConfigNewMailNotify;
 
 /* Identities */
 MailConfigIdentity *identity_copy (const MailConfigIdentity *id);
@@ -181,10 +181,10 @@ void                   mail_config_set_default_forward_style (MailConfigForwardS
 MailConfigDisplayStyle mail_config_get_message_display_style (void);
 void                   mail_config_set_message_display_style (MailConfigDisplayStyle style);
 
-MailConfigNewMailNotification mail_config_get_new_mail_notification (void);
-void                          mail_config_set_new_mail_notification (MailConfigNewMailNotification type);
-const char                   *mail_config_get_new_mail_notification_command (void);
-void                          mail_config_set_new_mail_notification_command (const char *command);
+MailConfigNewMailNotify mail_config_get_new_mail_notify (void);
+void                    mail_config_set_new_mail_notify (MailConfigNewMailNotify type);
+const char             *mail_config_get_new_mail_notify_command (void);
+void                    mail_config_set_new_mail_notify_command (const char *command);
 
 const char *mail_config_get_default_charset (void);
 void        mail_config_set_default_charset (const char *charset);

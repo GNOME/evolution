@@ -93,6 +93,10 @@ struct _MailAccountsDialog {
 	GtkToggleButton *filter_log;
 	GnomeFileEntry *filter_log_path;
 	GtkToggleButton *confirm_expunge;
+	GtkToggleButton *notify_not;
+	GtkToggleButton *notify_beep;
+	GtkToggleButton *notify_exec;
+	GnomeFileEntry *command_line;
 	
 	/* PGP page */
 	GnomeFileEntry *pgp_path;

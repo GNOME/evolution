@@ -683,6 +683,31 @@ images_radio_toggled (GtkWidget *radio, gpointer data)
 }
 
 static void
+notify_radio_toggled (GtkWidget *radio, gpointer data)
+{
+	MailAccountsDialog *dialog = data;
+	
+	if (!gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (radio)))
+		return;
+	
+	if (radio == (GtkWidget *) dialog->notify_not)
+		mail_config_set_new_mail_notify (MAIL_CONFIG_NOTIFY_NOT);
+	else if (radio == (GtkWidget *) dialog->notify_beep)
+		mail_config_set_new_mail_notify (MAIL_CONFIG_NOTIFY_BEEP);
+	else
+		mail_config_set_new_mail_notify (MAIL_CONFIG_NOTIFY_EXEC);
+}
+
+static void
+notify_command_changed (GtkWidget *file_entry, gpointer data)
+{
+	char *command;
+	
+	command = gnome_file_entry_get_full_path (GNOME_FILE_ENTRY (file_entry), FALSE);
+	mail_config_set_new_mail_notify_command (command);
+}
+
+static void
 empty_trash_toggled (GtkWidget *toggle, gpointer data)
 {
 	mail_config_set_empty_trash_on_exit (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (toggle)));
@@ -782,7 +807,7 @@ static void
 construct (MailAccountsDialog *dialog)
 {
 	GladeXML *gui;
-	GtkWidget *notebook, *menu;
+	GtkWidget *notebook, *menu, *entry;
 	int num;
 	
 	gui = glade_xml_new (EVOLUTION_GLADEDIR "/mail-config.glade", NULL);
@@ -914,7 +939,7 @@ construct (MailAccountsDialog *dialog)
 	gtk_toggle_button_set_active (dialog->prompt_bcc_only, mail_config_get_prompt_only_bcc ());
 	gtk_signal_connect (GTK_OBJECT (dialog->prompt_bcc_only), "toggled",
 			    GTK_SIGNAL_FUNC (prompt_bcc_only_toggled), dialog);
-
+	
 	dialog->prompt_unwanted_html = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui, "chkPromptWantHTML"));
 	gtk_toggle_button_set_active (dialog->prompt_unwanted_html, mail_config_get_confirm_unwanted_html ());
 	gtk_signal_connect (GTK_OBJECT (dialog->prompt_unwanted_html), "toggled",
@@ -955,6 +980,27 @@ construct (MailAccountsDialog *dialog)
 	gtk_toggle_button_set_active (dialog->confirm_expunge, mail_config_get_confirm_expunge ());
 	gtk_signal_connect (GTK_OBJECT (dialog->confirm_expunge), "toggled",
 			    GTK_SIGNAL_FUNC (confirm_expunge_toggled), dialog);
+	
+	dialog->notify_not = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui, "radioNotifyNot"));
+	gtk_toggle_button_set_active (dialog->notify_not, mail_config_get_new_mail_notify () == MAIL_CONFIG_NOTIFY_NOT);
+	gtk_signal_connect (GTK_OBJECT (dialog->notify_not), "toggled",
+			    GTK_SIGNAL_FUNC (notify_radio_toggled), dialog);
+	
+	dialog->notify_beep = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui, "radioNotifyBeep"));
+	gtk_toggle_button_set_active (dialog->notify_beep, mail_config_get_new_mail_notify () == MAIL_CONFIG_NOTIFY_BEEP);
+	gtk_signal_connect (GTK_OBJECT (dialog->notify_beep), "toggled",
+			    GTK_SIGNAL_FUNC (notify_radio_toggled), dialog);
+	
+	dialog->notify_exec = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui, "radioNotifyExec"));
+	gtk_toggle_button_set_active (dialog->notify_exec, mail_config_get_new_mail_notify () == MAIL_CONFIG_NOTIFY_EXEC);
+	gtk_signal_connect (GTK_OBJECT (dialog->notify_exec), "toggled",
+			    GTK_SIGNAL_FUNC (notify_radio_toggled), dialog);
+	
+	dialog->command_line = GNOME_FILE_ENTRY (glade_xml_get_widget (gui, "fileNotifyCommandLine"));
+	gtk_entry_set_text (GTK_ENTRY (gnome_file_entry_gtk_entry (dialog->command_line)),
+			    mail_config_get_new_mail_notify_command ());
+	gtk_signal_connect (GTK_OBJECT (dialog->command_line), "changed",
+			    GTK_SIGNAL_FUNC (notify_command_changed), dialog);
 	
 	/* now to fill in the clists */
 	dialog->accounts_row = -1;
