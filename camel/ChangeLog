@@ -1,3 +1,10 @@
+2002-04-17  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-vee-folder.c (vee_search_by_expression): If the vee-folder
+	is the unmatched, we don't have our own expression so we cannot
+	merge them. Instead, just use the expression passed in. This fixes
+	a Null-Pointer-Read crash on Solaris systems at least.
+
 2002-04-16  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-filter-driver.c (camel_filter_driver_filter_folder): Get
