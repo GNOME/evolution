@@ -1,3 +1,13 @@
+2001-08-08  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-corba-shortcuts.c (shortcut_list_to_corba): Set the release
+	flag for the newly allocated sequence.
+
+	* e-activity-handler.c (impl_operationStarted): Unref the
+	icon_pixbuf.
+
+	* e-task-widget.c (impl_destroy): g_free the private struct.
+
 2001-08-08  Jason Leach  <jleach@ximian.com>
 
 	* e-storage-set-view.c (etree_icon_at): Set the My Evolution icon

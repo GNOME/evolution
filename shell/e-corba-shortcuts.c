@@ -79,6 +79,8 @@ shortcut_list_to_corba (const GSList *shortcut_list,
 		buffer[i].name = CORBA_string_dup (e_safe_corba_string (item->name));
 		buffer[i].type = CORBA_string_dup (e_safe_corba_string (item->type));
 	}
+
+	CORBA_sequence_set_release (buffer, TRUE);
 }
 
 

@@ -63,6 +63,8 @@ impl_destroy (GtkObject *object)
 
 	gdk_pixbuf_unref (priv->icon_pixbuf);
 
+	g_free (priv);
+
 	(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
 }
 

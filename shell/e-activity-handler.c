@@ -406,6 +406,8 @@ impl_operationStarted (PortableServer_Servant servant,
 		e_task_bar_prepend_task (E_TASK_BAR (p->data),
 					 task_widget_new_from_activity_info (activity_info));
 
+	gdk_pixbuf_unref (icon_pixbuf);
+
 	priv->activity_infos = g_list_prepend (priv->activity_infos, activity_info);
 
 	*activity_id_return = activity_id;
