@@ -23,6 +23,8 @@
 #ifndef _E_CONFIG_UPGRADE_H
 #define _E_CONFIG_UPGRADE_H
 
-int e_config_upgrade(const char *edir);
+gboolean e_upgrade_detect_version (int *major, int *minor, int *revision);
+
+int e_config_upgrade(int major, int minor, int revision);
 
 #endif /* _E_CONFIG_UPGRADE_H */

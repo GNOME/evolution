@@ -580,18 +580,14 @@ e_shell_new (EShellStartupLineMode startup_line_mode,
  * upgrade from @from_version is unsupported).
  **/
 gboolean
-e_shell_attempt_upgrade (EShell *shell,
-			 const char *from_version)
+e_shell_attempt_upgrade (EShell *shell, int major, int minor, int revision)
 {
 	GSList *component_infos, *p;
-	int major, minor, revision;
 	int current_major, current_minor, current_revision;
 	gboolean success;
 
 	g_return_val_if_fail (E_IS_SHELL (shell), FALSE);
-	g_return_val_if_fail (from_version != NULL, FALSE);
 
-	sscanf (from_version, "%u.%u.%u", &major, &minor, &revision);
 	sscanf (VERSION, "%u.%u.%u", &current_major, &current_minor, &current_revision);
 
 	if (! (current_major > major
@@ -623,16 +619,16 @@ e_shell_attempt_upgrade (EShell *shell,
 			}
 
 			exception_text = bonobo_exception_get_text (&ev);
-			g_warning ("Upgrade of component \"%s\" from version %s failed with exception %s",
-				   info->alias, from_version, exception_text);
+			g_warning ("Upgrade of component \"%s\" from version %d.%d.%d failed with exception %s",
+				   info->alias, major, minor, revision, exception_text);
 			g_free (exception_text);
 			CORBA_exception_free (&ev);
 			success = FALSE;
 		} else {
 			CORBA_exception_free (&ev);
 			if (! component_upgraded) {
-				g_warning ("Component \"%s\" could not upgrade configuration from version \"%s\"",
-					   info->alias, from_version);
+				g_warning ("Component \"%s\" could not upgrade configuration from version %d.%d.%d",
+					   info->alias, major, minor, revision);
 				success = FALSE;
 			}
 		}

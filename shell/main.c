@@ -338,21 +338,21 @@ new_window_created_callback (EShell *shell,
 
 #endif /* DEVELOPMENT_WARNING */
 
-
 static void
 attempt_upgrade (EShell *shell)
 {
-	GConfClient *gconf_client = gconf_client_get_default ();
-	char *previous_version = gconf_client_get_string (gconf_client, "/apps/evolution/version", NULL);
+	GConfClient *gconf_client;
+	int major = 0, minor = 0, revision = 0;
 
-	if (previous_version != NULL) {
-		if (! e_shell_attempt_upgrade (shell, previous_version))
-			e_notice (NULL, GTK_MESSAGE_ERROR,
-				  _("Warning: Evolution could not upgrade all your data from version %s.\n"
-				    "The data hasn't been deleted, but it will not be seen by this version of Evolution.\n"),
-				  previous_version);
-	}
+	if (!e_upgrade_detect_version (&major, &minor, &revision)
+	    || !e_shell_attempt_upgrade (shell, major, minor, revision)) 
+		e_notice (NULL, GTK_MESSAGE_ERROR,
+			  _("Warning: Evolution could not upgrade all your data from version %d.%d.%d.\n"
+			    "The data hasn't been deleted, but it will not be seen by this version of Evolution.\n"),
+			  major, minor, revision);
 
+
+	gconf_client = gconf_client_get_default ();
 	gconf_client_set_string (gconf_client, "/apps/evolution/version", VERSION, NULL);
 	g_object_unref (gconf_client);
 }
@@ -611,8 +611,6 @@ main (int argc, char **argv)
 	}
 	uri_list = g_slist_reverse (uri_list);
 	g_value_unset (&popt_context_value);
-
-	e_config_upgrade (evolution_directory);
 
 	g_idle_add (idle_cb, uri_list);
 

@@ -1777,48 +1777,12 @@ static int load_accounts_1_0(xmlDocPtr doc)
  * Return value: -1 on an error.
  **/
 int
-e_config_upgrade(const char *edir)
+e_config_upgrade(int major, int minor, int revision)
 {
-	xmlNodePtr source;
 	xmlDocPtr config_doc = NULL;
 	int i;
-	char *val, *tmp;
 	GConfClient *gconf;
 	int res = -1;
-	struct stat st;
-
-	evolution_dir = edir;
-
-	/* 1. determine existing version */
-	gconf = gconf_client_get_default();
-	val = gconf_client_get_string(gconf, "/apps/evolution/version", NULL);
-	if (val) {
-		sscanf(val, "%u.%u.%u", &major, &minor, &revision);
-		g_free(val);
-	} else {
-		char *filename = g_build_filename(evolution_dir, "config.xmldb", NULL);
-
-		if (lstat(filename, &st) == 0
-		    && S_ISREG(st.st_mode))
-			config_doc = xmlParseFile (filename);
-		g_free(filename);
-
-		tmp = NULL;
-		if ( config_doc
-		     && (source = lookup_bconf_path(config_doc, "/Shell"))
-		     && (tmp = lookup_bconf_value(source, "upgrade_from_1_0_to_1_2_performed"))
-		     && tmp[0] == '1' ) {
-			major = 1;
-			minor = 2;
-			revision = 0;
-		} else {
-			major = 1;
-			minor = 0;
-			revision = 0;
-		}
-		if (tmp)
-			xmlFree(tmp);
-	}
 
 	/* 2. Now perform any upgrade duties */
 
@@ -1872,18 +1836,6 @@ e_config_upgrade(const char *edir)
 		}
 	}
 
-	/* 3. we're done, update our version info if its changed */
-	if (major < CONF_MAJOR
-	    || minor < CONF_MINOR
-	    || revision < CONF_REVISION) {
-		val = g_strdup_printf("%u.%u.%u", CONF_MAJOR, CONF_MINOR, CONF_REVISION);
-		gconf_client_set_string(gconf, "/apps/evolution/version", val, NULL);
-		/* TODO: should this be translatable? */
-		g_message("Evolution configuration upgraded to version: %s", val);
-		g_free(val);
-		gconf_client_suggest_sync(gconf, NULL);
-	}
-
 	res = 0;
 
 error:
@@ -1891,5 +1843,59 @@ error:
 		xmlFreeDoc(config_doc);
 
 	return res;
+}
+
+gboolean
+e_upgrade_detect_version (int *major, int *minor, int *revision)
+{
+	GConfClient *gconf;
+	xmlNodePtr source;
+	xmlDocPtr config_doc = NULL;
+	char *val;
+	struct stat st;
+	char *evolution_dir = g_build_filename(g_get_home_dir (), "evolution", NULL);
+	char *filename = g_build_filename(evolution_dir, "config.xmldb", NULL);
+
+	
+	gconf = gconf_client_get_default();
+	val = gconf_client_get_string(gconf, "/apps/evolution/version", NULL);
+	g_object_unref (gconf);
+	
+	if (val) {
+		/* Since 1.4.0 We've been keeping the version key in gconf */
+		sscanf(val, "%u.%u.%u", major, minor, revision);
+		g_free(val);
+	} else if (lstat(filename, &st) != 0 && S_ISDIR(st.st_mode)) {
+		/* If ~/evolution does not exit or is not a directory it must be a new installation */
+		*major = 0;
+		*minor = 0;
+		*revision = 0;
+	} else {
+		char *filename = g_build_filename(g_get_home_dir (), "evolution", "config.xmldb", NULL);
+		char *tmp;
+		
+		if (lstat(filename, &st) == 0
+		    && S_ISREG(st.st_mode))
+			config_doc = xmlParseFile (filename);
+		g_free(filename);
+
+		tmp = NULL;
+		if ( config_doc
+		     && (source = lookup_bconf_path(config_doc, "/Shell"))
+		     && (tmp = lookup_bconf_value(source, "upgrade_from_1_0_to_1_2_performed"))
+		     && tmp[0] == '1' ) {
+			*major = 1;
+			*minor = 2;
+			*revision = 0;
+		} else {
+			*major = 1;
+			*minor = 0;
+			*revision = 0;
+		}
+		if (tmp)
+			xmlFree(tmp);
+	}
+
+	return TRUE;
 }
 

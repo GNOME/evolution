@@ -1,3 +1,22 @@
+2004-01-13  JP Rosevear <jpr@ximian.com>
+
+	* main.c (attempt_upgrade): detect the version more completely
+	with the new util routine
+	(main): don't upgrade the config db here
+
+	* e-shell.h: update proto
+
+	* e-shell.c (e_shell_attempt_upgrade): take the current version as
+	numerical params
+
+	* e-config-upgrade.h: update prototypes
+
+	* e-config-upgrade.c (e_config_upgrade): remove version detection
+	and saving code
+	(e_upgrade_detect_version): routine to do the version detection
+
+	* e-config-upgrade.c: drop my-evolution upgrade code
+
 2004-01-12  JP Rosevear <jpr@ximian.com>
 
 	* Makefile.am: use our libs
