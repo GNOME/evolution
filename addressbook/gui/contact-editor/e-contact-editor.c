@@ -1459,7 +1459,7 @@ extract_im_record (EContactEditor *editor, gint record, gint *service, gchar **n
 #ifdef ENABLE_IM_LOCATION
 	*location = gtk_option_menu_get_history (GTK_OPTION_MENU (location_option_menu));
 #else
-	*location = -1;
+	*location = 1; /* set everything to HOME */
 #endif
 }
 

@@ -294,6 +294,8 @@ render_contact (GtkHTMLStream *html_stream, EContact *contact)
 	accum = g_string_new ("");
 	nl = "";
 
+	start_block (html_stream, "");
+
 	email_list = e_contact_get (contact, E_CONTACT_EMAIL);
 	for (l = email_list; l; l = l->next) {
 #ifdef HANDLE_MAILTO_INTERNALLY
@@ -304,7 +306,7 @@ render_contact (GtkHTMLStream *html_stream, EContact *contact)
 		nl = "<br>";
 		
 #else
-		g_string_append_printf (accum, "%s%s", nl, l->data);
+		g_string_append_printf (accum, "%s%s", nl, (char*)l->data);
 		nl = "\n";
 #endif
 	}
@@ -312,7 +314,6 @@ render_contact (GtkHTMLStream *html_stream, EContact *contact)
 	g_list_free (email_list);
 
 	if (accum->len) {
-		start_block (html_stream, "");
 
 #ifdef HANDLE_MAILTO_INTERNALLY
 		gtk_html_stream_printf (html_stream, "<tr><td valign=\"top\" width=\"" IMAGE_COL_WIDTH "\">");
@@ -323,20 +324,26 @@ render_contact (GtkHTMLStream *html_stream, EContact *contact)
 		render_name_value (html_stream, _("E-mail"), accum->str, NULL,
 				   E_TEXT_TO_HTML_CONVERT_ADDRESSES | E_TEXT_TO_HTML_CONVERT_NL);
 #endif
-
-		end_block (html_stream);
 	}
+
+	g_string_assign (accum, "");
+
+	accum_attribute (accum, contact, _("AIM"), E_CONTACT_IM_AIM_HOME_1, AIM_ICON, 0);
+	accum_attribute (accum, contact, _("GroupWise"), E_CONTACT_IM_GROUPWISE_HOME_1, GROUPWISE_ICON, 0);
+	accum_attribute (accum, contact, _("ICQ"), E_CONTACT_IM_ICQ_HOME_1, ICQ_ICON, 0);
+	accum_attribute (accum, contact, _("Jabber"), E_CONTACT_IM_JABBER_HOME_1, JABBER_ICON, 0);
+	accum_attribute (accum, contact, _("MSN"), E_CONTACT_IM_MSN_HOME_1, MSN_ICON, 0);
+	accum_attribute (accum, contact, _("Yahoo"), E_CONTACT_IM_YAHOO_HOME_1, YAHOO_ICON, 0);
+
+	if (accum->len > 0)
+		gtk_html_stream_printf (html_stream, accum->str);
+
+	end_block (html_stream);
 
 	g_string_assign (accum, "");
 
 	accum_attribute (accum, contact, _("Organization"), E_CONTACT_ORG, NULL, 0);
 	accum_attribute (accum, contact, _("Position"), E_CONTACT_TITLE, NULL, 0);
-	accum_attribute (accum, contact, _("AIM"), E_CONTACT_IM_AIM_WORK_1, AIM_ICON, 0);
-	accum_attribute (accum, contact, _("Groupwise"), E_CONTACT_IM_GROUPWISE_WORK_1, GROUPWISE_ICON, 0);
-	accum_attribute (accum, contact, _("ICQ"), E_CONTACT_IM_ICQ_WORK_1, ICQ_ICON, 0);
-	accum_attribute (accum, contact, _("Jabber"), E_CONTACT_IM_JABBER_WORK_1, JABBER_ICON, 0);
-	accum_attribute (accum, contact, _("MSN"), E_CONTACT_IM_MSN_WORK_1, MSN_ICON, 0);
-	accum_attribute (accum, contact, _("Yahoo"), E_CONTACT_IM_YAHOO_WORK_1, YAHOO_ICON, 0);
 	accum_attribute (accum, contact, _("Video Conferencing"), E_CONTACT_VIDEO_URL, VIDEOCONF_ICON, E_TEXT_TO_HTML_CONVERT_URLS);
 	accum_attribute (accum, contact, _("Phone"), E_CONTACT_PHONE_BUSINESS, NULL, 0);
 	accum_attribute (accum, contact, _("Fax"), E_CONTACT_PHONE_BUSINESS_FAX, NULL, 0);
@@ -350,12 +357,6 @@ render_contact (GtkHTMLStream *html_stream, EContact *contact)
 
 	g_string_assign (accum, "");
 
-	accum_attribute (accum, contact, _("AIM"), E_CONTACT_IM_AIM_HOME_1, AIM_ICON, 0);
-	accum_attribute (accum, contact, _("Groupwise"), E_CONTACT_IM_GROUPWISE_HOME_1, GROUPWISE_ICON, 0);
-	accum_attribute (accum, contact, _("ICQ"), E_CONTACT_IM_ICQ_HOME_1, ICQ_ICON, 0);
-	accum_attribute (accum, contact, _("Jabber"), E_CONTACT_IM_JABBER_HOME_1, JABBER_ICON, 0);
-	accum_attribute (accum, contact, _("MSN"), E_CONTACT_IM_MSN_HOME_1, MSN_ICON, 0);
-	accum_attribute (accum, contact, _("Yahoo"), E_CONTACT_IM_YAHOO_HOME_1, YAHOO_ICON, 0);
 	accum_attribute (accum, contact, _("WWW"), E_CONTACT_HOMEPAGE_URL, NULL, E_TEXT_TO_HTML_CONVERT_URLS);
 	accum_attribute (accum, contact, _("Blog"), E_CONTACT_BLOG_URL, NULL, E_TEXT_TO_HTML_CONVERT_URLS);
 

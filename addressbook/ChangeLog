@@ -1,3 +1,16 @@
+2004-06-14  Chris Toshok  <toshok@ximian.com>
+
+	* gui/contact-editor/e-contact-editor.c (extract_im_record): set
+	things to HOME, since we don't offer TYPE=OTHER IM attributes
+	through the EContact api, and one choice is just as good as
+	another if we aren't displaying it anyway.
+
+	* gui/widgets/eab-contact-display.c (render_contact): move the IM
+	stuff out of home/work, since we don't allow people to edit
+	location for them anymore.  Also, change the IM accounts we look
+	up to "HOME", since that's what we hardcode them to in the contact
+	editor.
+
 2004-06-14  Not Zed  <NotZed@Ximian.com>
 
 	* importers/evolution-ldif-importer.c (parseLine): handle LIST
