@@ -145,7 +145,7 @@ e_minicard_label_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 		break;
 	case ARG_HAS_FOCUS:
 		if (e_minicard_label->field && (GTK_VALUE_ENUM(*arg) != E_FOCUS_NONE))
-			e_canvas_item_grab_focus(e_minicard_label->field);
+			e_canvas_item_grab_focus(e_minicard_label->field, FALSE);
 		break;
 	case ARG_FIELD:
 		gnome_canvas_item_set( e_minicard_label->field, "text", GTK_VALUE_STRING (*arg), NULL );

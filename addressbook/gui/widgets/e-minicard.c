@@ -237,7 +237,7 @@ e_minicard_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 			}
 		}
 		else
-			e_canvas_item_grab_focus(item);
+			e_canvas_item_grab_focus(item, FALSE);
 		break;
 	case ARG_SELECTED:
 		if (e_minicard->selected != GTK_VALUE_BOOL(*arg))
@@ -627,7 +627,7 @@ e_minicard_event (GnomeCanvasItem *item, GdkEvent *event)
 	case GDK_BUTTON_PRESS:
 		if (event->button.button == 1) {
 			int ret_val = e_minicard_selected(e_minicard, event);
-			e_canvas_item_grab_focus(item);
+			e_canvas_item_grab_focus(item, TRUE);
 			return ret_val;
 		} else if (event->button.button == 3) {
 			MinicardAndParent *mnp = g_new(MinicardAndParent, 1);
