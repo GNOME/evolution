@@ -2,9 +2,9 @@
 
 SUBDIRS = . providers tests
 
-libcamelincludedir = $(includedir)/evolution-$(BASE_VERSION)/camel
+libcamelincludedir = $(privincludedir)/camel
 
-camellibexecdir = $(libexecdir)/evolution/$(BASE_VERSION)/camel/
+camellibexecdir = $(privlibexecdir)/camel
 camellibexec_PROGRAMS =	camel-lock-helper camel-index-control
 
 privlib_LTLIBRARIES = libcamel.la
@@ -221,7 +221,7 @@ libcamelinclude_HEADERS =			\
 	camel.h					\
 	string-utils.h
 
-libcamel_la_LDFLAGS = -version-info 0:0:0 -rpath $(libdir)
+libcamel_la_LDFLAGS = -version-info 0:0:0
 
 libcamel_la_LIBADD =				\
 	$(top_builddir)/e-util/libeutil.la 	\

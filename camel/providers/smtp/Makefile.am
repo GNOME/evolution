@@ -1,6 +1,6 @@
 ## Process this file with automake to produce Makefile.in
 
-libcamelsmtpincludedir = $(includedir)/evolution-$(BASE_VERSION)/camel
+libcamelsmtpincludedir = $(privincludedir)/camel
 
 camel_provider_LTLIBRARIES = libcamelsmtp.la
 camel_provider_DATA = libcamelsmtp.urls
@@ -9,7 +9,6 @@ INCLUDES =					\
 	-I..					\
 	-I$(srcdir)/..				\
 	-I$(srcdir)/../../..			\
-	-I$(includedir)				\
 	-I$(top_srcdir)/intl			\
 	-I$(top_srcdir)/camel			\
 	-I$(top_srcdir)/e-util			\

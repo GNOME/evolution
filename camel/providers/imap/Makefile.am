@@ -1,6 +1,6 @@
 ## Process this file with automake to produce Makefile.in
 
-libcamelimapincludedir = $(includedir)/evolution-$(BASE_VERSION)/camel
+libcamelimapincludedir = $(privincludedir)/camel
 
 camel_provider_LTLIBRARIES = libcamelimap.la
 camel_provider_DATA = libcamelimap.urls
@@ -11,7 +11,6 @@ INCLUDES = -I.. \
 	-I$(top_srcdir)/intl			\
 	-I$(top_srcdir)/e-util			\
 	-I$(top_srcdir)				\
-	-I$(includedir)				\
 	$(CAMEL_CFLAGS)				\
 	$(GNOME_INCLUDEDIR)			\
 	$(GTK_INCLUDEDIR)			\

@@ -1,3 +1,19 @@
+2003-02-05  Dan Winship  <danw@ximian.com>
+
+	* Makefile.am (libcamelincludedir): Define in terms of
+	privincludedir.
+	(camellibexecdir): Define in terms of privlibexecdir
+	(libcamel_la_LDFLAGS): Remove -rpath. (automake will add that)
+
+	* providers/imap/Makefile.am (libcamelimapincludedir): Define in
+	terms of privincludedir.
+	(INCLUDES): Remove -I$(includedir)
+	* providers/local/Makefile.am: Likewise
+	* providers/nntp/Makefile.am: Likewise
+	* providers/pop3/Makefile.am: Likewise
+	* providers/sendmail/Makefile.am: Likewise
+	* providers/smtp/Makefile.am: Likewise
+
 2003-02-04  Not Zed  <NotZed@Ximian.com>
 
 	* camel-object.c (camel_object_bag_new): Init bag->owner to 0.
