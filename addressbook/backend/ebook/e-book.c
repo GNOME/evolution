@@ -264,7 +264,7 @@ e_book_load_uri (EBook                     *book,
 
 	Evolution_BookFactory_open_book (
 		book->priv->book_factory, uri,
-		gnome_object_corba_objref (GNOME_OBJECT (book->priv->listener)),
+		bonobo_object_corba_objref (BONOBO_OBJECT (book->priv->listener)),
 		&ev);
 
 	if (ev._major != CORBA_NO_EXCEPTION) {
@@ -309,7 +309,7 @@ e_book_unload_uri (EBook *book)
 	 */
 	CORBA_exception_init (&ev);
 
-	GNOME_Unknown_unref  (book->priv->corba_book, &ev);
+	Bonobo_Unknown_unref  (book->priv->corba_book, &ev);
 
 	if (ev._major != CORBA_NO_EXCEPTION) {
 		g_warning ("e_book_unload_uri: Exception unref'ing "

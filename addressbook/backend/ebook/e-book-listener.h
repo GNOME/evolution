@@ -12,7 +12,7 @@
 #define __E_BOOK_LISTENER_H__
 
 #include <libgnome/gnome-defs.h>
-#include <bonobo/gnome-object.h>
+#include <bonobo/bonobo-object.h>
 #include <e-book.h>
 #include <addressbook.h>
 
@@ -21,12 +21,12 @@ BEGIN_GNOME_DECLS
 typedef struct _EBookListenerPrivate EBookListenerPrivate;
 
 typedef struct {
-	GnomeObject           parent;
+	BonoboObject           parent;
 	EBookListenerPrivate *priv;
 } EBookListener;
 
 typedef struct {
-	GnomeObjectClass parent;
+	BonoboObjectClass parent;
 
 	/*
 	 * Signals

@@ -7,7 +7,7 @@
 #include <gtk/gtksignal.h>
 #include <pas-book.h>
 
-static GnomeObjectClass *pas_book_parent_class;
+static BonoboObjectClass *pas_book_parent_class;
 POA_Evolution_Book__vepv pas_book_vepv;
 
 enum {
@@ -105,7 +105,7 @@ impl_Evolution_Book_get_vcard (PortableServer_Servant servant,
 			       const Evolution_CardId id,
 			       CORBA_Environment *ev)
 {
-	PASBook    *book = PAS_BOOK (gnome_object_from_servant (servant));
+	PASBook    *book = PAS_BOOK (bonobo_object_from_servant (servant));
 	char       *vcard;
 	CORBA_char *retval;
 
@@ -121,7 +121,7 @@ impl_Evolution_Book_create_card (PortableServer_Servant servant,
 				 const CORBA_char *vcard,
 				 CORBA_Environment *ev)
 {
-	PASBook *book = PAS_BOOK (gnome_object_from_servant (servant));
+	PASBook *book = PAS_BOOK (bonobo_object_from_servant (servant));
 
 	pas_book_queue_create_card (book, vcard);
 }
@@ -131,7 +131,7 @@ impl_Evolution_Book_remove_card (PortableServer_Servant servant,
 				 const Evolution_CardId id,
 				 CORBA_Environment *ev)
 {
-	PASBook *book = PAS_BOOK (gnome_object_from_servant (servant));
+	PASBook *book = PAS_BOOK (bonobo_object_from_servant (servant));
 
 	pas_book_queue_remove_card (book, (const char *) id);
 }
@@ -141,7 +141,7 @@ impl_Evolution_Book_modify_card (PortableServer_Servant servant,
 				 const CORBA_char *vcard,
 				 CORBA_Environment *ev)
 {
-	PASBook *book = PAS_BOOK (gnome_object_from_servant (servant));
+	PASBook *book = PAS_BOOK (bonobo_object_from_servant (servant));
 
 	pas_book_queue_modify_card (book, vcard);
 }
@@ -150,7 +150,7 @@ static void
 impl_Evolution_Book_check_connection (PortableServer_Servant servant,
 				      CORBA_Environment *ev)
 {
-	PASBook *book = PAS_BOOK (gnome_object_from_servant (servant));
+	PASBook *book = PAS_BOOK (bonobo_object_from_servant (servant));
 
 	pas_book_queue_check_connection (book);
 }
@@ -231,7 +231,7 @@ pas_book_respond_open (PASBook                           *book,
 	if (status == Evolution_BookListener_Success) {
 		Evolution_BookListener_respond_open_book (
 			book->priv->listener, status,
-			gnome_object_corba_objref (GNOME_OBJECT (book)),
+			bonobo_object_corba_objref (BONOBO_OBJECT (book)),
 			&ev);
 	} else {
 		Evolution_BookListener_respond_open_book (
@@ -415,7 +415,7 @@ pas_book_construct (PASBook                *book,
 	g_assert (listener  != CORBA_OBJECT_NIL);
 	g_assert (get_vcard != NULL);
 
-	servant = (POA_Evolution_Book *) g_new0 (GnomeObjectServant, 1);
+	servant = (POA_Evolution_Book *) g_new0 (BonoboObjectServant, 1);
 	servant->vepv = &pas_book_vepv;
 
 	CORBA_exception_init (&ev);
@@ -430,14 +430,14 @@ pas_book_construct (PASBook                *book,
 
 	CORBA_exception_free (&ev);
 
-	obj = gnome_object_activate_servant (GNOME_OBJECT (book), servant);
+	obj = bonobo_object_activate_servant (BONOBO_OBJECT (book), servant);
 	if (obj == CORBA_OBJECT_NIL) {
 		g_free (servant);
 
 		return FALSE;
 	}
 
-	gnome_object_construct (GNOME_OBJECT (book), obj);
+	bonobo_object_construct (BONOBO_OBJECT (book), obj);
 
 	book->priv->listener  = listener;
 	book->priv->get_vcard = get_vcard;
@@ -511,7 +511,7 @@ pas_book_get_epv (void)
 static void
 pas_book_corba_class_init (void)
 {
-	pas_book_vepv.GNOME_Unknown_epv  = gnome_object_get_epv ();
+	pas_book_vepv.Bonobo_Unknown_epv  = bonobo_object_get_epv ();
 	pas_book_vepv.Evolution_Book_epv = pas_book_get_epv ();
 }
 
@@ -520,7 +520,7 @@ pas_book_class_init (PASBookClass *klass)
 {
 	GtkObjectClass *object_class = (GtkObjectClass *) klass;
 
-	pas_book_parent_class = gtk_type_class (gnome_object_get_type ());
+	pas_book_parent_class = gtk_type_class (bonobo_object_get_type ());
 
 	pas_book_signals [REQUESTS_QUEUED] =
 		gtk_signal_new ("requests_queued",
@@ -565,7 +565,7 @@ pas_book_get_type (void)
 			(GtkClassInitFunc) NULL
 		};
 
-		type = gtk_type_unique (gnome_object_get_type (), &info);
+		type = gtk_type_unique (bonobo_object_get_type (), &info);
 	}
 
 	return type;

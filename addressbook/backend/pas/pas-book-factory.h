@@ -2,7 +2,7 @@
  * Copyright 2000, Helix Code, Inc.
  */
 
-#include <bonobo/gnome-object.h>
+#include <bonobo/bonobo-object.h>
 #include <libgnome/gnome-defs.h>
 
 #include <pas-backend.h>
@@ -15,12 +15,12 @@ BEGIN_GNOME_DECLS
 typedef struct _PASBookFactoryPrivate PASBookFactoryPrivate;
 
 typedef struct {
-	GnomeObject            parent_object;
+	BonoboObject            parent_object;
 	PASBookFactoryPrivate *priv;
 } PASBookFactory;
 
 typedef struct {
-	GnomeObjectClass parent_class;
+	BonoboObjectClass parent_class;
 } PASBookFactoryClass;
 
 PASBookFactory *pas_book_factory_new              (void);

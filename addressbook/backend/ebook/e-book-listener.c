@@ -20,7 +20,7 @@ enum {
 
 static guint e_book_listener_signals [LAST_SIGNAL];
 
-static GnomeObjectClass          *e_book_listener_parent_class;
+static BonoboObjectClass          *e_book_listener_parent_class;
 POA_Evolution_BookListener__vepv  e_book_listener_vepv;
 
 struct _EBookListenerPrivate {
@@ -143,7 +143,7 @@ impl_BookListener_respond_create_card (PortableServer_Servant servant,
 				       const Evolution_BookListener_CallStatus status,
 				       CORBA_Environment *ev)
 {
-	EBookListener *listener = E_BOOK_LISTENER (gnome_object_from_servant (servant));
+	EBookListener *listener = E_BOOK_LISTENER (bonobo_object_from_servant (servant));
 
 	e_book_listener_queue_generic_response (
 		listener, CreateCardResponse,
@@ -155,7 +155,7 @@ impl_BookListener_respond_remove_card (PortableServer_Servant servant,
 				       const Evolution_BookListener_CallStatus status,
 				       CORBA_Environment *ev)
 {
-	EBookListener *listener = E_BOOK_LISTENER (gnome_object_from_servant (servant));
+	EBookListener *listener = E_BOOK_LISTENER (bonobo_object_from_servant (servant));
 
 	e_book_listener_queue_generic_response (
 		listener, RemoveCardResponse,
@@ -167,7 +167,7 @@ impl_BookListener_respond_modify_card (PortableServer_Servant servant,
 				       const Evolution_BookListener_CallStatus status,
 				       CORBA_Environment *ev)
 {
-	EBookListener *listener = E_BOOK_LISTENER (gnome_object_from_servant (servant));
+	EBookListener *listener = E_BOOK_LISTENER (bonobo_object_from_servant (servant));
 
 	e_book_listener_queue_generic_response (
 		listener, ModifyCardResponse,
@@ -180,7 +180,7 @@ impl_BookListener_respond_open_book (PortableServer_Servant servant,
 				     const Evolution_Book book,
 				     CORBA_Environment *ev)
 {
-	EBookListener  *listener = E_BOOK_LISTENER (gnome_object_from_servant (servant));
+	EBookListener  *listener = E_BOOK_LISTENER (bonobo_object_from_servant (servant));
 	Evolution_Book  book_copy;
 
 	book_copy = CORBA_Object_duplicate (book, ev);
@@ -202,7 +202,7 @@ impl_BookListener_report_open_book_progress (PortableServer_Servant servant,
 					     const CORBA_short percent,
 					     CORBA_Environment *ev)
 {
-	EBookListener *listener = E_BOOK_LISTENER (gnome_object_from_servant (servant));
+	EBookListener *listener = E_BOOK_LISTENER (bonobo_object_from_servant (servant));
 
 	e_book_listener_queue_open_progress (
 		listener, status_message, percent);
@@ -213,7 +213,7 @@ impl_BookListener_report_connection_status (PortableServer_Servant servant,
 					    const CORBA_boolean connected,
 					    CORBA_Environment *ev)
 {
-	EBookListener *listener = E_BOOK_LISTENER (gnome_object_from_servant (servant));
+	EBookListener *listener = E_BOOK_LISTENER (bonobo_object_from_servant (servant));
 
 	e_book_listener_queue_link_status (
 		listener, connected);
@@ -224,7 +224,7 @@ impl_BookListener_signal_card_added (PortableServer_Servant servant,
 				     const Evolution_CardId id,
 				     CORBA_Environment *ev)
 {
-	EBookListener *listener = E_BOOK_LISTENER (gnome_object_from_servant (servant));
+	EBookListener *listener = E_BOOK_LISTENER (bonobo_object_from_servant (servant));
 
 	e_book_listener_queue_generic_event (
 		listener, CardAddedEvent, (const char *) id);
@@ -235,7 +235,7 @@ impl_BookListener_signal_card_removed (PortableServer_Servant servant,
 				       const Evolution_CardId id,
 				       CORBA_Environment *ev)
 {
-	EBookListener *listener = E_BOOK_LISTENER (gnome_object_from_servant (servant));
+	EBookListener *listener = E_BOOK_LISTENER (bonobo_object_from_servant (servant));
 
 	e_book_listener_queue_generic_event (
 		listener, CardRemovedEvent, (const char *) id);
@@ -246,7 +246,7 @@ impl_BookListener_signal_card_changed (PortableServer_Servant servant,
 				       const Evolution_CardId id,
 				       CORBA_Environment *ev)
 {
-	EBookListener *listener = E_BOOK_LISTENER (gnome_object_from_servant (servant));
+	EBookListener *listener = E_BOOK_LISTENER (bonobo_object_from_servant (servant));
 
 	e_book_listener_queue_generic_event (
 		listener, CardModifiedEvent, (const char *) id);
@@ -336,7 +336,7 @@ e_book_listener_construct (EBookListener *listener, EBook *book)
 
 	listener->priv->book = book;
 
-	servant = (POA_Evolution_BookListener *) g_new0 (GnomeObjectServant, 1);
+	servant = (POA_Evolution_BookListener *) g_new0 (BonoboObjectServant, 1);
 	servant->vepv = &e_book_listener_vepv;
 
 	CORBA_exception_init (&ev);
@@ -351,14 +351,14 @@ e_book_listener_construct (EBookListener *listener, EBook *book)
 
 	CORBA_exception_free (&ev);
 
-	obj = gnome_object_activate_servant (GNOME_OBJECT (listener), servant);
+	obj = bonobo_object_activate_servant (BONOBO_OBJECT (listener), servant);
 	if (obj == CORBA_OBJECT_NIL) {
 		g_free (servant);
 
 		return NULL;
 	}
 
-	gnome_object_construct (GNOME_OBJECT (listener), obj);
+	bonobo_object_construct (BONOBO_OBJECT (listener), obj);
 
 	return listener;
 }
@@ -458,7 +458,7 @@ e_book_listener_get_epv (void)
 static void
 e_book_listener_corba_class_init (void)
 {
-	e_book_listener_vepv.GNOME_Unknown_epv          = gnome_object_get_epv ();
+	e_book_listener_vepv.Bonobo_Unknown_epv          = bonobo_object_get_epv ();
 	e_book_listener_vepv.Evolution_BookListener_epv = e_book_listener_get_epv ();
 }
 
@@ -467,7 +467,7 @@ e_book_listener_class_init (EBookListenerClass *klass)
 {
 	GtkObjectClass *object_class = (GtkObjectClass *) klass;
 
-	e_book_listener_parent_class = gtk_type_class (gnome_object_get_type ());
+	e_book_listener_parent_class = gtk_type_class (bonobo_object_get_type ());
 
 	e_book_listener_signals [RESPONSES_QUEUED] =
 		gtk_signal_new ("responses_queued",
@@ -504,7 +504,7 @@ e_book_listener_get_type (void)
 			(GtkClassInitFunc) NULL
 		};
 
-		type = gtk_type_unique (gnome_object_get_type (), &info);
+		type = gtk_type_unique (bonobo_object_get_type (), &info);
 	}
 
 	return type;

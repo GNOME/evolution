@@ -13,7 +13,7 @@
 
 #define PAS_BOOK_FACTORY_GOAD_ID "evolution:card-server"
 
-static GnomeObjectClass          *pas_book_factory_parent_class;
+static BonoboObjectClass          *pas_book_factory_parent_class;
 POA_Evolution_BookFactory__vepv   pas_book_factory_vepv;
 
 typedef struct {
@@ -225,7 +225,7 @@ impl_Evolution_BookFactory_open_book (PortableServer_Servant        servant,
 				      CORBA_Environment            *ev)
 {
 	PASBookFactory      *factory =
-		PAS_BOOK_FACTORY (gnome_object_from_servant (servant));
+		PAS_BOOK_FACTORY (bonobo_object_from_servant (servant));
 	PASBackendFactoryFn  backend_factory;
 
 	backend_factory = pas_book_factory_lookup_backend_factory (factory, uri);
@@ -253,7 +253,7 @@ pas_book_factory_construct (PASBookFactory *factory)
 	g_assert (factory != NULL);
 	g_assert (PAS_IS_BOOK_FACTORY (factory));
 
-	servant = (POA_Evolution_BookFactory *) g_new0 (GnomeObjectServant, 1);
+	servant = (POA_Evolution_BookFactory *) g_new0 (BonoboObjectServant, 1);
 	servant->vepv = &pas_book_factory_vepv;
 
 	CORBA_exception_init (&ev);
@@ -268,14 +268,14 @@ pas_book_factory_construct (PASBookFactory *factory)
 
 	CORBA_exception_free (&ev);
 
-	obj = gnome_object_activate_servant (GNOME_OBJECT (factory), servant);
+	obj = bonobo_object_activate_servant (BONOBO_OBJECT (factory), servant);
 	if (obj == CORBA_OBJECT_NIL) {
 		g_free (servant);
 
 		return FALSE;
 	}
 
-	gnome_object_construct (GNOME_OBJECT (factory), obj);
+	bonobo_object_construct (BONOBO_OBJECT (factory), obj);
 
 	return TRUE;
 }
@@ -316,12 +316,12 @@ pas_book_factory_activate (PASBookFactory *factory)
 
 	ret = goad_server_register (
 		NULL,
-		gnome_object_corba_objref (GNOME_OBJECT (factory)),
+		bonobo_object_corba_objref (BONOBO_OBJECT (factory)),
 		PAS_BOOK_FACTORY_GOAD_ID, "server",
 		&ev);
 
 	if (ev._major != CORBA_NO_EXCEPTION) {
-		g_message ("pas_book_factory_construct: Exception "
+		g_message ("pas_book_factory_activate: Exception "
 			   "registering PASBookFactory!\n");
 		CORBA_exception_free (&ev);
 		return;
@@ -330,13 +330,13 @@ pas_book_factory_activate (PASBookFactory *factory)
 	CORBA_exception_free (&ev);
 
 	if (ret == -1) {
-		g_message ("pas_book_factory_construct: Error "
+		g_message ("pas_book_factory_activate: Error "
 			   "registering PASBookFactory!\n");
 		return;
 	}
 
 	if (ret == -2) {
-		g_message ("pas_book_factory_construct: Another "
+		g_message ("pas_book_factory_activate: Another "
 			   "PASBookFactory is already running.\n");
 		return;
 		
@@ -431,7 +431,7 @@ pas_book_factory_get_epv (void)
 static void
 pas_book_factory_corba_class_init (void)
 {
-	pas_book_factory_vepv.GNOME_Unknown_epv         = gnome_object_get_epv ();
+	pas_book_factory_vepv.Bonobo_Unknown_epv         = bonobo_object_get_epv ();
 	pas_book_factory_vepv.Evolution_BookFactory_epv = pas_book_factory_get_epv ();
 }
 
@@ -440,7 +440,7 @@ pas_book_factory_class_init (PASBookFactoryClass *klass)
 {
 	GtkObjectClass *object_class = (GtkObjectClass *) klass;
 
-	pas_book_factory_parent_class = gtk_type_class (gnome_object_get_type ());
+	pas_book_factory_parent_class = gtk_type_class (bonobo_object_get_type ());
 
 	object_class->destroy = pas_book_factory_destroy;
 
@@ -467,7 +467,7 @@ pas_book_factory_get_type (void)
 			(GtkClassInitFunc) NULL
 		};
 
-		type = gtk_type_unique (gnome_object_get_type (), &info);
+		type = gtk_type_unique (bonobo_object_get_type (), &info);
 	}
 
 	return type;

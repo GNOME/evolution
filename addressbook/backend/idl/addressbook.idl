@@ -6,7 +6,7 @@
  * Copyright 2000, Helix Code, Inc.
  */
 
-#include <gnome-unknown.idl>
+#include <bonobo-unknown.idl>
 
 module Evolution {
 
@@ -17,7 +17,7 @@ module Evolution {
 		string get_nth    (in long n);
 	};
 
-	interface Book : GNOME::Unknown {
+	interface Book : Bonobo::Unknown {
 		/*
 		 * Fetching cards in the addresbook.
 		 */
@@ -39,7 +39,7 @@ module Evolution {
 		string get_name ();
 	};
 
-	interface BookListener : GNOME::Unknown {
+	interface BookListener : Bonobo::Unknown {
 
 		enum CallStatus {
 			Success,
@@ -74,7 +74,7 @@ module Evolution {
 		void signal_card_changed (in CardId id);
 	};
 
-	interface BookFactory : GNOME::Unknown {
+	interface BookFactory : Bonobo::Unknown {
 		exception ProtocolNotSupported {};
 
 		void open_book (in string uri, in BookListener listener)

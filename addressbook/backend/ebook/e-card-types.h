@@ -193,11 +193,11 @@ typedef struct {
 	char           *region;
 	char           *code;
 	char           *country;
+
+	char           *description;
 } ECardAddr;
 
-
-typedef struct 
-{
+typedef struct {
 	ECardAddrFlags  flags;
 	char           *data;
 } ECardAddrLabel;

@@ -11,7 +11,7 @@
 #ifndef __PAS_BOOK_H__
 #define __PAS_BOOK_H__
 
-#include <bonobo/gnome-object.h>
+#include <bonobo/bonobo-object.h>
 #include <libgnome/gnome-defs.h>
 #include <addressbook.h>
 
@@ -34,12 +34,12 @@ typedef struct {
 } PASRequest;
 
 struct _PASBook {
-	GnomeObject     parent_object;
+	BonoboObject     parent_object;
 	PASBookPrivate *priv;
 };
 
 typedef struct {
-	GnomeObjectClass parent_class;
+	BonoboObjectClass parent_class;
 
 	/* Signals */
 	void (*requests_queued) (void);

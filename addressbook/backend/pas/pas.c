@@ -5,7 +5,7 @@
  * Copyright 2000, Helix Code, Inc.
  */
 #include <config.h>
-#include <bonobo/gnome-bonobo.h>
+#include <bonobo.h>
 
 #include <pas-book-factory.h>
 #include <pas-backend-file.h>
