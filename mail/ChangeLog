@@ -1,5 +1,10 @@
 2001-08-07  Peter Williams  <peterw@ximian.com>
 
+	* subscribe-dialog.c (fe_destroy): Unref the e_storage since lookup_store
+	gives us a ref.
+
+2001-08-07  Peter Williams  <peterw@ximian.com>
+
 	* subscribe-dialog.c (folder_etree_construct): Move fe_create_root_node
 	farther down, so we can check for its children without problems.
 	(storage_tree_path): Removed, this was broken.

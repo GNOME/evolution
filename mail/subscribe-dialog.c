@@ -829,6 +829,7 @@ fe_destroy (GtkObject *obj)
 	g_hash_table_destroy (ftree->subscribe_ops);
 
 	camel_object_unref (CAMEL_OBJECT (ftree->store));
+	bonobo_object_unref (BONOBO_OBJECT (ftree->e_storage));
 
 	g_free (ftree->search);
 }
@@ -881,7 +882,7 @@ folder_etree_construct (FolderETree *ftree,
 
 	ftree->store     = store;
 	camel_object_ref (CAMEL_OBJECT (store));
-	ftree->e_storage = mail_lookup_storage (store);
+	ftree->e_storage = mail_lookup_storage (store); /* this gives us a ref */
 
 	fe_create_root_node (ftree);
 
