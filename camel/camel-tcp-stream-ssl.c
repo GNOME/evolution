@@ -159,6 +159,9 @@ set_errno (int code)
 {
 	/* FIXME: this should handle more. */
 	switch (code) {
+	case PR_INVALID_ARGUMENT_ERROR:
+		errno = EINVAL;
+		break;
 	case PR_PENDING_INTERRUPT_ERROR:
 		errno = EINTR;
 		break;
@@ -168,6 +171,27 @@ set_errno (int code)
 		break;
 	case PR_WOULD_BLOCK_ERROR:
 		errno = EWOULDBLOCK;
+		break;
+	case PR_IN_PROGRESS_ERROR:
+		errno = EINPROGRESS;
+		break;
+	case PR_ALREADY_INITIATED_ERROR:
+		errno = EALREADY;
+		break;
+	case PR_NETWORK_UNREACHABLE_ERROR:
+		errno = EHOSTUNREACH;
+		break;
+	case PR_CONNECT_REFUSED_ERROR:
+		errno = ECONNREFUSED;
+		break;
+	case PR_CONNECT_TIMEOUT_ERROR:
+		errno = ETIMEDOUT;
+		break;
+	case PR_NOT_CONNECTED_ERROR:
+		errno = ENOTCONN;
+		break;
+	case PR_CONNECT_RESET_ERROR:
+		errno = ECONNRESET;
 		break;
 	case PR_IO_ERROR:
 	default:
@@ -479,20 +503,65 @@ stream_connect (CamelTcpStream *stream, struct hostent *host, int port)
 	memset ((void *) &netaddr, 0, sizeof (PRNetAddr));
 	memcpy (&netaddr.inet.ip, host->h_addr, sizeof (netaddr.inet.ip));
 	
-	if (PR_InitializeNetAddr (PR_IpAddrNull, port, &netaddr) == PR_FAILURE)
+	if (PR_InitializeNetAddr (PR_IpAddrNull, port, &netaddr) == PR_FAILURE) {
+		set_errno (PR_GetError ());
 		return -1;
+	}
 	
 	fd = PR_OpenTCPSocket (host->h_addrtype);
+	if (fd == NULL) {
+		set_errno (PR_GetError ());
+		return -1;
+	}
+	
 	ssl_fd = SSL_ImportFD (NULL, fd);
-
+	if (ssl_fd == NULL) {
+		set_errno (PR_GetError ());
+		return -1;
+	}
+	
 	SSL_OptionSet (ssl_fd, SSL_SECURITY, PR_TRUE);
 	SSL_SetURL (ssl_fd, ssl->priv->expected_host);
 	
-	if (ssl_fd == NULL || PR_Connect (ssl_fd, &netaddr, timeout) == PR_FAILURE) {
-		if (ssl_fd != NULL)
-			PR_Close (ssl_fd);
+	if (PR_Connect (ssl_fd, &netaddr, timeout) == PR_FAILURE) {
+		int errnosave;
 		
-		return -1;
+		set_errno (PR_GetError ());
+		if (errno == EINPROGRESS) {
+			gboolean connected = FALSE;
+			PRPollDesc poll;
+			
+			do {
+				poll.fd = fd;
+				poll.in_flags = PR_POLL_WRITE | PR_POLL_EXCEPT;
+				poll.out_flags = 0;
+				
+				timeout = PR_INTERVAL_MIN;
+				
+				if (PR_Poll (&poll, 1, timeout) == PR_FAILURE) {
+					set_errno (PR_GetError ());
+					goto exception;
+				}
+				
+				if (PR_GetConnectStatus (&poll) == PR_FAILURE) {
+					set_errno (PR_GetError ());
+					if (errno != EINPROGRESS)
+						goto exception;
+				} else {
+					connected = TRUE;
+				}
+			} while (!connected);
+		} else {
+		exception:
+			errnosave = errno;
+			PR_Close (fd);
+			ssl->priv->sockfd = NULL;
+			errno = errnosave;
+			
+			return -1;
+		}
+		
+		errno = 0;
 	}
 	
 	/*SSL_GetClientAuthDataHook (sslSocket, ssl_get_client_auth, (void *)certNickname);*/
