@@ -1,5 +1,12 @@
 2004-02-02  Jeffrey Stedfast  <fejj@ximian.com>
 
+	Fixes for bug #53091.
+
+	* providers/imap/camel-imap-store.c (create_folder): Set the new
+	folder's fi->flags to CAMEL_FOLDER_NOCHILDREN since we know it
+	doesn't have any (we just created it!).
+	(subscribe_folder): Same.
+
 	* camel-store.c (folder_info_clone_rec): Copy the flags too. Fixes
 	the local folder case of bug #53091.
 

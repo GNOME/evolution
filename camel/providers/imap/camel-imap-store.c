@@ -1003,7 +1003,7 @@ imap_build_folder_info(CamelImapStore *imap_store, const char *folder_name)
 		name = fi->path;
 
 	fi->name = g_strdup (name);
-
+	
 	return fi;
 }
 
@@ -2104,6 +2104,7 @@ create_folder (CamelStore *store, const char *parent_name,
 		si = camel_imap_store_summary_add_from_full(imap_store->summary, full_name, store->dir_sep);
 		camel_store_summary_save((CamelStoreSummary *)imap_store->summary);
 		fi = imap_build_folder_info(imap_store, camel_store_info_path(imap_store->summary, si));
+		fi->flags |= CAMEL_FOLDER_NOCHILDREN;
 		if (root) {
 			root->child = fi;
 			fi->parent = root;
@@ -2725,6 +2726,8 @@ subscribe_folder (CamelStore *store, const char *folder_name,
 	}
 
 	fi = imap_build_folder_info(imap_store, folder_name);
+	fi->flags |= CAMEL_FOLDER_NOCHILDREN;
+	
 	camel_object_trigger_event (CAMEL_OBJECT (store), "folder_subscribed", fi);
 	camel_folder_info_free (fi);
 }
