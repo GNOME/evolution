@@ -799,12 +799,12 @@ msgstr "Vybrat akci"
 #: addressbook/gui/component/e-address-popup.c:622
 #, c-format
 msgid "Create a new contact \"%s\""
-msgstr "Vytvořit nový kontakt \\\"%s\\\""
+msgstr "Vytvořit nový kontakt \"%s\""
 
 #: addressbook/gui/component/e-address-popup.c:638
 #, c-format
 msgid "Add address to existing contact \"%s\""
-msgstr "Přidat adresu k existujícímu kontaktu \\\"%s\\\""
+msgstr "Přidat adresu k existujícímu kontaktu \"%s\""
 
 #: addressbook/gui/component/e-address-popup.c:914
 msgid "Querying Addressbook..."
