@@ -653,24 +653,35 @@ static EPopupMenu context_menu[] = {
 	E_POPUP_TERMINATOR
 };
 
-#if 0
-/* FIXME: handle context menu for treeview */
-/* handle context menu over message-list */
 static gint
-right_click_cb (ETable *etable, gint row, gint col, GdkEvent *event, gpointer data)
+button_press_event (GtkWidget *widget, GdkEventButton *event, MeetingPage *mpage)
 {
-	MeetingPage *mpage = MEETING_PAGE (data);
 	MeetingPagePrivate *priv;
 	GtkMenu *menu;
 	EMeetingAttendee *ia;
-	int disable_mask = 0, hide_mask = 0, view_row;
-
+	GtkTreePath *path;
+	GtkTreeIter iter;
+	char *address;
+	int disable_mask = 0, hide_mask = 0;
+	
 	priv = mpage->priv;
 
-	view_row = e_table_model_to_view_row (etable, row);
-	priv->row = e_meeting_model_etable_view_to_model_row (etable, priv->model, view_row);
+	/* only process right-clicks */
+	if (event->button != 3 || event->type != GDK_BUTTON_PRESS)
+		return FALSE;
 
- 	ia = e_meeting_model_find_attendee_at_row (priv->model, priv->row);
+	/* only if we right-click on an attendee */
+	if (!gtk_tree_view_get_path_at_pos (GTK_TREE_VIEW (priv->list_view), event->x, event->y, &path, NULL, NULL, NULL))
+		return FALSE;
+	if (!gtk_tree_model_get_iter (GTK_TREE_MODEL (priv->model), &iter, path))
+		return FALSE;
+	
+	gtk_tree_model_get (GTK_TREE_MODEL (priv->model), &iter, E_MEETING_STORE_ADDRESS_COL, &address, -1);
+	ia = e_meeting_store_find_attendee (priv->model, address, &priv->row);
+	g_free (address);
+	if (!ia)
+		return FALSE;
+	
  	if (e_meeting_attendee_get_edit_level (ia) != E_MEETING_ATTENDEE_EDIT_FULL)
  		disable_mask = CAN_DELETE;
  
@@ -680,15 +691,13 @@ right_click_cb (ETable *etable, gint row, gint col, GdkEvent *event, gpointer da
 	context_menu[1].pixmap_widget =
 	  gtk_image_new_from_stock (GTK_STOCK_DELETE, GTK_ICON_SIZE_MENU);
 
-	menu = e_popup_menu_create (context_menu, disable_mask, hide_mask, data);
+	menu = e_popup_menu_create (context_menu, disable_mask, hide_mask, mpage);
 	e_auto_kill_popup_menu_on_selection_done (menu);
 	
-	gtk_menu_popup (menu, NULL, NULL, NULL, NULL,
-			event->button.button, event->button.time);
+	gtk_menu_popup (menu, NULL, NULL, NULL, NULL, event->button, event->time);
 
 	return TRUE;
 }
-#endif
 
 /**
  * meeting_page_construct:
@@ -770,11 +779,7 @@ meeting_page_construct (MeetingPage *mpage, EMeetingStore *ems,
 
 	priv->list_view = e_meeting_list_view_new (priv->model); 
 
-#if 0
-	/* FIXME: handle context menu for treeview */
-	g_signal_connect((real_table),
-			    "right_click", G_CALLBACK (right_click_cb), mpage);
-#endif
+	g_signal_connect (G_OBJECT (priv->list_view), "button_press_event", G_CALLBACK (button_press_event), mpage);
 
 	gtk_widget_show (GTK_WIDGET (priv->list_view));
 	sw = gtk_scrolled_window_new (NULL, NULL);

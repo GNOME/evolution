@@ -1,5 +1,17 @@
 2004-03-23  JP Rosevear <jpr@ximian.com>
 
+	Fixes #51948
+	
+	* gui/dialogs/meeting-page.c (button_press_event): compile this
+	again, determine the row with a different method
+	(button_press_event): pass mpage
+	(meeting_page_construct): listen for button press event
+
+	* gui/e-meeting-list-view.c: remove commit that wasn't supposed to
+	go in
+
+2004-03-23  JP Rosevear <jpr@ximian.com>
+
 	* gui/e-calendar-view.c: make the flow control correct
 
 2004-03-23  JP Rosevear <jpr@ximian.com>
