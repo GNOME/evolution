@@ -1,3 +1,8 @@
+2001-06-28  Damon Chaplin  <damon@ximian.com>
+
+	* configure.in: commented out AC_DEFINE(ICAL_ERRORS_ARE_FATAL,1).
+	We only want it to abort when there is no possibility of carrying on.
+	
 2001-06-26  Damon Chaplin  <damon@ximian.com>
 
 	* zoneinfo/*: stripped all blank lines from iCalendar files.
