@@ -668,8 +668,8 @@ static void
 ee_store_recur_values_to_ical (EventEditor *ee)
 {
 	if (ee_store_recur_rule_to_ical (ee)){
-		ee_store_recur_end_to_ical (ee);
 		ee_store_recur_exceptions_to_ical (ee);
+		ee_store_recur_end_to_ical (ee);
 	} else if (ee->ical->recur) {
 		g_free (ee->ical->recur);
 		ee->ical->recur = NULL;

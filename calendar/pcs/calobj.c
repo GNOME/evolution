@@ -110,12 +110,12 @@ ical_object_destroy (iCalObject *ico)
 }
 
 static GList *
-set_list (char *str, char *sc)
+set_list (char *str)
 {
 	GList *list = 0;
 	char *s;
 	
-	for (s = strtok (str, sc); s; s = strtok (NULL, sc))
+	for (s = strtok (str, ";"); s; s = strtok (NULL, ";"))
 		list = g_list_prepend (list, g_strdup (s));
 	
 	return list;
@@ -542,13 +542,13 @@ ical_object_create_from_vobject (VObject *o, const char *object_name)
 
 	/* categories */
 	if (has (o, VCCategoriesProp)){
-		ical->categories = set_list (str_val (vo), ",");
+		ical->categories = set_list (str_val (vo));
 		free (the_str);
 	}
 	
 	/* resources */
 	if (has (o, VCResourcesProp)){
-		ical->resources = set_list (str_val (vo), ";");
+		ical->resources = set_list (str_val (vo));
 		free (the_str);
 	}
 	
@@ -566,7 +566,7 @@ ical_object_create_from_vobject (VObject *o, const char *object_name)
 
 	/* related */
 	if (has (o, VCRelatedToProp)){
-		ical->related = set_list (str_val (vo), ";");
+		ical->related = set_list (str_val (vo));
 		free (the_str);
 	}
 	
@@ -663,10 +663,10 @@ to_str (int num)
 }
 
 /*
- * stores a GList in the property, using SEP as the value separator
+ * stores a GList in the property.
  */
 static void
-store_list (VObject *o, char *prop, GList *values, char sep)
+store_list (VObject *o, char *prop, GList *values)
 {
 	GList *l;
 	int len;
@@ -683,7 +683,7 @@ store_list (VObject *o, char *prop, GList *values, char sep)
 		strcpy (p, l->data);
 
 		if (l->next) {
-			p [len] = sep;
+			p [len] = ';';
 			p += len+1;
 		} else
 			p += len;
@@ -693,6 +693,27 @@ store_list (VObject *o, char *prop, GList *values, char sep)
 
 	addPropValue (o, prop, result);
 	g_free (result);
+}
+
+static void
+store_date_list (VObject *o, char *prop, GList *values)
+{
+	GList *l;
+	int   size;
+	char  *s, *p;
+
+	size = g_list_length (values);
+	s = p = g_malloc ((size * 17 + 1) * sizeof (char));
+
+	for (l = values; l; l = l->next){
+		strcpy (s, isodate_from_time_t (*(time_t *)l->data));
+		s [16] = ';';
+		s += 17;
+	}
+	s--;
+	*s = 0;
+	addPropValue (o, prop, s);
+	g_free (p);
 }
 
 static char *recur_type_name [] = { "D", "W", "MP", "MD", "YM", "YD" };
@@ -768,7 +789,7 @@ ical_object_to_vobject (iCalObject *ical)
 
 	/* exdate */
 	if (ical->exdate)
-		store_list (o, VCExpDateProp, ical->exdate, ',');
+		store_date_list (o, VCExpDateProp, ical->exdate);
 
 	/* description/comment */
 	if (ical->comment && strlen (ical->comment)){
@@ -794,11 +815,11 @@ ical_object_to_vobject (iCalObject *ical)
 
 	/* categories */
 	if (ical->categories)
-		store_list (o, VCCategoriesProp, ical->categories, ',');
+		store_list (o, VCCategoriesProp, ical->categories);
 
 	/* resources */
 	if (ical->categories)
-		store_list (o, VCCategoriesProp, ical->resources, ';');
+		store_list (o, VCCategoriesProp, ical->resources);
 
 	/* priority */
 	addPropValue (o, VCPriorityProp, to_str (ical->priority));
@@ -808,7 +829,7 @@ ical_object_to_vobject (iCalObject *ical)
 
 	/* related */
 	if (ical->related)
-		store_list (o, VCRelatedToProp, ical->related, ';');
+		store_list (o, VCRelatedToProp, ical->related);
 
 	/* attach */
 	for (l = ical->attach; l; l = l->next)
@@ -902,8 +923,9 @@ is_date_in_list (GList *list, struct tm *date)
 		tm = localtime (timep);
 		if (date->tm_mday == tm->tm_mday &&
 		    date->tm_mon  == tm->tm_mon &&
-		    date->tm_year == tm->tm_year)
+		    date->tm_year == tm->tm_year){
 			return 1;
+		}
 	}
 	return 0;
 }
@@ -1113,10 +1135,8 @@ duration_callback (iCalObject *ico, time_t start, time_t end, void *closure)
 	int *count = closure;
 	struct tm *tm;
 
+	print_time_t (start);
 	tm = localtime (&start);
-
-	if (ico->exdate && is_date_in_list (ico->exdate, tm))
-		return 1;
 
 	(*count)++;
 	if (ico->recur->duration == *count) {
@@ -1134,9 +1154,11 @@ ical_object_compute_end (iCalObject *ico)
 
 	g_return_if_fail (ico->recur != NULL);
 
+	printf ("compute end\n");
 	ico->recur->_enddate = 0;
 	ico->recur->enddate = 0;
 	ical_object_generate_events (ico, ico->dtstart, 0, duration_callback, &count);
+	printf ("compute end\n");
 }
 
 int

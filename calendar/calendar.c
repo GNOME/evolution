@@ -92,6 +92,7 @@ calendar_add_alarms (Calendar *cal)
 void
 calendar_add_object (Calendar *cal, iCalObject *obj)
 {
+	obj->new = 0;
 	switch (obj->type){
 	case ICAL_EVENT:
 		cal->events = g_list_prepend (cal->events, obj);
