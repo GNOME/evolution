@@ -208,7 +208,7 @@ source_group_can_add (ESourceGroup *source_group)
 	if (!source_group)
 		return FALSE;
 
-	can_add = !e_source_group_is_readonly (source_group);
+	can_add = !e_source_group_get_readonly (source_group);
 
 	if (can_add) {
 		uri = e_uri_new (e_source_group_peek_base_uri (source_group));
@@ -695,13 +695,11 @@ calendar_setup_new_calendar (GtkWindow *parent)
 	 * on startup of the calendar component. */
 	index = source_group_menu_add_groups (GTK_MENU_SHELL (gtk_option_menu_get_menu (
 		GTK_OPTION_MENU (source_dialog->group_optionmenu))), source_dialog->source_list);
-	if (index > -1) {
-		gtk_option_menu_set_history (GTK_OPTION_MENU (source_dialog->group_optionmenu), index);
+	gtk_option_menu_set_history (GTK_OPTION_MENU (source_dialog->group_optionmenu), index);
+	if (e_source_list_peek_groups (source_dialog->source_list))
 		source_dialog->source_group = e_source_list_peek_groups (source_dialog->source_list)->data;
-	}
 	g_signal_connect_swapped (source_dialog->group_optionmenu, "changed",
 				  G_CALLBACK (source_group_changed_sensitive), source_dialog);
-
 	source_dialog->uri_entry = glade_xml_get_widget (source_dialog->gui_xml, "uri-entry");
 	source_dialog->uri_label = glade_xml_get_widget (source_dialog->gui_xml, "uri-label");
 	source_dialog->uri_hbox = glade_xml_get_widget (source_dialog->gui_xml, "uri-hbox");
@@ -860,10 +858,9 @@ calendar_setup_new_task_list (GtkWindow *parent)
 	 * on startup of the calendar component. */
 	index = source_group_menu_add_groups (GTK_MENU_SHELL (gtk_option_menu_get_menu (
 		GTK_OPTION_MENU (source_dialog->group_optionmenu))), source_dialog->source_list);
-	if (index > -1) {
-		gtk_option_menu_set_history (GTK_OPTION_MENU (source_dialog->group_optionmenu), index);
+	gtk_option_menu_set_history (GTK_OPTION_MENU (source_dialog->group_optionmenu), index);
+	if (e_source_list_peek_groups (source_dialog->source_list))
 		source_dialog->source_group = e_source_list_peek_groups (source_dialog->source_list)->data;
-	}
 	g_signal_connect_swapped (source_dialog->group_optionmenu, "changed",
 				  G_CALLBACK (source_group_changed_sensitive), source_dialog);
 

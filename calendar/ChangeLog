@@ -2,6 +2,8 @@
 
 	* gui/dialogs/calendar-setup.c: make sure that we don't crash if
 	there are no sources.
+	(calendar_setup_new_task_list): fix the previous fix to work if
+	there are sources.
 
 2004-05-04  Larry Ewing  <lewing@ximian.com>
 
