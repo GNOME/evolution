@@ -1,3 +1,10 @@
+2003-12-04  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* e-msg-composer-hdrs.c (create_headers): Unifdef out the post-to
+	code and fix it to use the new folder selection button.
+	(e_msg_composer_hdrs_set_post_to): Same.
+	(e_msg_composer_hdrs_get_post_to): Same.
+
 2003-12-03  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-msg-composer-hdrs.c: Do not #include

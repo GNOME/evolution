@@ -50,6 +50,7 @@
 #include <camel/camel.h>
 #include "e-msg-composer-hdrs.h"
 #include "mail/mail-config.h"
+#include "mail/em-folder-selection-button.h"
 
 
 
@@ -498,7 +499,6 @@ static void
 create_headers (EMsgComposerHdrs *hdrs)
 {
 	EMsgComposerHdrsPrivate *priv = hdrs->priv;
-	static const char *posting_types[] = { "mail/*", NULL };
 	
 	/*
 	 * Reply-To:
@@ -541,15 +541,11 @@ create_headers (EMsgComposerHdrs *hdrs)
 		   "the message without appearing in the recipient list of "
 		   "the message."));
 
-#if 0				/* FIXME */
 	/*
 	 * Post-To
 	 */
 	priv->post_to.label = gtk_label_new (_("Post To:"));
-	priv->post_to.entry = evolution_folder_selector_button_new (
-		global_shell_client, _("Posting destination"), NULL,
-		posting_types);
-#endif
+	priv->post_to.entry = em_folder_selection_button_new (_("Posting destination"), _("Choose a folder to post the message to."));
 }
 
 static void
@@ -1095,7 +1091,7 @@ e_msg_composer_hdrs_set_bcc (EMsgComposerHdrs *hdrs,
 	g_free (str);
 }
 
-#if 0
+
 void
 e_msg_composer_hdrs_set_post_to (EMsgComposerHdrs *hdrs,
 				 const char *post_to)
@@ -1103,9 +1099,9 @@ e_msg_composer_hdrs_set_post_to (EMsgComposerHdrs *hdrs,
 	g_return_if_fail (E_IS_MSG_COMPOSER_HDRS (hdrs));
 	g_return_if_fail (post_to != NULL);
 	
-	evolution_folder_selector_button_set_uri (EVOLUTION_FOLDER_SELECTOR_BUTTON (hdrs->priv->post_to.entry), post_to);
+	em_folder_selection_button_set_selection ((EMFolderSelectionButton *) hdrs->priv->post_to.entry, post_to);
 }
-#endif
+
 
 void
 e_msg_composer_hdrs_set_subject (EMsgComposerHdrs *hdrs,
@@ -1258,18 +1254,19 @@ e_msg_composer_hdrs_get_recipients (EMsgComposerHdrs *hdrs)
 	return recip_destv;
 }
 
-#if 0
+
 char *
 e_msg_composer_hdrs_get_post_to (EMsgComposerHdrs *hdrs)
 {
-	GNOME_Evolution_Folder *folder;
-
+	const char *uri;
+	
 	g_return_val_if_fail (E_IS_MSG_COMPOSER_HDRS (hdrs), NULL);
 	
-	folder = evolution_folder_selector_button_get_folder (EVOLUTION_FOLDER_SELECTOR_BUTTON (hdrs->priv->post_to.entry));
-	return folder ? g_strdup (folder->physicalUri) : NULL;
+	uri = em_folder_selection_button_get_selection ((EMFolderSelectionButton *) hdrs->priv->post_to.entry);
+	
+	return g_strdup (uri);
 }
-#endif
+
 
 const char *
 e_msg_composer_hdrs_get_subject (EMsgComposerHdrs *hdrs)
