@@ -1,3 +1,12 @@
+2001-02-15  Aaron Weber  <aaron@helixcode.com>
+
+	* C/evolution-guide.sgml: Validated. Verified. Markup fixed in
+	several individual files.
+
+	* C/apx-gpl.sgml: cvs-removed for GNOME 1.4 compliance.
+
+	* C/apx-fdl.sgml: cvs-removed for GNOME 1.4 compliance.
+
 2001-02-09  Aaron Weber  <aaron@helixcode.com>
 
 	* C/config-sync.sgml: Overhaul. Now accurate and truthful and clear.
