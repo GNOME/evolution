@@ -1,3 +1,9 @@
+2000-12-07  Federico Mena Quintero  <federico@helixcode.com>
+
+	* cal-client/cal-client.c (cal_client_generate_instances): Unref
+	the component from the objects list; it got referenced as many
+	times as appropriate for the instances list.
+
 2000-12-06  Federico Mena Quintero  <federico@helixcode.com>
 
 	* gui/event-editor.c (file_delete_cb): Confirm before deleting the

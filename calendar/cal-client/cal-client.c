@@ -1126,6 +1126,7 @@ cal_client_generate_instances (CalClient *client, CalObjType type,
 
 		comp = l->data;
 		cal_recur_generate_instances (comp, start, end, add_instance, &instances);
+		gtk_object_unref (GTK_OBJECT (comp));
 	}
 
 	g_list_free (objects);
