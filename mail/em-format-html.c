@@ -31,6 +31,8 @@
 #include <fcntl.h>
 #include <ctype.h>
 
+#include <gconf/gconf-client.h>
+
 #include <gal/util/e-iconv.h>
 #include <gal/util/e-util.h>	/* for e_utf8_strftime, what about e_time_format_time? */
 #include "e-util/e-time-utils.h"
@@ -627,9 +629,10 @@ efh_text_plain(EMFormatHTML *efh, CamelStream *stream, CamelMimePart *part, EMFo
 	CamelDataWrapper *dw;
 	CamelContentType *type;
 	const char *format;
-	guint32 rgb = 0x737373, flags;
+	guint32 rgb, flags;
 	int i, count, len;
-
+	GConfClient *gconf;
+	
 	camel_stream_printf (stream,
 			     "<table bgcolor=\"#%06x\" cellspacing=0 cellpadding=1 width=100%%><tr><td>\n"
 			     "<table bgcolor=\"#%06x\" cellspacing=0 cellpadding=0 width=100%%><tr><td>\n"
@@ -684,7 +687,28 @@ efh_text_plain(EMFormatHTML *efh, CamelStream *stream, CamelMimePart *part, EMFo
 		camel_object_unref(inline_filter);
 		camel_content_type_unref(ct);
 	}
-
+	
+	gconf = gconf_client_get_default ();
+	if (gconf_client_get_bool (gconf, "/apps/evolution/mail/display/mark_citations", NULL)) {
+		GError *err = NULL;
+		GdkColor colour;
+		char *str;
+		
+		str = gconf_client_get_string (gconf, "/apps/evolution/mail/display/citation_colour", &err);
+		if (err == NULL) {
+			gdk_color_parse (str, &colour);
+			rgb = ((colour.red & 0xff00) << 8) | (colour.green & 0xff00) | ((colour.blue & 0xff00) >> 8);
+		} else {
+			/* default colour */
+			g_error_free (err);
+			rgb = 0x737373;
+		}
+		g_free (str);
+	} else {
+		rgb = 0;
+	}
+	g_object_unref (gconf);
+	
 	filtered_stream = camel_stream_filter_new_with_stream(stream);
 	html_filter = camel_mime_filter_tohtml_new(flags, rgb);
 	camel_stream_filter_add(filtered_stream, html_filter);

@@ -1,5 +1,9 @@
 2004-03-31  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* em-format-html.c (efh_text_plain): Only do citation colouring if
+	the user has specified to do so and use the user's specified
+	colour when appropriate. Fixes bug #56290.
+
 	* em-subscribe-editor.c (em_subscribe_editor_new): Save/restore
 	the subscribe dialog's window size. Fixes bug #56230.
 
