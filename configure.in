@@ -548,7 +548,7 @@ EVO_CHECK_LIB(GAL, gal, 0.19.99.18)
 EVO_CHECK_LIB(GtkHTML, gtkhtml, 1.1.1.1)
 EVO_CHECK_LIB(Libsoup, soup, 0.7)
 
-AM_PATH_GCONF(1.0)
+AM_PATH_GCONF(1.0,,,gconf gconf-gtk)
 if test "x$GCONF_CFLAGS" = "x" ; then
 	AC_MSG_ERROR(Evolution requires GConf to be installed)
 fi
