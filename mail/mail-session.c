@@ -220,8 +220,9 @@ alert_user (CamelSession *session, CamelSessionAlertType type,
 
 struct _timeout_data {
 	CamelTimeoutCallback cb;
-	gpointer camel_data;
-	gboolean result;
+	guint32 interval;
+	void *camel_data;
+	int result;
 };
 
 struct _timeout_msg {
@@ -263,6 +264,20 @@ camel_timeout (gpointer data)
 	return TRUE;
 }
 
+static void
+do_register_timeout(CamelObject *o, void *edata, void *data)
+{
+	struct _timeout_data *td = (struct _timeout_data *)edata;
+
+	td->result = gtk_timeout_add_full(td->interval, camel_timeout, NULL, td, g_free);
+}
+
+static void
+do_remove_timeout(CamelObject *o, void *edata, void *data)
+{
+	gtk_timeout_remove(*((int *)edata));
+}
+
 static guint
 register_timeout (CamelSession *session, guint32 interval, CamelTimeoutCallback cb, gpointer camel_data)
 {
@@ -273,20 +288,33 @@ register_timeout (CamelSession *session, guint32 interval, CamelTimeoutCallback 
 	 * leading to timeout calls piling up, and we don't have a
 	 * good way to watch the return values. It's not cool.
 	 */
-	g_return_val_if_fail (interval > 1000, 0);
+	if (interval < 1000) {
+		g_warning("Timeout %u too small, increased to 1000", interval);
+		interval = 1000;
+	}
 	
+	/* This is extremely messy, we need to proxy to gtk thread for this */
 	td = g_malloc (sizeof (*td));
-	td->result = TRUE;
+	td->interval = interval;
+	td->result = 0;
 	td->cb = cb;
 	td->camel_data = camel_data;
-	
-	return gtk_timeout_add_full (interval, camel_timeout, NULL, td, g_free);
+
+	mail_msg_wait(mail_proxy_event(do_register_timeout, (CamelObject *)session, td, NULL));
+
+	if (td->result == 0) {
+		g_free(td);
+		return 0;
+	}
+
+	return td->result;
 }
 
 static gboolean
 remove_timeout (CamelSession *session, guint handle)
 {
-	gtk_timeout_remove (handle);
+	mail_msg_wait(mail_proxy_event(do_remove_timeout, (CamelObject *)session, &handle, NULL));
+
 	return TRUE;
 }
 

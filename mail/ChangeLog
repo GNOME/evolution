@@ -1,3 +1,14 @@
+2001-07-30  Not Zed  <NotZed@Ximian.com>
+
+	* mail-session.c (do_register_timeout): Actually add the timeout,
+	this time in the gtk thread.
+	(do_remove_timeout): And same for remove.
+	(register_timeout):
+	(remove_timeout): Proxy the gtk calls to the main thread, and
+	wait for them to execute synchronously.
+	(register_timeout): Instead of return with fail for a too small
+	timeout, just increase the timeout.
+
 2001-07-27  Zbigniew Chyla  <cyba@gnome.pl>
 
 	* component-factory.c (populate_folder_context_menu): Added (unused)
