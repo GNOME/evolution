@@ -492,7 +492,6 @@ calendar/cal-client/Makefile
 calendar/pcs/Makefile
 calendar/gui/Makefile
 calendar/gui/dialogs/Makefile
-notes/Makefile
 filter/Makefile
 notes/Makefile
 wombat/Makefile

@@ -2,6 +2,7 @@
 
 	* configure.in (ctime_r): Check for whether ctime_r takes
 	two (Linux) or three (Solaris) arguments.
+	(AC_OUTPUT): Don't create notes/Makefile twice.
 
 	* acconfig.h: Add CTIME_R_THREE_ARGS to the list.
 	

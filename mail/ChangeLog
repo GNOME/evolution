@@ -1,5 +1,8 @@
 2000-06-27  Peter Williams  <peterw@curious-george.helixcode.com>
 
+	* message-list.c (mark_msg_seen): Need to return a value
+	on error.
+
 	* main.c (main): Don't start threads or enter threads if
 	there's no threading! Sigh.
 
