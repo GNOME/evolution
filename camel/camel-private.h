@@ -128,22 +128,6 @@ struct _CamelSessionPrivate {
 #endif
 
 
-struct _CamelRemoteStorePrivate {
-#ifdef ENABLE_THREADS
-	EMutex *stream_lock;	/* for locking stream operations */
-#else
-	gpointer dummy;
-#endif
-};
-
-#ifdef ENABLE_THREADS
-#define CAMEL_REMOTE_STORE_LOCK(f, l) (e_mutex_lock(((CamelRemoteStore *)f)->priv->l))
-#define CAMEL_REMOTE_STORE_UNLOCK(f, l) (e_mutex_unlock(((CamelRemoteStore *)f)->priv->l))
-#else
-#define CAMEL_REMOTE_STORE_LOCK(f, l)
-#define CAMEL_REMOTE_STORE_UNLOCK(f, l)
-#endif
-
 /* most of this stuff really is private, but the lock can be used by subordinate classes */
 struct _CamelFolderSummaryPrivate {
 	GHashTable *filter_charset;	/* CamelMimeFilterCharset's indexed by source charset */
@@ -198,7 +182,7 @@ struct _CamelStoreSummaryPrivate {
 struct _CamelVeeFolderPrivate {
 	GList *folders;			/* lock using subfolder_lock before changing/accessing */
 	GList *folders_changed;		/* for list of folders that have changed between updates */
-
+	
 #ifdef ENABLE_THREADS
 	GMutex *summary_lock;		/* for locking vfolder summary */
 	GMutex *subfolder_lock;		/* for locking the subfolder list */
