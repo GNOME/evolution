@@ -1,3 +1,8 @@
+2001-10-08  Jon Trowbridge  <trow@gnu.org>
+
+	* mail-format.c (write_default_header): Write out the Bcc: header
+	when applicable.  Fixes bug #5823.
+
 2001-10-08  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-format.c (attachment_header): Convert the htmlinfo into

@@ -883,7 +883,7 @@ write_address (MailDisplay *md, const CamelInternetAddress *addr, const char *fi
 
 /* order of these must match write_header code */
 static char *default_headers[] = {
-	"From", "Reply-To", "To", "Cc", "Subject", "Date",
+	"From", "Reply-To", "To", "Cc", "Bcc", "Subject", "Date",
 };
 
 /* return index of header in default_headers array */
@@ -919,10 +919,14 @@ write_default_header(CamelMimeMessage *message, MailDisplay *md, int index, int 
 			       _("Cc"), flags | WRITE_BOLD);
 		break;
 	case 4:
+		write_address (md, camel_mime_message_get_recipients (message, CAMEL_RECIPIENT_TYPE_BCC),
+			       _("Bcc"), flags | WRITE_BOLD);
+		break;
+	case 5:
 		write_text_header (_("Subject"), camel_mime_message_get_subject (message),
 				   flags | WRITE_BOLD, md->html, md->stream);
 		break;
-	case 5:
+	case 6:
 		write_date (message, flags | WRITE_BOLD, md->html, md->stream);
 		break;
 	default:
