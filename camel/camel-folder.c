@@ -50,6 +50,7 @@ static CamelFolderOpenMode _get_mode (CamelFolder *folder);
 static GList *_list_subfolders (CamelFolder *folder);
 static GList *_expunge (CamelFolder *folder);
 static CamelMimeMessage *_get_message (CamelFolder *folder, gint number);
+static gint _get_message_count (CamelFolder *folder);
 
 static void
 camel_folder_class_init (CamelFolderClass *camel_folder_class)
@@ -76,6 +77,8 @@ camel_folder_class_init (CamelFolderClass *camel_folder_class)
 	camel_folder_class->list_subfolders = _list_subfolders;
 	camel_folder_class->expunge = _expunge;
 	camel_folder_class->get_message = _get_message;
+	camel_folder_class->get_message_count = _get_message_count;
+
 	/* virtual method overload */
 }
 
@@ -383,19 +386,19 @@ _get_folder (CamelFolder *folder, const gchar *folder_name)
 	return new_folder;
 }
 
-/** 
- * camel_folder_get_folder: return the (sub)folder object that is specified.
- *
- * @folder : the folder
- * @folder_name: subfolder path. 
- *
+
+
+/**
+ * camel_folder_get_folder: return the (sub)folder object that is specified
+ * @folder: the folder
+ * @folder_name: subfolder path
+ * 
  * This method returns a folder objects. This folder
  * is necessarily a subfolder of the current folder. 
  * It is an error to ask a folder begining with the 
  * folder separator character.  
  * 
- * Return value: Required folder. NULL if the subfolder object
- *        could not be obtained
+ * Return value: Required folder. NULL if the subfolder object  could not be obtained
  **/
 CamelFolder *
 camel_folder_get_folder (CamelFolder *folder, gchar *folder_name)
@@ -756,5 +759,28 @@ CamelMimeMessage *
 camel_folder_get_message (CamelFolder *folder, gint number)
 {
 	return CF_CLASS (folder)->get_message (folder, number);
+}
+
+
+static gint
+_get_message_count (CamelFolder *folder)
+{
+	return -1;
+}
+
+
+
+/**
+ * camel_folder_get_message_count: get the number of messages in the folder
+ * @folder: A CamelFolder object
+ * 
+ * Returns the number of messages in the folder.
+ * 
+ * Return value: the number of messages or -1 if unknown.
+ **/
+gint
+camel_folder_get_message_count (CamelFolder *folder)
+{
+	return CF_CLASS (folder)->get_message_count (folder);
 }
 

@@ -99,6 +99,8 @@ typedef struct {
 	GList *  (*list_subfolders) (CamelFolder *folder);
 	GList *  (*expunge) (CamelFolder *folder);
 	CamelMimeMessage * (*get_message) (CamelFolder *folder, gint number);
+	gint   (*get_message_count) (CamelFolder *folder);
+	
 } CamelFolderClass;
 
 

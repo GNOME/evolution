@@ -1,8 +1,11 @@
 <!doctype book PUBLIC "-//Davenport//DTD DocBook V3.0//EN" [
+<!entity CamelDataWrapper SYSTEM "sgml/camel-data-wrapper.sgml">
 <!entity CamelFolder SYSTEM "sgml/camel-folder.sgml">
+<!entity CamelMimeMessage SYSTEM "sgml/camel-mime-message.sgml">
+<!entity CamelMimePart SYSTEM "sgml/camel-mime-part.sgml">
 <!entity CamelService SYSTEM "sgml/camel-service.sgml">
 <!entity CamelStore SYSTEM "sgml/camel-store.sgml">
-<!entity CamelDataWrapper SYSTEM "sgml/camel-data-wrapper.sgml">
+<!entity CamelStream SYSTEM "sgml/camel-stream.sgml">
 ]>
 
 <book>
@@ -12,9 +15,12 @@
 
   <chapter id="camel-objects">
     <title>Camel Objects</title>
-    &CamelFolder;
+    &CamelMimeMessage;
     &CamelService;
     &CamelStore;
+    &CamelFolder;
+    &CamelMimePart;
     &CamelDataWrapper;
+
   </chapter>
 </book>

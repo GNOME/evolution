@@ -101,14 +101,15 @@ _connect (CamelService *service)
 }
 
 
+
 /**
- * camel_service_connect : connect to a service 
- *
+ * camel_service_connect:connect to a service 
+ * @service: CamelService object
+ * 
  * connect to the service using the parameters 
  * stored in the session it is initialized with
  * WARNING: session not implemented for the moment
- *
- * @service: object to connect to
+ * 
  **/
 void
 camel_service_connect (CamelService *service)
@@ -137,10 +138,10 @@ _connect_to_with_login_passwd (CamelService *service, gchar *host, gchar *login,
 
 /**
  * camel_service_connect_to_with_login_passwd: connect a service 
- * @service: the service to connect
+ * @service:  the service to connect
  * @host: host to connect to
  * @login: login to connect with
- * @passwd: password to connect with
+ * @passwd:  password to connect with
  * 
  * Connect to a service, but do not use the session
  * default parameters to retrieve server's address
@@ -154,21 +155,19 @@ camel_service_connect_to_with_login_passwd (CamelService *service, gchar *host, 
 
 
 
+
 /**
- * _connect_to:login:password : connect to the specified address
- * 
- * Connect to the service, but do not use the session
- * default parameters to retrieve server's address
- *
- * @service: object to connect
- * @host: host to connect to
- * @login: user name used to log in
+ * _connect_to_with_login_passwd_port: connect to the specified address
+ * @service: service to connect
+ * @host:  host to connect to
+ * @login:  user name used to log in
  * @passwd: password used to log in
  * @port: port to connect to
- *
+ * 
+ * 
  **/
 static void
-_connect_to_with_login_passwd_port(CamelService *service, gchar *host, gchar *login, gchar *passwd, guint port)
+_connect_to_with_login_passwd_port (CamelService *service, gchar *host, gchar *login, gchar *passwd, guint port)
 {
     CSERV_CLASS(service)->set_connected(service, TRUE);
 }
@@ -176,11 +175,11 @@ _connect_to_with_login_passwd_port(CamelService *service, gchar *host, gchar *lo
 
 /**
  * camel_service_connect_to_with_login_passwd_port: connect a service 
- * @service: the service to connect
- * @host: host to connect to
- * @login: login to connect with
- * @passwd: password to connect with
- * @port: port to connect to 
+ * @service: service to connect
+ * @host:  host to connect to
+ * @login:  user name used to log in
+ * @passwd: password used to log in
+ * @port: port to connect to
  * 
  * Connect to a service, but do not use the session
  * default parameters to retrieve server's address
@@ -197,10 +196,11 @@ camel_service_connect_to_with_login_passwd_port (CamelService *service, gchar *h
 
 /**
  * _is_connected: test if the service object is connected
- *
- *
  * @service: object to test
- *  
+ * 
+ * 
+ * 
+ * Return value: 
  **/
 static gboolean
 _is_connected (CamelService *service)
@@ -210,13 +210,12 @@ _is_connected (CamelService *service)
 
 
 /**
- * camel_service_is_connected: test if a service object is connected
- *
- * @service:  the service
+ * camel_service_is_connected: test if the service object is connected
+ * @service: object to test
  * 
  * 
  * 
- * Return value: TRUE is the service is connected
+ * Return value: 
  **/
 gboolean
 camel_service_is_connected (CamelService *service)
@@ -225,16 +224,16 @@ camel_service_is_connected (CamelService *service)
 }
 
 
+
 /**
- * _set_connected: set the connected state
+ * _set_connected:set the connected state 
+ * @service: object to set the state of
+ * @state: connected/disconnected
  * 
  * This routine has to be called by providers to set the 
  * connection state, mainly when the service is disconnected
  * wheras the close() method has not been called.
- *
- * @service: object to set the state of
- * @state: connected/disconnected
- *  
+ * 
  **/
 static void
 _set_connected (CamelService *service, gboolean state)
@@ -251,6 +250,7 @@ _set_connected (CamelService *service, gboolean state)
  * This method merely returns the "url" field. Subclasses
  * may provide more active implementations.
  * 
+ * 
  * Return value: 
  **/
 static const gchar *
@@ -264,7 +264,7 @@ _get_url (CamelService *service)
  * @service: the service
  * 
  * returns the URL representing a service. For security reasons 
- * This routine may not always return the password.
+ * This routine may not always return the password. 
  * 
  * Return value: the url name
  **/

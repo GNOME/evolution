@@ -137,7 +137,7 @@ g_url_free (Gurl *url)
 
 /**** PARSING FUNCTIONS ****/
 
-/** So, yes, I must admit there would have been more elegant
+/* So, yes, I must admit there would have been more elegant
     ways to do this, but it works, and quite well :)  */
 
 

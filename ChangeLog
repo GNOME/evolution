@@ -1,9 +1,29 @@
+1999-08-06  bertrand  <Bertrand.Guiheneuf@aful.org>
+
+	* devel-docs/camel/:
+	updated some autogen doc stuff.
+	Still don't understand warnings :(
+
+	* camel/camel-data-wrapper.c: 
+	* camel/providers/MH/camel-mh-store.c: 
+	* camel/url-util.c: 
+	* camel/gmime-content-field.c: 
+	* camel/camel-store.c: 
+	various inline doc corrections.
+
+	* camel/camel-folder.c (get_message_count): 
+	new method. Returns the number of message 
+	in the folder.
+
+
+
 1999-08-06  Robert Brady  <rwb197@ecs.soton.ac.uk>
 
 	* tests/test6.c: encoder test.
 
 	* camel/gmime-rfc2047.c: Fixed decoder bug : sequence
 	?= is not always the terminator for an encoded-string.
+
 
 1999-08-06  bertrand  <Bertrand.Guiheneuf@aful.org>
 

@@ -104,8 +104,7 @@ camel_store_init (CamelStore *store, CamelSession *session, gchar *url_name)
 
 
 /**
- * init: method called by a session object to 
- * initialize a store object
+ * init: method called by a session object to  initialize a store object
  * @store: the store to initialize
  * @session: session which instantiates the store
  * @url_name: URL defining the store
@@ -130,8 +129,7 @@ _init (CamelStore *store, CamelSession *session, gchar *url_name)
 
 
 /** 
- * camel_store_set_separator: set the character which separates this folder 
- * path from the folders names in a lower level of hierarchy.
+ * camel_store_set_separator: set the character which separates this folder path from the folders names in a lower level of hierarchy.
  *
  * @store:
  * @sep:
@@ -155,12 +153,14 @@ _get_separator (CamelStore *store)
 }
 
 
-/** 
- * camel_store_get_separator: return the character which separates this folder 
- * path from the folders names in a lower level of hierarchy.
- *
+
+/**
+ * camel_store_get_separator: return the character which separates this folder path from the folders names in a lower level of hierarchy.
  * @store: store
- *
+ * 
+ * 
+ * 
+ * Return value: the separator
  **/
 gchar
 camel_store_get_separator (CamelStore *store)
@@ -183,6 +183,8 @@ _get_folder (CamelStore *store, const gchar *folder_name)
 
 /** 
  * camel_store_get_folder: return the folder corresponding to a path.
+ * @store: store
+ * @folder_name: name of the folder to get
  * 
  * Returns the folder corresponding to the path "name". 
  * If the path begins with the separator caracter, it 
@@ -193,8 +195,6 @@ _get_folder (CamelStore *store, const gchar *folder_name)
  * If it does not exist, you can create it with its 
  * "create" method.
  *
- * @store: store
- * @folder_name: name of the folder to get
  *
  * Return value: the folder
  **/

@@ -3,7 +3,8 @@ CamelStore
 
 <!-- ##### SECTION Short_Description ##### -->
 
-A class representing a message (local or distant) repository 
+A class representing a message (local or distant) repository
+
 <!-- ##### SECTION Long_Description ##### -->
 <para>
 The store class models a place where messages can be stored and retreived. It can be a local 

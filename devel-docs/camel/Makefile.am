@@ -20,9 +20,13 @@ HTML_DIR=$(datadir)/gnome/html
 TARGET_DIR=$(HTML_DIR)/$(DOC_MODULE)
 
 tmpl_sources =					\
-	tmpl/camel-service.sgml			\
 	tmpl/camel-data-wrapper.sgml		\
-	tmpl/camel-store.sgml			
+	tmpl/camel-folder.sgml			\
+	tmpl/camel-mime-message.sgml		\
+	tmpl/camel-mime-part.sgml		\
+	tmpl/camel-service.sgml			\
+	tmpl/camel-store.sgml			\
+	tmpl/camel-stream.sgml		
 
 
 camel_docdir = $(HTML_DIR)
@@ -48,7 +52,7 @@ sgml/camel-doc.bottom: $(tmpl_sources)
 camel-scan.c:
 
 scan: camel-scan.c				
-	-CFLAGS=$(CFLAGS) LDFLAGS=$(LDFLAGS) gtkdoc-scanobj --module=$(DOC_MODULE)
+	CFLAGS=$(CFLAGS) LDFLAGS=$(LDFLAGS) gtkdoc-scanobj --module=$(DOC_MODULE)
 	gtkdoc-scan --module=$(DOC_MODULE) --source-dir=$(DOC_SOURCE_DIR)
 
 templates: scan

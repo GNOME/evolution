@@ -91,8 +91,7 @@ gmime_content_field_set_parameter (GMimeContentField *content_field, const gchar
 
 
 /**
- * _print_parameter: print a parameter/value pair to a stream as 
- * described in RFC 2045
+ * _print_parameter: print a parameter/value pair to a stream as described in RFC 2045
  * @name: name of the parameter
  * @value: value of the parameter
  * @user_data: CamelStream object to write the text to.
@@ -213,8 +212,7 @@ gmime_content_field_get_parameter (GMimeContentField *content_field, const gchar
 
 
 /**
- * gmime_content_field_construct_from_string: construct a ContentType object
- * by parsing a string.
+ * gmime_content_field_construct_from_string: construct a ContentType object by parsing a string.
  *
  * @content_field: content type object to construct 
  * @string: string containing the content type field 

@@ -90,7 +90,7 @@ camel_mh_store_get_type (void)
 
 
 
-/** These evil public functions are here for test only **/
+/* These evil public functions are here for test only */
 void 
 camel_mh_store_set_toplevel_dir (CamelMhStore *store, const gchar *toplevel)
 {

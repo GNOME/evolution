@@ -100,7 +100,7 @@ camel_data_wrapper_get_type (void)
 /**
  * _write_to_stream: write data content in a byte stream
  * @data_wrapper: the data wrapper object
- * @stre:m byte stream where data will be written 
+ * @stream byte stream where data will be written 
  * 
  * This method must be overriden by subclasses
  * Data must be written in the bytes stream
@@ -121,7 +121,7 @@ _write_to_stream (CamelDataWrapper *data_wrapper, CamelStream *stream)
 
 /**
  * camel_data_wrapper_write_to_stream: write data in a stream
- * @data_wrappewr: the data wrapper object
+ * @data_wrapper: the data wrapper object
  * @stream: byte stream where data will be written 
  *
  * Write data content in a stream. Data is stored in a machine

@@ -1,5 +1,6 @@
 
 <INCLUDE>gnome.h</INCLUDE>
+<INCLUDE>camel-data-wrapper.h</INCLUDE>
 
 
 <SECTION>
@@ -7,6 +8,68 @@
 CamelDataWrapper
 <TITLE>CamelDataWrapper</TITLE>
 camel_data_wrapper_write_to_stream
+<SUBSECTION Standard>
+CAMEL_DATA_WRAPPER
+camel_data_wrapper_get_type
+CAMEL_DATA_WRAPPER_CLASS
+</SECTION>
+
+<SECTION>
+<FILE>camel-mime-part</FILE>
+CamelMimePart
+<TITLE>CamelMimePart</TITLE>
+camel_mime_part_add_header
+camel_mime_part_set_content_object
+camel_mime_part_set_filename
+camel_mime_part_get_disposition
+camel_mime_part_get_content_MD5
+camel_mime_part_get_encoding
+camel_mime_part_set_header_lines
+camel_mime_part_get_content_object
+camel_mime_part_get_content_id
+camel_mime_part_set_description
+camel_mime_part_set_text
+camel_mime_part_set_encoding
+camel_mime_part_set_disposition
+camel_mime_part_remove_header
+camel_mime_part_get_filename
+camel_mime_part_get_content_languages
+camel_mime_part_set_content_languages
+camel_mime_part_get_header_lines
+camel_mime_part_get_description
+camel_mime_part_get_header
+<SUBSECTION Standard>
+CAMEL_MIME_PART
+camel_mime_part_get_type
+CAMEL_MIME_PART_CLASS
+</SECTION>
+
+
+
+<SECTION>
+<FILE>camel-mime-message</FILE>
+CamelMimeMessage
+<TITLE>CamelMimeMessage</TITLE>
+camel_mime_message_remove_recipient
+camel_mime_message_get_recipients
+camel_mime_message_set_flag
+camel_mime_message_set_subject
+camel_mime_message_get_reply_to
+camel_mime_message_get_from
+camel_mime_message_set_reply_to
+camel_mime_message_get_sent_date
+camel_mime_message_new_with_session
+camel_mime_message_add_recipient
+camel_mime_message_get_subject
+camel_mime_message_set_from
+camel_mime_message_get_flag
+camel_mime_message_get_message_number
+camel_mime_message_get_received_date
+camel_mime_message_set_received_date
+<SUBSECTION Standard>
+CAMEL_MIME_MESSAGE
+camel_mime_message_get_type
+CAMEL_MIME_MESSAGE_CLASS
 </SECTION>
 
 
@@ -54,4 +117,25 @@ CAMEL_STORE
 camel_store_get_type
 CAMEL_STORE_CLASS
 </SECTION>
+
+
+<SECTION>
+<FILE>camel-stream</FILE>
+CamelStream
+<TITLE>CamelStream</TITLE>
+camel_stream_seek
+camel_stream_write
+camel_stream_flush
+camel_stream_eos
+camel_stream_write_string
+camel_stream_close
+camel_stream_write_strings
+camel_stream_read
+camel_stream_available
+<SUBSECTION Standard>
+CAMEL_STREAM
+camel_stream_get_type
+CAMEL_STREAM_CLASS
+</SECTION>
+
 
