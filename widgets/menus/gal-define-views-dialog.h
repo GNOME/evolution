@@ -21,7 +21,7 @@
 #ifndef __GAL_DEFINE_VIEWS_DIALOG_H__
 #define __GAL_DEFINE_VIEWS_DIALOG_H__
 
-#include <gnome.h>
+#include <libgnomeui/gnome-dialog.h>
 #include <glade/glade.h>
 #include <gal/e-table/e-table-model.h>
 #include <gal/menus/gal-view-collection.h>

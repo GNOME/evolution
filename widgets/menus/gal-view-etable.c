@@ -8,6 +8,7 @@
  * (C) 2000 Helix Code, Inc.
  */
 #include <config.h>
+#include <gtk/gtksignal.h>
 #include "gal-view-etable.h"
 #include <gal/e-table/e-table-config.h>
 

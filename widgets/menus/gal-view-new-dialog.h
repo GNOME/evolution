@@ -21,7 +21,6 @@
 #ifndef __GAL_VIEW_NEW_DIALOG_H__
 #define __GAL_VIEW_NEW_DIALOG_H__
 
-#include <gnome.h>
 #include <glade/glade.h>
 #include <gal-view-collection.h>
 
