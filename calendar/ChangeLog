@@ -1,3 +1,8 @@
+2001-10-29  Ettore Perazzoli  <ettore@ximian.com>
+
+	* importers/Makefile.am (INCLUDES):
+	s/BONOBO_CFLAGS/BONOBO_GNOME_CFLAGS/.
+
 2001-10-29  Rodrigo Moya <rodrigo@ximian.com>
 
 	* importers/icalendar-importer.c (load_file_fn): fixed URI
