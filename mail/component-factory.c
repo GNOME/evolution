@@ -25,8 +25,7 @@
 #include <config.h>
 #endif
 
-#include <bonobo/bonobo-generic-factory.h>
-#include <gal/widgets/e-gui-utils.h>
+#include <bonobo.h>
 
 #include "camel.h"
 
@@ -37,7 +36,6 @@
 #include "evolution-shell-component.h"
 #include "folder-browser.h"
 #include "mail.h"		/* YUCK FIXME */
-#include "mail-config.h"
 #include "mail-tools.h"
 #include "mail-ops.h"
 #include "mail-local.h"
@@ -46,6 +44,7 @@
 #include "mail-importer.h"
 #include "mail-vfolder.h"             /* vfolder_create_storage */
 #include "openpgp-utils.h"
+#include <gal/widgets/e-gui-utils.h>
 
 #include "component-factory.h"
 
@@ -271,6 +270,14 @@ owner_unset_cb (EvolutionShellComponent *shell_component, gpointer user_data)
 	g_idle_add_full (G_PRIORITY_LOW, idle_quit, NULL, NULL);
 }
 
+static void
+debug_cb (EvolutionShellComponent *shell_component, gpointer user_data)
+{
+	extern gboolean camel_verbose_debug;
+
+	camel_verbose_debug = 1;
+}
+
 static const EvolutionShellComponentFolderType folder_types[] = {
 	{ "mail", "evolution-inbox.png" },
 	{ "mailstorage", "evolution-inbox.png" },
@@ -296,6 +303,8 @@ component_fn (BonoboGenericFactory *factory, void *closure)
 			    GTK_SIGNAL_FUNC (owner_set_cb), NULL);
 	gtk_signal_connect (GTK_OBJECT (shell_component), "owner_unset",
 			    GTK_SIGNAL_FUNC (owner_unset_cb), NULL);
+	gtk_signal_connect (GTK_OBJECT (shell_component), "debug",
+			    GTK_SIGNAL_FUNC (debug_cb), NULL);
 	gtk_signal_connect (GTK_OBJECT (shell_component), "destroy",
 			    GTK_SIGNAL_FUNC (owner_unset_cb), NULL);
 

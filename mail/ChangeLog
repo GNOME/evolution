@@ -1,3 +1,8 @@
+2001-03-30  Dan Winship  <danw@ximian.com>
+
+	* component-factory.c (debug_cb): If the EvolutionShellComponent
+	emits a "debug" signal, turn on camel_verbose_debug.
+
 2001-03-30  Radek Doulik  <rodo@ximian.com>
 
 	* mail-display.c (mail_display_redisplay): reset last_active
