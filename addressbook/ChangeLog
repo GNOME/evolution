@@ -1,3 +1,12 @@
+2000-05-18  Christopher James Lahey  <clahey@helixcode.com>
+
+	* backend/ebook/e-card-simple.c, backend/ebook/e-card-simple.h,
+	backend/ebook/e-card-types.h, backend/ebook/e-card.c,
+	backend/ebook/e-card.h: Implemented "MAILER" field.  Added
+	arbitrary field support.
+
+	* contact-editor/e-contact-editor-categories.c: Fixed a warning.
+
 2000-05-16  Christopher James Lahey  <clahey@helixcode.com>
 
 	* backend/ebook/e-card-simple.c, backend/ebook/e-card-simple.h:

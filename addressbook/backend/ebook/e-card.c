@@ -25,6 +25,8 @@
 #define str_val(obj) (the_str = (vObjectValueType (obj))? fakeCString (vObjectUStringZValue (obj)) : calloc (1, 1))
 #define has(obj,prop) (vo = isAPropertyOf ((obj), (prop)))
 
+#define XEV_ARBITRARY "X-EVOLUTION-ARBITRARY"
+
 /* Object argument IDs */
 enum {
 	ARG_0,
@@ -47,10 +49,12 @@ enum {
 	ARG_NICKNAME,
 	ARG_SPOUSE,
 	ARG_ANNIVERSARY,
+	ARG_MAILER,
 	ARG_FBURL,
 	ARG_NOTE,
 	ARG_CATEGORIES,
 	ARG_CATEGORY_LIST,
+	ARG_ARBITRARY,
 	ARG_ID
 };
 
@@ -88,9 +92,11 @@ static void parse_assistant(ECard *card, VObject *object);
 static void parse_nickname(ECard *card, VObject *object);
 static void parse_spouse(ECard *card, VObject *object);
 static void parse_anniversary(ECard *card, VObject *object);
+static void parse_mailer(ECard *card, VObject *object);
 static void parse_fburl(ECard *card, VObject *object);
 static void parse_note(ECard *card, VObject *object);
 static void parse_categories(ECard *card, VObject *object);
+static void parse_arbitrary(ECard *card, VObject *object);
 static void parse_id(ECard *card, VObject *object);
 
 static ECardPhoneFlags get_phone_flags (VObject *vobj);
@@ -123,9 +129,11 @@ struct {
 	{ "NICKNAME",                parse_nickname },
 	{ "X-EVOLUTION-SPOUSE",      parse_spouse },
 	{ "X-EVOLUTION-ANNIVERSARY", parse_anniversary },   
+	{ VCMailerProp,              parse_mailer },
 	{ "FBURL",                   parse_fburl },
 	{ VCNoteProp,                parse_note },
 	{ "CATEGORIES",              parse_categories },
+	{ XEV_ARBITRARY,             parse_arbitrary },
 	{ VCUniqueStringProp,        parse_id }
 };
 
@@ -378,6 +386,10 @@ char
 		addPropValue(vobj, "X-EVOLUTION-ANNIVERSARY", value);
 		g_free(value);
 	}
+
+	if (card->mailer) {
+		addPropValue(vobj, VCMailerProp, card->mailer);
+	}
 	
 	if (card->fburl)
 		addPropValue(vobj, "FBURL", card->fburl);
@@ -411,6 +423,22 @@ char
 		g_free(string);
 	}
 
+	if (card->arbitrary) {
+		ECardIterator *iterator;
+		for (iterator = e_card_list_get_iterator(card->arbitrary); e_card_iterator_is_valid(iterator); e_card_iterator_next(iterator)) {
+			const ECardArbitrary *arbitrary = e_card_iterator_get(iterator);
+			VObject *arb_object;
+			if (arbitrary->value)
+				arb_object = addPropValue (vobj, XEV_ARBITRARY, arbitrary->value);
+			else
+				arb_object = addProp (vobj, XEV_ARBITRARY);
+			if (arbitrary->type)
+				addPropValue (arb_object, "TYPE", arbitrary->type);
+			if (arbitrary->key)
+				addProp (arb_object, arbitrary->key);
+		}
+	}
+
 	if (card->id)
 		addPropValue (vobj, VCUniqueStringProp, card->id);
 	
@@ -433,8 +461,6 @@ char
 			add_CardProperty (vobj, &xp->prop);
 		}
 	}
-	
-	add_CardStrProperty (vobj, VCMailerProp, &crd->mailer);
 	
 	if (crd->timezn.prop.used) {
 		char *str;
@@ -698,6 +724,14 @@ parse_anniversary(ECard *card, VObject *vobj)
 }
 
 static void
+parse_mailer(ECard *card, VObject *vobj)
+{
+	if ( card->mailer )
+		g_free(card->mailer);
+	assign_string(vobj, &(card->mailer));
+}
+
+static void
 parse_fburl(ECard *card, VObject *vobj)
 {
 	g_free(card->fburl);
@@ -775,6 +809,33 @@ parse_categories(ECard *card, VObject *vobj)
 		do_parse_categories(card, str);
 		free(str);
 	}
+}
+
+static void
+parse_arbitrary(ECard *card, VObject *vobj)
+{
+	ECardArbitrary *arbitrary = e_card_arbitrary_new();
+	VObjectIterator iterator;
+	ECardList *list;
+	for ( initPropIterator (&iterator, vobj); moreIteration(&iterator); ) {
+		VObject *temp = nextVObject(&iterator);
+		const char *name = vObjectName(temp);
+		if (name && !strcmp(name, "TYPE")) {
+			g_free(arbitrary->type);
+			assign_string(temp, &(arbitrary->type));
+		} else {
+			g_free(arbitrary->key);
+			assign_string(temp, &(arbitrary->key));
+		}
+	}
+
+	assign_string(vobj, &(arbitrary->value));
+	
+	gtk_object_get(GTK_OBJECT(card),
+		       "arbitrary", &list,
+		       NULL);
+	e_card_list_append(list, arbitrary);
+	e_card_arbitrary_free(arbitrary);
 }
 
 static void
@@ -876,6 +937,8 @@ e_card_class_init (ECardClass *klass)
 				 GTK_TYPE_STRING, GTK_ARG_READWRITE, ARG_SPOUSE);
 	gtk_object_add_arg_type ("ECard::anniversary",
 				 GTK_TYPE_POINTER, GTK_ARG_READWRITE, ARG_ANNIVERSARY);
+	gtk_object_add_arg_type ("ECard::mailer",
+				 GTK_TYPE_STRING, GTK_ARG_READWRITE, ARG_MAILER);
 	gtk_object_add_arg_type ("ECard::fburl",
 				 GTK_TYPE_STRING, GTK_ARG_READWRITE, ARG_FBURL);
 	gtk_object_add_arg_type ("ECard::note",
@@ -884,6 +947,8 @@ e_card_class_init (ECardClass *klass)
 				 GTK_TYPE_STRING, GTK_ARG_READWRITE, ARG_CATEGORIES);
 	gtk_object_add_arg_type ("ECard::category_list",
 				 GTK_TYPE_OBJECT, GTK_ARG_READWRITE, ARG_CATEGORY_LIST);
+	gtk_object_add_arg_type ("ECard::arbitrary",
+				 GTK_TYPE_OBJECT, GTK_ARG_READWRITE, ARG_ARBITRARY);
 	gtk_object_add_arg_type ("ECard::id",
 				 GTK_TYPE_STRING, GTK_ARG_READWRITE, ARG_ID);
 
@@ -1133,6 +1198,37 @@ e_card_name_from_string(const char *full_name)
 	return name;
 }
 
+ECardArbitrary *
+e_card_arbitrary_new(void)
+{
+	ECardArbitrary *arbitrary = g_new(ECardArbitrary, 1);
+	arbitrary->key = NULL;
+	arbitrary->type = NULL;
+	arbitrary->value = NULL;
+	return arbitrary;
+}
+
+ECardArbitrary *
+e_card_arbitrary_copy(const ECardArbitrary *arbitrary)
+{
+	ECardArbitrary *arb_copy = g_new(ECardArbitrary, 1);
+	arb_copy->key = g_strdup(arbitrary->key);
+	arb_copy->type = g_strdup(arbitrary->type);
+	arb_copy->value = g_strdup(arbitrary->value);
+	return arb_copy;
+}
+
+void
+e_card_arbitrary_free(ECardArbitrary *arbitrary)
+{
+	if (arbitrary) {
+		g_free(arbitrary->key);
+		g_free(arbitrary->type);
+		g_free(arbitrary->value);
+	}
+	g_free(arbitrary);
+}
+
 /*
  * ECard lifecycle management and vCard loading/saving.
  */
@@ -1259,6 +1355,10 @@ e_card_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 		g_free(card->anniversary);
 		card->anniversary = GTK_VALUE_POINTER(*arg);
 		break;
+	case ARG_MAILER:
+		g_free(card->mailer);
+		card->mailer = g_strdup(GTK_VALUE_STRING(*arg));
+		break;
 	case ARG_FBURL:
 		g_free(card->fburl);
 		card->fburl = g_strdup(GTK_VALUE_STRING(*arg));
@@ -1266,6 +1366,13 @@ e_card_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 	case ARG_NOTE:
 		g_free (card->note);
 		card->note = g_strdup(GTK_VALUE_STRING(*arg));
+		break;
+	case ARG_ARBITRARY:
+		if (card->arbitrary)
+			gtk_object_unref(GTK_OBJECT(card->arbitrary));
+		card->arbitrary = E_CARD_LIST(GTK_VALUE_OBJECT(*arg));
+		if (card->arbitrary)
+			gtk_object_ref(GTK_OBJECT(card->arbitrary));
 		break;
 	case ARG_ID:
 		g_free(card->id);
@@ -1385,11 +1492,22 @@ e_card_get_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 	case ARG_ANNIVERSARY:
 		GTK_VALUE_POINTER(*arg) = card->anniversary;
 		break;
+	case ARG_MAILER:
+		GTK_VALUE_STRING(*arg) = card->mailer;
+		break;
 	case ARG_FBURL:
 		GTK_VALUE_STRING(*arg) = card->fburl;
 		break;
 	case ARG_NOTE:
 		GTK_VALUE_STRING(*arg) = card->note;
+		break;
+	case ARG_ARBITRARY:
+		if (!card->arbitrary)
+			card->arbitrary = e_card_list_new((ECardListCopyFunc) e_card_arbitrary_copy,
+							  (ECardListFreeFunc) e_card_arbitrary_free,
+							  NULL);
+
+		GTK_VALUE_OBJECT(*arg) = GTK_OBJECT(card->arbitrary);
 		break;
 	case ARG_ID:
 		GTK_VALUE_STRING(*arg) = card->id;
@@ -1428,9 +1546,11 @@ e_card_init (ECard *card)
 	card->nickname = NULL;
 	card->spouse = NULL;
 	card->anniversary = NULL;
+	card->mailer = NULL;
 	card->fburl = NULL;
 	card->note = NULL;
 	card->categories = NULL;
+	card->arbitrary = NULL;
 #if 0
 
 	c = g_new0 (ECard, 1);
@@ -3093,7 +3213,7 @@ set_address_flags (VObject *vobj, ECardAddressFlags flags)
 	
 	for (i = 0; i < sizeof(addr_pairs) / sizeof(addr_pairs[0]); i++) {
 		if (flags & addr_pairs[i].flag) {
-				addProp (vobj, addr_pairs[i].id);
+			addProp (vobj, addr_pairs[i].id);
 		}
 	}
 }

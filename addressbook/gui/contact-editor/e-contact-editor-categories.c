@@ -290,7 +290,7 @@ e_contact_editor_categories_init (EContactEditorCategories *categories)
 
 	e_table = e_table_new (header, categories->model, INITIAL_SPEC);
 
-	gtk_object_sink(categories->model);
+	gtk_object_sink(GTK_OBJECT(categories->model));
 	
 	gtk_widget_show(e_table);
 

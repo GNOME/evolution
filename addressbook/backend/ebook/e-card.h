@@ -61,9 +61,13 @@ struct _ECard {
 	char            *spouse;        /* The person's spouse.             */
 	ECardDate       *anniversary;   /* The person's anniversary.        */
 
+	char            *mailer;        /* Mailer                           */
+
 	char            *fburl;         /* Free Busy URL                    */
 
 	ECardList       *categories;    /* Categories.                      */
+
+	ECardList       *arbitrary;     /* Arbitrary fields.                */
 
 #if 0
 	ECardPhoto      *logo;          /* This person's org's logo.        */
@@ -83,8 +87,6 @@ struct _ECard {
 	ECardTimeZone   *timezn;        /* The person's time zone.          */
 	ECardGeoPos     *geopos;        /* The person's long/lat.           */
 
-	char            *mailer;        /* The user's mailer.               */
-
 	ECardRev        *rev;	        /* The time this card was last
 					   modified.                        */
 
@@ -98,32 +100,36 @@ struct _ECardClass {
 };
 
 
-ECard         *e_card_new (char *vcard);
-char          *e_card_get_id (ECard *card);
-void           e_card_set_id (ECard *card, const gchar *character);
-char          *e_card_get_vcard (ECard *card);
+ECard         *e_card_new       (      char  *vcard);
+char          *e_card_get_id    (      ECard *card);
+void           e_card_set_id    (      ECard *card,
+				 const char  *character);
+char          *e_card_get_vcard (      ECard *card);
+ECard         *e_card_duplicate (      ECard *card);
 
-ECard         *e_card_duplicate (ECard *card);
-
-ECardPhone *e_card_phone_new (void);
-void e_card_phone_free (ECardPhone *phone);
+ECardPhone *e_card_phone_new  (void);
 ECardPhone *e_card_phone_copy (const ECardPhone *phone);
+void        e_card_phone_free (      ECardPhone *phone);
 
-ECardDeliveryAddress *e_card_delivery_address_new (void);
-void e_card_delivery_address_free (ECardDeliveryAddress *addr);
-ECardDeliveryAddress *e_card_delivery_address_copy (const ECardDeliveryAddress *addr);
-char *e_card_delivery_address_to_string (const ECardDeliveryAddress *addr);
-char *e_card_delivery_address_from_string (const ECardDeliveryAddress *addr);
+ECardDeliveryAddress *e_card_delivery_address_new         (void);
+ECardDeliveryAddress *e_card_delivery_address_copy        (const ECardDeliveryAddress *addr);
+void                  e_card_delivery_address_free        (      ECardDeliveryAddress *addr);
+char                 *e_card_delivery_address_to_string   (const ECardDeliveryAddress *addr);
+ECardDeliveryAddress *e_card_delivery_address_from_string (const char                 *full_addr);
 
-ECardAddrLabel *e_card_address_label_new (void);
-void e_card_address_label_free (ECardAddrLabel *addr);
+ECardAddrLabel *e_card_address_label_new  (void);
 ECardAddrLabel *e_card_address_label_copy (const ECardAddrLabel *addr);
+void            e_card_address_label_free (      ECardAddrLabel *addr);
 
-ECardName *e_card_name_new (void);
-void e_card_name_free(ECardName *name);
-ECardName *e_card_name_copy (const ECardName *name);
-char *e_card_name_to_string(const ECardName *name);
-ECardName *e_card_name_from_string(const char *full_name);
+ECardName *e_card_name_new         (void);
+ECardName *e_card_name_copy        (const ECardName *name);
+void       e_card_name_free        (      ECardName *name);
+char      *e_card_name_to_string   (const ECardName *name);
+ECardName *e_card_name_from_string (const char      *full_name);
+
+ECardArbitrary *e_card_arbitrary_new  (void);
+ECardArbitrary *e_card_arbitrary_copy (const ECardArbitrary *arbitrary);
+void            e_card_arbitrary_free (      ECardArbitrary *arbitrary);
 
 /* Standard Gtk function */
 GtkType        e_card_get_type (void);

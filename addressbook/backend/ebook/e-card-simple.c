@@ -107,7 +107,7 @@ static ECardSimpleFieldData field_data[] =
 	{ E_CARD_SIMPLE_FIELD_FBURL,              "fburl",       "Free-busy URL", "FBUrl",    0,                                   E_CARD_SIMPLE_INTERNAL_TYPE_STRING },
 	{ E_CARD_SIMPLE_FIELD_ANNIVERSARY,        "anniversary", "Anniversary",   "Anniv",    0,                                   E_CARD_SIMPLE_INTERNAL_TYPE_DATE },
 	{ E_CARD_SIMPLE_FIELD_BIRTH_DATE,         "birth_date",  "Birth Date",    "",         0,                                   E_CARD_SIMPLE_INTERNAL_TYPE_DATE },
-	{ E_CARD_SIMPLE_FIELD_MAILER,             "mailer",      "Mailer",        "",         0,                                   E_CARD_SIMPLE_INTERNAL_TYPE_DATE },
+	{ E_CARD_SIMPLE_FIELD_MAILER,             "mailer",      "",              "",         0,                                   E_CARD_SIMPLE_INTERNAL_TYPE_STRING },
 };
 
 static void e_card_simple_init (ECardSimple *simple);
@@ -1112,3 +1112,74 @@ const char     *e_card_simple_get_short_name (ECardSimple          *simple,
 {
 	return field_data[field].short_name;
 }
+
+void                  e_card_simple_arbitrary_foreach (ECardSimple                  *simple,
+						       ECardSimpleArbitraryCallback *callback,
+						       gpointer                      closure)
+{
+	if (simple->card) {
+		ECardList *list;
+		ECardIterator *iterator;
+		gtk_object_get(GTK_OBJECT(simple->card),
+			       "arbitrary", &list,
+			       NULL);
+		for (iterator = e_card_list_get_iterator(list); e_card_iterator_is_valid(iterator); e_card_iterator_next(iterator)) {
+			const ECardArbitrary *arbitrary = e_card_iterator_get(iterator);
+			if (callback)
+				(*callback) (arbitrary, closure);
+		}
+	}
+}
+
+const ECardArbitrary *e_card_simple_get_arbitrary     (ECardSimple          *simple,
+						       const char           *key)
+{
+	if (simple->card) {
+		ECardList *list;
+		ECardIterator *iterator;
+		gtk_object_get(GTK_OBJECT(simple->card),
+			       "arbitrary", &list,
+			       NULL);
+		for (iterator = e_card_list_get_iterator(list); e_card_iterator_is_valid(iterator); e_card_iterator_next(iterator)) {
+			const ECardArbitrary *arbitrary = e_card_iterator_get(iterator);
+			if (!strcasecmp(arbitrary->key, key))
+				return arbitrary;
+		}
+	}
+	return NULL;
+}
+
+/* Any of these except key can be NULL */	      
+void                  e_card_simple_set_arbitrary     (ECardSimple          *simple,
+						       const char           *key,
+						       const char           *type,
+						       const char           *value)
+{
+	if (simple->card) {
+	ECardArbitrary *new_arb;
+		ECardList *list;
+		ECardIterator *iterator;
+		gtk_object_get(GTK_OBJECT(simple->card),
+			       "arbitrary", &list,
+			       NULL);
+		for (iterator = e_card_list_get_iterator(list); e_card_iterator_is_valid(iterator); e_card_iterator_next(iterator)) {
+			const ECardArbitrary *arbitrary = e_card_iterator_get(iterator);
+			if (!strcasecmp(arbitrary->key, key)) {
+				new_arb = e_card_arbitrary_new();
+				new_arb->key = g_strdup(key);
+				new_arb->type = g_strdup(type);
+				new_arb->value = g_strdup(value);
+				e_card_iterator_set(iterator, new_arb);
+				e_card_arbitrary_free(new_arb);
+				return;
+			}
+		}
+		new_arb = e_card_arbitrary_new();
+		new_arb->key = g_strdup(key);
+		new_arb->type = g_strdup(type);
+		new_arb->value = g_strdup(value);
+		e_card_list_append(list, new_arb);
+		e_card_arbitrary_free(new_arb);
+	}
+}
+
