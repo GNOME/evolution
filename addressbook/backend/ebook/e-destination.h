@@ -31,7 +31,7 @@
 #include <glib-object.h>
 #include <ebook/e-card.h>
 #include <ebook/e-book.h>
-#include <gnome-xml/tree.h>
+#include <libxml/tree.h>
 
 #define E_TYPE_DESTINATION           (e_destination_get_type ())
 #define E_DESTINATION(o)             (G_TYPE_CHECK_INSTANCE_CAST ((o), E_TYPE_DESTINATION, EDestination))

@@ -1,5 +1,9 @@
 2002-11-06  Chris Toshok  <toshok@ximian.com>
 
+	* backend/ebook/e-destination.[ch]: fix the gnome-xml headers.
+
+2002-11-06  Chris Toshok  <toshok@ximian.com>
+
 	* gui/widgets/gal-view-minicard.c: fix the gnome-xml headers.
 
 	* gui/widgets/e-addressbook-view.c

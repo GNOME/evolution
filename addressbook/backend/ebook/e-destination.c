@@ -34,8 +34,9 @@
 #include "e-book-marshal.h"
 #include "e-book-util.h"
 #include <gal/widgets/e-unicode.h>
-#include <gnome-xml/parser.h>
-#include <gnome-xml/xmlmemory.h>
+
+#include <glib.h>
+#include <libxml/xmlmemory.h>
 #include <camel/camel-internet-address.h>
 
 #define d(x) x
