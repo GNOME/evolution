@@ -54,7 +54,7 @@ static CamelMimePart *       get_parent        (CamelMultipart *multipart);
 static void                  set_boundary      (CamelMultipart *multipart,
 						gchar *boundary);
 static const gchar *         get_boundary      (CamelMultipart *multipart);
-static void                  write_to_stream   (CamelDataWrapper *data_wrapper,
+static int                   write_to_stream   (CamelDataWrapper *data_wrapper,
 						CamelStream *stream);
 static void                  finalize          (GtkObject *object);
 
@@ -459,61 +459,61 @@ camel_multipart_get_boundary (CamelMultipart *multipart)
 	return CMP_CLASS (multipart)->get_boundary (multipart);
 }
 
-
-struct print_part_user_data {
-	CamelStream *stream;
-	const gchar *boundary;
-};
-
-static void
-print_part (gpointer data, gpointer user_data)
-{
-	CamelMimeBodyPart *body_part = CAMEL_MIME_BODY_PART (data);
-	struct print_part_user_data *ud = user_data;
-
-	if (ud->boundary)
-		camel_stream_write_strings (ud->stream, "\n--",
-					    ud->boundary, "\n", NULL);
-	else camel_stream_write_strings (ud->stream, "\n--\n", NULL);
-	camel_data_wrapper_write_to_stream (CAMEL_DATA_WRAPPER (body_part),
-					    ud->stream);
-}
-
-static void
+/* this is MIME specific, doesn't belong here really */
+static int
 write_to_stream (CamelDataWrapper *data_wrapper, CamelStream *stream)
 {
 	CamelMultipart *multipart = CAMEL_MULTIPART (data_wrapper);
-	struct print_part_user_data ud;
 	const gchar *boundary;
+	int total = 0, count;
+	GList *node;
 
 	/* get the bundary text */
 	boundary = camel_multipart_get_boundary (multipart);
 
 	/* we cannot write a multipart without a boundary string */
-	g_return_if_fail (boundary);
+	g_return_val_if_fail (boundary, -1);
 
 	/*
 	 * write the preface text (usually something like
 	 *   "This is a mime message, if you see this, then
 	 *    your mail client probably doesn't support ...."
 	 */
-	if (multipart->preface)
-		camel_stream_write_strings (stream, multipart->preface, NULL);
+	if (multipart->preface) {
+		count = camel_stream_write_strings (stream, multipart->preface, NULL);
+		if (count == -1)
+			return -1;
+		total += count;
+	}
 
 	/*
 	 * Now, write all the parts, separated by the boundary
 	 * delimiter
 	 */
-	ud.boundary = boundary;
-	ud.stream = stream;
-	if (boundary && (boundary[0] == '\0'))
+	if (boundary==NULL || (boundary[0] == '\0'))
 		g_warning ("Multipart boundary is zero length\n");
-	g_list_foreach (multipart->parts, print_part, (gpointer)&ud);
+	
+	node = multipart->parts;
+	while (node) {
+		if ( (count = camel_stream_write_strings (stream, "\n--", boundary?boundary:"", "\n", NULL) ) == -1 )
+			return -1;
+		total += count;
+		if ( (count = camel_data_wrapper_write_to_stream (CAMEL_DATA_WRAPPER (node->data), stream)) == -1 )
+			return -1;
+		total += count;
+		node = node->next;
+	}
 
 	/* write the terminating boudary delimiter */
-	camel_stream_write_strings (stream, "\n--", boundary, "--\n", NULL);
+	if ( ( count = camel_stream_write_strings (stream, "\n--", boundary, "--\n", NULL) ) == -1 )
+		return -1;
+	total += count;
+	
+	/* and finally the postface - it is NOT fatal if this fails */
+	if (multipart->postface) {
+		if ( ( count = camel_stream_write_strings (stream, multipart->postface, NULL) ) != -1 )
+			total += count;
+	}
 
-	/* and finally the postface */
-	if (multipart->postface)
-		camel_stream_write_strings (stream, multipart->postface, NULL);
+	return total;
 }

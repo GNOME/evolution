@@ -35,36 +35,26 @@ extern "C" {
 #endif /* __cplusplus }*/
 
 #include <gtk/gtk.h>
-#include "camel-types.h"
-#include "camel-seekable-stream.h"
+#include <camel/camel-types.h>
+#include <camel/camel-seekable-stream.h>
+
+/* for open flags */
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
 
 #define CAMEL_STREAM_FS_TYPE     (camel_stream_fs_get_type ())
 #define CAMEL_STREAM_FS(obj)     (GTK_CHECK_CAST((obj), CAMEL_STREAM_FS_TYPE, CamelStreamFs))
 #define CAMEL_STREAM_FS_CLASS(k) (GTK_CHECK_CLASS_CAST ((k), CAMEL_STREAM_FS_TYPE, CamelStreamFsClass))
 #define CAMEL_IS_STREAM_FS(o)    (GTK_CHECK_TYPE((o), CAMEL_STREAM_FS_TYPE))
 
-typedef enum 
-{
-	CAMEL_STREAM_FS_READ   =   1,
-	CAMEL_STREAM_FS_WRITE  =   2
-
-} CamelStreamFsMode;
-
-
 struct _CamelStreamFs
 {
-
 	CamelSeekableStream parent_object;
 
 	gchar *name;         /* name of the underlying file */
-	gboolean eof;        /* are we at the end of the file ? */
 	gint fd;             /* file descriptor on the underlying file */
-	guint32 inf_bound;   /* first valid position */
-	gint32 sup_bound;    /* last valid position, -1 means, no sup bound */
-	
 };
-
-
 
 typedef struct {
 	CamelSeekableStreamClass parent_class;
@@ -73,38 +63,29 @@ typedef struct {
 	void (*init_with_fd)              (CamelStreamFs *stream_fs, 
 					   int fd);
 	void (*init_with_fd_and_bounds)   (CamelStreamFs *stream_fs, 
-					   int fd, guint32 inf_bound, 
-					   gint32 sup_bound);
+					   int fd, off_t start, off_t end);
 
-	void (*init_with_name)            (CamelStreamFs *stream_fs, 
+	int (*init_with_name)            (CamelStreamFs *stream_fs, 
 					   const gchar *name, 
-					   CamelStreamFsMode mode);
-	void (*init_with_name_and_bounds) (CamelStreamFs *stream_fs, 
+					   int flags, int mode);
+	int (*init_with_name_and_bounds) (CamelStreamFs *stream_fs, 
 					   const gchar *name, 
-					   CamelStreamFsMode mode, 
-					   guint32 inf_bound, 
-					   gint32 sup_bound);
-
+					   int flags, int mode,
+					   off_t start, off_t end);
 } CamelStreamFsClass;
-
-
 
 /* Standard Gtk function */
 GtkType camel_stream_fs_get_type (void);
 
 
 /* public methods */
-CamelStream *   camel_stream_fs_new_with_name              (const gchar *name, 
-							    CamelStreamFsMode mode);
+CamelStream *   camel_stream_fs_new_with_name              (const gchar *name, int flags, int mode);
 CamelStream *   camel_stream_fs_new_with_name_and_bounds   (const gchar *name, 
-							    CamelStreamFsMode mode,
-							    guint32 inf_bound, 
-							    gint32 sup_bound);
+							    int flags, int mode,
+							    off_t start, off_t end);
 
 CamelStream *   camel_stream_fs_new_with_fd                (int fd);
-CamelStream *   camel_stream_fs_new_with_fd_and_bounds     (int fd,
-							    guint32 inf_bound, 
-							    gint32 sup_bound);
+CamelStream *   camel_stream_fs_new_with_fd_and_bounds     (int fd, off_t start, off_t end);
 
 #ifdef __cplusplus
 }

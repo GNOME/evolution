@@ -35,6 +35,8 @@ extern "C" {
 #endif /* __cplusplus }*/
 
 #include <gtk/gtk.h>
+#include <sys/types.h>
+#include <unistd.h>
 #include "camel-types.h"
 #include "camel-stream.h"
 
@@ -46,44 +48,40 @@ extern "C" {
 
 typedef enum
 {
-	CAMEL_STREAM_SET,
-	CAMEL_STREAM_CUR,
-	CAMEL_STREAM_END
-
+	CAMEL_STREAM_SET = SEEK_SET,
+	CAMEL_STREAM_CUR = SEEK_CUR,
+	CAMEL_STREAM_END = SEEK_END
 } CamelStreamSeekPolicy;
 
+#define CAMEL_STREAM_UNBOUND (~0)
 
 struct _CamelSeekableStream
 {
 	CamelStream parent_object;
-	
-	guint32 cur_pos;     /* current postion in the stream */
 
+	off_t position;		/* current postion in the stream */
+	off_t bound_start;	/* first valid position */
+	off_t bound_end;	/* first invalid position */
 };
-
-
 
 typedef struct {
 	CamelStreamClass parent_class;
 	
 	/* Virtual methods */	
-	gint (*seek)       (CamelSeekableStream *stream, gint offset, CamelStreamSeekPolicy policy);
-	
-	
+	off_t (*seek)       (CamelSeekableStream *stream, off_t offset, CamelStreamSeekPolicy policy);
+	off_t (*tell)	    (CamelSeekableStream *stream);
+	void (*set_bounds) (CamelSeekableStream *stream, off_t start, off_t end);
 } CamelSeekableStreamClass;
-
-
 
 /* Standard Gtk function */
 GtkType camel_seekable_stream_get_type (void);
 
-
 /* public methods */
-gint     camel_seekable_stream_seek                      (CamelSeekableStream *stream, 
-							  gint offset, 
+off_t    camel_seekable_stream_seek                      (CamelSeekableStream *stream, 
+							  off_t offset, 
 							  CamelStreamSeekPolicy policy);
-guint32  camel_seekable_stream_get_current_position      (CamelSeekableStream *stream);
-
+off_t	 camel_seekable_stream_tell    			 (CamelSeekableStream *stream);
+void	 camel_seekable_stream_set_bounds		 (CamelSeekableStream *, off_t, off_t);
 
 #ifdef __cplusplus
 }

@@ -48,7 +48,6 @@ static void camel_stream_filter_init       (CamelStreamFilter *obj);
 static	gint      do_read       (CamelStream *stream, gchar *buffer, gint n);
 static	gint      do_write      (CamelStream *stream, const gchar *buffer, gint n);
 static	void      do_flush      (CamelStream *stream);
-static	gboolean  do_available  (CamelStream *stream);
 static	gboolean  do_eos        (CamelStream *stream);
 static	void      do_close      (CamelStream *stream);
 static	void      do_reset      (CamelStream *stream);
@@ -118,7 +117,6 @@ camel_stream_filter_class_init (CamelStreamFilterClass *klass)
 	camel_stream_class->read = do_read;
 	camel_stream_class->write = do_write;
 	camel_stream_class->flush = do_flush;
-	camel_stream_class->available = do_available;
 	camel_stream_class->eos = do_eos; 
 	camel_stream_class->close = do_close;
 	camel_stream_class->reset = do_reset;
@@ -265,17 +263,6 @@ static	gint      do_write      (CamelStream *stream, const gchar *buffer, gint n
 static	void      do_flush      (CamelStream *stream)
 {
 	/* NO OP */
-}
-
-static	gboolean  do_available  (CamelStream *stream)
-{
-	CamelStreamFilter *filter = (CamelStreamFilter *)stream;
-	struct _CamelStreamFilterPrivate *p = _PRIVATE(filter);
-
-	if (p->filteredlen >0)
-		return TRUE;
-
-	return camel_stream_available(filter->source);
 }
 
 static	gboolean  do_eos        (CamelStream *stream)

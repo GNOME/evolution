@@ -42,14 +42,12 @@ extern "C" {
 #define CAMEL_STREAM_CLASS(k) (GTK_CHECK_CLASS_CAST ((k), CAMEL_STREAM_TYPE, CamelStreamClass))
 #define CAMEL_IS_STREAM(o)    (GTK_CHECK_TYPE((o), CAMEL_STREAM_TYPE))
 
-
 struct _CamelStream
 {
 	GtkObject parent_object;
 
+	gboolean eos;		/* end of stream indicator, for use by implementing classes */
 };
-
-
 
 typedef struct {
 	GtkObjectClass parent_class;
@@ -61,42 +59,29 @@ typedef struct {
 	gint      (*read)       (CamelStream *stream, gchar *buffer, gint n);
 	gint      (*write)      (CamelStream *stream, const gchar *buffer, gint n);
 	void      (*flush)      (CamelStream *stream);
-	gboolean  (*available)  (CamelStream *stream);
 	gboolean  (*eos)        (CamelStream *stream);
 	void      (*close)      (CamelStream *stream);
 	void      (*reset)      (CamelStream *stream);
 } CamelStreamClass;
 
-
-
-
-
-
 /* Standard Gtk function */
 GtkType camel_stream_get_type (void);
-
-
-
 
 /* public methods */
 gint       camel_stream_read      (CamelStream *stream, gchar *buffer, gint n);
 gint       camel_stream_write     (CamelStream *stream, const gchar *buffer, gint n);
 void       camel_stream_flush     (CamelStream *stream);
-gboolean   camel_stream_available (CamelStream *stream);
 gboolean   camel_stream_eos       (CamelStream *stream);
 void       camel_stream_close     (CamelStream *stream);
 void       camel_stream_reset     (CamelStream *stream);
 
-
-
-
 /* utility macros and funcs */
-#define camel_stream_write_string(stream, string) camel_stream_write ((stream), (string), strlen (string))
+#define camel_stream_write_string(stream, string) (camel_stream_write ((stream), (string), strlen (string)))
+int camel_stream_write_strings (CamelStream *stream, ... );
+int camel_stream_printf (CamelStream *stream, const char *fmt, ... ) G_GNUC_PRINTF (2, 3);
 
-void       camel_stream_write_strings (CamelStream *stream, ... );
-/* write a whole stream to another stream, until eof */
-/* FIXME: this should definetly have an error return code */
-void	   camel_stream_write_to_stream (CamelStream *stream, CamelStream *output_stream);
+/* write a whole stream to another stream, until eof or error on either stream */
+int camel_stream_write_to_stream (CamelStream *stream, CamelStream *output_stream);
 
 #ifdef __cplusplus
 }

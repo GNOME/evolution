@@ -36,7 +36,6 @@ extern "C" {
 #include <gtk/gtk.h>
 #include <camel/camel-exception.h>
 #include <camel/camel-data-wrapper.h>
-#include <camel/camel-simple-data-wrapper.h>
 #include <camel/camel-folder.h>
 #include <camel/camel-folder-pt-proxy.h>
 #include <camel/camel-marshal-utils.h>
@@ -56,7 +55,6 @@ extern "C" {
 #include <camel/camel-stream-mem.h>
 #include <camel/camel-thread-proxy.h>
 #include <camel/camel-url.h>
-#include <camel/data-wrapper-repository.h>
 #include <camel/gmime-content-field.h>
 #include <camel/gmime-utils.h>
 #include <camel/gstring-util.h>

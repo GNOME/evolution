@@ -1,11 +1,9 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/* camel-stream-mem.c : memory buffer based stream */
-
-/* inspired by gnome-stream-mem.c in bonobo by Miguel de Icaza */
-/* 
+/* camel-stream-mem.c : memory buffer based stream
+ * inspired by gnome-stream-mem.c in bonobo by Miguel de Icaza
  *
- * Author : 
- *  Bertrand Guiheneuf <bertrand@helixcode.com>
+ * Authors: Bertrand Guiheneuf <bertrand@helixcode.com>
+ *	    Michael Zucchi <notzed@helixcode.com>
  *
  * Copyright 1999, 2000 Helix Code, Inc. (http://www.helixcode.com)
  *
@@ -33,19 +31,17 @@
 
 static CamelStreamClass *parent_class=NULL;
 
-
 /* Returns the class for a CamelStreamMEM */
 #define CSM_CLASS(so) CAMEL_STREAM_MEM_CLASS (GTK_OBJECT(so)->klass)
 
-static gint _read (CamelStream *stream, gchar *buffer, gint n);
-static gint _write (CamelStream *stream, const gchar *buffer, gint n);
-static void _flush (CamelStream *stream);
-static gint _available (CamelStream *stream);
-static gboolean _eos (CamelStream *stream);
-static void _close (CamelStream *stream);
-static gint _seek (CamelSeekableStream *stream, gint offset, CamelStreamSeekPolicy policy);
+static gint stream_read (CamelStream *stream, gchar *buffer, gint n);
+static gint stream_write (CamelStream *stream, const gchar *buffer, gint n);
+static void stream_flush (CamelStream *stream);
+static gboolean stream_eos (CamelStream *stream);
+static void stream_close (CamelStream *stream);
+static off_t stream_seek (CamelSeekableStream *stream, off_t offset, CamelStreamSeekPolicy policy);
 
-static void _finalize (GtkObject *object);
+static void finalize (GtkObject *object);
 
 static void
 camel_stream_mem_class_init (CamelStreamMemClass *camel_stream_mem_class)
@@ -59,24 +55,23 @@ camel_stream_mem_class_init (CamelStreamMemClass *camel_stream_mem_class)
 	/* virtual method definition */
 	
 	/* virtual method overload */
-	camel_stream_class->read = _read;
-	camel_stream_class->write = _write;
-	camel_stream_class->flush = _flush;
-	camel_stream_class->available = _available;
-	camel_stream_class->eos = _eos;
-	camel_stream_class->close = _close;
+	camel_stream_class->read = stream_read;
+	camel_stream_class->write = stream_write;
+	camel_stream_class->flush = stream_flush;
+	camel_stream_class->eos = stream_eos;
+	camel_stream_class->close = stream_close;
 
-	camel_seekable_stream_class->seek = _seek;
+	camel_seekable_stream_class->seek = stream_seek;
 	
-	gtk_object_class->finalize = _finalize;
-	
+	gtk_object_class->finalize = finalize;
 }
 
 static void
 camel_stream_mem_init (gpointer   object,  gpointer   klass)
 {
-	CamelStreamMem *camel_stream_mem = CAMEL_STREAM_MEM (object);
-	camel_stream_mem->position = 0;
+	CamelStreamMem *stream_mem = CAMEL_STREAM_MEM (object);
+	stream_mem->owner = FALSE;
+	stream_mem->buffer = 0;
 }
 
 GtkType
@@ -105,191 +100,169 @@ camel_stream_mem_get_type (void)
 
 
 CamelStream *
-camel_stream_mem_new (CamelStreamMemMode mode)
+camel_stream_mem_new (void)
 {
-	return camel_stream_mem_new_with_byte_array (g_byte_array_new (),
-						     mode);
+	return camel_stream_mem_new_with_byte_array (g_byte_array_new ());
 }
 
 CamelStream *
-camel_stream_mem_new_with_buffer (const char *buffer, unsigned int len,
-				  CamelStreamMemMode mode)
+camel_stream_mem_new_with_buffer (const char *buffer, unsigned int len)
 {
 	GByteArray *ba;
 
 	ba = g_byte_array_new ();
 	g_byte_array_append (ba, (const guint8 *)buffer, len);
-	return camel_stream_mem_new_with_byte_array (ba, mode);
+	return camel_stream_mem_new_with_byte_array (ba);
 }
 
 CamelStream *
-camel_stream_mem_new_with_byte_array (GByteArray *byte_array,
-				      CamelStreamMemMode mode)
+camel_stream_mem_new_with_byte_array (GByteArray *byte_array)
 {
 	CamelStreamMem *stream_mem;
 	
 	stream_mem = gtk_type_new (camel_stream_mem_get_type ());
-	stream_mem->mode = mode;
 	stream_mem->buffer = byte_array;
+	stream_mem->owner = TRUE;
 	
 	return CAMEL_STREAM (stream_mem);
 }
 
+/* note: with these functions the caller is the 'owner' of the buffer */
+void camel_stream_mem_set_byte_array (CamelStreamMem *s, GByteArray *buffer)
+{
+	if (s->buffer && s->owner)
+		g_byte_array_free(s->buffer, TRUE);
+	s->owner = FALSE;
+	s->buffer = buffer;
+}
 
+void camel_stream_mem_set_buffer (CamelStreamMem *s, const char *buffer, size_t len)
+{
+	GByteArray *ba;
+
+	ba = g_byte_array_new ();
+	g_byte_array_append (ba, (const guint8 *)buffer, len);
+	camel_stream_mem_set_byte_array(s, ba);
+}
 
 static void           
-_finalize (GtkObject *object)
+finalize (GtkObject *object)
 {
 	CamelStreamMem *stream_mem = CAMEL_STREAM_MEM (object);
 
-	if (stream_mem->buffer)
+	if (stream_mem->buffer && stream_mem->owner)
 		g_byte_array_free (stream_mem->buffer, TRUE);
 
 	GTK_OBJECT_CLASS (parent_class)->finalize (object);
 }
 
-
-
-/**
- * _read: read bytes from a stream
- * @stream: stream
- * @buffer: buffer where bytes are stored
- * @n: max number of bytes to read
- * 
- * 
- * 
- * Return value: number of bytes actually read.
- **/
 static gint
-_read (CamelStream *stream, gchar *buffer, gint n)
+stream_read (CamelStream *stream, gchar *buffer, gint n)
 {
 	CamelStreamMem *camel_stream_mem = CAMEL_STREAM_MEM (stream);
-	gint nb_bytes_to_read;
+	CamelSeekableStream *seekable = (CamelSeekableStream *)stream;
 
 	g_assert (stream);
-	nb_bytes_to_read = MIN (n, (camel_stream_mem->buffer)->len - camel_stream_mem->position);
-	if (nb_bytes_to_read>0) {
-		memcpy (buffer, (camel_stream_mem->buffer)->data + camel_stream_mem->position, nb_bytes_to_read);
-		camel_stream_mem->position += nb_bytes_to_read;
-	} else nb_bytes_to_read = -1;
 
-	return nb_bytes_to_read;
+	if (seekable->bound_end != CAMEL_STREAM_UNBOUND) {
+		n = MIN(seekable->bound_end - seekable->position, n);
+	}
+
+	n = MIN (n, camel_stream_mem->buffer->len - seekable->position);
+	if (n>0) {
+		memcpy (buffer, (camel_stream_mem->buffer)->data + seekable->position, n);
+		seekable->position += n;
+	} else {
+		n = -1;
+	}
+
+	return n;
 }
 
-
-/**
- * _write: read bytes to a stream
- * @stream: the stream
- * @buffer: byte buffer
- * @n: number of bytes to write
- * 
- * 
- * 
- * Return value: the number of bytes actually written
- *  in the stream.
- **/
 static gint
-_write (CamelStream *stream, const gchar *buffer, gint n)
+stream_write (CamelStream *stream, const gchar *buffer, gint n)
 {
-	CamelStreamMem *camel_stream_mem = CAMEL_STREAM_MEM (stream);
+	CamelStreamMem *stream_mem = CAMEL_STREAM_MEM (stream);
+	CamelSeekableStream *seekable = (CamelSeekableStream *)stream;
 
 	g_assert (stream);
-	g_return_val_if_fail (camel_stream_mem->position>=0, -1);
-	camel_stream_mem->buffer = g_byte_array_append (camel_stream_mem->buffer, (const guint8 *)buffer, n);
-	camel_stream_mem->position += n;
+
+	if (seekable->bound_end != CAMEL_STREAM_UNBOUND) {
+		n = MIN(seekable->bound_end - seekable->position, n);
+	}
+
+#warning "g_byte_arrays use g_malloc and so are totally unsuitable for this object"
+	if (seekable->position == stream_mem->buffer->len) {
+		stream_mem->buffer = g_byte_array_append (stream_mem->buffer, (const guint8 *)buffer, n);
+	} else {
+		g_byte_array_set_size(stream_mem->buffer, n+stream_mem->buffer->len);
+		memcpy(stream_mem->buffer->data + seekable->position, buffer, n);
+	}
+	seekable->position += n;
 	
 	return n;
 }
 
-
-
-/**
- * _flush: flush pending changes 
- * @stream: the stream
- * 
- * 
- **/
 static void
-_flush (CamelStream *stream)
+stream_flush (CamelStream *stream)
 {
 	/* Nothing to do. */
 	return;
 }
 
-
-
-/**
- * _available: return the number of bytes available for reading
- * @stream: the stream
- * 
- * Return the number of bytes available without blocking.
- * 
- * Return value: the number of bytes available
- **/
-static gint 
-_available (CamelStream *stream)
-{
-	CamelStreamMem *camel_stream_mem = CAMEL_STREAM_MEM (stream);
-
-	return camel_stream_mem->buffer->len - camel_stream_mem->position;
-}
-
-
-/**
- * _eos: test if there are bytes left to read
- * @stream: the stream
- * 
- * Return value: true if all stream has been read
- **/
 static gboolean
-_eos (CamelStream *stream)
+stream_eos (CamelStream *stream)
 {
-	return _available (stream) == 0;
+	return ((CamelStreamMem *)stream)->buffer->len <= ((CamelSeekableStream *)stream)->position;
 }
 
-
-/**
- * _close: close a stream
- * @stream: the stream
- * 
- * 
- **/
 static void
-_close (CamelStream *stream)
+stream_close (CamelStream *stream)
 {
 	CamelStreamMem *stream_mem = CAMEL_STREAM_MEM (stream);
 
-	if (stream_mem->buffer)
+	if (stream_mem->buffer && stream_mem->owner)
 		g_byte_array_free (stream_mem->buffer, TRUE);
 	stream_mem->buffer = NULL;
 }
 
-
-
-static gint
-_seek (CamelSeekableStream *stream, gint offset, CamelStreamSeekPolicy policy)
+static off_t
+stream_seek (CamelSeekableStream *stream, off_t offset, CamelStreamSeekPolicy policy)
 {
-	gint position;
-	CamelStreamMem *camel_stream_mem = CAMEL_STREAM_MEM (stream);
+	off_t position;
+	CamelStreamMem *stream_mem = (CamelStreamMem *)stream;
 
 	switch  (policy) {
 	case CAMEL_STREAM_SET:
 		position = offset;
 		break;
 	case CAMEL_STREAM_CUR:
-		position = camel_stream_mem->position + offset;
+		position = stream->position + offset;
 		break;
 	case CAMEL_STREAM_END:
-		position = (camel_stream_mem->buffer)->len + offset;
+		position = (stream_mem->buffer)->len + offset;
 		break;
 	default:
+		errno = EINVAL;
 		return -1;
 	}
-		
-	position = MIN (position, (camel_stream_mem->buffer)->len);
-	position = MAX (position, 0);
 
-	camel_stream_mem->position = position;
+	if (stream->bound_end == CAMEL_STREAM_UNBOUND) {
+		position = MIN (position, stream->bound_end);
+	}
+	if (stream->bound_start == CAMEL_STREAM_UNBOUND) {
+		position = MAX (position, 0);
+	} else {
+		position = MAX (position, stream->bound_start);
+	}
+
+	if (position > stream_mem->buffer->len) {
+		int oldlen = stream_mem->buffer->len;
+		g_byte_array_set_size(stream_mem->buffer, position);
+		memset(stream_mem->buffer->data + oldlen, 0, position - oldlen);
+	}
+
+	stream->position = position;
 
 	return position;
 }

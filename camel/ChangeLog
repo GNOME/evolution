@@ -1,3 +1,190 @@
+2000-04-26  NotZed  <NotZed@HelixCode.com>
+
+	* camel-seekable-substream.c (stream_seek): Changed to have
+	absolute seek semantics, not relative to the bounds.
+
+	* camel-seekable-stream.c (reset): When we reset, seek to the
+	start of the bound, if there is one.
+	(stream_tell): Make tell virtual.
+
+	* camel-stream-filter.c (do_available): Removed.
+
+	* camel-stream-buffer.c: Remove leading _'s from static functions.
+	(stream_read): Renamed from read().  Fancy that conflicting!  (my
+	boo!)  Others too.
+
+	* providers/pop3/camel-pop3-folder.c (get_message_by_number):
+	Changed to stream_mem interface.
+
+	* providers/mbox/camel-mbox-folder.c (_get_message_by_uid): Fixed
+	for streamfs interface changes, and implement a failure case.
+	(_append_message): Changed for fs stream interface change.
+
+	* camel-multipart.c (print_part): Iterate rahter than callback.  I
+	hate glists's interface (hence, move this to write_to_stream).
+	(write_to_stream): Return an error (yuck, this is a royal PITA to
+	do with the stream write interface).
+
+	* camel-mime-message.c: Removed leading _ from static names.
+
+	* camel-mime-part.h: construct_from_parser() now returns an error
+	code.
+
+	* camel-mime-part-utils.c
+	(camel_mime_part_construct_content_from_parser): Changed to use a
+	camel-data-wrapper instead of a camel-simple-data-wrapper (no
+	change needed elsewhere?).
+	(simple_data_wrapper_construct_from_parser): Fixes for stream-mem
+	interface changes.
+
+	* camel-simple-data-wrapper.[ch],
+	camel-simple-data-wrapper-stream.[ch],
+	camel-stream-data-wrapper.[ch], removed.  Fixed including of these
+	files.
+	
+	* camel-mime-part.c (camel_mime_part_set_text): Remove the use of
+	the camel-simple-data-wrapper-stream, just use a mem stream.
+	(write_to_stream): Renamed from my_*
+	(construct_from_stream): Return an error on error.
+
+	* camel-stream-mem.c (camel_stream_mem_new*): Remove mode
+	parameter.
+
+	* camel-stream-mem.h (enum CamelStreamMemMode): Removed.  It
+	wasn't used at all.
+
+	* camel-data-wrapper.h: Add camel_data_wrapper_new() to create
+	these.
+	(write_to_stream, construct_from_stream): Return an error
+	indicator for success.  Fixed all methods to match (ICK).
+
+	* Makefile.am (libcamel_la_SOURCES): Remove
+	camel-simple-data-wrapper.c, camel-simple-data-wrapper-stream.c,
+	camel-stream-data-wrapper.c.  Obsoleted by code re-use!
+
+	* camel-data-wrapper.c (construct_from_stream): Change the default
+	implementation to just set the output stream == construction
+	stream.  Well, this lets me get rid of both simple-data-wrapper
+	and stream-data-wrapper (unused anyway), and
+	simple-data-wrapper-stream in one hit.  CamelDataWrapper is now
+	also a concrete class.
+	(write_to_stream): Use camel_stream_write_to_stream() to
+	calculate/return values (and save code).
+	Include <errno.h> for obvious reasons.
+
+	* camel-stream.c (eos): Provide a default implementation of .eos().
+	(camel_stream_write_to_stream): Make it return an error code on
+	error.
+	(camel_stream_printf): Changed to return the number of bytes
+	written/error.
+	(camel_stream_available): Removed.
+
+	* camel-stream-fs.h (enum CamelStreamFsMode): Removed.  Changed to
+	use unix modes and so forth (wasn't used for anything but new file
+	creation and didn't work well either).
+
+	* camel-stream-fs.c: Removed leading _'s for names.  And removed
+	some virtual method 'documentation'.
+	(destroy): Dont try and close a closed/error fd.  Only report
+	error if close returns -1.  Moved all the code to finalise(), and
+	killed this function.
+	(init_with_fd): Properly setup the seek offset, if it is a
+	valid and seekable file descriptor.
+	(init_with_fd_and_bounds): Use off_t for bounds, set bounds on the
+	seekable stream.
+	(init_with_name): Return error codes.
+	(init_with_name_and_bounds): Ditto.
+	(camel_stream_fs_new_with_name): REturn NULL object if it failed.
+	(camel_stream_fs_new_with_name_and_bounds): Return NULL object on
+	failure.  Changed with_name* api's to take unix open style args
+	and flags.
+	(read): The bounded stream bounds checking seemed off, simplified
+	code a bit.
+	(write): Implement bounds checking for writing, the comment was
+	wrong, it could make sense to bound writing.  Cleaned up a little.
+	(available): Gone.
+	(eos): Removed.  Use CamelStream's implementation now.
+	(close): Reset the fd to -1, provide a warning for bad usage.
+	(seek): Cleaned up.  Changed the behaviour a little, the returned
+	offset is the absolute position in the file, even in bounded
+	streams.	
+	(seek): Seek from end mirrors lseek() behaviour (reverse seeking).
+
+2000-04-25  NotZed  <NotZed@HelixCode.com>
+
+	* camel-stream-fs.h (struct _CamelStreamFs): Moved bounds and eof
+	indicator to other parent classes.
+
+	* camel-stream.c (camel_stream_printf): New utility
+	function.  Obvious use.
+
+	* camel-stream-mem.c: Removed leading _'s from static func's.
+	(camel_stream_mem_new_with_byte_array): Fixed for api changes, set
+	the owner for the byte array to us.
+	: Removed A bunch of gtk doc stuff for static (implementation) functions.
+	(available): Removed.
+	(write): Fixed the write implementation so that seek() works on a
+	seekable memory stream, as expected.  Seeking past the end of the
+	buffer has unix semantics (filling with 0).
+	(available): Removed.
+	(write): Implement seekable stream bounded stream.
+	(read): Implement seekable stream bounded stream.
+	(close): Dont free the stream_mem if we're not the owner.
+	(seek): Allow to seek beyond the end of memory area,
+	implement bounds checking.
+	(seek): Set errno on bad policy.
+
+	* camel-stream-mem.h (struct _CamelStreamMem): Changed position to off_t.
+	(new_with_buffer): Changed len to be a size_t.
+	(set_buffer, set_byte_array): New interface functions.
+	(struct _CamelStreamMem): Removed position, it is stored in the
+	superclass.
+
+	* camel-stream.h: Removed some of the seemingly random
+	whitespace.  Removed the available method (its not
+	impelemented/useful enough).
+
+	* camel-seekable-substream.c
+	(init_with_seekable_stream_and_bounds): Remove the data_available
+	stuff, it hasn't been properly implemented/finished, and may never
+	work (unfortunately *sigh).
+	(reemit_parent_signal): Removed part of the above change.
+	(set_bounds): Removed (moved to seekable-stream).
+	: Fixed up some of the generally unreadable indenting (sorry,
+	wrapping at 80 characters with
+	camels_really_long_function_names()
+	just_doesnt_work_very_well_does_it().
+	(available): Removed.
+	(stream_seek): Fixup for object changes.  Make sure we return -1
+	if the parent stream can't seek.
+
+	* camel-seekable-stream.c (ccamel_seekable_stream_set_bounds): New
+	function to bound any seekable stream.
+	: Removed _'s.
+	(camel_seekable_stream_class_init): Implement an init function, to
+	setup the stream bounds to unbound.
+
+	* camel-seekable-stream.h (CamelSeekableStreamClass): New virtual
+	method set_bounds for seekable streams.
+	(CAMEL_STREAM_UNBOUND): New define for no bound.
+
+	* camel-seekable-substream.h (struct _CamelSeekableSubstream):
+	Removed sup_bound and inf_bound, moved to CamelSeekableStream (and
+	renamed, and changed to off_t's).
+	(new_with_seekable_stream_and_bounds): Use off_t as the bounds.
+	(CamelSeekableSubstreamClass): Uh, why was the intialiser virtual?
+	Removed.
+
+	* camel-seekable-stream.[ch] (CamelSeekableStreamClass): Changed seek
+	to accept an off_t as the offset.
+	(struct _CamelSeekableStream): Renamed cur_pos to position and
+	changed it to an off_t type.
+	(enum CamelStreamSeekPolicy): Set to match the SEEK_* constants
+	from lseek().
+	(get_current_position): Renamed to tell().
+
+	* camel-stream-buffer.h: Commented out set_vbuf - never implemented.
+
 2000-04-25  Dan Winship  <danw@helixcode.com>
 
 	* camel-stream-buffer.c (_eos): only return TRUE if the parent is

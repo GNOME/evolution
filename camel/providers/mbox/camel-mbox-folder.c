@@ -676,6 +676,7 @@ _get_message_count (CamelFolder *folder, CamelException *ex)
 */
 
 /* FIXME: this may need some tweaking for performance? */
+/* FIXME: MUST check all sytem call return codes MUST MUST */
 static void
 _append_message (CamelFolder *folder, CamelMimeMessage *message, CamelException *ex)
 {
@@ -745,7 +746,7 @@ _append_message (CamelFolder *folder, CamelMimeMessage *message, CamelException 
 	}
 
 	/* its not an mbox folder, so lets do it the slow way ... */
-	output_stream = camel_stream_fs_new_with_name (mbox_folder->folder_file_path, CAMEL_STREAM_FS_WRITE);
+	output_stream = camel_stream_fs_new_with_name (mbox_folder->folder_file_path, O_CREAT|O_RDWR, 0600);
 	if (output_stream == NULL) {
 		camel_exception_setv (ex, 
 				      CAMEL_EXCEPTION_FOLDER_INSUFFICIENT_PERMISSION, /* FIXME: what code? */
@@ -851,14 +852,20 @@ _get_message_by_uid (CamelFolder *folder, const gchar *uid, CamelException *ex)
 
 	/* FIXME: more checks below */
         /* create a stream bound to the message position/size */
-	message_stream = camel_stream_fs_new_with_name_and_bounds (mbox_folder->folder_file_path, 
-								   CAMEL_STREAM_FS_READ,
+	message_stream = camel_stream_fs_new_with_name_and_bounds (mbox_folder->folder_file_path, O_RDONLY, 0,
 								   ((CamelMboxMessageContentInfo *)info->info.content)->pos,
 								   ((CamelMboxMessageContentInfo *)info->info.content)->endpos);
 	gtk_object_ref((GtkObject *)message_stream);
 	gtk_object_sink((GtkObject *)message_stream);
 	message = camel_mime_message_new();
-	camel_data_wrapper_construct_from_stream((CamelDataWrapper *)message, message_stream);
+	if (camel_data_wrapper_construct_from_stream((CamelDataWrapper *)message, message_stream) == -1) {
+		gtk_object_unref((GtkObject *)message);
+		gtk_object_unref((GtkObject *)message_stream);
+		camel_exception_setv (ex, 
+				     CAMEL_EXCEPTION_FOLDER_INVALID_UID, /* FIXME: code */
+				      "Could not create message for uid %s: %s", uid, strerror(errno));
+		return NULL;
+	}
 	gtk_object_unref((GtkObject *)message_stream);
 
 	/* init other fields? */

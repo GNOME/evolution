@@ -55,20 +55,20 @@ static gchar *reply_to_str;
 static gchar *subject_str;
 static gchar *from_str;
 
-static void _add_recipient (CamelMimeMessage *mime_message, const gchar *recipient_type, const gchar *recipient); 
-static void _remove_recipient (CamelMimeMessage *mime_message, const gchar *recipient_type, const gchar *recipient);
-static const GList *_get_recipients (CamelMimeMessage *mime_message, const gchar *recipient_type);
-static void _set_flag (CamelMimeMessage *mime_message, const gchar *flag, gboolean value);
-static gboolean _get_flag (CamelMimeMessage *mime_message, const gchar *flag);
-static GList *_get_flag_list (CamelMimeMessage *mime_message);
-static void _set_message_number (CamelMimeMessage *mime_message, guint number);
-static guint _get_message_number (CamelMimeMessage *mime_message);
-static void _write_to_stream (CamelDataWrapper *data_wrapper, CamelStream *stream);
-static void _finalize (GtkObject *object);
+static void add_recipient (CamelMimeMessage *mime_message, const gchar *recipient_type, const gchar *recipient); 
+static void remove_recipient (CamelMimeMessage *mime_message, const gchar *recipient_type, const gchar *recipient);
+static const GList *get_recipients (CamelMimeMessage *mime_message, const gchar *recipient_type);
+static void set_flag (CamelMimeMessage *mime_message, const gchar *flag, gboolean value);
+static gboolean get_flag (CamelMimeMessage *mime_message, const gchar *flag);
+static GList *get_flag_list (CamelMimeMessage *mime_message);
+static void set_message_number (CamelMimeMessage *mime_message, guint number);
+static guint get_message_number (CamelMimeMessage *mime_message);
+static int write_to_stream (CamelDataWrapper *data_wrapper, CamelStream *stream);
+static void finalize (GtkObject *object);
 static void add_header (CamelMedium *medium, const char *header_name, const void *header_value);
 static void set_header (CamelMedium *medium, const char *header_name, const void *header_value);
 static void remove_header (CamelMedium *medium, const char *header_name);
-static void construct_from_parser (CamelMimePart *, CamelMimeParser *);
+static int construct_from_parser (CamelMimePart *, CamelMimeParser *);
 
 /* Returns the class for a CamelMimeMessage */
 #define CMM_CLASS(so) CAMEL_MIME_MESSAGE_CLASS (GTK_OBJECT(so)->klass)
@@ -77,7 +77,7 @@ static void construct_from_parser (CamelMimePart *, CamelMimeParser *);
 
 
 static void
-_init_header_name_table()
+init_header_name_table()
 {
 	header_name_table = g_hash_table_new (g_str_hash, g_str_equal);
 	g_hash_table_insert (header_name_table, "From", (gpointer)HEADER_FROM);
@@ -98,7 +98,7 @@ camel_mime_message_class_init (CamelMimeMessageClass *camel_mime_message_class)
 	CamelMediumClass *camel_medium_class = CAMEL_MEDIUM_CLASS (camel_mime_message_class);
 	
 	parent_class = gtk_type_class (camel_mime_part_get_type ());
-	_init_header_name_table();
+	init_header_name_table();
 	
 	received_date_str = "";
 	sent_date_str = "";
@@ -107,17 +107,17 @@ camel_mime_message_class_init (CamelMimeMessageClass *camel_mime_message_class)
 	from_str = "From";
 	
 	/* virtual method definition */
-	camel_mime_message_class->add_recipient = _add_recipient; 
-	camel_mime_message_class->remove_recipient = _remove_recipient;
-	camel_mime_message_class->get_recipients = _get_recipients;
-	camel_mime_message_class->set_flag = _set_flag;
-	camel_mime_message_class->get_flag = _get_flag;
-	camel_mime_message_class->get_flag_list = _get_flag_list;
-	camel_mime_message_class->set_message_number = _set_message_number;
-	camel_mime_message_class->get_message_number = _get_message_number;
+	camel_mime_message_class->add_recipient = add_recipient; 
+	camel_mime_message_class->remove_recipient = remove_recipient;
+	camel_mime_message_class->get_recipients = get_recipients;
+	camel_mime_message_class->set_flag = set_flag;
+	camel_mime_message_class->get_flag = get_flag;
+	camel_mime_message_class->get_flag_list = get_flag_list;
+	camel_mime_message_class->set_message_number = set_message_number;
+	camel_mime_message_class->get_message_number = get_message_number;
 	
 	/* virtual method overload */
-	camel_data_wrapper_class->write_to_stream = _write_to_stream;
+	camel_data_wrapper_class->write_to_stream = write_to_stream;
 
 	camel_medium_class->add_header = add_header;
 	camel_medium_class->set_header = set_header;
@@ -125,7 +125,7 @@ camel_mime_message_class_init (CamelMimeMessageClass *camel_mime_message_class)
 	
 	camel_mime_part_class->construct_from_parser = construct_from_parser;
 
-	gtk_object_class->finalize = _finalize;
+	gtk_object_class->finalize = finalize;
 }
 
 
@@ -178,7 +178,7 @@ camel_mime_message_get_type (void)
 
 
 static void           
-_finalize (GtkObject *object)
+finalize (GtkObject *object)
 {
 	CamelMimeMessage *message = CAMEL_MIME_MESSAGE (object);
 	
@@ -322,7 +322,7 @@ camel_mime_message_get_from (CamelMimeMessage *mime_message)
 /*  ****  */
 
 static void
-_add_recipient (CamelMimeMessage *mime_message, 
+add_recipient (CamelMimeMessage *mime_message, 
 		const gchar *recipient_type, 
 		const gchar *recipient) 
 {
@@ -343,7 +343,7 @@ camel_mime_message_add_recipient (CamelMimeMessage *mime_message,
 
 
 static void
-_remove_recipient (CamelMimeMessage *mime_message, 
+remove_recipient (CamelMimeMessage *mime_message, 
 		   const gchar *recipient_type, 
 		   const gchar *recipient) 
 {
@@ -363,7 +363,7 @@ camel_mime_message_remove_recipient (CamelMimeMessage *mime_message,
 
 
 static const GList *
-_get_recipients (CamelMimeMessage *mime_message, 
+get_recipients (CamelMimeMessage *mime_message, 
 		 const gchar *recipient_type)
 {
 	return camel_recipient_table_get (mime_message->recipients, recipient_type);
@@ -386,7 +386,7 @@ camel_mime_message_get_recipients (CamelMimeMessage *mime_message,
 
 
 static void
-_set_flag (CamelMimeMessage *mime_message, const gchar *flag, gboolean value)
+set_flag (CamelMimeMessage *mime_message, const gchar *flag, gboolean value)
 {
 	gchar *old_flags;
 	gboolean ptr_value;
@@ -413,7 +413,7 @@ camel_mime_message_set_flag (CamelMimeMessage *mime_message, const gchar *flag, 
 
 
 static gboolean 
-_get_flag (CamelMimeMessage *mime_message, const gchar *flag)
+get_flag (CamelMimeMessage *mime_message, const gchar *flag)
 {
 	return GPOINTER_TO_INT (g_hash_table_lookup (mime_message->flags, flag));
 }
@@ -429,7 +429,7 @@ camel_mime_message_get_flag (CamelMimeMessage *mime_message, const gchar *flag)
 
 
 static void
-_add_flag_to_list (gpointer key, gpointer value, gpointer user_data)
+add_flag_to_list (gpointer key, gpointer value, gpointer user_data)
 {
 	GList **flag_list = (GList **)user_data;
 	gchar *flag_name = (gchar *)key;
@@ -439,12 +439,12 @@ _add_flag_to_list (gpointer key, gpointer value, gpointer user_data)
 }
 
 static GList *
-_get_flag_list (CamelMimeMessage *mime_message)
+get_flag_list (CamelMimeMessage *mime_message)
 {
 	GList *flag_list = NULL;
 	
 	if (mime_message->flags)
-		g_hash_table_foreach (mime_message->flags, _add_flag_to_list, &flag_list);
+		g_hash_table_foreach (mime_message->flags, add_flag_to_list, &flag_list);
 	return flag_list;
 }
 
@@ -460,13 +460,13 @@ camel_mime_message_get_flag_list (CamelMimeMessage *mime_message)
 
 
 static void 
-_set_message_number (CamelMimeMessage *mime_message, guint number)
+set_message_number (CamelMimeMessage *mime_message, guint number)
 {
 	mime_message->message_number = number;
 }
 
 static guint 
-_get_message_number (CamelMimeMessage *mime_message)
+get_message_number (CamelMimeMessage *mime_message)
 {
 	return mime_message->message_number;
 }
@@ -480,37 +480,39 @@ camel_mime_message_get_message_number (CamelMimeMessage *mime_message)
 }
 
 /* mime_message */
-static void
+static int
 construct_from_parser(CamelMimePart *dw, CamelMimeParser *mp)
 {
 	char *buf;
 	int len;
 	int state;
+	int ret;
 
 	d(printf("constructing mime-message\n"));
 
 	d(printf("mime_message::construct_from_parser()\n"));
 
 	/* let the mime-part construct the guts ... */
-	((CamelMimePartClass *)parent_class)->construct_from_parser(dw, mp);
+	ret = ((CamelMimePartClass *)parent_class)->construct_from_parser(dw, mp);
+
+	if (ret == -1)
+		return -1;
 
 	/* ... then clean up the follow-on state */
 	state = camel_mime_parser_step(mp, &buf, &len);
 	if (!(state == HSCAN_MESSAGE_END || state == HSCAN_EOF)) {
-		g_warning("Bad parser state: Expecing MESSAGE_END or EOF, got: %d", camel_mime_parser_state(mp));
+		g_error("Bad parser state: Expecing MESSAGE_END or EOF, got: %d", camel_mime_parser_state(mp));
 		camel_mime_parser_unstep(mp);
+		return -1;
 	}
 
 	d(printf("mime_message::construct_from_parser() leaving\n"));
+#warning "return a real error code"
+	return 0;
 }
 
-#ifdef WHPT
-#warning : WHPT is already defined !!!!!!
-#endif
-#define WHPT gmime_write_header_pair_to_stream
-
 static void
-_write_one_recipient_to_stream (gchar *recipient_type,
+write_one_recipient_to_stream (gchar *recipient_type,
 				GList *recipient_list,
 				gpointer user_data)
 {
@@ -521,15 +523,15 @@ _write_one_recipient_to_stream (gchar *recipient_type,
 }
 
 static void
-_write_recipients_to_stream (CamelMimeMessage *mime_message, CamelStream *stream)
+write_recipients_to_stream (CamelMimeMessage *mime_message, CamelStream *stream)
 {
 	camel_recipient_foreach_recipient_type (mime_message->recipients, 
-						_write_one_recipient_to_stream, 
+						write_one_recipient_to_stream, 
 						(gpointer)stream);
 }
 
-static void
-_write_to_stream (CamelDataWrapper *data_wrapper, CamelStream *stream)
+static int
+write_to_stream (CamelDataWrapper *data_wrapper, CamelStream *stream)
 {
 	CamelMimeMessage *mm = CAMEL_MIME_MESSAGE (data_wrapper);
 
@@ -552,10 +554,10 @@ _write_to_stream (CamelDataWrapper *data_wrapper, CamelStream *stream)
 #if 1
 #warning need to store receipients lists to headers
 	/* FIXME: remove this snot ... */
-	_write_recipients_to_stream (mm, stream);
+	write_recipients_to_stream (mm, stream);
 #endif
 
-	CAMEL_DATA_WRAPPER_CLASS (parent_class)->write_to_stream (data_wrapper, stream);
+	return CAMEL_DATA_WRAPPER_CLASS (parent_class)->write_to_stream (data_wrapper, stream);
 }
 
 /*******************************/
@@ -563,7 +565,7 @@ _write_to_stream (CamelDataWrapper *data_wrapper, CamelStream *stream)
 
 /* FIXME: This is totally totally broken */
 static void
-_set_recipient_list_from_string (CamelMimeMessage *message, const char *recipient_type, const char *recipients_string)
+set_recipient_list_from_string (CamelMimeMessage *message, const char *recipient_type, const char *recipients_string)
 {
 	GList *recipients_list;
 
@@ -599,19 +601,19 @@ process_header(CamelMedium *medium, const char *header_name, const char *header_
 		break;
 	case HEADER_TO:
 		if (header_value)
-			_set_recipient_list_from_string (message, "To", header_value);
+			set_recipient_list_from_string (message, "To", header_value);
 		else
 			camel_recipient_table_remove_type (message->recipients, "To");
 		break;
 	case HEADER_CC:
 		if (header_value)
-			_set_recipient_list_from_string (message, "Cc", header_value);
+			set_recipient_list_from_string (message, "Cc", header_value);
 		else
 			camel_recipient_table_remove_type (message->recipients, "Cc");
 		break;
 	case HEADER_BCC:
 		if (header_value)
-			_set_recipient_list_from_string (message, "Bcc", header_value);
+			set_recipient_list_from_string (message, "Bcc", header_value);
 		else
 			camel_recipient_table_remove_type (message->recipients, "Bcc");
 		break;

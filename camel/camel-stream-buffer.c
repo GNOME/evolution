@@ -1,11 +1,8 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 
-/* camel-stream-buffer.c : Buffer any other other stream */
-
-/* 
+/* camel-stream-buffer.c : Buffer any other other stream
  *
- * Author : 
- *  Michael Zucchi <notzed@helixcode.com>
+ * Authors: Michael Zucchi <notzed@helixcode.com>
  *
  * Copyright 1999, 2000 Helix Code, Inc. (http://www.helixcode.com)
  *
@@ -41,18 +38,17 @@ enum {
 
 #define BUF_SIZE 1024
 
-static gint _read (CamelStream *stream, gchar *buffer, gint n);
-static gint _write (CamelStream *stream, const gchar *buffer, gint n);
-static void _flush (CamelStream *stream);
-static gint _available (CamelStream *stream);
-static gboolean _eos (CamelStream *stream);
-static void _close (CamelStream *stream);
+static gint stream_read (CamelStream *stream, gchar *buffer, gint n);
+static gint stream_write (CamelStream *stream, const gchar *buffer, gint n);
+static void stream_flush (CamelStream *stream);
+static gboolean stream_eos (CamelStream *stream);
+static void stream_close (CamelStream *stream);
 
-static void _finalize (GtkObject *object);
-static void _destroy (GtkObject *object);
+static void finalize (GtkObject *object);
+static void destroy (GtkObject *object);
 
-static void _init_vbuf(CamelStreamBuffer *sbf, CamelStream *s, CamelStreamBufferMode mode, char *buf, guint32 size);
-static void _init(CamelStreamBuffer *sbuf, CamelStream *s, CamelStreamBufferMode mode);
+static void init_vbuf(CamelStreamBuffer *sbf, CamelStream *s, CamelStreamBufferMode mode, char *buf, guint32 size);
+static void init(CamelStreamBuffer *sbuf, CamelStream *s, CamelStreamBufferMode mode);
 
 static void
 camel_stream_buffer_class_init (CamelStreamBufferClass *camel_stream_buffer_class)
@@ -63,19 +59,18 @@ camel_stream_buffer_class_init (CamelStreamBufferClass *camel_stream_buffer_clas
 	parent_class = gtk_type_class (camel_stream_get_type ());
 	
 	/* virtual method definition */
-	camel_stream_buffer_class->init = _init;
-	camel_stream_buffer_class->init_vbuf = _init_vbuf;
+	camel_stream_buffer_class->init = init;
+	camel_stream_buffer_class->init_vbuf = init_vbuf;
 
 	/* virtual method overload */
-	camel_stream_class->read = _read;
-	camel_stream_class->write = _write;
-	camel_stream_class->flush = _flush;
-	camel_stream_class->available = _available;
-	camel_stream_class->eos = _eos;
-	camel_stream_class->close = _close;
+	camel_stream_class->read = stream_read;
+	camel_stream_class->write = stream_write;
+	camel_stream_class->flush = stream_flush;
+	camel_stream_class->eos = stream_eos;
+	camel_stream_class->close = stream_close;
 
-	gtk_object_class->finalize = _finalize;
-	gtk_object_class->destroy = _destroy;
+	gtk_object_class->finalize = finalize;
+	gtk_object_class->destroy = destroy;
 
 }
 
@@ -120,7 +115,7 @@ camel_stream_buffer_get_type (void)
 
 
 static void           
-_destroy (GtkObject *object)
+destroy (GtkObject *object)
 {
 	CamelStreamBuffer *stream_buffer = CAMEL_STREAM_BUFFER (object);
 	
@@ -132,7 +127,7 @@ _destroy (GtkObject *object)
 
 
 static void           
-_finalize (GtkObject *object)
+finalize (GtkObject *object)
 {
 	CamelStreamBuffer *sbf = CAMEL_STREAM_BUFFER (object);
 
@@ -146,7 +141,7 @@ _finalize (GtkObject *object)
 }
 
 static void
-_set_vbuf(CamelStreamBuffer *sbf, char *buf, CamelStreamBufferMode mode, int size)
+set_vbuf(CamelStreamBuffer *sbf, char *buf, CamelStreamBufferMode mode, int size)
 {
 	if (sbf->buf && !(sbf->flags & BUF_USER)) {
 		g_free(sbf->buf);
@@ -163,18 +158,18 @@ _set_vbuf(CamelStreamBuffer *sbf, char *buf, CamelStreamBufferMode mode, int siz
 }
 
 static void
-_init_vbuf(CamelStreamBuffer *sbf, CamelStream *s, CamelStreamBufferMode mode, char *buf, guint32 size)
+init_vbuf(CamelStreamBuffer *sbf, CamelStream *s, CamelStreamBufferMode mode, char *buf, guint32 size)
 {
-	_set_vbuf(sbf, buf, mode, size);
+	set_vbuf(sbf, buf, mode, size);
 	if (sbf->stream)
 		gtk_object_unref(GTK_OBJECT(sbf->stream));
 	sbf->stream = s;
 }
 
 static void
-_init(CamelStreamBuffer *sbuf, CamelStream *s, CamelStreamBufferMode mode)
+init(CamelStreamBuffer *sbuf, CamelStream *s, CamelStreamBufferMode mode)
 {
-	_init_vbuf(sbuf, s, mode, NULL, BUF_SIZE);
+	init_vbuf(sbuf, s, mode, NULL, BUF_SIZE);
 }
 
 
@@ -257,7 +252,7 @@ CamelStream *camel_stream_buffer_new_with_vbuf (CamelStream *stream, CamelStream
  * Return value: number of bytes actually read.
  **/
 static gint
-_read (CamelStream *stream, gchar *buffer, gint n)
+stream_read (CamelStream *stream, gchar *buffer, gint n)
 {
 	CamelStreamBuffer *sbf = CAMEL_STREAM_BUFFER (stream);
 	int bytes_read=1;
@@ -306,7 +301,7 @@ _read (CamelStream *stream, gchar *buffer, gint n)
 
 
 static gint
-_write (CamelStream *stream, const gchar *buffer, gint n)
+stream_write (CamelStream *stream, const gchar *buffer, gint n)
 {
 	CamelStreamBuffer *sbf = CAMEL_STREAM_BUFFER (stream);
 	const gchar *bptr = buffer;
@@ -348,7 +343,7 @@ _write (CamelStream *stream, const gchar *buffer, gint n)
 
 
 static void
-_flush (CamelStream *stream)
+stream_flush (CamelStream *stream)
 {
 	CamelStreamBuffer *sbf = CAMEL_STREAM_BUFFER (stream);
 
@@ -364,18 +359,8 @@ _flush (CamelStream *stream)
 	camel_stream_flush(sbf->stream);
 }
 
-
-
-static gint 
-_available (CamelStream *stream)
-{
-	/* unimplemented */
-	return 0;
-}
-
-
 static gboolean
-_eos (CamelStream *stream)
+stream_eos (CamelStream *stream)
 {
 	CamelStreamBuffer *sbf = CAMEL_STREAM_BUFFER (stream);
 
@@ -383,11 +368,11 @@ _eos (CamelStream *stream)
 }
 
 static void
-_close (CamelStream *stream)
+stream_close (CamelStream *stream)
 {
 	CamelStreamBuffer *sbf = CAMEL_STREAM_BUFFER (stream);
 
-	_flush(stream);
+	stream_flush(stream);
 	camel_stream_close(sbf->stream);
 }
 

@@ -90,7 +90,8 @@ GtkType camel_stream_buffer_get_type (void);
 CamelStream *camel_stream_buffer_new (CamelStream *s, CamelStreamBufferMode mode);
 CamelStream *camel_stream_buffer_new_with_vbuf (CamelStream *s, CamelStreamBufferMode mode, char *buf, guint32 size);
 
-CamelStream *camel_stream_buffer_set_vbuf (CamelStreamBuffer *b, CamelStreamBufferMode mode, char *buf, guint32 size);
+/* unimplemented
+   CamelStream *camel_stream_buffer_set_vbuf (CamelStreamBuffer *b, CamelStreamBufferMode mode, char *buf, guint32 size); */
 
 /* read a line of characters */
 int camel_stream_buffer_gets(CamelStreamBuffer *b, char *buf, int max);

@@ -205,8 +205,7 @@ get_message_by_number (CamelFolder *folder, gint number, CamelException *ex)
 		return NULL;
 	}
 
-	msgstream = camel_stream_mem_new_with_buffer (body, strlen (body),
-						      CAMEL_STREAM_MEM_READ);
+	msgstream = camel_stream_mem_new_with_buffer (body, strlen (body));
 	msg = camel_mime_message_new ();
 	camel_data_wrapper_construct_from_stream (CAMEL_DATA_WRAPPER (msg),
 						  msgstream);

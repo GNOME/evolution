@@ -1,7 +1,5 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/* camel-seekable-substream.h : stream */
-
-/*
+/* camel-seekable-substream.h : stream
  *
  * Author :
  *  Bertrand Guiheneuf <bertrand@helixcode.com>
@@ -38,14 +36,10 @@ extern "C" {
 #include "camel-types.h"
 #include "camel-seekable-stream.h"
 
-
 #define CAMEL_SEEKABLE_SUBSTREAM_TYPE       (camel_seekable_substream_get_type ())
 #define CAMEL_SEEKABLE_SUBSTREAM(obj)       (GTK_CHECK_CAST((obj), CAMEL_SEEKABLE_SUBSTREAM_TYPE, CamelSeekableSubstream))
 #define CAMEL_SEEKABLE_SUBSTREAM_CLASS(k)   (GTK_CHECK_CLASS_CAST ((k), CAMEL_SEEKABLE_SUBSTREAM_TYPE, CamelSeekableSubstreamClass))
 #define CAMEL_IS_SEEKABLE_SUBSTREAM(o)      (GTK_CHECK_TYPE((o), CAMEL_SEEKABLE_SUBSTREAM_TYPE))
-
-
-
 
 struct _CamelSeekableSubstream
 {
@@ -53,12 +47,7 @@ struct _CamelSeekableSubstream
 
 	/*  --**-- Private fields --**--  */
 	CamelSeekableStream *parent_stream;
-	guint32 inf_bound;                    /* first valid position */
-	gint64  sup_bound;                    /* first invalid position */
-	gboolean eos;
 };
-
-
 
 typedef struct {
 	CamelSeekableStreamClass parent_class;
@@ -66,24 +55,18 @@ typedef struct {
 	/* Virtual methods */
 	void (*init_with_seekable_stream_and_bounds) (CamelSeekableSubstream *seekable_substream,
 						      CamelSeekableStream    *parent_stream,
-						      guint32 inf_bound,
-						      gint64  sup_bound);
-
+						      off_t start, off_t end);
 } CamelSeekableSubstreamClass;
-
-
 
 /* Standard Gtk function */
 GtkType camel_seekable_substream_get_type (void);
-
 
 /* public methods */
 
 /* obtain a new seekable substream */
 CamelStream *
 camel_seekable_substream_new_with_seekable_stream_and_bounds (CamelSeekableStream    *parent_stream,
-							      guint32                 inf_bound,
-							      gint64                  sup_bound);
+							      off_t start, off_t end);
 
 #ifdef __cplusplus
 }

@@ -57,8 +57,7 @@ enum _CamelMimePartEncodingType {
 typedef enum _CamelMimePartEncodingType CamelMimePartEncodingType;
 
 
-/* Do not change these values directly, you
-   would regret it one day */
+/* Do not change these values directly, you would regret it one day */
 struct _CamelMimePart
 {
 	CamelMedium parent_object;
@@ -78,20 +77,15 @@ struct _CamelMimePart
 	struct _header_raw *headers; /* mime headers */
 };
 
-
-
-typedef struct {
+typedef struct _CamelMimePartClass {
 	CamelMediumClass parent_class;
 	
-	/* Virtual methods */	
-	void (*construct_from_parser) (CamelMimePart *, CamelMimeParser *);
+	/* Virtual methods */
+	int (*construct_from_parser) (CamelMimePart *, CamelMimeParser *);
 } CamelMimePartClass;
-
-
 
 /* Standard Gtk function */
 GtkType camel_mime_part_get_type (void);
-
 
 /* public methods */
 void	         camel_mime_part_set_description	(CamelMimePart *mime_part, const gchar *description);
@@ -123,7 +117,7 @@ const     gchar *         camel_mime_part_encoding_to_string   (CamelMimePartEnc
 CamelMimePartEncodingType camel_mime_part_encoding_from_string (const gchar *string);
 
 /* construction */
-void		camel_mime_part_construct_from_parser  (CamelMimePart *, CamelMimeParser *);
+int		camel_mime_part_construct_from_parser  (CamelMimePart *, CamelMimeParser *);
 
 /* utility functions */
 void      camel_mime_part_set_text			(CamelMimePart *camel_mime_part, 

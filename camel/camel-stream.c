@@ -53,6 +53,12 @@ default_camel_close (CamelStream *stream)
 	/* nothing */
 }
 
+static gboolean
+eos (CamelStream *stream)
+{
+	return stream->eos;
+}
+
 
 static void
 camel_stream_class_init (CamelStreamClass *camel_stream_class)
@@ -65,8 +71,7 @@ camel_stream_class_init (CamelStreamClass *camel_stream_class)
 	camel_stream_class->read = NULL;
 	camel_stream_class->write = NULL;
 	camel_stream_class->flush = default_camel_flush;
-	camel_stream_class->available = NULL;
-	camel_stream_class->eos = NULL; 
+	camel_stream_class->eos = eos;
 	camel_stream_class->close = default_camel_close;
 	camel_stream_class->close = NULL;
 
@@ -156,18 +161,6 @@ camel_stream_flush (CamelStream *stream)
 }
 
 /**
- * camel_stream_available: 
- * @stream: a CamelStream object
- * 
- * Return value: %TRUE if some data is available for reading, %FALSE otherwise
- **/
-gboolean
-camel_stream_available (CamelStream *stream)
-{
-	return CS_CLASS (stream)->available (stream);
-}
-
-/**
  * camel_stream_eos: 
  * @stream: a CamelStream object
  * 
@@ -195,9 +188,6 @@ camel_stream_close (CamelStream *stream)
 	CS_CLASS (stream)->close (stream);
 }
 
-
-
-
 /**
  * camel_stream_reset: reset a stream
  * @stream: the stream object
@@ -214,9 +204,6 @@ camel_stream_reset (CamelStream *stream)
 	CS_CLASS (stream)->reset (stream);
 }
 
-
-
-
 /***************** Utility functions ********************/
 
 /**
@@ -226,21 +213,46 @@ camel_stream_reset (CamelStream *stream)
  *
  * This is a utility function that writes the list of
  * strings into the @stream object.
+ *
+ * Returns number of successfully written bytes.
  */
-void
+int
 camel_stream_write_strings (CamelStream *stream, ... )
 {
 	va_list args;
 	const char *string;
-	
+	int total = 0;
+
 	va_start(args, stream);
 	string = va_arg (args, const char *);
 	
 	while (string) {
-		camel_stream_write_string (stream, string);
+		int ret = camel_stream_write_string (stream, string);
+		if (ret == -1)
+			return -1;
+		total += ret;
 		string = va_arg (args, char *);
 	}
 	va_end (args);
+	return total;
+}
+
+int camel_stream_printf (CamelStream *stream, const char *fmt, ... )
+{
+	va_list args;
+	char *string;
+	int ret = 0;
+
+	va_start(args, fmt);
+	/* sigh, this allocates ... */
+	string = g_strdup_vprintf(fmt, args);
+	if (string) {
+		ret = camel_stream_write_string(stream, string);
+		g_free(string);
+	}
+	va_end(args);
+
+	return ret;
 }
 
 /**
@@ -251,13 +263,15 @@ camel_stream_write_strings (CamelStream *stream, ... )
  * Write all of a stream (until eos) into another stream, in a blocking
  * fashion.
  *
- * FIXME: This really needs to return an error code.
+ * Return Value: Returns -1 on error, or the number of bytes succesfully
+ * copied across streams.
  **/
-void
+int
 camel_stream_write_to_stream (CamelStream *stream,
 			      CamelStream *output_stream)
 {
 	gchar tmp_buf[4096];
+	int total = 0;
 	gint nb_read;
 	gint nb_written;
 
@@ -271,16 +285,19 @@ camel_stream_write_to_stream (CamelStream *stream,
 	
 	while (!camel_stream_eos (CAMEL_STREAM (stream))) {
 		nb_read = camel_stream_read (CAMEL_STREAM (stream), tmp_buf, 4096);
-		if (nb_read>0) {
+		if (nb_read < 0)
+			return -1;
+		else if (nb_read>0) {
 			nb_written = 0;
 		
 			while (nb_written < nb_read) {
 				int len = camel_stream_write (output_stream, tmp_buf + nb_written, nb_read - nb_written);
-				/* FIXME: what about length 0? */
 				if (len<0)
-					return;
+					return -1;
 				nb_written += len;
 			}
+			total += nb_written;
 		}
-	}	
+	}
+	return total;
 }

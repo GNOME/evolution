@@ -768,7 +768,7 @@ static int index_folder(CamelMboxSummary *s, int startoffset)
 				int docopy = FALSE;
 
 				/* check for X-Evolution header ... if its there, nothing to do (skip content) */
-				xev = camel_mime_parser_header(mp, "x-evolution", &xevoffset);
+				xev = camel_mime_parser_header(mp, "x-evolution", (int *)&xevoffset);
 				if (xev) {
 					d(printf("An x-evolution header exists at: %d = %s\n", xevoffset + write_offset, xev));
 					xevoffset = xevoffset + write_offset;

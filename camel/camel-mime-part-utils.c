@@ -26,14 +26,10 @@
 #include "gmime-content-field.h"
 #include "string-utils.h"
 #include "gmime-utils.h"
-#include "camel-simple-data-wrapper.h"
- 
 #include "camel-mime-part-utils.h"
-
 #include "camel-mime-message.h"
 #include "camel-multipart.h"
 #include "camel-mime-body-part.h"
-
 #include "camel-seekable-substream.h"
 #include "camel-stream-filter.h"
 #include "camel-stream-mem.h"
@@ -56,7 +52,7 @@ simple_data_wrapper_construct_from_parser(CamelDataWrapper *dw, CamelMimeParser 
 	CamelStream *source;
 	char *encoding;
 
-	d(printf("constructing simple-data-wrapper\n"));
+	d(printf("constructing data-wrapper\n"));
 
 		/* Ok, try and be smart.  If we're storing a small message (typical) convert it,
 		   and store it in memory as we parse it ... if not, throw away the conversion
@@ -124,7 +120,7 @@ simple_data_wrapper_construct_from_parser(CamelDataWrapper *dw, CamelMimeParser 
 	if (buffer) {
 		CamelStream *mem;
 		d(printf("Small message part, kept in memory!\n"));
-		mem = camel_stream_mem_new_with_byte_array(buffer, CAMEL_STREAM_MEM_READ);
+		mem = camel_stream_mem_new_with_byte_array(buffer);
 		camel_data_wrapper_set_output_stream (dw, mem);
 	} else {
 		CamelSeekableSubstream *sub;
@@ -172,7 +168,7 @@ camel_mime_part_construct_content_from_parser(CamelMimePart *dw, CamelMimeParser
 	switch (camel_mime_parser_state(mp)) {
 	case HSCAN_HEADER:
 		d(printf("Creating body part\n"));
-		content = (CamelDataWrapper *)camel_simple_data_wrapper_new();
+		content = camel_data_wrapper_new();
 		simple_data_wrapper_construct_from_parser(content, mp);
 		break;
 	case HSCAN_MESSAGE:

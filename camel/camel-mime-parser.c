@@ -1042,6 +1042,7 @@ tail_recurse:
 					sprintf(h->boundary, "--%s--", bound);
 					type = HSCAN_MULTIPART;
 				} else {
+#warning actually convert the multipart to text/plain here.
 					g_warning("Multipart with no boundary, treating as text/plain");
 				}
 			} else if (!strcasecmp(ct->type, "message")) {

@@ -1,10 +1,8 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/* camel-stream-mem.h :stream based on memory buffer */
-
-/* 
+/* camel-stream-mem.h :stream based on memory buffer
  *
- * Author : 
- *  Bertrand Guiheneuf <bertrand@helixcode.com>
+ * Authors: Bertrand Guiheneuf <bertrand@helixcode.com>
+ *	    Michael Zucchi <notzed@helixcode.com>
  *
  * Copyright 1999, 2000 Helix Code, Inc. (http://www.helixcode.com)
  *
@@ -35,6 +33,7 @@ extern "C" {
 #endif /* __cplusplus }*/
 
 #include <gtk/gtk.h>
+#include <sys/types.h>
 #include "camel-types.h"
 #include "camel-seekable-stream.h"
 
@@ -43,47 +42,31 @@ extern "C" {
 #define CAMEL_STREAM_MEM_CLASS(k) (GTK_CHECK_CLASS_CAST ((k), CAMEL_STREAM_MEM_TYPE, CamelStreamMemClass))
 #define CAMEL_IS_STREAM_MEM(o)    (GTK_CHECK_TYPE((o), CAMEL_STREAM_MEM_TYPE))
 
-typedef enum 
-{
-	CAMEL_STREAM_MEM_READ   =   1,
-	CAMEL_STREAM_MEM_WRITE  =   2,
-	CAMEL_STREAM_MEM_RW     =   3
-} CamelStreamMemMode;
-
-
 struct _CamelStreamMem
 {
 	CamelSeekableStream parent_object;
 
+	gboolean owner;		/* do we own the buffer? */
 	GByteArray *buffer;
-	gint position;
-	CamelStreamMemMode mode;
-
 };
-
-
 
 typedef struct {
 	CamelSeekableStreamClass parent_class;
 	
 	/* Virtual methods */	
-
 } CamelStreamMemClass;
-
-
 
 /* Standard Gtk function */
 GtkType camel_stream_mem_get_type (void);
 
-
 /* public methods */
-CamelStream *camel_stream_mem_new (CamelStreamMemMode mode);
-CamelStream *camel_stream_mem_new_with_byte_array (GByteArray *buffer, 
-						   CamelStreamMemMode mode);
-CamelStream *camel_stream_mem_new_with_buffer (const char *buffer,
-					       unsigned int len,
-					       CamelStreamMemMode mode);
+CamelStream *camel_stream_mem_new (void);
+CamelStream *camel_stream_mem_new_with_byte_array (GByteArray *buffer);
+CamelStream *camel_stream_mem_new_with_buffer (const char *buffer, size_t len);
 
+/* these are really only here for implementing classes */
+void camel_stream_mem_set_byte_array (CamelStreamMem *, GByteArray *buffer);
+void camel_stream_mem_set_buffer (CamelStreamMem *, const char *buffer, size_t len);
 
 #ifdef __cplusplus
 }

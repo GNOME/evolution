@@ -30,7 +30,6 @@
 #include "string-utils.h"
 #include "gmime-utils.h"
 #include "hash-table-utils.h"
-#include "camel-simple-data-wrapper.h"
 
 #define d(x)
 
