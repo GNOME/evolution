@@ -1,3 +1,9 @@
+2002-07-12  Peter Williams  <peterw@ximian.com>
+
+	* configure.in (E_UTIL_LIBS): e-util relies on bonobo-conf
+	in e-passwords.c and e-categories-master-list-wombat.c, so
+	reflect that here.
+
 2002-07-09  Peter Williams  <peterw@ximian.com>
 	
 	* tools/Makefile.am (INCLUDES): Add include lines to get
