@@ -1,5 +1,14 @@
 2002-11-20  Ettore Perazzoli  <ettore@ximian.com>
 
+	* component-factory.c: Removed unused #define
+	COMPONENT_FACTORY_ID.
+	(component_factory_init): Removed unused variable.
+
+	* GNOME_Evolution_Summary.server.in.in: Updated to not use a
+	factory, which is what the code actually expects.
+
+2002-11-20  Ettore Perazzoli  <ettore@ximian.com>
+
 	* e-summary.c (e_summary_init): Use GConf.
 
 	* e-summary-tasks.c: Replaced member config_listener in

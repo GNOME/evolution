@@ -43,8 +43,7 @@
 
 #include "component-factory.h"
 
-#define COMPONENT_ID         "OAFIID:GNOME_Evolution_Summary_ShellComponent"
-#define COMPONENT_FACTORY_ID "OAFIID:GNOME_Evolution_Summary_ShellComponentFactory"
+#define COMPONENT_ID "OAFIID:GNOME_Evolution_Summary_ShellComponent"
 
 static gint running_objects = 0;
 static ESummaryPrefs *global_preferences = NULL;
@@ -161,7 +160,6 @@ create_component (void)
 void
 component_factory_init (void)
 {
-	BonoboGenericFactory *factory;
 	Bonobo_RegistrationResult result;
 	BonoboObject *shell_component;
 
