@@ -452,16 +452,28 @@ e_completion_view_key_press_handler (GtkWidget *w, GdkEventKey *key_event, gpoin
 {
 	ECompletionView *cv = E_COMPLETION_VIEW (user_data);
 	gint dir = 0;
-	gboolean key_handled = TRUE;
+	gboolean key_handled = TRUE, complete_key = FALSE, uncomplete_key = FALSE;
+
+	/* FIXME: This is totally lame.
+	   The ECompletionView should be able to specify multiple completion/uncompletion keys, or just
+	   have sensible defaults. */
+	
+	if ((cv->complete_key && key_event->keyval == cv->complete_key)
+	    || ((key_event->keyval == GDK_n || key_event->keyval == GDK_N) && (key_event->state & GDK_CONTROL_MASK)))
+		complete_key = TRUE;
+
+	if ((cv->uncomplete_key && key_event->keyval == cv->uncomplete_key)
+	    || ((key_event->keyval == GDK_p || key_event->keyval == GDK_P) && (key_event->state & GDK_CONTROL_MASK)))
+		uncomplete_key = TRUE;
 	
 	/* Start up a completion.*/
-	if (cv->complete_key && key_event->keyval == cv->complete_key && !cv->editable) {
+	if (complete_key && !cv->editable) {
 		gtk_signal_emit (GTK_OBJECT (cv), e_completion_view_signals[E_COMPLETION_VIEW_BROWSE], NULL);
 		goto stop_emission;
 	}
 
 	/* Stop our completion. */
-	if (cv->uncomplete_key && key_event->keyval == cv->uncomplete_key && cv->editable && cv->selection < 0) {
+	if (uncomplete_key && cv->editable && cv->selection < 0) {
 		e_completion_view_set_cursor_row (cv, -1);
 		gtk_signal_emit (GTK_OBJECT (cv), e_completion_view_signals[E_COMPLETION_VIEW_UNBROWSE]);
 		goto stop_emission;
@@ -471,11 +483,24 @@ e_completion_view_key_press_handler (GtkWidget *w, GdkEventKey *key_event, gpoin
 		return FALSE;
 
 	switch (key_event->keyval) {
+
+	case GDK_n:
+	case GDK_N:
+		/* We (heart) emacs: treat ctrl-n as down */
+		if (! (key_event->state & GDK_CONTROL_MASK))
+			return FALSE;
+
 	case GDK_Down:
 	case GDK_KP_Down:
 		dir = 1;
 		break;
 
+	case GDK_p:
+	case GDK_P:
+		/* Treat ctrl-p as up */
+		if (! (key_event->state & GDK_CONTROL_MASK))
+			return FALSE;
+		
 	case GDK_Up:
 	case GDK_KP_Up:
 		dir = -1;

@@ -96,13 +96,13 @@ e_completion_match_set_text (ECompletionMatch *match,
 
 	if (match_text == NULL) {
 		match_text = "Unknown_Match";
-	} else if (! g_utf8_validate (match_text, 0, NULL)) {
+	} else if (! g_utf8_validate (match_text, -1, NULL)) {
 		match_text = "Invalid_UTF8";
 	}
 
 	if (menu_text == NULL) {
 		menu_text = match_text;
-	} else if (! g_utf8_validate (menu_text, 0, NULL)) {
+	} else if (! g_utf8_validate (menu_text, -1, NULL)) {
 		menu_text = "Invalid_UTF8";
 	}
 
