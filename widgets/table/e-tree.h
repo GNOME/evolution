@@ -281,9 +281,15 @@ void            e_tree_load_expanded_state        (ETree                *et,
 						   char                 *filename);
 int             e_tree_row_count                  (ETree                *et);
 GtkWidget      *e_tree_get_tooltip                (ETree                *et);
+gboolean        e_tree_find_next                  (ETree                *et,
+						   gboolean              forward_direction,
+						   gboolean              wrap,
+						   ETreePathFunc         func,
+						   gpointer              data);
 
 /* This function is only needed in single_selection_mode. */
 void            e_tree_right_click_up             (ETree                *et);
+
 
 END_GNOME_DECLS
 

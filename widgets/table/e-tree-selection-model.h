@@ -67,6 +67,7 @@ void             e_tree_selection_model_add_to_selection    (ETreeSelectionModel
 							     ETreePath            path);
 void             e_tree_selection_model_change_cursor       (ETreeSelectionModel *etsm,
 							     ETreePath            path);
+ETreePath        e_tree_selection_model_get_cursor          (ETreeSelectionModel *etsm);
 
 #ifdef __cplusplus
 }

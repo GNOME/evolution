@@ -1294,6 +1294,12 @@ e_tree_selection_model_change_cursor (ETreeSelectionModel *etsm, ETreePath path)
 	e_selection_model_cursor_activated(E_SELECTION_MODEL(etsm), row, etsm->priv->cursor_col);
 }
 
+ETreePath
+e_tree_selection_model_get_cursor (ETreeSelectionModel *etsm)
+{
+	return etsm->priv->cursor_path;
+}
+
 
 static void
 e_tree_selection_model_init (ETreeSelectionModel *etsm)

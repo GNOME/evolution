@@ -1408,6 +1408,9 @@ e_tree_set_cursor (ETree *e_tree, ETreePath path)
 ETreePath
 e_tree_get_cursor (ETree *e_tree)
 {
+#ifdef E_TREE_USE_TREE_SELECTION
+	return e_tree_selection_model_get_cursor (E_TREE_SELECTION_MODEL(e_tree->priv->selection));
+#else
 	int row;
 	ETreePath path;
 	g_return_val_if_fail(e_tree != NULL, NULL);
@@ -1421,6 +1424,7 @@ e_tree_get_cursor (ETree *e_tree)
 	path = e_tree_table_adapter_node_at_row(E_TREE_TABLE_ADAPTER(e_tree->priv->etta), row);
 	path = e_tree_sorted_view_to_model_path(e_tree->priv->sorted, path);
 	return path;
+#endif
 }
 
 void
@@ -1731,6 +1735,38 @@ GtkWidget *
 e_tree_get_tooltip (ETree *et)
 {
 	return E_CANVAS(et->priv->table_canvas)->tooltip_window;
+}
+
+gboolean
+e_tree_find_next (ETree *et, gboolean forward_direction, gboolean wrap, ETreePathFunc func, gpointer data)
+{
+	ETreePath cursor;
+	ETreePath found;
+
+	cursor = e_tree_get_cursor (et);
+	cursor = e_tree_sorted_model_to_view_path (et->priv->sorted, cursor);
+
+	found = e_tree_model_node_find (E_TREE_MODEL (et->priv->sorted), cursor, NULL, forward_direction, func, data);
+
+	if (found) {
+		e_tree_table_adapter_show_node (et->priv->etta, found);
+		cursor = e_tree_sorted_view_to_model_path (et->priv->sorted, found);
+		e_tree_set_cursor (et, cursor);
+		return TRUE;
+	}
+
+	if (wrap) {
+		found = e_tree_model_node_find (E_TREE_MODEL (et->priv->sorted), NULL, cursor, forward_direction, func, data);
+
+		if (found && found != cursor) {
+			e_tree_table_adapter_show_node (et->priv->etta, found);
+			cursor = e_tree_sorted_view_to_model_path (et->priv->sorted, found);
+			e_tree_set_cursor (et, cursor);
+			return TRUE;
+		}
+	}
+
+	return FALSE;
 }
 
 void
