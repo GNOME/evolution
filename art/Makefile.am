@@ -146,6 +146,8 @@ images_DATA = \
 	service-right.png		\
 	service-up-disabled.png		\
 	service-up.png			\
+	settings.png			\
+	settings-16.png			\
 	show_all_messages.xpm		\
 	splash.png			\
 	summary-settings.png		\
