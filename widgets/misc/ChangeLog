@@ -1,3 +1,8 @@
+2002-08-21  Peter Williams  <peterw@ximian.com>
+
+	* e-search-bar.c (clear_search): Don't set the item id; clear search
+	isn't in the menu anymore. Fixes #29211.
+
 2002-08-22  JP Rosevear  <jpr@ximian.com>
 
 	* e-dateedit.c (e_date_edit_parse_date): don't adjust for two
