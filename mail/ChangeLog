@@ -1,3 +1,11 @@
+2002-07-24  Radek Doulik  <rodo@ximian.com>
+
+	* mail-composer-prefs.c (sig_add): use
+	mail_config_get_send_html for html format flag
+
+	* mail-account-gui.c (sig_add_new_signature): use
+	mail_config_get_send_html for html format flag
+
 2002-07-24  Not Zed  <NotZed@Ximian.com>
 
 	* mail-folder-cache.c (real_flush_updates): Propagate name changes

@@ -271,7 +271,7 @@ sig_delete (GtkWidget *widget, MailComposerPrefs *prefs)
 static void
 sig_add (GtkWidget *widget, MailComposerPrefs *prefs)
 {
-	mail_composer_prefs_new_signature (prefs, TRUE, NULL);
+	mail_composer_prefs_new_signature (prefs, mail_config_get_send_html (), NULL);
 }
 
 static void
