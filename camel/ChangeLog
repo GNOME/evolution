@@ -1,3 +1,10 @@
+2000-10-16  Chris Toshok  <toshok@helixcode.com>
+
+	* camel-service.c (get_path): when using the construct (flags &
+	CAMEL_SERVICE_URL_NEED_*) make sure to do ((flags &
+	CAMEL_SERVICE_URL_NEED_*) == CAMEL_SERVICE_URL_NEED_*)
+	(check_url): same.
+
 2000-10-16  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* providers/imap/camel-imap-store.c (imap_disconnect): Only send
@@ -85,8 +92,7 @@
 	Fix camel_summary_* function rename
 	(imap_get_message_info_internal): Likewise.
 
-	* camel-mime-parser.c (camel_mime_parser_finalise): Fixed a
-	spelling mistake.
+	* camel-mime-parser.c (camel_mime_parser_finalise): Fixed a spelling mistake.
 
 	* camel-folder-summary.c (camel_summary_format_address): Uh, why
 	do we encode and then decode here ... sigh.  This is not the way
@@ -98,8 +104,7 @@
 
 2000-10-11  Chris Toshok  <toshok@helixcode.com>
 
-	* providers/nntp/camel-nntp-store.c
-	(nntp_store_unsubscribe_folder): remove the leading '/'.
+	* providers/nntp/camel-nntp-store.c (nntp_store_unsubscribe_folder): remove the leading '/'.
 	(nntp_store_subscribe_folder): same.
 	(nntp_store_folder_subscribed): same.
 
