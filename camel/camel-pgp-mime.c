@@ -560,6 +560,27 @@ camel_pgp_mime_part_decrypt (CamelPgpContext *context, CamelMimePart *mime_part,
 	camel_object_unref (CAMEL_OBJECT (ciphertext));
 	camel_stream_reset (stream);
 	
+	mime_type = camel_mime_part_get_content_type (mime_part);
+	if (header_content_type_param (mime_type, "x-inline-pgp-hack")) {
+		/* this is a kludge around inline pgp encryption -  basically,
+		   the multipart/encrypted is fake - the original encrypted
+		   content is not really an encrypted mime part so after
+		   decrypting it, we have to fake some mime content headers */
+		CamelStream *hack;
+		
+		hack = camel_stream_mem_new ();
+		
+#define CONTENT_TYPE_TEXT_PLAIN "Content-Type: text/plain\r\n\r\n"
+		camel_stream_write (hack, CONTENT_TYPE_TEXT_PLAIN,
+				    sizeof (CONTENT_TYPE_TEXT_PLAIN) - 1);
+		
+		camel_stream_write_to_stream (stream, hack);
+		camel_stream_reset (hack);
+		
+		camel_object_unref (CAMEL_OBJECT (stream));
+		stream = hack;
+	}
+	
 	/* construct the new decrypted mime part from the stream */
 	part = camel_mime_part_new ();
 	
