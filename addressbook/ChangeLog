@@ -1,5 +1,12 @@
 2004-06-07  Hans Petter Jansson  <hpj@ximian.com>
 
+	Fixes #57795.
+
+	* gui/component/addressbook-migrate.c (migrate_contacts): Change
+	the "POSTAL" address in 1.4 to "OTHER" in 1.5.
+
+2004-06-07  Hans Petter Jansson  <hpj@ximian.com>
+
 	* gui/Makefile.am (SUBDIRS): Fix order of dependencies.
 
 2004-06-07  H P Nadig  <hpnadig@pacific.net.in>

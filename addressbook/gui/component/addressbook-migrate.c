@@ -300,6 +300,31 @@ migrate_contacts (MigrationContext *context, EBook *old_book, EBook *new_book)
 										"VOICE");
 				attr = attr->next;
 			}
+			/* Replace "POSTAL" (1.4) addresses with "OTHER" (1.5) */
+			else if (!strcmp ("ADR", e_vcard_attribute_get_name (a))) {
+				GList *params, *param;
+				gboolean found = FALSE;
+				EVCardAttributeParam *p;
+
+				params = e_vcard_attribute_get_params (a);
+				for (param = params; param; param = param->next) {
+					p = param->data;
+					if (!strcmp (EVC_TYPE, e_vcard_attribute_param_get_name (p))) {
+						GList *v = e_vcard_attribute_param_get_values (p);
+						if (v && v->data && !strcmp ("POSTAL", v->data)) {
+							found = TRUE;
+							break;
+						}
+					}
+				}
+
+				if (found) {
+					e_vcard_attribute_param_remove_values (p);
+					e_vcard_attribute_param_add_value (p, "OTHER");
+				}
+
+				attr = attr->next;
+			}
 			/* this is kinda gross.  The new vcard parser
 			   needs ';'s to be escaped by \'s.  but the
 			   1.4 vcard generator would put unescaped xml
