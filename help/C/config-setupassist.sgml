@@ -1,12 +1,12 @@
     <chapter id="config-setupassist">
       <title>Easy Setup with the Setup Assistant</title>
       <para>
-        The first time you try to use email, the mail setup assistant
-        will ask you for some basic information, so
-        <application>Evolution</application> can let you use email. If
-        you prefer more detailed configuration, or if you want to make
-        changes to an existing email setup, see <xref
-        linkend="config-prefs">.
+        The first time you try to use email, or when you create a new
+        email account, the mail setup assistant will ask you for some
+        basic information, so <application>Evolution</application> can
+        let you use email. If you prefer more detailed configuration,
+        or if you want to make changes to an existing email setup, see
+        <xref linkend="config-prefs">.
       </para>
 
    <sect1 id="config-setupassist-mail">
@@ -114,8 +114,9 @@
 	  <listitem>
 	    <para>
               <application>Evolution</application> supports several
-              mail sources: <glossterm linkend="pop">POP</glossterm> and
-              <glossterm linkend="imap">IMAP</glossterm> servers, and UNIX-style
+              mail sources: <glossterm linkend="pop">POP</glossterm>
+              and <glossterm linkend="imap">IMAP</glossterm> servers,
+              and UNIX-style
               <systemitem><filename>mbox</filename></systemitem> and
               <systemitem><filename>mh</filename></systemitem> files.
               POP servers retrieve your mail and store it on your
@@ -128,10 +129,10 @@
               may be useful if you want to switch from another email
               client such as <application>Spruce</application> or
               <application>Netscape Communicator</application>.  Ask
-              your system administrator which you should use, or keep
-              guessing until one works.  You may use multiple sources
-              if you wish; see <xref
-              linkend="config-prefs-mail-network"> for more
+              your system administrator or ISP which you should use,
+              or keep guessing until one works.  If you wish, you may
+              use multiple sources by creating additional accounts.
+              See <xref linkend="config-prefs-mail"> for more
               information.
             </para>
             <para>
@@ -202,12 +203,3 @@
     </sect1>
 
 </chapter>
-
-
-
-
-
-
-
-
-

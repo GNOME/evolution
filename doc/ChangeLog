@@ -1,3 +1,15 @@
+2001-05-03  Aaron Weber  <aaron@ximian.com>
+
+	* C/usage-mainwindow.sgml: Changed shortcut bar descriptions and menu descriptions.
+
+2001-05-02  Aaron Weber  <aaron@ximian.com>
+
+	* C/config-setupassist.sgml: fixed links broken by usage-mail chagnes.
+
+	* C/usage-mail.sgml: removed nntp stuff, revised subscription info.
+
+	* C/config-prefs.sgml: Redid Mail Config. Removed NNTP stuff.
+
 2001-05-01  Aaron Weber  <aaron@ximian.com>
 
 	* C/apx-authors.sgml: Noted Hector Garcia Alvarez and Daniel

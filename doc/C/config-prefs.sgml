@@ -1,4 +1,6 @@
-<!-- <!DOCTYPE Chapter PUBLIC "-//GNOME//DTD DocBook PNG Variant V1.1//EN"> -->
+<!--
+<!DOCTYPE Chapter PUBLIC "-//GNOME//DTD DocBook PNG Variant V1.1//EN">
+-->
 <chapter id="config-prefs">
 
       <title>Advanced Configuration</title>
@@ -13,68 +15,19 @@
        <sect1 id="config-prefs-mail">
          <title>Mail Settings</title>
         <para>
-        To change your mail settings, select <menuchoice>
-        <guimenu>Settings</guimenu> <guimenuitem>Mail
-        configuration</guimenuitem></menuchoice> in the Inbox.  This
-        will open the <interface>mail preferences window</interface>,
-        illustrated in <xref linkend="config-prefs-mail-fig">.  Mail
-        preferences are separated into several categories:
-        <variablelist>
-	<varlistentry>
-          <term><guilabel>Identities</guilabel></term>
-          <listitem>
-	    <para>
-               This allows you to create and alter one or more
-               identities for your email.
-	    </para>
-	  </listitem>
-	</varlistentry>
-	<varlistentry>
-	  <term><guilabel>Sources</guilabel></term>
-	  <listitem>
-	    <para>
-               This tab lets you tell
-               <application>Evolution</application> where to get the
-               mail sent to you, and how to get it.
-            </para>
-          </listitem>
-	</varlistentry>
-	<varlistentry>
+          To change your mail settings, select <menuchoice>
+          <guimenu>Tools</guimenu> <guimenuitem>Mail
+          Settings</guimenuitem></menuchoice> in the Inbox.  This will
+          open the <interface>mail preferences window</interface>,
+          which has two tabbed sections: <guilabel>Accounts</guilabel> and
+          <guilabel>Other</guilabel>.  The
+          <guilabel>Accounts</guilabel> tab lists all the email
+          accounts you have set up, and lets you edit, add to, and
+          delete them.  The <guilabel>Other</guilabel> tab lets you
+          control several miscellaneous aspects of your mail in
+          general. We'll look at the account settings first.
+       </para>
 
-	  <term><guilabel>Mail Transport</guilabel></term>
-	  <listitem>
-	    <para>
-               This tab lets you tell
-               <application>Evolution</application> how to send mail.
-            </para>
-          </listitem>
-	</varlistentry>
-
-	<varlistentry>
-	  <term><guilabel>News Servers</guilabel></term>
-	  <listitem>
-	    <para>
-              If you would like to use
-              <application>Evolution</application> to read newsgroups,
-              you can specify your news server preferences here.
-           </para>
-	  </listitem>
-	</varlistentry>
-
-	<varlistentry>
-	  <term><guilabel>Other</guilabel></term>
-	  <listitem>
-	    <para>
-              Miscellaneous mail and news settings, such as HTML
-              handling preferences, and how long
-              <application>Evolution</application> should wait before
-              marking a message read.
-           </para>
-	  </listitem>
-	</varlistentry>
-      </variablelist>
-
-    </para>
 
       <!-- ==============Figure===================== -->
       <figure id="config-prefs-mail-fig">
@@ -88,269 +41,115 @@
       <!-- ==============End of Figure================-->
 
 
+
       <sect2 id="config-prefs-mail-identity">
-      <title>Identity Settings</title> 
+      <title>Account Settings</title> 
       <para>
-         If you have only one email account, or send email from only
-         one address, you will only need to configure one identity. If
-         you want, however, you can have multiple identities.  This
-         can be useful if you want to keep personal and professional
-         email separate, or if you wear several hats at work.
-         
+         If you send and recieve email from only one address, you will
+         only want to set up one email account. If you want, however,
+         you can have multiple identities.  This can be useful if you
+         want to keep personal and professional email separate, or if
+         you perform several different tasks at work.
        </para>
        <para>
-         To add a new identity, simply click
-         <guibutton>Add</guibutton>. To alter an existing identity,
-         click on it in the <guilabel>Identity</guilabel> tab of the
-         <interface>Preferences</interface> window, and then click
-         <guibutton>Edit</guibutton>.
+         To add a new account, click <guibutton>Add</guibutton>, and
+         <application>Evolution</application> will bring up the
+         account creation <glossterm
+         linkend="druid">druid</glossterm>, detailed in <xref
+         linkend="config-setupassist">. To alter an existing identity,
+         select it and then click <guibutton>Edit</guibutton>.  You
+         can mark the account you use most frequently as the
+         <guilabel>Default</guilabel> account, and disable or enable
+         accounts with the <guibutton>Disable</guibutton>/
+         <guibutton>Enable</guibutton> toggle button.
       </para>
 
       <para>
-         <application>Evolution</application> will then present you
-         with a dialog box containing four fields:
-          <itemizedlist>
-           <listitem>
-	    <para>
-              <guilabel>Full Name:</guilabel> by default, this is the
-              same name as the full name described in your user
-              account on your computer.  You can select another if you
-              wish.
+         When you edit an account,
+         <application>Evolution</application> will present you with a
+         dialog window that has six tabbed sections:
+          <variablelist>
+
+           <varlistentry>
+	    <term>Identity</term>            
+	    <listitem>
+	      <para>
+                 Here, set your email address, whether this account is
+                 to be the default account, and your full name.
+                 Optionally, enter the name of your company or
+                 organization, and the path to your <glossterm
+                 linkend="signature">signature</glossterm> file.
+              </para>
+	    </listitem>
+           </varlistentry>
+
+           <varlistentry>
+	    <term>Receiving Mail</term>
+	    <listitem>
+	      <para>
+                 In this tab, set your server type, server name, and
+                 authentication type.  If you don't know what
+                 information to enter here, ask your system
+                 administrator or ISP. You can opt to have
+                 <application>Evolution</application> remember your
+                 password, if you wish.
+              </para>
+	    </listitem>
+	  </varlistentry>
+
+           <varlistentry>
+	    <term>Recieving Options</term>
+	    <listitem>
+	      <para>
+                Here, you can set a few options indirectly related to
+                getting mail.  You can set whether you'd like
+                <application>Evolution</application> to check for mail
+                automatically, and if so, how often.  If you chose a
+                <glossterm linkend="pop">POP</glossterm> mailbox in
+                the previous section, you can set options related to
+                leaving mail on the POP server, and if you chose
+                <glossterm linkend="imap">IMAP</glossterm>, options
+                related to subscriptions and naming of IMAP folders.
+             </para>
+	    </listitem>
+	  </varlistentry>
+
+	  <varlistentry>
+	    <term>Sending Mail</term>
+	    <listitem>
+	      <para>
+                Here, choose between <glossterm
+                linkend="smtp">SMTP</glossterm> and <glossterm
+                linkend="sendmail">sendmail</glossterm> mail sending
+                configurations.  If you choose SMTP, you will also
+                want to enter the name of the server, and, if
+                required, the type of authentication you will use to
+                access it.
             </para>
-	  </listitem>
-           <listitem>
-	    <para>
-              <guilabel>Email address:</guilabel> Enter your email
-              address in this space.
+	    </listitem>
+	  </varlistentry>
+
+	  <varlistentry>
+	    <term>Special Folders</term>
+	    <listitem>
+	      <para>
+                Here, set the locations of your Drafts and Sent
+                messages folders.
             </para>
-	  </listitem>
-           <listitem>
-	    <para>
-              <guilabel>Organization:</guilabel> If you send email as
-              a representative of a company or other organization,
-              enter its name here.
-            </para>
-	  </listitem>
-           <listitem>
-	    <para>
-              <guilabel>Signature file:</guilabel> You may choose a
-              small text file to be appended to every message that you
-              send.  Typically, signature files include address or
-              other contact information, or a favorite quotation.
-              It's good form to keep it to four lines at the maximum.
-            </para>
-	  </listitem>
-	</itemizedlist>
+	    </listitem>
+	  </varlistentry>
+       </variablelist>
+
       </para>
     </sect2>
 
-    <sect2 id="config-prefs-mail-network">
-      <title>Network Settings</title> 
-      <para>
-        In order to send mail with
-        <application>Evolution</application>, you need to connect to
-        your network.  To do that, you'll need to know your user name
-        and password, what sort of mail sending and receiving
-        protocols your network uses, and the names of the servers
-        you'll be using.  If you're switching from another groupware
-        or email program, you can almost certainly use the same
-        settings as you did with that program. Network-related
-        settings are in the <guilabel>Mail Sources</guilabel> and
-        <guilabel>Mail Transport</guilabel> tabs.
-      </para>
- 
-      <sect3 id="config-prefs-network-sources">
-	<title>Mail Sources</title>
-	<para>
-          The <interface>Mail Sources</interface> tab allows you to
-          edit, add, or delete methods of retrieving mail from
-          servers.  Clicking on <guibutton>Add</guibutton> or
-          <guibutton>Edit</guibutton> will bring up a dialog box to
-          offer you the following options:
-           <variablelist>
-	    <varlistentry>
-	      <term><guilabel>Mail source type:</guilabel></term>
-	      <listitem>
-		<para>
-                  Select from <glossterm
-                  linkend="imap">IMAP</glossterm> or <glossterm
-                  linkend="pop">POP</glossterm> servers, or Unix-style
-                  <systemitem><filename>mbox</filename></systemitem>
-                  or <systemitem><filename>mh</filename></systemitem>
-                  files.
-                </para>
-	      </listitem>
-	    </varlistentry>
-	    <varlistentry>
-	      <term> <guilabel>Server:</guilabel></term>
-	      <listitem>
-		<para>
-                  Enter the name of the mail source server in this
-                  field. If you use an  may or may not be the same as your
-                  <glossterm linkend="smtp">SMTP</glossterm> server.
-                </para>
-	      </listitem>
-	    </varlistentry>
-	    <varlistentry>
-	      <term><guilabel>Username:</guilabel></term>
-	      <listitem>
-		<para>
-                  Enter the user name for the account you have on the
-                  server-- this should the part of your email address
-                  before the @.  If you use
-                  <systemitem><filename>mbox</filename></systemitem>
-                  or <systemitem><filename>mh</filename></systemitem>
-                  files as your mail source, you do not need to enter
-                  a username.
-                </para>
-	      </listitem>
-	    </varlistentry>
-	    <varlistentry>
-	      <term><guilabel>Authentication:</guilabel></term>
-	      <listitem>
-		<para>
-                  Tell <application>Evolution</application> how to
-                  verify your identity with the server.  Your options
-                  vary depending upon the type of server you are
-                  using, and the ways it is configured.  Given the
-                  name of a server,
-                  <application>Evolution</application> can detect what
-                  sorts of authentication it offers.
-               </para>
-	      </listitem>
-	    </varlistentry>
-	    <varlistentry>
-	      <term><guilabel>Test Settings</guilabel></term>
-	      <listitem>
-		<para>
-                  Click this button to have
-                  <application>Evolution</application> check to see if
-                  mail sources are configured correctly.
-                </para>
-	      </listitem>
-	    </varlistentry>
-	  </variablelist>
-          </para>
-          <para>
-            If you have several mail sources, clicking <guibutton>Get
-            Mail</guibutton> will refresh any IMAP,
-            <systemitem><filename>mh</filename></systemitem>, or
-            <systemitem><filename>mbox</filename></systemitem>
-            listings and check and download mail from all POP servers.
-            In other words, <guibutton>Get Mail</guibutton> gets your
-            mail, no matter how many sources you have, or what types
-            they are.
-          </para>
-      </sect3>
-
-      <sect3 id="config-prefs-mail-network-transports">
-	<title>Mail Transports</title>
-	<para>
-           The <interface>Mail Transports</interface> tab lets you set
-           how you will send mail.  Evolution currently supports two
-           mail transport options: <glossterm linkend="smtp">SMTP</glossterm>, which
-           uses a remote mail server, and
-           <glossterm linkend="sendmail">sendmail</glossterm>, which uses the
-           <application>sendmail</application> program on your local
-           system.  <application>Sendmail</application> is more
-           difficult to configure, but offers more flexibility than
-           <glossterm>SMTP</glossterm>.
-        </para>
-	<para>
-            To use <guilabel>SMTP</guilabel>, you'll need to enter the
-            name of your SMTP server.  It may have the same name as
-            your mail source server.
-         </para>
-         <para>
-            <application>Evolution</application> can attempt to
-            determine if you have entered a valid server name.  To
-            have it do so, click the <guilabel>Test
-            Settings</guilabel> button.
-         </para>
-	</sect3>
-      </sect2>
-      <sect2 id="config-prefs-network-news">          
-          <title>News Servers</title>
-          <para>
-            Newsgroups are so much like mailing lists that there's no
-            reason not to keep them right next to your mail.  When you
-            first select the <guilabel>News Servers</guilabel> tab,
-            you will see a blank box with the three familiar buttons
-            on the right: <guibutton>Add</guibutton>,
-            <guibutton>Edit</guibutton>, and
-            <guibutton>Delete</guibutton>.
-          </para>
-          <para>
-            Click <guibutton>Add</guibutton> to add a news server; you
-            will be prompted for its name.  Enter the name, click
-            <guibutton>OK</guibutton>, and you're done.  You can have
-            as many mail servers as you like, of course.  News servers
-            will appear next to your IMAP servers in the
-            <interface>folder bar</interface>.
-          </para>
-     </sect2>
-
-     <sect2 id="config-prefs-mail-other">
-	<title>Other Mail Preferences</title>
-	<para>
-          Not everything fits neatly into categories.  This tab
-          contains some miscellaneous configurations that don't have
-          too much to do with each other.
-          <variablelist>
-
-             <varlistentry>
-                <term> 
-                   <guilabel>Send messages in HTML format</guilabel>
-                </term>
-                <listitem><para>
-                    If you check this box, you will send
-                    messages as HTML by default.  If you leave it unchecked, your
-                    messages will be sent without HTML formatting unless you select 
-                    <menuchoice> <guimenu>Format</guimenu> <guimenuitem>HTML</guimenuitem>
-                    </menuchoice> in the message composer.
-                    See <xref linkend="usage-mail-getnsend-send-html">
-                    for more information about HTML mail.
-                </para></listitem>
-              </varlistentry>
-             <varlistentry>
-                <term> 
-                   <guilabel>Mark Messages as Seen After</guilabel>
-                </term>
-                <listitem><para> 
-                    When you click on a message,
-                    <application>Evolution</application> will wait a
-                    moment before marking it as seen. You can set the
-                    delay, in milliseconds, here.
-                 </para></listitem>
-              </varlistentry>
-              <varlistentry>
-                <term>
-                   <guilabel>Folder Format</guilabel>
-                </term>
-                <listitem> <para> By default,
-                   <application>Evolution</application> saves its mail
-                   in the
-                   <systemitem><filename>mbox</filename></systemitem>
-                   format. You can switch to the
-                   <systemitem><filename>mh</filename></systemitem>
-                   format if you like.  Note that this is an advanced
-                   feature and may cause you to lose some messages, so
-                   you should probably make a backup of your
-                   <systemitem><filename>evolution</filename></systemitem>
-                   directory first. In addition, it will take quite
-                   some time if you have a large mailbox.
-               </para></listitem>
-             </varlistentry>
-           </variablelist>
-        </para>
-      </sect2>
     </sect1>
 
     <sect1 id="config-prefs-cal">
        <title>Configuring the Calendar</title>
        <para>
           To set your calendar preferences, select
-          <menuchoice><guimenu>Settings</guimenu>
+          <menuchoice><guimenu>Tools</guimenu>
           <guimenuitem>Calendar
           Configuration</guimenuitem></menuchoice> from the Calendar
           view.  This will open up the

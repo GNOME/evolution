@@ -113,9 +113,10 @@
 	  <listitem>
 	    <para>
 	      Start your day here.  The Executive summary gives you
-              lists of new or important messages, daily appointments
-              and urgent tasks.  You can customize its appearance and
-              content, and use it to access Evolution services.
+              lists of new or important messages and RDF news
+              summaries, daily appointments and urgent tasks.  You can
+              customize its appearance and content, and use it to
+              access Evolution services.
 	    </para>
 	  </listitem>
 	</varlistentry>
@@ -186,15 +187,18 @@
     </para>
     <para>
       If you don't like the shortcut bar, you can use the folder bar
-      or the menu bar to navigate the main window. Press 
+      or the menu bar to navigate the main window. You can also use
+      the keyboard. You can move around the window with the
+      <keycap>Tab</keycap> key, and use 
             <keycombo action="simul">
                  <keycap>Ctrl</keycap> 
-                 <keycap>O</keycap> 
+                 <keycap>G</keycap> 
              </keycombo>
-      to choose from a list of folders you'd like to visit, or use the
-      drop-down folder bar.  You can hide and show the folder bar and
-      the shortcut bar by selecting those items in the
-      <guimenu>View</guimenu> menu.
+      to go to a particular folder.  You can hide and show the folder
+      bar and the shortcut bar by selecting those items in the
+      <guimenu>View</guimenu> menu.  When the folder bar is hidden,
+      you can use the folder location label as a drop-down menu to
+      move among folders.
     </para>
 
     <tip>
@@ -351,13 +355,13 @@
   <sect1 id="usage-mainwindow-menubar">
     <title>The Menu Bar</title>
     <para>
-      The <interface>menu bar</interface>'s contents will always
-      provide all the possible actions for any given view of your
-      data.  That means that, depending on the context, menu bar items
-      will change.  If you're looking at your Inbox, most of the menu
-      items will relate to mail; some will relate to other components
-      of <application>Evolution</application> and some, especially
-      those in the <guimenu>File Menu</guimenu> will relate to the
+      The <interface>menu bar</interface>'s contents will provide you
+      with all the possible actions for any given view of your data.
+      That means that, depending on the context, menu bar items will
+      change.  If you're looking at your Inbox, most of the menu items
+      will relate to mail; some will relate to other components of
+      <application>Evolution</application> and some, especially those
+      in the <guimenu>File Menu</guimenu> will relate to the
       application as a whole. The contents of the menu bar are
       described in <xref linkend="menuref">.
    </para>
@@ -366,20 +370,25 @@
         <varlistentry>
           <term> <guimenu>File</guimenu> Menu</term>
 
-          <listitem><para> 
-            Anything even related to a file or to the operations
-            of the application generally  falls under this
-            menu: creating things, saving them to disk, 
-            printing them, and quitting the program itself.  
-
+          <listitem>
+              <para>
+                Anything even remotely related to a file or to the
+               operations of the application generally falls under
+               this menu: creating things, saving them to disk,
+               printing them, and quitting the program itself.
             </para></listitem>
         </varlistentry>
 
        <varlistentry>
           <term> <guimenu>Edit</guimenu> Menu </term>
           <listitem><para>
-              The <guimenu>Edit</guimenu> menu holds
-              useful tools that help you edit text and move it around.
+              The <guimenu>Edit</guimenu> menu holds useful tools that
+              help you edit and select text.  You'll also find tools
+              here to select messages and other items within
+              <application>Evolution</application>:
+              <guimenuitem>Select Thread</guimenuitem> and
+              <guimenuitem>Invert Selection</guimenuitem>, for
+              example.
           </para></listitem>
         </varlistentry>
 
@@ -393,15 +402,28 @@
           </para></listitem>
         </varlistentry>
 
+
+       <varlistentry>
+          <term> <guimenu>Actions</guimenu> Menu </term>
+          <listitem><para>
+            If there's something you want to do, it's probably here:, 
+            moving things around, getting mail, or emptying the trash.
+          </para></listitem>
+        </varlistentry>
+
+
         <varlistentry>
-          <term> <guimenu>Settings</guimenu> Menu </term>
-          <listitem><para> Tools for configuring, changing, and
-          setting up go here.  For mail, that means things like
-          <guimenuitem>Mail Configuration</guimenuitem> and the
-          <guimenuitem>Virtual Folder Editor</guimenuitem>.  For the
-          <interface>Calendar</interface> and the <interface>Contact
-          Manager</interface>, it's color, network, and layout
-          configuration. </para></listitem>
+          <term> <guimenu>Tools</guimenu> Menu </term>
+          <listitem>
+          <para> 
+            Tools for configuring, changing, and setting up go here.
+            For mail, that means things like <guimenuitem>Mail
+            Configuration</guimenuitem> and the <guimenuitem>Virtual
+            Folder Editor</guimenuitem>.  For the
+            <interface>Calendar</interface> and the <interface>Contact
+            Manager</interface>, it's color, network, and layout
+            configuration. 
+          </para></listitem>
         </varlistentry>
 
        <varlistentry>
@@ -415,12 +437,11 @@
       </variablelist>
    </para>
    <para>
-     Other menus, like <guilabel>Folder</guilabel>,
-     <guilabel>Message</guilabel>, and <guilabel>Actions</guilabel>,
-     appear only occasionally.  <guilabel>Message</guilabel> and
-     <guilabel>Folder</guilabel>, for example, have commands that only
-     relate to email, so they're only available when you're looking at
-     email.
+     Other menus, like <guilabel>Actions</guilabel> and
+     <guilabel>Tools</guilabel> appear only in a given 
+     <guilabel>Message</guilabel> and <guilabel>Folder</guilabel>, for
+     example, have commands that only relate to email, so they're only
+     available when you're looking at email.
    </para>
    <para>
       Once you've familiarized yourself with the <interface>main
