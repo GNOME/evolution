@@ -1,3 +1,8 @@
+2002-02-03  Iain Holmes  <iain@ximian.com>
+
+	* e-summary-offline-handler.c (impl_prepareForOffline): Create an 
+	empty list if the summary == NULL. Fixes bug 18025
+
 2001-12-18  JP Rosevear  <jpr@ximian.com>
 
 	* e-summary-tasks.c (e_summary_tasks_init): use
