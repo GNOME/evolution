@@ -599,19 +599,18 @@ etsm_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 }
 
 static ETreeSelectionModelNode *
-etsm_recurse_is_path_selected (ESelectionModel *selection,
+etsm_recurse_is_path_selected (ETreeSelectionModel *etsm,
 			       ETreePath path,
 			       gboolean *is_selected)
 {
 	ETreeSelectionModelNode *selection_node;
-	ETreeSelectionModel *etsm = E_TREE_SELECTION_MODEL(selection);
 	ETreeSorted *ets = etsm->priv->ets;
 	ETreePath parent;
 
 	parent = e_tree_model_node_get_parent(E_TREE_MODEL(ets), path);
 
 	if (parent) {
-		selection_node = etsm_recurse_is_path_selected (selection, parent, is_selected);
+		selection_node = etsm_recurse_is_path_selected (etsm, parent, is_selected);
 		if (selection_node) {
 			int position = e_tree_sorted_orig_position(ets, path);
 			if (position < 0 || position >= selection_node->num_children) {
@@ -651,6 +650,21 @@ etsm_recurse_is_path_selected (ESelectionModel *selection,
 	}
 }
 
+static gboolean
+etsm_is_path_selected (ETreeSelectionModel *etsm,
+		       ETreePath path)
+{
+	ETreeSelectionModelNode *selection_node;
+	gboolean ret_val;
+
+	selection_node = etsm_recurse_is_path_selected (etsm, path, &ret_val);
+
+	if (selection_node)
+		ret_val = selection_node->selected;
+
+	return ret_val;
+}
+
 /** 
  * e_selection_model_is_row_selected
  * @selection: #ESelectionModel to check
@@ -666,22 +680,13 @@ etsm_is_row_selected (ESelectionModel *selection,
 {
 	ETreeSelectionModel *etsm = E_TREE_SELECTION_MODEL(selection);
 	ETreePath path;
-	ETreeSelectionModelNode *selection_node;
-
-	gboolean ret_val;
 
 	g_return_val_if_fail(row < e_table_model_row_count(E_TABLE_MODEL(etsm->priv->etta)), FALSE);
 	g_return_val_if_fail(row >= 0, FALSE);
-	g_return_val_if_fail(selection != NULL, FALSE);
+	g_return_val_if_fail(etsm != NULL, FALSE);
 
 	path = e_tree_table_adapter_node_at_row(etsm->priv->etta, row);
-
-	selection_node = etsm_recurse_is_path_selected (selection, path, &ret_val);
-
-	if (selection_node)
-		ret_val = selection_node->selected;
-
-	return ret_val;
+	return etsm_is_path_selected (etsm, path);
 }
 
 
@@ -803,6 +808,9 @@ etsm_selected_count (ESelectionModel *selection)
 		ETreePath model_root;
 		model_root = e_tree_model_get_root(etsm->priv->model);
 		etsm_selected_count_recurse(etsm, etsm->priv->root, model_root, &count);
+		if (!e_tree_table_adapter_root_node_is_visible (etsm->priv->etta) && etsm_is_path_selected (etsm, e_tree_model_get_root(etsm->priv->model))) {
+			count --;
+		}
 	}
 	return count;
 }

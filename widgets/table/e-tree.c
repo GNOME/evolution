@@ -45,6 +45,14 @@
 
 static GtkObjectClass *parent_class;
 
+#define d(x)
+
+#if d(!)0
+#define e_table_item_leave_edit_(x) (e_table_item_leave_edit((x)), g_print ("%s: e_table_item_leave_edit\n", __FUNCTION__))
+#else
+#define e_table_item_leave_edit_(x) (e_table_item_leave_edit((x)))
+#endif
+
 enum {
 	CURSOR_CHANGE,
 	CURSOR_ACTIVATED,
@@ -685,14 +693,23 @@ et_canvas_realize (GtkWidget *canvas, ETree *e_tree)
 }
 
 static gint
-et_canvas_button_press (GtkWidget *canvas, GdkEventButton *event, ETree *e_tree)
+et_canvas_root_event (GnomeCanvasItem *root, GdkEvent *event, ETree *e_tree)
 {
-	if (GTK_WIDGET_HAS_FOCUS(canvas)) {
-		GnomeCanvasItem *item = GNOME_CANVAS(canvas)->focused_item;
+	switch (event->type) {
+	case GDK_BUTTON_PRESS:
+	case GDK_2BUTTON_PRESS:
+	case GDK_BUTTON_RELEASE:
+		if (GTK_WIDGET_HAS_FOCUS(root->canvas)) {
+			GnomeCanvasItem *item = GNOME_CANVAS(root->canvas)->focused_item;
 
-		if (E_IS_TABLE_ITEM(item)) {
-			e_table_item_leave_edit(E_TABLE_ITEM(item));
+			if (E_IS_TABLE_ITEM(item)) {
+				e_table_item_leave_edit_(E_TABLE_ITEM(item));
+				return TRUE;
+			}
 		}
+		break;
+	default:
+		break;
 	}
 
 	return FALSE;
@@ -781,8 +798,8 @@ e_tree_setup_table (ETree *e_tree)
 		GTK_OBJECT(e_tree->priv->table_canvas), "realize",
 		GTK_SIGNAL_FUNC(et_canvas_realize), e_tree);
 	gtk_signal_connect (
-		GTK_OBJECT(e_tree->priv->table_canvas), "button_press_event",
-		GTK_SIGNAL_FUNC(et_canvas_button_press), e_tree);
+		GTK_OBJECT(gnome_canvas_root (e_tree->priv->table_canvas)), "event",
+		GTK_SIGNAL_FUNC(et_canvas_root_event), e_tree);
 
 	et_build_item(e_tree);
 }
