@@ -131,7 +131,9 @@ nntp_folder_sync (CamelFolder *folder, gboolean expunge,
 	camel_folder_summary_save (CAMEL_NNTP_FOLDER(folder)->summary);
 
 	store = CAMEL_NNTP_STORE (camel_folder_get_parent_store (folder));
-	camel_nntp_newsrc_write (store->newsrc);
+
+	if (store->newsrc)
+		camel_nntp_newsrc_write (store->newsrc);
 }
 
 static CamelFolder*
@@ -309,12 +311,14 @@ nntp_folder_get_subfolder_names (CamelFolder *folder)
 {
 	if (!strcmp (folder->name, "/")) {
 		CamelStore *store = camel_folder_get_parent_store (folder);
-		GPtrArray *array = camel_nntp_newsrc_get_subscribed_group_names (CAMEL_NNTP_STORE (store)->newsrc);
-		return array;
+		
+		if (CAMEL_NNTP_STORE (store)->newsrc) {
+			GPtrArray *array = camel_nntp_newsrc_get_subscribed_group_names (CAMEL_NNTP_STORE (store)->newsrc);
+			return array;
+		}
 	}
-	else {
-		return NULL;
-	}
+	
+	return NULL;
 }
 
 static void

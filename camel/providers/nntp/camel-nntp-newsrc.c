@@ -229,6 +229,8 @@ camel_nntp_newsrc_get_subscribed_group_names (CamelNNTPNewsrc *newsrc)
 {
 	struct newsrc_ptr_array npa;
 
+	g_return_val_if_fail (newsrc, NULL);
+
 	npa.ptr_array = g_ptr_array_new();
 	npa.subscribed_only = TRUE;
 
@@ -242,6 +244,8 @@ GPtrArray *
 camel_nntp_newsrc_get_all_group_names (CamelNNTPNewsrc *newsrc)
 {
 	struct newsrc_ptr_array npa;
+
+	g_return_val_if_fail (newsrc, NULL);
 
 	npa.ptr_array = g_ptr_array_new();
 	npa.subscribed_only = FALSE;
@@ -338,6 +342,8 @@ camel_nntp_newsrc_write_to_file(CamelNNTPNewsrc *newsrc, FILE *fp)
 {
 	struct newsrc_fp newsrc_fp;
 
+	g_return_if_fail (newsrc);
+
 	newsrc_fp.newsrc = newsrc;
 	newsrc_fp.fp = fp;
 
@@ -350,6 +356,8 @@ void
 camel_nntp_newsrc_write(CamelNNTPNewsrc *newsrc)
 {
 	FILE *fp;
+
+	g_return_if_fail (newsrc);
 
 	if (!newsrc->dirty)
 		return;

@@ -1,4 +1,17 @@
 2000-08-21  JP Rosevear  <jpr@helixcode.com>
+	
+	* providers/nntp/camel-nntp-folder.c (nntp_folder_get_subfolder_names):
+	Make sure newsrc is not null
+	(nntp_folder_get_subfolder_names): ditto
+
+	* providers/nntp/camel-nntp-newsrc.c 
+	(camel_nntp_newsrc_get_subscribed_group_names): Programming check
+	for newsrc == NULL
+	(camel_nntp_newsrc_get_all_group_names): ditto
+	(camel_nntp_newsrc_write_to_file): ditto
+	(camel_nntp_newsrc_write): ditto
+
+2000-08-21  JP Rosevear  <jpr@helixcode.com>
 
 	* providers/nntp/camel-nntp-store.c (camel_nntp_command): 
 	Make sure respbuffer is not null before manipulating it.
