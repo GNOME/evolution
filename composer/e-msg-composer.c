@@ -1771,6 +1771,8 @@ setup_ui (EMsgComposer *composer)
 	g_free (default_charset);
 	
 	if (!session || !camel_session_is_online (session)) {
+		char *tooltip;
+		
 		/* Move the accelerator from Send to Send Later */
 		bonobo_ui_component_set_prop (
 			composer->uic, "/commands/FileSend",
