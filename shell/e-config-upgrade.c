@@ -1341,7 +1341,11 @@ static int import_bonobo_config(xmlDocPtr config_doc, GConfClient *gconf)
 				if (val == NULL)
 					continue;
 			}
-			d(printf(" %s = '%s' -> %s [%d]\n", map[j].from, val, map[j].to, map[j].type));
+			d(printf(" %s = '%s' -> %s [%d]\n",
+				 map[j].from,
+				 val == NULL ? "(null)" : val,
+				 map[j].to,
+				 map[j].type));
 			path = g_strdup_printf("/apps/evolution/%s", map[j].to);
 			switch(map[j].type) {
 			case BMAP_BOOL:
