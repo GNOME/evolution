@@ -284,6 +284,21 @@ command_new_folder (BonoboUIComponent *uih,
 }
 
 static void
+command_activate_view (BonoboUIComponent *uih,
+		       void *data,
+		       const char *path)
+{
+	EShellView *shell_view;
+	char *uri;
+
+	shell_view = E_SHELL_VIEW (data);
+
+	uri = g_strconcat (E_SHELL_URI_PREFIX, get_path_for_folder_op (shell_view), NULL);
+	e_shell_view_display_uri (shell_view, uri);
+	g_free (uri);
+}
+
+static void
 command_open_folder_in_new_window (BonoboUIComponent *uih,
 				   gpointer          data,
 				   const char *path)
@@ -592,6 +607,7 @@ BonoboUIVerb file_verbs [] = {
 };
 
 BonoboUIVerb folder_verbs [] = {
+	BONOBO_UI_VERB ("ActivateView", command_activate_view),
 	BONOBO_UI_VERB ("OpenFolderInNewWindow", command_open_folder_in_new_window),
 	BONOBO_UI_VERB ("MoveFolder", command_move_folder),
 	BONOBO_UI_VERB ("CopyFolder", command_copy_folder),
