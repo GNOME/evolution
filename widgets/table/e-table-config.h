@@ -36,7 +36,7 @@ typedef struct {
 	/*
 	 * The state we manipulate
 	 */
-	ETableSpecification *source_spec,  *spec, *temp_spec;
+	ETableSpecification *source_spec;
 	ETableState         *source_state, *state, *temp_state;
 
 	GtkWidget *sort_label;
@@ -44,6 +44,11 @@ typedef struct {
 	GtkWidget *fields_label;
 
 	ETableConfigSortWidgets sort [4];
+
+	/*
+	 * List of valid column names
+	 */
+	GSList *column_names;
 } ETableConfig;
 
 typedef struct {
@@ -58,6 +63,6 @@ ETableConfig *e_table_config_construct (ETableConfig        *etco,
 					const char          *header,
 					ETableSpecification *spec,
 					ETableState         *state);
-void          e_table_config_raise     (ETableConfig *config);
+void          e_table_config_raise     (ETableConfig        *config);
 
 #endif /* _E_TABLE_CONFIG_H */

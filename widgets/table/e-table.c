@@ -515,9 +515,10 @@ et_table_row_deleted (ETableModel *table_model, int row, ETable *et)
 static void
 et_canvas_realize (GtkWidget *canvas, ETable *e_table)
 {
-	gnome_canvas_item_set(e_table->white_item,
-			      "fill_color_gdk", &GTK_WIDGET(e_table->table_canvas)->style->base[GTK_STATE_NORMAL],
-			      NULL);
+	gnome_canvas_item_set(
+		e_table->white_item,
+		"fill_color_gdk", &GTK_WIDGET(e_table->table_canvas)->style->base[GTK_STATE_NORMAL],
+		NULL);
 }
 
 static void
@@ -566,32 +567,39 @@ e_table_setup_table (ETable *e_table, ETableHeader *full_header, ETableHeader *h
 	gtk_widget_show (GTK_WIDGET (e_table->table_canvas));
 
 
-	e_table->white_item = gnome_canvas_item_new(gnome_canvas_root(e_table->table_canvas),
-						    gnome_canvas_rect_get_type(),
-						    "x1", (double) 0,
-						    "y1", (double) 0,
-						    "x2", (double) 100,
-						    "y2", (double) 100,
-						    "fill_color_gdk", &GTK_WIDGET(e_table->table_canvas)->style->base[GTK_STATE_NORMAL],
-						    NULL);
-	gtk_signal_connect(GTK_OBJECT(e_table->table_canvas), "realize",
-			   GTK_SIGNAL_FUNC(et_canvas_realize), e_table);
-	e_table->canvas_vbox = gnome_canvas_item_new(gnome_canvas_root(e_table->table_canvas),
-						     e_canvas_vbox_get_type(),
-						     "spacing", 10.0,
-						     NULL);
-
+	e_table->white_item = gnome_canvas_item_new(
+		gnome_canvas_root(e_table->table_canvas),
+		gnome_canvas_rect_get_type(),
+		"x1", (double) 0,
+		"y1", (double) 0,
+		"x2", (double) 100,
+		"y2", (double) 100,
+		"fill_color_gdk", &GTK_WIDGET(e_table->table_canvas)->style->base[GTK_STATE_NORMAL],
+		NULL);
+	gtk_signal_connect (
+		GTK_OBJECT(e_table->table_canvas), "realize",
+		GTK_SIGNAL_FUNC(et_canvas_realize), e_table);
+	e_table->canvas_vbox = gnome_canvas_item_new(
+		gnome_canvas_root(e_table->table_canvas),
+		e_canvas_vbox_get_type(),
+		"spacing", 10.0,
+		NULL);
+	
 	if (e_table->use_click_to_add) {
-		e_table->click_to_add = gnome_canvas_item_new (GNOME_CANVAS_GROUP(e_table->canvas_vbox),
-							       e_table_click_to_add_get_type (),
-							       "header", e_table->header,
-							       "model", e_table->model,
-							       "message", e_table->click_to_add_message,
-							       NULL);
+		e_table->click_to_add = gnome_canvas_item_new (
+			GNOME_CANVAS_GROUP(e_table->canvas_vbox),
+			e_table_click_to_add_get_type (),
+			"header", e_table->header,
+			"model", e_table->model,
+			"message", e_table->click_to_add_message,
+			NULL);
 		
-		e_canvas_vbox_add_item(E_CANVAS_VBOX(e_table->canvas_vbox), e_table->click_to_add);
-		gtk_signal_connect(GTK_OBJECT (e_table->click_to_add), "cursor_change",
-				   GTK_SIGNAL_FUNC(click_to_add_cursor_change), e_table);
+		e_canvas_vbox_add_item (
+			E_CANVAS_VBOX(e_table->canvas_vbox),
+			e_table->click_to_add);
+		gtk_signal_connect (
+			GTK_OBJECT (e_table->click_to_add), "cursor_change",
+			GTK_SIGNAL_FUNC(click_to_add_cursor_change), e_table);
 	}
 
 	e_table->group = e_table_group_new (
@@ -600,14 +608,15 @@ e_table_setup_table (ETable *e_table, ETableHeader *full_header, ETableHeader *h
 		model, e_table->sort_info, 0);
 	e_canvas_vbox_add_item(E_CANVAS_VBOX(e_table->canvas_vbox), GNOME_CANVAS_ITEM(e_table->group));
 
-	gnome_canvas_item_set(GNOME_CANVAS_ITEM(e_table->group),
-			      "drawgrid", e_table->draw_grid,
-			      "drawfocus", e_table->draw_focus,
-			      "cursor_mode", e_table->cursor_mode,
-			      "length_threshold", e_table->length_threshold,
-			      "table_selection_model", e_table->selection,
-			      NULL);
-
+	gnome_canvas_item_set(
+		GNOME_CANVAS_ITEM(e_table->group),
+		"drawgrid", e_table->draw_grid,
+		"drawfocus", e_table->draw_focus,
+		"cursor_mode", e_table->cursor_mode,
+		"length_threshold", e_table->length_threshold,
+		"table_selection_model", e_table->selection,
+		NULL);
+	
 	gtk_signal_connect (GTK_OBJECT (e_table->group), "cursor_change",
 			    GTK_SIGNAL_FUNC(group_cursor_change), e_table);
 	gtk_signal_connect (GTK_OBJECT (e_table->group), "double_click",
@@ -766,10 +775,11 @@ e_table_set_state_object(ETable *e_table, ETableState *state)
 	if (e_table->sort_info) {
 		gtk_object_ref(GTK_OBJECT(e_table->sort_info));
 		e_table->group_info_change_id =
-			gtk_signal_connect (GTK_OBJECT (e_table->sort_info),
-					    "group_info_changed",
-					    GTK_SIGNAL_FUNC (sort_info_changed),
-					    e_table);
+			gtk_signal_connect (
+				GTK_OBJECT (e_table->sort_info),
+				"group_info_changed",
+				GTK_SIGNAL_FUNC (sort_info_changed),
+				e_table);
 	}
 
 	if (e_table->sorter)
@@ -791,8 +801,17 @@ e_table_set_state_object(ETable *e_table, ETableState *state)
 		e_table->rebuild_idle_id = g_idle_add_full (20, changed_idle, e_table, NULL);
 }
 
-void            e_table_set_state                 (ETable               *e_table,
-						   const gchar          *state_str)
+/** 
+ * e_table_set_state:
+ * @e_table: %ETable object that will be modified
+ * @state_str: a string with the XML representation of the ETableState.
+ *
+ * This routine sets the state (as described by %ETableState) of the
+ * %ETable object.
+ */
+void
+e_table_set_state (ETable      *e_table,
+		   const gchar *state_str)
 {
 	ETableState *state;
 
@@ -809,8 +828,17 @@ void            e_table_set_state                 (ETable               *e_table
 	gtk_object_unref(GTK_OBJECT(state));
 }
 
-void            e_table_load_state                (ETable               *e_table,
-						   const gchar          *filename)
+/**
+ * e_table_load_state:
+ * @e_table: %ETable object that will be modified
+ * @filename: name of the file containing the state to be loaded into the %ETable
+ *
+ * An %ETableState will be loaded form the file pointed by @filename into the
+ * @e_table object.
+ */
+void
+e_table_load_state (ETable      *e_table,
+		    const gchar *filename)
 {
 	ETableState *state;
 
@@ -827,6 +855,13 @@ void            e_table_load_state                (ETable               *e_table
 	gtk_object_unref(GTK_OBJECT(state));
 }
 
+/**
+ * e_table_get_state_object:
+ * @e_table: %ETable object that will be modified
+ *
+ * Returns: the %ETableState object that encapsulates the current
+ * state of the @e_table object
+ */
 ETableState *
 e_table_get_state_object (ETable *e_table)
 {
@@ -869,8 +904,17 @@ gchar          *e_table_get_state                 (ETable               *e_table
 	return string;
 }
 
-void            e_table_save_state                (ETable               *e_table,
-						   const gchar          *filename)
+/**
+ * e_table_save_state:
+ * @e_table: %ETable object that will be modified
+ * @filename: name of the file containing the state to be loaded into the %ETable
+ *
+ * This routine saves the state of the @e_table object into the file pointed
+ * by @filename
+ */
+void
+e_table_save_state (ETable      *e_table,
+		    const gchar *filename)
 {
 	ETableState *state;
 
@@ -1496,12 +1540,13 @@ struct _GtkDragSourceInfo
 
 /* Drag & drop stuff. */
 /* Target */
-void e_table_drag_get_data (ETable         *table,
-			    int             row,
-			    int             col,
-			    GdkDragContext *context,
-			    GdkAtom         target,
-			    guint32         time)
+void
+e_table_drag_get_data (ETable         *table,
+		       int             row,
+		       int             col,
+		       GdkDragContext *context,
+		       GdkAtom         target,
+		       guint32         time)
 {
 	g_return_if_fail(table != NULL);
 	g_return_if_fail(E_IS_TABLE(table));
@@ -1515,15 +1560,25 @@ void e_table_drag_get_data (ETable         *table,
 	
 }
 
-void e_table_drag_highlight   (ETable     *table,
-			       int         row,
-			       int         col) /* col == -1 to highlight entire row. */
+/**
+ * e_table_drag_highlight:
+ * @table:
+ * @row:
+ * @col:
+ *
+ * Set col to -1 to highlight the entire row.
+ */
+void
+e_table_drag_highlight (ETable *table,
+			int     row,
+			int     col) 
 {
 	g_return_if_fail(table != NULL);
 	g_return_if_fail(E_IS_TABLE(table));
 }
 
-void e_table_drag_unhighlight (ETable     *table)
+void
+e_table_drag_unhighlight (ETable *table)
 {
 	g_return_if_fail(table != NULL);
 	g_return_if_fail(E_IS_TABLE(table));
@@ -1559,11 +1614,13 @@ void e_table_drag_dest_set_proxy (ETable         *table,
 				use_coordinates);
 }
 
-/* There probably should be functions for setting the targets
+/*
+ * There probably should be functions for setting the targets
  * as a GtkTargetList
  */
 
-void e_table_drag_dest_unset (GtkWidget          *widget)
+void
+e_table_drag_dest_unset (GtkWidget *widget)
 {
 	g_return_if_fail(widget != NULL);
 	g_return_if_fail(E_IS_TABLE(widget));
@@ -1573,11 +1630,12 @@ void e_table_drag_dest_unset (GtkWidget          *widget)
 
 /* Source side */
 
-void e_table_drag_source_set  (ETable               *table,
-			       GdkModifierType       start_button_mask,
-			       const GtkTargetEntry *targets,
-			       gint                  n_targets,
-			       GdkDragAction         actions)
+void
+e_table_drag_source_set  (ETable               *table,
+			  GdkModifierType       start_button_mask,
+			  const GtkTargetEntry *targets,
+			  gint                  n_targets,
+			  GdkDragAction         actions)
 {
 	ETableDragSourceSite *site;
 	GtkWidget *canvas;
@@ -1621,7 +1679,8 @@ void e_table_drag_source_set  (ETable               *table,
 	site->actions = actions;
 }
 
-void e_table_drag_source_unset (ETable        *table)
+void
+e_table_drag_source_unset (ETable *table)
 {
 	ETableDragSourceSite *site;
 
@@ -1631,9 +1690,13 @@ void e_table_drag_source_unset (ETable        *table)
 	site = table->site;
 
 	if (site) {
-		gtk_signal_disconnect (GTK_OBJECT (table->table_canvas), table->drag_source_button_press_event_id);
-		gtk_signal_disconnect (GTK_OBJECT (table->table_canvas), table->drag_source_motion_notify_event_id);
-		g_free(site);
+		gtk_signal_disconnect (
+			GTK_OBJECT (table->table_canvas),
+			table->drag_source_button_press_event_id);
+		gtk_signal_disconnect (
+			GTK_OBJECT (table->table_canvas),
+			table->drag_source_motion_notify_event_id);
+		g_free (site);
 		table->site = NULL;
 	}
 }
@@ -1665,12 +1728,8 @@ e_table_drag_begin (ETable            *table,
 }
 
 static void
-e_table_compute_location(ETable *table,
-			 GtkWidget *widget,
-			 int x,
-			 int y,
-			 int *row,
-			 int *col)
+e_table_compute_location (ETable *table, GtkWidget *widget,
+			  int x, int y, int *row, int *col)
 {
 	if (!(row || col))
 		return;

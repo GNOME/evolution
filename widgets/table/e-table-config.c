@@ -32,10 +32,11 @@ config_destroy (GtkObject *object)
 	ETableConfig *config = E_TABLE_CONFIG (object);
 
 	gtk_object_destroy (GTK_OBJECT (config->state));
-	gtk_object_destroy (GTK_OBJECT (config->spec));
+	gtk_object_unref (GTK_OBJECT (config->source_state));
+	gtk_object_unref (GTK_OBJECT (config->source_spec));
 
-	gtk_object_unref (GTK_OBJECT (config->state));
-	gtk_object_unref (GTK_OBJECT (config->spec));
+	g_slist_free (config->column_names);
+	config->column_names = NULL;
 	
 	GTK_OBJECT_CLASS (config_parent_class)->destroy (object);
 }
@@ -115,7 +116,7 @@ update_sort_config_dialog (ETableConfig *config)
 					i);
 			
 			ETableColumnSpecification *column =
-				find_column_in_spec (config->temp_spec, col.column);
+				find_column_in_spec (config->source_spec, col.column);
 
 			if (!column){
 				/*
@@ -183,7 +184,7 @@ config_sort_info_update (ETableConfig *config)
 		ETableSortColumn col = e_table_sort_info_sorting_get_nth (info, i);
 		ETableColumnSpecification *column;
 		
-		column = find_column_in_spec (config->spec, col.column);
+		column = find_column_in_spec (config->source_spec, col.column);
 		if (!column){
 			g_warning ("Could not find column model in specification");
 			continue;
@@ -215,7 +216,6 @@ config_sort_config_show (GtkWidget *widget, ETableConfig *config)
 	GnomeDialog *dialog = GNOME_DIALOG (config->dialog_sort);
 	int button, running = 1;
 
-	config->temp_spec = e_table_specification_duplicate (config->spec);
 	config->temp_state = e_table_state_duplicate (config->state);
 	
 	update_sort_config_dialog (config);
@@ -229,19 +229,20 @@ config_sort_config_show (GtkWidget *widget, ETableConfig *config)
 				config->state->sort_info, 0);
 			update_sort_config_dialog (config);
 			continue;
+
+			/* OK */
 		case 1:
-			gtk_object_unref (GTK_OBJECT (config->spec));
 			gtk_object_unref (GTK_OBJECT (config->state));
-			config->spec = config->temp_spec;
 			config->state = config->temp_state;
 			running = 0;
+			gnome_property_box_changed (
+				GNOME_PROPERTY_BOX (config->dialog_toplevel));
 			break;
-			
+
+			/* CANCEL */
 		case 2:
 			gtk_object_unref (GTK_OBJECT (config->temp_state));
-			gtk_object_unref (GTK_OBJECT (config->temp_spec));
 			config->temp_state = 0;
-			config->temp_spec = 0;
 			running = 0;
 			break;
 		}
@@ -266,7 +267,7 @@ config_group_info_update (ETableConfig *config)
 		ETableSortColumn col = e_table_sort_info_grouping_get_nth (info, i);
 		ETableColumnSpecification *column;
 
-		column = find_column_in_spec (config->spec, col.column);
+		column = find_column_in_spec (config->source_spec, col.column);
 		if (!column){
 			g_warning ("Could not find model column in specification");
 			continue;
@@ -297,7 +298,7 @@ config_fields_info_update (ETableConfig *config)
 	int i, items = 0;
 
 	for (i = 0; i < config->state->col_count; i++){
-		for (column = config->spec->columns; *column; column++){
+		for (column = config->source_spec->columns; *column; column++){
 
 			if (config->state->columns [i] != (*column)->model_col)
 				continue;
@@ -314,12 +315,6 @@ config_fields_info_update (ETableConfig *config)
 	
 	gtk_label_set_text (GTK_LABEL (config->fields_label), res->str);
 	g_string_free (res, TRUE);
-}
-
-static void
-apply_changes (ETableConfig *config)
-{
-	/* Do apply changes here */
 }
 
 static void
@@ -368,29 +363,25 @@ entry_changed (GtkEntry *entry, ETableConfigSortWidgets *sort)
 	
 	char *s = gtk_entry_get_text (entry);
 
-	if (s [0] == 0){
-		printf ("Entry %d is empty!\n", idx);
-		e_table_sort_info_sorting_truncate (sort_info, idx);
-		update_sort_config_dialog (config);
-		return;
-	}
-
 	if (g_hash_table_lookup (sort->combo->elements, s)){
 		ETableSortColumn c;
 		int col;
 		
-		col = find_model_column_by_name (config->temp_spec, s);
+		col = find_model_column_by_name (config->source_spec, s);
 		if (col == -1){
 			g_warning ("This should not happen");
 			return;
 		}
 
-		c.ascending = 1;
+		c.ascending = GTK_TOGGLE_BUTTON (
+			config->sort [idx].radio_ascending)->active;
 		c.column = col;
 		e_table_sort_info_sorting_set_nth (sort_info, idx, c);
 		  
 		update_sort_config_dialog (config);
-		return;
+	}  else {
+		e_table_sort_info_sorting_truncate (sort_info, idx);
+		update_sort_config_dialog (config);
 	}
 }
 
@@ -442,7 +433,8 @@ configure_sort_dialog (ETableConfig *config, GladeXML *gui)
 		config->sort [i].e_table_config = config;
 	}
 
-	for (column = config->spec->columns; *column; column++){
+	
+	for (column = config->source_spec->columns; *column; column++){
 		char *label = (*column)->title;
 
 		for (i = 0; i < 4; i++){
@@ -450,6 +442,10 @@ configure_sort_dialog (ETableConfig *config, GladeXML *gui)
 				config->sort [i].combo,
 				gettext (label), label);
 		}
+
+		
+		config->column_names = g_slist_append (
+			config->column_names, label);
 	}
 
 	/*
@@ -480,11 +476,8 @@ setup_gui (ETableConfig *config)
 			config->dialog_toplevel)->notebook),
 		FALSE);
 	
-	gtk_signal_connect (
-		GTK_OBJECT (config->dialog_toplevel), "apply",
-		GTK_SIGNAL_FUNC (apply_changes), config);
-	
-	config->dialog_show_fields = configure_dialog (gui, "dialog-show-fields", config);
+	config->dialog_show_fields = configure_dialog (
+gui, "dialog-show-fields", config);
 	config->dialog_group_by =  configure_dialog (gui, "dialog-group-by", config);
 	config->dialog_sort = configure_dialog (gui, "dialog-sort", config);
 
@@ -530,7 +523,6 @@ e_table_config_construct (ETableConfig        *config,
 	gtk_object_ref (GTK_OBJECT (config->source_spec));
 	gtk_object_ref (GTK_OBJECT (config->source_state));
 
-	config->spec = e_table_specification_duplicate (spec);
 	config->state = e_table_state_duplicate (state);
 
 	setup_gui (config);

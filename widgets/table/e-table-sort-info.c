@@ -380,6 +380,9 @@ e_table_sort_info_load_from_node (ETableSortInfo *info,
 			e_table_sort_info_sorting_set_nth(info, i++, column);
 		}
 	}
+	gtk_signal_emit (GTK_OBJECT (info),
+			 e_table_sort_info_signals [SORT_INFO_CHANGED]);
+	
 }
 
 /**
