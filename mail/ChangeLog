@@ -1,3 +1,15 @@
+2000-11-01  Dan Winship  <danw@helixcode.com>
+
+	* mail-display.c (pixbuf_gen_idle): Lots of fixes and
+	simplifications. Should get rid of the "missing icon" problem.
+	There is still a problem with some images failing to get
+	thumbnails, even though they display correctly.
+	(pixbuf_for_mime_type): New function to try really hard to get the
+	right icon for a MIME type, including looking in mc and nautilus's
+	pixmap directories.
+	(on_object_requested): Always use pixbuf_gen_idle, even for
+	non-image types, to prevent code duplication.
+
 2000-10-31  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* mail-format.c (mail_get_message_body): Shouldn't we be

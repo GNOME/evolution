@@ -40,8 +40,6 @@ struct _PixbufLoader {
 	CamelDataWrapper *wrapper; /* The data */
 	CamelStream *mstream;
 	GdkPixbufLoader *loader; 
-	GHashTable *cache;
-	char *cid;
 	char *type; /* Type of data, in case the conversion fails */
 	GtkWidget *pixmap;
 };
@@ -340,15 +338,51 @@ pixmap_press (GtkWidget *ebox, GdkEventButton *event, gpointer user_data)
 	return TRUE;
 }	
 
+static GdkPixbuf *
+pixbuf_for_mime_type (const char *mime_type)
+{
+	const char *icon_name;
+	char *filename = NULL;
+	GdkPixbuf *pixbuf;
+
+	icon_name = gnome_vfs_mime_get_value (mime_type, "icon-filename");
+	if (icon_name) {
+		if (*icon_name == '/') {
+			pixbuf = gdk_pixbuf_new_from_file (icon_name);
+			if (pixbuf)
+				return pixbuf;
+		}
+
+		filename = gnome_pixmap_file (icon_name);
+		if (!filename) {
+			char *fm_icon;
+
+			fm_icon = g_strdup_printf ("nautilus/%s", icon_name);
+			filename = gnome_pixmap_file (fm_icon);
+			if (!filename) {
+				fm_icon = g_strdup_printf ("mc/%s", icon_name);
+				filename = gnome_pixmap_file (fm_icon);
+			}
+		}
+	}
+	
+	if (!filename)
+		filename = gnome_pixmap_file ("gnome-unknown.png");
+
+	pixbuf = gdk_pixbuf_new_from_file (filename);
+	g_free (filename);
+
+	return pixbuf;
+}
+
 static gint
 pixbuf_gen_idle (struct _PixbufLoader *pbl)
 {
 	GdkPixbuf *pixbuf, *mini;
-	const char *icon;
 	gboolean error = FALSE;
 	char tmp[4096];
-	int len;
-	
+	int len, width, height, ratio;
+
 	/* Get a pixbuf from the wrapper */
 
 	if (!GTK_IS_WIDGET (pbl->pixmap)) {
@@ -366,82 +400,55 @@ pixbuf_gen_idle (struct _PixbufLoader *pbl)
 		return FALSE;
 	}
 
-	if (pbl->mstream == NULL) {
-		pbl->mstream = camel_stream_mem_new ();
-		camel_data_wrapper_write_to_stream (pbl->wrapper, pbl->mstream);
-		camel_stream_reset (pbl->mstream);
-	}
-	
-	/* ...convert the CamelStreamMem to a GdkPixbuf... */
-	if (pbl->loader == NULL)
-		pbl->loader = gdk_pixbuf_loader_new ();
-	
-	len = camel_stream_read (pbl->mstream, tmp, 4096);
-	if (len > 0) {
-		error = !gdk_pixbuf_loader_write (pbl->loader, tmp, len);
-		if (!error) { 
-			return TRUE;
-		}
-			
-	} else {
-		if (!camel_stream_eos (pbl->mstream))
+	if (pbl->mstream) {
+		if (pbl->loader == NULL)
+			pbl->loader = gdk_pixbuf_loader_new ();
+
+		len = camel_stream_read (pbl->mstream, tmp, 4096);
+		if (len > 0) {
+			error = !gdk_pixbuf_loader_write (pbl->loader, tmp, len);
+			if (!error)
+				return TRUE;
+		} else if (!camel_stream_eos (pbl->mstream))
 			error = TRUE;
 	}
-	
-	if (error) {
-		icon = gnome_vfs_mime_get_value (pbl->type, "icon-filename");
-		if (icon) {
-			GdkPixbuf *pixbuf;
 
-			pixbuf = gdk_pixbuf_new_from_file (icon);
-			bonobo_ui_toolbar_icon_set_pixbuf (BONOBO_UI_TOOLBAR_ICON (pbl->pixmap), pixbuf);
-			gdk_pixbuf_unref (pixbuf);
-		} else {
-			char *filename;
-			GdkPixbuf *pixbuf;
+	if (error || !pbl->mstream)
+		pixbuf = pixbuf_for_mime_type (pbl->type);
+	else
+		pixbuf = gdk_pixbuf_loader_get_pixbuf (pbl->loader);
 
-			filename = gnome_pixmap_file ("gnome-unknown.png");
-			pixbuf = gdk_pixbuf_new_from_file (filename);
-			bonobo_ui_toolbar_icon_set_pixbuf (BONOBO_UI_TOOLBAR_ICON (pbl->pixmap), pixbuf);
-			gdk_pixbuf_unref (pixbuf);
-			g_free (filename);
+	width = gdk_pixbuf_get_width (pixbuf);
+	height = gdk_pixbuf_get_height (pixbuf);
+
+	if (width >= height) {
+		if (width > 24) {
+			ratio = width / 24;
+			width = 24;
+			height /= ratio;
 		}
 	} else {
-		int width, height, ratio;
-		
-		pixbuf = gdk_pixbuf_loader_get_pixbuf (pbl->loader);
-		width = gdk_pixbuf_get_width (pixbuf);
-		height = gdk_pixbuf_get_height (pixbuf);
-		
-		if (width >= height) {
-			if (width > 24) {
-				ratio = width / 24;
-				width = 24;
-				height /= ratio;
-			}
-		} else {
-			if (height > 24) {
-				ratio = height / 24;
-				height = 24;
-				width /= ratio;
-			}
+		if (height > 24) {
+			ratio = height / 24;
+			height = 24;
+			width /= ratio;
 		}
-		
-		mini = gdk_pixbuf_scale_simple (pixbuf,
-						width, height,
-						GDK_INTERP_BILINEAR);
-				/* Use this, because it is the gdk-pixbuf
-				   version of gnome_pixmap. We need this
-				   because Imlib is not threadsafe, and
-				   it was causing all sorts of problems */
-		bonobo_ui_toolbar_icon_set_pixbuf (BONOBO_UI_TOOLBAR_ICON (pbl->pixmap), mini);
-		gtk_widget_set_usize (pbl->pixmap, width, height);
 	}
-	
-	camel_object_unref (CAMEL_OBJECT (pbl->mstream));
-	gdk_pixbuf_loader_close (pbl->loader);
-	gtk_object_destroy (GTK_OBJECT (pbl->loader));
-	
+
+	mini = gdk_pixbuf_scale_simple (pixbuf, width, height,
+					GDK_INTERP_BILINEAR);
+	if (error)
+		gdk_pixbuf_unref (pixbuf);
+	bonobo_ui_toolbar_icon_set_pixbuf (
+		BONOBO_UI_TOOLBAR_ICON (pbl->pixmap), mini);
+	gdk_pixbuf_unref (mini);
+	gtk_widget_set_usize (pbl->pixmap, width, height);
+
+	if (pbl->loader) {
+		gdk_pixbuf_loader_close (pbl->loader);
+		gtk_object_destroy (GTK_OBJECT (pbl->loader));
+		camel_object_unref (CAMEL_OBJECT (pbl->mstream));
+	}
 	g_free (pbl->type);
 	g_free (pbl);
 	return FALSE;
@@ -478,38 +485,22 @@ on_object_requested (GtkHTML *html, GtkHTMLEmbedded *eb, gpointer data)
 
 	if (cid != eb->classid) {
 		/* This is a part wrapper */
-		const char *icon;
-		GtkWidget *pixmap, *ebox;
+		GtkWidget *ebox;
+		struct _PixbufLoader *pbl;
 
-		if (strncmp (eb->type, "image", 5) == 0) {
-			struct _PixbufLoader *pbl;
-			
-			pbl = g_new (struct _PixbufLoader, 1);
-			pbl->wrapper = camel_medium_get_content_object (medium);
-			pbl->loader = NULL;
-			pbl->mstream = NULL;
-
-			pbl->type = g_strdup (eb->type);
-			pixmap = bonobo_ui_toolbar_icon_new ();
-
-			pbl->pixmap = pixmap;
-			
-			g_idle_add_full (G_PRIORITY_LOW, (GSourceFunc)pixbuf_gen_idle, 
-					 pbl, NULL);
-		} else {
-			icon = gnome_vfs_mime_get_value (eb->type, "icon-filename");
-			if (icon) {
-				pixmap = gnome_pixmap_new_from_file_at_size (icon,
-								     24, 24);
-			} else {
-				char *filename;
-				
-				filename = gnome_pixmap_file ("gnome-unknown.png");
-				pixmap = gnome_pixmap_new_from_file_at_size (filename,
-									     24, 24);
-				g_free (filename);
-			}
+		pbl = g_new0 (struct _PixbufLoader, 1);
+		if (g_strncasecmp (eb->type, "image/", 6) == 0) {
+			pbl->mstream = camel_stream_mem_new ();
+			camel_data_wrapper_write_to_stream (
+				camel_medium_get_content_object (medium),
+				pbl->mstream);
+			camel_stream_reset (pbl->mstream);
 		}
+		pbl->type = g_strdup (eb->type);
+		pbl->pixmap = bonobo_ui_toolbar_icon_new ();
+
+		g_idle_add_full (G_PRIORITY_LOW, (GSourceFunc)pixbuf_gen_idle, 
+				 pbl, NULL);
 
 		ebox = gtk_event_box_new ();
 		gtk_widget_set_sensitive (GTK_WIDGET (ebox), TRUE);
@@ -524,7 +515,7 @@ on_object_requested (GtkHTML *html, GtkHTMLEmbedded *eb, gpointer data)
 					  g_strdup (eb->type),
 					  (GDestroyNotify)g_free);
 
-		gtk_container_add (GTK_CONTAINER (ebox), pixmap);
+		gtk_container_add (GTK_CONTAINER (ebox), pbl->pixmap);
 		gtk_widget_show_all (ebox);
 		gtk_container_add (GTK_CONTAINER (eb), ebox);
 		return TRUE;
