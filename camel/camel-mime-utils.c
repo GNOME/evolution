@@ -1491,7 +1491,7 @@ header_to_decode(const char *in)
 #warning header_to_decode needs to return some structure
 
 	if (in == NULL)
-		return NULL;
+		return;
 
 	do {
 		last = inptr;
@@ -1523,7 +1523,7 @@ header_mime_decode(const char *in)
 #warning header_mime_decode needs to return the version
 
 	if (in == NULL)
-		return NULL;
+		return;
 
 	header_decode_lwsp(&inptr);
 	if (isdigit(*inptr)) {
