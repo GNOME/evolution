@@ -1814,7 +1814,7 @@ done_message_selected (CamelFolder *folder, char *uid, CamelMimeMessage *msg, vo
 	FolderBrowser *fb = data;
 	int timeout = mail_config_get_mark_as_seen_timeout ();
 	
-	if (folder != fb->folder)
+	if (folder != fb->folder || fb->mail_display == NULL)
 		return;
 	
 	mail_display_set_message (fb->mail_display, (CamelMedium *)msg);

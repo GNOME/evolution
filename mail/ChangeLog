@@ -1,3 +1,8 @@
+2001-10-09  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* folder-browser.c (done_message_selected): Make sure the
+	mail-display is non-NULL.
+
 2001-10-09    <NotZed@Ximian.com>
 
 	* mail-local.c (mlf_search_by_uids): Implement.
