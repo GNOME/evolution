@@ -33,7 +33,7 @@ extern "C" {
 #pragma }
 #endif /* __cplusplus */
 
-void        e_passwords_init              (void);
+void        e_passwords_init              (const char *component);
 void        e_passwords_shutdown          (void);
 
 void        e_passwords_remember_password (const char *key);
@@ -41,6 +41,7 @@ void        e_passwords_add_password      (const char *key, const char *passwd);
 char       *e_passwords_get_password      (const char *key);
 void        e_passwords_forget_password   (const char *key);
 void        e_passwords_forget_passwords  (void);
+void        e_passwords_clear_component_passwords (void);
 
 typedef enum {
 	E_PASSWORDS_DO_NOT_REMEMBER,

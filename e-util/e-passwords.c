@@ -45,6 +45,7 @@ static char *decode_base64 (char *base64);
 
 Bonobo_ConfigDatabase db;
 static GHashTable *passwords = NULL;
+static char *component_name = NULL;
 
 static int base64_encode_close(unsigned char *in, int inlen, gboolean break_lines, unsigned char *out, int *state, int *save);
 static int base64_encode_step(unsigned char *in, int len, gboolean break_lines, unsigned char *out, int *state, int *save);
@@ -56,7 +57,7 @@ static int base64_encode_step(unsigned char *in, int len, gboolean break_lines, 
  * e_passwords_* function.
  **/
 void
-e_passwords_init ()
+e_passwords_init (const char *component)
 {
 	CORBA_Environment ev;
 
@@ -77,6 +78,8 @@ e_passwords_init ()
 
 	/* and create the per-session hash table */
 	passwords = g_hash_table_new (g_str_hash, g_str_equal);
+
+	component_name = g_strdup (component);
 }
 
 static gboolean
@@ -109,6 +112,9 @@ e_passwords_shutdown ()
 	g_hash_table_foreach_remove (passwords, free_entry, NULL);
 	g_hash_table_destroy (passwords);
 	passwords = NULL;
+
+	g_free (component_name);
+	component_name = NULL;
 }
 
 
@@ -133,6 +139,27 @@ e_passwords_forget_passwords ()
 }
 
 /**
+ * e_passwords_clear_component_passwords:
+ *
+ * Forgets all disk cached passwords.
+ **/
+void
+e_passwords_clear_component_passwords ()
+{
+	CORBA_Environment ev;
+	char *path;
+
+	path = g_strdup_printf ("/Passwords/%s", component_name);
+
+	CORBA_exception_init (&ev);
+	Bonobo_ConfigDatabase_removeDir (db, path, &ev);
+	Bonobo_ConfigDatabase_sync (db, &ev);
+	CORBA_exception_free (&ev);
+
+	g_free (path);
+}
+
+/**
  * e_passwords_remember_password:
  * @key: the key
  *
@@ -153,7 +180,7 @@ e_passwords_remember_password (const char *key)
 		key64 = g_malloc0 ((len + 2) * 4 / 3 + 1);
 		state = save = 0;
 		base64_encode_close (okey, len, FALSE, key64, &state, &save);
-		path = g_strdup_printf ("/Passwords/%s", key64);
+		path = g_strdup_printf ("/Passwords/%s/%s", component_name, key64);
 		g_free (key64);
 	
 		len = strlen (value);
@@ -212,7 +239,7 @@ e_passwords_get_password (const char *key)
 		key64 = g_malloc0 ((len + 2) * 4 / 3 + 1);
 		state = save = 0;
 		base64_encode_close ((char*)key, len, FALSE, key64, &state, &save);
-		path = g_strdup_printf ("/Passwords/%s", key64);
+		path = g_strdup_printf ("/Passwords/%s/%s", component_name, key64);
 		g_free (key64);
 
 		passwd = bonobo_config_get_string (db, path, NULL);
@@ -221,6 +248,8 @@ e_passwords_get_password (const char *key)
 
 		if (passwd)
 			return decode_base64 (passwd);
+		else
+			return NULL;
 	}
 	else
 		return g_strdup (passwd);
@@ -237,7 +266,17 @@ e_passwords_get_password (const char *key)
 void
 e_passwords_add_password (const char *key, const char *passwd)
 {
-	g_hash_table_insert (passwords, g_strdup (key), g_strdup (passwd));
+	if (key && passwd) {
+		gpointer okey, value;
+	
+		if (g_hash_table_lookup_extended (passwords, key, &okey, &value)) {
+			g_hash_table_remove (passwords, key);
+			g_free (okey);
+			g_free (value);
+		}
+
+		g_hash_table_insert (passwords, g_strdup (key), g_strdup (passwd));
+	}
 }
 
 

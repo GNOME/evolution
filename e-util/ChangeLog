@@ -1,3 +1,19 @@
+2001-10-12  Chris Toshok  <toshok@ximian.com>
+
+	* e-passwords.h: new parameter to e_passwords_init, and add
+	prototype for e_passwords_clear_component_passwords.
+
+	* e-passwords.c (e_passwords_init): copy off the component name.
+	(e_passwords_shutdown): free/NULL the component name.
+	(e_passwords_clear_component_passwords): new function.  remove the
+	subtree rooted at /Passwords/<ComponentName>.
+	(e_passwords_remember_password): use component_name when building
+	up the path.
+	(e_passwords_get_password): same.
+	(e_passwords_add_password): remove/free the currently stored
+	session password for this key if there is one, before adding the
+	new one.
+
 2001-10-11  Chris Toshok  <toshok@ximian.com>
 
 	* e-passwords.h: change prototype for e_passwords_get_password.
