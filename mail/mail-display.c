@@ -71,6 +71,7 @@ write_data_to_file (CamelMimePart *part, const char *name, gboolean unique)
 					NULL);
 		text = gtk_label_new (_("A file by that name already exists.\nOverwrite it?"));
 		gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (dlg)->vbox), text, TRUE, TRUE, 4);
+		gtk_window_set_policy(GTK_WINDOW(dlg), FALSE, TRUE, FALSE);
 		gtk_widget_show (text);
 
 		if (gnome_dialog_run_and_close (GNOME_DIALOG (dlg)) != 0)
