@@ -2058,6 +2058,9 @@ mlfe_callback (ETreePath path, gpointer user_data)
 {
 	struct message_list_foreach_data *mlfe_data = user_data;
 	const char *uid;
+
+	if (e_tree_model_node_is_root (mlfe_data->message_list->model, path))
+		return;
 	
 	uid = get_message_uid (mlfe_data->message_list,
 			       path);
