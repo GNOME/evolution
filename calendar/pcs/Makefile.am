@@ -3,6 +3,7 @@ INCLUDES =						\
 	-I$(top_srcdir)					\
 	-I$(top_srcdir)/calendar			\
 	-I$(top_srcdir)/libical/src/libical		\
+	-I$(top_builddir)/libical/src/libical		\
 	$(BONOBO_GNOME_CFLAGS)				\
         -DGNOMELOCALEDIR=\""$(datadir)/locale"\"
 

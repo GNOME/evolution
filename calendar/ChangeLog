@@ -1,3 +1,8 @@
+2000-05-13  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* pcs/Makefile.am (INCLUDES): Add
+	`-I$(top_builddir)/libical/src/libical'.
+
 2000-05-12  Federico Mena Quintero  <federico@helixcode.com>
 
 	* cal-util/calobj.c (generate): Use a (dtend - dtstart) offset to
