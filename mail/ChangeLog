@@ -1,3 +1,10 @@
+2001-10-29  Dan Winship  <danw@ximian.com>
+
+	* mail-format.c (handle_multipart_signed): add some debug spew re
+	13839.
+
+	* mail-display.c (on_object_requested): here too
+
 2001-10-29  Christopher James Lahey  <clahey@ximian.com>
 
 	* e-searching-tokenizer.c (search_info_set_match_size_increase):
