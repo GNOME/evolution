@@ -33,7 +33,8 @@
 /* Key names for the configuration values */
 
 #define KEY_LAST_NOTIFICATION_TIME "/Calendar/AlarmNotify/LastNotificationTime"
-#define KEY_CALENDARS_TO_LOAD "/Calendar/AlarmNotify/CalendarsToLoad"
+#define KEY_NUM_CALENDARS_TO_LOAD "/Calendar/AlarmNotify/NumCalendarsToLoad"
+#define BASE_KEY_CALENDAR_TO_LOAD "/Calendar/AlarmNotify/CalendarToLoad"
 
 
 
@@ -145,10 +146,8 @@ void
 save_calendars_to_load (GPtrArray *uris)
 {
 	Bonobo_ConfigDatabase db;
-	int len, i;
-	GNOME_Evolution_Calendar_StringSeq *seq;
 	CORBA_Environment ev;
-	CORBA_any *any; 
+	int len, i;
 
 	g_return_if_fail (uris != NULL);
 
@@ -156,38 +155,30 @@ save_calendars_to_load (GPtrArray *uris)
 	if (db == CORBA_OBJECT_NIL)
 		return;
 
-	/* Build the sequence of URIs */
-
 	len = uris->len;
-
-	seq = GNOME_Evolution_Calendar_StringSeq__alloc ();
-	seq->_length = len;
-	seq->_buffer = CORBA_sequence_CORBA_string_allocbuf (len);
-	CORBA_sequence_set_release (seq, TRUE);
-
-	for (i = 0; i < len; i++) {
-		char *uri;
-
-		uri = uris->pdata[i];
-		seq->_buffer[i] = CORBA_string_dup (uri);
-	}
-
-	/* Save it */
-
-	any = bonobo_arg_new (TC_GNOME_Evolution_Calendar_StringSeq);
-	any->_value = seq;
 
 	CORBA_exception_init (&ev);
 
-	bonobo_config_set_value (db, KEY_CALENDARS_TO_LOAD, any, &ev);
-
+	bonobo_config_set_long (db, KEY_NUM_CALENDARS_TO_LOAD, len, &ev);
 	if (ev._major != CORBA_NO_EXCEPTION)
-		g_message ("save_calendars_to_load(): Could not save the list of calendars");
+		g_warning ("Cannot save config key %s -- %s", KEY_NUM_CALENDARS_TO_LOAD, ev._repo_id);
+
+	for (i = 0; i < len; i++) {
+		const char *uri;
+		char *key;
+
+		uri = uris->pdata[i];
+
+		key = g_strdup_printf ("%s%d", BASE_KEY_CALENDAR_TO_LOAD, i);
+		bonobo_config_set_string (db, key, uri, &ev);
+		if (ev._major != CORBA_NO_EXCEPTION)
+			g_warning ("Cannot save config key %s -- %s", key, ev._repo_id);
+		g_free (key);
+	}
 
 	CORBA_exception_free (&ev);
 
 	discard_config_db (db);
-	bonobo_arg_release (any); /* this releases the sequence */
 }
 
 /**
@@ -202,11 +193,9 @@ GPtrArray *
 get_calendars_to_load (void)
 {
 	Bonobo_ConfigDatabase db;
-	GNOME_Evolution_Calendar_StringSeq *seq;
 	CORBA_Environment ev;
-	CORBA_any *any; 
-	int len, i;
 	GPtrArray *uris;
+	int len, i;
 
 	db = get_config_db ();
 	if (db == CORBA_OBJECT_NIL)
@@ -216,49 +205,26 @@ get_calendars_to_load (void)
 
 	CORBA_exception_init (&ev);
 
-	any = bonobo_config_get_value (db, KEY_CALENDARS_TO_LOAD,
-				       TC_GNOME_Evolution_Calendar_StringSeq,
-				       &ev);
-	discard_config_db (db);
-
-	if (ev._major == CORBA_USER_EXCEPTION) {
-		char *ex_id;
-
-		ex_id = CORBA_exception_id (&ev);
-
-		if (strcmp (ex_id, ex_Bonobo_ConfigDatabase_NotFound) == 0) {
-			CORBA_exception_free (&ev);
-			uris = g_ptr_array_new ();
-			g_ptr_array_set_size (uris, 0);
-			return uris;
-		}
-	}
-
+	len = bonobo_config_get_long_with_default (db, KEY_NUM_CALENDARS_TO_LOAD, 0, &ev);
 	if (ev._major != CORBA_NO_EXCEPTION) {
-		g_message ("get_calendars_to_load(): Could not get the list of calendars");
-		CORBA_exception_free (&ev);
-		return NULL;
+		g_warning ("Cannot read key %s -- %s", KEY_NUM_CALENDARS_TO_LOAD, ev._repo_id);
+		len = 0;
 	}
-
-	CORBA_exception_free (&ev);
-
-	/* Decode the value */
-
-	seq = any->_value;
-	len = seq->_length;
 
 	uris = g_ptr_array_new ();
 	g_ptr_array_set_size (uris, len);
 
-	for (i = 0; i < len; i++)
-		uris->pdata[i] = g_strdup (seq->_buffer[i]);
+	for (i = 0; i < len; i++) {
+		char *key;
 
-#if 0
-	/* FIXME: The any and sequence are leaked.  If we release them this way,
-	 * we crash inside the ORB freeing routines :(
-	 */
-	bonobo_arg_release (any);
-#endif
+		key = g_strdup_printf ("%s%d", BASE_KEY_CALENDAR_TO_LOAD, i);
+		uris->pdata[i] = bonobo_config_get_string_with_default (db, key, "", &ev);
+		if (ev._major != NULL)
+			g_warning ("Cannot read key %s -- %s", key, ev._repo_id);
+		g_free (key);
+	}
+
+	CORBA_exception_free (&ev);
 
 	return uris;
 }

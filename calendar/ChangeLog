@@ -1,3 +1,15 @@
+2001-10-31  Ettore Perazzoli  <ettore@ximian.com>
+
+	* gui/alarm-notify/save.c (KEY_CALENDARS_TO_LOAD):
+	Removed.
+	(KEY_NUM_CALENDARS_TO_LOAD): New key, containing the number of
+	calendars to load.
+	(BASE_KEY_CALENDAR_TO_LOAD): New base key name for the URIs of the
+	calendars to load.
+	(save_calendars_to_load): Rewrote to not use a sequence, to work
+	around an ORBit bug that causes bonobo-moniker-xmldb to crash.
+	(get_calendars_to_load): Likewise.
+
 2001-10-30  Damon Chaplin  <damon@ximian.com>
 
 	* gui/dialogs/comp-editor.c (comp_editor_remove_page): disconnect
