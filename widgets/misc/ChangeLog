@@ -1,3 +1,8 @@
+2000-09-18  Dan Winship  <danw@helixcode.com>
+
+	* e-dateedit.c (_XOPEN_SOURCE): set this to 4 to specify how much
+	X/Open we want with that.
+
 2000-09-18  Christopher James Lahey  <clahey@helixcode.com>
 
 	* Makefile.am: Added $(EXTRA_GNOME_CFLAGS) and
