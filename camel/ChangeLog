@@ -1,3 +1,10 @@
+2004-05-05  Not Zed  <NotZed@Ximian.com>
+
+	* providers/imap/camel-imap-folder.c (get_message_simple): dont
+	set X-Evolution-Source here anymore, set in caller.
+	(imap_get_message): move the busted server get into the retry
+	loop.  only leave the simple cache test outside of it.
+
 2004-05-04  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-session.h: Get rid of #ifdef ENABLE_THREADS stuff, that

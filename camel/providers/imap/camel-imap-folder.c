@@ -1943,8 +1943,6 @@ get_message_simple (CamelImapFolder *imap_folder, const char *uid,
 		    CamelStream *stream, CamelException *ex)
 {
 	CamelMimeMessage *msg;
-	CamelImapStore *imap_store =
-		CAMEL_IMAP_STORE (CAMEL_FOLDER (imap_folder)->parent_store);
 	int ret;
 	
 	if (!stream) {
@@ -1966,9 +1964,6 @@ get_message_simple (CamelImapFolder *imap_folder, const char *uid,
 		return NULL;
 	}
 
-	/* FIXME, this shouldn't be done this way. */
-	camel_medium_set_header (CAMEL_MEDIUM (msg), "X-Evolution-Source",
-				 imap_store->base_url);
 	return msg;
 }
 
@@ -1993,16 +1988,9 @@ imap_get_message (CamelFolder *folder, const char *uid, CamelException *ex)
 	CamelImapFolder *imap_folder = CAMEL_IMAP_FOLDER (folder);
 	CamelImapStore *store = CAMEL_IMAP_STORE (folder->parent_store);
 	CamelMessageInfo *mi;
-	CamelMimeMessage *msg;
+	CamelMimeMessage *msg = NULL;
 	CamelStream *stream = NULL;
 	int retry;
-
-	/* If the server doesn't support IMAP4rev1, or we already have
-	 * the whole thing cached, fetch it in one piece.
-	 */
-	if (store->server_level < IMAP_LEVEL_IMAP4REV1 || store->braindamaged ||
-	    (stream = camel_imap_folder_fetch_data (imap_folder, uid, "", TRUE, NULL)))
-		return get_message_simple (imap_folder, uid, stream, ex);
 
 	mi = camel_folder_summary_uid (folder->summary, uid);
 	if (mi == NULL) {
@@ -2011,11 +1999,16 @@ imap_get_message (CamelFolder *folder, const char *uid, CamelException *ex)
 		return NULL;
 	}
 
+	/* If its cached in full, just get it as is, this is only a shortcut,
+	   since we get stuff from the cache anyway.  It affects a busted connection though. */
+	if ( (stream = camel_imap_folder_fetch_data(imap_folder, uid, "", TRUE, NULL))
+	     && (msg = get_message_simple(imap_folder, uid, stream, ex)))
+		goto done;
+
 	/* All this mess is so we silently retry a fetch if we fail with
 	   service_unavailable, without an (equivalent) mess of gotos */
 	retry = 0;
 	do {
-		msg = NULL;
 		retry++;
 		camel_exception_clear(ex);
 
@@ -2024,8 +2017,11 @@ imap_get_message (CamelFolder *folder, const char *uid, CamelException *ex)
 		    &&  !camel_imap_store_connected(store, ex))
 			goto fail;
 	
-		/* If the message is small or only 1 part, fetch it in one piece. */
-		if (mi->size < IMAP_SMALL_BODY_SIZE || !mi->content->childs) {
+		/* If the message is small or only 1 part, or server doesn't do 4v1 (properly) fetch it in one piece. */
+		if (store->server_level < IMAP_LEVEL_IMAP4REV1
+		    || store->braindamaged
+		    || mi->size < IMAP_SMALL_BODY_SIZE
+		    || !mi->content->childs) {
 			msg = get_message_simple (imap_folder, uid, NULL, ex);
 		} else {
 			if (content_info_incomplete (mi->content)) {
@@ -2091,7 +2087,7 @@ imap_get_message (CamelFolder *folder, const char *uid, CamelException *ex)
 		 && retry < 2
 		 && camel_exception_get_id(ex) == CAMEL_EXCEPTION_SERVICE_UNAVAILABLE);
 
-	/* FIXME, this shouldn't be done this way. */
+done:	/* FIXME, this shouldn't be done this way. */
 	if (msg)
 		camel_medium_set_header (CAMEL_MEDIUM (msg), "X-Evolution-Source", store->base_url);
 fail:
@@ -2821,6 +2817,8 @@ parse_fetch_response (CamelImapFolder *imap_folder, char *response)
 								  uid, part_spec,
 								  body, body_len, NULL);
 			CAMEL_IMAP_FOLDER_UNLOCK (imap_folder, cache_lock);
+			if (stream == NULL)
+				stream = camel_stream_mem_new_with_buffer (body, body_len);
 		}
 		
 		if (stream)
