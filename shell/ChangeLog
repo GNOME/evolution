@@ -1,3 +1,8 @@
+2001-08-13  Dan Winship  <danw@ximian.com>
+
+	* evolution-shell-component.c (init): Initialize
+	priv->user_creatable_item_types. (Score: g_new: 0, g_new0: 2)
+
 2001-08-13  Jason Leach  <jleach@ximian.com>
 
 	* e-local-storage.c (remove_folder_directory): Remove unused

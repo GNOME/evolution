@@ -685,6 +685,7 @@ init (EvolutionShellComponent *shell_component)
 	priv->populate_folder_context_menu_fn = NULL;
 
 	priv->owner_client                    = NULL;
+	priv->user_creatable_item_types       = NULL;
 	priv->closure                         = NULL;
 
 	shell_component->priv = priv;
