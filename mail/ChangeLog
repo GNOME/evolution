@@ -1,5 +1,49 @@
 2001-10-22  Dan Winship  <danw@ximian.com>
 
+	PGP verification UI changes to make it not HTML spoofable.
+
+	* mail-format.c (handle_application_pgp): Remove this unused
+	hack.
+	(mail_format_mime_message): Initialize a fourth hash table, used
+	to keep track of fake MIME parts.
+	(mail_part_set_default_displayed_inline): New routine to set the
+	default disposition of a part (doesn't change it if the user has
+	already overridden it).
+	(format_mime_part): Wrap a blockquote around the error text (moved
+	here from mail_error_write since it doesn't apply in other cases).
+	(write_hr): Write a <hr> with appropriate padding between MIME
+	parts.
+	(write_one_text_plain_chunk): Write some plain text with
+	appropriate margins.
+	(handle_text_plain): Use write_one_text_plain_chunk. Update for
+	inline specials handler API change.
+	(fake_mime_part_from_data): Use the "fake_parts" hash to avoid
+	recreating the same fake parts again if the message is
+	redisplayed. Lets you toggle the shown/hiddenness of uudecode
+	parts, and do the new pgp verification thing for inline pgp
+	signatures.
+	(try_inline_pgp): Don't do any actual PGP handling here: Just
+	rewrite as a multipart/encrypted.
+	(try_inline_pgp_sig): Likewise, just do a multipart/signed (with
+	the x-inline-pgp-hack parameter set).
+	(try_uudecoding, try_inline_binhex): Update for API changes.
+	(handle_multipart_signed): Exciting and new. Use <object> to
+	create a button which the user must click to do the
+	verification. Change the formatting of the gpg output text a bit.
+
+	* mail-display.c (on_link_clicked): Remove x-evolution-decode-pgp
+	hack, which is no longer used.
+	(pixbuf_gen_idle): Add a hack for the PGP verification button.
+	(do_attachment_header, do_external_viewer): Split out of
+	on_object_requeested for clarity.
+	(do_signature): New routine to do the PGP verification button.
+	(on_object_requested): Now just dispatches to
+	do_attachment_header, do_external_viewer, or do_signature.
+	(mail_error_write): Don't do <blockquote> here. Fixed the problem
+	that was trying to fix elsewhere.
+
+2001-10-22  Dan Winship  <danw@ximian.com>
+
 	* mail-callbacks.c (transfer_msg): Fix these functions so they
 	don't crash evolution-mail. Too bad it still crashes in the
 	shell.
@@ -14220,48 +14264,48 @@ End of branch
 	current_message = NULL, which shouldn't happen, but has happened
 	to me.
 
-2000-07-25  Dan Winship  <danw@helixcode.com>
+2000-07-25  Dan Wnihspi  d<na@wehilcxdo.eoc>m
 
-	* message-thread.c (group_root_set): Don't group together messages
-	with the same non-Re: subject and no References/In-Reply-To. More
-	often than not, they're unrelated. (eg, "[No subject]".)
-	(thread_messages): Handle messages with no Message-Id. "This
-	shouldn't happen", but it does sometimes, and it's not much code
-	to make it just work.
+*	m seasegt-rhae.d cg(orpur_oo_tes)t :oD'n trguo poteghtrem seaseg
+sw	ti hht easemn noR-:es buejtca dnn  oeRefercnseI/-neRlp-yoT .oMer	
+foet nhtnan to ,htyer' enueralet.d( ge ,["oNs buejtc"]).	
+t(rhae_demssgase:)H nald eemssgasew ti honM seasegI-.d" hTsi	
+hsuodl'n tahppne,"b tui  todses motemise ,na dtis'n tom cu hoced	
+otm ka etij su towkr
+.2
+00-0702- 5E ttro eeParzzlo i< teoterh@lexiocedc.mo
+>	
+ *amlic-noif.g cc(erta_eesvrci_eapeg:)C la
+l`	tg_kpoitnom_ne_ues_temun)( 'sat ehl sa thtni,ga  sG`ktpOitnoeMun
+'i	 ssfkcni grbkone .A sl,o` tg_kiwgdtes_oh(w')t ehi dnvidiau lemun	
+time.s
 
-2000-07-25  Ettore Perazzoli  <ettore@helixcode.com>
+02000--742  aD niWsnih p< adwnh@lexiocedc.mo
+>	
+ *emssga-eiltsc.( amkrm_gss_ee,nm _lrtees_tev_laeua_,t	
+emssga_eiltsr_genereta)e :pUadetf roC maleoFdlreA IPc ahgnse
+.(	eCtria nufcnitno sonl noeg rateka C malexEectpoi.n
+)	
+ *amlio-spc.( erlaf_tehcm_ia,lr ae_lesdnm_ia,lr ae_ledeletm_gs:)	
+idtt
+o	
+ *ocpmnone-taftcro.y cr(ae_lrcaeeti_am_ptsroga,e	
+erlac_erta_eensws_otareg:)d tiot
 
-	* mail-config.c (create_service_page): Call
-	`gtk_option_menu_set_menu()' as the last thing, as `GtkOptionMenu'
-	is fscking broken.  Also, `gtk_widget_show()' the individual menu
-	items.
-
-2000-07-24  Dan Winship  <danw@helixcode.com>
-
-	* message-list.c (mark_msg_seen, ml_tree_set_value_at,
-	message_list_regenerate): Update for CamelFolder API changes.
-	(Certain functions no longer take a CamelException.)
-
-	* mail-ops.c (real_fetch_mail, real_send_mail, real_delete_msg):
-	ditto
-
-	* component-factory.c (real_create_imap_storage,
-	real_create_news_storage): ditto
-
-2000-07-24  Dan Winship  <danw@helixcode.com>
-
-	* component-factory.c, folder-browser-factory.c, test-mail.c:
-	Remove GOAD support.
-
-	* main.c: Remove GOAD support.
-	(main): More "guess the build mistake" fun, this time for the
-	failure to initialize Bonobo case.
-
-2000-07-24  Peter Williams  <peterw@helixcode.com>
-
-	* mail-tools.c (mail_tool_set_uid_flags): Change
-	function to faithfully pass parameters to
-	camel_folder_set_message_flags; this function is
+02000--742  aD niWsnih p< adwnh@lexiocedc.mo
+>	
+ *ocpmnone-taftcro.y,cf loed-rrbwoes-raftcro.y,ct se-tamlic.
+:R	mevo eOGDAs puoptr
+.	
+ *amnic. :eRomevG AO Dusppro.t	
+m(ia)n :oMer" ugse sht eubli dimtska"ef nu ,htsit mi eof rht
+ef	iaulert  onitiaiilezB nobo oaces
+.2
+00-0702- 4P tereW liilma s< epetwrh@lexiocedc.mo
+>	
+ *amlit-ooslc.( amlit_oo_les_tiu_dlfga)s :hCnaeg	
+ufcnitnot  oaftifhluylp sa saparemetsrt 
+oc	malef_loed_res_temssga_elfga;st ih sufnction is
 	somewhat useless now. Other files synced with
 	API change.
 

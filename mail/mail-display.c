@@ -218,11 +218,7 @@ on_link_clicked (GtkHTML *html, const char *url, MailDisplay *md)
 		g_warning ("Can't handle news URLs yet.");
 	else if (!g_strncasecmp (url, "mailto:", 7))
 		send_to_url (url);
-	else if (!strcmp (url, "x-evolution-decode-pgp:")) {
-		g_datalist_set_data (md->data, "show_pgp",
-				     GINT_TO_POINTER (1));
-		mail_display_queue_redisplay (md);
-	} else if (*url == '#')
+	else if (*url == '#')
 		mail_display_jump_to_anchor (md, url);
 	else
 		gnome_url_show (url);
@@ -580,9 +576,12 @@ pixbuf_gen_idle (struct _PixbufLoader *pbl)
 			error = TRUE;
 	}
 
-	if (error || !pbl->mstream)
-		pixbuf = pixbuf_for_mime_type (pbl->type);
-	else
+	if (error || !pbl->mstream) {
+		if (pbl->type)
+			pixbuf = pixbuf_for_mime_type (pbl->type);
+		else
+			pixbuf = gdk_pixbuf_new_from_file (EVOLUTION_ICONSDIR "/pgp-signature-nokey.png");
+	} else
 		pixbuf = gdk_pixbuf_loader_get_pixbuf (pbl->loader);
 
 	width = gdk_pixbuf_get_width (pixbuf);
@@ -776,11 +775,85 @@ save_url (MailDisplay *md, const char *url)
 }
 
 static gboolean
-on_object_requested (GtkHTML *html, GtkHTMLEmbedded *eb, gpointer data)
+do_attachment_header (GtkHTML *html, GtkHTMLEmbedded *eb,
+		      CamelMimePart *part, MailDisplay *md)
 {
-	MailDisplay *md = data;
-	GHashTable *urls;
-	CamelMedium *medium;
+	GtkWidget *button, *mainbox, *hbox, *arrow, *popup;
+	MailMimeHandler *handler;
+	struct _PixbufLoader *pbl;
+
+	pbl = g_new0 (struct _PixbufLoader, 1);
+	if (g_strncasecmp (eb->type, "image/", 6) == 0) {
+		CamelDataWrapper *content;
+
+		content = camel_medium_get_content_object (CAMEL_MEDIUM (part));
+		if (!camel_data_wrapper_is_offline (content)) {
+			pbl->mstream = camel_stream_mem_new ();
+			camel_data_wrapper_write_to_stream (content, pbl->mstream);
+			camel_stream_reset (pbl->mstream);
+		}
+	}
+	pbl->type = g_strdup (eb->type);
+	pbl->cid = g_strdup (eb->classid + 6);
+	pbl->pixmap = bonobo_ui_toolbar_icon_new ();
+	pbl->eb = eb;
+	pbl->destroy_id = gtk_signal_connect (GTK_OBJECT (eb), "destroy",
+					      embeddable_destroy_cb, pbl);
+
+	g_idle_add_full (G_PRIORITY_LOW, (GSourceFunc)pixbuf_gen_idle, 
+			 pbl, NULL);
+
+	mainbox = gtk_hbox_new (FALSE, 0);
+
+	button = gtk_button_new ();
+	gtk_object_set_data (GTK_OBJECT (button), "MailDisplay", md);
+
+	gtk_signal_connect (GTK_OBJECT (button), "clicked",
+			    GTK_SIGNAL_FUNC (button_press), part);
+
+	hbox = gtk_hbox_new (FALSE, 2);
+	gtk_container_set_border_width (GTK_CONTAINER (hbox), 2);
+
+	if (mail_part_is_displayed_inline (part, md))
+		arrow = gnome_stock_new_with_icon (GNOME_STOCK_PIXMAP_DOWN);
+	else
+		arrow = gnome_stock_new_with_icon (GNOME_STOCK_PIXMAP_FORWARD);
+	gtk_box_pack_start (GTK_BOX (hbox), arrow, TRUE, TRUE, 0);
+	gtk_box_pack_start (GTK_BOX (hbox), pbl->pixmap, TRUE, TRUE, 0);
+	gtk_container_add (GTK_CONTAINER (button), hbox);
+
+	popup = gtk_button_new ();
+	gtk_container_add (GTK_CONTAINER (popup),
+			   gtk_arrow_new (GTK_ARROW_DOWN,
+					  GTK_SHADOW_ETCHED_IN));
+
+	gtk_object_set_data (GTK_OBJECT (popup), "MailDisplay", md);
+	gtk_object_set_data (GTK_OBJECT (popup), "CamelMimePart", part);
+	gtk_object_set_data_full (GTK_OBJECT (popup), "mime_type",
+				  g_strdup (eb->type), (GDestroyNotify)g_free);
+
+	gtk_signal_connect (GTK_OBJECT (popup), "button_press_event",
+			    GTK_SIGNAL_FUNC (pixmap_press), md->scroll);
+
+	gtk_box_pack_start (GTK_BOX (mainbox), button, TRUE, TRUE, 0);
+	gtk_box_pack_start (GTK_BOX (mainbox), popup, TRUE, TRUE, 0);
+	gtk_widget_show_all (mainbox);
+
+	handler = mail_lookup_handler (eb->type);
+	if (handler && handler->builtin)
+		gtk_widget_set_sensitive (button, TRUE);
+	else
+		gtk_widget_set_sensitive (button, FALSE);
+
+	gtk_container_add (GTK_CONTAINER (eb), mainbox);
+
+	return TRUE;
+}
+
+static gboolean
+do_external_viewer (GtkHTML *html, GtkHTMLEmbedded *eb,
+		    CamelMimePart *part, MailDisplay *md)
+{
 	CamelDataWrapper *wrapper;
 	OAF_ServerInfo *component;
 	GtkWidget *embedded;
@@ -790,124 +863,6 @@ on_object_requested (GtkHTML *html, GtkHTMLEmbedded *eb, gpointer data)
 	GByteArray *ba;
 	CamelStream *cstream;
 	BonoboStream *bstream;
-	char *cid;
-
-	cid = eb->classid;
-
-	if (!strncmp (cid, "popup:", 6))
-		cid += 6;
-	if (strncmp (cid, "cid:", 4) != 0)
-		return FALSE;
-
-	urls = g_datalist_get_data (md->data, "part_urls");
-	g_return_val_if_fail (urls != NULL, FALSE);
-
-	medium = g_hash_table_lookup (urls, cid);
-	g_return_val_if_fail (CAMEL_IS_MEDIUM (medium), FALSE);
-
-	if (cid != eb->classid) {
-		/* This is a part wrapper */
-#ifdef USE_OLD_DISPLAY_STYLE
-		GtkWidget *ebox;
-#else
-		GtkWidget *button, *mainbox, *hbox, *arrow, *popup;
-		MailMimeHandler *handler;
-#endif
-		struct _PixbufLoader *pbl;
-
-		pbl = g_new0 (struct _PixbufLoader, 1);
-		if (g_strncasecmp (eb->type, "image/", 6) == 0) {
-			CamelDataWrapper *content;
-
-			content = camel_medium_get_content_object (medium);
-			if (!camel_data_wrapper_is_offline (content)) {
-				pbl->mstream = camel_stream_mem_new ();
-				camel_data_wrapper_write_to_stream (content, pbl->mstream);
-				camel_stream_reset (pbl->mstream);
-			}
-		}
-		pbl->type = g_strdup (eb->type);
-		pbl->cid = g_strdup (cid);
-		pbl->pixmap = bonobo_ui_toolbar_icon_new ();
-		pbl->eb = eb;
-		pbl->destroy_id = gtk_signal_connect (GTK_OBJECT (eb),
-						      "destroy",
-						      embeddable_destroy_cb,
-						      pbl);
-
-		g_idle_add_full (G_PRIORITY_LOW, (GSourceFunc)pixbuf_gen_idle, 
-				 pbl, NULL);
-
-#ifdef USE_OLD_DISPLAY_STYLE
-		ebox = gtk_event_box_new ();
-		gtk_widget_set_sensitive (GTK_WIDGET (ebox), TRUE);
-		gtk_widget_add_events (GTK_WIDGET (ebox),
-				       GDK_BUTTON_PRESS_MASK);
-		gtk_object_set_data (GTK_OBJECT (ebox), "MailDisplay", md);
-		gtk_object_set_data (GTK_OBJECT (ebox), "CamelMimePart",
-				     medium);
-		gtk_object_set_data_full (GTK_OBJECT (ebox), "mime_type",
-					  g_strdup (eb->type),
-					  (GDestroyNotify)g_free);
-
-		gtk_signal_connect (GTK_OBJECT (ebox), "button_press_event",
-				    GTK_SIGNAL_FUNC (pixmap_press), md->scroll);
-
-		gtk_container_add (GTK_CONTAINER (ebox), pbl->pixmap);
-		gtk_widget_show_all (ebox);
-		gtk_container_add (GTK_CONTAINER (eb), ebox);
-#else
-		mainbox = gtk_hbox_new (FALSE, 0);
-
-		button = gtk_button_new ();
-		gtk_object_set_data (GTK_OBJECT (button), "MailDisplay", md);
-
-		gtk_signal_connect (GTK_OBJECT (button), "clicked",
-				    GTK_SIGNAL_FUNC (button_press), medium);
-
-		hbox = gtk_hbox_new (FALSE, 2);
-		gtk_container_set_border_width (GTK_CONTAINER (hbox), 2);
-
-		if (mail_part_is_displayed_inline (CAMEL_MIME_PART (medium), md)) {
-			arrow = gnome_stock_new_with_icon (GNOME_STOCK_PIXMAP_DOWN);
-		} else {
-			arrow = gnome_stock_new_with_icon (GNOME_STOCK_PIXMAP_FORWARD);
-		}
-		gtk_box_pack_start (GTK_BOX (hbox), arrow, TRUE, TRUE, 0);
-		gtk_box_pack_start (GTK_BOX (hbox), pbl->pixmap, TRUE, TRUE, 0);
-		gtk_container_add (GTK_CONTAINER (button), hbox);
-
-		popup = gtk_button_new ();
-		gtk_container_add (GTK_CONTAINER (popup),
-				   gtk_arrow_new (GTK_ARROW_DOWN,
-						  GTK_SHADOW_ETCHED_IN));
-
-		gtk_object_set_data (GTK_OBJECT (popup), "MailDisplay", md);
-		gtk_object_set_data (GTK_OBJECT (popup), "CamelMimePart",
-				     medium);
-		gtk_object_set_data_full (GTK_OBJECT (popup), "mime_type",
-					  g_strdup (eb->type),
-					  (GDestroyNotify)g_free);
-
-		gtk_signal_connect (GTK_OBJECT (popup), "button_press_event",
-				    GTK_SIGNAL_FUNC (pixmap_press), md->scroll);
-
-		gtk_box_pack_start (GTK_BOX (mainbox), button, TRUE, TRUE, 0);
-		gtk_box_pack_start (GTK_BOX (mainbox), popup, TRUE, TRUE, 0);
-		gtk_widget_show_all (mainbox);
-
-		handler = mail_lookup_handler (eb->type);
-		if (handler && handler->builtin) {
-			gtk_widget_set_sensitive (button, TRUE);
-		} else {
-			gtk_widget_set_sensitive (button, FALSE);
-		}
-
-		gtk_container_add (GTK_CONTAINER (eb), mainbox);
-#endif
-
-		return TRUE;
-	}
 
 	component = gnome_vfs_mime_get_default_component (eb->type);
 	if (!component)
@@ -929,7 +884,7 @@ on_object_requested (GtkHTML *html, GtkHTMLEmbedded *eb, gpointer data)
 	/* Write the data to a CamelStreamMem... */
 	ba = g_byte_array_new ();
 	cstream = camel_stream_mem_new_with_byte_array (ba);
-	wrapper = camel_medium_get_content_object (medium);
+	wrapper = camel_medium_get_content_object (CAMEL_MEDIUM (part));
  	camel_data_wrapper_write_to_stream (wrapper, cstream);
 
 	/* ...convert the CamelStreamMem to a BonoboStreamMem... */
@@ -957,6 +912,66 @@ on_object_requested (GtkHTML *html, GtkHTMLEmbedded *eb, gpointer data)
 	gtk_container_add (GTK_CONTAINER (eb), embedded);
 
 	return TRUE;
+}
+
+static gboolean
+do_signature (GtkHTML *html, GtkHTMLEmbedded *eb,
+	      CamelMimePart *part, MailDisplay *md)
+{
+	GtkWidget *button;
+	struct _PixbufLoader *pbl;
+
+	pbl = g_new0 (struct _PixbufLoader, 1);
+	pbl->type = NULL;
+	pbl->cid = g_strdup (eb->classid);
+	pbl->pixmap = bonobo_ui_toolbar_icon_new ();
+	pbl->eb = eb;
+	pbl->destroy_id = gtk_signal_connect (GTK_OBJECT (eb), "destroy",
+					      embeddable_destroy_cb, pbl);
+
+	g_idle_add_full (G_PRIORITY_LOW, (GSourceFunc)pixbuf_gen_idle, 
+			 pbl, NULL);
+
+	button = gtk_button_new ();
+	gtk_object_set_data (GTK_OBJECT (button), "MailDisplay", md);
+	gtk_signal_connect (GTK_OBJECT (button), "clicked",
+			    GTK_SIGNAL_FUNC (button_press), part);
+	gtk_container_add (GTK_CONTAINER (button), pbl->pixmap);
+	gtk_widget_show_all (button);
+	gtk_container_add (GTK_CONTAINER (eb), button);
+
+	return TRUE;
+}
+
+static gboolean
+on_object_requested (GtkHTML *html, GtkHTMLEmbedded *eb, gpointer data)
+{
+	MailDisplay *md = data;
+	GHashTable *urls;
+	CamelMimePart *part;
+
+	urls = g_datalist_get_data (md->data, "part_urls");
+	if (!urls)
+		return FALSE;
+
+	if (!strncmp (eb->classid, "popup:", 6)) {
+		part = g_hash_table_lookup (urls, eb->classid + 6);
+		if (!CAMEL_IS_MIME_PART (part))
+			return FALSE;
+		return do_attachment_header (html, eb, part, md);
+	} else if (!strncmp (eb->classid, "signature:", 10)) {
+		part = g_hash_table_lookup (urls, eb->classid);
+		if (!CAMEL_IS_MIME_PART (part))
+			return FALSE;
+		return do_signature (html, eb, part, md);
+	} else if (!strncmp (eb->classid, "cid:", 4)) {
+		part = g_hash_table_lookup (urls, eb->classid);
+		if (!CAMEL_IS_MIME_PART (part))
+			return FALSE;
+		return do_external_viewer (html, eb, part, md);
+	}
+
+	return FALSE;
 }
  
 static void
@@ -1336,9 +1351,9 @@ mail_error_write (GtkHTML *html, GtkHTMLStream *stream,
 	htmltext = e_text_to_html (buf, E_TEXT_TO_HTML_CONVERT_NL | E_TEXT_TO_HTML_CONVERT_URLS);
 	g_free (buf);
 
-	gtk_html_stream_printf (stream, "<blockquote><em><font color=red>");
+	gtk_html_stream_printf (stream, "<em><font color=red>");
 	gtk_html_stream_write (stream, htmltext, strlen (htmltext));
-	gtk_html_stream_printf (stream, "</font></em></blockquote>");
+	gtk_html_stream_printf (stream, "</font></em>");
 
 	g_free (htmltext);
 }
@@ -1540,11 +1555,13 @@ link_open_in_browser (GtkWidget *w, MailDisplay *mail_display)
 			 mail_display);
 }
 
+#if 0
 static void
 link_save_as (GtkWidget *w, MailDisplay *mail_display)
 {
 	g_print ("FIXME save %s\n", mail_display->html->pointer_url);
 }
+#endif
 
 static void
 link_copy_location (GtkWidget *w, MailDisplay *mail_display)
