@@ -842,12 +842,17 @@ e_meeting_time_selector_destroy (GtkObject *object)
 	mts = E_MEETING_TIME_SELECTOR (object);
 
 	e_meeting_time_selector_remove_timeout (mts);
-
-	gdk_bitmap_unref (mts->stipple);
-
-	if (mts->model)
+	
+	if (mts->stipple) {
+		gdk_bitmap_unref (mts->stipple);
+		mts->stipple = NULL;
+	}
+	
+	if (mts->model) {
 		g_object_unref (mts->model);
-		
+		mts->model = NULL;
+	}
+	
 	if (GTK_OBJECT_CLASS (parent_class)->destroy)
 		(*GTK_OBJECT_CLASS (parent_class)->destroy)(object);
 }

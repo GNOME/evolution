@@ -1,3 +1,10 @@
+2003-04-04  JP Rosevear  <jpr@ximian.com>
+
+	Fixes #40722
+	
+	* gui/e-meeting-time-sel.c (e_meeting_time_selector_destroy):
+	guard against multiple destroy calls
+
 2003-04-02  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* gui/control-factory.c (set_prop): Add a check to see if the view
