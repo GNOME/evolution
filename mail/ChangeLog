@@ -1,5 +1,8 @@
 2002-12-13  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* mail-callbacks.c (check_send_configuration): Make sure the
+	folder-browser is not NULL or we'll crash.
+
 	* mail-preferences.c (mail_preferences_construct): Fix the colour
 	code to get a guint32 rgb correctly (I think - can't test because
 	the shell keeps crashing, yay).

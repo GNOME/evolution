@@ -182,16 +182,16 @@ static gboolean
 configure_mail (FolderBrowser *fb)
 {
 	MailConfigDruid *druid;
-
-	if (e_question(FB_WINDOW(fb), GTK_RESPONSE_YES, NULL,
-		       _("You have not configured the mail client.\n"
-			 "You need to do this before you can send,\n"
-			 "receive or compose mail.\n"
-			 "Would you like to configure it now?"))) {
+	
+	if (e_question (FB_WINDOW (fb), GTK_RESPONSE_YES, NULL,
+			_("You have not configured the mail client.\n"
+			  "You need to do this before you can send,\n"
+			  "receive or compose mail.\n"
+			  "Would you like to configure it now?"))) {
 		druid = mail_config_druid_new (fb->shell);
 		g_object_weak_ref ((GObject *) druid, (GWeakNotify) druid_destroy_cb, NULL);
-		gtk_widget_show ((GtkWidget *)druid);
-		gtk_grab_add ((GtkWidget *)druid);
+		gtk_widget_show ((GtkWidget *) druid);
+		gtk_grab_add ((GtkWidget *) druid);
 		gtk_main ();
 	}
 	
@@ -204,25 +204,32 @@ check_send_configuration (FolderBrowser *fb)
 	const MailConfigAccount *account;
 	GtkWidget *dialog;
 	
-	/* Check general */
-	if (!mail_config_is_configured () && !configure_mail (fb))
-		return FALSE;
+	if (!mail_config_is_configured ()) {
+		if (fb == NULL) {
+			e_notice (NULL, GTK_MESSAGE_WARNING,
+				  _("You need to configure an account\nbefore you can compose mail."));
+			return FALSE;
+		}
+		
+		if (!configure_mail (fb))
+			return FALSE;
+	}
 	
 	/* Get the default account */
 	account = mail_config_get_default_account ();
 	
 	/* Check for an identity */
 	if (!account) {
-		e_notice(FB_WINDOW(fb), GTK_MESSAGE_WARNING,
-			 _("You need to configure an identity\nbefore you can compose mail."));
+		e_notice (FB_WINDOW (fb), GTK_MESSAGE_WARNING,
+			  _("You need to configure an identity\nbefore you can compose mail."));
 		return FALSE;
 	}
 	
 	/* Check for a transport */
 	if (!account->transport || !account->transport->url) {
-		e_notice(FB_WINDOW(fb), GTK_MESSAGE_WARNING,
-			 _("You need to configure a mail transport\n"
-			   "before you can compose mail."));
+		e_notice (FB_WINDOW (fb), GTK_MESSAGE_WARNING,
+			  _("You need to configure a mail transport\n"
+			    "before you can compose mail."));
 		return FALSE;
 	}
 	
