@@ -1,5 +1,10 @@
 2004-01-16  JP Rosevear <jpr@ximian.com>
 
+	* gui/e-itip-control.c (find_server): we actually want to not
+	return on any error as well (like NOT FOUND)
+
+2004-01-16  JP Rosevear <jpr@ximian.com>
+
 	* gui/e-comp-editor-registry.h: convert to GObject
 
 	* gui/e-comp-editor-registry.c (registry_data_free): routine to
