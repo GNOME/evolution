@@ -172,7 +172,7 @@ update_record (GNOME_Calendar_Repository repo, int id, struct Appointment *a, in
 
 	if (obj->pilot_status == ICAL_PILOT_SYNC_MOD){
 		printf (_("\tObject has been modified on desktop and on the pilot, desktop takes precedence\n"));
-		ical_object_destroy (obj);
+		ical_object_unref (obj);
 		return;
 	}
 
@@ -313,7 +313,7 @@ update_record (GNOME_Calendar_Repository repo, int id, struct Appointment *a, in
 	/*
 	 * Shutdown
 	 */
-	ical_object_destroy (obj);
+	ical_object_unref (obj);
 }
 
 /*

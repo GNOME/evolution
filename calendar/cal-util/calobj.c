@@ -104,31 +104,9 @@ ical_object_ref (iCalObject *ico)
 }
 
 
-void
-ical_object_unref (iCalObject *ico)
-{
-	ico->ref_count--;
-	if (ico->ref_count == 0)
-		ical_object_destroy (ico);
-}
-
-
-static void
-my_free (gpointer data, gpointer user_dat_ignored)
-{
-	g_free (data);
-}
-
-static void
-list_free (GList *list)
-{
-	g_list_foreach (list, my_free, 0);
-	g_list_free (list);
-}
-
 #define free_if_defined(x) if (x){ g_free (x); x = 0; }
 #define lfree_if_defined(x) if (x){ list_free (x); x = 0; }
-void
+static void
 ical_object_destroy (iCalObject *ico)
 {
 	/* Regular strings */
@@ -155,6 +133,28 @@ ical_object_destroy (iCalObject *ico)
 	g_free (ico->aalarm.data);
 
 	g_free (ico);
+}
+
+void
+ical_object_unref (iCalObject *ico)
+{
+	ico->ref_count--;
+	if (ico->ref_count == 0)
+		ical_object_destroy (ico);
+}
+
+
+static void
+my_free (gpointer data, gpointer user_dat_ignored)
+{
+	g_free (data);
+}
+
+static void
+list_free (GList *list)
+{
+	g_list_foreach (list, my_free, 0);
+	g_list_free (list);
 }
 
 /* This resets any recurrence rules of the iCalObject. */
@@ -830,7 +830,7 @@ ical_object_create_from_vobject (VObject *o, const char *object_name)
 	/* rrule */
 	if (has (o, VCRRuleProp)){
 		if (!load_recurrence (ical, str_val (vo))) {
-			ical_object_destroy (ical);
+			ical_object_unref (ical);
 			return NULL;
 		}
 		free (the_str);

@@ -1,3 +1,12 @@
+2000-06-06  Federico Mena Quintero  <federico@helixcode.com>
+
+	* cal-util/calobj.c (ical_object_destroy): Removed from the public
+	header; made static.  Now everyone should use refcounting.
+
+	* pcs/cal-backend-imc.c (free_ical_object): Use
+	ical_object_unref().
+	(remove_object): Likewise.
+
 2000-06-02  Federico Mena Quintero  <federico@helixcode.com>
 
 	* gui/calendar-commands.c (print): New function to call the print

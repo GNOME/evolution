@@ -501,12 +501,12 @@ update_record (GnomePilotConduitStandardAbs *conduit,
 	        WARN (_("Error while communicating with calendar server"));
 		show_exception(&(ctxt->ev));
 		CORBA_exception_free(&(ctxt->ev)); 
-		ical_object_destroy (obj); 
+		ical_object_unref (obj); 
 		free_Appointment(&a);
 		return -1;
 	} else {
 	        LOG ("Found");
-		ical_object_destroy (obj);
+		ical_object_unref (obj);
 		obj = ical_object_new_from_string (vcal_string);
 		ical_from_remote_record(conduit,remote,obj);
 		CORBA_free(vcal_string);
@@ -519,7 +519,7 @@ update_record (GnomePilotConduitStandardAbs *conduit,
 	/*
 	 * Shutdown
 	 */
-	ical_object_destroy (obj);
+	ical_object_unref (obj);
 	free_Appointment(&a);
 
 	return 0;
@@ -649,7 +649,7 @@ free_match	(GnomePilotConduitStandardAbs *conduit,
 	g_return_val_if_fail(local!=NULL,-1);
 	g_return_val_if_fail(*local!=NULL,-1);
 
-	ical_object_destroy (GCAL_LOCALRECORD(*local)->ical); 
+	ical_object_unref (GCAL_LOCALRECORD(*local)->ical); 
 	g_free(*local);
 	
         *local = NULL;

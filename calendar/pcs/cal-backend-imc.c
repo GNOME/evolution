@@ -265,7 +265,7 @@ free_ical_object (gpointer key, gpointer value, gpointer data)
 	iCalObject *ico;
 
 	ico = value;
-	ical_object_destroy (ico);
+	ical_object_unref (ico);
 }
 
 /* Destroys an IMC backend's data */
@@ -461,7 +461,7 @@ remove_object (CalBackendIMC *cbimc, iCalObject *ico)
 	*list = g_list_remove_link (*list, l);
 	g_list_free_1 (l);
 
-	ical_object_destroy (ico);
+	ical_object_unref (ico);
 }
 
 /* Load a calendar from a VObject */
