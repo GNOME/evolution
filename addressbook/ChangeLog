@@ -1,3 +1,10 @@
+2000-11-11  Matt Bissiri  <bissiri@eecs.umich.edu>
+
+	* backend/ebook/.cvsignore: Add idl-generated files.
+	* backend/ebook/e-book.c: (e_book_do_response_get_changes):
+	* backend/ebook/e-card.c: (e_card_send):
+	s/Evolution_/GNOME_Evolution_/g;
+
 2000-11-11  Christopher James Lahey  <clahey@helixcode.com>
 
 	* backend/ebook/Makefile.am: Link in composer bonobo code.

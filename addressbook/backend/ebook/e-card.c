@@ -3392,7 +3392,7 @@ void
 e_card_send (ECard *card, ECardDisposition disposition)
 {
 	BonoboObjectClient *bonobo_server;
-	Evolution_Composer composer_server;
+	GNOME_Evolution_Composer composer_server;
 	CORBA_Environment ev;
 	
 	/* First, I obtain an object reference that represents the Composer. */
@@ -3405,18 +3405,18 @@ e_card_send (ECard *card, ECardDisposition disposition)
 	CORBA_exception_init (&ev);
 
 	if (disposition == E_CARD_DISPOSITION_AS_TO) {
-		Evolution_Composer_RecipientList *to_list, *cc_list, *bcc_list;
+		GNOME_Evolution_Composer_RecipientList *to_list, *cc_list, *bcc_list;
 		CORBA_char *subject;
 		char *name;
 		EList *email;
 		EIterator *iterator;
-		Evolution_Composer_Recipient *recipient;
+		GNOME_Evolution_Composer_Recipient *recipient;
 		/* Now I have to make a CORBA sequence that represents a recipient list with
 		   one item, for the card. */
-		to_list = Evolution_Composer_RecipientList__alloc ();
+		to_list = GNOME_Evolution_Composer_RecipientList__alloc ();
 		to_list->_maximum = 1;
 		to_list->_length = 1; 
-		to_list->_buffer = CORBA_sequence_Evolution_Composer_Recipient_allocbuf (1);
+		to_list->_buffer = CORBA_sequence_GNOME_Evolution_Composer_Recipient_allocbuf (1);
 
 		gtk_object_get(GTK_OBJECT(card),
 			       "full_name", &name,
@@ -3435,14 +3435,14 @@ e_card_send (ECard *card, ECardDisposition disposition)
 		
 		recipient->name = CORBA_string_dup(name);
 
-		cc_list = Evolution_Composer_RecipientList__alloc ();
+		cc_list = GNOME_Evolution_Composer_RecipientList__alloc ();
 		cc_list->_maximum = cc_list->_length = 0;
-		bcc_list = Evolution_Composer_RecipientList__alloc ();
+		bcc_list = GNOME_Evolution_Composer_RecipientList__alloc ();
 		bcc_list->_maximum = bcc_list->_length = 0;
 
 		subject = CORBA_string_dup ("");
 	
-		Evolution_Composer_set_headers (composer_server, to_list, cc_list, bcc_list, subject, &ev);
+		GNOME_Evolution_Composer_setHeaders (composer_server, to_list, cc_list, bcc_list, subject, &ev);
 		if (ev._major != CORBA_NO_EXCEPTION) {
 			g_printerr ("gui/e-meeting-edit.c: I couldn't set the composer headers via CORBA! Aagh.\n");
 			CORBA_exception_free (&ev);
@@ -3481,10 +3481,10 @@ e_card_send (ECard *card, ECardDisposition disposition)
 		attach_data = CORBA_string_dup (tempstr);
 		g_free(tempstr);
 
-		Evolution_Composer_attach_data (composer_server, 
-						content_type, filename, description,
-						show_inline, attach_data,
-						&ev);
+		GNOME_Evolution_Composer_attachData (composer_server, 
+						     content_type, filename, description,
+						     show_inline, attach_data,
+						     &ev);
 	
 		if (ev._major != CORBA_NO_EXCEPTION) {
 			g_printerr ("gui/e-meeting-edit.c: I couldn't attach data to the composer via CORBA! Aagh.\n");
@@ -3498,7 +3498,7 @@ e_card_send (ECard *card, ECardDisposition disposition)
 		CORBA_free (attach_data);
 	}
 
-	Evolution_Composer_show (composer_server, &ev);
+	GNOME_Evolution_Composer_show (composer_server, &ev);
 
 	if (ev._major != CORBA_NO_EXCEPTION) {
 		g_printerr ("gui/e-meeting-edit.c: I couldn't show the composer via CORBA! Aagh.\n");

@@ -261,15 +261,15 @@ e_book_do_response_get_changes (EBook                 *book,
 		((EBookBookViewCallback) op->cb) (book, resp->status, book_view, op->closure);
 
 	/*
-	 * Release the remote Evolution_Book in the PAS.
+	 * Release the remote GNOME_Evolution_Addressbook_BookView in the PAS.
 	 */
 	CORBA_exception_init (&ev);
 
 	Bonobo_Unknown_unref  (resp->book_view, &ev);
 
 	if (ev._major != CORBA_NO_EXCEPTION) {
-		g_warning ("e_book_do_response_get_changs: Exception unref'ing "
-			   "remote Evolution_BookView interface!\n");
+		g_warning ("e_book_do_response_get_changes: Exception unref'ing "
+			   "remote GNOME_Evolution_Addressbook_BookView interface!\n");
 		CORBA_exception_free (&ev);
 		CORBA_exception_init (&ev);
 	}
@@ -278,7 +278,7 @@ e_book_do_response_get_changes (EBook                 *book,
 
 	if (ev._major != CORBA_NO_EXCEPTION) {
 		g_warning ("e_book_do_response_get_changes: Exception releasing "
-			   "remote Evolution_BookView interface!\n");
+			   "remote GNOME_Evolution_Addressbook_BookView interface!\n");
 	}
 
 	CORBA_exception_free (&ev);
