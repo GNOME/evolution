@@ -59,7 +59,7 @@ static EMJunkPlugin spam_assassin_plugin =
 	NULL
 };
 
-static gboolean em_junk_sa_spamd_tested = FALSE;
+static gboolean em_junk_sa_tested = FALSE;
 static gboolean em_junk_sa_use_spamc = FALSE;
 static gboolean em_junk_sa_available = FALSE;
 static gint em_junk_sa_spamd_port = -1;
@@ -80,8 +80,8 @@ pipe_to_sa (CamelMimeMessage *msg, gchar *in, int argc, gchar **argv)
 	int in_fds[2];
 	pid_t pid;
 
-	d(printf ("pipe_to_sa %s, %s, %s, %s\n", argc > 0 ? argv [0] : "N/A", argc > 1 ? argv [1] : "N/A", argc > 2 ? argv [2] : "N/A", argc > 3 ? argv [3] : "N/A"));
-	
+	d(printf ("pipe_to_sa %s %s %s %s\n", argc > 0 ? argv [0] : "", argc > 1 ? argv [1] : "", argc > 2 ? argv [2] : "", argc > 3 ? argv [3] : ""));
+
 	if (argc < 1 || argv[0] == '\0')
 		return 0;
 	
@@ -192,15 +192,13 @@ em_junk_sa_test_spamd ()
 		"spamassassin --version"
 	};
 
-	if (pipe_to_sa (NULL, NULL, 3, args)) {
+	if (pipe_to_sa (NULL, NULL, 3, args))
 		em_junk_sa_available = FALSE;
-		return;
-	} else
+	else {
 		em_junk_sa_available = TRUE;
+		em_junk_sa_use_spamc = FALSE;
 
-	em_junk_sa_use_spamc = FALSE;
-
-	/* if (em_junk_sa_test_spamd_running (-1)) {
+		/* if (em_junk_sa_test_spamd_running (-1)) {
 		em_junk_sa_use_spamc = TRUE;
 		em_junk_sa_spamd_port = -1;
 		} else { */
@@ -214,42 +212,43 @@ em_junk_sa_test_spamd ()
 		}
 		/* } */
 
-	if (!em_junk_sa_use_spamc) {
-		static gchar *sad_args [3] = {
-			"/bin/sh",
-			"-c",
-			NULL
-		};
-		gint i, port = 7830;
+		if (!em_junk_sa_use_spamc) {
+			static gchar *sad_args [3] = {
+				"/bin/sh",
+				"-c",
+				NULL
+			};
+			gint i, port = 7830;
 
-		d(fprintf (stderr, "looks like spamd is not running\n");)
+			d(fprintf (stderr, "looks like spamd is not running\n");)
 
-		for (i = 0; i < NPORTS; i ++) {
-			d(fprintf (stderr, "trying to run spamd at port %d\n", port));
+				for (i = 0; i < NPORTS; i ++) {
+					d(fprintf (stderr, "trying to run spamd at port %d\n", port));
 
-			sad_args [2] = g_strdup_printf ("spamd --port %d --local --daemonize", port);
-			if (!pipe_to_sa (NULL, NULL, 3, sad_args)) {
-				g_free (sad_args [2]);
-				em_junk_sa_use_spamc = TRUE;
-				em_junk_sa_spamd_port = port;
-				d(fprintf (stderr, "success at port %d\n", port));
-				break;
-			}
-			g_free (sad_args [2]);
-			port ++;
+					sad_args [2] = g_strdup_printf ("spamd --port %d --local --daemonize", port);
+					if (!pipe_to_sa (NULL, NULL, 3, sad_args)) {
+						g_free (sad_args [2]);
+						em_junk_sa_use_spamc = TRUE;
+						em_junk_sa_spamd_port = port;
+						d(fprintf (stderr, "success at port %d\n", port));
+						break;
+					}
+					g_free (sad_args [2]);
+					port ++;
+				}
 		}
+
+		d(fprintf (stderr, "use spamd %d at port %d\n", em_junk_sa_use_spamc, em_junk_sa_spamd_port));
 	}
 
-	d(fprintf (stderr, "use spamd %d at port %d\n", em_junk_sa_use_spamc, em_junk_sa_spamd_port);)
-
-	em_junk_sa_spamd_tested = TRUE;
+	em_junk_sa_tested = TRUE;
 }
 
 static gboolean
 em_junk_sa_is_available ()
 {
 	LOCK (em_junk_sa_test_lock);
-	if (!em_junk_sa_spamd_tested)
+	if (!em_junk_sa_tested)
 		em_junk_sa_test_spamd ();
 	UNLOCK (em_junk_sa_test_lock);
 
