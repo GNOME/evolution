@@ -12,6 +12,8 @@ images_DATA = \
 	import.png			\
 	import.xpm			\
 	move_message.xpm		\
+	offline.png			\
+	online.png			\
 	print.xpm			\
 	print-preview.xpm		\
 	reply.xpm			\
