@@ -413,8 +413,12 @@ camel_imap_response_free (CamelImapStore *store, CamelImapResponse *response)
 	if (response->folder) {
 		if (exists > 0 || expunged) {
 			/* Update the summary */
-			camel_imap_folder_changed (response->folder,
-						   exists, expunged, NULL);
+			CamelException ex;
+			
+			camel_exception_init (&ex);
+			camel_imap_folder_changed (response->folder, exists, expunged, &ex);
+			camel_exception_clear (&ex);
+			
 			if (expunged)
 				g_array_free (expunged, TRUE);
 		}

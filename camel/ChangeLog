@@ -1,5 +1,15 @@
 2001-07-05  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* camel-folder-summary.c (camel_message_info_string): Added an
+	assert to make sure that `mi' isn't NULL.
+	(camel_message_info_set_string): Same.
+
+	* providers/imap/camel-imap-command.c (camel_imap_response_free):
+	Create and use a temporary CamelException for use with
+	camel_imap_folder_changed.
+
+2001-07-05  Jeffrey Stedfast  <fejj@ximian.com>
+
 	* camel-pgp-context.c (pgp_verify): Send the
 	--no-auto-key-retrieve argument to gpg if we are in offline mode
 	so that we don't have to worry about gpg hanging if it can't

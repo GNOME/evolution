@@ -2443,24 +2443,29 @@ camel_message_info_free(CamelMessageInfo *mi)
 }
 
 #if defined (DOEPOOLV) || defined (DOESTRV)
-const char *camel_message_info_string(const CamelMessageInfo *mi, int type)
+const char *
+camel_message_info_string (const CamelMessageInfo *mi, int type)
 {
+	g_assert (mi != NULL);
+	
 	if (mi->strings == NULL)
 		return "";
 #ifdef DOEPOOLV
-	return e_poolv_get(mi->strings, type);
+	return e_poolv_get (mi->strings, type);
 #else
-	return e_strv_get(mi->strings, type);
+	return e_strv_get (mi->strings, type);
 #endif
 }
 
-void camel_message_info_set_string(CamelMessageInfo *mi, int type, char *str)
+void
+camel_message_info_set_string (CamelMessageInfo *mi, int type, char *str)
 {
-	g_assert(mi->strings != NULL);
+	g_assert (mi != NULL);
+	g_assert (mi->strings != NULL);
 #ifdef DOEPOOLV
-	e_poolv_set(mi->strings, type, str, TRUE);
+	e_poolv_set (mi->strings, type, str, TRUE);
 #else
-	mi->strings = e_strv_set_ref_free(mi->strings, type, str);
+	mi->strings = e_strv_set_ref_free (mi->strings, type, str);
 #endif
 }
 #endif
