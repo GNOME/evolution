@@ -1,3 +1,8 @@
+2000-09-12  Larry Ewing  <lewing@helixcode.com>
+
+	* e-msg-composer-attachment-bar.c (add_common): add a make sure
+	the attachment isn't NULL.  A more complete fix coming soon.
+
 2000-09-12  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* Makefile.am ($(IDL_GENERATED)): Add space after `-I'.

@@ -123,6 +123,8 @@ static void
 add_common (EMsgComposerAttachmentBar *bar,
 	    EMsgComposerAttachment *attachment)
 {
+	g_return_if_fail (attachment != NULL);
+
 	gtk_signal_connect (GTK_OBJECT (attachment), "changed",
 			    GTK_SIGNAL_FUNC (attachment_changed_cb),
 			    bar);
