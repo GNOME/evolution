@@ -123,6 +123,26 @@ find_or_create_node(ETreeTableAdapter *etta, ETreePath path)
 	return node;
 }
 
+static gboolean
+e_tree_table_adapter_node_would_be_expanded (ETreeTableAdapter *etta, ETreePath path)
+{
+	ETreeTableAdapterNode *node;
+
+	if (e_tree_model_node_is_root(etta->priv->source, path) &&
+	    !etta->priv->root_visible)
+		return TRUE;
+
+	node = find_node (etta, path);
+	if (node)
+		return node->expanded;
+	else {
+		if (e_tree_model_node_is_root(etta->priv->source, path))
+			return TRUE;
+		else
+			return e_tree_model_get_expanded_default(etta->priv->source);
+	}
+}
+
 static void
 add_expanded_node(ETreeTableAdapter *etta, char *save_id, gboolean expanded)
 {
@@ -188,7 +208,7 @@ find_first_child_node_maybe_deleted(ETreeTableAdapter *adapter, int row)
 {
 	if (row != -1) {
 		ETreePath path = adapter->priv->map_table[row];
-		if (e_tree_table_adapter_node_is_expanded (adapter, path)) {
+		if (e_tree_table_adapter_node_would_be_expanded (adapter, path)) {
 			row ++;
 			if (row >= adapter->priv->n_map)
 				return -1;
@@ -1140,22 +1160,8 @@ void         e_tree_table_adapter_show_node (ETreeTableAdapter *etta, ETreePath 
 
 gboolean     e_tree_table_adapter_node_is_expanded (ETreeTableAdapter *etta, ETreePath path)
 {
-	ETreeTableAdapterNode *node;
-
 	if (!e_tree_model_node_is_expandable (etta->priv->source, path))
 		return FALSE;
 
-	if (e_tree_model_node_is_root(etta->priv->source, path) &&
-	    !etta->priv->root_visible)
-		return TRUE;
-
-	node = find_node (etta, path);
-	if (node)
-		return node->expanded;
-	else {
-		if (e_tree_model_node_is_root(etta->priv->source, path))
-			return TRUE;
-		else
-			return e_tree_model_get_expanded_default(etta->priv->source);
-	}
+	return e_tree_table_adapter_node_would_be_expanded (etta, path);
 }
