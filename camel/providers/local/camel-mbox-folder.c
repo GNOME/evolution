@@ -233,7 +233,7 @@ mbox_append_message(CamelFolder *folder, CamelMimeMessage * message, const Camel
 #endif
 
 	/* we must write this to the non-filtered stream ... */
-	fromline = camel_mbox_summary_build_from(((CamelMimePart *)message)->headers);
+	fromline = camel_mime_message_build_mbox_from(message);
 	if (camel_stream_write(output_stream, fromline, strlen(fromline)) == -1)
 		goto fail_write;
 

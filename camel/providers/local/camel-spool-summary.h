@@ -64,8 +64,6 @@ int camel_spool_summary_decode_x_evolution(CamelSpoolSummary *cls, const char *x
 
 /* utility functions - write headers to a file with optional X-Evolution header */
 int camel_spool_summary_write_headers(int fd, struct _header_raw *header, char *xevline);
-/* build a from line: FIXME: remove, or move to common code */
-char *camel_spool_summary_build_from(struct _header_raw *header);
 
 #endif /* ! _CAMEL_SPOOL_SUMMARY_H */
 

@@ -1,3 +1,33 @@
+2003-03-20  Dan Winship  <danw@ximian.com>
+
+	Handle raw 8-bit From data "correctly". (The same way we handle
+	raw 8-bit Subject data.)
+
+	* camel-mime-utils.c (header_decode_mailbox): Take a charset arg
+	and pass it to header_decode_string.
+	(header_decode_address): Take a charset arg and pass it to
+	header_decode_mailbox.
+	(header_mailbox_decode): Likewise.
+	(header_address_decode): Take a charset arg and pass it to
+	header_decode_address.
+
+	* camel-folder-summary.c (summary_format_address): Take a charset
+	arg and pass to header_address_decode.
+	(message_info_new, camel_message_info_new_from_header): Pass
+	charset to summary_format_address
+
+	* camel-internet-address.c (internet_decode): Update for
+	header_address_decode change. (Unfortunately we don't have a
+	charset to pass here.)
+
+	* camel-mime-message.c (camel_mime_message_build_mbox_from): Move
+	this here from camel-mbox-summary since the same functionality is
+	needed by evolution-mail too (and update for header_address_decode
+	change)
+
+	* providers/local/camel-mbox-summary.c
+	(camel_mbox_summary_build_from): Moved to CamelMimeMessage
+
 2003-03-17  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-mime-part.c (process_header): Removed unused variable left

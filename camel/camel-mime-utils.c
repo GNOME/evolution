@@ -2334,7 +2334,7 @@ header_decode_addrspec(const char **in)
    */
 
 static struct _header_address *
-header_decode_mailbox(const char **in)
+header_decode_mailbox(const char **in, const char *charset)
 {
 	const char *inptr = *in;
 	char *pre;
@@ -2356,7 +2356,7 @@ header_decode_mailbox(const char **in)
 			char *text, *last;
 
 			/* perform internationalised decoding, and append */
-			text = header_decode_string (pre, NULL);
+			text = header_decode_string (pre, charset);
 			g_string_append (name, text);
 			last = pre;
 			g_free(text);
@@ -2458,7 +2458,7 @@ header_decode_mailbox(const char **in)
 				g_string_append_c(addr, *inptr);
 
 			/* check for address is encoded word ... */
-			text = header_decode_string(addr->str, NULL);
+			text = header_decode_string(addr->str, charset);
 			if (name == NULL) {
 				name = addr;
 				addr = g_string_new("");
@@ -2514,7 +2514,7 @@ header_decode_mailbox(const char **in)
 			if (comend > comstart) {
 				d(printf("  looking at subset '%.*s'\n", comend-comstart, comstart));
 				tmp = g_strndup (comstart, comend-comstart);
-				text = header_decode_string (tmp, NULL);
+				text = header_decode_string (tmp, charset);
 				name = g_string_new (text);
 				g_free (tmp);
 				g_free (text);
@@ -2537,7 +2537,7 @@ header_decode_mailbox(const char **in)
 }
 
 static struct _header_address *
-header_decode_address(const char **in)
+header_decode_address(const char **in, const char *charset)
 {
 	const char *inptr = *in;
 	char *pre;
@@ -2562,7 +2562,7 @@ header_decode_address(const char **in)
 		if (*inptr != ';') {
 			int go = TRUE;
 			do {
-				member = header_decode_mailbox(&inptr);
+				member = header_decode_mailbox(&inptr, charset);
 				if (member)
 					header_address_add_member(addr, member);
 				header_decode_lwsp(&inptr);
@@ -2581,7 +2581,7 @@ header_decode_address(const char **in)
 		}
 		*in = inptr;
 	} else {
-		addr = header_decode_mailbox(in);
+		addr = header_decode_mailbox(in, charset);
 	}
 
 	g_string_free(group, TRUE);
@@ -2807,16 +2807,16 @@ header_references_dup(const struct _header_references *list)
 }
 
 struct _header_address *
-header_mailbox_decode(const char *in)
+header_mailbox_decode(const char *in, const char *charset)
 {
 	if (in == NULL)
 		return NULL;
 
-	return header_decode_mailbox(&in);
+	return header_decode_mailbox(&in, charset);
 }
 
 struct _header_address *
-header_address_decode(const char *in)
+header_address_decode(const char *in, const char *charset)
 {
 	const char *inptr = in, *last;
 	struct _header_address *list = NULL, *addr;
@@ -2832,7 +2832,7 @@ header_address_decode(const char *in)
 
 	do {
 		last = inptr;
-		addr = header_decode_address(&inptr);
+		addr = header_decode_address(&inptr, charset);
 		if (addr)
 			header_address_list_append(&list, addr);
 		header_decode_lwsp(&inptr);

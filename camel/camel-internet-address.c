@@ -88,7 +88,7 @@ internet_decode	(CamelAddress *a, const char *raw)
 	int count = a->addresses->len;
 
 	/* Should probably use its own decoder or something */
-	ha = header_address_decode(raw);
+	ha = header_address_decode(raw, NULL);
 	if (ha) {
 		n = ha;
 		while (n) {

@@ -1467,14 +1467,14 @@ static CamelMessageContentInfo * content_info_new_from_message(CamelFolderSummar
 }
 
 static char *
-summary_format_address(struct _header_raw *h, const char *name)
+summary_format_address(struct _header_raw *h, const char *name, const char *charset)
 {
 	struct _header_address *addr;
 	const char *text;
 	char *ret;
 
 	text = header_raw_find (&h, name, NULL);
-	addr = header_address_decode (text);
+	addr = header_address_decode (text, charset);
 	if (addr) {
 		ret = header_address_list_format (addr);
 		header_address_list_clear (&addr);
@@ -1579,9 +1579,9 @@ message_info_new(CamelFolderSummary *s, struct _header_raw *h)
 	charset = charset ? e_iconv_charset_name (charset) : NULL;
 	
 	subject = summary_format_string(h, "subject", charset);
-	from = summary_format_address(h, "from");
-	to = summary_format_address(h, "to");
-	cc = summary_format_address(h, "cc");
+	from = summary_format_address(h, "from", charset);
+	to = summary_format_address(h, "to", charset);
+	cc = summary_format_address(h, "cc", charset);
 	mlist = header_raw_check_mailing_list(&h);
 
 	if (ct)
@@ -2566,9 +2566,9 @@ camel_message_info_new_from_header (struct _header_raw *header)
 	charset = charset ? e_iconv_charset_name (charset) : NULL;
 	
 	subject = summary_format_string(header, "subject", charset);
-	from = summary_format_address(header, "from");
-	to = summary_format_address(header, "to");
-	cc = summary_format_address(header, "cc");
+	from = summary_format_address(header, "from", charset);
+	to = summary_format_address(header, "to", charset);
+	cc = summary_format_address(header, "cc", charset);
 	date = header_raw_find(&header, "date", NULL);
 	mlist = header_raw_check_mailing_list(&header);
 

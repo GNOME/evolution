@@ -131,6 +131,8 @@ void                        camel_mime_message_encode_8bit_parts  (CamelMimeMess
 
 CamelMimePart              *camel_mime_message_get_part_by_content_id (CamelMimeMessage *message, const char *content_id);
 
+char                       *camel_mime_message_build_mbox_from    (CamelMimeMessage           *mime_message);
+
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */

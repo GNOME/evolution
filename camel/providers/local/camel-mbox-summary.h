@@ -68,9 +68,6 @@ CamelMboxSummary      *camel_mbox_summary_new	(const char *filename, const char 
 /* do we honour/use xstatus headers, etc */
 void camel_mbox_summary_xstatus(CamelMboxSummary *mbs, int state);
 
-/* generate a From line from headers */
-char *camel_mbox_summary_build_from(struct _header_raw *header);
-
 /* build a new mbox from an existing mbox storing summary information */
 int camel_mbox_summary_sync_mbox(CamelMboxSummary *cls, guint32 flags, CamelFolderChangeInfo *changeinfo, int fd, int fdout, CamelException *ex);
 
