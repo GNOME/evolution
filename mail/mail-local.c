@@ -111,6 +111,7 @@ typedef struct {
 	CamelFolder *real_folder;
 	CamelStore *real_store;
 
+	char *description;
 	char *real_path;
 
 	struct _local_meta *meta;
@@ -512,6 +513,48 @@ mlf_set_folder(MailLocalFolder *mlf, guint32 flags, CamelException *ex)
 	return TRUE;
 }
 
+static int
+mlf_getv(CamelObject *object, CamelException *ex, CamelArgGetV *args)
+{
+	CamelFolder *folder = (CamelFolder *)object;
+	MailLocalFolder *mlf = (MailLocalFolder *)object;
+	int i, count=args->argc;
+	guint32 tag;
+
+	for (i=0;i<args->argc;i++) {
+		CamelArgGet *arg = &args->argv[i];
+		
+		tag = arg->tag;
+		
+		switch (tag & CAMEL_ARG_TAG) {
+			/* CamelObject args */
+		case CAMEL_OBJECT_ARG_DESCRIPTION:
+			if (mlf->description == NULL) {
+				int pathlen;
+
+				/* string to describe a local folder as the location of a message */
+				pathlen = strlen(evolution_dir) + strlen("local") + 1;
+				if (strlen(folder->full_name) > pathlen)
+					mlf->description = g_strdup_printf(U_("Local folders/%s"), folder->full_name+pathlen);
+				else
+					mlf->description = g_strdup_printf(U_("Local folders/%s"), folder->name);
+			}
+			*arg->ca_str = mlf->description;
+			break;
+		default:
+			count--;
+			continue;
+		}
+
+		arg->tag = (tag & CAMEL_ARG_TYPE) | CAMEL_ARG_IGNORE;
+	}
+
+	if (count)
+		return ((CamelObjectClass *)mlf_parent_class)->getv(object, ex, args);
+
+	return 0;
+}
+
 static void 
 mlf_class_init (CamelObjectClass *camel_object_class)
 {
@@ -533,6 +576,8 @@ mlf_class_init (CamelObjectClass *camel_object_class)
 	camel_folder_class->set_message_user_tag = mlf_set_message_user_tag;
 
 	camel_folder_class->rename = mlf_rename;
+
+	camel_object_class->getv = mlf_getv;
 }
 
 static void

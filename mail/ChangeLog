@@ -1,3 +1,16 @@
+2002-06-01  Not Zed  <NotZed@Ximian.com>
+
+	* mail-local.c (mlf_getv): Implement, return a text description of
+	the localfolder.
+
+	* message-list.c (ml_duplicate_value): 
+	(ml_free_value): 
+	(ml_initialize_value): 
+	(ml_value_is_empty): 
+	(ml_value_to_string): 
+	(ml_tree_value_at): Implement COL_LOCATION, original location of
+	message (useful for vfolder).
+
 2002-06-02  Larry Ewing  <lewing@ximian.com>
 
 	* mail-tools.c (mail_tool_quote_message): make these citations as

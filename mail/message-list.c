@@ -575,6 +575,7 @@ ml_duplicate_value (ETreeModel *etm, int col, const void *value, void *data)
 	case COL_SUBJECT:
 	case COL_TO:
 	case COL_FOLLOWUP_FLAG:
+	case COL_LOCATION:
 		return g_strdup (value);
 		
 	default:
@@ -604,6 +605,7 @@ ml_free_value (ETreeModel *etm, int col, void *value, void *data)
 	case COL_SUBJECT:
 	case COL_TO:
 	case COL_FOLLOWUP_FLAG:
+	case COL_LOCATION:
 		g_free (value);
 		break;
 	default:
@@ -632,6 +634,7 @@ ml_initialize_value (ETreeModel *etm, int col, void *data)
 	case COL_SUBJECT:
 	case COL_TO:
 	case COL_FOLLOWUP_FLAG:
+	case COL_LOCATION:
 		return g_strdup ("");
 	default:
 		g_assert_not_reached ();
@@ -661,6 +664,7 @@ ml_value_is_empty (ETreeModel *etm, int col, const void *value, void *data)
 	case COL_SUBJECT:
 	case COL_TO:
 	case COL_FOLLOWUP_FLAG:
+	case COL_LOCATION:
 		return !(value && *(char *)value);
 	default:
 		g_assert_not_reached ();
@@ -724,6 +728,7 @@ ml_value_to_string (ETreeModel *etm, int col, const void *value, void *data)
 	case COL_SUBJECT:
 	case COL_TO:
 	case COL_FOLLOWUP_FLAG:
+	case COL_LOCATION:
 		return g_strdup (value);
 	default:
 		g_assert_not_reached ();
@@ -950,6 +955,19 @@ ml_tree_value_at (ETreeModel *etm, ETreePath path, int col, void *model_data)
 		}
 		return (void *)colour;
 	}
+	case COL_LOCATION: {
+		CamelFolder *folder;
+		char *name;
+
+		if (CAMEL_IS_VEE_FOLDER(message_list->folder)) {
+			folder = camel_vee_folder_get_location((CamelVeeFolder *)message_list->folder, (CamelVeeMessageInfo *)msg_info, NULL);
+		} else {
+			folder = message_list->folder;
+		}
+
+		camel_object_get(folder, NULL, CAMEL_OBJECT_DESCRIPTION, &name, 0);
+		return name;
+	}
 	default:
 		g_assert_not_reached ();
 		return NULL;
@@ -1114,7 +1132,7 @@ message_list_create_extras (void)
 			"color_column", COL_COLOUR,
 			NULL);
 	e_table_extras_add_cell (extras, "render_size", cell);
-	
+
 	return extras;
 }
 
