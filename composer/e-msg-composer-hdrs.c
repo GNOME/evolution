@@ -51,7 +51,9 @@ struct _EMsgComposerHdrsPrivate {
 
 	/* The tooltips.  */
 	GtkTooltips *tooltips;
-
+	
+	GSList *from_options;
+	
 	/* Standard headers.  */
 	GtkWidget *from_entry;
 	GtkWidget *to_entry;
@@ -70,7 +72,7 @@ enum {
 
 enum {
 	HEADER_ADDRBOOK,
-	HEADER_COMBOBOX,
+	HEADER_OPTIONMENU,
 	HEADER_ENTRYBOX
 };
 
@@ -124,63 +126,67 @@ address_button_clicked_cb (GtkButton *button,
 	CORBA_exception_free (&ev);
 }
 
-static GtkWidget *
-create_dropdown_entry (EMsgComposerHdrs *hdrs,
-		       const char *name)
+static void
+from_changed (GtkWidget *item, gpointer data)
 {
-	GtkWidget *combo;
-	GList *values = NULL;
+	EMsgComposerHdrs *hdrs = E_MSG_COMPOSER_HDRS (data);
 	
-	combo = gtk_combo_new ();
-	gtk_combo_set_use_arrows (GTK_COMBO (combo), TRUE);
-	gtk_combo_set_case_sensitive (GTK_COMBO (combo), FALSE);
+	hdrs->account = gtk_object_get_data (GTK_OBJECT (item), "account");
+}
+
+static GtkWidget *
+create_optionmenu (EMsgComposerHdrs *hdrs,
+		   const char *name)
+{
+	GtkWidget *omenu, *menu, *first = NULL;
+	int i = 0, history = 0;
+	
+	omenu = gtk_option_menu_new ();
+	menu = gtk_menu_new ();
+	
 	if (!strcmp (name, _("From:"))) {
-		const MailConfigIdentity *id;
-		const GSList *accounts, *stmp;
-		GList *tmp;
-		char *val;
+		const GSList *accounts;
+		GtkWidget *item;
 		
 		accounts = mail_config_get_accounts ();
-		stmp = accounts;
-		while (stmp) {
+		while (accounts) {
 			const MailConfigAccount *account;
-			char *address, *addr_local;
 			
-			account = stmp->data;
-			g_assert (account);
-			g_assert (account->id);
-			g_assert (account->id->name);
-			g_assert (account->id->address);
+			account = accounts->data;
 			
-			address = camel_internet_address_format_address (account->id->name, account->id->address);
-			addr_local = e_utf8_to_gtk_string (combo, address);
-			g_free (address);
-			values = g_list_append (values, addr_local);
-			stmp = stmp->next;
+			/* this should never ever fail */
+			if (!account || !account->name || !account->id) {
+				g_assert_not_reached ();
+				continue;
+			}
+			
+			item = gtk_menu_item_new_with_label (account->name);
+			gtk_object_set_data (GTK_OBJECT (item), "account", account_copy (account));
+			gtk_signal_connect (GTK_OBJECT (item), "activate",
+					    GTK_SIGNAL_FUNC (from_changed), hdrs);
+			
+			if (account->default_account) {
+				first = item;
+				history = i;
+			}
+			
+			/* this is so we can later set which one we want */
+			hdrs->priv->from_options = g_slist_append (hdrs->priv->from_options, item);
+			
+			gtk_widget_show (item);
+			
+			accounts = accounts->next;
+			i++;
 		}
-
-		if (values)
-			gtk_combo_set_popdown_strings (GTK_COMBO (combo), values);
-
-		tmp = values;
-		while (tmp) {
-			g_free (tmp->data);
-			tmp = tmp->next;
-		}
-		g_list_free (values);
-		
-		id = mail_config_get_default_identity ();
-		g_assert (id);			
-		g_assert (id->name);
-		g_assert (id->address);
-		
-		val = camel_internet_address_format_address (id->name, id->address);
-		
-		e_utf8_gtk_entry_set_text (GTK_ENTRY (GTK_COMBO (combo)->entry), val);
-		g_free (val);
 	}
 	
-	return combo;
+	gtk_option_menu_set_menu (GTK_OPTION_MENU (omenu), menu);
+	if (first) {
+		gtk_option_menu_set_history (GTK_OPTION_MENU (omenu), history);
+		gtk_signal_emit_by_name (GTK_OBJECT (first), "activate", hdrs);
+	}
+	
+	return omenu;
 }
 
 static GtkWidget *
@@ -264,8 +270,8 @@ add_header (EMsgComposerHdrs *hdrs,
 	case HEADER_ADDRBOOK:
 		entry = create_addressbook_entry (hdrs, name);
 		break;
-	case HEADER_COMBOBOX:
-		entry = create_dropdown_entry (hdrs, name);
+	case HEADER_OPTIONMENU:
+		entry = create_optionmenu (hdrs, name);
 		break;
 	default:
 		entry = e_entry_new ();
@@ -305,7 +311,7 @@ setup_headers (EMsgComposerHdrs *hdrs)
 		(hdrs, _("From:"), 
 		 _("Enter the identity you wish to send this message from"),
 		 NULL,
-		 HEADER_COMBOBOX);
+		 HEADER_OPTIONMENU);
 	priv->to_entry = add_header
 		(hdrs, _("To:"), 
 		 _("Enter the recipients of the message"),
@@ -339,6 +345,7 @@ destroy (GtkObject *object)
 {
 	EMsgComposerHdrs *hdrs;
 	EMsgComposerHdrsPrivate *priv;
+	GSList *l;
 
 	hdrs = E_MSG_COMPOSER_HDRS (object);
 	priv = hdrs->priv;
@@ -352,7 +359,19 @@ destroy (GtkObject *object)
 	}
 
 	gtk_object_destroy (GTK_OBJECT (priv->tooltips));
-
+	
+	l = priv->from_options;
+	while (l) {
+		MailConfigAccount *account;
+		GtkWidget *item = l->data;
+		
+		account = gtk_object_get_data (GTK_OBJECT (item), "account");
+		account_destroy (account);
+		
+		l = l->next;
+	}
+	g_slist_free (priv->from_options);
+	
 	if (GTK_OBJECT_CLASS (parent_class)->destroy != NULL)
 		(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
 }
@@ -388,18 +407,22 @@ init (EMsgComposerHdrs *hdrs)
 	priv = g_new (EMsgComposerHdrsPrivate, 1);
 
 	priv->corba_select_names = CORBA_OBJECT_NIL;
-
+	
+	priv->from_options  = NULL;
+	
 	priv->from_entry    = NULL;
 	priv->to_entry      = NULL;
 	priv->cc_entry      = NULL;
 	priv->bcc_entry     = NULL;
 	priv->subject_entry = NULL;
-
+	
 	priv->tooltips = gtk_tooltips_new ();
 
 	priv->num_hdrs = 0;
 	
 	hdrs->priv = priv;
+	
+	hdrs->account = NULL;
 	
 	hdrs->has_changed = FALSE;
 }
@@ -522,17 +545,38 @@ set_entry (BonoboWidget *bonobo_widget,
 	g_string_free (string, TRUE);
 }
 
+
+/* FIXME: yea, this could be better... but it's doubtful it'll be used much */
 void
-e_msg_composer_hdrs_set_from (EMsgComposerHdrs *hdrs,
-			      const char *from)
+e_msg_composer_hdrs_set_from_account (EMsgComposerHdrs *hdrs,
+				      const char *account_name)
 {
-	GtkEntry *entry;
+	GtkOptionMenu *omenu;
+	GtkWidget *item;
+	GSList *l;
+	int i = 0;
 	
 	g_return_if_fail (hdrs != NULL);
 	g_return_if_fail (E_IS_MSG_COMPOSER_HDRS (hdrs));
 	
-	entry = GTK_ENTRY (GTK_COMBO (hdrs->priv->from_entry)->entry);
-	e_utf8_gtk_entry_set_text (entry, from);
+	omenu = GTK_OPTION_MENU (hdrs->priv->from_entry);
+	
+	/* find the item that represents the account and activate it */
+	l = hdrs->priv->from_options;
+	while (l) {
+		MailConfigAccount *account;
+		item = l->data;
+		
+		account = gtk_object_get_data (GTK_OBJECT (item), "account");
+		if (!strcmp (account_name, account->name)) {
+			gtk_option_menu_set_history (omenu, i);
+			gtk_signal_emit_by_name (GTK_OBJECT (item), "activate", hdrs);
+			return;
+		}
+		
+		l = l->next;
+		i++;
+	}
 }
 
 void
@@ -578,14 +622,23 @@ e_msg_composer_hdrs_set_subject (EMsgComposerHdrs *hdrs,
 			NULL);
 }
 
+
 /* FIXME: This should probably return a CamelInternetAddress */
 char *
 e_msg_composer_hdrs_get_from (EMsgComposerHdrs *hdrs)
 {
+	const MailConfigAccount *account;
+	
 	g_return_val_if_fail (hdrs != NULL, NULL);
 	g_return_val_if_fail (E_IS_MSG_COMPOSER_HDRS (hdrs), NULL);
 	
-	return e_utf8_gtk_entry_get_text (GTK_ENTRY (GTK_COMBO (hdrs->priv->from_entry)->entry));
+	account = hdrs->account;
+	if (!account || !account->id) {
+		/* FIXME: perhaps we should try the default account? */
+		return NULL;
+	}
+	
+	return camel_internet_address_format_address (account->id->name, account->id->address);
 }
 
 /* FIXME this is currently unused and broken.  */

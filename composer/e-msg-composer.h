@@ -34,6 +34,8 @@ typedef struct _EMsgComposerClass  EMsgComposerClass;
 #include "e-msg-composer-hdrs.h"
 #include "Editor.h"
 
+#include <mail/mail-config.h>
+
 #ifdef __cplusplus
 extern "C" {
 #pragma }
@@ -115,6 +117,9 @@ void              e_msg_composer_set_send_html        (EMsgComposer     *compose
 gboolean          e_msg_composer_get_send_html        (EMsgComposer     *composer);
 void              e_msg_composer_set_pgp_sign         (EMsgComposer     *composer,
 						       gboolean          pgp_sign);
+
+const MailConfigAccount *e_msg_composer_get_preferred_account (EMsgComposer *composer);
+
 gboolean          e_msg_composer_get_pgp_sign         (EMsgComposer     *composer);
 void              e_msg_composer_set_pgp_encrypt      (EMsgComposer     *composer,
 						       gboolean          pgp_encrypt);

@@ -261,15 +261,15 @@ build_message (EMsgComposer *composer)
 	/* get and/or set the From field */
 	from = e_msg_composer_hdrs_get_from (E_MSG_COMPOSER_HDRS (composer->hdrs));
 	if (!from) {
-		const MailConfigIdentity *id = NULL;
-		CamelInternetAddress *ciaddr;
+		const MailConfigAccount *account = NULL;
 		
-		id = mail_config_get_default_identity ();
-		ciaddr = camel_internet_address_new ();
-		camel_internet_address_add (ciaddr, id->name, id->address);
-		from = camel_address_encode (CAMEL_ADDRESS (ciaddr));
-		e_msg_composer_hdrs_set_from (E_MSG_COMPOSER_HDRS (composer->hdrs), from);
-		camel_object_unref (CAMEL_OBJECT (ciaddr));
+		account = mail_config_get_default_account ();
+		
+		/* if !account then we have mucho problemos, amigo */
+		if (!account)
+			return NULL;
+		
+		e_msg_composer_hdrs_set_from_account (E_MSG_COMPOSER_HDRS (composer->hdrs), account->name);
 	}
 	g_free (from);
 	
@@ -2057,6 +2057,26 @@ e_msg_composer_get_send_html (EMsgComposer *composer)
 	g_return_val_if_fail (E_IS_MSG_COMPOSER (composer), FALSE);
 
 	return composer->send_html;
+}
+
+
+/**
+ * e_msg_composer_get_preferred_account:
+ * @composer: composer
+ *
+ * Returns the user-specified account (from field).
+ */
+const MailConfigAccount *
+e_msg_composer_get_preferred_account (EMsgComposer *composer)
+{
+	EMsgComposerHdrs *hdrs;
+	
+	g_return_val_if_fail (composer != NULL, NULL);
+	g_return_val_if_fail (E_IS_MSG_COMPOSER (composer), NULL);
+	
+	hdrs = E_MSG_COMPOSER_HDRS (composer->hdrs);
+	
+	return hdrs->account;
 }
 
 

@@ -26,6 +26,7 @@
 
 #include <gnome.h>
 #include <camel/camel-mime-message.h>
+#include <mail/mail-config.h>
 
 #ifdef __cplusplus
 extern "C" {
@@ -48,6 +49,8 @@ struct _EMsgComposerHdrs {
 
 	EMsgComposerHdrsPrivate *priv;
 	
+	const MailConfigAccount *account;
+	
 	gboolean has_changed;
 };
 
@@ -64,8 +67,8 @@ GtkWidget  *e_msg_composer_hdrs_new                (void);
 void        e_msg_composer_hdrs_to_message         (EMsgComposerHdrs *hdrs,
 						    CamelMimeMessage *msg);
 
-void        e_msg_composer_hdrs_set_from           (EMsgComposerHdrs *hdrs,
-						    const char       *from);
+void        e_msg_composer_hdrs_set_from_account   (EMsgComposerHdrs *hdrs,
+						    const char *account_name);
 void        e_msg_composer_hdrs_set_to             (EMsgComposerHdrs *hdrs,
 						    const GList      *to_list);
 void        e_msg_composer_hdrs_set_cc             (EMsgComposerHdrs *hdrs,

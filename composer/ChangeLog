@@ -1,3 +1,21 @@
+2001-01-12  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* e-msg-composer.c (build_message): Call set_from_account which
+	means we no longer have to do all the crap involved in formatting
+	strings into an internet-address.
+	(e_msg_composer_get_preferred_account): New access function.
+
+	* e-msg-composer-hdrs.c (add_header): case COMBOBOX has changed to
+	OPTIOMENU.
+	(create_optionmenu): Update to use an optionmenu of accounts.
+	(from_changed): New callback for the From optionmenu.
+	(setup_headers): s/COMBOBOX/OPTIONMENU
+	(init): Set the account and from_options to NULL.
+	(e_msg_composer_hdrs_get_from): Updated.
+	(destroy): free the from_options.
+	(e_msg_composer_hdrs_set_from_address): Renamed from set_from
+	because it no longer takes a string arg but rather an account arg.
+
 2001-01-12  Miguel de Icaza  <miguel@ximian.com>
 
 	* e-msg-composer-hdrs.c (add_header): Only attach to "changed" if
