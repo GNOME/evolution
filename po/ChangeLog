@@ -1,3 +1,8 @@
+2003-08-06  Dan Winship  <danw@ximian.com>
+
+	* it.po: Fix a bug (control characters accidentally inserted into
+	the file?) and a warning (extra "\n")
+
 2003-08-05 Marco Ciampa <ciampix@libero.it>
 	
 	* it.po: Updated italian translation (revision completed).

@@ -6141,7 +6141,7 @@ msgid ""
 msgstr ""
 "Il backend del calendario per \n"
 "%s\n"
-"è andato in crash. Per utilizzarlo nuovamente -bè necessario riavviare Evolution"-A
+"è andato in crash. Per utilizzarlo nuovamente è necessario riavviare Evolution"
 
 #: calendar/gui/gnome-cal.c:1757
 #, c-format
@@ -6152,7 +6152,7 @@ msgid ""
 msgstr ""
 "Il backend per\n"
 "%s\n"
-"è andato in crash. Per utilizzarlo nuovamente -bè necessario riavviare Evolution"-A
+"è andato in crash. Per utilizzarlo nuovamente è necessario riavviare Evolution"
 
 #: calendar/gui/gnome-cal.c:1988
 #, c-format
@@ -25565,7 +25565,7 @@ msgstr "Ximian Evolution è al momento in linea. Fare clic su questo tasto per d
 
 #: shell/e-shell-view.c:2090
 msgid "Ximian Evolution is in the process of going offline."
-msgstr "\nXimian Evolution si sta disconnettendo."
+msgstr "Ximian Evolution si sta disconnettendo."
 
 #: shell/e-shell-view.c:2096
 msgid ""
