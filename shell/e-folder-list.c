@@ -223,7 +223,7 @@ e_folder_list_class_init (EFolderListClass *klass)
 	vbox_class = (GtkVBoxClass *) klass;
 	parent_class = g_type_class_ref (PARENT_TYPE);
 
-	glade_gnome_init();
+	glade_init();
 
 	object_class->set_property = e_folder_list_set_property;
 	object_class->get_property = e_folder_list_get_property;

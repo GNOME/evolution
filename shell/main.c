@@ -492,7 +492,7 @@ main (int argc, char **argv)
 			g_warning ("Could not set up debugging output file.");
 	}
 
-	glade_gnome_init ();
+	glade_init ();
 	e_cursors_init ();
 	e_icon_factory_init ();
 
