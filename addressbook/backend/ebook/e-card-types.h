@@ -60,12 +60,14 @@ typedef struct {
 /* DELIVERY ADDRESSING PROPERTIES */
 
 typedef enum {
-	E_CARD_ADDR_HOME   = 1 << 0, 
-	E_CARD_ADDR_WORK   = 1 << 1,
-	E_CARD_ADDR_POSTAL = 1 << 2, 
-	E_CARD_ADDR_PARCEL = 1 << 3, 
-	E_CARD_ADDR_DOM    = 1 << 4,
-	E_CARD_ADDR_INTL   = 1 << 5 
+	E_CARD_ADDR_HOME    = 1 << 0, 
+	E_CARD_ADDR_WORK    = 1 << 1,
+	E_CARD_ADDR_POSTAL  = 1 << 2, 
+	E_CARD_ADDR_MASK    = 7,
+	E_CARD_ADDR_PARCEL  = 1 << 3, 
+	E_CARD_ADDR_DOM     = 1 << 4,
+	E_CARD_ADDR_INTL    = 1 << 5, 
+	E_CARD_ADDR_DEFAULT = 1 << 6
 } ECardAddressFlags;
 
 typedef struct {

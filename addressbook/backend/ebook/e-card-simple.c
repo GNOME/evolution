@@ -625,7 +625,8 @@ e_card_simple_sync_card(ECardSimple *simple)
 			for (i = 0; i < E_CARD_SIMPLE_ADDRESS_ID_LAST; i ++) {
 				if ((address->flags & addr_correspondences[i]) == addr_correspondences[i]) {
 					if (simple->address[i]) {
-						simple->address[i]->flags = addr_correspondences[i];
+						simple->address[i]->flags &= ~E_CARD_ADDR_MASK;
+						simple->address[i]->flags |= addr_correspondences[i];
 						if (simple->address[i]->data && *simple->address[i]->data) {
 							e_iterator_set(iterator, simple->address[i]);
 						} else {
@@ -641,7 +642,8 @@ e_card_simple_sync_card(ECardSimple *simple)
 		gtk_object_unref(GTK_OBJECT(iterator));
 		for (i = 0; i < E_CARD_SIMPLE_ADDRESS_ID_LAST; i ++) {
 			if (simple->address[i]) {
-				simple->address[i]->flags = addr_correspondences[i];
+				simple->address[i]->flags &= ~E_CARD_ADDR_MASK;
+				simple->address[i]->flags |= addr_correspondences[i];
 				e_list_append(address_list, simple->address[i]);
 				e_card_address_label_unref(simple->address[i]);
 				simple->address[i] = NULL;
@@ -654,7 +656,8 @@ e_card_simple_sync_card(ECardSimple *simple)
 			for (i = 0; i < E_CARD_SIMPLE_ADDRESS_ID_LAST; i ++) {
 				if ((delivery->flags & addr_correspondences[i]) == addr_correspondences[i]) {
 					if (simple->delivery[i]) {
-						simple->delivery[i]->flags = addr_correspondences[i];
+						simple->delivery[i]->flags &= ~E_CARD_ADDR_MASK;
+						simple->delivery[i]->flags |= addr_correspondences[i];
 						if (!e_card_delivery_address_is_empty(simple->delivery[i])) {
 							e_iterator_set(iterator, simple->delivery[i]);
 						} else {
@@ -670,7 +673,8 @@ e_card_simple_sync_card(ECardSimple *simple)
 		gtk_object_unref(GTK_OBJECT(iterator));
 		for (i = 0; i < E_CARD_SIMPLE_ADDRESS_ID_LAST; i ++) {
 			if (simple->delivery[i]) {
-				simple->delivery[i]->flags = addr_correspondences[i];
+				simple->delivery[i]->flags &= ~E_CARD_ADDR_MASK;
+				simple->delivery[i]->flags |= addr_correspondences[i];
 				e_list_append(delivery_list, simple->delivery[i]);
 				e_card_delivery_address_unref(simple->delivery[i]);
 				simple->delivery[i] = NULL;

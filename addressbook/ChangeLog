@@ -1,3 +1,16 @@
+2002-02-01  Christopher James Lahey  <clahey@ximian.com>
+
+	* backend/ebook/e-card-simple.c (e_card_simple_sync_card): Made
+	this preserve addressbook flags other than the first three.
+
+	* backend/ebook/e-card-types.h: Added E_CARD_ADDR_MASK and
+	E_CARD_ADDR_DEFAULT.
+
+	* backend/ebook/e-card.c (get_address_flags): Added "PREF" to
+	E_CARD_ADDR_DEFAULT mapping.
+
+	* backend/ebook/test-client.c: Added #include "e-book-util.h".
+
 2002-01-30  Chris Toshok  <toshok@ximian.com>
 
 	* backend/pas/pas-backend-file.c (pas_backend_file_changes):
