@@ -850,10 +850,14 @@ message_list_regenerate (MessageList *message_list, const char *search)
 		build_flat (message_list, message_list->tree_root, uids);
 
 	if (search) {
-		g_strfreev ((char **)uids->pdata);
-		g_ptr_array_free (uids, FALSE);
-	} else
+		int i;
+
+		for (i = 0; i < uids->len; i++)
+			g_free (g_ptr_array_index (uids, i));
+		g_ptr_array_free (uids, TRUE);
+	} else {
 		camel_folder_free_uids (message_list->folder, uids);
+	}
 
 	e_table_model_changed (message_list->table_model);
 	select_msg (message_list, 0);

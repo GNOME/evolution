@@ -1,3 +1,8 @@
+2000-08-04  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* message-list.c (message_list_regenerate): Free the GPtrArray
+	correctly instead of using `g_strfreev()'.
+
 2000-08-04  Michael Meeks  <michael@helixcode.com>
 
 	* folder-browser-factory.c (control_activate): release the ui_handler
