@@ -734,5 +734,21 @@ evolution_storage_removed_folder (EvolutionStorage *evolution_storage,
 	return result;
 }
 
+gboolean
+evolution_storage_folder_exists (EvolutionStorage *evolution_storage,
+				 const char *path)
+{
+	EvolutionStoragePrivate *priv;
+
+	g_return_val_if_fail (EVOLUTION_IS_STORAGE (evolution_storage),
+			      EVOLUTION_STORAGE_ERROR_INVALIDPARAMETER);
+	g_return_val_if_fail (path != NULL, EVOLUTION_STORAGE_ERROR_INVALIDPARAMETER);
+	g_return_val_if_fail (g_path_is_absolute (path), EVOLUTION_STORAGE_ERROR_INVALIDPARAMETER);
+
+	priv = evolution_storage->priv;
+
+	return e_folder_tree_get_folder (priv->folder_tree, path) != NULL;
+}
+
 
 E_MAKE_TYPE (evolution_storage, "EvolutionStorage", EvolutionStorage, class_init, init, PARENT_TYPE)

@@ -105,6 +105,8 @@ EvolutionStorageResult  evolution_storage_update_folder_by_uri (EvolutionStorage
 								gboolean                         highlighted);
 EvolutionStorageResult  evolution_storage_removed_folder       (EvolutionStorage                *evolution_storage,
 								const char                      *path);
+gboolean                evolution_storage_folder_exists        (EvolutionStorage                *evolution_storage,
+								const char                      *path);
 
 #ifdef __cplusplus
 }

@@ -1,3 +1,8 @@
+2001-01-19  Dan Winship  <danw@ximian.com>
+
+	* evolution-storage.c (evolution_storage_folder_exists): New
+	function. Obvious.
+
 2001-01-19  Jason Leach  <jasonleach@usa.net>
 
 	(Bug #883: Shortcut bar does not update when a folders display
