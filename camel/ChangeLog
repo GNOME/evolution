@@ -1,3 +1,9 @@
+2002-04-09  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-mime-message.c (camel_mime_message_set_date): Don't adjust
+	the timezone offset if we used tm.tm_gmtoff because it is already
+	adjusted.
+
 2002-04-09  Not Zed  <NotZed@Ximian.com>
 
 	* camel-mime-part.c (construct_from_parser): If we get multiple

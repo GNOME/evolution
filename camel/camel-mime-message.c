@@ -213,8 +213,11 @@ camel_mime_message_set_date (CamelMimeMessage *message,  time_t date, int offset
 		tz = -local->tm_gmtoff;
 #endif
 		offset = -(((tz/60/60) * 100) + (tz/60 % 60));
+#ifdef HAVE_TIMEZONE
+		/* tm.tm_gmtoff is already adjusted... */
 		if (local->tm_isdst>0)
 			offset += 100;
+#endif
 	}
 	message->date = date;
 	message->date_offset = offset;
