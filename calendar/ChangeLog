@@ -1,5 +1,10 @@
 2004-05-03  JP Rosevear  <jpr@ximian.com>
 
+	* gui/e-cal-model-tasks.c (set_completed): remove useless debug
+	statement
+
+2004-05-03  JP Rosevear  <jpr@ximian.com>
+
 	* gui/tasks-component.c (set_info): set the info label message
 	(model_changed_cb): call above
 	(table_selection_change_cb): ditto

@@ -506,7 +506,6 @@ set_completed (ECalModelTasks *model, ECalModelComponent *comp_data, const void 
 {
 	ECellDateEditValue *dv = (ECellDateEditValue *) value;
 
-	g_message ("Setting completed %p", dv);
 	if (!dv)
 		ensure_task_not_complete (comp_data);
 	else {
