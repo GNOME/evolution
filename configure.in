@@ -44,7 +44,7 @@ AM_CONDITIONAL(HAVE_JW, test "x$HAVE_JW" = "xyes")
 AC_SUBST(HAVE_JW)
 
 dnl I18N stuff
-AC_PROG_INTLTOOL
+AC_PROG_INTLTOOL([0.30])
 
 ALL_LINGUAS="am az be bg ca cs da de el en_AU en_CA en_GB es et eu fa fi fr ga gl hr hu is it ja ko lt lv mn ms nl nn no pl pt pt_BR ro ru sk sl sq sr sr@Latn sv tr uk vi zh_CN zh_TW"
 AM_GLIB_GNU_GETTEXT

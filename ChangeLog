@@ -1,3 +1,7 @@
+2004-04-30  Rodney Dawes  <dobey@ximian.com>
+
+	* configure.in: Require intltool 0.30 for the error xml files
+
 2004-04-30  Mike Castle <dalgoda@ix.netcom.com>
 
 	* data/Makefile.am (install-data-local): get the mime file from
