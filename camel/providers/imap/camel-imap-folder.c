@@ -732,7 +732,7 @@ camel_imap_folder_changed (CamelFolder *folder, int exists,
 
 	len = camel_folder_summary_count (folder->summary);
 	if (exists > len)
-		imap_update_summary (folder, len, exists, changes, ex);
+		imap_update_summary (folder, len + 1, exists, changes, ex);
 
 	if (camel_folder_change_info_changed (changes)) {
 		camel_object_trigger_event (CAMEL_OBJECT (folder),
