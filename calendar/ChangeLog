@@ -1,3 +1,11 @@
+2003-12-04  Harry Lu  <harry.lu@sun.com>
+
+	Fix for bugzilla bug #51627.
+
+	* gui/goto.c: (create_ecal): set calitem's move_selection_when_moving 
+	to FALSE so that changing month and year won't send out 
+	a "selection_changed" signal.
+
 2003-12-03  Ettore Perazzoli  <ettore@ximian.com>
 
 	* gui/tasks-control.c (tasks_control_activate): Do not call

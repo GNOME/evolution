@@ -138,6 +138,9 @@ create_ecal (GoToDialog *dlg)
 	dlg->ecal = E_CALENDAR (e_calendar_new ());
 	calitem = dlg->ecal->calitem;
 	
+	gnome_canvas_item_set (GNOME_CANVAS_ITEM (calitem),
+			"move_selection_when_moving", FALSE,
+			NULL);
 	e_calendar_item_set_display_popup (calitem, FALSE);
 	gtk_widget_show (GTK_WIDGET (dlg->ecal));
 	gtk_box_pack_start (GTK_BOX (dlg->vbox), GTK_WIDGET (dlg->ecal), TRUE, TRUE, 0);
