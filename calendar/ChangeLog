@@ -5,7 +5,7 @@
 
 	* gui/calendar-commands.c (gcal_calendar_dates_change_cb): 
 	(calendar_control_activate): moved it here, so it gets reconnected
-	whenever the control is activated.
+	whenever the control is activated. Fixes bug #15798.
 
 2001-12-10  Damon Chaplin  <damon@ximian.com>
 
