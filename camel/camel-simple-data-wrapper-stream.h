@@ -62,7 +62,7 @@ struct _CamelSimpleDataWrapperStream {
 };
 
 struct _CamelSimpleDataWrapperStreamClass {
-	CamelStreamClass parent_class;
+	CamelSeekableStreamClass parent_class;
 };
 
 
