@@ -292,7 +292,6 @@ do_delete (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterDriver 
 	
 	d(fprintf (stderr, "doing delete\n"));
 	p->deleted = TRUE;
-	p->info->flags = p->info->flags | CAMEL_MESSAGE_DELETED;
 	report_status (driver, FILTER_STATUS_ACTION, "Delete");
 	
 	return NULL;
@@ -347,7 +346,6 @@ do_move (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterDriver *d
 	d(fprintf (stderr, "moving message...\n"));
 	p->copied = TRUE;
 	p->deleted = TRUE;  /* a 'move' is a copy & delete */
-	p->info->flags = p->info->flags | CAMEL_MESSAGE_DELETED;
 	for (i = 0; i < argc; i++) {
 		if (argv[i]->type == ESEXP_RES_STRING) {
 			/* open folders we intent to move to */
@@ -703,6 +701,10 @@ filter_driver_filter_message (FilterDriver *driver, CamelMimeMessage *message, C
 		camel_folder_append_message (p->defaultfolder, p->message, p->info, p->ex);
 		mail_tool_camel_lock_down ();
 	}
+	
+	/* *Now* we can set the DELETED flag... */
+	if (p->deleted)
+		info->flags = info->flags | CAMEL_MESSAGE_DELETED;	
 	
 	if (freeinfo) {
 		camel_flag_list_free (&info->user_flags);

@@ -1,3 +1,13 @@
+2000-10-27  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* filter-driver.c (do_move): Don't mark as deleted here, otherwise
+	the message will have the DELETED flag set in the folder it's
+	being moved to.
+	(do_delete): Don't set the DELETED flag here either...we'll only
+	set it at the very end of the filtering process.
+	(filter_driver_filter_message): Set the DELETED flag after all
+	processing is completed.
+
 2000-10-26  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* filtertypes.xml: Readded Source url stuff.
