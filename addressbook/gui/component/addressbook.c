@@ -96,7 +96,12 @@ load_source_auth_cb (EBook *book, EBookStatus status, gpointer closure)
 		else {
 			gchar *uri = e_source_get_uri (data->source);
 			gchar *stripped_uri = remove_parameters_from_uri (uri);
-			e_passwords_forget_password ("Addressbook", stripped_uri);
+			const gchar *auth_domain = e_source_get_property (data->source, "auth-domain");
+		        const gchar *component_name;
+			
+			component_name = auth_domain ? auth_domain : "Addressbook";
+			
+			e_passwords_forget_password (component_name, stripped_uri);
 			addressbook_authenticate (book, TRUE, data->source, load_source_auth_cb, closure);
 			
 			g_free (stripped_uri);
@@ -139,11 +144,14 @@ addressbook_authenticate (EBook *book, gboolean previous_failure, ESource *sourc
 	const gchar *user;
 	gchar *uri = e_source_get_uri (source);
         gchar *stripped_uri = remove_parameters_from_uri (uri);
-
+	const gchar *auth_domain = e_source_get_property (source, "auth-domain");
+	const gchar *component_name;
+			
+	component_name = auth_domain ? auth_domain : "Addressbook";
 	g_free (uri);
 	uri = stripped_uri;
 
-	password = e_passwords_get_password ("Addressbook", uri);
+	password = e_passwords_get_password (component_name, uri);
 
 	auth = e_source_get_property (source, "auth");
 
@@ -172,7 +180,7 @@ addressbook_authenticate (EBook *book, gboolean previous_failure, ESource *sourc
 					  failed_auth, e_source_peek_name (source), user);
 
 		remember = get_remember_password (source);
-		pass_dup = e_passwords_ask_password (prompt, "Addressbook", uri, prompt, TRUE,
+		pass_dup = e_passwords_ask_password (prompt, component_name, uri, prompt, TRUE,
 						     E_PASSWORDS_REMEMBER_FOREVER, &remember,
 						     NULL);
 		if (remember != get_remember_password (source))

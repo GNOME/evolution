@@ -1,3 +1,10 @@
+2004-05-25 Sivaiah Nallagatla   <snallagatla@novell.com>
+
+        * gui/component/addressbook.c (load_source_auth_cb )
+        (load_source_auth_cb ) : read the "auth-domain" property
+        from e-source and use it as the component name for e_password_*
+        calls if it exists
+
 2004-05-25  Jeffrey Stedfast  <fejj@novell.com>
 
 	* Makefile.am: Generate the addressbook-errors.xml.h file and
