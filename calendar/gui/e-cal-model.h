@@ -52,9 +52,16 @@ typedef enum {
 	E_CAL_MODEL_FIELD_LAST
 } ECalModelField;
 
+typedef enum {
+	E_CAL_MODEL_FLAGS_INVALID            = -1,
+	E_CAL_MODEL_FLAGS_EXPAND_RECURRENCES = 0x01
+} ECalModelFlags;
+
 typedef struct {
 	ECal *client;
 	icalcomponent *icalcomp;
+	time_t instance_start;
+	time_t instance_end;
 
 	/* private data */
 	ECellDateEditValue *dtstart;
@@ -91,6 +98,9 @@ GType               e_cal_model_get_type                       (void);
 icalcomponent_kind  e_cal_model_get_component_kind             (ECalModel           *model);
 void                e_cal_model_set_component_kind             (ECalModel           *model,
 								icalcomponent_kind   kind);
+ECalModelFlags      e_cal_model_get_flags                      (ECalModel           *model);
+void                e_cal_model_set_flags                      (ECalModel           *model,
+								ECalModelFlags       flags);
 icaltimezone       *e_cal_model_get_timezone                   (ECalModel           *model);
 void                e_cal_model_set_timezone                   (ECalModel           *model,
 								icaltimezone        *zone);
@@ -99,11 +109,11 @@ void                e_cal_model_set_default_category           (ECalModel       
 gboolean            e_cal_model_get_use_24_hour_format         (ECalModel           *model);
 void                e_cal_model_set_use_24_hour_format         (ECalModel           *model,
 								gboolean             use24);
-ECal          *     e_cal_model_get_default_client             (ECalModel           *model);
+ECal               *e_cal_model_get_default_client             (ECalModel           *model);
 void                e_cal_model_set_default_client             (ECalModel           *model,
 								ECal                *client);
 GList              *e_cal_model_get_client_list                (ECalModel           *model);
-ECal          *     e_cal_model_get_client_for_uri             (ECalModel           *model,
+ECal               *e_cal_model_get_client_for_uri             (ECalModel           *model,
 								const char          *uri);
 void                e_cal_model_add_client                     (ECalModel           *model,
 								ECal                *client);
@@ -116,7 +126,7 @@ void                e_cal_model_get_time_range                 (ECalModel       
 void                e_cal_model_set_time_range                 (ECalModel           *model,
 								time_t               start,
 								time_t               end);
-const char *        e_cal_model_get_search_query               (ECalModel           *model);
+const char         *e_cal_model_get_search_query               (ECalModel           *model);
 void                e_cal_model_set_search_query               (ECalModel           *model,
 								const gchar         *sexp);
 icalcomponent      *e_cal_model_create_component_with_defaults (ECalModel           *model);

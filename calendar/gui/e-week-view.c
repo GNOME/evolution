@@ -2437,6 +2437,8 @@ e_week_view_add_event (ECalComponent *comp,
 	event.end = end;
 	event.spans_index = 0;
 	event.num_spans = 0;
+	event.comp_data->instance_start = start;
+	event.comp_data->instance_end = end;
 
 	event.start_minute = start_tt.hour * 60 + start_tt.minute;
 	event.end_minute = end_tt.hour * 60 + end_tt.minute;

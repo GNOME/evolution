@@ -910,17 +910,13 @@ e_calendar_view_delete_selected_occurrence (ECalendarView *cal_view)
 			return;
 		}
 
-		/* get the RECUR-ID from the start date */
+		/* get the RECUR-ID from the instance start date */
 		e_cal_component_get_dtstart (comp, &dt);
-		if (dt.value) {
-			if (e_cal_get_timezone (event->comp_data->client, dt.tzid, &zone, NULL)) {
-				rid = icaltime_as_ical_string (
-					icaltime_from_timet_with_zone (event->start, TRUE, zone));
-			} else {
-				rid = icaltime_as_ical_string (
-					icaltime_from_timet (event->start, TRUE));
-			}
-		}
+		if (e_cal_get_timezone (event->comp_data->client, dt.tzid, &zone, NULL)) {
+			rid = icaltime_as_ical_string (
+				icaltime_from_timet_with_zone (event->comp_data->instance_start, TRUE, zone));
+		} else
+			rid = icaltime_as_ical_string (icaltime_from_timet (event->comp_data->instance_start, TRUE));
 
 		e_cal_component_free_datetime (&dt);
 	}

@@ -4131,6 +4131,8 @@ e_day_view_add_event (ECalComponent *comp,
 	event.start = start;
 	event.end = end;
 	event.canvas_item = NULL;
+	event.comp_data->instance_start = start;
+	event.comp_data->instance_end = end;
 
 	/* Calculate the start & end minute, relative to the top of the
 	   display. */

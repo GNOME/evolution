@@ -53,6 +53,7 @@ struct _ECalModelPrivate {
 	GPtrArray *objects;
 
 	icalcomponent_kind kind;
+	ECalModelFlags flags;
 	icaltimezone *zone;
 
 	/* The time range to display */
@@ -174,6 +175,7 @@ e_cal_model_init (ECalModel *model, ECalModelClass *klass)
 
 	priv->objects = g_ptr_array_new ();
 	priv->kind = ICAL_NO_COMPONENT;
+	priv->flags = 0;
 
 	priv->accounts = itip_addresses_get ();
 
@@ -400,21 +402,28 @@ get_dtstart (ECalModel *model, ECalModelComponent *comp_data)
 
 	if (!comp_data->dtstart) {
 		icaltimezone *zone;
-		icalproperty *prop;
+		gboolean got_zone = FALSE;
 
-		prop = icalcomponent_get_first_property (comp_data->icalcomp, ICAL_DTSTART_PROPERTY);
-		if (!prop)
-			return NULL;
+		tt_start = icalcomponent_get_dtstart (comp_data->icalcomp);
+		if (icaltime_get_tzid (tt_start)
+		    && e_cal_get_timezone (comp_data->client, icaltime_get_tzid (tt_start), &zone, NULL))
+			got_zone = TRUE;
 
-		tt_start = icalproperty_get_dtstart (prop);
+		if ((priv->flags & E_CAL_MODEL_FLAGS_EXPAND_RECURRENCES) &&
+		    (e_cal_util_component_has_recurrences (comp_data->icalcomp))) {
+			if (got_zone)
+				tt_start = icaltime_from_timet_with_zone (comp_data->instance_start, tt_start.is_date, zone);
+			else
+				tt_start = icaltime_from_timet (comp_data->instance_start, tt_start.is_date);
+		}
+
 		if (!icaltime_is_valid_time (tt_start))
 			return NULL;
 
 		comp_data->dtstart = g_new0 (ECellDateEditValue, 1);
 		comp_data->dtstart->tt = tt_start;
 
-		if (icaltime_get_tzid (tt_start)
-		    && e_cal_get_timezone (comp_data->client, icaltime_get_tzid (tt_start), &zone, NULL)) 
+		if (got_zone)
 			comp_data->dtstart->zone = zone;
 		else
 			comp_data->dtstart->zone = NULL;
@@ -1037,6 +1046,34 @@ e_cal_model_set_component_kind (ECalModel *model, icalcomponent_kind kind)
 }
 
 /**
+ * e_cal_model_get_flags
+ */
+ECalModelFlags
+e_cal_model_get_flags (ECalModel *model)
+{
+	ECalModelPrivate *priv;
+
+	g_return_val_if_fail (E_IS_CAL_MODEL (model), E_CAL_MODEL_FLAGS_INVALID);
+
+	priv = model->priv;
+	return priv->flags;
+}
+
+/**
+ * e_cal_model_set_flags
+ */
+void
+e_cal_model_set_flags (ECalModel *model, ECalModelFlags flags)
+{
+	ECalModelPrivate *priv;
+
+	g_return_if_fail (E_IS_CAL_MODEL (model));
+
+	priv = model->priv;
+	priv->flags = flags;
+}
+
+/**
  * e_cal_model_get_timezone
  */
 icaltimezone *
@@ -1263,6 +1300,36 @@ get_position_in_array (GPtrArray *objects, gpointer item)
 	return -1;
 }
 
+typedef struct {
+	ECal *client;
+	ECalView *query;
+	ECalModel *model;
+	icalcomponent *icalcomp;
+} RecurrenceExpansionData;
+
+static gboolean
+add_instance_cb (ECalComponent *comp, time_t instance_start, time_t instance_end, gpointer user_data)
+{
+	ECalModelComponent *comp_data;
+	ECalModelPrivate *priv;
+	RecurrenceExpansionData *rdata = user_data;
+
+	priv = rdata->model->priv;
+
+	e_table_model_pre_change (E_TABLE_MODEL (rdata->model));
+
+	comp_data = g_new0 (ECalModelComponent, 1);
+	comp_data->client = g_object_ref (e_cal_view_get_client (rdata->query));
+	comp_data->icalcomp = icalcomponent_new_clone (rdata->icalcomp);
+	comp_data->instance_start = instance_start;
+	comp_data->instance_end = instance_end;
+
+	g_ptr_array_add (priv->objects, comp_data);
+	e_table_model_row_inserted (E_TABLE_MODEL (rdata->model), priv->objects->len - 1);
+
+	return TRUE;
+}
+
 static void
 e_cal_view_objects_added_cb (ECalView *query, GList *objects, gpointer user_data)
 {
@@ -1273,17 +1340,30 @@ e_cal_view_objects_added_cb (ECalView *query, GList *objects, gpointer user_data
 	priv = model->priv;
 
 	for (l = objects; l; l = l->next) {
-		ECalModelComponent *comp_data;
+		if ((priv->flags & E_CAL_MODEL_FLAGS_EXPAND_RECURRENCES) &&
+		    e_cal_util_component_has_recurrences (l->data)) {
+			RecurrenceExpansionData rdata;
 
-		e_table_model_pre_change (E_TABLE_MODEL (model));
+			rdata.client = e_cal_view_get_client (query);
+			rdata.query = query;
+			rdata.model = model;
+			rdata.icalcomp = l->data;
+			e_cal_generate_instances_for_object (rdata.client, l->data,
+							     priv->start, priv->end,
+							     (ECalRecurInstanceFn) add_instance_cb,
+							     &rdata);
+		} else {
+			ECalModelComponent *comp_data;
 
-		comp_data = g_new0 (ECalModelComponent, 1);
-		comp_data->client = g_object_ref (e_cal_view_get_client (query));
-		comp_data->icalcomp = icalcomponent_new_clone (l->data);
-		
-		g_ptr_array_add (priv->objects, comp_data);
+			e_table_model_pre_change (E_TABLE_MODEL (model));
 
-		e_table_model_row_inserted (E_TABLE_MODEL (model), priv->objects->len - 1);
+			comp_data = g_new0 (ECalModelComponent, 1);
+			comp_data->client = g_object_ref (e_cal_view_get_client (query));
+			comp_data->icalcomp = icalcomponent_new_clone (l->data);
+
+			g_ptr_array_add (priv->objects, comp_data);
+			e_table_model_row_inserted (E_TABLE_MODEL (model), priv->objects->len - 1);
+		}
 	}
 }
 
@@ -1299,38 +1379,61 @@ e_cal_view_objects_modified_cb (ECalView *query, GList *objects, gpointer user_d
 	for (l = objects; l; l = l->next) {
 		ECalModelComponent *comp_data;
 
-		e_table_model_pre_change (E_TABLE_MODEL (model));
+		if ((priv->flags & E_CAL_MODEL_FLAGS_EXPAND_RECURRENCES) &&
+		    e_cal_util_component_has_recurrences (l->data)) {
+			GList node;
 
-		comp_data = search_by_uid_and_client (priv, e_cal_view_get_client (query), icalcomponent_get_uid (l->data));
-		if (!comp_data)
-			continue;
+			/* remove all recurrences and re-add them after generating them */
+			while ((comp_data = search_by_uid_and_client (priv, e_cal_view_get_client (query),
+								      icalcomponent_get_uid (l->data)))) {
+				int pos;
+
+				pos = get_position_in_array (priv->objects, comp_data);
+		
+				g_ptr_array_remove (priv->objects, comp_data);
+				free_comp_data (comp_data);
+		
+				e_table_model_row_deleted (E_TABLE_MODEL (model), pos);
+			}
+
+			node.prev = node.next = NULL;
+			node.data = l->data;
+			e_cal_view_objects_added_cb (query, &node, model);
+		} else {
+			e_table_model_pre_change (E_TABLE_MODEL (model));
+
+			comp_data = search_by_uid_and_client (priv, e_cal_view_get_client (query),
+							      icalcomponent_get_uid (l->data));
+			if (!comp_data)
+				continue;
 	
-		if (comp_data->icalcomp)
-			icalcomponent_free (comp_data->icalcomp);
-		if (comp_data->dtstart) {
-			g_free (comp_data->dtstart);
-			comp_data->dtstart = NULL;
-		}
-		if (comp_data->dtend) {
-			g_free (comp_data->dtend);
-			comp_data->dtend = NULL;
-		}
-		if (comp_data->due) {
-			g_free (comp_data->due);
-			comp_data->due = NULL;
-		}
-		if (comp_data->completed) {
-			g_free (comp_data->completed);
-			comp_data->completed = NULL;
-		}
-		if (comp_data->color) {
-			g_free (comp_data->color);
-			comp_data->color = NULL;
-		}
+			if (comp_data->icalcomp)
+				icalcomponent_free (comp_data->icalcomp);
+			if (comp_data->dtstart) {
+				g_free (comp_data->dtstart);
+				comp_data->dtstart = NULL;
+			}
+			if (comp_data->dtend) {
+				g_free (comp_data->dtend);
+				comp_data->dtend = NULL;
+			}
+			if (comp_data->due) {
+				g_free (comp_data->due);
+				comp_data->due = NULL;
+			}
+			if (comp_data->completed) {
+				g_free (comp_data->completed);
+				comp_data->completed = NULL;
+			}
+			if (comp_data->color) {
+				g_free (comp_data->color);
+				comp_data->color = NULL;
+			}
 		     
-		comp_data->icalcomp = icalcomponent_new_clone (l->data);
+			comp_data->icalcomp = icalcomponent_new_clone (l->data);
 
-		e_table_model_row_changed (E_TABLE_MODEL (model), get_position_in_array (priv->objects, comp_data));
+			e_table_model_row_changed (E_TABLE_MODEL (model), get_position_in_array (priv->objects, comp_data));
+		}
 	}
 }
 
@@ -1349,16 +1452,15 @@ e_cal_view_objects_removed_cb (ECalView *query, GList *uids, gpointer user_data)
 
 		e_table_model_pre_change (E_TABLE_MODEL (model));
 		
-		comp_data = search_by_uid_and_client (priv, e_cal_view_get_client (query), l->data);
-		if (!comp_data)
-			continue;
+		/* make sure we remove all objects with this UID */
+		while ((comp_data = search_by_uid_and_client (priv, e_cal_view_get_client (query), l->data))) {
+			pos = get_position_in_array (priv->objects, comp_data);
 		
-		pos = get_position_in_array (priv->objects, comp_data);
+			g_ptr_array_remove (priv->objects, comp_data);
+			free_comp_data (comp_data);
 		
-		g_ptr_array_remove (priv->objects, comp_data);
-		free_comp_data (comp_data);
-		
-		e_table_model_row_deleted (E_TABLE_MODEL (model), pos);
+			e_table_model_row_deleted (E_TABLE_MODEL (model), pos);
+		}
 	}
 }
 
@@ -1460,7 +1562,6 @@ add_new_client (ECalModel *model, ECal *client, gboolean do_query)
 {
 	ECalModelPrivate *priv;
 	ECalModelClient *client_data;
-	ECal *existing_client;
 	
 	priv = model->priv;
 

@@ -1,3 +1,34 @@
+2004-07-30  Rodrigo Moya <rodrigo@novell.com>
+
+	Fixes #57622
+
+	* gui/e-cal-model.h: added ECalModelFlags enum type.
+
+	* gui/e-cal-model.c (e_cal_model_set_flags, e_cal_model_get_flags):
+	new functions.
+	(e_cal_model_init): initialize the new internal field to keep the flags.
+	(e_cal_view_objects_added_cb): expand recurrences if the model flags
+	contain the EXPAND_RECUR bit.
+	(e_cal_view_objects_modified_cb): if EXPAND_RECUR is on, remove all
+	recurrences and regenerate them.
+	(e_cal_view_objects_removed_cb): remove all instances for given UIDs.
+	(add_new_client): killed warning.
+	(get_dtstart): use the instance_start time when dealing with recurrences.
+
+	* gui/e-cal-model-calendar.c (get_dtend): use the instance_end time
+	when dealing with recurrences.
+
+	* gui/e-cal-list-view.c (e_cal_list_view_new): set the EXPAND_RECUR
+	flag on the model for the list view.
+
+	* gui/e-week-view.c (e_week_view_add_event):
+	* gui/e-day-view.c (e_day_view_add_event): fill in the instance's
+	start and end times in the ECalModelComponent struct.
+
+	* gui/e-calendar-view.c (e_calendar_view_delete_selected_occurrence):
+	use the instance_start field to retrieve the RECUR-ID, now that all the
+	views fill it in.
+
 2004-07-29  JP Rosevear  <jpr@novell.com>
  
  	* gui/e-calendar-view.c: creating new items no longer needs to be
