@@ -530,11 +530,13 @@ item_key_press (ETableItem *eti, int row, int col, GdkEvent *event, ETree *et)
 	case GDK_Right:
 		path = e_tree_table_adapter_node_at_row(et->priv->etta, row);
 		e_tree_table_adapter_node_set_expanded (et->priv->etta, path, TRUE);
+		return_val = 1;
 		break;
 	case '-':
 	case GDK_Left:
 		path = e_tree_table_adapter_node_at_row(et->priv->etta, row);
 		e_tree_table_adapter_node_set_expanded (et->priv->etta, path, FALSE);
+		return_val = 1;
 		break;
 	default:
 		path = e_tree_table_adapter_node_at_row(et->priv->etta, row);
