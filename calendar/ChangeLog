@@ -24,7 +24,6 @@
 	(cal_component_set_dtend): Ditto.
 	(cal_component_set_due): Ditto.
 
->>>>>>> 1.434
 2000-07-06  Federico Mena Quintero  <federico@helixcode.com>
 
 	* cal-util/cal-component.c (scan_property): Handle the
