@@ -44,7 +44,7 @@ install-data-local: install-kde-applnk $(desktop_file) $(keys_file) $(mime_file)
 	$(mkinstalldirs) $(DESTDIR)$(keysdir);								\
 	$(INSTALL_DATA) $(keys_file) $(DESTDIR)$(keysdir)/$(keys_file:.keys=-$(BASE_VERSION).keys) ;	\
 	$(mkinstalldirs) $(DESTDIR)$(mimedir);								\
-	$(INSTALL_DATA) $(mime_file) $(DESTDIR)$(mimedir)/$(mime_file:.mime=-$(BASE_VERSION).mime) ;
+	$(INSTALL_DATA) $(srcdir)/$(mime_file) $(DESTDIR)$(mimedir)/$(mime_file:.mime=-$(BASE_VERSION).mime) ;
 
 # CDE Stuff
 
