@@ -702,7 +702,7 @@ update_query (GnomeCalendar *gcal)
 
 	priv = gcal->priv;
 
-	e_calendar_view_set_status_message (priv->views[priv->current_view_type], _("Updating query"));
+	e_calendar_view_set_status_message (priv->week_view, _("Updating query"));
 	e_calendar_item_clear_marks (priv->date_navigator->calitem);
 
 	/* free the previous queries */
@@ -723,7 +723,7 @@ update_query (GnomeCalendar *gcal)
 
 	real_sexp = adjust_e_cal_view_sexp (gcal, priv->sexp);
 	if (!real_sexp) {
-		e_calendar_view_set_status_message (priv->views[priv->current_view_type], NULL);
+		e_calendar_view_set_status_message (priv->week_view, NULL);
 		return; /* No time range is set, so don't start a query */
 	}
 
@@ -755,7 +755,7 @@ update_query (GnomeCalendar *gcal)
 	}
 
 	g_free (real_sexp);
-	e_calendar_view_set_status_message (priv->views[priv->current_view_type], NULL);
+	e_calendar_view_set_status_message (priv->week_view, NULL);
 	update_todo_view (gcal);
 }
 
@@ -1778,7 +1778,6 @@ display_view (GnomeCalendar *gcal, GnomeCalendarViewType view_type, gboolean gra
 	if (grab_focus)
 		focus_current_view (gcal);
 
-	gnome_calendar_set_activity_handler (gcal, priv->activity_handler);
 	gnome_calendar_set_pane_positions (gcal);
 
 	/* For the week & month views we want the selection in the date
@@ -2011,7 +2010,7 @@ client_cal_opened_cb (ECal *ecal, ECalendarStatus status, GnomeCalendar *gcal)
 	source = e_cal_get_source (ecal);
 
 	if (source_type == E_CAL_SOURCE_TYPE_EVENT)
-		e_calendar_view_set_status_message (priv->views[priv->current_view_type], NULL);
+		e_calendar_view_set_status_message (priv->week_view, NULL);
 	else
 		e_calendar_table_set_status_message (E_CALENDAR_TABLE (priv->todo), NULL);
 
@@ -2038,7 +2037,7 @@ client_cal_opened_cb (ECal *ecal, ECalendarStatus status, GnomeCalendar *gcal)
 	switch (source_type) {
 	case E_CAL_SOURCE_TYPE_EVENT :
 		msg = g_strdup_printf (_("Loading appointments at %s"), e_cal_get_uri (ecal));
-		e_calendar_view_set_status_message (priv->views[priv->current_view_type], msg);
+		e_calendar_view_set_status_message (priv->week_view, msg);
 		g_free (msg);
 
 		/* add client to the views */
@@ -2052,7 +2051,7 @@ client_cal_opened_cb (ECal *ecal, ECalendarStatus status, GnomeCalendar *gcal)
 		/* update date navigator query */
 		update_query (gcal);
 
-		e_calendar_view_set_status_message (priv->views[priv->current_view_type], NULL);
+		e_calendar_view_set_status_message (priv->week_view, NULL);
 		break;
 		
 	case E_CAL_SOURCE_TYPE_TODO :
@@ -2086,7 +2085,7 @@ default_client_cal_opened_cb (ECal *ecal, ECalendarStatus status, GnomeCalendar 
 
 	switch (source_type) {
 	case E_CAL_SOURCE_TYPE_EVENT:
-		e_calendar_view_set_status_message (priv->views[priv->current_view_type], NULL);
+		e_calendar_view_set_status_message (priv->week_view, NULL);
 		break;		
 	case E_CAL_SOURCE_TYPE_TODO:
 		e_calendar_table_set_status_message (E_CALENDAR_TABLE (priv->todo), NULL);
@@ -2148,11 +2147,11 @@ open_ecal (GnomeCalendar *gcal, ECal *cal, gboolean only_if_exists, open_func of
 	char *msg;
 
 	priv = gcal->priv;
-	
+
 	msg = g_strdup_printf (_("Opening %s"), e_cal_get_uri (cal));
 	switch (e_cal_get_source_type (cal)) {
 	case E_CAL_SOURCE_TYPE_EVENT :
-		e_calendar_view_set_status_message (priv->views[priv->current_view_type], msg);
+		e_calendar_view_set_status_message (priv->week_view, msg);
 		break;
 	case E_CAL_SOURCE_TYPE_TODO :
 		e_calendar_table_set_status_message (E_CALENDAR_TABLE (priv->todo), msg);
@@ -2293,8 +2292,7 @@ backend_died_cb (ECal *ecal, gpointer data)
 	case E_CAL_SOURCE_TYPE_EVENT:		
 		id = "calendar:calendar-crashed";
 		
-		for (i = 0; i < GNOME_CAL_LAST_VIEW; i++)
-			e_calendar_view_set_status_message (priv->views[i], NULL);
+		e_calendar_view_set_status_message (priv->week_view, NULL);
 
 		gtk_signal_emit (GTK_OBJECT (gcal), gnome_calendar_signals[SOURCE_REMOVED], source_type, source);
 		break;
@@ -2360,7 +2358,7 @@ gnome_calendar_set_activity_handler (GnomeCalendar *cal, EActivityHandler *activ
 	priv->activity_handler = activity_handler;
 	
 	for (i = 0; i < GNOME_CAL_LAST_VIEW; i++)
-		e_calendar_view_set_activity_handler (priv->views[i], i == priv->current_view_type ? activity_handler : NULL);		
+		e_calendar_view_set_activity_handler (priv->views[i], activity_handler);
 	
 	e_calendar_table_set_activity_handler (E_CALENDAR_TABLE (priv->todo), activity_handler);
 }

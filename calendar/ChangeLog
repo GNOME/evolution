@@ -1,3 +1,15 @@
+2004-08-24  Rodrigo Moya <rodrigo@novell.com>
+
+	Fixes #58824
+
+	* gui/gnome-cal.c (open_ecal): Only try to open the calendar if not
+	loaded yet.
+	(update_query, client_cal_opened_cb, default_client_cal_opened_cb,
+	backend_died_cb): use always the same view for status messages.
+	(gnome_calendar_set_activity_handler): set the activity handlers on
+	all views, not just the current one.
+	(display_view): no need to set the activity handler here.
+
 2004-08-13  Jeffrey Stedfast  <fejj@novell.com>
 
 	* gui/dialogs/event-page.glade: Make the description scrolled
@@ -15,8 +27,7 @@
 	one minute
 	(alarm_notify_add_calendar) : lock ad unlock the new mutex
 	before and after accessing uri_clients_hash  
-	
-	
+
 2004-08-16  JP Rosevear  <jpr@ximian.com>
 
 	Fixes #62706
