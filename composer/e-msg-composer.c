@@ -689,8 +689,8 @@ read_file_content (int fd)
 	
 	retval = select (fd + 1, &rdset, NULL, NULL, &tv);
 	if (retval) {
-		n = 0;
-		while (n >= 0 || errno == EINTR) {
+		n = 1;
+		while (n > 0 || errno == EINTR) {
 			n = read (fd, buf, sizeof (buf));
 			if (n > 0)
 				g_byte_array_append (contents, buf, n);
