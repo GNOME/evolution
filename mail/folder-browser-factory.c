@@ -82,6 +82,12 @@ control_activate (BonoboControl *control, BonoboUIHandler *uih)
 					 0,
 					 0, 0, vfolder_edit, folder_browser);
 
+	bonobo_ui_handler_menu_new_item (uih, "/Tools/Configure Camel Providers ...", N_("_Configure Camel Providers ..."),
+					 NULL, -1,
+					 BONOBO_UI_HANDLER_PIXMAP_NONE,
+					 0,
+					 0, 0, providers_config, NULL);
+	
 	toolbar = gtk_toolbar_new (GTK_ORIENTATION_HORIZONTAL,
 				   GTK_TOOLBAR_BOTH);
 
@@ -106,6 +112,7 @@ control_deactivate (BonoboControl *control, BonoboUIHandler *uih)
 	bonobo_ui_handler_menu_remove (uih, "/Tools/Expunge");
 	bonobo_ui_handler_menu_remove (uih, "/Tools/Filter Druid ...");
 	bonobo_ui_handler_menu_remove (uih, "/Tools/VFolder Druid ...");
+	bonobo_ui_handler_menu_remove (uih, "/Tools/Configure Camel Providers ...");
 	bonobo_ui_handler_dock_remove (uih, "/Toolbar");
 }
 

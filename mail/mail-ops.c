@@ -444,15 +444,16 @@ void
 delete_msg (GtkWidget *button, gpointer user_data)
 {
 	FolderBrowser *fb = user_data;
-
+	
 	if (fb->mail_display->current_message) {
 		guint32 flags;
-
+		
 		/* FIXME: table should watch the message with a signal and update display! */
-
+		
 		flags = camel_mime_message_get_flags(fb->mail_display->current_message);
 		camel_mime_message_set_flags(fb->mail_display->current_message, CAMEL_MESSAGE_DELETED, ~flags);
-		printf("Message %s set to %s\n", fb->mail_display->current_message->message_uid, flags&CAMEL_MESSAGE_DELETED?"UNDELETED":"DELETED");
+		printf("Message %s set to %s\n", fb->mail_display->current_message->message_uid,
+		       flags&CAMEL_MESSAGE_DELETED ? "UNDELETED" : "DELETED");
 	}
 }
 
@@ -604,4 +605,13 @@ void vfolder_edit (GtkWidget *button, gpointer user_data)
 	gtk_widget_show((GtkWidget *)fe);
 }
 
+void providers_config (GtkWidget *button, gpointer user_data)
+{
+	GtkWidget *pc;
+
+	printf("Configuring Providers ...\n");
+	pc = providers_config_new();
+
+	gtk_widget_show(pc);
+}
 

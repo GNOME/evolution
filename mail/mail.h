@@ -56,6 +56,7 @@ void expunge_folder (GtkWidget *button, gpointer user_data);
 
 void filter_edit (GtkWidget *button, gpointer user_data);
 void vfolder_edit (GtkWidget *button, gpointer user_data);
+void providers_config (GtkWidget *button, gpointer user_data);
 
 /* session */
 void session_init (void);
