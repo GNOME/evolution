@@ -1,3 +1,8 @@
+2000-08-09  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* folder-browser-factory.c (control_activate): Create a "print
+	message" menu item.
+
 2000-08-09  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* message-list.c (message_list_init): Attached a double_click
