@@ -169,10 +169,8 @@ mail_format_mime_message (CamelMimeMessage *mime_message, MailDisplay *md)
 					  free_data_urls);
 	}
 
-	mail_html_write (md->html, md->stream, "<html>\n<body marginwidth=0 marginheight=0>\n");
 	write_headers (mime_message, md);
 	format_mime_part (CAMEL_MIME_PART (mime_message), md);
-	mail_html_write (md->html, md->stream, "</body>\n</html>\n");
 }
 
 

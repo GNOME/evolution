@@ -1,3 +1,12 @@
+2001-06-15  Dan Winship  <danw@ximian.com>
+
+	* mail-format.c (mail_format_mime_message): We can't output
+	"<html>" and "</html>" here because it gets called recursively to
+	display message/rfc822 subparts.
+
+	* mail-display.c (mail_display_redisplay): Move rodo's html header
+	changes from mail_format_mime_message to here.
+
 2001-06-14  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* folder-browser.c (got_folder): Updated to reflect changes to

@@ -53,8 +53,6 @@ void           mail_display_set_message (MailDisplay *mail_display,
 void           mail_display_load_images (MailDisplay *mail_display);
 
 
-#define HTML_HEADER "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0 TRANSITIONAL//EN\">\n<HTML>\n<HEAD>\n<META NAME=\"GENERATOR\" CONTENT=\"Evolution Mail Component\">\n</HEAD>\n"
-
 void           mail_html_write          (GtkHTML *html,
 					 GtkHTMLStream *stream,
 					 const char *format, ...);

@@ -1130,8 +1130,6 @@ clear_data (CamelObject *object, gpointer event_data, gpointer user_data)
 void
 mail_display_redisplay (MailDisplay *md, gboolean unscroll)
 {
-	printf("redisplaying\n");
-
 	md->last_active = NULL;
 	md->stream = gtk_html_begin (GTK_HTML (md->html));
 	if (!unscroll) {
@@ -1139,7 +1137,8 @@ mail_display_redisplay (MailDisplay *md, gboolean unscroll)
 		GTK_HTML (md->html)->engine->newPage = FALSE;
 	}
 
-	mail_html_write (md->html, md->stream, "%s%s", HTML_HEADER, "<BODY>\n");
+	mail_html_write (md->html, md->stream, "<!doctype html public \"-//W3C//DTD HTML 4.0 TRANSITIONAL//EN\">\n<html>\n<head>\n<meta name=\"generator\" content=\"Evolution Mail Component\">\n</head>\n");
+	mail_html_write (md->html, md->stream, "<body marginwidth=0 marginheight=0>\n");
 
 	if (md->current_message) {
 		MailConfigDisplayStyle style = mail_config_get_message_display_style ();
@@ -1151,7 +1150,7 @@ mail_display_redisplay (MailDisplay *md, gboolean unscroll)
 		}
 	}
 
-	mail_html_write (md->html, md->stream, "</BODY></HTML>\n");
+	mail_html_write (md->html, md->stream, "</body></html>\n");
 	gtk_html_end (md->html, md->stream, GTK_HTML_STREAM_OK);
 	md->stream = NULL;
 }
