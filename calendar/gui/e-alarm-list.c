@@ -27,6 +27,7 @@
 #include <libgnome/gnome-i18n.h>
 #include <glib.h>
 #include <cal-util/timeutil.h>
+#include <e-util/e-time-utils.h>
 #include "calendar-config.h"
 #include "e-alarm-list.h"
 
@@ -182,7 +183,6 @@ static void
 row_deleted (EAlarmList *alarm_list, gint n)
 {
 	GtkTreePath *path;
-	gint         i;
 
 	path = gtk_tree_path_new ();
 	gtk_tree_path_append_index (path, n);
@@ -298,8 +298,6 @@ void
 e_alarm_list_append (EAlarmList *alarm_list, GtkTreeIter *iter,
 		     const CalComponentAlarm *alarm)
 {
-	CalComponentAlarm *alarm_copy;
-
 	g_return_if_fail (alarm != NULL);
 
 	alarm_list->list = g_list_append (alarm_list->list, copy_alarm (alarm));

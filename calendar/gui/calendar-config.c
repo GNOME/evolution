@@ -28,6 +28,7 @@
  */
 
 #include <config.h>
+#include <string.h>
 #include <time.h>
 #include <gtk/gtksignal.h>
 #include <libgnome/gnome-config.h>

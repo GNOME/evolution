@@ -689,7 +689,7 @@ add_creatable_item (EvolutionShellComponent *shell_component,
 		icon_path = NULL;
 		icon = NULL;
 	} else {
-		icon_path = g_concat_dir_and_file (EVOLUTION_ICONSDIR, icon_name);
+		icon_path = g_concat_dir_and_file (EVOLUTION_IMAGESDIR, icon_name);
 		icon = gdk_pixbuf_new_from_file (icon_path, NULL);
 	}
 

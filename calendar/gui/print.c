@@ -26,6 +26,7 @@
 #include <sys/stat.h>
 #include <sys/time.h>
 #include <math.h>
+#include <string.h>
 #include <time.h>
 #include <glib.h>
 #include <gtk/gtkradiobutton.h>

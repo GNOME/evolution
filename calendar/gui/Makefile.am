@@ -33,36 +33,31 @@ SUBDIRS = alarm-notify dialogs
 
 component_LTLIBRARIES = libevolution-calendar.la
 
-INCLUDES =										\
-	-DG_LOG_DOMAIN=\"calendar-gui\"							\
-	-I$(top_builddir)/shell								\
-	-I$(top_srcdir)/shell								\
-	-I$(top_srcdir)									\
-	-I$(top_srcdir)/calendar							\
-	-I$(top_srcdir)/calendar/cal-client						\
-	-I$(top_builddir)/calendar/cal-client						\
-	-I$(top_srcdir)/libical/src/libical						\
-	-I$(top_builddir)/libical/src/libical						\
-	-I$(top_srcdir)/addressbook/backend						\
-	-I$(top_builddir)/addressbook/backend						\
-	-I$(top_srcdir)/widgets								\
-	-I$(includedir)									\
-	-DEVOLUTION_DATADIR=\""$(datadir)"\"						\
-	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"						\
-        -DEVOLUTION_ETSPECDIR=\""$(etspecdir)"\"					\
-	-DEVOLUTION_ICONSDIR=\""$(iconsdir)"\"						\
-	-DEVOLUTION_LOCALEDIR=\""$(localedir)"\"					\
-	-DEVOLUTION_IMAGESDIR=\""$(datadir)"/evolution-$(BASE_VERSION)/images\"		\
-	-DEVOLUTION_GALVIEWSDIR=\""$(datadir)"/evolution-$(BASE_VERSION)/views\"	\
-	-DEVOLUTION_UIDIR=\""$(evolutionuidir)\""					\
+INCLUDES =						\
+	-DG_LOG_DOMAIN=\"calendar-gui\"			\
+	-I$(top_builddir)/shell				\
+	-I$(top_srcdir)/shell				\
+	-I$(top_srcdir)					\
+	-I$(top_srcdir)/calendar			\
+	-I$(top_srcdir)/calendar/cal-client		\
+	-I$(top_builddir)/calendar/cal-client		\
+	-I$(top_srcdir)/libical/src/libical		\
+	-I$(top_builddir)/libical/src/libical		\
+	-I$(top_srcdir)/addressbook/backend		\
+	-I$(top_builddir)/addressbook/backend		\
+	-I$(top_srcdir)/widgets				\
+	-DEVOLUTION_DATADIR=\""$(datadir)"\"		\
+	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"		\
+	-DEVOLUTION_ETSPECDIR=\""$(etspecdir)"\"	\
+	-DEVOLUTION_IMAGESDIR=\""$(imagesdir)"\"	\
+	-DEVOLUTION_GALVIEWSDIR=\""$(viewsdir)"\"	\
+	-DEVOLUTION_UIDIR=\""$(evolutionuidir)"\"	\
 	$(EVOLUTION_CALENDAR_CFLAGS)
 
-gladedir   = $(datadir)/evolution-$(BASE_VERSION)/glade
 glade_DATA = 					\
 	e-itip-control.glade			\
 	goto-dialog.glade
 
-etspecdir = $(datadir)/evolution-$(BASE_VERSION)/etspec/
 etspec_DATA = e-calendar-table.etspec e-meeting-time-sel.etspec
 
 libevolution_calendar_la_SOURCES =		\
@@ -177,12 +172,10 @@ libevolution_calendar_la_LIBADD =							\
 	$(top_builddir)/widgets/misc/libemiscwidgets.a					\
 	$(EVOLUTION_CALENDAR_LIBS)
 
-libevolution_calendar_la_LDFLAGS =						\
-	-export-dynamic -avoid-version
+libevolution_calendar_la_LDFLAGS = -avoid-version -module
 
 server_in_files = GNOME_Evolution_Calendar.server.in.in
 
-serverdir = $(libdir)/bonobo/servers
 server_DATA = $(server_in_files:.server.in.in=.server)
 $(server_in_files:.server.in.in=.server.in): $(server_in_files)
 	sed -e "s|\@COMPONENTDIR\@|$(componentdir)|" $< > $@

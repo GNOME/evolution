@@ -27,6 +27,7 @@
  */
 
 #include <config.h>
+#include <string.h>
 #include "e-week-view-titles-item.h"
 
 static void e_week_view_titles_item_class_init	(EWeekViewTitlesItemClass *class);

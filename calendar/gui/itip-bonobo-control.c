@@ -21,6 +21,7 @@
  */
 
 #include <config.h>
+#include <string.h>
 #include <glib.h>
 #include <gtk/gtkobject.h>
 #include <gtk/gtkwidget.h>

@@ -25,7 +25,10 @@
 #include <gtk/gtksignal.h>
 #include <gtk/gtktreednd.h>
 #include <glib.h>
+#include <e-util/e-time-utils.h>
 #include "e-date-time-list.h"
+#include "cal-util/timeutil.h"
+#include "calendar-config.h"
 
 #define G_LIST(x)                        ((GList *) x)
 #define E_DATE_TIME_LIST_IS_SORTED(list) (E_DATE_TIME_LIST (list)->sort_column_id != -2)
@@ -179,7 +182,6 @@ static void
 row_deleted (EDateTimeList *date_time_list, gint n)
 {
 	GtkTreePath *path;
-	gint         i;
 
 	path = gtk_tree_path_new ();
 	gtk_tree_path_append_index (path, n);
@@ -307,8 +309,6 @@ void
 e_date_time_list_append (EDateTimeList *date_time_list, GtkTreeIter *iter,
 			 const CalComponentDateTime *datetime)
 {
-	CalComponentDateTime *datetime_copy;
-
 	g_return_if_fail (datetime != NULL);
 
 	date_time_list->list = g_list_append (date_time_list->list, copy_datetime (datetime));

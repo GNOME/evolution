@@ -1077,7 +1077,6 @@ e_day_view_unrealize (GtkWidget *widget)
 {
 	EDayView *day_view;
 	GdkColormap *colormap;
-	gint i;
 
 	day_view = E_DAY_VIEW (widget);
 
@@ -1103,7 +1102,6 @@ e_day_view_style_set (GtkWidget *widget,
 {
 	EDayView *day_view;
 	GdkFont *font;
-	PangoContext *context;
 	gint top_rows, top_canvas_height;
 	gint hour, max_large_hour_width;
 	gint minute, max_minute_width, i;
@@ -1251,7 +1249,9 @@ e_day_view_set_event_font_cb		(EDayView	*day_view,
 					 gpointer	 data)
 {
 	EDayViewEvent *event;
+#if 0
 	GdkFont *font = data;
+#endif
 
 	if (day == E_DAY_VIEW_LONG_EVENT)
 		event = &g_array_index (day_view->long_events,

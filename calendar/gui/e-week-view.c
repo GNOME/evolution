@@ -597,7 +597,6 @@ e_week_view_unrealize (GtkWidget *widget)
 {
 	EWeekView *week_view;
 	GdkColormap *colormap;
-	gint i;
 
 	week_view = E_WEEK_VIEW (widget);
 
@@ -655,12 +654,10 @@ e_week_view_style_set (GtkWidget *widget,
 		       GtkStyle  *previous_style)
 {
 	EWeekView *week_view;
-	EWeekViewEventSpan *span;
 	GdkFont *font;
 	GtkStyle *style;
 	gint day, day_width, max_day_width, max_abbr_day_width;
 	gint month, month_width, max_month_width, max_abbr_month_width;
-	gint span_num;
 	GDate date;
 	gchar buffer[128];
 	PangoLayout *layout;

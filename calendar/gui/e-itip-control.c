@@ -28,6 +28,7 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>
+#include <unistd.h>
 #include <glib.h>
 #include <gtk/gtkmisc.h>
 #include <libgnome/gnome-i18n.h>
@@ -2042,7 +2043,7 @@ url_requested_cb (GtkHTML *html, const gchar *url, GtkHTMLStream *handle, gpoint
 	int len, fd;
         char *path;
 
-	path = g_strdup_printf ("%s/%s", EVOLUTION_ICONSDIR, url);
+	path = g_strdup_printf ("%s/%s", EVOLUTION_IMAGESDIR, url);
 
 	if ((fd = open (path, O_RDONLY)) == -1) {
 		g_warning ("%s", g_strerror (errno));

@@ -28,6 +28,7 @@
  */
 
 #include <config.h>
+#include <string.h>
 #include <glib.h>
 #include <gtk/gtksignal.h>
 #include <gtk/gtkradiomenuitem.h>
@@ -181,7 +182,6 @@ e_day_view_time_item_get_column_width (EDayViewTimeItem *dvtmitem)
 	EDayView *day_view;
 	GtkStyle *style;
 	GdkFont *small_font;
-	PangoFontMetrics *large_font_metrics;
 	gint digit, large_digit_width, max_large_digit_width = 0;
 	gint max_suffix_width, max_minute_or_suffix_width;
 	gint column_width_default, column_width_60_min_rows;
