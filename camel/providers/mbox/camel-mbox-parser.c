@@ -35,7 +35,7 @@
 
 
 
-#define MBOX_PARSER_BUF_SIZE 1000
+#define MBOX_PARSER_BUF_SIZE 10000
  
 #define MBOX_PARSER_FROM_KW "from:"               
 #define MBOX_PARSER_FROM_KW_SZ 5

@@ -340,7 +340,7 @@ _exists (CamelFolder *folder, CamelException *ex)
 		return FALSE;
 	}
 
-	exists = S_REG (stat_buf.st_mode);
+	exists = S_ISREG (stat_buf.st_mode);
 	/* we should  check the rights here  */
 	
 	CAMEL_LOG_FULL_DEBUG ("Leaving CamelMboxFolder::exists\n");

@@ -51,6 +51,7 @@
 #include <stdio.h>
 #include <unistd.h>
 #include <errno.h>
+#include <string.h>
 
 
 #include <glib.h>
@@ -172,7 +173,7 @@ copy_file_chunk (gint fd_src,
 	while (nb_to_read > 0) {
 		
 		do {
-			nb_read = read (fd_src, buffer, MAX (1000, nb_to_read));
+			nb_read = read (fd_src, buffer, MIN (1000, nb_to_read));
 		} while (nb_read == -1 && errno == EINTR);
 		
 		if (nb_read == -1) {
@@ -190,9 +191,11 @@ copy_file_chunk (gint fd_src,
 		} while (v == -1 && errno == EINTR);
 
 		if (v == -1) {
-			camel_exception_set (ex, 
+			camel_exception_setv (ex, 
 					     CAMEL_EXCEPTION_FOLDER_INSUFFICIENT_PERMISSION,
-					     "could write to the mbox copy file");
+					     "could not write to the mbox copy file\n"
+					      "Full error is : %s\n",
+					      strerror (errno));
 			return;
 		}
 
@@ -214,6 +217,9 @@ camel_mbox_write_xev (gchar *mbox_file_name,
 	CamelMboxParserMessageInfo *cur_msg_info;
 	gint fd1, fd2;
 	guint bytes_to_copy = 0;
+	glong cur_pos = 0;
+	glong cur_offset = 0;
+	glong end_of_last_message;
 	glong next_free_uid;
 	gchar xev_header[20] = "X-Evolution:XXXX-X\n";
 	gchar *tmp_file_name;
@@ -221,40 +227,58 @@ camel_mbox_write_xev (gchar *mbox_file_name,
 	gint rename_result;
 	gint unlink_result;
 	
-	tmp_file_name = g_strdup_printf ("__%s__.ev_tmp", mbox_file_name);
-	tmp_file_name_secure = g_strdup_printf ("__%s__.ev_tmp_secure", mbox_file_name);
+	tmp_file_name = g_strdup_printf ("%s__.ev_tmp", mbox_file_name);
+	tmp_file_name_secure = g_strdup_printf ("%s__.ev_tmp_secure", mbox_file_name);
 
 	fd1 = open (mbox_file_name, O_RDONLY);
-	fd2 = open (tmp_file_name, O_RDWR);
+	fd2 = open (tmp_file_name, O_WRONLY | O_CREAT | O_TRUNC );
+	if (fd2 == -1) {
+			camel_exception_setv (ex, 
+					     CAMEL_EXCEPTION_FOLDER_INSUFFICIENT_PERMISSION,
+					     "could not create the temporary mbox copy file\n"
+					      "\t%s\n"
+					      "Full error is : %s\n",
+					      tmp_file_name,
+					      strerror (errno));
+			return next_uid;
+		}
 	
 	next_free_uid = next_uid;
 	for (cur_msg = 0; cur_msg < summary_information->len; cur_msg++) {
 		
 		cur_msg_info = (CamelMboxParserMessageInfo *)(summary_information->data) + cur_msg;
-		if (cur_msg_info->x_evolution) {
+		end_of_last_message = cur_msg_info->message_position + cur_msg_info->size;
 
-			bytes_to_copy += cur_msg_info->size;
-		} else {
+		if ( !cur_msg_info->x_evolution) {
 			
-			bytes_to_copy += cur_msg_info->end_of_headers_offset;
+			bytes_to_copy = cur_msg_info->message_position 
+				+ cur_msg_info->end_of_headers_offset
+				- cur_pos;
+
+			cur_pos = cur_msg_info->message_position 
+				+ cur_msg_info->end_of_headers_offset;
+
 			copy_file_chunk (fd1, fd2, bytes_to_copy, ex);
 			if (camel_exception_get_id (ex)) {
 				close (fd1);
 				close (fd2);
 				goto end;
 			}
-
+			
+			printf ("Writing the x-ev header\n");
+			printf ("Current message number : %d\n", cur_msg);
 			camel_mbox_xev_write_header_content (xev_header + 12, next_free_uid++, 0);
 			write (fd2, xev_header, 19);
-			bytes_to_copy = cur_msg_info->size - cur_msg_info->end_of_headers_offset;
+			cur_offset += 19;
 			cur_msg_info->size += 19;
 			cur_msg_info->x_evolution_offset = cur_msg_info->end_of_headers_offset;
 			cur_msg_info->x_evolution = g_strdup_printf ("%.6s", xev_header + 12);
 			cur_msg_info->end_of_headers_offset += 19;
-		}
+		} 
+		cur_msg_info->message_position += cur_offset;
 	}
 
-	if (bytes_to_copy > 0)
+	bytes_to_copy = end_of_last_message - cur_pos;
 		copy_file_chunk (fd1, fd2, bytes_to_copy, ex);
 
 

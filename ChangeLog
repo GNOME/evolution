@@ -1,3 +1,7 @@
+2000-01-17  bertrand  <bertrand@helixcode.com>
+
+	* tests/test9.c (main): test for the mbox utils.
+
 2000-01-17  Federico Mena Quintero  <federico@helixcode.com>
 
 	* configure.in: Add the gnomecanvaspixbuf argument to gnome-config
@@ -8,13 +12,21 @@
 	* camel/providers/mbox/camel-mbox-utils.c (camel_mbox_write_xev): 
 	(copy_file_chunk): 
 	(camel_mbox_xev_write_header_content): 
-	(camel_mbox_xev_parse_header_content): 
 	(string_to_flag): 
 	(flag_to_string): 
 	(string_to_uid): 
 	(uid_to_string): 
 	A bunch of new funcs to handle x-evolution 
 	private header field. 
+	(copy_file_chunk): fixed a nasty bug. 
+	(camel_mbox_write_xev): create the copy file descriptor
+	with the proper arguments. Exceptions implememnted.
+	(camel_mbox_write_xev): changed the way bytes are counted. 
+	No more uses the message size cause it did not take into
+	account the message separators characters. 
+	(camel_mbox_write_xev): hopefully fixed the last bugs. 
+	works ok now. 
+	
 
 2000-01-15  bertrand  <bertrand@helixcode.com>
 
