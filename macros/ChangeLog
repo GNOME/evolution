@@ -1,5 +1,8 @@
 1998-02-13  Raja R Harinath  <harinath@cs.umn.edu>
 
+	* gnome.m4 (GNOME_INIT): Look for gnomeConf.sh in $libdir, where
+	the installation actually installs it.
+
 	* Makefile.am (macros.dep): New maintainer rule for handling
 	automatic rebuilding of aclocal.m4 if any of the macros change.
 	(MACROS): New variable.  List of all `m4' macros in this
