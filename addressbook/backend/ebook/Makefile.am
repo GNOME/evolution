@@ -19,6 +19,7 @@ INCLUDES =						\
 	-DG_LOG_DOMAIN=\"EBook\"			\
 	-I$(top_srcdir) 				\
 	-I$(top_srcdir)/addressbook/backend		\
+	-I$(top_srcdir)/addressbook/ename		\
 	-I$(top_builddir)/addressbook/backend		\
 	-I$(top_builddir)/addressbook/ename		\
         $(BONOBO_GNOME_CFLAGS)
