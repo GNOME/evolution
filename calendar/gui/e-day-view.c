@@ -1736,6 +1736,7 @@ e_day_view_remove_event_cb (EDayView *day_view,
 		gtk_object_destroy (GTK_OBJECT (event->canvas_item));
 
 	e_cal_model_free_component_data (event->comp_data);
+	event->comp_data = NULL;
 
 	if (day == E_DAY_VIEW_LONG_EVENT) {
 		g_array_remove_index (day_view->long_events, event_num);

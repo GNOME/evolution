@@ -1,4 +1,10 @@
+2004-12-26  Rodrigo Moya <rodrigo@novell.com>
+
+	* gui/e-day-view.c (e_day_view_remove_event_cb): set fields we
+	free to NULL.
+
 2004-12-24  Harish Krishnaswamy <kharish@novell.com>
+
 	* gui/dialogs/event-editor.c (event_editor_edit_comp):
 	Check for the existence of the meet/sched pages before
 	attempting to remove them.
