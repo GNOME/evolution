@@ -41,8 +41,8 @@
       mail without slowing down or crashing.  Both the <link
       linkend="usage-mail-organize-filters">filtering</link> and <link
       linkend="usage-mail-organize-search">searching</link> functions
-      were built for speed and efficiency on gargantuan mail
-      volumes. There's also the <application>Evolution</application>
+      were built for speed and efficiency on gargantuan volumes of
+      mail. There's also the <application>Evolution</application>
       <link linkend="usage-mail-organize-vFolders">vFolder</link>, an
       advanced organizational feature not found in other mail clients.
       If you get a lot of mail, or if you keep every message you get
@@ -58,11 +58,10 @@
       <title>Reading Mail</title>
       <para>
        You can start reading email by clicking
-       <guibutton>Inbox</guibutton> in the shortcut bar.  By
-       default, the <interface>Inbox</interface> is open when you
-       start <application>Evolution</application>, and the first
-       time you see your Inbox, there's a message in it from Helix
-       Code welcoming you to the application.
+       <guibutton>Inbox</guibutton> in the shortcut bar. The first
+       time you use <application>Evolution</application>, it will
+       start with the <interface>Inbox</interface> open and show you a
+       message from Helix Code welcoming you to the application.
       </para>
       <para>
 	The <application>Evolution</application>
@@ -72,10 +71,11 @@
 	<interface>message list</interface>.  The message itself is
 	displayed below that, in the <interface>view pane</interface>.
 	If you find the <interface>view pane</interface> too small,
-	you can double-click on the message in the <interface>message
-	list</interface> to have it open in a new window.  Just like
-	with folders, you can right-click on messages in the message
-	list and get a menu of possible actions.
+	you can resize the pane, enlarge the whole window, or double-click
+	on the message in the <interface>message list</interface> to
+	have it open in a new window.  Just like with folders, you can
+	right-click on messages in the message list and get a menu of
+	possible actions.
      </para>
 
  <!-- ==============Figure=================================== -->
@@ -123,14 +123,9 @@
           <menuchoice> <guimenu>View</guimenu>
           <guimenuitem>Threaded</guimenuitem> </menuchoice> to turn
           the threaded view on or off.  If the option selected,
-          <application>Evolution</application> will attempt to
-          associate related messages by using message ID numbers and
-          the <systemitem>References</systemitem>,
-          <systemitem>In-Reply-To</systemitem>, and
-          <systemitem>Subject</systemitem> message headers.  Messages
-          which are related are then placed next to each other, so
-          that it's easier to follow the thread of a conversation from
-          message to message.
+          <application>Evolution</application> will group the replies
+          to a message with the original, so you can follow the thread
+          of a conversation from one message to the next.
         </para>
       </sect3>
       <sect3 id="usage-mail-getnsend-delete">
@@ -147,11 +142,9 @@
           If you really want to get rid of it, choose
           <guimenuitem>Expunge</guimenuitem> from the
           <guimenu>Folder</guimenu> menu.  That will delete it
-          permanently. If you want to keep it, click
-          <guibutton>Delete</guibutton> again, and it will no longer
-          be marked as deleted.  At some point in the future, this
-          feature will change to something a little less
-          counter-intuitive.
+          permanently. If you change your mind and decide you want to
+          keep it, select <menuchoice> <guimenu>Message</guimenu>
+          <guimenuitem>Undelete</guimenuitem></menuchoice>.
         </para>
       </sect3>
     </sect2>
@@ -305,7 +298,7 @@
           folder (the <guilabel>Drafts</guilabel> folder would be the
           obvious place), you can select <menuchoice>
           <guimenu>File</guimenu> <guimenuitem>Save In
-          Folder</guimenuitem> </menuchoice>.
+          Folder</guimenuitem> </menuchoice>. 
         </para>
       </sect3>
       <sect3 id="usage-mail-getnsend-send-compose">
@@ -333,11 +326,11 @@
 	    send.  Select the file and click <guilabel>OK</guilabel>.
         </para>
 	<para>
-            To see what files you've attached to the message you're
-            composing, select <menuchoice> <guimenu>View</guimenu>
-            <guimenuitem>Show Attachments</guimenuitem> </menuchoice>;
-            to hide them again, choose <guimenuitem>Hide
-            Attachments</guimenuitem>.
+            To hide the display of files you've attached to the
+            message, select <menuchoice>
+            <guimenu>View</guimenu> <guimenuitem>Hide
+            Attachments</guimenuitem> </menuchoice>; to show them
+            again, choose <guimenuitem>Show Attachments</guimenuitem>.
         </para>
 	<para>
             When you send the message, a copy of the attached file
@@ -453,8 +446,8 @@
 	   fields will already be filled, although you can alter them
 	   if you wish.  In addition, the full text of the old message
 	   is inserted into the new message, either in italics (for
-	   HTML display) or with the &gt; character (in plain text
-	   mode) before each line, to indicate that it's part of the
+	   HTML display) or with the &gt; character before each line
+	   (in plain text mode), to indicate that it's part of the
 	   previous message.  People often intersperse their message
 	   with the quoted material as shown in <xref
 	   linkend="usage-mail-getnsend-reply-fig">.
@@ -557,12 +550,12 @@ with quoted materials and the relevant replies interspersed-->
       <sect3 id="usage-mail-getnsend-send-html">
 	<title>Embellish your email with HTML</title>
 	<para>
-            You can't normally use text treatments or pictures in
+            You can't normally set text styles or insert pictures in
             emails, which is why you've probably seen people use far
             too many exclamation points for emphasis or use <glossterm
             linkend="emoticon">emoticons</glossterm> to convey their
             feelings.  However, most of the newer email programs can
-            include and display images and text treatments as well as
+            include and display images and text styles as well as
             basic alignment and paragraph formatting. They do this
             with <glossterm linkend="html">HTML</glossterm>, just like
             web sites do.
@@ -685,18 +678,22 @@ with quoted materials and the relevant replies interspersed-->
                   <application>Evolution</application> will prompt you
                   for the <guilabel>Text</guilabel> that will appear,
                   and the <guilabel>Link</guilabel>, where you should
-                  enter the actual web address (URL).
-              </para>
+                  enter the actual web address (URL). If you don't
+                  want special link text, you can just enter the address
+                  directly, and <application>Evolution</application>
+                  will recognize it as a link.
+               </para>
 	    </listitem>
           </varlistentry>
           <varlistentry>
             <term> <guimenuitem>Insert Image</guimenuitem>:</term>
 	    <listitem>
 	      <para>
-               <guimenuitem>Insert Image</guimenuitem>: Select this item to
-               embed an image into your email, as was done in the welcome
-               message.  Images will appear at the location of the
-               cursor.
+               <guimenuitem>Insert Image</guimenuitem>: Select this
+               item to embed an image into your email, as was done in
+               the welcome message.  Images will appear at the
+               location of the cursor. This is different from
+               attaching them to a message, but not very different.
               </para>
 	    </listitem>
            </varlistentry>
@@ -1040,11 +1037,10 @@ possibly never will be due to security evil. -->
       <para>
         The <interface>filter assistant</interface> window contains a
         list of your current filters, sorted by the order in which
-        they will be performed.  From the drop-down box at the top of
-        the window, choose <guilabel>Incoming</guilabel> to display
-        those filters which are performed on incoming mail, and
-        <guilabel>On Demand</guilabel> for those which are performed
-        only when you want.
+        they are used.  From the drop-down box at the top of the
+        window, choose <guilabel>Incoming</guilabel> to display
+        filters for incoming mail, and <guilabel>On Demand</guilabel>
+        for those which sort your mail only when you want.
       </para>
       <para>
          The <interface>filter assistant</interface> also has a set of
@@ -1064,12 +1060,12 @@ possibly never will be due to security evil. -->
            </para></listitem>
 
            <listitem><para> <guibutton>Up</guibutton> &mdash; Move the
-            selected filter up in the list, so it will be performed
-            sooner.  </para></listitem>
+            selected filter up in the list so it gets applied first.
+           </para></listitem>
 
            <listitem><para>
             <guibutton>Down</guibutton> &mdash;  Move the selected filter down 
-             in the list, so it will be performed later.
+             in the list, so it comes into play later.
            </para></listitem>
         </itemizedlist>
 
@@ -1172,7 +1168,6 @@ possibly never will be due to security evil. -->
             </para></listitem>
 	  </varlistentry>
 
-
 	  <varlistentry>
 	    <term><guilabel>Date Recieved</guilabel></term>
 	    <listitem><para>
@@ -1186,9 +1181,29 @@ possibly never will be due to security evil. -->
 	    <term><guilabel>Priority</guilabel></term>
 	    <listitem><para>
                Emails have a standard priority range from -3 (least
-               important) to 3 (most important). If you can persuade
-               your friends and co-workers to use the priority levels  
-               honestly, you can filter with them as well.
+               important) to 3 (most important). You can have filters set the
+               priority of messages you recieve, and then have other filters 
+               applied only to those messages which have a certain priority.
+            </para></listitem>
+           </varlistentry>
+
+	  <varlistentry>
+	    <term><guilabel>Regex Match</guilabel></term>
+	    <listitem><para>
+              If you know your way around a <glossterm
+	      linkend="regular-expression">regular
+	      expression</glossterm>, or regex, put your knowledge to
+	      use here. You can match your expression in the message
+	      headers or in its body.
+            </para></listitem>
+          </varlistentry>
+
+	  <varlistentry>
+	    <term><guilabel>Source</guilabel></term>
+	    <listitem><para>
+               Filter messages according the server you got them from.  You can enter a URL or
+               choose one from the drop-down list.  This criterion is only relevant if you
+               use more than one mail source.
             </para></listitem>
 	  </varlistentry>
 	</variablelist>
@@ -1198,6 +1213,17 @@ possibly never will be due to security evil. -->
         actions, click <guibutton>Add Action</guibutton>; if you want fewer,
         click <guibutton>Remove Action</guibutton>.  And choose again:
         <variablelist>
+
+	  <varlistentry>
+	    <term><guilabel>Copy to Folder</guilabel></term>
+	    <listitem><para>
+               If you select this item, <application>Evolution</application>
+               will put the messages into a folder you specify.  Click the 
+               <guibutton>&lt;click here to select a folder&gt;</guibutton> button
+               to select a folder. 
+            </para></listitem>
+	  </varlistentry>
+
 	  <varlistentry>
 	    <term><guilabel>Move to Folder</guilabel></term>
 	    <listitem><para>
@@ -1227,10 +1253,11 @@ possibly never will be due to security evil. -->
 
 	  <varlistentry>
 	    <term><guilabel>Stop Processing</guilabel></term>
-	    <listitem><para> Select this if you want to tell all other
-	    filters to ignore this message.  If multiple filters copy
-	    the message to a different folders, you'll have multiple
-	    copies of the message.  </para></listitem>
+	    <listitem><para>
+              Select this if you want to tell all other filters to ignore 
+              this message, because whatever you've done with it so far
+              is plenty.
+            </para></listitem>
 	  </varlistentry>
 
 	  <varlistentry>
@@ -1243,11 +1270,11 @@ possibly never will be due to security evil. -->
 
 	  <varlistentry>
 	    <term><guilabel>Assign Score</guilabel></term>
-	    <listitem><para> Priority numbers alone don't work, so you
-	    can score emails on the same scale. Then, you can tell
-	    which ones you want to read, or have scored messages
-	    moved, copied, or colored in a subsequent filter.
-	    </para></listitem>
+	    <listitem><para> If you know that all mail with
+	    "important" somewhere in the message body line is
+	    important, you can give it a high priority score. In a subsequent filter you can 
+            then arrange your messages by their priority score.
+	  </para></listitem>
 	  </varlistentry>
 
 	</variablelist>
@@ -1312,26 +1339,26 @@ possibly never will be due to security evil. -->
 	a virtual folder. Virtual folders, or vFolders, are an
 	advanced way of viewing your email messages within
 	<application>Evolution</application>.  If you get a lot of
-	mail or often forget where you put messages, vFolders can help
+	mail or often forget where you put messages, virtual folders can help
 	you stay on top of things.
       </para>
       <para>
-	A vFolder is really a hybrid of all the other organizational
+	A virtual folder is really a hybrid of all the other organizational
 	tools: it looks like a folder, it acts like a search, and you
 	set it up like a filter.  In other words, while a conventional
-	folder actually contains messages, a vFolder is a view of
+	folder actually contains messages, a virtual folder is a view of
 	messages that may be in several different folders.  The
 	messages it contains are determined on the fly using a set of
 	criteria you choose in advance.
       </para>
 
       <para>
-	As messages that meet the vFolder criteria arrive or are
+	As messages that meet the virtual folder criteria arrive or are
 	deleted, <application>Evolution</application> will
 	automatically place them in and and remove them from the
-	vFolder contents list.  When you delete a message, it gets
+	virtual folder contents list.  When you delete a message, it gets
 	erased from the folder in which it actually exists, as well as
-	any vFolders which display it.
+	any virtual folders which display it.
       </para>
 
       <para>
@@ -1340,16 +1367,16 @@ possibly never will be due to security evil. -->
 	changing groups of faculty, staff, administrators and
 	students.  The more mail you need to organize, the less you
 	can afford the sort of confusion that stems from an
-	organizational system that's not flexible enough.  vFolders
+	organizational system that's not flexible enough.  virtual folders
 	make for better organization because they can accept
 	overlapping groups in a way that regular folders and filing
 	systems can't.
       </para>
 
       <example id="usage-mail-organize-vFolders-ex">
-	<title>Using Folders, Searches, and vFolders</title>
+	<title>Using Folders, Searches, and Virtual Folders</title>
 	<para>
-	   To organize my mail box, I set up a vFolder for emails from
+	   To organize my mail box, I set up a virtual folder for emails from
 	   my friend and co-worker Anna.  I have another one for
 	   messages from anybody at work that have "Evolution" in the
 	   subject line, so I can keep a record of what people from
@@ -1358,29 +1385,29 @@ possibly never will be due to security evil. -->
 	   shows up in the "Anna" folder. When Anna sends me mail
 	   about the user interface for
 	   <application>Evolution</application>, I can see that
-	   message both in the "Anna" vFolder and in the "Internal
-	   Evolution Discussion" vFolder.
+	   message both in the "Anna" virtual folder and in the "Internal
+	   Evolution Discussion" virtual folder.
 	</para>
       </example>
 
-	<!--  (INSERT SCREENSHOT HERE: vFolders in action) -->
+	<!--  (INSERT SCREENSHOT HERE: virtual folders in action) -->
 
       <para>
-	 To create a vFolder, select <menuchoice>
-	 <guimenu>Tools</guimenu> <guimenuitem>vFolder
+	 To create a virtual folder, select <menuchoice>
+	 <guimenu>Tools</guimenu> <guimenuitem>Virtual Folder
 	 Editor</guimenuitem> </menuchoice>.  This will bring up a
 	 dialog box that looks suspiciously like the filter window
 	 (for more information on filters, see <xref
 	 linkend="usage-mail-organize-filters">), and which
-	 presents you with a list of vFolders you have previously
-	 created. If you have created any vFolders, they are listed
+	 presents you with a list of virtual folders you have previously
+	 created. If you have created any virtual folders, they are listed
 	 here, and you can select, edit or remove them if you wish.
 	 If you have not created any, there will be only one available
 	 option: click <guibutton>Add</guibutton> to add a new
 	 vFolder.
       </para>
       <para>
-	 You can enter a name for your vFolder in the
+	 You can enter a name for your virtual folder in the
 	 <guilabel>Name</guilabel>.  Then, tell
 	 <application>Evolution</application> what messages to look
 	 for.  This process is exactly like filter creation: decide
@@ -1428,4 +1455,5 @@ possibly never will be due to security evil. -->
     </sect2>
   </sect1>
 </chapter>
+
 

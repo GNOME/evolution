@@ -111,9 +111,10 @@
 	  <term> <guibutton>Inbox:</guibutton></term>
 	  <listitem>
 	    <para>
-	      The Inbox will show you all of your email.  Your Inbox
-	      is also where you can access Evolution's tools to
-	      filter, sort, organize, and search your mail.
+	      Click the <guibutton>Inbox</guibutton> button to start
+	      reading your mail.  Your Inbox is also where you can
+	      access Evolution's tools to filter, sort, organize, and
+	      search your mail.
 	    </para>
 	  </listitem>
 	</varlistentry>
@@ -169,15 +170,16 @@
       </variablelist>
     </para>
     <para>
-      If you don't like the shortcut bar, you can use the menu bar, or
-      keyboard shortcuts, also called <glossterm linkend="hot-key">hot keys</glossterm>.
-      They're shown next to their equivalent menu items in the menu
-      bar. You can also set your own hot keys for functions that don't
-      have any; this is covered in <xref linkend="config">.  If you're
-      using the keyboard shortcuts you may also want to hide the
-      <interface>shortcut bar</interface> by selecting <menuchoice>
-      <guimenu>View</guimenu> <guimenuitem>Show Shortcut
-      Bar</guimenuitem> </menuchoice>.
+      If you don't like the shortcut bar, you can use the folder bar
+      or the menu bar to navigate. Press 
+            <keycombo action="simul">
+                 <keycap>Ctrl</keycap> 
+                 <keycap>O</keycap> 
+             </keycombo>
+      to choose from a list of folders you'd like to visit, or use the
+      drop-down folder bar.  You can hide and show the folder bar and
+      the shortcut bar by selecting those items in the
+      <guimenu>View</guimenu> menu.
     </para>
 
     <tip>
@@ -187,7 +189,8 @@
          and select <guimenuitem>Remove</guimenuitem>.  To add one,
          select <menuchoice> <guimenu>File</guimenu>
          <guisubmenu>New</guisubmenu> <guimenuitem>Evolution Bar
-         Shortcut</guimenuitem> </menuchoice>. </para>
+         Shortcut</guimenuitem> </menuchoice>.
+      </para>
        <para>
          To change the way the shortcut bar looks, right-click in an
          empty space on the shortcut bar.  From the menu that appears,
@@ -206,18 +209,21 @@
       like a <glossterm linkend="filetree">file
       tree</glossterm>&mdash; it starts small at the top, and branches
       downwards. On most computers, there will be three folders at the
-      base.  At the top are your <guilabel>vFolders</guilabel>, or
+      base.  First, and probably most important, is the
+      <guilabel>Local</guilabel> folder, which holds all the
+      <application>Evolution</application> data that's stored on your
+      computer.  After that come <guilabel>vFolders</guilabel>, or
       virtual folders, discussed in <xref
-      linkend="usage-mail-organize-vfolders">.  After that come any
+      linkend="usage-mail-organize-vfolders">, followed by any
       <glossterm linkend="imap">IMAP</glossterm> mail folders you
-      might have available to you over your network.  The next folder
-      is called <guilabel>External Directories</guilabel>, and holds
-      <glossterm linkend="ldap">LDAP</glossterm> contact directories
-      stored on a network.  The most important one is probably
-      <guilabel>Local</guilabel>, which you can use to access all the
-      data that's stored on your computer.  If you click on the plus
-      sign plus sign next to the <guilabel>Local</guilabel> folder,
-      you'll see the contents:
+      might have available to you over your network.  Lastly, there
+      are <guilabel>External Directories</guilabel>, <glossterm
+      linkend="ldap">LDAP</glossterm> contact directories stored on a
+      network. 
+    </para>
+    <para>
+       
+      A typical <guilabel>Local</guilabel> folder contains the following folders:
       <itemizedlist>
 	 <listitem>
 	    <para>
@@ -232,20 +238,35 @@
 	 </listitem>
 	 <listitem>
 	    <para>
-	  <guilabel>Directories</guilabel>, for Internet contact directories.
+	     <guilabel>Inbox</guilabel>, for incoming mail. 
 	   </para>
 	 </listitem>
-	 <listitem>
+         <listitem>
 	    <para>
-	     <guilabel>Inbox</guilabel>, for incoming mail.
+	    <guilabel>Drafts</guilabel>, for messages you started and didn't finish.
 	   </para>
 	 </listitem>
 	<listitem>
 	    <para>
-	    <guilabel>Outbox</guilabel>, which is for drafts of
-	    messages and mail that's already been sent.
+	    <guilabel>Sent</guilabel>, for sent mail.
 	   </para>
 	 </listitem>
+	<listitem>
+	    <para>
+	    <guilabel>Trash</guilabel>, which is used to store
+	    messages you don't want, but keep around just in case you
+	    change your mind.
+	   </para>
+	 </listitem>
+	<listitem>
+	    <para>
+	    <guilabel>Outbox</guilabel>, for messages you have written
+	    but not yet sent.  This will be empty unless you use
+	    <application>Evolution</application> while offline.
+	   </para>
+	 </listitem>
+
+
       </itemizedlist>
 
     </para>
@@ -273,11 +294,13 @@
        <note>
 	  <title>Folders Have Limits</title>
 	  <para>
-	      You can always place a folder inside other folders,
-	      regardless of folder type.  However, calendars,
-	      contacts, and mail can't go into the same
-	      folder. Calendars have to go in calendar folders, mail
-	      in mail folders, and contacts in contact folders.
+              No matter where they exist, calendars must go in
+	      calendar folders, mail in mail folders, and contacts in
+	      contact folders.  Network folders follow the same type
+	      restriction, because the network servers are only set up
+	      to handle one kind of information. Within your local
+	      system, though you can folders inside each other,
+	      regardless of type.
            </para>
 	</note>
 

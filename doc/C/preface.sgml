@@ -13,9 +13,9 @@
         it's hardly even worth the name if you can't look at it and be
         <emphasis>informed</emphasis>.
         <application>Evolution</application>'s goal is to make the
-        tasks of storing, organizing, and retrieving information
-        easier, so you can work and communicate with others.  That is,
-        it's a highly evolved <glossterm
+        tasks of storing, organizing, and retrieving your personal
+        information easier, so you can work and communicate with
+        others.  That is, it's a highly evolved <glossterm
         linkend="groupware">groupware</glossterm> program, an integral
         part of the Internet-connected desktop. On the inside, it's a
         powerful database; on the outside, it's a tool to help you get
@@ -23,9 +23,9 @@
       </para>
       <para>
         Because it's part of the GNOME project,
-        <application>Evolution</application> is free software.  The
+        <application>Evolution</application> is Free Software.  The
         program and its source code are released under the terms of
-        the <ulink type="help" url="gnome-help:gpl"><citetitle>GNU
+        the GNU <ulink type="help" url="gnome-help:gpl"><citetitle>General
         Public License (GPL)</citetitle></ulink>, and the
         documentation falls under the <ulink type="help"
         url="gnome-help:fdl"><citetitle>Free Documentation
@@ -54,9 +54,6 @@
         information, and one or more calendars.  It can do that on one
         or several computers, connected directly or over a network,
         for one person or for large groups.
-        <application>Evolution</application> can handle almost all
-        your communications and information management tasks with the
-        power and flexibility of the GNOME desktop environment.
       </para>
       <para>
         The <application>Evolution</application> project has four
@@ -111,8 +108,8 @@
         more efficient, so searches are faster and memory usage is
         lower.  People who get lots of mail will appreciate advanced
         features like <link
-        linkend="usage-mail-organize-vFolders">vFolders</link>, which
-        let you save searches as though they were ordinary mail
+        linkend="usage-mail-organize-vFolders">Virtual Folders</link>,
+        which let you save searches as though they were ordinary mail
         folders.
       </para>
 
@@ -317,7 +314,7 @@
 	    <term>Reply to a Message</term>
 	    <listitem>
 	      <para>
-                Select the message to which you want to reply, and
+                To reply to the sender of the message only:
                 click <guibutton>Reply</guibutton> in the
                 toolbar, or press
                 <keycombo action="simul">
@@ -326,6 +323,10 @@
 		  <keycap>FIXME</keycap>
                 </keycombo>
                 </para>
+	      <para>
+                To reply to the sender and all the other visible
+                recipients of the message, click:
+              </para>
 	    </listitem>
 	  </varlistentry>
 	  
@@ -333,8 +334,8 @@
 	    <term>Forward a Message</term>
 	    <listitem>
 	      <para>
-                Select the message you want to forward, and
-                click <guibutton>Forward</guibutton> in the
+                Select the message or messages you want to forward,
+                and click <guibutton>Forward</guibutton> in the
                 toolbar, or press
                 <keycombo action="simul">
 		  <keycap>FIXME</keycap>
@@ -349,7 +350,8 @@
 	    <term>Open a Message in a New Window</term>
 	    <listitem>
 	      <para>
-                Double-click the message you want to view, or press
+                Double-click the message you want to view, or select
+                it and press
                 <keycombo action="simul">
 		  <keycap>Ctrl</keycap>
 		  <keycap>O</keycap>

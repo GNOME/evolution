@@ -1,3 +1,14 @@
+2000-12-13  Aaron Weber  <aaron@helixcode.com>
+
+	* C/usage-mail.sgml: Revisions as suggested by Dan.  Especially to
+	filter dialogs... which still need some renaming, IMHO.
+
+	* C/usage-mainwindow.sgml: Revisions as suggested by
+	Dan. Especially to the Folder Limits thing, which still upsets me
+	somehow.
+
+	* C/preface.sgml: Revisions as suggested by Dan. 
+
 2000-11-29  Aaron Weber  <aaron@helixcode.com>
 
 	* C/config-setupassist.sgml: added some <glossterms>, added linkends to existing glossterms.
