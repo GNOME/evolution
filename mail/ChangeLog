@@ -1,3 +1,11 @@
+2002-09-23  Radek Doulik  <rodo@ximian.com>
+
+	* mail-config.c (mail_config_signature_run_script): pass name of
+	the script as 1st parameter
+
+	* mail-composer-prefs.c (sig_add_script_add): fix entry's glade
+	name
+
 2002-09-23  Dan Winship  <danw@ximian.com>
 
 	* mail-signature-editor.c (exit_dialog_cb): Fix non-ANSI switch

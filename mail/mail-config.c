@@ -3117,7 +3117,7 @@ mail_config_signature_run_script (gchar *script)
 		}
 		
 		
-		execlp (script, NULL);
+		execlp (script, script, NULL);
 		g_warning ("Could not execute %s: %s\n", script, g_strerror (errno));
 		_exit (255);
 	} else if (pid < 0) {

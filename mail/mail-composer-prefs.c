@@ -286,7 +286,7 @@ sig_add_script_add (GtkWidget *widget, MailComposerPrefs *prefs)
 	entry = glade_xml_get_widget (prefs->sig_script_gui, "fileentry_add_script_script");
 	script = gtk_entry_get_text (GTK_ENTRY (gnome_file_entry_gtk_entry (GNOME_FILE_ENTRY (entry))));
 	
-	entry = glade_xml_get_widget (prefs->sig_script_gui, "entry_add_script_script");
+	entry = glade_xml_get_widget (prefs->sig_script_gui, "entry_add_script_name");
 	name = e_utf8_gtk_entry_get_text (GTK_ENTRY (entry));
 	if (script && *script) {
 		struct stat st;
