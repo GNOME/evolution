@@ -69,6 +69,17 @@ typedef struct {
 /*
  * Local response queue management.
  */
+
+static void
+e_book_op_free (EBookOp *op)
+{
+	if (op->listener) {
+		bonobo_object_unref (BONOBO_OBJECT (op->listener));
+		op->listener = NULL;
+	}
+	g_free (op);
+}
+
 static guint
 e_book_queue_op (EBook    *book,
 		 gpointer  cb,
@@ -83,6 +94,9 @@ e_book_queue_op (EBook    *book,
 	op->cb       = cb;
 	op->closure  = closure;
 	op->listener = listener;
+
+	if (op->listener)
+		bonobo_object_ref (BONOBO_OBJECT (op->listener));
 
 	book->priv->pending_ops =
 		g_list_append (book->priv->pending_ops, op);
@@ -105,7 +119,7 @@ e_book_unqueue_op (EBook    *book)
 		book->priv->pending_ops = g_list_remove_link (book->priv->pending_ops,
 							      removed);
 		op = removed->data;
-		g_free (op);
+		e_book_op_free (op);
 		g_list_free_1 (removed);
 		book->priv->op_tag--;
 	}
@@ -166,7 +180,7 @@ e_book_do_response_create_card (EBook                 *book,
 	if (op->cb)
 		((EBookIdCallback) op->cb) (book, resp->status, resp->id, op->closure);
 	g_free (resp->id);
-	g_free (op);
+	e_book_op_free (op);
 }
 
 static void
@@ -185,7 +199,7 @@ e_book_do_response_generic (EBook                 *book,
 	if (op->cb)
 		((EBookCallback) op->cb) (book, resp->status, op->closure);
 
-	g_free (op);
+	e_book_op_free (op);
 }
 
 static void
@@ -233,10 +247,8 @@ e_book_do_response_get_cursor (EBook                 *book,
 		((EBookCursorCallback) op->cb) (book, E_BOOK_STATUS_CANCELLED, NULL, op->closure);
 	}
 	
-	g_free (op);
+	e_book_op_free (op);
 }
-
-
 
 static void
 e_book_do_response_get_view (EBook                 *book,
@@ -289,10 +301,7 @@ e_book_do_response_get_view (EBook                 *book,
 		((EBookBookViewCallback) op->cb) (book, E_BOOK_STATUS_CANCELLED, NULL, op->closure);
 	}
 
-	bonobo_object_unref(BONOBO_OBJECT(op->listener));
-	op->listener = NULL;
-	
-	g_free (op);
+	e_book_op_free (op);
 }
 
 static void
@@ -343,10 +352,7 @@ e_book_do_response_get_changes (EBook                 *book,
 		((EBookBookViewCallback) op->cb) (book, E_BOOK_STATUS_CANCELLED, NULL, op->closure);
 	}
 
-	bonobo_object_unref(BONOBO_OBJECT(op->listener));
-	op->listener = NULL;
-	
-	g_free (op);
+	e_book_op_free (op);
 }
 
 static void
@@ -370,7 +376,7 @@ e_book_do_response_open (EBook                 *book,
 
 	if (op->cb)
 		((EBookCallback) op->cb) (book, resp->status, op->closure);
-	g_free (op);
+	e_book_op_free (op);
 }
 
 static void
@@ -420,7 +426,7 @@ e_book_do_response_get_supported_fields (EBook                 *book,
 			((EBookFieldsCallback) op->cb) (book, E_BOOK_STATUS_CANCELLED, NULL, op->closure);
 	}
 
-	g_free (op);
+	e_book_op_free (op);
 }
 
 /*

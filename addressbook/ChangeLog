@@ -1,3 +1,15 @@
+2001-08-06  Radek Doulik  <rodo@ximian.com>
+
+	* backend/ebook/e-book.c (e_book_op_free): new EBookOp destructor
+	(e_book_unqueue_op): use e_book_op_free
+	(e_book_do_response_create_card): ditto
+	(e_book_do_response_generic): ditto
+	(e_book_do_response_get_cursor): ditto
+	(e_book_do_response_get_view): ditto
+	(e_book_do_response_get_changes): ditto
+	(e_book_do_response_open): ditto
+	(e_book_do_response_get_supported_fields): ditto
+
 2001-08-05  Radek Doulik  <rodo@ximian.com>
 
 	* backend/ebook/e-book.c (e_book_do_response_get_view): set
