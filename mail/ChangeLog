@@ -1,3 +1,10 @@
+2001-10-07  Dan Winship  <danw@ximian.com>
+
+	* mail-tools.c (mail_tool_do_movemail): Remove #ifndef
+	MOVEMAIL_PATH code, since the setting of that variable has been
+	meaningless for a while now, and the rest of the code DTRT whether
+	that code executes or not.
+
 2001-10-05  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-mt.c (pass_got): Fix a merge-conflict leftover.

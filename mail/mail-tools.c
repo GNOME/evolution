@@ -115,29 +115,11 @@ mail_tool_do_movemail (const gchar *source_url, CamelException *ex)
 	gchar *dest_path;
 	const gchar *source;
 	struct stat sb;
-#ifndef MOVEMAIL_PATH
-	int tmpfd;
-#endif
+
 	g_return_val_if_fail (strncmp (source_url, "mbox:", 5) == 0, NULL);
 	
 	/* Set up our destination. */
 	dest_path = mail_tool_get_local_movemail_path();
-	
-	/* Create a new movemail mailbox file of 0 size */
-	
-#ifndef MOVEMAIL_PATH
-	tmpfd = open (dest_path, O_RDWR | O_CREAT | O_APPEND, S_IRUSR | S_IWUSR);
-	
-	if (tmpfd == -1) {
-		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
-				      _("Couldn't create temporary mbox `%s': %s"),
-				      dest_path, g_strerror (errno));
-		g_free (dest_path);
-		return NULL;
-	}
-	
-	close (tmpfd);
-#endif
 	
 	/* Skip over "mbox:" plus host part (if any) of url. */
 	source = source_url + 5;
