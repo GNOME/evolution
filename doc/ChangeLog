@@ -1,3 +1,35 @@
+2000-08-09  Aaron Weber  <aaron@helixcode.com>
+
+	* C/usage-mainwindow.sgml: Redid menubar description.
+	
+
+	* C/config-prefs.sgml: Added coverage of folder config, requested
+	that feature be transferred to config section. Switched to
+	variablelist in "Other" config section.
+
+	* C/usage-mail.sgml: Added coverage of right-click on messages,
+	threaded-view.
+
+	* C/usage-mainwindow.sgml: Right-click on folder menu reinstated.
+
+2000-08-07  Aaron Weber  <aaron@helixcode.com>
+
+	* C/config-prefs.sgml: Added news server coverage.  Other config
+	proofing changes.
+	
+
+2000-08-05  Aaron Weber  <aaron@helixcode.com>
+
+	* C/apx-gpl.sgml: New file.  Contains contents of "COPYING",
+	but marked up (probably not very well, but valid) as docbook
+	(SGML).
+
+	* C/evolution-guide.sgml: Subtle change to the legal notice:
+	distinguished manual license from software license. Linked to
+	apx-gpl.sgml above.
+
+	* C/usage-calendar.sgml: I redid all the usage files.
+
 2000-07-21  Aaron Weber  <aaron@helixcode.com>
 
 	* C/usage-mail.sgml: Added password remembering/forgetting feature.

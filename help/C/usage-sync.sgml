@@ -12,8 +12,11 @@
 
       <para>
         If you've already got Gnome-pilot set up to use
-        <application>Evolution</application> all you need to do is put
+        <application>Evolution</application>, put
         your hand-held device on the cradle and press the HotSync
-        button.  No, really.  That's all there is to it.
+        button.
+      </para>
+      <para>
+         No, really.  That's all there is to it.
       </para>
     </chapter>

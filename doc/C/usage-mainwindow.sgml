@@ -1,6 +1,6 @@
-<!--
+
  <!DOCTYPE Chapter PUBLIC "-//GNOME//DTD DocBook PNG Variant V1.1//EN">
--->
+
 
 <chapter id="usage-mainwindow">
 
@@ -261,16 +261,15 @@
            </para>
 	</note>
 
-<!-- UNIMPLEMENTED 
     <para>
       Right-clicking will bring up a menu for just about anything
       in GNOME, and <application>Evolution</application> is no
       exception.  If you right-click on a folder, you'll have a
       menu with the following options:
       <itemizedlist>
-	<listitem><para>Something</para></listitem>
-	<listitem><para>Something</para></listitem>
-	<listitem><para>Something</para></listitem>
+	<listitem><para><guimenuitem>View</guimenuitem>, to view a message.</para></listitem>
+	<listitem><para><guimenuitem>Something else</guimenuitem>, for another purpose. </para></listitem>
+	<listitem><para><guimenuitem>Something else</guimenuitem>, for another purpose. </para></listitem>
       </itemizedlist>.
     </para>
 
@@ -284,7 +283,6 @@
 	right-click menu is a good way to find out.
       </para>
     </tip>
--->
 
     <para>
       Any time new information arrives in a folder, that folder label
@@ -304,26 +302,99 @@
     <title>The Menu Bar</title>
     <para>
       The <interface>menu bar</interface>'s contents will always
-      provide all the possible actions for any view of your data.
-      That means that, depending on the context, menu bar items will
-      change.  If you're looking at your Inbox, most of the menu items
-      will relate to mail; some will relate to other components of
-      <application>Evolution</application> and some, especially those
-      in the <guimenu>File Menu</guimenu> will relate to the
-      application as a whole. You can probably guess that the
-      <guimenu>Help Menu</guimenu> is where to go for help, and that
-      the <guimenu>View</guimenu> menu controls the way that
-      <application>Evolution</application> looks.  Other menu items
-      are a little less obvious, and change a little more, so we'll
-      cover them later on as we discuss the things you can do with
-      <application>Evolution</application>.
-    </para>
+      provide all the possible actions for any given view of your
+      data.  That means that, depending on the context, menu bar items
+      will change.  If you're looking at your Inbox, most of the menu
+      items will relate to mail; some will relate to other components
+      of <application>Evolution</application> and some, especially
+      those in the <guimenu>File Menu</guimenu> will relate to the
+      application as a whole. This section describes those items that
+      cover the application as a whole; items specific to mailer are
+      discussed in the mail chapter, calendar items in the calendar
+      chapter, and so forth.
+   </para>
+   <para>
+      <variablelist>
+        <varlistentry>
+          <term> <guimenu>File</guimenu> Menu</term>
 
-    <para>
+          <listitem><para> 
+            Anything related to a file falls under this
+            menu:
+              <itemizedlist>
+                <listitem><para>
+                    <guisubmenu>New... &mdash; </guisubmenu> If you
+                    want to create a new folder, calendar,
+                    appointment, address card, or message, this is
+                    where you should look.
+                </para></listitem>
+
+                <listitem><para>
+                   <guimenuitem>Go to Folder &mdash; </guimenuitem> 
+                    Select this item, then choose which folder you'd 
+                    like to view.
+                </para></listitem>
+                <listitem><para>
+                    <guimenuitem>Exit &mdash; </guimenuitem> Quits the application.
+                 </para></listitem>
+
+                <listitem><para>
+                    <guimenuitem>Print... &mdash; </guimenuitem> Opens the printing 
+                     dialog box so you can print items from the view pane of 
+                     <application>Evolution</application>. 
+                 </para></listitem>
+              </itemizedlist>
+            </para></listitem>
+        </varlistentry>
+
+       <varlistentry>
+          <term> <guimenu>Edit</guimenu> Menu </term>
+          <listitem><para>
+              Although it doesn't contain anything at first,
+              the <guimenu>Edit</guimenu> menu fills up with 
+              useful editing tools when you're... editing.
+          </para></listitem>
+        </varlistentry>
+
+        <varlistentry>
+          <term> <guimenu>Tools</guimenu> Menu </term>
+          <listitem><para> All of your assistants and configuration
+          tools go here.  For the <interface>Inbox</interface>, that
+          means things like <guimenuitem>Mail
+          Configuration</guimenuitem> and the <guimenuitem>vFolder
+          Editor</guimenuitem>.  For the
+          <interface>Calendar</interface> and the <interface>Contact
+          Manager</interface> </para></listitem>, they'll be different.
+        </varlistentry>
+
+        <varlistentry>
+          <term> <guimenu>Actions</guimenu> Menu </term>
+          <listitem><para>
+            This menu contains a list of actions you can perform on
+            the information you've stored with
+            <application>Evolution</application>.  The contents vary
+            depending on the view, but for the
+            <interface>Inbox</interface>, it contains items like
+            <guimenuitem>Mark All Messages Read</guimenuitem> and
+            <guimenuitem>Expunge</guimenuitem>, to erase all the 
+            messages you've marked for deletion.    
+          </para></listitem>
+        </varlistentry>
+
+       <varlistentry>
+          <term> <guimenu>Help</guimenu> Menu</term>
+          <listitem><para>
+             Select among these items to open the 
+             <application>Help Browser</application> to the appropriate section. 
+          </para></listitem>
+        </varlistentry>
+      </variablelist>
+   </para>
+   <para>
       Once you've familiarized yourself with the <interface>main
-      window</interface> you can start doing things with it.
-      We'll start with your email inbox: you've got a letter
-      waiting for you already.
+      window</interface> you can start doing things with it.  We'lql
+      start with your email inbox: you've got a letter waiting for you
+      already.
     </para>
   </sect1>
 </chapter>

@@ -1,6 +1,6 @@
-<!--
+
 <!DOCTYPE Chapter PUBLIC "-//GNOME//DTD DocBook PNG Variant V1.1//EN">
--->
+
 
 <chapter id="usage-mail"> 
   <title>Evolution Mail</title>
@@ -71,7 +71,99 @@
 	message in the <interface>message list</interface> to have it
 	open in a new window.  As is the case with folders, you can
 	right-click on messages in the message list and get a menu of
-	possible actions.
+	possible actions:
+        <variablelist>
+	 
+         <varlistentry>
+	    <term><guimenuitem>View Message</guimenuitem> </term>  
+	    <listitem><para> 
+               Select this item to view the message in
+               the view pane of the <application>Evolution</application>
+               window. 
+            </para></listitem>
+	  </varlistentry>
+
+	  <varlistentry>
+	    <term><guimenuitem>Edit Message</guimenuitem></term>
+            <listitem><para>
+               This item is available only for messages and drafts
+               that you have written. Select it to open the message
+               composer and make changes to the message.
+            </para></listitem> 
+	  </varlistentry>
+
+	  <varlistentry>
+	    <term><guimenuitem>Print Message</guimenuitem> </term>
+             <listitem><para>
+               Select this item to print a message.
+             </para></listitem>
+	  </varlistentry>
+	  
+	  <varlistentry>
+	    <term><guimenuitem>Reply to Sender</guimenuitem></term>
+	    <listitem><para>
+               Use this item to reply only to the author of the message.
+            </para></listitem>
+	  </varlistentry>
+
+	  <varlistentry>
+	    <term><guimenuitem>Reply to All</guimenuitem></term>
+	    <listitem><para> 
+               Send a reply to the author of the message
+	       and to all others on the recipient list. See <xref
+	       linkend="usage-mail-getnsend-send-reply"> for more information.
+	    </para></listitem>
+	  </varlistentry>
+	  
+          <varlistentry>
+             <term><guimenuitem>Forward Message</guimenuitem> </term>
+             <listitem><para> 
+               Send the message on to another person.
+               See <xref linkend="usage-mail-getnsent-fwd"> for
+               information about how to use the Forward feature.
+             </para></listitem>
+           </varlistentry>
+          
+	  <varlistentry>
+             <term><guimenuitem>Delete Message</guimenuitem> </term>
+             <listitem><para>
+                Mark the message for deletion. Choose <menuchoice> 
+                <guimenu>Actions</guimenu><guimenuitem>Expunge</guimenuitem>
+                </menuchoice> to delete marked messages permanently.
+             </para></listitem>
+           </varlistentry>
+
+	  <varlistentry>
+             <term><guimenuitem>Move Message</guimenuitem> </term>
+             <listitem><para>
+                Select this item to move the message to another folder. 
+                This will open a dialog to let you choose the destination
+                from a folder tree.
+             </para></listitem>
+           </varlistentry>
+	  </variablelist>
+      </para>
+      
+      <para>
+         You can also select the order in which messages appear in
+         that list.  To sort by sender, subject, or date, click on the
+         bars with those labels at the top of the message list.  If
+         you click twice, you'll sort them in reverse order.
+      </para>
+      <para>
+         Aside from sorting the messages, you can opt to have the
+         messages threaded. Select <menuchoice>
+         <guimenu>View</guimenu> <guimenuitem>Threaded Message
+         List</guimenuitem> </menuchoice> to turn the threaded view on
+         or off.  If the option selected,
+         <application>Evolution</application> will attempt to
+         associate related messages by using the
+         <systemitem>References</systemitem>,
+         <systemitem>In-Reply-To</systemitem>, and
+         <systemitem>Subject</systemitem> message headers.  Messages
+         which are related are then placed next to each other, so that
+         it's easier to follow the thread of a conversation from
+         message to message.
       </para>
       <para>
 	Go ahead and click on the message in the <interface>message
@@ -367,7 +459,7 @@ with quoted materials and the relevant replies interspersed-->
 	  know who is getting a message: it could be a mailing list
 	  with thousands of subscribers.
 	  <example>
-	    <title>Using the Reply-To feature</title>
+	    <title>Using the Reply to All feature</title>
 	    <para>
 	      Susan sends an email to a client, and sends copies to
 	      Tim and to an internal company mailing list of
@@ -694,7 +786,6 @@ possibly never will be due to security evil. -->
 	<application>Evolution</application> will as you for the name
 	and the type of the folder, and will provide you with a folder
 	tree so you can pick where it goes.
-       
       </para>
       <para>
         When you click <guibutton>OK</guibutton>, your new folder will

@@ -69,15 +69,16 @@
       <varlistentry>
 	 <term><guilabel>Signature File:</guilabel></term>
           <listitem>
-            <para> 
-             A text file appended to any email you send.  A
-             signature file typically consists of your name and email
-             address, or a quotation you like.  It should be three or
-             fewer lines of text.</para>
+            <para>
+             A text file appended to any email you send.  A signature
+             file typically consists of your name and email address,
+             or a quotation you like.  It should be fewer than four
+             lines of text.
+            </para>
          </listitem>
-	      </varlistentry>
+       </varlistentry>
 
-     <varlistentry>
+       <varlistentry>
            <term> <guilabel>Mail source type:</guilabel></term>
 	  <listitem>
 	    <para>
@@ -106,11 +107,11 @@
 	  <term><guilabel>Username:</guilabel></term>
 	<listitem>
              <para>
-              <guilabel>Username:</guilabel>Usually, this is
-              the part of your email address before the @ character,
-              and <application>Evolution</application> has selected
-              that value as the default.  If you have a different
-              username, you can enter it here.
+              Normally, this is the part of your email address before
+              the @ character, and
+              <application>Evolution</application> has selected that
+              value as the default.  If you have a different username,
+              you can enter it here.
             </para>
 	  </listitem>
       </varlistentry>

@@ -40,11 +40,21 @@
             </para>
           </listitem>
 	</varlistentry>
+
 	<varlistentry>
-	  <term><guilabel>Transports</guilabel></term>
+	  <term><guilabel>Sources</guilabel></term>
 	  <listitem>
 	    <para>
-              Here, you can specify how you will send mail.
+               Set your mail-checking protocols and servers here.
+            </para>
+          </listitem>
+	</varlistentry>
+
+	<varlistentry>
+	  <term><guilabel>News Servers</guilabel></term>
+	  <listitem>
+	    <para>
+              Specify your News Server preferences here.
            </para>
 	  </listitem>
 	</varlistentry>
@@ -94,7 +104,8 @@
 	    <para>
               <guilabel>Full Name:</guilabel> by default, this is the
               same name as the full name described in your user
-              account on your computer.
+              account on your computer.  You can select another if you
+              wish.
             </para>
 	  </listitem>
            <listitem>
@@ -127,7 +138,7 @@
     <sect2 id="config-prefs-mail-network">
       <title>Network Settings</title> 
       <para>
-        In order to do much of anything with
+        In order to send mail with
         <application>Evolution</application>, you need to connect to
         your network.  To do that, you'll need to know your user name
         and password, what sort of mail sending and receiving
@@ -231,16 +242,64 @@
          </para>
 	</sect3>
       </sect2>
-      <sect2 id="config-prefs-mail-other">
+      <sect2 id="config-prefs-network-news">
+
+ <!-- WHY is this in the MAIL config section? WHY is this UI SOOOO bad?-->
+          
+          <title>News Servers</title>
+          <para>
+            When you first select the <guilabel>News
+            Servers</guilabel> tab, you will see a blank box with
+            three familiar buttons on the right:
+            <guibutton>Add</guibutton>, <guibutton>Edit</guibutton>,
+            and <guibutton>Delete</guibutton>.
+          </para>  
+          <para>
+            Click <guibutton>Add</guibutton> to add a news server; you
+            will be prompted for its name.  Enter the name, click
+            <guibutton>OK</guibutton>
+
+
+     <sect2 id="config-prefs-mail-other">
 	<title>Other Mail Preferences</title>
 	<para>
-          Currently, there is only one option that falls into this
-          category: <guilabel>Send messages in HTML format</guilabel>.
-          If you check this box, you will send messages as HTML.  If
-          you leave it unchecked, your messages will be sent without
-          HTML formatting.  See <xref
-          linkend="usage-mail-getnsend-send-html"> for more
-          information about HTML mail.
+          Not everything fits neatly into categories.  This tab
+          contains some miscellaneous configurations that don't have
+          too much to do with each other.
+          <variablelist>
+             <varlistentry>
+                <term> 
+                   <guilabel>Send messages in HTML format</guilabel>
+                </term>
+                <listitem><para>
+                    If you check this box, you will send
+                    messages as HTML by default.  If you leave it unchecked, your
+                    messages will be sent without HTML formatting unless you select 
+                    <menuchoice> <guimenu>Format</guimenu> <guimenuitem>HTML</guimenuitem>
+                    </menuchoice> in the message composer.
+                    See <xref linkend="usage-mail-getnsend-send-html">
+                    for more information about HTML mail.
+                </para></listitem>
+              </varlistentry>
+              <varlistentry>
+                <term>
+                   <guilabel>Folder Format</guilabel>
+                </term>
+                <listitem> <para> By default,
+                   <application>Evolution</application> saves its mail
+                   in the
+                   <systemitem><filename>mbox</filename></systemitem>
+                   format. You can switch to the
+                   <systemitem><filename>mh</filename></systemitem>
+                   format if you like.  Note that this is an advanced
+                   feature and may cause you to lose some messages, so
+                   you should probably make a backup of your
+                   <systemitem><filename>evolution</filename></systemitem>
+                   directory first. In addition, it will take quite
+                   some time if you have a large mailbox.
+               </para></listitem>
+             </varlistentry>
+           </variablelist>
         </para>
       </sect2>
     </sect1>
@@ -287,8 +346,8 @@
     <sect2 id="config-prefs-cal-time">
       <title>Time Display Settings</title>
       <para>
-        The first tab, <interface>Time display tab</interface>, lets
-        you set the following:
+        The <guilabel>Time display</guilabel> tab lets you set the
+        following:
         <variablelist>
 	  <varlistentry>
 	    <term>Time format</term>
@@ -313,9 +372,10 @@
                  In the day and week views,
                  <application>Evolution</application> displays all the
                  hours in the range you select here, even if there are
-                 no appointments for those times.  Of course, if you
-                 set your days to end before they begin, you may be in
-                 for a little confusion.
+                 no appointments for those times.  Of course, you can
+                 still schedule an appointment outside of these hours,
+                 and if you do, the display will be extended to show
+                 it.
                </para>
 	    </listitem>
 	  </varlistentry>
@@ -461,7 +521,7 @@
     </sect2>
 
     <sect2 id="config-prefs-cal-alarms">
-      <title>Alarms settings</title>
+      <title>Alarms Settings</title>
       <para>  
         The <interface>alarms tab</interface> enables you to select from three boxes:
         <itemizedlist>
