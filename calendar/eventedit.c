@@ -1350,6 +1350,7 @@ ee_rp_init_exceptions (EventEditor *ee)
 	GtkWidget *vbox;
 	GtkWidget *ivbox;
 	GtkWidget *widget;
+	GtkWidget *sw;
 
 	frame = gtk_frame_new (_("Exceptions"));
 
