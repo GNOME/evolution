@@ -1,3 +1,9 @@
+1999-12-08  Eskil Heyn Olsen  <deity@eskil.dk>
+
+	* calendar-conduit-control-applet.c (setSettings): Capplets now
+	sets first_sync on enable, this should make the conduit copy old
+	entries from the pilot to gnomecal.
+
 1999-12-07  Eskil Heyn Olsen  <deity@eskil.dk>
 
 	* calendar-conduit.c (pre_sync): Check if local store is

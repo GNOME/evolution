@@ -60,7 +60,10 @@ static void
 setSettings(GCalConduitCfg* conduitCfg)
 {
 	if(conduitCfg->sync_type!=GnomePilotConduitSyncTypeCustom)
-		gpilotd_conduit_mgmt_enable(conduit,pilotId,conduitCfg->sync_type);
+		gpilotd_conduit_mgmt_enable_with_first_sync(conduit,pilotId,
+							    conduitCfg->sync_type,
+							    conduitCfg->sync_type,
+							    TRUE);
 	else
 		gpilotd_conduit_mgmt_disable(conduit,pilotId);
 
