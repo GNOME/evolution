@@ -1,7 +1,5 @@
 Gnome date selection widget:
 
-- Make the calendar a `real' popup window like in GtkCombo.
-
 - Make the displayed date be localized properly -- use strftime().
 
 Event editor dialog:
