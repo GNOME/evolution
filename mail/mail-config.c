@@ -605,7 +605,10 @@ mail_config_write (void)
 		
 		/* account pgp options */
 		path = g_strdup_printf ("/Mail/Accounts/account_pgp_key_%d", i);
-		bonobo_config_set_string (config->db, path, account->pgp_key, NULL);
+		if (account->pgp_key)
+			bonobo_config_set_string (config->db, path, account->pgp_key, NULL);
+		else
+			bonobo_config_set_string (config->db, path, "", NULL);
 		g_free (path);
 
 		path = g_strdup_printf ("/Mail/Accounts/account_pgp_encrypt_to_self_%d", i);
@@ -615,8 +618,12 @@ mail_config_write (void)
 		
 		/* account s/mime options */
 		path = g_strdup_printf ("/Mail/Accounts/account_smime_key_%d", i);
-		bonobo_config_set_string (config->db, path, 
-					  account->smime_key, NULL);
+		if (account->smime_key)
+			bonobo_config_set_string (config->db, path, 
+						  account->smime_key, NULL);
+		else
+			bonobo_config_set_string (config->db, path, 
+						  "", NULL);
 		g_free (path);
 
 		path = g_strdup_printf ("/Mail/Accounts/account_smime_encrypt_to_self_%d", i);
@@ -646,7 +653,10 @@ mail_config_write (void)
 					  account->id->signature, NULL);
 		g_free (path);
 		path = g_strdup_printf ("identity_html_signature_%d", i);
-		bonobo_config_set_string (config->db, path, account->id->html_signature, NULL);
+		if (account->id->html_signature)
+			bonobo_config_set_string (config->db, path, account->id->html_signature, NULL);
+		else
+			bonobo_config_set_string (config->db, path, "", NULL);
 		g_free (path);
 		path = g_strdup_printf ("identity_has_html_signature_%d", i);
 		bonobo_config_set_boolean (config->db, path, account->id->has_html_signature, NULL);

@@ -1084,6 +1084,8 @@ message_list_init (GtkObject *object)
 	message_list->hide_before = ML_HIDE_NONE_START;
 	message_list->hide_after = ML_HIDE_NONE_END;
 
+	message_list->search = NULL;
+
 	message_list->hide_lock = g_mutex_new();
 
 	message_list->uid_nodemap = g_hash_table_new (g_str_hash, g_str_equal);
