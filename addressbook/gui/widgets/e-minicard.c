@@ -452,6 +452,47 @@ field_changed (EText *text, EMinicard *e_minicard)
 }
 
 static void
+field_activated (EText *text, EMinicard *e_minicard)
+{
+	EBook *book;
+
+	e_card_simple_sync_card(e_minicard->simple);
+
+	gtk_object_get(GTK_OBJECT(GNOME_CANVAS_ITEM(e_minicard)->parent),
+		       "book", &book,
+		       NULL);
+	
+	/* Add the card in the contact editor to our ebook */
+	e_book_commit_card (book,
+			    e_minicard->card,
+			    card_changed_cb,
+			    NULL);
+}
+
+static void
+field_event (EText *text, GdkEvent *event, EMinicard *e_minicard)
+{
+	switch (event->type) {
+		case GDK_FOCUS_CHANGE:
+			if (!((GdkEventFocus *)event)->in) {
+				EBook *book;
+				
+				e_card_simple_sync_card(e_minicard->simple);
+				
+				gtk_object_get(GTK_OBJECT(GNOME_CANVAS_ITEM(e_minicard)->parent),
+					       "book", &book,
+					       NULL);
+				
+				/* Add the card in the contact editor to our ebook */
+				e_book_commit_card (book,
+						    e_minicard->card,
+						    card_changed_cb,
+						    NULL);
+			}
+	}
+}
+
+static void
 add_field (EMinicard *e_minicard, ECardSimpleField field)
 {
 	GnomeCanvasItem *new_item;
@@ -474,6 +515,10 @@ add_field (EMinicard *e_minicard, ECardSimpleField field)
 			       NULL );
 	gtk_signal_connect(GTK_OBJECT(E_MINICARD_LABEL(new_item)->field),
 			   "changed", GTK_SIGNAL_FUNC(field_changed), e_minicard);
+	gtk_signal_connect(GTK_OBJECT(E_MINICARD_LABEL(new_item)->field),
+			   "activate", GTK_SIGNAL_FUNC(field_activated), e_minicard);
+	gtk_signal_connect(GTK_OBJECT(E_MINICARD_LABEL(new_item)->field),
+			   "event", GTK_SIGNAL_FUNC(field_event), e_minicard);
 	gtk_object_set_data(GTK_OBJECT(E_MINICARD_LABEL(new_item)->field),
 			    "EMinicard:field",
 			    GINT_TO_POINTER(field));
