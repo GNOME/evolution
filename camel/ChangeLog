@@ -1,5 +1,15 @@
 2001-08-06  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* providers/pop3/camel-pop3-folder.c (pop3_get_message_stream):
+	New internal function to get a message stream by message sequence
+	id (so that we can share code between pop3_get_message and
+	pop3_generate_uids).
+	(pop3_get_message): Use pop3_get_message_stream.
+	(pop3_generate_uids): New function to generate UIDs based on the
+	message - this fixes bug #1256.
+	(pop3_refresh_info): If the server doesn't support UIDL, call
+	pop3_generate_uids to get our list of UIDs.
+
 	* providers/imap/camel-imap-store.c (get_folder_info_online):
 	Don't strstr for noselect=yes, that's just plain broken.
 
