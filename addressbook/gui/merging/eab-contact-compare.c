@@ -669,13 +669,17 @@ use_common_book_cb (EBook *book, gpointer closure)
 	qj = g_strjoinv (" ", query_parts);
 	for(i = 0; query_parts[i] != NULL; i++)
 		g_free(query_parts[i]);
-	if (p > 0) {
+	if (p > 1) {
 		char *s;
 		s = g_strdup_printf ("(or %s)", qj);
 		query = e_book_query_from_string (s);
 		g_free (s);
-	} else {
+	}
+	else if (p == 1) {
 		query = e_book_query_from_string (qj);
+	}
+	else {
+		query = NULL;
 	}
 
 	if (query)
@@ -684,7 +688,8 @@ use_common_book_cb (EBook *book, gpointer closure)
 		query_cb (book, E_BOOK_ERROR_OK, NULL, info);
 
 	g_free (qj);
-	e_book_query_unref (query);
+	if (query)
+		e_book_query_unref (query);
 }
 
 void

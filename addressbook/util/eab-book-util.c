@@ -200,7 +200,7 @@ eab_contact_list_to_string (GList *contacts)
 
 		g_string_append (str, vcard_str);
 		if (l->next)
-			g_string_append (str, "\r\n");
+			g_string_append (str, "\r\n\r\n");
 	}
 
 	return g_string_free (str, FALSE);

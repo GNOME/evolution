@@ -1,5 +1,16 @@
 2004-01-20  Chris Toshok  <toshok@ximian.com>
 
+	[ fixes bug #52955 ]
+	* gui/merging/eab-contact-compare.c (use_common_book_cb): handle
+	the case properly where there are no query parts (p == 0).
+	Instead of passing "" to e_book_query_from_string, just set the
+	query to NULL.
+
+	* util/eab-book-util.c (eab_contact_list_to_string): we need to
+	put a blank line here, so \r\n\r\n, not just \r\n.
+
+2004-01-20  Chris Toshok  <toshok@ximian.com>
+
 	* gui/component/addressbook-migrate.c (create_groups): deal with
 	the groups/sources already being there.  Essentially make this
 	function idempotent.
