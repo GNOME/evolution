@@ -60,6 +60,9 @@ struct _MailAccountsTab {
 	GtkWidget *druid;
 	GtkWidget *editor;
 	
+	GdkPixmap *mark_pixmap;
+	GdkBitmap *mark_bitmap;
+	
 	GtkCList *table;
 #if 0
 	ETable *table;

@@ -45,9 +45,6 @@
 #include "mail-account-editor-news.h"
 #include "mail-send-recv.h"
 
-#include "art/mail-new.xpm"
-#include "art/mail-read.xpm"
-
 #include "art/mark.xpm"
 
 #define USE_ETABLE 0
@@ -99,8 +96,8 @@ mail_accounts_tab_class_init (MailAccountsTabClass *klass)
 	
 	
 	/* setup static data */
-	disabled_pixbuf = gdk_pixbuf_new_from_xpm_data ((const char **) mail_new_xpm);
-	enabled_pixbuf = gdk_pixbuf_new_from_xpm_data ((const char **) mail_read_xpm);
+	disabled_pixbuf = NULL;
+	enabled_pixbuf = gdk_pixbuf_new_from_xpm_data ((const char **) mark_xpm);
 }
 
 static void
@@ -108,6 +105,8 @@ mail_accounts_tab_init (MailAccountsTab *prefs)
 {
 	prefs->druid = NULL;
 	prefs->editor = NULL;
+	
+	gdk_pixbuf_render_pixmap_and_mask (enabled_pixbuf, &prefs->mark_pixmap, &prefs->mark_bitmap, 128);
 }
 
 static void
@@ -116,6 +115,8 @@ mail_accounts_tab_finalise (GtkObject *obj)
 	MailAccountsTab *prefs = (MailAccountsTab *) obj;
 	
 	gtk_object_unref (GTK_OBJECT (prefs->gui));
+	gdk_pixmap_unref (prefs->mark_pixmap);
+	gdk_bitmap_unref (prefs->mark_bitmap);
 	
         ((GtkObjectClass *)(parent_class))->finalize (obj);
 }
@@ -319,11 +320,22 @@ account_able_clicked (GtkButton *button, gpointer user_data)
 				mail_remove_storage_by_uri (account->source->url);
 		}
 		
+#if USE_ETABLE
+		
+#else	
+		if (account->source->enabled)
+			gtk_clist_set_pixmap (prefs->table, row, 0, 
+					      prefs->mark_pixmap, 
+					      prefs->mark_bitmap);
+		else
+			gtk_clist_set_pixmap (prefs->table, row, 0, NULL, NULL);
+		
+		gtk_clist_select_row (prefs->table, row, 0);
+#endif
+		
 		mail_autoreceive_setup ();
 		
 		mail_config_write ();
-		
-		mail_accounts_load (prefs);
 	}
 }
 
@@ -438,6 +450,11 @@ mail_accounts_load (MailAccountsTab *prefs)
 			gtk_clist_insert (prefs->table, row, text);
 			
 			g_free (text[1]);
+			
+			if (account->source->enabled)
+				gtk_clist_set_pixmap (prefs->table, row, 0, 
+						      prefs->mark_pixmap, 
+						      prefs->mark_bitmap);
 			
 			gtk_clist_set_row_data (prefs->table, row, (gpointer) account);
 		}
