@@ -1,3 +1,11 @@
+2003-04-09  Chris Toshok  <toshok@ximian.com>
+
+	Fixes #40133
+	
+	* pcs/cal-backend.c (cal_backend_class_init): use G_TYPE_INT
+	instead of G_TYPE_ENUM as a parameter type for the signal to get
+	rid of runtime warning.
+
 2003-04-09  JP Rosevear  <jpr@ximian.com>
 
 	Fixes #40915

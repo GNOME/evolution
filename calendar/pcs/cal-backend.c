@@ -146,7 +146,7 @@ cal_backend_class_init (CalBackendClass *class)
 			      NULL, NULL,
 			      g_cclosure_marshal_VOID__ENUM,
 			      G_TYPE_NONE, 1,
-			      G_TYPE_ENUM);
+			      G_TYPE_INT);
 	cal_backend_signals[OBJ_UPDATED] =
 		g_signal_new ("obj_updated",
 			      G_TYPE_FROM_CLASS (class),
