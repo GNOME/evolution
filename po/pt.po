@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 2.6\n"
 "Report-Msgid-Bugs-To: Duarte Loreto <happyguy_pt@hotmail.com>\n"
-"POT-Creation-Date: 2003-12-11 23:41+0000\n"
-"PO-Revision-Date: 2003-12-11 23:45+0000\n"
+"POT-Creation-Date: 2003-12-24 01:36+0000\n"
+"PO-Revision-Date: 2003-12-24 01:40+0000\n"
 "Last-Translator: Duarte Loreto <happyguy_pt@hotmail.com>\n"
 "Language-Team: Portuguese <gnome_pt@yahoogroups.com>\n"
 "MIME-Version: 1.0\n"
@@ -11951,7 +11951,7 @@ msgstr "Reponder para _Lista"
 msgid "Reply to _All"
 msgstr "Reponder _a Todos"
 
-#: mail/folder-browser.c:1797
+#: mail/folder-browser.c:1797 ui/evolution-mail-message.xml.h:98
 msgid "_Forward"
 msgstr "R_eencaminhar"
 
@@ -26928,8 +26928,8 @@ msgid "Display the previous unread message"
 msgstr "Mostrar a mensagem anterior por ler"
 
 #: ui/evolution-mail-message.xml.h:28
-msgid "F_orward"
-msgstr "R_eencaminhar"
+msgid "F_orward As..."
+msgstr "R_eencaminhar Como..."
 
 #: ui/evolution-mail-message.xml.h:29
 msgid "Filter on Mailing _List..."
@@ -27166,10 +27166,6 @@ msgstr "_Copiar para Pasta"
 #: ui/evolution-mail-message.xml.h:96
 msgid "_Create Filter From Message"
 msgstr "_Criar Filtro a Partir Mensagem"
-
-#: ui/evolution-mail-message.xml.h:98
-msgid "_Forward Message"
-msgstr "R_eencaminhar Mensagem"
 
 #: ui/evolution-mail-message.xml.h:99
 msgid "_Go To"
@@ -28015,6 +28011,9 @@ msgstr "Backend de ficheiro local de Calendário Evolution"
 #: wombat/GNOME_Evolution_WombatNOLDAP.server.in.in.h:1
 msgid "Evolution Addressbook local file backend"
 msgstr "Backend de ficheiro local de Livro de Endereços Evolution"
+
+#~ msgid "_Forward Message"
+#~ msgstr "R_eencaminhar Mensagem"
 
 #~ msgid "Host lookup failed: cannot create thread: %s"
 #~ msgstr "Falha ao procurar servidor: incapaz de criar thread: %s"
