@@ -413,6 +413,8 @@ set_option (ESearchBar *esb, ESearchBarItem *items)
 	menu = build_items (esb, items, 1, &efb->option_base, efb->option_rules);
 	((ESearchBarClass *)parent_class)->set_option (esb, (ESearchBarItem *)menu->data);
 	g_array_free (menu, TRUE);
+
+	e_search_bar_set_item_id (esb, efb->option_base);
 }
 
 static void

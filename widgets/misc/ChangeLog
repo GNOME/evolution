@@ -1,3 +1,8 @@
+2001-10-30    <NotZed@Ximian.com>
+
+	* e-filter-bar.c (set_option): Set the item to the option_base on
+	it, so the current item is set.  Fix for #7081.
+
 2001-10-30  Christopher James Lahey  <clahey@ximian.com>
 
 	* e-cell-date-edit.c (e_cell_date_edit_get_popup_pos): Adapt to
