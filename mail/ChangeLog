@@ -1,8 +1,15 @@
+2005-02-23  Jeffrey Stedfast  <fejj@novell.com>
+
+	* em-format-html.c (efh_format_header): Don't use the pre-UTF-8
+	converted subject header string from the CamelMimeMessage object,
+	decode it ourselves using the the user's override charset. Fixes
+	bug #62109.
+
 2005-02-21  Not Zed  <NotZed@Ximian.com>
 
 	** See bug #71528.
 
- 	* em-migrate.c (remove_system_searches, em_migrate_1_4): remove
+	* em-migrate.c (remove_system_searches, em_migrate_1_4): remove
 	all 'system' searches when upgrading from pre 2.0.
 
 2005-02-21  Not Zed  <NotZed@Ximian.com>

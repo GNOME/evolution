@@ -1529,7 +1529,7 @@ efh_format_header(EMFormat *emf, CamelStream *stream, CamelMedium *part, struct 
 		
 		flags |= EM_FORMAT_HEADER_BOLD | EM_FORMAT_HTML_HEADER_HTML;
 	} else if (!strcmp(name, "subject")) {
-		txt = camel_mime_message_get_subject(msg);
+		txt = value = camel_header_decode_string (header->value, charset);
 		label = _("Subject");
 		flags |= EM_FORMAT_HEADER_BOLD;
 	} else if (!strcmp(name, "x-evolution-mailer")) {
