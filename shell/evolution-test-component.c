@@ -267,16 +267,14 @@ shared_folder_discovery_timeout_callback (void *data)
 	CORBA_Environment ev;
 	Bonobo_Listener listener;
 	CORBA_any any;
-	GNOME_Evolution_Storage_DiscoverSharedFolderResult result;
+	GNOME_Evolution_Storage_FolderResult result;
 
 	listener = (Bonobo_Listener) data;
 
 	result.result = GNOME_Evolution_Storage_OK;
-	result.storagePath = "/Shared Folders/The Public Folder";
-	result.physicalURI = "blah://bleh.net:3764/bluh/bleh/blih";
-	result.type = "test";
+	result.path = "/Shared Folders/The Public Folder";
 
-	any._type = TC_GNOME_Evolution_Storage_DiscoverSharedFolderResult;
+	any._type = TC_GNOME_Evolution_Storage_FolderResult;
 	any._value = &result;
 
 	CORBA_exception_init (&ev);

@@ -370,20 +370,18 @@ shared_folder_discovery_listener_callback (BonoboListener *listener,
 					   CORBA_Environment *ev,
 					   void *data)
 {
-	GNOME_Evolution_Storage_DiscoverSharedFolderResult *result;
+	GNOME_Evolution_Storage_FolderResult *result;
 	DiscoveryData *discovery_data;
 
 	discovery_data = (DiscoveryData *) data;
-	result = (GNOME_Evolution_Storage_DiscoverSharedFolderResult *) value->_value;
+	result = (GNOME_Evolution_Storage_FolderResult *) value->_value;
 
 	cleanup_discovery (discovery_data);
 
 	/* FIXME: The folder has been discovered; do something here, i.e. show
 	   the folder.  */
 
-	e_notice (NULL, GNOME_MESSAGE_BOX_INFO,
-		  "Found folder\n%s\n%s\n%s",
-		  result->storagePath, result->physicalURI, result->type);
+	e_notice (NULL, GNOME_MESSAGE_BOX_INFO, "Found folder\n%s", result->path);
 }
 
 static void

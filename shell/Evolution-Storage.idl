@@ -37,13 +37,6 @@ module Evolution {
 			string path;
 		};
 
-		struct DiscoverSharedFolderResult {
-			Result result;
-			string storagePath;
-			string physicalURI;
-			string type;
-		};
-
 		/* The name of the storage.  */
 		readonly attribute string name;
 

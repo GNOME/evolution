@@ -1,5 +1,14 @@
 2002-05-10  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-shell-shared-folder-picker-dialog.c
+	(shared_folder_discovery_listener_callback): Updated for
+	FolderResult instead of DiscoverSharedFolderResult.
+
+	* Evolution-Storage.idl: Remove struct DiscoverSharedFolderResult;
+	we want to just use FolderResult for asyncDiscoverSharedFolder.
+
+2002-05-10  Ettore Perazzoli  <ettore@ximian.com>
+
 	* evolution-test-component.c: Added some tests for the custom
 	storage.
 
