@@ -314,6 +314,17 @@ e_destination_clear (EDestination *dest)
 	e_destination_thaw (dest);
 }
 
+static gboolean
+nonempty (const gchar *s)
+{
+	while (s) {
+		if (! isspace ((gint) *s))
+			return TRUE;
+		++s;
+	}
+	return FALSE;
+}
+
 gboolean
 e_destination_is_empty (const EDestination *dest)
 {
@@ -324,10 +335,10 @@ e_destination_is_empty (const EDestination *dest)
 	return !(p->card != NULL
 		 || (p->book_uri && *p->book_uri)
 		 || (p->card_uid && *p->card_uid)
-		 || (p->raw && *p->raw)
-		 || (p->name && *p->name)
-		 || (p->email && *p->email)
-		 || (p->addr && *p->addr)
+		 || (p->raw && nonempty (p->raw))
+		 || (p->name && nonempty (p->name))
+		 || (p->email && nonempty (p->email))
+		 || (p->addr && nonempty (p->addr))
 		 || (p->list_dests != NULL));
 }
 
@@ -1539,7 +1550,7 @@ e_destination_importv (const gchar *str)
 		EDestination *dest;
 		
 		dest = e_destination_new ();
-		if (e_destination_xml_decode (dest, node)) {
+		if (e_destination_xml_decode (dest, node) && !e_destination_is_empty (dest)) {
 			g_ptr_array_add (dest_array, dest);
 		} else {
 			gtk_object_unref (GTK_OBJECT (dest));

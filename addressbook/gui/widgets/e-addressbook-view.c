@@ -1521,7 +1521,7 @@ e_addressbook_view_can_create (EAddressbookView  *view)
 gboolean
 e_addressbook_view_can_print (EAddressbookView  *view)
 {
-	return view ? e_addressbook_view_selection_nonempty (view) : FALSE;
+	return view && view->model ? e_addressbook_model_card_count (view->model) : FALSE;
 }
 
 gboolean

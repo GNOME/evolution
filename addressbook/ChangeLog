@@ -1,10 +1,25 @@
+2001-10-20  Jon Trowbridge  <trow@ximian.com>
+
+	* backend/ebook/e-destination.c (e_destination_importv): Filter
+	out empty destinations. (also Bug #13036)
+
+	* printing/e-contact-print.c (e_contact_build_style): Use
+	gnome_font_new_closest; if gnome_font_new fails and returns NULL,
+	our spacing gets all messed up. (Bug #10785)
+	
+	* gui/widgets/e-addressbook-view.c (e_addressbook_view_can_print):
+	Allow printing if there are any cards in our view.  The selection
+	has nothing to do with it.
+
+	* backend/ebook/e-destination.c (e_destination_is_empty): Check
+	for strings that contain non-whitespace, rather than just looking
+	for a non-zero first character. (Bug #13036)
+
 2001-10-20  Christopher James Lahey  <clahey@ximian.com>
 
 	* gui/widgets/e-minicard-view.c (e_minicard_view_selection_event):
 	Handle focus_change in event by selecting that contact.  Fixes
 	Ximian bug #3024.
-
-2001-10-20  Christopher James Lahey  <clahey@ximian.com>
 
 	* gui/component/addressbook-component.c (owner_unset_cb):
 	Repeatedly call gtk_main_quit here as long as there is a main loop
