@@ -273,6 +273,7 @@ struct prop_info {
 
 	STRING_PROP (E_CARD_SIMPLE_FIELD_CALURI,      "caluri", "calCalURI"),
 	STRING_PROP (E_CARD_SIMPLE_FIELD_FBURL,       "fburl", "calFBURL"),
+	STRING_PROP (E_CARD_SIMPLE_FIELD_ICSCALENDAR, "icscalendar", "icsCalendar"),
 
 /*  	E_CARD_SIMPLE_FIELD_NAME_OR_ORG, */
 

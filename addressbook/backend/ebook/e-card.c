@@ -67,6 +67,7 @@ enum {
 	ARG_MAILER,
 	ARG_CALURI,
 	ARG_FBURL,
+	ARG_ICSCALENDAR,
 	ARG_NOTE,
 	ARG_RELATED_CONTACTS,
 	ARG_CATEGORIES,
@@ -114,6 +115,7 @@ static void parse_anniversary(ECard *card, VObject *object, char *default_charse
 static void parse_mailer(ECard *card, VObject *object, char *default_charset);
 static void parse_caluri(ECard *card, VObject *object, char *default_charset);
 static void parse_fburl(ECard *card, VObject *object, char *default_charset);
+static void parse_icscalendar(ECard *card, VObject *object, char *default_charset);
 static void parse_note(ECard *card, VObject *object, char *default_charset);
 static void parse_related_contacts(ECard *card, VObject *object, char *default_charset);
 static void parse_categories(ECard *card, VObject *object, char *default_charset);
@@ -158,6 +160,7 @@ struct {
 	{ VCMailerProp,              parse_mailer },
 	{ "CALURI",                  parse_caluri },
 	{ "FBURL",                   parse_fburl },
+	{ "ICSCALENDAR",             parse_icscalendar },
 	{ VCNoteProp,                parse_note },
 	{ XEV_RELATED_CONTACTS,      parse_related_contacts },
 	{ "CATEGORIES",              parse_categories },
@@ -644,6 +647,9 @@ e_card_get_vobject (const ECard *card, gboolean assumeUTF8)
 
 	if (card->fburl)
 		ADD_PROP_VALUE(vobj, "FBURL", card->fburl);
+
+	if (card->icscalendar)
+		ADD_PROP_VALUE(vobj, "ICSCALENDAR", card->icscalendar);
 	
 	if (card->note) {
 		VObject *noteprop;
@@ -1018,6 +1024,13 @@ parse_fburl(ECard *card, VObject *vobj, char *default_charset)
 }
 
 static void
+parse_icscalendar(ECard *card, VObject *vobj, char *default_charset)
+{
+	g_free(card->icscalendar);
+	assign_string(vobj, default_charset, &(card->icscalendar));
+}
+
+static void
 parse_note(ECard *card, VObject *vobj, char *default_charset)
 {
 	g_free(card->note);
@@ -1321,6 +1334,8 @@ e_card_class_init (ECardClass *klass)
 				 GTK_TYPE_STRING, GTK_ARG_READWRITE, ARG_CALURI);
 	gtk_object_add_arg_type ("ECard::fburl",
 				 GTK_TYPE_STRING, GTK_ARG_READWRITE, ARG_FBURL);
+	gtk_object_add_arg_type ("ECard::icscalendar",
+				 GTK_TYPE_STRING, GTK_ARG_READWRITE, ARG_ICSCALENDAR);
 	gtk_object_add_arg_type ("ECard::note",
 				 GTK_TYPE_STRING, GTK_ARG_READWRITE, ARG_NOTE);
 	gtk_object_add_arg_type ("ECard::related_contacts",
@@ -1844,6 +1859,7 @@ e_card_destroy (GtkObject *object)
 	g_free(card->anniversary);
 	g_free(card->caluri);
 	g_free(card->fburl);
+	g_free(card->icscalendar);
 	g_free(card->note);
 	g_free(card->related_contacts);
 
@@ -1990,6 +2006,10 @@ e_card_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 	case ARG_FBURL:
 		g_free(card->fburl);
 		card->fburl = g_strdup(GTK_VALUE_STRING(*arg));
+		break;
+	case ARG_ICSCALENDAR:
+		g_free(card->icscalendar);
+		card->icscalendar = g_strdup(GTK_VALUE_STRING(*arg));
 		break;
 	case ARG_NOTE:
 		g_free (card->note);
@@ -2157,6 +2177,9 @@ e_card_get_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 	case ARG_FBURL:
 		GTK_VALUE_STRING(*arg) = card->fburl;
 		break;
+	case ARG_ICSCALENDAR:
+		GTK_VALUE_STRING(*arg) = card->icscalendar;
+		break;
 	case ARG_NOTE:
 		GTK_VALUE_STRING(*arg) = card->note;
 		break;
@@ -2230,6 +2253,7 @@ e_card_init (ECard *card)
 	card->mailer              = NULL;
 	card->caluri              = NULL;
 	card->fburl               = NULL;
+	card->icscalendar         = NULL;
 	card->note                = NULL;
 	card->related_contacts    = NULL;
 	card->categories          = NULL;

@@ -142,7 +142,7 @@ entry_get_property_fn (BonoboPropertyBag *bag,
 			}
 
 			CORBA_free (*(GNOME_Evolution_Addressbook_SimpleCardList **)arg->_value);
-			BONOBO_ARG_SET_GENERAL (arg, card_list, TC_GNOME_Evolution_Addressbook_SimpleCardList, GNOME_Evolution_Addressbook_SimpleCardList *, NULL);
+			BONOBO_ARG_SET_GENERAL (arg, *card_list, TC_GNOME_Evolution_Addressbook_SimpleCardList, GNOME_Evolution_Addressbook_SimpleCardList, NULL);
 		}
 		break;
 
