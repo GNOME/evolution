@@ -19,7 +19,7 @@ struct Connection {
 };
 typedef sequence<Connection> ConnectionList;
 
-interface OfflineProgressListener : Bonobo::Unknown {
+interface OfflineProgressListener {
 	/* Update the shell about the progress of going off-line.  The
 	   operation is considered completed when the ConnectionList is empty. */
 	void updateProgress (in ConnectionList current_active_connections);

@@ -790,12 +790,18 @@ e_shell_offline_handler_put_components_offline (EShellOfflineHandler *offline_ha
 	priv->procedure_in_progress = TRUE;
 	priv->parent_shell_view = parent_shell_view;
 
+	/* Add an extra ref here as the signal handlers might want to unref
+	   us.  */
+
+	gtk_object_ref (GTK_OBJECT (offline_handler));
+
 	gtk_signal_emit (GTK_OBJECT (offline_handler), signals[OFFLINE_PROCEDURE_STARTED]);
 
 	if (! prepare_for_offline (offline_handler)) {
 		/* FIXME: Maybe do something smarter here.  */
-		g_warning ("Couldn't put components off-line for some internal error");
+		g_warning ("Couldn't put components off-line");
 		gtk_signal_emit (GTK_OBJECT (offline_handler), signals[OFFLINE_PROCEDURE_FINISHED], FALSE);
+		gtk_object_unref (GTK_OBJECT (offline_handler));
 		return;
 	}
 
@@ -803,6 +809,8 @@ e_shell_offline_handler_put_components_offline (EShellOfflineHandler *offline_ha
 		pop_up_confirmation_dialog (offline_handler);
 	else
 		finalize_offline (offline_handler);
+
+	gtk_object_unref (GTK_OBJECT (offline_handler));
 }
 
 

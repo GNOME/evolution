@@ -1,5 +1,20 @@
 2001-07-03  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-shell-offline-handler.c
+	(e_shell_offline_handler_put_components_offline): Ref/unref the
+	handler so the signal handlers can unref it safely.  Also, if
+	`prepare_for_offline()' fails, don't say that there was an
+	internal error, as that's confusing.  Just say we couldn't put the
+	components off-line.
+
+	[Fix #3758, clicking on the online/offline button crashed
+	Evolution.]
+
+	* Evolution-Offline.idl: Don't derive OfflineProgressListener from
+	Bonobo::Unknown.
+
+2001-07-03  Ettore Perazzoli  <ettore@ximian.com>
+
 	[Fixed #3643, Shell crash when component crashed]
 
 	* e-shell-view.c (socket_destroy_cb): Fix Jason's broken fix for
