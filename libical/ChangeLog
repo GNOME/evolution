@@ -1,3 +1,14 @@
+2001-09-06  Damon Chaplin  <damon@ximian.com>
+
+	* src/libical/icalcomponent.c (icalcomponent_merge_vtimezone): pass
+	the VTIMEZONE component to icalcomponent_compare_vtimezones(), not
+	the icaltimezone*. Strangely we weren't getting a compiler error.
+	Fixes bug #5275, hopefully.
+
+	* src/libical/icaltimezone.c (icaltimezone_dump_changes): updated so
+	it still outputs the same format, even though the '1 Jan 0001'
+	component isn't included any more. 
+
 2001-08-31  Damon Chaplin  <damon@ximian.com>
 
 	* zoneinfo/*: updated all of the VTIMEZONE files to try to be more

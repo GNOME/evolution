@@ -1578,7 +1578,8 @@ static void icalcomponent_merge_vtimezone (icalcomponent *comp,
   icalproperty *tzid_prop;
   const char *tzid;
   char *tzid_copy;
-  icaltimezone *existing_vtimezone;
+  icaltimezone *existing_zone;
+  icalcomponent *existing_vtimezone;
 
   /* Get the TZID of the VTIMEZONE. */
   tzid_prop = icalcomponent_get_first_property (vtimezone, ICAL_TZID_PROPERTY);
@@ -1590,11 +1591,11 @@ static void icalcomponent_merge_vtimezone (icalcomponent *comp,
     return;
 
   /* See if there is already a VTIMEZONE in comp with the same TZID. */
-  existing_vtimezone = icalcomponent_get_timezone (comp, tzid);
+  existing_zone = icalcomponent_get_timezone (comp, tzid);
 
   /* If there is no existing VTIMEZONE with the same TZID, we can just move
      the VTIMEZONE to comp and return. */
-  if (!existing_vtimezone) {
+  if (!existing_zone) {
     icalcomponent_remove_component (icalcomponent_get_parent (vtimezone),
 				    vtimezone);
     icalcomponent_add_component (comp, vtimezone);
@@ -1616,6 +1617,7 @@ static void icalcomponent_merge_vtimezone (icalcomponent *comp,
     return;
   }
 
+  existing_vtimezone = icaltimezone_get_component (existing_zone);
   if (!icalcomponent_compare_vtimezones (existing_vtimezone, vtimezone)) {
     /* FIXME: Handle possible NEWFAILED error. */
 

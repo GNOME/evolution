@@ -1541,6 +1541,32 @@ icaltimezone_dump_changes		(icaltimezone	*zone,
     printf ("Num changes: %i\n", zone->changes->num_elements);
 #endif
 
+    /* This shouldn't happen. */
+    if (zone->changes->num_elements == 0) {
+	fprintf (fp, "%s\tNO CHANGES", zone->location);
+	return;
+    }
+
+    zone_change = icalarray_element_at (zone->changes, 0);
+
+    /* If there is just one change, and the TZOFFSETFROM and TZOFFSETTO are
+       the same, meaning the zone just uses the same offset forever, we output
+       the special '1 Jan 0001' date instead and return. */
+    if (zone->changes->num_elements == 1
+	&& zone_change->prev_utc_offset == zone_change->utc_offset
+	&& (zone_change->year == 1600 || zone_change->year == 1601)) {
+	fprintf (fp, "%s\t 1 Jan 0001\t 0:00:00", zone->location);
+	format_utc_offset (zone_change->utc_offset, buffer);
+	fprintf (fp, "\t%s\n", buffer);
+	return;
+    }
+
+    /* Output the special 1 Jan 0001 change here, using the TZOFFSET_FROM
+       field of the first change. */
+    fprintf (fp, "%s\t 1 Jan 0001\t 0:00:00", zone->location);
+    format_utc_offset (zone_change->prev_utc_offset, buffer);
+    fprintf (fp, "\t%s\n", buffer);
+
     change_num = 0;
     for (change_num = 0; change_num < zone->changes->num_elements; change_num++) {
 	zone_change = icalarray_element_at (zone->changes, change_num);
@@ -1556,9 +1582,7 @@ icaltimezone_dump_changes		(icaltimezone	*zone,
 
 	/* Wall Clock Time offset from UTC. */
 	format_utc_offset (zone_change->utc_offset, buffer);
-	fprintf (fp, "\t%s", buffer);
-
-	fprintf (fp, "\n");
+	fprintf (fp, "\t%s\n", buffer);
     }
 }
 
