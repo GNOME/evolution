@@ -92,10 +92,20 @@ set_prop (BonoboPropertyBag *bag,
 	  gpointer           user_data)
 {
 	GnomeCalendar *gcal = user_data;
+	char *uri;
 
 	switch (arg_id) {
 	case PROPERTY_CALENDAR_URI_IDX:
-		gnome_calendar_open (gcal, BONOBO_ARG_GET_STRING (arg)); /* FIXME: result value -> exception? */
+		uri = BONOBO_ARG_GET_STRING (arg);
+		if (!gnome_calendar_open (gcal, uri)) {
+			char *msg;
+
+			msg = g_strdup_printf (_("Could not open the folder in '%s'"), uri);
+			gnome_error_dialog_parented (
+				msg,
+				GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (gcal))));
+			g_free (msg);
+		}
 		break;
 
 	default:
