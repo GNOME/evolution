@@ -43,7 +43,7 @@
 #include "camel-exception.h"
 #include "md5-utils.h"
 
-/* Specified in RFC ???? */
+/* Specified in RFC 821 */
 #define SMTP_PORT 25
 
 static CamelServiceClass *service_class = NULL;
@@ -102,7 +102,7 @@ camel_smtp_transport_get_type (void)
 {
 	static GtkType camel_smtp_transport_type = 0;
 
-	if (!camel_smtp_transport_type)	{
+	if (!camel_smtp_transport_type) {
 		GtkTypeInfo camel_smtp_transport_info =	
 		{
 			"CamelSmtpTransport",
@@ -161,7 +161,7 @@ smtp_connect (CamelService *service, CamelException *ex)
 	do {
 		/* Check for "220" */
 		g_free(respbuf);
-		respbuf = camel_stream_buffer_read_line (CAMEL_STREAM_BUFFER (transport->istream));
+		respbuf = camel_stream_buffer_read_line (CAMEL_STREAM_BUFFER (transport->istream), ex);
 		if ( !respbuf || strncmp(respbuf, "220", 3) ) {
 			camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
 					      "Welcome response error: "
@@ -270,7 +270,7 @@ _send_to (CamelTransport *transport, CamelMedium *message,
 	if (!camel_service_is_connected (service))
 		smtp_connect (service, ex);
 
-	s = camel_mime_message_get_from (CAMEL_MIME_MESSAGE(message));
+	s = g_strdup(camel_mime_message_get_from (CAMEL_MIME_MESSAGE(message)));
 	if (!s) {
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
 				      "Cannot send message: "
@@ -281,7 +281,7 @@ _send_to (CamelTransport *transport, CamelMedium *message,
 	sender = smtp_get_email_addr_from_text(s);
 	smtp_mail(smtp_transport, sender, ex);
 	g_free(sender);
-	g_free(s);
+   g_free(s);
 
 	if (!(len = g_list_length(recipients))) {
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
@@ -311,16 +311,15 @@ static gboolean
 _send (CamelTransport *transport, CamelMedium *message,
        CamelException *ex)
 {
-	GList *to, *cc, *bcc, *recipients;
+   const CamelInternetAddress *to, *cc, *bcc;
+	GList *recipients = NULL;
 
-	to = camel_mime_message_get_recipients ((CamelMimeMessage *) message, "To");
-	cc = camel_mime_message_get_recipients ((CamelMimeMessage *) message, "Cc");
-	bcc = camel_mime_message_get_recipients ((CamelMimeMessage *) message, "Bcc");
-	recipients = g_list_concat(to, cc);
-	recipients = g_list_concat(recipients, bcc);
-	g_list_free(to);
-	g_list_free(cc);
-	g_list_free(bcc);
+   /* TODO: we want to dump all recipient addresses into a GList */
+	to = camel_mime_message_get_recipients ((CamelMimeMessage *) message, CAMEL_RECIPIENT_TYPE_TO);
+	cc = camel_mime_message_get_recipients ((CamelMimeMessage *) message, CAMEL_RECIPIENT_TYPE_CC);
+	bcc = camel_mime_message_get_recipients ((CamelMimeMessage *) message, CAMEL_RECIPIENT_TYPE_BCC);
+	/*recipients = g_list_concat(to, cc);
+	recipients = g_list_concat(recipients, bcc);*/
 
 	return _send_to (transport, message, recipients, ex);
 }
@@ -427,7 +426,7 @@ smtp_helo (CamelSmtpTransport *transport, CamelException *ex)
 		cmdbuf = g_strdup_printf ("EHLO %s\r\n", localhost);
 	else
 		cmdbuf = g_strdup_printf ("HELO %s\r\n", localhost);
-	if ( camel_stream_write (transport->ostream, cmdbuf, strlen(cmdbuf)) == -1) {
+	if ( camel_stream_write (transport->ostream, cmdbuf, strlen(cmdbuf), ex) == -1) {
 		g_free(cmdbuf);
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
 				      "HELO request timed out: "
@@ -440,7 +439,7 @@ smtp_helo (CamelSmtpTransport *transport, CamelException *ex)
 	do {
 		/* Check for "250" */
 		g_free(respbuf);
-		respbuf = camel_stream_buffer_read_line (CAMEL_STREAM_BUFFER (transport->istream));
+		respbuf = camel_stream_buffer_read_line (CAMEL_STREAM_BUFFER (transport->istream), ex);
 		if ( !respbuf || strncmp(respbuf, "250", 3) ) {
 			camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
 					      "HELO response error: "
@@ -462,7 +461,7 @@ smtp_mail (CamelSmtpTransport *transport, gchar *sender, CamelException *ex)
 
 	/* enclose address in <>'s since some SMTP daemons *require* that */
 	cmdbuf = g_strdup_printf("MAIL FROM: <%s>\r\n", sender);
-	if ( camel_stream_write (transport->ostream, cmdbuf, strlen(cmdbuf)) == -1) {
+	if ( camel_stream_write (transport->ostream, cmdbuf, strlen(cmdbuf), ex) == -1) {
 		g_free(cmdbuf);
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
 				      "MAIL FROM request timed out: "
@@ -475,7 +474,7 @@ smtp_mail (CamelSmtpTransport *transport, gchar *sender, CamelException *ex)
 	do {
 		/* Check for "250 Sender OK..." */
 		g_free(respbuf);
-		respbuf = camel_stream_buffer_read_line (CAMEL_STREAM_BUFFER (transport->istream));
+		respbuf = camel_stream_buffer_read_line (CAMEL_STREAM_BUFFER (transport->istream), ex);
 		if ( !respbuf || strncmp(respbuf, "250", 3) ) {
 			camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
 					      "MAIL FROM response error: "
@@ -498,7 +497,7 @@ smtp_rcpt (CamelSmtpTransport *transport, gchar *recipient, CamelException *ex)
 
 	/* enclose address in <>'s since some SMTP daemons *require* that */
 	cmdbuf = g_strdup_printf("RCPT TO: <%s>\r\n", recipient);
-	if ( camel_stream_write (transport->ostream, cmdbuf, strlen(cmdbuf)) == -1) {
+	if ( camel_stream_write (transport->ostream, cmdbuf, strlen(cmdbuf), ex) == -1) {
 		g_free(cmdbuf);
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
 				      "RCPT TO request timed out: "
@@ -511,7 +510,7 @@ smtp_rcpt (CamelSmtpTransport *transport, gchar *recipient, CamelException *ex)
 	do {
 		/* Check for "250 Sender OK..." */
 		g_free(respbuf);
-		respbuf = camel_stream_buffer_read_line (CAMEL_STREAM_BUFFER (transport->istream));
+		respbuf = camel_stream_buffer_read_line (CAMEL_STREAM_BUFFER (transport->istream), ex);
 		if ( !respbuf || strncmp(respbuf, "250", 3) ) {
 			camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
 					      "RCPT TO response error: "
@@ -535,7 +534,7 @@ smtp_data (CamelSmtpTransport *transport, CamelMedium *message, CamelException *
 
 	/* enclose address in <>'s since some SMTP daemons *require* that */
 	cmdbuf = g_strdup("DATA\r\n");
-	if ( camel_stream_write (transport->ostream, cmdbuf, strlen(cmdbuf)) == -1) {
+	if ( camel_stream_write (transport->ostream, cmdbuf, strlen(cmdbuf), ex) == -1) {
 		g_free(cmdbuf);
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
 				      "DATA request timed out: "
@@ -545,7 +544,7 @@ smtp_data (CamelSmtpTransport *transport, CamelMedium *message, CamelException *
 	}
 	g_free(cmdbuf);
 
-	respbuf = camel_stream_buffer_read_line (CAMEL_STREAM_BUFFER (transport->istream));
+	respbuf = camel_stream_buffer_read_line (CAMEL_STREAM_BUFFER (transport->istream), ex);
 	if ( !respbuf || strncmp(respbuf, "354", 3) ) {
 		/* we should have gotten instructions on how to use the DATA command:
 		 * 354 Enter mail, end with "." on a line by itself
@@ -562,7 +561,7 @@ smtp_data (CamelSmtpTransport *transport, CamelMedium *message, CamelException *
 	message_stream = camel_stream_buffer_new(CAMEL_DATA_WRAPPER (message)->output_stream, CAMEL_STREAM_BUFFER_READ);
 	while (1) {
 		/* send 1 line at a time */
-		buf = camel_stream_buffer_read_line (CAMEL_STREAM_BUFFER(message_stream));
+		buf = camel_stream_buffer_read_line (CAMEL_STREAM_BUFFER(message_stream), ex);
 		if (!buf)
 			break;
 
@@ -573,7 +572,7 @@ smtp_data (CamelSmtpTransport *transport, CamelMedium *message, CamelException *
 			chunk = g_strconcat(buf, "\r\n", NULL);
 
 		/* write the line */
-		if ( camel_stream_write (transport->ostream, chunk, strlen(chunk)) == -1) {
+		if ( camel_stream_write (transport->ostream, chunk, strlen(chunk), ex) == -1) {
 			g_free(chunk);
 			camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
 					      "DATA send timed out: message body: "
@@ -585,7 +584,7 @@ smtp_data (CamelSmtpTransport *transport, CamelMedium *message, CamelException *
 	}
 
 	/* terminate the message body */
-	if ( camel_stream_write (transport->ostream, "\r\n.\r\n", 5) == -1) {
+	if ( camel_stream_write (transport->ostream, "\r\n.\r\n", 5, ex) == -1) {
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
 				      "DATA send timed out: message termination: "
 				      "%s: mail not sent",
@@ -596,7 +595,7 @@ smtp_data (CamelSmtpTransport *transport, CamelMedium *message, CamelException *
 	do {
 		/* Check for "250 Sender OK..." */
 		g_free(respbuf);
-		respbuf = camel_stream_buffer_read_line (CAMEL_STREAM_BUFFER (transport->istream));
+		respbuf = camel_stream_buffer_read_line (CAMEL_STREAM_BUFFER (transport->istream), ex);
 		if ( !respbuf || strncmp(respbuf, "250", 3) ) {
 			camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
 					      "DATA response error: message termination: "
@@ -617,7 +616,7 @@ smtp_rset (CamelSmtpTransport *transport, CamelException *ex)
 	gchar *cmdbuf, *respbuf = NULL;
 
 	cmdbuf = g_strdup ("RSET\r\n");
-	if ( camel_stream_write (transport->ostream, cmdbuf, strlen(cmdbuf)) == -1) {
+	if ( camel_stream_write (transport->ostream, cmdbuf, strlen(cmdbuf), ex) == -1) {
 		g_free(cmdbuf);
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
 				      "RSET request timed out: "
@@ -630,7 +629,7 @@ smtp_rset (CamelSmtpTransport *transport, CamelException *ex)
 	do {
 		/* Check for "250" */
 		g_free(respbuf);
-		respbuf = camel_stream_buffer_read_line (CAMEL_STREAM_BUFFER (transport->istream));
+		respbuf = camel_stream_buffer_read_line (CAMEL_STREAM_BUFFER (transport->istream), ex);
 		if ( !respbuf || strncmp(respbuf, "250", 3) ) {
 			camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
 					      "RSET response error: "
@@ -651,7 +650,7 @@ smtp_quit (CamelSmtpTransport *transport, CamelException *ex)
 	gchar *cmdbuf, *respbuf = NULL;
 
 	cmdbuf = g_strdup ("QUIT\r\n");
-	if ( camel_stream_write (transport->ostream, cmdbuf, strlen(cmdbuf)) == -1) {
+	if ( camel_stream_write (transport->ostream, cmdbuf, strlen(cmdbuf), ex) == -1) {
 		g_free(cmdbuf);
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
 				      "QUIT request timed out: "
@@ -664,7 +663,7 @@ smtp_quit (CamelSmtpTransport *transport, CamelException *ex)
 	do {
 		/* Check for "221" */
 		g_free(respbuf);
-		respbuf = camel_stream_buffer_read_line (CAMEL_STREAM_BUFFER (transport->istream));
+		respbuf = camel_stream_buffer_read_line (CAMEL_STREAM_BUFFER (transport->istream), ex);
 		if ( !respbuf || strncmp(respbuf, "221", 3) ) {
 			camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
 					      "QUIT response error: "

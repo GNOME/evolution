@@ -1,3 +1,11 @@
+2000-05-08  Jeffrey Stedfast  <fejj@stampede.org>
+
+	* camel-smtp-transport.c: no longer frees memory it shouldn't,
+	updated to reflect camel-stream changes involving CamelException
+	(perhaps it should use a different CamelException variable than
+	is passed to the camel smtp module?)
+
+
 2000-05-08  Dan Winship  <danw@helixcode.com>
 
 	* camel-stream.c (camel_stream_read, camel_stream_write,
