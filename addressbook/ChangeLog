@@ -1,5 +1,10 @@
 2003-12-09  JP Rosevear <jpr@ximian.com>
 
+	* gui/contact-list-editor/e-contact-list-editor.c (fill_in_info):
+	free email list properly
+
+2003-12-09  JP Rosevear <jpr@ximian.com>
+
 	* gui/contact-list-editor/e-contact-list-editor.c (extract_info):
 	free the list, not unref it, and free the elements
 

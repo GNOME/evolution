@@ -1261,14 +1261,14 @@ fill_in_info(EContactListEditor *editor)
 			}
 		}
 
-		/* XXX free email_list */
+		g_list_foreach (email_list, (GFunc) g_free, NULL);
+		g_list_free (email_list);
 
 		photo = e_contact_get (editor->contact, E_CONTACT_LOGO);
 		if (photo) {
 			set_image_from_data (editor, photo->data, photo->length);
 			e_contact_photo_free (photo);
 		}
-		g_object_unref (email_list);
 	}
 }
 
