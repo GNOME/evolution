@@ -112,25 +112,25 @@ static void e_card_simple_get_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 static void fill_in_info(ECardSimple *simple);
 
 ECardPhoneFlags phone_correspondences[] = {
-	0xFF, /* E_CARD_SIMPLE_PHONE_ID_ASSISTANT,    */
+	E_CARD_PHONE_ASSISTANT, /* E_CARD_SIMPLE_PHONE_ID_ASSISTANT,    */
 	E_CARD_PHONE_WORK | E_CARD_PHONE_VOICE, /* E_CARD_SIMPLE_PHONE_ID_BUSINESS,	   */
 	E_CARD_PHONE_WORK | E_CARD_PHONE_VOICE, /* E_CARD_SIMPLE_PHONE_ID_BUSINESS_2,   */
 	E_CARD_PHONE_WORK | E_CARD_PHONE_FAX, /* E_CARD_SIMPLE_PHONE_ID_BUSINESS_FAX, */
-	0xFF, /* E_CARD_SIMPLE_PHONE_ID_CALLBACK,	   */
-	E_CARD_PHONE_CAR | E_CARD_PHONE_VOICE, /* E_CARD_SIMPLE_PHONE_ID_CAR,	   */
-	0xFF, /* E_CARD_SIMPLE_PHONE_ID_COMPANY,	   */
-	E_CARD_PHONE_HOME | E_CARD_PHONE_VOICE, /* E_CARD_SIMPLE_PHONE_ID_HOME,	   */
-	E_CARD_PHONE_HOME | E_CARD_PHONE_VOICE, /* E_CARD_SIMPLE_PHONE_ID_HOME_2,	   */
+	E_CARD_PHONE_CALLBACK, /* E_CARD_SIMPLE_PHONE_ID_CALLBACK,	   */
+	E_CARD_PHONE_CAR, /* E_CARD_SIMPLE_PHONE_ID_CAR,	   */
+	E_CARD_PHONE_WORK, /* E_CARD_SIMPLE_PHONE_ID_COMPANY,	   */
+	E_CARD_PHONE_HOME, /* E_CARD_SIMPLE_PHONE_ID_HOME,	   */
+	E_CARD_PHONE_HOME, /* E_CARD_SIMPLE_PHONE_ID_HOME_2,	   */
 	E_CARD_PHONE_HOME | E_CARD_PHONE_FAX, /* E_CARD_SIMPLE_PHONE_ID_HOME_FAX,	   */
 	E_CARD_PHONE_ISDN, /* E_CARD_SIMPLE_PHONE_ID_ISDN,	   */
-	E_CARD_PHONE_CELL | E_CARD_PHONE_VOICE, /* E_CARD_SIMPLE_PHONE_ID_MOBILE,	   */
+	E_CARD_PHONE_CELL, /* E_CARD_SIMPLE_PHONE_ID_MOBILE,	   */
 	E_CARD_PHONE_VOICE, /* E_CARD_SIMPLE_PHONE_ID_OTHER,	   */
-	0xFF, /* E_CARD_SIMPLE_PHONE_ID_OTHER_FAX,	   */
-	E_CARD_PHONE_PAGER | E_CARD_PHONE_VOICE, /* E_CARD_SIMPLE_PHONE_ID_PAGER,	   */
+	E_CARD_PHONE_FAX, /* E_CARD_SIMPLE_PHONE_ID_OTHER_FAX,	   */
+	E_CARD_PHONE_PAGER, /* E_CARD_SIMPLE_PHONE_ID_PAGER,	   */
 	E_CARD_PHONE_PREF, /* E_CARD_SIMPLE_PHONE_ID_PRIMARY,	   */
-	0xFF, /* E_CARD_SIMPLE_PHONE_ID_RADIO,	   */
-	0xFF, /* E_CARD_SIMPLE_PHONE_ID_TELEX,	   */
-	0xFF, /* E_CARD_SIMPLE_PHONE_ID_TTYTTD,	   */
+	E_CARD_PHONE_RADIO, /* E_CARD_SIMPLE_PHONE_ID_RADIO,	   */
+	E_CARD_PHONE_TELEX, /* E_CARD_SIMPLE_PHONE_ID_TELEX,	   */
+	E_CARD_PHONE_TTYTDD, /* E_CARD_SIMPLE_PHONE_ID_TTYTTD,	   */
 };
 
 char *phone_names[] = {
@@ -432,7 +432,17 @@ fill_in_info(ECardSimple *simple)
 			simple->phone[i] = NULL;
 		}
 		for (iterator = e_list_get_iterator(phone_list); e_iterator_is_valid(iterator); e_iterator_next(iterator)) {
+			gboolean found = FALSE;
 			phone = e_iterator_get(iterator);
+			for (i = 0; i < E_CARD_SIMPLE_PHONE_ID_LAST; i ++) {
+				if ((phone->flags == phone_correspondences[i]) && (simple->phone[i] == NULL)) {
+					simple->phone[i] = e_card_phone_copy(phone);
+					found = TRUE;
+					break;
+				}
+			}
+			if (found)
+				continue;
 			for (i = 0; i < E_CARD_SIMPLE_PHONE_ID_LAST; i ++) {
 				if (((phone->flags & phone_correspondences[i]) == phone_correspondences[i]) && (simple->phone[i] == NULL)) {
 					simple->phone[i] = e_card_phone_copy(phone);
@@ -504,7 +514,6 @@ e_card_simple_sync_card(ECardSimple *simple)
 		const ECardDeliveryAddress *delivery;
 		const char *email;
 		int i;
-		int iterator_next = 1;
 
 		EIterator *iterator;
 
@@ -515,10 +524,28 @@ e_card_simple_sync_card(ECardSimple *simple)
 			       "email",         &email_list,
 			       NULL);
 
-		for (iterator = e_list_get_iterator(phone_list); e_iterator_is_valid(iterator); iterator_next ? e_iterator_next(iterator) : FALSE ) {
+		for (iterator = e_list_get_iterator(phone_list); e_iterator_is_valid(iterator); e_iterator_next(iterator) ) {
 			int i;
+			gboolean found = FALSE;
 			phone = e_iterator_get(iterator);
-			iterator_next = 1;
+			for (i = 0; i < E_CARD_SIMPLE_PHONE_ID_LAST; i ++) {
+				if (phone->flags == phone_correspondences[i]) {
+					if (simple->phone[i]) {
+						simple->phone[i]->flags = phone_correspondences[i];
+						if (simple->phone[i]->number && *simple->phone[i]->number) {
+							e_iterator_set(iterator, simple->phone[i]);
+						} else {
+							e_iterator_delete(iterator);
+						}
+						e_card_phone_free(simple->phone[i]);
+						simple->phone[i] = NULL;
+						found = TRUE;
+						break;
+					}
+				}
+			}
+			if (found)
+				continue;
 			for (i = 0; i < E_CARD_SIMPLE_PHONE_ID_LAST; i ++) {
 				if ((phone->flags & phone_correspondences[i]) == phone_correspondences[i]) {
 					if (simple->phone[i]) {
@@ -527,7 +554,6 @@ e_card_simple_sync_card(ECardSimple *simple)
 							e_iterator_set(iterator, simple->phone[i]);
 						} else {
 							e_iterator_delete(iterator);
-							iterator_next = 0;
 						}
 						e_card_phone_free(simple->phone[i]);
 						simple->phone[i] = NULL;
@@ -546,17 +572,15 @@ e_card_simple_sync_card(ECardSimple *simple)
 			}
 		}
 
-		for (iterator = e_list_get_iterator(email_list); e_iterator_is_valid(iterator); iterator_next ? e_iterator_next(iterator) : FALSE ) {
+		for (iterator = e_list_get_iterator(email_list); e_iterator_is_valid(iterator); e_iterator_next(iterator) ) {
 			int i;
 			email = e_iterator_get(iterator);
-			iterator_next = 1;
 			for (i = 0; i < E_CARD_SIMPLE_EMAIL_ID_LAST; i ++) {
 				if (simple->email[i]) {
 					if (*simple->email[i]) {
 						e_iterator_set(iterator, simple->email[i]);
 					} else {
 						e_iterator_delete(iterator);
-						iterator_next = 0;
 					}
 					g_free(simple->email[i]);
 					simple->email[i] = NULL;
@@ -573,10 +597,9 @@ e_card_simple_sync_card(ECardSimple *simple)
 			}
 		}
 
-		for (iterator = e_list_get_iterator(address_list); e_iterator_is_valid(iterator); iterator_next ? e_iterator_next(iterator) : FALSE ) {
+		for (iterator = e_list_get_iterator(address_list); e_iterator_is_valid(iterator); e_iterator_next(iterator) ) {
 			int i;
 			address = e_iterator_get(iterator);
-			iterator_next = 1;
 			for (i = 0; i < E_CARD_SIMPLE_ADDRESS_ID_LAST; i ++) {
 				if ((address->flags & addr_correspondences[i]) == addr_correspondences[i]) {
 					if (simple->address[i]) {
@@ -585,7 +608,6 @@ e_card_simple_sync_card(ECardSimple *simple)
 							e_iterator_set(iterator, simple->address[i]);
 						} else {
 							e_iterator_delete(iterator);
-							iterator_next = 0;
 						}
 						e_card_address_label_free(simple->address[i]);
 						simple->address[i] = NULL;
@@ -604,10 +626,9 @@ e_card_simple_sync_card(ECardSimple *simple)
 			}
 		}
 
-		for (iterator = e_list_get_iterator(delivery_list); e_iterator_is_valid(iterator); iterator_next ? e_iterator_next(iterator) : FALSE ) {
+		for (iterator = e_list_get_iterator(delivery_list); e_iterator_is_valid(iterator); e_iterator_next(iterator) ) {
 			int i;
 			delivery = e_iterator_get(iterator);
-			iterator_next = 1;
 			for (i = 0; i < E_CARD_SIMPLE_ADDRESS_ID_LAST; i ++) {
 				if ((delivery->flags & addr_correspondences[i]) == addr_correspondences[i]) {
 					if (simple->delivery[i]) {
@@ -616,7 +637,6 @@ e_card_simple_sync_card(ECardSimple *simple)
 							e_iterator_set(iterator, simple->delivery[i]);
 						} else {
 							e_iterator_delete(iterator);
-							iterator_next = 0;
 						}
 						e_card_delivery_address_free(simple->delivery[i]);
 						simple->delivery[i] = NULL;

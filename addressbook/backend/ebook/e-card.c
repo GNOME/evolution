@@ -3848,6 +3848,11 @@ get_phone_flags (VObject *vobj)
 		{ VCCarProp,       E_CARD_PHONE_CAR },
 		{ VCISDNProp,      E_CARD_PHONE_ISDN },
 		{ VCVideoProp,     E_CARD_PHONE_VIDEO },
+		{ "X-EVOLUTION-ASSISTANT", E_CARD_PHONE_ASSISTANT },
+		{ "X-EVOLUTION-CALLBACK",  E_CARD_PHONE_CALLBACK  },
+		{ "X-EVOLUTION-RADIO",     E_CARD_PHONE_RADIO     },
+		{ "X-EVOLUTION-TELEX",     E_CARD_PHONE_TELEX     },
+		{ "X-EVOLUTION-TTYTDD",    E_CARD_PHONE_TTYTDD    },
 	};
 	
 	for (i = 0; i < sizeof(phone_pairs) / sizeof(phone_pairs[0]); i++) {
@@ -3868,19 +3873,24 @@ set_phone_flags (VObject *vobj, ECardPhoneFlags flags)
 		char *id;
 		ECardPhoneFlags flag;
 	} phone_pairs[] = {
-		{ VCPreferredProp, E_CARD_PHONE_PREF },
-		{ VCWorkProp,      E_CARD_PHONE_WORK },
-		{ VCHomeProp,      E_CARD_PHONE_HOME },
-		{ VCVoiceProp,     E_CARD_PHONE_VOICE },
-		{ VCFaxProp,       E_CARD_PHONE_FAX },
-		{ VCMessageProp,   E_CARD_PHONE_MSG },
-		{ VCCellularProp,  E_CARD_PHONE_CELL },
-		{ VCPagerProp,     E_CARD_PHONE_PAGER },
-		{ VCBBSProp,       E_CARD_PHONE_BBS },
-		{ VCModemProp,     E_CARD_PHONE_MODEM },
-		{ VCCarProp,       E_CARD_PHONE_CAR },
-		{ VCISDNProp,      E_CARD_PHONE_ISDN },
-		{ VCVideoProp,     E_CARD_PHONE_VIDEO },
+		{ VCPreferredProp,         E_CARD_PHONE_PREF },
+		{ VCWorkProp,              E_CARD_PHONE_WORK },
+		{ VCHomeProp,              E_CARD_PHONE_HOME },
+		{ VCVoiceProp,             E_CARD_PHONE_VOICE },
+		{ VCFaxProp,               E_CARD_PHONE_FAX },
+		{ VCMessageProp,           E_CARD_PHONE_MSG },
+		{ VCCellularProp,          E_CARD_PHONE_CELL },
+		{ VCPagerProp,             E_CARD_PHONE_PAGER },
+		{ VCBBSProp,               E_CARD_PHONE_BBS },
+		{ VCModemProp,             E_CARD_PHONE_MODEM },
+		{ VCCarProp,               E_CARD_PHONE_CAR },
+		{ VCISDNProp,              E_CARD_PHONE_ISDN },
+		{ VCVideoProp,             E_CARD_PHONE_VIDEO },
+		{ "X-EVOLUTION-ASSISTANT", E_CARD_PHONE_ASSISTANT },
+		{ "X-EVOLUTION-CALLBACK",  E_CARD_PHONE_CALLBACK  },
+		{ "X-EVOLUTION-RADIO",     E_CARD_PHONE_RADIO     },
+		{ "X-EVOLUTION-TELEX",     E_CARD_PHONE_TELEX     },
+		{ "X-EVOLUTION-TTYTDD",    E_CARD_PHONE_TTYTDD    },
 	};
 	
 	for (i = 0; i < sizeof(phone_pairs) / sizeof(phone_pairs[0]); i++) {

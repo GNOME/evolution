@@ -1,3 +1,22 @@
+2001-08-03  Christopher James Lahey  <clahey@ximian.com>
+
+	* backend/ebook/e-card-simple.c (e_card_simple_sync_card,
+	fill_in_info): Made the list of E_CARD_PHONE types in
+	phone_correspondences more complete by adding the new 5
+	E_CARD_PHONE types.  Also, made it a bit less restrictive for some
+	types (E_CARD_PHONE_HOME will actually match
+	E_CARD_SIMPLE_PHONE_ID_HOME now.)  Made e_card_simple_sync_card
+	and fill_in_info search for an exact match in the list of
+	phone_correspondences and then look for a partial match.  Got rid
+	of not going forward when doing a remove from an EList since EList
+	handles this case automatically.
+
+	* backend/ebook/e-card-types.h: Added E_CARD_PHONE types for
+	assistant, callback, radio, telex, and ttytdd.
+
+	* backend/ebook/e-card.c (get_phone_flags, set_phone_flags):
+	Handle the new E_CARD_PHONE types.
+
 2001-08-02  Jon Trowbridge  <trow@ximian.com>
 
 	* printing/Makefile.am (ecpsdir): Add camel dependency.
