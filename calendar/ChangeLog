@@ -1,5 +1,12 @@
 2001-06-15  Rodrigo Moya <rodrigo@ximian.com>
 
+	* gui/e-day-view.c (selection_received): generate a new UID
+	when pasting
+
+	* gui/e-week-view.c (selection_received): ditto
+
+2001-06-15  Rodrigo Moya <rodrigo@ximian.com>
+
 	* gui/e-day-view.c (selection_received): finished implementation
 	of Paste stuff
 

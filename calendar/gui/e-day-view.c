@@ -6529,6 +6529,7 @@ selection_received (GtkWidget *invisible,
 	time_t dtstart, dtend;
 	struct icaltimetype itime;
 	CalComponent *comp;
+	char *uid;
 
 	g_return_if_fail (E_IS_DAY_VIEW (day_view));
 
@@ -6550,6 +6551,10 @@ selection_received (GtkWidget *invisible,
 
 		comp = cal_component_new ();
 		cal_component_set_icalcomponent (comp, icalcomp);
+		uid = cal_component_gen_uid ();
+		cal_component_set_uid (comp, (const char *) uid);
+		free (uid);
+
 		cal_client_update_object (day_view->client, comp);
 
 		gtk_object_unref (GTK_OBJECT (comp));
