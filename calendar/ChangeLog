@@ -1,3 +1,10 @@
+2003-02-11  JP Rosevear  <jpr@ximian.com>
+ 
+ 	Fixes #37881
+ 	
+ 	* gui/e-meeting-model.c (process_section): if the attendee is the
+ 	empty string, try to get the email
+ 
 2003-03-04  JP Rosevear  <jpr@ximian.com>
   
  	Fixes #37883

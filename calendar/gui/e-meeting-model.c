@@ -1729,7 +1729,7 @@ process_section (EMeetingModel *im, GNOME_Evolution_Addressbook_SimpleCardList *
 		CORBA_exception_init (&ev);
 
 		/* If we couldn't get the attendee prior, get the email address as the default */
-		if (attendee == NULL) {
+		if (attendee == NULL || *attendee == '\0') {
 			attendee = GNOME_Evolution_Addressbook_SimpleCard_get (card, GNOME_Evolution_Addressbook_SimpleCard_Email, &ev);
 			if (BONOBO_EX (&ev)) {
 				CORBA_exception_free (&ev);
