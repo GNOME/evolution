@@ -1,3 +1,10 @@
+2003-06-23  Rodrigo Moya <rodrigo@ximian.com>
+
+	* gui/dialogs/comp-editor.c (make_title_from_string, set_title_from_string):
+	new functions.
+	(page_summary_changed_cb): change the window title when the object's
+	summary changes.
+
 2003-06-22  Rodrigo Moya <rodrigo@ximian.com>
 
 	* cal-client/cal-client.c (get_factories): don't use a static GList,

@@ -818,6 +818,42 @@ make_title_from_comp (CalComponent *comp)
 	return title;
 }
 
+/* Creates an appropriate title for the event editor dialog */
+static char *
+make_title_from_string (CalComponent *comp, const char *str)
+{
+	char *title;
+	const char *type_string;
+	CalComponentVType type;
+
+	if (!comp)
+		return g_strdup (_("Edit Appointment"));
+
+	type = cal_component_get_vtype (comp);
+	switch (type) {
+	case CAL_COMPONENT_EVENT:
+		type_string = _("Appointment - %s");
+		break;
+	case CAL_COMPONENT_TODO:
+		type_string = _("Task - %s");
+		break;
+	case CAL_COMPONENT_JOURNAL:
+		type_string = _("Journal entry - %s");
+		break;
+	default:
+		g_message ("make_title_from_string(): Cannot handle object of type %d", type);
+		return NULL;
+	}
+
+	if (str) {
+		title = g_strdup_printf (type_string, str);
+	} else {
+		title = g_strdup_printf (type_string, _("No summary"));
+	}
+
+	return title;
+}
+
 static const char *
 make_icon_from_comp (CalComponent *comp)
 {
@@ -848,6 +884,18 @@ set_title_from_comp (CompEditor *editor)
 
 	priv = editor->priv;
 	title = make_title_from_comp (priv->comp);
+	gtk_window_set_title (GTK_WINDOW (editor), title);
+	g_free (title);
+}
+
+static void
+set_title_from_string (CompEditor *editor, const char *str)
+{
+	CompEditorPrivate *priv;
+	char *title;
+
+	priv = editor->priv;
+	title = make_title_from_string (priv->comp, str);
 	gtk_window_set_title (GTK_WINDOW (editor), title);
 	g_free (title);
 }
@@ -1358,6 +1406,8 @@ page_summary_changed_cb (GtkObject *obj, const char *summary, gpointer data)
 			  _("Changes made to this item may be discarded if an update arrives"));
 		priv->warned = TRUE;
 	}
+
+	set_title_from_string (editor, summary);
 }
 
 static void
