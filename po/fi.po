@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
-"POT-Creation-Date: 2003-03-02 20:51+0200\n"
+"POT-Creation-Date: 2003-03-05 13:53-0500\n"
 "PO-Revision-Date: 2003-03-02 20:48+0200\n"
 "Last-Translator: Sami Pesonen <sampeson@iki.fi>\n"
 "Language-Team: Gnome Finnish Translation Team <laatu@gnome-fi.org>\n"
@@ -31,13 +31,13 @@ msgid "Imports VCard files into Evolution."
 msgstr ""
 
 #: addressbook/backend/ebook/e-card-simple.c:60
-#: addressbook/backend/ebook/e-card.c:1297
+#: addressbook/backend/ebook/e-card.c:1310
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:15
 msgid "File As"
 msgstr ""
 
 #: addressbook/backend/ebook/e-card-simple.c:61
-#: addressbook/backend/ebook/e-card.c:1311
+#: addressbook/backend/ebook/e-card.c:1324
 #: addressbook/gui/component/select-names/e-select-names.etspec.h:1
 #: addressbook/gui/contact-editor/e-contact-editor-fullname.c:89
 #: my-evolution/e-summary-table.c:59
@@ -45,7 +45,7 @@ msgid "Name"
 msgstr "Nimi"
 
 #: addressbook/backend/ebook/e-card-simple.c:62
-#: addressbook/backend/ebook/e-card.c:1338
+#: addressbook/backend/ebook/e-card.c:1351
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:12
 msgid "Email"
 msgstr "Sähköposti"
@@ -61,7 +61,7 @@ msgstr "Ensisij"
 
 #: addressbook/backend/ebook/e-card-simple.c:64
 #: addressbook/backend/ebook/e-card-simple.c:94
-#: addressbook/backend/ebook/e-card.c:1400
+#: addressbook/backend/ebook/e-card.c:1413
 #: addressbook/gui/contact-editor/e-contact-editor.c:1749
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:2
 msgid "Assistant"
@@ -103,7 +103,7 @@ msgid "Home"
 msgstr "Koti"
 
 #: addressbook/backend/ebook/e-card-simple.c:69
-#: addressbook/backend/ebook/e-card.c:1358
+#: addressbook/backend/ebook/e-card.c:1371
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:28
 msgid "Organization"
 msgstr "Organisaatio"
@@ -229,7 +229,7 @@ msgid "Dep"
 msgstr ""
 
 #: addressbook/backend/ebook/e-card-simple.c:90
-#: addressbook/backend/ebook/e-card.c:1372
+#: addressbook/backend/ebook/e-card.c:1385
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:27
 msgid "Office"
 msgstr "Asema"
@@ -239,7 +239,7 @@ msgid "Off"
 msgstr "Asm"
 
 #: addressbook/backend/ebook/e-card-simple.c:91
-#: addressbook/backend/ebook/e-card.c:1379
+#: addressbook/backend/ebook/e-card.c:1392
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:39
 msgid "Title"
 msgstr ""
@@ -254,7 +254,7 @@ msgid "Prof"
 msgstr ""
 
 #: addressbook/backend/ebook/e-card-simple.c:93
-#: addressbook/backend/ebook/e-card.c:1393
+#: addressbook/backend/ebook/e-card.c:1406
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:23
 msgid "Manager"
 msgstr ""
@@ -268,7 +268,7 @@ msgid "Ass"
 msgstr ""
 
 #: addressbook/backend/ebook/e-card-simple.c:95
-#: addressbook/backend/ebook/e-card.c:1407
+#: addressbook/backend/ebook/e-card.c:1420
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:25
 msgid "Nickname"
 msgstr "Kutsumanimi"
@@ -278,19 +278,19 @@ msgid "Nick"
 msgstr ""
 
 #: addressbook/backend/ebook/e-card-simple.c:96
-#: addressbook/backend/ebook/e-card.c:1414
+#: addressbook/backend/ebook/e-card.c:1427
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:36
 msgid "Spouse"
 msgstr "Puoliso"
 
 #: addressbook/backend/ebook/e-card-simple.c:97
-#: addressbook/backend/ebook/e-card.c:1448
+#: addressbook/backend/ebook/e-card.c:1468
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:26
 msgid "Note"
 msgstr ""
 
 #: addressbook/backend/ebook/e-card-simple.c:98
-#: addressbook/backend/ebook/e-card.c:1434
+#: addressbook/backend/ebook/e-card.c:1447
 msgid "Calendar URI"
 msgstr ""
 
@@ -308,136 +308,150 @@ msgid "FBUrl"
 msgstr ""
 
 #: addressbook/backend/ebook/e-card-simple.c:100
-#: addressbook/backend/ebook/e-card.c:1421
-msgid "Anniversary"
+msgid "Default server calendar"
 msgstr ""
 
 #: addressbook/backend/ebook/e-card-simple.c:100
-msgid "Anniv"
+#, fuzzy
+msgid "icsCalendar"
+msgstr "Kalenteri"
+
+#: addressbook/backend/ebook/e-card-simple.c:101
+#: addressbook/backend/ebook/e-card.c:1434
+msgid "Anniversary"
 msgstr ""
 
 #: addressbook/backend/ebook/e-card-simple.c:101
+msgid "Anniv"
+msgstr ""
+
+#: addressbook/backend/ebook/e-card-simple.c:102
 msgid "Birth Date"
 msgstr "Syntymäpäivä"
 
-#: addressbook/backend/ebook/e-card-simple.c:104
-#: addressbook/backend/ebook/e-card.c:1462
+#: addressbook/backend/ebook/e-card-simple.c:105
+#: addressbook/backend/ebook/e-card.c:1482
 #: calendar/gui/e-calendar-table.etspec.h:4
 msgid "Categories"
 msgstr "Ryhmät"
 
-#: addressbook/backend/ebook/e-card-simple.c:105
+#: addressbook/backend/ebook/e-card-simple.c:106
 msgid "Family Name"
 msgstr "Sukunimi"
 
-#: addressbook/backend/ebook/e-card-simple.c:334
+#: addressbook/backend/ebook/e-card-simple.c:335
 #, fuzzy
 msgid "ECard"
 msgstr "Auto"
 
-#: addressbook/backend/ebook/e-card-simple.c:829
+#: addressbook/backend/ebook/e-card-simple.c:830
 #, c-format
 msgid "%x"
 msgstr ""
 
-#: addressbook/backend/ebook/e-card-simple.c:890
+#: addressbook/backend/ebook/e-card-simple.c:891
 #: addressbook/backend/ebook/e-destination.c:706
 #, fuzzy
 msgid "Unnamed List"
 msgstr "Nimetön kontaktiluettelo"
 
-#: addressbook/backend/ebook/e-card.c:1304
+#: addressbook/backend/ebook/e-card.c:1317
 #: addressbook/gui/contact-editor/e-contact-quick-add.c:319
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:17
 msgid "Full Name"
 msgstr "Koko nimi"
 
-#: addressbook/backend/ebook/e-card.c:1317
+#: addressbook/backend/ebook/e-card.c:1330
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:96
 msgid "Address"
 msgstr "Osoite"
 
-#: addressbook/backend/ebook/e-card.c:1324
+#: addressbook/backend/ebook/e-card.c:1337
 msgid "Address Label"
 msgstr "Osoitteen nimike"
 
-#: addressbook/backend/ebook/e-card.c:1331
+#: addressbook/backend/ebook/e-card.c:1344
 #, fuzzy
 msgid "Phone"
 msgstr "Määrittelemätön"
 
-#: addressbook/backend/ebook/e-card.c:1345
+#: addressbook/backend/ebook/e-card.c:1358
 msgid "Birth date"
 msgstr "Syntymäpäivä"
 
-#: addressbook/backend/ebook/e-card.c:1351
+#: addressbook/backend/ebook/e-card.c:1364
 #: calendar/gui/e-calendar-table.etspec.h:19
 msgid "URL"
 msgstr "URL:"
 
-#: addressbook/backend/ebook/e-card.c:1365
+#: addressbook/backend/ebook/e-card.c:1378
 #, fuzzy
 msgid "Organizational Unit"
 msgstr "Organisaatio"
 
-#: addressbook/backend/ebook/e-card.c:1386
+#: addressbook/backend/ebook/e-card.c:1399
 #: calendar/gui/dialogs/meeting-page.etspec.h:9
 #: calendar/gui/e-meeting-time-sel.etspec.h:9
 msgid "Role"
 msgstr "Rooli"
 
-#: addressbook/backend/ebook/e-card.c:1427 mail/mail-format.c:936
+#: addressbook/backend/ebook/e-card.c:1440 mail/mail-format.c:936
 #, fuzzy
 msgid "Mailer"
 msgstr "_Matkapuhelin"
 
-#: addressbook/backend/ebook/e-card.c:1441
+#: addressbook/backend/ebook/e-card.c:1454
 #, fuzzy
 msgid "Free/Busy URL"
 msgstr "Edellinen viesti"
 
-#: addressbook/backend/ebook/e-card.c:1455
+#: addressbook/backend/ebook/e-card.c:1461
+#, fuzzy
+msgid "ICS Calendar"
+msgstr "Kalenteri"
+
+#: addressbook/backend/ebook/e-card.c:1475
 msgid "Related Contacts"
 msgstr "Asiaan liittyvät yhteystiedot"
 
-#: addressbook/backend/ebook/e-card.c:1469
+#: addressbook/backend/ebook/e-card.c:1489
 #, fuzzy
 msgid "Category List"
 msgstr "Ryhmät"
 
-#: addressbook/backend/ebook/e-card.c:1476
+#: addressbook/backend/ebook/e-card.c:1496
 msgid "Wants HTML"
 msgstr ""
 
-#: addressbook/backend/ebook/e-card.c:1483
+#: addressbook/backend/ebook/e-card.c:1503
 msgid "Wants HTML set"
 msgstr ""
 
-#: addressbook/backend/ebook/e-card.c:1490
+#: addressbook/backend/ebook/e-card.c:1510
 #, fuzzy
 msgid "List"
 msgstr "Pakistan"
 
-#: addressbook/backend/ebook/e-card.c:1497
+#: addressbook/backend/ebook/e-card.c:1517
 #, fuzzy
 msgid "List Show Addresses"
 msgstr "Muu osoite"
 
-#: addressbook/backend/ebook/e-card.c:1504
+#: addressbook/backend/ebook/e-card.c:1524
 msgid "Arbitrary"
 msgstr "Arbitrary"
 
-#: addressbook/backend/ebook/e-card.c:1511
+#: addressbook/backend/ebook/e-card.c:1531
 #, fuzzy
 msgid "ID"
 msgstr "I"
 
-#: addressbook/backend/ebook/e-card.c:1518
+#: addressbook/backend/ebook/e-card.c:1538
 #, fuzzy
 msgid "Last Use"
 msgstr "Liitä"
 
-#: addressbook/backend/ebook/e-card.c:1529
+#: addressbook/backend/ebook/e-card.c:1549
 #, fuzzy
 msgid "Use Score"
 msgstr "Peruuta"
@@ -449,7 +463,7 @@ msgid "Could not initialize Bonobo"
 msgstr "Bonobon alustus ei onnistunut"
 
 #: addressbook/backend/pas/pas-backend-file.c:465
-#: addressbook/backend/pas/pas-backend-ldap.c:3045
+#: addressbook/backend/pas/pas-backend-ldap.c:3046
 msgid "Searching..."
 msgstr "Etsitään..."
 
@@ -457,38 +471,38 @@ msgstr "Etsitään..."
 msgid "Loading..."
 msgstr "Ladataan..."
 
-#: addressbook/backend/pas/pas-backend-ldap.c:597
+#: addressbook/backend/pas/pas-backend-ldap.c:598
 msgid "Using Distinguished Name (DN)"
 msgstr ""
 
-#: addressbook/backend/pas/pas-backend-ldap.c:601
+#: addressbook/backend/pas/pas-backend-ldap.c:602
 #, fuzzy
 msgid "Using Email Address"
 msgstr "_Tämä on postitusosoite"
 
-#: addressbook/backend/pas/pas-backend-ldap.c:747
+#: addressbook/backend/pas/pas-backend-ldap.c:748
 #, fuzzy
 msgid "Reconnecting to LDAP server..."
 msgstr "Odotetaan yhteyttä LDAP-palvelimeen..."
 
-#: addressbook/backend/pas/pas-backend-ldap.c:1290
+#: addressbook/backend/pas/pas-backend-ldap.c:1291
 msgid "Adding card to LDAP server..."
 msgstr ""
 
-#: addressbook/backend/pas/pas-backend-ldap.c:1401
+#: addressbook/backend/pas/pas-backend-ldap.c:1402
 msgid "Removing card from LDAP server..."
 msgstr ""
 
-#: addressbook/backend/pas/pas-backend-ldap.c:1637
-#: addressbook/backend/pas/pas-backend-ldap.c:1640
+#: addressbook/backend/pas/pas-backend-ldap.c:1638
+#: addressbook/backend/pas/pas-backend-ldap.c:1641
 msgid "Modifying card from LDAP server..."
 msgstr ""
 
-#: addressbook/backend/pas/pas-backend-ldap.c:2956
+#: addressbook/backend/pas/pas-backend-ldap.c:2957
 msgid "Receiving LDAP search results..."
 msgstr ""
 
-#: addressbook/backend/pas/pas-backend-ldap.c:3065
+#: addressbook/backend/pas/pas-backend-ldap.c:3066
 #, fuzzy
 msgid "Error performing search"
 msgstr "Virhe kortin poistossa"
@@ -507,14 +521,14 @@ msgid "EBook not loaded\n"
 msgstr ""
 
 #: addressbook/conduit/address-conduit.c:1354
-#: calendar/conduits/calendar/calendar-conduit.c:1267
-#: calendar/conduits/todo/todo-conduit.c:877
+#: calendar/conduits/calendar/calendar-conduit.c:1272
+#: calendar/conduits/todo/todo-conduit.c:882
 msgid "Could not start wombat server"
 msgstr ""
 
 #: addressbook/conduit/address-conduit.c:1355
-#: calendar/conduits/calendar/calendar-conduit.c:1268
-#: calendar/conduits/todo/todo-conduit.c:878
+#: calendar/conduits/calendar/calendar-conduit.c:1273
+#: calendar/conduits/todo/todo-conduit.c:883
 msgid "Could not start wombat"
 msgstr ""
 
@@ -564,7 +578,7 @@ msgid "Factory for the controls exported by the Evolution Addressbook"
 msgstr ""
 
 #: addressbook/gui/component/addressbook-component.c:76
-#: addressbook/gui/component/addressbook-component.c:612
+#: addressbook/gui/component/addressbook-component.c:605
 #: calendar/gui/dialogs/comp-editor-util.c:309
 #: calendar/gui/dialogs/comp-editor-util.c:365
 #: importers/netscape-importer.c:1874 mail/importers/netscape-importer.c:1863
@@ -592,27 +606,27 @@ msgstr "Julkiset yhteystiedot"
 msgid "Public folder containing contact information"
 msgstr "Yhteystietoja sisältävä julkinen kansio"
 
-#: addressbook/gui/component/addressbook-component.c:571
+#: addressbook/gui/component/addressbook-component.c:564
 msgid "New Contact"
 msgstr "Uusi yhteystieto"
 
-#: addressbook/gui/component/addressbook-component.c:571
+#: addressbook/gui/component/addressbook-component.c:564
 msgid "_Contact"
 msgstr "_Yhteystieto"
 
-#: addressbook/gui/component/addressbook-component.c:572
+#: addressbook/gui/component/addressbook-component.c:565
 msgid "Create a new contact"
 msgstr "Luo uusi yhteystieto"
 
-#: addressbook/gui/component/addressbook-component.c:575
+#: addressbook/gui/component/addressbook-component.c:568
 msgid "New Contact List"
 msgstr "Uusi yhteystietoluettelo"
 
-#: addressbook/gui/component/addressbook-component.c:575
+#: addressbook/gui/component/addressbook-component.c:568
 msgid "Contact _List"
 msgstr "_Yhteystietoluettelo"
 
-#: addressbook/gui/component/addressbook-component.c:576
+#: addressbook/gui/component/addressbook-component.c:569
 msgid "Create a new contact list"
 msgstr "Luo uusi yhteystietoluettelo"
 
@@ -844,7 +858,9 @@ msgstr " Tar_kista tuetut kannat "
 #: addressbook/gui/contact-editor/contact-editor.glade.h:1
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
 #: addressbook/gui/contact-editor/fullname.glade.h:1
-#: mail/mail-config.glade.h:6 mail/subscribe-dialog.glade.h:3
+#: calendar/gui/dialogs/alarm-options.glade.h:1
+#: calendar/gui/dialogs/event-page.glade.h:1 mail/mail-config.glade.h:6
+#: mail/subscribe-dialog.glade.h:3
 #: shell/glade/e-shell-folder-creation-dialog.glade.h:1
 msgid "*"
 msgstr ""
@@ -1022,8 +1038,8 @@ msgstr "_Etsi viestiä"
 
 #. No time range is set, so don't start a query
 #: addressbook/gui/component/ldap-config.glade.h:48
-#: calendar/gui/calendar-model.c:1968 calendar/gui/e-day-view.c:1669
-#: calendar/gui/e-week-view.c:1224
+#: calendar/gui/calendar-model.c:1975 calendar/gui/e-day-view.c:1670
+#: calendar/gui/e-week-view.c:1223
 #, fuzzy
 msgid "Searching"
 msgstr "Etsitään..."
@@ -1215,7 +1231,7 @@ msgstr ""
 #: addressbook/gui/component/ldap-config.glade.h:102
 #: addressbook/gui/contact-editor/contact-editor.glade.h:29
 #: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:6
-#: calendar/gui/dialogs/alarm-page.glade.h:8 filter/filter.glade.h:14
+#: calendar/gui/dialogs/alarm-page.glade.h:9 filter/filter.glade.h:14
 #: mail/mail-config.glade.h:135 shell/glade/e-folder-list.glade.h:1
 msgid "_Add"
 msgstr "_Lisää"
@@ -1380,7 +1396,7 @@ msgstr ""
 
 #. Fixme: Ditto
 #: addressbook/gui/component/select-names/e-select-names-popup.c:162
-#: addressbook/gui/component/select-names/e-select-names.c:688
+#: addressbook/gui/component/select-names/e-select-names.c:690
 #: composer/e-msg-composer-attachment-bar.c:507
 #: my-evolution/e-summary-shown.c:536
 msgid "Remove"
@@ -1416,11 +1432,11 @@ msgstr "Nimetön yhteystieto"
 msgid "Source"
 msgstr "Lähde"
 
-#: addressbook/gui/component/select-names/e-select-names.c:495
+#: addressbook/gui/component/select-names/e-select-names.c:497
 msgid "Select Contacts from Addressbook"
 msgstr ""
 
-#: addressbook/gui/component/select-names/e-select-names.c:555
+#: addressbook/gui/component/select-names/e-select-names.c:557
 msgid "Find contact in"
 msgstr "Etsi yhteystieto"
 
@@ -1472,7 +1488,7 @@ msgid "Birthda_y:"
 msgstr "_Syntymäpäivä:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:8
-#: calendar/gui/dialogs/event-page.glade.h:3
+#: calendar/gui/dialogs/event-page.glade.h:4
 #: calendar/gui/dialogs/task-page.glade.h:1
 msgid "Ca_tegories..."
 msgstr "Ry_hmät..."
@@ -1493,7 +1509,7 @@ msgid "D_epartment:"
 msgstr "_Osasto:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:12
-#: calendar/gui/dialogs/task-editor.c:195
+#: calendar/gui/dialogs/task-editor.c:196
 msgid "Details"
 msgstr "Yksityiskohtaiset"
 
@@ -1549,9 +1565,9 @@ msgid "Wants to receive _HTML mail"
 msgstr "Haluaa sähköpostit HTML-muodossa"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:30
-#: calendar/gui/dialogs/alarm-page.glade.h:9
-#: calendar/gui/dialogs/meeting-page.c:652 calendar/gui/e-calendar-table.c:968
-#: calendar/gui/e-day-view.c:3714 calendar/gui/e-week-view.c:3539
+#: calendar/gui/dialogs/alarm-page.glade.h:10
+#: calendar/gui/dialogs/meeting-page.c:656 calendar/gui/e-calendar-table.c:969
+#: calendar/gui/e-day-view.c:3720 calendar/gui/e-week-view.c:3559
 #: filter/filter.glade.h:15 mail/folder-browser.c:1768
 #: mail/mail-config.glade.h:148 shell/glade/e-folder-list.glade.h:2
 #: ui/evolution-addressbook.xml.h:32 ui/evolution-calendar.xml.h:27
@@ -3106,7 +3122,7 @@ msgstr "Osoitekirja"
 
 #: addressbook/gui/widgets/e-addressbook-view.c:674
 #: addressbook/gui/widgets/e-addressbook-view.c:884
-#: addressbook/gui/widgets/e-addressbook-view.c:1863
+#: addressbook/gui/widgets/e-addressbook-view.c:1859
 #: ui/evolution-addressbook.xml.h:19
 msgid "Save as VCard"
 msgstr ""
@@ -3196,7 +3212,7 @@ msgid "Delete"
 msgstr "Poista"
 
 #: addressbook/gui/widgets/e-addressbook-view.c:904
-#: calendar/gui/e-day-view.c:3674 calendar/gui/e-week-view.c:3504
+#: calendar/gui/e-day-view.c:3680 calendar/gui/e-week-view.c:3524
 #, fuzzy
 msgid "Current View"
 msgstr "_Nykyinen näkymä"
@@ -3217,7 +3233,7 @@ msgstr ""
 msgid ",0,a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z"
 msgstr ""
 
-#: addressbook/gui/widgets/e-addressbook-view.c:1343
+#: addressbook/gui/widgets/e-addressbook-view.c:1339
 #, c-format
 msgid ""
 "The addressbook backend for\n"
@@ -3559,156 +3575,156 @@ msgstr "Leveys:"
 msgid "_Font..."
 msgstr "_Kirjasin..."
 
-#: calendar/cal-util/cal-component.c:1216
+#: calendar/cal-util/cal-component.c:1218
 msgid "Untitled appointment"
 msgstr ""
 
-#: calendar/cal-util/cal-recur.c:3983 calendar/gui/print.c:478
+#: calendar/cal-util/cal-recur.c:3985 calendar/gui/print.c:478
 msgid "1st"
 msgstr "1."
 
-#: calendar/cal-util/cal-recur.c:3984 calendar/gui/print.c:478
+#: calendar/cal-util/cal-recur.c:3986 calendar/gui/print.c:478
 msgid "2nd"
 msgstr "2."
 
-#: calendar/cal-util/cal-recur.c:3985 calendar/gui/print.c:478
+#: calendar/cal-util/cal-recur.c:3987 calendar/gui/print.c:478
 msgid "3rd"
 msgstr "3."
 
-#: calendar/cal-util/cal-recur.c:3986 calendar/gui/print.c:478
+#: calendar/cal-util/cal-recur.c:3988 calendar/gui/print.c:478
 msgid "4th"
 msgstr "4."
 
-#: calendar/cal-util/cal-recur.c:3987 calendar/gui/print.c:478
+#: calendar/cal-util/cal-recur.c:3989 calendar/gui/print.c:478
 msgid "5th"
 msgstr "5."
 
-#: calendar/cal-util/cal-recur.c:3988 calendar/gui/print.c:479
+#: calendar/cal-util/cal-recur.c:3990 calendar/gui/print.c:479
 msgid "6th"
 msgstr "6."
 
-#: calendar/cal-util/cal-recur.c:3989 calendar/gui/print.c:479
+#: calendar/cal-util/cal-recur.c:3991 calendar/gui/print.c:479
 msgid "7th"
 msgstr "7."
 
-#: calendar/cal-util/cal-recur.c:3990 calendar/gui/print.c:479
+#: calendar/cal-util/cal-recur.c:3992 calendar/gui/print.c:479
 msgid "8th"
 msgstr "8."
 
-#: calendar/cal-util/cal-recur.c:3991 calendar/gui/print.c:479
+#: calendar/cal-util/cal-recur.c:3993 calendar/gui/print.c:479
 msgid "9th"
 msgstr "9."
 
-#: calendar/cal-util/cal-recur.c:3992 calendar/gui/print.c:479
+#: calendar/cal-util/cal-recur.c:3994 calendar/gui/print.c:479
 msgid "10th"
 msgstr "10."
 
-#: calendar/cal-util/cal-recur.c:3993 calendar/gui/print.c:480
+#: calendar/cal-util/cal-recur.c:3995 calendar/gui/print.c:480
 msgid "11th"
 msgstr "11."
 
-#: calendar/cal-util/cal-recur.c:3994 calendar/gui/print.c:480
+#: calendar/cal-util/cal-recur.c:3996 calendar/gui/print.c:480
 msgid "12th"
 msgstr "12."
 
-#: calendar/cal-util/cal-recur.c:3995 calendar/gui/print.c:480
+#: calendar/cal-util/cal-recur.c:3997 calendar/gui/print.c:480
 msgid "13th"
 msgstr "13."
 
-#: calendar/cal-util/cal-recur.c:3996 calendar/gui/print.c:480
+#: calendar/cal-util/cal-recur.c:3998 calendar/gui/print.c:480
 msgid "14th"
 msgstr "14."
 
-#: calendar/cal-util/cal-recur.c:3997 calendar/gui/print.c:480
+#: calendar/cal-util/cal-recur.c:3999 calendar/gui/print.c:480
 msgid "15th"
 msgstr "15."
 
-#: calendar/cal-util/cal-recur.c:3998 calendar/gui/print.c:481
+#: calendar/cal-util/cal-recur.c:4000 calendar/gui/print.c:481
 msgid "16th"
 msgstr "16."
 
-#: calendar/cal-util/cal-recur.c:3999 calendar/gui/print.c:481
+#: calendar/cal-util/cal-recur.c:4001 calendar/gui/print.c:481
 msgid "17th"
 msgstr "17."
 
-#: calendar/cal-util/cal-recur.c:4000 calendar/gui/print.c:481
+#: calendar/cal-util/cal-recur.c:4002 calendar/gui/print.c:481
 msgid "18th"
 msgstr "18."
 
-#: calendar/cal-util/cal-recur.c:4001 calendar/gui/print.c:481
+#: calendar/cal-util/cal-recur.c:4003 calendar/gui/print.c:481
 msgid "19th"
 msgstr "19."
 
-#: calendar/cal-util/cal-recur.c:4002 calendar/gui/print.c:481
+#: calendar/cal-util/cal-recur.c:4004 calendar/gui/print.c:481
 msgid "20th"
 msgstr "20."
 
-#: calendar/cal-util/cal-recur.c:4003 calendar/gui/print.c:482
+#: calendar/cal-util/cal-recur.c:4005 calendar/gui/print.c:482
 msgid "21st"
 msgstr "21."
 
-#: calendar/cal-util/cal-recur.c:4004 calendar/gui/print.c:482
+#: calendar/cal-util/cal-recur.c:4006 calendar/gui/print.c:482
 msgid "22nd"
 msgstr "22."
 
-#: calendar/cal-util/cal-recur.c:4005 calendar/gui/print.c:482
+#: calendar/cal-util/cal-recur.c:4007 calendar/gui/print.c:482
 msgid "23rd"
 msgstr "23."
 
-#: calendar/cal-util/cal-recur.c:4006 calendar/gui/print.c:482
+#: calendar/cal-util/cal-recur.c:4008 calendar/gui/print.c:482
 msgid "24th"
 msgstr "24."
 
-#: calendar/cal-util/cal-recur.c:4007 calendar/gui/print.c:482
+#: calendar/cal-util/cal-recur.c:4009 calendar/gui/print.c:482
 msgid "25th"
 msgstr "25."
 
-#: calendar/cal-util/cal-recur.c:4008 calendar/gui/print.c:483
+#: calendar/cal-util/cal-recur.c:4010 calendar/gui/print.c:483
 msgid "26th"
 msgstr "26."
 
-#: calendar/cal-util/cal-recur.c:4009 calendar/gui/print.c:483
+#: calendar/cal-util/cal-recur.c:4011 calendar/gui/print.c:483
 msgid "27th"
 msgstr "27."
 
-#: calendar/cal-util/cal-recur.c:4010 calendar/gui/print.c:483
+#: calendar/cal-util/cal-recur.c:4012 calendar/gui/print.c:483
 msgid "28th"
 msgstr "28."
 
-#: calendar/cal-util/cal-recur.c:4011 calendar/gui/print.c:483
+#: calendar/cal-util/cal-recur.c:4013 calendar/gui/print.c:483
 msgid "29th"
 msgstr "29."
 
-#: calendar/cal-util/cal-recur.c:4012 calendar/gui/print.c:483
+#: calendar/cal-util/cal-recur.c:4014 calendar/gui/print.c:483
 msgid "30th"
 msgstr "30."
 
-#: calendar/cal-util/cal-recur.c:4013 calendar/gui/print.c:484
+#: calendar/cal-util/cal-recur.c:4015 calendar/gui/print.c:484
 msgid "31st"
 msgstr "31."
 
-#: calendar/cal-util/cal-util.c:499 calendar/cal-util/cal-util.c:521
+#: calendar/cal-util/cal-util.c:523 calendar/cal-util/cal-util.c:545
 #: calendar/gui/dialogs/task-details-page.glade.h:6
 #: calendar/gui/e-calendar-table.c:393 mail/message-list.c:752
 msgid "High"
 msgstr "Korkea"
 
-#: calendar/cal-util/cal-util.c:501 calendar/cal-util/cal-util.c:523
-#: calendar/gui/calendar-model.c:1694
-#: calendar/gui/dialogs/task-details-page.glade.h:10
+#: calendar/cal-util/cal-util.c:525 calendar/cal-util/cal-util.c:547
+#: calendar/gui/calendar-model.c:1701
+#: calendar/gui/dialogs/task-details-page.glade.h:9
 #: calendar/gui/e-calendar-table.c:394 mail/message-list.c:751
 msgid "Normal"
 msgstr "Tavallinen"
 
-#: calendar/cal-util/cal-util.c:503 calendar/cal-util/cal-util.c:525
+#: calendar/cal-util/cal-util.c:527 calendar/cal-util/cal-util.c:549
 #: calendar/gui/dialogs/task-details-page.glade.h:8
 #: calendar/gui/e-calendar-table.c:395 mail/message-list.c:750
 msgid "Low"
 msgstr "Matala"
 
 #. An empty string is the same as 'None'.
-#: calendar/cal-util/cal-util.c:519
-#: calendar/gui/dialogs/task-details-page.glade.h:14
+#: calendar/cal-util/cal-util.c:543
+#: calendar/gui/dialogs/task-details-page.glade.h:13
 #: calendar/gui/e-calendar-table.c:396
 msgid "Undefined"
 msgstr "Määrittelemätön"
@@ -3717,13 +3733,13 @@ msgstr "Määrittelemätön"
 msgid "Split Multi-Day Events:"
 msgstr ""
 
-#: calendar/conduits/calendar/calendar-conduit.c:1214
-#: calendar/conduits/todo/todo-conduit.c:823
+#: calendar/conduits/calendar/calendar-conduit.c:1219
+#: calendar/conduits/todo/todo-conduit.c:828
 msgid "Error while communicating with calendar server"
 msgstr "Virhe kommunikoitaessa kalenteripalvelimen kanssa"
 
-#: calendar/conduits/calendar/calendar-conduit.c:1361
-#: calendar/conduits/calendar/calendar-conduit.c:1364
+#: calendar/conduits/calendar/calendar-conduit.c:1370
+#: calendar/conduits/calendar/calendar-conduit.c:1373
 msgid "Could not read pilot's Calendar application block"
 msgstr ""
 
@@ -3732,8 +3748,8 @@ msgstr ""
 msgid "Default Priority:"
 msgstr "_Prioriteetti:"
 
-#: calendar/conduits/todo/todo-conduit.c:939
-#: calendar/conduits/todo/todo-conduit.c:942
+#: calendar/conduits/todo/todo-conduit.c:952
+#: calendar/conduits/todo/todo-conduit.c:955
 msgid "Could not read pilot's ToDo application block"
 msgstr ""
 
@@ -3888,7 +3904,7 @@ msgstr "%A %d %B %Y"
 #. strftime format %a = abbreviated weekday name, %d = day of month,
 #. %b = abbreviated month name. Don't use any other specifiers.
 #: calendar/gui/calendar-commands.c:407 calendar/gui/e-day-view-top-item.c:266
-#: calendar/gui/e-day-view.c:1387 calendar/gui/e-week-view-main-item.c:312
+#: calendar/gui/e-day-view.c:1388 calendar/gui/e-week-view-main-item.c:312
 msgid "%a %d %b"
 msgstr "%a %d %b"
 
@@ -4057,7 +4073,7 @@ msgid "Busy"
 msgstr ""
 
 #: calendar/gui/calendar-model.c:742 calendar/gui/calendar-model.c:1170
-#: calendar/gui/dialogs/task-details-page.glade.h:11
+#: calendar/gui/dialogs/task-details-page.glade.h:10
 #: calendar/gui/e-calendar-table.c:466 calendar/gui/print.c:2310
 msgid "Not Started"
 msgstr ""
@@ -4070,8 +4086,8 @@ msgstr ""
 
 #: calendar/gui/calendar-model.c:748 calendar/gui/calendar-model.c:1174
 #: calendar/gui/dialogs/task-details-page.glade.h:4
-#: calendar/gui/e-calendar-table.c:468 calendar/gui/e-meeting-model.c:305
-#: calendar/gui/e-meeting-model.c:328 calendar/gui/print.c:2316
+#: calendar/gui/e-calendar-table.c:468 calendar/gui/e-meeting-model.c:304
+#: calendar/gui/e-meeting-model.c:327 calendar/gui/print.c:2316
 msgid "Completed"
 msgstr ""
 
@@ -4084,7 +4100,7 @@ msgstr ""
 
 #. An empty string is the same as 'None'.
 #: calendar/gui/calendar-model.c:1168 calendar/gui/dialogs/meeting-page.c:286
-#: calendar/gui/dialogs/meeting-page.glade.h:1 composer/e-msg-composer.c:1978
+#: calendar/gui/dialogs/meeting-page.glade.h:1 composer/e-msg-composer.c:1982
 #: mail/folder-browser.c:1730 mail/mail-account-gui.c:1254
 #: mail/mail-account-gui.c:1682 mail/mail-accounts.c:392
 #: mail/mail-config.glade.h:78
@@ -4094,22 +4110,22 @@ msgstr ""
 msgid "None"
 msgstr "Määrittelemätön"
 
-#: calendar/gui/calendar-model.c:1696
+#: calendar/gui/calendar-model.c:1703
 msgid "Recurring"
 msgstr ""
 
-#: calendar/gui/calendar-model.c:1698
+#: calendar/gui/calendar-model.c:1705
 msgid "Assigned"
 msgstr ""
 
-#: calendar/gui/calendar-model.c:1704 calendar/gui/e-meeting-model.c:277
-#: calendar/gui/e-meeting-model.c:287 calendar/gui/e-meeting-model.c:543
-#: calendar/gui/e-meeting-model.c:838
+#: calendar/gui/calendar-model.c:1711 calendar/gui/e-meeting-model.c:276
+#: calendar/gui/e-meeting-model.c:286 calendar/gui/e-meeting-model.c:541
+#: calendar/gui/e-meeting-model.c:835
 msgid "Yes"
 msgstr "Kyllä"
 
-#: calendar/gui/calendar-model.c:1704 calendar/gui/e-meeting-model.c:289
-#: calendar/gui/e-meeting-model.c:839
+#: calendar/gui/calendar-model.c:1711 calendar/gui/e-meeting-model.c:288
+#: calendar/gui/e-meeting-model.c:836
 msgid "No"
 msgstr "Ei"
 
@@ -4133,16 +4149,16 @@ msgstr "Viikko"
 msgid "Month View"
 msgstr "Kuukausi"
 
-#: calendar/gui/comp-editor-factory.c:457
+#: calendar/gui/comp-editor-factory.c:456
 #, fuzzy
 msgid "Error while opening the calendar"
 msgstr "Virhe kommunikoitaessa kalenteripalvelimen kanssa"
 
-#: calendar/gui/comp-editor-factory.c:468
+#: calendar/gui/comp-editor-factory.c:467
 msgid "Method not supported when opening the calendar"
 msgstr ""
 
-#: calendar/gui/comp-editor-factory.c:474
+#: calendar/gui/comp-editor-factory.c:473
 msgid "Permission denied to open the calendar"
 msgstr ""
 
@@ -4161,36 +4177,30 @@ msgstr "URI jonka kalenteri näyttää"
 msgid "The type of view to show"
 msgstr ""
 
-#: calendar/gui/dialogs/alarm-options.c:358
+#: calendar/gui/dialogs/alarm-options.c:473
 msgid "Audio Alarm Options"
 msgstr ""
 
-#: calendar/gui/dialogs/alarm-options.c:367
+#: calendar/gui/dialogs/alarm-options.c:482
 #, fuzzy
 msgid "Message Alarm Options"
 msgstr "Vastaanottajat"
 
-#: calendar/gui/dialogs/alarm-options.c:376
+#: calendar/gui/dialogs/alarm-options.c:491
 #, fuzzy
-msgid "Mail Alarm Options"
+msgid "Email Alarm Options"
 msgstr "Näytä asetukset"
 
-#: calendar/gui/dialogs/alarm-options.c:385
+#: calendar/gui/dialogs/alarm-options.c:500
 msgid "Program Alarm Options"
 msgstr ""
 
-#: calendar/gui/dialogs/alarm-options.c:394
+#: calendar/gui/dialogs/alarm-options.c:509
 msgid "Unknown Alarm Options"
 msgstr ""
 
-#: calendar/gui/dialogs/alarm-options.glade.h:1
-msgid "Alarm Repeat"
-msgstr ""
-
 #: calendar/gui/dialogs/alarm-options.glade.h:2
-msgid ""
-"Evolution does not yet support email notification for reminders.  You will "
-"not be able to edit the options for this reminder."
+msgid "Alarm Repeat"
 msgstr ""
 
 #: calendar/gui/dialogs/alarm-options.glade.h:3
@@ -4199,150 +4209,51 @@ msgid "Message to Display"
 msgstr "Viestit"
 
 #: calendar/gui/dialogs/alarm-options.glade.h:4
+#, fuzzy
+msgid "Message to Send"
+msgstr "Viestin otsikko"
+
+#: calendar/gui/dialogs/alarm-options.glade.h:5
 msgid "Play sound:"
 msgstr ""
 
-#: calendar/gui/dialogs/alarm-options.glade.h:5
+#: calendar/gui/dialogs/alarm-options.glade.h:6
 msgid "Repeat the alarm"
 msgstr ""
 
-#: calendar/gui/dialogs/alarm-options.glade.h:6
+#: calendar/gui/dialogs/alarm-options.glade.h:7
 #, fuzzy
 msgid "Run program:"
 msgstr "Aja ohjelma"
 
-#: calendar/gui/dialogs/alarm-options.glade.h:7
+#: calendar/gui/dialogs/alarm-options.glade.h:8
+#, fuzzy
+msgid "Send To:"
+msgstr "Lähetä"
+
+#: calendar/gui/dialogs/alarm-options.glade.h:9
 msgid "With these arguments:"
 msgstr ""
 
-#: calendar/gui/dialogs/alarm-options.glade.h:8 filter/filter-datespec.c:68
+#: calendar/gui/dialogs/alarm-options.glade.h:10 filter/filter-datespec.c:68
 #: filter/filter.glade.h:20
 msgid "days"
 msgstr "päivää"
 
-#: calendar/gui/dialogs/alarm-options.glade.h:9
+#: calendar/gui/dialogs/alarm-options.glade.h:11
 #, fuzzy
 msgid "extra times every"
 msgstr "Päivitä joka"
 
-#: calendar/gui/dialogs/alarm-options.glade.h:10 filter/filter-datespec.c:67
+#: calendar/gui/dialogs/alarm-options.glade.h:12 filter/filter-datespec.c:67
 #: filter/filter.glade.h:21
 msgid "hours"
 msgstr "tuntia"
 
-#: calendar/gui/dialogs/alarm-options.glade.h:11 filter/filter-datespec.c:66
+#: calendar/gui/dialogs/alarm-options.glade.h:13 filter/filter-datespec.c:66
 #: filter/filter.glade.h:22
 msgid "minutes"
 msgstr "minuutti"
-
-#: calendar/gui/dialogs/alarm-page.c:313 calendar/gui/e-alarm-list.c:393
-#, c-format
-msgid "%d days"
-msgstr "%d päivää"
-
-#: calendar/gui/dialogs/alarm-page.c:316 calendar/gui/e-alarm-list.c:396
-msgid "1 day"
-msgstr "1 päivä"
-
-#: calendar/gui/dialogs/alarm-page.c:321 calendar/gui/e-alarm-list.c:401
-#, c-format
-msgid "%d weeks"
-msgstr "%d viikkoa"
-
-#: calendar/gui/dialogs/alarm-page.c:324 calendar/gui/e-alarm-list.c:404
-msgid "1 week"
-msgstr "1 viikko"
-
-#: calendar/gui/dialogs/alarm-page.c:329 calendar/gui/e-alarm-list.c:409
-#, c-format
-msgid "%d hours"
-msgstr "%d tuntia"
-
-#: calendar/gui/dialogs/alarm-page.c:332 calendar/gui/e-alarm-list.c:412
-msgid "1 hour"
-msgstr "1 tunti"
-
-#: calendar/gui/dialogs/alarm-page.c:337 calendar/gui/e-alarm-list.c:417
-#, c-format
-msgid "%d minutes"
-msgstr "%d minuuttia"
-
-#: calendar/gui/dialogs/alarm-page.c:340 calendar/gui/e-alarm-list.c:420
-msgid "1 minute"
-msgstr "1 minuutti"
-
-#: calendar/gui/dialogs/alarm-page.c:345 calendar/gui/e-alarm-list.c:425
-#, c-format
-msgid "%d seconds"
-msgstr "%d sekuntia"
-
-#: calendar/gui/dialogs/alarm-page.c:348 calendar/gui/e-alarm-list.c:428
-msgid "1 second"
-msgstr "1 sekunti"
-
-#: calendar/gui/dialogs/alarm-page.c:377
-#: calendar/gui/dialogs/alarm-page.glade.h:4 calendar/gui/e-alarm-list.c:457
-msgid "Play a sound"
-msgstr ""
-
-#: calendar/gui/dialogs/alarm-page.c:381
-#: calendar/gui/dialogs/alarm-page.glade.h:3 calendar/gui/e-alarm-list.c:461
-#, fuzzy
-msgid "Display a message"
-msgstr "Kirjoita viesti"
-
-#: calendar/gui/dialogs/alarm-page.c:385 calendar/gui/e-alarm-list.c:465
-msgid "Send an email"
-msgstr "Lähetä sähköpostia"
-
-#: calendar/gui/dialogs/alarm-page.c:389
-#: calendar/gui/dialogs/alarm-page.glade.h:6 calendar/gui/e-alarm-list.c:469
-msgid "Run a program"
-msgstr "Aja ohjelma"
-
-#: calendar/gui/dialogs/alarm-page.c:395 calendar/gui/e-alarm-list.c:475
-msgid "Unknown action to be performed"
-msgstr ""
-
-#: calendar/gui/dialogs/alarm-page.c:407 calendar/gui/e-alarm-list.c:487
-#, c-format
-msgid "%s %s before the start of the appointment"
-msgstr "%s %s ennen tapaamisen alkua"
-
-#: calendar/gui/dialogs/alarm-page.c:410 calendar/gui/e-alarm-list.c:490
-#, c-format
-msgid "%s %s after the start of the appointment"
-msgstr "%s %s tapaamisen alun jälkeen"
-
-#: calendar/gui/dialogs/alarm-page.c:415 calendar/gui/e-alarm-list.c:495
-#, c-format
-msgid "%s at the start of the appointment"
-msgstr "%s tapaamisen alussa"
-
-#: calendar/gui/dialogs/alarm-page.c:424 calendar/gui/e-alarm-list.c:504
-#, c-format
-msgid "%s %s before the end of the appointment"
-msgstr "%s %s ennen tapaamisen loppumista"
-
-#: calendar/gui/dialogs/alarm-page.c:427 calendar/gui/e-alarm-list.c:507
-#, c-format
-msgid "%s %s after the end of the appointment"
-msgstr "%s %s tapaamisen päättymisen jälkeen"
-
-#: calendar/gui/dialogs/alarm-page.c:432 calendar/gui/e-alarm-list.c:512
-#, c-format
-msgid "%s at the end of the appointment"
-msgstr "%s tapaamisen lopussa"
-
-#: calendar/gui/dialogs/alarm-page.c:456 calendar/gui/e-alarm-list.c:536
-#, c-format
-msgid "%s at %s"
-msgstr ""
-
-#: calendar/gui/dialogs/alarm-page.c:462 calendar/gui/e-alarm-list.c:542
-#, c-format
-msgid "%s for an unknown trigger type"
-msgstr ""
 
 #: calendar/gui/dialogs/alarm-page.glade.h:1
 #: calendar/gui/dialogs/recurrence-page.glade.h:2
@@ -4355,47 +4266,65 @@ msgstr ""
 msgid "Date/Time:"
 msgstr "Päiväys & Aika"
 
+#: calendar/gui/dialogs/alarm-page.glade.h:3 calendar/gui/e-alarm-list.c:461
+#, fuzzy
+msgid "Display a message"
+msgstr "Kirjoita viesti"
+
+#: calendar/gui/dialogs/alarm-page.glade.h:4 calendar/gui/e-alarm-list.c:457
+msgid "Play a sound"
+msgstr ""
+
 #: calendar/gui/dialogs/alarm-page.glade.h:5
 msgid "Reminders"
 msgstr "Muistutukset"
 
+#: calendar/gui/dialogs/alarm-page.glade.h:6 calendar/gui/e-alarm-list.c:469
+msgid "Run a program"
+msgstr "Aja ohjelma"
+
 #: calendar/gui/dialogs/alarm-page.glade.h:7
+#, fuzzy
+msgid "Send an Email"
+msgstr "Lähetä sähköpostia"
+
+#: calendar/gui/dialogs/alarm-page.glade.h:8
 #: calendar/gui/dialogs/recurrence-page.glade.h:8
-#: calendar/gui/e-itip-control.c:980 calendar/gui/e-itip-control.glade.h:11
+#: calendar/gui/e-itip-control.c:1050 calendar/gui/e-itip-control.glade.h:11
 msgid "Summary:"
 msgstr "Kuvaus:"
 
-#: calendar/gui/dialogs/alarm-page.glade.h:10
+#: calendar/gui/dialogs/alarm-page.glade.h:11
 #, fuzzy
 msgid "_Options..."
 msgstr "_Asetukset"
 
-#: calendar/gui/dialogs/alarm-page.glade.h:11
+#: calendar/gui/dialogs/alarm-page.glade.h:12
 msgid "after"
 msgstr "jälkeen"
 
-#: calendar/gui/dialogs/alarm-page.glade.h:12
+#: calendar/gui/dialogs/alarm-page.glade.h:13
 msgid "before"
 msgstr "ennen"
 
-#: calendar/gui/dialogs/alarm-page.glade.h:13
+#: calendar/gui/dialogs/alarm-page.glade.h:14
 #: calendar/gui/dialogs/recurrence-page.glade.h:14
 msgid "day(s)"
 msgstr "päivä(ä)"
 
-#: calendar/gui/dialogs/alarm-page.glade.h:14
+#: calendar/gui/dialogs/alarm-page.glade.h:15
 msgid "end of appointment"
 msgstr ""
 
-#: calendar/gui/dialogs/alarm-page.glade.h:15
+#: calendar/gui/dialogs/alarm-page.glade.h:16
 msgid "hour(s)"
 msgstr "tunti(a)"
 
-#: calendar/gui/dialogs/alarm-page.glade.h:16 mail/mail-config.glade.h:180
+#: calendar/gui/dialogs/alarm-page.glade.h:17 mail/mail-config.glade.h:180
 msgid "minute(s)"
 msgstr "minuutti"
 
-#: calendar/gui/dialogs/alarm-page.glade.h:17
+#: calendar/gui/dialogs/alarm-page.glade.h:18
 msgid "start of appointment"
 msgstr ""
 
@@ -4445,8 +4374,8 @@ msgid "Days"
 msgstr "päivää"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:12
-#: calendar/gui/dialogs/recurrence-page.c:1050
-#: calendar/gui/e-itip-control.c:608
+#: calendar/gui/dialogs/recurrence-page.c:1037
+#: calendar/gui/e-itip-control.c:675
 msgid "Friday"
 msgstr "Perjantai"
 
@@ -4461,8 +4390,8 @@ msgid "Minutes"
 msgstr "minuutti"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:15
-#: calendar/gui/dialogs/recurrence-page.c:1046
-#: calendar/gui/e-itip-control.c:604
+#: calendar/gui/dialogs/recurrence-page.c:1033
+#: calendar/gui/e-itip-control.c:671
 msgid "Monday"
 msgstr "Maanantai"
 
@@ -4472,8 +4401,8 @@ msgid "S_un"
 msgstr "Su"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:17
-#: calendar/gui/dialogs/recurrence-page.c:1051
-#: calendar/gui/e-itip-control.c:609
+#: calendar/gui/dialogs/recurrence-page.c:1038
+#: calendar/gui/e-itip-control.c:676
 msgid "Saturday"
 msgstr "Lauantai"
 
@@ -4487,8 +4416,8 @@ msgid "Show week _numbers in date navigator"
 msgstr "Näytä viikkonumerot"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:20
-#: calendar/gui/dialogs/recurrence-page.c:1052
-#: calendar/gui/e-itip-control.c:603
+#: calendar/gui/dialogs/recurrence-page.c:1039
+#: calendar/gui/e-itip-control.c:670
 msgid "Sunday"
 msgstr "Sunnuntai"
 
@@ -4507,8 +4436,8 @@ msgid "Task List"
 msgstr "Tehtävät"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:24
-#: calendar/gui/dialogs/recurrence-page.c:1049
-#: calendar/gui/e-itip-control.c:607
+#: calendar/gui/dialogs/recurrence-page.c:1036
+#: calendar/gui/e-itip-control.c:674
 msgid "Thursday"
 msgstr "Torstai"
 
@@ -4528,8 +4457,8 @@ msgid "Time format:"
 msgstr ""
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:28
-#: calendar/gui/dialogs/recurrence-page.c:1047
-#: calendar/gui/e-itip-control.c:605
+#: calendar/gui/dialogs/recurrence-page.c:1034
+#: calendar/gui/e-itip-control.c:672
 msgid "Tuesday"
 msgstr "Tiistai"
 
@@ -4538,8 +4467,8 @@ msgid "W_eek starts:"
 msgstr ""
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:30
-#: calendar/gui/dialogs/recurrence-page.c:1048
-#: calendar/gui/e-itip-control.c:606
+#: calendar/gui/dialogs/recurrence-page.c:1035
+#: calendar/gui/e-itip-control.c:673
 msgid "Wednesday"
 msgstr "Keskiviikko"
 
@@ -4636,33 +4565,33 @@ msgstr "Ke"
 msgid "before every appointment"
 msgstr "Luo uusi tapaaminen"
 
-#: calendar/gui/dialogs/cancel-comp.c:55
+#: calendar/gui/dialogs/cancel-comp.c:58
 msgid ""
 "The event being deleted is a meeting, would you like to send a cancellation "
 "notice?"
 msgstr ""
 
-#: calendar/gui/dialogs/cancel-comp.c:58
+#: calendar/gui/dialogs/cancel-comp.c:61
 msgid "Are you sure you want to cancel and delete this meeting?"
 msgstr "Haluatko varmasti peruuttaa ja poistaa tämän tapaamisen?"
 
-#: calendar/gui/dialogs/cancel-comp.c:64
+#: calendar/gui/dialogs/cancel-comp.c:67
 msgid ""
 "The task being deleted is assigned, would you like to send a cancellation "
 "notice?"
 msgstr ""
 
-#: calendar/gui/dialogs/cancel-comp.c:67
+#: calendar/gui/dialogs/cancel-comp.c:70
 msgid "Are you sure you want to cancel and delete this task?"
 msgstr "Haluatko todella peruuttaa ja poistaa tämän tehtävän?"
 
-#: calendar/gui/dialogs/cancel-comp.c:73
+#: calendar/gui/dialogs/cancel-comp.c:76
 msgid ""
 "The journal entry being deleted is published, would you like to send a "
 "cancellation notice?"
 msgstr ""
 
-#: calendar/gui/dialogs/cancel-comp.c:76
+#: calendar/gui/dialogs/cancel-comp.c:79
 msgid "Are you sure you want to cancel and delete this journal entry?"
 msgstr "Haluatko varmasti peruuttaa ja poistaa tämän päiväkirjamerkinnän?"
 
@@ -4736,61 +4665,60 @@ msgstr ""
 msgid "Due "
 msgstr ""
 
-#: calendar/gui/dialogs/comp-editor.c:322
+#: calendar/gui/dialogs/comp-editor.c:329
 #, fuzzy
 msgid "Could not update invalid object"
 msgstr "Tiedostojen päivitys ei onnistunut"
 
-#: calendar/gui/dialogs/comp-editor.c:325
+#: calendar/gui/dialogs/comp-editor.c:332
 msgid "Object not found, not updated"
 msgstr ""
 
-#: calendar/gui/dialogs/comp-editor.c:328
+#: calendar/gui/dialogs/comp-editor.c:335
 msgid "You don't have permissions to update this object"
 msgstr ""
 
-#: calendar/gui/dialogs/comp-editor.c:331
+#: calendar/gui/dialogs/comp-editor.c:338
 #, fuzzy
 msgid "Could not update object"
 msgstr "Tiedostojen päivitys ei onnistunut"
 
-#: calendar/gui/dialogs/comp-editor.c:777
+#: calendar/gui/dialogs/comp-editor.c:788
 msgid "Edit Appointment"
 msgstr "Muokkaa tapaamista"
 
-#: calendar/gui/dialogs/comp-editor.c:782
+#: calendar/gui/dialogs/comp-editor.c:793
 #, c-format
 msgid "Appointment - %s"
 msgstr "Tapaaminen - %s"
 
-#: calendar/gui/dialogs/comp-editor.c:785
+#: calendar/gui/dialogs/comp-editor.c:796
 #, c-format
 msgid "Task - %s"
 msgstr "Tehtävä - %s"
 
-#: calendar/gui/dialogs/comp-editor.c:788
+#: calendar/gui/dialogs/comp-editor.c:799
 #, c-format
 msgid "Journal entry - %s"
 msgstr ""
 
-#: calendar/gui/dialogs/comp-editor.c:799
+#: calendar/gui/dialogs/comp-editor.c:810
 msgid "No summary"
 msgstr "Ei kuvausta"
 
-#: calendar/gui/dialogs/comp-editor.c:1206
-#: calendar/gui/e-calendar-table.c:1035 calendar/gui/e-day-view.c:3929
-#: calendar/gui/e-week-view.c:3737 composer/e-msg-composer.c:1155
+#: calendar/gui/dialogs/comp-editor.c:1231
+#: calendar/gui/e-calendar-table.c:1039 calendar/gui/e-day-view.c:3938
+#: calendar/gui/e-week-view.c:3760 composer/e-msg-composer.c:1159
 msgid "Save as..."
 msgstr "Tallenna nimellä..."
 
-#: calendar/gui/dialogs/comp-editor.c:1307
-#: calendar/gui/dialogs/comp-editor.c:1331
-#: calendar/gui/dialogs/comp-editor.c:1355
-msgid ""
-"Changes made to this item may be discarded if an update arrives via email"
+#: calendar/gui/dialogs/comp-editor.c:1332
+#: calendar/gui/dialogs/comp-editor.c:1356
+#: calendar/gui/dialogs/comp-editor.c:1380
+msgid "Changes made to this item may be discarded if an update arrives"
 msgstr ""
 
-#: calendar/gui/dialogs/comp-editor.c:1382
+#: calendar/gui/dialogs/comp-editor.c:1407
 msgid "Unable to obtain current version!"
 msgstr ""
 
@@ -4863,120 +4791,120 @@ msgid "Recurrence"
 msgstr ""
 
 #: calendar/gui/dialogs/event-editor.c:220
-#: calendar/gui/dialogs/event-editor.c:289
-#: calendar/gui/dialogs/event-editor.c:424
+#: calendar/gui/dialogs/event-editor.c:292
+#: calendar/gui/dialogs/event-editor.c:432
 #, fuzzy
 msgid "Scheduling"
 msgstr "Varjostus"
 
 #: calendar/gui/dialogs/event-editor.c:227
-#: calendar/gui/dialogs/event-editor.c:292
-#: calendar/gui/dialogs/event-editor.c:427 ui/evolution-event-editor.xml.h:6
+#: calendar/gui/dialogs/event-editor.c:295
+#: calendar/gui/dialogs/event-editor.c:435 ui/evolution-event-editor.xml.h:6
 #, fuzzy
 msgid "Meeting"
 msgstr "Peruuta tapaaminen"
 
-#: calendar/gui/dialogs/event-page.c:644 calendar/gui/dialogs/task-page.c:554
+#: calendar/gui/dialogs/event-page.c:654 calendar/gui/dialogs/task-page.c:554
 msgid "Start date is wrong"
 msgstr ""
 
-#: calendar/gui/dialogs/event-page.c:654
+#: calendar/gui/dialogs/event-page.c:664
 msgid "End date is wrong"
 msgstr ""
 
-#: calendar/gui/dialogs/event-page.c:677
+#: calendar/gui/dialogs/event-page.c:687
 #, fuzzy
 msgid "Start time is wrong"
 msgstr "_Alkamisaika:"
 
-#: calendar/gui/dialogs/event-page.c:684
+#: calendar/gui/dialogs/event-page.c:694
 msgid "End time is wrong"
 msgstr ""
 
-#: calendar/gui/dialogs/event-page.glade.h:1
+#: calendar/gui/dialogs/event-page.glade.h:2
 msgid "A_ll day event"
 msgstr "_Koko päivän kestävä tapahtuma"
 
-#: calendar/gui/dialogs/event-page.glade.h:2
+#: calendar/gui/dialogs/event-page.glade.h:3
 msgid "B_usy"
 msgstr ""
 
-#: calendar/gui/dialogs/event-page.glade.h:4
+#: calendar/gui/dialogs/event-page.glade.h:5
 #: calendar/gui/dialogs/task-page.glade.h:2
 #: calendar/gui/e-calendar-table.etspec.h:5
 msgid "Classification"
 msgstr "Luokittelu"
 
-#: calendar/gui/dialogs/event-page.glade.h:5
+#: calendar/gui/dialogs/event-page.glade.h:6
 #: calendar/gui/dialogs/task-page.glade.h:3
 #, fuzzy
 msgid "Con_fidential"
 msgstr "Luottamuksellinen"
 
-#: calendar/gui/dialogs/event-page.glade.h:6
+#: calendar/gui/dialogs/event-page.glade.h:7
 #: calendar/gui/dialogs/task-page.glade.h:4
 msgid "Date & Time"
 msgstr "Päiväys & Aika"
 
-#: calendar/gui/dialogs/event-page.glade.h:7
+#: calendar/gui/dialogs/event-page.glade.h:8
 #, fuzzy
 msgid "F_ree"
 msgstr "_Viikko"
 
-#: calendar/gui/dialogs/event-page.glade.h:8
+#: calendar/gui/dialogs/event-page.glade.h:9
 #, fuzzy
 msgid "L_ocation:"
 msgstr ""
 "\n"
 "Maant. sijainti: "
 
-#: calendar/gui/dialogs/event-page.glade.h:9
+#: calendar/gui/dialogs/event-page.glade.h:10
 #: calendar/gui/dialogs/task-page.glade.h:6
 msgid "Pri_vate"
 msgstr "Y_ksityinen"
 
-#: calendar/gui/dialogs/event-page.glade.h:10
+#: calendar/gui/dialogs/event-page.glade.h:11
 #: calendar/gui/dialogs/task-page.glade.h:7
 msgid "Pu_blic"
 msgstr "Ju_lkinen"
 
-#: calendar/gui/dialogs/event-page.glade.h:11
+#: calendar/gui/dialogs/event-page.glade.h:12
 #: calendar/gui/e-calendar-table.etspec.h:13
 #, fuzzy
 msgid "Show Time As"
 msgstr "Näytä"
 
-#: calendar/gui/dialogs/event-page.glade.h:12
+#: calendar/gui/dialogs/event-page.glade.h:13
 #: calendar/gui/dialogs/task-page.glade.h:9
 msgid "Su_mmary:"
 msgstr "K_uvaus:"
 
-#: calendar/gui/dialogs/event-page.glade.h:13
+#: calendar/gui/dialogs/event-page.glade.h:14
 #: calendar/gui/dialogs/task-page.glade.h:10
 msgid "_Contacts..."
 msgstr "_Yhteystiedot..."
 
-#: calendar/gui/dialogs/event-page.glade.h:14
+#: calendar/gui/dialogs/event-page.glade.h:15
 msgid "_End time:"
 msgstr "_Loppumisaika:"
 
-#: calendar/gui/dialogs/event-page.glade.h:15
+#: calendar/gui/dialogs/event-page.glade.h:16
 msgid "_Start time:"
 msgstr "_Alkamisaika:"
 
-#: calendar/gui/dialogs/meeting-page.c:396
+#: calendar/gui/dialogs/meeting-page.c:400
 msgid "An organizer is required."
 msgstr ""
 
-#: calendar/gui/dialogs/meeting-page.c:420
+#: calendar/gui/dialogs/meeting-page.c:424
 msgid "At least one attendee is required."
 msgstr ""
 
-#: calendar/gui/dialogs/meeting-page.c:575
+#: calendar/gui/dialogs/meeting-page.c:579
 msgid "That person is already attending the meeting!"
 msgstr ""
 
-#: calendar/gui/dialogs/meeting-page.c:648
+#: calendar/gui/dialogs/meeting-page.c:652
 #, fuzzy
 msgid "_Delegate To..."
 msgstr "Poista..."
@@ -5020,7 +4948,7 @@ msgid "Member"
 msgstr "Joulukuu"
 
 #: calendar/gui/dialogs/meeting-page.etspec.h:8
-#: calendar/gui/e-itip-control.c:1104
+#: calendar/gui/e-itip-control.c:1176
 #: calendar/gui/e-meeting-time-sel.etspec.h:8
 msgid "RSVP"
 msgstr ""
@@ -5047,55 +4975,55 @@ msgstr "Organisoija:"
 msgid "_Invite Others..."
 msgstr ""
 
-#: calendar/gui/dialogs/recurrence-page.c:550
+#: calendar/gui/dialogs/recurrence-page.c:532
 msgid "This appointment contains recurrences that Evolution cannot edit."
 msgstr ""
 
-#: calendar/gui/dialogs/recurrence-page.c:824
-msgid "Recurrent date is wrong"
+#: calendar/gui/dialogs/recurrence-page.c:806
+msgid "Recurrence date is invalid"
 msgstr ""
 
-#: calendar/gui/dialogs/recurrence-page.c:929
+#: calendar/gui/dialogs/recurrence-page.c:916
 msgid "on"
 msgstr ""
 
-#: calendar/gui/dialogs/recurrence-page.c:990
+#: calendar/gui/dialogs/recurrence-page.c:977
 #, fuzzy
 msgid "first"
 msgstr "_Etunimi:"
 
-#: calendar/gui/dialogs/recurrence-page.c:991 filter/filter-datespec.c:65
+#: calendar/gui/dialogs/recurrence-page.c:978 filter/filter-datespec.c:65
 msgid "second"
 msgstr "sekunti"
 
-#: calendar/gui/dialogs/recurrence-page.c:992
+#: calendar/gui/dialogs/recurrence-page.c:979
 msgid "third"
 msgstr "kolmas"
 
-#: calendar/gui/dialogs/recurrence-page.c:993
+#: calendar/gui/dialogs/recurrence-page.c:980
 #, fuzzy
 msgid "fourth"
 msgstr "tunti"
 
-#: calendar/gui/dialogs/recurrence-page.c:994
+#: calendar/gui/dialogs/recurrence-page.c:981
 #, fuzzy
 msgid "last"
 msgstr "Liitä"
 
-#: calendar/gui/dialogs/recurrence-page.c:1017
+#: calendar/gui/dialogs/recurrence-page.c:1004
 #, fuzzy
 msgid "Other Date"
 msgstr "Muu faksi"
 
-#: calendar/gui/dialogs/recurrence-page.c:1045 filter/filter-datespec.c:68
+#: calendar/gui/dialogs/recurrence-page.c:1032 filter/filter-datespec.c:68
 msgid "day"
 msgstr "päivä"
 
-#: calendar/gui/dialogs/recurrence-page.c:1182
+#: calendar/gui/dialogs/recurrence-page.c:1169
 msgid "on the"
 msgstr ""
 
-#: calendar/gui/dialogs/recurrence-page.c:1367
+#: calendar/gui/dialogs/recurrence-page.c:1354
 msgid "occurrences"
 msgstr ""
 
@@ -5160,23 +5088,23 @@ msgstr "viikkoa"
 msgid "year(s)"
 msgstr "vuotta"
 
-#: calendar/gui/dialogs/send-comp.c:55
+#: calendar/gui/dialogs/send-comp.c:58
 msgid "The meeting information has been created. Send it?"
 msgstr ""
 
-#: calendar/gui/dialogs/send-comp.c:58
+#: calendar/gui/dialogs/send-comp.c:61
 msgid "The meeting information has changed. Send an updated version?"
 msgstr ""
 
-#: calendar/gui/dialogs/send-comp.c:65
+#: calendar/gui/dialogs/send-comp.c:68
 msgid "The task assignment information has been created. Send it?"
 msgstr ""
 
-#: calendar/gui/dialogs/send-comp.c:69
+#: calendar/gui/dialogs/send-comp.c:72
 msgid "The task information has changed. Send an updated version?"
 msgstr ""
 
-#: calendar/gui/dialogs/task-details-page.c:398
+#: calendar/gui/dialogs/task-details-page.c:397
 #, fuzzy
 msgid "Completed date is wrong"
 msgstr "Valmis"
@@ -5191,37 +5119,30 @@ msgstr "% Valmis"
 msgid "Date Completed:"
 msgstr ""
 
-#: calendar/gui/dialogs/task-details-page.glade.h:9
-#: calendar/gui/e-meeting-model.c:295 calendar/gui/e-meeting-model.c:318
-#: calendar/gui/e-meeting-model.c:549 calendar/gui/e-meeting-model.c:851
-#, fuzzy
-msgid "Needs Action"
-msgstr "Lisää toiminto"
-
-#: calendar/gui/dialogs/task-details-page.glade.h:12
+#: calendar/gui/dialogs/task-details-page.glade.h:11
 msgid "Progress"
 msgstr ""
 
-#: calendar/gui/dialogs/task-details-page.glade.h:13
+#: calendar/gui/dialogs/task-details-page.glade.h:12
 #: my-evolution/e-summary-preferences.c:630
 msgid "URL:"
 msgstr "URL:"
 
-#: calendar/gui/dialogs/task-details-page.glade.h:15
+#: calendar/gui/dialogs/task-details-page.glade.h:14
 msgid "_Priority:"
 msgstr "_Prioriteetti:"
 
-#: calendar/gui/dialogs/task-details-page.glade.h:16
+#: calendar/gui/dialogs/task-details-page.glade.h:15
 msgid "_Status:"
 msgstr "_Tila:"
 
-#: calendar/gui/dialogs/task-editor.c:188
+#: calendar/gui/dialogs/task-editor.c:189
 msgid "Basic"
 msgstr ""
 
-#: calendar/gui/dialogs/task-editor.c:202
-#: calendar/gui/dialogs/task-editor.c:247
-#: calendar/gui/dialogs/task-editor.c:373
+#: calendar/gui/dialogs/task-editor.c:203
+#: calendar/gui/dialogs/task-editor.c:251
+#: calendar/gui/dialogs/task-editor.c:385
 msgid "Assignment"
 msgstr "Tapaaminen"
 
@@ -5229,7 +5150,7 @@ msgstr "Tapaaminen"
 msgid "Due date is wrong"
 msgstr ""
 
-#: calendar/gui/dialogs/task-page.glade.h:5 calendar/gui/e-itip-control.c:1034
+#: calendar/gui/dialogs/task-page.glade.h:5 calendar/gui/e-itip-control.c:1104
 #: calendar/gui/e-itip-control.glade.h:6
 #: composer/e-msg-composer-attachment.glade.h:2 mail/mail-config.glade.h:44
 msgid "Description:"
@@ -5241,6 +5162,99 @@ msgstr "_Alkamispäivä:"
 
 #: calendar/gui/dialogs/task-page.glade.h:11
 msgid "_Due Date:"
+msgstr ""
+
+#: calendar/gui/e-alarm-list.c:393
+#, c-format
+msgid "%d days"
+msgstr "%d päivää"
+
+#: calendar/gui/e-alarm-list.c:396
+msgid "1 day"
+msgstr "1 päivä"
+
+#: calendar/gui/e-alarm-list.c:401
+#, c-format
+msgid "%d weeks"
+msgstr "%d viikkoa"
+
+#: calendar/gui/e-alarm-list.c:404
+msgid "1 week"
+msgstr "1 viikko"
+
+#: calendar/gui/e-alarm-list.c:409
+#, c-format
+msgid "%d hours"
+msgstr "%d tuntia"
+
+#: calendar/gui/e-alarm-list.c:412
+msgid "1 hour"
+msgstr "1 tunti"
+
+#: calendar/gui/e-alarm-list.c:417
+#, c-format
+msgid "%d minutes"
+msgstr "%d minuuttia"
+
+#: calendar/gui/e-alarm-list.c:420
+msgid "1 minute"
+msgstr "1 minuutti"
+
+#: calendar/gui/e-alarm-list.c:425
+#, c-format
+msgid "%d seconds"
+msgstr "%d sekuntia"
+
+#: calendar/gui/e-alarm-list.c:428
+msgid "1 second"
+msgstr "1 sekunti"
+
+#: calendar/gui/e-alarm-list.c:465
+msgid "Send an email"
+msgstr "Lähetä sähköpostia"
+
+#: calendar/gui/e-alarm-list.c:475
+msgid "Unknown action to be performed"
+msgstr ""
+
+#: calendar/gui/e-alarm-list.c:487
+#, c-format
+msgid "%s %s before the start of the appointment"
+msgstr "%s %s ennen tapaamisen alkua"
+
+#: calendar/gui/e-alarm-list.c:490
+#, c-format
+msgid "%s %s after the start of the appointment"
+msgstr "%s %s tapaamisen alun jälkeen"
+
+#: calendar/gui/e-alarm-list.c:495
+#, c-format
+msgid "%s at the start of the appointment"
+msgstr "%s tapaamisen alussa"
+
+#: calendar/gui/e-alarm-list.c:504
+#, c-format
+msgid "%s %s before the end of the appointment"
+msgstr "%s %s ennen tapaamisen loppumista"
+
+#: calendar/gui/e-alarm-list.c:507
+#, c-format
+msgid "%s %s after the end of the appointment"
+msgstr "%s %s tapaamisen päättymisen jälkeen"
+
+#: calendar/gui/e-alarm-list.c:512
+#, c-format
+msgid "%s at the end of the appointment"
+msgstr "%s tapaamisen lopussa"
+
+#: calendar/gui/e-alarm-list.c:536
+#, c-format
+msgid "%s at %s"
+msgstr ""
+
+#: calendar/gui/e-alarm-list.c:542
+#, c-format
+msgid "%s for an unknown trigger type"
 msgstr ""
 
 #: calendar/gui/e-calendar-table.c:415
@@ -5287,81 +5301,81 @@ msgstr "90%"
 msgid "100%"
 msgstr "100%"
 
-#: calendar/gui/e-calendar-table.c:715 calendar/gui/e-day-view.c:2824
-#: calendar/gui/e-week-view.c:1901
+#: calendar/gui/e-calendar-table.c:715 calendar/gui/e-day-view.c:2825
+#: calendar/gui/e-week-view.c:1900
 #, fuzzy
 msgid "Deleting selected objects"
 msgstr "Poista valitut kontaktit"
 
-#: calendar/gui/e-calendar-table.c:949 calendar/gui/e-day-view.c:3696
-#: calendar/gui/e-week-view.c:3521 mail/folder-browser.c:1741
+#: calendar/gui/e-calendar-table.c:950 calendar/gui/e-day-view.c:3702
+#: calendar/gui/e-week-view.c:3541 mail/folder-browser.c:1741
 #: shell/e-shortcuts-view.c:415 ui/evolution-addressbook.xml.h:36
 msgid "_Open"
 msgstr "_Avaa"
 
-#: calendar/gui/e-calendar-table.c:950
+#: calendar/gui/e-calendar-table.c:951
 #, fuzzy
 msgid "_Save as..."
 msgstr "Tallenna nimellä..."
 
-#: calendar/gui/e-calendar-table.c:951 calendar/gui/e-day-view.c:3698
-#: calendar/gui/e-week-view.c:3496 calendar/gui/e-week-view.c:3523
+#: calendar/gui/e-calendar-table.c:952 calendar/gui/e-day-view.c:3704
+#: calendar/gui/e-week-view.c:3516 calendar/gui/e-week-view.c:3543
 #: ui/evolution-addressbook.xml.h:38 ui/evolution-calendar.xml.h:30
 #: ui/evolution-contact-editor.xml.h:14 ui/evolution-mail-message.xml.h:108
 #: ui/evolution-tasks.xml.h:20 ui/my-evolution.xml.h:6
 msgid "_Print..."
 msgstr "T_ulosta..."
 
-#: calendar/gui/e-calendar-table.c:955 calendar/gui/e-day-view.c:3703
-#: calendar/gui/e-week-view.c:3528 ui/evolution-addressbook.xml.h:1
+#: calendar/gui/e-calendar-table.c:956 calendar/gui/e-day-view.c:3709
+#: calendar/gui/e-week-view.c:3548 ui/evolution-addressbook.xml.h:1
 #: ui/evolution-calendar.xml.h:1 ui/evolution-tasks.xml.h:1
 msgid "C_ut"
 msgstr "L_eikkaa"
 
-#: calendar/gui/e-calendar-table.c:956 calendar/gui/e-day-view.c:3704
-#: calendar/gui/e-week-view.c:3529 ui/evolution-addressbook.xml.h:30
+#: calendar/gui/e-calendar-table.c:957 calendar/gui/e-day-view.c:3710
+#: calendar/gui/e-week-view.c:3549 ui/evolution-addressbook.xml.h:30
 #: ui/evolution-calendar.xml.h:26 ui/evolution-mail-list.xml.h:24
 #: ui/evolution-tasks.xml.h:15
 msgid "_Copy"
 msgstr "_Kopioi"
 
-#: calendar/gui/e-calendar-table.c:957 calendar/gui/e-day-view.c:3669
-#: calendar/gui/e-day-view.c:3705 calendar/gui/e-week-view.c:3500
-#: calendar/gui/e-week-view.c:3530 ui/evolution-addressbook.xml.h:37
+#: calendar/gui/e-calendar-table.c:958 calendar/gui/e-day-view.c:3675
+#: calendar/gui/e-day-view.c:3711 calendar/gui/e-week-view.c:3520
+#: calendar/gui/e-week-view.c:3550 ui/evolution-addressbook.xml.h:37
 #: ui/evolution-calendar.xml.h:29 ui/evolution-mail-list.xml.h:29
 #: ui/evolution-tasks.xml.h:19
 msgid "_Paste"
 msgstr "L_iitä"
 
-#: calendar/gui/e-calendar-table.c:961
+#: calendar/gui/e-calendar-table.c:962
 msgid "_Assign Task"
 msgstr ""
 
-#: calendar/gui/e-calendar-table.c:962
+#: calendar/gui/e-calendar-table.c:963
 msgid "_Forward as iCalendar"
 msgstr "_Välitä iCalendar-muodossa"
 
-#: calendar/gui/e-calendar-table.c:963
+#: calendar/gui/e-calendar-table.c:964
 #, fuzzy
 msgid "_Mark as Complete"
 msgstr "Valmis"
 
-#: calendar/gui/e-calendar-table.c:964
+#: calendar/gui/e-calendar-table.c:965
 #, fuzzy
 msgid "_Mark Selected Tasks as Complete"
 msgstr "Valmis"
 
-#: calendar/gui/e-calendar-table.c:969
+#: calendar/gui/e-calendar-table.c:970
 #, fuzzy
 msgid "_Delete Selected Tasks"
 msgstr "Poista tehtävä"
 
-#: calendar/gui/e-calendar-table.c:1239 calendar/gui/e-day-view.c:7551
-#: calendar/gui/e-week-view.c:4215
+#: calendar/gui/e-calendar-table.c:1243 calendar/gui/e-day-view.c:7640
+#: calendar/gui/e-week-view.c:4248
 msgid "Updating objects"
 msgstr ""
 
-#: calendar/gui/e-calendar-table.c:1322
+#: calendar/gui/e-calendar-table.c:1326
 #: calendar/gui/e-calendar-table.etspec.h:6
 msgid "Click to add a task"
 msgstr ""
@@ -5439,251 +5453,251 @@ msgstr ""
 
 #. strftime format %A = full weekday name, %d = day of month,
 #. %B = full month name. Don't use any other specifiers.
-#: calendar/gui/e-day-view-top-item.c:262 calendar/gui/e-day-view.c:1373
+#: calendar/gui/e-day-view-top-item.c:262 calendar/gui/e-day-view.c:1374
 #: calendar/gui/e-week-view-main-item.c:303 calendar/gui/print.c:1529
 msgid "%A %d %B"
 msgstr "%A %d %B"
 
 #. strftime format %d = day of month, %b = abbreviated month name.
 #. Don't use any other specifiers.
-#: calendar/gui/e-day-view-top-item.c:270 calendar/gui/e-day-view.c:1400
+#: calendar/gui/e-day-view-top-item.c:270 calendar/gui/e-day-view.c:1401
 #: calendar/gui/e-week-view-main-item.c:326
 msgid "%d %b"
 msgstr "%d %b"
 
 #. String to use in 12-hour time format for times in the morning.
-#: calendar/gui/e-day-view.c:610 calendar/gui/e-week-view.c:344
+#: calendar/gui/e-day-view.c:611 calendar/gui/e-week-view.c:343
 #: calendar/gui/print.c:813
 msgid "am"
 msgstr "am"
 
 #. String to use in 12-hour time format for times in the afternoon.
-#: calendar/gui/e-day-view.c:613 calendar/gui/e-week-view.c:347
+#: calendar/gui/e-day-view.c:614 calendar/gui/e-week-view.c:346
 #: calendar/gui/print.c:815
 msgid "pm"
 msgstr "pm"
 
-#: calendar/gui/e-day-view.c:3653
+#: calendar/gui/e-day-view.c:3659
 msgid "New _Appointment"
 msgstr "Uusi t_apaaminen"
 
-#: calendar/gui/e-day-view.c:3655 calendar/gui/e-week-view.c:3490
+#: calendar/gui/e-day-view.c:3661 calendar/gui/e-week-view.c:3510
 msgid "New All Day _Event"
 msgstr "Uusi koko pä_ivän tapahtuma"
 
-#: calendar/gui/e-day-view.c:3657 calendar/gui/e-week-view.c:3491
+#: calendar/gui/e-day-view.c:3663 calendar/gui/e-week-view.c:3511
 #, fuzzy
 msgid "New Meeting"
 msgstr "Peruuta tapaaminen"
 
-#: calendar/gui/e-day-view.c:3659 calendar/gui/e-week-view.c:3492
+#: calendar/gui/e-day-view.c:3665 calendar/gui/e-week-view.c:3512
 msgid "New Task"
 msgstr "Uusi tehtävä"
 
-#: calendar/gui/e-day-view.c:3664 ui/evolution-comp-editor.xml.h:11
+#: calendar/gui/e-day-view.c:3670 ui/evolution-comp-editor.xml.h:11
 msgid "Print..."
 msgstr "Tulosta..."
 
-#: calendar/gui/e-day-view.c:3676 calendar/gui/e-week-view.c:3506
+#: calendar/gui/e-day-view.c:3682 calendar/gui/e-week-view.c:3526
 #: ui/evolution-calendar.xml.h:10
 msgid "Go to _Today"
 msgstr ""
 
-#: calendar/gui/e-day-view.c:3678 calendar/gui/e-week-view.c:3507
+#: calendar/gui/e-day-view.c:3684 calendar/gui/e-week-view.c:3527
 msgid "_Go to Date..."
 msgstr "Siirry _päivään..."
 
-#: calendar/gui/e-day-view.c:3683 calendar/gui/e-week-view.c:3511
+#: calendar/gui/e-day-view.c:3689 calendar/gui/e-week-view.c:3531
 #: ui/evolution-calendar.xml.h:31
 #, fuzzy
 msgid "_Publish Free/Busy Information"
 msgstr "Pakolliset tiedot"
 
-#: calendar/gui/e-day-view.c:3688 calendar/gui/e-week-view.c:3515
+#: calendar/gui/e-day-view.c:3694 calendar/gui/e-week-view.c:3535
 #: ui/evolution.xml.h:62
 #, fuzzy
 msgid "_Settings..."
 msgstr "_Sähköpostiasetukset..."
 
-#: calendar/gui/e-day-view.c:3697 calendar/gui/e-week-view.c:3522
+#: calendar/gui/e-day-view.c:3703 calendar/gui/e-week-view.c:3542
 #: mail/folder-browser.c:1743 ui/evolution-mail-message.xml.h:112
 msgid "_Save As..."
 msgstr "Tallenna _nimellä..."
 
-#: calendar/gui/e-day-view.c:3709 calendar/gui/e-week-view.c:3534
+#: calendar/gui/e-day-view.c:3715 calendar/gui/e-week-view.c:3554
 #, fuzzy
 msgid "_Schedule Meeting..."
 msgstr "Varjostus"
 
-#: calendar/gui/e-day-view.c:3710 calendar/gui/e-week-view.c:3535
+#: calendar/gui/e-day-view.c:3716 calendar/gui/e-week-view.c:3555
 msgid "_Forward as iCalendar..."
 msgstr "_Välitä iCalendar-muodossa..."
 
-#: calendar/gui/e-day-view.c:3715 calendar/gui/e-week-view.c:3540
+#: calendar/gui/e-day-view.c:3721 calendar/gui/e-week-view.c:3560
 msgid "Make this Occurrence _Movable"
 msgstr ""
 
-#: calendar/gui/e-day-view.c:3716 calendar/gui/e-week-view.c:3541
+#: calendar/gui/e-day-view.c:3722 calendar/gui/e-week-view.c:3561
 msgid "Delete this _Occurrence"
 msgstr ""
 
-#: calendar/gui/e-day-view.c:3717 calendar/gui/e-week-view.c:3542
+#: calendar/gui/e-day-view.c:3723 calendar/gui/e-week-view.c:3562
 msgid "Delete _All Occurrences"
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:637
+#: calendar/gui/e-itip-control.c:704
 msgid "Yes. (Complex Recurrence)"
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:649
+#: calendar/gui/e-itip-control.c:716
 #, fuzzy
 msgid "Every day"
 msgstr "Joka"
 
-#: calendar/gui/e-itip-control.c:651
+#: calendar/gui/e-itip-control.c:718
 #, fuzzy, c-format
 msgid "Every %d days"
 msgstr " %d päivää"
 
-#: calendar/gui/e-itip-control.c:657
+#: calendar/gui/e-itip-control.c:724
 #, fuzzy
 msgid "Every week"
 msgstr "Joka"
 
-#: calendar/gui/e-itip-control.c:659
+#: calendar/gui/e-itip-control.c:726
 #, fuzzy, c-format
 msgid "Every %d weeks"
 msgstr " %d viikkoa"
 
-#: calendar/gui/e-itip-control.c:662
+#: calendar/gui/e-itip-control.c:729
 msgid "Every week on "
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:664
+#: calendar/gui/e-itip-control.c:731
 #, fuzzy, c-format
 msgid "Every %d weeks on "
 msgstr " %d viikkoa"
 
-#: calendar/gui/e-itip-control.c:672
+#: calendar/gui/e-itip-control.c:739
 msgid " and "
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:679
+#: calendar/gui/e-itip-control.c:746
 #, c-format
 msgid "The %s day of "
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:692
+#: calendar/gui/e-itip-control.c:759
 #, c-format
 msgid "The %s %s of "
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:697
+#: calendar/gui/e-itip-control.c:764
 #, fuzzy
 msgid "every month"
 msgstr "Yksi kuukausi"
 
-#: calendar/gui/e-itip-control.c:702
+#: calendar/gui/e-itip-control.c:769
 #, c-format
 msgid "every %d months"
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:708
+#: calendar/gui/e-itip-control.c:775
 #, fuzzy
 msgid "Every year"
 msgstr "Joka"
 
-#: calendar/gui/e-itip-control.c:710
+#: calendar/gui/e-itip-control.c:777
 #, c-format
 msgid "Every %d years"
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:722
+#: calendar/gui/e-itip-control.c:789
 #, c-format
 msgid " a total of %d times"
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:730
+#: calendar/gui/e-itip-control.c:797
 msgid ", ending on "
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:754
+#: calendar/gui/e-itip-control.c:821
 msgid "<b>Starts:</b> "
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:764
+#: calendar/gui/e-itip-control.c:831
 msgid "<b>Ends:</b> "
 msgstr "<b>Loppuu:</b> "
 
-#: calendar/gui/e-itip-control.c:784
+#: calendar/gui/e-itip-control.c:851
 msgid "<b>Completed:</b> "
 msgstr "<b>Valmis:</b> "
 
-#: calendar/gui/e-itip-control.c:794
+#: calendar/gui/e-itip-control.c:861
 msgid "<b>Due:</b> "
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:831 calendar/gui/e-itip-control.c:881
+#: calendar/gui/e-itip-control.c:898 calendar/gui/e-itip-control.c:951
 #, fuzzy
 msgid "iCalendar Information"
 msgstr "Pakolliset tiedot"
 
 #. Title
-#: calendar/gui/e-itip-control.c:846
+#: calendar/gui/e-itip-control.c:913
 #, fuzzy
 msgid "iCalendar Error"
 msgstr "Kalenteri"
 
-#: calendar/gui/e-itip-control.c:912 calendar/gui/e-itip-control.c:928
-#: calendar/gui/e-itip-control.c:939 calendar/gui/e-itip-control.c:956
+#: calendar/gui/e-itip-control.c:982 calendar/gui/e-itip-control.c:998
+#: calendar/gui/e-itip-control.c:1009 calendar/gui/e-itip-control.c:1026
 msgid "An unknown person"
 msgstr "Tuntematon henkilö"
 
 #. Describe what the user can do
-#: calendar/gui/e-itip-control.c:963
+#: calendar/gui/e-itip-control.c:1033
 msgid ""
 "<br> Please review the following information, and then select an action from "
 "the menu below."
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:978
+#: calendar/gui/e-itip-control.c:1048
 msgid "<i>None</i>"
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:988
+#: calendar/gui/e-itip-control.c:1058
 #, fuzzy
 msgid "Location:"
 msgstr ""
 "\n"
 "Maant. sijainti: "
 
-#: calendar/gui/e-itip-control.c:1002
+#: calendar/gui/e-itip-control.c:1072
 #, fuzzy
 msgid "Status:"
 msgstr "_Tila:"
 
-#: calendar/gui/e-itip-control.c:1007 calendar/gui/e-meeting-model.c:297
-#: calendar/gui/e-meeting-model.c:320 calendar/gui/e-meeting-model.c:852
-#: calendar/gui/itip-utils.c:392
+#: calendar/gui/e-itip-control.c:1077 calendar/gui/e-meeting-model.c:296
+#: calendar/gui/e-meeting-model.c:319 calendar/gui/e-meeting-model.c:849
+#: calendar/gui/itip-utils.c:404
 msgid "Accepted"
 msgstr "Hyväksytty"
 
-#: calendar/gui/e-itip-control.c:1011 calendar/gui/itip-utils.c:395
+#: calendar/gui/e-itip-control.c:1081 calendar/gui/itip-utils.c:407
 msgid "Tentatively Accepted"
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:1015 calendar/gui/e-meeting-model.c:299
-#: calendar/gui/e-meeting-model.c:322 calendar/gui/e-meeting-model.c:853
-#: calendar/gui/itip-utils.c:398 calendar/gui/itip-utils.c:424
+#: calendar/gui/e-itip-control.c:1085 calendar/gui/e-meeting-model.c:298
+#: calendar/gui/e-meeting-model.c:321 calendar/gui/e-meeting-model.c:850
+#: calendar/gui/itip-utils.c:410 calendar/gui/itip-utils.c:436
 #, fuzzy
 msgid "Declined"
 msgstr "Poistettu"
 
-#: calendar/gui/e-itip-control.c:1019 calendar/gui/e-itip-control.c:1225
-#: calendar/gui/e-meeting-model.c:233 calendar/gui/e-meeting-model.c:268
-#: calendar/gui/e-meeting-model.c:333 calendar/gui/e-meeting-model.c:810
-#: calendar/gui/e-meeting-model.c:826 camel/camel-gpg-context.c:1531
-#: camel/camel-gpg-context.c:1581 camel/camel-tcp-stream-openssl.c:629
+#: calendar/gui/e-itip-control.c:1089 calendar/gui/e-itip-control.c:1297
+#: calendar/gui/e-meeting-model.c:232 calendar/gui/e-meeting-model.c:267
+#: calendar/gui/e-meeting-model.c:332 calendar/gui/e-meeting-model.c:807
+#: calendar/gui/e-meeting-model.c:823 camel/camel-gpg-context.c:1531
+#: camel/camel-gpg-context.c:1581 camel/camel-tcp-stream-openssl.c:634
 #: camel/providers/smtp/camel-smtp-transport.c:172
 #: camel/providers/smtp/camel-smtp-transport.c:227 mail/folder-browser.c:345
 #: mail/mail-display.c:931 widgets/misc/e-charset-picker.c:60
@@ -5691,327 +5705,327 @@ msgstr "Poistettu"
 msgid "Unknown"
 msgstr "Tuntematon"
 
-#: calendar/gui/e-itip-control.c:1072 calendar/gui/e-itip-control.c:1100
-#: calendar/gui/e-itip-control.c:1126 calendar/gui/e-itip-control.c:1139
-#: calendar/gui/e-itip-control.c:1152 calendar/gui/e-itip-control.c:1165
+#: calendar/gui/e-itip-control.c:1144 calendar/gui/e-itip-control.c:1172
+#: calendar/gui/e-itip-control.c:1198 calendar/gui/e-itip-control.c:1211
+#: calendar/gui/e-itip-control.c:1224 calendar/gui/e-itip-control.c:1237
 #, fuzzy
 msgid "Choose an action:"
 msgstr "Valitse toiminto"
 
-#: calendar/gui/e-itip-control.c:1073
+#: calendar/gui/e-itip-control.c:1145
 msgid "Update"
 msgstr "Päivitä"
 
-#: calendar/gui/e-itip-control.c:1074 calendar/gui/e-itip-control.c:1105
-#: calendar/gui/e-itip-control.c:1128 calendar/gui/e-itip-control.c:1141
-#: calendar/gui/e-itip-control.c:1154 calendar/gui/e-itip-control.c:1167
+#: calendar/gui/e-itip-control.c:1146 calendar/gui/e-itip-control.c:1177
+#: calendar/gui/e-itip-control.c:1200 calendar/gui/e-itip-control.c:1213
+#: calendar/gui/e-itip-control.c:1226 calendar/gui/e-itip-control.c:1239
 #: shell/e-shell.c:2092 widgets/misc/e-cell-date-edit.c:265
 msgid "OK"
 msgstr "OK"
 
-#: calendar/gui/e-itip-control.c:1101
+#: calendar/gui/e-itip-control.c:1173
 msgid "Accept"
 msgstr "Hyväksy"
 
-#: calendar/gui/e-itip-control.c:1102
+#: calendar/gui/e-itip-control.c:1174
 msgid "Tentatively accept"
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:1103
+#: calendar/gui/e-itip-control.c:1175
 #, fuzzy
 msgid "Decline"
 msgstr "Poistettu"
 
-#: calendar/gui/e-itip-control.c:1127
+#: calendar/gui/e-itip-control.c:1199
 #, fuzzy
 msgid "Send Free/Busy Information"
 msgstr "Lähteen tiedot"
 
-#: calendar/gui/e-itip-control.c:1140
+#: calendar/gui/e-itip-control.c:1212
 msgid "Update respondent status"
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:1153
+#: calendar/gui/e-itip-control.c:1225
 #, fuzzy
 msgid "Send Latest Information"
 msgstr "Tiedoksi"
 
-#: calendar/gui/e-itip-control.c:1166 calendar/gui/itip-utils.c:412
+#: calendar/gui/e-itip-control.c:1238 calendar/gui/itip-utils.c:424
 #: shell/evolution-shell-component.c:1162 ui/evolution-mail-global.xml.h:1
 msgid "Cancel"
 msgstr "Peruuta"
 
-#: calendar/gui/e-itip-control.c:1247
+#: calendar/gui/e-itip-control.c:1319
 #, c-format
 msgid "<b>%s</b> has published meeting information."
 msgstr "<b>%s</b> on julkaissut tapaamistietonsa."
 
-#: calendar/gui/e-itip-control.c:1248
+#: calendar/gui/e-itip-control.c:1320
 #, fuzzy
 msgid "Meeting Information"
 msgstr "Valinnaiset tiedot"
 
-#: calendar/gui/e-itip-control.c:1253
+#: calendar/gui/e-itip-control.c:1325
 #, c-format
 msgid "<b>%s</b> requests the presence of %s at a meeting."
 msgstr "<b>%s</b> pyytää %s läsnäoloa tapaamisessa."
 
-#: calendar/gui/e-itip-control.c:1255
+#: calendar/gui/e-itip-control.c:1327
 #, c-format
 msgid "<b>%s</b> requests your presence at a meeting."
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:1256
+#: calendar/gui/e-itip-control.c:1328
 #, fuzzy
 msgid "Meeting Proposal"
 msgstr "Peruuta tapaaminen"
 
-#: calendar/gui/e-itip-control.c:1260
+#: calendar/gui/e-itip-control.c:1332
 #, c-format
 msgid "<b>%s</b> wishes to add to an existing meeting."
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:1261
+#: calendar/gui/e-itip-control.c:1333
 #, fuzzy
 msgid "Meeting Update"
 msgstr "Peruuta tapaaminen"
 
-#: calendar/gui/e-itip-control.c:1265
+#: calendar/gui/e-itip-control.c:1337
 #, c-format
 msgid "<b>%s</b> wishes to receive the latest meeting information."
 msgstr "<b>%s</b> toivoo saavansa viimeisimmät tapaamistiedot."
 
-#: calendar/gui/e-itip-control.c:1266
+#: calendar/gui/e-itip-control.c:1338
 #, fuzzy
 msgid "Meeting Update Request"
 msgstr "Peruuta tapaaminen"
 
-#: calendar/gui/e-itip-control.c:1273
+#: calendar/gui/e-itip-control.c:1345
 #, c-format
 msgid "<b>%s</b> has replied to a meeting request."
 msgstr "<b>%s</b> on vastannut tapaamispyyntöön."
 
-#: calendar/gui/e-itip-control.c:1274
+#: calendar/gui/e-itip-control.c:1346
 #, fuzzy
 msgid "Meeting Reply"
 msgstr "Peruuta tapaaminen"
 
-#: calendar/gui/e-itip-control.c:1281
+#: calendar/gui/e-itip-control.c:1353
 #, c-format
 msgid "<b>%s</b> has cancelled a meeting."
 msgstr "<b>%s</b> on peruuttanut tapaamisen."
 
-#: calendar/gui/e-itip-control.c:1282
+#: calendar/gui/e-itip-control.c:1354
 #, fuzzy
 msgid "Meeting Cancellation"
 msgstr "Valitse toiminto"
 
-#: calendar/gui/e-itip-control.c:1289 calendar/gui/e-itip-control.c:1356
-#: calendar/gui/e-itip-control.c:1391
+#: calendar/gui/e-itip-control.c:1361 calendar/gui/e-itip-control.c:1428
+#: calendar/gui/e-itip-control.c:1463
 #, c-format
 msgid "<b>%s</b> has sent an unintelligible message."
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:1290
+#: calendar/gui/e-itip-control.c:1362
 msgid "Bad Meeting Message"
 msgstr "Huono tapaaminen-sanoma"
 
-#: calendar/gui/e-itip-control.c:1314
+#: calendar/gui/e-itip-control.c:1386
 #, c-format
 msgid "<b>%s</b> has published task information."
 msgstr "<b>%s</b> on julkaissut tehtävätietonsa."
 
-#: calendar/gui/e-itip-control.c:1315
+#: calendar/gui/e-itip-control.c:1387
 #, fuzzy
 msgid "Task Information"
 msgstr "Tiedoksi"
 
-#: calendar/gui/e-itip-control.c:1320
+#: calendar/gui/e-itip-control.c:1392
 #, c-format
 msgid "<b>%s</b> requests %s to perform a task."
 msgstr "<b>%s</b> pyytää %s tekemään työtehtävän."
 
-#: calendar/gui/e-itip-control.c:1322
+#: calendar/gui/e-itip-control.c:1394
 #, c-format
 msgid "<b>%s</b> requests you perform a task."
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:1323
+#: calendar/gui/e-itip-control.c:1395
 #, fuzzy
 msgid "Task Proposal"
 msgstr "Peruuta tapaaminen"
 
-#: calendar/gui/e-itip-control.c:1327
+#: calendar/gui/e-itip-control.c:1399
 #, c-format
 msgid "<b>%s</b> wishes to add to an existing task."
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:1328
+#: calendar/gui/e-itip-control.c:1400
 #, fuzzy
 msgid "Task Update"
 msgstr "Tehtävät"
 
-#: calendar/gui/e-itip-control.c:1332
+#: calendar/gui/e-itip-control.c:1404
 #, c-format
 msgid "<b>%s</b> wishes to receive the latest task information."
 msgstr "<b>%s</b> toivoo saavansa viimeisimmät työtehtävätiedot."
 
-#: calendar/gui/e-itip-control.c:1333
+#: calendar/gui/e-itip-control.c:1405
 #, fuzzy
 msgid "Task Update Request"
 msgstr "Tehtävät"
 
-#: calendar/gui/e-itip-control.c:1340
+#: calendar/gui/e-itip-control.c:1412
 #, c-format
 msgid "<b>%s</b> has replied to a task assignment."
 msgstr "<b>%s</b> on vastannut työtehtävän antoon."
 
-#: calendar/gui/e-itip-control.c:1341
+#: calendar/gui/e-itip-control.c:1413
 #, fuzzy
 msgid "Task Reply"
 msgstr "Vastaa"
 
-#: calendar/gui/e-itip-control.c:1348
+#: calendar/gui/e-itip-control.c:1420
 #, c-format
 msgid "<b>%s</b> has cancelled a task."
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:1349
+#: calendar/gui/e-itip-control.c:1421
 #, fuzzy
 msgid "Task Cancellation"
 msgstr "Peruuta operaatio"
 
-#: calendar/gui/e-itip-control.c:1357
+#: calendar/gui/e-itip-control.c:1429
 msgid "Bad Task Message"
 msgstr "Huono tehtävä-sanoma"
 
-#: calendar/gui/e-itip-control.c:1376
+#: calendar/gui/e-itip-control.c:1448
 #, c-format
 msgid "<b>%s</b> has published free/busy information."
 msgstr "<b>%s</b> on julkaissut vapaa/kiireinen-tietonsa."
 
-#: calendar/gui/e-itip-control.c:1377
+#: calendar/gui/e-itip-control.c:1449
 #, fuzzy
 msgid "Free/Busy Information"
 msgstr "Lähteen tiedot"
 
-#: calendar/gui/e-itip-control.c:1381
+#: calendar/gui/e-itip-control.c:1453
 #, c-format
 msgid "<b>%s</b> requests your free/busy information."
 msgstr "<b>%s</b> pyytää sinun vapaa/varattu -tietoja."
 
-#: calendar/gui/e-itip-control.c:1382
+#: calendar/gui/e-itip-control.c:1454
 #, fuzzy
 msgid "Free/Busy Request"
 msgstr "Edellinen viesti"
 
-#: calendar/gui/e-itip-control.c:1386
+#: calendar/gui/e-itip-control.c:1458
 #, c-format
 msgid "<b>%s</b> has replied to a free/busy request."
 msgstr "<b>%s</b> on vastannut vapaa/varattu -kyselyyn."
 
-#: calendar/gui/e-itip-control.c:1387
+#: calendar/gui/e-itip-control.c:1459
 #, fuzzy
 msgid "Free/Busy Reply"
 msgstr "Edellinen viesti"
 
-#: calendar/gui/e-itip-control.c:1392
+#: calendar/gui/e-itip-control.c:1464
 msgid "Bad Free/Busy Message"
 msgstr "Huono vapaa/kiireinen -viesti"
 
-#: calendar/gui/e-itip-control.c:1466
+#: calendar/gui/e-itip-control.c:1540
 msgid "The message does not appear to be properly formed"
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:1528
+#: calendar/gui/e-itip-control.c:1603
 msgid "The message contains only unsupported requests."
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:1556 calendar/gui/e-itip-control.c:1562
+#: calendar/gui/e-itip-control.c:1634 calendar/gui/e-itip-control.c:1640
 msgid "The attachment does not contain a valid calendar message"
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:1587
+#: calendar/gui/e-itip-control.c:1665
 msgid "The attachment has no viewable calendar items"
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:1807 calendar/gui/e-itip-control.c:1899
+#: calendar/gui/e-itip-control.c:1906 calendar/gui/e-itip-control.c:1998
 msgid "Object is invalid and cannot be updated\n"
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:1810 calendar/gui/e-itip-control.c:1902
+#: calendar/gui/e-itip-control.c:1909 calendar/gui/e-itip-control.c:2001
 msgid "There was an error on the CORBA system\n"
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:1813 calendar/gui/e-itip-control.c:1905
+#: calendar/gui/e-itip-control.c:1912 calendar/gui/e-itip-control.c:2004
 #, fuzzy
 msgid "Object could not be found\n"
 msgstr "Bug buddya ei voitu ajaa."
 
-#: calendar/gui/e-itip-control.c:1816
+#: calendar/gui/e-itip-control.c:1915
 #, fuzzy
 msgid "You do not have the right permissions to update the calendar\n"
 msgstr ""
 "Tiedoston %s poistaminen epäonnistui:\n"
 "%s"
 
-#: calendar/gui/e-itip-control.c:1819
+#: calendar/gui/e-itip-control.c:1918
 #, fuzzy
 msgid "Update complete\n"
 msgstr "Valmis"
 
-#: calendar/gui/e-itip-control.c:1822
+#: calendar/gui/e-itip-control.c:1921
 msgid "Calendar file could not be updated!\n"
 msgstr "Kalenteritiedostoa ei voitu päivittää!\n"
 
-#: calendar/gui/e-itip-control.c:1851 calendar/gui/e-itip-control.c:1917
+#: calendar/gui/e-itip-control.c:1950 calendar/gui/e-itip-control.c:2016
 msgid "Attendee status can not be updated because the item no longer exists"
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:1872
+#: calendar/gui/e-itip-control.c:1971
 msgid "This response is not from a current attendee.  Add as an attendee?"
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:1884
+#: calendar/gui/e-itip-control.c:1983
 msgid "Attendee status could not be updated because of an invalid status!\n"
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:1908
+#: calendar/gui/e-itip-control.c:2007
 #, fuzzy
 msgid "You don't have the right permissions to update the calendar\n"
 msgstr ""
 "Tiedoston %s poistaminen epäonnistui:\n"
 "%s"
 
-#: calendar/gui/e-itip-control.c:1911
+#: calendar/gui/e-itip-control.c:2010
 msgid "Attendee status updated\n"
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:1914
+#: calendar/gui/e-itip-control.c:2013
 #, fuzzy
 msgid "Attendee status could not be updated!\n"
 msgstr "Kohdistimen lataaminen epäonnistui\n"
 
-#: calendar/gui/e-itip-control.c:1949
+#: calendar/gui/e-itip-control.c:2048
 #, fuzzy
 msgid "Removal Complete"
 msgstr "Valmis"
 
-#: calendar/gui/e-itip-control.c:1979 calendar/gui/e-itip-control.c:2029
+#: calendar/gui/e-itip-control.c:2078 calendar/gui/e-itip-control.c:2128
 #, fuzzy
 msgid "Item sent!\n"
 msgstr "Lähetetty"
 
-#: calendar/gui/e-itip-control.c:1981 calendar/gui/e-itip-control.c:2033
+#: calendar/gui/e-itip-control.c:2080 calendar/gui/e-itip-control.c:2132
 msgid "The item could not be sent!\n"
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:2106
+#: calendar/gui/e-itip-control.c:2205
 #, fuzzy
 msgid "Select Calendar Folder"
 msgstr "Valitse kansio"
 
-#: calendar/gui/e-itip-control.c:2113
+#: calendar/gui/e-itip-control.c:2212
 #, fuzzy
 msgid "Select Tasks Folder"
 msgstr "Valitse kansio"
@@ -6053,80 +6067,86 @@ msgstr ""
 msgid "date-start"
 msgstr ""
 
-#: calendar/gui/e-meeting-model.c:81
+#: calendar/gui/e-meeting-model.c:80
 #, fuzzy
 msgid "Chair Persons"
 msgstr "Autopuhelin"
 
-#: calendar/gui/e-meeting-model.c:82 calendar/gui/e-meeting-model.c:1736
+#: calendar/gui/e-meeting-model.c:81 calendar/gui/e-meeting-model.c:1692
 #, fuzzy
 msgid "Required Participants"
 msgstr "Pakolliset tiedot"
 
-#: calendar/gui/e-meeting-model.c:83
+#: calendar/gui/e-meeting-model.c:82
 #, fuzzy
 msgid "Optional Participants"
 msgstr "Valinnaiset tiedot"
 
-#: calendar/gui/e-meeting-model.c:84
+#: calendar/gui/e-meeting-model.c:83
 #, fuzzy
 msgid "Resources"
 msgstr "Paperilähde:"
 
-#: calendar/gui/e-meeting-model.c:208 calendar/gui/e-meeting-model.c:225
-#: calendar/gui/e-meeting-model.c:539 calendar/gui/e-meeting-model.c:806
+#: calendar/gui/e-meeting-model.c:207 calendar/gui/e-meeting-model.c:224
+#: calendar/gui/e-meeting-model.c:537 calendar/gui/e-meeting-model.c:803
 msgid "Individual"
 msgstr ""
 
-#: calendar/gui/e-meeting-model.c:210 calendar/gui/e-meeting-model.c:227
-#: calendar/gui/e-meeting-model.c:807
+#: calendar/gui/e-meeting-model.c:209 calendar/gui/e-meeting-model.c:226
+#: calendar/gui/e-meeting-model.c:804
 #, fuzzy
 msgid "Group"
 msgstr "Ryhmän nimi:"
 
-#: calendar/gui/e-meeting-model.c:212 calendar/gui/e-meeting-model.c:229
-#: calendar/gui/e-meeting-model.c:808
+#: calendar/gui/e-meeting-model.c:211 calendar/gui/e-meeting-model.c:228
+#: calendar/gui/e-meeting-model.c:805
 #, fuzzy
 msgid "Resource"
 msgstr "Paperilähde:"
 
-#: calendar/gui/e-meeting-model.c:214 calendar/gui/e-meeting-model.c:231
-#: calendar/gui/e-meeting-model.c:809
+#: calendar/gui/e-meeting-model.c:213 calendar/gui/e-meeting-model.c:230
+#: calendar/gui/e-meeting-model.c:806
 msgid "Room"
 msgstr ""
 
-#: calendar/gui/e-meeting-model.c:243 calendar/gui/e-meeting-model.c:260
-#: calendar/gui/e-meeting-model.c:822
+#: calendar/gui/e-meeting-model.c:242 calendar/gui/e-meeting-model.c:259
+#: calendar/gui/e-meeting-model.c:819
 msgid "Chair"
 msgstr ""
 
-#: calendar/gui/e-meeting-model.c:245 calendar/gui/e-meeting-model.c:262
-#: calendar/gui/e-meeting-model.c:541 calendar/gui/e-meeting-model.c:823
+#: calendar/gui/e-meeting-model.c:244 calendar/gui/e-meeting-model.c:261
+#: calendar/gui/e-meeting-model.c:539 calendar/gui/e-meeting-model.c:820
 msgid "Required Participant"
 msgstr ""
 
-#: calendar/gui/e-meeting-model.c:247 calendar/gui/e-meeting-model.c:264
-#: calendar/gui/e-meeting-model.c:824
+#: calendar/gui/e-meeting-model.c:246 calendar/gui/e-meeting-model.c:263
+#: calendar/gui/e-meeting-model.c:821
 msgid "Optional Participant"
 msgstr ""
 
-#: calendar/gui/e-meeting-model.c:249 calendar/gui/e-meeting-model.c:266
-#: calendar/gui/e-meeting-model.c:825
+#: calendar/gui/e-meeting-model.c:248 calendar/gui/e-meeting-model.c:265
+#: calendar/gui/e-meeting-model.c:822
 msgid "Non-Participant"
 msgstr ""
 
-#: calendar/gui/e-meeting-model.c:301 calendar/gui/e-meeting-model.c:324
-#: calendar/gui/e-meeting-model.c:854 calendar/gui/e-meeting-time-sel.c:407
+#: calendar/gui/e-meeting-model.c:294 calendar/gui/e-meeting-model.c:317
+#: calendar/gui/e-meeting-model.c:547 calendar/gui/e-meeting-model.c:848
+#, fuzzy
+msgid "Needs Action"
+msgstr "Lisää toiminto"
+
+#: calendar/gui/e-meeting-model.c:300 calendar/gui/e-meeting-model.c:323
+#: calendar/gui/e-meeting-model.c:851 calendar/gui/e-meeting-time-sel.c:407
 msgid "Tentative"
 msgstr ""
 
-#: calendar/gui/e-meeting-model.c:303 calendar/gui/e-meeting-model.c:326
-#: calendar/gui/e-meeting-model.c:855
+#: calendar/gui/e-meeting-model.c:302 calendar/gui/e-meeting-model.c:325
+#: calendar/gui/e-meeting-model.c:852
 #, fuzzy
 msgid "Delegated"
 msgstr "Poistettu"
 
-#: calendar/gui/e-meeting-model.c:307 calendar/gui/e-meeting-model.c:330
+#: calendar/gui/e-meeting-model.c:306 calendar/gui/e-meeting-model.c:329
 #, fuzzy
 msgid "In Process"
 msgstr "Ammatti"
@@ -6213,30 +6233,30 @@ msgstr ""
 msgid "Meeting _end time:"
 msgstr ""
 
-#: calendar/gui/e-tasks.c:356 calendar/gui/gnome-cal.c:2013
+#: calendar/gui/e-tasks.c:357 calendar/gui/gnome-cal.c:2013
 #: calendar/gui/gnome-cal.c:2024
 #, c-format
 msgid "Opening tasks at %s"
 msgstr ""
 
-#: calendar/gui/e-tasks.c:385 calendar/gui/tasks-control.c:199
+#: calendar/gui/e-tasks.c:386 calendar/gui/tasks-control.c:199
 #, c-format
 msgid "Could not load the tasks in `%s'"
 msgstr ""
 
-#: calendar/gui/e-tasks.c:400
+#: calendar/gui/e-tasks.c:401
 #, c-format
 msgid "The method required to load `%s' is not supported"
 msgstr ""
 
-#: calendar/gui/e-tasks.c:414 calendar/gui/gnome-cal.c:1531
+#: calendar/gui/e-tasks.c:415 calendar/gui/gnome-cal.c:1531
 #, fuzzy, c-format
 msgid "You don't have permission to open the folder in `%s'"
 msgstr ""
 "Tiedoston %s poistaminen epäonnistui:\n"
 "%s"
 
-#: calendar/gui/e-tasks.c:482 calendar/gui/gnome-cal.c:1735
+#: calendar/gui/e-tasks.c:483 calendar/gui/gnome-cal.c:1735
 #, fuzzy, c-format
 msgid ""
 "Error on %s:\n"
@@ -6256,7 +6276,7 @@ msgstr "Poista valitut kontaktit"
 msgid "Expunging"
 msgstr ""
 
-#: calendar/gui/e-week-view.c:3489
+#: calendar/gui/e-week-view.c:3509
 msgid "New _Appointment..."
 msgstr "Uusi t_apaaminen..."
 
@@ -6357,63 +6377,63 @@ msgstr "Lokakuu"
 msgid "September"
 msgstr "Syyskuu"
 
-#: calendar/gui/itip-utils.c:250 calendar/gui/itip-utils.c:321
+#: calendar/gui/itip-utils.c:262 calendar/gui/itip-utils.c:333
 msgid "An organizer must be set."
 msgstr ""
 
-#: calendar/gui/itip-utils.c:285
+#: calendar/gui/itip-utils.c:297
 msgid "At least one attendee is necessary"
 msgstr ""
 
-#: calendar/gui/itip-utils.c:364 calendar/gui/itip-utils.c:473
+#: calendar/gui/itip-utils.c:376 calendar/gui/itip-utils.c:485
 #, fuzzy
 msgid "Event information"
 msgstr "Valinnaiset tiedot"
 
-#: calendar/gui/itip-utils.c:366 calendar/gui/itip-utils.c:475
+#: calendar/gui/itip-utils.c:378 calendar/gui/itip-utils.c:487
 #, fuzzy
 msgid "Task information"
 msgstr "Tiedoksi"
 
-#: calendar/gui/itip-utils.c:368 calendar/gui/itip-utils.c:477
+#: calendar/gui/itip-utils.c:380 calendar/gui/itip-utils.c:489
 #, fuzzy
 msgid "Journal information"
 msgstr "Valinnaiset tiedot"
 
-#: calendar/gui/itip-utils.c:370 calendar/gui/itip-utils.c:494
+#: calendar/gui/itip-utils.c:382 calendar/gui/itip-utils.c:506
 #, fuzzy
 msgid "Free/Busy information"
 msgstr "Lähteen tiedot"
 
-#: calendar/gui/itip-utils.c:372
+#: calendar/gui/itip-utils.c:384
 msgid "Calendar information"
 msgstr "Kalenteritiedot"
 
-#: calendar/gui/itip-utils.c:408
+#: calendar/gui/itip-utils.c:420
 #, fuzzy
 msgid "Updated"
 msgstr "Tehtävät"
 
-#: calendar/gui/itip-utils.c:416
+#: calendar/gui/itip-utils.c:428
 #, fuzzy
 msgid "Refresh"
 msgstr "vuotta"
 
-#: calendar/gui/itip-utils.c:420
+#: calendar/gui/itip-utils.c:432
 msgid "Counter-proposal"
 msgstr ""
 
-#: calendar/gui/itip-utils.c:488
+#: calendar/gui/itip-utils.c:500
 #, fuzzy, c-format
 msgid "Free/Busy information (%s to %s)"
 msgstr "Lähteen tiedot"
 
-#: calendar/gui/itip-utils.c:500
+#: calendar/gui/itip-utils.c:512
 #, fuzzy
 msgid "iCalendar information"
 msgstr "Pakolliset tiedot"
 
-#: calendar/gui/itip-utils.c:648
+#: calendar/gui/itip-utils.c:660
 msgid "You must be an attendee of the event."
 msgstr ""
 
@@ -6515,8 +6535,8 @@ msgid "Contacts: "
 msgstr "Yhteystiedot: "
 
 #: calendar/gui/print.c:2533 calendar/gui/print.c:2619
-#: calendar/gui/tasks-control.c:579 mail/mail-callbacks.c:2925
-#: my-evolution/e-summary.c:620
+#: calendar/gui/tasks-control.c:579 mail/mail-callbacks.c:2939
+#: my-evolution/e-summary.c:618
 msgid "Print Preview"
 msgstr "Tulostuksen esikatselu"
 
@@ -6627,7 +6647,7 @@ msgstr ""
 msgid "Gnome Calendar"
 msgstr "Kalenteri"
 
-#: calendar/pcs/cal-backend-file.c:301
+#: calendar/pcs/cal-backend-file.c:310
 msgid "Can't save calendar data: Malformed URI."
 msgstr ""
 
@@ -9025,125 +9045,125 @@ msgstr "Kansion hakeminen ei onnistu: %s: %s"
 msgid "Cannot create folder: Invalid operation on this store"
 msgstr "Kansion luominen ei onnistu: virheellinen tapahtuma tallennuspaikassa"
 
-#: camel/camel-tcp-stream-openssl.c:566
+#: camel/camel-tcp-stream-openssl.c:571
 msgid "Unable to get issuer's certificate"
 msgstr ""
 
-#: camel/camel-tcp-stream-openssl.c:568
+#: camel/camel-tcp-stream-openssl.c:573
 msgid "Unable to get Certificate Revocation List"
 msgstr ""
 
-#: camel/camel-tcp-stream-openssl.c:570
+#: camel/camel-tcp-stream-openssl.c:575
 msgid "Unable to decrypt certificate signature"
 msgstr ""
 
-#: camel/camel-tcp-stream-openssl.c:572
+#: camel/camel-tcp-stream-openssl.c:577
 msgid "Unable to decrypt Certificate Revocation List signature"
 msgstr ""
 
-#: camel/camel-tcp-stream-openssl.c:574
+#: camel/camel-tcp-stream-openssl.c:579
 msgid "Unable to decode issuer's public key"
 msgstr ""
 
-#: camel/camel-tcp-stream-openssl.c:576
+#: camel/camel-tcp-stream-openssl.c:581
 #, fuzzy
 msgid "Certificate signature failure"
 msgstr "Allekirjoitustiedosto:"
 
-#: camel/camel-tcp-stream-openssl.c:578
+#: camel/camel-tcp-stream-openssl.c:583
 msgid "Certificate Revocation List signature failure"
 msgstr ""
 
-#: camel/camel-tcp-stream-openssl.c:580
+#: camel/camel-tcp-stream-openssl.c:585
 msgid "Certificate not yet valid"
 msgstr ""
 
-#: camel/camel-tcp-stream-openssl.c:582
+#: camel/camel-tcp-stream-openssl.c:587
 msgid "Certificate has expired"
 msgstr ""
 
-#: camel/camel-tcp-stream-openssl.c:584
+#: camel/camel-tcp-stream-openssl.c:589
 msgid "CRL not yet valid"
 msgstr ""
 
-#: camel/camel-tcp-stream-openssl.c:586
+#: camel/camel-tcp-stream-openssl.c:591
 msgid "CRL has expired"
 msgstr ""
 
-#: camel/camel-tcp-stream-openssl.c:591
+#: camel/camel-tcp-stream-openssl.c:596
 #, fuzzy
 msgid "Error in CRL"
 msgstr "Virhe %s:n lataamisessa"
 
-#: camel/camel-tcp-stream-openssl.c:593
+#: camel/camel-tcp-stream-openssl.c:598
 msgid "Out of memory"
 msgstr ""
 
-#: camel/camel-tcp-stream-openssl.c:595
+#: camel/camel-tcp-stream-openssl.c:600
 msgid "Zero-depth self-signed certificate"
 msgstr ""
 
-#: camel/camel-tcp-stream-openssl.c:597
+#: camel/camel-tcp-stream-openssl.c:602
 msgid "Self-signed certificate in chain"
 msgstr ""
 
-#: camel/camel-tcp-stream-openssl.c:599
+#: camel/camel-tcp-stream-openssl.c:604
 msgid "Unable to get issuer's certificate locally"
 msgstr ""
 
-#: camel/camel-tcp-stream-openssl.c:601
+#: camel/camel-tcp-stream-openssl.c:606
 msgid "Unable to verify leaf signature"
 msgstr ""
 
-#: camel/camel-tcp-stream-openssl.c:603
+#: camel/camel-tcp-stream-openssl.c:608
 msgid "Certificate chain too long"
 msgstr ""
 
-#: camel/camel-tcp-stream-openssl.c:605
+#: camel/camel-tcp-stream-openssl.c:610
 msgid "Certificate Revoked"
 msgstr ""
 
-#: camel/camel-tcp-stream-openssl.c:607
+#: camel/camel-tcp-stream-openssl.c:612
 msgid "Invalid Certificate Authority (CA)"
 msgstr ""
 
-#: camel/camel-tcp-stream-openssl.c:609
+#: camel/camel-tcp-stream-openssl.c:614
 msgid "Path length exceeded"
 msgstr ""
 
-#: camel/camel-tcp-stream-openssl.c:611
+#: camel/camel-tcp-stream-openssl.c:616
 msgid "Invalid purpose"
 msgstr ""
 
-#: camel/camel-tcp-stream-openssl.c:613
+#: camel/camel-tcp-stream-openssl.c:618
 msgid "Certificate untrusted"
 msgstr ""
 
-#: camel/camel-tcp-stream-openssl.c:615
+#: camel/camel-tcp-stream-openssl.c:620
 msgid "Certificate rejected"
 msgstr ""
 
-#: camel/camel-tcp-stream-openssl.c:618
+#: camel/camel-tcp-stream-openssl.c:623
 msgid "Subject/Issuer mismatch"
 msgstr ""
 
-#: camel/camel-tcp-stream-openssl.c:620
+#: camel/camel-tcp-stream-openssl.c:625
 msgid "AKID/SKID mismatch"
 msgstr ""
 
-#: camel/camel-tcp-stream-openssl.c:622
+#: camel/camel-tcp-stream-openssl.c:627
 msgid "AKID/Issuer serial mismatch"
 msgstr ""
 
-#: camel/camel-tcp-stream-openssl.c:624
+#: camel/camel-tcp-stream-openssl.c:629
 msgid "Key usage does not support certificate signing"
 msgstr ""
 
-#: camel/camel-tcp-stream-openssl.c:627
+#: camel/camel-tcp-stream-openssl.c:632
 msgid "Error in application verification"
 msgstr ""
 
-#: camel/camel-tcp-stream-openssl.c:694 camel/camel-tcp-stream-ssl.c:811
+#: camel/camel-tcp-stream-openssl.c:699 camel/camel-tcp-stream-ssl.c:811
 #, c-format
 msgid ""
 "Issuer:            %s\n"
@@ -9152,15 +9172,15 @@ msgid ""
 "Signature:         %s"
 msgstr ""
 
-#: camel/camel-tcp-stream-openssl.c:700 camel/camel-tcp-stream-ssl.c:817
+#: camel/camel-tcp-stream-openssl.c:705 camel/camel-tcp-stream-ssl.c:817
 msgid "GOOD"
 msgstr ""
 
-#: camel/camel-tcp-stream-openssl.c:700 camel/camel-tcp-stream-ssl.c:817
+#: camel/camel-tcp-stream-openssl.c:705 camel/camel-tcp-stream-ssl.c:817
 msgid "BAD"
 msgstr ""
 
-#: camel/camel-tcp-stream-openssl.c:702
+#: camel/camel-tcp-stream-openssl.c:707
 #, c-format
 msgid ""
 "Bad certificate from %s:\n"
@@ -10632,12 +10652,12 @@ msgstr "Kuvaus:"
 msgid "Attach file(s)"
 msgstr "Liitä tiedosto(t)"
 
-#: composer/e-msg-composer.c:526
+#: composer/e-msg-composer.c:530
 #, fuzzy
 msgid "Could not create a PGP signature context"
 msgstr "Allekirjoitustiedoston luonti epäonnistui."
 
-#: composer/e-msg-composer.c:805
+#: composer/e-msg-composer.c:809
 #, c-format
 msgid ""
 "Error while reading file %s:\n"
@@ -10646,51 +10666,51 @@ msgstr ""
 "Tiedoston %s lukeminen epäonnistui:\n"
 "%s"
 
-#: composer/e-msg-composer.c:1168
+#: composer/e-msg-composer.c:1172
 msgid "File exists, overwrite?"
 msgstr "Tiedosto on jo olemassa, kirjoitetaanko yli?"
 
-#: composer/e-msg-composer.c:1186
+#: composer/e-msg-composer.c:1190
 #, c-format
 msgid "Error saving file: %s"
 msgstr "Virhe tallennettaessa tiedostoa: %s"
 
-#: composer/e-msg-composer.c:1209
+#: composer/e-msg-composer.c:1213
 #, c-format
 msgid "Error loading file: %s"
 msgstr "Virhe avattaessa tiedostoa: %s"
 
-#: composer/e-msg-composer.c:1244
+#: composer/e-msg-composer.c:1248
 #, c-format
 msgid "Error accessing file: %s"
 msgstr ""
 
-#: composer/e-msg-composer.c:1252
+#: composer/e-msg-composer.c:1256
 msgid "Unable to retrieve message from editor"
 msgstr ""
 
-#: composer/e-msg-composer.c:1259
+#: composer/e-msg-composer.c:1263
 #, c-format
 msgid ""
 "Unable to seek on file: %s\n"
 "%s"
 msgstr ""
 
-#: composer/e-msg-composer.c:1266
+#: composer/e-msg-composer.c:1270
 #, c-format
 msgid ""
 "Unable to truncate file: %s\n"
 "%s"
 msgstr ""
 
-#: composer/e-msg-composer.c:1275
+#: composer/e-msg-composer.c:1279
 #, c-format
 msgid ""
 "Unable to copy file descriptor: %s\n"
 "%s"
 msgstr ""
 
-#: composer/e-msg-composer.c:1284
+#: composer/e-msg-composer.c:1288
 #, c-format
 msgid ""
 "Error autosaving message: %s\n"
@@ -10699,7 +10719,7 @@ msgstr ""
 "Virhe tallennettaessa tiedostoa automaattisesti: %s\n"
 " %s"
 
-#: composer/e-msg-composer.c:1378
+#: composer/e-msg-composer.c:1382
 msgid ""
 "Ximian Evolution has found unsaved files from a previous session.\n"
 "Would you like to try to recover them?"
@@ -10707,7 +10727,7 @@ msgstr ""
 "Ximian Evolution on löytänyt tallentamattomia tiedostoja edelliseltä \n"
 "istunnolta. Haluatko koettaa niiden palauttamista?"
 
-#: composer/e-msg-composer.c:1540
+#: composer/e-msg-composer.c:1544
 #, fuzzy, c-format
 msgid ""
 "The message \"%s\" has not been sent.\n"
@@ -10718,38 +10738,38 @@ msgstr ""
 "\n"
 "Haluatko tallentaa muutokset?"
 
-#: composer/e-msg-composer.c:1545
+#: composer/e-msg-composer.c:1549
 msgid "_Discard Changes"
 msgstr ""
 
-#: composer/e-msg-composer.c:1549
+#: composer/e-msg-composer.c:1553
 msgid "Warning: Modified Message"
 msgstr "Varoitus: Muutettu viesti"
 
-#: composer/e-msg-composer.c:1581
+#: composer/e-msg-composer.c:1585
 msgid "Open file"
 msgstr "Avaa tiedosto"
 
-#: composer/e-msg-composer.c:1939
+#: composer/e-msg-composer.c:1943
 #, fuzzy
 msgid "Signature:"
 msgstr "Tallenna allekirjoitus"
 
-#: composer/e-msg-composer.c:1979 mail/mail-account-gui.c:1255
+#: composer/e-msg-composer.c:1983 mail/mail-account-gui.c:1255
 msgid "Autogenerated"
 msgstr ""
 
-#: composer/e-msg-composer.c:2158 composer/e-msg-composer.c:2757
+#: composer/e-msg-composer.c:2162 composer/e-msg-composer.c:2761
 msgid "Compose a message"
 msgstr "Kirjoita viesti"
 
-#: composer/e-msg-composer.c:2788
+#: composer/e-msg-composer.c:2792
 msgid ""
 "Could not create composer window:\n"
 "Unable to activate address selector control."
 msgstr ""
 
-#: composer/e-msg-composer.c:2814
+#: composer/e-msg-composer.c:2818
 #, fuzzy
 msgid ""
 "Could not create composer window:\n"
@@ -10760,7 +10780,7 @@ msgstr ""
 "Viestimuokkain -ikkunan luominen epäonnistui:\n"
 "HTML-muokkainkomponentin käynnistys ei onnistunut."
 
-#: composer/e-msg-composer.c:2874
+#: composer/e-msg-composer.c:2878
 msgid ""
 "Could not create composer window:\n"
 "Unable to activate HTML editor component."
@@ -10768,7 +10788,7 @@ msgstr ""
 "Viestimuokkain -ikkunan luominen epäonnistui:\n"
 "HTML-muokkainkomponentin käynnistys ei onnistunut."
 
-#: composer/e-msg-composer.c:3890
+#: composer/e-msg-composer.c:3894
 msgid ""
 "<b>(The composer contains a non-text message body, which cannot be edited.)"
 "<b>"
@@ -11410,7 +11430,7 @@ msgstr ""
 msgid "Score"
 msgstr ""
 
-#: filter/libfilter-i18n.h:30 mail/mail-callbacks.c:1809
+#: filter/libfilter-i18n.h:30 mail/mail-callbacks.c:1823
 msgid "Sender"
 msgstr "Lähettäjä"
 
@@ -11851,64 +11871,64 @@ msgid ""
 "order."
 msgstr ""
 
-#: mail/component-factory.c:988
+#: mail/component-factory.c:996
 msgid "You have not set a mail transport method"
 msgstr ""
 
-#: mail/component-factory.c:1012
+#: mail/component-factory.c:1020
 msgid "You have unsent messages, do you wish to quit anyway?"
 msgstr ""
 
-#: mail/component-factory.c:1052
+#: mail/component-factory.c:1060
 #, fuzzy
 msgid "New Mail Message"
 msgstr "Seuraava viesti"
 
-#: mail/component-factory.c:1052
+#: mail/component-factory.c:1060
 msgid "_Mail Message"
 msgstr ""
 
-#: mail/component-factory.c:1053
+#: mail/component-factory.c:1061
 #, fuzzy
 msgid "Compose a new mail message"
 msgstr "Kirjoita viesti"
 
-#: mail/component-factory.c:1061
+#: mail/component-factory.c:1069
 #, fuzzy
 msgid "New Message Post"
 msgstr "Seuraava viesti"
 
-#: mail/component-factory.c:1061
+#: mail/component-factory.c:1069
 #, fuzzy
 msgid "_Post Message"
 msgstr "Edellinen viesti"
 
-#: mail/component-factory.c:1062
+#: mail/component-factory.c:1070
 #, fuzzy
 msgid "Post a new mail message"
 msgstr "Seuraava viesti"
 
-#: mail/component-factory.c:1090
+#: mail/component-factory.c:1098
 #, fuzzy
 msgid "Cannot initialize the Evolution mail component."
 msgstr "Evolutionin sähköpostikomponentin alustus epäonnistui."
 
-#: mail/component-factory.c:1099
+#: mail/component-factory.c:1107
 #, fuzzy
 msgid "Cannot initialize Evolution's mail config component."
 msgstr "Evolutionin sähköpostikomponentin alustus epäonnistui."
 
-#: mail/component-factory.c:1105
+#: mail/component-factory.c:1113
 #, fuzzy
 msgid "Cannot initialize Evolution's folder info component."
 msgstr "Evolutionin sähköpostikomponentin alustus epäonnistui."
 
-#: mail/component-factory.c:1349 mail/component-factory.c:1379
+#: mail/component-factory.c:1357 mail/component-factory.c:1387
 #, fuzzy
 msgid "Connecting..."
 msgstr "Peruutetaan..."
 
-#: mail/component-factory.c:1390
+#: mail/component-factory.c:1398
 msgid "Cannot register storage with shell"
 msgstr ""
 
@@ -12332,40 +12352,40 @@ msgid ""
 "Send anyway?"
 msgstr ""
 
-#: mail/mail-callbacks.c:458
+#: mail/mail-callbacks.c:472
 msgid "You must specify recipients in order to send this message."
 msgstr ""
 "Sinuun tulee määritellä vastaanottajat ennen tämän viestin lähettämistä."
 
-#: mail/mail-callbacks.c:713
+#: mail/mail-callbacks.c:727
 msgid ""
 "Unable to open the drafts folder for this account.\n"
 "Would you like to use the default drafts folder?"
 msgstr ""
 
-#: mail/mail-callbacks.c:1178
+#: mail/mail-callbacks.c:1192
 #, fuzzy
 msgid "an unknown sender"
 msgstr "Tuntematon virhe"
 
-#: mail/mail-callbacks.c:1182
+#: mail/mail-callbacks.c:1196
 msgid "On %a, %Y-%m-%d at %H:%M, %%s wrote:"
 msgstr ""
 
-#: mail/mail-callbacks.c:1689 mail/message-browser.c:143
+#: mail/mail-callbacks.c:1703 mail/message-browser.c:143
 msgid "Move message(s) to"
 msgstr "Siirrä viesti(t) kansioon"
 
-#: mail/mail-callbacks.c:1691 mail/message-browser.c:145
+#: mail/mail-callbacks.c:1705 mail/message-browser.c:145
 msgid "Copy message(s) to"
 msgstr "Kopioi viesti(t) kansioon"
 
-#: mail/mail-callbacks.c:2335
+#: mail/mail-callbacks.c:2349
 #, c-format
 msgid "Are you sure you want to edit all %d messages?"
 msgstr ""
 
-#: mail/mail-callbacks.c:2351
+#: mail/mail-callbacks.c:2365
 msgid ""
 "You may only edit messages saved\n"
 "in the Drafts folder."
@@ -12373,7 +12393,7 @@ msgstr ""
 "Voit muokata vain Luonnokset\n"
 "-kansiossa olevia viestejä."
 
-#: mail/mail-callbacks.c:2384
+#: mail/mail-callbacks.c:2398
 msgid ""
 "You may only resend messages\n"
 "in the Sent folder."
@@ -12381,23 +12401,23 @@ msgstr ""
 "Voit lähettää uudelleen vain\n"
 "\"Lähetetyt\"-kansiossa olevia viestejä."
 
-#: mail/mail-callbacks.c:2394
+#: mail/mail-callbacks.c:2408
 #, c-format
 msgid "Are you sure you want to resend all %d messages?"
 msgstr "Haluatko todella lähettää kaikki %d viestiä uudelleen?"
 
-#: mail/mail-callbacks.c:2415
+#: mail/mail-callbacks.c:2429
 msgid "No Message Selected"
 msgstr "Ei viestejä valittuna"
 
-#: mail/mail-callbacks.c:2456
+#: mail/mail-callbacks.c:2470
 #, fuzzy, c-format
 msgid ""
 "Cannot save to `%s'\n"
 " %s"
 msgstr "Kansion hakeminen ei onnistu: %s: %s"
 
-#: mail/mail-callbacks.c:2461
+#: mail/mail-callbacks.c:2475
 #, fuzzy, c-format
 msgid ""
 "`%s' already exists.\n"
@@ -12406,15 +12426,15 @@ msgstr ""
 "Saman niminen tiedosto on jo olemassa.\n"
 "Kirjoitetaanko sen yli?"
 
-#: mail/mail-callbacks.c:2502
+#: mail/mail-callbacks.c:2516
 msgid "Save Message As..."
 msgstr "Tallenna viesti nimellä..."
 
-#: mail/mail-callbacks.c:2504
+#: mail/mail-callbacks.c:2518
 msgid "Save Messages As..."
 msgstr "Tallenna viestit nimellä..."
 
-#: mail/mail-callbacks.c:2672
+#: mail/mail-callbacks.c:2686
 msgid ""
 "This operation will permanently erase all messages marked as\n"
 "deleted. If you continue, you will not be able to recover these messages.\n"
@@ -12422,31 +12442,31 @@ msgid ""
 "Really erase these messages?"
 msgstr ""
 
-#: mail/mail-callbacks.c:2758
+#: mail/mail-callbacks.c:2772
 #, c-format
 msgid ""
 "Error loading filter information:\n"
 "%s"
 msgstr ""
 
-#: mail/mail-callbacks.c:2766
+#: mail/mail-callbacks.c:2780
 msgid "Filters"
 msgstr "Suodattimet"
 
-#: mail/mail-callbacks.c:2808
+#: mail/mail-callbacks.c:2822
 #, fuzzy, c-format
 msgid "Page %d of %d"
 msgstr "Haetaan viestiä %d / %d"
 
-#: mail/mail-callbacks.c:2864
+#: mail/mail-callbacks.c:2878
 msgid "Print Message"
 msgstr "Tulosta viesti"
 
-#: mail/mail-callbacks.c:2931
+#: mail/mail-callbacks.c:2945
 msgid "Printing of message failed"
 msgstr "Viestin tulostus epäonnistui"
 
-#: mail/mail-callbacks.c:3121
+#: mail/mail-callbacks.c:3135
 #, c-format
 msgid "Are you sure you want to open all %d messages in separate windows?"
 msgstr ""
@@ -13580,39 +13600,39 @@ msgstr "Hakuasetukset"
 msgid "_Search"
 msgstr "_Etsi"
 
-#: mail/mail-search.c:142
+#: mail/mail-search.c:148
 msgid "(Untitled Message)"
 msgstr "(Nimetön viesti)"
 
-#: mail/mail-search.c:224
+#: mail/mail-search.c:230
 msgid "Untitled Message"
 msgstr "Nimetön viesti"
 
-#: mail/mail-search.c:226
+#: mail/mail-search.c:232
 msgid "Empty Message"
 msgstr "Tyhjä viesti"
 
-#: mail/mail-search.c:274
+#: mail/mail-search.c:280
 msgid "Find in Message"
 msgstr "Hae viestistä"
 
-#: mail/mail-search.c:277
+#: mail/mail-search.c:283
 msgid "Search"
 msgstr "Etsi"
 
-#: mail/mail-search.c:303
+#: mail/mail-search.c:309
 msgid "Case Sensitive"
 msgstr "Kirjainkoolla on merkitystä"
 
-#: mail/mail-search.c:305
+#: mail/mail-search.c:311
 msgid "Search Forward"
 msgstr ""
 
-#: mail/mail-search.c:325
+#: mail/mail-search.c:331
 msgid "Find:"
 msgstr "Etsi:"
 
-#: mail/mail-search.c:328
+#: mail/mail-search.c:334
 msgid "Matches:"
 msgstr "Osumia:"
 
@@ -13666,11 +13686,11 @@ msgstr ""
 msgid "Enter Password"
 msgstr "Salasana"
 
-#: mail/mail-session.c:282
+#: mail/mail-session.c:280
 msgid "_Remember this password"
 msgstr "_Muista tämä salasana"
 
-#: mail/mail-session.c:283
+#: mail/mail-session.c:281
 msgid "_Remember this password for the remainder of this session"
 msgstr ""
 
@@ -13953,21 +13973,21 @@ msgstr ""
 msgid "Unsubscribing to folder \"%s\""
 msgstr ""
 
-#: mail/subscribe-dialog.c:1270 mail/subscribe-dialog.etspec.h:1
+#: mail/subscribe-dialog.c:1272 mail/subscribe-dialog.etspec.h:1
 #: shell/e-storage-set-view.etspec.h:2
 msgid "Folder"
 msgstr "Kansio"
 
-#: mail/subscribe-dialog.c:1427
+#: mail/subscribe-dialog.c:1429
 #, fuzzy
 msgid "Scanning folders..."
 msgstr "Tallenna kansioon..."
 
-#: mail/subscribe-dialog.c:1549
+#: mail/subscribe-dialog.c:1551
 msgid "No server has been selected"
 msgstr "Ei palvelinta valittuna"
 
-#: mail/subscribe-dialog.c:1624
+#: mail/subscribe-dialog.c:1626
 msgid "Please select a server."
 msgstr "Valitse palvelin."
 
@@ -24731,7 +24751,7 @@ msgstr "Säätiedot"
 #. see in My Evolution by default. You can find the list of all
 #. stations and their codes in Evolution sources
 #. (evolution/my-evolution/Locations)
-#: my-evolution/e-summary-weather.c:592
+#: my-evolution/e-summary-weather.c:594
 msgid "KBOS"
 msgstr ""
 
@@ -24744,12 +24764,12 @@ msgstr "%A, %B %e %Y"
 msgid "Please wait..."
 msgstr "Odota, ole hyvä"
 
-#: my-evolution/e-summary.c:593 ui/my-evolution.xml.h:2
+#: my-evolution/e-summary.c:591 ui/my-evolution.xml.h:2
 #, fuzzy
 msgid "Print Summary"
 msgstr "Kuvaus"
 
-#: my-evolution/e-summary.c:627
+#: my-evolution/e-summary.c:625
 #, fuzzy
 msgid "Printing of Summary failed"
 msgstr "Viestin tulostus epäonnistui"
@@ -26538,16 +26558,16 @@ msgstr "Luo uusi kontakti"
 msgid "Select the folder you want the shortcut to point to:"
 msgstr ""
 
-#: shell/e-shell-view-menu.c:776
+#: shell/e-shell-view-menu.c:778
 #, fuzzy
 msgid "_Work Online"
 msgstr "Työskentele linjoilla"
 
-#: shell/e-shell-view-menu.c:789 ui/evolution.xml.h:67
+#: shell/e-shell-view-menu.c:791 ui/evolution.xml.h:67
 msgid "_Work Offline"
 msgstr ""
 
-#: shell/e-shell-view-menu.c:802 ui/evolution.xml.h:42
+#: shell/e-shell-view-menu.c:804 ui/evolution.xml.h:42
 msgid "Work Offline"
 msgstr "Työskentele poissa linjoilta"
 
@@ -26555,25 +26575,25 @@ msgstr "Työskentele poissa linjoilta"
 msgid "(No folder displayed)"
 msgstr ""
 
-#: shell/e-shell-view.c:1996
+#: shell/e-shell-view.c:1997
 #, c-format
 msgid "%s (%d)"
 msgstr ""
 
-#: shell/e-shell-view.c:1998
+#: shell/e-shell-view.c:1999
 msgid "(None)"
 msgstr "(Ei nimeä)"
 
-#: shell/e-shell-view.c:2041
+#: shell/e-shell-view.c:2043
 msgid ""
 "Ximian Evolution is currently online.  Click on this button to work offline."
 msgstr ""
 
-#: shell/e-shell-view.c:2048
+#: shell/e-shell-view.c:2050
 msgid "Ximian Evolution is in the process of going offline."
 msgstr ""
 
-#: shell/e-shell-view.c:2054
+#: shell/e-shell-view.c:2056
 msgid ""
 "Ximian Evolution is currently offline.  Click on this button to work online."
 msgstr ""
