@@ -43,7 +43,6 @@ run_selector(EMsgComposer *composer, const char *title, int multi, gboolean *sho
 {
 	GtkFileSelection *selection;
 	GtkWidget *showinline = NULL;
-	GPtrArray *list = NULL;
 	char *path;
 
 	selection = (GtkFileSelection *)gtk_file_selection_new(title);

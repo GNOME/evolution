@@ -23,12 +23,13 @@
 
 
 /* This is the object representing an email attachment.  It is implemented as a
-   GtkObject to make it easier for the application to handle it.  For example,
+   GObject to make it easier for the application to handle it.  For example,
    the "changed" signal is emitted whenever something changes in the
    attachment.  Also, this contains the code to let users edit the
    attachment manually. */
 
 #include <sys/stat.h>
+#include <string.h>
 #include <errno.h>
 
 #include <camel/camel.h>
@@ -423,7 +424,7 @@ e_msg_composer_attachment_edit (EMsgComposerAttachment *attachment, GtkWidget *p
 		return;
 	}
 	
-	editor_gui = glade_xml_new (E_GLADEDIR "/e-msg-composer-attachment.glade",
+	editor_gui = glade_xml_new (EVOLUTION_GLADEDIR "/e-msg-composer-attachment.glade",
 				    NULL, NULL);
 	if (editor_gui == NULL) {
 		g_warning ("Cannot load `e-msg-composer-attachment.glade'");

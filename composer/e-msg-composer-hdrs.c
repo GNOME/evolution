@@ -26,6 +26,8 @@
 #include <config.h>
 #endif
 
+#include <string.h>
+
 #include <bonobo/bonobo-control.h>
 #include <bonobo/bonobo-widget.h>
 

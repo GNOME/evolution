@@ -1336,7 +1336,6 @@ autosave_is_owned (AutosaveManager *am, const char *file)
 static void
 autosave_manager_query_load_orphans (AutosaveManager *am, EMsgComposer *composer)
 {
-	GtkWidget *dialog;
 	DIR *dir;
 	struct dirent *d;
 	GSList *match = NULL;
@@ -1629,7 +1628,7 @@ menu_file_send_cb (BonoboUIComponent *uic,
 		   void *data,
 		   const char *path)
 {
-	gtk_signal_emit (GTK_OBJECT (data), signals[SEND]);
+	g_signal_emit (GTK_OBJECT (data), signals[SEND], 0);
 }
 
 static void

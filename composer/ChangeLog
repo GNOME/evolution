@@ -1,3 +1,27 @@
+2003-02-06  Dan Winship  <danw@ximian.com>
+
+	* Makefile.am: clean up
+
+	* e-msg-composer.c (autosave_manager_query_load_orphans): #include
+	string.h
+	(menu_file_send_cb): s/gtk_signal_emit/g_signal_emit/
+
+	* e-msg-composer-attachment.c: #include string.h
+	(e_msg_composer_attachment_edit): s/E_GLADEDIR/EVOLUTION_GLADEDIR
+
+	* e-msg-composer-attachment-bar.c: #include string.h
+	(pixbuf_for_mime_type): s/ICONSDIR/IMAGESDIR/
+
+	* e-msg-composer-hdrs.c: #include string.h
+
+	* e-msg-composer-select-file.c (run_selector): Remove unused var
+
+	* evolution-composer.c: #include string.h
+	(evolution_composer_init): Remove unused var
+
+	* listener.c: #include string.h
+	(listener_new): Remove unused var
+
 2003-02-05  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* e-msg-composer.c (e_msg_composer_new_from_url): Split out the

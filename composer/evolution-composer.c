@@ -25,6 +25,7 @@
 #include <config.h>
 #endif
 
+#include <string.h>
 #include <gtk/gtksignal.h>
 #include <bonobo/bonobo-item-handler.h>
 #include <bonobo/bonobo-generic-factory.h>
@@ -310,7 +311,6 @@ evolution_composer_class_init (EvolutionComposerClass *klass)
 static void
 evolution_composer_init (EvolutionComposer *composer)
 {
-	BonoboObject *item_handler;
 	EAccount *account;
 	
 	account = mail_config_get_default_account ();

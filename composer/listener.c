@@ -23,6 +23,7 @@
 #include <config.h>
 #endif
 
+#include <string.h>
 #include <bonobo/bonobo-arg.h>
 #include <bonobo/bonobo-object.h>
 #include <bonobo/bonobo-stream-client.h>
@@ -261,7 +262,6 @@ EditorListener *
 listener_new (EMsgComposer *composer)
 {
 	EditorListener *listener;
-	GNOME_GtkHTML_Editor_Listener corba_listener;
 
 	listener = g_object_new (EDITOR_LISTENER_TYPE, NULL);
 	listener->composer = composer;

@@ -26,6 +26,7 @@
 #include <config.h>
 #endif
 
+#include <string.h>
 #include <gtk/gtk.h>
 #include <glade/glade.h>
 #include <gconf/gconf.h>
@@ -218,7 +219,7 @@ pixbuf_for_mime_type (const char *mime_type)
 	    || strcmp (mime_type, "message/rfc822") == 0) {
 		char *name;
 		
-		name = g_build_filename (EVOLUTION_ICONSDIR, "mail.png", NULL);
+		name = g_build_filename (EVOLUTION_IMAGESDIR, "mail.png", NULL);
 		pixbuf = gdk_pixbuf_new_from_file (name, NULL);
 		g_free (name);
 		
