@@ -20,11 +20,14 @@
  */
 
 #include <config.h>
+#include <string.h>
 #include <glib.h>
 #include <gtk/gtkdnd.h>
+#include <gtk/gtkmain.h>
 #include <gdk/gdkkeysyms.h>
 #include <libgnome/gnome-i18n.h>
 #include <libgnomecanvas/gnome-canvas-rect-ellipse.h>
+#include <libgnomecanvas/gnome-canvas-pixbuf.h>
 #include <gal/e-text/e-text.h>
 #include <gal/util/e-util.h>
 #include <gal/widgets/e-canvas-utils.h>
@@ -761,7 +764,7 @@ field_changed (EText *text, EMinicard *e_minicard)
 				new_string = e_destination_export(dest);
 				g_free(string);
 				string=new_string;
-				gtk_object_unref (GTK_OBJECT (dest));
+				g_object_unref (dest);
 			}
 		}
 	}
@@ -842,7 +845,6 @@ get_left_width(EMinicard *e_minicard)
 	gchar *name;
 	ECardSimpleField field;
 	int width = -1;
-	GdkFont *font;
 	PangoLayout *layout;
 
 	layout = gtk_widget_create_pango_layout (GTK_WIDGET (GNOME_CANVAS_ITEM (e_minicard)->canvas), "");

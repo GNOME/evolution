@@ -67,6 +67,7 @@
 #include "e-contact-editor.h"
 #include <gdk/gdkkeysyms.h>
 #include <ctype.h>
+#include <string.h>
 
 #include <libxml/tree.h>
 #include <libxml/parser.h>
@@ -556,6 +557,7 @@ get_selection_model (EAddressbookView *view)
 		return e_treeview_get_selection_model (GTK_TREE_VIEW (view->object));
 	}
 #endif
+	g_return_val_if_reached (NULL);
 }
 
 /* Popup menu stuff */

@@ -2,6 +2,7 @@
 
 
 #include <config.h>
+#include <string.h>
 
 #include <libgnome/gnome-i18n.h>
 #include "e-addressbook-marshal.h"
@@ -313,7 +314,6 @@ addressbook_get_property (GObject *object, guint prop_id, GValue *value, GParamS
 		break;
 	}
 	case PROP_QUERY: {
-		char *query;
 		g_object_get_property (G_OBJECT (priv->model),
 				       "query", value);
 		break;

@@ -178,7 +178,7 @@ e_minicard_view_widget_init (EMinicardViewWidget *view)
 GtkWidget *
 e_minicard_view_widget_new (EAddressbookReflowAdapter *adapter)
 {
-	EMinicardViewWidget *widget = E_MINICARD_VIEW_WIDGET (gtk_type_new (e_minicard_view_widget_get_type ()));
+	EMinicardViewWidget *widget = E_MINICARD_VIEW_WIDGET (g_object_new (e_minicard_view_widget_get_type (), NULL));
 
 	widget->adapter = adapter;
 	g_object_ref (widget->adapter);

@@ -1,22 +1,20 @@
 INCLUDES =										\
-	-DG_LOG_DOMAIN=\"e-minicard\"							\
-	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"						\
-	-DEVOLUTION_ETSPECDIR=\""$(etspecdir)"\"					\
-	-DEVOLUTION_DATADIR=\""$(datadir)"\"						\
-	-DEVOLUTION_IMAGESDIR=\""$(datadir)"/evolution-$(BASE_VERSION)/images\"		\
-	-DEVOLUTION_GALVIEWSDIR=\""$(datadir)"/evolution-$(BASE_VERSION)/views\"	\
-	-I$(top_srcdir)									\
-	-I$(top_srcdir)/addressbook/backend						\
-	-I$(top_builddir)/addressbook/backend						\
-	-I$(top_srcdir)/addressbook/gui/contact-editor					\
-	-I$(top_srcdir)/addressbook/gui/merging						\
-	-I$(top_srcdir)/addressbook/gui/component					\
-	-I$(top_srcdir)/widgets/misc							\
-	-I$(top_builddir)/shell								\
-	-DG_DISABLE_DEPRECATED								\
-	-DGTK_DISABLE_DEPRECATED							\
-	-DLIBGNOME_DISABLE_DEPRECATED							\
-	-DLIBGNOMEUI_DISABLE_DEPRECATED							\
+	-DG_LOG_DOMAIN=\"e-minicard\"			\
+	-DEVOLUTION_ETSPECDIR=\""$(etspecdir)"\"	\
+	-DEVOLUTION_IMAGESDIR=\""$(imagesdir)"\"	\
+	-DEVOLUTION_GALVIEWSDIR=\""$(viewsdir)"\"	\
+	-I$(top_srcdir)					\
+	-I$(top_srcdir)/addressbook/backend		\
+	-I$(top_builddir)/addressbook/backend		\
+	-I$(top_srcdir)/addressbook/gui/contact-editor	\
+	-I$(top_srcdir)/addressbook/gui/merging		\
+	-I$(top_srcdir)/addressbook/gui/component	\
+	-I$(top_srcdir)/widgets/misc			\
+	-I$(top_builddir)/shell				\
+	-DG_DISABLE_DEPRECATED				\
+	-DGTK_DISABLE_DEPRECATED			\
+	-DLIBGNOME_DISABLE_DEPRECATED			\
+	-DLIBGNOMEUI_DISABLE_DEPRECATED			\
 	$(EVOLUTION_ADDRESSBOOK_CFLAGS)
 
 noinst_LIBRARIES =				\
@@ -154,13 +152,8 @@ MARSHAL_GENERATED = e-addressbook-marshal.c e-addressbook-marshal.h
 #	 $(top_builddir)/addressbook/gui/merging/libecardmerging.a	\
 #	$(EVOLUTION_ADDRESSBOOK_LIBS)
 
-gladedir   = $(datadir)/evolution-$(BASE_VERSION)/glade
-glade_DATA = 
-
-etspecdir  = $(datadir)/evolution-$(BASE_VERSION)/etspec
 etspec_DATA= e-addressbook-view.etspec
 
 EXTRA_DIST = 			\
-	$(glade_DATA)		\
 	$(etspec_DATA)		\
 	e-addressbook-marshal.list

@@ -23,6 +23,7 @@
  */
 
 #include <config.h>
+#include <string.h>
 
 #include <gtk/gtk.h>
 #include <bonobo/bonobo-generic-factory.h>
@@ -175,8 +176,8 @@ pstream_load (BonoboPersistStream *ps, const Bonobo_Stream stream,
 	char *vcard;
 	EMinicardControl *minicard_control = data;
 
-	if (type && g_strcasecmp (type, "text/vCard") != 0 &&	    
-	    g_strcasecmp (type, "text/x-vCard") != 0) {	    
+	if (type && g_ascii_strcasecmp (type, "text/vCard") != 0 &&	    
+	    g_ascii_strcasecmp (type, "text/x-vCard") != 0) {	    
 		CORBA_exception_set (ev, CORBA_USER_EXCEPTION,
 				     ex_Bonobo_Persist_WrongDataType, NULL);
 		return;
@@ -224,8 +225,8 @@ pstream_save (BonoboPersistStream *ps, const Bonobo_Stream stream,
 	char             *vcard;
 	int               length;
 
-	if (type && g_strcasecmp (type, "text/vCard") != 0 &&	    
-	    g_strcasecmp (type, "text/x-vCard") != 0) {	    
+	if (type && g_ascii_strcasecmp (type, "text/vCard") != 0 &&	    
+	    g_ascii_strcasecmp (type, "text/x-vCard") != 0) {	    
 		CORBA_exception_set (ev, CORBA_USER_EXCEPTION,
 				     ex_Bonobo_Persist_WrongDataType, NULL);
 		return;
