@@ -1,3 +1,8 @@
+2000-05-02  NotZed  <NotZed@HelixCode.com>
+
+	* e-sexp.c (e_sexp_finalise): Free the parse tree if we have one.
+	(e_sexp_parse): If we already have a parse tree, free it.
+
 2000-05-02  Matt Loper  <matt@helixcode.com>
 
 	* Makefile.am: set G_LOG_DOMAIN.

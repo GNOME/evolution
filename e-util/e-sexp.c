@@ -869,12 +869,17 @@ camel_mbox_folder_search_by_expression(CamelFolder *folder, char *expression, Ca
 #endif
 
 
+static void e_sexp_finalise(GtkObject *);
+
 static void
 e_sexp_class_init (ESExpClass *class)
 {
 	GtkObjectClass *object_class;
 	
 	object_class = (GtkObjectClass *) class;
+
+	object_class->finalize = e_sexp_finalise;
+
 	parent_class = gtk_type_class (gtk_object_get_type ());
 }
 
@@ -896,6 +901,19 @@ static struct {
 	{ "if", (ESExpFunc *)term_eval_if, 1 },
 	{ "begin", (ESExpFunc *)term_eval_begin, 1 },
 };
+
+static void
+e_sexp_finalise(GtkObject *o)
+{
+	ESExp *s = (ESExp *)o;
+
+	if (s->tree) {
+		parse_term_free(s->tree);
+		s->tree = NULL;
+	}
+
+	((GtkObjectClass *)(parent_class))->finalize((GtkObject *)o);
+}
 
 static void
 e_sexp_init (ESExp *s)
@@ -1040,6 +1058,9 @@ void
 e_sexp_parse(ESExp *f)
 {
 	g_return_if_fail(FILTER_IS_SEXP(f));
+
+	if (f->tree)
+		parse_term_free(f->tree);
 
 	f->tree = parse_list(f, FALSE);
 
