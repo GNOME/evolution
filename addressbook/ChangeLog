@@ -1,3 +1,21 @@
+2002-02-04  JP Rosevear  <jpr@ximian.com>
+
+	* gui/contact-editor/e-contact-editor.c (address_text_changed): if
+	the shown address in the mailing address or there is no mailing
+	address, set the default flag and make sure the button is checked
+	(address_mailing_changed): set the flags properly when the mailing
+	address changes
+	(e_contact_editor_init): listen for the check button being toggled
+	(find_address_mailing): find the address (if any) with the default
+	flag
+	(set_address_field): set the mailing address button appropriately
+	(fill_in_info): find the mailing address
+
+	* gui/contact-editor/e-contact-editor.h: add new class data member
+
+	* gui/contact-editor/contact-editor.glade: show mailing address
+	check button
+
 2002-02-01  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* backend/ebook/e-destination.c (e_destination_is_auto_recipient):
