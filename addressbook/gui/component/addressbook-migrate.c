@@ -1062,9 +1062,9 @@ addressbook_migrate (AddressbookComponent *component, int major, int minor, int 
 	if (major == 1
 	    /* we only need the most recent upgrade point here.
 	       further decomposition will happen below. */
-	    && (minor < 5 || (minor == 5 && revision <= 10))
+	    && (minor < 5 || (minor == 5 && revision <= 10)))
 		need_dialog = TRUE;
-
+	
 	if (need_dialog)
 		setup_progress_dialog (context);
 
