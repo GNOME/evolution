@@ -33,8 +33,12 @@
 #include <cal-util/cal-recur.h>
 
 
+/* Since events can recur infinitely, we set a limit to the number of
+   occurrences we output. */
+#define MAX_OCCURRENCES	1000
+
 static void usage			(void);
-static icalcomponent* scan_vcs_file	(char		*filename);
+static icalcomponent* scan_ics_file	(char		*filename);
 static char* get_line			(char		*s,
 					 size_t		 size,
 					 void		*data);
@@ -59,7 +63,7 @@ main			(int		 argc,
 
 	filename = argv[1];
 
-	icalcomp = scan_vcs_file (filename);
+	icalcomp = scan_ics_file (filename);
 	if (icalcomp)
 		generate_occurrences	(icalcomp);
 
@@ -76,7 +80,7 @@ usage			(void)
 
 
 static icalcomponent*
-scan_vcs_file		(char		*filename)
+scan_ics_file		(char		*filename)
 {
 	FILE *fp;
 	icalcomponent *icalcomp;
@@ -115,6 +119,7 @@ generate_occurrences	(icalcomponent	*icalcomp)
 {
 	icalcomponent *tmp_icalcomp;
 	CalComponent *comp;
+	gint occurrences;
 
 	for (tmp_icalcomp = icalcomponent_get_first_component (icalcomp, ICAL_ANY_COMPONENT);
 	     tmp_icalcomp;
@@ -137,7 +142,9 @@ generate_occurrences	(icalcomponent	*icalcomp)
 		g_print ("%s\n\n", icalcomponent_as_ical_string (tmp_icalcomp));
 
 		cal_recur_generate_instances (comp, -1, -1,
-					      occurrence_cb, NULL);
+					      occurrence_cb, &occurrences);
+
+		g_print ("%s\n\n", icalcomponent_as_ical_string (tmp_icalcomp));
 	}
 }
 
@@ -149,6 +156,9 @@ occurrence_cb		(CalComponent	*comp,
 			 gpointer	 data)
 {
 	char start[32], finish[32];
+	gint *occurrences;
+
+	occurrences = (gint*) data;
 
 	strcpy (start, ctime (&instance_start));
 	start[24] = '\0';
@@ -157,5 +167,6 @@ occurrence_cb		(CalComponent	*comp,
 
 	g_print ("%s - %s\n", start, finish);
 
-	return TRUE;
+	(*occurrences)++;
+	return (*occurrences == MAX_OCCURRENCES) ? FALSE : TRUE;
 }

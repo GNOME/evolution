@@ -27,6 +27,7 @@
 #include <executive-summary/evolution-services/executive-summary-component.h>
 #include "component-factory.h"
 #include "control-factory.h"
+#include "calendar-config.h"
 #include "calendar-summary.h"
 
 
@@ -36,7 +37,7 @@
 
 static BonoboGenericFactory *factory = NULL;
 static BonoboGenericFactory *summary_factory = NULL;
-static char *evolution_dir;
+char *evolution_dir;
 
 static const EvolutionShellComponentFolderType folder_types[] = {
 	{ "calendar", "evolution-calendar.png" },
@@ -70,18 +71,18 @@ static gint owner_count = 0;
 
 static void
 owner_set_cb (EvolutionShellComponent *shell_component,
-	      Evolution_Shell shell_interface,
-	      const char *evolution_homedir)
+	      EvolutionShellClient *shell_client,
+	      const char *evolution_homedir,
+	      gpointer user_data)
 {
 	evolution_dir = g_strdup (evolution_homedir);
+	calendar_config_init ();
 	owner_count ++;
 }
 
 static void
 owner_unset_cb (EvolutionShellComponent *shell_component,
-		Evolution_Shell shell_interface,
-		EvolutionShellClient shell_client,
-		void *data)
+		gpointer user_data)
 {
 	g_free (evolution_dir);
 	owner_count --;

@@ -25,6 +25,7 @@
 #include "event-editor.h"
 #include "gnome-cal.h"
 #include "calendar-commands.h"
+#include "calendar-config.h"
 
 
 
@@ -136,6 +137,7 @@ static void gnome_calendar_update_date_navigator (GnomeCalendar *gcal);
 static void gnome_calendar_on_date_navigator_style_set (GtkWidget *widget,
 							GtkStyle  *previous_style,
 							gpointer data);
+static void gnome_calendar_update_paned_quanta (GnomeCalendar	*gcal);
 static void gnome_calendar_on_date_navigator_size_allocate (GtkWidget     *widget,
 							    GtkAllocation *allocation,
 							    gpointer data);
@@ -274,6 +276,8 @@ setup_widgets (GnomeCalendar *gcal)
 	gtk_widget_show (priv->month_view);
 	gtk_notebook_append_page (GTK_NOTEBOOK (priv->notebook),
 				  priv->month_view, gtk_label_new (""));
+
+	gnome_calendar_update_config_settings (gcal, TRUE);
 }
 
 /* Object initialization function for the gnome calendar */
@@ -295,14 +299,6 @@ gnome_calendar_init (GnomeCalendar *gcal)
 
 	priv->selection_start_time = time_day_begin (time (NULL));
 	priv->selection_end_time = time_add_day (priv->selection_start_time, 1);
-
-	/* Set the default pane positions. These will eventually come from
-	   gconf settings. They are multiples of calendar month widths &
-	   heights in the date navigator. */
-	priv->hpane_pos = 1.0;
-	priv->vpane_pos = 1.0;
-	priv->hpane_pos_month_view = 0.0;
-	priv->vpane_pos_month_view = 1.0;
 
 	setup_widgets (gcal);
 }
@@ -1606,9 +1602,119 @@ gnome_calendar_tag_calendar (GnomeCalendar *gcal, ECalendar *ecal)
 }
 
 
+/* Tells the calendar to reload all config settings.
+   If initializing is TRUE it sets the pane positions as well. (We don't
+   want to reset the pane positions after the user clicks 'Apply' in the
+   preferences dialog.) */
+void
+gnome_calendar_update_config_settings (GnomeCalendar *gcal,
+				       gboolean	      initializing)
+{
+	GnomeCalendarPrivate *priv;
+	CalWeekdays working_days;
+	gint week_start_day, time_divisions;
+	gint start_hour, start_minute, end_hour, end_minute;
+	gboolean use_24_hour, show_event_end, compress_weekend;
+	gboolean dnav_show_week_no;
+
+	g_return_if_fail (GNOME_IS_CALENDAR (gcal));
+
+	priv = gcal->priv;
+
+	working_days = calendar_config_get_working_days ();
+	/* CalWeekdays and EDayViewDays use the same bit-masks, so we can
+	   use the same value. */
+	e_day_view_set_working_days (E_DAY_VIEW (priv->day_view),
+				     (EDayViewDays) working_days);
+	e_day_view_set_working_days (E_DAY_VIEW (priv->work_week_view),
+				     (EDayViewDays) working_days);
+
+	/* Note that this is 0 (Sun) to 6 (Sat). */
+	week_start_day = calendar_config_get_week_start_day ();
+	/* FIXME: Add support for these. */
+#if 0
+	e_day_view_set_week_start_day (E_DAY_VIEW (priv->day_view),
+				       week_start_day);
+	e_day_view_set_week_start_day (E_DAY_VIEW (priv->work_week_view),
+				       week_start_day);
+	e_week_view_set_week_start_day (E_WEEK_VIEW (priv->week_view),
+					week_start_day);
+	e_week_view_set_week_start_day (E_WEEK_VIEW (priv->month_view),
+					week_start_day);
+#endif
+	gnome_canvas_item_set (GNOME_CANVAS_ITEM (E_CALENDAR (priv->date_navigator)->calitem),
+			       "week_start_day", (week_start_day + 6) % 7,
+			       NULL);
+
+	start_hour = calendar_config_get_day_start_hour ();
+	start_minute = calendar_config_get_day_start_minute ();
+	end_hour = calendar_config_get_day_end_hour ();
+	end_minute = calendar_config_get_day_end_minute ();
+	e_day_view_set_working_day (E_DAY_VIEW (priv->day_view),
+				    start_hour, start_minute,
+				    end_hour, end_minute);
+	e_day_view_set_working_day (E_DAY_VIEW (priv->work_week_view),
+				    start_hour, start_minute,
+				    end_hour, end_minute);
+
+	use_24_hour = calendar_config_get_24_hour_format ();
+	e_day_view_set_24_hour_format (E_DAY_VIEW (priv->day_view),
+				       use_24_hour);
+	e_day_view_set_24_hour_format (E_DAY_VIEW (priv->work_week_view),
+				       use_24_hour);
+	/* FIXME: Add support for these. */
+#if 0
+	e_week_view_set_24_hour_format (E_WEEK_VIEW (priv->week_view),
+					use_24_hour);
+	e_week_view_set_24_hour_format (E_WEEK_VIEW (priv->month_view),
+					use_24_hour);
+#endif
+
+	time_divisions = calendar_config_get_time_divisions ();
+	e_day_view_set_mins_per_row (E_DAY_VIEW (priv->day_view),
+				     time_divisions);
+	e_day_view_set_mins_per_row (E_DAY_VIEW (priv->work_week_view),
+				     time_divisions);
+
+	show_event_end = calendar_config_get_show_event_end ();
+	/* FIXME: Add support for these. */
+#if 0
+	e_day_view_set_show_event_end (E_DAY_VIEW (priv->day_view),
+				       show_event_end);
+	e_day_view_set_show_event_end (E_DAY_VIEW (priv->work_week_view),
+				       show_event_end);
+	e_week_view_set_show_event_end (E_WEEK_VIEW (priv->week_view),
+					show_event_end);
+	e_week_view_set_show_event_end (E_WEEK_VIEW (priv->month_view),
+					show_event_end);
+#endif
+
+	compress_weekend = calendar_config_get_compress_weekend ();
+	e_week_view_set_compress_weekend (E_WEEK_VIEW (priv->month_view),
+					  compress_weekend);
+
+	dnav_show_week_no = calendar_config_get_dnav_show_week_no ();
+	gnome_canvas_item_set (GNOME_CANVAS_ITEM (E_CALENDAR (priv->date_navigator)->calitem),
+			       "show_week_numbers", dnav_show_week_no,
+			       NULL);
+
+	if (initializing) {
+		priv->hpane_pos = calendar_config_get_hpane_pos ();
+		priv->vpane_pos = calendar_config_get_vpane_pos ();
+		priv->hpane_pos_month_view = calendar_config_get_month_hpane_pos ();
+		priv->vpane_pos_month_view = calendar_config_get_month_vpane_pos ();
+	} else {
+		gnome_calendar_update_paned_quanta (gcal);
+	}
+}
+
+
+/*
+ * FIXME: These are for the old config code and will be removed eventually.
+ */
+
 /* This is called when the day begin & end times, the AM/PM flag, or the
-   week_starts_on_monday flags are changed.
-   FIXME: Which of these options do we want the new views to support? */
+   week_starts_on_monday flags are changed. */
 void
 gnome_calendar_time_format_changed (GnomeCalendar *gcal)
 {
@@ -1639,6 +1745,8 @@ gnome_calendar_todo_properties_changed (GnomeCalendar *gcal)
 	g_return_if_fail (gcal != NULL);
 	g_return_if_fail (GNOME_IS_CALENDAR (gcal));
 }
+
+
 
 
 void
@@ -2005,21 +2113,23 @@ gnome_calendar_on_date_navigator_style_set (GtkWidget     *widget,
 					    GtkStyle      *previous_style,
 					    gpointer       data)
 {
-	GnomeCalendar *gcal;
+	gnome_calendar_update_paned_quanta (GNOME_CALENDAR (data));
+}
+
+
+static void
+gnome_calendar_update_paned_quanta (GnomeCalendar	*gcal)
+{
 	GnomeCalendarPrivate *priv;
-	ECalendar *ecal;
 	gint row_height, col_width;
 	gint top_border, bottom_border, left_border, right_border;
 
-	ecal = E_CALENDAR (widget);
-
-	gcal = GNOME_CALENDAR (data);
 	priv = gcal->priv;
 
 	e_calendar_get_border_size (priv->date_navigator,
 				    &top_border, &bottom_border,
 				    &left_border, &right_border);
-	gtk_object_get (GTK_OBJECT (ecal->calitem),
+	gtk_object_get (GTK_OBJECT (priv->date_navigator->calitem),
 			"row_height", &row_height,
 			"column_width", &col_width,
 			NULL);
@@ -2085,12 +2195,17 @@ gnome_calendar_on_date_navigator_size_allocate (GtkWidget     *widget,
 		hpane_pos = (gfloat) width / col_width;
 		vpane_pos = (gfloat) height / row_height;
 
-		if (priv->current_view_type == VIEW_MONTH && !priv->range_selected) {
+		if (priv->current_view_type == VIEW_MONTH
+		    && !priv->range_selected) {
 			priv->hpane_pos_month_view = hpane_pos;
 			priv->vpane_pos_month_view = vpane_pos;
+			calendar_config_set_month_hpane_pos (hpane_pos);
+			calendar_config_set_month_vpane_pos (vpane_pos);
 		} else {
 			priv->hpane_pos = hpane_pos;
 			priv->vpane_pos = vpane_pos;
+			calendar_config_set_hpane_pos (hpane_pos);
+			calendar_config_set_vpane_pos (vpane_pos);
 		}
 	}
 }

@@ -1969,6 +1969,67 @@ e_day_view_set_working_days	(EDayView	*day_view,
 }
 
 
+/* The start and end time of the working day. This only affects the background
+   colors. */
+void
+e_day_view_get_working_day		(EDayView	*day_view,
+					 gint		*start_hour,
+					 gint		*start_minute,
+					 gint		*end_hour,
+					 gint		*end_minute)
+{
+	g_return_if_fail (E_IS_DAY_VIEW (day_view));
+
+	*start_hour = day_view->work_day_start_hour;
+	*start_minute = day_view->work_day_start_minute;
+	*end_hour = day_view->work_day_end_hour;
+	*end_minute = day_view->work_day_end_minute;
+}
+
+
+void
+e_day_view_set_working_day		(EDayView	*day_view,
+					 gint		 start_hour,
+					 gint		 start_minute,
+					 gint		 end_hour,
+					 gint		 end_minute)
+{
+	g_return_if_fail (E_IS_DAY_VIEW (day_view));
+
+	day_view->work_day_start_hour = start_hour;
+	day_view->work_day_start_minute = start_minute;
+	day_view->work_day_end_hour = end_hour;
+	day_view->work_day_end_minute = end_minute;
+
+	gtk_widget_queue_draw (day_view->main_canvas);
+}
+
+
+/* Whether we use 12-hour of 24-hour format. */
+gboolean
+e_day_view_get_24_hour_format	(EDayView	*day_view)
+{
+	g_return_val_if_fail (E_IS_DAY_VIEW (day_view), FALSE);
+
+	return day_view->use_24_hour_format;
+}
+
+
+void
+e_day_view_set_24_hour_format	(EDayView	*day_view,
+				 gboolean	 use_24_hour)
+{
+	g_return_if_fail (E_IS_DAY_VIEW (day_view));
+
+	if (day_view->use_24_hour_format != use_24_hour) {
+		day_view->use_24_hour_format = use_24_hour;
+
+		/* FIXME: Eventually we need to do a re-layout. */
+		gtk_widget_queue_draw (day_view->main_canvas);
+	}
+}
+
+
 static gboolean
 e_day_view_update_scroll_regions (EDayView *day_view)
 {

@@ -48,6 +48,8 @@ glade_messages = event-editor-dialog.glade.h
 evolution_calendar_SOURCES =			\
 	alarm.c					\
 	alarm.h					\
+	calendar-config.c			\
+	calendar-config.h			\
 	calendar-commands.c			\
 	calendar-commands.h			\
 	calendar-model.c			\

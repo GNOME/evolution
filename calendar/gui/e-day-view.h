@@ -279,6 +279,9 @@ struct _EDayView
 	gint work_day_end_hour;
 	gint work_day_end_minute;
 
+	/* Whether we use 12-hour of 24-hour format. */
+	gboolean use_24_hour_format;
+
 	/* This is set to TRUE when the widget is created, so it scrolls to
 	   the start of the working day when first shown. */
 	gboolean scroll_to_work_day;
@@ -494,7 +497,23 @@ EDayViewDays e_day_view_get_working_days	(EDayView	*day_view);
 void	   e_day_view_set_working_days		(EDayView	*day_view,
 						 EDayViewDays	 days);
 
+/* The start and end time of the working day. This only affects the background
+   colors. */
+void	   e_day_view_get_working_day		(EDayView	*day_view,
+						 gint		*start_hour,
+						 gint		*start_minute,
+						 gint		*end_hour,
+						 gint		*end_minute);
+void	   e_day_view_set_working_day		(EDayView	*day_view,
+						 gint		 start_hour,
+						 gint		 start_minute,
+						 gint		 end_hour,
+						 gint		 end_minute);
 
+/* Whether we use 12-hour of 24-hour format. */
+gboolean   e_day_view_get_24_hour_format	(EDayView	*day_view);
+void	   e_day_view_set_24_hour_format	(EDayView	*day_view,
+						 gboolean	 use_24_hour);
 
 /*
  * Internal functions called by the associated canvas items.

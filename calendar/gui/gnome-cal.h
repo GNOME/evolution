@@ -97,6 +97,14 @@ void	   gnome_calendar_get_current_time_range (GnomeCalendar *gcal,
 						  time_t	 *start_time,
 						  time_t	 *end_time);
 
+/* Tells the calendar to reload all config settings. initializing should be
+   TRUE when we are setting the config settings for the first time. */
+void	   gnome_calendar_update_config_settings (GnomeCalendar *gcal,
+						  gboolean	 initializing);
+
+/*
+ * FIXME: These are for the old config code and will be removed eventually.
+ */
 
 /* Notifies the calendar that the time format has changed and it must update
    all its views */
@@ -109,6 +117,7 @@ void	   gnome_calendar_colors_changed	(GnomeCalendar *gcal);
 /* Notifies the calendar that the todo list properties have changed and its
    time to update the views. */
 void	   gnome_calendar_todo_properties_changed (GnomeCalendar *gcal);
+
 
 
 void	   gnome_calendar_set_view_buttons	(GnomeCalendar	*gcal,

@@ -24,6 +24,8 @@
 #ifndef _COMPONENT_FACTORY_H_
 #define _COMPONENT_FACTORY_H_
 
+extern char *evolution_dir;
+
 void  component_factory_init  (void);
 
 #endif /* _COMPONENT_FACTORY_H_ */

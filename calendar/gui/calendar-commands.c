@@ -23,6 +23,7 @@
 #include "gnome-cal.h"
 #include "calendar-commands.h"
 #include "print.h"
+#include "dialogs/cal-prefs-dialog.h"
 
 #include "dayview.xpm"
 #include "workweekview.xpm"
@@ -94,6 +95,9 @@ CalendarAlarm alarm_defaults[4] = {
         { ALARM_AUDIO, 0, 15, ALARM_MINUTES }
 };
 #endif
+
+/* We have one global preferences dialog. */
+static CalPrefsDialog *preferences_dialog = NULL;
 
 static void
 init_username (void)
@@ -215,6 +219,20 @@ file_print_cb (BonoboUIHandler *uih, void *data, const char *path)
 	print (gcal, FALSE);
 }
 
+
+/* This iterates over each calendar telling them to update their config
+   settings. */
+void
+update_all_config_settings (void)
+{
+	GList *l;
+
+	for (l = all_calendars; l; l = l->next)
+		gnome_calendar_update_config_settings (GNOME_CALENDAR (l->data), FALSE);
+}
+
+
+/* These are all for the old config code and will eventually be removed. */
 void
 time_format_changed (void)
 {
@@ -451,8 +469,10 @@ save_as_calendar_cmd (BonoboUIHandler *uih, void *user_data, const char *path)
 static void
 properties_cmd (BonoboUIHandler *uih, void *user_data, const char *path)
 {
-	GnomeCalendar *gcal = GNOME_CALENDAR (user_data);
-	properties (GTK_WIDGET (gcal));
+	if (!preferences_dialog)
+		preferences_dialog = cal_prefs_dialog_new ();
+	else
+		cal_prefs_dialog_show (preferences_dialog);
 }
 
 

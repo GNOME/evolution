@@ -66,6 +66,15 @@ extern gboolean enable_snooze;
 extern guint snooze_secs;
 extern const guint MAX_SNOOZE_SECS;
 
+
+
+/* This tells all the calendars to reload the config settings. */
+void update_all_config_settings (void);
+
+/*
+ * FIXME: These are for the old config code and will be removed eventually.
+ */
+
 /* Creates and runs the preferences dialog box */
 void properties (GtkWidget *toplevel);
 
@@ -79,6 +88,9 @@ void colors_changed (void);
 
 /* Asks for all todo lists to reflect the accurate properties */
 void todo_properties_changed(void);
+
+
+
 
 /* Creates and runs the Go-to date dialog */
 void goto_dialog (GnomeCalendar *gcal);

@@ -29,8 +29,9 @@
 
 #include <config.h>
 #include <gnome.h>
+#include <gal/widgets/e-gui-utils.h>
 #include "e-day-view-time-item.h"
-#include "../../e-util/e-gui-utils.h"
+#include "calendar-config.h"
 
 
 /* The spacing between items in the time column. GRID_X_PAD is the space down
@@ -261,6 +262,12 @@ e_day_view_time_item_draw (GnomeCanvasItem *canvas_item,
 	}
 
 	hour = day_view->first_hour_shown;
+	if (day_view->use_24_hour_format) {
+		if (hour == 0 || hour == 12)
+			hour = 12;
+		else
+			hour %= 12;
+	}
 	hour_y = large_font->ascent + 2; /* FIXME */
 	minute = day_view->first_minute_shown;
 	min_y = small_font->ascent + 2; /* FIXME */
@@ -316,6 +323,12 @@ e_day_view_time_item_draw (GnomeCanvasItem *canvas_item,
 		minute += day_view->mins_per_row;
 		if (minute >= 60) {
 			hour++;
+			if (day_view->use_24_hour_format) {
+				if (hour == 0 || hour == 12)
+					hour = 12;
+				else
+					hour %= 12;
+			}
 			minute -= 60;
 		}
 	}
@@ -428,6 +441,7 @@ e_day_view_time_item_on_set_divisions (GtkWidget *item,
 	divisions = GPOINTER_TO_INT (gtk_object_get_data (GTK_OBJECT (item),
 							  "divisions"));
 	e_day_view_set_mins_per_row (day_view, divisions);
+	calendar_config_set_time_divisions (divisions);
 }
 
 

@@ -1,3 +1,39 @@
+2000-10-11  Damon Chaplin  <damon@helixcode.com>
+
+	* gui/main.c (main): call calendar_config_write_on_exit() to write
+	out some special config settings (as the mail component does).
+
+	* gui/calendar-commands.c (properties_cmd): changed to use the new
+	preferences dialog.
+	(update_all_config_settings): new function to iterate over all the
+	calendars and update the config settings.
+
+	* gui/dialogs/cal-prefs-dialog.glade: preferences dialog.
+
+	* gui/dialogs/cal-prefs-dialog.[hc]: new files for the preferences
+	dialog.
+
+	* gui/calendar-config.[hc]: new files to handle loading/saving config
+	settings.
+
+	* cal-util/cal-recur.c: fixed bug in YEARLY when no filters were set,
+	plus minor changes.
+
+	* cal-util/test-recur.c: updated.
+
+	* gui/e-day-view-time-item.c: 
+	* gui/popup-menu.c: update to #include <gal/widgets/e-gui-utils.h>
+
+	* gui/component-factory.c (owner_set_cb): called calendar_config_init.
+	(owner_set_cb): 
+	(owner_unset_cb): updated the prototypes.
+
+	* gui/main.c (main): added call to calendar_config_write_on_exit().
+
+	* gui/component-factory.h: 
+	* gui/component-factory.c (owner_set_cb): added global evolution_dir
+	just like the mail component, so we know we to store config stuff.
+
 2000-10-11  Christopher James Lahey  <clahey@helixcode.com>
 
 	* gui/e-calendar-table.c: Fixed the column elements here.

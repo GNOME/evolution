@@ -1082,6 +1082,12 @@ generate_instances_for_chunk (CalComponent	*comp,
 		start_tm.tm_isdst = -1;
 		start_time = mktime (&start_tm);
 
+		if (start_time == -1) {
+			g_warning ("mktime failed - time_t out of range?");
+			finished = TRUE;
+			break;
+		}
+
 		if (start_time < comp_dtstart
 		    || (interval_end_time != -1
 			&& start_time >= interval_end_time))
@@ -1106,6 +1112,12 @@ generate_instances_for_chunk (CalComponent	*comp,
 		end_tm.tm_sec   = occ->second;
 		end_tm.tm_isdst = -1;
 		end_time = mktime (&end_tm);
+
+		if (end_time == -1) {
+			g_warning ("mktime failed - time_t out of range?");
+			finished = TRUE;
+			break;
+		}
 
 		if (end_time < interval_start_time)
 			continue;
@@ -1426,12 +1438,18 @@ cal_obj_generate_set_yearly	(RecurData *recur_data,
 		occs_arrays[num_occs_arrays++] = occs;
 	}
 
-	/* Add all the arrays together. */
-	occs = occs_arrays[0];
-	for (i = 1; i < num_occs_arrays; i++) {
-		occs2 = occs_arrays[i];
-		g_array_append_vals (occs, occs2->data, occs2->len);
-		g_array_free (occs2, TRUE);
+	/* Add all the arrays together. If no filters were used we just
+	   create an array with one element. */
+	if (num_occs_arrays > 0) {
+		occs = occs_arrays[0];
+		for (i = 1; i < num_occs_arrays; i++) {
+			occs2 = occs_arrays[i];
+			g_array_append_vals (occs, occs2->data, occs2->len);
+			g_array_free (occs2, TRUE);
+		}
+	} else {
+		occs = g_array_new (FALSE, FALSE, sizeof (CalObjTime));
+		g_array_append_vals (occs, occ, 1);
 	}
 
 	/* Now expand BYHOUR, BYMINUTE & BYSECOND. */
@@ -1720,6 +1738,7 @@ cal_obj_remove_exceptions (GArray *occs,
 	for (i = 0; i < occs_len; i++) {
 		occ = &g_array_index (occs, CalObjTime, i);
 		keep_occ = TRUE;
+
 		/* If the occurrence is a duplicate of the previous one, skip
 		   it. */
 		if (prev_occ
@@ -1747,7 +1766,9 @@ cal_obj_remove_exceptions (GArray *occs,
 				   to one that matches or follows this
 				   occurrence. */
 				while (ex_occ) {
-					cmp = cal_obj_date_only_compare_func (ex_occ, occ);
+					cmp = cal_obj_time_compare_func (ex_occ, occ);
+					/* I'm pretty sure this is wrong. */
+					/*cmp = cal_obj_date_only_compare_func (ex_occ, occ);*/
 					if (cmp > 0)
 						break;
 
@@ -3257,41 +3278,50 @@ cal_obj_time_compare_func (const void *arg1,
 			   const void *arg2)
 {
 	CalObjTime *cotime1, *cotime2;
+	gint retval;
 
 	cotime1 = (CalObjTime*) arg1;
 	cotime2 = (CalObjTime*) arg2;
 
 	if (cotime1->year < cotime2->year)
-		return -1;
-	if (cotime1->year > cotime2->year)
-		return 1;
+		retval = -1;
+	else if (cotime1->year > cotime2->year)
+		retval = 1;
 
-	if (cotime1->month < cotime2->month)
-		return -1;
-	if (cotime1->month > cotime2->month)
-		return 1;
+	else if (cotime1->month < cotime2->month)
+		retval = -1;
+	else if (cotime1->month > cotime2->month)
+		retval = 1;
 
-	if (cotime1->day < cotime2->day)
-		return -1;
-	if (cotime1->day > cotime2->day)
-		return 1;
+	else if (cotime1->day < cotime2->day)
+		retval = -1;
+	else if (cotime1->day > cotime2->day)
+		retval = 1;
 
-	if (cotime1->hour < cotime2->hour)
-		return -1;
-	if (cotime1->hour > cotime2->hour)
-		return 1;
+	else if (cotime1->hour < cotime2->hour)
+		retval = -1;
+	else if (cotime1->hour > cotime2->hour)
+		retval = 1;
 
-	if (cotime1->minute < cotime2->minute)
-		return -1;
-	if (cotime1->minute > cotime2->minute)
-		return 1;
+	else if (cotime1->minute < cotime2->minute)
+		retval = -1;
+	else if (cotime1->minute > cotime2->minute)
+		retval = 1;
 
-	if (cotime1->second < cotime2->second)
-		return -1;
-	if (cotime1->second > cotime2->second)
-		return 1;
+	else if (cotime1->second < cotime2->second)
+		retval = -1;
+	else if (cotime1->second > cotime2->second)
+		retval = 1;
 
-	return 0;
+	else
+		retval = 0;
+
+#if 0
+	g_print ("%s - ", cal_obj_time_to_string (cotime1));
+	g_print ("%s : %i\n", cal_obj_time_to_string (cotime2), retval);
+#endif
+
+	return retval;
 }
 
 static gint

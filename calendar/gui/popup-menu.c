@@ -8,7 +8,7 @@
 #include <config.h>
 #include <gnome.h>
 #include "popup-menu.h"
-#include "../../e-util/e-gui-utils.h"
+#include <gal/widgets/e-gui-utils.h>
 
 
 void

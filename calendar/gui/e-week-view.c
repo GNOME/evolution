@@ -564,16 +564,100 @@ static void
 e_week_view_size_allocate (GtkWidget *widget, GtkAllocation *allocation)
 {
 	EWeekView *week_view;
-	gint width, height, time_width;
 	gdouble old_x2, old_y2, new_x2, new_y2;
-	GdkFont *font;
 
 	week_view = E_WEEK_VIEW (widget);
-	font = widget->style->font;
 
 	(*GTK_WIDGET_CLASS (parent_class)->size_allocate) (widget, allocation);
 
 	e_week_view_recalc_cell_sizes (week_view);
+
+	/* Set the scroll region of the top canvas to its allocated size. */
+	gnome_canvas_get_scroll_region (GNOME_CANVAS (week_view->titles_canvas),
+					NULL, NULL, &old_x2, &old_y2);
+	new_x2 = week_view->titles_canvas->allocation.width - 1;
+	new_y2 = week_view->titles_canvas->allocation.height - 1;
+	if (old_x2 != new_x2 || old_y2 != new_y2)
+		gnome_canvas_set_scroll_region (GNOME_CANVAS (week_view->titles_canvas),
+						0, 0, new_x2, new_y2);
+
+
+	/* Set the scroll region of the main canvas to its allocated width,
+	   but with the height depending on the number of rows needed. */
+	gnome_canvas_get_scroll_region (GNOME_CANVAS (week_view->main_canvas),
+					NULL, NULL, &old_x2, &old_y2);
+	new_x2 = week_view->main_canvas->allocation.width - 1;
+	new_y2 = week_view->main_canvas->allocation.height - 1;
+	if (old_x2 != new_x2 || old_y2 != new_y2)
+		gnome_canvas_set_scroll_region (GNOME_CANVAS (week_view->main_canvas),
+						0, 0, new_x2, new_y2);
+
+	/* Flag that we need to reshape the events. */
+	if (old_x2 != new_x2 || old_y2 != new_y2) {
+		week_view->events_need_reshape = TRUE;
+		e_week_view_check_layout (week_view);
+	}
+}
+
+
+static void
+e_week_view_recalc_cell_sizes (EWeekView *week_view)
+{
+	gfloat canvas_width, canvas_height, offset;
+	gint row, col;
+	GtkWidget *widget;
+	GdkFont *font;
+	gint width, height, time_width;
+
+	if (week_view->multi_week_view) {
+		week_view->rows = week_view->weeks_shown * 2;
+		week_view->columns = week_view->compress_weekend ? 6 : 7;
+	} else {
+		week_view->rows = 6;
+		week_view->columns = 2;
+	}
+
+	/* Calculate the column sizes, using floating point so that pixels
+	   get divided evenly. Note that we use one more element than the
+	   number of columns, to make it easy to get the column widths.
+	   We also add one to the width so that the right border of the last
+	   column is off the edge of the displayed area. */
+	canvas_width = week_view->main_canvas->allocation.width + 1;
+	canvas_width /= week_view->columns;
+	offset = 0;
+	for (col = 0; col <= week_view->columns; col++) {
+		week_view->col_offsets[col] = floor (offset + 0.5);
+		offset += canvas_width;
+	}
+
+	/* Calculate the cell widths based on the offsets. */
+	for (col = 0; col < week_view->columns; col++) {
+		week_view->col_widths[col] = week_view->col_offsets[col + 1]
+			- week_view->col_offsets[col];
+	}
+
+	/* Now do the same for the row heights. */
+	canvas_height = week_view->main_canvas->allocation.height + 1;
+	canvas_height /= week_view->rows;
+	offset = 0;
+	for (row = 0; row <= week_view->rows; row++) {
+		week_view->row_offsets[row] = floor (offset + 0.5);
+		offset += canvas_height;
+	}
+
+	/* Calculate the cell heights based on the offsets. */
+	for (row = 0; row < week_view->rows; row++) {
+		week_view->row_heights[row] = week_view->row_offsets[row + 1]
+			- week_view->row_offsets[row];
+	}
+
+
+	/* If the font hasn't been set yet just return. */
+	widget = GTK_WIDGET (week_view);
+	if (!widget->style || ! widget->style->font)
+		return;
+
+	font = widget->style->font;
 
 	/* Calculate the number of rows of events in each cell, for the large
 	   cells and the compressed weekend cells. */
@@ -619,82 +703,6 @@ e_week_view_size_allocate (GtkWidget *widget, GtkAllocation *allocation)
 			week_view->time_format = E_WEEK_VIEW_TIME_BOTH;
 		else if (width / 2 > time_width)
 			week_view->time_format = E_WEEK_VIEW_TIME_START;
-	}
-
-	/* Set the scroll region of the top canvas to its allocated size. */
-	gnome_canvas_get_scroll_region (GNOME_CANVAS (week_view->titles_canvas),
-					NULL, NULL, &old_x2, &old_y2);
-	new_x2 = week_view->titles_canvas->allocation.width - 1;
-	new_y2 = week_view->titles_canvas->allocation.height - 1;
-	if (old_x2 != new_x2 || old_y2 != new_y2)
-		gnome_canvas_set_scroll_region (GNOME_CANVAS (week_view->titles_canvas),
-						0, 0, new_x2, new_y2);
-
-
-	/* Set the scroll region of the main canvas to its allocated width,
-	   but with the height depending on the number of rows needed. */
-	gnome_canvas_get_scroll_region (GNOME_CANVAS (week_view->main_canvas),
-					NULL, NULL, &old_x2, &old_y2);
-	new_x2 = week_view->main_canvas->allocation.width - 1;
-	new_y2 = week_view->main_canvas->allocation.height - 1;
-	if (old_x2 != new_x2 || old_y2 != new_y2)
-		gnome_canvas_set_scroll_region (GNOME_CANVAS (week_view->main_canvas),
-						0, 0, new_x2, new_y2);
-
-	/* Flag that we need to reshape the events. */
-	if (old_x2 != new_x2 || old_y2 != new_y2) {
-		week_view->events_need_reshape = TRUE;
-		e_week_view_check_layout (week_view);
-	}
-}
-
-
-static void
-e_week_view_recalc_cell_sizes (EWeekView *week_view)
-{
-	gfloat width, height, offset;
-	gint row, col;
-
-	if (week_view->multi_week_view) {
-		week_view->rows = week_view->weeks_shown * 2;
-		week_view->columns = week_view->compress_weekend ? 6 : 7;
-	} else {
-		week_view->rows = 6;
-		week_view->columns = 2;
-	}
-
-	/* Calculate the column sizes, using floating point so that pixels
-	   get divided evenly. Note that we use one more element than the
-	   number of columns, to make it easy to get the column widths.
-	   We also add one to the width so that the right border of the last
-	   column is off the edge of the displayed area. */
-	width = week_view->main_canvas->allocation.width + 1;
-	width /= week_view->columns;
-	offset = 0;
-	for (col = 0; col <= week_view->columns; col++) {
-		week_view->col_offsets[col] = floor (offset + 0.5);
-		offset += width;
-	}
-
-	/* Calculate the cell widths based on the offsets. */
-	for (col = 0; col < week_view->columns; col++) {
-		week_view->col_widths[col] = week_view->col_offsets[col + 1]
-			- week_view->col_offsets[col];
-	}
-
-	/* Now do the same for the row heights. */
-	height = week_view->main_canvas->allocation.height + 1;
-	height /= week_view->rows;
-	offset = 0;
-	for (row = 0; row <= week_view->rows; row++) {
-		week_view->row_offsets[row] = floor (offset + 0.5);
-		offset += height;
-	}
-
-	/* Calculate the cell heights based on the offsets. */
-	for (row = 0; row < week_view->rows; row++) {
-		week_view->row_heights[row] = week_view->row_offsets[row + 1]
-			- week_view->row_offsets[row];
 	}
 }
 
@@ -1175,10 +1183,6 @@ e_week_view_recalc_day_starts (EWeekView *week_view,
 	tmp_time = lower;
 	week_view->day_starts[0] = tmp_time;
 	for (day = 1; day <= num_days; day++) {
-		/* FIXME: There is a bug in time_add_day(). */
-#if 0
-		g_print ("Day:%i - %s\n", day, ctime (&tmp_time));
-#endif
 		tmp_time = time_add_day (tmp_time, 1);
 		week_view->day_starts[day] = tmp_time;
 	}
@@ -1297,7 +1301,9 @@ e_week_view_set_compress_weekend	(EWeekView	*week_view,
 	if (!week_view->multi_week_view)
 		return;
 
-	/* FIXME: Need to update layout. */
+	e_week_view_recalc_cell_sizes (week_view);
+	week_view->events_need_reshape = TRUE;
+	e_week_view_check_layout (week_view);
 }
 
 
@@ -1567,7 +1573,7 @@ e_week_view_on_button_press (GtkWidget *widget,
 {
 	gint x, y, day;
 
-#if 1
+#if 0
 	g_print ("In e_week_view_on_button_press\n");
 #endif
 
@@ -1588,8 +1594,6 @@ e_week_view_on_button_press (GtkWidget *widget,
 	/* If an event is pressed just return. */
 	if (week_view->pressed_event_num != -1)
 		return FALSE;
-
-	g_print ("In e_week_view_on_button_press 2\n");
 
 	/* Convert the mouse position to a week & day. */
 	x = event->x;
