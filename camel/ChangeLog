@@ -1,3 +1,14 @@
+2000-07-07  Dan Winship  <danw@helixcode.com>
+
+	* camel-folder.c (camel_folder_search_by_expression): Make this
+	return a GPtrArray rather than a GList.
+
+	* camel-folder-search.c (camel_folder_search_execute_expression):
+	* providers/imap/camel-imap-folder.c (imap_search_by_expression):
+	* providers/mbox/camel-mbox-folder.c (mbox_search_by_expression):
+	* providers/nntp/camel-nntp-folder.c (nntp_search_by_expression):
+	Update to return a GPtrArray rather than a GList.
+
 2000-07-07  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* providers/smtp/camel-smtp-transport.c (esmtp_get_authtypes): 

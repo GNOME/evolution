@@ -76,7 +76,7 @@ static void mbox_delete_message (CamelFolder *folder, const gchar *uid, CamelExc
 
 static const CamelMessageInfo *mbox_get_message_info (CamelFolder *folder, const char *uid);
 
-static GList *mbox_search_by_expression(CamelFolder *folder, const char *expression, CamelException *ex);
+static GPtrArray *mbox_search_by_expression(CamelFolder *folder, const char *expression, CamelException *ex);
 
 static guint32 mbox_get_message_flags (CamelFolder *folder, const char *uid, CamelException *ex);
 static void mbox_set_message_flags (CamelFolder *folder, const char *uid, guint32 flags, guint32 set, CamelException *ex);
@@ -496,7 +496,7 @@ mbox_get_message_info (CamelFolder *folder, const char *uid)
 	return camel_folder_summary_uid (CAMEL_FOLDER_SUMMARY (mbox_folder->summary), uid);
 }
 
-static GList *
+static GPtrArray *
 mbox_search_by_expression (CamelFolder *folder, const char *expression, CamelException *ex)
 {
 	CamelMboxFolder *mbox_folder = CAMEL_MBOX_FOLDER (folder);

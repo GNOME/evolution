@@ -78,7 +78,7 @@ static void imap_expunge (CamelFolder *folder, CamelException *ex);
 
 static const CamelMessageInfo *imap_get_message_info (CamelFolder *folder, const char *uid);
 
-static GList *imap_search_by_expression (CamelFolder *folder, const char *expression, CamelException *ex);
+static GPtrArray *imap_search_by_expression (CamelFolder *folder, const char *expression, CamelException *ex);
 
 static void imap_finalize (GtkObject *object);
 
@@ -1341,7 +1341,7 @@ imap_get_message_info (CamelFolder *folder, const char *uid)
 	return info;
 }
 
-static GList *
+static GPtrArray *
 imap_search_by_expression (CamelFolder *folder, const char *expression, CamelException *ex)
 {
 	return NULL;

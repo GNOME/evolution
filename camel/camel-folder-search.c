@@ -237,25 +237,24 @@ camel_folder_search_set_body_index(CamelFolderSearch *search, ibex *index)
  * @expr: 
  * @ex: 
  * 
- * Execute the search expression @expr, returning a list of
- * all matches as a GList of uid's of matching messages.
+ * Execute the search expression @expr, returning an array of
+ * all matches as a GPtrArray of uid's of matching messages.
  *
  * Note that any settings such as set_body_index(), set_folder(),
  * and so on are reset to #NULL once the search has completed.
  *
- * TODO: The interface should probably return a GPtrArray
- * of summary items instead (since they are much more useful
- * to any client).
+ * TODO: The interface should probably return summary items instead
+ * (since they are much more useful to any client).
  * 
- * Return value: A GList of strings of all matching messages.  Once
+ * Return value: A GPtrArray of strings of all matching messages.  Once
  * finished with this, the array AND CONTENTS should be free'd
  * by the caller.
  **/
-GList *
+GPtrArray *
 camel_folder_search_execute_expression(CamelFolderSearch *search, const char *expr, CamelException *ex)
 {
 	ESExpResult *r;
-	GList *matches = NULL;
+	GPtrArray *matches = g_ptr_array_new ();
 	int i;
 
 	/* only re-parse if the search has changed */
@@ -274,7 +273,7 @@ camel_folder_search_execute_expression(CamelFolderSearch *search, const char *ex
 		d(printf("got result ...\n"));
 		for (i=0;i<r->value.ptrarray->len;i++) {
 			d(printf("adding match: %s\n", (char *)g_ptr_array_index(r->value.ptrarray, i)));
-			matches = g_list_prepend(matches, g_strdup(g_ptr_array_index(r->value.ptrarray, i)));
+			g_ptr_array_add(matches, g_strdup(g_ptr_array_index(r->value.ptrarray, i)));
 		}
 		e_sexp_result_free(r);
 	} else {

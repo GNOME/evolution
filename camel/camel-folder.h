@@ -159,9 +159,9 @@ typedef struct {
 
 	gboolean (*has_search_capability) (CamelFolder *folder);
 
-	GList * (*search_by_expression) (CamelFolder *folder,
-					 const char *expression,
-					 CamelException *ex);
+	GPtrArray * (*search_by_expression) (CamelFolder *folder,
+					     const char *expression,
+					     CamelException *ex);
 
 	const CamelMessageInfo * (*get_message_info) (CamelFolder *,
 						      const char *uid);
@@ -202,8 +202,6 @@ void               camel_folder_sync                   (CamelFolder *folder,
 CamelFolder *      camel_folder_get_parent_folder      (CamelFolder *folder, 
 							CamelException *ex);
 CamelStore *       camel_folder_get_parent_store       (CamelFolder *folder, 
-							CamelException *ex);
-GList *            camel_folder_list_subfolders        (CamelFolder *folder, 
 							CamelException *ex);
 
 
@@ -285,9 +283,11 @@ void               camel_folder_free_uids             (CamelFolder *folder,
 
 /* search api */
 gboolean           camel_folder_has_search_capability (CamelFolder *folder);
-GList *		   camel_folder_search_by_expression  (CamelFolder *folder, const char *expression, CamelException *ex);
+GPtrArray *	   camel_folder_search_by_expression  (CamelFolder *folder,
+						       const char *expression,
+						       CamelException *ex);
 
-/* summary info. FIXME: rename this slightly? */
+/* summary info */
 const CamelMessageInfo *camel_folder_get_message_info (CamelFolder *summary,
 						       const char *uid);
 

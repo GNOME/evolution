@@ -359,7 +359,7 @@ nntp_folder_free_subfolder_names (CamelFolder *folder, GPtrArray *subfolders)
 	}
 }
 
-static GList*
+static GPtrArray*
 nntp_folder_search_by_expression (CamelFolder *folder, const char *expression, CamelException *ex)
 {
 	g_assert (0);

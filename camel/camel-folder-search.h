@@ -80,6 +80,6 @@ void camel_folder_search_construct (CamelFolderSearch *search);
 void camel_folder_search_set_folder(CamelFolderSearch *search, CamelFolder *folder);
 void camel_folder_search_set_summary(CamelFolderSearch *search, GPtrArray *summary);
 void camel_folder_search_set_body_index(CamelFolderSearch *search, ibex *index);
-GList *camel_folder_search_execute_expression(CamelFolderSearch *search, const char *expr, CamelException *ex);
+GPtrArray *camel_folder_search_execute_expression(CamelFolderSearch *search, const char *expr, CamelException *ex);
 
 #endif /* ! _CAMEL_FOLDER_SEARCH_H */

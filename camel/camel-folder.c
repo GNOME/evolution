@@ -119,8 +119,9 @@ static void delete_message                   (CamelFolder *folder,
 static const CamelMessageInfo *get_message_info (CamelFolder *folder,
 						 const char *uid);
 
-static GList *search_by_expression (CamelFolder *folder, const char *exp,
-				    CamelException *ex);
+static GPtrArray      *search_by_expression  (CamelFolder *folder,
+					      const char *exp,
+					      CamelException *ex);
 
 static void            copy_message_to       (CamelFolder *source,
 					      const char *uid,
@@ -1018,7 +1019,7 @@ camel_folder_has_search_capability (CamelFolder *folder)
 	return folder->has_search_capability;
 }
 
-static GList *
+static GPtrArray *
 search_by_expression (CamelFolder *folder, const char *expression,
 		      CamelException *ex)
 {
@@ -1038,7 +1039,7 @@ search_by_expression (CamelFolder *folder, const char *expression,
  * Return value: a list of uids of matching messages. The caller must
  * free the list and each of the elements when it is done.
  **/
-GList *
+GPtrArray *
 camel_folder_search_by_expression (CamelFolder *folder, const char *expression,
 				   CamelException *ex)
 {
