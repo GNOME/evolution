@@ -36,6 +36,9 @@ gboolean imap_parse_list_response (char *buf, char *namespace, char **flags, cha
 
 char *imap_translate_sexp (const char *expression);
 
+char *imap_create_flag_list (guint32 flags);
+guint32 imap_parse_flag_list (const char *flag_list);
+
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */

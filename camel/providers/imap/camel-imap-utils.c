@@ -28,6 +28,7 @@
 #include "camel-imap-utils.h"
 #include "string-utils.h"
 #include <e-sexp.h>
+#include "camel/camel-folder-summary.h"
 
 #define d(x) x
 
@@ -495,4 +496,63 @@ imap_translate_sexp (const char *expression)
 	g_list_free (list);
 	
 	return retval;
+}
+
+char *
+imap_create_flag_list (guint32 flags)
+{
+	GString *gstr;
+	char *flag_list;
+
+	gstr = g_string_new ("(");
+
+	if (flags & CAMEL_MESSAGE_ANSWERED)
+		g_string_append (gstr, "\\Answered ");
+	if (flags & CAMEL_MESSAGE_DELETED)
+		g_string_append (gstr, "\\Deleted ");
+	if (flags & CAMEL_MESSAGE_DRAFT)
+		g_string_append (gstr, "\\Draft ");
+	if (flags & CAMEL_MESSAGE_FLAGGED)
+		g_string_append (gstr, "\\Flagged ");
+	if (flags & CAMEL_MESSAGE_SEEN)
+		g_string_append (gstr, "\\Seen ");
+
+	if (gstr->str[gstr->len - 1] == ' ')
+		gstr->str[gstr->len - 1] = ')';
+	else
+		g_string_append_c (gstr, ')');
+
+	flag_list = gstr->str;
+	g_string_free (gstr, FALSE);
+	return flag_list;
+}
+
+guint32
+imap_parse_flag_list (const char *flag_list)
+{
+	guint32 flags = 0;
+	int len;
+
+	if (*flag_list++ != '(')
+		return 0;
+
+	while (*flag_list != ')') {
+		len = strcspn (flag_list, " )");
+		if (!g_strncasecmp (flag_list, "\\Answered", len))
+			flags |= CAMEL_MESSAGE_ANSWERED;
+		else if (!g_strncasecmp (flag_list, "\\Deleted", len))
+			flags |= CAMEL_MESSAGE_DELETED;
+		else if (!g_strncasecmp (flag_list, "\\Draft", len))
+			flags |= CAMEL_MESSAGE_DRAFT;
+		else if (!g_strncasecmp (flag_list, "\\Flagged", len))
+			flags |= CAMEL_MESSAGE_FLAGGED;
+		else if (!g_strncasecmp (flag_list, "\\Seen", len))
+			flags |= CAMEL_MESSAGE_SEEN;
+
+		flag_list += len;
+		if (*flag_list == ' ')
+			flag_list++;
+	}
+
+	return flags;
 }

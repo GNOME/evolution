@@ -1,5 +1,30 @@
 2000-09-21  Dan Winship  <danw@helixcode.com>
 
+	* providers/imap/camel-imap-utils.c (imap_create_flag_list): New
+	function to convert Camel flags to an IMAP flag_list.
+	(imap_parse_flag_list): Contrariwise.
+
+	* providers/imap/camel-imap-store.c (camel_imap_command_*): Make
+	the @ret arg actually optional, as (mostly) documented.
+	(various): Don't pass "&result" to camel_imap_command_* if we're
+	just going to immediately free it. Don't record status if we're
+	not going to look at it.
+
+	* providers/imap/camel-imap-folder.c: Likewise.
+	(imap_summary_free): Use camel_folder_info_free.
+	(imap_sync): Use imap_create_flag_list. Clear
+	CAMEL_MESSAGE_FOLDER_FLAGGED after syncing so we don't keep
+	re-syncing.
+	(imap_append_message): Use imap_create_flag_list. Don't leak the
+	memstream if the append fails.
+	(imap_move_message_to): Use camel_folder_delete_message rather
+	than doing it by hand.
+	(imap_get_summary_internal, imap_get_message_info_internal): Use
+	imap_parse_flag_list and header_raw_clear.
+	(camel_imap_folder_changed): Use camel_message_info_free.
+
+2000-09-21  Dan Winship  <danw@helixcode.com>
+
 	* providers/imap/camel-imap-store.c (get_folder_name): INBOX is
 	case-insensitive.
 	(get_root_folder_name): Make the root folder "" rather than "/".
@@ -13,7 +38,7 @@
 	(get_folder): Update for camel_imap_store_folder_path and other
 	changes.
 	(check_current_folder): Likewise.
-	
+
 	* providers/imap/camel-imap-folder.c: Change a bunch of CamelStore
 	variables to CamelImapStore (and add a few more) to prevent excess
 	gratuitous casting. Use camel_imap_store_folder_path where
