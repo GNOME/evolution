@@ -27,9 +27,10 @@ EXTRA_DIST =				\
 
 check_PROGRAMS =  		\
 	test-crlf		\
-	test-charset
+	test-charset		\
+	test-tohtml
 
-TESTS = test-crlf test-charset
+TESTS = test-crlf test-charset test-tohtml
 
 
 

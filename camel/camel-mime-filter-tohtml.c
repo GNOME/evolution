@@ -220,6 +220,14 @@ html_convert (CamelMimeFilter *filter, char *in, size_t inlen, size_t prespace,
 	char *start, *outend;
 	const char *inend;
 	int depth;
+
+	if (inlen == 0) {
+		*out = in;
+		*outlen = 0;
+		*outprespace = 0;
+
+		return;
+	}
 	
 	camel_mime_filter_set_size (filter, inlen * 2 + 6, FALSE);
 	
@@ -232,25 +240,24 @@ html_convert (CamelMimeFilter *filter, char *in, size_t inlen, size_t prespace,
 		outptr = g_stpcpy (outptr, "<pre>");
 		html->pre_open = TRUE;
 	}
-	
+
 	start = inptr;
-	while (inptr < inend && *inptr != '\n')
-		inptr++;
-	
-	while (inptr < inend) {
+	do {
+		while (inptr < inend && *inptr != '\n')
+			inptr++;
+
+		if (*inptr != '\n' && !flush)
+			break;
+
 		html->column = 0;
 		depth = 0;
 		
 		if (html->flags & CAMEL_MIME_FILTER_TOHTML_MARK_CITATION) {
 			if ((depth = citation_depth (start)) > 0) {
-				char font[25];
-				
 				/* FIXME: we could easily support multiple colour depths here */
 				
-				g_snprintf (font, 25, "<font color=\"#%06x\">", html->colour);
-				
 				outptr = check_size (filter, outptr, &outend, 25);
-				outptr = g_stpcpy (outptr, font);
+				outptr += sprintf(outptr, "<font color=\"#%06x\">", (html->colour & 0xffffff));
 			} else if (*start == '>') {
 				/* >From line */
 				start++;
@@ -319,11 +326,8 @@ html_convert (CamelMimeFilter *filter, char *in, size_t inlen, size_t prespace,
 		}
 		
 		*outptr++ = '\n';
-		
 		start = ++inptr;
-		while (inptr < inend && *inptr != '\n')
-			inptr++;
-	}
+	} while (inptr < inend);
 	
 	if (flush) {
 		/* flush the rest of our input buffer */

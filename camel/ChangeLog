@@ -1,3 +1,14 @@
+2003-04-10  Not Zed  <NotZed@Ximian.com>
+
+	* tests/mime-filter/data: filter data test cases.
+
+	* tests/mime-filter/test-tohtml.c: New test for html filter.
+
+	** See bug #40969
+
+	* camel-mime-filter-tohtml.c (html_convert): Change the logic
+	slightly, scan a whole line within the main loop.
+
 2003-04-09  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-gpg-context.c (gpg_ctx_get_utf8_diagnostics): Removed. I

@@ -2433,7 +2433,7 @@ get_one_folder_offline (const char *physical_path, const char *path, gpointer da
 	si = camel_store_summary_path((CamelStoreSummary *)imap_store->summary, path+1);
 	if (si) {
 		if ((((CamelStore *)imap_store)->flags & CAMEL_STORE_SUBSCRIPTIONS) == 0
-		    || si->flags & CAMEL_STORE_INFO_FOLDER_SUBSCRIBED) {
+		    || (si->flags & CAMEL_STORE_INFO_FOLDER_SUBSCRIBED)) {
 			fi = imap_build_folder_info(imap_store, path+1);
 			fi->flags = si->flags;
 			if (si->flags & CAMEL_FOLDER_NOSELECT) {
