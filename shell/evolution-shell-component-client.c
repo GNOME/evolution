@@ -90,6 +90,85 @@ corba_exception_to_result (const CORBA_Environment *ev)
 	}
 }
 
+static EvolutionShellComponentResult
+shell_component_result_from_corba_exception (const CORBA_Environment *ev)
+{
+	if (ev->_major == CORBA_NO_EXCEPTION)
+		return EVOLUTION_SHELL_COMPONENT_OK;
+	if (ev->_major == CORBA_SYSTEM_EXCEPTION)
+		return EVOLUTION_SHELL_COMPONENT_CORBAERROR;
+	return EVOLUTION_SHELL_COMPONENT_CORBAERROR; /* FIXME? */
+}
+
+
+/* CORBA listener interface implementation.  */
+
+static PortableServer_ServantBase__epv            ShellComponentListener_base_epv;
+static POA_GNOME_Evolution_ShellComponentListener__epv  ShellComponentListener_epv;
+static POA_GNOME_Evolution_ShellComponentListener__vepv ShellComponentListener_vepv;
+static gboolean ShellComponentListener_vepv_initialized = FALSE;
+
+static void ShellComponentListener_vepv_initialize (void);
+
+struct _ShellComponentListenerServant {
+	POA_GNOME_Evolution_ShellComponentListener servant;
+	EvolutionShellComponentClient *component_client;
+};
+typedef struct _ShellComponentListenerServant ShellComponentListenerServant;
+
+static PortableServer_Servant *
+create_ShellComponentListener_servant (EvolutionShellComponentClient *component_client)
+{
+	ShellComponentListenerServant *servant;
+
+	if (! ShellComponentListener_vepv_initialized)
+		ShellComponentListener_vepv_initialize ();
+
+	servant = g_new0 (ShellComponentListenerServant, 1);
+	servant->servant.vepv     = &ShellComponentListener_vepv;
+	servant->component_client = component_client;
+
+	return (PortableServer_Servant) servant;
+}
+
+static void
+free_ShellComponentListener_servant (PortableServer_Servant servant)
+{
+	g_free (servant);
+}
+
+static EvolutionShellComponentClient *
+component_client_from_ShellComponentListener_servant (PortableServer_Servant servant)
+{
+	ShellComponentListenerServant *listener_servant;
+
+	listener_servant = (ShellComponentListenerServant *) servant;
+	return listener_servant->component_client;
+}
+
+static EvolutionShellComponentResult
+result_from_async_corba_result (GNOME_Evolution_ShellComponentListener_Result async_corba_result)
+{
+	switch (async_corba_result) {
+	case GNOME_Evolution_ShellComponentListener_OK:
+		return EVOLUTION_SHELL_COMPONENT_OK;
+	case GNOME_Evolution_ShellComponentListener_UNSUPPORTED_OPERATION:
+		return EVOLUTION_SHELL_COMPONENT_UNSUPPORTEDOPERATION;
+	case GNOME_Evolution_ShellComponentListener_EXISTS:
+		return EVOLUTION_SHELL_COMPONENT_EXISTS;
+	case GNOME_Evolution_ShellComponentListener_INVALID_URI:
+		return EVOLUTION_SHELL_COMPONENT_INVALIDURI;
+	case GNOME_Evolution_ShellComponentListener_PERMISSION_DENIED:
+		return EVOLUTION_SHELL_COMPONENT_PERMISSIONDENIED;
+	case GNOME_Evolution_ShellComponentListener_HAS_SUBFOLDERS:
+		return EVOLUTION_SHELL_COMPONENT_HASSUBFOLDERS;
+	case GNOME_Evolution_ShellComponentListener_NO_SPACE:
+		return EVOLUTION_SHELL_COMPONENT_NOSPACE;
+	default:
+		return EVOLUTION_SHELL_COMPONENT_UNKNOWNERROR;
+	}
+}
+
 static void
 dispatch_callback (EvolutionShellComponentClient *shell_component_client,
 		   EvolutionShellComponentResult result)
@@ -132,62 +211,6 @@ dispatch_callback (EvolutionShellComponentClient *shell_component_client,
 	(* callback) (shell_component_client, result, callback_data);
 }
 
-static EvolutionShellComponentResult
-shell_component_result_from_corba_exception (const CORBA_Environment *ev)
-{
-	if (ev->_major == CORBA_NO_EXCEPTION)
-		return EVOLUTION_SHELL_COMPONENT_OK;
-	if (ev->_major == CORBA_SYSTEM_EXCEPTION)
-		return EVOLUTION_SHELL_COMPONENT_CORBAERROR;
-	return EVOLUTION_SHELL_COMPONENT_CORBAERROR; /* FIXME? */
-}
-
-
-/* CORBA listener interface implementation.  */
-
-static PortableServer_ServantBase__epv            ShellComponentListener_base_epv;
-static POA_GNOME_Evolution_ShellComponentListener__epv  ShellComponentListener_epv;
-static POA_GNOME_Evolution_ShellComponentListener__vepv ShellComponentListener_vepv;
-static gboolean ShellComponentListener_vepv_initialized = FALSE;
-
-struct _ShellComponentListenerServant {
-	POA_GNOME_Evolution_ShellComponentListener servant;
-	EvolutionShellComponentClient *component_client;
-};
-typedef struct _ShellComponentListenerServant ShellComponentListenerServant;
-
-static EvolutionShellComponentClient *
-component_client_from_ShellComponentListener_servant (PortableServer_Servant servant)
-{
-	ShellComponentListenerServant *listener_servant;
-
-	listener_servant = (ShellComponentListenerServant *) servant;
-	return listener_servant->component_client;
-}
-
-static EvolutionShellComponentResult
-result_from_async_corba_result (GNOME_Evolution_ShellComponentListener_Result async_corba_result)
-{
-	switch (async_corba_result) {
-	case GNOME_Evolution_ShellComponentListener_OK:
-		return EVOLUTION_SHELL_COMPONENT_OK;
-	case GNOME_Evolution_ShellComponentListener_UNSUPPORTED_OPERATION:
-		return EVOLUTION_SHELL_COMPONENT_UNSUPPORTEDOPERATION;
-	case GNOME_Evolution_ShellComponentListener_EXISTS:
-		return EVOLUTION_SHELL_COMPONENT_EXISTS;
-	case GNOME_Evolution_ShellComponentListener_INVALID_URI:
-		return EVOLUTION_SHELL_COMPONENT_INVALIDURI;
-	case GNOME_Evolution_ShellComponentListener_PERMISSION_DENIED:
-		return EVOLUTION_SHELL_COMPONENT_PERMISSIONDENIED;
-	case GNOME_Evolution_ShellComponentListener_HAS_SUBFOLDERS:
-		return EVOLUTION_SHELL_COMPONENT_HASSUBFOLDERS;
-	case GNOME_Evolution_ShellComponentListener_NO_SPACE:
-		return EVOLUTION_SHELL_COMPONENT_NOSPACE;
-	default:
-		return EVOLUTION_SHELL_COMPONENT_UNKNOWNERROR;
-	}
-}
-
 static void
 impl_ShellComponentListener_report_result (PortableServer_Servant servant,
 					   const GNOME_Evolution_ShellComponentListener_Result result,
@@ -212,27 +235,6 @@ ShellComponentListener_vepv_initialize (void)
 	ShellComponentListener_vepv.GNOME_Evolution_ShellComponentListener_epv = & ShellComponentListener_epv;
 
 	ShellComponentListener_vepv_initialized = TRUE;
-}
-
-static PortableServer_Servant *
-create_ShellComponentListener_servant (EvolutionShellComponentClient *component_client)
-{
-	ShellComponentListenerServant *servant;
-
-	if (! ShellComponentListener_vepv_initialized)
-		ShellComponentListener_vepv_initialize ();
-
-	servant = g_new0 (ShellComponentListenerServant, 1);
-	servant->servant.vepv     = &ShellComponentListener_vepv;
-	servant->component_client = component_client;
-
-	return (PortableServer_Servant) servant;
-}
-
-static void
-free_ShellComponentListener_servant (PortableServer_Servant servant)
-{
-	g_free (servant);
 }
 
 static void

@@ -36,7 +36,7 @@
 	<placeholder name="NewFirstItem">
 	</placeholder>
 	
-	<menuitem name="EvolutionWindow" verb="NewView" _label="Evolution _Window"
+	<menuitem name="EvolutionWindow" verb="OpenFolderInNewWindow" _label="Evolution _Window"
 		  accel="*Control**Shift*w"/>
 
 	<menuitem name="Folder" verb="NewFolder"

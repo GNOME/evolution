@@ -1,5 +1,16 @@
 2001-05-19  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-shell-view-menu.c: Removed "NewView" verb.  Added
+	`folder_verbs', with "OpenFolderInNewWindow" in it.
+	(e_shell_view_menu_setup): Set up the `folder_verbs' too.
+	(command_new_view): Renamed to
+	`command_open_folder_in_new_window'.
+
+	* e-shell-folder-commands.c
+	(e_shell_command_open_folder_in_other_window): Implement.
+
+2001-05-19  Ettore Perazzoli  <ettore@ximian.com>
+
 	* e-shell-view-menu.c (command_create_folder): Call
 	`e_shell_command_create_new_folder()' implemented in
 	`e-shell-folder-commands.c'.

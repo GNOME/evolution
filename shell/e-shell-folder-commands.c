@@ -31,6 +31,8 @@
 #include "e-shell-folder-creation-dialog.h"
 
 
+/* Create new folder.  */
+
 void
 e_shell_command_create_new_folder (EShell *shell,
 				   EShellView *shell_view)
@@ -55,6 +57,8 @@ e_shell_command_create_new_folder (EShell *shell,
 }
 
 
+/* Open folder in other window.   */
+
 void
 e_shell_command_open_folder_in_other_window (EShell *shell,
 					     EShellView *shell_view)
@@ -63,10 +67,12 @@ e_shell_command_open_folder_in_other_window (EShell *shell,
 	g_return_if_fail (E_IS_SHELL (shell));
 	g_return_if_fail (shell_view != NULL && E_IS_SHELL_VIEW (shell_view));
 
-	g_warning ("To be implemented");
+	e_shell_new_view (shell, e_shell_view_get_current_uri (shell_view));
 }
 
 
+/* Copy folder.  */
+
 void
 e_shell_command_copy_folder (EShell *shell,
 			     EShellView *shell_view)
@@ -79,6 +85,8 @@ e_shell_command_copy_folder (EShell *shell,
 }
 
 
+/* Move folder.  */
+
 void
 e_shell_command_move_folder (EShell *shell,
 			     EShellView *shell_view)

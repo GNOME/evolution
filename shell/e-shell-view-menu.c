@@ -23,6 +23,8 @@
  *   Ettore Perazzoli
  */
 
+/* FIXME: This file is a bit of a mess.  */
+
 #include <config.h>
 
 #include <glib.h>
@@ -329,9 +331,9 @@ command_new_folder (BonoboUIComponent *uih,
 }
 
 static void
-command_new_view (BonoboUIComponent *uih,
-		  gpointer          data,
-		  const char *path)
+command_open_folder_in_new_window (BonoboUIComponent *uih,
+				   gpointer          data,
+				   const char *path)
 {
 	EShellView *shell_view;
 	EShell *shell;
@@ -488,7 +490,6 @@ DEFINE_UNIMPLEMENTED (command_new_contact)
 DEFINE_UNIMPLEMENTED (command_new_task_request)
 
 BonoboUIVerb new_verbs [] = {
-	BONOBO_UI_VERB ("NewView", command_new_view),
 	BONOBO_UI_VERB ("NewFolder", command_new_folder),
 	BONOBO_UI_VERB ("NewShortcut", command_new_shortcut),
 	BONOBO_UI_VERB ("NewMailMessage", command_new_mail_message),
@@ -509,6 +510,12 @@ BonoboUIVerb file_verbs [] = {
 
 	BONOBO_UI_VERB ("WorkOffline", command_work_offline),
 	BONOBO_UI_VERB ("WorkOnline", command_work_online),
+
+	BONOBO_UI_VERB_END
+};
+
+BonoboUIVerb folder_verbs [] = {
+	BONOBO_UI_VERB ("OpenFolderInNewWindow", command_open_folder_in_new_window),
 
 	BONOBO_UI_VERB_END
 };
@@ -631,6 +638,7 @@ e_shell_view_menu_setup (EShellView *shell_view)
 	shell = e_shell_view_get_shell (shell_view);
 
 	bonobo_ui_component_add_verb_list_with_data (uic, file_verbs, shell_view);
+	bonobo_ui_component_add_verb_list_with_data (uic, folder_verbs, shell_view);
 	bonobo_ui_component_add_verb_list_with_data (uic, new_verbs, shell_view);
 
 	bonobo_ui_component_add_verb_list (uic, help_verbs);

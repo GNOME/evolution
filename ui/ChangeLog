@@ -1,3 +1,8 @@
+2001-05-19  Ettore Perazzoli  <ettore@ximian.com>
+
+	* evolution.xml: Removed verb "NewView"; use
+	"OpenFolderInNewWindow" instead.
+
 2001-05-18  Ettore Perazzoli  <ettore@ximian.com>
 
 	* evolution.xml: Add commands for the Folder submenu in the File
