@@ -1407,7 +1407,8 @@ previous_unread_msg (GtkWidget *button, gpointer user_data)
 			     0, CAMEL_MESSAGE_SEEN);
 }
 
-static void expunged_folder(CamelFolder *f, void *data)
+static void
+expunged_folder (CamelFolder *f, void *data)
 {
 	FolderBrowser *fb = data;
 
@@ -1427,8 +1428,18 @@ expunge_folder (BonoboUIComponent *uih, void *user_data, const char *path)
 	}
 }
 
+/********************** Begin Filter Editor ********************/
+
+static GtkWidget *filter_editor = NULL;
+
 static void
-filter_druid_clicked (GtkWidget *dialog, int button, FolderBrowser *fb)
+filter_editor_destroy (GtkWidget *dialog, gpointer user_data)
+{
+	filter_editor = NULL;
+}
+
+static void
+filter_editor_clicked (GtkWidget *dialog, int button, FolderBrowser *fb)
 {
 	FilterContext *fc;
 	
@@ -1458,7 +1469,11 @@ filter_edit (BonoboUIComponent *uih, void *user_data, const char *path)
 	FolderBrowser *fb = FOLDER_BROWSER (user_data);
 	FilterContext *fc;
 	char *user, *system;
-	GtkWidget *dialog;
+	
+	if (filter_editor) {
+		/* FIXME: raise the filter_editor dialog? */
+		return;
+	}
 	
 	fc = filter_context_new ();
 	user = g_strdup_printf ("%s/filters.xml", evolution_dir);
@@ -1467,6 +1482,7 @@ filter_edit (BonoboUIComponent *uih, void *user_data, const char *path)
 	g_free (user);
 	
 	if (((RuleContext *)fc)->error) {
+		GtkWidget *dialog;
 		gchar *err;
 		
 		err = g_strdup_printf (_("Error loading filter information:\n%s"),
@@ -1478,13 +1494,16 @@ filter_edit (BonoboUIComponent *uih, void *user_data, const char *path)
 		return;
 	}
 	
-	dialog = (GtkWidget *)filter_editor_new (fc, filter_source_names);
-	gtk_window_set_title (GTK_WINDOW (dialog), _("Filters"));
-
-	gtk_object_set_data_full (GTK_OBJECT (dialog), "context", fc, (GtkDestroyNotify)gtk_object_unref);
-	gtk_signal_connect (GTK_OBJECT (dialog), "clicked", filter_druid_clicked, fb);
-	gtk_widget_show (GTK_WIDGET (dialog));
+	filter_editor = (GtkWidget *)filter_editor_new (fc, filter_source_names);
+	gtk_window_set_title (GTK_WINDOW (filter_editor), _("Filters"));
+	
+	gtk_object_set_data_full (GTK_OBJECT (filter_editor), "context", fc, (GtkDestroyNotify)gtk_object_unref);
+	gtk_signal_connect (GTK_OBJECT (filter_editor), "clicked", filter_editor_clicked, fb);
+	gtk_signal_connect (GTK_OBJECT (filter_editor), "destroy", filter_editor_destroy, NULL);
+	gtk_widget_show (GTK_WIDGET (filter_editor));
 }
+
+/********************** End Filter Editor ********************/
 
 void
 vfolder_edit_vfolders (BonoboUIComponent *uih, void *user_data, const char *path)
@@ -1495,11 +1514,15 @@ vfolder_edit_vfolders (BonoboUIComponent *uih, void *user_data, const char *path
 void
 providers_config (BonoboUIComponent *uih, void *user_data, const char *path)
 {
-	/* FIXME: should we block until mail-config is done? */
-	MailAccountsDialog *dialog;
+	static MailAccountsDialog *dialog = NULL;
 	
-	dialog = mail_accounts_dialog_new ((FOLDER_BROWSER (user_data))->shell);
-	gnome_dialog_run_and_close (GNOME_DIALOG (dialog));
+	if (!dialog) {
+		dialog = mail_accounts_dialog_new ((FOLDER_BROWSER (user_data))->shell);
+		gnome_dialog_run_and_close (GNOME_DIALOG (dialog));
+		dialog = NULL;
+	} else {
+		/* FIXME: raise the dialog? */
+	}
 }
 
 /*
@@ -1601,14 +1624,31 @@ print_preview_msg (GtkWidget *button, gpointer user_data)
 	mail_print_preview_msg (fb->mail_display);
 }
 
+/******************** Begin Subscription Dialog ***************************/
+
+static GtkWidget *subscribe_dialog = NULL;
+
+static void
+subscribe_dialog_destroy (GtkWidget *widget, gpointer user_data)
+{
+	subscribe_dialog = NULL;
+}
+
 void
 manage_subscriptions (BonoboUIComponent *uih, void *user_data, const char *path)
 {
-	/* XXX pass in the selected storage */
-	GtkWidget *subscribe = subscribe_dialog_new ((FOLDER_BROWSER (user_data))->shell);
-
-	gtk_widget_show (subscribe);
+	if (!subscribe_dialog) {
+		subscribe_dialog = subscribe_dialog_new ((FOLDER_BROWSER (user_data))->shell);
+		gtk_signal_connect (GTK_OBJECT (subscribe_dialog), "destroy",
+				    subscribe_dialog_destroy, NULL);
+		
+		gtk_widget_show (subscribe_dialog);
+	} else {
+		/* FIXME: raise the subscription dialog window... */
+	}
 }
+
+/******************** End Subscription Dialog ***************************/
 
 void
 configure_folder (BonoboUIComponent *uih, void *user_data, const char *path)

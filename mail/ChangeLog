@@ -1,3 +1,15 @@
+2001-05-11  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-vfolder.c (vfolder_edit): Don't allow multiple copies of
+	this to be run at a time.
+
+	* mail-callbacks.c (providers_config): Don't allow multiple copies
+	of this to be run at a time.
+	(manage_subscriptions): Same, but this was a tad more kludgy since
+	we don't gnome_dialog_run_and_close() this one. I had to make the
+	widget a semi-global variable. yuck :\
+	(filter_edit): Same.
+
 2001-05-11  Jon Trowbridge  <trow@ximian.com>
 
 	* e-searching-tokenizer.c (e_searching_tokenizer_new): 

@@ -349,6 +349,14 @@ vfolder_uri_to_folder(const char *uri, CamelException *ex)
 	return folder;
 }
 
+static GtkWidget *vfolder_editor = NULL;
+
+static void
+vfolder_editor_destroy (GtkWidget *widget, gpointer user_data)
+{
+	vfolder_editor = NULL;
+}
+
 static void
 vfolder_editor_clicked(GtkWidget *w, int button, void *data)
 {
@@ -366,13 +374,17 @@ vfolder_editor_clicked(GtkWidget *w, int button, void *data)
 }
 
 void
-vfolder_edit(void)
+vfolder_edit (void)
 {
-	GtkWidget *w;
-
-	w = GTK_WIDGET (vfolder_editor_new (context));
-	gtk_signal_connect (GTK_OBJECT (w), "clicked", vfolder_editor_clicked, NULL);
-	gtk_widget_show (w);
+	if (vfolder_editor) {
+		/* FIXME: raise the vfolder editor window? */
+		return;
+	}
+	
+	vfolder_editor = GTK_WIDGET (vfolder_editor_new (context));
+	gtk_signal_connect (GTK_OBJECT (vfolder_editor), "clicked", vfolder_editor_clicked, NULL);
+	gtk_signal_connect (GTK_OBJECT (vfolder_editor), "destroy", vfolder_editor_destroy, NULL);
+	gtk_widget_show (vfolder_editor);
 }
 
 static void
