@@ -3761,25 +3761,29 @@ camel_header_msgid_generate (void)
 #define COUNT_LOCK() pthread_mutex_lock (&count_lock)
 #define COUNT_UNLOCK() pthread_mutex_unlock (&count_lock)
 	char host[MAXHOSTNAMELEN];
-	struct hostent *h = NULL;
+	char *name;
 	static int count = 0;
 	char *msgid;
 	int retval;
-	
+	struct addrinfo *ai = NULL, hints = { 0 };
+
 	retval = gethostname (host, sizeof (host));
-	
-	if (retval == 0 && *host)
-		h = camel_gethostbyname (host, NULL);
-	else
-		host[0] = '\0';
+	if (retval == 0 && *host) {
+		hints.ai_flags = AI_CANONNAME;
+		ai = camel_getaddrinfo(host, NULL, &hints, NULL);
+		if (ai && ai->ai_canonname)
+			name = ai->ai_canonname;
+		else
+			name = host;
+	} else
+		name = "localhost.localdomain";
 	
 	COUNT_LOCK ();
-	msgid = g_strdup_printf ("%d.%d.%d.camel@%s", (int) time (NULL), getpid (), count++,
-				 h ? h->h_name : (*host ? host : "localhost.localdomain"));
+	msgid = g_strdup_printf ("%d.%d.%d.camel@%s", (int) time (NULL), getpid (), count++, name);
 	COUNT_UNLOCK ();
 	
-	if (h)
-		camel_free_host (h);
+	if (ai)
+		camel_freeaddrinfo(ai);
 	
 	return msgid;
 }

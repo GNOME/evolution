@@ -129,6 +129,7 @@ krb4_challenge (CamelSasl *sasl, GByteArray *token, CamelException *ex)
 	KTEXT_ST authenticator;
 	CREDENTIALS credentials;
 	guint32 plus1;
+	struct addrinfo *ai, hints;
 
 	/* Need to wait for the server */
 	if (!token)
@@ -142,12 +143,17 @@ krb4_challenge (CamelSasl *sasl, GByteArray *token, CamelException *ex)
 		memcpy (&priv->nonce_n, token->data, 4);
 		priv->nonce_h = ntohl (priv->nonce_n);
 
+		memset(&hints, 0, sizeof(hints));
+		hints.ai_flags = AI_CANONNAME;
+		ai = camel_getaddrinfo(sasl->service->url->host?sasl->service->url->host:"localhost", NULL, &hints, ex);
+		if (ai == NULL)
+			goto lose;
+
 		/* Our response is an authenticator including that number. */
-		h = camel_service_gethost (sasl->service, ex);
-		inst = g_strndup (h->h_name, strcspn (h->h_name, "."));
+		inst = g_strndup (ai->ai_canonname, strcspn (ai->ai_canonname, "."));
 		camel_strdown (inst);
-		realm = g_strdup (krb_realmofhost (h->h_name));
-		camel_free_host(h);
+		realm = g_strdup (krb_realmofhost (ai->ai_canonname));
+		camel_freeaddrinfo(ai);
 		status = krb_mk_req (&authenticator, sasl->service_name, inst, realm, priv->nonce_h);
 		if (status == KSUCCESS) {
 			status = krb_get_cred (sasl->service_name, inst, realm, &credentials);

@@ -237,53 +237,60 @@ connect_to_server (CamelService *service, int try_starttls, CamelException *ex)
 	CamelSmtpTransport *transport = CAMEL_SMTP_TRANSPORT (service);
 	CamelStream *tcp_stream;
 	char *respbuf = NULL;
-	struct hostent *h;
-	int port, ret;
+	int ret;
+	struct addrinfo *ai, hints = { 0 };
+	char *serv;
 	
 	if (!CAMEL_SERVICE_CLASS (parent_class)->connect (service, ex))
-		return FALSE;
-	
-	h = camel_service_gethost (service, ex);
-	if (!h)
 		return FALSE;
 	
 	/* set some smtp transport defaults */
 	transport->flags &= CAMEL_SMTP_TRANSPORT_USE_SSL; /* reset all but ssl flags */
 	transport->authtypes = NULL;
-	
-	port = service->url->port ? service->url->port : SMTP_PORT;
+
+	if (service->url->port) {
+		serv = g_alloca(16);
+		sprintf(serv, "%d", service->url->port);
+	} else
+		serv = "smtp";
 	
 	if (transport->flags & CAMEL_SMTP_TRANSPORT_USE_SSL) {
 #ifdef HAVE_SSL
 		if (try_starttls) {
 			tcp_stream = camel_tcp_stream_ssl_new_raw (service->session, service->url->host, STARTTLS_FLAGS);
 		} else {
-			port = service->url->port ? service->url->port : 465;
+			if (service->url->port == 0)
+				serv = "smtps";
 			tcp_stream = camel_tcp_stream_ssl_new (service->session, service->url->host, SSL_PORT_FLAGS);
 		}
 #else
-		if (!try_starttls)
-			port = service->url->port ? service->url->port : 465;
+		if (!try_starttls && service->url->port == 0)
+			serv = "smtps";
 		
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
-				      _("Could not connect to %s (port %d): %s"),
-				      service->url->host, port,
+				      _("Could not connect to %s (port %s): %s"),
+				      service->url->host, serv,
 				      _("SSL unavailable"));
-		
-		camel_free_host (h);
-		
+
 		return FALSE;
 #endif /* HAVE_SSL */
 	} else {
 		tcp_stream = camel_tcp_stream_raw_new ();
 	}
+
+	hints.ai_socktype = SOCK_STREAM;
+	ai = camel_getaddrinfo(service->url->host, serv, &hints, ex);
+	if (ai == NULL) {
+		camel_object_unref(tcp_stream);
+		return FALSE;
+	}
 	
-	ret = camel_tcp_stream_connect (CAMEL_TCP_STREAM (tcp_stream), h, port);
-	camel_free_host (h);
+	ret = camel_tcp_stream_connect(CAMEL_TCP_STREAM(tcp_stream), ai);
+	camel_freeaddrinfo(ai);
 	if (ret == -1) {
 		camel_exception_setv (ex, errno == EINTR ? CAMEL_EXCEPTION_USER_CANCEL : CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
-				      _("Could not connect to %s (port %d): %s"),
-				      service->url->host, port,
+				      _("Could not connect to %s (port %s): %s"),
+				      service->url->host, serv,
 				      g_strerror (errno));
 		
 		camel_object_unref (tcp_stream);
@@ -294,7 +301,7 @@ connect_to_server (CamelService *service, int try_starttls, CamelException *ex)
 	transport->connected = TRUE;
 	
 	/* get the localaddr - needed later by smtp_helo */
-	transport->localaddr = camel_tcp_stream_get_local_address (CAMEL_TCP_STREAM (tcp_stream));
+	transport->localaddr = camel_tcp_stream_get_local_address (CAMEL_TCP_STREAM (tcp_stream), &transport->localaddrlen);
 	
 	transport->ostream = tcp_stream;
 	transport->istream = camel_stream_buffer_new (tcp_stream, CAMEL_STREAM_BUFFER_READ);
@@ -580,7 +587,7 @@ smtp_disconnect (CamelService *service, gboolean clean, CamelException *ex)
 		transport->ostream = NULL;
 	}
 	
-	camel_tcp_address_free (transport->localaddr);
+	g_free(transport->localaddr);
 	transport->localaddr = NULL;
 	
 	transport->connected = FALSE;
@@ -865,10 +872,7 @@ smtp_helo (CamelSmtpTransport *transport, CamelException *ex)
 {
 	/* say hello to the server */
 	char *name = NULL, *cmdbuf = NULL, *respbuf = NULL;
-	struct hostent *host;
-	CamelException err;
 	const char *token;
-	int af;
 	
 	/* these are flags that we set, so unset them in case we
 	   are being called a second time (ie, after a STARTTLS) */
@@ -883,42 +887,10 @@ smtp_helo (CamelSmtpTransport *transport, CamelException *ex)
 	}
 	
 	camel_operation_start_transient (NULL, _("SMTP Greeting"));
-	
-	/* get the local host name */
-	camel_exception_init (&err);
-#ifdef ENABLE_IPv6
-	af = transport->localaddr->family == CAMEL_TCP_ADDRESS_IPv6 ? AF_INET6 : AF_INET;
-#else
-	af = AF_INET;
-#endif
-	host = camel_gethostbyaddr ((char *) &transport->localaddr->address,
-				    transport->localaddr->length, af, &err);
-	
-	camel_exception_clear (&err);
-	
-	if (host && host->h_name && *host->h_name) {
-		name = g_strdup (host->h_name);
-	} else {
-#ifdef ENABLE_IPv6
-		char ip[MAXHOSTNAMELEN + 1];
-		const char *proto;
-		
-		proto = transport->localaddr->family == CAMEL_TCP_ADDRESS_IPv6 ? "IPv6:" : "";
-		name = g_strdup_printf ("[%s%s]", proto, inet_ntop (af, transport->localaddr->address, ip, MAXHOSTNAMELEN));
-#else
-		/* We *could* use inet_ntoa() here, but it's probably
-		   not worth it since we would have to worry about
-		   some systems not having inet_ntoa() */
-		name = g_strdup_printf ("[%d.%d.%d.%d]",
-					transport->localaddr->address[0],
-					transport->localaddr->address[1],
-					transport->localaddr->address[2],
-					transport->localaddr->address[3]);
-#endif
-	}
-	
-	if (host)
-		camel_free_host (host);
+
+	/* this can't really fail with the flags we're using, it should fallback to numerical */
+	if (camel_getnameinfo(transport->localaddr, transport->localaddrlen, &name, NULL, 0, NULL) != 0)
+		name = g_strdup("localhost.localdomain");
 	
 	/* hiya server! how are you today? */
 	if (transport->flags & CAMEL_SMTP_TRANSPORT_IS_ESMTP)

@@ -162,9 +162,10 @@ connect_to_server (CamelService *service, int ssl_mode, CamelException *ex)
 	gboolean retval = FALSE;
 	unsigned char *buf;
 	unsigned int len;
-	struct hostent *h;
-	int port, ret;
+	int ret;
 	char *path;
+	struct addrinfo *ai, hints = { 0 };
+	char *serv;
 	
 	CAMEL_NNTP_STORE_LOCK(store, command_lock);
 
@@ -181,15 +182,17 @@ connect_to_server (CamelService *service, int ssl_mode, CamelException *ex)
 		camel_data_cache_set_expire_age (store->cache, 60*60*24*14);
 		camel_data_cache_set_expire_access (store->cache, 60*60*24*5);
 	}
-	
-	if (!(h = camel_service_gethost (service, ex)))
-		goto fail;
-	
-	port = service->url->port ? service->url->port : NNTP_PORT;
+
+	if (service->url->port) {
+		serv = g_alloca(16);
+		sprintf(serv, "%d", service->url->port);
+	} else
+		serv = "nntp";
 	
 #ifdef HAVE_SSL
 	if (ssl_mode != USE_SSL_NEVER) {
-		port = service->url->port ? service->url->port : NNTPS_PORT;
+		if (service->url->port == 0)
+			serv = "nntps";
 		tcp_stream = camel_tcp_stream_ssl_new (service->session, service->url->host, CAMEL_TCP_STREAM_SSL_ENABLE_SSL2 | CAMEL_TCP_STREAM_SSL_ENABLE_SSL3);
 	} else {
 		tcp_stream = camel_tcp_stream_raw_new ();
@@ -197,17 +200,24 @@ connect_to_server (CamelService *service, int ssl_mode, CamelException *ex)
 #else
 	tcp_stream = camel_tcp_stream_raw_new ();
 #endif /* HAVE_SSL */
+
+	hints.ai_socktype = SOCK_STREAM;
+	ai = camel_getaddrinfo(service->url->host, serv, &hints, ex);
+	if (ai == NULL) {
+		camel_object_unref(tcp_stream);
+		goto fail;
+	}
 	
-	ret = camel_tcp_stream_connect (CAMEL_TCP_STREAM (tcp_stream), h, port);
-	camel_free_host (h);
+	ret = camel_tcp_stream_connect(CAMEL_TCP_STREAM(tcp_stream), ai);
+	camel_freeaddrinfo(ai);
 	if (ret == -1) {
 		if (errno == EINTR)
 			camel_exception_set (ex, CAMEL_EXCEPTION_USER_CANCEL,
 					     _("Connection cancelled"));
 		else
 			camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
-					      _("Could not connect to %s (port %d): %s"),
-					      service->url->host, port, g_strerror (errno));
+					      _("Could not connect to %s (port %s): %s"),
+					      service->url->host, serv, g_strerror (errno));
 		
 		camel_object_unref (tcp_stream);
 		
