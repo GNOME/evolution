@@ -1822,7 +1822,6 @@ gnome_calendar_setup_view_menus (GnomeCalendar *gcal, BonoboUIComponent *uic)
 	/* Create the view instance */
 	if (collection == NULL) {
 		ETableSpecification *spec;
-		GalView *view;
 
 		collection = gal_view_collection_new ();
 
@@ -1864,9 +1863,6 @@ gnome_calendar_setup_view_menus (GnomeCalendar *gcal, BonoboUIComponent *uic)
 
 		gal_view_collection_load (collection);
 
-		view = gal_view_collection_get_view (collection, gal_view_collection_get_view_index_by_id (collection, "List_View"));
-		if (view)
-			gal_view_set_built_in (view, TRUE);
 	}
 
 	priv->view_instance = gal_view_instance_new (collection, NULL);
