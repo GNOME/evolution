@@ -41,7 +41,7 @@
 
 2004-05-28  JP Rosevear  <jpr@novell.com>
 
-	* e-shell-window-commands.c: remove bogus include	
+	* e-shell-window-commands.c: remove bogus include
 
 2004-05-28  William Jon McCann  <mccann@jhu.edu>
 

@@ -23,6 +23,13 @@
 	"client_changed signal on the TaskPage.
 	(client_changed_cb): set menu sensibility when the client changes.
 
+2004-06-02  JP Rosevear  <jpr@novell.com>
+	
+	* gui/alarm-notify/alarm-notify.c (process_removal_in_hash): free
+	the correct uri, preventing bad memory corruption
+	(list_changed_cb): track the removals in a list so we don't
+	clobber the hash table data during the foreach loop
+
 2004-06-02  Chris Toshok  <toshok@ximian.com>
 
 	* gui/migration.c (migrate_calendars): remove absolute_uri from
@@ -62,6 +69,7 @@
 
 	* gui/dialogs/calendar-setup.glade: remove edit dialogs and name
 	the tables.
+
 
 2004-06-01  Rodrigo Moya <rodrigo@novell.com>
 
