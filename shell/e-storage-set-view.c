@@ -1100,7 +1100,7 @@ tree_drag_motion (ETree *tree,
 	if (strcmp (dnd_type, EVOLUTION_PATH_TARGET_TYPE) == 0)
 		return handle_evolution_path_drag_motion (storage_set_view, path, context, time);
 
-	destination_folder_interface = evolution_shell_component_client_get_dnd_source_interface (component_client);
+	destination_folder_interface = evolution_shell_component_client_get_dnd_destination_interface (component_client);
 	if (destination_folder_interface == NULL)
 		return FALSE;
 

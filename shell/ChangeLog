@@ -1,3 +1,8 @@
+2001-04-08  Chris Toshok  <toshok@ximian.com>
+
+	* e-storage-set-view.c (tree_drag_motion): fix type.  we want the
+	destination interface, not source.
+
 2001-04-04  Kjartan Maraas  <kmaraas@gnome.org>
 
 	* e-local-folder.c: Fix headers.
