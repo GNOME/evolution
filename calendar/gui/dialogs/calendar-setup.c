@@ -24,6 +24,7 @@
 
 #include <string.h>
 #include <bonobo/bonobo-i18n.h>
+#include <gdk/gdkkeysyms.h>
 #include <gtk/gtkdialog.h>
 #include <gtk/gtkentry.h>
 #include <gtk/gtkmenu.h>
@@ -653,6 +654,17 @@ source_group_changed_sensitive (SourceDialog *source_dialog)
 	general_update_dialog (source_dialog);
 }
 
+static gboolean
+key_press_event (GtkWidget *widget, GdkEventKey *event)
+{
+	if (event->keyval == GDK_Escape) {
+		gtk_widget_destroy (widget);
+		return TRUE;
+	}
+
+	return FALSE;
+}
+
 static void
 new_calendar_cancel (SourceDialog *source_dialog)
 {
@@ -687,6 +699,7 @@ calendar_setup_new_calendar (GtkWindow *parent)
 	}
 
 	source_dialog->window = glade_xml_get_widget (source_dialog->gui_xml, "add-calendar-window");
+	g_signal_connect (source_dialog->window, "key-press-event", G_CALLBACK (key_press_event), NULL);
 
 	source_dialog->name_entry = glade_xml_get_widget (source_dialog->gui_xml, "name-entry");
 	g_signal_connect_swapped (source_dialog->name_entry, "changed",
@@ -781,6 +794,8 @@ calendar_setup_edit_calendar (GtkWindow *parent, ESource *source)
 	source_dialog->window = glade_xml_get_widget (source_dialog->gui_xml, "add-calendar-window");
 	source_dialog->source = source;
 	g_object_ref (source);
+
+	g_signal_connect (source_dialog->window, "key-press-event", G_CALLBACK (key_press_event), NULL);
 
 	source_dialog->name_entry = glade_xml_get_widget (source_dialog->gui_xml, "name-entry");
 	g_signal_connect_swapped (source_dialog->name_entry, "changed",
@@ -889,6 +904,7 @@ calendar_setup_new_task_list (GtkWindow *parent)
 	}
 
 	source_dialog->window = glade_xml_get_widget (source_dialog->gui_xml, "add-task-list-window");
+	g_signal_connect (source_dialog->window, "key-press-event", G_CALLBACK (key_press_event), NULL);
 
 	source_dialog->name_entry = glade_xml_get_widget (source_dialog->gui_xml, "name-entry");
 	g_signal_connect_swapped (source_dialog->name_entry, "changed",
@@ -984,6 +1000,8 @@ calendar_setup_edit_task_list (GtkWindow *parent, ESource *source)
 	source_dialog->window = glade_xml_get_widget (source_dialog->gui_xml, "add-task-list-window");
 	source_dialog->source = source;
 	g_object_ref (source);
+
+	g_signal_connect (source_dialog->window, "key-press-event", G_CALLBACK (key_press_event), NULL);
 
 	source_dialog->name_entry = glade_xml_get_widget (source_dialog->gui_xml, "name-entry");
 	g_signal_connect_swapped (source_dialog->name_entry, "changed",
