@@ -7534,7 +7534,7 @@ msgid ""
 "\n"
 "Do you wish to save your changes?"
 msgstr ""
-"Questo messaggio non è stato inviato\n"
+"Questo messaggio non è stato inviato.\n"
 "\n"
 "Salvare le modifiche?"
 
@@ -7951,23 +7951,23 @@ msgstr "Cartelle Virtuali"
 
 #: filter/filter.glade.h:11
 msgid "specific folders only"
-msgstr "solo le cartelle specifiche"
+msgstr "solo le cartelle specificate"
 
 #: filter/filter.glade.h:12
 msgid "vFolder Sources"
-msgstr "Sorgenti delle cartelle virtuali"
+msgstr "Sorgenti delle Cartelle Virtuali"
 
 #: filter/filter.glade.h:13
 msgid "with all active remote folders"
-msgstr "con tutte le cartelle remote attive"
+msgstr "tutte le cartelle remote attive"
 
 #: filter/filter.glade.h:14
 msgid "with all local and active remote folders"
-msgstr "con tutte le cartelle locali e  remote attive"
+msgstr "tutte le cartelle locali e remote attive"
 
 #: filter/filter.glade.h:15
 msgid "with all local folders"
-msgstr "con tutte le cartelle locali"
+msgstr "tutte le cartelle locali"
 
 #: filter/libfilter-i18n.h:3
 msgid "Assign Color"
@@ -13019,7 +13019,7 @@ msgstr "Nascondi temporaneamente i messaggi selezionati"
 
 #: ui/evolution-mail-list.xml.h:22
 msgid "Threaded Message list"
-msgstr "Lista Come Thread"
+msgstr "Thread"
 
 #: ui/evolution-mail-list.xml.h:26
 msgid "_Expunge"
