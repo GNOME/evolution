@@ -110,6 +110,8 @@ static void            move_messages_to       (CamelFolder *source,
 					       CamelFolder *dest,
 					       CamelException *ex);
 
+static void            delete                 (CamelFolder *folder);
+
 static void            freeze                (CamelFolder *folder);
 static void            thaw                  (CamelFolder *folder);
 static gboolean        is_frozen             (CamelFolder *folder);
@@ -156,6 +158,7 @@ camel_folder_class_init (CamelFolderClass *camel_folder_class)
 	camel_folder_class->free_message_info = free_message_info;
 	camel_folder_class->copy_messages_to = copy_messages_to;
 	camel_folder_class->move_messages_to = move_messages_to;
+	camel_folder_class->delete = delete;
 	camel_folder_class->freeze = freeze;
 	camel_folder_class->thaw = thaw;
 	camel_folder_class->is_frozen = is_frozen;
@@ -165,6 +168,7 @@ camel_folder_class_init (CamelFolderClass *camel_folder_class)
 					  "folder_changed", folder_changed);
 	camel_object_class_declare_event (camel_object_class,
 					  "message_changed", message_changed);
+	camel_object_class_declare_event (camel_object_class, "deleted", NULL);
 }
 
 static void
@@ -271,9 +275,10 @@ camel_folder_sync (CamelFolder *folder, gboolean expunge, CamelException *ex)
 	g_return_if_fail (CAMEL_IS_FOLDER (folder));
 
 	CAMEL_FOLDER_LOCK(folder, lock);
-
-	CF_CLASS (folder)->sync (folder, expunge, ex);
-
+	
+	if (!folder->deleted)
+		CF_CLASS (folder)->sync (folder, expunge, ex);
+	
 	CAMEL_FOLDER_UNLOCK(folder, lock);
 }
 
@@ -391,11 +396,12 @@ void
 camel_folder_expunge (CamelFolder *folder, CamelException *ex)
 {
 	g_return_if_fail (CAMEL_IS_FOLDER (folder));
-
+	
 	CAMEL_FOLDER_LOCK(folder, lock);
-
-	CF_CLASS (folder)->expunge (folder, ex);
-
+	
+	if (!folder->deleted)
+		CF_CLASS (folder)->expunge (folder, ex);
+	
 	CAMEL_FOLDER_UNLOCK(folder, lock);
 }
 
@@ -1240,7 +1246,7 @@ move_messages_to (CamelFolder *source, GPtrArray *uids, CamelFolder *dest, Camel
  **/
 void
 camel_folder_move_messages_to (CamelFolder *source, GPtrArray *uids,
-			      CamelFolder *dest, CamelException *ex)
+			       CamelFolder *dest, CamelException *ex)
 {
 	g_return_if_fail (CAMEL_IS_FOLDER (source));
 	g_return_if_fail (CAMEL_IS_FOLDER (dest));
@@ -1259,6 +1265,40 @@ camel_folder_move_messages_to (CamelFolder *source, GPtrArray *uids,
 		move_messages_to (source, uids, dest, ex);
 	
 	CAMEL_FOLDER_UNLOCK(source, lock);
+}
+
+
+static void
+delete (CamelFolder *folder)
+{
+	if (folder->summary)
+		camel_folder_summary_clear (folder->summary);
+}
+
+/**
+ * camel_folder_delete:
+ * @folder: folder
+ *
+ * Marks a folder as deleted and performs any required cleanup.
+ **/
+void
+camel_folder_delete (CamelFolder *folder)
+{
+	g_return_if_fail (CAMEL_IS_FOLDER (folder));
+	
+	CAMEL_FOLDER_LOCK (folder, lock);
+	if (folder->deleted) {
+		CAMEL_FOLDER_UNLOCK (folder, lock);
+		return;
+	}
+	
+	folder->deleted = TRUE;
+	
+	CF_CLASS (folder)->delete (folder);
+	
+	CAMEL_FOLDER_UNLOCK (folder, lock);
+	
+	camel_object_trigger_event (CAMEL_OBJECT (folder), "deleted", NULL);
 }
 
 static void

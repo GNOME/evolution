@@ -1,3 +1,15 @@
+2001-10-03  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-store.c (camel_store_delete_folder): Call
+	camel_folder_delete() on the folder if it's "alive".
+
+	* camel-folder.c (camel_folder_delete): Mark the folder as
+	deleted, perform any folder specific cleanup and emit the deleted
+	event.
+	(camel_folder_sync): Only sync the folder if it hasn't been
+	deleted.
+	(camel_folder_expunge): Same.
+
 2001-10-03  Dan Winship  <danw@ximian.com>
 
 	* providers/local/camel-local-provider.c (local_url_equal):

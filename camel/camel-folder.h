@@ -67,6 +67,7 @@ struct _CamelFolder
 	gboolean has_summary_capability:1;
 	gboolean has_search_capability:1;
 	gboolean filter_recent:1;
+	gboolean deleted:1;
 
 };
 
@@ -152,6 +153,8 @@ typedef struct {
 				  GPtrArray *uids,
 				  CamelFolder *destination,
 				  CamelException *ex);
+	
+	void (*delete)           (CamelFolder *folder);
 	
 	void     (*freeze)    (CamelFolder *folder);
 	void     (*thaw)      (CamelFolder *folder);
@@ -268,6 +271,8 @@ void               camel_folder_move_messages_to       (CamelFolder *source,
 							GPtrArray *uids,
 							CamelFolder *dest,
 							CamelException *ex);
+
+void               camel_folder_delete                 (CamelFolder *folder);
 
 /* stop/restart getting events */
 void               camel_folder_freeze                (CamelFolder *folder);

@@ -319,30 +319,33 @@ delete_folder (CamelStore *store, const char *folder_name, CamelException *ex)
 void
 camel_store_delete_folder (CamelStore *store, const char *folder_name, CamelException *ex)
 {
-
+	CamelFolder *folder = NULL;
+	
 	CAMEL_STORE_LOCK(store, folder_lock);
-
-	CS_CLASS (store)->delete_folder (store, folder_name, ex);
-
+	
 	/* if we deleted a folder, force it out of the cache, and also out of the vtrash if setup */
 	if (store->folders) {
-		CamelFolder *folder;
 		char *key;
-
+		
 		CAMEL_STORE_LOCK(store, cache_lock);
 		if (g_hash_table_lookup_extended(store->folders, folder_name, (void **)&key, (void **)&folder)) {
-			g_hash_table_remove(store->folders, key);
-			g_free(key);
+			g_hash_table_remove (store->folders, key);
+			g_free (key);
 			camel_object_ref (CAMEL_OBJECT (folder));
-			CAMEL_STORE_UNLOCK(store, cache_lock);
-			if (store->vtrash)
-				camel_vee_folder_remove_folder((CamelVeeFolder *)store->vtrash, folder);
-			camel_object_unref (CAMEL_OBJECT (folder));
-		} else {
-			CAMEL_STORE_UNLOCK(store, cache_lock);
 		}
+		
+		CAMEL_STORE_UNLOCK(store, cache_lock);
 	}
-
+	
+	if (folder) {
+		if (store->vtrash)
+			camel_vee_folder_remove_folder((CamelVeeFolder *)store->vtrash, folder);
+		camel_folder_delete (folder);
+		camel_object_unref (CAMEL_OBJECT (folder));
+	}
+	
+	CS_CLASS (store)->delete_folder (store, folder_name, ex);
+	
 	CAMEL_STORE_UNLOCK(store, folder_lock);
 }
 
