@@ -8,7 +8,6 @@ camel_provider_DATA = libcamelnntp.urls
 INCLUDES = -I../..				\
 	-I$(top_srcdir)/camel			\
 	-I$(top_srcdir)/intl			\
-	-I$(top_srcdir)/libibex			\
 	-I$(top_srcdir)/e-util			\
 	-I$(top_srcdir)				\
 	-I$(includedir)				\

@@ -1,5 +1,11 @@
 2002-04-26  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* providers/local/Makefile.am: Don't link to libibex.a anymore.
+
+	* providers/nntp/Makefile.am: Same.
+
+	* providers/imap/Makefile.am: And again here.
+
 	* camel-store-summary.h: No longer want to #include
 	<libibex/ibex.h>
 
