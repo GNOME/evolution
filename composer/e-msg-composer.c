@@ -1549,13 +1549,19 @@ do_exit (EMsgComposer *composer)
 	gdk_window_raise (GTK_WIDGET (composer)->window);
 
 	subject = e_msg_composer_hdrs_get_subject (E_MSG_COMPOSER_HDRS (composer->hdrs));
+
 	dialog = gtk_message_dialog_new(GTK_WINDOW(composer),
 					GTK_DIALOG_MODAL|GTK_DIALOG_DESTROY_WITH_PARENT,
-					GTK_MESSAGE_ERROR, GTK_BUTTONS_YES_NO,
-					_("The message \"%s\" has not been sent.\n\nDo you wish to save your changes?"),
+					GTK_MESSAGE_ERROR, GTK_BUTTONS_NONE,
+					_("The message \"%s\" has not been sent.\n\n"
+					  "Do you wish to save your changes?"),
 					subject);
 	g_free(subject);
-	gtk_dialog_add_button (GTK_DIALOG(dialog), GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL);
+	gtk_dialog_add_buttons (GTK_DIALOG(dialog),
+				_("_Discard Changes"), GTK_RESPONSE_NO,
+				GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+				GTK_STOCK_SAVE, GTK_RESPONSE_YES,
+				NULL);
 	gtk_window_set_title (GTK_WINDOW (dialog), _("Warning: Modified Message"));
 	gtk_dialog_set_default_response (GTK_DIALOG (dialog), GTK_RESPONSE_YES);
 	button = gtk_dialog_run(GTK_DIALOG(dialog));
