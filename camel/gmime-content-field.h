@@ -1,5 +1,5 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/* mime-utils.c : misc utilities for mime  */
+/* mime-content_field.h : mime content type field utilities  */
 
 /* 
  *
@@ -22,15 +22,33 @@
  */
 
 
+#ifndef GMIME_CONTENT_FIELD_H
+#define GMIME_CONTENT_FIELD_H 1
 
-#include "gmime-utils.h"
-void
-gmime_write_header_pair_to_file(FILE* file, gchar* name, GString *value)
-{
-	g_assert(name);
 
-	if ((value) && (value->str))
-		fprintf(file, "%s: %s\n", name, value->str);
+#ifdef __cplusplus
+extern "C" {
+#pragma }
+#endif /* __cplusplus }*/
+
+#include <glib.h>
+#include <stdio.h>
+
+typedef struct {
+
+	GString *type;
+	GString *subtype;
+	GHashTable *parameters;
+
+} GMimeContentField;
+
+GMimeContentField *gmime_content_field_new (GString *type, GString *subtype);
+void gmime_content_field_set_parameter(GMimeContentField *content_field, GString *attribute, GString *value);
+void gmime_content_field_write_to_file(GMimeContentField *content_field, FILE *file);
+
+
+#ifdef __cplusplus
 }
+#endif /* __cplusplus */
 
-
+#endif /* GMIME_CONTENT_FIELD_H */

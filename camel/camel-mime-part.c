@@ -26,6 +26,8 @@
 
 #include "camel-mime-part.h"
 #include <stdio.h>
+#include "gmime-content-field.h"
+
 
 
 static CamelDataWrapperClass *parent_class=NULL;
@@ -233,8 +235,11 @@ camel_mime_part_get_description (CamelMimePart *mime_part)
 static void
 _set_disposition (CamelMimePart *mime_part, GString *disposition)
 {
-	if (mime_part->disposition) g_free(mime_part->disposition);
-	mime_part->disposition = disposition;
+	//if (mime_part->disposition) g_free(mime_part->disposition);
+	if (!mime_part->disposition) 
+		mime_part->disposition = g_new (GMimeContentField,1);
+	if ((mime_part->disposition)->type) g_free ((mime_part->disposition)->type);
+	(mime_part->disposition)->type = disposition;
 }
 
 
@@ -249,7 +254,8 @@ camel_mime_part_set_disposition (CamelMimePart *mime_part, GString *disposition)
 static GString *
 _get_disposition (CamelMimePart *mime_part)
 {
-	return mime_part->disposition;
+	if (!mime_part->disposition) return NULL;
+	return (mime_part->disposition)->type;
 }
 
 
@@ -444,14 +450,45 @@ camel_mime_part_get_content_object(CamelMimePart *mime_part)
 #ifdef WHPTF
 #warning : WHPTF is already defined !!!!!!
 #endif
-#define WHPTF camel_mime_utils_write_header_pair_to_file
+#define WHPTF gmime_write_header_pair_to_file
+
+
+static void
+_write_content_to_file (CamelMimePart *mime_part, FILE *file)
+{
+	guint buffer_size;
+	gchar *buffer;
+	gchar *encoded_buffer;
+
+	CamelDataWrapper *content = mime_part->content;
+	//	buffer_size = camel_data_wrapper_size (content);
+	buffer = g_malloc (buffer_size);
+	camel_data_wrapper_write_to_buffer (content, buffer);
+	
+	if (mime_part->encoding) {
+		// encoded_buffer_size = gmime_encoded_size(buffer, buffer_size, encoding);
+		// encoded_buffer = g_malloc (encoded_buffer_size);
+		// gmime_encode_buffer (buffer, encoded_buffer, encoding);
+		// fwrite (encoded_buffer, encoded_buffer_size, 1, file);
+		// g_free (encoded_buffer);
+	} else 
+		fwrite (buffer, buffer_size, 1, file);
+	g_free (buffer);
+}
+
 
 static void
 _write_to_file(CamelDataWrapper *data_wrapper, FILE *file)
 {
 	CamelMimePart *mp = CAMEL_MIME_PART (data_wrapper);
-	WHPTF (file, "Content-type", CAMEL_DATA_WRAPPER(mp)->mime_type);
+	gmime_content_field_write_to_file(data_wrapper->content_type, file);
+	gmime_content_field_write_to_file(mp->disposition, file);
+	WHPTF (file, "Content-Transfer-Encoding:", mp->encoding);
 	WHPTF (file, "Content-Description", mp->description);
+	WHPTF (file, "Content-MD5", mp->content_MD5);
+	WHPTF (file, "Content-id", mp->content_id);
+	fprintf(file,"\n");
+	camel_data_wrapper_write_to_file (mp->content, file);
 	
 }
 

@@ -49,7 +49,7 @@ typedef struct
 	
 	GHashTable *headers;
 	GString *description;
-	GString *disposition;
+	GMimeContentField *disposition;
 	GString *content_id;
 	GString *content_MD5;
 	GList *content_languages;

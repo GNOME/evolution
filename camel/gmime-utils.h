@@ -22,8 +22,8 @@
  */
 
 
-#ifndef CAMEL_MIME_UTILS_H
-#define CAMEL_MIME_UTILS_H 1
+#ifndef GMIME_UTILS_H
+#define GMIME_UTILS_H 1
 
 
 #ifdef __cplusplus
@@ -34,7 +34,7 @@ extern "C" {
 #include <glib.h>
 #include <stdio.h>
 
-void camel_mime_utils_write_header_pair_to_file(FILE* file, gchar* name, GString *value);
+void gmime_write_header_pair_to_file(FILE* file, gchar* name, GString *value);
 
 
 
@@ -43,4 +43,4 @@ void camel_mime_utils_write_header_pair_to_file(FILE* file, gchar* name, GString
 }
 #endif /* __cplusplus */
 
-#endif /* CAMEL_MIME_UTILS_H */
+#endif /* GMIME_UTILS_H */

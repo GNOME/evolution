@@ -16,11 +16,12 @@ libcamel_la_SOURCES = 				\
 	camel-data-wrapper.c			\
 	camel-folder.c				\
 	camel-mime-part.c			\
-	camel-mime-utils.c			\
 	camel-provider.c			\
 	camel-service.c				\
 	camel-session.c				\
 	camel-store.c				\
+	gmime-content-field.c			\
+	gmime-utils.c				\
 	gstring-util.c				\
 	url-util.c
 
@@ -29,11 +30,12 @@ libcamelinclude_HEADERS =			\
 	camel-data-wrapper.h			\
 	camel-folder.h				\
 	camel-mime-part.h			\
-	camel-mime-utils.c			\
 	camel-provider.h			\
 	camel-service.h				\
 	camel-session.h				\
 	camel-store.h				\
+	gmime-content-field.h			\
+	gmime-utils.h				\
 	gstring-util.h				\
 	url-util.h
 

@@ -33,7 +33,7 @@ extern "C" {
 
 #include <gtk/gtk.h>
 #include <stdio.h>
-
+#include "gmime-content-field.h"
 
 
 
@@ -47,7 +47,7 @@ typedef struct
 {
 	GtkObject parent_object;
 
-	GString *mime_type;
+	GMimeContentField *content_type;
 	
 } CamelDataWrapper;
 
