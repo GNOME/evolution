@@ -103,11 +103,11 @@ typedef struct _EPluginLib EPluginLib;
 typedef struct _EPluginLibClass EPluginLibClass;
 
 /* The callback signature used for epluginlib methods */
-typedef void *(EPluginLibFunc)(EPluginLib *ep, void *data);
+typedef void *(*EPluginLibFunc)(EPluginLib *ep, void *data);
 /* The setup method, this will be called when the plugin is
  * initialised.  In the future it may also be called when the plugin
  * is disabled. */
-typedef int (EPluginLibEnableFunc)(EPluginLib *ep, int enable);
+typedef int (*EPluginLibEnableFunc)(EPluginLib *ep, int enable);
 
 /**
  * struct _EPluginLib - 

@@ -1,5 +1,7 @@
 2004-10-07  Not Zed  <NotZed@Ximian.com>
 
+	* e-plugin.h: Fix the function pointer types!
+
 	* e-plugin.c (epl_invoke): noop if we're disabled, and do some
 	lifecycle stuff now, call e_plugin_lib_enable on the module if it
 	exists.
