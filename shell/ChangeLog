@@ -1,5 +1,13 @@
 2003-01-08  Ettore Perazzoli  <ettore@ximian.com>
 
+	* Makefile.am: Images are now in $(datadir)/evolution/images
+	instead of $(datadir)/images/evolution.
+
+	* e-folder-list.c (e_folder_list_class_init): Remove
+	"EFolderList::" prefix from the properties.
+
+2003-01-08  Ettore Perazzoli  <ettore@ximian.com>
+
 	* Makefile.am (evolution_LDFLAGS): -export-dynamic so custom
 	widgets in libglade work.
 

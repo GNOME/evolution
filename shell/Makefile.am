@@ -7,7 +7,7 @@ INCLUDES =							\
 	-I$(top_srcdir)/libical/src/libical			\
 	-I$(top_builddir)/libical/src/libical			\
 	-I$(top_srcdir)						\
-	-DEVOLUTION_IMAGES=\""$(datadir)/images/evolution"\"	\
+	-DEVOLUTION_IMAGES=\""$(datadir)/evolution/images"\"	\
 	-DEVOLUTION_LOCALEDIR=\""$(localedir)"\"   		\
 	-DEVOLUTION_DATADIR=\""$(datadir)"\"            	\
 	-DEVOLUTION_GLADEDIR=\"$(datadir)/evolution/glade\"	\

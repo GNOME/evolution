@@ -254,13 +254,13 @@ e_folder_list_class_init (EFolderListClass *klass)
 	E_OBJECT_CLASS_ADD_SIGNALS (object_class, signals, LAST_SIGNAL);
 
 	g_object_class_install_property (object_class, PROP_TITLE,
-					 g_param_spec_string ("EFolderList::title",
+					 g_param_spec_string ("title",
 							      NULL,
 							      NULL,
 							      NULL,
 							      G_PARAM_READWRITE));
 	g_object_class_install_property (object_class, PROP_POSSIBLE_TYPES,
-					 g_param_spec_pointer ("EFolderList::possible_types",
+					 g_param_spec_pointer ("possible_types",
 							       NULL,
 							       NULL,
 							       G_PARAM_READWRITE));
