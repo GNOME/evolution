@@ -24,8 +24,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-09-06 12:58+0200\n"
-"PO-Revision-Date: 2004-09-06 12:54+0200\n"
+"POT-Creation-Date: 2004-09-07 15:42+0200\n"
+"PO-Revision-Date: 2004-09-07 15:50+0200\n"
 "Last-Translator: Martin Willemoes Hansen <mwh@sysrq.dk>\n"
 "Language-Team: Danish <dansk@klid.dk>\n"
 "MIME-Version: 1.0\n"
@@ -78,6 +78,8 @@ msgid ""
 "This addressbook server might unreachable or the server name may be "
 "misspelled or your network connection could be down."
 msgstr ""
+"Denne adressebogsserver kan være utilgængelig, servernavnet kan være stavet "
+"forkert eller din netværksforbindelse kan være nede."
 
 #. addressbook:ldap-auth primary
 #: addressbook/addressbook-errors.xml.h:6
@@ -91,6 +93,9 @@ msgid ""
 "a supported login method. Remember that many passwords are case sensitive; "
 "your caps lock might be on."
 msgstr ""
+"Kontrollér at din adgangskode er stavet korrekt og at du anvender en "
+"understøttet logind-metode. Husk at mange adgangskoder er versalfølsomme; "
+"din \"Caps Lock\"-knap kan være aktiveret."
 
 #. addressbook:ldap-search-base primary
 #: addressbook/addressbook-errors.xml.h:10
@@ -104,6 +109,9 @@ msgid ""
 "this functionality or it may be misconfigured. Ask your administrator for "
 "supported search bases."
 msgstr ""
+"Denne LDAP-server anvender måske en ældre version af LDAP der ikke "
+"understøtter denne funktionalitet eller den er måske fejlkonfigureret. Spørg "
+"din administrator om de søgebaser som understøttes."
 
 #. addressbook:ldap-v3-schema primary
 #: addressbook/addressbook-errors.xml.h:14
@@ -201,6 +209,8 @@ msgid ""
 "You are attempting to move a contact from one addressbook to another but it "
 "cannot be removed from the source. Do you want to save a copy instead?"
 msgstr ""
+"Du forsøger at flytte en kontakt fra en adressebog til en anden, men den "
+"kan ikke flyttes fra kilden. Vil du gemme en kopi i stedet?"
 
 #. addressbook:save-error primary
 #: addressbook/addressbook-errors.xml.h:47
@@ -3184,7 +3194,7 @@ msgstr "GTK-trævisning"
 
 #: addressbook/gui/widgets/test-reflow.c:119
 msgid "Reflow Test"
-msgstr ""
+msgstr "Genstrøm-test"
 
 #: addressbook/gui/widgets/test-reflow.c:120
 #: addressbook/printing/test-contact-print-style-editor.c:54
@@ -3194,7 +3204,7 @@ msgstr "Ophavsret (C) 2000, Ximian, Inc."
 
 #: addressbook/gui/widgets/test-reflow.c:122
 msgid "This should test the reflow canvas item"
-msgstr "Dette vil teste genstrøm-kanvas-elementet"
+msgstr "Dette bør teste genstrøm-kanvas-elementet"
 
 #: addressbook/importers/GNOME_Evolution_Addressbook_LDIF_Importer.server.in.in.h:1
 msgid "Evolution LDIF importer"
@@ -3404,7 +3414,7 @@ msgstr "Test af redigering af udskriftsstil for kontakt"
 
 #: addressbook/printing/test-contact-print-style-editor.c:56
 msgid "This should test the contact print style editor widget"
-msgstr ""
+msgstr "Dette bør teste redigering af udskriftsstil for kontakt-kontrollen"
 
 #: addressbook/printing/test-print.c:52
 msgid "Contact Print Test"
@@ -3412,7 +3422,7 @@ msgstr "Test af udskrivning af kontakt"
 
 #: addressbook/printing/test-print.c:55
 msgid "This should test the contact print code"
-msgstr "Dette vil teste kontakt-udskriftskoden"
+msgstr "Dette bør teste kontakt-udskriftskoden"
 
 #: addressbook/tools/evolution-addressbook-export-list-cards.c:657
 #: addressbook/tools/evolution-addressbook-export-list-cards.c:693
@@ -3452,10 +3462,13 @@ msgstr "[vcard|csv]"
 msgid "Export in asynchronous mode "
 msgstr "Eksportér i asynkron-tilstand "
 
+# Lack of space after the comma
+# http://bugzilla.ximian.com/show_bug.cgi?id=61069
 #: addressbook/tools/evolution-addressbook-export.c:63
 msgid ""
 "The number of cards in one output file in asychronous mode,default size 100."
 msgstr ""
+"Antallet af visitkort i én uddatafil i asynkron-tilstand, standardstørrelsen 100."
 
 #: addressbook/tools/evolution-addressbook-export.c:63
 msgid "NUMBER"
@@ -3465,6 +3478,8 @@ msgstr "ANTAL"
 msgid ""
 "Command line arguments error, please use --help option to see the usage."
 msgstr ""
+"Fejl i argumenter på kommandolinjen, vær så venlig at benytte flaget --help "
+"for at få hjælp."
 
 #: addressbook/tools/evolution-addressbook-export.c:105
 msgid "Only support csv or vcard format."
@@ -3472,11 +3487,13 @@ msgstr "Understøt kun csv- eller vcard-format."
 
 #: addressbook/tools/evolution-addressbook-export.c:114
 msgid "In async mode, output must be file."
-msgstr ""
+msgstr "I asynkron-tilstand skal uddata være en fil."
 
+# Strange use of English
+# http://bugzilla.ximian.com/show_bug.cgi?id=61070
 #: addressbook/tools/evolution-addressbook-export.c:122
 msgid "In normal mode, there should not need size option."
-msgstr ""
+msgstr "I normal-tilstand behøves intet tilvalg af størrelse."
 
 #: addressbook/tools/evolution-addressbook-export.c:153
 msgid "Impossible internal error."
@@ -4023,7 +4040,7 @@ msgstr "Intervaller der vises i dag- og arbejdsuge-visninger"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:10
 msgid "List of urls for free/busy publishing"
-msgstr ""
+msgstr "Liste med adresser for ledig- / optaget-publicering"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:11
 msgid "Minute the workday ends on"
@@ -4039,31 +4056,31 @@ msgstr "Antal enheder for standardpåmindelse"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:14
 msgid "Number of units for determining when to hide tasks"
-msgstr ""
+msgstr "Antal enheder for at bestemme hvornår opgaver skal skjules"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:15
 msgid "Position of the horizontal pane"
-msgstr ""
+msgstr "Det horisontale panel's position"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:16
 msgid "Position of the horizontal pane in the month view"
-msgstr ""
+msgstr "Det horisontale panel's position i månedsvisning"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:17
 msgid "Position of the vertical pane"
-msgstr ""
+msgstr "Det vertikale panel's position"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:18
 msgid "Position of the vertical pane in the month view"
-msgstr ""
+msgstr "Det vertikale panel's position i månedsvisning"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:19
 msgid "Position of the vertical pane in the task view"
-msgstr ""
+msgstr "Det vertikale panel's position i opgavevisning"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:20
 msgid "Programs that can run as part of alarms"
-msgstr ""
+msgstr "Programmer der kan udføres som en del af alarmer"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:21
 msgid "Show where events end in week and month views"
@@ -4087,7 +4104,7 @@ msgstr "Ugedagen hvorpå ugen starter"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:26
 msgid "Whether or not to use the notification tray for display alarms"
-msgstr ""
+msgstr "Om påmindelsesfeltet skal anvendes til visning af alarmer"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:27
 msgid "Whether to ask for confirmation on appointment deletion"
@@ -9005,9 +9022,11 @@ msgstr "(match-all) kræver et enkelt boolsk resultat"
 msgid "(match-threads) not allowed inside match-all"
 msgstr "(match-threads) tillades ikke inden i match-all"
 
+# Dette kræver nok en forklaring.
+# http://bugzilla.ximian.com/show_bug.cgi?id=61084
 #: camel/camel-folder-search.c:758 camel/camel-folder-search.c:762
 msgid "(match-threads) requires a match type string"
-msgstr ""
+msgstr "(match-threads) kræver en matchtype-streng"
 
 #: camel/camel-folder-search.c:784
 msgid "(match-threads) expects an array result"
@@ -9412,50 +9431,62 @@ msgid ""
 "The specified mechanism is not supported by the provided credential, or is "
 "unrecognized by the implementation."
 msgstr ""
+"Den anførte mekanisme understøttes ikke af det givne akkreditiv eller er "
+"ukendt af implementationen."
 
 #: camel/camel-sasl-gssapi.c:157
 msgid "The provided target_name parameter was ill-formed."
-msgstr ""
+msgstr "Den givne target_name-parameter var ugyldigt udformet."
 
 #: camel/camel-sasl-gssapi.c:160
 msgid ""
 "The provided target_name parameter contained an invalid or unsupported type "
 "of name."
 msgstr ""
+"Den givne target_name-parameter indeholdt et ugyldigt eller ikke "
+"understøttet typenavn."
 
 #: camel/camel-sasl-gssapi.c:164
 msgid ""
 "The input_token contains different channel bindings to those specified via "
 "the input_chan_bindings parameter."
 msgstr ""
+"input_token indeholder andre kanalbindinger end dem som er anført via "
+"parameteren input_chan_bindings."
 
 #: camel/camel-sasl-gssapi.c:169
 msgid ""
 "The input_token contains an invalid signature, or a signature that could not "
 "be verified."
 msgstr ""
+"input_token indeholder en ugyldig signatur eller en signatur som ikke kunne "
+"verificeres."
 
 #: camel/camel-sasl-gssapi.c:173
 msgid ""
 "The supplied credentials were not valid for context initiation, or the "
 "credential handle did not reference any credentials."
 msgstr ""
+"De givne kreditiver var ikke gyldige for sammenhængsinitialisering eller så "
+"refererede kreditivhåndtaget ingen kreditiver."
 
 #: camel/camel-sasl-gssapi.c:178
 msgid "The supplied context handle did not refer to a valid context."
-msgstr ""
+msgstr "Det givne sammenhængshåndtag refererede ikke til en gyldig sammenhæng."
 
 #: camel/camel-sasl-gssapi.c:181
 msgid "The consistency checks performed on the input_token failed."
 msgstr ""
+"Kontrolleringen af konsistens der blev udført på input_token mislykkedes."
 
 #: camel/camel-sasl-gssapi.c:184
 msgid "The consistency checks performed on the credential failed."
 msgstr ""
+"Kontrolleringen af konsistens der blev udført på kreditivet mislykkedes."
 
 #: camel/camel-sasl-gssapi.c:187
 msgid "The referenced credentials have expired."
-msgstr ""
+msgstr "De refererede kreditiver er udløbet."
 
 #: camel/camel-sasl-gssapi.c:193 camel/camel-sasl-gssapi.c:242
 #: camel/camel-sasl-gssapi.c:278 camel/camel-sasl-gssapi.c:293
@@ -9653,7 +9684,7 @@ msgstr "Kunne ikke tilføje SMIMEEncKeyPrefs-attribut"
 
 #: camel/camel-smime-context.c:349
 msgid "Cannot add MS SMIMEEncKeyPrefs attribute"
-msgstr ""
+msgstr "Kan ikke tilføje MS SMIMEEncKeyPrefs-attribut"
 
 #: camel/camel-smime-context.c:354
 msgid "Cannot add encryption certificate"
@@ -9721,7 +9752,7 @@ msgstr "Ingen signedData i signaturen"
 
 #: camel/camel-smime-context.c:576
 msgid "Digests missing from enveloped data"
-msgstr ""
+msgstr "Digests mangler i konvolut-data"
 
 #: camel/camel-smime-context.c:589 camel/camel-smime-context.c:599
 msgid "Cannot calculate digests"
@@ -9738,10 +9769,13 @@ msgstr "Importering af certifikatet mislykkedes"
 #: camel/camel-smime-context.c:628
 msgid "Certificate only message, cannot verify certificates"
 msgstr ""
+"Besked der kun indeholder certifikater. Kunne ikke verificere certifikaterne"
 
 #: camel/camel-smime-context.c:631
 msgid "Certificate only message, certificates imported and verified"
 msgstr ""
+"Besked der kun indeholder certifikater. Certifikaterne er importeret og "
+"verificeret"
 
 #: camel/camel-smime-context.c:635
 msgid "Cannot find signature digests"
@@ -9768,7 +9802,7 @@ msgstr "Kunne ikke finde en normal bulk-algoritme"
 #. PORT_GetError(); ??
 #: camel/camel-smime-context.c:820
 msgid "Cannot allocate slot for encryption bulk key"
-msgstr ""
+msgstr "Kunne ikke tildele plads for krypteringsbulknøgle"
 
 #: camel/camel-smime-context.c:831
 msgid "Cannot create CMS Message"
@@ -10731,7 +10765,7 @@ msgstr "IMAP-serveren %s koblede uventet fra: %s"
 #: camel/providers/imapp/camel-imapp-provider.c:39
 #: camel/providers/pop3/camel-pop3-provider.c:38
 msgid "Message storage"
-msgstr "Beskedslager"
+msgstr "Beskedlager"
 
 #: camel/providers/imapp/camel-imapp-provider.c:47
 msgid "IMAP+"
@@ -10787,7 +10821,7 @@ msgstr "E-postkataloger i MH-format"
 
 #: camel/providers/local/camel-local-provider.c:50
 msgid "For storing local mail in MH-like mail directories."
-msgstr "For lagring af lokal e-post i MH-lignende beskedskataloger."
+msgstr "For lagring af lokal e-post i MH-lignende beskedkataloger."
 
 #: camel/providers/local/camel-local-provider.c:65
 msgid "Local delivery"
@@ -10812,7 +10846,7 @@ msgstr "E-postmapper i \"Maildir\" format"
 
 #: camel/providers/local/camel-local-provider.c:84
 msgid "For storing local mail in maildir directories."
-msgstr "For lagring af lokal e-post i qmail maildir beskedsmapper."
+msgstr "For lagring af lokal e-post i qmail maildir beskedmapper."
 
 #: camel/providers/local/camel-local-provider.c:95
 msgid "Store status headers in Elm/Pine/Mutt format"
@@ -10933,7 +10967,7 @@ msgstr ""
 
 #: camel/providers/local/camel-maildir-folder.c:267
 msgid "Invalid message contents"
-msgstr "Ugyldig beskedsindhold"
+msgstr "Ugyldigt beskedindhold"
 
 #: camel/providers/local/camel-maildir-store.c:109
 #: camel/providers/local/camel-mbox-store.c:154
@@ -12141,8 +12175,8 @@ msgstr "Signatur:"
 #, c-format
 msgid "<b>%d</b> File Attached"
 msgid_plural "<b>%d</b> Files Attached"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "<b>%d</b> fil vedlagt"
+msgstr[1] "<b>%d</b> filer vedlagt"
 
 #: composer/e-msg-composer.c:2312
 msgid "Hide _Attachment Bar (drop attachments here)"
@@ -13103,7 +13137,7 @@ msgstr "E-post-liste"
 
 #: mail/em-filter-i18n.h:39
 msgid "Message Body"
-msgstr "Beskedskrop"
+msgstr "Beskedkrop"
 
 #: mail/em-filter-i18n.h:40
 msgid "Message Header"
@@ -13760,7 +13794,7 @@ msgstr "Krypteringstype for multipart/encrypted som ikke er understøttet"
 
 #: mail/em-format.c:1379
 msgid "Could not parse MIME message. Displaying as source."
-msgstr "Kunne ikke læse MIME-besked. Viser ren beskedstekst."
+msgstr "Kunne ikke læse MIME-besked. Viser ren beskedtekst."
 
 #: mail/em-format.c:1398
 msgid "Unsupported signature format"
@@ -13834,7 +13868,7 @@ msgstr "Kunne ikke oprette POP3-behold på serveren-data-katalog \"%s\": %s"
 #: mail/em-migrate.c:2060
 #, c-format
 msgid "Unable to copy POP3 keep-on-server data `%s': %s"
-msgstr ""
+msgstr "Kunne ikke kopiere POP3 behold på server-data \"%s\": %s"
 
 #: mail/em-migrate.c:2415 mail/em-migrate.c:2427
 #, c-format
@@ -13986,11 +14020,11 @@ msgstr "Standardtegnkodning for skrivning af beskeder."
 
 #: mail/evolution-mail.schemas.in.in.h:10
 msgid "Default charset in which to display messages"
-msgstr "Standardtegnkodning for visning af beskeder"
+msgstr "Standardtegnkodning til visning af beskeder"
 
 #: mail/evolution-mail.schemas.in.in.h:11
 msgid "Default charset in which to display messages."
-msgstr "Standardtegnkodning for visning af beskeder."
+msgstr "Standardtegnkodning til visning af beskeder."
 
 #: mail/evolution-mail.schemas.in.in.h:12
 msgid "Default forward style"
@@ -14039,18 +14073,20 @@ msgstr "Tøm alle affaldsmapper når Evolution afslutter."
 #: mail/evolution-mail.schemas.in.in.h:23
 msgid "Enable caret mode, so that you can see a cursor when reading mail."
 msgstr ""
+"Aktivér cirkumfleks-tilstand således at du kan se en markør når du læser "
+"post."
 
 #: mail/evolution-mail.schemas.in.in.h:24
 msgid "Enable/disable caret mode"
-msgstr ""
+msgstr "Aktivér / deaktivér cirkumfleks-tilstand"
 
 #: mail/evolution-mail.schemas.in.in.h:25
 msgid "Height of the message-list pane"
-msgstr ""
+msgstr "Højden af beskedlisteruden"
 
 #: mail/evolution-mail.schemas.in.in.h:26
 msgid "Height of the message-list pane."
-msgstr ""
+msgstr "Højden af beskedlisteruden."
 
 #: mail/evolution-mail.schemas.in.in.h:27
 msgid ""
@@ -14058,6 +14094,10 @@ msgid ""
 "any mime-types appearing in this list which map to a bonobo-component viewer "
 "in GNOME's mime-type database may be used for displaying content."
 msgstr ""
+"Hvis der ikke er indbygget visning for en specifik mime-type inden i "
+"Evolution, vil en hvilken som helst mime-type i denne liste, som er "
+"afbilledet i en bonobo-komponent-visning i GNOME's mime-type-database, blive "
+"brugt til at vise indholdet."
 
 #: mail/evolution-mail.schemas.in.in.h:28
 msgid "Last time empty trash was run"
@@ -14065,7 +14105,7 @@ msgstr "Sidst gang tøm skrald blev udført"
 
 #: mail/evolution-mail.schemas.in.in.h:29
 msgid "List of Labels and their associated colors"
-msgstr ""
+msgstr "Liste over etiketter og deres associerede farver"
 
 #: mail/evolution-mail.schemas.in.in.h:30
 msgid "List of accepted licenses"
@@ -14080,24 +14120,30 @@ msgid ""
 "List of accounts known to the mail component of Evolution. The list contains "
 "strings naming subdirectories relative to /apps/evolution/mail/accounts."
 msgstr ""
+"Liste over konti som Evolutions e-post-komponent kender. Listen indeholder "
+"navnene på undermapperne i /apps/evolution/mail/accounts."
 
 #: mail/evolution-mail.schemas.in.in.h:33
 msgid "List of custom headers and whether they are enabled."
-msgstr ""
+msgstr "Liste over tilpassede hoveder og om de er aktiveret."
 
 #: mail/evolution-mail.schemas.in.in.h:34
 msgid ""
 "List of labels known to the mail component of Evolution. The list contains "
 "strings containing name:color where color uses the HTML hex encoding."
 msgstr ""
+"Liste over etiketter som Evolutions e-post-komponent kender. Listen "
+"indeholder strenge indeholdende navn:farve, hvor farve benytter sig af HTML-"
+"hex-kodning."
 
 #: mail/evolution-mail.schemas.in.in.h:35
 msgid "List of mime types to check for bonobo component viewers"
 msgstr ""
+"Liste over mime-typer hvortil der skal findes bonobo-komponent-visninger"
 
 #: mail/evolution-mail.schemas.in.in.h:36
 msgid "List of protocol names whose license has been accepted."
-msgstr ""
+msgstr "Liste over protokolnavne hvis licens er blevet accepteret."
 
 #: mail/evolution-mail.schemas.in.in.h:37
 msgid "Load images for HTML messages over http"
@@ -14109,6 +14155,9 @@ msgid ""
 "load images off the net 1 - Load images if sender is in the addressbook 2 - "
 "Always load images off the net"
 msgstr ""
+"Indlæs billeder i beskeder der benytter HTML over http(s). Mulige værdier "
+"er: 0 - Indlæs aldrig billeder fra nettet 1 - Indlæs billeder hvis "
+"afsenderen findes i adressebogen 2 - Indlæs altid billeder fra nettet"
 
 #: mail/evolution-mail.schemas.in.in.h:39
 msgid "Log filter actions"
@@ -14120,27 +14169,27 @@ msgstr "Log filterhandlinger til den angivne logfil."
 
 #: mail/evolution-mail.schemas.in.in.h:41
 msgid "Logfile to log filter actions"
-msgstr ""
+msgstr "Logfilen for filterhandlinger"
 
 #: mail/evolution-mail.schemas.in.in.h:42
 msgid "Logfile to log filter actions."
-msgstr ""
+msgstr "Logfilen for filterhandlinger."
 
 #: mail/evolution-mail.schemas.in.in.h:43
 msgid "Mark as Seen after specified timeout"
-msgstr ""
+msgstr "Markér som set efter angivet tidsudløb"
 
 #: mail/evolution-mail.schemas.in.in.h:44
 msgid "Mark as Seen after specified timeout."
-msgstr ""
+msgstr "Markér som set efter angivet tidsudløb."
 
 #: mail/evolution-mail.schemas.in.in.h:45
 msgid "Mark citations in the message \"Preview\""
-msgstr ""
+msgstr "Markér citater i forhåndsvisningen af beskeder"
 
 #: mail/evolution-mail.schemas.in.in.h:46
 msgid "Mark citations in the message \"Preview\"."
-msgstr ""
+msgstr "Markér citater i forhåndsvisningen af beskeder."
 
 #: mail/evolution-mail.schemas.in.in.h:47
 msgid "Message Window default height"
@@ -14152,15 +14201,15 @@ msgstr "Standardbredde på beskedvinduet"
 
 #: mail/evolution-mail.schemas.in.in.h:49
 msgid "Message-display style (normal, full headers, source)"
-msgstr ""
+msgstr "Stil for beskedvisning (normal, alle hoveder, kilde)"
 
 #: mail/evolution-mail.schemas.in.in.h:50
 msgid "Minimum days between emptying the trash on exit"
-msgstr ""
+msgstr "Minimum antal dage mellem tømning af skrald ved afslutning"
 
 #: mail/evolution-mail.schemas.in.in.h:51
 msgid "Minimum time between emptying the trash on exit, in days."
-msgstr ""
+msgstr "Minimum tid mellem tømning af skrald ved afslutning i dage."
 
 #: mail/evolution-mail.schemas.in.in.h:52
 msgid "New Mail Notify sound file"
@@ -14172,24 +14221,24 @@ msgstr "Type af påmindelse om ny e-post"
 
 #: mail/evolution-mail.schemas.in.in.h:54
 msgid "Prompt on empty subject"
-msgstr ""
+msgstr "Spørg ved tomt emne"
 
 #: mail/evolution-mail.schemas.in.in.h:55
 msgid "Prompt the user when he or she tries to expunge a folder."
-msgstr ""
+msgstr "Spørg brugeren når han eller hende prøver at tømme en folder."
 
 #: mail/evolution-mail.schemas.in.in.h:56
 msgid ""
 "Prompt the user when he or she tries to send a message without a Subject."
-msgstr ""
+msgstr "Spørg når brugeren forsøger at sende beskeder med et tomt emne."
 
 #: mail/evolution-mail.schemas.in.in.h:57
 msgid "Prompt when user expunges"
-msgstr ""
+msgstr "Spørg når brugeren tømmer"
 
 #: mail/evolution-mail.schemas.in.in.h:58
 msgid "Prompt when user only fills Bcc"
-msgstr ""
+msgstr "Spørg når brugeren kun udfylder Bcc-feltet"
 
 #: mail/evolution-mail.schemas.in.in.h:59
 msgid ""
@@ -14209,7 +14258,7 @@ msgstr "Spørg når brugeren prøver at sende uønsket HTML"
 
 #: mail/evolution-mail.schemas.in.in.h:62
 msgid "Recognize links in text and replace them."
-msgstr ""
+msgstr "Genkend links i tekst og erstat dem."
 
 #: mail/evolution-mail.schemas.in.in.h:63
 msgid "Recognize smileys in text and replace them with images."
@@ -14249,7 +14298,7 @@ msgstr "Vis forhåndsvisnings-ruden"
 
 #: mail/evolution-mail.schemas.in.in.h:72
 msgid "Show the \"Preview\" pane."
-msgstr "Vis forhåndsvisningsvinduet."
+msgstr "Vis forhåndsvisnings-ruden."
 
 #: mail/evolution-mail.schemas.in.in.h:73
 msgid "Sound file to play when new mail arrives."
@@ -14257,7 +14306,7 @@ msgstr "Lydfilen der skal afspilles når ny e-post ankommer."
 
 #: mail/evolution-mail.schemas.in.in.h:74
 msgid "Specifies the type of New Mail Notification the user wishes to use."
-msgstr ""
+msgstr "Anføre typen af påmindelse om ny e-post, som brugeren ønsker at bruge."
 
 #: mail/evolution-mail.schemas.in.in.h:75
 msgid "Spell check inline"
@@ -14277,7 +14326,7 @@ msgstr "Terminalskrifttype"
 
 #: mail/evolution-mail.schemas.in.in.h:79
 msgid "The last time empty trash was run, in days since the epoch."
-msgstr ""
+msgstr "Sidste gang skraldet blev tømt i dage siden epoken."
 
 #: mail/evolution-mail.schemas.in.in.h:80
 msgid "The terminal font for mail display"
@@ -14294,26 +14343,29 @@ msgid ""
 "header enabled&gt; - set enabled if the header is to be displayed in the "
 "mail view."
 msgstr ""
+"Denne nøgle bør indeholde en liste over XML-strukture der angiver tilpassede "
+"hoveder og om de skal vises. Formatet for XML-strukturen er &lt;header "
+"enabled&gt; - sæt til enabled hvis hovedet skal vises i e-post-visningen."
 
 #: mail/evolution-mail.schemas.in.in.h:83
 msgid "Thread the message list."
-msgstr "Benyt tråde i beskedslisten."
+msgstr "Benyt tråde i beskedlisten."
 
 #: mail/evolution-mail.schemas.in.in.h:84
 msgid "Thread the message-list"
-msgstr "Benyt tråde i beskedslisten"
+msgstr "Benyt tråde i beskedlisten"
 
 #: mail/evolution-mail.schemas.in.in.h:85
 msgid "Thread the message-list based on Subject"
-msgstr ""
+msgstr "Benyt tråde i beskedlisten baseret på emne"
 
 #: mail/evolution-mail.schemas.in.in.h:86
 msgid "Timeout for marking message as Seen"
-msgstr ""
+msgstr "Tidsudløb for at markere besked som set"
 
 #: mail/evolution-mail.schemas.in.in.h:87
 msgid "Timeout for marking message as Seen."
-msgstr ""
+msgstr "Tidsudløb for at markere besked som set."
 
 #: mail/evolution-mail.schemas.in.in.h:88
 msgid "UID string of the default account."
@@ -14321,11 +14373,11 @@ msgstr "Standardkontoens UID-streng."
 
 #: mail/evolution-mail.schemas.in.in.h:89
 msgid "Use Spamasssassin daemon and client"
-msgstr ""
+msgstr "Benyt Spamassassin-server og klient"
 
 #: mail/evolution-mail.schemas.in.in.h:90
 msgid "Use Spamasssassin daemon and client (spamc/spamd)"
-msgstr ""
+msgstr "Benyt Spamassassin-server og klient (spamd / spamc)"
 
 #: mail/evolution-mail.schemas.in.in.h:91
 msgid "Use custom fonts"
@@ -14333,15 +14385,15 @@ msgstr "Brug tilpassede skrifttyper"
 
 #: mail/evolution-mail.schemas.in.in.h:92
 msgid "Use custom fonts for displaying mail"
-msgstr ""
+msgstr "Benyt tilpassede skrifttyper til e-post-visning"
 
 #: mail/evolution-mail.schemas.in.in.h:93
 msgid "Use only local spam tests."
-msgstr ""
+msgstr "Benyt kun lokale spam-test."
 
 #: mail/evolution-mail.schemas.in.in.h:94
 msgid "Use only the local spam tests (no DNS)."
-msgstr ""
+msgstr "Benyt kun de lokale spam test (ingen DNS)."
 
 #: mail/evolution-mail.schemas.in.in.h:95
 msgid "Variable width font"
@@ -14349,53 +14401,55 @@ msgstr "Skrifttype med variabel bredde"
 
 #: mail/evolution-mail.schemas.in.in.h:96
 msgid "View/Bcc menu item is checked"
-msgstr ""
+msgstr "Vis/Bcc-menupunktet er afkrydset"
 
 #: mail/evolution-mail.schemas.in.in.h:97
 msgid "View/Bcc menu item is checked."
-msgstr ""
+msgstr "Vis/Bcc-menupunktet er afkrydset."
 
 #: mail/evolution-mail.schemas.in.in.h:98
 msgid "View/Cc menu item is checked"
-msgstr ""
+msgstr "Vis/Cc-menupunktet er afkrydset"
 
 #: mail/evolution-mail.schemas.in.in.h:99
 msgid "View/Cc menu item is checked."
-msgstr ""
+msgstr "Vis/Cc-menupunktet er afkrydset."
 
 #: mail/evolution-mail.schemas.in.in.h:100
 msgid "View/From menu item is checked"
-msgstr ""
+msgstr "Vis/Fra-menupunktet er afkrydset"
 
 #: mail/evolution-mail.schemas.in.in.h:101
 msgid "View/From menu item is checked."
-msgstr ""
+msgstr "Vis/Fra-menupunktet er afkrydset."
 
 #: mail/evolution-mail.schemas.in.in.h:102
 msgid "View/PostTo menu item is checked"
-msgstr ""
+msgstr "Vis/Send til-menupunktet er afkrydset"
 
 #: mail/evolution-mail.schemas.in.in.h:103
 msgid "View/PostTo menu item is checked."
-msgstr ""
+msgstr "Vis/Send til-menupunktet er afkrydset."
 
 #: mail/evolution-mail.schemas.in.in.h:104
 msgid "View/ReplyTo menu item is checked"
-msgstr ""
+msgstr "Vis/Svar til-menupunktet er afkrydset"
 
 #: mail/evolution-mail.schemas.in.in.h:105
 msgid "View/ReplyTo menu item is checked."
-msgstr ""
+msgstr "Vis/Svar til-menupunktet er afkrydset."
 
 #: mail/evolution-mail.schemas.in.in.h:106
 msgid ""
 "Whether or not to fall back on threading by subjects when the messages do "
 "not contain In-Reply-To or References headers."
 msgstr ""
+"Om der skal benyttes tråde baseret på emner når beskeder ikke indeholder In-"
+"Reply-To eller refererer hoveder."
 
 #: mail/evolution-mail.schemas.in.in.h:107
 msgid "port for starting user runned spamd"
-msgstr ""
+msgstr "port til at starte bruger aktiveret spamd"
 
 #: mail/evolution-mail.schemas.in.in.h:108
 msgid "spamd port"
@@ -15143,7 +15197,7 @@ msgstr "Placering af postboks"
 
 #: mail/mail-config.glade.h:101
 msgid "Message Composer"
-msgstr "Beskedreredigeringsværktøj"
+msgstr "Beskedredigeringsværktøj"
 
 #: mail/mail-config.glade.h:104
 msgid ""
@@ -15282,9 +15336,9 @@ msgid ""
 "signature. The name you specify will be used\n"
 "for display purposes only. "
 msgstr ""
-"Uddata fra dette skript vil anvendas som\n"
+"Uddata fra dette skript vil anvendes som\n"
 "din signatur. Navnet du angiver vil bare\n"
-"anvendas for visning."
+"anvendes til visning."
 
 #: mail/mail-config.glade.h:147
 msgid ""
@@ -15589,6 +15643,12 @@ msgid ""
 "your message. To avoid this, you should add at least one To: or CC: "
 "recipient. "
 msgstr ""
+"Kontaktlisten du sender til er konfigureret til at skjule liste-modtagere.\n"
+"\n"
+"Mange e-post-systemer føjer et Apparently-To-hoved til beskeder der kun har "
+"Bcc-modtagere. Dette hoved, hvis tilføjet, vil liste alle dine modtagere i "
+"din besked. For at undgå dette bør du tilføje mindst en Til:- eller Cc:-"
+"modtager."
 
 #. mail:ask-send-only-bcc secondary
 #: mail/mail-errors.xml.h:31
@@ -15598,12 +15658,16 @@ msgid ""
 "your message anyway. To avoid this, you should add at least one To: or CC: "
 "recipient."
 msgstr ""
+"Mange e-post-systemer føjer et Apparently-To-hoved til beskeder der kun har "
+"Bcc-modtagere. Dette hoved, hvis tilføjet, vil liste alle dine modtagere i "
+"din besked aligevel. For at undgå dette bør du tilføje mindst en Til:- eller "
+"Cc:-modtager."
 
 #. mail:send-no-recipients primary
 #: mail/mail-errors.xml.h:34
 msgid ""
 "This message cannot be sent because you have not specified any Recipients"
-msgstr ""
+msgstr "Denne besked kan ikke sendes fordi du ikke har anført nogen modtagere"
 
 #. mail:send-no-recipients secondary
 #: mail/mail-errors.xml.h:36
@@ -15611,6 +15675,9 @@ msgid ""
 "Please enter a valid email address in the To: field. You can search for "
 "email addresses by clicking on the To: button next to the entry box."
 msgstr ""
+"Vær så venlig at indtaste en gyldig e-post-adresse i Til:-feltet. Du kan "
+"søge efter e-post-adresser ved at klikke på Til:-knappen ved siden af "
+"indtastningsfeltet."
 
 #. mail:ask-default-drafts primary
 #: mail/mail-errors.xml.h:38
@@ -15689,6 +15756,10 @@ msgid ""
 "The message is stored in the Outbox folder.  Check the message for errors "
 "and resend."
 msgstr ""
+"Beskeden blev sendt via det eksterne program \"sendmail\". Sendmail "
+"rapporterer om følgende fejl: status 67: e-post ikke sendt.\n"
+"Beskeden er lagret i udbakke-mappen. Kontrollér beskeden for fejl og send "
+"den igen."
 
 #. mail:async-error primary
 #: mail/mail-errors.xml.h:62
@@ -15933,6 +16004,8 @@ msgid ""
 "This folder may have been added implictly, go to the virtual folder editor "
 "to add it explictly, if required."
 msgstr ""
+"Denne mappe kan være blevet tilføjet implicit, brug virtuel-mappe-redigering "
+"for at tilføje den eksplicit, om nødvendigt."
 
 #. mail:vfolder-notunique primary
 #: mail/mail-errors.xml.h:190
@@ -16006,11 +16079,14 @@ msgid ""
 "Either by selecting the folders individually, and/or by selecting\n"
 "all local folders, all remote folders, or both."
 msgstr ""
+"Du skal angive mindst en mappe som værende kilde.\n"
+"Ved enten at vælge mapperne individuelt og / eller ved at vælge\n"
+"alle lokale mapper, alle eksterne mapper eller begge."
 
 #. mail:ask-migrate-existing primary
 #: mail/mail-errors.xml.h:224
 msgid "Problem migrating old mail folder \"{0}\"."
-msgstr ""
+msgstr "Problem ved migrering af den gamle e-post-mappe \"{0}\"."
 
 #. mail:ask-migrate-existing secondary
 #: mail/mail-errors.xml.h:226
@@ -16020,6 +16096,10 @@ msgid ""
 "You can choose to ignore this folder, overwrite or append its contents, or "
 "quit.\n"
 msgstr ""
+"En ikke-tom mappe på \"{1}\" findes allerede.\n"
+"\n"
+"Du kan vælge at ignorere denne mappe, overskrive dens indhold, tilføje dens "
+"indhold eller afslutte.\n"
 
 #: mail/mail-errors.xml.h:230
 msgid "Ignore"
@@ -16048,6 +16128,8 @@ msgid ""
 "\n"
 "Please check your account settings and try again.\n"
 msgstr ""
+"\n"
+"Kontrollér venligst din konto-opsætning og prøv igen.\n"
 
 #: mail/mail-folder-cache.c:795
 #, c-format
@@ -16403,7 +16485,7 @@ msgstr "%d %b %Y"
 
 #: mail/message-list.c:3380
 msgid "Generating message list"
-msgstr "Genererer beskedsliste"
+msgstr "Genererer beskedliste"
 
 #: mail/message-list.etspec.h:3
 msgid "Due By"
@@ -16538,12 +16620,16 @@ msgid ""
 "If set to true, Evolution will start up in offline mode instead of online "
 "mode."
 msgstr ""
+"Hvis sand, vil Evolution starte i afkoblet-tilstand istedet for opkoblet-"
+"tilstand."
 
 #: shell/apps_evolution_shell.schemas.in.in.h:7
 msgid ""
 "If set to true, the warning dialog in development versions of Evolution is "
 "not displayed."
 msgstr ""
+"Hvis sand, vil advarselsvinduet i udviklingsversionen af Evolution ikke "
+"blive vist."
 
 #: shell/apps_evolution_shell.schemas.in.in.h:8
 msgid "Last upgraded Evolution configuration version"
@@ -16553,6 +16639,8 @@ msgstr "Sidste opgraderet Evolution-opsætningsversion"
 msgid ""
 "List of paths for the folders to be synchronized to disk for offline usage"
 msgstr ""
+"Liste over stier for mapper der skal synkroniseres til disken for afkoblet "
+"brug"
 
 #: shell/apps_evolution_shell.schemas.in.in.h:10
 msgid "Toolbar is visible"
@@ -17106,6 +17194,11 @@ msgid ""
 "then you may manually remove the contents of \"evolution\" at your "
 "convenience.\n"
 msgstr ""
+"Den tidligere version af Evolution lagrede dens data et andet sted.\n"
+"\n"
+"Hvis du vælger at fjerne disse data, vil alt indholdet af \"evolution\"-"
+"kataloget blive fjernet permanent. Hvis du vælger at beholde disse data, kan "
+"du manuelt fjerne indholdet af \"evolution\" når du har lyst.\n"
 
 #: shell/shell-errors.xml.h:25
 msgid "_Remind Me Later"
@@ -17134,6 +17227,15 @@ msgid ""
 "Once deleted, you cannot downgrade to the previous version of Evolution "
 "without manual intervention.\n"
 msgstr ""
+"Hele indholdet af \"evolution\"-kataloget er ligeved at blive fjernet "
+"permanent.\n"
+"\n"
+"Du bør manuelt verificere at al din e-post-, dine kontakt- og kalender-data "
+"er tilstede og at denne version af Evolution opfører sig korrekt, før du "
+"sletter disse gamle data.\n"
+"\n"
+"Når dataene er slettet, kan du ikke nedgradere til en tidligere version af "
+"Evolution, uden manuel indgriben.\n"
 
 #. shell:noshell title
 #. shell:noshell-reason title
@@ -17154,6 +17256,9 @@ msgid ""
 "\n"
 "Click help for details"
 msgstr ""
+"Din systemopsætning matcher ikke din Evolutionopsætning.\n"
+"\n"
+"Klik på hjælp for detaljer"
 
 #. shell:noshell-reason secondary
 #: shell/shell-errors.xml.h:51
@@ -17164,6 +17269,11 @@ msgid ""
 "\n"
 "Click help for details."
 msgstr ""
+"Din systemopsætning matcher ikke din Evolutionopsætning:\n"
+"\n"
+"{0}\n"
+"\n"
+"Klik på hjælp for detaljer."
 
 #: smime/gui/ca-trust-dialog.c:91
 #, c-format
@@ -17172,6 +17282,9 @@ msgid ""
 "\n"
 "Edit trust settings:"
 msgstr ""
+"Certifikatet \"%s\" er et CA-certifikat.\n"
+"\n"
+"Redigér troværdighedsopsætning:"
 
 #: smime/gui/cert-trust-dialog.c:145
 msgid ""
@@ -17179,6 +17292,9 @@ msgid ""
 "then you trust the authenticity of this certificate unless otherwise "
 "indicated here"
 msgstr ""
+"Fordi du stoler på certifiseringsinstansen som har udstedet dette "
+"certifikat, så stoler du også på at dette certifikat er autentisk, med "
+"mindre du angiver det her"
 
 #: smime/gui/cert-trust-dialog.c:149
 msgid ""
@@ -17186,6 +17302,9 @@ msgid ""
 "certificate, then you do not trust the authenticity of this certificate "
 "unless otherwise indicated here"
 msgstr ""
+"Fordi du ikke stoler på certifiseringsinstansen som har udstedet dette "
+"certifikat, så stoler du heller ikke på at dette certifikat er autentisk, "
+"med mindre du angiver det her"
 
 #: smime/gui/certificate-manager.c:134 smime/gui/certificate-manager.c:142
 #: smime/gui/certificate-manager.c:375 smime/gui/certificate-manager.c:383
@@ -17429,7 +17548,7 @@ msgstr "Dine certifikater"
 
 #: smime/gui/smime-ui.glade.h:46
 msgid "_Edit CA Trust"
-msgstr ""
+msgstr "_Redigér CA-troværdighed"
 
 #. XXX we shouldn't be popping up dialogs in this code.
 #: smime/lib/e-cert-db.c:612
@@ -18009,7 +18128,7 @@ msgstr "Klip markerede beskeder ud til klippebord"
 
 #: ui/evolution-composer-entries.xml.h:4
 msgid "Paste text from the clipboard"
-msgstr "Indsæt tekst fra klippeborder"
+msgstr "Indsæt tekst fra klippebordet"
 
 #: ui/evolution-composer-entries.xml.h:5 ui/evolution-mail-list.xml.h:13
 #: ui/evolution-subscribe.xml.h:6
@@ -18238,7 +18357,7 @@ msgstr "Skjul valgte beskeder midlertidigt"
 
 #: ui/evolution-mail-list.xml.h:22
 msgid "Threaded Message list"
-msgstr "Beskedsliste med tråde"
+msgstr "Beskedliste med tråde"
 
 #: ui/evolution-mail-list.xml.h:25
 msgid "_Folder"
@@ -18250,7 +18369,7 @@ msgstr "Re_versér udvalg"
 
 #: ui/evolution-mail-list.xml.h:28
 msgid "_Threaded Message List"
-msgstr "Beskedsliste med _tråde"
+msgstr "Beskedliste med _tråde"
 
 #: ui/evolution-mail-message.xml.h:1
 msgid "A_dd Sender to Address Book"
@@ -18302,7 +18421,7 @@ msgstr "Lav en regel for at filtrere beskeder til disse modtagere"
 
 #: ui/evolution-mail-message.xml.h:15
 msgid "Create a rule to filter messages to this mailing list"
-msgstr "Lav en regel for at filtrere beskeder til denne beskedsliste"
+msgstr "Lav en regel for at filtrere beskeder til denne beskedliste"
 
 #: ui/evolution-mail-message.xml.h:16
 msgid "Create a rule to filter messages with this subject"
@@ -18622,7 +18741,7 @@ msgstr "_Større"
 
 #: ui/evolution-mail-message.xml.h:118
 msgid "_Message Display"
-msgstr "_Beskedsvisning"
+msgstr "_Beskedvisning"
 
 #: ui/evolution-mail-message.xml.h:120
 msgid "_Next Message"
@@ -19324,6 +19443,8 @@ msgid ""
 "If set, an underline in the text indicates the next character should be used "
 "for the mnemonic accelerator key"
 msgstr ""
+"Hvis sat, vil en understreg i teksten indikere at det næste tegn skal bruges "
+"som genvejstast"
 
 #: widgets/misc/e-expander.c:205
 msgid "Spacing"

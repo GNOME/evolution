@@ -1,12 +1,16 @@
+2004-09-07  Martin Willemoes Hansen  <mwh@sysrq.dk>
+
+	* da.po: Updated Danish translation.
+
 2004-09-07  Kjartan Maraas  <kmaraas@gnome.org>
 
 	* nb.po: Updated
 	* no.po: Updated
 
-2004-09-07  David Lodge <dave@cirt.net>
-                                                                                
+2004-09-07  David Lodge  <dave@cirt.net>
+
         * en_GB.po: Updated British translation.
-                                                                                
+
 2004-09-06  Francisco Javier F. Serrador  <serrador@cvs.gnome.org>
 
 	* es.po: Updated Spanish translation.
