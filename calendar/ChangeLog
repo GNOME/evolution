@@ -1,3 +1,9 @@
+2001-10-30  Damon Chaplin  <damon@ximian.com>
+
+	* gui/dialogs/comp-editor.c (comp_editor_remove_page): disconnect
+	signals added in append_page(). Fixes Gtk-Critical warning about
+	GtkAccelGroup being added twice to a window.
+
 2001-10-30  JP Rosevear  <jpr@ximian.com>
 
 	* gui/itip-utils.c (itip_send_comp): set a body for the message

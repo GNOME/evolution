@@ -583,6 +583,11 @@ comp_editor_remove_page (CompEditor *editor, CompEditorPage *page)
 	priv = editor->priv;
 
 	page_widget = comp_editor_page_get_widget (page);
+
+	/* Disconnect all the signals added in append_page(). */
+	gtk_signal_disconnect_by_data (GTK_OBJECT (page), editor);
+	gtk_signal_disconnect_by_data (GTK_OBJECT (page_widget), page);
+
 	page_num = gtk_notebook_page_num (priv->notebook, page_widget);
 	gtk_notebook_remove_page (priv->notebook, page_num);
 
