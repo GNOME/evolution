@@ -48,6 +48,7 @@ static GnomeCanvasGroupClass *parent_class = NULL;
 enum {
 	ARG_0,
 	ARG_WIDTH,
+	ARG_MINIMUM_WIDTH,
 	ARG_HEIGHT,
 	ARG_SPACING,
 };
@@ -90,6 +91,8 @@ e_canvas_vbox_class_init (ECanvasVboxClass *klass)
   
 	gtk_object_add_arg_type ("ECanvasVbox::width", GTK_TYPE_DOUBLE, 
 				 GTK_ARG_READWRITE, ARG_WIDTH); 
+	gtk_object_add_arg_type ("ECanvasVbox::minimum_width", GTK_TYPE_DOUBLE, 
+				 GTK_ARG_READWRITE, ARG_MINIMUM_WIDTH); 
 	gtk_object_add_arg_type ("ECanvasVbox::height", GTK_TYPE_DOUBLE, 
 				 GTK_ARG_READABLE, ARG_HEIGHT);
 	gtk_object_add_arg_type ("ECanvasVbox::spacing", GTK_TYPE_DOUBLE, 
@@ -112,6 +115,7 @@ e_canvas_vbox_init (ECanvasVbox *vbox)
 	vbox->items = NULL;
 
 	vbox->width = 10;
+	vbox->minimum_width = 10;
 	vbox->height = 10;
 	vbox->spacing = 0;
 
@@ -129,7 +133,8 @@ e_canvas_vbox_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 	
 	switch (arg_id){
 	case ARG_WIDTH:
-		e_canvas_vbox->width = GTK_VALUE_DOUBLE (*arg);
+	case ARG_MINIMUM_WIDTH:
+		e_canvas_vbox->minimum_width = GTK_VALUE_DOUBLE (*arg);
 		e_canvas_vbox_resize_children(item);
 		e_canvas_item_request_reflow(item);
 		break;
@@ -150,6 +155,9 @@ e_canvas_vbox_get_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 	switch (arg_id) {
 	case ARG_WIDTH:
 		GTK_VALUE_DOUBLE (*arg) = e_canvas_vbox->width;
+		break;
+	case ARG_MINIMUM_WIDTH:
+		GTK_VALUE_DOUBLE (*arg) = e_canvas_vbox->minimum_width;
 		break;
 	case ARG_HEIGHT:
 		GTK_VALUE_DOUBLE (*arg) = e_canvas_vbox->height;
@@ -239,7 +247,7 @@ e_canvas_vbox_real_add_item(ECanvasVbox *e_canvas_vbox, GnomeCanvasItem *item)
 			   GTK_SIGNAL_FUNC(e_canvas_vbox_remove_item), e_canvas_vbox);
 	if ( GTK_OBJECT_FLAGS( e_canvas_vbox ) & GNOME_CANVAS_ITEM_REALIZED ) {
 		gnome_canvas_item_set(item,
-				      "width", (double) e_canvas_vbox->width,
+				      "width", (double) e_canvas_vbox->minimum_width,
 				      NULL);
 		e_canvas_item_request_reflow(item);
 	}
@@ -256,7 +264,7 @@ e_canvas_vbox_resize_children (GnomeCanvasItem *item)
 	for ( list = e_canvas_vbox->items; list; list = list->next ) {
 		GnomeCanvasItem *child = GNOME_CANVAS_ITEM(list->data);
 		gnome_canvas_item_set(child,
-				      "width", (double) e_canvas_vbox->width,
+				      "width", (double) e_canvas_vbox->minimum_width,
 				      NULL);
 	}
 }
@@ -269,24 +277,32 @@ e_canvas_vbox_reflow( GnomeCanvasItem *item, int flags )
 
 		gdouble old_height;
 		gdouble running_height;
+		gdouble old_width;
+		gdouble max_width;
+
+		old_width = e_canvas_vbox->width;
+		max_width = e_canvas_vbox->minimum_width;
 
 		old_height = e_canvas_vbox->height;
-		
 		running_height = 0;
 
 		if (e_canvas_vbox->items == NULL) {
 		} else {
 			GList *list;
 			gdouble item_height;
+			gdouble item_width;
 
 			list = e_canvas_vbox->items;
 			gtk_object_get (GTK_OBJECT(list->data),
 					"height", &item_height,
+					"width", &item_width,
 					NULL);
 			e_canvas_item_move_absolute(GNOME_CANVAS_ITEM(list->data),
 						    (double) 0,
 						    (double) running_height);
 			running_height += item_height;
+			if (max_width < item_width)
+				max_width = item_width;
 			list = g_list_next(list);
 			
 			for( ; list; list = g_list_next(list)) {
@@ -294,6 +310,7 @@ e_canvas_vbox_reflow( GnomeCanvasItem *item, int flags )
 
 				gtk_object_get (GTK_OBJECT(list->data),
 						"height", &item_height,
+						"width", &item_width,
 						NULL);
 
 				e_canvas_item_move_absolute(GNOME_CANVAS_ITEM(list->data),
@@ -301,11 +318,15 @@ e_canvas_vbox_reflow( GnomeCanvasItem *item, int flags )
 							    (double) running_height);
 
 				running_height += item_height;
+				if (max_width < item_width)
+					max_width = item_width;
 			}
 				 
 		}
 		e_canvas_vbox->height = running_height;
-		if (old_height != e_canvas_vbox->height)
+		e_canvas_vbox->width = max_width;
+		if (old_height != e_canvas_vbox->height ||
+		    old_width !=  e_canvas_vbox->width)
 			e_canvas_item_request_parent_reflow(item);
 	}
 }

@@ -57,6 +57,7 @@ struct _ECanvasVbox
 	GList *items; /* Of type GnomeCanvasItem */
 
 	double width;
+	double minimum_width;
 	double height;
 	double spacing;
 };
