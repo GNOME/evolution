@@ -1,3 +1,10 @@
+2002-06-23  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-gpg-context.c (gpg_ctx_parse_status): Check for ERRSIG
+	also.
+	(gpg_ctx_op_step): Don't try writing a passphrase unless our
+	operation requires it.
+
 2002-06-22  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-gpg-context.c (gpg_encrypt): Return -1 on error.

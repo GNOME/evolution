@@ -281,7 +281,7 @@ static void
 gpg_ctx_set_mode (struct _GpgCtx *gpg, enum _GpgCtxMode mode)
 {
 	gpg->mode = mode;
-	gpg->need_passwd = gpg->mode == GPG_CTX_MODE_SIGN || GPG_CTX_MODE_DECRYPT;
+	gpg->need_passwd = ((gpg->mode == GPG_CTX_MODE_SIGN) || (gpg->mode == GPG_CTX_MODE_DECRYPT));
 }
 
 static void
@@ -729,7 +729,10 @@ gpg_ctx_parse_status (struct _GpgCtx *gpg, CamelException *ex)
 			break;
 		case GPG_CTX_MODE_VERIFY:
 			/* FIXME: we should save this so we can present it to the user? */
-			if (!strncmp (status, "TRUST_", 6) || !strncmp (status, "BADSIG ", 7))
+			/* Note: NO_PUBKEY often comes after an ERRSIG, but do we really care? */
+			if (!strncmp (status, "TRUST_", 6) ||
+			    !strncmp (status, "BADSIG", 6) ||
+			    !strncmp (status, "ERRSIG", 6))
 				gpg->complete = TRUE;
 			break;
 		case GPG_CTX_MODE_ENCRYPT:
@@ -856,6 +859,7 @@ gpg_ctx_op_step (struct _GpgCtx *gpg, CamelException *ex)
 		}
 	}
 	
+	gpg->reading = FALSE;
 	if (FD_ISSET (gpg->stdout, &rdset) && gpg->ostream) {
 		char buffer[4096];
 		ssize_t nread;
@@ -872,9 +876,6 @@ gpg_ctx_op_step (struct _GpgCtx *gpg, CamelException *ex)
 			
 			/* make sure we don't exit before reading all the data... */
 			gpg->reading = TRUE;
-		} else {
-			/* we've safely read all the output */
-			gpg->reading = FALSE;
 		}
 	}
 	
@@ -891,7 +892,7 @@ gpg_ctx_op_step (struct _GpgCtx *gpg, CamelException *ex)
 		g_byte_array_append (gpg->diagnostics, buffer, nread);
 	}
 	
-	if (wrsetp && gpg->passwd_fd != -1 && FD_ISSET (gpg->passwd_fd, &wrset)) {
+	if (wrsetp && gpg->passwd_fd != -1 && FD_ISSET (gpg->passwd_fd, &wrset) && gpg->need_passwd) {
 		if (gpg->send_passwd) {
 			ssize_t w, nwritten = 0;
 			size_t n;
