@@ -1,3 +1,7 @@
+2000-10-05  Michael Meeks  <michael@helixcode.com>
+
+	* configure.in: Bump Bonobo requirement to >= 0.20
+
 2000-10-05  Iain Holmes  <iain@helixcode.com>
 
 	* executive-summary/*: Added the executive summary stuff.
