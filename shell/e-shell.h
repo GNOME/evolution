@@ -31,10 +31,7 @@ struct _EShell {
 		EFolder *contacts;
 	} default_folders;
 
-	/*
-	 * An array of EShortcutGroups
-	 */
-	GArray *shortcut_groups;
+	EShortcutBarModel *shortcut_bar;
 };
 
 typedef struct {

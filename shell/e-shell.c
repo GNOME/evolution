@@ -153,28 +153,13 @@ es_destroy_default_folders (EShell *eshell)
 }
 
 static void
-es_destroy_shortcuts (EShell *eshell)
-{
-	const int len = eshell->shortcut_groups->len;
-	int i;
-
-	for (i = 0; i < len; i++){
-		EShortcutGroup *g = g_array_index (eshell->shortcut_groups, EShortcutGroup *, i);
-
-		gtk_object_unref (GTK_OBJECT (g));
-	}
-	
-	g_array_free (eshell->shortcut_groups, TRUE);
-}
-
-static void
 e_shell_destroy (GtkObject *object)
 {
 	EShell *eshell = E_SHELL (object);
 
-	es_destroy_shortcuts (eshell);
-	
+	gtk_object_unref (GTK_OBJECT (eshell->shortcut_bar));
 	es_destroy_default_folders (eshell);
+	
 	GTK_OBJECT_CLASS (e_shell_parent_class)->destroy (object);
 }
 
@@ -190,7 +175,6 @@ e_shell_class_init (GtkObjectClass *object_class)
 static void
 e_shell_destroy_views (EShell *eshell)
 {
-	GSList *l;
 
 	/*
 	 * Notice that eshell->views is updated by the various views
@@ -294,17 +278,13 @@ setup_secondary_shortcuts (EShell *eshell)
 static void
 e_shell_setup_default_shortcuts (EShell *eshell)
 {
-	GArray *esg;
-	EShortcutGroup *g;
-	
-	esg = g_array_new (FALSE, FALSE, sizeof (EShortcutGroup *));
-
-	g = setup_main_shortcuts (eshell);
-	g_array_append_val (esg, g);
-	g = setup_secondary_shortcuts (eshell);
-	g_array_append_val (esg, g);
-
-	eshell->shortcut_groups = esg;
+	eshell->shortcut_bar = e_shortcut_bar_model_new ();
+	e_shortcut_bar_model_append (
+		eshell->shortcut_bar,
+		setup_main_shortcuts (eshell));
+	e_shortcut_bar_model_append (
+		eshell->shortcut_bar,
+		setup_secondary_shortcuts (eshell));
 }
 
 static void

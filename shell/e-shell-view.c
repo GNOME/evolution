@@ -48,89 +48,21 @@ e_shell_view_setup (EShellView *eshell_view)
 static void
 e_shell_view_setup_shortcut_display (EShellView *eshell_view)
 {
-	gtk_widget_push_visual (gdk_rgb_get_visual ());
-	gtk_widget_push_colormap (gdk_rgb_get_cmap ());
-
+	eshell_view->shortcut_bar = e_shortcut_bar_view_new (eshell_view->eshell->shortcut_bar);
+	
 	eshell_view->shortcut_hpaned = gtk_hpaned_new ();
 	gtk_widget_show (eshell_view->shortcut_hpaned);
-	
-	eshell_view->shortcut_bar = e_shortcut_bar_new ();
 	gtk_paned_set_position (GTK_PANED (eshell_view->shortcut_hpaned), 100);
 
 	gtk_paned_pack1 (GTK_PANED (eshell_view->shortcut_hpaned),
 			 eshell_view->shortcut_bar, FALSE, TRUE);
 	gtk_widget_show (eshell_view->shortcut_bar);
 
-	gtk_widget_pop_visual ();
-	gtk_widget_pop_colormap ();
-
 	gnome_app_set_contents (GNOME_APP (eshell_view), eshell_view->shortcut_hpaned);
 
 	gtk_signal_connect (
 		GTK_OBJECT (eshell_view->shortcut_bar), "item_selected",
 		GTK_SIGNAL_FUNC (shortcut_bar_item_selected), eshell_view);
-
-}
-
-static void
-e_shell_view_load_group (EShell *eshell, EShellView *eshell_view, EShortcutGroup *esg)
-{
-	EShortcutBar *bar = E_SHORTCUT_BAR (eshell_view->shortcut_bar);
-	int group_num, i;
-	const int items = esg->shortcuts->len;
-
-	group_num = e_shortcut_bar_add_group (bar, esg->title);
-	if (esg->small_icons)
-		e_shortcut_bar_set_view_type (bar, group_num, E_ICON_BAR_SMALL_ICONS);
-
-	for (i = 0; i < items; i++){
-		EShortcut *shortcut = E_SHORTCUT (g_array_index (esg->shortcuts, EShortcut *, i));
-		EFolder *folder = shortcut->efolder;
-		char *type = NULL;
-		
-		switch (folder->type){
-		case E_FOLDER_MAIL:
-			type = "folder:";
-			break;
-			
-		case E_FOLDER_CONTACTS:
-			type = "contacts:";
-			break;
-			
-		case E_FOLDER_CALENDAR:
-			type = "calendar:";
-			break;
-			
-		case E_FOLDER_TASKS:
-			type = "todo:";
-			break;
-			
-		case E_FOLDER_OTHER:
-			type = "file:";
-			break;
-
-		default:
-			g_assert_not_reached ();
-		}
-		
-		e_shortcut_bar_add_item (bar, group_num, type, folder->name);
-	}
-}
-
-static void
-e_shell_view_load_shortcut_bar (EShellView *eshell_view)
-{
-	EShell *eshell = eshell_view->eshell;
-	const int groups = eshell->shortcut_groups->len;
-	int i;
-	
-	for (i = 0; i < groups; i++){
-		EShortcutGroup *esg;
-
-		esg = g_array_index (eshell->shortcut_groups, EShortcutGroup *, i);
-
-		e_shell_view_load_group (eshell, eshell_view, esg);
-	}
 }
 
 GtkWidget *
@@ -146,14 +78,14 @@ e_shell_view_new (EShell *eshell, gboolean show_shortcut_bar)
 	e_shell_view_setup (eshell_view);
 	e_shell_view_setup_menus (eshell_view);
 
+	e_shell_register_view (eshell, eshell_view);
+
 	if (show_shortcut_bar){
 		e_shell_view_setup_shortcut_display (eshell_view);
-		e_shell_view_load_shortcut_bar (eshell_view);
 	} else {
 		g_error ("Non-shortcut bar code not written yet");
 	}
 
-	e_shell_register_view (eshell, eshell_view);
 
 	eshell_view->shortcut_displayed = show_shortcut_bar;
 	
