@@ -1,4 +1,4 @@
 
-SUBDIRS=C
+SUBDIRS=C zh_CN
 
 
