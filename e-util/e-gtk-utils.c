@@ -49,7 +49,7 @@ e_signal_connect_while_alive (void *instance,
 
 	closure = g_cclosure_new (callback, callback_data, NULL);
 	g_object_watch_closure (alive_instance, closure);
-	g_signal_connect_closure_by_id (instance, g_signal_lookup (name, G_OBJECT_TYPE (object)), 0,
+	g_signal_connect_closure_by_id (instance, g_signal_lookup (name, G_OBJECT_TYPE (instance)), 0,
 					closure, FALSE);
 }
 
@@ -103,7 +103,7 @@ e_signal_connect_full_while_alive (void *instance,
 				   GtkCallbackMarshal marshal,
 				   void *data,
 				   GtkDestroyNotify destroy_func,
-				   gboolean object_signal,
+				   gboolean instance_signal,
 				   gboolean after,
 				   void *alive_instance)
 {
@@ -125,7 +125,7 @@ e_signal_connect_full_while_alive (void *instance,
 	info->disconnect_handler1 = gtk_signal_connect (instance, "destroy",
 							GTK_SIGNAL_FUNC (alive_disconnecter), info);
 
-	info->object2 = alive_object;
+	info->object2 = alive_instance;
 	info->disconnect_handler2 = gtk_signal_connect (alive_instance, "destroy",
 							GTK_SIGNAL_FUNC (alive_disconnecter), info);
 }

@@ -1,3 +1,9 @@
+2003-01-02  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-gtk-utils.c (e_signal_connect_full_while_alive): Get to
+	compile.
+	(e_signal_connect_while_alive): Like.
+
 2002-12-19  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-gtk-utils.c (e_signal_connect_while_alive): New.
