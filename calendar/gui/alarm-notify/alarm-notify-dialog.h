@@ -37,7 +37,7 @@ typedef enum {
 typedef void (* AlarmNotifyFunc) (AlarmNotifyResult result, int snooze_mins, gpointer data);
 
 gboolean alarm_notify_dialog (time_t trigger, time_t occur_start, time_t occur_end,
-			      CalComponent *comp,
+			      CalComponentVType vtype, const char *message,
 			      AlarmNotifyFunc func, gpointer func_data);
 
 

@@ -28,6 +28,7 @@
 #include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
 #include <glade/glade.h>
+#include <gal/widgets/e-unicode.h>
 #include "alarm-notify-dialog.h"
 
 
@@ -41,7 +42,7 @@ typedef struct {
 	GtkWidget *snooze;
 	GtkWidget *edit;
 	GtkWidget *heading;
-	GtkWidget *summary;
+	GtkWidget *message;
 	GtkWidget *snooze_time;
 
 	AlarmNotifyFunc func;
@@ -122,13 +123,10 @@ edit_clicked_cb (GtkWidget *widget, gpointer data)
 
 /* Creates a heading for the alarm notification dialog */
 static char *
-make_heading (CalComponent *comp, time_t occur_start, time_t occur_end)
+make_heading (CalComponentVType vtype, time_t occur_start, time_t occur_end)
 {
-	CalComponentVType vtype;
 	char *buf;
 	char s[128], e[128];
-
-	vtype = cal_component_get_vtype (comp);
 
 	if (occur_start != -1) {
 		struct tm tm;
@@ -187,29 +185,11 @@ make_heading (CalComponent *comp, time_t occur_start, time_t occur_end)
 		}
 		break;
 
-	case CAL_COMPONENT_JOURNAL:
-		if (occur_start != -1) {
-			if (occur_end != -1)
-				buf = g_strdup_printf (_("Notification about your journal entry "
-							 "starting on %s and ending on %s"),
-						       s, e);
-			else
-				buf = g_strdup_printf (_("Notification about your journal entry "
-							"starting on %s"),
-						      s);
-		} else {
-			if (occur_end != -1)
-				buf = g_strdup_printf (_("Notification about your journal entry "
-							 "ending on %s"),
-						       e);
-			else
-				buf = g_strdup_printf (_("Notification about your journal entry"));
-		}
-		break;
-
 	default:
-		g_assert_not_reached();
-		return NULL;
+		/* Only VEVENTs and VTODOs can have alarms */
+		g_assert_not_reached ();
+		buf = NULL;
+		break;
 	}
 
 	return buf;
@@ -220,7 +200,8 @@ make_heading (CalComponent *comp, time_t occur_start, time_t occur_end)
  * @trigger: Trigger time for the alarm.
  * @occur_start: Start of occurrence time for the event.
  * @occur_end: End of occurrence time for the event.
- * @comp: Calendar component object which corresponds to the alarm.
+ * @vtype: Type of the component which corresponds to the alarm.
+ * @message; Message to display in the dialog; usually comes from the component.
  * @func: Function to be called when a dialog action is invoked.
  * @func_data: Closure data for @func.
  * 
@@ -231,18 +212,20 @@ make_heading (CalComponent *comp, time_t occur_start, time_t occur_end)
  **/
 gboolean
 alarm_notify_dialog (time_t trigger, time_t occur_start, time_t occur_end,
-		     CalComponent *comp,
+		     CalComponentVType vtype, const char *message,
 		     AlarmNotifyFunc func, gpointer func_data)
 {
 	AlarmNotify *an;
 	char buf[256];
 	char *heading;
+	char *msg;
 	struct tm tm_trigger;
-	CalComponentText summary;
 
 	g_return_val_if_fail (trigger != -1, FALSE);
-	g_return_val_if_fail (comp != NULL, FALSE);
-	g_return_val_if_fail (IS_CAL_COMPONENT (comp), FALSE);
+
+	/* Only VEVENTs or VTODOs can have alarms */
+	g_return_val_if_fail (vtype == CAL_COMPONENT_EVENT || vtype == CAL_COMPONENT_TODO, FALSE);
+	g_return_val_if_fail (message != NULL, FALSE);
 	g_return_val_if_fail (func != NULL, FALSE);
 
 	an = g_new0 (AlarmNotify, 1);
@@ -262,10 +245,10 @@ alarm_notify_dialog (time_t trigger, time_t occur_start, time_t occur_end,
 	an->snooze = glade_xml_get_widget (an->xml, "snooze");
 	an->edit = glade_xml_get_widget (an->xml, "edit");
 	an->heading = glade_xml_get_widget (an->xml, "heading");
-	an->summary = glade_xml_get_widget (an->xml, "summary");
+	an->message = glade_xml_get_widget (an->xml, "message");
 	an->snooze_time = glade_xml_get_widget (an->xml, "snooze-time");
 
-	if (!(an->dialog && an->close && an->snooze && an->edit && an->heading && an->summary
+	if (!(an->dialog && an->close && an->snooze && an->edit && an->heading && an->message
 	      && an->snooze_time)) {
 		g_message ("alarm_notify_dialog(): Could not find all widgets in Glade file!");
 		gtk_object_unref (GTK_OBJECT (an->xml));
@@ -279,26 +262,24 @@ alarm_notify_dialog (time_t trigger, time_t occur_start, time_t occur_end,
 
 	/* Title */
 
-	/* FIXME: use am_pm_flag or 24-hour time */
-
 	tm_trigger = *localtime (&trigger);
 	strftime (buf, sizeof (buf), _("Alarm on %A %b %d %Y %H:%M"), &tm_trigger);
 	gtk_window_set_title (GTK_WINDOW (an->dialog), buf);
 
 	/* Heading */
 
-	heading = make_heading (comp, occur_start, occur_end);
+	heading = make_heading (vtype, occur_start, occur_end);
 	gtk_label_set_text (GTK_LABEL (an->heading), heading);
 	g_free (heading);
 
-	/* Summary */
+	/* Message */
 
-	cal_component_get_summary (comp, &summary);
-
-	if (summary.value)
-		gtk_label_set_text (GTK_LABEL (an->summary), summary.value);
-	else
-		gtk_label_set_text (GTK_LABEL (an->summary), _("No summary available."));
+	msg = e_utf8_to_gtk_string (an->message, message);
+	if (msg) {
+		gtk_label_set_text (GTK_LABEL (an->message), msg);
+		g_free (msg);
+	} else
+		g_message ("Could not convert the alarm message from UTF8");
 
 	/* Connect actions */
 

@@ -1,3 +1,14 @@
+2001-07-10  Federico Mena Quintero  <federico@ximian.com>
+
+	* gui/alarm-notify/alarm-queue.c (alarm_trigger_cb): Handle the
+	different alarm actions.
+	(display_notification): Do the alarm notification dialog here.
+
+	* gui/alarm-notify/alarm-notify-dialog.c (make_heading): Take in a
+	CalComponentVType, not a whole component.
+	(alarm_notify_dialog): Take in a CalComponentVType and the final
+	message instead of generating it ourselves.
+
 2001-07-09  Federico Mena Quintero  <federico@ximian.com>
 
 	* pcs/cal-backend-file.c (generate_alarms_for_comp): Pass the

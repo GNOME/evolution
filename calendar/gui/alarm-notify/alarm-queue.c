@@ -24,6 +24,9 @@
 #include <config.h>
 #endif
 
+#include <glib.h>
+#include <libgnome/gnome-defs.h>
+#include <libgnome/gnome-i18n.h>
 #include <gtk/gtksignal.h>
 #include <cal-util/timeutil.h>
 #include "alarm.h"
@@ -74,14 +77,19 @@ typedef struct {
 	/* Alarm ID from alarm.h */
 	gpointer alarm_id;
 
-	/* Instance from our parent CompAlarms->alarms list */
+	/* Instance from our parent CompQueuedAlarms->alarms->alarms list */
 	CalAlarmInstance *instance;
 } QueuedAlarm;
 
 /* Alarm ID for the midnight refresh function */
 static gpointer midnight_refresh_id = NULL;
 
+static void display_notification (time_t trigger, CalAlarmInstance *instance,
+				  CalComponent *comp, CalComponentAlarm *alarm);
+
 
+
+/* Alarm queue engine */
 
 static void load_alarms (ClientAlarms *ca);
 static void midnight_refresh_cb (gpointer alarm_id, time_t trigger, gpointer data);
@@ -136,25 +144,6 @@ lookup_client (CalClient *client)
 	return g_hash_table_lookup (client_alarms_hash, client);
 }
 
-/* Callback used from the alarm notify dialog */
-static void
-notify_dialog_cb (AlarmNotifyResult result, int snooze_mins, gpointer data)
-{
-	switch (result) {
-	case ALARM_NOTIFY_SNOOZE:
-		/* FIXME */
-		break;
-
-	case ALARM_NOTIFY_EDIT:
-		/* FIXME */
-		break;
-
-	case ALARM_NOTIFY_CLOSE:
-	default:
-		break;
-	}
-}
-
 /* Callback used when an alarm triggers */
 static void
 alarm_trigger_cb (gpointer alarm_id, time_t trigger, gpointer data)
@@ -163,6 +152,8 @@ alarm_trigger_cb (gpointer alarm_id, time_t trigger, gpointer data)
 	CalComponent *comp;
 	GSList *l;
 	QueuedAlarm *qa;
+	CalComponentAlarm *alarm;
+	CalAlarmAction action;
 
 	cqa = data;
 	comp = cqa->alarms->comp;
@@ -179,10 +170,40 @@ alarm_trigger_cb (gpointer alarm_id, time_t trigger, gpointer data)
 
 	g_assert (qa != NULL);
 
-	if (!alarm_notify_dialog (trigger,
-				  qa->instance->occur_start, qa->instance->occur_end,
-				  comp, notify_dialog_cb, comp))
-		g_message ("alarm_trigger_cb(): Could not create the alarm notify dialog");
+	/* Decide what to do based on the alarm action.  We use the trigger that
+	 * is passed to us instead of the one from the instance structure
+	 * because this may be a snoozed alarm instead of an original
+	 * occurrence.
+	 */
+
+	alarm = cal_component_get_alarm (comp, qa->instance->auid);
+	g_assert (alarm != NULL);
+
+	cal_component_alarm_get_action (alarm, &action);
+
+	switch (action) {
+	case CAL_ALARM_AUDIO:
+		/* FIXME: audio_notification (); */
+		break;
+
+	case CAL_ALARM_DISPLAY:
+		display_notification (trigger, qa->instance, comp, alarm);
+		break;
+
+	case CAL_ALARM_EMAIL:
+		/* FIXME: mail_notification (); */
+		break;
+
+	case CAL_ALARM_PROCEDURE:
+		/* FIXME: procedure_notification (); */
+		break;
+
+	default:
+		g_assert_not_reached ();
+		break;
+	}
+
+	cal_component_alarm_free (alarm);
 }
 
 /* Callback used when an alarm must be destroyed */
@@ -415,6 +436,62 @@ obj_removed_cb (CalClient *client, const char *uid, gpointer data)
 	ca = data;
 
 	remove_comp (ca, uid);
+}
+
+
+
+/* Notification functions */
+
+/* Callback used from the alarm notify dialog */
+static void
+notify_dialog_cb (AlarmNotifyResult result, int snooze_mins, gpointer data)
+{
+	switch (result) {
+	case ALARM_NOTIFY_SNOOZE:
+		/* FIXME */
+		break;
+
+	case ALARM_NOTIFY_EDIT:
+		/* FIXME */
+		break;
+
+	case ALARM_NOTIFY_CLOSE:
+	default:
+		break;
+	}
+}
+
+/* Performs notification of a display alarm */
+static void
+display_notification (time_t trigger, CalAlarmInstance *instance,
+		      CalComponent *comp, CalComponentAlarm *alarm)
+{
+	CalComponentVType vtype;
+	CalComponentText text;
+	const char *message;
+
+	vtype = cal_component_get_vtype (comp);
+
+	/* Pick a sensible notification message.  First we try the DESCRIPTION
+	 * from the alarm, then the SUMMARY of the component.
+	 */
+
+	cal_component_alarm_get_description (alarm, &text);
+	if (text.value)
+		message = text.value;
+	else {
+		cal_component_get_summary (comp, &text);
+		if (text.value)
+			message = text.value;
+		else
+			message = _("No description available.");
+	}
+
+	if (!alarm_notify_dialog (trigger,
+				  instance->occur_start, instance->occur_end,
+				  vtype, message,
+				  notify_dialog_cb, comp))
+		g_message ("display_notification(): Could not create the alarm notify dialog");
 }
 
 
