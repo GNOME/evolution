@@ -579,7 +579,11 @@ EVO_CHECK_LIB(libxml, xml, 1.8.17, 2.0)
 EVO_CHECK_LIB(bonobo-conf, bonobo_conf, 0.11)
 
 EVO_CHECK_LIB(GAL, gal, 0.20)
-EVO_CHECK_LIB(GtkHTML, gtkhtml, 1.1.2)
+PKG_CHECK_MODULES(GTKHTML, gtkhtml-1.1)
+AC_SUBST(GTKHTML_CFLAGS)
+AC_SUBST(GTKHTML_LIBS)
+GTKHTML_DATADIR=`$PKG_CONFIG --variable gtkhtml_datadir gtkhtml-1.1`
+AC_SUBST(GTKHTML_DATADIR)
 EVO_CHECK_LIB(Libsoup, soup, 0.7)
 
 AM_PATH_GCONF(1.0,,,gconf gconf-gtk)
@@ -1034,17 +1038,11 @@ AC_DEFUN(EVO_SET_COMPILE_FLAGS, [
 
 dnl --- Flags to get all the GNOME stuff
 
-FULL_GNOME_DEPS="bonobo_conf bonobox_print gal gdk_pixbuf gnomecanvaspixbuf gnomeui gtkhtml libglade oaf vfs"
+FULL_GNOME_DEPS="bonobo_conf bonobox_print gal gdk_pixbuf gnomecanvaspixbuf gnomeui libglade oaf vfs"
 
 EVO_SET_COMPILE_FLAGS(GNOME_FULL, $FULL_GNOME_DEPS)
 AC_SUBST(GNOME_FULL_CFLAGS)
 AC_SUBST(GNOME_FULL_LIBS)
-
-dnl -- Find the directory where the GtkHTML editing component has its
-dnl    IDL files
-
-GTKHTML_DATADIR=`gnome-config --moddatadir gtkhtml`
-AC_SUBST(GTKHTML_DATADIR)
 
 dnl --- Flags for the various libraries we build
 
@@ -1082,13 +1080,13 @@ AC_SUBST(LIBFILTER_LIBS)
 
 dnl --- evolution (shell) flags
 
-EVO_SET_COMPILE_FLAGS(SHELL, bonobo_conf bonobox_print gal gdk_pixbuf gnomecanvaspixbuf gnomeui gtkhtml libglade oaf vfs)
+EVO_SET_COMPILE_FLAGS(SHELL, bonobo_conf bonobox_print gal gdk_pixbuf gnomecanvaspixbuf gnomeui libglade oaf vfs)
 AC_SUBST(SHELL_CFLAGS)
 AC_SUBST(SHELL_LIBS)
 
 dnl --- evolution-addressbook flags
 
-EVOLUTION_ADDRESSBOOK_DEPS="bonobo_conf bonobox_print gal gdk_pixbuf gnomecanvaspixbuf gnomeui gtkhtml libglade oaf vfs"
+EVOLUTION_ADDRESSBOOK_DEPS="bonobo_conf bonobox_print gal gdk_pixbuf gnomecanvaspixbuf gnomeui libglade oaf vfs"
 
 EVO_SET_COMPILE_FLAGS(EVOLUTION_ADDRESSBOOK, $EVOLUTION_ADDRESSBOOK_DEPS)
 AC_SUBST(EVOLUTION_ADDRESSBOOK_CFLAGS)
@@ -1101,15 +1099,15 @@ AC_SUBST(EVOLUTION_ADDRESSBOOK_CONDUIT_LIBS)
 dnl -- evolution-executive-summary flags
 
 EVO_SET_COMPILE_FLAGS(EVOLUTION_EXECUTIVE_SUMMARY,
-                      bonobo_conf bonobox bonobox_print gal gdk_pixbuf gnomecanvaspixbuf gnomeui gtkhtml libglade oaf soup vfs)
+                      bonobo_conf bonobox bonobox_print gal gdk_pixbuf gnomecanvaspixbuf gnomeui libglade oaf soup vfs, ${GTKHTML_CFLAGS}, ${GTKHTML_LIBS})
 AC_SUBST(EVOLUTION_EXECUTIVE_SUMMARY_CFLAGS)
 AC_SUBST(EVOLUTION_EXECUTIVE_SUMMARY_LIBS)
 
 dnl --- evolution-calendar flags
 
-EVOLUTION_CALENDAR_DEPS="bonobo_conf bonobox bonobox_print gal gdk_pixbuf gnomecanvaspixbuf gnomeui gtkhtml libglade oaf vfs"
+EVOLUTION_CALENDAR_DEPS="bonobo_conf bonobox bonobox_print gal gdk_pixbuf gnomecanvaspixbuf gnomeui libglade oaf vfs"
 
-EVO_SET_COMPILE_FLAGS(EVOLUTION_CALENDAR, $EVOLUTION_CALENDAR_DEPS)
+EVO_SET_COMPILE_FLAGS(EVOLUTION_CALENDAR, $EVOLUTION_CALENDAR_DEPS, ${GTKHTML_CFLAGS}, ${GTKHTML_LIBS})
 AC_SUBST(EVOLUTION_CALENDAR_CFLAGS)
 AC_SUBST(EVOLUTION_CALENDAR_LIBS)
 
@@ -1129,7 +1127,7 @@ AC_SUBST(privlibdir)
 camel_providerdir="$privlibdir/camel-providers"
 AC_SUBST(camel_providerdir)
 
-EVO_SET_COMPILE_FLAGS(EVOLUTION_MAIL, $FULL_GNOME_DEPS soup, $GCONF_CFLAGS $THREADS_CFLAGS, $GCONF_LIBS $THREADS_LIBS)
+EVO_SET_COMPILE_FLAGS(EVOLUTION_MAIL, $FULL_GNOME_DEPS soup, $GCONF_CFLAGS $THREADS_CFLAGS ${GTKHTML_CFLAGS}, $GCONF_LIBS $THREADS_LIBS ${GTKHTML_LIBS})
 AC_SUBST(EVOLUTION_MAIL_CFLAGS)
 AC_SUBST(EVOLUTION_MAIL_LIBS)
 
