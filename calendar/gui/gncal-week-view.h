@@ -13,7 +13,7 @@
 #include <libgnome/gnome-defs.h>
 #include <libgnomeui/gtkcalendar.h>
 #include "gncal-day-view.h"
-
+#include "gnome-cal.h"
 
 BEGIN_GNOME_DECLS
 
@@ -29,7 +29,7 @@ typedef struct _GncalWeekViewClass GncalWeekViewClass;
 struct _GncalWeekView {
 	GtkTable table;
 
-	Calendar *calendar;		/* the calendar we are associated to */
+	GnomeCalendar *calendar;	/* the calendar we are associated to */
 
 	struct tm start_of_week;
 
@@ -43,7 +43,7 @@ struct _GncalWeekViewClass {
 
 
 guint      gncal_week_view_get_type (void);
-GtkWidget *gncal_week_view_new      (Calendar *calendar, time_t start_of_week);
+GtkWidget *gncal_week_view_new      (GnomeCalendar *calendar, time_t start_of_week);
 
 void       gncal_week_view_update   (GncalWeekView *wview);
 void       gncal_week_view_set      (GncalWeekView *wview, time_t start_of_week);

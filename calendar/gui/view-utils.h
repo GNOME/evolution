@@ -20,7 +20,7 @@ enum {
 
 
 void view_utils_draw_events (GtkWidget *widget, GdkWindow *window, GdkGC *gc, GdkRectangle *area,
-			     int flags, Calendar *calendar, time_t start, time_t end);
+			     int flags, GList *events, time_t start, time_t end);
 
 
 #endif

@@ -11,6 +11,7 @@
 
 /* FIXME: remove this function later */
 
+#if 0
 static GList *
 calendar_get_events_in_range (Calendar *cal, time_t start, time_t end, GCompareFunc sort_func)
 {
@@ -50,10 +51,10 @@ calendar_get_events_in_range (Calendar *cal, time_t start, time_t end, GCompareF
 
 	return list;
 }
-
+#endif
 void
 view_utils_draw_events (GtkWidget *widget, GdkWindow *window, GdkGC *gc, GdkRectangle *area,
-			int flags, Calendar *calendar, time_t start, time_t end)
+			int flags, GList *events, time_t start, time_t end)
 {
 	int font_height;
 	int x, y, max_y;
@@ -62,7 +63,7 @@ view_utils_draw_events (GtkWidget *widget, GdkWindow *window, GdkGC *gc, GdkRect
 	struct tm tm_start, tm_end;
 	char *str;
 	iCalObject *ico;
-	GList *the_list, *list;
+	GList *list;
 
 	gdk_gc_set_clip_rectangle (gc, area);
 
@@ -70,9 +71,7 @@ view_utils_draw_events (GtkWidget *widget, GdkWindow *window, GdkGC *gc, GdkRect
 
 	max_y = area->y + area->height - font_height * ((flags & VIEW_UTILS_DRAW_SPLIT) ? 2 : 1);
 
-	the_list = calendar_get_events_in_range (calendar, start, end, calendar_compare_by_dtstart);
-
-	for (y = area->y, list = the_list; (y < max_y) && list; y += font_height, list = list->next) {
+	for (y = area->y, list = events; (y < max_y) && list; y += font_height, list = list->next) {
 		ico = list->data;
 
 		tm_start = *localtime (&ico->dtstart);
@@ -106,8 +105,5 @@ view_utils_draw_events (GtkWidget *widget, GdkWindow *window, GdkGC *gc, GdkRect
 				 y + widget->style->font->ascent,
 				 str);
 	}
-
-	g_list_free (the_list);
-
 	gdk_gc_set_clip_rectangle (gc, NULL);
 }

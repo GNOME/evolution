@@ -20,6 +20,7 @@ BEGIN_GNOME_DECLS
 typedef struct {
 	GnomeApp gnome_app;
 	Calendar *cal;
+	GtkWidget *week_view;
 } GnomeCalendar;
 
 typedef struct {

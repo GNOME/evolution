@@ -12,7 +12,7 @@
 #include <gtk/gtkwidget.h>
 #include <libgnome/gnome-defs.h>
 #include "calendar.h"
-
+#include "gnome-cal.h"
 
 BEGIN_GNOME_DECLS
 
@@ -28,13 +28,13 @@ typedef struct _GncalDayViewClass GncalDayViewClass;
 struct _GncalDayView {
 	GtkWidget widget;
 
-	Calendar *calendar;	/* the calendar we are associated to */
+	GnomeCalendar *calendar;/* the calendar we are associated to */
 
 	time_t lower;		/* lower and upper times to display */
-	time_t upper;
+	time_t upper;		/* these include the full day */
 
-	char *day_str;          /* what day is it? */
-
+	char   *day_str;        /* what day is it? */
+	GList  *events;         /* the events for the this day */
 	GtkShadowType shadow_type;
 };
 
@@ -44,7 +44,7 @@ struct _GncalDayViewClass {
 
 
 guint      gncal_day_view_get_type     (void);
-GtkWidget *gncal_day_view_new          (Calendar *calendar, time_t lower, time_t upper);
+GtkWidget *gncal_day_view_new          (GnomeCalendar *calendar, time_t lower, time_t upper);
 
 void       gncal_day_view_update       (GncalDayView *dview);
 void       gncal_day_view_set_bounds   (GncalDayView *dview, time_t lower, time_t upper);

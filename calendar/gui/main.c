@@ -163,7 +163,7 @@ GnomeUIInfo gnome_cal_file_menu [] = {
 GnomeUIInfo gnome_cal_about_menu [] = {
 	{ GNOME_APP_UI_ITEM, N_("About"), NULL, about_calendar_cmd, NULL, NULL,
 	  GNOME_APP_PIXMAP_STOCK, GNOME_STOCK_MENU_ABOUT },
-	GNOMEUIINFO_HELP ("midnight-commander"),
+	GNOMEUIINFO_HELP ("cal"),
 	GNOMEUIINFO_END
 };
 
@@ -182,7 +182,7 @@ GnomeUIInfo gnome_toolbar [] = {
 	
 	{ GNOME_APP_UI_ITEM, N_("Next"), N_("Next"), /*previous_clicked*/0, 0, 0,
 	  GNOME_APP_PIXMAP_STOCK, GNOME_STOCK_MENU_FORWARD },
-	
+
 	GNOMEUIINFO_END
 };
 

@@ -8,6 +8,7 @@
 #include <gnome.h>
 #include "calendar.h"
 #include "gnome-cal.h"
+#include "gncal-week-view.h"
 #include "views.h"
 
 static void gnome_calendar_init                    (GnomeCalendar *gcal);
@@ -38,19 +39,19 @@ static void
 setup_widgets (GnomeCalendar *gcal)
 {
 	GtkWidget *notebook;
-	GtkWidget *day_view, *week_view, *year_view, *task_view;
+	GtkWidget *day_view, *year_view, *task_view;
 	time_t now;
 
 	now = time (NULL);
 	
 	notebook  = gtk_notebook_new ();
 	day_view  = day_view_create  (gcal);
-	week_view = gncal_week_view_new (gcal->cal, now);
+	gcal->week_view = gncal_week_view_new (gcal, now);
 	year_view = year_view_create (gcal);
 	task_view = tasks_create (gcal);
 	
 	gtk_notebook_append_page (GTK_NOTEBOOK (notebook), day_view,  gtk_label_new (_("Day View")));
-	gtk_notebook_append_page (GTK_NOTEBOOK (notebook), week_view, gtk_label_new (_("Week View")));
+	gtk_notebook_append_page (GTK_NOTEBOOK (notebook), gcal->week_view, gtk_label_new (_("Week View")));
 	gtk_notebook_append_page (GTK_NOTEBOOK (notebook), year_view, gtk_label_new (_("Year View")));
 	gtk_notebook_append_page (GTK_NOTEBOOK (notebook), task_view, gtk_label_new (_("Tasks")));
 
@@ -92,4 +93,5 @@ void
 gnome_calendar_load (GnomeCalendar *gcal, char *file)
 {
 	calendar_load (gcal->cal, file);
+	gncal_week_view_update (GNCAL_WEEK_VIEW (gcal->week_view));
 }

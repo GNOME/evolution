@@ -93,24 +93,26 @@ gncal_day_view_destroy (GtkObject *object)
 
 	if (dview->day_str)
 		g_free (dview->day_str);
-
+	if (dview->events)
+		g_list_free (dview->events);
+	
 	if (GTK_OBJECT_CLASS (parent_class)->destroy)
 		(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
 }
 
 GtkWidget *
-gncal_day_view_new (Calendar *calendar, time_t lower, time_t upper)
+gncal_day_view_new (GnomeCalendar *calendar, time_t lower, time_t upper)
 {
 	GncalDayView *dview;
-#if 0
+
 	g_return_val_if_fail (calendar != NULL, NULL);
-#endif
+
 	dview = gtk_type_new (gncal_day_view_get_type ());
 
 	dview->calendar = calendar;
-	dview->lower = lower;
-	dview->upper = upper;
-
+	dview->lower    = lower;
+	dview->upper    = upper;
+	dview->events   = 0;
 	gncal_day_view_update (dview);
 
 	return GTK_WIDGET (dview);
@@ -268,7 +270,7 @@ gncal_day_view_expose (GtkWidget *widget, GdkEventExpose *event)
 					widget->style->fg_gc[GTK_STATE_NORMAL],
 					&rect,
  					VIEW_UTILS_DRAW_END | VIEW_UTILS_DRAW_SPLIT,
-					dview->calendar,
+					dview->events,
 					dview->lower,
 					dview->upper);
 
@@ -288,10 +290,18 @@ gncal_day_view_update (GncalDayView *dview)
 		g_free (dview->day_str);
 
 	tm = *localtime (&dview->lower);
-	strftime (buf, 256, "%A %d", &tm);
+	strftime (buf, sizeof (buf)-1, "%A %d", &tm);
 	dview->day_str = g_strdup (buf);
 
 	gtk_widget_draw (GTK_WIDGET (dview), NULL);
+
+	if (dview->events)
+		g_list_free (dview->events);
+
+	dview->events = calendar_get_events_in_range (dview->calendar->cal,
+						      dview->lower,
+						      dview->upper,
+						      calendar_compare_by_dtstart);
 }
 
 void
