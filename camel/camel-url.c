@@ -453,7 +453,8 @@ camel_url_get_param (CamelURL *url, const char *name)
  * in allocated memory, which the caller must free when it is done.
  **/
 char *
-camel_url_encode (char *part, gboolean escape_unsafe, char *escape_extra)
+camel_url_encode (const char *part, gboolean escape_unsafe,
+		  const char *escape_extra)
 {
 	char *work, *p;
 
