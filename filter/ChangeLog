@@ -1,3 +1,11 @@
+2000-11-13  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* filter-message-search.c (header_matches): Neglect any leading
+	whitespace in the header contents.
+	(header_starts_with): Same.
+	(header_ends_with): Same.
+	(header_soundex): Same.
+
 2000-11-12  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* filter-driver.c (filter_driver_filter_message): If there is a

@@ -124,12 +124,17 @@ header_matches (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMe
 			gboolean is_lowercase = TRUE;
 			char *c;
 			
+			/* remove any leading white space... */
+			for ( ; *contents && isspace (*contents); contents++);
+			
 			for (c = match; *c; c++) {
 				if (isalpha (*c) && isupper (*c)) {
 					is_lowercase = FALSE;
 					break;
 				}
 			}
+			
+			printf ("comparing: '%s' with '%s'\n", contents, match);
 			
 			if (is_lowercase) {
 				if (!g_strcasecmp (contents, match))
@@ -167,6 +172,9 @@ header_starts_with (struct _ESExp *f, int argc, struct _ESExpResult **argv, Filt
 			 * compare case-sensitive. */
 			gboolean is_lowercase = TRUE;
 			char *c;
+			
+			/* remove any leading white space... */
+			for ( ; *contents && isspace (*contents); contents++);
 			
 			for (c = match; *c; c++) {
 				if (isalpha (*c) && isupper (*c)) {
@@ -211,6 +219,9 @@ header_ends_with (struct _ESExp *f, int argc, struct _ESExpResult **argv, Filter
 			 * compare case-sensitive. */
 			gboolean is_lowercase = TRUE;
 			char *c, *end;
+			
+			/* remove any leading white space... */
+			for ( ; *contents && isspace (*contents); contents++);
 			
 			for (c = match; *c; c++) {
 				if (isalpha (*c) && isupper (*c)) {
@@ -323,6 +334,9 @@ header_soundex (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMe
 		contents = camel_medium_get_header (CAMEL_MEDIUM (fms->message), header);
 		
 		if (contents) {
+			/* remove any leading white space... */
+			for ( ; *contents && isspace (*contents); contents++);
+			
 			if (!soundexcmp (contents, match))
 				matched = TRUE;
 		}
