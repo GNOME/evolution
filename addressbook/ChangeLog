@@ -15,6 +15,10 @@
 
 	* gui/component/addressbook.c: Added inactive code to display an
 	ETable view of the addressbook.
+
+	* gui/component/e-addressbook-model.c,
+	gui/component/e-addressbook-model.h: New files to implement an
+	ETable model with a EBook back end.
 	
 2000-05-06  Christopher James Lahey  <clahey@helixcode.com>
 
