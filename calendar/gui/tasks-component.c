@@ -68,8 +68,12 @@ typedef struct
 	GSList *source_selection;
 	
 	ETasks *tasks;
-	GtkWidget *source_selector;
+	ETable *table;
+	ETableModel *model;
 
+	EInfoLabel *info_label;
+	GtkWidget *source_selector;
+	
 	BonoboControl *view_control;
 	BonoboControl *sidebar_control;
 	BonoboControl *statusbar_control;
@@ -382,6 +386,48 @@ source_removed_cb (ETasks *tasks, ESource *source, TasksComponentView *component
 	e_source_selector_unselect_source (E_SOURCE_SELECTOR (component_view->source_selector), source);
 }
 
+static void
+set_info (TasksComponentView *component_view)
+{
+	GString *message = g_string_new ("");
+	int rows, selected_rows;
+	
+	rows = e_table_model_row_count (component_view->model);
+	selected_rows =  e_table_selected_count (component_view->table);
+
+	g_string_append_printf(message, ngettext("%d task", "%d tasks", rows), rows);
+	if (selected_rows > 0)
+		g_string_append_printf(message, ngettext(", %d selected", ", %d selected", selected_rows), selected_rows);
+
+	e_info_label_set_info (component_view->info_label, _("Tasks"), message->str);
+
+	g_string_free (message, TRUE);
+}
+
+static void
+table_selection_change_cb (ETableModel *etm, TasksComponentView *component_view)
+{
+	set_info (component_view);
+}
+
+static void
+model_changed_cb (ETableModel *etm, TasksComponentView *component_view)
+{
+	set_info (component_view);
+}
+
+static void
+model_rows_inserted_cb (ETableModel *etm, int row, int count, TasksComponentView *component_view)
+{
+	set_info (component_view);
+}
+
+static void
+model_rows_deleted_cb (ETableModel *etm, int row, int count, TasksComponentView *component_view)
+{
+	set_info (component_view);
+}
+
 /* Evolution::Component CORBA methods */
 
 static CORBA_boolean
@@ -564,7 +610,7 @@ create_component_view (TasksComponent *tasks_component)
 {
 	TasksComponentPrivate *priv;
 	TasksComponentView *component_view;
-	GtkWidget *selector_scrolled_window, *vbox, *info;
+	GtkWidget *selector_scrolled_window, *vbox;
 	GtkWidget *statusbar_widget;
 	
 	priv = tasks_component->priv;
@@ -587,12 +633,12 @@ create_component_view (TasksComponent *tasks_component)
 					     GTK_SHADOW_IN);
 	gtk_widget_show (selector_scrolled_window);
 
-	info = e_info_label_new("stock_task");
-	e_info_label_set_info((EInfoLabel *)info, _("Tasks"), "");
-	gtk_widget_show (info);
+	component_view->info_label = (EInfoLabel *)e_info_label_new("stock_task");
+	e_info_label_set_info(component_view->info_label, _("Tasks"), "");
+	gtk_widget_show (GTK_WIDGET (component_view->info_label));
 
 	vbox = gtk_vbox_new(FALSE, 0);
-	gtk_box_pack_start(GTK_BOX (vbox), info, FALSE, TRUE, 0);
+	gtk_box_pack_start(GTK_BOX (vbox), GTK_WIDGET (component_view->info_label), FALSE, TRUE, 0);
 	gtk_box_pack_start(GTK_BOX (vbox), selector_scrolled_window, TRUE, TRUE, 0);
 	gtk_widget_show (vbox);
 
@@ -607,6 +653,10 @@ create_component_view (TasksComponent *tasks_component)
 	}
 
 	component_view->tasks = (ETasks *) bonobo_control_get_widget (component_view->view_control);
+	component_view->table = e_calendar_table_get_table (e_tasks_get_calendar_table (component_view->tasks));
+	component_view->model = E_TABLE_MODEL (e_calendar_table_get_model (e_tasks_get_calendar_table (component_view->tasks)));
+
+	/* This signal is thrown if backends die - we update the selector */
 	g_signal_connect (component_view->tasks, "source_removed", 
 			  G_CALLBACK (source_removed_cb), component_view);
 
@@ -632,6 +682,17 @@ create_component_view (TasksComponent *tasks_component)
 	/* Set up the "new" item handler */
 	component_view->creatable_items_handler = e_user_creatable_items_handler_new ("tasks", create_local_item_cb, tasks_component);
 	g_signal_connect (component_view->view_control, "activate", G_CALLBACK (control_activate_cb), component_view);
+
+	/* We use this to update the component information */
+	set_info (component_view);
+	g_signal_connect (component_view->table, "selection_change",
+			  G_CALLBACK (table_selection_change_cb), component_view);
+	g_signal_connect (component_view->model, "model_changed", 
+			  G_CALLBACK (model_changed_cb), component_view);
+	g_signal_connect (component_view->model, "model_rows_inserted",
+			  G_CALLBACK (model_rows_inserted_cb), component_view);
+	g_signal_connect (component_view->model, "model_rows_deleted",
+			  G_CALLBACK (model_rows_deleted_cb), component_view);
 
 	/* Load the selection from the last run */
 	update_selection (component_view);	

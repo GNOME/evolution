@@ -1,5 +1,15 @@
 2004-05-03  JP Rosevear  <jpr@ximian.com>
 
+	* gui/tasks-component.c (set_info): set the info label message
+	(model_changed_cb): call above
+	(table_selection_change_cb): ditto
+	(model_rows_inserted_cb): ditto
+	(model_rows_deleted_cb): ditto
+	(create_component_view): remember the info in the view struct;
+	listen for events that require the info label to be updated
+
+2004-05-03  JP Rosevear  <jpr@ximian.com>
+
 	Fixes #57899
 	
 	* gui/e-day-view.c (e_day_view_do_key_press): bail if the client
