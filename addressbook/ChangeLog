@@ -1,5 +1,11 @@
 2003-09-18  Chris Toshok  <toshok@ximian.com>
 
+	* backend/ebook/e-book.c (e_book_get_self): new function, ifdefed
+	out.
+	(e_book_set_self): new function, empty.
+	(e_book_get_default_addressbook): new function, empty.
+	(e_book_get_addressbooks): same.
+	
 	* backend/ebook/e-book.h: add prototypes for e_book_get_self,
 	e_book_set_self, e_book_get_default_addressbook, and
 	e_book_get_addressbooks.
