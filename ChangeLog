@@ -1,3 +1,8 @@
+2000-12-12  Christopher James Lahey  <clahey@helixcode.com>
+
+	* README: Removed mention of ETable and EText in widgets
+	directory.
+
 2000-12-12  Dan Winship  <danw@helixcode.com>
 
 	* README: Mention the gconf stable branch.

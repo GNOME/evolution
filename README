@@ -193,8 +193,7 @@ shell:		the Evolution shell (the main program that launches
 tests:		some test programs
 tools:		utilities, notably "killev", a script to kill of all
 		of the Evolution components
-widgets:	widgets used by Evolution, including the shortcut bar,
-		ETable, and EText
+widgets:	widgets used by Evolution, including the shortcut bar
 wombat:		Has source code that will load in the addressbook
 		and calendar backend, and will form the server
 		process we'll be using
