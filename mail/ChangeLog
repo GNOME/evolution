@@ -1,3 +1,8 @@
+2002-07-02  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-tools.c (mail_tool_make_message_attachment): Remove Bcc
+	headers too.
+
 2002-07-02  Ettore Perazzoli  <ettore@ximian.com>
 
 	* folder-browser.c (folder_browser_gui_init): Don't connect

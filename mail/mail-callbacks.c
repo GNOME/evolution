@@ -974,7 +974,7 @@ mail_generate_reply (CamelFolder *folder, CamelMimeMessage *message, const char 
 				if (reply_addr && !(mode == REPLY_ALL && g_hash_table_lookup (account_hash, reply_addr))) {
 					/* In the case that we are doing a Reply-To-All, we do not want
 					   to include the user's email address because replying to oneself
-                                           is kinda silly. */
+					   is kinda silly. */
 					dest = e_destination_new ();
 					e_destination_set_name (dest, name);
 					e_destination_set_email (dest, reply_addr);

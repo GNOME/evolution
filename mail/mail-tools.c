@@ -265,6 +265,10 @@ mail_tool_make_message_attachment (CamelMimeMessage *message)
 	xev = mail_tool_remove_xevolution_headers (message);
 	mail_tool_destroy_xevolution (xev);
 	
+	/* remove Bcc headers */
+	while (camel_medium_get_header (CAMEL_MEDIUM (message), "Bcc"))
+		camel_medium_remove_header (CAMEL_MEDIUM (message), "Bcc");
+	
 	part = camel_mime_part_new ();
 	camel_mime_part_set_disposition (part, "inline");
 	camel_mime_part_set_description (part, desc);
