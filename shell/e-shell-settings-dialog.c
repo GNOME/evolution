@@ -50,6 +50,23 @@ struct _EShellSettingsDialogPrivate {
 };
 
 
+/* FIXME ugly hack to work around that sizing of invisible widgets is broken
+   with Bonobo.  */
+
+static void
+set_dialog_size (EShellSettingsDialog *dialog)
+{
+	GdkFont *font;
+	int width, height;
+
+	font = GTK_WIDGET (dialog)->style->font;
+	width = gdk_string_width (font, "M") * 66;
+	height = (font->ascent + font->descent) * 35;
+
+	gtk_widget_set_usize (GTK_WIDGET (dialog), width, height);
+}
+
+
 /* Page handling.  */
 
 struct _Page {
@@ -236,6 +253,21 @@ load_pages (EShellSettingsDialog *dialog)
 }
 
 
+/* GtkWidget methods.  */
+
+static void
+impl_realize (GtkWidget *widget)
+{
+	EShellSettingsDialog *dialog;
+
+	dialog = E_SHELL_SETTINGS_DIALOG (widget);
+
+	set_dialog_size (dialog);
+
+	(* GTK_WIDGET_CLASS (parent_class)->realize) (widget);
+}
+
+
 /* GtkObject methods.  */
 
 static gboolean
@@ -268,9 +300,13 @@ static void
 class_init (EShellSettingsDialog *class)
 {
 	GtkObjectClass *object_class;
+	GtkWidgetClass *widget_class;
 
 	object_class = GTK_OBJECT_CLASS (class);
 	object_class->destroy = impl_destroy;
+
+	widget_class = GTK_WIDGET_CLASS (class);
+	widget_class->realize = impl_realize;
 
 	parent_class = gtk_type_class (PARENT_TYPE);
 }
@@ -288,7 +324,6 @@ init (EShellSettingsDialog *dialog)
 	load_pages (dialog);
 
 	gtk_window_set_title (GTK_WINDOW (dialog), _("Evolution Settings"));
-	gtk_window_set_default_size (GTK_WINDOW (dialog), 600, 450);
 }
 
 

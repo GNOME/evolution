@@ -1,5 +1,15 @@
 2002-09-19  Ettore Perazzoli  <ettore@ximian.com>
 
+	[Fix #28495 with a lame hack that works around Bonobo sizing
+	brokenness]
+
+	* e-shell-settings-dialog.c (set_dialog_size): New.
+	(impl_realize): Override for GtkWidget::realize; invoke
+	set_dialog_size() to set a minimum size.
+	(class_init): Install.
+
+2002-09-19  Ettore Perazzoli  <ettore@ximian.com>
+
 	* e-shell-folder-creation-dialog.c (async_create_cb): Don't set
 	the current folder for E_STORAGE_EXISTS.  [#30533]
 
@@ -4698,7 +4708,7 @@
 	(e_shell_folder_title_bar_construct): Make the name of the folder
 	bold using it.
 
-o2001-08-16  Ettore Perazzoli  <ettore@ximian.com>
+2001-08-16  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-gray-bar.c (endarken_style): Just hardcode the colors.
 
