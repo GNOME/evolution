@@ -26,6 +26,9 @@
 xmlNode *e_xml_get_child_by_name(xmlNode *parent, xmlChar *child_name)
 {
 	xmlNode *child;
+
+	g_return_val_if_fail(parent != NULL, NULL);
+	g_return_val_if_fail(child_name != NULL, NULL);
 	
 	for (child = parent->childs; child; child = child->next) {
 		if ( !xmlStrcmp( child->name, child_name ) ) {
@@ -38,7 +41,12 @@ xmlNode *e_xml_get_child_by_name(xmlNode *parent, xmlChar *child_name)
 int
 e_xml_get_integer_prop_by_name(xmlNode *parent, xmlChar *prop_name)
 {
-	xmlChar *prop = xmlGetProp(parent, prop_name);
+	xmlChar *prop;
+
+	g_return_val_if_fail (parent != NULL, 0);
+	g_return_val_if_fail (prop_name != NULL, 0);
+
+	prop = xmlGetProp(parent, prop_name);
 	if (prop)
 		return atoi(prop);
 	else
@@ -48,7 +56,14 @@ e_xml_get_integer_prop_by_name(xmlNode *parent, xmlChar *prop_name)
 void
 e_xml_set_integer_prop_by_name(xmlNode *parent, xmlChar *prop_name, int value)
 {
-	xmlChar *valuestr = g_strdup_printf("%d", value);
+	xmlChar *valuestr;
+
+	g_return_if_fail (parent != NULL);
+	g_return_val_if_fail (prop_name != NULL, 0);
+
+	valuestr = g_strdup_printf("%d", value);
 	xmlSetProp(parent, prop_name, valuestr);
 	g_free (valuestr);
 }
+
+
