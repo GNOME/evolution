@@ -24,17 +24,39 @@
  *  DEALINGS IN THE SOFTWARE.
  */
 
+#include <string.h>
 #include <libgnome/gnome-i18n.h>
 #include <glade/glade.h>
 #include <gtk/gtk.h>
 #include <gtk/gtkdialog.h>
+#include <gconf/gconf-client.h>
+#include <libedataserver/e-source.h>
 #include "mail/em-account-editor.h"
 #include "mail/em-config.h"
 #include "e-util/e-account.h"
+#include "e-util/e-account-list.h"
 
 int e_plugin_lib_enable (EPluginLib *ep, int enable);
 
+void exchange_account_setup_commit (EPlugin *epl, EConfigHookItemFactoryData *data);
 GtkWidget* org_gnome_exchange_account_setup (EPlugin *epl, EConfigHookItemFactoryData *data);
+GtkWidget *org_gnome_exchange_set_url(EPlugin *epl, EConfigHookItemFactoryData *data);
+
+#if 0
+int
+e_plugin_lib_enable (EPluginLib *ep, int enable)
+{
+	if (enable) {
+	}
+	return 0;
+}
+#endif
+
+void 
+exchange_account_setup_commit (EPlugin *epl, EConfigHookItemFactoryData *data)
+{
+	return;
+}
 
 static void
 oof_get()
@@ -161,14 +183,12 @@ construct_oof_editor (EConfigHookItemFactoryData *data)
 
 	editor_notebook = (GtkNotebook *) glade_xml_get_widget (parent_xml, 
 						"account_editor_notebook");
-	if (!editor_notebook) {
+	if (!editor_notebook)
 		return NULL;
-	}
 
 	oof_page = create_page ();
-	if (!oof_page) {
+	if (!oof_page)
 		return NULL;
-	}
 	
 	page_label = gtk_label_new (_("Exchange Settings"));
 
@@ -177,38 +197,207 @@ construct_oof_editor (EConfigHookItemFactoryData *data)
 	return oof_page;
 }
 
-#if 0
-int
-e_plugin_lib_enable (EPluginLib *ep, int enable)
-{
-	if (enable) {
-	}
-	return 0;
-}
-#endif
-
-
 GtkWidget *
-org_gnome_exchange_account_setup(EPlugin *epl, EConfigHookItemFactoryData *data)
+org_gnome_exchange_account_setup (EPlugin *epl, EConfigHookItemFactoryData *data)
 {
 	EMConfigTargetAccount *target_account;
-	GtkWidget *oof_page;
-	char *account_url = NULL, *exchange_url = NULL;
+	GtkWidget *oof_page = NULL;
+	const char *account_url=NULL, *source_url=NULL, *temp_url=NULL;
+	char *exchange_url = NULL;
+	GConfClient *client;
+	EAccountList *account_list;
+	const char *uid;
+	EAccount *gconf_account;
 
 	target_account = (EMConfigTargetAccount *)data->config->target;
-	account_url = g_strdup (target_account->account->source->url);
+
+	client = gconf_client_get_default ();
+	account_list = e_account_list_new (client);
+	if (account_list) {
+		uid = g_strdup (target_account->account->uid);  
+		if (uid) {
+			gconf_account = e_account_list_find (account_list, 
+							     E_ACCOUNT_FIND_UID,
+							     uid);
+			if (gconf_account) {
+				temp_url = e_account_get_string (gconf_account, 
+							E_ACCOUNT_SOURCE_URL);
+				if (temp_url)
+					e_account_set_string (
+						target_account->account, 
+					 	E_ACCOUNT_SOURCE_URL, 
+						temp_url); 
+				temp_url = NULL;
+
+				temp_url = e_account_get_string (
+							gconf_account,
+							 E_ACCOUNT_TRANSPORT_URL);
+				if (temp_url)
+					e_account_set_string (
+							target_account->account,
+						      	E_ACCOUNT_TRANSPORT_URL, 
+						      	temp_url); 
+			}
+			g_free (uid);	
+		}
+		g_object_unref (account_list);
+	}
+	else {
+		/* FIXME */
+	}
+	g_object_unref (client);
+
+	source_url = e_account_get_string (target_account->account, 
+					   E_ACCOUNT_SOURCE_URL);
+	account_url = g_strdup (source_url);
 	exchange_url = g_strrstr (account_url, "exchange");
 	g_free (account_url);
 
 	if (exchange_url) { 
-		printf ("org_gnome_exchange_account_setup\n"); 
-		if (data->old) {
-			printf ("return with old data \n"); 
+		if (data->old)
 			return data->old;
-		}
+
 		oof_page = construct_oof_editor (data);
-		return oof_page;
 	}
-	else
-		return NULL;
+	return oof_page;
+}
+
+static void
+owa_editor_entry_changed (GtkWidget *entry, void *data) 
+{
+	GtkWidget *button = data;
+	char *owa_entry_text = NULL; 
+
+	/* FIXME: return owa_entry_text instead of making it global */
+	owa_entry_text = gtk_entry_get_text (GTK_ENTRY (entry));
+	if (owa_entry_text)
+		gtk_widget_set_sensitive (button, TRUE);
+}
+
+static GtkWidget *
+add_owa_entry_to_editor (GtkWidget *parent, EConfig *config, 
+			 EMConfigTargetAccount *target_account)
+{
+	GtkWidget *section, *owa_entry;
+	GtkWidget *hbox, *label; 
+
+	section =  gtk_vbox_new (FALSE, 0);
+	gtk_widget_show (section);
+	gtk_box_pack_start (GTK_BOX (parent), section, FALSE, FALSE, 0);
+
+	hbox = gtk_hbox_new (FALSE, 6);
+	gtk_widget_show(hbox);
+	gtk_box_pack_start (GTK_BOX (section), hbox, FALSE, FALSE, 0);
+	label = gtk_label_new_with_mnemonic(_("_Url:"));
+	gtk_widget_show (label);
+
+	owa_entry = gtk_entry_new ();
+	gtk_widget_show (owa_entry);
+
+	gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);
+	gtk_box_pack_start (GTK_BOX (hbox), owa_entry, TRUE, TRUE, 0);
+
+	g_signal_connect (owa_entry, "changed", 
+			  G_CALLBACK(owa_editor_entry_changed), NULL); 
+	/* FIXME - gconf handling*/
+	return section;	/* FIXME: return entry */
+
+#if 0
+	GtkWidget *table;
+	GladeXML *gui;
+	GValue rows = { 0, };
+	GValue cols = { 0, };
+	gint n_rows, n_cols;
+	gui = glade_xml_new (EVOLUTION_GLADEDIR "/mail-config.glade",
+			     "table4", NULL);
+	table = glade_xml_get_widget (gui, "table4");
+
+
+	g_value_init (&rows, G_TYPE_INT);
+	g_value_init (&cols, G_TYPE_INT);
+	g_object_get_property (G_OBJECT (table), "n-rows", &rows);
+	g_object_get_property (G_OBJECT (table), "n-columns", &cols);
+	n_rows = g_value_get_int (&rows); 
+	n_cols = g_value_get_int (&cols); 
+	printf ("NO OF COLUMES = %d ROWS = %d \n", n_cols, n_rows);
+
+	if (owa_entry_text)
+		gtk_entry_set_text (owa_entry, owa_entry_text); 
+
+	gtk_table_attach (GTK_TABLE (table), label, 0, n_cols-1, n_rows, n_rows+1, GTK_FILL, GTK_FILL, 0, 0); 
+	gtk_table_attach (GTK_TABLE (table), owa_entry, n_cols-1, n_cols, n_rows, n_rows+1, GTK_FILL, GTK_FILL, 0, 0); 
+
+	gtk_widget_show (table); 
+	return table;
+
+#endif
+	/* FIXME: Proper placing of the widget */
+}
+
+GtkWidget *
+org_gnome_exchange_set_url (EPlugin *epl, EConfigHookItemFactoryData *data)
+{
+	EMConfigTargetAccount *target_account;
+	EConfig *config;
+	char *account_url=NULL, *exchange_url = NULL;
+	const char *source_url, *temp_url;
+	GtkWidget *owa_entry = NULL, *parent;
+	GConfClient *client;
+	EAccountList *account_list;
+	const char *uid;
+	EAccount *gconf_account;
+
+	config = data->config;
+	target_account = (EMConfigTargetAccount *)data->config->target;
+
+	client = gconf_client_get_default ();
+	account_list = e_account_list_new (client);
+	if (account_list) {
+		uid = g_strdup (target_account->account->uid);  
+		if (uid) {
+			gconf_account = e_account_list_find (account_list, 
+							     E_ACCOUNT_FIND_UID,
+							     uid);
+			if (gconf_account) {
+				temp_url = e_account_get_string (
+							gconf_account, 
+							 E_ACCOUNT_SOURCE_URL);
+				e_account_set_string (target_account->account, 
+						      E_ACCOUNT_SOURCE_URL, 
+						      temp_url); 
+				temp_url = NULL;
+
+				temp_url = e_account_get_string (gconf_account,
+							 E_ACCOUNT_TRANSPORT_URL);
+				e_account_set_string (target_account->account, 
+						      E_ACCOUNT_TRANSPORT_URL, 
+						      temp_url); 
+			}
+			g_free (uid);	
+		}
+		g_object_unref (account_list);
+	}
+	g_object_unref (client);
+
+	source_url = e_account_get_string (target_account->account, E_ACCOUNT_SOURCE_URL); 
+	account_url = g_strdup (source_url);
+	exchange_url = g_strrstr (account_url, "exchange");
+	g_free (account_url);
+
+	if (exchange_url) {
+		if (data->old)
+			return data->old;
+
+		/*
+		parent = gtk_widget_get_toplevel (GTK_WIDGET (data->parent));
+		if (!GTK_WIDGET_TOPLEVEL (parent))
+			parent = NULL;
+		*/
+
+		parent = data->parent;
+		owa_entry = add_owa_entry_to_editor(parent, config, target_account);
+		gtk_box_pack_start (GTK_BOX (parent), owa_entry, FALSE, FALSE, 0);
+		gtk_widget_show (parent);
+	}
+	return owa_entry;
 }

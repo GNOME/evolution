@@ -38,9 +38,8 @@
 #include "e-util/e-config.h"
 
 int e_plugin_lib_enable (EPluginLib *ep, int enable);
-
+void exchange_options_commit (EPlugin *epl, EConfigHookItemFactoryData *data);
 GtkWidget *org_gnome_exchange_read_url(EPlugin *epl, EConfigHookItemFactoryData *data);
-GtkWidget *org_gnome_exchange_set_url(EPlugin *epl, EConfigHookItemFactoryData *data);
 
 char *owa_entry_text = NULL; 
 
@@ -50,6 +49,19 @@ typedef struct {
         CamelProviderValidateUserFunc *validate_user;
 }CamelProviderValidate;
 
+int
+e_plugin_lib_enable (EPluginLib *ep, int enable)
+{
+	if (enable) {
+	}
+	return 0;
+}
+
+void
+exchange_options_commit (EPlugin *epl, EConfigHookItemFactoryData *data)
+{
+	return;
+}
 
 static gboolean
 validate_exchange_user (void *data)
@@ -59,19 +71,23 @@ validate_exchange_user (void *data)
 	CamelURL *url=NULL;
 	CamelProvider *provider = NULL;
 	gboolean valid = TRUE;
-	char *account_url, *url_string;
+	char *account_url, *url_string; 
+	const char *source_url;
 	static int count = 0;
 
 	if (count) 
 		return valid;
 
-	account_url = g_strdup (target_account->account->source->url);
-	url = camel_url_new_with_base (NULL, account_url);
+	source_url = e_account_get_string (target_account->account, 
+					   E_ACCOUNT_SOURCE_URL); 
+	account_url = g_strdup (source_url);
 	provider = camel_provider_get (account_url, NULL);
-	g_free (account_url);
+	g_free (account_url); account_url = NULL;
 	if (!provider) {
 		return FALSE;	/* This should never happen */
 	}
+
+	url = camel_url_new_with_base (NULL, account_url);
 
 	validate = provider->priv; 
 	if (validate)
@@ -82,8 +98,12 @@ validate_exchange_user (void *data)
 	if (valid) {
 		count ++;
 		url_string = camel_url_to_string (url, 0);
-		target_account->account->source->url = url_string;
+		e_account_set_string (target_account->account, 
+				      E_ACCOUNT_SOURCE_URL, url_string);
+		e_account_set_string (target_account->account, 
+				      E_ACCOUNT_TRANSPORT_URL, url_string);
 	}
+	camel_url_free (url);
 	return valid;
 }
 
@@ -105,7 +125,9 @@ owa_entry_changed (GtkWidget *entry, void *data)
 }
 
 static GtkWidget *
-add_owa_entry (GtkWidget *parent, EConfig *config, EMConfigTargetAccount *target_account)
+add_owa_entry (GtkWidget *parent, 
+	       EConfig *config, 
+	       EMConfigTargetAccount *target_account)
 {
 	GtkWidget *section, *owa_entry;
 	GtkWidget *hbox, *button, *label;
@@ -115,7 +137,7 @@ add_owa_entry (GtkWidget *parent, EConfig *config, EMConfigTargetAccount *target
 	gtk_box_pack_start (GTK_BOX (parent), section, FALSE, FALSE, 0);
 
 	hbox = gtk_hbox_new (FALSE, 6);
-	gtk_widget_show(hbox);
+	gtk_widget_show (hbox);
 	gtk_box_pack_start (GTK_BOX (section), hbox, FALSE, FALSE, 0);
 	label = gtk_label_new_with_mnemonic(_("_Url:"));
 	gtk_widget_show (label);
@@ -129,46 +151,12 @@ add_owa_entry (GtkWidget *parent, EConfig *config, EMConfigTargetAccount *target
 	gtk_box_pack_start (GTK_BOX (hbox), owa_entry, TRUE, TRUE, 0);
 	gtk_box_pack_start (GTK_BOX (hbox), button, TRUE, TRUE, 0);
 
-	g_signal_connect (owa_entry, "changed", G_CALLBACK(owa_entry_changed), button);
-	g_signal_connect (button, "clicked", G_CALLBACK(ok_button_clicked), target_account);
+	g_signal_connect (owa_entry, "changed", 
+			  G_CALLBACK (owa_entry_changed), button);
+	g_signal_connect (button, "clicked", 
+			  G_CALLBACK (ok_button_clicked), target_account);
 	
 	return section;	/* FIXME: return entry */
-}
-
-static GtkWidget *
-add_owa_entry_to_editor (GtkWidget *parent, EConfig *config, EMConfigTargetAccount *target_account)
-{
-	GtkWidget *section, *owa_entry;
-	GtkWidget *hbox, *label;
-
-	section =  gtk_vbox_new (FALSE, 0);
-	gtk_widget_show (section);
-	gtk_box_pack_start (GTK_BOX (parent), section, FALSE, FALSE, 0);
-
-	hbox = gtk_hbox_new (FALSE, 6);
-	gtk_widget_show(hbox);
-	gtk_box_pack_start (GTK_BOX (section), hbox, FALSE, FALSE, 0);
-	label = gtk_label_new_with_mnemonic(_("_Url:"));
-	gtk_widget_show (label);
-	owa_entry = gtk_entry_new ();
-	if (owa_entry_text)
-		gtk_entry_set_text (owa_entry, owa_entry_text);
-	gtk_widget_show (owa_entry);
-
-	gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);
-	gtk_box_pack_start (GTK_BOX (hbox), owa_entry, TRUE, TRUE, 0);
-
-	g_signal_connect (owa_entry, "changed", G_CALLBACK(owa_entry_changed), NULL); /* FIXME - gconf handling*/
-	return section;	/* FIXME: return entry */
-	/* FIXME: Proper placing of the widget */
-}
-
-int
-e_plugin_lib_enable (EPluginLib *ep, int enable)
-{
-	if (enable) {
-	}
-	return 0;
 }
 
 GtkWidget *
@@ -176,62 +164,25 @@ org_gnome_exchange_read_url(EPlugin *epl, EConfigHookItemFactoryData *data)
 {
 	EMConfigTargetAccount *target_account;
 	EConfig *config;
-	char *account_url = NULL, *exchange_url = NULL, *temp_url;
-	GtkWidget *owa_entry, *parent;
-	CamelURL *url=NULL;
-
-	target_account = (EMConfigTargetAccount *)data->config->target;
-	account_url = g_strdup (target_account->account->source->url);
-	exchange_url = g_strrstr (account_url, "exchange");
-	config = data->config;
-
-	if (exchange_url) {
-		printf ("org_gnome_exchange_read_url \n");
-		if (data->old) {
-			return data->old;
-		}
-	
-		/* hack for making page check work when host is not there */
-		url = camel_url_new_with_base (NULL, account_url);
-		if (url->host == NULL) {
-			url->host = g_strdup("localhost"); 
-			/* FIXME: extract host name from url and use it*/
-			temp_url = camel_url_to_string (url, 0);
-			target_account->account->source->url = g_strdup(temp_url);
-			g_free (temp_url);
-		}
-
-		parent = data->parent;
-		owa_entry = add_owa_entry(parent, config, target_account);
-		g_free (account_url);
-		return owa_entry;
-	}
-	else {
-		g_free (account_url);
-		return NULL;
-	}
-}
-
-GtkWidget *
-org_gnome_exchange_set_url(EPlugin *epl, EConfigHookItemFactoryData *data)
-{
-	EMConfigTargetAccount *target_account;
-	EConfig *config;
 	char *account_url = NULL, *exchange_url = NULL;
+	const char *source_url;
 	GtkWidget *owa_entry = NULL, *parent;
 
-	target_account = (EMConfigTargetAccount *)data->config->target;
-	account_url = g_strdup (target_account->account->source->url);
-	exchange_url = g_strrstr (account_url, "exchange");
 	config = data->config;
+	target_account = (EMConfigTargetAccount *)data->config->target;
+
+	source_url = e_account_get_string (target_account->account, 
+					   E_ACCOUNT_SOURCE_URL); 
+	account_url = g_strdup (source_url);
+	exchange_url = g_strrstr (account_url, "exchange");
+	g_free (account_url);
 
 	if (exchange_url) {
-		if (data->old)
+		if (data->old) 
 			return data->old;
 
 		parent = data->parent;
-		owa_entry = add_owa_entry_to_editor(parent, config, target_account);
+		owa_entry = add_owa_entry (parent, config, target_account);
 	}
-	g_free (account_url);
 	return owa_entry;
 }
