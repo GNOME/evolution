@@ -1,3 +1,8 @@
+2003-11-18  Rodrigo Moya <rodrigo@ximian.com>
+
+	* evolution-calendar.xml: removed the 'New...' items, since they are
+	implemented in the shell as before.
+
 2003-11-17  Ettore Perazzoli  <ettore@ximian.com>
 
 	* evolution.xml: Rename verb "OpenFolderInNewWindow" to

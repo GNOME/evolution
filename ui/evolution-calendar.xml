@@ -1,10 +1,6 @@
 <Root>
   <commands>
     <cmd name="NewCalendar" _tip="Create a new calendar"/>
-    <cmd name="NewAppointment" _tip="Create a new appointment" pixtype="pixbuf"/>
-    <cmd name="NewAllDayEvent" _tip="Create a new all-day event" pixtype="pixbuf"/>
-    <cmd name="NewMeeting" _tip="Create a new meeting" pixtype="pixbuf"/>
-    <cmd name="NewTask" _tip="Create a new task" pixtype="pixbuf"/>
     <cmd name="CalendarPrint" _tip="Print this calendar" pixtype="stock" pixname="gtk-print"
 	 accel="*Control*p"/>
     <cmd name="CalendarPrintPreview" _tip="Previews the calendar to be printed" pixtype="stock" pixname="gtk-print-preview"/>
@@ -38,15 +34,6 @@
         <placeholder name="ComponentItems">
 	  <menuitem name="NewCalendar" verb="NewCalendar" _label="New _Calendar"
 	            _tip="Create a new calendar"/>
-          <separator/>
-	  <menuitem name="NewAppointment" verb="NewAppointment" _label="New _Appointment"
-	            _tip="Create a new appointment"/>
-          <menuitem name="NewAllDayEvent" verb="NewAllDayEvent" _label="New All Day _Event"
-	            _tip="Create a new all-day event"/>
-          <menuitem name="NewMeeting" verb="NewMeeting" _label="New _Meeting"
-	            _tip="Create a new meeting"/>
-          <menuitem name="NewTask" verb="NewTask" _label="New _Task"
-	            _tip="Create a new task"/>
 	  <separator/>
         </placeholder>
       </submenu>
