@@ -63,39 +63,39 @@
 
 		<separator/>
 
-		<toolitem name="Prev" label="Prev"
+		<toolitem name="Prev" _label="Prev"
 		_tip="Go back in time" verb="CalendarPrev"
 		pixtype="stock" pixname="Back"/>
 
-		<toolitem name="Today" label="Today"
+		<toolitem name="Today" _label="Today"
 		_tip="Go to present time" verb="CalendarToday"
 		pixtype="stock" pixname="Home"/>
 
-		<toolitem name="Next" label="Next"
+		<toolitem name="Next" _label="Next"
 		_tip="Go forward in time" verb="CalendarNext"
 		pixtype="stock" pixname="Forward"/>
 
 		<separator/>
 
-		<toolitem name="Goto" label="Go to"
+		<toolitem name="Goto" _label="Go to"
 		_tip="Go to a specific date" verb="CalendarGoto"
 		pixtype="stock" pixname="Jump To"/>
 		
 		<separator/>
 
-		<toolitem name="DayView" label="Day"
+		<toolitem name="DayView" _label="Day"
 		_tip="Show 1 day" verb="ShowDayView"
 		pixtype="pixbuf"/>
 
-		<toolitem name="WorkWeekView" label="5 Days"
+		<toolitem name="WorkWeekView" _label="5 Days"
 		_tip="Show the working week" verb="ShowWorkWeekView"
 		pixtype="pixbuf"/>
 
-		<toolitem name="WeekView" label="Week"
+		<toolitem name="WeekView" _label="Week"
 		_tip="Show 1 week" verb="ShowWeekView"
 		pixtype="pixbuf"/>
 
-		<toolitem name="MonthView" label="Month"
+		<toolitem name="MonthView" _label="Month"
 		_tip="Show 1 month" verb="ShowMonthView"
 		pixtype="pixbuf"/>
 

@@ -62,7 +62,7 @@
 		_tip="Print contacts" verb="ContactsPrint"
 		pixtype="stock" pixname="Print"/>
 
-		<toolitem name="Delete" label="Delete"
+		<toolitem name="Delete" _label="Delete"
 		_tip="Delete a contact" verb="ContactDelete"
 		pixtype="stock" pixname="Trash"/>
 

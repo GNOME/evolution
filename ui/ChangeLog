@@ -1,3 +1,7 @@
+2000-10-14  Michael Meeks  <michael@helixcode.com>
+
+	* *.xml: add translation '_'s to some labels.
+
 2000-10-12  Damon Chaplin  <damon@helixcode.com>
 
 	* evolution-calendar.xml: Added toolbar buttons to switch views.
