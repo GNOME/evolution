@@ -1,3 +1,14 @@
+2001-08-17  Zbigniew Chyla  <cyba@gnome.pl>
+
+	* my-evolution/e-summary-rdf.c (make_connection):
+	Marked string for translation (connection type).
+
+	* my-evolution/e-summary-weather.c
+	(make_url): Split into two functions: make_url and make_anchor.
+	(weather_make_html): s/make_url/make_anchor/
+	(make_connection): Marked connection type string for franslation,
+	assign the real URI to ->hostname (using make_url), not location code.
+
 2001-08-12  Zbigniew Chyla  <cyba@gnome.pl>
 
 	* e-summary-preferences.c (make_initial_weather_list),

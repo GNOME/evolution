@@ -476,7 +476,7 @@ make_connection (RDF *r)
 
 	d = g_new (ESummaryConnectionData, 1);
 	d->hostname = g_strdup (r->uri);
-	d->type = g_strdup ("RDF Summary");
+	d->type = g_strdup (_("RDF Summary"));
 
 	return d;
 }

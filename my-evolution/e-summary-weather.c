@@ -75,10 +75,21 @@ e_summary_weather_get_html (ESummary *summary)
 }
 
 static char *
-make_url (const char *name,
-	  const char *code)
+make_url (const char *code)
 {
-	return g_strdup_printf ("<a href=\"http://weather.noaa.gov/cgi-bin/mgetmetar.pl?cccc=%s\">%s</a>", code, name);
+	return g_strdup_printf ("http://weather.noaa.gov/cgi-bin/mgetmetar.pl?cccc=%s", code);
+}
+
+static char *
+make_anchor (const char *name, const char *code)
+{
+	char *url, *anchor;
+
+	url = make_url (code);
+	anchor = g_strdup_printf ("<a href=\"%s\">%s</a>", url, name);
+	g_free (url);
+
+	return anchor;
 }
 
 static void
@@ -95,9 +106,9 @@ weather_make_html (Weather *w)
 			  "src=\"%s\">&#160;<b>", icon_name);
 	location = g_hash_table_lookup (locations_hash, w->location);
 	if (location == NULL) {
-		url = make_url (w->location, w->location);
+		url = make_anchor (w->location, w->location);
 	} else {
-		url = make_url (location->name, w->location);
+		url = make_anchor (location->name, w->location);
 	}
 
 	g_string_append (string, url);
@@ -497,8 +508,8 @@ make_connection (Weather *w)
 	ESummaryConnectionData *data;
 
 	data = g_new (ESummaryConnectionData, 1);
-	data->hostname = g_strdup (w->location);
-	data->type = g_strdup ("Weather");
+	data->hostname = make_url (w->location);
+	data->type = g_strdup (_("Weather"));
 
 	return data;
 }
