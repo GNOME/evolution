@@ -738,10 +738,7 @@ emfb_hide_deleted(BonoboUIComponent *uic, const char *path, Bonobo_UIComponent_E
 
 	gconf = mail_config_get_gconf_client ();
 	gconf_client_set_bool(gconf, "/apps/evolution/mail/display/show_deleted", state[0] == '0', NULL);
-	if (!(emfv->folder && (emfv->folder->folder_flags & CAMEL_FOLDER_IS_TRASH))) {
-		message_list_set_hidedeleted(emfv->list, state[0] != '0');
-		emfv->hide_deleted = state[0] != '0';
-	}
+	em_folder_view_set_hide_deleted(emfv, state[0] != '0');
 }
 
 static void
@@ -1015,7 +1012,7 @@ emfb_activate(EMFolderView *emfv, BonoboUIComponent *uic, int act)
 
 	if (act) {
 		GConfClient *gconf;
-		gboolean state;
+		gboolean state, newstate;
 		char *sstate;
 
 		gconf = mail_config_get_gconf_client ();
@@ -1057,9 +1054,8 @@ emfb_activate(EMFolderView *emfv, BonoboUIComponent *uic, int act)
 		state = !gconf_client_get_bool(gconf, "/apps/evolution/mail/display/show_deleted", NULL);
 		bonobo_ui_component_set_prop(uic, "/commands/HideDeleted", "state", state ? "1" : "0", NULL);
 		bonobo_ui_component_add_listener(uic, "HideDeleted", emfb_hide_deleted, emfv);
-		if (!(emfv->folder && (emfv->folder->folder_flags & CAMEL_FOLDER_IS_TRASH)))
-			message_list_set_hidedeleted (emfv->list, state);
-		else
+		em_folder_view_set_hide_deleted(emfv, state); /* <- not sure if this optimal, but it'll do */
+		if (emfv->folder == NULL)
 			bonobo_ui_component_set_prop(uic, "/commands/HideDeleted", "sensitive", state?"1":"0", NULL);
 
 		/* FIXME: If we have no folder, we can't do a few of the lookups we need,

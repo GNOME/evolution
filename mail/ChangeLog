@@ -1,5 +1,20 @@
 2004-04-13  Not Zed  <NotZed@Ximian.com>
 
+	* em-folder-view.c (emfv_set_folder): track the messagelist
+	hidedeleted value since it looks it up when we set the folder.
+
+	* em-folder-browser.c (emfb_hide_deleted): use new method below to
+	propagate change.
+	(emfb_activate): same.
+
+	* em-folder-view.c (em_folder_view_set_hide_deleted): accessor to
+	set the hide_deleted state, emits a view_changed event.
+
+	* mail-component.c (view_changed_cb): use VISIBLE rather than
+	TOTAL for the displayed total count.  Also deleted if we're not in
+	hide deleted mode.  And do spethal things with spethal folders,
+	etc.
+
 	* mail-ops.c (mail_refresh_folder): run this in the
 	thread_queued_slow, so it runs in sequence and after folder_sync.
 

@@ -73,8 +73,8 @@
 #include <gal/e-table/e-tree.h>
 #include <gal/e-table/e-tree-memory.h>
 
-#include <camel/camel.h>
 #include <camel/camel-file-utils.h>
+#include <camel/camel-vtrash-folder.h>
 
 #include <bonobo/bonobo-control.h>
 #include <bonobo/bonobo-widget.h>
@@ -456,14 +456,40 @@ static void
 view_changed_cb(EMFolderView *emfv, EInfoLabel *el)
 {
 	if (emfv->folder) {
-		char *tmp, *name;
-		guint32 total, unread;
+		char *name;
+		guint32 visible, unread, deleted, junked;
+		GString *tmp = g_string_new("");
 
-		camel_object_get(emfv->folder, NULL, CAMEL_FOLDER_NAME, &name, CAMEL_FOLDER_TOTAL, &total, CAMEL_FOLDER_UNREAD, &unread, NULL);
-		/* Format of text for component information area */
-		tmp = g_strdup_printf(_("%d total, %d unread"), total, unread);
-		e_info_label_set_info(el, name, tmp);
-		g_free(tmp);
+		camel_object_get(emfv->folder, NULL,
+				 CAMEL_FOLDER_NAME, &name,
+				 CAMEL_FOLDER_DELETED, &deleted,
+				 CAMEL_FOLDER_VISIBLE, &visible,
+				 CAMEL_FOLDER_JUNKED, &junked,
+				 CAMEL_FOLDER_UNREAD, &unread, NULL);
+
+		if (CAMEL_IS_VTRASH_FOLDER(emfv->folder)) {
+			if (((CamelVTrashFolder *)emfv->folder)->type == CAMEL_VTRASH_FOLDER_TRASH)
+				g_string_append_printf(tmp, _("%d deleted"), deleted);
+			else
+				g_string_append_printf(tmp, _("%d junk"), junked);
+		} else {
+			if (em_utils_folder_is_drafts(emfv->folder, emfv->folder_uri))
+				g_string_append_printf(tmp, _("%d drafts"), visible);
+			else if (em_utils_folder_is_sent(emfv->folder, emfv->folder_uri))
+				g_string_append_printf(tmp, _("%d sent"), visible);
+			else if (em_utils_folder_is_outbox(emfv->folder, emfv->folder_uri))
+				g_string_append_printf(tmp, _("%d unsent"), visible);
+			else {
+				if (!emfv->hide_deleted)
+					visible += deleted;
+				g_string_append_printf(tmp, _("%d total"), visible);
+				if (unread)
+					g_string_append_printf(tmp, _(", %d unread"), unread);
+			}
+		}
+
+		e_info_label_set_info(el, name, tmp->str);
+		g_string_free(tmp, TRUE);
 		camel_object_free(emfv->folder, CAMEL_FOLDER_NAME, name);
 	} else {
 		e_info_label_set_info(el, _("Mail"), "");

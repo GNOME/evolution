@@ -387,6 +387,7 @@ emfv_set_folder(EMFolderView *emfv, CamelFolder *folder, const char *uri)
 	emfv->folder_uri = g_strdup(uri);
 	
 	if (emfv->folder) {
+		emfv->hide_deleted = emfv->list->hidedeleted; /* <- a bit nasty but makes it track the display better */
 		mail_sync_folder (emfv->folder, NULL, NULL);
 		camel_object_remove_event(emfv->folder, emfv->priv->folder_changed_id);
 		camel_object_unref(emfv->folder);
@@ -1739,6 +1740,20 @@ em_folder_view_set_statusbar (EMFolderView *emfv, gboolean statusbar)
 	if (statusbar && emfv->uic)
 		bonobo_ui_component_set_translate (emfv->uic, "/",
 						   "<status><item name=\"main\"/></status>", NULL);
+}
+
+void
+em_folder_view_set_hide_deleted(EMFolderView *emfv, gboolean status)
+{
+	if (emfv->folder && (emfv->folder->folder_flags & CAMEL_FOLDER_IS_TRASH))
+		status = FALSE;
+
+	emfv->hide_deleted = status;
+
+	if (emfv->folder) {
+		message_list_set_hidedeleted(emfv->list, status);
+		g_signal_emit(emfv, signals[EMFV_CHANGED], 0);
+	}
 }
 
 /* ********************************************************************** */
