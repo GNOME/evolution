@@ -43,6 +43,7 @@
 #include <string.h>
 #include <glib-object.h>
 #include <gdk/gdkx.h> /* for BlackPixel */
+#include <gdk/gdkkeysyms.h>
 #include <gtk/gtkclipboard.h>
 #include <gtk/gtkmain.h>
 #include <gtk/gtkselection.h>
@@ -2146,8 +2147,28 @@ e_text_event (GnomeCanvasItem *item, GdkEvent *event)
 		}
 		return_val = 0;
 		break;
-	case GDK_KEY_PRESS: /* Fall Through */
+	case GDK_KEY_PRESS: 
+
+		/* Handle S-F10 key binding here. */
+
+		if (event->key.keyval == GDK_F10 
+		    && (event->key.state & GDK_SHIFT_MASK)
+		    && text->handle_popup ){
+
+			/* Simulate a GdkEventButton here, so that we can call e_text_do_popup directly */
+
+			GdkEventButton *button = g_new0 (GdkEventButton, 1);
+			button->type = GDK_BUTTON_PRESS;
+			button->time = event->key.time;
+			button->button = 0;
+			e_text_do_popup (text, button, 0);
+			return TRUE;
+		}
+
+		/* Fall Through */
+
 	case GDK_KEY_RELEASE:
+
 		if (text->editing) {
 			GdkEventKey key;
 			gint ret;
@@ -2517,6 +2538,22 @@ popup_menu_detach (GtkWidget *attach_widget,
 }
 
 static void
+popup_menu_placement_cb (GtkMenu *menu, gint *x, gint *y, gboolean *push_in, gpointer user_data)
+{
+	EText *text = E_TEXT(user_data);
+	GnomeCanvasItem *item = &text->item;
+	GnomeCanvas *parent = item->canvas;
+
+	if (parent){
+		gdk_window_get_origin (((GtkWidget*) parent)->window, x, y);
+		*x += item->x1 + text->width / 2;
+		*y += item->y1 + text->height / 2;
+	}
+
+	return;
+}
+
+static void
 popup_targets_received (GtkClipboard     *clipboard,
 			GtkSelectionData *data,
 			gpointer          user_data)
@@ -2587,9 +2624,17 @@ popup_targets_received (GtkClipboard     *clipboard,
 		     button, position,
 		     popup_menu);
 
-      gtk_menu_popup (GTK_MENU (popup_menu), NULL, NULL,
-		      NULL, NULL,
-		      button->button, GDK_CURRENT_TIME);
+      /* If invoked by S-F10 key binding, button will be 0. */
+      if (button->button == 0){
+      	      gtk_menu_popup (GTK_MENU (popup_menu), NULL, NULL,
+			      popup_menu_placement_cb, (gpointer)text,
+			      button->button, GDK_CURRENT_TIME);
+	      g_free (button);
+      } else {
+	      gtk_menu_popup (GTK_MENU (popup_menu), NULL, NULL,
+			      NULL, NULL,
+			      button->button, GDK_CURRENT_TIME);
+      }
 
       g_object_unref (text);
 }
