@@ -1027,9 +1027,6 @@ save_draft (EMsgComposer *composer, int quitok)
 	
 	mail_append_mail (folder, msg, info, save_done, si);
 	camel_object_unref (CAMEL_OBJECT (msg));
-	
-	/* Reset the "changed" state to FALSE */
-	composer->has_changed = FALSE;
 }
 
 #define AUTOSAVE_SEED ".evolution-composer.autosave-XXXXXX"
@@ -1317,6 +1314,7 @@ static void
 menu_file_save_draft_cb (BonoboUIComponent *uic, void *data, const char *path)
 {
 	save_draft (E_MSG_COMPOSER (data), FALSE);
+	e_msg_composer_unset_changed (E_MSG_COMPOSER (data));
 }
 
 static void
@@ -1326,6 +1324,7 @@ exit_dialog_cb (int reply, EMsgComposer *composer)
 	case REPLY_YES:
 		/* this has to be done async */
 		save_draft (composer, TRUE);
+		e_msg_composer_unset_changed (composer);
 		break;
 	case REPLY_NO:
 		gtk_widget_destroy (GTK_WIDGET (composer));
@@ -1341,7 +1340,7 @@ do_exit (EMsgComposer *composer)
 	GtkWidget *dialog;
 	gint button;
 	
-	if (composer->has_changed) {
+	if (e_msg_composer_is_dirty (composer)) {
 		dialog = gnome_message_box_new (_("This message has not been sent.\n\nDo you wish to save your changes?"),
 						GNOME_MESSAGE_BOX_QUESTION,
 						GNOME_STOCK_BUTTON_YES,      /* Save */
@@ -3839,3 +3838,17 @@ e_msg_composer_unset_changed (EMsgComposer *composer)
 
 	composer->has_changed = FALSE;
 }
+
+gboolean
+e_msg_composer_is_dirty (EMsgComposer *composer)
+{
+	CORBA_Environment ev;
+	gboolean dirty = composer->has_changed;
+	CORBA_exception_init (&ev);
+	
+	dirty = dirty || Bonobo_PersistStream_isDirty (composer->persist_stream_interface, &ev);
+	
+	return dirty;
+}
+
+						       

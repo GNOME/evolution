@@ -1,3 +1,9 @@
+2001-10-30  Larry Ewing  <lewing@ximian.com>
+
+	* e-msg-composer.h: add dirty prototype.
+
+	* e-msg-composer.c: add dirty implementation.
+
 2001-10-30  Radek Doulik  <rodo@ximian.com>
 
 	* listener.c (insert_paragraph_before): new helper function,
