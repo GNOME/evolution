@@ -595,6 +595,35 @@
           You can set the following options: <!--insert variable list
           here-->
         </para>
+      
+        <sect2 id="config-prefs-contact-ldap-add">
+           <title>Adding Directory Servers</title>
+           <para>
+              To add a new LDAP server to your available contact
+              folders, select <menuchoice> <guimenu>Actions</guimenu>
+              <guimenuitem>New Directory Server</guimenuitem>
+              </menuchoice>.  This brings up a small dialog box which
+              will let you enter the following options:
+              <itemizedlist>
+	         <listitem><para>
+                    <guilabel>Name</guilabel> &mdash; any name you choose for the server.
+                 </para></listitem>
+
+                <listitem><para>
+                    <guilabel>Description</guilabel> &mdash; a longer description of the server.
+                 </para></listitem>
+
+                    <listitem><para>
+                    <guilabel>LDAP Server</guilabel> &mdash; the network address of the server.
+                 </para></listitem> 
+               
+                   <listitem><para>
+                    <guilabel>Port Number</guilabel> &mdash; by default, the port number is 389.
+                 </para></listitem>
+
+                   <listitem><para>
+                    <guilabel>Root DN</guilabel> &mdash; enter the root DN here.
+                 </para></listitem>
       </sect1>
     
 

@@ -29,7 +29,8 @@
 	   linkend="pop">POP3</glossterm>, local
 	   <systemitem><filename>mbox</filename></systemitem> and
 	   <systemitem><filename>mh</filename></systemitem> files, and
-	   even NNTP data (newsgroups), which isn't technically email.
+	   even NNTP messages (newsgroups), which aren't technically
+	   email.
 	 </para>
        </listitem>
      </itemizedlist>
@@ -1382,6 +1383,16 @@ possibly never will be due to security evil. -->
 	</graphic>
 	</screenshot>
       </figure>
+      </para>
+    </sect2>
+    <sect2 id="usage-mail-subscriptions">
+      <title>Subscription Management</title>
+      <para>
+         <application>Evolution</application> lets you handle your
+         IMAP and newsgroup subscriptions with the same tool: the
+         subscriptions manager.  To start using it, choose
+         <menuchoice> <guimenu>Settings</guimenu> <guimenuitem>Manage
+         Subscriptions</guimenuitem> </menuchoice>.
       </para>
     </sect2>
   </sect1>

@@ -245,12 +245,18 @@
 	  
 	  <varlistentry>
 	    <term><guimenuitem>Mail Configuration</guimenuitem></term>
+	    <listitem><para> 
+               Tools for setting up all your mail account preferences.
+	    </para></listitem>
+	  </varlistentry>
+
+	  <varlistentry>
+	    <term><guimenuitem>Manage Subscriptions</guimenuitem></term>
 	    <listitem><para>
-             This is a poorly named tool.  You can set your identity, 
-             and everything else related to your mail account, here.
+               Tools for newsgroup and IMAP folder subscriptions.
            </para></listitem>
 	  </varlistentry>
-	  
+
 	  <varlistentry>
 	    <term><guimenuitem>Forget Passwords</guimenuitem></term>
 	    <listitem><para>
@@ -1228,7 +1234,17 @@
    <sect2 id="menuref-contact-actions">
       <title>Contact Manager Tools Menu</title>
       <para>
-         This menu is broken. (FIXME).
+         This menu contains only one item:
+
+        <variablelist>
+	  <varlistentry>
+	    <term><guimenuitem>New Directory Server</guimenuitem></term> <listitem><para> Brings up
+	    the in-depth search window. <xref
+	    linkend="config-prefs-contact-ldap-add"> describes how to use this
+	    feature.  </para></listitem>
+            </varlistentry>
+        </variablelist>
+
       </para>
     </sect2>
   </sect1>

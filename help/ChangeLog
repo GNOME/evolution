@@ -1,3 +1,46 @@
+2000-10-25  Aaron Weber  <aaron@helixcode.com>
+
+	* C/menuref.sgml:  Actions -> New Directory Server added.
+
+	* C/config-prefs.sgml:  Actions -> New Directory Server added.
+
+	* C/usage-contact.sgml: Actions -> New Directory Server added.
+
+	* C/menuref.sgml: Added mail Settings->Manage Subscriptions menu.
+
+	* C/usage-mail.sgml: Subscriptions section added. Quite
+	incomplete, though.
+
+2000-10-11  Aaron Weber  <aaron@helixcode.com>
+
+	* C/evolution-guide.sgml: Re-checked validity of all files. Made
+	minor changes to menuref.sgml, usage-mail.sgml, usage-print.sgml to
+	bring up to spec.
+
+	* C/usage-mail.sgml: Redid Filter & Vfolder to match the new &
+	improved functionality.
+
+	* C/fig/*: Re-did remaining screenshots.
+
+2000-10-10  Aaron Weber  <aaron@helixcode.com>
+	
+	* C/usage-print.sgml: New file, describing printing and print-preview.
+
+	* C/fig/print-preview.png: New file.
+
+	* C/fig/print-dest.png: New file.
+
+	* C/evolution-guide.sgml: Added usage-print entity.
+
+	* C/menuref.sgml: Fixed calendar menu stuff.
+
+	* C/usage-mail.sgml: No more "Actions" menu, other assorted
+	menu-related changes.
+
+2000-10-06  Aaron Weber  <aaron@helixcode.com>
+
+	* C/fig/ * replaced a whole bunch of screenshots.
+
 2000-10-05  Aaron Weber  <aaron@helixcode.com>
 
 	* C/usage-contact.sgml: Described Search features.

@@ -6,5 +6,5 @@
  * POTFILES.in. DO NOT compile it as part of your application.
  */
 
-gchar *s = N_("_Actions");
 gchar *s = N_("N_ew Directory Server");
+gchar *s = N_("_Actions");

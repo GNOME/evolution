@@ -507,12 +507,13 @@
        you want to make accessible to others.
     </para>
     <para>
-       To learn how to set up your connection to an LDAP server, see
-       <xref linkend="config-prefs-contact">.  Once you have a
-       connection, the network contacts folder or folders will appear
-       inside the <guilabel>External Directories</guilabel> folder in
-       the folder bar, and will work exactly like a local folder of
-       cards, with the following exceptions:
+       To learn how to add a remote directory to your available
+       contact folders, see <xref linkend="config-prefs-contact">.
+       Once you have a connection, the network contacts folder or
+       folders will appear inside the <guilabel>External
+       Directories</guilabel> folder in the folder bar, and will work
+       exactly like a local folder of cards, with the following
+       exceptions:
        <itemizedlist>
 
           <listitem><para>
