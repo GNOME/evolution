@@ -1,5 +1,15 @@
 2001-08-09  Jeffrey Stedfast  <fejj@ximian.com>
 
+	Fixes bug #6722
+
+	* mail-ops.c (save_messages_save): Don't set the default perms
+	here, let the user's umask deal with permissions.
+
+	* folder-browser.c (message_list_drag_data_get): Don't set any
+	default perms.
+
+2001-08-09  Jeffrey Stedfast  <fejj@ximian.com>
+
 	* mail-account-gui.c (mail_account_gui_save): Save the pgp and
 	smime always-sign options.
 

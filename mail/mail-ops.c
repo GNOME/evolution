@@ -1883,7 +1883,8 @@ build_from(struct _header_raw *header)
 	return ret;
 }
 
-static void save_messages_save(struct _mail_msg *mm)
+static void
+save_messages_save (struct _mail_msg *mm)
 {
 	struct _save_messages_msg *m = (struct _save_messages_msg *)mm;
 	CamelStreamFilter *filtered_stream;
@@ -1891,8 +1892,8 @@ static void save_messages_save(struct _mail_msg *mm)
 	CamelStream *stream;
 	int fd, i;
 	char *from;
-
-	fd = open(m->path, O_WRONLY | O_CREAT | O_TRUNC, 0666);
+	
+	fd = open (m->path, O_WRONLY | O_CREAT | O_TRUNC);
 	if (fd == -1) {
 		camel_exception_setv(&mm->ex, CAMEL_EXCEPTION_SYSTEM,
 				     _("Unable to create output file: %s\n %s"), m->path, strerror(errno));
