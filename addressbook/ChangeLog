@@ -1,5 +1,12 @@
 2001-06-26  Christopher James Lahey  <clahey@ximian.com>
 
+	* gui/widgets/e-addressbook-table-adapter.c (create_card): memmove
+	counts were off in this function.
+	(remove_card, modify_card): Moved the table notifications around a
+	bit here.
+
+2001-06-26  Christopher James Lahey  <clahey@ximian.com>
+
 	* gui/component/select-names/e-select-names.c,
 	gui/component/select-names/e-select-names.h,
 	gui/component/select-names/select-names.glade

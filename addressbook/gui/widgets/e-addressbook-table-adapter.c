@@ -265,12 +265,11 @@ create_card (EAddressbookModel *model,
 
 	priv->count += count;
 	priv->simples = g_renew(ECardSimple *, priv->simples, priv->count);
-	memmove (priv->simples + index + count - 1, priv->simples + index, count * sizeof (ECardSimple*));
+	memmove (priv->simples + index + count, priv->simples + index, (priv->count - index - count) * sizeof (ECardSimple *));
 
 	e_table_model_pre_change (E_TABLE_MODEL (adapter));
 	for (i = 0; i < count; i ++) {
 		priv->simples[index + i] = e_card_simple_new (e_addressbook_model_card_at (priv->model, index + i));
-		gtk_object_ref (GTK_OBJECT (priv->simples[index + i]));
 	}
 	e_table_model_rows_inserted (E_TABLE_MODEL (adapter), index, count);
 }
@@ -281,9 +280,11 @@ remove_card (EAddressbookModel *model,
 	     EAddressbookTableAdapter *adapter)
 {
 	EAddressbookTableAdapterPrivate *priv = adapter->priv;
+
+	e_table_model_pre_change (E_TABLE_MODEL (adapter));
+
 	gtk_object_unref (GTK_OBJECT (priv->simples[index]));
-	if (priv->count > 1)
-		memmove (priv->simples + index, priv->simples + index + 1, (priv->count - index - 1) * sizeof (ECardSimple*));
+	memmove (priv->simples + index, priv->simples + index + 1, (priv->count - index - 1) * sizeof (ECardSimple *));
 	priv->count --;
 	e_table_model_rows_deleted (E_TABLE_MODEL (adapter), index, 1);
 }
@@ -294,10 +295,13 @@ modify_card (EAddressbookModel *model,
 	     EAddressbookTableAdapter *adapter)
 {
 	EAddressbookTableAdapterPrivate *priv = adapter->priv;
-	e_table_model_row_changed (E_TABLE_MODEL (adapter), index);
+
+	e_table_model_pre_change (E_TABLE_MODEL (adapter));
+
 	gtk_object_unref (GTK_OBJECT (priv->simples[index]));
 	priv->simples[index] = e_card_simple_new (e_addressbook_model_card_at (priv->model, index));
 	gtk_object_ref (GTK_OBJECT (priv->simples[index]));
+	e_table_model_row_changed (E_TABLE_MODEL (adapter), index);
 }
 
 static void
