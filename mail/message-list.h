@@ -124,6 +124,8 @@ void	       message_list_hide_clear(MessageList *ml);
 void	       message_list_set_threaded(MessageList *ml, gboolean threaded);
 void	       message_list_set_search(MessageList *ml, const char *search);
 
+char          *message_list_get_layout (MessageList *message_list);
+
 #define MESSAGE_LIST_LOCK(m, l) g_mutex_lock(((MessageList *)m)->l)
 #define MESSAGE_LIST_UNLOCK(m, l) g_mutex_unlock(((MessageList *)m)->l)
 

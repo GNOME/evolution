@@ -20,6 +20,11 @@
 #include <gal/util/e-util.h>
 #include <gal/widgets/e-gui-utils.h>
 
+#include "widgets/menus/gal-view-menus.h"
+
+#include <gal/menus/gal-view-factory-etable.h>
+#include <gal/menus/gal-view-etable.h>
+
 #include "folder-browser-factory.h"
 
 #include "folder-browser.h"
@@ -151,6 +156,53 @@ update_pixmaps (BonoboUIComponent *uic)
 }
 
 static void
+display_view(GalViewCollection *collection,
+	     GalView *view,
+	     gpointer data)
+{
+	FolderBrowser *fb = data;
+	if (GAL_IS_VIEW_ETABLE(view)) {
+		e_table_set_state_object(e_table_scrolled_get_table(E_TABLE_SCROLLED(fb->message_list)), GAL_VIEW_ETABLE(view)->state);
+	}
+}
+
+static void
+folder_browser_setup_menus (FolderBrowser *fb,
+			    BonoboUIComponent *uic)
+{
+	GalViewCollection *collection;
+	GalViewMenus *views;
+	GalViewFactory *factory;
+	ETableSpecification *spec;
+	char *spec_string;
+
+	collection = gal_view_collection_new();
+	/* FIXME: Memory leak. */
+	gal_view_collection_set_storage_directories(collection,
+						    EVOLUTION_DATADIR "/evolution/views/mail/",
+						    gnome_util_prepend_user_home("/evolution/views/mail/"));
+
+	spec_string = message_list_get_layout(fb->message_list);
+	spec = e_table_specification_new();
+	e_table_specification_load_from_string(spec, spec_string);
+	g_free(spec_string);
+
+	factory = gal_view_factory_etable_new(spec);
+	gal_view_collection_add_factory(collection, factory);
+	gtk_object_sink(GTK_OBJECT(factory));
+
+	gal_view_collection_load(collection);
+
+	views = gal_view_menus_new(collection);
+	gal_view_menus_apply(views, uic, NULL); /* This function probably needs to sink the views object. */
+	gtk_signal_connect(GTK_OBJECT(collection), "display_view",
+			   display_view, fb);
+	/*	gtk_object_sink(GTK_OBJECT(views)); */
+
+	gtk_object_sink(GTK_OBJECT(collection));
+}
+
+static void
 control_activate (BonoboControl     *control,
 		  BonoboUIComponent *uic,
 		  FolderBrowser     *fb)
@@ -197,6 +249,8 @@ control_activate (BonoboControl     *control,
 	bonobo_ui_component_add_listener (uic, "ViewSource",
 					  folder_browser_toggle_view_source,
 					  folder_browser);
+
+	folder_browser_setup_menus (fb, uic);
 	
 	update_pixmaps (uic);
 

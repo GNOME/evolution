@@ -1155,7 +1155,7 @@ static char *list [] = {
 };
 #endif
 
-static char *
+char *
 message_list_get_layout (MessageList *message_list)
 {
 	/* Default: Status, Attachments, Priority, From, Subject, Date */

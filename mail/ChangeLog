@@ -1,3 +1,13 @@
+2001-02-06  Christopher James Lahey  <clahey@ximian.com>
+
+	* Makefile.am (evolution_mail_LDADD): Added libmenus.la.
+
+	* folder-browser-factory.c (control_activate): Added GalView menus
+	here.
+
+	* message-list.c, message-list.h (message_list_get_layout): Made
+	message_list_get_layout export.
+
 2001-02-06  Iain Holmes  <iain@ximian.com>
 
 	* mail-display.c (pixbuf_gen_idle): Set the size of the icon to 24x24
