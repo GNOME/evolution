@@ -1,8 +1,10 @@
 2005-01-04 vivek jain <jvivek@novell.com>
 	
-	* gui/component/addressbook.c: (load_source_auth_cb)
+	* gui/component/addressbook.c (load_source_auth_cb):
 	display a warning dialog if the server version is not proper
-	* addressbook-errors.xml: added warning message for invalid server version
+
+	* addressbook-errors.xml: added warning message for
+	 invalid server version
 
 2004-02-02  Hans Petter Jansson  <hpj@ximian.com>
 

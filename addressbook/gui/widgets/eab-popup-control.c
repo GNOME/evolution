@@ -993,6 +993,30 @@ eab_popup_control_multiple_matches (EABPopupControl *pop, const GList *contacts)
  *  Addressbook Query Fun
  */
 
+static GList*
+remove_contact_lists (GList *contacts)
+{
+	GList *contacts_copy = g_list_copy (contacts);
+	GList *temp;
+	GPtrArray *indices = g_ptr_array_new ();
+	int i = 0;
+	
+	
+	for (temp = contacts_copy; temp != NULL; temp = g_list_next (temp), i++) {
+		if (e_contact_get (temp->data, E_CONTACT_IS_LIST))
+			g_ptr_array_add (indices, temp);
+	}
+	
+	for (i =0; i < indices->len; i++) {
+		GList *link = indices->pdata[i];
+		contacts_copy = g_list_remove_link (contacts_copy, link);
+		
+	}
+	g_ptr_array_free (indices, FALSE);
+	return contacts_copy;
+}
+
+
 static void
 name_only_query_cb (EBook *book, EBookStatus status, GList *contacts, gpointer closure)
 {
@@ -1004,8 +1028,7 @@ name_only_query_cb (EBook *book, EBookStatus status, GList *contacts, gpointer c
 	pop = EAB_POPUP_CONTROL (closure);
 
 	pop->query_tag = 0;
-
-	if (contacts == NULL) {
+       	if (contacts == NULL) {
 		eab_popup_control_no_matches (pop);
 	} else {
 		eab_popup_control_ambiguous_email_add (pop, contacts);
@@ -1016,6 +1039,7 @@ static void
 query_cb (EBook *book, EBookStatus status, GList *contacts, gpointer closure)
 {
 	EABPopupControl *pop;
+	GList *filtered_contacts;
 
 	if (status != E_BOOK_ERROR_OK)
 		return;
@@ -1025,7 +1049,12 @@ query_cb (EBook *book, EBookStatus status, GList *contacts, gpointer closure)
 	pop->query_tag = 0;
 	gtk_widget_hide (pop->query_msg);
 
-	if (contacts == NULL) {
+	/* remove contact lists from the search results to avoid
+	cases like http://bugzilla.ximian.com/show_bug.cgi?id=68745*/
+
+	filtered_contacts = remove_contact_lists (contacts);
+
+	if (filtered_contacts == NULL) {
 		
 		/* Do a name-only query if:
 		   (1) The name is non-empty.
@@ -1038,11 +1067,14 @@ query_cb (EBook *book, EBookStatus status, GList *contacts, gpointer closure)
 		}
 		
 	} else {
-		if (g_list_length ((GList *) contacts) == 1)
-			eab_popup_control_display_contact (pop, E_CONTACT (contacts->data));
+			
+		if (g_list_length (filtered_contacts) == 1)
+			eab_popup_control_display_contact (pop, E_CONTACT (filtered_contacts->data));
 		else
-			eab_popup_control_multiple_matches (pop, contacts);
+			eab_popup_control_multiple_matches (pop, filtered_contacts);
+		g_list_free (filtered_contacts);
 	}
+	
 }
 
 static void
