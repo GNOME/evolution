@@ -1,3 +1,14 @@
+2000-10-04  Chris Toshok  <toshok@helixcode.com>
+
+	* providers/nntp/camel-nntp-utils.c (get_XOVER_headers): return a
+	gboolean so we can tell if this command worked.  we can't key off
+	the OVER extension being present because at least one server (INN
+	2.2) doesn't report the OVER extension but implements the XOVER
+	command.  This could of course just be because I'm a loser for
+	thinking they were related in the first place.
+	(camel_nntp_get_headers): always try XOVER first, and if it fails
+	revert to the slow method.
+
 2000-10-04  Dan Winship  <danw@helixcode.com>
 
 	* providers/mbox/camel-mbox-store.c (get_folder): Fix a case where
