@@ -42,12 +42,14 @@ enum {
 	ARG_MODE_SPREADSHEET,
 	ARG_LENGTH_THRESHOLD,
 	
+	ARG_MINIMUM_WIDTH,
 	ARG_WIDTH,
 	ARG_HEIGHT,
 	ARG_HAS_FOCUS,
 };
 
 static int eti_get_height (ETableItem *eti);
+static int eti_get_minimum_width (ETableItem *eti);
 static int eti_row_height (ETableItem *eti, int row);
 #define ETI_ROW_HEIGHT(eti,row) ((eti)->height_cache && (eti)->height_cache[(row)] != -1 ? (eti)->height_cache[(row)] : eti_row_height((eti),(row)))
 
@@ -141,17 +143,9 @@ eti_bounds (GnomeCanvasItem *item, double *x1, double *y1, double *x2, double *y
 {
 	double   i2c [6];
 	ArtPoint c1, c2, i1, i2;
-	int col, width = 0;
 	ETableItem *eti = E_TABLE_ITEM (item);
 
 	/* Wrong BBox's are the source of redraw nightmares */
-
-	for (col = 0; col < eti->cols; col++, x1 = x2){
-		ETableCol *ecol = e_table_header_get_column (eti->header, col);
-		
-		width += ecol->width;
-	}
-	eti->width = width;
 
 	gnome_canvas_item_i2c_affine (GNOME_CANVAS_ITEM (eti), i2c);
 	
@@ -183,6 +177,17 @@ eti_reflow (GnomeCanvasItem *item, gint flags)
 			gnome_canvas_item_request_update (GNOME_CANVAS_ITEM (eti));
 		}
 		eti->needs_compute_height = 0;
+	}
+	if (eti->needs_compute_width) {
+		int new_width = eti_get_minimum_width (eti);
+		new_width = MAX(new_width, eti->minimum_width);
+		if (new_width != eti->width) {
+			eti->width = new_width;
+			e_canvas_item_request_parent_reflow (GNOME_CANVAS_ITEM (eti));
+			eti->needs_redraw = 1;
+			gnome_canvas_item_request_update (GNOME_CANVAS_ITEM (eti));
+		}
+		eti->needs_compute_width = 0;
 	}
 }
 
@@ -363,7 +368,6 @@ calculate_height_cache (ETableItem *eti)
 static int
 eti_row_height (ETableItem *eti, int row)
 {
-#if 1
 	if (!eti->height_cache) {
 		calculate_height_cache (eti);
 	}
@@ -378,9 +382,6 @@ eti_row_height (ETableItem *eti, int row)
 		}
 	}
 	return eti->height_cache[row];
-#else
-	return eti_row_height_real(eti, row);
-#endif
 }
 
 /*
@@ -435,6 +436,19 @@ eti_get_height (ETableItem *eti)
 	return height;
 }
 
+static int
+eti_get_minimum_width (ETableItem *eti)
+{
+	int width = 0;
+	int col;
+	for (col = 0; col < eti->cols; col++){
+		ETableCol *ecol = e_table_header_get_column (eti->header, col);
+		
+		width += ecol->min_width;
+	}
+	return width;
+}
+
 static void
 eti_item_region_redraw (ETableItem *eti, int x0, int y0, int x1, int y1)
 {
@@ -471,20 +485,6 @@ eti_table_model_changed (ETableModel *table_model, ETableItem *eti)
 	eti->needs_redraw = 1;
 	gnome_canvas_item_request_update (GNOME_CANVAS_ITEM (eti));
 }
-
-/* Unused. */
-#if 0
-/*
- * eti_request_redraw:
- *
- * Queues a canvas redraw for the entire ETableItem.
- */
-static void
-eti_request_redraw (ETableItem *eti)
-{
-	eti_item_region_redraw (eti, eti->x1, eti->y1, eti->x1 + eti->width + 1, eti->y1 + eti->height + 1);
-}
-#endif
 
 /*
  * Computes the distance between @start_row and @end_row in pixels
@@ -624,8 +624,8 @@ eti_add_table_model (ETableItem *eti, ETableModel *table_model)
 static void
 eti_header_dim_changed (ETableHeader *eth, int col, ETableItem *eti)
 {
-	eti->needs_redraw = 1;
-	gnome_canvas_item_request_update (GNOME_CANVAS_ITEM (eti));
+	eti->needs_compute_width = 1;
+	e_canvas_item_request_reflow (GNOME_CANVAS_ITEM (eti));
 }
 
 static void
@@ -650,8 +650,8 @@ eti_header_structure_changed (ETableHeader *eth, ETableItem *eti)
 			eti_attach_cell_views (eti);
 		}
 	}
-	eti->needs_redraw = 1;
-	gnome_canvas_item_request_update (GNOME_CANVAS_ITEM (eti));
+	eti->needs_compute_width = 1;
+	e_canvas_item_request_reflow (GNOME_CANVAS_ITEM (eti));
 }
 
 static void
@@ -728,7 +728,13 @@ eti_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 	case ARG_MODE_SPREADSHEET:
 		eti->mode_spreadsheet = GTK_VALUE_BOOL (*arg);
 		break;
-
+	case ARG_MINIMUM_WIDTH:
+		if (eti->minimum_width == eti->width && GTK_VALUE_DOUBLE (*arg) > eti->width)
+			e_canvas_item_request_reflow (GNOME_CANVAS_ITEM (eti));
+		eti->minimum_width = GTK_VALUE_DOUBLE (*arg);
+		if (eti->minimum_width < eti->width)
+			e_canvas_item_request_reflow (GNOME_CANVAS_ITEM (eti));
+		break;
 	}
 	eti->needs_redraw = 1;
 	gnome_canvas_item_request_update (GNOME_CANVAS_ITEM(eti));
@@ -750,6 +756,9 @@ eti_get_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 	case ARG_HEIGHT:
 		GTK_VALUE_DOUBLE (*arg) = eti->height;
 		break;
+	case ARG_MINIMUM_WIDTH:
+		GTK_VALUE_DOUBLE (*arg) = eti->minimum_width;
+		break;
 	default:
 		arg->type = GTK_TYPE_INVALID;
 	}
@@ -765,6 +774,8 @@ eti_init (GnomeCanvasItem *item)
 	eti->editing_col = -1;
 	eti->editing_row = -1;
 	eti->height = 0;
+	eti->width = 0;
+	eti->minimum_width = 0;
 
 	eti->height_cache = NULL;
 	eti->height_cache_idle_id = 0;
@@ -1042,7 +1053,7 @@ find_cell (ETableItem *eti, double x, double y, int *col_res, int *row_res, doub
 	y -= eti->y1;
 	
 	x1 = 0;
-	for (col = 0; col < cols; col++, x1 = x2){
+	for (col = 0; col < cols - 1; col++, x1 = x2){
 		ETableCol *ecol = e_table_header_get_column (eti->header, col);
 
 		if (x < x1)
@@ -1050,31 +1061,26 @@ find_cell (ETableItem *eti, double x, double y, int *col_res, int *row_res, doub
 		
 		x2 = x1 + ecol->width;
 
-		if (x > x2)
-			continue;
-
-		*col_res = col;
-		if (x1_res)
-			*x1_res = x - x1;
-		break;
+		if (x <= x2)
+			break;
 	}
 
 	y1 = y2 = 0;
-	for (row = 0; row < rows; row++, y1 = y2){
+	for (row = 0; row < rows - 1; row++, y1 = y2){
 		if (y < y1)
 			return FALSE;
 		
 		y2 += ETI_ROW_HEIGHT (eti, row) + 1;
 
-		if (y > y2)
-			continue;
-
-		*row_res = row;
-		if (y1_res)
-			*y1_res = y - y1;
-		break;
+		if (y <= y2)
+			break;
 	}
-
+	*col_res = col;
+	if (x1_res)
+		*x1_res = x - x1;
+	*row_res = row;
+	if (y1_res)
+		*y1_res = y - y1;
 	return TRUE;
 }
 
@@ -1324,6 +1330,8 @@ eti_class_init (GtkObjectClass *object_class)
 	gtk_object_add_arg_type ("ETableItem::length_threshold", GTK_TYPE_INT,
 				 GTK_ARG_WRITABLE, ARG_LENGTH_THRESHOLD);
 
+	gtk_object_add_arg_type ("ETableItem::minimum_width", GTK_TYPE_DOUBLE, 
+				 GTK_ARG_READWRITE, ARG_MINIMUM_WIDTH); 
 	gtk_object_add_arg_type ("ETableItem::width", GTK_TYPE_DOUBLE, 
 				 GTK_ARG_READWRITE, ARG_WIDTH); 
 	gtk_object_add_arg_type ("ETableItem::height", GTK_TYPE_DOUBLE, 

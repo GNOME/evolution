@@ -34,16 +34,6 @@ enum {
 
 static gint etg_signals [LAST_SIGNAL] = { 0, };
 
-/* The arguments we take */
-enum {
-	ARG_0,
-	ARG_HEIGHT,
-	ARG_WIDTH,
-	ARG_FROZEN
-};
-
-static void etg_set_arg (GtkObject *object, GtkArg *arg, guint arg_id);
-static void etg_get_arg (GtkObject *object, GtkArg *arg, guint arg_id);
 static gboolean etg_get_focus (ETableGroup      *etg);
 static void etg_destroy (GtkObject *object);
 #if 0
@@ -261,66 +251,6 @@ etg_event (GnomeCanvasItem *item, GdkEvent *event)
 
 }
 
-static void
-etg_thaw (ETableGroup *etg)
-{
-	g_return_if_fail (etg != NULL);
-	g_return_if_fail (E_IS_TABLE_GROUP (etg));
-
-	if (ETG_CLASS (etg)->thaw)
-		ETG_CLASS (etg)->thaw (etg);
-}
-
-static void
-etg_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
-{
-	ETableGroup *etg = E_TABLE_GROUP (object);
-
-	switch (arg_id) {
-	case ARG_FROZEN:
-		if (GTK_VALUE_BOOL (*arg))
-			etg->frozen = TRUE;
-		else {
-			etg->frozen = FALSE;
-			etg_thaw (etg);
-		}
-		break;
-	case ARG_WIDTH:
-		if (ETG_CLASS(etg)->set_width)
-			ETG_CLASS(etg)->set_width (etg, GTK_VALUE_DOUBLE (*arg));
-		break;
-	default:
-		break;
-	}
-}
-
-static void
-etg_get_arg (GtkObject *object, GtkArg *arg, guint arg_id)
-{
-	ETableGroup *etg = E_TABLE_GROUP (object);
-
-	switch (arg_id) {
-	case ARG_FROZEN:
-		GTK_VALUE_BOOL (*arg) = etg->frozen;
-		break;
-	case ARG_HEIGHT:
-		if (ETG_CLASS(etg)->get_height)
-			GTK_VALUE_DOUBLE (*arg) = ETG_CLASS(etg)->get_height (etg);
-		else
-			arg->type = GTK_TYPE_INVALID;
-		break;
-	case ARG_WIDTH:
-		if (ETG_CLASS(etg)->get_width)
-			GTK_VALUE_DOUBLE (*arg) = ETG_CLASS(etg)->get_width (etg);
-		else
-			arg->type = GTK_TYPE_INVALID;
-		break;
-	default:
-		arg->type = GTK_TYPE_INVALID;
-		break;
-	}
-}
-
 static gboolean
 etg_get_focus (ETableGroup      *etg)
 {
@@ -332,9 +262,7 @@ etg_class_init (GtkObjectClass *object_class)
 {
 	GnomeCanvasItemClass *item_class = (GnomeCanvasItemClass *) object_class;
 	ETableGroupClass *klass = (ETableGroupClass *) object_class;
-	
-	object_class->set_arg = etg_set_arg;
-	object_class->get_arg = etg_get_arg;
+
 	object_class->destroy = etg_destroy;
 
 	item_class->event = etg_event;
@@ -350,11 +278,6 @@ etg_class_init (GtkObjectClass *object_class)
 	klass->get_focus = etg_get_focus;
 	klass->get_ecol = NULL;
 
-	klass->thaw = NULL;
-	klass->get_height = NULL;
-	klass->get_width = NULL;
-	klass->set_width = NULL;
-	
 	etg_parent_class = gtk_type_class (PARENT_TYPE);
 
 	etg_signals [ROW_SELECTION] =

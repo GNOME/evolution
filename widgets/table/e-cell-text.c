@@ -30,6 +30,7 @@
 #include "e-cell-text.h"
 #include "e-util/e-util.h"
 #include "e-table-item.h"
+#include "e-text-event-processor.h"
 #include "e-text-event-processor-emacs-like.h"
 
 #include <gdk/gdkx.h> /* for BlackPixel */

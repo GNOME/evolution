@@ -95,6 +95,12 @@ e_card_list_get_iterator (ECardList *list)
 	return iterator;
 }
 
+int
+e_card_list_length (ECardList *list)
+{
+	return g_list_length(list->list);
+}
+
 void
 e_card_list_append       (ECardList *list, const void *data)
 {

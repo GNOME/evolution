@@ -381,6 +381,8 @@ e_minicard_event (GnomeCanvasItem *item, GdkEvent *event)
 				       NULL);
 			
 			dlg = gnome_dialog_new ("Contact Editor", "Save", "Cancel", NULL);
+
+			gtk_window_set_policy(GTK_WINDOW(dlg), FALSE, TRUE, FALSE);
 			
 			g_assert (E_IS_BOOK (book));
 			

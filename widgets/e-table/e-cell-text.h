@@ -26,7 +26,6 @@
 
 #include <libgnomeui/gnome-canvas.h>
 #include "e-cell.h"
-#include "e-text-event-processor.h"
 
 #define E_CELL_TEXT_TYPE        (e_cell_text_get_type ())
 #define E_CELL_TEXT(o)          (GTK_CHECK_CAST ((o), E_CELL_TEXT_TYPE, ECellText))

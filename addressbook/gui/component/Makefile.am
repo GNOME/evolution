@@ -35,13 +35,13 @@ evolution_addressbook_LDADD =						\
 	$(EXTRA_GNOME_LIBS)						\
 	$(BONOBO_HTML_GNOME_LIBS)					\
 	$(top_builddir)/addressbook/gui/minicard/libeminicard.a		\
-	$(top_builddir)/widgets/e-text/libetext.a			\
-	$(top_builddir)/widgets/e-table/libetable.a			\
-	$(top_builddir)/e-util/libeutil.la				\
 	$(top_builddir)/addressbook/backend/ebook/libebook.la		\
 	$(top_builddir)/addressbook/ename/libename.la			\
 	$(top_builddir)/addressbook/contact-editor/libecontacteditor.a	\
-	$(top_builddir)/libversit/libversit.la
+	$(top_builddir)/libversit/libversit.la				\
+	$(top_builddir)/widgets/e-text/libetext.a			\
+	$(top_builddir)/widgets/e-table/libetable.a			\
+	$(top_builddir)/e-util/libeutil.la
 
 evolution_addressbook_LDFLAGS = `gnome-config --libs gdk_pixbuf`
 
@@ -71,4 +71,5 @@ evolution-addressbook.pure: evolution-addressbook
 	$(PLINK) $(evolution_addressbook_LDFLAGS) $(evolution_addressbook_OBJECTS) $(evolution_addressbook_LDADD) $(LIBS)
 
 endif
+
 

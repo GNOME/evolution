@@ -210,7 +210,7 @@ create_table (void)
 		/* Create the column. */
 		ETableCol *ecol = e_table_col_new (
 						   i, headers [i],
-						   80, 20, cell_left_just,
+						   1.0, 20, cell_left_just,
 						   g_str_compare, TRUE);
 		/* Add it to the header. */
 		e_table_header_add_column (e_table_header, ecol, i);

@@ -231,7 +231,7 @@ table_browser_test (void)
 	for (i = 0; i < cols; i++){
 		ETableCol *ecol = e_table_col_new (
 			i, column_labels [i],
-			80, 20, cell_left_just,
+			1.0, 20, cell_left_just,
 			g_str_compare, TRUE);
 
 		e_table_header_add_column (e_table_header, ecol, i);
@@ -324,7 +324,7 @@ do_e_table_demo (const char *spec)
 	for (i = 0; i < cols; i++){
 		ETableCol *ecol = e_table_col_new (
 			i, column_labels [i],
-			80, 20, cell_left_just,
+			1.0, 20, cell_left_just,
 			g_str_compare, TRUE);
 
 		e_table_header_add_column (full_header, ecol, i);

@@ -21,6 +21,7 @@
 #include "e-table-header.h"
 #include "e-table-header-item.h"
 #include "e-table-col-dnd.h"
+#include "e-table-defines.h"
 
 #include "add-col.xpm"
 #include "remove-col.xpm"
@@ -42,10 +43,8 @@ static guint ethi_signals [LAST_SIGNAL] = { 0, };
 
 #define MIN_ARROW_SIZE 10
 
-#define GROUP_INDENT         10
-
 /* Defines the tolerance for proximity of the column division to the cursor position */
-#define TOLERANCE 3
+#define TOLERANCE 4
 
 #define ETHI_RESIZING(x) ((x)->resize_col != -1)
 
@@ -114,6 +113,13 @@ ethi_update (GnomeCanvasItem *item, double *affine, ArtSVP *clip_path, int flags
 	if (GNOME_CANVAS_ITEM_CLASS (ethi_parent_class)->update)
 		(*GNOME_CANVAS_ITEM_CLASS (ethi_parent_class)->update)(item, affine, clip_path, flags);
 
+	if (ethi->sort_info)
+		ethi->group_indent_width = e_table_sort_info_grouping_get_count(ethi->sort_info) * GROUP_INDENT;
+	else
+		ethi->group_indent_width = 0;
+
+	ethi->width = e_table_header_total_width (ethi->eth) + ethi->group_indent_width;
+
 	if (item->x1 != ethi->x1 ||
 	     item->y1 != ethi->y1 ||
 	     item->x2 != ethi->x1 + ethi->width ||
@@ -165,17 +171,13 @@ ethi_drop_table_header (ETableHeaderItem *ethi)
 static void 
 structure_changed (ETableHeader *header, ETableHeaderItem *ethi)
 {
-	ethi->width = e_table_header_total_width (header) + ethi->group_indent_width;
-
-	ethi_update (GNOME_CANVAS_ITEM (ethi), NULL, NULL, 0);
+	gnome_canvas_item_request_update(GNOME_CANVAS_ITEM(ethi));
 }
 
 static void
 dimension_changed (ETableHeader *header, int col, ETableHeaderItem *ethi)
 {
-	ethi->width = e_table_header_total_width (header) + ethi->group_indent_width;
-
-	ethi_update (GNOME_CANVAS_ITEM (ethi), NULL, NULL, 0);
+	gnome_canvas_item_request_update(GNOME_CANVAS_ITEM(ethi));
 }
 
 static void
@@ -183,7 +185,6 @@ ethi_add_table_header (ETableHeaderItem *ethi, ETableHeader *header)
 {
 	ethi->eth = header;
 	gtk_object_ref (GTK_OBJECT (ethi->eth));
-	ethi->width = e_table_header_total_width (header) + ethi->group_indent_width;
 
 	ethi->structure_change_id = gtk_signal_connect (
 		GTK_OBJECT (header), "structure_change",
@@ -191,6 +192,7 @@ ethi_add_table_header (ETableHeaderItem *ethi, ETableHeader *header)
 	ethi->dimension_change_id = gtk_signal_connect (
 		GTK_OBJECT (header), "dimension_change",
 		GTK_SIGNAL_FUNC(dimension_changed), ethi);
+	gnome_canvas_item_request_update(GNOME_CANVAS_ITEM(ethi));
 }
 
 static void
@@ -706,7 +708,6 @@ ethi_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int width
 	int x1, x2;
 	int col;
 	GHashTable *arrows = g_hash_table_new (NULL, NULL);
-	gint group_indent = 0;
 
 
 	if (ethi->sort_info) {
@@ -714,7 +715,6 @@ ethi_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int width
 		int i;
 		for (i = 0; i < length; i++) {
 			ETableSortColumn column = e_table_sort_info_grouping_get_nth(ethi->sort_info, i);
-			group_indent ++;
 			g_hash_table_insert (arrows, 
 					     (gpointer) column.column,
 					     (gpointer) (column.ascending ?
@@ -732,7 +732,6 @@ ethi_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int width
 		}
 	}
 
-	ethi->group_indent_width = group_indent * GROUP_INDENT;
 	ethi->width = e_table_header_total_width (ethi->eth) + ethi->group_indent_width;
 	x1 = x2 = ethi->x1;
 	x2 += ethi->group_indent_width;
@@ -740,10 +739,7 @@ ethi_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int width
 		ETableCol *ecol = e_table_header_get_column (ethi->eth, col);
 		int col_width;
 
-		if (col == ethi->resize_col)
-			col_width = ethi->resize_width;
-		else
-			col_width = ecol->width;
+		col_width = ecol->width;
 				
 		x2 += col_width;
 		
@@ -839,14 +835,12 @@ ethi_request_redraw (ETableHeaderItem *ethi)
 }
 
 static void
-ethi_end_resize (ETableHeaderItem *ethi, int new_size)
+ethi_end_resize (ETableHeaderItem *ethi)
 {
-	e_table_header_set_size (ethi->eth, ethi->resize_col, new_size);
-
 	ethi->resize_col = -1;
 	ethi->resize_guide = GINT_TO_POINTER (0);
-	
-	ethi_request_redraw (ethi);
+
+	gnome_canvas_item_request_update (GNOME_CANVAS_ITEM(ethi));
 }
 
 static gboolean
@@ -910,10 +904,7 @@ ethi_start_drag (ETableHeaderItem *ethi, GdkEvent *event)
 	context = gtk_drag_begin (widget, list, GDK_ACTION_MOVE, 1, event);
 
 	ecol = e_table_header_get_column (ethi->eth, ethi->drag_col);
-	if (ethi->drag_col == ethi->resize_col)
-	  col_width = ethi->resize_width;
-	else
-	  col_width = ecol->width;
+	col_width = ecol->width;
 	pixmap = gdk_pixmap_new (widget->window, col_width, ethi->height, -1);
 	gc = widget->style->bg_gc [GTK_STATE_ACTIVE];
 	draw_button (ethi, ecol, pixmap, gc,
@@ -998,17 +989,9 @@ ethi_event (GnomeCanvasItem *item, GdkEvent *e)
 
 			new_width = x - ethi->resize_start_pos;
 
-			if (new_width <= 0)
-				new_width = 1;
+			e_table_header_set_size (ethi->eth, ethi->resize_col, new_width);
 
-			if (new_width < ethi->resize_min_width)
-				new_width = ethi->resize_min_width;
-			ethi_request_redraw (ethi);
-
-			ethi->resize_width = new_width;
-			e_table_header_set_size (ethi->eth, ethi->resize_col, ethi->resize_width);
-
-			ethi_request_redraw (ethi);
+			gnome_canvas_item_request_update (GNOME_CANVAS_ITEM(ethi));
 		} else if (ethi_maybe_start_drag (ethi, &e->motion)){
 			ethi_start_drag (ethi, e);
 		} else
@@ -1033,7 +1016,6 @@ ethi_event (GnomeCanvasItem *item, GdkEvent *e)
 			if (!ecol->resizeable)
 				break;
 			ethi->resize_col = col;
-			ethi->resize_width = ecol->width;
 			ethi->resize_start_pos = start - ecol->width;
 			ethi->resize_min_width = ecol->min_width;
 		} else {
@@ -1065,7 +1047,7 @@ ethi_event (GnomeCanvasItem *item, GdkEvent *e)
 
 		if (ethi->resize_col != -1){
 			needs_ungrab = (ethi->resize_guide != NULL);
-			ethi_end_resize (ethi, ethi->resize_width);
+			ethi_end_resize (ethi);
 		} else if (was_maybe_drag && ethi->sort_info) {
 			ETableCol *col;
 			int model_col;

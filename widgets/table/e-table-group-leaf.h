@@ -21,8 +21,10 @@ typedef struct {
 	 */
 	ETableItem *item;
 
+	gdouble height;
 	gdouble width;
-  
+	gdouble minimum_width;
+
 	ETableSubsetVariable *subset;
 } ETableGroupLeaf;
 

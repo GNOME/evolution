@@ -53,10 +53,6 @@ typedef struct {
 	gint (*get_focus_column) (ETableGroup *etg);
 	ETableCol *(*get_ecol) (ETableGroup *etg);
 
-	void (*thaw) (ETableGroup *etg);
-	gdouble (*get_height) (ETableGroup *etg);
-	gdouble (*get_width) (ETableGroup *etg);
-	void (*set_width) (ETableGroup *etg, gdouble width);
 } ETableGroupClass;
 
 void             e_table_group_add       (ETableGroup      *etg,

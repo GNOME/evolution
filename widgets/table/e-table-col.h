@@ -28,8 +28,9 @@ struct _ETableCol {
 	GtkObject    base;
 	char        *text;
 	GdkPixbuf   *pixbuf;
-	short        width;
-	short        min_width;
+	int          min_width;
+	int          width;
+	double       expansion;
 	short        x;
 	GCompareFunc compare;
 	unsigned int is_pixbuf:1;
@@ -48,11 +49,11 @@ struct _ETableColClass {
 
 GtkType        e_table_col_get_type        (void);
 ETableCol     *e_table_col_new             (int col_idx, const char *text,
-					    int width, int min_width,
+					    double expansion, int min_width,
 					    ECell *ecell, GCompareFunc compare,
 					    gboolean resizable);
 ETableCol     *e_table_col_new_with_pixbuf (int col_idx, GdkPixbuf *pixbuf,
-					    int width, int min_width,
+					    double expansion, int min_width,
 					    ECell *ecell, GCompareFunc compare,
 					    gboolean resizable);
 void           e_table_col_destroy         (ETableCol *etc);

@@ -1,3 +1,40 @@
+2000-05-14  Christopher James Lahey  <clahey@helixcode.com>
+
+	* backend/ebook/Makefile.am: Added libeutil for e-card's support
+	for categories.
+
+	* backend/ebook/e-card-list.c, backend/ebook/e-card-list.h: Added
+	a function to get the length.
+
+	* backend/ebook/e-card.c, backend/ebook/e-card.h: Added categories
+	support (accessible either as "categories" or "category_list".)
+
+	* contact-editor/Makefile.am: Added e-table and all of the
+	categories files.
+
+	* contact-editor/categories.glade,
+	contact-editor/categories-strings.h,
+	contact-editor/e-contact-editor-categories.c,
+	contact-editor/e-contact-editor-categories.h:
+
+	* contact-editor/contact-editor.glade,
+	contact-editor/e-contact-editor-strings.h: Rearranged this dialog.
+
+	* contact-editor/e-contact-editor.c: Rearranged dialog a bit.
+	Added opening of categories dialog.
+
+	* gui/component/Makefile.am: Rearranged libraries so that
+	libetable would be available for the contact editor categories
+	dialog.
+
+	* gui/component/addressbook.c: Fix for new ETable resizing.  Make
+	contact editor dialog resizable.
+
+	* gui/minicard/Makefile.am: Added libetable contact editor
+	categories dialog.
+
+	* gui/minicard/e-minicard.c: Make contact editor dialog resizable.
+
 2000-05-12  Miguel de Icaza  <miguel@gnu.org>
 
 	* contact-editor/fulname.glade: Use accelerators here.

@@ -19,12 +19,9 @@
 #include "e-util/e-canvas.h"
 #include "e-util/e-canvas-utils.h"
 #include "widgets/e-text/e-text.h"
+#include "e-table-defines.h"
 
 #define TITLE_HEIGHT         16
-#define GROUP_INDENT         10
-
-#define BUTTON_HEIGHT        10
-#define BUTTON_PADDING       2
 
 #define PARENT_TYPE e_table_group_get_type ()
 
@@ -35,7 +32,8 @@ enum {
 	ARG_0,
 	ARG_HEIGHT,
 	ARG_WIDTH,
-	ARG_FROZEN
+	ARG_MINIMUM_WIDTH,
+	ARG_FROZEN,
 };
 
 typedef struct {
@@ -65,9 +63,6 @@ e_table_group_container_list_free (ETableGroupContainer *etgc)
 {
 	ETableGroupContainerChildNode *child_node;
 	GList *list;
-
-	if (etgc->idle)
-		g_source_remove (etgc->idle);
 
 	for (list = etgc->children; list; list = g_list_next (list)) {
 		child_node = (ETableGroupContainerChildNode *) list->data;
@@ -100,102 +95,6 @@ etgc_destroy (GtkObject *object)
 	GTK_OBJECT_CLASS (etgc_parent_class)->destroy (object);
 }
 
-#if 0
-void
-e_table_group_add (ETableGroup *etg, GnomeCanvasItem *item)
-{
-	double x1, y1, x2, y2;
-	
-	g_return_if_fail (etg != NULL);
-	g_return_if_fail (item != NULL);
-	g_return_if_fail (E_IS_TABLE_GROUP (etg));
-	g_return_if_fail (GNOME_IS_CANVAS_ITEM (item));
-
-	etg->children = g_list_append (etg->children, item);
-
-	GNOME_CANVAS_ITEM_CLASS (GTK_OBJECT (etg)->klass)->bounds (etg, &x1, &y1, &x2, &y2);
-		
-	if (GTK_OBJECT (etg)->flags & GNOME_CANVAS_ITEM_REALIZED){
-		GList *l;
-		int height = etg->transparent ? 0 : TITLE_HEIGHT;
-		int x = etg->transparent ? 0 : GROUP_INDENT;
-		
-		for (l = etg->children; l->next; l = l->next){
-			GnomeCanvasItem *child = l->data;
-
-			height += child->y2 - child->y1;
-
-			printf ("Height\n");
-			if (E_IS_TABLE_ITEM (item)){
-				printf ("    Item:  ");
-			} else {
-				printf ("    Group: ");
-			}
-			printf ("%d\n", child->y2-child->y1);
-		}
-
-		e_canvas_item_move_absolute (item, x, height);
-
-		
-		if (E_IS_TABLE_ITEM (item)){
-			
-			printf ("Table item! ---------\n");
-			gtk_signal_connect (GTK_OBJECT (item), "resize",
-					    GTK_SIGNAL_FUNC (etg_relayout), etg);
-		}
-	}
-}
-
-static void
-etg_realize (GnomeCanvasItem *item)
-{
-	ETableGroup *etg = E_TABLE_GROUP (item);
-	GList *l;
-	int height = 0;
-	
-	GNOME_CANVAS_ITEM_CLASS (etg_parent_class)->realize (item);
-
-	for (l = etg->children; l; l = l->next){
-		GnomeCanvasItem *child = l->data;
-
-		printf ("During realization for child %p -> %d\n", child, height);
-		gnome_canvas_item_set (
-			child,
-			"y", (double) height,
-			NULL);
-
-		height += child->y2 - child->y1;
-	}
-}
-
-static void
-etg_update (GnomeCanvasItem *item, double *affine, ArtSVP *clip_path, int flags)
-{
-	ETableGroup *etg = E_TABLE_GROUP (item);
-
-	GNOME_CANVAS_ITEM_CLASS (etg_parent_class)->update (item, affine, clip_path, flags);
-
-	if (!etg->transparent){
-		int current_width, current_height;
-
-		etg_dim (etg, &current_width, &current_height);
-		
-		if ((current_height != etg->height) || (current_width != etg->width)){
-			etg->width = current_width;
-			etg->height = current_height;
-			
-			gnome_canvas_item_set (
-				etg->rect,
-				"x1", 0.0,
-				"y1", 0.0,
-				"x2", (double) etg->width,
-				"y2", (double) etg->height,
-				NULL);
-		}
-	}
-}
-#endif
-
 void
 e_table_group_container_construct (GnomeCanvasGroup *parent, ETableGroupContainer *etgc,
 				   ETableHeader *full_header,
@@ -226,42 +125,6 @@ e_table_group_container_construct (GnomeCanvasGroup *parent, ETableGroupContaine
 		gdk_font_ref (etgc->font);
 	}
 	etgc->open = TRUE;
-#if 0
-	etgc->transparent = transparent;
-	
-	etgc_dim (etgc, &etgc->width, &etgc->height);
-
-	if (!etgc->transparent)
-		etgc->rect = gnome_canvas_item_new (
-			GNOME_CANVAS_GROUP (etgc),
-			gnome_canvas_rect_get_type (),
-			"fill_color", "gray",
-			"outline_color", "gray20",
-			"x1", 0.0,
-			"y1", 0.0,
-			"x2", (double) etgc->width,
-			"y2", (double) etgc->height,
-			NULL);
-#endif
-
-#if 0
-	/*
-	 * Reparent the child into our space.
-	 */
-	gnome_canvas_item_reparent (child, GNOME_CANVAS_GROUP (etgc));
-
-	gnome_canvas_item_set (
-		child,
-		"x", (double) GROUP_INDENT,
-		"y", (double) TITLE_HEIGHT,
-		NULL);
-
-	/*
-	 * Force dimension computation
-	 */
-	GNOME_CANVAS_ITEM_CLASS (etgc_parent_class)->update (
-		GNOME_CANVAS_ITEM (etgc), NULL, NULL, GNOME_CANVAS_UPDATE_REQUESTED);
-#endif
 }
 
 ETableGroup *
@@ -280,135 +143,6 @@ e_table_group_container_new (GnomeCanvasGroup *parent, ETableHeader *full_header
 	return E_TABLE_GROUP (etgc);
 }
 
-#if 0
-static void
-etgc_relayout (GnomeCanvasItem *eti, ETableGroupContainer *etgc)
-{
-	GList *l;
-	int height = etgc->transparent ? 0 : GROUP_INDENT;
-	gboolean move = FALSE;
-	
-	printf ("Relaying out\n");
-	
-	for (l = etgc->children; l->next; l = l->next){
-		GnomeCanvasItem *child = l->data;
-
-		height += child->y2 - child->y1;
-
-		if (child == eti)
-			move = TRUE;
-
-		if (move){
-			printf ("Moving item %p\n", child);
-			gnome_canvas_item_set (child,
-						"y", (double) height,
-						NULL);
-		}
-	}
-	if (height != etgc->height){
-		etgc->height = height;
-		gtk_signal_emit (GTK_OBJECT (etgc), etgc_signals [RESIZE]);
-	}
-}
-
-void
-e_table_group_container_add (ETableGroupContainer *etgc, GnomeCanvasItem *item)
-{
-	double x1, y1, x2, y2;
-	
-	g_return_if_fail (etgc != NULL);
-	g_return_if_fail (item != NULL);
-	g_return_if_fail (E_IS_TABLE_GROUP (etgc));
-	g_return_if_fail (GNOME_IS_CANVAS_ITEM (item));
-
-	etgc->children = g_list_append (etgc->children, item);
-
-	GNOME_CANVAS_ITEM_CLASS (GTK_OBJECT (etgc)->klass)->bounds (etgc, &x1, &y1, &x2, &y2);
-		
-	if (GTK_OBJECT (etgc)->flags & GNOME_CANVAS_ITEM_REALIZED){
-		GList *l;
-		int height = etgc->transparent ? 0 : TITLE_HEIGHT;
-		int x = etgc->transparent ? 0 : GROUP_INDENT;
-		
-		for (l = etgc->children; l->next; l = l->next){
-			GnomeCanvasItem *child = l->data;
-
-			height += child->y2 - child->y1;
-
-			printf ("Height\n");
-			if (E_IS_TABLE_ITEM (item)){
-				printf ("    Item:  ");
-			} else {
-				printf ("    Group: ");
-			}
-			printf ("%d\n", child->y2-child->y1);
-		}
-
-		e_canvas_item_move_absolute (item, x, height);
-
-		
-		if (E_IS_TABLE_ITEM (item)){
-			
-			printf ("Table item! ---------\n");
-			gtk_signal_connect (GTK_OBJECT (item), "resize",
-					    GTK_SIGNAL_FUNC (etgc_relayout), etgc);
-		}
-	}
-}
-
-static void
-etgc_realize (GnomeCanvasItem *item)
-{
-	ETableGroupContainer *etgc = E_TABLE_GROUP_CONTAINER (item);
-	GList *l;
-	int height = 0;
-	
-	GNOME_CANVAS_ITEM_CLASS (etgc_parent_class)->realize (item);
-
-	for (l = etgc->children; l; l = l->next){
-		GnomeCanvasItem *child = l->data;
-
-		printf ("During realization for child %p -> %d\n", child, height);
-		gnome_canvas_item_set (
-			child,
-			"y", (double) height,
-			NULL);
-
-		height += child->y2 - child->y1;
-	}
-}
-
-static void
-etgc_update (GnomeCanvasItem *item, double *affine, ArtSVP *clip_path, int flags)
-{
-	ETableGroupContainer *etgc = E_TABLE_GROUP_CONTAINER (item);
-
-	GNOME_CANVAS_ITEM_CLASS (etgc_parent_class)->update (item, affine, clip_path, flags);
-
-	if (etgc->need_resize) {
-		
-		if (!etgc->transparent) {
-			int current_width, current_height;
-
-			etgc_dim (etgc, &current_width, &current_height);
-		
-			if ((current_height != etgc->height) || (current_width != etgc->width)){
-				etgc->width = current_width;
-				etgc->height = current_height;
-			
-				gnome_canvas_item_set (
-						       etgc->rect,
-						       "x1", 0.0,
-						       "y1", 0.0,
-						       "x2", (double) etgc->width,
-						       "y2", (double) etgc->height,
-						       NULL);
-			}
-		}
-		etgc->need_resize = FALSE;
-	}
-}
-#endif
 
 static int
 etgc_event (GnomeCanvasItem *item, GdkEvent *event)
@@ -699,6 +433,8 @@ static void
 etgc_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 {
 	ETableGroup *etg = E_TABLE_GROUP (object);
+	ETableGroupContainer *etgc = E_TABLE_GROUP_CONTAINER (object);
+	GList *list;
 
 	switch (arg_id) {
 	case ARG_FROZEN:
@@ -709,9 +445,15 @@ etgc_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 			etgc_thaw (etg);
 		}
 		break;
-	case ARG_WIDTH:
-		if (E_TABLE_GROUP_CLASS(GTK_OBJECT(etg)->klass)->set_width)
-			E_TABLE_GROUP_CLASS(GTK_OBJECT(etg)->klass)->set_width (etg, GTK_VALUE_DOUBLE (*arg));
+	case ARG_MINIMUM_WIDTH:
+		etgc->minimum_width = GTK_VALUE_DOUBLE(*arg);
+
+		for (list = etgc->children; list; list = g_list_next (list)) {
+			ETableGroupContainerChildNode *child_node = (ETableGroupContainerChildNode *)list->data;
+			gtk_object_set (GTK_OBJECT(child_node->child),
+					"minimum_width", etgc->minimum_width - GROUP_INDENT,
+					NULL);
+		}
 		break;
 	default:
 		break;
@@ -722,59 +464,25 @@ static void
 etgc_get_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 {
 	ETableGroup *etg = E_TABLE_GROUP (object);
+	ETableGroupContainer *etgc = E_TABLE_GROUP_CONTAINER (object);
 
 	switch (arg_id) {
 	case ARG_FROZEN:
 		GTK_VALUE_BOOL (*arg) = etg->frozen;
 		break;
 	case ARG_HEIGHT:
-		if (E_TABLE_GROUP_CLASS(GTK_OBJECT(etg)->klass)->get_height)
-			GTK_VALUE_DOUBLE (*arg) = E_TABLE_GROUP_CLASS(GTK_OBJECT(etg)->klass)->get_height (etg);
-		else
-			arg->type = GTK_TYPE_INVALID;
+		GTK_VALUE_DOUBLE (*arg) = etgc->height;
 		break;
 	case ARG_WIDTH:	
-		if (E_TABLE_GROUP_CLASS(GTK_OBJECT(etg)->klass)->get_width)
-			GTK_VALUE_DOUBLE (*arg) = E_TABLE_GROUP_CLASS(GTK_OBJECT(etg)->klass)->get_width (etg);
-		else
-			arg->type = GTK_TYPE_INVALID;
+		GTK_VALUE_DOUBLE (*arg) = etgc->width;
+		break;
+	case ARG_MINIMUM_WIDTH:
+		etgc->minimum_width = GTK_VALUE_DOUBLE(*arg);
 		break;
 	default:
 		arg->type = GTK_TYPE_INVALID;
 		break;
 	}
-}
-
-static void etgc_set_width (ETableGroup *etg, gdouble width)
-{
-	ETableGroupContainer *etgc = E_TABLE_GROUP_CONTAINER (etg);
-	GList *list = etgc->children;
-	etgc->width = width;
-
-	for (; list; list = g_list_next (list)){
-		gdouble child_width = width - GROUP_INDENT;
-		ETableGroupContainerChildNode *child_node = (ETableGroupContainerChildNode *)list->data;
-		gtk_object_set (GTK_OBJECT(child_node->child),
-			       "width", child_width,
-			       NULL);
-
-		gnome_canvas_item_set (GNOME_CANVAS_ITEM(child_node->rect),
-				      "x1", (double) 0,
-				      "x2", (double) etgc->width,
-				      NULL);
-	}
-}
-
-static gdouble etgc_get_width (ETableGroup *etg)
-{
-	ETableGroupContainer *etgc = E_TABLE_GROUP_CONTAINER (etg);
-	return etgc->width;
-}
-
-static gdouble etgc_get_height (ETableGroup *etg)
-{
-	ETableGroupContainer *etgc = E_TABLE_GROUP_CONTAINER (etg);
-	return etgc->height;
 }
 
 static void
@@ -799,18 +507,15 @@ etgc_class_init (GtkObjectClass *object_class)
 	e_group_class->increment = etgc_increment;
 	e_group_class->set_focus = etgc_set_focus;
 	e_group_class->get_focus_column = etgc_get_focus_column;
-	e_group_class->thaw = etgc_thaw;
 
-	e_group_class->get_width = etgc_get_width;
-	e_group_class->set_width = etgc_set_width;
-	e_group_class->get_height = etgc_get_height;
-
+	gtk_object_add_arg_type ("ETableGroupContainer::frozen", GTK_TYPE_BOOL,
+				 GTK_ARG_READWRITE, ARG_FROZEN);
 	gtk_object_add_arg_type ("ETableGroupContainer::height", GTK_TYPE_DOUBLE, 
 				 GTK_ARG_READABLE, ARG_HEIGHT);
 	gtk_object_add_arg_type ("ETableGroupContainer::width", GTK_TYPE_DOUBLE, 
-				 GTK_ARG_READWRITE, ARG_WIDTH);
-	gtk_object_add_arg_type ("ETableGroupContainer::frozen", GTK_TYPE_BOOL,
-				 GTK_ARG_READWRITE, ARG_FROZEN);
+				 GTK_ARG_READABLE, ARG_WIDTH);
+	gtk_object_add_arg_type ("ETableGroupContainer::minimum_width", GTK_TYPE_DOUBLE,
+				 GTK_ARG_READWRITE, ARG_MINIMUM_WIDTH);
 }
 
 static void
@@ -823,23 +528,25 @@ etgc_reflow (GnomeCanvasItem *item, gint flags)
 			"frozen", &frozen,
 			NULL);
 
-	if (frozen){
-		etgc->idle = 0;
+	if (frozen)
 		return;
-	}
+	
 
 	if (GTK_OBJECT_FLAGS(etgc)& GNOME_CANVAS_ITEM_REALIZED){
+		gdouble running_height = 0;
+		gdouble running_width = 0;
 		gdouble old_height;
+		gdouble old_width;
 		
 		old_height = etgc->height;
+		old_width = etgc->width;
 		if (etgc->children == NULL){
 		} else {
 			GList *list;
-			gdouble extra_height;
-			gdouble running_height;
+			gdouble extra_height = 0;
 			gdouble item_height = 0;
+			gdouble item_width = 0;
 			
-			extra_height = 0;
 			if (etgc->font)
 				extra_height += etgc->font->ascent + etgc->font->descent + BUTTON_PADDING * 2;
 			
@@ -847,8 +554,18 @@ etgc_reflow (GnomeCanvasItem *item, gint flags)
 				
 			running_height = extra_height;
 			
-			list = etgc->children;
-			for (; list; list = g_list_next (list)){
+			for ( list = etgc->children; list; list = g_list_next (list)){
+				ETableGroupContainerChildNode *child_node = (ETableGroupContainerChildNode *) list->data;
+				ETableGroup *child = child_node->child;
+				
+				gtk_object_get (GTK_OBJECT(child),
+						"width", &item_width,
+						NULL);
+
+				if (item_width > running_width)
+					running_width = item_width;
+			}
+			for ( list = etgc->children; list; list = g_list_next (list)){
 				ETableGroupContainerChildNode *child_node = (ETableGroupContainerChildNode *) list->data;
 				ETableGroup *child = child_node->child;
 				gtk_object_get (GTK_OBJECT(child),
@@ -865,7 +582,7 @@ etgc_reflow (GnomeCanvasItem *item, gint flags)
 				
 				gnome_canvas_item_set (GNOME_CANVAS_ITEM(child_node->rect),
 						      "x1", (double) 0,
-						      "x2", (double) etgc->width,
+						      "x2", (double) running_width,
 						      "y1", (double) running_height - extra_height,
 						      "y2", (double) running_height + item_height,
 						      NULL);
@@ -873,13 +590,13 @@ etgc_reflow (GnomeCanvasItem *item, gint flags)
 				running_height += item_height + extra_height;
 			}
 			running_height -= extra_height;
-			if (running_height != old_height) {
-				etgc->height = running_height;
-				e_canvas_item_request_parent_reflow (item);
-			}
+		}
+		if (running_height != old_height || running_width != old_width) {
+			etgc->height = running_height;
+			etgc->width = running_width;
+			e_canvas_item_request_parent_reflow (item);
 		}
 	}
-	etgc->idle = 0;
 }
 
 static void

@@ -28,20 +28,20 @@
  */
 #define N_CHARS(x) (CHAR_WIDTH * (x))
 
-#define COL_ICON_WIDTH        16
-#define COL_CHECK_BOX_WIDTH   16
-#define COL_FROM_WIDTH        N_CHARS(24)
-#define COL_FROM_WIDTH_MIN    32
-#define COL_SUBJECT_WIDTH     N_CHARS(30)
-#define COL_SUBJECT_WIDTH_MIN 32
-#define COL_SENT_WIDTH        N_CHARS(4) 
-#define COL_SENT_WIDTH_MIN    1
-#define COL_RECEIVE_WIDTH     N_CHARS(20)
-#define COL_RECEIVE_WIDTH_MIN 32
-#define COL_TO_WIDTH          N_CHARS(24)
-#define COL_TO_WIDTH_MIN      32
-#define COL_SIZE_WIDTH        N_CHARS(6)
-#define COL_SIZE_WIDTH_MIN    32
+#define COL_ICON_WIDTH        (16)
+#define COL_CHECK_BOX_WIDTH   (16)
+#define COL_FROM_EXPANSION    (24.0)
+#define COL_FROM_WIDTH_MIN    (32)
+#define COL_SUBJECT_EXPANSION (30.0)
+#define COL_SUBJECT_WIDTH_MIN (32)
+#define COL_SENT_EXPANSION    (4.0)
+#define COL_SENT_WIDTH_MIN    (1)
+#define COL_RECEIVE_EXPANSION (20.0)
+#define COL_RECEIVE_WIDTH_MIN (32)
+#define COL_TO_EXPANSION      (24.0)
+#define COL_TO_WIDTH_MIN      (32)
+#define COL_SIZE_EXPANSION    (6.0)
+#define COL_SIZE_WIDTH_MIN    (32)
 
 #define PARENT_TYPE (bonobo_object_get_type ())
 
@@ -386,7 +386,6 @@ message_list_init_renderers (MessageList *message_list)
 	message_list->render_priority = e_cell_checkbox_new ();
 }
 
-#define CHAR_WIDTH 10
 static void
 message_list_init_header (MessageList *message_list)
 {
@@ -405,70 +404,70 @@ message_list_init_header (MessageList *message_list)
 	message_list->table_cols [COL_ONLINE_STATUS] =
 		e_table_col_new_with_pixbuf (
 			COL_ONLINE_STATUS, states_pixmaps [5].pixbuf,
-			COL_CHECK_BOX_WIDTH, COL_CHECK_BOX_WIDTH,
+			0.0, COL_CHECK_BOX_WIDTH,
 			message_list->render_online_status,
 			g_int_compare, FALSE);
 	
 	message_list->table_cols [COL_MESSAGE_STATUS] =
 		e_table_col_new_with_pixbuf (
 			COL_MESSAGE_STATUS, states_pixmaps [0].pixbuf,
-			COL_CHECK_BOX_WIDTH, COL_CHECK_BOX_WIDTH,
+			0.0, COL_CHECK_BOX_WIDTH,
 			message_list->render_message_status, 
 			g_int_compare, FALSE);
 
 	message_list->table_cols [COL_PRIORITY] =
 		e_table_col_new (
 			COL_PRIORITY, _("Priority"),
-			COL_CHECK_BOX_WIDTH, COL_CHECK_BOX_WIDTH,
+			0.0, COL_CHECK_BOX_WIDTH,
 			message_list->render_priority,
 			g_int_compare, FALSE);
 	
 	message_list->table_cols [COL_ATTACHMENT] =
 		e_table_col_new_with_pixbuf (
 			COL_ATTACHMENT, states_pixmaps [4].pixbuf,
-			COL_ICON_WIDTH, COL_ICON_WIDTH,
+			0.0, COL_ICON_WIDTH,
 			message_list->render_attachment,
 			g_int_compare, FALSE);
 
 	message_list->table_cols [COL_FROM] =
 		e_table_col_new (
 			COL_FROM, _("From"),
-			COL_FROM_WIDTH, COL_FROM_WIDTH_MIN,
+			COL_FROM_EXPANSION, COL_FROM_WIDTH_MIN,
 			message_list->render_text,
 			g_str_compare, TRUE);
 
 	message_list->table_cols [COL_SUBJECT] =
 		e_table_col_new (
 			COL_SUBJECT, _("Subject"),
-			COL_SUBJECT_WIDTH, COL_SUBJECT_WIDTH_MIN,
+			COL_SUBJECT_EXPANSION, COL_SUBJECT_WIDTH_MIN,
 			message_list->render_text,
 			g_str_compare, TRUE);
 
 	message_list->table_cols [COL_SENT] =
 		e_table_col_new (
 			COL_SENT, _("Sent"),
-			COL_SENT_WIDTH, COL_SENT_WIDTH_MIN,
+			COL_SENT_EXPANSION, COL_SENT_WIDTH_MIN,
 			message_list->render_text,
 			g_str_compare, TRUE);
 	
 	message_list->table_cols [COL_RECEIVE] =
 		e_table_col_new (
 			COL_RECEIVE, _("Receive"),
-			COL_RECEIVE_WIDTH, COL_RECEIVE_WIDTH_MIN,
+			COL_RECEIVE_EXPANSION, COL_RECEIVE_WIDTH_MIN,
 			message_list->render_text,
 			g_str_compare, TRUE);
 
 	message_list->table_cols [COL_TO] =
 		e_table_col_new (
 			COL_TO, _("To"),
-			COL_TO_WIDTH, COL_TO_WIDTH_MIN,
+			COL_TO_EXPANSION, COL_TO_WIDTH_MIN,
 			message_list->render_text,
 			g_str_compare, TRUE);
 
 	message_list->table_cols [COL_SIZE] =
 		e_table_col_new (
 			COL_SIZE, _("Size"),
-			COL_SIZE_WIDTH, COL_SIZE_WIDTH_MIN,
+			COL_SIZE_EXPANSION, COL_SIZE_WIDTH_MIN,
 			message_list->render_text,
 			g_str_compare, TRUE);
 	

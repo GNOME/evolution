@@ -1,3 +1,41 @@
+2000-05-14  Christopher James Lahey  <clahey@helixcode.com>
+
+	* Implemented the feature where the ETable columns automatically
+	fill the given space.
+
+	* e-cell-text.c, e-cell-text.h: Moved #include
+	e-text-event-processor.h from the .h to the .c.
+
+	* e-table-col.c, e-table-col.h: Added an expansion variable, and
+	made it so that width isn't set by the programmer but instead by
+	the e-table-header.
+
+	* e-table-example-1.c, e-table-example-2.c, e-table-size-test.c,
+	test-check.c, test-cols.c, test-table.c: Fixed to handle new
+	ETable column resizing.
+
+	* e-table-group-container.c, e-table-group-container.h,
+	e-table-group-leaf.c, e-table-group-leaf.h, e-table-group.c,
+	e-table-group.h, e-table-item.c, e-table-item.h: Fixed these to do
+	a proper canvas reflow/update loop.  Changed them to take a
+	minimum width and return a width and a height.
+
+	* e-table-header-item.c, e-table-header-item.h: Made this so that
+	it depends on e-table-header.c for deciding the actual size of
+	columns during resize (it was making incorrect decisions on its
+	own.)
+
+	* e-table-header.c, e-table-header.h: Changed this to make sure
+	that the sum of the widths of the columns was always as close as
+	possible to the width of the window.  This is done by taking a
+	full width and having each of the columns have an "expansion"
+	field.  This field is what makes each column have approximately
+	the same portion of its part of the screen that it used to.
+
+	* e-table.c: Changed this to set the width on the ETableHeader as
+	well as set the proper minimum width on the ETableGroup and get
+	the width and height it reports.
+
 2000-05-11  Miguel de Icaza  <miguel@gnu.org>
 
 	* e-table.c: Removed dead code. 

@@ -24,6 +24,7 @@
 #include <gnome.h>
 #include "e-contact-editor.h"
 #include <e-contact-editor-fullname.h>
+#include <e-contact-editor-categories.h>
 #include <gdk-pixbuf/gdk-pixbuf.h>
 #include <gdk-pixbuf/gnome-canvas-pixbuf.h>
 
@@ -159,6 +160,8 @@ _add_images(GtkTable *table)
 	_add_image(table, EVOLUTION_IMAGES "/globe.png",
 		   0, 1, 8, 10);
 	_add_image(table, EVOLUTION_IMAGES "/house.png", 4, 5, 5, 10);
+	_add_image(table, EVOLUTION_IMAGES "/evolution-contacts.png", 0, 1, 12, 14);
+	_add_image(table, EVOLUTION_IMAGES "/briefcase.png", 4, 5, 12, 14);
 }
 
 static void
@@ -166,7 +169,7 @@ _add_details_images(GtkTable *table)
 {
 	_add_image(table, EVOLUTION_IMAGES "/briefcase.png", 0, 1, 0, 2);
 	_add_image(table, EVOLUTION_IMAGES "/malehead.png", 0, 1, 4, 6);
-	_add_image(table, EVOLUTION_IMAGES "/globe.png", 0, 1, 7, 9);
+	_add_image(table, EVOLUTION_IMAGES "/globe.png", 0, 1, 8, 10);
 }
 
 static void
@@ -456,7 +459,6 @@ full_name_clicked(GtkWidget *button, EContactEditor *editor)
 	GnomeDialog *dialog = GNOME_DIALOG(e_contact_editor_fullname_new(editor->name));
 	int result;
 	gtk_widget_show(GTK_WIDGET(dialog));
-	gnome_dialog_close_hides (dialog, TRUE);
 	result = gnome_dialog_run_and_close (dialog);
 	if (result == 0) {
 		ECardName *name;
@@ -471,6 +473,27 @@ full_name_clicked(GtkWidget *button, EContactEditor *editor)
 		editor->name = e_card_name_copy(name);
 	}
 	gtk_object_unref(GTK_OBJECT(dialog));
+}
+
+static void
+categories_clicked(GtkWidget *button, EContactEditor *editor)
+{
+	char *categories;
+	GnomeDialog *dialog;
+	int result;
+	GtkEntry *entry = GTK_ENTRY(glade_xml_get_widget(editor->gui, "entry-categories"));
+	categories = gtk_entry_get_text(entry);
+	dialog = GNOME_DIALOG(e_contact_editor_categories_new(categories));
+	gtk_widget_show(GTK_WIDGET(dialog));
+	result = gnome_dialog_run (dialog);
+	if (result == 0) {
+		gtk_object_get(GTK_OBJECT(dialog),
+			       "categories", &categories,
+			       NULL);
+		gtk_entry_set_text(entry, categories);
+		g_free(categories);
+	}
+	gtk_object_destroy(GTK_OBJECT(dialog));
 }
 
 static void
@@ -492,6 +515,9 @@ e_contact_editor_init (EContactEditor *e_contact_editor)
 
 	gtk_signal_connect(GTK_OBJECT(glade_xml_get_widget(e_contact_editor->gui, "button-fullname")), "clicked",
 			   full_name_clicked, e_contact_editor);
+
+	gtk_signal_connect(GTK_OBJECT(glade_xml_get_widget(e_contact_editor->gui, "button-categories")), "clicked",
+			   categories_clicked, e_contact_editor);
 
 	gtk_object_get(GTK_OBJECT(glade_xml_get_widget(gui, "text-comments")),
 		       "vadjustment", &adjustment,
@@ -739,7 +765,7 @@ e_contact_editor_build_dialog(EContactEditor *editor, gchar *entry_id, gchar *la
 	
 	GtkWidget *dialog = gnome_dialog_new(title,
 					     NULL);
-
+	
 	gtk_container_add(GTK_CONTAINER(GNOME_DIALOG(dialog)->vbox),
 			  gtk_widget_new (gtk_frame_get_type(),
 					  "border_width", 4,
@@ -1022,9 +1048,9 @@ fill_in_info(EContactEditor *editor)
 		char *nickname;
 		char *spouse;
 		const ECardDate *anniversary;
-		char *fburl;
 		char *note;
 		const ECardDate *bday;
+		char *categories;
 		GtkEditable *editable;
 		int position = 0;
 
@@ -1043,9 +1069,9 @@ fill_in_info(EContactEditor *editor)
 			       "nickname",      &nickname,
 			       "spouse",        &spouse,
 			       "anniversary",   &anniversary,
-			       "fburl",         &fburl,
 			       "note",          &note,
 			       "birth_date",    &bday,
+			       "categories",    &categories,
 			       NULL);
 		
 		position = 0;
@@ -1121,12 +1147,6 @@ fill_in_info(EContactEditor *editor)
 		}
 
 		position = 0;
-		editable = GTK_EDITABLE(glade_xml_get_widget(editor->gui, "entry-fburl"));
-		gtk_editable_delete_text(editable, 0, -1);
-		if (fburl)
-			gtk_editable_insert_text(editable, fburl, strlen(fburl), &position);
-
-		position = 0;
 		editable = GTK_EDITABLE(glade_xml_get_widget(editor->gui, "entry-profession"));
 		gtk_editable_delete_text(editable, 0, -1);
 		if (role)
@@ -1149,6 +1169,12 @@ fill_in_info(EContactEditor *editor)
 			dateedit = GNOME_DATE_EDIT(glade_xml_get_widget(editor->gui, "dateedit-birthday"));
 			gnome_date_edit_set_time(dateedit, time_val);
 		}
+
+		position = 0;
+		editable = GTK_EDITABLE(glade_xml_get_widget(editor->gui, "entry-categories"));
+		gtk_editable_delete_text(editable, 0, -1);
+		if (categories)
+			gtk_editable_insert_text(editable, categories, strlen(categories), &position);
 		
 		/* File as has to come after company and name or else it'll get messed up when setting them. */
 		position = 0;
@@ -1179,8 +1205,8 @@ extract_info(EContactEditor *editor)
 		char *nickname;
 		char *spouse;
 		ECardDate *anniversary;
-		char *fburl;
 		char *note;
+		char *categories;
 		ECardDate *bday;
 		GtkEditable *editable;
 		GnomeDateEdit *dateedit;
@@ -1351,18 +1377,6 @@ extract_info(EContactEditor *editor)
 			       "anniversary", anniversary,
 			       NULL);
 
-		editable = GTK_EDITABLE(glade_xml_get_widget(editor->gui, "entry-fburl"));
-		fburl = gtk_editable_get_chars(editable, 0, -1);
-		if (fburl && *fburl)
-			gtk_object_set(GTK_OBJECT(card),
-				       "fburl", fburl,
-				       NULL);
-		else
-			gtk_object_set(GTK_OBJECT(card),
-				       "fburl", NULL,
-				       NULL);
-		g_free(fburl);
-
 		editable = GTK_EDITABLE(glade_xml_get_widget(editor->gui, "text-comments"));
 		note = gtk_editable_get_chars(editable, 0, -1);
 		if (note && *note)
@@ -1374,6 +1388,18 @@ extract_info(EContactEditor *editor)
 				       "note", NULL,
 				       NULL);
 		g_free(note);
+
+		editable = GTK_EDITABLE(glade_xml_get_widget(editor->gui, "entry-categories"));
+		categories = gtk_editable_get_chars(editable, 0, -1);
+		if (categories && *categories)
+			gtk_object_set(GTK_OBJECT(card),
+				       "categories", categories,
+				       NULL);
+		else
+			gtk_object_set(GTK_OBJECT(card),
+				       "categories", NULL,
+				       NULL);
+		g_free(categories);
 
 		dateedit = GNOME_DATE_EDIT(glade_xml_get_widget(editor->gui, "dateedit-birthday"));
 		time_val = gnome_date_edit_get_date(dateedit);

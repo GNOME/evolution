@@ -4,6 +4,7 @@
 
 #include <gtk/gtkobject.h>
 #include <gdk/gdk.h>
+#include "e-table-sort-info.h"
 #include "e-table-col.h"
 
 typedef struct _ETableHeader ETableHeader;
@@ -14,13 +15,6 @@ typedef struct _ETableHeader ETableHeader;
 #define E_IS_TABLE_HEADER(o)       (GTK_CHECK_TYPE ((o), E_TABLE_HEADER_TYPE))
 #define E_IS_TABLE_HEADER_CLASS(k) (GTK_CHECK_CLASS_TYPE ((k), E_TABLE_HEADER_TYPE))
 
-#if 0
-typedef struct {
-	int model_col;
-	int ascending;
-} ETableHeaderSortInfo;
-#endif
-
 /*
  * A Columnar header.
  */
@@ -28,14 +22,13 @@ struct _ETableHeader {
 	GtkObject base;
 
 	int col_count;
+	int width;
+
+	ETableSortInfo *sort_info;
+	int sort_info_group_change_id;
+
 	ETableCol **columns;
 	gboolean selectable;
-
-#if 0
-	ETableHeaderSortInfo sort_info;
-	ETableHeaderSortInfo *grouping;
-	gint grouping_count;
-#endif
 };
 
 typedef struct {
@@ -59,18 +52,6 @@ int         e_table_header_get_index_at  (ETableHeader *eth,
 					  int x_offset);
 ETableCol **e_table_header_get_columns   (ETableHeader *eth);
 
-#if 0
-ETableHeaderSortInfo e_table_header_get_sort_info (ETableHeader *eth);
-void         e_table_header_set_sort_info (ETableHeader *eth, ETableHeaderSortInfo info);
-
-int         e_table_header_get_group_count (ETableHeader *eth);
-ETableHeaderSortInfo *e_table_header_get_groups  (ETableHeader *eth);
-ETableHeaderSortInfo e_table_header_get_group  (ETableHeader *eth, gint index);
-void        e_table_header_grouping_insert (ETableHeader *eth, gint index, ETableHeaderSortInfo info);
-void        e_table_header_grouping_delete (ETableHeader *eth, gint index);
-void        e_table_header_grouping_move (ETableHeader *eth, gint old_idx, gint new_idx);
-#endif
-
 gboolean    e_table_header_selection_ok  (ETableHeader *eth);
 int         e_table_header_get_selected  (ETableHeader *eth);
 int         e_table_header_total_width   (ETableHeader *eth);
@@ -78,12 +59,15 @@ void        e_table_header_move          (ETableHeader *eth,
 					  int source_index,
 					  int target_index);
 void        e_table_header_remove        (ETableHeader *eth, int idx);
+void        e_table_header_set_width     (ETableHeader *eth, int width);
 void        e_table_header_set_size      (ETableHeader *eth, int idx, int size);
 void        e_table_header_set_selection (ETableHeader *eth,
 					  gboolean allow_selection);
 
 int         e_table_header_col_diff      (ETableHeader *eth,
 					  int start_col, int end_col);
+
+void        e_table_header_calc_widths   (ETableHeader *eth);
 
 GList      *e_table_header_get_selected_indexes (ETableHeader *eth);
 

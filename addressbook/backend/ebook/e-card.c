@@ -19,6 +19,8 @@
 #include "e-card-pairs.h"
 #include "e-name-western.h"
 
+#include <e-util/e-util.h>
+
 #define is_a_prop_of(obj,prop) (isAPropertyOf ((obj),(prop)))
 #define str_val(obj) (the_str = (vObjectValueType (obj))? fakeCString (vObjectUStringZValue (obj)) : calloc (1, 1))
 #define has(obj,prop) (vo = isAPropertyOf ((obj), (prop)))
@@ -47,6 +49,8 @@ enum {
 	ARG_ANNIVERSARY,
 	ARG_FBURL,
 	ARG_NOTE,
+	ARG_CATEGORIES,
+	ARG_CATEGORY_LIST,
 	ARG_ID
 };
 
@@ -86,6 +90,7 @@ static void parse_spouse(ECard *card, VObject *object);
 static void parse_anniversary(ECard *card, VObject *object);
 static void parse_fburl(ECard *card, VObject *object);
 static void parse_note(ECard *card, VObject *object);
+static void parse_categories(ECard *card, VObject *object);
 static void parse_id(ECard *card, VObject *object);
 
 static ECardPhoneFlags get_phone_flags (VObject *vobj);
@@ -120,6 +125,7 @@ struct {
 	{ "X-EVOLUTION-ANNIVERSARY", parse_anniversary },   
 	{ "FBURL",                   parse_fburl },
 	{ VCNoteProp,                parse_note },
+	{ "CATEGORIES",              parse_categories },
 	{ VCUniqueStringProp,        parse_id }
 };
 
@@ -379,6 +385,32 @@ char
 	if (card->note)
 		addPropValue(vobj, VCNoteProp, card->note);
 
+	if (card->categories) {
+		ECardIterator *iterator;
+		int length = 0;
+		char *string;
+		char *stringptr;
+		for (iterator = e_card_list_get_iterator(card->categories); e_card_iterator_is_valid(iterator); e_card_iterator_next(iterator)) {
+			length += strlen(e_card_iterator_get(iterator)) + 1;
+		}
+		string = g_new(char, length + 1);
+		stringptr = string;
+		*stringptr = 0;
+		for (e_card_iterator_reset(iterator); e_card_iterator_is_valid(iterator); e_card_iterator_next(iterator)) {
+			strcpy(stringptr, e_card_iterator_get(iterator));
+			stringptr += strlen(stringptr);
+			*stringptr = ',';
+			stringptr++;
+			*stringptr = 0;
+		}
+		if (stringptr > string) {
+			stringptr --;
+			*stringptr = 0;
+		}
+		addPropValue (vobj, "CATEGORIES", string);
+		g_free(string);
+	}
+
 	if (card->id)
 		addPropValue (vobj, VCUniqueStringProp, card->id);
 	
@@ -431,9 +463,6 @@ char
 	
 	if (crd->agent)
 	  addVObjectProp (vobj, card_convert_to_vobject (crd->agent));
-	
-        add_CardStrProperty (vobj, VCCategoriesProp, &crd->categories);
-        add_CardStrProperty (vobj, VCCommentProp, &crd->comment);
 	
 	if (crd->sound.prop.used) {
 		if (crd->sound.type != SOUND_PHONETIC)
@@ -684,6 +713,72 @@ parse_note(ECard *card, VObject *vobj)
 }
 
 static void
+add_list_unique(ECard *card, ECardList *list, char *string)
+{
+	char *temp = e_strdup_strip(string);
+	ECardIterator *iterator;
+
+	if (!*temp) {
+		g_free(temp);
+		return;
+	}
+	for ( iterator = e_card_list_get_iterator(list); e_card_iterator_is_valid(iterator); e_card_iterator_next(iterator)) {
+		if (!strcmp(e_card_iterator_get(iterator), temp)) {
+			g_free(temp);
+			break;
+		}
+	}
+	if (!e_card_iterator_is_valid(iterator)) {
+		e_card_list_append(list, temp);
+	}
+	gtk_object_unref(GTK_OBJECT(iterator));
+}
+
+static void
+do_parse_categories(ECard *card, char *str)
+{
+	int length = strlen(str);
+	char *copy = g_new(char, length + 1);
+	int i, j;
+	ECardList *list;
+	gtk_object_get(GTK_OBJECT(card),
+		       "category_list", &list,
+		       NULL);
+	for (i = 0, j = 0; str[i]; i++, j++) {
+		switch (str[i]) {
+		case '\\':
+			i++;
+			if (str[i]) {
+				copy[j] = str[i];
+			} else
+				i--;
+			break;
+		case ',':
+			copy[j] = 0;
+			add_list_unique(card, list, copy);
+			j = -1;
+			break;
+		default:
+			copy[j] = str[i];
+			break;
+		}
+	}
+	copy[j] = 0;
+	add_list_unique(card, list, copy);
+	g_free(copy);
+}
+
+static void
+parse_categories(ECard *card, VObject *vobj)
+{
+	if ( vObjectValueType (vobj) ) {
+		char *str = fakeCString (vObjectUStringZValue (vobj));
+		do_parse_categories(card, str);
+		free(str);
+	}
+}
+
+static void
 parse_id(ECard *card, VObject *vobj)
 {
 	if ( card->id )
@@ -786,6 +881,10 @@ e_card_class_init (ECardClass *klass)
 				 GTK_TYPE_STRING, GTK_ARG_READWRITE, ARG_FBURL);
 	gtk_object_add_arg_type ("ECard::note",
 				 GTK_TYPE_STRING, GTK_ARG_READWRITE, ARG_NOTE);
+	gtk_object_add_arg_type ("ECard::categories",
+				 GTK_TYPE_STRING, GTK_ARG_READWRITE, ARG_CATEGORIES);
+	gtk_object_add_arg_type ("ECard::category_list",
+				 GTK_TYPE_OBJECT, GTK_ARG_READWRITE, ARG_CATEGORY_LIST);
 	gtk_object_add_arg_type ("ECard::id",
 				 GTK_TYPE_STRING, GTK_ARG_READWRITE, ARG_ID);
 
@@ -1081,6 +1180,8 @@ e_card_destroy (GtkObject *object)
 	if (card->note)
 		g_free(card->note);
 
+	if (card->categories)
+		gtk_object_unref(GTK_OBJECT(card->categories));
 	if (card->email)
 		gtk_object_unref(GTK_OBJECT(card->email));
 	if (card->phone)
@@ -1115,6 +1216,20 @@ e_card_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 		if ( card->name )
 			e_card_name_free(card->name);
 		card->name = GTK_VALUE_POINTER(*arg);
+		break;
+	case ARG_CATEGORIES:
+		if (card->categories)
+			gtk_object_unref(GTK_OBJECT(card->categories));
+		card->categories = NULL;
+		if (GTK_VALUE_STRING(*arg))
+			do_parse_categories(card, GTK_VALUE_STRING(*arg));
+		break;
+	case ARG_CATEGORY_LIST:
+		if (card->categories)
+			gtk_object_unref(GTK_OBJECT(card->categories));
+		card->categories = E_CARD_LIST(GTK_VALUE_OBJECT(*arg));
+		if (card->categories)
+			gtk_object_ref(GTK_OBJECT(card->categories));
 		break;
 	case ARG_BIRTH_DATE:
 		if ( card->bday )
@@ -1242,6 +1357,33 @@ e_card_get_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 						      NULL);
 		GTK_VALUE_OBJECT(*arg) = GTK_OBJECT(card->email);
 		break;
+	case ARG_CATEGORIES:
+		{
+			int i;
+			char ** strs;
+			int length;
+			ECardIterator *iterator;
+			if (!card->categories)
+				card->categories = e_card_list_new((ECardListCopyFunc) g_strdup, 
+								   (ECardListFreeFunc) g_free,
+								   NULL);
+			length = e_card_list_length(card->categories);
+			strs = g_new(char *, length + 1);
+			for (iterator = e_card_list_get_iterator(card->categories), i = 0; e_card_iterator_is_valid(iterator); e_card_iterator_next(iterator), i++) {
+				strs[i] = (char *)e_card_iterator_get(iterator);
+			}
+			strs[i] = 0;
+			GTK_VALUE_STRING(*arg) = g_strjoinv(", ", strs);
+			g_free(strs);
+		}
+		break;
+	case ARG_CATEGORY_LIST:
+		if (!card->categories)
+			card->categories = e_card_list_new((ECardListCopyFunc) g_strdup, 
+							   (ECardListFreeFunc) g_free,
+							   NULL);
+		GTK_VALUE_OBJECT(*arg) = GTK_OBJECT(card->categories);
+		break;
 	case ARG_BIRTH_DATE:
 		GTK_VALUE_POINTER(*arg) = card->bday;
 		break;
@@ -1323,6 +1465,7 @@ e_card_init (ECard *card)
 	card->anniversary = NULL;
 	card->fburl = NULL;
 	card->note = NULL;
+	card->categories = NULL;
 #if 0
 
 	c = g_new0 (ECard, 1);

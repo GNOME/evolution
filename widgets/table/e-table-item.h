@@ -18,7 +18,7 @@ typedef struct {
 	ETableHeader    *header;
 
 	int              x1, y1;
-	int              width, height;
+	int              minimum_width, width, height;
 
 	int              cols, rows;
 	
@@ -73,6 +73,7 @@ typedef struct {
 
 	guint needs_redraw : 1;
 	guint needs_compute_height : 1;
+	guint needs_compute_width : 1;
 } ETableItem;
 
 typedef struct {

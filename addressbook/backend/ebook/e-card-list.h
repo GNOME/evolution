@@ -46,6 +46,7 @@ ECardList     *e_card_list_new                  (ECardListCopyFunc  copy,
 ECardIterator *e_card_list_get_iterator         (ECardList         *list);
 void           e_card_list_append               (ECardList         *list,
 						 const void        *data);
+int            e_card_list_length               (ECardList         *list);
 
 /* For iterators to call. */
 void           e_card_list_invalidate_iterators (ECardList         *list, 

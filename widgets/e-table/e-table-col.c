@@ -39,17 +39,22 @@ e_table_col_class_init (GtkObjectClass *object_class)
 	object_class->destroy = etc_destroy;
 }
 
-E_MAKE_TYPE(e_table_col, "ETableCol", ETableCol, e_table_col_class_init, NULL, PARENT_TYPE);
+static void
+e_table_col_init (ETableCol *etc)
+{
+	etc->width = 0;
+}
+
+E_MAKE_TYPE(e_table_col, "ETableCol", ETableCol, e_table_col_class_init, e_table_col_init, PARENT_TYPE);
 
 ETableCol *
-e_table_col_new (int col_idx, const char *text, int width, int min_width,
+e_table_col_new (int col_idx, const char *text, double expansion, int min_width,
 		 ECell *ecell, GCompareFunc compare, gboolean resizable)
 {
 	ETableCol *etc;
 	
-	g_return_val_if_fail (width >= 0, NULL);
+	g_return_val_if_fail (expansion >= 0, NULL);
 	g_return_val_if_fail (min_width >= 0, NULL);
-	g_return_val_if_fail (width >= min_width, NULL);
 	g_return_val_if_fail (compare != NULL, NULL);
 
 	etc = gtk_type_new (E_TABLE_COL_TYPE);
@@ -59,7 +64,7 @@ e_table_col_new (int col_idx, const char *text, int width, int min_width,
 	etc->col_idx = col_idx;
 	etc->text = g_strdup (text);
 	etc->pixbuf = NULL;
-	etc->width = width;
+	etc->expansion = expansion;
 	etc->min_width = min_width;
 	etc->ecell = ecell;
 	etc->compare = compare;
@@ -75,14 +80,13 @@ e_table_col_new (int col_idx, const char *text, int width, int min_width,
 }
 
 ETableCol *
-e_table_col_new_with_pixbuf (int col_idx, GdkPixbuf *pixbuf, int width, int min_width,
+e_table_col_new_with_pixbuf (int col_idx, GdkPixbuf *pixbuf, double expansion, int min_width,
 			     ECell *ecell, GCompareFunc compare, gboolean resizable)
 {
 	ETableCol *etc;
 	
-	g_return_val_if_fail (width >= 0, NULL);
+	g_return_val_if_fail (expansion >= 0, NULL);
 	g_return_val_if_fail (min_width >= 0, NULL);
-	g_return_val_if_fail (width >= min_width, NULL);
 	g_return_val_if_fail (compare != NULL, NULL);
 
 	etc = gtk_type_new (E_TABLE_COL_TYPE);
@@ -92,7 +96,7 @@ e_table_col_new_with_pixbuf (int col_idx, GdkPixbuf *pixbuf, int width, int min_
 	etc->col_idx = col_idx;
 	etc->text = NULL;
 	etc->pixbuf = pixbuf;
-	etc->width = width;
+	etc->expansion = expansion;
 	etc->min_width = min_width;
 	etc->ecell = ecell;
 	etc->compare = compare;

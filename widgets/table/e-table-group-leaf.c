@@ -10,7 +10,6 @@
 
 #include <config.h>
 #include <gtk/gtksignal.h>
-#include "e-table-group-container.h"
 #include "e-table-group-leaf.h"
 #include "e-table-item.h"
 #include <libgnomeui/gnome-canvas-rect-ellipse.h>
@@ -29,7 +28,8 @@ enum {
 	ARG_0,
 	ARG_HEIGHT,
 	ARG_WIDTH,
-	ARG_FROZEN
+	ARG_MINIMUM_WIDTH,
+	ARG_FROZEN,
 };
 
 static void etgl_set_arg (GtkObject *object, GtkArg *arg, guint arg_id);
@@ -48,21 +48,23 @@ etgl_destroy (GtkObject *object)
 }
 
 static void
-e_table_group_leaf_construct (GnomeCanvasGroup *parent, ETableGroupLeaf *etgl,
-			      ETableHeader *full_header,
+e_table_group_leaf_construct (GnomeCanvasGroup *parent,
+			      ETableGroupLeaf  *etgl,
+			      ETableHeader     *full_header,
 			      ETableHeader     *header,
-			      ETableModel *model,
-			      ETableSortInfo *sort_info)
+			      ETableModel      *model,
+			      ETableSortInfo   *sort_info)
 {
 	etgl->subset = E_TABLE_SUBSET_VARIABLE(e_table_sorted_variable_new (model, full_header, sort_info));
 	e_table_group_construct (parent, E_TABLE_GROUP (etgl), full_header, header, model);
 }
 
 ETableGroup *
-e_table_group_leaf_new       (GnomeCanvasGroup *parent, ETableHeader *full_header,
+e_table_group_leaf_new       (GnomeCanvasGroup *parent,
+			      ETableHeader     *full_header,
 			      ETableHeader     *header,
-			      ETableModel *model,
-			      ETableSortInfo *sort_info)
+			      ETableModel      *model,
+			      ETableSortInfo   *sort_info)
 {
 	ETableGroupLeaf *etgl;
 
@@ -85,6 +87,13 @@ etgl_row_selection (GtkObject *object, gint row, gboolean selected, ETableGroupL
 static void
 etgl_reflow (GnomeCanvasItem *item, gint flags)
 {
+	ETableGroupLeaf *leaf = E_TABLE_GROUP_LEAF(item);
+	gtk_object_get(GTK_OBJECT(leaf->item),
+		       "height", &leaf->height,
+		       NULL);
+	gtk_object_get(GTK_OBJECT(leaf->item),
+		       "width", &leaf->width,
+		       NULL);
 	e_canvas_item_request_parent_reflow (item);
 }
 
@@ -103,31 +112,13 @@ etgl_realize (GnomeCanvasItem *item)
 							 "drawgrid", TRUE,
 							 "drawfocus", TRUE,
 							 "spreadsheet", TRUE,
-							 "width", etgl->width,
+							 "minimum_width", etgl->minimum_width,
 							 "length_threshold", 200,
 							 NULL));
-
+	
 	gtk_signal_connect (GTK_OBJECT(etgl->item), "row_selection",
-			   GTK_SIGNAL_FUNC(etgl_row_selection), etgl);
-	e_canvas_item_request_parent_reflow (item);
-}
-
-static int
-etgl_event (GnomeCanvasItem *item, GdkEvent *event)
-{
-	gboolean return_val = TRUE;
-
-	switch (event->type) {
-
-	default:
-		return_val = FALSE;
-	}
-	if (return_val == FALSE){
-		if (GNOME_CANVAS_ITEM_CLASS(etgl_parent_class)->event)
-			return GNOME_CANVAS_ITEM_CLASS(etgl_parent_class)->event (item, event);
-	}
-	return return_val;
-
+			    GTK_SIGNAL_FUNC(etgl_row_selection), etgl);
+	e_canvas_item_request_reflow(item);
 }
 
 static void
@@ -177,47 +168,10 @@ etgl_get_focus_column (ETableGroup *etg)
 }
 
 static void
-etgl_set_width (ETableGroup *etg, gdouble width)
-{
-	ETableGroupLeaf *etgl = E_TABLE_GROUP_LEAF (etg);
-	etgl->width = width;
-#if 0
-	if (etgl->item){
-		gnome_canvas_item_set (GNOME_CANVAS_ITEM(etgl->item),
-				      "width", width,
-				      NULL);
-	}		
-#endif
-}
-
-static gdouble
-etgl_get_width (ETableGroup *etg)
-{
-	ETableGroupLeaf *etgl = E_TABLE_GROUP_LEAF (etg);
-	gtk_object_get (GTK_OBJECT(etgl->item),
-		       "width", &etgl->width,
-		       NULL);
-	return etgl->width;
-}
-
-static gdouble
-etgl_get_height (ETableGroup *etg)
-{
-	ETableGroupLeaf *etgl = E_TABLE_GROUP_LEAF (etg);
-	gdouble height;
-	if (etgl->item)
-		gtk_object_get (GTK_OBJECT(etgl->item),
-			       "height", &height,
-			       NULL);
-	else
-		height = 1;
-	return height;
-}
-
-static void
 etgl_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 {
 	ETableGroup *etg = E_TABLE_GROUP (object);
+	ETableGroupLeaf *etgl = E_TABLE_GROUP_LEAF (object);
 
 	switch (arg_id) {
 	case ARG_FROZEN:
@@ -227,9 +181,13 @@ etgl_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 			etg->frozen = FALSE;
 		}
 		break;
-	case ARG_WIDTH:
-		if (E_TABLE_GROUP_CLASS(GTK_OBJECT(etg)->klass)->set_width)
-			E_TABLE_GROUP_CLASS(GTK_OBJECT(etg)->klass)->set_width (etg, GTK_VALUE_DOUBLE (*arg));
+	case ARG_MINIMUM_WIDTH:
+		etgl->minimum_width = GTK_VALUE_DOUBLE(*arg);
+		if (etgl->item) {
+			gnome_canvas_item_set (GNOME_CANVAS_ITEM(etgl->item),
+					       "minimum_width", etgl->minimum_width,
+					       NULL);
+		}
 		break;
 	default:
 		break;
@@ -240,22 +198,20 @@ static void
 etgl_get_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 {
 	ETableGroup *etg = E_TABLE_GROUP (object);
+	ETableGroupLeaf *etgl = E_TABLE_GROUP_LEAF (object);
 
 	switch (arg_id) {
 	case ARG_FROZEN:
 		GTK_VALUE_BOOL (*arg) = etg->frozen;
 		break;
 	case ARG_HEIGHT:
-		if (E_TABLE_GROUP_CLASS(GTK_OBJECT(etg)->klass)->get_height)
-			GTK_VALUE_DOUBLE (*arg) = E_TABLE_GROUP_CLASS(GTK_OBJECT(etg)->klass)->get_height (etg);
-		else
-			arg->type = GTK_TYPE_INVALID;
+		GTK_VALUE_DOUBLE (*arg) = etgl->height;
 		break;
-	case ARG_WIDTH:	
-		if (E_TABLE_GROUP_CLASS(GTK_OBJECT(etg)->klass)->get_width)
-			GTK_VALUE_DOUBLE (*arg) = E_TABLE_GROUP_CLASS(GTK_OBJECT(etg)->klass)->get_width (etg);
-		else
-			arg->type = GTK_TYPE_INVALID;
+	case ARG_WIDTH:
+		GTK_VALUE_DOUBLE (*arg) = etgl->width;
+		break;
+	case ARG_MINIMUM_WIDTH:
+		GTK_VALUE_DOUBLE (*arg) = etgl->minimum_width;
 		break;
 	default:
 		arg->type = GTK_TYPE_INVALID;
@@ -274,7 +230,6 @@ etgl_class_init (GtkObjectClass *object_class)
 	object_class->get_arg = etgl_get_arg;
 
 	item_class->realize = etgl_realize;
-	item_class->event = etgl_event;
 	
 	etgl_parent_class = gtk_type_class (PARENT_TYPE);
 
@@ -285,14 +240,12 @@ etgl_class_init (GtkObjectClass *object_class)
 	e_group_class->set_focus = etgl_set_focus;
 	e_group_class->get_focus_column = etgl_get_focus_column;
 
-	e_group_class->get_width = etgl_get_width;
-	e_group_class->set_width = etgl_set_width;
-	e_group_class->get_height = etgl_get_height;
-
 	gtk_object_add_arg_type ("ETableGroupLeaf::height", GTK_TYPE_DOUBLE, 
 				 GTK_ARG_READABLE, ARG_HEIGHT);
 	gtk_object_add_arg_type ("ETableGroupLeaf::width", GTK_TYPE_DOUBLE, 
-				 GTK_ARG_READWRITE, ARG_WIDTH);
+				 GTK_ARG_READABLE, ARG_WIDTH);
+	gtk_object_add_arg_type ("ETableGroupLeaf::minimum_width", GTK_TYPE_DOUBLE,
+				 GTK_ARG_READWRITE, ARG_MINIMUM_WIDTH);
 	gtk_object_add_arg_type ("ETableGroupLeaf::frozen", GTK_TYPE_BOOL,
 				 GTK_ARG_READWRITE, ARG_FROZEN);
 }
@@ -303,6 +256,9 @@ etgl_init (GtkObject *object)
 	ETableGroupLeaf *etgl = E_TABLE_GROUP_LEAF (object);
 
 	etgl->width = 1;
+	etgl->height = 1;
+	etgl->minimum_width = 0;
+
 	etgl->subset = NULL;
 	etgl->item = NULL;
 	

@@ -101,6 +101,8 @@ new_contact_cb (BonoboUIHandler *uih, void *user_data, const char *path)
 	GtkObject *object;
 	GtkWidget* dlg = gnome_dialog_new ("Contact Editor", "Save", "Cancel", NULL);
 
+	gtk_window_set_policy(GTK_WINDOW(dlg), FALSE, TRUE, FALSE);
+
 	if (view->view)
 		object = GTK_OBJECT(view->view);
 	else
@@ -113,7 +115,8 @@ new_contact_cb (BonoboUIHandler *uih, void *user_data, const char *path)
 	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (dlg)->vbox),
 			    contact_editor, TRUE, TRUE, 0);
 
-	gtk_widget_show_all (dlg);
+	gtk_widget_show (contact_editor);
+	gtk_widget_show (dlg);
 
 	gnome_dialog_close_hides (GNOME_DIALOG (dlg), TRUE);
 	result = gnome_dialog_run_and_close (GNOME_DIALOG (dlg));
@@ -731,7 +734,7 @@ create_table_view (AddressbookView *view, char *initial_query)
 		/* Create the column. */
 		ETableCol *ecol = e_table_col_new (
 						   i, e_card_simple_get_name(view->simple, i+1),
-						   80, 20, cell_left_just,
+						   1.0, 20, cell_left_just,
 						   g_str_compare, TRUE);
 		/* Add it to the header. */
 		e_table_header_add_column (e_table_header, ecol, i);

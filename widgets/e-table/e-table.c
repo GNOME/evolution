@@ -134,8 +134,6 @@ e_table_setup_header (ETable *e_table)
 		gnome_canvas_root (e_table->header_canvas),
 		e_table_header_item_get_type (),
 		"ETableHeader", e_table->header,
-		"x", 0,
-		"y", 0,
 		"sort_info", e_table->sort_info,
 		NULL);
 
@@ -150,27 +148,31 @@ static void
 table_canvas_size_allocate (GtkWidget *widget, GtkAllocation *alloc,
 			    ETable *e_table)
 {
-	gdouble height;
 	gdouble width;
-
-	gtk_object_get (GTK_OBJECT (e_table->group),
-			"height", &height,
-			NULL);
-	gnome_canvas_set_scroll_region (
-		GNOME_CANVAS (e_table->table_canvas),
-		0, 0, alloc->width, MAX (height, alloc->height));
 	width = alloc->width;
+
 	gtk_object_set (GTK_OBJECT (e_table->group),
+			"minimum_width", width,
+			NULL);
+	gtk_object_set (GTK_OBJECT (e_table->header),
 			"width", width,
 			NULL);
+	
 }
 
 static void
 table_canvas_reflow (GnomeCanvas *canvas, ETable *e_table)
 {
-	table_canvas_size_allocate (GTK_WIDGET   (canvas),
-				    &(GTK_WIDGET (canvas)->allocation),
-				    e_table);
+	gdouble height, width;
+	GtkAllocation *alloc = &(GTK_WIDGET (canvas)->allocation);
+
+	gtk_object_get (GTK_OBJECT (e_table->group),
+			"height", &height,
+			"width", &width,
+			NULL);
+	gnome_canvas_set_scroll_region (
+		GNOME_CANVAS (e_table->table_canvas),
+		0, 0, MAX(width, alloc->width), MAX (height, alloc->height));
 }
 
 static void
@@ -199,7 +201,7 @@ changed_idle (gpointer data)
 		e_table_fill_table (et, et->model);
 		
 		gtk_object_set (GTK_OBJECT (et->group),
-				"width", (double) GTK_WIDGET (et->table_canvas)->allocation.width,
+				"minimum_width", (double) GTK_WIDGET (et->table_canvas)->allocation.width,
 				NULL);
 	}
 
@@ -295,16 +297,6 @@ static void
 e_table_fill_table (ETable *e_table, ETableModel *model)
 {
 	e_table_group_add_all (e_table->group);
-#if 0
-	count = e_table_model_row_count (model);
-	gtk_object_set (GTK_OBJECT (e_table->group),
-			"frozen", TRUE, NULL);
-	for (i = 0; i < count; i++)
-		e_table_group_add (e_table->group, i);
-
-	gtk_object_set (GTK_OBJECT (e_table->group),
-			"frozen", FALSE, NULL);
-#endif
 }
 
 static ETableHeader *
@@ -372,6 +364,8 @@ et_real_construct (ETable *e_table, ETableHeader *full_header, ETableModel *etm,
 	xmlNode *xmlRoot;
 	xmlNode *xmlColumns;
 	xmlNode *xmlGrouping;
+	int no_header;
+	int row = 0;
 	
 	GtkWidget *scrolledwindow;
 
@@ -381,6 +375,8 @@ et_real_construct (ETable *e_table, ETableHeader *full_header, ETableModel *etm,
 
 	if ((xmlColumns == NULL) || (xmlGrouping == NULL))
 		return NULL;
+
+	no_header = e_xml_get_integer_prop_by_name(xmlRoot, "no-header");
 	
 	e_table->full_header = full_header;
 	gtk_object_ref (GTK_OBJECT (full_header));
@@ -393,8 +389,14 @@ et_real_construct (ETable *e_table, ETableHeader *full_header, ETableModel *etm,
 
 	e_table->header = et_xml_to_header (e_table, full_header, xmlColumns);
 	et_grouping_xml_to_sort_info (e_table, xmlGrouping);
+	
+	gtk_object_set(GTK_OBJECT(e_table->header),
+		       "sort_info", e_table->sort_info,
+		       NULL);
 
-	e_table_setup_header (e_table);
+	if (!no_header) {
+		e_table_setup_header (e_table);
+	}
 	e_table_setup_table (e_table, full_header, e_table->header, etm);
 	e_table_fill_table (e_table, etm);
 
@@ -412,21 +414,23 @@ et_real_construct (ETable *e_table, ETableHeader *full_header, ETableModel *etm,
 		GTK_WIDGET (e_table->table_canvas));
 	gtk_widget_show (scrolledwindow);
 	
-	/*
-	 * The header
-	 */
-	gtk_table_attach (
-		GTK_TABLE (e_table), GTK_WIDGET (e_table->header_canvas),
-		1, 2, 1, 2,
-		GTK_FILL | GTK_EXPAND,
-		GTK_FILL, 0, 0);
-
+	if (!no_header) {
+		/*
+		 * The header
+		 */
+		gtk_table_attach (
+				  GTK_TABLE (e_table), GTK_WIDGET (e_table->header_canvas),
+				  0, 1, 0, 1,
+				  GTK_FILL | GTK_EXPAND,
+				  GTK_FILL, 0, 0);
+		row ++;
+	}
 	/*
 	 * The body
 	 */
 	gtk_table_attach (
 		GTK_TABLE (e_table), GTK_WIDGET (scrolledwindow),
-		1, 2, 2, 3,
+		0, 1, 0 + row, 1 + row,
 		GTK_FILL | GTK_EXPAND,
 		GTK_FILL | GTK_EXPAND, 0, 0);
 		

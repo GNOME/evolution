@@ -56,7 +56,7 @@
       <name>table-contact-editor-general</name>
       <border_width>7</border_width>
       <cxx_use_heap>True</cxx_use_heap>
-      <rows>11</rows>
+      <rows>13</rows>
       <columns>8</columns>
       <homogeneous>False</homogeneous>
       <row_spacing>4</row_spacing>
@@ -163,114 +163,6 @@
       </widget>
 
       <widget>
-	<class>GtkLabel</class>
-	<name>label-phone3</name>
-	<cxx_use_heap>True</cxx_use_heap>
-	<label>Business Fax</label>
-	<justify>GTK_JUSTIFY_CENTER</justify>
-	<wrap>False</wrap>
-	<xalign>0</xalign>
-	<yalign>0.5</yalign>
-	<xpad>0</xpad>
-	<ypad>0</ypad>
-	<child>
-	  <left_attach>5</left_attach>
-	  <right_attach>6</right_attach>
-	  <top_attach>2</top_attach>
-	  <bottom_attach>3</bottom_attach>
-	  <xpad>0</xpad>
-	  <ypad>0</ypad>
-	  <xexpand>False</xexpand>
-	  <yexpand>False</yexpand>
-	  <xshrink>False</xshrink>
-	  <yshrink>False</yshrink>
-	  <xfill>True</xfill>
-	  <yfill>True</yfill>
-	</child>
-      </widget>
-
-      <widget>
-	<class>GtkLabel</class>
-	<name>label-phone2</name>
-	<cxx_use_heap>True</cxx_use_heap>
-	<label>Home</label>
-	<justify>GTK_JUSTIFY_CENTER</justify>
-	<wrap>False</wrap>
-	<xalign>0</xalign>
-	<yalign>0.5</yalign>
-	<xpad>0</xpad>
-	<ypad>0</ypad>
-	<child>
-	  <left_attach>5</left_attach>
-	  <right_attach>6</right_attach>
-	  <top_attach>1</top_attach>
-	  <bottom_attach>2</bottom_attach>
-	  <xpad>0</xpad>
-	  <ypad>0</ypad>
-	  <xexpand>False</xexpand>
-	  <yexpand>False</yexpand>
-	  <xshrink>False</xshrink>
-	  <yshrink>False</yshrink>
-	  <xfill>True</xfill>
-	  <yfill>True</yfill>
-	</child>
-      </widget>
-
-      <widget>
-	<class>GtkLabel</class>
-	<name>label-phone1</name>
-	<cxx_use_heap>True</cxx_use_heap>
-	<label>Business</label>
-	<justify>GTK_JUSTIFY_CENTER</justify>
-	<wrap>False</wrap>
-	<xalign>0</xalign>
-	<yalign>0.5</yalign>
-	<xpad>0</xpad>
-	<ypad>0</ypad>
-	<child>
-	  <left_attach>5</left_attach>
-	  <right_attach>6</right_attach>
-	  <top_attach>0</top_attach>
-	  <bottom_attach>1</bottom_attach>
-	  <xpad>0</xpad>
-	  <ypad>0</ypad>
-	  <xexpand>False</xexpand>
-	  <yexpand>False</yexpand>
-	  <xshrink>False</xshrink>
-	  <yshrink>False</yshrink>
-	  <xfill>True</xfill>
-	  <yfill>True</yfill>
-	</child>
-      </widget>
-
-      <widget>
-	<class>GtkLabel</class>
-	<name>label-phone4</name>
-	<cxx_use_heap>True</cxx_use_heap>
-	<label>Mobile</label>
-	<justify>GTK_JUSTIFY_LEFT</justify>
-	<wrap>False</wrap>
-	<xalign>0</xalign>
-	<yalign>0.5</yalign>
-	<xpad>0</xpad>
-	<ypad>0</ypad>
-	<child>
-	  <left_attach>5</left_attach>
-	  <right_attach>6</right_attach>
-	  <top_attach>3</top_attach>
-	  <bottom_attach>4</bottom_attach>
-	  <xpad>0</xpad>
-	  <ypad>0</ypad>
-	  <xexpand>False</xexpand>
-	  <yexpand>False</yexpand>
-	  <xshrink>False</xshrink>
-	  <yshrink>False</yshrink>
-	  <xfill>True</xfill>
-	  <yfill>True</yfill>
-	</child>
-      </widget>
-
-      <widget>
 	<class>GtkText</class>
 	<name>text-address</name>
 	<width>1</width>
@@ -296,70 +188,16 @@
       </widget>
 
       <widget>
-	<class>GtkLabel</class>
-	<name>label-email1</name>
-	<cxx_use_heap>True</cxx_use_heap>
-	<label>Primary Email</label>
-	<justify>GTK_JUSTIFY_CENTER</justify>
-	<wrap>False</wrap>
-	<xalign>0</xalign>
-	<yalign>0.5</yalign>
-	<xpad>0</xpad>
-	<ypad>0</ypad>
-	<child>
-	  <left_attach>1</left_attach>
-	  <right_attach>2</right_attach>
-	  <top_attach>5</top_attach>
-	  <bottom_attach>6</bottom_attach>
-	  <xpad>0</xpad>
-	  <ypad>0</ypad>
-	  <xexpand>False</xexpand>
-	  <yexpand>False</yexpand>
-	  <xshrink>False</xshrink>
-	  <yshrink>False</yshrink>
-	  <xfill>True</xfill>
-	  <yfill>True</yfill>
-	</child>
-      </widget>
-
-      <widget>
 	<class>GtkButton</class>
 	<name>button-fullname</name>
 	<cxx_use_heap>True</cxx_use_heap>
 	<can_focus>True</can_focus>
-	<label>	Full Name...</label>
+	<label>_Full Name...</label>
 	<child>
 	  <left_attach>1</left_attach>
 	  <right_attach>3</right_attach>
 	  <top_attach>0</top_attach>
 	  <bottom_attach>1</bottom_attach>
-	  <xpad>0</xpad>
-	  <ypad>0</ypad>
-	  <xexpand>False</xexpand>
-	  <yexpand>False</yexpand>
-	  <xshrink>False</xshrink>
-	  <yshrink>False</yshrink>
-	  <xfill>True</xfill>
-	  <yfill>True</yfill>
-	</child>
-      </widget>
-
-      <widget>
-	<class>GtkAccelLabel</class>
-	<name>accellabel-jobtitle</name>
-	<cxx_use_heap>True</cxx_use_heap>
-	<label>Job Title:</label>
-	<justify>GTK_JUSTIFY_CENTER</justify>
-	<wrap>False</wrap>
-	<xalign>0</xalign>
-	<yalign>0.5</yalign>
-	<xpad>0</xpad>
-	<ypad>0</ypad>
-	<child>
-	  <left_attach>1</left_attach>
-	  <right_attach>3</right_attach>
-	  <top_attach>1</top_attach>
-	  <bottom_attach>2</bottom_attach>
 	  <xpad>0</xpad>
 	  <ypad>0</ypad>
 	  <xexpand>False</xexpand>
@@ -450,40 +288,6 @@
 	  <xfill>True</xfill>
 	  <yfill>True</yfill>
 	</child>
-      </widget>
-
-      <widget>
-	<class>GtkAlignment</class>
-	<name>alignment2</name>
-	<cxx_use_heap>True</cxx_use_heap>
-	<xalign>0</xalign>
-	<yalign>0</yalign>
-	<xscale>0</xscale>
-	<yscale>0</yscale>
-	<child>
-	  <left_attach>7</left_attach>
-	  <right_attach>8</right_attach>
-	  <top_attach>9</top_attach>
-	  <bottom_attach>10</bottom_attach>
-	  <xpad>0</xpad>
-	  <ypad>0</ypad>
-	  <xexpand>True</xexpand>
-	  <yexpand>False</yexpand>
-	  <xshrink>False</xshrink>
-	  <yshrink>False</yshrink>
-	  <xfill>True</xfill>
-	  <yfill>True</yfill>
-	</child>
-
-	<widget>
-	  <class>GtkCheckButton</class>
-	  <name>checkbutton-mailingaddress</name>
-	  <cxx_use_heap>True</cxx_use_heap>
-	  <visible>False</visible>
-	  <label>This is the mailing address</label>
-	  <active>False</active>
-	  <draw_indicator>True</draw_indicator>
-	</widget>
       </widget>
 
       <widget>
@@ -880,60 +684,6 @@
       </widget>
 
       <widget>
-	<class>GtkHBox</class>
-	<name>hbox5</name>
-	<cxx_use_heap>True</cxx_use_heap>
-	<homogeneous>False</homogeneous>
-	<spacing>0</spacing>
-	<child>
-	  <left_attach>0</left_attach>
-	  <right_attach>8</right_attach>
-	  <top_attach>10</top_attach>
-	  <bottom_attach>11</bottom_attach>
-	  <xpad>0</xpad>
-	  <ypad>0</ypad>
-	  <xexpand>True</xexpand>
-	  <yexpand>True</yexpand>
-	  <xshrink>False</xshrink>
-	  <yshrink>False</yshrink>
-	  <xfill>True</xfill>
-	  <yfill>True</yfill>
-	</child>
-
-	<widget>
-	  <class>GtkText</class>
-	  <name>text-comments</name>
-	  <cxx_use_heap>True</cxx_use_heap>
-	  <can_focus>True</can_focus>
-	  <editable>True</editable>
-	  <text></text>
-	  <child>
-	    <padding>0</padding>
-	    <expand>True</expand>
-	    <fill>True</fill>
-	  </child>
-	</widget>
-
-	<widget>
-	  <class>GtkVScrollbar</class>
-	  <name>vscrollbar-comments</name>
-	  <cxx_use_heap>True</cxx_use_heap>
-	  <policy>GTK_UPDATE_CONTINUOUS</policy>
-	  <value>0</value>
-	  <lower>0</lower>
-	  <upper>0</upper>
-	  <step>0</step>
-	  <page>0</page>
-	  <page_size>0</page_size>
-	  <child>
-	    <padding>0</padding>
-	    <expand>False</expand>
-	    <fill>False</fill>
-	  </child>
-	</widget>
-      </widget>
-
-      <widget>
 	<class>GtkAlignment</class>
 	<name>alignment10</name>
 	<cxx_use_heap>True</cxx_use_heap>
@@ -960,38 +710,10 @@
 	  <class>GtkCheckButton</class>
 	  <name>checkbutton-htmlmail</name>
 	  <cxx_use_heap>True</cxx_use_heap>
-	  <visible>False</visible>
-	  <label>Wants HTML mail</label>
+	  <label>Wants _HTML mail</label>
 	  <active>False</active>
 	  <draw_indicator>True</draw_indicator>
 	</widget>
-      </widget>
-
-      <widget>
-	<class>GtkLabel</class>
-	<name>label-address1</name>
-	<cxx_use_heap>True</cxx_use_heap>
-	<label>Business</label>
-	<justify>GTK_JUSTIFY_CENTER</justify>
-	<wrap>False</wrap>
-	<xalign>0</xalign>
-	<yalign>0.5</yalign>
-	<xpad>0</xpad>
-	<ypad>0</ypad>
-	<child>
-	  <left_attach>5</left_attach>
-	  <right_attach>6</right_attach>
-	  <top_attach>5</top_attach>
-	  <bottom_attach>6</bottom_attach>
-	  <xpad>0</xpad>
-	  <ypad>0</ypad>
-	  <xexpand>False</xexpand>
-	  <yexpand>False</yexpand>
-	  <xshrink>False</xshrink>
-	  <yshrink>False</yshrink>
-	  <xfill>True</xfill>
-	  <yfill>True</yfill>
-	</child>
       </widget>
 
       <widget>
@@ -1039,6 +761,7 @@
 	<yalign>0.5</yalign>
 	<xpad>0</xpad>
 	<ypad>0</ypad>
+	<focus_target>text-address</focus_target>
 	<child>
 	  <left_attach>5</left_attach>
 	  <right_attach>7</right_attach>
@@ -1053,6 +776,450 @@
 	  <xfill>True</xfill>
 	  <yfill>True</yfill>
 	</child>
+      </widget>
+
+      <widget>
+	<class>GtkEventBox</class>
+	<name>eventbox1</name>
+	<cxx_use_heap>True</cxx_use_heap>
+	<child>
+	  <left_attach>5</left_attach>
+	  <right_attach>6</right_attach>
+	  <top_attach>0</top_attach>
+	  <bottom_attach>1</bottom_attach>
+	  <xpad>0</xpad>
+	  <ypad>0</ypad>
+	  <xexpand>False</xexpand>
+	  <yexpand>False</yexpand>
+	  <xshrink>False</xshrink>
+	  <yshrink>False</yshrink>
+	  <xfill>True</xfill>
+	  <yfill>True</yfill>
+	</child>
+
+	<widget>
+	  <class>GtkLabel</class>
+	  <name>label-phone1</name>
+	  <cxx_use_heap>True</cxx_use_heap>
+	  <label>_Business</label>
+	  <justify>GTK_JUSTIFY_CENTER</justify>
+	  <wrap>False</wrap>
+	  <xalign>0</xalign>
+	  <yalign>0.5</yalign>
+	  <xpad>0</xpad>
+	  <ypad>0</ypad>
+	  <focus_target>entry-phone1</focus_target>
+	</widget>
+      </widget>
+
+      <widget>
+	<class>GtkEventBox</class>
+	<name>eventbox2</name>
+	<cxx_use_heap>True</cxx_use_heap>
+	<child>
+	  <left_attach>5</left_attach>
+	  <right_attach>6</right_attach>
+	  <top_attach>1</top_attach>
+	  <bottom_attach>2</bottom_attach>
+	  <xpad>0</xpad>
+	  <ypad>0</ypad>
+	  <xexpand>False</xexpand>
+	  <yexpand>False</yexpand>
+	  <xshrink>False</xshrink>
+	  <yshrink>False</yshrink>
+	  <xfill>True</xfill>
+	  <yfill>True</yfill>
+	</child>
+
+	<widget>
+	  <class>GtkLabel</class>
+	  <name>label-phone2</name>
+	  <cxx_use_heap>True</cxx_use_heap>
+	  <label>_Home</label>
+	  <justify>GTK_JUSTIFY_CENTER</justify>
+	  <wrap>False</wrap>
+	  <xalign>0</xalign>
+	  <yalign>0.5</yalign>
+	  <xpad>0</xpad>
+	  <ypad>0</ypad>
+	  <focus_target>entry-phone2</focus_target>
+	</widget>
+      </widget>
+
+      <widget>
+	<class>GtkEventBox</class>
+	<name>eventbox3</name>
+	<cxx_use_heap>True</cxx_use_heap>
+	<child>
+	  <left_attach>5</left_attach>
+	  <right_attach>6</right_attach>
+	  <top_attach>2</top_attach>
+	  <bottom_attach>3</bottom_attach>
+	  <xpad>0</xpad>
+	  <ypad>0</ypad>
+	  <xexpand>False</xexpand>
+	  <yexpand>False</yexpand>
+	  <xshrink>False</xshrink>
+	  <yshrink>False</yshrink>
+	  <xfill>True</xfill>
+	  <yfill>True</yfill>
+	</child>
+
+	<widget>
+	  <class>GtkLabel</class>
+	  <name>label-phone3</name>
+	  <cxx_use_heap>True</cxx_use_heap>
+	  <label>Business _Fax</label>
+	  <justify>GTK_JUSTIFY_CENTER</justify>
+	  <wrap>False</wrap>
+	  <xalign>0</xalign>
+	  <yalign>0.5</yalign>
+	  <xpad>0</xpad>
+	  <ypad>0</ypad>
+	  <focus_target>entry-phone3</focus_target>
+	</widget>
+      </widget>
+
+      <widget>
+	<class>GtkEventBox</class>
+	<name>eventbox4</name>
+	<cxx_use_heap>True</cxx_use_heap>
+	<child>
+	  <left_attach>5</left_attach>
+	  <right_attach>6</right_attach>
+	  <top_attach>3</top_attach>
+	  <bottom_attach>4</bottom_attach>
+	  <xpad>0</xpad>
+	  <ypad>0</ypad>
+	  <xexpand>False</xexpand>
+	  <yexpand>False</yexpand>
+	  <xshrink>False</xshrink>
+	  <yshrink>False</yshrink>
+	  <xfill>True</xfill>
+	  <yfill>True</yfill>
+	</child>
+
+	<widget>
+	  <class>GtkLabel</class>
+	  <name>label-phone4</name>
+	  <cxx_use_heap>True</cxx_use_heap>
+	  <label>_Mobile</label>
+	  <justify>GTK_JUSTIFY_LEFT</justify>
+	  <wrap>False</wrap>
+	  <xalign>0</xalign>
+	  <yalign>0.5</yalign>
+	  <xpad>0</xpad>
+	  <ypad>0</ypad>
+	  <focus_target>entry-phone4</focus_target>
+	</widget>
+      </widget>
+
+      <widget>
+	<class>GtkEventBox</class>
+	<name>eventbox5</name>
+	<cxx_use_heap>True</cxx_use_heap>
+	<child>
+	  <left_attach>1</left_attach>
+	  <right_attach>2</right_attach>
+	  <top_attach>5</top_attach>
+	  <bottom_attach>6</bottom_attach>
+	  <xpad>0</xpad>
+	  <ypad>0</ypad>
+	  <xexpand>False</xexpand>
+	  <yexpand>False</yexpand>
+	  <xshrink>False</xshrink>
+	  <yshrink>False</yshrink>
+	  <xfill>True</xfill>
+	  <yfill>True</yfill>
+	</child>
+
+	<widget>
+	  <class>GtkLabel</class>
+	  <name>label-email1</name>
+	  <cxx_use_heap>True</cxx_use_heap>
+	  <label>Primary Email</label>
+	  <justify>GTK_JUSTIFY_CENTER</justify>
+	  <wrap>False</wrap>
+	  <xalign>0</xalign>
+	  <yalign>0.5</yalign>
+	  <xpad>0</xpad>
+	  <ypad>0</ypad>
+	  <focus_target>entry-email1</focus_target>
+	</widget>
+      </widget>
+
+      <widget>
+	<class>GtkEventBox</class>
+	<name>eventbox-business</name>
+	<cxx_use_heap>True</cxx_use_heap>
+	<child>
+	  <left_attach>5</left_attach>
+	  <right_attach>6</right_attach>
+	  <top_attach>5</top_attach>
+	  <bottom_attach>6</bottom_attach>
+	  <xpad>0</xpad>
+	  <ypad>0</ypad>
+	  <xexpand>False</xexpand>
+	  <yexpand>False</yexpand>
+	  <xshrink>False</xshrink>
+	  <yshrink>False</yshrink>
+	  <xfill>True</xfill>
+	  <yfill>True</yfill>
+	</child>
+
+	<widget>
+	  <class>GtkLabel</class>
+	  <name>label-address1</name>
+	  <cxx_use_heap>True</cxx_use_heap>
+	  <label>Business</label>
+	  <justify>GTK_JUSTIFY_CENTER</justify>
+	  <wrap>False</wrap>
+	  <xalign>0</xalign>
+	  <yalign>0.5</yalign>
+	  <xpad>0</xpad>
+	  <ypad>0</ypad>
+	  <focus_target>text-address</focus_target>
+	</widget>
+      </widget>
+
+      <widget>
+	<class>GtkAlignment</class>
+	<name>alignment2</name>
+	<cxx_use_heap>True</cxx_use_heap>
+	<xalign>0</xalign>
+	<yalign>0</yalign>
+	<xscale>0</xscale>
+	<yscale>0</yscale>
+	<child>
+	  <left_attach>7</left_attach>
+	  <right_attach>8</right_attach>
+	  <top_attach>9</top_attach>
+	  <bottom_attach>10</bottom_attach>
+	  <xpad>0</xpad>
+	  <ypad>0</ypad>
+	  <xexpand>True</xexpand>
+	  <yexpand>False</yexpand>
+	  <xshrink>False</xshrink>
+	  <yshrink>False</yshrink>
+	  <xfill>True</xfill>
+	  <yfill>True</yfill>
+	</child>
+
+	<widget>
+	  <class>GtkCheckButton</class>
+	  <name>checkbutton-mailingaddress</name>
+	  <cxx_use_heap>True</cxx_use_heap>
+	  <label>This is the _mailing address</label>
+	  <active>False</active>
+	  <draw_indicator>True</draw_indicator>
+	</widget>
+      </widget>
+
+      <widget>
+	<class>GtkHSeparator</class>
+	<name>hseparator9</name>
+	<cxx_use_heap>True</cxx_use_heap>
+	<child>
+	  <left_attach>0</left_attach>
+	  <right_attach>4</right_attach>
+	  <top_attach>11</top_attach>
+	  <bottom_attach>12</bottom_attach>
+	  <xpad>0</xpad>
+	  <ypad>2</ypad>
+	  <xexpand>True</xexpand>
+	  <yexpand>False</yexpand>
+	  <xshrink>False</xshrink>
+	  <yshrink>False</yshrink>
+	  <xfill>True</xfill>
+	  <yfill>True</yfill>
+	</child>
+      </widget>
+
+      <widget>
+	<class>GtkHSeparator</class>
+	<name>hseparator10</name>
+	<cxx_use_heap>True</cxx_use_heap>
+	<child>
+	  <left_attach>4</left_attach>
+	  <right_attach>8</right_attach>
+	  <top_attach>11</top_attach>
+	  <bottom_attach>12</bottom_attach>
+	  <xpad>0</xpad>
+	  <ypad>0</ypad>
+	  <xexpand>True</xexpand>
+	  <yexpand>False</yexpand>
+	  <xshrink>False</xshrink>
+	  <yshrink>False</yshrink>
+	  <xfill>True</xfill>
+	  <yfill>True</yfill>
+	</child>
+      </widget>
+
+      <widget>
+	<class>GtkAlignment</class>
+	<name>alignment12</name>
+	<cxx_use_heap>True</cxx_use_heap>
+	<xalign>0.5</xalign>
+	<yalign>0.5</yalign>
+	<xscale>1</xscale>
+	<yscale>0</yscale>
+	<child>
+	  <left_attach>1</left_attach>
+	  <right_attach>3</right_attach>
+	  <top_attach>12</top_attach>
+	  <bottom_attach>13</bottom_attach>
+	  <xpad>0</xpad>
+	  <ypad>0</ypad>
+	  <xexpand>False</xexpand>
+	  <yexpand>False</yexpand>
+	  <xshrink>False</xshrink>
+	  <yshrink>False</yshrink>
+	  <xfill>True</xfill>
+	  <yfill>True</yfill>
+	</child>
+
+	<widget>
+	  <class>GtkButton</class>
+	  <name>button-contacts</name>
+	  <cxx_use_heap>True</cxx_use_heap>
+	  <can_focus>True</can_focus>
+	  <label>_Contacts...</label>
+	</widget>
+      </widget>
+
+      <widget>
+	<class>GtkAlignment</class>
+	<name>alignment15</name>
+	<cxx_use_heap>True</cxx_use_heap>
+	<xalign>0.5</xalign>
+	<yalign>0.5</yalign>
+	<xscale>1</xscale>
+	<yscale>0</yscale>
+	<child>
+	  <left_attach>7</left_attach>
+	  <right_attach>8</right_attach>
+	  <top_attach>12</top_attach>
+	  <bottom_attach>13</bottom_attach>
+	  <xpad>0</xpad>
+	  <ypad>0</ypad>
+	  <xexpand>True</xexpand>
+	  <yexpand>False</yexpand>
+	  <xshrink>False</xshrink>
+	  <yshrink>False</yshrink>
+	  <xfill>True</xfill>
+	  <yfill>True</yfill>
+	</child>
+
+	<widget>
+	  <class>GtkEntry</class>
+	  <name>entry-categories</name>
+	  <cxx_use_heap>True</cxx_use_heap>
+	  <can_focus>True</can_focus>
+	  <editable>True</editable>
+	  <text_visible>True</text_visible>
+	  <text_max_length>0</text_max_length>
+	  <text></text>
+	</widget>
+      </widget>
+
+      <widget>
+	<class>GtkAlignment</class>
+	<name>alignment14</name>
+	<cxx_use_heap>True</cxx_use_heap>
+	<xalign>0.5</xalign>
+	<yalign>0.5</yalign>
+	<xscale>1</xscale>
+	<yscale>0</yscale>
+	<child>
+	  <left_attach>3</left_attach>
+	  <right_attach>4</right_attach>
+	  <top_attach>12</top_attach>
+	  <bottom_attach>13</bottom_attach>
+	  <xpad>0</xpad>
+	  <ypad>0</ypad>
+	  <xexpand>True</xexpand>
+	  <yexpand>False</yexpand>
+	  <xshrink>False</xshrink>
+	  <yshrink>False</yshrink>
+	  <xfill>True</xfill>
+	  <yfill>True</yfill>
+	</child>
+
+	<widget>
+	  <class>GtkEntry</class>
+	  <name>entry-contacts</name>
+	  <cxx_use_heap>True</cxx_use_heap>
+	  <can_focus>True</can_focus>
+	  <editable>True</editable>
+	  <text_visible>True</text_visible>
+	  <text_max_length>0</text_max_length>
+	  <text></text>
+	</widget>
+      </widget>
+
+      <widget>
+	<class>GtkAlignment</class>
+	<name>alignment16</name>
+	<cxx_use_heap>True</cxx_use_heap>
+	<xalign>0.5</xalign>
+	<yalign>0.5</yalign>
+	<xscale>1</xscale>
+	<yscale>0</yscale>
+	<child>
+	  <left_attach>5</left_attach>
+	  <right_attach>7</right_attach>
+	  <top_attach>12</top_attach>
+	  <bottom_attach>13</bottom_attach>
+	  <xpad>0</xpad>
+	  <ypad>0</ypad>
+	  <xexpand>False</xexpand>
+	  <yexpand>False</yexpand>
+	  <xshrink>False</xshrink>
+	  <yshrink>False</yshrink>
+	  <xfill>True</xfill>
+	  <yfill>True</yfill>
+	</child>
+
+	<widget>
+	  <class>GtkButton</class>
+	  <name>button-categories</name>
+	  <cxx_use_heap>True</cxx_use_heap>
+	  <can_focus>True</can_focus>
+	  <label>Ca_tegories...</label>
+	</widget>
+      </widget>
+
+      <widget>
+	<class>GtkEventBox</class>
+	<name>eventbox7</name>
+	<cxx_use_heap>True</cxx_use_heap>
+	<child>
+	  <left_attach>1</left_attach>
+	  <right_attach>3</right_attach>
+	  <top_attach>1</top_attach>
+	  <bottom_attach>2</bottom_attach>
+	  <xpad>0</xpad>
+	  <ypad>0</ypad>
+	  <xexpand>False</xexpand>
+	  <yexpand>False</yexpand>
+	  <xshrink>False</xshrink>
+	  <yshrink>False</yshrink>
+	  <xfill>True</xfill>
+	  <yfill>True</yfill>
+	</child>
+
+	<widget>
+	  <class>GtkAccelLabel</class>
+	  <name>accellabel-jobtitle</name>
+	  <cxx_use_heap>True</cxx_use_heap>
+	  <label>Job Title</label>
+	  <justify>GTK_JUSTIFY_CENTER</justify>
+	  <wrap>False</wrap>
+	  <xalign>0</xalign>
+	  <yalign>0.5</yalign>
+	  <xpad>0</xpad>
+	  <ypad>0</ypad>
+	</widget>
       </widget>
     </widget>
 
@@ -1193,7 +1360,7 @@
 	<class>GtkLabel</class>
 	<name>label25</name>
 	<cxx_use_heap>True</cxx_use_heap>
-	<label>Spouse's name:</label>
+	<label>Spouse:</label>
 	<justify>GTK_JUSTIFY_CENTER</justify>
 	<wrap>False</wrap>
 	<xalign>0</xalign>
@@ -1205,33 +1372,6 @@
 	  <right_attach>2</right_attach>
 	  <top_attach>5</top_attach>
 	  <bottom_attach>6</bottom_attach>
-	  <xpad>0</xpad>
-	  <ypad>0</ypad>
-	  <xexpand>False</xexpand>
-	  <yexpand>False</yexpand>
-	  <xshrink>False</xshrink>
-	  <yshrink>False</yshrink>
-	  <xfill>True</xfill>
-	  <yfill>True</yfill>
-	</child>
-      </widget>
-
-      <widget>
-	<class>GtkLabel</class>
-	<name>label28</name>
-	<cxx_use_heap>True</cxx_use_heap>
-	<label>Address:</label>
-	<justify>GTK_JUSTIFY_CENTER</justify>
-	<wrap>False</wrap>
-	<xalign>0</xalign>
-	<yalign>0.5</yalign>
-	<xpad>0</xpad>
-	<ypad>0</ypad>
-	<child>
-	  <left_attach>1</left_attach>
-	  <right_attach>2</right_attach>
-	  <top_attach>7</top_attach>
-	  <bottom_attach>8</bottom_attach>
 	  <xpad>0</xpad>
 	  <ypad>0</ypad>
 	  <xexpand>False</xexpand>
@@ -1301,7 +1441,7 @@
 	<class>GtkLabel</class>
 	<name>label29</name>
 	<cxx_use_heap>True</cxx_use_heap>
-	<label>Manager's name:</label>
+	<label>Manager's Name:</label>
 	<justify>GTK_JUSTIFY_CENTER</justify>
 	<wrap>False</wrap>
 	<xalign>0</xalign>
@@ -1477,31 +1617,6 @@
       </widget>
 
       <widget>
-	<class>GtkEntry</class>
-	<name>entry-fburl</name>
-	<cxx_use_heap>True</cxx_use_heap>
-	<can_focus>True</can_focus>
-	<editable>True</editable>
-	<text_visible>True</text_visible>
-	<text_max_length>0</text_max_length>
-	<text></text>
-	<child>
-	  <left_attach>2</left_attach>
-	  <right_attach>6</right_attach>
-	  <top_attach>7</top_attach>
-	  <bottom_attach>8</bottom_attach>
-	  <xpad>0</xpad>
-	  <ypad>0</ypad>
-	  <xexpand>True</xexpand>
-	  <yexpand>False</yexpand>
-	  <xshrink>False</xshrink>
-	  <yshrink>False</yshrink>
-	  <xfill>True</xfill>
-	  <yfill>False</yfill>
-	</child>
-      </widget>
-
-      <widget>
 	<class>GnomeDateEdit</class>
 	<name>dateedit-anniversary</name>
 	<cxx_use_heap>True</cxx_use_heap>
@@ -1602,57 +1717,6 @@
       </widget>
 
       <widget>
-	<class>GtkHBox</class>
-	<name>hbox7</name>
-	<cxx_use_heap>True</cxx_use_heap>
-	<homogeneous>False</homogeneous>
-	<spacing>6</spacing>
-	<child>
-	  <left_attach>0</left_attach>
-	  <right_attach>6</right_attach>
-	  <top_attach>6</top_attach>
-	  <bottom_attach>7</bottom_attach>
-	  <xpad>0</xpad>
-	  <ypad>0</ypad>
-	  <xexpand>True</xexpand>
-	  <yexpand>False</yexpand>
-	  <xshrink>False</xshrink>
-	  <yshrink>False</yshrink>
-	  <xfill>True</xfill>
-	  <yfill>True</yfill>
-	</child>
-
-	<widget>
-	  <class>GtkLabel</class>
-	  <name>label33</name>
-	  <cxx_use_heap>True</cxx_use_heap>
-	  <label>Internet Free-Busy</label>
-	  <justify>GTK_JUSTIFY_CENTER</justify>
-	  <wrap>False</wrap>
-	  <xalign>0.5</xalign>
-	  <yalign>0.5</yalign>
-	  <xpad>0</xpad>
-	  <ypad>2</ypad>
-	  <child>
-	    <padding>0</padding>
-	    <expand>False</expand>
-	    <fill>False</fill>
-	  </child>
-	</widget>
-
-	<widget>
-	  <class>GtkHSeparator</class>
-	  <name>hseparator8</name>
-	  <cxx_use_heap>True</cxx_use_heap>
-	  <child>
-	    <padding>0</padding>
-	    <expand>True</expand>
-	    <fill>True</fill>
-	  </child>
-	</widget>
-      </widget>
-
-      <widget>
 	<class>GtkHSeparator</class>
 	<name>hseparator7</name>
 	<cxx_use_heap>True</cxx_use_heap>
@@ -1664,6 +1728,108 @@
 	  <xpad>0</xpad>
 	  <ypad>2</ypad>
 	  <xexpand>False</xexpand>
+	  <yexpand>False</yexpand>
+	  <xshrink>False</xshrink>
+	  <yshrink>False</yshrink>
+	  <xfill>True</xfill>
+	  <yfill>True</yfill>
+	</child>
+      </widget>
+
+      <widget>
+	<class>GtkLabel</class>
+	<name>label33</name>
+	<cxx_use_heap>True</cxx_use_heap>
+	<label>Notes:</label>
+	<justify>GTK_JUSTIFY_CENTER</justify>
+	<wrap>False</wrap>
+	<xalign>0</xalign>
+	<yalign>0.5</yalign>
+	<xpad>0</xpad>
+	<ypad>0</ypad>
+	<child>
+	  <left_attach>1</left_attach>
+	  <right_attach>2</right_attach>
+	  <top_attach>7</top_attach>
+	  <bottom_attach>8</bottom_attach>
+	  <xpad>0</xpad>
+	  <ypad>0</ypad>
+	  <xexpand>False</xexpand>
+	  <yexpand>False</yexpand>
+	  <xshrink>False</xshrink>
+	  <yshrink>False</yshrink>
+	  <xfill>True</xfill>
+	  <yfill>True</yfill>
+	</child>
+      </widget>
+
+      <widget>
+	<class>GtkHBox</class>
+	<name>hbox5</name>
+	<cxx_use_heap>True</cxx_use_heap>
+	<homogeneous>False</homogeneous>
+	<spacing>0</spacing>
+	<child>
+	  <left_attach>1</left_attach>
+	  <right_attach>6</right_attach>
+	  <top_attach>8</top_attach>
+	  <bottom_attach>9</bottom_attach>
+	  <xpad>0</xpad>
+	  <ypad>0</ypad>
+	  <xexpand>False</xexpand>
+	  <yexpand>True</yexpand>
+	  <xshrink>False</xshrink>
+	  <yshrink>False</yshrink>
+	  <xfill>True</xfill>
+	  <yfill>True</yfill>
+	</child>
+
+	<widget>
+	  <class>GtkText</class>
+	  <name>text-comments</name>
+	  <height>50</height>
+	  <cxx_use_heap>True</cxx_use_heap>
+	  <can_focus>True</can_focus>
+	  <editable>True</editable>
+	  <text></text>
+	  <child>
+	    <padding>0</padding>
+	    <expand>True</expand>
+	    <fill>True</fill>
+	  </child>
+	</widget>
+
+	<widget>
+	  <class>GtkVScrollbar</class>
+	  <name>vscrollbar-comments</name>
+	  <cxx_use_heap>True</cxx_use_heap>
+	  <policy>GTK_UPDATE_CONTINUOUS</policy>
+	  <value>0</value>
+	  <lower>0</lower>
+	  <upper>0</upper>
+	  <step>0</step>
+	  <page>0</page>
+	  <page_size>0</page_size>
+	  <child>
+	    <padding>0</padding>
+	    <expand>False</expand>
+	    <fill>False</fill>
+	  </child>
+	</widget>
+      </widget>
+
+      <widget>
+	<class>GtkHSeparator</class>
+	<name>hseparator8</name>
+	<cxx_use_heap>True</cxx_use_heap>
+	<child>
+	  <left_attach>0</left_attach>
+	  <right_attach>6</right_attach>
+	  <top_attach>6</top_attach>
+	  <bottom_attach>7</bottom_attach>
+	  <xpad>0</xpad>
+	  <ypad>0</ypad>
+	  <xexpand>True</xexpand>
 	  <yexpand>False</yexpand>
 	  <xshrink>False</xshrink>
 	  <yshrink>False</yshrink>

@@ -63,6 +63,8 @@ struct _ECard {
 
 	char            *fburl;         /* Free Busy URL                    */
 
+	ECardList       *categories;    /* Categories.                      */
+
 #if 0
 	ECardPhoto      *logo;          /* This person's org's logo.        */
 

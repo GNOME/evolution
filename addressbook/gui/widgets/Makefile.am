@@ -47,11 +47,13 @@ minicard_test_LDADD =							\
 	$(GNOMEGNORBA_LIBS)						\
 	libeminicard.a							\
 	-lbonobo							\
-	$(top_builddir)/e-util/libeutil.la				\
 	$(top_builddir)/addressbook/backend/ebook/libebook.la		\
+	$(top_builddir)/e-util/libeutil.la				\
 	$(top_builddir)/libversit/libversit.la				\
 	$(top_builddir)/addressbook/ename/libename.la			\
 	$(top_builddir)/addressbook/contact-editor/libecontacteditor.a	\
+	$(top_builddir)/widgets/e-table/libetable.a		\
+	$(top_builddir)/e-util/libeutil.la			\
 	$(top_builddir)/widgets/e-text/libetext.a
 
 reflow_test_SOURCES = 	\
@@ -62,11 +64,13 @@ reflow_test_LDADD =							\
 	$(GNOMEGNORBA_LIBS)						\
 	libeminicard.a							\
 	-lbonobo							\
-	$(top_builddir)/e-util/libeutil.la				\
 	$(top_builddir)/addressbook/backend/ebook/libebook.la		\
+	$(top_builddir)/e-util/libeutil.la				\
 	$(top_builddir)/libversit/libversit.la				\
 	$(top_builddir)/addressbook/ename/libename.la			\
 	$(top_builddir)/addressbook/contact-editor/libecontacteditor.a	\
+	$(top_builddir)/widgets/e-table/libetable.a		\
+	$(top_builddir)/e-util/libeutil.la			\
 	$(top_builddir)/widgets/e-text/libetext.a
 
 minicard_view_test_SOURCES = 	\
@@ -77,9 +81,11 @@ minicard_view_test_LDADD =						\
 	$(GNOMEGNORBA_LIBS)						\
 	libeminicard.a							\
 	-lbonobo							\
-	$(top_builddir)/e-util/libeutil.la				\
 	$(top_builddir)/addressbook/backend/ebook/libebook.la		\
+	$(top_builddir)/e-util/libeutil.la				\
 	$(top_builddir)/libversit/libversit.la				\
 	$(top_builddir)/addressbook/ename/libename.la			\
 	$(top_builddir)/addressbook/contact-editor/libecontacteditor.a	\
+	$(top_builddir)/widgets/e-table/libetable.a		\
+	$(top_builddir)/e-util/libeutil.la			\
 	$(top_builddir)/widgets/e-text/libetext.a

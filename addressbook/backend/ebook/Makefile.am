@@ -63,7 +63,8 @@ test_client_LDADD =					\
 	libebook.la					\
 	$(BONOBO_GNOME_LIBS)				\
 	$(top_builddir)/libversit/libversit.la		\
-	$(top_builddir)/addressbook/ename/libename.la
+	$(top_builddir)/addressbook/ename/libename.la	\
+	$(top_builddir)/e-util/libeutil.la
 
 test_client_list_SOURCES =				\
 	test-client-list.c
@@ -72,7 +73,8 @@ test_client_list_LDADD =				\
 	libebook.la					\
 	$(BONOBO_GNOME_LIBS)				\
 	$(top_builddir)/addressbook/ename/libename.la	\
-	$(top_builddir)/libversit/libversit.la
+	$(top_builddir)/libversit/libversit.la		\
+	$(top_builddir)/e-util/libeutil.la
 
 test_card_SOURCES =					\
 	test-card.c
@@ -81,7 +83,9 @@ test_card_LDADD =					\
 	libebook.la					\
 	$(BONOBO_GNOME_LIBS)				\
 	$(top_builddir)/addressbook/ename/libename.la	\
-	$(top_builddir)/libversit/libversit.la
+	$(top_builddir)/libversit/libversit.la		\
+	$(top_builddir)/e-util/libeutil.la
+
 
 load_pine_addressbook_SOURCES =					\
 	load-pine-addressbook.c
@@ -90,7 +94,9 @@ load_pine_addressbook_LDADD =					\
 	libebook.la					\
 	$(BONOBO_GNOME_LIBS)				\
 	$(top_builddir)/addressbook/ename/libename.la	\
-	$(top_builddir)/libversit/libversit.la
+	$(top_builddir)/libversit/libversit.la		\
+	$(top_builddir)/e-util/libeutil.la
+
 
 BUILT_SOURCES = $(CORBA_SOURCE)
 CLEANFILES   += $(BUILT_SOURCES)

@@ -34,12 +34,10 @@ typedef struct {
 
 	GdkFont *font;
 
-	gdouble width, height;
+	gdouble width, height, minimum_width;
 
 	ETableSortInfo *sort_info;
 	int n;
-
-	gint idle;
 
 	/*
 	 * State: the ETableGroup is open or closed
