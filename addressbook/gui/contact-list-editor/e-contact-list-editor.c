@@ -35,10 +35,13 @@
 #include <bonobo/bonobo-window.h>
 #include <gal/e-table/e-table-scrolled.h>
 #include <libgnomevfs/gnome-vfs-ops.h>
+
 #include "shell/evolution-shell-component-utils.h"
 
 #include "widgets/misc/e-image-chooser.h"
+#include "widgets/misc/e-source-option-menu.h"
 
+#include "addressbook/gui/component/addressbook.h"
 #include "addressbook/gui/widgets/eab-gui-util.h"
 #include "addressbook/util/eab-book-util.h"
 
@@ -71,6 +74,7 @@ static void remove_entry_cb (GtkWidget *w, EContactListEditor *editor);
 static void list_name_changed_cb (GtkWidget *w, EContactListEditor *editor);
 static void list_image_changed_cb (GtkWidget *w, EContactListEditor *editor);
 static void visible_addrs_toggled_cb (GtkWidget *w, EContactListEditor *editor);
+static void source_selected (GtkWidget *source_option_menu, ESource *source, EContactListEditor *editor);
 
 static gint app_delete_event_cb (GtkWidget *widget, GdkEvent *event, gpointer data);
 static gboolean table_drag_drop_cb (ETable *table, int row, int col, GdkDragContext *context,
@@ -192,6 +196,9 @@ e_contact_list_editor_init (EContactListEditor *editor)
 	editor->in_async_call = FALSE;
 	editor->is_new_list = FALSE;
 
+	editor->load_source_id = 0;
+	editor->load_book = NULL;
+
 	gui = glade_xml_new (EVOLUTION_GLADEDIR "/contact-list-editor.glade", NULL, NULL);
 	editor->gui = gui;
 
@@ -210,6 +217,7 @@ e_contact_list_editor_init (EContactListEditor *editor)
 	editor->list_name_entry = glade_xml_get_widget (gui, "list-name-entry");
 	editor->list_image = glade_xml_get_widget (gui, "list-image");
 	editor->visible_addrs_checkbutton = glade_xml_get_widget (gui, "visible-addrs-checkbutton");
+	editor->source_menu = glade_xml_get_widget (gui, "source-option-menu-source");
 
 	/* Construct the app */
 	bonobo_win = bonobo_window_new ("contact-list-editor", _("Contact List Editor"));
@@ -271,6 +279,9 @@ e_contact_list_editor_init (EContactListEditor *editor)
 	g_signal_connect (editor->list_image,
 			  "changed", G_CALLBACK(list_image_changed_cb), editor);
 
+	g_signal_connect (editor->source_menu,
+			  "source_selected", G_CALLBACK (source_selected), editor);
+
 	command_state_changed (editor);
 
 	/* Connect to the deletion of the dialog */
@@ -288,10 +299,59 @@ e_contact_list_editor_init (EContactListEditor *editor)
 }
 
 static void
+new_target_cb (EBook *new_book, EBookStatus status, EContactListEditor *editor)
+{
+	editor->load_source_id = 0;
+	editor->load_book      = NULL;
+
+	if (status != E_BOOK_ERROR_OK || new_book == NULL) {
+		eab_load_error_dialog (NULL, e_book_get_source (new_book), status);
+
+		e_source_option_menu_select (E_SOURCE_OPTION_MENU (editor->source_menu),
+					     e_book_get_source (editor->book));
+
+		if (new_book)
+			g_object_unref (new_book);
+		return;
+	}
+
+	g_object_set (editor, "book", new_book, NULL);
+	g_object_unref (new_book);
+}
+
+static void
+cancel_load (EContactListEditor *editor)
+{
+	if (editor->load_source_id) {
+		addressbook_load_cancel (editor->load_source_id);
+		editor->load_source_id = 0;
+
+		g_object_unref (editor->load_book);
+		editor->load_book = NULL;
+	}
+}
+
+static void
+source_selected (GtkWidget *source_option_menu, ESource *source, EContactListEditor *editor)
+{
+	cancel_load (editor);
+
+	if (e_source_equal (e_book_get_source (editor->book), source))
+		return;
+
+	editor->load_book = e_book_new (source, NULL);
+	editor->load_source_id = addressbook_load (editor->load_book,
+						   (EBookCallback) new_target_cb, editor);
+}
+
+static void
 e_contact_list_editor_dispose (GObject *object)
 {
+	cancel_load (E_CONTACT_LIST_EDITOR (object));
+
 	if (G_OBJECT_CLASS (parent_class)->dispose)
 		(* G_OBJECT_CLASS (parent_class)->dispose) (object);
+
 }
 
 typedef struct {
@@ -710,6 +770,31 @@ e_contact_list_editor_create_table(gchar *name,
 	return table;
 }
 
+GtkWidget *
+e_contact_list_editor_create_source_option_menu (gchar *name,
+						 gchar *string1, gchar *string2,
+						 gint int1, gint int2);
+
+GtkWidget *
+e_contact_list_editor_create_source_option_menu (gchar *name,
+						 gchar *string1, gchar *string2,
+						 gint int1, gint int2)
+{
+
+	GtkWidget   *menu;
+	GConfClient *gconf_client;
+	ESourceList *source_list;
+
+	gconf_client = gconf_client_get_default ();
+	source_list = e_source_list_new_for_gconf (gconf_client, "/apps/evolution/addressbook/sources");
+
+	menu = e_source_option_menu_new (source_list);
+	g_object_unref (source_list);
+
+	gtk_widget_show (menu);
+	return menu;
+}
+
 static void
 add_email_cb (GtkWidget *w, EContactListEditor *editor)
 {
@@ -1054,5 +1139,14 @@ fill_in_info(EContactListEditor *editor)
 			e_image_chooser_set_image_data (E_IMAGE_CHOOSER (editor->list_image), photo->data, photo->length);
 			e_contact_photo_free (photo);
 		}
+	}
+	
+	if (editor->book) {
+		ESource   *source;
+
+		source = e_book_get_source (editor->book);		
+		e_source_option_menu_select (E_SOURCE_OPTION_MENU (editor->source_menu), source);
+		gtk_widget_set_sensitive (editor->source_menu, editor->is_new_list);
+		gtk_widget_set_sensitive (glade_xml_get_widget (editor->gui, "source-label"), editor->is_new_list);
 	}
 }

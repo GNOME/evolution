@@ -1,3 +1,14 @@
+2004-06-01  Larry Ewing  <lewing@ximian.com>
+
+	* gui/contact-list-editor/e-contact-list-editor.c: Add in a source
+	option menu to the dialog and make is sensitive only on new lists.
+
+	* gui/contact-list-editor/e-contact-list-editor.h: add load_book
+	fields for async book loading.
+	
+	* gui/contact-list-editor/contact-list-editor.glade: add the new
+	source selector in a table reorder some of the other widgets.
+	
 2004-05-28  Chris Toshok  <toshok@ximian.com>
 
 	* gui/widgets/eab-contact-display.c (render_contact): render all
