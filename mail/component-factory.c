@@ -43,7 +43,6 @@
 #include "mail-mt.h"
 #include "mail-importer.h"
 #include "mail-vfolder.h"             /* vfolder_create_storage */
-#include "mail-vtrash.h"
 #include "openpgp-utils.h"
 #include <gal/widgets/e-gui-utils.h>
 
@@ -102,6 +101,8 @@ create_view (EvolutionShellComponent *shell_component,
 		camel_object_unref (CAMEL_OBJECT (store));
 
 		control = folder_browser_factory_new_control ("", corba_shell);
+	} else if (g_strcasecmp (folder_type, "vtrash") == 0) {
+		control = folder_browser_factory_new_control ("vtrash:file:/", corba_shell);
 	} else
 		return EVOLUTION_SHELL_COMPONENT_UNSUPPORTEDTYPE;
 
@@ -216,8 +217,6 @@ owner_set_cb (EvolutionShellComponent *shell_component,
 		g_free (uri);
 	}
 	
-	mail_vtrash_create ("file:/", "vTrash");
-	
 	mail_session_enable_interaction (TRUE);
 	
 	mail_autoreceive_setup ();
@@ -256,6 +255,7 @@ owner_unset_cb (EvolutionShellComponent *shell_component, gpointer user_data)
 static const EvolutionShellComponentFolderType folder_types[] = {
 	{ "mail", "evolution-inbox.png" },
 	{ "mailstorage", "evolution-inbox.png" },
+	{ "vtrash", "evolution-inbox.png" },
 	{ NULL, NULL }
 };
 
