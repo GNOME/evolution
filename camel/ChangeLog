@@ -1,5 +1,9 @@
 2001-03-13  Dan Winship  <danw@ximian.com>
 
+	* providers/imap/camel-imap-store.c (imap_connect): When trying
+	again after a failed password attempt, check if the connection got
+	dropped (which Courier will do) and deal accordingly.
+
 	* providers/sendmail/camel-sendmail-transport.c (sendmail_send_to,
 	sendmail_send): More fixing for exim: It can't deal with "-tif",
 	you need to say "-t -i -f".

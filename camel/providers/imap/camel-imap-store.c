@@ -464,6 +464,14 @@ imap_connect (CamelService *service, CamelException *ex)
 			}
 		}
 
+		if (!store->connected) {
+			/* Some servers (eg, courier) will disconnect on
+			 * a bad password. So reconnect here.
+			 */
+			if (!connect_to_server (service, ex))
+				return NULL;
+		}
+
 		if (authtype)
 			authenticated = try_auth (store, authtype->authproto, ex);
 		else {
