@@ -145,7 +145,7 @@ switch_page (GtkNotebook *notebook, GtkNotebookPage *page,
 		return;
 
 	if (gsrc && gsrc->provider && source->url &&
-	    !strncmp (gsrc->provider->protocol, source->url, strlen (source->url)))
+	    !strncmp (gsrc->provider->protocol, source->url, strlen (gsrc->provider->protocol)))
 		url = source->url;
 	
 	mail_account_gui_build_extra_conf (editor->gui, url);

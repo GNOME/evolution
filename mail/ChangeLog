@@ -1,5 +1,8 @@
 2001-03-29  Dan Winship  <danw@ximian.com>
 
+	* mail-account-editor.c (switch_page): Fix this so the "Receiving
+	Options" page gets filled in again.
+
 	* mail-send-recv.c (receive_get_folder): Doh! This was storing
 	"struct _folder_info"s in the cache and then trying to read them
 	back as CamelFolders. Fixicate. Fixes the "crash with 2 POP
