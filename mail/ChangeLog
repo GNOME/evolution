@@ -1,3 +1,14 @@
+2001-07-26  Peter Williams  <peterw@ximian.com>
+
+	* mail-mt.c (do_get_pass): Figure out whether we're getting the password
+	for the source or the transport, and get the toggle button accordingly.
+	(pass_got): Same.
+
+	* mail-config.c (mail_config_get_account_by_transport_url): New function.
+	Cut + paste + search + replace of _by_source_url.
+
+	* mail-config.h: Prototype here.
+
 2001-07-26  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* folder-browser.c (message_list_drag_data_get): If we don't have

@@ -409,12 +409,21 @@ pass_got (char *string, void *data)
 	
 	if (string) {
 		const MailConfigAccount *mca;
-		
+		gboolean remember;
+
 		m->result = g_strdup (string);
 		
+		remember = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (m->tb));
 		mca = mail_config_get_account_by_source_url (m->service_url);
-		mail_config_service_set_save_passwd (mca->source,
-			gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (m->tb)));
+		if (mca)
+			mail_config_service_set_save_passwd (mca->source, remember);
+		else {
+			mca = mail_config_get_account_by_transport_url (m->service_url);
+			if (mca)
+				mail_config_service_set_save_passwd (mca->transport, remember);
+			else
+				printf ("Cannot figure out which account owns URL \"%s\" (could before?)\n", m->service_url);
+		}
 	}
 }
 
@@ -432,10 +441,21 @@ do_get_pass(struct _mail_msg *mm)
 					0, pass_got, m, NULL);
 	
 	/* Remember the password? */
-	mca = mail_config_get_account_by_source_url (m->service_url);
 	tb = gtk_check_button_new_with_label (_("Remember this password"));
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (tb), mca->source->save_passwd);
 	gtk_widget_show (tb);
+
+	mca = mail_config_get_account_by_source_url (m->service_url);
+	if (mca)
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (tb), mca->source->save_passwd);
+	else {
+		mca = mail_config_get_account_by_transport_url (m->service_url);
+		if (mca)
+			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (tb), mca->transport->save_passwd);
+		else {
+			printf ("Cannot figure out which account owns URL \"%s\"\n", m->service_url);
+			gtk_widget_hide (tb);
+		}
+	}
 
 	/* do some dirty stuff to put the checkbutton after the entry */
 	entry = NULL;

@@ -1326,6 +1326,29 @@ mail_config_get_account_by_source_url (const char *source_url)
 	return NULL;
 }
 
+const MailConfigAccount *
+mail_config_get_account_by_transport_url (const char *transport_url)
+{
+	const MailConfigAccount *account;
+	GSList *l;
+
+	g_return_val_if_fail (transport_url != NULL, NULL);
+
+	l = config->accounts;
+	while (l) {
+		account = l->data;
+		if (account
+		    && account->transport 
+		    && account->transport->url
+		    && e_url_equal (account->transport->url, transport_url))
+			return account;
+		
+		l = l->next;
+	}
+	
+	return NULL;
+}
+
 const GSList *
 mail_config_get_accounts (void)
 {

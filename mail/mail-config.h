@@ -168,6 +168,7 @@ const MailConfigAccount  *mail_config_get_default_account       (void);
 gint                      mail_config_get_default_account_num   (void);
 const MailConfigAccount  *mail_config_get_account_by_name       (const char *account_name);
 const MailConfigAccount  *mail_config_get_account_by_source_url (const char *url);
+const MailConfigAccount  *mail_config_get_account_by_transport_url (const char *url);
 const GSList             *mail_config_get_accounts              (void);
 void                      mail_config_add_account               (MailConfigAccount *account);
 const GSList             *mail_config_remove_account            (MailConfigAccount *account);
