@@ -26,6 +26,7 @@ widgetsinclude_HEADERS =			\
 	e-dropdown-button.h			\
 	e-expander.h				\
 	e-image-chooser.h			\
+	e-info-label.h				\
 	e-map.h					\
 	e-multi-config-dialog.h			\
 	e-search-bar.h				\
@@ -54,6 +55,7 @@ libemiscwidgets_la_SOURCES =			\
 	e-dropdown-button.c			\
 	e-expander.c				\
 	e-image-chooser.c			\
+	e-info-label.c				\
 	e-map.c					\
 	e-multi-config-dialog.c			\
 	e-search-bar.c				\

@@ -1,3 +1,8 @@
+2004-04-08  Not Zed  <NotZed@Ximian.com>
+
+	* e-info-label.[ch]: A widget to show component info for the
+	current component/view.
+
 2004-04-07  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* e-multi-config-dialog.c: Updated for changes to e-config-page.c
