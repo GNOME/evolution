@@ -81,6 +81,8 @@
 
 #define d(x) 
 
+static void create_local_item_cb(EUserCreatableItemsHandler *handler, const char *item_type_name, void *data);
+
 #define MAIL_COMPONENT_DEFAULT(mc) if (mc == NULL) mc = mail_component_peek();
 
 #define PARENT_TYPE bonobo_object_get_type ()
@@ -551,8 +553,9 @@ impl_createControls (PortableServer_Servant servant,
 	*corba_statusbar_control = CORBA_Object_duplicate (BONOBO_OBJREF (statusbar_control), ev);
 
 	g_object_set_data_full((GObject *)view_widget, "e-creatable-items-handler",
-			       e_user_creatable_items_handler_new("mail"), (GDestroyNotify)g_object_unref);
-	
+			       e_user_creatable_items_handler_new("mail", create_local_item_cb, tree_widget),
+			       (GDestroyNotify)g_object_unref);
+
 	g_signal_connect (view_control, "activate", G_CALLBACK (view_control_activate_cb), view_widget);
 	g_signal_connect (tree_widget, "folder-selected", G_CALLBACK (folder_selected_cb), view_widget);
 
@@ -665,7 +668,7 @@ impl__get_userCreatableItems (PortableServer_Servant servant, CORBA_Environment 
 }
 
 static void
-emc_new_folder_response(EMFolderSelector *emfs, int response, MailComponent *mc)
+emc_new_folder_response(EMFolderSelector *emfs, int response, void *dummy)
 {
 	const char *uri, *path;
 	
@@ -681,6 +684,38 @@ emc_new_folder_response(EMFolderSelector *emfs, int response, MailComponent *mc)
 		gtk_widget_destroy((GtkWidget *)emfs);
 }
 
+static int
+create_item(const char *type, EMFolderTreeModel *model, const char *uri)
+{
+	if (strcmp(type, "message") == 0) {
+		if (!em_utils_check_user_can_send_mail(NULL))
+			return 0;
+	
+		em_utils_compose_new_message();
+	} else if (strcmp(type, "folder") == 0) {
+		EMFolderTree *folder_tree;
+		GtkWidget *dialog;
+		
+		folder_tree = (EMFolderTree *)em_folder_tree_new_with_model(model);
+		dialog = em_folder_selector_create_new (folder_tree, 0, _("Create folder"), _("Specify where to create the folder:"));
+		if (uri)
+			em_folder_selector_set_selected ((EMFolderSelector *) dialog, uri);
+		g_signal_connect (dialog, "response", G_CALLBACK(emc_new_folder_response), NULL);
+		gtk_widget_show(dialog);
+	} else
+		return -1;
+
+	return 0;
+}
+
+static void
+create_local_item_cb(EUserCreatableItemsHandler *handler, const char *item_type_name, void *data)
+{
+	EMFolderTree *tree = data;
+	
+	create_item(item_type_name, em_folder_tree_get_model(tree), em_folder_tree_get_selected_uri(tree));
+}
+
 static void
 impl_requestCreateItem (PortableServer_Servant servant,
 			const CORBA_char *item_type_name,
@@ -688,26 +723,9 @@ impl_requestCreateItem (PortableServer_Servant servant,
 {
 	MailComponent *mc = MAIL_COMPONENT(bonobo_object_from_servant(servant));
 
-	if (strcmp(item_type_name, "message") == 0) {
-		if (!em_utils_check_user_can_send_mail(NULL))
-			return;
-	
-		em_utils_compose_new_message ();
-	} else if (strcmp(item_type_name, "folder") == 0) {
-		/* This api is fucked up, too tightly integrated with the tree view */
-		EMFolderTree *folder_tree;
-		GtkWidget *dialog;
-		
-		folder_tree = (EMFolderTree *) em_folder_tree_new_with_model(mc->priv->model);
-		dialog = em_folder_selector_create_new (folder_tree, 0, _("Create folder"), _("Specify where to create the folder:"));
-		/* We need to get this from the currently activated component?
-		  em_folder_selector_set_selected ((EMFolderSelector *) dialog, emft->priv->selected_uri);*/
-		g_signal_connect (dialog, "response", G_CALLBACK(emc_new_folder_response), mc);
-		gtk_widget_show(dialog);
-	} else {
+	if (create_item(item_type_name, mc->priv->model, NULL) == -1) {
 		CORBA_exception_set (ev, CORBA_USER_EXCEPTION,
 				     ex_GNOME_Evolution_Component_UnknownType, NULL);
-		return;
 	}
 }
 
