@@ -1,3 +1,9 @@
+2000-11-06  Dan Winship  <danw@helixcode.com>
+
+	* configure.in (GTKHTML_LIBS): ${prefix} doesn't get defaulted
+	until the end of configure, so check if it's "NONE" and use
+	${ac_default_prefix} if so.
+
 2000-11-06  Radek Doulik  <rodo@helixcode.com>
 
 	* configure.in (GTKHTML_LIBS): also look for HTMLEditor.idl in
