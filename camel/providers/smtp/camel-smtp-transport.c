@@ -409,7 +409,7 @@ smtp_connect (CamelService *service, CamelException *ex)
 			authenticated = smtp_auth (transport, authtype->authproto, ex);
 			if (!authenticated) {
 				errbuf = g_strdup_printf (_("Unable to authenticate "
-							    "to IMAP server.\n%s\n\n"),
+							    "to SMTP server.\n%s\n\n"),
 							  camel_exception_get_description (ex));
 				camel_exception_clear (ex);
 			}
