@@ -9,8 +9,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
-"POT-Creation-Date: 2001-10-28 13:00+0100\n"
-"PO-Revision-Date: 2001-10-28 13:04+0100\n"
+"POT-Creation-Date: 2001-10-31 11:27+0100\n"
+"PO-Revision-Date: 2001-10-31 11:28+0100\n"
 "Last-Translator: GNOME PL Team <translators@gnome.pl>\n"
 "Language-Team: Polish <pl@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -312,6 +312,11 @@ msgstr "Kategorie"
 #: addressbook/backend/ebook/e-card-simple.c:1
 msgid "Family Name"
 msgstr "Nazwisko panieñskie"
+
+#: addressbook/backend/ebook/e-card-simple.c:1
+#, c-format
+msgid "%x"
+msgstr "%x"
 
 #: addressbook/backend/ebook/e-card.c:1
 msgid "Card: "
@@ -2606,6 +2611,11 @@ msgid "Other error"
 msgstr "Inny b³±d"
 
 #: addressbook/gui/widgets/e-addressbook-util.c:1
+#: calendar/gui/dialogs/save-comp.c:1
+msgid "Do you want to save changes?"
+msgstr "Czy chcesz zapisaæ zmiany?"
+
+#: addressbook/gui/widgets/e-addressbook-util.c:1
 msgid "Error adding list"
 msgstr "B³±d przy dodawaniu listy"
 
@@ -3163,7 +3173,8 @@ msgid "Free"
 msgstr "Wolny"
 
 #: calendar/gui/calendar-model.c:1 calendar/gui/e-calendar-table.c:1
-#: calendar/gui/e-meeting-time-sel.c:1 shell/evolution-shell-component.c:1
+#: calendar/gui/e-meeting-time-sel.c:1
+#: shell/evolution-shell-component.c:1
 msgid "Busy"
 msgstr "Zajêty"
 
@@ -4003,6 +4014,10 @@ msgid "An organizer is required."
 msgstr "Wymagany jest organizator."
 
 #: calendar/gui/dialogs/meeting-page.c:1
+msgid "At least one attendee is required."
+msgstr "Wymagany jest co najmniej jeden uczestnik."
+
+#: calendar/gui/dialogs/meeting-page.c:1
 msgid "That person is already attending the meeting!"
 msgstr "Ta osoba ju¿ uczestniczy w spotkaniu!"
 
@@ -4080,8 +4095,9 @@ msgid "_Change Organizer"
 msgstr "_Zmieñ organizatora"
 
 #: calendar/gui/dialogs/meeting-page.glade.h:1
-msgid "_Invite Others"
-msgstr "_Zapro¶ innych"
+#: calendar/gui/e-meeting-time-sel.c:1
+msgid "_Invite Others..."
+msgstr "_Zapro¶ innych..."
 
 #: calendar/gui/dialogs/meeting-page.glade.h:1
 msgid "_Other Organizer"
@@ -4171,10 +4187,6 @@ msgstr "tygodni"
 #: calendar/gui/dialogs/recurrence-page.glade.h:1
 msgid "year(s)"
 msgstr "lat"
-
-#: calendar/gui/dialogs/save-comp.c:1
-msgid "Do you want to save changes?"
-msgstr "Czy chcesz zapisaæ zmiany?"
 
 #: calendar/gui/dialogs/send-comp.c:1
 msgid "The meeting information has changed. Send an updated version?"
@@ -4508,8 +4520,6 @@ msgstr "Czas zakoñczenia informacji o zajêto¶ci: <b>"
 msgid "Ends: <b>"
 msgstr "Zakoñczenie: <b>"
 
-#. Pass TRUE as is_utc, so it gets converted to the current
-#. timezone.
 #: calendar/gui/e-itip-control.c:1
 msgid "Task Completed: <b>"
 msgstr "Zadanie ukoñczone: <b>"
@@ -4841,6 +4851,22 @@ msgstr "data-pocz±tkowa"
 msgid "date-start"
 msgstr "data-koñcowa"
 
+#: calendar/gui/e-meeting-model.c:1
+msgid "Chair Persons"
+msgstr "Osoby przewodnicz±ce"
+
+#: calendar/gui/e-meeting-model.c:1 calendar/gui/e-meeting-model.c:1
+msgid "Required Participants"
+msgstr "Wymagani uczestnicy"
+
+#: calendar/gui/e-meeting-model.c:1
+msgid "Optional Participants"
+msgstr "Opcjonalni uczestnicy"
+
+#: calendar/gui/e-meeting-model.c:1
+msgid "Non-Participants"
+msgstr "Nie uczestnicy"
+
 #: calendar/gui/e-meeting-model.c:1 calendar/gui/e-meeting-model.c:1
 #: calendar/gui/e-meeting-model.c:1 calendar/gui/e-meeting-model.c:1
 msgid "Individual"
@@ -4918,23 +4944,6 @@ msgstr "Oddelegowane"
 msgid "In Process"
 msgstr "W trakcie"
 
-#: calendar/gui/e-meeting-model.c:1 calendar/gui/e-meeting-model.c:1
-msgid "Chair Persons"
-msgstr "Osoby przewodnicz±ce"
-
-#: calendar/gui/e-meeting-model.c:1 calendar/gui/e-meeting-model.c:1
-#: calendar/gui/e-meeting-model.c:1
-msgid "Required Participants"
-msgstr "Wymagani uczestnicy"
-
-#: calendar/gui/e-meeting-model.c:1 calendar/gui/e-meeting-model.c:1
-msgid "Optional Participants"
-msgstr "Opcjonalni uczestnicy"
-
-#: calendar/gui/e-meeting-model.c:1 calendar/gui/e-meeting-model.c:1
-msgid "Non-Participants"
-msgstr "Nie uczestnicy"
-
 #. This is a strftime() format string %A = full weekday name,
 #. %B = full month name, %d = month day, %Y = full year.
 #: calendar/gui/e-meeting-time-sel-item.c:1
@@ -4946,7 +4955,7 @@ msgstr "%A, %d %B, %Y"
 #. name, %m = month number, %d = month day, %Y = full year.
 #: calendar/gui/e-meeting-time-sel-item.c:1
 #: calendar/gui/e-meeting-time-sel.c:1 e-util/e-time-utils.c:1
-#: e-util/e-time-utils.c:1
+#: e-util/e-time-utils.c:1 e-util/e-time-utils.c:1
 msgid "%a %m/%d/%Y"
 msgstr "%a %d/%m/%Y"
 
@@ -4964,10 +4973,6 @@ msgstr "Poza biurem"
 #: calendar/gui/e-meeting-time-sel.c:1
 msgid "No Information"
 msgstr "Brak informacji"
-
-#: calendar/gui/e-meeting-time-sel.c:1
-msgid "_Invite Others..."
-msgstr "_Zapro¶ innych..."
 
 #: calendar/gui/e-meeting-time-sel.c:1
 msgid "_Options"
@@ -8292,10 +8297,6 @@ msgstr ""
 msgid "Elm"
 msgstr "Elm"
 
-#: importers/evolution-gnomecard-importer.c:1
-msgid "GnomeCard:"
-msgstr "GnomeCard:"
-
 #: importers/evolution-gnomecard-importer.c:1 importers/pine-importer.c:1
 msgid "Addressbook"
 msgstr "Ksi±¿ka adresowa"
@@ -9782,11 +9783,6 @@ msgid "Copying messages to %s"
 msgstr "Kopiowanie listów do %s"
 
 #: mail/mail-ops.c:1
-#, c-format
-msgid "Cannot copy a folder `%s' to itself"
-msgstr "Nie mo¿na skopiowaæ folderu \"%s\" do niego samego"
-
-#: mail/mail-ops.c:1
 msgid "Moving"
 msgstr "Przenoszenie"
 
@@ -10217,14 +10213,6 @@ msgstr "%d %B, %l:%M"
 msgid "Mail summary"
 msgstr "Zestawienie poczty"
 
-#. translators: Put here a list of codes for locations you want to
-#. see in My Evolution by default. You can find the list of all
-#. stations and their codes in Evolution sources
-#. (evolution/my-evolution/Locations)
-#: my-evolution/e-summary-preferences.c:1
-msgid "KBOS:ZSAM:EGAA"
-msgstr "EPPO:EPGD:EPKK:EPWA"
-
 #: my-evolution/e-summary-preferences.c:1
 msgid "Dictionary.com Word of the Day"
 msgstr "S³owo dnia Dictionary.com"
@@ -10283,8 +10271,8 @@ msgstr "Pogoda"
 #. stations and their codes in Evolution sources
 #. (evolution/my-evolution/Locations)
 #: my-evolution/e-summary-weather.c:1
-msgid "KBOS:EGAA:RJTT"
-msgstr "EPPO:EPGD:EPKK:EPWA"
+msgid "KBOS"
+msgstr "EPGD:EPKK:EPWA"
 
 #: my-evolution/e-summary-weather.c:1
 msgid "Regions"
@@ -12512,43 +12500,6 @@ msgid "Evolution is now exiting ..."
 msgstr "Evolution koñczy pracê..."
 
 #: shell/main.c:1
-#, no-c-format
-msgid ""
-"Hi.  Thanks for taking the time to download this preview release\n"
-"of the Ximian Evolution groupware suite.\n"
-"\n"
-"Ximian Evolution is not yet complete. It's getting close, but there are\n"
-"places where features are either missing or only half working. \n"
-"\n"
-"If you find bugs, please report them to us at bugzilla.ximian.com.\n"
-"This product comes with no warranty and is not intended for\n"
-"individuals prone to violent fits of anger.\n"
-"\n"
-"We hope that you enjoy the results of our hard work, and we\n"
-"eagerly await your contributions!\n"
-msgstr ""
-"Dziêkujemy za poswiêcenie czasu na pobranie niniejszego testowego\n"
-"wydania Ximian Evolution - pakietu do komunikacji grupowej.\n"
-"\n"
-"Evolution nie zosta³o jeszcze ukoñczone. Prace zbli¿aj± siê ku\n"
-"koñcowi, jednak wci±¿ istniej± miejsca, w których pewne\n"
-"elementy nie funkcjonuj± lub funkcjonuj± tylko czê¶ciowo.\n"
-"\n"
-"Je¶li odnajdziesz jakiekolwiek b³êdy, zg³o¶ je,\n"
-"korzystaj±c z witryny bugzilla.ximian.com.\n"
-"\n"
-"Mamy nadziejê, ¿e Evolution bêdzie dla Ciebie przydatn± aplikacj±\n"
-"i niecierpliwie oczekujemy Twoich komentarzy oraz pomocy!\n"
-
-#: shell/main.c:1
-msgid ""
-"Thanks\n"
-"The Ximian Evolution Team\n"
-msgstr ""
-"Dziêkujemy\n"
-"Zespó³ twórców Ximian Evolution\n"
-
-#: shell/main.c:1
 msgid "Cannot access the Ximian Evolution shell."
 msgstr "Nie mo¿na uzyskaæ dostêpu do pow³oki Ximian Evolution."
 
@@ -12871,6 +12822,7 @@ msgid "Save"
 msgstr "Zapisz"
 
 #: ui/evolution-comp-editor.xml.h:1 ui/evolution-contact-editor.xml.h:1
+#: ui/evolution-signature-editor.xml.h:1
 msgid "Save and Close"
 msgstr "Zapisz i zamknij"
 
@@ -13570,7 +13522,7 @@ msgid "Encrypt this message with your S/MIME Encryption Cetificate"
 msgstr "Szyfruje list za pomoc± cerftyfikatu szyfruj±cego S/MIME"
 
 #: ui/evolution-message-composer.xml.h:1
-msgid "F_ormat"
+msgid "For_mat"
 msgstr "_Format"
 
 #: ui/evolution-message-composer.xml.h:1
