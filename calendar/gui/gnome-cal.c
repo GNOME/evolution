@@ -2271,6 +2271,7 @@ gnome_calendar_new_task		(GnomeCalendar *gcal)
 	GnomeCalendarPrivate *priv;
 	TaskEditor *tedit;
 	CalComponent *comp;
+	const char *category;
 
 	g_return_if_fail (gcal != NULL);
 	g_return_if_fail (GNOME_IS_CALENDAR (gcal));
@@ -2282,6 +2283,9 @@ gnome_calendar_new_task		(GnomeCalendar *gcal)
 
 	comp = cal_component_new ();
 	cal_component_set_new_vtype (comp, CAL_COMPONENT_TODO);
+
+	category = cal_search_bar_get_category (CAL_SEARCH_BAR (priv->search_bar));
+	cal_component_set_categories (comp, category);
 
 	comp_editor_edit_comp (COMP_EDITOR (tedit), comp);
 	gtk_object_unref (GTK_OBJECT (comp));
