@@ -1,3 +1,10 @@
+2002-08-01  Ettore Perazzoli  <ettore@ximian.com>
+
+	* README: Update Soup information and remove hard spaces.
+
+	* configure.in: Check for Soup 0.7 or later.  [Hm, we should make
+	sure that it's actually a 0.7.x version.]
+
 2002-07-22  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* configure.in: Add checks for IPv6 support.

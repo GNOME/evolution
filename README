@@ -143,7 +143,9 @@ and -devel packages for each library.
 
  - gtkhtml - later than 0.16.1
 
- - SOUP: later than 0.6.99
+ - SOUP - 0.7.x
+
+   *** If you are compiling from CVS, grab the soup-0-7 branch.
 
 Other non-GNOME Dependencies:
 
@@ -199,24 +201,24 @@ If you don't have 3.1.17 installed on your system or Evolution doesn't
 detect it for some reason, here is a way to get Evolution to link to
 it without messing up your system installation.
 
-  * Get the Sleepycat tarball from:
+  * Get the Sleepycat tarball from:
 
-      http://www.sleepycat.com/update/snapshot/db-3.1.17.tar.gz
+      http://www.sleepycat.com/update/snapshot/db-3.1.17.tar.gz
 
-  * Install the content somewhere _other_ than the evolution source tree.
-     e.g: NOT evolution/db-3.1.17
+  * Install the content somewhere _other_ than the evolution source tree.
+     e.g: NOT evolution/db-3.1.17
 
-  * Compile according to instructions, but installing into some custom
-    prefix, for example:
+  * Compile according to instructions, but installing into some custom
+    prefix, for example:
 
-      ../dist/configure --prefix=/home/user/berkeleydb-3.1.17
+      ../dist/configure --prefix=/home/user/berkeleydb-3.1.17
 
-  * Autogen Evolution specifying that it has to look for the DB
-    library there, for example:
+  * Autogen Evolution specifying that it has to look for the DB
+    library there, for example:
 
-      ./autogen.sh --prefix=/opt/gnome
-      --with-db3-includes=/home/user/berkeleydb-3.1.17/include
-      --with-db3-libs=/home/user/berkeleydb-3.1.17/lib
+      ./autogen.sh --prefix=/opt/gnome
+      --with-db3-includes=/home/user/berkeleydb-3.1.17/include
+      --with-db3-libs=/home/user/berkeleydb-3.1.17/lib
 
 
 COMPILING PALM PILOT SUPPORT
