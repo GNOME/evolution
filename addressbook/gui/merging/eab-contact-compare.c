@@ -286,6 +286,37 @@ eab_contact_compare_name_to_string_full (EContact *contact, const gchar *str, gb
 }
 
 EABContactMatchType
+eab_contact_compare_file_as (EContact *contact1, EContact *contact2)
+{
+	EABContactMatchType match_type;
+	gchar *a, *b;
+
+	g_return_val_if_fail (E_IS_CONTACT (contact1), EAB_CONTACT_MATCH_NOT_APPLICABLE);
+	g_return_val_if_fail (E_IS_CONTACT (contact2), EAB_CONTACT_MATCH_NOT_APPLICABLE);
+
+	a = e_contact_get (contact1, E_CONTACT_FILE_AS);
+	b = e_contact_get (contact2, E_CONTACT_FILE_AS);
+
+	if (a == NULL || b == NULL) {
+		g_free (a);
+		g_free (b);
+		return EAB_CONTACT_MATCH_NOT_APPLICABLE;
+	}
+
+	if (!strcmp (a, b))
+		match_type = EAB_CONTACT_MATCH_EXACT;
+	else if (g_utf8_validate (a, -1, NULL) && g_utf8_validate (b, -1, NULL) &&
+		 !g_utf8_collate (a, b))
+		match_type = EAB_CONTACT_MATCH_PARTIAL;
+	else
+		match_type = EAB_CONTACT_MATCH_NONE;
+
+	g_free (a);
+	g_free (b);
+	return match_type;
+}
+
+EABContactMatchType
 eab_contact_compare_name (EContact *contact1, EContact *contact2)
 {
 	EContactName *a, *b;
@@ -298,8 +329,11 @@ eab_contact_compare_name (EContact *contact1, EContact *contact2)
 	a = e_contact_get (contact1, E_CONTACT_NAME);
 	b = e_contact_get (contact2, E_CONTACT_NAME);
 
-	if (a == NULL || b == NULL)
+	if (a == NULL || b == NULL) {
+		g_free (a);
+		g_free (b);
 		return EAB_CONTACT_MATCH_NOT_APPLICABLE;
+	}
 
 	if (a->given && b->given && *a->given && *b->given) {
 		++possible;
@@ -530,6 +564,7 @@ eab_contact_compare (EContact *contact1, EContact *contact2)
 	result = combine_comparisons (result, eab_contact_compare_email     (contact1, contact2));
 	result = combine_comparisons (result, eab_contact_compare_address   (contact1, contact2));
 	result = combine_comparisons (result, eab_contact_compare_telephone (contact1, contact2));
+	result = combine_comparisons (result, eab_contact_compare_file_as   (contact1, contact2));
 
 	return result;
 }
@@ -618,7 +653,7 @@ use_common_book_cb (EBook *book, gpointer closure)
 	GList *contact_email;
 	gchar *query_parts[MAX_QUERY_PARTS];
 	gint p=0;
-	gchar *qj;
+	gchar *contact_file_as, *qj;
 	EBookQuery *query = NULL;
 	int i;
 
@@ -626,6 +661,12 @@ use_common_book_cb (EBook *book, gpointer closure)
 		info->cb (info->contact, NULL, EAB_CONTACT_MATCH_NONE, info->closure);
 		match_search_info_free (info);
 		return;
+	}
+
+	contact_file_as = e_contact_get (contact, E_CONTACT_FILE_AS);
+	if (contact_file_as) {
+		query_parts [p++] = g_strdup_printf ("(contains \"file_as\" \"%s\")", contact_file_as);
+		g_free (contact_file_as);
 	}
 
 	contact_name = e_contact_get (contact, E_CONTACT_NAME);

@@ -1,5 +1,13 @@
 2004-06-25  Hans Petter Jansson  <hpj@ximian.com>
 
+	* gui/meging/eab-contact-compare.[ch] (eab_contact_compare_file_as):
+	Implement.
+	(eab_contact_compare_name): Don't leak if only one of the strings is
+	NULL.
+	(use_common_book_cb): Include file_as in query.
+
+2004-06-25  Hans Petter Jansson  <hpj@ximian.com>
+
 	* gui/contact-editor/e-contact-editor.c (fill_in_address_textview): Add
 	a newline between street line and rest of extended address.
 	(extract_address_textview): Omit the newline trailing the street line.

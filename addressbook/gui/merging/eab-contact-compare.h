@@ -56,6 +56,7 @@ EABContactMatchType eab_contact_compare_name_to_string_full (EContact *contact, 
 							     gint *matched_parts, EABContactMatchPart *first_matched_part,
 							     gint *matched_character_count);
 
+EABContactMatchType eab_contact_compare_file_as   (EContact *contact1, EContact *contact2);
 EABContactMatchType eab_contact_compare_name      (EContact *contact1, EContact *contact2);
 EABContactMatchType eab_contact_compare_nickname  (EContact *contact1, EContact *contact2);
 EABContactMatchType eab_contact_compare_email     (EContact *contact1, EContact *contact2);
