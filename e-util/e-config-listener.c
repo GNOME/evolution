@@ -364,14 +364,14 @@ e_config_listener_get_string_with_default (EConfigListener *cl,
 		g_assert (kd != NULL);
 
 		if (kd->type == GTK_TYPE_STRING) {
-			str = g_strdup (kd->value.v_str);
+			str = kd->value.v_str;
 			if (used_default != NULL)
 				*used_default = kd->used_default;
 		} else
 			return NULL;
 	}
 
-	return str;
+	return g_strdup (str);
 }
 
 void
