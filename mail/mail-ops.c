@@ -464,9 +464,9 @@ mail_send_message(CamelMimeMessage *message, const char *destination, CamelFilte
 	const char *version;
 
 	if (SUB_VERSION[0] == '\0')
-		version = "Evolution (" VERSION " - Preview Release)";
+		version = "Evolution/" VERSION " (Preview Release)";
 	else
-		version = "Evolution (" VERSION "/" SUB_VERSION " - Preview Release)";
+		version = "Evolution/" VERSION SUB_VERSION " (Preview Release)";
 	camel_medium_add_header(CAMEL_MEDIUM (message), "X-Mailer", version);
 	camel_mime_message_set_date(message, CAMEL_MESSAGE_DATE_CURRENT, 0);
 
