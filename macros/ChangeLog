@@ -1,3 +1,7 @@
+2000-02-09  Raja R Harinath  <harinath@cs.umn.edu>
+
+	* autogen.sh: Fix GNUism introduced in the previous fix.
+
 2000-02-08  Miguel de Icaza  <miguel@gnu.org>
 
 	* autogen.sh: Handle non GNU find programs. 
