@@ -1236,8 +1236,10 @@ do_scan_subfolders (gpointer in_data, gpointer op_data, CamelException *ex)
 		return;
 
 	tree = camel_store_get_folder_info (store, NULL, TRUE, TRUE, ex);
-	add_folders (data->new_folders, "", tree);
-	camel_store_free_folder_info (store, tree);
+	if (tree) {
+		add_folders (data->new_folders, "", tree);
+		camel_store_free_folder_info (store, tree);
+	}
 
 	/* FIXME: We intentionally lose a reference to the store here
 	 * for the benefit of the IMAP provider. Undo this when the

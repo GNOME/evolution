@@ -1,3 +1,8 @@
+2000-10-04  Dan Winship  <danw@helixcode.com>
+
+	* mail-ops.c (do_scan_subfolders): Don't try to add_folders if
+	get_folder_info returned NULL.
+
 2000-10-04  Not Zed  <NotZed@HelixCode.com>
 
 	* message-list.c (message_list_init_header): Fix the attachment icon width.
