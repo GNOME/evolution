@@ -5,13 +5,13 @@
 # Christian Rose <menthos@menthos.com>, 2000, 2001.
 # Martin Norbäck <d95mback@dtek.chalmers.se>, 2001.
 #
-# $Id: sv.po,v 1.138 2001/12/12 20:27:26 menthos Exp $
+# $Id: sv.po,v 1.139 2001/12/15 11:05:12 menthos Exp $
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
-"POT-Creation-Date: 2001-12-12 21:24+0100\n"
-"PO-Revision-Date: 2001-12-12 21:24+0100\n"
+"POT-Creation-Date: 2001-12-15 11:51+0100\n"
+"PO-Revision-Date: 2001-12-15 12:04+0100\n"
 "Last-Translator: Christian Rose <menthos@menthos.com>\n"
 "Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -622,7 +622,7 @@ msgstr "VCard för %s"
 #: addressbook/backend/ebook/load-pine-addressbook.c:22
 #: addressbook/backend/ebook/test-client-list.c:23
 #: addressbook/backend/ebook/test-client.c:33
-#: addressbook/conduit/address-conduit.c:1533
+#: addressbook/conduit/address-conduit.c:1538
 #: addressbook/gui/component/addressbook-factory.c:50
 #: calendar/conduits/calendar/calendar-conduit.c:1546
 #: calendar/conduits/todo/todo-conduit.c:1130
@@ -686,20 +686,20 @@ msgstr "Markören kunde inte läsas in\n"
 msgid "EBook not loaded\n"
 msgstr "EBook inte inläst\n"
 
-#: addressbook/conduit/address-conduit.c:1089
+#: addressbook/conduit/address-conduit.c:1094
 #: calendar/conduits/calendar/calendar-conduit.c:1078
 #: calendar/conduits/todo/todo-conduit.c:694
 msgid "Could not start wombat server"
 msgstr "Kunde inte starta wombat-server"
 
-#: addressbook/conduit/address-conduit.c:1090
+#: addressbook/conduit/address-conduit.c:1095
 #: calendar/conduits/calendar/calendar-conduit.c:1079
 #: calendar/conduits/todo/todo-conduit.c:695
 msgid "Could not start wombat"
 msgstr "Kunde inte starta wombat"
 
-#: addressbook/conduit/address-conduit.c:1120
-#: addressbook/conduit/address-conduit.c:1123
+#: addressbook/conduit/address-conduit.c:1125
+#: addressbook/conduit/address-conduit.c:1128
 msgid "Could not read pilot's Address application block"
 msgstr "Kunde inte läsa pilotens adressprogramblock"
 
@@ -1071,7 +1071,7 @@ msgstr "Fabrik för adressbokens namnvalsgränssnitt"
 
 #: addressbook/gui/component/select-names/e-select-names-popup.c:163
 #: addressbook/gui/component/select-names/e-select-names.c:777
-#: composer/e-msg-composer-attachment-bar.c:503 filter/filter-filter.c:436
+#: composer/e-msg-composer-attachment-bar.c:505 filter/filter-filter.c:436
 #: filter/filter-rule.c:637 shell/e-shortcuts-view.c:180
 msgid "Remove"
 msgstr "Ta bort"
@@ -2480,7 +2480,7 @@ msgstr ""
 "redan i den här mappen. Vill du lägga till den ändå?"
 
 #: addressbook/gui/search/e-addressbook-search-dialog.c:145
-#: widgets/misc/e-filter-bar.c:237
+#: widgets/misc/e-filter-bar.c:238
 msgid "Advanced Search"
 msgstr "Avancerad sökning"
 
@@ -2592,7 +2592,7 @@ msgstr "Protokollet stöds inte"
 #: calendar/gui/calendar-model.c:763 calendar/gui/calendar-model.c:1197
 #: calendar/gui/dialogs/task-details-page.glade.h:3
 #: calendar/gui/e-calendar-table.c:481 calendar/gui/print.c:2255
-#: camel/camel-service.c:607 camel/camel-service.c:643
+#: camel/camel-service.c:610 camel/camel-service.c:646
 msgid "Cancelled"
 msgstr "Avbruten"
 
@@ -2914,6 +2914,1519 @@ msgstr "Skriv ut kort"
 msgid "Print envelope"
 msgstr "Skriv ut kuvert"
 
+#.
+#. * These are the timezone names from the Olson timezone data.
+#. * We only place them here so gettext picks them up for translation.
+#. * Don't include in any C files.
+#.
+#: calendar/zones.h:7
+msgid "Africa/Abidjan"
+msgstr "Afrika/Abidjan"
+
+#: calendar/zones.h:8
+msgid "Africa/Accra"
+msgstr "Afrika/Accra"
+
+#: calendar/zones.h:9
+msgid "Africa/Addis_Ababa"
+msgstr "Afrika/Addis_Abeba"
+
+#: calendar/zones.h:10
+msgid "Africa/Algiers"
+msgstr "Afrika/Alger"
+
+#: calendar/zones.h:11
+msgid "Africa/Asmera"
+msgstr "Afrika/Asmera"
+
+#: calendar/zones.h:12
+msgid "Africa/Bamako"
+msgstr "Afrika/Bamako"
+
+#: calendar/zones.h:13
+msgid "Africa/Bangui"
+msgstr "Afrika/Bangui"
+
+#: calendar/zones.h:14
+msgid "Africa/Banjul"
+msgstr "Afrika/Banjul"
+
+#: calendar/zones.h:15
+msgid "Africa/Bissau"
+msgstr "Afrika/Bissau"
+
+#: calendar/zones.h:16
+msgid "Africa/Blantyre"
+msgstr "Afrika/Blantyre"
+
+#: calendar/zones.h:17
+msgid "Africa/Brazzaville"
+msgstr "Afrika/Brazzaville"
+
+#: calendar/zones.h:18
+msgid "Africa/Bujumbura"
+msgstr "Afrika/Bujumbura"
+
+#: calendar/zones.h:19
+msgid "Africa/Cairo"
+msgstr "Afrika/Kairo"
+
+#: calendar/zones.h:20
+msgid "Africa/Casablanca"
+msgstr "Afrika/Casablanca"
+
+#: calendar/zones.h:21
+msgid "Africa/Ceuta"
+msgstr "Afrika/Ceuta"
+
+#: calendar/zones.h:22
+msgid "Africa/Conakry"
+msgstr "Afrika/Conakry"
+
+#: calendar/zones.h:23
+msgid "Africa/Dakar"
+msgstr "Afrika/Dakar"
+
+#: calendar/zones.h:24
+msgid "Africa/Dar_es_Salaam"
+msgstr "Afrika/Dar_es_Salaam"
+
+#: calendar/zones.h:25
+msgid "Africa/Djibouti"
+msgstr "Afrika/Djibouti"
+
+#: calendar/zones.h:26
+msgid "Africa/Douala"
+msgstr "Afrika/Douala"
+
+#: calendar/zones.h:27
+msgid "Africa/El_Aaiun"
+msgstr "Afrika/El_Aaiun"
+
+#: calendar/zones.h:28
+msgid "Africa/Freetown"
+msgstr "Afrika/Freetown"
+
+#: calendar/zones.h:29
+msgid "Africa/Gaborone"
+msgstr "Afrika/Gaborone"
+
+#: calendar/zones.h:30
+msgid "Africa/Harare"
+msgstr "Afrika/Harare"
+
+#: calendar/zones.h:31
+msgid "Africa/Johannesburg"
+msgstr "Afrika/Johannesburg"
+
+#: calendar/zones.h:32
+msgid "Africa/Kampala"
+msgstr "Afrika/Kampala"
+
+#: calendar/zones.h:33
+msgid "Africa/Khartoum"
+msgstr "Afrika/Khartoum"
+
+#: calendar/zones.h:34
+msgid "Africa/Kigali"
+msgstr "Afrika/Kigali"
+
+#: calendar/zones.h:35
+msgid "Africa/Kinshasa"
+msgstr "Afrika/Kinshasa"
+
+#: calendar/zones.h:36
+msgid "Africa/Lagos"
+msgstr "Afrika/Lagos"
+
+#: calendar/zones.h:37
+msgid "Africa/Libreville"
+msgstr "Afrika/Libreville"
+
+#: calendar/zones.h:38
+msgid "Africa/Lome"
+msgstr "Afrika/Lomé"
+
+#: calendar/zones.h:39
+msgid "Africa/Luanda"
+msgstr "Afrika/Luanda"
+
+#: calendar/zones.h:40
+msgid "Africa/Lubumbashi"
+msgstr "Afrika/Lubumbashi"
+
+#: calendar/zones.h:41
+msgid "Africa/Lusaka"
+msgstr "Afrika/Lusaka"
+
+#: calendar/zones.h:42
+msgid "Africa/Malabo"
+msgstr "Afrika/Malabo"
+
+#: calendar/zones.h:43
+msgid "Africa/Maputo"
+msgstr "Afrika/Maputo"
+
+#: calendar/zones.h:44
+msgid "Africa/Maseru"
+msgstr "Afrika/Maseru"
+
+#: calendar/zones.h:45
+msgid "Africa/Mbabane"
+msgstr "Afrika/Mbabane"
+
+#: calendar/zones.h:46
+msgid "Africa/Mogadishu"
+msgstr "Afrika/Mogadishu"
+
+#: calendar/zones.h:47
+msgid "Africa/Monrovia"
+msgstr "Afrika/Monrovia"
+
+#: calendar/zones.h:48
+msgid "Africa/Nairobi"
+msgstr "Afrika/Nairobi"
+
+#: calendar/zones.h:49
+msgid "Africa/Ndjamena"
+msgstr "Afrika/Ndjamena"
+
+#: calendar/zones.h:50
+msgid "Africa/Niamey"
+msgstr "Afrika/Niamey"
+
+#: calendar/zones.h:51
+msgid "Africa/Nouakchott"
+msgstr "Afrika/Nouakchott"
+
+#: calendar/zones.h:52
+msgid "Africa/Ouagadougou"
+msgstr "Afrika/Ouagadougou"
+
+#: calendar/zones.h:53
+msgid "Africa/Porto-Novo"
+msgstr "Afrika/Porto-Novo"
+
+#: calendar/zones.h:54
+msgid "Africa/Sao_Tome"
+msgstr "Afrika/São_Tomé"
+
+#: calendar/zones.h:55
+msgid "Africa/Timbuktu"
+msgstr "Afrika/Timbuktu"
+
+#: calendar/zones.h:56
+msgid "Africa/Tripoli"
+msgstr "Afrika/Tripoli"
+
+#: calendar/zones.h:57
+msgid "Africa/Tunis"
+msgstr "Afrika/Tunis"
+
+#: calendar/zones.h:58
+msgid "Africa/Windhoek"
+msgstr "Afrika/Windhoek"
+
+#: calendar/zones.h:59
+msgid "America/Adak"
+msgstr "Amerika/Adak"
+
+#: calendar/zones.h:60
+msgid "America/Anchorage"
+msgstr "Amerika/Anchorage"
+
+#: calendar/zones.h:61
+msgid "America/Anguilla"
+msgstr "Amerika/Anguilla"
+
+#: calendar/zones.h:62
+msgid "America/Antigua"
+msgstr "Amerika/Antigua"
+
+#: calendar/zones.h:63
+msgid "America/Araguaina"
+msgstr "Amerika/Araguaina"
+
+#: calendar/zones.h:64
+msgid "America/Aruba"
+msgstr "Amerika/Aruba"
+
+#: calendar/zones.h:65
+msgid "America/Asuncion"
+msgstr "Amerika/Asunción"
+
+#: calendar/zones.h:66
+msgid "America/Barbados"
+msgstr "Amerika/Barbados"
+
+#: calendar/zones.h:67
+msgid "America/Belem"
+msgstr "Amerika/Belém"
+
+#: calendar/zones.h:68
+msgid "America/Belize"
+msgstr "Amerika/Belize"
+
+#: calendar/zones.h:69
+msgid "America/Boa_Vista"
+msgstr "Amerika/Boa_Vista"
+
+#: calendar/zones.h:70
+msgid "America/Bogota"
+msgstr "Amerika/Bogotá"
+
+#: calendar/zones.h:71
+msgid "America/Boise"
+msgstr "Amerika/Boise"
+
+#: calendar/zones.h:72
+msgid "America/Buenos_Aires"
+msgstr "Amerika/Buenos_Aires"
+
+#: calendar/zones.h:73
+msgid "America/Cambridge_Bay"
+msgstr "Amerika/Cambridge_Bay"
+
+#: calendar/zones.h:74
+msgid "America/Cancun"
+msgstr "Amerika/Cancun"
+
+#: calendar/zones.h:75
+msgid "America/Caracas"
+msgstr "Amerika/Caracas"
+
+#: calendar/zones.h:76
+msgid "America/Catamarca"
+msgstr "Amerika/Catamarca"
+
+#: calendar/zones.h:77
+msgid "America/Cayenne"
+msgstr "Amerika/Cayenne"
+
+#: calendar/zones.h:78
+msgid "America/Cayman"
+msgstr "Amerika/Cayman"
+
+#: calendar/zones.h:79
+msgid "America/Chicago"
+msgstr "Amerika/Chicago"
+
+#: calendar/zones.h:80
+msgid "America/Chihuahua"
+msgstr "Amerika/Chihuahua"
+
+#: calendar/zones.h:81
+msgid "America/Cordoba"
+msgstr "Amerika/Cordoba"
+
+#: calendar/zones.h:82
+msgid "America/Costa_Rica"
+msgstr "Amerika/Costa_Rica"
+
+#: calendar/zones.h:83
+msgid "America/Cuiaba"
+msgstr "Amerika/Cuiaba"
+
+#: calendar/zones.h:84
+msgid "America/Curacao"
+msgstr "Amerika/Curacao"
+
+#: calendar/zones.h:85
+msgid "America/Danmarkshavn"
+msgstr "Amerika/Danmarkshavn"
+
+#: calendar/zones.h:86
+msgid "America/Dawson"
+msgstr "Amerika/Dawson"
+
+#: calendar/zones.h:87
+msgid "America/Dawson_Creek"
+msgstr "Amerika/Dawson_Creek"
+
+#: calendar/zones.h:88
+msgid "America/Denver"
+msgstr "Amerika/Denver"
+
+#: calendar/zones.h:89
+msgid "America/Detroit"
+msgstr "Amerika/Detroit"
+
+#: calendar/zones.h:90
+msgid "America/Dominica"
+msgstr "Amerika/Dominica"
+
+#: calendar/zones.h:91
+msgid "America/Edmonton"
+msgstr "Amerika/Edmonton"
+
+#: calendar/zones.h:92
+msgid "America/Eirunepe"
+msgstr "Amerika/Eirunepe"
+
+#: calendar/zones.h:93
+msgid "America/El_Salvador"
+msgstr "Amerika/El_Salvador"
+
+#: calendar/zones.h:94
+msgid "America/Fortaleza"
+msgstr "Amerika/Fortaleza"
+
+#: calendar/zones.h:95
+msgid "America/Glace_Bay"
+msgstr "Amerika/Glace_Bay"
+
+#: calendar/zones.h:96
+msgid "America/Godthab"
+msgstr "Amerika/Godthåb"
+
+#: calendar/zones.h:97
+msgid "America/Goose_Bay"
+msgstr "Amerika/Goose_Bay"
+
+#: calendar/zones.h:98
+msgid "America/Grand_Turk"
+msgstr "Amerika/Grand_Turk"
+
+#: calendar/zones.h:99
+msgid "America/Grenada"
+msgstr "Amerika/Grenada"
+
+#: calendar/zones.h:100
+msgid "America/Guadeloupe"
+msgstr "Amerika/Guadeloupe"
+
+#: calendar/zones.h:101
+msgid "America/Guatemala"
+msgstr "Amerika/Guatemala"
+
+#: calendar/zones.h:102
+msgid "America/Guayaquil"
+msgstr "Amerika/Guayaquil"
+
+#: calendar/zones.h:103
+msgid "America/Guyana"
+msgstr "Amerika/Guyana"
+
+#: calendar/zones.h:104
+msgid "America/Halifax"
+msgstr "Amerika/Halifax"
+
+#: calendar/zones.h:105
+msgid "America/Havana"
+msgstr "Amerika/Havanna"
+
+#: calendar/zones.h:106
+msgid "America/Hermosillo"
+msgstr "Amerika/Hermosillo"
+
+#: calendar/zones.h:107
+msgid "America/Indiana/Indianapolis"
+msgstr "Amerika/Indiana/Indianapolis"
+
+#: calendar/zones.h:108
+msgid "America/Indiana/Knox"
+msgstr "Amerika/Indiana/Knox"
+
+#: calendar/zones.h:109
+msgid "America/Indiana/Marengo"
+msgstr "Amerika/Indiana/Marengo"
+
+#: calendar/zones.h:110
+msgid "America/Indiana/Vevay"
+msgstr "Amerika/Indiana/Vevay"
+
+#: calendar/zones.h:111
+msgid "America/Indianapolis"
+msgstr "Amerika/Indianapolis"
+
+#: calendar/zones.h:112
+msgid "America/Inuvik"
+msgstr "Amerika/Inuvik"
+
+#: calendar/zones.h:113
+msgid "America/Iqaluit"
+msgstr "Amerika/Iqaluit"
+
+#: calendar/zones.h:114
+msgid "America/Jamaica"
+msgstr "Amerika/Jamaica"
+
+#: calendar/zones.h:115
+msgid "America/Jujuy"
+msgstr "Amerika/Jujuy"
+
+#: calendar/zones.h:116
+msgid "America/Juneau"
+msgstr "Amerika/Juneau"
+
+#: calendar/zones.h:117
+msgid "America/Kentucky/Louisville"
+msgstr "Amerika/Kentucky/Louisville"
+
+#: calendar/zones.h:118
+msgid "America/Kentucky/Monticello"
+msgstr "Amerika/Kentucky/Monticello"
+
+#: calendar/zones.h:119
+msgid "America/La_Paz"
+msgstr "Amerika/La_Paz"
+
+#: calendar/zones.h:120
+msgid "America/Lima"
+msgstr "Amerika/Lima"
+
+#: calendar/zones.h:121
+msgid "America/Los_Angeles"
+msgstr "Amerika/Los_Angeles"
+
+#: calendar/zones.h:122
+msgid "America/Louisville"
+msgstr "Amerika/Louisville"
+
+#: calendar/zones.h:123
+msgid "America/Maceio"
+msgstr "Amerika/Maceio"
+
+#: calendar/zones.h:124
+msgid "America/Managua"
+msgstr "Amerika/Managua"
+
+#: calendar/zones.h:125
+msgid "America/Manaus"
+msgstr "Amerika/Manaus"
+
+#: calendar/zones.h:126
+msgid "America/Martinique"
+msgstr "Amerika/Martinique"
+
+#: calendar/zones.h:127
+msgid "America/Mazatlan"
+msgstr "Amerika/Mazatlan"
+
+#: calendar/zones.h:128
+msgid "America/Mendoza"
+msgstr "Amerika/Mendoza"
+
+#: calendar/zones.h:129
+msgid "America/Menominee"
+msgstr "Amerika/Menominee"
+
+#: calendar/zones.h:130
+msgid "America/Merida"
+msgstr "Amerika/Merida"
+
+#: calendar/zones.h:131
+msgid "America/Mexico_City"
+msgstr "Amerika/Mexico_City"
+
+#: calendar/zones.h:132
+msgid "America/Miquelon"
+msgstr "Amerika/Miquelon"
+
+#: calendar/zones.h:133
+msgid "America/Monterrey"
+msgstr "Amerika/Monterrey"
+
+#: calendar/zones.h:134
+msgid "America/Montevideo"
+msgstr "Amerika/Montevideo"
+
+#: calendar/zones.h:135
+msgid "America/Montreal"
+msgstr "Amerika/Montreal"
+
+#: calendar/zones.h:136
+msgid "America/Montserrat"
+msgstr "Amerika/Montserrat"
+
+#: calendar/zones.h:137
+msgid "America/Nassau"
+msgstr "Amerika/Nassau"
+
+#: calendar/zones.h:138
+msgid "America/New_York"
+msgstr "Amerika/New_York"
+
+#: calendar/zones.h:139
+msgid "America/Nipigon"
+msgstr "Amerika/Nipigon"
+
+#: calendar/zones.h:140
+msgid "America/Nome"
+msgstr "Amerika/Nome"
+
+#: calendar/zones.h:141
+msgid "America/Noronha"
+msgstr "Amerika/Noronha"
+
+#: calendar/zones.h:142
+msgid "America/North_Dakota/Center"
+msgstr "Amerika/North_Dakota/Center"
+
+#: calendar/zones.h:143
+msgid "America/Panama"
+msgstr "Amerika/Panamá"
+
+#: calendar/zones.h:144
+msgid "America/Pangnirtung"
+msgstr "Amerika/Pangnirtung"
+
+#: calendar/zones.h:145
+msgid "America/Paramaribo"
+msgstr "Amerika/Paramaribo"
+
+#: calendar/zones.h:146
+msgid "America/Phoenix"
+msgstr "Amerika/Phoenix"
+
+#: calendar/zones.h:147
+msgid "America/Port-au-Prince"
+msgstr "Amerika/Port-au-Prince"
+
+#: calendar/zones.h:148
+msgid "America/Port_of_Spain"
+msgstr "Amerika/Port_of_Spain"
+
+#: calendar/zones.h:149
+msgid "America/Porto_Velho"
+msgstr "Amerika/Porto_Velho"
+
+#: calendar/zones.h:150
+msgid "America/Puerto_Rico"
+msgstr "Amerika/Puerto_Rico"
+
+#: calendar/zones.h:151
+msgid "America/Rainy_River"
+msgstr "Amerika/Rainy_River"
+
+#: calendar/zones.h:152
+msgid "America/Rankin_Inlet"
+msgstr "Amerika/Rankin_Inlet"
+
+#: calendar/zones.h:153
+msgid "America/Recife"
+msgstr "Amerika/Recife"
+
+#: calendar/zones.h:154
+msgid "America/Regina"
+msgstr "Amerika/Regina"
+
+#: calendar/zones.h:155
+msgid "America/Rio_Branco"
+msgstr "Amerika/Rio_Branco"
+
+#: calendar/zones.h:156
+msgid "America/Rosario"
+msgstr "Amerika/Rosario"
+
+#: calendar/zones.h:157
+msgid "America/Santiago"
+msgstr "Amerika/Santiago"
+
+#: calendar/zones.h:158
+msgid "America/Santo_Domingo"
+msgstr "Amerika/Santo_Domingo"
+
+#: calendar/zones.h:159
+msgid "America/Sao_Paulo"
+msgstr "Amerika/São_Paulo"
+
+#: calendar/zones.h:160
+msgid "America/Scoresbysund"
+msgstr "Amerika/Scoresbysund"
+
+#: calendar/zones.h:161
+msgid "America/Shiprock"
+msgstr "Amerika/Shiprock"
+
+#: calendar/zones.h:162
+msgid "America/St_Johns"
+msgstr "Amerika/St_Johns"
+
+#: calendar/zones.h:163
+msgid "America/St_Kitts"
+msgstr "Amerika/St_Kitts"
+
+#: calendar/zones.h:164
+msgid "America/St_Lucia"
+msgstr "Amerika/St_Lucia"
+
+#: calendar/zones.h:165
+msgid "America/St_Thomas"
+msgstr "Amerika/St_Thomas"
+
+#: calendar/zones.h:166
+msgid "America/St_Vincent"
+msgstr "Amerika/St_Vincent"
+
+#: calendar/zones.h:167
+msgid "America/Swift_Current"
+msgstr "Amerika/Swift_Current"
+
+#: calendar/zones.h:168
+msgid "America/Tegucigalpa"
+msgstr "Amerika/Tegucigalpa"
+
+#: calendar/zones.h:169
+msgid "America/Thule"
+msgstr "Amerika/Thule"
+
+#: calendar/zones.h:170
+msgid "America/Thunder_Bay"
+msgstr "Amerika/Thunder_Bay"
+
+#: calendar/zones.h:171
+msgid "America/Tijuana"
+msgstr "Amerika/Tijuana"
+
+#: calendar/zones.h:172
+msgid "America/Tortola"
+msgstr "Amerika/Tortola"
+
+#: calendar/zones.h:173
+msgid "America/Vancouver"
+msgstr "Amerika/Vancouver"
+
+#: calendar/zones.h:174
+msgid "America/Whitehorse"
+msgstr "Amerika/Whitehorse"
+
+#: calendar/zones.h:175
+msgid "America/Winnipeg"
+msgstr "Amerika/Winnipeg"
+
+#: calendar/zones.h:176
+msgid "America/Yakutat"
+msgstr "Amerika/Yakutat"
+
+#: calendar/zones.h:177
+msgid "America/Yellowknife"
+msgstr "Amerika/Yellowknife"
+
+#: calendar/zones.h:178
+msgid "Antarctica/Casey"
+msgstr "Antarktis/Casey"
+
+#: calendar/zones.h:179
+msgid "Antarctica/Davis"
+msgstr "Antarktis/Davis"
+
+#: calendar/zones.h:180
+msgid "Antarctica/DumontDUrville"
+msgstr "Antarktis/DumontDUrville"
+
+#: calendar/zones.h:181
+msgid "Antarctica/Mawson"
+msgstr "Antarktis/Mawson"
+
+#: calendar/zones.h:182
+msgid "Antarctica/McMurdo"
+msgstr "Antarktis/McMurdo"
+
+#: calendar/zones.h:183
+msgid "Antarctica/Palmer"
+msgstr "Antarktis/Palmer"
+
+#: calendar/zones.h:184
+msgid "Antarctica/South_Pole"
+msgstr "Antarktis/Sydpolen"
+
+#: calendar/zones.h:185
+msgid "Antarctica/Syowa"
+msgstr "Antarktis/Syowa"
+
+#: calendar/zones.h:186
+msgid "Antarctica/Vostok"
+msgstr "Antarktis/Vostok"
+
+#: calendar/zones.h:187
+msgid "Arctic/Longyearbyen"
+msgstr "Arktis/Longyearbyen"
+
+#: calendar/zones.h:188
+msgid "Asia/Aden"
+msgstr "Asien/Aden"
+
+#: calendar/zones.h:189
+msgid "Asia/Almaty"
+msgstr "Asien/Alma-ata"
+
+#: calendar/zones.h:190
+msgid "Asia/Amman"
+msgstr "Asien/Amman"
+
+#: calendar/zones.h:191
+msgid "Asia/Anadyr"
+msgstr "Asien/Anadyr"
+
+#: calendar/zones.h:192
+msgid "Asia/Aqtau"
+msgstr "Asien/Aqtau"
+
+#: calendar/zones.h:193
+msgid "Asia/Aqtobe"
+msgstr "Asien/Aqtobe"
+
+#: calendar/zones.h:194
+msgid "Asia/Ashgabat"
+msgstr "Asien/Ashgabat"
+
+#: calendar/zones.h:195
+msgid "Asia/Baghdad"
+msgstr "Asien/Bagdad"
+
+#: calendar/zones.h:196
+msgid "Asia/Bahrain"
+msgstr "Asien/Bahrain"
+
+#: calendar/zones.h:197
+msgid "Asia/Baku"
+msgstr "Asien/Baku"
+
+#: calendar/zones.h:198
+msgid "Asia/Bangkok"
+msgstr "Asien/Bangkok"
+
+#: calendar/zones.h:199
+msgid "Asia/Beirut"
+msgstr "Asien/Beirut"
+
+#: calendar/zones.h:200
+msgid "Asia/Bishkek"
+msgstr "Asien/Bishkek"
+
+#: calendar/zones.h:201
+msgid "Asia/Brunei"
+msgstr "Asien/Brunei"
+
+#: calendar/zones.h:202
+msgid "Asia/Calcutta"
+msgstr "Asien/Calcutta"
+
+#: calendar/zones.h:203
+msgid "Asia/Choibalsan"
+msgstr "Asien/Choibalsan"
+
+#: calendar/zones.h:204
+msgid "Asia/Chongqing"
+msgstr "Asien/Chungking"
+
+#: calendar/zones.h:205
+msgid "Asia/Colombo"
+msgstr "Asien/Colombo"
+
+#: calendar/zones.h:206
+msgid "Asia/Damascus"
+msgstr "Asien/Damaskus"
+
+#: calendar/zones.h:207
+msgid "Asia/Dhaka"
+msgstr "Asien/Dhaka"
+
+#: calendar/zones.h:208
+msgid "Asia/Dili"
+msgstr "Asien/Dili"
+
+#: calendar/zones.h:209
+msgid "Asia/Dubai"
+msgstr "Asien/Dubai"
+
+#: calendar/zones.h:210
+msgid "Asia/Dushanbe"
+msgstr "Asien/Dushanbe"
+
+#: calendar/zones.h:211
+msgid "Asia/Gaza"
+msgstr "Asien/Gaza"
+
+#: calendar/zones.h:212
+msgid "Asia/Harbin"
+msgstr "Asien/Harbin"
+
+#: calendar/zones.h:213
+msgid "Asia/Hong_Kong"
+msgstr "Asien/Hong_Kong"
+
+#: calendar/zones.h:214
+msgid "Asia/Hovd"
+msgstr "Asien/Hovd"
+
+#: calendar/zones.h:215
+msgid "Asia/Irkutsk"
+msgstr "Asien/Irkutsk"
+
+#: calendar/zones.h:216
+msgid "Asia/Istanbul"
+msgstr "Asien/Istanbul"
+
+#: calendar/zones.h:217
+msgid "Asia/Jakarta"
+msgstr "Asien/Jakarta"
+
+#: calendar/zones.h:218
+msgid "Asia/Jayapura"
+msgstr "Asien/Jayapura"
+
+#: calendar/zones.h:219
+msgid "Asia/Jerusalem"
+msgstr "Asien/Jerusalem"
+
+#: calendar/zones.h:220
+msgid "Asia/Kabul"
+msgstr "Asien/Kabul"
+
+#: calendar/zones.h:221
+msgid "Asia/Kamchatka"
+msgstr "Asien/Kamtjatka"
+
+#: calendar/zones.h:222
+msgid "Asia/Karachi"
+msgstr "Asien/Karachi"
+
+#: calendar/zones.h:223
+msgid "Asia/Kashgar"
+msgstr "Asien/Kashgar"
+
+#: calendar/zones.h:224
+msgid "Asia/Katmandu"
+msgstr "Asien/Katmandu"
+
+#: calendar/zones.h:225
+msgid "Asia/Krasnoyarsk"
+msgstr "Asien/Krasnojarsk"
+
+#: calendar/zones.h:226
+msgid "Asia/Kuala_Lumpur"
+msgstr "Asien/Kuala_Lumpur"
+
+#: calendar/zones.h:227
+msgid "Asia/Kuching"
+msgstr "Asien/Kuching"
+
+#: calendar/zones.h:228
+msgid "Asia/Kuwait"
+msgstr "Asien/Kuwait"
+
+#: calendar/zones.h:229
+msgid "Asia/Macao"
+msgstr "Asien/Macao"
+
+#: calendar/zones.h:230
+msgid "Asia/Magadan"
+msgstr "Asien/Magadan"
+
+#: calendar/zones.h:231
+msgid "Asia/Manila"
+msgstr "Asien/Manila"
+
+#: calendar/zones.h:232
+msgid "Asia/Muscat"
+msgstr "Asien/Muscat"
+
+#: calendar/zones.h:233
+msgid "Asia/Nicosia"
+msgstr "Asien/Nicosia"
+
+#: calendar/zones.h:234
+msgid "Asia/Novosibirsk"
+msgstr "Asien/Novosibirsk"
+
+#: calendar/zones.h:235
+msgid "Asia/Omsk"
+msgstr "Asien/Omsk"
+
+#: calendar/zones.h:236
+msgid "Asia/Phnom_Penh"
+msgstr "Asien/Phnom_Penh"
+
+#: calendar/zones.h:237
+msgid "Asia/Pontianak"
+msgstr "Asien/Pontianak"
+
+#: calendar/zones.h:238
+msgid "Asia/Pyongyang"
+msgstr "Asien/Pyongyang"
+
+#: calendar/zones.h:239
+msgid "Asia/Qatar"
+msgstr "Asien/Qatar"
+
+#: calendar/zones.h:240
+msgid "Asia/Rangoon"
+msgstr "Asien/Rangoon"
+
+#: calendar/zones.h:241
+msgid "Asia/Riyadh"
+msgstr "Asien/Riyadh"
+
+#: calendar/zones.h:242
+msgid "Asia/Saigon"
+msgstr "Asien/Saigon"
+
+#: calendar/zones.h:243
+msgid "Asia/Sakhalin"
+msgstr "Asien/Sachalin"
+
+#: calendar/zones.h:244
+msgid "Asia/Samarkand"
+msgstr "Asien/Samarkand"
+
+#: calendar/zones.h:245
+msgid "Asia/Seoul"
+msgstr "Asien/Söul"
+
+#: calendar/zones.h:246
+msgid "Asia/Shanghai"
+msgstr "Asien/Shanghai"
+
+#: calendar/zones.h:247
+msgid "Asia/Singapore"
+msgstr "Asien/Singapore"
+
+#: calendar/zones.h:248
+msgid "Asia/Taipei"
+msgstr "Asien/Taipei"
+
+#: calendar/zones.h:249
+msgid "Asia/Tashkent"
+msgstr "Asien/Tasjkent"
+
+#: calendar/zones.h:250
+msgid "Asia/Tbilisi"
+msgstr "Asien/Tbilisi"
+
+#: calendar/zones.h:251
+msgid "Asia/Tehran"
+msgstr "Asien/Tehran"
+
+#: calendar/zones.h:252
+msgid "Asia/Thimphu"
+msgstr "Asien/Thimphu"
+
+#: calendar/zones.h:253
+msgid "Asia/Tokyo"
+msgstr "Asien/Tokyo"
+
+#: calendar/zones.h:254
+msgid "Asia/Ujung_Pandang"
+msgstr "Asien/Ujung_Pandang"
+
+#: calendar/zones.h:255
+msgid "Asia/Ulaanbaatar"
+msgstr "Asien/Ulaanbaatar"
+
+#: calendar/zones.h:256
+msgid "Asia/Urumqi"
+msgstr "Asien/Ürumqi"
+
+#: calendar/zones.h:257
+msgid "Asia/Vientiane"
+msgstr "Asien/Vientiane"
+
+#: calendar/zones.h:258
+msgid "Asia/Vladivostok"
+msgstr "Asien/Vladivostok"
+
+#: calendar/zones.h:259
+msgid "Asia/Yakutsk"
+msgstr "Asien/Jakutsk"
+
+#: calendar/zones.h:260
+msgid "Asia/Yekaterinburg"
+msgstr "Asien/Jekaterinburg"
+
+#: calendar/zones.h:261
+msgid "Asia/Yerevan"
+msgstr "Asien/Jerevan"
+
+#: calendar/zones.h:262
+msgid "Atlantic/Azores"
+msgstr "Atlanten/Azorerna"
+
+#: calendar/zones.h:263
+msgid "Atlantic/Bermuda"
+msgstr "Atlanten/Bermuda"
+
+#: calendar/zones.h:264
+msgid "Atlantic/Canary"
+msgstr "Atlanten/Kanarieöarna"
+
+#: calendar/zones.h:265
+msgid "Atlantic/Cape_Verde"
+msgstr "Atlanten/Cape_Verde"
+
+#: calendar/zones.h:266
+msgid "Atlantic/Faeroe"
+msgstr "Atlanten/Färöarna"
+
+#: calendar/zones.h:267
+msgid "Atlantic/Jan_Mayen"
+msgstr "Atlanten/Jan_Mayen"
+
+#: calendar/zones.h:268
+msgid "Atlantic/Madeira"
+msgstr "Atlanten/Madeira"
+
+#: calendar/zones.h:269
+msgid "Atlantic/Reykjavik"
+msgstr "Atlanten/Reykjavik"
+
+#: calendar/zones.h:270
+msgid "Atlantic/South_Georgia"
+msgstr "Atlanten/South_Georgia"
+
+#: calendar/zones.h:271
+msgid "Atlantic/St_Helena"
+msgstr "Atlanten/St_Helena"
+
+#: calendar/zones.h:272
+msgid "Atlantic/Stanley"
+msgstr "Atlanten/Stanley"
+
+#: calendar/zones.h:273
+msgid "Australia/Adelaide"
+msgstr "Australien/Adelaide"
+
+#: calendar/zones.h:274
+msgid "Australia/Brisbane"
+msgstr "Australien/Brisbane"
+
+#: calendar/zones.h:275
+msgid "Australia/Broken_Hill"
+msgstr "Australien/Broken_Hill"
+
+#: calendar/zones.h:276
+msgid "Australia/Darwin"
+msgstr "Australien/Darwin"
+
+#: calendar/zones.h:277
+msgid "Australia/Hobart"
+msgstr "Australien/Hobart"
+
+#: calendar/zones.h:278
+msgid "Australia/Lindeman"
+msgstr "Australien/Lindeman"
+
+#: calendar/zones.h:279
+msgid "Australia/Lord_Howe"
+msgstr "Australien/Lord_Howe"
+
+#: calendar/zones.h:280
+msgid "Australia/Melbourne"
+msgstr "Australien/Melbourne"
+
+#: calendar/zones.h:281
+msgid "Australia/Perth"
+msgstr "Australien/Perth"
+
+#: calendar/zones.h:282
+msgid "Australia/Sydney"
+msgstr "Australien/Sydney"
+
+#: calendar/zones.h:283
+msgid "Europe/Amsterdam"
+msgstr "Europa/Amsterdam"
+
+#: calendar/zones.h:284
+msgid "Europe/Andorra"
+msgstr "Europa/Andorra"
+
+#: calendar/zones.h:285
+msgid "Europe/Athens"
+msgstr "Europa/Aten"
+
+#: calendar/zones.h:286
+msgid "Europe/Belfast"
+msgstr "Europa/Belfast"
+
+#: calendar/zones.h:287
+msgid "Europe/Belgrade"
+msgstr "Europa/Belgrad"
+
+#: calendar/zones.h:288
+msgid "Europe/Berlin"
+msgstr "Europa/Berlin"
+
+#: calendar/zones.h:289
+msgid "Europe/Bratislava"
+msgstr "Europa/Bratislava"
+
+#: calendar/zones.h:290
+msgid "Europe/Brussels"
+msgstr "Europa/Bryssel"
+
+#: calendar/zones.h:291
+msgid "Europe/Bucharest"
+msgstr "Europa/Bukarest"
+
+#: calendar/zones.h:292
+msgid "Europe/Budapest"
+msgstr "Europa/Budapest"
+
+#: calendar/zones.h:293
+msgid "Europe/Chisinau"
+msgstr "Europa/Chisinau"
+
+#: calendar/zones.h:294
+msgid "Europe/Copenhagen"
+msgstr "Europa/Köpenhamn"
+
+#: calendar/zones.h:295
+msgid "Europe/Dublin"
+msgstr "Europa/Dublin"
+
+#: calendar/zones.h:296
+msgid "Europe/Gibraltar"
+msgstr "Europa/Gibraltar"
+
+#: calendar/zones.h:297
+msgid "Europe/Helsinki"
+msgstr "Europa/Helsingfors"
+
+#: calendar/zones.h:298
+msgid "Europe/Istanbul"
+msgstr "Europa/Istanbul"
+
+#: calendar/zones.h:299
+msgid "Europe/Kaliningrad"
+msgstr "Europa/Kaliningrad"
+
+#: calendar/zones.h:300
+msgid "Europe/Kiev"
+msgstr "Europa/Kiev"
+
+#: calendar/zones.h:301
+msgid "Europe/Lisbon"
+msgstr "Europa/Lissabon"
+
+#: calendar/zones.h:302
+msgid "Europe/Ljubljana"
+msgstr "Europa/Ljubljana"
+
+#: calendar/zones.h:303
+msgid "Europe/London"
+msgstr "Europa/London"
+
+#: calendar/zones.h:304
+msgid "Europe/Luxembourg"
+msgstr "Europa/Luxemburg"
+
+#: calendar/zones.h:305
+msgid "Europe/Madrid"
+msgstr "Europa/Madrid"
+
+#: calendar/zones.h:306
+msgid "Europe/Malta"
+msgstr "Europa/Malta"
+
+#: calendar/zones.h:307
+msgid "Europe/Minsk"
+msgstr "Europa/Minsk"
+
+#: calendar/zones.h:308
+msgid "Europe/Monaco"
+msgstr "Europa/Monaco"
+
+#: calendar/zones.h:309
+msgid "Europe/Moscow"
+msgstr "Europa/Moskva"
+
+#: calendar/zones.h:310
+msgid "Europe/Nicosia"
+msgstr "Europa/Nicosia"
+
+#: calendar/zones.h:311
+msgid "Europe/Oslo"
+msgstr "Europa/Oslo"
+
+#: calendar/zones.h:312
+msgid "Europe/Paris"
+msgstr "Europa/Paris"
+
+#: calendar/zones.h:313
+msgid "Europe/Prague"
+msgstr "Europa/Prag"
+
+#: calendar/zones.h:314
+msgid "Europe/Riga"
+msgstr "Europa/Riga"
+
+#: calendar/zones.h:315
+msgid "Europe/Rome"
+msgstr "Europa/Rom"
+
+#: calendar/zones.h:316
+msgid "Europe/Samara"
+msgstr "Europa/Samara"
+
+#: calendar/zones.h:317
+msgid "Europe/San_Marino"
+msgstr "Europa/San_Marino"
+
+#: calendar/zones.h:318
+msgid "Europe/Sarajevo"
+msgstr "Europa/Sarajevo"
+
+#: calendar/zones.h:319
+msgid "Europe/Simferopol"
+msgstr "Europa/Simferopol"
+
+#: calendar/zones.h:320
+msgid "Europe/Skopje"
+msgstr "Europa/Skopje"
+
+#: calendar/zones.h:321
+msgid "Europe/Sofia"
+msgstr "Europa/Sofia"
+
+#: calendar/zones.h:322
+msgid "Europe/Stockholm"
+msgstr "Europa/Stockholm"
+
+#: calendar/zones.h:323
+msgid "Europe/Tallinn"
+msgstr "Europa/Tallinn"
+
+#: calendar/zones.h:324
+msgid "Europe/Tirane"
+msgstr "Europa/Tirana"
+
+#: calendar/zones.h:325
+msgid "Europe/Uzhgorod"
+msgstr "Europa/Uzjhorod"
+
+#: calendar/zones.h:326
+msgid "Europe/Vaduz"
+msgstr "Europa/Vaduz"
+
+#: calendar/zones.h:327
+msgid "Europe/Vatican"
+msgstr "Europa/Vatikanstaten"
+
+#: calendar/zones.h:328
+msgid "Europe/Vienna"
+msgstr "Europa/Wien"
+
+#: calendar/zones.h:329
+msgid "Europe/Vilnius"
+msgstr "Europa/Vilnius"
+
+#: calendar/zones.h:330
+msgid "Europe/Warsaw"
+msgstr "Europa/Warszawa"
+
+#: calendar/zones.h:331
+msgid "Europe/Zagreb"
+msgstr "Europa/Zagreb"
+
+#: calendar/zones.h:332
+msgid "Europe/Zaporozhye"
+msgstr "Europa/Zaporozhye"
+
+#: calendar/zones.h:333
+msgid "Europe/Zurich"
+msgstr "Europa/Zürich"
+
+#: calendar/zones.h:334
+msgid "Indian/Antananarivo"
+msgstr "Indiska_Oceanen/Antananarivo"
+
+#: calendar/zones.h:335
+msgid "Indian/Chagos"
+msgstr "Indiska_Oceanen/Chagos"
+
+#: calendar/zones.h:336
+msgid "Indian/Christmas"
+msgstr "Indiska_Oceanen/Julön"
+
+#: calendar/zones.h:337
+msgid "Indian/Cocos"
+msgstr "Indiska_Oceanen/Cocos"
+
+#: calendar/zones.h:338
+msgid "Indian/Comoro"
+msgstr "Indiska_Oceanen/Komorerna"
+
+#: calendar/zones.h:339
+msgid "Indian/Kerguelen"
+msgstr "Indiska_Oceanen/Kerguelen"
+
+#: calendar/zones.h:340
+msgid "Indian/Mahe"
+msgstr "Indiska_Oceanen/Mahe"
+
+#: calendar/zones.h:341
+msgid "Indian/Maldives"
+msgstr "Indiska_Oceanen/Maldiverna"
+
+#: calendar/zones.h:342
+msgid "Indian/Mauritius"
+msgstr "Indiska_Oceanen/Mauritius"
+
+#: calendar/zones.h:343
+msgid "Indian/Mayotte"
+msgstr "Indiska_Oceanen/Mayotte"
+
+#: calendar/zones.h:344
+msgid "Indian/Reunion"
+msgstr "Indiska_Oceanen/Réunion"
+
+#: calendar/zones.h:345
+msgid "Pacific/Apia"
+msgstr "Stilla_Havet/Apia"
+
+#: calendar/zones.h:346
+msgid "Pacific/Auckland"
+msgstr "Stilla_Havet/Auckland"
+
+#: calendar/zones.h:347
+msgid "Pacific/Chatham"
+msgstr "Stilla_Havet/Chatham"
+
+#: calendar/zones.h:348
+msgid "Pacific/Easter"
+msgstr "Stilla_Havet/Påskön"
+
+#: calendar/zones.h:349
+msgid "Pacific/Efate"
+msgstr "Stilla_Havet/Efate"
+
+#: calendar/zones.h:350
+msgid "Pacific/Enderbury"
+msgstr "Stilla_Havet/Enderbury"
+
+#: calendar/zones.h:351
+msgid "Pacific/Fakaofo"
+msgstr "Stilla_Havet/Fakaofo"
+
+#: calendar/zones.h:352
+msgid "Pacific/Fiji"
+msgstr "Stilla_Havet/Fiji"
+
+#: calendar/zones.h:353
+msgid "Pacific/Funafuti"
+msgstr "Stilla_Havet/Funafuti"
+
+#: calendar/zones.h:354
+msgid "Pacific/Galapagos"
+msgstr "Stilla_Havet/Galápagos"
+
+#: calendar/zones.h:355
+msgid "Pacific/Gambier"
+msgstr "Stilla_Havet/Gambier"
+
+#: calendar/zones.h:356
+msgid "Pacific/Guadalcanal"
+msgstr "Stilla_Havet/Guadalcanal"
+
+#: calendar/zones.h:357
+msgid "Pacific/Guam"
+msgstr "Stilla_Havet/Guam"
+
+#: calendar/zones.h:358
+msgid "Pacific/Honolulu"
+msgstr "Stilla_Havet/Honolulu"
+
+#: calendar/zones.h:359
+msgid "Pacific/Johnston"
+msgstr "Stilla_Havet/Johnston"
+
+#: calendar/zones.h:360
+msgid "Pacific/Kiritimati"
+msgstr "Stilla_Havet/Kiritimati"
+
+#: calendar/zones.h:361
+msgid "Pacific/Kosrae"
+msgstr "Stilla_Havet/Kosrae"
+
+#: calendar/zones.h:362
+msgid "Pacific/Kwajalein"
+msgstr "Stilla_Havet/Kwajalein"
+
+#: calendar/zones.h:363
+msgid "Pacific/Majuro"
+msgstr "Stilla_Havet/Majuro"
+
+#: calendar/zones.h:364
+msgid "Pacific/Marquesas"
+msgstr "Stilla_Havet/Marquesas"
+
+#: calendar/zones.h:365
+msgid "Pacific/Midway"
+msgstr "Stilla_Havet/Midway"
+
+#: calendar/zones.h:366
+msgid "Pacific/Nauru"
+msgstr "Stilla_Havet/Nauru"
+
+#: calendar/zones.h:367
+msgid "Pacific/Niue"
+msgstr "Stilla_Havet/Niue"
+
+#: calendar/zones.h:368
+msgid "Pacific/Norfolk"
+msgstr "Stilla_Havet/Norfolk"
+
+#: calendar/zones.h:369
+msgid "Pacific/Noumea"
+msgstr "Stilla_Havet/Noumea"
+
+#: calendar/zones.h:370
+msgid "Pacific/Pago_Pago"
+msgstr "Stilla_Havet/Pago_Pago"
+
+#: calendar/zones.h:371
+msgid "Pacific/Palau"
+msgstr "Stilla_Havet/Palau"
+
+#: calendar/zones.h:372
+msgid "Pacific/Pitcairn"
+msgstr "Stilla_Havet/Pitcairn"
+
+#: calendar/zones.h:373
+msgid "Pacific/Ponape"
+msgstr "Stilla_Havet/Ponape"
+
+#: calendar/zones.h:374
+msgid "Pacific/Port_Moresby"
+msgstr "Stilla_Havet/Port_Moresby"
+
+#: calendar/zones.h:375
+msgid "Pacific/Rarotonga"
+msgstr "Stilla_Havet/Rarotonga"
+
+#: calendar/zones.h:376
+msgid "Pacific/Saipan"
+msgstr "Stilla_Havet/Saipan"
+
+#: calendar/zones.h:377
+msgid "Pacific/Tahiti"
+msgstr "Stilla_Havet/Tahiti"
+
+#: calendar/zones.h:378
+msgid "Pacific/Tarawa"
+msgstr "Stilla_Havet/Tarawa"
+
+#: calendar/zones.h:379
+msgid "Pacific/Tongatapu"
+msgstr "Stilla_Havet/Tongatapu"
+
+#: calendar/zones.h:380
+msgid "Pacific/Truk"
+msgstr "Stilla_Havet/Truk"
+
+#: calendar/zones.h:381
+msgid "Pacific/Wake"
+msgstr "Stilla_Havet/Wake"
+
+#: calendar/zones.h:382
+msgid "Pacific/Wallis"
+msgstr "Stilla_Havet/Wallis"
+
+#: calendar/zones.h:383
+msgid "Pacific/Yap"
+msgstr "Stilla_Havet/Yap"
+
 #: calendar/cal-util/cal-component.c:1202
 msgid "Untitled appointment"
 msgstr "Namnlöst möte"
@@ -3101,7 +4614,7 @@ msgstr "%A %d %B %Y"
 #. strftime format %a = abbreviated weekday name, %d = day of month,
 #. %b = abbreviated month name. Don't use any other specifiers.
 #: calendar/gui/calendar-commands.c:449 calendar/gui/e-day-view-top-item.c:288
-#: calendar/gui/e-day-view.c:1401 calendar/gui/e-week-view-main-item.c:333
+#: calendar/gui/e-day-view.c:1403 calendar/gui/e-week-view-main-item.c:333
 msgid "%a %d %b"
 msgstr "%a %d %b"
 
@@ -3230,8 +4743,8 @@ msgid "No"
 msgstr "Nej"
 
 #. No time range is set, so don't start a query
-#: calendar/gui/calendar-model.c:1984 calendar/gui/e-day-view.c:1675
-#: calendar/gui/e-week-view.c:1182
+#: calendar/gui/calendar-model.c:1984 calendar/gui/e-day-view.c:1677
+#: calendar/gui/e-week-view.c:1184
 msgid "Searching"
 msgstr "Söker"
 
@@ -3263,7 +4776,7 @@ msgstr "Beskrivningen innehåller"
 msgid "Comment contains"
 msgstr "Kommentaren innehåller"
 
-#: calendar/gui/cal-search-bar.c:416 mail/mail-ops.c:1072
+#: calendar/gui/cal-search-bar.c:416 mail/mail-ops.c:1074
 msgid "Unmatched"
 msgstr "Omatchade"
 
@@ -3291,7 +4804,7 @@ msgstr "Mapp som innehåller att-göra-objekt"
 msgid "Create a new appointment"
 msgstr "Skapa ett nytt möte"
 
-#: calendar/gui/component-factory.c:643 calendar/gui/e-day-view.c:3523
+#: calendar/gui/component-factory.c:643 calendar/gui/e-day-view.c:3525
 msgid "New _Appointment"
 msgstr "Nytt m_öte"
 
@@ -3847,12 +5360,12 @@ msgstr "Dagbokspost - %s"
 msgid "No summary"
 msgstr "Ingen sammanfattning"
 
-#: calendar/gui/dialogs/comp-editor.c:1061 mail/mail-callbacks.c:1928
+#: calendar/gui/dialogs/comp-editor.c:1061 mail/mail-callbacks.c:2027
 #: mail/mail-display.c:102
 msgid "Overwrite file?"
 msgstr "Skriv över fil?"
 
-#: calendar/gui/dialogs/comp-editor.c:1065 mail/mail-callbacks.c:1935
+#: calendar/gui/dialogs/comp-editor.c:1065 mail/mail-callbacks.c:2034
 #: mail/mail-display.c:106
 msgid ""
 "A file by that name already exists.\n"
@@ -4305,33 +5818,33 @@ msgstr "90%"
 msgid "100%"
 msgstr "100%"
 
-#: calendar/gui/e-calendar-table.c:722 calendar/gui/e-day-view.c:2724
-#: calendar/gui/e-week-view.c:1822
+#: calendar/gui/e-calendar-table.c:722 calendar/gui/e-day-view.c:2726
+#: calendar/gui/e-week-view.c:1824
 msgid "Deleting selected objects"
 msgstr "Tar bort markerade objekt"
 
-#: calendar/gui/e-calendar-table.c:941 calendar/gui/e-day-view.c:3544
-#: calendar/gui/e-week-view.c:3422 mail/folder-browser.c:1454
+#: calendar/gui/e-calendar-table.c:941 calendar/gui/e-day-view.c:3546
+#: calendar/gui/e-week-view.c:3428 mail/folder-browser.c:1454
 #: shell/e-shortcuts-view.c:384
 msgid "_Open"
 msgstr "_Öppna"
 
-#: calendar/gui/e-calendar-table.c:945 calendar/gui/e-day-view.c:3553
-#: calendar/gui/e-week-view.c:3431 ui/evolution-addressbook.xml.h:1
+#: calendar/gui/e-calendar-table.c:945 calendar/gui/e-day-view.c:3555
+#: calendar/gui/e-week-view.c:3437 ui/evolution-addressbook.xml.h:1
 #: ui/evolution-calendar.xml.h:1 ui/evolution-tasks.xml.h:1
 msgid "C_ut"
 msgstr "Klipp _ut"
 
-#: calendar/gui/e-calendar-table.c:947 calendar/gui/e-day-view.c:3555
-#: calendar/gui/e-week-view.c:3433 ui/evolution-addressbook.xml.h:33
+#: calendar/gui/e-calendar-table.c:947 calendar/gui/e-day-view.c:3557
+#: calendar/gui/e-week-view.c:3439 ui/evolution-addressbook.xml.h:33
 #: ui/evolution-calendar.xml.h:37 ui/evolution-mail-list.xml.h:24
 #: ui/evolution-tasks.xml.h:14
 msgid "_Copy"
 msgstr "_Kopiera"
 
-#: calendar/gui/e-calendar-table.c:949 calendar/gui/e-day-view.c:3530
-#: calendar/gui/e-day-view.c:3557 calendar/gui/e-week-view.c:3409
-#: calendar/gui/e-week-view.c:3435 ui/evolution-addressbook.xml.h:36
+#: calendar/gui/e-calendar-table.c:949 calendar/gui/e-day-view.c:3532
+#: calendar/gui/e-day-view.c:3559 calendar/gui/e-week-view.c:3415
+#: calendar/gui/e-week-view.c:3441 ui/evolution-addressbook.xml.h:36
 #: ui/evolution-calendar.xml.h:40 ui/evolution-mail-list.xml.h:29
 #: ui/evolution-tasks.xml.h:17
 msgid "_Paste"
@@ -4353,8 +5866,8 @@ msgstr "_Markera uppgifterna som färdiga"
 msgid "_Delete Selected Tasks"
 msgstr "_Ta bort markerade uppgifter"
 
-#: calendar/gui/e-calendar-table.c:1145 calendar/gui/e-day-view.c:7115
-#: calendar/gui/e-week-view.c:3918
+#: calendar/gui/e-calendar-table.c:1145 calendar/gui/e-day-view.c:7137
+#: calendar/gui/e-week-view.c:3924
 msgid "Updating objects"
 msgstr "Uppdaterar objekt"
 
@@ -4390,8 +5903,8 @@ msgstr ""
 msgid "Alarms"
 msgstr "Alarm"
 
-#: calendar/gui/e-calendar-table.etspec.h:7 camel/camel-filter-driver.c:723
-#: camel/camel-filter-driver.c:837
+#: calendar/gui/e-calendar-table.etspec.h:7 camel/camel-filter-driver.c:772
+#: camel/camel-filter-driver.c:886
 msgid "Complete"
 msgstr "Färdigt"
 
@@ -4442,56 +5955,56 @@ msgstr "%02i minutdivisioner"
 
 #. strftime format %A = full weekday name, %d = day of month,
 #. %B = full month name. Don't use any other specifiers.
-#: calendar/gui/e-day-view-top-item.c:284 calendar/gui/e-day-view.c:1387
+#: calendar/gui/e-day-view-top-item.c:284 calendar/gui/e-day-view.c:1389
 #: calendar/gui/e-week-view-main-item.c:324 calendar/gui/print.c:1461
 msgid "%A %d %B"
 msgstr "%A %d %B"
 
 #. strftime format %d = day of month, %b = abbreviated month name.
 #. Don't use any other specifiers.
-#: calendar/gui/e-day-view-top-item.c:292 calendar/gui/e-day-view.c:1414
+#: calendar/gui/e-day-view-top-item.c:292 calendar/gui/e-day-view.c:1416
 #: calendar/gui/e-week-view-main-item.c:347
 msgid "%d %b"
 msgstr "%d %b"
 
 #. String to use in 12-hour time format for times in the morning.
-#: calendar/gui/e-day-view.c:612 calendar/gui/e-week-view.c:348
+#: calendar/gui/e-day-view.c:614 calendar/gui/e-week-view.c:350
 #: calendar/gui/print.c:768
 msgid "am"
 msgstr "fm"
 
 #. String to use in 12-hour time format for times in the afternoon.
-#: calendar/gui/e-day-view.c:615 calendar/gui/e-week-view.c:351
+#: calendar/gui/e-day-view.c:617 calendar/gui/e-week-view.c:353
 #: calendar/gui/print.c:770
 msgid "pm"
 msgstr "em"
 
-#: calendar/gui/e-day-view.c:3525 calendar/gui/e-week-view.c:3404
+#: calendar/gui/e-day-view.c:3527 calendar/gui/e-week-view.c:3410
 msgid "New All Day _Event"
 msgstr "Nytt _heldagsarrangemang"
 
-#: calendar/gui/e-day-view.c:3535 calendar/gui/e-week-view.c:3414
+#: calendar/gui/e-day-view.c:3537 calendar/gui/e-week-view.c:3420
 #: ui/evolution-calendar.xml.h:17
 msgid "Go to _Today"
 msgstr "Gå till _idag"
 
-#: calendar/gui/e-day-view.c:3537 calendar/gui/e-week-view.c:3416
+#: calendar/gui/e-day-view.c:3539 calendar/gui/e-week-view.c:3422
 msgid "_Go to Date..."
 msgstr "_Gå till datum..."
 
-#: calendar/gui/e-day-view.c:3546 calendar/gui/e-week-view.c:3424
+#: calendar/gui/e-day-view.c:3548 calendar/gui/e-week-view.c:3430
 msgid "_Delete this Appointment"
 msgstr "_Ta bort detta möte"
 
-#: calendar/gui/e-day-view.c:3565 calendar/gui/e-week-view.c:3449
+#: calendar/gui/e-day-view.c:3567 calendar/gui/e-week-view.c:3455
 msgid "Make this Occurrence _Movable"
 msgstr "Gör denna förekomst _flyttbar"
 
-#: calendar/gui/e-day-view.c:3567 calendar/gui/e-week-view.c:3451
+#: calendar/gui/e-day-view.c:3569 calendar/gui/e-week-view.c:3457
 msgid "Delete this _Occurrence"
 msgstr "Ta bort denna f_örekomst"
 
-#: calendar/gui/e-day-view.c:3569 calendar/gui/e-week-view.c:3453
+#: calendar/gui/e-day-view.c:3571 calendar/gui/e-week-view.c:3459
 msgid "Delete _All Occurrences"
 msgstr "Ta bort _alla förekomster"
 
@@ -5039,7 +6552,7 @@ msgstr "Kunde inte läsa in uppgifterna i \"%s\""
 msgid "The method required to load `%s' is not supported"
 msgstr "Metoden som krävs för att läsa in \"%s\" stöds inte"
 
-#: calendar/gui/e-week-view.c:3402 calendar/gui/e-week-view.c:3440
+#: calendar/gui/e-week-view.c:3408 calendar/gui/e-week-view.c:3446
 msgid "New _Appointment..."
 msgstr "Nytt _möte..."
 
@@ -5382,7 +6895,7 @@ msgid "Print Calendar"
 msgstr "Skriv ut kalender"
 
 #: calendar/gui/print.c:2477 calendar/gui/print.c:2569
-#: mail/mail-callbacks.c:2425 my-evolution/e-summary.c:619
+#: mail/mail-callbacks.c:2524 my-evolution/e-summary.c:619
 #: ui/evolution-addressbook.xml.h:17 ui/evolution-mail-message.xml.h:68
 msgid "Print Preview"
 msgstr "Förhandsgranska"
@@ -5606,52 +7119,52 @@ msgstr "Återsynkroniserar med servern"
 msgid "You must be working online to complete this operation"
 msgstr "Du måste vara ansluten för att kunna genomföra denna åtgärd"
 
-#: camel/camel-filter-driver.c:553 camel/camel-filter-driver.c:562
+#: camel/camel-filter-driver.c:602 camel/camel-filter-driver.c:611
 msgid "Syncing folders"
 msgstr "Synkroniserar mappar"
 
-#: camel/camel-filter-driver.c:664
+#: camel/camel-filter-driver.c:713
 msgid "Unable to open spool folder"
 msgstr "Kan inte öppna spool-mappen"
 
-#: camel/camel-filter-driver.c:673
+#: camel/camel-filter-driver.c:722
 msgid "Unable to process spool folder"
 msgstr "Kan inte bearbeta spool-mappen"
 
-#: camel/camel-filter-driver.c:688
+#: camel/camel-filter-driver.c:737
 #, c-format
 msgid "Getting message %d (%d%%)"
 msgstr "Hämtar meddelande %d (%d%%)"
 
-#: camel/camel-filter-driver.c:692
+#: camel/camel-filter-driver.c:741
 msgid "Cannot open message"
 msgstr "Kan inte öppna meddelande"
 
-#: camel/camel-filter-driver.c:693 camel/camel-filter-driver.c:705
+#: camel/camel-filter-driver.c:742 camel/camel-filter-driver.c:754
 #, c-format
 msgid "Failed on message %d"
 msgstr "Misslyckades med meddelande %d"
 
-#: camel/camel-filter-driver.c:719 camel/camel-filter-driver.c:832
+#: camel/camel-filter-driver.c:768 camel/camel-filter-driver.c:881
 msgid "Syncing folder"
 msgstr "Synkroniserar mapp"
 
-#: camel/camel-filter-driver.c:789
+#: camel/camel-filter-driver.c:838
 #, c-format
 msgid "Getting message %d of %d"
 msgstr "Hämtar meddelande %d av %d"
 
-#: camel/camel-filter-driver.c:794 camel/camel-filter-driver.c:812
+#: camel/camel-filter-driver.c:843 camel/camel-filter-driver.c:861
 #, c-format
 msgid "Failed at message %d of %d"
 msgstr "Misslyckades vid meddelande %d av %d"
 
-#: camel/camel-filter-driver.c:921
+#: camel/camel-filter-driver.c:970
 #, c-format
 msgid "Error parsing filter: %s: %s"
 msgstr "Fel vid tolkning av filter: %s: %s"
 
-#: camel/camel-filter-driver.c:927
+#: camel/camel-filter-driver.c:976
 #, c-format
 msgid "Error executing filter: %s: %s"
 msgstr "Fel vid körning av filter: %s: %s"
@@ -5881,6 +7394,10 @@ msgid "Cannot decrypt this message: couldn't create pipe to GPG/PGP: %s"
 msgstr ""
 "Kan inte dekryptera detta meddelande: kunde inte skapa rör till GPG/PGP: %s"
 
+#: camel/camel-pgp-mime.c:310
+msgid "This is a digitally signed message part"
+msgstr "Detta är en digitalt signerad meddelandedel"
+
 #: camel/camel-provider.c:130
 #, c-format
 msgid "Could not load %s: Module loading not supported on this system."
@@ -6106,22 +7623,22 @@ msgstr "URL:en \"%s\" behöver ett värdnamn"
 msgid "URL '%s' needs a path component"
 msgstr "URL:en \"%s\" behöver en sökväg"
 
-#: camel/camel-service.c:611
+#: camel/camel-service.c:614
 #, c-format
 msgid "Resolving: %s"
 msgstr "Slår upp: %s"
 
-#: camel/camel-service.c:638
+#: camel/camel-service.c:641
 #, c-format
 msgid "Failure in name lookup: %s"
 msgstr "Namnuppslagning misslyckades: %s"
 
-#: camel/camel-service.c:663
+#: camel/camel-service.c:666
 #, c-format
 msgid "Host lookup failed: %s: host not found"
 msgstr "Uppslagning av värdnamn misslyckades: %s: värden kunde inte hittas"
 
-#: camel/camel-service.c:665
+#: camel/camel-service.c:668
 #, c-format
 msgid "Host lookup failed: %s: unknown reason"
 msgstr "Uppslagning av värdnamn misslyckades: %s: okänd orsak"
@@ -7285,7 +8802,7 @@ msgstr "Kan inte skicka meddelande: avsändaradressen är inte angiven."
 msgid "Cannot send message: sender address not valid."
 msgstr "Kan inte skicka meddelande: avsändaradressen är inte giltig."
 
-#: camel/providers/smtp/camel-smtp-transport.c:593 mail/mail-ops.c:558
+#: camel/providers/smtp/camel-smtp-transport.c:593 mail/mail-ops.c:560
 msgid "Sending message"
 msgstr "Skickar meddelande"
 
@@ -7416,19 +8933,19 @@ msgid "%.1fG"
 msgstr "%.1fG"
 
 #. This is a filename. Translators take note.
-#: composer/e-msg-composer-attachment-bar.c:359 mail/mail-display.c:136
+#: composer/e-msg-composer-attachment-bar.c:361 mail/mail-display.c:136
 msgid "attachment"
 msgstr "bilaga"
 
-#: composer/e-msg-composer-attachment-bar.c:504
+#: composer/e-msg-composer-attachment-bar.c:506
 msgid "Remove selected items from the attachment list"
 msgstr "Ta bort markerade objekt från bifogningslistan"
 
-#: composer/e-msg-composer-attachment-bar.c:535
+#: composer/e-msg-composer-attachment-bar.c:537
 msgid "Add attachment..."
 msgstr "Lägg till bilaga..."
 
-#: composer/e-msg-composer-attachment-bar.c:536
+#: composer/e-msg-composer-attachment-bar.c:538
 msgid "Attach a file to the message"
 msgstr "Bifoga en fil till meddelandet"
 
@@ -7518,7 +9035,7 @@ msgstr ""
 msgid "Attach a file"
 msgstr "Bifoga en fil"
 
-#: composer/e-msg-composer.c:735
+#: composer/e-msg-composer.c:738
 #, c-format
 msgid ""
 "Error while executing file %s:\n"
@@ -7527,7 +9044,7 @@ msgstr ""
 "Fel vid körning av filen %s:\n"
 "%s"
 
-#: composer/e-msg-composer.c:744
+#: composer/e-msg-composer.c:747
 #, c-format
 msgid ""
 "Error while reading file %s:\n"
@@ -7536,46 +9053,38 @@ msgstr ""
 "Fel vid läsning av filen %s:\n"
 "%s"
 
-#: composer/e-msg-composer.c:944
+#: composer/e-msg-composer.c:947
 msgid "Save as..."
 msgstr "Spara som..."
 
-#: composer/e-msg-composer.c:953
+#: composer/e-msg-composer.c:956
 msgid "Warning!"
 msgstr "Varning!"
 
-#: composer/e-msg-composer.c:957
+#: composer/e-msg-composer.c:960
 msgid "File exists, overwrite?"
 msgstr "Filen finns, skriv över?"
 
-#: composer/e-msg-composer.c:979
+#: composer/e-msg-composer.c:982
 #, c-format
 msgid "Error saving file: %s"
 msgstr "Fel vid sparande av filen: %s"
 
-#: composer/e-msg-composer.c:998
+#: composer/e-msg-composer.c:1001
 #, c-format
 msgid "Error loading file: %s"
 msgstr "Fel vid inläsning av filen: %s"
 
-#: composer/e-msg-composer.c:1069
-msgid ""
-"Unable to open the drafts folder for this account.\n"
-"Would you like to use the default drafts folder?"
-msgstr ""
-"Kan inte öppna utkastmappen för detta konto.\n"
-"Vill du använda standardmappen för utkast?"
-
-#: composer/e-msg-composer.c:1119
+#: composer/e-msg-composer.c:1032
 #, c-format
 msgid "Error accessing file: %s"
 msgstr "Fel vid åtkomst av filen: %s"
 
-#: composer/e-msg-composer.c:1127
+#: composer/e-msg-composer.c:1040
 msgid "Unable to retrieve message from editor"
 msgstr "Kunde inte hämta meddelande från redigeraren"
 
-#: composer/e-msg-composer.c:1134
+#: composer/e-msg-composer.c:1047
 #, c-format
 msgid ""
 "Unable to seek on file: %s\n"
@@ -7584,7 +9093,7 @@ msgstr ""
 "Kan inte spola filen: %s\n"
 "%s"
 
-#: composer/e-msg-composer.c:1141
+#: composer/e-msg-composer.c:1054
 #, c-format
 msgid ""
 "Unable to truncate file: %s\n"
@@ -7593,7 +9102,7 @@ msgstr ""
 "Kan inte trunkera filen: %s\n"
 "%s"
 
-#: composer/e-msg-composer.c:1150
+#: composer/e-msg-composer.c:1063
 #, c-format
 msgid ""
 "Error autosaving message: %s\n"
@@ -7602,7 +9111,7 @@ msgstr ""
 "Fel vid automatiskt sparande av meddelande: %s\n"
 " %s"
 
-#: composer/e-msg-composer.c:1252
+#: composer/e-msg-composer.c:1165
 msgid ""
 "Ximian Evolution has found unsaved files from a previous session.\n"
 "Would you like to try to recover them?"
@@ -7610,7 +9119,7 @@ msgstr ""
 "Ximian Evolution har hittat osparade filer från en tidigare session.\n"
 "Vill du försöka återställa dem?"
 
-#: composer/e-msg-composer.c:1406
+#: composer/e-msg-composer.c:1322
 msgid ""
 "This message has not been sent.\n"
 "\n"
@@ -7620,23 +9129,23 @@ msgstr ""
 "\n"
 "Vill du spara dina ändringar?"
 
-#: composer/e-msg-composer.c:1413
+#: composer/e-msg-composer.c:1329
 msgid "Warning: Modified Message"
 msgstr "Varning: Ändrat meddelande"
 
-#: composer/e-msg-composer.c:1436
+#: composer/e-msg-composer.c:1352
 msgid "Open file"
 msgstr "Öppna fil"
 
-#: composer/e-msg-composer.c:1585
+#: composer/e-msg-composer.c:1501
 msgid "Insert File"
 msgstr "Infoga fil"
 
-#: composer/e-msg-composer.c:1971 composer/e-msg-composer.c:2426
+#: composer/e-msg-composer.c:1887 composer/e-msg-composer.c:2363
 msgid "Compose a message"
 msgstr "Skriv ett meddelande"
 
-#: composer/e-msg-composer.c:2443
+#: composer/e-msg-composer.c:2380
 msgid ""
 "Could not create composer window:\n"
 "Unable to activate address selector control."
@@ -7644,7 +9153,7 @@ msgstr ""
 "Kan inte skapa redigerarfönstret:\n"
 "Kan inte aktivera adressväljarkontrollen."
 
-#: composer/e-msg-composer.c:2466 composer/e-msg-composer.c:2521
+#: composer/e-msg-composer.c:2403 composer/e-msg-composer.c:2458
 msgid ""
 "Could not create composer window:\n"
 "Unable to activate HTML editor component."
@@ -8148,7 +9657,7 @@ msgstr "besvarad"
 msgid "Score"
 msgstr "Poäng"
 
-#: filter/libfilter-i18n.h:26 mail/mail-callbacks.c:1405
+#: filter/libfilter-i18n.h:26 mail/mail-callbacks.c:1499
 msgid "Sender"
 msgstr "Avsändare"
 
@@ -8474,7 +9983,7 @@ msgstr "Egenskaper för \"%s\""
 msgid "Properties"
 msgstr "Egenskaper"
 
-#: mail/folder-browser.c:297 mail/mail-display.c:298
+#: mail/folder-browser.c:297 mail/mail-display.c:297
 #, c-format
 msgid "Could not create temporary directory: %s"
 msgstr "Kunde inte skapa temporär katalog: %s"
@@ -8895,28 +10404,36 @@ msgstr "Du måste ange mottagare för att kunna skicka detta meddelande."
 msgid "You must configure an account before you can send this email."
 msgstr "Du måste konfigurera ett konto innan du kan skicka brevet."
 
-#: mail/mail-callbacks.c:838
+#: mail/mail-callbacks.c:716
+msgid ""
+"Unable to open the drafts folder for this account.\n"
+"Would you like to use the default drafts folder?"
+msgstr ""
+"Kan inte öppna utkastmappen för detta konto.\n"
+"Vill du använda standardmappen för utkast?"
+
+#: mail/mail-callbacks.c:928
 msgid "an unknown sender"
 msgstr "en okänd avsändare"
 
-#: mail/mail-callbacks.c:843
+#: mail/mail-callbacks.c:933
 msgid "On %a, %Y-%m-%d at %H:%M, %%s wrote:"
 msgstr "%a %Y-%m-%d klockan %H.%M skrev %%s:"
 
-#: mail/mail-callbacks.c:1282 mail/message-browser.c:130
+#: mail/mail-callbacks.c:1376 mail/message-browser.c:130
 msgid "Move message(s) to"
 msgstr "Flytta meddelande(n) till"
 
-#: mail/mail-callbacks.c:1284 mail/message-browser.c:132
+#: mail/mail-callbacks.c:1378 mail/message-browser.c:132
 msgid "Copy message(s) to"
 msgstr "Kopiera meddelande(n) till"
 
-#: mail/mail-callbacks.c:1779
+#: mail/mail-callbacks.c:1878
 #, c-format
 msgid "Are you sure you want to edit all %d messages?"
 msgstr "Är du säker på att du vill redigera alla %d meddelanden?"
 
-#: mail/mail-callbacks.c:1804
+#: mail/mail-callbacks.c:1903
 msgid ""
 "You may only edit messages saved\n"
 "in the Drafts folder."
@@ -8924,7 +10441,7 @@ msgstr ""
 "Du kan bara redigera meddelanden\n"
 "som du sparat i mappen Utkast."
 
-#: mail/mail-callbacks.c:1843
+#: mail/mail-callbacks.c:1942
 msgid ""
 "You may only resend messages\n"
 "in the Sent folder."
@@ -8932,28 +10449,28 @@ msgstr ""
 "Du kan bara skicka om meddelanden\n"
 "som du sparat i mappen Skickat."
 
-#: mail/mail-callbacks.c:1857
+#: mail/mail-callbacks.c:1956
 #, c-format
 msgid "Are you sure you want to resend all %d messages?"
 msgstr "Är du säker på att du vill skicka om alla %d meddelanden?"
 
-#: mail/mail-callbacks.c:1883
+#: mail/mail-callbacks.c:1982
 msgid "No Message Selected"
 msgstr "Inget meddelande markerat"
 
-#: mail/mail-callbacks.c:1982
+#: mail/mail-callbacks.c:2081
 msgid "Save Message As..."
 msgstr "Spara meddelande som..."
 
-#: mail/mail-callbacks.c:1984
+#: mail/mail-callbacks.c:2083
 msgid "Save Messages As..."
 msgstr "Spara meddelanden som..."
 
-#: mail/mail-callbacks.c:2148 widgets/misc/e-messagebox.c:159
+#: mail/mail-callbacks.c:2247 widgets/misc/e-messagebox.c:159
 msgid "Warning"
 msgstr "Varning"
 
-#: mail/mail-callbacks.c:2155
+#: mail/mail-callbacks.c:2254
 msgid ""
 "This operation will permanently erase all messages marked as deleted. If you "
 "continue, you will not be able to recover these messages.\n"
@@ -8966,11 +10483,11 @@ msgstr ""
 "\n"
 "Vill du verkligen ta bort dessa meddelanden?"
 
-#: mail/mail-callbacks.c:2162
+#: mail/mail-callbacks.c:2261
 msgid "Do not ask me again."
 msgstr "Fråga mig inte igen."
 
-#: mail/mail-callbacks.c:2270
+#: mail/mail-callbacks.c:2369
 #, c-format
 msgid ""
 "Error loading filter information:\n"
@@ -8979,23 +10496,23 @@ msgstr ""
 "Fel vid läsning av filterinformation:\n"
 "%s"
 
-#: mail/mail-callbacks.c:2282
+#: mail/mail-callbacks.c:2381
 msgid "Filters"
 msgstr "Filter"
 
-#: mail/mail-callbacks.c:2366
+#: mail/mail-callbacks.c:2465
 msgid "Print Message"
 msgstr "Skriv ut meddelande"
 
-#: mail/mail-callbacks.c:2393
+#: mail/mail-callbacks.c:2492
 msgid "US-Letter"
 msgstr "US-Letter"
 
-#: mail/mail-callbacks.c:2432
+#: mail/mail-callbacks.c:2531
 msgid "Printing of message failed"
 msgstr "Utskrift av meddelande misslyckades"
 
-#: mail/mail-callbacks.c:2598
+#: mail/mail-callbacks.c:2697
 #, c-format
 msgid "Are you sure you want to open all %d messages in separate windows?"
 msgstr ""
@@ -9057,12 +10574,12 @@ msgstr ""
 msgid "Evolution Account Assistant"
 msgstr "Evolutions kontoassistent"
 
-#: mail/mail-config.c:326
+#: mail/mail-config.c:329
 #, c-format
 msgid "Account %d"
 msgstr "Konto %d"
 
-#: mail/mail-config.c:1860
+#: mail/mail-config.c:1902
 #, c-format
 msgid ""
 "Could not get inbox for new mail store:\n"
@@ -9076,16 +10593,16 @@ msgstr ""
 #. Create the shortcut. FIXME: This only works if the
 #. * full name matches the path.
 #.
-#: mail/mail-config.c:1871
+#: mail/mail-config.c:1913
 #, c-format
 msgid "%s: Inbox"
 msgstr "%s: Inkorg"
 
-#: mail/mail-config.c:2113
+#: mail/mail-config.c:2155
 msgid "Checking Service"
 msgstr "Kontrollerar tjänst"
 
-#: mail/mail-config.c:2184 mail/mail-config.c:2188
+#: mail/mail-config.c:2233 mail/mail-config.c:2237
 msgid "Connecting to server..."
 msgstr "Ansluter till server..."
 
@@ -9557,53 +11074,53 @@ msgstr "Kunde inte skapa ett S/MIME-kuvertsammanhang."
 msgid "Could not create a S/MIME decode context."
 msgstr "Kunde inte skapa ett S/MIME-avkodningssammanhang."
 
-#: mail/mail-display.c:243
+#: mail/mail-display.c:242
 msgid "Save Attachment"
 msgstr "Spara bilaga"
 
-#: mail/mail-display.c:350
+#: mail/mail-display.c:349
 msgid "Save to Disk..."
 msgstr "Spara till disk..."
 
-#: mail/mail-display.c:352
+#: mail/mail-display.c:351
 msgid "View Inline"
 msgstr "Visa inuti"
 
-#: mail/mail-display.c:354
+#: mail/mail-display.c:353
 #, c-format
 msgid "Open in %s..."
 msgstr "Öppna i %s..."
 
-#: mail/mail-display.c:415
+#: mail/mail-display.c:414
 #, c-format
 msgid "View Inline (via %s)"
 msgstr "Visa inuti (med %s)"
 
-#: mail/mail-display.c:419
+#: mail/mail-display.c:418
 msgid "Hide"
 msgstr "Göm"
 
-#: mail/mail-display.c:440
+#: mail/mail-display.c:439
 msgid "External Viewer"
 msgstr "Externt visningsprogram"
 
-#: mail/mail-display.c:1137
+#: mail/mail-display.c:1136
 msgid "Loading message content"
 msgstr "Läser in meddelandeinnehåll"
 
-#: mail/mail-display.c:1629
+#: mail/mail-display.c:1628
 msgid "Open Link in Browser"
 msgstr "Öppna länk i webbläsare"
 
-#: mail/mail-display.c:1631
+#: mail/mail-display.c:1630
 msgid "Copy Link Location"
 msgstr "Kopiera länkplats"
 
-#: mail/mail-display.c:1634
+#: mail/mail-display.c:1633
 msgid "Save Link as (FIXME)"
 msgstr "Spara länk som (FIXME)"
 
-#: mail/mail-display.c:1637
+#: mail/mail-display.c:1636
 msgid "Save Image as..."
 msgstr "Spara bild som..."
 
@@ -9644,51 +11161,51 @@ msgstr "Kopia"
 msgid "Bcc"
 msgstr "Blindkopia"
 
-#: mail/mail-format.c:1841
+#: mail/mail-format.c:1749
 msgid ""
 "This message is digitally signed. Click the lock icon for more information."
 msgstr ""
 "Detta meddelande är digitalt signerat. Klicka på låsikonen för mer "
 "information."
 
-#: mail/mail-format.c:1864
+#: mail/mail-format.c:1772
 msgid "Evolution does not recognize this type of signed message."
 msgstr "Evolution känner inte igen denna typ av signerat meddelande."
 
-#: mail/mail-format.c:1872
+#: mail/mail-format.c:1780
 msgid "This message is digitally signed and has been found to be authentic."
 msgstr "Detta meddelande är digitalt signerat och har befunnits äkta."
 
-#: mail/mail-format.c:1880
+#: mail/mail-format.c:1788
 msgid "This message is digitally signed but can not be proven to be authentic."
 msgstr "Detta meddelande är digitalt signerat men äktheten kan inte bevisas."
 
-#: mail/mail-format.c:2095
+#: mail/mail-format.c:2003
 #, c-format
 msgid "Pointer to FTP site (%s)"
 msgstr "Pekare till FTP-plats (%s)"
 
-#: mail/mail-format.c:2109
+#: mail/mail-format.c:2017
 #, c-format
 msgid "Pointer to local file (%s) valid at site \"%s\""
 msgstr "Pekare till lokal fil (%s) giltig på platsen \"%s\""
 
-#: mail/mail-format.c:2114
+#: mail/mail-format.c:2022
 #, c-format
 msgid "Pointer to local file (%s)"
 msgstr "Pekare till lokal fil (%s)"
 
-#: mail/mail-format.c:2143
+#: mail/mail-format.c:2051
 #, c-format
 msgid "Pointer to remote data (%s)"
 msgstr "Pekare till fjärrdata (%s)"
 
-#: mail/mail-format.c:2151
+#: mail/mail-format.c:2059
 #, c-format
 msgid "Pointer to unknown external data (\"%s\" type)"
 msgstr "Pekare till okänd extern data (typen \"%s\")"
 
-#: mail/mail-format.c:2156
+#: mail/mail-format.c:2064
 msgid "Malformed external-body part."
 msgstr "Felaktig del med extern meddelandetext."
 
@@ -9764,117 +11281,117 @@ msgstr ""
 msgid "Working"
 msgstr "Arbetar"
 
-#: mail/mail-ops.c:86
+#: mail/mail-ops.c:87
 msgid "Filtering Folder"
 msgstr "Filtrerar mapp"
 
-#: mail/mail-ops.c:249
+#: mail/mail-ops.c:250
 msgid "Fetching Mail"
 msgstr "Hämtar post"
 
-#: mail/mail-ops.c:489 mail/mail-ops.c:518
+#: mail/mail-ops.c:491 mail/mail-ops.c:520
 msgid "However, the message was successfully sent."
 msgstr "Meddelandet skickades dock utan problem."
 
-#: mail/mail-ops.c:554
+#: mail/mail-ops.c:556
 #, c-format
 msgid "Sending \"%s\""
 msgstr "Skickar \"%s\""
 
-#: mail/mail-ops.c:674
+#: mail/mail-ops.c:676
 #, c-format
 msgid "Sending message %d of %d"
 msgstr "Skickar meddelande %d av %d"
 
-#: mail/mail-ops.c:693
+#: mail/mail-ops.c:695
 #, c-format
 msgid "Failed on message %d of %d"
 msgstr "Meddelande %d av %d misslyckades"
 
-#: mail/mail-ops.c:695 mail/mail-send-recv.c:545
+#: mail/mail-ops.c:697 mail/mail-send-recv.c:545
 msgid "Complete."
 msgstr "Färdig."
 
-#: mail/mail-ops.c:788
+#: mail/mail-ops.c:790
 msgid "Saving message to folder"
 msgstr "Sparar meddelande till mappen"
 
-#: mail/mail-ops.c:868
+#: mail/mail-ops.c:870
 #, c-format
 msgid "Moving messages to %s"
 msgstr "Flyttar meddelanden till %s"
 
-#: mail/mail-ops.c:868
+#: mail/mail-ops.c:870
 #, c-format
 msgid "Copying messages to %s"
 msgstr "Kopierar meddelanden till %s"
 
-#: mail/mail-ops.c:895
+#: mail/mail-ops.c:897
 msgid "Moving"
 msgstr "Flyttar"
 
-#: mail/mail-ops.c:898
+#: mail/mail-ops.c:900
 msgid "Copying"
 msgstr "Kopierar"
 
-#: mail/mail-ops.c:1008
+#: mail/mail-ops.c:1010
 #, c-format
 msgid "Scanning folders in \"%s\""
 msgstr "Genomsöker mappar i \"%s\""
 
 #. Fill in the new fields
-#: mail/mail-ops.c:1058 shell/e-local-storage.c:178
+#: mail/mail-ops.c:1060 shell/e-local-storage.c:178
 msgid "Trash"
 msgstr "Papperskorg"
 
-#: mail/mail-ops.c:1191
+#: mail/mail-ops.c:1193
 msgid "Forwarded messages"
 msgstr "Vidarebefordrade meddelanden"
 
-#: mail/mail-ops.c:1234
+#: mail/mail-ops.c:1236
 #, c-format
 msgid "Opening folder %s"
 msgstr "Öppnar mappen %s"
 
-#: mail/mail-ops.c:1306
+#: mail/mail-ops.c:1308
 #, c-format
 msgid "Opening store %s"
 msgstr "Öppnar lagret %s"
 
-#: mail/mail-ops.c:1375
+#: mail/mail-ops.c:1377
 #, c-format
 msgid "Removing folder %s"
 msgstr "Byter namn på mappen %s"
 
-#: mail/mail-ops.c:1469
+#: mail/mail-ops.c:1471
 #, c-format
 msgid "Storing folder '%s'"
 msgstr "Lagrar mappen \"%s\""
 
-#: mail/mail-ops.c:1520
+#: mail/mail-ops.c:1522
 msgid "Refreshing folder"
 msgstr "Uppdaterar mapp"
 
-#: mail/mail-ops.c:1556
+#: mail/mail-ops.c:1558
 msgid "Expunging folder"
 msgstr "Tömmer mapp"
 
-#: mail/mail-ops.c:1605
+#: mail/mail-ops.c:1607
 #, c-format
 msgid "Retrieving message %s"
 msgstr "Hämtar meddelande %s"
 
-#: mail/mail-ops.c:1672
+#: mail/mail-ops.c:1674
 #, c-format
 msgid "Retrieving %d message(s)"
 msgstr "Hämtar %d meddelande(n)"
 
-#: mail/mail-ops.c:1758
+#: mail/mail-ops.c:1760
 #, c-format
 msgid "Saving %d messsage(s)"
 msgstr "Sparar %d meddelande(n)"
 
-#: mail/mail-ops.c:1870
+#: mail/mail-ops.c:1872
 #, c-format
 msgid ""
 "Unable to create output file: %s\n"
@@ -9883,7 +11400,7 @@ msgstr ""
 "Kan inte spara utdatafilen: %s\n"
 " %s"
 
-#: mail/mail-ops.c:1898
+#: mail/mail-ops.c:1900
 #, c-format
 msgid ""
 "Error saving messages to: %s:\n"
@@ -9892,11 +11409,11 @@ msgstr ""
 "Fel vid sparande av meddelanden till: %s\n"
 " %s"
 
-#: mail/mail-ops.c:1972
+#: mail/mail-ops.c:1974
 msgid "Saving attachment"
 msgstr "Sparar bilaga"
 
-#: mail/mail-ops.c:1988
+#: mail/mail-ops.c:1990
 #, c-format
 msgid ""
 "Cannot create output file: %s:\n"
@@ -9905,20 +11422,25 @@ msgstr ""
 "Kan inte skapa utdatafil: %s:\n"
 " %s"
 
-#: mail/mail-ops.c:2019
+#: mail/mail-ops.c:2021
 #, c-format
 msgid "Could not write data: %s"
 msgstr "Kunde inte skriva data: %s"
 
-#: mail/mail-ops.c:2088
+#: mail/mail-ops.c:2090
 #, c-format
 msgid "Disconnecting from %s"
 msgstr "Kopplar från %s"
 
-#: mail/mail-ops.c:2089
+#: mail/mail-ops.c:2091
 #, c-format
 msgid "Reconnecting to %s"
 msgstr "Ansluter igen till %s"
+
+#: mail/mail-ops.c:2190
+#, c-format
+msgid "Executing shell command: %s"
+msgstr "Kör skalkommando: %s"
 
 #: mail/mail-search-dialogue.c:113
 msgid "_Search"
@@ -11694,7 +13216,40 @@ msgstr ""
 "Ett fel inträffade vid kopiering av filer till\n"
 "\"%s\"."
 
-#: shell/e-setup.c:281
+#: shell/e-setup.c:280
+#, c-format
+msgid ""
+"Evolution could not create directory\n"
+"%s:\n"
+"%s"
+msgstr ""
+"Evolution kunde inte skapa katalogen\n"
+"%s:\n"
+"%s"
+
+#: shell/e-setup.c:298
+#, c-format
+msgid ""
+"Directory %s\n"
+"does not have the right permissions. Please make it\n"
+"readable and executable and restart Evolution."
+msgstr ""
+"Katalogen %s\n"
+"har inte rätt rättigheter. Gör den läsbar och\n"
+"körbar och starta om Evolution."
+
+#: shell/e-setup.c:304
+#, c-format
+msgid ""
+"File %s\n"
+"should be removed to allow Evolution to work correctly.\n"
+"Please remove this file and restart Evolution."
+msgstr ""
+"Filen %s\n"
+"bör tas bort för att Evolution ska kunna fungera korrekt.\n"
+"Ta bort denna fil och starta om Evolution."
+
+#: shell/e-setup.c:327
 #, c-format
 msgid ""
 "The file `%s' is not a directory.\n"
@@ -11705,7 +13260,7 @@ msgstr ""
 "Var vänlig och flytta den så att installationen\n"
 "av Evolutions användarfiler kan genomföras."
 
-#: shell/e-setup.c:295
+#: shell/e-setup.c:341
 msgid ""
 "Evolution has detected an old\n"
 "Executive-Summary directory.\n"
@@ -11719,7 +13274,7 @@ msgstr ""
 "starta.\n"
 "Vill du att jag ska ta bort katalogen?"
 
-#: shell/e-setup.c:320
+#: shell/e-setup.c:366
 #, c-format
 msgid ""
 "The directory `%s' exists but is not the\n"
@@ -12879,7 +14434,7 @@ msgid "Print..."
 msgstr "Skriv ut..."
 
 #: ui/evolution-comp-editor.xml.h:12 ui/evolution-message-composer.xml.h:19
-#: ui/evolution-signature-editor.xml.h:3 widgets/misc/e-filter-bar.c:239
+#: ui/evolution-signature-editor.xml.h:3 widgets/misc/e-filter-bar.c:240
 msgid "Save"
 msgstr "Spara"
 
@@ -14164,11 +15719,11 @@ msgstr "Teckenkodning"
 msgid "..."
 msgstr "..."
 
-#: widgets/misc/e-filter-bar.c:152
+#: widgets/misc/e-filter-bar.c:153
 msgid "Search Editor"
 msgstr "Sökredigerare"
 
-#: widgets/misc/e-filter-bar.c:168
+#: widgets/misc/e-filter-bar.c:169
 msgid "Save Search"
 msgstr "Spara sökning"
 
@@ -14235,9 +15790,6 @@ msgstr "init_corba(): kunde inte initiera GNOME"
 msgid "init_bonobo(): could not initialize Bonobo"
 msgstr "init_bonobo(): kunde inte initiera Bonobo"
 
-#~ msgid "This is a digitally signed message part"
-#~ msgstr "Detta är en digitalt signerad meddelandedel"
-
 #~ msgid "This is an encrypted message part"
 #~ msgstr "Detta är en krypterad meddelandedel"
 
@@ -14249,33 +15801,6 @@ msgstr "init_bonobo(): kunde inte initiera Bonobo"
 
 #~ msgid "Unable to open or create .newsrc file for %s: %s"
 #~ msgstr "Kan inte öppna eller skapa .newsrc-fil för %s: %s"
-
-#~ msgid ""
-#~ "Evolution could not create directory\n"
-#~ "%s:\n"
-#~ "%s"
-#~ msgstr ""
-#~ "Evolution kunde inte skapa katalogen\n"
-#~ "%s:\n"
-#~ "%s"
-
-#~ msgid ""
-#~ "Directory %s\n"
-#~ "does not have the right permissions. Please make it\n"
-#~ "readable and executable and restart Evolution."
-#~ msgstr ""
-#~ "Katalogen %s\n"
-#~ "har inte rätt rättigheter. Gör den läsbar och\n"
-#~ "körbar och starta om Evolution."
-
-#~ msgid ""
-#~ "File %s\n"
-#~ "should be removed to allow Evolution to work correctly.\n"
-#~ "Please remove this file and restart Evolution."
-#~ msgstr ""
-#~ "Filen %s\n"
-#~ "bör tas bort för att Evolution ska kunna fungera korrekt.\n"
-#~ "Ta bort denna fil och starta om Evolution."
 
 #~ msgid "Evolution Error"
 #~ msgstr "Evolution-fel"
@@ -17138,17 +18663,11 @@ msgstr "init_bonobo(): kunde inte initiera Bonobo"
 #~ msgid "Send a message to the selected contacts."
 #~ msgstr "Skicka ett meddelande till de markerade kontakterna."
 
-#~ msgid "Antigua"
-#~ msgstr "Antigua och Barbuda"
-
 #~ msgid "Ascention Island"
 #~ msgstr "Ascentionön"
 
 #~ msgid "Australian Antartic Territory"
 #~ msgstr "Australiska Antarktisterritoriet"
-
-#~ msgid "Brunei"
-#~ msgstr "Brunei"
 
 #~ msgid "Diego Garcia"
 #~ msgstr "Diego Garcia"
@@ -17194,3 +18713,243 @@ msgstr "init_bonobo(): kunde inte initiera Bonobo"
 
 #~ msgid "Zaire"
 #~ msgstr "Kongo (f.d. Zaire)"
+
+#~ msgid "America/Atka"
+#~ msgstr "Amerika/Atka"
+
+#~ msgid "America/Ensenada"
+#~ msgstr "Amerika/Ensenada"
+
+#~ msgid "America/Knox_IN"
+#~ msgstr "Amerika/Knox_IN"
+
+#~ msgid "America/Porto_Acre"
+#~ msgstr "Amerika/Porto_Acre"
+
+#~ msgid "America/Virgin"
+#~ msgstr "Amerika/Jungfruöarna"
+
+#~ msgid "Asia/Ashkhabad"
+#~ msgstr "Asien/Ashkhabad"
+
+#~ msgid "Asia/Dacca"
+#~ msgstr "Asien/Dhaka"
+
+#~ msgid "Asia/Riyadh87"
+#~ msgstr "Asien/Riyadh87"
+
+#~ msgid "Asia/Riyadh88"
+#~ msgstr "Asien/Riyadh88"
+
+#~ msgid "Asia/Riyadh89"
+#~ msgstr "Asien/Riyadh89"
+
+#~ msgid "Asia/Tel_Aviv"
+#~ msgstr "Asien/Tel_Aviv"
+
+#~ msgid "Asia/Thimbu"
+#~ msgstr "Asien/Thimbu"
+
+#~ msgid "Asia/Ulan_Bator"
+#~ msgstr "Asien/Ulan_Bator"
+
+#~ msgid "Australia/ACT"
+#~ msgstr "Australien/ACT"
+
+#~ msgid "Australia/Canberra"
+#~ msgstr "Australien/Canberra"
+
+#~ msgid "Australia/LHI"
+#~ msgstr "Australien/LHI"
+
+#~ msgid "Australia/North"
+#~ msgstr "Australien/North"
+
+#~ msgid "Australia/NSW"
+#~ msgstr "Australien/NSW"
+
+#~ msgid "Australia/Queensland"
+#~ msgstr "Australien/Queensland"
+
+#~ msgid "Australia/South"
+#~ msgstr "Australien/South"
+
+#~ msgid "Australia/Tasmania"
+#~ msgstr "Australien/Tasmanien"
+
+#~ msgid "Australia/Victoria"
+#~ msgstr "Australien/Victoria"
+
+#~ msgid "Australia/West"
+#~ msgstr "Australien/West"
+
+#~ msgid "Australia/Yancowinna"
+#~ msgstr "Australien/Yancowinna"
+
+#~ msgid "Brazil/Acre"
+#~ msgstr "Brasilien/Acre"
+
+#~ msgid "Brazil/DeNoronha"
+#~ msgstr "Brasilien/DeNoronha"
+
+#~ msgid "Brazil/East"
+#~ msgstr "Brasilien/Öst"
+
+#~ msgid "Brazil/West"
+#~ msgstr "Brasilien/Väst"
+
+#~ msgid "Canada/Atlantic"
+#~ msgstr "Kanada/Atlantic"
+
+#~ msgid "Canada/Central"
+#~ msgstr "Kanada/Central"
+
+#~ msgid "Canada/Eastern"
+#~ msgstr "Kanada/Eastern"
+
+#~ msgid "Canada/East-Saskatchewan"
+#~ msgstr "Kanada/Öst-Saskatchewan"
+
+#~ msgid "Canada/Mountain"
+#~ msgstr "Kanada/Mountain"
+
+#~ msgid "Canada/Newfoundland"
+#~ msgstr "Kanada/Newfoundland"
+
+#~ msgid "Canada/Pacific"
+#~ msgstr "Kanada/Pacific"
+
+#~ msgid "Canada/Saskatchewan"
+#~ msgstr "Kanada/Saskatchewan"
+
+#~ msgid "Canada/Yukon"
+#~ msgstr "Kanada/Yukon"
+
+#~ msgid "CET"
+#~ msgstr "CET"
+
+#~ msgid "Chile/Continental"
+#~ msgstr "Chile/Kontinental"
+
+#~ msgid "Chile/EasterIsland"
+#~ msgstr "Chile/Påskön"
+
+#~ msgid "CST6CDT"
+#~ msgstr "CST6CDT"
+
+#~ msgid "EET"
+#~ msgstr "EET"
+
+#~ msgid "Eire"
+#~ msgstr "Eire"
+
+#~ msgid "EST"
+#~ msgstr "EST"
+
+#~ msgid "Europe/Tiraspol"
+#~ msgstr "Europa/Tiraspol"
+
+#~ msgid "Factory"
+#~ msgstr "Fabrik"
+
+#~ msgid "GB"
+#~ msgstr "Storbritannien"
+
+#~ msgid "GB-Eire"
+#~ msgstr "Storbritannien-Irland"
+
+#~ msgid "GMT"
+#~ msgstr "GMT"
+
+#~ msgid "GMT0"
+#~ msgstr "GMT0"
+
+#~ msgid "GMT-0"
+#~ msgstr "GMT-0"
+
+#~ msgid "GMT+0"
+#~ msgstr "GMT+0"
+
+#~ msgid "Greenwich"
+#~ msgstr "Greenwich"
+
+#~ msgid "Hongkong"
+#~ msgstr "Hong Kong"
+
+#~ msgid "HST"
+#~ msgstr "HST"
+
+#~ msgid "MET"
+#~ msgstr "MET"
+
+#~ msgid "Mexico/BajaNorte"
+#~ msgstr "Mexiko/BajaNorte"
+
+#~ msgid "Mexico/BajaSur"
+#~ msgstr "Mexiko/BajaSur"
+
+#~ msgid "Mexico/General"
+#~ msgstr "Mexiko/General"
+
+#~ msgid "Mideast/Riyadh87"
+#~ msgstr "Mellanöstern/Riyadh87"
+
+#~ msgid "Mideast/Riyadh88"
+#~ msgstr "Mellanöstern/Riyadh88"
+
+#~ msgid "Mideast/Riyadh89"
+#~ msgstr "Mellanöstern/Riyadh89"
+
+#~ msgid "MST"
+#~ msgstr "MST"
+
+#~ msgid "MST7MDT"
+#~ msgstr "MST7MDT"
+
+#~ msgid "Navajo"
+#~ msgstr "Navajo"
+
+#~ msgid "NZ"
+#~ msgstr "NZ"
+
+#~ msgid "NZ-CHAT"
+#~ msgstr "NZ-CHAT"
+
+#~ msgid "Pacific/Samoa"
+#~ msgstr "Stilla_Havet/Samoa"
+
+#~ msgid "US/Alaska"
+#~ msgstr "USA/Alaska"
+
+#~ msgid "US/Aleutian"
+#~ msgstr "USA/Aleutian"
+
+#~ msgid "US/Arizona"
+#~ msgstr "USA/Arizona"
+
+#~ msgid "US/Central"
+#~ msgstr "USA/Central"
+
+#~ msgid "US/Eastern"
+#~ msgstr "USA/Östlig"
+
+#~ msgid "US/East-Indiana"
+#~ msgstr "USA/Öst-Indiana"
+
+#~ msgid "US/Hawaii"
+#~ msgstr "USA/Hawaii"
+
+#~ msgid "US/Indiana-Starke"
+#~ msgstr "USA/Indiana-Starke"
+
+#~ msgid "US/Michigan"
+#~ msgstr "USA/Michigan"
+
+#~ msgid "US/Mountain"
+#~ msgstr "USA/Mountain"
+
+#~ msgid "US/Pacific"
+#~ msgstr "USA/Pacific"
+
+#~ msgid "US/Samoa"
+#~ msgstr "USA/Samoa"
