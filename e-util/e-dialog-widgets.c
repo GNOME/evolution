@@ -21,6 +21,7 @@
 
 #include <config.h>
 #include <math.h>
+#include <string.h>
 #include <time.h>
 #include <gtk/gtkmenu.h>
 #include <gtk/gtkmenuitem.h>

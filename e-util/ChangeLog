@@ -1,3 +1,8 @@
+200-10-30  Kjartan Maraas  <kmaraas@gnome.org>
+
+	* e-dialog-widgets.c: #include <string.h> to quench warning.
+	* e-sexp.c: #include <stdlib.h> for same reason.
+	
 2000-10-27    <jpr@helixcode.com>
 
 	* Makefile.am: build md5-utils
