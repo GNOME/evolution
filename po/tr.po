@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
-"POT-Creation-Date: 2003-10-30 16:28-0500\n"
+"POT-Creation-Date: 2003-11-07 01:11-0500\n"
 "PO-Revision-Date: 2003-06-19 18:09+0000\n"
 "Last-Translator: Görkem Çetin <gorkem@kde.org>\n"
 "Language-Team: Turkish <gnome-turk@gnome.org>\n"
@@ -12,552 +12,6 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Report-Msgid-Bugs-To: \n"
-
-#: addressbook/backend/ebook/e-book.c:214
-msgid "e_book_add_contact called on book before e_book_load_uri"
-msgstr ""
-
-#: addressbook/backend/ebook/e-book.c:221
-#: addressbook/backend/ebook/e-book.c:330
-#: addressbook/backend/ebook/e-book.c:412
-#: addressbook/backend/ebook/e-book.c:511
-#: addressbook/backend/ebook/e-book.c:620
-#: addressbook/backend/ebook/e-book.c:701
-#: addressbook/backend/ebook/e-book.c:801
-#: addressbook/backend/ebook/e-book.c:853
-#: addressbook/backend/ebook/e-book.c:946
-#: addressbook/backend/ebook/e-book.c:1075
-#: addressbook/backend/ebook/e-book.c:1173
-#: addressbook/backend/ebook/e-book.c:1397
-msgid "book busy"
-msgstr ""
-
-#: addressbook/backend/ebook/e-book.c:248
-msgid "Corba exception making Book::addContact call"
-msgstr ""
-
-#: addressbook/backend/ebook/e-book.c:323
-msgid "e_book_commit_contact called on book before e_book_load_uri"
-msgstr ""
-
-#: addressbook/backend/ebook/e-book.c:357
-msgid "Corba exception making Book::modifyContact call"
-msgstr ""
-
-#: addressbook/backend/ebook/e-book.c:405
-msgid "e_book_get_supported_fields on book before e_book_load_uri"
-msgstr ""
-
-#: addressbook/backend/ebook/e-book.c:434
-msgid "Corba exception making Book::getSupportedFields call"
-msgstr ""
-
-#: addressbook/backend/ebook/e-book.c:504
-msgid "e_book_get_supported_auth_methods on book before e_book_load_uri"
-msgstr ""
-
-#: addressbook/backend/ebook/e-book.c:534
-msgid "Corba exception making Book::getSupportedAuthMethods call"
-msgstr ""
-
-#: addressbook/backend/ebook/e-book.c:613
-msgid "e_book_authenticate_user on book before e_book_load_uri"
-msgstr ""
-
-#: addressbook/backend/ebook/e-book.c:646
-msgid "Corba exception making Book::authenticateUser call"
-msgstr ""
-
-#: addressbook/backend/ebook/e-book.c:694
-msgid "e_book_get_contact on book before e_book_load_uri"
-msgstr ""
-
-#: addressbook/backend/ebook/e-book.c:724
-msgid "Corba exception making Book::getContact call"
-msgstr ""
-
-#: addressbook/backend/ebook/e-book.c:794
-msgid "e_book_remove_contact on book before e_book_load_uri"
-msgstr ""
-
-#: addressbook/backend/ebook/e-book.c:846
-msgid "e_book_remove_contacts on book before e_book_load_uri"
-msgstr ""
-
-#: addressbook/backend/ebook/e-book.c:885
-msgid "Corba exception making Book::removeContacts call"
-msgstr ""
-
-#: addressbook/backend/ebook/e-book.c:939
-msgid "e_book_get_book_view on book before e_book_load_uri"
-msgstr ""
-
-#: addressbook/backend/ebook/e-book.c:990
-msgid "Corba exception making Book::getBookView call"
-msgstr ""
-
-#: addressbook/backend/ebook/e-book.c:1068
-msgid "e_book_get_contacts on book before e_book_load_uri"
-msgstr ""
-
-#: addressbook/backend/ebook/e-book.c:1103
-msgid "Corba exception making Book::getContactList call"
-msgstr ""
-
-#: addressbook/backend/ebook/e-book.c:1166
-msgid "e_book_get_changes on book before e_book_load_uri"
-msgstr ""
-
-#: addressbook/backend/ebook/e-book.c:1197
-msgid "Corba exception making Book::getChanges call"
-msgstr ""
-
-#: addressbook/backend/ebook/e-book.c:1308
-#, fuzzy
-msgid "e_book_cancel: there is no current operation"
-msgstr "Şimdiki e-posta işlemini iptal et"
-
-#: addressbook/backend/ebook/e-book.c:1327
-msgid "Corba exception making Book::cancelOperation call"
-msgstr ""
-
-#: addressbook/backend/ebook/e-book.c:1342
-msgid "e_book_cancel: couldn't cancel"
-msgstr ""
-
-#: addressbook/backend/ebook/e-book.c:1390
-msgid "e_book_remove on book before e_book_load_uri"
-msgstr ""
-
-#: addressbook/backend/ebook/e-book.c:1419
-msgid "Corba exception making Book::remove call"
-msgstr ""
-
-#: addressbook/backend/ebook/e-book.c:1642
-#: addressbook/backend/ebook/e-book.c:1736
-#, c-format
-msgid "e_book_load_uri: no factories available for uri `%s'"
-msgstr ""
-
-#: addressbook/backend/ebook/e-book.c:1656
-msgid "e_book_load_uri: Could not create EBookListener"
-msgstr ""
-
-#: addressbook/backend/ebook/e-contact.c:90
-msgid "Unique ID"
-msgstr ""
-
-#: addressbook/backend/ebook/e-contact.c:91
-#: addressbook/gui/widgets/e-addressbook-view.etspec.h:15
-msgid "File As"
-msgstr "Farklı Dosyala"
-
-#. Name fields
-#. FN isn't really a structured field - we use a getter/setter
-#. so we can set the N property (since evo 1.4 works fine with
-#. vcards that don't even have a N attribute.  *sigh*)
-#: addressbook/backend/ebook/e-contact.c:97
-#: addressbook/gui/contact-editor/fullname.glade.h:4
-#: addressbook/gui/widgets/e-addressbook-view.etspec.h:17
-msgid "Full Name"
-msgstr "Tam İsim"
-
-#: addressbook/backend/ebook/e-contact.c:98
-#: addressbook/gui/component/select-names/e-select-names.etspec.h:1
-#: addressbook/gui/component/select-names/e-select-names-section.etspec.h:1
-#: addressbook/gui/contact-editor/e-contact-editor-fullname.c:89
-msgid "Name"
-msgstr "İsim"
-
-#: addressbook/backend/ebook/e-contact.c:99
-#, fuzzy
-msgid "Given Name"
-msgstr "Alan Adı"
-
-#: addressbook/backend/ebook/e-contact.c:100
-msgid "Family Name"
-msgstr "Tam İsim"
-
-#: addressbook/backend/ebook/e-contact.c:101
-#: addressbook/gui/widgets/e-addressbook-view.etspec.h:25
-msgid "Nickname"
-msgstr "Lakap"
-
-#. Address fields
-#: addressbook/backend/ebook/e-contact.c:104
-#, fuzzy
-msgid "Address List"
-msgstr "Addres"
-
-#: addressbook/backend/ebook/e-contact.c:105
-#: addressbook/gui/widgets/e-addressbook-view.etspec.h:18
-#: addressbook/gui/widgets/eab-contact-display.c:221
-msgid "Home Address"
-msgstr "Ev Adresi"
-
-#: addressbook/backend/ebook/e-contact.c:106
-#: addressbook/gui/widgets/eab-contact-display.c:222
-#, fuzzy
-msgid "Work Address"
-msgstr "Ev Adresi"
-
-#: addressbook/backend/ebook/e-contact.c:107
-#: addressbook/gui/widgets/e-addressbook-view.etspec.h:29
-#: addressbook/gui/widgets/eab-contact-display.c:223
-msgid "Other Address"
-msgstr "Diğer Adres"
-
-#: addressbook/backend/ebook/e-contact.c:109
-#, fuzzy
-msgid "Home Address Label"
-msgstr "Address Etiketi"
-
-#: addressbook/backend/ebook/e-contact.c:110
-#, fuzzy
-msgid "Work Address Label"
-msgstr "Address Etiketi"
-
-#: addressbook/backend/ebook/e-contact.c:111
-#, fuzzy
-msgid "Other Address Label"
-msgstr "Address Etiketi"
-
-#: addressbook/backend/ebook/e-contact.c:113
-#: addressbook/gui/widgets/e-addressbook-view.etspec.h:3
-msgid "Assistant Phone"
-msgstr "Sekreter Telefonu"
-
-#: addressbook/backend/ebook/e-contact.c:114
-#: addressbook/gui/widgets/e-addressbook-view.etspec.h:6
-msgid "Business Phone"
-msgstr "İş Telefonu"
-
-#: addressbook/backend/ebook/e-contact.c:115
-#: addressbook/gui/widgets/e-addressbook-view.etspec.h:7
-msgid "Business Phone 2"
-msgstr "2. İş Telefonu"
-
-#: addressbook/backend/ebook/e-contact.c:116
-#: addressbook/gui/widgets/e-addressbook-view.etspec.h:5
-msgid "Business Fax"
-msgstr "İşyeri Faksı"
-
-#: addressbook/backend/ebook/e-contact.c:117
-#: addressbook/gui/widgets/e-addressbook-view.etspec.h:8
-msgid "Callback Phone"
-msgstr "Geri Arama Telefonu"
-
-#: addressbook/backend/ebook/e-contact.c:118
-#: addressbook/gui/widgets/e-addressbook-view.etspec.h:9
-msgid "Car Phone"
-msgstr "Araç Telefonu"
-
-#: addressbook/backend/ebook/e-contact.c:119
-#: addressbook/gui/widgets/e-addressbook-view.etspec.h:10
-msgid "Company Phone"
-msgstr "Şirket Telefonu"
-
-#: addressbook/backend/ebook/e-contact.c:120
-#: addressbook/gui/widgets/e-addressbook-view.etspec.h:20
-msgid "Home Phone"
-msgstr "Ev Telefonu"
-
-#: addressbook/backend/ebook/e-contact.c:121
-#: addressbook/gui/widgets/e-addressbook-view.etspec.h:21
-msgid "Home Phone 2"
-msgstr "2. Ev Telefonu"
-
-#: addressbook/backend/ebook/e-contact.c:122
-#: addressbook/gui/widgets/e-addressbook-view.etspec.h:19
-msgid "Home Fax"
-msgstr "Ev Faksı"
-
-#: addressbook/backend/ebook/e-contact.c:123
-#: addressbook/gui/widgets/e-addressbook-view.etspec.h:22
-msgid "ISDN"
-msgstr "ISDN"
-
-#: addressbook/backend/ebook/e-contact.c:124
-#: addressbook/gui/widgets/e-addressbook-view.etspec.h:24
-msgid "Mobile Phone"
-msgstr "Cep Telefonu"
-
-#: addressbook/backend/ebook/e-contact.c:125
-#: addressbook/gui/widgets/e-addressbook-view.etspec.h:31
-msgid "Other Phone"
-msgstr "Diğer Telefonlar"
-
-#. XXX
-#: addressbook/backend/ebook/e-contact.c:126
-#: addressbook/gui/widgets/e-addressbook-view.etspec.h:30
-msgid "Other Fax"
-msgstr "Başka Fakslar"
-
-#. XXX
-#: addressbook/backend/ebook/e-contact.c:127
-#: addressbook/gui/widgets/e-addressbook-view.etspec.h:32
-msgid "Pager"
-msgstr "Çağrı Cihazı"
-
-#: addressbook/backend/ebook/e-contact.c:128
-#: addressbook/gui/widgets/e-addressbook-view.etspec.h:33
-msgid "Primary Phone"
-msgstr "İlk Telefon"
-
-#: addressbook/backend/ebook/e-contact.c:129
-#: addressbook/gui/widgets/e-addressbook-view.etspec.h:35
-msgid "Radio"
-msgstr "Radyo"
-
-#: addressbook/backend/ebook/e-contact.c:130
-#: addressbook/gui/widgets/e-addressbook-view.etspec.h:38
-msgid "Telex"
-msgstr "Teleks"
-
-#: addressbook/backend/ebook/e-contact.c:131
-#: addressbook/gui/widgets/e-addressbook-view.etspec.h:37
-msgid "TTY"
-msgstr "TTY"
-
-#. Email fields
-#: addressbook/backend/ebook/e-contact.c:134
-#, fuzzy
-msgid "Email List"
-msgstr "E-posta adresi"
-
-#: addressbook/backend/ebook/e-contact.c:135
-#, fuzzy
-msgid "Email 1"
-msgstr "3. E-posta Adresi"
-
-#: addressbook/backend/ebook/e-contact.c:136
-#: addressbook/gui/widgets/e-addressbook-view.etspec.h:13
-#: addressbook/gui/widgets/eab-popup-control.c:460
-msgid "Email 2"
-msgstr "2. E-posta Adresi"
-
-#: addressbook/backend/ebook/e-contact.c:137
-#: addressbook/gui/widgets/e-addressbook-view.etspec.h:14
-#: addressbook/gui/widgets/eab-popup-control.c:470
-msgid "Email 3"
-msgstr "3. E-posta Adresi"
-
-#: addressbook/backend/ebook/e-contact.c:138 mail/em-format-html.c:1381
-msgid "Mailer"
-msgstr "E-postalayıcı"
-
-#: addressbook/backend/ebook/e-contact.c:139
-#, fuzzy
-msgid "Wants HTML Mail"
-msgstr "HTML ister"
-
-#. Instant messaging fields
-#: addressbook/backend/ebook/e-contact.c:142
-msgid "AIM Screen Name List"
-msgstr ""
-
-#: addressbook/backend/ebook/e-contact.c:143
-#, fuzzy
-msgid "Jabber Id List"
-msgstr "İsimsiz Liste"
-
-#: addressbook/backend/ebook/e-contact.c:144
-msgid "Yahoo! Screen Name List"
-msgstr ""
-
-#: addressbook/backend/ebook/e-contact.c:145
-msgid "MSN Screen Name List"
-msgstr ""
-
-#: addressbook/backend/ebook/e-contact.c:146
-#, fuzzy
-msgid "ICQ Id List"
-msgstr "Yeni Liste"
-
-#. Organizational fields
-#: addressbook/backend/ebook/e-contact.c:149
-#: addressbook/gui/widgets/e-addressbook-view.etspec.h:28
-msgid "Organization"
-msgstr "Kurum"
-
-#: addressbook/backend/ebook/e-contact.c:150
-msgid "Organizational Unit"
-msgstr "Bölüm"
-
-#: addressbook/backend/ebook/e-contact.c:151
-#: addressbook/gui/widgets/e-addressbook-view.etspec.h:27
-msgid "Office"
-msgstr "Ofis"
-
-#: addressbook/backend/ebook/e-contact.c:153
-#: addressbook/gui/widgets/e-addressbook-view.etspec.h:39
-msgid "Title"
-msgstr "Sıfat"
-
-#: addressbook/backend/ebook/e-contact.c:154
-#: calendar/gui/dialogs/meeting-page.etspec.h:9
-#: calendar/gui/e-meeting-list-view.c:256
-#: calendar/gui/e-meeting-time-sel.etspec.h:9
-msgid "Role"
-msgstr "Görev"
-
-#: addressbook/backend/ebook/e-contact.c:155
-#: addressbook/gui/widgets/e-addressbook-view.etspec.h:23
-msgid "Manager"
-msgstr "Yönetici"
-
-#: addressbook/backend/ebook/e-contact.c:156
-#: addressbook/gui/widgets/e-addressbook-view.etspec.h:2
-msgid "Assistant"
-msgstr "Yardımcı"
-
-#. Web fields
-#: addressbook/backend/ebook/e-contact.c:159
-msgid "Homepage URL"
-msgstr ""
-
-#: addressbook/backend/ebook/e-contact.c:160
-msgid "Weblog URL"
-msgstr ""
-
-#. Photo/Logo
-#: addressbook/backend/ebook/e-contact.c:163
-#, fuzzy
-msgid "Photo"
-msgstr "Porto"
-
-#: addressbook/backend/ebook/e-contact.c:164
-#, fuzzy
-msgid "Logo"
-msgstr "Togo"
-
-#: addressbook/backend/ebook/e-contact.c:168
-msgid "Category List"
-msgstr "Kategori Listesi"
-
-#: addressbook/backend/ebook/e-contact.c:169
-#: addressbook/backend/ebook/e-contact.c:171
-#: calendar/gui/e-cal-list-view.etspec.h:1
-#: calendar/gui/e-calendar-table.etspec.h:4
-msgid "Categories"
-msgstr "Kategoriler"
-
-#. Collaboration fields
-#: addressbook/backend/ebook/e-contact.c:175
-msgid "Calendar URI"
-msgstr "Takvim URI"
-
-#: addressbook/backend/ebook/e-contact.c:176
-msgid "Free/Busy URL"
-msgstr "Boş/Meşgul URL"
-
-#: addressbook/backend/ebook/e-contact.c:177
-msgid "ICS Calendar"
-msgstr "ICS Takvimi"
-
-#. Misc fields
-#: addressbook/backend/ebook/e-contact.c:180
-#, fuzzy
-msgid "Spouse's Name"
-msgstr "Eş"
-
-#: addressbook/backend/ebook/e-contact.c:181
-#: addressbook/gui/widgets/e-addressbook-view.etspec.h:26
-msgid "Note"
-msgstr "Not"
-
-#: addressbook/backend/ebook/e-contact.c:183
-msgid "Birth Date"
-msgstr "Doğum Günü"
-
-#: addressbook/backend/ebook/e-contact.c:184
-msgid "Anniversary"
-msgstr "Yıldönümü"
-
-#: addressbook/backend/ebook/e-contact.c:186 ui/evolution-calendar.xml.h:21
-msgid "List"
-msgstr "Liste"
-
-#: addressbook/backend/ebook/e-contact.c:187
-msgid "List Show Addresses"
-msgstr "Liste Adresleri"
-
-#: addressbook/backend/ebook/e-destination.c:709
-#: addressbook/util/eab-destination.c:675
-msgid "Unnamed List"
-msgstr "İsimsiz Liste"
-
-#: addressbook/backend/ebook/GNOME_Evolution_Addressbook_LDIF_Importer.server.in.in.h:1
-msgid "Evolution LDIF importer"
-msgstr "Evolution LDIF alıcısı"
-
-#: addressbook/backend/ebook/GNOME_Evolution_Addressbook_LDIF_Importer.server.in.in.h:2
-#, fuzzy
-msgid "Evolution LDIF importer factory"
-msgstr "Evolution LDIF alıcısı"
-
-#: addressbook/backend/ebook/GNOME_Evolution_Addressbook_LDIF_Importer.server.in.in.h:3
-msgid "LDAP Data Interchange Format (.ldif)"
-msgstr "LDAP Veri Aktarım Biçim (.ldif)"
-
-#: addressbook/backend/ebook/GNOME_Evolution_Addressbook_VCard_Importer.server.in.in.h:1
-msgid "Evolution VCard Importer"
-msgstr "Evolution VCard Alıcısı"
-
-#: addressbook/backend/ebook/GNOME_Evolution_Addressbook_VCard_Importer.server.in.in.h:2
-msgid "Evolution VCard importer"
-msgstr "Evolution VCard alıcısı"
-
-#: addressbook/backend/ebook/GNOME_Evolution_Addressbook_VCard_Importer.server.in.in.h:3
-msgid "VCard (.vcf, .gcrd)"
-msgstr "VCard (.vcf, .gcrd)"
-
-#: addressbook/backend/pas/pas-backend-file.c:399
-#: addressbook/backend/pas/pas-backend-vcf.c:102
-msgid "Loading..."
-msgstr "Yükleniyor..."
-
-#: addressbook/backend/pas/pas-backend-file.c:401
-#: addressbook/backend/pas/pas-backend-ldap.c:2766
-#: addressbook/backend/pas/pas-backend-vcf.c:104
-msgid "Searching..."
-msgstr "Aranıyor..."
-
-#: addressbook/backend/pas/pas-backend-ldap.c:599
-msgid "Using Distinguished Name (DN)"
-msgstr "DN kullanılıyor"
-
-#: addressbook/backend/pas/pas-backend-ldap.c:602
-msgid "Using Email Address"
-msgstr "E-posta Adresi Kullanarak"
-
-#: addressbook/backend/pas/pas-backend-ldap.c:746
-msgid "Reconnecting to LDAP server..."
-msgstr "LDAP sunucuya yeniden bağlantı kuruluyor..."
-
-#: addressbook/backend/pas/pas-backend-ldap.c:1248
-#, fuzzy
-msgid "Adding contact to LDAP server..."
-msgstr "LDAP sunucuya kart ekleniyor..."
-
-#: addressbook/backend/pas/pas-backend-ldap.c:1337
-#, fuzzy
-msgid "Removing contact from LDAP server..."
-msgstr "LDAP sunucudaki kart siliniyor..."
-
-#: addressbook/backend/pas/pas-backend-ldap.c:1537
-#: addressbook/backend/pas/pas-backend-ldap.c:1540
-#, fuzzy
-msgid "Modifying contact from LDAP server..."
-msgstr "LDAP sunucudaki kart düzenleniyor..."
-
-#: addressbook/backend/pas/pas-backend-ldap.c:2689
-msgid "Receiving LDAP search results..."
-msgstr "LDAP arama sonuçları alınıyor..."
-
-#: addressbook/backend/pas/pas-backend-ldap.c:2786
-msgid "Error performing search"
-msgstr "Arama yaparken bir hata oluştu"
 
 #: addressbook/conduit/address-conduit.c:272
 msgid "Default Sync Address:"
@@ -862,7 +316,7 @@ msgid "Addressbook Sources"
 msgstr "Adres Defteri Kaynakları"
 
 #: addressbook/gui/component/ldap-config.glade.h:13 mail/mail-account-gui.c:66
-#: mail/mail-config.glade.h:16
+#: mail/mail-config.glade.h:15
 msgid "Always"
 msgstr "Her zaman"
 
@@ -923,7 +377,7 @@ msgid "LDAP Configuration Assistant"
 msgstr "LDAP Yapılandırma Sihirbazı"
 
 #: addressbook/gui/component/ldap-config.glade.h:28 mail/mail-account-gui.c:68
-#: mail/mail-config.glade.h:74
+#: mail/mail-config.glade.h:73
 msgid "Never"
 msgstr "Hiç bir zaman"
 
@@ -953,7 +407,7 @@ msgid "S_earch scope: "
 msgstr ""
 
 #: addressbook/gui/component/ldap-config.glade.h:34
-#: calendar/gui/e-cal-list-view.c:397 calendar/gui/e-cal-view.c:708
+#: calendar/gui/e-cal-list-view.c:397 calendar/gui/e-cal-view.c:718
 #: calendar/gui/gnome-cal.c:587
 msgid "Searching"
 msgstr "Arama"
@@ -1169,7 +623,7 @@ msgid "_Download limit:"
 msgstr "İ_ndirme sınırı:"
 
 #: addressbook/gui/component/ldap-config.glade.h:85 filter/filter.glade.h:14
-#: mail/mail-config.glade.h:143 ui/evolution-addressbook.xml.h:33
+#: mail/mail-config.glade.h:142 ui/evolution-addressbook.xml.h:33
 #: ui/evolution-calendar.xml.h:45 ui/evolution-composer-entries.xml.h:8
 #: ui/evolution-mail-list.xml.h:24 ui/evolution-mail-messagedisplay.xml.h:6
 #: ui/evolution-message-composer.xml.h:41
@@ -1214,6 +668,12 @@ msgstr "genel-sekme"
 msgid "searching-tab"
 msgstr "arama sekmesi"
 
+#: addressbook/gui/component/select-names/e-select-names.etspec.h:1
+#: addressbook/gui/component/select-names/e-select-names-section.etspec.h:1
+#: addressbook/gui/contact-editor/e-contact-editor-fullname.c:89
+msgid "Name"
+msgstr "İsim"
+
 #: addressbook/gui/component/select-names/e-select-names-popup.c:205
 msgid "Remove All"
 msgstr "Tümünü Sil"
@@ -1246,7 +706,7 @@ msgstr "Bağlantılara Ekle"
 msgid "Unnamed Contact"
 msgstr "İsimsiz Bağlantı"
 
-#: addressbook/gui/component/select-names/e-select-names-table-model.c:352
+#: addressbook/gui/component/select-names/e-select-names-table-model.c:351
 #: addressbook/gui/component/select-names/e-select-names-text-model.c:104
 msgid "Source"
 msgstr "Kaynak"
@@ -1406,10 +866,10 @@ msgid "_Categories..."
 msgstr "_Kategoriler..."
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:29
-#: calendar/gui/dialogs/meeting-page.c:635 calendar/gui/e-cal-view.c:1290
-#: calendar/gui/e-cal-view.c:1321 calendar/gui/e-calendar-table.c:1010
-#: calendar/gui/e-calendar-table.c:1028 mail/em-folder-view.c:679
-#: mail/mail-component.c:2094 ui/evolution-addressbook.xml.h:32
+#: calendar/gui/dialogs/meeting-page.c:635 calendar/gui/e-cal-view.c:1300
+#: calendar/gui/e-cal-view.c:1331 calendar/gui/e-calendar-table.c:1010
+#: calendar/gui/e-calendar-table.c:1028 mail/em-folder-view.c:681
+#: mail/mail-component.c:2088 ui/evolution-addressbook.xml.h:32
 #: ui/evolution-calendar.xml.h:44 ui/evolution-comp-editor.xml.h:17
 #: ui/evolution-contact-editor.xml.h:14 ui/evolution-mail-message.xml.h:104
 #: ui/evolution-tasks.xml.h:18
@@ -2533,6 +1993,11 @@ msgstr "Dr."
 msgid "Esq."
 msgstr "Esq."
 
+#: addressbook/gui/contact-editor/fullname.glade.h:4
+#: addressbook/gui/widgets/e-addressbook-view.etspec.h:17
+msgid "Full Name"
+msgstr "Tam İsim"
+
 #: addressbook/gui/contact-editor/fullname.glade.h:5
 msgid "I"
 msgstr "I"
@@ -2715,7 +2180,7 @@ msgstr "Adres Defteri"
 
 #: addressbook/gui/widgets/e-addressbook-view.c:674
 #: addressbook/gui/widgets/e-addressbook-view.c:894
-#: addressbook/gui/widgets/e-addressbook-view.c:1654
+#: addressbook/gui/widgets/e-addressbook-view.c:1653
 #: ui/evolution-addressbook.xml.h:19
 msgid "Save as VCard"
 msgstr "VCard olarak kaydet"
@@ -2792,7 +2257,8 @@ msgstr "Kopyala"
 msgid "Paste"
 msgstr "Yapıştır"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:910 filter/libfilter-i18n.h:10
+#: addressbook/gui/widgets/e-addressbook-view.c:910
+#: calendar/gui/calendar-component.c:206 filter/libfilter-i18n.h:10
 #: mail/em-account-prefs.c:236 ui/evolution-addressbook.xml.h:8
 #: ui/evolution-comp-editor.xml.h:4 ui/evolution-contact-editor.xml.h:3
 #: ui/evolution-contact-list-editor.xml.h:3 ui/evolution-mail-message.xml.h:24
@@ -2800,7 +2266,7 @@ msgid "Delete"
 msgstr "Sil"
 
 #: addressbook/gui/widgets/e-addressbook-view.c:914
-#: calendar/gui/e-cal-view.c:1255
+#: calendar/gui/e-cal-view.c:1265
 msgid "Current View"
 msgstr "Şimdiki Görünüm"
 
@@ -2816,9 +2282,41 @@ msgstr ""
 msgid "* Click here to add a contact *"
 msgstr "* Bağlantı eklemek buraya tıklayın *"
 
+#: addressbook/gui/widgets/e-addressbook-view.etspec.h:2
+msgid "Assistant"
+msgstr "Yardımcı"
+
+#: addressbook/gui/widgets/e-addressbook-view.etspec.h:3
+msgid "Assistant Phone"
+msgstr "Sekreter Telefonu"
+
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:4
 msgid "Business Address"
 msgstr "İşyeri Adresi"
+
+#: addressbook/gui/widgets/e-addressbook-view.etspec.h:5
+msgid "Business Fax"
+msgstr "İşyeri Faksı"
+
+#: addressbook/gui/widgets/e-addressbook-view.etspec.h:6
+msgid "Business Phone"
+msgstr "İş Telefonu"
+
+#: addressbook/gui/widgets/e-addressbook-view.etspec.h:7
+msgid "Business Phone 2"
+msgstr "2. İş Telefonu"
+
+#: addressbook/gui/widgets/e-addressbook-view.etspec.h:8
+msgid "Callback Phone"
+msgstr "Geri Arama Telefonu"
+
+#: addressbook/gui/widgets/e-addressbook-view.etspec.h:9
+msgid "Car Phone"
+msgstr "Araç Telefonu"
+
+#: addressbook/gui/widgets/e-addressbook-view.etspec.h:10
+msgid "Company Phone"
+msgstr "Şirket Telefonu"
 
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:11
 msgid "Department"
@@ -2832,17 +2330,113 @@ msgstr "Bölüm"
 msgid "Email"
 msgstr "E-posta"
 
+#: addressbook/gui/widgets/e-addressbook-view.etspec.h:13
+#: addressbook/gui/widgets/eab-popup-control.c:460
+msgid "Email 2"
+msgstr "2. E-posta Adresi"
+
+#: addressbook/gui/widgets/e-addressbook-view.etspec.h:14
+#: addressbook/gui/widgets/eab-popup-control.c:470
+msgid "Email 3"
+msgstr "3. E-posta Adresi"
+
+#: addressbook/gui/widgets/e-addressbook-view.etspec.h:15
+msgid "File As"
+msgstr "Farklı Dosyala"
+
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:16
 msgid "Free-busy URL"
 msgstr "Web Sayfası"
+
+#: addressbook/gui/widgets/e-addressbook-view.etspec.h:18
+#: addressbook/gui/widgets/eab-contact-display.c:221
+msgid "Home Address"
+msgstr "Ev Adresi"
+
+#: addressbook/gui/widgets/e-addressbook-view.etspec.h:19
+msgid "Home Fax"
+msgstr "Ev Faksı"
+
+#: addressbook/gui/widgets/e-addressbook-view.etspec.h:20
+msgid "Home Phone"
+msgstr "Ev Telefonu"
+
+#: addressbook/gui/widgets/e-addressbook-view.etspec.h:21
+msgid "Home Phone 2"
+msgstr "2. Ev Telefonu"
+
+#: addressbook/gui/widgets/e-addressbook-view.etspec.h:22
+msgid "ISDN"
+msgstr "ISDN"
+
+#: addressbook/gui/widgets/e-addressbook-view.etspec.h:23
+msgid "Manager"
+msgstr "Yönetici"
+
+#: addressbook/gui/widgets/e-addressbook-view.etspec.h:24
+msgid "Mobile Phone"
+msgstr "Cep Telefonu"
+
+#: addressbook/gui/widgets/e-addressbook-view.etspec.h:25
+msgid "Nickname"
+msgstr "Lakap"
+
+#: addressbook/gui/widgets/e-addressbook-view.etspec.h:26
+msgid "Note"
+msgstr "Not"
+
+#: addressbook/gui/widgets/e-addressbook-view.etspec.h:27
+msgid "Office"
+msgstr "Ofis"
+
+#: addressbook/gui/widgets/e-addressbook-view.etspec.h:28
+msgid "Organization"
+msgstr "Kurum"
+
+#: addressbook/gui/widgets/e-addressbook-view.etspec.h:29
+#: addressbook/gui/widgets/eab-contact-display.c:223
+msgid "Other Address"
+msgstr "Diğer Adres"
+
+#: addressbook/gui/widgets/e-addressbook-view.etspec.h:30
+msgid "Other Fax"
+msgstr "Başka Fakslar"
+
+#: addressbook/gui/widgets/e-addressbook-view.etspec.h:31
+msgid "Other Phone"
+msgstr "Diğer Telefonlar"
+
+#: addressbook/gui/widgets/e-addressbook-view.etspec.h:32
+msgid "Pager"
+msgstr "Çağrı Cihazı"
+
+#: addressbook/gui/widgets/e-addressbook-view.etspec.h:33
+msgid "Primary Phone"
+msgstr "İlk Telefon"
 
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:34
 msgid "Profession"
 msgstr "Uzmanlık alanı"
 
+#: addressbook/gui/widgets/e-addressbook-view.etspec.h:35
+msgid "Radio"
+msgstr "Radyo"
+
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:36
 msgid "Spouse"
 msgstr "Eş"
+
+#: addressbook/gui/widgets/e-addressbook-view.etspec.h:37
+msgid "TTY"
+msgstr "TTY"
+
+#: addressbook/gui/widgets/e-addressbook-view.etspec.h:38
+msgid "Telex"
+msgstr "Teleks"
+
+#: addressbook/gui/widgets/e-addressbook-view.etspec.h:39
+msgid "Title"
+msgstr "Sıfat"
 
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:40
 msgid "Web Site"
@@ -2937,6 +2531,11 @@ msgstr "Üyeler"
 msgid "Job Title"
 msgstr "_Meslek tanımı:"
 
+#: addressbook/gui/widgets/eab-contact-display.c:222
+#, fuzzy
+msgid "Work Address"
+msgstr "Ev Adresi"
+
 #: addressbook/gui/widgets/eab-contact-display.c:227
 #: addressbook/gui/widgets/eab-contact-display.c:375
 #, fuzzy
@@ -2955,7 +2554,6 @@ msgid "Success"
 msgstr "Başarıldı"
 
 #: addressbook/gui/widgets/eab-gui-util.c:46
-#: calendar/cal-client/cal-client.c:3817
 #: camel/providers/imap/camel-imap-command.c:306
 #: camel/providers/imap/camel-imap-command.c:403
 #: camel/providers/pop3/camel-pop3-store.c:536
@@ -2968,8 +2566,7 @@ msgstr "Bilinmeyen hata"
 msgid "Repository offline"
 msgstr "Depo çevrimdışı"
 
-#: addressbook/gui/widgets/eab-gui-util.c:48
-#: calendar/cal-client/cal-client.c:3799 shell/e-storage.c:587
+#: addressbook/gui/widgets/eab-gui-util.c:48 shell/e-storage.c:587
 #: shell/evolution-shell-component.c:1213
 msgid "Permission denied"
 msgstr "İzin yok"
@@ -2985,7 +2582,6 @@ msgid "Contact ID already exists"
 msgstr "Bu kart numarası var"
 
 #: addressbook/gui/widgets/eab-gui-util.c:51
-#: calendar/cal-client/cal-client.c:3805
 msgid "Protocol not supported"
 msgstr "Protokol desteklenmiyor"
 
@@ -3313,7 +2909,7 @@ msgstr "Marjin"
 msgid "Number of columns:"
 msgstr "Sütun sayısı:"
 
-#: addressbook/printing/e-contact-print.glade.h:23 mail/mail-config.glade.h:79
+#: addressbook/printing/e-contact-print.glade.h:23 mail/mail-config.glade.h:78
 msgid "Options"
 msgstr "Seçenekler"
 
@@ -3492,232 +3088,9 @@ msgstr "Girdi Dosyası"
 msgid "No filename provided."
 msgstr "Dosya adı belirtilmedi."
 
-#: calendar/cal-client/cal-client.c:3783
-#: shell/evolution-shell-component.c:1191
-msgid "Invalid argument"
-msgstr "Geçersiz argüman"
-
-#: calendar/cal-client/cal-client.c:3785
-msgid "Backend is busy"
-msgstr ""
-
-#: calendar/cal-client/cal-client.c:3787
-#, fuzzy
-msgid "Repository is offline"
-msgstr "Depo çevrimdışı"
-
-#: calendar/cal-client/cal-client.c:3789
-#, fuzzy
-msgid "No such calendar"
-msgstr "Bu isimde bir dizin yok: `%s'"
-
-#: calendar/cal-client/cal-client.c:3791 calendar/cal-client/cal-client.c:3801
-#, fuzzy
-msgid "Object not found"
-msgstr "Öğe bulunamadı\n"
-
-#: calendar/cal-client/cal-client.c:3793
-#, fuzzy
-msgid "Invalid object"
-msgstr "Geçersiz argüman"
-
-#: calendar/cal-client/cal-client.c:3795
-#, fuzzy
-msgid "URI not loaded"
-msgstr "EBook yüklenmedi\n"
-
-#: calendar/cal-client/cal-client.c:3797
-msgid "URI already loaded"
-msgstr ""
-
-#: calendar/cal-client/cal-client.c:3803
-#, fuzzy
-msgid "Object ID already exists"
-msgstr "Bu kart numarası var"
-
-#: calendar/cal-client/cal-client.c:3807
-#, fuzzy
-msgid "Operation has been cancelled"
-msgstr "İşlem iptal edildi"
-
-#: calendar/cal-client/cal-client.c:3809
-#, fuzzy
-msgid "Could not cancel operation"
-msgstr "İşlemi İ_ptal Et"
-
-#: calendar/cal-client/cal-client.c:3811
-#, fuzzy
-msgid "Authentication failed"
-msgstr "Kimlik denetimi başarısız."
-
-#: calendar/cal-client/cal-client.c:3813
-#: camel/providers/smtp/camel-smtp-transport.c:224
-msgid "Authentication required"
-msgstr "Kimlik denetimi isteniyor"
-
-#: calendar/cal-client/cal-client.c:3815
-msgid "A CORBA esception has occurred"
-msgstr ""
-
-#: calendar/cal-client/cal-client.c:3819 shell/e-storage.c:569
-msgid "No error"
-msgstr "Hata yok"
-
-#: calendar/cal-util/cal-component.c:1218
-msgid "Untitled appointment"
-msgstr "Başlıksız toplantı"
-
-#: calendar/cal-util/cal-recur.c:3989 calendar/gui/print.c:477
-msgid "1st"
-msgstr "1."
-
-#: calendar/cal-util/cal-recur.c:3990 calendar/gui/print.c:477
-msgid "2nd"
-msgstr "2."
-
-#: calendar/cal-util/cal-recur.c:3991 calendar/gui/print.c:477
-msgid "3rd"
-msgstr "3."
-
-#: calendar/cal-util/cal-recur.c:3992 calendar/gui/print.c:477
-msgid "4th"
-msgstr "4."
-
-#: calendar/cal-util/cal-recur.c:3993 calendar/gui/print.c:477
-msgid "5th"
-msgstr "5."
-
-#: calendar/cal-util/cal-recur.c:3994 calendar/gui/print.c:478
-msgid "6th"
-msgstr "6."
-
-#: calendar/cal-util/cal-recur.c:3995 calendar/gui/print.c:478
-msgid "7th"
-msgstr "7."
-
-#: calendar/cal-util/cal-recur.c:3996 calendar/gui/print.c:478
-msgid "8th"
-msgstr "8."
-
-#: calendar/cal-util/cal-recur.c:3997 calendar/gui/print.c:478
-msgid "9th"
-msgstr "8."
-
-#: calendar/cal-util/cal-recur.c:3998 calendar/gui/print.c:478
-msgid "10th"
-msgstr "10."
-
-#: calendar/cal-util/cal-recur.c:3999 calendar/gui/print.c:479
-msgid "11th"
-msgstr "11."
-
-#: calendar/cal-util/cal-recur.c:4000 calendar/gui/print.c:479
-msgid "12th"
-msgstr "12."
-
-#: calendar/cal-util/cal-recur.c:4001 calendar/gui/print.c:479
-msgid "13th"
-msgstr "13."
-
-#: calendar/cal-util/cal-recur.c:4002 calendar/gui/print.c:479
-msgid "14th"
-msgstr "14."
-
-#: calendar/cal-util/cal-recur.c:4003 calendar/gui/print.c:479
-msgid "15th"
-msgstr "15."
-
-#: calendar/cal-util/cal-recur.c:4004 calendar/gui/print.c:480
-msgid "16th"
-msgstr "16."
-
-#: calendar/cal-util/cal-recur.c:4005 calendar/gui/print.c:480
-msgid "17th"
-msgstr "17."
-
-#: calendar/cal-util/cal-recur.c:4006 calendar/gui/print.c:480
-msgid "18th"
-msgstr "18."
-
-#: calendar/cal-util/cal-recur.c:4007 calendar/gui/print.c:480
-msgid "19th"
-msgstr "19."
-
-#: calendar/cal-util/cal-recur.c:4008 calendar/gui/print.c:480
-msgid "20th"
-msgstr "20."
-
-#: calendar/cal-util/cal-recur.c:4009 calendar/gui/print.c:481
-msgid "21st"
-msgstr "21."
-
-#: calendar/cal-util/cal-recur.c:4010 calendar/gui/print.c:481
-msgid "22nd"
-msgstr "22."
-
-#: calendar/cal-util/cal-recur.c:4011 calendar/gui/print.c:481
-msgid "23rd"
-msgstr "23."
-
-#: calendar/cal-util/cal-recur.c:4012 calendar/gui/print.c:481
-msgid "24th"
-msgstr "24."
-
-#: calendar/cal-util/cal-recur.c:4013 calendar/gui/print.c:481
-msgid "25th"
-msgstr "25."
-
-#: calendar/cal-util/cal-recur.c:4014 calendar/gui/print.c:482
-msgid "26th"
-msgstr "26."
-
-#: calendar/cal-util/cal-recur.c:4015 calendar/gui/print.c:482
-msgid "27th"
-msgstr "27."
-
-#: calendar/cal-util/cal-recur.c:4016 calendar/gui/print.c:482
-msgid "28th"
-msgstr "28."
-
-#: calendar/cal-util/cal-recur.c:4017 calendar/gui/print.c:482
-msgid "29th"
-msgstr "29."
-
-#: calendar/cal-util/cal-recur.c:4018 calendar/gui/print.c:482
-msgid "30th"
-msgstr "39."
-
-#: calendar/cal-util/cal-recur.c:4019 calendar/gui/print.c:483
-msgid "31st"
-msgstr "31."
-
-#: calendar/cal-util/cal-util.c:551 calendar/cal-util/cal-util.c:573
-#: calendar/gui/dialogs/task-details-page.glade.h:5
-#: calendar/gui/e-calendar-table.c:403 calendar/gui/e-tasks.c:229
-#: mail/message-list.c:912
-msgid "High"
-msgstr "Yüksek"
-
-#: calendar/cal-util/cal-util.c:553 calendar/cal-util/cal-util.c:575
-#: calendar/gui/dialogs/task-details-page.glade.h:8
-#: calendar/gui/e-cal-model.c:835 calendar/gui/e-calendar-table.c:404
-#: calendar/gui/e-tasks.c:231 mail/message-list.c:911
-msgid "Normal"
-msgstr "Normal"
-
-#: calendar/cal-util/cal-util.c:555 calendar/cal-util/cal-util.c:577
-#: calendar/gui/dialogs/task-details-page.glade.h:7
-#: calendar/gui/e-calendar-table.c:405 calendar/gui/e-tasks.c:233
-#: mail/message-list.c:910
-msgid "Low"
-msgstr "Düşük"
-
-#. An empty string is the same as 'None'.
-#: calendar/cal-util/cal-util.c:571
-#: calendar/gui/dialogs/task-details-page.glade.h:11
-#: calendar/gui/e-calendar-table.c:406
-msgid "Undefined"
-msgstr "Tanımsız"
+#: addressbook/util/eab-destination.c:675
+msgid "Unnamed List"
+msgstr "İsimsiz Liste"
 
 #: calendar/conduits/calendar/calendar-conduit.c:206
 msgid "Split Multi-Day Events:"
@@ -3783,11 +3156,11 @@ msgstr "Dinlenme zamanı (dakika)"
 msgid "_Edit appointment"
 msgstr "_Toplantıyı düzenle"
 
-#: calendar/gui/alarm-notify/alarm-queue.c:874
+#: calendar/gui/alarm-notify/alarm-queue.c:875
 msgid "No description available."
 msgstr "Açıklama yok."
 
-#: calendar/gui/alarm-notify/alarm-queue.c:892
+#: calendar/gui/alarm-notify/alarm-queue.c:893
 #, c-format
 msgid ""
 "Alarm on %s\n"
@@ -3796,12 +3169,12 @@ msgid ""
 "Ending at %s"
 msgstr ""
 
-#: calendar/gui/alarm-notify/alarm-queue.c:979
-#: calendar/gui/alarm-notify/alarm-queue.c:1003
+#: calendar/gui/alarm-notify/alarm-queue.c:980
+#: calendar/gui/alarm-notify/alarm-queue.c:1004
 msgid "Warning"
 msgstr "Uyarı"
 
-#: calendar/gui/alarm-notify/alarm-queue.c:983
+#: calendar/gui/alarm-notify/alarm-queue.c:984
 msgid ""
 "Evolution does not support calendar reminders with\n"
 "email notifications yet, but this reminder was\n"
@@ -3809,7 +3182,7 @@ msgid ""
 "a normal reminder dialog box instead."
 msgstr ""
 
-#: calendar/gui/alarm-notify/alarm-queue.c:1009
+#: calendar/gui/alarm-notify/alarm-queue.c:1010
 #, c-format
 msgid ""
 "An Evolution Calendar reminder is about to trigger. This reminder is "
@@ -3820,7 +3193,7 @@ msgid ""
 "Are you sure you want to run this program?"
 msgstr ""
 
-#: calendar/gui/alarm-notify/alarm-queue.c:1023
+#: calendar/gui/alarm-notify/alarm-queue.c:1024
 msgid "Do not ask me about this program again."
 msgstr "Tekrar sorma."
 
@@ -3888,8 +3261,8 @@ msgstr "%d %B %A %Y"
 
 #. strftime format %a = abbreviated weekday name, %d = day of month,
 #. %b = abbreviated month name. Don't use any other specifiers.
-#: calendar/gui/calendar-commands.c:534 calendar/gui/e-day-view-top-item.c:266
-#: calendar/gui/e-day-view.c:1363 calendar/gui/e-week-view-main-item.c:325
+#: calendar/gui/calendar-commands.c:534 calendar/gui/e-day-view-top-item.c:692
+#: calendar/gui/e-day-view.c:1359 calendar/gui/e-week-view-main-item.c:325
 msgid "%a %d %b"
 msgstr "%d %b %a"
 
@@ -3911,28 +3284,44 @@ msgstr "%d %B %Y"
 msgid "%d %B"
 msgstr "%d %B"
 
-#: calendar/gui/calendar-component.c:160
+#: calendar/gui/calendar-component.c:177
+#, c-format
+msgid "Calendar '%s' will be removed. Are you sure you want to continue?"
+msgstr ""
+
+#: calendar/gui/calendar-component.c:205
 #, fuzzy
 msgid "New Calendar"
 msgstr "Yeni Kaledonya"
 
-#: calendar/gui/calendar-component.c:362
+#: calendar/gui/calendar-component.c:207
+#, fuzzy
+msgid "Rename"
+msgstr "_Yeniden adlandır"
+
+#: calendar/gui/calendar-component.c:408
 msgid "On This Computer"
 msgstr ""
 
 #. orange
-#: calendar/gui/calendar-component.c:370 calendar/gui/migration.c:122
-#: filter/filter-label.c:123 mail/mail-config.c:67 mail/mail-config.glade.h:84
+#: calendar/gui/calendar-component.c:416 calendar/gui/migration.c:123
+#: calendar/gui/migration.c:146 filter/filter-label.c:123
+#: mail/mail-config.c:67 mail/mail-config.glade.h:83
 #: shell/e-config-upgrade.c:1456
 msgid "Personal"
 msgstr "Kişisel"
 
 #. red
-#: calendar/gui/calendar-component.c:377 filter/filter-label.c:122
+#: calendar/gui/calendar-component.c:423 filter/filter-label.c:122
 #: mail/mail-config.c:66 mail/mail-config.glade.h:129
 #: shell/e-config-upgrade.c:1455
 msgid "Work"
 msgstr "İş"
+
+#. create the remote source group
+#: calendar/gui/calendar-component.c:432
+msgid "On The Web"
+msgstr ""
 
 #: calendar/gui/calendar-offline-handler.c:190
 #, c-format
@@ -4125,7 +3514,7 @@ msgstr "randevu sonu"
 msgid "hour(s)"
 msgstr "saat"
 
-#: calendar/gui/dialogs/alarm-page.glade.h:15 mail/mail-config.glade.h:173
+#: calendar/gui/dialogs/alarm-page.glade.h:15 mail/mail-config.glade.h:174
 msgid "minute(s)"
 msgstr "dakika"
 
@@ -4481,8 +3870,8 @@ msgstr ""
 msgid "No summary"
 msgstr "Özet yok"
 
-#: calendar/gui/dialogs/comp-editor.c:1275 calendar/gui/e-cal-view.c:1033
-#: calendar/gui/e-calendar-table.c:1142 composer/e-msg-composer.c:1171
+#: calendar/gui/dialogs/comp-editor.c:1275 calendar/gui/e-cal-view.c:1043
+#: calendar/gui/e-calendar-table.c:1142 composer/e-msg-composer.c:1138
 msgid "Save as..."
 msgstr "Farklı kaydet..."
 
@@ -4711,10 +4100,10 @@ msgstr "B_aşlangıç tarihi:"
 #. an empty string is the same as 'None'
 #: calendar/gui/dialogs/meeting-page.c:312
 #: calendar/gui/dialogs/meeting-page.glade.h:2
-#: calendar/gui/e-cal-model-tasks.c:596 composer/e-msg-composer.c:2073
-#: mail/em-account-prefs.c:448 mail/em-folder-view.c:688
-#: mail/mail-account-gui.c:1259 mail/mail-account-gui.c:1680
-#: mail/mail-config.glade.h:76
+#: calendar/gui/e-cal-model-tasks.c:596 composer/e-msg-composer.c:2040
+#: mail/em-account-prefs.c:448 mail/em-folder-view.c:690
+#: mail/mail-account-gui.c:1259 mail/mail-account-gui.c:1749
+#: mail/mail-config.glade.h:75
 #: widgets/e-timezone-dialog/e-timezone-dialog.c:194
 #: widgets/misc/e-cell-date-edit.c:257 widgets/misc/e-dateedit.c:445
 #: widgets/misc/e-dateedit.c:1483 widgets/misc/e-dateedit.c:1598
@@ -4780,6 +4169,12 @@ msgstr "Üye"
 msgid "RSVP"
 msgstr "RSVP"
 
+#: calendar/gui/dialogs/meeting-page.etspec.h:9
+#: calendar/gui/e-meeting-list-view.c:256
+#: calendar/gui/e-meeting-time-sel.etspec.h:9
+msgid "Role"
+msgstr "Görev"
+
 #: calendar/gui/dialogs/meeting-page.etspec.h:10
 #: calendar/gui/e-calendar-table.etspec.h:14
 #: calendar/gui/e-meeting-list-view.c:270
@@ -4802,17 +4197,39 @@ msgstr "O_rganizatörü Değiştir"
 msgid "_Invite Others..."
 msgstr "_Başkalarını Davet Et..."
 
-#: calendar/gui/dialogs/new-calendar.c:47
+#: calendar/gui/dialogs/new-calendar.c:102
 #, c-format
 msgid "Source with name '%s' already exists in the selected group"
 msgstr ""
 
-#: calendar/gui/dialogs/new-calendar.c:58
+#: calendar/gui/dialogs/new-calendar.c:116
+#, c-format
+msgid ""
+"The group '%s' is remote. You must specify a location to get the calendar "
+"from"
+msgstr ""
+
+#: calendar/gui/dialogs/new-calendar.c:125
+#, fuzzy, c-format
+msgid "The source location '%s' is not well-formed."
+msgstr "`%s' yüklemek için gereken yöntem desteklenmiyor"
+
+#: calendar/gui/dialogs/new-calendar.c:138
+#, c-format
+msgid "The source location '%s' is not a webcal source."
+msgstr ""
+
+#: calendar/gui/dialogs/new-calendar.c:155
+#, fuzzy
+msgid "Could not create cache for new calendar"
+msgstr "%s dizini yaratılamadı: %s"
+
+#: calendar/gui/dialogs/new-calendar.c:174
 #, fuzzy
 msgid "Could not create directory for new calendar"
 msgstr "%s dizini yaratılamadı: %s"
 
-#: calendar/gui/dialogs/new-calendar.c:134
+#: calendar/gui/dialogs/new-calendar.c:254
 #, fuzzy
 msgid "A group must be selected"
 msgstr "Bir düzenleyen kişi olmak zorunda."
@@ -4834,31 +4251,41 @@ msgstr "iCalendar Hatası"
 
 #: calendar/gui/dialogs/new-calendar.glade.h:5
 #, fuzzy
+msgid "Calendar Location"
+msgstr "Takvim bilgisi"
+
+#: calendar/gui/dialogs/new-calendar.glade.h:6
+#, fuzzy
 msgid "Calendar Name"
 msgstr "Takvim"
 
-#: calendar/gui/dialogs/recur-comp.c:50
+#: calendar/gui/dialogs/recur-comp.c:51
 msgid "You are modifying a recurring event, what would you like to modify?"
 msgstr ""
 
-#: calendar/gui/dialogs/recur-comp.c:54
+#: calendar/gui/dialogs/recur-comp.c:55
 msgid "You are modifying a recurring task, what would you like to modify?"
 msgstr ""
 
-#: calendar/gui/dialogs/recur-comp.c:58
+#: calendar/gui/dialogs/recur-comp.c:59
 msgid ""
 "You are modifying a recurring journal entry, what would you like to modify?"
 msgstr ""
 
-#: calendar/gui/dialogs/recur-comp.c:72
+#: calendar/gui/dialogs/recur-comp.c:73
 msgid "This Instance Only"
 msgstr ""
 
-#: calendar/gui/dialogs/recur-comp.c:75
+#: calendar/gui/dialogs/recur-comp.c:77
+#, fuzzy
+msgid "This and Prior Instances"
+msgstr "Bu ve Bundan Sonraki Tekrarlamalar"
+
+#: calendar/gui/dialogs/recur-comp.c:83
 msgid "This and Future Instances"
 msgstr "Bu ve Bundan Sonraki Tekrarlamalar"
 
-#: calendar/gui/dialogs/recur-comp.c:77
+#: calendar/gui/dialogs/recur-comp.c:88
 msgid "All Instances"
 msgstr "Tüm Tekrarlamalar"
 
@@ -4984,7 +4411,7 @@ msgstr ""
 "\n"
 "Değişiklikleri kaydetmek istiyor musunuz?"
 
-#: calendar/gui/dialogs/save-comp.c:58 composer/e-msg-composer.c:1579
+#: calendar/gui/dialogs/save-comp.c:58 composer/e-msg-composer.c:1546
 msgid "_Discard Changes"
 msgstr "_Değişiklikleri Sil"
 
@@ -5026,12 +4453,30 @@ msgstr "Biten %"
 msgid "Completed"
 msgstr "Tamamlandı"
 
+#: calendar/gui/dialogs/task-details-page.glade.h:5
+#: calendar/gui/e-calendar-table.c:403 calendar/gui/e-tasks.c:229
+#: mail/message-list.c:912
+msgid "High"
+msgstr "Yüksek"
+
 #: calendar/gui/dialogs/task-details-page.glade.h:6
 #: calendar/gui/e-cal-model-tasks.c:321 calendar/gui/e-cal-model-tasks.c:600
 #: calendar/gui/e-cal-model-tasks.c:662 calendar/gui/e-calendar-table.c:477
 #: calendar/gui/e-tasks.c:205 calendar/gui/print.c:2315
 msgid "In Progress"
 msgstr "İşlemde"
+
+#: calendar/gui/dialogs/task-details-page.glade.h:7
+#: calendar/gui/e-calendar-table.c:405 calendar/gui/e-tasks.c:233
+#: mail/message-list.c:910
+msgid "Low"
+msgstr "Düşük"
+
+#: calendar/gui/dialogs/task-details-page.glade.h:8
+#: calendar/gui/e-cal-model.c:835 calendar/gui/e-calendar-table.c:404
+#: calendar/gui/e-tasks.c:231 mail/message-list.c:911
+msgid "Normal"
+msgstr "Normal"
 
 #: calendar/gui/dialogs/task-details-page.glade.h:9
 #: calendar/gui/e-cal-model-tasks.c:319 calendar/gui/e-cal-model-tasks.c:598
@@ -5043,6 +4488,11 @@ msgstr "Başlamadı"
 #: calendar/gui/dialogs/task-details-page.glade.h:10
 msgid "Progress"
 msgstr "İşlem"
+
+#: calendar/gui/dialogs/task-details-page.glade.h:11
+#: calendar/gui/e-calendar-table.c:406
+msgid "Undefined"
+msgstr "Tanımsız"
 
 #: calendar/gui/dialogs/task-details-page.glade.h:12
 #, fuzzy
@@ -5086,7 +4536,7 @@ msgstr "_Gizli"
 
 #: calendar/gui/dialogs/task-page.glade.h:6 calendar/gui/e-itip-control.c:1040
 #: calendar/gui/e-itip-control.glade.h:6 calendar/gui/e-tasks.c:245
-#: composer/e-msg-composer-attachment.glade.h:3 mail/mail-config.glade.h:43
+#: composer/e-msg-composer-attachment.glade.h:3 mail/mail-config.glade.h:42
 msgid "Description:"
 msgstr "Açıklama:"
 
@@ -5206,6 +4656,11 @@ msgstr "Özel"
 msgid "Confidential"
 msgstr "Gizli"
 
+#: calendar/gui/e-cal-list-view.etspec.h:1
+#: calendar/gui/e-calendar-table.etspec.h:4
+msgid "Categories"
+msgstr "Kategoriler"
+
 #: calendar/gui/e-cal-list-view.etspec.h:3
 #: calendar/gui/e-calendar-table.etspec.h:9
 #, fuzzy
@@ -5223,7 +4678,7 @@ msgid "Summary"
 msgstr "Özet"
 
 #: calendar/gui/e-cal-list-view.etspec.h:6
-#: calendar/gui/e-calendar-table.etspec.h:19 mail/mail-config.glade.h:171
+#: calendar/gui/e-calendar-table.etspec.h:19 mail/mail-config.glade.h:172
 msgid "color"
 msgstr "rengi ile tanımla"
 
@@ -5291,8 +4746,8 @@ msgstr "Hayır"
 #: calendar/gui/e-meeting-model.c:252 calendar/gui/e-meeting-model.c:317
 #: calendar/gui/e-meeting-model.c:754 calendar/gui/e-meeting-model.c:770
 #: calendar/gui/e-meeting-store.c:115 calendar/gui/e-meeting-store.c:150
-#: calendar/gui/e-meeting-store.c:215 camel/camel-gpg-context.c:1546
-#: camel/camel-gpg-context.c:1597 camel/camel-tcp-stream-openssl.c:631
+#: calendar/gui/e-meeting-store.c:215 camel/camel-gpg-context.c:1619
+#: camel/camel-gpg-context.c:1670 camel/camel-tcp-stream-openssl.c:631
 #: camel/providers/smtp/camel-smtp-transport.c:172
 #: camel/providers/smtp/camel-smtp-transport.c:227 mail/em-utils.c:1902
 #: widgets/misc/e-charset-picker.c:60
@@ -5307,33 +4762,33 @@ msgstr "Tekrarlama"
 msgid "Assigned"
 msgstr "Görevlendirildi"
 
-#: calendar/gui/e-cal-view.c:383 calendar/gui/e-calendar-table.c:1348
+#: calendar/gui/e-cal-view.c:393 calendar/gui/e-calendar-table.c:1348
 msgid "Updating objects"
 msgstr "Öğeler güncelleniyor"
 
-#: calendar/gui/e-cal-view.c:729 calendar/gui/e-calendar-table.c:724
+#: calendar/gui/e-cal-view.c:739 calendar/gui/e-calendar-table.c:724
 msgid "Deleting selected objects"
 msgstr "Seçilen bağlantılar siliniyor"
 
-#: calendar/gui/e-cal-view.c:1240 calendar/gui/e-cal-view.c:1329
+#: calendar/gui/e-cal-view.c:1250 calendar/gui/e-cal-view.c:1339
 msgid "New _Appointment..."
 msgstr "Yeni _Randevu..."
 
-#: calendar/gui/e-cal-view.c:1241 calendar/gui/e-cal-view.c:1331
+#: calendar/gui/e-cal-view.c:1251 calendar/gui/e-cal-view.c:1341
 #: ui/evolution-calendar.xml.h:23
 msgid "New All Day _Event"
 msgstr "Y_eni Tüm Gün Olayı"
 
-#: calendar/gui/e-cal-view.c:1242 calendar/gui/e-cal-view.c:1333
+#: calendar/gui/e-cal-view.c:1252 calendar/gui/e-cal-view.c:1343
 msgid "New Meeting"
 msgstr "Yeni Toplantı"
 
-#: calendar/gui/e-cal-view.c:1243 calendar/gui/e-cal-view.c:1335
+#: calendar/gui/e-cal-view.c:1253 calendar/gui/e-cal-view.c:1345
 msgid "New Task"
 msgstr "Yeni Görev"
 
-#: calendar/gui/e-cal-view.c:1247 calendar/gui/e-cal-view.c:1274
-#: calendar/gui/e-cal-view.c:1341 calendar/gui/e-calendar-table.c:993
+#: calendar/gui/e-cal-view.c:1257 calendar/gui/e-cal-view.c:1284
+#: calendar/gui/e-cal-view.c:1351 calendar/gui/e-calendar-table.c:993
 #: calendar/gui/e-calendar-table.c:1035 ui/evolution-addressbook.xml.h:38
 #: ui/evolution-calendar.xml.h:47 ui/evolution-comp-editor.xml.h:19
 #: ui/evolution-contact-editor.xml.h:17 ui/evolution-mail-message.xml.h:116
@@ -5341,74 +4796,74 @@ msgstr "Yeni Görev"
 msgid "_Print..."
 msgstr "_Yazdır..."
 
-#: calendar/gui/e-cal-view.c:1251 calendar/gui/e-cal-view.c:1281
-#: calendar/gui/e-cal-view.c:1339 calendar/gui/e-calendar-table.c:999
+#: calendar/gui/e-cal-view.c:1261 calendar/gui/e-cal-view.c:1291
+#: calendar/gui/e-cal-view.c:1349 calendar/gui/e-calendar-table.c:999
 #: calendar/gui/e-calendar-table.c:1033 ui/evolution-addressbook.xml.h:37
 #: ui/evolution-calendar.xml.h:46 ui/evolution-composer-entries.xml.h:9
 #: ui/evolution-mail-message.xml.h:114 ui/evolution-tasks.xml.h:20
 msgid "_Paste"
 msgstr "_Yapıştır"
 
-#: calendar/gui/e-cal-view.c:1257 calendar/gui/e-cal-view.c:1325
+#: calendar/gui/e-cal-view.c:1267 calendar/gui/e-cal-view.c:1335
 #: ui/evolution-calendar.xml.h:18
 msgid "Go to _Today"
 msgstr "_Bugüne Git"
 
-#: calendar/gui/e-cal-view.c:1258 calendar/gui/e-cal-view.c:1327
+#: calendar/gui/e-cal-view.c:1268 calendar/gui/e-cal-view.c:1337
 msgid "_Go to Date..."
 msgstr "_Güne Git..."
 
-#: calendar/gui/e-cal-view.c:1262 ui/evolution-calendar.xml.h:48
+#: calendar/gui/e-cal-view.c:1272 ui/evolution-calendar.xml.h:48
 msgid "_Publish Free/Busy Information"
 msgstr "_Boş/Meşgul Bilgisini Yayınla"
 
-#: calendar/gui/e-cal-view.c:1266 calendar/gui/e-cal-view.c:1345
+#: calendar/gui/e-cal-view.c:1276 calendar/gui/e-cal-view.c:1355
 #: ui/evolution.xml.h:28
 msgid "_Settings..."
 msgstr "_Ayarlar..."
 
-#: calendar/gui/e-cal-view.c:1272 calendar/gui/e-cal-view.c:1337
+#: calendar/gui/e-cal-view.c:1282 calendar/gui/e-cal-view.c:1347
 #: calendar/gui/e-calendar-table.c:990 calendar/gui/e-calendar-table.c:1031
-#: mail/em-folder-view.c:656 shell/e-shortcuts-view.c:422
+#: mail/em-folder-view.c:658 shell/e-shortcuts-view.c:422
 #: ui/evolution-addressbook.xml.h:36
 msgid "_Open"
 msgstr "_Aç"
 
-#: calendar/gui/e-cal-view.c:1273 calendar/gui/e-cal-view.c:1343
+#: calendar/gui/e-cal-view.c:1283 calendar/gui/e-cal-view.c:1353
 #: calendar/gui/e-calendar-table.c:992 calendar/gui/e-calendar-table.c:1037
-#: mail/em-folder-view.c:658 mail/em-popup.c:584 mail/em-popup.c:640
+#: mail/em-folder-view.c:660 mail/em-popup.c:584 mail/em-popup.c:640
 #: ui/evolution-mail-message.xml.h:120
 msgid "_Save As..."
 msgstr "_Farklı Kaydet..."
 
-#: calendar/gui/e-cal-view.c:1279 calendar/gui/e-cal-view.c:1319
+#: calendar/gui/e-cal-view.c:1289 calendar/gui/e-cal-view.c:1329
 #: calendar/gui/e-calendar-table.c:997 calendar/gui/e-calendar-table.c:1026
 #: ui/evolution-addressbook.xml.h:1 ui/evolution-calendar.xml.h:1
 #: ui/evolution-tasks.xml.h:1
 msgid "C_ut"
 msgstr "_Kes"
 
-#: calendar/gui/e-cal-view.c:1280 calendar/gui/e-cal-view.c:1317
+#: calendar/gui/e-cal-view.c:1290 calendar/gui/e-cal-view.c:1327
 #: calendar/gui/e-calendar-table.c:998 calendar/gui/e-calendar-table.c:1024
-#: mail/mail-component.c:2089 ui/evolution-addressbook.xml.h:30
+#: mail/mail-component.c:2083 ui/evolution-addressbook.xml.h:30
 #: ui/evolution-calendar.xml.h:43 ui/evolution-composer-entries.xml.h:7
 #: ui/evolution-mail-message.xml.h:101 ui/evolution-tasks.xml.h:17
 msgid "_Copy"
 msgstr "_Kopyala"
 
-#: calendar/gui/e-cal-view.c:1285
+#: calendar/gui/e-cal-view.c:1295
 msgid "_Schedule Meeting..."
 msgstr "_Toplantı Tarihi Ayarla..."
 
-#: calendar/gui/e-cal-view.c:1286
+#: calendar/gui/e-cal-view.c:1296
 msgid "_Forward as iCalendar..."
 msgstr "_iCalendar olarak Yönlendir..."
 
-#: calendar/gui/e-cal-view.c:1291 calendar/gui/e-cal-view.c:1322
+#: calendar/gui/e-cal-view.c:1301 calendar/gui/e-cal-view.c:1332
 msgid "Delete this _Occurrence"
 msgstr "_Bu Oluşumu Sil"
 
-#: calendar/gui/e-cal-view.c:1292 calendar/gui/e-cal-view.c:1323
+#: calendar/gui/e-cal-view.c:1302 calendar/gui/e-cal-view.c:1333
 msgid "Delete _All Occurrences"
 msgstr "_Tüm Oluşumları Sil"
 
@@ -5554,26 +5009,26 @@ msgstr "%02i dakika bölmeleri"
 
 #. strftime format %A = full weekday name, %d = day of month,
 #. %B = full month name. Don't use any other specifiers.
-#: calendar/gui/e-day-view-top-item.c:262 calendar/gui/e-day-view.c:1346
+#: calendar/gui/e-day-view-top-item.c:688 calendar/gui/e-day-view.c:1342
 #: calendar/gui/e-week-view-main-item.c:316 calendar/gui/print.c:1534
 msgid "%A %d %B"
 msgstr "%d %B %A"
 
 #. strftime format %d = day of month, %b = abbreviated month name.
 #. Don't use any other specifiers.
-#: calendar/gui/e-day-view-top-item.c:270 calendar/gui/e-day-view.c:1379
+#: calendar/gui/e-day-view-top-item.c:696 calendar/gui/e-day-view.c:1375
 #: calendar/gui/e-week-view-main-item.c:339
 msgid "%d %b"
 msgstr "%d %b"
 
 #. String to use in 12-hour time format for times in the morning.
-#: calendar/gui/e-day-view.c:600 calendar/gui/e-week-view.c:325
+#: calendar/gui/e-day-view.c:596 calendar/gui/e-week-view.c:325
 #: calendar/gui/print.c:819
 msgid "am"
 msgstr "öö"
 
 #. String to use in 12-hour time format for times in the afternoon.
-#: calendar/gui/e-day-view.c:603 calendar/gui/e-week-view.c:328
+#: calendar/gui/e-day-view.c:599 calendar/gui/e-week-view.c:328
 #: calendar/gui/print.c:821
 msgid "pm"
 msgstr "ös"
@@ -6297,7 +5752,7 @@ msgstr "Siliniyor"
 #: calendar/gui/e-tasks.c:1032
 #: calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:12
 #: calendar/gui/print.c:1797 calendar/gui/tasks-control.c:487
-#: calendar/importers/icalendar-importer.c:710
+#: calendar/importers/icalendar-importer.c:713
 #: mail/importers/netscape-importer.c:1845 shell/e-local-storage.c:183
 #: shell/e-shortcuts.c:1086
 msgid "Tasks"
@@ -6501,6 +5956,130 @@ msgstr "iCalendar bilgisi"
 msgid "You must be an attendee of the event."
 msgstr "Bu olayda bir katılımcı olarak görünmeniz gerekiyor."
 
+#: calendar/gui/print.c:477
+msgid "1st"
+msgstr "1."
+
+#: calendar/gui/print.c:477
+msgid "2nd"
+msgstr "2."
+
+#: calendar/gui/print.c:477
+msgid "3rd"
+msgstr "3."
+
+#: calendar/gui/print.c:477
+msgid "4th"
+msgstr "4."
+
+#: calendar/gui/print.c:477
+msgid "5th"
+msgstr "5."
+
+#: calendar/gui/print.c:478
+msgid "6th"
+msgstr "6."
+
+#: calendar/gui/print.c:478
+msgid "7th"
+msgstr "7."
+
+#: calendar/gui/print.c:478
+msgid "8th"
+msgstr "8."
+
+#: calendar/gui/print.c:478
+msgid "9th"
+msgstr "8."
+
+#: calendar/gui/print.c:478
+msgid "10th"
+msgstr "10."
+
+#: calendar/gui/print.c:479
+msgid "11th"
+msgstr "11."
+
+#: calendar/gui/print.c:479
+msgid "12th"
+msgstr "12."
+
+#: calendar/gui/print.c:479
+msgid "13th"
+msgstr "13."
+
+#: calendar/gui/print.c:479
+msgid "14th"
+msgstr "14."
+
+#: calendar/gui/print.c:479
+msgid "15th"
+msgstr "15."
+
+#: calendar/gui/print.c:480
+msgid "16th"
+msgstr "16."
+
+#: calendar/gui/print.c:480
+msgid "17th"
+msgstr "17."
+
+#: calendar/gui/print.c:480
+msgid "18th"
+msgstr "18."
+
+#: calendar/gui/print.c:480
+msgid "19th"
+msgstr "19."
+
+#: calendar/gui/print.c:480
+msgid "20th"
+msgstr "20."
+
+#: calendar/gui/print.c:481
+msgid "21st"
+msgstr "21."
+
+#: calendar/gui/print.c:481
+msgid "22nd"
+msgstr "22."
+
+#: calendar/gui/print.c:481
+msgid "23rd"
+msgstr "23."
+
+#: calendar/gui/print.c:481
+msgid "24th"
+msgstr "24."
+
+#: calendar/gui/print.c:481
+msgid "25th"
+msgstr "25."
+
+#: calendar/gui/print.c:482
+msgid "26th"
+msgstr "26."
+
+#: calendar/gui/print.c:482
+msgid "27th"
+msgstr "27."
+
+#: calendar/gui/print.c:482
+msgid "28th"
+msgstr "28."
+
+#: calendar/gui/print.c:482
+msgid "29th"
+msgstr "29."
+
+#: calendar/gui/print.c:482
+msgid "30th"
+msgstr "39."
+
+#: calendar/gui/print.c:483
+msgid "31st"
+msgstr "31."
+
 #: calendar/gui/print.c:557
 msgid "Su"
 msgstr "Pz"
@@ -6657,15 +6236,15 @@ msgstr "iCalendar dosyaları (.ics)"
 msgid "vCalendar files (.vcf)"
 msgstr "vCalendar dosyaları (.vcf)"
 
-#: calendar/importers/icalendar-importer.c:463
+#: calendar/importers/icalendar-importer.c:466
 msgid "Reminder!!"
 msgstr "Hatırlatıcı!!"
 
-#: calendar/importers/icalendar-importer.c:703
+#: calendar/importers/icalendar-importer.c:706
 msgid "Calendar Events"
 msgstr "Takvim Olayları"
 
-#: calendar/importers/icalendar-importer.c:728
+#: calendar/importers/icalendar-importer.c:731
 msgid ""
 "Evolution has found Gnome Calendar files.\n"
 "Would you like to import them into Evolution?"
@@ -6673,130 +6252,9 @@ msgstr ""
 "Evolution, Gnome Takvim dosyaları buldu.\n"
 "Bunların Evolution'a aktarılmasını istiyor musunuz?"
 
-#: calendar/importers/icalendar-importer.c:735
+#: calendar/importers/icalendar-importer.c:738
 msgid "Gnome Calendar"
 msgstr "Gnome Takvimi"
-
-#: calendar/pcs/cal-backend-file.c:175
-msgid "Can't save calendar data: Malformed URI."
-msgstr "Takvim verisi kaydedilemedi. Hatalı URI."
-
-#: calendar/pcs/cal-backend-object-sexp.c:50
-msgid "time-now expects 0 arguments"
-msgstr "time-now hiç argüman istemiyor"
-
-#: calendar/pcs/cal-backend-object-sexp.c:74
-msgid "make-time expects 1 argument"
-msgstr "make-time 1 argüman istiyor"
-
-#: calendar/pcs/cal-backend-object-sexp.c:79
-msgid "make-time expects argument 1 to be a string"
-msgstr "make-time için birinci argüman bir dizi olmalıdır."
-
-#: calendar/pcs/cal-backend-object-sexp.c:87
-msgid "make-time argument 1 must be an ISO 8601 date/time string"
-msgstr "make-time 1. argümanı ISO 8601 tarih/saat bilgisi olmalıdır"
-
-#: calendar/pcs/cal-backend-object-sexp.c:116
-msgid "time-add-day expects 2 arguments"
-msgstr "time-add-day 2 argüman istiyor"
-
-#: calendar/pcs/cal-backend-object-sexp.c:121
-msgid "time-add-day expects argument 1 to be a time_t"
-msgstr ""
-
-#: calendar/pcs/cal-backend-object-sexp.c:128
-msgid "time-add-day expects argument 2 to be an integer"
-msgstr "time-add-day 2. argümanı bir sayı istiyor"
-
-#: calendar/pcs/cal-backend-object-sexp.c:155
-msgid "time-day-begin expects 1 argument"
-msgstr "time-day-begin bir argüman istiyor"
-
-#: calendar/pcs/cal-backend-object-sexp.c:160
-msgid "time-day-begin expects argument 1 to be a time_t"
-msgstr "time-day-begin birinci argümanı time_t biçiminde istiyor"
-
-#: calendar/pcs/cal-backend-object-sexp.c:187
-msgid "time-day-end expects 1 argument"
-msgstr "time-day-end bir argüman istiyor"
-
-#: calendar/pcs/cal-backend-object-sexp.c:192
-msgid "time-day-end expects argument 1 to be a time_t"
-msgstr "time-day-end birinci argümanı time_t biçiminde istiyor"
-
-#: calendar/pcs/cal-backend-object-sexp.c:220
-msgid "get-vtype expects 0 arguments"
-msgstr "get-vtype hiç argüman istemiyor"
-
-#: calendar/pcs/cal-backend-object-sexp.c:280
-msgid "occur-in-time-range? expects 2 arguments"
-msgstr "ocrur-in-time-range? iki argüman istiyor"
-
-#: calendar/pcs/cal-backend-object-sexp.c:285
-#, fuzzy
-msgid "occur-in-time-range? expects argument 1 to be a time_t"
-msgstr "time-day-end birinci argümanı time_t biçiminde istiyor"
-
-#: calendar/pcs/cal-backend-object-sexp.c:292
-#, fuzzy
-msgid "occur-in-time-range? expects argument 2 to be a time_t"
-msgstr "time-day-end birinci argümanı time_t biçiminde istiyor"
-
-#: calendar/pcs/cal-backend-object-sexp.c:436
-msgid "contains? expects 2 arguments"
-msgstr "contains? iki argüman istiyor"
-
-#: calendar/pcs/cal-backend-object-sexp.c:441
-msgid "contains? expects argument 1 to be a string"
-msgstr "contains? birinci argümanı dizgi şeklinde istiyor"
-
-#: calendar/pcs/cal-backend-object-sexp.c:448
-msgid "contains? expects argument 2 to be a string"
-msgstr "contains? ikinci argümanı dizgi şeklinde istiyor"
-
-#: calendar/pcs/cal-backend-object-sexp.c:465
-#, fuzzy
-msgid ""
-"contains? expects argument 1 to be one of \"any\", \"summary\", \"description"
-"\""
-msgstr "contains? birinci argümanı dizgi şeklinde istiyor"
-
-#: calendar/pcs/cal-backend-object-sexp.c:492
-#, fuzzy
-msgid "has-alarms? expects at least 1 argument"
-msgstr "make-time 1 argüman istiyor"
-
-#: calendar/pcs/cal-backend-object-sexp.c:497
-#, fuzzy
-msgid "has-alarms? excepts argument to be a boolean"
-msgstr "contains? ikinci argümanı dizgi şeklinde istiyor"
-
-#: calendar/pcs/cal-backend-object-sexp.c:537
-#, fuzzy
-msgid "has-categories? expects at least 1 argument"
-msgstr "make-time 1 argüman istiyor"
-
-#: calendar/pcs/cal-backend-object-sexp.c:549
-msgid ""
-"has-categories? expects all arguments to be strings or one and only one "
-"argument to be a boolean false (#f)"
-msgstr ""
-
-#: calendar/pcs/cal-backend-object-sexp.c:629
-#, fuzzy
-msgid "is-completed? expects 0 arguments"
-msgstr "time-now hiç argüman istemiyor"
-
-#: calendar/pcs/cal-backend-object-sexp.c:666
-#, fuzzy
-msgid "completed-before? expects 1 argument"
-msgstr "time-day-begin bir argüman istiyor"
-
-#: calendar/pcs/cal-backend-object-sexp.c:671
-#, fuzzy
-msgid "completed-before? expects argument 1 to be a time_t"
-msgstr "time-day-begin birinci argümanı time_t biçiminde istiyor"
 
 #.
 #. * These are the timezone names from the Olson timezone data.
@@ -8327,28 +7785,28 @@ msgstr "Pacific/Wallis"
 msgid "Pacific/Yap"
 msgstr "Pacific/Yap"
 
-#: camel/camel-cipher-context.c:92
+#: camel/camel-cipher-context.c:99
 msgid "Signing is not supported by this cipher"
 msgstr "Bu şifreleme ile imza desteklenmiyor"
 
-#: camel/camel-cipher-context.c:131
+#: camel/camel-cipher-context.c:139
 msgid "Verifying is not supported by this cipher"
 msgstr "Bu şifreleme ile onaylama desteklenmiyor"
 
-#: camel/camel-cipher-context.c:173
+#: camel/camel-cipher-context.c:181
 msgid "Encryption is not supported by this cipher"
 msgstr "Bu şifre ile şifreleme desteklenmiyor"
 
-#: camel/camel-cipher-context.c:212
+#: camel/camel-cipher-context.c:220
 msgid "Decryption is not supported by this cipher"
 msgstr "Bu şifreleme ile geriye dönük şifreleme desteklenmiyor"
 
-#: camel/camel-cipher-context.c:248
+#: camel/camel-cipher-context.c:256
 #, fuzzy
 msgid "You may not import keys with this cipher"
 msgstr "Bu şifreleme ile geriye dönük şifreleme desteklenmiyor"
 
-#: camel/camel-cipher-context.c:278
+#: camel/camel-cipher-context.c:286
 #, fuzzy
 msgid "You may not export keys with this cipher"
 msgstr "Bu şifreleme ile geriye dönük şifreleme desteklenmiyor"
@@ -8537,7 +7995,7 @@ msgstr "İletiler kopyalanıyor"
 msgid "Filtering new message(s)"
 msgstr "%d ileti alınıyor"
 
-#: camel/camel-gpg-context.c:686
+#: camel/camel-gpg-context.c:696
 #, c-format
 msgid ""
 "Unexpected GnuPG status message encountered:\n"
@@ -8548,45 +8006,45 @@ msgstr ""
 "\n"
 "%s"
 
-#: camel/camel-gpg-context.c:701
+#: camel/camel-gpg-context.c:710
 msgid "Failed to parse gpg userid hint."
 msgstr ""
 
-#: camel/camel-gpg-context.c:726
+#: camel/camel-gpg-context.c:735
 msgid "Failed to parse gpg passphrase request."
 msgstr ""
 
-#: camel/camel-gpg-context.c:734
+#: camel/camel-gpg-context.c:743
 #, c-format
 msgid ""
 "You need a passphrase to unlock the key for\n"
 "user: \"%s\""
 msgstr ""
 
-#: camel/camel-gpg-context.c:745 camel/camel-gpg-context.c:1223
-#: camel/camel-gpg-context.c:1342 camel/camel-gpg-context.c:1427
-#: camel/camel-gpg-context.c:1497 mail/mail-send-recv.c:575
+#: camel/camel-gpg-context.c:763 camel/camel-gpg-context.c:1253
+#: camel/camel-gpg-context.c:1388 camel/camel-gpg-context.c:1465
+#: camel/camel-gpg-context.c:1570 mail/mail-send-recv.c:575
 msgid "Cancelled."
 msgstr "İptal edildi."
 
-#: camel/camel-gpg-context.c:763
+#: camel/camel-gpg-context.c:781
 msgid "Failed to unlock secret key: 3 bad passphrases given."
 msgstr ""
 
-#: camel/camel-gpg-context.c:769
+#: camel/camel-gpg-context.c:787
 #, fuzzy, c-format
 msgid "Unexpected response from GnuPG: %s"
 msgstr "POP sunucusundan beklenmeyen cevap: %s"
 
-#: camel/camel-gpg-context.c:781
+#: camel/camel-gpg-context.c:799
 msgid "No data provided"
 msgstr "Veri sunulmadı"
 
-#: camel/camel-gpg-context.c:819
+#: camel/camel-gpg-context.c:837
 msgid "Failed to encrypt: No valid recipients specified."
 msgstr ""
 
-#: camel/camel-gpg-context.c:1096
+#: camel/camel-gpg-context.c:1114
 #, c-format
 msgid ""
 "Failed to GPG %s: %s\n"
@@ -8597,34 +8055,48 @@ msgstr ""
 "\n"
 "%s"
 
-#: camel/camel-gpg-context.c:1101
+#: camel/camel-gpg-context.c:1119
 #, c-format
 msgid "Failed to GPG %s: %s\n"
 msgstr "%s verisi üzerinde GPG işlemi uygulanamadı: %s\n"
 
-#: camel/camel-gpg-context.c:1216 camel/camel-gpg-context.c:1545
-#: camel/camel-gpg-context.c:1596
+#: camel/camel-gpg-context.c:1232 camel/camel-smime-context.c:351
+#, fuzzy, c-format
+msgid "Could not generate signing data: %s"
+msgstr "Veri yazılamadı: %s."
+
+#: camel/camel-gpg-context.c:1246 camel/camel-gpg-context.c:1618
+#: camel/camel-gpg-context.c:1669
 #, c-format
 msgid "Failed to execute gpg: %s"
 msgstr "gpg çalıştırılamadı: %s"
 
-#: camel/camel-gpg-context.c:1240 camel/camel-gpg-context.c:1334
-#: camel/camel-gpg-context.c:1420 camel/camel-gpg-context.c:1443
-#: camel/camel-gpg-context.c:1490 camel/camel-gpg-context.c:1514
-#: camel/camel-gpg-context.c:1567 camel/camel-gpg-context.c:1618
+#: camel/camel-gpg-context.c:1270 camel/camel-gpg-context.c:1380
+#: camel/camel-gpg-context.c:1458 camel/camel-gpg-context.c:1481
+#: camel/camel-gpg-context.c:1563 camel/camel-gpg-context.c:1587
+#: camel/camel-gpg-context.c:1640 camel/camel-gpg-context.c:1691
 msgid "Failed to execute gpg."
 msgstr "gpg çalıştırılamadı."
 
-#: camel/camel-gpg-context.c:1257
+#: camel/camel-gpg-context.c:1289
 msgid "This is a digitally signed message part"
 msgstr ""
 
-#: camel/camel-gpg-context.c:1319
+#: camel/camel-gpg-context.c:1365
 #, c-format
 msgid "Cannot verify message signature: could not create temp file: %s"
 msgstr ""
 
-#: camel/camel-gpg-context.c:1522
+#: camel/camel-gpg-context.c:1441
+#, fuzzy, c-format
+msgid "Could not generate encrypting data: %s"
+msgstr "Veri yazılamadı: %s."
+
+#: camel/camel-gpg-context.c:1499
+msgid "This is a digitally encrypted message part"
+msgstr ""
+
+#: camel/camel-gpg-context.c:1595
 #, fuzzy
 msgid "Unable to parse message content"
 msgstr "%s üzerindeki POP sunucusundan iletiler alınamadı: "
@@ -8725,15 +8197,15 @@ msgstr "Geçici mektup dosyasına yazarken hata: %s"
 msgid "Error copying mail temp file: %s"
 msgstr "Geçici mektup dosyasına yazarken hata: %s"
 
-#: camel/camel-multipart-encrypted.c:224 camel/camel-multipart-encrypted.c:239
+#: camel/camel-multipart-encrypted.c:228 camel/camel-multipart-encrypted.c:243
 msgid "Failed to decrypt MIME part: protocol error"
 msgstr ""
 
-#: camel/camel-multipart-encrypted.c:252
+#: camel/camel-multipart-encrypted.c:256
 msgid "Failed to decrypt MIME part: invalid structure"
 msgstr ""
 
-#: camel/camel-multipart-signed.c:685
+#: camel/camel-multipart-signed.c:687
 msgid "parse error"
 msgstr "ayrıştırma hatası"
 
@@ -9057,59 +8529,59 @@ msgstr ""
 "%s dizini yaratılamadı:\n"
 "%s"
 
-#: camel/camel-smime-context.c:158
+#: camel/camel-smime-context.c:167
 #, fuzzy, c-format
 msgid "Enter security pass-phrase for `%s'"
 msgstr "Lütfen parolanızı girin: "
 
-#: camel/camel-smime-context.c:431
+#: camel/camel-smime-context.c:446
 #, fuzzy
 msgid "Unverified"
 msgstr "Tanımsız"
 
-#: camel/camel-smime-context.c:433
+#: camel/camel-smime-context.c:448
 #, fuzzy
 msgid "Good signature"
 msgstr "İmzayi düzenle"
 
-#: camel/camel-smime-context.c:435
+#: camel/camel-smime-context.c:450
 #, fuzzy
 msgid "Bad signature"
 msgstr "İmzayi düzenle"
 
-#: camel/camel-smime-context.c:437
+#: camel/camel-smime-context.c:452
 msgid "Content tampered with or altered in transit"
 msgstr ""
 
-#: camel/camel-smime-context.c:439
+#: camel/camel-smime-context.c:454
 #, fuzzy
 msgid "Signing certificate not found"
 msgstr "Yapılandırma Veritabanı bulunamadı"
 
-#: camel/camel-smime-context.c:441
+#: camel/camel-smime-context.c:456
 #, fuzzy
 msgid "Signing certificate not trusted"
 msgstr "Sertifika Otoritesi Güvenilir Değil"
 
-#: camel/camel-smime-context.c:443
+#: camel/camel-smime-context.c:458
 msgid "Signature algorithm unknown"
 msgstr ""
 
-#: camel/camel-smime-context.c:445
+#: camel/camel-smime-context.c:460
 msgid "Siganture algorithm unsupported"
 msgstr ""
 
-#: camel/camel-smime-context.c:447
+#: camel/camel-smime-context.c:462
 #, fuzzy
 msgid "Malformed signature"
 msgstr "İmzayı kaydet"
 
-#: camel/camel-smime-context.c:449
+#: camel/camel-smime-context.c:464
 #, fuzzy
 msgid "Processing error"
 msgstr "Ayrıştırma hatası"
 
-#: camel/camel-smime-context.c:578
+#: camel/camel-smime-context.c:593
 #, fuzzy, c-format
 msgid "Signer: %s <%s>: %s\n"
 msgstr "Sunucu: %s, Tür: %s"
@@ -9537,7 +9009,7 @@ msgstr "IMAP sunucuları ileti alma ve göndermede kullanmak için"
 #: camel/providers/imap/camel-imap-provider.c:82
 #: camel/providers/imapp/camel-imapp-provider.c:65
 #: camel/providers/nntp/camel-nntp-store.c:265
-#: camel/providers/pop3/camel-pop3-provider.c:71 mail/mail-config.glade.h:83
+#: camel/providers/pop3/camel-pop3-provider.c:71 mail/mail-config.glade.h:82
 msgid "Password"
 msgstr "Parola"
 
@@ -9616,7 +9088,7 @@ msgid "IMAP server %s does not support requested authentication type %s"
 msgstr "%s IMAP sunucusu %s kimlik sınama yöntemini desteklemiyor"
 
 #: camel/providers/imap/camel-imap-store.c:1257
-#: camel/providers/smtp/camel-smtp-transport.c:495
+#: camel/providers/smtp/camel-smtp-transport.c:486
 #, c-format
 msgid "No support for authentication type %s"
 msgstr "%s kimlik sınama yöntemi desteklenmiyor"
@@ -10068,7 +9540,7 @@ msgstr "Kaynak dizin %s açılamadı: %s"
 msgid "Could not close temp folder: %s"
 msgstr "geçici dizin kapatılamadı: %s"
 
-#: camel/providers/local/camel-mbox-summary.c:560 mail/mail-component.c:1891
+#: camel/providers/local/camel-mbox-summary.c:560 mail/mail-component.c:1885
 #, c-format
 msgid "Could not rename folder: %s"
 msgstr "Dizinin adı değiştirilemedi: %s"
@@ -10353,7 +9825,7 @@ msgstr "%s günden sonra sil"
 msgid "Disable support for all POP3 extensions"
 msgstr ""
 
-#: camel/providers/pop3/camel-pop3-provider.c:54 mail/mail-config.glade.h:82
+#: camel/providers/pop3/camel-pop3-provider.c:54 mail/mail-config.glade.h:81
 msgid "POP"
 msgstr "POP"
 
@@ -10440,7 +9912,7 @@ msgid "No such folder `%s'."
 msgstr "Bu isimde bir dizin yok: `%s'"
 
 #: camel/providers/sendmail/camel-sendmail-provider.c:36
-#: mail/mail-config.glade.h:107
+#: mail/mail-config.glade.h:106
 msgid "Sendmail"
 msgstr "Sendmail"
 
@@ -10493,7 +9965,7 @@ msgstr "sendmail"
 msgid "Mail delivery via the sendmail program"
 msgstr "Sendmail üzerinden ileti gönderimi"
 
-#: camel/providers/smtp/camel-smtp-provider.c:37 mail/mail-config.glade.h:99
+#: camel/providers/smtp/camel-smtp-provider.c:37 mail/mail-config.glade.h:98
 msgid "SMTP"
 msgstr "SMTP"
 
@@ -10597,40 +10069,44 @@ msgstr "İstenen kimlik sınama yöntemi için şifreleme gerekiyor"
 msgid "Temporary authentication failure"
 msgstr "Geçici kimlik denetim hatası"
 
+#: camel/providers/smtp/camel-smtp-transport.c:224
+msgid "Authentication required"
+msgstr "Kimlik denetimi isteniyor"
+
 #: camel/providers/smtp/camel-smtp-transport.c:308
 msgid "Welcome response error"
 msgstr "Karşılama cevabı hatası"
 
-#: camel/providers/smtp/camel-smtp-transport.c:352
-#: camel/providers/smtp/camel-smtp-transport.c:391
+#: camel/providers/smtp/camel-smtp-transport.c:343
+#: camel/providers/smtp/camel-smtp-transport.c:382
 #, c-format
 msgid "Failed to connect to SMTP server %s in secure mode: %s"
 msgstr "%s SMTP sunucusuna güvenli kipte bağlantı kurulamadı: %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:353
+#: camel/providers/smtp/camel-smtp-transport.c:344
 msgid "server does not appear to support SSL"
 msgstr "Sunucu SSL desteklemiyor"
 
-#: camel/providers/smtp/camel-smtp-transport.c:367
+#: camel/providers/smtp/camel-smtp-transport.c:358
 #, c-format
 msgid "STARTTLS request timed out: %s"
 msgstr "START TLS isteği zaman aşımına uğradı: %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:382
+#: camel/providers/smtp/camel-smtp-transport.c:373
 msgid "STARTTLS response error"
 msgstr "STARTTLS cevap hatası"
 
-#: camel/providers/smtp/camel-smtp-transport.c:485
+#: camel/providers/smtp/camel-smtp-transport.c:476
 #, fuzzy, c-format
 msgid "SMTP server %s does not support requested authentication type %s."
 msgstr "%s IMAP sunucusu %s kimlik sınama yöntemini desteklemiyor"
 
-#: camel/providers/smtp/camel-smtp-transport.c:523
+#: camel/providers/smtp/camel-smtp-transport.c:514
 #, c-format
 msgid "%sPlease enter the SMTP password for %s@%s"
 msgstr "%sLütfen %s@%s için SMTP parolasını giriniz"
 
-#: camel/providers/smtp/camel-smtp-transport.c:542
+#: camel/providers/smtp/camel-smtp-transport.c:533
 #, c-format
 msgid ""
 "Unable to authenticate to SMTP server.\n"
@@ -10641,88 +10117,88 @@ msgstr ""
 "%s\n"
 "\n"
 
-#: camel/providers/smtp/camel-smtp-transport.c:675
+#: camel/providers/smtp/camel-smtp-transport.c:666
 #, c-format
 msgid "SMTP server %s"
 msgstr "SMTP sunucu %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:677
+#: camel/providers/smtp/camel-smtp-transport.c:668
 #, c-format
 msgid "SMTP mail delivery via %s"
 msgstr "%s üzerinden STMP ileti gönderimi"
 
-#: camel/providers/smtp/camel-smtp-transport.c:695
+#: camel/providers/smtp/camel-smtp-transport.c:686
 msgid "Cannot send message: sender address not valid."
 msgstr "İleti gönderilemiyor: gönderen adresi geçersiz"
 
-#: camel/providers/smtp/camel-smtp-transport.c:700 mail/mail-ops.c:635
+#: camel/providers/smtp/camel-smtp-transport.c:691 mail/mail-ops.c:635
 msgid "Sending message"
 msgstr "Gönderilen iletiler"
 
-#: camel/providers/smtp/camel-smtp-transport.c:715
+#: camel/providers/smtp/camel-smtp-transport.c:706
 msgid "Cannot send message: no recipients defined."
 msgstr "MAIL FROM cevap hatası: %s: ileti gönderilmedi"
 
-#: camel/providers/smtp/camel-smtp-transport.c:724
+#: camel/providers/smtp/camel-smtp-transport.c:715
 #, fuzzy
 msgid "Cannot send message: one or more invalid recipients"
 msgstr "MAIL FROM cevap hatası: %s: ileti gönderilmedi"
 
-#: camel/providers/smtp/camel-smtp-transport.c:889
+#: camel/providers/smtp/camel-smtp-transport.c:880
 msgid "SMTP Greeting"
 msgstr "SMTP Karşılaması"
 
-#: camel/providers/smtp/camel-smtp-transport.c:938
+#: camel/providers/smtp/camel-smtp-transport.c:929
 #, fuzzy, c-format
 msgid "HELO request timed out: %s"
 msgstr "RSET isteği zaman aşımına uğradı: %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:960
+#: camel/providers/smtp/camel-smtp-transport.c:951
 msgid "HELO response error"
 msgstr "HELO cevap hatası"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1026
+#: camel/providers/smtp/camel-smtp-transport.c:1017
 msgid "SMTP Authentication"
 msgstr "SMTP Kimlik Denetimi"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1032
+#: camel/providers/smtp/camel-smtp-transport.c:1023
 msgid "Error creating SASL authentication object."
 msgstr "SASL kimlik denetim nesnesi yaratılamadı."
 
-#: camel/providers/smtp/camel-smtp-transport.c:1049
-#: camel/providers/smtp/camel-smtp-transport.c:1061
+#: camel/providers/smtp/camel-smtp-transport.c:1040
+#: camel/providers/smtp/camel-smtp-transport.c:1052
 #, c-format
 msgid "AUTH request timed out: %s"
 msgstr "AUTH isteği zaman aşımına uğradı: %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1070
+#: camel/providers/smtp/camel-smtp-transport.c:1061
 msgid "AUTH request failed."
 msgstr "AUTH isteği başarısız."
 
-#: camel/providers/smtp/camel-smtp-transport.c:1131
+#: camel/providers/smtp/camel-smtp-transport.c:1122
 msgid "Bad authentication response from server.\n"
 msgstr "Sunucudan hatalı kimlik sınama yanıtı.\n"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1156
+#: camel/providers/smtp/camel-smtp-transport.c:1147
 #, c-format
 msgid "MAIL FROM request timed out: %s: mail not sent"
 msgstr "MAIL FROM zaman aşımı: %s: ileti gönderilmedi"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1176
+#: camel/providers/smtp/camel-smtp-transport.c:1167
 msgid "MAIL FROM response error"
 msgstr "MAIL FROM cevap hatası"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1200
+#: camel/providers/smtp/camel-smtp-transport.c:1191
 #, c-format
 msgid "RCPT TO request timed out: %s: mail not sent"
 msgstr "RCPT TO zaman aşımı: %s: ileti gönderilmedi"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1222
+#: camel/providers/smtp/camel-smtp-transport.c:1213
 #, c-format
 msgid "RCPT TO <%s> failed"
 msgstr "RCPT TO <%s> başarısız oldu"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1261
+#: camel/providers/smtp/camel-smtp-transport.c:1252
 #, c-format
 msgid "DATA request timed out: %s: mail not sent"
 msgstr "DATA isteği zaman aşımına uğradı: %s: ileti gönderilmedi"
@@ -10730,35 +10206,35 @@ msgstr "DATA isteği zaman aşımına uğradı: %s: ileti gönderilmedi"
 #. we should have gotten instructions on how to use the DATA command:
 #. * 354 Enter mail, end with "." on a line by itself
 #.
-#: camel/providers/smtp/camel-smtp-transport.c:1281
+#: camel/providers/smtp/camel-smtp-transport.c:1272
 msgid "DATA response error"
 msgstr "DATA cevap hatası"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1322
-#: camel/providers/smtp/camel-smtp-transport.c:1345
+#: camel/providers/smtp/camel-smtp-transport.c:1313
+#: camel/providers/smtp/camel-smtp-transport.c:1336
 #, c-format
 msgid "DATA send timed out: message termination: %s: mail not sent"
 msgstr "DATA gönderimi zaman aşımına uğradı: %s: ileti gönderilmedi"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1365
+#: camel/providers/smtp/camel-smtp-transport.c:1356
 msgid "DATA termination response error"
 msgstr "DATA cevap hatası"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1388
+#: camel/providers/smtp/camel-smtp-transport.c:1379
 #, c-format
 msgid "RSET request timed out: %s"
 msgstr "RSET isteği zaman aşımına uğradı: %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1408
+#: camel/providers/smtp/camel-smtp-transport.c:1399
 msgid "RSET response error"
 msgstr "RSET cevap hatası"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1431
+#: camel/providers/smtp/camel-smtp-transport.c:1422
 #, c-format
 msgid "QUIT request timed out: %s"
 msgstr "QUIT isteğinde zaman aşımı: %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1451
+#: camel/providers/smtp/camel-smtp-transport.c:1442
 msgid "QUIT response error"
 msgstr "QUIT cevap hatası"
 
@@ -10904,7 +10380,19 @@ msgstr "Açıklama yok"
 msgid "Attach file(s)"
 msgstr "Bir dosya ekle"
 
-#: composer/e-msg-composer.c:821
+#: composer/e-msg-composer.c:651
+#, fuzzy
+msgid ""
+"Cannot sign outgoing message: No signing certificate set for from account"
+msgstr "Bu _hesabı kullanırken her zaman giden iletileri imzala"
+
+#: composer/e-msg-composer.c:657
+msgid ""
+"Cannot encrypt outgoing message: No encryption certificate set for from "
+"account"
+msgstr ""
+
+#: composer/e-msg-composer.c:788
 #, c-format
 msgid ""
 "Error while reading file %s:\n"
@@ -10913,31 +10401,31 @@ msgstr ""
 "%s dosyasını yüklerken hata oldu:\n"
 "%s"
 
-#: composer/e-msg-composer.c:1186
+#: composer/e-msg-composer.c:1153
 msgid "File exists, overwrite?"
 msgstr "Dosya var. Üzerine yazılsın mı?"
 
-#: composer/e-msg-composer.c:1197 composer/e-msg-composer.c:1213
+#: composer/e-msg-composer.c:1164 composer/e-msg-composer.c:1180
 #, c-format
 msgid "Error saving file: %s"
 msgstr "%s dosyasını kaydederken hata oldu"
 
-#: composer/e-msg-composer.c:1236
+#: composer/e-msg-composer.c:1203
 #, c-format
 msgid "Error loading file: %s"
 msgstr "`%s' dosyasını yüklerken hata oldu"
 
-#: composer/e-msg-composer.c:1274
+#: composer/e-msg-composer.c:1241
 #, c-format
 msgid "Error accessing file: %s"
 msgstr "Dosyaya erişirken hata oldu: %s"
 
-#: composer/e-msg-composer.c:1282
+#: composer/e-msg-composer.c:1249
 #, fuzzy
 msgid "Unable to retrieve message from editor"
 msgstr "%s üzerindeki POP sunucusundan iletiler alınamadı: "
 
-#: composer/e-msg-composer.c:1289
+#: composer/e-msg-composer.c:1256
 #, fuzzy, c-format
 msgid ""
 "Unable to seek on file: %s\n"
@@ -10946,7 +10434,7 @@ msgstr ""
 "Çıkış dosyası yaratılamadı: %s\n"
 " %s"
 
-#: composer/e-msg-composer.c:1296
+#: composer/e-msg-composer.c:1263
 #, fuzzy, c-format
 msgid ""
 "Unable to truncate file: %s\n"
@@ -10955,7 +10443,7 @@ msgstr ""
 "Çıkış dosyası yaratılamadı: %s\n"
 " %s"
 
-#: composer/e-msg-composer.c:1305
+#: composer/e-msg-composer.c:1272
 #, fuzzy, c-format
 msgid ""
 "Unable to copy file descriptor: %s\n"
@@ -10964,7 +10452,7 @@ msgstr ""
 "Çıkış dosyası yaratılamadı: %s\n"
 " %s"
 
-#: composer/e-msg-composer.c:1314
+#: composer/e-msg-composer.c:1281
 #, c-format
 msgid ""
 "Error autosaving message: %s\n"
@@ -10973,7 +10461,7 @@ msgstr ""
 "İletilerin otomatik kaydında hata: %s\n"
 " %s"
 
-#: composer/e-msg-composer.c:1411
+#: composer/e-msg-composer.c:1378
 msgid ""
 "Ximian Evolution has found unsaved files from a previous session.\n"
 "Would you like to try to recover them?"
@@ -10981,7 +10469,7 @@ msgstr ""
 "Evolution, önceki oturumlardan kaydedilmemiş dosyalar saptadı.\n"
 "Bunları kurtarmak istiyor musunuz?"
 
-#: composer/e-msg-composer.c:1574
+#: composer/e-msg-composer.c:1541
 #, c-format
 msgid ""
 "The message \"%s\" has not been sent.\n"
@@ -10992,34 +10480,34 @@ msgstr ""
 "\n"
 "Değişiklikleri kaydetmek istiyor musunuz?"
 
-#: composer/e-msg-composer.c:1583
+#: composer/e-msg-composer.c:1550
 msgid "Warning: Modified Message"
 msgstr "Uyarı: İleti Değiştirildi"
 
-#: composer/e-msg-composer.c:1615
+#: composer/e-msg-composer.c:1582
 msgid "Open file"
 msgstr "Dosyayı aç"
 
-#: composer/e-msg-composer.c:2034
+#: composer/e-msg-composer.c:2001
 msgid "Signature:"
 msgstr "İmza:"
 
-#: composer/e-msg-composer.c:2074 mail/mail-account-gui.c:1260
+#: composer/e-msg-composer.c:2041 mail/mail-account-gui.c:1260
 msgid "Autogenerated"
 msgstr "Otomatik"
 
-#: composer/e-msg-composer.c:2254 composer/e-msg-composer.c:2950
-#: composer/e-msg-composer.c:2951
+#: composer/e-msg-composer.c:2221 composer/e-msg-composer.c:2918
+#: composer/e-msg-composer.c:2919
 msgid "Compose a message"
 msgstr "Bir ileti yaz"
 
-#: composer/e-msg-composer.c:2982
+#: composer/e-msg-composer.c:2950
 msgid ""
 "Could not create composer window:\n"
 "Unable to activate address selector control."
 msgstr ""
 
-#: composer/e-msg-composer.c:3010
+#: composer/e-msg-composer.c:2980
 msgid ""
 "Could not create composer window:\n"
 "Unable to activate HTML editor component.\n"
@@ -11031,7 +10519,7 @@ msgstr ""
 "Lütfen sistemde gtkhtml ve libgtkhtml programlarının\n"
 "kurulu olduğunu denetleyin.\n"
 
-#: composer/e-msg-composer.c:3080
+#: composer/e-msg-composer.c:3050
 #, fuzzy
 msgid ""
 "Could not create composer window:\n"
@@ -11040,7 +10528,7 @@ msgstr ""
 "E-posta düzenleme penceresi açılmadı, çünkü adınızı ve\n"
 "e-posta bilgilerinizi girmediniz."
 
-#: composer/e-msg-composer.c:4090
+#: composer/e-msg-composer.c:4060
 msgid ""
 "<b>(The composer contains a non-text message body, which cannot be edited.)"
 "<b>"
@@ -11442,7 +10930,7 @@ msgstr ""
 "%s"
 
 #: filter/filter-label.c:121 filter/libfilter-i18n.h:17 mail/mail-config.c:65
-#: mail/mail-config.glade.h:62 shell/e-config-upgrade.c:1454
+#: mail/mail-config.glade.h:61 shell/e-config-upgrade.c:1454
 msgid "Important"
 msgstr "Önemli"
 
@@ -11453,7 +10941,7 @@ msgid "To Do"
 msgstr "Yapılacaklar"
 
 #. blue
-#: filter/filter-label.c:125 mail/mail-config.c:69 mail/mail-config.glade.h:66
+#: filter/filter-label.c:125 mail/mail-config.c:69 mail/mail-config.glade.h:65
 #: shell/e-config-upgrade.c:1458
 msgid "Later"
 msgstr "Sonra"
@@ -11552,7 +11040,7 @@ msgstr "önce"
 msgid "months"
 msgstr "ay"
 
-#: filter/filter.glade.h:21 mail/mail-config.glade.h:174
+#: filter/filter.glade.h:21 mail/mail-config.glade.h:175
 msgid "seconds"
 msgstr "saniye"
 
@@ -11650,7 +11138,7 @@ msgstr "Deyim"
 msgid "Follow Up"
 msgstr ""
 
-#: filter/libfilter-i18n.h:18 mail/em-folder-view.c:687
+#: filter/libfilter-i18n.h:18 mail/em-folder-view.c:689
 msgid "Label"
 msgstr "Etiket"
 
@@ -12022,134 +11510,144 @@ msgid "Folder _name"
 msgstr "Dizin _adı:"
 
 #: mail/em-folder-view.c:577 mail/em-folder-view.c:591
-#: mail/mail-component.c:1638 mail/mail-component.c:1649
+#: mail/mail-component.c:1632 mail/mail-component.c:1643
 #: shell/e-shell-importer.c:1061
 msgid "Select folder"
 msgstr "Dizini seçin"
 
 #. { EM_POPUP_ITEM, "00.select.00", N_("_Open"), G_CALLBACK(emp_popup_open), NULL, NULL, 0 },
-#: mail/em-folder-view.c:657 mail/em-popup.c:583
+#: mail/em-folder-view.c:659 mail/em-popup.c:583
 msgid "_Edit as New Message..."
 msgstr "Yeni İleti Olarak _Düzenle..."
 
-#: mail/em-folder-view.c:659
+#: mail/em-folder-view.c:661
 msgid "_Print"
 msgstr "_Yazdır"
 
-#: mail/em-folder-view.c:662 ui/evolution-mail-message.xml.h:118
+#: mail/em-folder-view.c:664 ui/evolution-mail-message.xml.h:118
 msgid "_Reply to Sender"
 msgstr "_Gönderene Cevapla"
 
-#: mail/em-folder-view.c:663 mail/em-popup.c:644
+#: mail/em-folder-view.c:665 mail/em-popup.c:644
 #: ui/evolution-mail-message.xml.h:80
 msgid "Reply to _List"
 msgstr "_Listeye Cevapla"
 
-#: mail/em-folder-view.c:664 mail/em-popup.c:645
+#: mail/em-folder-view.c:666 mail/em-popup.c:645
 #: ui/evolution-mail-message.xml.h:79
 msgid "Reply to _All"
 msgstr "_Herkese Cevapla"
 
-#: mail/em-folder-view.c:665 mail/em-popup.c:647
+#: mail/em-folder-view.c:667 mail/em-popup.c:647
 msgid "_Forward"
 msgstr "_Yönlendir"
 
-#: mail/em-folder-view.c:668
+#: mail/em-folder-view.c:670
 msgid "Follo_w Up..."
 msgstr ""
 
-#: mail/em-folder-view.c:669
+#: mail/em-folder-view.c:671
 #, fuzzy
 msgid "Fla_g Completed"
 msgstr "Tamamlandı"
 
-#: mail/em-folder-view.c:670
+#: mail/em-folder-view.c:672
 msgid "Cl_ear Flag"
 msgstr "_Bayrağı Temizle"
 
-#: mail/em-folder-view.c:673 ui/evolution-mail-message.xml.h:47
+#: mail/em-folder-view.c:675 ui/evolution-mail-message.xml.h:47
 msgid "Mar_k as Read"
 msgstr "_Okunmuş Olarak İşaretle"
 
-#: mail/em-folder-view.c:674
+#: mail/em-folder-view.c:676
 msgid "Mark as _Unread"
 msgstr "Oku_nmamış Olarak İşaretle"
 
-#: mail/em-folder-view.c:675
+#: mail/em-folder-view.c:677
 msgid "Mark as _Important"
 msgstr "Ö_nemli Olarak İşaretle"
 
-#: mail/em-folder-view.c:676
+#: mail/em-folder-view.c:678
 msgid "_Mark as Unimportant"
 msgstr "Ö_nemsiz Olarak İşaretle"
 
-#: mail/em-folder-view.c:680
+#: mail/em-folder-view.c:682
 msgid "U_ndelete"
 msgstr "_Silme"
 
-#: mail/em-folder-view.c:683
+#: mail/em-folder-view.c:685
 msgid "Mo_ve to Folder..."
 msgstr "_Dizine Taşı..."
 
-#: mail/em-folder-view.c:684 ui/evolution-addressbook.xml.h:31
+#: mail/em-folder-view.c:686 ui/evolution-addressbook.xml.h:31
 msgid "_Copy to Folder..."
 msgstr "D_izine Kopyala..."
 
-#: mail/em-folder-view.c:692
+#: mail/em-folder-view.c:694
 msgid "Add Sender to Address_book"
 msgstr "_Göndereni Adres Defterine Ekle"
 
-#: mail/em-folder-view.c:695
+#: mail/em-folder-view.c:697
 msgid "Appl_y Filters"
 msgstr "_Filtreleri Uygula"
 
-#: mail/em-folder-view.c:698
+#: mail/em-folder-view.c:700
 msgid "Crea_te Rule From Message"
 msgstr "_Bu İletiden Bir Kural Yarat"
 
-#: mail/em-folder-view.c:699
+#: mail/em-folder-view.c:701
 msgid "VFolder on _Subject"
 msgstr "_Konuya Göre VFolder"
 
-#: mail/em-folder-view.c:700
+#: mail/em-folder-view.c:702
 msgid "VFolder on Se_nder"
 msgstr "_Gönderene Göre VFolder"
 
-#: mail/em-folder-view.c:701
+#: mail/em-folder-view.c:703
 msgid "VFolder on _Recipients"
 msgstr "_Alıcılara Göre VFolder"
 
-#: mail/em-folder-view.c:702
+#: mail/em-folder-view.c:704
 msgid "VFolder on Mailing _List"
 msgstr "_E-posta Listesi Üzerinde VFolder"
 
 #: mail/em-folder-view.c:706
+#, fuzzy
+msgid "VFolder on Thread"
+msgstr "_Gönderene Göre VFolder"
+
+#: mail/em-folder-view.c:710
 msgid "Filter on Sub_ject"
 msgstr "_Konuya Göre Filtrele"
 
-#: mail/em-folder-view.c:707
+#: mail/em-folder-view.c:711
 msgid "Filter on Sen_der"
 msgstr "_Gönderene Göre Filtrele"
 
-#: mail/em-folder-view.c:708
+#: mail/em-folder-view.c:712
 msgid "Filter on Re_cipients"
 msgstr "_Alıcılara Göre Filtrele"
 
-#: mail/em-folder-view.c:709
+#: mail/em-folder-view.c:713
 msgid "Filter on _Mailing List"
 msgstr "_E-posta Listesine Göre Filtrele"
 
+#: mail/em-folder-view.c:715
+#, fuzzy
+msgid "Filter on Thread"
+msgstr "_Gönderene Göre Filtrele"
+
 #. default charset used in mail view
-#: mail/em-folder-view.c:1473 mail/em-folder-view.c:1511
-#: mail/mail-config.glade.h:39
+#: mail/em-folder-view.c:1487 mail/em-folder-view.c:1525
+#: mail/mail-config.glade.h:38
 msgid "Default"
 msgstr "Öntanımlı"
 
-#: mail/em-folder-view.c:1545
+#: mail/em-folder-view.c:1559
 msgid "Print Message"
 msgstr "İletiyi Yazdır"
 
-#: mail/em-folder-view.c:1786
+#: mail/em-folder-view.c:1800
 #, fuzzy
 msgid "_Copy Link Location"
 msgstr "Adresi Kopyala"
@@ -12270,6 +11768,10 @@ msgstr "Bilgi"
 #: mail/em-format-html.c:1362 mail/em-format.c:677
 msgid "Bcc"
 msgstr "Gizli"
+
+#: mail/em-format-html.c:1381
+msgid "Mailer"
+msgstr "E-postalayıcı"
 
 #. translators: strftime format for local time equivalent in Date header display, with day
 #: mail/em-format-html.c:1408
@@ -12413,7 +11915,7 @@ msgstr "İleti"
 msgid "Save Message..."
 msgstr "İletiyi Farklı Kaydet..."
 
-#: mail/em-utils.c:1893 mail/mail-component.c:495
+#: mail/em-utils.c:1893 mail/mail-component.c:501
 #, c-format
 msgid "Could not create temporary directory: %s"
 msgstr "Geçici dizin yaratılamadı: %s"
@@ -12487,7 +11989,7 @@ msgstr "Evolution e-posta özet bileşeni."
 msgid "Mail Accounts"
 msgstr "E-posta Hesapları"
 
-#: mail/GNOME_Evolution_Mail.server.in.in.h:14 mail/mail-config.glade.h:69
+#: mail/GNOME_Evolution_Mail.server.in.in.h:14 mail/mail-config.glade.h:68
 msgid "Mail Preferences"
 msgstr "E-posta Tercihleri"
 
@@ -12709,39 +12211,44 @@ msgstr "_Kullanıcı adı:"
 msgid "_Path:"
 msgstr "_Yol:"
 
-#: mail/mail-account-gui.c:1877
+#: mail/mail-account-gui.c:1946
 msgid "You may not create two accounts with the same name."
 msgstr "İki hesabı aynı isimlerle oluşturamazsınız."
 
-#: mail/mail-autofilter.c:73
+#: mail/mail-autofilter.c:74
 #, c-format
 msgid "Mail to %s"
 msgstr "%s adresine postala"
 
-#: mail/mail-autofilter.c:237
+#: mail/mail-autofilter.c:257
 #, c-format
 msgid "Subject is %s"
 msgstr "Konu: %s"
 
-#: mail/mail-autofilter.c:253
+#: mail/mail-autofilter.c:273
 #, c-format
 msgid "Mail from %s"
 msgstr "%s'ten E-posta"
 
-#: mail/mail-autofilter.c:270
+#: mail/mail-autofilter.c:290
 #, c-format
 msgid "%s mailing list"
 msgstr "%s posta listesi"
 
-#: mail/mail-autofilter.c:323
+#: mail/mail-autofilter.c:314
+#, fuzzy, c-format
+msgid "Replies to %s"
+msgstr "Cevaplanan"
+
+#: mail/mail-autofilter.c:367
 msgid "Add Filter Rule"
 msgstr "Filtre Kuralı Ekle"
 
-#: mail/mail-autofilter.c:372
+#: mail/mail-autofilter.c:416
 msgid "The following filter rule(s):\n"
 msgstr "Bu filtre kural(lar)ı:\n"
 
-#: mail/mail-autofilter.c:378
+#: mail/mail-autofilter.c:422
 #, c-format
 msgid ""
 "Used the removed folder:\n"
@@ -12749,143 +12256,144 @@ msgid ""
 "And have been updated."
 msgstr ""
 
-#: mail/mail-component.c:188
+#: mail/mail-component.c:194
 msgid "Connecting..."
 msgstr "Bağlanıyor..."
 
-#: mail/mail-component.c:345
+#: mail/mail-component.c:351
 msgid "On this Computer"
 msgstr ""
 
-#: mail/mail-component.c:367
+#: mail/mail-component.c:373
 msgid "This folder cannot contain messages."
 msgstr "Bu dizinde ileti bulunamaz."
 
-#: mail/mail-component.c:481
+#: mail/mail-component.c:487
 #, fuzzy, c-format
 msgid "Could not open source folder: %s"
 msgstr "Paylaşımlı dizin açılamadı: %s"
 
-#: mail/mail-component.c:510
+#: mail/mail-component.c:516
 #, fuzzy, c-format
 msgid "Could not create temporary mbox store: %s"
 msgstr "Geçici dizin yaratılamadı: %s"
 
-#: mail/mail-component.c:526
+#: mail/mail-component.c:532
 #, fuzzy, c-format
 msgid "Could not create temporary mbox folder: %s"
 msgstr "%s geçici dizini yaratılamadı: %s"
 
-#: mail/mail-component.c:547
+#: mail/mail-component.c:553
 #, fuzzy, c-format
 msgid "Could not copy messages to temporary mbox folder: %s"
 msgstr "geçici dizin kapatılamadı: %s"
 
-#: mail/mail-component.c:1026
+#: mail/mail-component.c:1014
+#, c-format
 msgid ""
-"Some of your mail settings seem corrupt, please check that everything is in "
-"order."
+"The following error occured while migrating your mail data:\n"
+"%s"
 msgstr ""
 
-#: mail/mail-component.c:1638
+#: mail/mail-component.c:1632
 #, fuzzy
 msgid "Select destination to copy folder into"
 msgstr "Bu veriyi almak için hedef dizin seçin"
 
-#: mail/mail-component.c:1649
+#: mail/mail-component.c:1643
 #, fuzzy
 msgid "Select destination to move folder into"
 msgstr "Bu veriyi almak için hedef dizin seçin"
 
-#: mail/mail-component.c:1713
+#: mail/mail-component.c:1707
 #, fuzzy
 msgid "Create folder"
 msgstr "Yeni bir dizin yarat"
 
-#: mail/mail-component.c:1713
+#: mail/mail-component.c:1707
 #: shell/glade/e-shell-folder-creation-dialog.glade.h:4
 msgid "Specify where to create the folder:"
 msgstr "Dizinin nerede yaratılacağını belirtin:"
 
-#: mail/mail-component.c:1794
+#: mail/mail-component.c:1788
 #, fuzzy, c-format
 msgid "Could not delete folder: %s"
 msgstr "`%s' dizini silinemedi: %s"
 
-#: mail/mail-component.c:1818
+#: mail/mail-component.c:1812
 #, fuzzy, c-format
 msgid "Really delete folder \"%s\" and all of its subfolders?"
 msgstr "Gerçekten \"%s\" dizini silinsin mi?"
 
-#: mail/mail-component.c:1827 shell/e-shell-folder-commands.c:416
+#: mail/mail-component.c:1821 shell/e-shell-folder-commands.c:416
 #, c-format
 msgid "Delete \"%s\""
 msgstr "Sil: \"%s\""
 
-#: mail/mail-component.c:1848 shell/e-shell-folder-commands.c:534
+#: mail/mail-component.c:1842 shell/e-shell-folder-commands.c:534
 #, c-format
 msgid "Rename the \"%s\" folder to:"
 msgstr "\"%s\" dizinini yeniden adlandır:"
 
-#: mail/mail-component.c:1850 shell/e-shell-folder-commands.c:541
+#: mail/mail-component.c:1844 shell/e-shell-folder-commands.c:541
 #, fuzzy
 msgid "Rename Folder"
 msgstr "Dizini yeniden adlandır"
 
-#: mail/mail-component.c:1855 shell/e-shell-folder-commands.c:547
+#: mail/mail-component.c:1849 shell/e-shell-folder-commands.c:547
 #: shell/e-shell-folder-creation-dialog.c:180
 #, c-format
 msgid "The specified folder name is not valid: %s"
 msgstr "Bu dizin adı geçersiz: %s"
 
-#: mail/mail-component.c:1866
+#: mail/mail-component.c:1860
 #, c-format
 msgid "A folder named \"%s\" already exists.  Please use a different name."
 msgstr ""
 
-#: mail/mail-component.c:1973
+#: mail/mail-component.c:1967
 #, fuzzy
 msgid "Folder properties"
 msgstr "Yazıtipi Özellikleri"
 
 #. TODO: maybe we want some basic properties here, like message counts/approximate size/etc
-#: mail/mail-component.c:1981
+#: mail/mail-component.c:1975
 msgid "Properties"
 msgstr "Özellikler"
 
-#: mail/mail-component.c:1985
+#: mail/mail-component.c:1979
 #, fuzzy
 msgid "Folder Name"
 msgstr "_Dizin Adı:"
 
-#: mail/mail-component.c:2084 ui/evolution-mail-messagedisplay.xml.h:8
+#: mail/mail-component.c:2078 ui/evolution-mail-messagedisplay.xml.h:8
 #: ui/evolution-message-composer.xml.h:49 ui/evolution.xml.h:30
 msgid "_View"
 msgstr "_Göster"
 
-#: mail/mail-component.c:2085
+#: mail/mail-component.c:2079
 #, fuzzy
 msgid "Open in _New Window"
 msgstr "Yeni Pencerede Aç"
 
-#: mail/mail-component.c:2090
+#: mail/mail-component.c:2084
 #, fuzzy
 msgid "_Move"
 msgstr "Taşı"
 
-#: mail/mail-component.c:2093
+#: mail/mail-component.c:2087
 msgid "_New Folder..."
 msgstr "_Yeni Dizin..."
 
-#: mail/mail-component.c:2095 shell/e-shortcuts-view.c:427
+#: mail/mail-component.c:2089 shell/e-shortcuts-view.c:427
 msgid "_Rename"
 msgstr "_Yeniden adlandır"
 
-#: mail/mail-component.c:2098 ui/evolution-mail-list.xml.h:27
+#: mail/mail-component.c:2092 ui/evolution-mail-list.xml.h:27
 msgid "_Properties..."
 msgstr "Ö_zellikler..."
 
-#: mail/mail-config-druid.c:367 mail/mail-config.glade.h:61
+#: mail/mail-config-druid.c:367 mail/mail-config.glade.h:60
 msgid "Identity"
 msgstr "Kimlik"
 
@@ -12967,7 +12475,8 @@ msgid "(SSL is not supported in this build of evolution)"
 msgstr "(Evolution'un bu sürümünde SSL desteklenmiyor)"
 
 #: mail/mail-config.glade.h:7
-msgid "A_lways encrypt to myself when sending encrypted mail"
+#, fuzzy
+msgid "A_lso encrypt to self when sending encrypted mail"
 msgstr "Ş_ifreli e-posta gönderirken kendime de şifrele"
 
 #: mail/mail-config.glade.h:8
@@ -12990,72 +12499,68 @@ msgstr "Yeni imza ekle..."
 msgid "Al_ways encrypt to myself when sending encrypted mail"
 msgstr ""
 
-#: mail/mail-config.glade.h:15
-msgid "Alwa_ys sign outgoing messages when using this account"
-msgstr "B_u hesabı kullanırken giden iletileri her zaman imzala"
-
-#: mail/mail-config.glade.h:17
+#: mail/mail-config.glade.h:16
 msgid "Always _blind carbon-copy (Bcc) to:"
 msgstr "Her zaman gizli karbon kopyala (Bcc): "
 
-#: mail/mail-config.glade.h:18
+#: mail/mail-config.glade.h:17
 msgid "Always _carbon-copy (Cc) to:"
 msgstr "Her zaman karbon kopyala (Cc): "
 
-#: mail/mail-config.glade.h:19
+#: mail/mail-config.glade.h:18
 msgid "Always _trust keys in my keyring when encrypting"
 msgstr "Şifrelerken her zaman anahtar listemdeki anahtarlara güven"
 
-#: mail/mail-config.glade.h:20
+#: mail/mail-config.glade.h:19
 #, fuzzy
 msgid "Attach original message"
 msgstr "İletiyi bir dosya ekle"
 
-#: mail/mail-config.glade.h:21 mail/message-list.etspec.h:1
+#: mail/mail-config.glade.h:20 mail/message-list.etspec.h:1
 msgid "Attachment"
 msgstr "Ek"
 
-#: mail/mail-config.glade.h:22
+#: mail/mail-config.glade.h:21
 msgid "Authentication"
 msgstr "Kimlik Denetimi"
 
-#: mail/mail-config.glade.h:23
+#: mail/mail-config.glade.h:22
 msgid "Baltic (ISO-8859-13)"
 msgstr "Baltık (ISO-8859-13)"
 
-#: mail/mail-config.glade.h:24
+#: mail/mail-config.glade.h:23
 msgid "Baltic (ISO-8859-4)"
 msgstr "Baltık (ISO-8859-4)"
 
-#: mail/mail-config.glade.h:25
+#: mail/mail-config.glade.h:24
 msgid "C_haracter set:"
 msgstr "_Karakter seti:"
 
-#: mail/mail-config.glade.h:26
+#: mail/mail-config.glade.h:25
 msgid "C_olors"
 msgstr "_Renkler"
 
-#: mail/mail-config.glade.h:27
+#: mail/mail-config.glade.h:26
 msgid "Check spelling while I _type"
 msgstr "_Yazarken imla denetimi yap"
 
-#: mail/mail-config.glade.h:28
+#: mail/mail-config.glade.h:27
 msgid "Checking for New Mail"
 msgstr "Yeni iletilerin denetlenmesi"
 
-#: mail/mail-config.glade.h:29
+#: mail/mail-config.glade.h:28
 msgid "Color for _misspelled words:"
 msgstr "_Hatalı yazılan kelimelerin rengi:"
 
-#: mail/mail-config.glade.h:30
+#: mail/mail-config.glade.h:29
 msgid "Composing Messages"
 msgstr "İleti Düzenleme"
 
-#: mail/mail-config.glade.h:31
+#: mail/mail-config.glade.h:30
 msgid "Configuration"
 msgstr "Yapılandırma"
 
-#: mail/mail-config.glade.h:32
+#: mail/mail-config.glade.h:31
 msgid ""
 "Congratulations, your mail configuration is complete.\n"
 "\n"
@@ -13071,58 +12576,64 @@ msgstr ""
 "\n"
 "Ayarlarınızı kaydetmek için \"Uygula\" düğmesine tıklayın."
 
-#: mail/mail-config.glade.h:38
+#: mail/mail-config.glade.h:37
 msgid "De_fault"
 msgstr "Ö_ntanımlı"
 
-#: mail/mail-config.glade.h:40
+#: mail/mail-config.glade.h:39
 msgid "Default Behavior"
 msgstr "Öntanımlı Davranış"
 
-#: mail/mail-config.glade.h:41
+#: mail/mail-config.glade.h:40
 msgid "Default character _encoding:"
 msgstr "Ö_ntanımlı karakter kodlaması:"
 
-#: mail/mail-config.glade.h:42
+#: mail/mail-config.glade.h:41
 msgid "Deleting Mail"
 msgstr "Silinen Postalar"
 
-#: mail/mail-config.glade.h:44
-msgid "Digital IDs..."
-msgstr "Sayısal Numaralar..."
+#: mail/mail-config.glade.h:43
+#, fuzzy
+msgid "Digitally _sign outgoing messages (by default)"
+msgstr "Bu _hesabı kullanırken her zaman giden iletileri imzala"
 
-#: mail/mail-config.glade.h:45
+#: mail/mail-config.glade.h:44
 #, fuzzy
 msgid "Do not quote original message"
 msgstr "İleti açılamadı"
 
-#: mail/mail-config.glade.h:46
+#: mail/mail-config.glade.h:45
 msgid "Don't sign _meeting requests (for Outlook compatibility)"
 msgstr "_Toplantı isteklerini imzalama (Outlook uyumluluğu için)"
 
-#: mail/mail-config.glade.h:47 shell/glade/evolution-startup-wizard.glade.h:1
+#: mail/mail-config.glade.h:46 shell/glade/evolution-startup-wizard.glade.h:1
 msgid "Done"
 msgstr "Tamamlandı"
 
-#: mail/mail-config.glade.h:48
+#: mail/mail-config.glade.h:47
 msgid "Drafts _folder:"
 msgstr "_Taslaklar dizini:"
 
-#: mail/mail-config.glade.h:49
+#: mail/mail-config.glade.h:48
 msgid "E_nable"
 msgstr "_Etkinleştir"
 
-#: mail/mail-config.glade.h:50
+#: mail/mail-config.glade.h:49
 msgid "Email Accounts"
 msgstr "E-posta Hesapları"
 
-#: mail/mail-config.glade.h:51
+#: mail/mail-config.glade.h:50
 msgid "Email _address:"
 msgstr "_E-posta adresi:"
 
-#: mail/mail-config.glade.h:52
+#: mail/mail-config.glade.h:51
 msgid "Empty _trash folders on exit"
 msgstr "Programdan çı_karken çöp dizinini sil"
+
+#: mail/mail-config.glade.h:52
+#, fuzzy
+msgid "Encry_ption certificate:"
+msgstr "_Sertifika No:"
 
 #: mail/mail-config.glade.h:53
 msgid "Evolution Account Assistant"
@@ -13145,181 +12656,182 @@ msgid "Format messages in _HTML"
 msgstr "İ_letileri HTML biçimle"
 
 #: mail/mail-config.glade.h:58
-msgid "Get Digital ID..."
-msgstr "Sayısal Numarayı Al..."
-
-#: mail/mail-config.glade.h:59
 msgid "Highlight _quotations with"
 msgstr "Cevapları her zaman "
 
-#: mail/mail-config.glade.h:60
+#: mail/mail-config.glade.h:59
 msgid "IMAPv4 "
 msgstr "IMAPv4 "
 
-#: mail/mail-config.glade.h:63
+#: mail/mail-config.glade.h:62
 msgid "Inline"
 msgstr "Bağlantılı"
 
-#: mail/mail-config.glade.h:64
+#: mail/mail-config.glade.h:63
 msgid "Kerberos "
 msgstr "Kerberos "
 
-#: mail/mail-config.glade.h:65
+#: mail/mail-config.glade.h:64
 msgid "Labels and Colors"
 msgstr "Etiketler ve Renkler"
 
-#: mail/mail-config.glade.h:67
+#: mail/mail-config.glade.h:66
 msgid "Loading Images"
 msgstr "Yüklenen Resimler"
 
-#: mail/mail-config.glade.h:68
+#: mail/mail-config.glade.h:67
 msgid "Mail Configuration"
 msgstr "E-posta Yapılandırması"
 
-#: mail/mail-config.glade.h:70
+#: mail/mail-config.glade.h:69
 msgid "Mailbox location"
 msgstr "Posta Kutusu konumu"
 
-#: mail/mail-config.glade.h:71
+#: mail/mail-config.glade.h:70
 msgid "Message Composer"
 msgstr "İleti Düzenleyici"
 
-#: mail/mail-config.glade.h:72
+#: mail/mail-config.glade.h:71
 msgid "Message Display"
 msgstr "İleti Görünümü"
 
-#: mail/mail-config.glade.h:73
+#: mail/mail-config.glade.h:72
 msgid "Message Fonts"
 msgstr "İleti Yazıtipi"
 
-#: mail/mail-config.glade.h:75
+#: mail/mail-config.glade.h:74
 msgid "New Mail Notification"
 msgstr "Yeni Posta Bildirimi"
 
-#: mail/mail-config.glade.h:77
+#: mail/mail-config.glade.h:76
 msgid ""
 "Note: you will not be prompted for a password until you connect for the "
 "first time"
 msgstr ""
 "Not: İlk defa bağlanıncaya kadar size herhangi bir parola sorulmayacaktır."
 
-#: mail/mail-config.glade.h:78
+#: mail/mail-config.glade.h:77
 msgid "Optional Information"
 msgstr "Seçimlik Bilgi"
 
-#: mail/mail-config.glade.h:80
+#: mail/mail-config.glade.h:79
 msgid "Or_ganization:"
 msgstr "_Kurum:"
 
-#: mail/mail-config.glade.h:81
+#: mail/mail-config.glade.h:80
 msgid "PGP/GPG _Key ID:"
 msgstr "PGP/GPG _Anahtar Numarası:"
 
-#: mail/mail-config.glade.h:85
+#: mail/mail-config.glade.h:84
 msgid "Pick a color"
 msgstr "Bir renk seçin"
 
-#: mail/mail-config.glade.h:86
+#: mail/mail-config.glade.h:85
 msgid "Pr_ompt when sending messages with only Bcc recipients defined"
 msgstr "Sadece _Bcc alıcıların tanımlı olduğu iletileri gönderirken beni uyar"
 
-#: mail/mail-config.glade.h:87
+#: mail/mail-config.glade.h:86
 msgid "Pretty Good Privacy (PGP/GPG)"
 msgstr "Pretty Good Privacy (PGP/GPG)"
 
-#: mail/mail-config.glade.h:88
+#: mail/mail-config.glade.h:87
 msgid "Printed Fonts"
 msgstr "Yazdırılan Yazıtipleri"
 
-#: mail/mail-config.glade.h:89
+#: mail/mail-config.glade.h:88
 msgid "Qmail maildir "
 msgstr "Qmail dizini "
 
-#: mail/mail-config.glade.h:90
+#: mail/mail-config.glade.h:89
 #, fuzzy
 msgid "Quote original message"
 msgstr "İleti açılamadı"
 
-#: mail/mail-config.glade.h:91
+#: mail/mail-config.glade.h:90
 #, fuzzy
 msgid "Quoted"
 msgstr "Not"
 
-#: mail/mail-config.glade.h:92
+#: mail/mail-config.glade.h:91
 msgid "Re_member this password"
 msgstr "_Bu parolayı hatırla"
 
-#: mail/mail-config.glade.h:93
+#: mail/mail-config.glade.h:92
 msgid "Re_ply-To:"
 msgstr "Cevapla:"
 
-#: mail/mail-config.glade.h:94
+#: mail/mail-config.glade.h:93
 msgid "Receiving Email"
 msgstr "Alınan İletiler"
 
-#: mail/mail-config.glade.h:95
+#: mail/mail-config.glade.h:94
 msgid "Receiving _Options"
 msgstr "_Alma Seçenekleri"
 
-#: mail/mail-config.glade.h:96
+#: mail/mail-config.glade.h:95
 msgid "Remember this _password"
 msgstr "_Bu parolayı hatırla"
 
-#: mail/mail-config.glade.h:97
+#: mail/mail-config.glade.h:96
 msgid "Required Information"
 msgstr "İstenen Bilgiler"
 
-#: mail/mail-config.glade.h:98
+#: mail/mail-config.glade.h:97
 msgid "Restore Defaults"
 msgstr "Öntanımlı Değerlere Geri Dön"
 
-#: mail/mail-config.glade.h:100
+#: mail/mail-config.glade.h:99
 msgid "S_ecurity"
 msgstr "_Güvenlik"
 
-#: mail/mail-config.glade.h:101
+#: mail/mail-config.glade.h:100
 msgid "Secure MIME (S/MIME)"
 msgstr "Güvenli MIME (SMIME)"
 
-#: mail/mail-config.glade.h:102
+#: mail/mail-config.glade.h:101
 msgid "Select HTML fixed width font"
 msgstr "HTML eşaralıklı yazıtipini seçin"
 
-#: mail/mail-config.glade.h:103
+#: mail/mail-config.glade.h:102
 msgid "Select HTML fixed width font for printing"
 msgstr "Yazdırma için HTML eşaralıklı yazıtipini seçin"
 
-#: mail/mail-config.glade.h:104
+#: mail/mail-config.glade.h:103
 msgid "Select HTML variable width font"
 msgstr "HTML değişken aralıklı yazıtipini seçin"
 
-#: mail/mail-config.glade.h:105
+#: mail/mail-config.glade.h:104
 msgid "Select HTML variable width font for printing"
 msgstr "Yazdırmak için HTML değişken aralıklı yazıtipini seçin"
 
-#: mail/mail-config.glade.h:106
+#: mail/mail-config.glade.h:105
 msgid "Sending Email"
 msgstr "İleti Gönderiliyor"
 
-#: mail/mail-config.glade.h:108
+#: mail/mail-config.glade.h:107
 msgid "Sent _messages folder:"
 msgstr "_Gönderilen iletiler dizini:"
 
-#: mail/mail-config.glade.h:109
+#: mail/mail-config.glade.h:108
 msgid "Sent and Draft Messages"
 msgstr "Gönderilen ve Taslak İletileri"
 
-#: mail/mail-config.glade.h:110
+#: mail/mail-config.glade.h:109
 msgid "Ser_ver requires authentication"
 msgstr "S_unucu kimlik denetimi istiyor"
 
-#: mail/mail-config.glade.h:111
+#: mail/mail-config.glade.h:110
 msgid "Server Configuration"
 msgstr "Sunucu Yapılandırması"
 
-#: mail/mail-config.glade.h:112
+#: mail/mail-config.glade.h:111
 msgid "Server _Type: "
 msgstr "Su_nucu Türü: "
+
+#: mail/mail-config.glade.h:112
+#, fuzzy
+msgid "Si_gning certificate:"
+msgstr "Yapılandırma Veritabanı bulunamadı"
 
 #: mail/mail-config.glade.h:113
 msgid "Specify _filename:"
@@ -13408,28 +12920,28 @@ msgid "_Beep when new mail arrives"
 msgstr "_Yeni ileti geldiği zaman biple"
 
 #: mail/mail-config.glade.h:138
-msgid "_Certificate ID:"
-msgstr "_Sertifika No:"
-
-#: mail/mail-config.glade.h:139
 msgid "_Confirm when expunging a folder"
 msgstr "_Bir dizini silmeden önce onayla"
 
-#: mail/mail-config.glade.h:140
+#: mail/mail-config.glade.h:139
 msgid "_Default signature:"
 msgstr "Ö_ntanımlı imza:"
 
-#: mail/mail-config.glade.h:141
+#: mail/mail-config.glade.h:140
 msgid "_Defaults"
 msgstr "Ön_tanımlılar"
 
-#: mail/mail-config.glade.h:142
+#: mail/mail-config.glade.h:141
 msgid "_Do not notify me when new mail arrives"
 msgstr "_Yeni ileti geldiğinde beni uyarma"
 
-#: mail/mail-config.glade.h:144
+#: mail/mail-config.glade.h:143
 msgid "_Enable"
 msgstr "_Etkinleştir"
+
+#: mail/mail-config.glade.h:144
+msgid "_Encrypt outgoing messages (by default)"
+msgstr ""
 
 #: mail/mail-config.glade.h:145
 msgid "_Forward style:"
@@ -13496,34 +13008,39 @@ msgid "_Script:"
 msgstr "_Betik:"
 
 #: mail/mail-config.glade.h:164
+#, fuzzy
+msgid "_Select..."
+msgstr "Sil..."
+
+#: mail/mail-config.glade.h:165
 msgid "_Sending Mail"
 msgstr "Gönderilen İ_letiler"
 
-#: mail/mail-config.glade.h:165
+#: mail/mail-config.glade.h:166
 msgid "_Show animated images"
 msgstr "_Canlandırmalı resimleri göster"
 
-#: mail/mail-config.glade.h:166
+#: mail/mail-config.glade.h:167
 msgid "_Signatures"
 msgstr "İm_zalar"
 
-#: mail/mail-config.glade.h:167
+#: mail/mail-config.glade.h:168
 msgid "_Standard Font:"
 msgstr "_Standart Yazıtipi:"
 
-#: mail/mail-config.glade.h:168
+#: mail/mail-config.glade.h:169
 msgid "_Terminal Font:"
 msgstr "_Terminal Yazıtipi:"
 
-#: mail/mail-config.glade.h:169
+#: mail/mail-config.glade.h:170
 msgid "_Use secure connection (SSL):"
 msgstr "_Güvenli bağlantı (SSL) kullan:"
 
-#: mail/mail-config.glade.h:170
+#: mail/mail-config.glade.h:171
 msgid "_Use the same fonts as other applications"
 msgstr "_Diğer uygulamalarla aynı yazıtipini kullan"
 
-#: mail/mail-config.glade.h:172
+#: mail/mail-config.glade.h:173
 msgid "description"
 msgstr "açıklama"
 
@@ -14715,6 +14232,10 @@ msgstr "Kısayolları kaydederken hata oldu."
 msgid "Shortcuts"
 msgstr "Kısayollar"
 
+#: shell/e-storage.c:569
+msgid "No error"
+msgstr "Hata yok"
+
 #: shell/e-storage.c:573
 msgid "A folder with the same name already exists"
 msgstr "Aynı isimli bir dizin zaten var"
@@ -14825,6 +14346,10 @@ msgstr "CORBA hatası"
 #: shell/evolution-shell-component.c:1189
 msgid "Interrupted"
 msgstr "Kesintiye uğradı"
+
+#: shell/evolution-shell-component.c:1191
+msgid "Invalid argument"
+msgstr "Geçersiz argüman"
 
 #: shell/evolution-shell-component.c:1193
 msgid "Already has an owner"
@@ -15506,6 +15031,10 @@ msgstr "Belirli bir tarihe git"
 #: ui/evolution-calendar.xml.h:20
 msgid "Go to today"
 msgstr "Bugüne git"
+
+#: ui/evolution-calendar.xml.h:21
+msgid "List"
+msgstr "Liste"
 
 #: ui/evolution-calendar.xml.h:22
 msgid "Month"
@@ -16978,19 +16507,287 @@ msgstr "Temizle"
 msgid "Find Now"
 msgstr "Şimdi Bul"
 
-#: wombat/GNOME_Evolution_WombatLDAP.server.in.in.h:1
-msgid "Evolution Addressbook local/LDAP backend"
-msgstr "Evolution Adres Defteri yerel/LDAP arayüzü"
-
-#: wombat/GNOME_Evolution_WombatLDAP.server.in.in.h:2
-#: wombat/GNOME_Evolution_WombatNOLDAP.server.in.in.h:2
-msgid "Evolution Calendar local file backend"
-msgstr "Evolution Takvim yerel dosya arkayüzü"
-
-#: wombat/GNOME_Evolution_WombatNOLDAP.server.in.in.h:1
 #, fuzzy
-msgid "Evolution Addressbook local backend"
-msgstr "Evolution Adres Defteri yerel/LDAP arayüzü"
+#~ msgid "e_book_cancel: there is no current operation"
+#~ msgstr "Şimdiki e-posta işlemini iptal et"
+
+#, fuzzy
+#~ msgid "Given Name"
+#~ msgstr "Alan Adı"
+
+#~ msgid "Family Name"
+#~ msgstr "Tam İsim"
+
+#, fuzzy
+#~ msgid "Address List"
+#~ msgstr "Addres"
+
+#, fuzzy
+#~ msgid "Home Address Label"
+#~ msgstr "Address Etiketi"
+
+#, fuzzy
+#~ msgid "Work Address Label"
+#~ msgstr "Address Etiketi"
+
+#, fuzzy
+#~ msgid "Other Address Label"
+#~ msgstr "Address Etiketi"
+
+#, fuzzy
+#~ msgid "Email List"
+#~ msgstr "E-posta adresi"
+
+#, fuzzy
+#~ msgid "Email 1"
+#~ msgstr "3. E-posta Adresi"
+
+#, fuzzy
+#~ msgid "Wants HTML Mail"
+#~ msgstr "HTML ister"
+
+#, fuzzy
+#~ msgid "Jabber Id List"
+#~ msgstr "İsimsiz Liste"
+
+#, fuzzy
+#~ msgid "ICQ Id List"
+#~ msgstr "Yeni Liste"
+
+#~ msgid "Organizational Unit"
+#~ msgstr "Bölüm"
+
+#, fuzzy
+#~ msgid "Photo"
+#~ msgstr "Porto"
+
+#, fuzzy
+#~ msgid "Logo"
+#~ msgstr "Togo"
+
+#~ msgid "Category List"
+#~ msgstr "Kategori Listesi"
+
+#~ msgid "Calendar URI"
+#~ msgstr "Takvim URI"
+
+#~ msgid "Free/Busy URL"
+#~ msgstr "Boş/Meşgul URL"
+
+#~ msgid "ICS Calendar"
+#~ msgstr "ICS Takvimi"
+
+#, fuzzy
+#~ msgid "Spouse's Name"
+#~ msgstr "Eş"
+
+#~ msgid "Birth Date"
+#~ msgstr "Doğum Günü"
+
+#~ msgid "Anniversary"
+#~ msgstr "Yıldönümü"
+
+#~ msgid "List Show Addresses"
+#~ msgstr "Liste Adresleri"
+
+#~ msgid "Evolution LDIF importer"
+#~ msgstr "Evolution LDIF alıcısı"
+
+#, fuzzy
+#~ msgid "Evolution LDIF importer factory"
+#~ msgstr "Evolution LDIF alıcısı"
+
+#~ msgid "LDAP Data Interchange Format (.ldif)"
+#~ msgstr "LDAP Veri Aktarım Biçim (.ldif)"
+
+#~ msgid "Evolution VCard Importer"
+#~ msgstr "Evolution VCard Alıcısı"
+
+#~ msgid "Evolution VCard importer"
+#~ msgstr "Evolution VCard alıcısı"
+
+#~ msgid "VCard (.vcf, .gcrd)"
+#~ msgstr "VCard (.vcf, .gcrd)"
+
+#~ msgid "Loading..."
+#~ msgstr "Yükleniyor..."
+
+#~ msgid "Searching..."
+#~ msgstr "Aranıyor..."
+
+#~ msgid "Using Distinguished Name (DN)"
+#~ msgstr "DN kullanılıyor"
+
+#~ msgid "Using Email Address"
+#~ msgstr "E-posta Adresi Kullanarak"
+
+#~ msgid "Reconnecting to LDAP server..."
+#~ msgstr "LDAP sunucuya yeniden bağlantı kuruluyor..."
+
+#, fuzzy
+#~ msgid "Adding contact to LDAP server..."
+#~ msgstr "LDAP sunucuya kart ekleniyor..."
+
+#, fuzzy
+#~ msgid "Removing contact from LDAP server..."
+#~ msgstr "LDAP sunucudaki kart siliniyor..."
+
+#, fuzzy
+#~ msgid "Modifying contact from LDAP server..."
+#~ msgstr "LDAP sunucudaki kart düzenleniyor..."
+
+#~ msgid "Receiving LDAP search results..."
+#~ msgstr "LDAP arama sonuçları alınıyor..."
+
+#~ msgid "Error performing search"
+#~ msgstr "Arama yaparken bir hata oluştu"
+
+#, fuzzy
+#~ msgid "Repository is offline"
+#~ msgstr "Depo çevrimdışı"
+
+#, fuzzy
+#~ msgid "No such calendar"
+#~ msgstr "Bu isimde bir dizin yok: `%s'"
+
+#, fuzzy
+#~ msgid "Object not found"
+#~ msgstr "Öğe bulunamadı\n"
+
+#, fuzzy
+#~ msgid "Invalid object"
+#~ msgstr "Geçersiz argüman"
+
+#, fuzzy
+#~ msgid "URI not loaded"
+#~ msgstr "EBook yüklenmedi\n"
+
+#, fuzzy
+#~ msgid "Object ID already exists"
+#~ msgstr "Bu kart numarası var"
+
+#, fuzzy
+#~ msgid "Operation has been cancelled"
+#~ msgstr "İşlem iptal edildi"
+
+#, fuzzy
+#~ msgid "Could not cancel operation"
+#~ msgstr "İşlemi İ_ptal Et"
+
+#, fuzzy
+#~ msgid "Authentication failed"
+#~ msgstr "Kimlik denetimi başarısız."
+
+#~ msgid "Untitled appointment"
+#~ msgstr "Başlıksız toplantı"
+
+#~ msgid "Can't save calendar data: Malformed URI."
+#~ msgstr "Takvim verisi kaydedilemedi. Hatalı URI."
+
+#~ msgid "time-now expects 0 arguments"
+#~ msgstr "time-now hiç argüman istemiyor"
+
+#~ msgid "make-time expects 1 argument"
+#~ msgstr "make-time 1 argüman istiyor"
+
+#~ msgid "make-time expects argument 1 to be a string"
+#~ msgstr "make-time için birinci argüman bir dizi olmalıdır."
+
+#~ msgid "make-time argument 1 must be an ISO 8601 date/time string"
+#~ msgstr "make-time 1. argümanı ISO 8601 tarih/saat bilgisi olmalıdır"
+
+#~ msgid "time-add-day expects 2 arguments"
+#~ msgstr "time-add-day 2 argüman istiyor"
+
+#~ msgid "time-add-day expects argument 2 to be an integer"
+#~ msgstr "time-add-day 2. argümanı bir sayı istiyor"
+
+#~ msgid "time-day-begin expects 1 argument"
+#~ msgstr "time-day-begin bir argüman istiyor"
+
+#~ msgid "time-day-begin expects argument 1 to be a time_t"
+#~ msgstr "time-day-begin birinci argümanı time_t biçiminde istiyor"
+
+#~ msgid "time-day-end expects 1 argument"
+#~ msgstr "time-day-end bir argüman istiyor"
+
+#~ msgid "time-day-end expects argument 1 to be a time_t"
+#~ msgstr "time-day-end birinci argümanı time_t biçiminde istiyor"
+
+#~ msgid "get-vtype expects 0 arguments"
+#~ msgstr "get-vtype hiç argüman istemiyor"
+
+#~ msgid "occur-in-time-range? expects 2 arguments"
+#~ msgstr "ocrur-in-time-range? iki argüman istiyor"
+
+#, fuzzy
+#~ msgid "occur-in-time-range? expects argument 1 to be a time_t"
+#~ msgstr "time-day-end birinci argümanı time_t biçiminde istiyor"
+
+#, fuzzy
+#~ msgid "occur-in-time-range? expects argument 2 to be a time_t"
+#~ msgstr "time-day-end birinci argümanı time_t biçiminde istiyor"
+
+#~ msgid "contains? expects 2 arguments"
+#~ msgstr "contains? iki argüman istiyor"
+
+#~ msgid "contains? expects argument 1 to be a string"
+#~ msgstr "contains? birinci argümanı dizgi şeklinde istiyor"
+
+#~ msgid "contains? expects argument 2 to be a string"
+#~ msgstr "contains? ikinci argümanı dizgi şeklinde istiyor"
+
+#, fuzzy
+#~ msgid ""
+#~ "contains? expects argument 1 to be one of \"any\", \"summary\", "
+#~ "\"description\""
+#~ msgstr "contains? birinci argümanı dizgi şeklinde istiyor"
+
+#, fuzzy
+#~ msgid "has-alarms? expects at least 1 argument"
+#~ msgstr "make-time 1 argüman istiyor"
+
+#, fuzzy
+#~ msgid "has-alarms? excepts argument to be a boolean"
+#~ msgstr "contains? ikinci argümanı dizgi şeklinde istiyor"
+
+#, fuzzy
+#~ msgid "has-categories? expects at least 1 argument"
+#~ msgstr "make-time 1 argüman istiyor"
+
+#, fuzzy
+#~ msgid "is-completed? expects 0 arguments"
+#~ msgstr "time-now hiç argüman istemiyor"
+
+#, fuzzy
+#~ msgid "completed-before? expects 1 argument"
+#~ msgstr "time-day-begin bir argüman istiyor"
+
+#, fuzzy
+#~ msgid "completed-before? expects argument 1 to be a time_t"
+#~ msgstr "time-day-begin birinci argümanı time_t biçiminde istiyor"
+
+#~ msgid "Alwa_ys sign outgoing messages when using this account"
+#~ msgstr "B_u hesabı kullanırken giden iletileri her zaman imzala"
+
+#~ msgid "Digital IDs..."
+#~ msgstr "Sayısal Numaralar..."
+
+#~ msgid "Get Digital ID..."
+#~ msgstr "Sayısal Numarayı Al..."
+
+#~ msgid "_Certificate ID:"
+#~ msgstr "_Sertifika No:"
+
+#~ msgid "Evolution Addressbook local/LDAP backend"
+#~ msgstr "Evolution Adres Defteri yerel/LDAP arayüzü"
+
+#~ msgid "Evolution Calendar local file backend"
+#~ msgstr "Evolution Takvim yerel dosya arkayüzü"
+
+#, fuzzy
+#~ msgid "Evolution Addressbook local backend"
+#~ msgstr "Evolution Adres Defteri yerel/LDAP arayüzü"
 
 #~ msgid "Primary"
 #~ msgstr "İlk"

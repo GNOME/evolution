@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution 1.3.1.99\n"
-"POT-Creation-Date: 2003-10-30 16:28-0500\n"
+"POT-Creation-Date: 2003-11-07 01:11-0500\n"
 "PO-Revision-Date: 2003-03-23 11:33+0800\n"
 "Last-Translator: Chao-Hsiung Liao <pesder.liao@msa.hinet.net>\n"
 "Language-Team: Chinese (traditional) <zh-l10n@linux.org.tw>\n"
@@ -14,650 +14,6 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: KBabel 0.9.6\n"
-
-#: addressbook/backend/ebook/e-book.c:214
-msgid "e_book_add_contact called on book before e_book_load_uri"
-msgstr ""
-
-#: addressbook/backend/ebook/e-book.c:221
-#: addressbook/backend/ebook/e-book.c:330
-#: addressbook/backend/ebook/e-book.c:412
-#: addressbook/backend/ebook/e-book.c:511
-#: addressbook/backend/ebook/e-book.c:620
-#: addressbook/backend/ebook/e-book.c:701
-#: addressbook/backend/ebook/e-book.c:801
-#: addressbook/backend/ebook/e-book.c:853
-#: addressbook/backend/ebook/e-book.c:946
-#: addressbook/backend/ebook/e-book.c:1075
-#: addressbook/backend/ebook/e-book.c:1173
-#: addressbook/backend/ebook/e-book.c:1397
-msgid "book busy"
-msgstr ""
-
-#: addressbook/backend/ebook/e-book.c:248
-msgid "Corba exception making Book::addContact call"
-msgstr ""
-
-#: addressbook/backend/ebook/e-book.c:323
-msgid "e_book_commit_contact called on book before e_book_load_uri"
-msgstr ""
-
-#: addressbook/backend/ebook/e-book.c:357
-msgid "Corba exception making Book::modifyContact call"
-msgstr ""
-
-#: addressbook/backend/ebook/e-book.c:405
-msgid "e_book_get_supported_fields on book before e_book_load_uri"
-msgstr ""
-
-#: addressbook/backend/ebook/e-book.c:434
-msgid "Corba exception making Book::getSupportedFields call"
-msgstr ""
-
-#: addressbook/backend/ebook/e-book.c:504
-msgid "e_book_get_supported_auth_methods on book before e_book_load_uri"
-msgstr ""
-
-#: addressbook/backend/ebook/e-book.c:534
-msgid "Corba exception making Book::getSupportedAuthMethods call"
-msgstr ""
-
-#: addressbook/backend/ebook/e-book.c:613
-msgid "e_book_authenticate_user on book before e_book_load_uri"
-msgstr ""
-
-#: addressbook/backend/ebook/e-book.c:646
-msgid "Corba exception making Book::authenticateUser call"
-msgstr ""
-
-#: addressbook/backend/ebook/e-book.c:694
-msgid "e_book_get_contact on book before e_book_load_uri"
-msgstr ""
-
-#: addressbook/backend/ebook/e-book.c:724
-msgid "Corba exception making Book::getContact call"
-msgstr ""
-
-#: addressbook/backend/ebook/e-book.c:794
-msgid "e_book_remove_contact on book before e_book_load_uri"
-msgstr ""
-
-#: addressbook/backend/ebook/e-book.c:846
-msgid "e_book_remove_contacts on book before e_book_load_uri"
-msgstr ""
-
-#: addressbook/backend/ebook/e-book.c:885
-msgid "Corba exception making Book::removeContacts call"
-msgstr ""
-
-#: addressbook/backend/ebook/e-book.c:939
-msgid "e_book_get_book_view on book before e_book_load_uri"
-msgstr ""
-
-#: addressbook/backend/ebook/e-book.c:990
-msgid "Corba exception making Book::getBookView call"
-msgstr ""
-
-#: addressbook/backend/ebook/e-book.c:1068
-msgid "e_book_get_contacts on book before e_book_load_uri"
-msgstr ""
-
-#: addressbook/backend/ebook/e-book.c:1103
-msgid "Corba exception making Book::getContactList call"
-msgstr ""
-
-#: addressbook/backend/ebook/e-book.c:1166
-msgid "e_book_get_changes on book before e_book_load_uri"
-msgstr ""
-
-#: addressbook/backend/ebook/e-book.c:1197
-msgid "Corba exception making Book::getChanges call"
-msgstr ""
-
-# ui/evolution-mail.xml.h:3
-#: addressbook/backend/ebook/e-book.c:1308
-#, fuzzy
-msgid "e_book_cancel: there is no current operation"
-msgstr "取消目前郵件所作的行動"
-
-#: addressbook/backend/ebook/e-book.c:1327
-msgid "Corba exception making Book::cancelOperation call"
-msgstr ""
-
-#: addressbook/backend/ebook/e-book.c:1342
-msgid "e_book_cancel: couldn't cancel"
-msgstr ""
-
-#: addressbook/backend/ebook/e-book.c:1390
-msgid "e_book_remove on book before e_book_load_uri"
-msgstr ""
-
-#: addressbook/backend/ebook/e-book.c:1419
-msgid "Corba exception making Book::remove call"
-msgstr ""
-
-#: addressbook/backend/ebook/e-book.c:1642
-#: addressbook/backend/ebook/e-book.c:1736
-#, c-format
-msgid "e_book_load_uri: no factories available for uri `%s'"
-msgstr ""
-
-#: addressbook/backend/ebook/e-book.c:1656
-msgid "e_book_load_uri: Could not create EBookListener"
-msgstr ""
-
-#: addressbook/backend/ebook/e-contact.c:90
-msgid "Unique ID"
-msgstr ""
-
-# addressbook/gui/widgets/e-addressbook-view.c:699
-#: addressbook/backend/ebook/e-contact.c:91
-#: addressbook/gui/widgets/e-addressbook-view.etspec.h:15
-msgid "File As"
-msgstr "歸檔為"
-
-# addressbook/contact-editor/e-contact-quick-add.c:276
-# addressbook/gui/widgets/e-addressbook-view.c:700
-#. Name fields
-#. FN isn't really a structured field - we use a getter/setter
-#. so we can set the N property (since evo 1.4 works fine with
-#. vcards that don't even have a N attribute.  *sigh*)
-#: addressbook/backend/ebook/e-contact.c:97
-#: addressbook/gui/contact-editor/fullname.glade.h:4
-#: addressbook/gui/widgets/e-addressbook-view.etspec.h:17
-msgid "Full Name"
-msgstr "全名"
-
-# addressbook/gui/component/addressbook-config.glade.h:5
-#: addressbook/backend/ebook/e-contact.c:98
-#: addressbook/gui/component/select-names/e-select-names.etspec.h:1
-#: addressbook/gui/component/select-names/e-select-names-section.etspec.h:1
-#: addressbook/gui/contact-editor/e-contact-editor-fullname.c:89
-msgid "Name"
-msgstr "名稱"
-
-# addressbook/contact-editor/e-contact-quick-add.c:276
-# addressbook/gui/widgets/e-addressbook-view.c:700
-#: addressbook/backend/ebook/e-contact.c:99
-#, fuzzy
-msgid "Given Name"
-msgstr "欄位名稱"
-
-# addressbook/contact-editor/e-contact-quick-add.c:276
-# addressbook/gui/widgets/e-addressbook-view.c:700
-#: addressbook/backend/ebook/e-contact.c:100
-msgid "Family Name"
-msgstr "姓"
-
-# addressbook/gui/widgets/e-addressbook-view.c:734
-#: addressbook/backend/ebook/e-contact.c:101
-#: addressbook/gui/widgets/e-addressbook-view.etspec.h:25
-msgid "Nickname"
-msgstr "暱稱"
-
-# addressbook/backend/ebook/e-card.c:3346
-#. Address fields
-#: addressbook/backend/ebook/e-contact.c:104
-#, fuzzy
-msgid "Address List"
-msgstr "地址"
-
-# addressbook/gui/widgets/e-addressbook-view.c:710
-#: addressbook/backend/ebook/e-contact.c:105
-#: addressbook/gui/widgets/e-addressbook-view.etspec.h:18
-#: addressbook/gui/widgets/eab-contact-display.c:221
-msgid "Home Address"
-msgstr "住家地址"
-
-# addressbook/gui/widgets/e-addressbook-view.c:710
-#: addressbook/backend/ebook/e-contact.c:106
-#: addressbook/gui/widgets/eab-contact-display.c:222
-#, fuzzy
-msgid "Work Address"
-msgstr "住家地址"
-
-# addressbook/gui/widgets/e-addressbook-view.c:724
-#: addressbook/backend/ebook/e-contact.c:107
-#: addressbook/gui/widgets/e-addressbook-view.etspec.h:29
-#: addressbook/gui/widgets/eab-contact-display.c:223
-msgid "Other Address"
-msgstr "其它地址"
-
-# data/evolution.keys.in.h:1
-#: addressbook/backend/ebook/e-contact.c:109
-#, fuzzy
-msgid "Home Address Label"
-msgstr "地址標籤"
-
-# data/evolution.keys.in.h:1
-#: addressbook/backend/ebook/e-contact.c:110
-#, fuzzy
-msgid "Work Address Label"
-msgstr "地址標籤"
-
-# data/evolution.keys.in.h:1
-#: addressbook/backend/ebook/e-contact.c:111
-#, fuzzy
-msgid "Other Address Label"
-msgstr "地址標籤"
-
-# addressbook/gui/widgets/e-addressbook-view.c:703
-#: addressbook/backend/ebook/e-contact.c:113
-#: addressbook/gui/widgets/e-addressbook-view.etspec.h:3
-msgid "Assistant Phone"
-msgstr "助理電話"
-
-# addressbook/gui/widgets/e-addressbook-view.c:704
-#: addressbook/backend/ebook/e-contact.c:114
-#: addressbook/gui/widgets/e-addressbook-view.etspec.h:6
-msgid "Business Phone"
-msgstr "商務電話"
-
-# addressbook/gui/widgets/e-addressbook-view.c:715
-#: addressbook/backend/ebook/e-contact.c:115
-#: addressbook/gui/widgets/e-addressbook-view.etspec.h:7
-msgid "Business Phone 2"
-msgstr "商務電話 2"
-
-# addressbook/contact-editor/e-contact-editor.c:1245
-# addressbook/gui/widgets/e-addressbook-view.c:713
-#: addressbook/backend/ebook/e-contact.c:116
-#: addressbook/gui/widgets/e-addressbook-view.etspec.h:5
-msgid "Business Fax"
-msgstr "商務傅真"
-
-# addressbook/gui/widgets/e-addressbook-view.c:705
-#: addressbook/backend/ebook/e-contact.c:117
-#: addressbook/gui/widgets/e-addressbook-view.etspec.h:8
-msgid "Callback Phone"
-msgstr "回撥電話"
-
-# addressbook/gui/widgets/e-addressbook-view.c:712
-#: addressbook/backend/ebook/e-contact.c:118
-#: addressbook/gui/widgets/e-addressbook-view.etspec.h:9
-msgid "Car Phone"
-msgstr "汽車電話"
-
-# addressbook/gui/widgets/e-addressbook-view.c:706
-#: addressbook/backend/ebook/e-contact.c:119
-#: addressbook/gui/widgets/e-addressbook-view.etspec.h:10
-msgid "Company Phone"
-msgstr "公司電話"
-
-# addressbook/gui/widgets/e-addressbook-view.c:707
-#: addressbook/backend/ebook/e-contact.c:120
-#: addressbook/gui/widgets/e-addressbook-view.etspec.h:20
-msgid "Home Phone"
-msgstr "住家電話"
-
-# addressbook/gui/widgets/e-addressbook-view.c:716
-#: addressbook/backend/ebook/e-contact.c:121
-#: addressbook/gui/widgets/e-addressbook-view.etspec.h:21
-msgid "Home Phone 2"
-msgstr "住家電話 2"
-
-# addressbook/contact-editor/e-contact-editor.c:1251
-# addressbook/gui/widgets/e-addressbook-view.c:714
-#: addressbook/backend/ebook/e-contact.c:122
-#: addressbook/gui/widgets/e-addressbook-view.etspec.h:19
-msgid "Home Fax"
-msgstr "住家傳真"
-
-# addressbook/contact-editor/e-contact-editor.c:1252
-# addressbook/gui/widgets/e-addressbook-view.c:717
-#: addressbook/backend/ebook/e-contact.c:123
-#: addressbook/gui/widgets/e-addressbook-view.etspec.h:22
-msgid "ISDN"
-msgstr "ISDN"
-
-# addressbook/gui/widgets/e-addressbook-view.c:711
-#: addressbook/backend/ebook/e-contact.c:124
-#: addressbook/gui/widgets/e-addressbook-view.etspec.h:24
-msgid "Mobile Phone"
-msgstr "行動電話"
-
-# addressbook/gui/widgets/e-addressbook-view.c:718
-#: addressbook/backend/ebook/e-contact.c:125
-#: addressbook/gui/widgets/e-addressbook-view.etspec.h:31
-msgid "Other Phone"
-msgstr "其它電話"
-
-# addressbook/contact-editor/e-contact-editor.c:1255
-# addressbook/gui/widgets/e-addressbook-view.c:719
-#. XXX
-#: addressbook/backend/ebook/e-contact.c:126
-#: addressbook/gui/widgets/e-addressbook-view.etspec.h:30
-msgid "Other Fax"
-msgstr "其它傳真"
-
-# addressbook/contact-editor/e-contact-editor.c:1256
-# addressbook/gui/widgets/e-addressbook-view.c:720
-#. XXX
-#: addressbook/backend/ebook/e-contact.c:127
-#: addressbook/gui/widgets/e-addressbook-view.etspec.h:32
-msgid "Pager"
-msgstr "呼叫器"
-
-# addressbook/gui/widgets/e-addressbook-view.c:702
-#: addressbook/backend/ebook/e-contact.c:128
-#: addressbook/gui/widgets/e-addressbook-view.etspec.h:33
-msgid "Primary Phone"
-msgstr "主要電話"
-
-# addressbook/contact-editor/e-contact-editor.c:1258
-# addressbook/gui/widgets/e-addressbook-view.c:721
-#: addressbook/backend/ebook/e-contact.c:129
-#: addressbook/gui/widgets/e-addressbook-view.etspec.h:35
-msgid "Radio"
-msgstr "無線電電話"
-
-# addressbook/contact-editor/e-contact-editor.c:1259
-# addressbook/gui/widgets/e-addressbook-view.c:722
-#: addressbook/backend/ebook/e-contact.c:130
-#: addressbook/gui/widgets/e-addressbook-view.etspec.h:38
-msgid "Telex"
-msgstr "電報"
-
-# addressbook/gui/widgets/e-addressbook-view.c:723
-#: addressbook/backend/ebook/e-contact.c:131
-#: addressbook/gui/widgets/e-addressbook-view.etspec.h:37
-msgid "TTY"
-msgstr "TTY"
-
-# addressbook/contact-editor/e-contact-editor.c:1285
-# addressbook/gui/widgets/e-addressbook-view.c:725
-#. Email fields
-#: addressbook/backend/ebook/e-contact.c:134
-#, fuzzy
-msgid "Email List"
-msgstr "電子郵件 2"
-
-# addressbook/contact-editor/e-contact-editor.c:1286
-# addressbook/gui/widgets/e-addressbook-view.c:726
-#: addressbook/backend/ebook/e-contact.c:135
-#, fuzzy
-msgid "Email 1"
-msgstr "電子郵件 3"
-
-# addressbook/contact-editor/e-contact-editor.c:1285
-# addressbook/gui/widgets/e-addressbook-view.c:725
-#: addressbook/backend/ebook/e-contact.c:136
-#: addressbook/gui/widgets/e-addressbook-view.etspec.h:13
-#: addressbook/gui/widgets/eab-popup-control.c:460
-msgid "Email 2"
-msgstr "電子郵件 2"
-
-# addressbook/contact-editor/e-contact-editor.c:1286
-# addressbook/gui/widgets/e-addressbook-view.c:726
-#: addressbook/backend/ebook/e-contact.c:137
-#: addressbook/gui/widgets/e-addressbook-view.etspec.h:14
-#: addressbook/gui/widgets/eab-popup-control.c:470
-msgid "Email 3"
-msgstr "電子郵件 3"
-
-# addressbook/backend/ebook/e-card.c:3428
-#: addressbook/backend/ebook/e-contact.c:138 mail/em-format-html.c:1381
-msgid "Mailer"
-msgstr "寄件者"
-
-#: addressbook/backend/ebook/e-contact.c:139
-#, fuzzy
-msgid "Wants HTML Mail"
-msgstr "需要 HTML"
-
-#. Instant messaging fields
-#: addressbook/backend/ebook/e-contact.c:142
-msgid "AIM Screen Name List"
-msgstr ""
-
-# addressbook/gui/component/addressbook-storage.c:99
-#: addressbook/backend/ebook/e-contact.c:143
-#, fuzzy
-msgid "Jabber Id List"
-msgstr "未命名的清單"
-
-#: addressbook/backend/ebook/e-contact.c:144
-msgid "Yahoo! Screen Name List"
-msgstr ""
-
-#: addressbook/backend/ebook/e-contact.c:145
-msgid "MSN Screen Name List"
-msgstr ""
-
-# mail/mail-config.glade.h:45
-#: addressbook/backend/ebook/e-contact.c:146
-#, fuzzy
-msgid "ICQ Id List"
-msgstr "是新的清單"
-
-# addressbook/gui/widgets/e-addressbook-view.c:708
-#. Organizational fields
-#: addressbook/backend/ebook/e-contact.c:149
-#: addressbook/gui/widgets/e-addressbook-view.etspec.h:28
-msgid "Organization"
-msgstr "團體"
-
-# addressbook/gui/widgets/e-addressbook-view.c:708
-#: addressbook/backend/ebook/e-contact.c:150
-msgid "Organizational Unit"
-msgstr "團體單位"
-
-# addressbook/gui/widgets/e-addressbook-view.c:729
-#: addressbook/backend/ebook/e-contact.c:151
-#: addressbook/gui/widgets/e-addressbook-view.etspec.h:27
-msgid "Office"
-msgstr "辦公室"
-
-# addressbook/gui/widgets/e-addressbook-view.c:730
-#: addressbook/backend/ebook/e-contact.c:153
-#: addressbook/gui/widgets/e-addressbook-view.etspec.h:39
-msgid "Title"
-msgstr "頭銜"
-
-#: addressbook/backend/ebook/e-contact.c:154
-#: calendar/gui/dialogs/meeting-page.etspec.h:9
-#: calendar/gui/e-meeting-list-view.c:256
-#: calendar/gui/e-meeting-time-sel.etspec.h:9
-msgid "Role"
-msgstr "角色"
-
-# addressbook/gui/widgets/e-addressbook-view.c:732
-#: addressbook/backend/ebook/e-contact.c:155
-#: addressbook/gui/widgets/e-addressbook-view.etspec.h:23
-msgid "Manager"
-msgstr "主管"
-
-# addressbook/contact-editor/e-contact-editor.c:1242
-# addressbook/gui/widgets/e-addressbook-view.c:733
-#: addressbook/backend/ebook/e-contact.c:156
-#: addressbook/gui/widgets/e-addressbook-view.etspec.h:2
-msgid "Assistant"
-msgstr "助理"
-
-#. Web fields
-#: addressbook/backend/ebook/e-contact.c:159
-msgid "Homepage URL"
-msgstr ""
-
-#: addressbook/backend/ebook/e-contact.c:160
-msgid "Weblog URL"
-msgstr ""
-
-# addressbook/gui/component/addressbook-config.c:409
-#. Photo/Logo
-#: addressbook/backend/ebook/e-contact.c:163
-#, fuzzy
-msgid "Photo"
-msgstr "波土"
-
-# mail/mail-format.c:762
-# mail/message-list.c:1083
-#: addressbook/backend/ebook/e-contact.c:164
-#, fuzzy
-msgid "Logo"
-msgstr "多哥"
-
-# calendar/gui/e-calendar-table.c:150
-#: addressbook/backend/ebook/e-contact.c:168
-msgid "Category List"
-msgstr "類別清單"
-
-# calendar/gui/e-calendar-table.c:150
-#: addressbook/backend/ebook/e-contact.c:169
-#: addressbook/backend/ebook/e-contact.c:171
-#: calendar/gui/e-cal-list-view.etspec.h:1
-#: calendar/gui/e-calendar-table.etspec.h:4
-msgid "Categories"
-msgstr "類別"
-
-# calendar/gui/dialogs/cal-prefs-dialog.glade.h:11
-# ui/evolution-calendar.xml.h:3
-#. Collaboration fields
-#: addressbook/backend/ebook/e-contact.c:175
-msgid "Calendar URI"
-msgstr "行事曆 URI"
-
-# addressbook/gui/widgets/e-addressbook-view.c:737
-#: addressbook/backend/ebook/e-contact.c:176
-msgid "Free/Busy URL"
-msgstr "空閒/忙碌 URL"
-
-# calendar/gui/dialogs/cal-prefs-dialog.glade.h:11
-# ui/evolution-calendar.xml.h:3
-#: addressbook/backend/ebook/e-contact.c:177
-#, fuzzy
-msgid "ICS Calendar"
-msgstr "行事曆"
-
-# addressbook/gui/widgets/e-addressbook-view.c:735
-#. Misc fields
-#: addressbook/backend/ebook/e-contact.c:180
-#, fuzzy
-msgid "Spouse's Name"
-msgstr "配偶"
-
-# addressbook/gui/widgets/e-addressbook-view.c:736
-#: addressbook/backend/ebook/e-contact.c:181
-#: addressbook/gui/widgets/e-addressbook-view.etspec.h:26
-msgid "Note"
-msgstr "備註"
-
-# addressbook/backend/ebook/e-card.c:3335
-#: addressbook/backend/ebook/e-contact.c:183
-msgid "Birth Date"
-msgstr "出生日期"
-
-# addressbook/contact-editor/contact-editor.glade.h:2
-#: addressbook/backend/ebook/e-contact.c:184
-msgid "Anniversary"
-msgstr "紀念日"
-
-# addressbook/contact-editor/fullname.glade.h:8
-#: addressbook/backend/ebook/e-contact.c:186 ui/evolution-calendar.xml.h:21
-msgid "List"
-msgstr "清單"
-
-# addressbook/gui/widgets/e-addressbook-view.c:724
-#: addressbook/backend/ebook/e-contact.c:187
-msgid "List Show Addresses"
-msgstr "清單顯示地址"
-
-# addressbook/gui/component/addressbook-storage.c:99
-#: addressbook/backend/ebook/e-destination.c:709
-#: addressbook/util/eab-destination.c:675
-msgid "Unnamed List"
-msgstr "未命名的清單"
-
-# mail/GNOME_Evolution_Mail.oaf.in.h:2
-#: addressbook/backend/ebook/GNOME_Evolution_Addressbook_LDIF_Importer.server.in.in.h:1
-#, fuzzy
-msgid "Evolution LDIF importer"
-msgstr "Evolution 郵件編輯器。"
-
-# mail/GNOME_Evolution_Mail.oaf.in.h:2
-#: addressbook/backend/ebook/GNOME_Evolution_Addressbook_LDIF_Importer.server.in.in.h:2
-#, fuzzy
-msgid "Evolution LDIF importer factory"
-msgstr "Evolution 郵件編輯器。"
-
-#: addressbook/backend/ebook/GNOME_Evolution_Addressbook_LDIF_Importer.server.in.in.h:3
-msgid "LDAP Data Interchange Format (.ldif)"
-msgstr ""
-
-# mail/GNOME_Evolution_Mail.oaf.in.h:2
-#: addressbook/backend/ebook/GNOME_Evolution_Addressbook_VCard_Importer.server.in.in.h:1
-#, fuzzy
-msgid "Evolution VCard Importer"
-msgstr "Evolution 郵件編輯器。"
-
-# mail/GNOME_Evolution_Mail.oaf.in.h:2
-#: addressbook/backend/ebook/GNOME_Evolution_Addressbook_VCard_Importer.server.in.in.h:2
-#, fuzzy
-msgid "Evolution VCard importer"
-msgstr "Evolution 郵件編輯器。"
-
-#: addressbook/backend/ebook/GNOME_Evolution_Addressbook_VCard_Importer.server.in.in.h:3
-msgid "VCard (.vcf, .gcrd)"
-msgstr ""
-
-# mail/mail-send-recv.c:287
-# mail/mail-send-recv.c:333
-#: addressbook/backend/pas/pas-backend-file.c:399
-#: addressbook/backend/pas/pas-backend-vcf.c:102
-msgid "Loading..."
-msgstr "載入中..."
-
-# addressbook/gui/search/e-addressbook-search-dialog.c:158
-# mail/mail-search.c:242
-#: addressbook/backend/pas/pas-backend-file.c:401
-#: addressbook/backend/pas/pas-backend-ldap.c:2766
-#: addressbook/backend/pas/pas-backend-vcf.c:104
-msgid "Searching..."
-msgstr "搜尋..."
-
-#: addressbook/backend/pas/pas-backend-ldap.c:599
-msgid "Using Distinguished Name (DN)"
-msgstr "使用辨認的名稱 (DN)"
-
-# mail/mail-config.glade.h:29
-#: addressbook/backend/pas/pas-backend-ldap.c:602
-msgid "Using Email Address"
-msgstr "使用電子郵件地址"
-
-# mail/mail-config.c:1213
-# mail/mail-config.c:1216
-#: addressbook/backend/pas/pas-backend-ldap.c:746
-msgid "Reconnecting to LDAP server..."
-msgstr "正重新連線至 LDAP 伺服器..."
-
-# mail/mail-config.c:1213
-# mail/mail-config.c:1216
-#: addressbook/backend/pas/pas-backend-ldap.c:1248
-#, fuzzy
-msgid "Adding contact to LDAP server..."
-msgstr "新增名片至 LDAP 伺服器..."
-
-# mail/mail-ops.c:1195
-# mail/mail-ops.c:1333
-#: addressbook/backend/pas/pas-backend-ldap.c:1337
-#, fuzzy
-msgid "Removing contact from LDAP server..."
-msgstr "自 LDAP 伺服器移除名片..."
-
-#: addressbook/backend/pas/pas-backend-ldap.c:1537
-#: addressbook/backend/pas/pas-backend-ldap.c:1540
-#, fuzzy
-msgid "Modifying contact from LDAP server..."
-msgstr "自 LDAP 伺服器編輯名片..."
-
-#: addressbook/backend/pas/pas-backend-ldap.c:2689
-msgid "Receiving LDAP search results..."
-msgstr "接收 LDAP 搜尋結果..."
-
-# executive-summary/component/e-summary.c:940
-#: addressbook/backend/pas/pas-backend-ldap.c:2786
-msgid "Error performing search"
-msgstr "進行搜尋時發生錯誤"
 
 # mail/mail-config.glade.h:29
 #: addressbook/conduit/address-conduit.c:272
@@ -1012,7 +368,7 @@ msgid "Addressbook Sources"
 msgstr "目錄服務來源"
 
 #: addressbook/gui/component/ldap-config.glade.h:13 mail/mail-account-gui.c:66
-#: mail/mail-config.glade.h:16
+#: mail/mail-config.glade.h:15
 msgid "Always"
 msgstr "永遠"
 
@@ -1084,7 +440,7 @@ msgstr "LDAP 組態助理"
 
 # calendar/gui/event-editor-dialog.glade.h:10
 #: addressbook/gui/component/ldap-config.glade.h:28 mail/mail-account-gui.c:68
-#: mail/mail-config.glade.h:74
+#: mail/mail-config.glade.h:73
 msgid "Never"
 msgstr "永不"
 
@@ -1114,7 +470,7 @@ msgstr "搜尋範圍(_E):"
 # addressbook/gui/search/e-addressbook-search-dialog.c:158
 # mail/mail-search.c:242
 #: addressbook/gui/component/ldap-config.glade.h:34
-#: calendar/gui/e-cal-list-view.c:397 calendar/gui/e-cal-view.c:708
+#: calendar/gui/e-cal-list-view.c:397 calendar/gui/e-cal-view.c:718
 #: calendar/gui/gnome-cal.c:587
 msgid "Searching"
 msgstr "搜尋中"
@@ -1348,7 +704,7 @@ msgstr "下載限制(_D):"
 # ui/evolution-task-editor-dialog.xml.h:70
 # ui/evolution.xml.h:48
 #: addressbook/gui/component/ldap-config.glade.h:85 filter/filter.glade.h:14
-#: mail/mail-config.glade.h:143 ui/evolution-addressbook.xml.h:33
+#: mail/mail-config.glade.h:142 ui/evolution-addressbook.xml.h:33
 #: ui/evolution-calendar.xml.h:45 ui/evolution-composer-entries.xml.h:8
 #: ui/evolution-mail-list.xml.h:24 ui/evolution-mail-messagedisplay.xml.h:6
 #: ui/evolution-message-composer.xml.h:41
@@ -1406,6 +762,13 @@ msgstr "general-tab"
 msgid "searching-tab"
 msgstr "searching-tab"
 
+# addressbook/gui/component/addressbook-config.glade.h:5
+#: addressbook/gui/component/select-names/e-select-names.etspec.h:1
+#: addressbook/gui/component/select-names/e-select-names-section.etspec.h:1
+#: addressbook/gui/contact-editor/e-contact-editor-fullname.c:89
+msgid "Name"
+msgstr "名稱"
+
 # addressbook/gui/component/select-names/e-select-names-popup.c:176
 #: addressbook/gui/component/select-names/e-select-names-popup.c:205
 msgid "Remove All"
@@ -1453,7 +816,7 @@ msgid "Unnamed Contact"
 msgstr "未命名的連絡人"
 
 # addressbook/gui/widgets/e-addressbook-view.c:735
-#: addressbook/gui/component/select-names/e-select-names-table-model.c:352
+#: addressbook/gui/component/select-names/e-select-names-table-model.c:351
 #: addressbook/gui/component/select-names/e-select-names-text-model.c:104
 msgid "Source"
 msgstr "來源"
@@ -1667,10 +1030,10 @@ msgstr "類別(_T)..."
 # ui/evolution-task-editor-dialog.xml.h:69
 # ui/evolution.xml.h:46
 #: addressbook/gui/contact-editor/contact-editor.glade.h:29
-#: calendar/gui/dialogs/meeting-page.c:635 calendar/gui/e-cal-view.c:1290
-#: calendar/gui/e-cal-view.c:1321 calendar/gui/e-calendar-table.c:1010
-#: calendar/gui/e-calendar-table.c:1028 mail/em-folder-view.c:679
-#: mail/mail-component.c:2094 ui/evolution-addressbook.xml.h:32
+#: calendar/gui/dialogs/meeting-page.c:635 calendar/gui/e-cal-view.c:1300
+#: calendar/gui/e-cal-view.c:1331 calendar/gui/e-calendar-table.c:1010
+#: calendar/gui/e-calendar-table.c:1028 mail/em-folder-view.c:681
+#: mail/mail-component.c:2088 ui/evolution-addressbook.xml.h:32
 #: ui/evolution-calendar.xml.h:44 ui/evolution-comp-editor.xml.h:17
 #: ui/evolution-contact-editor.xml.h:14 ui/evolution-mail-message.xml.h:104
 #: ui/evolution-tasks.xml.h:18
@@ -2952,6 +2315,13 @@ msgstr "Dr."
 msgid "Esq."
 msgstr "Esq."
 
+# addressbook/contact-editor/e-contact-quick-add.c:276
+# addressbook/gui/widgets/e-addressbook-view.c:700
+#: addressbook/gui/contact-editor/fullname.glade.h:4
+#: addressbook/gui/widgets/e-addressbook-view.etspec.h:17
+msgid "Full Name"
+msgstr "全名"
+
 # addressbook/contact-editor/fullname.glade.h:4
 #: addressbook/gui/contact-editor/fullname.glade.h:5
 msgid "I"
@@ -3175,7 +2545,7 @@ msgstr "目錄服務"
 # addressbook/gui/widgets/e-addressbook-view.c:611
 #: addressbook/gui/widgets/e-addressbook-view.c:674
 #: addressbook/gui/widgets/e-addressbook-view.c:894
-#: addressbook/gui/widgets/e-addressbook-view.c:1654
+#: addressbook/gui/widgets/e-addressbook-view.c:1653
 #: ui/evolution-addressbook.xml.h:19
 msgid "Save as VCard"
 msgstr "儲存成 VCard 檔案格式"
@@ -3291,7 +2661,8 @@ msgstr "貼上"
 # ui/evolution-event-editor.xml.h:17
 # ui/evolution-mail.xml.h:22
 # ui/evolution-task-editor-dialog.xml.h:18
-#: addressbook/gui/widgets/e-addressbook-view.c:910 filter/libfilter-i18n.h:10
+#: addressbook/gui/widgets/e-addressbook-view.c:910
+#: calendar/gui/calendar-component.c:206 filter/libfilter-i18n.h:10
 #: mail/em-account-prefs.c:236 ui/evolution-addressbook.xml.h:8
 #: ui/evolution-comp-editor.xml.h:4 ui/evolution-contact-editor.xml.h:3
 #: ui/evolution-contact-list-editor.xml.h:3 ui/evolution-mail-message.xml.h:24
@@ -3300,7 +2671,7 @@ msgstr "刪除"
 
 # widgets/menus/gal-view-menus.c:176
 #: addressbook/gui/widgets/e-addressbook-view.c:914
-#: calendar/gui/e-cal-view.c:1255
+#: calendar/gui/e-cal-view.c:1265
 msgid "Current View"
 msgstr "目前檢視"
 
@@ -3320,10 +2691,52 @@ msgstr ""
 msgid "* Click here to add a contact *"
 msgstr "* 按這裡新增連絡人 *"
 
+# addressbook/contact-editor/e-contact-editor.c:1242
+# addressbook/gui/widgets/e-addressbook-view.c:733
+#: addressbook/gui/widgets/e-addressbook-view.etspec.h:2
+msgid "Assistant"
+msgstr "助理"
+
+# addressbook/gui/widgets/e-addressbook-view.c:703
+#: addressbook/gui/widgets/e-addressbook-view.etspec.h:3
+msgid "Assistant Phone"
+msgstr "助理電話"
+
 # addressbook/gui/widgets/e-addressbook-view.c:709
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:4
 msgid "Business Address"
 msgstr "商務地址"
+
+# addressbook/contact-editor/e-contact-editor.c:1245
+# addressbook/gui/widgets/e-addressbook-view.c:713
+#: addressbook/gui/widgets/e-addressbook-view.etspec.h:5
+msgid "Business Fax"
+msgstr "商務傅真"
+
+# addressbook/gui/widgets/e-addressbook-view.c:704
+#: addressbook/gui/widgets/e-addressbook-view.etspec.h:6
+msgid "Business Phone"
+msgstr "商務電話"
+
+# addressbook/gui/widgets/e-addressbook-view.c:715
+#: addressbook/gui/widgets/e-addressbook-view.etspec.h:7
+msgid "Business Phone 2"
+msgstr "商務電話 2"
+
+# addressbook/gui/widgets/e-addressbook-view.c:705
+#: addressbook/gui/widgets/e-addressbook-view.etspec.h:8
+msgid "Callback Phone"
+msgstr "回撥電話"
+
+# addressbook/gui/widgets/e-addressbook-view.c:712
+#: addressbook/gui/widgets/e-addressbook-view.etspec.h:9
+msgid "Car Phone"
+msgstr "汽車電話"
+
+# addressbook/gui/widgets/e-addressbook-view.c:706
+#: addressbook/gui/widgets/e-addressbook-view.etspec.h:10
+msgid "Company Phone"
+msgstr "公司電話"
 
 # addressbook/gui/widgets/e-addressbook-view.c:728
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:11
@@ -3339,20 +2752,147 @@ msgstr "部門"
 msgid "Email"
 msgstr "電子郵件"
 
+# addressbook/contact-editor/e-contact-editor.c:1285
+# addressbook/gui/widgets/e-addressbook-view.c:725
+#: addressbook/gui/widgets/e-addressbook-view.etspec.h:13
+#: addressbook/gui/widgets/eab-popup-control.c:460
+msgid "Email 2"
+msgstr "電子郵件 2"
+
+# addressbook/contact-editor/e-contact-editor.c:1286
+# addressbook/gui/widgets/e-addressbook-view.c:726
+#: addressbook/gui/widgets/e-addressbook-view.etspec.h:14
+#: addressbook/gui/widgets/eab-popup-control.c:470
+msgid "Email 3"
+msgstr "電子郵件 3"
+
+# addressbook/gui/widgets/e-addressbook-view.c:699
+#: addressbook/gui/widgets/e-addressbook-view.etspec.h:15
+msgid "File As"
+msgstr "歸檔為"
+
 # addressbook/gui/widgets/e-addressbook-view.c:737
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:16
 msgid "Free-busy URL"
 msgstr "空閒-忙碌 URL"
+
+# addressbook/gui/widgets/e-addressbook-view.c:710
+#: addressbook/gui/widgets/e-addressbook-view.etspec.h:18
+#: addressbook/gui/widgets/eab-contact-display.c:221
+msgid "Home Address"
+msgstr "住家地址"
+
+# addressbook/contact-editor/e-contact-editor.c:1251
+# addressbook/gui/widgets/e-addressbook-view.c:714
+#: addressbook/gui/widgets/e-addressbook-view.etspec.h:19
+msgid "Home Fax"
+msgstr "住家傳真"
+
+# addressbook/gui/widgets/e-addressbook-view.c:707
+#: addressbook/gui/widgets/e-addressbook-view.etspec.h:20
+msgid "Home Phone"
+msgstr "住家電話"
+
+# addressbook/gui/widgets/e-addressbook-view.c:716
+#: addressbook/gui/widgets/e-addressbook-view.etspec.h:21
+msgid "Home Phone 2"
+msgstr "住家電話 2"
+
+# addressbook/contact-editor/e-contact-editor.c:1252
+# addressbook/gui/widgets/e-addressbook-view.c:717
+#: addressbook/gui/widgets/e-addressbook-view.etspec.h:22
+msgid "ISDN"
+msgstr "ISDN"
+
+# addressbook/gui/widgets/e-addressbook-view.c:732
+#: addressbook/gui/widgets/e-addressbook-view.etspec.h:23
+msgid "Manager"
+msgstr "主管"
+
+# addressbook/gui/widgets/e-addressbook-view.c:711
+#: addressbook/gui/widgets/e-addressbook-view.etspec.h:24
+msgid "Mobile Phone"
+msgstr "行動電話"
+
+# addressbook/gui/widgets/e-addressbook-view.c:734
+#: addressbook/gui/widgets/e-addressbook-view.etspec.h:25
+msgid "Nickname"
+msgstr "暱稱"
+
+# addressbook/gui/widgets/e-addressbook-view.c:736
+#: addressbook/gui/widgets/e-addressbook-view.etspec.h:26
+msgid "Note"
+msgstr "備註"
+
+# addressbook/gui/widgets/e-addressbook-view.c:729
+#: addressbook/gui/widgets/e-addressbook-view.etspec.h:27
+msgid "Office"
+msgstr "辦公室"
+
+# addressbook/gui/widgets/e-addressbook-view.c:708
+#: addressbook/gui/widgets/e-addressbook-view.etspec.h:28
+msgid "Organization"
+msgstr "團體"
+
+# addressbook/gui/widgets/e-addressbook-view.c:724
+#: addressbook/gui/widgets/e-addressbook-view.etspec.h:29
+#: addressbook/gui/widgets/eab-contact-display.c:223
+msgid "Other Address"
+msgstr "其它地址"
+
+# addressbook/contact-editor/e-contact-editor.c:1255
+# addressbook/gui/widgets/e-addressbook-view.c:719
+#: addressbook/gui/widgets/e-addressbook-view.etspec.h:30
+msgid "Other Fax"
+msgstr "其它傳真"
+
+# addressbook/gui/widgets/e-addressbook-view.c:718
+#: addressbook/gui/widgets/e-addressbook-view.etspec.h:31
+msgid "Other Phone"
+msgstr "其它電話"
+
+# addressbook/contact-editor/e-contact-editor.c:1256
+# addressbook/gui/widgets/e-addressbook-view.c:720
+#: addressbook/gui/widgets/e-addressbook-view.etspec.h:32
+msgid "Pager"
+msgstr "呼叫器"
+
+# addressbook/gui/widgets/e-addressbook-view.c:702
+#: addressbook/gui/widgets/e-addressbook-view.etspec.h:33
+msgid "Primary Phone"
+msgstr "主要電話"
 
 # addressbook/gui/widgets/e-addressbook-view.c:731
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:34
 msgid "Profession"
 msgstr "專業"
 
+# addressbook/contact-editor/e-contact-editor.c:1258
+# addressbook/gui/widgets/e-addressbook-view.c:721
+#: addressbook/gui/widgets/e-addressbook-view.etspec.h:35
+msgid "Radio"
+msgstr "無線電電話"
+
 # addressbook/gui/widgets/e-addressbook-view.c:735
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:36
 msgid "Spouse"
 msgstr "配偶"
+
+# addressbook/gui/widgets/e-addressbook-view.c:723
+#: addressbook/gui/widgets/e-addressbook-view.etspec.h:37
+msgid "TTY"
+msgstr "TTY"
+
+# addressbook/contact-editor/e-contact-editor.c:1259
+# addressbook/gui/widgets/e-addressbook-view.c:722
+#: addressbook/gui/widgets/e-addressbook-view.etspec.h:38
+msgid "Telex"
+msgstr "電報"
+
+# addressbook/gui/widgets/e-addressbook-view.c:730
+#: addressbook/gui/widgets/e-addressbook-view.etspec.h:39
+msgid "Title"
+msgstr "頭銜"
 
 # addressbook/gui/widgets/e-addressbook-view.c:727
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:40
@@ -3461,6 +3001,12 @@ msgstr "會員"
 msgid "Job Title"
 msgstr "職稱(_J):"
 
+# addressbook/gui/widgets/e-addressbook-view.c:710
+#: addressbook/gui/widgets/eab-contact-display.c:222
+#, fuzzy
+msgid "Work Address"
+msgstr "住家地址"
+
 # addressbook/contact-editor/e-contact-editor.c:1251
 # addressbook/gui/widgets/e-addressbook-view.c:714
 #: addressbook/gui/widgets/eab-contact-display.c:227
@@ -3483,7 +3029,6 @@ msgstr "成功"
 # camel/providers/imap/camel-imap-command.c:241
 # shell/e-storage.c:481
 #: addressbook/gui/widgets/eab-gui-util.c:46
-#: calendar/cal-client/cal-client.c:3817
 #: camel/providers/imap/camel-imap-command.c:306
 #: camel/providers/imap/camel-imap-command.c:403
 #: camel/providers/pop3/camel-pop3-store.c:536
@@ -3499,8 +3044,7 @@ msgid "Repository offline"
 msgstr "資料庫離線"
 
 # shell/e-storage.c:475
-#: addressbook/gui/widgets/eab-gui-util.c:48
-#: calendar/cal-client/cal-client.c:3799 shell/e-storage.c:587
+#: addressbook/gui/widgets/eab-gui-util.c:48 shell/e-storage.c:587
 #: shell/evolution-shell-component.c:1213
 msgid "Permission denied"
 msgstr "權限不足"
@@ -3518,7 +3062,6 @@ msgstr "名片 ID 已經存在"
 
 # shell/e-storage.c:477
 #: addressbook/gui/widgets/eab-gui-util.c:51
-#: calendar/cal-client/cal-client.c:3805
 msgid "Protocol not supported"
 msgstr "通訊協定不支援"
 
@@ -3928,7 +3471,7 @@ msgid "Number of columns:"
 msgstr "欄數:"
 
 # addressbook/printing/e-contact-print.glade.h:23
-#: addressbook/printing/e-contact-print.glade.h:23 mail/mail-config.glade.h:79
+#: addressbook/printing/e-contact-print.glade.h:23 mail/mail-config.glade.h:78
 msgid "Options"
 msgstr "選項"
 
@@ -4138,301 +3681,10 @@ msgstr "輸入檔案"
 msgid "No filename provided."
 msgstr "沒有提供檔案名稱。"
 
-# camel/providers/local/camel-maildir-folder.c:218
-# camel/providers/local/camel-mh-folder.c:203
-#: calendar/cal-client/cal-client.c:3783
-#: shell/evolution-shell-component.c:1191
-msgid "Invalid argument"
-msgstr "無效的參數"
-
-#: calendar/cal-client/cal-client.c:3785
-msgid "Backend is busy"
-msgstr ""
-
-# shell/e-shell-view-menu.c:602
-# shell/e-shell-view-menu.c:614
-#: calendar/cal-client/cal-client.c:3787
-#, fuzzy
-msgid "Repository is offline"
-msgstr "資料庫離線"
-
-# camel/providers/imap/camel-imap-store.c:803
-# mail/mail-local.c:334
-#: calendar/cal-client/cal-client.c:3789
-#, fuzzy
-msgid "No such calendar"
-msgstr "沒有這個資料夾 %s"
-
-#: calendar/cal-client/cal-client.c:3791 calendar/cal-client/cal-client.c:3801
-#, fuzzy
-msgid "Object not found"
-msgstr "找不到物件\n"
-
-# camel/providers/local/camel-maildir-folder.c:218
-# camel/providers/local/camel-mh-folder.c:203
-#: calendar/cal-client/cal-client.c:3793
-#, fuzzy
-msgid "Invalid object"
-msgstr "無效的目的"
-
-# addressbook/conduit/address-conduit.c:214
-#: calendar/cal-client/cal-client.c:3795
-#, fuzzy
-msgid "URI not loaded"
-msgstr "尚未載入 EBook\n"
-
-#: calendar/cal-client/cal-client.c:3797
-msgid "URI already loaded"
-msgstr ""
-
-#: calendar/cal-client/cal-client.c:3803
-#, fuzzy
-msgid "Object ID already exists"
-msgstr "名片 ID 已經存在"
-
-# camel/camel-remote-store.c:337
-# camel/camel-remote-store.c:399
-# camel/camel-remote-store.c:470
-# camel/providers/imap/camel-imap-command.c:287
-#: calendar/cal-client/cal-client.c:3807
-#, fuzzy
-msgid "Operation has been cancelled"
-msgstr "作業已取消"
-
-# calendar/gui/e-itip-control.c:883
-#: calendar/cal-client/cal-client.c:3809
-#, fuzzy
-msgid "Could not cancel operation"
-msgstr "取消作業"
-
-# camel/camel-sasl-anonymous.c:110
-# camel/camel-sasl-plain.c:87
-#: calendar/cal-client/cal-client.c:3811
-#, fuzzy
-msgid "Authentication failed"
-msgstr "驗証失敗。"
-
-# camel/providers/smtp/camel-smtp-transport.c:218
-#: calendar/cal-client/cal-client.c:3813
-#: camel/providers/smtp/camel-smtp-transport.c:224
-msgid "Authentication required"
-msgstr "要求驗證"
-
-#: calendar/cal-client/cal-client.c:3815
-msgid "A CORBA esception has occurred"
-msgstr ""
-
-# shell/e-storage.c:459
-#: calendar/cal-client/cal-client.c:3819 shell/e-storage.c:569
-msgid "No error"
-msgstr "沒有錯誤"
-
-# calendar/gui/dialogs/alarm-notify.glade.h:2
-#: calendar/cal-util/cal-component.c:1218
-msgid "Untitled appointment"
-msgstr "未命名的約會"
-
-# calendar/gui/print.c:300
-#: calendar/cal-util/cal-recur.c:3989 calendar/gui/print.c:477
-msgid "1st"
-msgstr "1日"
-
-# calendar/gui/print.c:300
-#: calendar/cal-util/cal-recur.c:3990 calendar/gui/print.c:477
-msgid "2nd"
-msgstr "2日"
-
-# calendar/gui/print.c:300
-#: calendar/cal-util/cal-recur.c:3991 calendar/gui/print.c:477
-msgid "3rd"
-msgstr "3日"
-
-# calendar/gui/print.c:300
-#: calendar/cal-util/cal-recur.c:3992 calendar/gui/print.c:477
-msgid "4th"
-msgstr "4日"
-
-# calendar/gui/print.c:300
-#: calendar/cal-util/cal-recur.c:3993 calendar/gui/print.c:477
-msgid "5th"
-msgstr "5日"
-
-# calendar/gui/print.c:301
-#: calendar/cal-util/cal-recur.c:3994 calendar/gui/print.c:478
-msgid "6th"
-msgstr "6日"
-
-# calendar/gui/print.c:301
-#: calendar/cal-util/cal-recur.c:3995 calendar/gui/print.c:478
-msgid "7th"
-msgstr "7日"
-
-# calendar/gui/print.c:301
-#: calendar/cal-util/cal-recur.c:3996 calendar/gui/print.c:478
-msgid "8th"
-msgstr "8日"
-
-# calendar/gui/print.c:301
-#: calendar/cal-util/cal-recur.c:3997 calendar/gui/print.c:478
-msgid "9th"
-msgstr "9日"
-
-# calendar/gui/print.c:301
-#: calendar/cal-util/cal-recur.c:3998 calendar/gui/print.c:478
-msgid "10th"
-msgstr "10日"
-
-# calendar/gui/print.c:302
-#: calendar/cal-util/cal-recur.c:3999 calendar/gui/print.c:479
-msgid "11th"
-msgstr "11日"
-
-# calendar/gui/print.c:302
-#: calendar/cal-util/cal-recur.c:4000 calendar/gui/print.c:479
-msgid "12th"
-msgstr "12日"
-
-# calendar/gui/print.c:302
-#: calendar/cal-util/cal-recur.c:4001 calendar/gui/print.c:479
-msgid "13th"
-msgstr "13日"
-
-# calendar/gui/print.c:302
-#: calendar/cal-util/cal-recur.c:4002 calendar/gui/print.c:479
-msgid "14th"
-msgstr "14日"
-
-# calendar/gui/print.c:302
-#: calendar/cal-util/cal-recur.c:4003 calendar/gui/print.c:479
-msgid "15th"
-msgstr "15日"
-
-# calendar/gui/print.c:303
-#: calendar/cal-util/cal-recur.c:4004 calendar/gui/print.c:480
-msgid "16th"
-msgstr "16日"
-
-# calendar/gui/print.c:303
-#: calendar/cal-util/cal-recur.c:4005 calendar/gui/print.c:480
-msgid "17th"
-msgstr "17日"
-
-# calendar/gui/print.c:303
-#: calendar/cal-util/cal-recur.c:4006 calendar/gui/print.c:480
-msgid "18th"
-msgstr "18日"
-
-# calendar/gui/print.c:303
-#: calendar/cal-util/cal-recur.c:4007 calendar/gui/print.c:480
-msgid "19th"
-msgstr "19日"
-
-# calendar/gui/print.c:303
-#: calendar/cal-util/cal-recur.c:4008 calendar/gui/print.c:480
-msgid "20th"
-msgstr "20日"
-
-# calendar/gui/print.c:304
-#: calendar/cal-util/cal-recur.c:4009 calendar/gui/print.c:481
-msgid "21st"
-msgstr "21日"
-
-# calendar/gui/print.c:304
-#: calendar/cal-util/cal-recur.c:4010 calendar/gui/print.c:481
-msgid "22nd"
-msgstr "22日"
-
-# calendar/gui/print.c:304
-#: calendar/cal-util/cal-recur.c:4011 calendar/gui/print.c:481
-msgid "23rd"
-msgstr "23日"
-
-# calendar/gui/print.c:304
-#: calendar/cal-util/cal-recur.c:4012 calendar/gui/print.c:481
-msgid "24th"
-msgstr "24日"
-
-# calendar/gui/print.c:304
-#: calendar/cal-util/cal-recur.c:4013 calendar/gui/print.c:481
-msgid "25th"
-msgstr "25日"
-
-# calendar/gui/print.c:305
-#: calendar/cal-util/cal-recur.c:4014 calendar/gui/print.c:482
-msgid "26th"
-msgstr "26日"
-
-# calendar/gui/print.c:305
-#: calendar/cal-util/cal-recur.c:4015 calendar/gui/print.c:482
-msgid "27th"
-msgstr "27日"
-
-# calendar/gui/print.c:305
-#: calendar/cal-util/cal-recur.c:4016 calendar/gui/print.c:482
-msgid "28th"
-msgstr "28日"
-
-# calendar/gui/print.c:305
-#: calendar/cal-util/cal-recur.c:4017 calendar/gui/print.c:482
-msgid "29th"
-msgstr "29日"
-
-# calendar/gui/print.c:305
-#: calendar/cal-util/cal-recur.c:4018 calendar/gui/print.c:482
-msgid "30th"
-msgstr "30日"
-
-# calendar/gui/print.c:306
-#: calendar/cal-util/cal-recur.c:4019 calendar/gui/print.c:483
-msgid "31st"
-msgstr "31日"
-
-# calendar/gui/calendar-model.c:497
-# calendar/gui/calendar-model.c:1066
-# calendar/gui/dialogs/task-editor-dialog.glade.h:10
-# calendar/gui/e-calendar-table.c:345
-# mail/message-list.c:689
-#: calendar/cal-util/cal-util.c:551 calendar/cal-util/cal-util.c:573
-#: calendar/gui/dialogs/task-details-page.glade.h:5
-#: calendar/gui/e-calendar-table.c:403 calendar/gui/e-tasks.c:229
-#: mail/message-list.c:912
-msgid "High"
-msgstr "高"
-
-# calendar/gui/calendar-model.c:499
-# calendar/gui/calendar-model.c:1068
-# calendar/gui/calendar-model.c:1574
-# calendar/gui/dialogs/task-editor-dialog.glade.h:13
-# calendar/gui/e-calendar-table.c:346
-# mail/message-list.c:688
-#: calendar/cal-util/cal-util.c:553 calendar/cal-util/cal-util.c:575
-#: calendar/gui/dialogs/task-details-page.glade.h:8
-#: calendar/gui/e-cal-model.c:835 calendar/gui/e-calendar-table.c:404
-#: calendar/gui/e-tasks.c:231 mail/message-list.c:911
-msgid "Normal"
-msgstr "普通"
-
-# calendar/gui/calendar-model.c:501
-# calendar/gui/calendar-model.c:1070
-# calendar/gui/dialogs/task-editor-dialog.glade.h:12
-# calendar/gui/e-calendar-table.c:347
-# mail/message-list.c:687
-#: calendar/cal-util/cal-util.c:555 calendar/cal-util/cal-util.c:577
-#: calendar/gui/dialogs/task-details-page.glade.h:7
-#: calendar/gui/e-calendar-table.c:405 calendar/gui/e-tasks.c:233
-#: mail/message-list.c:910
-msgid "Low"
-msgstr "低"
-
-# calendar/gui/calendar-model.c:1064
-# calendar/gui/dialogs/task-editor-dialog.glade.h:22
-# calendar/gui/e-calendar-table.c:348
-#. An empty string is the same as 'None'.
-#: calendar/cal-util/cal-util.c:571
-#: calendar/gui/dialogs/task-details-page.glade.h:11
-#: calendar/gui/e-calendar-table.c:406
-msgid "Undefined"
-msgstr "未指定"
+# addressbook/gui/component/addressbook-storage.c:99
+#: addressbook/util/eab-destination.c:675
+msgid "Unnamed List"
+msgstr "未命名的清單"
 
 #: calendar/conduits/calendar/calendar-conduit.c:206
 msgid "Split Multi-Day Events:"
@@ -4527,11 +3779,11 @@ msgid "_Edit appointment"
 msgstr "編輯約會(_E)"
 
 # calendar/gui/dialogs/alarm-notify-dialog.c:207
-#: calendar/gui/alarm-notify/alarm-queue.c:874
+#: calendar/gui/alarm-notify/alarm-queue.c:875
 msgid "No description available."
 msgstr "沒有可用的描述。"
 
-#: calendar/gui/alarm-notify/alarm-queue.c:892
+#: calendar/gui/alarm-notify/alarm-queue.c:893
 #, c-format
 msgid ""
 "Alarm on %s\n"
@@ -4541,12 +3793,12 @@ msgid ""
 msgstr ""
 
 # widgets/misc/e-messagebox.c:159
-#: calendar/gui/alarm-notify/alarm-queue.c:979
-#: calendar/gui/alarm-notify/alarm-queue.c:1003
+#: calendar/gui/alarm-notify/alarm-queue.c:980
+#: calendar/gui/alarm-notify/alarm-queue.c:1004
 msgid "Warning"
 msgstr "警告"
 
-#: calendar/gui/alarm-notify/alarm-queue.c:983
+#: calendar/gui/alarm-notify/alarm-queue.c:984
 msgid ""
 "Evolution does not support calendar reminders with\n"
 "email notifications yet, but this reminder was\n"
@@ -4558,7 +3810,7 @@ msgstr ""
 "送出電子邸件。  Evolution 會顯示\n"
 "普通的提醒對話方塊來代替。"
 
-#: calendar/gui/alarm-notify/alarm-queue.c:1009
+#: calendar/gui/alarm-notify/alarm-queue.c:1010
 #, c-format
 msgid ""
 "An Evolution Calendar reminder is about to trigger. This reminder is "
@@ -4578,7 +3830,7 @@ msgstr ""
 # importers/elm-importer.c:528
 # importers/netscape-importer.c:807
 # importers/pine-importer.c:668
-#: calendar/gui/alarm-notify/alarm-queue.c:1023
+#: calendar/gui/alarm-notify/alarm-queue.c:1024
 msgid "Do not ask me about this program again."
 msgstr "不要再詢問我關於這個程式。"
 
@@ -4679,8 +3931,8 @@ msgstr "%A %d %B %Y"
 # calendar/gui/e-week-view-main-item.c:334
 #. strftime format %a = abbreviated weekday name, %d = day of month,
 #. %b = abbreviated month name. Don't use any other specifiers.
-#: calendar/gui/calendar-commands.c:534 calendar/gui/e-day-view-top-item.c:266
-#: calendar/gui/e-day-view.c:1363 calendar/gui/e-week-view-main-item.c:325
+#: calendar/gui/calendar-commands.c:534 calendar/gui/e-day-view-top-item.c:692
+#: calendar/gui/e-day-view.c:1359 calendar/gui/e-week-view-main-item.c:325
 msgid "%a %d %b"
 msgstr "%a %d %b"
 
@@ -4707,29 +3959,46 @@ msgstr "%d %B %Y"
 msgid "%d %B"
 msgstr "%d %B"
 
+#: calendar/gui/calendar-component.c:177
+#, c-format
+msgid "Calendar '%s' will be removed. Are you sure you want to continue?"
+msgstr ""
+
 # ui/evolution-addressbook.xml.h:7
-#: calendar/gui/calendar-component.c:160
+#: calendar/gui/calendar-component.c:205
 #, fuzzy
 msgid "New Calendar"
 msgstr "新喀里多尼亞島"
 
-#: calendar/gui/calendar-component.c:362
+# ui/evolution.xml.h:61
+#: calendar/gui/calendar-component.c:207
+#, fuzzy
+msgid "Rename"
+msgstr "重新命名(_R)"
+
+#: calendar/gui/calendar-component.c:408
 msgid "On This Computer"
 msgstr ""
 
 #. orange
-#: calendar/gui/calendar-component.c:370 calendar/gui/migration.c:122
-#: filter/filter-label.c:123 mail/mail-config.c:67 mail/mail-config.glade.h:84
+#: calendar/gui/calendar-component.c:416 calendar/gui/migration.c:123
+#: calendar/gui/migration.c:146 filter/filter-label.c:123
+#: mail/mail-config.c:67 mail/mail-config.glade.h:83
 #: shell/e-config-upgrade.c:1456
 msgid "Personal"
 msgstr "個人"
 
 #. red
-#: calendar/gui/calendar-component.c:377 filter/filter-label.c:122
+#: calendar/gui/calendar-component.c:423 filter/filter-label.c:122
 #: mail/mail-config.c:66 mail/mail-config.glade.h:129
 #: shell/e-config-upgrade.c:1455
 msgid "Work"
 msgstr "工作"
+
+#. create the remote source group
+#: calendar/gui/calendar-component.c:432
+msgid "On The Web"
+msgstr ""
 
 #: calendar/gui/calendar-offline-handler.c:190
 #, c-format
@@ -4970,7 +4239,7 @@ msgstr "時"
 
 # calendar/gui/event-editor-dialog.glade.h:42
 # mail/mail-config.glade.h:87
-#: calendar/gui/dialogs/alarm-page.glade.h:15 mail/mail-config.glade.h:173
+#: calendar/gui/dialogs/alarm-page.glade.h:15 mail/mail-config.glade.h:174
 msgid "minute(s)"
 msgstr "分"
 
@@ -5396,8 +4665,8 @@ msgid "No summary"
 msgstr "沒有摘要"
 
 # composer/e-msg-composer.c:774
-#: calendar/gui/dialogs/comp-editor.c:1275 calendar/gui/e-cal-view.c:1033
-#: calendar/gui/e-calendar-table.c:1142 composer/e-msg-composer.c:1171
+#: calendar/gui/dialogs/comp-editor.c:1275 calendar/gui/e-cal-view.c:1043
+#: calendar/gui/e-calendar-table.c:1142 composer/e-msg-composer.c:1138
 msgid "Save as..."
 msgstr "另存新檔..."
 
@@ -5687,10 +4956,10 @@ msgstr "開始時間(_S):"
 #. an empty string is the same as 'None'
 #: calendar/gui/dialogs/meeting-page.c:312
 #: calendar/gui/dialogs/meeting-page.glade.h:2
-#: calendar/gui/e-cal-model-tasks.c:596 composer/e-msg-composer.c:2073
-#: mail/em-account-prefs.c:448 mail/em-folder-view.c:688
-#: mail/mail-account-gui.c:1259 mail/mail-account-gui.c:1680
-#: mail/mail-config.glade.h:76
+#: calendar/gui/e-cal-model-tasks.c:596 composer/e-msg-composer.c:2040
+#: mail/em-account-prefs.c:448 mail/em-folder-view.c:690
+#: mail/mail-account-gui.c:1259 mail/mail-account-gui.c:1749
+#: mail/mail-config.glade.h:75
 #: widgets/e-timezone-dialog/e-timezone-dialog.c:194
 #: widgets/misc/e-cell-date-edit.c:257 widgets/misc/e-dateedit.c:445
 #: widgets/misc/e-dateedit.c:1483 widgets/misc/e-dateedit.c:1598
@@ -5766,6 +5035,12 @@ msgstr "會員"
 msgid "RSVP"
 msgstr "RSVP"
 
+#: calendar/gui/dialogs/meeting-page.etspec.h:9
+#: calendar/gui/e-meeting-list-view.c:256
+#: calendar/gui/e-meeting-time-sel.etspec.h:9
+msgid "Role"
+msgstr "角色"
+
 # calendar/gui/e-meeting-dialog.glade.h:23
 # mail/message-list.c:1081
 #: calendar/gui/dialogs/meeting-page.etspec.h:10
@@ -5793,18 +5068,42 @@ msgstr "變更會議召集人(_C)"
 msgid "_Invite Others..."
 msgstr "邀請其他人(_I)..."
 
-#: calendar/gui/dialogs/new-calendar.c:47
+#: calendar/gui/dialogs/new-calendar.c:102
 #, c-format
 msgid "Source with name '%s' already exists in the selected group"
 msgstr ""
 
+#: calendar/gui/dialogs/new-calendar.c:116
+#, c-format
+msgid ""
+"The group '%s' is remote. You must specify a location to get the calendar "
+"from"
+msgstr ""
+
+# calendar/gui/e-tasks.c:310
+#: calendar/gui/dialogs/new-calendar.c:125
+#, fuzzy, c-format
+msgid "The source location '%s' is not well-formed."
+msgstr "不支援載入“%s”必須的方法"
+
+#: calendar/gui/dialogs/new-calendar.c:138
+#, c-format
+msgid "The source location '%s' is not a webcal source."
+msgstr ""
+
 # camel/providers/imap/camel-imap-folder.c:172
-#: calendar/gui/dialogs/new-calendar.c:58
+#: calendar/gui/dialogs/new-calendar.c:155
+#, fuzzy
+msgid "Could not create cache for new calendar"
+msgstr "無法建立目錄 %s： %s"
+
+# camel/providers/imap/camel-imap-folder.c:172
+#: calendar/gui/dialogs/new-calendar.c:174
 #, fuzzy
 msgid "Could not create directory for new calendar"
 msgstr "無法建立目錄 %s： %s"
 
-#: calendar/gui/dialogs/new-calendar.c:134
+#: calendar/gui/dialogs/new-calendar.c:254
 #, fuzzy
 msgid "A group must be selected"
 msgstr "必須指定一個召集人。"
@@ -5828,38 +5127,49 @@ msgstr "新喀里多尼亞島"
 msgid "Calendar Group"
 msgstr "iCalendar 錯誤"
 
+# data/evolution.keys.in.h:2
+#: calendar/gui/dialogs/new-calendar.glade.h:5
+#, fuzzy
+msgid "Calendar Location"
+msgstr "行事曆資訊"
+
 # calendar/gui/dialogs/cal-prefs-dialog.glade.h:11
 # ui/evolution-calendar.xml.h:3
-#: calendar/gui/dialogs/new-calendar.glade.h:5
+#: calendar/gui/dialogs/new-calendar.glade.h:6
 #, fuzzy
 msgid "Calendar Name"
 msgstr "行事曆"
 
-#: calendar/gui/dialogs/recur-comp.c:50
+#: calendar/gui/dialogs/recur-comp.c:51
 msgid "You are modifying a recurring event, what would you like to modify?"
 msgstr ""
 
-#: calendar/gui/dialogs/recur-comp.c:54
+#: calendar/gui/dialogs/recur-comp.c:55
 msgid "You are modifying a recurring task, what would you like to modify?"
 msgstr ""
 
-#: calendar/gui/dialogs/recur-comp.c:58
+#: calendar/gui/dialogs/recur-comp.c:59
 msgid ""
 "You are modifying a recurring journal entry, what would you like to modify?"
 msgstr ""
 
-#: calendar/gui/dialogs/recur-comp.c:72
+#: calendar/gui/dialogs/recur-comp.c:73
 msgid "This Instance Only"
 msgstr ""
 
-#: calendar/gui/dialogs/recur-comp.c:75
+#: calendar/gui/dialogs/recur-comp.c:77
+#, fuzzy
+msgid "This and Prior Instances"
+msgstr "沃里斯與伏塔那島"
+
+#: calendar/gui/dialogs/recur-comp.c:83
 #, fuzzy
 msgid "This and Future Instances"
 msgstr "沃里斯與伏塔那島"
 
 # widgets/misc/e-filter-bar.h:97
 # widgets/misc/e-filter-bar.h:104
-#: calendar/gui/dialogs/recur-comp.c:77
+#: calendar/gui/dialogs/recur-comp.c:88
 #, fuzzy
 msgid "All Instances"
 msgstr "艾來安斯"
@@ -6024,7 +5334,7 @@ msgstr ""
 "\n"
 "您是否要儲存變更？"
 
-#: calendar/gui/dialogs/save-comp.c:58 composer/e-msg-composer.c:1579
+#: calendar/gui/dialogs/save-comp.c:58 composer/e-msg-composer.c:1546
 msgid "_Discard Changes"
 msgstr "放棄變更(_D)"
 
@@ -6077,6 +5387,17 @@ msgstr "% 完成"
 msgid "Completed"
 msgstr "已完成"
 
+# calendar/gui/calendar-model.c:497
+# calendar/gui/calendar-model.c:1066
+# calendar/gui/dialogs/task-editor-dialog.glade.h:10
+# calendar/gui/e-calendar-table.c:345
+# mail/message-list.c:689
+#: calendar/gui/dialogs/task-details-page.glade.h:5
+#: calendar/gui/e-calendar-table.c:403 calendar/gui/e-tasks.c:229
+#: mail/message-list.c:912
+msgid "High"
+msgstr "高"
+
 # calendar/gui/calendar-model.c:641
 # calendar/gui/calendar-model.c:1178
 # calendar/gui/dialogs/task-editor-dialog.glade.h:11
@@ -6087,6 +5408,29 @@ msgstr "已完成"
 #: calendar/gui/e-tasks.c:205 calendar/gui/print.c:2315
 msgid "In Progress"
 msgstr "進行中"
+
+# calendar/gui/calendar-model.c:501
+# calendar/gui/calendar-model.c:1070
+# calendar/gui/dialogs/task-editor-dialog.glade.h:12
+# calendar/gui/e-calendar-table.c:347
+# mail/message-list.c:687
+#: calendar/gui/dialogs/task-details-page.glade.h:7
+#: calendar/gui/e-calendar-table.c:405 calendar/gui/e-tasks.c:233
+#: mail/message-list.c:910
+msgid "Low"
+msgstr "低"
+
+# calendar/gui/calendar-model.c:499
+# calendar/gui/calendar-model.c:1068
+# calendar/gui/calendar-model.c:1574
+# calendar/gui/dialogs/task-editor-dialog.glade.h:13
+# calendar/gui/e-calendar-table.c:346
+# mail/message-list.c:688
+#: calendar/gui/dialogs/task-details-page.glade.h:8
+#: calendar/gui/e-cal-model.c:835 calendar/gui/e-calendar-table.c:404
+#: calendar/gui/e-tasks.c:231 mail/message-list.c:911
+msgid "Normal"
+msgstr "普通"
 
 # calendar/gui/calendar-model.c:638
 # calendar/gui/calendar-model.c:1176
@@ -6103,6 +5447,14 @@ msgstr "未開始"
 #: calendar/gui/dialogs/task-details-page.glade.h:10
 msgid "Progress"
 msgstr "進度"
+
+# calendar/gui/calendar-model.c:1064
+# calendar/gui/dialogs/task-editor-dialog.glade.h:22
+# calendar/gui/e-calendar-table.c:348
+#: calendar/gui/dialogs/task-details-page.glade.h:11
+#: calendar/gui/e-calendar-table.c:406
+msgid "Undefined"
+msgstr "未指定"
 
 # calendar/gui/dialogs/task-editor-dialog.glade.h:8
 #: calendar/gui/dialogs/task-details-page.glade.h:12
@@ -6157,7 +5509,7 @@ msgstr "機密(_F)"
 # composer/e-msg-composer-attachment.glade.h:3
 #: calendar/gui/dialogs/task-page.glade.h:6 calendar/gui/e-itip-control.c:1040
 #: calendar/gui/e-itip-control.glade.h:6 calendar/gui/e-tasks.c:245
-#: composer/e-msg-composer-attachment.glade.h:3 mail/mail-config.glade.h:43
+#: composer/e-msg-composer-attachment.glade.h:3 mail/mail-config.glade.h:42
 msgid "Description:"
 msgstr "描述:"
 
@@ -6306,6 +5658,12 @@ msgstr "私人"
 msgid "Confidential"
 msgstr "機密"
 
+# calendar/gui/e-calendar-table.c:150
+#: calendar/gui/e-cal-list-view.etspec.h:1
+#: calendar/gui/e-calendar-table.etspec.h:4
+msgid "Categories"
+msgstr "類別"
+
 # addressbook/gui/component/addressbook-config.c:689
 # calendar/gui/e-itip-control.glade.h:6
 # composer/e-msg-composer-attachment.glade.h:3
@@ -6329,7 +5687,7 @@ msgstr "摘要"
 
 # mail/mail-config.glade.h:2
 #: calendar/gui/e-cal-list-view.etspec.h:6
-#: calendar/gui/e-calendar-table.etspec.h:19 mail/mail-config.glade.h:171
+#: calendar/gui/e-calendar-table.etspec.h:19 mail/mail-config.glade.h:172
 msgid "color"
 msgstr "顏色"
 
@@ -6411,8 +5769,8 @@ msgstr "否"
 #: calendar/gui/e-meeting-model.c:252 calendar/gui/e-meeting-model.c:317
 #: calendar/gui/e-meeting-model.c:754 calendar/gui/e-meeting-model.c:770
 #: calendar/gui/e-meeting-store.c:115 calendar/gui/e-meeting-store.c:150
-#: calendar/gui/e-meeting-store.c:215 camel/camel-gpg-context.c:1546
-#: camel/camel-gpg-context.c:1597 camel/camel-tcp-stream-openssl.c:631
+#: calendar/gui/e-meeting-store.c:215 camel/camel-gpg-context.c:1619
+#: camel/camel-gpg-context.c:1670 camel/camel-tcp-stream-openssl.c:631
 #: camel/providers/smtp/camel-smtp-transport.c:172
 #: camel/providers/smtp/camel-smtp-transport.c:227 mail/em-utils.c:1902
 #: widgets/misc/e-charset-picker.c:60
@@ -6429,44 +5787,44 @@ msgstr "循環模式"
 msgid "Assigned"
 msgstr "已指定"
 
-#: calendar/gui/e-cal-view.c:383 calendar/gui/e-calendar-table.c:1348
+#: calendar/gui/e-cal-view.c:393 calendar/gui/e-calendar-table.c:1348
 msgid "Updating objects"
 msgstr "更新物件"
 
 # calendar/gui/e-calendar-table.c:714
-#: calendar/gui/e-cal-view.c:729 calendar/gui/e-calendar-table.c:724
+#: calendar/gui/e-cal-view.c:739 calendar/gui/e-calendar-table.c:724
 msgid "Deleting selected objects"
 msgstr "刪除選定的物件"
 
 # calendar/gui/e-week-view.c:3277
 # calendar/gui/e-week-view.c:3300
-#: calendar/gui/e-cal-view.c:1240 calendar/gui/e-cal-view.c:1329
+#: calendar/gui/e-cal-view.c:1250 calendar/gui/e-cal-view.c:1339
 msgid "New _Appointment..."
 msgstr "新增約會(_A)..."
 
 # calendar/gui/e-day-view.c:3148
 # calendar/gui/e-week-view.c:3279
-#: calendar/gui/e-cal-view.c:1241 calendar/gui/e-cal-view.c:1331
+#: calendar/gui/e-cal-view.c:1251 calendar/gui/e-cal-view.c:1341
 #: ui/evolution-calendar.xml.h:23
 msgid "New All Day _Event"
 msgstr "新增全天事件(_E)"
 
 # importers/netscape-importer.c:790
 # importers/pine-importer.c:656
-#: calendar/gui/e-cal-view.c:1242 calendar/gui/e-cal-view.c:1333
+#: calendar/gui/e-cal-view.c:1252 calendar/gui/e-cal-view.c:1343
 msgid "New Meeting"
 msgstr "新增會議"
 
 # ui/evolution-tasks.xml.h:3
-#: calendar/gui/e-cal-view.c:1243 calendar/gui/e-cal-view.c:1335
+#: calendar/gui/e-cal-view.c:1253 calendar/gui/e-cal-view.c:1345
 msgid "New Task"
 msgstr "新增工作"
 
 # ui/evolution-addressbook.xml.h:18
 # ui/evolution-calendar.xml.h:42
 # ui/evolution-contact-editor.xml.h:15
-#: calendar/gui/e-cal-view.c:1247 calendar/gui/e-cal-view.c:1274
-#: calendar/gui/e-cal-view.c:1341 calendar/gui/e-calendar-table.c:993
+#: calendar/gui/e-cal-view.c:1257 calendar/gui/e-cal-view.c:1284
+#: calendar/gui/e-cal-view.c:1351 calendar/gui/e-calendar-table.c:993
 #: calendar/gui/e-calendar-table.c:1035 ui/evolution-addressbook.xml.h:38
 #: ui/evolution-calendar.xml.h:47 ui/evolution-comp-editor.xml.h:19
 #: ui/evolution-contact-editor.xml.h:17 ui/evolution-mail-message.xml.h:116
@@ -6476,8 +5834,8 @@ msgstr "列印(_P)..."
 
 # ui/evolution-event-editor.xml.h:68
 # ui/evolution-task-editor-dialog.xml.h:81
-#: calendar/gui/e-cal-view.c:1251 calendar/gui/e-cal-view.c:1281
-#: calendar/gui/e-cal-view.c:1339 calendar/gui/e-calendar-table.c:999
+#: calendar/gui/e-cal-view.c:1261 calendar/gui/e-cal-view.c:1291
+#: calendar/gui/e-cal-view.c:1349 calendar/gui/e-calendar-table.c:999
 #: calendar/gui/e-calendar-table.c:1033 ui/evolution-addressbook.xml.h:37
 #: ui/evolution-calendar.xml.h:46 ui/evolution-composer-entries.xml.h:9
 #: ui/evolution-mail-message.xml.h:114 ui/evolution-tasks.xml.h:20
@@ -6485,32 +5843,32 @@ msgid "_Paste"
 msgstr "貼上(_P)"
 
 # ui/evolution-calendar.xml.h:12
-#: calendar/gui/e-cal-view.c:1257 calendar/gui/e-cal-view.c:1325
+#: calendar/gui/e-cal-view.c:1267 calendar/gui/e-cal-view.c:1335
 #: ui/evolution-calendar.xml.h:18
 msgid "Go to _Today"
 msgstr "移至今日(_T)"
 
 # calendar/gui/e-day-view.c:3155
 # calendar/gui/e-week-view.c:3286
-#: calendar/gui/e-cal-view.c:1258 calendar/gui/e-cal-view.c:1327
+#: calendar/gui/e-cal-view.c:1268 calendar/gui/e-cal-view.c:1337
 msgid "_Go to Date..."
 msgstr "到指定日期(_G)..."
 
 # mail/mail-config.glade.h:61
-#: calendar/gui/e-cal-view.c:1262 ui/evolution-calendar.xml.h:48
+#: calendar/gui/e-cal-view.c:1272 ui/evolution-calendar.xml.h:48
 msgid "_Publish Free/Busy Information"
 msgstr "發佈空閒/忙碌資訊(_P)"
 
 # ui/evolution-mail.xml.h:110
-#: calendar/gui/e-cal-view.c:1266 calendar/gui/e-cal-view.c:1345
+#: calendar/gui/e-cal-view.c:1276 calendar/gui/e-cal-view.c:1355
 #: ui/evolution.xml.h:28
 msgid "_Settings..."
 msgstr "設定值(_S)..."
 
 # mail/folder-browser.c:686
-#: calendar/gui/e-cal-view.c:1272 calendar/gui/e-cal-view.c:1337
+#: calendar/gui/e-cal-view.c:1282 calendar/gui/e-cal-view.c:1347
 #: calendar/gui/e-calendar-table.c:990 calendar/gui/e-calendar-table.c:1031
-#: mail/em-folder-view.c:656 shell/e-shortcuts-view.c:422
+#: mail/em-folder-view.c:658 shell/e-shortcuts-view.c:422
 #: ui/evolution-addressbook.xml.h:36
 msgid "_Open"
 msgstr "開啟(_O)"
@@ -6519,16 +5877,16 @@ msgstr "開啟(_O)"
 # ui/evolution-calendar.xml.h:43
 # ui/evolution-mail.xml.h:118
 # ui/evolution-tasks.xml.h:8
-#: calendar/gui/e-cal-view.c:1273 calendar/gui/e-cal-view.c:1343
+#: calendar/gui/e-cal-view.c:1283 calendar/gui/e-cal-view.c:1353
 #: calendar/gui/e-calendar-table.c:992 calendar/gui/e-calendar-table.c:1037
-#: mail/em-folder-view.c:658 mail/em-popup.c:584 mail/em-popup.c:640
+#: mail/em-folder-view.c:660 mail/em-popup.c:584 mail/em-popup.c:640
 #: ui/evolution-mail-message.xml.h:120
 msgid "_Save As..."
 msgstr "另存新檔(_S)..."
 
 # ui/evolution-event-editor.xml.h:6
 # ui/evolution-task-editor-dialog.xml.h:7
-#: calendar/gui/e-cal-view.c:1279 calendar/gui/e-cal-view.c:1319
+#: calendar/gui/e-cal-view.c:1289 calendar/gui/e-cal-view.c:1329
 #: calendar/gui/e-calendar-table.c:997 calendar/gui/e-calendar-table.c:1026
 #: ui/evolution-addressbook.xml.h:1 ui/evolution-calendar.xml.h:1
 #: ui/evolution-tasks.xml.h:1
@@ -6537,33 +5895,33 @@ msgstr "剪下(_U)"
 
 # ui/evolution-event-editor.xml.h:55
 # ui/evolution-task-editor-dialog.xml.h:67
-#: calendar/gui/e-cal-view.c:1280 calendar/gui/e-cal-view.c:1317
+#: calendar/gui/e-cal-view.c:1290 calendar/gui/e-cal-view.c:1327
 #: calendar/gui/e-calendar-table.c:998 calendar/gui/e-calendar-table.c:1024
-#: mail/mail-component.c:2089 ui/evolution-addressbook.xml.h:30
+#: mail/mail-component.c:2083 ui/evolution-addressbook.xml.h:30
 #: ui/evolution-calendar.xml.h:43 ui/evolution-composer-entries.xml.h:7
 #: ui/evolution-mail-message.xml.h:101 ui/evolution-tasks.xml.h:17
 msgid "_Copy"
 msgstr "複製(_C)"
 
 # ui/evolution-event-editor.xml.h:46
-#: calendar/gui/e-cal-view.c:1285
+#: calendar/gui/e-cal-view.c:1295
 msgid "_Schedule Meeting..."
 msgstr "會議排程(_S)..."
 
 # calendar/gui/calendar-summary.c:721
 # calendar/gui/e-itip-control.glade.h:7
-#: calendar/gui/e-cal-view.c:1286
+#: calendar/gui/e-cal-view.c:1296
 msgid "_Forward as iCalendar..."
 msgstr "以 iCalendar 轉寄(_F)..."
 
 # calendar/gui/e-day-view.c:3177
 # calendar/gui/e-week-view.c:3311
-#: calendar/gui/e-cal-view.c:1291 calendar/gui/e-cal-view.c:1322
+#: calendar/gui/e-cal-view.c:1301 calendar/gui/e-cal-view.c:1332
 msgid "Delete this _Occurrence"
 msgstr "刪除這個事件(_O)"
 
 # calendar/gui/e-week-view.c:3313
-#: calendar/gui/e-cal-view.c:1292 calendar/gui/e-cal-view.c:1323
+#: calendar/gui/e-cal-view.c:1302 calendar/gui/e-cal-view.c:1333
 msgid "Delete _All Occurrences"
 msgstr "刪除全部事件(_A)"
 
@@ -6751,7 +6109,7 @@ msgstr "間隔 %02i 分鐘"
 # calendar/gui/e-week-view-main-item.c:325
 #. strftime format %A = full weekday name, %d = day of month,
 #. %B = full month name. Don't use any other specifiers.
-#: calendar/gui/e-day-view-top-item.c:262 calendar/gui/e-day-view.c:1346
+#: calendar/gui/e-day-view-top-item.c:688 calendar/gui/e-day-view.c:1342
 #: calendar/gui/e-week-view-main-item.c:316 calendar/gui/print.c:1534
 msgid "%A %d %B"
 msgstr "%A %d %B"
@@ -6761,7 +6119,7 @@ msgstr "%A %d %B"
 # calendar/gui/e-week-view-main-item.c:348
 #. strftime format %d = day of month, %b = abbreviated month name.
 #. Don't use any other specifiers.
-#: calendar/gui/e-day-view-top-item.c:270 calendar/gui/e-day-view.c:1379
+#: calendar/gui/e-day-view-top-item.c:696 calendar/gui/e-day-view.c:1375
 #: calendar/gui/e-week-view-main-item.c:339
 msgid "%d %b"
 msgstr "%d %b"
@@ -6770,7 +6128,7 @@ msgstr "%d %b"
 # calendar/gui/e-week-view.c:300
 # calendar/gui/print.c:617
 #. String to use in 12-hour time format for times in the morning.
-#: calendar/gui/e-day-view.c:600 calendar/gui/e-week-view.c:325
+#: calendar/gui/e-day-view.c:596 calendar/gui/e-week-view.c:325
 #: calendar/gui/print.c:819
 msgid "am"
 msgstr "上午"
@@ -6779,7 +6137,7 @@ msgstr "上午"
 # calendar/gui/e-week-view.c:303
 # calendar/gui/print.c:616
 #. String to use in 12-hour time format for times in the afternoon.
-#: calendar/gui/e-day-view.c:603 calendar/gui/e-week-view.c:328
+#: calendar/gui/e-day-view.c:599 calendar/gui/e-week-view.c:328
 #: calendar/gui/print.c:821
 msgid "pm"
 msgstr "下午"
@@ -7619,7 +6977,7 @@ msgstr "除去中"
 #: calendar/gui/e-tasks.c:1032
 #: calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:12
 #: calendar/gui/print.c:1797 calendar/gui/tasks-control.c:487
-#: calendar/importers/icalendar-importer.c:710
+#: calendar/importers/icalendar-importer.c:713
 #: mail/importers/netscape-importer.c:1845 shell/e-local-storage.c:183
 #: shell/e-shortcuts.c:1086
 msgid "Tasks"
@@ -7880,6 +7238,161 @@ msgstr "iCalendar 資訊"
 msgid "You must be an attendee of the event."
 msgstr "您必須是此事件的到會者。"
 
+# calendar/gui/print.c:300
+#: calendar/gui/print.c:477
+msgid "1st"
+msgstr "1日"
+
+# calendar/gui/print.c:300
+#: calendar/gui/print.c:477
+msgid "2nd"
+msgstr "2日"
+
+# calendar/gui/print.c:300
+#: calendar/gui/print.c:477
+msgid "3rd"
+msgstr "3日"
+
+# calendar/gui/print.c:300
+#: calendar/gui/print.c:477
+msgid "4th"
+msgstr "4日"
+
+# calendar/gui/print.c:300
+#: calendar/gui/print.c:477
+msgid "5th"
+msgstr "5日"
+
+# calendar/gui/print.c:301
+#: calendar/gui/print.c:478
+msgid "6th"
+msgstr "6日"
+
+# calendar/gui/print.c:301
+#: calendar/gui/print.c:478
+msgid "7th"
+msgstr "7日"
+
+# calendar/gui/print.c:301
+#: calendar/gui/print.c:478
+msgid "8th"
+msgstr "8日"
+
+# calendar/gui/print.c:301
+#: calendar/gui/print.c:478
+msgid "9th"
+msgstr "9日"
+
+# calendar/gui/print.c:301
+#: calendar/gui/print.c:478
+msgid "10th"
+msgstr "10日"
+
+# calendar/gui/print.c:302
+#: calendar/gui/print.c:479
+msgid "11th"
+msgstr "11日"
+
+# calendar/gui/print.c:302
+#: calendar/gui/print.c:479
+msgid "12th"
+msgstr "12日"
+
+# calendar/gui/print.c:302
+#: calendar/gui/print.c:479
+msgid "13th"
+msgstr "13日"
+
+# calendar/gui/print.c:302
+#: calendar/gui/print.c:479
+msgid "14th"
+msgstr "14日"
+
+# calendar/gui/print.c:302
+#: calendar/gui/print.c:479
+msgid "15th"
+msgstr "15日"
+
+# calendar/gui/print.c:303
+#: calendar/gui/print.c:480
+msgid "16th"
+msgstr "16日"
+
+# calendar/gui/print.c:303
+#: calendar/gui/print.c:480
+msgid "17th"
+msgstr "17日"
+
+# calendar/gui/print.c:303
+#: calendar/gui/print.c:480
+msgid "18th"
+msgstr "18日"
+
+# calendar/gui/print.c:303
+#: calendar/gui/print.c:480
+msgid "19th"
+msgstr "19日"
+
+# calendar/gui/print.c:303
+#: calendar/gui/print.c:480
+msgid "20th"
+msgstr "20日"
+
+# calendar/gui/print.c:304
+#: calendar/gui/print.c:481
+msgid "21st"
+msgstr "21日"
+
+# calendar/gui/print.c:304
+#: calendar/gui/print.c:481
+msgid "22nd"
+msgstr "22日"
+
+# calendar/gui/print.c:304
+#: calendar/gui/print.c:481
+msgid "23rd"
+msgstr "23日"
+
+# calendar/gui/print.c:304
+#: calendar/gui/print.c:481
+msgid "24th"
+msgstr "24日"
+
+# calendar/gui/print.c:304
+#: calendar/gui/print.c:481
+msgid "25th"
+msgstr "25日"
+
+# calendar/gui/print.c:305
+#: calendar/gui/print.c:482
+msgid "26th"
+msgstr "26日"
+
+# calendar/gui/print.c:305
+#: calendar/gui/print.c:482
+msgid "27th"
+msgstr "27日"
+
+# calendar/gui/print.c:305
+#: calendar/gui/print.c:482
+msgid "28th"
+msgstr "28日"
+
+# calendar/gui/print.c:305
+#: calendar/gui/print.c:482
+msgid "29th"
+msgstr "29日"
+
+# calendar/gui/print.c:305
+#: calendar/gui/print.c:482
+msgid "30th"
+msgstr "30日"
+
+# calendar/gui/print.c:306
+#: calendar/gui/print.c:483
+msgid "31st"
+msgstr "31日"
+
 # calendar/gui/print.c:362
 #: calendar/gui/print.c:557
 msgid "Su"
@@ -8087,17 +7600,17 @@ msgid "vCalendar files (.vcf)"
 msgstr ""
 
 # calendar/gui/event-editor-dialog.glade.h:20
-#: calendar/importers/icalendar-importer.c:463
+#: calendar/importers/icalendar-importer.c:466
 msgid "Reminder!!"
 msgstr "提醒！！"
 
 # calendar/gui/e-itip-control.glade.h:4
-#: calendar/importers/icalendar-importer.c:703
+#: calendar/importers/icalendar-importer.c:706
 msgid "Calendar Events"
 msgstr "行事曆事件"
 
 # importers/pine-importer.c:705
-#: calendar/importers/icalendar-importer.c:728
+#: calendar/importers/icalendar-importer.c:731
 msgid ""
 "Evolution has found Gnome Calendar files.\n"
 "Would you like to import them into Evolution?"
@@ -8107,127 +7620,9 @@ msgstr ""
 
 # calendar/gui/dialogs/cal-prefs-dialog.glade.h:11
 # ui/evolution-calendar.xml.h:3
-#: calendar/importers/icalendar-importer.c:735
+#: calendar/importers/icalendar-importer.c:738
 msgid "Gnome Calendar"
 msgstr "Gnome 行事曆"
-
-#: calendar/pcs/cal-backend-file.c:175
-msgid "Can't save calendar data: Malformed URI."
-msgstr ""
-
-#: calendar/pcs/cal-backend-object-sexp.c:50
-msgid "time-now expects 0 arguments"
-msgstr "time-now 要求 0 個參數"
-
-#: calendar/pcs/cal-backend-object-sexp.c:74
-msgid "make-time expects 1 argument"
-msgstr "make-time 要求 1 個參數"
-
-#: calendar/pcs/cal-backend-object-sexp.c:79
-msgid "make-time expects argument 1 to be a string"
-msgstr "make-time 要求參數 1 為字串"
-
-#: calendar/pcs/cal-backend-object-sexp.c:87
-msgid "make-time argument 1 must be an ISO 8601 date/time string"
-msgstr "make-time 參數 1 必須為 ISO 8601 日期/時間字串"
-
-#: calendar/pcs/cal-backend-object-sexp.c:116
-msgid "time-add-day expects 2 arguments"
-msgstr "time-add-day 要求 2 個參數"
-
-#: calendar/pcs/cal-backend-object-sexp.c:121
-msgid "time-add-day expects argument 1 to be a time_t"
-msgstr "time-add-day 要求參數 1 為 time_t"
-
-#: calendar/pcs/cal-backend-object-sexp.c:128
-msgid "time-add-day expects argument 2 to be an integer"
-msgstr "time-add-day 要求參數 2 為整數"
-
-#: calendar/pcs/cal-backend-object-sexp.c:155
-msgid "time-day-begin expects 1 argument"
-msgstr "time-day-begin 要求 1 個參數"
-
-#: calendar/pcs/cal-backend-object-sexp.c:160
-msgid "time-day-begin expects argument 1 to be a time_t"
-msgstr "time-day-begin 要求參數 1 為 time_t"
-
-#: calendar/pcs/cal-backend-object-sexp.c:187
-msgid "time-day-end expects 1 argument"
-msgstr "time-day-end 要求 1 個參數"
-
-#: calendar/pcs/cal-backend-object-sexp.c:192
-msgid "time-day-end expects argument 1 to be a time_t"
-msgstr "time-day-end 要求參數 1 為 time_t"
-
-#: calendar/pcs/cal-backend-object-sexp.c:220
-msgid "get-vtype expects 0 arguments"
-msgstr "get-vtype 要求 0 個參數"
-
-#: calendar/pcs/cal-backend-object-sexp.c:280
-msgid "occur-in-time-range? expects 2 arguments"
-msgstr "occur-in-time-range? 要求 2 個參數"
-
-#: calendar/pcs/cal-backend-object-sexp.c:285
-msgid "occur-in-time-range? expects argument 1 to be a time_t"
-msgstr "occur-in-time-range? 要求參數 1 為 time_t"
-
-#: calendar/pcs/cal-backend-object-sexp.c:292
-msgid "occur-in-time-range? expects argument 2 to be a time_t"
-msgstr "occur-in-time-range? 要求參數 2 為 time_t"
-
-# camel/providers/smtp/camel-smtp-transport.c:170
-#: calendar/pcs/cal-backend-object-sexp.c:436
-msgid "contains? expects 2 arguments"
-msgstr "contains? 要求 2 個參數"
-
-#: calendar/pcs/cal-backend-object-sexp.c:441
-msgid "contains? expects argument 1 to be a string"
-msgstr "contains? 要求參數 1 為字串"
-
-#: calendar/pcs/cal-backend-object-sexp.c:448
-msgid "contains? expects argument 2 to be a string"
-msgstr "contains? 要求參數 2 為字串"
-
-#: calendar/pcs/cal-backend-object-sexp.c:465
-msgid ""
-"contains? expects argument 1 to be one of \"any\", \"summary\", \"description"
-"\""
-msgstr "contains? 要求參數 1 為 \"any\", \"summary\", \"description\" 其中之一"
-
-#: calendar/pcs/cal-backend-object-sexp.c:492
-#, fuzzy
-msgid "has-alarms? expects at least 1 argument"
-msgstr "has-categories? 要求至少 1 個參數"
-
-#: calendar/pcs/cal-backend-object-sexp.c:497
-#, fuzzy
-msgid "has-alarms? excepts argument to be a boolean"
-msgstr "contains? 要求參數 2 為字串"
-
-#: calendar/pcs/cal-backend-object-sexp.c:537
-msgid "has-categories? expects at least 1 argument"
-msgstr "has-categories? 要求至少 1 個參數"
-
-#: calendar/pcs/cal-backend-object-sexp.c:549
-msgid ""
-"has-categories? expects all arguments to be strings or one and only one "
-"argument to be a boolean false (#f)"
-msgstr ""
-"has-categories? 要求所有的參數為字串或僅有的一個為布林值 false(#f) 的參數"
-
-# camel/providers/smtp/camel-smtp-transport.c:170
-#: calendar/pcs/cal-backend-object-sexp.c:629
-msgid "is-completed? expects 0 arguments"
-msgstr "is-completed? 要求 0 個參數"
-
-# camel/providers/smtp/camel-smtp-transport.c:170
-#: calendar/pcs/cal-backend-object-sexp.c:666
-msgid "completed-before? expects 1 argument"
-msgstr "completed-before? 要求 1 個參數"
-
-#: calendar/pcs/cal-backend-object-sexp.c:671
-msgid "completed-before? expects argument 1 to be a time_t"
-msgstr "completed-before? 要求參數 1 為 time_t"
 
 #.
 #. * These are the timezone names from the Olson timezone data.
@@ -9791,32 +9186,32 @@ msgid "Pacific/Yap"
 msgstr "太平洋/雅浦島"
 
 # camel/camel-cipher-context.c:171
-#: camel/camel-cipher-context.c:92
+#: camel/camel-cipher-context.c:99
 msgid "Signing is not supported by this cipher"
 msgstr "此加密器不支援加簽"
 
 # camel/camel-cipher-context.c:251
-#: camel/camel-cipher-context.c:131
+#: camel/camel-cipher-context.c:139
 msgid "Verifying is not supported by this cipher"
 msgstr "此加密器不支援驗證加簽"
 
 # camel/camel-cipher-context.c:294
-#: camel/camel-cipher-context.c:173
+#: camel/camel-cipher-context.c:181
 msgid "Encryption is not supported by this cipher"
 msgstr "此加密器不支援加密"
 
 # camel/camel-cipher-context.c:336
-#: camel/camel-cipher-context.c:212
+#: camel/camel-cipher-context.c:220
 msgid "Decryption is not supported by this cipher"
 msgstr "此加密器不支援解密"
 
 # camel/camel-cipher-context.c:336
-#: camel/camel-cipher-context.c:248
+#: camel/camel-cipher-context.c:256
 msgid "You may not import keys with this cipher"
 msgstr "您不能匯入此加密器的金鑰"
 
 # camel/camel-cipher-context.c:336
-#: camel/camel-cipher-context.c:278
+#: camel/camel-cipher-context.c:286
 msgid "You may not export keys with this cipher"
 msgstr "您不能匯出此加密器的金鑰"
 
@@ -10049,7 +9444,7 @@ msgstr "複製郵件"
 msgid "Filtering new message(s)"
 msgstr "取回 %d 封郵件"
 
-#: camel/camel-gpg-context.c:686
+#: camel/camel-gpg-context.c:696
 #, c-format
 msgid ""
 "Unexpected GnuPG status message encountered:\n"
@@ -10060,15 +9455,15 @@ msgstr ""
 "\n"
 "%s"
 
-#: camel/camel-gpg-context.c:701
+#: camel/camel-gpg-context.c:710
 msgid "Failed to parse gpg userid hint."
 msgstr "解析 gpg userid 提示時失敗。"
 
-#: camel/camel-gpg-context.c:726
+#: camel/camel-gpg-context.c:735
 msgid "Failed to parse gpg passphrase request."
 msgstr "解析 gpg passphrase 要求時失敗。"
 
-#: camel/camel-gpg-context.c:734
+#: camel/camel-gpg-context.c:743
 #, c-format
 msgid ""
 "You need a passphrase to unlock the key for\n"
@@ -10078,35 +9473,35 @@ msgstr ""
 "“%s”"
 
 # mail/mail-send-recv.c:471
-#: camel/camel-gpg-context.c:745 camel/camel-gpg-context.c:1223
-#: camel/camel-gpg-context.c:1342 camel/camel-gpg-context.c:1427
-#: camel/camel-gpg-context.c:1497 mail/mail-send-recv.c:575
+#: camel/camel-gpg-context.c:763 camel/camel-gpg-context.c:1253
+#: camel/camel-gpg-context.c:1388 camel/camel-gpg-context.c:1465
+#: camel/camel-gpg-context.c:1570 mail/mail-send-recv.c:575
 msgid "Cancelled."
 msgstr "已取消。"
 
-#: camel/camel-gpg-context.c:763
+#: camel/camel-gpg-context.c:781
 msgid "Failed to unlock secret key: 3 bad passphrases given."
 msgstr "解鎖私密金鑰時失敗：輸入了 3 次錯誤的 passhprase 。"
 
 # camel/providers/imap/camel-imap-command.c:232
-#: camel/camel-gpg-context.c:769
+#: camel/camel-gpg-context.c:787
 #, c-format
 msgid "Unexpected response from GnuPG: %s"
 msgstr "從 GnuPG 傳回意外的回應： %s"
 
 # camel/camel-pgp-context.c:1073
-#: camel/camel-gpg-context.c:781
+#: camel/camel-gpg-context.c:799
 msgid "No data provided"
 msgstr "沒有提供資料"
 
 # camel/providers/smtp/camel-smtp-transport.c:582
-#: camel/camel-gpg-context.c:819
+#: camel/camel-gpg-context.c:837
 msgid "Failed to encrypt: No valid recipients specified."
 msgstr "不能加密郵件：沒有提供有效的收件者。"
 
 # camel/camel-filter-driver.c:670
 # camel/camel-filter-driver.c:679
-#: camel/camel-gpg-context.c:1096
+#: camel/camel-gpg-context.c:1114
 #, fuzzy, c-format
 msgid ""
 "Failed to GPG %s: %s\n"
@@ -10119,40 +9514,57 @@ msgstr ""
 
 # camel/camel-filter-driver.c:670
 # camel/camel-filter-driver.c:679
-#: camel/camel-gpg-context.c:1101
+#: camel/camel-gpg-context.c:1119
 #, c-format
 msgid "Failed to GPG %s: %s\n"
 msgstr "無法 GPG %s： %s\n"
 
+# mail/mail-ops.c:1872
+#: camel/camel-gpg-context.c:1232 camel/camel-smime-context.c:351
+#, fuzzy, c-format
+msgid "Could not generate signing data: %s"
+msgstr "無法寫入資料：%s"
+
 # camel/camel-filter-driver.c:670
 # camel/camel-filter-driver.c:679
-#: camel/camel-gpg-context.c:1216 camel/camel-gpg-context.c:1545
-#: camel/camel-gpg-context.c:1596
+#: camel/camel-gpg-context.c:1246 camel/camel-gpg-context.c:1618
+#: camel/camel-gpg-context.c:1669
 #, c-format
 msgid "Failed to execute gpg: %s"
 msgstr "執行 gpg 失敗： %s"
 
 # camel/camel-filter-driver.c:670
 # camel/camel-filter-driver.c:679
-#: camel/camel-gpg-context.c:1240 camel/camel-gpg-context.c:1334
-#: camel/camel-gpg-context.c:1420 camel/camel-gpg-context.c:1443
-#: camel/camel-gpg-context.c:1490 camel/camel-gpg-context.c:1514
-#: camel/camel-gpg-context.c:1567 camel/camel-gpg-context.c:1618
+#: camel/camel-gpg-context.c:1270 camel/camel-gpg-context.c:1380
+#: camel/camel-gpg-context.c:1458 camel/camel-gpg-context.c:1481
+#: camel/camel-gpg-context.c:1563 camel/camel-gpg-context.c:1587
+#: camel/camel-gpg-context.c:1640 camel/camel-gpg-context.c:1691
 msgid "Failed to execute gpg."
 msgstr "執行 gpg 失敗。"
 
-#: camel/camel-gpg-context.c:1257
+#: camel/camel-gpg-context.c:1289
 msgid "This is a digitally signed message part"
 msgstr "這是數位加簽的郵件"
 
 # camel/camel-pgp-context.c:890
-#: camel/camel-gpg-context.c:1319
+#: camel/camel-gpg-context.c:1365
 #, c-format
 msgid "Cannot verify message signature: could not create temp file: %s"
 msgstr "不能驗證此郵件的簽章：無法建立暫存檔案：%s"
 
+# mail/mail-ops.c:1872
+#: camel/camel-gpg-context.c:1441
+#, fuzzy, c-format
+msgid "Could not generate encrypting data: %s"
+msgstr "無法寫入資料：%s"
+
+#: camel/camel-gpg-context.c:1499
+#, fuzzy
+msgid "This is a digitally encrypted message part"
+msgstr "這是數位加簽的郵件"
+
 # camel/providers/pop3/camel-pop3-folder.c:320
-#: camel/camel-gpg-context.c:1522
+#: camel/camel-gpg-context.c:1595
 #, fuzzy
 msgid "Unable to parse message content"
 msgstr "無法從編輯器取得郵件"
@@ -10272,16 +9684,16 @@ msgstr "寫入郵件暫存檔案時發生錯誤：%s"
 msgid "Error copying mail temp file: %s"
 msgstr "複製郵件暫存檔案時發生錯誤：%s"
 
-#: camel/camel-multipart-encrypted.c:224 camel/camel-multipart-encrypted.c:239
+#: camel/camel-multipart-encrypted.c:228 camel/camel-multipart-encrypted.c:243
 msgid "Failed to decrypt MIME part: protocol error"
 msgstr "解密 MIME 組件時失敗：通訊協定錯誤"
 
-#: camel/camel-multipart-encrypted.c:252
+#: camel/camel-multipart-encrypted.c:256
 msgid "Failed to decrypt MIME part: invalid structure"
 msgstr "解密 MIME 組件時失敗：無效的結構"
 
 # shell/e-storage.c:467
-#: camel/camel-multipart-signed.c:685
+#: camel/camel-multipart-signed.c:687
 msgid "parse error"
 msgstr "解析錯誤"
 
@@ -10658,7 +10070,7 @@ msgstr ""
 "%s"
 
 # camel/camel-smime-context.c:194
-#: camel/camel-smime-context.c:158
+#: camel/camel-smime-context.c:167
 #, fuzzy, c-format
 msgid "Enter security pass-phrase for `%s'"
 msgstr "請輸入 %s 所需的密碼"
@@ -10666,59 +10078,59 @@ msgstr "請輸入 %s 所需的密碼"
 # calendar/gui/calendar-model.c:1064
 # calendar/gui/dialogs/task-editor-dialog.glade.h:22
 # calendar/gui/e-calendar-table.c:348
-#: camel/camel-smime-context.c:431
+#: camel/camel-smime-context.c:446
 #, fuzzy
 msgid "Unverified"
 msgstr "未指定"
 
 # mail/mail-config.glade.h:74
-#: camel/camel-smime-context.c:433
+#: camel/camel-smime-context.c:448
 #, fuzzy
 msgid "Good signature"
 msgstr "儲存簽名檔"
 
 # mail/mail-config.glade.h:74
-#: camel/camel-smime-context.c:435
+#: camel/camel-smime-context.c:450
 #, fuzzy
 msgid "Bad signature"
 msgstr "儲存簽名檔"
 
-#: camel/camel-smime-context.c:437
+#: camel/camel-smime-context.c:452
 msgid "Content tampered with or altered in transit"
 msgstr ""
 
-#: camel/camel-smime-context.c:439
+#: camel/camel-smime-context.c:454
 #, fuzzy
 msgid "Signing certificate not found"
 msgstr "在憑證鏈中的自我加簽憑證"
 
-#: camel/camel-smime-context.c:441
+#: camel/camel-smime-context.c:456
 #, fuzzy
 msgid "Signing certificate not trusted"
 msgstr "憑證不被信任"
 
-#: camel/camel-smime-context.c:443
+#: camel/camel-smime-context.c:458
 msgid "Signature algorithm unknown"
 msgstr ""
 
-#: camel/camel-smime-context.c:445
+#: camel/camel-smime-context.c:460
 msgid "Siganture algorithm unsupported"
 msgstr ""
 
 # mail/mail-config.glade.h:74
-#: camel/camel-smime-context.c:447
+#: camel/camel-smime-context.c:462
 #, fuzzy
 msgid "Malformed signature"
 msgstr "儲存簽名檔"
 
 # shell/e-storage.c:467
-#: camel/camel-smime-context.c:449
+#: camel/camel-smime-context.c:464
 #, fuzzy
 msgid "Processing error"
 msgstr "解析錯誤"
 
 # mail/mail-config.glade.h:72
-#: camel/camel-smime-context.c:578
+#: camel/camel-smime-context.c:593
 #, fuzzy, c-format
 msgid "Signer: %s <%s>: %s\n"
 msgstr "伺服器： %s，類型： %s"
@@ -11219,7 +10631,7 @@ msgstr "用作讀取及儲存郵件於 IMAP 伺服器。"
 #: camel/providers/imap/camel-imap-provider.c:82
 #: camel/providers/imapp/camel-imapp-provider.c:65
 #: camel/providers/nntp/camel-nntp-store.c:265
-#: camel/providers/pop3/camel-pop3-provider.c:71 mail/mail-config.glade.h:83
+#: camel/providers/pop3/camel-pop3-provider.c:71 mail/mail-config.glade.h:82
 msgid "Password"
 msgstr "密碼"
 
@@ -11307,7 +10719,7 @@ msgstr "IMAP 伺服器 %s 不支援所要求的驗證類別 %s"
 # camel/providers/imap/camel-imap-store.c:466
 # camel/providers/smtp/camel-smtp-transport.c:366
 #: camel/providers/imap/camel-imap-store.c:1257
-#: camel/providers/smtp/camel-smtp-transport.c:495
+#: camel/providers/smtp/camel-smtp-transport.c:486
 #, c-format
 msgid "No support for authentication type %s"
 msgstr "不支援驗證類別 %s"
@@ -11851,7 +11263,7 @@ msgid "Could not close temp folder: %s"
 msgstr "無法關閉暫存資料夾： %s"
 
 # camel/providers/local/camel-mbox-summary.c:655
-#: camel/providers/local/camel-mbox-summary.c:560 mail/mail-component.c:1891
+#: camel/providers/local/camel-mbox-summary.c:560 mail/mail-component.c:1885
 #, c-format
 msgid "Could not rename folder: %s"
 msgstr "無法重新命名資料夾：%s "
@@ -12201,7 +11613,7 @@ msgstr ""
 
 # camel/providers/pop3/camel-pop3-provider.c:48
 # mail/mail-config.glade.h:51
-#: camel/providers/pop3/camel-pop3-provider.c:54 mail/mail-config.glade.h:82
+#: camel/providers/pop3/camel-pop3-provider.c:54 mail/mail-config.glade.h:81
 msgid "POP"
 msgstr "POP"
 
@@ -12301,7 +11713,7 @@ msgstr "沒有這個資料夾“%s”。"
 # camel/providers/sendmail/camel-sendmail-provider.c:37
 # mail/mail-config.glade.h:67
 #: camel/providers/sendmail/camel-sendmail-provider.c:36
-#: mail/mail-config.glade.h:107
+#: mail/mail-config.glade.h:106
 msgid "Sendmail"
 msgstr "Sendmail"
 
@@ -12365,7 +11777,7 @@ msgstr "經由 sendmail 程式傳送郵件"
 
 # camel/providers/smtp/camel-smtp-provider.c:38
 # mail/mail-config.glade.h:62
-#: camel/providers/smtp/camel-smtp-provider.c:37 mail/mail-config.glade.h:99
+#: camel/providers/smtp/camel-smtp-provider.c:37 mail/mail-config.glade.h:98
 msgid "SMTP"
 msgstr "SMTP"
 
@@ -12494,48 +11906,53 @@ msgstr "所要求的驗證機制必須要加密處理"
 msgid "Temporary authentication failure"
 msgstr "臨時驗證失敗"
 
+# camel/providers/smtp/camel-smtp-transport.c:218
+#: camel/providers/smtp/camel-smtp-transport.c:224
+msgid "Authentication required"
+msgstr "要求驗證"
+
 # camel/providers/smtp/camel-smtp-transport.c:1043
 #: camel/providers/smtp/camel-smtp-transport.c:308
 msgid "Welcome response error"
 msgstr "迎接的回應錯誤"
 
 # camel/providers/pop3/camel-pop3-store.c:379
-#: camel/providers/smtp/camel-smtp-transport.c:352
-#: camel/providers/smtp/camel-smtp-transport.c:391
+#: camel/providers/smtp/camel-smtp-transport.c:343
+#: camel/providers/smtp/camel-smtp-transport.c:382
 #, c-format
 msgid "Failed to connect to SMTP server %s in secure mode: %s"
 msgstr "無法以安全模式連線到 SMTP 伺服器 %s： %s"
 
 # camel/providers/local/camel-mbox-folder.c:368
-#: camel/providers/smtp/camel-smtp-transport.c:353
+#: camel/providers/smtp/camel-smtp-transport.c:344
 msgid "server does not appear to support SSL"
 msgstr "伺服器似乎沒有支援 SSL"
 
 # camel/providers/smtp/camel-smtp-transport.c:1024
-#: camel/providers/smtp/camel-smtp-transport.c:367
+#: camel/providers/smtp/camel-smtp-transport.c:358
 #, c-format
 msgid "STARTTLS request timed out: %s"
 msgstr "STARTTLS 的要求逾時：%s"
 
 # camel/providers/smtp/camel-smtp-transport.c:1043
-#: camel/providers/smtp/camel-smtp-transport.c:382
+#: camel/providers/smtp/camel-smtp-transport.c:373
 msgid "STARTTLS response error"
 msgstr "STARTTLS 回應錯誤"
 
 # camel/providers/smtp/camel-smtp-transport.c:356
-#: camel/providers/smtp/camel-smtp-transport.c:485
+#: camel/providers/smtp/camel-smtp-transport.c:476
 #, c-format
 msgid "SMTP server %s does not support requested authentication type %s."
 msgstr "SMTP 伺服器 %s 不支援所要求的驗證類型 %s。"
 
 # camel/providers/smtp/camel-smtp-transport.c:395
-#: camel/providers/smtp/camel-smtp-transport.c:523
+#: camel/providers/smtp/camel-smtp-transport.c:514
 #, c-format
 msgid "%sPlease enter the SMTP password for %s@%s"
 msgstr "%s 請輸入 %s@%s 的 SMTP 密碼"
 
 # camel/providers/smtp/camel-smtp-transport.c:418
-#: camel/providers/smtp/camel-smtp-transport.c:542
+#: camel/providers/smtp/camel-smtp-transport.c:533
 #, c-format
 msgid ""
 "Unable to authenticate to SMTP server.\n"
@@ -12547,106 +11964,106 @@ msgstr ""
 "\n"
 
 # camel/providers/smtp/camel-smtp-transport.c:534
-#: camel/providers/smtp/camel-smtp-transport.c:675
+#: camel/providers/smtp/camel-smtp-transport.c:666
 #, c-format
 msgid "SMTP server %s"
 msgstr "SMTP 伺服器 %s"
 
 # camel/providers/smtp/camel-smtp-transport.c:536
-#: camel/providers/smtp/camel-smtp-transport.c:677
+#: camel/providers/smtp/camel-smtp-transport.c:668
 #, c-format
 msgid "SMTP mail delivery via %s"
 msgstr "經由 %s 傳送 SMTP 郵件"
 
 # camel/providers/smtp/camel-smtp-transport.c:568
-#: camel/providers/smtp/camel-smtp-transport.c:695
+#: camel/providers/smtp/camel-smtp-transport.c:686
 msgid "Cannot send message: sender address not valid."
 msgstr "不能傳送郵件：寄件者的地址無效。"
 
 # mail/mail-ops.c:603
-#: camel/providers/smtp/camel-smtp-transport.c:700 mail/mail-ops.c:635
+#: camel/providers/smtp/camel-smtp-transport.c:691 mail/mail-ops.c:635
 msgid "Sending message"
 msgstr "傳送郵件"
 
 # camel/providers/smtp/camel-smtp-transport.c:582
-#: camel/providers/smtp/camel-smtp-transport.c:715
+#: camel/providers/smtp/camel-smtp-transport.c:706
 msgid "Cannot send message: no recipients defined."
 msgstr "不能傳送郵件：沒有定義收件者。"
 
 # camel/providers/smtp/camel-smtp-transport.c:582
-#: camel/providers/smtp/camel-smtp-transport.c:724
+#: camel/providers/smtp/camel-smtp-transport.c:715
 msgid "Cannot send message: one or more invalid recipients"
 msgstr "不能傳送郵件：一或多個無效的收件者"
 
 # importers/netscape-importer.c:790
 # importers/pine-importer.c:656
-#: camel/providers/smtp/camel-smtp-transport.c:889
+#: camel/providers/smtp/camel-smtp-transport.c:880
 msgid "SMTP Greeting"
 msgstr "SMTP 迎接"
 
 # camel/providers/smtp/camel-smtp-transport.c:1024
-#: camel/providers/smtp/camel-smtp-transport.c:938
+#: camel/providers/smtp/camel-smtp-transport.c:929
 #, c-format
 msgid "HELO request timed out: %s"
 msgstr "HELO 的要求逾時：%s"
 
 # camel/providers/smtp/camel-smtp-transport.c:1043
-#: camel/providers/smtp/camel-smtp-transport.c:960
+#: camel/providers/smtp/camel-smtp-transport.c:951
 msgid "HELO response error"
 msgstr "HELO 回應錯誤"
 
 # mail/mail-config.glade.h:10
-#: camel/providers/smtp/camel-smtp-transport.c:1026
+#: camel/providers/smtp/camel-smtp-transport.c:1017
 msgid "SMTP Authentication"
 msgstr "SMTP 驗證"
 
 # camel/providers/smtp/camel-smtp-transport.c:728
-#: camel/providers/smtp/camel-smtp-transport.c:1032
+#: camel/providers/smtp/camel-smtp-transport.c:1023
 msgid "Error creating SASL authentication object."
 msgstr "建立 SASL 驗證物件時發生錯誤。"
 
 # camel/providers/smtp/camel-smtp-transport.c:743
 # camel/providers/smtp/camel-smtp-transport.c:755
-#: camel/providers/smtp/camel-smtp-transport.c:1049
-#: camel/providers/smtp/camel-smtp-transport.c:1061
+#: camel/providers/smtp/camel-smtp-transport.c:1040
+#: camel/providers/smtp/camel-smtp-transport.c:1052
 #, c-format
 msgid "AUTH request timed out: %s"
 msgstr "AUTH 的要求逾時：%s"
 
 # camel/providers/smtp/camel-smtp-transport.c:764
-#: camel/providers/smtp/camel-smtp-transport.c:1070
+#: camel/providers/smtp/camel-smtp-transport.c:1061
 msgid "AUTH request failed."
 msgstr "AUTH 要求失敗。"
 
 # camel/providers/smtp/camel-smtp-transport.c:809
-#: camel/providers/smtp/camel-smtp-transport.c:1131
+#: camel/providers/smtp/camel-smtp-transport.c:1122
 msgid "Bad authentication response from server.\n"
 msgstr "從伺服器傳回不正確驗證的回應。\n"
 
 # camel/providers/smtp/camel-smtp-transport.c:835
-#: camel/providers/smtp/camel-smtp-transport.c:1156
+#: camel/providers/smtp/camel-smtp-transport.c:1147
 #, c-format
 msgid "MAIL FROM request timed out: %s: mail not sent"
 msgstr "MAIL FROM 的要求逾時：%s：郵件無法傳送"
 
 # camel/providers/smtp/camel-smtp-transport.c:854
-#: camel/providers/smtp/camel-smtp-transport.c:1176
+#: camel/providers/smtp/camel-smtp-transport.c:1167
 msgid "MAIL FROM response error"
 msgstr "MAIL FROM 回應錯誤"
 
 # camel/providers/smtp/camel-smtp-transport.c:879
-#: camel/providers/smtp/camel-smtp-transport.c:1200
+#: camel/providers/smtp/camel-smtp-transport.c:1191
 #, c-format
 msgid "RCPT TO request timed out: %s: mail not sent"
 msgstr "RCPT TO 的要求逾時：%s：郵件無法傳送"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1222
+#: camel/providers/smtp/camel-smtp-transport.c:1213
 #, c-format
 msgid "RCPT TO <%s> failed"
 msgstr "RCPT TO <%s> 失敗"
 
 # camel/providers/smtp/camel-smtp-transport.c:929
-#: camel/providers/smtp/camel-smtp-transport.c:1261
+#: camel/providers/smtp/camel-smtp-transport.c:1252
 #, c-format
 msgid "DATA request timed out: %s: mail not sent"
 msgstr "DATA 的要求逾時：%s：郵件無法傳送"
@@ -12655,44 +12072,44 @@ msgstr "DATA 的要求逾時：%s：郵件無法傳送"
 #. we should have gotten instructions on how to use the DATA command:
 #. * 354 Enter mail, end with "." on a line by itself
 #.
-#: camel/providers/smtp/camel-smtp-transport.c:1281
+#: camel/providers/smtp/camel-smtp-transport.c:1272
 msgid "DATA response error"
 msgstr "DATA 回應錯誤"
 
 # camel/providers/smtp/camel-smtp-transport.c:963
 # camel/providers/smtp/camel-smtp-transport.c:981
-#: camel/providers/smtp/camel-smtp-transport.c:1322
-#: camel/providers/smtp/camel-smtp-transport.c:1345
+#: camel/providers/smtp/camel-smtp-transport.c:1313
+#: camel/providers/smtp/camel-smtp-transport.c:1336
 #, c-format
 msgid "DATA send timed out: message termination: %s: mail not sent"
 msgstr "DATA 傳送逾時：郵件傳送中止：%s：郵件無法傳送"
 
 # camel/camel-sasl-kerberos4.c:218
 # camel/providers/imap/camel-imap-store.c:433
-#: camel/providers/smtp/camel-smtp-transport.c:1365
+#: camel/providers/smtp/camel-smtp-transport.c:1356
 msgid "DATA termination response error"
 msgstr "DATA 終止回應錯誤"
 
 # camel/providers/smtp/camel-smtp-transport.c:1024
-#: camel/providers/smtp/camel-smtp-transport.c:1388
+#: camel/providers/smtp/camel-smtp-transport.c:1379
 #, c-format
 msgid "RSET request timed out: %s"
 msgstr "RSET 的要求逾時：%s"
 
 # camel/providers/smtp/camel-smtp-transport.c:1043
-#: camel/providers/smtp/camel-smtp-transport.c:1408
+#: camel/providers/smtp/camel-smtp-transport.c:1399
 msgid "RSET response error"
 msgstr "RSET 回應錯誤"
 
 # camel/providers/smtp/camel-smtp-transport.c:743
 # camel/providers/smtp/camel-smtp-transport.c:755
-#: camel/providers/smtp/camel-smtp-transport.c:1431
+#: camel/providers/smtp/camel-smtp-transport.c:1422
 #, c-format
 msgid "QUIT request timed out: %s"
 msgstr "QUIT 的要求逾時：%s"
 
 # camel/providers/smtp/camel-smtp-transport.c:1043
-#: camel/providers/smtp/camel-smtp-transport.c:1451
+#: camel/providers/smtp/camel-smtp-transport.c:1442
 msgid "QUIT response error"
 msgstr "QUIT 回應錯誤"
 
@@ -12865,8 +12282,20 @@ msgstr "張貼的目的端"
 msgid "Attach file(s)"
 msgstr "附加檔案"
 
+#: composer/e-msg-composer.c:651
+#, fuzzy
+msgid ""
+"Cannot sign outgoing message: No signing certificate set for from account"
+msgstr "當使用這個帳號時永遠在寄送的郵件上加簽(_A)"
+
+#: composer/e-msg-composer.c:657
+msgid ""
+"Cannot encrypt outgoing message: No encryption certificate set for from "
+"account"
+msgstr ""
+
 # composer/e-msg-composer.c:805
-#: composer/e-msg-composer.c:821
+#: composer/e-msg-composer.c:788
 #, c-format
 msgid ""
 "Error while reading file %s:\n"
@@ -12875,35 +12304,35 @@ msgstr ""
 "讀取檔案 %s 時發生錯誤：\n"
 "%s"
 
-#: composer/e-msg-composer.c:1186
+#: composer/e-msg-composer.c:1153
 msgid "File exists, overwrite?"
 msgstr "檔案已存在，覆蓋它？"
 
 # composer/e-msg-composer.c:785
-#: composer/e-msg-composer.c:1197 composer/e-msg-composer.c:1213
+#: composer/e-msg-composer.c:1164 composer/e-msg-composer.c:1180
 #, c-format
 msgid "Error saving file: %s"
 msgstr "儲存檔案時發生錯誤：%s"
 
 # composer/e-msg-composer.c:805
-#: composer/e-msg-composer.c:1236
+#: composer/e-msg-composer.c:1203
 #, c-format
 msgid "Error loading file: %s"
 msgstr "載入檔案時發生錯誤：%s"
 
 # composer/e-msg-composer.c:785
-#: composer/e-msg-composer.c:1274
+#: composer/e-msg-composer.c:1241
 #, c-format
 msgid "Error accessing file: %s"
 msgstr "存取檔案時發生錯誤：%s"
 
 # camel/providers/pop3/camel-pop3-folder.c:320
-#: composer/e-msg-composer.c:1282
+#: composer/e-msg-composer.c:1249
 msgid "Unable to retrieve message from editor"
 msgstr "無法從編輯器取得郵件"
 
 # mail/mail-ops.c:1728
-#: composer/e-msg-composer.c:1289
+#: composer/e-msg-composer.c:1256
 #, c-format
 msgid ""
 "Unable to seek on file: %s\n"
@@ -12913,7 +12342,7 @@ msgstr ""
 "%s"
 
 # mail/mail-ops.c:1728
-#: composer/e-msg-composer.c:1296
+#: composer/e-msg-composer.c:1263
 #, c-format
 msgid ""
 "Unable to truncate file: %s\n"
@@ -12923,7 +12352,7 @@ msgstr ""
 "%s"
 
 # mail/mail-ops.c:1728
-#: composer/e-msg-composer.c:1305
+#: composer/e-msg-composer.c:1272
 #, c-format
 msgid ""
 "Unable to copy file descriptor: %s\n"
@@ -12933,7 +12362,7 @@ msgstr ""
 "%s"
 
 # mail/mail-ops.c:1755
-#: composer/e-msg-composer.c:1314
+#: composer/e-msg-composer.c:1281
 #, c-format
 msgid ""
 "Error autosaving message: %s\n"
@@ -12943,7 +12372,7 @@ msgstr ""
 " %s"
 
 # importers/pine-importer.c:705
-#: composer/e-msg-composer.c:1411
+#: composer/e-msg-composer.c:1378
 msgid ""
 "Ximian Evolution has found unsaved files from a previous session.\n"
 "Would you like to try to recover them?"
@@ -12952,7 +12381,7 @@ msgstr ""
 "是否嘗試將它復原？"
 
 # composer/e-msg-composer.c:941
-#: composer/e-msg-composer.c:1574
+#: composer/e-msg-composer.c:1541
 #, c-format
 msgid ""
 "The message \"%s\" has not been sent.\n"
@@ -12964,32 +12393,32 @@ msgstr ""
 "您希望儲存您的變更嗎？"
 
 # mail/mail-ops.c:1154
-#: composer/e-msg-composer.c:1583
+#: composer/e-msg-composer.c:1550
 msgid "Warning: Modified Message"
 msgstr "警告：編輯過的郵件"
 
 # composer/e-msg-composer.c:966
-#: composer/e-msg-composer.c:1615
+#: composer/e-msg-composer.c:1582
 msgid "Open file"
 msgstr "開啟檔案"
 
 # mail/mail-config.glade.h:74
-#: composer/e-msg-composer.c:2034
+#: composer/e-msg-composer.c:2001
 msgid "Signature:"
 msgstr "簽名檔:"
 
-#: composer/e-msg-composer.c:2074 mail/mail-account-gui.c:1260
+#: composer/e-msg-composer.c:2041 mail/mail-account-gui.c:1260
 msgid "Autogenerated"
 msgstr "自動產生的"
 
 # composer/e-msg-composer.c:1526
 # composer/e-msg-composer.c:1871
-#: composer/e-msg-composer.c:2254 composer/e-msg-composer.c:2950
-#: composer/e-msg-composer.c:2951
+#: composer/e-msg-composer.c:2221 composer/e-msg-composer.c:2918
+#: composer/e-msg-composer.c:2919
 msgid "Compose a message"
 msgstr "編輯郵件"
 
-#: composer/e-msg-composer.c:2982
+#: composer/e-msg-composer.c:2950
 msgid ""
 "Could not create composer window:\n"
 "Unable to activate address selector control."
@@ -12998,7 +12427,7 @@ msgstr ""
 "無法作用位址選擇器控制元。"
 
 # composer/evolution-composer.c:355
-#: composer/e-msg-composer.c:3010
+#: composer/e-msg-composer.c:2980
 msgid ""
 "Could not create composer window:\n"
 "Unable to activate HTML editor component.\n"
@@ -13011,7 +12440,7 @@ msgstr ""
 "的 gtkhtml 與 libgtkhtml 。\n"
 
 # composer/evolution-composer.c:355
-#: composer/e-msg-composer.c:3080
+#: composer/e-msg-composer.c:3050
 msgid ""
 "Could not create composer window:\n"
 "Unable to activate HTML editor component."
@@ -13019,7 +12448,7 @@ msgstr ""
 "無法建立郵件編輯視窗：\n"
 "無法作用 HTML 編輯器元件。"
 
-#: composer/e-msg-composer.c:4090
+#: composer/e-msg-composer.c:4060
 msgid ""
 "<b>(The composer contains a non-text message body, which cannot be edited.)"
 "<b>"
@@ -13494,7 +12923,7 @@ msgstr ""
 "%s"
 
 #: filter/filter-label.c:121 filter/libfilter-i18n.h:17 mail/mail-config.c:65
-#: mail/mail-config.glade.h:62 shell/e-config-upgrade.c:1454
+#: mail/mail-config.glade.h:61 shell/e-config-upgrade.c:1454
 msgid "Important"
 msgstr "重要"
 
@@ -13508,7 +12937,7 @@ msgstr "待辦"
 
 # calendar/gui/event-editor-dialog.glade.h:33
 #. blue
-#: filter/filter-label.c:125 mail/mail-config.c:69 mail/mail-config.glade.h:66
+#: filter/filter-label.c:125 mail/mail-config.c:69 mail/mail-config.glade.h:65
 #: shell/e-config-upgrade.c:1458
 msgid "Later"
 msgstr "稍後"
@@ -13614,7 +13043,7 @@ msgstr "前"
 msgid "months"
 msgstr "月"
 
-#: filter/filter.glade.h:21 mail/mail-config.glade.h:174
+#: filter/filter.glade.h:21 mail/mail-config.glade.h:175
 msgid "seconds"
 msgstr "秒"
 
@@ -13714,7 +13143,7 @@ msgstr "跟隨"
 
 # addressbook/contact-editor/e-contact-editor.c:1256
 # addressbook/gui/widgets/e-addressbook-view.c:720
-#: filter/libfilter-i18n.h:18 mail/em-folder-view.c:687
+#: filter/libfilter-i18n.h:18 mail/em-folder-view.c:689
 msgid "Label"
 msgstr "標籤"
 
@@ -14109,14 +13538,14 @@ msgstr "資料夾名稱:"
 
 # shell/e-shell-importer.c:601
 #: mail/em-folder-view.c:577 mail/em-folder-view.c:591
-#: mail/mail-component.c:1638 mail/mail-component.c:1649
+#: mail/mail-component.c:1632 mail/mail-component.c:1643
 #: shell/e-shell-importer.c:1061
 msgid "Select folder"
 msgstr "選擇資料夾"
 
 # ui/evolution-mail.xml.h:66
 #. { EM_POPUP_ITEM, "00.select.00", N_("_Open"), G_CALLBACK(emp_popup_open), NULL, NULL, 0 },
-#: mail/em-folder-view.c:657 mail/em-popup.c:583
+#: mail/em-folder-view.c:659 mail/em-popup.c:583
 msgid "_Edit as New Message..."
 msgstr "編輯為新郵件(_E)..."
 
@@ -14124,36 +13553,36 @@ msgstr "編輯為新郵件(_E)..."
 # ui/evolution-event-editor.xml.h:69
 # ui/evolution-task-editor-dialog.xml.h:82
 # ui/evolution-tasks.xml.h:7
-#: mail/em-folder-view.c:659
+#: mail/em-folder-view.c:661
 msgid "_Print"
 msgstr "列印(_P)"
 
 # mail/folder-browser.c:697
 # ui/evolution-mail.xml.h:117
-#: mail/em-folder-view.c:662 ui/evolution-mail-message.xml.h:118
+#: mail/em-folder-view.c:664 ui/evolution-mail-message.xml.h:118
 msgid "_Reply to Sender"
 msgstr "回覆寄件者(_R)"
 
 # mail/folder-browser.c:699
 # ui/evolution-mail.xml.h:72
-#: mail/em-folder-view.c:663 mail/em-popup.c:644
+#: mail/em-folder-view.c:665 mail/em-popup.c:644
 #: ui/evolution-mail-message.xml.h:80
 msgid "Reply to _List"
 msgstr "回覆至清單(_L)"
 
 # mail/folder-browser.c:699
 # ui/evolution-mail.xml.h:72
-#: mail/em-folder-view.c:664 mail/em-popup.c:645
+#: mail/em-folder-view.c:666 mail/em-popup.c:645
 #: ui/evolution-mail-message.xml.h:79
 msgid "Reply to _All"
 msgstr "回覆所有人(_A)"
 
 # mail/folder-browser.c:701
-#: mail/em-folder-view.c:665 mail/em-popup.c:647
+#: mail/em-folder-view.c:667 mail/em-popup.c:647
 msgid "_Forward"
 msgstr "轉寄(_F)"
 
-#: mail/em-folder-view.c:668
+#: mail/em-folder-view.c:670
 msgid "Follo_w Up..."
 msgstr "跟隨(_W)..."
 
@@ -14161,122 +13590,134 @@ msgstr "跟隨(_W)..."
 # calendar/gui/calendar-model.c:1180
 # calendar/gui/dialogs/task-editor-dialog.glade.h:6
 # calendar/gui/e-calendar-table.c:421
-#: mail/em-folder-view.c:669
+#: mail/em-folder-view.c:671
 msgid "Fla_g Completed"
 msgstr "標幟已完成(_G)"
 
 # calendar/gui/dialogs/cal-prefs-dialog.glade.h:11
 # ui/evolution-calendar.xml.h:3
-#: mail/em-folder-view.c:670
+#: mail/em-folder-view.c:672
 msgid "Cl_ear Flag"
 msgstr "清除標幟(_E)"
 
 # mail/folder-browser.c:704
-#: mail/em-folder-view.c:673 ui/evolution-mail-message.xml.h:47
+#: mail/em-folder-view.c:675 ui/evolution-mail-message.xml.h:47
 msgid "Mar_k as Read"
 msgstr "標示成已閱讀(_K)"
 
 # mail/folder-browser.c:706
-#: mail/em-folder-view.c:674
+#: mail/em-folder-view.c:676
 msgid "Mark as _Unread"
 msgstr "標示成未閱讀(_U)"
 
 # mail/folder-browser.c:706
-#: mail/em-folder-view.c:675
+#: mail/em-folder-view.c:677
 msgid "Mark as _Important"
 msgstr "標示成重要(_I)"
 
 # mail/folder-browser.c:706
-#: mail/em-folder-view.c:676
+#: mail/em-folder-view.c:678
 msgid "_Mark as Unimportant"
 msgstr "標示成不重要(_M)"
 
 # mail/folder-browser.c:717
 # ui/evolution-mail.xml.h:121
-#: mail/em-folder-view.c:680
+#: mail/em-folder-view.c:682
 msgid "U_ndelete"
 msgstr "復原(_N)"
 
 # mail/folder-browser.c:711
-#: mail/em-folder-view.c:683
+#: mail/em-folder-view.c:685
 msgid "Mo_ve to Folder..."
 msgstr "移至資料夾(_V)..."
 
 # mail/folder-browser.c:713
-#: mail/em-folder-view.c:684 ui/evolution-addressbook.xml.h:31
+#: mail/em-folder-view.c:686 ui/evolution-addressbook.xml.h:31
 msgid "_Copy to Folder..."
 msgstr "複製至資料夾(_C)..."
 
 # addressbook/gui/component/addressbook-config.c:662
-#: mail/em-folder-view.c:692
+#: mail/em-folder-view.c:694
 msgid "Add Sender to Address_book"
 msgstr "新增寄件者到目錄服務(_B)"
 
 # mail/folder-browser.c:727
-#: mail/em-folder-view.c:695
+#: mail/em-folder-view.c:697
 msgid "Appl_y Filters"
 msgstr "套用過濾器(_Y)"
 
 # mail/folder-browser.c:731
-#: mail/em-folder-view.c:698
+#: mail/em-folder-view.c:700
 msgid "Crea_te Rule From Message"
 msgstr "從郵件建立規則(_T)"
 
 # mail/folder-browser.c:653
-#: mail/em-folder-view.c:699
+#: mail/em-folder-view.c:701
 msgid "VFolder on _Subject"
 msgstr "從主旨建立虛擬資料夾(_S)"
 
 # mail/folder-browser.c:656
-#: mail/em-folder-view.c:700
+#: mail/em-folder-view.c:702
 msgid "VFolder on Se_nder"
 msgstr "從寄件者建立虛擬資料夾(_N)"
 
 # mail/folder-browser.c:659
-#: mail/em-folder-view.c:701
+#: mail/em-folder-view.c:703
 msgid "VFolder on _Recipients"
 msgstr "從收件者建立虛擬資料夾(_R)"
 
 # mail/folder-browser.c:662
-#: mail/em-folder-view.c:702
+#: mail/em-folder-view.c:704
 msgid "VFolder on Mailing _List"
 msgstr "從郵件清單建立虛擬資料夾(_L)"
 
-# mail/folder-browser.c:668
+# mail/folder-browser.c:656
 #: mail/em-folder-view.c:706
+#, fuzzy
+msgid "VFolder on Thread"
+msgstr "從寄件者建立虛擬資料夾(_N)"
+
+# mail/folder-browser.c:668
+#: mail/em-folder-view.c:710
 msgid "Filter on Sub_ject"
 msgstr "從主旨建立過濾器(_J)"
 
 # mail/folder-browser.c:671
-#: mail/em-folder-view.c:707
+#: mail/em-folder-view.c:711
 msgid "Filter on Sen_der"
 msgstr "從寄件者建立過濾器(_D)"
 
 # mail/folder-browser.c:674
-#: mail/em-folder-view.c:708
+#: mail/em-folder-view.c:712
 msgid "Filter on Re_cipients"
 msgstr "收件者過濾器(_C)"
 
 # mail/folder-browser.c:677
-#: mail/em-folder-view.c:709
+#: mail/em-folder-view.c:713
 msgid "Filter on _Mailing List"
 msgstr "從郵件清單建立過濾器(_M)"
 
+# mail/folder-browser.c:671
+#: mail/em-folder-view.c:715
+#, fuzzy
+msgid "Filter on Thread"
+msgstr "從寄件者建立過濾器(_D)"
+
 # mail/mail-config.glade.h:21
 #. default charset used in mail view
-#: mail/em-folder-view.c:1473 mail/em-folder-view.c:1511
-#: mail/mail-config.glade.h:39
+#: mail/em-folder-view.c:1487 mail/em-folder-view.c:1525
+#: mail/mail-config.glade.h:38
 msgid "Default"
 msgstr "預設值"
 
 # mail/mail-callbacks.c:1407
-#: mail/em-folder-view.c:1545
+#: mail/em-folder-view.c:1559
 msgid "Print Message"
 msgstr "列印郵件"
 
 # ui/evolution-event-editor.xml.h:14
 # ui/evolution-task-editor-dialog.xml.h:15
-#: mail/em-folder-view.c:1786
+#: mail/em-folder-view.c:1800
 #, fuzzy
 msgid "_Copy Link Location"
 msgstr "複製連結位址"
@@ -14425,6 +13866,11 @@ msgstr "副本"
 #: mail/em-format-html.c:1362 mail/em-format.c:677
 msgid "Bcc"
 msgstr "密件副本"
+
+# addressbook/backend/ebook/e-card.c:3428
+#: mail/em-format-html.c:1381
+msgid "Mailer"
+msgstr "寄件者"
 
 #. translators: strftime format for local time equivalent in Date header display, with day
 #: mail/em-format-html.c:1408
@@ -14600,7 +14046,7 @@ msgid "Save Message..."
 msgstr "另存郵件..."
 
 # mail/mail-display.c:236
-#: mail/em-utils.c:1893 mail/mail-component.c:495
+#: mail/em-utils.c:1893 mail/mail-component.c:501
 #, c-format
 msgid "Could not create temporary directory: %s"
 msgstr "無法建立暫存目錄： %s"
@@ -14684,7 +14130,7 @@ msgstr "Evolution 郵件執行摘要元件。"
 msgid "Mail Accounts"
 msgstr "郵件帳號"
 
-#: mail/GNOME_Evolution_Mail.server.in.in.h:14 mail/mail-config.glade.h:69
+#: mail/GNOME_Evolution_Mail.server.in.in.h:14 mail/mail-config.glade.h:68
 msgid "Mail Preferences"
 msgstr "郵件偏好設定"
 
@@ -14965,45 +14411,50 @@ msgstr "使用者名稱(_N):"
 msgid "_Path:"
 msgstr "路徑(_P):"
 
-#: mail/mail-account-gui.c:1877
+#: mail/mail-account-gui.c:1946
 msgid "You may not create two accounts with the same name."
 msgstr "您不能用相同的名稱建立兩個帳號。"
 
 # mail/mail-autofilter.c:70
-#: mail/mail-autofilter.c:73
+#: mail/mail-autofilter.c:74
 #, c-format
 msgid "Mail to %s"
 msgstr "郵件送到 %s"
 
 # mail/mail-autofilter.c:213
-#: mail/mail-autofilter.c:237
+#: mail/mail-autofilter.c:257
 #, c-format
 msgid "Subject is %s"
 msgstr "主旨是 %s"
 
 # mail/mail-autofilter.c:229
-#: mail/mail-autofilter.c:253
+#: mail/mail-autofilter.c:273
 #, c-format
 msgid "Mail from %s"
 msgstr "郵件來自 %s "
 
 # mail/mail-autofilter.c:285
-#: mail/mail-autofilter.c:270
+#: mail/mail-autofilter.c:290
 #, c-format
 msgid "%s mailing list"
 msgstr "%s 郵件列表"
 
+#: mail/mail-autofilter.c:314
+#, fuzzy, c-format
+msgid "Replies to %s"
+msgstr "回覆"
+
 # mail/mail-autofilter.c:335
 # mail/mail-autofilter.c:356
-#: mail/mail-autofilter.c:323
+#: mail/mail-autofilter.c:367
 msgid "Add Filter Rule"
 msgstr "新增過濾器規則"
 
-#: mail/mail-autofilter.c:372
+#: mail/mail-autofilter.c:416
 msgid "The following filter rule(s):\n"
 msgstr "下列的過濾器規則：\n"
 
-#: mail/mail-autofilter.c:378
+#: mail/mail-autofilter.c:422
 #, c-format
 msgid ""
 "Used the removed folder:\n"
@@ -15016,68 +14467,69 @@ msgstr ""
 
 # mail/mail-config.c:1213
 # mail/mail-config.c:1216
-#: mail/mail-component.c:188
+#: mail/mail-component.c:194
 msgid "Connecting..."
 msgstr "正在連線..."
 
-#: mail/mail-component.c:345
+#: mail/mail-component.c:351
 msgid "On this Computer"
 msgstr ""
 
-#: mail/mail-component.c:367
+#: mail/mail-component.c:373
 msgid "This folder cannot contain messages."
 msgstr "此資料夾不能包含郵件。"
 
 # camel/providers/local/camel-mbox-summary.c:655
-#: mail/mail-component.c:481
+#: mail/mail-component.c:487
 #, fuzzy, c-format
 msgid "Could not open source folder: %s"
 msgstr "無法開啟共用的資料夾：%s。"
 
 # mail/mail-display.c:236
-#: mail/mail-component.c:510
+#: mail/mail-component.c:516
 #, fuzzy, c-format
 msgid "Could not create temporary mbox store: %s"
 msgstr "無法建立暫存目錄： %s"
 
 # mail/mail-display.c:236
-#: mail/mail-component.c:526
+#: mail/mail-component.c:532
 #, fuzzy, c-format
 msgid "Could not create temporary mbox folder: %s"
 msgstr "無法建立暫存檔案“%s”： %s"
 
 # camel/providers/local/camel-mbox-summary.c:644
-#: mail/mail-component.c:547
+#: mail/mail-component.c:553
 #, fuzzy, c-format
 msgid "Could not copy messages to temporary mbox folder: %s"
 msgstr "無法關閉暫存資料夾： %s"
 
-#: mail/mail-component.c:1026
+#: mail/mail-component.c:1014
+#, c-format
 msgid ""
-"Some of your mail settings seem corrupt, please check that everything is in "
-"order."
-msgstr "您的某些郵件設定似乎損壞了，請檢查一切是否正常。"
+"The following error occured while migrating your mail data:\n"
+"%s"
+msgstr ""
 
 # shell/e-shell-importer.c:602
-#: mail/mail-component.c:1638
+#: mail/mail-component.c:1632
 #, fuzzy
 msgid "Select destination to copy folder into"
 msgstr "選擇用來匯入這些資料的目的資料夾"
 
 # shell/e-shell-importer.c:602
-#: mail/mail-component.c:1649
+#: mail/mail-component.c:1643
 #, fuzzy
 msgid "Select destination to move folder into"
 msgstr "選擇用來匯入這些資料的目的資料夾"
 
 # ui/evolution.xml.h:10
-#: mail/mail-component.c:1713
+#: mail/mail-component.c:1707
 #, fuzzy
 msgid "Create folder"
 msgstr "新增一個資料夾"
 
 # shell/glade/e-shell-folder-creation-dialog.glade.h:3
-#: mail/mail-component.c:1713
+#: mail/mail-component.c:1707
 #: shell/glade/e-shell-folder-creation-dialog.glade.h:4
 msgid "Specify where to create the folder:"
 msgstr "指定建立資料夾的位置："
@@ -15085,14 +14537,14 @@ msgstr "指定建立資料夾的位置："
 # camel/providers/local/camel-maildir-store.c:151
 # camel/providers/local/camel-maildir-store.c:188
 # camel/providers/local/camel-mh-store.c:127
-#: mail/mail-component.c:1794
+#: mail/mail-component.c:1788
 #, fuzzy, c-format
 msgid "Could not delete folder: %s"
 msgstr "無法刪除資料夾“%s”： %s"
 
 # camel/providers/local/camel-mbox-store.c:138
 # camel/providers/local/camel-mbox-store.c:161
-#: mail/mail-component.c:1818
+#: mail/mail-component.c:1812
 #, fuzzy, c-format
 msgid "Really delete folder \"%s\" and all of its subfolders?"
 msgstr "確定要刪除資料夾“%s”？"
@@ -15108,33 +14560,33 @@ msgstr "確定要刪除資料夾“%s”？"
 # ui/evolution-event-editor.xml.h:17
 # ui/evolution-mail.xml.h:22
 # ui/evolution-task-editor-dialog.xml.h:18
-#: mail/mail-component.c:1827 shell/e-shell-folder-commands.c:416
+#: mail/mail-component.c:1821 shell/e-shell-folder-commands.c:416
 #, c-format
 msgid "Delete \"%s\""
 msgstr "刪除“%s”"
 
 # mail/mail-ops.c:1195
 # mail/mail-ops.c:1333
-#: mail/mail-component.c:1848 shell/e-shell-folder-commands.c:534
+#: mail/mail-component.c:1842 shell/e-shell-folder-commands.c:534
 #, c-format
 msgid "Rename the \"%s\" folder to:"
 msgstr "重新命名資料夾“%s”為："
 
 # mail/mail-ops.c:1195
 # mail/mail-ops.c:1333
-#: mail/mail-component.c:1850 shell/e-shell-folder-commands.c:541
+#: mail/mail-component.c:1844 shell/e-shell-folder-commands.c:541
 #, fuzzy
 msgid "Rename Folder"
 msgstr "重新命名資料夾"
 
 # shell/e-shell-folder-creation-dialog.c:156
-#: mail/mail-component.c:1855 shell/e-shell-folder-commands.c:547
+#: mail/mail-component.c:1849 shell/e-shell-folder-commands.c:547
 #: shell/e-shell-folder-creation-dialog.c:180
 #, c-format
 msgid "The specified folder name is not valid: %s"
 msgstr "指定的資料夾名稱不合法： %s"
 
-#: mail/mail-component.c:1866
+#: mail/mail-component.c:1860
 #, c-format
 msgid "A folder named \"%s\" already exists.  Please use a different name."
 msgstr ""
@@ -15142,7 +14594,7 @@ msgstr ""
 # mail/folder-browser-factory.c:198
 # ui/evolution-event-editor.xml.h:39
 # ui/evolution-task-editor-dialog.xml.h:42
-#: mail/mail-component.c:1973
+#: mail/mail-component.c:1967
 #, fuzzy
 msgid "Folder properties"
 msgstr "字型內容"
@@ -15151,12 +14603,12 @@ msgstr "字型內容"
 # ui/evolution-event-editor.xml.h:39
 # ui/evolution-task-editor-dialog.xml.h:42
 #. TODO: maybe we want some basic properties here, like message counts/approximate size/etc
-#: mail/mail-component.c:1981
+#: mail/mail-component.c:1975
 msgid "Properties"
 msgstr "屬性"
 
 # shell/glade/e-shell-folder-creation-dialog.glade.h:1
-#: mail/mail-component.c:1985
+#: mail/mail-component.c:1979
 #, fuzzy
 msgid "Folder Name"
 msgstr "資料夾名稱(_F):"
@@ -15165,31 +14617,31 @@ msgstr "資料夾名稱(_F):"
 # ui/evolution-message-composer.xml.h:55
 # ui/evolution-task-editor-dialog.xml.h:90
 # ui/evolution.xml.h:65
-#: mail/mail-component.c:2084 ui/evolution-mail-messagedisplay.xml.h:8
+#: mail/mail-component.c:2078 ui/evolution-mail-messagedisplay.xml.h:8
 #: ui/evolution-message-composer.xml.h:49 ui/evolution.xml.h:30
 msgid "_View"
 msgstr "檢視(_V)"
 
 # ui/evolution.xml.h:24
-#: mail/mail-component.c:2085
+#: mail/mail-component.c:2079
 #, fuzzy
 msgid "Open in _New Window"
 msgstr "在新視窗開啟"
 
 # ui/evolution-mail.xml.h:55
-#: mail/mail-component.c:2090
+#: mail/mail-component.c:2084
 #, fuzzy
 msgid "_Move"
 msgstr "移動"
 
 # ui/evolution.xml.h:59
-#: mail/mail-component.c:2093
+#: mail/mail-component.c:2087
 #, fuzzy
 msgid "_New Folder..."
 msgstr "新增資料夾(_N)"
 
 # ui/evolution.xml.h:61
-#: mail/mail-component.c:2095 shell/e-shortcuts-view.c:427
+#: mail/mail-component.c:2089 shell/e-shortcuts-view.c:427
 msgid "_Rename"
 msgstr "重新命名(_R)"
 
@@ -15197,12 +14649,12 @@ msgstr "重新命名(_R)"
 # ui/evolution-mail.xml.h:115
 # ui/evolution-task-editor-dialog.xml.h:83
 # ui/evolution.xml.h:60
-#: mail/mail-component.c:2098 ui/evolution-mail-list.xml.h:27
+#: mail/mail-component.c:2092 ui/evolution-mail-list.xml.h:27
 msgid "_Properties..."
 msgstr "屬性(_P)..."
 
 # mail/mail-config.glade.h:35
-#: mail/mail-config-druid.c:367 mail/mail-config.glade.h:61
+#: mail/mail-config-druid.c:367 mail/mail-config.glade.h:60
 msgid "Identity"
 msgstr "身分"
 
@@ -15292,7 +14744,8 @@ msgid "(SSL is not supported in this build of evolution)"
 msgstr "(此一版本的 evolution 並不支援 SSL)"
 
 #: mail/mail-config.glade.h:7
-msgid "A_lways encrypt to myself when sending encrypted mail"
+#, fuzzy
+msgid "A_lso encrypt to self when sending encrypted mail"
 msgstr "當傳送加密郵件時永遠自我加密(_L)"
 
 # mail/mail-config.glade.h:3
@@ -15318,49 +14771,45 @@ msgstr "加入新的簽名檔..."
 msgid "Al_ways encrypt to myself when sending encrypted mail"
 msgstr "當傳送加密郵件時永遠自我加密(_W)"
 
-#: mail/mail-config.glade.h:15
-msgid "Alwa_ys sign outgoing messages when using this account"
-msgstr "當使用這個帳號時永遠在寄送的郵件上加簽(_Y)"
-
-#: mail/mail-config.glade.h:17
+#: mail/mail-config.glade.h:16
 msgid "Always _blind carbon-copy (Bcc) to:"
 msgstr "永遠寄送密件副本(Bcc)給(_B):"
 
-#: mail/mail-config.glade.h:18
+#: mail/mail-config.glade.h:17
 msgid "Always _carbon-copy (Cc) to:"
 msgstr "永遠寄送副本(Cc)給(_C):"
 
-#: mail/mail-config.glade.h:19
+#: mail/mail-config.glade.h:18
 msgid "Always _trust keys in my keyring when encrypting"
 msgstr "加密時永遠信任在我的鑰匙圈裡的金鑰"
 
 # composer/e-msg-composer-attachment-bar.c:501
-#: mail/mail-config.glade.h:20
+#: mail/mail-config.glade.h:19
 msgid "Attach original message"
 msgstr "附加原始訊息"
 
 # composer/e-msg-composer-attachment.glade.h:1
 # mail/mail-config.glade.h:9
 # mail/message-list.c:1081
-#: mail/mail-config.glade.h:21 mail/message-list.etspec.h:1
+#: mail/mail-config.glade.h:20 mail/message-list.etspec.h:1
 msgid "Attachment"
 msgstr "附件"
 
 # mail/mail-config.glade.h:10
-#: mail/mail-config.glade.h:22
+#: mail/mail-config.glade.h:21
 msgid "Authentication"
 msgstr "驗證"
 
-#: mail/mail-config.glade.h:23
+#: mail/mail-config.glade.h:22
 msgid "Baltic (ISO-8859-13)"
 msgstr "波羅的海語系 (ISO-8859-13)"
 
-#: mail/mail-config.glade.h:24
+#: mail/mail-config.glade.h:23
 msgid "Baltic (ISO-8859-4)"
 msgstr "波羅的海語系 (ISO-8859-4)"
 
 # mail/mail-config.glade.h:22
-#: mail/mail-config.glade.h:25
+#: mail/mail-config.glade.h:24
 msgid "C_haracter set:"
 msgstr "字集(_H):"
 
@@ -15371,37 +14820,37 @@ msgstr "字集(_H):"
 # ui/evolution-subscribe.xml.h:2
 # ui/evolution-task-editor-dialog.xml.h:11
 # ui/evolution.xml.h:5
-#: mail/mail-config.glade.h:26
+#: mail/mail-config.glade.h:25
 msgid "C_olors"
 msgstr "顏色(_O)"
 
-#: mail/mail-config.glade.h:27
+#: mail/mail-config.glade.h:26
 msgid "Check spelling while I _type"
 msgstr "當我輸入時檢查拼字"
 
 # camel/providers/imap/camel-imap-provider.c:43
 # mail/mail-config.glade.h:13
-#: mail/mail-config.glade.h:28
+#: mail/mail-config.glade.h:27
 msgid "Checking for New Mail"
 msgstr "檢查新郵件"
 
-#: mail/mail-config.glade.h:29
+#: mail/mail-config.glade.h:28
 msgid "Color for _misspelled words:"
 msgstr "拼錯字的顏色(_M):"
 
 # composer/e-msg-composer.c:1526
 # composer/e-msg-composer.c:1871
-#: mail/mail-config.glade.h:30
+#: mail/mail-config.glade.h:29
 msgid "Composing Messages"
 msgstr "編輯郵件中"
 
 # mail/mail-config.glade.h:40
-#: mail/mail-config.glade.h:31
+#: mail/mail-config.glade.h:30
 msgid "Configuration"
 msgstr "組態"
 
 # mail/mail-config.glade.h:15
-#: mail/mail-config.glade.h:32
+#: mail/mail-config.glade.h:31
 #, fuzzy
 msgid ""
 "Congratulations, your mail configuration is complete.\n"
@@ -15419,66 +14868,72 @@ msgstr ""
 "請按“完成”來儲存您的設定。"
 
 # mail/mail-config.glade.h:21
-#: mail/mail-config.glade.h:38
+#: mail/mail-config.glade.h:37
 msgid "De_fault"
 msgstr "預設值(_F)"
 
-#: mail/mail-config.glade.h:40
+#: mail/mail-config.glade.h:39
 msgid "Default Behavior"
 msgstr "預設行為"
 
 # mail/mail-config.glade.h:22
-#: mail/mail-config.glade.h:41
+#: mail/mail-config.glade.h:40
 msgid "Default character _encoding:"
 msgstr "預設字元編碼(_E):"
 
 # mail/mail-config.glade.h:58
-#: mail/mail-config.glade.h:42
+#: mail/mail-config.glade.h:41
 msgid "Deleting Mail"
 msgstr "刪除郵件中"
 
-#: mail/mail-config.glade.h:44
-msgid "Digital IDs..."
-msgstr "數位 ID..."
+#: mail/mail-config.glade.h:43
+#, fuzzy
+msgid "Digitally _sign outgoing messages (by default)"
+msgstr "當使用這個帳號時永遠在寄送的郵件上加簽(_A)"
 
 # camel/camel-filter-driver.c:671
-#: mail/mail-config.glade.h:45
+#: mail/mail-config.glade.h:44
 msgid "Do not quote original message"
 msgstr "不要引用原始訊息"
 
-#: mail/mail-config.glade.h:46
+#: mail/mail-config.glade.h:45
 msgid "Don't sign _meeting requests (for Outlook compatibility)"
 msgstr "不要加簽會議邀請(為了相容 Outlook)(_M)"
 
 # mail/mail-config.glade.h:25
-#: mail/mail-config.glade.h:47 shell/glade/evolution-startup-wizard.glade.h:1
+#: mail/mail-config.glade.h:46 shell/glade/evolution-startup-wizard.glade.h:1
 msgid "Done"
 msgstr "完成"
 
 # mail/mail-config.glade.h:27
-#: mail/mail-config.glade.h:48
+#: mail/mail-config.glade.h:47
 msgid "Drafts _folder:"
 msgstr "草稿匣(_F):"
 
 # mail/mail-accounts.c:199
 # mail/mail-config.glade.h:30
-#: mail/mail-config.glade.h:49
+#: mail/mail-config.glade.h:48
 msgid "E_nable"
 msgstr "啟用(_E)"
 
 # mail/mail-config.glade.h:6
-#: mail/mail-config.glade.h:50
+#: mail/mail-config.glade.h:49
 msgid "Email Accounts"
 msgstr "電子郵件帳號"
 
 # mail/mail-config.glade.h:29
-#: mail/mail-config.glade.h:51
+#: mail/mail-config.glade.h:50
 msgid "Email _address:"
 msgstr "電子郵件位址(_A):"
 
-#: mail/mail-config.glade.h:52
+#: mail/mail-config.glade.h:51
 msgid "Empty _trash folders on exit"
 msgstr "離開時清空垃圾桶資料夾(_T)"
+
+#: mail/mail-config.glade.h:52
+#, fuzzy
+msgid "Encry_ption certificate:"
+msgstr "憑證 ID(_C):"
 
 # mail/mail-config-druid.c:445
 #: mail/mail-config.glade.h:53
@@ -15506,217 +14961,218 @@ msgid "Format messages in _HTML"
 msgstr "將郵件格式化為 _HTML"
 
 #: mail/mail-config.glade.h:58
-msgid "Get Digital ID..."
-msgstr "取得數位 ID..."
-
-#: mail/mail-config.glade.h:59
 msgid "Highlight _quotations with"
 msgstr "強調引文為(_Q)"
 
 # mail/mail-config.glade.h:34
-#: mail/mail-config.glade.h:60
+#: mail/mail-config.glade.h:59
 msgid "IMAPv4 "
 msgstr "IMAPv4 "
 
 # mail/mail-config.glade.h:37
-#: mail/mail-config.glade.h:63
+#: mail/mail-config.glade.h:62
 msgid "Inline"
 msgstr "行內"
 
 # mail/mail-config.glade.h:38
-#: mail/mail-config.glade.h:64
+#: mail/mail-config.glade.h:63
 msgid "Kerberos "
 msgstr "Kerberos "
 
 # ui/evolution-contact-editor.xml.h:9
 # ui/evolution-event-editor.xml.h:42
 # ui/evolution-task-editor-dialog.xml.h:52
-#: mail/mail-config.glade.h:65
+#: mail/mail-config.glade.h:64
 msgid "Labels and Colors"
 msgstr "標籤與顏色"
 
 # ui/evolution-mail.xml.h:46
-#: mail/mail-config.glade.h:67
+#: mail/mail-config.glade.h:66
 msgid "Loading Images"
 msgstr "載入影像"
 
 # mail/mail-config.glade.h:40
-#: mail/mail-config.glade.h:68
+#: mail/mail-config.glade.h:67
 msgid "Mail Configuration"
 msgstr "郵件組態"
 
 # mail/local-config.glade.h:2
-#: mail/mail-config.glade.h:70
+#: mail/mail-config.glade.h:69
 msgid "Mailbox location"
 msgstr "信箱位置"
 
 # views/mail/galview.xml.h:4
-#: mail/mail-config.glade.h:71
+#: mail/mail-config.glade.h:70
 msgid "Message Composer"
 msgstr "郵件編輯器"
 
 # views/mail/galview.xml.h:4
-#: mail/mail-config.glade.h:72
+#: mail/mail-config.glade.h:71
 msgid "Message Display"
 msgstr "郵件顯示"
 
 # addressbook/gui/component/addressbook.c:619
-#: mail/mail-config.glade.h:73
+#: mail/mail-config.glade.h:72
 #, fuzzy
 msgid "Message Fonts"
 msgstr "郵件包含"
 
 # mail/mail-config.glade.h:40
-#: mail/mail-config.glade.h:75
+#: mail/mail-config.glade.h:74
 msgid "New Mail Notification"
 msgstr "新郵件通知"
 
-#: mail/mail-config.glade.h:77
+#: mail/mail-config.glade.h:76
 msgid ""
 "Note: you will not be prompted for a password until you connect for the "
 "first time"
 msgstr "注意：在您首次連線之前將不會提示您輸入密碼"
 
 # mail/mail-config.glade.h:47
-#: mail/mail-config.glade.h:78
+#: mail/mail-config.glade.h:77
 msgid "Optional Information"
 msgstr "選用的資訊"
 
 # addressbook/gui/widgets/e-addressbook-view.c:708
-#: mail/mail-config.glade.h:80
+#: mail/mail-config.glade.h:79
 msgid "Or_ganization:"
 msgstr "團體(_G):"
 
-#: mail/mail-config.glade.h:81
+#: mail/mail-config.glade.h:80
 msgid "PGP/GPG _Key ID:"
 msgstr "PGP/GPG 鑰匙 ID(_K):"
 
 # calendar/gui/dialogs/cal-prefs-dialog.glade.h:33
 # mail/mail-config.glade.h:54
-#: mail/mail-config.glade.h:85
+#: mail/mail-config.glade.h:84
 msgid "Pick a color"
 msgstr "選取顏色"
 
 # ui/evolution-mail.xml.h:14
-#: mail/mail-config.glade.h:86
+#: mail/mail-config.glade.h:85
 msgid "Pr_ompt when sending messages with only Bcc recipients defined"
 msgstr "當傳送的郵件只有指定密件副本收件者時顯示提示(_O)"
 
-#: mail/mail-config.glade.h:87
+#: mail/mail-config.glade.h:86
 msgid "Pretty Good Privacy (PGP/GPG)"
 msgstr "相當高的隱私 (PGP/GPG)"
 
 # ui/evolution-addressbook.xml.h:11
-#: mail/mail-config.glade.h:88
+#: mail/mail-config.glade.h:87
 msgid "Printed Fonts"
 msgstr "列印的字型"
 
 # mail/mail-config.glade.h:55
-#: mail/mail-config.glade.h:89
+#: mail/mail-config.glade.h:88
 msgid "Qmail maildir "
 msgstr "Qmail maildir "
 
 # camel/camel-filter-driver.c:671
-#: mail/mail-config.glade.h:90
+#: mail/mail-config.glade.h:89
 msgid "Quote original message"
 msgstr "引用原始訊息"
 
 # mail/mail-config.glade.h:56
-#: mail/mail-config.glade.h:91
+#: mail/mail-config.glade.h:90
 msgid "Quoted"
 msgstr "引用"
 
 # addressbook/gui/component/addressbook-config.c:352
 # mail/mail-config.glade.h:60
-#: mail/mail-config.glade.h:92
+#: mail/mail-config.glade.h:91
 msgid "Re_member this password"
 msgstr "記住這個密碼(_M)"
 
 # composer/e-msg-composer-hdrs.c:361
-#: mail/mail-config.glade.h:93
+#: mail/mail-config.glade.h:92
 msgid "Re_ply-To:"
 msgstr "回覆地址(_P):"
 
 # mail/mail-config.glade.h:57
-#: mail/mail-config.glade.h:94
+#: mail/mail-config.glade.h:93
 msgid "Receiving Email"
 msgstr "接收電子郵件"
 
 # mail/mail-config.glade.h:59
-#: mail/mail-config.glade.h:95
+#: mail/mail-config.glade.h:94
 msgid "Receiving _Options"
 msgstr "接收郵件選項(_O)"
 
 # addressbook/gui/component/addressbook-config.c:352
 # mail/mail-config.glade.h:60
-#: mail/mail-config.glade.h:96
+#: mail/mail-config.glade.h:95
 msgid "Remember this _password"
 msgstr "記住這個密碼(_P)"
 
 # mail/mail-config.glade.h:61
-#: mail/mail-config.glade.h:97
+#: mail/mail-config.glade.h:96
 msgid "Required Information"
 msgstr "所需資訊"
 
 # mail/mail-config.glade.h:21
-#: mail/mail-config.glade.h:98
+#: mail/mail-config.glade.h:97
 msgid "Restore Defaults"
 msgstr "還原預設值"
 
 # ui/evolution-message-composer.xml.h:54
-#: mail/mail-config.glade.h:100
+#: mail/mail-config.glade.h:99
 msgid "S_ecurity"
 msgstr "安全性(_E)"
 
-#: mail/mail-config.glade.h:101
+#: mail/mail-config.glade.h:100
 msgid "Secure MIME (S/MIME)"
 msgstr "安全的 MIME (S/MIME)"
 
-#: mail/mail-config.glade.h:102
+#: mail/mail-config.glade.h:101
 msgid "Select HTML fixed width font"
 msgstr "選擇 HTML 固定寬度字型"
 
-#: mail/mail-config.glade.h:103
+#: mail/mail-config.glade.h:102
 msgid "Select HTML fixed width font for printing"
 msgstr "選擇用於列印的 HTML 固定寬度字型"
 
-#: mail/mail-config.glade.h:104
+#: mail/mail-config.glade.h:103
 msgid "Select HTML variable width font"
 msgstr "選擇 HTML 可變寬度字型"
 
-#: mail/mail-config.glade.h:105
+#: mail/mail-config.glade.h:104
 msgid "Select HTML variable width font for printing"
 msgstr "選擇用於列印的 HTML 可變寬度字型"
 
 # mail/mail-config.glade.h:65
-#: mail/mail-config.glade.h:106
+#: mail/mail-config.glade.h:105
 msgid "Sending Email"
 msgstr "傳送電子郵件"
 
 # mail/mail-config.glade.h:70
-#: mail/mail-config.glade.h:108
+#: mail/mail-config.glade.h:107
 msgid "Sent _messages folder:"
 msgstr "傳送郵件資料夾(_M)"
 
 # mail/mail-config.glade.h:69
-#: mail/mail-config.glade.h:109
+#: mail/mail-config.glade.h:108
 msgid "Sent and Draft Messages"
 msgstr "傳送與草稿郵件"
 
 # mail/mail-config.glade.h:73
-#: mail/mail-config.glade.h:110
+#: mail/mail-config.glade.h:109
 msgid "Ser_ver requires authentication"
 msgstr "伺服器要求驗證(_V)"
 
 # mail/mail-config.glade.h:71
-#: mail/mail-config.glade.h:111
+#: mail/mail-config.glade.h:110
 msgid "Server Configuration"
 msgstr "伺服器設定"
 
 # mail/mail-config.glade.h:72
-#: mail/mail-config.glade.h:112
+#: mail/mail-config.glade.h:111
 msgid "Server _Type: "
 msgstr "伺服器類型(_T):"
+
+#: mail/mail-config.glade.h:112
+#, fuzzy
+msgid "Si_gning certificate:"
+msgstr "在憑證鏈中的自我加簽憑證"
 
 # addressbook/printing/e-contact-print.glade.h:38
 #: mail/mail-config.glade.h:113
@@ -15814,34 +15270,34 @@ msgstr "自動插入笑臉影像(_A)"
 msgid "_Beep when new mail arrives"
 msgstr "當新郵件到達時發出嗶聲(_B)"
 
-#: mail/mail-config.glade.h:138
-msgid "_Certificate ID:"
-msgstr "憑證 ID(_C):"
-
 # mail/mail-ops.c:1449
-#: mail/mail-config.glade.h:139
+#: mail/mail-config.glade.h:138
 msgid "_Confirm when expunging a folder"
 msgstr "刪除資料夾時確認(_C)"
 
 # calendar/gui/e-day-view.c:3179
-#: mail/mail-config.glade.h:140
+#: mail/mail-config.glade.h:139
 msgid "_Default signature:"
 msgstr "預設的簽名檔(_D):"
 
 # mail/mail-config.glade.h:21
-#: mail/mail-config.glade.h:141
+#: mail/mail-config.glade.h:140
 msgid "_Defaults"
 msgstr "預設值(_D)"
 
-#: mail/mail-config.glade.h:142
+#: mail/mail-config.glade.h:141
 msgid "_Do not notify me when new mail arrives"
 msgstr "當新郵件到達時不要通知我(_D)"
 
 # mail/mail-accounts.c:199
 # mail/mail-config.glade.h:30
-#: mail/mail-config.glade.h:144
+#: mail/mail-config.glade.h:143
 msgid "_Enable"
 msgstr "啟用(_E)"
+
+#: mail/mail-config.glade.h:144
+msgid "_Encrypt outgoing messages (by default)"
+msgstr ""
 
 # ui/evolution-mail.xml.h:34
 #: mail/mail-config.glade.h:145
@@ -15921,45 +15377,51 @@ msgstr "還原預設值(_R)"
 msgid "_Script:"
 msgstr "命令稿(_S):"
 
-# mail/mail-config.glade.h:66
+# ui/evolution-contact-editor.xml.h:3
 #: mail/mail-config.glade.h:164
+#, fuzzy
+msgid "_Select..."
+msgstr "刪除..."
+
+# mail/mail-config.glade.h:66
+#: mail/mail-config.glade.h:165
 msgid "_Sending Mail"
 msgstr "傳送郵件(_S)"
 
 # calendar/gui/dialogs/cal-prefs-dialog.glade.h:39
-#: mail/mail-config.glade.h:165
+#: mail/mail-config.glade.h:166
 msgid "_Show animated images"
 msgstr "顯示動畫影像(_S)"
 
 # mail/mail-config.glade.h:74
-#: mail/mail-config.glade.h:166
+#: mail/mail-config.glade.h:167
 msgid "_Signatures"
 msgstr "簽名檔(_S)"
 
-#: mail/mail-config.glade.h:167
+#: mail/mail-config.glade.h:168
 #, fuzzy
 msgid "_Standard Font:"
 msgstr "桑波恩"
 
 # addressbook/gui/component/addressbook-storage.c:99
-#: mail/mail-config.glade.h:168
+#: mail/mail-config.glade.h:169
 #, fuzzy
 msgid "_Terminal Font:"
 msgstr "原本的連絡人:"
 
 # mail/mail-config.glade.h:79
-#: mail/mail-config.glade.h:169
+#: mail/mail-config.glade.h:170
 msgid "_Use secure connection (SSL):"
 msgstr "使用安全連線 (SSL)(_U):"
 
-#: mail/mail-config.glade.h:170
+#: mail/mail-config.glade.h:171
 msgid "_Use the same fonts as other applications"
 msgstr ""
 
 # addressbook/gui/component/addressbook-config.c:689
 # calendar/gui/e-itip-control.glade.h:6
 # composer/e-msg-composer-attachment.glade.h:3
-#: mail/mail-config.glade.h:172
+#: mail/mail-config.glade.h:173
 msgid "description"
 msgstr "描述"
 
@@ -17414,6 +16876,11 @@ msgstr "儲存功能項目時發生錯誤。"
 msgid "Shortcuts"
 msgstr "功能"
 
+# shell/e-storage.c:459
+#: shell/e-storage.c:569
+msgid "No error"
+msgstr "沒有錯誤"
+
 # shell/e-storage.c:463
 #: shell/e-storage.c:573
 msgid "A folder with the same name already exists"
@@ -17542,6 +17009,12 @@ msgstr "CORBA 錯誤"
 #: shell/evolution-shell-component.c:1189
 msgid "Interrupted"
 msgstr "已中斷"
+
+# camel/providers/local/camel-maildir-folder.c:218
+# camel/providers/local/camel-mh-folder.c:203
+#: shell/evolution-shell-component.c:1191
+msgid "Invalid argument"
+msgstr "無效的參數"
 
 #: shell/evolution-shell-component.c:1193
 msgid "Already has an owner"
@@ -18408,6 +17881,11 @@ msgstr "移至指定日期"
 #: ui/evolution-calendar.xml.h:20
 msgid "Go to today"
 msgstr "移至今日"
+
+# addressbook/contact-editor/fullname.glade.h:8
+#: ui/evolution-calendar.xml.h:21
+msgid "List"
+msgstr "清單"
 
 # ui/evolution-calendar.xml.h:15
 #: ui/evolution-calendar.xml.h:22
@@ -20292,24 +19770,358 @@ msgstr "清除"
 msgid "Find Now"
 msgstr "立即搜尋"
 
-# addressbook/gui/component/GNOME_Evolution_Addressbook.oaf.in.h:5
-#: wombat/GNOME_Evolution_WombatLDAP.server.in.in.h:1
+# ui/evolution-mail.xml.h:3
 #, fuzzy
-msgid "Evolution Addressbook local/LDAP backend"
-msgstr "Evolution 目錄服務迷你名片檢視"
+#~ msgid "e_book_cancel: there is no current operation"
+#~ msgstr "取消目前郵件所作的行動"
+
+# addressbook/contact-editor/e-contact-quick-add.c:276
+# addressbook/gui/widgets/e-addressbook-view.c:700
+#, fuzzy
+#~ msgid "Given Name"
+#~ msgstr "欄位名稱"
+
+# addressbook/contact-editor/e-contact-quick-add.c:276
+# addressbook/gui/widgets/e-addressbook-view.c:700
+#~ msgid "Family Name"
+#~ msgstr "姓"
+
+# addressbook/backend/ebook/e-card.c:3346
+#, fuzzy
+#~ msgid "Address List"
+#~ msgstr "地址"
+
+# data/evolution.keys.in.h:1
+#, fuzzy
+#~ msgid "Home Address Label"
+#~ msgstr "地址標籤"
+
+# data/evolution.keys.in.h:1
+#, fuzzy
+#~ msgid "Work Address Label"
+#~ msgstr "地址標籤"
+
+# data/evolution.keys.in.h:1
+#, fuzzy
+#~ msgid "Other Address Label"
+#~ msgstr "地址標籤"
+
+# addressbook/contact-editor/e-contact-editor.c:1285
+# addressbook/gui/widgets/e-addressbook-view.c:725
+#, fuzzy
+#~ msgid "Email List"
+#~ msgstr "電子郵件 2"
+
+# addressbook/contact-editor/e-contact-editor.c:1286
+# addressbook/gui/widgets/e-addressbook-view.c:726
+#, fuzzy
+#~ msgid "Email 1"
+#~ msgstr "電子郵件 3"
+
+#, fuzzy
+#~ msgid "Wants HTML Mail"
+#~ msgstr "需要 HTML"
+
+# addressbook/gui/component/addressbook-storage.c:99
+#, fuzzy
+#~ msgid "Jabber Id List"
+#~ msgstr "未命名的清單"
+
+# mail/mail-config.glade.h:45
+#, fuzzy
+#~ msgid "ICQ Id List"
+#~ msgstr "是新的清單"
+
+# addressbook/gui/widgets/e-addressbook-view.c:708
+#~ msgid "Organizational Unit"
+#~ msgstr "團體單位"
+
+# addressbook/gui/component/addressbook-config.c:409
+#, fuzzy
+#~ msgid "Photo"
+#~ msgstr "波土"
+
+# mail/mail-format.c:762
+# mail/message-list.c:1083
+#, fuzzy
+#~ msgid "Logo"
+#~ msgstr "多哥"
+
+# calendar/gui/e-calendar-table.c:150
+#~ msgid "Category List"
+#~ msgstr "類別清單"
+
+# calendar/gui/dialogs/cal-prefs-dialog.glade.h:11
+# ui/evolution-calendar.xml.h:3
+#~ msgid "Calendar URI"
+#~ msgstr "行事曆 URI"
+
+# addressbook/gui/widgets/e-addressbook-view.c:737
+#~ msgid "Free/Busy URL"
+#~ msgstr "空閒/忙碌 URL"
+
+# calendar/gui/dialogs/cal-prefs-dialog.glade.h:11
+# ui/evolution-calendar.xml.h:3
+#, fuzzy
+#~ msgid "ICS Calendar"
+#~ msgstr "行事曆"
+
+# addressbook/gui/widgets/e-addressbook-view.c:735
+#, fuzzy
+#~ msgid "Spouse's Name"
+#~ msgstr "配偶"
+
+# addressbook/backend/ebook/e-card.c:3335
+#~ msgid "Birth Date"
+#~ msgstr "出生日期"
+
+# addressbook/contact-editor/contact-editor.glade.h:2
+#~ msgid "Anniversary"
+#~ msgstr "紀念日"
+
+# addressbook/gui/widgets/e-addressbook-view.c:724
+#~ msgid "List Show Addresses"
+#~ msgstr "清單顯示地址"
+
+# mail/GNOME_Evolution_Mail.oaf.in.h:2
+#, fuzzy
+#~ msgid "Evolution LDIF importer"
+#~ msgstr "Evolution 郵件編輯器。"
+
+# mail/GNOME_Evolution_Mail.oaf.in.h:2
+#, fuzzy
+#~ msgid "Evolution LDIF importer factory"
+#~ msgstr "Evolution 郵件編輯器。"
+
+# mail/GNOME_Evolution_Mail.oaf.in.h:2
+#, fuzzy
+#~ msgid "Evolution VCard Importer"
+#~ msgstr "Evolution 郵件編輯器。"
+
+# mail/GNOME_Evolution_Mail.oaf.in.h:2
+#, fuzzy
+#~ msgid "Evolution VCard importer"
+#~ msgstr "Evolution 郵件編輯器。"
+
+# mail/mail-send-recv.c:287
+# mail/mail-send-recv.c:333
+#~ msgid "Loading..."
+#~ msgstr "載入中..."
+
+# addressbook/gui/search/e-addressbook-search-dialog.c:158
+# mail/mail-search.c:242
+#~ msgid "Searching..."
+#~ msgstr "搜尋..."
+
+#~ msgid "Using Distinguished Name (DN)"
+#~ msgstr "使用辨認的名稱 (DN)"
+
+# mail/mail-config.glade.h:29
+#~ msgid "Using Email Address"
+#~ msgstr "使用電子郵件地址"
+
+# mail/mail-config.c:1213
+# mail/mail-config.c:1216
+#~ msgid "Reconnecting to LDAP server..."
+#~ msgstr "正重新連線至 LDAP 伺服器..."
+
+# mail/mail-config.c:1213
+# mail/mail-config.c:1216
+#, fuzzy
+#~ msgid "Adding contact to LDAP server..."
+#~ msgstr "新增名片至 LDAP 伺服器..."
+
+# mail/mail-ops.c:1195
+# mail/mail-ops.c:1333
+#, fuzzy
+#~ msgid "Removing contact from LDAP server..."
+#~ msgstr "自 LDAP 伺服器移除名片..."
+
+#, fuzzy
+#~ msgid "Modifying contact from LDAP server..."
+#~ msgstr "自 LDAP 伺服器編輯名片..."
+
+#~ msgid "Receiving LDAP search results..."
+#~ msgstr "接收 LDAP 搜尋結果..."
+
+# executive-summary/component/e-summary.c:940
+#~ msgid "Error performing search"
+#~ msgstr "進行搜尋時發生錯誤"
+
+# shell/e-shell-view-menu.c:602
+# shell/e-shell-view-menu.c:614
+#, fuzzy
+#~ msgid "Repository is offline"
+#~ msgstr "資料庫離線"
+
+# camel/providers/imap/camel-imap-store.c:803
+# mail/mail-local.c:334
+#, fuzzy
+#~ msgid "No such calendar"
+#~ msgstr "沒有這個資料夾 %s"
+
+#, fuzzy
+#~ msgid "Object not found"
+#~ msgstr "找不到物件\n"
+
+# camel/providers/local/camel-maildir-folder.c:218
+# camel/providers/local/camel-mh-folder.c:203
+#, fuzzy
+#~ msgid "Invalid object"
+#~ msgstr "無效的目的"
+
+# addressbook/conduit/address-conduit.c:214
+#, fuzzy
+#~ msgid "URI not loaded"
+#~ msgstr "尚未載入 EBook\n"
+
+#, fuzzy
+#~ msgid "Object ID already exists"
+#~ msgstr "名片 ID 已經存在"
+
+# camel/camel-remote-store.c:337
+# camel/camel-remote-store.c:399
+# camel/camel-remote-store.c:470
+# camel/providers/imap/camel-imap-command.c:287
+#, fuzzy
+#~ msgid "Operation has been cancelled"
+#~ msgstr "作業已取消"
+
+# calendar/gui/e-itip-control.c:883
+#, fuzzy
+#~ msgid "Could not cancel operation"
+#~ msgstr "取消作業"
+
+# camel/camel-sasl-anonymous.c:110
+# camel/camel-sasl-plain.c:87
+#, fuzzy
+#~ msgid "Authentication failed"
+#~ msgstr "驗証失敗。"
+
+# calendar/gui/dialogs/alarm-notify.glade.h:2
+#~ msgid "Untitled appointment"
+#~ msgstr "未命名的約會"
+
+#~ msgid "time-now expects 0 arguments"
+#~ msgstr "time-now 要求 0 個參數"
+
+#~ msgid "make-time expects 1 argument"
+#~ msgstr "make-time 要求 1 個參數"
+
+#~ msgid "make-time expects argument 1 to be a string"
+#~ msgstr "make-time 要求參數 1 為字串"
+
+#~ msgid "make-time argument 1 must be an ISO 8601 date/time string"
+#~ msgstr "make-time 參數 1 必須為 ISO 8601 日期/時間字串"
+
+#~ msgid "time-add-day expects 2 arguments"
+#~ msgstr "time-add-day 要求 2 個參數"
+
+#~ msgid "time-add-day expects argument 1 to be a time_t"
+#~ msgstr "time-add-day 要求參數 1 為 time_t"
+
+#~ msgid "time-add-day expects argument 2 to be an integer"
+#~ msgstr "time-add-day 要求參數 2 為整數"
+
+#~ msgid "time-day-begin expects 1 argument"
+#~ msgstr "time-day-begin 要求 1 個參數"
+
+#~ msgid "time-day-begin expects argument 1 to be a time_t"
+#~ msgstr "time-day-begin 要求參數 1 為 time_t"
+
+#~ msgid "time-day-end expects 1 argument"
+#~ msgstr "time-day-end 要求 1 個參數"
+
+#~ msgid "time-day-end expects argument 1 to be a time_t"
+#~ msgstr "time-day-end 要求參數 1 為 time_t"
+
+#~ msgid "get-vtype expects 0 arguments"
+#~ msgstr "get-vtype 要求 0 個參數"
+
+#~ msgid "occur-in-time-range? expects 2 arguments"
+#~ msgstr "occur-in-time-range? 要求 2 個參數"
+
+#~ msgid "occur-in-time-range? expects argument 1 to be a time_t"
+#~ msgstr "occur-in-time-range? 要求參數 1 為 time_t"
+
+#~ msgid "occur-in-time-range? expects argument 2 to be a time_t"
+#~ msgstr "occur-in-time-range? 要求參數 2 為 time_t"
+
+# camel/providers/smtp/camel-smtp-transport.c:170
+#~ msgid "contains? expects 2 arguments"
+#~ msgstr "contains? 要求 2 個參數"
+
+#~ msgid "contains? expects argument 1 to be a string"
+#~ msgstr "contains? 要求參數 1 為字串"
+
+#~ msgid "contains? expects argument 2 to be a string"
+#~ msgstr "contains? 要求參數 2 為字串"
+
+#~ msgid ""
+#~ "contains? expects argument 1 to be one of \"any\", \"summary\", "
+#~ "\"description\""
+#~ msgstr ""
+#~ "contains? 要求參數 1 為 \"any\", \"summary\", \"description\" 其中之一"
+
+#, fuzzy
+#~ msgid "has-alarms? expects at least 1 argument"
+#~ msgstr "has-categories? 要求至少 1 個參數"
+
+#, fuzzy
+#~ msgid "has-alarms? excepts argument to be a boolean"
+#~ msgstr "contains? 要求參數 2 為字串"
+
+#~ msgid "has-categories? expects at least 1 argument"
+#~ msgstr "has-categories? 要求至少 1 個參數"
+
+#~ msgid ""
+#~ "has-categories? expects all arguments to be strings or one and only one "
+#~ "argument to be a boolean false (#f)"
+#~ msgstr ""
+#~ "has-categories? 要求所有的參數為字串或僅有的一個為布林值 false(#f) 的參數"
+
+# camel/providers/smtp/camel-smtp-transport.c:170
+#~ msgid "is-completed? expects 0 arguments"
+#~ msgstr "is-completed? 要求 0 個參數"
+
+# camel/providers/smtp/camel-smtp-transport.c:170
+#~ msgid "completed-before? expects 1 argument"
+#~ msgstr "completed-before? 要求 1 個參數"
+
+#~ msgid "completed-before? expects argument 1 to be a time_t"
+#~ msgstr "completed-before? 要求參數 1 為 time_t"
+
+#~ msgid ""
+#~ "Some of your mail settings seem corrupt, please check that everything is "
+#~ "in order."
+#~ msgstr "您的某些郵件設定似乎損壞了，請檢查一切是否正常。"
+
+#~ msgid "Alwa_ys sign outgoing messages when using this account"
+#~ msgstr "當使用這個帳號時永遠在寄送的郵件上加簽(_Y)"
+
+#~ msgid "Digital IDs..."
+#~ msgstr "數位 ID..."
+
+#~ msgid "Get Digital ID..."
+#~ msgstr "取得數位 ID..."
+
+#~ msgid "_Certificate ID:"
+#~ msgstr "憑證 ID(_C):"
+
+# addressbook/gui/component/GNOME_Evolution_Addressbook.oaf.in.h:5
+#, fuzzy
+#~ msgid "Evolution Addressbook local/LDAP backend"
+#~ msgstr "Evolution 目錄服務迷你名片檢視"
 
 # calendar/gui/GNOME_Evolution_Calendar.oaf.in.h:3
-#: wombat/GNOME_Evolution_WombatLDAP.server.in.in.h:2
-#: wombat/GNOME_Evolution_WombatNOLDAP.server.in.in.h:2
 #, fuzzy
-msgid "Evolution Calendar local file backend"
-msgstr "Evolution 行事曆 iTip/iMip 檢視器"
+#~ msgid "Evolution Calendar local file backend"
+#~ msgstr "Evolution 行事曆 iTip/iMip 檢視器"
 
 # addressbook/gui/component/GNOME_Evolution_Addressbook.oaf.in.h:5
-#: wombat/GNOME_Evolution_WombatNOLDAP.server.in.in.h:1
 #, fuzzy
-msgid "Evolution Addressbook local backend"
-msgstr "Evolution 目錄服務迷你名片檢視"
+#~ msgid "Evolution Addressbook local backend"
+#~ msgstr "Evolution 目錄服務迷你名片檢視"
 
 # addressbook/contact-editor/e-contact-editor.c:1257
 #~ msgid "Primary"

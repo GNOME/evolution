@@ -1,15 +1,5 @@
 # List of source files containing translatable strings.
 # Please keep this list in alphabetic order.
-addressbook/backend/ebook/e-book.c
-addressbook/backend/ebook/e-contact.c
-addressbook/backend/ebook/e-destination.c
-addressbook/backend/ebook/GNOME_Evolution_Addressbook_LDIF_Importer.server.in.in
-addressbook/backend/ebook/GNOME_Evolution_Addressbook_VCard_Importer.server.in.in
-addressbook/backend/ebook/load-gnomecard-addressbook.c
-addressbook/backend/ebook/load-pine-addressbook.c
-addressbook/backend/pas/pas-backend-file.c
-addressbook/backend/pas/pas-backend-ldap.c
-addressbook/backend/pas/pas-backend-vcf.c
 addressbook/conduit/address-conduit.c
 addressbook/gui/component/addressbook-component.c
 addressbook/gui/component/addressbook-config.c
@@ -65,10 +55,6 @@ addressbook/tools/evolution-addressbook-export-list-folders.c
 addressbook/tools/evolution-addressbook-export.c
 addressbook/tools/evolution-addressbook-import.c
 addressbook/util/eab-destination.c
-calendar/cal-client/cal-client.c
-calendar/cal-util/cal-component.c
-calendar/cal-util/cal-recur.c
-calendar/cal-util/cal-util.c
 calendar/conduits/calendar/calendar-conduit.c
 calendar/conduits/todo/todo-conduit.c
 calendar/gui/alarm-notify/alarm-notify-dialog.c
@@ -153,12 +139,8 @@ calendar/gui/tasks-control.c
 calendar/gui/weekday-picker.c
 calendar/importers/GNOME_Evolution_Calendar_Importer.server.in.in
 calendar/importers/icalendar-importer.c
-calendar/pcs/cal-backend-file.c
-calendar/pcs/cal-backend-object-sexp.c
-calendar/pcs/query.c
 calendar/zones.h
 camel/camel-cipher-context.c
-camel/camel-cms-context.h
 camel/camel-data-cache.c
 camel/camel-disco-diary.c
 camel/camel-disco-folder.c
@@ -402,6 +384,3 @@ widgets/misc/e-dateedit.c
 widgets/misc/e-filter-bar.c
 widgets/misc/e-filter-bar.h
 widgets/misc/e-search-bar.c
-wombat/GNOME_Evolution_WombatLDAP.server.in.in
-wombat/GNOME_Evolution_WombatNOLDAP.server.in.in
-wombat/wombat.c
