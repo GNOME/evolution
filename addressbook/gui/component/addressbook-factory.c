@@ -70,7 +70,9 @@ main (int argc, char **argv)
 
 	unicode_init();
 
+#if 0
 	g_log_set_always_fatal (G_LOG_LEVEL_CRITICAL | G_LOG_LEVEL_WARNING);
+#endif
 
 	bonobo_main ();
 
