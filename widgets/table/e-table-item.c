@@ -1195,7 +1195,8 @@ static void
 e_table_item_redraw_row (ETableItem *eti,
 			 int row)
 {
-	e_table_item_redraw_range (eti, 0, row, eti->cols - 1, row);
+	if (row != -1)
+		e_table_item_redraw_range (eti, 0, row, eti->cols - 1, row);
 }
 
 static void
@@ -2988,6 +2989,9 @@ eti_cursor_change (ESelectionModel *selection, int row, int col, ETableItem *eti
 	view_row = model_to_view_row(eti, row);
 	view_col = model_to_view_col(eti, col);
 	
+	if (eti->old_cursor_row != -1 && view_row != eti->old_cursor_row)
+		e_table_item_redraw_row (eti, eti->old_cursor_row);
+
 	if (view_row == -1 || view_col == -1) {
 		e_table_item_leave_edit_(eti);
 		eti->old_cursor_row = -1;
@@ -3007,13 +3011,9 @@ eti_cursor_change (ESelectionModel *selection, int row, int col, ETableItem *eti
 		e_table_item_leave_edit_(eti);
 	gtk_signal_emit (GTK_OBJECT (eti), eti_signals [CURSOR_CHANGE],
 			 view_row);
-	if (eti->old_cursor_row != -1) {
-		e_table_item_redraw_row (eti, eti->old_cursor_row);
-		e_table_item_redraw_row (eti, view_row);
-	} else {
-		eti->needs_redraw = TRUE;
-		gnome_canvas_item_request_update(GNOME_CANVAS_ITEM(eti));
-	}
+
+	e_table_item_redraw_row (eti, view_row);
+
 	eti->old_cursor_row = view_row;
 }
 
