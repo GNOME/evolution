@@ -1,14 +1,15 @@
 # Finnish messages for evolution
 # Copyright (C) 2000-2003 Free Software Foundation, Inc.
 # Jarkko Ranta <jjranta@cc.joensuu.fi> 2000-2001,
-# Sami Pesonen <sampeson@iki.fi> 2001-2003.
+# Sami Pesonen <sampeson@iki.fi> 2001-2003,
+# Ilkka Tuohela <hile@iki.fi> 2003-2004.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-08-23 08:07+0300\n"
-"PO-Revision-Date: 2004-08-15 10:20+0300\n"
+"POT-Creation-Date: 2004-08-23 22:23+0300\n"
+"PO-Revision-Date: 2004-08-23 22:29+0300\n"
 "Last-Translator: Ilkka Tuohela <hile@iki.fi>\n"
 "Language-Team: Finnish <gnome-fi-laatu@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -181,8 +182,6 @@ msgstr ""
 "Olet tehnyt muutoksia tähän yhteystietoon. Haluatko tallentaa muutoksesi?"
 
 #: addressbook/addressbook-errors.xml.h:43
-#: addressbook/gui/contact-editor/e-contact-editor.c:2803
-#: addressbook/gui/contact-editor/e-contact-editor.c:2827
 msgid "_Discard"
 msgstr "Hylkää"
 
@@ -259,7 +258,7 @@ msgstr "Määrittele automaatinen täydennys"
 
 #. Create the contacts group
 #: addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:6
-#: addressbook/gui/component/addressbook-view.c:1104
+#: addressbook/gui/component/addressbook-view.c:1142
 #: calendar/gui/migration.c:377
 msgid "Contacts"
 msgstr "Yhteystiedot"
@@ -321,7 +320,7 @@ msgid "Create a new contact list"
 msgstr "Luo uusi yhteystietoluettelo"
 
 #: addressbook/gui/component/addressbook-component.c:109
-#: addressbook/gui/component/addressbook-view.c:773
+#: addressbook/gui/component/addressbook-view.c:811
 msgid "New Address Book"
 msgstr "Uusi osoitekirja"
 
@@ -424,12 +423,12 @@ msgstr ""
 "\n"
 "Odota kärsivällisesti kun Evolution muuntaa Pilotin synkronointitietojasi..."
 
-#: addressbook/gui/component/addressbook-view.c:671
+#: addressbook/gui/component/addressbook-view.c:711
 #, c-format
 msgid "Address book '%s' will be removed. Are you sure you want to continue?"
 msgstr "Osoitekirja '%s' poistetaan. Oletko varma että haluat jatkaa?"
 
-#: addressbook/gui/component/addressbook-view.c:774
+#: addressbook/gui/component/addressbook-view.c:812
 #: addressbook/gui/widgets/e-addressbook-view.c:1124
 #: calendar/gui/calendar-component.c:430 calendar/gui/tasks-component.c:376
 #: mail/em-filter-i18n.h:11 ui/evolution-addressbook.xml.h:8
@@ -440,7 +439,7 @@ msgstr "Osoitekirja '%s' poistetaan. Oletko varma että haluat jatkaa?"
 msgid "Delete"
 msgstr "Poista"
 
-#: addressbook/gui/component/addressbook-view.c:775
+#: addressbook/gui/component/addressbook-view.c:813
 #: calendar/gui/calendar-component.c:431 calendar/gui/tasks-component.c:378
 msgid "Properties..."
 msgstr "Ominaisuudet..."
@@ -2119,20 +2118,19 @@ msgstr "Muokattavat kentät"
 msgid "Changed"
 msgstr "Muutettu"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:2428
+#: addressbook/gui/contact-editor/e-contact-editor.c:2456
 msgid "This contact belongs to these categories:"
 msgstr "Tämä yhteystieto kuuluu näihin ryhmiin:"
 
-#. Create the selector
-#: addressbook/gui/contact-editor/e-contact-editor.c:2505
+#: addressbook/gui/contact-editor/e-contact-editor.c:2549
 msgid "Please select an image for this contact"
 msgstr "Valitse kuva tälle yhteystiedolle"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:2509
+#: addressbook/gui/contact-editor/e-contact-editor.c:2550
 msgid "No image"
 msgstr "Ei kuvaa"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:2712
+#: addressbook/gui/contact-editor/e-contact-editor.c:2778
 msgid ""
 "The contact data is invalid:\n"
 "\n"
@@ -2140,25 +2138,9 @@ msgstr ""
 "Yhteystieto on virheellinen:\n"
 "\n"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:2740
+#: addressbook/gui/contact-editor/e-contact-editor.c:2806
 msgid "Invalid contact."
 msgstr "Virheellinen yhteystieto."
-
-#: addressbook/gui/contact-editor/e-contact-editor.c:2799
-msgid ""
-"The contact cannot be saved to the selected address book. Do you want to "
-"discard changes?"
-msgstr ""
-"Yhteystietoa ei voida tallentaa valittuun osoitekirjaan. Haluatko hylätä "
-"muutokset?"
-
-#: addressbook/gui/contact-editor/e-contact-editor.c:2822
-msgid ""
-"You are moving the contact from one address book to another, but it cannot "
-"be removed from the source. Do you want to save a copy instead?"
-msgstr ""
-"Olet siirtämässä yhteystietoa osoitekirjasta toiseen, mutta sitä ei voida "
-"poistaa lähdeosoitekirjasta. Haluatko tallentaa uuteen osoitekirjaan kopion?"
 
 #: addressbook/gui/contact-editor/e-contact-quick-add.c:280
 msgid "Contact Quick-Add"
@@ -3038,7 +3020,7 @@ msgid "Error adding list"
 msgstr "Virhe lisättäessä listalle"
 
 #: addressbook/gui/widgets/eab-gui-util.c:170
-#: addressbook/gui/widgets/eab-gui-util.c:640
+#: addressbook/gui/widgets/eab-gui-util.c:643
 msgid "Error adding contact"
 msgstr "Virhe lisättäessä yhteystietoa"
 
@@ -3055,20 +3037,26 @@ msgid "Error removing list"
 msgstr "Virhe poistettaessa listaa"
 
 #: addressbook/gui/widgets/eab-gui-util.c:193
-#: addressbook/gui/widgets/eab-gui-util.c:598
+#: addressbook/gui/widgets/eab-gui-util.c:601
 msgid "Error removing contact"
 msgstr "Virhe poistettaessa yhteystietoa"
 
 #: addressbook/gui/widgets/eab-gui-util.c:275
 #, c-format
 msgid ""
+"Opening %d contact will open %d new window as well.\n"
+"Do you really want to display this contact?"
+msgid_plural ""
 "Opening %d contacts will open %d new windows as well.\n"
 "Do you really want to display all of these contacts?"
-msgstr ""
-"%d yhteystiedo avaaminen avaisi myös %d uutta ikkunaa.\n"
+msgstr[0] ""
+"%d yhteystiedon avaaminen avaa myös %d uuden ikkunan.\n"
+"Haluatko varmasti näyttää tämän yhteystiedon?"
+msgstr[1] ""
+"%d yhteystiedon avaaminen avaa myös %d uutta ikkunaa.\n"
 "Haluatko varmasti näyttää kaikki nämä yhteystiedot?"
 
-#: addressbook/gui/widgets/eab-gui-util.c:301
+#: addressbook/gui/widgets/eab-gui-util.c:304
 #, c-format
 msgid ""
 "%s already exists\n"
@@ -3077,44 +3065,44 @@ msgstr ""
 "%s on jo olemassa\n"
 "Haluatko ylikirjoittaa?"
 
-#: addressbook/gui/widgets/eab-gui-util.c:305
+#: addressbook/gui/widgets/eab-gui-util.c:308
 msgid "Overwrite"
 msgstr "Kirjoita yli"
 
 #. This is a filename. Translators take note.
-#: addressbook/gui/widgets/eab-gui-util.c:383
+#: addressbook/gui/widgets/eab-gui-util.c:386
 msgid "card.vcf"
 msgstr "kortti.vcf"
 
-#: addressbook/gui/widgets/eab-gui-util.c:545
+#: addressbook/gui/widgets/eab-gui-util.c:548
 msgid "list"
 msgstr "lista"
 
-#: addressbook/gui/widgets/eab-gui-util.c:694
+#: addressbook/gui/widgets/eab-gui-util.c:697
 msgid "Move contact to"
 msgstr "Siirry yhteystieto"
 
-#: addressbook/gui/widgets/eab-gui-util.c:696
+#: addressbook/gui/widgets/eab-gui-util.c:699
 msgid "Copy contact to"
 msgstr "Kopioi yhteystieto"
 
-#: addressbook/gui/widgets/eab-gui-util.c:699
+#: addressbook/gui/widgets/eab-gui-util.c:702
 msgid "Move contacts to"
 msgstr "Siirrä yhteystiedot"
 
-#: addressbook/gui/widgets/eab-gui-util.c:701
+#: addressbook/gui/widgets/eab-gui-util.c:704
 msgid "Copy contacts to"
 msgstr "Kopioi yhteystiedot"
 
-#: addressbook/gui/widgets/eab-gui-util.c:704
+#: addressbook/gui/widgets/eab-gui-util.c:707
 msgid "Select target addressbook."
 msgstr "Valitse osoitekirja"
 
-#: addressbook/gui/widgets/eab-gui-util.c:927
+#: addressbook/gui/widgets/eab-gui-util.c:930
 msgid "Multiple VCards"
 msgstr "Useita VCardeja"
 
-#: addressbook/gui/widgets/eab-gui-util.c:930
+#: addressbook/gui/widgets/eab-gui-util.c:933
 #, c-format
 msgid "VCard for %s"
 msgstr "VCard %s:lle"
@@ -16491,7 +16479,7 @@ msgstr "%b %d %l:%M %p"
 msgid "%b %d %Y"
 msgstr "%b %d %Y"
 
-#: mail/message-list.c:3376
+#: mail/message-list.c:3380
 msgid "Generating message list"
 msgstr "Luodaan viestiluetteloa"
 
@@ -19574,6 +19562,21 @@ msgstr "%s (...)"
 #, c-format
 msgid "%s (%d%% complete)"
 msgstr "%s (%d%% valmiina)"
+
+#~ msgid ""
+#~ "The contact cannot be saved to the selected address book. Do you want to "
+#~ "discard changes?"
+#~ msgstr ""
+#~ "Yhteystietoa ei voida tallentaa valittuun osoitekirjaan. Haluatko hylätä "
+#~ "muutokset?"
+
+#~ msgid ""
+#~ "You are moving the contact from one address book to another, but it "
+#~ "cannot be removed from the source. Do you want to save a copy instead?"
+#~ msgstr ""
+#~ "Olet siirtämässä yhteystietoa osoitekirjasta toiseen, mutta sitä ei voida "
+#~ "poistaa lähdeosoitekirjasta. Haluatko tallentaa uuteen osoitekirjaan "
+#~ "kopion?"
 
 #~ msgid "_Add Group"
 #~ msgstr "_Lisää ryhmä"
