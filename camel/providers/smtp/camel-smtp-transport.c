@@ -534,12 +534,10 @@ smtp_connect (CamelService *service, CamelException *ex)
 	return TRUE;
 }
 
-static gboolean
+static void
 authtypes_free (gpointer key, gpointer value, gpointer data)
 {
 	g_free (value);
-	
-	return TRUE;
 }
 
 static gboolean
@@ -560,7 +558,7 @@ smtp_disconnect (CamelService *service, gboolean clean, CamelException *ex)
 		return FALSE;
 	
 	if (transport->authtypes) {
-		g_hash_table_foreach_remove (transport->authtypes, authtypes_free, NULL);
+		g_hash_table_foreach (transport->authtypes, authtypes_free, NULL);
 		g_hash_table_destroy (transport->authtypes);
 		transport->authtypes = NULL;
 	}
@@ -569,7 +567,7 @@ smtp_disconnect (CamelService *service, gboolean clean, CamelException *ex)
 	camel_object_unref (CAMEL_OBJECT (transport->istream));
 	transport->ostream = NULL;
 	transport->istream = NULL;
-
+	
 	camel_tcp_address_free (transport->localaddr);
 	transport->localaddr = NULL;
 	
@@ -907,19 +905,36 @@ smtp_helo (CamelSmtpTransport *transport, CamelException *ex)
 			} else if (!strncmp (token, "STARTTLS", 8)) {
 				d(fprintf (stderr, "This server supports STARTTLS\n"));
 				transport->flags |= CAMEL_SMTP_TRANSPORT_STARTTLS;
-			} else if (!transport->authtypes && !strncmp (token, "AUTH", 4)) {
-				/* Don't bother parsing any authtypes if we already have a list.
-				 * Some servers will list AUTH twice, once the standard way and
-				 * once the way Microsoft Outlook requires them to be:
-				 *
-				 * 250-AUTH LOGIN PLAIN DIGEST-MD5 CRAM-MD5
-				 * 250-AUTH=LOGIN PLAIN DIGEST-MD5 CRAM-MD5
-				 **/
-				
-				/* parse for supported AUTH types */
-				token += 5;
-				
-				transport->authtypes = esmtp_get_authtypes (token);
+			} else if (!strncmp (token, "AUTH", 4)) {
+				if (!transport->authtypes || transport->flags & CAMEL_SMTP_TRANSPORT_AUTH_EQUAL) {
+					/* Don't bother parsing any authtypes if we already have a list.
+					 * Some servers will list AUTH twice, once the standard way and
+					 * once the way Microsoft Outlook requires them to be:
+					 *
+					 * 250-AUTH LOGIN PLAIN DIGEST-MD5 CRAM-MD5
+					 * 250-AUTH=LOGIN PLAIN DIGEST-MD5 CRAM-MD5
+					 *
+					 * Since they can come in any order, parse each list that we get
+					 * until we parse an authtype list that does not use the AUTH=
+					 * format. We want to let the standard way have priority over the
+					 * broken way.
+					 **/
+					
+					if (token[4] == '=')
+						transport->flags |= CAMEL_SMTP_TRANSPORT_AUTH_EQUAL;
+					else
+						transport->flags &= ~CAMEL_SMTP_TRANSPORT_AUTH_EQUAL;
+					
+					/* parse for supported AUTH types */
+					token += 5;
+					
+					if (transport->authtypes) {
+						g_hash_table_foreach (transport->authtypes, authtypes_free, NULL);
+						g_hash_table_destroy (transport->authtypes);
+					}
+					
+					transport->authtypes = esmtp_get_authtypes (token);
+				}
 			}
 		}
 	} while (*(respbuf+3) == '-'); /* if we got "250-" then loop again */

@@ -1,3 +1,11 @@
+2002-07-16  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* providers/smtp/camel-smtp-transport.c (smtp_helo): Make the
+	standard AUTH format take priority over the AUTH= priority, since
+	sometimes servers only list a subset of the supported authtypes in
+	the AUTH= response while they list all authtypes in the standard
+	AUTH response. Fixes "bug" #27841.
+
 2002-07-15  Peter Williams  <peterw@ximian.com>
 
 	* providers/imap/camel-imap-folder.c (imap_get_message): If we're
