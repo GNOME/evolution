@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: it\n"
 "POT-Creation-Date: 2003-06-25 13:24-0400\n"
-"PO-Revision-Date: 2003-08-05 11:37+0200\n"
+"PO-Revision-Date: 2003-09-10 13:35+0200\n"
 "Last-Translator: Marco Ciampa <ciampix@libero.it>\n"
 "Language-Team:  <tp@lists.linux.it>,<it@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -1335,7 +1335,7 @@ msgstr "_Categoria:"
 
 #: addressbook/gui/component/select-names/select-names.glade.h:9
 msgid "_Folder:"
-msgstr "_Cartella"
+msgstr "_Cartella:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:1
 msgid " B_usiness:"
@@ -12352,9 +12352,8 @@ msgid ""
 "\n"
 "Really erase these messages?"
 msgstr ""
-"Questa operazione cancella definitivamente tutti i messaggi marcati come\n"
-" cancellati. Se si continua, non sarà più possibile ripristinare questi "
-"messaggi.\n"
+"Questa operazione cancella definitivamente tutti i messaggi marcati come cancellati.\n"
+"Se si continua, non sarà più possibile ripristinare questi messaggi.\n"
 "\n"
 "Cancellare comunque questi messaggi?"
 
@@ -26249,7 +26248,7 @@ msgstr "Anteprime dei contatti da stampare"
 #: ui/evolution-comp-editor.xml.h:9 ui/evolution-mail-message.xml.h:68
 #: ui/evolution-tasks.xml.h:12
 msgid "Print Pre_view"
-msgstr "_Anteprima di stampa"
+msgstr "Anteprima di sta_mpa"
 
 #: ui/evolution-addressbook.xml.h:18
 msgid "Print selected contacts"
@@ -26727,7 +26726,7 @@ msgstr "_Elimina per sempre"
 
 #: ui/evolution-mail-list.xml.h:27 ui/evolution.xml.h:47
 msgid "_Folder"
-msgstr "_Cartelle"
+msgstr "Ca_rtella"
 
 #: ui/evolution-mail-list.xml.h:28 ui/evolution-subscribe.xml.h:12
 msgid "_Invert Selection"
@@ -26735,7 +26734,7 @@ msgstr "_Inverti selezione"
 
 #: ui/evolution-mail-list.xml.h:30
 msgid "_Properties..."
-msgstr "_Proprietà"
+msgstr "_Proprietà..."
 
 #: ui/evolution-mail-list.xml.h:31
 msgid "_Threaded Message List"
@@ -26971,11 +26970,11 @@ msgstr "Messaggio non letto p_recedente"
 
 #: ui/evolution-mail-message.xml.h:62
 msgid "Post a Reply"
-msgstr "Invia una risposta"
+msgstr "Rispondi al messaggio"
 
 #: ui/evolution-mail-message.xml.h:63
 msgid "Post a reply to a message in a Public folder"
-msgstr "Invia una risposta ad un messaggio in una cartella pubblica"
+msgstr "Rispondi al messaggio in una cartella pubblica"
 
 #: ui/evolution-mail-message.xml.h:64
 msgid "Pr_evious Important Message"
