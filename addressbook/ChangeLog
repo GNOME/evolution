@@ -1,3 +1,10 @@
+2005-01-19  Hao Sheng <hao.sheng@sun.com>
+
+	* gui/contact-editor/contact-editor.glade:
+	add accessable key to the contact editor UI.
+	* gui/contact-list-editor/contact-list-editor.glade:
+	add accessable key to the contact list editor UI.
+
 2005-01-18  Hao Sheng <hao.sheng@sun.com>
 
 	* gui/component/addressbook-view.c:

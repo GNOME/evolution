@@ -682,7 +682,7 @@
 			    <widget class="GtkCheckButton" id="checkbutton-htmlmail">
 			      <property name="visible">True</property>
 			      <property name="can_focus">True</property>
-			      <property name="label" translatable="yes">Wants to receive HTML mail</property>
+			      <property name="label" translatable="yes">_Wants to receive HTML mail</property>
 			      <property name="use_underline">True</property>
 			      <property name="relief">GTK_RELIEF_NORMAL</property>
 			      <property name="focus_on_click">True</property>
@@ -1754,8 +1754,8 @@
 		      <child>
 			<widget class="GtkLabel" id="accellabel-homepage">
 			  <property name="visible">True</property>
-			  <property name="label" translatable="yes">Home Page:</property>
-			  <property name="use_underline">False</property>
+			  <property name="label" translatable="yes">_Home Page:</property>
+			  <property name="use_underline">True</property>
 			  <property name="use_markup">False</property>
 			  <property name="justify">GTK_JUSTIFY_LEFT</property>
 			  <property name="wrap">False</property>
@@ -1764,6 +1764,7 @@
 			  <property name="yalign">0.5</property>
 			  <property name="xpad">0</property>
 			  <property name="ypad">0</property>
+			  <property name="mnemonic_widget">entry-homepage</property>
 			</widget>
 			<packing>
 			  <property name="left_attach">0</property>
@@ -1778,8 +1779,8 @@
 		      <child>
 			<widget class="GtkLabel" id="label-caluri">
 			  <property name="visible">True</property>
-			  <property name="label" translatable="yes">Calendar:</property>
-			  <property name="use_underline">False</property>
+			  <property name="label" translatable="yes">_Calendar:</property>
+			  <property name="use_underline">True</property>
 			  <property name="use_markup">False</property>
 			  <property name="justify">GTK_JUSTIFY_LEFT</property>
 			  <property name="wrap">False</property>
@@ -1788,6 +1789,7 @@
 			  <property name="yalign">0.5</property>
 			  <property name="xpad">0</property>
 			  <property name="ypad">0</property>
+			  <property name="mnemonic_widget">entry-caluri</property>
 			</widget>
 			<packing>
 			  <property name="left_attach">0</property>
@@ -1802,8 +1804,8 @@
 		      <child>
 			<widget class="GtkLabel" id="label-fburl">
 			  <property name="visible">True</property>
-			  <property name="label" translatable="yes">Free/Busy:</property>
-			  <property name="use_underline">False</property>
+			  <property name="label" translatable="yes">_Free/Busy:</property>
+			  <property name="use_underline">True</property>
 			  <property name="use_markup">False</property>
 			  <property name="justify">GTK_JUSTIFY_LEFT</property>
 			  <property name="wrap">False</property>
@@ -1812,6 +1814,7 @@
 			  <property name="yalign">0.5</property>
 			  <property name="xpad">0</property>
 			  <property name="ypad">0</property>
+			  <property name="mnemonic_widget">entry-fburl</property>
 			</widget>
 			<packing>
 			  <property name="left_attach">0</property>
@@ -1826,8 +1829,8 @@
 		      <child>
 			<widget class="GtkLabel" id="label-videourl">
 			  <property name="visible">True</property>
-			  <property name="label" translatable="yes">Video Chat:</property>
-			  <property name="use_underline">False</property>
+			  <property name="label" translatable="yes">_Video Chat:</property>
+			  <property name="use_underline">True</property>
 			  <property name="use_markup">False</property>
 			  <property name="justify">GTK_JUSTIFY_LEFT</property>
 			  <property name="wrap">False</property>
@@ -1836,6 +1839,7 @@
 			  <property name="yalign">0.5</property>
 			  <property name="xpad">0</property>
 			  <property name="ypad">0</property>
+			  <property name="mnemonic_widget">entry-videourl</property>
 			</widget>
 			<packing>
 			  <property name="left_attach">0</property>
@@ -1922,8 +1926,8 @@
 		      <child>
 			<widget class="GtkLabel" id="label-weblog">
 			  <property name="visible">True</property>
-			  <property name="label" translatable="yes">Web Log:</property>
-			  <property name="use_underline">False</property>
+			  <property name="label" translatable="yes">_Web Log:</property>
+			  <property name="use_underline">True</property>
 			  <property name="use_markup">False</property>
 			  <property name="justify">GTK_JUSTIFY_LEFT</property>
 			  <property name="wrap">False</property>
@@ -1932,6 +1936,7 @@
 			  <property name="yalign">0.5</property>
 			  <property name="xpad">0</property>
 			  <property name="ypad">0</property>
+			  <property name="mnemonic_widget">entry-weblog</property>
 			</widget>
 			<packing>
 			  <property name="left_attach">0</property>
@@ -2010,8 +2015,8 @@
 		      <child>
 			<widget class="GtkLabel" id="label-profession">
 			  <property name="visible">True</property>
-			  <property name="label" translatable="yes">Profession:</property>
-			  <property name="use_underline">False</property>
+			  <property name="label" translatable="yes">_Profession:</property>
+			  <property name="use_underline">True</property>
 			  <property name="use_markup">False</property>
 			  <property name="justify">GTK_JUSTIFY_LEFT</property>
 			  <property name="wrap">False</property>
@@ -2020,6 +2025,7 @@
 			  <property name="yalign">0.5</property>
 			  <property name="xpad">0</property>
 			  <property name="ypad">0</property>
+			  <property name="mnemonic_widget">entry-profession</property>
 			</widget>
 			<packing>
 			  <property name="left_attach">0</property>
@@ -2058,8 +2064,8 @@
 		      <child>
 			<widget class="GtkLabel" id="label-jobtitle">
 			  <property name="visible">True</property>
-			  <property name="label" translatable="yes">Title:</property>
-			  <property name="use_underline">False</property>
+			  <property name="label" translatable="yes">_Title:</property>
+			  <property name="use_underline">True</property>
 			  <property name="use_markup">False</property>
 			  <property name="justify">GTK_JUSTIFY_LEFT</property>
 			  <property name="wrap">False</property>
@@ -2068,6 +2074,7 @@
 			  <property name="yalign">0.5</property>
 			  <property name="xpad">0</property>
 			  <property name="ypad">0</property>
+			  <property name="mnemonic_widget">entry-jobtitle</property>
 			</widget>
 			<packing>
 			  <property name="left_attach">2</property>
@@ -2106,8 +2113,8 @@
 		      <child>
 			<widget class="GtkLabel" id="label-company">
 			  <property name="visible">True</property>
-			  <property name="label" translatable="yes">Company:</property>
-			  <property name="use_underline">False</property>
+			  <property name="label" translatable="yes">_Company:</property>
+			  <property name="use_underline">True</property>
 			  <property name="use_markup">False</property>
 			  <property name="justify">GTK_JUSTIFY_LEFT</property>
 			  <property name="wrap">False</property>
@@ -2116,6 +2123,7 @@
 			  <property name="yalign">0.5</property>
 			  <property name="xpad">0</property>
 			  <property name="ypad">0</property>
+			  <property name="mnemonic_widget">entry-company</property>
 			</widget>
 			<packing>
 			  <property name="left_attach">0</property>
@@ -2154,8 +2162,8 @@
 		      <child>
 			<widget class="GtkLabel" id="label-department">
 			  <property name="visible">True</property>
-			  <property name="label" translatable="yes">Department:</property>
-			  <property name="use_underline">False</property>
+			  <property name="label" translatable="yes">_Department:</property>
+			  <property name="use_underline">True</property>
 			  <property name="use_markup">False</property>
 			  <property name="justify">GTK_JUSTIFY_LEFT</property>
 			  <property name="wrap">False</property>
@@ -2164,6 +2172,7 @@
 			  <property name="yalign">0.5</property>
 			  <property name="xpad">0</property>
 			  <property name="ypad">0</property>
+			  <property name="mnemonic_widget">entry-department</property>
 			</widget>
 			<packing>
 			  <property name="left_attach">2</property>
@@ -2202,8 +2211,8 @@
 		      <child>
 			<widget class="GtkLabel" id="label-manager">
 			  <property name="visible">True</property>
-			  <property name="label" translatable="yes">Manager:</property>
-			  <property name="use_underline">False</property>
+			  <property name="label" translatable="yes">_Manager:</property>
+			  <property name="use_underline">True</property>
 			  <property name="use_markup">False</property>
 			  <property name="justify">GTK_JUSTIFY_LEFT</property>
 			  <property name="wrap">False</property>
@@ -2212,6 +2221,7 @@
 			  <property name="yalign">0.5</property>
 			  <property name="xpad">0</property>
 			  <property name="ypad">0</property>
+			  <property name="mnemonic_widget">entry-manager</property>
 			</widget>
 			<packing>
 			  <property name="left_attach">0</property>
@@ -2250,8 +2260,8 @@
 		      <child>
 			<widget class="GtkLabel" id="label-assistant">
 			  <property name="visible">True</property>
-			  <property name="label" translatable="yes">Assistant:</property>
-			  <property name="use_underline">False</property>
+			  <property name="label" translatable="yes">_Assistant:</property>
+			  <property name="use_underline">True</property>
 			  <property name="use_markup">False</property>
 			  <property name="justify">GTK_JUSTIFY_LEFT</property>
 			  <property name="wrap">False</property>
@@ -2260,6 +2270,7 @@
 			  <property name="yalign">0.5</property>
 			  <property name="xpad">0</property>
 			  <property name="ypad">0</property>
+			  <property name="mnemonic_widget">entry-assistant</property>
 			</widget>
 			<packing>
 			  <property name="left_attach">2</property>
@@ -2384,8 +2395,8 @@
 		      <child>
 			<widget class="GtkLabel" id="label-comments">
 			  <property name="visible">True</property>
-			  <property name="label" translatable="yes">Notes:</property>
-			  <property name="use_underline">False</property>
+			  <property name="label" translatable="yes">_Notes:</property>
+			  <property name="use_underline">True</property>
 			  <property name="use_markup">False</property>
 			  <property name="justify">GTK_JUSTIFY_LEFT</property>
 			  <property name="wrap">False</property>
@@ -2394,6 +2405,7 @@
 			  <property name="yalign">0</property>
 			  <property name="xpad">0</property>
 			  <property name="ypad">0</property>
+			  <property name="mnemonic_widget">text-comments</property>
 			</widget>
 			<packing>
 			  <property name="left_attach">0</property>
@@ -2408,8 +2420,8 @@
 		      <child>
 			<widget class="GtkLabel" id="label-office">
 			  <property name="visible">True</property>
-			  <property name="label" translatable="yes">Office:</property>
-			  <property name="use_underline">False</property>
+			  <property name="label" translatable="yes">_Office:</property>
+			  <property name="use_underline">True</property>
 			  <property name="use_markup">False</property>
 			  <property name="justify">GTK_JUSTIFY_LEFT</property>
 			  <property name="wrap">False</property>
@@ -2418,6 +2430,7 @@
 			  <property name="yalign">0.5</property>
 			  <property name="xpad">0</property>
 			  <property name="ypad">0</property>
+			  <property name="mnemonic_widget">entry-office</property>
 			</widget>
 			<packing>
 			  <property name="left_attach">0</property>
@@ -2432,8 +2445,8 @@
 		      <child>
 			<widget class="GtkLabel" id="label-spouse">
 			  <property name="visible">True</property>
-			  <property name="label" translatable="yes">Spouse:</property>
-			  <property name="use_underline">False</property>
+			  <property name="label" translatable="yes">_Spouse:</property>
+			  <property name="use_underline">True</property>
 			  <property name="use_markup">False</property>
 			  <property name="justify">GTK_JUSTIFY_LEFT</property>
 			  <property name="wrap">False</property>
@@ -2442,6 +2455,7 @@
 			  <property name="yalign">0.5</property>
 			  <property name="xpad">0</property>
 			  <property name="ypad">0</property>
+			  <property name="mnemonic_widget">entry-spouse</property>
 			</widget>
 			<packing>
 			  <property name="left_attach">0</property>
@@ -2504,8 +2518,8 @@
 		      <child>
 			<widget class="GtkLabel" id="label-birthday">
 			  <property name="visible">True</property>
-			  <property name="label" translatable="yes">Birthday:</property>
-			  <property name="use_underline">False</property>
+			  <property name="label" translatable="yes">_Birthday:</property>
+			  <property name="use_underline">True</property>
 			  <property name="use_markup">False</property>
 			  <property name="justify">GTK_JUSTIFY_LEFT</property>
 			  <property name="wrap">False</property>
@@ -2514,6 +2528,7 @@
 			  <property name="yalign">0.5</property>
 			  <property name="xpad">0</property>
 			  <property name="ypad">0</property>
+			  <property name="mnemonic_widget">dateedit-birthday</property>
 			</widget>
 			<packing>
 			  <property name="left_attach">2</property>
@@ -2528,8 +2543,8 @@
 		      <child>
 			<widget class="GtkLabel" id="label-anniversary">
 			  <property name="visible">True</property>
-			  <property name="label" translatable="yes">Anniversary:</property>
-			  <property name="use_underline">False</property>
+			  <property name="label" translatable="yes">_Anniversary:</property>
+			  <property name="use_underline">True</property>
 			  <property name="use_markup">False</property>
 			  <property name="justify">GTK_JUSTIFY_LEFT</property>
 			  <property name="wrap">False</property>
@@ -2538,6 +2553,7 @@
 			  <property name="yalign">0.5</property>
 			  <property name="xpad">0</property>
 			  <property name="ypad">0</property>
+			  <property name="mnemonic_widget">dateedit-anniversary</property>
 			</widget>
 			<packing>
 			  <property name="left_attach">2</property>
@@ -2667,8 +2683,8 @@
 		      <child>
 			<widget class="GtkLabel" id="label-home-city">
 			  <property name="visible">True</property>
-			  <property name="label" translatable="yes">City:</property>
-			  <property name="use_underline">False</property>
+			  <property name="label" translatable="yes">_City:</property>
+			  <property name="use_underline">True</property>
 			  <property name="use_markup">False</property>
 			  <property name="justify">GTK_JUSTIFY_LEFT</property>
 			  <property name="wrap">False</property>
@@ -2677,6 +2693,7 @@
 			  <property name="yalign">0.5</property>
 			  <property name="xpad">0</property>
 			  <property name="ypad">0</property>
+			  <property name="mnemonic_widget">entry-home-city</property>
 			</widget>
 			<packing>
 			  <property name="left_attach">2</property>
@@ -2715,8 +2732,8 @@
 		      <child>
 			<widget class="GtkLabel" id="label-home-zip">
 			  <property name="visible">True</property>
-			  <property name="label" translatable="yes">Zip/Postal Code:</property>
-			  <property name="use_underline">False</property>
+			  <property name="label" translatable="yes">_Zip/Postal Code:</property>
+			  <property name="use_underline">True</property>
 			  <property name="use_markup">False</property>
 			  <property name="justify">GTK_JUSTIFY_LEFT</property>
 			  <property name="wrap">False</property>
@@ -2725,6 +2742,7 @@
 			  <property name="yalign">0.5</property>
 			  <property name="xpad">0</property>
 			  <property name="ypad">0</property>
+			  <property name="mnemonic_widget">entry-home-zip</property>
 			</widget>
 			<packing>
 			  <property name="left_attach">2</property>
@@ -2763,8 +2781,8 @@
 		      <child>
 			<widget class="GtkLabel" id="label-home-state">
 			  <property name="visible">True</property>
-			  <property name="label" translatable="yes">State/Province:</property>
-			  <property name="use_underline">False</property>
+			  <property name="label" translatable="yes">_State/Province:</property>
+			  <property name="use_underline">True</property>
 			  <property name="use_markup">False</property>
 			  <property name="justify">GTK_JUSTIFY_LEFT</property>
 			  <property name="wrap">False</property>
@@ -2773,6 +2791,7 @@
 			  <property name="yalign">0.5</property>
 			  <property name="xpad">0</property>
 			  <property name="ypad">0</property>
+			  <property name="mnemonic_widget">entry-home-state</property>
 			</widget>
 			<packing>
 			  <property name="left_attach">2</property>
@@ -2811,8 +2830,8 @@
 		      <child>
 			<widget class="GtkLabel" id="label-home-country">
 			  <property name="visible">True</property>
-			  <property name="label" translatable="yes">Country:</property>
-			  <property name="use_underline">False</property>
+			  <property name="label" translatable="yes">_Country:</property>
+			  <property name="use_underline">True</property>
 			  <property name="use_markup">False</property>
 			  <property name="justify">GTK_JUSTIFY_LEFT</property>
 			  <property name="wrap">False</property>
@@ -2821,6 +2840,7 @@
 			  <property name="yalign">0.5</property>
 			  <property name="xpad">0</property>
 			  <property name="ypad">0</property>
+			  <property name="mnemonic_widget">entry-home-country</property>
 			</widget>
 			<packing>
 			  <property name="left_attach">2</property>
@@ -2859,8 +2879,8 @@
 		      <child>
 			<widget class="GtkLabel" id="label-home-address">
 			  <property name="visible">True</property>
-			  <property name="label" translatable="yes">Address:</property>
-			  <property name="use_underline">False</property>
+			  <property name="label" translatable="yes">_Address:</property>
+			  <property name="use_underline">True</property>
 			  <property name="use_markup">False</property>
 			  <property name="justify">GTK_JUSTIFY_LEFT</property>
 			  <property name="wrap">False</property>
@@ -2869,6 +2889,7 @@
 			  <property name="yalign">0.5</property>
 			  <property name="xpad">0</property>
 			  <property name="ypad">0</property>
+			  <property name="mnemonic_widget">textview-home-address</property>
 			</widget>
 			<packing>
 			  <property name="left_attach">0</property>
@@ -2948,8 +2969,8 @@
 		      <child>
 			<widget class="GtkLabel" id="label-home-pobox">
 			  <property name="visible">True</property>
-			  <property name="label" translatable="yes">PO Box:</property>
-			  <property name="use_underline">False</property>
+			  <property name="label" translatable="yes">_PO Box:</property>
+			  <property name="use_underline">True</property>
 			  <property name="use_markup">False</property>
 			  <property name="justify">GTK_JUSTIFY_LEFT</property>
 			  <property name="wrap">False</property>
@@ -2958,6 +2979,7 @@
 			  <property name="yalign">0.5</property>
 			  <property name="xpad">0</property>
 			  <property name="ypad">0</property>
+			  <property name="mnemonic_widget">entry-home-pobox</property>
 			</widget>
 			<packing>
 			  <property name="left_attach">0</property>
@@ -3017,8 +3039,8 @@
 		      <child>
 			<widget class="GtkLabel" id="label-work-city">
 			  <property name="visible">True</property>
-			  <property name="label" translatable="yes">City:</property>
-			  <property name="use_underline">False</property>
+			  <property name="label" translatable="yes">_City:</property>
+			  <property name="use_underline">True</property>
 			  <property name="use_markup">False</property>
 			  <property name="justify">GTK_JUSTIFY_LEFT</property>
 			  <property name="wrap">False</property>
@@ -3027,6 +3049,7 @@
 			  <property name="yalign">0.5</property>
 			  <property name="xpad">0</property>
 			  <property name="ypad">0</property>
+			  <property name="mnemonic_widget">entry-work-city</property>
 			</widget>
 			<packing>
 			  <property name="left_attach">2</property>
@@ -3065,8 +3088,8 @@
 		      <child>
 			<widget class="GtkLabel" id="label-work-state">
 			  <property name="visible">True</property>
-			  <property name="label" translatable="yes">State/Province:</property>
-			  <property name="use_underline">False</property>
+			  <property name="label" translatable="yes">_State/Province:</property>
+			  <property name="use_underline">True</property>
 			  <property name="use_markup">False</property>
 			  <property name="justify">GTK_JUSTIFY_LEFT</property>
 			  <property name="wrap">False</property>
@@ -3075,6 +3098,7 @@
 			  <property name="yalign">0.5</property>
 			  <property name="xpad">0</property>
 			  <property name="ypad">0</property>
+			  <property name="mnemonic_widget">entry-work-state</property>
 			</widget>
 			<packing>
 			  <property name="left_attach">2</property>
@@ -3113,8 +3137,8 @@
 		      <child>
 			<widget class="GtkLabel" id="label-work-zip">
 			  <property name="visible">True</property>
-			  <property name="label" translatable="yes">Zip/Postal Code:</property>
-			  <property name="use_underline">False</property>
+			  <property name="label" translatable="yes">_Zip/Postal Code:</property>
+			  <property name="use_underline">True</property>
 			  <property name="use_markup">False</property>
 			  <property name="justify">GTK_JUSTIFY_LEFT</property>
 			  <property name="wrap">False</property>
@@ -3123,6 +3147,7 @@
 			  <property name="yalign">0.5</property>
 			  <property name="xpad">0</property>
 			  <property name="ypad">0</property>
+			  <property name="mnemonic_widget">entry-work-zip</property>
 			</widget>
 			<packing>
 			  <property name="left_attach">2</property>
@@ -3161,8 +3186,8 @@
 		      <child>
 			<widget class="GtkLabel" id="label-work-country">
 			  <property name="visible">True</property>
-			  <property name="label" translatable="yes">Country:</property>
-			  <property name="use_underline">False</property>
+			  <property name="label" translatable="yes">_Country:</property>
+			  <property name="use_underline">True</property>
 			  <property name="use_markup">False</property>
 			  <property name="justify">GTK_JUSTIFY_LEFT</property>
 			  <property name="wrap">False</property>
@@ -3171,6 +3196,7 @@
 			  <property name="yalign">0.5</property>
 			  <property name="xpad">0</property>
 			  <property name="ypad">0</property>
+			  <property name="mnemonic_widget">entry-work-country</property>
 			</widget>
 			<packing>
 			  <property name="left_attach">2</property>
@@ -3209,8 +3235,8 @@
 		      <child>
 			<widget class="GtkLabel" id="label-work-address">
 			  <property name="visible">True</property>
-			  <property name="label" translatable="yes">Address:</property>
-			  <property name="use_underline">False</property>
+			  <property name="label" translatable="yes">_Address:</property>
+			  <property name="use_underline">True</property>
 			  <property name="use_markup">False</property>
 			  <property name="justify">GTK_JUSTIFY_LEFT</property>
 			  <property name="wrap">False</property>
@@ -3219,6 +3245,7 @@
 			  <property name="yalign">0.5</property>
 			  <property name="xpad">0</property>
 			  <property name="ypad">0</property>
+			  <property name="mnemonic_widget">textview-work-address</property>
 			</widget>
 			<packing>
 			  <property name="left_attach">0</property>
@@ -3298,8 +3325,8 @@
 		      <child>
 			<widget class="GtkLabel" id="label-work-pobox">
 			  <property name="visible">True</property>
-			  <property name="label" translatable="yes">PO Box:</property>
-			  <property name="use_underline">False</property>
+			  <property name="label" translatable="yes">_PO Box:</property>
+			  <property name="use_underline">True</property>
 			  <property name="use_markup">False</property>
 			  <property name="justify">GTK_JUSTIFY_LEFT</property>
 			  <property name="wrap">False</property>
@@ -3308,6 +3335,7 @@
 			  <property name="yalign">0.5</property>
 			  <property name="xpad">0</property>
 			  <property name="ypad">0</property>
+			  <property name="mnemonic_widget">entry-work-pobox</property>
 			</widget>
 			<packing>
 			  <property name="left_attach">0</property>
@@ -3367,8 +3395,8 @@
 		      <child>
 			<widget class="GtkLabel" id="label-other-city">
 			  <property name="visible">True</property>
-			  <property name="label" translatable="yes">City:</property>
-			  <property name="use_underline">False</property>
+			  <property name="label" translatable="yes">_City:</property>
+			  <property name="use_underline">True</property>
 			  <property name="use_markup">False</property>
 			  <property name="justify">GTK_JUSTIFY_LEFT</property>
 			  <property name="wrap">False</property>
@@ -3377,6 +3405,7 @@
 			  <property name="yalign">0.5</property>
 			  <property name="xpad">0</property>
 			  <property name="ypad">0</property>
+			  <property name="mnemonic_widget">entry-other-city</property>
 			</widget>
 			<packing>
 			  <property name="left_attach">2</property>
@@ -3415,8 +3444,8 @@
 		      <child>
 			<widget class="GtkLabel" id="label-other-address">
 			  <property name="visible">True</property>
-			  <property name="label" translatable="yes">Address:</property>
-			  <property name="use_underline">False</property>
+			  <property name="label" translatable="yes">_Address:</property>
+			  <property name="use_underline">True</property>
 			  <property name="use_markup">False</property>
 			  <property name="justify">GTK_JUSTIFY_LEFT</property>
 			  <property name="wrap">False</property>
@@ -3425,6 +3454,7 @@
 			  <property name="yalign">0.5</property>
 			  <property name="xpad">0</property>
 			  <property name="ypad">0</property>
+			  <property name="mnemonic_widget">textview-other-address</property>
 			</widget>
 			<packing>
 			  <property name="left_attach">0</property>
@@ -3463,8 +3493,8 @@
 		      <child>
 			<widget class="GtkLabel" id="label-other-state">
 			  <property name="visible">True</property>
-			  <property name="label" translatable="yes">State/Province:</property>
-			  <property name="use_underline">False</property>
+			  <property name="label" translatable="yes">_State/Province:</property>
+			  <property name="use_underline">True</property>
 			  <property name="use_markup">False</property>
 			  <property name="justify">GTK_JUSTIFY_LEFT</property>
 			  <property name="wrap">False</property>
@@ -3473,6 +3503,7 @@
 			  <property name="yalign">0.5</property>
 			  <property name="xpad">0</property>
 			  <property name="ypad">0</property>
+			  <property name="mnemonic_widget">entry-other-state</property>
 			</widget>
 			<packing>
 			  <property name="left_attach">2</property>
@@ -3487,8 +3518,8 @@
 		      <child>
 			<widget class="GtkLabel" id="label-other-zip">
 			  <property name="visible">True</property>
-			  <property name="label" translatable="yes">Zip/Postal Code:</property>
-			  <property name="use_underline">False</property>
+			  <property name="label" translatable="yes">_Zip/Postal Code:</property>
+			  <property name="use_underline">True</property>
 			  <property name="use_markup">False</property>
 			  <property name="justify">GTK_JUSTIFY_LEFT</property>
 			  <property name="wrap">False</property>
@@ -3497,6 +3528,7 @@
 			  <property name="yalign">0.5</property>
 			  <property name="xpad">0</property>
 			  <property name="ypad">0</property>
+			  <property name="mnemonic_widget">entry-other-zip</property>
 			</widget>
 			<packing>
 			  <property name="left_attach">2</property>
@@ -3535,8 +3567,8 @@
 		      <child>
 			<widget class="GtkLabel" id="label-other-country">
 			  <property name="visible">True</property>
-			  <property name="label" translatable="yes">Country:</property>
-			  <property name="use_underline">False</property>
+			  <property name="label" translatable="yes">_Country:</property>
+			  <property name="use_underline">True</property>
 			  <property name="use_markup">False</property>
 			  <property name="justify">GTK_JUSTIFY_LEFT</property>
 			  <property name="wrap">False</property>
@@ -3545,6 +3577,7 @@
 			  <property name="yalign">0.5</property>
 			  <property name="xpad">0</property>
 			  <property name="ypad">0</property>
+			  <property name="mnemonic_widget">entry-other-country</property>
 			</widget>
 			<packing>
 			  <property name="left_attach">2</property>
@@ -3648,8 +3681,8 @@
 		      <child>
 			<widget class="GtkLabel" id="label-other-pobox">
 			  <property name="visible">True</property>
-			  <property name="label" translatable="yes">PO Box:</property>
-			  <property name="use_underline">False</property>
+			  <property name="label" translatable="yes">_PO Box:</property>
+			  <property name="use_underline">True</property>
 			  <property name="use_markup">False</property>
 			  <property name="justify">GTK_JUSTIFY_LEFT</property>
 			  <property name="wrap">False</property>
@@ -3658,6 +3691,7 @@
 			  <property name="yalign">0.5</property>
 			  <property name="xpad">0</property>
 			  <property name="ypad">0</property>
+			  <property name="mnemonic_widget">entry-other-pobox</property>
 			</widget>
 			<packing>
 			  <property name="left_attach">0</property>
