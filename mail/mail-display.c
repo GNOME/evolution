@@ -24,47 +24,6 @@
 static GtkObjectClass *mail_display_parent_class;
 
 
-
-
-static gchar default_header_html_string[] = "\n\
-<!doctype html public \"-//w3c//dtd html 4.0 transitional//en\">\n\
-<html>\n\
-<head>\n\
-   <meta name=\"GENERATOR\" content=\"Evolution Mail Component (Rhon Rhon release)\">\n\
-</head>\n\
-<body text=\"#000000\" bgcolor=\"#999999\">\n\
-<table CELLSPACING=0 WIDTH=\"100\%\">\n\
-<tr>\n\
-<td><b>From:&nbsp;</b></td>\n\
-<td><b>To:&nbsp;</b></td>\n\
-</tr>\n\
-\n\
-<tr>\n\
-<td><b>Subject:&nbsp;</b></td>\n\
-<td><b>Cc:&nbsp;</b></td>\n\
-</tr>\n\
-</table>\n\
-</body>\n\
-</html>\n\
-";
-
-
-
-static gchar default_body_html_string[] = "\n\
-<!doctype html public \"-//w3c//dtd html 4.0 transitional//en\">\n\
-<html>\n\
-<head>\n\
-   <meta name=\"GENERATOR\" content=\"Evolution Mail Component (Rhon Rhon release)\">\n\
-</head>\n\
-<body text=\"#000000\" bgcolor=\"#FFFFFF\">\n\
-<center>\n\
-Nothing to display in this view\n\
-</center>\n\
-</body>\n\
-</html>\n\
-";
-
-
 /*----------------------------------------------------------------------*
  *                     Helper utility functions
  *----------------------------------------------------------------------*/
@@ -78,7 +37,7 @@ hydrate_persist_stream_from_gstring (Bonobo_PersistStream persist_stream,
 {
 	CORBA_Environment ev;
 	BonoboStream* mem_stream =
-		bonobo_stream_mem_create (gstr->str, gstr->len, TRUE);
+		bonobo_stream_mem_create (gstr->str, gstr->len, TRUE, FALSE);
 	CORBA_Object mem_stream_corba =
 		bonobo_object_corba_objref (BONOBO_OBJECT (mem_stream));
 	
@@ -257,7 +216,7 @@ on_object_requested (GtkHTML *html, GtkHTMLEmbedded *eb, void *unused)
 	CORBA_Object_release (persist, &ev);
 	CORBA_exception_free (&ev);				
 
-	g_string_free (camel_stream_gstr, FALSE);
+	g_string_free (camel_stream_gstr, TRUE);
 }
 
 

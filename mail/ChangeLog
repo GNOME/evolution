@@ -1,3 +1,8 @@
+2000-04-20  Dan Winship  <danw@helixcode.com>
+
+	* mail-display.c: update for bonobo change, and remove a
+	now-unused variable.
+
 2000-04-17  Chris Toshok  <toshok@helixcode.com>
 
 	* message-list.c (on_row_selection_idle): new function, actually
