@@ -1,3 +1,8 @@
+2004-08-12  Sivaiah nallagatla <snallagatla@novell.com>
+
+	* gui/compoent/addressbook.c : just revering a local change 
+	gone in in the commit i just made 
+
 2004-08-12  Sivaiah Nallagatla <snallagatla@novell.com>
 	
 	* gui/component/addresbook.c (load_source_auth_cb) :

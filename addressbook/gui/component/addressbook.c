@@ -190,9 +190,9 @@ addressbook_authenticate (EBook *book, gboolean previous_failure, ESource *sourc
 					  failed_auth, e_source_peek_name (source), user);
 
 		remember = get_remember_password (source);
-		pass_dup = e_passwords_ask_password (prompt, component_name, uri, prompt,
-						     E_PASSWORDS_REMEMBER_FOREVER, &remember,
-						     NULL);
+		pass_dup = e_passwords_ask_password (prompt, component_name, uri, prompt, TRUE,
+                                                     E_PASSWORDS_REMEMBER_FOREVER, &remember,
+                                                     NULL);
 		if (remember != get_remember_password (source))
 			set_remember_password (source, remember);
 
