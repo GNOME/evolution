@@ -640,6 +640,8 @@ cal_recur_from_icalrecurrencetype (struct icalrecurrencetype *ir)
 	 * distinguish between n-occurrences and until-some-date rules?
 	 */
 	r->enddate = icaltime_as_timet (ir->until);
+	if (r->enddate == (time_t)-1)
+		r->enddate = 0;
 
 	switch (ir->week_start) {
 	case ICAL_MONDAY_WEEKDAY:
