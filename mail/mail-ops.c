@@ -1053,14 +1053,14 @@ add_special_info(CamelStore *store, CamelFolderInfo *info, char *name, char *ful
 	g_return_val_if_fail (info != NULL, NULL);
 
 	parent = NULL;
-	for (fi = info; fi; fi = fi->sibling) {
+	for (fi = info; fi; fi = fi->next) {
 		if (!strcmp (fi->name, name))
 			break;
 		parent = fi;
 	}
 	
 	/* create our vTrash/vJunk URL */
-	url = camel_url_new (info->url, NULL);
+	url = camel_url_new (info->uri, NULL);
 	path = g_strdup_printf ("/%s", name);
 	if (url->fragment)
 		camel_url_set_fragment (url, path);
@@ -1075,7 +1075,7 @@ add_special_info(CamelStore *store, CamelFolderInfo *info, char *name, char *ful
 		vinfo = fi;
 		g_free (vinfo->full_name);
 		g_free (vinfo->name);
-		g_free (vinfo->url);
+		g_free (vinfo->uri);
 	} else {
 		/* There wasn't a Trash/Junk folder so create a new folder entry */
 		vinfo = g_new0 (CamelFolderInfo, 1);
@@ -1083,14 +1083,14 @@ add_special_info(CamelStore *store, CamelFolderInfo *info, char *name, char *ful
 		g_assert(parent != NULL);
 
 		/* link it into the right spot */
-		vinfo->sibling = parent->sibling;
-		parent->sibling = vinfo;
+		vinfo->next = parent->next;
+		parent->next = vinfo;
 	}
 	
 	/* Fill in the new fields */
 	vinfo->full_name = g_strdup (full_name);
 	vinfo->name = g_strdup(vinfo->full_name);
-	vinfo->url = g_strdup_printf ("%s:%s", url_base, uri);
+	vinfo->uri = g_strdup_printf ("%s:%s", url_base, uri);
 	vinfo->path = g_strdup_printf("/%s", vinfo->name);
 	g_free (uri);
 
@@ -1100,7 +1100,7 @@ add_special_info(CamelStore *store, CamelFolderInfo *info, char *name, char *ful
 static void
 add_unmatched_info(CamelFolderInfo *fi)
 {
-	for (; fi; fi = fi->sibling) {
+	for (; fi; fi = fi->next) {
 		if (!strcmp(fi->full_name, CAMEL_UNMATCHED_NAME)) {
 			g_free(fi->name);
 			fi->name = g_strdup(_("Unmatched"));
@@ -1122,13 +1122,13 @@ get_folderinfo_get (struct _mail_msg *mm)
 	
 	m->info = camel_store_get_folder_info (m->store, NULL, flags, &mm->ex);
 	if (m->info) {
-		if (m->info->url && (m->store->flags & CAMEL_STORE_VTRASH))
+		if (m->info->uri && (m->store->flags & CAMEL_STORE_VTRASH))
 			add_special_info(m->store, m->info, CAMEL_VTRASH_NAME, _("Trash"), "vtrash");
-		if (m->info->url && (m->store->flags & CAMEL_STORE_VJUNK)) {
+		if (m->info->uri && (m->store->flags & CAMEL_STORE_VJUNK)) {
 			CamelFolderInfo *info;
 
 			info = add_special_info(m->store, m->info, CAMEL_VJUNK_NAME, _("Junk"), "vjunk");
-			info->unread_message_count = -1;
+			info->unread = -1;
 		}
 
 		if (CAMEL_IS_VEE_STORE(m->store))

@@ -319,7 +319,7 @@ sub_fill_level(EMSubscribe *sub, CamelFolderInfo *info,  GtkTreeIter *parent, in
 			}
 			g_hash_table_insert(sub->folders, fi->full_name, node);
 		}
-		fi = fi->sibling;
+		fi = fi->next;
 	}
 }
 

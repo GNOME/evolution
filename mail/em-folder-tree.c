@@ -71,6 +71,8 @@ struct _EMFolderTreePrivate {
 	char *selected_uri;
 	char *selected_path;
 
+	guint32 excluded;
+
 	gboolean do_multiselect;
 	/* when doing a multiselect, folders that we didn't find */
 	GList *lost_folders;
@@ -303,6 +305,29 @@ render_display_name (GtkTreeViewColumn *column, GtkCellRenderer *renderer,
 	g_free (display);
 }
 
+static gboolean
+emft_select_func(GtkTreeSelection *selection, GtkTreeModel *model, GtkTreePath *path, gboolean selected, gpointer data)
+{
+	EMFolderTree *emft = data;
+	gboolean is_store;
+	guint32 flags;
+	GtkTreeIter iter;
+
+	/* NB: This will be called with selection==NULL from tree_row_activated */
+
+	if (emft->priv->excluded == 0)
+		return TRUE;
+
+	if (!gtk_tree_model_get_iter(model, &iter, path))
+		return TRUE;
+
+	gtk_tree_model_get(model, &iter, COL_UINT_FLAGS, &flags, COL_BOOL_IS_STORE, &is_store, -1);
+	if (is_store)
+		flags |= CAMEL_FOLDER_NOSELECT;
+
+	return (flags & emft->priv->excluded) == 0;
+}
+
 static void
 em_folder_tree_init (EMFolderTree *emft)
 {
@@ -361,7 +386,7 @@ em_folder_tree_destroy (GtkObject *obj)
 }
 
 static GtkTreeView *
-folder_tree_new (EMFolderTreeModel *model)
+folder_tree_new (EMFolderTree *emft, EMFolderTreeModel *model)
 {
 	GtkTreeSelection *selection;
 	GtkTreeViewColumn *column;
@@ -384,7 +409,7 @@ folder_tree_new (EMFolderTreeModel *model)
 	
 	selection = gtk_tree_view_get_selection ((GtkTreeView *) tree);
 	gtk_tree_selection_set_mode (selection, GTK_SELECTION_SINGLE);
-	
+	gtk_tree_selection_set_select_function(selection, emft_select_func, emft, NULL);
 	gtk_tree_view_set_headers_visible ((GtkTreeView *) tree, FALSE);
 	
 	return (GtkTreeView *) tree;
@@ -403,7 +428,7 @@ em_folder_tree_construct (EMFolderTree *emft, EMFolderTreeModel *model)
 	gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (scrolled), GTK_SHADOW_IN);
 	
 	priv->model = model;
-	priv->treeview = folder_tree_new (model);
+	priv->treeview = folder_tree_new (emft, model);
 	gtk_widget_show ((GtkWidget *) priv->treeview);
 	
 	g_signal_connect (priv->treeview, "row-expanded", G_CALLBACK (emft_tree_row_expanded), emft);
@@ -1280,6 +1305,11 @@ em_folder_tree_set_multiselect (EMFolderTree *tree, gboolean mode)
 	gtk_tree_selection_set_mode (sel, mode ? GTK_SELECTION_MULTIPLE : GTK_SELECTION_SINGLE);
 }
 
+void em_folder_tree_set_excluded(EMFolderTree *emft, guint32 flags)
+{
+	emft->priv->excluded = flags;
+}
+
 static void
 get_selected_uris_iterate (GtkTreeModel *model, GtkTreePath *path, GtkTreeIter *iter, gpointer data)
 {
@@ -1447,7 +1477,7 @@ emft_get_folder_info__got (struct _mail_msg *mm)
 	 * want to fill our tree with... *sigh* */
 	if (m->top && m->fi && !strcmp (m->fi->full_name, m->top)) {
 		if (!(fi = m->fi->child))
-			fi = m->fi->sibling;
+			fi = m->fi->next;
 	} else
 		fi = m->fi;
 	
@@ -1458,7 +1488,7 @@ emft_get_folder_info__got (struct _mail_msg *mm)
 		do {
 			em_folder_tree_model_set_folder_info (priv->model, &iter, si, fi);
 			
-			if ((fi = fi->sibling) != NULL)
+			if ((fi = fi->next) != NULL)
 				gtk_tree_store_append (model, &iter, &root);
 		} while (fi != NULL);
 	}
@@ -1572,13 +1602,16 @@ emft_tree_row_activated (GtkTreeView *treeview, GtkTreePath *tree_path, GtkTreeV
 	GtkTreeModel *model = (GtkTreeModel *) priv->model;
 	GtkTreeIter iter;
 	char *path, *uri;
-	
+
+	if (!emft_select_func(NULL, model, tree_path, FALSE, emft))
+		return;
+
 	if (!gtk_tree_model_get_iter (model, &iter, tree_path))
 		return;
-	
+
 	gtk_tree_model_get (model, &iter, COL_STRING_FOLDER_PATH, &path,
 			    COL_STRING_URI, &uri, -1);
-	
+
 	g_free (priv->selected_uri);
 	priv->selected_uri = g_strdup (uri);
 	
@@ -1696,7 +1729,7 @@ emft_copy_folders__copy (struct _mail_msg *mm)
 			else if (m->delete)
 				deleting = g_list_prepend (deleting, info);
 			
-			info = info->sibling;
+			info = info->next;
 		}
 	}
 	
@@ -2112,7 +2145,7 @@ emft_popup_delete_rec (CamelStore *store, CamelFolderInfo *fi, CamelException *e
 		if (camel_exception_is_set (ex))
 			return;
 		
-		fi = fi->sibling;
+		fi = fi->next;
 	}
 }
 

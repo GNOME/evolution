@@ -343,12 +343,12 @@ update_1folder(struct _folder_info *mfi, int new, CamelFolderInfo *info)
 		} else {
 			d(printf(" unread count\n"));
 			if (info)
-				unread = info->unread_message_count;
+				unread = info->unread;
 			else
 				unread = camel_folder_get_unread_message_count (folder);
 		}
 	} else if (info)
-		unread = info->unread_message_count;
+		unread = info->unread;
 
 	d(printf("folder updated: unread %d: '%s'\n", unread, mfi->full_name));
 
@@ -380,7 +380,7 @@ setup_folder(CamelFolderInfo *fi, struct _store_info *si)
 		mfi = g_malloc0(sizeof(*mfi));
 		mfi->path = g_strdup(fi->path);
 		mfi->full_name = g_strdup(fi->full_name);
-		mfi->uri = g_strdup(fi->url);
+		mfi->uri = g_strdup(fi->uri);
 		mfi->store_info = si;
 		mfi->flags = fi->flags;
 		
@@ -390,8 +390,8 @@ setup_folder(CamelFolderInfo *fi, struct _store_info *si)
 		up = g_malloc0(sizeof(*up));
 		up->path = g_strdup(mfi->path);
 		up->name = g_strdup(fi->name);
-		up->uri = g_strdup(fi->url);
-		up->unread = (fi->unread_message_count==-1)?0:fi->unread_message_count;
+		up->uri = g_strdup(fi->uri);
+		up->unread = (fi->unread==-1)?0:fi->unread;
 		up->store = si->store;
 		camel_object_ref(up->store);
 		
@@ -408,12 +408,14 @@ create_folders(CamelFolderInfo *fi, struct _store_info *si)
 {
 	d(printf("Setup new folder: %s\n  %s\n", fi->url, fi->full_name));
 
-	setup_folder(fi, si);
+	while (fi) {
+		setup_folder(fi, si);
 
-	if (fi->child)
-		create_folders(fi->child, si);
-	if (fi->sibling)
-		create_folders(fi->sibling, si);
+		if (fi->child)
+			create_folders(fi->child, si);
+
+		fi = fi->next;
+	}
 }
 
 static void
@@ -595,7 +597,7 @@ rename_folders(struct _store_info *si, const char *oldbase, const char *newbase,
 		g_free(mfi->full_name);
 		mfi->path = g_strdup(fi->path);
 		mfi->full_name = g_strdup(fi->full_name);
-		mfi->uri = g_strdup(fi->url);
+		mfi->uri = g_strdup(fi->uri);
 		mfi->flags = fi->flags;
 		
 		g_hash_table_insert(si->folders, mfi->full_name, mfi);
@@ -606,7 +608,7 @@ rename_folders(struct _store_info *si, const char *oldbase, const char *newbase,
 		mfi = g_malloc0(sizeof(*mfi));
 		mfi->path = g_strdup(fi->path);
 		mfi->full_name = g_strdup(fi->full_name);
-		mfi->uri = g_strdup(fi->url);
+		mfi->uri = g_strdup(fi->uri);
 		mfi->store_info = si;
 		mfi->flags = fi->flags;
 		
@@ -619,7 +621,7 @@ rename_folders(struct _store_info *si, const char *oldbase, const char *newbase,
 	up->path = g_strdup(mfi->path);
 	up->name = g_strdup(fi->name);
 	up->uri = g_strdup(mfi->uri);
-	up->unread = fi->unread_message_count==-1?0:fi->unread_message_count;
+	up->unread = fi->unread==-1?0:fi->unread;
 	up->store = si->store;
 	camel_object_ref(up->store);
 	
@@ -639,12 +641,14 @@ rename_folders(struct _store_info *si, const char *oldbase, const char *newbase,
 static void
 get_folders(CamelFolderInfo *fi, GPtrArray *folders)
 {
-	g_ptr_array_add(folders, fi);
+	while (fi) {
+		g_ptr_array_add(folders, fi);
 
-	if (fi->child)
-		get_folders(fi->child, folders);
-	if (fi->sibling)
-		get_folders(fi->sibling, folders);
+		if (fi->child)
+			get_folders(fi->child, folders);
+
+		fi = fi->next;
+	}
 }
 
 static int

@@ -440,6 +440,7 @@ impl_createControls (PortableServer_Servant servant,
 
 	view_widget = em_folder_browser_new ();
 	tree_widget = (GtkWidget *) em_folder_tree_new_with_model (priv->model);
+	em_folder_tree_set_excluded((EMFolderTree *)tree_widget, EMFT_EXCLUDE_NOSELECT);
 	em_folder_tree_enable_drag_and_drop ((EMFolderTree *) tree_widget);
 	em_format_set_session ((EMFormat *) ((EMFolderView *) view_widget)->preview, session);
 

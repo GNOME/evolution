@@ -44,9 +44,16 @@ extern "C" {
 typedef struct _EMFolderTree EMFolderTree;
 typedef struct _EMFolderTreeClass EMFolderTreeClass;
 
+/* not sure this api is the best, but its the easiest to implement and will cover what we need */
+#define EMFT_EXCLUDE_NOSELECT CAMEL_FOLDER_NOSELECT
+#define EMFT_EXCLUDE_NOINFERIORS CAMEL_FOLDER_NOINFERIORS
+#define EMFT_EXCLUDE_VIRTUAL CAMEL_FOLDER_VIRTUAL
+#define EMFT_EXCLUDE_SYSTEM CAMEL_FOLDER_SYSTEM
+#define EMFT_EXCLUDE_VTRASH CAMEL_FOLDER_VTRASH
+
 struct _EMFolderTree {
 	GtkVBox parent_object;
-	
+
 	struct _EMFolderTreePrivate *priv;
 };
 
@@ -58,7 +65,6 @@ struct _EMFolderTreeClass {
 	void (* folder_selected) (EMFolderTree *emft, const char *path, const char *uri);
 };
 
-
 GType em_folder_tree_get_type (void);
 
 GtkWidget *em_folder_tree_new (void);
@@ -67,6 +73,7 @@ GtkWidget *em_folder_tree_new_with_model (EMFolderTreeModel *model);
 void em_folder_tree_enable_drag_and_drop (EMFolderTree *emft);
 
 void em_folder_tree_set_multiselect (EMFolderTree *emft, gboolean mode);
+void em_folder_tree_set_excluded(EMFolderTree *emft, guint32 flags);
 
 void em_folder_tree_set_selected_list (EMFolderTree *emft, GList *list);
 GList *em_folder_tree_get_selected_uris (EMFolderTree *emft);

@@ -59,6 +59,7 @@ static GType col_types[] = {
 	G_TYPE_STRING,   /* path */
 	G_TYPE_STRING,   /* uri */
 	G_TYPE_UINT,     /* unread count */
+	G_TYPE_UINT,     /* flags */
 	G_TYPE_BOOLEAN,  /* is a store node */
 	G_TYPE_BOOLEAN,  /* has not-yet-loaded subfolders */
 };
@@ -433,13 +434,13 @@ em_folder_tree_model_set_folder_info (EMFolderTreeModel *model, GtkTreeIter *ite
 	path_row = gtk_tree_row_reference_copy (uri_row);
 	gtk_tree_path_free (path);
 
-	g_hash_table_insert (model->uri_hash, g_strdup (fi->url), uri_row);
+	g_hash_table_insert (model->uri_hash, g_strdup (fi->uri), uri_row);
 	g_hash_table_insert (si->path_hash, g_strdup (fi->path), path_row);
 
 	/* HACK: if we have the folder, and its the outbox folder, we need the total count, not unread */
 	/* This is duplicated in mail-folder-cache too, should perhaps be functionised */
-	unread = fi->unread_message_count == -1 ? 0 : fi->unread_message_count;
-	if (mail_note_get_folder_from_uri(fi->url, &folder) && folder) {
+	unread = fi->unread == -1 ? 0 : fi->unread;
+	if (mail_note_get_folder_from_uri(fi->uri, &folder) && folder) {
 		if (folder == mail_component_get_folder(NULL, MAIL_COMPONENT_FOLDER_OUTBOX))
 			unread = camel_folder_get_message_count(folder);
 		camel_object_unref(folder);
@@ -449,8 +450,9 @@ em_folder_tree_model_set_folder_info (EMFolderTreeModel *model, GtkTreeIter *ite
 			    COL_STRING_DISPLAY_NAME, fi->name,
 			    COL_POINTER_CAMEL_STORE, si->store,
 			    COL_STRING_FOLDER_PATH, fi->path,
-			    COL_STRING_URI, fi->url,
+			    COL_STRING_URI, fi->uri,
 			    COL_UINT_UNREAD, unread,
+			    COL_UINT_FLAGS, fi->flags,
 			    COL_BOOL_IS_STORE, FALSE,
 			    COL_BOOL_LOAD_SUBDIRS, load,
 			    -1);
@@ -461,7 +463,7 @@ em_folder_tree_model_set_folder_info (EMFolderTreeModel *model, GtkTreeIter *ite
 		do {
 			gtk_tree_store_append ((GtkTreeStore *) model, &sub, iter);
 			em_folder_tree_model_set_folder_info (model, &sub, si, fi);
-			fi = fi->sibling;
+			fi = fi->next;
 		} while (fi);
 	} else if (load) {
 		/* create a placeholder node for our subfolders... */
@@ -537,7 +539,7 @@ folder_subscribed (CamelStore *store, CamelFolderInfo *fi, EMFolderTreeModel *mo
 	
 	em_folder_tree_model_set_folder_info (model, &iter, si, fi);
 	
-	g_signal_emit (model, signals[FOLDER_ADDED], 0, fi->path, fi->url);
+	g_signal_emit (model, signals[FOLDER_ADDED], 0, fi->path, fi->uri);
 	
  done:
 	

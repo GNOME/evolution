@@ -1,3 +1,43 @@
+2004-03-11  Not Zed  <NotZed@Ximian.com>
+
+	* em-format-html.c (efh_format_header): pass the raw header in
+	instead of name and value.
+	(efh_format_headers): if we have specific headers to show, iterate
+	over all headers and print out all matching ones, so duplicate
+	headers are properly displayed.  Related to #55298.
+
+	* em-folder-selector.c (em_folder_selector_construct): dont set
+	this to be modal.  otherwise you can't click on error popups. duh.
+
+2004-03-08  Not Zed  <NotZed@Ximian.com>
+
+	* em-folder-selection-button.c
+	(em_folder_selection_button_clicked): don't let the user select
+	virtual/vtrash folders or non-selectable folders.
+
+	* mail-component.c (impl_createControls): disable selection of
+	non-select rows.
+
+	* em-folder-selector.c (em_folder_selector_create_new): exclude
+	folders with noinferiors set.
+
+	* em-folder-tree.c (folder_tree_new): add folder tree arg, hook
+	onto the selection funciton for the tree selection.
+	(emft_select_func): selection override function.  allow certain
+	things to be excluded.
+	(em_folder_tree_set_excluded): api to set what is excluded from
+	the selectability.
+	(emft_tree_row_activated): call emft_select_func check to see if
+	this row is excluded before emitting an activated signal.
+
+	* em-folder-tree-model.c (em_folder_tree_model_set_folder_info):
+	save folder info->flags in the tree store.
+
+	* mail-folder-cache.c (create_folders): use tail recursion.
+	(get_folders): tail recurse.
+
+	* (*): Fixed for api changes in camel.
+
 2004-03-10  Jeffrey Stedfast  <fejj@ximian.com>
 
 	Fix for bug #55298.

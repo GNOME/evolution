@@ -51,10 +51,10 @@ enum {
 	COL_STRING_DISPLAY_NAME,  /* string that appears in the tree */
 	COL_POINTER_CAMEL_STORE,  /* CamelStore object */
 	COL_STRING_FOLDER_PATH,   /* if node is a folder, the full path of the folder */
-	COL_STRING_URI,           /* the uri to get the store or
-				   * folder object */
+	COL_STRING_URI,           /* the uri to get the store or folder object */
 	COL_UINT_UNREAD,          /* unread count */
-	
+	COL_UINT_FLAGS,		/* FolderInfo.flags */
+
 	COL_BOOL_IS_STORE,        /* toplevel store node? */
 	COL_BOOL_LOAD_SUBDIRS,    /* %TRUE only if the store/folder
 				   * has subfolders which have not yet

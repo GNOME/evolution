@@ -1430,16 +1430,16 @@ efh_format_address (GString *out, struct _camel_header_address *a)
 }
 
 static void
-efh_format_header(EMFormat *emf, CamelStream *stream, CamelMedium *part, const char *namein, const char *txt, guint32 flags, const char *charset)
+efh_format_header(EMFormat *emf, CamelStream *stream, CamelMedium *part, struct _camel_header_raw *header, guint32 flags, const char *charset)
 {
 	CamelMimeMessage *msg = (CamelMimeMessage *) part;
 	EMFormatHTML *efh = (EMFormatHTML *) emf;
 	char *name, *value = NULL, *p;
-	const char *label;
+	const char *label, *txt;
 	int addrspec = 0, i;
 	
-	name = alloca(strlen(namein)+1);
-	strcpy(name, namein);
+	name = alloca(strlen(header->name)+1);
+	strcpy(name, header->name);
 	camel_strdown(name);
 	
 	for (i = 0; addrspec_hdrs[i]; i++) {
@@ -1453,10 +1453,7 @@ efh_format_header(EMFormat *emf, CamelStream *stream, CamelMedium *part, const c
 		struct _camel_header_address *addrs;
 		GString *html;
 		
-		if (!txt && !(txt = camel_medium_get_header (part, name)))
-			return;
-		
-		if (!(addrs = camel_header_address_decode (txt, emf->charset ? emf->charset : emf->default_charset)))
+		if (!(addrs = camel_header_address_decode (header->value, emf->charset ? emf->charset : emf->default_charset)))
 			return;
 		
 		/* canonicalise the header name... first letter is
@@ -1495,11 +1492,8 @@ efh_format_header(EMFormat *emf, CamelStream *stream, CamelMedium *part, const c
 		time_t msg_date;
 		struct tm local;
 		
-		if (!txt && !(txt = camel_medium_get_header (part, name)))
-			return;
-		
 		/* Show the local timezone equivalent in brackets if the sender is remote */
-		msg_date = camel_header_decode_date (txt, &msg_offset);
+		msg_date = camel_header_decode_date (header->value, &msg_offset);
 		e_localtime_with_offset (msg_date, &local, &local_tz);
 		
 		/* Convert message offset to minutes (e.g. -0400 --> -240) */
@@ -1519,7 +1513,7 @@ efh_format_header(EMFormat *emf, CamelStream *stream, CamelMedium *part, const c
 				e_utf8_strftime (buf, sizeof (buf), _("<I> (%R %Z)</I>"), &local);
 			}
 			
-			html = camel_text_to_html (txt, efh->text_html_flags, 0);
+			html = camel_text_to_html (header->value, efh->text_html_flags, 0);
 			txt = value = g_strdup_printf ("%s %s", html, buf);
 			g_free (html);
 			flags |= EM_FORMAT_HTML_HEADER_HTML;
@@ -1532,8 +1526,8 @@ efh_format_header(EMFormat *emf, CamelStream *stream, CamelMedium *part, const c
 		
 		flags |= EM_FORMAT_HEADER_BOLD;
 	} else {
-		txt = value = camel_header_decode_string (txt, charset);
-		label = namein;
+		txt = value = camel_header_decode_string (header->value, charset);
+		label = header->name;
 	}
 	
 	efh_format_text_header (efh, stream, label, txt, flags);
@@ -1548,6 +1542,7 @@ efh_format_headers(EMFormatHTML *efh, CamelStream *stream, CamelMedium *part)
 	EMFormatHeader *h;
 	const char *charset;
 	CamelContentType *ct;
+	struct _camel_header_raw *header;
 	
 	ct = camel_mime_part_get_content_type((CamelMimePart *)part);
 	charset = camel_content_type_param (ct, "charset");
@@ -1562,16 +1557,19 @@ efh_format_headers(EMFormatHTML *efh, CamelStream *stream, CamelMedium *part)
 	/* dump selected headers */
 	h = (EMFormatHeader *)emf->header_list.head;
 	if (h->next == NULL || emf->mode == EM_FORMAT_ALLHEADERS) {
-		struct _camel_header_raw *header;
-		
 		header = ((CamelMimePart *)part)->headers;
 		while (header) {
-			efh_format_header(emf, stream, part, header->name, header->value, EM_FORMAT_HTML_HEADER_NOCOLUMNS, charset);
+			efh_format_header(emf, stream, part, header, EM_FORMAT_HTML_HEADER_NOCOLUMNS, charset);
 			header = header->next;
 		}
 	} else {
 		while (h->next) {
-			efh_format_header(emf, stream, part, h->name, NULL, h->flags, charset);
+			header = ((CamelMimePart *)part)->headers;
+			while (header) {
+				if (!g_ascii_strcasecmp(header->name, h->name))
+					efh_format_header(emf, stream, part, header, h->flags, charset);
+				header = header->next;
+			}
 			h = h->next;
 		}
 	}

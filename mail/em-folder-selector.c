@@ -223,7 +223,6 @@ em_folder_selector_construct (EMFolderSelector *emfs, EMFolderTree *emft, guint3
 	GtkWidget *label;
 	
 	gtk_window_set_default_size (GTK_WINDOW (emfs), 350, 300);
-	gtk_window_set_modal (GTK_WINDOW (emfs), TRUE);
 	gtk_window_set_title (GTK_WINDOW (emfs), title);
 	gtk_container_set_border_width (GTK_CONTAINER (emfs), 6);
 	
@@ -298,6 +297,7 @@ em_folder_selector_create_new (EMFolderTree *emft, guint32 flags, const char *ti
 	
 	emfs = g_object_new (em_folder_selector_get_type (), NULL);
 	em_folder_selector_construct (emfs, emft, flags, title, text);
+	em_folder_tree_set_excluded(emft, EMFT_EXCLUDE_NOINFERIORS);
 	
 	hbox = gtk_hbox_new (FALSE, 0);
 	w = gtk_label_new_with_mnemonic (_("Folder _name:"));
