@@ -1,5 +1,9 @@
 2001-07-19  Iain Holmes  <iain@ximian.com>
 
+	* e-summary-rdf.c (display_doc): Fix HTML
+
+2001-07-19  Iain Holmes  <iain@ximian.com>
+
 	* e-summary-mail.c (folder_gen_html): correct the folder name.
 
 2001-07-19  Iain Holmes  <iain@ximian.com>
