@@ -350,7 +350,7 @@ imap_expunge (CamelFolder *folder, CamelException *ex)
 		return;
 	}
 	
-	gtk_signal_emit_by_name (GTK_OBJECT (folder), "folder_changed");
+	gtk_signal_emit_by_name (GTK_OBJECT (folder), "folder_changed", 0);
 	
 	g_free (result);
 }
@@ -541,7 +541,7 @@ imap_append_message (CamelFolder *folder, CamelMimeMessage *message, guint32 fla
 	g_free (result);
 	g_free (folder_path);
 
-	gtk_signal_emit_by_name (GTK_OBJECT (folder), "folder_changed");
+	gtk_signal_emit_by_name (GTK_OBJECT (folder), "folder_changed", 0);
 }
 
 static void
@@ -575,7 +575,7 @@ imap_copy_message_to (CamelFolder *source, const char *uid, CamelFolder *destina
 	g_free (result);
 	g_free (folder_path);
 
-	gtk_signal_emit_by_name (GTK_OBJECT (destination), "folder_changed");
+	gtk_signal_emit_by_name (GTK_OBJECT (destination), "folder_changed", 0);
 }
 
 /* FIXME: Duplication of code! */
@@ -622,7 +622,7 @@ imap_move_message_to (CamelFolder *source, const char *uid, CamelFolder *destina
 
 	imap_set_message_flags (source, uid, CAMEL_MESSAGE_DELETED, ~(info->flags), ex);
 
-	gtk_signal_emit_by_name (GTK_OBJECT (destination), "folder_changed");
+	gtk_signal_emit_by_name (GTK_OBJECT (destination), "folder_changed", 0);
 }
 
 static GPtrArray *

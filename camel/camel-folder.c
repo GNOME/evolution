@@ -569,11 +569,6 @@ camel_folder_expunge (CamelFolder *folder, CamelException *ex)
 	g_return_if_fail (CAMEL_IS_FOLDER (folder));
 
 	CF_CLASS (folder)->expunge (folder, ex);
-
-	if (! (camel_exception_is_set (ex))) {
-		gtk_signal_emit (GTK_OBJECT (folder),
-				 signals[FOLDER_CHANGED], 0);
-	}
 }
 
 
@@ -733,11 +728,6 @@ camel_folder_set_message_flags (CamelFolder *folder, const char *uid,
 	g_return_if_fail (CAMEL_IS_FOLDER (folder));
 
 	CF_CLASS (folder)->set_message_flags (folder, uid, flags, set, ex);
-
-	if (! (camel_exception_is_set (ex))) {
-		gtk_signal_emit (GTK_OBJECT (folder),
-				 signals[MESSAGE_CHANGED], uid);
-	}
 }
 
 
@@ -799,11 +789,6 @@ camel_folder_set_message_user_flag (CamelFolder *folder, const char *uid,
 
 	CF_CLASS (folder)->set_message_user_flag (folder, uid, name,
 						  value, ex);
-
-	if (! (camel_exception_is_set (ex))) {
-		gtk_signal_emit (GTK_OBJECT (folder),
-				 signals[MESSAGE_CHANGED], uid);
-	}
 }
 
 
@@ -1096,7 +1081,7 @@ copy_message_to (CamelFolder *source, const char *uid, CamelFolder *dest,
 		 CamelException *ex)
 {
 	CamelMimeMessage *msg;
-	CamelMessageInfo *info;
+	const CamelMessageInfo *info;
 
 	/* Default implementation. */
 	
@@ -1142,7 +1127,7 @@ move_message_to (CamelFolder *source, const char *uid, CamelFolder *dest,
 		 CamelException *ex)
 {
 	CamelMimeMessage *msg;
-	CamelMessageInfo *info;
+	const CamelMessageInfo *info;
 
 	/* Default implementation. */
 	

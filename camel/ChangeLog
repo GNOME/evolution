@@ -1,3 +1,18 @@
+2000-07-12  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* providers/mbox/camel-mbox-folder.c (mbox_delete_message): Use
+	mbox_set_message_flags () instead of setting the flags by hand. This
+	fixes the problem of the "message_changed" signal not being emitted
+	at the correct time.
+
+	* providers/imap/camel-imap-folder.c: "folder_changed" signals should
+	pass a third argument (which is ignored).
+
+	* camel-folder.c: Undo gtk signal emits done in set_flags and 
+	expunge.
+	(move_message_to): 
+	(copy_message_to): Create info as a const CamelMessageInfo
+
 2000-07-12  Chris Toshok  <toshok@helixcode.com>
 
 	* providers/nntp/Makefile.am: don't add test-newsrc to the build

@@ -421,12 +421,12 @@ mbox_get_subfolder_names (CamelFolder *folder, CamelException *ex)
 static void
 mbox_delete_message (CamelFolder *folder, const gchar *uid, CamelException *ex)
 {
-	CamelMessageInfo *info;
+	const CamelMessageInfo *info;
 	CamelMboxFolder *mf = CAMEL_MBOX_FOLDER (folder);
 
 	info = camel_folder_summary_uid (CAMEL_FOLDER_SUMMARY (mf->summary), uid);
 	if (info) {
-		info->flags |= CAMEL_MESSAGE_DELETED | CAMEL_MESSAGE_FOLDER_FLAGGED;
+		mbox_set_message_flags (folder, uid, CAMEL_MESSAGE_DELETED, ~(info->flags), ex);
 		camel_folder_summary_touch (CAMEL_FOLDER_SUMMARY (mf->summary));
 	}
 }
