@@ -102,7 +102,6 @@ libcamelinclude_HEADERS =			\
 	camel-cipher-context.h			\
 	camel-data-wrapper.h			\
 	camel-digest-folder.h			\
-	camel-disco-diary.h			\
 	camel-disco-folder.h			\
 	camel-disco-store.h			\
 	camel-exception-list.def		\

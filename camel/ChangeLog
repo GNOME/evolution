@@ -1,3 +1,8 @@
+2001-05-06  Dan Winship  <danw@ximian.com>
+
+	* Makefile.am (libcamelinclude_HEADERS): Fix another build
+	problem. (Um, anyone else could have done this...)
+
 2001-05-04  Dan Winship  <danw@ximian.com>
 
 	* providers/imap/camel-imap-store.c (get_folder_online): Fix up
