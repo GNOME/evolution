@@ -190,8 +190,10 @@ update_timeout_callback (void *data)
 
 	if (priv->have_pending_update) {
 		corba_update_progress (activity_client, priv->new_information, priv->new_progress);
+		priv->have_pending_update = FALSE;
 		return TRUE;
 	} else {
+		priv->next_update_timeout_id = 0;
 		return FALSE;
 	}
 }
@@ -247,7 +249,7 @@ impl_destroy (GtkObject *object)
 	CORBA_exception_free (&ev);
 
 	if (priv->next_update_timeout_id != 0)
-		gtk_timeout_remove (priv->next_update_timeout_id);
+		g_source_remove (priv->next_update_timeout_id);
 
 	g_free (priv->new_information);
 

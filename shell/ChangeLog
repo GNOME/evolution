@@ -1,3 +1,13 @@
+2001-07-21  Ettore Perazzoli  <ettore@ximian.com>
+
+	* evolution-activity-client.c (impl_destroy): Use
+	`g_source_remove()' instead of `gtk_timeout_remove()' here, as we
+	are using `g_timeout_add()' and not `gtk_timeout_add()' to set up
+	the timeout callback.
+	(update_timeout_callback): Reset `have_pending_update' when
+	returning %TRUE.  Set the timeout id to zero when returning
+	%FALSE.
+
 2001-07-20  Jason Leach  <jleach@ximian.com>
 
 	[Fix a crash if you start evolution with a bad URI.]
