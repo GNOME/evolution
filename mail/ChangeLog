@@ -1,5 +1,11 @@
 2001-01-11  Jeffrey Stedfast  <fejj@helixcode.com>
 
+	* mail-config-druid.c (transport_next): If the service_check
+	fails, pop-up a warning dialog letting the user know he or she may
+	have problems and then let them continue on with their lives.
+	(incoming_next): Same (+ jump them over the auth page to the
+	transport page).
+
 	* mail-account-editor.c (apply_changes): Eek! Don't destroy the
 	account if the connection fails, duh. This is what is causing the
 	segfaults.

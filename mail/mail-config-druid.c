@@ -346,9 +346,28 @@ incoming_next (GnomeDruidPage *page, GnomeDruid *druid, gpointer data)
 	url = camel_url_new (source_url, NULL);
 	g_free (source_url);
 	
-	/* If we can't connect, don't let them continue. */
+	/* If we can't connect, warn them and continue on to the Transport page. */
 	if (!mail_config_check_service (url, CAMEL_PROVIDER_STORE, &authtypes)) {
+		GtkWidget *dialog;
+		char *source, *warning;
+		
+		source = camel_url_to_string (url, FALSE);
 		camel_url_free (url);
+		
+		warning = g_strdup_printf (_("Failed to verify the incoming mail configuration.\n"
+					     "You may experience problems retrieving your mail from %s"),
+					   source);
+		g_free (source);
+		dialog = gnome_warning_dialog_parented (warning, GTK_WINDOW (config));
+		g_free (warning);
+		
+		gnome_dialog_run_and_close (GNOME_DIALOG (dialog));
+		
+		/* Skip to transport page. */
+		config->have_auth_page = FALSE;
+		transport_page = glade_xml_get_widget (config->gui, "druidTransportPage");
+		gnome_druid_set_page (config->druid, GNOME_DRUID_PAGE (transport_page));
+		
 		return TRUE;
 	}
 	camel_url_free (url);
@@ -588,12 +607,22 @@ transport_next (GnomeDruidPage *page, GnomeDruid *druid, gpointer data)
 	
 	/* If we can't connect, don't let them continue. */
 	if (!mail_config_check_service (url, CAMEL_PROVIDER_TRANSPORT, NULL)) {
-		camel_url_free (url);
-		return TRUE;
+		GtkWidget *dialog;
+		char *transport, *warning;
+		
+		transport = camel_url_to_string (url, FALSE);
+		
+		warning = g_strdup_printf (_("Failed to verify the outgoing mail configuration.\n"
+					     "You may experience problems sending your mail using %s"),
+					   transport);
+		g_free (transport);
+		dialog = gnome_warning_dialog_parented (warning, GTK_WINDOW (config));
+		g_free (warning);
+		
+		gnome_dialog_run_and_close (GNOME_DIALOG (dialog));
 	}
-	camel_url_free (url);
 	
-	/* FIXME: check if we need auth; */
+	camel_url_free (url);
 	
 	return FALSE;
 }
