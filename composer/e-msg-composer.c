@@ -3199,6 +3199,19 @@ msg_composer_destroy_notify (void *data)
 	all_composers = g_slist_remove (all_composers, composer);
 }
 
+static int
+composer_key_pressed (EMsgComposer *composer, GdkEventKey *event, void *user_data)
+{
+	if (event->keyval == GDK_Escape) {
+		do_exit (composer);
+		g_signal_stop_emission_by_name (composer, "key-press-event");
+		return TRUE;
+	}
+	
+	return FALSE;
+}
+
+
 /* Verbs for non-control entries */
 static BonoboUIVerb entry_verbs [] = {
 	BONOBO_UI_VERB ("EditCut", menu_edit_cut_cb),
@@ -3317,6 +3330,10 @@ create_composer (int visible_mask)
 	gtk_window_set_title ((GtkWindow *) composer, _("Compose a message"));
 	
 	all_composers = g_slist_prepend (all_composers, composer);
+	
+	g_signal_connect (composer, "key-press-event",
+			  G_CALLBACK (composer_key_pressed),
+			  NULL);
 	
 	g_signal_connect (composer, "destroy",
 			  G_CALLBACK (msg_composer_destroy_notify),

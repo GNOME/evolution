@@ -1,10 +1,17 @@
+2004-10-27  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* e-msg-composer.c (composer_key_pressed): Close on Esc.
+	(create_composer): Connect to the key-press-event signal.
+
 2004-10-26  mengjie yu  <meng-jie.yu@sun.com>
 	
 	fix for bugzilla #44876
 
-	* e-msg-composer-hdrs.c (header_new_recipient), (create_headers): add access key for Reply_to,
-	From,Subject,To,Cc,Bcc,Post_to;
-	* e-msg-composer.c: (setup_signatures_menu):Add accesss key for Signature.
+	* e-msg-composer-hdrs.c (header_new_recipient, create_headers):
+	add access key for Reply_to, From, Subject, To, Cc, Bcc, Post_to
+
+	* e-msg-composer.c (setup_signatures_menu): Add accesss key for
+	Signature.
 
 2004-10-19  JP Rosevear  <jpr@novell.com>
 
