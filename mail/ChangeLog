@@ -1,5 +1,15 @@
 2005-01-27  Rodney Dawes  <dobey@novell.com>
 
+	* mail-config.glade: Fix the labels in the account druid to be
+	left aligned, and justified left
+	Fix the border and spacing for all the vboxes in the account druid
+	pages to be HIG compliant
+	Fix the account naming info label to be more concise
+
+	Fixes #68696
+
+2005-01-27  Rodney Dawes  <dobey@novell.com>
+
 	* mail-send-recv.c (build_dialog): Fix the dialog to have borders
 	that are HIG-compliant and fix up the spacing and padding of the
 	internal widgets to do the right thing to be HIG compliant

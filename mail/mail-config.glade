@@ -41,10 +41,10 @@ Click &quot;Forward&quot; to begin. </property>
 
 	  <child internal-child="vbox">
 	    <widget class="GtkVBox" id="druid_identity_vbox">
-	      <property name="border_width">16</property>
+	      <property name="border_width">12</property>
 	      <property name="visible">True</property>
 	      <property name="homogeneous">False</property>
-	      <property name="spacing">0</property>
+	      <property name="spacing">12</property>
 
 	      <child>
 		<widget class="GtkLabel" id="identity_help">
@@ -52,10 +52,10 @@ Click &quot;Forward&quot; to begin. </property>
 		  <property name="label" translatable="yes">Please enter your name and email address below. The &quot;optional&quot; fields below do not need to be filled in, unless you wish to include this information in email you send.</property>
 		  <property name="use_underline">False</property>
 		  <property name="use_markup">False</property>
-		  <property name="justify">GTK_JUSTIFY_FILL</property>
+		  <property name="justify">GTK_JUSTIFY_LEFT</property>
 		  <property name="wrap">True</property>
 		  <property name="selectable">False</property>
-		  <property name="xalign">0.5</property>
+		  <property name="xalign">0</property>
 		  <property name="yalign">0.5</property>
 		  <property name="xpad">0</property>
 		  <property name="ypad">0</property>
@@ -82,10 +82,10 @@ Click &quot;Forward&quot; to begin. </property>
 
 	  <child internal-child="vbox">
 	    <widget class="GtkVBox" id="druid_source_vbox">
-	      <property name="border_width">16</property>
+	      <property name="border_width">12</property>
 	      <property name="visible">True</property>
 	      <property name="homogeneous">False</property>
-	      <property name="spacing">0</property>
+	      <property name="spacing">12</property>
 
 	      <child>
 		<widget class="GtkLabel" id="extra_help">
@@ -93,10 +93,10 @@ Click &quot;Forward&quot; to begin. </property>
 		  <property name="label" translatable="yes">Please select among the following options</property>
 		  <property name="use_underline">False</property>
 		  <property name="use_markup">False</property>
-		  <property name="justify">GTK_JUSTIFY_FILL</property>
+		  <property name="justify">GTK_JUSTIFY_LEFT</property>
 		  <property name="wrap">True</property>
 		  <property name="selectable">False</property>
-		  <property name="xalign">0.5</property>
+		  <property name="xalign">0</property>
 		  <property name="yalign">0.5</property>
 		  <property name="xpad">0</property>
 		  <property name="ypad">0</property>
@@ -123,10 +123,10 @@ Click &quot;Forward&quot; to begin. </property>
 
 	  <child internal-child="vbox">
 	    <widget class="GtkVBox" id="druid_transport_vbox">
-	      <property name="border_width">16</property>
+	      <property name="border_width">12</property>
 	      <property name="visible">True</property>
 	      <property name="homogeneous">False</property>
-	      <property name="spacing">0</property>
+	      <property name="spacing">12</property>
 
 	      <child>
 		<widget class="GtkLabel" id="transport_help">
@@ -134,10 +134,10 @@ Click &quot;Forward&quot; to begin. </property>
 		  <property name="label" translatable="yes">Please enter information about the way you will send mail. If you are not sure, ask your system administrator or Internet Service Provider.</property>
 		  <property name="use_underline">False</property>
 		  <property name="use_markup">False</property>
-		  <property name="justify">GTK_JUSTIFY_FILL</property>
+		  <property name="justify">GTK_JUSTIFY_LEFT</property>
 		  <property name="wrap">True</property>
 		  <property name="selectable">False</property>
-		  <property name="xalign">0.5</property>
+		  <property name="xalign">0</property>
 		  <property name="yalign">0.5</property>
 		  <property name="xpad">0</property>
 		  <property name="ypad">0</property>
@@ -164,21 +164,22 @@ Click &quot;Forward&quot; to begin. </property>
 
 	  <child internal-child="vbox">
 	    <widget class="GtkVBox" id="druid_management_vbox">
-	      <property name="border_width">16</property>
+	      <property name="border_width">12</property>
 	      <property name="visible">True</property>
 	      <property name="homogeneous">False</property>
-	      <property name="spacing">0</property>
+	      <property name="spacing">12</property>
 
 	      <child>
 		<widget class="GtkLabel" id="management_help">
 		  <property name="visible">True</property>
-		  <property name="label" translatable="yes">You are almost done with the mail configuration process. The identity, incoming mail server and outgoing mail transport method which you provided will be grouped together to make an Evolution mail account. Please enter a name for this account in the space below. This name will be used for display purposes only.</property>
+		  <property name="label" translatable="yes">Please enter a descriptive name for this account in the space below.
+This name will be used for display purposes only.</property>
 		  <property name="use_underline">False</property>
 		  <property name="use_markup">False</property>
-		  <property name="justify">GTK_JUSTIFY_FILL</property>
+		  <property name="justify">GTK_JUSTIFY_LEFT</property>
 		  <property name="wrap">True</property>
 		  <property name="selectable">False</property>
-		  <property name="xalign">0.5</property>
+		  <property name="xalign">0</property>
 		  <property name="yalign">0.5</property>
 		  <property name="xpad">0</property>
 		  <property name="ypad">0</property>
@@ -375,7 +376,7 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 				  <property name="max_length">0</property>
 				  <property name="text" translatable="yes"></property>
 				  <property name="has_frame">True</property>
-				  <property name="invisible_char" translatable="yes">*</property>
+				  <property name="invisible_char">*</property>
 				  <property name="activates_default">False</property>
 				</widget>
 				<packing>
@@ -502,7 +503,7 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 			      <property name="max_length">0</property>
 			      <property name="text" translatable="yes"></property>
 			      <property name="has_frame">True</property>
-			      <property name="invisible_char" translatable="yes">*</property>
+			      <property name="invisible_char">*</property>
 			      <property name="activates_default">False</property>
 			    </widget>
 			    <packing>
@@ -573,7 +574,7 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 			      <property name="max_length">0</property>
 			      <property name="text" translatable="yes"></property>
 			      <property name="has_frame">True</property>
-			      <property name="invisible_char" translatable="yes">*</property>
+			      <property name="invisible_char">*</property>
 			      <property name="activates_default">False</property>
 			    </widget>
 			    <packing>
@@ -760,7 +761,7 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 			  <property name="max_length">0</property>
 			  <property name="text" translatable="yes"></property>
 			  <property name="has_frame">True</property>
-			  <property name="invisible_char" translatable="yes">*</property>
+			  <property name="invisible_char">*</property>
 			  <property name="activates_default">False</property>
 			</widget>
 			<packing>
@@ -806,7 +807,7 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 			  <property name="max_length">0</property>
 			  <property name="text" translatable="yes"></property>
 			  <property name="has_frame">True</property>
-			  <property name="invisible_char" translatable="yes">*</property>
+			  <property name="invisible_char">*</property>
 			  <property name="activates_default">False</property>
 			</widget>
 			<packing>
@@ -1173,7 +1174,7 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 				  <property name="max_length">0</property>
 				  <property name="text" translatable="yes"></property>
 				  <property name="has_frame">True</property>
-				  <property name="invisible_char" translatable="yes">*</property>
+				  <property name="invisible_char">*</property>
 				  <property name="activates_default">False</property>
 				</widget>
 				<packing>
@@ -1194,7 +1195,7 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 				  <property name="max_length">0</property>
 				  <property name="text" translatable="yes"></property>
 				  <property name="has_frame">True</property>
-				  <property name="invisible_char" translatable="yes">*</property>
+				  <property name="invisible_char">*</property>
 				  <property name="activates_default">False</property>
 				</widget>
 				<packing>
@@ -1239,6 +1240,7 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 				  <property name="directory_entry">False</property>
 				  <property name="modal">False</property>
 				  <property name="use_filechooser">True</property>
+				  <property name="filechooser_action">GTK_FILE_CHOOSER_ACTION_OPEN</property>
 
 				  <child internal-child="entry">
 				    <widget class="GtkEntry" id="source_path">
@@ -1249,7 +1251,7 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 				      <property name="max_length">0</property>
 				      <property name="text" translatable="yes"></property>
 				      <property name="has_frame">True</property>
-				      <property name="invisible_char" translatable="yes">*</property>
+				      <property name="invisible_char">*</property>
 				      <property name="activates_default">False</property>
 				    </widget>
 				  </child>
@@ -1899,7 +1901,7 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 					  <property name="max_length">0</property>
 					  <property name="text" translatable="yes"></property>
 					  <property name="has_frame">True</property>
-					  <property name="invisible_char" translatable="yes">*</property>
+					  <property name="invisible_char">*</property>
 					  <property name="activates_default">False</property>
 					</widget>
 					<packing>
@@ -2285,7 +2287,7 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 					  <property name="max_length">0</property>
 					  <property name="text" translatable="yes"></property>
 					  <property name="has_frame">True</property>
-					  <property name="invisible_char" translatable="yes">*</property>
+					  <property name="invisible_char">*</property>
 					  <property name="activates_default">False</property>
 					</widget>
 					<packing>
@@ -2870,7 +2872,7 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 					      <property name="max_length">0</property>
 					      <property name="text" translatable="yes"></property>
 					      <property name="has_frame">True</property>
-					      <property name="invisible_char" translatable="yes">*</property>
+					      <property name="invisible_char">*</property>
 					      <property name="activates_default">False</property>
 					    </widget>
 					    <packing>
@@ -2986,7 +2988,7 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 					      <property name="max_length">0</property>
 					      <property name="text" translatable="yes"></property>
 					      <property name="has_frame">True</property>
-					      <property name="invisible_char" translatable="yes">*</property>
+					      <property name="invisible_char">*</property>
 					      <property name="activates_default">False</property>
 					    </widget>
 					    <packing>
@@ -3193,7 +3195,7 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 				  <property name="max_length">0</property>
 				  <property name="text" translatable="yes"></property>
 				  <property name="has_frame">True</property>
-				  <property name="invisible_char" translatable="yes">*</property>
+				  <property name="invisible_char">*</property>
 				  <property name="activates_default">False</property>
 				</widget>
 				<packing>
@@ -3387,7 +3389,7 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 			  <property name="max_length">0</property>
 			  <property name="text" translatable="yes"></property>
 			  <property name="has_frame">True</property>
-			  <property name="invisible_char" translatable="yes">*</property>
+			  <property name="invisible_char">*</property>
 			  <property name="activates_default">False</property>
 			</widget>
 			<packing>
@@ -3408,7 +3410,7 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 			  <property name="max_length">0</property>
 			  <property name="text" translatable="yes"></property>
 			  <property name="has_frame">True</property>
-			  <property name="invisible_char" translatable="yes">*</property>
+			  <property name="invisible_char">*</property>
 			  <property name="activates_default">False</property>
 			</widget>
 			<packing>
@@ -5018,6 +5020,7 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 				  <property name="directory_entry">False</property>
 				  <property name="modal">False</property>
 				  <property name="use_filechooser">True</property>
+				  <property name="filechooser_action">GTK_FILE_CHOOSER_ACTION_OPEN</property>
 
 				  <child internal-child="entry">
 				    <widget class="GtkEntry" id="txtNotifyPlaySound">
@@ -5028,7 +5031,7 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 				      <property name="max_length">0</property>
 				      <property name="text" translatable="yes"></property>
 				      <property name="has_frame">True</property>
-				      <property name="invisible_char" translatable="yes">*</property>
+				      <property name="invisible_char">*</property>
 				      <property name="activates_default">False</property>
 				    </widget>
 				  </child>
@@ -5547,7 +5550,7 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 		      <property name="max_length">0</property>
 		      <property name="text" translatable="yes">Important</property>
 		      <property name="has_frame">True</property>
-		      <property name="invisible_char" translatable="yes">*</property>
+		      <property name="invisible_char">*</property>
 		      <property name="activates_default">False</property>
 		    </widget>
 		    <packing>
@@ -5569,7 +5572,7 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 		      <property name="max_length">0</property>
 		      <property name="text" translatable="yes">Work</property>
 		      <property name="has_frame">True</property>
-		      <property name="invisible_char" translatable="yes">*</property>
+		      <property name="invisible_char">*</property>
 		      <property name="activates_default">False</property>
 		    </widget>
 		    <packing>
@@ -5591,7 +5594,7 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 		      <property name="max_length">0</property>
 		      <property name="text" translatable="yes">Personal</property>
 		      <property name="has_frame">True</property>
-		      <property name="invisible_char" translatable="yes">*</property>
+		      <property name="invisible_char">*</property>
 		      <property name="activates_default">False</property>
 		    </widget>
 		    <packing>
@@ -5613,7 +5616,7 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 		      <property name="max_length">0</property>
 		      <property name="text" translatable="yes">To Do</property>
 		      <property name="has_frame">True</property>
-		      <property name="invisible_char" translatable="yes">*</property>
+		      <property name="invisible_char">*</property>
 		      <property name="activates_default">False</property>
 		    </widget>
 		    <packing>
@@ -5635,7 +5638,7 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 		      <property name="max_length">0</property>
 		      <property name="text" translatable="yes">Later</property>
 		      <property name="has_frame">True</property>
-		      <property name="invisible_char" translatable="yes">*</property>
+		      <property name="invisible_char">*</property>
 		      <property name="activates_default">False</property>
 		    </widget>
 		    <packing>
@@ -5790,7 +5793,7 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 		      <property name="max_length">0</property>
 		      <property name="text" translatable="yes"></property>
 		      <property name="has_frame">True</property>
-		      <property name="invisible_char" translatable="yes">*</property>
+		      <property name="invisible_char">*</property>
 		      <property name="activates_default">False</property>
 		    </widget>
 		    <packing>
@@ -6397,7 +6400,7 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 			      <child>
 				<widget class="GtkAlignment" id="alignment25">
 				  <property name="visible">True</property>
-				  <property name="xalign">7.45058e-09</property>
+				  <property name="xalign">7.45058015283e-09</property>
 				  <property name="yalign">0.5</property>
 				  <property name="xscale">0</property>
 				  <property name="yscale">1</property>
@@ -8063,7 +8066,7 @@ for display purposes only. </property>
 		      <property name="max_length">0</property>
 		      <property name="text" translatable="yes"></property>
 		      <property name="has_frame">True</property>
-		      <property name="invisible_char" translatable="yes">*</property>
+		      <property name="invisible_char">*</property>
 		      <property name="activates_default">False</property>
 		    </widget>
 		    <packing>
@@ -8083,6 +8086,7 @@ for display purposes only. </property>
 		      <property name="directory_entry">False</property>
 		      <property name="modal">False</property>
 		      <property name="use_filechooser">True</property>
+		      <property name="filechooser_action">GTK_FILE_CHOOSER_ACTION_OPEN</property>
 
 		      <child internal-child="entry">
 			<widget class="GtkEntry" id="combo-entry2">
@@ -8093,7 +8097,7 @@ for display purposes only. </property>
 			  <property name="max_length">0</property>
 			  <property name="text" translatable="yes"></property>
 			  <property name="has_frame">True</property>
-			  <property name="invisible_char" translatable="yes">*</property>
+			  <property name="invisible_char">*</property>
 			  <property name="activates_default">False</property>
 			</widget>
 		      </child>
