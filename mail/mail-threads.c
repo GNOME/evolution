@@ -847,9 +847,9 @@ get_password (com_msg_t * msg)
 		button = -1;
 	} else {
 		*(msg->reply) = NULL;
-		GDK_THREADS_ENTER ();
+		/*GDK_THREADS_ENTER ();*/
 		button = gnome_dialog_run_and_close (GNOME_DIALOG (dialog));
-		GDK_THREADS_LEAVE ();
+		/*GDK_THREADS_LEAVE ();*/
 	}
 
 	if (button == 1 || *(msg->reply) == NULL) {
