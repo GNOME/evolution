@@ -18271,7 +18271,7 @@ msgstr "Seçili iletileri başka klasöre kopyala"
 
 #: ui/evolution-mail-message.xml.h:12
 msgid "Create _Virtual Folder From Message"
-msgstr "İletiden _Sanal Klaösr Oluştur"
+msgstr "İletiden _Sanal Klasör Oluştur"
 
 #: ui/evolution-mail-message.xml.h:13
 msgid "Create a rule to filter messages from this sender"
