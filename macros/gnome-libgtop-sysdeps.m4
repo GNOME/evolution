@@ -23,48 +23,6 @@ AC_DEFUN([GNOME_LIBGTOP_SYSDEPS],[
 
 	AM_CONDITIONAL(EXAMPLES, test x"$build_examples" = xyes)
 
-	AC_ARG_WITH(linux-table,
-	[  --with-linux-table      Use the table () function from Martin Baulig],[
-	linux_table="$withval"],[linux_table=auto])
-
-	if test $linux_table = yes ; then
-	  AC_CHECK_HEADER(linux/table.h, linux_table=yes, linux_table=no)
-	elif test $linux_table = auto ; then
-	  AC_MSG_CHECKING(for table function in Linux Kernel)
-	  AC_TRY_RUN([
-#include <stdio.h>
-#include <stdlib.h>
-
-#include <unistd.h>
-#include <linux/unistd.h>
-#include <linux/table.h>
-
-#include <syscall.h>
-
-static inline _syscall3 (int, table, int, type, union table *, tbl, const void *, param);
-
-int
-main (void)
-{
-	union table tbl;
-	int ret;
-
-	ret = table (TABLE_VERSION, NULL, NULL);
-
-	if (ret == -1)
-		exit (-errno);
-
-	exit (ret < 1 ? ret : 0);
-}
-], linux_table=yes, linux_table=no, linux_table=no)
-	  AC_MSG_RESULT($linux_table)
-	fi
-
-	if test $linux_table = yes ; then
-	  AC_DEFINE(HAVE_LINUX_TABLE)
-	fi
-
-	AM_CONDITIONAL(LINUX_TABLE, test $linux_table = yes)
 
 	AC_ARG_WITH(libgtop-smp,
 	[  --with-libgtop-smp      Enable SMP support (default-auto)],[
@@ -204,6 +162,47 @@ main (void)
 *** to see how to enable it.])
 	    fi
 	  fi
+	  ;;
+	linux*)
+	  AC_ARG_WITH(linux-table,
+	  [  --with-linux-table      Use the table () function from Martin Baulig],[
+	  linux_table="$withval"],[linux_table=auto])
+	  if test $linux_table = yes ; then
+	    AC_CHECK_HEADER(linux/table.h, linux_table=yes, linux_table=no)
+	  elif test $linux_table = auto ; then
+	    AC_MSG_CHECKING(for table function in Linux Kernel)
+	    AC_TRY_RUN([
+#include <stdio.h>
+#include <stdlib.h>
+
+#include <unistd.h>
+#include <linux/unistd.h>
+#include <linux/table.h>
+
+#include <syscall.h>
+
+static inline _syscall3 (int, table, int, type, union table *, tbl, const void *, param);
+
+int
+main (void)
+{
+	union table tbl;
+	int ret;
+
+	ret = table (TABLE_VERSION, NULL, NULL);
+
+	if (ret == -1)
+		exit (-errno);
+
+	exit (ret < 1 ? ret : 0);
+}
+], linux_table=yes, linux_table=no, linux_table=no)
+	    AC_MSG_RESULT($linux_table)
+	  fi
+	  if test $linux_table = yes ; then
+	    AC_DEFINE(HAVE_LINUX_TABLE)
+	  fi
+	  AM_CONDITIONAL(LINUX_TABLE, test $linux_table = yes)
 	  ;;
 	esac
 
