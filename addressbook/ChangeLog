@@ -3,29 +3,6 @@
 	* gui/widgets/e-minicard.c (e_minicard_event): add
 	BUTTON_PRESS_MASK so double clicks still work.
 
-2001-08-23  Chris Toshok  <toshok@ximian.com>
-
-	* gui/component/addressbook.c (addressbook_query_changed): switch
-	"full_name" to "x-evolution-any-field" in all the queries where we
-	want to match all cards, since the backends universally handle
-	this special case more efficiently.
-
-2001-08-22  Jon Trowbridge  <trow@ximian.com>
-
-	* gui/contact-list-editor/e-contact-list-editor.c (extract_info):
-	In the GUI, the toggle is labelled "hide addresses", not "show
-	addresses" -- so we have to reverse the boolean value we read in.
-	(fill_in_info): Same bug as before: since the GUI reads "hide", we
-	have to initialize the toggle to '!show_addresses', not
-	'show_addresses'.
-
-	* backend/ebook/e-destination.c
-	(e_destination_list_show_addresses): Added.
-	(e_destination_xml_encode): Encode the value of
-	e_destination_list_show_addresses into the XML.
-	(e_destination_xml_decode): Read and store the "show_addresses"
-	flag.
-
 2001-08-22  jacob berkman  <jacob@ximian.com>
 
 	* gui/component/e-address-popup.c (emit_event): emit an event from
