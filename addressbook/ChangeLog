@@ -1,3 +1,12 @@
+2004-05-24  Chris Toshok  <toshok@ximian.com>
+
+	[ fixes bug #40013 ]
+	
+	* importers/evolution-vcard-importer.c (process_item_fn): for TEL
+	attribute that don't specify a location (HOME/WORK/OTHER), default
+	to "OTHER".  For TEL attributes that *only* specify a location,
+	default to "VOICE".
+
 2004-05-21  H P Nadig  <hpnadig@pacific.net.in>
 
 	Fixes #58516.

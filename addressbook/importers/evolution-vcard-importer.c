@@ -149,6 +149,57 @@ process_item_fn (EvolutionImporter *importer,
 	}
 	e_contact_set_attributes (contact, E_CONTACT_EMAIL, attrs);
 
+	/*
+	  Deal with TEL attributes that don't conform to what we need.
+
+	  1. if there's no location (HOME/WORK/OTHER), default to OTHER.
+	  2. if there's *only* a location specified, default to VOICE.
+	*/
+	attrs = e_vcard_get_attributes (E_VCARD (contact));
+	for (attr = attrs; attr; attr = attr->next) {
+		EVCardAttribute *a = attr->data;
+		gboolean location_only = TRUE;
+		gboolean no_location = TRUE;
+		GList *params, *param;
+
+		if (g_ascii_strcasecmp (e_vcard_attribute_get_name (a),
+					EVC_TEL))
+			continue;
+
+		params = e_vcard_attribute_get_params (a);
+		for (param = params; param; param = param->next) {
+			EVCardAttributeParam *p = param->data;
+			GList *vs, *v;
+
+			if (g_ascii_strcasecmp (e_vcard_attribute_param_get_name (p),
+						EVC_TYPE))
+				continue;
+
+			vs = e_vcard_attribute_param_get_values (p);
+			for (v = vs; v; v = v->next) {
+				if (!g_ascii_strcasecmp ((char*)v->data, "WORK") ||
+				    !g_ascii_strcasecmp ((char*)v->data, "HOME") ||
+				    !g_ascii_strcasecmp ((char*)v->data, "OTHER"))
+					no_location = FALSE;
+				else
+					location_only = FALSE;
+			}
+		}
+
+		if (location_only) {
+			/* add VOICE */
+			e_vcard_attribute_add_param_with_value (a,
+								e_vcard_attribute_param_new (EVC_TYPE),
+								"VOICE");
+		}
+		if (no_location) {
+			/* add OTHER */
+			e_vcard_attribute_add_param_with_value (a,
+								e_vcard_attribute_param_new (EVC_TYPE),
+								"OTHER");
+		}
+	}
+
 	/* Work around the fact that these fields no longer show up in the UI */
 	add_to_notes (contact, E_CONTACT_OFFICE);
 	add_to_notes (contact, E_CONTACT_SPOUSE);
