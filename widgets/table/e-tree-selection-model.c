@@ -82,6 +82,15 @@ struct ETreeSelectionModelPriv {
 	int          tree_model_node_deleted_id;
 
 	int          sorted_model_node_resorted_id;
+
+	/* Anything other than -1 means that the selection is a single
+	 * row.  This being -1 does not impart any information. */
+	int          selected_row;
+	/* Anything other than -1 means that the selection is a all
+	 * rows between selection_start_path and cursor_path where
+	 * selected_range_end is the rwo number of cursor_path.  This
+	 * being -1 does not impart any information. */
+	int          selected_range_end;
 };
 
 /* ETreeSelectionModelNode helpers */
@@ -343,6 +352,38 @@ update_parents (ETreeSelectionModel *etsm, ETreePath path)
 }
 
 
+static void
+etsm_change_one_path(ETreeSelectionModel *etsm, ETreePath path, gboolean grow)
+{
+	ETreeSelectionModelNode *node;
+
+	if (!path)
+		return;
+
+	path = e_tree_sorted_model_to_view_path(etsm->priv->ets, path);
+
+	if (!path)
+		return;
+
+	node = etsm_find_node_unless_equals (etsm, path, grow);
+
+	if (node) {
+		node->selected = grow;
+		update_parents(etsm, path);
+	}
+}
+
+static void
+etsm_real_select_single_path (ETreeSelectionModel *etsm, ETreePath path)
+{
+	etsm_real_clear (etsm);
+	etsm_change_one_path(etsm, path, TRUE);
+	etsm->priv->selection_start_path = path;
+	etsm->priv->selected_row = -1;
+	etsm->priv->selected_range_end = -1;
+}
+
+
 /* Signal handlers */
 
 static void
@@ -394,10 +435,12 @@ clear_tree (ETreeSelectionModel *etsm, ETreeModel *etm)
 		if (cursor_path != NULL && etsm->priv->cursor_col == -1)
 			etsm->priv->cursor_col = 0;
 
-		e_tree_selection_model_select_single_path(etsm, cursor_path);
+		etsm_real_select_single_path(etsm, cursor_path);
 	}
 
 	cursor_row = etsm_cursor_row_real (etsm);
+	etsm->priv->selected_row = -1;
+	etsm->priv->selected_range_end = -1;
 	e_selection_model_selection_changed(E_SELECTION_MODEL(etsm));
 	if (cursor_row != -1)
 		e_selection_model_cursor_changed(E_SELECTION_MODEL(etsm), cursor_row, etsm->priv->cursor_col);
@@ -473,6 +516,9 @@ static void
 etsm_sorted_node_resorted (ETreeModel *etm, ETreePath node, ETreeSelectionModel *etsm)
 {
 	int cursor_row = etsm_cursor_row_real (etsm);
+
+	etsm->priv->selected_row = -1;
+	etsm->priv->selected_range_end = -1;
 	e_selection_model_selection_changed(E_SELECTION_MODEL(etsm));
 
 	if (cursor_row != -1)
@@ -808,6 +854,8 @@ etsm_clear(ESelectionModel *selection)
 
 	etsm->priv->cursor_path = NULL;
 	etsm->priv->cursor_col = -1;
+	etsm->priv->selected_row = -1;
+	etsm->priv->selected_range_end = -1;
 	e_selection_model_selection_changed(E_SELECTION_MODEL(etsm));
 	e_selection_model_cursor_changed(E_SELECTION_MODEL(etsm), -1, -1);
 }
@@ -914,6 +962,8 @@ etsm_select_all (ESelectionModel *selection)
 	if (etsm->priv->cursor_path == NULL)
 		etsm->priv->cursor_path = etsm_node_at_row(etsm, 0);
 	etsm->priv->selection_start_path = etsm_node_at_row(etsm, 0);
+	etsm->priv->selected_row = -1;
+	etsm->priv->selected_range_end = -1;
 	e_selection_model_selection_changed(E_SELECTION_MODEL(etsm));
 	e_selection_model_cursor_changed(E_SELECTION_MODEL(etsm), etsm_cursor_row_real(etsm), etsm->priv->cursor_col);
 }
@@ -964,6 +1014,8 @@ etsm_invert_selection (ESelectionModel *selection)
 	etsm->priv->cursor_col = -1;
 	etsm->priv->cursor_path = NULL;
 	etsm->priv->selection_start_path = etsm_node_at_row(etsm, 0);
+	etsm->priv->selected_row = -1;
+	etsm->priv->selected_range_end = -1;
 	e_selection_model_selection_changed(E_SELECTION_MODEL(etsm));
 	e_selection_model_cursor_changed(E_SELECTION_MODEL(etsm), -1, -1);
 }
@@ -987,27 +1039,6 @@ etsm_change_one_row(ESelectionModel *selection, int row, gboolean grow)
 	g_return_if_fail(selection != NULL);
 
 	path = e_tree_table_adapter_node_at_row(etsm->priv->etta, row);
-
-	if (!path)
-		return;
-
-	node = etsm_find_node_unless_equals (etsm, path, grow);
-
-	if (node) {
-		node->selected = grow;
-		update_parents(etsm, path);
-	}
-}
-
-static void
-etsm_change_one_path(ETreeSelectionModel *etsm, ETreePath path, gboolean grow)
-{
-	ETreeSelectionModelNode *node;
-
-	if (!path)
-		return;
-
-	path = e_tree_sorted_model_to_view_path(etsm->priv->ets, path);
 
 	if (!path)
 		return;
@@ -1072,12 +1103,22 @@ static void
 etsm_select_single_row (ESelectionModel *selection, int row)
 {
 	ETreeSelectionModel *etsm = E_TREE_SELECTION_MODEL(selection);
+	int selected_row = etsm->priv->selected_row;
 
 	etsm_real_clear (etsm);
 	etsm_change_one_row(selection, row, TRUE);
 	etsm->priv->selection_start_path = etsm_node_at_row(etsm, row);
 
-	e_selection_model_selection_changed(E_SELECTION_MODEL(etsm));
+	etsm->priv->selected_row = row;
+	etsm->priv->selected_range_end = -1;
+	if (selected_row != -1) {
+		if (selected_row != etsm->priv->selected_row) {
+			e_selection_model_selection_row_changed(E_SELECTION_MODEL(etsm), selected_row);
+			e_selection_model_selection_row_changed(E_SELECTION_MODEL(etsm), row);
+		}
+	} else {
+		e_selection_model_selection_changed(E_SELECTION_MODEL(etsm));
+	}
 }
 
 static void
@@ -1089,13 +1130,15 @@ etsm_toggle_single_row (ESelectionModel *selection, int row)
 
 	etsm_change_one_row(selection, row, !etsm_is_row_selected(selection, row));
 
+	etsm->priv->selected_row = -1;
+	etsm->priv->selected_range_end = -1;
 	e_selection_model_selection_changed(E_SELECTION_MODEL(etsm));
 }
 
 static void
-etsm_move_selection_end (ESelectionModel *selection, int row)
+etsm_real_move_selection_end (ETreeSelectionModel *etsm, int row)
 {
-	ETreeSelectionModel *etsm = E_TREE_SELECTION_MODEL(selection);
+	ESelectionModel *selection = E_SELECTION_MODEL (etsm);
 	int old_start;
 	int old_end;
 	int new_start;
@@ -1125,16 +1168,38 @@ etsm_move_selection_end (ESelectionModel *selection, int row)
 		etsm_change_range(selection, old_end, new_end, TRUE);
 	if (new_end < old_end)
 		etsm_change_range(selection, new_end, old_end, FALSE);
-	e_selection_model_selection_changed(E_SELECTION_MODEL(etsm));
+	etsm->priv->selected_row = -1;
+	etsm->priv->selected_range_end = -1;
+}
+
+static void
+etsm_move_selection_end (ESelectionModel *selection, int row)
+{
+	ETreeSelectionModel *etsm = E_TREE_SELECTION_MODEL(selection);
+
+	etsm_real_move_selection_end (etsm, row);
+	e_selection_model_selection_changed(E_SELECTION_MODEL(selection));
 }
 
 static void
 etsm_set_selection_end (ESelectionModel *selection, int row)
 {
 	ETreeSelectionModel *etsm = E_TREE_SELECTION_MODEL(selection);
-	e_tree_selection_model_select_single_path(etsm, etsm->priv->selection_start_path);
+	int selected_range_end = etsm->priv->selected_range_end;
+
+	etsm_real_select_single_path(etsm, etsm->priv->selection_start_path);
 	etsm->priv->cursor_path = etsm->priv->selection_start_path;
-	e_selection_model_move_selection_end(selection, row);
+	etsm_real_move_selection_end(etsm, row);
+	etsm->priv->selected_range_end = row;
+	if (selected_range_end != -1 && row != -1) {
+		if (selected_range_end == row - 1 ||
+		    selected_range_end == row + 1) {
+			e_selection_model_selection_row_changed(E_SELECTION_MODEL(etsm), selected_range_end);
+			e_selection_model_selection_row_changed(E_SELECTION_MODEL(etsm), row);
+			return;
+		}
+	}
+	e_selection_model_selection_changed(E_SELECTION_MODEL(etsm));
 }
 
 
@@ -1198,9 +1263,7 @@ e_tree_selection_model_foreach   (ETreeSelectionModel *etsm,
 void
 e_tree_selection_model_select_single_path (ETreeSelectionModel *etsm, ETreePath path)
 {
-	etsm_real_clear (etsm);
-	etsm_change_one_path(etsm, path, TRUE);
-	etsm->priv->selection_start_path = path;
+	etsm_real_select_single_path (etsm, path);
 
 	e_selection_model_selection_changed(E_SELECTION_MODEL(etsm));
 }
@@ -1210,6 +1273,8 @@ e_tree_selection_model_add_to_selection (ETreeSelectionModel *etsm, ETreePath pa
 {
 	etsm_change_one_path(etsm, path, TRUE);
 	etsm->priv->selection_start_path = path;
+	etsm->priv->selected_row = -1;
+	etsm->priv->selected_range_end = -1;
 
 	e_selection_model_selection_changed(E_SELECTION_MODEL(etsm));
 }
@@ -1232,32 +1297,35 @@ static void
 e_tree_selection_model_init (ETreeSelectionModel *etsm)
 {
 	ETreeSelectionModelPriv *priv;
-	priv                                    = g_new(ETreeSelectionModelPriv, 1);
-	etsm->priv                              = priv;
+	priv                                  = g_new(ETreeSelectionModelPriv, 1);
+	etsm->priv                            = priv;
 
-	priv->etta                              = NULL;
-	priv->ets                               = NULL;
-	priv->model                             = NULL;
+	priv->etta                            = NULL;
+	priv->ets                             = NULL;
+	priv->model                           = NULL;
 
-	priv->root                              = NULL;
+	priv->root                            = NULL;
 
-	priv->cursor_path                       = NULL;
-	priv->cursor_col                        = -1;
-	priv->selection_start_path              = NULL;
+	priv->cursor_path                     = NULL;
+	priv->cursor_col                      = -1;
+	priv->selection_start_path            = NULL;
 
-	priv->cursor_save_id                    = NULL;
+	priv->cursor_save_id                  = NULL;
 
 
-	priv->tree_model_pre_change_id          = 0;
-	priv->tree_model_no_change_id          = 0;
-	priv->tree_model_node_changed_id        = 0;
-	priv->tree_model_node_data_changed_id   = 0;
-	priv->tree_model_node_col_changed_id    = 0;
-	priv->tree_model_node_inserted_id       = 0;
-	priv->tree_model_node_removed_id        = 0;
-	priv->tree_model_node_deleted_id        = 0;
+	priv->tree_model_pre_change_id        = 0;
+	priv->tree_model_no_change_id         = 0;
+	priv->tree_model_node_changed_id      = 0;
+	priv->tree_model_node_data_changed_id = 0;
+	priv->tree_model_node_col_changed_id  = 0;
+	priv->tree_model_node_inserted_id     = 0;
+	priv->tree_model_node_removed_id      = 0;
+	priv->tree_model_node_deleted_id      = 0;
 
-	priv->sorted_model_node_resorted_id      = 0;
+	priv->sorted_model_node_resorted_id   = 0;
+
+	priv->selected_row                    = -1;
+	priv->selected_range_end              = -1;
 }
 
 static void

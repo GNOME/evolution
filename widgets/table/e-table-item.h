@@ -71,8 +71,12 @@ typedef struct {
 	int              table_model_rows_deleted_id;
 
 	int              selection_change_id;
+	int              selection_row_change_id;
 	int              cursor_change_id;
 	int              cursor_activated_id;
+
+	/* View row, -1 means unknown */
+	int              old_cursor_row;
 
 	int              hadjustment_change_id;
 	int              hadjustment_value_change_id;

@@ -69,6 +69,7 @@ struct _EReflow
 
 	ESelectionModel *selection;
 	guint selection_changed_id;
+	guint selection_row_changed_id;
 	guint cursor_changed_id;
 	ESorterArray *sorter;
 

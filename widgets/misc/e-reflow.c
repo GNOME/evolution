@@ -117,6 +117,22 @@ e_reflow_resize_children (GnomeCanvasItem *item)
 	}
 }
 
+static inline void
+e_reflow_update_selection_row (EReflow *reflow, int row)
+{
+	if (reflow->items[row]) {
+		gtk_object_set(GTK_OBJECT(reflow->items[row]),
+			       "selected", e_selection_model_is_row_selected(E_SELECTION_MODEL(reflow->selection), row),
+			       NULL);
+	} else if (e_selection_model_is_row_selected (E_SELECTION_MODEL (reflow->selection), row)) {
+		reflow->items[row] = e_reflow_model_incarnate (reflow->model, row, GNOME_CANVAS_GROUP (reflow));
+		gtk_object_set (GTK_OBJECT (reflow->items[row]),
+				"selected", e_selection_model_is_row_selected(E_SELECTION_MODEL(reflow->selection), row),
+				"width", (double) reflow->column_width,
+				NULL);
+	}
+}
+
 static void
 e_reflow_update_selection (EReflow *reflow)
 {
@@ -125,17 +141,7 @@ e_reflow_update_selection (EReflow *reflow)
 
 	count = reflow->count;
 	for (i = 0; i < count; i++) {
-		if (reflow->items[i]) {
-			gtk_object_set(GTK_OBJECT(reflow->items[i]),
-     				       "selected", e_selection_model_is_row_selected(E_SELECTION_MODEL(reflow->selection), i),
-				       NULL);
-		} else if (e_selection_model_is_row_selected (E_SELECTION_MODEL (reflow->selection), i)) {
-			reflow->items[i] = e_reflow_model_incarnate (reflow->model, i, GNOME_CANVAS_GROUP (reflow));
-			gtk_object_set (GTK_OBJECT (reflow->items[i]),
-					"selected", e_selection_model_is_row_selected(E_SELECTION_MODEL(reflow->selection), i),
-					"width", (double) reflow->column_width,
-					NULL);
-		}
+		e_reflow_update_selection_row (reflow, i);
 	}
 }
 
@@ -143,6 +149,12 @@ static void
 selection_changed (ESelectionModel *selection, EReflow *reflow)
 {
 	e_reflow_update_selection (reflow);
+}
+
+static void
+selection_row_changed (ESelectionModel *selection, int row, EReflow *reflow)
+{
+	e_reflow_update_selection_row (reflow, row);
 }
 
 static void
@@ -453,10 +465,13 @@ disconnect_selection (EReflow *reflow)
 	gtk_signal_disconnect (GTK_OBJECT (reflow->selection),
 			       reflow->selection_changed_id);
 	gtk_signal_disconnect (GTK_OBJECT (reflow->selection),
+			       reflow->selection_row_changed_id);
+	gtk_signal_disconnect (GTK_OBJECT (reflow->selection),
 			       reflow->cursor_changed_id);
 	gtk_object_unref (GTK_OBJECT (reflow->selection));
 
 	reflow->selection_changed_id = 0;
+	reflow->selection_row_changed_id = 0;
 	reflow->cursor_changed_id = 0;
 	reflow->selection            = NULL;
 }
@@ -1308,6 +1323,9 @@ e_reflow_init (EReflow *reflow)
 	reflow->selection_changed_id = 
 		gtk_signal_connect(GTK_OBJECT(reflow->selection), "selection_changed",
 				   GTK_SIGNAL_FUNC(selection_changed), reflow);
+	reflow->selection_row_changed_id = 
+		gtk_signal_connect(GTK_OBJECT(reflow->selection), "selection_row_changed",
+				   GTK_SIGNAL_FUNC(selection_row_changed), reflow);
 	reflow->cursor_changed_id = 
 		gtk_signal_connect(GTK_OBJECT(reflow->selection), "cursor_changed",
 				   GTK_SIGNAL_FUNC(cursor_changed), reflow);

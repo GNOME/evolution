@@ -669,7 +669,14 @@ item_start_drag (ETableItem *eti, int row, int col, GdkEvent *event, ETree *et)
 }
 
 static void
-et_selection_model_selection_change (ETableSelectionModel *etsm, ETable *et)
+et_selection_model_selection_changed (ETableSelectionModel *etsm, ETree *et)
+{
+	gtk_signal_emit (GTK_OBJECT (et),
+			 et_signals [SELECTION_CHANGE]);
+}
+
+static void
+et_selection_model_selection_row_changed (ETableSelectionModel *etsm, int row, ETree *et)
 {
 	gtk_signal_emit (GTK_OBJECT (et),
 			 et_signals [SELECTION_CHANGE]);
@@ -1127,7 +1134,9 @@ et_real_construct (ETree *e_tree, ETreeModel *etm, ETableExtras *ete,
 			NULL);
 
 	gtk_signal_connect(GTK_OBJECT(e_tree->priv->selection), "selection_changed",
-			   GTK_SIGNAL_FUNC(et_selection_model_selection_change), e_tree);
+			   GTK_SIGNAL_FUNC(et_selection_model_selection_changed), e_tree);
+	gtk_signal_connect(GTK_OBJECT(e_tree->priv->selection), "selection_row_changed",
+			   GTK_SIGNAL_FUNC(et_selection_model_selection_row_changed), e_tree);
 
 	if (!specification->no_headers) {
 		e_tree_setup_header (e_tree);
