@@ -279,6 +279,19 @@
 
     <submenu name="View">
       <placeholder name="MailMessageView">
+  	<separator f="" name="emaillist"/>
+
+        <submenu name="GoTo" _label="_Go To">
+          <menuitem name="MailNext" verb="" _label="_Next Message"/>
+          <menuitem name="MailNextUnread" verb="" _label="Next _Unread Message"/>
+          <menuitem name="MailNextFlagged" verb="" _label="Next _Important Message"/>
+          <menuitem name="MailNextThread" verb="" _label="Next _Thread"/>
+	  <separator f="" name="emaillist"/>
+          <menuitem name="MailPrevious" verb="" _label="_Previous Message"/>
+          <menuitem name="MailPreviousUnread" verb="" _label="P_revious Unread Message"/>
+          <menuitem name="MailPreviousFlagged" verb="" _label="Pr_evious Important Message"/>
+        </submenu>
+
 	<separator f="" name="emaillist"/>
 
 	<submenu name="TextSize" _label="Text Si_ze">
@@ -305,19 +318,6 @@
     <submenu name="Actions" _label="_Actions">
       <placeholder name="ComponentActionsPlaceholder">
         <placeholder name="MailMessageActions">
-          <submenu name="GoTo" _label="_Go To">
-            <menuitem name="MailNext" verb="" _label="_Next Message"/>
-            <menuitem name="MailNextUnread" verb="" _label="Next _Unread Message"/>
-            <menuitem name="MailNextFlagged" verb="" _label="Next _Important Message"/>
-            <menuitem name="MailNextThread" verb="" _label="Next _Thread"/>
-	    <separator f="" name="emaillist"/>
-            <menuitem name="MailPrevious" verb="" _label="_Previous Message"/>
-            <menuitem name="MailPreviousUnread" verb="" _label="P_revious Unread Message"/>
-            <menuitem name="MailPreviousFlagged" verb="" _label="Pr_evious Important Message"/>
-          </submenu>
-
-	  <separator f="" name="emaillist1"/>
-
           <menuitem name="MessageFollowUpFlag" verb="" _label="Follow _Up..."/>
 
 	  <separator f="" name="emaillist2"/>
