@@ -179,7 +179,7 @@ ce_have_book (EBook *book, gpointer closure)
 		g_warning ("Couldn't open local address book.");
 		quick_add_unref (qa);
 	} else {
-		EContactEditor *contact_editor = e_contact_editor_new (book, qa->card, TRUE, FALSE /* XXX */);
+		EContactEditor *contact_editor = e_contact_editor_new (book, qa->card, TRUE, TRUE /* XXX */);
 
 		gtk_signal_connect (GTK_OBJECT (contact_editor),
 				    "card_added",

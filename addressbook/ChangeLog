@@ -1,5 +1,11 @@
 2001-08-08  Chris Toshok  <toshok@ximian.com>
 
+	* gui/contact-editor/e-contact-quick-add.c (ce_have_book): better
+	to assume that we can write to the local addressbook than that we
+	can't write to it :)
+
+2001-08-08  Chris Toshok  <toshok@ximian.com>
+
 	* gui/contact-list-editor/e-contact-list-editor.c (create_ui):
 	call e_pixmap_update so we can use the same save/save-as pixmaps
 	as the contact editor.
