@@ -501,7 +501,7 @@ static void
 imap_sync (CamelFolder *folder, gboolean expunge, CamelException *ex)
 {
 	CamelImapStore *store = CAMEL_IMAP_STORE (folder->parent_store);
-	CamelImapResponse *response;
+	CamelImapResponse *response = NULL;
 	CamelMessageInfo *info;
 	GPtrArray *matches;
 	char *set, *flaglist;
@@ -590,6 +590,16 @@ imap_sync (CamelFolder *folder, gboolean expunge, CamelException *ex)
 		CAMEL_IMAP_STORE_UNLOCK(store, command_lock);
 		camel_imap_response_free (response);
 	}
+
+	if (!response) {
+		/* We didn't sync or expunge anything... Do a noop so
+		 * the server gets a chance to tell us any news it has.
+		 */
+		CAMEL_IMAP_STORE_LOCK(store, command_lock);
+		response = camel_imap_command (store, folder, ex, "NOOP");
+		CAMEL_IMAP_STORE_UNLOCK(store, command_lock);
+		camel_imap_response_free (response);
+	}		
 
 	camel_folder_summary_save (folder->summary);
 

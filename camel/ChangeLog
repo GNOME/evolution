@@ -1,3 +1,9 @@
+2001-04-03  Dan Winship  <danw@ximian.com>
+
+	* providers/imap/camel-imap-folder.c (imap_sync): If we don't
+	change any flags or expunge, send a NOOP to give the server a
+	chance to send EXISTS, etc, messages.
+
 2001-04-02  Dan Winship  <danw@ximian.com>
 
 	* camel-service.h: Remove the "quick_login" member, which is
