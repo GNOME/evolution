@@ -1,3 +1,11 @@
+2003-02-26  Chris Toshok  <toshok@ximian.com>
+
+	* backend/ebook/e-book.c (e_book_load_uri): if we fail to activate
+	factories for a given protocol, return.
+
+	* gui/component/ldap-config.glade: remove the two unused custom
+	widgets to cut down on gtk warning spam.
+
 2003-02-21  Dan Winship  <danw@ximian.com>
 
 	* backend/ebook/Makefile.am (libebook_la_LIBADD): depend on

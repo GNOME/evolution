@@ -574,8 +574,6 @@ LDAP attribute to associate with it.</property>
 	  <property name="show_border">True</property>
 	  <property name="tab_pos">GTK_POS_TOP</property>
 	  <property name="scrollable">False</property>
-	  <property name="tab_hborder">2</property>
-	  <property name="tab_vborder">2</property>
 	  <property name="enable_popup">False</property>
 
 	  <child>
@@ -891,8 +889,6 @@ LDAP attribute to associate with it.</property>
 	      <property name="show_border">False</property>
 	      <property name="tab_pos">GTK_POS_TOP</property>
 	      <property name="scrollable">False</property>
-	      <property name="tab_hborder">2</property>
-	      <property name="tab_vborder">2</property>
 	      <property name="enable_popup">False</property>
 
 	      <child>
@@ -1081,9 +1077,9 @@ need help finding this information.</property>
 	<widget class="GnomeDruidPageStandard" id="add-server-druid-info-page">
 	  <property name="visible">True</property>
 	  <property name="title" translatable="yes">Step 1: Server Information</property>
-	  <property name="title_foreground">#e660bfffe408</property>
-	  <property name="background">#6258081ae408</property>
-	  <property name="logo_background">#09380816d54c</property>
+	  <property name="title_foreground">#e700bfffe4b8</property>
+	  <property name="background">#3c0c0811e4b8</property>
+	  <property name="logo_background">#fa68081cc8cc</property>
 
 	  <child internal-child="vbox">
 	    <widget class="GtkVBox" id="druid-vbox1">
@@ -1147,9 +1143,9 @@ information. Please ask your system administrator if you are unsure of this info
 	<widget class="GnomeDruidPageStandard" id="add-server-druid-connecting-page">
 	  <property name="visible">True</property>
 	  <property name="title" translatable="yes">Step 2: Connecting to Server</property>
-	  <property name="title_foreground">#e660bfffe408</property>
-	  <property name="background">#6258081ae408</property>
-	  <property name="logo_background">#09380816d54c</property>
+	  <property name="title_foreground">#e700bfffe4b8</property>
+	  <property name="background">#3c0c0811e4b8</property>
+	  <property name="logo_background">#fa68081cc8cc</property>
 
 	  <child internal-child="vbox">
 	    <widget class="GtkVBox" id="druid-vbox2">
@@ -1214,9 +1210,9 @@ your connection. Ask your system administrator if your LDAP server uses these pr
 	<widget class="GnomeDruidPageStandard" id="add-server-druid-searching-page">
 	  <property name="visible">True</property>
 	  <property name="title" translatable="yes">Step 3: Searching the Directory</property>
-	  <property name="title_foreground">#e660bfffe408</property>
-	  <property name="background">#6258081ae408</property>
-	  <property name="logo_background">#09380816d54c</property>
+	  <property name="title_foreground">#e700bfffe4b8</property>
+	  <property name="background">#3c0c0811e4b8</property>
+	  <property name="logo_background">#fa68081cc8cc</property>
 
 	  <child internal-child="vbox">
 	    <widget class="GtkVBox" id="vbox23">
@@ -1281,9 +1277,9 @@ need to change these options.</property>
 	<widget class="GnomeDruidPageStandard" id="add-server-druid-display-name-page">
 	  <property name="visible">True</property>
 	  <property name="title" translatable="yes">Step 4: Display Name</property>
-	  <property name="title_foreground">#e660bfffe408</property>
-	  <property name="background">#6258081ae408</property>
-	  <property name="logo_background">#09380816d54c</property>
+	  <property name="title_foreground">#e700bfffe4b8</property>
+	  <property name="background">#3c0c0811e4b8</property>
+	  <property name="logo_background">#fa68081cc8cc</property>
 
 	  <child internal-child="vbox">
 	    <widget class="GtkVBox" id="druid-vbox5">
@@ -1402,8 +1398,6 @@ need to change these options.</property>
 		      <property name="show_border">False</property>
 		      <property name="tab_pos">GTK_POS_TOP</property>
 		      <property name="scrollable">False</property>
-		      <property name="tab_hborder">2</property>
-		      <property name="tab_vborder">2</property>
 		      <property name="enable_popup">False</property>
 
 		      <child>
@@ -1547,8 +1541,6 @@ Please click the &quot;Finish&quot; button to save the settings you have entered
 	  <property name="show_border">True</property>
 	  <property name="tab_pos">GTK_POS_TOP</property>
 	  <property name="scrollable">False</property>
-	  <property name="tab_hborder">2</property>
-	  <property name="tab_vborder">2</property>
 	  <property name="enable_popup">False</property>
 
 	  <child>
@@ -1829,8 +1821,6 @@ Please click the &quot;Finish&quot; button to save the settings you have entered
 		  <property name="show_border">False</property>
 		  <property name="tab_pos">GTK_POS_TOP</property>
 		  <property name="scrollable">False</property>
-		  <property name="tab_hborder">2</property>
-		  <property name="tab_vborder">2</property>
 		  <property name="enable_popup">False</property>
 
 		  <child>
@@ -2395,8 +2385,6 @@ It is for display purposes only. </property>
 		  <property name="show_border">False</property>
 		  <property name="tab_pos">GTK_POS_TOP</property>
 		  <property name="scrollable">False</property>
-		  <property name="tab_hborder">2</property>
-		  <property name="tab_vborder">2</property>
 		  <property name="enable_popup">False</property>
 
 		  <child>
@@ -3017,8 +3005,6 @@ exploits. </property>
 		  <property name="show_border">False</property>
 		  <property name="tab_pos">GTK_POS_TOP</property>
 		  <property name="scrollable">False</property>
-		  <property name="tab_hborder">2</property>
-		  <property name="tab_vborder">2</property>
 		  <property name="enable_popup">False</property>
 
 		  <child>
@@ -3656,8 +3642,6 @@ too large will slow down your addressbook.</property>
 	      <property name="show_border">False</property>
 	      <property name="tab_pos">GTK_POS_TOP</property>
 	      <property name="scrollable">False</property>
-	      <property name="tab_hborder">2</property>
-	      <property name="tab_vborder">2</property>
 	      <property name="enable_popup">False</property>
 
 	      <child>
@@ -3756,8 +3740,6 @@ too large will slow down your addressbook.</property>
 	      <property name="show_border">False</property>
 	      <property name="tab_pos">GTK_POS_TOP</property>
 	      <property name="scrollable">False</property>
-	      <property name="tab_hborder">2</property>
-	      <property name="tab_vborder">2</property>
 	      <property name="enable_popup">False</property>
 
 	      <child>
@@ -3858,8 +3840,6 @@ too large will slow down your addressbook.</property>
 	  <property name="show_border">False</property>
 	  <property name="tab_pos">GTK_POS_TOP</property>
 	  <property name="scrollable">False</property>
-	  <property name="tab_hborder">2</property>
-	  <property name="tab_vborder">2</property>
 	  <property name="enable_popup">False</property>
 
 	  <child>
@@ -4348,8 +4328,6 @@ It is for display purposes only. </property>
 	  <property name="show_border">False</property>
 	  <property name="tab_pos">GTK_POS_TOP</property>
 	  <property name="scrollable">False</property>
-	  <property name="tab_hborder">2</property>
-	  <property name="tab_vborder">2</property>
 	  <property name="enable_popup">False</property>
 
 	  <child>
@@ -4955,8 +4933,6 @@ exploits. </property>
 	  <property name="show_border">False</property>
 	  <property name="tab_pos">GTK_POS_TOP</property>
 	  <property name="scrollable">False</property>
-	  <property name="tab_hborder">2</property>
-	  <property name="tab_vborder">2</property>
 	  <property name="enable_popup">False</property>
 
 	  <child>
@@ -5182,18 +5158,7 @@ too large will slow down your addressbook.</property>
 	      </child>
 
 	      <child>
-		<widget class="Custom" id="objectclasses-server-table">
-		  <property name="visible">True</property>
-		  <property name="creation_function">objectclasses_create_server_table</property>
-		  <property name="int1">0</property>
-		  <property name="int2">0</property>
-		  <property name="last_modification_time">Tue, 16 Apr 2002 17:09:21 GMT</property>
-		</widget>
-		<packing>
-		  <property name="padding">0</property>
-		  <property name="expand">True</property>
-		  <property name="fill">True</property>
-		</packing>
+		<placeholder/>
 	      </child>
 	    </widget>
 	    <packing>
@@ -5303,18 +5268,7 @@ too large will slow down your addressbook.</property>
 	      </child>
 
 	      <child>
-		<widget class="Custom" id="objectclasses-evolution-table">
-		  <property name="visible">True</property>
-		  <property name="creation_function">objectclasses_create_evolution_table</property>
-		  <property name="int1">0</property>
-		  <property name="int2">0</property>
-		  <property name="last_modification_time">Tue, 16 Apr 2002 17:09:43 GMT</property>
-		</widget>
-		<packing>
-		  <property name="padding">0</property>
-		  <property name="expand">True</property>
-		  <property name="fill">True</property>
-		</packing>
+		<placeholder/>
 	      </child>
 	    </widget>
 	    <packing>
@@ -5561,8 +5515,6 @@ too large will slow down your addressbook.</property>
 	  <property name="show_border">False</property>
 	  <property name="tab_pos">GTK_POS_TOP</property>
 	  <property name="scrollable">False</property>
-	  <property name="tab_hborder">2</property>
-	  <property name="tab_vborder">2</property>
 	  <property name="enable_popup">False</property>
 
 	  <child>

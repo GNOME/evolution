@@ -757,6 +757,7 @@ e_book_load_uri (EBook                     *book,
 	/* try to find a list of factories that can handle the protocol */
 	if (!activate_factories_for_uri (book, uri)) {
 		open_response (book, E_BOOK_STATUS_PROTOCOL_NOT_SUPPORTED, closure);
+		return;
 	}
 		
 	g_free (book->priv->uri);
