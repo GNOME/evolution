@@ -414,7 +414,7 @@ filter_part_expand_code (FilterPart *ff, const char *source, GString *out)
 	FilterElement *fe;
 	
 	start = source;
-	while ( (newstart = strstr (start, "${"))
+	while (start && (newstart = strstr (start, "${"))
 		&& (end = strstr (newstart+2, "}")) ) {
 		len = end - newstart - 2;
 		if (len + 1 > namelen) {

@@ -1,5 +1,12 @@
 2001-03-17  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* filter-option.c (build_code): Since we are now using
+	filter-option widgets in place of system-flag, we do not need a
+	"code" part so if there isn't a code part, don't build it.
+	(clone): Updated to allow NULL code parts.
+
+2001-03-17  Jeffrey Stedfast  <fejj@ximian.com>
+
 	* filter-element.c (filter_element_new_type_name): If the filter
 	type is a "system-flag", use the optionlist type as type
 	system-flag has been removed. This should allow backward

@@ -193,7 +193,7 @@ xml_create (FilterElement *fe, xmlNodePtr node)
 				work = work->next;
 			}
 			d(printf ("creating new option:\n title %s\n value %s\n code %s\n",
-				  op->title, op->value, op->code));
+				  op->title, op->value, op->code ? op->code : "none"));
 			fo->options = g_list_append (fo->options, op);
 			if (fo->current == NULL)
 				fo->current = op;
@@ -296,7 +296,7 @@ build_code (FilterElement *fe, GString *out, struct _FilterPart *ff)
 	
 	d(printf ("building option code %p, current = %p\n", fo, fo->current));
 	
-	if (fo->current) {
+	if (fo->current && fo->current->code) {
 		filter_part_expand_code (ff, fo->current->code, out);
 	}
 }
@@ -328,7 +328,10 @@ clone (FilterElement *fe)
 		d(printf ("  option %s\n", op->title));
 		fn->title = g_strdup (op->title);
 		fn->value = g_strdup (op->value);
-		fn->code = g_strdup (op->code);
+		if (op->code)
+			fn->code = g_strdup (op->code);
+		else
+			fn->code = NULL;
 		new->options = g_list_append (new->options, fn);
 		l = g_list_next (l);
 		
