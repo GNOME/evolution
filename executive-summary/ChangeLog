@@ -1,3 +1,7 @@
+2000-12-07  Dave Camp  <dave@helixcode.com>
+
+	* idl/Makefile.am (IDLS): Include HtmlView.idl
+	
 2000-11-29  Dan Winship  <danw@helixcode.com>
 
 	* component/main.c (main): Remove no-longer-needed e_unicode_init.

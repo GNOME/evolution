@@ -20,6 +20,7 @@ CLEANFILES = $(IDL_GENERATED)
 
 IDLS = \
 	Executive-Summary.idl		\
+	HtmlView.idl                    \
 	Summary.idl			\
 	SummaryComponent.idl
 
