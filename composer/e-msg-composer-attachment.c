@@ -30,6 +30,7 @@
 #include <sys/stat.h>
 
 #include <gnome.h>
+#include <camel/camel.h>
 
 #include "e-msg-composer-attachment.h"
 
@@ -58,19 +59,6 @@ get_mime_type (const gchar *file_name)
 }
 
 static void
-init_mime_type (EMsgComposerAttachment *attachment)
-{
-	attachment->mime_type = g_strdup (get_mime_type (attachment->file_name));
-}
-
-static void
-set_mime_type (EMsgComposerAttachment *attachment)
-{
-	g_free (attachment->mime_type);
-	init_mime_type (attachment);
-}
-
-static void
 changed (EMsgComposerAttachment *attachment)
 {
 	gtk_signal_emit (GTK_OBJECT (attachment), signals[CHANGED]);
@@ -86,9 +74,7 @@ destroy (GtkObject *object)
 
 	attachment = E_MSG_COMPOSER_ATTACHMENT (object);
 
-	g_free (attachment->file_name);
-	g_free (attachment->description);
-	g_free (attachment->mime_type);
+	gtk_object_unref (GTK_OBJECT (attachment->body));
 }
 
 
@@ -132,9 +118,7 @@ static void
 init (EMsgComposerAttachment *msg_composer_attachment)
 {
 	msg_composer_attachment->editor_gui = NULL;
-	msg_composer_attachment->file_name = NULL;
-	msg_composer_attachment->description = NULL;
-	msg_composer_attachment->mime_type = NULL;
+	msg_composer_attachment->body = NULL;
 	msg_composer_attachment->size = 0;
 }
 
@@ -172,23 +156,62 @@ EMsgComposerAttachment *
 e_msg_composer_attachment_new (const gchar *file_name)
 {
 	EMsgComposerAttachment *new;
+	CamelMimePart *part;
+	CamelDataWrapper *wrapper;
+	CamelStream *data;
 	struct stat statbuf;
 
 	g_return_val_if_fail (file_name != NULL, NULL);
 
-	new = gtk_type_new (e_msg_composer_attachment_get_type ());
+	data = camel_stream_fs_new_with_name (file_name, O_RDONLY, 0);
+	if (!data)
+		return NULL;
+	wrapper = camel_data_wrapper_new ();
+	camel_data_wrapper_construct_from_stream (wrapper, data);
+	gtk_object_unref (GTK_OBJECT (data));
+	camel_data_wrapper_set_mime_type (wrapper, get_mime_type (file_name));
 
-	new->editor_gui = NULL;
+	part = camel_mime_part_new ();
+	camel_medium_set_content_object (CAMEL_MEDIUM (part), wrapper);
+	gtk_object_unref (GTK_OBJECT (wrapper));
 
-	new->file_name = g_strdup (file_name);
-	new->description = g_strdup (g_basename (new->file_name));
+	camel_mime_part_set_disposition (part, "attachment");
+	if (strchr (file_name, '/'))
+		camel_mime_part_set_filename (part, strrchr (file_name, '/') + 1);
+	else
+		camel_mime_part_set_filename (part, file_name);
 
+	new = e_msg_composer_attachment_new_from_mime_part (part);
 	if (stat (file_name, &statbuf) < 0)
 		new->size = 0;
 	else
 		new->size = statbuf.st_size;
+	new->guessed_type = TRUE;
 
-	init_mime_type (new);
+	return new;
+}
+
+
+/**
+ * e_msg_composer_attachment_new_from_mime_part:
+ * @part: a CamelMimePart
+ * 
+ * Return value: a new EMsgComposerAttachment based on the mime part
+ **/
+EMsgComposerAttachment *
+e_msg_composer_attachment_new_from_mime_part (CamelMimePart *part)
+{
+	EMsgComposerAttachment *new;
+
+	g_return_val_if_fail (CAMEL_IS_MIME_PART (part), NULL);
+
+	new = gtk_type_new (e_msg_composer_attachment_get_type ());
+
+	new->editor_gui = NULL;
+	new->body = part;
+	gtk_object_ref (GTK_OBJECT (part));
+	new->guessed_type = FALSE;
+	new->size = 0;
 
 	return new;
 }
@@ -201,7 +224,6 @@ struct _DialogData {
 	GtkEntry *file_name_entry;
 	GtkEntry *description_entry;
 	GtkEntry *mime_type_entry;
-	GtkWidget *browse_widget;
 	EMsgComposerAttachment *attachment;
 };
 typedef struct _DialogData DialogData;
@@ -209,8 +231,6 @@ typedef struct _DialogData DialogData;
 static void
 destroy_dialog_data (DialogData *data)
 {
-	if (data->browse_widget != NULL)
-		gtk_widget_destroy (data->browse_widget);
 	g_free (data);
 }
 
@@ -220,64 +240,13 @@ update_mime_type (DialogData *data)
 	const gchar *mime_type;
 	const gchar *file_name;
 
+	if (!data->attachment->guessed_type)
+		return;
+
 	file_name = gtk_entry_get_text (data->file_name_entry);
 	mime_type = get_mime_type (file_name);
 
 	gtk_entry_set_text (data->mime_type_entry, mime_type);
-}
-
-static void
-browse_ok_cb (GtkWidget *widget,
-	      gpointer data)
-{
-	GtkWidget *file_selection;
-	DialogData *dialog_data;
-	const gchar *file_name;
-
-	dialog_data = (DialogData *) data;
-	file_selection = gtk_widget_get_toplevel (widget);
-
-	file_name = gtk_file_selection_get_filename
-					(GTK_FILE_SELECTION (file_selection));
-
-	gtk_entry_set_text (dialog_data->file_name_entry, file_name);
-
-	update_mime_type (dialog_data);
-
-	gtk_widget_hide (file_selection);
-}
-
-static void
-browse (DialogData *data)
-{
-	if (data->browse_widget == NULL) {
-		GtkWidget *file_selection;
-		GtkWidget *cancel_button;
-		GtkWidget *ok_button;
-
-		file_selection
-			= gtk_file_selection_new (_("Select attachment"));
-		gtk_window_set_position (GTK_WINDOW (file_selection),
-					 GTK_WIN_POS_MOUSE);
-		gtk_window_set_transient_for (GTK_WINDOW (file_selection),
-					      GTK_WINDOW (data->dialog));
-
-		ok_button = GTK_FILE_SELECTION (file_selection)->ok_button;
-		gtk_signal_connect (GTK_OBJECT (ok_button),
-				    "clicked", GTK_SIGNAL_FUNC (browse_ok_cb),
-				    data);
-
-		cancel_button
-			= GTK_FILE_SELECTION (file_selection)->cancel_button;
-		gtk_signal_connect_object (GTK_OBJECT (cancel_button),
-					   "clicked",
-					   GTK_SIGNAL_FUNC (gtk_widget_hide),
-					   GTK_OBJECT (file_selection));
-
-		data->browse_widget = file_selection;
-	}
-
-	gtk_widget_show (GTK_WIDGET (data->browse_widget));
 }
 
 static void
@@ -290,19 +259,7 @@ set_entry (GladeXML *xml,
 	entry = GTK_ENTRY (glade_xml_get_widget (xml, widget_name));
 	if (entry == NULL)
 		g_warning ("Entry for `%s' not found.", widget_name);
-	gtk_entry_set_text (entry, value);
-}
-
-static void
-connect_entry_changed (GladeXML *gui,
-		       const gchar *name,
-		       GtkSignalFunc func,
-		       gpointer data)
-{
-	GtkWidget *widget;
-
-	widget = glade_xml_get_widget (gui, name);
-	gtk_signal_connect (GTK_OBJECT (widget), "changed", func, data);
+	gtk_entry_set_text (entry, value ? value : "");
 }
 
 static void
@@ -316,42 +273,6 @@ connect_widget (GladeXML *gui,
 
 	widget = glade_xml_get_widget (gui, name);
 	gtk_signal_connect (GTK_OBJECT (widget), signal_name, func, data);
-}
-
-static void
-apply (DialogData *data)
-{
-	EMsgComposerAttachment *attachment;
-
-	attachment = data->attachment;
-
-	g_free (attachment->file_name);
-	attachment->file_name = g_strdup (gtk_entry_get_text
-					  (data->file_name_entry));
-
-	g_free (attachment->description);
-	attachment->description = g_strdup (gtk_entry_get_text
-					    (data->description_entry));
-
-	g_free (attachment->mime_type);
-	attachment->mime_type = g_strdup (gtk_entry_get_text
-					  (data->mime_type_entry));
-
-	changed (attachment);
-}
-
-static void
-entry_changed_cb (GtkWidget *widget, gpointer data)
-{
-	DialogData *dialog_data;
-	GladeXML *gui;
-	GtkWidget *apply_button;
-
-	dialog_data = (DialogData *) data;
-	gui = dialog_data->attachment->editor_gui;
-
-	apply_button = glade_xml_get_widget (gui, "apply_button");
-	gtk_widget_set_sensitive (apply_button, TRUE);
 }
 
 static void
@@ -373,31 +294,29 @@ close_cb (GtkWidget *widget,
 }
 
 static void
-apply_cb (GtkWidget *widget,
-	  gpointer data)
-{
-	DialogData *dialog_data;
-
-	dialog_data = (DialogData *) data;
-	apply (dialog_data);
-}
-
-static void
 ok_cb (GtkWidget *widget,
        gpointer data)
 {
-	apply_cb (widget, data);
-	close_cb (widget, data);
-}
-
-static void
-browse_cb (GtkWidget *widget,
-	   gpointer data)
-{
 	DialogData *dialog_data;
+	EMsgComposerAttachment *attachment;
 
 	dialog_data = (DialogData *) data;
-	browse (dialog_data);
+	attachment = dialog_data->attachment;
+
+	camel_mime_part_set_filename (attachment->body, gtk_entry_get_text
+				      (dialog_data->file_name_entry));
+
+	camel_mime_part_set_description (attachment->body, gtk_entry_get_text
+					 (dialog_data->description_entry));
+
+	camel_mime_part_set_content_type (attachment->body, gtk_entry_get_text
+					  (dialog_data->mime_type_entry));
+	camel_data_wrapper_set_mime_type (
+		camel_medium_get_content_object (CAMEL_MEDIUM (attachment->body)),
+		gtk_entry_get_text (dialog_data->mime_type_entry));
+
+	changed (attachment);
+	close_cb (widget, data);
 }
 
 static void
@@ -445,7 +364,6 @@ e_msg_composer_attachment_edit (EMsgComposerAttachment *attachment,
 		 GTK_WINDOW (gtk_widget_get_toplevel (parent)));
 
 	dialog_data = g_new (DialogData, 1);
-	dialog_data->browse_widget = NULL;
 	dialog_data->attachment = attachment;
 	dialog_data->dialog = glade_xml_get_widget (editor_gui, "dialog");
 	dialog_data->file_name_entry = GTK_ENTRY (glade_xml_get_widget
@@ -459,21 +377,22 @@ e_msg_composer_attachment_edit (EMsgComposerAttachment *attachment,
 						   "mime_type_entry"));
 
 	if (attachment != NULL) {
-		set_entry (editor_gui, "file_name_entry", attachment->file_name);
-		set_entry (editor_gui, "description_entry", attachment->description);
-		set_entry (editor_gui, "mime_type_entry", attachment->mime_type);
+		GMimeContentField *content_type;
+		char *type;
+
+		set_entry (editor_gui, "file_name_entry",
+			   camel_mime_part_get_filename (attachment->body));
+		set_entry (editor_gui, "description_entry",
+			   camel_mime_part_get_description (attachment->body));
+		content_type = camel_mime_part_get_content_type (attachment->body);
+		type = g_strdup_printf ("%s/%s", content_type->type,
+					content_type->subtype);
+		set_entry (editor_gui, "mime_type_entry", type);
+		g_free (type);
 	}
 
-	connect_entry_changed (editor_gui, "file_name_entry",
-			       entry_changed_cb, dialog_data);
-	connect_entry_changed (editor_gui, "description_entry",
-			       entry_changed_cb, dialog_data);
-
 	connect_widget (editor_gui, "ok_button", "clicked", ok_cb, dialog_data);
-	connect_widget (editor_gui, "apply_button", "clicked", apply_cb, dialog_data);
 	connect_widget (editor_gui, "close_button", "clicked", close_cb, dialog_data);
-
-	connect_widget (editor_gui, "browse_button", "clicked", browse_cb, dialog_data);
 
 	connect_widget (editor_gui, "file_name_entry", "focus_out_event",
 			file_name_focus_out_cb, dialog_data);

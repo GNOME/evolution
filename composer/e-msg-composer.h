@@ -90,6 +90,8 @@ void              e_msg_composer_set_body_text     (EMsgComposer *composer,
 void              e_msg_composer_add_header        (EMsgComposer *composer,
 						    const char *name,
 						    const char *value);
+void              e_msg_composer_attach            (EMsgComposer *composer,
+						    CamelMimePart *attachment);
 
 CamelMimeMessage *e_msg_composer_get_message       (EMsgComposer *composer);
 

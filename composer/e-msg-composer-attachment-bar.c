@@ -98,32 +98,6 @@ size_to_string (gulong size)
 	return size_string;
 }
 
-
-/* Sorting.  */
-
-static gint
-attachment_sort_func (gconstpointer a, gconstpointer b)
-{
-	const EMsgComposerAttachment *attachment_a, *attachment_b;
-
-	attachment_a = (EMsgComposerAttachment *) a;
-	attachment_b = (EMsgComposerAttachment *) b;
-
-	return strcmp (attachment_a->description, attachment_b->description);
-}
-
-static void
-sort (EMsgComposerAttachmentBar *bar)
-{
-	EMsgComposerAttachmentBarPrivate *priv;
-
-	priv = bar->priv;
-
-	priv->attachments = g_list_sort (priv->attachments,
-					 attachment_sort_func);
-}
-
-
 /* Attachment handling functions.  */
 
 static void
@@ -146,13 +120,9 @@ attachment_changed_cb (EMsgComposerAttachment *attachment,
 }
 
 static void
-add_from_file (EMsgComposerAttachmentBar *bar,
-	       const gchar *file_name)
+add_common (EMsgComposerAttachmentBar *bar,
+	    EMsgComposerAttachment *attachment)
 {
-	EMsgComposerAttachment *attachment;
-
-	attachment = e_msg_composer_attachment_new (file_name);
-
 	gtk_signal_connect (GTK_OBJECT (attachment), "changed",
 			    GTK_SIGNAL_FUNC (attachment_changed_cb),
 			    bar);
@@ -161,10 +131,23 @@ add_from_file (EMsgComposerAttachmentBar *bar,
 						attachment);
 	bar->priv->num_attachments++;
 
-	sort (bar);
 	update (bar);
 
 	gtk_signal_emit (GTK_OBJECT (bar), signals[CHANGED]);
+}
+
+static void
+add_from_mime_part (EMsgComposerAttachmentBar *bar,
+		    CamelMimePart *part)
+{
+	add_common (bar, e_msg_composer_attachment_new_from_mime_part (part));
+}
+
+static void
+add_from_file (EMsgComposerAttachmentBar *bar,
+	       const gchar *file_name)
+{
+	add_common (bar, e_msg_composer_attachment_new (file_name));
 }
 
 static void
@@ -201,30 +184,37 @@ update (EMsgComposerAttachmentBar *bar)
 
 	for (p = priv->attachments; p != NULL; p = p->next) {
 		EMsgComposerAttachment *attachment;
-		const gchar *icon_name;
-		gchar *size_string;
-		gchar *label;
+		const gchar *icon_name, *desc;
+		gchar *size_string, *label, *mime_type;
+		GMimeContentField *content_type;
 
 		attachment = p->data;
-		icon_name = gnome_mime_get_value (attachment->mime_type,
-						  "icon-filename");
+		content_type = camel_mime_part_get_content_type (attachment->body);
+		mime_type = g_strdup_printf ("%s/%s", content_type->type,
+					     content_type->subtype);
+		icon_name = gnome_mime_get_value (mime_type, "icon-filename");
+		g_free (mime_type);
 
 		/* FIXME we need some better default icon.  */
 		if (icon_name == NULL)
 			icon_name = gnome_mime_get_value ("text/plain",
 							  "icon-filename");
 
-		size_string = size_to_string (attachment->size);
+		desc = camel_mime_part_get_description (attachment->body);
+		if (!desc)
+			desc = camel_mime_part_get_filename (attachment->body);
+		if (!desc)
+			desc = "attachment";
 
-		/* FIXME: If GnomeIconList honoured "\n", the result would be a
-                   lot better.  */
-		label = g_strconcat (attachment->description, "\n(",
-				     size_string, ")", NULL);
+		if (attachment->size) {
+			size_string = size_to_string (attachment->size);
+			label = g_strdup_printf ("%s (%s)", desc, size_string);
+			g_free (size_string);
+		} else
+			label = g_strdup (desc);
 
 		gnome_icon_list_append (icon_list, icon_name, label);
-
 		g_free (label);
-		g_free (size_string);
 	}
 
 	gnome_icon_list_thaw (icon_list);
@@ -469,28 +459,6 @@ button_press_event (GtkWidget *widget,
 }
 
 
-/* GnomeIconList methods.  */
-
-static gboolean
-text_changed (GnomeIconList *gil,
-	      gint num,
-	      const gchar *new_text)
-{
-	EMsgComposerAttachmentBar *bar;
-	EMsgComposerAttachment *attachment;
-	GList *p;
-
-	bar = E_MSG_COMPOSER_ATTACHMENT_BAR (gil);
-	p = g_list_nth (bar->priv->attachments, num);
-	attachment =  p->data;
-
-	g_free (attachment->description);
-	attachment->description = g_strdup (new_text);
-
-	return TRUE;
-}
-
-
 /* Initialization.  */
 
 static void
@@ -509,8 +477,6 @@ class_init (EMsgComposerAttachmentBarClass *class)
 	object_class->destroy = destroy;
 
 	widget_class->button_press_event = button_press_event;
-
-	icon_list_class->text_changed = text_changed;
 
 	/* Setup signals.  */
 
@@ -605,43 +571,23 @@ static void
 attach_to_multipart (CamelMultipart *multipart,
 		     EMsgComposerAttachment *attachment)
 {
-	CamelMimePart *part;
-	struct stat st;
-	int fd;
-	char *data;
+	GMimeContentField *content_type;
 
-	part = camel_mime_part_new ();
-	fd = open (attachment->file_name, O_RDONLY);
-	if (fd != -1 && fstat (fd, &st) != -1) {
-		data = g_malloc (st.st_size);
-		read (fd, data, st.st_size);
-		close (fd);
+	content_type = camel_mime_part_get_content_type (attachment->body);
 
-		camel_mime_part_set_content (part, data, st.st_size,
-					     attachment->mime_type);
-	} else {
-		g_warning ("couldn't open %s", attachment->file_name);
-		gtk_object_sink (GTK_OBJECT (part));
-		return;
+	/* Kludge a bit on CTE. For now, we set QP for text and B64
+	 * for all else except message (which must be 7bit, 8bit, or
+	 * binary). FIXME.
+	 */
+	if (!strcasecmp (content_type->type, "text")) {
+		camel_mime_part_set_encoding (attachment->body,
+					      CAMEL_MIME_PART_ENCODING_QUOTEDPRINTABLE);
+	} else if (strcasecmp (content_type->type, "message") != 0) {
+		camel_mime_part_set_encoding (attachment->body,
+					      CAMEL_MIME_PART_ENCODING_BASE64);
 	}
 
-	camel_mime_part_set_disposition (part, "attachment");
-	camel_mime_part_set_filename (part,
-				      g_basename (attachment->file_name));
-	camel_mime_part_set_description (part, attachment->description);
-
-	/* Kludge a bit on CTE. For now, we set QP for text/ and message/
-	 * and B64 for all else. FIXME.
-	 */
-
-	if (!strncasecmp (attachment->mime_type, "text/", 5) ||
-	    !strncasecmp (attachment->mime_type, "message/", 8))
-		camel_mime_part_set_encoding (part, CAMEL_MIME_PART_ENCODING_QUOTEDPRINTABLE);
-	else
-		camel_mime_part_set_encoding (part, CAMEL_MIME_PART_ENCODING_BASE64);
-
-	camel_multipart_add_part (multipart, part);
-	gtk_object_unref (GTK_OBJECT (part));
+	camel_multipart_add_part (multipart, attachment->body);
 }
 
 void
@@ -681,11 +627,19 @@ void
 e_msg_composer_attachment_bar_attach (EMsgComposerAttachmentBar *bar,
 				      const gchar *file_name)
 {
-	g_return_if_fail (bar != NULL);
 	g_return_if_fail (E_IS_MSG_COMPOSER_ATTACHMENT_BAR (bar));
 
 	if (file_name == NULL)
 		add_from_user (bar);
 	else
 		add_from_file (bar, file_name);
+}
+
+void
+e_msg_composer_attachment_bar_attach_mime_part (EMsgComposerAttachmentBar *bar,
+						CamelMimePart *part)
+{
+	g_return_if_fail (E_IS_MSG_COMPOSER_ATTACHMENT_BAR (bar));
+
+	add_from_mime_part (bar, part);
 }

@@ -1,3 +1,34 @@
+2000-06-05  Dan Winship  <danw@helixcode.com>
+
+	* e-msg-composer.c (e_msg_composer_attach): New convenience
+	function.
+
+	* e-msg-composer-attachment.c: Store a CamelMimePart rather than
+	filename/description/mime_type info. Also record whether we were
+	told or guessed the MIME type.
+	(e_msg_composer_attachment_new_from_mime_part): New constructor.
+	(e_msg_composer_attachment_edit): Remove the "browse" button. (If
+	the user wants to change the actual file that the attachment is
+	based on, he should delete the attachment and create a new one...)
+	Remove the "Apply" button, because it's not all that useful. Make
+	the MIME type only track the filename if it was guessed rather
+	than being provided.
+
+	* e-msg-composer-attachment.glade: Remove "browse" and "apply"
+	buttons. Make filename editable.
+
+	* e-msg-composer-attachment-bar.c (sort): Removed. Send the
+	attachments in the order the user attached them in.
+	(text_changed): Removed, since we weren't enabling the relevant
+	GnomeIconList functionality that would have used this.
+	(update): Don't print the size if it's 0.
+	(attach_to_multipart, etc): adjust for EMsgComposerAttachment
+	changes.
+	(attach_to_multipart): Use 7bit encoding for message/ subparts.
+	(e_msg_composer_attachment_bar_attach_mime_part): New convenience
+	function.
+	
+
 2000-06-02  Christopher James Lahey  <clahey@helixcode.com>
 
 	* e-msg-composer.c: Added the ability to save plain text mail.

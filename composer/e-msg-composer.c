@@ -1061,6 +1061,26 @@ e_msg_composer_add_header (EMsgComposer *composer, const char *name,
 
 
 /**
+ * e_msg_composer_attach:
+ * @composer: a composer object
+ * @attachment: the CamelMimePart to attach
+ *
+ * Attaches @attachment to the message being composed in the composer.
+ **/
+void
+e_msg_composer_attach (EMsgComposer *composer, CamelMimePart *attachment)
+{
+	EMsgComposerAttachmentBar *bar;
+
+	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
+	g_return_if_fail (CAMEL_IS_MIME_PART (attachment));
+
+	bar = E_MSG_COMPOSER_ATTACHMENT_BAR (composer->attachment_bar);
+	e_msg_composer_attachment_bar_attach_mime_part (bar, attachment);
+}
+
+
+/**
  * e_msg_composer_get_message:
  * @composer: A message composer widget
  * 

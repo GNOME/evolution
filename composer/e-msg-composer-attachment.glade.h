@@ -5,7 +5,6 @@
  */
 
 gchar *s = N_("Attachment properties");
-gchar *s = N_("Description:");
 gchar *s = N_("MIME type:");
+gchar *s = N_("Description:");
 gchar *s = N_("File name:");
-gchar *s = N_("Browse...");
