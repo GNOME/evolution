@@ -18,17 +18,20 @@ INCLUDES =							\
 IDLS =								\
 	$(top_srcdir)/mail/Mailer.idl
 
-MAIL_GENERATED =						\
-	Mailer.h						\
+IDL_GENERATED_H =						\
+	Mailer.h
+IDL_GENERATED_C =						\
 	Mailer-common.c						\
 	Mailer-skels.c						\
 	Mailer-stubs.c
+IDL_GENERATED = $(IDL_GENERATED_C) $(IDL_GENERATED_H)
 
-$(MAIL_GENERATED): $(IDLS)
+$(IDL_GENERATED_H): $(IDLS)
 	$(ORBIT_IDL) -I $(srcdir) $(IDL_INCLUDES) $(top_srcdir)/mail/Mailer.idl
+$(IDL_GENERATED_C): $(IDL_GENERATED_H)
 
 summary_sources =				\
-	$(MAIL_GENERATED)			\
+	$(IDL_GENERATED)			\
 	component-factory.c			\
 	component-factory.h			\
 	e-cell-tri.c				\
@@ -122,6 +125,9 @@ EXTRA_DIST = 				\
 	check-empty.xpm			\
 	check-filled.xpm		\
 	check-none.xpm
+
+BUILT_SOURCES = $(IDL_GENERATED)
+CLEANFILES = $(BUILT_SOURCES)
 
 dist-hook:
 	cd $(distdir); rm -f $(BUILT_SOURCES)
