@@ -45,6 +45,8 @@
 #include "mail-send-recv.h"
 #include "mail-session.h"
 
+#include "art/mark.xpm"
+
 static void mail_accounts_dialog_class_init (MailAccountsDialogClass *class);
 static void mail_accounts_dialog_init       (MailAccountsDialog *dialog);
 static void mail_accounts_dialog_finalise   (GtkObject *obj);
@@ -91,7 +93,11 @@ mail_accounts_dialog_class_init (MailAccountsDialogClass *class)
 static void
 mail_accounts_dialog_init (MailAccountsDialog *o)
 {
-	;
+	GdkPixbuf *pixbuf;
+
+	pixbuf = gdk_pixbuf_new_from_xpm_data ((const char **) mark_xpm);
+	gdk_pixbuf_render_pixmap_and_mask (pixbuf, &(o->mark_pixmap), &(o->mark_bitmap), 128);
+	gdk_pixbuf_unref (pixbuf);
 }
 
 static void
@@ -100,7 +106,9 @@ mail_accounts_dialog_finalise (GtkObject *obj)
 	MailAccountsDialog *dialog = (MailAccountsDialog *) obj;
 	
 	gtk_object_unref (GTK_OBJECT (dialog->gui));
-	
+	gdk_pixmap_unref (dialog->mark_pixmap);
+	gdk_bitmap_unref (dialog->mark_bitmap);
+
         ((GtkObjectClass *)(parent_class))->finalize (obj);
 }
 
@@ -129,7 +137,7 @@ load_accounts (MailAccountsDialog *dialog)
 		else
 			url = NULL;
 
-		text[0] = (account->source && account->source->enabled) ? "+" : "";
+		text[0] = "";
 		text[1] = account->name;
 		text[2] = g_strdup_printf ("%s%s", url && url->protocol ? url->protocol : _("None"),
 					   (i == default_account) ? _(" (default)") : "");
@@ -140,6 +148,11 @@ load_accounts (MailAccountsDialog *dialog)
 		gtk_clist_append (dialog->mail_accounts, text);
 		g_free (text[2]);
 		
+		if (account->source->enabled)
+			gtk_clist_set_pixmap (dialog->mail_accounts, i, 0, 
+					      dialog->mark_pixmap, 
+					      dialog->mark_bitmap);
+
 		/* set the account on the row */
 		gtk_clist_set_row_data (dialog->mail_accounts, i, (gpointer) account);
 		

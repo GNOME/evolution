@@ -95,6 +95,10 @@ struct _MailAccountsDialog {
 	/* PGP page */
 	GnomeFileEntry *pgp_path;
 	GtkToggleButton *remember_passwd;
+
+	/* Pixmaps for the clist */
+	GdkPixmap *mark_pixmap;
+	GdkBitmap *mark_bitmap;
 };
 
 typedef struct _MailAccountsDialog MailAccountsDialog;
