@@ -222,6 +222,12 @@ static void resize(ECanvas *canvas, gpointer data)
 			       NULL );	
 }
 
+static void
+canvas_realized(GtkLayout *layout, View *view)
+{
+	gdk_window_set_back_pixmap( layout->bin_window, NULL, FALSE);
+}
+
 static GtkWidget *
 create_reflow(View *view)
 {
@@ -278,7 +284,8 @@ create_reflow(View *view)
 			    GTK_SIGNAL_FUNC( allocate_callback ),
 			    ( gpointer ) view );
 
-	gdk_window_set_back_pixmap( GTK_LAYOUT(reflow->canvas)->bin_window, NULL, FALSE);
+	gtk_signal_connect( GTK_OBJECT(reflow->canvas), "realize",
+			    GTK_SIGNAL_FUNC(canvas_realized), view);
 	
 	reflow->model_changed_id = gtk_signal_connect(GTK_OBJECT( view->model ), "model_changed",
 						      GTK_SIGNAL_FUNC(rebuild_reflow), view);

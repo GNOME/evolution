@@ -1,5 +1,10 @@
 2000-03-21  Christopher James Lahey  <clahey@helixcode.com>
 
+	* addressbook/demo/addressbook-widget.c: Make background pixmap
+	get properly set to NULL.
+
+2000-03-21  Christopher James Lahey  <clahey@helixcode.com>
+
 	* widgets/shortcut-bar/e-icon-bar.c: Updated to fix a few bugs.
 
 2000-03-20  Christopher James Lahey  <clahey@helixcode.com>
