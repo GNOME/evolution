@@ -40,15 +40,10 @@ get_icon_path (const char *icon_name)
 {
 	char *icon_path;
 
-	if (g_path_is_absolute (icon_name)) {
+	if (g_path_is_absolute (icon_name))
 		icon_path = g_strdup (icon_name);
-	} else {
-		icon_path = gnome_pixmap_file (icon_name);
-
-		if (icon_path == NULL)
-			icon_path = g_concat_dir_and_file (EVOLUTION_IMAGES,
-							   icon_name);
-	}
+	else
+		icon_path = g_concat_dir_and_file (EVOLUTION_IMAGES, icon_name);
 
 	if (g_file_exists (icon_path)) {
 		return icon_path;

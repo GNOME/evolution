@@ -1,3 +1,10 @@
+2001-05-04  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-shell-utils.c (get_icon_path): Don't use
+	`gnome_pixmap_file()', which is broken as it looks in the current
+	working directory first.  Instead, if the path is not absolute,
+	just look up the file in the `EVOLUTION_IMAGES' directory.
+
 2001-05-03  Ettore Perazzoli  <ettore@ximian.com>
 
 	* glade/e-active-connection-dialog.c: Change the GtkCList mode to
