@@ -1,5 +1,12 @@
 2003-12-01  Rodrigo Moya <rodrigo@ximian.com>
 
+	* gui/alarm-notify/alarm-notify.c (add_uri_to_load, remove_uri_to_load):
+	removed unneeded functions.
+	(alarm_notify_add_calendar, alarm_notify_remove_calendar): no need
+	anymore to add/remove URIs to load on startup to the configuration.
+
+2003-12-01  Rodrigo Moya <rodrigo@ximian.com>
+
 	* gui/alarm-notify/save.c (save_calendars_to_load): removed this
 	function, since we now use the ESourceList to know what calendars
 	to load.

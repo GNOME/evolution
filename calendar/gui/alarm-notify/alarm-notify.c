@@ -129,112 +129,6 @@ alarm_notify_finalize (GObject *object)
 
 
 
-/* Looks for a canonicalized URI inside an array of URIs; returns the index
- * within the array or -1 if not found.
- */
-static int
-find_uri_index (GPtrArray *uris, const char *str_uri)
-{
-	int i;
-
-	for (i = 0; i < uris->len; i++) {
-		char *uri;
-
-		uri = uris->pdata[i];
-		if (strcmp (uri, str_uri) == 0)
-			break;
-	}
-
-	if (i == uris->len)
-		return -1;
-	else
-		return i;
-}
-
-/* Frees an array of URIs and the URIs within it. */
-static void
-free_uris (GPtrArray *uris)
-{
-	int i;
-
-	for (i = 0; i < uris->len; i++) {
-		char *uri;
-
-		uri = uris->pdata[i];
-		g_free (uri);
-	}
-
-	g_ptr_array_free (uris, TRUE);
-}
-
-/* Adds an URI to the list of calendars to load on startup */
-static void
-add_uri_to_load (const char *str_uri)
-{
-	GPtrArray *loaded_uris;
-	int i;
-
-	loaded_uris = get_calendars_to_load ();
-	if (!loaded_uris) {
-		g_message ("add_uri_to_load(): Could not get the list of calendars to load; "
-			   "will not add `%s'", str_uri);
-		return;
-	}
-
-	/* Look for the URI in the list of calendars to load */
-
-	i = find_uri_index (loaded_uris, str_uri);
-
-	/* We only need to add the URI if we didn't find it among the list of
-	 * calendars.
-	 */
-	if (i != -1) {
-		free_uris (loaded_uris);
-		return;
-	}
-
-	g_ptr_array_add (loaded_uris, g_strdup (str_uri));
-	save_calendars_to_load (loaded_uris);
-
-	free_uris (loaded_uris);
-}
-
-/* Removes an URI from the list of calendars to load on startup */
-static void
-remove_uri_to_load (const char *str_uri)
-{
-	GPtrArray *loaded_uris;
-	char *loaded_uri;
-	int i;
-
-	loaded_uris = get_calendars_to_load ();
-	if (!loaded_uris) {
-		g_message ("remove_uri_to_load(): Could not get the list of calendars to load; "
-			   "will not add `%s'", str_uri);
-		return;
-	}
-
-	/* Look for the URI in the list of calendars to load */
-
-	i = find_uri_index (loaded_uris, str_uri);
-
-	/* If we didn't find it, there is no need to remove it */
-	if (i == -1) {
-		free_uris (loaded_uris);
-		return;
-	}
-
-	loaded_uri = loaded_uris->pdata[i];
-	g_free (loaded_uri);
-
-	g_ptr_array_remove_index (loaded_uris, i);
-	save_calendars_to_load (loaded_uris);
-
-	free_uris (loaded_uris);
-}
-
-
-
 /**
  * alarm_notify_new:
  * 
@@ -283,8 +177,6 @@ alarm_notify_add_calendar (AlarmNotify *an, const char *str_uri, gboolean load_a
 
 	if (client) {
 		if (e_cal_open (client, FALSE, NULL)) {
-			add_uri_to_load (str_uri);
-			
 			g_hash_table_insert (priv->uri_client_hash,
 					     g_strdup (str_uri), client);
 		}
@@ -305,5 +197,4 @@ alarm_notify_remove_calendar (AlarmNotify *an, const char *str_uri)
 
 		g_hash_table_remove (priv->uri_client_hash, str_uri);
 	}
-	remove_uri_to_load (str_uri);
 }
