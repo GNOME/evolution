@@ -1,5 +1,10 @@
 2002-01-29  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* mail-accounts.c (construct): Don't pass NULL text to
+	gtk_entry_set_text. Maybe this will fix bug #18971.
+
+2002-01-29  Jeffrey Stedfast  <fejj@ximian.com>
+
 	* mail-callbacks.c (redirect): New function that implements the
 	Redirect feature.
 

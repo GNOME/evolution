@@ -808,6 +808,7 @@ construct (MailAccountsDialog *dialog)
 {
 	GladeXML *gui;
 	GtkWidget *notebook, *menu;
+	const char *text;
 	int num;
 	
 	gui = glade_xml_new (EVOLUTION_GLADEDIR "/mail-config.glade", NULL);
@@ -947,8 +948,9 @@ construct (MailAccountsDialog *dialog)
 	
 	/* Other page */
 	dialog->pgp_path = GNOME_FILE_ENTRY (glade_xml_get_widget (gui, "filePgpPath"));
+	text = mail_config_get_pgp_path ();
 	gtk_entry_set_text (GTK_ENTRY (gnome_file_entry_gtk_entry (dialog->pgp_path)),
-			    mail_config_get_pgp_path ());
+			    text ? text : "");
 	gnome_file_entry_set_default_path (dialog->pgp_path, mail_config_get_pgp_path ());
 	gtk_signal_connect (GTK_OBJECT (gnome_file_entry_gtk_entry (dialog->pgp_path)),
 			    "changed", GTK_SIGNAL_FUNC (pgp_path_changed), dialog);
@@ -970,8 +972,9 @@ construct (MailAccountsDialog *dialog)
 			    GTK_SIGNAL_FUNC (filter_log_toggled), dialog);
 	
 	dialog->filter_log_path = GNOME_FILE_ENTRY (glade_xml_get_widget (gui, "fileFilterLog"));
+	text = mail_config_get_filter_log_path ();
 	gtk_entry_set_text (GTK_ENTRY (gnome_file_entry_gtk_entry (dialog->filter_log_path)),
-			    mail_config_get_filter_log_path ());
+			    text ? text : "");
 	gnome_file_entry_set_default_path (dialog->filter_log_path, mail_config_get_filter_log_path ());
 	gtk_signal_connect (GTK_OBJECT (gnome_file_entry_gtk_entry (dialog->filter_log_path)),
 			    "changed", GTK_SIGNAL_FUNC (filter_log_path_changed), dialog);
@@ -998,8 +1001,9 @@ construct (MailAccountsDialog *dialog)
 			    GTK_SIGNAL_FUNC (notify_radio_toggled), dialog);
 	
 	dialog->notify_sound_file = GNOME_FILE_ENTRY (glade_xml_get_widget (gui, "fileNotifyPlaySound"));
+	text = mail_config_get_new_mail_notify_sound_file ();
 	gtk_entry_set_text (GTK_ENTRY (gnome_file_entry_gtk_entry (dialog->notify_sound_file)),
-			    mail_config_get_new_mail_notify_sound_file ());
+			    text ? text : "");
 	gtk_signal_connect (GTK_OBJECT (gnome_file_entry_gtk_entry (dialog->notify_sound_file)),
 			    "changed", GTK_SIGNAL_FUNC (notify_sound_file_changed), dialog);
 	
