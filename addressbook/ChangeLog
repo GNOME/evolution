@@ -1,5 +1,14 @@
 2002-04-23  Christopher James Lahey  <clahey@ximian.com>
 
+	* gui/component/select-names/e-select-names.c,
+	gui/component/select-names/e-select-names.h: Coded handling of the
+	select_entry to search within the displayed contacts.
+
+	* gui/component/select-names/select-names.glade: Updated this
+	dialog to have an entry-select instead of an entry-find.
+
+2002-04-23  Christopher James Lahey  <clahey@ximian.com>
+
 	* gui/component/select-names/select-names.glade: Updated this
 	dialog to match the redesign.
 

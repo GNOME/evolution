@@ -511,6 +511,45 @@ categories_changed (GtkWidget *widget, gint value, ESelectNames *e_select_names)
 }
 
 static void
+select_entry_changed (GtkWidget *widget, ESelectNames *e_select_names)
+{
+	if (e_select_names->select_entry) {
+		char *select_string = gtk_entry_get_text (GTK_ENTRY (e_select_names->select_entry));
+		char *select_strcoll_string = g_utf8_collate_key (select_string, -1);
+		int count;
+		ETable *table;
+		int i;
+
+		table = e_table_scrolled_get_table (e_select_names->table);
+
+		count = e_table_model_row_count (e_select_names->without);
+
+		for (i = 0; i < count; i++) {
+			int model_row = e_table_view_to_model_row (table, i);
+			char *row_strcoll_string =
+				g_utf8_collate_key (e_table_model_value_at (e_select_names->without,
+									    E_CARD_SIMPLE_FIELD_NAME_OR_ORG,
+									    model_row),
+						    -1);
+			if (strcmp (select_strcoll_string, row_strcoll_string) <= 0) {
+				g_free (row_strcoll_string);
+				break;
+			}
+			g_free (row_strcoll_string);
+		}
+		g_free (select_strcoll_string);
+		if (i == count)
+			i --;
+
+		if (count > 0) {
+			i = e_table_view_to_model_row (table, i);
+			e_table_set_cursor_row (table, i);
+		}
+	}
+}
+
+
+static void
 hookup_listener (ESelectNames *e_select_names,
 		 GNOME_Evolution_Storage storage,
 		 EvolutionStorageListener *listener,
@@ -707,18 +746,26 @@ e_select_names_init (ESelectNames *e_select_names)
 	e_select_names->categories = glade_xml_get_widget (gui, "custom-categories");
 	if (e_select_names->categories && !E_IS_CATEGORIES_MASTER_LIST_OPTION_MENU (e_select_names->categories))
 		e_select_names->categories = NULL;
+	if (e_select_names->categories)
+		gtk_signal_connect(GTK_OBJECT(e_select_names->categories), "changed",
+				   GTK_SIGNAL_FUNC(categories_changed), e_select_names);
+
 	e_select_names->search_entry = glade_xml_get_widget (gui, "entry-find");
 	if (e_select_names->search_entry && !GTK_IS_ENTRY (e_select_names->search_entry))
 		e_select_names->search_entry = NULL;
 	if (e_select_names->search_entry)
 		gtk_signal_connect(GTK_OBJECT(e_select_names->search_entry), "activate",
 				   GTK_SIGNAL_FUNC(update_query), e_select_names);
-	if (e_select_names->categories)
-		gtk_signal_connect(GTK_OBJECT(e_select_names->categories), "changed",
-				   GTK_SIGNAL_FUNC(categories_changed), e_select_names);
+
+	e_select_names->select_entry = glade_xml_get_widget (gui, "entry-select");
+	if (e_select_names->select_entry && !GTK_IS_ENTRY (e_select_names->select_entry))
+		e_select_names->select_entry = NULL;
+	if (e_select_names->select_entry)
+		gtk_signal_connect(GTK_OBJECT(e_select_names->select_entry), "changed",
+				   GTK_SIGNAL_FUNC(select_entry_changed), e_select_names);
 
 	button  = glade_xml_get_widget (gui, "button-find");
-	if (button)
+	if (button && GTK_IS_BUTTON (button))
 		gtk_signal_connect(GTK_OBJECT(button), "clicked",
 				   GTK_SIGNAL_FUNC(update_query), e_select_names);
 
