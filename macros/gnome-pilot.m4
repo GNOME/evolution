@@ -19,7 +19,7 @@ AC_SUBST(PILOT_LIBS)
 
 AC_DEFUN([PILOT_LINK_HOOK],[
 	AC_ARG_WITH(pisock,
-	[  --with-pisock          Specify prefix for pisock files],[
+	[  --with-pisock            Specify prefix for pisock files],[
 	if test x$withval = xyes; then
 	    dnl Note that an empty true branch is not valid sh syntax.
 	    ifelse([$1], [], :, [$1])
