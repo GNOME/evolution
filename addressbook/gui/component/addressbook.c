@@ -20,7 +20,7 @@
 #include <e-util/e-util.h>
 #include <e-util/e-popup-menu.h>
 #include <e-util/e-unicode.h>
-#include "e-minicard-view-widget.h"
+#include "addressbook/gui/widgets/e-minicard-view-widget.h"
 #include "addressbook/gui/search/e-addressbook-search-dialog.h"
 
 #include <e-table.h>

@@ -48,7 +48,7 @@ evolution_addressbook_LDADD =						\
 	$(top_builddir)/shell/libeshell.a				\
 	$(EXTRA_GNOME_LIBS)						\
 	$(BONOBO_HTML_GNOME_LIBS)					\
-	$(top_builddir)/addressbook/gui/minicard/libeminicard.a		\
+	$(top_builddir)/addressbook/gui/widgets/libeminicard.a		\
 	$(top_builddir)/addressbook/backend/ebook/libebook.la		\
 	$(top_builddir)/addressbook/ename/libename.la			\
 	$(top_builddir)/addressbook/contact-editor/libecontacteditor.a	\

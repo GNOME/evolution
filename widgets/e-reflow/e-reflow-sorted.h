@@ -21,7 +21,7 @@
 #ifndef __E_REFLOW_SORTED_H__
 #define __E_REFLOW_SORTED_H__
 
-#include <addressbook/gui/minicard/e-reflow.h>
+#include "e-reflow.h"
 
 #ifdef __cplusplus
 extern "C" {

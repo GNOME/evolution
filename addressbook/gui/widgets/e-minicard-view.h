@@ -22,7 +22,7 @@
 #define __E_MINICARD_VIEW_H__
 
 #include <gnome.h>
-#include "e-reflow-sorted.h"
+#include <widgets/e-reflow/e-reflow-sorted.h>
 #include <ebook/e-book.h>
 
 #ifdef __cplusplus

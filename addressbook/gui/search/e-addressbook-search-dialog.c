@@ -24,8 +24,9 @@
 #include <gnome.h>
 #include <e-util/e-canvas.h>
 #include "e-addressbook-search-dialog.h"
-#include "addressbook/gui/minicard/e-minicard-view-widget.h"
+#include "addressbook/gui/widgets/e-minicard-view-widget.h"
 #include "widgets/misc/e-scroll-frame.h"
+
 static void e_addressbook_search_dialog_init		 (EAddressbookSearchDialog		 *widget);
 static void e_addressbook_search_dialog_class_init	 (EAddressbookSearchDialogClass	 *klass);
 static void e_addressbook_search_dialog_set_arg       (GtkObject *o, GtkArg *arg, guint arg_id);

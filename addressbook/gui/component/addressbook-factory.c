@@ -17,7 +17,7 @@
 
 #include "addressbook.h"
 #include "addressbook-component.h"
-#include "addressbook/gui/minicard/e-minicard-control.h"
+#include "addressbook/gui/widgets/e-minicard-control.h"
 #include "select-names/e-select-names-factory.h"
 
 

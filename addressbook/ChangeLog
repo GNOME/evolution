@@ -1,3 +1,15 @@
+2000-09-14  Michael Meeks  <michael@helixcode.com>
+
+	* gui/component/Makefile.am (evolution_addressbook_LDADD): fix path.
+
+	* gui/component/addressbook.c: update include.
+
+	* gui/component/addressbook-factory.c: update include.
+
+	* gui/widgets/e-minicard-view.h: update include.
+
+	* gui/search/e-addressbook-search-dialog.c: update include path.
+
 2000-09-13  Michael Meeks  <michael@helixcode.com>
 
 	* contact-editor/e-contact-editor.c (e_contact_editor_init): hack.
