@@ -1,3 +1,7 @@
+2003-02-27  JP Rosevear  <jpr@ximian.com>
+
+	* conduit/Makefile.am: link to libversit libtool object
+
 2003-02-27  Rodney Dawes  <dobey@ximian.com>
 
 	* backend/ebook/Makefile.am: Fix for server files from Antonio Xu
