@@ -499,7 +499,7 @@ mbox_summary_sync_full(CamelLocalSummary *cls, gboolean expunge, CamelFolderChan
 
 	d(printf("performing full summary/sync\n"));
 
-	camel_operation_start(NULL, _("Synchronising folder"));
+	camel_operation_start(NULL, _("Synchronizing folder"));
 
 	fd = open(cls->folder_path, O_RDONLY);
 	if (fd == -1) {
@@ -700,7 +700,7 @@ mbox_summary_sync_quick(CamelLocalSummary *cls, gboolean expunge, CamelFolderCha
 
 	d(printf("Performing quick summary sync\n"));
 
-	camel_operation_start(NULL, _("Synchronising folder"));
+	camel_operation_start(NULL, _("Synchronizing folder"));
 
 	fd = open(cls->folder_path, O_RDWR);
 	if (fd == -1) {
