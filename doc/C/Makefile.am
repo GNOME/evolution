@@ -8,9 +8,6 @@ SGML_FILES =			\
 	config-prefs.sgml	\
 	config-setupassist.sgml	\
 	config-sync.sgml	\
-	devel-action.sgml	\
-	devel-component.sgml	\
-	devel-script.sgml	\
 	evolution-guide.sgml	\
 	preface.sgml		\
 	usage-calendar.sgml	\
