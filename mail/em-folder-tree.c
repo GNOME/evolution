@@ -742,7 +742,7 @@ static void
 emft_tree_row_collapsed (GtkTreeView *treeview, GtkTreeIter *root, GtkTreePath *tree_path, EMFolderTree *emft)
 {
 	emft_update_model_expanded_state (emft->priv, root, FALSE);
-	em_folder_tree_queue_save_state (emft);
+	emft_queue_save_state (emft);
 }
 
 #if 0
