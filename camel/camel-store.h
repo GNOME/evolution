@@ -46,32 +46,51 @@ extern "C" {
 
 struct _CamelStore
 {
-	CamelService parent_object;	
-	
+	CamelService parent_object;
+
+	GHashTable *folders;
+
 };
 
 
 
 typedef struct {
 	CamelServiceClass parent_class;
-	
-	CamelFolder *       (*get_folder)           (CamelStore *store, 
-						     const gchar *folder_name, 
+
+	CamelFolder *   (*get_folder)               (CamelStore *store,
+						     const char *folder_name,
 						     CamelException *ex);
-	CamelFolder *       (*get_root_folder)      (CamelStore *store, 
+
+	char *          (*get_folder_name)          (CamelStore *store,
+						     const char *folder_name,
 						     CamelException *ex);
-	CamelFolder *       (*get_default_folder)   (CamelStore *store, 
+	char *          (*get_root_folder_name)     (CamelStore *store,
 						     CamelException *ex);
+	char *          (*get_default_folder_name)  (CamelStore *store,
+						     CamelException *ex);
+
+        CamelFolder *   (*lookup_folder)            (CamelStore *store,
+						     const char *folder_name);
+	void            (*cache_folder)             (CamelStore *store,
+						     const char *folder_name,
+						     CamelFolder *folder);
+        void            (*uncache_folder)           (CamelStore *store,
+						     CamelFolder *folder);
 
 } CamelStoreClass;
 
 
-/* public methods */
-
 /* Standard Gtk function */
 GtkType camel_store_get_type (void);
 
-CamelFolder *    camel_store_get_folder       (CamelStore *store, const gchar *folder_name, CamelException *ex);
+/* public methods */
+CamelFolder *    camel_store_get_folder         (CamelStore *store,
+					         const char *folder_name,
+					         CamelException *ex);
+CamelFolder *    camel_store_get_root_folder    (CamelStore *store,
+					         CamelException *ex);
+CamelFolder *    camel_store_get_default_folder (CamelStore *store,
+						 CamelException *ex);
 
 #ifdef __cplusplus
 }

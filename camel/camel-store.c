@@ -1,10 +1,11 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/* camelStore.c : Abstract class for an email store */
+/* camel-store.c : Abstract class for an email store */
 
 /* 
  *
- * Author : 
+ * Authors:
  *  Bertrand Guiheneuf <bertrand@helixcode.com>
+ *  Dan Winship <danw@helixcode.com>
  *
  * Copyright 1999, 2000 Helix Code, Inc. (http://www.helixcode.com)
  *
@@ -25,6 +26,7 @@
  */
 #include <config.h>
 #include "camel-store.h"
+#include "camel-folder.h"
 #include "camel-exception.h"
 #include "camel-log.h"
 
@@ -33,35 +35,50 @@ static CamelServiceClass *parent_class = NULL;
 /* Returns the class for a CamelStore */
 #define CS_CLASS(so) CAMEL_STORE_CLASS (GTK_OBJECT(so)->klass)
 
-static CamelFolder *_get_root_folder(CamelStore *store, CamelException *ex);
-static CamelFolder *_get_default_folder(CamelStore *store, CamelException *ex);
-static CamelFolder *_get_folder (CamelStore *store, const gchar *folder_name, CamelException *ex);
+static CamelFolder *get_folder (CamelStore *store, const char *folder_name,
+				CamelException *ex);
+
+static char *get_folder_name (CamelStore *store, const char *folder_name,
+			      CamelException *ex);
+static char *get_root_folder_name (CamelStore *store, CamelException *ex);
+static char *get_default_folder_name (CamelStore *store, CamelException *ex);
+
+static CamelFolder *lookup_folder (CamelStore *store, const char *folder_name);
+static void cache_folder (CamelStore *store, const char *folder_name,
+			  CamelFolder *folder);
+static void uncache_folder (CamelStore *store, CamelFolder *folder);
+
+static void finalize (GtkObject *object);
 
 static void
 camel_store_class_init (CamelStoreClass *camel_store_class)
 {
+	GtkObjectClass *gtk_object_class =
+		GTK_OBJECT_CLASS (camel_store_class);
 
 	parent_class = gtk_type_class (camel_service_get_type ());
-	
+
 	/* virtual method definition */
-	camel_store_class->get_folder = _get_folder;
-	camel_store_class->get_root_folder = _get_root_folder;
-	camel_store_class->get_default_folder = _get_default_folder;
+	camel_store_class->get_folder = get_folder;
+	camel_store_class->get_folder_name = get_folder_name;
+	camel_store_class->get_root_folder_name = get_root_folder_name;
+	camel_store_class->get_default_folder_name = get_default_folder_name;
+	camel_store_class->lookup_folder = lookup_folder;
+	camel_store_class->cache_folder = cache_folder;
+	camel_store_class->uncache_folder = uncache_folder;
+
+	/* virtual method override */
+	gtk_object_class->finalize = finalize;
 }
-
-
-
-
-
 
 
 GtkType
 camel_store_get_type (void)
 {
 	static GtkType camel_store_type = 0;
-	
-	if (!camel_store_type)	{
-		GtkTypeInfo camel_store_info =	
+
+	if (!camel_store_type) {
+		GtkTypeInfo camel_store_info =
 		{
 			"CamelStore",
 			sizeof (CamelStore),
@@ -72,73 +89,187 @@ camel_store_get_type (void)
 				/* reserved_2 */ NULL,
 			(GtkClassInitFunc) NULL,
 		};
-		
+
 		camel_store_type = gtk_type_unique (CAMEL_SERVICE_TYPE, &camel_store_info);
 	}
-	
+
 	return camel_store_type;
 }
 
 
-
-
-static CamelFolder *
-_get_folder (CamelStore *store, const gchar *folder_name, CamelException *ex)
+static void
+finalize (GtkObject *object)
 {
-	return NULL;
+	CamelStore *store = CAMEL_STORE (object);
+
+	if (store->folders) {
+		if (g_hash_table_size (store->folders) != 0) {
+			g_warning ("Folder cache for store %p contains "
+				   "%d folders at destruction.", store,
+				   g_hash_table_size (store->folders));
+		}
+		g_hash_table_destroy (store->folders);
+	}
 }
 
 
+static CamelFolder *
+get_folder (CamelStore *store, const char *folder_name, CamelException *ex)
+{
+	g_warning ("CamelStore::get_folder not implemented for `%s'",
+		   gtk_type_name (GTK_OBJECT_TYPE (store)));
+	return NULL;
+}
+
+static char *
+get_folder_name (CamelStore *store, const char *folder_name,
+		 CamelException *ex)
+{
+	g_warning ("CamelStore::get_folder_name not implemented for `%s'",
+		   gtk_type_name (GTK_OBJECT_TYPE (store)));
+	return NULL;
+}
+
+static char *
+get_root_folder_name (CamelStore *store, CamelException *ex)
+{
+	return g_strdup ("/");
+}
+
+static char *
+get_default_folder_name (CamelStore *store, CamelException *ex)
+{
+	return CS_CLASS (store)->get_root_folder_name (store, ex);
+}
+
+static CamelFolder *
+lookup_folder (CamelStore *store, const char *folder_name)
+{
+	if (store->folders)
+		return g_hash_table_lookup (store->folders, folder_name);
+	return NULL;
+}
+
+static void
+cache_folder (CamelStore *store, const char *folder_name, CamelFolder *folder)
+{
+	if (!store->folders)
+		return;
+
+	if (g_hash_table_lookup (store->folders, folder_name)) {
+		g_warning ("Caching folder %s that already exists.",
+			   folder_name);
+	}
+	g_hash_table_insert (store->folders, (gpointer)folder_name, folder);
+	gtk_signal_connect_object (GTK_OBJECT (folder), "destroy",
+				   GTK_SIGNAL_FUNC (CS_CLASS (store)->uncache_folder),
+				   GTK_OBJECT (store));
+}
+
+static void
+uncache_folder (CamelStore *store, CamelFolder *folder)
+{
+	g_hash_table_remove (store->folders,
+			     camel_folder_get_full_name (folder));
+}
+
+
+static CamelFolder *
+get_folder_internal (CamelStore *store, const char *folder_name,
+		     CamelException *ex)
+{
+	CamelFolder *folder = NULL;
+
+	/* Try cache first. */
+	folder = CS_CLASS (store)->lookup_folder (store, folder_name);
+
+	if (!folder) {
+		folder = CS_CLASS (store)->get_folder (store, folder_name, ex);
+		if (!folder)
+			return NULL;
+
+		CS_CLASS (store)->cache_folder (store, folder_name, folder);
+	}
+
+	gtk_object_ref (GTK_OBJECT (folder));
+	return folder;
+}
+
+
+
 /** 
- * camel_store_get_folder: return the folder corresponding to a path.
- * @store: store
+ * camel_store_get_folder: Return the folder corresponding to a path.
+ * @store: a CamelStore
  * @folder_name: name of the folder to get
+ * @ex: a CamelException
  * 
- * Returns the folder corresponding to the path "name". 
- * If the path begins with the separator caracter, it 
- * is relative to the root folder. Otherwise, it is
- * relative to the default folder.
- * The folder does not necessarily exist on the store.
- * To make sure it already exists, use its "exists" method.
- * If it does not exist, you can create it with its 
- * "create" method.
- *
+ * Returns the folder corresponding to the path "name". If the path
+ * begins with the separator character, it is relative to the root
+ * folder. Otherwise, it is relative to the default folder. The folder
+ * does not necessarily already exist on the store. To test if it
+ * already exists, use its "exists" method. If it does not exist, you
+ * can create it with its "create" method.
  *
  * Return value: the folder
  **/
 CamelFolder *
-camel_store_get_folder (CamelStore *store, const gchar *folder_name, CamelException *ex)
+camel_store_get_folder (CamelStore *store, const char *folder_name,
+			CamelException *ex)
 {
-	return CS_CLASS(store)->get_folder (store, folder_name, ex);
+	char *name;
+	CamelFolder *folder = NULL;
+
+	name = CS_CLASS (store)->get_folder_name (store, folder_name, ex);
+	if (name) {
+		folder = get_folder_internal (store, name, ex);
+		g_free (name);
+	}
+	return folder;
 }
 
 
 /**
- * camel_store_get_root_folder : return the toplevel folder
+ * camel_store_get_root_folder: return the top-level folder
  * 
- * Returns the folder which is at the top of the folder
- * hierarchy. This folder is generally different from
- * the default folder. 
+ * Returns the folder which is at the top of the folder hierarchy.
+ * This folder may or may not be the same as the default folder.
  * 
- * @Return value: the toplevel folder.
+ * Return value: the top-level folder.
  **/
-static CamelFolder *
-_get_root_folder (CamelStore *store, CamelException *ex)
+CamelFolder *
+camel_store_get_root_folder (CamelStore *store, CamelException *ex)
 {
-    return NULL;
+	char *name;
+	CamelFolder *folder = NULL;
+
+	name = CS_CLASS (store)->get_root_folder_name (store, ex);
+	if (name) {
+		folder = get_folder_internal (store, name, ex);
+		g_free (name);
+	}
+	return folder;
 }
 
 /** 
- * camel_store_get_default_folder : return the store default folder
+ * camel_store_get_default_folder: return the store default folder
  *
- * The default folder is the folder which is presented 
- * to the user in the default configuration. The default
- * is often the root folder.
+ * The default folder is the folder which is presented to the user in
+ * the default configuration. This defaults to the root folder if
+ * the store doesn't override it.
  *
- *  @Return value: the default folder.
+ * Return value: the default folder.
  **/
-static CamelFolder *
-_get_default_folder (CamelStore *store, CamelException *ex)
+CamelFolder *
+camel_store_get_default_folder (CamelStore *store, CamelException *ex)
 {
-    return NULL;
+	char *name;
+	CamelFolder *folder = NULL;
+
+	name = CS_CLASS (store)->get_default_folder_name (store, ex);
+	if (name) {
+		folder = get_folder_internal (store, name, ex);
+		g_free (name);
+	}
+	return folder;
 }
+

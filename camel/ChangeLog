@@ -1,3 +1,22 @@
+2000-04-06  Dan Winship  <danw@helixcode.com>
+
+	* camel-store.[ch]: Reorganize the folder-fetching methods and
+	implement a folder cache so that multiple requests for the same
+	folder will yield the same CamelFolder object (as long as it
+	remains active). Includes some code to remove no-longer-active
+	folders from the cache, but it doesn't get used since nothing is
+	ever unref'ed in Camel right now...
+	
+	* providers/mbox/camel-mbox-store.c:
+	* providers/pop3/camel-pop3-store.c: update for CamelStore
+	changes.
+
+	* camel-folder.[ch]: Remove the (unused) CamelException argument
+	from camel_folder_get_name and camel_folder_get_full_name.
+	(camel_folder_set_name): make this go away since changing a
+	folder's name after it has been created could result in it
+	conflicting with a separately-issued folder.
+	
 2000-04-05  Dan Winship  <danw@helixcode.com>
 
 	* g_url_new really wanted to take a CamelException. So, rename

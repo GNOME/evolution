@@ -55,8 +55,11 @@ static gboolean pop3_disconnect (CamelService *service, CamelException *ex);
 static GList *query_auth_types (CamelService *service);
 static void free_auth_types (CamelService *service, GList *authtypes);
 
-static CamelFolder *get_folder (CamelStore *store, const gchar *folder_name, 
+static CamelFolder *get_folder (CamelStore *store, const char *folder_name, 
 				CamelException *ex);
+static char *get_folder_name (CamelStore *store, const char *folder_name, 
+			      CamelException *ex);
+static char *get_root_folder_name (CamelStore *store, CamelException *ex);
 
 
 static void
@@ -79,9 +82,9 @@ camel_pop3_store_class_init (CamelPop3StoreClass *camel_pop3_store_class)
 	camel_service_class->query_auth_types = query_auth_types;
 	camel_service_class->free_auth_types = free_auth_types;
 
-	camel_store_class->get_root_folder = camel_pop3_folder_new;
-	camel_store_class->get_default_folder = camel_pop3_folder_new;
 	camel_store_class->get_folder = get_folder;
+	camel_store_class->get_folder_name = get_folder_name;
+	camel_store_class->get_root_folder_name = get_root_folder_name;
 }
 
 
@@ -90,9 +93,11 @@ static void
 camel_pop3_store_init (gpointer object, gpointer klass)
 {
 	CamelService *service = CAMEL_SERVICE (object);
+	CamelStore *store = CAMEL_STORE (object);
 
 	service->url_flags = ( CAMEL_SERVICE_URL_NEED_USER |
 			       CAMEL_SERVICE_URL_NEED_HOST );
+	store->folders = g_hash_table_new (g_str_hash, g_str_equal);
 }
 
 
@@ -324,17 +329,31 @@ pop3_disconnect (CamelService *service, CamelException *ex)
 	return TRUE;
 }
 
-static CamelFolder *get_folder (CamelStore *store, const gchar *folder_name, 
-				CamelException *ex)
+static CamelFolder *
+get_folder (CamelStore *store, const char *folder_name, CamelException *ex)
+{
+	return camel_pop3_folder_new (store, ex);
+}
+
+static char *
+get_folder_name (CamelStore *store, const char *folder_name,
+		 CamelException *ex)
 {
 	if (!strcasecmp (folder_name, "inbox"))
-		return camel_pop3_folder_new (store, ex);
+		return g_strdup ("inbox");
 	else {
 		camel_exception_setv (ex, CAMEL_EXCEPTION_FOLDER_INVALID,
 				      "No such folder `%s'.", folder_name);
 		return NULL;
 	}
 }
+
+static char *
+get_root_folder_name (CamelStore *store, CamelException *ex)
+{
+	return g_strdup ("inbox");
+}
+
 
 /**
  * camel_pop3_command: Send a command to a POP3 server.

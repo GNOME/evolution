@@ -70,9 +70,8 @@ static void _close_async (CamelFolder *folder,
 static void _set_name (CamelFolder *folder, 
 		       const gchar *name, 
 		       CamelException *ex);
-static const gchar *_get_name (CamelFolder *folder, 
-			       CamelException *ex);
-static const gchar *_get_full_name (CamelFolder *folder, CamelException *ex);
+static const gchar *_get_name (CamelFolder *folder);
+static const gchar *_get_full_name (CamelFolder *folder);
 
 
 static gboolean _can_hold_folders  (CamelFolder *folder);
@@ -270,7 +269,7 @@ _init (CamelFolder *folder, CamelStore *parent_store,
 	folder->open_mode = FOLDER_OPEN_UNKNOWN;
 	folder->open_state = FOLDER_CLOSE;
 	folder->separator = separator;
-	camel_folder_set_name (folder, name, ex);
+	CF_CLASS (folder)->set_name (folder, name, ex);
 }
 
 
@@ -462,8 +461,7 @@ _set_name (CamelFolder *folder,
 
 	if (folder->parent_folder) {
 		parent_full_name =
-			camel_folder_get_full_name (folder->parent_folder, ex);
-		if (camel_exception_get_id (ex)) return;
+			camel_folder_get_full_name (folder->parent_folder);
 		
 		full_name = g_strdup_printf ("%s%c%s", parent_full_name,
 					     folder->separator, name);
@@ -479,24 +477,9 @@ _set_name (CamelFolder *folder,
 }
 
 
-/**
- * camel_folder_set_name:set the (short) name of the folder
- * @folder: folder
- * @name: new name of the folder
- * @ex: exception object
- **/
-void
-camel_folder_set_name (CamelFolder *folder, const gchar *name,
-		       CamelException *ex)
-{
-	g_assert (folder != NULL);
-	CF_CLASS (folder)->set_name (folder, name, ex);
-}
-
-
 
 static const gchar *
-_get_name (CamelFolder *folder, CamelException *ex)
+_get_name (CamelFolder *folder)
 {
 	return folder->name;
 }
@@ -512,16 +495,16 @@ _get_name (CamelFolder *folder, CamelException *ex)
  * Return value: name of the folder
  **/
 const gchar *
-camel_folder_get_name (CamelFolder *folder, CamelException *ex)
+camel_folder_get_name (CamelFolder *folder)
 {
 	g_assert (folder != NULL);
-	return CF_CLASS (folder)->get_name (folder, ex);
+	return CF_CLASS (folder)->get_name (folder);
 }
 
 
 
 static const gchar *
-_get_full_name (CamelFolder *folder, CamelException *ex)
+_get_full_name (CamelFolder *folder)
 {
 	return folder->full_name;
 }
@@ -535,10 +518,10 @@ _get_full_name (CamelFolder *folder, CamelException *ex)
  * Return value: full name of the folder
  **/
 const gchar *
-camel_folder_get_full_name (CamelFolder *folder, CamelException *ex)
+camel_folder_get_full_name (CamelFolder *folder)
 {
 	g_assert (folder != NULL);
-	return CF_CLASS (folder)->get_full_name (folder, ex);
+	return CF_CLASS (folder)->get_full_name (folder);
 }
 
 
@@ -648,9 +631,7 @@ _get_subfolder (CamelFolder *folder,
 	
 	g_assert (folder->parent_store != NULL);
 	
-	current_folder_full_name = camel_folder_get_full_name (folder, ex);
-	if (camel_exception_get_id (ex)) return NULL;
-
+	current_folder_full_name = camel_folder_get_full_name (folder);
 
 	full_name = g_strdup_printf ("%s%c%s", current_folder_full_name,
 				     folder->separator, folder_name);

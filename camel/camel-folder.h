@@ -115,11 +115,9 @@ typedef struct {
 			     const gchar *name, 
 			     CamelException *ex);
 
-	const gchar *  (*get_name)  (CamelFolder *folder, 
-				     CamelException *ex);
+	const gchar *  (*get_name)  (CamelFolder *folder);
 
-	const gchar *  (*get_full_name)  (CamelFolder *folder, 
-					  CamelException *ex);
+	const gchar *  (*get_full_name)  (CamelFolder *folder);
 
 	gboolean   (*can_hold_folders)   (CamelFolder *folder);
 
@@ -253,14 +251,9 @@ GList *            camel_folder_expunge                (CamelFolder *folder,
 							CamelException *ex);
 
 
-/* folder name manipulation operations */
-void               camel_folder_set_name               (CamelFolder *folder, 
-							const gchar *name, 
-							CamelException *ex);
-const gchar *      camel_folder_get_name               (CamelFolder *folder, 
-							CamelException *ex);
-const gchar *      camel_folder_get_full_name          (CamelFolder *folder, 
-							CamelException *ex);
+/* folder name operations */
+const gchar *      camel_folder_get_name               (CamelFolder *folder);
+const gchar *      camel_folder_get_full_name          (CamelFolder *folder);
 
 
 /* various properties accessors */

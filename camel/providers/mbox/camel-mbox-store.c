@@ -35,8 +35,10 @@
 #define CF_CLASS(so) CAMEL_FOLDER_CLASS (GTK_OBJECT(so)->klass)
 #define CMBOXF_CLASS(so) CAMEL_MBOX_FOLDER_CLASS (GTK_OBJECT(so)->klass)
 
-static CamelFolder *_get_folder (CamelStore *store, const gchar *folder_name, CamelException *ex);
-
+static CamelFolder *get_folder (CamelStore *store, const char *folder_name,
+				CamelException *ex);
+static char *get_folder_name (CamelStore *store, const char *folder_name,
+			      CamelException *ex);
 
 static void
 camel_mbox_store_class_init (CamelMboxStoreClass *camel_mbox_store_class)
@@ -44,7 +46,8 @@ camel_mbox_store_class_init (CamelMboxStoreClass *camel_mbox_store_class)
 	CamelStoreClass *camel_store_class = CAMEL_STORE_CLASS (camel_mbox_store_class);
 	
 	/* virtual method overload */
-	camel_store_class->get_folder = _get_folder;
+	camel_store_class->get_folder = get_folder;
+	camel_store_class->get_folder_name = get_folder_name;
 }
 
 
@@ -53,8 +56,12 @@ static void
 camel_mbox_store_init (gpointer object, gpointer klass)
 {
 	CamelService *service = CAMEL_SERVICE (object);
+	CamelStore *store = CAMEL_STORE (object);
 
 	service->url_flags = CAMEL_SERVICE_URL_NEED_PATH;
+
+	/* mbox names are filenames, so they are case-sensitive. */
+	store->folders = g_hash_table_new (g_str_hash, g_str_equal);
 }
 
 
@@ -97,14 +104,10 @@ camel_mbox_store_get_toplevel_dir (CamelMboxStore *store)
 
 
 static CamelFolder *
-_get_folder (CamelStore *store, const gchar *folder_name, CamelException *ex)
+get_folder (CamelStore *store, const char *folder_name, CamelException *ex)
 {
 	CamelMboxFolder *new_mbox_folder;
 	CamelFolder *new_folder;
-
-	/* check if folder has already been created */
-	/* call the standard routine for that when  */
-	/* it is done ... */
 
 	CAMEL_LOG_FULL_DEBUG ("Entering CamelMboxStore::get_folder\n");
 	new_mbox_folder =  gtk_type_new (CAMEL_MBOX_FOLDER_TYPE);
@@ -120,4 +123,11 @@ _get_folder (CamelStore *store, const gchar *folder_name, CamelException *ex)
 	CAMEL_LOG_FULL_DEBUG ("Leaving CamelMboxStore::get_folder\n");
 
 	return new_folder;
+}
+
+static char *
+get_folder_name (CamelStore *store, const char *folder_name,
+		 CamelException *ex)
+{
+	return g_strdup (folder_name);
 }
