@@ -746,3 +746,38 @@ cal_client_update_object (CalClient *client, const char *uid, const char *calobj
 	CORBA_exception_free (&ev);
 	return retval;
 }
+
+gboolean
+cal_client_remove_object (CalClient *client, const char *uid)
+{
+	CalClientPrivate *priv;
+	CORBA_Environment ev;
+	gboolean retval;
+
+	g_return_val_if_fail (client != NULL, FALSE);
+	g_return_val_if_fail (IS_CAL_CLIENT (client), FALSE);
+
+	priv = client->priv;
+	g_return_val_if_fail (priv->load_state == LOAD_STATE_LOADED, FALSE);
+
+	g_return_val_if_fail (uid != NULL, FALSE);
+
+	retval = FALSE;
+
+	CORBA_exception_init (&ev);
+	Evolution_Calendar_Cal_remove_object (priv->cal, uid, &ev);
+
+	if (ev._major == CORBA_USER_EXCEPTION &&
+	    strcmp (CORBA_exception_id (&ev), ex_Evolution_Calendar_Cal_NotFound) == 0)
+		goto out;
+	else if (ev._major != CORBA_NO_EXCEPTION) {
+		g_message ("cal_client_remove_object(): could not remove the object");
+		goto out;
+	}
+
+	retval = TRUE;
+
+ out:
+	CORBA_exception_free (&ev);
+	return retval;
+}

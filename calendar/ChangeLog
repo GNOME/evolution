@@ -1,3 +1,15 @@
+2000-02-17  Federico Mena Quintero  <federico@helixcode.com>
+
+	* cal-client.c (cal_client_remove_object): Implemented.
+
+	* cal.c (cal_notify_remove): Implemented.
+	(Cal_remove_object): Implemented.
+	(cal_get_epv): Fill in the remove_object field in the epv.
+
+	* cal-backend.c (cal_backend_remove_object): Implemented.
+	(notify_remove): New function to notify clients that an object was
+	removed.
+
 2000-02-16  Russell Steinthal  <rms39@columbia.edu>
 
 	* calobj.[ch], eventedit.c, main.c: Change iCalObject.organizer

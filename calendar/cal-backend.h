@@ -78,7 +78,7 @@ GList *cal_backend_get_events_in_range (CalBackend *backend, time_t start, time_
 
 gboolean cal_backend_update_object (CalBackend *backend, const char *uid, const char *calobj);
 
-void cal_backend_remove_object (CalBackend *backend, const char *uid);
+gboolean cal_backend_remove_object (CalBackend *backend, const char *uid);
 
 
 

@@ -856,6 +856,23 @@ notify_update (CalBackend *backend, const char *uid)
 	}
 }
 
+/* Notifies a backend's clients that an object was removed */
+static void
+notify_remove (CalBackend *backend, const char *uid)
+{
+	CalBackendPrivate *priv;
+	GList *l;
+
+	priv = backend->priv;
+
+	for (l = priv->clients; l; l = l->next) {
+		Cal *cal;
+
+		cal = CAL (l->data);
+		cal_notify_remove (cal, uid);
+	}
+}
+
 /**
  * cal_backend_update_object:
  * @backend: A calendar backend.
@@ -900,22 +917,45 @@ cal_backend_update_object (CalBackend *backend, const char *uid, const char *cal
 
 	add_object (backend, new_ico);
 
+	/* FIXME: do the notification asynchronously */
+
 	notify_update (backend, new_ico->uid);
 	return TRUE;
 }
 
-void
+/**
+ * cal_backend_remove_object:
+ * @backend: A calendar backend.
+ * @uid: Unique identifier of the object to remove.
+ * 
+ * Removes an object in a calendar backend.  The backend will notify all of its
+ * clients about the change.
+ * 
+ * Return value: TRUE on success, FALSE on being passed an UID for an object
+ * that does not exist in the backend.
+ **/
+gboolean
 cal_backend_remove_object (CalBackend *backend, const char *uid)
 {
 	CalBackendPrivate *priv;
+	iCalObject *ico;
 
-	g_return_if_fail (backend != NULL);
-	g_return_if_fail (IS_CAL_BACKEND (backend));
+	g_return_val_if_fail (backend != NULL, FALSE);
+	g_return_val_if_fail (IS_CAL_BACKEND (backend), FALSE);
 
 	priv = backend->priv;
-	g_return_if_fail (priv->loaded);
+	g_return_val_if_fail (priv->loaded, FALSE);
 	
-	g_return_if_fail (uid != NULL);
+	g_return_val_if_fail (uid != NULL, FALSE);
 
-	/* FIXME */
+	ico = lookup_object (backend, uid);
+	if (!ico)
+		return FALSE;
+
+	remove_object (backend, ico);
+
+	/* FIXME: do the notification asynchronously */
+
+	notify_remove (backend, uid);
+	return TRUE;
 }

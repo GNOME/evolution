@@ -325,6 +325,24 @@ Cal_update_object (PortableServer_Servant servant,
 				     NULL);
 }
 
+/* Cal::remove_object method */
+static void
+Cal_remove_object (PortableServer_Servant servant,
+		   const Evolution_Calendar_CalObjUID uid,
+		   CORBA_Environment *ev)
+{
+	Cal *cal;
+	CalPrivate *priv;
+
+	cal = CAL (bonobo_object_from_servant (servant));
+	priv = cal->priv;
+
+	if (!cal_backend_remove_object (priv->backend, uid))
+		CORBA_exception_set (ev, CORBA_USER_EXCEPTION,
+				     ex_Evolution_Calendar_Cal_NotFound,
+				     NULL);
+}
+
 /**
  * cal_get_epv:
  * @void:
@@ -344,6 +362,7 @@ cal_get_epv (void)
 	epv->get_uids = Cal_get_uids;
 	epv->get_events_in_range = Cal_get_events_in_range;
 	epv->update_object = Cal_update_object;
+	epv->remove_object = Cal_remove_object;
 
 	return epv;
 }
@@ -504,6 +523,37 @@ cal_notify_update (Cal *cal, const char *uid)
 	if (ev._major != CORBA_NO_EXCEPTION)
 		g_message ("cal_notify_update(): could not notify the listener "
 			   "about an updated object");
+
+	CORBA_exception_free (&ev);
+}
+
+/**
+ * cal_notify_remove:
+ * @cal: A calendar client interface.
+ * @uid: UID of object that was removed.
+ * 
+ * Notifies a listener attached to a calendar client interface object about a
+ * calendar object that was removed.
+ **/
+void
+cal_notify_remove (Cal *cal, const char *uid)
+{
+	CalPrivate *priv;
+	CORBA_Environment ev;
+
+	g_return_if_fail (cal != NULL);
+	g_return_if_fail (IS_CAL (cal));
+	g_return_if_fail (uid != NULL);
+
+	priv = cal->priv;
+	g_return_if_fail (priv->listener != CORBA_OBJECT_NIL);
+
+	CORBA_exception_init (&ev);
+	Evolution_Calendar_Listener_obj_removed (priv->listener, uid, &ev);
+
+	if (ev._major != CORBA_NO_EXCEPTION)
+		g_message ("cal_notify_remove(): could not notify the listener "
+			   "about a removed object");
 
 	CORBA_exception_free (&ev);
 }
