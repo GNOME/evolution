@@ -82,7 +82,6 @@
 #include "evolution-shell-component-utils.h" /* Pixmap stuff, sigh */
 
 static void emfv_folder_changed(CamelFolder *folder, CamelFolderChangeInfo *changes, EMFolderView *emfv);
-static void emfv_message_changed(CamelFolder *folder, const char *uid, EMFolderView *emfv);
 
 static void emfv_list_message_selected(MessageList *ml, const char *uid, EMFolderView *emfv);
 static int emfv_list_right_click(ETree *tree, gint row, ETreePath path, gint col, GdkEvent *event, EMFolderView *emfv);
@@ -114,7 +113,7 @@ struct _EMFolderViewPrivate {
 	guint seen_id;
 	guint setting_notify_id;
 	
-	CamelObjectHookID folder_changed_id, message_changed_id;
+	CamelObjectHookID folder_changed_id;
 
 	GtkWidget *invisible;
 	char *selection_uri;
@@ -124,6 +123,8 @@ static GtkVBoxClass *emfv_parent;
 
 enum {
 	EMFV_ON_URL,
+	EMFV_LOADED,
+	EMFV_CHANGED,
 	LAST_SIGNAL
 };
 
@@ -187,8 +188,6 @@ emfv_finalise(GObject *o)
 	if (emfv->folder) {
 		if (p->folder_changed_id)
 			camel_object_remove_event(emfv->folder, p->folder_changed_id);
-		if (p->message_changed_id)
-			camel_object_remove_event(emfv->folder, p->message_changed_id);
 		camel_object_unref(emfv->folder);
 		g_free(emfv->folder_uri);
 	}
@@ -257,6 +256,24 @@ emfv_class_init(GObjectClass *klass)
 					     em_marshal_VOID__STRING_STRING,
 					     G_TYPE_NONE,
 					     2, G_TYPE_STRING, G_TYPE_STRING);
+
+	signals[EMFV_LOADED] = g_signal_new("loaded",
+					    G_OBJECT_CLASS_TYPE(klass),
+					    G_SIGNAL_RUN_LAST,
+					    G_STRUCT_OFFSET(EMFolderViewClass, loaded),
+					    NULL, NULL,
+					    g_cclosure_marshal_VOID__VOID,
+					    G_TYPE_NONE,
+					    0);
+
+	signals[EMFV_CHANGED] = g_signal_new("changed",
+					     G_OBJECT_CLASS_TYPE(klass),
+					     G_SIGNAL_RUN_LAST,
+					     G_STRUCT_OFFSET(EMFolderViewClass, on_url),
+					     NULL, NULL,
+					     g_cclosure_marshal_VOID__VOID,
+					     G_TYPE_NONE,
+					     0);
 }
 
 GType
@@ -369,7 +386,6 @@ emfv_set_folder(EMFolderView *emfv, CamelFolder *folder, const char *uri)
 	if (emfv->folder) {
 		mail_sync_folder (emfv->folder, NULL, NULL);
 		camel_object_remove_event(emfv->folder, emfv->priv->folder_changed_id);
-		camel_object_remove_event(emfv->folder, emfv->priv->message_changed_id);
 		camel_object_unref(emfv->folder);
 	}
 
@@ -377,12 +393,13 @@ emfv_set_folder(EMFolderView *emfv, CamelFolder *folder, const char *uri)
 	if (folder) {
 		emfv->priv->folder_changed_id = camel_object_hook_event(folder, "folder_changed",
 									(CamelObjectEventHookFunc)emfv_folder_changed, emfv);
-		emfv->priv->message_changed_id = camel_object_hook_event(folder, "message_changed",
-									 (CamelObjectEventHookFunc)emfv_message_changed, emfv);
 		camel_object_ref(folder);
 	}
 	
 	emfv_enable_menus(emfv);
+
+	/* TODO: should probably be called after all processing, not just this class's impl */
+	g_signal_emit(emfv, signals[EMFV_LOADED], 0);
 }
 
 static void
@@ -1803,6 +1820,8 @@ emfv_list_message_selected(MessageList *ml, const char *uid, EMFolderView *emfv)
 	}
 
 	emfv_enable_menus(emfv);
+
+	g_signal_emit(emfv, signals[EMFV_CHANGED], 0);
 }
 
 static void
@@ -1965,18 +1984,13 @@ static void
 emfv_gui_folder_changed(CamelFolder *folder, void *dummy, EMFolderView *emfv)
 {
 	emfv_enable_menus(emfv);
+
+	g_signal_emit(emfv, signals[EMFV_LOADED], 0);
 	g_object_unref(emfv);
 }
 
 static void
 emfv_folder_changed(CamelFolder *folder, CamelFolderChangeInfo *changes, EMFolderView *emfv)
-{
-	g_object_ref(emfv);
-	mail_async_event_emit(emfv->async, MAIL_ASYNC_GUI, (MailAsyncFunc)emfv_gui_folder_changed, folder, NULL, emfv);
-}
-
-static void
-emfv_message_changed(CamelFolder *folder, const char *uid, EMFolderView *emfv)
 {
 	g_object_ref(emfv);
 	mail_async_event_emit(emfv->async, MAIL_ASYNC_GUI, (MailAsyncFunc)emfv_gui_folder_changed, folder, NULL, emfv);

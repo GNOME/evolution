@@ -22,7 +22,6 @@
  *
  */
 
-
 #ifdef HAVE_CONFIG_H
 #include <config.h>
 #endif
@@ -154,7 +153,6 @@ static char *filter_date (time_t date);
 static char *filter_size (int size);
 
 static void folder_changed (CamelObject *o, gpointer event_data, gpointer user_data);
-static void message_changed (CamelObject *o, gpointer event_data, gpointer user_data);
 
 static void save_hide_state(MessageList *ml);
 static void load_hide_state(MessageList *ml);
@@ -1650,7 +1648,6 @@ message_list_destroy(GtkObject *object)
 		save_tree_state(message_list);
 		save_hide_state(message_list);
 		camel_object_unhook_event(message_list->folder, "folder_changed", folder_changed, message_list);
-		camel_object_unhook_event(message_list->folder, "message_changed", message_changed, message_list);
 		camel_object_unref (message_list->folder);
 		message_list->folder = NULL;
 	}
@@ -2506,19 +2503,6 @@ folder_changed (CamelObject *o, gpointer event_data, gpointer user_data)
 	mail_async_event_emit(ml->async_event, MAIL_ASYNC_GUI, (MailAsyncFunc)main_folder_changed, o, changes, user_data);
 }
 
-static void
-message_changed (CamelObject *o, gpointer event_data, gpointer user_data)
-{
-	CamelFolderChangeInfo *changes;
-	MessageList *ml = MESSAGE_LIST (user_data);
-
-	changes = camel_folder_change_info_new();
-	camel_folder_change_info_change_uid(changes, (char *)event_data);
-
-	mail_async_event_emit(ml->async_event, MAIL_ASYNC_GUI, (MailAsyncFunc)main_folder_changed, o, changes, user_data);
-}
-
-
 /**
  * message_list_set_folder:
  * @message_list: Message List widget
@@ -2569,8 +2553,6 @@ message_list_set_folder (MessageList *message_list, CamelFolder *folder, const c
 		save_hide_state(message_list);
 		camel_object_unhook_event((CamelObject *)message_list->folder, "folder_changed",
 					  folder_changed, message_list);
-		camel_object_unhook_event((CamelObject *)message_list->folder, "message_changed",
-					  message_changed, message_list);
 		camel_object_unref (message_list->folder);
 		message_list->folder = NULL;
 	}
@@ -2618,10 +2600,7 @@ message_list_set_folder (MessageList *message_list, CamelFolder *folder, const c
 		/* Build the etree suitable for this folder */
 		message_list_setup_etree (message_list, outgoing);
 		
-		camel_object_hook_event (folder, "folder_changed",
-					 folder_changed, message_list);
-		camel_object_hook_event (folder, "message_changed",
-					 message_changed, message_list);
+		camel_object_hook_event (folder, "folder_changed", folder_changed, message_list);
 		
 		gconf = mail_config_get_gconf_client ();
 		hide_deleted = !gconf_client_get_bool (gconf, "/apps/evolution/mail/display/show_deleted", NULL);

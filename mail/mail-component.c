@@ -44,6 +44,8 @@
 #include "em-folder-selection.h"
 #include "em-migrate.h"
 
+#include "widgets/misc/e-info-label.h"
+
 #include "filter/rule-context.h"
 #include "mail-config.h"
 #include "mail-component.h"
@@ -448,6 +450,24 @@ view_on_url (GObject *emitter, const char *url, const char *nice_url, MailCompon
 	e_activity_handler_set_message (priv->activity_handler, nice_url);
 }
 
+static void
+view_changed_cb(EMFolderView *emfv, EInfoLabel *el)
+{
+	if (emfv->folder) {
+		char *tmp, *name;
+		guint32 total, unread;
+
+		camel_object_get(emfv->folder, NULL, CAMEL_FOLDER_NAME, &name, CAMEL_FOLDER_TOTAL, &total, CAMEL_FOLDER_UNREAD, &unread, NULL);
+		/* Format of text for component information area */
+		tmp = g_strdup_printf(_("%d total, %d unread"), total, unread);
+		e_info_label_set_info(el, name, tmp);
+		g_free(tmp);
+		camel_object_free(emfv->folder, CAMEL_FOLDER_NAME, name);
+	} else {
+		e_info_label_set_info(el, _("Mail"), "");
+	}
+}
+
 /* Evolution::Component CORBA methods.  */
 
 static void
@@ -462,7 +482,7 @@ impl_createControls (PortableServer_Servant servant,
 	BonoboControl *tree_control;
 	BonoboControl *view_control;
 	BonoboControl *statusbar_control;
-	GtkWidget *tree_widget;
+	GtkWidget *tree_widget, *vbox, *info;
 	GtkWidget *view_widget;
 	GtkWidget *statusbar_widget;
 
@@ -484,8 +504,19 @@ impl_createControls (PortableServer_Servant servant,
 	gtk_widget_show (tree_widget);
 	gtk_widget_show (view_widget);
 	gtk_widget_show (statusbar_widget);
-	
-	tree_control = bonobo_control_new (tree_widget);
+
+	printf("setting up info area\n");
+
+	vbox = gtk_vbox_new(FALSE, 0);
+	info = e_info_label_new("evolution-inbox-mini.png");
+	e_info_label_set_info((EInfoLabel *)info, _("Mail"), "");
+	gtk_box_pack_start((GtkBox *)vbox, info, FALSE, TRUE, 0);
+	gtk_box_pack_start((GtkBox *)vbox, tree_widget, TRUE, TRUE, 0);
+
+	gtk_widget_show(info);
+	gtk_widget_show(vbox);
+
+	tree_control = bonobo_control_new (vbox);
 	view_control = bonobo_control_new (view_widget);
 	statusbar_control = bonobo_control_new (statusbar_widget);
 	
@@ -494,8 +525,10 @@ impl_createControls (PortableServer_Servant servant,
 	*corba_statusbar_control = CORBA_Object_duplicate (BONOBO_OBJREF (statusbar_control), ev);
 	
 	g_signal_connect (view_control, "activate", G_CALLBACK (view_control_activate_cb), view_widget);
-	
 	g_signal_connect (tree_widget, "folder-selected", G_CALLBACK (folder_selected_cb), view_widget);
+
+	g_signal_connect(view_widget, "changed", G_CALLBACK(view_changed_cb), info);
+	g_signal_connect(view_widget, "loaded", G_CALLBACK(view_changed_cb), info);
 }
 
 static CORBA_boolean
@@ -731,8 +764,6 @@ mail_component_init (MailComponent *component)
 	
 	mail_autoreceive_setup();
 	
-	setup_search_context (component);
-
 	offline = mail_offline_handler_new();
 	bonobo_object_add_interface((BonoboObject *)component, (BonoboObject *)offline);
 }

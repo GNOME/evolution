@@ -101,6 +101,9 @@ struct _EMFolderViewClass {
 
 	/* Signals */
 	void (*on_url)(EMFolderView *emfv, const char *uri, const char *nice_uri);
+
+	void (*loaded)(EMFolderView *emfv);
+	void (*changed)(EMFolderView *emfv);
 };
 
 GType em_folder_view_get_type(void);

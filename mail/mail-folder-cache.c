@@ -109,7 +109,6 @@ struct _store_info {
 static void folder_changed(CamelObject *o, gpointer event_data, gpointer user_data);
 static void folder_renamed(CamelObject *o, gpointer event_data, gpointer user_data);
 static void folder_finalised(CamelObject *o, gpointer event_data, gpointer user_data);
-static void message_changed (CamelObject *o, gpointer event_data, gpointer user_data);
 
 static guint ping_id = 0;
 static gboolean ping_cb (gpointer user_data);
@@ -269,7 +268,6 @@ unset_folder_info(struct _folder_info *mfi, int delete, int unsub)
 		CamelFolder *folder = mfi->folder;
 
 		camel_object_unhook_event(folder, "folder_changed", folder_changed, mfi);
-		camel_object_unhook_event(folder, "message_changed", message_changed, mfi);
 		camel_object_unhook_event(folder, "renamed", folder_renamed, mfi);
 		camel_object_unhook_event(folder, "finalize", folder_finalised, mfi);
 	}
@@ -307,8 +305,7 @@ free_folder_info(struct _folder_info *mfi)
  * one folder at a time.) But it doesn't have any way to know when
  * it's lying, so it's only safe to call it when you know for sure
  * that the store is paying attention to the folder, such as when it's
- * just been created, or you get a folder_changed or message_changed
- * signal on it.
+ * just been created, or you get a folder_changed signal on it.
  *
  * camel_store_get_folder_info() always gives correct answers for the
  * folders it checks, but it can also return -1 for a folder, meaning
@@ -336,7 +333,7 @@ update_1folder(struct _folder_info *mfi, int new, CamelFolderInfo *info)
 	folder = mfi->folder;
 	if (folder) {
 		d(printf("update 1 folder '%s'\n", folder->full_name));
-		if ((count_trash && (CAMEL_IS_VTRASH_FOLDER (folder) || CAMEL_IS_VJUNK_FOLDER (folder)))
+		if ((count_trash && (CAMEL_IS_VTRASH_FOLDER (folder)))
 		    || folder == mail_component_get_folder(NULL, MAIL_COMPONENT_FOLDER_OUTBOX)
 		    || (count_sent && folder == mail_component_get_folder(NULL, MAIL_COMPONENT_FOLDER_SENT))) {
 			d(printf(" total count\n"));
@@ -448,19 +445,6 @@ folder_changed (CamelObject *o, gpointer event_data, gpointer user_data)
 }
 
 static void
-message_changed (CamelObject *o, gpointer event_data, gpointer user_data)
-{
-	struct _folder_info *mfi = user_data;
-	
-	if (mfi->folder != CAMEL_FOLDER (o))
-		return;
-	
-	LOCK(info_lock);
-	update_1folder(mfi, 0, NULL);
-	UNLOCK(info_lock);
-}
-
-static void
 folder_finalised(CamelObject *o, gpointer event_data, gpointer user_data)
 {
 	struct _folder_info *mfi = user_data;
@@ -512,7 +496,6 @@ void mail_note_folder(CamelFolder *folder)
 	mfi->folder = folder;
 
 	camel_object_hook_event(folder, "folder_changed", folder_changed, mfi);
-	camel_object_hook_event(folder, "message_changed", message_changed, mfi);
 	camel_object_hook_event(folder, "renamed", folder_renamed, mfi);
 	camel_object_hook_event(folder, "finalize", folder_finalised, mfi);
 

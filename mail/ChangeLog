@@ -1,3 +1,27 @@
+2004-04-08  Not Zed  <NotZed@Ximian.com>
+
+	* mail-folder-cache.c:
+	(update_1folder): VJUNK_FOLDER's dont exist, they're VTRASH
+	folders now.
+
+	* em-folder-view.c: remove message_changed stuff from camel folder
+	stuff.
+
+	* mail-component.c (mail_component_init): don't setup the search
+	context here, wait till its requested.  Fixes #56672.
+
+2004-04-07  Not Zed  <NotZed@Ximian.com>
+
+	* mail-component.c (view_changed_cb): hook to update the info
+	label when the folderview changes.
+
+	* em-folder-view.c (emfv_class_init): added 2 signals 'loaded' and
+	'changed'.  For when a folder is set/cleared or when some state
+	changes.
+	(emfv_set_folder): emit LOADED signal when we set the folder.
+	(emfv_list_message_selected): emit changed event.
+	(emfv_gui_folder_changed): emit changed event.
+
 2004-04-07  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* em-folder-tree.c (emft_tree_button_press): Check that
