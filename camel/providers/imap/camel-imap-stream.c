@@ -45,7 +45,7 @@ camel_imap_stream_class_init (CamelImapStreamClass *camel_imap_stream_class)
 	CamelStreamClass *camel_stream_class =
 		CAMEL_STREAM_CLASS (camel_imap_stream_class);
 	
-	parent_class = CAMEL_STREAM_CLASS(camel_type_get_global_classfuncs (camel_stream_get_type ()));
+	parent_class = CAMEL_STREAM_CLASS (camel_type_get_global_classfuncs (camel_stream_get_type ()));
 	
 	/* virtual method overload */
 	camel_stream_class->read  = stream_read;
@@ -68,13 +68,14 @@ camel_imap_stream_get_type (void)
 	static CamelType camel_imap_stream_type = CAMEL_INVALID_TYPE;
 	
 	if (camel_imap_stream_type == CAMEL_INVALID_TYPE) {
-		camel_imap_stream_type = camel_type_register (camel_stream_get_type (), "CamelImapStream",
-							      sizeof (CamelImapStream),
-							      sizeof (CamelImapStreamClass),
-							      (CamelObjectClassInitFunc) camel_imap_stream_class_init,
-							      NULL,
-							      (CamelObjectInitFunc) camel_imap_stream_init,
-							      (CamelObjectFinalizeFunc) finalize);
+		camel_imap_stream_type =
+			camel_type_register (camel_stream_get_type (), "CamelImapStream",
+					     sizeof (CamelImapStream),
+					     sizeof (CamelImapStreamClass),
+					     (CamelObjectClassInitFunc) camel_imap_stream_class_init,
+					     NULL,
+					     (CamelObjectInitFunc) camel_imap_stream_init,
+					     (CamelObjectFinalizeFunc) finalize);
 	}
 	
 	return camel_imap_stream_type;
@@ -129,7 +130,7 @@ stream_read (CamelStream *stream, char *buffer, size_t n)
 						   imap_stream->command);
 		/* FIXME: exception is ignored */
 		camel_exception_clear (&ex);
-
+		
 		if (!result || status != CAMEL_IMAP_OK) {
 			/* we got an error, dump this stuff */
 			g_free (result);

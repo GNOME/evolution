@@ -680,6 +680,7 @@ camel_imap_command_extended (CamelImapStore *store, CamelFolder *folder, char **
 	va_list ap;
 	gint i;
 	
+	/* check for current folder */
 	status = check_current_folder (store, folder, fmt, ex);
 	if (status != CAMEL_IMAP_OK)
 		return status;
@@ -831,11 +832,13 @@ camel_imap_fetch_command (CamelImapStore *store, CamelFolder *folder, char **ret
 	 * possibly contain strings that appear to be valid server
 	 * responses but aren't. We should, therefor, find a way to
 	 * determine whether we are actually reading server responses.
-	*/
+	 */
 	gint status = CAMEL_IMAP_OK;
 	GPtrArray *data, *expunged;
+	gboolean is_notification;
 	gchar *respbuf, *cmdid;
 	guint32 len = 0;
+	gint partlen = 0;
 	gint recent = 0;
 	va_list ap;
 	gint i;
@@ -853,6 +856,46 @@ camel_imap_fetch_command (CamelImapStore *store, CamelFolder *folder, char **ret
 	va_end (ap);
 	
 	data = g_ptr_array_new ();
+	
+	/* get first response line */
+	if (camel_remote_store_recv_line (CAMEL_REMOTE_STORE (store), &respbuf, ex) != -1) {
+		char *p, *q;
+		
+		g_ptr_array_add (data, respbuf);
+		len += strlen (respbuf) + 1;
+		
+		for (p = respbuf; *p && *p != '{' && *p != '"' && *p != '\n'; p++);
+		switch (*p) {
+		case '"':
+			/* a quoted string - section 4.3 */
+			p++;
+			for (q = p; *q && *q != '"'; q++);
+			partlen = (guint32) (q - p);
+			
+			is_notification = TRUE;
+			
+			break;
+		case '{':
+			/* a literal string - section 4.3 */
+			partlen = atoi (p + 1);
+			
+			/* add len to partlen because the partlen
+			   doesn't count the first response buffer */
+			partlen += len;
+			
+			is_notification = FALSE;
+			
+			break;
+		default:
+			/* bad input */
+			g_ptr_array_free (data, TRUE);
+			return CAMEL_IMAP_FAIL;
+		}
+	} else {
+		g_ptr_array_free (data, TRUE);
+		return CAMEL_IMAP_FAIL;
+	}
+	
 	expunged = g_ptr_array_new ();
 	
 	/* read multi-line response */
@@ -874,11 +917,12 @@ camel_imap_fetch_command (CamelImapStore *store, CamelFolder *folder, char **ret
 		len += strlen (respbuf) + 1;
 		
 		/* IMAPs multi-line response ends with the cmdid string at the beginning of the line */
-		if (!strncmp (respbuf, cmdid, strlen (cmdid))) {
+		if (is_notification && !strncmp (respbuf, cmdid, strlen (cmdid))) {
 			status = camel_imap_status (cmdid, respbuf);
 			break;
 		}
 		
+		/* FIXME: this is redundant */
 		/* If recent or expunge flags were somehow set and this
 		   response doesn't begin with a '*' then
 		   recent/expunged must have been misdetected */
@@ -894,7 +938,7 @@ camel_imap_fetch_command (CamelImapStore *store, CamelFolder *folder, char **ret
 		}
 		
 		/* Check for a RECENT in the untagged response */
-		if (*respbuf == '*') {
+		if (*respbuf == '*' && is_notification) {
 			if (strstr (respbuf, "RECENT")) {
 				char *rcnt;
 				
@@ -915,6 +959,12 @@ camel_imap_fetch_command (CamelImapStore *store, CamelFolder *folder, char **ret
 					g_ptr_array_add (expunged, g_strdup_printf ("%d", id));
 				}
 			}
+		}
+		
+	        if (!is_notification) {
+			partlen--;
+			if (len >= partlen)
+				is_notification = TRUE;
 		}
 	}
 	
