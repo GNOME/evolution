@@ -46,6 +46,8 @@ libeutil_la_SOURCES =				\
 	e-list.h				\
 	e-memory.c				\
 	e-memory.h				\
+	e-mktemp.c				\
+	e-mktemp.h				\
 	e-msgport.c				\
 	e-msgport.h				\
 	e-path.c				\

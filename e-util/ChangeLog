@@ -1,3 +1,12 @@
+2001-08-24  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* Makefile.am: Added e-mktemp.[c,h] to the build.
+
+	* e-mktemp.c (e_mktemp): A new wrapper around mktemp so that we
+	can keep track of temp files for later cleanup.
+	(e_mkstemp): Same but obviously for the mkstemp call.
+	(e_mkdtemp): And finally a mkdtemp wrapper.
+
 2001-08-24  Zbigniew Chyla  <cyba@gnome.pl>
 
 	* Makefile.am (libeutil_la_SOURCES): Added e-unicode-i18n.c and
@@ -9,10 +18,9 @@
 
 2001-08-23  Zbigniew Chyla  <cyba@gnome.pl>
 
-	* e-request.c (e_request_string): Modified to accept and return UTF-8
-	string.
-	It's currently used only in shell/e-shortcuts-view.c and we need UTF-8
-	there.
+	* e-request.c (e_request_string): Modified to accept and return
+	UTF-8 string.  It's currently used only in
+	shell/e-shortcuts-view.c and we need UTF-8 there.
 
 2001-08-20  Damon Chaplin  <damon@ximian.com>
 
@@ -24,8 +32,9 @@
 	* e-categories-config.c (e_categories_config_get_icon_for): return
 	when there's no icon associated with the category
 
-	* e-categories-config.c: reworked to use the ECategoriesMasterListWombat
-	class. Also, load correctly images (fixes #6794)
+	* e-categories-config.c: reworked to use the
+	ECategoriesMasterListWombat class. Also, load correctly images
+	(fixes #6794)
 
 2001-08-09  Federico Mena Quintero  <federico@ximian.com>
 
