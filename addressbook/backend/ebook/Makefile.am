@@ -1,4 +1,4 @@
-noinst_PROGRAMS = test-card test-client test-client-list test-completion
+noinst_PROGRAMS = test-card test-client test-client-list
 
 bin_PROGRAMS = evolution-gnomecard-importer 		\
 	load-pine-addressbook load-gnomecard-addressbook
@@ -98,17 +98,6 @@ test_card_SOURCES =					\
 	test-card.c
 
 test_card_LDADD =					\
-	libebook.la					\
-	$(BONOBO_GNOME_LIBS)				\
-	$(EXTRA_GNOME_LIBS)				\
-	$(top_builddir)/e-util/ename/libename.la	\
-	$(top_builddir)/libversit/libversit.la		\
-	$(top_builddir)/e-util/libeutil.la
-
-test_completion_SOURCES =				\
-	test-completion.c
-
-test_completion_LDADD =					\
 	libebook.la					\
 	$(BONOBO_GNOME_LIBS)				\
 	$(EXTRA_GNOME_LIBS)				\
