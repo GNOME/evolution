@@ -103,10 +103,6 @@ etcta_drop_one (ETableClickToAdd *etcta)
 	gtk_object_set(GTK_OBJECT(etcta->selection),
 		       "model", NULL,
 		       NULL);
-	if (etcta->row)
-		gnome_canvas_item_set(GNOME_CANVAS_ITEM(etcta->row),
-				      "ETableModel", NULL,
-				      NULL);
 }
 
 static void

@@ -1,5 +1,12 @@
 2000-07-27  Christopher James Lahey  <clahey@helixcode.com>
 
+	* e-table-selection-model.c: Allocate correctly in the insert method.
+
+	* e-table-click-to-add.c: Removed the line that was causing this
+	to do bad things.
+
+2000-07-27  Christopher James Lahey  <clahey@helixcode.com>
+
 	* e-table-item.c (eti_cursor_change): Grab focus properly.
 
 	* e-table-item.c, e-table-click-to-add.c: Fixed ETableClickToAdd
