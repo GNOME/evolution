@@ -352,19 +352,17 @@ em_folder_view_open_selected(EMFolderView *emfv)
 {
 	GPtrArray *uids;
 	int i = 0;
-
-	/* FIXME: handle editing message?  Should be a different method? editing handled by 'Resend' method already */
-
+	
 	uids = message_list_get_selected(emfv->list);
-
+	
 	if (em_utils_folder_is_drafts(emfv->folder, emfv->folder_uri)
 	    || em_utils_folder_is_outbox(emfv->folder, emfv->folder_uri)) {
 		em_utils_edit_messages (emfv->folder, uids, TRUE);
 	} else {
 		/* TODO: have an em_utils_open_messages call? */
-
+		
 		/* FIXME: 'are you sure' for > 10 messages; is this even necessary? */
-
+		
 		for (i=0; i<uids->len; i++) {
 			EMMessageBrowser *emmb;
 
@@ -598,7 +596,7 @@ emfv_popup_open(GtkWidget *w, EMFolderView *emfv)
 }
 
 static void
-emfv_popup_resend(GtkWidget *w, EMFolderView *emfv)
+emfv_popup_edit (GtkWidget *w, EMFolderView *emfv)
 {
 	GPtrArray *uids;
 
@@ -891,7 +889,7 @@ EMFV_POPUP_AUTO_TYPE(filter_type_current, emfv_popup_filter_mlist, AUTO_MLIST)
 
 static EMPopupItem emfv_popup_menu[] = {
 	{ EM_POPUP_ITEM, "00.emfv.00", N_("_Open"), G_CALLBACK(emfv_popup_open), NULL, NULL, 0 },
-	{ EM_POPUP_ITEM, "00.emfv.01", N_("_Edit as New Message..."), G_CALLBACK(emfv_popup_resend), NULL, NULL, EM_POPUP_SELECT_RESEND },
+	{ EM_POPUP_ITEM, "00.emfv.01", N_("_Edit as New Message..."), G_CALLBACK(emfv_popup_edit), NULL, NULL, EM_POPUP_SELECT_EDIT },
 	{ EM_POPUP_ITEM, "00.emfv.02", N_("_Save As..."), G_CALLBACK(emfv_popup_saveas), NULL, "stock_save_as", 0 },
 	{ EM_POPUP_ITEM, "00.emfv.03", N_("_Print"), G_CALLBACK(emfv_popup_print), NULL, "stock_print", 0 },
 
@@ -1065,7 +1063,7 @@ EMFV_MAP_CALLBACK(emfv_message_followup_flag, emfv_popup_flag_followup)
 /*EMFV_MAP_CALLBACK(emfv_message_followup_clear, emfv_popup_flag_clear)
   EMFV_MAP_CALLBACK(emfv_message_followup_completed, emfv_popup_flag_completed)*/
 EMFV_MAP_CALLBACK(emfv_message_open, emfv_popup_open)
-EMFV_MAP_CALLBACK(emfv_message_resend, emfv_popup_resend)
+EMFV_MAP_CALLBACK(emfv_message_edit, emfv_popup_edit)
 EMFV_MAP_CALLBACK(emfv_message_saveas, emfv_popup_saveas)
 EMFV_MAP_CALLBACK(emfv_print_message, emfv_popup_print)
 
@@ -1466,7 +1464,7 @@ static BonoboUIVerb emfv_message_verbs[] = {
 	BONOBO_UI_UNSAFE_VERB ("MessageReplyAll", emfv_message_reply_all),
 	BONOBO_UI_UNSAFE_VERB ("MessageReplyList", emfv_message_reply_list),
 	BONOBO_UI_UNSAFE_VERB ("MessageReplySender", emfv_message_reply_sender),
-	BONOBO_UI_UNSAFE_VERB ("MessageResend", emfv_message_resend),
+	BONOBO_UI_UNSAFE_VERB ("MessageEdit", emfv_message_edit),
 	BONOBO_UI_UNSAFE_VERB ("MessageSaveAs", emfv_message_saveas),
 	BONOBO_UI_UNSAFE_VERB ("MessageSearch", emfv_message_search),
 	BONOBO_UI_UNSAFE_VERB ("MessageUndelete", emfv_message_undelete),
@@ -1574,7 +1572,7 @@ static const EMFolderViewEnable emfv_enable_map[] = {
 	{ "MessageReplyAll",          EM_POPUP_SELECT_ONE },
 	{ "MessageReplyList",         EM_POPUP_SELECT_ONE|EM_POPUP_SELECT_MAILING_LIST },
 	{ "MessageReplySender",       EM_POPUP_SELECT_ONE },
-	{ "MessageResend",            EM_POPUP_SELECT_RESEND },
+	{ "MessageEdit",              EM_POPUP_SELECT_EDIT },
 	{ "MessageSaveAs",            EM_POPUP_SELECT_MANY },
 	{ "MessageSearch",            EM_POPUP_SELECT_ONE },
 	{ "MessageUndelete",          EM_POPUP_SELECT_MANY|EM_POPUP_SELECT_UNDELETE },
@@ -1741,10 +1739,10 @@ emfv_activate(EMFolderView *emfv, BonoboUIComponent *uic, int act)
 		bonobo_ui_component_add_listener(uic, "ViewFullHeaders", emfv_view_mode, emfv);
 		bonobo_ui_component_add_listener(uic, "ViewSource", emfv_view_mode, emfv);
 		em_format_set_mode((EMFormat *)emfv->preview, style);
-
+		
 		if (emfv->folder && !em_utils_folder_is_sent(emfv->folder, emfv->folder_uri))
-			bonobo_ui_component_set_prop(uic, "/commands/MessageResend", "sensitive", "0", NULL);
-
+			bonobo_ui_component_set_prop(uic, "/commands/MessageEdit", "sensitive", "0", NULL);
+		
 		/* default charset used in mail view */
 		e_charset_picker_bonobo_ui_populate (uic, "/menu/View", _("Default"), emfv_charset_changed, emfv);
 

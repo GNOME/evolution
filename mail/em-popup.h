@@ -74,24 +74,24 @@ enum _em_popup_target_t {
 
 /* Flags that describe a TARGET_SELECT */
 enum {
-	EM_POPUP_SELECT_ONE		    = 1<<1,
-	EM_POPUP_SELECT_MANY		    = 1<<2,
-	EM_POPUP_SELECT_MARK_READ              = 1<<3,
-	EM_POPUP_SELECT_MARK_UNREAD            = 1<<4,
-	EM_POPUP_SELECT_DELETE                 = 1<<5,
-	EM_POPUP_SELECT_UNDELETE               = 1<<6,
-	EM_POPUP_SELECT_MAILING_LIST            = 1<<7,
-	EM_POPUP_SELECT_RESEND                 = 1<<8,
-	EM_POPUP_SELECT_MARK_IMPORTANT         = 1<<9,
-	EM_POPUP_SELECT_MARK_UNIMPORTANT       = 1<<10,
+	EM_POPUP_SELECT_ONE                = 1<<1,
+	EM_POPUP_SELECT_MANY               = 1<<2,
+	EM_POPUP_SELECT_MARK_READ          = 1<<3,
+	EM_POPUP_SELECT_MARK_UNREAD        = 1<<4,
+	EM_POPUP_SELECT_DELETE             = 1<<5,
+	EM_POPUP_SELECT_UNDELETE           = 1<<6,
+	EM_POPUP_SELECT_MAILING_LIST       = 1<<7,
+	EM_POPUP_SELECT_EDIT               = 1<<8,
+	EM_POPUP_SELECT_MARK_IMPORTANT     = 1<<9,
+	EM_POPUP_SELECT_MARK_UNIMPORTANT   = 1<<10,
 	EM_POPUP_SELECT_FLAG_FOLLOWUP      = 1<<11,
-	EM_POPUP_SELECT_FLAG_COMPLETED         = 1<<12,
-	EM_POPUP_SELECT_FLAG_CLEAR             = 1<<13,
-	EM_POPUP_SELECT_ADD_SENDER             = 1<<14,
-	EM_POPUP_SELECT_MARK_JUNK              = 1<<15,
-	EM_POPUP_SELECT_MARK_NOJUNK            = 1<<16,
-	EM_POPUP_SELECT_FOLDER		       = 1<<17,	/* do we have any folder at all? */
-	EM_POPUP_SELECT_LAST = 1<<18 /* reserve 2 slots */
+	EM_POPUP_SELECT_FLAG_COMPLETED     = 1<<12,
+	EM_POPUP_SELECT_FLAG_CLEAR         = 1<<13,
+	EM_POPUP_SELECT_ADD_SENDER         = 1<<14,
+	EM_POPUP_SELECT_MARK_JUNK          = 1<<15,
+	EM_POPUP_SELECT_MARK_NOJUNK        = 1<<16,
+	EM_POPUP_SELECT_FOLDER             = 1<<17,    /* do we have any folder at all? */
+	EM_POPUP_SELECT_LAST               = 1<<18     /* reserve 2 slots */
 };
 
 /* Flags that describe a TARGET_URI */

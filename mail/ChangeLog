@@ -1,5 +1,13 @@
 2004-05-14  Jeffrey Stedfast  <fejj@novell.com>
 
+	* em-popup.h: s/RESEND/EDIT/
+
+	* em-popup.c (em_popup_target_new_select): s/RESEND/EDIT/
+
+	* em-folder-view.c: s/RESEND/EDIT/
+	(emfv_popup_edit): Renamed from emfv_popup_resend. Part of the fix
+	for bug #58358 (The main fix was just a change to the ui file).
+
 	* mail-config.c (mail_config_init): Build the path to the gtkrc
 	filename and store it on the config struct so we don't have to
 	keep rebuilding it.

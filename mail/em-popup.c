@@ -473,10 +473,10 @@ em_popup_target_new_select(struct _CamelFolder *folder, const char *folder_uri, 
 
 	camel_object_ref(folder);
 	mask &= ~EM_POPUP_SELECT_FOLDER;
-
+	
 	if (em_utils_folder_is_sent(folder, folder_uri))
-		mask &= ~EM_POPUP_SELECT_RESEND;
-
+		mask &= ~EM_POPUP_SELECT_EDIT;
+	
 	if (!(em_utils_folder_is_drafts(folder, folder_uri)
 	      || em_utils_folder_is_outbox(folder, folder_uri)))
 		mask &= ~EM_POPUP_SELECT_ADD_SENDER;
@@ -670,7 +670,7 @@ emp_popup_open(GtkWidget *w, EMFolderView *emfv)
 }
 
 static void
-emp_popup_resend(GtkWidget *w, EMPopupTarget *t)
+emp_popup_edit (GtkWidget *w, EMPopupTarget *t)
 {
 	if (!em_utils_check_user_can_send_mail(t->widget))
 		return;
@@ -686,7 +686,7 @@ emp_popup_saveas(GtkWidget *w, EMPopupTarget *t)
 
 static EMPopupItem emp_standard_select_popups[] = {
 	/*{ EM_POPUP_ITEM, "00.select.00", N_("_Open"), G_CALLBACK(emp_popup_open), NULL, NULL, 0 },*/
-	{ EM_POPUP_ITEM, "00.select.01", N_("_Edit as New Message..."), G_CALLBACK(emp_popup_resend), NULL, NULL, EM_POPUP_SELECT_RESEND },
+	{ EM_POPUP_ITEM, "00.select.01", N_("_Edit as New Message..."), G_CALLBACK(emp_popup_edit), NULL, NULL, EM_POPUP_SELECT_EDIT },
 	{ EM_POPUP_ITEM, "00.select.02", N_("_Save As..."), G_CALLBACK(emp_popup_saveas), NULL, "stock_save_as", 0 },	
 };
 #endif
