@@ -1,3 +1,10 @@
+2003-01-15  JP Rosevear  <jpr@ximian.com>
+
+	* gui/dialogs/comp-editor.c (page_changed_cb): change warning
+	dialog to not mention email
+	(page_summary_changed_cb): ditto
+	(page_dates_changed_cb): ditto
+
 2003-01-13  JP Rosevear  <jpr@ximian.com>
 
 	* gui/itip-utils.c (itip_organizer_is_user): make the compare case

@@ -1344,7 +1344,7 @@ page_changed_cb (GtkObject *obj, gpointer data)
 
 	if (!priv->warned && priv->existing_org && !priv->user_org) {
 		e_notice (NULL, GNOME_MESSAGE_BOX_INFO,
-			  _("Changes made to this item may be discarded if an update arrives via email"));
+			  _("Changes made to this item may be discarded if an update arrives"));
 		priv->warned = TRUE;
 	}
 	
@@ -1368,7 +1368,7 @@ page_summary_changed_cb (GtkObject *obj, const char *summary, gpointer data)
 
 	if (!priv->warned && priv->existing_org && !priv->user_org) {
 		e_notice (NULL, GNOME_MESSAGE_BOX_INFO,
-			  _("Changes made to this item may be discarded if an update arrives via email"));
+			  _("Changes made to this item may be discarded if an update arrives"));
 		priv->warned = TRUE;
 	}
 }
@@ -1392,7 +1392,7 @@ page_dates_changed_cb (GtkObject *obj,
 
 	if (!priv->warned && priv->existing_org && !priv->user_org) {
 		e_notice (NULL, GNOME_MESSAGE_BOX_INFO,
-			  _("Changes made to this item may be discarded if an update arrives via email"));
+			  _("Changes made to this item may be discarded if an update arrives"));
 		priv->warned = TRUE;
 	}
 }
