@@ -22,6 +22,7 @@
 #ifndef _CAMEL_MIME_UTILS_H
 #define _CAMEL_MIME_UTILS_H
 
+#include <glib.h>
 #include <time.h>
 
 /* a list of references for this message */
