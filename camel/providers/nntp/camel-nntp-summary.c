@@ -478,6 +478,10 @@ add_range_xover(CamelNNTPSummary *cns, unsigned int high, unsigned int low, Came
 			}
 		}
 
+		/* skip headers we don't care about, incase the server doesn't actually send some it said it would. */
+		while (xover && xover->name == NULL)
+			xover = xover->next;
+
 		/* truncated line? ignore? */
 		if (xover == NULL) {
 			mi = camel_folder_summary_uid(s, cns->priv->uid);
