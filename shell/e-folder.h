@@ -1,0 +1,74 @@
+#ifndef _E_FOLDER_H_
+#define _E_FOLDER_H_
+
+#include <gtk/gtkobject.h>
+#include <gdk-pixbuf/gdk-pixbuf.h>
+
+#define E_FOLDER_TYPE        (e_folder_get_type ())
+#define E_FOLDER(o)          (GTK_CHECK_CAST ((o), E_FOLDER_TYPE, EFolder))
+#define E_FOLDER_CLASS(k)    (GTK_CHECK_CLASS_CAST((k), E_FOLDER_TYPE, EFolderClass))
+#define E_IS_FOLDER(o)       (GTK_CHECK_TYPE ((o), E_FOLDER_TYPE))
+#define E_IS_FOLDER_CLASS(k) (GTK_CHECK_CLASS_TYPE ((k), E_FOLDER_TYPE))
+
+typedef enum {
+	E_FOLDER_DND_AS_FORWARD,
+	E_FOLDER_DND_AS_MOVE_COPY
+} EFolderDragDropAction;
+
+typedef struct {
+	GtkObject parent_object;
+
+	/*
+	 * General properties
+	 */
+	char *uri;		/* Location */
+	char *name;		/* Short name */
+	char *desc;	/* Full description */
+	char *home_page;	/* Home page for this folder */
+
+	/*
+	 * Administration properties
+	 */
+	char *view_name;	/* View name */
+} EFolder;
+ 
+typedef struct {
+	GtkObjectClass parent_class;
+
+	/*
+	 * Virtual methods
+	 */
+	/* eg: "Folder containing mail items */
+	const char *(*get_type_name) (EFolder *efolder);
+
+	/*
+	 * Signals
+	 */
+	void (*view_changed) (EFolder *efolder);
+} EFolderClass;
+
+GtkType     e_folder_get_type        (void);
+void        e_folder_construct       (EFolder *efolder,
+				      const char *uri, const char *name,
+				      const char *desc, const char *home_page,
+				      const char *view_name);
+
+void        e_folder_set_uri         (EFolder *efolder, const char *uri);
+const char *e_folder_get_uri         (EFolder *efolder);
+
+void        e_folder_set_description (EFolder *efolder, const char *desc);
+const char *e_folder_get_description (EFolder *efolder);
+
+void        e_folder_set_home_page   (EFolder *efolder, const char *desc);
+const char *e_folder_get_home_page   (EFolder *efolder);
+
+const char *e_folder_get_name        (EFolder *efolder);
+void        e_folder_set_name        (EFolder *efolder, const char *name);
+
+const char *e_folder_get_view_name   (EFolder *efolder);
+void        e_folder_set_view_name   (EFolder *efolder, const char *view_name);
+
+const char *e_folder_get_type_name   (EFolder *efolder);
+
+#endif /* _E_FOLDER_H_ */
+

@@ -59,9 +59,6 @@ e_shell_class_init (GtkObjectClass *object_class)
 static void
 e_shell_init (GtkObject *object)
 {
-	EShell *eshell = E_SHELL (object);
-
-	eshell->gnome_app = gnome_app_new ("Evolution", "Evolution");
 }
 
 void

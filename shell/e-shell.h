@@ -1,7 +1,6 @@
 #ifndef E_SHELL_H
 #define E_SHELL_H
 
-#include <gnome.h>
 #include <bonobo/gnome-object.h>
 
 #define E_SHELL_GOAD_ID         "GOADID:GNOME:Evolution:Shell:1.0"
@@ -16,8 +15,6 @@
 typedef struct {
 	GnomeObject base_object;
 
-	GtkWidget *gnome_app;
-
 	char *base_uri;
 } EShell;
 
@@ -25,7 +22,7 @@ typedef struct {
 	GnomeObjectClass *parent_class;
 } EShellClass;
 
-EShell     *e_shell_new           (const char *base_uri);
+EShell     *e_shell_new          (const char *base_uri);
 void        e_shell_set_base_uri (EShell *eshell, const char *base_uri);
 const char *e_shell_get_base_uri (EShell *eshell);
 
