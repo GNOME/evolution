@@ -1,3 +1,9 @@
+2003-12-01  JP Rosevear <jpr@ximian.com>
+
+	* conduit/e-address.conduit.in: specify privlibdir as the location
+
+	* conduit/Makefile.am: install the conduit to privlibdir
+
 2003-12-01  JP Rosvear <jpr@ximian.com>
 
 	* conduit/Makefile.am: version the .conduit file

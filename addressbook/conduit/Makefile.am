@@ -8,8 +8,7 @@ INCLUDES = 					\
 	$(EVOLUTION_ADDRESSBOOK_CONDUIT_CFLAGS)
 
 # Address Conduit
-e_address_conduitsdir=$(libdir)/gnome-pilot/conduits
-e_address_conduits_LTLIBRARIES = libeaddress_conduit.la
+privlib_LTLIBRARIES = libeaddress_conduit.la
 
 libeaddress_conduit_la_SOURCES = \
 	address-conduit.c
@@ -22,7 +21,7 @@ libeaddress_conduit_la_LIBADD = 					\
 	$(EVOLUTION_ADDRESSBOOK_CONDUIT_LIBS)
 
 e-address-$(BASE_VERSION).conduit: e-address.conduit.in
-	sed -e 's^\@prefix\@^$(prefix)^g' 				\
+	sed -e 's^\@privlibdir\@^$(privlibdir)^g' 			\
 	    -e 's^\@datadir\@^$(datadir)^g' 				\
 	    -e 's^\@BASE_VERSION\@^$(BASE_VERSION)^g' 			\
 	    $< > $@
