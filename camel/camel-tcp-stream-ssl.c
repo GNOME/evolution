@@ -268,20 +268,22 @@ camel_tcp_stream_ssl_enable_ssl (CamelTcpStreamSSL *ssl)
 	g_return_val_if_fail (CAMEL_IS_TCP_STREAM_SSL (ssl), -1);
 	
 	if (ssl->priv->sockfd && !ssl->priv->ssl_mode) {
-		fd = enable_ssl (ssl, NULL);
-		if (fd == NULL) {
-			int errnosave;
-			
+		if (!(fd = enable_ssl (ssl, NULL))) {
 			set_errno (PR_GetError ());
-			errnosave = errno;
-			errno = errnosave;
-			
 			return -1;
 		}
 		
-		SSL_ResetHandshake (fd, FALSE);
-		
 		ssl->priv->sockfd = fd;
+		
+		if (SSL_ResetHandshake (fd, FALSE) == SECFailure) {
+			set_errno (PR_GetError ());
+			return -1;
+		}
+		
+		if (SSL_ForceHandshake (fd) == -1) {
+			set_errno (PR_GetError ());
+			return -1;
+		}
 	}
 	
 	ssl->priv->ssl_mode = TRUE;

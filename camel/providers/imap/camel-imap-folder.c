@@ -38,6 +38,7 @@
 #include <ctype.h>
 
 #include "e-util/e-path.h"
+#include "e-util/e-time-utils.h"
 
 #include "camel-imap-folder.h"
 #include "camel-imap-command.h"
@@ -2002,6 +2003,100 @@ imap_cache_message (CamelDiscoFolder *disco_folder, const char *uid,
 #define IMAP_PRETEND_SIZEOF_SIZE	  20
 #define IMAP_PRETEND_SIZEOF_HEADERS	2000
 
+static char *tm_months[] = {
+	"Jan", "Feb", "Mar", "Apr", "May", "Jun",
+	"Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+};
+
+static gboolean
+decode_time (const unsigned char **in, int *hour, int *min, int *sec)
+{
+	register const unsigned char *inptr;
+	int *val, colons = 0;
+	
+	*hour = *min = *sec = 0;
+	
+	val = hour;
+	for (inptr = *in; *inptr && !isspace ((int) *inptr); inptr++) {
+		if (*inptr == ':') {
+			colons++;
+			switch (colons) {
+			case 1:
+				val = min;
+				break;
+			case 2:
+				val = sec;
+				break;
+			default:
+				return FALSE;
+			}
+		} else if (!isdigit ((int) *inptr))
+			return FALSE;
+		else
+			*val = (*val * 10) + (*inptr - '0');
+	}
+	
+	*in = inptr;
+	
+	return TRUE;
+}
+
+static time_t
+decode_internaldate (const unsigned char *in)
+{
+	const unsigned char *inptr = in;
+	int hour, min, sec, n;
+	unsigned char *buf;
+	struct tm tm;
+	time_t date;
+	
+	memset ((void *) &tm, 0, sizeof (struct tm));
+	
+	tm.tm_mday = strtoul (inptr, (char **) &buf, 10);
+	if (buf == inptr || *buf != '-')
+		return (time_t) -1;
+	
+	inptr = buf + 1;
+	if (inptr[3] != '-')
+		return (time_t) -1;
+	
+	for (n = 0; n < 12; n++) {
+		if (!g_strncasecmp (inptr, tm_months[n], 3))
+			break;
+	}
+	
+	if (n >= 12)
+		return (time_t) -1;
+	
+	tm.tm_mon = n;
+	
+	inptr += 4;
+	
+	n = strtoul (inptr, (char **) &buf, 10);
+	if (buf == inptr || *buf != ' ')
+		return (time_t) -1;
+	
+	tm.tm_year = n - 1900;
+	
+	if (!decode_time (&inptr, &hour, &min, &sec))
+		return (time_t) -1;
+	
+	tm.tm_hour = hour;
+	tm.tm_min = min;
+	tm.tm_sec = sec;
+	
+	n = strtoul (inptr, NULL, 10);
+	
+	date = e_mktime_utc (&tm);
+	
+	/* date is now GMT of the time we want, but not offset by the timezone ... */
+	
+	/* this should convert the time to the GMT equiv time */
+	date -= ((n / 100) * 60 * 60) + (n % 100) * 60;
+	
+	return date;
+}
+
 static void
 add_message_from_data (CamelFolder *folder, GPtrArray *messages,
 		       int first, GData *data)
@@ -2032,8 +2127,9 @@ add_message_from_data (CamelFolder *folder, GPtrArray *messages,
 	camel_object_unref (CAMEL_OBJECT (msg));
 	
 	if ((idate = g_datalist_get_data (&data, "INTERNALDATE")))
-		mi->date_received = parse_broken_date (idate, NULL);
-	else
+		mi->date_received = decode_internaldate (idate);
+	
+	if (mi->date_received == -1)
 		mi->date_received = mi->date_sent;
 	
 	messages->pdata[seq - first] = mi;

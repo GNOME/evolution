@@ -406,7 +406,7 @@ decode_broken_date (struct _date_token *tokens, int *tzone)
 	
 	time = e_mktime_utc (&tm);
 	
-	/* t is now GMT of the time we want, but not offset by the timezone ... */
+	/* time is now GMT of the time we want, but not offset by the timezone ... */
 	
 	/* this should convert the time to the GMT equiv time */
 	time -= ((offset / 100) * 60 * 60) + (offset % 100) * 60;

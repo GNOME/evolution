@@ -1,3 +1,19 @@
+2002-09-27  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* providers/imap/camel-imap-folder.c (decode_internaldate): New
+	function to decode the INTERNALDATE response from an IMAP server
+	so we don't have to use my broken-date-parser routines.
+
+2002-09-27  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* providers/imap/camel-imap-store.c (connect_to_server):
+	NULL-check the streams before unreffing them in the case of a
+	failure during ssl negotiations.
+
+	* camel-tcp-stream-ssl.c (camel_tcp_stream_ssl_enable_ssl): Check
+	SSL_ResetHandshake() for errors. Also force a handshake after
+	we've reset the handshake state on the socket.
+
 2002-09-27  Not Zed  <NotZed@Ximian.com>
 
 	* providers/imap/camel-imap-folder.c (imap_update_summary): Use

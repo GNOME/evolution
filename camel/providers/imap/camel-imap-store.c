@@ -528,7 +528,7 @@ imap_get_capability (CamelService *service, CamelException *ex)
 	g_free (result);
 	
 	imap_set_server_level (store);
-
+	
 	if (store->summary->capabilities != store->capabilities) {
 		store->summary->capabilities = store->capabilities;
 		camel_store_summary_touch((CamelStoreSummary *)store->summary);
@@ -682,27 +682,43 @@ connect_to_server (CamelService *service, int ssl_mode, int try_starttls, CamelE
 	/* rfc2595, section 4 states that after a successful STLS
            command, the client MUST discard prior CAPA responses */
 	if (!imap_get_capability (service, ex)) {
-		camel_object_unref (CAMEL_OBJECT (store->istream));
-		camel_object_unref (CAMEL_OBJECT (store->ostream));
-		store->istream = NULL;
-		store->ostream = NULL;
+		if (store->istream) {
+			camel_object_unref (CAMEL_OBJECT (store->istream));
+			store->istream = NULL;
+		}
+		
+		if (store->ostream) {
+			camel_object_unref (CAMEL_OBJECT (store->ostream));
+			store->ostream = NULL;
+		}
+		
+		store->connected = FALSE;
+		
 		return FALSE;
 	}
 	
 	return TRUE;
 	
  exception:
-	if (clean_quit) {
+	
+	if (clean_quit && store->connected) {
 		/* try to disconnect cleanly */
 		response = camel_imap_command (store, NULL, ex, "LOGOUT");
 		if (response)
 			camel_imap_response_free_without_processing (store, response);
 	}
 	
-	camel_object_unref (CAMEL_OBJECT (store->istream));
-	camel_object_unref (CAMEL_OBJECT (store->ostream));
-	store->istream = NULL;
-	store->ostream = NULL;
+	if (store->istream) {
+		camel_object_unref (CAMEL_OBJECT (store->istream));
+		store->istream = NULL;
+	}
+	
+	if (store->ostream) {
+		camel_object_unref (CAMEL_OBJECT (store->ostream));
+		store->ostream = NULL;
+	}
+	
+	store->connected = FALSE;
 	
 	return FALSE;
 #endif /* HAVE_SSL */
