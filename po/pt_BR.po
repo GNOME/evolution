@@ -19310,7 +19310,7 @@ msgstr "<b>Fusos horários</b>"
 
 #: widgets/e-timezone-dialog/e-timezone-dialog.glade.h:3
 msgid "<b>_Selection</b>"
-msgstr "<b>_Seleção<b>"
+msgstr "<b>_Seleção</b>"
 
 #: widgets/e-timezone-dialog/e-timezone-dialog.glade.h:5
 msgid "Select a Time Zone"

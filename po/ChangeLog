@@ -1,3 +1,9 @@
+2004-12-18  JP Rosevear  <jpr@novell.com>
+
+	Fixes #68841
+	
+	* pt_BR.po: fix markup in translated message
+
 2004-12-18  Christian Rose  <menthos@menthos.com>
 
 	* sv.po: Updated Swedish translation.
