@@ -1,5 +1,13 @@
 2001-08-07  Chris Toshok  <toshok@ximian.com>
 
+	[ Fixes bug #5066 ]
+	* gui/component/addressbook-storage.c (remove_ldap_folder): new
+	function, remove the source.
+	(register_storage): connect to the "remove_folder" signal so we
+	know when to remove the folder.
+
+2001-08-07  Chris Toshok  <toshok@ximian.com>
+
 	* backend/pas/pas-backend-ldap.c (build_card_from_entry): use
 	g_strcasecmp since ldap attribute names are not case sensitive.
 

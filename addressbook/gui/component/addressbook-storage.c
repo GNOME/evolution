@@ -56,6 +56,7 @@
 #include <errno.h>
 
 #include <glib.h>
+#include <gtk/gtk.h>
 #include <gnome-xml/parser.h>
 #include <gnome-xml/xmlmemory.h>
 
@@ -108,6 +109,16 @@ addressbook_storage_setup (EvolutionShellComponent *shell_component,
 		deregister_storage ();
 }
 
+static void
+remove_ldap_folder (EvolutionStorage *storage,
+		    const CORBA_char *path, const CORBA_char *physical_uri,
+		    int *result, gpointer data)
+{
+	addressbook_storage_remove_source (path + 1);
+	addressbook_storage_write_sources();
+	*result = GNOME_Evolution_Storage_OK;
+}
+
 static void 
 register_storage (void) 
 {
@@ -116,6 +127,9 @@ register_storage (void)
 
 	if (storage == NULL) {
 		storage = evolution_storage_new (_("Other Contacts"), NULL, NULL);
+		gtk_signal_connect (GTK_OBJECT (storage),
+				    "remove_folder",
+				    GTK_SIGNAL_FUNC(remove_ldap_folder), NULL);
 		result = evolution_storage_register_on_shell (storage, corba_shell);
 		switch (result) {
 		case EVOLUTION_STORAGE_OK:
