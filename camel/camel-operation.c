@@ -62,6 +62,8 @@ static pthread_mutex_t operation_active_lock = PTHREAD_MUTEX_INITIALIZER;
 #define CAMEL_ACTIVE_UNLOCK()
 #endif
 
+static unsigned int stamp (void);
+
 static GHashTable *operation_active;
 
 typedef struct _CamelOperationMsg {

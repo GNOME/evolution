@@ -1,5 +1,11 @@
 2001-04-16  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* camel-operation.c: Added a prototype for stamp().
+
+	* camel-charset-map.c (camel_charset_locale_name): #include
+	string.h so we don't get a warning about strchr being undefined
+	and also init charset to NULL.
+
 	* camel-pgp-context.c (pgp_verify): Go back to doing the utf8
 	conversion by hand so that we don't depend on gal.
 

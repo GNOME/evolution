@@ -14,6 +14,7 @@ INCLUDES = -I.. -I$(srcdir)/.. 			 \
 	$(GLIB_CFLAGS)				 \
 	$(GNOME_XML_CFLAGS)			 \
 	$(UNICODE_CFLAGS)			 \
+	$(EXTRA_GNOME_CFLAGS)			 \
 	$(KRB4_CFLAGS)				 \
 	$(NSPR_CFLAGS)				 \
 	$(NSS_CFLAGS)				 \

@@ -203,6 +203,7 @@ void main(void)
 #include "camel-charset-map-private.h"
 #include <unicode.h>
 #include <locale.h>
+#include <string.h>
 #include <glib.h>
 
 void camel_charset_init(CamelCharset *c)
@@ -286,7 +287,7 @@ camel_charset_best(const char *in, int len)
 char *
 camel_charset_locale_name (void)
 {
-	char *locale, *charset;
+	char *locale, *charset = NULL;
 	
 	locale = setlocale (LC_ALL, NULL);
 	
