@@ -1,3 +1,12 @@
+2000-04-07  Matt Loper  <matt@helixcode.com>
+
+	* e-shell-view.c (destroy_folder_view): New function;
+	Bonobo_Unknown_unref's the controls that have the views in them.
+	(esv_destroy): Calls the above for each folder_view in the
+	hashtable.
+	(get_view): unref the ServiceRepository interface of the control
+	when we're done with it.
+
 2000-04-06  Miguel de Icaza  <miguel@gnu.org>
 
 	* shell/e-shortcut.c (shell_icon_cb): Append a slash here.

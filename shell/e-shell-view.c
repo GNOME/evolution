@@ -31,6 +31,38 @@ struct _EShellViewPrivate
 	GtkWidget *notebook;
 };
 
+static void
+destroy_folder_view (EFolder *unused, GtkWidget *folder_view, gpointer unused2)
+{
+	BonoboWidget *bonobo_widget;
+	BonoboObject *bonobo_object;	
+	CORBA_Object corba_control;
+	CORBA_Environment ev;
+
+	g_print ("%s: %s entered\n",
+		 __FILE__, __FUNCTION__);
+	
+	g_return_if_fail (BONOBO_IS_WIDGET (folder_view));
+
+	bonobo_widget = BONOBO_WIDGET (folder_view);
+	
+	bonobo_object = BONOBO_OBJECT (
+		bonobo_widget_get_server (bonobo_widget));
+
+	corba_control = bonobo_object_corba_objref (bonobo_object);
+	
+	g_return_if_fail (corba_control != NULL);
+	
+	CORBA_exception_init (&ev);
+
+	/* hangs on this! */
+	Bonobo_Unknown_unref (corba_control, &ev);
+	CORBA_exception_free (&ev);
+
+	g_print ("%s: %s exited\n",
+		 __FILE__, __FUNCTION__);	
+}
+
 
 static void
 esv_destroy (GtkObject *object)
@@ -39,6 +71,9 @@ esv_destroy (GtkObject *object)
 
 	e_shell_unregister_view (eshell_view->eshell, eshell_view);
 
+	g_hash_table_foreach (eshell_view->priv->folder_views,
+			      destroy_folder_view, NULL);
+	
 	g_hash_table_destroy (eshell_view->priv->folder_views);	
 	g_free (eshell_view->priv);	
 	parent_class->destroy (object);
@@ -134,6 +169,8 @@ get_view (EShellView *eshell_view, EFolder *efolder, Bonobo_UIHandler uih)
 		Evolution_ServiceRepository corba_sr;
 		BonoboObjectClient *server =
 			bonobo_widget_get_server (BONOBO_WIDGET (w));
+		CORBA_Environment ev;
+		CORBA_exception_init (&ev);
 
 		/* Does this control have the "ServiceRepository" interface? */
 		corba_sr = (Evolution_ServiceRepository) 
@@ -145,13 +182,13 @@ get_view (EShellView *eshell_view, EFolder *efolder, Bonobo_UIHandler uih)
 		/* If it does, pass our shell interface to it */
 		if (corba_sr != CORBA_OBJECT_NIL) {
 
-			CORBA_Environment ev;
-			CORBA_exception_init (&ev);
 			Evolution_ServiceRepository_set_shell (corba_sr,
 							       corba_shell,
 							       &ev);
-			CORBA_exception_free (&ev);
-	
+			/* We're done with the service repository interface,
+			   so now let's get rid of it */
+			Bonobo_Unknown_unref (corba_sr, &ev);
+			
 		} else {
 			
 			g_print ("The bonobo component for \"%s\" doesn't "
@@ -159,6 +196,8 @@ get_view (EShellView *eshell_view, EFolder *efolder, Bonobo_UIHandler uih)
 				 "Evolution::ServiceRepository interface\n",
 				 e_folder_get_description (efolder));
 		}
+
+		CORBA_exception_free (&ev);
 
 		gtk_widget_show (w);
 	}

@@ -33,7 +33,15 @@ static void
 folder_browser_destroy (GtkObject *object)
 {
 	FolderBrowser *folder_browser = FOLDER_BROWSER (object);
+	
+	if (folder_browser->shell) {
+		CORBA_Environment ev;
 
+		CORBA_exception_init (&ev);
+		Bonobo_Unknown_unref (folder_browser->shell, &ev);
+		CORBA_exception_free (&ev);
+	}
+	
 	if (folder_browser->uri)
 		g_free (folder_browser->uri);
 

@@ -1,3 +1,12 @@
+2000-04-07  Matt Loper  <matt@helixcode.com>
+
+	* folder-browser.c (folder_browser_destroy): Unref the shell
+	interface that we have a handle to.
+
+	* folder-browser-factory.c (control_destroy_cb): New function;
+	destroys a folder-browser when its control is destroyed.
+	(folder_browser_factory): Hook up to the above.
+
 2000-04-07  Dan Winship  <danw@helixcode.com>
 
 	* mail-ops.c: new file, for toolbar/menu callbacks

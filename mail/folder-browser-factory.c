@@ -39,7 +39,7 @@ folder_browser_set_shell (EvolutionServiceRepository *sr,
 	CORBA_exception_init (&ev);
 
 	folder_browser = FOLDER_BROWSER (closure);
-	/* FIXME : ref the shell here */
+
 	folder_browser->shell = shell;
 
 	/* test the component->shell registration */
@@ -225,7 +225,14 @@ control_activate_cb (BonoboControl *control,
 		control_deactivate (control, uih);
 }
 
+static void
+control_destroy_cb (BonoboControl *control,
+		    gpointer       user_data)
+{
+	GtkWidget *folder_browser = user_data;
 
+	gtk_object_destroy (GTK_OBJECT (folder_browser));
+}
 
 /*
  * Creates the Folder Browser, wraps it in a Bonobo Control, and
@@ -264,6 +271,8 @@ folder_browser_factory (BonoboGenericFactory *factory, void *closure)
 	gtk_signal_connect (GTK_OBJECT (control), "activate",
 			    control_activate_cb, NULL);
 
+	gtk_signal_connect (GTK_OBJECT (control), "destroy",
+			    control_destroy_cb, folder_browser);	
 	
 	bonobo_control_set_property_bag (control,
 					 FOLDER_BROWSER (folder_browser)->properties);
