@@ -472,7 +472,6 @@ msgid "One"
 msgstr "Een"
 
 #: addressbook/gui/component/addressbook-config.glade.h:10
-#, fuzzy
 msgid "Search _base:"
 msgstr "Zoek_basis:"
 
@@ -8614,7 +8613,7 @@ msgstr "Identiteit"
 
 #: mail/mail-config.glade.h:38
 msgid "In HTML mail"
-msgstr "in HTML email"
+msgstr "In HTML-berichten"
 
 #: mail/mail-config.glade.h:39
 msgid "Inline"
@@ -8671,14 +8670,13 @@ msgid "Pretty Good Privacy"
 msgstr "Pretty Good Privacy"
 
 #: mail/mail-config.glade.h:57
-#, fuzzy
 msgid "Prompt when sending messages with an _empty subject"
-msgstr "Creeer een regel om de berichten met dit onderwerp te filteren"
+msgstr "Waarschuw wanneer een bericht verstuurd wordt zonder _onderwerp"
 
 #: mail/mail-config.glade.h:58
 #, fuzzy
 msgid "Prompt when sending messages with only _Bcc recipients defined"
-msgstr "Kan bericht niet versturen: Geen ontvangers gespecificeerd."
+msgstr "Waarschuw wanneer een bericht verstuurd wordt met alleen _Bcc-ontvangers"
 
 #: mail/mail-config.glade.h:59
 msgid "Qmail maildir "
@@ -8719,7 +8717,7 @@ msgstr "Selecteer een bestand"
 
 #: mail/mail-config.glade.h:69
 msgid "Select PGP binary"
-msgstr "Selecteer lokatie PGP"
+msgstr "Selecteer het pad naar PGP"
 
 #: mail/mail-config.glade.h:70
 msgid "Sending Email"
@@ -8798,9 +8796,8 @@ msgstr ""
 "Klik op \"Volgende\" om te beginnen."
 
 #: mail/mail-config.glade.h:91
-#, fuzzy
 msgid "_Always load images off the net"
-msgstr "Altijd plaatjes van buiten het netwerk laden"
+msgstr "Altijd afbeeldingen ophalen va het internet"
 
 #: mail/mail-config.glade.h:92
 #, fuzzy
@@ -8828,9 +8825,8 @@ msgid "_HTML Signature:"
 msgstr "Bestand met HTML-ondertekening:"
 
 #: mail/mail-config.glade.h:100
-#, fuzzy
 msgid "_Highlight citations with"
-msgstr "Highligt citaten met"
+msgstr "Accentueer citaten met"
 
 #: mail/mail-config.glade.h:101
 #, fuzzy
@@ -8846,9 +8842,8 @@ msgid "_Log filter actions to:"
 msgstr "_Log filteracties in:"
 
 #: mail/mail-config.glade.h:104
-#, fuzzy
 msgid "_Mark messages as Read after"
-msgstr "Markeer berichten als \"Gelezen\" na: "
+msgstr "_Markeer berichten als Gelezen na "
 
 #: mail/mail-config.glade.h:105
 #, fuzzy
@@ -8856,9 +8851,8 @@ msgid "_Name:"
 msgstr "Naam:"
 
 #: mail/mail-config.glade.h:106
-#, fuzzy
 msgid "_Never load images off the net"
-msgstr "Nooi plaatjes van het net afhalen"
+msgstr "_Nooit afbeeldingen van het internet ophalen"
 
 #: mail/mail-config.glade.h:107
 msgid "_Organization:"
@@ -8867,7 +8861,7 @@ msgstr "Organisatie:"
 #: mail/mail-config.glade.h:108
 #, fuzzy
 msgid "_PGP binary path:"
-msgstr "Locatie van PGP:"
+msgstr "Pad naar het PGP-programma:"
 
 #: mail/mail-config.glade.h:109
 #, fuzzy
@@ -8883,9 +8877,8 @@ msgid "_Remember this password"
 msgstr "_Onthoud dit wachtwoord"
 
 #: mail/mail-config.glade.h:112
-#, fuzzy
 msgid "_Send mail in HTML format by default."
-msgstr "Stuur post standaard in HTML-formaat."
+msgstr "Stuur berichten standaard in HTML-formaat."
 
 #: mail/mail-config.glade.h:113
 msgid "_Signature file:"
@@ -9046,7 +9039,7 @@ msgstr "Datum"
 #: mail/mail-format.c:856
 #, fuzzy
 msgid "Bad Address"
-msgstr "E-mailadres:"
+msgstr "Ongeldig E-mailadres"
 
 #: mail/mail-format.c:878 mail/message-list.etspec.h:3
 msgid "From"
@@ -9054,7 +9047,7 @@ msgstr "Van"
 
 #: mail/mail-format.c:881
 msgid "Reply-To"
-msgstr "Antwoordadres:"
+msgstr "Antwoordadres"
 
 #: mail/mail-format.c:884 mail/message-list.etspec.h:10
 msgid "To"
@@ -12471,7 +12464,7 @@ msgstr "Selecteer alle zichtbare berichten"
 #: ui/evolution-mail-list.xml.h:18
 #, fuzzy
 msgid "Sh_ow Hidden Messages"
-msgstr "Doorgestuurde berichten"
+msgstr "T_oon Verborgen Berichten"
 
 #: ui/evolution-mail-list.xml.h:19
 msgid "Show messages that have been temporarily hidden"
@@ -12506,9 +12499,8 @@ msgid "_Properties..."
 msgstr "_Eigenschappen..."
 
 #: ui/evolution-mail-list.xml.h:30
-#, fuzzy
 msgid "_Threaded Message List"
-msgstr "Berichtenlijst met Weergave van Relateerde Berichten"
+msgstr "_Berichtenlijst Met Communicatiebomen"
 
 #: ui/evolution-mail-message.xml.h:1
 msgid "Apply filter rules to the selected messages"
@@ -12656,14 +12648,12 @@ msgid "Load _Images"
 msgstr "Toon _Afbeeldingen"
 
 #: ui/evolution-mail-message.xml.h:41
-#, fuzzy
 msgid "Mark as I_mportant"
-msgstr "Belangrijk"
+msgstr "Markeer als _Belangrijk"
 
 #: ui/evolution-mail-message.xml.h:43
-#, fuzzy
 msgid "Mark as Unimp_ortant"
-msgstr "Markeer Als Ongelezen"
+msgstr "Markeer Als _Onbelangrijk"
 
 #: ui/evolution-mail-message.xml.h:44
 msgid "Mark the selected messages as having been read"
@@ -12679,9 +12669,8 @@ msgid "Mark the selected messages as not having been read"
 msgstr "Markeer het geselecteerde bericht alsof het niet gelezen is"
 
 #: ui/evolution-mail-message.xml.h:47
-#, fuzzy
 msgid "Mark the selected messages as unimportant"
-msgstr "Markeer het geselecteerde bericht om te verwijderen"
+msgstr "Markeer het geselecteerde bericht als onbelangrijk"
 
 #: ui/evolution-mail-message.xml.h:48
 msgid "Mark the selected messages for deletion"
@@ -12700,7 +12689,6 @@ msgid "Next"
 msgstr "Volgende"
 
 #: ui/evolution-mail-message.xml.h:52
-#, fuzzy
 msgid "Next Important Message"
 msgstr "Volgende bericht"
 
@@ -12709,14 +12697,12 @@ msgid "Next Message"
 msgstr "Volgend Bericht"
 
 #: ui/evolution-mail-message.xml.h:54
-#, fuzzy
 msgid "Next Thread"
-msgstr "Selecteer _Gerelateerde Berichten"
+msgstr "Volgende Communicatieboom"
 
 #: ui/evolution-mail-message.xml.h:55
-#, fuzzy
 msgid "Next Unread Message"
-msgstr "Volgende bericht"
+msgstr "Volgende Ongelezen Bericht"
 
 #: ui/evolution-mail-message.xml.h:56
 msgid "Open the selected message in a new window"
@@ -12728,7 +12714,6 @@ msgstr ""
 "Open het geselecteerde bericht in de opsteller om het opnieuw te zenden"
 
 #: ui/evolution-mail-message.xml.h:58
-#, fuzzy
 msgid "Preview the message to be printed"
 msgstr "Geeft een afdrukvoorbeeld van het bericht"
 
@@ -12737,19 +12722,16 @@ msgid "Previous"
 msgstr "Vorige"
 
 #: ui/evolution-mail-message.xml.h:60
-#, fuzzy
 msgid "Previous Important Message"
-msgstr "Vorige bericht"
+msgstr "Vorige Belangrijke Bericht"
 
 #: ui/evolution-mail-message.xml.h:61
-#, fuzzy
 msgid "Previous Message"
-msgstr "Vorige bericht"
+msgstr "Vorig Bericht"
 
 #: ui/evolution-mail-message.xml.h:62
-#, fuzzy
 msgid "Previous Unread Message"
-msgstr "Vorige bericht"
+msgstr "Vorige Ongelezen Bericht"
 
 #: ui/evolution-mail-message.xml.h:65
 msgid "Print this message"
@@ -13091,58 +13073,51 @@ msgstr "Afmelden"
 #: ui/evolution-task-editor.xml.h:1
 #, fuzzy
 msgid "Assign Task"
-msgstr "Taak Toewijze_n (FIXME)"
+msgstr "Wijs taak toe"
 
 #: ui/evolution-task-editor.xml.h:2
 msgid "Assign this task to others"
-msgstr ""
+msgstr "Wijs deze taak toe aan anderen"
 
 #: ui/evolution-task-editor.xml.h:3
-#, fuzzy
 msgid "Cancel Task"
-msgstr "Annuleren"
+msgstr "Annuleer Taak"
 
 #: ui/evolution-task-editor.xml.h:4
-#, fuzzy
 msgid "Cancel this task"
-msgstr "Annuleren"
+msgstr "Annuleer deze taak"
 
 #: ui/evolution-task-editor.xml.h:7
 msgid "Obtain the latest task information"
-msgstr ""
+msgstr "Verkrijg de meeste recente taakinformatie"
 
 #: ui/evolution-task-editor.xml.h:8
-#, fuzzy
 msgid "Re_fresh Task"
-msgstr "Lijst Verversen"
+msgstr "Ververs Taak"
 
 #: ui/evolution-tasks.xml.h:2
 msgid "Configure the task view's settings"
-msgstr ""
+msgstr "Configureer de weergave van taken"
 
 #: ui/evolution-tasks.xml.h:4
-#, fuzzy
 msgid "Copy selected task"
-msgstr "Verwijder de geselecteerde taken"
+msgstr "Kopieer de geselecteerde taak"
 
 #: ui/evolution-tasks.xml.h:7
-#, fuzzy
 msgid "Cut selected task"
-msgstr "Verwijder de geselecteerde taken"
+msgstr "Knip de geselecteerde taak"
 
 #: ui/evolution-tasks.xml.h:9
 msgid "Delete selected tasks"
 msgstr "Verwijder de geselecteerde taken"
 
 #: ui/evolution-tasks.xml.h:12
-#, fuzzy
 msgid "Paste task from the clipboard"
-msgstr "Plak het klembord"
+msgstr "Plak taak vanaf het klembord"
 
 #: ui/evolution-tasks.xml.h:13
-#, fuzzy
 msgid "Tasks Settings..."
-msgstr "Postinstellingen..."
+msgstr "Taakinstellingen..."
 
 #: ui/evolution-tasks.xml.h:17
 msgid "_Task"
@@ -13491,111 +13466,101 @@ msgid "The time must be in the format: %s"
 msgstr "De datum moet ingevoerd worden in het formaat: %s"
 
 #: widgets/misc/e-charset-picker.c:59
-#, fuzzy
 msgid "Baltic"
-msgstr "Basis"
+msgstr "Baltisch"
 
 #: widgets/misc/e-charset-picker.c:60
 msgid "Central European"
-msgstr ""
+msgstr "Centraaleuropees"
 
 #: widgets/misc/e-charset-picker.c:61
 msgid "Chinese"
-msgstr ""
+msgstr "Chinees"
 
 #: widgets/misc/e-charset-picker.c:62
 msgid "Cyrillic"
-msgstr ""
+msgstr "Cyrillisch"
 
 #: widgets/misc/e-charset-picker.c:63
-#, fuzzy
 msgid "Greek"
-msgstr "week"
+msgstr "Grieks"
 
 #: widgets/misc/e-charset-picker.c:64
 msgid "Japanese"
-msgstr ""
+msgstr "Japans"
 
 #: widgets/misc/e-charset-picker.c:65
 msgid "Korean"
-msgstr ""
+msgstr "Koreaans"
 
 #: widgets/misc/e-charset-picker.c:66
-#, fuzzy
 msgid "Turkish"
-msgstr "Prullenbak"
+msgstr "Turks"
 
 #: widgets/misc/e-charset-picker.c:67
 msgid "Unicode"
-msgstr ""
+msgstr "Unicode"
 
 #: widgets/misc/e-charset-picker.c:68
 msgid "Western European"
-msgstr ""
+msgstr "Westeuropees"
 
 #: widgets/misc/e-charset-picker.c:85
-#, fuzzy
 msgid "Traditional"
-msgstr "Transactie mislukt"
+msgstr "Traditioneel"
 
 #: widgets/misc/e-charset-picker.c:86 widgets/misc/e-charset-picker.c:87
 msgid "Simplified"
-msgstr ""
+msgstr "Gesimplificeerd"
 
 #: widgets/misc/e-charset-picker.c:91
 msgid "Ukrainian"
-msgstr ""
+msgstr "Oekraïens"
 
 #: widgets/misc/e-charset-picker.c:102
-#, fuzzy
 msgid "New"
-msgstr "Nieuws"
+msgstr "Nieuw"
 
 #: widgets/misc/e-charset-picker.c:160
-#, fuzzy, c-format
+#, c-format
 msgid "Unknown character set: %s"
-msgstr "Onbekende fout: %s"
+msgstr "Onbekende karakterset: %s"
 
 #: widgets/misc/e-charset-picker.c:202
-#, fuzzy
 msgid "Enter the character set to use"
-msgstr "Standaard doorsturen stijl is:"
+msgstr "Kies de te gebruiken karakterset:"
 
 #: widgets/misc/e-charset-picker.c:277
-#, fuzzy
 msgid "Other..."
-msgstr "Overige"
+msgstr "Overige..."
 
 #: widgets/misc/e-charset-picker.c:394
 msgid "Character Encoding"
-msgstr ""
+msgstr "Karakterencodering"
 
 #: widgets/misc/e-clipped-label.c:112
 msgid "..."
 msgstr "..."
 
 #: widgets/misc/e-filter-bar.c:158
-#, fuzzy
 msgid "Search Editor"
-msgstr "Contacten Bewerken"
+msgstr "Zoekopdracht-editor"
 
 #: widgets/misc/e-filter-bar.c:174
 msgid "Save Search"
-msgstr "Bewaar zoekopdracht"
+msgstr "Bewaar Zoekopdracht"
 
 #: widgets/misc/e-filter-bar.h:94
-#, fuzzy
 msgid "Add to Saved Searches"
-msgstr "Bewaar zoekopdracht"
+msgstr "Voeg toe aan Bewaarde Zoekopdrachten"
 
 #: widgets/misc/e-filter-bar.h:95
-#, fuzzy
 msgid "Clear"
-msgstr "W_issen"
+msgstr "Wissen"
 
 #: widgets/misc/e-filter-bar.h:102
 msgid "Show All"
-msgstr "Allen Weergeven"
+msgstr "Alles Weergeven"
 
 #: widgets/misc/e-messagebox.c:152
 msgid "Information"
