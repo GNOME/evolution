@@ -438,23 +438,17 @@ AC_SUBST(GTK_HTML_EDITOR_IDL)
 dnl ******************************
 dnl Gnome-VFS checking
 dnl ******************************
-AC_MSG_CHECKING(for GNOME-VFS)
+AC_MSG_CHECKING(for GNOME-VFS >= 0.4.2)
 if gnome-config --libs vfs > /dev/null 2>&1; then
     vers=`gnome-config --modversion vfs | sed -e "s/gnome-vfs-//" | \
         awk 'BEGIN { FS = "."; } { print $1 * 10000 + $2 * 100 + $3;}'`
     if test "$vers" -ge 402; then
         AC_MSG_RESULT(found)
     else
-        AC_MSG_ERROR(You need at least GNOME VFS 0.6.2 for this version of Evolution)
+        AC_MSG_ERROR(not found)
     fi
 else
     vfs_ok=false
-fi
-
-if $vfs_ok; then
-    AC_MSG_RESULT($vers)
-else
-    AC_MSG_ERROR(GNOME-VFS 0.3 or newer is required to compile Evolution)
 fi
 
 GNOME_VFS_LIBS="`gnome-config --libs vfs`"
