@@ -121,66 +121,90 @@ my_col_count (ETableModel *etc, void *data)
 static int
 my_row_count (ETableModel *etc, void *data)
 {
-  return ROWS;
+	return ROWS;
 }
 
 static void *
 my_value_at (ETableModel *etc, int col, int row, void *data)
 {
-  if (col == COLOR_COLUMN){
-    if (importance_data[row]){
-      return color1;
-    } else {
-      return color2;
-    }
-  } else if (col == IMPORTANCE_COLUMN){
-    return (gpointer) importance_data[row];
-  } else {
-	return (void *) table_data [row][col];
-  }
+	if (col == COLOR_COLUMN){
+		if (importance_data[row]){
+			return color1;
+		} else {
+			return color2;
+		}
+	} else if (col == IMPORTANCE_COLUMN){
+		return (gpointer) importance_data[row];
+	} else {
+		return (void *) table_data [row][col];
+	}
 }
 
 static void
 my_set_value_at (ETableModel *etc, int col, int row, const void *val, void *data)
 {
-  if (col == COLOR_COLUMN){ 
-  } else if (col == IMPORTANCE_COLUMN){
-    importance_data[row] = (gboolean) val;
-  } else {
-	g_free (table_data [row][col]);
-	table_data [row][col] = g_strdup (val);
-  }
+	if (col == COLOR_COLUMN){ 
+	} else if (col == IMPORTANCE_COLUMN){
+		importance_data[row] = (gboolean) val;
+	} else {
+		g_free (table_data [row][col]);
+		table_data [row][col] = g_strdup (val);
+	}
 }
 
 static gboolean
 my_is_cell_editable (ETableModel *etc, int col, int row, void *data)
 {
-  if (col == IMPORTANCE_COLUMN)
-    return FALSE;
-  else
-    return TRUE;
+	if (col == IMPORTANCE_COLUMN)
+		return FALSE;
+	else
+		return TRUE;
 }
 
 static void *
 my_duplicate_value (ETableModel *etc, int col, const void *value, void *data)
 {
-  if (col == COLOR_COLUMN){
-    return (void *) value;
-  } else if (col == IMPORTANCE_COLUMN){
-    return (void *) value;
-  } else {
-    return g_strdup (value);
-  }
+	if (col == COLOR_COLUMN){
+		return (void *) value;
+	} else if (col == IMPORTANCE_COLUMN){
+		return (void *) value;
+	} else {
+		return g_strdup (value);
+	}
 }
 
 static void
 my_free_value (ETableModel *etc, int col, void *value, void *data)
 {
-  if (col == COLOR_COLUMN){
-  } else if (col == IMPORTANCE_COLUMN){
-  } else {
-    g_free (value);
-  }
+	if (col == COLOR_COLUMN){
+	} else if (col == IMPORTANCE_COLUMN){
+	} else {
+		g_free (value);
+	}
+}
+
+static void *
+my_initialize_value (ETableModel *etc, int col, void *data)
+{
+	if (col == COLOR_COLUMN){
+		return NULL;
+	} else if (col == IMPORTANCE_COLUMN){
+		return NULL;
+	} else {
+		return g_strdup ("");
+	}
+}
+
+static gboolean
+my_value_is_empty (ETableModel *etc, int col, const void *value, void *data)
+{
+	if (col == COLOR_COLUMN){
+		return value == NULL;
+	} else if (col == IMPORTANCE_COLUMN){
+		return value == NULL;
+	} else {
+		return !(value && *(char *)value);
+	}
 }
 
 static void
@@ -213,7 +237,9 @@ create_table ()
 	e_table_model = e_table_simple_new (
 					    my_col_count, my_row_count, my_value_at,
 					    my_set_value_at, my_is_cell_editable,
-					    my_duplicate_value, my_free_value, my_thaw, NULL);
+					    my_duplicate_value, my_free_value,
+					    my_initialize_value, my_value_is_empty,
+					    my_thaw, NULL);
 	/*
 	  Next we create a header.  The ETableHeader is used in two
 	  different way.  The first is the full_header.  This is the

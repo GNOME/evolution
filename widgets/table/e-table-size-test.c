@@ -157,6 +157,20 @@ my_free_value (ETableModel *etc, int col, void *value, void *data)
 	g_free (value);
 }
 
+/* This function creates an empty value. */
+static void *
+my_initialize_value (ETableModel *etc, int col, void *data)
+{
+	return g_strdup ("");
+}
+
+/* This function reports if a value is empty. */
+static gboolean
+my_value_is_empty (ETableModel *etc, int col, const void *value, void *data)
+{
+	return !(value && *(char *)value);
+}
+
 /* This function is for when the model is unfrozen.  This can mostly
    be ignored for simple models.  */
 static void
@@ -179,7 +193,9 @@ create_table (void)
 	e_table_model = e_table_simple_new (
 					    my_col_count, my_row_count, my_value_at,
 					    my_set_value_at, my_is_cell_editable,
-					    my_duplicate_value, my_free_value, my_thaw, NULL);
+					    my_duplicate_value, my_free_value,
+					    my_initialize_value, my_value_is_empty,
+					    my_thaw, NULL);
 	/*
 	 * Next we create a header.  The ETableHeader is used in two
 	 * different way.  The first is the full_header.  This is the

@@ -18,63 +18,103 @@
 static int
 simple_column_count (ETableModel *etm)
 {
-	ETableSimple *simple = (ETableSimple *)etm;
+	ETableSimple *simple = E_TABLE_SIMPLE(etm);
 
-	return simple->col_count (etm, simple->data);
+	if (simple->col_count)
+		return simple->col_count (etm, simple->data);
+	else
+		return 0;
 }
 
 static int
 simple_row_count (ETableModel *etm)
 {
-	ETableSimple *simple = (ETableSimple *)etm;
+	ETableSimple *simple = E_TABLE_SIMPLE(etm);
 
-	return simple->row_count (etm, simple->data);
+	if (simple->row_count)
+		return simple->row_count (etm, simple->data);
+	else
+		return 0;
 }
 
 static void *
 simple_value_at (ETableModel *etm, int col, int row)
 {
-	ETableSimple *simple = (ETableSimple *)etm;
+	ETableSimple *simple = E_TABLE_SIMPLE(etm);
 
-	return simple->value_at (etm, col, row, simple->data);
+	if (simple->value_at)
+		return simple->value_at (etm, col, row, simple->data);
+	else
+		return NULL;
 }
 
 static void
 simple_set_value_at (ETableModel *etm, int col, int row, const void *val)
 {
-	ETableSimple *simple = (ETableSimple *)etm;
+	ETableSimple *simple = E_TABLE_SIMPLE(etm);
 
-	simple->set_value_at (etm, col, row, val, simple->data);
+	if (simple->set_value_at)
+		simple->set_value_at (etm, col, row, val, simple->data);
 }
 
 static gboolean
 simple_is_cell_editable (ETableModel *etm, int col, int row)
 {
-	ETableSimple *simple = (ETableSimple *)etm;
+	ETableSimple *simple = E_TABLE_SIMPLE(etm);
 
-	return simple->is_cell_editable (etm, col, row, simple->data);
+	if (simple->is_cell_editable)
+		return simple->is_cell_editable (etm, col, row, simple->data);
+	else
+		return FALSE;
 }
 
+/* The default for simple_duplicate_value is to return the raw value. */
 static void *
 simple_duplicate_value (ETableModel *etm, int col, const void *value)
 {
-	ETableSimple *simple = (ETableSimple *)etm;
+	ETableSimple *simple = E_TABLE_SIMPLE(etm);
 
-	return simple->duplicate_value (etm, col, value, simple->data);
+	if (simple->duplicate_value)
+		return simple->duplicate_value (etm, col, value, simple->data);
+	else
+		return (void *)value;
 }
 
 static void
 simple_free_value (ETableModel *etm, int col, void *value)
 {
-	ETableSimple *simple = (ETableSimple *)etm;
+	ETableSimple *simple = E_TABLE_SIMPLE(etm);
 
-	simple->free_value (etm, col, value, simple->data);
+	if (simple->free_value)
+		simple->free_value (etm, col, value, simple->data);
+}
+
+static void *
+simple_initialize_value (ETableModel *etm, int col)
+{
+	ETableSimple *simple = E_TABLE_SIMPLE(etm);
+	
+	if (simple->initialize_value)
+		return simple->initialize_value (etm, col, simple->data);
+	else
+		return NULL;
+}
+
+static gboolean
+simple_value_is_empty (ETableModel *etm, int col, const void *value)
+{
+	ETableSimple *simple = E_TABLE_SIMPLE(etm);
+	
+	if (simple->value_is_empty)
+		return simple->value_is_empty (etm, col, value, simple->data);
+	else
+		return FALSE;
 }
 
 static void
 simple_thaw (ETableModel *etm)
 {
-	ETableSimple *simple = (ETableSimple *)etm;
+	ETableSimple *simple = E_TABLE_SIMPLE(etm);
 
 	simple->thaw (etm, simple->data);
 }
@@ -91,6 +131,8 @@ e_table_simple_class_init (GtkObjectClass *object_class)
 	model_class->is_cell_editable = simple_is_cell_editable;
 	model_class->duplicate_value = simple_duplicate_value;
 	model_class->free_value = simple_free_value;
+	model_class->initialize_value = simple_initialize_value;
+	model_class->value_is_empty = simple_value_is_empty;
 	model_class->thaw = simple_thaw;
 }
 
@@ -125,6 +167,8 @@ e_table_simple_new (ETableSimpleColumnCountFn col_count,
 		    ETableSimpleIsCellEditableFn is_cell_editable,
 		    ETableSimpleDuplicateValueFn duplicate_value,
 		    ETableSimpleFreeValueFn free_value,
+		    ETableSimpleInitializeValueFn initialize_value,
+		    ETableSimpleValueIsEmptyFn value_is_empty,
 		    ETableSimpleThawFn thaw,
 		    void *data)
 {
@@ -137,9 +181,11 @@ e_table_simple_new (ETableSimpleColumnCountFn col_count,
 	et->value_at = value_at;
 	et->set_value_at = set_value_at;
 	et->is_cell_editable = is_cell_editable;
-	et->thaw = thaw;
 	et->duplicate_value = duplicate_value;
 	et->free_value = free_value;
+	et->initialize_value = initialize_value;
+	et->value_is_empty = value_is_empty;
+	et->thaw = thaw;
 	et->data = data;
 	
 	return (ETableModel *) et;

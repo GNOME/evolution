@@ -28,8 +28,14 @@ typedef struct {
 	void        (*set_value_at)     (ETableModel *etm, int col, int row, const void *value);
 	gboolean    (*is_cell_editable) (ETableModel *etm, int col, int row);
 
-	void       *(*duplicate_value)   (ETableModel *etm, int col, const void *value);
-	void        (*free_value)        (ETableModel *etm, int col, void *value);
+	/* Allocate a copy of the given value. */
+	void       *(*duplicate_value)  (ETableModel *etm, int col, const void *value);
+	/* Free an allocated value. */
+	void        (*free_value)       (ETableModel *etm, int col, void *value);
+	/* Return an allocated empty value. */
+	void	   *(*initialize_value) (ETableModel *etm, int col);
+	/* Return TRUE if value is equivalent to an empty cell. */
+	gboolean    (*value_is_empty)   (ETableModel *etm, int col, const void *value);
 	
 	void        (*thaw)             (ETableModel *etm);
 	/*
@@ -62,6 +68,8 @@ gboolean    e_table_model_is_cell_editable (ETableModel *e_table_model, int col,
 
 void       *e_table_model_duplicate_value  (ETableModel *e_table_model, int col, const void *value);
 void        e_table_model_free_value       (ETableModel *e_table_model, int col, void *value);
+void       *e_table_model_initialize_value (ETableModel *e_table_model, int col);
+gboolean    e_table_model_value_is_empty   (ETableModel *e_table_model, int col, const void *value);
 
 void        e_table_model_freeze           (ETableModel *e_table_model);
 void        e_table_model_thaw             (ETableModel *e_table_model);

@@ -190,6 +190,18 @@ free_value (ETableModel *etc, int col, void *value, void *data)
 	g_free (value);
 }
 
+static void *
+initialize_value (ETableModel *etc, int col, void *data)
+{
+	return g_strdup ("");
+}
+
+static gboolean
+value_is_empty (ETableModel *etc, int col, const void *value, void *data)
+{
+	return !(value && *(char *)value);
+}
+
 static void
 thaw (ETableModel *etc, void *data)
 {
@@ -220,7 +232,9 @@ table_browser_test (void)
 	e_table_model = e_table_simple_new (
 		col_count, row_count, value_at,
 		set_value_at, is_cell_editable,
-		duplicate_value, free_value, thaw, NULL);
+		duplicate_value, free_value,
+		initialize_value, value_is_empty,
+		thaw, NULL);
 
 	/*
 	 * Header
@@ -315,7 +329,8 @@ do_e_table_demo (const char *spec)
 		e_table_model = 
 			e_table_simple_new (col_count, row_count, value_at,
 					    set_value_at, is_cell_editable,
-					    duplicate_value, free_value, 
+					    duplicate_value, free_value,
+					    initialize_value, value_is_empty,
 					    thaw, NULL);
 
 	full_header = e_table_header_new ();

@@ -1,3 +1,4 @@
+/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  * Test code for the ETable package
  *
@@ -84,19 +85,37 @@ is_cell_editable (ETableModel *etc, int col, int row, void *data)
 static void *
 duplicate_value (ETableModel *etc, int col, const void *value, void *data)
 {
-  if (col == 0){
-    return (void *)value;
-  } else {
-    return g_strdup (value);
-  }
+	if (col == 0){
+		return (void *)value;
+	} else {
+		return g_strdup (value);
+	}
 }
 
 static void
 free_value (ETableModel *etc, int col, void *value, void *data)
 {
-  if (col != 0){
-    g_free (value);
-  }
+	if (col != 0){
+		g_free (value);
+	}
+}
+
+static void *
+initialize_value (ETableModel *etc, int col, void *data)
+{
+	if (col == 0)
+		return NULL;
+	else
+		return g_strdup ("");
+}
+
+static gboolean
+value_is_empty (ETableModel *etc, int col, const void *value, void *data)
+{
+	if (col == 0)
+		return value == NULL;
+	else
+		return !(value && *(char *)value);
 }
 
 static void
@@ -128,6 +147,7 @@ multi_cols_test (void)
 		col_count, row_count, value_at,
 		set_value_at, is_cell_editable,
 		duplicate_value, free_value,
+		initialize_value, value_is_empty,
 		thaw, NULL);
 
 	/*

@@ -4,14 +4,22 @@
 
 #include "e-table-model.h"
 
-typedef int         (*ETableSimpleColumnCountFn)    (ETableModel *etm, void *data);
-typedef	int         (*ETableSimpleRowCountFn)       (ETableModel *etm, void *data);
-typedef	void       *(*ETableSimpleValueAtFn)        (ETableModel *etm, int col, int row, void *data);
-typedef	void        (*ETableSimpleSetValueAtFn)     (ETableModel *etm, int col, int row, const void *val, void *data);
-typedef	gboolean    (*ETableSimpleIsCellEditableFn) (ETableModel *etm, int col, int row, void *data);
-typedef	void       *(*ETableSimpleDuplicateValueFn) (ETableModel *etm, int col, const void *val, void *data);
-typedef	void        (*ETableSimpleFreeValueFn)      (ETableModel *etm, int col, void *val, void *data);
-typedef void        (*ETableSimpleThawFn)           (ETableModel *etm, void *data);
+#define E_TABLE_SIMPLE_TYPE        (e_table_simple_get_type ())
+#define E_TABLE_SIMPLE(o)          (GTK_CHECK_CAST ((o), E_TABLE_SIMPLE_TYPE, ETableSimple))
+#define E_TABLE_SIMPLE_CLASS(k)    (GTK_CHECK_CLASS_CAST((k), E_TABLE_SIMPLE_TYPE, ETableSimpleClass))
+#define E_IS_TABLE_SIMPLE(o)       (GTK_CHECK_TYPE ((o), E_TABLE_SIMPLE_TYPE))
+#define E_IS_TABLE_SIMPLE_CLASS(k) (GTK_CHECK_CLASS_TYPE ((k), E_TABLE_SIMPLE_TYPE))
+
+typedef int         (*ETableSimpleColumnCountFn)     (ETableModel *etm, void *data);
+typedef	int         (*ETableSimpleRowCountFn)        (ETableModel *etm, void *data);
+typedef	void       *(*ETableSimpleValueAtFn)         (ETableModel *etm, int col, int row, void *data);
+typedef	void        (*ETableSimpleSetValueAtFn)      (ETableModel *etm, int col, int row, const void *val, void *data);
+typedef	gboolean    (*ETableSimpleIsCellEditableFn)  (ETableModel *etm, int col, int row, void *data);
+typedef	void       *(*ETableSimpleDuplicateValueFn)  (ETableModel *etm, int col, const void *val, void *data);
+typedef	void        (*ETableSimpleFreeValueFn)       (ETableModel *etm, int col, void *val, void *data);
+typedef void       *(*ETableSimpleInitializeValueFn) (ETableModel *etm, int col, void *data);
+typedef gboolean    (*ETableSimpleValueIsEmptyFn)    (ETableModel *etm, int col, const void *val, void *data);
+typedef void        (*ETableSimpleThawFn)            (ETableModel *etm, void *data);
 
 typedef struct {
 	ETableModel parent;
@@ -23,6 +31,8 @@ typedef struct {
 	ETableSimpleIsCellEditableFn is_cell_editable;
 	ETableSimpleDuplicateValueFn duplicate_value;
 	ETableSimpleFreeValueFn      free_value;
+	ETableSimpleInitializeValueFn initialize_value;
+	ETableSimpleValueIsEmptyFn value_is_empty;
 	ETableSimpleThawFn           thaw;
 	void *data;
 } ETableSimple;
@@ -40,6 +50,8 @@ ETableModel *e_table_simple_new (ETableSimpleColumnCountFn col_count,
 				 ETableSimpleIsCellEditableFn is_cell_editable,
 				 ETableSimpleDuplicateValueFn duplicate_value,
 				 ETableSimpleFreeValueFn free_value,
+				 ETableSimpleInitializeValueFn initialize_value,
+				 ETableSimpleValueIsEmptyFn value_is_empty,
 				 ETableSimpleThawFn thaw,
 				 void *data);
 

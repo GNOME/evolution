@@ -107,6 +107,30 @@ e_table_model_free_value (ETableModel *e_table_model, int col, void *value)
 		ETM_CLASS (e_table_model)->free_value (e_table_model, col, value);
 }
 
+void *
+e_table_model_initialize_value (ETableModel *e_table_model, int col)
+{
+	g_return_val_if_fail (e_table_model != NULL, NULL);
+	g_return_val_if_fail (E_IS_TABLE_MODEL (e_table_model), NULL);
+
+	if (ETM_CLASS (e_table_model)->initialize_value)
+		return ETM_CLASS (e_table_model)->initialize_value (e_table_model, col);
+	else
+		return NULL;
+}
+
+gboolean
+e_table_model_value_is_empty (ETableModel *e_table_model, int col, const void *value)
+{
+	g_return_val_if_fail (e_table_model != NULL, FALSE);
+	g_return_val_if_fail (E_IS_TABLE_MODEL (e_table_model), FALSE);
+
+	if (ETM_CLASS (e_table_model)->value_is_empty)
+		return ETM_CLASS (e_table_model)->value_is_empty (e_table_model, col, value);
+	else
+		return FALSE;
+}
+
 static void
 e_table_model_destroy (GtkObject *object)
 {
@@ -117,6 +141,7 @@ e_table_model_destroy (GtkObject *object)
 static void
 e_table_model_class_init (GtkObjectClass *object_class)
 {
+	ETableModelClass *klass = E_TABLE_MODEL_CLASS(object_class);
 	e_table_model_parent_class = gtk_type_class (gtk_object_get_type ());
 	
 	object_class->destroy = e_table_model_destroy;
@@ -162,6 +187,22 @@ e_table_model_class_init (GtkObjectClass *object_class)
 				GTK_TYPE_NONE, 1, GTK_TYPE_INT);
 
 	gtk_object_class_add_signals (object_class, e_table_model_signals, LAST_SIGNAL);
+
+	klass->column_count = NULL;     
+	klass->row_count = NULL;        
+	klass->value_at = NULL;         
+	klass->set_value_at = NULL;     
+	klass->is_cell_editable = NULL; 
+	klass->duplicate_value = NULL;  
+	klass->free_value = NULL;       
+	klass->initialize_value = NULL; 
+	klass->value_is_empty = NULL;   
+	klass->thaw = NULL;             
+	klass->model_changed = NULL;    
+	klass->model_row_changed = NULL;
+	klass->model_cell_changed = NULL;
+	klass->model_row_inserted = NULL;
+	klass->model_row_deleted = NULL;
 }
 
 

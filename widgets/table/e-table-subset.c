@@ -98,6 +98,22 @@ etss_free_value (ETableModel *etm, int col, void *value)
 	e_table_model_free_value (etss->source, col, value);
 }
 
+static void *
+etss_initialize_value (ETableModel *etm, int col)
+{
+	ETableSubset *etss = (ETableSubset *)etm;
+
+	return e_table_model_initialize_value (etss->source, col);
+}
+
+static gboolean
+etss_value_is_empty (ETableModel *etm, int col, const void *value)
+{
+	ETableSubset *etss = (ETableSubset *)etm;
+
+	return e_table_model_value_is_empty (etss->source, col, value);
+}
+
 static void
 etss_thaw (ETableModel *etm)
 {
@@ -120,6 +136,8 @@ etss_class_init (GtkObjectClass *klass)
 	table_class->is_cell_editable = etss_is_cell_editable;
 	table_class->duplicate_value  = etss_duplicate_value;
 	table_class->free_value       = etss_free_value;
+	table_class->initialize_value = etss_initialize_value;
+	table_class->value_is_empty   = etss_value_is_empty;
 	table_class->thaw             = etss_thaw;
 }
 
