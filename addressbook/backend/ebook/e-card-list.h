@@ -21,8 +21,8 @@
 #define E_IS_CARD_LIST(obj)         (GTK_CHECK_TYPE ((obj), E_TYPE_CARD_LIST))
 #define E_IS_CARD_LIST_CLASS(klass) (GTK_CHECK_CLASS_TYPE ((klass), E_TYPE_CARD_LIST))
 
-typedef void *(*ECardListCopyFunc) (void *data, void *closure);
-typedef void *(*ECardListFreeFunc) (void *data, void *closure);
+typedef void *(*ECardListCopyFunc) (const void *data, void *closure);
+typedef void (*ECardListFreeFunc) (void *data, void *closure);
 
 typedef struct _ECardList ECardList;
 typedef struct _ECardListClass ECardListClass;
@@ -45,7 +45,7 @@ ECardList     *e_card_list_new                  (ECardListCopyFunc  copy,
 						 void              *closure);
 ECardIterator *e_card_list_get_iterator         (ECardList         *list);
 void           e_card_list_append               (ECardList         *list,
-						 void              *data);
+						 const void        *data);
 
 /* For iterators to call. */
 void           e_card_list_invalidate_iterators (ECardList         *list, 

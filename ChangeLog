@@ -1,5 +1,22 @@
 2000-04-04  Christopher James Lahey  <clahey@helixcode.com>
 
+	* addressbook/demo/Makefile.am, addressbook/demo/e-test-model.c,
+	addressbook/demo/e-test-model.h: Changed this to backend to an
+	ebook.
+
+	* addressbook/backend/ebook/e-card-iterator.c,
+	addressbook/backend/ebook/e-card-iterator.h,
+	addressbook/backend/ebook/e-card-list-iterator.c,
+	addressbook/backend/ebook/e-card-list.c,
+	addressbook/backend/ebook/e-card-list.h,
+	addressbook/backend/ebook/e-card.c,
+	addressbook/backend/ebook/e-card.h: Fixed const correctness and
+	changed a couple of functions to be external.
+	
+	* addressbook/Makefile.am: Fixed subdir ordering.
+
+2000-04-04  Christopher James Lahey  <clahey@helixcode.com>
+
 	* addressbook/backend/ebook/e-book-view.c: Fixed an incorrect
 	function.
 

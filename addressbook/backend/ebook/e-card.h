@@ -90,6 +90,12 @@ char          *e_card_get_id (ECard *card);
 void           e_card_set_id (ECard *card, const gchar *character);
 char          *e_card_get_vcard (ECard *card);
 
+void e_card_phone_free (ECardPhone *phone);
+ECardPhone *e_card_phone_copy (const ECardPhone *phone);
+void e_card_delivery_address_free (ECardDeliveryAddress *addr);
+ECardDeliveryAddress *e_card_delivery_address_copy (const ECardDeliveryAddress *addr);
+
+
 /* Standard Gtk function */
 GtkType        e_card_get_type (void);
 

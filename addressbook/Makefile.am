@@ -1,2 +1,2 @@
 SUBDIRS =	\
-	contact-editor printing demo backend
+	backend contact-editor printing demo

@@ -19,12 +19,12 @@ static void e_card_list_iterator_class_init (ECardListIteratorClass *klass);
 static void e_card_list_iterator_invalidate (ECardIterator *iterator);
 static gboolean e_card_list_iterator_is_valid (ECardIterator *iterator);
 static void e_card_list_iterator_set      (ECardIterator *iterator,
-					   void              *object);
+					   const void    *object);
 static void e_card_list_iterator_delete   (ECardIterator *iterator);
 static gboolean e_card_list_iterator_prev     (ECardIterator *iterator);
 static gboolean e_card_list_iterator_next     (ECardIterator *iterator);
 static void e_card_list_iterator_reset    (ECardIterator *iterator);
-static void *e_card_list_iterator_get      (ECardIterator *iterator);
+static const void *e_card_list_iterator_get      (ECardIterator *iterator);
 static void e_card_list_iterator_destroy (GtkObject *object);
 
 #define PARENT_TYPE (e_card_iterator_get_type ())
@@ -120,7 +120,7 @@ e_card_list_iterator_destroy (GtkObject *object)
 	gtk_object_unref(GTK_OBJECT(iterator->list));
 }
 
-static void *
+static const void *
 e_card_list_iterator_get      (ECardIterator *_iterator)
 {
 	ECardListIterator *iterator = E_CARD_LIST_ITERATOR(_iterator);
@@ -171,7 +171,7 @@ e_card_list_iterator_delete   (ECardIterator *_iterator)
 
 static void
 e_card_list_iterator_set      (ECardIterator *_iterator,
-			       void              *object)
+			       const void    *object)
 {
 	ECardListIterator *iterator = E_CARD_LIST_ITERATOR(_iterator);
 	if (iterator->iterator) {
@@ -180,7 +180,7 @@ e_card_list_iterator_set      (ECardIterator *_iterator,
 		if (iterator->list->copy)
 			iterator->iterator->data = iterator->list->copy(object, iterator->list->closure);
 		else
-			iterator->iterator->data = object;
+			iterator->iterator->data = (void *) object;
 	}
 }
 

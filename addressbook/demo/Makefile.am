@@ -6,6 +6,7 @@ INCLUDES =					\
 	-I$(top_srcdir)/widgets/e-table		\
 	-I$(top_srcdir)				\
 	-I$(top_srcdir)/widgets/e-minicard	\
+	-I$(top_srcdir)/addressbook/backend/ebook	\
 	$(BONOBO_HTML_GNOME_CFLAGS)			\
 	-DEVOLUTION_VERSION=\""$(VERSION)"\"		\
 	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"		\
@@ -23,10 +24,13 @@ test_addressbook_SOURCES =		\
 
 test_addressbook_LDADD =				\
 	$(EXTRA_GNOME_LIBS)			\
+	$(BONOBO_HTML_GNOME_LIBS)			\
 	$(top_builddir)/widgets/e-minicard/libeminicard.a	\
 	$(top_builddir)/widgets/e-table/libetable.a	\
 	$(top_builddir)/widgets/e-text/libetext.a	\
-	$(top_builddir)/e-util/libeutil.la
+	$(top_builddir)/e-util/libeutil.la		\
+	$(top_builddir)/addressbook/backend/ebook/libebook.la	\
+	$(top_builddir)/libversit/libversit.la
 
 test_addressbook_LDFLAGS = `gnome-config --libs gdk_pixbuf`
 
@@ -43,12 +47,14 @@ evolution_addressbook_SOURCES = 	\
 	e-test-model.h
 
 evolution_addressbook_LDADD =				\
-	$(EXTRA_GNOME_LIBS)			\
+	$(EXTRA_GNOME_LIBS)				\
 	$(BONOBO_HTML_GNOME_LIBS)			\
 	$(top_builddir)/widgets/e-minicard/libeminicard.a	\
 	$(top_builddir)/widgets/e-table/libetable.a	\
 	$(top_builddir)/widgets/e-text/libetext.a	\
-	$(top_builddir)/e-util/libeutil.la
+	$(top_builddir)/e-util/libeutil.la		\
+	$(top_builddir)/addressbook/backend/ebook/libebook.la	\
+	$(top_builddir)/libversit/libversit.la
 
 evolution_addressbook_LDFLAGS = `gnome-config --libs gdk_pixbuf`
 

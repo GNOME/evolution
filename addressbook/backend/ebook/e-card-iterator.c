@@ -100,7 +100,7 @@ e_card_iterator_init (ECardIterator *card)
 /*
  * Virtual functions: 
  */
-void *
+const void *
 e_card_iterator_get      (ECardIterator *iterator)
 {
 	if (ECI_CLASS(iterator)->get)
@@ -143,7 +143,7 @@ e_card_iterator_delete   (ECardIterator *iterator)
 
 void
 e_card_iterator_set      (ECardIterator *iterator,
-			  void          *object)
+			  const void    *object)
 {
 	if (ECI_CLASS(iterator)->set)
 		ECI_CLASS(iterator)->set(iterator, object);

@@ -62,11 +62,6 @@ static void set_phone_flags (VObject *vobj, ECardPhoneFlags flags);
 static ECardAddressFlags get_address_flags (VObject *vobj);
 static void set_address_flags (VObject *vobj, ECardAddressFlags flags);
 
-static void e_card_phone_free (ECardPhone *phone);
-static ECardPhone *e_card_phone_copy (ECardPhone *phone);
-static void e_card_delivery_address_free (ECardDeliveryAddress *addr);
-static ECardDeliveryAddress *e_card_delivery_address_copy (ECardDeliveryAddress *addr);
-
 typedef void (* ParsePropertyFunc) (ECard *card, VObject *object);
 
 struct {
@@ -502,7 +497,7 @@ e_card_class_init (ECardClass *klass)
 	object_class->set_arg = e_card_set_arg;
 }
 
-static void
+void
 e_card_phone_free (ECardPhone *phone)
 {
 	if ( phone ) {
@@ -512,8 +507,8 @@ e_card_phone_free (ECardPhone *phone)
 	}
 }
 
-static ECardPhone *
-e_card_phone_copy (ECardPhone *phone)
+ECardPhone *
+e_card_phone_copy (const ECardPhone *phone)
 {
 	if ( phone ) {
 		ECardPhone *phone_copy = g_new(ECardPhone, 1);
@@ -524,7 +519,7 @@ e_card_phone_copy (ECardPhone *phone)
 		return NULL;
 }
 
-static void
+void
 e_card_delivery_address_free (ECardDeliveryAddress *addr)
 {
 	if ( addr ) {
@@ -546,8 +541,8 @@ e_card_delivery_address_free (ECardDeliveryAddress *addr)
 	}
 }
 
-static ECardDeliveryAddress *
-e_card_delivery_address_copy (ECardDeliveryAddress *addr)
+ECardDeliveryAddress *
+e_card_delivery_address_copy (const ECardDeliveryAddress *addr)
 {
 	if ( addr ) {
 		ECardDeliveryAddress *addr_copy = g_new(ECardDeliveryAddress, 1);
@@ -642,17 +637,17 @@ e_card_get_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 		GTK_VALUE_OBJECT(*arg) = GTK_OBJECT(card->address);
 		break;
 	case ARG_PHONE:
-		if (!card->address)
-			card->address = e_card_list_new((ECardListCopyFunc) e_card_phone_copy, 
-							(ECardListFreeFunc) e_card_phone_free,
-							NULL);
+		if (!card->phone)
+			card->phone = e_card_list_new((ECardListCopyFunc) e_card_phone_copy, 
+						      (ECardListFreeFunc) e_card_phone_free,
+						      NULL);
 		GTK_VALUE_OBJECT(*arg) = GTK_OBJECT(card->phone);
 		break;
 	case ARG_EMAIL:
-		if (!card->address)
-			card->address = e_card_list_new((ECardListCopyFunc) g_strdup, 
-							(ECardListFreeFunc) g_free,
-							NULL);
+		if (!card->email)
+			card->email = e_card_list_new((ECardListCopyFunc) g_strdup, 
+						      (ECardListFreeFunc) g_free,
+						      NULL);
 		GTK_VALUE_OBJECT(*arg) = GTK_OBJECT(card->email);
 		break;
 	case ARG_BIRTH_DATE:

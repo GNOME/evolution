@@ -31,26 +31,26 @@ struct _ECardIteratorClass {
 	GtkObjectClass parent_class;
 
 	/* Signals */
-	void     (*invalidate) (ECardIterator *iterator);
+	void         (*invalidate) (ECardIterator *iterator);
 	
 	/* Virtual functions */
-	void *   (*get)        (ECardIterator *iterator);
-	void     (*reset)      (ECardIterator *iterator);
-	gboolean (*next)       (ECardIterator *iterator);
-	gboolean (*prev)       (ECardIterator *iterator);
-	void     (*delete)     (ECardIterator *iterator);
-	void     (*set)        (ECardIterator *iterator,
-			     	 void          *object);
-	gboolean (*is_valid)   (ECardIterator *iterator);
+	const void * (*get)        (ECardIterator *iterator);
+	void         (*reset)      (ECardIterator *iterator);
+	gboolean     (*next)       (ECardIterator *iterator);
+	gboolean     (*prev)       (ECardIterator *iterator);
+	void         (*delete)     (ECardIterator *iterator);
+	void         (*set)        (ECardIterator *iterator,
+				    const void    *object);
+	gboolean     (*is_valid)   (ECardIterator *iterator);
 };
 
-void          *e_card_iterator_get        (ECardIterator *iterator);
+const void    *e_card_iterator_get        (ECardIterator *iterator);
 void           e_card_iterator_reset      (ECardIterator *iterator);
 gboolean       e_card_iterator_next       (ECardIterator *iterator);
 gboolean       e_card_iterator_prev       (ECardIterator *iterator);
 void           e_card_iterator_delete     (ECardIterator *iterator);
 void           e_card_iterator_set        (ECardIterator *iterator, 
-				           void          *object);
+				           const void    *object);
 gboolean       e_card_iterator_is_valid   (ECardIterator *iterator);
 
 void           e_card_iterator_invalidate (ECardIterator *iterator);

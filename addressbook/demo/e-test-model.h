@@ -3,6 +3,9 @@
 #define _E_TEST_MODEL_H_
 
 #include "e-table-model.h"
+#include <e-book.h>
+#include <e-book-view.h>
+#include <e-card.h>
 
 #define E_TEST_MODEL_TYPE        (e_test_model_get_type ())
 #define E_TEST_MODEL(o)          (GTK_CHECK_CAST ((o), E_TEST_MODEL_TYPE, ETestModel))
@@ -19,7 +22,6 @@
 typedef struct _Address Address;
 typedef enum _Rows Rows;
 
-
 struct _Address {
 	gchar *email;
 	gchar *full_name;
@@ -35,16 +37,17 @@ enum _Rows {
 	LAST_COL
 };
 
-
-
 typedef struct {
 	ETableModel parent;
 
-	Address **data;
+	EBook *book;
+
+	EBookView *book_view;
+
+	ECard **data;
 	int data_count;
 
-	char *filename;
-	int idle;
+	char *uri;
 } ETestModel;
 
 
@@ -54,11 +57,8 @@ typedef struct {
 
 
 GtkType e_test_model_get_type (void);
-ETableModel *e_test_model_new (char *filename);
+ETableModel *e_test_model_new (char *uri);
 
-void e_test_model_queue_save(ETestModel *model);
 void e_test_model_add_column (ETestModel *model, Address *newadd);
 
-
 #endif /* _E_TEST_MODEL_H_ */
-

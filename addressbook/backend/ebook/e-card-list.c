@@ -96,13 +96,13 @@ e_card_list_get_iterator (ECardList *list)
 }
 
 void
-e_card_list_append       (ECardList *list, void *data)
+e_card_list_append       (ECardList *list, const void *data)
 {
 	e_card_list_invalidate_iterators(list, NULL);
 	if (list->copy)
 		list->list = g_list_append(list->list, list->copy(data, list->closure));
 	else
-		list->list = g_list_append(list->list, data);
+		list->list = g_list_append(list->list, (void *) data);
 }
 
 void
