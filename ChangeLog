@@ -1,3 +1,17 @@
+2000-02-09  Christopher James Lahey  <clahey@helixcode.com>
+
+	* configure.in: Add new Makefiles to Makefile list.
+
+	* e-util/Makefile.am: Add canvas utilities to libeutil.
+
+	* widgets/e-text/Makefile.am: Build libetext.
+
+	* widgets/e-minicard/Makefile.am: Build libeminicard and test
+	programs.
+
+	* widgets/Makefile.am: Remove all e-text and e-minicard code and
+	add them to the SUBDIRS list.
+
 2000-02-08  Matt Loper  <matt.loper@splashtech.com>
 
 	* tests/ui-tests/message-browser.c: New file; shows a message in

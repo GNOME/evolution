@@ -178,6 +178,8 @@ devel-docs/camel/Makefile
 tests/Makefile
 tests/ui-tests/Makefile
 widgets/Makefile
+widgets/e-text/Makefile
+widgets/e-minicard/Makefile
 widgets/meeting-time-sel/Makefile
 widgets/shortcut-bar/Makefile
 widgets/e-table/Makefile
