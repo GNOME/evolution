@@ -1,5 +1,14 @@
 2001-09-13  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* subscribe-dialog.c (get_short_folderinfo_desc):
+	(get_short_folderinfo_get):
+	(get_short_folderinfo_got):
+	(get_short_folderinfo_free):
+	(subscribe_get_short_folderinfo): Modified to take a FolderETree
+	instead of a CamelStore (since the CamelStore is inside the
+	FolderETree anyway) so that we could ref the ETree to prevent a
+	race condition. Should fix bug #9827.
+
 	* mail-format.c (try_inline_pgp_sig): Make sure that the
 	charset_filter is non-NULL before using it since iconv may fail.
 

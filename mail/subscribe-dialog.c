@@ -37,6 +37,8 @@
 #include <gal/e-table/e-tree-memory-callbacks.h>
 #include <gal/e-table/e-tree.h>
 
+#include <pthread.h>
+
 #include "evolution-shell-component-utils.h"
 #include "mail.h"
 #include "mail-tools.h"
@@ -117,6 +119,47 @@
 
 /*#define NEED_TOGGLE_SELECTION*/
 
+typedef struct _FolderETree              FolderETree;
+typedef struct _FolderETreeClass         FolderETreeClass;
+
+struct _FolderETree {
+	ETreeMemory parent;
+	ETreePath root;
+
+	GHashTable *scan_ops;
+	GHashTable *subscribe_ops;
+
+	CamelStore *store;
+	EvolutionStorage *e_storage;
+	char *search;
+};
+
+struct _FolderETreeClass {
+	ETreeMemoryClass parent;
+};
+
+static GtkObjectClass *folder_etree_parent_class = NULL;
+
+typedef struct _FolderETreeExtras      FolderETreeExtras;
+typedef struct _FolderETreeExtrasClass FolderETreeExtrasClass;
+
+enum {
+	FOLDER_COL_SUBSCRIBED,
+	FOLDER_COL_NAME,
+	FOLDER_COL_LAST
+};
+
+struct _FolderETreeExtras {
+	ETableExtras parent;
+	GdkPixbuf *toggles[2];
+};
+
+struct _FolderETreeExtrasClass {
+	ETableExtrasClass parent;
+};
+
+static GtkObjectClass *ftree_extras_parent_class = NULL;
+
 /* util */
 
 static void
@@ -146,9 +189,9 @@ recursive_add_folder (EvolutionStorage *storage, const char *path, const char *n
 
 /* ** Get one level of folderinfo ****************************************** */
 
-typedef void (*SubscribeShortFolderinfoFunc) (CamelStore *store, gchar *prefix, CamelFolderInfo *info, gpointer data);
+typedef void (*SubscribeShortFolderinfoFunc) (CamelStore *store, char *prefix, CamelFolderInfo *info, gpointer data);
 
-int subscribe_get_short_folderinfo (CamelStore *store, const char *prefix,
+int subscribe_get_short_folderinfo (FolderETree *ftree, const char *prefix,
 				    SubscribeShortFolderinfoFunc func, gpointer user_data);
 
 struct _get_short_folderinfo_msg {
@@ -156,7 +199,7 @@ struct _get_short_folderinfo_msg {
 
 	char *prefix;
 
-	CamelStore *store;
+	FolderETree *ftree;
 	CamelFolderInfo *info;
 
 	SubscribeShortFolderinfoFunc func;
@@ -169,7 +212,7 @@ get_short_folderinfo_desc (struct _mail_msg *mm, int done)
 	struct _get_short_folderinfo_msg *m = (struct _get_short_folderinfo_msg *) mm;
 	char *ret, *name;
 
-	name = camel_service_get_name (CAMEL_SERVICE (m->store), TRUE);
+	name = camel_service_get_name (CAMEL_SERVICE (m->ftree->store), TRUE);
 
 	if (m->prefix)
 		ret = g_strdup_printf (_("Scanning folders under %s on \"%s\""), m->prefix, name);
@@ -186,7 +229,7 @@ get_short_folderinfo_get (struct _mail_msg *mm)
 	struct _get_short_folderinfo_msg *m = (struct _get_short_folderinfo_msg *) mm;
 
 	camel_operation_register (mm->cancel);
-	m->info = camel_store_get_folder_info (m->store, m->prefix, CAMEL_STORE_FOLDER_INFO_FAST, &mm->ex);
+	m->info = camel_store_get_folder_info (m->ftree->store, m->prefix, CAMEL_STORE_FOLDER_INFO_FAST, &mm->ex);
 	camel_operation_unregister (mm->cancel);
 }
 
@@ -195,15 +238,15 @@ get_short_folderinfo_got (struct _mail_msg *mm)
 {
 	struct _get_short_folderinfo_msg *m = (struct _get_short_folderinfo_msg *) mm;
 
-	if (camel_exception_is_set (&(mm->ex)))
+	if (camel_exception_is_set (&mm->ex))
 		g_warning ("Error getting folder info from store at %s: %s",
-			   camel_service_get_url (CAMEL_SERVICE (m->store)),
-			   camel_exception_get_description (&(mm->ex)));
+			   camel_service_get_url (CAMEL_SERVICE (m->ftree->store)),
+			   camel_exception_get_description (&mm->ex));
 
 	/* 'done' is probably guaranteed to fail, but... */
 
 	if (m->func)
-		m->func (m->store, m->prefix, m->info, m->user_data);
+		m->func (m->ftree->store, m->prefix, m->info, m->user_data);
 }
 
 static void
@@ -211,8 +254,8 @@ get_short_folderinfo_free (struct _mail_msg *mm)
 {
 	struct _get_short_folderinfo_msg *m = (struct _get_short_folderinfo_msg *) mm;
 
-	camel_store_free_folder_info (m->store, m->info);
-	camel_object_unref (CAMEL_OBJECT (m->store));
+	camel_store_free_folder_info (m->ftree->store, m->info);
+	gtk_object_unref (GTK_OBJECT (m->ftree));
 
 	g_free (m->prefix); /* may be NULL but that's ok */
 }
@@ -225,7 +268,7 @@ static struct _mail_msg_op get_short_folderinfo_op = {
 };
 
 int
-subscribe_get_short_folderinfo (CamelStore *store, 
+subscribe_get_short_folderinfo (FolderETree *ftree, 
 				const char *prefix,
 				SubscribeShortFolderinfoFunc func, 
 				gpointer user_data)
@@ -235,15 +278,15 @@ subscribe_get_short_folderinfo (CamelStore *store,
 
 	m = mail_msg_new (&get_short_folderinfo_op, NULL, sizeof(*m));
 
-	m->store = store;
-	camel_object_ref (CAMEL_OBJECT (store));
-
+	m->ftree = ftree;
+	gtk_object_ref (GTK_OBJECT (ftree));
+	
 	if (prefix)
 		m->prefix = g_strdup (prefix);
 	else
 		m->prefix = NULL;
 
-	m->func      = func;
+	m->func = func;
 	m->user_data = user_data;
 
 	id = m->msg.seq;
@@ -260,8 +303,8 @@ struct _subscribe_msg {
 
 	CamelStore              *store;
 	gboolean                 subscribe;
-	gchar                   *full_name;
-	gchar                   *name;
+	char                    *full_name;
+	char                    *name;
 
 	SubscribeFolderCallback  cb;
 	gpointer                 cb_data;
@@ -295,9 +338,8 @@ subscribe_folder_subscribed (struct _mail_msg *mm)
 	struct _subscribe_msg *m = (struct _subscribe_msg *) mm;
 	
 	if (m->cb)
-		(m->cb) (m->full_name, m->name,
-			 m->subscribe, 
-			 !camel_exception_is_set(&mm->ex), m->cb_data);
+		(m->cb) (m->full_name, m->name, m->subscribe, 
+			 !camel_exception_is_set (&mm->ex), m->cb_data);
 }
 
 static void 
@@ -344,26 +386,6 @@ subscribe_do_subscribe_folder (CamelStore *store, const char *full_name, const c
 }
 
 /* ** FolderETree Extras *************************************************** */
-
-typedef struct _FolderETreeExtras      FolderETreeExtras;
-typedef struct _FolderETreeExtrasClass FolderETreeExtrasClass;
-
-enum {
-	FOLDER_COL_SUBSCRIBED,
-	FOLDER_COL_NAME,
-	FOLDER_COL_LAST
-};
-
-struct _FolderETreeExtras {
-	ETableExtras  parent;
-	GdkPixbuf    *toggles[2];
-};
-
-struct _FolderETreeExtrasClass {
-	ETableExtrasClass parent;
-};
-
-static GtkObjectClass    *ftree_extras_parent_class = NULL;
 
 static void
 fete_destroy (GtkObject *object)
@@ -537,36 +559,15 @@ ftree_node_new (CamelStore *store, CamelFolderInfo *fi)
 
 /* ** Folder Tree Model **************************************************** */
 
-typedef struct _FolderETree              FolderETree;
-typedef struct _FolderETreeClass         FolderETreeClass;
-
-struct _FolderETree {
-	ETreeMemory       parent;
-	ETreePath         root;
-
-	GHashTable       *scan_ops;
-	GHashTable       *subscribe_ops;
-
-	CamelStore       *store;
-	EvolutionStorage *e_storage;
-	gchar            *search;
-};
-
-struct _FolderETreeClass {
-	ETreeMemoryClass parent;
-};
-
-static GtkObjectClass *folder_etree_parent_class = NULL;
-
 /* A subscribe or scan operation */
 
 typedef struct _ftree_op_data ftree_op_data;
 
 struct _ftree_op_data {
 	FolderETree *ftree;
-	ETreePath    path;
-	ftree_node  *data;
-	int          handle;
+	ETreePath path;
+	ftree_node *data;
+	int handle;
 };
 
 
@@ -685,7 +686,7 @@ fe_sort_folder (ETreeMemory *etmm, ETreePath left, ETreePath right, gpointer use
 /* scanning */
 
 static void
-fe_got_children (CamelStore *store, gchar *prefix, CamelFolderInfo *info, gpointer data)
+fe_got_children (CamelStore *store, char *prefix, CamelFolderInfo *info, gpointer data)
 {
 	ftree_op_data *closure = (ftree_op_data *) data;
 
@@ -695,7 +696,7 @@ fe_got_children (CamelStore *store, gchar *prefix, CamelFolderInfo *info, gpoint
 	if (!prefix)
 		prefix = "";
 
-	for (; info; info = info->sibling) {
+	for ( ; info; info = info->sibling) {
 		ETreePath   child_path;
 		ftree_node *node;
 
@@ -724,8 +725,8 @@ static void
 fe_check_for_children (FolderETree *ftree, ETreePath path)
 {
 	ftree_op_data *closure;
-	ftree_node    *node;
-	gchar         *prefix;
+	ftree_node *node;
+	char *prefix;
 
 	node = e_tree_memory_node_get_data (E_TREE_MEMORY (ftree), path);
 
@@ -743,17 +744,17 @@ fe_check_for_children (FolderETree *ftree, ETreePath path)
 	else
 		prefix = ftree_node_get_full_name (node);
 
-	closure         = g_new (ftree_op_data, 1);
-	closure->ftree  = ftree;
-	closure->path   = path;
-	closure->data   = node;
+	closure = g_new (ftree_op_data, 1);
+	closure->ftree = ftree;
+	closure->path = path;
+	closure->data = node;
 	closure->handle = -1;
 
 	g_hash_table_insert (ftree->scan_ops, path, closure);
 
 	/* FIXME. Tiny race possiblity I guess. */
 
-	closure->handle = subscribe_get_short_folderinfo (ftree->store, prefix, fe_got_children, closure);
+	closure->handle = subscribe_get_short_folderinfo (ftree, prefix, fe_got_children, closure);
 }
 
 static void
@@ -781,10 +782,10 @@ fe_get_first_child (ETreeModel *model, ETreePath path)
 
 /* subscribing */
 
-static gchar *
+static char *
 fe_node_to_shell_path (ftree_node *node)
 {
-	gchar *path = NULL;
+	char *path = NULL;
 	int name_len, full_name_len;
 
 	name_len = strlen (ftree_node_get_name (node));
@@ -792,8 +793,8 @@ fe_node_to_shell_path (ftree_node *node)
 	
 	if (name_len != full_name_len) {
 		char *full_name;
-		gchar *iter;
-		gchar sep;
+		char *iter;
+		char sep;
 	
 		/* so, we don't know the heirarchy separator. But
 		 * full_name = blahXblahXname, where X = separator
@@ -807,7 +808,7 @@ fe_node_to_shell_path (ftree_node *node)
 		sep = full_name[full_name_len - (name_len + 1)];
 
 		if (sep != '/') {
-			path = g_new (gchar, full_name_len + 2);
+			path = g_malloc (full_name_len + 2);
 			path[0] = '/';
 			strcpy (path + 1, full_name);
 			while ((iter = strchr (path, sep)) != NULL)
@@ -827,7 +828,7 @@ fe_done_subscribing (const char *full_name, const char *name, gboolean subscribe
 	ftree_op_data *closure = (ftree_op_data *) user_data;
 
 	if (success) {
-		gchar *path;
+		char *path;
 
 		path = fe_node_to_shell_path (closure->data);
 
@@ -1045,7 +1046,7 @@ typedef struct _StoreData StoreData;
 typedef void (*StoreDataStoreFunc) (StoreData *, CamelStore *, gpointer);
 
 struct _StoreData {
-	gchar               *uri;
+	char                *uri;
 
 	FolderETree         *ftree;
 	CamelStore          *store;
@@ -1058,12 +1059,12 @@ struct _StoreData {
 };
 
 static StoreData *
-store_data_new (const gchar *uri)
+store_data_new (const char *uri)
 {
 	StoreData *sd;
 
-	sd                   = g_new0 (StoreData, 1);
-	sd->uri              = g_strdup (uri);
+	sd = g_new0 (StoreData, 1);
+	sd->uri = g_strdup (uri);
 	return sd;
 }
 
@@ -1307,7 +1308,7 @@ static void
 sc_unsubscribe_pressed (GtkWidget *widget, gpointer user_data)
 {
 	SubscribeDialog *sc = SUBSCRIBE_DIALOG (user_data);
-	StoreData       *store = sc->priv->current_store;
+	StoreData *store = sc->priv->current_store;
 
 	if (!store)
 		return;
@@ -1472,8 +1473,8 @@ populate_store_list (SubscribeDialog *sc)
 
 	for (iter = sc->priv->store_list; iter; iter = iter->next) {
 		GtkWidget *item;
-		CamelURL  *url;
-		gchar     *string;
+		CamelURL *url;
+		char *string;
 
 		url = camel_url_new (((StoreData *) iter->data)->uri, NULL);
 		string = camel_url_to_string (url, CAMEL_URL_HIDE_ALL);
@@ -1485,7 +1486,6 @@ populate_store_list (SubscribeDialog *sc)
 		g_free (string);
 
 		gtk_menu_prepend (GTK_MENU (menu), item);
-		/*gtk_object_unref (GTK_OBJECT (item));*/
 	}
 
 	sc->priv->none_item = gtk_menu_item_new_with_label (_("No server has been selected"));
@@ -1497,14 +1497,13 @@ populate_store_list (SubscribeDialog *sc)
 
 	omenu = glade_xml_get_widget (sc->priv->xml, "store_menu");
 	gtk_option_menu_set_menu (GTK_OPTION_MENU (omenu), menu);
-	/*gtk_object_unref (GTK_OBJECT (menu));*/
 }
 
 static void
 subscribe_dialog_destroy (GtkObject *object)
 {
 	SubscribeDialog *sc;
-	GList           *iter;
+	GList *iter;
 
 	sc = SUBSCRIBE_DIALOG (object);
 
@@ -1542,8 +1541,8 @@ subscribe_dialog_init (GtkObject *object)
 static GtkWidget *
 sc_create_default_widget (void)
 {
-	GtkWidget  *label;
-	GtkWidget  *viewport;
+	GtkWidget *label;
+	GtkWidget *viewport;
 
 	label = gtk_label_new (_("Please select a server."));
 	gtk_widget_show (label);
