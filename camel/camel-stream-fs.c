@@ -43,11 +43,15 @@ static gboolean _eos (CamelStream *stream);
 static void _close (CamelStream *stream);
 static gint _seek (CamelStream *stream, gint offset, CamelStreamSeekPolicy policy);
 
+static void _finalize (GtkObject *object);
+static void _destroy (GtkObject *object);
 
 static void
 camel_stream_fs_class_init (CamelStreamFsClass *camel_stream_fs_class)
 {
 	CamelStreamClass *camel_stream_class = CAMEL_STREAM_CLASS (camel_stream_fs_class);
+	GtkObjectClass *gtk_object_class = GTK_OBJECT_CLASS (camel_stream_fs_class);
+
 	parent_class = gtk_type_class (gtk_object_get_type ());
 	
 	/* virtual method definition */
@@ -60,6 +64,9 @@ camel_stream_fs_class_init (CamelStreamFsClass *camel_stream_fs_class)
 	camel_stream_class->eos = _eos;
 	camel_stream_class->close = _close;
 	camel_stream_class->seek = _seek;
+
+	gtk_object_class->finalize = _finalize;
+	gtk_object_class->finalize = _destroy;
 
 }
 
@@ -87,6 +94,39 @@ camel_stream_fs_get_type (void)
 	}
 	
 	return camel_stream_fs_type;
+}
+
+
+static void           
+_destroy (GtkObject *object)
+{
+	CamelStreamFs *stream_fs = CAMEL_STREAM_FS (object);
+	gint close_error;
+	
+	CAMEL_LOG_FULL_DEBUG ("Entering CamelStreamFs::destroy\n");
+	
+	close_error = close (stream_fs->fd);
+	if (close_error) {
+		CAMEL_LOG_FULL_DEBUG ("CamelStreamFs::destroy Error while closing file descriptor\n");
+		CAMEL_LOG_FULL_DEBUG ( "  Full error text is : %s\n", strerror(errno));
+	}
+	GTK_OBJECT_CLASS (parent_class)->destroy (object);
+	CAMEL_LOG_FULL_DEBUG ("Leaving CamelStreamFs::destroy\n");
+}
+
+
+static void           
+_finalize (GtkObject *object)
+{
+	CamelStreamFs *stream_fs = CAMEL_STREAM_FS (object);
+
+
+	CAMEL_LOG_FULL_DEBUG ("Entering CamelStreamFs::finalize\n");
+	
+	if (stream_fs->name) g_free (stream_fs->name);
+
+	GTK_OBJECT_CLASS (parent_class)->finalize (object);
+	CAMEL_LOG_FULL_DEBUG ("Leaving CamelStreamFs::finalize\n");
 }
 
 

@@ -22,6 +22,7 @@
  */
 #include <config.h>
 #include "camel-service.h"
+#include "camel-log.h"
 
 static GtkObjectClass *parent_class=NULL;
 
@@ -34,10 +35,13 @@ static void _connect_to_with_login_passwd_port (CamelService *service, gchar *ho
 static gboolean _is_connected (CamelService *service);
 static void _set_connected (CamelService *service, gboolean state);
 static const gchar *_get_url (CamelService *service);
+static void _finalize (GtkObject *object);
 
 static void
 camel_service_class_init (CamelServiceClass *camel_service_class)
 {
+	GtkObjectClass *gtk_object_class = GTK_OBJECT_CLASS (camel_service_class);
+
 	parent_class = gtk_type_class (gtk_object_get_type ());
 	
 	/* virtual method definition */
@@ -49,6 +53,7 @@ camel_service_class_init (CamelServiceClass *camel_service_class)
 	camel_service_class->get_url = _get_url;
 
 	/* virtual method overload */
+	gtk_object_class->finalize = _finalize;
 }
 
 
@@ -82,6 +87,18 @@ camel_service_get_type (void)
 }
 
 
+static void           
+_finalize (GtkObject *object)
+{
+	CamelService *camel_service = CAMEL_SERVICE (object);
+
+	CAMEL_LOG_FULL_DEBUG ("Entering CamelService::finalize\n");
+
+	if (camel_service->url) g_free (camel_service->url);
+
+	GTK_OBJECT_CLASS (parent_class)->finalize (object);
+	CAMEL_LOG_FULL_DEBUG ("Leaving CamelService::finalize\n");
+}
 
 
 

@@ -60,7 +60,7 @@ show_folder_messages (CamelFolder *folder)
 	gint folder_message_count;
 	CamelMimeMessage *message;
 	gint i;
-	gchar *clist_row_text[3];
+	const gchar *clist_row_text[3];
 	const char *sent_date, *subject, *sender;
 	gint current_row;
 
@@ -77,16 +77,19 @@ show_folder_messages (CamelFolder *folder)
 		sender = camel_mime_message_get_from (message);
 		subject = camel_mime_message_get_subject (message);
 
-		if (sent_date) clist_row_text [0] = g_strdup (sent_date);
-		else clist_row_text [0] = g_strdup ('\0');
-		if (sender) clist_row_text [1] = g_strdup (sender);
-		else clist_row_text [1] = g_strdup ('\0');
-		if (subject) clist_row_text [2] = g_strdup (subject);
-		else clist_row_text [2] = g_strdup ('\0');
+		
+		if (sent_date) clist_row_text [0] = sent_date;
+		else clist_row_text [0] = NULL;
+		if (sender) clist_row_text [1] = sender;
+		else clist_row_text [1] = NULL;
+		if (subject) clist_row_text [2] = subject;
+		else clist_row_text [2] = NULL;
 
 		current_row = gtk_clist_append (GTK_CLIST (message_clist), clist_row_text);
 		gtk_clist_set_row_data_full (GTK_CLIST (message_clist), current_row, (gpointer)message, message_destroy_notify);
 	}
+	for (i=0; i<10; i++)
+		gtk_clist_append (GTK_CLIST (message_clist), clist_row_text);
 	
 	
 	

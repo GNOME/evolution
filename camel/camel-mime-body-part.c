@@ -96,7 +96,9 @@ camel_mime_body_part_new ()
 static void 
 _set_parent (CamelMimeBodyPart *mime_body_part, CamelMultipart *multipart)
 {
+	if (mime_body_part->parent) gtk_object_unref (GTK_OBJECT (mime_body_part->parent));
 	mime_body_part->parent = multipart;
+	if (multipart) gtk_object_ref (GTK_OBJECT (multipart));
 }
 
 

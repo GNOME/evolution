@@ -22,6 +22,7 @@
  */
 #include <config.h>
 #include "camel-store.h"
+#include "camel-log.h"
 
 static CamelServiceClass *parent_class = NULL;
 
@@ -35,10 +36,13 @@ static void _init(CamelStore *store, CamelSession *session, gchar *url_name);
 static CamelFolder *_get_folder (CamelStore *store, const gchar *folder_name);
 static gchar _get_separator (CamelStore *store);
 
+static void _finalize (GtkObject *object);
 
 static void
 camel_store_class_init (CamelStoreClass *camel_store_class)
 {
+	GtkObjectClass *gtk_object_class = GTK_OBJECT_CLASS (camel_store_class);
+
 	parent_class = gtk_type_class (camel_service_get_type ());
 	
 	/* virtual method definition */
@@ -48,7 +52,9 @@ camel_store_class_init (CamelStoreClass *camel_store_class)
 	camel_store_class->get_folder = _get_folder;
 	camel_store_class->get_root_folder = _get_root_folder;
 	camel_store_class->get_default_folder = _get_default_folder;
+
 	/* virtual method overload */
+	gtk_object_class->finalize = _finalize;
 }
 
 
@@ -122,8 +128,24 @@ _init (CamelStore *store, CamelSession *session, gchar *url_name)
 	/*  g_assert(session); */
 	g_assert(url_name);
 
+	if (store->session) gtk_object_unref (GTK_OBJECT (store->session));
 	store->session = session;
+	gtk_object_ref (GTK_OBJECT (session));
 	store->url_name = url_name;
+}
+
+
+static void           
+_finalize (GtkObject *object)
+{
+	CamelStore *camel_store = CAMEL_STORE (object);
+	CAMEL_LOG_FULL_DEBUG ("Entering CamelStore::finalize\n");
+
+	if (camel_store->url_name) g_free (camel_store->url_name);
+	if (camel_store->session) gtk_object_unref (GTK_OBJECT (camel_store->session));
+	
+	GTK_OBJECT_CLASS (parent_class)->finalize (object);
+	CAMEL_LOG_FULL_DEBUG ("Leaving CamelStore::finalize\n");
 }
 
 

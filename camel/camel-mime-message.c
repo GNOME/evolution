@@ -99,7 +99,7 @@ camel_mime_message_class_init (CamelMimeMessageClass *camel_mime_message_class)
 {
 	CamelDataWrapperClass *camel_data_wrapper_class = CAMEL_DATA_WRAPPER_CLASS (camel_mime_message_class);
 	CamelMimePartClass *camel_mime_part_class = CAMEL_MIME_PART_CLASS (camel_mime_message_class);
-	GtkObjectClass *gtk_object_class = GTK_OBJECT_CLASS (camel_data_wrapper_class);
+	GtkObjectClass *gtk_object_class = GTK_OBJECT_CLASS (camel_mime_message_class);
 
 	parent_class = gtk_type_class (camel_mime_part_get_type ());
 	_init_header_name_table();
@@ -656,5 +656,6 @@ _parse_header_pair (CamelMimePart *mime_part, gchar *header_name, gchar *header_
 		return TRUE;
 	} else
 		return parent_class->parse_header_pair (mime_part, header_name, header_value);
+		
 	
 }

@@ -1,10 +1,17 @@
 1999-08-11  bertrand  <Bertrand.Guiheneuf@aful.org>
 
+	* camel/camel-service.c (_finalize): 
+	* camel/camel-stream-fs.c (_finalize): 
+	(_destroy): close file descriptor.
+	* camel/camel-stream-mem.c (_finalize): 
+	* camel/camel-store.c (_finalize): 
+	* camel/camel-folder.c (_finalize): 
 	* camel/camel-multipart.c (_finalize): 
 	* camel/camel-simple-data-wrapper.c (_finalize): 
 	* camel/camel-mime-part.c (_finalize): 
 	implemented destructors.
 	
+
 	* camel/gmime-content-field.c (gmime_content_field_ref): 
 	(gmime_content_field_unref): 
 	New reference mechanism for GMimeContentField objects.

@@ -22,6 +22,7 @@
  */
 #include <config.h>
 #include "camel-folder.h"
+#include "camel-log.h"
 #include "string-utils.h"
 
 static GtkObjectClass *parent_class=NULL;
@@ -53,10 +54,13 @@ static CamelMimeMessage *_get_message (CamelFolder *folder, gint number);
 static gint _get_message_count (CamelFolder *folder);
 static gint _append_message (CamelFolder *folder, CamelMimeMessage *message);
 
+static void _finalize (GtkObject *object);
 
 static void
 camel_folder_class_init (CamelFolderClass *camel_folder_class)
 {
+	GtkObjectClass *gtk_object_class = GTK_OBJECT_CLASS (camel_folder_class);
+	
 	parent_class = gtk_type_class (gtk_object_get_type ());
 	
 	/* virtual method definition */
@@ -83,6 +87,7 @@ camel_folder_class_init (CamelFolderClass *camel_folder_class)
 	camel_folder_class->append_message = _append_message;
 
 	/* virtual method overload */
+	gtk_object_class->finalize = _finalize;
 }
 
 
@@ -116,6 +121,18 @@ camel_folder_get_type (void)
 }
 
 
+static void           
+_finalize (GtkObject *object)
+{
+	CamelFolder *camel_folder = CAMEL_FOLDER (object);
+	CAMEL_LOG_FULL_DEBUG ("Entering CamelFolder::finalize\n");
+
+	if (camel_folder->name) g_free (camel_folder->name);
+	if (camel_folder->full_name) g_free (camel_folder->full_name);
+	
+	GTK_OBJECT_CLASS (parent_class)->finalize (object);
+	CAMEL_LOG_FULL_DEBUG ("Leaving CamelFolder::finalize\n");
+}
 
 
 /**
@@ -131,7 +148,9 @@ _init_with_store (CamelFolder *folder, CamelStore *parent_store)
 	g_assert(folder);
 	g_assert(parent_store);
 	
+	if (folder->parent_store) gtk_object_unref (GTK_OBJECT (folder->parent_store));
 	folder->parent_store = parent_store;
+	if (parent_store) gtk_object_ref (GTK_OBJECT (parent_store));
 }
 
 
@@ -455,7 +474,6 @@ _create(CamelFolder *folder)
 			} else {
 				parent = camel_store_get_folder (folder->parent_store, prefix);
 				camel_folder_create (parent);
-				gtk_object_unref (GTK_OBJECT (parent));
 			}
 		}
 	}	
