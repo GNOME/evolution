@@ -2156,8 +2156,7 @@ html_button_press_event (GtkWidget *widget, GdkEventButton *event, gpointer data
 		return FALSE;
 	
 	engine = GTK_HTML (widget)->engine;
-	point = html_engine_get_point_at (engine, event->x + engine->x_offset,
-					  event->y + engine->y_offset, FALSE);
+	point = html_engine_get_point_at (engine, event->x, event->y, FALSE);
 	
 	if (point) {
 		/* don't popup a menu if the mouse is hovering over a

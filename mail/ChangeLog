@@ -1,3 +1,11 @@
+2003-04-24  Radek Doulik  <rodo@ximian.com>
+
+	* mail-display.c (html_button_press_event): as below
+	(update_active): as below
+
+	* folder-browser.c (html_button_press_event): update for changed
+	coordinates in gtk-2
+
 2003-04-23  Not Zed  <NotZed@Ximian.com>
 
 	* mail-send-recv.c (get_receive_type): pass an exception to

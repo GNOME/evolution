@@ -2416,7 +2416,7 @@ html_button_press_event (GtkWidget *widget, GdkEventButton *event, MailDisplay *
 			GtkWidget *popup_thing;
 			
 			e     = GTK_HTML (widget)->engine;
-			point = html_engine_get_point_at (e, event->x + e->x_offset, event->y + e->y_offset, FALSE);
+			point = html_engine_get_point_at (e, event->x, event->y, FALSE);
 			
 			if (point) {
 				const char *url, *src;
@@ -2494,7 +2494,7 @@ update_active (GtkWidget *widget, gint x, gint y, MailDisplay *mail_display)
 	
 	e = GTK_HTML (widget)->engine;
 	
-	point = html_engine_get_point_at (e, x + e->x_offset, y + e->y_offset, FALSE);
+	point = html_engine_get_point_at (e, x, y, FALSE);
 	if (mail_display->last_active && (!point || mail_display->last_active != point->object)) {
 		set_underline (e, HTML_OBJECT (mail_display->last_active), FALSE);
 		mail_display->last_active = NULL;
