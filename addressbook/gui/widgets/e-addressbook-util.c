@@ -327,15 +327,16 @@ e_addressbook_transfer_cards (EBook *source, GList *cards /* adopted */, gboolea
 {
 	const char *allowed_types[] = { "contacts", NULL };
 	extern EvolutionShellClient *global_shell_client;
-	char *uri, *physical, *path, *desc;
-	static char *last = NULL;
+	GNOME_Evolution_Folder *folder;
+	static char *last_uri = NULL;
 	CardCopyProcess *process;
+	char *desc;
 
 	if (cards == NULL)
 		return;
 
-	if (last == NULL)
-		last = g_strdup ("");
+	if (last_uri == NULL)
+		last_uri = g_strdup ("");
 
 	if (cards->next == NULL) {
 		if (delete_from_source)
@@ -349,21 +350,17 @@ e_addressbook_transfer_cards (EBook *source, GList *cards /* adopted */, gboolea
 			desc = _("Copy cards to");
 	}
 
-	uri = NULL;
-	physical = NULL;
 	evolution_shell_client_user_select_folder (global_shell_client,
 						   parent_window,
-						   desc, last,
-						   allowed_types, &uri, &physical);
-	if (!uri)
+						   desc, last_uri, allowed_types,
+						   &folder);
+	if (!folder)
 		return;
 
-	path = strchr (uri, '/');
-	if (path && strcmp (last, path) != 0) {
-		g_free (last);
-		last = g_strdup_printf ("evolution:%s", path);
+	if (strcmp (last_uri, folder->evolutionUri) != 0) {
+		g_free (last_uri);
+		last_uri = g_strdup (folder->evolutionUri);
 	}
-	g_free (uri);
 
 	process = g_new (CardCopyProcess, 1);
 	process->count = 1;
@@ -377,7 +374,7 @@ e_addressbook_transfer_cards (EBook *source, GList *cards /* adopted */, gboolea
 	else
 		process->done_cb = NULL;
 
-	e_book_use_address_book_by_uri (physical, got_book_cb, process);
+	e_book_use_address_book_by_uri (folder->physicalUri, got_book_cb, process);
 
-	g_free(physical);
+	CORBA_free (folder);
 }

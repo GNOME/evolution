@@ -1,3 +1,8 @@
+2002-04-04  Dan Winship  <danw@ximian.com>
+
+	* gui/widgets/e-addressbook-util.c (e_addressbook_transfer_cards):
+	Update for evolution_shell_client_user_select_folder API change.
+
 2002-04-04  Ettore Perazzoli  <ettore@ximian.com>
 
 	* gui/component/addressbook.c: Remove AddressbookConfig,
