@@ -6,6 +6,7 @@
 	time. Also fixed it so that we should get better sorting when
 	addresses don't contain name parts (I was checking for NULL but
 	not '\0').
+	(address_compare): Use e_mail_address_compare.
 
 2000-11-17  Jeffrey Stedfast  <fejj@helixcode.com>
 
