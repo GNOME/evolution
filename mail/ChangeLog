@@ -1,3 +1,13 @@
+2004-04-30  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* em-folder-tree.c (tree_drag_motion): If the row the cursor is
+	hovering over has children and is not expanded already, setup a
+	timer to auto-expand it if the user hovers there long enough.
+	(tree_autoexpand): Callback to expand the row.
+	(tree_drag_leave): Disconnect the timer.
+	(tree_drag_drop): Same.
+	(em_folder_tree_destroy): Same.
+
 2004-04-30  Enver ALTIN  <enver.altin@frontsite.com.tr>
 
 	* evolution-mail.schemas.in.in: Fixed a type-o.

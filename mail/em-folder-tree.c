@@ -88,6 +88,8 @@ struct _EMFolderTreePrivate {
 	guint save_state_id;
 	
 	guint autoscroll_id;
+	guint autoexpand_id;
+	GtkTreeRowReference *autoexpand_row;
 	
 	guint loading_row_id;
 	guint loaded_row_id;
@@ -398,6 +400,14 @@ em_folder_tree_destroy (GtkObject *obj)
 	if (priv->autoscroll_id != 0) {
 		g_source_remove (priv->autoscroll_id);
 		priv->autoscroll_id = 0;
+	}
+	
+	if (priv->autoexpand_id != 0) {
+		gtk_tree_row_reference_free (priv->autoexpand_row);
+		priv->autoexpand_row = NULL;
+		
+		g_source_remove (priv->autoexpand_id);
+		priv->autoexpand_id = 0;
 	}
 	
 	priv->treeview = NULL;
@@ -1286,6 +1296,14 @@ tree_drag_drop (GtkWidget *widget, GdkDragContext *context, int x, int y, guint 
 		priv->autoscroll_id = 0;
 	}
 	
+	if (priv->autoexpand_id != 0) {
+		gtk_tree_row_reference_free (priv->autoexpand_row);
+		priv->autoexpand_row = NULL;
+		
+		g_source_remove (priv->autoexpand_id);
+		priv->autoexpand_id = 0;
+	}
+	
 	if (!gtk_tree_view_get_path_at_pos (priv->treeview, x, y, &path, &column, &cell_x, &cell_y))
 		return FALSE;
 	
@@ -1318,6 +1336,14 @@ tree_drag_leave (GtkWidget *widget, GdkDragContext *context, guint time, EMFolde
 	if (priv->autoscroll_id != 0) {
 		g_source_remove (priv->autoscroll_id);
 		priv->autoscroll_id = 0;
+	}
+	
+	if (priv->autoexpand_id != 0) {
+		gtk_tree_row_reference_free (priv->autoexpand_row);
+		priv->autoexpand_row = NULL;
+		
+		g_source_remove (priv->autoexpand_id);
+		priv->autoexpand_id = 0;
 	}
 	
 	gtk_tree_view_set_drag_dest_row(emft->priv->treeview, NULL, GTK_TREE_VIEW_DROP_BEFORE);
@@ -1362,12 +1388,26 @@ tree_autoscroll (EMFolderTree *emft)
 }
 
 static gboolean
+tree_autoexpand (EMFolderTree *emft)
+{
+	struct _EMFolderTreePrivate *priv = emft->priv;
+	GtkTreePath *path;
+	
+	path = gtk_tree_row_reference_get_path (priv->autoexpand_row);
+	gtk_tree_view_expand_row (priv->treeview, path, FALSE);
+	gtk_tree_path_free (path);
+	
+	return TRUE;
+}
+
+static gboolean
 tree_drag_motion (GtkWidget *widget, GdkDragContext *context, int x, int y, guint time, EMFolderTree *emft)
 {
 	struct _EMFolderTreePrivate *priv = emft->priv;
 	GtkTreeViewDropPosition pos;
 	GdkDragAction action = 0;
 	GtkTreePath *path;
+	GtkTreeIter iter;
 	GdkAtom target;
 	int i;
 	
@@ -1376,6 +1416,34 @@ tree_drag_motion (GtkWidget *widget, GdkDragContext *context, int x, int y, guin
 	
 	if (priv->autoscroll_id == 0)
 		priv->autoscroll_id = g_timeout_add (150, (GSourceFunc) tree_autoscroll, emft);
+	
+	gtk_tree_model_get_iter (priv->model, &iter, path);
+	
+	if (gtk_tree_model_iter_has_child (priv->model, &iter) && !gtk_tree_view_row_expanded (priv->treeview, path)) {
+		if (priv->autoexpand_id != 0) {
+			GtkTreePath *autoexpand_path;
+			
+			autoexpand_path = gtk_tree_row_reference_get_path (priv->autoexpand_row);
+			if (gtk_tree_path_compare (autoexpand_path, path) != 0) {
+				/* row changed, restart timer */
+				gtk_tree_row_reference_free (priv->autoexpand_row);
+				priv->autoexpand_row = gtk_tree_row_reference_new (priv->model, path);
+				g_source_remove (priv->autoexpand_id);
+				priv->autoexpand_id = g_timeout_add (600, (GSourceFunc) tree_autoexpand, emft);
+			}
+			
+			gtk_tree_path_free (autoexpand_path);
+		} else {
+			priv->autoexpand_id = g_timeout_add (600, (GSourceFunc) tree_autoexpand, emft);
+			priv->autoexpand_row = gtk_tree_row_reference_new (priv->model, path);
+		}
+	} else if (priv->autoexpand_id != 0) {
+		gtk_tree_row_reference_free (priv->autoexpand_row);
+		priv->autoexpand_row = NULL;
+		
+		g_source_remove (priv->autoexpand_id);
+		priv->autoexpand_id = 0;
+	}
 	
 	target = emft_drop_target(emft, context, path);
 	if (target != GDK_NONE) {
