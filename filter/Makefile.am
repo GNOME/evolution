@@ -5,6 +5,7 @@ INCLUDES = 					\
 	-I $(top_srcdir)/e-util			\
 	-I $(top_srcdir)/shell			\
 	-I $(top_srcdir)/camel/providers/mbox	\
+	-I $(top_builddir)/shell		\
 	-I $(GNOME_INCLUDEDIR)			\
 	$(GTKHTML_CFLAGS)			\
 	-DG_LOG_DOMAIN=\"filter\"
