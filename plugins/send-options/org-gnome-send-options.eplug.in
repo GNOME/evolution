@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<e-plugin-list>
+	<e-plugin id="org.gnome.evolution.send_options" type="shlib" name="send options" description="Creates an global send options page"
+		location="@PLUGINDIR@/liborg-gnome-send-options.so">
+	
+		<hook class="org.gnome.evolution.mail.config:1.0">
+			<group id="org.gnome.evolution.mail.config.accountEditor" 
+			target="account" check = "send_options_changed" commit = "send_options_commit"
+			abort = "send_options_abort">
+				<item type="item" path="40.defaults/50.send_options" label="_Send Options" factory="org_gnome_send_options" />
+			</group>
+		</hook>
+	</e-plugin>
+</e-plugin-list>

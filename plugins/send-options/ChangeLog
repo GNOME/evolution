@@ -1,0 +1,10 @@
+2005-01-10 Chenthill Palanisamy <pchenthill@novell.com>
+
+	* MakeFile.am:
+	* org-gnome-send-options.eplug.in: Plugin file to add
+          the send options button in the account editor.
+  	* send-options.c: Adds the send options button inside a frame
+	  in the defaults page of the account editor for groupwise 
+  	  accounts. Clicking on the button gets the settings from the
+	  server and shows it in the send options dialog box.	  
+
