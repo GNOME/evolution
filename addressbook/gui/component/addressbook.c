@@ -677,6 +677,8 @@ addressbook_authenticate (EBook *book, gboolean previous_failure, ESource *sourc
 
 	if (auth && !strcmp ("ldap/simple-binddn", auth))
 		user = e_source_get_property (source, "binddn");
+	else if (auth && !strcmp ("plain/password", auth))
+		user = e_source_get_property (source, "user");
 	else
 		user = e_source_get_property (source, "email_addr");
 	if (!user)

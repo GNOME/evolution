@@ -1,3 +1,9 @@
+2004-04-13  Sivaiah Nallagatla <snallagatla@novell.com>
+                                                                                                                              
+        * gui/component/addressbook.c  (addressbook_authenicate):
+         added a check for new auth type "plain/password"
+         for groupwise in addressbook_authenicate function
+
 2004-04-12  Chris Toshok  <toshok@ximian.com>
 
 	* gui/widgets/eab-popup-control.c (email_menu_add_option): treat
