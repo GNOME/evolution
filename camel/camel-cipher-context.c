@@ -28,8 +28,6 @@
 
 #include <glib.h>
 
-#include <iconv.h>
-
 #ifdef ENABLE_THREADS
 #include <pthread.h>
 #define CIPHER_LOCK(ctx)   g_mutex_lock (((CamelCipherContext *) ctx)->priv->lock)

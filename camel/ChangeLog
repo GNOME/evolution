@@ -1,3 +1,53 @@
+2001-12-04  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-mime-utils.c (header_content_type_simple): Protect against
+	either of the types being NULL.
+
+2001-12-05  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-mime-filter-basic.c (filter): If complete() allocates
+	len+2 bytes for the out buffer, so should this. See bug #16371 for
+	an example case.
+
+2001-12-05  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-sasl-digest-md5.c: iconv() returns a size_t, not an int.
+
+	* camel-pgp-context.c: The return value of iconv() is a size_t,
+	not an int.
+
+	* camel-mime-part-utils.c (convert_buffer): Always use size_t args
+	for iconv().
+
+	* camel-mime-filter-charset.c (complete): Always use size_t args
+	for iconv().
+	(filter): Same.
+
+	* camel-mime-utils.c (header_address_fold): Make headerlen a
+	size_t instead of an int.
+	(header_fold): Same.
+	(base64_encode_close): We should be returning a size_t and inlen
+	should also be a size_t.
+	(base64_encode_step): Same here.
+	(base64_decode_step): Here too.
+	(base64_encode_simple): And here...
+	(base64_decode_simple): Same.
+	(uuencode_close): We should also use size_t's here...
+	(uuencode_step): And here too.
+	(uudecode_step): And also here.
+	(quoted_encode_close): Same idea here.
+	(quoted_encode_step): Again here.
+	(quoted_decode_step): Here too.
+	(quoted_encode): Input length should be a size_t.
+	(rfc2047_decode_word): Same.
+	(g_string_append_len): Here too.
+	(append_8bit): "
+	(rfc2047_encode_word): "
+	(quote_word): "
+	(hex_decode): "
+	(rfc2184_decode): Use size_t's with iconv().
+	(header_decode_param): Same.
+
 2001-12-09  Jon Trowbridge  <trow@ximian.com>
 
 	* camel-folder-summary.c: Add "NeedsReply" to the flag_names array

@@ -306,8 +306,9 @@ do_flush (CamelStream *stream)
 	struct _CamelStreamFilterPrivate *p = _PRIVATE(filter);
 	struct _filter *f;
 	char *buffer;
-	int len, presize;
-
+	int presize;
+	size_t len;
+	
 	if (p->last_was_read) {
 		g_warning("Flushing a filter stream without writing to it");
 		return 0;

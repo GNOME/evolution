@@ -96,7 +96,7 @@ static void
 complete(CamelMimeFilter *mf, char *in, size_t len, size_t prespace, char **out, size_t *outlen, size_t *outprespace)
 {
 	CamelMimeFilterBasic *f = (CamelMimeFilterBasic *)mf;
-	int newlen;
+	size_t newlen;
 	
 	switch(f->type) {
 	case CAMEL_MIME_FILTER_BASIC_BASE64_ENC:
@@ -160,8 +160,8 @@ static void
 filter(CamelMimeFilter *mf, char *in, size_t len, size_t prespace, char **out, size_t *outlen, size_t *outprespace)
 {
 	CamelMimeFilterBasic *f = (CamelMimeFilterBasic *)mf;
-	int newlen;
-
+	size_t newlen;
+	
 	switch(f->type) {
 	case CAMEL_MIME_FILTER_BASIC_BASE64_ENC:
 		/* wont go to more than 2x size (overly conservative) */
@@ -188,9 +188,9 @@ filter(CamelMimeFilter *mf, char *in, size_t len, size_t prespace, char **out, s
 		break;
 	case CAMEL_MIME_FILTER_BASIC_QP_DEC:
 		/* output can't possibly exceed the input size */
-		camel_mime_filter_set_size(mf, len, FALSE);
+		camel_mime_filter_set_size(mf, len + 2, FALSE);
 		newlen = quoted_decode_step(in, len, mf->outbuf, &f->state, &f->save);
-		g_assert(newlen <= len);
+		g_assert(newlen <= len + 2);
 		break;
 	case CAMEL_MIME_FILTER_BASIC_UU_DEC:
 		if (!f->uu_begin) {

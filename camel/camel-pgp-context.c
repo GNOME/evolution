@@ -1066,11 +1066,11 @@ pgp_verify (CamelCipherContext *ctx, CamelCipherHash hash, CamelStream *istream,
 		cd = e_iconv_open ("UTF-8", locale);
 		if (cd != (iconv_t) -1) {
 			const char *inbuf;
-			int ret;
+			size_t ret;
 			
 			inbuf = diagnostics;
 			ret = e_iconv (cd, &inbuf, &inlen, &outbuf, &outlen);
-			if (ret >= 0) {
+			if (ret != (size_t) -1) {
 				e_iconv (cd, NULL, 0, &outbuf, &outlen);
 			}
 			e_iconv_close (cd);

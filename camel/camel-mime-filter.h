@@ -41,12 +41,12 @@ struct _CamelMimeFilter {
 	char *outreal;		/* real malloc'd buffer */
 	char *outbuf;		/* first 'writable' position allowed (outreal + outpre) */
 	char *outptr;
-	int outsize;
-	int outpre;		/* prespace of this buffer */
+	size_t outsize;
+	size_t outpre;		/* prespace of this buffer */
 
 	char *backbuf;
-	int backsize;
-	int backlen;		/* significant data there */
+	size_t backsize;
+	size_t backlen;		/* significant data there */
 };
 
 struct _CamelMimeFilterClass {

@@ -148,8 +148,8 @@ void header_raw_clear(struct _header_raw **list);
 char *header_raw_check_mailing_list(struct _header_raw **list);
 
 /* fold a header */
-char *header_address_fold (const char *in, int headerlen);
-char *header_fold (const char *in, int headerlen);
+char *header_address_fold (const char *in, size_t headerlen);
+char *header_fold (const char *in, size_t headerlen);
 char *header_unfold (const char *in);
 
 /* decode a header which is a simple token */
@@ -186,23 +186,24 @@ char *header_location_decode(const char *in);
 void header_mime_decode(const char *in, int *maj, int *min);
 
 /* do incremental base64/quoted-printable (de/en)coding */
-int base64_decode_step(unsigned char *in, int len, unsigned char *out, int *state, unsigned int *save);
+size_t base64_decode_step(unsigned char *in, size_t len, unsigned char *out, int *state, unsigned int *save);
 
-int base64_encode_step(unsigned char *in, int len, gboolean break_lines, unsigned char *out, int *state, int *save);
-int base64_encode_close(unsigned char *in, int inlen, gboolean break_lines, unsigned char *out, int *state, int *save);
+size_t base64_encode_step(unsigned char *in, size_t len, gboolean break_lines, unsigned char *out, int *state, int *save);
+size_t base64_encode_close(unsigned char *in, size_t len, gboolean break_lines, unsigned char *out, int *state, int *save);
 
-int uudecode_step (unsigned char *in, int len, unsigned char *out, int *state, guint32 *save, char *uulen);
-int uuencode_step (unsigned char *in, int len, unsigned char *out, unsigned char *uubuf, int *state,
-		   guint32 *save, char *uulen);
-int uuencode_close (unsigned char *in, int len, unsigned char *out, unsigned char *uubuf, int *state,
-		    guint32 *save, char *uulen);
+size_t uudecode_step (unsigned char *in, size_t len, unsigned char *out, int *state, guint32 *save, char *uulen);
 
-int quoted_decode_step(unsigned char *in, int len, unsigned char *out, int *savestate, int *saveme);
+size_t uuencode_step (unsigned char *in, size_t len, unsigned char *out, unsigned char *uubuf, int *state,
+		      guint32 *save, char *uulen);
+size_t uuencode_close (unsigned char *in, size_t len, unsigned char *out, unsigned char *uubuf, int *state,
+		       guint32 *save, char *uulen);
 
-int quoted_encode_step(unsigned char *in, int len, unsigned char *out, int *state, int *save);
-int quoted_encode_close(unsigned char *in, int len, unsigned char *out, int *state, int *save);
+size_t quoted_decode_step(unsigned char *in, size_t len, unsigned char *out, int *savestate, int *saveme);
 
-char *base64_encode_simple (const char *data, int len);
-int base64_decode_simple (char *data, int len);
+size_t quoted_encode_step(unsigned char *in, size_t len, unsigned char *out, int *state, int *save);
+size_t quoted_encode_close(unsigned char *in, size_t len, unsigned char *out, int *state, int *save);
+
+char *base64_encode_simple (const char *data, size_t len);
+size_t base64_decode_simple (char *data, size_t len);
 
 #endif /* ! _CAMEL_MIME_UTILS_H */

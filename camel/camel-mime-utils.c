@@ -206,8 +206,8 @@ base64_init(void)
 
 /* call this when finished encoding everything, to
    flush off the last little bit */
-int
-base64_encode_close(unsigned char *in, int inlen, gboolean break_lines, unsigned char *out, int *state, int *save)
+size_t
+base64_encode_close(unsigned char *in, size_t inlen, gboolean break_lines, unsigned char *out, int *state, int *save)
 {
 	int c1, c2;
 	unsigned char *outptr = out;
@@ -251,8 +251,8 @@ base64_encode_close(unsigned char *in, int inlen, gboolean break_lines, unsigned
   output at a time, saves left-over state in state and save (initialise to
   0 on first invocation).
 */
-int
-base64_encode_step(unsigned char *in, int len, gboolean break_lines, unsigned char *out, int *state, int *save)
+size_t
+base64_encode_step(unsigned char *in, size_t len, gboolean break_lines, unsigned char *out, int *state, int *save)
 {
 	register unsigned char *inptr, *outptr;
 
@@ -337,8 +337,8 @@ base64_encode_step(unsigned char *in, int len, gboolean break_lines, unsigned ch
  *
  * Decodes a chunk of base64 encoded data
  **/
-int
-base64_decode_step(unsigned char *in, int len, unsigned char *out, int *state, unsigned int *save)
+size_t
+base64_decode_step(unsigned char *in, size_t len, unsigned char *out, int *state, unsigned int *save)
 {
 	register unsigned char *inptr, *outptr;
 	unsigned char *inend, c;
@@ -386,7 +386,7 @@ base64_decode_step(unsigned char *in, int len, unsigned char *out, int *state, u
 }
 
 char *
-base64_encode_simple (const char *data, int len)
+base64_encode_simple (const char *data, size_t len)
 {
 	unsigned char *out;
 	int state = 0, outlen;
@@ -399,8 +399,8 @@ base64_encode_simple (const char *data, int len)
 	return (char *)out;
 }
 
-int
-base64_decode_simple (char *data, int len)
+size_t
+base64_decode_simple (char *data, size_t len)
 {
 	int state = 0;
 	unsigned int save = 0;
@@ -424,8 +424,8 @@ base64_decode_simple (char *data, int len)
  * encoding data with uuencode_step to flush off the last little
  * bit.
  **/
-int
-uuencode_close (unsigned char *in, int len, unsigned char *out, unsigned char *uubuf, int *state, guint32 *save, char *uulen)
+size_t
+uuencode_close (unsigned char *in, size_t len, unsigned char *out, unsigned char *uubuf, int *state, guint32 *save, char *uulen)
 {
 	register unsigned char *outptr, *bufptr;
 	register guint32 saved;
@@ -497,8 +497,8 @@ uuencode_close (unsigned char *in, int len, unsigned char *out, unsigned char *u
  * left-over state in @uubuf, @state and @save (initialize to 0 on first
  * invocation).
  **/
-int
-uuencode_step (unsigned char *in, int len, unsigned char *out, unsigned char *uubuf, int *state, guint32 *save, char *uulen)
+size_t
+uuencode_step (unsigned char *in, size_t len, unsigned char *out, unsigned char *uubuf, int *state, guint32 *save, char *uulen)
 {
 	register unsigned char *inptr, *outptr, *bufptr;
 	unsigned char *inend;
@@ -575,8 +575,8 @@ uuencode_step (unsigned char *in, int len, unsigned char *out, unsigned char *uu
  * a chunk of uuencoded data. Assumes the "begin <mode> <file name>"
  * line has been stripped off.
  **/
-int
-uudecode_step (unsigned char *in, int len, unsigned char *out, int *state, guint32 *save, char *uulen)
+size_t
+uudecode_step (unsigned char *in, size_t len, unsigned char *out, int *state, guint32 *save, char *uulen)
 {
 	register unsigned char *inptr, *outptr;
 	unsigned char *inend, ch;
@@ -652,8 +652,8 @@ uudecode_step (unsigned char *in, int len, unsigned char *out, int *state, guint
 
 
 /* complete qp encoding */
-int
-quoted_encode_close(unsigned char *in, int len, unsigned char *out, int *state, int *save)
+size_t
+quoted_encode_close(unsigned char *in, size_t len, unsigned char *out, int *state, int *save)
 {
 	register unsigned char *outptr = out;
 	int last;
@@ -681,11 +681,11 @@ quoted_encode_close(unsigned char *in, int len, unsigned char *out, int *state, 
 }
 
 /* perform qp encoding, initialise state to -1 and save to 0 on first invocation */
-int
-quoted_encode_step (unsigned char *in, int len, unsigned char *out, int *statep, int *save)
+size_t
+quoted_encode_step (unsigned char *in, size_t len, unsigned char *out, int *statep, int *save)
 {
 	register guchar *inptr, *outptr, *inend;
-	guchar c;
+	unsigned char c;
 	register int sofar = *save;  /* keeps track of how many chars on a line */
 	register int last = *statep; /* keeps track if last char to end was a space cr etc */
 	
@@ -767,8 +767,8 @@ quoted_encode_step (unsigned char *in, int len, unsigned char *out, int *statep,
   Note: Trailing rubbish (at the end of input), like = or =x or =\r will be lost.
 */ 
 
-int
-quoted_decode_step(unsigned char *in, int len, unsigned char *out, int *savestate, int *saveme)
+size_t
+quoted_decode_step(unsigned char *in, size_t len, unsigned char *out, int *savestate, int *saveme)
 {
 	register unsigned char *inptr, *outptr;
 	unsigned char *inend, c;
@@ -860,7 +860,7 @@ quoted_decode_step(unsigned char *in, int len, unsigned char *out, int *savestat
   which is slightly different than plain quoted-printable (mainly by allowing 0x20 <> _)
 */
 static int
-quoted_decode(const unsigned char *in, int len, unsigned char *out)
+quoted_decode(const unsigned char *in, size_t len, unsigned char *out)
 {
 	register const unsigned char *inptr;
 	register unsigned char *outptr;
@@ -907,7 +907,7 @@ quoted_decode(const unsigned char *in, int len, unsigned char *out)
 /* safemask is the mask to apply to the camel_mime_special_table to determine what
    characters can safely be included without encoding */
 static int
-quoted_encode(const unsigned char *in, int len, unsigned char *out, unsigned short safemask)
+quoted_encode (const unsigned char *in, size_t len, unsigned char *out, unsigned short safemask)
 {
 	register const unsigned char *inptr, *inend;
 	unsigned char *outptr;
@@ -971,7 +971,7 @@ header_decode_lwsp(const char **in)
 
 /* decode rfc 2047 encoded string segment */
 static char *
-rfc2047_decode_word(const char *in, int len)
+rfc2047_decode_word(const char *in, size_t len)
 {
 	const char *inptr = in+2;
 	const char *inend = in+len-2;
@@ -979,12 +979,12 @@ rfc2047_decode_word(const char *in, int len)
 	const char *charset;
 	char *encname, *p;
 	int tmplen;
-	int ret;
+	size_t ret;
 	char *decword = NULL;
 	char *decoded = NULL;
 	char *outbase = NULL;
 	char *outbuf;
-	int inlen, outlen;
+	size_t inlen, outlen;
 	gboolean retried = FALSE;
 	iconv_t ic;
 	
@@ -1049,9 +1049,9 @@ rfc2047_decode_word(const char *in, int len)
 			
 		retry:
 			ic = e_iconv_open ("UTF-8", charset);
-			if (ic != (iconv_t)-1) {
+			if (ic != (iconv_t) -1) {
 				ret = e_iconv (ic, &inbuf, &inlen, &outbuf, &outlen);
-				if (ret >= 0) {
+				if (ret != (size_t) -1) {
 					e_iconv (ic, NULL, 0, &outbuf, &outlen);
 					*outbuf = 0;
 					decoded = g_strdup (outbase);
@@ -1083,7 +1083,7 @@ rfc2047_decode_word(const char *in, int len)
 
 /* grrr, glib should have this ! */
 static GString *
-g_string_append_len(GString *st, const char *s, int l)
+g_string_append_len(GString *st, const char *s, size_t l)
 {
 	char *tmp;
 
@@ -1098,7 +1098,7 @@ g_string_append_len(GString *st, const char *s, int l)
    according to the rfc's.  Anyway, since the conversion to utf-8
    is trivial, just do it here without iconv */
 static GString *
-append_latin1 (GString *out, const char *in, int len)
+append_latin1 (GString *out, const char *in, size_t len)
 {
 	unsigned int c;
 	
@@ -1116,10 +1116,10 @@ append_latin1 (GString *out, const char *in, int len)
 }
 
 static int
-append_8bit (GString *out, const char *inbuf, int inlen, const char *charset)
+append_8bit (GString *out, const char *inbuf, size_t inlen, const char *charset)
 {
 	char *outbase, *outbuf;
-	int outlen;
+	size_t outlen;
 	iconv_t ic;
 	
 	ic = e_iconv_open ("UTF-8", charset);
@@ -1128,8 +1128,8 @@ append_8bit (GString *out, const char *inbuf, int inlen, const char *charset)
 
 	outlen = inlen * 6 + 16;
 	outbuf = outbase = g_malloc(outlen);
-		
-	if (e_iconv(ic, &inbuf, &inlen, &outbuf, &outlen) == -1) {
+	
+	if (e_iconv(ic, &inbuf, &inlen, &outbuf, &outlen) == (size_t) -1) {
 		w(g_warning("Conversion to '%s' failed: %s", charset, strerror(errno)));
 		g_free(outbase);
 		e_iconv_close(ic);
@@ -1147,7 +1147,7 @@ append_8bit (GString *out, const char *inbuf, int inlen, const char *charset)
 
 /* decodes a simple text, rfc822 + rfc2047 */
 static char *
-header_decode_text (const char *in, int inlen, const char *default_charset)
+header_decode_text (const char *in, size_t inlen, const char *default_charset)
 {
 	GString *out;
 	const char *inptr, *inend, *start, *chunk, *locale_charset;
@@ -1214,7 +1214,7 @@ header_decode_string (const char *in, const char *default_charset)
 
 /* FIXME: needs a way to cache iconv opens for different charsets? */
 static void
-rfc2047_encode_word(GString *outstring, const char *in, int len, const char *type, unsigned short safemask)
+rfc2047_encode_word(GString *outstring, const char *in, size_t len, const char *type, unsigned short safemask)
 {
 	iconv_t ic = (iconv_t *)-1;
 	char *buffer, *out, *ascii;
@@ -1236,8 +1236,9 @@ rfc2047_encode_word(GString *outstring, const char *in, int len, const char *typ
 		ic = e_iconv_open (type, "UTF-8");
 	
 	while (inlen) {
-		int convlen, i, proclen;
-
+		size_t convlen, proclen;
+		int i;
+		
 		/* break up words into smaller bits, what we really want is encoded + overhead < 75,
 		   but we'll just guess what that means in terms of input chars, and assume its good enough */
 
@@ -1280,7 +1281,7 @@ rfc2047_encode_word(GString *outstring, const char *in, int len, const char *typ
 			   hopefully-small-enough chunks, and leave it at that */
 			convlen = MIN(inlen, CAMEL_FOLD_PREENCODED);
 			p = inptr;
-			if (e_iconv(ic, &inptr, &convlen, &out, &outlen) == -1) {
+			if (e_iconv (ic, &inptr, &convlen, &out, &outlen) == (size_t) -1) {
 				w(g_warning("Conversion problem: conversion truncated: %s", strerror(errno)));
 				/* blah, we include it anyway, better than infinite loop ... */
 				inptr = p + convlen;
@@ -1445,7 +1446,7 @@ header_encode_string (const unsigned char *in)
 
 /* apply quoted-string rules to a string */
 static void
-quote_word(GString *out, gboolean do_quotes, const char *start, int len)
+quote_word(GString *out, gboolean do_quotes, const char *start, size_t len)
 {
 	int i, c;
 
@@ -1634,7 +1635,7 @@ header_encode_phrase (const unsigned char *in)
 	wordl = words;
 	while (wordl) {
 		const char *start;
-		int len;
+		size_t len;
 		
 		word = wordl->data;
 		
@@ -1728,7 +1729,7 @@ header_decode_quoted_string(const char **in)
 {
 	const char *inptr = *in;
 	char *out = NULL, *outptr;
-	int outlen;
+	size_t outlen;
 	int c;
 
 	header_decode_lwsp(&inptr);
@@ -1826,10 +1827,10 @@ header_decode_int(const char **in)
 #define HEXVAL(c) (isdigit (c) ? (c) - '0' : tolower (c) - 'a' + 10)
 
 static char *
-hex_decode (const char *in, int len)
+hex_decode (const char *in, size_t len)
 {
-	const guchar *inend = (const guchar *) in + len;
-	guchar *inptr, *outptr;
+	const unsigned char *inend = in + len;
+	unsigned char *inptr, *outptr;
 	char *outbuf;
 	
 	outptr = outbuf = g_malloc (len);
@@ -1856,7 +1857,7 @@ hex_decode (const char *in, int len)
  */
 
 static char *
-rfc2184_decode (const char *in, int len)
+rfc2184_decode (const char *in, size_t len)
 {
 	const char *inptr = in;
 	const char *inend = in + len;
@@ -1880,7 +1881,7 @@ rfc2184_decode (const char *in, int len)
 	if (inptr < inend) {
 		char *decword, *outbase, *outbuf;
 		const char *inbuf;
-		int inlen, outlen;
+		size_t inlen, outlen;
 		iconv_t ic;
 		
 		inbuf = decword = hex_decode (inptr, inend - inptr);
@@ -1888,13 +1889,13 @@ rfc2184_decode (const char *in, int len)
 		
 		ic = e_iconv_open ("UTF-8", charset);
 		if (ic != (iconv_t) -1) {
-			int ret;
+			size_t ret;
 			
 			outlen = inlen * 6 + 16;
 			outbuf = outbase = g_malloc (outlen);
 			
 			ret = e_iconv (ic, &inbuf, &inlen, &outbuf, &outlen);
-			if (ret >= 0) {
+			if (ret != (size_t) -1) {
 				e_iconv (ic, NULL, 0, &outbuf, &outlen);
 				*outbuf = '\0';
 				g_free (decoded);
@@ -2034,7 +2035,7 @@ header_decode_param (const char **in, char **paramp, char **valuep, int *is_rfc2
 		 * locale and converting to utf8 */
 		char *outbase, *outbuf, *p;
 		const char *charset, *inbuf;
-		int inlen, outlen;
+		size_t inlen, outlen;
 		iconv_t ic;
 		
 		inbuf = value;
@@ -2043,13 +2044,13 @@ header_decode_param (const char **in, char **paramp, char **valuep, int *is_rfc2
 		charset = e_iconv_locale_charset ();
 		ic = e_iconv_open ("UTF-8", charset ? charset : "ISO-8859-1");
 		if (ic != (iconv_t) -1) {
-			int ret;
+			size_t ret;
 			
 			outlen = inlen * 6 + 16;
 			outbuf = outbase = g_malloc (outlen);
 			
 			ret = e_iconv (ic, &inbuf, &inlen, &outbuf, &outlen);
-			if (ret >= 0) {
+			if (ret != (size_t) -1) {
 				e_iconv (ic, NULL, 0, &outbuf, &outlen);
 				*outbuf = '\0';
 			}
@@ -2362,8 +2363,9 @@ header_decode_mailbox(const char **in)
 
 			pre = header_decode_word(&inptr);
 			if (pre) {
-				int l = strlen(last);
-				int p = strlen(pre);
+				size_t l = strlen (last);
+				size_t p = strlen (pre);
+				
 				/* dont append ' ' between sucsessive encoded words */
 				if ((l>6 && last[l-2] == '?' && last[l-1] == '=')
 				    && (p>6 && pre[0] == '=' && pre[1] == '?')) {
@@ -2967,7 +2969,7 @@ header_param_list_format_append (GString *out, struct _header_param *p)
 		gboolean encoded = FALSE;
 		gboolean quote = FALSE;
 		int here = out->len;
-		int nlen, vlen;
+		size_t nlen, vlen;
 		char *value;
 		
 		if (!p->value) {
@@ -3158,9 +3160,19 @@ header_content_type_format(struct _header_content_type *ct)
 }
 
 char *
-header_content_type_simple(struct _header_content_type *ct)
+header_content_type_simple (struct _header_content_type *ct)
 {
-	return g_strdup_printf("%s/%s", ct->type, ct->subtype);
+	if (ct->type == NULL) {
+		w(g_warning ("Content-Type with no main type"));
+		return g_strdup ("text/plain");
+	} else if (ct->subtype == NULL) {
+		w(g_warning ("Content-Type with no sub type: %s", ct->type));
+		if (!strcasecmp (ct->type, "multipart"))
+			return g_strdup_printf ("%s/mixed", ct->type);
+		else
+			return g_strdup (ct->type);
+	} else
+		return g_strdup_printf ("%s/%s", ct->type, ct->subtype);
 }
 
 char *
@@ -3472,7 +3484,7 @@ void
 header_raw_append_parse(struct _header_raw **list, const char *header, int offset)
 {
 	register const char *in;
-	int fieldlen;
+	size_t fieldlen;
 	char *name;
 
 	in = header;
@@ -3630,8 +3642,8 @@ header_msgid_generate (void)
 #define COUNT_LOCK()
 #define COUNT_UNLOCK()
 #endif /* ENABLE_THREADS */
-	static gint count = 0;
-	gint hrv;
+	static int count = 0;
+	int hrv;
 	char *ret;
 	
 	hrv = gethostname (host, sizeof (host));
@@ -3935,13 +3947,13 @@ header_address_list_format(struct _header_address *a)
 }
 
 char *
-header_address_fold (const char *in, int headerlen)
+header_address_fold (const char *in, size_t headerlen)
 {
-	int len, outlen, i;
+	size_t len, outlen;
 	const char *inptr = in, *space, *p, *n;
 	GString *out;
 	char *ret;
-	int needunfold = FALSE;
+	int i, needunfold = FALSE;
 	
 	if (in == NULL)
 		return NULL;
@@ -4011,9 +4023,9 @@ header_address_fold (const char *in, int headerlen)
 /* simple header folding */
 /* will work even if the header is already folded */
 char *
-header_fold(const char *in, int headerlen)
+header_fold(const char *in, size_t headerlen)
 {
-	int len, outlen, i;
+	size_t len, outlen, i;
 	const char *inptr = in, *space, *p, *n;
 	GString *out;
 	char *ret;

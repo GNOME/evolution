@@ -74,7 +74,7 @@ reset(CamelMimeFilter *mf)
 	CamelMimeFilterCharset *f = (CamelMimeFilterCharset *)mf;
 	char buf[16];
 	char *buffer;
-	int outlen = 16;
+	size_t outlen = 16;
 
 	/* what happens with the output bytes if this resets the state? */
 	if (f->ic != (iconv_t) -1) {
@@ -87,11 +87,10 @@ static void
 complete(CamelMimeFilter *mf, char *in, size_t len, size_t prespace, char **out, size_t *outlenptr, size_t *outprespace)
 {
 	CamelMimeFilterCharset *f = (CamelMimeFilterCharset *)mf;
-	int converted;
+	size_t converted, inlen, outlen;
 	const char *inbuf;
 	char *outbuf;
-	int inlen, outlen;
-
+	
 	if (f->ic == (iconv_t) -1) {
 		goto donothing;
 	}
@@ -110,7 +109,7 @@ complete(CamelMimeFilter *mf, char *in, size_t len, size_t prespace, char **out,
 
 	if (inlen>0) {
 		converted = e_iconv(f->ic, &inbuf, &inlen, &outbuf, &outlen);
-		if (converted == -1) {
+		if (converted == (size_t) -1) {
 			if (errno != EINVAL) {
 				g_warning("error occured converting: %s", strerror(errno));
 				goto donothing;
@@ -125,7 +124,7 @@ complete(CamelMimeFilter *mf, char *in, size_t len, size_t prespace, char **out,
 	/* this 'resets' the output stream, returning back to the initial
 	   shift state for multishift charactersets */
 	converted = e_iconv(f->ic, NULL, 0, &outbuf, &outlen);
-	if (converted == -1) {
+	if (converted == (size_t) -1) {
 		g_warning("Conversion failed to complete: %s", strerror(errno));
 	}
 
@@ -153,10 +152,9 @@ static void
 filter(CamelMimeFilter *mf, char *in, size_t len, size_t prespace, char **out, size_t *outlenptr, size_t *outprespace)
 {
 	CamelMimeFilterCharset *f = (CamelMimeFilterCharset *)mf;
-	int converted;
+	size_t converted, inlen, outlen;
 	const char *inbuf;
 	char *outbuf;
-	int inlen, outlen;
 
 	if (f->ic == (iconv_t) -1) {
 		goto donothing;
@@ -169,7 +167,7 @@ filter(CamelMimeFilter *mf, char *in, size_t len, size_t prespace, char **out, s
 	outbuf = mf->outbuf;
 	outlen = mf->outsize;
 	converted = e_iconv(f->ic, &inbuf, &inlen, &outbuf, &outlen);
-	if (converted == -1) {
+	if (converted == (size_t) -1) {
 		if (errno != EINVAL) {
 			g_warning("error occured converting: %s", strerror(errno));
 			goto donothing;
