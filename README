@@ -104,6 +104,8 @@ ftp.gnome.org. The (*)ed packages are available in Helix GNOME.
  - oaf - 0.3 or later. Note that if you build a version newer than
    0.3, you will need a newer version of ORBit than 0.5.1 (see above).
 
+ - gnome-vfs - 0.2 or later
+
  - bonobo - Evolution always tracks the latest CVS versions of bonobo.
    Released versions will virtually always be too old (although as of
    June 2, bonobo 0.15 is recent enough).
@@ -111,8 +113,6 @@ ftp.gnome.org. The (*)ed packages are available in Helix GNOME.
    *** Note that bonobo must be installed with the same --prefix as
    *** either gnome-libs or evolution for the Makefiles to work
    *** properly.
-
- - gnome-vfs - 0.2 or later
 
  - libunicode - 0.4 or later, available from
    http://www.pango.org/download.shtml
