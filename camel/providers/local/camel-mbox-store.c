@@ -708,18 +708,16 @@ get_folder_info (CamelStore *store, const char *top, guint32 flags, CamelExcepti
 	fi->unread_message_count = unread;
 	fi->path = g_strdup_printf ("/%s", top);
 	
-	if ((flags & CAMEL_STORE_FOLDER_INFO_RECURSIVE) != 0) {
-		subdir = g_strdup_printf ("%s.sbd", path);
-		if (stat (subdir, &st) == 0 && S_ISDIR (st.st_mode))
-			fi->child = scan_dir (store, visited, fi, subdir, top, flags, ex);
-		
-		if (fi->child)
-			fi->flags |= CAMEL_FOLDER_CHILDREN;
-		else
-			fi->flags |= CAMEL_FOLDER_NOINFERIORS;
-		
-		g_free (subdir);
-	}
+	subdir = g_strdup_printf ("%s.sbd", path);
+	if (stat (subdir, &st) == 0 && S_ISDIR (st.st_mode))
+		fi->child = scan_dir (store, visited, fi, subdir, top, flags, ex);
+	
+	if (fi->child)
+		fi->flags |= CAMEL_FOLDER_CHILDREN;
+	else
+		fi->flags |= CAMEL_FOLDER_NOINFERIORS;
+	
+	g_free (subdir);
 	
 	g_hash_table_foreach (visited, inode_free, NULL);
 	g_hash_table_destroy (visited);

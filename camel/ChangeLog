@@ -2,6 +2,7 @@
 
 	* providers/local/camel-mbox-store.c (create_folder): Fixed an
 	exception to give a more meaningful description.
+	(get_folder_info): We always want to scan at least one level deep.
 
 2003-11-14  Jeffrey Stedfast  <fejj@ximian.com>
 
