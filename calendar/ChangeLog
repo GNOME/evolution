@@ -1,3 +1,13 @@
+2004-07-09  Rodrigo Moya <rodrigo@novell.com>
+
+	Revert my patches from July 5th and 6th.
+
+	* gui/gnome-cal.c (gnome_calendar_init): call setup_config/widgets
+	in the previous order.
+	(setup_widgets): set the timezone on the views when creating them.
+	(set_timezone): no need to set the timezone on the views here.
+	(client_cal_opened_cb): removed call to set_timezone().
+
 2004-07-09  Rodney Dawes  <dobey@novell.com>
 
 	* gui/e-day-view-top-item.c (e_day_view_top_item_draw_triangle):
@@ -8,7 +18,7 @@
 	* gui/e-week-view-event-item.c (e_week_view_event_item_draw_triangle):
 	Draw the left/right triangles with the right color for the event
 	Fix a small alignment bug with the triangle points
-	
+
 2004-07-09  Rodrigo Moya <rodrigo@novell.com>
 
 	Fixes #60289

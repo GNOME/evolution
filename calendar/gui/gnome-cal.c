@@ -956,9 +956,6 @@ set_timezone (GnomeCalendar *calendar)
 	
 	priv->zone = calendar_config_get_icaltimezone ();
 
-	for (i = 0; i < GNOME_CAL_LAST_VIEW; i++)
-		e_calendar_view_set_timezone (priv->views[i], priv->zone);
-
 	for (i = 0; i < E_CAL_SOURCE_TYPE_LAST; i++) {
 		GList *l;
 
@@ -1204,6 +1201,7 @@ setup_widgets (GnomeCalendar *gcal)
 	/* The Day View. */
 	priv->day_view = e_day_view_new ();
 	e_calendar_view_set_calendar (E_CALENDAR_VIEW (priv->day_view), gcal);
+	e_calendar_view_set_timezone (E_CALENDAR_VIEW (priv->day_view), priv->zone);
 	g_signal_connect (priv->day_view, "selection_changed",
 			  G_CALLBACK (view_selection_changed_cb), gcal);
 	connect_day_view_focus (gcal, E_DAY_VIEW (priv->day_view));
@@ -1214,11 +1212,13 @@ setup_widgets (GnomeCalendar *gcal)
 				       TRUE);
 	e_day_view_set_days_shown (E_DAY_VIEW (priv->work_week_view), 5);
 	e_calendar_view_set_calendar (E_CALENDAR_VIEW (priv->work_week_view), gcal);
+	e_calendar_view_set_timezone (E_CALENDAR_VIEW (priv->work_week_view), priv->zone);
 	connect_day_view_focus (gcal, E_DAY_VIEW (priv->work_week_view));
 
 	/* The Week View. */
 	priv->week_view = e_week_view_new ();
 	e_calendar_view_set_calendar (E_CALENDAR_VIEW (priv->week_view), gcal);
+	e_calendar_view_set_timezone (E_CALENDAR_VIEW (priv->week_view), priv->zone);
 	g_signal_connect (priv->week_view, "selection_changed",
 			  G_CALLBACK (view_selection_changed_cb), gcal);
 
@@ -1232,6 +1232,7 @@ setup_widgets (GnomeCalendar *gcal)
 	/* The Month View. */
 	priv->month_view = e_week_view_new ();
 	e_calendar_view_set_calendar (E_CALENDAR_VIEW (priv->month_view), gcal);
+	e_calendar_view_set_timezone (E_CALENDAR_VIEW (priv->month_view), priv->zone);
 	e_week_view_set_multi_week_view (E_WEEK_VIEW (priv->month_view), TRUE);
 	e_week_view_set_weeks_shown (E_WEEK_VIEW (priv->month_view), 6);
 	g_signal_connect (priv->month_view, "selection_changed",
@@ -1248,6 +1249,7 @@ setup_widgets (GnomeCalendar *gcal)
 	priv->list_view = e_cal_list_view_new ();
 
 	e_calendar_view_set_calendar (E_CALENDAR_VIEW (priv->list_view), gcal);
+	e_calendar_view_set_timezone (E_CALENDAR_VIEW (priv->list_view), priv->zone);
 
 	connect_list_view_focus (gcal, E_CAL_LIST_VIEW (priv->list_view));
 
@@ -1290,8 +1292,8 @@ gnome_calendar_init (GnomeCalendar *gcal)
 	priv->current_view_type = GNOME_CAL_DAY_VIEW;
 	priv->range_selected = FALSE;
 
-	setup_widgets (gcal);
 	setup_config (gcal);
+	setup_widgets (gcal);
 
 	priv->dn_queries = NULL;	
 	priv->sexp = g_strdup ("#t"); /* Match all */
@@ -1998,7 +2000,6 @@ client_cal_opened_cb (ECal *ecal, ECalendarStatus status, GnomeCalendar *gcal)
 		return;
 	}
 
-	set_timezone (gcal);
 	e_cal_set_default_timezone (ecal, priv->zone, NULL);
 
 	switch (source_type) {
