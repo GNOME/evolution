@@ -1,3 +1,12 @@
+2002-05-30  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* providers/imap/camel-imap-folder.c (imap_rescan): Free the
+	response before checking for errors. I'm not sure this'll actually
+	fix the memory leak here, but it might? Certainly can't hurt.
+
+	* camel-block-file.c (camel_block_file_finalise): Destroy the
+	blocks hash table.
+
 2002-05-29  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* providers/imap/camel-imap-store.c (connect_to_server): Only free
@@ -37,7 +46,6 @@
 	code using CamelRemoteStore.
 	(camel_nntp_command): Don't call camel_remote_store_connected().
 
->>>>>>> 1.1492
 2002-05-24  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* providers/imap/camel-imap-folder.c (content_info_get_part_spec):
@@ -64,7 +72,6 @@
 	* providers/imap/camel-imap-store.c (connect_to_server): Added
 	some NULL protection fixes.
 
->>>>>>> 1.1491
 2002-05-22  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-remote-store.c: Removed from the build. Glory glory

@@ -228,7 +228,9 @@ camel_block_file_finalise(CamelBlockFile *bs)
 		bl = bn;
 		bn = bn->next;
 	}
-
+	
+	g_hash_table_destroy (bs->blocks);
+	
 	if (bs->root_block)
 		camel_block_file_unref_block(bs, bs->root_block);
 	g_free(bs->path);
