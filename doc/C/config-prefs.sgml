@@ -20,58 +20,40 @@
         illustrated in <xref linkend="config-prefs-mail-fig">.  Mail
         preferences are separated into several categories:
         <variablelist>
-	<varlistentry>
-          <term><guilabel>Identities</guilabel></term>
-          <listitem>
-	    <para>
-               This allows you to create and alter one or more
-               identities for your email.
-	    </para>
-	  </listitem>
-	</varlistentry>
-	<varlistentry>
-	  <term><guilabel>Sources</guilabel></term>
-	  <listitem>
-	    <para>
-               This tab lets you tell
-               <application>Evolution</application> where to get the
-               mail sent to you, and how to get it.
-            </para>
-          </listitem>
-	</varlistentry>
-	<varlistentry>
-
-	  <term><guilabel>Mail Transport</guilabel></term>
-	  <listitem>
-	    <para>
-               This tab lets you tell
-               <application>Evolution</application> how to send mail.
-            </para>
-          </listitem>
-	</varlistentry>
-
-	<varlistentry>
-	  <term><guilabel>News Servers</guilabel></term>
-	  <listitem>
-	    <para>
-              If you would like to use
-              <application>Evolution</application> to read newsgroups,
-              you can specify your news server preferences here.
-           </para>
-	  </listitem>
-	</varlistentry>
-
-	<varlistentry>
-	  <term><guilabel>Other</guilabel></term>
-	  <listitem>
-	    <para>
-              Miscellaneous mail and news settings, such as HTML
-              handling preferences, and how long
-              <application>Evolution</application> should wait before
-              marking a message read.
-           </para>
-	  </listitem>
-	</varlistentry>
+<varlistentry>
+  <term><guilabel>Accounts</guilabel></term>
+  <listitem>
+    <para>
+      This allows you to create and alter one or more identities for your
+      email.
+    </para>
+  </listitem>
+</varlistentry>
+<varlistentry>
+  <term><guilabel>Display</guilabel></term>
+    <listitem>
+      <para>
+       Allows you to edit how email is handled and displayed.
+      </para>
+    </listitem>
+</varlistentry>
+<varlistentry>
+  <term><guilabel>Composer</guilabel></term>
+  <listitem>
+    <para>
+      Customizes the composer window's behavior.
+    </para>
+  </listitem>
+</varlistentry>
+<varlistentry>
+  <term><guilabel>Other</guilabel></term>
+  <listitem>
+    <para>
+      Configures miscellanious aspects of <application>Evolution</application>
+      such as character sets.
+    </para>
+  </listitem>
+</varlistentry>
       </variablelist>
 
     </para>
