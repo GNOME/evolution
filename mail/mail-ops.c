@@ -60,7 +60,7 @@ fetch_mail (GtkWidget *button, gpointer user_data)
 	CamelFolder *folder = NULL, *outfolder = NULL;
 	int nmsgs, i;
 	CamelMimeMessage *msg = NULL;
-	char *path, *url = NULL, *provider;
+	char *path, *url = NULL;
 	gboolean get_remote;
 
 	window = GTK_WINDOW (gtk_widget_get_ancestor (GTK_WIDGET (fb),
@@ -79,18 +79,6 @@ fetch_mail (GtkWidget *button, gpointer user_data)
 		gnome_error_dialog_parented ("You have no remote mail source "
 					     "configured", window);
 		return;
-	}
-
-	/* FIXME: this should go away when the provider situation is
-	 * improved.
-	 */
-	path = g_strdup_printf ("=%s/config=/mail/remote_provider",
-				evolution_dir);
-	provider = gnome_config_get_string_with_default (path, NULL);
-	g_free (path);
-	if (provider) {
-		camel_provider_register_as_module (provider);
-		g_free (provider);
 	}
 
 	ex = camel_exception_new ();

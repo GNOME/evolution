@@ -1,3 +1,10 @@
+2000-04-30  Dan Winship  <danw@helixcode.com>
+
+	* session.c (session_providers_init): This is no longer necessary.
+
+	* mail-ops.c (fetch_mail): Remove kludge to load remote provider,
+	as camel can do it by itself now.
+
 2000-04-29  Dan Winship  <danw@helixcode.com>
 
 	* mail-display.c (on_link_clicked): Handle clicks on "cid" URLs by

@@ -53,12 +53,6 @@ evolution_auth_callback (char *prompt, gboolean secret,
 	return ans;
 }
 
-static void
-session_providers_init (void)
-{
-	camel_provider_register_as_module (CAMEL_PROVIDERDIR "/libcamelmbox.so");
-}
-
 SessionStore *
 session_store_new (const char *uri)
 {
@@ -102,7 +96,6 @@ session_init (void)
 {
 	e_setup_base_dir ();
 	camel_init ();
-	session_providers_init ();
 
 	init_default_session ();
 }
