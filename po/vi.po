@@ -4618,7 +4618,7 @@ msgstr "_Ngày bắt đầu:"
 #: ui/evolution-signature-editor.xml.h:12 ui/evolution-subscribe.xml.h:10
 #: ui/evolution-tasks.xml.h:22
 msgid "_Edit"
-msgstr "_Sửa"
+msgstr "_Hiệu chỉnh"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:45
 msgid "_Fri"
