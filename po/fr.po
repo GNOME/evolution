@@ -7,10 +7,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: evolution 1.0.0\n"
-"POT-Creation-Date: 2002-01-24 13:27-0500\n"
-"PO-Revision-Date: 2002-01-04 09:28+0100\n"
-"Last-Translator: Frederic Riss <frederic.riss@laposte.net>\n"
+"Project-Id-Version: evolution 1.0.2.99\n"
+"POT-Creation-Date: 2002-01-29 19:15+0100\n"
+"PO-Revision-Date: 2002-01-29 18:41+0100\n"
+"Last-Translator: Christophe Merlet (RedFox) <redfox@eikonex.org>\n"
 "Language-Team: GNOME French Team <gnomefr@traduc.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=ISO-8859-1\n"
@@ -4831,7 +4831,7 @@ msgstr "%a %d %b %Y"
 #: calendar/gui/calendar-commands.c:469 calendar/gui/calendar-commands.c:476
 #: calendar/gui/calendar-commands.c:482 calendar/gui/calendar-commands.c:484
 msgid "%d %B %Y"
-msgstr "%A %d %B %Y"
+msgstr "%d %B %Y"
 
 #. strftime format %d = day of month, %B = full
 #. month name. You can change the order but don't
@@ -9477,7 +9477,7 @@ msgstr "Se souvenir de ce mot de passe pour le reste de cette session"
 #. in 12-hour format, without seconds.
 #: e-util/e-time-utils.c:168 e-util/e-time-utils.c:362
 msgid "%a %m/%d/%Y %I:%M %p"
-msgstr "%a %d/%m/%Y %I:%M:%p"
+msgstr "%a %d/%m/%Y %I:%M %p"
 
 #. strptime format of a weekday, a date and a time,
 #. in 24-hour format, without seconds.
@@ -9489,7 +9489,7 @@ msgstr "%a %d/%m/%Y %H:%M"
 #. in 12-hour format, without minutes or seconds.
 #: e-util/e-time-utils.c:178
 msgid "%a %m/%d/%Y %I %p"
-msgstr "%a %d/%m/%Y %p"
+msgstr "%a %d/%m/%Y %I %p"
 
 #. strptime format of a weekday, a date and a time,
 #. in 24-hour format, without minutes or seconds.
@@ -9511,7 +9511,7 @@ msgstr "%d/%m/%Y %H:%M:%S"
 #. without seconds.
 #: e-util/e-time-utils.c:203
 msgid "%m/%d/%Y %I:%M %p"
-msgstr "%a %d/%m/%Y %I:%M %p"
+msgstr "%d/%m/%Y %I:%M %p"
 
 #. strptime format of a date and a time, in 24-hour format,
 #. without seconds.
@@ -9534,7 +9534,7 @@ msgstr "%d/%m/%Y %H"
 #. strptime format for a time of day, in 12-hour format.
 #: e-util/e-time-utils.c:303 e-util/e-time-utils.c:402
 msgid "%I:%M:%S %p"
-msgstr "%I:%M:%S %p%n"
+msgstr "%I:%M:%S %p"
 
 #. strptime format for a time of day, in 24-hour format.
 #: e-util/e-time-utils.c:307 e-util/e-time-utils.c:394
@@ -10643,7 +10643,7 @@ msgstr "Un expéditeur inconnu"
 
 #: mail/mail-callbacks.c:843
 msgid "On %a, %Y-%m-%d at %H:%M, %%s wrote:"
-msgstr "le %a %d-%m-%Y à %H:%M,  %%s a écrit :"
+msgstr "Le %a %d/%m/%Y à %H:%M,  %%s a écrit :"
 
 #: mail/mail-callbacks.c:1281 mail/message-browser.c:130
 msgid "Move message(s) to"
@@ -27218,7 +27218,7 @@ msgstr "init_bonobo() : Ne peut initialiser Bonobo"
 #~ msgstr "%d/%m/%Y"
 
 #~ msgid "%Y/%m/%d"
-#~ msgstr "%a %d/%m/%Y"
+#~ msgstr "%d/%m/%Y"
 
 #~ msgid "No such folder /%s"
 #~ msgstr "Aucun dossier « %s »."
