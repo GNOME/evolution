@@ -8,10 +8,10 @@
  * (C) 2000, 2001 Ximian, Inc.
  */
 #include <config.h>
+#include <gdk/gdkkeysyms.h>
 #include <gtk/gtksignal.h>
 #include "e-selection-model.h"
 #include "gal/util/e-util.h"
-#include <gdk/gdkkeysyms.h>
 
 #define ESM_CLASS(e) ((ESelectionModelClass *)((GtkObject *)e)->klass)
 

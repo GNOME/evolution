@@ -20,11 +20,11 @@
 #ifndef E_TEXT_H
 #define E_TEXT_H
 
-#include <gnome.h>
+#include <gtk/gtkpacker.h>
 #include <gal/widgets/e-font.h>
 #include <gal/util/e-text-event-processor.h>
 #include <gal/e-text/e-text-model.h>
-
+#include <libgnomeui/gnome-canvas.h>
 
 BEGIN_GNOME_DECLS
 

@@ -18,6 +18,7 @@
 
 #include <config.h>
 #include <ctype.h>
+#include <gtk/gtksignal.h>
 #include "e-table-text-model.h"
 
 static void e_table_text_model_class_init (ETableTextModelClass *class);

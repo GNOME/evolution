@@ -21,8 +21,9 @@
  */
 
 #include <config.h>
-#include <gnome.h>
 #include <math.h>
+#include <gdk/gdkkeysyms.h>
+#include <gtk/gtksignal.h>
 #include "e-canvas-vbox.h"
 #include "e-canvas-utils.h"
 #include "e-canvas.h"

@@ -21,7 +21,8 @@
 #ifndef __E_CANVAS_H__
 #define __E_CANVAS_H__
 
-#include <gnome.h>
+#include <glib.h>
+#include <libgnomeui/gnome-canvas.h>
 
 #ifdef __cplusplus
 extern "C" {

@@ -10,7 +10,13 @@ nnn *
  * (C) 2000 Helix Code, Inc.
  */
 #include <config.h>
-#include <gnome.h>
+#include <gdk/gdkkeysyms.h>
+#include <gtk/gtkaccellabel.h>
+#include <gtk/gtklabel.h>
+#include <gtk/gtkmenuitem.h>
+#include <gtk/gtksignal.h>
+#include <libgnomeui/gtkpixmapmenuitem.h>
+#include <libgnomeui/gnome-stock.h>
 #include "e-popup-menu.h"
 #include "e-gui-utils.h"
 #include "gal/util/e-i18n.h"

@@ -20,8 +20,9 @@
 #ifndef E_TEXT_MODEL_H
 #define E_TEXT_MODEL_H
 
-#include <gnome.h>
-
+#include <glib.h>
+#include <gtk/gtkobject.h>
+#include <libgnome/gnome-defs.h>
 
 BEGIN_GNOME_DECLS
 

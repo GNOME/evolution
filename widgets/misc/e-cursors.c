@@ -5,7 +5,6 @@
  *   Miguel de Icaza (miguel@gnu.org)
  */
 #include <config.h>
-#include <gnome.h>
 #include "e-colors.h"
 #include "e-cursors.h"
 #include "pixmaps/cursor_cross.xpm"

@@ -1,9 +1,10 @@
 #ifndef _E_UTIL_H_
 #define _E_UTIL_H_
 
+#include <sys/types.h>
 #include <glib.h>
 #include <gtk/gtktypeutils.h>
-#include <sys/types.h>
+#include <bonobo/bonobo-xobject.h>
 
 #ifdef __cplusplus
 extern "C" {

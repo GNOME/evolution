@@ -1,6 +1,10 @@
 #ifndef GNOME_APP_LIBS_COLOR_H
 #define GNOME_APP_LIBS_COLOR_H
 
+#include <glib.h>
+#include <gdk/gdk.h>
+#include <libgnome/gnome-defs.h>
+
 BEGIN_GNOME_DECLS
 
 void     e_color_init       (void);

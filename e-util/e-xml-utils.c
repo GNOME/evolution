@@ -21,12 +21,13 @@
  */
 
 #include <config.h>
-#include "gal/util/e-i18n.h"
 #include <locale.h>
-#include <libgnome/libgnome.h>
 #include <math.h>
+#include <string.h>
 #include <gnome-xml/parser.h>
 #include <gnome-xml/xmlmemory.h>
+#include <libgnome/libgnome.h>
+#include "gal/util/e-i18n.h"
 #include "e-xml-utils.h"
 
 xmlNode *

@@ -11,6 +11,8 @@
 #include <ctype.h>
 #include <sys/types.h>
 #include <regex.h>
+#include <gtk/gtkmain.h>
+#include <libgnome/gnome-url.h>
 #include "e-text-model-uri.h"
 
 static void e_text_model_uri_class_init (ETextModelURIClass *class);

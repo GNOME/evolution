@@ -21,12 +21,12 @@
  */
 
 #include <config.h>
-#include <gnome.h>
 #include <math.h>
+#include <gdk/gdkkeysyms.h>
 #include "e-reflow.h"
-#include "gal/e-text/e-text.h"
 #include "e-canvas-utils.h"
 #include "e-canvas.h"
+#include "gal/e-text/e-text.h"
 #include "gal/util/e-util.h"
 
 static void e_reflow_init		(EReflow		 *reflow);

@@ -38,9 +38,10 @@
 #include <alloca.h>
 #endif
 #include <stdio.h>
-#include <libgnomeui/gnome-canvas.h>
+#include <gdk/gdkkeysyms.h>
 #include <gtk/gtksignal.h>
 #include <gnome-xml/parser.h>
+#include <libgnomeui/gnome-canvas.h>
 #include "gal/util/e-util.h"
 #include "gal/widgets/e-canvas.h"
 #include "gal/widgets/e-canvas-utils.h"

@@ -2,7 +2,9 @@
 #ifndef E_POPUP_MENU_H
 #define E_POPUP_MENU_H
 
+#include <gtk/gtkmenu.h>
 #include <gtk/gtkwidget.h>
+#include <libgnome/gnome-defs.h>
 
 BEGIN_GNOME_DECLS
 

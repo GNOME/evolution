@@ -17,6 +17,7 @@
 #include <gdk/gdk.h>
 #include <gdk/gdkx.h>
 #include <gdk/gdkkeysyms.h>
+#include <gtk/gtkmenuitem.h>
 #include "e-unicode.h"
 #include "e-font.h"
 

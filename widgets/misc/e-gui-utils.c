@@ -9,10 +9,10 @@
  * (C) 2000 Helix Code, Inc.
  */
 #include <config.h>
+#include <gtk/gtkentry.h>
 #include <gtk/gtksignal.h>
 #include <libgnomeui/gnome-messagebox.h>
 #include <libgnomeui/gnome-stock.h>
-#include <gnome.h>
 #include <gdk-pixbuf/gdk-pixbuf.h>
 #include <gdk-pixbuf/gnome-canvas-pixbuf.h>
 #include "e-gui-utils.h"

@@ -19,7 +19,6 @@
 #ifndef E_TABLE_TEXT_MODEL_H
 #define E_TABLE_TEXT_MODEL_H
 
-#include <gnome.h>
 #include <gal/e-text/e-text-model.h>
 #include <gal/e-table/e-table-model.h>
 

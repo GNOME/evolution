@@ -21,7 +21,8 @@
 #ifndef __E_TEXT_EVENT_PROCESSOR_H__
 #define __E_TEXT_EVENT_PROCESSOR_H__
 
-#include <gnome.h>
+#include <glib.h>
+#include <gtk/gtkobject.h>
 #include <gal/util/e-text-event-processor-types.h>
 
 #ifdef __cplusplus

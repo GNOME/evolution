@@ -20,9 +20,14 @@
 #include <config.h>
 #include <math.h>
 #include <ctype.h>
-#include <gdk/gdkx.h> /* for BlackPixel */
 #include <unicode.h>
+#include <string.h>
+#include <gdk/gdkx.h> /* for BlackPixel */
 #include <gtk/gtkinvisible.h>
+#include <gtk/gtkmain.h>
+#include <gtk/gtkselection.h>
+#include <gtk/gtkwindow.h>
+#include <libgnomeui/gnome-canvas-rect-ellipse.h>
 #include "e-text.h"
 #include "gal/widgets/e-canvas.h"
 #include "gal/widgets/e-canvas-utils.h"

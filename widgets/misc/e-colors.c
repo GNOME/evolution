@@ -8,7 +8,7 @@
  * before things are realized.
  */
 #include <config.h>
-#include <gnome.h>
+#include <gtk/gtkwidget.h>
 #include "e-colors.h"
 
 static gboolean e_color_inited;

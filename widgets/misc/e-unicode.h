@@ -13,8 +13,10 @@
 
 #include <sys/types.h>
 #include <glib.h>
-#include <gtk/gtk.h>
-#include <config.h>
+#include <gtk/gtkclist.h>
+#include <gtk/gtkentry.h>
+#include <gtk/gtkmenu.h>
+#include <gtk/gtkwidget.h>
 #include <libgnome/gnome-defs.h>
 
 BEGIN_GNOME_DECLS

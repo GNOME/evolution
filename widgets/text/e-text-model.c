@@ -20,6 +20,8 @@
 
 #include <config.h>
 #include <ctype.h>
+#include <string.h>
+#include <gtk/gtksignal.h>
 #include "e-text-model-repos.h"
 #include "e-text-model.h"
 

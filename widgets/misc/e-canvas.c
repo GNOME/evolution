@@ -20,7 +20,7 @@
  * Boston, MA 02111-1307, USA.
  */
 
-#include <gnome.h>
+#include <gtk/gtksignal.h>
 #include "e-canvas.h"
 
 static void e_canvas_init           (ECanvas         *card);
