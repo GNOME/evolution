@@ -1,3 +1,11 @@
+2004-10-09  Sivaiah Nallagatla <snallagatla@novell.com>
+                                                                                                    
+        * providers/groupwise/camel-gw-listner.c (add_esource) :
+        add the source uid to list of selected calendar and tasks
+        so that groupwise calendar and tasks are automatically selected
+        (remove_esource) : remove the uids from corresponding gconf keys
+        Fixes #62053
+
 2004-10-08  Not Zed  <NotZed@Ximian.com>
 
 	** See bug #67170.
