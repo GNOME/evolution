@@ -1,3 +1,7 @@
+2001-06-21  JP Rosevear  <jpr@ximian.com>
+
+	* calendar/cal-client/Makefile.am: add new lib
+
 2001-06-21  Peter Williams  <peterw@ximian.com>
 
 	* Makefile.am:

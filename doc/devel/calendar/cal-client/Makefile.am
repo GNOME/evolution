@@ -56,7 +56,8 @@ GTKDOC_LIBS=								\
 	$(top_builddir)/calendar/cal-client/.libs/libcal-client-static.al\
 	$(top_builddir)/calendar/cal-util/.libs/libcal-util-static.al	\
 	$(top_builddir)/libical/src/libical/.libs/libical-static.al	\
-	$(top_builddir)/libversit/.libs/libversit.al
+	$(top_builddir)/libversit/.libs/libversit.al			\
+	$(top_builddir)/libwombat/libwombat.la
 
 GTKDOC_CC=$(LIBTOOL) --mode=compile $(CC)
 GTKDOC_LD=$(LIBTOOL) --mode=link $(CC)
