@@ -692,17 +692,17 @@ digest_response (struct _DigestResponse *resp)
 	g_byte_array_append (buffer, "username=\"", 10);
 	if (resp->charset) {
 		/* Encode the username using the requested charset */
-		char *charset, *username, *outbuf;
+		char *username, *outbuf;
+		const char *charset;
 		size_t len, outlen;
 		const char *buf;
 		iconv_t cd;
 		
 		charset = camel_charset_locale_name ();
 		if (!charset)
-			charset = g_strdup ("iso-8859-1");
+			charset = "iso-8859-1";
 		
 		cd = iconv_open (resp->charset, charset);
-		g_free (charset);
 		
 		len = strlen (resp->username);
 		outlen = 2 * len; /* plenty of space */

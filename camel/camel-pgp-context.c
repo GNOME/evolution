@@ -981,7 +981,8 @@ pgp_verify (CamelCipherContext *ctx, CamelCipherHash hash, CamelStream *istream,
 	}
 	
 	if (diagnostics) {
-		char *locale, *desc, *outbuf;
+		const char *locale;
+		char *desc, *outbuf;
 		size_t inlen, outlen;
 		iconv_t cd;
 		
@@ -992,10 +993,9 @@ pgp_verify (CamelCipherContext *ctx, CamelCipherHash hash, CamelStream *istream,
 		
 		locale = camel_charset_locale_name ();
 		if (!locale)
-			locale = g_strdup ("iso-8859-1");
+			locale = "iso-8859-1";
 		
 		cd = iconv_open ("UTF-8", locale);
-		g_free (locale);
 		if (cd != (iconv_t) -1) {
 			const char *inbuf;
 			

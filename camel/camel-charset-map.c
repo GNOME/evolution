@@ -217,6 +217,7 @@ static pthread_mutex_t iconv_charsets_lock = PTHREAD_MUTEX_INITIALIZER;
 #endif /* ENABLE_THREADS */
 
 static GHashTable *iconv_charsets = NULL;
+static char *locale_charset = NULL;
 
 struct {
 	char *charset;
@@ -248,11 +249,13 @@ camel_charset_map_shutdown (void)
 {
 	g_hash_table_foreach (iconv_charsets, shutdown_foreach, NULL);
 	g_hash_table_destroy (iconv_charsets);
+	g_free (locale_charset);
 }
 
 void
 camel_charset_map_init (void)
 {
+	char *locale;
 	int i;
 	
 	if (iconv_charsets)
@@ -262,6 +265,33 @@ camel_charset_map_init (void)
 	for (i = 0; known_iconv_charsets[i].charset != NULL; i++) {
 		g_hash_table_insert (iconv_charsets, g_strdup (known_iconv_charsets[i].charset),
 				     g_strdup (known_iconv_charsets[i].iconv_name));
+	}
+	
+	locale = setlocale (LC_ALL, NULL);
+	
+	if (!locale || !strcmp (locale, "C") || !strcmp (locale, "POSIX")) {
+		/* The locale "C"  or  "POSIX"  is  a  portable  locale;  its
+		 * LC_CTYPE  part  corresponds  to  the 7-bit ASCII character
+		 * set.
+		 */
+		
+		locale_charset = NULL;
+	} else {
+		/* A locale name is typically of  the  form  language[_terri-
+		 * tory][.codeset][@modifier],  where  language is an ISO 639
+		 * language code, territory is an ISO 3166 country code,  and
+		 * codeset  is  a  character  set or encoding identifier like
+		 * ISO-8859-1 or UTF-8.
+		 */
+		char *p;
+		int len;
+		
+		p = strchr (locale, '@');
+		len = p ? (p - locale) : strlen (locale);
+		if ((p = strchr (locale, '.'))) {
+			locale_charset = g_strndup (p + 1, len - (p - locale) + 1);
+			g_strdown (locale_charset);
+		}
 	}
 	
 	g_atexit (camel_charset_map_shutdown);
@@ -327,12 +357,12 @@ camel_charset_best_mask(unsigned int mask)
 }
 
 const char *
-camel_charset_best_name(CamelCharset *charset)
+camel_charset_best_name (CamelCharset *charset)
 {
 	if (charset->level == 1)
 		return "ISO-8859-1";
 	else if (charset->level == 2)
-		return camel_charset_best_mask(charset->mask);
+		return camel_charset_best_mask (charset->mask);
 	else
 		return NULL;
 
@@ -340,48 +370,19 @@ camel_charset_best_name(CamelCharset *charset)
 
 /* finds the minimum charset for this string NULL means US-ASCII */
 const char *
-camel_charset_best(const char *in, int len)
+camel_charset_best (const char *in, int len)
 {
 	CamelCharset charset;
 
-	camel_charset_init(&charset);
-	camel_charset_step(&charset, in, len);
-	return camel_charset_best_name(&charset);
+	camel_charset_init (&charset);
+	camel_charset_step (&charset, in, len);
+	return camel_charset_best_name (&charset);
 }
 
-char *
+const char *
 camel_charset_locale_name (void)
 {
-	char *locale, *charset = NULL;
-	
-	locale = setlocale (LC_ALL, NULL);
-	
-	if (!locale || !strcmp (locale, "C") || !strcmp (locale, "POSIX")) {
-		/* The locale "C"  or  "POSIX"  is  a  portable  locale;  its
-		 * LC_CTYPE  part  corresponds  to  the 7-bit ASCII character
-		 * set.
-		 */
-		
-		return NULL;
-	} else {
-		/* A locale name is typically of  the  form  language[_terri-
-		 * tory][.codeset][@modifier],  where  language is an ISO 639
-		 * language code, territory is an ISO 3166 country code,  and
-		 * codeset  is  a  character  set or encoding identifier like
-		 * ISO-8859-1 or UTF-8.
-		 */
-		char *p;
-		int len;
-		
-		p = strchr (locale, '@');
-		len = p ? (p - locale) : strlen (locale);
-		if ((p = strchr (locale, '.'))) {
-			charset = g_strndup (p + 1, len - (p - locale) + 1);
-			g_strdown (charset);
-		}
-	}
-	
-	return charset;
+	return locale_charset;
 }
 
 const char *
