@@ -209,6 +209,7 @@ evolution_SOURCES =				\
 	e-shell-startup-wizard.c		\
 	e-shell-startup-wizard.h		\
 	e-shell-user-creatable-items-handler.h	\
+	e-shell-view.h				\
 	e-shell-window-commands.c		\
 	e-shell-window-commands.h		\
 	e-shell-window.c			\

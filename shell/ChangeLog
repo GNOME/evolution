@@ -1,5 +1,9 @@
 2003-10-28  Rodney Dawes  <dobey@ximian.com>
 
+	* Makefile.am: Add e-shell-view.h to evolution_SOURCES
+
+2003-10-28  Rodney Dawes  <dobey@ximian.com>
+
 	* Makefile.am: Fix automake warning, and add
 	e-shell-user-creatable-items-handler.h to evolution_SOURCES
 
