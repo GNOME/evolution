@@ -374,23 +374,19 @@ build_message (EMsgComposer *composer)
 
 		current = CAMEL_DATA_WRAPPER (multipart);
 	}
-
-	if (composer->pgp_sign || composer->pgp_encrypt
-#ifdef HAVE_NSS
-	    || composer->smime_sign || composer->smime_encrypt
-#endif
-	    ) {
+	
+	if (composer->pgp_sign || composer->pgp_encrypt) {
 		part = camel_mime_part_new ();
 		camel_medium_set_content_object (CAMEL_MEDIUM (part), current);
 		if (current == plain)
 			camel_mime_part_set_encoding (part, plain_encoding);
 		camel_object_unref (CAMEL_OBJECT (current));
-
+		
 		if (composer->pgp_sign) {
 			/* FIXME: should use the PGP key id rather than email address */
 			const char *pgpid;
 			CamelInternetAddress *from;
-
+			
 			camel_exception_init (&ex);
 			from = e_msg_composer_hdrs_get_from (E_MSG_COMPOSER_HDRS (composer->hdrs));
 			camel_internet_address_get (from, 0, NULL, &pgpid);
@@ -399,38 +395,38 @@ build_message (EMsgComposer *composer)
 			if (camel_exception_is_set (&ex))
 				goto exception;
 		}
-
+		
 		if (composer->pgp_encrypt) {
 			/* FIXME: recipients should be an array of key ids rather than email addresses */
 			const CamelInternetAddress *addr;
 			const char *address;
 			GPtrArray *recipients;
 			int i, len;
-
+			
 			camel_exception_init (&ex);
 			recipients = g_ptr_array_new ();
-
+			
 			addr = camel_mime_message_get_recipients (new, CAMEL_RECIPIENT_TYPE_TO);
 			len = camel_address_length (CAMEL_ADDRESS (addr));
 			for (i = 0; i < len; i++) {
 				camel_internet_address_get (addr, i, NULL, &address);
 				g_ptr_array_add (recipients, g_strdup (address));
 			}
-
+			
 			addr = camel_mime_message_get_recipients (new, CAMEL_RECIPIENT_TYPE_CC);
 			len = camel_address_length (CAMEL_ADDRESS (addr));
 			for (i = 0; i < len; i++) {
 				camel_internet_address_get (addr, i, NULL, &address);
 				g_ptr_array_add (recipients, g_strdup (address));
 			}
-
+			
 			addr = camel_mime_message_get_recipients (new, CAMEL_RECIPIENT_TYPE_BCC);
 			len = camel_address_length (CAMEL_ADDRESS (addr));
 			for (i = 0; i < len; i++) {
 				camel_internet_address_get (addr, i, NULL, &address);
 				g_ptr_array_add (recipients, g_strdup (address));
 			}
-
+			
 			mail_crypto_pgp_mime_part_encrypt (&part, recipients, &ex);
 			for (i = 0; i < recipients->len; i++)
 				g_free (recipients->pdata[i]);
@@ -438,80 +434,94 @@ build_message (EMsgComposer *composer)
 			if (camel_exception_is_set (&ex))
 				goto exception;
 		}
-
-#ifdef HAVE_NSS
-		if (composer->smime_sign) {
-			/* FIXME: should use the S/MIME signature certificate email address */
-			const char *address;
-
-			camel_exception_init (&ex);
-			from = e_msg_composer_hdrs_get_from (E_MSG_COMPOSER_HDRS (composer->hdrs));
-			camel_internet_address_get (from, 0, NULL, &address);
-			mail_crypto_smime_part_sign (&part, address, CAMEL_CIPHER_HASH_SHA1, &ex);
-			camel_object_unref (CAMEL_OBJECT (from));
-			if (camel_exception_is_set (&ex))
-				goto exception;
-		}
-
-		if (composer->smime_encrypt) {
-			/* FIXME: recipients should be an array of certificates rather than email addresses */
-			const CamelInternetAddress *addr;
-			const char *address;
-			GPtrArray *recipients;
-			int i, len;
-
-			camel_exception_init (&ex);
-			recipients = g_ptr_array_new ();
-
-			addr = camel_mime_message_get_recipients (new, CAMEL_RECIPIENT_TYPE_TO);
-			len = camel_address_length (CAMEL_ADDRESS (addr));
-			for (i = 0; i < len; i++) {
-				camel_internet_address_get (addr, i, NULL, &address);
-				g_ptr_array_add (recipients, g_strdup (address));
-			}
-
-			addr = camel_mime_message_get_recipients (new, CAMEL_RECIPIENT_TYPE_CC);
-			len = camel_address_length (CAMEL_ADDRESS (addr));
-			for (i = 0; i < len; i++) {
-				camel_internet_address_get (addr, i, NULL, &address);
-				g_ptr_array_add (recipients, g_strdup (address));
-			}
-
-			addr = camel_mime_message_get_recipients (new, CAMEL_RECIPIENT_TYPE_BCC);
-			len = camel_address_length (CAMEL_ADDRESS (addr));
-			for (i = 0; i < len; i++) {
-				camel_internet_address_get (addr, i, NULL, &address);
-				g_ptr_array_add (recipients, g_strdup (address));
-			}
-
-			mail_crypto_smime_part_encrypt (&part, recipients, &ex);
-			for (i = 0; i < recipients->len; i++)
-				g_free (recipients->pdata[i]);
-			g_ptr_array_free (recipients, TRUE);
-			if (camel_exception_is_set (&ex))
-				goto exception;
-		}
-#else
-		if (composer->smime_sign || composer->smime_encrypt) {
-			camel_exception_setv (&ex, CAMEL_EXCEPTION_SYSTEM,
-					      _("This version of Evolution was not built with support for S/MIME.\n"
-						"You may wish to instead use PGP to %s your document."),
-					      composer->smime_sign && composer->smime_encrypt ? _("sign and encrypt") :
-					      (composer->smime_sign ? _("sign") : _("encrypt")));
-			goto exception;
-		}
-#endif /* HAVE_NSS */
-
+		
 		current = camel_medium_get_content_object (CAMEL_MEDIUM (part));
 		camel_object_ref (CAMEL_OBJECT (current));
 		camel_object_unref (CAMEL_OBJECT (part));
 	}
-
+	
 	camel_medium_set_content_object (CAMEL_MEDIUM (new), current);
 	if (current == plain)
 		camel_mime_part_set_encoding (CAMEL_MIME_PART (new), plain_encoding);
 	camel_object_unref (CAMEL_OBJECT (current));
-
+	
+#ifdef HAVE_NSS
+	if (composer->smime_sign) {
+		/* FIXME: should use the S/MIME signature certificate email address */
+		CamelMimeMessage *smime_mesg;
+		const char *address;
+		
+		camel_exception_init (&ex);
+		from = e_msg_composer_hdrs_get_from (E_MSG_COMPOSER_HDRS (composer->hdrs));
+		camel_internet_address_get (from, 0, NULL, &address);
+		
+		smime_mesg = mail_crypto_smime_sign (message, address, TRUE, TRUE, &ex);
+		
+		camel_object_unref (CAMEL_OBJECT (from));
+		
+		if (camel_exception_is_set (&ex))
+			goto exception;
+		
+		camel_object_unref (CAMEL_OBJECT (new));
+		new = smime_mesg;
+	}
+	
+	if (composer->smime_encrypt) {
+		/* FIXME: we should try to get the preferred cert "nickname" for each recipient */
+		const CamelInternetAddress *addr;
+		CamelMimeMessage *smime_mesg;
+		const char *address;
+		GPtrArray *recipients;
+		int i, len;
+		
+		camel_exception_init (&ex);
+		recipients = g_ptr_array_new ();
+		
+		addr = camel_mime_message_get_recipients (new, CAMEL_RECIPIENT_TYPE_TO);
+		len = camel_address_length (CAMEL_ADDRESS (addr));
+		for (i = 0; i < len; i++) {
+			camel_internet_address_get (addr, i, NULL, &address);
+			g_ptr_array_add (recipients, g_strdup (address));
+		}
+		
+		addr = camel_mime_message_get_recipients (new, CAMEL_RECIPIENT_TYPE_CC);
+		len = camel_address_length (CAMEL_ADDRESS (addr));
+		for (i = 0; i < len; i++) {
+			camel_internet_address_get (addr, i, NULL, &address);
+			g_ptr_array_add (recipients, g_strdup (address));
+		}
+		
+		addr = camel_mime_message_get_recipients (new, CAMEL_RECIPIENT_TYPE_BCC);
+		len = camel_address_length (CAMEL_ADDRESS (addr));
+		for (i = 0; i < len; i++) {
+			camel_internet_address_get (addr, i, NULL, &address);
+			g_ptr_array_add (recipients, g_strdup (address));
+		}
+		
+		from = e_msg_composer_hdrs_get_from (E_MSG_COMPOSER_HDRS (composer->hdrs));
+		camel_internet_address_get (from, 0, NULL, &address);
+		
+		smime_mesg = mail_crypto_smime_encrypt (message, address, recipients, &ex);
+		
+		camel_object_unref (CAMEL_OBJECT (from));
+		
+		for (i = 0; i < recipients->len; i++)
+			g_free (recipients->pdata[i]);
+		g_ptr_array_free (recipients, TRUE);
+		
+		if (camel_exception_is_set (&ex))
+			goto exception;
+		
+		camel_object_unref (CAMEL_OBJECT (new));
+		new = smime_mesg;
+	}
+	
+	/* FIXME: what about mail_crypto_smime_certsonly()?? */
+	
+	/* FIXME: what about mail_crypto_smime_envelope()?? */
+	
+#endif /* HAVE_NSS */
+	
 	return new;
 
  exception:

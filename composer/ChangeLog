@@ -1,3 +1,8 @@
+2001-05-31  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* e-msg-composer.c (build_message): Fixed up the S/MIME
+	signing/encrypting code to work with the new API.
+
 2001-05-31  Dan Winship  <danw@ximian.com>
 
 	* e-msg-composer.c (best_encoding): Add a missing iconv_close
