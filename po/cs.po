@@ -12973,7 +12973,7 @@ msgid ""
 "On ${AbbrevWeekdayName}, ${Year}-${Month}-${Day} at ${24Hour}:${Minute} "
 "${TimeZone}, ${Sender} wrote:"
 msgstr ""
-"${Sender} píše v ${AbbrevWeekdayName} %{Day}. ${Month}. ${Year} v ${24Hour}:"
+"${Sender} píše v ${AbbrevWeekdayName} ${Day}. ${Month}. ${Year} v ${24Hour}:"
 "${Minute} ${TimeZone}:"
 
 #: mail/em-filter-editor.c:147
