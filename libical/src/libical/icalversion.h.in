@@ -1,0 +1,3 @@
+
+#define ICAL_PACKAGE "@PACKAGE@"
+#define ICAL_VERSION "@VERSION@"
