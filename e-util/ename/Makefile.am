@@ -47,4 +47,5 @@ test_ename_western_gtk_SOURCES =				\
 
 test_ename_western_gtk_LDADD = 			\
 	$(ename_libs) 				\
+	$(E_UTIL_LIBS)				\
 	$(top_builddir)/e-util/libeutil.la

@@ -1,3 +1,8 @@
+2002-08-28  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* e-proxy.[c,h] (e_proxy_init): New convenience function to
+	initialise the proxy settings for soup to use.
+
 2002-08-27  Rodrigo Moya <rodrigo@ximian.com>
 
 	* e-config-listener.c[ch] (e_config_listener_get_float_with_default,
