@@ -49,6 +49,7 @@
 
 #include <libgnome/gnome-i18n.h>
 #include <libgnomeui/gnome-init.h>
+#include <libgnomeui/gnome-stock.h>
 
 #include "e-summary-shown.h"
 
@@ -447,6 +448,28 @@ make_table (GHashTable *data_model,
 	td->contents = NULL;
 	return td;
 }
+
+static GtkWidget *
+construct_pixmap_button (const char *text,
+			 const char *image)
+{
+	GtkWidget *box, *button, *pixmap, *label;
+
+	box = gtk_hbox_new (FALSE, 1);
+
+	pixmap = gnome_stock_pixmap_widget (NULL, image);
+	gtk_box_pack_start (GTK_BOX (box), pixmap, FALSE, FALSE, 0);
+	
+	label = gtk_label_new (text);
+	gtk_box_pack_start (GTK_BOX (box), label, TRUE, TRUE, 0);
+
+	button = gtk_button_new ();
+	gtk_container_add (GTK_CONTAINER (button), box);
+
+	gtk_widget_show_all (box);
+
+	return button;
+}
 	
 static void
 e_summary_shown_init (ESummaryShown *shown)
@@ -469,14 +492,14 @@ e_summary_shown_init (ESummaryShown *shown)
 	gtk_box_pack_start (GTK_BOX (shown), vbox, FALSE, FALSE, 0);
 
 	/* Fixme: nice GFX version */
-	priv->add = gtk_button_new_with_label (_("Add ->"));
+	priv->add = construct_pixmap_button (_("Add"), GNOME_STOCK_BUTTON_NEXT);
 	gtk_widget_set_sensitive (priv->add, FALSE);
 	gtk_box_pack_start (GTK_BOX (vbox), priv->add, TRUE, FALSE, 0);
 	gtk_signal_connect (GTK_OBJECT (priv->add), "clicked",
 			    GTK_SIGNAL_FUNC (add_clicked), shown);
 
 	/* Fixme: Ditto */
-	priv->remove = gtk_button_new_with_label (_("<- Remove"));
+	priv->remove = construct_pixmap_button (_("Remove"), GNOME_STOCK_BUTTON_PREV);
 	gtk_widget_set_sensitive (priv->remove, FALSE);
 	gtk_box_pack_start (GTK_BOX (vbox), priv->remove, TRUE, FALSE, 0);
 	gtk_signal_connect (GTK_OBJECT (priv->remove), "clicked",

@@ -1,5 +1,11 @@
 2002-04-08  Iain Holmes <iain@ximian.com>
 
+	* e-summary-shown.c (construct_pixmap_butto): Create a button with a 
+	label and a pixmap.
+	(e_summary_shown_init): Use the pixmap buttons.
+
+2002-04-08  Iain Holmes <iain@ximian.com>
+
 	* e-summary-mail.c (mail_change_notify): Don't use an ESummary object,
 	get the prefs from the global preferences.
 	(e_summary_mail_init): Don't connect to the listener.
