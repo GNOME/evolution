@@ -79,15 +79,15 @@ static gboolean _delete (CamelFolder *folder, gboolean recurse, CamelException *
 
 
 static GList *_list_subfolders  (CamelFolder *folder, CamelException *ex);
-static CamelFolder *_get_folder (CamelFolder *folder, 
+static CamelFolder *_get_subfolder (CamelFolder *folder, 
 				 const gchar *folder_name, CamelException *ex);
 static CamelFolder *_get_parent_folder (CamelFolder *folder, CamelException *ex);
 static CamelStore * _get_parent_store  (CamelFolder *folder, CamelException *ex);
 
 
-static CamelMimeMessage *_get_message (CamelFolder *folder, 
-				       gint number, 
-				       CamelException *ex);
+static CamelMimeMessage *_get_message_by_number (CamelFolder *folder, 
+						 gint number, 
+						 CamelException *ex);
 static gint _get_message_count        (CamelFolder *folder, 
 				       CamelException *ex);
 
@@ -136,7 +136,7 @@ camel_folder_class_init (CamelFolderClass *camel_folder_class)
 	camel_folder_class->can_hold_messages = _can_hold_messages;
 	camel_folder_class->exists = _exists;
 	camel_folder_class->is_open = _is_open;
-	camel_folder_class->get_folder = _get_folder;
+	camel_folder_class->get_subfolder = _get_subfolder;
 	camel_folder_class->create = _create;
 	camel_folder_class->delete = _delete;
 	camel_folder_class->delete_messages = _delete_messages;
@@ -145,7 +145,7 @@ camel_folder_class_init (CamelFolderClass *camel_folder_class)
 	camel_folder_class->get_mode = _get_mode;
 	camel_folder_class->list_subfolders = _list_subfolders;
 	camel_folder_class->expunge = _expunge;
-	camel_folder_class->get_message = _get_message;
+	camel_folder_class->get_message_by_number = _get_message_by_number;
 	camel_folder_class->get_message_count = _get_message_count;
 	camel_folder_class->append_message = _append_message;
 	camel_folder_class->list_permanent_flags = _list_permanent_flags;
@@ -582,7 +582,9 @@ _is_open (CamelFolder *folder, CamelException *ex)
 
 
 static CamelFolder *
-_get_folder (CamelFolder *folder, const gchar *folder_name, CamelException *ex)
+_get_subfolder (CamelFolder *folder, 
+		const gchar *folder_name, 
+		CamelException *ex)
 {
 	CamelFolder *new_folder;
 	gchar *full_name;
@@ -607,7 +609,7 @@ _get_folder (CamelFolder *folder, const gchar *folder_name, CamelException *ex)
 
 
 /**
- * camel_folder_get_folder: return the (sub)folder object that is specified
+ * camel_folder_get_subfolder: return the (sub)folder object that is specified
  * @folder: the folder
  * @folder_name: subfolder path
  * 
@@ -619,9 +621,9 @@ _get_folder (CamelFolder *folder, const gchar *folder_name, CamelException *ex)
  * Return value: Required folder. NULL if the subfolder object  could not be obtained
  **/
 CamelFolder *
-camel_folder_get_folder (CamelFolder *folder, gchar *folder_name, CamelException *ex)
+camel_folder_get_subfolder (CamelFolder *folder, gchar *folder_name, CamelException *ex)
 {
-	return (CF_CLASS(folder)->get_folder(folder,folder_name, ex));
+	return (CF_CLASS(folder)->get_subfolder(folder,folder_name, ex));
 }
 
 
@@ -1013,7 +1015,7 @@ camel_folder_expunge (CamelFolder *folder, gboolean want_list, CamelException *e
 
 
 static CamelMimeMessage *
-_get_message (CamelFolder *folder, gint number, CamelException *ex)
+_get_message_by_number (CamelFolder *folder, gint number, CamelException *ex)
 {
 	return NULL;
 }
@@ -1031,7 +1033,7 @@ _get_message (CamelFolder *folder, gint number, CamelException *ex)
  * Return value: A pointer on the corresponding message or NULL if no corresponding message exists
  **/
 CamelMimeMessage *
-camel_folder_get_message (CamelFolder *folder, gint number, CamelException *ex)
+camel_folder_get_message_by_number (CamelFolder *folder, gint number, CamelException *ex)
 {
 #warning this code has nothing to do here. 
 	CamelMimeMessage *a_message;
@@ -1063,7 +1065,7 @@ camel_folder_get_message (CamelFolder *folder, gint number, CamelException *ex)
 		
 		CAMEL_LOG_FULL_DEBUG ("CamelFolder::get_message message node = %p\n", message_node);
 	}
-	if (!new_message) new_message = CF_CLASS (folder)->get_message (folder, number, ex);
+	if (!new_message) new_message = CF_CLASS (folder)->get_message_by_number (folder, number, ex);
 	if (!new_message) return NULL;
 
 	/* if the message has not been already put in 

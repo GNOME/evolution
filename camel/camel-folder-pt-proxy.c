@@ -56,20 +56,24 @@ static CamelFuncDef _camel_func_def [CAMEL_FOLDER__LAST_FUNC];
 static void _init_with_store (CamelFolder *folder, 
 			      CamelStore *parent_store, 
 			      CamelException *ex);
-static void _open (CamelFolder *folder, 
-		   CamelFolderOpenMode mode, 
-		   CamelFolderAsyncCallback callback, 
-		   gpointer user_data, 
-		   CamelException *ex);
-static void _close (CamelFolder *folder, 
+static void _open_async (CamelFolder *folder, 
+			 CamelFolderOpenMode mode, 
+			 CamelFolderAsyncCallback callback, 
+			 gpointer user_data, 
+			 CamelException *ex);
+static void _close_async (CamelFolder *folder, 
 		    gboolean expunge, 
 		    CamelFolderAsyncCallback callback, 
 		    gpointer user_data, 
 		    CamelException *ex);
+static void _open (CamelFolder *folder, 
+		   CamelFolderOpenMode mode, 
+		   CamelException *ex);
+static void _close (CamelFolder *folder, 
+		    gboolean expunge, 
+		    CamelException *ex);
 static void _set_name (CamelFolder *folder, 
 		       const gchar *name, 
-		       CamelFolderAsyncCallback callback, 
-		       gpointer user_data, 
 		       CamelException *ex);
 
 static const gchar *_get_name (CamelFolder *folder, CamelException *ex);
@@ -78,7 +82,7 @@ static gboolean _can_hold_folders (CamelFolder *folder, CamelException *ex);
 static gboolean _can_hold_messages(CamelFolder *folder, CamelException *ex);
 static gboolean _exists (CamelFolder  *folder, CamelException *ex);
 static gboolean _is_open (CamelFolder *folder, CamelException *ex);
-static CamelFolder *_get_folder (CamelFolder *folder, const gchar *folder_name, CamelException *ex);
+static CamelFolder *_get_subfolder (CamelFolder *folder, const gchar *folder_name, CamelException *ex);
 static gboolean _create (CamelFolder *folder, CamelException *ex);
 static gboolean _delete (CamelFolder *folder, gboolean recurse, CamelException *ex);
 static gboolean _delete_messages (CamelFolder *folder, CamelException *ex);
@@ -87,7 +91,7 @@ static CamelStore *_get_parent_store (CamelFolder *folder, CamelException *ex);
 static CamelFolderOpenMode _get_mode (CamelFolder *folder, CamelException *ex);
 static GList *_list_subfolders (CamelFolder *folder, CamelException *ex);
 static void _expunge (CamelFolder *folder, CamelException *ex);
-static CamelMimeMessage *_get_message (CamelFolder *folder, gint number, CamelException *ex);
+static CamelMimeMessage *_get_message_by_number (CamelFolder *folder, gint number, CamelException *ex);
 static gint _get_message_count (CamelFolder *folder, CamelException *ex);
 static gint _append_message (CamelFolder *folder, CamelMimeMessage *message, CamelException *ex);
 static const GList *_list_permanent_flags (CamelFolder *folder, CamelException *ex);
@@ -113,13 +117,15 @@ camel_folder_pt_proxy_class_init (CamelFolderPtProxyClass *camel_folder_pt_proxy
 	camel_folder_class->init_with_store = _init_with_store;
 	camel_folder_class->open = _open;
 	camel_folder_class->close = _close;
+	camel_folder_class->open_async = _open_async;
+	camel_folder_class->close_async = _close_async;
 	camel_folder_class->set_name = _set_name;
 	camel_folder_class->get_name = _get_name;
 	camel_folder_class->can_hold_folders = _can_hold_folders;
  	camel_folder_class->can_hold_messages = _can_hold_messages;
 	camel_folder_class->exists = _exists;
 	camel_folder_class->is_open = _is_open;
-	camel_folder_class->get_folder = _get_folder;
+	camel_folder_class->get_subfolder = _get_subfolder;
 	camel_folder_class->create = _create;
 	camel_folder_class->delete = _delete;
 	camel_folder_class->delete_messages = _delete_messages;
@@ -128,7 +134,7 @@ camel_folder_pt_proxy_class_init (CamelFolderPtProxyClass *camel_folder_pt_proxy
 	camel_folder_class->get_mode = _get_mode;
 	camel_folder_class->list_subfolders = _list_subfolders;
 	camel_folder_class->expunge = _expunge;
-	camel_folder_class->get_message = _get_message;
+	camel_folder_class->get_message_by_number = _get_message_by_number;
 	camel_folder_class->get_message_count = _get_message_count;
 	camel_folder_class->append_message = _append_message;
 	camel_folder_class->list_permanent_flags = _list_permanent_flags;
@@ -335,13 +341,12 @@ _folder_open_cb (CamelFolder *folder,
 
 }
 
-
 static void
-_open (CamelFolder *folder, 
-       CamelFolderOpenMode mode, 
-       CamelFolderAsyncCallback callback, 
-       gpointer user_data, 
-       CamelException *ex)
+_open_async (CamelFolder *folder, 
+	     CamelFolderOpenMode mode, 
+	     CamelFolderAsyncCallback callback, 
+	     gpointer user_data, 
+	     CamelException *ex)
 {
 	CamelFolderPtProxy *proxy_folder;
 	CamelOp *op;
@@ -357,7 +362,7 @@ _open (CamelFolder *folder,
 	func_def = CAMEL_FOLDER_PT_PROXY_CLASS(proxy_folder)->open_func_def;
 	if (callback)		
 		op = camel_marshal_create_op (func_def, 
-					      CAMEL_FOLDER_CLASS (proxy_folder->real_folder)->open,
+					      CAMEL_FOLDER_CLASS (proxy_folder->real_folder)->open_async,
 					      proxy_folder->real_folder,
 					      mode,
 					      _folder_open_cb,
@@ -365,7 +370,7 @@ _open (CamelFolder *folder,
 					      proxy_folder->thread_ex);
 	else 
 		op = camel_marshal_create_op (func_def, 
-					      CAMEL_FOLDER_CLASS (proxy_folder->real_folder)->open,
+					      CAMEL_FOLDER_CLASS (proxy_folder->real_folder)->open_async,
 					      proxy_folder->real_folder,
 					      mode,
 					      NULL,
@@ -379,6 +384,17 @@ _open (CamelFolder *folder,
 }
 
 
+
+static void _open (CamelFolder *folder, 
+		   CamelFolderOpenMode mode, 
+		   CamelException *ex)
+{
+	CamelFolderPtProxy *proxy_folder;
+
+	proxy_folder = CAMEL_FOLDER_PT_PROXY (folder);
+	CF_CLASS (proxy_folder->real_folder)->
+		open (proxy_folder->real_folder, mode, ex);
+}
 
 
 
@@ -405,11 +421,11 @@ _folder_close_cb (CamelFolder *folder,
 }
 
 static void
-_close (CamelFolder *folder, 
-	gboolean expunge, 
-	CamelFolderAsyncCallback callback, 
-	gpointer user_data, 
-	CamelException *ex)
+_close_async (CamelFolder *folder, 
+	      gboolean expunge, 
+	      CamelFolderAsyncCallback callback, 
+	      gpointer user_data, 
+	      CamelException *ex)
 {
 	CamelFolderPtProxy *proxy_folder;
 	CamelOp *op;
@@ -420,7 +436,7 @@ _close (CamelFolder *folder,
 	func_def = CAMEL_FOLDER_PT_PROXY_CLASS(proxy_folder)->close_func_def;
 	if (callback)		
 		op = camel_marshal_create_op (func_def, 
-					      CAMEL_FOLDER_CLASS (proxy_folder->real_folder)->close,
+					      CAMEL_FOLDER_CLASS (proxy_folder->real_folder)->close_async,
 					      proxy_folder->real_folder,
 					      expunge,
 					      _folder_close_cb,
@@ -428,7 +444,7 @@ _close (CamelFolder *folder,
 					      proxy_folder->thread_ex);
 	else 
 		op = camel_marshal_create_op (func_def, 
-					      CAMEL_FOLDER_CLASS (proxy_folder->real_folder)->close,
+					      CAMEL_FOLDER_CLASS (proxy_folder->real_folder)->close_async,
 					      proxy_folder->real_folder,
 					      expunge,
 					      NULL,
@@ -439,59 +455,33 @@ _close (CamelFolder *folder,
 }
 
 
+static void _close (CamelFolder *folder, 
+		    gboolean expunge, 
+		    CamelException *ex)
+{
+	CamelFolderPtProxy *proxy_folder;
+
+	proxy_folder = CAMEL_FOLDER_PT_PROXY (folder);
+	CF_CLASS (proxy_folder->real_folder)->
+		close (proxy_folder->real_folder, expunge, ex);
+}
+
+
+
 
 
 /* folder->set_name implementation */
-static void 
-_folder_set_name_cb (CamelFolder *folder,
-		     gpointer user_data,
-		     CamelException *ex)
-{
-	CamelOp *cb;
-	_ProxyCbUserData *pud;
-	CamelFuncDef *cb_def;
-
-	camel_exception_xfer (pud->ex, ex);
-	cb_def = CAMEL_FOLDER_PT_PROXY_CLASS(pud->proxy_folder)->set_name_cb_def;
-	cb = camel_marshal_create_op (cb_def,
-				      pud->real_callback, 
-				      pud->proxy_folder, 
-				      pud->real_user_data,
-				      pud->ex);
-	camel_thread_proxy_push_cb (pud->proxy_folder->proxy_object, cb);
-}
 
 static void
 _set_name (CamelFolder *folder, 
 	   const gchar *name, 
-	   CamelFolderAsyncCallback callback, 
-	   gpointer user_data, 
 	   CamelException *ex)
 {
 	CamelFolderPtProxy *proxy_folder;
-	CamelOp *op;
-	CamelFuncDef *func_def;
 
 	proxy_folder = CAMEL_FOLDER_PT_PROXY (folder);
-	
-	func_def = CAMEL_FOLDER_PT_PROXY_CLASS(proxy_folder)->close_func_def;
-	if (callback)		
-		op = camel_marshal_create_op (func_def, 
-					      CAMEL_FOLDER_CLASS (proxy_folder->real_folder)->set_name,
-					      proxy_folder->real_folder,
-					      name,
-					      _folder_set_name_cb,
-					      _proxy_cb_user_data (proxy_folder->pud, callback, proxy_folder, ex, user_data),
-					      proxy_folder->thread_ex);
-	else 
-		op = camel_marshal_create_op (func_def, 
-					      CAMEL_FOLDER_CLASS (proxy_folder->real_folder)->set_name,
-					      proxy_folder->real_folder,
-					      name,
-					      NULL,
-					      NULL,
-					      NULL);
-	camel_thread_proxy_push_op (proxy_folder->proxy_object, op);
+	CF_CLASS (proxy_folder->real_folder)->
+		set_name (proxy_folder->real_folder, name, ex);
 	
 }
 
@@ -579,13 +569,13 @@ _is_open (CamelFolder *folder, CamelException *ex)
 
 
 static CamelFolder *
-_get_folder (CamelFolder *folder, const gchar *folder_name, CamelException *ex)
+_get_subfolder (CamelFolder *folder, const gchar *folder_name, CamelException *ex)
 {
 	CamelFolderPtProxy *proxy_folder;
 
 	proxy_folder = CAMEL_FOLDER_PT_PROXY (folder);
 	return CF_CLASS (proxy_folder->real_folder)->
-		get_folder (proxy_folder->real_folder, folder_name, ex);
+		get_subfolder (proxy_folder->real_folder, folder_name, ex);
 }
 
 
@@ -708,13 +698,13 @@ _expunge (CamelFolder *folder, CamelException *ex)
 
 
 static CamelMimeMessage *
-_get_message (CamelFolder *folder, gint number, CamelException *ex)
+_get_message_by_number (CamelFolder *folder, gint number, CamelException *ex)
 {
 	CamelFolderPtProxy *proxy_folder;
 
 	proxy_folder = CAMEL_FOLDER_PT_PROXY (folder);
 	return CF_CLASS (proxy_folder->real_folder)->
-		get_message (proxy_folder->real_folder, number, ex);
+		get_message_by_number (proxy_folder->real_folder, number, ex);
 }
 
 
