@@ -1,5 +1,11 @@
 2001-03-02  Chris Toshok  <toshok@ximian.com>
 
+	* gui/component/select-names/e-select-names-text-model.c
+	(e_select_names_text_model_activate_obj): track change to
+	e_contact_editor_new.
+
+2001-03-02  Chris Toshok  <toshok@ximian.com>
+
 	* backend/pas/pas-backend-ldap.c (add_objectclass_mod): add
 	objectclasses for "person", "organizationalPerson", and "top" as
 	well, just to be complete.
