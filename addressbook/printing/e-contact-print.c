@@ -22,6 +22,7 @@
 
 
 #include <ctype.h>
+#include <sys/types.h>
 #include <stdlib.h>
 #include <glib.h>
 #include <gnome-xml/tree.h>

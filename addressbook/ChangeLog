@@ -1,5 +1,11 @@
 2001-04-08  Chris Toshok  <toshok@ximian.com>
 
+	* printing/e-contact-print.c: add #include <sys/types.h> since
+	gnome-print.h uses time_t without including it.  this really
+	should be fixed in gnome-print.
+
+2001-04-08  Chris Toshok  <toshok@ximian.com>
+
 	* backend/pas/pas-backend-ldap.c (pas_backend_ldap_add_client):
 	make sure to notify new clients to the writable status of an
 	already open (and authenticated) book.
