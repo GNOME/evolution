@@ -42,6 +42,7 @@ eutilinclude_HEADERS = 				\
 	e-request.h				\
 	e-sexp.h				\
 	e-time-utils.h				\
+	e-trie.h				\
 	e-url.h					\
 	md5-utils.h
 
@@ -71,6 +72,7 @@ libeutil_la_SOURCES =				\
 	e-request.c				\
 	e-sexp.c				\
 	e-time-utils.c				\
+	e-trie.c				\
 	e-url.c					\
 	e-util-marshal.c			\
 	md5-utils.c

@@ -1,3 +1,7 @@
+2002-12-09  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* e-trie.c: New implementation of an Aho-Corasick trie.
+
 2002-12-09  Chris Toshok  <toshok@ximian.com>
 
 	* e-passwords.h: track changes to api (e_passwords_init is gone,
