@@ -192,9 +192,11 @@ static GtkWidget *
 create_from_optionmenu (EMsgComposerHdrs *hdrs)
 {
 	GtkWidget *omenu, *menu, *first = NULL;
-	const GSList *accounts;
+	const GSList *accounts, *a;
+	const MailConfigAccount *account;
+	GPtrArray *addresses;
 	GtkWidget *item, *hbox;
-	int i = 0, history = 0;
+	int i = 0, history = 0, m, matches;
 	int default_account;
 	
 	omenu = gtk_option_menu_new ();
@@ -202,9 +204,15 @@ create_from_optionmenu (EMsgComposerHdrs *hdrs)
 	
 	default_account = mail_config_get_default_account_num ();
 	
+	/* Make list of account email addresses */
+	addresses = g_ptr_array_new ();
 	accounts = mail_config_get_accounts ();
+	for (a = accounts; a; a = a->next) {
+		account = a->data;
+		g_ptr_array_add (addresses, account->id->address);
+	}
+
 	while (accounts) {
-		const MailConfigAccount *account;
 		char *label;
 		char *native_label;
 		
@@ -217,7 +225,15 @@ create_from_optionmenu (EMsgComposerHdrs *hdrs)
 		}
 		
 		if (account->id->address && *account->id->address) {
-			if (strcmp (account->name, account->id->address))
+			/* If the account has a unique email address, just
+			 * show that. Otherwise include the account name.
+			 */
+			for (m = matches = 0; m < addresses->len; m++) {
+				if (!strcmp (account->id->address, addresses->pdata[m]))
+					matches++;
+			}
+			
+			if (matches > 1)
 				label = g_strdup_printf ("%s <%s> (%s)", account->id->name,
 							 account->id->address, account->name);
 			else
@@ -247,6 +263,7 @@ create_from_optionmenu (EMsgComposerHdrs *hdrs)
 		
 		accounts = accounts->next;
 	}
+	g_ptr_array_free (addresses, TRUE);
 	
 	gtk_option_menu_set_menu (GTK_OPTION_MENU (omenu), menu);
 	
