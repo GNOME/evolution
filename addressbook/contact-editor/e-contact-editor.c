@@ -351,6 +351,9 @@ file_as_get_style (EContactEditor *editor)
 	int i;
 	int style;
 
+	if (!(file_as && GTK_IS_ENTRY(file_as)))
+		return -1;
+
 	filestring = e_utf8_gtk_entry_get_text(file_as);
 
 	style = -1;
@@ -376,6 +379,9 @@ file_as_set_style(EContactEditor *editor, int style)
 	GtkEntry *file_as = GTK_ENTRY(glade_xml_get_widget(editor->gui, "entry-file-as"));
 	GtkWidget *widget;
 		
+
+	if (!(file_as && GTK_IS_ENTRY(file_as)))
+		return;
 
 	if (style == -1) {
 		string = e_utf8_gtk_entry_get_text(file_as);
@@ -411,15 +417,10 @@ file_as_set_style(EContactEditor *editor, int style)
 static void
 name_entry_changed (GtkWidget *widget, EContactEditor *editor)
 {
-	GtkWidget *file_as;
 	int style = 0;
 	char *string;
 
-	file_as = glade_xml_get_widget(editor->gui, "entry-file-as");
-
-	if (file_as && GTK_IS_ENTRY(file_as)) {
-		style = file_as_get_style(editor);
-	}
+	style = file_as_get_style(editor);
 	
 	e_card_name_free(editor->name);
 
@@ -427,30 +428,21 @@ name_entry_changed (GtkWidget *widget, EContactEditor *editor)
 	editor->name = e_card_name_from_string(string);
 	g_free (string);
 	
-	if (file_as && GTK_IS_ENTRY(file_as)) {
-		file_as_set_style(editor, style);
-	}
+	file_as_set_style(editor, style);
 }
 
 static void
 company_entry_changed (GtkWidget *widget, EContactEditor *editor)
 {
 	int style = 0;
-	GtkWidget *file_as;
 
-	file_as = glade_xml_get_widget(editor->gui, "entry-file-as");
-
-	if (file_as && GTK_IS_ENTRY(file_as)) {
-		style = file_as_get_style(editor);
-	}
+	style = file_as_get_style(editor);
 	
 	g_free(editor->company);
 	
 	editor->company = e_utf8_gtk_entry_get_text(GTK_ENTRY(widget));
 	
-	if (file_as && GTK_IS_ENTRY(file_as)) {
-		file_as_set_style(editor, style);
-	}
+	file_as_set_style(editor, style);
 }
 
 static void
@@ -502,10 +494,13 @@ full_name_clicked(GtkWidget *button, EContactEditor *editor)
 	if (result == 0) {
 		ECardName *name;
 		GtkWidget *fname_widget;
+		int style = 0;
 
 		gtk_object_get(GTK_OBJECT(dialog),
 			       "name", &name,
 			       NULL);
+
+		style = file_as_get_style(editor);
 
 		fname_widget = glade_xml_get_widget(editor->gui, "entry-fullname");
 		if (fname_widget && GTK_IS_ENTRY(fname_widget)) {
@@ -516,6 +511,8 @@ full_name_clicked(GtkWidget *button, EContactEditor *editor)
 
 		e_card_name_free(editor->name);
 		editor->name = e_card_name_copy(name);
+
+		file_as_set_style(editor, style);
 	}
 	gtk_object_unref(GTK_OBJECT(dialog));
 }
@@ -540,7 +537,6 @@ full_addr_clicked(GtkWidget *button, EContactEditor *editor)
 		gtk_object_get(GTK_OBJECT(dialog),
 			       "address", &new_address,
 			       NULL);
-		e_card_simple_set_delivery_address(editor->simple, editor->address_choice, new_address);
 
 		address_widget = glade_xml_get_widget(editor->gui, "text-address");
 		if (address_widget && GTK_IS_EDITABLE(address_widget)) {
@@ -552,6 +548,9 @@ full_addr_clicked(GtkWidget *button, EContactEditor *editor)
 			e_card_simple_set_address(editor->simple, editor->address_choice, address);
 			e_card_address_label_free(address);
 		}
+
+		e_card_simple_set_delivery_address(editor->simple, editor->address_choice, new_address);
+
 		e_card_delivery_address_free(new_address);
 	}
 	gtk_object_unref(GTK_OBJECT(dialog));

@@ -1,3 +1,10 @@
+2000-12-09  Christopher James Lahey  <clahey@helixcode.com>
+
+	* contact-editor/e-contact-editor.c: Made editing the name using
+	the full name button set the file as entry properly.  Made it
+	so that the address parse that the user chooses after
+	clicking on the Full Address... button gets saved.
+
 2000-12-08  Christopher James Lahey  <clahey@helixcode.com>
 
 	* contact-editor/e-contact-editor.c (full_name_clicked): Made it
