@@ -1,3 +1,11 @@
+2004-09-29  Not Zed  <NotZed@Ximian.com>
+
+	Fixes bug #66520.
+
+	* gui/widgets/e-addressbook-view.c (eab_view_dispose): don't unref
+	the contact_display_window, it will be destroyed by being
+	parented.
+
 2004-09-29  Hans Petter Jansson  <hpj@ximian.com>
 
 	Fixes bug #66369.
