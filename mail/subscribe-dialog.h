@@ -28,6 +28,7 @@
 #include "camel/camel-store.h"
 #include <gtk/gtktable.h>
 #include <gal/e-table/e-tree-model.h>
+#include <gal/e-table/e-table-model.h>
 #include <bonobo/bonobo-control.h>
 #include <bonobo/bonobo-property-bag.h>
 #include "shell/evolution-storage.h"
@@ -52,9 +53,9 @@ struct  _SubscribeDialog {
 	GtkWidget                *store_etable;
 	ETableModel              *store_model;
 
-	GtkWidget         	 *folder_etable;
+	GtkWidget         	 *folder_etree;
 	ETreeModel        	 *folder_model;
-	ETreePath         	 *folder_root;
+	ETreePath         	  folder_root;
 
 	CamelStore               *store;
 	EvolutionStorage         *storage;

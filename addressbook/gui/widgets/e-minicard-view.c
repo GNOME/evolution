@@ -184,7 +184,7 @@ create_card(EBookView *book_view, const GList *cards, EMinicardView *view)
 
 		e_reflow_add_item(E_REFLOW(view), item, &position);
 
-		e_selection_model_simple_insert_row(view->selection, position);
+		e_selection_model_simple_insert_rows(view->selection, position, 1);
 	}
 }
 
@@ -225,7 +225,7 @@ remove_card(EBookView *book_view, const char *id, EMinicardView *view)
 {
 	int position;
 	e_reflow_sorted_remove_item(E_REFLOW_SORTED(view), id, &position);
-	e_selection_model_simple_delete_row(view->selection, position);
+	e_selection_model_simple_delete_rows(view->selection, position, 1);
 }
 
 static void

@@ -1,3 +1,17 @@
+2001-03-19  Christopher James Lahey  <clahey@ximian.com>
+
+	* Merged branch:
+
+2001-03-14  Christopher James Lahey  <clahey@ximian.com>
+
+	* gui/widgets/e-minicard-view.c: Call
+	e_selection_model_simple_insert_rows and
+	e_selection_model_simple_delete_rows instead of
+	e_selection_model_simple_insert_row and
+	e_selection_model_simple_delete_row.
+
+End of branch
+
 2001-03-17  Jon Trowbridge  <trow@ximian.com>
 
 	* gui/component/select-names/e-select-names-completion.c: Brutally
@@ -276,7 +290,6 @@
 	(e_book_simple_query_cancel): Added. Cancels a running query.
 
 	* backend/ebook/e-book-types.h: Add enum EBookSimpleQueryStatus.
-
 
 2001-03-08  Jon Trowbridge  <trow@ximian.com>
 

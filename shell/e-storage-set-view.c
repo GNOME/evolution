@@ -35,7 +35,7 @@
 
 #include "e-storage-set-view.h"
 
-#include <gal/e-table/e-tree-simple.h>
+#include <gal/e-table/e-tree-memory-callbacks.h>
 #include <gal/e-table/e-cell-tree.h>
 #include <gal/e-table/e-cell-text.h>
 
@@ -49,7 +49,7 @@ static char *list [] = {
 				 * well, and there is no way for us to use the
 				 * same value as it's not exported.  */
 
-#define ETABLE_SPEC "<ETableSpecification no-headers=\"true\" selection-mode=\"single\" cursor-mode=\"line\" draw-grid=\"true\" horizontal-scrolling=\"true\"> \
+#define ETREE_SPEC "<ETableSpecification no-headers=\"true\" selection-mode=\"single\" cursor-mode=\"line\" draw-grid=\"falsex\" horizontal-scrolling=\"true\"> \
   <ETableColumn model_col=\"0\" _title=\"Folder\" expansion=\"1.0\" minimum_width=\"20\" resizable=\"true\" cell=\"render_tree\" compare=\"string\"/> \
 	<ETableState>                   			       \
 		<column source=\"0\"/>     			       \
@@ -58,14 +58,14 @@ static char *list [] = {
 </ETableSpecification>"
 
 
-#define PARENT_TYPE E_TABLE_TYPE
-static ETableClass *parent_class = NULL;
+#define PARENT_TYPE E_TREE_TYPE
+static ETreeClass *parent_class = NULL;
 
 struct _EStorageSetViewPrivate {
 	EStorageSet *storage_set;
 
 	ETreeModel *etree_model;
-	ETreePath *root_node;
+	ETreePath root_node;
 
 	GHashTable *path_to_etree_node;
 
@@ -91,6 +91,7 @@ struct _EStorageSetViewPrivate {
 	   well as the corresponding row/column numbers in the table.  */
 	int drag_x, drag_y;
 	int drag_column, drag_row;
+	ETreePath drag_path;
 };
 
 
@@ -135,7 +136,7 @@ static GtkTargetList *target_list;
 static gboolean
 add_node_to_hash (EStorageSetView *storage_set_view,
 		  const char *path,
-		  ETreePath *node)
+		  ETreePath node)
 {
 	EStorageSetViewPrivate *priv;
 	char *hash_path;
@@ -156,12 +157,12 @@ add_node_to_hash (EStorageSetView *storage_set_view,
 	return TRUE;
 }
 
-static ETreePath *
+static ETreePath
 lookup_node_in_hash (EStorageSetView *storage_set_view,
 		     const char *path)
 {
 	EStorageSetViewPrivate *priv;
-	ETreePath *node;
+	ETreePath node;
 
 	priv = storage_set_view->priv;
 
@@ -172,12 +173,12 @@ lookup_node_in_hash (EStorageSetView *storage_set_view,
 	return node;
 }
 
-static ETreePath *
+static ETreePath
 remove_node_from_hash (EStorageSetView *storage_set_view,
 		       const char *path)
 {
 	EStorageSetViewPrivate *priv;
-	ETreePath *node;
+	ETreePath node;
 
 	priv = storage_set_view->priv;
 
@@ -247,21 +248,19 @@ get_pixbuf_for_folder (EStorageSetView *storage_set_view,
 }
 
 static EFolder *
-get_folder_at_row (EStorageSetView *storage_set_view,
-		   int row)
+get_folder_at_node (EStorageSetView *storage_set_view,
+		    ETreePath path)
 {
 	EStorageSetViewPrivate *priv;
-	ETreePath *folder_node_path;
 	const char *folder_path;
 	EFolder *folder;
 
 	priv = storage_set_view->priv;
 
-	folder_node_path = e_tree_model_node_at_row (priv->etree_model, row);
-	if (folder_node_path == NULL)
+	if (path == NULL)
 		return NULL;
 
-	folder_path = e_tree_model_node_get_data (priv->etree_model, folder_node_path);
+	folder_path = e_tree_memory_node_get_data (E_TREE_MEMORY(priv->etree_model), path);
 	g_assert (folder_path != NULL);
 
 	folder = e_storage_set_get_folder (priv->storage_set, folder_path);
@@ -374,8 +373,8 @@ free_target_entries (GtkTargetEntry *entries)
 }
 
 static GtkTargetList *
-create_target_list_for_row (EStorageSetView *storage_set_view,
-			    int row)
+create_target_list_for_node (EStorageSetView *storage_set_view,
+			     ETreePath node)
 {
 	EStorageSetViewPrivate *priv;
 	GtkTargetList *target_list;
@@ -390,7 +389,7 @@ create_target_list_for_row (EStorageSetView *storage_set_view,
 
 	folder_type_registry = e_storage_set_get_folder_type_registry (priv->storage_set);
 
-	folder = get_folder_at_row (storage_set_view, row);
+	folder = get_folder_at_node (storage_set_view, node);
 	folder_type = e_folder_get_type_string (folder);
 
 	exported_dnd_types = e_folder_type_registry_get_exported_dnd_types_for_type (folder_type_registry,
@@ -573,7 +572,7 @@ destroy (GtkObject *object)
 	priv = storage_set_view->priv;
 
 	/* need to destroy our tree */
-	e_tree_model_node_remove (priv->etree_model, priv->root_node);
+	e_tree_memory_node_remove (E_TREE_MEMORY(priv->etree_model), priv->root_node);
 	gtk_object_unref (GTK_OBJECT (priv->etree_model));
 
 	/* now free up all the paths stored in the hash table and
@@ -625,13 +624,13 @@ button_press_event (GtkWidget *widget,
 {
 	EStorageSetView *storage_set_view;
 	EStorageSetViewPrivate *priv;
-	ETable *table;
+	ETree *tree;
 	int row, column;
 
 	storage_set_view = E_STORAGE_SET_VIEW (widget);
 	priv = storage_set_view->priv;
 
-	table = E_TABLE (widget);
+	tree = E_TREE (widget);
 
 	/* FIXME correct? */
 	if (GTK_WIDGET_CLASS (parent_class)->button_press_event != NULL)
@@ -640,11 +639,12 @@ button_press_event (GtkWidget *widget,
 	if (event->button != 1)
 		return FALSE;
 
-	e_table_get_cell_at (table, event->x, event->y, &row, &column);
+	e_tree_get_cell_at (tree, event->x, event->y, &row, &column);
 
 	priv->drag_x = event->x;
 	priv->drag_y = event->y;
 	priv->drag_column = column;
+	priv->drag_path = e_tree_node_at_row(E_TREE(storage_set_view), row);
 	priv->drag_row = row;
 
 	/* FIXME correct? */
@@ -657,7 +657,7 @@ motion_notify_event (GtkWidget *widget,
 {
 	EStorageSetView *storage_set_view;
 	EStorageSetViewPrivate *priv;
-	ETable *table;
+	ETree *tree;
 	GtkTargetList *target_list;
 	GdkDragAction actions;
 	GdkDragContext *context;
@@ -667,7 +667,7 @@ motion_notify_event (GtkWidget *widget,
 	storage_set_view = E_STORAGE_SET_VIEW (widget);
 	priv = storage_set_view->priv;
 
-	table = E_TABLE (widget);
+	tree = E_TREE (widget);
 
 	/* FIXME correct? */
 	if (GTK_WIDGET_CLASS (parent_class)->motion_notify_event != NULL)
@@ -681,13 +681,13 @@ motion_notify_event (GtkWidget *widget,
 	    && ABS (priv->drag_y - event->y) < DRAG_RESISTANCE)
 		return FALSE;
 
-	target_list = create_target_list_for_row (storage_set_view, priv->drag_row);
+	target_list = create_target_list_for_node (storage_set_view, priv->drag_path);
 	if (target_list == NULL)
 		return FALSE;
 
 	actions = GDK_ACTION_MOVE | GDK_ACTION_COPY;
 
-	context = e_table_drag_begin (table,
+	context = e_tree_drag_begin (tree,
 				      priv->drag_row, priv->drag_column,
 				      target_list, actions,
 				      1, (GdkEvent *) event);
@@ -697,18 +697,17 @@ motion_notify_event (GtkWidget *widget,
 }
 
 
-/* ETable methods.  */
+/* ETree methods.  */
 
 /* -- Source-side DnD.  */
 
 static void
-table_drag_begin (ETable *etable,
-		  int row, int col,
-		  GdkDragContext *context)
+tree_drag_begin (ETree *etree,
+		 int row, ETreePath path, int col,
+		 GdkDragContext *context)
 {
 	EStorageSetView *storage_set_view;
 	EStorageSetViewPrivate *priv;
-	ETreePath *node;
 	EFolder *folder;
 	EFolderTypeRegistry *folder_type_registry;
 	EvolutionShellComponentClient *component_client;
@@ -717,16 +716,14 @@ table_drag_begin (ETable *etable,
 	GNOME_Evolution_ShellComponentDnd_Action suggested_action;
 	CORBA_Environment ev;
 
-	storage_set_view = E_STORAGE_SET_VIEW (etable);
+	storage_set_view = E_STORAGE_SET_VIEW (etree);
 	priv = storage_set_view->priv;
 
-	node = e_tree_model_node_at_row (priv->etree_model, row);
-
-	priv->selected_row_path = e_tree_model_node_get_data (priv->etree_model, node);
+	priv->selected_row_path = e_tree_memory_node_get_data (E_TREE_MEMORY(priv->etree_model), path);
 
 	g_assert (priv->drag_corba_source_interface == CORBA_OBJECT_NIL);
 
-	folder = get_folder_at_row (storage_set_view, row);
+	folder = get_folder_at_node (storage_set_view, path);
 	folder_type_registry = e_storage_set_get_folder_type_registry (priv->storage_set);
 	component_client = e_folder_type_registry_get_handler_for_type (folder_type_registry,
 									e_folder_get_type_string (folder));
@@ -783,16 +780,17 @@ table_drag_begin (ETable *etable,
 }
 
 static void
-table_drag_end (ETable *table,
-		int row,
-		int col,
-		GdkDragContext *context)
+tree_drag_end (ETree *tree,
+	       int row,
+	       ETreePath path,
+	       int col,
+	       GdkDragContext *context)
 {
 	EStorageSetView *storage_set_view;
 	EStorageSetViewPrivate *priv;
 	CORBA_Environment ev;
 
-	storage_set_view = E_STORAGE_SET_VIEW (table);
+	storage_set_view = E_STORAGE_SET_VIEW (tree);
 	priv = storage_set_view->priv;
 
 	if (priv->drag_corba_source_interface == CORBA_OBJECT_NIL)
@@ -814,19 +812,20 @@ table_drag_end (ETable *table,
 }
 
 static void
-table_drag_data_get (ETable *etable,
-		     int drag_row,
-		     int drag_col,
-		     GdkDragContext *context,
-		     GtkSelectionData *selection_data,
-		     unsigned int info,
-		     guint32 time)
+tree_drag_data_get (ETree *etree,
+		    int drag_row,
+		    ETreePath drag_path,
+		    int drag_col,
+		    GdkDragContext *context,
+		    GtkSelectionData *selection_data,
+		    unsigned int info,
+		    guint32 time)
 {
 	EStorageSetView *storage_set_view;
 	EStorageSetViewPrivate *priv;
 	CORBA_Environment ev;
 
-	storage_set_view = E_STORAGE_SET_VIEW (etable);
+	storage_set_view = E_STORAGE_SET_VIEW (etree);
 	priv = storage_set_view->priv;
 
 	if (info == 0) {
@@ -861,16 +860,17 @@ table_drag_data_get (ETable *etable,
 }
 
 static void
-table_drag_data_delete (ETable *table,
-			int row,
-			int col,
-			GdkDragContext *context)
+tree_drag_data_delete (ETree *tree,
+		       int row,
+		       ETreePath path,
+		       int col,
+		       GdkDragContext *context)
 {
 	EStorageSetView *storage_set_view;
 	EStorageSetViewPrivate *priv;
 	CORBA_Environment ev;
 
-	storage_set_view = E_STORAGE_SET_VIEW (table);
+	storage_set_view = E_STORAGE_SET_VIEW (tree);
 	priv = storage_set_view->priv;
 
 	if (priv->drag_corba_source_interface == CORBA_OBJECT_NIL)
@@ -888,18 +888,19 @@ table_drag_data_delete (ETable *table,
 /* -- Destination-side DnD.  */
 
 static gboolean
-table_drag_motion (ETable *table,
-		   int row,
-		   int col,
-		   GdkDragContext *context,
-		   int x,
-		   int y,
-		   unsigned int time)
+tree_drag_motion (ETree *tree,
+		  int row,
+		  ETreePath path,
+		  int col,
+		  GdkDragContext *context,
+		  int x,
+		  int y,
+		  unsigned int time)
 {
 	EStorageSetView *storage_set_view;
 	EStorageSetViewPrivate *priv;
 
-	storage_set_view = E_STORAGE_SET_VIEW (table);
+	storage_set_view = E_STORAGE_SET_VIEW (tree);
 	priv = storage_set_view->priv;
 
 	gdk_drag_status (context, GDK_ACTION_MOVE, time);
@@ -908,16 +909,17 @@ table_drag_motion (ETable *table,
 }
 
 static gboolean
-table_drag_drop (ETable *etable,
-		 int row,
-		 int col,
-		 GdkDragContext *context,
-		 int x,
-		 int y,
-		 unsigned int time)
+tree_drag_drop (ETree *etree,
+		int row,
+		ETreePath path,
+		int col,
+		GdkDragContext *context,
+		int x,
+		int y,
+		unsigned int time)
 {
 	if (context->targets != NULL) {
-		gtk_drag_get_data (GTK_WIDGET (etable), context,
+		gtk_drag_get_data (GTK_WIDGET (etree), context,
 				   GPOINTER_TO_INT (context->targets->data),
 				   time);
 		return TRUE;
@@ -927,38 +929,38 @@ table_drag_drop (ETable *etable,
 }
 
 static void
-table_drag_data_received (ETable *etable,
-			  int row,
-			  int col,
-			  GdkDragContext *context,
-			  int x,
-			  int y,
-			  GtkSelectionData *selection_data,
-			  unsigned int info,
-			  unsigned int time)
+tree_drag_data_received (ETree *etree,
+			 int row,
+			 ETreePath path,
+			 int col,
+			 GdkDragContext *context,
+			 int x,
+			 int y,
+			 GtkSelectionData *selection_data,
+			 unsigned int info,
+			 unsigned int time)
 {
 	EStorageSetView *storage_set_view;
 	EStorageSetViewPrivate *priv;
-	ETreePath *target_tree_path;
 	const char *target_path;
 
-	storage_set_view = E_STORAGE_SET_VIEW (etable);
+	storage_set_view = E_STORAGE_SET_VIEW (etree);
 	priv = storage_set_view->priv;
 
-	target_tree_path = e_tree_model_node_at_row (priv->etree_model, row);
-	target_path = e_tree_model_node_get_data (priv->etree_model, target_tree_path);
+	target_path = e_tree_memory_node_get_data (E_TREE_MEMORY(priv->etree_model), path);
 }
 
 static gboolean
-right_click (ETable *etable,
+right_click (ETree *etree,
 	     int row,
+	     ETreePath path,
 	     int col,
 	     GdkEvent *event)
 {
 	EStorageSetView *storage_set_view;
 	EStorageSetViewPrivate *priv;
 
-	storage_set_view = E_STORAGE_SET_VIEW (etable);
+	storage_set_view = E_STORAGE_SET_VIEW (etree);
 	priv = storage_set_view->priv;
 
 	popup_folder_menu (storage_set_view, (GdkEventButton *) event);
@@ -967,22 +969,20 @@ right_click (ETable *etable,
 }
 
 static void
-cursor_activated (ETable *table,
-		  int row)
+cursor_activated (ETree *tree,
+		  int row,
+		  ETreePath path)
 {
 	EStorageSetView *storage_set_view;
-	ETreePath *node;
 	EStorageSetViewPrivate *priv;
 
-	storage_set_view = E_STORAGE_SET_VIEW (table);
+	storage_set_view = E_STORAGE_SET_VIEW (tree);
 
 	priv = storage_set_view->priv;
 
-	node = e_tree_model_node_at_row (priv->etree_model, row);
+	priv->selected_row_path = e_tree_memory_node_get_data (E_TREE_MEMORY(priv->etree_model), path);
 
-	priv->selected_row_path = e_tree_model_node_get_data (priv->etree_model, node);
-
-	if (e_tree_model_node_depth (priv->etree_model, node) >= 2) {
+	if (e_tree_model_node_depth (priv->etree_model, path) >= 2) {
 		/* it was a folder */
 		gtk_signal_emit (GTK_OBJECT (storage_set_view), signals[FOLDER_SELECTED],
 				 priv->selected_row_path);
@@ -994,68 +994,11 @@ cursor_activated (ETable *table,
 }
 
 
-/* ETableModel Methods */
-
-/* This function returns the number of columns in our ETableModel. */
-static int
-etree_col_count (ETableModel *etc, void *data)
-{
-	return 2;
-}
-
-/* This function duplicates the value passed to it. */
-static void *
-etree_duplicate_value (ETableModel *etc, int col, const void *value, void *data)
-{
-	if (col == 0)
-		return g_strdup (value);
-	else
-		return (void *)value;
-}
-
-/* This function frees the value passed to it. */
-static void
-etree_free_value (ETableModel *etc, int col, void *value, void *data)
-{
-	if (col == 0)
-		g_free (value);
-}
-
-/* This function creates an empty value. */
-static void *
-etree_initialize_value (ETableModel *etc, int col, void *data)
-{
-	if (col == 0)
-		return g_strdup ("");
-	else
-		return NULL;
-}
-
-/* This function reports if a value is empty. */
-static gboolean
-etree_value_is_empty (ETableModel *etc, int col, const void *value, void *data)
-{
-	if (col == 0)
-		return !(value && *(char *)value);
-	else
-		return !value;
-}
-
-/* This function reports if a value is empty. */
-static char *
-etree_value_to_string (ETableModel *etc, int col, const void *value, void *data)
-{
-	if (col == 0)
-		return g_strdup(value);
-	else
-		return g_strdup(value ? "Yes" : "No");
-}
-
 /* ETreeModel Methods */
 
 static GdkPixbuf*
 etree_icon_at (ETreeModel *etree,
-	       ETreePath *tree_path,
+	       ETreePath tree_path,
 	       void *model_data)
 {
 	EStorageSetView *storage_set_view;
@@ -1071,7 +1014,7 @@ etree_icon_at (ETreeModel *etree,
 	storage_set_view = E_STORAGE_SET_VIEW (model_data);
 	storage_set = storage_set_view->priv->storage_set;
 
-	path = (char*)e_tree_model_node_get_data (etree, tree_path);
+	path = (char*)e_tree_memory_node_get_data (E_TREE_MEMORY(etree), tree_path);
 
 	folder = e_storage_set_get_folder (storage_set, path);
 	if (folder == NULL)
@@ -1080,8 +1023,21 @@ etree_icon_at (ETreeModel *etree,
 	return get_pixbuf_for_folder (storage_set_view, folder);
 }
 
-static void*
-etree_value_at (ETreeModel *etree, ETreePath *tree_path, int col, void *model_data)
+/* This function returns the number of columns in our ETreeModel. */
+static int
+etree_column_count (ETreeModel *etc, void *data)
+{
+	return 2;
+}
+
+static gboolean
+etree_has_save_id (ETreeModel *etm, void *data)
+{
+	return TRUE;
+}
+
+static gchar *
+etree_get_save_id (ETreeModel *etm, ETreePath node, void *model_data)
 {
 	EStorageSetView *storage_set_view;
 	EStorageSet *storage_set;
@@ -1092,7 +1048,33 @@ etree_value_at (ETreeModel *etree, ETreePath *tree_path, int col, void *model_da
 	storage_set_view = E_STORAGE_SET_VIEW (model_data);
 	storage_set = storage_set_view->priv->storage_set;
 
-	path = (char *) e_tree_model_node_get_data (etree, tree_path);
+	path = (char *) e_tree_memory_node_get_data (E_TREE_MEMORY(etm), node);
+
+	folder = e_storage_set_get_folder (storage_set, path);
+	if (folder != NULL) {
+		return g_strdup (e_folder_get_name (folder));
+	}
+
+	storage = e_storage_set_get_storage (storage_set, path + 1);
+	if (storage != NULL)
+		return g_strdup (e_storage_get_name (storage));
+
+	return g_strdup("root");
+}
+
+static void *
+etree_value_at (ETreeModel *etree, ETreePath tree_path, int col, void *model_data)
+{
+	EStorageSetView *storage_set_view;
+	EStorageSet *storage_set;
+	EStorage *storage;
+	EFolder *folder;
+	char *path;
+
+	storage_set_view = E_STORAGE_SET_VIEW (model_data);
+	storage_set = storage_set_view->priv->storage_set;
+
+	path = (char *) e_tree_memory_node_get_data (E_TREE_MEMORY(etree), tree_path);
 
 	folder = e_storage_set_get_folder (storage_set, path);
 	if (folder != NULL) {
@@ -1110,31 +1092,68 @@ etree_value_at (ETreeModel *etree, ETreePath *tree_path, int col, void *model_da
 }
 
 static void
-etree_set_value_at (ETreeModel *etree, ETreePath *path, int col, const void *val, void *model_data)
+etree_set_value_at (ETreeModel *etree, ETreePath path, int col, const void *val, void *model_data)
 {
 	/* nada */
 }
 
 static gboolean
-etree_is_editable (ETreeModel *etree, ETreePath *path, int col, void *model_data)
+etree_is_editable (ETreeModel *etree, ETreePath path, int col, void *model_data)
 {
 	return FALSE;
 }
 
+
+/* This function duplicates the value passed to it. */
+static void *
+etree_duplicate_value (ETreeModel *etc, int col, const void *value, void *data)
+{
+	if (col == 0)
+		return g_strdup (value);
+	else
+		return (void *)value;
+}
+
+/* This function frees the value passed to it. */
+static void
+etree_free_value (ETreeModel *etc, int col, void *value, void *data)
+{
+	if (col == 0)
+		g_free (value);
+}
+
+/* This function creates an empty value. */
+static void *
+etree_initialize_value (ETreeModel *etc, int col, void *data)
+{
+	if (col == 0)
+		return g_strdup ("");
+	else
+		return NULL;
+}
+
+/* This function reports if a value is empty. */
+static gboolean
+etree_value_is_empty (ETreeModel *etc, int col, const void *value, void *data)
+{
+	if (col == 0)
+		return !(value && *(char *)value);
+	else
+		return !value;
+}
+
+/* This function reports if a value is empty. */
+static char *
+etree_value_to_string (ETreeModel *etc, int col, const void *value, void *data)
+{
+	if (col == 0)
+		return g_strdup(value);
+	else
+		return g_strdup(value ? "Yes" : "No");
+}
+
 
 /* StorageSet signal handling.  */
-
-static int
-treepath_compare (ETreeModel *model,
-		  ETreePath  *node1,
-		  ETreePath  *node2)
-{
-	char *path1, *path2;
-	path1 = e_tree_model_node_get_data (model, node1);
-	path2 = e_tree_model_node_get_data (model, node2);
-
-	return strcasecmp (path1, path2);
-}
 
 static void
 new_storage_cb (EStorageSet *storage_set,
@@ -1143,7 +1162,7 @@ new_storage_cb (EStorageSet *storage_set,
 {
 	EStorageSetView *storage_set_view;
 	EStorageSetViewPrivate *priv;
-	ETreePath *node;
+	ETreePath node;
 	char *path;
 
 	storage_set_view = E_STORAGE_SET_VIEW (data);
@@ -1151,21 +1170,17 @@ new_storage_cb (EStorageSet *storage_set,
 
 	path = g_strconcat (G_DIR_SEPARATOR_S, e_storage_get_name (storage), NULL);
 
-	node = e_tree_model_node_insert_id (priv->etree_model,
-					    priv->root_node,
-					    -1, path, path);
+	node = e_tree_memory_node_insert_id (E_TREE_MEMORY(priv->etree_model),
+					     priv->root_node,
+					     -1, path, path);
 
-	e_tree_model_node_set_expanded (priv->etree_model, node, TRUE);
+	e_tree_node_set_expanded (E_TREE(storage_set), node, TRUE);
 
 	if (! add_node_to_hash (storage_set_view, path, node)) {
 		g_free (path);
-		e_tree_model_node_remove (priv->etree_model, node);
+		e_tree_memory_node_remove (E_TREE_MEMORY(priv->etree_model), node);
 		return;
 	}
-
-	/* FIXME: We want a more specialized sort, e.g. the local folders should always be
-           on top.  */
-	e_tree_model_node_set_compare_function (priv->etree_model, priv->root_node, treepath_compare);
 }
 
 static void
@@ -1176,7 +1191,7 @@ removed_storage_cb (EStorageSet *storage_set,
 	EStorageSetView *storage_set_view;
 	EStorageSetViewPrivate *priv;
 	ETreeModel *etree;
-	ETreePath *node;
+	ETreePath node;
 	char *path;
 	char *node_data;
 
@@ -1188,7 +1203,7 @@ removed_storage_cb (EStorageSet *storage_set,
 	node = remove_node_from_hash (storage_set_view, path);
 	g_free (path);
 
-	node_data = e_tree_model_node_remove (etree, node);
+	node_data = e_tree_memory_node_remove (E_TREE_MEMORY(etree), node);
 	g_free (node_data);
 }
 
@@ -1200,8 +1215,8 @@ new_folder_cb (EStorageSet *storage_set,
 	EStorageSetView *storage_set_view;
 	EStorageSetViewPrivate *priv;
 	ETreeModel *etree;
-	ETreePath *parent_node;
-	ETreePath *new_node;
+	ETreePath parent_node;
+	ETreePath new_node;
 	const char *last_separator;
 	char *parent_path;
 	char *copy_of_path;
@@ -1226,15 +1241,12 @@ new_folder_cb (EStorageSet *storage_set,
 	g_free (parent_path);
 
 	copy_of_path = g_strdup (path);
-	new_node = e_tree_model_node_insert_id (etree, parent_node, -1, copy_of_path, copy_of_path);
-	e_tree_model_node_set_compare_function (priv->etree_model, new_node, treepath_compare);
+	new_node = e_tree_memory_node_insert_id (E_TREE_MEMORY(etree), parent_node, -1, copy_of_path, copy_of_path);
 
 	if (! add_node_to_hash (storage_set_view, path, new_node)) {
-		e_tree_model_node_remove (etree, new_node);
+		e_tree_memory_node_remove (E_TREE_MEMORY(etree), new_node);
 		return;
 	}
-
-	e_tree_model_node_sort (priv->etree_model, parent_node);
 }
 
 static void
@@ -1245,14 +1257,14 @@ updated_folder_cb (EStorageSet *storage_set,
 	EStorageSetView *storage_set_view;
 	EStorageSetViewPrivate *priv;
 	ETreeModel *etree;
-	ETreePath *node;
+	ETreePath node;
 
 	storage_set_view = E_STORAGE_SET_VIEW (data);
 	priv = storage_set_view->priv;
 	etree = priv->etree_model;
 
 	node = lookup_node_in_hash (storage_set_view, path);
-	e_tree_model_node_changed (etree, node);
+	e_tree_model_node_data_changed (etree, node);
 }
 
 static void
@@ -1263,7 +1275,7 @@ removed_folder_cb (EStorageSet *storage_set,
 	EStorageSetView *storage_set_view;
 	EStorageSetViewPrivate *priv;
 	ETreeModel *etree;
-	ETreePath *node;
+	ETreePath node;
 	char *node_data;
 
 	storage_set_view = E_STORAGE_SET_VIEW (data);
@@ -1271,7 +1283,7 @@ removed_folder_cb (EStorageSet *storage_set,
 	etree = priv->etree_model;
 
 	node = remove_node_from_hash (storage_set_view, path);
-	node_data = e_tree_model_node_remove (etree, node);
+	node_data = e_tree_memory_node_remove (E_TREE_MEMORY(etree), node);
 	g_free (node_data);
 }
 
@@ -1280,10 +1292,10 @@ static void
 class_init (EStorageSetViewClass *klass)
 {
 	GtkObjectClass *object_class;
+	ETreeClass *etree_class;
 	GtkWidgetClass *widget_class;
-	ETableClass *etable_class;
 
-	parent_class = gtk_type_class (e_table_get_type ());
+	parent_class = gtk_type_class (e_tree_get_type ());
 
 	object_class = GTK_OBJECT_CLASS (klass);
 	object_class->destroy = destroy;
@@ -1292,16 +1304,16 @@ class_init (EStorageSetViewClass *klass)
 	widget_class->button_press_event  = button_press_event;
 	widget_class->motion_notify_event = motion_notify_event;
 
-	etable_class = E_TABLE_CLASS (klass);
-	etable_class->right_click              = right_click;
-	etable_class->cursor_activated         = cursor_activated;
-	etable_class->table_drag_begin         = table_drag_begin;
-	etable_class->table_drag_end           = table_drag_end;
-	etable_class->table_drag_data_get      = table_drag_data_get;
-	etable_class->table_drag_data_delete   = table_drag_data_delete;
-	etable_class->table_drag_motion        = table_drag_motion;
-	etable_class->table_drag_drop          = table_drag_drop;
-	etable_class->table_drag_data_received = table_drag_data_received;
+	etree_class = E_TREE_CLASS (klass);
+	etree_class->right_click             = right_click;
+	etree_class->cursor_activated        = cursor_activated;
+	etree_class->tree_drag_begin         = tree_drag_begin;
+	etree_class->tree_drag_end           = tree_drag_end;
+	etree_class->tree_drag_data_get      = tree_drag_data_get;
+	etree_class->tree_drag_data_delete   = tree_drag_data_delete;
+	etree_class->tree_drag_motion        = tree_drag_motion;
+	etree_class->tree_drag_drop          = tree_drag_drop;
+	etree_class->tree_drag_data_received = tree_drag_data_received;
 
 	signals[FOLDER_SELECTED]
 		= gtk_signal_new ("folder_selected",
@@ -1394,7 +1406,7 @@ folder_changed_cb (EFolder *folder,
 	EStorageSetView *storage_set_view;
 	EStorageSetViewPrivate *priv;
 	FolderChangedCallbackData *callback_data;
-	ETreePath *node;
+	ETreePath node;
 
 	callback_data = (FolderChangedCallbackData *) data;
 
@@ -1407,19 +1419,19 @@ folder_changed_cb (EFolder *folder,
 		return;
 	}
 
-	e_tree_model_node_changed (priv->etree_model, node);
+	e_tree_model_node_data_changed (priv->etree_model, node);
 }
 
 
 static void
 insert_folders (EStorageSetView *storage_set_view,
-		ETreePath *parent,
+		ETreePath parent,
 		EStorage *storage,
 		const char *path)
 {
 	EStorageSetViewPrivate *priv;
 	ETreeModel *etree;
-	ETreePath *node;
+	ETreePath node;
 	GList *folder_path_list;
 	GList *p;
 	const char *storage_name;
@@ -1445,9 +1457,8 @@ insert_folders (EStorageSetView *storage_set_view,
 		folder_name = e_folder_get_name (folder);
 
 		full_path = g_strconcat ("/", storage_name, folder_path, NULL);
-		node = e_tree_model_node_insert_id (etree, parent, -1, (void *) full_path, full_path);
+		node = e_tree_memory_node_insert_id (E_TREE_MEMORY(etree), parent, -1, (void *) full_path, full_path);
 		add_node_to_hash (storage_set_view, full_path, node);
-		e_tree_model_node_set_compare_function (priv->etree_model, node, treepath_compare);
 
 		insert_folders (storage_set_view, node, storage, folder_path);
 
@@ -1485,15 +1496,14 @@ insert_storages (EStorageSetView *storage_set_view)
 		EStorage *storage = E_STORAGE (p->data);
 		const char *name;
 		char *path;
-		ETreePath *parent;
+		ETreePath parent;
 
 		name = e_storage_get_name (storage);
 		path = g_strconcat ("/", name, NULL);
 
-		parent = e_tree_model_node_insert_id (priv->etree_model, priv->root_node,
+		parent = e_tree_memory_node_insert_id (E_TREE_MEMORY(priv->etree_model), priv->root_node,
 						   -1, path, path);
-		e_tree_model_node_set_expanded (priv->etree_model, parent, TRUE);
-		e_tree_model_node_set_compare_function (priv->etree_model, parent, treepath_compare);
+		e_tree_node_set_expanded (E_TREE(storage_set_view), parent, TRUE);
 
 		g_hash_table_insert (priv->path_to_etree_node, path, parent);
 
@@ -1519,20 +1529,25 @@ e_storage_set_view_construct (EStorageSetView *storage_set_view,
 
 	priv = storage_set_view->priv;
 
-	priv->etree_model = e_tree_simple_new (etree_col_count,
-					       etree_duplicate_value,
-					       etree_free_value,
-					       etree_initialize_value,
-					       etree_value_is_empty,
-					       etree_value_to_string,
-					       etree_icon_at,
-					       etree_value_at,
-					       etree_set_value_at,
-					       etree_is_editable,
-					       storage_set_view);
-	e_tree_model_root_node_set_visible (priv->etree_model, FALSE);
+	priv->etree_model = e_tree_memory_callbacks_new (etree_icon_at,
 
-	priv->root_node = e_tree_model_node_insert (priv->etree_model, NULL, -1, "/Root Node");
+							 etree_column_count,
+
+							 etree_has_save_id,
+							 etree_get_save_id,
+							 etree_value_at,
+							 etree_set_value_at,
+							 etree_is_editable,
+
+							 etree_duplicate_value,
+							 etree_free_value,
+							 etree_initialize_value,
+							 etree_value_is_empty,
+							 etree_value_to_string,
+
+							 storage_set_view);
+
+	priv->root_node = e_tree_memory_node_insert (E_TREE_MEMORY(priv->etree_model), NULL, -1, "/Root Node");
 
 	extras = e_table_extras_new ();
 	cell = e_cell_text_new (NULL, GTK_JUSTIFY_LEFT);
@@ -1540,16 +1555,19 @@ e_storage_set_view_construct (EStorageSetView *storage_set_view,
 	e_table_extras_add_cell (extras, "render_tree",
 				 e_cell_tree_new (NULL, NULL, TRUE, cell));
 
-	e_table_construct (E_TABLE (storage_set_view), E_TABLE_MODEL(priv->etree_model), extras,
-			   ETABLE_SPEC, NULL);
+	e_tree_construct (E_TREE (storage_set_view), priv->etree_model, extras,
+			   ETREE_SPEC, NULL);
+
+	e_tree_root_node_set_visible (E_TREE(storage_set_view), FALSE);
+
 	gtk_object_unref (GTK_OBJECT (extras));
 
 #if 0
-	e_table_drag_source_set (E_TABLE (storage_set_view), GDK_BUTTON1_MASK,
+	e_tree_drag_source_set (E_TREE (storage_set_view), GDK_BUTTON1_MASK,
 				 source_drag_types, num_source_drag_types,
 				 GDK_ACTION_MOVE | GDK_ACTION_COPY);
 
-	e_table_drag_dest_set (E_TABLE (storage_set_view), GTK_DEST_DEFAULT_ALL,
+	e_tree_drag_dest_set (E_TREE (storage_set_view), GTK_DEST_DEFAULT_ALL,
 			       source_drag_types, num_source_drag_types,
 			       GDK_ACTION_MOVE | GDK_ACTION_COPY);
 #endif
@@ -1596,7 +1614,7 @@ e_storage_set_view_set_current_folder (EStorageSetView *storage_set_view,
 				       const char *path)
 {
 	EStorageSetViewPrivate *priv;
-	ETreePath *node;
+	ETreePath node;
 
 	g_return_if_fail (storage_set_view != NULL);
 	g_return_if_fail (E_IS_STORAGE_SET_VIEW (storage_set_view));
@@ -1609,9 +1627,8 @@ e_storage_set_view_set_current_folder (EStorageSetView *storage_set_view,
 		return;
 	}
 
-	e_tree_model_show_node (priv->etree_model, node);
-	e_table_set_cursor_row (E_TABLE (storage_set_view),
-				e_tree_model_row_of_node (priv->etree_model, node));
+	e_tree_show_node (E_TREE(storage_set_view), node);
+	e_tree_set_cursor (E_TREE (storage_set_view), node);
 
 	gtk_signal_emit (GTK_OBJECT (storage_set_view), signals[FOLDER_SELECTED], path);
 }
@@ -1620,9 +1637,8 @@ const char *
 e_storage_set_view_get_current_folder (EStorageSetView *storage_set_view)
 {
 	EStorageSetViewPrivate *priv;
-	ETreePath *etree_node;
+	ETreePath etree_node;
 	const char *path;
-	int row;
 
 	g_return_val_if_fail (storage_set_view != NULL, NULL);
 	g_return_val_if_fail (E_IS_STORAGE_SET_VIEW (storage_set_view), NULL);
@@ -1632,13 +1648,12 @@ e_storage_set_view_get_current_folder (EStorageSetView *storage_set_view)
 	if (!priv->show_folders)
 		return NULL; /* Mmh! */
 
-	row = e_table_get_cursor_row (E_TABLE (storage_set_view));
-	etree_node = e_tree_model_node_at_row (priv->etree_model, row);
+	etree_node = e_tree_get_cursor (E_TREE (storage_set_view));
 
 	if (etree_node == NULL)
 		return NULL;	/* Mmh? */
 
-	path = (char*)e_tree_model_node_get_data(priv->etree_model, etree_node);
+	path = (char*)e_tree_memory_node_get_data(E_TREE_MEMORY(priv->etree_model), etree_node);
 
 	return path;
 }
@@ -1658,11 +1673,11 @@ e_storage_set_view_set_show_folders (EStorageSetView *storage_set_view,
 		return;
 
 	/* tear down existing tree and hash table mappings */
-	e_tree_model_node_remove (priv->etree_model, priv->root_node);
+	e_tree_memory_node_remove (E_TREE_MEMORY(priv->etree_model), priv->root_node);
 	g_hash_table_foreach (priv->path_to_etree_node, path_free_func, NULL);
 
 	/* now re-add the root node */
-	priv->root_node = e_tree_model_node_insert (priv->etree_model, NULL, -1, "/Root Node");
+	priv->root_node = e_tree_memory_node_insert (E_TREE_MEMORY(priv->etree_model), NULL, -1, "/Root Node");
 
 	/* then reinsert the storages after setting the "show_folders"
 	   flag.  insert_storages will call insert_folders if

@@ -1,3 +1,35 @@
+2001-03-19  Christopher James Lahey  <clahey@ximian.com>
+
+	* Merged e-tree-rework-branch:
+
+2001-03-18  Christopher James Lahey  <clahey@ximian.com>
+
+	* message-list.c: Added has_save_id and get_save_id methods.
+
+	* subscribe-dialog.c: Added arguments for
+	e_tree_memory_callbacks_new of get_save_id and has_save_id to
+	NULL.
+
+2001-03-16  Christopher James Lahey  <clahey@ximian.com>
+
+	* message-list.c: Added a call to
+	e_tree_memory_set_expanded_default to TRUE.  Removed all calls to
+	set_expanded on nodes while the tree is frozen since this fails
+	miserably now.
+
+2001-03-13  Christopher James Lahey  <clahey@ximian.com>
+
+	* message-list.c (message_list_get_layout): Turned off draw-grid.
+
+2001-03-09  Christopher James Lahey  <clahey@ximian.com>
+
+	* folder-browser-factory.c, folder-browser.c, message-list.c,
+	message-list.h, subscribe-dialog.c, subscribe-dialog.h,
+	mail-callbacks.c: Converted these all to use ETree instead of
+	ETable.
+
+End of branch
+
 2001-03-19  Iain Holmes  <iain@ximian.com>
 
 	* importers/pine-importer.c: Pine intelligent mail importer.

@@ -1,3 +1,7 @@
+2001-03-19  Christopher James Lahey  <clahey@ximian.com>
+
+	* configure.in: Bumped gal requirement to 0.5.99.8.
+
 2001-03-19  Ettore Perazzoli  <ettore@ximian.com>
 
 	* configure.in: Make sure we never define `NSPR_CFLAGS' or

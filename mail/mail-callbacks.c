@@ -921,7 +921,7 @@ select_all (BonoboUIComponent *uih, void *user_data, const char *path)
 	if (ml->folder == NULL)
 		return;
 
-	e_table_select_all (ml->table);
+	e_tree_select_all (ml->tree);
 }
 
 void
@@ -933,7 +933,7 @@ invert_selection (BonoboUIComponent *uih, void *user_data, const char *path)
 	if (ml->folder == NULL)
 		return;
 
-	e_table_invert_selection (ml->table);
+	e_tree_invert_selection (ml->tree);
 }
 
 /* flag all selected messages */
@@ -1160,7 +1160,7 @@ next_msg (GtkWidget *button, gpointer user_data)
 	FolderBrowser *fb = FOLDER_BROWSER (user_data);
 	int row;
 	
-	row = e_table_get_cursor_row (fb->message_list->table);
+	row = e_tree_row_of_node(fb->message_list->tree, e_tree_get_cursor (fb->message_list->tree));
 	message_list_select (fb->message_list, row,
 			     MESSAGE_LIST_SELECT_NEXT,
 			     0, CAMEL_MESSAGE_SEEN);
@@ -1172,7 +1172,7 @@ previous_msg (GtkWidget *button, gpointer user_data)
 	FolderBrowser *fb = FOLDER_BROWSER (user_data);
 	int row;
 	
-	row = e_table_get_cursor_row (fb->message_list->table);
+	row = e_tree_row_of_node(fb->message_list->tree, e_tree_get_cursor (fb->message_list->tree));
 	message_list_select (fb->message_list, row,
 			     MESSAGE_LIST_SELECT_PREVIOUS,
 			     0, CAMEL_MESSAGE_SEEN);

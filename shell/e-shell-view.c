@@ -1774,6 +1774,13 @@ e_shell_view_save_settings (EShellView *shell_view,
 	save_shortcut_bar_icon_modes (shell_view);
 
 	gnome_config_pop_prefix ();
+
+#if 0
+	char *expanded_state_file = g_strdup_printf ("%s/config/shell-expanded", evolution_dir);
+
+	e_tree_save_expanded_state(E_TREE(priv->storage_set_view), expanded_state_file);
+	g_free(expanded_state_file);
+#endif
 	
 	return TRUE;
 }

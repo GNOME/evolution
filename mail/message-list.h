@@ -6,9 +6,8 @@
 #include <gtk/gtk.h>
 
 #include "mail-types.h"
-#include <gal/e-table/e-table-scrolled.h>
-#include <gal/e-table/e-table-simple.h>
-#include <gal/e-table/e-tree-simple.h>
+#include <gal/e-table/e-tree-scrolled.h>
+#include <gal/e-table/e-tree-model.h>
 
 #define MESSAGE_LIST_TYPE        (message_list_get_type ())
 #define MESSAGE_LIST(o)          (GTK_CHECK_CAST ((o), MESSAGE_LIST_TYPE, MessageList))
@@ -45,12 +44,12 @@ enum {
 #define ML_HIDE_SAME (2147483646)
 
 struct _MessageList {
-	ETableScrolled parent;
+	ETreeScrolled parent;
 
 	/* The table */
-	ETableModel  *table_model;
-	ETable       *table;
-	ETreePath    *tree_root;
+	ETreeModel   *model;
+	ETree        *tree;
+	ETreePath     tree_root;
 
 	/* The folder */
 	CamelFolder  *folder;
@@ -70,7 +69,7 @@ struct _MessageList {
 	/* Are we displaying threaded view? */
 	gboolean threaded;
 
-	/* Where the ETable cursor is. */
+	/* Where the ETree cursor is. */
 	int cursor_row;
 	char *cursor_uid;
 
@@ -82,7 +81,7 @@ struct _MessageList {
 };
 
 typedef struct {
-	ETableScrolledClass parent_class;
+	ETreeScrolledClass parent_class;
 
 	/* signals - select a message */
 	void (*message_selected) (MessageList *ml, const char *uid);

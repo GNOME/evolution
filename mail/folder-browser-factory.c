@@ -185,7 +185,7 @@ display_view(GalViewCollection *collection,
 {
 	FolderBrowser *fb = data;
 	if (GAL_IS_VIEW_ETABLE(view)) {
-		e_table_set_state_object(e_table_scrolled_get_table(E_TABLE_SCROLLED(fb->message_list)), GAL_VIEW_ETABLE(view)->state);
+		e_tree_set_state_object(fb->message_list->tree, GAL_VIEW_ETABLE(view)->state);
 	}
 }
 

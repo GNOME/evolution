@@ -24,7 +24,7 @@
 #ifndef __E_STORAGE_SET_VIEW_H__
 #define __E_STORAGE_SET_VIEW_H__
 
-#include <gal/e-table/e-table.h>
+#include <gal/e-table/e-tree.h>
 #include "e-storage-set.h"
 
 #ifdef __cplusplus
@@ -44,13 +44,13 @@ typedef struct _EStorageSetViewPrivate EStorageSetViewPrivate;
 typedef struct _EStorageSetViewClass   EStorageSetViewClass;
 
 struct _EStorageSetView {
-	ETable parent;
+	ETree parent;
 
 	EStorageSetViewPrivate *priv;
 };
 
 struct _EStorageSetViewClass {
-	ETableClass parent_class;
+	ETreeClass parent_class;
 
 	/* Signals.  */
 
