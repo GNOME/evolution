@@ -313,23 +313,9 @@ simple_data_wrapper_construct_from_parser (CamelDataWrapper *dw, CamelMimeParser
 void
 camel_mime_part_construct_content_from_parser (CamelMimePart *dw, CamelMimeParser *mp)
 {
-	struct _header_content_type *content_type;
 	CamelDataWrapper *content = NULL;
-	CamelMimeFilter *save_filter;
-	CamelStream *raw = NULL;
-	int saveid = -1;
 	char *buf;
 	int len;
-	
-	content_type = camel_mime_parser_content_type (mp);
-	
-#define SAVE_RAW_MIME_STREAM_FOR_SECURE_MIME_SIGNATURES
-#ifdef SAVE_RAW_MIME_STREAM_FOR_SECURE_MIME_SIGNATURES
-	raw = camel_stream_mem_new ();
-	save_filter = camel_mime_filter_save_new_with_stream (raw);
-	saveid = camel_mime_parser_filter_add (mp, save_filter);
-	camel_object_unref (CAMEL_OBJECT (save_filter));
-#endif /* SAVE_RAW_MIME_STREAM_FOR_SECURE_MIME_SIGNATURES */
 	
 	switch (camel_mime_parser_state (mp)) {
 	case HSCAN_HEADER:
@@ -343,17 +329,15 @@ camel_mime_part_construct_content_from_parser (CamelMimePart *dw, CamelMimeParse
 		camel_mime_part_construct_from_parser ((CamelMimePart *)content, mp);
 		break;
 	case HSCAN_MULTIPART: {
+		struct _header_content_type *content_type;
 		CamelDataWrapper *bodypart;
 		
 		/* FIXME: we should use a came-mime-mutlipart, not jsut a camel-multipart, but who cares */
 		d(printf("Creating multi-part\n"));
 		
-		/* we don't need to save raw streams for multiparts */
-		camel_object_unref (CAMEL_OBJECT (raw));
-		camel_mime_parser_filter_remove (mp, saveid);
-		
 		content = (CamelDataWrapper *)camel_multipart_new ();
 		
+		content_type = camel_mime_parser_content_type (mp);
 		camel_multipart_set_boundary ((CamelMultipart *)content,
 					      header_content_type_param (content_type, "boundary"));
 		
@@ -381,13 +365,4 @@ camel_mime_part_construct_content_from_parser (CamelMimePart *dw, CamelMimeParse
 		camel_medium_set_content_object ((CamelMedium *)dw, content);
 		camel_object_unref ((CamelObject *)content);
 	}
-	
-#ifdef SAVE_RAW_MIME_STREAM_FOR_SECURE_MIME_SIGNATURES
-	if (!CAMEL_IS_MULTIPART (content)) {
-		/* set the raw mime stream on this leaf part in case our parent is a multipart/signed */
-		camel_mime_parser_filter_remove (mp, saveid);
-		camel_stream_reset (raw);
-		dw->stream = raw;
-	}
-#endif /* SAVE_RAW_MIME_STREAM_FOR_SECURE_MIME_SIGNATURES */
 }

@@ -65,8 +65,6 @@ struct _CamelMimePart
 	struct _header_raw *headers; /* mime headers */
 	
 	/* All fields here are -** PRIVATE **- */
-	CamelStream *stream;
-	
 	char *description;
 	CamelMimeDisposition *disposition;
 	char *content_id;
