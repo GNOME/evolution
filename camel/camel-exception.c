@@ -126,6 +126,60 @@ camel_exception_set (CamelException *ex,
 }
 
 
+/**
+ * camel_exception_setv: set an exception 
+ * @ex: exception object 
+ * @id: exception id 
+ * @format: format of the description string. The format string is used as in printf().
+ * 
+ * Set the value of an exception. The exception id is 
+ * a unique number representing the exception. The 
+ * textual description is a small text explaining 
+ * what happened and provoked the exception. 
+ * In this version, the string is created from the format 
+ * string and the variable argument list.
+ *
+ * When @ex is NULL, nothing is done, this routine
+ * simply returns.
+ *
+ **/
+void
+camel_exception_setv (CamelException *ex,
+		      ExceptionId id,
+		      const char *format, 
+		      ...)
+{
+	va_list args;
+	gchar *tmp_desc_string;
+	
+	
+	/* if no exception is given, do nothing */
+	if (!ex) return;
+	
+	
+	/* create the temporary exception string */
+	va_start(args, format);
+	tmp_desc_string = g_strdup_vprintf (format, args);
+	va_end (args);
+	
+	
+	/* now set the exception. We don't call
+	   camel_exception_set because we want to 
+	   avoid a useless strdup () */
+	ex->id = id;
+	
+	/* remove the previous exception description */
+	if (ex->desc)
+		g_free (ex->desc);
+	ex->desc = g_strdup (tmp_desc_string);
+	
+}
+
+
+
+
+
+
 
 /**
  * camel_exception_xfer: transfer an exception

@@ -65,8 +65,8 @@ static void _close (CamelFolder *folder, gboolean expunge, CamelException *ex);
 static gboolean _exists (CamelFolder *folder, CamelException *ex);
 static gboolean _create(CamelFolder *folder, CamelException *ex);
 static gboolean _delete (CamelFolder *folder, gboolean recurse, CamelException *ex);
-#if 0
 static gboolean _delete_messages (CamelFolder *folder, CamelException *ex);
+#if 0
 static GList *_list_subfolders (CamelFolder *folder, CamelException *ex);
 static CamelMimeMessage *_get_message (CamelFolder *folder, gint number, CamelException *ex);
 static gint _get_message_count (CamelFolder *folder, CamelException *ex);
@@ -97,8 +97,8 @@ camel_mbox_folder_class_init (CamelMboxFolderClass *camel_mbox_folder_class)
 	camel_folder_class->exists = _exists;
 	camel_folder_class->create = _create;
 	camel_folder_class->delete = _delete;
-#if 0
 	camel_folder_class->delete_messages = _delete_messages;
+#if 0
 	camel_folder_class->list_subfolders = _list_subfolders;
 	camel_folder_class->get_message_by_number = _get_message_by_number;
 	camel_folder_class->get_message_count = _get_message_count;
@@ -405,11 +405,11 @@ _create (CamelFolder *folder, CamelException *ex)
 	/* it must be rw for the user and none for the others */
 	old_umask = umask (0700);
 	creat_fd = open (folder_file_path, 
-			 O_WRONLY | O_CREAT | O_APPEND | 
+			 O_WRONLY | O_CREAT | O_APPEND,
 			 S_IRUSR  | S_IWUSR); 
 	umask (old_umask);
 	if (creat_fd == -1) goto io_error;
-		
+	close (creat_fd);
 	
 	return TRUE;
 
@@ -446,6 +446,8 @@ _delete (CamelFolder *folder, gboolean recurse, CamelException *ex)
 	CamelMboxFolder *mbox_folder = CAMEL_MBOX_FOLDER(folder);
 	const gchar *folder_file_path, *folder_dir_path;
 	gint rmdir_error = 0;
+	gint unlink_error = 0;
+	gboolean folder_already_exists;
 
 	/* check if the folder object exists */
 	if (!folder) {
@@ -458,7 +460,10 @@ _delete (CamelFolder *folder, gboolean recurse, CamelException *ex)
 
 	/* in the case where the folder does not exist, 
 	   return immediatly */
-	if (!camel_folder_exists (folder, ex)) return TRUE;
+	folder_already_exists = camel_folder_exists (folder, ex);
+	if (camel_exception_get_id (ex)) return FALSE;
+
+	if (!folder_already_exists) return TRUE;
 
 
 	/* call default implementation.
@@ -504,6 +509,236 @@ _delete (CamelFolder *folder, gboolean recurse, CamelException *ex)
 			return FALSE;
 	}
 	
-	/** Ber : tu dois supprimer le fichier maintenant */
+	/* physically delete the file */
+	unlink_error = unlink (folder_dir_path);
+	if (unlink_error == -1) 
+		switch errno { 
+		case EACCES :
+		case EPERM :
+		case EROFS :
+			camel_exception_set (ex, 
+					     CAMEL_EXCEPTION_FOLDER_INSUFFICIENT_PERMISSION,
+					     "Not enough permission to delete the mbox file");
+			return FALSE;			
+			break;
+			
+		case EFAULT :
+		case ENOENT :
+		case ENOTDIR :
+		case EISDIR :
+			camel_exception_set (ex, 
+					     CAMEL_EXCEPTION_FOLDER_INVALID_PATH,
+					     "Invalid mbox file");
+			return FALSE;			
+			break;
+
+		default :
+			camel_exception_set (ex, 
+					     CAMEL_EXCEPTION_SYSTEM,
+					     "Unable to delete the mbox folder.");
+			return FALSE;
+	}
+
+
 	return TRUE;
 }
+
+
+
+
+gboolean
+_delete_messages (CamelFolder *folder, CamelException *ex)
+{
+	
+	CamelMboxFolder *mbox_folder = CAMEL_MBOX_FOLDER(folder);
+	const gchar *folder_file_path;
+	gboolean folder_already_exists;
+	int creat_fd;
+	mode_t old_umask;
+	
+
+	/* check if the folder object exists */
+	if (!folder) {
+		camel_exception_set (ex, 
+				     CAMEL_EXCEPTION_FOLDER_NULL,
+				     "folder object is NULL");
+		return FALSE;
+	}
+
+	/* in the case where the folder does not exist, 
+	   return immediatly */
+	folder_already_exists = camel_folder_exists (folder, ex);
+	if (camel_exception_get_id (ex)) return FALSE;
+
+	if (!folder_already_exists) return TRUE;
+
+
+
+	/* get the paths of the mbox file we need to delete */
+	folder_file_path = mbox_folder->folder_file_path;
+	
+	if (!folder_file_path) {
+		camel_exception_set (ex, 
+				     CAMEL_EXCEPTION_FOLDER_INVALID,
+				     "invalid folder path. Use set_name ?");
+		return FALSE;
+	}
+
+		
+	/* create the mbox file */ 
+	/* it must be rw for the user and none for the others */
+	old_umask = umask (0700);
+	creat_fd = open (folder_file_path, 
+			 O_WRONLY | O_TRUNC,
+			 S_IRUSR  | S_IWUSR); 
+	umask (old_umask);
+	if (creat_fd == -1) goto io_error;
+	close (creat_fd);
+	
+	return TRUE;
+
+	/* exception handling for io errors */
+	io_error :
+
+		CAMEL_LOG_WARNING ("CamelMboxFolder::create, error when deleting files  %s\n", 
+				   folder_file_path);
+		CAMEL_LOG_FULL_DEBUG ( "  Full error text is : %s\n", strerror(errno));
+
+		if (errno == EACCES) {
+			camel_exception_set (ex, 
+					     CAMEL_EXCEPTION_FOLDER_INSUFFICIENT_PERMISSION,
+					     "You don't have the permission to write in the mbox file.");
+			return FALSE;
+		} else {
+			camel_exception_set (ex, 
+					     CAMEL_EXCEPTION_SYSTEM,
+					     "Unable to write in the mbox file.");
+			return FALSE;
+		}
+	
+
+}
+
+
+
+
+
+
+
+
+
+static GList *
+_list_subfolders (CamelFolder *folder, CamelException *ex)
+{
+	GList *subfolder_name_list = NULL;
+
+	CamelMboxFolder *mbox_folder = CAMEL_MBOX_FOLDER(folder);
+	const gchar *folder_dir_path;
+	gboolean folder_exists;
+
+	struct stat stat_buf;
+	gint stat_error = 0;
+	GList *file_list;
+	gchar *entry_name;
+	gchar *full_entry_name;
+	struct dirent *dir_entry;
+	DIR *dir_handle;
+	
+	gchar *io_error_text;
+
+
+	/* check if the folder object exists */
+	if (!folder) {
+		camel_exception_set (ex, 
+				     CAMEL_EXCEPTION_FOLDER_NULL,
+				     "folder object is NULL");
+		return FALSE;
+	}
+
+
+	/* in the case the folder does not exist, 
+	   raise an exception */
+	folder_exists = camel_folder_exists (folder, ex);
+	if (camel_exception_get_id (ex)) return FALSE;
+
+	if (!folder_exists) {
+		camel_exception_set (ex, 
+				     CAMEL_EXCEPTION_FOLDER_INVALID,
+				     "Inexistant folder.");
+		return FALSE;
+	}
+
+
+	/* get the mbox subfolders directory */
+	folder_dir_path = mbox_folder->folder_file_path;
+	if (!folder_dir_path) {
+		camel_exception_set (ex, 
+				     CAMEL_EXCEPTION_FOLDER_INVALID,
+				     "invalid folder path. Use set_name ?");
+		return FALSE;
+	}
+
+		
+	dir_handle = opendir (folder_dir_path);
+	
+	/* read the first entry in the directory */
+	dir_entry = readdir (dir_handle);
+	while ((stat_error != -1) && (dir_entry != NULL)) {
+
+		/* get the name of the next entry in the dir */
+		entry_name = dir_entry->d_name;
+		full_entry_name = g_strdup_printf ("%s/%s", folder_dir_path, entry_name);
+		stat_error = stat (full_entry_name, &stat_buf);
+		g_free (full_entry_name);
+
+		/* is it a directory ? */
+		if ((stat_error != -1) && S_ISDIR (stat_buf.st_mode)) {
+			/* yes, add it to the list */
+			if (entry_name[0] != '.') {
+				CAMEL_LOG_FULL_DEBUG ("CamelMboxFolder::list_subfolders adding  %s\n", entry_name);
+				subfolder_name_list = g_list_append (subfolder_name_list, g_strdup (entry_name));
+			}
+		}
+		/* read next entry */
+		dir_entry = readdir (dir_handle);
+	}
+
+	closedir (dir_handle);
+
+	return subfolder_name_list;
+
+	
+
+	/* io exception handling */
+	io_error : 
+
+		switch errno { 
+		case EACCES :
+			
+			camel_exception_setv (ex, 
+					      CAMEL_EXCEPTION_FOLDER_INSUFFICIENT_PERMISSION,
+					      "Unable to list the directory. Full Error text is : %s ", 
+					      strerror (errno));
+			return FALSE;			
+			break;
+			
+		case ENOENT :
+		case ENOTDIR :
+			camel_exception_setv (ex, 
+					      CAMEL_EXCEPTION_FOLDER_INVALID_PATH,
+					      "Invalid mbox folder path. Full Error text is : %s ", 
+					      strerror (errno));
+			return FALSE;			
+			break;
+			
+		default :
+			camel_exception_set (ex, 
+					     CAMEL_EXCEPTION_SYSTEM,
+					     "Unable to delete the mbox folder.");
+			return FALSE;
+		}
+	
+	g_list_free (subfolder_name_list);
+	return NULL;
+}
+

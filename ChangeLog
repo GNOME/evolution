@@ -1,3 +1,18 @@
+1999-12-26  Bertrand Guiheneuf  <guiheneu@localhost.localdomain>
+
+	* camel/camel-exception.c (camel_exception_setv): 
+	new function. Allow printf-like description
+	string constructions. 
+
+	* camel/camel-exception.h: cosmetic changes.
+
+        * camel/providers/mbox/camel-mbox-store.h:
+        * camel/providers/mbox/camel-mbox-store.c:
+        * camel/providers/mbox/camel-mbox-folder.h:
+        * camel/providers/mbox/camel-mbox-folder.c:
+        More work on the mbox provider.
+
+
 1999-12-22  bertrand  <Bertrand.Guiheneuf@aful.org>
 
 	* camel/providers/mbox/camel-mbox-store.h: 
