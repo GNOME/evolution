@@ -335,23 +335,18 @@ camel_ustrncasecmp (const char *s1, const char *s2, size_t len)
 	return 0;
 }
 
-
-/* searhces for match inside value, if match is mixed case, hten use case-sensitive,
-   else insensitive */
-gboolean
-camel_search_header_match (const char *value, const char *match, camel_search_match_t how)
+/* value is the match value suitable for exact match if required */
+static int
+header_match(const char *value, const char *match, camel_search_match_t how)
 {
 	const char *p;
 	int vlen, mlen;
 	
-	while (*value && isspace (*value))
-		value++;
-	
 	if (how == CAMEL_SEARCH_MATCH_SOUNDEX)
 		return header_soundex (value, match);
 	
-	vlen = strlen (value);
-	mlen = strlen (match);
+	vlen = strlen(value);
+	mlen = strlen(match);
 	if (vlen < mlen)
 		return FALSE;
 	
@@ -359,16 +354,16 @@ camel_search_header_match (const char *value, const char *match, camel_search_ma
 	   otherwise not */
 	p = match;
 	while (*p) {
-		if (isupper (*p)) {
+		if (isupper(*p)) {
 			switch (how) {
 			case CAMEL_SEARCH_MATCH_EXACT:
-				return strcmp (value, match) == 0;
+				return strcmp(value, match) == 0;
 			case CAMEL_SEARCH_MATCH_CONTAINS:
-				return strstr (value, match) != NULL;
+				return strstr(value, match) != NULL;
 			case CAMEL_SEARCH_MATCH_STARTS:
-				return strncmp (value, match, mlen) == 0;
+				return strncmp(value, match, mlen) == 0;
 			case CAMEL_SEARCH_MATCH_ENDS:
-				return strcmp (value + vlen - mlen, match) == 0;
+				return strcmp(value + vlen - mlen, match) == 0;
 			default:
 				break;
 			}
@@ -379,18 +374,65 @@ camel_search_header_match (const char *value, const char *match, camel_search_ma
 	
 	switch (how) {
 	case CAMEL_SEARCH_MATCH_EXACT:
-		return camel_ustrcasecmp (value, match) == 0;
+		return camel_ustrcasecmp(value, match) == 0;
 	case CAMEL_SEARCH_MATCH_CONTAINS:
-		return camel_ustrstrcase (value, match) != NULL;
+		return camel_ustrstrcase(value, match) != NULL;
 	case CAMEL_SEARCH_MATCH_STARTS:
-		return camel_ustrncasecmp (value, match, mlen) == 0;
+		return camel_ustrncasecmp(value, match, mlen) == 0;
 	case CAMEL_SEARCH_MATCH_ENDS:
-		return camel_ustrcasecmp (value + vlen - mlen, match) == 0;
+		return camel_ustrcasecmp(value + vlen - mlen, match) == 0;
 	default:
 		break;
 	}
 	
 	return FALSE;
+}
+
+/* searhces for match inside value, if match is mixed case, hten use case-sensitive,
+   else insensitive */
+gboolean
+camel_search_header_match (const char *value, const char *match, camel_search_match_t how, camel_search_t type)
+{
+	const char *name, *addr;
+	int truth = FALSE;
+	CamelInternetAddress *cia;
+	char *v;
+
+	while (*value && isspace (*value))
+		value++;
+	
+	switch(type) {
+	case CAMEL_SEARCH_TYPE_ENCODED:
+		v = header_decode_string(value, camel_charset_locale_name());
+		truth = header_match(v, match, how);
+		g_free(v);
+		break;
+	case CAMEL_SEARCH_TYPE_ASIS:
+		truth = header_match(value, match, how);
+		break;
+	case CAMEL_SEARCH_TYPE_ADDRESS_ENCODED:
+	case CAMEL_SEARCH_TYPE_ADDRESS:
+		/* possible simple case to save some work if we can */
+		if (header_match(value, match, how))
+			return TRUE;
+
+		/* Now we decode any addresses, and try asis matches on name and address parts */
+		cia = camel_internet_address_new();
+		if (type == CAMEL_SEARCH_TYPE_ADDRESS_ENCODED)
+			camel_address_decode((CamelAddress *)cia, value);
+		else
+			camel_address_unformat((CamelAddress *)cia, value);
+
+		if (camel_address_length((CamelAddress *)cia) == 1) {
+			camel_internet_address_get(cia, 0, &name, &addr);
+			truth = header_match(name, match, how)
+				|| header_match(addr, match, how);
+		}
+		camel_object_unref((CamelObject *)cia);
+		break;
+	}
+
+	return truth;
 }
 
 /* performs a 'slow' content-based match */

@@ -36,11 +36,18 @@ typedef enum {
 	CAMEL_SEARCH_MATCH_SOUNDEX,
 } camel_search_match_t;
 
+typedef enum {
+	CAMEL_SEARCH_TYPE_ASIS,
+	CAMEL_SEARCH_TYPE_ENCODED,
+	CAMEL_SEARCH_TYPE_ADDRESS,
+	CAMEL_SEARCH_TYPE_ADDRESS_ENCODED,
+} camel_search_t;
+
 /* builds a regex that represents a string search */
 int camel_search_build_match_regex(regex_t *pattern, camel_search_flags_t type, int argc, struct _ESExpResult **argv, CamelException *ex);
 gboolean camel_search_message_body_contains(CamelDataWrapper *object, regex_t *pattern);
 
-gboolean camel_search_header_match(const char *value, const char *match, camel_search_match_t how);
+gboolean camel_search_header_match(const char *value, const char *match, camel_search_match_t how, camel_search_t type);
 gboolean camel_search_header_soundex(const char *header, const char *match);
 
 #endif /* ! _CAMEL_SEARCH_PRIVATE_H */

@@ -127,8 +127,10 @@ camel_session_class_init (CamelSessionClass *camel_session_class)
 	camel_session_class->get_service = get_service;
 	camel_session_class->get_storage_path = get_storage_path;
 
-	vee_provider.object_types[CAMEL_PROVIDER_STORE] = camel_vee_store_get_type ();
-	vee_provider.service_cache = g_hash_table_new (camel_url_hash, camel_url_equal);
+	if (vee_provider.service_cache == NULL) {
+		vee_provider.object_types[CAMEL_PROVIDER_STORE] = camel_vee_store_get_type ();
+		vee_provider.service_cache = g_hash_table_new (camel_url_hash, camel_url_equal);
+	}
 }
 
 CamelType

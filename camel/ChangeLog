@@ -1,3 +1,30 @@
+2001-08-08  Not Zed  <NotZed@Ximian.com>
+
+	* camel-filter-search.c (check_header): Properly determine match
+	type to pass to header_match.
+	(address_matches_exactly): Removed, effectively added to
+	camel_search_header_match.
+
+	* camel-folder-search.c (check_header): Properly determine the
+	match type to pass to header_match.
+
+	* camel-search-private.c (camel_search_header_match): Add a new
+	parameter 'type' which is the type of header we're matching
+	against.  ASIS means utf8 format, ADDRESS means an internet
+	address ('formatted'), ADDRESS_ENCODED means a raw address header,
+	ENCODED means rfc 2047 encoded text.
+	(header_match): Move original logic here, have search_header_match
+	call it as appropriate for the 'type' of match.
+
+2001-08-07  Not Zed  <NotZed@Ximian.com>
+
+	* camel-session.c (camel_session_class_init): Only init the vee
+	provider struct once (if we're subclassed this will get called
+	multiple times).
+
+	* camel-object.c (obj_finalize): Removed a bit of a debug that
+	crept in with jacob's poolv patch (?).
+
 2001-08-07  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-filter-search.c (address_matches_exactly): New function to

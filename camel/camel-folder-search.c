@@ -537,6 +537,7 @@ check_header(struct _ESExp *f, int argc, struct _ESExpResult **argv, CamelFolder
 		const char *header = NULL;
 		char strbuf[32];
 		int i;
+		camel_search_t type = CAMEL_SEARCH_TYPE_ASIS;
 
 		/* only a subset of headers are supported .. */
 		headername = argv[0]->value.string;
@@ -548,10 +549,13 @@ check_header(struct _ESExp *f, int argc, struct _ESExpResult **argv, CamelFolder
 			header = strbuf;
 		} else if (!strcasecmp(headername, "from")) {
 			header = camel_message_info_from(search->current);
+			type = CAMEL_SEARCH_TYPE_ADDRESS;
 		} else if (!strcasecmp(headername, "to")) {
 			header = camel_message_info_to(search->current);
+			type = CAMEL_SEARCH_TYPE_ADDRESS;
 		} else if (!strcasecmp(headername, "cc")) {
 			header = camel_message_info_cc(search->current);
+			type = CAMEL_SEARCH_TYPE_ADDRESS;
 		} else if (!strcasecmp(headername, "x-camel-mlist")) {
 			header = camel_message_info_mlist(search->current);
 		} else {
@@ -562,10 +566,8 @@ check_header(struct _ESExp *f, int argc, struct _ESExpResult **argv, CamelFolder
 		if (header) {
 			/* performs an OR of all words */
 			for (i=1;i<argc && !truth;i++) {
-				if (argv[i]->type == ESEXP_RES_STRING
-				    && camel_search_header_match(header, argv[i]->value.string, how)) {
-					truth = TRUE;
-				}
+				if (argv[i]->type == ESEXP_RES_STRING)
+					truth = camel_search_header_match(header, argv[i]->value.string, how, type);
 			}
 		}
 	}

@@ -104,42 +104,6 @@ static struct {
 	{ "get-size",           (ESExpFunc *) get_size,           0 },
 };
 
-static gboolean
-address_matches_exactly (const char *header, const char *string)
-{
-	CamelInternetAddress *cia;
-	GCompareFunc compare;
-	const char *p;
-	
-	for (p = string; *p; p++)
-		if (isupper ((unsigned) *p))
-			break;
-	
-	if (*p)
-		compare = (GCompareFunc) strcmp;
-	else
-		compare = (GCompareFunc) g_strcasecmp;
-	
-	/* the simple case? */
-	if (!compare (header, string))
-		return TRUE;
-	
-	cia = camel_internet_address_new ();
-	if (camel_address_decode (CAMEL_ADDRESS (cia), header) == 1) {
-		const char *name, *addr;
-		
-		camel_internet_address_get (cia, 0, &name, &addr);
-		if (!compare (name, string))
-			return TRUE;
-		
-		if (!compare (addr, string))
-			return TRUE;
-	}
-	camel_object_unref (CAMEL_OBJECT (cia));
-	
-	return FALSE;
-}
-
 static ESExpResult *
 check_header (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMessageSearch *fms, camel_search_match_t how)
 {
@@ -150,24 +114,21 @@ check_header (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMess
 	if (argc > 1 && argv[0]->type == ESEXP_RES_STRING) {
 		char *name = argv[0]->value.string;
 		const char *header;
-		
-		if (g_strcasecmp (name, "x-camel-mlist") == 0)
-			header = camel_message_info_mlist (fms->info);
-		else
-			header = camel_medium_get_header (CAMEL_MEDIUM (fms->message), argv[0]->value.string);
-		
+		camel_search_t type = CAMEL_SEARCH_TYPE_ENCODED;
+
+		if (strcasecmp(name, "x-camel-mlist") == 0) {
+			header = camel_message_info_mlist(fms->info);
+			type = CAMEL_SEARCH_TYPE_ASIS;
+		} else {
+			header = camel_medium_get_header(CAMEL_MEDIUM(fms->message), argv[0]->value.string);
+			if (strcasecmp("to", name) == 0 || strcasecmp("cc", name) == 0 || strcasecmp("from", name) == 0)
+				type = CAMEL_SEARCH_TYPE_ADDRESS_ENCODED;
+		}
+
 		if (header) {
-			for (i = 1; i < argc && !matched; i++) {
-				if (argv[i]->type == ESEXP_RES_STRING) {
-					if (how == CAMEL_SEARCH_MATCH_EXACT
-					    && (!g_strcasecmp (name, "To")
-						|| !g_strcasecmp (name, "Cc")
-						|| !g_strcasecmp (name, "From")))
-						matched = address_matches_exactly (header, argv[i]->value.string);
-					else
-						matched = camel_search_header_match (header, argv[i]->value.string, how);
-					break;
-				}
+			for (i=1; i<argc && !matched; i++) {
+				if (argv[i]->type == ESEXP_RES_STRING)
+					matched = camel_search_header_match(header, argv[i]->value.string, how, type);
 			}
 		}
 	}
