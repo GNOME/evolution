@@ -1,3 +1,15 @@
+2000-09-11  Dan Winship  <danw@helixcode.com>
+
+	* mail-display.c, mail-format.c: Another big rewrite of this
+	stuff. Now all (well, most) attachments get a small icon with a
+	description and a (non-obvious) right-click pop-up menu with
+	options to save, open in an external program, or show/hide inline.
+
+	TODO: antialias the icon, add more options to the pop-up for
+	certain MIME types, add an icon to the headers, fix PGP to work
+	like everything else, fix message/external-body to work again,
+	add some icon caching action, etc, etc.
+
 2000-09-09  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* mail-ops.c (do_fetch_mail): Use the CamelUIDCache so that we

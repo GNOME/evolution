@@ -18,6 +18,7 @@
  */
 
 #include <gtkhtml/gtkhtml.h>
+#include <libgnomevfs/gnome-vfs-mime-handlers.h>
 #include "camel/camel.h"
 #include "composer/e-msg-composer.h"
 #include "mail-config.h"
@@ -42,6 +43,19 @@ char *mail_crypto_openpgp_clearsign (const char *plaintext,
 /* mail-format */
 void mail_format_mime_message (CamelMimeMessage *mime_message,
 			       MailDisplay *md);
+
+typedef gboolean (*MailMimeHandlerFn) (CamelMimePart *part,
+				       const char *mime_type,
+				       MailDisplay *md);
+typedef struct {
+	gboolean generic;
+	OAF_ServerInfo *component;
+	GnomeVFSMimeApplication *application;
+	MailMimeHandlerFn builtin;
+} MailMimeHandler;
+MailMimeHandler *mail_lookup_handler (const char *mime_type);
+
+gboolean mail_part_is_inline (CamelMimePart *part);
 
 EMsgComposer *mail_generate_reply (CamelMimeMessage *mime_message,
 				   gboolean to_all);

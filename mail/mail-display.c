@@ -16,6 +16,7 @@
 #include <gnome.h>
 #include "e-util/e-util.h"
 #include "e-util/e-html-utils.h"
+#include "e-util/e-popup-menu.h"
 #include "mail-display.h"
 #include "mail.h"
 
@@ -29,7 +30,7 @@
 
 static GtkObjectClass *mail_display_parent_class;
 
-static void redisplay (MailDisplay *md);
+static void redisplay (MailDisplay *md, gboolean unscroll);
 
 /*----------------------------------------------------------------------*
  *                        Callbacks
@@ -116,22 +117,92 @@ make_safe_filename (const char *prefix, CamelMimePart *part)
 	return safe;
 }
 
-static CamelMimePart *
-part_for_url (const char *url, MailDisplay *md)
+static void
+save_data_cb (GtkWidget *widget, gpointer user_data)
 {
-	GHashTable *urls;
+	GtkFileSelection *file_select = (GtkFileSelection *)
+		gtk_widget_get_ancestor (widget, GTK_TYPE_FILE_SELECTION);
 
-	urls = g_datalist_get_data (md->data, "urls");
-	g_return_val_if_fail (urls != NULL, NULL);
-	return g_hash_table_lookup (urls, url);
+	write_data_to_file (user_data,
+			    gtk_file_selection_get_filename (file_select),
+			    FALSE);
+	gtk_widget_destroy (GTK_WIDGET (file_select));
+}
+
+static gboolean
+idle_redisplay (gpointer data)
+{
+	MailDisplay *md = data;
+
+	md->idle_id = 0;
+	redisplay (md, FALSE);
+	return FALSE;
 }
 
 static void
-launch_external (const char *url, MailDisplay *md)
+queue_redisplay (MailDisplay *md)
 {
-	const char *command = url + 21;
-	char *tmpl, *tmpdir, *filename, *argv[2];
-	CamelMimePart *part = part_for_url (url, md);
+	if (!md->idle_id) {
+		md->idle_id = g_idle_add_full (G_PRIORITY_LOW, idle_redisplay,
+					       md, NULL);
+	}
+}
+
+static void
+on_link_clicked (GtkHTML *html, const char *url, gpointer user_data)
+{
+	MailDisplay *md = user_data;
+
+	if (!g_strncasecmp (url, "news:", 5) ||
+	    !g_strncasecmp (url, "nntp:", 5))
+		g_warning ("Can't handle news URLs yet.");
+	else if (!g_strncasecmp (url, "mailto:", 7))
+		send_to_url (url);
+	else if (!strcmp (url, "x-evolution-decode-pgp:")) {
+		g_datalist_set_data (md->data, "show_pgp",
+				     GINT_TO_POINTER (1));
+		queue_redisplay (md);
+	} else
+		gnome_url_show (url);
+}
+
+static void
+save_cb (GtkWidget *widget, gpointer user_data)
+{
+	CamelMimePart *part = gtk_object_get_data (user_data, "CamelMimePart");
+	GtkFileSelection *file_select;
+	char *filename;
+
+	filename = make_safe_filename (g_get_home_dir (), part);
+	file_select = GTK_FILE_SELECTION (
+		gtk_file_selection_new ("Save Attachment"));
+	gtk_file_selection_set_filename (file_select, filename);
+	g_free (filename);
+
+	gtk_signal_connect (GTK_OBJECT (file_select->ok_button), "clicked", 
+			    GTK_SIGNAL_FUNC (save_data_cb), part);
+	gtk_signal_connect_object (GTK_OBJECT (file_select->cancel_button),
+				   "clicked",
+				   GTK_SIGNAL_FUNC (gtk_widget_destroy),
+				   GTK_OBJECT (file_select));
+
+	gtk_widget_show (GTK_WIDGET (file_select));
+}
+
+static void
+launch_cb (GtkWidget *widget, gpointer user_data)
+{
+	CamelMimePart *part = gtk_object_get_data (user_data, "CamelMimePart");
+	GnomeVFSMimeApplication *app;
+	GMimeContentField *content_type;
+	char *mime_type, *tmpl, *tmpdir, *filename, *argv[2];
+
+	content_type = camel_mime_part_get_content_type (part);
+	mime_type = gmime_content_field_get_mime_type (content_type);
+	app = gnome_vfs_mime_get_default_application (mime_type);
+	g_free (mime_type);
+
+	g_return_if_fail (app != NULL);
 
 	tmpl = g_strdup ("/tmp/evolution.XXXXXX");
 #ifdef HAVE_MKDTEMP
@@ -160,7 +231,7 @@ launch_external (const char *url, MailDisplay *md)
 		return;
 	}
 
-	argv[0] = (char *)command;
+	argv[0] = app->command;
 	argv[1] = filename;
 
 	gnome_execute_async (tmpdir, 2, argv);
@@ -169,82 +240,86 @@ launch_external (const char *url, MailDisplay *md)
 }
 
 static void
-save_data_cb (GtkWidget *widget, gpointer user_data)
+inline_cb (GtkWidget *widget, gpointer user_data)
 {
-	GtkFileSelection *file_select = (GtkFileSelection *)
-		gtk_widget_get_ancestor (widget, GTK_TYPE_FILE_SELECTION);
+	MailDisplay *md = gtk_object_get_data (user_data, "MailDisplay");
+	CamelMimePart *part = gtk_object_get_data (user_data, "CamelMimePart");
 
-	write_data_to_file (user_data,
-			    gtk_file_selection_get_filename (file_select),
-			    FALSE);
-	gtk_widget_destroy (GTK_WIDGET (file_select));
-}
+	if (mail_part_is_inline (part))
+		camel_mime_part_set_disposition (part, "attachment");
+	else
+		camel_mime_part_set_disposition (part, "inline");
 
-static void
-save_data (const char *cid, MailDisplay *md)
-{
-	GtkFileSelection *file_select;
-	char *filename;
-	CamelMimePart *part;
-
-	part = part_for_url (cid, md);
-	g_return_if_fail (part != NULL);
-	filename = make_safe_filename (g_get_home_dir (), part);
-
-	file_select = GTK_FILE_SELECTION (gtk_file_selection_new ("Save Attachment"));
-	gtk_file_selection_set_filename (file_select, filename);
-	g_free (filename);
-
-	gtk_signal_connect (GTK_OBJECT (file_select->ok_button), "clicked", 
-			    GTK_SIGNAL_FUNC (save_data_cb), part);
-	gtk_signal_connect_object (GTK_OBJECT (file_select->cancel_button),
-				   "clicked",
-				   GTK_SIGNAL_FUNC (gtk_widget_destroy),
-				   GTK_OBJECT (file_select));
-
-	gtk_widget_show (GTK_WIDGET (file_select));
+	queue_redisplay (md);
 }
 
 static gboolean
-idle_redisplay (gpointer data)
+pixmap_press (GtkWidget *ebox, GdkEventButton *event, gpointer user_data)
 {
-	MailDisplay *md = data;
+	EPopupMenu menu[] = {
+		{ N_("Save to Disk..."), NULL,
+		  GTK_SIGNAL_FUNC (save_cb), 0 },
+		{ N_("Open in %s..."), NULL,
+		  GTK_SIGNAL_FUNC (launch_cb), 1 },
+		{ N_("View Inline"), NULL,
+		  GTK_SIGNAL_FUNC (inline_cb), 2 },
+		{ NULL, NULL, NULL, 0 }
+	};
+	CamelMimePart *part;
+	MailMimeHandler *handler;
+	int mask;
 
-	md->idle_id = 0;
-	redisplay (md);
-	return FALSE;
-}
+	if (event->button != 3)
+		return FALSE;
 
-static void
-queue_redisplay (MailDisplay *md)
-{
-	if (!md->idle_id) {
-		md->idle_id = g_idle_add_full (G_PRIORITY_LOW, idle_redisplay,
-					       md, NULL);
+	part = gtk_object_get_data (user_data, "CamelMimePart");
+	handler = mail_lookup_handler (gtk_object_get_data (user_data,
+							    "mime_type"));
+
+	/* External view item */
+	if (handler && handler->application) {
+		menu[1].name = g_strdup_printf (menu[1].name,
+						handler->application->name);
+	} else {
+		menu[1].name = g_strdup_printf (menu[1].name,
+						N_("External Viewer"));
+		mask |= 1;
 	}
-}
 
-static void
-on_link_clicked (GtkHTML *html, const char *url, gpointer user_data)
-{
-	MailDisplay *md = user_data;
+	/* Inline view item */
+	if (handler && handler->builtin) {
+		if (!mail_part_is_inline (part)) {
+			if (handler->component) {
+				OAF_Property *prop;
+				char *name;
 
-	if (!g_strncasecmp (url, "news:", 5) ||
-	    !g_strncasecmp (url, "nntp:", 5))
-		g_warning ("Can't handle news URLs yet.");
-	else if (!g_strncasecmp (url, "mailto:", 7))
-		send_to_url (url);
-	else if (!strncmp (url, "cid:", 4))
-		save_data (url, md);
-	else if (!strncmp (url, "x-evolution-external:", 21))
-		launch_external (url, md);
-	else if (!strcmp (url, "x-evolution-decode-pgp:")) {
-		g_datalist_set_data (md->data, "show_pgp",
-				     GINT_TO_POINTER (1));
-		queue_redisplay (md);
-	} else
-		gnome_url_show (url);
-}
+				prop = oaf_server_info_prop_find (
+					handler->component, "name");
+				if (!prop) {
+					prop = oaf_server_info_prop_find (
+						handler->component,
+						"description");
+				}
+				if (prop && prop->v._d == OAF_P_STRING)
+					name = prop->v._u.value_string;
+				else
+					name = "bonobo";
+				menu[2].name = g_strdup_printf (
+					N_("View Inline (via %s)"), name);
+			} else
+				menu[2].name = g_strdup (menu[2].name);
+		} else
+			menu[2].name = g_strdup (N_("Hide"));
+	} else {
+		menu[2].name = g_strdup (menu[2].name);
+		mask |= 2;
+	}
+
+	e_popup_menu_run (menu, event, mask, 0, user_data);
+	g_free (menu[1].name);
+	g_free (menu[2].name);
+	return TRUE;
+}	
 
 static gboolean
 on_object_requested (GtkHTML *html, GtkHTMLEmbedded *eb, gpointer data)
@@ -261,28 +336,77 @@ on_object_requested (GtkHTML *html, GtkHTMLEmbedded *eb, gpointer data)
 	GByteArray *ba;
 	CamelStream *cstream;
 	BonoboStream *bstream;
+	char *cid;
 
-	if (strncmp (eb->classid, "cid:", 4) != 0)
+	cid = eb->classid;
+	if (!strncmp (cid, "popup:", 6))
+		cid += 6;
+	if (strncmp (cid, "cid:", 4) != 0)
 		return FALSE;
+
 	urls = g_datalist_get_data (md->data, "urls");
 	g_return_val_if_fail (urls != NULL, FALSE);
 
-	medium = g_hash_table_lookup (urls, eb->classid);
+	medium = g_hash_table_lookup (urls, cid);
 	g_return_val_if_fail (CAMEL_IS_MEDIUM (medium), FALSE);
-	wrapper = camel_medium_get_content_object (medium);
+
+	if (cid != eb->classid) {
+		/* This is a part wrapper */
+		const char *icon;
+		GtkWidget *pixmap, *ebox;
+
+		icon = gnome_vfs_mime_get_value (eb->type, "icon-filename");
+		if (icon) {
+			pixmap = gnome_pixmap_new_from_file_at_size (icon,
+								     24, 24);
+		} else {
+			char *filename;
+
+			filename = gnome_pixmap_file ("gnome-unknown.png");
+			pixmap = gnome_pixmap_new_from_file_at_size (filename,
+								     24, 24);
+			g_free (filename);
+		}
+
+		ebox = gtk_event_box_new ();
+		gtk_widget_set_sensitive (GTK_WIDGET (ebox), TRUE);
+		gtk_widget_add_events (GTK_WIDGET (ebox),
+				       GDK_BUTTON_PRESS_MASK);
+		gtk_signal_connect (GTK_OBJECT (ebox), "button_press_event",
+				    GTK_SIGNAL_FUNC (pixmap_press), ebox);
+		gtk_object_set_data (GTK_OBJECT (ebox), "MailDisplay", md);
+		gtk_object_set_data (GTK_OBJECT (ebox), "CamelMimePart",
+				     medium);
+		gtk_object_set_data_full (GTK_OBJECT (ebox), "mime_type",
+					  g_strdup (eb->type),
+					  (GDestroyNotify)g_free);
+
+		gtk_container_add (GTK_CONTAINER (ebox), pixmap);
+		gtk_widget_show_all (ebox);
+		gtk_container_add (GTK_CONTAINER (eb), ebox);
+		return TRUE;
+	}
 
 	component = gnome_vfs_mime_get_default_component (eb->type);
 	if (!component)
 		return FALSE;
 
 	embedded = bonobo_widget_new_subdoc (component->iid, NULL);
-	if (!embedded)
+	if (embedded) {
+		/* FIXME: as of bonobo 0.18, there's an extra
+		 * client_site dereference in the BonoboWidget
+		 * destruction path that we have to balance out to
+		 * prevent problems.
+		 */
+		bonobo_object_ref (bonobo_widget_get_client_site (
+			BONOBO_WIDGET (embedded)));
+	} else
 		embedded = bonobo_widget_new_control (component->iid, NULL);
 	CORBA_free (component);
 	if (!embedded)
 		return FALSE;
-	server = bonobo_widget_get_server (BONOBO_WIDGET (embedded));
 
+	server = bonobo_widget_get_server (BONOBO_WIDGET (embedded));
 	persist = (Bonobo_PersistStream) bonobo_object_client_query_interface (
 		server, "IDL:Bonobo/PersistStream:1.0", NULL);
 	if (persist == CORBA_OBJECT_NIL) {
@@ -293,6 +417,7 @@ on_object_requested (GtkHTML *html, GtkHTMLEmbedded *eb, gpointer data)
 	/* Write the data to a CamelStreamMem... */
 	ba = g_byte_array_new ();
 	cstream = camel_stream_mem_new_with_byte_array (ba);
+	wrapper = camel_medium_get_content_object (medium);
 	camel_data_wrapper_write_to_stream (wrapper, cstream);
 
 	/* ...convert the CamelStreamMem to a BonoboStreamMem... */
@@ -422,9 +547,15 @@ clear_data (CamelObject *object, gpointer event_data, gpointer user_data)
 }
 
 static void
-redisplay (MailDisplay *md)
+redisplay (MailDisplay *md, gboolean unscroll)
 {
 	GtkAdjustment *adj;
+	gfloat oldv;
+
+	if (!unscroll) {
+		adj = e_scroll_frame_get_vadjustment (md->scroll);
+		oldv = adj->value;
+	}
 
 	md->stream = gtk_html_begin (md->html);
 	mail_html_write (md->html, md->stream, "%s%s", HTML_HEADER,
@@ -439,13 +570,17 @@ redisplay (MailDisplay *md)
 	gtk_html_end (md->html, md->stream, GTK_HTML_STREAM_OK);
 	md->stream = NULL;
 
-	adj = e_scroll_frame_get_vadjustment (md->scroll);
-	gtk_adjustment_set_value (adj, 0);
-	e_scroll_frame_set_vadjustment (md->scroll, adj);
-
-	adj = e_scroll_frame_get_hadjustment (md->scroll);
-	gtk_adjustment_set_value (adj, 0);
-	e_scroll_frame_set_hadjustment (md->scroll, adj);
+	if (unscroll) {
+		adj = e_scroll_frame_get_hadjustment (md->scroll);
+		gtk_adjustment_set_value (adj, 0);
+		e_scroll_frame_set_hadjustment (md->scroll, adj);
+	} else {
+		adj = e_scroll_frame_get_vadjustment (md->scroll);
+		if (oldv < adj->upper) {
+			gtk_adjustment_set_value (adj, oldv);
+			e_scroll_frame_set_vadjustment (md->scroll, adj);
+		}
+	}
 }
 
 /**
@@ -472,7 +607,7 @@ mail_display_set_message (MailDisplay *md, CamelMedium *medium)
 	md->current_message = (CamelMimeMessage*)medium;
 
 	g_datalist_init (md->data);
-	redisplay (md);
+	redisplay (md, TRUE);
 	if (medium) {
 		camel_object_hook_event (CAMEL_OBJECT (medium), "finalize",
 					 clear_data, *(md->data));

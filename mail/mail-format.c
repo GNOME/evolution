@@ -31,6 +31,7 @@
 #include <libgnome/libgnome.h>
 #include <libgnomevfs/gnome-vfs-mime-info.h>
 #include <libgnomevfs/gnome-vfs-mime-handlers.h>
+#include <liboaf/liboaf.h>
 
 #include <ctype.h>    /* for isprint */
 #include <string.h>   /* for strstr  */
@@ -69,9 +70,6 @@ static gboolean handle_multipart_appledouble (CamelMimePart *part,
 static gboolean handle_multipart_encrypted   (CamelMimePart *part,
 					      const char *mime_type,
 					      MailDisplay *md);
-static gboolean handle_audio                 (CamelMimePart *part,
-					      const char *mime_type,
-					      MailDisplay *md);
 static gboolean handle_message_rfc822        (CamelMimePart *part,
 					      const char *mime_type,
 					      MailDisplay *md);
@@ -79,13 +77,7 @@ static gboolean handle_message_external_body (CamelMimePart *part,
 					      const char *mime_type,
 					      MailDisplay *md);
 
-static gboolean handle_unknown_type          (CamelMimePart *part,
-					      const char *mime_type,
-					      MailDisplay *md);
 static gboolean handle_via_bonobo            (CamelMimePart *part,
-					      const char *mime_type,
-					      MailDisplay *md);
-static gboolean handle_via_external          (CamelMimePart *part,
 					      const char *mime_type,
 					      MailDisplay *md);
 
@@ -94,7 +86,6 @@ static void write_headers (CamelMimeMessage *message, MailDisplay *md);
 
 /* dispatch html printing via mimetype */
 static gboolean call_handler_function (CamelMimePart *part, MailDisplay *md);
-
 
 static void
 free_url (gpointer key, gpointer value, gpointer data)
@@ -226,21 +217,13 @@ get_url_for_icon (const char *icon_name, MailDisplay *md)
 }
 
 
-
-/* We're maintaining a hashtable of mimetypes -> functions;
- * Those functions have the following signature...
- */
-typedef gboolean (*mime_handler_fn) (CamelMimePart *part,
-				     const char *mime_type,
-				     MailDisplay *md);
-
-static GHashTable *mime_function_table, *mime_fallback_table;
+static GHashTable *mime_handler_table, *mime_function_table;
 
 static void
-setup_function_table (void)
+setup_mime_tables (void)
 {
+	mime_handler_table = g_hash_table_new (g_str_hash, g_str_equal);
 	mime_function_table = g_hash_table_new (g_str_hash, g_str_equal);
-	mime_fallback_table = g_hash_table_new (g_str_hash, g_str_equal);
 
 	g_hash_table_insert (mime_function_table, "text/plain",
 			     handle_text_plain);
@@ -251,11 +234,34 @@ setup_function_table (void)
 	g_hash_table_insert (mime_function_table, "text/html",
 			     handle_text_html);
 
-	g_hash_table_insert (mime_function_table, "image/*",
+	g_hash_table_insert (mime_function_table, "image/gif",
 			     handle_image);
-
-	g_hash_table_insert (mime_function_table, "audio/*",
-			     handle_audio);
+	g_hash_table_insert (mime_function_table, "image/jpeg",
+			     handle_image);
+	g_hash_table_insert (mime_function_table, "image/png",
+			     handle_image);
+	g_hash_table_insert (mime_function_table, "image/x-png",
+			     handle_image);
+	g_hash_table_insert (mime_function_table, "image/tiff",
+			     handle_image);
+	g_hash_table_insert (mime_function_table, "image/x-bmp",
+			     handle_image);
+	g_hash_table_insert (mime_function_table, "image/bmp",
+			     handle_image);
+	g_hash_table_insert (mime_function_table, "image/x-cmu-raster",
+			     handle_image);
+	g_hash_table_insert (mime_function_table, "image/x-ico",
+			     handle_image);
+	g_hash_table_insert (mime_function_table, "image/x-portable-anymap",
+			     handle_image);
+	g_hash_table_insert (mime_function_table, "image/x-portable-bitmap",
+			     handle_image);
+	g_hash_table_insert (mime_function_table, "image/x-portable-graymap",
+			     handle_image);
+	g_hash_table_insert (mime_function_table, "image/x-portable-pixmap",
+			     handle_image);
+	g_hash_table_insert (mime_function_table, "image/x-xpixmap",
+			     handle_image);
 
 	g_hash_table_insert (mime_function_table, "message/rfc822",
 			     handle_message_rfc822);
@@ -279,97 +285,221 @@ setup_function_table (void)
 	 * as text/plain (as long as you recognize the character set),
 	 * and unrecognized multipart subtypes as multipart/mixed.
 	 */
-	g_hash_table_insert (mime_fallback_table, "text/*",
+	g_hash_table_insert (mime_function_table, "text/*",
 			     handle_text_plain);
 	g_hash_table_insert (mime_function_table, "multipart/*",
 			     handle_multipart_mixed);
 }
 
-static mime_handler_fn
-lookup_handler (const char *mime_type, gboolean *generic)
+static gboolean
+component_supports (OAF_ServerInfo *component, const char *mime_type)
 {
-	mime_handler_fn handler_function;
+	OAF_Property *prop;
+	CORBA_sequence_CORBA_string stringv;
+	int i;
+
+	prop = oaf_server_info_prop_find (component,
+					  "bonobo:supported_mime_types");
+	if (!prop || prop->v._d != OAF_P_STRINGV)
+		return FALSE;
+
+	stringv = prop->v._u.value_stringv;
+	for (i = 0; i < stringv._length; i++) {
+		if (!g_strcasecmp (mime_type, stringv._buffer[i]))
+			return TRUE;
+	}
+	return FALSE;
+}
+
+/**
+ * mail_lookup_handler:
+ * @mime_type: a MIME type
+ *
+ * Looks up the MIME type in its own tables and GNOME-VFS's and returns
+ * a MailMimeHandler structure detailing the component, application,
+ * and built-in handlers (if any) for that MIME type. (If the component
+ * is non-%NULL, the built-in handler will always be handle_via_bonobo().)
+ * The MailMimeHandler's @generic field is set if the match was for the
+ * MIME supertype rather than the exact type.
+ *
+ * Return value: a MailMimeHandler (which should not be freed), or %NULL
+ * if no handlers are available.
+ **/
+MailMimeHandler *
+mail_lookup_handler (const char *mime_type)
+{
+	MailMimeHandler *handler;
 	char *mime_type_main;
-	GnomeVFSMimeAction *action;
 
-	if (mime_function_table == NULL)
-		setup_function_table ();
+	if (mime_handler_table == NULL)
+		setup_mime_tables ();
 
+	/* See if we've already found it. */
+	handler = g_hash_table_lookup (mime_handler_table, mime_type);
+	if (handler)
+		return handler;
+
+	/* No. Create a new one and look up application and full type
+	 * handler. If we find a builtin, create the handler and
+	 * register it.
+	 */
+	handler = g_new0 (MailMimeHandler, 1);
+	handler->application =
+		gnome_vfs_mime_get_default_application (mime_type);
+	handler->builtin =
+		g_hash_table_lookup (mime_function_table, mime_type);
+
+	if (handler->builtin) {
+		handler->generic = FALSE;
+		goto reg;
+	}
+
+	/* Try for a exact component match. */
+	handler->component = gnome_vfs_mime_get_default_component (mime_type);
+	if (handler->component &&
+	    component_supports (handler->component, mime_type)) {
+		handler->generic = FALSE;
+		handler->builtin = handle_via_bonobo;
+		goto reg;
+	}
+
+	/* Try for a generic builtin match. */
 	mime_type_main = g_strdup_printf ("%.*s/*",
 					  (int)strcspn (mime_type, "/"),
 					  mime_type);
-
-	/* OK. There are 6 possibilities, which we try in this order:
-	 *   1) full match in the main table
-	 *   2) partial match in the main table
-	 *   3) full match in gnome_vfs_mime_*
-	 *   4) full match in the fallback table
-	 *   5) partial match in the fallback table
-	 *   6) partial match in gnome_vfs_mime_*
-	 *
-	 * Of these, 1-4 are considered exact matches, and 5 and 6 are
-	 * considered generic.
-	 */
-
-	/* Check for full match in mime_function_table. */
-	handler_function = g_hash_table_lookup (mime_function_table,
-						mime_type);
-	if (!handler_function) {
-		handler_function = g_hash_table_lookup (mime_function_table,
-							mime_type_main);
-		if (handler_function) {
-			/* Optimize this for the next time through. */
-			g_hash_table_insert (mime_function_table,
-					     g_strdup (mime_type),
-					     handler_function);
-		}
-	}
-
-	if (handler_function) {
-		g_free (mime_type_main);
-		*generic = FALSE;
-		return handler_function;
-	}
-
-	action = gnome_vfs_mime_get_default_action_without_fallback (mime_type);
-	if (action) {
-		if (action->action_type == GNOME_VFS_MIME_ACTION_TYPE_COMPONENT)
-			handler_function = handle_via_bonobo;
-		else
-			handler_function = handle_via_external;
-
-		/* Optimize this for the next time through. */
-		g_hash_table_insert (mime_function_table,
-				     g_strdup (mime_type), handler_function);
-		g_free (mime_type_main);
-		gnome_vfs_mime_action_free (action);
-		*generic = FALSE;
-		return handler_function;
-	}
-
-	handler_function = g_hash_table_lookup (mime_fallback_table,
-						mime_type);
-	if (handler_function)
-		*generic = FALSE;
-	else {
-		handler_function = g_hash_table_lookup (mime_fallback_table,
-							mime_type_main);
-		if (!handler_function) {
-			action = gnome_vfs_mime_get_default_action (mime_type_main);
-			if (action) {
-				if (action->action_type ==
-				    GNOME_VFS_MIME_ACTION_TYPE_COMPONENT)
-					handler_function = handle_via_bonobo;
-				else
-					handler_function = handle_via_external;
-				gnome_vfs_mime_action_free (action);
-			}
-		}
-		*generic = TRUE;
-	}
-
+	handler->builtin = g_hash_table_lookup (mime_function_table,
+						mime_type_main);
 	g_free (mime_type_main);
-	return handler_function;
+
+	if (handler->builtin) {
+		handler->generic = TRUE;
+		if (handler->component) {
+			CORBA_free (handler->component);
+			handler->component = NULL;
+		}
+		goto reg;
+	}
+
+	/* Try for a generic component match. */
+	if (handler->component) {
+		handler->generic = TRUE;
+		handler->builtin = handle_via_bonobo;
+		goto reg;
+	}
+
+	/* If we at least got an application, use that. */
+	if (handler->application) {
+		handler->generic = TRUE;
+		goto reg;
+	}
+
+	/* Nada. */
+	g_free (handler);
+	return NULL;
+
+ reg:
+	g_hash_table_insert (mime_handler_table, g_strdup (mime_type),
+			     handler);
+	return handler;
+}
+
+/* An "anonymous" MIME part is one that we shouldn't call attention
+ * to the existence of, but simply display.
+ */
+static gboolean
+is_anonymous (CamelMimePart *part, const char *mime_type)
+{
+	if (!g_strncasecmp (mime_type, "multipart/", 10) ||
+	    !g_strncasecmp (mime_type, "message/", 8))
+		return TRUE;
+
+	if (!g_strncasecmp (mime_type, "text/", 5) &&
+	    !camel_mime_part_get_filename (part))
+		return TRUE;
+
+	return FALSE;
+}
+
+/**
+ * mail_part_is_inline:
+ * @part: a CamelMimePart
+ *
+ * Return value: whether or not the part should/will be displayed inline.
+ **/
+gboolean
+mail_part_is_inline (CamelMimePart *part)
+{
+	const char *disposition;
+	GMimeContentField *content_type;
+	const char *mime_type;
+
+	/* If it has an explicit disposition, return that. */
+	disposition = camel_mime_part_get_disposition (part);
+	if (disposition)
+		return g_strcasecmp (disposition, "inline") == 0;
+
+	/* Certain types should default to inline. FIXME: this should
+	 * be customizable.
+	 */
+	content_type = camel_mime_part_get_content_type (part);
+	mime_type = gmime_content_field_get_mime_type (content_type);
+	if (!g_strncasecmp (mime_type, "message/", 8))
+		return TRUE;
+
+	/* Otherwise, display it inline if it's "anonymous", and
+	 * as an attachment otherwise.
+	 */
+	return is_anonymous (part, mime_type);
+}
+
+static void
+attachment_header (CamelMimePart *part, const char *mime_type,
+		   gboolean is_inline, MailDisplay *md)
+{
+	const char *info;
+	char *htmlinfo;
+
+	/* No header for anonymous inline parts. */
+	if (is_inline && is_anonymous (part, mime_type))
+		return;
+
+	/* Start the table, create the pop-up object. */
+	mail_html_write (md->html, md->stream, "<table><tr><td>"
+			 "<object classid=\"popup:%s\" type=\"%s\">"
+			 "</object></td><td><font size=-1>",
+			 get_cid (part, md), mime_type);
+
+	/* Write the MIME type */
+	info = gnome_vfs_mime_get_value (mime_type, "description");
+	htmlinfo = e_text_to_html (info ? info : mime_type, 0);
+	mail_html_write (md->html, md->stream, "%s attachment", htmlinfo);
+	g_free (htmlinfo);
+
+	/* Write the name, if we have it. */
+	info = camel_mime_part_get_filename (part);
+	if (info) {
+		htmlinfo = e_text_to_html (info, 0);
+		mail_html_write (md->html, md->stream, " (%s)", htmlinfo);
+		g_free (htmlinfo);
+	}
+
+	/* Write a description, if we have one. */
+	info = camel_mime_part_get_description (part);
+	if (info) {
+		htmlinfo = e_text_to_html (info, E_TEXT_TO_HTML_CONVERT_URLS);
+		mail_html_write (md->html, md->stream, ", \"%s\"", htmlinfo);
+		g_free (htmlinfo);
+	}
+
+#if 0
+	/* Describe the click action, if any. */
+	if (action) {
+		mail_html_write (md->html, md->stream,
+				 "<br>Click on the icon to %s.", action);
+	}
+#endif
+
+	mail_html_write (md->html, md->stream, "</font></td></tr></table>");
 }
 
 static gboolean
@@ -377,18 +507,31 @@ call_handler_function (CamelMimePart *part, MailDisplay *md)
 {
 	CamelDataWrapper *wrapper;
 	char *mime_type;
-	mime_handler_fn handler_function = NULL;
-	gboolean generic, output;
+	MailMimeHandler *handler;
+	gboolean output, is_inline;
 
 	wrapper = camel_medium_get_content_object (CAMEL_MEDIUM (part));
 	mime_type = camel_data_wrapper_get_mime_type (wrapper);
 	g_strdown (mime_type);
 
-	handler_function = lookup_handler (mime_type, &generic);
-	if (handler_function)
-		output = (*handler_function) (part, mime_type, md);
+	handler = mail_lookup_handler (mime_type);
+	if (!handler) {
+		char *id_type;
+
+		id_type = mail_identify_mime_part (part);
+		if (id_type) {
+			g_free (mime_type);
+			mime_type = id_type;
+			handler = mail_lookup_handler (id_type);
+		}
+	}
+
+	is_inline = mail_part_is_inline (part);
+	attachment_header (part, mime_type, is_inline, md);
+	if (handler && handler->builtin && is_inline)
+		output = (*handler->builtin) (part, mime_type, md);
 	else
-		output = handle_unknown_type (part, mime_type, md);
+		output = TRUE;
 
 	g_free (mime_type);
 	return output;
@@ -528,7 +671,7 @@ handle_text_plain (CamelMimePart *part, const char *mime_type,
 	text = get_data_wrapper_text (wrapper);
 	if (!text)
 		return FALSE;
-	
+
 	/* Check for RFC 2646 flowed text. */
 	type = camel_mime_part_get_content_type (part);
 	format = gmime_content_field_get_parameter (type, "format");
@@ -655,6 +798,7 @@ fake_mime_part_from_data (const char *data, int len, const char *type)
 	part = camel_mime_part_new ();
 	camel_medium_set_content_object (CAMEL_MEDIUM (part), wrapper);
 	camel_object_unref (CAMEL_OBJECT (wrapper));
+	camel_mime_part_set_disposition (part, "inline");
 	return part;
 }
 
@@ -1177,7 +1321,7 @@ find_preferred_alternative (CamelMultipart *multipart, gboolean want_plain)
 {
 	int i, nparts;
 	CamelMimePart *preferred_part = NULL;
-	gboolean generic;
+	MailMimeHandler *handler;
 
 	nparts = camel_multipart_get_number (multipart);
 	for (i = 0; i < nparts; i++) {
@@ -1188,8 +1332,8 @@ find_preferred_alternative (CamelMultipart *multipart, gboolean want_plain)
 		g_strdown (mime_type);
 		if (want_plain && !strcmp (mime_type, "text/plain"))
 			return part;
-		if (lookup_handler (mime_type, &generic) &&
-		    (!preferred_part || !generic))
+		handler = mail_lookup_handler (mime_type);
+		if (handler && (!preferred_part || !handler->generic))
 			preferred_part = part;
 		g_free (mime_type);
 	}
@@ -1213,7 +1357,7 @@ handle_multipart_alternative (CamelMimePart *part, const char *mime_type,
 	if (mime_part)
 		return call_handler_function (mime_part, md);
 	else
-		return handle_unknown_type (part, mime_type, md);
+		return handle_multipart_mixed (part, mime_type, md);
 }
 
 /* RFC 1740 */
@@ -1234,82 +1378,6 @@ handle_multipart_appledouble (CamelMimePart *part, const char *mime_type,
 	 */
 	part = camel_multipart_get_part (multipart, 1);
 	return call_handler_function (part, md);
-}
-
-static void
-handle_mystery (CamelMimePart *part, MailDisplay *md,
-		const char *url, const char *icon_name, const char *id,
-		const char *action)
-{
-	const char *info;
-	char *htmlinfo;
-
-	mail_html_write (md->html, md->stream, "<table><tr><td>");
-
-	/* Draw the icon, surrounded by an <a href> if we have a URL,
-	 * or a plain inactive border if not.
-	 */
-	if (url) {
-		mail_html_write (md->html, md->stream,
-				 "<a href=\"%s\">", url);
-	} else {
-		mail_html_write (md->html, md->stream,
-				 "<table border=2><tr><td>");
-	}
-	mail_html_write (md->html, md->stream, "<img src=\"%s\">",
-			 get_url_for_icon (icon_name, md));
-
-	if (url)
-		mail_html_write (md->html, md->stream, "</a>");
-	else
-		mail_html_write (md->html, md->stream, "</td></tr></table>");
-	mail_html_write (md->html, md->stream, "</td><td>%s<br>", id);
-
-	/* Write a description, if we have one. */
-	info = camel_mime_part_get_description (part);
-	if (info) {
-		htmlinfo = e_text_to_html (info, E_TEXT_TO_HTML_CONVERT_URLS);
-		mail_html_write (md->html, md->stream, "Description: %s<br>",
-				 htmlinfo);
-		g_free (htmlinfo);
-	}
-
-	/* Write the name, if we have it. */
-	info = camel_mime_part_get_filename (part);
-	if (info) {
-		htmlinfo = e_text_to_html (info, 0);
-		mail_html_write (md->html, md->stream, "Name: %s<br>",
-				 htmlinfo);
-		g_free (htmlinfo);
-	}
-
-	/* Describe the click action, if any. */
-	if (action) {
-		mail_html_write (md->html, md->stream,
-				 "<br>Click on the icon to %s.", action);
-	}
-
-	mail_html_write (md->html, md->stream, "</td></tr></table>");
-}
-
-static gboolean
-handle_audio (CamelMimePart *part, const char *mime_type, MailDisplay *md)
-{
-	char *id;
-	const char *desc;
-
-	desc = gnome_vfs_mime_get_value (mime_type, "description");
-	if (desc)
-		id = g_strdup_printf ("%s data", desc);
-	else {
-		id = g_strdup_printf ("Audio data in \"%s\" format.",
-				      mime_type);
-	}
-	handle_mystery (part, md, get_cid (part, md), "gnome-audio2.png",
-			id, "play it");
-	g_free (id);
-
-	return TRUE;
 }
 
 static gboolean
@@ -1429,59 +1497,13 @@ handle_message_external_body (CamelMimePart *part, const char *mime_type,
 			desc = g_strdup ("Malformed external-body part.");
 	}
 
+#if 0 /* FIXME */
 	handle_mystery (part, md, url, "gnome-globe.png", desc,
 			url ? "open it in a browser" : NULL);
+#endif
 
 	g_free (desc);
 	g_free (url);
-	return TRUE;
-}
-
-static gboolean
-handle_undisplayable (CamelMimePart *part, const char *mime_type,
-		      MailDisplay *md)
-{
-	const char *desc;
-	char *id;
-
-	desc = gnome_vfs_mime_get_value (mime_type, "description");
-	if (desc)
-		id = g_strdup (desc);
-	else
-		id = g_strdup_printf ("Data of type \"%s\".", mime_type);
-	handle_mystery (part, md, get_cid (part, md), "gnome-question.png",
-			id, "save it to disk");
-	g_free (id);
-
-	return TRUE;
-}
-
-static gboolean
-handle_unknown_type (CamelMimePart *part, const char *mime_type,
-		     MailDisplay *md)
-{
-	char *type;
-
-	/* Don't give up quite yet. */
-	type = mail_identify_mime_part (part);
-	if (type) {
-		mime_handler_fn handler_function;
-		gboolean generic, output;
-
-		handler_function = lookup_handler (type, &generic);
-		if (handler_function &&
-		    handler_function != handle_unknown_type) {
-			output = (*handler_function) (part, type, md);
-			g_free (type);
-			return output;
-		}
-	} else
-		type = g_strdup (mime_type);
-
-	/* OK. Give up. */
-	handle_undisplayable (part, type, md);
-	g_free (type);
-
 	return TRUE;
 }
 
@@ -1490,42 +1512,8 @@ handle_via_bonobo (CamelMimePart *part, const char *mime_type,
 		   MailDisplay *md)
 {
 	mail_html_write (md->html, md->stream,
-			 "<object classid=\"%s\" type=\"%s\">",
+			 "<object classid=\"%s\" type=\"%s\"></object>",
 			 get_cid (part, md), mime_type);
-
-	/* Call handle_undisplayable to output its HTML inside the
-	 * <object> ... </object>. It will only be displayed if the
-	 * object loading fails.
-	 */
-	handle_undisplayable (part, mime_type, md);
-
-	mail_html_write (md->html, md->stream, "</object>");
-
-	return TRUE;
-}
-
-static gboolean
-handle_via_external (CamelMimePart *part, const char *mime_type,
-		     MailDisplay *md)
-{
-	GnomeVFSMimeApplication *app;
-	const char *desc, *icon;
-	char *action, *url;
-
-	app = gnome_vfs_mime_get_default_application (mime_type);
-	g_return_val_if_fail (app != NULL, FALSE);
-
-	desc = gnome_vfs_mime_get_value (mime_type, "description");
-	icon = gnome_vfs_mime_get_value (mime_type, "icon-filename");
-	if (!icon)
-		icon = "gnome-unknown.png";
-	action = g_strdup_printf ("open the file in %s", app->name);
-	url = g_strdup_printf ("x-evolution-external:%s", app->command);
-	handle_mystery (part, md, url, icon, desc, action);
-	add_url (url, part, md);
-
-	g_free (action);
-
 	return TRUE;
 }
 
@@ -1536,7 +1524,7 @@ mail_get_message_body (CamelDataWrapper *data, gboolean want_plain, gboolean *is
 	CamelMimePart *subpart;
 	int i, nparts;
 	char *subtext, *old;
-	const char *boundary, *disp;
+	const char *boundary;
 	char *text = NULL;
 	GMimeContentField *mime_type;
 
@@ -1587,8 +1575,7 @@ mail_get_message_body (CamelDataWrapper *data, gboolean want_plain, gboolean *is
 	for (i = 0; i < nparts; i++) {
 		subpart = camel_multipart_get_part (mp, i);
 
-		disp = camel_mime_part_get_disposition (subpart);
-		if (disp && g_strcasecmp (disp, "inline") != 0)
+		if (!mail_part_is_inline (subpart))
 			continue;
 
 		data = camel_medium_get_content_object (
