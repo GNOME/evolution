@@ -100,10 +100,16 @@ ftp.gnome.org. The (*)ed packages are available in Helix GNOME.
 
  - oaf - 0.3 or later
 
+   *** You should use the flag "--disable-more-warnings" when
+   *** configuring oaf, or it may fail to build.
+
  - gnome-vfs - from CVS (0.2 mostly works, but has a bug where it
    doesn't install one of its header files
    [libgnomevfs/gnome-vfs-file-size.h] so you have to install it by
    hand if you use that version.)
+
+   *** You should use the flag "--disable-more-warnings" when
+   *** configuring gnome-vfs, or it may fail to build.
 
  - bonobo - 0.16 or later
 
