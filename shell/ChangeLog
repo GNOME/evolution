@@ -1,3 +1,11 @@
+2000-07-16  Damon Chaplin  <damon@helixcode.com>
+
+	* e-shortcuts-view.c (e_shortcuts_view_construct): created a model
+	for the EShortcutBar. This will probably have to be moved to support
+	multiple views.
+	(class_init): #if'd out overriding the class functions. They don't
+	exist any more (they are in the model instead).
+
 2000-07-12  Christopher James Lahey  <clahey@helixcode.com>
 
 	* main.c: Fixed to match gconf API change.

@@ -109,7 +109,7 @@ load_group (EShortcutsView *shortcuts_view,
 		}
 
 		name = e_folder_get_name (folder);
-		e_shortcut_bar_add_item (E_SHORTCUT_BAR (shortcuts_view), group_num, uri, name);
+		e_shortcut_model_add_item (E_SHORTCUT_BAR (shortcuts_view)->model, group_num, -1, uri, name);
 	}
 
 	e_free_string_list (shortcut_list);
@@ -132,8 +132,8 @@ load_all_shortcuts (EShortcutsView *shortcuts_view,
 		const char *group_title;
 
 		group_title = (const char *) p->data;
-		group_num = e_shortcut_bar_add_group (E_SHORTCUT_BAR (shortcuts_view),
-						      group_title);
+		group_num = e_shortcut_model_add_group (E_SHORTCUT_BAR (shortcuts_view)->model,
+							-1, group_title);
 
 		load_group (shortcuts_view, shortcuts, group_title, group_num);
 	}
@@ -321,8 +321,9 @@ remove_shortcut_cb (GtkWidget *widget,
 	e_shortcuts_remove_shortcut (shortcuts, menu_data->group_num, menu_data->item_num);
 
 	/* FIXME not real model-view.  */
-	e_shortcut_bar_remove_item (E_SHORTCUT_BAR (shortcuts_view),
-				    menu_data->group_num, menu_data->item_num);
+	e_shortcut_model_remove_item (E_SHORTCUT_BAR (shortcuts_view)->model,
+				      menu_data->group_num,
+				      menu_data->item_num);
 }
 
 static GnomeUIInfo shortcut_right_click_menu_uiinfo[] = {
@@ -507,11 +508,12 @@ class_init (EShortcutsViewClass *klass)
 
 	shortcut_bar_class = E_SHORTCUT_BAR_CLASS (klass);
 	shortcut_bar_class->selected_item = selected_item;
+#if 0
 	shortcut_bar_class->added_item    = added_item;
 	shortcut_bar_class->removed_item  = removed_item;
 	shortcut_bar_class->added_group   = added_group;
 	shortcut_bar_class->removed_group = removed_group;
-
+#endif
 	parent_class = gtk_type_class (e_shortcut_bar_get_type ());
 
 	signals[ACTIVATE_SHORTCUT] =
@@ -549,6 +551,9 @@ e_shortcuts_view_construct (EShortcutsView *shortcuts_view,
 	g_return_if_fail (E_IS_SHORTCUTS (shortcuts));
 
 	priv = shortcuts_view->priv;
+
+	e_shortcut_bar_set_model (E_SHORTCUT_BAR (shortcuts_view),
+				  e_shortcut_model_new ());
 
 	e_shortcut_bar_set_icon_callback (E_SHORTCUT_BAR (shortcuts_view), icon_callback,
 					  shortcuts);
