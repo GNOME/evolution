@@ -1,3 +1,12 @@
+2001-08-07  Jason Leach  <jleach@ximian.com>
+
+	* e-storage-set-view.c (etree_value_at): Don't use a leaky hash to
+	get folder names with unread count, use gtk_object_set_data_full
+	and gtk_object_get_data on the EFolder.
+	(etree_icon_at): Give the "My Evolution" storage an icon through a
+	non-generic way.  Will be replaced by a generic method when other
+	storages get icons too.
+
 2001-08-07  Ettore Perazzoli  <ettore@ximian.com>
 
 	* evolution-activity-client.c

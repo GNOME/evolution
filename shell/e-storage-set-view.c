@@ -237,7 +237,7 @@ remove_node_from_hash (EStorageSetView *storage_set_view,
 	return node;
 }
 
-static GdkPixbuf*
+static GdkPixbuf *
 get_pixbuf_for_folder (EStorageSetView *storage_set_view,
 		       EFolder *folder)
 {
@@ -1377,25 +1377,25 @@ etree_icon_at (ETreeModel *etree,
 	char *path;
 	int depth;
 
-	/* folders are from depth 2 on.  depth 1 are storages and 0 is
-           our My Evolution root node. */
+	storage_set_view = E_STORAGE_SET_VIEW (model_data);
+	storage_set = storage_set_view->priv->storage_set;
+
+	/* Tree depth will indicate storages or folders */
 	depth = e_tree_model_node_depth (etree, tree_path);
 
-	if (depth == 0) {
-		/* My Evolution */
-		storage_set_view = E_STORAGE_SET_VIEW (model_data);
-		storage_set = storage_set_view->priv->storage_set;
+	path = (char*)e_tree_memory_node_get_data (E_TREE_MEMORY(etree), tree_path);
+
+	/* Storages, My Evolution is the only special case for now */
+	if (depth == 1 && !strcmp (path, "/My Evolution")) { /* Storages */
 		
 		folder_type_registry = e_storage_set_get_folder_type_registry (storage_set);
 		
 		icon_pixbuf = e_folder_type_registry_get_icon_for_type (folder_type_registry,
 									"My Evolution", TRUE);
 		return icon_pixbuf;
-	} else if (depth >= 2) {
-		storage_set_view = E_STORAGE_SET_VIEW (model_data);
-		storage_set = storage_set_view->priv->storage_set;
-		
-		path = (char*)e_tree_memory_node_get_data (E_TREE_MEMORY(etree), tree_path);
+	}
+	/* Folders */
+	else if (depth >= 2) {
 		
 		folder = e_storage_set_get_folder (storage_set, path);
 		if (folder == NULL)
@@ -1441,21 +1441,6 @@ etree_get_node_by_id (ETreeModel *etm, gchar *save_id, void *model_data)
 	return g_hash_table_lookup (storage_set_view->priv->path_to_etree_node, save_id);
 }
 
-GHashTable *folders_with_unread = NULL;
-
-static void
-update_folder_with_unread_hash (const char *folder_name, int unread_count)
-{
-	if (!folders_with_unread)
-	        folders_with_unread = g_hash_table_new (g_str_hash, g_str_equal);
-
-	g_hash_table_insert (folders_with_unread,
-			     g_strdup (folder_name),
-			     g_strdup_printf ("%s (%d)",
-					      folder_name,
-					      unread_count));
-}
-
 static void *
 etree_value_at (ETreeModel *etree, ETreePath tree_path, int col, void *model_data)
 {
@@ -1475,15 +1460,16 @@ etree_value_at (ETreeModel *etree, ETreePath tree_path, int col, void *model_dat
 		const char *folder_name = e_folder_get_name (folder);
 		int unread_count = e_folder_get_unread_count (folder);
 
-		update_folder_with_unread_hash (folder_name, unread_count);
+		if (unread_count > 0)
+			gtk_object_set_data_full (GTK_OBJECT (folder), "name_with_unread",
+						  g_strdup_printf ("%s (%d)", folder_name, unread_count), g_free);
 
 		if (col == 0)
 			if (unread_count > 0)
-				return (void *) g_hash_table_lookup (folders_with_unread,
-								     folder_name);
+				return (void *) gtk_object_get_data (GTK_OBJECT (folder),
+								     "name_with_unread");
 			else
 				return (void *) folder_name;
-		
 		else
 			return (void *) e_folder_get_highlighted (folder);
 	}
@@ -1647,7 +1633,7 @@ new_folder_cb (EStorageSet *storage_set,
 
 	copy_of_path = g_strdup (path);
 	new_node = e_tree_memory_node_insert (E_TREE_MEMORY(etree), parent_node, -1, copy_of_path);
-	e_tree_memory_sort_node(E_TREE_MEMORY(etree), parent_node, folder_sort_callback, storage_set_view);
+	e_tree_memory_sort_node (E_TREE_MEMORY(etree), parent_node, folder_sort_callback, storage_set_view);
 
 	if (! add_node_to_hash (storage_set_view, path, new_node)) {
 		e_tree_memory_node_remove (E_TREE_MEMORY(etree), new_node);
