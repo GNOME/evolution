@@ -4437,7 +4437,7 @@ e_day_view_finish_long_event_resize (EDayView *day_view)
 	day_view->resize_drag_pos = E_DAY_VIEW_POS_NONE;
 
 	if (cal_client_update_object (day_view->client, comp)) {
-		if (cal_component_has_attendees (comp) && send_component_dialog (comp))
+		if (cal_component_has_attendees (comp) && send_component_dialog (comp, FALSE))
 			itip_send_comp (CAL_COMPONENT_METHOD_REQUEST, comp);
 	} else {
 		g_message ("e_day_view_finish_long_event_resize(): Could not update the object!");
@@ -4498,7 +4498,7 @@ e_day_view_finish_resize (EDayView *day_view)
 	day_view->resize_drag_pos = E_DAY_VIEW_POS_NONE;
 
 	if (cal_client_update_object (day_view->client, comp)) {
-		if (cal_component_has_attendees (comp) && send_component_dialog (comp))
+		if (cal_component_has_attendees (comp) && send_component_dialog (comp, FALSE))
 			itip_send_comp (CAL_COMPONENT_METHOD_REQUEST, comp);
 	} else {
 		g_message ("e_day_view_finish_resize(): Could not update the object!");
@@ -5841,7 +5841,7 @@ e_day_view_on_editing_stopped (EDayView *day_view,
 		cal_component_set_summary (event->comp, &summary);
 
 		if (cal_client_update_object (day_view->client, event->comp)) {
-			if (cal_component_has_attendees (event->comp) && send_component_dialog (event->comp))
+			if (cal_component_has_attendees (event->comp) && send_component_dialog (event->comp, FALSE))
 				itip_send_comp (CAL_COMPONENT_METHOD_REQUEST, event->comp);
 		} else {
 			g_message ("e_day_view_on_editing_stopped(): Could not update the object!");
@@ -6889,7 +6889,7 @@ e_day_view_on_top_canvas_drag_data_received  (GtkWidget          *widget,
 				gnome_canvas_item_show (event->canvas_item);
 
 			if (cal_client_update_object (day_view->client, comp)) {
-				if (cal_component_has_attendees (comp) && send_component_dialog (comp))
+				if (cal_component_has_attendees (comp) && send_component_dialog (comp, FALSE))
 					itip_send_comp (CAL_COMPONENT_METHOD_REQUEST, comp);
 			} else {
 				g_message ("e_day_view_on_top_canvas_drag_data_received(): Could "
@@ -7001,7 +7001,7 @@ e_day_view_on_main_canvas_drag_data_received  (GtkWidget          *widget,
 				gnome_canvas_item_show (event->canvas_item);
 
 			if (cal_client_update_object (day_view->client, comp)) {
-				if (cal_component_has_attendees (comp) && send_component_dialog (comp))
+				if (cal_component_has_attendees (comp) && send_component_dialog (comp, FALSE))
 					itip_send_comp (CAL_COMPONENT_METHOD_REQUEST, comp);
 			} else {
 				g_message ("e_day_view_on_main_canvas_drag_data_received(): "

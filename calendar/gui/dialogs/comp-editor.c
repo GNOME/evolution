@@ -69,6 +69,7 @@ struct _CompEditorPrivate {
 
 	gboolean changed;
 	gboolean needs_send;
+	gboolean needs_send_new;
 	gboolean updating;
 };
 
@@ -87,7 +88,6 @@ static void delete_comp (CompEditor *editor);
 static void close_dialog (CompEditor *editor);
 
 static void page_changed_cb (GtkObject *obj, gpointer data);
-static void page_needs_send_cb (GtkObject *obj, gpointer data);
 static void page_summary_changed_cb (GtkObject *obj, const char *summary, gpointer data);
 static void page_dates_changed_cb (GtkObject *obj, CompEditorPageDates *dates, gpointer data);
 
@@ -239,6 +239,7 @@ comp_editor_init (CompEditor *editor)
 	priv->pages = NULL;
 	priv->changed = FALSE;
 	priv->needs_send = FALSE;
+	priv->needs_send_new = FALSE;
 }
 
 
@@ -343,7 +344,7 @@ save_comp_with_send (CompEditor *editor)
 	if (!save_comp (editor))
 		return FALSE;
 
-	if (send && send_component_dialog (priv->comp))
+	if (send && send_component_dialog (priv->comp, priv->needs_send_new))
 		comp_editor_send_comp (editor, CAL_COMPONENT_METHOD_REQUEST);
 
 	return TRUE;
@@ -553,8 +554,6 @@ comp_editor_append_page (CompEditor *editor,
 	gtk_notebook_append_page (priv->notebook, page_widget, label_widget);
 
 	/* Listen for things happening on the page */
-	gtk_signal_connect (GTK_OBJECT (page), "needs_send",
-			    GTK_SIGNAL_FUNC (page_needs_send_cb), editor);
 	gtk_signal_connect (GTK_OBJECT (page), "changed",
 			    GTK_SIGNAL_FUNC (page_changed_cb), editor);
 	gtk_signal_connect (GTK_OBJECT (page), "summary_changed",
@@ -835,6 +834,8 @@ real_edit_comp (CompEditor *editor, CalComponent *comp)
 	if (comp)
 		priv->comp = cal_component_clone (comp);
 
+	priv->needs_send_new = !priv->needs_send;
+	
 	set_title_from_comp (editor);
 	set_icon_from_comp (editor);
 	fill_widgets (editor);
@@ -1214,17 +1215,6 @@ page_changed_cb (GtkObject *obj, gpointer data)
 	priv = editor->priv;
 
 	priv->changed = TRUE;
-}
-
-static void
-page_needs_send_cb (GtkObject *obj, gpointer data)
-{
-	CompEditor *editor = COMP_EDITOR (data);
-	CompEditorPrivate *priv;
-
-	priv = editor->priv;
-
-	priv->needs_send = TRUE;
 }
 
 /* Page signal callbacks */

@@ -37,7 +37,6 @@ static GtkObjectClass *parent_class = NULL;
 
 enum {
 	CHANGED,
-	NEEDS_SEND,
 	SUMMARY_CHANGED,
 	DATES_CHANGED,
 	LAST_SIGNAL
@@ -98,15 +97,6 @@ comp_editor_page_class_init (CompEditorPageClass *class)
 				object_class->type,
 				GTK_SIGNAL_OFFSET (CompEditorPageClass,
 						   changed),
-				gtk_marshal_NONE__NONE,
-				GTK_TYPE_NONE, 0);
-
-	comp_editor_page_signals[NEEDS_SEND] =
-		gtk_signal_new ("needs_send",
-				GTK_RUN_FIRST,
-				object_class->type,
-				GTK_SIGNAL_OFFSET (CompEditorPageClass,
-						   needs_send),
 				gtk_marshal_NONE__NONE,
 				GTK_TYPE_NONE, 0);
 
@@ -329,21 +319,6 @@ comp_editor_page_notify_changed (CompEditorPage *page)
 	g_return_if_fail (IS_COMP_EDITOR_PAGE (page));
 
 	gtk_signal_emit (GTK_OBJECT (page), comp_editor_page_signals[CHANGED]);
-}
-
-/**
- * comp_editor_page_notify_needs_send:
- * @page: 
- * 
- * 
- **/
-void
-comp_editor_page_notify_needs_send (CompEditorPage *page)
-{
-	g_return_if_fail (page != NULL);
-	g_return_if_fail (IS_COMP_EDITOR_PAGE (page));
-
-	gtk_signal_emit (GTK_OBJECT (page), comp_editor_page_signals[NEEDS_SEND]);	
 }
 
 /**

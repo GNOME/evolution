@@ -1,5 +1,34 @@
-2001-12-21    <jpr@ximian.com>
+2001-12-21  JP Rosevear  <jpr@ximian.com>
 
+	* gui/dialogs/comp-editor.c: remove needs send signal related
+	cruft
+	(save_comp_with_send): with send_component_dialog, indicate if the
+	meeting info is newly created or not
+	(real_edit_comp): remember if the dialog initially needs a send
+
+	* gui/dialogs/send-comp.c (send_component_dialog): take a "new"
+	parameter indicating whether the dialog should intimate if the
+	component to be sent is a new meeting or not
+
+	* gui/dialogs/send-comp.h: update proto
+
+	* gui/dialogs/comp-editor.c: remove no longer used needs_send
+	notification and signal
+
+	* gui/dialogs/comp-editor.h: remove proto
+
+	* gui/e-day-view.c (e_day_view_on_main_canvas_drag_data_received): add new
+	param to send_component_dialog
+	(e_day_view_finish_long_event_resize): ditto
+	(e_day_view_finish_resize): ditto
+	(e_day_view_on_editing_stopped): ditto
+	(e_day_view_on_top_canvas_drag_data_received): ditto
+
+	* gui/e-week-view.c (e_week_view_on_editing_stopped): add new
+	param to send_component_dialog
+
+2001-12-21 JP Rosevear  <jpr@ximian.com>
+	
 	* gui/dialogs/comp-editor.h: inherit from bonobo window	
 
 	* gui/dialogs/comp-editor.c: inherit from bonobo window

@@ -24,6 +24,6 @@
 #include <glib.h>
 #include <cal-util/cal-component.h>
 
-gboolean send_component_dialog (CalComponent *comp);
+gboolean send_component_dialog (CalComponent *comp, gboolean new);
 
 #endif

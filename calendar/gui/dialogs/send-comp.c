@@ -42,7 +42,7 @@
  * Return value: TRUE if the user clicked Yes, FALSE otherwise.
  **/
 gboolean
-send_component_dialog (CalComponent *comp)
+send_component_dialog (CalComponent *comp, gboolean new)
 {
 	GtkWidget *dialog;
 	CalComponentVType vtype;
@@ -52,18 +52,24 @@ send_component_dialog (CalComponent *comp)
 
 	switch (vtype) {
 	case CAL_COMPONENT_EVENT:
-		str = g_strdup_printf (_("The meeting information has changed. "
-					 "Send an updated version?"));
+		if (new)
+			str = g_strdup_printf (_("The meeting information has "
+						 "been created. Send it?"));
+		else
+			str = g_strdup_printf (_("The meeting information has "
+						 "changed. Send an updated "
+						 "version?"));
 		break;
 
 	case CAL_COMPONENT_TODO:
-		str = g_strdup_printf (_("The task information has changed. "
-					 "Send an updated version?"));
-		break;
-
-	case CAL_COMPONENT_JOURNAL:
-		str = g_strdup_printf (_("The journal entry has changed. "
-					 "Send an updated version?"));
+		if (new)
+			str = g_strdup_printf (_("The task assignment "
+						 "information has been "
+						 "created. Send it?"));
+		else
+			str = g_strdup_printf (_("The task information has "
+						 "changed. Send an updated "
+						 "version?"));
 		break;
 
 	default:
