@@ -26,7 +26,6 @@
 
 #include <config.h>
 #include <stdio.h>
-#include <unicode.h>
 #include <ctype.h>
 #include <math.h>
 #include <string.h>
@@ -1607,7 +1606,7 @@ _get_position_from_xy (CurrentCell *cell, gint x, gint y)
 	lines += j;
 	xpos = get_line_xpos (cell, lines);
 
-	for (p = lines->text; p < lines->text + lines->length; p = unicode_next_utf8 (p)) {
+	for (p = lines->text; p < lines->text + lines->length; p = g_utf8_next_char (p)) {
 		gint charwidth;
 
 		charwidth = e_font_utf8_char_width (font, cell->style, p);
@@ -1733,15 +1732,15 @@ _get_position (ECellTextView *text_view, ETextEventProcessorCommand *command)
 
 		if (edit->selection_end < 1) return 0;
 
-		p = unicode_previous_utf8 (cell->text, cell->text + edit->selection_end);
+		p = g_utf8_find_prev_char (cell->text, cell->text + edit->selection_end);
 
 		if (p == cell->text) return 0;
 
-		p = unicode_previous_utf8 (cell->text, p);
+		p = g_utf8_find_prev_char (cell->text, p);
 
 		while (p && p > cell->text) {
 			if (*p == '\n') return p - cell->text + 1;
-			p = unicode_previous_utf8 (cell->text, p);
+			p = g_utf8_find_prev_char (cell->text, p);
 		}
 
 		return 0;
@@ -1751,11 +1750,11 @@ _get_position (ECellTextView *text_view, ETextEventProcessorCommand *command)
 		length = strlen (cell->text);
 		if (edit->selection_end >= length) return length;
 
-		p = unicode_next_utf8 (cell->text + edit->selection_end);
+		p = g_utf8_next_char (cell->text + edit->selection_end);
 
 		while (*p) {
 			if (*p == '\n') return p - cell->text;
-			p = unicode_next_utf8 (p);
+			p = g_utf8_next_char (p);
 		}
 
 		return p - cell->text;
@@ -1765,7 +1764,7 @@ _get_position (ECellTextView *text_view, ETextEventProcessorCommand *command)
 		length = strlen (cell->text);
 		if (edit->selection_end >= length) return length;
 
-		p = unicode_next_utf8 (cell->text + edit->selection_end);
+		p = g_utf8_next_char (cell->text + edit->selection_end);
 
 		return p - cell->text;
 
@@ -1773,7 +1772,7 @@ _get_position (ECellTextView *text_view, ETextEventProcessorCommand *command)
 
 		if (edit->selection_end < 1) return 0;
 
-		p = unicode_previous_utf8 (cell->text, cell->text + edit->selection_end);
+		p = g_utf8_find_prev_char (cell->text, cell->text + edit->selection_end);
 
 		if (p == NULL) return 0;
 
@@ -1784,12 +1783,12 @@ _get_position (ECellTextView *text_view, ETextEventProcessorCommand *command)
 		length = strlen (cell->text);
 		if (edit->selection_end >= length) return length;
 
-		p = unicode_next_utf8 (cell->text + edit->selection_end);
+		p = g_utf8_next_char (cell->text + edit->selection_end);
 
 		while (*p) {
-			unicode_get_utf8 (p, &unival);
-			if (unicode_isspace (unival)) return p - cell->text;
-			p = unicode_next_utf8 (p);
+			unival = g_utf8_get_char (p);
+			if (g_unichar_isspace (unival)) return p - cell->text;
+			p = g_utf8_next_char (p);
 		}
 
 		return p - cell->text;
@@ -1798,18 +1797,18 @@ _get_position (ECellTextView *text_view, ETextEventProcessorCommand *command)
 
 		if (edit->selection_end < 1) return 0;
 
-		p = unicode_previous_utf8 (cell->text, cell->text + edit->selection_end);
+		p = g_utf8_find_prev_char (cell->text, cell->text + edit->selection_end);
 
 		if (p == cell->text) return 0;
 
-		p = unicode_previous_utf8 (cell->text, p);
+		p = g_utf8_find_prev_char (cell->text, p);
 
 		while (p && p > cell->text) {
-			unicode_get_utf8 (p, &unival);
-			if (unicode_isspace (unival)) {
-				return (unicode_next_utf8 (p) - cell->text);
+			unival = g_utf8_get_char (p);
+			if (g_unichar_isspace (unival)) {
+				return (g_utf8_next_char (p) - cell->text);
 			}
-			p = unicode_previous_utf8 (cell->text, p);
+			p = g_utf8_find_prev_char (cell->text, p);
 		}
 
 		return 0;
@@ -2202,7 +2201,7 @@ number_of_lines (char *text)
 
 	if (!text) return 0;
 
-	for (p = text; *p; p = unicode_next_utf8 (p)) {
+	for (p = text; *p; p = g_utf8_next_char (p)) {
 		if (*p == '\n') num_lines++;
 	}
 	
@@ -2246,7 +2245,7 @@ split_into_lines (CurrentCell *cell)
 	linebreaks->lines = lines = g_new0 (struct line, linebreaks->num_lines);
 
 	len = 0;
-	for (p = text; *p; p = unicode_next_utf8 (p)) {
+	for (p = text; *p; p = g_utf8_next_char (p)) {
 		if (len == 0) lines->text = p;
 		if (*p == '\n') {
 			lines->length = p - lines->text;
