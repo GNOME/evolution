@@ -2138,7 +2138,7 @@ emae_security_page(EConfig *ec, EConfigItem *item, struct _GtkWidget *parent, st
 		/* Since we don't have NSS, hide the S/MIME config options */
 		GtkWidget *frame;
 		
-		frame = glade_xml_get_widget (gui->xml, "smime_vbox");
+		frame = glade_xml_get_widget (xml, "smime_vbox");
 		gtk_widget_destroy (frame);
 	}
 #endif /* HAVE_NSS */

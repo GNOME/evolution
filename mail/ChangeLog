@@ -1,3 +1,9 @@
+2005-02-22  Rodney Dawes  <dobey@novell.com>
+
+	* em-account-editor.c (emae_security_page): The GladeXML object is
+	no longer a part of the private structure, and we need to reference
+	it directly as it is a local variable now
+
 2005-02-14  Not Zed  <NotZed@Ximian.com>
 
 	** See bug #61363 & e-util/ChangeLog
