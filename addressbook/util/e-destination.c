@@ -68,7 +68,6 @@
 struct _EDestinationPrivate {
 	gchar *raw;
 
-	EBook *book;
 	char *source_uid;
 
 	EContact *contact;
@@ -91,9 +90,6 @@ struct _EDestinationPrivate {
 	guint auto_recipient : 1;
 };
 
-#if notyet
-static void           e_destination_set_book_uri       (EDestination *, const char *uri); 
-#endif
 static gboolean       e_destination_from_contact       (const EDestination *);
 static xmlNodePtr     e_destination_xml_encode         (const EDestination *dest);
 static gboolean       e_destination_xml_decode         (EDestination *dest, xmlNodePtr node);
@@ -185,9 +181,6 @@ e_destination_copy (const EDestination *dest)
 	if (dest->priv->contact)
 		new_dest->priv->contact = g_object_ref (dest->priv->contact);
 
-	if (dest->priv->book)
-		new_dest->priv->book = g_object_ref (dest->priv->book);
-
 	new_dest->priv->html_mail_override = dest->priv->html_mail_override;
 	new_dest->priv->wants_html_mail    = dest->priv->wants_html_mail;
 
@@ -226,10 +219,6 @@ e_destination_clear (EDestination *dest)
 	g_free (dest->priv->textrep);
 	dest->priv->textrep = NULL;
 
-	if (dest->priv->book) {
-		g_object_unref (dest->priv->book);
-		dest->priv->book = NULL;
-	}
 	if (dest->priv->contact) {
 		g_object_unref (dest->priv->contact);
 		dest->priv->contact = NULL;
@@ -352,27 +341,27 @@ e_destination_set_contact (EDestination *dest, EContact *contact, gint email_num
 						EVCardAttributeParam *param = p->data;
 						const char *param_name = e_vcard_attribute_param_get_name (param);
 						if (!g_ascii_strcasecmp (param_name,
-									 "X-EVOLUTION-DEST-CONTACT-UID")) {
+									 EVC_X_DEST_CONTACT_UID)) {
 							GList *v = e_vcard_attribute_param_get_values (param);
 							contact_uid = v ? g_strdup (v->data) : NULL;
 						}
 						else if (!g_ascii_strcasecmp (param_name,
-									      "X-EVOLUTION-DEST-EMAIL-NUM")) {
+									      EVC_X_DEST_EMAIL_NUM)) {
 							GList *v = e_vcard_attribute_param_get_values (param);
 							email_num = v ? atoi (v->data) : -1;
 						}
 						else if (!g_ascii_strcasecmp (param_name,
-									      "X-EVOLUTION-DEST-NAME")) {
+									      EVC_X_DEST_NAME)) {
 							GList *v = e_vcard_attribute_param_get_values (param);
 							name = v ? v->data : NULL;
 						}
 						else if (!g_ascii_strcasecmp (param_name,
-									      "X-EVOLUTION-DEST-EMAIL")) {
+									      EVC_X_DEST_EMAIL)) {
 							GList *v = e_vcard_attribute_param_get_values (param);
 							email = v ? v->data : NULL;
 						}
 						else if (!g_ascii_strcasecmp (param_name,
-									      "X-EVOLUTION-DEST-HTML-MAIL")) {
+									      EVC_X_DEST_HTML_MAIL)) {
 							GList *v = e_vcard_attribute_param_get_values (param);
 							html_pref = v ? !g_ascii_strcasecmp (v->data, "true") : FALSE;
 						}
@@ -399,37 +388,19 @@ e_destination_set_contact (EDestination *dest, EContact *contact, gint email_num
 void
 e_destination_set_book (EDestination *dest, EBook *book)
 {
+	ESource *source;
+
 	g_return_if_fail (dest && E_IS_DESTINATION (dest));
 	g_return_if_fail (book && E_IS_BOOK (book));
 
-	if (dest->priv->book != book) {
+	source = e_book_get_source (book);
+
+	if (dest->priv->source_uid || strcmp (e_source_peek_uid (source), dest->priv->source_uid)) {
 		e_destination_clear (dest);
 
-		if (book) {
-			ESource *source;
-
-			dest->priv->book = g_object_ref (book);
-
-			source = e_book_get_source (dest->priv->book);
-			dest->priv->source_uid = g_strdup (e_source_peek_uid (source));
-		}
+		dest->priv->source_uid = g_strdup (e_source_peek_uid (source));
 	}
 }
-
-#if notyet
-/* XXX */
-static void
-e_destination_set_book_uri (EDestination *dest, const char *uri)
-{
-	g_return_if_fail (dest && E_IS_DESTINATION (dest));
-	g_return_if_fail (uri != NULL);
-	
-	if (dest->priv->book_uri == NULL || strcmp (dest->priv->book_uri, uri)) {
-		g_free (dest->priv->book_uri);
-		dest->priv->book_uri = g_strdup (uri);
-	}
-}
-#endif
 
 void
 e_destination_set_contact_uid (EDestination *dest, const char *uid, gint email_num)
@@ -466,17 +437,6 @@ e_destination_set_source_uid (EDestination *dest, const char *uid)
 
 		g_free (dest->priv->source_uid);
 		dest->priv->source_uid = g_strdup (uid);
-
-		/* If we already have a book, remove it unless it's uid matches the one
-		   we just set. */
-		if (dest->priv->book) {
-			ESource *source = e_book_get_source (dest->priv->book);
-			if (strcmp (uid,
-				    e_source_peek_uid (source))) {
-				g_object_unref (dest->priv->book);
-				dest->priv->book = NULL;
-			}
-		}
 	}
 }
 
@@ -1030,13 +990,6 @@ e_destination_xml_decode (EDestination *dest, xmlNodePtr node)
 				
 				list_dests = g_list_append (list_dests, list_dest);
 			}
-#if notyet
-		} else if (!strcmp (node->name, "book_uri")) {
-			tmp = xmlNodeGetContent (node);
-			g_free (book_uri);
-			book_uri = g_strdup (tmp);
-			xmlFree (tmp);
-#endif
 		} else if (!strcmp (node->name, "source_uid")) {
 			tmp = xmlNodeGetContent (node);
 			g_free (source_uid);
@@ -1066,13 +1019,6 @@ e_destination_xml_decode (EDestination *dest, xmlNodePtr node)
 		e_destination_set_email (dest, email);
 		g_free (email);
 	}
-#if notyet
-	/* XXX */
-	if (book_uri) {
-		e_destination_set_book_uri (dest, book_uri);
-		g_free (book_uri);
-	}
-#endif
 	if (source_uid) {
 		e_destination_set_source_uid (dest, source_uid);
 		g_free (source_uid);
@@ -1271,4 +1217,41 @@ e_destination_freev (EDestination **destv)
 		g_free (destv);
 	}
 
+}
+
+void
+e_destination_export_to_vcard_attribute (EDestination *dest, EVCardAttribute *attr)
+{
+	e_vcard_attribute_remove_values (attr);
+	e_vcard_attribute_remove_params (attr);
+
+	if (e_destination_get_contact_uid (dest))
+		e_vcard_attribute_add_param_with_value (attr,
+							e_vcard_attribute_param_new (EVC_X_DEST_CONTACT_UID),
+							e_destination_get_contact_uid (dest));
+	if (e_destination_get_source_uid (dest))
+		e_vcard_attribute_add_param_with_value (attr,
+							e_vcard_attribute_param_new (EVC_X_DEST_SOURCE_UID),
+							e_destination_get_source_uid (dest));
+	if (-1 != e_destination_get_email_num (dest)) {
+		char buf[10];
+		g_snprintf (buf, sizeof (buf), "%d", e_destination_get_email_num (dest));
+		e_vcard_attribute_add_param_with_value (attr,
+							e_vcard_attribute_param_new (EVC_X_DEST_EMAIL_NUM),
+							buf);
+	}
+	if (e_destination_get_name (dest))
+		e_vcard_attribute_add_param_with_value (attr,
+							e_vcard_attribute_param_new (EVC_X_DEST_NAME),
+							e_destination_get_name (dest));
+	if (e_destination_get_email (dest))
+		e_vcard_attribute_add_param_with_value (attr,
+							e_vcard_attribute_param_new (EVC_X_DEST_EMAIL),
+							e_destination_get_email (dest));
+	e_vcard_attribute_add_param_with_value (attr,
+						e_vcard_attribute_param_new (EVC_X_DEST_HTML_MAIL),
+						e_destination_get_html_mail_pref (dest) ? "TRUE" : "FALSE");
+
+	if (e_destination_get_address (dest))
+		e_vcard_attribute_add_value (attr, e_destination_get_address (dest));
 }

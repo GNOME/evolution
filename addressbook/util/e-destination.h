@@ -116,6 +116,9 @@ char          *e_destination_exportv            (EDestination **);
 EDestination  *e_destination_import             (const char *str);
 EDestination **e_destination_importv            (const char *str);
 
+/* EVCard "export" routines */
+void          e_destination_export_to_vcard_attribute   (EDestination *dest, EVCardAttribute *attr);
+
 void           e_destination_freev              (EDestination **);
 
 #endif /* __E_DESTINATION_H__ */

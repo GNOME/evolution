@@ -1,3 +1,19 @@
+2004-04-07  Chris Toshok  <toshok@ximian.com>
+
+	* util/e-destination.c (e_destination_copy): we don't have an
+	EBook* anymore.
+	(e_destination_clear): same.
+	(e_destination_set_contact): same.
+	(e_destination_set_book): same, just cache the source_uid.
+	(e_destination_set_book_uri): nuke.
+	(e_destination_set_contact_uid): we don't have an EBook*.
+	(e_destination_xml_decode): same.
+	(e_destination_export_to_vcard_attribute): new function, fill in
+	an EVCardAttribute with EDestination values.
+
+	* util/e-destination.h: add prototype for
+	e_destination_export_to_vcard_attribute.
+
 2004-04-07  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* gui/component/autocompletion-config.c
