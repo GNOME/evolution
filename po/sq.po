@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution gnome-2-10\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-03-04 04:34+0100\n"
-"PO-Revision-Date: 2005-03-04 12:09+0100\n"
+"POT-Creation-Date: 2005-03-09 05:24+0100\n"
+"PO-Revision-Date: 2005-03-09 11:00+0100\n"
 "Last-Translator: Laurent Dhima <laurenti@alblinux.net>\n"
 "Language-Team: Albanian <gnome-albanian-perkthyesit@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -40,7 +40,7 @@ msgstr[0] "kartela aktuale e rubrikës ka %d skedë"
 msgstr[1] "kartela aktuale e rubrikës ka %d skeda"
 
 #: a11y/addressbook/ea-minicard.c:31
-#: calendar/gui/alarm-notify/alarm-queue.c:863
+#: calendar/gui/alarm-notify/alarm-queue.c:878
 #: ui/evolution-message-composer.xml.h:10
 msgid "Open"
 msgstr "Hap"
@@ -4087,10 +4087,10 @@ msgstr "Lista e detyrave nuk është shënuar për përdorim jashtë linje"
 
 #. calendar:server-version secondary
 #: calendar/calendar-errors.xml.h:146
-msgid " Some features may not work correctly with your current server version"
+msgid " Some features may not work correctly with your current server version "
 msgstr ""
 " Disa nga veçoritë nuk do të funksionojnë si duhet me versionin aktual të "
-"serverit tuaj"
+"serverit tuaj "
 
 #: calendar/common/authentication.c:49 calendar/gui/e-pub-utils.c:301
 #: smime/gui/component.c:48
@@ -4250,28 +4250,28 @@ msgstr "vendi"
 msgid "start-time"
 msgstr "ora-fillimit"
 
-#: calendar/gui/alarm-notify/alarm-queue.c:864
+#: calendar/gui/alarm-notify/alarm-queue.c:879
 msgid "Dismiss"
 msgstr "Braktis"
 
-#: calendar/gui/alarm-notify/alarm-queue.c:865
+#: calendar/gui/alarm-notify/alarm-queue.c:880
 msgid "Dismiss All"
 msgstr "Braktis gjithçka"
 
-#: calendar/gui/alarm-notify/alarm-queue.c:947
+#: calendar/gui/alarm-notify/alarm-queue.c:962
 msgid "No summary available."
 msgstr "Asnjë tregues në dispozicion."
 
-#: calendar/gui/alarm-notify/alarm-queue.c:956
-#: calendar/gui/alarm-notify/alarm-queue.c:958
+#: calendar/gui/alarm-notify/alarm-queue.c:971
+#: calendar/gui/alarm-notify/alarm-queue.c:973
 msgid "No description available."
 msgstr "Asnjë përshkrim në dispozicion."
 
-#: calendar/gui/alarm-notify/alarm-queue.c:966
+#: calendar/gui/alarm-notify/alarm-queue.c:981
 msgid "No location information available."
 msgstr "Asnjë përshkrim në lidhje me vendin në dispozicion."
 
-#: calendar/gui/alarm-notify/alarm-queue.c:982
+#: calendar/gui/alarm-notify/alarm-queue.c:997
 #, c-format
 msgid ""
 "Alarm on %s\n"
@@ -4284,12 +4284,12 @@ msgstr ""
 "Fillon nga %s\n"
 "Mbaron në %s"
 
-#: calendar/gui/alarm-notify/alarm-queue.c:1084
-#: calendar/gui/alarm-notify/alarm-queue.c:1108
+#: calendar/gui/alarm-notify/alarm-queue.c:1099
+#: calendar/gui/alarm-notify/alarm-queue.c:1123
 msgid "Warning"
 msgstr "Kujdes"
 
-#: calendar/gui/alarm-notify/alarm-queue.c:1088
+#: calendar/gui/alarm-notify/alarm-queue.c:1103
 msgid ""
 "Evolution does not support calendar reminders with\n"
 "email notifications yet, but this reminder was\n"
@@ -4301,7 +4301,7 @@ msgstr ""
 "ky paralajmërim kërkon nisjen e një mesazhi email.  Për këtë,\n"
 "Evolution do të hapë një mesazh normal viziv (në ekran)."
 
-#: calendar/gui/alarm-notify/alarm-queue.c:1114
+#: calendar/gui/alarm-notify/alarm-queue.c:1129
 #, c-format
 msgid ""
 "An Evolution Calendar reminder is about to trigger. This reminder is "
@@ -4318,7 +4318,7 @@ msgstr ""
 "\n"
 "Dëshironi me të vërtetë që ky program të ekzekutohet?"
 
-#: calendar/gui/alarm-notify/alarm-queue.c:1128
+#: calendar/gui/alarm-notify/alarm-queue.c:1143
 msgid "Do not ask me about this program again."
 msgstr "Mos më pyet më për këtë program."
 
@@ -5942,31 +5942,31 @@ msgstr "Grupi i listës së aktiviteteve"
 msgid "Task List Name"
 msgstr "Emri i listës së aktiviteteve"
 
-#: calendar/gui/dialogs/recur-comp.c:51
+#: calendar/gui/dialogs/recur-comp.c:52
 msgid "You are modifying a recurring event, what would you like to modify?"
 msgstr "Jeni duke ndryshuar një ngjarje përkujtimore, çfarë dëshironi të ndryshoni?"
 
-#: calendar/gui/dialogs/recur-comp.c:55
+#: calendar/gui/dialogs/recur-comp.c:56
 msgid "You are modifying a recurring task, what would you like to modify?"
 msgstr "Jeni duke ndryshuar një aktivitet përkujtimor, çfarë dëshironi të ndryshoni?"
 
-#: calendar/gui/dialogs/recur-comp.c:59
+#: calendar/gui/dialogs/recur-comp.c:60
 msgid "You are modifying a recurring journal entry, what would you like to modify?"
 msgstr "Jeni duke ndryshuar një zë ditari përkujtimor, çfarë dëshironi të ndryshoni?"
 
-#: calendar/gui/dialogs/recur-comp.c:87
+#: calendar/gui/dialogs/recur-comp.c:88
 msgid "This Instance Only"
 msgstr "Vetëm këtë instancë"
 
-#: calendar/gui/dialogs/recur-comp.c:91
+#: calendar/gui/dialogs/recur-comp.c:92
 msgid "This and Prior Instances"
 msgstr "Këtë dhe instancat paraardhëse"
 
-#: calendar/gui/dialogs/recur-comp.c:97
+#: calendar/gui/dialogs/recur-comp.c:98
 msgid "This and Future Instances"
 msgstr "Këtë dhe instancat e ardhëshme"
 
-#: calendar/gui/dialogs/recur-comp.c:102
+#: calendar/gui/dialogs/recur-comp.c:103
 msgid "All Instances"
 msgstr "Të gjitha instancat"
 
