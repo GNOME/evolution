@@ -31,6 +31,7 @@ extern "C" {
 #include <gnome.h>
 #include <glade/glade.h>
 #include <camel.h>
+#include "shell/Evolution.h"
 
 #define MAIL_CONFIG_DRUID_TYPE        (mail_config_druid_get_type ())
 #define MAIL_CONFIG_DRUID(o)          (GTK_CHECK_CAST ((o), MAIL_CONFIG_DRUID_TYPE, MailConfigDruid))
@@ -40,6 +41,8 @@ extern "C" {
 
 struct _MailConfigDruid {
 	GtkWindow parent;
+	
+	GNOME_Evolution_Shell shell;
 	
 	GladeXML *gui;
 	
@@ -95,7 +98,7 @@ typedef struct {
 
 GtkType mail_config_druid_get_type (void);
 
-MailConfigDruid *mail_config_druid_new (void);
+MailConfigDruid *mail_config_druid_new (GNOME_Evolution_Shell shell);
 
 char *mail_config_druid_get_account_name (MailConfigDruid *druid);
 

@@ -129,7 +129,7 @@ account_copy (const MailConfigAccount *account)
 	
 	new = g_new0 (MailConfigAccount, 1);
 	new->name = g_strdup (account->name);
-	new->default = source->default;
+	new->default_account = account->default_account;
 	
 	new->id = identity_copy (account->id);
 	new->source = service_copy (account->source);
@@ -183,8 +183,8 @@ mail_config_clear (void)
 	}
 	
 	if (config->news) {
-		g_list_foreach (config->news, service_destroy_each, NULL);
-		g_list_free (config->news);
+		g_slist_foreach (config->news, service_destroy_each, NULL);
+		g_slist_free (config->news);
 		config->news = NULL;
 	}
 	
@@ -223,9 +223,9 @@ config_read (void)
 		path = g_strdup_printf ("account_name_%d", i);
 		account->name = gnome_config_get_string (path);
 		g_free (path);
-		path = g_strdup_printf ("account_default_%d", i);
-		account->default = gnome_config_get_bool (path) && !have_default;
-		if (account->default)
+		path = g_strdup_printf ("account_is_default_%d", i);
+		account->default_account = gnome_config_get_bool (path) && !have_default;
+		if (account->default_account)
 			have_default = TRUE;
 		g_free (path);
 		
@@ -241,10 +241,10 @@ config_read (void)
 		id->address = gnome_config_get_string (path);
 		g_free (path);
 		path = g_strdup_printf ("identity_organization_%d", i);
-		id->org = gnome_config_get_string (path);
+		id->organization = gnome_config_get_string (path);
 		g_free (path);
 		path = g_strdup_printf ("identity_signature_%d", i);
-		id->sig = gnome_config_get_string (path);
+		id->signature = gnome_config_get_string (path);
 		g_free (path);
 		
 		/* get the source */
@@ -350,8 +350,8 @@ mail_config_write (void)
 		path = g_strdup_printf ("account_name_%d", i);
 		gnome_config_set_string (path, account->name);
 		g_free (path);
-		path = g_strdup_printf ("account_default_%d", i);
-		gnome_config_set_bool (path, account->default);
+		path = g_strdup_printf ("account_is_default_%d", i);
+		gnome_config_set_bool (path, account->default_account);
 		g_free (path);
 		
 		/* identity info */
@@ -441,11 +441,13 @@ mail_config_write_on_exit (void)
 	
 	/* Passwords */
 	gnome_config_private_clean_section ("/Evolution/Passwords");
-	for (sources = config->sources; sources; sources = sources->next) {
+	sources = mail_config_get_sources ();
+	for ( ; sources; sources = sources->next) {
 		s = sources->data;
 		if (s->save_passwd)
 			mail_session_remember_password (s->url);
 	}
+	g_slist_free (sources);
 	
 	gnome_config_sync ();
 }
@@ -546,11 +548,11 @@ mail_config_get_accounts (void)
 }
 
 void
-mail_config_add_accounts (MailConfigAccount *account)
+mail_config_add_account (MailConfigAccount *account)
 {
 	if (account->default_account) {
 		/* Un-defaultify other accounts */
-		GSList *node = accounts;
+		GSList *node = config->accounts;
 		
 		while (node) {
 			MailConfigAccount *acnt = node->data;
@@ -567,7 +569,7 @@ mail_config_add_accounts (MailConfigAccount *account)
 void
 mail_config_set_default_account (const MailConfigAccount *account)
 {
-	GSList *node = accounts;
+	GSList *node = config->accounts;
 	
 	while (node) {
 		MailConfigAccount *acnt = node->data;
@@ -577,7 +579,7 @@ mail_config_set_default_account (const MailConfigAccount *account)
 		node = node->next;
 	}
 	
-	account->default_account = TRUE;
+	((MailConfigAccount *) account)->default_account = TRUE;
 }
 
 const MailConfigIdentity *
@@ -633,8 +635,10 @@ mail_config_get_sources (void)
 	
 	accounts = mail_config_get_accounts ();
 	while (accounts) {
-		if (accounts->source)
-			sources = g_slist_append (sources, accounts->source);
+		const MailConfigAccount *account = accounts->data;
+		
+		if (account->source)
+			sources = g_slist_append (sources, account->source);
 		
 		accounts = accounts->next;
 	}

@@ -33,6 +33,8 @@
 #include "mail.h"
 #include "mail-callbacks.h"
 #include "mail-config.h"
+#include "mail-accounts.h"
+#include "mail-config-druid.h"
 #include "mail-threads.h"
 #include "mail-tools.h"
 #include "mail-ops.h"
@@ -65,6 +67,8 @@ struct post_send_data {
 static gboolean
 check_configured (FolderBrowser *fb)
 {
+	MailConfigDruid *druid;
+	
 	if (mail_config_is_configured ())
 		return TRUE;
 	
@@ -83,7 +87,9 @@ check_configured (FolderBrowser *fb)
 		
 		switch (gnome_dialog_run_and_close (GNOME_DIALOG (dialog))) {
 		case 0:
-			mail_config_druid (fb->shell);
+			/* FIXME: should we block until mail-config is done? */
+			druid = mail_config_druid_new (fb->shell);
+			gtk_widget_show (GTK_WIDGET (druid));
 			break;
 		case 1:
 		default:
@@ -938,7 +944,11 @@ vfolder_edit_vfolders (BonoboUIComponent *uih, void *user_data, const char *path
 void
 providers_config (BonoboUIComponent *uih, void *user_data, const char *path)
 {
-	mail_config ((FOLDER_BROWSER (user_data))->shell);
+	/* FIXME: should we block until mail-config is done? */
+	MailAccountsDialog *dialog;
+	
+	dialog = mail_accounts_dialog_new ((FOLDER_BROWSER (user_data))->shell);
+	gtk_widget_show (GTK_WIDGET (dialog));
 }
 
 /*

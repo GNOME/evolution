@@ -171,7 +171,7 @@ mail_add (GtkButton *button, gpointer data)
 	MailAccountsDialog *dialog = data;
 	MailConfigDruid *druid;
 	
-	druid = mail_config_druid_new ();
+	druid = mail_config_druid_new (dialog->shell);
 	gtk_signal_connect (GTK_OBJECT (druid), "destroy",
 			    GTK_SIGNAL_FUNC (mail_add_finished), dialog);
 	
@@ -389,12 +389,13 @@ construct (MailAccountsDialog *dialog)
 }
 
 MailAccountsDialog *
-mail_accounts_dialog_new ()
+mail_accounts_dialog_new (GNOME_Evolution_Shell shell)
 {
 	MailAccountsDialog *new;
 	
 	new = (MailAccountsDialog *) gtk_type_new (mail_accounts_dialog_get_type ());
 	construct (new);
+	new->shell = shell;
 	
 	return new;
 }

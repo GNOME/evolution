@@ -31,6 +31,7 @@ extern "C" {
 #include <gnome.h>
 #include <glade/glade.h>
 #include <camel.h>
+#include "shell/Evolution.h"
 
 #define MAIL_ACCOUNTS_DIALOG_TYPE        (mail_accounts_dialog_get_type ())
 #define MAIL_ACCOUNTS_DIALOG(o)          (GTK_CHECK_CAST ((o), MAIL_ACCOUNTS_DIALOG_TYPE, MailAccountsDialog))
@@ -40,6 +41,8 @@ extern "C" {
 
 struct _MailAccountsDialog {
 	GnomeDialog parent;
+	
+	GNOME_Evolution_Shell shell;
 	
 	GladeXML *gui;
 	
@@ -72,7 +75,7 @@ typedef struct {
 
 GtkType mail_accounts_dialog_get_type (void);
 
-MailAccountsDialog *mail_accounts_dialog_new (void);
+MailAccountsDialog *mail_accounts_dialog_new (GNOME_Evolution_Shell shell);
 
 #ifdef __cplusplus
 }

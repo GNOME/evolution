@@ -1,5 +1,22 @@
 2001-01-07  Jeffrey Stedfast  <fejj@helixcode.com>
 
+	* mail-tools.c (mail_tool_quote_message): Updated to reflect
+	changes to the mail-config API.
+
+	* mail-display.c (redisplay): Updated to reflect changes to the
+	mail-config API.
+
+	* mail-callbacks.c (providers_config): Use the new account dialog.
+
+	* mail-config-druid.c (druid_finish): Load the new storage into
+	the shell.
+	(mail_config_druid_new): Take a shell argument.
+
+	* mail-format.c (mail_generate_reply): Updated to reflect changes
+	to the mail-config API.
+
+	* mail-config-druid.c: Fixed this to build.
+
 	* mail-callbacks.c (check_send_configuration): Updated to reflect
 	changes to the mail-config API.
 	(create_msg_composer): Same.

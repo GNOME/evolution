@@ -1654,7 +1654,7 @@ mail_generate_reply (CamelMimeMessage *message, gboolean to_all)
 	const char *message_id, *references;
 	const char *name = NULL, *address = NULL;
 	GList *to = NULL, *cc = NULL;
-	MailConfigIdentity *id;
+	const MailConfigIdentity *id;
 	gchar *sig_file = NULL;
 	const CamelInternetAddress *reply_to, *sender;
 	time_t date;
@@ -1662,9 +1662,9 @@ mail_generate_reply (CamelMimeMessage *message, gboolean to_all)
 	
 	id = mail_config_get_default_identity ();
 	if (id)
-	      sig_file = id->sig;
+	      sig_file = id->signature;
 	
-	composer = e_msg_composer_new_with_sig_file (sig_file, mail_config_send_html ());
+	composer = e_msg_composer_new_with_sig_file (sig_file, mail_config_get_send_html ());
 	if (!composer)
 		return NULL;
 	

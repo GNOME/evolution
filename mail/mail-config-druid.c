@@ -21,14 +21,20 @@
  */
 
 #include "config.h"
+
+#include <glade/glade.h>
+#include <gtkhtml/gtkhtml.h>
 #include "mail-config-druid.h"
+#include "mail-config.h"
 #include "mail-ops.h"
+#include "mail.h"
 #include <sys/types.h>
 #include <string.h>
 #include <unistd.h>
 
 #define d(x) x
 
+extern CamelSession *session;
 
 static void mail_config_druid_class_init (MailConfigDruidClass *class);
 static void mail_config_druid_init       (MailConfigDruid *druid);
@@ -105,15 +111,15 @@ static struct {
 	char *text;
 } info[] = {
 	{ "htmlIdentity",
-	  _("Please enter your name and email address below. The \"optional\" fields below do not need to be filled in, unless you wish to include this information in email you send.") },
+	  "Please enter your name and email address below. The \"optional\" fields below do not need to be filled in, unless you wish to include this information in email you send." },
 	{ "htmlIncoming",
-	  _("Please enter information about your incoming mail server below. If you don't know what kind of server you use, contact your system administrator or Internet Service Provider.") },
+	  "Please enter information about your incoming mail server below. If you don't know what kind of server you use, contact your system administrator or Internet Service Provider." },
 	{ "htmlAuthentication",
-	  _("Your mail server supports the following types of authentication. Please select the type you want Evolution to use.") },
+	  "Your mail server supports the following types of authentication. Please select the type you want Evolution to use." },
 	{ "htmlTransport",
-	  _("Please enter information about your outgoing mail protocol below. If you don't know which protocol you use, contact your system administrator or Internet Service Provider.") },
+	  "Please enter information about your outgoing mail protocol below. If you don't know which protocol you use, contact your system administrator or Internet Service Provider." },
 	{ "htmlAccountInfo",
-	  _("You are almost done with the mail configuration process. The identity, incoming mail server and outgoing mail transport method which you provided will be grouped together to make an Evolution mail account. Please enter a name for this account in the space below. This name will be used for display purposes only.") }
+	  "You are almost done with the mail configuration process. The identity, incoming mail server and outgoing mail transport method which you provided will be grouped together to make an Evolution mail account. Please enter a name for this account in the space below. This name will be used for display purposes only." }
 };
 static int num_info = (sizeof (info) / sizeof (info[0]));
 
@@ -186,10 +192,11 @@ druid_finish (GnomeDruidPage *page, gpointer arg1, gpointer user_data)
 	MailConfigIdentity *id;
 	MailConfigService *source;
 	MailConfigService *transport;
+	GSList *mini;
 	
 	account = g_new0 (MailConfigAccount, 1);
 	account->name = mail_config_druid_get_account_name (druid);
-	account->default = mail_config_druid_get_default_account (druid);
+	account->default_account = mail_config_druid_get_default_account (druid);
 	
 	/* construct the identity */
 	id = g_new0 (MailConfigIdentity, 1);
@@ -202,8 +209,8 @@ druid_finish (GnomeDruidPage *page, gpointer arg1, gpointer user_data)
 	/* construct the source */
 	source = g_new0 (MailConfigService, 1);
 	source->url = mail_config_druid_get_source_url (druid);
-	source->keep_mail_on_server = mail_config_druid_get_keep_mail_on_server (druid);
-	source->save_password = mail_config_druid_get_save_password (druid);
+	source->keep_on_server = mail_config_druid_get_keep_mail_on_server (druid);
+	source->save_passwd = mail_config_druid_get_save_password (druid);
 	
 	/* construct the transport */
 	transport = g_new0 (MailConfigService, 1);
@@ -213,7 +220,11 @@ druid_finish (GnomeDruidPage *page, gpointer arg1, gpointer user_data)
 	account->source = source;
 	account->transport = transport;
 	
-	mail_config_add_accounts (account);
+	mail_config_add_account (account);
+	
+	mini = g_slist_append (NULL, account->source);
+	mail_load_storages (druid->shell, mini);
+	g_slist_free (mini);
 	
 	gtk_widget_destroy (GTK_WIDGET (druid));
 }
@@ -240,7 +251,7 @@ identity_changed (GtkWidget *widget, gpointer data)
 static void
 identity_prepare (GnomeDruidPage *page, GnomeDruid *druid, gpointer data)
 {
-	MailConfigDruid *config;
+	MailConfigDruid *config = data;
 	
 	identity_check (config);
 }
@@ -285,7 +296,7 @@ incoming_changed (GtkWidget *widget, gpointer data)
 static void
 incoming_prepare (GnomeDruidPage *page, GnomeDruid *druid, gpointer data)
 {
-	MailConfigDruid *config;
+	MailConfigDruid *config = data;
 	
 	if (!gtk_object_get_data (GTK_OBJECT (page), "initialized")) {
 		char *username;
@@ -309,17 +320,14 @@ static gboolean
 incoming_next (GnomeDruidPage *page, GnomeDruid *druid, gpointer data)
 {
 	MailConfigDruid *config = data;
-	const CamelProvider *provider;
 	GtkWidget *transport_page;
 	GList *authtypes = NULL;
+	gchar *source_url;
 	CamelURL *url;
 	
-	provider = config->source_provider;
-	url = g_new0 (CamelURL, 1);
-	url->protocol = g_strdup (provider->protocol);
-	url->host = mail_config_druid_get_incoming_hostname (config);
-	url->user = mail_config_druid_get_incoming_username (config);
-	url->path = mail_config_druid_get_incoming_path (config);
+	source_url = mail_config_druid_get_source_url (config);
+	url = camel_url_new (source_url, NULL);
+	g_free (source_url);
 	
 	/* If we can't connect, don't let them continue. */
 	if (!mail_config_check_service (url, CAMEL_PROVIDER_STORE, &authtypes)) {
@@ -388,7 +396,7 @@ incoming_type_changed (GtkWidget *widget, gpointer user_data)
 static void
 authentication_check (MailConfigDruid *druid)
 {
-	if (mail_config_druid_get_save_passwd (druid) &&
+	if (mail_config_druid_get_save_password (druid) &&
 	    gtk_entry_get_text (druid->password) != NULL)
 		gnome_druid_set_buttons_sensitive (druid->druid, TRUE, TRUE, TRUE);
 	else
@@ -406,7 +414,7 @@ authentication_changed (GtkWidget *widget, gpointer data)
 static void
 authentication_prepare (GnomeDruidPage *page, GnomeDruid *druid, gpointer data)
 {
-	MailConfigDruid *config;
+	MailConfigDruid *config = data;
 	
 	authentication_check (config);
 }
@@ -494,17 +502,16 @@ transport_prepare (GnomeDruidPage *page, GnomeDruid *druid, gpointer data)
 	transport_check (config);
 }
 
-static void
+static gboolean
 transport_next (GnomeDruidPage *page, GnomeDruid *druid, gpointer data)
 {
 	MailConfigDruid *config = data;
-	const CamelProvider *provider;
+	gchar *xport_url;
 	CamelURL *url;
 	
-	provider = config->transport_provider;
-	url = g_new0 (CamelURL, 1);
-	url->protocol = g_strdup (provider->protocol);
-	url->host = mail_config_druid_get_outgoing_hostname (config);
+	xport_url = mail_config_druid_get_transport_url (config);
+	url = camel_url_new (xport_url, NULL);
+	g_free (xport_url);
 	
 	/* If we can't connect, don't let them continue. */
 	if (!mail_config_check_service (url, CAMEL_PROVIDER_TRANSPORT, NULL)) {
@@ -680,7 +687,7 @@ construct (MailConfigDruid *druid)
 	GladeXML *gui;
 	GtkWidget *widget;
 	
-	gui = glade_xml_new (EVOLUTION_DATA_DIR "/mail-config-druid.glade", "mail-config-window");
+	gui = glade_xml_new (EVOLUTION_GLADEDIR "/mail-config-druid.glade", "mail-config-window");
 	druid->gui = gui;
 	
 	/* get our toplevel widget */
@@ -694,7 +701,7 @@ construct (MailConfigDruid *druid)
 	/* get our cared-about widgets */
 	druid->account_text = glade_xml_get_widget (gui, "htmlAccountInfo");
 	druid->account_name = GTK_ENTRY (glade_xml_get_widget (gui, "txtAccountName"));
-	druid->default_account = GTK_CHECK_BOX (glade_xml_get_widget (gui, "chkAccountDefault"));
+	druid->default_account = GTK_CHECK_BUTTON (glade_xml_get_widget (gui, "chkAccountDefault"));
 	
 	druid->identity_text = glade_xml_get_widget (gui, "htmlIdentity");
 	druid->full_name = GTK_ENTRY (glade_xml_get_widget (gui, "txtFullName"));
@@ -713,19 +720,19 @@ construct (MailConfigDruid *druid)
 	gtk_signal_connect (GTK_OBJECT (druid->incoming_username), "changed", incoming_changed, druid);
 	druid->incoming_path = GTK_ENTRY (glade_xml_get_widget (gui, "txtIncomingPath"));
 	gtk_signal_connect (GTK_OBJECT (druid->incoming_path), "changed", incoming_changed, druid);
-	druid->incoming_keep_mail = GTK_CHECK_BOX (glade_xml_get_widget (gui, "chkIncomingKeepMail"));
+	druid->incoming_keep_mail = GTK_CHECK_BUTTON (glade_xml_get_widget (gui, "chkIncomingKeepMail"));
 	
 	druid->auth_text = glade_xml_get_widget (gui, "htmlAuthentication");
 	druid->auth_type = GTK_OPTION_MENU (glade_xml_get_widget (gui, "omenuAuthType"));
 	druid->password = GTK_ENTRY (glade_xml_get_widget (gui, "txtAuthPasswd"));
 	gtk_signal_connect (GTK_OBJECT (druid->password), "changed", authentication_changed, druid);
-	druid->save_password = GTK_CHECK_BOX (glade_xml_get_widget (gui, "chkAuthSavePasswd"));
+	druid->save_password = GTK_CHECK_BUTTON (glade_xml_get_widget (gui, "chkAuthSavePasswd"));
 	
 	druid->outgoing_text = glade_xml_get_widget (gui, "htmlTransport");
 	druid->outgoing_type = GTK_OPTION_MENU (glade_xml_get_widget (gui, "omenuTransportType"));
 	druid->outgoing_hostname = GTK_ENTRY (glade_xml_get_widget (gui, "txtTransportHostname"));
 	gtk_signal_connect (GTK_OBJECT (druid->outgoing_hostname), "changed", transport_changed, druid);
-	druid->outgoing_requires_auth = GTK_CHECK_BOX (glade_xml_get_widget (gui, "chkTransportNeedsAuth"));
+	druid->outgoing_requires_auth = GTK_CHECK_BUTTON (glade_xml_get_widget (gui, "chkTransportNeedsAuth"));
 	
 	glade_xml_signal_autoconnect (gui);
 	
@@ -735,12 +742,13 @@ construct (MailConfigDruid *druid)
 }
 
 MailConfigDruid *
-mail_config_druid_new ()
+mail_config_druid_new (GNOME_Evolution_Shell shell)
 {
 	MailConfigDruid *new;
 	
 	new = (MailConfigDruid *) gtk_type_new (mail_config_druid_get_type ());
 	construct (new);
+	new->shell = shell;
 	
 	return new;
 }
@@ -814,7 +822,7 @@ mail_config_druid_get_source_url (MailConfigDruid *druid)
 	char *source_url, *host, *pport;
 	const CamelProvider *provider;
 	CamelURL *url;
-	int port;
+	int port = 0;
 	
 	g_return_val_if_fail (IS_MAIL_CONFIG_DRUID (druid), NULL);
 	
@@ -866,7 +874,7 @@ mail_config_druid_get_transport_url (MailConfigDruid *druid)
 	char *transport_url, *host, *pport;
 	const CamelProvider *provider;
 	CamelURL *url;
-	int port;
+	int port = 0;
 	
 	g_return_val_if_fail (IS_MAIL_CONFIG_DRUID (druid), NULL);
 	
@@ -890,7 +898,7 @@ mail_config_druid_get_transport_url (MailConfigDruid *druid)
 
 
 gboolean
-mail_config_druid_get_outgoing_requires_auth (MailConfigDruid *druid)
+mail_config_druid_get_transport_requires_auth (MailConfigDruid *druid)
 {
 	g_return_val_if_fail (IS_MAIL_CONFIG_DRUID (druid), FALSE);
 	
