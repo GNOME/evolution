@@ -3,6 +3,8 @@
 	* rule-editor.c: Some debug printf fixes for printf's that dont
 	like null %s's.
 	Fixed previous fix.
+	(rule_editor_play_undo): Need to ref rule since add doesn't.  This
+	doesn't crash anymore but doesn't seem to do everything right either.
 
 2001-10-28    <NotZed@Ximian.com>
 

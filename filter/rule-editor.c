@@ -564,6 +564,7 @@ rule_editor_play_undo(RuleEditor *re)
 			break;
 		case RULE_EDITOR_LOG_REMOVE:
 			printf("Undoing remove on rule '%s'\n", undo->rule->name);
+			gtk_object_ref((GtkObject *)undo->rule);
 			rule_context_add_rule(re->context, undo->rule);
 			rule_context_rank_rule(re->context, undo->rule, undo->rank);
 			break;
