@@ -45,8 +45,8 @@
 #include <string.h>
 #include <unistd.h>
 
-#include <gnome-xml/parser.h>
-#include <gnome-xml/xmlmemory.h>
+#include <libxml/parser.h>
+#include <libxml/xmlmemory.h>
 
 #include <libgnome/gnome-util.h>
 
@@ -255,7 +255,7 @@ retrieve_info (ELocalFolder *local_folder,
 
 	priv = local_folder->priv;
 
-	for (p = root_xml_node->childs; p != NULL; p = p->next) {
+	for (p = root_xml_node->children; p != NULL; p = p->next) {
 		if (xmlStrcmp (p->name, "info") == 0)
 			retrieve_info_item (local_folder, p);
 	}

@@ -52,8 +52,8 @@
 #include <gtk/gtksignal.h>
 #include <gtk/gtktypeutils.h>
 
-#include <gnome-xml/parser.h>
-#include <gnome-xml/xmlmemory.h>
+#include <libxml/parser.h>
+#include <libxml/xmlmemory.h>
 
 #include <libgnome/gnome-i18n.h>
 
@@ -305,7 +305,7 @@ load_shortcuts (EShortcuts *shortcuts,
 
 	unload_shortcuts (shortcuts);
 
-	for (p = root->childs; p != NULL; p = p->next) {
+	for (p = root->children; p != NULL; p = p->next) {
 		ShortcutGroup *shortcut_group;
 		xmlChar *shortcut_group_title;
 		xmlChar *icon_size;
@@ -327,7 +327,7 @@ load_shortcuts (EShortcuts *shortcuts,
 			shortcut_group->use_small_icons = FALSE;
 		xmlFree (icon_size);
 
-		for (q = p->childs; q != NULL; q = q->next) {
+		for (q = p->children; q != NULL; q = q->next) {
 			EShortcutItem *shortcut_item;
 			xmlChar *uri;
 			xmlChar *name;
@@ -338,7 +338,7 @@ load_shortcuts (EShortcuts *shortcuts,
 			if (strcmp ((char *) q->name, "item") != 0)
 				continue;
 
-			uri  = xmlNodeListGetString (doc, q->childs, 1);
+			uri  = xmlNodeListGetString (doc, q->children, 1);
 			if (uri == NULL)
 				continue;
 

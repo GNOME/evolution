@@ -1,5 +1,12 @@
 2002-11-03  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-component-info.c: Updated for libxml2.
+	* e-shortcuts.c: Likewise.
+	* e-folder-list.c: Likewise.
+	* e-local-folder.c: Likewise.
+
+2002-11-03  Ettore Perazzoli  <ettore@ximian.com>
+
 	* GNOME_Evolution_Shell.server.in: Renamed from
 	GNOME_Evolution_Shell.oaf.in.
 
