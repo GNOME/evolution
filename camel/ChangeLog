@@ -1,3 +1,9 @@
+2004-04-13   Sivaiah Nallagatla <snallagatla@novell.com>
+
+	*  providers/groupwise/camel-gw-listener.c
+        (add_addressbook_sources) : change the auth type string from
+	Password to plain/password 
+
 2004-04-12  Jeffrey Stedfast  <fejj@ximian.com>
 
 	Fix for bug #56878.
