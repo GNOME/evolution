@@ -225,8 +225,7 @@ ask_destination_and_save (EPlugin *ep, ECalPopupTargetSource *target, ECalSource
 
 		}
 
-		if (proceed)
-		{
+		if (proceed) {
 			handler->save (handler, ep, target, type, dest_uri);
 			/* Free the handlers */
 			g_list_foreach (format_handlers, format_handlers_foreach_free, NULL);

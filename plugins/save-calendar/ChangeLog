@@ -1,3 +1,7 @@
+2004-12-27  Philip Van Hoof  <pvanhoof@gnome.org>
+
+	* csv-format.c, rdf-format.c: Warning when overwriting file
+
 2004-12-22  JP Rosevear  <jpr@novell.com>
 
 	* Makefile.am: list format-handler.h as a source so it dists

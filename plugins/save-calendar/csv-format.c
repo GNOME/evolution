@@ -320,6 +320,7 @@ do_save_calendar_csv (FormatHandler *handler, EPlugin *ep, ECalPopupTargetSource
 	CsvConfig *config = NULL;
 	CsvPluginData *d = handler->data;
 	const gchar *tmp = NULL;
+	gboolean doit = TRUE;
 
 	if (!dest_uri)
 		return;
@@ -346,13 +347,35 @@ do_save_calendar_csv (FormatHandler *handler, EPlugin *ep, ECalPopupTargetSource
 	config->header = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (d->header_check));
 
 	uri = gnome_vfs_uri_new (dest_uri);
-	result = gnome_vfs_open_uri (&handle, uri, GNOME_VFS_OPEN_WRITE);
-	if (result != GNOME_VFS_OK) {
-		gnome_vfs_create (&handle, dest_uri, GNOME_VFS_OPEN_WRITE, TRUE, GNOME_VFS_PERM_USER_ALL);
+
+	result = gnome_vfs_open_uri (&handle, uri, GNOME_VFS_OPEN_READ);
+	if (result == GNOME_VFS_OK) {
+		GtkWidget *warning = 
+		  gtk_message_dialog_new_with_markup (NULL,
+				GTK_DIALOG_DESTROY_WITH_PARENT,
+				GTK_MESSAGE_WARNING,
+				GTK_BUTTONS_NONE,
+				_("File exists \"%s\".\n"
+				  "Do you wish to overwrite it?"), dest_uri);
+
+		gtk_dialog_add_button (GTK_DIALOG (warning), GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL);
+		gtk_dialog_add_button (GTK_DIALOG (warning), _("_Overwrite"), GTK_RESPONSE_YES);
+
+		doit = FALSE;
+		if (gtk_dialog_run (GTK_DIALOG (warning)) == GTK_RESPONSE_YES)
+			doit = TRUE;
+		gtk_widget_destroy (warning);
+	} 
+
+	if (doit) {
 		result = gnome_vfs_open_uri (&handle, uri, GNOME_VFS_OPEN_WRITE);
+		if (result != GNOME_VFS_OK) {
+			gnome_vfs_create (&handle, dest_uri, GNOME_VFS_OPEN_WRITE, TRUE, GNOME_VFS_PERM_USER_ALL);
+			result = gnome_vfs_open_uri (&handle, uri, GNOME_VFS_OPEN_WRITE);
+		} 
 	}
 
-	if (result == GNOME_VFS_OK && e_cal_get_object_list_as_comp (source_client, "#t", &objects, NULL)) {
+	if (result == GNOME_VFS_OK && doit && e_cal_get_object_list_as_comp (source_client, "#t", &objects, NULL)) {
 
 		if (config->header) {
 			line = g_string_new ("");
