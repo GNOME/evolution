@@ -5,19 +5,6 @@ AC_DEFUN([GNOME_COMPILE_WARNINGS],[
   AC_ARG_ENABLE(compile-warnings, 
     [  --enable-compile-warnings=[no/minimum/yes]	Turn on compiler warnings.],,enable_compile_warnings=minimum)
 
-  AC_ARG_ENABLE(warn-unused,
-    [  --enable-warn-unused    Warn about unused variables and parameters],,
-    enable_warn_unused=no)
-
-  AC_MSG_CHECKING(what "unused" warning flags to use)
-  wunusedCFLAGS=
-  if test "x$enable_warn_unused" = xyes ; then
-    wunusedCFLAGS='-Wunused'
-  else
-    wunusedCFLAGS='-Wno-unused'
-  fi
-  AC_MSG_RESULT($wunusedCFLAGS)
-
   AC_MSG_CHECKING(what warning flags to pass to the C compiler)
   warnCFLAGS=
   if test "x$enable_compile_warnings" != "xno"; then
@@ -27,8 +14,10 @@ AC_DEFUN([GNOME_COMPILE_WARNINGS],[
       *) warnCFLAGS="-Wall" ;;
       esac
 
+      ## -W is not all that useful.  And it cannot be controlled
+      ## with individual -Wno-xxx flags, unlike -Wall
       if test "x$enable_compile_warnings" = "xyes"; then
-	warnCFLAGS="$warnCFLAGS -W $wunusedCFLAGS -Wmissing-prototypes -Wmissing-declarations -Wpointer-arith"
+	warnCFLAGS="$warnCFLAGS -Wmissing-prototypes -Wmissing-declarations -Wpointer-arith"
       fi
     fi
   fi

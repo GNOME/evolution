@@ -1,3 +1,8 @@
+1998-10-05  Raja R Harinath  <harinath@cs.umn.edu>
+
+	* compiler-flags.m4 (warnCFLAGS): Remove `-W'.
+	(warn-unused): Remove.
+
 1998-10-01  Martin Baulig  <martin@home-of-linux.org>
 
 	* gnome-libgtop-sysdeps.m4 (libgtop_postinstall): 
