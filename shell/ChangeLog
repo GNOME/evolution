@@ -1,3 +1,20 @@
+2001-08-20  Iain Holmes  <iain@ximian.com>
+
+	* e-shell-importer.c (import_druid_finish): Do the correct thing when
+	the new folder button is clicked.
+	(folder_selected): Import the file.
+	(folder_cancelled): Kill the dialog.
+
+2001-08-18  Iain Holmes  <iain@ximian.com>
+
+	* e-shell-startup-wizard.c (make_identity_page):
+	(make_receive_page):
+	(make_extra_page):
+	(make_transport_page):
+	(make_management_page): Check that the mailer has been inited correctly.
+	(e_shell_startup_wizard_create): If some of the pages could not be 
+	created, just stop trying to show the startup wizard.
+
 2001-08-20  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-shell-view.c (e_shell_view_load_settings): Don't set the

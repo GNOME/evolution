@@ -6,7 +6,7 @@
   <program_name>evolution-startup-wizard</program_name>
   <directory></directory>
   <source_directory>src</source_directory>
-  <pixmaps_directory>pixmaps</pixmaps_directory>
+  <pixmaps_directory>../../art/</pixmaps_directory>
   <language>C</language>
   <gnome_support>True</gnome_support>
   <gettext_support>True</gettext_support>
@@ -15,10 +15,8 @@
 <widget>
   <class>GtkWindow</class>
   <name>startup-wizard</name>
-  <width>687</width>
-  <height>0</height>
   <visible>False</visible>
-  <title>window1</title>
+  <title>Setup Assistant</title>
   <type>GTK_WINDOW_TOPLEVEL</type>
   <position>GTK_WIN_POS_NONE</position>
   <modal>False</modal>
@@ -33,24 +31,16 @@
     <widget>
       <class>GnomeDruidPageStart</class>
       <name>start-page</name>
-      <title>First Time Startup Configuration</title>
-      <text>Welcome to the Evolution first time configuration assistant.
+      <title>First Run Setup Assistant</title>
+      <text>Welcome to the Evolution first run setup assistant
 
-This will help you:
-   - configure your email settings
-   - set your timezone.
-   - import your old email and contacts
-
-What you will need:
-   - email server information (ask your email administrator for help)
-
-First a directory will be created in your home directory for Evolution to 
-store it's configuration settings.</text>
+This assistant will help you get started</text>
       <title_color>255,255,255</title_color>
       <text_color>0,0,0</text_color>
       <background_color>0,0,1</background_color>
-      <logo_background_color>255,255,255</logo_background_color>
+      <logo_background_color>1,1,1</logo_background_color>
       <textbox_color>255,255,255</textbox_color>
+      <logo_image>evolution.png</logo_image>
     </widget>
 
     <widget>
@@ -59,7 +49,8 @@ store it's configuration settings.</text>
       <title>Identity</title>
       <title_color>255,255,255</title_color>
       <background_color>0,0,1</background_color>
-      <logo_background_color>255,255,255</logo_background_color>
+      <logo_background_color>1,1,1</logo_background_color>
+      <logo_image>mail-config-druid-identity.png</logo_image>
 
       <widget>
 	<class>GtkVBox</class>
@@ -85,7 +76,8 @@ store it's configuration settings.</text>
       <title>Receiving Email</title>
       <title_color>255,255,255</title_color>
       <background_color>0,0,1</background_color>
-      <logo_background_color>255,255,255</logo_background_color>
+      <logo_background_color>1,1,1</logo_background_color>
+      <logo_image>mail-config-druid-receive.png</logo_image>
 
       <widget>
 	<class>GtkVBox</class>
@@ -111,7 +103,8 @@ store it's configuration settings.</text>
       <title>Receiving Email</title>
       <title_color>255,255,255</title_color>
       <background_color>0,0,1</background_color>
-      <logo_background_color>255,255,255</logo_background_color>
+      <logo_background_color>1,1,1</logo_background_color>
+      <logo_image>mail-config-druid-receive.png</logo_image>
 
       <widget>
 	<class>GtkVBox</class>
@@ -137,7 +130,8 @@ store it's configuration settings.</text>
       <title>Sending Email</title>
       <title_color>255,255,255</title_color>
       <background_color>0,0,1</background_color>
-      <logo_background_color>255,255,255</logo_background_color>
+      <logo_background_color>1,1,1</logo_background_color>
+      <logo_image>mail-config-druid-send.png</logo_image>
 
       <widget>
 	<class>GtkVBox</class>
@@ -163,7 +157,8 @@ store it's configuration settings.</text>
       <title>Account Management</title>
       <title_color>255,255,255</title_color>
       <background_color>0,0,1</background_color>
-      <logo_background_color>255,255,255</logo_background_color>
+      <logo_background_color>1,1,1</logo_background_color>
+      <logo_image>mail-config-druid-account-name.png</logo_image>
 
       <widget>
 	<class>GtkVBox</class>
@@ -189,7 +184,8 @@ store it's configuration settings.</text>
       <title>Timezone </title>
       <title_color>255,255,255</title_color>
       <background_color>0,0,1</background_color>
-      <logo_background_color>255,255,255</logo_background_color>
+      <logo_background_color>1,1,1</logo_background_color>
+      <logo_image>timezone.png</logo_image>
 
       <widget>
 	<class>GtkVBox</class>
@@ -215,7 +211,8 @@ store it's configuration settings.</text>
       <title>Importing Data</title>
       <title_color>255,255,255</title_color>
       <background_color>0,0,1</background_color>
-      <logo_background_color>255,255,255</logo_background_color>
+      <logo_background_color>1,1,1</logo_background_color>
+      <logo_image>import.png</logo_image>
 
       <widget>
 	<class>GtkVBox</class>
@@ -241,10 +238,11 @@ store it's configuration settings.</text>
       <title>Done</title>
       <text>Your configuration is complete.</text>
       <background_color>0,0,1</background_color>
-      <logo_background_color>255,255,255</logo_background_color>
+      <logo_background_color>1,1,1</logo_background_color>
       <textbox_color>255,255,255</textbox_color>
       <text_color>0,0,0</text_color>
       <title_color>255,255,255</title_color>
+      <logo_image>evolution.png</logo_image>
     </widget>
   </widget>
 </widget>

@@ -58,7 +58,7 @@ typedef struct _SWData {
 	GtkWidget *dialog;
 	GtkWidget *druid;
 
-	GnomeDruidPage *start, *finish;
+	GtkWidget *start, *finish;
 
 	MailDialogPage *id_page;
 	MailDialogPage *source_page;
@@ -341,7 +341,8 @@ make_identity_page (SWData *data)
 	CORBA_Environment ev;
 
 	g_return_val_if_fail (data != NULL, NULL);
-
+	g_return_val_if_fail (data->mailer != CORBA_OBJECT_NIL, NULL);
+	
 	page = g_new0 (MailDialogPage, 1);
 	page->page = glade_xml_get_widget (data->wizard, "identity-page");
 	g_return_val_if_fail (page->page != NULL, NULL);
@@ -368,6 +369,7 @@ make_receive_page (SWData *data)
 	CORBA_Environment ev;
 
 	g_return_val_if_fail (data != NULL, NULL);
+	g_return_val_if_fail (data->mailer != CORBA_OBJECT_NIL, NULL);
 
 	page = g_new0 (MailDialogPage, 1);
 	page->page = glade_xml_get_widget (data->wizard, "receive-page");
@@ -395,6 +397,7 @@ make_extra_page (SWData *data)
 	CORBA_Environment ev;
 
 	g_return_val_if_fail (data != NULL, NULL);
+	g_return_val_if_fail (data->mailer != CORBA_OBJECT_NIL, NULL);
 
 	page = g_new0 (MailDialogPage, 1);
 	page->page = glade_xml_get_widget (data->wizard, "extra-page");
@@ -422,6 +425,7 @@ make_transport_page (SWData *data)
 	CORBA_Environment ev;
 
 	g_return_val_if_fail (data != NULL, NULL);
+	g_return_val_if_fail (data->mailer != CORBA_OBJECT_NIL, NULL);
 
 	page = g_new0 (MailDialogPage, 1);
 	page->page = glade_xml_get_widget (data->wizard, "send-page");
@@ -449,6 +453,7 @@ make_management_page (SWData *data)
 	CORBA_Environment ev;
 
 	g_return_val_if_fail (data != NULL, NULL);
+	g_return_val_if_fail (data->mailer != CORBA_OBJECT_NIL, NULL);
 
 	page = g_new0 (MailDialogPage, 1);
 	page->page = glade_xml_get_widget (data->wizard, "management-page");
@@ -483,7 +488,7 @@ make_timezone_page (SWData *data)
 	page->vbox = GTK_WIDGET (GNOME_DRUID_PAGE_STANDARD (page->page)->vbox);
 
 	page->etd = GTK_OBJECT (e_timezone_dialog_new ());
-	e_timezone_dialog_reparent (page->etd, page->vbox);
+	e_timezone_dialog_reparent (E_TIMEZONE_DIALOG (page->etd), page->vbox);
 
 	return page;
 }
@@ -813,6 +818,8 @@ e_shell_startup_wizard_create (void)
 			    GTK_SIGNAL_FUNC (finish_func), data);
 
 	make_mail_dialog_pages (data);
+	g_return_val_if_fail (data->mailer != CORBA_OBJECT_NIL, TRUE);
+
 	data->id_page = make_identity_page (data);
 	data->source_page = make_receive_page (data);
 	data->extra_page = make_extra_page (data);
@@ -822,15 +829,15 @@ e_shell_startup_wizard_create (void)
 	data->timezone_page = make_timezone_page (data);
 	data->import_page = make_importer_page (data);
 
-	g_return_val_if_fail (data->id_page != NULL, FALSE);
-	g_return_val_if_fail (data->source_page != NULL, FALSE);
-	g_return_val_if_fail (data->extra_page != NULL, FALSE);
-	g_return_val_if_fail (data->transport_page != NULL, FALSE);
-	g_return_val_if_fail (data->management_page != NULL, FALSE);
-	g_return_val_if_fail (data->timezone_page != NULL, FALSE);
-	g_return_val_if_fail (data->import_page != NULL, FALSE);
+	g_return_val_if_fail (data->id_page != NULL, TRUE);
+	g_return_val_if_fail (data->source_page != NULL, TRUE);
+	g_return_val_if_fail (data->extra_page != NULL, TRUE);
+	g_return_val_if_fail (data->transport_page != NULL, TRUE);
+	g_return_val_if_fail (data->management_page != NULL, TRUE);
+	g_return_val_if_fail (data->timezone_page != NULL, TRUE);
+	g_return_val_if_fail (data->import_page != NULL, TRUE);
 
-	gnome_druid_set_buttons_sensitive (data->druid, FALSE, TRUE, TRUE);
+	gnome_druid_set_buttons_sensitive (GNOME_DRUID (data->druid), FALSE, TRUE, TRUE);
 	gtk_widget_show_all (data->dialog);
 
 	gtk_main ();

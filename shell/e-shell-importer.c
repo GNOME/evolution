@@ -583,6 +583,30 @@ import_druid_destroy (GtkObject *object,
 }
 
 static void
+folder_selected (EShellFolderSelectionDialog *dialog,
+		 const char *path,
+		 ImportData *data)
+{
+	char *filename, *iid;
+
+	iid = g_strdup (data->choosen_iid);
+	filename = g_strdup (gtk_entry_get_text (GTK_ENTRY (gnome_file_entry_gtk_entry (GNOME_FILE_ENTRY (data->filepage->filename)))));
+
+	gtk_widget_destroy (data->dialog);
+	start_import (path, filename, iid);
+
+	g_free (iid);
+	g_free (filename);
+}
+
+static void
+folder_cancelled (EShellFolderSelectionDialog *dialog,
+		  ImportData *data)
+{
+	gtk_widget_destroy (data->dialog);
+}
+
+static void
 import_druid_finish (GnomeDruidPage *page,
 		     GnomeDruid *druid,
 		     ImportData *data)
@@ -600,14 +624,23 @@ import_druid_finish (GnomeDruidPage *page,
 						      _("Select a destination folder for importing this data"),
 						      e_shell_view_get_current_uri (data->view),
 						      NULL);
-	gtk_widget_destroy (data->dialog);
 
+	gtk_signal_connect (GTK_OBJECT (folder), "folder_selected",
+			    GTK_SIGNAL_FUNC (folder_selected), data);
+	gtk_signal_connect (GTK_OBJECT (folder), "cancelled",
+			    GTK_SIGNAL_FUNC (folder_cancelled), data);
+
+	gtk_widget_hide (data->dialog);
+	gtk_widget_show (folder);
+#if 0
 	gnome_dialog_close_hides (GNOME_DIALOG (folder), TRUE);
 	switch (gnome_dialog_run (GNOME_DIALOG (folder))) {
 	case 0:
+	case 2:
 		foldername = e_shell_folder_selection_dialog_get_selected_path (E_SHELL_FOLDER_SELECTION_DIALOG (folder));
+		g_print ("Folder name: %s", foldername);
 		start_import (foldername, filename, iid);
-		break;
+		/* Fall through */
 
 	default:
 		gtk_widget_destroy (folder);
@@ -616,6 +649,7 @@ import_druid_finish (GnomeDruidPage *page,
 
 	g_free (filename);
 	g_free (iid);
+#endif
 }
 
 static gboolean
