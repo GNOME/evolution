@@ -226,7 +226,7 @@ new_folder_cb (EvolutionStorageListener *listener,
 {
 	ESummaryPrefs *global_preferences;
 	ESummaryMailFolder *mail_folder;
-	GList *p;
+	GSList *p;
 
 	if (strcmp (folder->type, "mail") != 0)
 		return;
@@ -322,7 +322,7 @@ mail_change_notify (BonoboListener *listener,
 	GNOME_Evolution_FolderInfo_MessageCount *count;
 	ESummaryMailFolder *folder;
 	ESummaryPrefs *global_preferences;
-	GList *p;
+	GSList *p;
 
 	count = arg->_value;
 	folder = g_hash_table_lookup (folder_store->physical_uri_to_folder, count->path);
@@ -517,13 +517,14 @@ void
 e_summary_mail_reconfigure (void)
 {
 	ESummaryPrefs *preferences;
-	GList *old, *p;
+	GList *old;
+	GSList *p;
 
 	old = folder_store->shown;
 	folder_store->shown = NULL;
 
 	preferences = e_summary_preferences_get_global ();
-	for (p = g_list_last (preferences->display_folders); p; p = p->prev) {
+	for (p = preferences->display_folders; p; p = p->next) {
 		ESummaryMailFolder *folder;
 		ESummaryPrefsFolder *f = p->data;
 		char *uri;

@@ -1,3 +1,16 @@
+2003-01-10  Not Zed  <NotZed@Ximian.com>
+
+	* e-summary-mail.c (new_folder_cb): glist->gslist for
+	display_folders list
+	(mail_change_notify): "
+	(e_summary_mail_reconfigure): ", and also traverse the list
+	forwards, since we can't go backwards since its now an slist.
+
+	* e-summary-preferences.c (e_summary_preferences_restore): append
+	new folder entries to the folders list.
+	(config_control_apply_cb): display_folders is a list of folders,
+	not a list of strings, treat accordingly.
+
 2003-01-09  Chris Toshok  <toshok@ximian.com>
 
 	* e-summary-preferences.c (e_summary_preferences_create_control):
