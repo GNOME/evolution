@@ -1,3 +1,10 @@
+2004-05-18  Jerome Lacoste  <jerome@coffeebreaks.org>
+
+	Fixes #57940
+
+	* gui/widgets/e-addressbook-view.c: "Save as VCard" ->
+	"Save as VCard..."
+
 2004-05-17  Hans Petter Jansson  <hpj@ximian.com>
 
 	* gui/contact-editor/e-contact-editor.c (e_contact_editor_init):

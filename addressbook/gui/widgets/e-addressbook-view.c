@@ -847,7 +847,7 @@ save_as (GtkWidget *widget, ContactAndBook *contact_and_book)
 {
 	GList *contacts = get_contact_list (contact_and_book);
 	if (contacts) {
-		eab_contact_list_save(_("Save as VCard"), contacts, NULL);
+		eab_contact_list_save(_("Save as VCard..."), contacts, NULL);
 		e_free_object_list(contacts);
 	}
 }
@@ -1067,7 +1067,7 @@ do_popup_menu(EABView *view, GdkEvent *event)
 		E_POPUP_ITEM (N_("Pilot Settings..."), G_CALLBACK (pilot_settings), 0),
 #endif
 		E_POPUP_SEPARATOR,
-		E_POPUP_ITEM (N_("Save as VCard"), G_CALLBACK(save_as), POPUP_NOSELECTION_MASK),
+		E_POPUP_ITEM (N_("Save as VCard..."), G_CALLBACK(save_as), POPUP_NOSELECTION_MASK),
 		E_POPUP_ITEM (N_("Forward Contact"), G_CALLBACK(send_as), POPUP_NOSELECTION_MASK),
 		E_POPUP_ITEM (N_("Send Message to Contact"), G_CALLBACK(send_to), POPUP_NOSELECTION_MASK | POPUP_NOEMAIL_MASK),
 		E_POPUP_ITEM (N_("Print"), G_CALLBACK(print), POPUP_NOSELECTION_MASK),
@@ -2073,7 +2073,7 @@ eab_view_save_as (EABView *view)
 {
 	GList *list = get_selected_contacts (view);
 	if (list)
-		eab_contact_list_save (_("Save as VCard"), list, NULL);
+		eab_contact_list_save (_("Save as VCard..."), list, NULL);
 	e_free_object_list(list);
 }
 
