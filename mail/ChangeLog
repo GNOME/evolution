@@ -1,3 +1,10 @@
+2002-10-01  Larry Ewing  <lewing@ximian.com>
+
+	* mail-display.c (drag_data_get_cb): add support for dragging the
+	content type directly.
+	(do_attachment_header): add the target for the mime type to the
+	drag source.
+
 2002-10-01  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-config-druid.c (get_fn): Connect to the changed signal for

@@ -149,10 +149,12 @@ static GHashTable *thumbnail_cache = NULL;
 
 enum DndTargetType {
 	DND_TARGET_TYPE_TEXT_URI_LIST,
+	DND_TARGET_TYPE_PART_MIME_TYPE
 };
 
 static GtkTargetEntry drag_types[] = {
 	{ TEXT_URI_LIST_TYPE, 0, DND_TARGET_TYPE_TEXT_URI_LIST },
+	{ NULL, 0, DND_TARGET_TYPE_PART_MIME_TYPE }
 };
 
 static const int num_drag_types = sizeof (drag_types) / sizeof (drag_types[0]);
@@ -868,7 +870,7 @@ drag_data_get_cb (GtkWidget *widget,
 	CamelMimePart *part = user_data;
 	const char *filename, *tmpdir;
 	char *uri_list;
-	
+
 	switch (info) {
 	case DND_TARGET_TYPE_TEXT_URI_LIST:
 		/* Kludge around Nautilus requesting the same data many times */
@@ -903,8 +905,34 @@ drag_data_get_cb (GtkWidget *widget,
 		gtk_selection_data_set (selection_data, selection_data->target, 8,
 					uri_list, strlen (uri_list));
 		
-		gtk_object_set_data_full (GTK_OBJECT (widget), "uri-list", uri_list, g_free);
+		gtk_object_set_data_full (GTK_OBJECT (widget), "uri-list", uri_list, g_free);		
+		break;
+	case DND_TARGET_TYPE_PART_MIME_TYPE:
+		if (header_content_type_is (part->content_type, "text", "*")) {
+		        GByteArray *ba;
+
+			ba = mail_format_get_data_wrapper_text (part, NULL);
+			if (ba) {
+				gtk_selection_data_set (selection_data, selection_data->target, 8,
+							ba->data, ba->len);
+				g_byte_array_free (ba, TRUE);
+			}
+		} else {
+			CamelDataWrapper *wrapper;
+			CamelStream *cstream;
+			GByteArray *ba;
 		
+			ba = g_byte_array_new ();
+
+			cstream = camel_stream_mem_new_with_byte_array (ba);
+			wrapper = camel_medium_get_content_object (CAMEL_MEDIUM (part));
+			camel_data_wrapper_write_to_stream (wrapper, cstream);
+			
+			gtk_selection_data_set (selection_data, selection_data->target, 8,
+						ba->data, ba->len);
+			
+			camel_object_unref (CAMEL_OBJECT (cstream));
+		}
 		break;
 	default:
 		g_assert_not_reached ();
@@ -971,14 +999,20 @@ do_attachment_header (GtkHTML *html, GtkHTMLEmbedded *eb,
 		gtk_widget_set_sensitive (button, FALSE);
 	
 	/* Drag & Drop */
+	drag_types[DND_TARGET_TYPE_PART_MIME_TYPE].target = header_content_type_simple(part->content_type);
+	g_strdown (drag_types[DND_TARGET_TYPE_PART_MIME_TYPE].target);
+
 	gtk_drag_source_set (button, GDK_BUTTON1_MASK,
 			     drag_types, num_drag_types,
-			     GDK_ACTION_MOVE);
+			     GDK_ACTION_COPY);
 	gtk_signal_connect (GTK_OBJECT (button), "drag-data-get",
 			    drag_data_get_cb, part);
 	gtk_signal_connect (GTK_OBJECT (button), "drag-data-delete",
 			    drag_data_delete_cb, part);
 	
+	g_free (drag_types[DND_TARGET_TYPE_PART_MIME_TYPE].target);
+	drag_types[DND_TARGET_TYPE_PART_MIME_TYPE].target = NULL;
+
 	hbox = gtk_hbox_new (FALSE, 2);
 	gtk_container_set_border_width (GTK_CONTAINER (hbox), 2);
 	
