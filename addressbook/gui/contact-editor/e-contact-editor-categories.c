@@ -26,8 +26,6 @@
 #include <gal/e-table/e-table-scrolled.h>
 #include <gal/e-table/e-table.h>
 #include <gal/e-table/e-table-simple.h>
-#include <gal/e-table/e-cell-text.h>
-#include <gal/e-table/e-cell-checkbox.h>
 #include <gal/widgets/e-unicode.h>
 
 static void e_contact_editor_categories_init		(EContactEditorCategories		 *card);
@@ -223,13 +221,14 @@ e_contact_editor_categories_entry_change (GtkWidget *entry,
 	do_parse_categories(categories);
 }
 
-
-#define INITIAL_SPEC "<ETableSpecification no-header=\"1\">    	       \
-	<columns-shown>                  			       \
+#define INITIAL_SPEC "<ETableSpecification no-header=\"1\" draw-grid=\"true\">\
+  <ETableColumn model_col=\"0\" _title=\" \" expansion=\"0.0\" minimum_width=\"20\" resizable=\"false\" cell=\"checkbox\"       compare=\"integer\"/> \
+  <ETableColumn model_col=\"1\" _title=\"Category\" expansion=\"1.0\" minimum_width=\"20\" resizable=\"true\" cell=\"string\" compare=\"string\"/> \
+        <ETableState> \
 		<column> 0 </column>     			       \
 		<column> 1 </column>     			       \
-	</columns-shown>                 			       \
-	<grouping> <leaf column=\"1\" ascending=\"1\"/> </grouping>    \
+        	<grouping> <leaf column=\"1\" ascending=\"1\"/> </grouping>    \
+        </ETableState> \
 </ETableSpecification>"
 
 static void
@@ -237,10 +236,6 @@ e_contact_editor_categories_init (EContactEditorCategories *categories)
 {
 	GladeXML *gui;
 	GtkWidget *table;
-	ECell *cell_left_just;
-	ECell *cell_checkbox;
-	ETableHeader *header;
-	ETableCol *col;
 	GtkWidget *e_table;
 
 	categories->list_length = 0;
@@ -282,21 +277,7 @@ e_contact_editor_categories_init (EContactEditorCategories *categories)
 					       e_contact_editor_categories_value_to_string,
 					       categories);
 
-	header = e_table_header_new();
-
-	cell_checkbox = e_cell_checkbox_new();
-	col = e_table_col_new (0, "",
-			       0, 20, cell_checkbox,
-			       g_int_compare, TRUE);
-	e_table_header_add_column (header, col, 0);
-
-	cell_left_just = e_cell_text_new (categories->model, NULL, GTK_JUSTIFY_LEFT);
-	col = e_table_col_new (1, "Category",
-			       1.0, 20, cell_left_just,
-			       g_str_compare, TRUE);
-	e_table_header_add_column (header, col, 1);
-
-	e_table = e_table_scrolled_new (header, categories->model, INITIAL_SPEC);
+	e_table = e_table_scrolled_new (categories->model, NULL, INITIAL_SPEC, NULL);
 
 	gtk_object_sink(GTK_OBJECT(categories->model));
 	

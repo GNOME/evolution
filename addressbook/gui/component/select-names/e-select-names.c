@@ -23,7 +23,6 @@
 #include <gnome.h>
 #include "e-select-names.h"
 #include <gal/e-table/e-table-simple.h>
-#include <gal/e-table/e-cell-text.h>
 #include <addressbook/gui/widgets/e-addressbook-model.h>
 #include <addressbook/gui/component/e-cardlist-model.h>
 #include <addressbook/backend/ebook/e-book.h>
@@ -88,18 +87,20 @@ e_select_names_class_init (ESelectNamesClass *klass)
 	object_class->destroy = e_select_names_destroy;
 }
 
-#define SPEC "<ETableSpecification no-header=\"1\">    	       \
-	<columns-shown>                  			       \
-		<column> 2 </column>     			       \
-	</columns-shown>                 			       \
-	<grouping> <leaf column=\"1\" ascending=\"1\"/> </grouping>    \
+#define SPEC "<ETableSpecification no-headers=\"true\">    	       \
+  <ETableColumn model_col= \"34\" _title=\"Name\"          expansion=\"1.0\" minimum_width=\"20\" resizable=\"true\" cell=\"string\"       compare=\"string\"/> \
+	<ETableState>                   			       \
+		<column> 0 </column>     			       \
+	        <grouping> <leaf column=\"1\" ascending=\"1\"/> </grouping> \
+	</ETableState>                  			       \
 </ETableSpecification>"
 
-#define SPEC2 "<ETableSpecification no-header=\"1\">    	       \
-	<columns-shown>                  			       \
+#define SPEC2 "<ETableSpecification no-headers=\"true\">    	       \
+  <ETableColumn model_col= \"0\" _title=\"Name\"          expansion=\"1.0\" minimum_width=\"20\" resizable=\"true\" cell=\"string\"       compare=\"string\"/> \
+	<ETableState>                   			       \
                 <column> 0 </column>                                   \
-	</columns-shown>                 			       \
-	<grouping> </grouping>                                         \
+        	<grouping> </grouping>                                 \
+	</ETableState>                  			       \
 </ETableSpecification>"
 
 GtkWidget *e_addressbook_create_ebook_table(char *name, char *string1, char *string2, int num1, int num2);
@@ -118,8 +119,6 @@ GtkWidget *
 e_addressbook_create_ebook_table(char *name, char *string1, char *string2, int num1, int num2)
 {
 	ETableModel *model;
-	ETableHeader *header;
-	ECell *cell_left_just;
 	EBook *book;
 	GtkWidget *table;
 	char *filename;
@@ -129,15 +128,6 @@ e_addressbook_create_ebook_table(char *name, char *string1, char *string2, int n
 	gtk_object_set(GTK_OBJECT(model),
 		       "editable", FALSE,
 		       NULL);
-	cell_left_just = e_cell_text_new (model, NULL, GTK_JUSTIFY_LEFT);
-
-	header = e_table_header_new ();
-	e_table_header_add_column (header, e_table_col_new (0, "Full Name", 1.0, 20, cell_left_just,
-							    g_str_compare, TRUE), -1);
-	e_table_header_add_column (header, e_table_col_new (1, "Email", 1.0, 20, cell_left_just,
-							    g_str_compare, TRUE), -1);
-	e_table_header_add_column (header, e_table_col_new (34, "Name", 1.0, 20, cell_left_just,
-							    g_str_compare, TRUE), -1);
 
 	book = e_book_new();
 	gtk_object_ref(GTK_OBJECT(model));
@@ -147,7 +137,7 @@ e_addressbook_create_ebook_table(char *name, char *string1, char *string2, int n
 	e_book_load_uri(book, uri, (EBookCallback) set_book, model);
 	g_free(uri);
 	g_free(filename);
-	table = e_table_scrolled_new (header, model, SPEC);
+	table = e_table_scrolled_new (model, NULL, SPEC, NULL);
 
 	gtk_object_set(GTK_OBJECT(table),
 		       "cursor_mode", E_TABLE_CURSOR_LINE,
@@ -311,8 +301,6 @@ e_select_names_add_section(ESelectNames *e_select_names, char *name, char *id, E
 
 	ETableModel *model;
 	GtkWidget *etable;
-	ETableHeader *header;
-	ECell *cell_left_just;
 
 	if (g_hash_table_lookup(e_select_names->children, id)) {
 		return;
@@ -343,13 +331,7 @@ e_select_names_add_section(ESelectNames *e_select_names, char *name, char *id, E
 			 0, 0);
 	
 	model = e_select_names_table_model_new(source);
-	header = e_table_header_new ();
-	cell_left_just = e_cell_text_new (model, NULL, GTK_JUSTIFY_LEFT);
-	e_table_header_add_column (header, e_table_col_new (0, "Name", 1.0, 20, cell_left_just,
-							    g_str_compare, TRUE), -1);
-	e_table_header_add_column (header, e_table_col_new (1, "Email", 1.0, 20, cell_left_just,
-							    g_str_compare, TRUE), -1);
-	etable = e_table_scrolled_new (header, model, SPEC2);
+	etable = e_table_scrolled_new (model, NULL, SPEC2, NULL);
 	
 	gtk_signal_connect(GTK_OBJECT(etable), "double_click",
 			   GTK_SIGNAL_FUNC(remove_address), child);

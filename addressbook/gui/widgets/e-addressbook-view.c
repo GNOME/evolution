@@ -27,9 +27,6 @@
 
 #include <gal/e-table/e-table-scrolled.h>
 #include <gal/e-table/e-table-model.h>
-#include <gal/e-table/e-table-col.h>
-#include <gal/e-table/e-table-header.h>
-#include <gal/e-table/e-cell-text.h>
 #include <gal/widgets/e-scroll-frame.h>
 #include <gal/widgets/e-popup-menu.h>
 
@@ -466,27 +463,55 @@ table_right_click(ETableScrolled *table, gint row, gint col, GdkEvent *event, EA
 	} else
 		return FALSE;
 }
-
-#define SPEC "<?xml version=\"1.0\"?>    \
-<ETableSpecification click-to-add=\"1\"> \
-  <columns-shown>                        \
-    <column>0</column>                   \
-    <column>1</column>                   \
-    <column>5</column>                   \
-    <column>3</column>                   \
-    <column>4</column>                   \
-  </columns-shown>                       \
-  <grouping>                             \
-    <leaf column=\"0\" ascending=\"1\"/> \
-  </grouping>                            \
+#define SPEC "<?xml version=\"1.0\"?>      \
+<ETableSpecification click-to-add=\"true\" draw-grid=\"true\" _click-to-add-message=\"* Click here to add a contact *\">   \
+  <ETableColumn model_col= \"0\" _title=\"Name\"          expansion=\"1.0\" minimum_width=\"20\" resizable=\"true\" cell=\"string\"       compare=\"string\"/> \
+  <ETableColumn model_col= \"1\" _title=\"Family Name\"   expansion=\"1.0\" minimum_width=\"20\" resizable=\"true\" cell=\"string\"       compare=\"string\"/> \
+  <ETableColumn model_col= \"2\" _title=\"Email\"         expansion=\"1.0\" minimum_width=\"20\" resizable=\"true\" cell=\"string\"       compare=\"string\"/> \
+  <ETableColumn model_col= \"3\" _title=\"Primary\"       expansion=\"1.0\" minimum_width=\"20\" resizable=\"true\" cell=\"string\"       compare=\"string\"/> \
+  <ETableColumn model_col= \"4\" _title=\"Business\"      expansion=\"1.0\" minimum_width=\"20\" resizable=\"true\" cell=\"string\"       compare=\"string\"/> \
+  <ETableColumn model_col= \"5\" _title=\"Home\"          expansion=\"1.0\" minimum_width=\"20\" resizable=\"true\" cell=\"string\"       compare=\"string\"/> \
+  <ETableColumn model_col= \"6\" _title=\"Organization\"  expansion=\"1.0\" minimum_width=\"20\" resizable=\"true\" cell=\"string\"       compare=\"string\"/> \
+  <ETableColumn model_col= \"7\" _title=\"Business\"      expansion=\"1.0\" minimum_width=\"20\" resizable=\"true\" cell=\"string\"       compare=\"string\"/> \
+  <ETableColumn model_col= \"8\" _title=\"Home\"          expansion=\"1.0\" minimum_width=\"20\" resizable=\"true\" cell=\"string\"       compare=\"string\"/> \
+  <ETableColumn model_col= \"9\" _title=\"Mobile\"        expansion=\"1.0\" minimum_width=\"20\" resizable=\"true\" cell=\"string\"       compare=\"string\"/> \
+  <ETableColumn model_col=\"10\" _title=\"Car\"           expansion=\"1.0\" minimum_width=\"20\" resizable=\"true\" cell=\"string\"       compare=\"string\"/> \
+  <ETableColumn model_col=\"11\" _title=\"Business Fax\"  expansion=\"1.0\" minimum_width=\"20\" resizable=\"true\" cell=\"string\"       compare=\"string\"/> \
+  <ETableColumn model_col=\"12\" _title=\"Home Fax\"      expansion=\"1.0\" minimum_width=\"20\" resizable=\"true\" cell=\"string\"       compare=\"string\"/> \
+  <ETableColumn model_col=\"13\" _title=\"Business 2\"    expansion=\"1.0\" minimum_width=\"20\" resizable=\"true\" cell=\"string\"       compare=\"string\"/> \
+  <ETableColumn model_col=\"14\" _title=\"Home 2\"        expansion=\"1.0\" minimum_width=\"20\" resizable=\"true\" cell=\"string\"       compare=\"string\"/> \
+  <ETableColumn model_col=\"15\" _title=\"ISDN\"          expansion=\"1.0\" minimum_width=\"20\" resizable=\"true\" cell=\"string\"       compare=\"string\"/> \
+  <ETableColumn model_col=\"16\" _title=\"Other\"         expansion=\"1.0\" minimum_width=\"20\" resizable=\"true\" cell=\"string\"       compare=\"string\"/> \
+  <ETableColumn model_col=\"17\" _title=\"Pager\"         expansion=\"1.0\" minimum_width=\"20\" resizable=\"true\" cell=\"string\"       compare=\"string\"/> \
+  <ETableColumn model_col=\"18\" _title=\"Other\"         expansion=\"1.0\" minimum_width=\"20\" resizable=\"true\" cell=\"string\"       compare=\"string\"/> \
+  <ETableColumn model_col=\"19\" _title=\"Email 2\"       expansion=\"1.0\" minimum_width=\"20\" resizable=\"true\" cell=\"string\"       compare=\"string\"/> \
+  <ETableColumn model_col=\"20\" _title=\"Email 3\"       expansion=\"1.0\" minimum_width=\"20\" resizable=\"true\" cell=\"string\"       compare=\"string\"/> \
+  <ETableColumn model_col=\"21\" _title=\"Web Site\"      expansion=\"1.0\" minimum_width=\"20\" resizable=\"true\" cell=\"string\"       compare=\"string\"/> \
+  <ETableColumn model_col=\"22\" _title=\"Department\"    expansion=\"1.0\" minimum_width=\"20\" resizable=\"true\" cell=\"string\"       compare=\"string\"/> \
+  <ETableColumn model_col=\"23\" _title=\"Office\"        expansion=\"1.0\" minimum_width=\"20\" resizable=\"true\" cell=\"string\"       compare=\"string\"/> \
+  <ETableColumn model_col=\"24\" _title=\"Title\"         expansion=\"1.0\" minimum_width=\"20\" resizable=\"true\" cell=\"string\"       compare=\"string\"/> \
+  <ETableColumn model_col=\"25\" _title=\"Profession\"    expansion=\"1.0\" minimum_width=\"20\" resizable=\"true\" cell=\"string\"       compare=\"string\"/> \
+  <ETableColumn model_col=\"26\" _title=\"Manager\"       expansion=\"1.0\" minimum_width=\"20\" resizable=\"true\" cell=\"string\"       compare=\"string\"/> \
+  <ETableColumn model_col=\"27\" _title=\"Assistant\"     expansion=\"1.0\" minimum_width=\"20\" resizable=\"true\" cell=\"string\"       compare=\"string\"/> \
+  <ETableColumn model_col=\"28\" _title=\"Nickname\"      expansion=\"1.0\" minimum_width=\"20\" resizable=\"true\" cell=\"string\"       compare=\"string\"/> \
+  <ETableColumn model_col=\"29\" _title=\"Spouse\"        expansion=\"1.0\" minimum_width=\"20\" resizable=\"true\" cell=\"string\"       compare=\"string\"/> \
+  <ETableColumn model_col=\"30\" _title=\"Note\"          expansion=\"1.0\" minimum_width=\"20\" resizable=\"true\" cell=\"string\"       compare=\"string\"/> \
+  <ETableColumn model_col=\"31\" _title=\"Free-busy URL\" expansion=\"1.0\" minimum_width=\"20\" resizable=\"true\" cell=\"string\"       compare=\"string\"/> \
+  <ETableState>                            \
+    <column>0</column>                     \
+    <column>1</column>                     \
+    <column>5</column>                     \
+    <column>3</column>                     \
+    <column>4</column>                     \
+    <grouping>                             \
+      <leaf column=\"0\" ascending=\"1\"/> \
+    </grouping>                            \
+  </ETableState>                           \
 </ETableSpecification>"
 
 static void
 create_table_view (EAddressbookView *view)
 {
-	ECell *cell_left_just;
-	ETableHeader *e_table_header;
-	int i;
 	ETableModel *model;
 	ECardSimple *simple;
 	GtkWidget *table;
@@ -495,41 +520,10 @@ create_table_view (EAddressbookView *view)
 
 	model = e_addressbook_model_new();
 
-	/*
-	  Next we create a header.  The ETableHeader is used in two
-	  different way.  The first is the full_header.  This is the
-	  list of possible columns in the view.  The second use is
-	  completely internal.  Many of the ETableHeader functions are
-	  for that purpose.  The only functions we really need are
-	  e_table_header_new and e_table_header_add_col.
-
-	  First we create the header.  */
-	e_table_header = e_table_header_new ();
-	
-	/* Next we have to build renderers for all of the columns.
-	   Since all our columns are text columns, we can simply use
-	   the same renderer over and over again.  If we had different
-	   types of columns, we could use a different renderer for
-	   each column. */
-	cell_left_just = e_cell_text_new (model, NULL, GTK_JUSTIFY_LEFT);
-		
-	/* Next we create a column object for each view column and add
-	   them to the header.  We don't create a column object for
-	   the importance column since it will not be shown. */
-	for (i = 0; i < E_CARD_SIMPLE_FIELD_LAST - 1; i++){
-		/* Create the column. */
-		ETableCol *ecol = e_table_col_new (
-						   i, e_card_simple_get_name(simple, i+1),
-						   1.0, 20, cell_left_just,
-						   g_str_compare, TRUE);
-		/* Add it to the header. */
-		e_table_header_add_column (e_table_header, ecol, i);
-	}
-
 	/* Here we create the table.  We give it the three pieces of
 	   the table we've created, the header, the model, and the
 	   initial layout.  It does the rest.  */
-	table = e_table_scrolled_new (e_table_header, model, SPEC);
+	table = e_table_scrolled_new (model, NULL, SPEC, NULL);
 
 	view->object = GTK_OBJECT(model);
 	view->widget = table;
@@ -538,11 +532,6 @@ create_table_view (EAddressbookView *view)
 			   GTK_SIGNAL_FUNC(table_double_click), view);
 	gtk_signal_connect(GTK_OBJECT(table), "right_click",
 			   GTK_SIGNAL_FUNC(table_right_click), view);
-
-	gtk_object_set (GTK_OBJECT(table),
-			"click_to_add_message", _("* Click here to add a contact *"),
-			"drawgrid", TRUE,
-			NULL);
 
 	gtk_table_attach(GTK_TABLE(view), table,
 			 0, 1,
