@@ -1,3 +1,8 @@
+2004-08-12  JP Rosevear  <jpr@ximian.com>
+
+	* gui/dialogs/calendar-setup.glade: make the button say Add Task
+	List instead of Add Group (matches menu item)
+
 2004-08-12  Carlos Garnacho Parro  <carlosg@gnome.org>
 
 	* gui/dialogs/alarm-dialog.glade: added the property
