@@ -25,10 +25,10 @@ GtkType l##_get_type(void)\
 }
 
 typedef enum {
-  E_FOCUS_NONE,
-  E_FOCUS_CURRENT,
-  E_FOCUS_START,
-  E_FOCUS_END
+	E_FOCUS_NONE,
+	E_FOCUS_CURRENT,
+	E_FOCUS_START,
+	E_FOCUS_END
 } EFocus;
 
 int  g_str_compare  (const void *x, const void *y);
@@ -41,9 +41,6 @@ void  e_free_string_list  (GList *list);
 
 char *e_read_file  (const char *filename);
 gint e_write_file(const char *filename, const char *data, int flags);
-#if 0
-char *e_read_uri  (const char *uri);
-#endif
 
 gchar **e_strsplit (const gchar *string,
 		    const gchar *delimiter,
