@@ -365,7 +365,6 @@ impl_createControls (PortableServer_Servant servant,
 }
 
 
-
 static GNOME_Evolution_CreatableItemTypeList *
 impl__get_userCreatableItems (PortableServer_Servant servant,
 			      CORBA_Environment *ev)

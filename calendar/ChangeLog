@@ -1,5 +1,9 @@
 2003-11-13  Ettore Perazzoli  <ettore@ximian.com>
 
+	* gui/tasks-component.c (impl__get_userCreatableItems): New.
+	(impl_requestCreateItem): New.
+	(tasks_component_class_init): Install.
+
 	* gui/calendar-component.c (impl__get_userCreatableItems): New.
 	(impl_requestCreateItem): New, for now just a stub.
 	(calendar_component_class_init): Install into the EPV.
