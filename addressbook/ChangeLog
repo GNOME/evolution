@@ -1,6 +1,11 @@
 2001-08-20  JP Rosevear  <jpr@ximian.com>
 
 	* backend/pas/pas-backend-file.c
+	(pas_backend_file_changes_foreach_key): use DB_NOTFOUND const
+	
+2001-08-20  JP Rosevear  <jpr@ximian.com>
+
+	* backend/pas/pas-backend-file.c
 	(pas_backend_file_process_get_changes): null out card_sexp so that
 	we don't crash when copying
 

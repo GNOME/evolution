@@ -344,10 +344,10 @@ pas_backend_file_changes_foreach_key (const char *key, gpointer user_data)
 	memset (&vcard_dbt, 0, sizeof (vcard_dbt));
 	db_error = db->get (db, NULL, &id_dbt, &vcard_dbt, 0);
 	
-	if (db_error == 1) {
+	if (db_error == DB_NOTFOUND) {
 		char *id = id_dbt.data;
 		
-		ctx->del_ids = g_list_append (ctx->del_ids, strdup(id));
+		ctx->del_ids = g_list_append (ctx->del_ids, strdup (id));
 	}
 }
 
