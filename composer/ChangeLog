@@ -1,3 +1,8 @@
+2004-03-22  Not Zed  <NotZed@Ximian.com>
+
+	* e-msg-composer-hdrs.c (post_browser_clicked_cb): exclude
+	non-viable folder targets for selection, related to #55089.
+
 2004-03-18  Radek Doulik  <rodo@ximian.com>
 
 	* listener.c (impl_event): delete event: if empty paragraph has
