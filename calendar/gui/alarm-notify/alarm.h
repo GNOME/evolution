@@ -1,6 +1,8 @@
 #ifndef ALARM_H
 #define ALARM_H
 
+#include <time.h>
+
 typedef void (*AlarmFunction)(time_t time, void *closuse);
 
 void alarm_init    (void);

@@ -212,7 +212,6 @@ time_t
 time_week_begin   (time_t t)
 {
 	struct tm tm;
-	time_t retval;
 
 	tm = *localtime (&t);
 	tm.tm_mday -= tm.tm_wday;

@@ -18,8 +18,9 @@ time_t time_from_start_duration (time_t start, char *duration);
 char   *isodate_from_time_t     (time_t t);
 int    get_time_t_hour          (time_t t);
 
-time_t time_add_week (time_t time, int weeks);
+time_t time_add_minutes  (time_t time, int minutes);
 time_t time_add_day (time_t time, int days);
+time_t time_add_week (time_t time, int weeks);
 time_t time_add_year (time_t time, int years);
 
 
@@ -36,8 +37,6 @@ time_t time_year_begin   (int    year);
 time_t time_year_end     (int    year);
 time_t time_week_begin   (time_t t);
 time_t parse_date        (char *str);
-time_t time_add_minutes  (time_t time, int minutes);
-time_t time_add_day      (time_t time, int days);
 
 void print_time_t (time_t t);
 

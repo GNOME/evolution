@@ -1151,11 +1151,6 @@ ee_rp_init_rule (EventEditor *ee)
 }
 
 static void
-sensitize_by_toggle (GtkToggleButton *toggle, gpointer data)
-{
-}
-
-static void
 ee_rp_init_ending_date (EventEditor *ee)
 {
 	GtkWidget *frame;

@@ -12,10 +12,12 @@
 #include <pwd.h>
 #include <sys/types.h>
 
+#include "alarm.h"
 #include "calendar.h"
 #include "eventedit.h"
 #include "gnome-cal.h"
 #include "main.h"
+#include "timeutil.h"
 
 /* The username, used to set the `owner' field of the event */
 char *user_name;
@@ -439,6 +441,8 @@ dump_events (void)
 	exit (0);
 }
 
+extern time_t get_date ();
+
 static error_t
 parse_an_arg (int key, char *arg, struct argp_state *state)
 {
@@ -477,8 +481,6 @@ static struct argp parser =
 int 
 main(int argc, char *argv[])
 {
-	GnomeClient *client;
-
 	argp_program_version = VERSION;
 
 	bindtextdomain(PACKAGE, GNOMELOCALEDIR);

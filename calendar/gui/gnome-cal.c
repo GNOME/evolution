@@ -8,6 +8,7 @@
 #include <gnome.h>
 #include <unistd.h>
 #include <signal.h>
+#include <sys/wait.h>
 #include "calendar.h"
 #include "gnome-cal.h"
 #include "gncal-full-day.h"
@@ -319,7 +320,7 @@ execute (char *command, int close_standard)
 			sigaction (SIGINT,  &save_intr, NULL);
 			sigaction (SIGQUIT, &save_quit, NULL);
 			
-			for (i = (close_standard ? 0 : 3); i < 4096; i++)
+			for (i = (close_standard ? 0 : 3); i < top; i++)
 				close (i);
 			
 			/* FIXME: As an excercise to the reader, copy the

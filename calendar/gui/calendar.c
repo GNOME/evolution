@@ -14,6 +14,7 @@
 
 #include <config.h>
 
+#include "alarm.h"
 #include "calendar.h"
 #include "timeutil.h"
 #include "versit/vcc.h"
@@ -64,7 +65,6 @@ add_alarm (iCalObject *obj, time_t start, time_t end, void *closure)
 void
 ical_object_try_alarms (iCalObject *obj)
 {
-	GList *alarms, *p;
 	int ao, po, od, mo;
 	int max_o;
 	
@@ -83,7 +83,6 @@ ical_object_try_alarms (iCalObject *obj)
 void
 calendar_add_alarms (Calendar *cal)
 {
-	time_t now = time (NULL);
 	GList *events = cal->events;
 
 	for (; events; events=events->next)

@@ -37,7 +37,6 @@ view_utils_draw_events (GtkWidget *widget, GdkWindow *window, GdkGC *gc, GdkRect
 	int font_height;
 	int x, y, max_y;
 	char buf [40];
-	int len;
 	struct tm tm_start, tm_end;
 	char *str;
 	iCalObject *ico;

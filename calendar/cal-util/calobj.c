@@ -928,7 +928,7 @@ generate (iCalObject *ico, time_t reference, calendarfn cb, void *closure)
 
 	s_t = mktime (&dt_start);
 	if (ico->exdate && is_date_in_list (ico->exdate, &dt_start))
-		return;
+		return 1;
 	
 	e_t = mktime (&dt_end);
 	
@@ -1111,9 +1111,12 @@ static int
 duration_callback (iCalObject *ico, time_t start, time_t end, void *closure)
 {
 	int *count = closure;
+	struct tm *tm;
 
-	if (ico->exdate && is_date_in_list (ico->exdate, &start))
-		return;
+	tm = localtime (&start);
+
+	if (ico->exdate && is_date_in_list (ico->exdate, tm))
+		return 1;
 
 	(*count)++;
 	if (ico->recur->duration == *count) {

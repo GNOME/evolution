@@ -343,7 +343,6 @@ new_appointment (GtkWidget *widget, gpointer data)
 	GncalFullDay *fullday;
 	GtkWidget *ee;
 	iCalObject *ico;
-	time_t lower, upper;
 	
 	fullday = GNCAL_FULL_DAY (data);
 
