@@ -1,3 +1,8 @@
+2002-02-07  JP Rosevear  <jpr@ximian.com>
+
+	* evolution-calendar.xml: add new meeting item to Actions and
+	File->New
+
 2002-02-05  Anna Marie Dirks  <anna@ximian.com>
 
 	* evolution-mail-message.xml: Changed "Forward As" to "Forward" to improve grammar ("Forward As" implies an answer in the form of a noun, while "Redirect" is a verb), and added accelerators to "Add Sender to Addressbook" and "Redirect".

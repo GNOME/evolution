@@ -3,6 +3,7 @@
     <cmd name="CalendarNewAppointment" _tip="Create a new appointment"
 	 accel="*Control*n"/>
     <cmd name="CalendarNewEvent" _tip="Create an event for the whole day"/>
+    <cmd name="CalendarNewMeeting" _tip="Create a new meeting request"/>
     <cmd name="CalendarNewTask" _tip="Create a new task"/>
 
     <cmd name="CalendarPrint" _tip="Print this calendar" pixtype="pixbuf" 
@@ -37,6 +38,8 @@
 	<placeholder name="NewFirstItem">
 	  <menuitem name="NewAppointment" verb="CalendarNewAppointment"
 		    _label="_Appointment..." pixtype="pixbuf"/>
+	  <menuitem name="NewMeeting" verb="CalendarNewMeeting"
+		    _label="_Meeting..." pixtype="pixbuf"/>
 	  <menuitem name="NewTask" verb="CalendarNewTask"
 		    _label="_Task..." pixtype="pixbuf"/>
 	  <separator f="" name="ecal"/>
@@ -87,7 +90,8 @@
 	<menuitem name="NewAppointment" verb="CalendarNewAppointment"
 		  _label="Create a _New Appointment" pixtype="pixbuf"/>
 	<menuitem name="NewEvent" verb="CalendarNewEvent" _label="Create a New All Day _Event" pixtype="pixbuf"/>
-
+	<menuitem name="NewMeeting" verb="CalendarNewMeeting"
+		  _label="Create a _New Meeting" pixtype="pixbuf"/>
 	<menuitem name="NewTask" verb="CalendarNewTask" _label="Create a New _Task" pixtype="pixbuf"/>
 
 	<separator f="" name="ecal"/>
