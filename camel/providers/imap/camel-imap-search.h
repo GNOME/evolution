@@ -27,6 +27,8 @@
 #define _CAMEL_IMAP_SEARCH_H
 
 #include <camel/camel-folder-search.h>
+#include <e-util/e-msgport.h>
+#include <camel/camel-data-cache.h>
 
 #define CAMEL_IMAP_SEARCH_TYPE         (camel_imap_search_get_type ())
 #define CAMEL_IMAP_SEARCH(obj)         CAMEL_CHECK_CAST (obj, camel_imap_search_get_type (), CamelImapSearch)
@@ -38,6 +40,15 @@ typedef struct _CamelImapSearchClass CamelImapSearchClass;
 struct _CamelImapSearch {
 	CamelFolderSearch parent;
 
+	guint32 lastuid;	/* current 'last uid' for the folder */
+	guint32 validity;	/* validity of the current folder */
+
+	CamelDataCache *cache;	/* disk-cache for searches */
+
+	/* cache of body search matches */
+	unsigned int matches_count;
+	EDList matches;
+	GHashTable *matches_hash;
 };
 
 struct _CamelImapSearchClass {
@@ -46,6 +57,6 @@ struct _CamelImapSearchClass {
 };
 
 guint              camel_imap_search_get_type (void);
-CamelFolderSearch *camel_imap_search_new      (void);
+CamelFolderSearch *camel_imap_search_new      (const char *cachedir);
 
 #endif /* ! _CAMEL_IMAP_SEARCH_H */

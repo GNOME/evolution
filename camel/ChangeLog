@@ -1,3 +1,19 @@
+2002-01-14  Not Zed  <NotZed@Ximian.com>
+
+	* providers/imap/camel-imap-search.c (imap_body_contains):
+	Rewritten to use a cache for body searches when online.  Will need
+	some heavy testing but so far seems to be beneficial.
+
+	* providers/imap/camel-imap-folder.c (imap_search_by_expression,
+	search_by_uids): dont initialise search object here.
+	(camel_imap_folder_new): Setup search object here with pointer to
+	cache dir.
+
+2001-12-01  Not Zed  <NotZed@Ximian.com>
+
+	* camel-store-summary.[ch]: New class to store a store's folder
+	list in.  Not yet completed.
+
 2002-01-11  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* providers/imap/camel-imap-folder.c (imap_update_summary): Kludge

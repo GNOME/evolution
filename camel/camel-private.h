@@ -164,6 +164,23 @@ struct _CamelFolderSummaryPrivate {
 #define CAMEL_SUMMARY_UNLOCK(f, l)
 #endif
 
+struct _CamelStoreSummaryPrivate {
+#ifdef ENABLE_THREADS
+	GMutex *summary_lock;	/* for the summary hashtable/array */
+	GMutex *io_lock;	/* load/save lock, for access to saved_count, etc */
+	GMutex *alloc_lock;	/* for setting up and using allocators */
+	GMutex *ref_lock;	/* for reffing/unreffing messageinfo's ALWAYS obtain before summary_lock */
+#endif
+};
+
+#ifdef ENABLE_THREADS
+#define CAMEL_STORE_SUMMARY_LOCK(f, l) (g_mutex_lock(((CamelStoreSummary *)f)->priv->l))
+#define CAMEL_STORE_SUMMARY_UNLOCK(f, l) (g_mutex_unlock(((CamelStoreSummary *)f)->priv->l))
+#else
+#define CAMEL_STORE_SUMMARY_LOCK(f, l)
+#define CAMEL_STORE_SUMMARY_UNLOCK(f, l)
+#endif
+
 struct _CamelVeeFolderPrivate {
 	GList *folders;			/* lock using subfolder_lock before changing/accessing */
 	GList *folders_changed;		/* for list of folders that have changed between updates */

@@ -226,6 +226,8 @@ camel_imap_folder_new (CamelStore *parent, const char *folder_name,
 	    !g_strcasecmp (folder_name, "INBOX"))
 		folder->folder_flags |= CAMEL_FOLDER_FILTER_RECENT;
 
+	imap_folder->search = camel_imap_search_new(folder_dir);
+
 	return folder;
 }
 
@@ -1314,9 +1316,6 @@ imap_search_by_expression (CamelFolder *folder, const char *expression, CamelExc
 	   command channel too */
 	CAMEL_IMAP_FOLDER_LOCK(folder, search_lock);
 
-	if (!imap_folder->search)
-		imap_folder->search = camel_imap_search_new ();
-
 	camel_folder_search_set_folder (imap_folder->search, folder);
 	summary = camel_folder_get_summary(folder);
 	camel_folder_search_set_summary(imap_folder->search, summary);
@@ -1352,9 +1351,6 @@ imap_search_by_uids(CamelFolder *folder, const char *expression, GPtrArray *uids
 		return summary;
 
 	CAMEL_IMAP_FOLDER_LOCK(folder, search_lock);
-
-	if (imap_folder->search == NULL)
-		imap_folder->search = camel_imap_search_new();
 
 	camel_folder_search_set_folder(imap_folder->search, folder);
 	camel_folder_search_set_summary(imap_folder->search, summary);
