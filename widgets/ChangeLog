@@ -1,3 +1,11 @@
+2003-03-11  Dan Winship  <danw@ximian.com>
+
+	* e-timezone-dialog/e-timezone-dialog.c: Various cleanups.
+	(e_timezone_dialog_get_timezone): Return an icaltimezone.
+	(e_timezone_dialog_set_timezone): Take an icaltimezone
+	(e_timezone_dialog_construct): Set a minimum size on the scrolled
+	window
+
 2003-03-06  Ettore Perazzoli  <ettore@ximian.com>
 
 	* menus/gal-view-menus.c (gal_view_menus_unmerge): Use
