@@ -1,3 +1,9 @@
+2000-10-18  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* camel-mime-part.c (camel_mime_part_set_description): The correct
+	fix this time - the description should be encoded here and not in
+	the camel-medium layer.
+
 2000-10-18  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* camel-mime-filter-charset.c (complete): Put a zero at the start

@@ -280,8 +280,11 @@ get_header (CamelMedium *medium, const char *header_name)
 void
 camel_mime_part_set_description (CamelMimePart *mime_part, const gchar *description)
 {
+	char *text = header_encode_string (description);
+	
 	camel_medium_set_header (CAMEL_MEDIUM (mime_part),
-				 "Content-Description", description);
+				 "Content-Description", text);
+	g_free (text);
 }
 
 const gchar *
