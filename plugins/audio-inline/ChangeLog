@@ -1,3 +1,7 @@
+2004-11-11  Radek Doulik  <rodo@ximian.com>
+
+	* org-gnome-audio-inline.eplug.in: fixed author and description
+
 2004-11-01  JP Rosevear  <jpr@novell.com>
 
 	* Makefile.am: dist .eplug.in file
