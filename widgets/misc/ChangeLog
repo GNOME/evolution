@@ -1,3 +1,8 @@
+2002-08-29  Chris Toshok  <toshok@ximian.com>
+
+	* e-search-bar.c (subitem_activated_cb): need to make the find now
+	button sensitive when you select something from a submenu.
+
 2002-08-29  Peter Williams  <peterw@ximian.com>
 
 	* e-filter-bar.c (option_changed): If the item is ADVANCED_ID, check

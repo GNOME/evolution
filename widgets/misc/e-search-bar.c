@@ -265,6 +265,8 @@ subitem_activated_cb (GtkWidget *widget, ESearchBar *esb)
 
 	esb->item_id = id;
 	esb->subitem_id = subid;
+
+	set_find_now_sensitive (esb, TRUE);
 }
 
 static char *
