@@ -173,6 +173,17 @@ pixel_size_to_icon_size (int pixel_size)
 	return icon_size;
 }
 
+static gboolean
+icon_foreach_remove (gpointer key, gpointer value, gpointer user_data)
+{
+	icon_free (value);
+}
+
+static void
+icon_theme_changed_cb (GnomeIconTheme *object, gpointer user_data)
+{
+	g_hash_table_foreach_remove (name_to_icon, (GHRFunc) icon_foreach_remove, NULL);
+}
 
 /**
  * e_icon_factory_init:
@@ -187,18 +198,17 @@ e_icon_factory_init (void)
 	
 	icon_theme = gnome_icon_theme_new ();
 	name_to_icon = g_hash_table_new (g_str_hash, g_str_equal);
+	g_signal_connect (G_OBJECT (icon_theme), "changed", icon_theme_changed_cb, NULL);
 	
 	broken16_pixbuf = gdk_pixbuf_new_from_xpm_data ((const char **) broken_image_16_xpm);
 	broken24_pixbuf = gdk_pixbuf_new_from_xpm_data ((const char **) broken_image_24_xpm);
 }
-
 
 static void
 icon_foreach_free (gpointer key, gpointer value, gpointer user_data)
 {
 	icon_free (value);
 }
-
 
 /**
  * e_icon_factory_shutdown:

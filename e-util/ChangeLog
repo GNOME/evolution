@@ -1,5 +1,13 @@
 2004-08-05  Rodrigo Moya <rodrigo@novell.com>
 
+	* e-icon-factory.c (e_icon_factory_init): connect to "changed"
+	signal on the GnomeIconTheme object.
+	(icon_theme_changed_cb): g_hash_table_foreach_remove all items in the
+	hash table.
+	(icon_foreach_remove): callback for removing hash table items.
+
+2004-08-05  Rodrigo Moya <rodrigo@novell.com>
+
 	Fixes #62030
 
 	* e-icon-factory.c (load_icon): get the icon_key as a new argument
