@@ -238,22 +238,15 @@ update_shortcut_and_emit_signal (EShortcuts *shortcuts,
 				 const char *type,
 				 const char *custom_icon_name)
 {
-	/* Only thing that changed was the unread count */
-	if (shortcut_item->unread_count != unread_count
-	    && !shortcut_item_update (shortcut_item, uri, name, unread_count, type, custom_icon_name)) {
-		g_signal_emit (shortcuts, signals[UPDATE_SHORTCUT], 0, group_num, num);
-		return FALSE;
-	}
+	gboolean shortcut_changed;
 
-	/* Unread count is the same, but other stuff changed */
-	else if (shortcut_item_update (shortcut_item, uri, name, unread_count, type, custom_icon_name)) {
-		g_signal_emit (shortcuts, signals[UPDATE_SHORTCUT], 0, group_num, num);
+	shortcut_changed = shortcut_item_update (shortcut_item, uri, name, unread_count, type, custom_icon_name);
+	if (shortcut_changed) {
+		gtk_signal_emit (GTK_OBJECT (shortcuts), signals[UPDATE_SHORTCUT], group_num, num);
 		return TRUE;
 	}
 
-	/* Nothing at all changed, return false only */
-	else
-		return FALSE;
+	return FALSE;
 }
 
 static void
@@ -527,20 +520,28 @@ update_shortcuts_by_path (EShortcuts *shortcuts,
 		num = 0;
 		for (q = group->shortcuts; q != NULL; q = q->next, num++) {
 			EShortcutItem *shortcut_item;
+			char *shortcut_path;
 
 			shortcut_item = (EShortcutItem *) q->data;
 
-			if (strcmp (shortcut_item->uri, evolution_uri) == 0) {
+			if (! e_shell_parse_uri (priv->shell, shortcut_item->uri, &shortcut_path, NULL)) {
+				/* Ignore bogus URIs.  */
+				continue;
+			}
+
+			if (strcmp (shortcut_path, path) == 0) {
 				changed = update_shortcut_and_emit_signal (shortcuts,
 									   shortcut_item,
 									   group_num,
 									   num,
-									   evolution_uri,
+									   shortcut_item->uri,
 									   shortcut_item->name,
 									   e_folder_get_unread_count (folder),
 									   e_folder_get_type_string (folder),
 									   e_folder_get_custom_icon_name (folder));
 			}
+
+			g_free (shortcut_path);
 		}
 	}
 

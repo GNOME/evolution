@@ -1,3 +1,16 @@
+2002-01-23  Ettore Perazzoli  <ettore@ximian.com>
+
+	[Port fix for #34129 from evolution-1-2-branch, unread count in
+	shortcut bar doesn't update properly.]
+
+	* e-shortcuts.c (update_shortcuts_by_path): Use
+	e_shell_parse_uri() so we handle default shortcuts properly as
+	well.
+	(update_shortcut_and_emit_signal): Use shortcut_item_update()
+	once, and use the return value from it.  [Thanks to Leon Zhang
+	<leon.zhang@sun.com> for pointing out the brokenness of this
+	code.]
+
 2003-01-23  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-shell-about-box.c: Update copyright year.
