@@ -42,3 +42,6 @@
 
 /* Define if gethostbyname_r takes five arguments */
 #undef GETHOSTBYNAME_R_FIVE_ARGS
+
+/* Define to `int' if your system doesn't have `socklen_t'. */
+#undef socklen_t
