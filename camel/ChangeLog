@@ -1,3 +1,11 @@
+2001-01-19  Not Zed  <NotZed@Ximian.com>
+
+	* camel-filter-driver.c (report_status): Add a percentage complete
+	indicator to the status thing.
+	(camel_filter_driver_filter_mbox): Add percentage complete to
+	reporting.	
+	(camel_filter_driver_filter_folder): Same.
+
 2001-01-18  Dan Winship  <danw@ximian.com>
 
 	* camel-store.c (camel_folder_info_build): More tweaking... skip

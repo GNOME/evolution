@@ -47,7 +47,7 @@ struct _CamelFilterDriverClass {
 
 /* FIXME: this maybe should change... */
 /* type of status for a status report */
-enum filter_status_t {
+enum camel_filter_status_t {
 	FILTER_STATUS_NONE,
 	FILTER_STATUS_START,	/* start of new message processed */
 	FILTER_STATUS_ACTION,	/* an action performed */
@@ -55,16 +55,16 @@ enum filter_status_t {
 	FILTER_STATUS_END,	/* end of message */
 };
 
-typedef CamelFolder * (*FilterGetFolderFunc) (CamelFilterDriver *, const char *uri, void *data);
+typedef CamelFolder * (*CamelFilterGetFolderFunc) (CamelFilterDriver *, const char *uri, void *data);
 /* report status */
-typedef void (FDStatusFunc)(CamelFilterDriver *driver, enum filter_status_t status, const char *desc, void *data);
+typedef void (CamelFilterStatusFunc)(CamelFilterDriver *driver, enum camel_filter_status_t status, int pc, const char *desc, void *data);
 
 guint         camel_filter_driver_get_type (void);
-CamelFilterDriver  *camel_filter_driver_new     (FilterGetFolderFunc fetcher, void *data);
+CamelFilterDriver  *camel_filter_driver_new     (CamelFilterGetFolderFunc fetcher, void *data);
 
 /* modifiers */
 void    camel_filter_driver_set_logfile         (CamelFilterDriver *d, FILE *logfile);
-void	camel_filter_driver_set_status_func     (CamelFilterDriver *d, FDStatusFunc *func, void *data);
+void	camel_filter_driver_set_status_func     (CamelFilterDriver *d, CamelFilterStatusFunc *func, void *data);
 void	camel_filter_driver_set_default_folder  (CamelFilterDriver *d, CamelFolder *def);
 void 	camel_filter_driver_add_rule		(CamelFilterDriver *d, const char *name, const char *match, const char *action);
 

@@ -62,11 +62,11 @@ struct _CamelFilterDriverPrivate {
 
 	CamelFolder *defaultfolder;	/* defualt folder */
 	
-	FDStatusFunc *statusfunc; 	/* status callback */
+	CamelFilterStatusFunc *statusfunc; 	/* status callback */
 	void *statusdata;		/* status callback data */
 	
 	/* for callback */
-	FilterGetFolderFunc get_folder;
+	CamelFilterGetFolderFunc get_folder;
 	void *data;
 	
 	/* run-time data */
@@ -227,7 +227,7 @@ camel_filter_driver_finalise (CamelObject *obj)
  * Return value: A new CamelFilterDriver widget.
  **/
 CamelFilterDriver *
-camel_filter_driver_new (FilterGetFolderFunc get_folder, void *data)
+camel_filter_driver_new (CamelFilterGetFolderFunc get_folder, void *data)
 {
 	CamelFilterDriver *new;
 	struct _CamelFilterDriverPrivate *p;
@@ -250,7 +250,7 @@ camel_filter_driver_set_logfile (CamelFilterDriver *d, FILE *logfile)
 }
 
 void
-camel_filter_driver_set_status_func (CamelFilterDriver *d, FDStatusFunc *func, void *data)
+camel_filter_driver_set_status_func (CamelFilterDriver *d, CamelFilterStatusFunc *func, void *data)
 {
 	struct _CamelFilterDriverPrivate *p = _PRIVATE (d);
 	
@@ -286,7 +286,7 @@ camel_filter_driver_add_rule(CamelFilterDriver *d, const char *name, const char 
 }
 
 static void
-report_status (CamelFilterDriver *driver, enum filter_status_t status, const char *desc, ...)
+report_status (CamelFilterDriver *driver, enum camel_filter_status_t status, int pc, const char *desc, ...)
 {
 	/* call user-defined status report function */
 	struct _CamelFilterDriverPrivate *p = _PRIVATE (driver);
@@ -296,7 +296,7 @@ report_status (CamelFilterDriver *driver, enum filter_status_t status, const cha
 	if (p->statusfunc) {
 		va_start (ap, desc);
 		str = g_strdup_vprintf (desc, ap);
-		p->statusfunc (driver, status, str, p->statusdata);
+		p->statusfunc (driver, status, pc, str, p->statusdata);
 		g_free (str);
 	}
 }
@@ -610,11 +610,11 @@ camel_filter_driver_filter_mbox (CamelFilterDriver *driver, const char *mbox, co
 		if (st.st_size > 0)
 			pc = (int)(100.0 * ((double)camel_mime_parser_tell (mp) / (double)st.st_size));
 		
-		report_status (driver, FILTER_STATUS_START, "Getting message %d (%d%% of file)", i, pc);
+		report_status (driver, FILTER_STATUS_START, pc, "Getting message %d (%d%% of file)", i, pc);
 		
 		msg = camel_mime_message_new ();
 		if (camel_mime_part_construct_from_parser (CAMEL_MIME_PART (msg), mp) == -1) {
-			report_status (driver, FILTER_STATUS_END, "Failed message %d", i);
+			report_status (driver, FILTER_STATUS_END, 100, "Failed message %d", i);
 			camel_exception_set (ex, CAMEL_EXCEPTION_SYSTEM, "Cannot open message");
 			camel_object_unref (CAMEL_OBJECT (msg));
 			goto fail;
@@ -623,16 +623,18 @@ camel_filter_driver_filter_mbox (CamelFilterDriver *driver, const char *mbox, co
 		camel_filter_driver_filter_message (driver, msg, NULL, source_url, source, ex);
 		camel_object_unref (CAMEL_OBJECT (msg));
 		if (camel_exception_is_set (ex)) {
-			report_status (driver, FILTER_STATUS_END, "Failed message %d", i);
+			report_status (driver, FILTER_STATUS_END, 100, "Failed message %d", i);
 			goto fail;
 		}
 		
-		report_status (driver, FILTER_STATUS_END, "Finished message %d", i);
+		report_status (driver, FILTER_STATUS_END, pc, "Finished message %d", i);
 		i++;
 		
 		/* skip over the FROM_END state */
 		camel_mime_parser_step (mp, 0, 0);
 	}
+
+	report_status (driver, FILTER_STATUS_END, 100, "Complete");
 	
 	if (p->defaultfolder)
 		camel_folder_sync (p->defaultfolder, FALSE, ex);
@@ -667,11 +669,13 @@ camel_filter_driver_filter_folder (CamelFilterDriver *driver, CamelFolder *folde
 	}
 	
 	for (i = 0; i < uids->len; i++) {
-		report_status (driver, FILTER_STATUS_START, "Getting message %d of %d", i+1, uids->len);
+		int pc = (100 * i)/uids->len;
+
+		report_status (driver, FILTER_STATUS_START, pc, "Getting message %d of %d", i+1, uids->len);
 		
 		message = camel_folder_get_message (folder, uids->pdata[i], ex);
 		if (camel_exception_is_set (ex)) {
-			report_status (driver, FILTER_STATUS_END, "Failed at message %d of %d", i+1, uids->len);
+			report_status (driver, FILTER_STATUS_END, 100, "Failed at message %d of %d", i+1, uids->len);
 			break;
 		}
 		
@@ -686,7 +690,7 @@ camel_filter_driver_filter_folder (CamelFilterDriver *driver, CamelFolder *folde
 			camel_folder_free_message_info (folder, info);
 
 		if (camel_exception_is_set (ex)) {
-			report_status (driver, FILTER_STATUS_END, "Failed at message %d of %d", i+1, uids->len);
+			report_status (driver, FILTER_STATUS_END, 100, "Failed at message %d of %d", i+1, uids->len);
 			break;
 		}
 		
@@ -696,6 +700,9 @@ camel_filter_driver_filter_folder (CamelFilterDriver *driver, CamelFolder *folde
 		
 		camel_object_unref (CAMEL_OBJECT (message));
 	}
+
+	if (i == uids->len)
+		report_status (driver, FILTER_STATUS_END, 100, "Complete");
 	
 	if (freeuids)
 		camel_folder_free_uids (folder, uids);
