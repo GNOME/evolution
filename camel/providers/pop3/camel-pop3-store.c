@@ -469,8 +469,8 @@ pop3_try_authenticate (CamelService *service, const char *errmsg,
 
 	if (!service->url->authmech) {
 		/* pop engine will take care of pipelining ability */
-		pcu = camel_pop3_engine_command_new(store->engine, 0, NULL, NULL, "USER \"%s\"\r\n", service->url->user);
-		pcp = camel_pop3_engine_command_new(store->engine, 0, NULL, NULL, "PASS \"%s\"\r\n", service->url->passwd);
+		pcu = camel_pop3_engine_command_new(store->engine, 0, NULL, NULL, "USER %s\r\n", service->url->user);
+		pcp = camel_pop3_engine_command_new(store->engine, 0, NULL, NULL, "PASS %s\r\n", service->url->passwd);
 	} else if (strcmp(service->url->authmech, "+APOP") == 0 && store->engine->apop) {
 		char *secret, md5asc[33], *d;
 		unsigned char md5sum[16], *s;
