@@ -1762,7 +1762,7 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 				eti->click_count ++;
 				eti->row_guess = row;
 
-				if ((!eti_editing(eti)) && e_table_model_is_cell_editable(eti->table_model, col, row)) {
+				if ((!eti_editing(eti)) && e_table_model_is_cell_editable(eti->table_model, cursor_col, row)) {
 					e_table_item_enter_edit (eti, col, row);
 				}
 
@@ -2030,7 +2030,7 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 					       NULL);
 
 				if (cursor_col >= 0 && cursor_row >= 0 && return_val &&
-				    (!eti_editing(eti)) && e_table_model_is_cell_editable(eti->table_model, model_to_view_col(eti, cursor_col), model_to_view_row(eti, cursor_row))) {
+				    (!eti_editing(eti)) && e_table_model_is_cell_editable(eti->table_model, cursor_col, model_to_view_row (eti, cursor_row))) {
 					e_table_item_enter_edit (eti, model_to_view_col(eti, cursor_col), model_to_view_row(eti, cursor_row));
 				}
 				break;
@@ -2090,7 +2090,7 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 					gint col, row;
 					row = model_to_view_row(eti, cursor_row);
 					col = model_to_view_col(eti, cursor_col);
-					if (col != -1 && row != -1 && e_table_model_is_cell_editable(eti->table_model, col, row)) {
+					if (col != -1 && row != -1 && e_table_model_is_cell_editable(eti->table_model, cursor_col, row)) { 
 						e_table_item_enter_edit (eti, col, row);
 					}
 				}
