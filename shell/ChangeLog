@@ -1,6 +1,15 @@
+2001-12-10  Ettore Perazzoli  <ettore@ximian.com>
+
+	[Fix #14838, saving passwords doesn't work.  It is actually a
+	workaround for some obscure Bonobo-conf bug.]
+
+	* e-setup.c (setup_bonobo_conf_private_directory): New helper
+	function to create the `~/evolution/private' directory.
+	(e_setup): Call it.
+
 2001-12-07  Iain Holmes  <iain@ximian.com>
 
-	[ Trying to fix 14701 ]
+	[Trying to fix #14701, importing locks up Evolution.]
 
 	* e-shell-importer.c (show_error): Show an error message, but not
 	modally.

@@ -266,6 +266,52 @@ e_shell_rm_dir (const char *path)
 }
 
 
+/* FIXME: This is a workaround for bonobo-conf breakage.  */
+static gboolean
+setup_bonobo_conf_private_directory (const char *evolution_directory)
+{
+	char *name;
+	struct stat buf;
+
+	name = g_concat_dir_and_file (evolution_directory, "private");
+	if (stat (name, &buf) == -1) {
+		if (mkdir (name, 0700) != 0) {
+			e_notice (NULL, GNOME_MESSAGE_BOX_ERROR,
+				  _("Evolution could not create directory\n"
+				    "%s:\n%s"),
+				  name, strerror (errno));
+			free (name);
+			return FALSE;
+		}
+
+		free (name);
+		return TRUE;
+	}
+
+	if (S_ISDIR (buf.st_mode) && access (name, R_OK | W_OK | X_OK) == 0) {
+		free (name);
+		return TRUE;
+	}
+
+	if (S_ISDIR (buf.st_mode)) {
+		e_notice (NULL, GNOME_MESSAGE_BOX_ERROR,
+			  _("Directory %s\n"
+			    "does not have the right permissions. Please make it\n"
+			    "readable and executable and restart Evolution."),
+			  name);
+	} else {
+		e_notice (NULL, GNOME_MESSAGE_BOX_ERROR,
+			  _("File %s\n"
+			    "should be removed to allow Evolution to work correctly.\n"
+			    "Please remove this file and restart Evolution."),
+			  name, strerror (errno));
+	}
+
+	free (name);
+	return FALSE;
+}
+
+
 gboolean
 e_setup (const char *evolution_directory)
 {
@@ -359,6 +405,9 @@ e_setup (const char *evolution_directory)
 		gtk_object_unref (GTK_OBJECT (local_folder));
 	}
 	g_free (file);
+
+	if (! setup_bonobo_conf_private_directory (evolution_directory))
+		return FALSE;
 
 	/* User has evolution directory...
 	   Check if it is up to date. */
