@@ -1,5 +1,8 @@
 2001-09-20  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* mail-ops.c (save_messages_save): Convert all textual parts to
+	8bit before saving. Fixes bug #10388.
+
 	* mail-callbacks.c (ask_confirm_for_unwanted_html_mail): Oops,
 	don't free memory that we don't own.
 

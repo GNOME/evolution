@@ -1652,7 +1652,7 @@ save_msg_ok (GtkWidget *widget, gpointer user_data)
 	if (path[0] == '\0')
 		return;
 	
-        fd = open (path, O_RDONLY);
+	fd = open (path, O_RDONLY);
 	if (fd != -1) {
 		GtkWidget *dialog;
 		GtkWidget *text;

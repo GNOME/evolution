@@ -1862,6 +1862,38 @@ build_from(struct _header_raw *header)
 }
 
 static void
+save_prepare_part (CamelMimePart *mime_part)
+{
+	CamelDataWrapper *wrapper;
+	int parts, i;
+	
+	wrapper = camel_medium_get_content_object (CAMEL_MEDIUM (mime_part));
+	if (!wrapper)
+		return;
+	
+	if (CAMEL_IS_MULTIPART (wrapper)) {
+		parts = camel_multipart_get_number (CAMEL_MULTIPART (wrapper));
+		for (i = 0; i < parts; i++) {
+			CamelMimePart *part = camel_multipart_get_part (CAMEL_MULTIPART (wrapper), i);
+			
+			save_prepare_part (part);
+		}
+	} else {
+		if (CAMEL_IS_MIME_MESSAGE (wrapper)) {
+			/* prepare the message parts' subparts */
+			save_prepare_part (CAMEL_MIME_PART (wrapper));
+		} else {
+			CamelContentType *type;
+			
+			/* We want to save textual parts as 8bit instead of encoded */
+			type = camel_data_wrapper_get_mime_type_field (wrapper);
+			if (header_content_type_is (type, "text", "*"))
+				camel_mime_part_set_encoding (mime_part, CAMEL_MIME_PART_ENCODING_8BIT);
+		}
+	}
+}
+
+static void
 save_messages_save (struct _mail_msg *mm)
 {
 	struct _save_messages_msg *m = (struct _save_messages_msg *)mm;
@@ -1892,7 +1924,9 @@ save_messages_save (struct _mail_msg *mm)
 		camel_operation_progress(mm->cancel, pc);
 		if (message == NULL)
 			break;
-
+		
+		save_prepare_part (CAMEL_MIME_PART (message));
+		
 		/* we need to flush after each stream write since we are writing to the same fd */
 		from = build_from(((CamelMimePart *)message)->headers);
 		if (camel_stream_write_string(stream, from) == -1
