@@ -1,10 +1,10 @@
 SUBDIRS = . ename
 
-imagesdir = $(datadir)/evolution/images
+imagesdir = $(datadir)/evolution-$(BASE_VERSION)/images
 
-eutilincludedir = $(includedir)/evolution/e-util
-econdincludedir = $(includedir)/evolution/e-conduit
-edb3includedir = $(includedir)/evolution/e-db3util
+eutilincludedir = $(includedir)/evolution-$(BASE_VERSION)/e-util
+econdincludedir = $(includedir)/evolution-$(BASE_VERSION)/e-conduit
+edb3includedir  = $(includedir)/evolution-$(BASE_VERSION)/e-db3util
 
 INCLUDES =								\
 	-I$(top_srcdir)							\

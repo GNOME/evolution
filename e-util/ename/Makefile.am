@@ -12,13 +12,13 @@ ename_libs = 						\
 	libename.la 					\
 	$(E_NAME_LIBS)
 
-lib_LTLIBRARIES = libename.la
+privlib_LTLIBRARIES = libename.la
 
 libename_la_SOURCES =					\
 	e-address-western.c				\
 	e-name-western.c
 
-libenameincludedir = $(includedir)/ename
+libenameincludedir = $(includedir)/evolution-$(BASE_VERSION)/ename
 
 libenameinclude_HEADERS =				\
 	e-address-western.h				\

@@ -1,3 +1,13 @@
+2003-01-22  Ettore Perazzoli  <ettore@ximian.com>
+
+	* Makefile.am (eutilincludedir): Version using $(BASE_VERSION).
+	(econdincludedir): Likewise.
+	(edb3includedir): Likewise.
+	(imagesdir): Likewise.
+
+	* ename/Makefile.am: Install libename in $(privlibdir) and
+	$(includedir)/evolution-$(BASE_VERSION)/ename.
+
 2003-01-17  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* e-account-list.c: Changed signal names to use - instead of _
