@@ -128,7 +128,7 @@ struct _EText {
 
 	double xofs, yofs;		/* Text offset distance from anchor position */
 
-	gulong pixel;			/* Fill color */
+	GdkColor color; 		/* Fill color */
 	GdkBitmap *stipple;		/* Stipple for text */
 	GdkGC *gc;			/* GC for drawing text */
 

@@ -1115,13 +1115,10 @@ split_into_lines (EText *text)
 static void
 set_text_gc_foreground (EText *text)
 {
-	GdkColor c;
-
 	if (!text->gc)
 		return;
 
-	c.pixel = text->pixel;
-	gdk_gc_set_foreground (text->gc, &c);
+	gdk_gc_set_foreground (text->gc, &text->color);
 }
 
 /* Sets the stipple pattern for the text */
@@ -1355,6 +1352,7 @@ e_text_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 			      (color.green & 0xff00) << 8 |
 			      (color.blue & 0xff00) |
 			      0xff);
+		text->color = color;
 		color_changed = TRUE;
 		text->needs_redraw = 1;
 		needs_update = 1;
@@ -1364,14 +1362,13 @@ e_text_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 		pcolor = GTK_VALUE_BOXED (*arg);
 		if (pcolor) {
 			color = *pcolor;
-			gdk_color_context_query_color (item->canvas->cc, &color);
-			have_pixel = TRUE;
 		}
 
 		text->rgba = ((color.red & 0xff00) << 16 |
 			      (color.green & 0xff00) << 8 |
 			      (color.blue & 0xff00) |
 			      0xff);
+		text->color = color;
 		color_changed = TRUE;
 		text->needs_redraw = 1;
 		needs_update = 1;
@@ -1485,10 +1482,8 @@ e_text_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 	}
 
 	if (color_changed) {
-		if (have_pixel)
-			text->pixel = color.pixel;
-		else
-			text->pixel = gnome_canvas_get_color_pixel (item->canvas, text->rgba);
+		if (GNOME_CANVAS_ITEM_REALIZED & GTK_OBJECT_FLAGS(item))
+			gdk_color_context_query_color (item->canvas->cc, &color);
 
 		if (!item->canvas->aa)
 			set_text_gc_foreground (text);
@@ -1562,8 +1557,7 @@ e_text_get_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 
 	case ARG_FILL_COLOR_GDK:
 		color = g_new (GdkColor, 1);
-		color->pixel = text->pixel;
-		gdk_color_context_query_color (text->item.canvas->cc, color);
+		*color = text->color;
 		GTK_VALUE_BOXED (*arg) = color;
 		break;
 
@@ -1773,6 +1767,8 @@ e_text_realize (GnomeCanvasItem *item)
 		(* parent_class->realize) (item);
 
 	text->gc = gdk_gc_new (item->canvas->layout.bin_window);
+	gdk_color_context_query_color (item->canvas->cc, &text->color);
+	gdk_gc_set_foreground (text->gc, &text->color);
 	
 	text->i_cursor = gdk_cursor_new (GDK_XTERM);
 	text->default_cursor = gdk_cursor_new (GDK_LEFT_PTR);
