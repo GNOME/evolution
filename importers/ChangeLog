@@ -1,3 +1,13 @@
+2001-07-10  Iain Holmes  <iain@ximian.com>
+
+	* evolution-gnomecard-importer.c (gnomecard_store_settings): Don't
+	use an Ask again thing.
+	(gnomecard_restore_settings): Ditto.
+	(gnomecard_can_import): Ditto
+	(importer_cb): Quit correctly, releasing all our bonobo objects.
+	(gnomecard_destroy_cb): Release our objects.
+	(create_checkboxes_control): Don't create an ask again thing.
+
 2001-07-03  Damon Chaplin  <damon@ximian.com>
 
 	* Makefile.am: added $(BONOBO_CONF_LIBS) to all the LDADDs, to get

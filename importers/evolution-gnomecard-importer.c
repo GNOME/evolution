@@ -51,9 +51,6 @@ typedef struct {
 	GtkWidget *addresses;
 	gboolean do_addresses;
 
-	GtkWidget *ask;
-	gboolean ask_again;
-
 	Bonobo_ConfigDatabase db;
 } GnomeCardImporter;
 
@@ -63,9 +60,6 @@ gnomecard_store_settings (GnomeCardImporter *importer)
 	bonobo_config_set_boolean (importer->db, 
 				   "/Importer/Gnomecard/address", 
 				   importer->do_addresses, NULL);
-	bonobo_config_set_boolean (importer->db, 
-				   "/Importer/Gnomecard/ask-again", 
-				   importer->ask_again, NULL);
 }
 
 static void
@@ -73,9 +67,6 @@ gnomecard_restore_settings (GnomeCardImporter *importer)
 {
 	importer->do_addresses = bonobo_config_get_boolean_with_default (
 		importer->db, "/Importer/Gnomecard/address", TRUE, NULL);
-
-	importer->ask_again =  bonobo_config_get_boolean_with_default (
-                importer->db, "/Importer/Gnomecard/ask-again", FALSE, NULL);
 }
 
 static gboolean
@@ -89,7 +80,7 @@ gnomecard_can_import (EvolutionIntelligentImporter *ii,
 	address = bonobo_config_get_boolean_with_default (importer->db, 
                 "/Importer/Gnomecard/address-imported", FALSE, NULL);
 
-	if (address == TRUE || importer->ask_again == TRUE)
+	if (address == TRUE)
 		return FALSE;
 
 	gnomecard = gnome_util_home_file ("GnomeCard.gcrd");
@@ -120,6 +111,9 @@ importer_cb (EvolutionImporterListener *listener,
 	     gboolean more_items,
 	     void *data)
 {
+	GnomeCardImporter *gci = (GnomeCardImporter *) data;
+	CORBA_Environment ev;
+
 	if (result == EVOLUTION_IMPORTER_NOT_READY ||
 	    result == EVOLUTION_IMPORTER_BUSY) {
 		gtk_timeout_add (5000, importer_timeout_fn, data);
@@ -131,7 +125,12 @@ importer_cb (EvolutionImporterListener *listener,
 		return;
 	}
 
-	/* Quit Here */
+	CORBA_exception_init (&ev);
+	bonobo_object_release_unref (gci->importer, &ev);
+	bonobo_object_release_unref (gci->db, &ev);
+	CORBA_exception_free (&ev);
+
+	gtk_main_quit ();
 }
 				 
 static void
@@ -200,8 +199,13 @@ gnomecard_destroy_cb (GtkObject *object,
 	Bonobo_ConfigDatabase_sync (importer->db, &ev);
 	CORBA_exception_free (&ev);
 
-	if (importer->db != CORBA_OBJECT_NIL)
+	if (importer->importer != CORBA_OBJECT_NIL) {
+		bonobo_object_release_unref (importer->importer, NULL);
+	}
+
+	if (importer->db != CORBA_OBJECT_NIL) {
 		bonobo_object_release_unref (importer->db, NULL);
+	}
 	importer->db = CORBA_OBJECT_NIL;
 
 	gtk_main_quit ();
@@ -218,7 +222,7 @@ checkbox_toggle_cb (GtkToggleButton *tb,
 static BonoboControl *
 create_checkboxes_control (GnomeCardImporter *importer)
 {
-	GtkWidget *container, *vbox, *sep;
+	GtkWidget *container, *vbox;
 	BonoboControl *control;
 
 	container = gtk_frame_new (_("Import"));
@@ -231,21 +235,9 @@ create_checkboxes_control (GnomeCardImporter *importer)
 			    GTK_SIGNAL_FUNC (checkbox_toggle_cb),
 			    &importer->do_addresses);
 
-	sep = gtk_hseparator_new ();
-
-	importer->ask = gtk_check_button_new_with_label (_("Don't ask me again"));
-	gtk_signal_connect (GTK_OBJECT (importer->ask), "toggled",
-			    GTK_SIGNAL_FUNC (checkbox_toggle_cb),
-			    &importer->ask_again);
-
 	gtk_box_pack_start (GTK_BOX (vbox), importer->addresses, FALSE, FALSE, 0);
-	gtk_box_pack_start (GTK_BOX (vbox), sep, FALSE, FALSE, 0);
-	gtk_box_pack_start (GTK_BOX (vbox), importer->ask, FALSE, FALSE, 0);
-
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (importer->addresses),
 				      importer->do_addresses);
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (importer->ask),
-				      importer->ask_again);
 
 	gtk_widget_show_all (container);
 	control = bonobo_control_new (container);
