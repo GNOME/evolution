@@ -9,7 +9,7 @@ INCLUDES =						\
 	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"		\
 	-DEVOLUTION_DATADIR=\""$(datadir)"\"		\
 	-DEVOLUTION_IMAGESDIR=\""$(imagesdir)"\"	\
-	-DEVOLUTION_UIDIR=\""$(evolution_uidir)\""	\
+	-DEVOLUTION_UIDIR=\""$(evolutionuidir)\""	\
 	-DG_LOG_DOMAIN=\"contact-editor\"		\
 	-DG_DISABLE_DEPRECATED				\
 	-DGTK_DISABLE_DEPRECATED			\

@@ -1,3 +1,8 @@
+2003-02-19  Ettore Perazzoli  <ettore@ximian.com>
+
+	* gui/contact-editor/Makefile.am (INCLUDES): Use $(evolutionuidir)
+	instead of $(evolution_uidir).  [Pointed out by Grzegorz Goawski.]
+
 2003-02-17  Chris Toshok  <toshok@ximian.com>
 
 	* gui/component/select-names/e-select-names-completion.c
