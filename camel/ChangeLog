@@ -1,3 +1,9 @@
+2000-07-12  Peter Williams  <peterw@helixcode.com>
+
+	* camel-folder.c (camel_folder_set_message_flags): Emit a message_changed
+	signal once the flags are set on the message.
+	(camel_folder_set_user_flag): Ditto.
+
 2000-07-12  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* camel-stream.c: Use size_t and ssize_t for read/write methods
