@@ -1,3 +1,8 @@
+2003-06-25  Antonio Xu  <antonio.xu@sun.com>
+
+	* e-msg-composer.c (handle_mailto): Change file url to absolute
+	path. Fixes bug #44065.
+
 2003-07-01  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* e-msg-composer.c (autosave_load_draft): Connect to the

@@ -3827,6 +3827,7 @@ handle_mailto (EMsgComposer *composer, const char *mailto)
 	size_t nread, nwritten;
 	char *content;
 	int len, clen;
+	CamelURL *url;
 	
 	/* Parse recipients (everything after ':' until '?' or eos). */
 	p = mailto + 7;
@@ -3890,7 +3891,16 @@ handle_mailto (EMsgComposer *composer, const char *mailto)
 					}
 				}
 			} else if (!strncasecmp (header, "attach", len)) {
-				e_msg_composer_attachment_bar_attach (E_MSG_COMPOSER_ATTACHMENT_BAR (composer->attachment_bar), content);
+				/*Change file url to absolute path*/
+				if (!strncasecmp (content, "file:", 5)) {
+					url = camel_url_new (content, NULL);
+					e_msg_composer_attachment_bar_attach (E_MSG_COMPOSER_ATTACHMENT_BAR (composer->attachment_bar),
+									      url->path);
+					camel_url_free (url);
+				} else {
+					e_msg_composer_attachment_bar_attach (E_MSG_COMPOSER_ATTACHMENT_BAR (composer->attachment_bar),
+									      content);
+				}
 			} else {
 				/* add an arbitrary header? */
 				e_msg_composer_add_header (composer, header, content);
