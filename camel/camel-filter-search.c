@@ -313,7 +313,7 @@ match_all (struct _ESExp *f, int argc, struct _ESExpTerm **argv, FilterMessageSe
 		return e_sexp_term_eval (f, argv[0]);
 	
 	r = e_sexp_result_new (f, ESEXP_RES_BOOL);
-	r->value.bool = FALSE;
+	r->value.bool = TRUE;
 	
 	return r;
 }

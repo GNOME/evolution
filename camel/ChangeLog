@@ -1,3 +1,14 @@
+2003-08-01  Not Zed  <NotZed@Ximian.com>
+
+	** See bug #47208.
+
+	* camel-filter-search.c (match_all): match-all with no arguments	
+	should always return TRUE.
+
+	* camel-folder-search.c (camel_folder_search_execute_expression):
+	print a warning when we get an invalid result type & fixed a leak
+	for that case.
+	
 2003-07-25  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-mime-utils.c (header_decode_word): Revert NotZed's fix for
