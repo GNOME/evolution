@@ -33,13 +33,15 @@ correctly.)
 
 	gnome-print
 
+	gdk-pixbuf - 0.7.0 (or later?)
+
+	ORBit - 0.5.1
+
 	bonobo - Evolution always tracks the latest CVS versions of
 	bonobo. Released versions will virtually always be too old.
 	*** Note that this must be installed with the same --prefix as
 	*** either gnome-libs or evolution for the Makefiles to work
 	*** properly.
-
-	gdk-pixbuf - 0.7.0 (or later?)
 
 	gnome-vfs
 
@@ -51,15 +53,12 @@ correctly.)
 
 	libunicode
 
-You also need a recent copy of ORBit. At the present time, the version
-in Helix GNOME is the only released version that is new enough. If you
-don't have that, you should check out ORBit from GNOME CVS with the
-option "-r orbit-stable-0-5" to get the recent stable branch.
-
 The Palm-synchronization code, when it is incorporated, will require
 the pilot-link package. There is most likely a package for this in
 your OS of choice (the name may be "pilot-link" or "libpisock"). If
-not, you can get the source at ftp://ryeham.ee.ryerson.ca/pub/PalmOS/
+not, you can get the source at ftp://ryeham.ee.ryerson.ca/pub/PalmOS/.
+You will also need the "gnome-pilot" package from GNOME CVS.
+
 
 You will most likely want to include the option
 	--sysconfdir=`gnome-config --sysconfdir`
