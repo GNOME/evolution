@@ -1,5 +1,10 @@
 2003-04-11  Dan Winship  <danw@ximian.com>
 
+	* gui/dialogs/Makefile.am (IDL_GENERATED, etc): Oops. Add this
+	back. Turns out it's still needed by other parts.
+
+2003-04-11  Dan Winship  <danw@ximian.com>
+
 	* gui/dialogs/task-page.glade: Remove the "Contacts" button and
 	entry from here too. Supposed to have been part of #35926
 
@@ -10,7 +15,7 @@
 	* gui/dialogs/comp-editor-util.h: Likewise
 
 	* gui/dialogs/Makefile.am (IDL_GENERATED, etc): Remove
-	select-names stuff, which is no longe rused.
+	select-names stuff, which is no longer used.
 
 2003-04-11  Rodrigo Moya <rodrigo@ximian.com>
 
