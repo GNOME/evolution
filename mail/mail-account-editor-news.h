@@ -63,7 +63,7 @@ typedef struct {
 
 GtkType mail_account_editor_news_get_type (void);
 
-MailAccountEditorNews *mail_account_editor_news_new (MailConfigService *service);
+GtkWidget *mail_account_editor_news_new (MailConfigService *service);
 
 #ifdef __cplusplus
 }

@@ -460,7 +460,7 @@ mail_accounts_load (MailAccountsTab *prefs)
 
 #ifdef ENABLE_NNTP
 static void
-load_news (MailAccountsTab *prefs)
+news_load (MailAccountsTab *prefs)
 {
 	const MailConfigService *service;
 	const GSList *node;
@@ -528,7 +528,7 @@ news_editor_destroyed (GtkWidget *widget, gpointer user_data)
 {
 	MailAccountsTab *prefs = user_data;
 	
-	load_news (prefs);
+	news_load (prefs);
 	prefs->news_editor = NULL;
 }
 
@@ -564,12 +564,12 @@ news_add_destroyed (GtkWidget *widget, gpointer user_data)
 	prefs = send[1];
 	g_free (send);
 	
-	load_news (prefs);
+	news_load (prefs);
 	
 	mail_load_storage_by_uri (prefs->shell, service->url, NULL);
 	
 	/* FIXME: why do we re-load? */
-	load_news (prefs);
+	news_load (prefs);
 }
 
 static void

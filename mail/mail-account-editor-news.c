@@ -141,21 +141,21 @@ cancel_clicked (GtkWidget *widget, gpointer data)
 	gtk_widget_destroy (GTK_WIDGET (editor));
 }
 
-MailAccountEditorNews *
+GtkWidget *
 mail_account_editor_news_new (MailConfigService *service)
 {
 	MailAccountEditorNews *editor;
 	GtkEntry *service_ent;
 
 	editor = (MailAccountEditorNews *) gtk_type_new (mail_account_editor_news_get_type ());
-
+	
 	editor->service = service;
 	editor->xml = glade_xml_new (EVOLUTION_GLADEDIR "/mail-config.glade", NULL);
-
+	
 	/* get our toplevel widget and reparent it */
 	editor->notebook = GTK_NOTEBOOK (glade_xml_get_widget (editor->xml, "news_editor_notebook"));
 	gtk_widget_reparent (GTK_WIDGET (editor->notebook), GNOME_DIALOG (editor)->vbox);
-
+	
 	/* give our dialog an OK button and title */
 	gtk_window_set_title (GTK_WINDOW (editor), _("Evolution News Editor"));
 	gtk_window_set_policy (GTK_WINDOW (editor), FALSE, TRUE, TRUE);
@@ -165,7 +165,7 @@ mail_account_editor_news_new (MailConfigService *service)
 				     GNOME_STOCK_BUTTON_APPLY,
 				     GNOME_STOCK_BUTTON_CANCEL,
 				     NULL);
-
+	
 	gnome_dialog_button_connect (GNOME_DIALOG (editor), 0 /* OK */,
 				     GTK_SIGNAL_FUNC (ok_clicked),
 				     editor);
@@ -175,19 +175,19 @@ mail_account_editor_news_new (MailConfigService *service)
 	gnome_dialog_button_connect (GNOME_DIALOG (editor), 2 /* CANCEL */,
 				     GTK_SIGNAL_FUNC (cancel_clicked),
 				     editor);
-
-	if(service->url) {
+	
+	if (service->url) {
 		CamelURL *url;
 		
-		url = camel_url_new(service->url, NULL);
+		url = camel_url_new (service->url, NULL);
 		
-		if(url->host) {
-			service_ent = GTK_ENTRY(glade_xml_get_widget(editor->xml, "source_name"));
-			gtk_entry_set_text(service_ent, url->host);
+		if (url->host) {
+			service_ent = GTK_ENTRY (glade_xml_get_widget (editor->xml, "source_name"));
+			gtk_entry_set_text (service_ent, url->host);
 		}
 		
-		camel_url_free(url);
+		camel_url_free (url);
 	}
-								     
-	return editor;
+	
+	return GTK_WIDGET (editor);
 }
