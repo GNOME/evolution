@@ -798,7 +798,7 @@ e_week_view_event_item_button_press (EWeekViewEventItem *wveitem,
 		if (!GTK_WIDGET_HAS_FOCUS (week_view))
 			gtk_widget_grab_focus (GTK_WIDGET (week_view));
 
-		e_week_view_set_selected_time_range (week_view, event->start, event->end);
+		e_week_view_set_selected_time_range_visible (week_view, event->start, event->end);
 
 		e_week_view_show_popup_menu (week_view,
 					     (GdkEventButton*) bevent,

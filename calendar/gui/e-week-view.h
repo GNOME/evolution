@@ -413,6 +413,10 @@ void	   e_week_view_set_selected_time_range	(EWeekView	*week_view,
 						 time_t		 start_time,
 						 time_t		 end_time);
 
+void       e_week_view_set_selected_time_range_visible	(EWeekView	*week_view,
+							 time_t		 start_time,
+							 time_t		 end_time);
+
 /* Gets the visible time range. Returns FALSE if no time range has been set. */
 gboolean   e_week_view_get_visible_time_range	(EWeekView	*week_view,
 						 time_t		*start_time,

@@ -1,3 +1,26 @@
+2002-09-06  JP Rosevear  <jpr@ximian.com>
+
+	* gui/gnome-cal.c (gnome_calendar_edit_object): kill warning
+
+	* gui/e-week-view.h: new proto
+
+	* gui/e-week-view.c (e_week_view_set_selected_time_range_visible):
+	select a range of time in the currently visible area, if out side
+	the visible area, select as much as possible
+	(e_week_view_on_text_item_event): call above
+
+	* gui/e-week-view-event-item.c
+	(e_week_view_event_item_button_press): call above
+
+	* gui/e-day-view.c
+	(e_day_view_set_selected_time_range_in_top_visible): select a
+	range of time in the currently visible area, if out side the
+	visible area, select as much as possible
+	(e_day_view_set_selected_time_range_visible): the same for the
+	main canvas
+	(e_day_view_on_long_event_button_press): call above
+	(e_day_view_on_event_button_press): ditto
+
 2002-09-05  JP Rosevear  <jpr@ximian.com>
 
 	* gui/itip-utils.c (itip_send_comp): don't try to send via the

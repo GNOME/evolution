@@ -2182,7 +2182,7 @@ gnome_calendar_edit_object (GnomeCalendar *gcal, CalComponent *comp,
 			    gboolean meeting)
 {
 	GnomeCalendarPrivate *priv;
-	EventEditor *ee;
+	CompEditor *ce;
 	const char *uid;
 
 	g_return_if_fail (gcal != NULL);
@@ -2193,23 +2193,26 @@ gnome_calendar_edit_object (GnomeCalendar *gcal, CalComponent *comp,
 
 	cal_component_get_uid (comp, &uid);
 
-	ee = EVENT_EDITOR (e_comp_editor_registry_find (comp_editor_registry, uid));
-	if (!ee) {
+	ce = e_comp_editor_registry_find (comp_editor_registry, uid);
+	if (!ce) {
+		EventEditor *ee;
+
 		ee = event_editor_new ();
 		if (!ee) {
 			g_message ("gnome_calendar_edit_object(): Could not create the event editor");
 			return;
 		}
-
-		comp_editor_set_cal_client (COMP_EDITOR (ee), priv->client);
-		comp_editor_edit_comp (COMP_EDITOR (ee), comp);
+		ce = COMP_EDITOR (ee);
+		
+		comp_editor_set_cal_client (ce, priv->client);
+		comp_editor_edit_comp (ce, comp);
 		if (meeting)
 			event_editor_show_meeting (ee);
 
-		e_comp_editor_registry_add (comp_editor_registry, COMP_EDITOR (ee), FALSE);
+		e_comp_editor_registry_add (comp_editor_registry, ce, FALSE);
 	}
 
-	comp_editor_focus (COMP_EDITOR (ee));
+	comp_editor_focus (ce);
 }
 
 /**

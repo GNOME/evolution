@@ -1430,6 +1430,43 @@ e_week_view_set_selected_time_range	(EWeekView	*week_view,
 	gtk_widget_queue_draw (week_view->main_canvas);
 }
 
+void
+e_week_view_set_selected_time_range_visible	(EWeekView	*week_view,
+						 time_t		 start_time,
+						 time_t		 end_time)
+{
+	GDate date, end_date;
+	gint num_days;
+
+	g_return_if_fail (E_IS_WEEK_VIEW (week_view));
+
+	time_to_gdate_with_zone (&date, start_time, week_view->zone);
+
+	/* Set the selection to the given days. */
+	week_view->selection_start_day = g_date_julian (&date)
+		- g_date_julian (&week_view->first_day_shown);
+	if (end_time == start_time
+	    || end_time <= time_add_day_with_zone (start_time, 1,
+						   week_view->zone))
+		week_view->selection_end_day = week_view->selection_start_day;
+	else {
+		time_to_gdate_with_zone (&end_date, end_time - 60, week_view->zone);
+		week_view->selection_end_day = g_date_julian (&end_date)
+			- g_date_julian (&week_view->first_day_shown);
+	}
+
+	/* Make sure the selection is valid. */
+	num_days = week_view->multi_week_view ? week_view->weeks_shown * 7 : 7;
+	num_days--;
+	week_view->selection_start_day = CLAMP (week_view->selection_start_day,
+						0, num_days);
+	week_view->selection_end_day = CLAMP (week_view->selection_end_day,
+					      week_view->selection_start_day,
+					      num_days);
+
+	gtk_widget_queue_draw (week_view->main_canvas);
+}
+
 
 /* Returns the selected time range. */
 void
@@ -3055,8 +3092,8 @@ e_week_view_on_text_item_event (GnomeCanvasItem *item,
 
 			if (!destroyed) {
 				gtk_signal_disconnect (GTK_OBJECT (e->comp), id);
-				
-				e_week_view_set_selected_time_range (week_view, e->start, e->end);
+	
+				e_week_view_set_selected_time_range_visible (week_view, e->start, e->end);
 
 				e_week_view_show_popup_menu (week_view,
 							     (GdkEventButton*) gdkevent,
