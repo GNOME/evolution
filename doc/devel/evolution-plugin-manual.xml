@@ -16,6 +16,8 @@
 <!ENTITY em-popup-reference SYSTEM "em-popup.xml">
 <!ENTITY em-format-reference SYSTEM "em-format.xml">
 
+<!ENTITY em-events SYSTEM "em-events.xml">
+
 ]>
 <?xml-stylesheet href="sdocbook.css" type="text/css"?>
 
@@ -1482,14 +1484,37 @@
 	    <![CDATA[
 <hook class="com.ximian.evolution.mail.events:1.0">
  <event
-   type="pass | sink"
-   priority="signed integer"
+   target="target name"
    id="event name"
+   type="pass | sink" ?
+   priority="signed integer" ?
    enable="target mask" ?
    handle="function spec"/> *
- </event> *
 </hook>]]></programlisting>
 	  <variablelist>
+	    <varlistentry>
+	      <term><parameter>target</parameter></term>
+	      <listitem>
+		<simpara>
+		  The target type of the event listener.  This will normally
+		  match in a 1:1 relationship to the event
+		  <parameter>id</parameter> itself.
+		</simpara>
+	      </listitem>
+	    </varlistentry>
+	    <varlistentry>
+	      <term><parameter>id</parameter></term>
+	      <listitem>
+		<simpara>
+		  The name of the event to listen to.  By convention the names
+		  will be of the form
+		  <constant>target.event</constant>.
+		  e.g. <constant>folder.changed</constant>, or
+		  <constant>message.read</constant>, etc.  Although they are
+		  just simple case-sensitive strings.
+		</simpara>
+	      </listitem>
+	    </varlistentry>
 	    <varlistentry>
 	      <term><parameter>type</parameter></term>
 	      <listitem>
@@ -1507,14 +1532,6 @@
 		  listener.  0 (zero) should be used normally, although positive
 		  and negative integers in the range -128 to 127 may aslo be
 		  used.
-		</simpara>
-	      </listitem>
-	    </varlistentry>
-	    <varlistentry>
-	      <term><parameter>id</parameter></term>
-	      <listitem>
-		<simpara>
-		  The name of the event to listen to.
 		</simpara>
 	      </listitem>
 	    </varlistentry>
@@ -2576,28 +2593,7 @@
 	  <interfacename>com.ximian.evolution.mail.events:1.0</interfacename>.
 	</para>
 
-	<sect2>
-	  <title>Folder Changed Event</title>
-	  <informaltable>
-	    <tgroup cols="2">
-	      <colspec colnum="1" colname="field" colwidth="1*"/>
-	      <colspec colnum="2" colname="value" colwidth="4*"/>
-	      <tbody valign="top">
-		<row>
-		  <entry>Name</entry>
-		  <entry><constant>folder.changed</constant></entry>
-		</row>
-		<row>
-		  <entry>Target</entry>
-		  <entry>
-		    <link
-		      linkend="mail-hooks-event-EMEventTargetFolder">EMEventTargetFolder</link>
-		  </entry>
-		</row>
-	      </tbody>
-	    </tgroup>
-	  </informaltable>
-	</sect2>
+	&em-events;
 
 	<sect2>
 	  <title>Mail Event Targets</title>
