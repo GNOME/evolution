@@ -1570,7 +1570,8 @@ enum {
 	CAN_MARK_UNIMPORTANT       = 1<<9,
 	CAN_FLAG_FOR_FOLLOWUP      = 1<<10,
 	CAN_FLAG_COMPLETED         = 1<<11,
-	CAN_CLEAR_FLAG             = 1<<12
+	CAN_CLEAR_FLAG             = 1<<12,
+	CAN_ADD_SENDER             = 1<<13
 };
 
 #define MLIST_VFOLDER (3)
@@ -1645,9 +1646,9 @@ static EPopupMenu context_menu[] = {
 	
 	E_POPUP_SEPARATOR,
 	
-	E_POPUP_ITEM (N_("Add Sender to Address_book"), GTK_SIGNAL_FUNC (addrbook_sender),    SELECTION_SET),
+	E_POPUP_ITEM (N_("Add Sender to Address_book"), GTK_SIGNAL_FUNC (addrbook_sender), SELECTION_SET | CAN_ADD_SENDER),
 	
-	E_POPUP_SEPARATOR,	
+	E_POPUP_SEPARATOR,
 	
 	E_POPUP_ITEM (N_("Appl_y Filters"),             GTK_SIGNAL_FUNC (apply_filters),      0),
 	
@@ -1759,7 +1760,6 @@ colour_closures_free (GPtrArray *closures)
 static int
 on_right_click (ETree *tree, gint row, ETreePath path, gint col, GdkEvent *event, FolderBrowser *fb)
 {
-	extern CamelFolder *sent_folder;
 	CamelMessageInfo *info;
 	GPtrArray *uids, *closures;
 	int enable_mask = 0;
@@ -1772,6 +1772,19 @@ on_right_click (ETree *tree, gint row, ETreePath path, gint col, GdkEvent *event
 	if (!folder_browser_is_sent (fb)) {
 		enable_mask |= CAN_RESEND;
 		hide_mask |= CAN_RESEND;
+	} else {
+		enable_mask |= CAN_ADD_SENDER;
+		hide_mask |= CAN_ADD_SENDER;
+	}
+	
+	if (folder_browser_is_drafts (fb)) {
+		enable_mask |= CAN_ADD_SENDER;
+		hide_mask |= CAN_ADD_SENDER;
+	}
+	
+	if (fb->folder == outbox_folder) {
+		enable_mask |= CAN_ADD_SENDER;
+		hide_mask |= CAN_ADD_SENDER;
 	}
 	
 	enable_mask |= SELECTION_SET;

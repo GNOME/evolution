@@ -1,3 +1,9 @@
+2002-05-06  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* folder-browser.c (on_right_click): If we are in a
+	Sent/Drafts/Outbox folder, don't show the "Add Sender to
+	Addressbook" menu item.
+
 2002-05-06  Not Zed  <NotZed@Ximian.com>
 
 	* component-factory.c (idle_quit): Check all threads are idle as
