@@ -276,6 +276,9 @@ e_calendar_destroy		(GtkObject *object)
 		gtk_timeout_remove (cal->timeout_id);
 		cal->timeout_id = 0;
 	}
+
+	if (GTK_OBJECT_CLASS (parent_class)->destroy)
+		(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
 }
 
 
