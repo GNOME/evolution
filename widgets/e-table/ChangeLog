@@ -1,3 +1,8 @@
+2000-08-31  Christopher James Lahey  <clahey@helixcode.com>
+
+	* e-table-selection-model.c: Made the selection work when shift
+	clicking on the first row of the table.
+
 2000-08-31  Richard Hult  <rhult@codefactory.se>
 
 	* e-tree-example-1.c (create_tree):  Don't show the root node.

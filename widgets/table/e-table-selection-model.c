@@ -20,8 +20,8 @@
 
 #define BOX(n) ((n) / 32)
 #define OFFSET(n) (31 - ((n) % 32))
-#define BITMASK(n) ((guint32)(((guint32) 0x1) << OFFSET(n)))
-#define BITMASK_LEFT(n) ((guint32)(((guint32) ONES) << (32 - ((n) % 32))))
+#define BITMASK(n) ((guint32)(((guint32) 0x1) << OFFSET((n))))
+#define BITMASK_LEFT(n) ((((n) % 32) == 0) ? 0 : (ONES << (32 - ((n) % 32))))
 #define BITMASK_RIGHT(n) ((guint32)(((guint32) ONES) >> ((n) % 32)))
 
 static GtkObjectClass *e_table_selection_model_parent_class;
@@ -325,7 +325,7 @@ e_table_selection_model_foreach     (ETableSelectionModel *selection,
 	}
 }
 
-#define OPERATE(object, mask, grow) ((grow) ? ((object) |= (~(mask))) : ((object) &= (mask)))
+#define OPERATE(object, i,mask,grow) ((grow) ? (((object)->selection[(i)]) |= ((guint32) ~(mask))) : (((object)->selection[(i)]) &= (mask)))
 
 static void
 change_one_row(ETableSelectionModel *selection, int row, gboolean grow)
@@ -333,7 +333,7 @@ change_one_row(ETableSelectionModel *selection, int row, gboolean grow)
 	int i;
 	i = BOX(row);
 
-	OPERATE(selection->selection[i], BITMASK_LEFT(row) | BITMASK_RIGHT(row + 1), grow);
+	OPERATE(selection, i, BITMASK_LEFT(row) | BITMASK_RIGHT(row + 1), grow);
 }
 
 static void
@@ -350,16 +350,16 @@ change_selection(ETableSelectionModel *selection, int start, int end, gboolean g
 			last = BOX(end);
 
 			if (i == last) {
-				OPERATE(selection->selection[i], BITMASK_LEFT(start) | BITMASK_RIGHT(end), grow);
+				OPERATE(selection, i, BITMASK_LEFT(start) | BITMASK_RIGHT(end), grow);
 			} else {
-				OPERATE(selection->selection[i], BITMASK_LEFT(start), grow);
+				OPERATE(selection, i, BITMASK_LEFT(start), grow);
 				if (grow)
 					for (i ++; i < last; i++)
 						selection->selection[i] = ONES;
 				else
 					for (i ++; i < last; i++)
 						selection->selection[i] = 0;
-				OPERATE(selection->selection[i], BITMASK_RIGHT(end), grow);
+				OPERATE(selection, i, BITMASK_RIGHT(end), grow);
 			}
 		}
 	}
