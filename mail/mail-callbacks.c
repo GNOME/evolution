@@ -1078,7 +1078,7 @@ mail_generate_reply (CamelFolder *folder, CamelMimeMessage *message, const char 
 	if (mode == REPLY_LIST) {
 		/* make sure we can reply to an mlist */
 		info = camel_folder_get_message_info (folder, uid);
-		if (!(mlist = camel_message_info_mlist (info))) {
+		if (!(mlist = camel_message_info_mlist (info)) || *mlist == '\0') {
 			camel_folder_free_message_info (folder, info);
 			mode = REPLY_ALL;
 			info = NULL;
@@ -1088,17 +1088,15 @@ mail_generate_reply (CamelFolder *folder, CamelMimeMessage *message, const char 
  determine_recipients:
 	if (mode == REPLY_LIST) {
 		EDestination *dest;
-		int i, max, len;
+		int i, max;
 		
 		/* look through the recipients to find the *real* mailing list address */
-		len = strlen (mlist);
-		
 		d(printf ("we are looking for the mailing list called: %s\n", mlist));
 		
 		max = camel_address_length (CAMEL_ADDRESS (to_addrs));
 		for (i = 0; i < max; i++) {
 			camel_internet_address_get (to_addrs, i, &name, &address);
-			if (!g_strncasecmp (address, mlist, len))
+			if (!g_strcasecmp (address, mlist))
 				break;
 		}
 		
@@ -1106,7 +1104,7 @@ mail_generate_reply (CamelFolder *folder, CamelMimeMessage *message, const char 
 			max = camel_address_length (CAMEL_ADDRESS (cc_addrs));
 			for (i = 0; i < max; i++) {
 				camel_internet_address_get (cc_addrs, i, &name, &address);
-				if (!g_strncasecmp (address, mlist, len))
+				if (!g_strcasecmp (address, mlist))
 					break;
 			}
 		}

@@ -1,3 +1,10 @@
+2002-10-16  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-callbacks.c (mail_generate_reply): If mode == REPLY_LIST
+	and the mlist is "" (we only checked NULL before), change the mode
+	to REPLY_ALL so that we don't accidently reply to the user's
+	address. Fixes bug #28735
+
 2002-10-12  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-callbacks.c (mail_generate_reply): If we are trying to
