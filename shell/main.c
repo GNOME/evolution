@@ -21,6 +21,7 @@
  * Author: Ettore Perazzoli
  */
 
+#include <config.h>
 #include <gnome.h>
 #include <bonobo.h>
 #include <libgnomeui/gnome-window-icon.h>
@@ -175,6 +176,9 @@ int
 main (int argc, char **argv)
 {
 	char *evolution_directory;
+
+	bindtextdomain (PACKAGE, EVOLUTION_LOCALEDIR);
+	textdomain (PACKAGE);
 
 	init_corba (&argc, argv);
 
