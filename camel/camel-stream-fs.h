@@ -1,5 +1,5 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/* camel-stream.h : class for an abstract stream */
+/* camel-stream-fs.h :stream based on unix filesystem */
 
 /* 
  *
@@ -22,8 +22,8 @@
  */
 
 
-#ifndef CAMEL_STREAM_H
-#define CAMEL_STREAM_H 1
+#ifndef CAMEL_STREAM_FS_H
+#define CAMEL_STREAM_FS_H 1
 
 
 #ifdef __cplusplus
@@ -32,48 +32,50 @@ extern "C" {
 #endif /* __cplusplus }*/
 
 #include <gtk/gtk.h>
+#include <stdio.h>
+#include "camel-stream.h"
 
-#define CAMEL_STREAM_TYPE     (camel_stream_get_type ())
-#define CAMEL_STREAM(obj)     (GTK_CHECK_CAST((obj), CAMEL_STREAM_TYPE, CamelStream))
-#define CAMEL_STREAM_CLASS(k) (GTK_CHECK_CLASS_CAST ((k), CAMEL_STREAM_TYPE, CamelStreamClass))
-#define IS_CAMEL_STREAM(o)    (GTK_CHECK_TYPE((o), CAMEL_STREAM_TYPE))
+#define CAMEL_STREAM_FS_TYPE     (camel_stream_fs_get_type ())
+#define CAMEL_STREAM_FS(obj)     (GTK_CHECK_CAST((obj), CAMEL_STREAM_FS_TYPE, CamelStreamFs))
+#define CAMEL_STREAM_FS_CLASS(k) (GTK_CHECK_CLASS_CAST ((k), CAMEL_STREAM_FS_TYPE, CamelStreamFsClass))
+#define IS_CAMEL_STREAM_FS(o)    (GTK_CHECK_TYPE((o), CAMEL_STREAM_FS_TYPE))
 
+typedef enum 
+{
+	CAMEL_STREAM_FS_READ   =   1,
+	CAMEL_STREAM_FS_WRITE  =   2
+} CamelStreamFsMode;
 
 
 typedef struct 
 {
-	GtkObject parent_object;
+	CamelStream parent_object;
+	GString *name;
+	int fd;
 
-} CamelStream;
+} CamelStreamFs;
 
 
 
 typedef struct {
-	GtkObjectClass parent_class;
+	CamelStreamClass parent_class;
 	
 	/* Virtual methods */	
-gint  (*read) (CamelStream *stream, gchar *buffer, gint n);
-gint  (*write) (CamelStream *stream, gchar *buffer, gint n);
-void  (*flush) (CamelStream *stream);
-gint  (*available) (CamelStream *stream);
-gboolean  (*eos) (CamelStream *stream);
-void  (*close) (CamelStream *stream);
 
-} CamelStreamClass;
+} CamelStreamFsClass;
 
 
 
 /* Standard Gtk function */
-GtkType camel_stream_get_type (void);
+GtkType camel_stream_fs_get_type (void);
 
 
 /* public methods */
-gint camel_stream_read (CamelStream *stream, gchar *buffer, gint n);
-gint camel_stream_write (CamelStream *stream, gchar *buffer, gint n);
-void camel_stream_close (CamelStream *stream);
+CamelStream *camel_stream_fs_new_with_name (GString *name, CamelStreamFsMode mode);
+CamelStream *camel_stream_fs_new_with_fd (int fd);
 
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */
 
-#endif /* CAMEL_STREAM_H */
+#endif /* CAMEL_STREAM_FS_H */

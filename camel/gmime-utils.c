@@ -172,9 +172,9 @@ get_header_table_from_file (FILE *file)
 		
 		
 GHashTable *
-get_header_table_from_stream (GnomeStream *stream)
+get_header_table_from_stream (CamelStream *stream)
 {
-	int next_char;
+	gchar next_char;
 
 	gboolean crlf = FALSE;
 	gboolean end_of_header_line = FALSE;
@@ -184,7 +184,7 @@ get_header_table_from_stream (GnomeStream *stream)
 	GHashTable *header_table;
 
 	header_table = g_hash_table_new (g_string_hash, g_string_equal_for_hash);
-	//next_char = fgetc (file);
+	camel_stream_read (stream, &next_char, 1);
 	do {
 		header_line = g_string_new("");
 		end_of_header_line = FALSE;
@@ -193,7 +193,7 @@ get_header_table_from_stream (GnomeStream *stream)
 		/* read a whole header line */
 		do {
 			switch (next_char) {
-			case EOF:
+			case -1:
 				end_of_file=TRUE;
 				end_of_header_line = TRUE;
 				break;
@@ -215,7 +215,7 @@ get_header_table_from_stream (GnomeStream *stream)
 			/* if we have read a whole header line, we have also read
 			   the first character of the next line to be sure the 
 			   crlf was not followed by a space or a tab char */
-			//if (!end_of_header_line) next_char = fgetc (file);
+			if (!end_of_header_line) camel_stream_read (stream, &next_char, 1);
 
 		} while ( !end_of_header_line );
 		if ( strlen(header_line->str) ) 

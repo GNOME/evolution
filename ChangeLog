@@ -1,3 +1,18 @@
+1999-05-31  bertrand  <Bertrand.Guiheneuf@inria.fr>
+
+	* tests/test2.c (main): 
+	use new stream code instead of raw file * stuff.
+
+	* camel/gmime-utils.c (get_header_table_from_stream): 
+	new func. Will replace get_header_table_from_file and will
+	be used to parse headers from files as well as from 
+	memory buffers.
+
+	* camel/camel-stream-fs.c:
+	CamelStream Subclass. File system based
+	stream.
+	
+
 1999-05-30  bertrand  <Bertrand.Guiheneuf@inria.fr>
 
  	* camel/camel-stream.h: new class. Represents an 

@@ -6,6 +6,7 @@
 #include "camel-mime-message.h"
 #include "camel-mime-part.h"
 #include "camel-stream.h"
+#include "camel-stream-fs.h"
 
 void print_header_pair (gpointer key, gpointer value, gpointer user_data)
 {
@@ -29,7 +30,6 @@ void print_header_pair (gpointer key, gpointer value, gpointer user_data)
 void
 main (int argc, char**argv)
 {
-	FILE *input_file;
 	FILE *output_file;
 	GHashTable *header_table;
 	CamelMimeMessage *message;
@@ -39,19 +39,20 @@ main (int argc, char**argv)
 	camel_debug_level = FULL_DEBUG;
 	message = camel_mime_message_new_with_session( (CamelSession *)NULL);
 
-	input_file = fopen ("mail.test", "r");
-	/*stream = gnome_stream_fs_open (NULL, "mail.test", GNOME_Storage_READ);*/
-	if (!input_file) {
+	/*  input_file = fopen ("mail.test", "r"); */
+	stream = camel_stream_fs_new_with_name (g_string_new ("mail.test"), CAMEL_STREAM_FS_READ);
+	if (!stream) {
 		perror("could not open input file");
 		exit(2);
 	}
 	
-	header_table = get_header_table_from_file (input_file);
+	//header_table = get_header_table_from_file (input_file);
+	header_table = get_header_table_from_stream (stream);
 
 	if (header_table) g_hash_table_foreach (header_table, print_header_pair, (gpointer)message);
 	else printf("header is empty, no header line present\n");
 
-	fclose (input_file);
+	camel_stream_close (stream);
 
 	output_file = fopen ("mail2.test", "w");
 	if (!output_file) {

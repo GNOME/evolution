@@ -22,6 +22,7 @@ libcamel_la_SOURCES = 				\
 	camel-session.c				\
 	camel-store.c				\
 	camel-stream.c				\
+	camel-stream-fs.c			\
 	gmime-content-field.c			\
 	gmime-utils.c				\
 	gstring-util.c				\
@@ -38,6 +39,7 @@ libcamelinclude_HEADERS =			\
 	camel-session.h				\
 	camel-store.h				\
 	camel-stream.h				\
+	camel-stream-fs.h			\
 	gmime-content-field.h			\
 	gmime-utils.h				\
 	gstring-util.h				\

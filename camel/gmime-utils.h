@@ -33,14 +33,14 @@ extern "C" {
 
 #include <glib.h>
 #include <stdio.h>
-#include <bonobo/gnome-stream.h>
+#include <camel-stream.h>
 
 void gmime_write_header_pair_to_file (FILE* file, gchar* name, GString *value);
 void write_header_table_to_file (FILE *file, GHashTable *header_table);
 void write_header_with_glist_to_file (FILE *file, gchar *header_name, GList *header_values);
 
 GHashTable *get_header_table_from_file (FILE *file);
-GHashTable *get_header_table_from_stream (GnomeStream *stream);
+GHashTable *get_header_table_from_stream (CamelStream *stream);
 
 
 

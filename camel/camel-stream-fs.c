@@ -1,7 +1,7 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/* camel-stream.c : abstract class for a stream */
+/* camel-stream-fs.c : file system based stream */
 
-
+/* inspired by gnome-stream-fs.c in bonobo by Miguel de Icaza */
 /* 
  *
  * Copyright (C) 1999 Bertrand Guiheneuf <Bertrand.Guiheneuf@inria.fr> .
@@ -22,13 +22,17 @@
  * USA
  */
 
-#include "camel-stream.h"
+#include "camel-stream-fs.h"
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+#include <errno.h>
 
 static CamelStreamClass *parent_class=NULL;
 
 
 /* Returns the class for a CamelMimeMessage */
-#define CS_CLASS(so) CAMEL_STREAM_CLASS (GTK_OBJECT(so)->klass)
+#define CS_CLASS(so) CAMEL_STREAM_FS_CLASS (GTK_OBJECT(so)->klass)
 
 static gint _read (CamelStream *stream, gchar *buffer, gint n);
 static gint _write (CamelStream *stream, gchar *buffer, gint n);
@@ -39,12 +43,14 @@ static void _close (CamelStream *stream);
 
 
 static void
-camel_stream_class_init (CamelStreamClass *camel_stream_class)
+camel_stream_fs_class_init (CamelStreamClass *camel_stream_fs_class)
 {
-
+	CamelStreamClass *camel_stream_class = CAMEL_STREAM_CLASS (camel_stream_fs_class);
 	parent_class = gtk_type_class (gtk_object_get_type ());
-
+	
 	/* virtual method definition */
+
+	/* virtual method overload */
 	camel_stream_class->read = _read;
 	camel_stream_class->write = _write;
 	camel_stream_class->flush = _flush;
@@ -52,37 +58,75 @@ camel_stream_class_init (CamelStreamClass *camel_stream_class)
 	camel_stream_class->eos = _eos;
 	camel_stream_class->close = _close;
 
-	/* virtual method overload */
-
 }
 
 
 
 GtkType
-camel_stream_get_type (void)
+camel_stream_fs_get_type (void)
 {
-	static GtkType camel_stream_type = 0;
+	static GtkType camel_stream_fs_type = 0;
 	
-	if (!camel_stream_type)	{
-		GtkTypeInfo camel_stream_info =	
+	if (!camel_stream_fs_type)	{
+		GtkTypeInfo camel_stream_fs_info =	
 		{
-			"CamelStream",
-			sizeof (CamelStream),
-			sizeof (CamelStreamClass),
-			(GtkClassInitFunc) camel_stream_class_init,
+			"CamelStreamFs",
+			sizeof (CamelStreamFs),
+			sizeof (CamelStreamFsClass),
+			(GtkClassInitFunc) camel_stream_fs_class_init,
 			(GtkObjectInitFunc) NULL,
 				/* reserved_1 */ NULL,
 				/* reserved_2 */ NULL,
 			(GtkClassInitFunc) NULL,
 		};
 		
-		camel_stream_type = gtk_type_unique (gtk_object_get_type (), &camel_stream_info);
+		camel_stream_fs_type = gtk_type_unique (camel_stream_get_type (), &camel_stream_fs_info);
 	}
 	
-	return camel_stream_type;
+	return camel_stream_fs_type;
 }
 
 
+CamelStream *
+camel_stream_fs_new_with_name (GString *name, CamelStreamFsMode mode)
+{
+	struct stat s;
+	int v, fd;
+	int flags;
+	CamelStreamFs *stream_fs;
+
+	if (!name) return NULL;
+
+	v = stat (name->str, &s);
+
+	if (mode & CAMEL_STREAM_FS_READ)
+		if (mode & CAMEL_STREAM_FS_WRITE) flags = O_RDWR;
+		else flags = O_RDONLY;
+	else 
+		if (mode & CAMEL_STREAM_FS_WRITE) flags = O_WRONLY;
+		else return NULL;
+
+	if (mode & CAMEL_STREAM_FS_READ)
+		if (v == -1) return NULL;
+
+	fd = open (name->str, flags);
+	
+	stream_fs = CAMEL_STREAM_FS (camel_stream_fs_new_with_fd (fd));
+	stream_fs->name = name;
+
+	return CAMEL_STREAM (stream_fs);
+	
+}
+
+CamelStream *
+camel_stream_fs_new_with_fd (int fd)
+{
+	CamelStreamFs *stream_fs;
+	
+	stream_fs = gtk_type_new (camel_stream_fs_get_type ());
+	stream_fs->fd = fd;
+	return CAMEL_STREAM (stream_fs);
+}
 
 /**
  * _read: read bytes from a stream
@@ -97,14 +141,15 @@ camel_stream_get_type (void)
 static gint
 _read (CamelStream *stream, gchar *buffer, gint n)
 {
+	int v;
 	
+	do {
+		v = read ( (CAMEL_STREAM_FS (stream))->fd, buffer, n);
+	} while (v == -1 && errno == EINTR);
+	
+	return v;
 }
 
-gint 
-camel_stream_read (CamelStream *stream, gchar *buffer, gint n)
-{
-	CS_CLASS (stream)->read (stream, buffer, n);
-}
 
 /**
  * _write: read bytes to a stream
@@ -120,13 +165,14 @@ camel_stream_read (CamelStream *stream, gchar *buffer, gint n)
 static gint
 _write (CamelStream *stream, gchar *buffer, gint n)
 {
+	int v;
+	
+	do {
+		v = write ( (CAMEL_STREAM_FS (stream))->fd, buffer, n);
+	} while (v == -1 && errno == EINTR);
+	
+	return v;
 
-}
-
-gint
-camel_stream_write (CamelStream *stream, gchar *buffer, gint n)
-{
-	CS_CLASS (stream)->write (stream, buffer, n);
 }
 
 
@@ -140,7 +186,7 @@ camel_stream_write (CamelStream *stream, gchar *buffer, gint n)
 static void
 _flush (CamelStream *stream)
 {
-
+	fsync ((CAMEL_STREAM_FS (stream))->fd);
 }
 
 
@@ -156,7 +202,7 @@ _flush (CamelStream *stream)
 static gint 
 _available (CamelStream *stream)
 {
-
+	g_warning ("Not implemented yet");
 }
 
 
@@ -171,7 +217,7 @@ _available (CamelStream *stream)
 static gboolean
 _eos (CamelStream *stream)
 {
-
+	g_warning ("Not implemented yet");
 }
 
 
@@ -184,11 +230,5 @@ _eos (CamelStream *stream)
 static void
 _close (CamelStream *stream)
 {
-
-}
-
-void
-camel_stream_close (CamelStream *stream)
-{
-	CS_CLASS (stream)->close (stream);
+	close ((CAMEL_STREAM_FS (stream))->fd);
 }
