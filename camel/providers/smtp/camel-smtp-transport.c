@@ -179,6 +179,19 @@ get_smtp_error_string (int error)
 		return _("Start mail input; end with <CRLF>.<CRLF>");
 	case 554:
 		return _("Transaction failed");
+		
+	/* AUTH error codes: */
+	case 432:
+		return _("A password transition is needed");
+	case 534:
+		return _("Authentication mechanism is too weak");
+	case 538:
+		return _("Encryption required for requested authentication mechanism");
+	case 454:
+		return _("Temporary authentication failure");
+	case 530:
+		return _("Authentication required");
+		
 	default:
 		return _("Unknown");
 	}
@@ -681,7 +694,7 @@ smtp_auth (CamelSmtpTransport *transport, const char *mech, CamelException *ex)
  lose:
 	if (!camel_exception_is_set (ex)) {
 		camel_exception_set (ex, CAMEL_EXCEPTION_SERVICE_CANT_AUTHENTICATE,
-				     _("Bad authentication response from server."));
+				     _("Bad authentication response from server.\n"));
 	}
 	
 	camel_object_unref (CAMEL_OBJECT (sasl));
