@@ -1,5 +1,7 @@
 2000-02-28  NotZed  <NotZed@HelixCode.com>
 
+	* filter-druid.c: Removed unused header.
+
 	* Makefile: Removed references to filter-sexp.[ch].
 
 	* filter-sexp.[ch]: Removed some unecessary includes.  Moved to

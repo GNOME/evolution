@@ -29,7 +29,6 @@
 
 #include "filter-arg-types.h"
 #include "filter-xml.h"
-#include "filter-sexp.h"
 #include "filter-format.h"
 
 

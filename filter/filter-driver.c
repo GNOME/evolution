@@ -9,9 +9,9 @@
 
 #include "filter-arg-types.h"
 #include "filter-xml.h"
-#include "filter-sexp.h"
+#include "e-sexp.h"
 #include "filter-format.h"
-
+x
 extern int filter_find_arg(FilterArg *a, char *name);
 
 #include "check.xpm"
