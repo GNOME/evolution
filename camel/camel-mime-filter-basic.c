@@ -67,7 +67,13 @@ reset(CamelMimeFilter *mf)
 {
 	CamelMimeFilterBasic *f = (CamelMimeFilterBasic *)mf;
 
-	f->state = 0;
+	switch(f->type) {
+	case CAMEL_MIME_FILTER_BASIC_QP_ENC:
+		f->state = -1;
+		break;
+	default:
+		f->state = 0;
+	}
 	f->save = 0;
 }
 
@@ -214,6 +220,7 @@ camel_mime_filter_basic_new_type(CamelMimeFilterBasicType type)
 		new = NULL;
 		break;
 	}
+	camel_mime_filter_reset((CamelMimeFilter *)new);
 	return new;
 }
 

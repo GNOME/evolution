@@ -1,3 +1,16 @@
+2000-07-13  Not Zed  <NotZed@HelixCode.com>
+
+	* camel-mime-filter-basic.c (camel_mime_filter_basic_new_type):
+	Reset filter on setup.
+	(reset): When resetting qp encoding, set the state to -1, instead
+	of 0.
+
+	* camel-mime-utils.c (quoted_encode_step): Actually count the
+	characters output sofar (it never counted any).  Bunch of other
+	fixes.
+	(quoted_encode_close): Also flush out final character, if ther's
+	one.
+
 2000-07-12  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	Chris forgot to add #include <e-util/e-util.h> to the source files
