@@ -406,6 +406,14 @@ typedef struct {
 	} u;
 } CalAlarmTrigger;
 
+typedef struct {
+	/* Number of extra repetitions, zero for none */
+	int repetitions;
+
+	/* Interval between repetitions */
+	struct icaldurationtype duration;
+} CalAlarmRepeat;
+
 gboolean cal_component_has_alarms (CalComponent *comp);
 void cal_component_add_alarm (CalComponent *comp, CalComponentAlarm *alarm);
 void cal_component_remove_alarm (CalComponent *comp, const char *auid);
@@ -426,6 +434,9 @@ void cal_component_alarm_set_action (CalComponentAlarm *alarm, CalAlarmAction ac
 
 void cal_component_alarm_get_trigger (CalComponentAlarm *alarm, CalAlarmTrigger *trigger);
 void cal_component_alarm_set_trigger (CalComponentAlarm *alarm, CalAlarmTrigger trigger);
+
+void cal_component_alarm_get_repeat (CalComponentAlarm *alarm, CalAlarmRepeat *repeat);
+void cal_component_alarm_set_repeat (CalComponentAlarm *alarm, CalAlarmRepeat repeat);
 
 void cal_component_alarm_free (CalComponentAlarm *alarm);
 

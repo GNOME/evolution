@@ -196,7 +196,7 @@
 	    <class>GtkOptionMenu</class>
 	    <name>action</name>
 	    <can_focus>True</can_focus>
-	    <items>Show a dialog
+	    <items>Display a message
 Play a sound
 Send an email
 Run a program

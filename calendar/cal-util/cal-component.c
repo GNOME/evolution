@@ -152,6 +152,8 @@ struct _CalComponentAlarm {
 	/* Properties */
 
 	icalproperty *action;
+	icalproperty *duration;
+	icalproperty *repeat;
 	icalproperty *trigger;
 };
 
@@ -4126,6 +4128,14 @@ scan_alarm_property (CalComponentAlarm *alarm, icalproperty *prop)
 		alarm->action = prop;
 		break;
 
+	case ICAL_DURATION_PROPERTY:
+		alarm->duration = prop;
+		break;
+
+	case ICAL_REPEAT_PROPERTY:
+		alarm->repeat = prop;
+		break;
+
 	case ICAL_TRIGGER_PROPERTY:
 		alarm->trigger = prop;
 		break;
@@ -4155,6 +4165,11 @@ make_alarm (icalcomponent *subcomp)
 
 	alarm->icalcomp = subcomp;
 	alarm->uid = NULL;
+
+	alarm->action = NULL;
+	alarm->duration = NULL;
+	alarm->repeat = NULL;
+	alarm->trigger = NULL;
 
 	for (prop = icalcomponent_get_first_property (subcomp, ICAL_ANY_PROPERTY);
 	     prop;
@@ -4599,6 +4614,65 @@ cal_component_alarm_set_trigger (CalComponentAlarm *alarm, CalAlarmTrigger trigg
 			icalproperty_add_parameter (alarm->trigger, param);
 		}
 	}
+}
+
+/**
+ * cal_component_alarm_get_repeat:
+ * @alarm: An alarm.
+ * @repeat: Return value for the repeat/duration properties.
+ * 
+ * Queries the repeat/duration properties of an alarm.
+ **/
+void
+cal_component_alarm_get_repeat (CalComponentAlarm *alarm, CalAlarmRepeat *repeat)
+{
+	g_return_if_fail (alarm != NULL);
+	g_return_if_fail (repeat != NULL);
+
+	g_assert (alarm->icalcomp != NULL);
+
+	if (!(alarm->repeat && alarm->duration)) {
+		repeat->repetitions = 0;
+		memset (&repeat->duration, 0, sizeof (repeat->duration));
+		return;
+	}
+
+	repeat->repetitions = icalproperty_get_repeat (alarm->repeat);
+	repeat->duration = icalproperty_get_duration (alarm->duration);
+}
+
+void
+cal_component_alarm_set_repeat (CalComponentAlarm *alarm, CalAlarmRepeat repeat)
+{
+	g_return_if_fail (alarm != NULL);
+	g_return_if_fail (repeat.repetitions >= 0);
+
+	g_assert (alarm->icalcomp != NULL);
+
+	/* Delete old properties */
+
+	if (alarm->repeat) {
+		icalcomponent_remove_property (alarm->icalcomp, alarm->repeat);
+		icalproperty_free (alarm->repeat);
+		alarm->repeat = NULL;
+	}
+
+	if (alarm->duration) {
+		icalcomponent_remove_property (alarm->icalcomp, alarm->duration);
+		icalproperty_free (alarm->duration);
+		alarm->duration = NULL;
+	}
+
+	/* Set the new properties */
+
+	if (repeat.repetitions == 0)
+		return; /* For zero extra repetitions the properties should not exist */
+
+	alarm->repeat = icalproperty_new_repeat (repeat.repetitions);
+	icalcomponent_add_property (alarm->icalcomp, alarm->repeat);
+
+	alarm->duration = icalproperty_new_duration (repeat.duration);
+	icalcomponent_add_property (alarm->icalcomp, alarm->duration);
 }
 
 /**

@@ -1,3 +1,21 @@
+2001-07-02  Federico Mena Quintero  <federico@ximian.com>
+
+	Support for repeat/duration properties in alarm components.
+
+	* cal-util/cal-component.h (CalAlarmRepeat): New structure that
+	pairs the repeat/duration values of an alarm component, which must
+	be set both together or not set at all.
+
+	* cal-util/cal-component.c (CalComponentAlarm): Added fields for
+	the repeat and duration properties.
+	(scan_alarm_property): Scan the DURATION and REPEAT properties.
+	(make_alarm): Nullify/initialize all the fields in the alarm.
+	(cal_component_alarm_get_repeat): New function.
+	(cal_component_alarm_set_repeat): New function.
+
+	* gui/dialogs/alarm-page.glade: Changed the label of display
+	alarms from "Show a dialog" to "Display a message".
+
 2001-07-02  JP Rosevear  <jpr@ximian.com>
 
 	* gui/dialogs/task-details-page.c
