@@ -1,5 +1,8 @@
 2002-09-24  Not Zed  <NotZed@Ximian.com>
 
+	* camel-mime-utils.c (mail_list_magic[]): Changed the Mailing-List
+	rule to get the complete domain (* in wrong spot).  #31087.
+
 	* camel-text-index.c (text_index_compress_nosync): If we have no
 	data written to a key, dont add it, or its partition header.
 

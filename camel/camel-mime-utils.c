@@ -3750,7 +3750,7 @@ static struct {
 	/* List-Post: <mailto:gnome-hackers> */
 	{ "List-Post", " *<mailto:([^@>]+)@?([^ \n\t\r>]*)" },
 	/* Mailing-List: list gnome-hackers@gnome.org; contact gnome-hackers-owner@gnome.org */
-	{ "Mailing-List", " *list ([^@]+)@?([^ \n\t\r>;])*" },
+	{ "Mailing-List", " *list ([^@]+)@?([^ \n\t\r>;]*)" },
 	/* Originator: gnome-hackers@gnome.org */
 	{ "Originator", " *([^@]+)@?([^ \n\t\r>]*)" },
 	/* X-List: gnome-hackers */
