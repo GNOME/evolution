@@ -804,8 +804,26 @@ component_factory_init (void)
 	evolution_folder_info_factory_init ();
 }
 
-static int
+static void
+notify_listener (const Bonobo_Listener listener, 
+		 GNOME_Evolution_Storage_Result corba_result)
+{
+	CORBA_any any;
+	CORBA_Environment ev;
+
+	CORBA_exception_init (&ev);
+
+	any._type = TC_GNOME_Evolution_Storage_Result;
+	any._value = &corba_result;
+
+	Bonobo_Listener_event (listener, "result", &any, &ev);
+
+	CORBA_exception_free (&ev);
+}
+
+static void
 storage_create_folder (EvolutionStorage *storage,
+		       const Bonobo_Listener listener,
 		       const char *path,
 		       const char *type,
 		       const char *description,
@@ -818,18 +836,24 @@ storage_create_folder (EvolutionStorage *storage,
 	CamelURL *url;
 	CamelException ex;
 	
-	if (strcmp (type, "mail") != 0)
-		return EVOLUTION_STORAGE_ERROR_UNSUPPORTED_TYPE;
+	if (strcmp (type, "mail") != 0) {
+		notify_listener (listener, GNOME_Evolution_Storage_UNSUPPORTED_TYPE);
+		return;
+	}
 	
 	name = strrchr (path, '/');
-	if (!name++)
-		return EVOLUTION_STORAGE_ERROR_INVALID_URI;
+	if (!name++) {
+		notify_listener (listener, GNOME_Evolution_Storage_INVALID_URI);
+		return;
+	}
 	
 	camel_exception_init (&ex);
 	if (*parent_physical_uri) {
 		url = camel_url_new (parent_physical_uri, NULL);
-		if (!url)
-			return EVOLUTION_STORAGE_ERROR_INVALID_URI;
+		if (!url) {
+			notify_listener (listener, GNOME_Evolution_Storage_INVALID_URI);
+			return;
+		}
 		
 		root = camel_store_create_folder (store, url->path + 1, name, &ex);
 		camel_url_free (url);
@@ -839,7 +863,8 @@ storage_create_folder (EvolutionStorage *storage,
 	if (camel_exception_is_set (&ex)) {
 		/* FIXME: do better than this */
 		camel_exception_clear (&ex);
-		return EVOLUTION_STORAGE_ERROR_INVALID_URI;
+		notify_listener (listener, GNOME_Evolution_Storage_INVALID_URI);
+		return;
 	}
 	
 	if (camel_store_supports_subscriptions (store)) {
@@ -853,11 +878,12 @@ storage_create_folder (EvolutionStorage *storage,
 	
 	camel_store_free_folder_info (store, root);
 	
-	return EVOLUTION_STORAGE_OK;
+	notify_listener (listener, GNOME_Evolution_Storage_OK);
 }
 
-static int
+static void
 storage_remove_folder (EvolutionStorage *storage,
+		       const Bonobo_Listener listener,
 		       const char *path,
 		       const char *physical_uri,
 		       gpointer user_data)
@@ -870,15 +896,21 @@ storage_remove_folder (EvolutionStorage *storage,
 	g_warning ("storage_remove_folder: path=\"%s\"; uri=\"%s\"", path, physical_uri);
 	
 	if (*physical_uri) {
-		if (strncmp (physical_uri, "vtrash:", 7) == 0)
-			return EVOLUTION_STORAGE_ERROR_INVALID_URI;
+		if (strncmp (physical_uri, "vtrash:", 7) == 0) {
+			notify_listener (listener, GNOME_Evolution_Storage_INVALID_URI);
+			return;
+		}
 		
 		url = camel_url_new (physical_uri, NULL);
-		if (!url)
-			return EVOLUTION_STORAGE_ERROR_INVALID_URI;
+		if (!url) {
+			notify_listener (listener, GNOME_Evolution_Storage_INVALID_URI);
+			return;
+		}
 	} else {
-		if (!*path)
-			return EVOLUTION_STORAGE_ERROR_INVALID_URI;
+		if (!*path) {
+			notify_listener (listener, GNOME_Evolution_Storage_INVALID_URI);
+			return;
+		}
 	}
 	
 	camel_exception_init (&ex);
@@ -900,7 +932,8 @@ storage_remove_folder (EvolutionStorage *storage,
 	
 	camel_store_free_folder_info (store, fi);
 	
-	return EVOLUTION_STORAGE_OK;
+	notify_listener (listener, GNOME_Evolution_Storage_OK);
+	return;
 	
  exception:
 	/* FIXME: do better than this... */
@@ -908,7 +941,7 @@ storage_remove_folder (EvolutionStorage *storage,
 	if (fi)
 		camel_store_free_folder_info (store, fi);
 	
-	return EVOLUTION_STORAGE_ERROR_INVALID_URI;
+	notify_listener (listener, GNOME_Evolution_Storage_INVALID_URI);
 }
 
 static void

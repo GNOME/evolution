@@ -1,3 +1,12 @@
+2001-09-06  Chris Toshok  <toshok@ximian.com>
+
+	* component-factory.c (notify_listener): new function, to notify
+	the bonobo listener in remove_folder/create_folder.
+	(storage_create_folder): match EvolutionStorage create_folder
+	signal's signature.
+	(storage_remove_folder): match EvolutionStorage remove_folder
+	signal's signature.
+
 2001-09-06  Dan Winship  <danw@ximian.com>
 
 	Fix a bunch of replying/forwarding-related formatting bugs.
