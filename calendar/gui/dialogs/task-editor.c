@@ -158,7 +158,7 @@ static int priority_index_to_value (TaskEditorPriority priority);
 static int status_string_to_value	(const char *status_string);
 static const char* status_value_to_string	(int status);
 
-static void completed_date_changed	(EDateEdit	*dedit,
+static void completed_changed		(EDateEdit	*dedit,
 					 TaskEditor	*tedit);
 static void status_changed		(GtkMenu	*menu,
 					 TaskEditor	*tedit);
@@ -424,10 +424,8 @@ init_widgets (TaskEditor *tedit)
 	/* Connect signals. The Status, Percent Complete & Date Completed
 	   properties are closely related so whenever one changes we may need
 	   to update the other 2. */
-	gtk_signal_connect (GTK_OBJECT (priv->completed_date), "date_changed",
-			    GTK_SIGNAL_FUNC (completed_date_changed), tedit);
-	gtk_signal_connect (GTK_OBJECT (priv->completed_date), "time_changed",
-			    GTK_SIGNAL_FUNC (completed_date_changed), tedit);
+	gtk_signal_connect (GTK_OBJECT (priv->completed_date), "changed",
+			    GTK_SIGNAL_FUNC (completed_changed), tedit);
 
 	gtk_signal_connect (GTK_OBJECT (GTK_OPTION_MENU (priv->status)->menu),
 			    "deactivate",
@@ -1083,7 +1081,7 @@ status_value_to_string	(int status)
 
 
 static void
-completed_date_changed	(EDateEdit	*dedit,
+completed_changed	(EDateEdit	*dedit,
 			 TaskEditor	*tedit)
 {
 	TaskEditorPrivate *priv;

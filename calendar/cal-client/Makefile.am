@@ -71,16 +71,5 @@ client_test_LDADD =						\
 	$(top_builddir)/libical/src/libical/libical.a		\
 	libcal-client.la
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+BUILT_SOURCES = $(CORBA_GENERATED)
+CLEANFILES += $(BUILT_SOURCES)

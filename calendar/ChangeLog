@@ -1,3 +1,15 @@
+2000-11-03  Federico Mena Quintero  <federico@helixcode.com>
+
+	* gui/Makefile.am: Clean the idl-generated sources properly.
+	* cal-client/Makefile.am: Likewise.
+
+2000-11-02  Federico Mena Quintero  <federico@helixcode.com>
+
+	* gui/dialogs/task-editor.c (init_widgets): The date editor's
+	signal is now "changed".
+	(completed_changed): Renamed callback to reflect the name of the
+	signal.
+
 2000-11-01  Gediminas Paulauskas  <menesis@delfi.lt>
 
 	* gui/main.c: (main): added call to bindtextdomain and textdomain, so

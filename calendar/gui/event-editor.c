@@ -753,8 +753,8 @@ sync_entries (GtkEditable *source, GtkEditable *dest)
 	gtk_signal_handler_unblock_by_data (GTK_OBJECT (dest), source);
 }
 
-/* Syncs the contents of two date editor widgets, while blocking signals from
- * each other.
+/* Syncs the contents of two date editor widgets, while blocking signals on the
+ * specified data.
  */
 static void
 sync_date_edits (EDateEdit *source, EDateEdit *dest)
@@ -805,9 +805,9 @@ init_widgets (EventEditor *ee)
 
 	/* Start dates in the main and recurrence pages */
 
-	gtk_signal_connect (GTK_OBJECT (priv->start_time), "date_changed",
+	gtk_signal_connect (GTK_OBJECT (priv->start_time), "changed",
 			    GTK_SIGNAL_FUNC (start_date_changed_cb), priv->recurrence_starting_date);
-	gtk_signal_connect (GTK_OBJECT (priv->recurrence_starting_date), "date_changed",
+	gtk_signal_connect (GTK_OBJECT (priv->recurrence_starting_date), "changed",
 			    GTK_SIGNAL_FUNC (start_date_changed_cb), priv->start_time);
 
 	/* Start and end times */
@@ -923,7 +923,7 @@ clear_widgets (EventEditor *ee)
 	gtk_signal_handler_block_by_data (GTK_OBJECT (priv->start_time), ee);
 	gtk_signal_handler_block_by_data (GTK_OBJECT (priv->end_time), ee);
 
-	e_date_edit_set_time (E_DATE_EDIT (priv->start_time), now);
+	e_date_edit_set_time (E_DATE_EDIT (priv->start_time), now); /* will set recur start too */
 	e_date_edit_set_time (E_DATE_EDIT (priv->end_time), now);
 
 	gtk_signal_handler_unblock_by_data (GTK_OBJECT (priv->start_time), ee);
@@ -1253,9 +1253,6 @@ fill_widgets (EventEditor *ee)
 	
 	/* Start and end times */
 
-	gtk_signal_handler_block_by_data (GTK_OBJECT (priv->start_time), ee);
-	gtk_signal_handler_block_by_data (GTK_OBJECT (priv->end_time), ee);
-
 	/* All-day events are inclusive, i.e. if the end date shown is 2nd Feb
 	   then the event includes all of the 2nd Feb. We would normally show
 	   3rd Feb as the end date, since it really ends at midnight on 3rd,
@@ -1270,7 +1267,10 @@ fill_widgets (EventEditor *ee)
 		dtend = time_add_day (dtend, -1);
 	}
 
-	e_date_edit_set_time (E_DATE_EDIT (priv->start_time), dtstart);
+	gtk_signal_handler_block_by_data (GTK_OBJECT (priv->start_time), ee);
+	gtk_signal_handler_block_by_data (GTK_OBJECT (priv->end_time), ee);
+
+	e_date_edit_set_time (E_DATE_EDIT (priv->start_time), dtstart); /* will set recur start too */
 	e_date_edit_set_time (E_DATE_EDIT (priv->end_time), dtend);
 
 	gtk_signal_handler_unblock_by_data (GTK_OBJECT (priv->start_time), ee);
@@ -2260,8 +2260,8 @@ set_all_day (GtkWidget *toggle, EventEditor *ee)
 	else
 		start_tm.tm_hour = day_begin;
 
-	e_date_edit_set_time (E_DATE_EDIT (priv->start_time),
-			      mktime (&start_tm));
+	/* will set recur start too */
+	e_date_edit_set_time (E_DATE_EDIT (priv->start_time), mktime (&start_tm));
 
 	end_t = e_date_edit_get_time (E_DATE_EDIT (priv->end_time));
 	end_tm = *localtime (&end_t);
@@ -2317,7 +2317,7 @@ check_dates (EDateEdit *dedit, EventEditor *ee)
 			tm_start.tm_mon  = tm_end.tm_mon;
 			tm_start.tm_mday = tm_end.tm_mday;
 
-#if 0
+#if 0 /* FIXME: is this right? */
 			gtk_signal_handler_block_by_data (GTK_OBJECT (priv->start_time), ee);
 			e_date_edit_set_time (E_DATE_EDIT (priv->start_time),
 					      mktime (&tm_start));
@@ -2377,8 +2377,10 @@ check_times (EDateEdit *dedit, EventEditor *ee)
 			}
 
 			gtk_signal_handler_block_by_data (GTK_OBJECT (priv->start_time), ee);
-			e_date_edit_set_time (E_DATE_EDIT (priv->start_time),
-					      mktime (&tm_start));
+
+			/* will set recur start too */
+			e_date_edit_set_time (E_DATE_EDIT (priv->start_time), mktime (&tm_start));
+
 			gtk_signal_handler_unblock_by_data (GTK_OBJECT (priv->start_time), ee);
 		}
 	}

@@ -160,3 +160,6 @@ evolution-calendar.pure: evolution-calendar
 	$(PLINK) $(evolution_calendar_LDFLAGS) $(evolution_calendar_OBJECTS) $(evolution_calendar_LDADD) $(LIBS)
 
 endif
+
+BUILT_SOURCES = $(IDL_GENERATED)
+CLEANFILES += $(BUILT_SOURCES)
