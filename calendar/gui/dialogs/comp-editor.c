@@ -23,9 +23,10 @@
 #include <config.h>
 #endif
 
+#include <stdio.h>
 #include <sys/types.h>
 #include <sys/stat.h>
-#include <fcntl.h>
+#include <unistd.h>
 #include <gnome.h>
 #include <bonobo/bonobo-win.h>
 #include <bonobo/bonobo-ui-component.h>
@@ -728,19 +729,17 @@ save_as_ok (GtkWidget *widget, gpointer data)
 {
 	CompEditor *editor = COMP_EDITOR (data);
 	CompEditorPrivate *priv;
+	struct stat s;
 	char *path;
-	int fd, ret = 0;
+	int ret = 0;
 	
 	priv = editor->priv;
 	
 	path = gtk_file_selection_get_filename (GTK_FILE_SELECTION (priv->filesel));
 	
-        fd = open (path, O_RDONLY);
-	if (fd != -1) {
+	if (stat (path, &s) == 0) {
 		GtkWidget *dlg;
 		GtkWidget *text;
-		
-		close (fd);
 		
 		dlg = gnome_dialog_new (_("Overwrite file?"),
 					GNOME_STOCK_BUTTON_YES, 
@@ -755,6 +754,7 @@ save_as_ok (GtkWidget *widget, gpointer data)
 	}
 	
 	if (ret == 0) {
+		FILE *file;
 		gchar *ical_string;
 
 		icalcomponent *top_level;
@@ -784,15 +784,15 @@ save_as_ok (GtkWidget *widget, gpointer data)
 		
 		ical_string = icalcomponent_as_ical_string (top_level);
 
-		fd = open (path, O_WRONLY);
-		if (fd == -1) {			
+		file = fopen (path, "w");
+		if (file == NULL) {			
 			g_warning ("Couldn't save item");
 			gtk_main_quit ();
 			return;
 		}
 		
-		write (fd, ical_string, strlen (ical_string));
-		close (fd);
+		fprintf (file, ical_string);
+		fclose (file);
 
 		gtk_main_quit ();
 	}

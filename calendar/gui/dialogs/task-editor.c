@@ -46,6 +46,14 @@ static void task_editor_class_init (TaskEditorClass *class);
 static void task_editor_init (TaskEditor *te);
 static void task_editor_destroy (GtkObject *object);
 
+static void forward_cmd (GtkWidget *widget, gpointer data);
+
+static BonoboUIVerb verbs [] = {
+	BONOBO_UI_UNSAFE_VERB ("ActionForward", forward_cmd),
+
+	BONOBO_UI_VERB_END
+};
+
 static CompEditor *parent_class;
 
 
@@ -113,6 +121,10 @@ task_editor_init (TaskEditor *te)
 	comp_editor_append_page (COMP_EDITOR (te),
 				 COMP_EDITOR_PAGE (priv->task_details_page),
 				 _("Details"));
+
+	comp_editor_merge_ui (COMP_EDITOR (te), EVOLUTION_DATADIR 
+			      "/gnome/ui/evolution-task-editor.xml",
+			      verbs);
 }
 
 /* Destroy handler for the event editor */
@@ -144,4 +156,12 @@ TaskEditor *
 task_editor_new (void)
 {
 	return TASK_EDITOR (gtk_type_new (TYPE_TASK_EDITOR));
+}
+
+static void
+forward_cmd (GtkWidget *widget, gpointer data)
+{
+	TaskEditor *te = TASK_EDITOR (data);
+	
+	comp_editor_send_comp (COMP_EDITOR (te), CAL_COMPONENT_METHOD_PUBLISH);
 }

@@ -1,5 +1,13 @@
 2001-06-19  JP Rosevear  <jpr@ximian.com>
 
+	* gui/dialogs/task-editor.c (task_editor_init): add ui
+	(forward_cmd): implement forward command
+
+	* gui/dialogs/comp-editor.c (save_as_ok): bug fix, seems to work
+	now
+	
+2001-06-19  JP Rosevear  <jpr@ximian.com>
+
 	* gui/control-factory.c (control_factory_init): add auto exit unref
 
 	* gui/component-factory.c (destroy_cb): destroy our selves if we
