@@ -1,3 +1,8 @@
+2004-06-21  Chris Toshok  <toshok@ximian.com>
+
+	* em-folder-tree.c (render_display_name): gtk_tree_model_get on a
+	string field allocates the return value.  free name.
+
 2004-06-21  Radek Doulik  <rodo@ximian.com>
 
 	* em-junk-filter.c (em_junk_sa_test_spamd): make sure we test for

@@ -321,6 +321,7 @@ render_display_name (GtkTreeViewColumn *column, GtkCellRenderer *renderer,
 		      NULL);
 	
 	g_free (display);
+	g_free (name);
 }
 
 static gboolean
