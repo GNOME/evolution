@@ -1,3 +1,9 @@
+2000-10-20  Dan Winship  <danw@helixcode.com>
+
+	* evolution-mail.oafinfo: Declare composer factory.
+
+	* main.c (main): Initialize it
+
 2000-10-19  Chris Toshok  <toshok@helixcode.com>
 
 	* message-list.c (nuke_uids): e-tree-model is now opaque.  use the

@@ -27,6 +27,7 @@
 #include <gal/widgets/e-unicode.h>
 
 #include "component-factory.h"
+#include "composer/evolution-composer.h"
 #include "mail.h"
 
 static int blowup(int status)
@@ -79,6 +80,7 @@ main (int argc, char *argv [])
 	e_cursors_init ();
 
 	component_factory_init ();
+	evolution_composer_factory_init ();
 
 	signal (SIGSEGV, SIG_DFL);
 	signal (SIGBUS, SIG_DFL);
