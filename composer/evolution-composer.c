@@ -391,7 +391,7 @@ evolution_composer_factory_init (void (*send) (EMsgComposer *, gpointer),
 			  _("Cannot initialize Evolution's composer."));
 		exit (1);
 	}
-
+	
 	send_cb = send;
 	save_draft_cb = save_draft;
 }
