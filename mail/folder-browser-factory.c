@@ -208,12 +208,13 @@ control_deactivate (BonoboControl *control,
 		    BonoboUIHandler *uih,
 		    FolderBrowser *fb)
 {
-	g_warning ("In mail control_deactivate");
 	bonobo_ui_component_rm (
 		bonobo_ui_compat_get_component (uih),
 		bonobo_ui_compat_get_container (uih), "/", NULL);
 
  	bonobo_ui_handler_unset_container (uih);
+
+	mail_do_sync_folder (fb->folder);
 }
 
 static void

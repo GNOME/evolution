@@ -1,3 +1,8 @@
+2000-10-04  Dan Winship  <danw@helixcode.com>
+
+	* folder-browser-factory.c (control_deactivate): Add back the
+	"sync folder on leave" hack that got lost in the UIHandler merge.
+
 2000-10-04  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* folder-browser-factory.c: Instead of UnSelectAll, we want
