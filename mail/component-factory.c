@@ -1258,13 +1258,22 @@ storage_remove_folder (EvolutionStorage *storage,
 	if (!root || camel_exception_is_set (&ex))
 		goto exception;
 	
+	/* walk the tree until we find the particular child folder we want to delete */
 	fi = root;
-	while (fi && !camel_exception_is_set (&ex)) {
+	while (fi) {
+		if (!strcmp (fi->path, path))
+			break;
+		fi = fi->child;
+	}
+	
+	if (fi != NULL) {
 		storage_remove_folder_recursive (storage, store, fi, &ex);
 		if (camel_exception_is_set (&ex))
 			goto exception;
-		fi = fi->sibling;
+	} else {
+		notify_listener (listener, GNOME_Evolution_Storage_INVALID_URI);
 	}
+	
 	camel_store_free_folder_info (store, root);
 	
 	notify_listener (listener, GNOME_Evolution_Storage_OK);
