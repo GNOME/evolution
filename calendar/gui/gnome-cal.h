@@ -11,6 +11,8 @@
 #include <libgnome/gnome-defs.h>
 #include <libgnomeui/gnome-app.h>
 
+#include "calendar.h"
+
 BEGIN_GNOME_DECLS
 
 #define GNOME_CALENDAR(obj)         GTK_CHECK_CAST(obj, gnome_calendar_get_type(), GnomeCalendar)

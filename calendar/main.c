@@ -244,7 +244,7 @@ new_calendar (char *full_name, char *calendar_file)
 		printf ("Trying to load %s\n", calendar_file);
 		gnome_calendar_load (GNOME_CALENDAR (toplevel), calendar_file);
 	} else {
-		printf ("tring: ./test.vcf\n");
+		printf ("Trying to load ./test.vcf\n");
 		gnome_calendar_load (GNOME_CALENDAR (toplevel), "./test.vcf");
 	}
 	active_calendars++;

@@ -1,4 +1,32 @@
+1998-04-14  Arturo Espinosa Aldama  <arturo@nuclecu.unam.mx>
+
+	* gncal-year-view.[hc]: New widget for the year view.
+	* Makefile.am: added required compilation of the new files.
+
+1998-04-14  Federico Mena Quintero  <federico@nuclecu.unam.mx>
+
+	* eventedit.c (event_editor_setup_time_frame): Fixed some table
+	expansions to make the dialog look nicer when resized.
+
+	* calobj.c (ignore_space): Fixed compiler warning about unused
+	computed value.
+	(ocurrencelist): Replace str by p confusion.  Removed unused
+	variables value and q.
+	(daynumber): Fixed a couple of warnings about unused values.
+	(load_recurrence): Removed unused variable c.  Added a default
+	clause to the switch(type).
+
+	* eventedit.c (ee_rp_init_frequency): Removed unused variable content.
+	Fixed a compiler warning by adding a missing cast.
+
+	* calobj.c (ical_object_create_from_vobject): Make the
+	load_recurrence() part work correctly.  Eliminated use of
+	syntax_error variable.
+
 1998-04-13  Federico Mena Quintero  <federico@nuclecu.unam.mx>
+
+	* gncal-full-day.c (child_key_press): Unfocus the child and focus
+	the parent fullday widget when the user presses Esc.
 
 	* gncal-week-view.c (gncal_week_view_update): Now takes object and
 	flags parameters.

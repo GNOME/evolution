@@ -140,7 +140,7 @@ event_editor_setup_time_frame (EventEditor *ee)
 			  GTK_FILL | GTK_SHRINK,
 			  0, 0);
 	gtk_table_attach (t, start_time, 2, 3, 1, 2,
-			  GTK_FILL | GTK_SHRINK,
+			  GTK_EXPAND | GTK_FILL | GTK_SHRINK,
 			  GTK_FILL | GTK_SHRINK,
 			  0, 0);
 
@@ -154,7 +154,7 @@ event_editor_setup_time_frame (EventEditor *ee)
 			  GTK_FILL | GTK_SHRINK,
 			  0, 0);
 	gtk_table_attach (t, end_time, 2, 3, 2, 3,
-			  GTK_FILL | GTK_SHRINK,
+			  GTK_EXPAND | GTK_FILL | GTK_SHRINK,
 			  GTK_FILL | GTK_SHRINK,
 			  0, 0);
 
@@ -659,7 +659,7 @@ static void
 ee_rp_init_frequency (EventEditor *ee)
 {
 	char *day_names [] = { "Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun" };
-	GtkWidget *r, *re, *r1, *f, *vbox, *hbox, *content, *week_hbox, *week_day, *w;
+	GtkWidget *r, *re, *r1, *f, *vbox, *hbox, *week_hbox, *week_day, *w;
 	GtkWidget *daily, *weekly, *monthly, *yearly;
 	GtkNotebook *notebook;
 	GSList    *group;
@@ -805,13 +805,12 @@ ee_rp_init_frequency (EventEditor *ee)
 			  4, 5, 0, 2, 0, 0, 5, 0);
 	gtk_table_attach (GTK_TABLE (monthly), gtk_label_new (_("month(s)")),
 			  5, 6, 0, 2, 0, 0, 0, 0);
-	if (ee->ical->recur){
+	if (ee->ical->recur) {
 		if (ee->ical->recur->type == RECUR_MONTHLY_BY_POS)
 			gtk_toggle_button_set_state (GTK_TOGGLE_BUTTON (r1), 1);
-	} else {
-		recur_month_enable_date ((re), ee);
-	}
-								   
+	} else
+		recur_month_enable_date (GTK_TOGGLE_BUTTON (re), ee);
+
 	/* 4. The yearly recurrence */
 	yearly = gtk_hbox_new (0, 0);
 	ee->recur_year_period = small_entry (year_period);

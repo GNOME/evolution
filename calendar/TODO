@@ -1,10 +1,5 @@
 Gnome date selection widget:
 
-- Fix the signals.
-
-- The date selected in the popup calendar does not match the displayed
-  date in the entry.
-
 - Make the calendar a `real' popup window like in GtkCombo.
 
 - Make the displayed date be localized properly -- use strftime().
@@ -15,9 +10,11 @@ Event editor dialog:
 
 Full day view widget:
 
-- Check notification to calendar when an object changes.  Maybe we
-  need some flags to tell gnome_calendar_object_changed() whether
-  summary/dates/etc. changed.  Maybe not.
+- Right-click on background should pop up a menu with "New
+  appointment" item.
+
+- Right-click on child should pop up a menu with "Properties" and
+  "Remove appointment" items.
 
 - Layout the children nicely like M$ Schedule or Netscape Calendar do
   (i.e. make them not overlap each other).

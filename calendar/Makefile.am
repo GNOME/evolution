@@ -19,6 +19,8 @@ gnomecal_SOURCES = \
 	gncal-full-day.h	\
 	gncal-week-view.c	\
 	gncal-week-view.h	\
+	gncal-year-view.c	\
+	gncal-year-view.h	\
 	gnome-cal.c		\
 	gnome-cal.h		\
 	main.c			\

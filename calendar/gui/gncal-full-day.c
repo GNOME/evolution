@@ -331,9 +331,23 @@ child_focus_out (GtkWidget *widget, GdkEventFocus *event, gpointer data)
 
 	/* Notify calendar of change */
 
-	fullday = gtk_object_get_user_data (GTK_OBJECT (widget));
+	fullday = GNCAL_FULL_DAY (widget->parent);
 
 	gnome_calendar_object_changed (fullday->calendar, child->ico, CHANGE_SUMMARY);
+
+	return FALSE;
+}
+
+static gint
+child_key_press (GtkWidget *widget, GdkEventKey *event, gpointer data)
+{
+	if (event->keyval != GDK_Escape)
+		return FALSE;
+
+	/* If user pressed Esc, un-focus the child by focusing the fullday widget */
+
+	gtk_signal_emit_stop_by_name (GTK_OBJECT (widget), "key_press_event");
+	gtk_widget_grab_focus (widget->parent);
 
 	return FALSE;
 }
@@ -353,8 +367,6 @@ child_new (GncalFullDay *fullday, iCalObject *ico)
 	child->width = 0;
 	child->height = 0;
 
-	gtk_object_set_user_data (GTK_OBJECT (child->widget), fullday);
-
 	child_range_changed (fullday, child);
 
 	/* We set the i-beam cursor and the initial summary text upon realization */
@@ -370,6 +382,10 @@ child_new (GncalFullDay *fullday, iCalObject *ico)
 	gtk_signal_connect_after (GTK_OBJECT (child->widget), "focus_out_event",
 				  (GtkSignalFunc) child_focus_out,
 				  child);
+
+	gtk_signal_connect (GTK_OBJECT (child->widget), "key_press_event",
+			    (GtkSignalFunc) child_key_press,
+			    child);
 
 	/* Finish setup */
 

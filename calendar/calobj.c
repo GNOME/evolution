@@ -134,7 +134,7 @@ static void
 ignore_space(char **str)
 {
 	while (**str && isspace (**str))
-		*str++;
+		str++;
 }
 
 static void
@@ -182,12 +182,11 @@ weekdaylist (iCalObject *o, char **str)
 static void
 ocurrencelist (iCalObject *o, char **str)
 {
-	char *p, *q;
-	int value = 0;
+	char *p;
 	
 	ignore_space (str);
 	p = *str;
-	if (!isdigit (*str))
+	if (!isdigit (*p))
 		return;
 	
 	if (!(*p >= '1' && *p <= '5'))
@@ -218,11 +217,11 @@ daynumber (iCalObject *o, char **str)
 
 	while (**str && isdigit (**str)){
 		val = val * 10 + (**str - '0');
-		*str++;
+		str++;
 	}
 
 	if (**str == '+')
-		*str++;
+		str++;
 
 	if (**str == '-')
 		val *= -1;
@@ -314,7 +313,6 @@ enddate (iCalObject *o, char **str)
 static int
 load_recurrence (iCalObject *o, char *str)
 {
-	char c;
 	enum RecurType type;
 	int  interval = 0;
 	
@@ -374,6 +372,9 @@ load_recurrence (iCalObject *o, char *str)
 	case RECUR_YEARLY_BY_DAY:
 		load_recur_yearly_day (o, &str);
 		break;
+	default:
+		g_warning ("Unimplemented recurrence type %d", (int) type);
+		break;
 	}
 	duration (o, &str);
 	enddate (o, &str);
@@ -393,7 +394,6 @@ ical_object_create_from_vobject (VObject *o, const char *object_name)
 	iCalObject *ical;
 	VObject *vo;
 	VObjectIterator i;
-	int syntax_error;
 
 	ical = g_new0 (iCalObject, 1);
 	
@@ -515,12 +515,10 @@ ical_object_create_from_vobject (VObject *o, const char *object_name)
 
 	/* FIXME: rrule */
 	if (has (o, VCRRuleProp))
-		syntax_error = load_recurrence (ical, str_val (vo)) == 0;
-			
-	if (syntax_error){
-		ical_object_destroy (ical);
-		return NULL;
-	}
+		if (!load_recurrence (ical, str_val (vo))) {
+			ical_object_destroy (ical);
+			return NULL;
+		}
 	
 	return ical;
 }
