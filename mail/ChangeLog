@@ -1,5 +1,13 @@
 2003-02-24  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* mail-session.c (request_password): Make sure m->config_service
+	is non-NULL before using m->config_service->save_passwd since PGP
+	stuff will not have a config_service. Fixes bug #38149.
+
+	* mail-account-gui.c (mail_account_gui_save):
+	s/e_account_list_changed/e_account_list_change - otherwise we get
+	an undefined symbol and we crash :-)
+
 	* mail-composer-prefs.c (mail_composer_prefs_new_signature): Don't
 	always append "[script]" to the signature name. Also cleaned up
 	some memory leakage.

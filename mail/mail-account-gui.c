@@ -1975,7 +1975,7 @@ mail_account_gui_save (MailAccountGui *gui)
 	if (is_new) {
 		mail_config_add_account (account);
 	} else {
-		e_account_list_changed(mail_config_get_accounts (), account);
+		e_account_list_change (mail_config_get_accounts (), account);
 	}
 	
 	/* if the account provider is something we can stick
