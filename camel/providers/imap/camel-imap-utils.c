@@ -30,8 +30,8 @@
 
 #define d(x) x
 
-static char *esexp_keys[] = { "and", "or", "body-contains", "header-contains", "match-all", NULL };
-static char *imap_keys[]  = { "", "OR", "BODY", "HEADER", NULL };
+static char *esexp_keys[] = { "and", "or", "body-contains", "header-contains", "match-all", "user-flag", NULL };
+static char *imap_keys[]  = { NULL, "OR", "BODY", "HEADER", NULL, NULL };
 
 struct sexp_node {
 	struct sexp_node *l_node, *r_node;
@@ -389,98 +389,3 @@ imap_translate_sexp (const char *expression)
 	
 	return sexp;
 }
-
-
-
-
-
-
-
-
-
-
-#ifdef _ALL_HELL_BROKE_LOOSE_
-static char *
-stresexptree (ESExpTerm *node)
-{
-	char *node_str, *func, *str, *l_str, *r_str;
-	int i;
-	
-	for (i = 0; esexp_keys[i]; i++)
-		if (!strncmp (esexp_keys[i], node->func->sym->name, strlen (node->func->sym->name)))
-			break;
-	
-	if (esexp_keys[i])
-		func = imap_keys[i];
-	else
-		func = node->func->sym->name;
-	
-	if (func) {
-		if (*node->var->name)
-			str = g_strdup_printf ("%s %s", func, node->var->name);
-		else
-			str = g_strdup (func);
-	} else {
-		str = NULL;
-	}
-	
-	r_str = NULL;
-	if (node->r_node)
-		r_str = str_sexp_node (node->r_node);
-	
-	l_str = NULL;
-	if (node->l_node)
-		l_str = str_sexp_node (node->l_node);
-	
-	if (str) {
-		if (r_str) {
-			if (l_str)
-				node_str = g_strdup_printf ("%s %s %s", str, r_str, l_str);
-			else
-				node_str = g_strdup_printf ("%s %s", str, r_str);
-		} else {
-			if (l_str)
-				node_str = g_strdup_printf ("%s %s", str, l_str);
-			else
-				node_str = g_strdup_printf ("%s", str);
-		}
-	} else {
-
-		if (r_str) {
-			if (l_str)
-				node_str = g_strdup_printf ("%s %s", r_str, l_str);
-			else
-				node_str = g_strdup_printf ("%s", r_str);
-		} else {
-			if (l_str)
-				node_str = g_strdup_printf ("%s", l_str);
-			else
-				node_str = g_strdup ("");
-		}
-	}
-	
-	g_free (str);
-	g_free (l_str);
-	g_free (r_str);
-	
-	return node_str;
-}
-
-char *
-imap_translate_sexp (const char *expression)
-{
-	ESExp *esexp;
-	char *sexp;
-	
-	esexp = e_sexp_new ();
-
-	e_sexp_input_text (esexp, exp, strlen (exp));
-	e_sexp_parse (esexp);
-	
-	sexp = stresexptree (esexp->tree);
-	
-	gtk_object_unref (GTK_OBJECT (esexp));
-	
-	return sexp;
-}
-#endif /* _ALL_HELL_BROKE_LOOSE_ */

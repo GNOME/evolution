@@ -77,3 +77,5 @@ gint camel_remote_store_recv_line (CamelRemoteStore *store, char **dest,
 #endif /* __cplusplus */
 
 #endif /* CAMEL_REMOTE_STORE_H */
+
+

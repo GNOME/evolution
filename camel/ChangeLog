@@ -1,3 +1,13 @@
+2000-08-29  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* providers/imap/camel-imap-utils.c: Removed old code that will
+	never be needed again
+
+	* providers/imap/camel-imap-store.c: Removed old code for
+	try_connect - will never need this code
+	(slurp_response): Update to make sure we aren't falsely detecting
+	EXPUNGE flags
+
 2000-08-29  Peter Williams  <peterw@helixcode.com>
 
 	* camel-service.c (camel_service_connect): Uncomment this.
