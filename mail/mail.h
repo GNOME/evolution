@@ -48,7 +48,7 @@ char *mail_identify_mime_part (CamelMimePart *part);
 
 /* mail-ops */
 void fetch_mail (GtkWidget *button, gpointer user_data);
-void send_msg (GtkWidget *button, gpointer user_data);
+void compose_msg (GtkWidget *button, gpointer user_data);
 void send_to_url (const char *url);
 void forward_msg (GtkWidget *button, gpointer user_data);
 void reply_to_sender (GtkWidget *button, gpointer user_data);

@@ -522,7 +522,7 @@ free_psd (GtkWidget *composer, gpointer user_data)
 }
 
 void
-send_msg (GtkWidget *widget, gpointer user_data)
+compose_msg (GtkWidget *widget, gpointer user_data)
 {
 	GtkWidget *composer;
 
