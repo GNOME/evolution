@@ -185,6 +185,9 @@ impl_Shell_createNewWindow (PortableServer_Servant servant,
 	bonobo_object = bonobo_object_from_servant (servant);
 	shell = E_SHELL (bonobo_object);
 
+	if (component_id[0] == '\0')
+		component_id = NULL;
+
 	shell_window = e_shell_create_window (shell, component_id, NULL);
 	if (shell_window == NULL) {
 		CORBA_exception_set (ev, CORBA_USER_EXCEPTION,

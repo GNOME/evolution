@@ -436,7 +436,10 @@ idle_cb (void *data)
 		CORBA_Environment ev;
 
 		CORBA_exception_init (&ev);
-		GNOME_Evolution_Shell_createNewWindow (corba_shell, default_component_id, &ev);
+		if (default_component_id == NULL)
+			GNOME_Evolution_Shell_createNewWindow (corba_shell, "", &ev);
+		else
+			GNOME_Evolution_Shell_createNewWindow (corba_shell, default_component_id, &ev);
 		CORBA_exception_free (&ev);
 	}
 

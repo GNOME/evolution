@@ -1,6 +1,17 @@
 2003-12-03  Ettore Perazzoli  <ettore@ximian.com>
 
-	* Makefile.am: move e-task-bar and e-task-widget into libeshell.
+	[Fix for #51619.]
+
+	* e-shell.c (impl_Shell_createNewWindow): If component_id is the
+	empty string, pass NULL for it to e_shell_create_window() so we
+	get the default.
+
+	* main.c (idle_cb): Pass an empty string for component_id to
+	createNewWindow() if the default_component_id is NULL.
+
+2003-12-03  Ettore Perazzoli  <ettore@ximian.com>
+
+	* Makefile.am: Move e-task-bar and e-task-widget into libeshell.
 	[Fix pointed out by Bernard Leach <leachbj@bouncycastle.org>.]
 
 2003-12-03  Ettore Perazzoli  <ettore@ximian.com>
