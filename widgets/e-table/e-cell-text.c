@@ -458,8 +458,6 @@ ect_draw (ECellView *ecell_view, GdkDrawable *drawable,
 	GdkColor *foreground, *cell_foreground, *cursor_color;
 	gchar *color_spec;
 	gboolean selected;
-	EFontStyle style;
-
 	EFontStyle style = E_FONT_PLAIN;
 
 	selected = flags & E_CELL_SELECTED;

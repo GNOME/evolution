@@ -1,3 +1,7 @@
+2000-09-14  Peter Williams  <peter@beta.newton.cx>
+
+	* e-cell-text.c (ect_draw): Typo fix.
+
 2000-09-11  Iain Holmes  <iain@helixcode.com>
 
 	* e-table-header-item.c (ethi_maybe_start_drag): Set maybe_drag
