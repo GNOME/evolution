@@ -31,7 +31,7 @@ struct _GCalLocalRecord {
 	*/
 	LocalRecord local;
 	/* The corresponding iCal object, as found by GnomeCal. */
-	iCalObject *ical;
+	CalComponent *ical;
         /* pilot-link appointment structure, used for implementing Transmit. */	
 	struct Appointment *a;
 };

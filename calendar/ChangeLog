@@ -1,3 +1,10 @@
+2000-08-11  Seth Alves  <alves@hungry.com>
+
+	* conduits/calendar/calendar-conduit.c (transmit): start to
+	convert to cal-component interface
+	
+	* conduits/todo/todo-conduit.c (transmit): same
+
 2000-08-11  Federico Mena Quintero  <federico@helixcode.com>
 
 	* gui/calendar-model.c (get_geo): Generate a prettier string for

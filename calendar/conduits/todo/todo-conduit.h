@@ -34,8 +34,10 @@ struct _GCalLocalRecord {
 	*/
 	LocalRecord local;
 	/* The corresponding iCal object, as found by GnomeCal. */
-	iCalObject *ical;
-        /* pilot-link todo structure, used for implementing Transmit. */	
+	//iCalObject *ical;
+	CalComponent *ical;
+
+        /* pilot-link todo structure, used for implementing Transmit. */
 	struct ToDo *todo;
 };
 #define GCAL_LOCALRECORD(s) ((GCalLocalRecord*)(s))

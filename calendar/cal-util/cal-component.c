@@ -2804,7 +2804,67 @@ cal_component_set_url (CalComponent *comp, const char *url)
 	}
 }
 
+/**
+ * cal_component_get_pilot_id:
+ * @comp: A calendar component object.
+ * @pilot_id: Return value for the pilot ID.
+ *
+ * Returns the pilot id of a calendar component object, if any.
+ **/
+void
+cal_component_get_pilot_id (CalComponent *comp, unsigned long *pilot_id)
+{
+	/* pilot_id maybe should be recordid_t */
+	/* FIX ME */
+	*pilot_id = 0;
+}
+
+/**
+ * cal_component_set_pilot_id:
+ * @comp: A calendar component object.
+ * @pilot_id: Return value for the pilot ID.
+ *
+ * Sets the pilot id of a clanedar component object.
+ **/
+void
+cal_component_set_pilot_id (CalComponent *comp, unsigned long pilot_id)
+{
+	/* pilot_id maybe should be recordid_t */
+	/* FIX ME */
+}
+
+/**
+ * cal_component_get_pilot_status:
+ * @comp: A calendar component object.
+ * @pilot_status: Return value for the pilot sync status.
+ *
+ * Returns the pilot status of a calendar component object, if any.
+ **/
+void
+cal_component_get_pilot_status (CalComponent *comp, unsigned long *pilot_status)
+{
+	/* FIX ME */
+	/* pilot_status should be iCalPilotState ? */
+	*pilot_status = 0;
+}
+
+/**
+ * cal_component_set_pilot_id:
+ * @comp: A calendar component object.
+ * @pilot_id: Return value for the pilot ID.
+ *
+ * Sets the pilot id of a clanedar component object.
+ **/
+void
+cal_component_set_pilot_status (CalComponent *comp, unsigned long pilot_status)
+{
+	/* pilot_id maybe should be recordid_t */
+	/* FIX ME */
+}
+
+
 
+
 
 /**
  * cal_component_free_categories_list:

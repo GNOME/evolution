@@ -9,7 +9,7 @@
 #include <errno.h>
 
 #include <cal-client/cal-client.h>
-#include <cal-util/calobj.h>
+// #include <cal-util/calobj.h>
 #include <cal-util/timeutil.h>
 #include <pi-source.h>
 #include <pi-socket.h>
@@ -22,11 +22,11 @@
 #include <gpilotd/gnome-pilot-conduit-standard-abs.h>
 #include <calendar-conduit.h>
 
-//#include "GnomeCal.h"
+#include <bonobo.h>
 
 GnomePilotConduit * conduit_get_gpilot_conduit (guint32);
 void conduit_destroy_gpilot_conduit (GnomePilotConduit*);
-void local_record_from_icalobject (GCalLocalRecord *local, iCalObject *obj);
+void local_record_from_icalobject (GCalLocalRecord *local, CalComponent *obj);
 
 #define CONDUIT_VERSION "0.8.11"
 #ifdef G_LOG_DOMAIN
@@ -56,6 +56,76 @@ void local_record_from_icalobject (GCalLocalRecord *local, iCalObject *obj);
 	return ret;                                                                             \
   }
 
+
+
+
+/* debug spew DELETE ME */
+static char *print_ical (CalComponent *obj)
+{
+	static char buff[ 4096 ];
+	CalComponentText summary;
+	GSList *comments;
+	CalComponentText *first_comment = NULL;
+
+	if (obj == NULL) {
+		sprintf (buff, "[NULL]");
+		return buff;
+	}
+
+	cal_component_get_summary (obj, &summary);
+	cal_component_get_comment_list (obj, &comments);
+	if (comments)
+		first_comment = (CalComponentText *) comments->data;
+
+
+	sprintf (buff, "['%s' '%s']",
+		 summary.value,  /* description */
+		 first_comment ? first_comment->value : "" /* note */);
+	return buff;
+}
+
+
+/* debug spew DELETE ME */
+static char *print_local (GCalLocalRecord *local)
+{
+	static char buff[ 4096 ];
+
+	if (local == NULL) {
+		sprintf (buff, "[NULL]");
+		return buff;
+	}
+
+	if (local->a && local->a->description) {
+		sprintf (buff, "['%s' '%s']",
+			 local->a->description,
+			 local->a->note);
+		return buff;
+	}
+
+	return print_ical (local->ical);
+}
+
+
+/* debug spew DELETE ME */
+static char *print_remote (PilotRecord *remote)
+{
+	static char buff[ 4096 ];
+	struct Appointment a;
+
+	if (remote == NULL) {
+		sprintf (buff, "[NULL]");
+		return buff;
+	}
+
+	memset (&a, 0, sizeof (struct Appointment));
+	unpack_Appointment (&a, remote->record, remote->length);
+
+	sprintf (buff, "['%s' '%s']",
+		 a.description,
+		 a.note);
+
+	return buff;
+}
 
 
 
@@ -106,16 +176,17 @@ gnome_calendar_load_cb (GtkWidget *cal_client,
 {
 	CalClient *client = CAL_CLIENT (cal_client);
 
-	printf ("entering gnome_calendar_load_cb, tried=%d\n",
+	printf ("    calendar-conduit entering "
+		"gnome_calendar_load_cb, tried=%d\n",
 		ctxt->calendar_load_tried);
 
 	if (status == CAL_CLIENT_LOAD_SUCCESS) {
 		ctxt->calendar_load_success = TRUE;
-		printf ("  success\n");
+		printf ("    success\n");
 		gtk_main_quit (); /* end the sub event loop */
 	} else {
 		if (ctxt->calendar_load_tried) {
-			printf ("load and create of calendar failed\n");
+			printf ("    load and create of calendar failed\n");
 			gtk_main_quit (); /* end the sub event loop */
 			return;
 		}
@@ -146,7 +217,7 @@ start_calendar_server (GnomePilotConduitStandardAbs *conduit,
 	gtk_signal_connect (GTK_OBJECT (ctxt->client), "cal_loaded",
 			    gnome_calendar_load_cb, ctxt);
 
-	printf ("calling cal_client_load_calendar\n");
+	printf ("    calling cal_client_load_calendar\n");
 	cal_client_load_calendar (ctxt->client, ctxt->calendar_file);
 
 	/* run a sub event loop to turn cal-client's async load
@@ -205,38 +276,42 @@ local_record_from_ical_uid (GCalLocalRecord *local,
 			    char *uid,
 			    GCalConduitContext *ctxt)
 {
-	iCalObject *obj;
+	CalComponent *obj;
 	CalClientGetStatus status;
 
-	g_assert(local!=NULL);
+	g_assert (local != NULL);
 
 	status = cal_client_get_object (ctxt->client, uid, &obj);
 
 	if (status == CAL_CLIENT_GET_SUCCESS)
-		local_record_from_icalobject(local,obj);
+		local_record_from_icalobject (local, obj);
 	else
 		INFO ("Object did not exist");
 }
 
 
 /*
- * converts a iCalObject to a GCalLocalRecord
+ * converts a CalComponent to a GCalLocalRecord
  */
 
 void
-local_record_from_icalobject(GCalLocalRecord *local,
-			     iCalObject *obj) 
+local_record_from_icalobject (GCalLocalRecord *local,
+			      CalComponent *obj)
 {
+	unsigned long int pilot_status;
+
 	g_return_if_fail(local!=NULL);
 	g_return_if_fail(obj!=NULL);
 
 	local->ical = obj;
-	local->local.ID = local->ical->pilot_id;
+	cal_component_get_pilot_id (obj, &local->local.ID);
+	cal_component_get_pilot_status (obj, &pilot_status);
+
 /*
 	LOG ("local->Id = %ld [%s], status = %d",
 		  local->local.ID,obj->summary,local->ical->pilot_status);
 */
-	switch(local->ical->pilot_status) {
+	switch (pilot_status) {
 	case ICAL_PILOT_SYNC_NONE: 
 		local->local.attr = GnomePilotRecordNothing; 
 		break;
@@ -249,14 +324,16 @@ local_record_from_icalobject(GCalLocalRecord *local,
 	}
 
 	/* Records without a pilot_id are new */
-	if(local->local.ID == 0) 
-		local->local.attr = GnomePilotRecordNew; 
-  
+	if (local->local.ID == 0)
+		local->local.attr = GnomePilotRecordNew;
+
+	/*
 	local->local.secret = 0;
 	if(obj->class!=NULL) 
 		if(strcmp(obj->class,"PRIVATE")==0)
 			local->local.secret = 1;
- 
+	*/
+
 	local->local.archived = 0;  
 }
 
@@ -273,20 +350,20 @@ find_record_in_repository(GnomePilotConduitStandardAbs *conduit,
 	char *uid = NULL;
 	GCalLocalRecord *loc;
 	CalClientGetStatus status;
-	iCalObject *obj;
+	CalComponent *obj;
   
 	g_return_val_if_fail(conduit!=NULL,NULL);
 	g_return_val_if_fail(remote!=NULL,NULL);
-  
-	LOG ("requesting %ld", remote->ID);
 
+	printf ("find_record_in_repository: remote=%s... ",
+		print_remote (remote));
 
 	status = cal_client_get_uid_by_pilot_id (ctxt->client, remote->ID, &uid);
 
 	if (status == CAL_CLIENT_GET_SUCCESS) {
 		status = cal_client_get_object (ctxt->client, uid, &obj);
 		if (status == CAL_CLIENT_GET_SUCCESS) {
-			LOG ("Found");
+			printf ("found %s\n", print_ical (obj));
 			loc = g_new0(GCalLocalRecord,1);
 			/* memory allocated in new_from_string is freed in free_match */
 			local_record_from_icalobject (loc, obj);
@@ -294,17 +371,17 @@ find_record_in_repository(GnomePilotConduitStandardAbs *conduit,
 		}
 	}
 
-	INFO ("Object did not exist");
+	printf ("not found\n");
 	return NULL;
 }
 
 
 /* 
- * updates an given iCalObject in the repository
+ * updates an given CalComponent in the repository
  */
 static void
 update_calendar_entry_in_repository(GnomePilotConduitStandardAbs *conduit,
-				    iCalObject *obj,
+				    CalComponent *obj,
 				    GCalConduitContext *ctxt) 
 {
 	gboolean success;
@@ -312,49 +389,70 @@ update_calendar_entry_in_repository(GnomePilotConduitStandardAbs *conduit,
 	g_return_if_fail(conduit!=NULL);
 	g_return_if_fail(obj!=NULL);
 
+	printf ("        update_calendar_entry_in_repository "
+		"saving %s to desktop\n",
+		print_ical (obj));
+
 	success = cal_client_update_object (ctxt->client, obj);
+
+	if (! success) {
+		WARN (_("Error while communicating with calendar server"));
+	}
 }
 
 
-static iCalObject *
+static CalComponent *
 ical_from_remote_record(GnomePilotConduitStandardAbs *conduit,
 			PilotRecord *remote,
-			iCalObject *in_obj)
+			CalComponent *in_obj)
 {
-	iCalObject *obj;
-	int i;
+	CalComponent *obj;
+	// int i;
 	struct Appointment a;
-	time_t now;
+	struct icaltimetype now = icaltimetype_from_timet (time (NULL), FALSE);
 
-	now = time (NULL);
+	CalComponentText summary = {NULL, NULL};
+	CalComponentText comment = {NULL, NULL};
+	GSList *comment_list;
 
 	g_return_val_if_fail(remote!=NULL,NULL);
 	memset(&a,0,sizeof(struct Appointment));
 	unpack_Appointment(&a,remote->record,remote->length);
-	
-	if (in_obj == NULL)
-		obj = ical_new (a.note ? a.note : "",
-				g_get_user_name (),
-				a.description ? a.description : "");
-	else 
+
+	printf ("        ical_from_remote_record: "
+		"merging remote %s into local %s\n",
+		print_remote (remote), print_ical (in_obj));
+
+
+	if (in_obj == NULL) {
+		obj = cal_component_new ();
+	} else {
 		obj = in_obj;
-	
-	if (a.note) {
-		g_free(obj->comment);
-		obj->comment = g_strdup(a.note);
 	}
-	if (a.description) {
-		g_free(obj->summary);
-		obj->summary = g_strdup(a.description);
-	}
+
+	summary.value = a.description;
+	cal_component_set_summary (obj, &summary);
+
+	comment.value = a.note;
+	comment_list = g_slist_append (NULL, &comment);
+	cal_component_set_comment_list (obj, comment_list);
+	g_slist_free (comment_list);
+
+	cal_component_set_new_vtype (obj, CAL_COMPONENT_EVENT);
 	
-	obj->created = now;
-	obj->last_mod = now;
-	obj->priority = 0;
-	obj->transp = 0;
-	obj->related = NULL;
-	obj->pilot_id = remote->ID;
-	obj->pilot_status = ICAL_PILOT_SYNC_NONE;
+	//obj->created = now;
+	cal_component_set_created (obj, &now);
+	//obj->last_mod = now;
+	cal_component_set_last_modified (obj, &now);
+	//obj->priority = 0;
+	//obj->transp = 0;
+	cal_component_set_transparency (obj,
+					/*CalComponentTransparency transp*/
+					CAL_COMPONENT_TRANSP_NONE);
+	//obj->related = NULL;
+
+	// obj->pilot_id = remote->ID;
+	// cal_component_set_pilot_status (obj, ICAL_PILOT_SYNC_NONE);
 
 	/*
 	 * Begin and end
@@ -372,9 +470,31 @@ ical_from_remote_record(GnomePilotConduitStandardAbs *conduit,
 		a.end.tm_min =59;
 		a.end.tm_hour = 23;
 	}
-	
-	obj->dtstart = mktime (&a.begin);
-	obj->dtend = mktime (&a.end);
+
+	//obj->dtstart = mktime (&a.begin);
+	{
+		/* do i need to malloc these?  FIX ME */
+		struct icaltimetype dtstart_ictt;
+		CalComponentDateTime dtstart;
+
+		dtstart_ictt = icaltimetype_from_timet (mktime (& a.begin), FALSE);
+		dtstart.value = &dtstart_ictt;
+		dtstart.tzid = NULL;
+		cal_component_set_dtstart (obj, &dtstart);
+	}
+
+	//obj->dtend = mktime (&a.end);
+	{
+		/* do i need to malloc these?  FIX ME */
+		struct icaltimetype dtend_ictt;
+		CalComponentDateTime dtend;
+
+		dtend_ictt = icaltimetype_from_timet (mktime (& a.end), FALSE);
+		dtend.value = &dtend_ictt;
+		dtend.tzid = NULL;
+		cal_component_set_dtend (obj, &dtend);
+	}
+
 
 	/* Special case: daily repetitions are converted to a multi-day event */
 	/* This sucketh, a pilot event scheduled for dailyRepeat, freq 1, end on 
@@ -386,6 +506,8 @@ ical_from_remote_record(GnomePilotConduitStandardAbs *conduit,
 	}
 	*/
 
+#warning "finish alarms here"
+#if 0
 	/*
 	 * Alarm
 	 */
@@ -409,11 +531,14 @@ ical_from_remote_record(GnomePilotConduitStandardAbs *conduit,
 		default:
 		}
 	}
+#endif /* 0 */
 
+#warning "finish recurrence here"
+#if 0
 	/*
 	 * Recurrence
 	 */
-	if (a.repeatFrequency){
+	if (a.repeatFrequency) {
 		obj->recur = g_new0 (Recurrence, 1);
 		
 		switch (a.repeatType){
@@ -479,14 +604,14 @@ ical_from_remote_record(GnomePilotConduitStandardAbs *conduit,
 		*t = mktime (&(a.exception [i]));
 		obj->exdate = g_list_prepend (obj->exdate, t);
 	}
+#endif /* 0 */
 
-	g_free (obj->class);
+	// g_free (obj->class);
 	
 	if (remote->attr & dlpRecAttrSecret)
-		obj->class = g_strdup ("PRIVATE");
+		cal_component_set_classification (obj, CAL_COMPONENT_CLASS_PRIVATE);
 	else
-		obj->class = g_strdup ("PUBLIC");
-
+		cal_component_set_classification (obj, CAL_COMPONENT_CLASS_PUBLIC);
 
 	free_Appointment(&a);
 
@@ -508,58 +633,88 @@ update_record (GnomePilotConduitStandardAbs *conduit,
 	       PilotRecord *remote,
 	       GCalConduitContext *ctxt)
 {
-	iCalObject *obj;
+	CalComponent *obj;
 	struct Appointment a;
 	CalClientGetStatus status;
 	char *uid;
+
+	CalComponentText summary = {NULL, NULL};
+	CalComponentText comment = {NULL, NULL};
+	GSList *comment_list;
 
 	g_return_val_if_fail(remote!=NULL,-1);
 
 	memset(&a,0,sizeof(struct Appointment));
 	unpack_Appointment(&a,remote->record,remote->length);
 
-	LOG ("requesting %ld [%s]", remote->ID, a.description);
-	printf ("requesting %ld [%s]\n", remote->ID, a.description);
+	printf ("    cal_client_get_uid_by_pilot_id... ");
 
-	status = cal_client_get_uid_by_pilot_id(ctxt->client, remote->ID, &uid);
-	if (status == CAL_CLIENT_GET_SUCCESS)
+	status = cal_client_get_uid_by_pilot_id (ctxt->client,
+						 remote->ID, &uid);
+	if (status == CAL_CLIENT_GET_SUCCESS) {
+		printf (" succeeded with '%s'\n", uid);
+		printf ("    cal_client_get_object... ");
 		status = cal_client_get_object (ctxt->client, uid, &obj);
+	}
 
 	if (status != CAL_CLIENT_GET_SUCCESS) {
-		time_t now = time (NULL);
+		struct icaltimetype now = icaltimetype_from_timet (time (NULL), FALSE);
 
-		LOG ("Object did not exist, creating a new one");
-		printf ("Object did not exist, creating a new one\n");
+		printf ("failed, making a new one.\n");
 
-		obj = ical_new (a.note ? a.note : "",
-				g_get_user_name (),
-				a.description ? a.description : "");
-		
-		obj->created = now;
-		obj->last_mod = now;
-		obj->priority = 0;
-		obj->transp = 0;
-		obj->related = NULL;
-		obj->pilot_id = remote->ID;
-		obj->pilot_status = ICAL_PILOT_SYNC_NONE;
+		obj = cal_component_new ();
+
+		summary.value = a.description;
+		cal_component_set_summary (obj, &summary);
+
+		comment.value = a.note;
+		comment_list = g_slist_append (NULL, &comment);
+		cal_component_set_comment_list (obj, comment_list);
+		g_slist_free (comment_list);
+
+		// obj->type = ICAL_TODO;
+		cal_component_set_new_vtype (obj, CAL_COMPONENT_TODO);
+		// obj->new = TRUE;
+		// obj->created = now;
+		cal_component_set_created (obj, &now);
+		// obj->last_mod = now;
+		cal_component_set_last_modified (obj, &now);
+		// obj->priority = 0;
+		// obj->transp = 0;
+		cal_component_set_transparency (obj,
+						/*CalComponentTransparency transp*/
+						CAL_COMPONENT_TRANSP_NONE);
+		// obj->related = NULL;
+		//obj->pilot_id = remote->ID;
+		//obj->pilot_status = ICAL_PILOT_SYNC_NONE;
+		cal_component_set_pilot_id (obj, remote->ID);
+		cal_component_set_pilot_status (obj, ICAL_PILOT_SYNC_NONE);
 	} else {
-		iCalObject *new_obj;
-		LOG ("Found");
-		printf ("Found\n");
+		CalComponent *new_obj;
+
+		printf ("succeeded %s\n", print_ical (obj));
+
 		new_obj = ical_from_remote_record (conduit, remote, obj);
 		obj = new_obj;
 	}
 
 	/* update record on server */
-	
-	update_calendar_entry_in_repository (conduit, obj, ctxt);
-	cal_client_update_pilot_id (ctxt->client, obj->uid, obj->pilot_id,
-				    ICAL_PILOT_SYNC_NONE);
+	{
+		const char *uid;
+		unsigned long pilot_id;
+
+		cal_component_get_uid (obj, &uid);
+		cal_component_get_pilot_id (obj, &pilot_id);
+
+		update_calendar_entry_in_repository (conduit, obj, ctxt);
+		cal_client_update_pilot_id (ctxt->client, (char *) uid, pilot_id,
+					    ICAL_PILOT_SYNC_NONE);
+	}
 
 	/*
 	 * Shutdown
 	 */
-	ical_object_unref (obj);
+	//ical_object_unref (obj);
 	free_Appointment(&a);
 
 	return 0;
@@ -580,12 +735,14 @@ check_for_slow_setting (GnomePilotConduit *c, GCalConduitContext *ctxt)
 
 	entry_number = g_list_length (uids);
 
-	LOG (_("Calendar holds %d entries"), entry_number);
 	/* If the local base is empty, do a slow sync */
 	if (entry_number == 0) {
 		GnomePilotConduitStandard *conduit;
+		printf ("    doing slow sync\n");
 		conduit = GNOME_PILOT_CONDUIT_STANDARD (c);
 		gnome_pilot_conduit_standard_set_slow (conduit);
+	} else {
+		printf ("    doing fast sync\n");
 	}
 }
 
@@ -597,8 +754,6 @@ pre_sync (GnomePilotConduit *c,
 	int l;
 	unsigned char *buf;
 	GnomePilotConduitStandardAbs *conduit;
-	/* gint num_records; */
-	//GList *uids;
 
 
 	/*
@@ -609,8 +764,11 @@ pre_sync (GnomePilotConduit *c,
 
 
 	conduit = GNOME_PILOT_CONDUIT_STANDARD_ABS(c);
-  
-	g_message ("GnomeCal Conduit v.%s",CONDUIT_VERSION);
+
+
+	printf ("---------------------------------------------------------\n");
+	printf ("pre_sync: Calendar Conduit v.%s\n", CONDUIT_VERSION);
+	g_message ("Calendar Conduit v.%s", CONDUIT_VERSION);
 
 	ctxt->client = NULL;
 	
@@ -673,12 +831,18 @@ match_record	(GnomePilotConduitStandardAbs *conduit,
 		 PilotRecord *remote,
 		 GCalConduitContext *ctxt)
 {
-	LOG ("in match_record");
+	printf ("match_record: looking for local copy of %s\n",
+		print_remote (remote));
 
 	g_return_val_if_fail(local!=NULL,-1);
 	g_return_val_if_fail(remote!=NULL,-1);
 
 	*local = find_record_in_repository(conduit,remote,ctxt);
+
+	if (*local == NULL)
+		printf ("    match_record: not found.\n");
+	else
+		printf ("    match_record: found, %s\n", print_local (*local));
   
 	if (*local==NULL) return -1;
 	return 0;
@@ -694,14 +858,14 @@ free_match	(GnomePilotConduitStandardAbs *conduit,
 		 GCalLocalRecord **local,
 		 GCalConduitContext *ctxt)
 {
-	LOG ("entering free_match");
+	printf ("free_match: %s\n", print_local (*local));
 
-	g_return_val_if_fail(local!=NULL,-1);
-	g_return_val_if_fail(*local!=NULL,-1);
+	g_return_val_if_fail (local!=NULL, -1);
+	g_return_val_if_fail (*local!=NULL, -1);
 
-	ical_object_unref (GCAL_LOCALRECORD(*local)->ical); 
-	g_free(*local);
-	
+	// ical_object_unref (GCAL_LOCALRECORD(*local)->ical); 
+	g_free (*local);
+
         *local = NULL;
 	return 0;
 }
@@ -714,7 +878,7 @@ archive_local (GnomePilotConduitStandardAbs *conduit,
 	       GCalLocalRecord *local,
 	       GCalConduitContext *ctxt)
 {
-	LOG ("entering archive_local");
+	printf ("archive_local: doing nothing with %s\n", print_local (local));
 
 	g_return_val_if_fail(local!=NULL,-1);
 
@@ -730,7 +894,8 @@ archive_remote (GnomePilotConduitStandardAbs *conduit,
 		PilotRecord *remote,
 		GCalConduitContext *ctxt)
 {
-	LOG ("entering archive_remote");
+	printf ("archive_remote: doing nothing with %s\n",
+		print_local (local));
 
         //g_return_val_if_fail(remote!=NULL,-1);
 	//g_return_val_if_fail(local!=NULL,-1);
@@ -746,7 +911,8 @@ store_remote (GnomePilotConduitStandardAbs *conduit,
 	      PilotRecord *remote,
 	      GCalConduitContext *ctxt)
 {
-	LOG ("entering store_remote");
+	printf ("store_remote: copying pilot record %s to desktop\n",
+		print_remote (remote));
 
 	g_return_val_if_fail(remote!=NULL,-1);
 	remote->attr = GnomePilotRecordNothing;
@@ -759,7 +925,7 @@ clear_status_archive_local (GnomePilotConduitStandardAbs *conduit,
 			    GCalLocalRecord *local,
 			    GCalConduitContext *ctxt)
 {
-	LOG ("entering clear_status_archive_local");
+	printf ("clear_status_archive_local: doing nothing\n");
 
 	g_return_val_if_fail(local!=NULL,-1);
 
@@ -793,7 +959,6 @@ iterate (GnomePilotConduitStandardAbs *conduit,
 			(*local) = NULL;
 		}
 	} else {
-		/* printf ("continuing iteration\n"); */
 		hest++;
 		if(g_slist_next(iterator)==NULL) {
 			GSList *l;
@@ -829,40 +994,68 @@ iterate_specific (GnomePilotConduitStandardAbs *conduit,
 {
 	(*local) = NULL;
 
-#ifdef DEBUG_CALCONDUIT
+	/* debugging */
 	{
 		gchar *tmp;
 		switch (flag) {
-		case GnomePilotRecordNothing: tmp = g_strdup("RecordNothing"); break;
-		case GnomePilotRecordModified: tmp = g_strdup("RecordModified"); break;
-		case GnomePilotRecordNew: tmp = g_strdup("RecordNew"); break;
+		case GnomePilotRecordNothing:
+			tmp = g_strdup("RecordNothing"); break;
+		case GnomePilotRecordModified:
+			tmp = g_strdup("RecordModified"); break;
+		case GnomePilotRecordDeleted:
+			tmp = g_strdup("RecordDeleted"); break;
+		case GnomePilotRecordNew:
+			tmp = g_strdup("RecordNew"); break;
 		default: tmp = g_strdup_printf("0x%x",flag); break;
 		}
-		printf ("entering iterate_specific(flag = %s)\n", tmp);
+		printf ("\niterate_specific: (flag = %s)... ", tmp);
 		g_free(tmp);
 	}
-#endif
+
+
 	g_return_val_if_fail(local!=NULL,-1);
 
 	/* iterate until a record meets the criteria */
-	while(gnome_pilot_conduit_standard_abs_iterate(conduit,(LocalRecord**)local)) {
+	while (gnome_pilot_conduit_standard_abs_iterate (conduit,
+						      (LocalRecord**)local)) {
 		if((*local)==NULL) break;
 		if(archived && ((*local)->local.archived==archived)) break;
 		if(((*local)->local.attr == flag)) break;
 	}
 
+	if ((*local)) {
+		printf (" found %s\n", print_local (*local));
+	} else {
+		printf (" no more found.\n");
+	}
+
 	return (*local)==NULL?0:1;
 }
+
 
 static gint
 purge (GnomePilotConduitStandardAbs *conduit,
        GCalConduitContext *ctxt)
 {
-	LOG ("entering purge");
+	printf ("purge: doing nothing\n");
 
 	/* HEST, gem posterne her */
 
 	return -1;
+}
+
+
+static char *gnome_pilot_status_to_string (gint status)
+{
+	switch(status) {
+	case GnomePilotRecordPending: return "GnomePilotRecordPending";
+	case GnomePilotRecordNothing: return "GnomePilotRecordNothing";
+	case GnomePilotRecordDeleted: return "GnomePilotRecordDeleted";
+	case GnomePilotRecordNew: return "GnomePilotRecordNew";
+	case GnomePilotRecordModified: return "GnomePilotRecordModified";
+	}
+
+	return "Unknown";
 }
 
 
@@ -873,33 +1066,43 @@ set_status (GnomePilotConduitStandardAbs *conduit,
 	    GCalConduitContext *ctxt)
 {
 	gboolean success;
-	LOG ("entering set_status(status=%d)",status);
+	iCalPilotState new_state;
+
+	printf ("set_status: %s status is now '%s'\n",
+		print_local (local),
+		gnome_pilot_status_to_string (status));
 
 	g_return_val_if_fail(local!=NULL,-1);
-
 	g_assert(local->ical!=NULL);
 	
 	local->local.attr = status;
 	switch(status) {
 	case GnomePilotRecordPending:
 	case GnomePilotRecordNothing:
-		local->ical->pilot_status = ICAL_PILOT_SYNC_NONE;
+		new_state = ICAL_PILOT_SYNC_NONE;
 		break;
 	case GnomePilotRecordDeleted:
 		break;
 	case GnomePilotRecordNew:
 	case GnomePilotRecordModified:
-		local->ical->pilot_status = ICAL_PILOT_SYNC_MOD;
+		new_state = ICAL_PILOT_SYNC_MOD;
 		break;	  
 	}
-	
+
 	if (status == GnomePilotRecordDeleted) {
-		success = cal_client_remove_object (ctxt->client, local->ical->uid);
+		const char *uid;
+		cal_component_get_uid (local->ical, &uid);
+		success = cal_client_remove_object (ctxt->client, uid);
 	} else {
+		const char *uid;
+		unsigned long pilot_id;
+
+		cal_component_get_uid (local->ical, &uid);
+		cal_component_get_pilot_id (local->ical, &pilot_id);
+
 		success = cal_client_update_object (ctxt->client, local->ical);
-		cal_client_update_pilot_id (ctxt->client, local->ical->uid,
-					    local->local.ID,
-					    local->ical->pilot_status);
+		cal_client_update_pilot_id (ctxt->client, (char *) uid,
+					    pilot_id, new_state);
 	}
 
 	if (! success) {
@@ -915,7 +1118,8 @@ set_archived (GnomePilotConduitStandardAbs *conduit,
 	      gint archived,
 	      GCalConduitContext *ctxt)
 {
-	LOG ("entering set_archived");
+	printf ("set_archived: %s archived flag is now '%d'\n",
+		print_local (local), archived);
 
 	g_return_val_if_fail(local!=NULL,-1);
 	g_assert(local->ical!=NULL);
@@ -934,18 +1138,25 @@ set_pilot_id (GnomePilotConduitStandardAbs *conduit,
 	      guint32 ID,
 	      GCalConduitContext *ctxt)
 {
-	LOG ("entering set_pilot_id(id=%d)",ID);
+	const char *uid;
+	unsigned long int pilot_status;
+
+	printf ("set_pilot_id: %s pilot ID is now '%d'\n",
+		print_local (local), ID);
 
 	g_return_val_if_fail(local!=NULL,-1);
 	g_assert(local->ical!=NULL);
 
 	local->local.ID = ID;
-	local->ical->pilot_id = ID;
+	cal_component_set_pilot_id (local->ical, ID);
+
+	cal_component_get_uid (local->ical, &uid);
+	cal_component_get_pilot_status (local->ical, &pilot_status);
 
 	cal_client_update_pilot_id (ctxt->client,
-				    local->ical->uid,
+				    (char *) uid,
 				    local->local.ID,
-				    local->ical->pilot_status);
+				    pilot_status);
 
         return 0;
 }
@@ -957,9 +1168,13 @@ transmit (GnomePilotConduitStandardAbs *conduit,
 	  GCalConduitContext *ctxt)
 {
 	PilotRecord *p;
-	int daycount;
-	
-	LOG ("entering transmit");
+	//int daycount;
+
+	CalComponentText summary;
+	GSList *comment_list = NULL;
+	CalComponentText *comment;
+
+	printf ("transmit: encoding local %s\n", print_local (local));
 
 	g_return_val_if_fail(local!=NULL,-1);
 	g_return_val_if_fail(remote!=NULL,-1);
@@ -975,9 +1190,30 @@ transmit (GnomePilotConduitStandardAbs *conduit,
 	local->a = g_new0(struct Appointment,1);
 
 	local->a->event = 0; /* if no start time, leave at 1 */
-	local->a->begin = *localtime(&local->ical->dtstart);
-	local->a->end = *localtime(&local->ical->dtend);
+	//local->a->begin = *localtime(&local->ical->dtstart);
+	{
+		CalComponentDateTime dtstart;
+		time_t dtstart_time_t;
 
+		cal_component_get_dtstart (local->ical, &dtstart);
+		dtstart_time_t = time_from_icaltimetype (*dtstart.value);
+
+		local->a->begin = *localtime (&dtstart_time_t);
+	}
+
+	//local->a->end = *localtime(&local->ical->dtend);
+	{
+		CalComponentDateTime dtend;
+		time_t dtend_time_t;
+
+		cal_component_get_dtend (local->ical, &dtend);
+		dtend_time_t = time_from_icaltimetype (*dtend.value);
+
+		local->a->end = *localtime (&dtend_time_t);
+	}
+
+#warning "finish alarm and recurrence here"
+#if 0
 	/* set the Audio Alarm  parameters */
 	if(local->ical->aalarm.enabled) {
 		local->a->alarm = 1;
@@ -1051,13 +1287,29 @@ transmit (GnomePilotConduitStandardAbs *conduit,
 		local->a->exceptions = 0;
 		local->a->exception = NULL;
 	}
+#endif /* 0 */
 
 	/* STOP: don't replace these with g_strdup, since free_Appointment
 	   uses free to deallocte */
+
+	cal_component_get_summary (local->ical, &summary);
 	local->a->note = 
-		local->ical->comment==NULL?NULL:strdup(local->ical->comment);
-	local->a->description = 
-		local->ical->summary==NULL?NULL:strdup(local->ical->summary);
+		//local->ical->comment==NULL?NULL:strdup(local->ical->comment);
+		strdup ((char *) summary.value);
+
+	/* local->a->description = 
+	   local->ical->summary==NULL?NULL:strdup(local->ical->summary); */
+
+	cal_component_get_comment_list (local->ical, &comment_list);
+	if (comment_list) {
+		comment = (CalComponentText *) comment_list->data;
+		if (comment && comment->value)
+			local->a->description = strdup (comment->value);
+		else
+			local->a->description = NULL;
+	} else {
+		local->a->note = NULL;
+	}
 
 	/* Generate pilot record structure */
 	p->record = g_new0(char,0xffff);
@@ -1100,11 +1352,12 @@ free_transmit (GnomePilotConduitStandardAbs *conduit,
 	g_return_val_if_fail(local!=NULL,-1);
 	g_return_val_if_fail(remote!=NULL,-1);
 
-	free_Appointment(local->a);
+	/* free_Appointment(local->a); */ /* FIX ME is this needed? */
 	g_free((*remote)->record);
 	*remote = NULL;
         return 0;
 }
+
 
 static gint
 compare (GnomePilotConduitStandardAbs *conduit,
@@ -1118,9 +1371,10 @@ compare (GnomePilotConduitStandardAbs *conduit,
 	int retval;
 
 	/* used by the tedious compare */
-	//struct Appointment a; 
+	//struct Appointment a;
 
-	g_message ("entering compare");
+	printf ("compare: local=%s remote=%s...\n",
+		print_local (local), print_remote (remote));
 
 	g_return_val_if_fail (local!=NULL,-1);
 	g_return_val_if_fail (remote!=NULL,-1);
@@ -1130,13 +1384,23 @@ compare (GnomePilotConduitStandardAbs *conduit,
 
 	retval = 0;
 	if (remote->length == remoteOfLocal->length) {
-		if (memcmp(remoteOfLocal->record,remote->record,remote->length)!=0) {
-			g_message("compare failed on contents");
+		if (memcmp (remoteOfLocal->record,
+			    remote->record, remote->length)!=0) {
+			printf ("    compare failed on contents\n");
 			retval = 1;
 		}
 	} else {
 		g_message("compare failed on length");
 		retval = 1;
+	}
+
+
+	if (retval == 0) {
+		printf ("    match.\n");
+	} else {
+		/* debug spew */
+		printf ("        local:%s\n", print_remote (remoteOfLocal));
+		printf ("        remote:%s\n", print_remote (remote));
 	}
 
 	free_transmit(conduit,local,&remoteOfLocal,ctxt);	
@@ -1336,7 +1600,7 @@ compare_backup (GnomePilotConduitStandardAbs *conduit,
 		PilotRecord *remote,
 		GCalConduitContext *ctxt)
 {
-	LOG ("entering compare_backup");
+	printf ("compare_backup: doing nothing\n");
 
 	g_return_val_if_fail(local!=NULL,-1);
 	g_return_val_if_fail(remote!=NULL,-1);
@@ -1355,6 +1619,8 @@ delete_all (GnomePilotConduitStandardAbs *conduit,
 
 	events = get_calendar_objects(conduit,&error,ctxt);
 
+	printf ("delete_all: deleting all objects from desktop\n");
+
 	if (error == FALSE) return -1;
 	for (it=events; it; it = g_slist_next (it)) {
 		success = cal_client_remove_object (ctxt->client, it->data);
@@ -1370,12 +1636,41 @@ delete_all (GnomePilotConduitStandardAbs *conduit,
 }
 
 
+static ORBit_MessageValidationResult
+accept_all_cookies (CORBA_unsigned_long request_id,
+		    CORBA_Principal *principal,
+		    CORBA_char *operation)
+{
+	/* allow ALL cookies */
+	return ORBIT_MESSAGE_ALLOW_ALL;
+}
+
+
 GnomePilotConduit *
 conduit_get_gpilot_conduit (guint32 pilotId)
 {
 	GtkObject *retval;
 	GCalConduitCfg *cfg;
 	GCalConduitContext *ctxt;
+
+	printf ("in calendar's conduit_get_gpilot_conduit\n");
+
+	/* we need to find wombat with oaf, so make sure oaf
+	   is initialized here.  once the desktop is converted
+	   to oaf and gpilotd is built with oaf, this can go away */
+	if (! oaf_is_initialized ())
+	{
+		char *argv[ 1 ] = {"hi"};
+		oaf_init (1, argv);
+
+		if (bonobo_init (CORBA_OBJECT_NIL,
+				 CORBA_OBJECT_NIL,
+				 CORBA_OBJECT_NIL) == FALSE)
+			g_error (_("Could not initialize Bonobo"));
+
+		ORBit_set_request_validation_handler (accept_all_cookies);
+	}
+
 
 	retval = gnome_pilot_conduit_standard_abs_new ("DatebookDB", 0x64617465);
 	g_assert (retval != NULL);

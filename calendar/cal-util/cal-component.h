@@ -233,6 +233,12 @@ void cal_component_set_transparency (CalComponent *comp, CalComponentTransparenc
 void cal_component_get_url (CalComponent *comp, const char **url);
 void cal_component_set_url (CalComponent *comp, const char *url);
 
+void cal_component_get_pilot_id (CalComponent *comp, unsigned long *pilot_id);
+void cal_component_set_pilot_id (CalComponent *comp, unsigned long pilot_id);
+
+void cal_component_get_pilot_status (CalComponent *comp, unsigned long *pilot_status);
+void cal_component_set_pilot_status (CalComponent *comp, unsigned long pilot_status);
+
 /* Functions to free returned values */
 
 void cal_component_free_categories_list (GSList *categ_list);
