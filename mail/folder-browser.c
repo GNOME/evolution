@@ -1769,7 +1769,7 @@ on_right_click (ETree *tree, gint row, ETreePath path, gint col, GdkEvent *event
 	GtkMenu *menu;
 	struct _filter_data *fdata = NULL;
 	
-	if (fb->folder != sent_folder) {
+	if (!folder_browser_is_sent (fb)) {
 		enable_mask |= CAN_RESEND;
 		hide_mask |= CAN_RESEND;
 	}

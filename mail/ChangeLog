@@ -3,6 +3,8 @@
 	* folder-browser.c (on_right_click): Fix the filter_menu static
 	array to use the E_POPUP_MENU_CC macros since we plan on using
 	custom closures for this.
+	(on_right_click): Fixed so that you can "Edit as New" for any Sent
+	folder and not just the local Sent folder.
 
 2002-05-01  Not Zed  <NotZed@Ximian.com>
 
