@@ -804,7 +804,7 @@ popup_folder_menu (EStorageSetView *storage_set_view,
 	if (folder_property_items_data != NULL)
 		remove_property_items (storage_set_view, folder_property_items_data);
 
-	bonobo_ui_component_rm (priv->ui_component, EVOLUTION_SHELL_COMPONENT_POPUP_PLACEHOLDER "/ChangeFolderPropertiesPopUp", NULL);
+	bonobo_ui_component_rm (priv->ui_component, EVOLUTION_SHELL_COMPONENT_POPUP_PLACEHOLDER, NULL);
 
 	gtk_widget_destroy (GTK_WIDGET (menu));
 
