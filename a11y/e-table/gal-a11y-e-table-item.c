@@ -143,6 +143,47 @@ eti_a11y_get_gobject (AtkObject *accessible)
 }
 
 static void
+eti_a11y_reset_focus_object (GalA11yETableItem *a11y, ETableItem *item, gboolean notify)
+{
+	ESelectionModel * esm;
+	int cursor_row, cursor_col, view_row, view_col;
+	AtkObject *cell, *old_cell;
+
+	esm = item->selection;
+	g_return_if_fail (esm);
+
+	cursor_row = e_selection_model_cursor_row (esm);
+	cursor_col = e_selection_model_cursor_col (esm);
+
+	view_row = model_to_view_row (item, cursor_row);
+	view_col = model_to_view_col (item, cursor_col);
+
+	if (view_row == -1)
+		view_row = 0;
+	if (view_col == -1)
+		view_col = 0;
+
+	old_cell = (AtkObject *)g_object_get_data (G_OBJECT (a11y), "gail-focus-object");
+	if (old_cell && GAL_A11Y_IS_E_CELL (old_cell))
+		gal_a11y_e_cell_remove_state (GAL_A11Y_E_CELL (old_cell), ATK_STATE_FOCUSED, FALSE);
+	if (old_cell)
+		g_object_unref (old_cell);
+
+	cell = eti_ref_at (ATK_TABLE (a11y), view_row, view_col);
+
+	if (cell != NULL) {
+        	g_object_set_data (G_OBJECT (a11y), "gail-focus-object", cell);
+		gal_a11y_e_cell_add_state (GAL_A11Y_E_CELL (cell), ATK_STATE_FOCUSED, FALSE);
+	} else
+		g_object_set_data (G_OBJECT (a11y), "gail-focus-object", NULL);
+
+	if (notify)
+		g_signal_emit_by_name (a11y,
+				"active-descendant-changed",
+				cell);
+}
+
+static void
 eti_dispose (GObject *object)
 {
 	GalA11yETableItem *a11y = GAL_A11Y_E_TABLE_ITEM (object);
@@ -657,6 +698,7 @@ eti_rows_deleted (ETableModel * model, int row, int count,
 		  AtkObject * table_item)
 {
 	gint i,j, n_rows, n_cols, old_nrows;
+	ETableItem *item = E_TABLE_ITEM (atk_gobject_accessible_get_object (ATK_GOBJECT_ACCESSIBLE (table_item)));
 	
 	n_rows = atk_table_get_n_rows (ATK_TABLE(table_item));
         n_cols = atk_table_get_n_columns (ATK_TABLE(table_item));
@@ -678,6 +720,7 @@ eti_rows_deleted (ETableModel * model, int row, int count,
 		}
         }
 	g_signal_emit_by_name (table_item, "visible-data-changed");
+	eti_a11y_reset_focus_object ((GalA11yETableItem *)table_item, item, TRUE);
 }
 
 static void
@@ -961,7 +1004,6 @@ gal_a11y_e_table_item_new (ETableItem *item)
 	AtkObject *accessible;
 	int n;
 	ESelectionModel * esm;
-	AtkObject * cell;
 	AtkObject *parent;
 	const char *name;
 
@@ -1025,24 +1067,7 @@ gal_a11y_e_table_item_new (ETableItem *item)
 	esm = item->selection;
 
 	if (esm != NULL) {
-		int cursor_row, cursor_col, view_row, view_col;
-
-        	cursor_row = e_selection_model_cursor_row(esm);
-        	cursor_col = e_selection_model_cursor_col(esm);
-
-		view_row = model_to_view_row (item, cursor_row);
-		view_col = model_to_view_col (item, cursor_col);
-
-		if (view_row == -1)
-			view_row = 0;
-		if (view_col == -1)
-			view_col = 0;
-
-		cell = eti_ref_at (ATK_TABLE (a11y), view_row, view_col);
-		if (cell != NULL) {
-        		g_object_set_data (G_OBJECT(a11y), "gail-focus-object", cell);
-			gal_a11y_e_cell_add_state (GAL_A11Y_E_CELL (cell), ATK_STATE_FOCUSED, FALSE);
-		}
+		eti_a11y_reset_focus_object (a11y, item, FALSE);
 	}
 
 	return ATK_OBJECT (a11y);
@@ -1150,8 +1175,6 @@ static void
 eti_a11y_cursor_changed_cb (ESelectionModel *selection,
 			    int row, int col,  GalA11yETableItem *a11y)
 {
-	AtkObject * cell;
-	int view_row, view_col;
 	ETableItem *item;
 	GalA11yETableItemPrivate *priv = GET_PRIVATE (a11y);
 
@@ -1166,28 +1189,7 @@ eti_a11y_cursor_changed_cb (ESelectionModel *selection,
 
 	if (row == -1 && col == -1)
 		return;
-
-	view_row = model_to_view_row (item, row);
-	view_col = model_to_view_col (item, col);
-
-	if (view_col == -1)
-		view_col = 0;
-	cell = eti_ref_at (ATK_TABLE (a11y), view_row, view_col);
-	if (cell != NULL) {
-		AtkObject *old_cell = (AtkObject *)g_object_get_data (G_OBJECT(a11y), "gail-focus-object");
-		if (old_cell && GAL_A11Y_IS_E_CELL (old_cell))
-			gal_a11y_e_cell_remove_state (GAL_A11Y_E_CELL (old_cell), ATK_STATE_FOCUSED, FALSE);
-		if (old_cell)
-			g_object_unref (old_cell);
-
-        	g_object_set_data (G_OBJECT(a11y), "gail-focus-object", cell);
-
-        	if (ATK_IS_OBJECT (cell))
-                	g_signal_emit_by_name  (a11y,
-                                        "active-descendant-changed",
-                                        cell);
-	}
-
+	eti_a11y_reset_focus_object (a11y, item, TRUE);
 }
 
 /* atk selection */
