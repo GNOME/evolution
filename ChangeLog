@@ -1,5 +1,12 @@
 2000-04-13  Chris Toshok  <toshok@helixcode.com>
 
+	* addressbook/backend/ebook/test-card.c: add title field foo to
+	the test.
+
+	* addressbook/backend/ebook/e-card.c: reflect the title field.
+
+	* addressbook/backend/ebook/e-card.h: un-#if 0 the title field.
+
 	* addressbook/backend/pas/pas-backend-ldap.c (poll_ldap): new
 	function that polls ldap for more search responses.
 	(pas_backend_ldap_search): use the async search interface and

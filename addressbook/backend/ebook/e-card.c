@@ -32,6 +32,7 @@ enum {
 	ARG_EMAIL,
 	ARG_BIRTH_DATE,
 	ARG_URL,
+	ARG_TITLE,
 	ARG_ID
 };
 
@@ -59,6 +60,7 @@ static void parse_email(ECard *card, VObject *object);
 static void parse_phone(ECard *card, VObject *object);
 static void parse_address(ECard *card, VObject *object);
 static void parse_url(ECard *card, VObject *object);
+static void parse_title(ECard *card, VObject *object);
 static void parse_id(ECard *card, VObject *object);
 
 static ECardPhoneFlags get_phone_flags (VObject *vobj);
@@ -80,6 +82,7 @@ struct {
 	{ VCTelephoneProp,    parse_phone },
 	{ VCAdrProp,          parse_address },
 	{ VCURLProp,          parse_url },
+	{ VCTitleProp,        parse_title },
 	{ VCUniqueStringProp, parse_id }
 };
 
@@ -472,6 +475,14 @@ parse_url(ECard *card, VObject *vobj)
 }
 
 static void
+parse_title(ECard *card, VObject *vobj)
+{
+	if ( card->title )
+		g_free(card->title);
+	assign_string(vobj, &(card->title));
+}
+
+static void
 parse_id(ECard *card, VObject *vobj)
 {
 	if ( card->id )
@@ -525,6 +536,8 @@ e_card_class_init (ECardClass *klass)
 				 GTK_TYPE_POINTER, GTK_ARG_READWRITE, ARG_BIRTH_DATE);
 	gtk_object_add_arg_type ("ECard::url",
 				 GTK_TYPE_STRING, GTK_ARG_READWRITE, ARG_URL);  
+	gtk_object_add_arg_type ("ECard::title",
+				 GTK_TYPE_STRING, GTK_ARG_READWRITE, ARG_TITLE);  
 	gtk_object_add_arg_type ("ECard::id",
 				 GTK_TYPE_STRING, GTK_ARG_READWRITE, ARG_ID);
 
@@ -616,6 +629,9 @@ e_card_destroy (GtkObject *object)
 	if (card->url)
 		g_free(card->url);
 
+	if (card->title)
+		g_free(card->title);
+
 	if (card->email)
 		gtk_object_unref(GTK_OBJECT(card->email));
 	if (card->phone)
@@ -653,6 +669,11 @@ e_card_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 		if ( card->url )
 			g_free(card->url);
 		card->url = GTK_VALUE_STRING(*arg);
+		break;
+	case ARG_TITLE:
+		if ( card->title )
+			g_free(card->title);
+		card->title = GTK_VALUE_STRING(*arg);
 		break;
 	case ARG_ID:
 		if (card->id)
@@ -706,6 +727,9 @@ e_card_get_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 	case ARG_URL:
 		GTK_VALUE_STRING(*arg) = card->url;
 		break;
+	case ARG_TITLE:
+		GTK_VALUE_STRING(*arg) = card->title;
+		break;
 	case ARG_ID:
 		GTK_VALUE_STRING(*arg) = card->id;
 		break;
@@ -731,13 +755,13 @@ e_card_init (ECard *card)
 	card->phone = NULL;
 	card->address = NULL;
 	card->url = NULL;
+	card->title = NULL;
 #if 0
 
 	c = g_new0 (ECard, 1);
 	
 	c->fname      = 
 	c->mailer     = 
-	c->title      = 
 	c->role       = 
 	c->comment    = 
 	c->categories = 

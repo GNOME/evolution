@@ -43,10 +43,13 @@ struct _ECard {
 	char            *url;	        /* The person's web page.           */
 
 	ECardDate       *bday;	        /* The person's birthday.           */
-#if 0
 
+
+#if 0
 	ECardOrg        *org;	        /* The person's organization.       */
+#endif
 	char            *title;	        /* The person's title w/in his org  */
+#if 0
 	char            *role;	        /* The person's role w/in his org   */
 	ECardPhoto      *logo;          /* This person's org's logo.        */
 
