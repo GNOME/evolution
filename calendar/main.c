@@ -40,6 +40,14 @@ GList *all_calendars = NULL;
 
 static void new_calendar (char *full_name, char *calendar_file);
 
+/* For dumping part of a calendar */
+static time_t from_t, to_t;
+
+/* File to load instead of the user default's file */
+static char *load_file;
+
+/* If set, show events for the specified date and quit */
+static int show_events;
 
 void
 init_username (void)
@@ -263,7 +271,8 @@ save_calendar_cmd (GtkWidget *widget, void *data)
 }
 
 GnomeUIInfo gnome_cal_file_menu [] = {
-	{ GNOME_APP_UI_ITEM, N_("New calendar"),  NULL, new_calendar_cmd },
+	{ GNOME_APP_UI_ITEM, N_("New calendar"),  NULL, new_calendar_cmd, NULL, NULL,
+	  GNOME_APP_PIXMAP_STOCK, GNOME_STOCK_MENU_NEW },
 
 	{ GNOME_APP_UI_ITEM, N_("Open calendar..."), NULL, open_calendar_cmd, NULL, NULL,
 	  GNOME_APP_PIXMAP_STOCK, GNOME_STOCK_MENU_OPEN },
@@ -304,6 +313,9 @@ GnomeUIInfo gnome_cal_menu [] = {
 };
 
 GnomeUIInfo gnome_toolbar [] = {
+	{ GNOME_APP_UI_ITEM, N_("New"),  NULL, display_objedit, 0, 0,
+	  GNOME_APP_PIXMAP_STOCK, GNOME_STOCK_PIXMAP_NEW },\
+
 	{ GNOME_APP_UI_ITEM, N_("Prev"), NULL, previous_clicked, 0, 0,
 	  GNOME_APP_PIXMAP_STOCK, GNOME_STOCK_MENU_BACK },
 
@@ -342,12 +354,11 @@ new_calendar (char *full_name, char *calendar_file)
 	g_free (title);
 	setup_menu (toplevel);
 
-	if (calendar_file && g_file_exists (calendar_file)) {
-		printf ("Trying to load %s\n", calendar_file);
+	if (calendar_file && g_file_exists (calendar_file)) 
 		gnome_calendar_load (GNOME_CALENDAR (toplevel), calendar_file);
-	} else {
+	else
 		GNOME_CALENDAR (toplevel)->cal->filename = g_strdup (calendar_file);
-	}
+
 	gtk_signal_connect (GTK_OBJECT (toplevel), "delete_event",
 			    GTK_SIGNAL_FUNC(calendar_close_event), toplevel);
 	
@@ -355,6 +366,113 @@ new_calendar (char *full_name, char *calendar_file)
 	all_calendars = g_list_prepend (all_calendars, toplevel);
 	gtk_widget_show (toplevel);
 }
+
+static void
+process_dates (void)
+{
+	if (!from_t)
+		from_t = time_start_of_day (time (NULL));
+	
+	if (!to_t || to_t < from_t)
+		to_t = time_add_day (from_t, 1);
+}
+
+static struct argp_option argp_options [] = {
+	{ "events", 'e', NULL, 0, N_("Show events and quit"),                 0 },
+	{ "from ",  'f', N_("FROM"), 0, N_("Specifies start date [for --events]"),  1 },
+	{ "file",   'F', N_("FILE"), 0, N_("File to load calendar from"),           1 },
+	{ "to",     't', N_("TO"), 0, N_("Specifies ending date [for --events]"), 1 },
+	{ NULL, 0, NULL, 0, NULL, 0 },
+};
+
+int
+same_day (struct tm *a, struct tm *b)
+{
+	return (a->tm_mday == b->tm_mday &&
+		a->tm_mon  == b->tm_mon &&
+		a->tm_year == b->tm_year);
+}
+
+void
+dump_events (void)
+{
+	Calendar *cal;
+	GList *l;
+	char *s;
+	time_t now = time (NULL);
+	struct tm today = *localtime (&now);
+	
+	process_dates ();
+	init_calendar ();
+	
+	cal = calendar_new (full_name);
+	s = calendar_load (cal, load_file ? load_file : user_calendar_file);
+	if (s){
+		printf ("error: %s\n", s);
+		exit (1);
+	}
+	l = calendar_get_events_in_range (cal, from_t, to_t);
+	for (; l; l = l->next){
+		char start [80], end [80];
+		CalendarObject *co = l->data;
+		struct tm ts, te;
+		char *format;
+		
+		ts = *localtime (&co->ev_start);
+		te = *localtime (&co->ev_end);
+
+		if (same_day (&today, &ts))
+			format = "%H:%M";
+		else
+			format = "%A %d, %H:%M";
+		strftime (start, sizeof (start), format, &ts);
+
+		if (!same_day (&ts, &te))
+			format = "%A %d, %H:%M";
+		strftime (end,   sizeof (start), format, &te);
+		
+		printf ("%s -- %s\n", start, end);
+		printf ("  %s\n", co->ico->summary);
+	}
+	calendar_destroy_event_list (l);
+	calendar_destroy (cal);
+	exit (0);
+}
+
+static error_t
+parse_an_arg (int key, char *arg, struct argp_state *state)
+{
+	switch (key){
+	case 'f':
+		from_t = get_date (arg, NULL);
+		break;
+
+	case 't':
+		to_t = get_date (arg, NULL);
+		break;
+
+	case 'F':
+		load_file = arg;
+		break;
+
+	case 'e':
+		show_events = 1;
+		break;
+
+	case ARGP_KEY_END:
+		if (show_events)
+			dump_events ();
+
+	default:
+		return ARGP_ERR_UNKNOWN;
+	}
+	return 0;
+}
+
+static struct argp parser =
+{
+	argp_options, parse_an_arg, NULL, NULL, NULL, NULL, NULL
+};
 
 int 
 main(int argc, char *argv[])
@@ -366,12 +484,13 @@ main(int argc, char *argv[])
 	bindtextdomain(PACKAGE, GNOMELOCALEDIR);
 	textdomain(PACKAGE);
 
-	gnome_init ("gncal", NULL, argc, argv, 0, NULL);
+	gnome_init ("gncal", &parser, argc, argv, 0, NULL);
 
+	process_dates ();
 	alarm_init ();
 	init_calendar ();
 
-	new_calendar (full_name, user_calendar_file);
+	new_calendar (full_name, load_file ? load_file : user_calendar_file);
 	gtk_main ();
 	return 0;
 }

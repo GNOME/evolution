@@ -1,0 +1,42 @@
+<!-- Some simple instructions on how to use the help browser -->
+<BODY>
+<!-- <TITLE>GNOME Calendar Documentation</TITLE> -->
+<H2> GNOME Calendar Documentation </H2>
+<p>
+The GNOME calendar program is the calendaring program of the GNOME
+system.  It uses the vCalendar standard for transfering calendar
+information (and is also the on-disk format used). 
+
+<p>
+
+<a name="cmdline">
+<h2>Command line options</h2>
+
+Several options are available on the command line, they are:
+<ul>
+	<li><tt>--events</tt> Displays the events for the date
+	specified (or today, if no date is specified).
+
+	<li><tt>--from DATE</tt> Define the beginning of the range for
+	the event display, or the startup day on the calenday views.
+	By default, the event will span the whole day specified in
+	DATE. 
+
+	<li><tt>--to DATE</tt> Define the range end for the event
+	display.  If this is not specified, it will default to the end
+	of the day specified by the <tt>--from</tt> option.
+
+	<li><tt>--file FILE</tt> Set the calendar to the FILE
+	specified on the command line. 
+</ul>
+
+<p>
+
+DATE is interpreted as being in the local time- zone, unless a
+specific timezone is specified.  Examples of valid date specifications
+include: "1 month ago",  "2 hours ago",  "400000 seconds ago",  "last
+year", "last Monday",  "yesterday",  "a fortnight ago",  "3/31/92
+10:00:07 PST",  "January 23, 1987 10:05pm", "22:00 GMT".
+
+</BODY>
+

@@ -1,4 +1,5 @@
 SUBDIRS = versit
+help_base = $(datadir)/gnome/help/cal
 
 INCLUDES = 			\
 	-I$(includedir)					\
@@ -23,6 +24,7 @@ gnomecal_SOURCES = \
 	gncal-week-view.h	\
 	gncal-year-view.c	\
 	gncal-year-view.h	\
+	getdate.y		\
 	gnome-cal.c		\
 	gnome-cal.h		\
 	main.c			\
@@ -64,9 +66,17 @@ LINK_FLAGS = \
 gnomecal_LDADD = $(LINK_FLAGS)
 
 EXTRA_DIST = \
-	gncal.desktop
+	gncal.desktop	\
+	topic.dat	\
+	gnome-cal.html
+
 
 Productivitydir = $(datadir)/apps/Productivity
 
 Productivity_DATA = gncal.desktop
 
+install-data-local:
+	$(mkinstalldirs) $(help_base)/C
+	$(INSTALL_DATA)  $(srcdir)/topic.dat $(help_base)/C/topic.dat
+	$(INSTALL_DATA)  $(srcdir)/gnome-cal.html $(help_base)/C/gnome-cal.html
+	cd $(help_base)/C; ln -sf gnome-cal.html index.html	

@@ -1,5 +1,17 @@
 1998-04-18  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
+	* gnome-cal.html: Added small documentation.
+
+	* main.c: Add more icons to the menus;  Rename some menubar
+	entries;  Add `new' icon to the toolbar.
+	(dump_events): Added argument handling and dumping of events from
+	the command line.  Extremely cool.
+
+	* getdate.y: Taken from the CVS source code.  Used for date
+	parsing in the command line.
+
+	Internationalized getdate.y.  Wee!  It even works with spanish. 
+	
 	* calobj.c (ical_object_to_vobject): Add Quoted printable property
 	to items containing new lines. 
 	(duration): Use unsigned integers, to work around buggy calendar

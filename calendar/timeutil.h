@@ -35,6 +35,7 @@ time_t time_day_hour     (time_t t, int hour);
 time_t time_year_begin   (int    year);
 time_t time_year_end     (int    year);
 time_t time_week_begin   (time_t t);
+time_t parse_date        (char *str);
 
 void print_time_t (time_t t);
 
