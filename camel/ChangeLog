@@ -1,3 +1,8 @@
+2002-03-21  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-folder-summary.c (camel_message_info_new_from_header): Use
+	the date in the received header for the received_date.
+
 2002-03-19  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-mime-utils.c (header_encode_param): Fix this to work

@@ -2447,10 +2447,10 @@ CamelMessageInfo *
 camel_message_info_new_from_header (struct _header_raw *header)
 {
 	CamelMessageInfo *info;
-	char *subject, *from, *to, *cc, *date, *mlist;
+	char *subject, *from, *to, *cc, *mlist;
 	struct _header_content_type *ct = NULL;
-	const char *content, *charset = NULL;
-
+	const char *content, *date, *charset = NULL;
+	
 	if ((content = header_raw_find(&header, "Content-Type", NULL))
 	    && (ct = header_content_type_decode(content))
 	    && (charset = header_content_type_param(ct, "charset"))
@@ -2463,7 +2463,7 @@ camel_message_info_new_from_header (struct _header_raw *header)
 	from = summary_format_address(header, "from");
 	to = summary_format_address(header, "to");
 	cc = summary_format_address(header, "cc");
-	date = header_raw_find (&header, "Date", NULL);
+	date = header_raw_find(&header, "date", NULL);
 	mlist = header_raw_check_mailing_list(&header);
 
 	if (ct)
@@ -2477,8 +2477,19 @@ camel_message_info_new_from_header (struct _header_raw *header)
 	camel_message_info_set_cc(info, cc);
 	camel_message_info_set_mlist(info, mlist);
 	
-	info->date_sent = header_decode_date (date, NULL);
-	info->date_received = header_decode_date (date, NULL);
+	if (date)
+		info->date_sent = header_decode_date (date, NULL);
+	else
+		info->date_sent = time (NULL);
+	
+	date = header_raw_find (&header, "received", NULL);
+	if (date && (date = strrchr (date, ';')))
+		date++;
+	
+	if (date)
+		info->date_received = header_decode_date (date, NULL);
+	else
+		info->date_received = time (NULL);
 	
 	return info;
 }
