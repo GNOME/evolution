@@ -1,3 +1,9 @@
+2000-11-21  Federico Mena Quintero  <federico@helixcode.com>
+
+	* configure.in (EVOLUTION_DIR): Removed the
+	default_user/local/Tasks/Makefile until the relevant files are on
+	CVS.
+
 2000-11-18  Miguel de Icaza  <miguel@helixcode.com>
 
 	* Added widgets/menus that contains the gal-view-menus.c code from
