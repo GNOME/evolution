@@ -135,8 +135,8 @@ insert_paragraph_before (EditorListener *l, CORBA_Environment * ev)
 										ev);
 					GNOME_GtkHTML_Editor_Engine_runCommand (l->composer->editor_engine, "italic-off", ev);
 				}
+				CORBA_free (signature);
 			}
-			CORBA_free (signature);
 		}
 	}
 }
