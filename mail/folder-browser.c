@@ -25,7 +25,9 @@ static void
 folder_browser_destroy (GtkObject *object)
 {
 	FolderBrowser *folder_browser = FOLDER_BROWSER (object);
-	
+
+	camel_folder_sync (folder_browser->folder, FALSE, NULL);
+
 	if (folder_browser->shell) {
 		CORBA_Environment ev;
 

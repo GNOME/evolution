@@ -61,8 +61,6 @@ static const EvolutionShellComponentFolderType folder_types[] = {
 	{ NULL, NULL }
 };
 
-static GList *browsers;
-
 /* GROSS HACK: for passing to other parts of the program */
 EvolutionShellClient *global_shell_client = NULL;
 
@@ -89,8 +87,6 @@ create_view (EvolutionShellComponent *shell_component,
 
 	g_assert (folder_browser_widget != NULL);
 	g_assert (IS_FOLDER_BROWSER (folder_browser_widget));
-
-	browsers = g_list_prepend (browsers, folder_browser_widget);
 
 	/* dum de dum, hack to let the folder browser know the storage its in */
 	gtk_object_set_data (GTK_OBJECT (folder_browser_widget), "e-storage",
@@ -163,17 +159,6 @@ owner_set_cb (EvolutionShellComponent *shell_component,
 static void
 owner_unset_cb (EvolutionShellComponent *shell_component, gpointer user_data)
 {
-	FolderBrowser *fb;
-
-	/* Sync each open folder. We should do more cleanup than this,
-	 * but then, we shouldn't be just exiting here either. FIXME.
-	 */
-	while (browsers) {
-		fb = browsers->data;
-		camel_folder_sync (fb->folder, FALSE, NULL);
-		browsers = browsers->next;
-	}
-
 	gtk_main_quit ();
 }
 
