@@ -1,5 +1,14 @@
 2001-08-22  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-storage.c (e_storage_async_xfer_folder): If the remove_source
+	is %TRUE and destination is a descendant of the parent, pass an
+	`E_STORAGE_CANTMOVETODESCENDANT' error code to the callback.
+
+	* e-storage.h: New value `E_STORAGE_CANTMOVETODESCENDANT' in
+	`EStorageResult'.
+
+2001-08-22  Ettore Perazzoli  <ettore@ximian.com>
+
 	* e-shell-folder-commands.c
 	(folder_selection_dialog_folder_selected_callback): Actually
 	return if the folder is being moved into one of its descendants.

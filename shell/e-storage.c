@@ -467,6 +467,16 @@ e_storage_async_xfer_folder (EStorage *storage,
 	g_return_if_fail (destination_path != NULL);
 	g_return_if_fail (g_path_is_absolute (destination_path));
 
+	if (remove_source) {
+		int source_len;
+
+		source_len = strlen (source_path);
+		if (strncmp (destination_path, source_path, source_len) == 0) {
+			(* callback) (storage, E_STORAGE_CANTMOVETODESCENDANT, data);
+			return;
+		}
+	}
+
 	(* ES_CLASS (storage)->async_xfer_folder) (storage, source_path, destination_path, remove_source, callback, data);
 }
 
@@ -499,6 +509,8 @@ e_storage_result_to_string (EStorageResult result)
 		return _("The specified type is not supported in this storage");
 	case E_STORAGE_CANTCHANGESTOCKFOLDER:
 		return _("The specified folder cannot be modified or removed");
+	case E_STORAGE_CANTMOVETODESCENDANT:
+		return _("Cannot make a folder a child of one of its descendants");
 	default:
 		return _("Unknown error");
 	}
