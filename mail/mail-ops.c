@@ -543,14 +543,18 @@ do_transfer_messages (gpointer in_data, gpointer op_data, CamelException *ex)
 	transfer_messages_input_t *input = (transfer_messages_input_t *) in_data;
 	CamelFolder *dest;
 	gint i;
+	gchar *desc;
 	void (*func) (CamelFolder *, const char *, 
 		      CamelFolder *, 
 		      CamelException *);
 
-	if (input->delete_from_source)
+	if (input->delete_from_source) {
 		func = camel_folder_move_message_to;
-	else
+		desc = _("Moving");
+	} else {
 		func = camel_folder_copy_message_to;
+		desc = _("Copying");
+	}
 
 	dest = mail_tool_uri_to_folder (input->dest_uri, ex);
 	if (camel_exception_is_set (ex))
@@ -561,6 +565,9 @@ do_transfer_messages (gpointer in_data, gpointer op_data, CamelException *ex)
 	camel_folder_freeze (dest);
 
 	for (i = 0; i < input->uids->len; i++) {
+		mail_op_set_message (_("%s message %d of %d (uid \"%s\")"), desc,
+				     i + 1, input->uids->len, (char *) input->uids->pdata[i]);
+
 		(func) (input->source,
 			input->uids->pdata[i], dest,
 			ex);
@@ -680,6 +687,9 @@ do_flag_messages (gpointer in_data, gpointer op_data, CamelException *ex)
 	mail_tool_camel_lock_down ();
 
 	for (i = 0; i < input->uids->len; i++) {
+		mail_op_set_message ("Marking message %d of %d", i + 1,
+				     input->uids->len);
+
 		if (input->invert) {
 			const CamelMessageInfo *info;
 
@@ -856,6 +866,7 @@ do_scan_subfolders (gpointer in_data, gpointer op_data, CamelException *ex)
 	mail_tool_camel_lock_down ();
 	
 	for (i = 0; i < lsub->len; i++) {
+		mail_op_set_message (_("Found subfolder \"%s\""), (char *) lsub->pdata[i]);
 		info = g_new (scan_subfolders_folderinfo_t, 1);
 		info->path = g_strdup_printf ("/%s", (char *) lsub->pdata[i]);
 		info->uri = g_strdup_printf ("%s%s%s", input->source_uri, splice,
@@ -1147,6 +1158,8 @@ do_forward_messages (gpointer in_data, gpointer op_data, CamelException *ex)
 
 	mail_tool_camel_lock_up ();
 	for (i = 0; i < input->uids->len; i++) {
+		mail_op_set_message (_("Retrieving message number %d of %d (uid \"%s\")"),
+				     i + 1, input->uids->len, (char *) input->uids->pdata[i]);
 		message =
 			camel_folder_get_message (input->source,
 						  input->uids->pdata[i], ex);
@@ -1941,6 +1954,9 @@ do_view_messages (gpointer in_data, gpointer op_data, CamelException *ex)
 
 	for (i = 0; i < input->uids->len; i++) {
 		CamelMimeMessage *message;
+
+		mail_op_set_message (_("Retrieving message %d of %d (uid \"%s\")"),
+				     i + 1, input->uids->len, input->uids->pdata[i]);
 
 		mail_tool_camel_lock_up ();
 		message = camel_folder_get_message (input->folder, input->uids->pdata[i], ex);

@@ -322,7 +322,7 @@ mail_tool_move_folder_contents (CamelFolder *source, CamelFolder *dest, gboolean
 		
 		/* Append it to dest */
 
-		mail_op_set_message ("Writing message %d of %d", i, uids->len);
+		mail_op_set_message ("Writing message %d of %d", i + 1, uids->len);
 
 		info = camel_folder_get_message_info (source, uids->pdata[i]);
 		camel_folder_append_message (dest, msg, info, ex);
