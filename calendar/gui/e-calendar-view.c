@@ -1637,7 +1637,7 @@ e_calendar_view_modify_and_send (ECalComponent *comp,
 {
 	if (e_cal_modify_object (client, e_cal_component_get_icalcomponent (comp), mod, NULL)) {
 		if (itip_organizer_is_user (comp, client) &&
-				send_component_dialog (toplevel, client, comp, new)) {
+				send_component_dialog (toplevel, client, comp, new))
 			itip_send_comp (E_CAL_COMPONENT_METHOD_REQUEST, comp, client, NULL);
 	} else {
 		g_message (G_STRLOC ": Could not update the object!");
