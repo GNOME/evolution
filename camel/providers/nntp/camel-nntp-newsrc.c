@@ -65,14 +65,31 @@ camel_nntp_newsrc_group_add (CamelNNTPNewsrc *newsrc, const char *group_name, gb
 	return new_group;
 }
 
-static long
+static int
 camel_nntp_newsrc_group_get_highest_article_read(CamelNNTPNewsrc *newsrc, NewsrcGroup *group)
 {
-	if (group->ranges->len == 0)
+	if (!group || group->ranges->len == 0)
 		return 0;
 
 	return g_array_index(group->ranges, ArticleRange, group->ranges->len - 1).high;
 }
+
+static int
+camel_nntp_newsrc_group_get_num_articles_read(CamelNNTPNewsrc *newsrc, NewsrcGroup *group)
+{
+	int i;
+	int count = 0;
+
+	if (group == NULL)
+		return 0;
+
+	for (i = 0; i < group->ranges->len; i ++)
+		count += (g_array_index(group->ranges, ArticleRange, i).high -
+			  g_array_index(group->ranges, ArticleRange, i).low) + 1;
+
+	return count;
+}
+
 
 static void
 camel_nntp_newsrc_group_mark_range_read(CamelNNTPNewsrc *newsrc, NewsrcGroup *group, long low, long high)
@@ -167,6 +184,16 @@ camel_nntp_newsrc_get_highest_article_read (CamelNNTPNewsrc *newsrc, const char 
 	group = g_hash_table_lookup (newsrc->groups, group_name);
 
 	return camel_nntp_newsrc_group_get_highest_article_read (newsrc, group);
+}
+
+int
+camel_nntp_newsrc_get_num_articles_read (CamelNNTPNewsrc *newsrc, const char *group_name)
+{
+	NewsrcGroup *group;
+
+	group = g_hash_table_lookup (newsrc->groups, group_name);
+
+	return camel_nntp_newsrc_group_get_num_articles_read (newsrc, group);
 }
 
 void

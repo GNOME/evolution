@@ -111,8 +111,6 @@ camel_nntp_get_grouplist_from_file (CamelNNTPStore *store, CamelException *ex)
 	list->store = store;
 	sscanf (buf, "%d", &list->time);
 
-	printf ("time is %d\n", list->time);
-
 	while (fgets (buf, 300, fp)) {
 		CamelNNTPGroupListEntry *entry = g_new (CamelNNTPGroupListEntry, 1);
 		char **split_line = g_strsplit (buf, " ", 4);
@@ -123,12 +121,8 @@ camel_nntp_get_grouplist_from_file (CamelNNTPStore *store, CamelException *ex)
 
 		g_strfreev (split_line);
 
-		printf ("adding %s\n", entry->group_name);
-
 		list->group_list = g_list_append (list->group_list, entry);
 	}
-
-	printf ("done\n");
 
 	fclose (fp);
 

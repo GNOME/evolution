@@ -354,8 +354,10 @@ build_folder_info_from_grouplist (CamelNNTPStore *nntp_store)
 					   url->user ? url->user : "",
 					   url->user ? "@" : "",
 					   url->host, (char *)entry->group_name);
-		/* FIXME */
-		fi->message_count = fi->unread_message_count = -1;
+
+		fi->message_count = entry->high - entry->low;
+		fi->unread_message_count = (fi->message_count - 
+					    camel_nntp_newsrc_get_num_articles_read (nntp_store->newsrc, entry->group_name));
 
 		if (last)
 			last->sibling = fi;

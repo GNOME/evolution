@@ -1,3 +1,18 @@
+2000-10-10  Chris Toshok  <toshok@helixcode.com>
+
+	* providers/nntp/camel-nntp-store.c
+	(build_folder_info_from_grouplist): fill in message_count and
+	unread_message_count properly.
+
+	* providers/nntp/camel-nntp-newsrc.h: reformat.
+
+	* providers/nntp/camel-nntp-grouplist.c
+	(camel_nntp_get_grouplist_from_file): remove spew.
+
+	* providers/nntp/camel-nntp-newsrc.c
+	(camel_nntp_newsrc_group_get_num_articles_read): new function.
+	(camel_nntp_newsrc_group_get_highest_article_read): robustification.
+
 2000-10-10  Joe Shaw  <joe@helixcode.com>
 
 	* providers/imap/camel-imap-store.c 
