@@ -1,3 +1,7 @@
+2001-08-13  Anna Marie Dirks <anna@ximian.com>
+	* mail-accounts.c: Changed the title of the Mail Settings
+	dialog from "Evolution Account Manager" to "Mail Settings" .
+	
 2001-08-13  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-callbacks.c (expunge_folder): Confirm that the user really
@@ -155,6 +159,7 @@
 
 	* message-list.c (message_list_select): Fix inline documentation.
 
+>>>>>>> 1.1546
 2001-08-09  Anna Marie Dirks <anna@ximian.com>
 
 	Fixes bug #6918
