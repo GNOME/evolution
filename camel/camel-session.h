@@ -95,6 +95,10 @@ void            camel_session_register_provider       (CamelSession *session,
 GList *         camel_session_list_providers          (CamelSession *session,
 						       gboolean load);
 
+CamelProvider * camel_session_get_provider            (CamelSession *session,
+						       const char *url_string,
+						       CamelException *ex);
+
 CamelService *  camel_session_get_service             (CamelSession *session,
 						       const char *url_string,
 						       CamelProviderType type,

@@ -246,6 +246,63 @@ camel_session_list_providers (CamelSession *session, gboolean load)
 	return list;
 }
 
+static CamelProvider *
+get_provider_locked (CamelSession *session, const char *protocol,
+		     CamelException *ex)
+{
+	CamelProvider *provider;
+
+	provider = g_hash_table_lookup (session->providers, protocol);
+	if (!provider) {
+		/* See if there's one we can load. */
+		char *path;
+
+		path = g_hash_table_lookup (session->modules, protocol);
+		if (path) {
+			camel_provider_load (session, path, ex);
+			if (camel_exception_is_set (ex))
+				return NULL;
+		}
+		provider = g_hash_table_lookup (session->providers, protocol);
+	}
+
+	if (!provider) {
+		camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_URL_INVALID,
+				      _("No provider available for protocol `%s'"),
+				      protocol);
+	}
+
+	return provider;
+}
+
+/**
+ * camel_session_get_provider:
+ * @session: the session
+ * @url_string: the URL for the service whose provider you want
+ * @ex: a CamelException
+ *
+ * This returns the CamelProvider that would be used to handle
+ * @url_string, loading it in from disk if necessary.
+ *
+ * Return value: the provider, or %NULL, in which case @ex will be set.
+ **/
+CamelProvider *
+camel_session_get_provider (CamelSession *session, const char *url_string,
+			    CamelException *ex)
+{
+	CamelProvider *provider;
+	char *protocol;
+
+	protocol = g_strndup (url_string, strcspn (url_string, ":"));
+	CAMEL_SESSION_LOCK(session, lock);
+	provider = get_provider_locked (session, protocol, ex);
+	CAMEL_SESSION_UNLOCK(session, lock);
+	g_free (protocol);
+
+	return provider;
+}
+
+
 static void
 service_cache_remove (CamelService *service, gpointer event_data, gpointer user_data)
 {
@@ -298,27 +355,14 @@ camel_session_get_service (CamelSession *session, const char *url_string,
 	/* We need to look up the provider so we can then lookup
 	   the service in the provider's cache */
 	CAMEL_SESSION_LOCK(session, lock);
-	provider = g_hash_table_lookup (session->providers, url->protocol);
-	if (!provider) {
-		/* See if there's one we can load. */
-		char *path;
-
-		path = g_hash_table_lookup (session->modules, url->protocol);
-		if (path) {
-			camel_provider_load (session, path, ex);
-			if (camel_exception_is_set (ex)) {
-				camel_url_free (url);
-				CAMEL_SESSION_UNLOCK(session, lock);
-				return NULL;
-			}
-		}
-		provider = g_hash_table_lookup (session->providers, url->protocol);
-	}
-
-	if (!provider || !provider->object_types[type]) {
+	provider = get_provider_locked (session, url->protocol, ex);
+	if (provider && !provider->object_types[type]) {
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_URL_INVALID,
 				      _("No provider available for protocol `%s'"),
 				      url->protocol);
+		provider = NULL;
+	}
+	if (!provider) {
 		camel_url_free (url);
 		CAMEL_SESSION_UNLOCK(session, lock);
 		return NULL;

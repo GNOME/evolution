@@ -1,3 +1,8 @@
+2001-03-26  Dan Winship  <danw@ximian.com>
+
+	* camel-session.c (camel_session_get_provider): New. Return
+	the provider for a URL.
+
 2001-03-25  Dan Winship  <danw@ximian.com>
 
 	* camel-url.c (camel_url_new_with_base): New URL parser with full
