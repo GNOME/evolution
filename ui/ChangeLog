@@ -1,5 +1,11 @@
 2001-01-25  Ettore Perazzoli  <ettore@ximian.com>
 
+	* evolution-addressbook.xml, evolution-calendar.xml,
+	evolution-mail.xml, evolution-tasks.xml, evolution.xml: Change the
+	toolbars to only show some of the labels, a la Outlook.
+
+2001-01-25  Ettore Perazzoli  <ettore@ximian.com>
+
 	* evolution-mail.xml: Set the `pixtype' of the "PrintMessage" and
 	"PrintPreviewMessage" items to "pixbuf".  Likewise for
 	"MessageSaveAs", "MessageEdit", "MessagePrint", "MessageMove", "MessageReplySndr"
@@ -345,19 +351,3 @@
 	add back 2 stocks I lost somewhere.
 
 	* ui/evolution.xml: Add status bar
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-	
