@@ -108,6 +108,26 @@ put_html (GtkHTML *html, char *text)
 }
 
 
+/* Error helper */
+static void
+error_dialog (GtkWidget *parent_finder, const char *fmt, ...)
+{
+	GtkWidget *parent, *dialog;
+	char *msg;
+	va_list ap;
+
+	parent = gtk_widget_get_ancestor (parent_finder, GTK_TYPE_WINDOW);
+
+	ap = va_start (ap, fmt);
+	msg = g_strdup_vprintf (fmt, ap);
+	va_end (ap);
+
+	dialog = gnome_error_dialog_parented (msg, GTK_WINDOW (parent));
+	gtk_window_set_modal (GTK_WINDOW (dialog), TRUE);
+	g_free (msg);
+}
+
+
 /* Identity page */
 
 static void
@@ -147,12 +167,8 @@ identity_next (GnomeDruidPage *page, gpointer arg1, gpointer user_data)
 	data = gtk_entry_get_text (addr);
 	at = strchr (data, '@');
 	if (!at || !strchr (at + 1, '.')) {
-		GtkWidget *parent =
-			gtk_widget_get_ancestor (GTK_WIDGET (page),
-						 GTK_TYPE_WINDOW);
-		gnome_error_dialog_parented ("Email address must be of the "
-					     "form \"user@domain\".",
-					     GTK_WINDOW (parent));
+		error_dialog (GTK_WIDGET (page), "Email address must be "
+			      "of the form \"user@domain\".");
 		return TRUE;
 	}
 
@@ -424,13 +440,12 @@ get_service_url (GtkObject *table)
 static void
 autodetect_cb (GtkWidget *button, GtkObject *table)
 {
-	char *url, *err;
+	char *url;
 	CamelException *ex;
 	CamelService *service;
 	GList *authtypes;
 	GtkHTML *html;
 	GtkOptionMenu *optionmenu;
-	GtkWidget *parent;
 	int type;
 
 	type = GPOINTER_TO_UINT (gtk_object_get_data (table, "service_type"));
@@ -452,13 +467,57 @@ autodetect_cb (GtkWidget *button, GtkObject *table)
 	return;
 
  error:
-	err = g_strdup_printf ("Could not detect supported "
-			       "authentication types:\n%s",
-			       camel_exception_get_description (ex));
+	error_dialog (button, "Could not detect supported authentication "
+		      "types:\n%s", camel_exception_get_description (ex));
 	camel_exception_free (ex);
-	parent = gtk_widget_get_ancestor (button, GTK_TYPE_WINDOW);
-	gnome_error_dialog_parented (err, GTK_WINDOW (parent));
-	g_free (err);
+}
+
+static gboolean
+service_acceptable (GtkNotebook *notebook)
+{
+	char *url;
+	GtkWidget *table;
+	GtkToggleButton *check;
+	int page, type;
+	CamelService *service;
+	CamelException *ex;
+	gboolean ok;
+
+	page = gtk_notebook_get_current_page (notebook);
+	table = gtk_notebook_get_nth_page (notebook, page);
+	check = gtk_object_get_data (GTK_OBJECT (table), "check");
+	if (!check || !gtk_toggle_button_get_active (check))
+		return TRUE;
+
+	type = GPOINTER_TO_UINT (gtk_object_get_data (GTK_OBJECT (table),
+						      "service_type"));
+	url = get_service_url (GTK_OBJECT (table));
+
+	ex = camel_exception_new ();
+	service = camel_session_get_service (session, url, type, ex);
+	g_free (url);
+	if (camel_exception_get_id (ex) != CAMEL_EXCEPTION_NONE)
+		goto error;
+
+	ok = camel_service_connect (service, ex);
+	if (ok)
+		camel_service_disconnect (service, ex);
+	gtk_object_unref (GTK_OBJECT (service));
+
+	if (ok)
+		return TRUE;
+
+ error:
+	error_dialog (GTK_WIDGET (notebook),
+		      camel_exception_get_description (ex));
+	camel_exception_free (ex);
+	return FALSE;
+}
+
+static gboolean
+service_next (GnomeDruidPage *page, gpointer arg1, gpointer user_data)
+{
+	return !service_acceptable (user_data);
 }
 
 static void
@@ -900,6 +959,9 @@ mail_config_druid (void)
 	for (p = providers; p; p = p->next) {
 		CamelProvider *prov = p->data;
 
+		if (strcmp (prov->domain, "mail") != 0)
+			continue;
+
 		if (prov->object_types[CAMEL_PROVIDER_STORE]) {
 			sources = add_service (sources,
 					       CAMEL_PROVIDER_STORE,
@@ -972,6 +1034,10 @@ mail_config_druid (void)
 	gnome_druid_append_page (druid, GNOME_DRUID_PAGE (page));
 	gtk_signal_connect (GTK_OBJECT (page), "prepare", 
 			    GTK_SIGNAL_FUNC (prepare_service), dpage->vbox);
+	gtk_signal_connect (GTK_OBJECT (page), "next", 
+			    GTK_SIGNAL_FUNC (service_next),
+			    gtk_object_get_data (GTK_OBJECT (dpage->vbox),
+						 "notebook"));
 	gtk_widget_show (page);
 
 
@@ -989,6 +1055,10 @@ mail_config_druid (void)
 	gnome_druid_append_page (druid, GNOME_DRUID_PAGE (page));
 	gtk_signal_connect (GTK_OBJECT (page), "prepare", 
 			    GTK_SIGNAL_FUNC (prepare_service), dpage->vbox);
+	gtk_signal_connect (GTK_OBJECT (page), "next", 
+			    GTK_SIGNAL_FUNC (service_next),
+			    gtk_object_get_data (GTK_OBJECT (dpage->vbox),
+						 "notebook"));
 	gtk_widget_show (page);
 
 

@@ -1,5 +1,16 @@
 2000-05-28  Dan Winship  <danw@helixcode.com>
 
+	* mail-config.c (error_dialog): helper function since we need to
+	set "modal" on the dialogs returned by gnome_error_dialog to make
+	them work when popped up from the modal Druid.
+	(service_acceptable): New function to check if the info entered on
+	a store/transport page actually checks out.
+	(mail_config_druid): Connect to the "next" signal on the store and
+	transport pages and don't let the user continue if the data is
+	bad and "check this before continuing" is checked. Also, only
+	display sources/transports in the "mail" domain. (Ie, not
+	"vfolder".)
+
 	* mail-format.c (write_recipients_to_stream): Use `foo@bar' rather
 	than `<foo@bar>' for recipient with no name.
 
