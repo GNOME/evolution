@@ -923,8 +923,8 @@ e_tree_model_root_node_set_visible (ETreeModel *etm, gboolean visible)
 {
 	ETreeModelPriv *priv;
 
-	g_return_if_fail (etree != NULL);
-	g_return_if_fail (E_IS_TREE_MODEL (etree));
+	g_return_if_fail (etm != NULL);
+	g_return_if_fail (E_IS_TREE_MODEL (etm));
 
 	priv = etm->priv;
 	if (visible != priv->root_visible) {
@@ -957,8 +957,8 @@ e_tree_model_root_node_is_visible (ETreeModel *etm)
 {
 	ETreeModelPriv *priv;
 
-	g_return_val_if_fail (etree != NULL, FALSE);
-	g_return_val_if_fail (E_IS_TREE_MODEL (etree), FALSE);
+	g_return_val_if_fail (etm != NULL, FALSE);
+	g_return_val_if_fail (E_IS_TREE_MODEL (etm), FALSE);
 
 	priv = etm->priv;
 	return priv->root_visible;
@@ -1184,7 +1184,7 @@ e_tree_model_node_get_children (ETreeModel *etree, ETreePath *path, ETreePath **
 guint
 e_tree_model_node_num_visible_descendents (ETreeModel *etm, ETreePath *node)
 {
-	g_return_val_if_fail(node != NULL, 0)
+	g_return_val_if_fail(node != NULL, 0);
 	return node->visible_descendents;
 }
 
@@ -1241,7 +1241,7 @@ e_tree_model_node_insert (ETreeModel *tree_model,
 	ETreeModelPriv *priv;
 	ETreePath *new_path;
 
-	g_return_val_if_fail(tree_model != NULL, NULL)
+	g_return_val_if_fail(tree_model != NULL, NULL);
 
 	priv = tree_model->priv;
 
@@ -1350,7 +1350,7 @@ e_tree_model_node_insert_id (ETreeModel *tree_model,
 {
 	ETreePath *path;
 
-	g_return_val_if_fail(tree_model != NULL, NULL)
+	g_return_val_if_fail(tree_model != NULL, NULL);
 
 	path = e_tree_model_node_insert (tree_model, parent_path, position, node_data);
 
@@ -1379,7 +1379,7 @@ e_tree_model_node_insert_before (ETreeModel *etree,
 	ETreePath *child;
 	int position = 0;
 
-	g_return_val_if_fail(tree_model != NULL, NULL)
+	g_return_val_if_fail(etree != NULL, NULL);
 
 	for (child = parent->first_child; child; child = child->next_sibling) {
 		if (child == sibling)
@@ -1428,7 +1428,7 @@ e_tree_model_node_remove (ETreeModel *etree, ETreePath *path)
 	int row, visible = 0, base = 0;
 	gboolean dochanged;
 
-	g_return_val_if_fail(etree != NULL, NULL)
+	g_return_val_if_fail(etree != NULL, NULL);
 
 	/* work out what range of visible rows to remove */
 	if (parent) {
@@ -1710,7 +1710,7 @@ e_tree_model_node_set_compare_function (ETreeModel *tree_model,
 {
 	gboolean need_sort;
 
-	g_return_if_fail(etm != NULL);
+	g_return_if_fail (tree_model != NULL);
 	g_return_if_fail (E_TREE_MODEL (tree_model));
 	g_return_if_fail (node);
 
