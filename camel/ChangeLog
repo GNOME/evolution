@@ -1,3 +1,8 @@
+2004-06-17  Rodney Dawes  <dobey@novell.com>
+
+	* camel-mime-filter-tohtml.c: Add support for the webcal, callto, and
+	h323 URIs when we get them in mails
+
 2004-06-17  Jeffrey Stedfast  <fejj@novell.com>
 
 	* camel-mime-filter-tohtml.c: Don't foolishly unmunge From_
