@@ -302,7 +302,7 @@ setup_subscribe_folder (gpointer in_data, gpointer op_data, CamelException *ex)
 	subscribe_folder_data_t *data = (subscribe_folder_data_t *) op_data;
 	
 	data->path = storage_tree_path (input->info);
-	data->name = g_strdup (input->info->name);
+	data->name = g_strdup (input->info->full_name);
 	data->url = g_strdup (input->info->url);
 	
 	camel_object_ref (CAMEL_OBJECT (input->store));

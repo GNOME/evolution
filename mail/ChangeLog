@@ -1,3 +1,9 @@
+2000-12-04  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* subscribe-dialog.c (setup_subscribe_folder): Use info->full_name
+	rather than info->name so that we get the namespace part of the
+	folder path as well.
+
 2000-12-04  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* folder-browser-factory.c: Updated to define verbs
