@@ -1689,15 +1689,15 @@ e_text_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 		gdouble thisx = 0, thisy = 0;
 		gdouble thiswidth, thisheight;
 		GtkWidget *widget = GTK_WIDGET(item->canvas);
-		gtk_paint_flat_box (widget->style, drawable,
-				    GTK_WIDGET_STATE(widget), GTK_SHADOW_NONE,
-				    NULL, widget, "entry_bg", 
-				    0, 0, -1, -1);
 
 		gtk_object_get(GTK_OBJECT(text),
 			       "width", &thiswidth,
 			       "height", &thisheight,
 			       NULL);
+		gtk_paint_flat_box (widget->style, drawable,
+				    GTK_WIDGET_STATE(widget), GTK_SHADOW_NONE,
+				    NULL, widget, "entry_bg", 
+				    0, 0, thiswidth, thisheight);
 		if (text->editing) {
 			thisx += 1;
 			thisy += 1;
@@ -2554,7 +2554,7 @@ e_text_event (GnomeCanvasItem *item, GdkEvent *event)
 				if(!text->editing) {
 					text->editing = TRUE;
 					if ( text->pointer_in ) {
-						if ( text->default_cursor_shown ) {
+						if ( text->default_cursor_shown && (!text->draw_borders)) {
 							gdk_window_set_cursor(GTK_WIDGET(item->canvas)->window, text->i_cursor);
 							text->default_cursor_shown = FALSE;
 						}
@@ -2572,7 +2572,7 @@ e_text_event (GnomeCanvasItem *item, GdkEvent *event)
 				}
 			} else {
 				text->editing = FALSE;
-				if ( ! text->default_cursor_shown ) {
+				if ( (!text->default_cursor_shown) && (!text->draw_borders) ) {
 					gdk_window_set_cursor(GTK_WIDGET(item->canvas)->window, text->default_cursor);
 					text->default_cursor_shown = TRUE;
 				}
@@ -2717,7 +2717,7 @@ e_text_event (GnomeCanvasItem *item, GdkEvent *event)
 		}
 
 		text->pointer_in = TRUE;
-		if (text->editing) {
+		if (text->editing || text->draw_borders) {
 			if ( text->default_cursor_shown ) {
 				gdk_window_set_cursor(GTK_WIDGET(item->canvas)->window, text->i_cursor);
 				text->default_cursor_shown = FALSE;
@@ -2735,7 +2735,7 @@ e_text_event (GnomeCanvasItem *item, GdkEvent *event)
 		}
 		
 		text->pointer_in = FALSE;
-		if (text->editing) {
+		if (text->editing || text->draw_borders) {
 			if ( ! text->default_cursor_shown ) {
 				gdk_window_set_cursor(GTK_WIDGET(item->canvas)->window, text->default_cursor);
 				text->default_cursor_shown = TRUE;
