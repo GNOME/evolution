@@ -3623,7 +3623,7 @@ e_msg_composer_set_body (EMsgComposer *composer, const char *body,
 	
 	set_editor_text (composer, U_("<b>(The composer contains a non-text "
 				      "message body, which cannot be "
-				      "editted.)<b>"));
+				      "edited.)<b>"));
 	e_msg_composer_set_send_html (composer, FALSE);
 	disable_editor (composer);
 	
