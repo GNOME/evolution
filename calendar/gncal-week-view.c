@@ -8,7 +8,7 @@
 
 #include <config.h>
 #include <string.h>
-#include <gtk/gtklabel.h>
+#include <gtk/gtk.h>
 #include "gncal-week-view.h"
 #include "timeutil.h"
 

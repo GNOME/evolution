@@ -7,6 +7,7 @@
  */
 
 #include <config.h>
+#include <gtk/gtkmain.h>
 #include <libgnomeui/gnome-canvas-text.h>
 #include "year-view.h"
 #include "main.h"

@@ -5,6 +5,7 @@
  * Author: Federico Mena <quartic@gimp.org>
  */
 
+#include <gtk/gtkhseparator.h>
 #include "gncal-day-panel.h"
 #include "main.h"
 #include "timeutil.h"

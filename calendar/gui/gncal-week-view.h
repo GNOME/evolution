@@ -9,6 +9,7 @@
 #define WEEK_VIEW_H
 
 
+#include <gtk/gtkvbox.h>
 #include <gtk/gtktable.h>
 #include <gtk/gtkvbox.h>
 #include <libgnome/gnome-defs.h>

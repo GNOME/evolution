@@ -1,5 +1,5 @@
 /*
- * GnomeCalendar widget
+ * Main file for the GNOME Calendar program
  * Copyright (C) 1998 the Free Software Foundation
  *
  * Authors:
@@ -392,40 +392,52 @@ save_calendar_cmd (GtkWidget *widget, void *data)
 }
 
 static GnomeUIInfo gnome_cal_file_menu [] = {
-	GNOMEUIINFO_ITEM_STOCK (N_("New calendar"), NULL, new_calendar_cmd, GNOME_STOCK_MENU_NEW),
-	GNOMEUIINFO_ITEM_STOCK (N_("Open calendar..."), NULL, open_calendar_cmd, GNOME_STOCK_MENU_OPEN),
-	GNOMEUIINFO_ITEM_STOCK (N_("Save calendar"), NULL, save_calendar_cmd, GNOME_STOCK_MENU_SAVE),
-	GNOMEUIINFO_ITEM_STOCK (N_("Save calendar as..."), NULL, save_as_calendar_cmd, GNOME_STOCK_MENU_SAVE),
+	{ GNOME_APP_UI_ITEM, N_("_New calendar"), NULL, new_calendar_cmd, NULL, NULL,
+	  GNOME_APP_PIXMAP_STOCK, GNOME_STOCK_MENU_NEW, 'n', GDK_CONTROL_MASK, NULL },
+	{ GNOME_APP_UI_ITEM, N_("_Open calendar..."), NULL, open_calendar_cmd, NULL, NULL,
+	  GNOME_APP_PIXMAP_STOCK, GNOME_STOCK_MENU_OPEN, 'o', GDK_CONTROL_MASK, NULL },
+	{ GNOME_APP_UI_ITEM, N_("_Save calendar"), NULL, save_calendar_cmd, NULL, NULL,
+	  GNOME_APP_PIXMAP_STOCK, GNOME_STOCK_MENU_SAVE, 's', GDK_CONTROL_MASK, NULL },
+	{ GNOME_APP_UI_ITEM, N_("Save calendar _as..."), NULL, save_as_calendar_cmd, NULL, NULL,
+	  GNOME_APP_PIXMAP_STOCK, GNOME_STOCK_MENU_SAVE, 0, 0, NULL },
 
 	GNOMEUIINFO_SEPARATOR,
 
-	GNOMEUIINFO_ITEM_STOCK (N_("Preferences..."), NULL, properties, GNOME_STOCK_MENU_PREF),
+	{ GNOME_APP_UI_ITEM, N_("P_references..."), NULL, properties, NULL, NULL,
+	  GNOME_APP_PIXMAP_STOCK, GNOME_STOCK_MENU_PREF, 0, 0, NULL },
 
 	GNOMEUIINFO_SEPARATOR,
 
-	GNOMEUIINFO_ITEM_STOCK (N_("Close this calendar"), NULL, close_cmd, GNOME_STOCK_MENU_EXIT),
-	GNOMEUIINFO_ITEM_STOCK (N_("Exit"), NULL, quit_cmd, GNOME_STOCK_MENU_EXIT),
+	{ GNOME_APP_UI_ITEM, N_("_Close this calendar"), NULL, close_cmd, NULL, NULL,
+	  GNOME_APP_PIXMAP_STOCK, GNOME_STOCK_MENU_EXIT, 'w', GDK_CONTROL_MASK, NULL },
+	{ GNOME_APP_UI_ITEM, N_("E_xit"), NULL, quit_cmd, NULL, NULL,
+	  GNOME_APP_PIXMAP_STOCK, GNOME_STOCK_MENU_EXIT, 'x', GDK_CONTROL_MASK, NULL },
 
-	GNOMEUIINFO_END
-};
-
-static GnomeUIInfo gnome_cal_help_menu [] = {
-	GNOMEUIINFO_ITEM_STOCK (N_("About Gnomecal..."), NULL, about_calendar_cmd, GNOME_STOCK_MENU_ABOUT),
-	GNOMEUIINFO_SEPARATOR,
-	GNOMEUIINFO_HELP ("cal"),
 	GNOMEUIINFO_END
 };
 
 static GnomeUIInfo gnome_cal_edit_menu [] = {
-	GNOMEUIINFO_ITEM_STOCK (N_("New appointment..."), NULL, display_objedit, GNOME_STOCK_MENU_NEW),
-	GNOMEUIINFO_ITEM_STOCK (N_("New appointment for today..."), NULL, display_objedit_today, GNOME_STOCK_MENU_NEW),
+	{ GNOME_APP_UI_ITEM, N_("_New appointment..."), NULL, display_objedit, NULL, NULL,
+	  GNOME_APP_PIXMAP_STOCK, GNOME_STOCK_MENU_NEW, 0, 0, NULL },
+	{ GNOME_APP_UI_ITEM, N_("New appointment for _today..."), NULL, display_objedit_today, NULL, NULL,
+	  GNOME_APP_PIXMAP_STOCK, GNOME_STOCK_MENU_NEW, 0, 0, NULL },
+	GNOMEUIINFO_END
+};
+
+static GnomeUIInfo gnome_cal_help_menu [] = {
+	{ GNOME_APP_UI_ITEM, N_("_About Gnomecal..."), NULL, about_calendar_cmd, NULL, NULL,
+	  GNOME_APP_PIXMAP_STOCK, GNOME_STOCK_MENU_ABOUT, 0, 0, NULL },
+
+	GNOMEUIINFO_SEPARATOR,
+
+	GNOMEUIINFO_HELP ("cal"),
 	GNOMEUIINFO_END
 };
 
 static GnomeUIInfo gnome_cal_menu [] = {
-	GNOMEUIINFO_SUBTREE (N_("File"), &gnome_cal_file_menu),
-	GNOMEUIINFO_SUBTREE (N_("Edit"), &gnome_cal_edit_menu),
-	GNOMEUIINFO_SUBTREE (N_("Help"), &gnome_cal_help_menu),
+	GNOMEUIINFO_SUBTREE (N_("_File"), &gnome_cal_file_menu),
+	GNOMEUIINFO_SUBTREE (N_("_Edit"), &gnome_cal_edit_menu),
+	GNOMEUIINFO_SUBTREE (N_("_Help"), &gnome_cal_help_menu),
 	GNOMEUIINFO_END
 };
 

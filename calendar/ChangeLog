@@ -1,3 +1,7 @@
+1998-09-21  Federico Mena Quintero  <federico@nuclecu.unam.mx>
+
+	* main.c: Added underlined shortcuts and accelerators to the main menu.
+
 1998-09-16  Raja R Harinath  <harinath@cs.umn.edu>
 
 	* gncal-week-view.c (<gtk/gtklabel.h>): Include.
