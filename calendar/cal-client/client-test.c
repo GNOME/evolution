@@ -23,10 +23,9 @@
 #include <stdlib.h>
 #include <gtk/gtkmain.h>
 #include <gtk/gtksignal.h>
-#include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
-#include <libgnomeui/gnome-init.h>
-#include <liboaf/liboaf.h>
+#include <libgnome/gnome-init.h>
+#include <bonobo-activation/bonobo-activation.h>
 #include <bonobo/bonobo-main.h>
 #include "cal-client.h"
 #include "cal-util/cal-component.h"
@@ -221,10 +220,10 @@ main (int argc, char **argv)
 	bindtextdomain (PACKAGE, GNOMELOCALEDIR);
 	textdomain (PACKAGE);
 
-	gnome_init ("tl-test", VERSION, argc, argv);
+	gnome_program_init ("tl-test", VERSION, LIBGNOME_MODULE, argc, argv, NULL);
 	oaf_init (argc, argv);
 
-	if (!bonobo_init (CORBA_OBJECT_NIL, CORBA_OBJECT_NIL, CORBA_OBJECT_NIL)) {
+	if (!bonobo_init (&argc, argv)) {
 		g_message ("main(): could not initialize Bonobo");
 		exit (1);
 	}

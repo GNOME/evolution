@@ -21,11 +21,11 @@
 #ifndef CAL_LISTENER_H
 #define CAL_LISTENER_H
 
-#include <libgnome/gnome-defs.h>
+#include <gtk/gtkobject.h>
 #include <bonobo/bonobo-xobject.h>
 #include "evolution-calendar.h"
 
-BEGIN_GNOME_DECLS
+G_BEGIN_DECLS
 
 
 
@@ -101,6 +101,6 @@ void cal_listener_stop_notification (CalListener *listener);
 
 
 
-END_GNOME_DECLS
+G_END_DECLS
 
 #endif

@@ -21,12 +21,11 @@
 #ifndef CAL_QUERY_H
 #define CAL_QUERY_H
 
-#include <libgnome/gnome-defs.h>
 #include <gtk/gtkobject.h>
 
 #include "evolution-calendar.h"
 
-BEGIN_GNOME_DECLS
+G_BEGIN_DECLS
 
 
 
@@ -76,6 +75,6 @@ CalQuery *cal_query_new (GNOME_Evolution_Calendar_Cal cal,
 
 
 
-END_GNOME_DECLS
+G_END_DECLS
 
 #endif

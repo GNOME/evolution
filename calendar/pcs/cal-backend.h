@@ -24,7 +24,6 @@
 #ifndef CAL_BACKEND_H
 #define CAL_BACKEND_H
 
-#include <libgnome/gnome-defs.h>
 #include <cal-util/cal-util.h>
 #include <cal-util/cal-component.h>
 #include "pcs/evolution-calendar.h"
@@ -32,7 +31,7 @@
 #include "pcs/cal.h"
 #include "pcs/query.h"
 
-BEGIN_GNOME_DECLS
+G_BEGIN_DECLS
 
 
 
@@ -216,6 +215,6 @@ void cal_backend_obj_removed (CalBackend *backend, const char *uid);
 
 
 
-END_GNOME_DECLS
+G_END_DECLS
 
 #endif

@@ -23,10 +23,10 @@
 #ifndef CAL_BACKEND_UTIL_H
 #define CAL_BACKEND_UTIL_H
 
-#include <bonobo-conf/bonobo-config-database.h>
+#include <bonobo-config/bonobo-config-database.h>
 #include <pcs/cal-backend.h>
 
-BEGIN_GNOME_DECLS
+G_BEGIN_DECLS
 
 /*
  * CORBA utility functions
@@ -46,6 +46,6 @@ gboolean cal_backend_mail_account_get_default (Bonobo_ConfigDatabase db,
 gboolean cal_backend_mail_account_is_valid (Bonobo_ConfigDatabase db,
 					    char *user, char **name);
 
-END_GNOME_DECLS
+G_END_DECLS
 
 #endif

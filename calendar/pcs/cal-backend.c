@@ -48,7 +48,7 @@ static void cal_backend_class_init (CalBackendClass *class);
 
 static guint cal_backend_signals[LAST_SIGNAL];
 
-#define CLASS(backend) (CAL_BACKEND_CLASS (GTK_OBJECT (backend)->klass))
+#define CLASS(backend) (CAL_BACKEND_CLASS (G_OBJECT_GET_CLASS (backend)))
 
 
 
@@ -96,14 +96,14 @@ cal_backend_class_init (CalBackendClass *class)
 	cal_backend_signals[LAST_CLIENT_GONE] =
 		gtk_signal_new ("last_client_gone",
 				GTK_RUN_FIRST,
-				object_class->type,
+				G_TYPE_FROM_CLASS (object_class),
 				GTK_SIGNAL_OFFSET (CalBackendClass, last_client_gone),
 				gtk_marshal_NONE__NONE,
 				GTK_TYPE_NONE, 0);
 	cal_backend_signals[CAL_ADDED] =
 		gtk_signal_new ("cal_added",
 				GTK_RUN_FIRST,
-				object_class->type,
+				G_TYPE_FROM_CLASS (object_class),
 				GTK_SIGNAL_OFFSET (CalBackendClass, cal_added),
 				gtk_marshal_NONE__POINTER,
 				GTK_TYPE_NONE, 1,
@@ -111,7 +111,7 @@ cal_backend_class_init (CalBackendClass *class)
 	cal_backend_signals[OPENED] =
 		gtk_signal_new ("opened",
 				GTK_RUN_FIRST,
-				object_class->type,
+				G_TYPE_FROM_CLASS (object_class),
 				GTK_SIGNAL_OFFSET (CalBackendClass, opened),
 				gtk_marshal_NONE__ENUM,
 				GTK_TYPE_NONE, 1,
@@ -119,7 +119,7 @@ cal_backend_class_init (CalBackendClass *class)
 	cal_backend_signals[OBJ_UPDATED] =
 		gtk_signal_new ("obj_updated",
 				GTK_RUN_FIRST,
-				object_class->type,
+				G_TYPE_FROM_CLASS (object_class),
 				GTK_SIGNAL_OFFSET (CalBackendClass, obj_updated),
 				gtk_marshal_NONE__STRING,
 				GTK_TYPE_NONE, 1,
@@ -127,7 +127,7 @@ cal_backend_class_init (CalBackendClass *class)
 	cal_backend_signals[OBJ_REMOVED] =
 		gtk_signal_new ("obj_removed",
 				GTK_RUN_FIRST,
-				object_class->type,
+				G_TYPE_FROM_CLASS (object_class),
 				GTK_SIGNAL_OFFSET (CalBackendClass, obj_removed),
 				gtk_marshal_NONE__STRING,
 				GTK_TYPE_NONE, 1,

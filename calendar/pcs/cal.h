@@ -23,12 +23,12 @@
 #ifndef CAL_H
 #define CAL_H
 
-#include <libgnome/gnome-defs.h>
+#include <gtk/gtkobject.h>
 #include <bonobo/bonobo-xobject.h>
 #include "pcs/evolution-calendar.h"
 #include "pcs/cal-common.h"
 
-BEGIN_GNOME_DECLS
+G_BEGIN_DECLS
 
 
 
@@ -75,6 +75,6 @@ void  cal_forget_password (Cal *cal, const char *key);
 
 
 
-END_GNOME_DECLS
+G_END_DECLS
 
 #endif

@@ -23,10 +23,9 @@
 #ifndef CAL_CLIENT_TYPES_H
 #define CAL_CLIENT_TYPES_H
 
-#include <libgnome/gnome-defs.h>
 #include <cal-util/cal-component.h>
 
-BEGIN_GNOME_DECLS
+G_BEGIN_DECLS
 
 
 
@@ -44,7 +43,7 @@ typedef struct
 
 void cal_client_change_list_free (GList *list);
 
-END_GNOME_DECLS
+G_END_DECLS
 
 #endif
 

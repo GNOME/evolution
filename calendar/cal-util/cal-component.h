@@ -22,12 +22,12 @@
 #ifndef CAL_COMPONENT_H
 #define CAL_COMPONENT_H
 
-#include <libgnome/gnome-defs.h>
+#include <glib/gmacros.h>
 #include <time.h>
 #include <gtk/gtkobject.h>
 #include <ical.h>
 
-BEGIN_GNOME_DECLS
+G_BEGIN_DECLS
 
 
 
@@ -438,6 +438,6 @@ icalcomponent *cal_component_alarm_get_icalcomponent (CalComponentAlarm *alarm);
 
 
 
-END_GNOME_DECLS
+G_END_DECLS
 
 #endif

@@ -23,7 +23,7 @@
 
 #include <cal-client/cal-client.h>
 
-BEGIN_GNOME_DECLS
+G_BEGIN_DECLS
 
 #define CAL_CLIENT_MULTI_TYPE            (cal_client_multi_get_type ())
 #define CAL_CLIENT_MULTI(obj)            (GTK_CHECK_CAST ((obj), CAL_CLIENT_MULTI_TYPE, CalClientMulti))
@@ -99,6 +99,6 @@ void               cal_client_multi_generate_instances (CalClientMulti *multi,
 GSList            *cal_client_multi_get_alarms_in_range (CalClientMulti *multi,
 							 time_t start, time_t end);
 
-END_GNOME_DECLS
+G_END_DECLS
 
 #endif

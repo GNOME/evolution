@@ -21,12 +21,11 @@
 #ifndef QUERY_H
 #define QUERY_H
 
-#include <libgnome/gnome-defs.h>
 #include <bonobo/bonobo-xobject.h>
 #include "pcs/cal-common.h"
 #include "pcs/evolution-calendar.h"
 
-BEGIN_GNOME_DECLS
+G_BEGIN_DECLS
 
 
 
@@ -64,6 +63,6 @@ Query *query_new (CalBackend *backend,
 
 
 
-END_GNOME_DECLS
+G_END_DECLS
 
 #endif

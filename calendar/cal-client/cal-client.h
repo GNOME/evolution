@@ -21,13 +21,13 @@
 #ifndef CAL_CLIENT_H
 #define CAL_CLIENT_H
 
-#include <libgnome/gnome-defs.h>
+#include <glib/gmacros.h>
 #include <gtk/gtkobject.h>
 #include <cal-util/cal-recur.h>
 #include <cal-util/cal-util.h>
 #include <cal-client/cal-query.h>
 
-BEGIN_GNOME_DECLS
+G_BEGIN_DECLS
 
 
 
@@ -208,6 +208,6 @@ char* cal_client_get_component_as_string (CalClient *client,
 
 
 
-END_GNOME_DECLS
+G_END_DECLS
 
 #endif

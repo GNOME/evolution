@@ -22,9 +22,9 @@
 #ifndef CAL_COMMON_H
 #define CAL_COMMON_H
 
-#include <libgnome/gnome-defs.h>
+#include <glib/gmacros.h>
 
-BEGIN_GNOME_DECLS
+G_BEGIN_DECLS
 
 
 
@@ -36,6 +36,6 @@ typedef struct _CalClass CalClass;
 
 
 
-END_GNOME_DECLS
+G_END_DECLS
 
 #endif

@@ -24,7 +24,7 @@
 #include "cal-backend.h"
 #include "query.h"
 
-BEGIN_GNOME_DECLS
+G_BEGIN_DECLS
 
 #define QUERY_BACKEND_TYPE            (query_backend_get_type ())
 #define QUERY_BACKEND(obj)            (GTK_CHECK_CAST ((obj), QUERY_BACKEND_TYPE, QueryBackend))
@@ -50,6 +50,6 @@ QueryBackend *query_backend_new (Query *query, CalBackend *backend);
 GList        *query_backend_get_uids (QueryBackend *qb, CalObjType type);
 CalComponent *query_backend_get_object_component (QueryBackend *qb, const char *uid);
 
-END_GNOME_DECLS
+G_END_DECLS
 
 #endif

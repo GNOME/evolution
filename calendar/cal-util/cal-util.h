@@ -22,14 +22,13 @@
 #ifndef CAL_UTIL_H
 #define CAL_UTIL_H
 
-#include <libgnome/gnome-defs.h>
 #include <ical.h>
 #include <time.h>
 #include <glib.h>
 #include <cal-util/cal-component.h>
 #include <cal-util/cal-recur.h>
 
-BEGIN_GNOME_DECLS
+G_BEGIN_DECLS
 
 
 
@@ -88,7 +87,7 @@ char *cal_util_expand_uri (char *uri, gboolean tasks);
 void cal_util_add_timezones_from_component (icalcomponent *vcal_comp,
 					    CalComponent *comp);
 
-END_GNOME_DECLS
+G_END_DECLS
 
 #endif
 

@@ -93,7 +93,7 @@ cal_client_multi_class_init (CalClientMultiClass *klass)
 	cal_multi_signals[CAL_OPENED] =
 		gtk_signal_new ("cal_opened",
 				GTK_RUN_FIRST,
-				object_class->type,
+				G_TYPE_FROM_CLASS (object_class),
 				GTK_SIGNAL_OFFSET (CalClientMultiClass, cal_opened),
 				gtk_marshal_NONE__POINTER_INT,
 				GTK_TYPE_NONE, 2,
@@ -101,7 +101,7 @@ cal_client_multi_class_init (CalClientMultiClass *klass)
 	cal_multi_signals[OBJ_UPDATED] =
 		gtk_signal_new ("obj_updated",
 				GTK_RUN_FIRST,
-				object_class->type,
+				G_TYPE_FROM_CLASS (object_class),
 				GTK_SIGNAL_OFFSET (CalClientMultiClass, obj_updated),
 				gtk_marshal_NONE__POINTER_POINTER,
 				GTK_TYPE_NONE, 2,
@@ -109,7 +109,7 @@ cal_client_multi_class_init (CalClientMultiClass *klass)
 	cal_multi_signals[OBJ_REMOVED] =
 		gtk_signal_new ("obj_removed",
 				GTK_RUN_FIRST,
-				object_class->type,
+				G_TYPE_FROM_CLASS (object_class),
 				GTK_SIGNAL_OFFSET (CalClientMultiClass, obj_removed),
 				gtk_marshal_NONE__POINTER_POINTER,
 				GTK_TYPE_NONE, 2,
@@ -117,7 +117,7 @@ cal_client_multi_class_init (CalClientMultiClass *klass)
 	cal_multi_signals[CATEGORIES_CHANGED] =
 		gtk_signal_new ("categories_changed",
 				GTK_RUN_FIRST,
-				object_class->type,
+				G_TYPE_FROM_CLASS (object_class),
 				GTK_SIGNAL_OFFSET (CalClientMultiClass, categories_changed),
 				gtk_marshal_NONE__POINTER_POINTER,
 				GTK_TYPE_NONE, 2,
@@ -125,7 +125,7 @@ cal_client_multi_class_init (CalClientMultiClass *klass)
 	cal_multi_signals[FORGET_PASSWORD] =
 		gtk_signal_new ("forget_password",
 				GTK_RUN_FIRST,
-                                object_class->type,
+                                G_TYPE_FROM_CLASS (object_class),
                                 GTK_SIGNAL_OFFSET (CalClientMultiClass, forget_password),
                                 gtk_marshal_NONE__POINTER_POINTER,
                                 GTK_TYPE_NONE, 2,

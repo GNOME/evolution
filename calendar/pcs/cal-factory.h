@@ -21,12 +21,11 @@
 #ifndef CAL_FACTORY_H
 #define CAL_FACTORY_H
 
-#include <libgnome/gnome-defs.h>
 #include <bonobo/bonobo-xobject.h>
 
 #include "pcs/evolution-calendar.h"
 
-BEGIN_GNOME_DECLS
+G_BEGIN_DECLS
 
 
 
@@ -68,6 +67,6 @@ void        cal_factory_register_method (CalFactory *factory,
 int         cal_factory_get_n_backends  (CalFactory *factory);
 void        cal_factory_dump_active_backends   (CalFactory *factory);
 
-END_GNOME_DECLS
+G_END_DECLS
 
 #endif

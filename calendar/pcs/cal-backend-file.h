@@ -22,10 +22,9 @@
 #ifndef CAL_BACKEND_FILE_H
 #define CAL_BACKEND_FILE_H
 
-#include <libgnome/gnome-defs.h>
 #include "pcs/cal-backend.h"
 
-BEGIN_GNOME_DECLS
+G_BEGIN_DECLS
 
 
 
@@ -57,6 +56,6 @@ GtkType cal_backend_file_get_type (void);
 
 
 
-END_GNOME_DECLS
+G_END_DECLS
 
 #endif

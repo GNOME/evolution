@@ -21,10 +21,11 @@
 #ifndef QUERY_LISTENER_H
 #define QUERY_LISTENER_H
 
+#include <gtk/gtkobject.h>
 #include <bonobo/bonobo-xobject.h>
 #include "evolution-calendar.h"
 
-BEGIN_GNOME_DECLS
+G_BEGIN_DECLS
 
 
 
@@ -92,6 +93,6 @@ void query_listener_stop_notification (QueryListener *ql);
 
 
 
-END_GNOME_DECLS
+G_END_DECLS
 
 #endif

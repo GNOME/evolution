@@ -23,7 +23,6 @@
 #endif
 
 #include <glib.h>
-#include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
 #include <gtk/gtksignal.h>
 #include <cal-util/cal-component.h>

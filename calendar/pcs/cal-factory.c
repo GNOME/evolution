@@ -23,7 +23,7 @@
 #include <ctype.h>
 #include <stdio.h>
 #include <gtk/gtksignal.h>
-#include <liboaf/liboaf.h>
+#include <bonobo-activation/bonobo-activation.h>
 #include "e-util/e-url.h"
 #include "evolution-calendar.h"
 #include "cal.h"
@@ -618,7 +618,7 @@ cal_factory_destroy (GtkObject *object)
 	priv->backends = NULL;
 
 	if (priv->registered) {
-		oaf_active_server_unregister (priv->iid, BONOBO_OBJREF (factory));
+		bonobo_activation_active_server_unregister (priv->iid, BONOBO_OBJREF (factory));
 		priv->registered = FALSE;
 	}
 	g_free (priv->iid);
@@ -642,7 +642,7 @@ cal_factory_class_init (CalFactoryClass *klass)
 	signals[LAST_CALENDAR_GONE] =
 		gtk_signal_new ("last_calendar_gone",
 				GTK_RUN_FIRST,
-				object_class->type,
+				G_TYPE_FROM_CLASS (object_class),
 				GTK_SIGNAL_OFFSET (CalFactoryClass, last_calendar_gone),
 				gtk_marshal_NONE__NONE,
 				GTK_TYPE_NONE, 0);
@@ -705,7 +705,7 @@ gboolean
 cal_factory_oaf_register (CalFactory *factory, const char *iid)
 {
 	CalFactoryPrivate *priv;
-	OAF_RegistrationResult result;
+	Bonobo_RegistrationResult result;
 	char *tmp_iid;
 
 	g_return_val_if_fail (factory != NULL, FALSE);
@@ -721,25 +721,25 @@ cal_factory_oaf_register (CalFactory *factory, const char *iid)
 	else
 		tmp_iid = g_strdup (DEFAULT_CAL_FACTORY_OAF_ID);
 
-	result = oaf_active_server_register (tmp_iid, BONOBO_OBJREF (factory));
+	result = bonobo_activation_active_server_register (tmp_iid, BONOBO_OBJREF (factory));
 
 	switch (result) {
-	case OAF_REG_SUCCESS:
+	case Bonobo_ACTIVATION_REG_SUCCESS:
 		priv->registered = TRUE;
 		priv->iid = tmp_iid;
 		return TRUE;
 
-	case OAF_REG_NOT_LISTED:
+	case Bonobo_ACTIVATION_REG_NOT_LISTED:
 		g_message ("cal_factory_oaf_register(): Cannot register the calendar factory: "
 			   "not listed");
 		break;
 
-	case OAF_REG_ALREADY_ACTIVE:
+	case Bonobo_ACTIVATION_REG_ALREADY_ACTIVE:
 		g_message ("cal_factory_oaf_register(): Cannot register the calendar factory: "
 			   "already active");
 		break;
 
-	case OAF_REG_ERROR:
+	case Bonobo_ACTIVATION_REG_ERROR:
 	default:
 		g_message ("cal_factory_oaf_register(): Cannot register the calendar factory: "
 			   "generic error");

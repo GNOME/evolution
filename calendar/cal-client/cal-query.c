@@ -110,7 +110,7 @@ cal_query_class_init (CalQueryClass *class)
 	query_signals[OBJ_UPDATED] =
 		gtk_signal_new ("obj_updated",
 				GTK_RUN_FIRST,
-				object_class->type,
+				G_TYPE_FROM_CLASS (object_class),
 				GTK_SIGNAL_OFFSET (CalQueryClass, obj_updated),
 				marshal_obj_updated,
 				GTK_TYPE_NONE, 4,
@@ -121,7 +121,7 @@ cal_query_class_init (CalQueryClass *class)
 	query_signals[OBJ_REMOVED] =
 		gtk_signal_new ("obj_removed",
 				GTK_RUN_FIRST,
-				object_class->type,
+				G_TYPE_FROM_CLASS (object_class),
 				GTK_SIGNAL_OFFSET (CalQueryClass, obj_removed),
 				gtk_marshal_NONE__STRING,
 				GTK_TYPE_NONE, 1,
@@ -129,7 +129,7 @@ cal_query_class_init (CalQueryClass *class)
 	query_signals[QUERY_DONE] =
 		gtk_signal_new ("query_done",
 				GTK_RUN_FIRST,
-				object_class->type,
+				G_TYPE_FROM_CLASS (object_class),
 				GTK_SIGNAL_OFFSET (CalQueryClass, query_done),
 				marshal_query_done,
 				GTK_TYPE_NONE, 2,
@@ -138,7 +138,7 @@ cal_query_class_init (CalQueryClass *class)
 	query_signals[EVAL_ERROR] =
 		gtk_signal_new ("eval_error",
 				GTK_RUN_FIRST,
-				object_class->type,
+				G_TYPE_FROM_CLASS (object_class),
 				GTK_SIGNAL_OFFSET (CalQueryClass, eval_error),
 				gtk_marshal_NONE__STRING,
 				GTK_TYPE_NONE, 1,
