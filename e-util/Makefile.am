@@ -7,7 +7,7 @@ INCLUDES =					\
 	$(GNOME_INCLUDEDIR)			\
 	$(EXTRA_GNOME_CFLAGS)			\
 	$(UNICODE_CFLAGS)			\
-	$(PISOCK_INCLUDEDIR)			\
+	$(PISOCK_CFLAGS)			\
 	-DEVOLUTION_IMAGES=\""$(imagesdir)"\"	\
 	-DG_LOG_DOMAIN=\"e-utils\"
 

@@ -1,3 +1,7 @@
+2001-03-12  JP Rosevear  <jpr@ximian.com>
+
+	* Makefile.am: update cflag macros
+
 2001-03-07  Dan Winship  <danw@ximian.com>
 
 	* e-html-utils.c (url_extract): Fix an off-by-one in the "is this
