@@ -40,5 +40,6 @@ void         e_table_state_save_to_file      (ETableState   *state,
 char        *e_table_state_save_to_string    (ETableState   *state);
 xmlNode     *e_table_state_save_to_node      (ETableState   *state,
 					      xmlNode       *parent);
+ETableState *e_table_state_duplicate         (ETableState *spec);
 
 #endif /* _E_TABLE_STATE_H_ */

@@ -228,7 +228,7 @@ e_table_specification_save_to_file (ETableSpecification *specification,
 {
 	xmlDoc *doc;
 
-	doc = xmlNewDoc (NULL);
+	doc = xmlNewDoc ("1.0");
 	xmlDocSetRootElement (doc, e_table_specification_save_to_node (specification, doc));
 	return xmlSaveFile (filename, doc);
 }
@@ -251,7 +251,7 @@ e_table_specification_save_to_string (ETableSpecification *specification)
 	int length;
 	xmlDoc *doc;
 
-	doc = xmlNewDoc (NULL);
+	doc = xmlNewDoc ("1.0");
 	xmlDocSetRootElement (doc, e_table_specification_save_to_node (specification, doc));
 	xmlDocDumpMemory (doc, &string, &length);
 

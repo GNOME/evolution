@@ -86,7 +86,7 @@ config_sort_config_show (GtkWidget *widget, ETableConfig *config)
 			etcf, FALSE, FALSE, 0);
 		gnome_dialog_set_parent (
 			GNOME_DIALOG (config->sort_dialog),
-			GTK_WINDOW(config));
+			GTK_WINDOW(config->dialog_toplevel));
 
 		gtk_signal_connect (
 			GTK_OBJECT (config->sort_dialog), "destroy",
@@ -117,7 +117,7 @@ config_group_config_show (GtkWidget *widget, ETableConfig *config)
 							   TRUE));
 		gtk_box_pack_start(GTK_BOX(GNOME_DIALOG(config->group_dialog)->vbox), etcf, FALSE, FALSE, 0);
 		gnome_dialog_set_parent(GNOME_DIALOG(config->group_dialog),
-					GTK_WINDOW(config));
+					GTK_WINDOW(config->dialog_toplevel));
 
 		gtk_signal_connect(GTK_OBJECT(config->group_dialog), "destroy",
 				   GTK_SIGNAL_FUNC(config_clear_group), config);
@@ -212,7 +212,7 @@ config_fields_info_update (ETableConfig *config)
 	int i, items = 0;
 
 	for (i = 0; i < config->state->col_count; i++){
-		for (column = config->spec->columns; *column; *column++){
+		for (column = config->spec->columns; *column; column++){
 
 			if (config->state->columns [i] != (*column)->model_col)
 				continue;
@@ -339,6 +339,16 @@ e_table_config_construct (ETableConfig        *config,
 	return E_TABLE_CONFIG (config);
 }
 
+/**
+ * e_table_config_new:
+ * @header: The title of the dialog for the ETableConfig.
+ * @spec: The specification for the columns to allow.
+ * @state: The current state of the configuration.
+ *
+ * Creates a new ETable config object.
+ *
+ * Returns: The config object.
+ */
 ETableConfig *
 e_table_config_new (const char          *header,
 		    ETableSpecification *spec,
@@ -355,6 +365,12 @@ e_table_config_new (const char          *header,
 	return E_TABLE_CONFIG (config);
 }
 
+/**
+ * e_table_config_raise:
+ * @config: The ETableConfig object.
+ *
+ * Raises the dialog associated with this ETableConfig object.
+ */
 void
 e_table_config_raise (ETableConfig *config)
 {

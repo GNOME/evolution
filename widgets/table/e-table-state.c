@@ -46,6 +46,7 @@ etst_init (ETableState *state)
 {
 	state->columns = NULL;
 	state->expansions = NULL;
+	state->sort_info = e_table_sort_info_new();
 }
 
 E_MAKE_TYPE(e_table_state, "ETableState", ETableState, etst_class_init, etst_init, PARENT_TYPE);
@@ -152,7 +153,7 @@ e_table_state_save_to_string    (ETableState *state)
 	int length;
 	xmlDoc *doc;
 
-	doc = xmlNewDoc(NULL);
+	doc = xmlNewDoc("1.0");
 	xmlDocSetRootElement(doc, e_table_state_save_to_node(state, NULL));
 	xmlDocDumpMemory(doc, &string, &length);
 	xmlFreeDoc(doc);
@@ -191,4 +192,24 @@ e_table_state_save_to_node      (ETableState *state,
 	e_table_sort_info_save_to_node(state->sort_info, node);
 
 	return node;
+}
+
+/**
+ * e_table_state_duplicate:
+ * @state: state to duplicate
+ *
+ * This creates a copy of the %ETableState @state
+ *
+ * Returns: The duplicated %ETableState.
+ */
+ETableState *
+e_table_state_duplicate (ETableState *state)
+{
+	ETableState *new_state = e_table_state_new ();
+	char *state_str = e_table_state_save_to_string (state);
+
+	printf ("This is the state: \n%s\n", state_str);
+	e_table_state_load_from_string (new_state, state_str);
+	
+	return new_state;
 }
