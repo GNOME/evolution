@@ -1,3 +1,7 @@
+2000-10-27  Christopher James Lahey  <clahey@helixcode.com>
+
+	* configure.in: Require gal cvs version.
+
 2000-10-27    <jpr@helixcode.com>
 
 	* tools/killev: Kill executive summary components
