@@ -1,3 +1,31 @@
+Evolution 2.2.0, 2005-03-07
+---------------------------
+
+Bugzilla bugs fixed (see http://bugzilla.ximian.com/show_bug.cgi):
+
+ * Addressbook
+   #73152 - Assigning Color To Default Personal Contacts, Creates Duplicate (Siva)
+
+ * Calendar
+   #72835 - Alarm notify crashes always (Rodrigo)
+   #73152 - Assigning Color To Default Personal Calendar, Creates Duplicate (Siva)
+
+Other bugs
+
+ * Plugins
+   - Fix exchange plugin description for OOF (Sushma)
+
+Updated translations:
+	- pt_BR (Raphael Higino)
+	- hu (Laszlo Dvornik)
+	- sr (Danilo Segan, Igor Nestorovic)
+	- sr@Latn (Danilo Segan, Igor Nestorovic)
+	- nl (Tino Meinen)
+	- lt (Zygimantas Berucka)
+	- sq (Gintautas Miliauskas, Laurent Dhima)
+	- ja (Takeshi AIHANA)
+	- bg (Iassen Pramataro)
+
 Evolution 2.1.6, 2005-02-28
 ---------------------------
 

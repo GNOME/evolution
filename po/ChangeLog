@@ -7,21 +7,46 @@
 
 	* pt_BR.po: Updated Brazilian Portuguese translation.
 
-2005-03-04  Laszlo Dvornik  <dvornik@gnome.hu>
+2005-03-05  Laszlo Dvornik  <dvornik@gnome.hu>
 
 	* hu.po: Hungarian translation updated by Gabor Kelemen.
 
-2005-03-04  Ilkka Tuohela  <hile@iki.fi>
+2005-03-05  Danilo Šegan  <dsegan@gmx.net>
 
-	* fi.po: Updated Finnish translation.
+	* sr.po, sr@Latn.po: Another update.
+
+2005-03-05  Danilo Šegan  <dsegan@gmx.net>
+
+	* sr.po, sr@Latn.po: Updated Serbian translation by Igor
+	Nestorović.
+
+2005-03-05  Vincent van Adrighem  <adrighem@gnome.org>
+
+	* nl.po: Translation updated by Tino Meinen.
+
+2005-03-04  Žygimantas Beručka  <uid0@akl.lt>
+
+	* lt.po: Updated Lithuanian translation by Gintautas Miliauskas.
+
+2005-03-04  Laurent Dhima  <laurenti@alblinux.net>
+
+	* sq.po: Updated Albanian translation.
+
+2005-03-04  Vincent van Adrighem  <adrighem@gnome.org>
+
+	* nl.po: Translation updated by Tino Meinen.
+
+2005-03-02  Vincent van Adrighem  <adrighem@gnome.org>
+
+	* nl.po: Translation updated by Tino Meinen.
 
 2005-03-02  Laurent Dhima  <laurenti@alblinux.net>
 
 	* sq.po: Updated Albanian translation.
 
-2005-03-01  Laurent Dhima  <laurenti@alblinux.net>
+2005-03-02  Takeshi AIHANA <aihana@jcom.home.ne.jp>
 
-	* sq.po: Updated Albanian translation.
+	* ja.po: Updated Japanese translation.
 
 2005-02-28  Marco Ciampa <ciampix@libero.it>
 

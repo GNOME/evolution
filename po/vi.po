@@ -1,19 +1,21 @@
+# translation of vi.po to 
 # Copyright (C) 2002 Free Software Foundattion, Inc.
 # This file is distributed under the same license as the evolution package.
-# pclouds <pclouds@gmx.net>, 2002-2004.
+# pclouds <pclouds@gmx.net>, 2002-2004, 2005.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: evolution VERSION\n"
+"Project-Id-Version: vi\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2004-08-13 14:55-0400\n"
-"PO-Revision-Date: 2004-10-10 18:54+0700\n"
-"Last-Translator: pclouds <pclouds@vnlinux.org>\n"
-"Language-Team: GnomeVI <gnomevi-list@lists.sourceforge.net>\n"
+"PO-Revision-Date: 2005-03-05 02:42+0700\n"
+"Last-Translator: \n"
+"Language-Team:  <en@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: KBabel 1.9.1\n"
 
 #: a11y/addressbook/ea-addressbook-view.c:94
 #: a11y/addressbook/ea-addressbook-view.c:103
@@ -215,8 +217,7 @@ msgstr "Sổ địa chỉ evolution kết thúc bất ngờ."
 
 #. addressbook:backend-died secondary
 #: addressbook/addressbook-errors.xml.h:55
-msgid ""
-"Your contacts for {0} will not be available until Evolution is restarted."
+msgid "Your contacts for {0} will not be available until Evolution is restarted."
 msgstr ""
 "Liên lạc cho {0} của bạn không thể sử dụng cho tới khi khởi động lại "
 "Evolution."
@@ -576,8 +577,7 @@ msgid "Email address"
 msgstr "Địa chỉ email"
 
 #: addressbook/gui/component/ldap-config.glade.h:21
-msgid ""
-"Evolution will use this email address to authenticate you with the server."
+msgid "Evolution will use this email address to authenticate you with the server."
 msgstr "Evolution dùng địa chỉ email này để xác thực bạn với máy chủ."
 
 #: addressbook/gui/component/ldap-config.glade.h:22
@@ -3441,20 +3441,16 @@ msgid "Export in asynchronous mode "
 msgstr "Xuất theo chế độ không đồng bộ "
 
 #: addressbook/tools/evolution-addressbook-export.c:63
-msgid ""
-"The number of cards in one output file in asychronous mode,default size 100."
-msgstr ""
-"Số card trong tập tin kết xuất trong chế độ không đồng bộ, mặc định là 100."
+msgid "The number of cards in one output file in asychronous mode,default size 100."
+msgstr "Số card trong tập tin kết xuất trong chế độ không đồng bộ, mặc định là 100."
 
 #: addressbook/tools/evolution-addressbook-export.c:63
 msgid "NUMBER"
 msgstr "SỐ"
 
 #: addressbook/tools/evolution-addressbook-export.c:91
-msgid ""
-"Command line arguments error, please use --help option to see the usage."
-msgstr ""
-"Lỗi tham số dòng lệnh, vui lòng dùng tùy chọn --help để xem cách sử dụng."
+msgid "Command line arguments error, please use --help option to see the usage."
+msgstr "Lỗi tham số dòng lệnh, vui lòng dùng tùy chọn --help để xem cách sử dụng."
 
 #: addressbook/tools/evolution-addressbook-export.c:105
 msgid "Only support csv or vcard format."
@@ -3522,8 +3518,7 @@ msgstr "Bạn có chắc muốn xóa cuộc họp này không?"
 
 #. calendar:prompt-delete-meeting secondary
 #: calendar/calendar-errors.xml.h:10
-msgid ""
-"All information on this meeting will be deleted and can not be restored."
+msgid "All information on this meeting will be deleted and can not be restored."
 msgstr "Mọi thông tin của cuộc họp này sẽ bị xóa và không thể được phục hồi."
 
 #. calendar:prompt-cancel-task secondary
@@ -3572,8 +3567,7 @@ msgstr "Bạn có chắc muốn xóa mục nhật ký này không?"
 msgid ""
 "All information on this journal entry will be deleted and can not be "
 "restored."
-msgstr ""
-"Mọi thông tin của mục nhật ký này sẽ bị xóa và không thể được phục hồi."
+msgstr "Mọi thông tin của mục nhật ký này sẽ bị xóa và không thể được phục hồi."
 
 #. calendar:prompt-delete-titled-appointment primary
 #: calendar/calendar-errors.xml.h:32
@@ -3583,8 +3577,7 @@ msgstr "Bạn có chắc muốn xóa cuộc hẹn tên `{0}' không?"
 #. calendar:prompt-delete-titled-appointment secondary
 #. calendar:prompt-delete-appointment secondary
 #: calendar/calendar-errors.xml.h:34 calendar/calendar-errors.xml.h:38
-msgid ""
-"All information on this appointment will be deleted and can not be restored."
+msgid "All information on this appointment will be deleted and can not be restored."
 msgstr "Mọi thông tin của cuộc hẹn này sẽ bị xóa và không thể được phục hồi."
 
 #. calendar:prompt-delete-appointment primary
@@ -3605,8 +3598,7 @@ msgstr "Bạn có chắc muốn xóa mục nhật ký `{0}' không?"
 #. calendar:prompt-delete-named-journal secondary
 #. calendar:prompt-delete-journal secondary
 #: calendar/calendar-errors.xml.h:50 calendar/calendar-errors.xml.h:54
-msgid ""
-"All information in this journal will be deleted and can not be restored."
+msgid "All information in this journal will be deleted and can not be restored."
 msgstr "Mọi thông tin của nhật ký này sẽ bị xóa và không thể được phục hồi."
 
 #. calendar:prompt-delete-appointments primary
@@ -3619,8 +3611,7 @@ msgstr "Bạn có chắc muốn xóa {0} cuộc hẹn này không?"
 msgid ""
 "All information on these appointments will be deleted and can not be "
 "restored."
-msgstr ""
-"Mọi thông tin của những cuộc hẹn này sẽ bị xóa và không thể được phục hồi."
+msgstr "Mọi thông tin của những cuộc hẹn này sẽ bị xóa và không thể được phục hồi."
 
 #. calendar:prompt-delete-tasks primary
 #: calendar/calendar-errors.xml.h:60
@@ -3630,8 +3621,7 @@ msgstr "Bạn có chắc muốn xóa {0} công việc này không?"
 #. calendar:prompt-delete-tasks secondary
 #: calendar/calendar-errors.xml.h:62
 msgid "All information on these tasks will be deleted and can not be restored."
-msgstr ""
-"Mọi thông tin của những công việc này sẽ bị xóa và không thể được phục hồi."
+msgstr "Mọi thông tin của những công việc này sẽ bị xóa và không thể được phục hồi."
 
 #. calendar:prompt-delete-journals primary
 #: calendar/calendar-errors.xml.h:64
@@ -3643,8 +3633,7 @@ msgstr "Bạn có chắc muốn xóa {0} mục nhật ký này không?"
 msgid ""
 "All information in these journal entries will be deleted and can not be "
 "restored."
-msgstr ""
-"Mọi thông tin của những mục nhật ký này sẽ bị xóa và không thể được phục hồi."
+msgstr "Mọi thông tin của những mục nhật ký này sẽ bị xóa và không thể được phục hồi."
 
 #. calendar:prompt-save-appointment title
 #: calendar/calendar-errors.xml.h:68
@@ -3692,8 +3681,7 @@ msgstr "Bạn có muốn gửi lời mời họp đến những người tham d�
 
 #. calendar:prompt-meeting-invite secondary
 #: calendar/calendar-errors.xml.h:86
-msgid ""
-"Email invitations will be sent to all participants and allow them to RSVP."
+msgid "Email invitations will be sent to all participants and allow them to RSVP."
 msgstr "Email mời dự sẽ được gửi cho mọi người tham dự và cho phép họ RSVP."
 
 #: calendar/calendar-errors.xml.h:88 calendar/calendar-errors.xml.h:94
@@ -3714,8 +3702,7 @@ msgstr ""
 msgid ""
 "Sending updated information allows other participants to keep their "
 "calendars up to date."
-msgstr ""
-"Gửi thông tin cập nhật cho phép những người khác cập nhật lại lịch của họ."
+msgstr "Gửi thông tin cập nhật cho phép những người khác cập nhật lại lịch của họ."
 
 #. calendar:prompt-send-task primary
 #: calendar/calendar-errors.xml.h:96
@@ -3767,8 +3754,7 @@ msgstr "Lịch Evolution kết thúc bất ngờ."
 #. calendar:calendar-crashed secondary
 #: calendar/calendar-errors.xml.h:114
 msgid "Your calendars will not be available until Evolution is restarted."
-msgstr ""
-"Các lịch của bạn sẽ không sẵn sàng cho đến khi bạn khởi động lại Evolution."
+msgstr "Các lịch của bạn sẽ không sẵn sàng cho đến khi bạn khởi động lại Evolution."
 
 #: calendar/common/authentication.c:48 calendar/gui/e-pub-utils.c:301
 #: smime/gui/component.c:48
@@ -4141,7 +4127,6 @@ msgstr ""
 "Nếu bạn tiếp tục, bạn sẽ không thể phục hồi những công việc này."
 
 #: calendar/gui/calendar-commands.c:358
-#, fuzzy
 msgid "Purge events older than"
 msgstr "Xóa sự kiện trước"
 
@@ -5277,8 +5262,7 @@ msgid "You are modifying a recurring task, what would you like to modify?"
 msgstr "Bạn đang thay đổi công việc lặp, bạn muốn thay đổi cái nào?"
 
 #: calendar/gui/dialogs/recur-comp.c:59
-msgid ""
-"You are modifying a recurring journal entry, what would you like to modify?"
+msgid "You are modifying a recurring journal entry, what would you like to modify?"
 msgstr "Bạn đang thay đổi mục nhật ký lặp, bạn muốn thay đổi cái nào?"
 
 #: calendar/gui/dialogs/recur-comp.c:85
@@ -6181,8 +6165,7 @@ msgstr "Người lạ"
 msgid ""
 "<br> Please review the following information, and then select an action from "
 "the menu below."
-msgstr ""
-"<br> Vui lòng xem lại các chỉ dẫn sau và chọn một hành động từ menu bên dưới."
+msgstr "<br> Vui lòng xem lại các chỉ dẫn sau và chọn một hành động từ menu bên dưới."
 
 #: calendar/gui/e-itip-control.c:967
 msgid "Location:"
@@ -6249,14 +6232,11 @@ msgstr "Gửi thông tin mới nhất"
 msgid ""
 "The meeting has been cancelled, however it could not be found in your "
 "calendars"
-msgstr ""
-"Cuộc họp đã bị hủy tuy nhiên không tìm thấy cuộc họp trong lịch của bạn."
+msgstr "Cuộc họp đã bị hủy tuy nhiên không tìm thấy cuộc họp trong lịch của bạn."
 
 #: calendar/gui/e-itip-control.c:1146
-msgid ""
-"The task has been cancelled, however it could not be found in your task lists"
-msgstr ""
-"Công việc đã bị hủy tuy nhiên không tìm thấy cuộc họp trong lịch của bạn."
+msgid "The task has been cancelled, however it could not be found in your task lists"
+msgstr "Công việc đã bị hủy tuy nhiên không tìm thấy cuộc họp trong lịch của bạn."
 
 #: calendar/gui/e-itip-control.c:1159 calendar/gui/itip-utils.c:442
 #: mail/mail-send-recv.c:410 mail/mail-send-recv.c:464
@@ -6459,8 +6439,7 @@ msgstr ""
 
 #: calendar/gui/e-itip-control.c:1879
 msgid "Attendee status could not be updated because of an invalid status!\n"
-msgstr ""
-"Không thể cập nhật trạng thái người tham dự vì trạng thái không hợp lệ!\n"
+msgstr "Không thể cập nhật trạng thái người tham dự vì trạng thái không hợp lệ!\n"
 
 #: calendar/gui/e-itip-control.c:1896
 msgid "Attendee status updated\n"
@@ -6468,8 +6447,7 @@ msgstr "Đã cập nhật trạng thái người tham dự\n"
 
 #: calendar/gui/e-itip-control.c:1899
 msgid "Attendee status can not be updated because the item no longer exists"
-msgstr ""
-"Không thể cập nhật trạng thái người tham dự vì chưa có người nào tham dự"
+msgstr "Không thể cập nhật trạng thái người tham dự vì chưa có người nào tham dự"
 
 #: calendar/gui/e-itip-control.c:1926
 msgid "Removal Complete"
@@ -7120,8 +7098,7 @@ msgstr "Thiết lập in"
 #: calendar/gui/tasks-component.c:314
 #, c-format
 msgid "Task List '%s' will be removed. Are you sure you want to continue?"
-msgstr ""
-"Danh sách công việc '%s' sẽ bị loại bỏ. Bạn có chắc muốn tiếp tục không?"
+msgstr "Danh sách công việc '%s' sẽ bị loại bỏ. Bạn có chắc muốn tiếp tục không?"
 
 #: calendar/gui/tasks-component.c:372
 msgid "New Task List"
@@ -10088,8 +10065,7 @@ msgstr "Kiểm tra tìm thư mới trên mọi thư mục"
 
 #: camel/providers/groupwise/camel-groupwise-provider.c:59
 msgid "Apply filters to new messages in Inbox on this server"
-msgstr ""
-"Áp dụng bộ lọc với những thông điệp mới trong thư mục INBOX trên máy chủ này"
+msgstr "Áp dụng bộ lọc với những thông điệp mới trong thư mục INBOX trên máy chủ này"
 
 #: camel/providers/groupwise/camel-groupwise-provider.c:61
 #: camel/providers/imap/camel-imap-provider.c:66
@@ -10143,8 +10119,7 @@ msgstr "Mật khẩu"
 #: camel/providers/imap/camel-imap-provider.c:95
 #: camel/providers/imapp/camel-imapp-provider.c:67
 msgid "This option will connect to the IMAP server using a plaintext password."
-msgstr ""
-"Tùy chọn này sẽ kết nối tới máy chủ IMAP bằng mật khẩu thô (không mã hóa)."
+msgstr "Tùy chọn này sẽ kết nối tới máy chủ IMAP bằng mật khẩu thô (không mã hóa)."
 
 #: camel/providers/groupwise/camel-gw-listener.c:332
 #: camel/providers/groupwise/camel-gw-listener.c:362
@@ -10270,8 +10245,7 @@ msgstr ""
 
 #: camel/providers/imap/camel-imap-folder.c:2482
 #, c-format
-msgid ""
-"Unexpected server response: Identical UIDs provided for messages %d and %d"
+msgid "Unexpected server response: Identical UIDs provided for messages %d and %d"
 msgstr ""
 
 #: camel/providers/imap/camel-imap-folder.c:2658
@@ -10453,8 +10427,7 @@ msgstr "Không có thư mục %s"
 #: camel/providers/imap/camel-imap-store.c:2259
 #: camel/providers/imap4/camel-imap4-store.c:764
 #, c-format
-msgid ""
-"The folder name \"%s\" is invalid because it contains the character \"%c\""
+msgid "The folder name \"%s\" is invalid because it contains the character \"%c\""
 msgstr "Tên thư mục \"%s\" không hợp lệ vì chứa ký tự \"%c\""
 
 #: camel/providers/imap/camel-imap-store.c:1939
@@ -10592,10 +10565,8 @@ msgstr "Để đọc và lưu thư trên IMAP server."
 
 #: camel/providers/imap4/camel-imap4-provider.c:72
 #, fuzzy
-msgid ""
-"This option will connect to the IMAPv4rev1 server using a plaintext password."
-msgstr ""
-"Tùy chọn này sẽ kết nối tới IMAP server bằng mật khẩu thô (không mã hóa)."
+msgid "This option will connect to the IMAPv4rev1 server using a plaintext password."
+msgstr "Tùy chọn này sẽ kết nối tới IMAP server bằng mật khẩu thô (không mã hóa)."
 
 #: camel/providers/imap4/camel-imap4-store.c:257
 #, fuzzy, c-format
@@ -10606,10 +10577,8 @@ msgstr "Lỗi kết nối tới IMAP server %s trong chế độ an toàn: %s"
 
 #: camel/providers/imap4/camel-imap4-store.c:363
 #, fuzzy, c-format
-msgid ""
-"Cannot authenticate to IMAP server %s using the %s authentication mechanism"
-msgstr ""
-"Không thể kết nối tới POP server %s: Không hỗ trợ cơ chế xác thực yêu cầu."
+msgid "Cannot authenticate to IMAP server %s using the %s authentication mechanism"
+msgstr "Không thể kết nối tới POP server %s: Không hỗ trợ cơ chế xác thực yêu cầu."
 
 #: camel/providers/imap4/camel-imap4-store.c:408
 #, c-format
@@ -11330,8 +11299,7 @@ msgid "Unable to save grouplist file for %s: %s"
 msgstr "Không thể lưu tập tin danh sách nhóm cho %s: %s"
 
 #: camel/providers/nntp/camel-nntp-provider.c:43
-msgid ""
-"Show folders in short notation (e.g. c.o.linux rather than comp.os.linux)"
+msgid "Show folders in short notation (e.g. c.o.linux rather than comp.os.linux)"
 msgstr "Hiện thư mục kiểu ngắn gọn (v.d. c.o.linux thay vì comp.os.linux)"
 
 #: camel/providers/nntp/camel-nntp-provider.c:45
@@ -11350,8 +11318,7 @@ msgstr "Đây là bộ cung cấp đọc và gửi thư tới các nhóm tin USE
 msgid ""
 "This option will authenticate with the NNTP server using a plaintext "
 "password."
-msgstr ""
-"Tùy chọn này sẽ xác thực với máy chủ NNTP bằng mật khẩu thô (không mã hóa)"
+msgstr "Tùy chọn này sẽ xác thực với máy chủ NNTP bằng mật khẩu thô (không mã hóa)"
 
 #: camel/providers/nntp/camel-nntp-store.c:118
 #: camel/providers/nntp/camel-nntp-store.c:1233
@@ -11559,8 +11526,7 @@ msgstr "Không thể kết nối tới máy chủ POP %s"
 msgid ""
 "Unable to connect to POP server %s: No support for requested authentication "
 "mechanism."
-msgstr ""
-"Không thể kết nối tới máy chủ POP %s: Không hỗ trợ cơ chế xác thực yêu cầu."
+msgstr "Không thể kết nối tới máy chủ POP %s: Không hỗ trợ cơ chế xác thực yêu cầu."
 
 #: camel/providers/pop3/camel-pop3-store.c:428
 #, c-format
@@ -11615,8 +11581,7 @@ msgstr "Sendmail"
 msgid ""
 "For delivering mail by passing it to the \"sendmail\" program on the local "
 "system."
-msgstr ""
-"Để gửi thư bằng cách chuyển nó cho chương trình sendmail trên hệ thống này."
+msgstr "Để gửi thư bằng cách chuyển nó cho chương trình sendmail trên hệ thống này."
 
 #: camel/providers/sendmail/camel-sendmail-transport.c:113
 msgid "Could not parse recipient list"
@@ -12071,8 +12036,7 @@ msgstr "Đính kèm tập tin"
 
 #: composer/e-msg-composer.c:704
 #, fuzzy
-msgid ""
-"Cannot sign outgoing message: No signing certificate set for this account"
+msgid "Cannot sign outgoing message: No signing certificate set for this account"
 msgstr "_Luôn ký tên lên các thư cần gửi khi dùng tài khoản này"
 
 #: composer/e-msg-composer.c:711
@@ -12817,8 +12781,7 @@ msgid "Composer Preferences"
 msgstr "Thông số bộ soạn thảo"
 
 #: mail/GNOME_Evolution_Mail.server.in.in.h:3
-msgid ""
-"Configure mail preferences, including security and message display, here"
+msgid "Configure mail preferences, including security and message display, here"
 msgstr ""
 "Cấu hình thông số thư tín, bao gồm tính bảo mật và hiển thị thông điệp, ở "
 "đây."
@@ -13195,16 +13158,14 @@ msgstr "Thuộc tính thư mục"
 
 #. TODO: can this be done in a loop?
 #: mail/em-folder-properties.c:161
-#, fuzzy
 msgid "Total message:"
 msgid_plural "Total messages:"
-msgstr[0] "Tất cả thông điệp"
+msgstr[0] "Tất cả thông điệp:"
 
 #: mail/em-folder-properties.c:173
-#, fuzzy
 msgid "Unread message:"
 msgid_plural "Unread messages:"
-msgstr[0] "Thông điệp chưa đọc"
+msgstr[0] "Thông điệp chưa đọc:"
 
 #: mail/em-folder-selection-button.c:120
 msgid "<click here to select a folder>"
@@ -13971,9 +13932,8 @@ msgid "Default height of the Subscribe dialog"
 msgstr "Cắt thông điệp đã chọn"
 
 #: mail/evolution-mail.schemas.in.in.h:16
-#, fuzzy
 msgid "Default reply style"
-msgstr "Kiểu chuyển tiếp mặc định là: "
+msgstr "Kiểu trả lời mặc định"
 
 #: mail/evolution-mail.schemas.in.in.h:17
 #, fuzzy
@@ -14150,8 +14110,7 @@ msgid "Prompt the user when he or she tries to expunge a folder."
 msgstr ""
 
 #: mail/evolution-mail.schemas.in.in.h:56
-msgid ""
-"Prompt the user when he or she tries to send a message without a Subject."
+msgid "Prompt the user when he or she tries to send a message without a Subject."
 msgstr ""
 
 #: mail/evolution-mail.schemas.in.in.h:57
@@ -15537,8 +15496,7 @@ msgstr ""
 
 #. mail:send-no-recipients primary
 #: mail/mail-errors.xml.h:34
-msgid ""
-"This message cannot be sent because you have not specified any Recipients"
+msgid "This message cannot be sent because you have not specified any Recipients"
 msgstr ""
 
 #. mail:send-no-recipients secondary
@@ -16469,8 +16427,7 @@ msgid "Last upgraded Evolution configuration version"
 msgstr "Giao diện cấu hình mail."
 
 #: shell/apps_evolution_shell.schemas.in.in.h:10
-msgid ""
-"List of paths for the folders to be synchronized to disk for offline usage"
+msgid "List of paths for the folders to be synchronized to disk for offline usage"
 msgstr ""
 
 #: shell/apps_evolution_shell.schemas.in.in.h:11
@@ -16710,8 +16667,7 @@ msgstr "Ngoại tuyến"
 
 #: shell/e-shell-window.c:337
 msgid "Evolution is currently online.  Click on this button to work offline."
-msgstr ""
-"Evolution hiện thời đang trực tuyến. Nhấn nút này để chuyển sang ngoại tuyến."
+msgstr "Evolution hiện thời đang trực tuyến. Nhấn nút này để chuyển sang ngoại tuyến."
 
 #: shell/e-shell-window.c:344
 msgid "Evolution is in the process of going offline."
@@ -17298,8 +17254,7 @@ msgid "You have certificates from these organizations that identify you:"
 msgstr ""
 
 #: smime/gui/smime-ui.glade.h:43
-msgid ""
-"You have certificates on file that identify these certificate authorities:"
+msgid "You have certificates on file that identify these certificate authorities:"
 msgstr ""
 
 #: smime/gui/smime-ui.glade.h:44
@@ -18067,10 +18022,8 @@ msgid "Hide _Read Messages"
 msgstr "Ẩn thông điệp đã đọc"
 
 #: ui/evolution-mail-list.xml.h:8
-msgid ""
-"Hide deleted messages rather than displaying them with a line through them"
-msgstr ""
-"Ẩn thông điệp đã xoá thay vì hiển thị chúng với một đường gạch ngang qua"
+msgid "Hide deleted messages rather than displaying them with a line through them"
+msgstr "Ẩn thông điệp đã xoá thay vì hiển thị chúng với một đường gạch ngang qua"
 
 #: ui/evolution-mail-list.xml.h:9
 msgid "Mark All as _Read"
@@ -19181,8 +19134,7 @@ msgstr "Truy vấn Evolution"
 #. setup a dummy error
 #: widgets/misc/e-error.c:421
 #, c-format
-msgid ""
-"<span weight=\"bold\">Internal error, unknown error '%s' requested</span>"
+msgid "<span weight=\"bold\">Internal error, unknown error '%s' requested</span>"
 msgstr "<span weight=\"bold\">Lỗi nội tại, lỗi lạ '%s' được yêu cầu</span>"
 
 #: widgets/misc/e-expander.c:181
@@ -19351,14 +19303,12 @@ msgstr "Nhớ mật khẩu này"
 msgid "Remember this password for the remainder of this session"
 msgstr "Nhớ mật khẩu này để nhắc nhở cho những lần sử dụng sau"
 
-#, fuzzy
 msgid "Keep"
-msgstr "Bíp"
+msgstr "Giữ"
 
 msgid "New Contacts Group"
 msgstr "Nhóm Liên lạc mới"
 
-#, fuzzy
 msgid "Contacts Grou_p"
 msgstr "Nhóm _Liên lạc"
 
@@ -19398,18 +19348,15 @@ msgstr "Thêm Nhóm công việc"
 msgid "L_ocation:"
 msgstr "Đị_a điểm:"
 
-#, fuzzy
 msgid "<b>Organizer</b>"
-msgstr "<b>Khác</b>"
+msgstr "<b>Người tổ chức</b>"
 
-#, fuzzy
 msgid "_Organizer:"
-msgstr "Tổ chức:"
+msgstr "_Người tổ chức:"
 
 msgid "New tasks group"
 msgstr "Nhóm công việc mới"
 
-#, fuzzy
 msgid "Tasks Gro_up"
 msgstr "_Nhóm công việc"
 
@@ -19679,9 +19626,8 @@ msgstr "Đang kết nối"
 msgid "Distinguished _name:"
 msgstr "Tên _phân biệt:"
 
-#, fuzzy
 msgid "Email address:"
-msgstr "Địa chỉ _email:"
+msgstr "Địa chỉ email:"
 
 msgid "Evolution will use this DN to authenticate you with the server"
 msgstr "Evolution sẽ dùng DN này để xác thực bạn với server"
@@ -19726,9 +19672,8 @@ msgstr "searching-tab"
 msgid "Job title:"
 msgstr "Tên n_ghề:"
 
-#, fuzzy
 msgid "Webcam:"
-msgstr "Trang"
+msgstr "Webcam:"
 
 msgid "Could not find widget for a field: `%s'"
 msgstr "Không thể tìm thấy widget cho trường: `%s'"
@@ -19748,29 +19693,24 @@ msgstr ""
 "%s\n"
 "đã hỏng. Bạn phải khởi động lại Evolution để dùng lại."
 
-#, fuzzy
 msgid "Can not load URI"
-msgstr "Không có card"
+msgstr "Không thể nạp URI"
 
-#, fuzzy
 msgid "Calendar Properties"
-msgstr "Lỗi iCalendar"
+msgstr "Thuộc tính lịch"
 
-#, fuzzy
 msgid "Remote"
-msgstr "Loại bỏ"
+msgstr "Từ xa"
 
-#, fuzzy
 msgid "Task List Properties"
-msgstr "Danh sách công việc"
+msgstr "Thuộc tính Danh sách công việc"
 
 #, fuzzy
 msgid "_Refresh Interval:"
 msgstr "_Danh sách cập nhật"
 
-#, fuzzy
 msgid "_Source URL:"
-msgstr "URI của POP"
+msgstr "URL _nguồn:"
 
 msgid ""
 "The event being deleted is a meeting, would you like to send a cancellation "
@@ -19814,9 +19754,8 @@ msgstr ""
 msgid "_Discard Changes"
 msgstr "_Hủy thay đổi"
 
-#, fuzzy
 msgid "Save Event"
-msgstr "Sự kiện lịch"
+msgstr "Lưu sự kiện"
 
 msgid "The meeting information has been created. Send it?"
 msgstr "Thông tin cuộc họp đã được tại. Gửi nó đi chứ?"
@@ -19860,9 +19799,8 @@ msgstr "Đang làm việc"
 msgid "Brought to you by"
 msgstr "Được mang lại bởi"
 
-#, fuzzy
 msgid "_Filename:"
-msgstr "Tên tập tin:"
+msgstr "_Tên tập tin:"
 
 msgid ""
 "%s\n"
@@ -19895,9 +19833,8 @@ msgstr ""
 "Lỗi từ hệ thống kích hoạt:\n"
 "%s"
 
-#, fuzzy
 msgid "View Certificate"
-msgstr "_ID Chứng nhận:"
+msgstr "Xem Chứng nhận"
 
 msgid "About Ximian Evolution..."
 msgstr "Giới thiệu Ximian Evolution..."
@@ -19909,13 +19846,11 @@ msgstr "_Giới thiệu Ximian Evolution..."
 msgid "Evolution Addressbook folder viewer"
 msgstr "Bộ xem Minicard sổ địa chỉ evolution"
 
-#, fuzzy
 msgid "Address 2:"
-msgstr "Địa chỉ _2:"
+msgstr "Địa chỉ 2:"
 
-#, fuzzy
 msgid "Blog:"
-msgstr "Bologna"
+msgstr "Blog:"
 
 #, fuzzy
 msgid "Evolution Calendar viewer"
@@ -19949,13 +19884,11 @@ msgstr "Thời gian"
 msgid "_General"
 msgstr "_Chung"
 
-#, fuzzy
 msgid "Select source"
-msgstr "Chọn bộ nhập"
+msgstr "Chọn nguồn"
 
-#, fuzzy
 msgid "calendar"
-msgstr "Lịch"
+msgstr "lịch"
 
 msgid "Calendar file could not be updated!\n"
 msgstr "Không thể cập nhật tập tin lịch!\n"
@@ -20087,9 +20020,8 @@ msgid ""
 "\t\t\t  up an address book."
 msgstr "Xác định tên hiển thị là bước cuối cùng để cấu hình LDAP server."
 
-#, fuzzy
 msgid "Step 3: Connecting to Server"
-msgstr "Bước 2: Kết nối tới server"
+msgstr "Bước 3: Kết nối tới máy chủ"
 
 #, fuzzy
 msgid "Step 4: Searching the Directory"
@@ -20143,28 +20075,23 @@ msgstr ""
 "tin đăng nhập của bạn. Vui lòng hỏi quản trị hệ thống của bạn nếu bạn không\n"
 "chắc về những thông tin này."
 
-#, fuzzy
 msgid " B_usiness:"
-msgstr "Kinh doanh"
+msgstr "_Kinh doanh:"
 
-#, fuzzy
 msgid "A_ddress..."
-msgstr "Đị_a chỉ.."
+msgstr "Đị_a chỉ..."
 
 msgid "A_ssistant's name:"
 msgstr "Tên p_hụ tá:"
 
-#, fuzzy
 msgid "Addressbook:"
-msgstr "Sổ địa chỉ"
+msgstr "Sổ địa chỉ:"
 
-#, fuzzy
 msgid "Blog address:"
-msgstr "Địa chỉ _email:"
+msgstr "Địa chỉ Blog:"
 
-#, fuzzy
 msgid "Business fa_x:"
-msgstr "Fax Kinh doanh"
+msgstr "Fa_x Kinh doanh:"
 
 msgid "Collaboration"
 msgstr "Hợp tác"
@@ -21335,8 +21262,7 @@ msgstr "Gửi bất cứ giá nào?"
 msgid "Folder _name"
 msgstr "Tên thư mục:"
 
-msgid ""
-"This message is digitally signed. Click the lock icon for more information."
+msgid "This message is digitally signed. Click the lock icon for more information."
 msgstr "Thông điệp này dùng chữ ký số. Nhấn biểu tượng khóa để biết thêm."
 
 #, fuzzy
@@ -21688,8 +21614,7 @@ msgstr "contains? cần đối số thứ hai là chuỗi"
 msgid ""
 "contains? expects argument 1 to be one of \"any\", \"summary\", \"description"
 "\""
-msgstr ""
-"contains? cần đối số thứ nhất là \"bất kỳ\", \"tóm tắt\", hoặc \"mô tả\""
+msgstr "contains? cần đối số thứ nhất là \"bất kỳ\", \"tóm tắt\", hoặc \"mô tả\""
 
 #, fuzzy
 msgid "has-alarms? expects at least 1 argument"
@@ -21881,10 +21806,8 @@ msgstr "In card"
 msgid "Error while communicating with calendar server"
 msgstr "Lỗi khi liên lạc với server lịch"
 
-msgid ""
-"Could not create the calendar view.  Please check your ORBit and OAF setup."
-msgstr ""
-"Không thể tạo khung xem lịch. Vui lòng kiểm tra thiết lập ORBit và OAF."
+msgid "Could not create the calendar view.  Please check your ORBit and OAF setup."
+msgstr "Không thể tạo khung xem lịch. Vui lòng kiểm tra thiết lập ORBit và OAF."
 
 msgid "Folder containing appointments and events"
 msgstr "Thư mục chứa các cuộc hẹn và sự kiện"
@@ -21912,18 +21835,15 @@ msgstr "Bạn không có đủ quyền để cập nhật đối tượng này"
 
 #, fuzzy
 msgid "The event could not be deleted because it was invalid"
-msgstr ""
-"Không thể cập nhật trạng thái người tham dự vì trạng thái không hợp lệ!\n"
+msgstr "Không thể cập nhật trạng thái người tham dự vì trạng thái không hợp lệ!\n"
 
 #, fuzzy
 msgid "The task could not be deleted because it was invalid"
-msgstr ""
-"Không thể cập nhật trạng thái người tham dự vì trạng thái không hợp lệ!\n"
+msgstr "Không thể cập nhật trạng thái người tham dự vì trạng thái không hợp lệ!\n"
 
 #, fuzzy
 msgid "The item could not be deleted because it was invalid"
-msgstr ""
-"Không thể cập nhật trạng thái người tham dự vì trạng thái không hợp lệ!\n"
+msgstr "Không thể cập nhật trạng thái người tham dự vì trạng thái không hợp lệ!\n"
 
 msgid "That person is already attending the meeting!"
 msgstr "Người này đã có tên trong cuộc họp rồi!"
@@ -30991,10 +30911,8 @@ msgstr "Không thể tạo Factory bộ soạn thảo thành phần"
 msgid "Print Calendar"
 msgstr "In lịch"
 
-msgid ""
-"Could not create the tasks view.  Please check your ORBit and OAF setup."
-msgstr ""
-"Không thể tạo cửa sổ công việc. Vui lòng kiểm tra thiết lập ORBit và OAF."
+msgid "Could not create the tasks view.  Please check your ORBit and OAF setup."
+msgstr "Không thể tạo cửa sổ công việc. Vui lòng kiểm tra thiết lập ORBit và OAF."
 
 msgid "Warning!"
 msgstr "Cảnh báo!"
@@ -31059,8 +30977,7 @@ msgstr ""
 "thư mục Evolution cá nhân"
 
 msgid "Please click \"OK\" to install the files, or \"Cancel\" to exit."
-msgstr ""
-"Vui lòng nhấn \"Đồng ý\" để cài đặt tập tin, hoặc nhấn \"Hủy bỏ' để thoát."
+msgstr "Vui lòng nhấn \"Đồng ý\" để cài đặt tập tin, hoặc nhấn \"Hủy bỏ' để thoát."
 
 msgid ""
 "Evolution has detected an old\n"
@@ -31567,8 +31484,7 @@ msgstr "Không thể mở thư mục cho news server: %s"
 msgid "Could not open folder: message listing was incomplete."
 msgstr "Không thể mở thư mục: danh sách thông điệp chưa hoàn chỉnh."
 
-msgid ""
-"This will connect to the POP server and use Kerberos 4 to authenticate to it."
+msgid "This will connect to the POP server and use Kerberos 4 to authenticate to it."
 msgstr "Việc này sẽ kết nối tới POP server và dùng Kerberos 4 để xác thực."
 
 msgid "(Unknown)"
@@ -31783,3 +31699,4 @@ msgstr "Tên chứa"
 
 msgid "Unable to find any of your identities in the attendees list!\n"
 msgstr "Không thể tìm thấy định danh của bạn trong danh sách người tham dự!\n"
+
