@@ -114,6 +114,29 @@ pas_book_factory_get_n_backends (PASBookFactory *factory)
 	return g_hash_table_size (factory->priv->active_server_map);
 }
 
+static void
+dump_active_server_map_entry (gpointer key, gpointer value, gpointer data)
+{
+	char *uri;
+	PASBackend *backend;
+
+	uri = key;
+	backend = PAS_BACKEND (value);
+
+	g_message ("  %s: %p", uri, backend);
+}
+
+void
+pas_book_factory_dump_active_backends (PASBookFactory *factory)
+{
+	g_message ("Active PAS backends");
+
+	g_hash_table_foreach (factory->priv->active_server_map,
+			      dump_active_server_map_entry,
+			      NULL);
+
+}
+
 /* Callback used when a backend loses its last connected client */
 static void
 backend_last_client_gone_cb (PASBackend *backend, gpointer data)

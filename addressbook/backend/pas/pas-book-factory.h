@@ -35,6 +35,8 @@ void            pas_book_factory_register_backend (PASBookFactory               
 
 int             pas_book_factory_get_n_backends   (PASBookFactory               *factory);
 
+void            pas_book_factory_dump_active_backends (PASBookFactory *factory);
+
 gboolean        pas_book_factory_activate         (PASBookFactory               *factory, const char *iid);
 
 GtkType         pas_book_factory_get_type (void);

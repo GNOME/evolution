@@ -1,3 +1,12 @@
+2001-10-29  Chris Toshok  <toshok@ximian.com>
+
+	* backend/pas/pas-book-factory.h: add prototype for
+	pas_book_factory_dump_active_backends.
+
+	* backend/pas/pas-book-factory.c
+	(pas_book_factory_dump_active_backends): new function.
+	(dump_active_server_map_entry): new function.
+
 2001-10-29  Jon Trowbridge  <trow@ximian.com>
 
 	* gui/component/select-names/e-select-names-completion.c
@@ -60,7 +69,6 @@
 	(field_activated): Stop editing on the activate signal and remove
 	the focus from the text.  Fixes Ximian bug #12286.
 
->>>>>>> 1.897
 2001-10-28  JP Rosevear  <jpr@ximian.com>
 
 	* conduit/address-conduit.h: tidy
@@ -69,6 +77,7 @@
 
 	* conduit/address-conduit.c (add_record): unref ecard when done
 
+>>>>>>> 1.898
 2001-10-28  Jon Trowbridge  <trow@ximian.com>
 
 	* backend/ebook/e-card.c (e_card_date_from_string): Expose this
