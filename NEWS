@@ -17,6 +17,7 @@ Bugzilla bugs fixed (see http://bugzilla.ximian.com/show_bug.cgi):
     #40026 - Using pulldown to view multiple emails changes email to
              random characters (Toshok)
     #39788 - Can't add email address to contact (Toshok)
+    #39763 - Pasting text into "To:" field doesn't work (Toshok)
     #39730 - Search Base Callback Not Working (Toshok).
     #39692 - file type names should not be OAF component names
              (Ettore)
