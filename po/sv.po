@@ -5,14 +5,14 @@
 # Christian Rose <menthos@menthos.com>, 2000, 2001.
 # Martin Norbäck <d95mback@dtek.chalmers.se>, 2001.
 #
-# $Id: sv.po,v 1.106 2001/08/24 13:51:25 menthos Exp $
+# $Id: sv.po,v 1.107 2001/08/24 14:20:47 menthos Exp $
 #
 #: mail/component-factory.c:97 mail/component-factory.c:98
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "POT-Creation-Date: 2001-08-24 15:33+0200\n"
-"PO-Revision-Date: 2001-08-24 15:51+0200\n"
+"PO-Revision-Date: 2001-08-24 16:18+0200\n"
 "Last-Translator: Christian Rose <menthos@menthos.com>\n"
 "Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -10587,16 +10587,16 @@ msgstr "Lägg till n_y källa"
 
 #: my-evolution/my-evolution.glade.h:3
 msgid "Al_l stations:"
-msgstr "A_lla stationer:"
+msgstr "_Alla stationer:"
 
 #: my-evolution/my-evolution.glade.h:4
 msgid "All _folders:"
-msgstr "Alla _mappar:"
+msgstr "_Alla mappar:"
 
 # Detta är inte diskussionsgrupper utan nyheter
 #: my-evolution/my-evolution.glade.h:5
 msgid "All news _feeds:"
-msgstr "Alla nyhets_källor:"
+msgstr "_Alla nyhetskällor:"
 
 #: my-evolution/my-evolution.glade.h:7
 msgid "How many days should the calendar display at once?"
@@ -10616,11 +10616,11 @@ msgstr "En m_ånad"
 
 #: my-evolution/my-evolution.glade.h:11
 msgid "One w_eek"
-msgstr "En v_ecka"
+msgstr "En _vecka"
 
 #: my-evolution/my-evolution.glade.h:12
 msgid "Refresh _time (seconds):"
-msgstr "Uppdaterings_tid (sekunder):"
+msgstr "_Uppdateringstid (sekunder):"
 
 #: my-evolution/my-evolution.glade.h:13
 msgid "Show _all tasks"
@@ -10680,7 +10680,7 @@ msgstr "_Schemalägg"
 
 #: my-evolution/my-evolution.glade.h:28
 msgid "_Show full path for folders"
-msgstr "_Visa fullständiga sökvägar för mappar"
+msgstr "Visa _fullständiga sökvägar för mappar"
 
 #: my-evolution/my-evolution.glade.h:29
 msgid "_Weather"
@@ -10688,11 +10688,11 @@ msgstr "_Väder"
 
 #: my-evolution/my-evolution.glade.h:30
 msgid "_imperial"
-msgstr "_amerikanska"
+msgstr "am_erikanska"
 
 #: my-evolution/my-evolution.glade.h:31
 msgid "m_etric"
-msgstr "m_etriska"
+msgstr "_metriska"
 
 #: shell/GNOME_Evolution_Shell.oaf.in.h:1
 msgid "The Evolution shell."
