@@ -10,7 +10,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution 1.0\n"
-"POT-Creation-Date: 2001-12-04 20:57+0100\n"
+"POT-Creation-Date: 2001-12-05 23:37+0100\n"
 "PO-Revision-Date: 2001-12-04 20:48+0100\n"
 "Last-Translator: Christian Meyer <chrisime@gnome.org>\n"
 "Language-Team: German <gnome-de@gnome.org>\n"
@@ -66,6 +66,7 @@ msgstr "Assistent"
 
 #: addressbook/backend/ebook/e-card-simple.c:65
 #: addressbook/backend/ebook/e-card-simple.c:70
+#: addressbook/gui/contact-editor/contact-editor.glade.h:5
 #: addressbook/gui/contact-editor/e-contact-editor.c:1645
 #: addressbook/gui/contact-editor/e-contact-editor.c:1712
 msgid "Business"
@@ -92,6 +93,7 @@ msgstr "Fa."
 
 #: addressbook/backend/ebook/e-card-simple.c:68
 #: addressbook/backend/ebook/e-card-simple.c:71
+#: addressbook/gui/contact-editor/contact-editor.glade.h:17
 #: addressbook/gui/contact-editor/e-contact-editor.c:1651
 #: addressbook/gui/contact-editor/e-contact-editor.c:1713
 msgid "Home"
@@ -107,6 +109,7 @@ msgid "Org"
 msgstr "Org"
 
 #: addressbook/backend/ebook/e-card-simple.c:72
+#: addressbook/gui/contact-editor/contact-editor.glade.h:20
 #: addressbook/gui/contact-editor/e-contact-editor.c:1655
 msgid "Mobile"
 msgstr "Mobil"
@@ -117,6 +120,7 @@ msgid "Car"
 msgstr "Auto"
 
 #: addressbook/backend/ebook/e-card-simple.c:74
+#: addressbook/gui/contact-editor/contact-editor.glade.h:6
 #: addressbook/gui/contact-editor/e-contact-editor.c:1647
 #: addressbook/gui/widgets/e-addressbook-view.c:863
 msgid "Business Fax"
@@ -889,7 +893,7 @@ msgid "_Account name:"
 msgstr "_Accountname:"
 
 #: addressbook/gui/component/addressbook-config.glade.h:24
-#: addressbook/gui/contact-editor/contact-editor.glade.h:19
+#: addressbook/gui/contact-editor/contact-editor.glade.h:30
 #: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:4
 #: calendar/gui/dialogs/alarm-page.glade.h:8 filter/filter.glade.h:7
 #: mail/mail-config.glade.h:90 my-evolution/my-evolution.glade.h:21
@@ -1011,7 +1015,7 @@ msgid "(none)"
 msgstr "(keine)"
 
 #: addressbook/gui/component/e-address-popup.c:474
-#: addressbook/gui/contact-editor/contact-editor.glade.h:17
+#: addressbook/gui/contact-editor/contact-editor.glade.h:26
 #: addressbook/gui/contact-editor/e-contact-editor.c:1686
 msgid "Primary Email"
 msgstr "Primäre E-Mail"
@@ -1164,51 +1168,67 @@ msgid "_Message Recipients:"
 msgstr "_Nachrichtenempfänger:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:1
+msgid "A_ssistant's name:"
+msgstr "Name des A_ssistenten:"
+
+#: addressbook/gui/contact-editor/contact-editor.glade.h:2
+msgid "Add_ress..."
+msgstr "A_dresse..."
+
+#: addressbook/gui/contact-editor/contact-editor.glade.h:3
 msgid "Anni_versary:"
 msgstr "Jahrestag:"
 
-#: addressbook/gui/contact-editor/contact-editor.glade.h:2
-msgid "B_usiness"
-msgstr "Geschäftlich"
-
-#: addressbook/gui/contact-editor/contact-editor.glade.h:3
-msgid "Business _Fax"
-msgstr "Geschäftliches Fax"
-
 #: addressbook/gui/contact-editor/contact-editor.glade.h:4
+msgid "Birthda_y:"
+msgstr "_Geburtstag:"
+
+#: addressbook/gui/contact-editor/contact-editor.glade.h:7
+msgid "C_ontacts..."
+msgstr "K_ontakte..."
+
+#: addressbook/gui/contact-editor/contact-editor.glade.h:8
 #: calendar/gui/dialogs/event-page.glade.h:3
 #: calendar/gui/dialogs/task-page.glade.h:1
 msgid "Ca_tegories..."
-msgstr "Kategorien..."
+msgstr "Ka_tegorien..."
 
-#: addressbook/gui/contact-editor/contact-editor.glade.h:5
+#: addressbook/gui/contact-editor/contact-editor.glade.h:9
 msgid "Collaboration"
 msgstr "Zusammenarbeit"
 
 #. Construct the app
-#: addressbook/gui/contact-editor/contact-editor.glade.h:6
+#: addressbook/gui/contact-editor/contact-editor.glade.h:10
 #: addressbook/gui/contact-editor/e-contact-editor.c:1293
 msgid "Contact Editor"
 msgstr "Kontakteditor"
 
-#: addressbook/gui/contact-editor/contact-editor.glade.h:7
+#: addressbook/gui/contact-editor/contact-editor.glade.h:11
+msgid "D_epartment:"
+msgstr "_Abteilung:"
+
+#: addressbook/gui/contact-editor/contact-editor.glade.h:12
 #: calendar/gui/dialogs/task-editor.c:183
 msgid "Details"
 msgstr "Details"
 
-#: addressbook/gui/contact-editor/contact-editor.glade.h:8
+#: addressbook/gui/contact-editor/contact-editor.glade.h:13
 msgid "F_ree/Busy URL:"
 msgstr "_Verfügbarkeits-Adresse:"
 
-#: addressbook/gui/contact-editor/contact-editor.glade.h:9
+#: addressbook/gui/contact-editor/contact-editor.glade.h:14
 msgid "File A_s:"
 msgstr "Einsortieren _unter:"
 
-#: addressbook/gui/contact-editor/contact-editor.glade.h:10
+#: addressbook/gui/contact-editor/contact-editor.glade.h:15
+msgid "Full _Name..."
+msgstr "Voller _Name..."
+
+#: addressbook/gui/contact-editor/contact-editor.glade.h:16
 msgid "General"
 msgstr "Allgemein"
 
-#: addressbook/gui/contact-editor/contact-editor.glade.h:11
+#: addressbook/gui/contact-editor/contact-editor.glade.h:18
 msgid ""
 "If this person publishes free/busy or other calendar information on the "
 "Internet, enter the address\n"
@@ -1217,106 +1237,68 @@ msgstr ""
 "Falls diese Person Verfügbarkeits- oder andere Kalenderinformationen im "
 "Internet veröffentlicht, geben Sie die Adresse dieser Informationen hier ein."
 
-#: addressbook/gui/contact-editor/contact-editor.glade.h:13
+#: addressbook/gui/contact-editor/contact-editor.glade.h:21
 msgid "New phone type"
 msgstr "Neuer Telefon-Typ"
 
-#: addressbook/gui/contact-editor/contact-editor.glade.h:14
+#: addressbook/gui/contact-editor/contact-editor.glade.h:22
 msgid "No_tes:"
 msgstr "Notizen:"
 
-#: addressbook/gui/contact-editor/contact-editor.glade.h:15
+#: addressbook/gui/contact-editor/contact-editor.glade.h:23
 msgid "Organi_zation:"
 msgstr "_Organisation:"
 
-#: addressbook/gui/contact-editor/contact-editor.glade.h:16
+#: addressbook/gui/contact-editor/contact-editor.glade.h:24
+msgid "P_rofession:"
+msgstr "Be_ruf:"
+
+#: addressbook/gui/contact-editor/contact-editor.glade.h:25
 msgid "Phone Types"
 msgstr "Telefon-Typen"
 
-#: addressbook/gui/contact-editor/contact-editor.glade.h:18
+#: addressbook/gui/contact-editor/contact-editor.glade.h:27
+msgid "S_pouse:"
+msgstr "Ehe_gatte:"
+
+#: addressbook/gui/contact-editor/contact-editor.glade.h:28
+msgid "This is the _mailing address"
+msgstr "Dies ist die _Postadresse"
+
+#: addressbook/gui/contact-editor/contact-editor.glade.h:29
 msgid "Wants to receive _HTML mail"
-msgstr "Will HTML-Mail erhalten"
+msgstr "Möchte HTML-Mail erhalten"
 
-#: addressbook/gui/contact-editor/contact-editor.glade.h:20
-msgid "_Address..."
-msgstr "Adresse..."
-
-#: addressbook/gui/contact-editor/contact-editor.glade.h:21
-msgid "_Assistant's name:"
-msgstr "Name des Assistenten:"
-
-#: addressbook/gui/contact-editor/contact-editor.glade.h:22
-msgid "_Birthday:"
-msgstr "Geburtstag:"
-
-#: addressbook/gui/contact-editor/contact-editor.glade.h:23
-msgid "_Business"
-msgstr "Geschäftlich"
-
-#: addressbook/gui/contact-editor/contact-editor.glade.h:24
-#: calendar/gui/dialogs/event-page.glade.h:12
-#: calendar/gui/dialogs/task-page.glade.h:10
-msgid "_Contacts..."
-msgstr "Kontakte..."
-
-#: addressbook/gui/contact-editor/contact-editor.glade.h:25
+#: addressbook/gui/contact-editor/contact-editor.glade.h:31
 #: calendar/gui/dialogs/alarm-page.glade.h:9
 #: calendar/gui/dialogs/meeting-page.c:707 filter/filter.glade.h:8
 #: mail/folder-browser.c:1468 mail/mail-config.glade.h:96
 #: ui/evolution-calendar.xml.h:38 ui/evolution-mail-message.xml.h:94
 #: ui/evolution-tasks.xml.h:15 ui/evolution.xml.h:35
 msgid "_Delete"
-msgstr "Löschen"
+msgstr "_Löschen"
 
-#: addressbook/gui/contact-editor/contact-editor.glade.h:26
-msgid "_Department:"
-msgstr "Abteilung:"
-
-#: addressbook/gui/contact-editor/contact-editor.glade.h:27
-msgid "_Full Name..."
-msgstr "Voller Name..."
-
-#: addressbook/gui/contact-editor/contact-editor.glade.h:28
-msgid "_Home"
-msgstr "Zu Hause"
-
-#: addressbook/gui/contact-editor/contact-editor.glade.h:29
+#: addressbook/gui/contact-editor/contact-editor.glade.h:32
 msgid "_Job title:"
 msgstr "Stellenbezeichnung:"
 
-#: addressbook/gui/contact-editor/contact-editor.glade.h:30
+#: addressbook/gui/contact-editor/contact-editor.glade.h:33
 msgid "_Manager's Name:"
 msgstr "Name des Vorgesetzten:"
 
-#: addressbook/gui/contact-editor/contact-editor.glade.h:31
-msgid "_Mobile"
-msgstr "Mobil"
-
-#: addressbook/gui/contact-editor/contact-editor.glade.h:32
+#: addressbook/gui/contact-editor/contact-editor.glade.h:34
 msgid "_Nickname:"
 msgstr "Spitzname:"
 
-#: addressbook/gui/contact-editor/contact-editor.glade.h:33
+#: addressbook/gui/contact-editor/contact-editor.glade.h:35
 msgid "_Office:"
 msgstr "Büro:"
 
-#: addressbook/gui/contact-editor/contact-editor.glade.h:34
-msgid "_Profession:"
-msgstr "Beruf:"
-
-#: addressbook/gui/contact-editor/contact-editor.glade.h:35
+#: addressbook/gui/contact-editor/contact-editor.glade.h:36
 msgid "_Public Calendar URL:"
 msgstr "_Öffentlicher Kalender-URI:"
 
-#: addressbook/gui/contact-editor/contact-editor.glade.h:36
-msgid "_Spouse:"
-msgstr "Partner:"
-
 #: addressbook/gui/contact-editor/contact-editor.glade.h:37
-msgid "_This is the mailing address"
-msgstr "Dies ist die Postadresse"
-
-#: addressbook/gui/contact-editor/contact-editor.glade.h:38
 msgid "_Web page address:"
 msgstr "Adresse der _Webseite:"
 
@@ -1332,13 +1314,17 @@ msgstr ""
 msgid "Delete Contact?"
 msgstr "Kontakt löschen?"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:756
+#: addressbook/gui/contact-editor/e-contact-editor.c:757
 msgid "Category editor not available."
 msgstr "Der Kategorie-Editor ist nicht verfügbar."
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:763
+#: addressbook/gui/contact-editor/e-contact-editor.c:764
 msgid "This contact belongs to these categories:"
 msgstr "Dieser Kontakt gehört in folgende Kategorien:"
+
+#: addressbook/gui/contact-editor/e-contact-editor.c:978
+msgid "Save Contact as VCard"
+msgstr "Kontakt als VCard speichern"
 
 #: addressbook/gui/contact-editor/e-contact-editor.c:1662
 msgid "TTY/TDD"
@@ -4024,6 +4010,11 @@ msgstr "Zeit zeigen als"
 msgid "Su_mmary:"
 msgstr "Zusammenfassung:"
 
+#: calendar/gui/dialogs/event-page.glade.h:12
+#: calendar/gui/dialogs/task-page.glade.h:10
+msgid "_Contacts..."
+msgstr "Kontakte..."
+
 #: calendar/gui/dialogs/event-page.glade.h:13
 msgid "_End time:"
 msgstr "_Endzeit:"
@@ -5155,7 +5146,36 @@ msgstr "Mindestens ein Teilnehmer wird benötigt."
 msgid "An organizer must be set."
 msgstr "Ein Organisator muss feststehen."
 
-#: calendar/gui/itip-utils.c:570
+#: calendar/gui/itip-utils.c:313 calendar/gui/itip-utils.c:355
+msgid "Event information"
+msgstr "Ereignis-Informationen"
+
+#: calendar/gui/itip-utils.c:315 calendar/gui/itip-utils.c:357
+msgid "Task information"
+msgstr "Aufgaben-Informationen"
+
+#: calendar/gui/itip-utils.c:317 calendar/gui/itip-utils.c:359
+msgid "Journal information"
+msgstr "Journal-Information"
+
+#: calendar/gui/itip-utils.c:319 calendar/gui/itip-utils.c:376
+msgid "Free/Busy information"
+msgstr "Verfügbarkeitsinformationen"
+
+#: calendar/gui/itip-utils.c:321
+msgid "Calendar information"
+msgstr "Kalender-Information"
+
+#: calendar/gui/itip-utils.c:370
+#, c-format
+msgid "Free/Busy information (%s to %s)"
+msgstr "Verfügbarkeitsinformationen (%s bis %s)"
+
+#: calendar/gui/itip-utils.c:382
+msgid "iCalendar information"
+msgstr "iKalender-Information"
+
+#: calendar/gui/itip-utils.c:573
 msgid "You must be an attendee of the event."
 msgstr "Sie müssen ein Teilnehmer des Ereignisses sein."
 
@@ -7541,7 +7561,7 @@ msgstr ""
 msgid "Attach a file"
 msgstr "Eine Datei beilegen"
 
-#: composer/e-msg-composer.c:696
+#: composer/e-msg-composer.c:698
 #, c-format
 msgid ""
 "Error while reading file %s:\n"
@@ -7550,29 +7570,29 @@ msgstr ""
 "Fehler beim Lesen der Datei %s:\n"
 "%s"
 
-#: composer/e-msg-composer.c:894
+#: composer/e-msg-composer.c:896
 msgid "Save as..."
 msgstr "Speichern unter..."
 
-#: composer/e-msg-composer.c:903
+#: composer/e-msg-composer.c:905
 msgid "Warning!"
 msgstr "Warnung!"
 
-#: composer/e-msg-composer.c:907
+#: composer/e-msg-composer.c:909
 msgid "File exists, overwrite?"
 msgstr "Datei existiert, überschreiben?"
 
-#: composer/e-msg-composer.c:929
+#: composer/e-msg-composer.c:931
 #, c-format
 msgid "Error saving file: %s"
 msgstr "Fehler beim Speichern der Datei: %s"
 
-#: composer/e-msg-composer.c:948
+#: composer/e-msg-composer.c:950
 #, c-format
 msgid "Error loading file: %s"
 msgstr "Fehler beim Laden der Datei: %s"
 
-#: composer/e-msg-composer.c:1019
+#: composer/e-msg-composer.c:1021
 msgid ""
 "Unable to open the drafts folder for this account.\n"
 "Would you like to use the default drafts folder?"
@@ -7580,16 +7600,16 @@ msgstr ""
 "Der Entwürfe-Ordner für diesen Zugang konnte nicht geöffnet werden.\n"
 "Möchten Sie den vorgegebenen Entwürfe-Ordner verwenden?"
 
-#: composer/e-msg-composer.c:1069
+#: composer/e-msg-composer.c:1071
 #, c-format
 msgid "Error accessing file: %s"
 msgstr "Fehler beim Zugriff auf Datei: %s"
 
-#: composer/e-msg-composer.c:1077
+#: composer/e-msg-composer.c:1079
 msgid "Unable to retrieve message from editor"
 msgstr "Nachricht konnte nicht vom Editor erhalten werden"
 
-#: composer/e-msg-composer.c:1084
+#: composer/e-msg-composer.c:1086
 #, c-format
 msgid ""
 "Unable to seek on file: %s\n"
@@ -7598,7 +7618,7 @@ msgstr ""
 "In Datei konnte nicht gesucht werden: %s\n"
 "%s"
 
-#: composer/e-msg-composer.c:1091
+#: composer/e-msg-composer.c:1093
 #, c-format
 msgid ""
 "Unable to truncate file: %s\n"
@@ -7607,7 +7627,7 @@ msgstr ""
 "Datei konnte nicht verkürzt werden: %s\n"
 "%s"
 
-#: composer/e-msg-composer.c:1100
+#: composer/e-msg-composer.c:1102
 #, c-format
 msgid ""
 "Error autosaving message: %s\n"
@@ -7616,7 +7636,7 @@ msgstr ""
 "Fehler beim automatischen Speichern der Nachricht: %s\n"
 "%s"
 
-#: composer/e-msg-composer.c:1202
+#: composer/e-msg-composer.c:1204
 msgid ""
 "Ximian Evolution has found unsaved files from a previous session.\n"
 "Would you like to try to recover them?"
@@ -7625,7 +7645,7 @@ msgstr ""
 "entdeckt.\n"
 "Möchten Sie eine Wiederherstellung versuchen?"
 
-#: composer/e-msg-composer.c:1356
+#: composer/e-msg-composer.c:1358
 msgid ""
 "This message has not been sent.\n"
 "\n"
@@ -7635,23 +7655,23 @@ msgstr ""
 "\n"
 "Wollen Sie Ihre Änderungen speichern?"
 
-#: composer/e-msg-composer.c:1363
+#: composer/e-msg-composer.c:1365
 msgid "Warning: Modified Message"
 msgstr "Warnung: Geänderte Nachricht"
 
-#: composer/e-msg-composer.c:1386
+#: composer/e-msg-composer.c:1388
 msgid "Open file"
 msgstr "Datei öffnen"
 
-#: composer/e-msg-composer.c:1535
+#: composer/e-msg-composer.c:1537
 msgid "Insert File"
 msgstr "Datei einfügen"
 
-#: composer/e-msg-composer.c:1910 composer/e-msg-composer.c:2351
+#: composer/e-msg-composer.c:1923 composer/e-msg-composer.c:2364
 msgid "Compose a message"
 msgstr "Eine Nachricht erstellen"
 
-#: composer/e-msg-composer.c:2368
+#: composer/e-msg-composer.c:2381
 msgid ""
 "Could not create composer window:\n"
 "Unable to activate address selector control."
@@ -7659,7 +7679,7 @@ msgstr ""
 "Erstellungsfenster konnte nicht angelegt werden:\n"
 "Adresswähler-Control konnte nicht aktiviert werden."
 
-#: composer/e-msg-composer.c:2391 composer/e-msg-composer.c:2446
+#: composer/e-msg-composer.c:2404 composer/e-msg-composer.c:2459
 msgid ""
 "Could not create composer window:\n"
 "Unable to activate HTML editor component."
@@ -14260,6 +14280,21 @@ msgstr "init-corba(): GNOME konnte nicht initialisiert werden"
 #: wombat/wombat.c:225
 msgid "init_bonobo(): could not initialize Bonobo"
 msgstr "init_bonobo(): Bonobo konnte nicht initialisiert werden"
+
+#~ msgid "B_usiness"
+#~ msgstr "Geschäftlich"
+
+#~ msgid "Business _Fax"
+#~ msgstr "Geschäftliches Fax"
+
+#~ msgid "_Business"
+#~ msgstr "Geschäftlich"
+
+#~ msgid "_Home"
+#~ msgstr "Zu Hause"
+
+#~ msgid "_Mobile"
+#~ msgstr "Mobil"
 
 #~ msgid ""
 #~ "Issuer: %s\n"
