@@ -15,6 +15,7 @@ libcamel_la_SOURCES = 				\
 	camel-log.c				\
 	camel-data-wrapper.c			\
 	camel-folder.c				\
+	camel-mime-part.c			\
 	camel-provider.c			\
 	camel-service.c				\
 	camel-session.c				\
@@ -26,6 +27,7 @@ libcamelinclude_HEADERS =			\
 	camel-log.h				\
 	camel-data-wrapper.h			\
 	camel-folder.h				\
+	camel-mime-part.h			\
 	camel-provider.h			\
 	camel-service.h				\
 	camel-session.h				\

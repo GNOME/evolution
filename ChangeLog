@@ -1,5 +1,8 @@
 1999-05-08  bertrand <Bertrand.Guiheneuf@inria.fr>
 
+	* camel/camel-mime-part.[ch]: 
+	new class. models a mime mail part.
+
 	* camel/camel-data-wrapper.c 
 	(camel_data_wrapper_write_to_buffer): method to
 	stream data content in a buffer.
