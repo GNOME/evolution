@@ -209,7 +209,6 @@ xml_create (FilterElement *fe, xmlNodePtr node)
 {
 	FilterOption *fo = (FilterOption *)fe;
 	xmlNodePtr n, work;
-	struct _filter_option *op;
 
 	/* parent implementation */
         ((FilterElementClass *)(parent_class))->xml_create(fe, node);

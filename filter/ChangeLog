@@ -1,3 +1,7 @@
+2002-07-31  Ettore Perazzoli  <ettore@ximian.com>
+
+	* filter-option.c (xml_create): Remove unused variable.
+
 2002-07-30  Peter Williams  <peterw@ximian.com>
 
 	* filter-rule.c (get_widget): Translate the rule name when filling
