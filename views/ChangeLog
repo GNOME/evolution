@@ -1,6 +1,0 @@
-2003-09-11  Tim Wo <tim.wo@sun.com>
-                                                                                                                             
-        * mail/galview.xml: add mnemonic "M" for "Message",
-	add "S" for "As Sent Folder", add "b" for "By Subject",
-	add "n" for "By Sender", add "t" for "By Status",
-	add "F" for "By Follow Up Flag". Fixes bug #48097
