@@ -100,12 +100,14 @@ eab_name_and_email_query (EBook *book,
 	 * We only query against the username part of the address, to avoid not matching
 	 * fred@foo.com and fred@mail.foo.com.  While their may be namespace collisions
 	 * in the usernames of everyone out there, it shouldn't be that bad.  (Famous last words.)
+	 * But if name is missing we query against complete email id to avoid matching emails like 
+	 * users@foo.org with users@bar.org 
 	 */
 	if (escaped_email) {
 		const gchar *t = escaped_email;
 		while (*t && *t != '@')
 			++t;
-		if (*t == '@') {
+		if (*t == '@' && escaped_name) {
 			email_query = g_strdup_printf ("(beginswith \"email\" \"%.*s@\")", t-escaped_email, escaped_email);
 
 		} else {
@@ -113,12 +115,9 @@ eab_name_and_email_query (EBook *book,
 		}
 	}
 
-	/* Build our name query.
-	 * We only do name-query stuff if we don't have an e-mail address.  Our basic assumption
-	 * is that the username part of the email is good enough to keep the amount of stuff returned
-	 * in the query relatively small.
-	 */
-	if (escaped_name && !escaped_email)
+	/* Build our name query.*/
+	
+	if (escaped_name)
 		name_query = g_strdup_printf ("(or (beginswith \"file_as\" \"%s\") (beginswith \"full_name\" \"%s\"))", escaped_name, escaped_name);
 
 	/* Assemble our e-mail & name queries */

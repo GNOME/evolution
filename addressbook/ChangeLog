@@ -1,3 +1,13 @@
+2004-11-07  Sivaiah Nallagatla <snallagatla@novell.com>
+
+       * util/eab-book-util.c (eab_name_and_email_query) :
+       When name is NULL query against complete email id instead of
+       user name part to take care of users@foo.org not matching
+       against users@bar.org . Also include query based on name always
+
+       Fix for  #67656
+
+
 2004-11-08  Andre Klapper  <a901600@gmx.de>
 
 	Fixes bug #61966.
