@@ -1183,6 +1183,23 @@ Kerberos
 	      <fill>False</fill>
 	    </child>
 	  </widget>
+
+	  <widget>
+	    <class>GtkLabel</class>
+	    <name>lblNote</name>
+	    <label>Note: you will not be prompted for a password until you connect for the first time</label>
+	    <justify>GTK_JUSTIFY_LEFT</justify>
+	    <wrap>False</wrap>
+	    <xalign>0.03</xalign>
+	    <yalign>0.5</yalign>
+	    <xpad>0</xpad>
+	    <ypad>0</ypad>
+	    <child>
+	      <padding>0</padding>
+	      <expand>False</expand>
+	      <fill>False</fill>
+	    </child>
+	  </widget>
 	</widget>
       </widget>
     </widget>
