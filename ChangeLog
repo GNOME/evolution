@@ -1,3 +1,7 @@
+2002-11-07  JP Rosevear  <jpr@ximian.com>
+
+	* configure.in: update e-util and calendar compile flags
+
 2002-11-07  Rodrigo Moya <rodrigo@ximian.com>
 
 	* configure.in: added libgnome-2.0 to camel requirements.
