@@ -1,3 +1,8 @@
+2005-02-10  JP Rosevear  <jpr@novell.com>
+
+	* e-component-registry.c (query_components): unref the menu icon
+	if it exists to fix a leak
+
 2005-02-07  JP Rosevear  <jpr@novell.com>
 
 	* apps_evolution_shell.schemas.in.in: clean up descriptions

@@ -229,6 +229,8 @@ query_components (EComponentRegistry *registry)
 
 		if (icon != NULL)
 			g_object_unref (icon);
+		if (menuicon != NULL)
+			g_object_unref (menuicon);
 		bonobo_object_release_unref(iface, NULL);
 	}
 	g_slist_free(language_list);
