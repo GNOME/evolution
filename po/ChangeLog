@@ -1,3 +1,9 @@
+2000-12-14  Kjartan Maraas  <kmaraas@gnome.org>
+
+	* no.po: Updated Norwegian translation.
+	* POTFILES.in: This too.
+	* .potignore: Adjust to fit the new tools.
+	
 2000-12-14  Christian Rose  <menthos@menthos.com>
 
 	* sv.po: Added Id tag to easier trace changes.
