@@ -52,15 +52,14 @@ libcalendar_conduit_la_LDFLAGS = \
 
 libcalendar_conduit_la_LIBADD = 				\
 	$(BONOBO_VFS_GNOME_LIBS)				\
-	$(top_builddir)/calendar/cal-client/libcal-client.a	\
+	$(top_builddir)/calendar/cal-client/libcal-client.la	\
+	$(top_builddir)/calendar/cal-util/libcal-util.la	\
+	$(top_builddir)/libversit/libversit.la			\
+	$(top_builddir)/libical/src/libical/libical.la 		\
 	$(PISOCK_LIBDIR) $(PISOCK_LIBS) 			\
 	$(GNOME_LIBDIR) 					\
 	$(GNOME_LIBS)
 
-
-#	$(top_builddir)/calendar/cal-util/libcal-util.la	\
-#	$(top_builddir)/libversit/libversit.la			\
-#	$(top_builddir)/libical/src/libical/libical.la 		\
 
 
 ccenterdir = $(datadir)/control-center
