@@ -2002,3 +2002,12 @@ e_date_edit_set_get_time_callback	(EDateEdit	*dedit,
 
 }
 
+GtkWidget *
+e_date_edit_get_entry       (EDateEdit      *dedit)
+{
+	EDateEditPrivate *priv;
+	priv = dedit->priv;
+
+	return GTK_WIDGET(priv->date_entry);
+}
+

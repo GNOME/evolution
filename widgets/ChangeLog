@@ -1,3 +1,8 @@
+2005-01-18  Hao Sheng  <hao.sheng@sun.com>
+
+	* misc/e-dateedit.[ch]:
+	(e_date_edit_get_entry): return the entry of the date edit.
+
 2004-11-12  JP Rosevear  <jpr@novell.com>
 
 	* menus/gal-view-menus.c: Convert to G_DEFINE_TYPE

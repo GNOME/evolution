@@ -175,4 +175,6 @@ void	   e_date_edit_set_get_time_callback	(EDateEdit	*dedit,
 						 gpointer	 data,
 						 GtkDestroyNotify destroy);
 
+GtkWidget* e_date_edit_get_entry       (EDateEdit      *dedit);
+
 #endif
