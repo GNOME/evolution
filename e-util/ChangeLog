@@ -1,3 +1,7 @@
+2004-08-26  Rodrigo Moya <rodrigo@novell.com>
+
+	* eggtrayicon.[ch]: updated from libegg.
+
 2004-08-20  Frederic Crozat  <fcrozat@mandrakesoft.com>
 
 	* e-dialog-utils.c: (e_notice):
