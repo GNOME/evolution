@@ -9,8 +9,6 @@
 
   <keybindings>
 
-	<accel name="D" verb="MessageDelete"/>
-
   </keybindings>
 
   <menu>
@@ -22,12 +20,12 @@
         <menuitem name="Print" verb="PrintMessage"
         _label="Print message..."
         _tip="Print message to the printer"
-        pixtype="stock" pixname="Print"/>
+        pixtype="stock" pixname="Print" accel="*Control**Alt*P"/>
 
         <menuitem name="Print Preview" verb="PrintPreviewMessage"
         _label="Print Preview of message..."
         _tip="Previews the message to be printed"
-        pixtype="stock" pixname="Print"/>
+        pixtype="stock" pixname="Print" accel="*Control**Alt*V"/>
 
       </placeholder>
 
@@ -36,10 +34,10 @@
     <submenu name="Edit">
 
         <menuitem name="EditSelectAll" verb=""
-        _label="Select _All"/>
+        _label="Select _All" accel="*Control*a"/>
 
         <menuitem name="EditInvertSelection" verb=""
-        _label="_Invert Selection"/>
+        _label="_Invert Selection" accel="*Control*i"/>
 
     </submenu>
 
@@ -47,26 +45,26 @@
 
       <menuitem/>
 
-      <menuitem name="Threaded" verb="ViewThreaded"/>
+      <menuitem name="Threaded" verb="ViewThreaded" accel="*Control*t"/>
 
     </submenu>
 
     <submenu name="Settings">
 
       <menuitem name="MailFilters" verb="SetMailFilter"
-      _label="Mail _Filters..."/>
+      _label="Mail _Filters..." accel="*Control*m"/>
 
       <menuitem name="VFolderEdit" verb="SetVFolder"
-      _label="_Virtual Folder Editor..."/>
+      _label="_Virtual Folder Editor..." accel="*Control*V"/>
 
       <menuitem name="SetMailConfig" verb=""
-      _label="_Mail Configuration..."/>
+      _label="_Mail Configuration..." accel="*Control*C"/>
 
       <menuitem name="SetSubscribe" verb=""
-      _label="Manage Subscriptions..."/>
+      _label="Manage Subscriptions..." accel="*Control*u"/>
 
       <menuitem name="SetForgetPwd" verb=""
-      _label="Forget _Passwords"/>
+      _label="Forget _Passwords" accel="*Control*p"/>
 
     </submenu>
 
@@ -76,75 +74,93 @@
 
         <menuitem name="MessageOpenNewWnd" verb=""
         _label="_Open in New Window"
-        accel="*Control*o"/>
+        accel="*Control**Alt*o"/>
 
         <menuitem name="MessageEdit" verb=""
-        _label="_Edit Message"/>
+        _label="_Edit Message"
+         accel="*Control**Alt*e"/>
 
         <menuitem name="MessagePrint" verb=""
-        _label="_Print Message"/>
+        _label="_Print Message"
+         accel="*Control**Alt*p"/>
 
         <menuitem/>
 
         <menuitem name="MessageReplySndr" verb=""
-        _label="Reply to _Sender"/>
+        _label="Reply to _Sender"
+        accel="*Control**Alt*s"/>
 
         <menuitem name="MessageReplyAll" verb=""
-        _label="Reply to _All"/>
+        _label="Reply to _All"
+         accel="*Control**Alt*a"/>
 
         <menuitem name="MessageForward" verb=""
-        _label="_Forward"/>
+        _label="_Forward"
+         accel="*Control**Alt*f"/>
 
         <menuitem/>
 
         <menuitem name="MessageMarkAsRead" verb=""
-        _label="Mar_k As Read"/>
+        _label="Mar_k As Read"
+         accel="*Control**Alt*r"/>
 
         <menuitem name="MessageMarkAsUnRead" verb=""
-        _label="Mark As U_nread"/>
+        _label="Mark As U_nread"
+         accel="*Control**Alt*u"/>
 
         <menuitem/>
 
         <menuitem name="MessageMove" verb=""
-        _label="_Move to Folder..."/>
+        _label="_Move to Folder..."
+         accel="*Control**Alt*m"/>
 
         <menuitem name="MessageCopy" verb=""
-        _label="_Copy to Folder..."/>
+        _label="_Copy to Folder..."
+         accel="*Control**Alt*c"/>
 
         <menuitem name="MessageDelete" verb=""
-        _label="_Delete"/>
+        _label="_Delete"
+         accel="*Control**Alt*d"/>
 
         <menuitem name="MessageUndelete" verb=""
-        _label="_Undelete"/>
+        _label="_Undelete"
+         accel="*Control**Alt*n"/>
 
         <menuitem/>
 
         <menuitem name="MessageApplyFilters" verb=""
-        _label="_Apply Filters"/>
+        _label="_Apply Filters"
+         accel="*Control**Alt*y"/>
 
         <menuitem/>
 
         <submenu name="MessageCreateRuleFromMessage" _label="Create Rule From Message">
 
           <menuitem name="MessageVFolderSubj" verb=""
-          _label="_VFolder on Subject"/>
+          _label="_VFolder on Subject"
+           accel="*Shift**Alt*v"/>
 
           <menuitem name="MessageVFolderSndr" verb=""
-          _label="VFolder on Se_nder"/>
+          _label="VFolder on Se_nder"
+           accel="*Shift**Alt*n"/>
 
           <menuitem name="MessageVFolderRecip" verb=""
-          _label="VFolder on _Recipients"/>
+          _label="VFolder on _Recipients"
+           accel="*Shift**Alt*r"/>
 
           <menuitem/>
 
           <menuitem name="MessageFilterSubj" verb=""
-          _label="_Filter on Subject"/>
+          _label="_Filter on Subject"
+           accel="*Shift**Alt*f"/>
 
           <menuitem name="MessageFilterSndr" verb=""
-          _label="Fi_lter on Sender"/>
+          _label="Fi_lter on Sender"
+           accel="*Shift**Alt*l"/>
 
           <menuitem name="MessageFilterRecip" verb=""
-          _label="Filter on Rec_ipients"/>
+          _label="Filter on Rec_ipients"
+           accel="*Shift**Alt*i"/>
 
         </submenu>
 
@@ -153,10 +169,12 @@
       <submenu name="Folder" _label="F_older">
 
         <menuitem name="FolderExpunge" verb=""
-        _label="_Expunge"/>
+        _label="_Expunge"
+         accel="*Control*x"/>
 
         <menuitem name="FolderConfig" verb=""
-        _label="_Configure Folder"/>
+        _label="_Configure Folder"
+         accel="*Control*g"/>
 
       </submenu>
 
@@ -209,3 +227,15 @@
 
   </dockitem>
 </Root>
+
+
+
+
+
+
+
+
+
+
+
+

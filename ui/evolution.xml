@@ -10,7 +10,7 @@
 	</commands>
 	<menu>
 		<submenu name="File" _label="_File">
-			<submenu name="New" _label="_New">
+			<submenu name="New" _label="_New">                  >
 				<menuitem name="View" verb="NewView" _label="_View"
 				accel="*Control**Shift*v"
 				pixtype="stock" pixname="New"/>
@@ -48,11 +48,11 @@
 
 			<menuitem name="FileGoToFolder" verb=""
 			_label="_Go to Folder..."
-			_tip="Display a different folder"/>
+			_tip="Display a different folder" accel="*Control*o"/>
 
 			<menuitem name="FileCreateFolder" verb=""
 			_label="_Create New Folder..."
-			_tip="Create a new folder"/>
+			_tip="Create a new folder" accel="*Control*n"/>
 
 			<placeholder name="Print" delimit="top"/>
 
@@ -69,8 +69,9 @@
 
 		<submenu name="View" _label="_View">
 
-			<menuitem name="ShortcutBar" id="ViewShortcutBar"/>
-			<menuitem name="FolderBar" id="ViewFolderBar"/>
+			<menuitem name="ShortcutBar" id="ViewShortcutBar" 
+				  accel="*Control*s"/>
+			<menuitem name="FolderBar" id="ViewFolderBar" accel="*Control*f"/>
 
 		</submenu>
 
@@ -81,32 +82,39 @@
 		<submenu name="Help" _label="_Help">
 
 			<menuitem name="HelpIndex" verb=""
-			_label="_Index"/>
+			_label="_Index"
+                        accel="*Control*h"/>
 
 			<menuitem name="HelpGetStarted" verb=""
-			_label="Getting _Started"/>
+			_label="Getting _Started"
+			 accel="*Control*F1"/>
 
 			<menuitem name="HelpUsingMail" verb=""
-			_label="Using the _Mailer"/>
+			_label="Using the _Mailer"
+			 accel="*Control*F2"/>
 
 			<menuitem name="HelpUsingCalendar" verb=""
-			_label="Using the _Calendar"/>
+			_label="Using the _Calendar"
+			 accel="*Control*F3"/>
 
 			<menuitem name="HelpUsingContact" verb=""
-			_label="Using the C_ontact Manager"/>
+			_label="Using the C_ontact Manager"
+			 accel="*Control*F4"/>
 
 			<menuitem/>
 
 			<menuitem name="HelpSubmitBug" verb=""
-			_label="_Submit Bug Report"
-			_tip="Submit bug report using Bug Buddy"/>
+			_label="Submit _Bug Report"
+			_tip="Submit bug report using Bug Buddy"
+			 accel="*Control*B"/>
 
 			<menuitem/>
 
 			<menuitem name="HelpAbout" verb=""
 			_label="_About Evolution..."
 			_tip="Show information about Evolution"
-			pixtype="stock" pixname="About"/>
+			pixtype="stock" pixname="About" 
+                        accel="*Control*e"/>
 
 		</submenu>
 	</menu>
@@ -118,3 +126,5 @@
 		<control name="Progress"/>
 	</status>
 </Root>
+
+

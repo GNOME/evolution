@@ -1,4 +1,8 @@
 2000-11-08  Anna Marie Dirks <anna@helixcode.com>
+	* evolution.xml: Added keyboard shortcuts to all shell menus.
+	* evolution-mail.xml: Added keyboard shortcuts to all shell menus.
+
+2000-11-08  Anna Marie Dirks <anna@helixcode.com>
         * evolution-message-composer.xml: Added keyboard shortcuts
 	to all of the composer menus.
 
