@@ -1378,6 +1378,10 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 			
 			if (cursor_row == view_to_model_row(eti, row) && cursor_col == view_to_model_col(eti, col)){
 
+				if ((!eti_editing(eti)) && e_table_model_is_cell_editable(eti->selection->model, cursor_col, cursor_row)) {
+					e_table_item_enter_edit (eti, col, row);
+				}
+
 				ecell_view = eti->cell_views [col];
 				
 				/*
@@ -1495,6 +1499,7 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 		
 	case GDK_KEY_PRESS: {
 		gint cursor_row, cursor_col;
+		gint handled = TRUE;
 		gtk_object_get(GTK_OBJECT(eti->selection),
 			       "cursor_row", &cursor_row,
 			       "cursor_col", &cursor_col,
@@ -1505,18 +1510,22 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 
 		switch (e->key.keyval){
 		case GDK_Left:
-			if (eti_editing (eti))
+			if (eti_editing (eti)) {
+				handled = FALSE;
 				break;
+			}
 			
-			if (cursor_col > 0)
+			if (cursor_col != view_to_model_col(eti, 0))
 				eti_cursor_move_left (eti);
 			break;
 			
 		case GDK_Right:
-			if (eti_editing (eti))
+			if (eti_editing (eti)) {
+				handled = FALSE;
 				break;
-			
-			if (cursor_col < eti->cols - 1)
+			}
+
+			if (cursor_col != view_to_model_col(eti, eti->cols - 1))
 				eti_cursor_move_right (eti);
 			break;
 			
@@ -1553,6 +1562,15 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 				else 
 					return_val = FALSE;
 			}
+			gtk_object_get(GTK_OBJECT(eti->selection),
+				       "cursor_row", &cursor_row,
+				       "cursor_col", &cursor_col,
+				       NULL);
+
+			if (cursor_col > 0 && cursor_row > 0 && return_val &&
+			    (!eti_editing(eti)) && e_table_model_is_cell_editable(eti->selection->model, cursor_col, cursor_row)) {
+				e_table_item_enter_edit (eti, model_to_view_col(eti, cursor_col), model_to_view_row(eti, cursor_row));
+			}
 			break;
 
 		case GDK_Return:
@@ -1560,8 +1578,11 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 		case GDK_ISO_Enter:
 		case GDK_3270_Enter:
 			if (eti_editing (eti)){
+				e_table_item_leave_edit (eti);
+#if 0
 				ecell_view = eti->cell_views [eti->editing_col];
 				e_cell_event (ecell_view, e, view_to_model_col(eti, eti->editing_col), eti->editing_col, eti->editing_row);
+#endif
 			}
 			return_val = FALSE;
 			gtk_signal_emit (GTK_OBJECT (eti), eti_signals [KEY_PRESS],
@@ -1569,6 +1590,18 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 			break;
 			
 		default:
+			handled = FALSE;
+			break;
+		}
+		if (!handled) {
+			if (!eti_editing (eti)){
+				gint col, row;
+				row = model_to_view_row(eti, cursor_row);
+				col = model_to_view_col(eti, cursor_col);
+				if (col != -1 && row != -1 && e_table_model_is_cell_editable(eti->selection->model, cursor_col, cursor_row)) {
+					e_table_item_enter_edit (eti, col, row);
+				}
+			}
 			if (!eti_editing (eti)){
 				gtk_signal_emit (GTK_OBJECT (eti), eti_signals [KEY_PRESS],
 						 model_to_view_row(eti, cursor_row), cursor_col, e, &return_val);
@@ -1579,7 +1612,7 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 		}
 		break;
 	}
-		
+	
 	case GDK_KEY_RELEASE: {
 		gint cursor_row, cursor_col;
 
@@ -1776,11 +1809,12 @@ eti_cursor_change (ETableSelectionModel *selection, int row, int col, ETableItem
 
 	eti_request_region_show (eti, view_col, view_row, view_col, view_row);
 	e_canvas_item_grab_focus(GNOME_CANVAS_ITEM(eti));
-	if (e_table_model_is_cell_editable(selection->model, col, view_row)) {
-		e_table_item_enter_edit (eti, view_col, view_row);
-	}
+	if (eti_editing(eti))
+		e_table_item_leave_edit (eti);
 	gtk_signal_emit (GTK_OBJECT (eti), eti_signals [CURSOR_CHANGE],
 			 view_row);
+	eti->needs_redraw = TRUE;
+	gnome_canvas_item_request_update(GNOME_CANVAS_ITEM(eti));
 }
 
 static void
