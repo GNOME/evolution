@@ -1199,6 +1199,7 @@ po/Makefile.in
 shell/Makefile
 shell/glade/Makefile
 shell/importer/Makefile
+sounds/Makefile
 tools/Makefile
 ui/Makefile
 views/Makefile

@@ -34,6 +34,7 @@ SUBDIRS =			\
 	importers		\
 	my-evolution		\
         art                     \
+	sounds			\
 	ui			\
         default_user            \
 	views			\
