@@ -49,7 +49,7 @@ guint		filter_driver_get_type	(void);
 FilterDriver      *filter_driver_new	(void);
 
 void filter_driver_set_session(FilterDriver *, CamelSession *);
-int filter_driver_set_rules(FilterDriver *, const char *description, const char *filter);
+int filter_driver_set_rules(FilterDriver *, const char *system, const char *filter);
 void filter_driver_set_global(FilterDriver *, const char *name, const char *value);
 
 /* apply rules to a folder, unmatched messages goto inbox, if not NULL */

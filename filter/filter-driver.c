@@ -195,6 +195,8 @@ int filter_driver_set_rules(FilterDriver *d, const char *description, const char
 	struct _FilterDriverPrivate *p = _PRIVATE(d);
 	xmlDocPtr desc, filt;
 
+	printf("Loading system '%s'\nLoading user '%s'\n", description, filter);
+
 #warning "fix leaks, free xml docs here"
 	desc = xmlParseFile(description);
 	p->rules = filter_load_ruleset(desc);
@@ -387,7 +389,7 @@ do_copy(struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterDriver *d)
 	int i;
 	struct _FilterDriverPrivate *p = _PRIVATE(d);
 
-	printf("doing copy on the following messages to:");
+	printf("doing copy\n");
 	for (i=0;i<argc;i++) {
 		if (argv[i]->type == ESEXP_RES_STRING) {
 			char *folder = argv[i]->value.string;
@@ -468,11 +470,20 @@ open_folder(FilterDriver *d, const char *folder_url)
 		goto fail;
 	}
 
-	g_free(store);
-
 	if (!camel_folder_exists(camelfolder, p->ex)) {
 		camel_folder_create(camelfolder, p->ex);
 	}
+
+	camel_folder_open(camelfolder, FOLDER_OPEN_RW, p->ex);
+
+	if (camel_exception_get_id (p->ex)) {
+		printf ("Could not open folder: %s: %s", folder, camel_exception_get_description (p->ex));
+		goto fail;
+	}
+
+	printf("opening folder: %s\n", folder_url);
+
+	g_free(store);
 
 	g_hash_table_insert(p->folders, g_strdup(folder_url), camelfolder);
 
@@ -489,6 +500,8 @@ close_folder(void *key, void *value, void *data)
 	CamelFolder *f = value;
 	FilterDriver *d = data;
 	struct _FilterDriverPrivate *p = _PRIVATE(d);
+
+	printf("closing folder: %s\n", key);
 
 	g_free(key);
 	camel_folder_close(f, TRUE, p->ex);
@@ -518,6 +531,7 @@ filter_driver_run(FilterDriver *d, CamelFolder *source, CamelFolder *inbox)
 	GString *s, *a;
 	GList *all, *m;
 
+#warning "This must be made mega-robust"
 	p->source = source;
 
 	/* setup runtime data */
@@ -542,6 +556,8 @@ filter_driver_run(FilterDriver *d, CamelFolder *source, CamelFolder *inbox)
 		m = p->matches;
 		while (m) {
 			GList *n = m->next;
+
+			printf("matched: %s\n", m->data);
 
 			/* for all matching id's, so we can work out what to default */
 			if (g_hash_table_lookup(p->processed, m->data) == NULL) {
@@ -569,33 +585,35 @@ filter_driver_run(FilterDriver *d, CamelFolder *source, CamelFolder *inbox)
 		options = g_list_next(options);
 	}
 
-	/* apply the default of copying to an inbox, if we are given one */
-	if (inbox) {
-		all = camel_folder_get_uid_list(p->source, p->ex);
-		m = all;
-		while (m) {
-			char *uid = m->data;
-			
-			if (g_hash_table_lookup(p->processed, uid) == NULL) {
-				CamelMimeMessage *mm;
+	/* apply the default of copying to an inbox, if we are given one, and make sure
+	   we delete everything as well */
+	all = camel_folder_get_uid_list(p->source, p->ex);
+	m = all;
+	while (m) {
+		char *uid = m->data, *procuid;
+		CamelMimeMessage *mm;
 
+		procuid = g_hash_table_lookup(p->processed, uid);
+		if (procuid == NULL) {
+			if (inbox) {
 				printf("Applying default rule to message %s\n", uid);
 
 				mm = camel_folder_get_message_by_uid(p->source, m->data, p->ex);
 				camel_folder_append_message(inbox, mm, p->ex);
+				camel_mime_message_set_flags(mm, CAMEL_MESSAGE_DELETED, CAMEL_MESSAGE_DELETED);
 				gtk_object_unref((GtkObject *)mm);
-
 			}
-			m = m->next;
+		} else {
+			camel_folder_delete_message_by_uid(p->source, uid, p->ex);
 		}
-		g_list_free(all);
+		m = m->next;
 	}
+	g_list_free(all);
 
 	g_hash_table_destroy(p->processed);
 	g_hash_table_destroy(p->terminated);
-	g_hash_table_destroy(p->folders);
-
 	close_folders(d);
+	g_hash_table_destroy(p->folders);
 
 	return 0;
 }

@@ -342,8 +342,7 @@ write_description(xmlDocPtr doc, GList *descl)
 
 	desc = descl->data;
 	d = xmlNewDocNode(doc, NULL, "description", NULL);
-	if (desc->type == FILTER_XML_TEXT)
-		xmlNodeSetContent(d, desc->data);
+	xmlNodeSetContent(d, desc->data);
 	return d;
 }
 

@@ -185,9 +185,9 @@ static int display_order[] = {
 	FILTER_XML_ACTION,
 };
 static char *display_pretext[] = {
-	"<b>For messages matching:</b><br><ul>",
-	"<b>Unless:</b><br><ul>",
-	"<b>Perform these actions:</b><br><ul>",
+	"<b>For messages matching:</b><ul>",
+	"<b>Unless:</b><ul>",
+	"<b>Perform these actions:</b><ul>",
 };
 static char *display_posttext[] = {
 	"</ul>",

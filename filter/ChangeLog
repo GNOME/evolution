@@ -1,4 +1,13 @@
+2000-05-17  NotZed  <NotZed@HelixCode.com>
+
+	* filter-druid.c: Fix some html formatting.
+
 2000-05-16  NotZed  <NotZed@HelixCode.com>
+
+	* filter-driver.c (filter_driver_run): Delete all processed
+	messages.  This is probably going to slow it down a bit.
+	(filter_driver_run): Close folders before destroying them *sigh*.
+	(open_folder): Actually open the folder. Doh.
 
 	* filtertypes.xml: Initial filter rules.
 
