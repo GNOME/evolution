@@ -59,7 +59,8 @@ write_data_to_file (CamelMimePart *part, const char *name, gboolean unique)
 	CamelStream *stream_fs;
 	CamelDataWrapper *data;
 	const char *charset;
-	int fd, chid;
+	int fd;
+	int ret = FALSE;
 	
 	g_return_val_if_fail (CAMEL_IS_MIME_PART (part), FALSE);
 	data = camel_medium_get_content_object (CAMEL_MEDIUM (part));
@@ -84,27 +85,38 @@ write_data_to_file (CamelMimePart *part, const char *name, gboolean unique)
 		fd = open (name, O_WRONLY | O_TRUNC);
 	}
 
-	if (fd == -1) {
+	if (fd == -1
+	    || (stream_fs = camel_stream_fs_new_with_fd (fd)) == NULL) {
 		char *msg;
 
 		msg = g_strdup_printf (_("Could not open file %s:\n%s"),
-				       name, g_strerror (errno));
+				       name, strerror (errno));
 		gnome_error_dialog (msg);
 		g_free (msg);
 		return FALSE;
 	}
 	
+
+	/* we only convert text/ parts, and we only convert if we have to
+	   null charset param == us-ascii == utf8 always, and utf8 == utf8 obviously */
+	/* this will also let "us-ascii that isn't really" parts pass out in
+	   proper format, without us trying to treat it as what it isn't, which is
+	   the same algorithm camel uses */
+	
 	content_type = camel_mime_part_get_content_type (part);
-	charset = gmime_content_field_get_parameter (content_type, "charset");
-	if (!charset)
-		charset = "us-ascii";
-	
-	charsetfilter = camel_mime_filter_charset_new_convert ("utf-8", charset);
-	
-	stream_fs = camel_stream_fs_new_with_fd (fd);
-	
-	filtered_stream = camel_stream_filter_new_with_stream (stream_fs);
-	chid = camel_stream_filter_add (filtered_stream, CAMEL_MIME_FILTER (charsetfilter));
+	if (gmime_content_field_is_type(content_type, "text", "*")
+	    && (charset = gmime_content_field_get_parameter (content_type, "charset"))
+	    && strcasecmp(charset, "utf-8") != 0) {
+		charsetfilter = camel_mime_filter_charset_new_convert ("utf-8", charset);
+		filtered_stream = camel_stream_filter_new_with_stream (stream_fs);
+		camel_stream_filter_add (filtered_stream, CAMEL_MIME_FILTER (charsetfilter));
+		camel_object_unref (CAMEL_OBJECT (charsetfilter));
+	} else {
+		/* no we can't use a CAMEL_BLAH() cast here, since its not true, HOWEVER
+		   we only treat it as a normal stream from here on, so it is OK */
+		filtered_stream = (CamelStreamFilter *)stream_fs;
+		camel_object_ref (CAMEL_OBJECT (stream_fs));
+	}
 	
 	if (camel_data_wrapper_write_to_stream (data, CAMEL_STREAM (filtered_stream)) == -1
 	    || camel_stream_flush (CAMEL_STREAM (filtered_stream)) == -1) {
@@ -114,22 +126,15 @@ write_data_to_file (CamelMimePart *part, const char *name, gboolean unique)
 				       strerror (errno));
 		gnome_error_dialog (msg);
 		g_free (msg);
-		
-		camel_stream_filter_remove (filtered_stream, chid);
-		camel_object_unref (CAMEL_OBJECT (charsetfilter));
-		camel_object_unref (CAMEL_OBJECT (filtered_stream));
-		camel_object_unref (CAMEL_OBJECT (stream_fs));
-		
-		return FALSE;
+		ret = FALSE;
+	} else {
+		ret = TRUE;
 	}
-	
-	camel_stream_filter_remove (filtered_stream, chid);
-	camel_object_unref (CAMEL_OBJECT (charsetfilter));
-	camel_stream_flush (CAMEL_STREAM (filtered_stream));
+
 	camel_object_unref (CAMEL_OBJECT (filtered_stream));
 	camel_object_unref (CAMEL_OBJECT (stream_fs));
-	
-	return TRUE;
+
+	return ret;
 }
 
 static char *
