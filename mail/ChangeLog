@@ -1,3 +1,12 @@
+2004-09-21  Not Zed  <NotZed@Ximian.com>
+
+	** See bug #63521.
+
+	* mail-ops.c (fetch_mail_fetch): delete all the messages on the
+	server if we're not in keep on server mode and everything worked.
+	uncancel ourselves before saving the cache uid since it could be
+	cancelled otherwise.
+
 2004-09-24  Not Zed  <NotZed@Ximian.com>
 
 	** See bug #66706.
