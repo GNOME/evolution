@@ -1546,7 +1546,7 @@ set_urlentry_activate_signal_field (EContactEditor *editor, char *id)
 static void
 set_entry_activate_signals (EContactEditor *editor)
 {
-	set_urlentry_activate_signal_field (editor, "entry-blog");
+	set_urlentry_activate_signal_field (editor, "entry-homepage");
 	set_urlentry_activate_signal_field (editor, "entry-caluri");
 	set_urlentry_activate_signal_field (editor, "entry-fburl");
 	set_urlentry_activate_signal_field (editor, "entry-videourl");
@@ -1574,7 +1574,7 @@ set_entry_changed_signals (EContactEditor *editor)
 	widget = glade_xml_get_widget (editor->gui, "entry-company");
 	g_signal_connect (widget, "changed", G_CALLBACK (company_entry_changed), editor);
 
-	set_urlentry_changed_signal_field (editor, "entry-blog");
+	set_urlentry_changed_signal_field (editor, "entry-homepage");
 	set_urlentry_changed_signal_field (editor, "entry-caluri");
 	set_urlentry_changed_signal_field (editor, "entry-fburl");
 	set_urlentry_changed_signal_field (editor, "entry-videourl");
@@ -1938,7 +1938,7 @@ setup_tab_order(GladeXML *gui)
 		list = add_to_tab_order(list, gui, "entry-email1");
 		list = add_to_tab_order(list, gui, "alignment-htmlmail");
 		list = add_to_tab_order(list, gui, "entry-web");
-		list = add_to_tab_order(list, gui, "entry-blog");
+		list = add_to_tab_order(list, gui, "entry-homepage");
 		list = add_to_tab_order(list, gui, "button-fulladdr");
 		list = add_to_tab_order(list, gui, "text-address");
 		list = g_list_reverse(list);
@@ -2353,7 +2353,7 @@ static struct {
 	EContactField field;
 } field_mapping [] = {
 	{ "entry-fullname", E_CONTACT_FULL_NAME },
-	{ "entry-blog", E_CONTACT_BLOG_URL },
+	{ "entry-homepage", E_CONTACT_HOMEPAGE_URL },
 	{ "entry-company", E_CONTACT_ORG },
 	{ "entry-department", E_CONTACT_ORG_UNIT },
 	{ "entry-jobtitle", E_CONTACT_TITLE },
@@ -2404,8 +2404,8 @@ static struct {
 	EContactField field_id;
 	gboolean desensitize_for_read_only;
 } widget_field_mappings[] = {
-	{ "entry-blog", E_CONTACT_BLOG_URL, TRUE },
-	{ "accellabel-blog", E_CONTACT_BLOG_URL },
+	{ "entry-homepage", E_CONTACT_HOMEPAGE_URL, TRUE },
+	{ "accellabel-homepage", E_CONTACT_HOMEPAGE_URL },
 
 	{ "entry-jobtitle", E_CONTACT_TITLE, TRUE },
 	{ "label-jobtitle", E_CONTACT_TITLE },

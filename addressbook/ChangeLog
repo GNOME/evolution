@@ -1,3 +1,15 @@
+2004-05-04  Hans Petter Jansson  <hpj@ximian.com>
+
+	* gui/contact-editor/e-contact-editor.c (set_entry_activate_signals):
+	Remove blog, add home page.
+	(set_entry_changed_signals): Ditto.
+	(setup_tab_order): Ditto.
+	(field_mapping): Ditto.
+	(widget_field_mappings): Ditto.
+
+	* gui/contact-editor/contact-editor.glade: Replace blog with home
+	page.
+
 2004-05-03  Hans Petter Jansson  <hpj@ximian.com>
 
 	* gui/widgets/e-minicard.c (e_minicard_set_property): Do ref, unref
