@@ -35,6 +35,7 @@ privlib_LTLIBRARIES = libevolution-calendar-a11y.la
 
 INCLUDES =						\
 	-DG_LOG_DOMAIN=\"evolution-a11y\"		\
+	-I$(top_srcdir)					\
 	-I$(top_srcdir)/shell				\
 	-I$(top_srcdir)/calendar			\
 	-I$(top_srcdir)/calendar/cal-client		\

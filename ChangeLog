@@ -1,3 +1,8 @@
+2004-03-15  Hao Sheng <hao.sheng@sun.com>
+
+	* a11y/addressbook/Makefile.am:
+	* a11y/calendar/Makefile.am:
+
 2004-03-15  Hao sheng  <hao.sheng@sun.com>
 
 	* configure.in: add a11y/addressbook/Makefile	
