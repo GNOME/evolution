@@ -36,6 +36,10 @@ typedef struct _ECellPixbufClass ECellPixbufClass;
 
 struct _ECellPixbuf {
     ECell parent;
+
+	int selected_column;
+	int focused_column;
+	int unselected_column;
 };
 
 struct _ECellPixbufClass {
