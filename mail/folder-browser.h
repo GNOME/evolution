@@ -63,6 +63,7 @@ struct  _FolderBrowser {
 	guint	     paned_size_notify_id;
 	
 	guint        show_preview_notify_id;
+	guint        hide_deleted_notify_id;
 	
 	/* a folder we are expunging, dont use other than to compare the pointer value */
 	CamelFolder *expunging;

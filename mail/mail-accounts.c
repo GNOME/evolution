@@ -221,12 +221,12 @@ account_delete_clicked (GtkButton *button, gpointer user_data)
 	button = (GtkButton *) gtk_button_new_from_stock (GTK_STOCK_YES);
 	gtk_button_set_label (button, _("Delete"));
 	gtk_dialog_add_action_widget ((GtkDialog *) confirm, (GtkWidget *) button, GTK_RESPONSE_YES);
-	gtk_widget_show (button);
-
+	gtk_widget_show ((GtkWidget *) button);
+	
 	button = (GtkButton *) gtk_button_new_from_stock (GTK_STOCK_NO);
 	gtk_button_set_label (button, _("Don't delete"));
 	gtk_dialog_add_action_widget ((GtkDialog *) confirm, (GtkWidget *) button, GTK_RESPONSE_NO);
-	gtk_widget_show (button);
+	gtk_widget_show ((GtkWidget *) button);
 	
 	ans = gtk_dialog_run ((GtkDialog *) confirm);
 	gtk_widget_destroy (confirm);

@@ -465,6 +465,7 @@ make_account (void)
 	struct utsname uts;
 	
 	account = g_new0 (MailConfigAccount, 1);
+	account->enabled = TRUE;
 	
 	account->id = g_new0 (MailConfigIdentity, 1);
 	name = g_get_real_name ();
@@ -769,7 +770,7 @@ get_fn (EvolutionWizard *wizard,
         if (gui->gui == NULL) {
 		if (gui->account == NULL) {
 			gui->account = make_account ();
-			g_object_set_data(G_OBJECT(wizard), "account-data", gui->account);
+			g_object_set_data ((GObject *) wizard, "account-data", gui->account);
 		}
 		
 		gui->gui = mail_account_gui_new (gui->account, NULL);
@@ -938,8 +939,6 @@ wizard_finish_cb (EvolutionWizard *wizard,
 		  MailConfigWizard *w)
 {
 	MailAccountGui *gui = w->gui;
-
-	gui->account->enabled = TRUE;
 	
 	/* Save the settings for that account */
 	if (mail_account_gui_save (gui) == FALSE)

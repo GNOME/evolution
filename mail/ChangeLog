@@ -1,5 +1,36 @@
 2003-01-10  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* folder-browser-ui.c (folder_browser_ui_add_list): We also need
+	to call message_list_set_hidedeleted() here so that any
+	deactivated folder controls will change to the currently set state
+	when re-activated.
+	(folder_browser_ui_add_global): Same for show_preview.
+
+	* folder-browser.c (hide_deleted_changed): Don't call
+	message_list_set_hidedeleted() here.
+	(folder_browser_toggle_hide_deleted): Instead, call it here. This
+	way we get a faster "response time". Also, this will make it so
+	that not all folder controls will regen their message-list at the
+	same time.
+	(folder_browser_toggle_preview): Same idea as the hide-deleted
+	changes.
+	(show_preview_changed): See above.
+
+	* mail-config-druid.c (make_account): Default the new account to
+	enabled.
+	(wizard_finish_cb): Don't set enabled here.
+
+2003-01-10  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* folder-browser.c (hide_deleted_changed): New callback for when
+	the HideDeleted state changes.
+	(folder_browser_gui_init): Listen for changes to hide_deleted so
+	we can update the menu state.
+	(folder_browser_destroy): Remove the hide_deleted notify handler.
+	(folder_browser_toggle_hide_deleted): When saving the setting,
+	remember that it is !atoi (state) rather than atoi (state) because
+	show vs hide. yea.
+
 	* mail-session.c (main_get_filter_driver): notify-type is a int,
 	not a bool. Duh.
 

@@ -558,25 +558,20 @@ folder_browser_ui_add_list (FolderBrowser *fb)
 	gconf = gconf_client_get_default ();
 	
 	if (fb->sensitise_state) {
-		g_hash_table_destroy(fb->sensitise_state);
+		g_hash_table_destroy (fb->sensitise_state);
 		fb->sensitise_state = NULL;
 	}
 	
 	ui_add (fb, "list", list_verbs, list_pixcache);
 	
 	/* Hide Deleted */
-	if (fb->folder && (fb->folder->folder_flags & CAMEL_FOLDER_IS_TRASH)) {
-		fbui_sensitise_item (fb, "HideDeleted", FALSE);
-		state = FALSE;
-	} else {
-		state = !gconf_client_get_bool (gconf, "/apps/evolution/mail/display/show_deleted", NULL);
-	}
-	
+	state = !gconf_client_get_bool (gconf, "/apps/evolution/mail/display/show_deleted", NULL);
 	bonobo_ui_component_set_prop (uic, "/commands/HideDeleted", "state", state ? "1" : "0", NULL);
 	bonobo_ui_component_add_listener (uic, "HideDeleted", folder_browser_toggle_hide_deleted, fb);
-	/* FIXME: this kind of bypasses bonobo but seems the only way when we change components */
-	folder_browser_toggle_hide_deleted (uic, "", Bonobo_UIComponent_STATE_CHANGED,
-					    state ? "1" : "0", fb);
+	if (!(fb->folder && (fb->folder->folder_flags & CAMEL_FOLDER_IS_TRASH)))
+		message_list_set_hidedeleted (fb->message_list, state);
+	else
+		fbui_sensitise_item (fb, "HideDeleted", FALSE);
 	
 	/* Threaded toggle */
 	state = mail_config_get_thread_list (FOLDER_BROWSER (fb)->uri);
@@ -621,10 +616,10 @@ folder_browser_ui_add_global (FolderBrowser *fb)
 	/* (Pre)view toggle */
 	show_preview = gconf_client_get_bool (gconf, "/apps/evolution/mail/display/show_preview", NULL);
 	bonobo_ui_component_set_prop (uic, "/commands/ViewPreview", "state", show_preview ? "1" : "0", NULL);
+	folder_browser_set_message_preview (fb, show_preview);
 	
 	/* listen for user-changes */
 	bonobo_ui_component_add_listener (uic, "ViewPreview", folder_browser_toggle_preview, fb);
-	folder_browser_set_message_preview (fb, show_preview);
 	
 	/* Stop button */
 	/* TODO: Go through cache, but we can't becaus eof mail-mt.c:set_stop at the moment */

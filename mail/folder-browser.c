@@ -208,6 +208,11 @@ folder_browser_destroy (GtkObject *object)
 		folder_browser->show_preview_notify_id = 0;
 	}
 	
+	if (folder_browser->hide_deleted_notify_id != 0) {
+		gconf_client_notify_remove (gconf, folder_browser->hide_deleted_notify_id);
+		folder_browser->hide_deleted_notify_id = 0;
+	}
+	
 	/* wait for all outstanding async events against us */
 	mail_async_event_destroy (folder_browser->async_event);
 
@@ -1281,6 +1286,7 @@ folder_browser_toggle_preview (BonoboUIComponent           *component,
 	
 	gconf = gconf_client_get_default ();
 	gconf_client_set_bool (gconf, "/apps/evolution/mail/display/show_preview", atoi (state), NULL);
+	folder_browser_set_message_preview (fb, atoi (state));
 }
 
 void
@@ -1315,19 +1321,15 @@ folder_browser_toggle_hide_deleted (BonoboUIComponent           *component,
 	FolderBrowser *fb = user_data;
 	GConfClient *gconf;
 	
-	if (type != Bonobo_UIComponent_STATE_CHANGED
-	    || fb->message_list == NULL)
+	if (type != Bonobo_UIComponent_STATE_CHANGED || fb->message_list == NULL)
 		return;
 	
 	gconf = gconf_client_get_default ();
+	gconf_client_set_bool (gconf, "/apps/evolution/mail/display/show_deleted",
+			       !atoi (state), NULL);
 	
-	/* FIXME: we should listen for changes to this, so when it changes for one folder all folders get updated */
-	if (!(fb->folder && (fb->folder->folder_flags & CAMEL_FOLDER_IS_TRASH))) {
-		gconf_client_set_bool (gconf, "/apps/evolution/mail/display/show_deleted",
-				       atoi (state), NULL);
-	}
-	
-	message_list_set_hidedeleted (fb->message_list, atoi (state));
+	if (!(fb->folder && (fb->folder->folder_flags & CAMEL_FOLDER_IS_TRASH)))
+		message_list_set_hidedeleted (fb->message_list, !atoi (state));
 }
 
 void
@@ -2361,9 +2363,24 @@ show_preview_changed (GConfClient *client, guint cnxn_id, GConfEntry *entry, gpo
 	FolderBrowser *fb = user_data;
 	gboolean show_preview;
 	
-	show_preview = gconf_client_get_bool (client, "/apps/evolution/mail/display/show_preview", NULL);
-	bonobo_ui_component_set_prop (fb->uicomp, "/commands/ViewPreview", "state", show_preview ? "1" : "0", NULL);
-	folder_browser_set_message_preview (fb, show_preview);
+	if (fb->uicomp) {
+		show_preview = gconf_client_get_bool (client, "/apps/evolution/mail/display/show_preview", NULL);
+		bonobo_ui_component_set_prop (fb->uicomp, "/commands/ViewPreview", "state",
+					      show_preview ? "1" : "0", NULL);
+	}
+}
+
+static void
+hide_deleted_changed (GConfClient *client, guint cnxn_id, GConfEntry *entry, gpointer user_data)
+{
+	FolderBrowser *fb = user_data;
+	gboolean hide_deleted;
+	
+	if (fb->uicomp) {
+		hide_deleted = !gconf_client_get_bool (client, "/apps/evolution/mail/display/show_deleted", NULL);
+		bonobo_ui_component_set_prop (fb->uicomp, "/commands/HideDeleted", "state",
+					      hide_deleted ? "1" : "0", NULL);
+	}
 }
 
 static void
@@ -2422,6 +2439,20 @@ folder_browser_gui_init (FolderBrowser *fb)
 	
 	gconf = gconf_client_get_default ();
 	
+	/* hide deleted */
+	gconf_client_add_dir (gconf, "/apps/evolution/mail/display/show_deleted",
+			      GCONF_CLIENT_PRELOAD_ONELEVEL, NULL);
+	
+	fb->hide_deleted_notify_id = gconf_client_notify_add (gconf, "/apps/evolution/mail/display/show_deleted",
+							      hide_deleted_changed, fb, NULL, NULL);
+	
+	/* show preview-pane */
+	gconf_client_add_dir (gconf, "/apps/evolution/mail/display/show_preview",
+			      GCONF_CLIENT_PRELOAD_ONELEVEL, NULL);
+	
+	fb->show_preview_notify_id = gconf_client_notify_add (gconf, "/apps/evolution/mail/display/show_preview",
+							      show_preview_changed, fb, NULL, NULL);
+	
 	/* paned size */
 	gconf_client_add_dir (gconf, "/apps/evolution/mail/display/paned_size",
 			      GCONF_CLIENT_PRELOAD_ONELEVEL, NULL);
@@ -2430,15 +2461,6 @@ folder_browser_gui_init (FolderBrowser *fb)
 							    paned_size_changed, fb, NULL, NULL);
 	
 	paned_size = gconf_client_get_int (gconf, "/apps/evolution/mail/display/paned_size", NULL);
-	
-	/* show preview-pane */
-	gconf_client_add_dir (gconf, "/apps/evolution/mail/display/show_preview",
-			      GCONF_CLIENT_PRELOAD_ONELEVEL, NULL);
-	
-	/* listen for changed events to the show_preview setting */
-	fb->show_preview_notify_id = gconf_client_notify_add (gconf, "/apps/evolution/mail/display/show_preview",
-							      show_preview_changed, fb, NULL, NULL);
-	
 	e_paned_add2 (E_PANED (fb->vpaned), GTK_WIDGET (fb->mail_display));
 	e_paned_set_position (E_PANED (fb->vpaned), paned_size);
 	gtk_widget_show (GTK_WIDGET (fb->mail_display));
@@ -2559,7 +2581,7 @@ on_message_list_focus_in (GtkWidget *widget, GdkEventFocus *event, gpointer user
 {
 	FolderBrowser *fb = (FolderBrowser *) user_data;
 	
-	printf ("got focus!\n");
+	d(printf ("got focus!\n"));
 	folder_browser_ui_message_list_focus (fb);
 	
 	return FALSE;
@@ -2570,7 +2592,7 @@ on_message_list_focus_out (GtkWidget *widget, GdkEventFocus *event, gpointer use
 {
 	FolderBrowser *fb = (FolderBrowser *) user_data;
 	
-	printf ("got unfocus!\n");
+	d(printf ("got unfocus!\n"));
 	folder_browser_ui_message_list_unfocus (fb);
 	
 	return FALSE;
@@ -2645,9 +2667,9 @@ my_folder_browser_init (FolderBrowser *fb)
 	
 	/* cut, copy & paste */
 	fb->invisible = gtk_invisible_new ();
-	g_object_ref(fb->invisible);
-	gtk_object_sink((GtkObject *)fb->invisible);
-
+	g_object_ref (fb->invisible);
+	gtk_object_sink ((GtkObject *) fb->invisible);
+	
 	for (i = 0; i < num_paste_types; i++)
 		gtk_selection_add_target (fb->invisible, clipboard_atom,
 					  paste_types[i].target,
