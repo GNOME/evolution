@@ -8,3 +8,5 @@
 * */*
 	remove the G_OBJECT macro in the calls to g_object_ref/_unref, since those functions
 	already do the type checking, and it's a heavy operation.
+* */*
+	replace the signal handlers for "destroy" with weak references.
