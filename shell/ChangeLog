@@ -1,3 +1,8 @@
+2003-02-09  Larry Ewing  <lewing@ximian.com>
+
+	* e-local-storage.c (remove_folder_directory): fix length calculation.
+	(create_folder_directory): remove alloca usage, clears up crash.
+
 2003-02-07  Larry Ewing  <lewing@ximian.com>
 
 	* e-shell-folder-creation-dialog.c

@@ -358,17 +358,18 @@ create_folder_directory (ELocalStorage *local_storage,
 		char *parent;
 
 		/* Create the `subfolders' subdirectory under the parent.  */
-		parent = alloca(strlen(parent_path)+2);
-		sprintf(parent, "%s/", parent_path);
+		parent = g_strdup_printf ("%s/", parent_path);
 		subfolders_directory_physical_path = e_path_to_physical (priv->base_path, parent);
 
 		if (! g_file_test (subfolders_directory_physical_path, G_FILE_TEST_EXISTS)) {
 			if (mkdir (subfolders_directory_physical_path, 0700) == -1) {
 				g_free (subfolders_directory_physical_path);
+				g_free (parent);
 				return errno_to_storage_result ();
 			}
 		}
 		g_free (subfolders_directory_physical_path);
+		g_free (parent);
 	}
 
 	g_free (parent_path);
@@ -501,7 +502,7 @@ remove_folder_directory (ELocalStorage *local_storage,
 		char *subfolders_directory_physical_path;
 		char *parent_path;
 		
-		parent_path = g_strndup (path, folder_name - path);
+		parent_path = g_strndup (path, strlen (path) - strlen (folder_name));
 		subfolders_directory_physical_path = e_path_to_physical (priv->base_path, parent_path);
 		g_free (parent_path);
 
