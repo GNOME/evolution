@@ -1,3 +1,8 @@
+2003-07-17  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-stream-fs.c (stream_read): Increment the seekable stream
+	position by the number of bytes read. Oops.
+
 2003-07-17  Timo Sirainen <tss@iki.fi>
 
 	** See bug #42573

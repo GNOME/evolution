@@ -220,7 +220,9 @@ stream_read (CamelStream *stream, char *buffer, size_t n)
 	if (seekable->bound_end != CAMEL_STREAM_UNBOUND)
 		n = MIN (seekable->bound_end - seekable->position, n);
 	
-	if ((nread = camel_read (stream_fs->fd, buffer, n)) == 0)
+	if ((nread = camel_read (stream_fs->fd, buffer, n)) > 0)
+		seekable->position += nread;
+	else if (nread == 0)
 		stream->eos = TRUE;
 	
 	return nread;
