@@ -35,7 +35,7 @@
   </para>
 
 
-  </para>
+
   <sect1 id="menuref-universal">
     <title>Menus that are the same everywhere</title>
     <para>
@@ -1067,7 +1067,9 @@
          <guisubmenu>Forms</guisubmenu> submenu, which allows you to
          alter calendar forms and create your own entries.  None of
          this works yet, though.
+
          <variablelist>
+
 	  <varlistentry>
 	    <term><guimenuitem>Spelling</guimenuitem></term>
 	    <listitem><para>
@@ -1081,7 +1083,7 @@
 	    those in your address book.
             </para></listitem>
 	  </varlistentry>
-	</variablelist>
+
 
 	  <varlistentry>
 	    <term><guimenuitem>Address Book</guimenuitem></term>
@@ -1089,7 +1091,7 @@
              FIXME: ?
            </para></listitem>
 	  </varlistentry>
-	</variablelist>
+
 
 	  <varlistentry>
 	    <term><guisubmenu>Forms</guisubmenu> Submenu</term>
@@ -1113,7 +1115,7 @@
 	    <term><guimenuitem>Schedule Meeting</guimenuitem></term>
 	    <listitem><para>
               Brings up the <interface>Meeting Invitation</interface> window, 
-              described in <xref linkend="usage-calendar-apts-invite">.
+              described in <xref linkend="usage-calendar-apts">.
            </para></listitem>
 	  </varlistentry>
 

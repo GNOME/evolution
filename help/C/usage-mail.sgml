@@ -1009,9 +1009,10 @@ possibly never will be due to security evil. -->
         The <interface>filter assistant</interface> window contains a
         list of your current filters, sorted by the order in which
         they will be performed.  From the drop-down box at the top of
-        the window, choose whether to display all your filters, only
-        those filters which are performed on incoming mail, or only
-        filters for outgoing mail.
+        the window, choose <guilabel>Incoming</guilabel> to display
+        those filters which are performed on incoming mail, and
+        <guilabel>On Demand</guilabel> for those which are performed
+        only when you want.
       </para>
       <para>
          The <interface>filter assistant</interface> also has a set of
@@ -1030,10 +1031,9 @@ possibly never will be due to security evil. -->
             <guibutton>Delete</guibutton> &mdash; Delete the selected filter.
            </para></listitem>
 
-           <listitem><para>
-            <guibutton>Up</guibutton> &mdash; Move the selected filter up in the list, 
-             so it will be performed sooner.
-           </para></listitem>
+           <listitem><para> <guibutton>Up</guibutton> &mdash; Move the
+            selected filter up in the list, so it will be performed
+            sooner.  </para></listitem>
 
            <listitem><para>
             <guibutton>Down</guibutton> &mdash;  Move the selected filter down 
@@ -1041,10 +1041,11 @@ possibly never will be due to security evil. -->
            </para></listitem>
         </itemizedlist>
 
-        If you don't have any filters set up, the only one you can
-        click is <guibutton>Add</guibutton>.  When you do that, (or
-        when you click <guibutton>Edit</guibutton> with a filter
-        selected), the <interface>Add Rule</interface> window appears.
+        If you don't have any filters set up, the only one of those
+        buttons you can click is <guibutton>Add</guibutton>.  When you
+        do that, (or when you click <guibutton>Edit</guibutton> with a
+        filter selected), the <interface>Add Rule</interface> window
+        appears.
       </para>
       <para>
         That window, shown in <xref
@@ -1061,17 +1062,14 @@ possibly never will be due to security evil. -->
       </figure>
       </para>
       <para>
-        Enter a name for your filter in the <guilabel>Name</guilabel>
-        field, and then begin choosing criteria.  Choose how many
-        criteria you'd like by pressing <guibutton>More</guibutton>
-        and <guibutton>Fewer</guibutton>.  You can choose from five
-        types of criteria, and you can have as many as you like; at
-        least, I've never found a maximum.  If you have multiple
-        criteria, you'll want to decide between <guilabel>Match all
-        parts</guilabel>, which will make the filter affect only those
-        messages which meet all the criteria you're about to describe,
-        and <guilabel>Match any part</guilabel>, which will make the
-        filter affect any message that meets even one of the criteria.
+        Enter a name for your filter in the <guilabel>Rule
+        Name</guilabel> field, and then begin choosing criteria.
+        Choose how many criteria you'd like by pressing <guibutton>Add
+        Criterion</guibutton> and <guibutton>Remove
+        Criterion</guibutton>.  If you have multiple criteria, you
+        should then decide whether to have the filter do its job only
+        <guilabel>if all criteria are met</guilabel>, or <guilabel>if
+        any criteria are met</guilabel>.
      </para>
      <para>
         For each of your filter criteria, you must first select what
@@ -1098,56 +1096,75 @@ possibly never will be due to security evil. -->
             </para></listitem>
 	  </varlistentry>
 
+
+	  <varlistentry>
+	    <term><guilabel>Specific Header</guilabel></term>
+	    <listitem><para> The filter can look at any header you
+	    want, even obscure or custom ones like X-Bonus or
+	    X-Archive. Enter the header name, and what you'd like to
+	    match inside it.  </para></listitem>
+	  </varlistentry>
+
 	  <varlistentry>
 	    <term><guilabel>Message Body</guilabel></term>
 	    <listitem><para>
-                The message body.
+                The actual text of the message.
             </para></listitem>
 	  </varlistentry>
 
 	  <varlistentry>
 	    <term><guilabel>Expression</guilabel></term>
-	    <listitem><para>
-               Enter a <glossterm linkend="regular-expression">regular expression</glossterm>, and
-	       <application>Evolution</application> will match it for
-	       you.
-           </para></listitem>
+	    <listitem><para> Enter a <glossterm
+	    linkend="regular-expression">regular
+	    expression</glossterm>, and
+	    <application>Evolution</application> will search the
+	    entire message, headers and all, to match it for you.
+	    </para></listitem>
 	  </varlistentry>
-	</variablelist>
-      </para>
-      <para>
-        Then choose a rule for matching:
-        <variablelist>
+
 
 	  <varlistentry>
-	    <term><guilabel>Contains</guilabel></term>
+	    <term><guilabel>Date Sent</guilabel></term>
 	    <listitem><para>
-               If the part of the message examined contains the text you enter, 
-               the filter will perform its selected action.
+                You can filter messages by when they were sent: First,
+                choose how you'd like to match the time&mdash;
+                <guilabel>before</guilabel>,
+                <guilabel>after</guilabel> and so forth.  Then, choose
+                the time. The filter compare the message's time-stamp
+                to the system clock when the filter is run, or to a
+                specific time and date you choose from a calendar.
+                You can even have it look for messages within a range
+                of time relative to the filter.  For example, you could have
+                the filter catch all messages sent less
+                than a week before the filter is run.
+            </para></listitem>
+	  </varlistentry>
+
+
+	  <varlistentry>
+	    <term><guilabel>Date Recieved</guilabel></term>
+	    <listitem><para>
+                This works the same way as the <guilabel>Date Sent</guilabel> 
+                option, except that it compares the time you got the message 
+                with the dates you specify.
             </para></listitem>
 	  </varlistentry>
 
 	  <varlistentry>
-	    <term><guilabel>Does not contain</guilabel></term>
+	    <term><guilabel>Priority</guilabel></term>
 	    <listitem><para>
-               If the part of the message examined does not contain
-               the text you enter, 
-               the filter will perform its selected action.
+               Emails have a standard priority range from -3 (least
+               important) to 3 (most important). If you can persuade
+               your friends and co-workers to use the priority levels  
+               honestly, you can filter with them as well.
             </para></listitem>
 	  </varlistentry>
 	</variablelist>
-
       </para>
-      <para>
-         Then, enter the text you want the filter to find, and you're
-        done telling <application>Evolution</application> what sort of
-        messages you want it to filter.
-      </para>
-
-      <para>
+        <para>
         Now, tell it what to do with those messages.  If you want multiple
-        actions, click <guibutton>More</guibutton>; if you want fewer,
-        click <guibutton>Fewer</guibutton>.  And choose again:
+        actions, click <guibutton>Add Action</guibutton>; if you want fewer,
+        click <guibutton>Remove Action</guibutton>.  And choose again:
         <variablelist>
 	  <varlistentry>
 	    <term><guilabel>Move to Folder</guilabel></term>
@@ -1191,6 +1208,16 @@ possibly never will be due to security evil. -->
                 will mark the message with whatever color you please.
             </para></listitem>
 	  </varlistentry>
+
+	  <varlistentry>
+	    <term><guilabel>Assign Score</guilabel></term>
+	    <listitem><para> Priority numbers alone don't work, so you
+	    can score emails on the same scale. Then, you can tell
+	    which ones you want to read, or have scored messages
+	    moved, copied, or colored in a subsequent filter.
+	    </para></listitem>
+	  </varlistentry>
+
 	</variablelist>
       </para>
       <para>
@@ -1307,18 +1334,18 @@ possibly never will be due to security evil. -->
 	<!--  (INSERT SCREENSHOT HERE: vFolders in action) -->
 
       <para>
-	 To create a vFolder, select <guimenuitem>vFolder
-	 Editor</guimenuitem> from the <guimenu>Tools</guimenu>
-	 menu in the <interface>main window</interface>.  This
-	 will bring up a dialog box that looks suspiciously like
-	 the Filter Assistant (for more information on filters, see
-	 <xref linkend="usage-mail-organize-filters">), and which
+	 To create a vFolder, select <menuchoice>
+	 <guimenu>Tools</guimenu> <guimenuitem>vFolder
+	 Editor</guimenuitem> </menuchoice>.  This will bring up a
+	 dialog box that looks suspiciously like the filter window
+	 (for more information on filters, see <xref
+	 linkend="usage-mail-organize-filters">), and which
 	 presents you with a list of vFolders you have previously
-	 created. If you have already created vFolders, you can
-	 click on them in the frame labelled <guilabel>Select Rule
-	 Type</guilabel>, and edit or remove them.  If you have
-	 not created any, there will be only one available option:
-	 click <guibutton>Add</guibutton> to add a new vFolder.
+	 created. If you have created any vFolders, they are listed
+	 here, and you can select, edit or remove them if you wish.
+	 If you have not created any, there will be only one available
+	 option: click <guibutton>Add</guibutton> to add a new
+	 vFolder.
       </para>
       <para>
 	 You can enter a name for your vFolder in the
@@ -1328,7 +1355,9 @@ possibly never will be due to security evil. -->
 	 between <guilabel>Match all parts</guilabel> and
 	 <guilabel>Match any part</guilabel>, then choose what part of
 	 the message to look in, what sort of matching to perform, and
-	 specify exactly what text it is that you want to find.
+	 specify exactly what it is that you want to find, be it a
+	 line of text, a score, a regular expression, or a particular date or
+	 range of dates.
        </para>
        <para>
          The second part, however, is slightly different.  In the
@@ -1357,3 +1386,4 @@ possibly never will be due to security evil. -->
     </sect2>
   </sect1>
 </chapter>
+

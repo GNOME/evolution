@@ -20,7 +20,7 @@
     <para>
       <guibutton>Print Preview</guibutton>, appears both as a button
       in the printing dialog and as an item in the
-      <guimenu>File<guimenu> menu.  In both places, it does the same
+      <guimenu>File</guimenu> menu.  In both places, it does the same
       thing: it opens a new window that displays an image of the current
       message, calendar, appointment, or address card.
     </para>
