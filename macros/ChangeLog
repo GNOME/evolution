@@ -1,3 +1,7 @@
+1998-09-24  Raja R Harinath  <harinath@cs.umn.edu>
+
+	* gnome-ghttp-check.m4: Add checks for -lsocket -lnsl.
+
 1998-09-18  Raja R Harinath  <harinath@cs.umn.edu>
 
 	* gnome-support.m4: Remove commented out code.
