@@ -1,3 +1,9 @@
+2002-09-27  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* e-msg-composer.c (build_message): Don't reuse the part that
+	we've signed and/or encrypted, create a new part container
+	instead. Fixes bug #31379.
+
 2002-09-25  Dan Winship  <danw@ximian.com>
 
 	* e-msg-composer-hdrs.c (create_headers): Use "mail/*" for the
