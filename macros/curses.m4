@@ -1,24 +1,67 @@
-dnl Curses detection routines: Munged from Midnight commander's configure.in
+dnl Curses detection: Munged from Midnight Commander's configure.in
 dnl
-dnl Called after AC_CHECK_CURSES after AC_PROG_CC
+dnl What it does:
+dnl =============
 dnl
-dnl Will adjust CURSES_INCLUDEDIR, CURSES_LIBS, and possibly CFLAGS
-dnl Also do AC_SUBST on CURSES_INCLUDEDIR and CURSES_LIBS
+dnl - Determine which version of curses is installed on your system
+dnl   and set the -I/-L/-l compiler entries and add a few preprocessor
+dnl   symbols 
+dnl - Do an AC_SUBST on the CURSES_INCLUDEDIR and CURSES_LIBS so that
+dnl   @CURSES_INCLUDEDIR@ and @CURSES_LIBS@ will be available in
+dnl   Makefile.in's
+dnl - Modify the following configure variables (these are the only
+dnl   curses.m4 variables you can access from within configure.in)
+dnl   CURSES_INCLUDEDIR - contains -I's and possibly -DRENAMED_CURSES if
+dnl                       an ncurses.h that's been renamed to curses.h
+dnl                       is found.
+dnl   CURSES_LIBS       - sets -L and -l's appropriately
+dnl   CFLAGS            - if --with-sco, add -D_SVID3 
+dnl   has_curses        - exports result of tests to rest of configure
 dnl
-dnl Add this to acconfig.h:
+dnl Usage:
+dnl ======
+dnl 1) Add lines indicated below to acconfig.h
+dnl 2) call AC_CHECK_CURSES after AC_PROG_CC in your configure.in
+dnl 3) Instead of #include <curses.h> you should use the following to
+dnl    properly locate ncurses or curses header file
 dnl
-dnl /*=== Curses variables swiped from Midnight commander's config ===*/
-dnl    
+dnl    #if defined(USE_NCURSES) && !defined(RENAMED_NCURSES)
+dnl    #include <ncurses.h>
+dnl    #else
+dnl    #include <curses.h>
+dnl    #endif
+dnl
+dnl 4) Make sure to add @CURSES_INCLUDEDIR@ to your preprocessor flags
+dnl 5) Make sure to add @CURSES_LIBS@ to your linker flags or LIBS
+dnl
+dnl Notes with automake:
+dnl - call AM_CONDITIONAL(HAS_CURSES, test "$has_curses" = true) from
+dnl   configure.in
+dnl - your Makefile.am can look something like this
+dnl   -----------------------------------------------
+dnl   INCLUDES= blah blah blah $(CURSES_INCLUDEDIR) 
+dnl   if HAS_CURSES
+dnl   CURSES_TARGETS=name_of_curses_prog
+dnl   endif
+dnl   bin_PROGRAMS = other_programs $(CURSES_TARGETS)
+dnl   other_programs_SOURCES = blah blah blah
+dnl   name_of_curses_prog_SOURCES = blah blah blah
+dnl   other_programs_LDADD = blah
+dnl   name_of_curses_prog_LDADD = blah $(CURSES_LIBS)
+dnl   -----------------------------------------------
+dnl
+dnl
+dnl The following lines should be added to acconfig.h:
+dnl ==================================================
+dnl
+dnl /*=== Curses version detection defines ===*/
 dnl /* Found some version of curses that we're going to use */
 dnl #undef HAS_CURSES
 dnl    
-dnl /* Are you using other type of curses? */
-dnl #undef OTHER_CURSES
-dnl 
 dnl /* Use SunOS SysV curses? */
-dnl #undef SUNOS_CURSES
+dnl #undef USE_SUNOS_CURSES
 dnl 
-dnl /* Use old BSD curses? */
+dnl /* Use old BSD curses - not used right now */
 dnl #undef USE_BSD_CURSES
 dnl 
 dnl /* Use SystemV curses? */
@@ -33,8 +76,14 @@ dnl
 dnl /* Define if you want to turn on SCO-specific code */
 dnl #undef SCO_FLAVOR
 dnl 
-dnl /* Version of ncurses */
+dnl /* Set to reflect version of ncurses *
+dnl  *   0 = version 1.*
+dnl  *   1 = version 1.9.9g
+dnl  *   2 = version 4.0/4.1 */
 dnl #undef NCURSES_970530
+dnl
+dnl /*=== End new stuff for acconfig.h ===*/
+dnl 
 
 
 AC_DEFUN(AC_CHECK_CURSES,[
@@ -44,8 +93,6 @@ AC_DEFUN(AC_CHECK_CURSES,[
 
 	CFLAGS=${CFLAGS--O}
 
-dnl	XCURSES=""
-dnl	AC_SUBST(XCURSES)
 	AC_SUBST(CURSES_LIBS)
 	AC_SUBST(CURSES_INCLUDEDIR)
 
@@ -107,16 +154,14 @@ AC_DEFUN(AC_USE_SUNOS_CURSES, [
 	search_ncurses=false
 	screen_manager="SunOS 4.x /usr/5include curses"
 	AC_MSG_RESULT(Using SunOS 4.x /usr/5include curses)
-	AC_DEFINE(SUNOS_CURSES)
+	AC_DEFINE(USE_SUNOS_CURSES)
 	AC_DEFINE(HAS_CURSES)
 	has_curses=true
 	AC_DEFINE(NO_COLOR_CURSES)
 	AC_DEFINE(USE_SYSV_CURSES)
 	CURSES_INCLUDEDIR="-I/usr/5include"
-dnl	XCURSES="xcurses.o"
 	CURSES_LIBS="/usr/5lib/libcurses.a /usr/5lib/libtermcap.a"
 	AC_MSG_RESULT(Please note that some screen refreshs may fail)
-dnl	AC_WARN(Reconsider using Slang)
 ])
 
 AC_DEFUN(AC_USE_OSF1_CURSES, [
@@ -127,7 +172,6 @@ AC_DEFUN(AC_USE_OSF1_CURSES, [
        has_curses=true
        AC_DEFINE(NO_COLOR_CURSES)
        AC_DEFINE(USE_SYSV_CURSES)
-dnl    XCURSES="xcurses.o"
        CURSES_LIBS="-lcurses"
 ])
 
@@ -136,7 +180,6 @@ AC_DEFUN(AC_USE_SYSV_CURSES, [
 	AC_DEFINE(HAS_CURSES)
 	has_curses=true
 	AC_DEFINE(USE_SYSV_CURSES)
-dnl	XCURSES=""
 	search_ncurses=false
 	screen_manager="SysV/curses"
 	CURSES_LIBS="-lcurses"
@@ -157,7 +200,6 @@ dnl	CURSES_LIBS="-l$THIS_CURSES -ltermcap"
 dnl	AC_DEFINE(HAS_CURSES)
 dnl	has_curses=true
 dnl	AC_DEFINE(USE_BSD_CURSES)
-dnl	XCURSES="xcurses.o"
 dnl	AC_MSG_RESULT(Please note that some screen refreshs may fail)
 dnl	AC_WARN(Use of the bsdcurses extension has some)
 dnl	AC_WARN(display/input problems.)
@@ -222,7 +264,7 @@ USE_NCURSES
 
     dnl
     dnl Try SunOS 4.x /usr/5{lib,include} ncurses
-    dnl The flags SUNOS_CURSES, USE_BSD_CURSES and BUGGY_CURSES
+    dnl The flags HAS_SUNOS_CURSES, USE_BSD_CURSES and BUGGY_CURSES
     dnl should be replaced by a more fine grained selection routine
     dnl
     if $search_ncurses
