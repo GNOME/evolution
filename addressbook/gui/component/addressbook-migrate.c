@@ -423,17 +423,10 @@ migrate_local_folders (AddressbookComponent *component, ESourceGroup *on_this_co
 	migrate_contact_folder (local_contact_folder, on_this_computer, source_name);
 
 	for (l = dirs; l; l = l->next) {
-		ESource *source;
-
 		/* skip the local contact folder, since we handle that
 		   specifically, mapping it to Personal */
 		if (!strcmp ((char*)l->data, local_contact_folder))
 			continue;
-
-		source_name = get_source_name (on_this_computer, (char*)l->data + strlen (old_path) + 1);
-
-		source = e_source_new (source_name, source_name);
-		e_source_group_add_source (on_this_computer, source, -1);
 
 		migrate_contact_folder (l->data, on_this_computer, source_name);
 		g_free (source_name);
