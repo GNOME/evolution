@@ -1,3 +1,10 @@
+2004-09-24  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	Fixes #63513
+	* gui/e-itip-control.c
+	(ok_clicked_cb): Now the myaddress can be set to ecal address
+	since ok will be sentized only when ecal is loaded.
+
 2004-09-22  JP Rosevear  <jpr@novell.com>
 
 	* gui/calendar-component.c (fill_popup_menu_cb): ditto

@@ -2420,6 +2420,9 @@ ok_clicked_cb (GtkWidget *widget, gpointer data)
 
 	priv = itip->priv;
 
+	if (!priv->my_address && priv->current_ecal != NULL)
+		e_cal_get_cal_address (priv->current_ecal, &priv->my_address, NULL);
+
 	switch (priv->action) {
 	case 'U':
 		update_item (itip);
