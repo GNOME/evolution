@@ -8457,7 +8457,7 @@ msgstr ""
 #: mail/mail-config.glade.h:14
 #, fuzzy
 msgid "Composer"
-msgstr "П╕дготувати"
+msgstr "Редактор"
 
 #: mail/mail-config.glade.h:15
 msgid "Configuration"
@@ -8479,17 +8479,16 @@ msgid ""
 msgstr ""
 
 #: mail/mail-config.glade.h:23
-#, fuzzy
 msgid "De_fault"
-msgstr "Стерти"
+msgstr "Типово"
 
 #: mail/mail-config.glade.h:24
 msgid "Default Forward style is: "
-msgstr ""
+msgstr "Типовий стиль пересилання: "
 
 #: mail/mail-config.glade.h:25
 msgid "Default character encoding: "
-msgstr ""
+msgstr "Типове кодуванни символ╕в: "
 
 #: mail/mail-config.glade.h:27
 msgid "Digital IDs..."
@@ -8537,12 +8536,11 @@ msgstr ""
 
 #: mail/mail-config.glade.h:38
 msgid "In HTML mail"
-msgstr ""
+msgstr "В HTML"
 
 #: mail/mail-config.glade.h:39
-#, fuzzy
 msgid "Inline"
-msgstr "Покажчик"
+msgstr "В т╕л╕"
 
 #: mail/mail-config.glade.h:40
 msgid "Kerberos "
@@ -8553,9 +8551,8 @@ msgid "Mail Configuration"
 msgstr "Конф╕╜урац╕я пошти"
 
 #: mail/mail-config.glade.h:43
-#, fuzzy
 msgid "Mailbox location"
-msgstr "Формат"
+msgstr "Розм╕щення поштово╖ скриньки"
 
 #: mail/mail-config.glade.h:44
 msgid "Make this my _default account"
@@ -8602,7 +8599,7 @@ msgstr "Неможливо в╕д╕слати пов╕домлення: не визначено отримувач╕в"
 
 #: mail/mail-config.glade.h:58
 msgid "Qmail maildir "
-msgstr ""
+msgstr "Qmail maildir "
 
 #: mail/mail-config.glade.h:59
 msgid "Quoted"
@@ -8668,9 +8665,8 @@ msgid "Sent and Draft Messages"
 msgstr "В╕д╕слати пов╕домлення негайно"
 
 #: mail/mail-config.glade.h:76
-#, fuzzy
 msgid "Ser_ver requires authentication"
-msgstr "Автенф╕кац╕я"
+msgstr "Сервер вимага╓ автенф╕кац╕╖"
 
 #: mail/mail-config.glade.h:77
 msgid "Server Configuration"
@@ -8689,9 +8685,8 @@ msgid "Source"
 msgstr "Джерело"
 
 #: mail/mail-config.glade.h:81
-#, fuzzy
 msgid "Source Information"
-msgstr "Нема╓ ╕нформац╕╖"
+msgstr "Вих╕дна ╕нформац╕я"
 
 #: mail/mail-config.glade.h:82
 msgid "Sources"
@@ -8707,7 +8702,7 @@ msgstr "Стандартний Unix mbox"
 
 #: mail/mail-config.glade.h:86
 msgid "Use s_ecure connection (SSL)"
-msgstr ""
+msgstr "Використовувати безпечне з'╓днання (SSL)"
 
 #: mail/mail-config.glade.h:87
 msgid ""
@@ -8725,7 +8720,6 @@ msgid "_Always sign outgoing messages when using this account"
 msgstr ""
 
 #: mail/mail-config.glade.h:93
-#, fuzzy
 msgid "_Authentication Type: "
 msgstr "Тип автенф╕кац╕╖: "
 
@@ -8734,14 +8728,12 @@ msgid "_Automatically check for new mail"
 msgstr ""
 
 #: mail/mail-config.glade.h:95
-#, fuzzy
 msgid "_Certificate ID:"
 msgstr "╤дентиф╕катор сертиф╕ката:"
 
 #: mail/mail-config.glade.h:97
-#, fuzzy
 msgid "_Drafts folder:"
-msgstr "Створення ново╖ теки"
+msgstr "Тека чернеток:"
 
 #: mail/mail-config.glade.h:99
 msgid "_Email Address:"
@@ -8761,7 +8753,7 @@ msgstr "П╕дпис HTML:"
 
 #: mail/mail-config.glade.h:103
 msgid "_Highlight citations with"
-msgstr ""
+msgstr "П╕дсв╕тка процитованого"
 
 #: mail/mail-config.glade.h:104
 msgid "_Host:"
@@ -8769,7 +8761,7 @@ msgstr "Комп'ютер:"
 
 #: mail/mail-config.glade.h:105
 msgid "_Load images if sender is in addressbook"
-msgstr ""
+msgstr "Завантажувати зображення, якщо в╕дправник у адресн╕й книз╕"
 
 #: mail/mail-config.glade.h:106
 msgid "_Log filter actions to:"
@@ -8980,7 +8972,7 @@ msgstr "Bcc:"
 #: mail/mail-format.c:2054
 #, c-format
 msgid "Pointer to FTP site (%s)"
-msgstr ""
+msgstr "Вказ╕вник на сайт FTP (%s)"
 
 #: mail/mail-format.c:2068
 #, c-format
@@ -9058,7 +9050,7 @@ msgid "Reconfigure /%s"
 msgstr "Конф╕╜урувати теку"
 
 #: mail/mail-mt.c:251
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Error while '%s':\n"
 "%s"
@@ -9215,7 +9207,9 @@ msgstr "Збереження долучення"
 msgid ""
 "Cannot create output file: %s:\n"
 " %s"
-msgstr "Не вдалося зберегти список груп для %s: %s"
+msgstr ""
+"Неможливо створити файл виводу: %s:\n"
+" %s"
 
 #: mail/mail-ops.c:2022
 #, c-format
@@ -9257,9 +9251,8 @@ msgid "Case Sensitive"
 msgstr "Ре╜╕строва чутлив╕сть"
 
 #: mail/mail-search.c:324
-#, fuzzy
 msgid "Search Forward"
-msgstr "Переслати"
+msgstr "Пошук вперед"
 
 #: mail/mail-search.c:344
 msgid "Find:"
@@ -10052,30 +10045,28 @@ msgstr ""
 
 #. HAIL
 #: my-evolution/metar.c:217
-#, fuzzy
 msgid "Hail"
-msgstr "Е-пошта"
+msgstr "Град"
 
 #: my-evolution/metar.c:218
 msgid "Hail in the vicinity"
-msgstr ""
+msgstr "Град в околицях"
 
 #: my-evolution/metar.c:219 my-evolution/metar.c:234
 msgid "Light hail"
-msgstr ""
+msgstr "Слабкий град"
 
 #: my-evolution/metar.c:220
 msgid "Moderate hail"
-msgstr ""
+msgstr "Пом╕рний град"
 
 #: my-evolution/metar.c:221
 msgid "Heavy hail"
-msgstr ""
+msgstr "Сильний град"
 
 #: my-evolution/metar.c:222
-#, fuzzy
 msgid "Shallow hail"
-msgstr "Показати все "
+msgstr ""
 
 #: my-evolution/metar.c:223
 msgid "Patches of hail"
@@ -10363,15 +10354,15 @@ msgstr "Вулкан╕чний пил"
 
 #: my-evolution/metar.c:308
 msgid "Volcanic ash in the vicinity"
-msgstr ""
+msgstr "Вулкан╕чний пил у околицях"
 
 #: my-evolution/metar.c:310
 msgid "Moderate volcanic ash"
-msgstr ""
+msgstr "Пом╕рний вулкан╕чний пил"
 
 #: my-evolution/metar.c:311
 msgid "Thick volcanic ash"
-msgstr ""
+msgstr "Густий вулкан╕чний пил"
 
 #: my-evolution/metar.c:312
 msgid "Shallow volcanic ash"
@@ -10829,27 +10820,24 @@ msgid " _Remove"
 msgstr "Видалити"
 
 #: my-evolution/my-evolution.glade.h:2
-#, fuzzy
 msgid "Add n_ews feed"
-msgstr "Новини"
+msgstr "Вс╕ новини"
 
 #: my-evolution/my-evolution.glade.h:3
-#, fuzzy
 msgid "Al_l stations:"
-msgstr "Весь супров╕д"
+msgstr "Вс╕ станц╕╖:"
 
 #: my-evolution/my-evolution.glade.h:4
-#, fuzzy
 msgid "All _folders:"
-msgstr "Теки"
+msgstr "Вс╕ теки:"
 
 #: my-evolution/my-evolution.glade.h:5
 msgid "All news _feeds:"
-msgstr ""
+msgstr "Вс╕ новини:"
 
 #: my-evolution/my-evolution.glade.h:6
 msgid "C_elcius"
-msgstr ""
+msgstr "Цельс╕╓м"
 
 #: my-evolution/my-evolution.glade.h:8
 msgid "How many days should the calendar display at once?"
@@ -10895,35 +10883,31 @@ msgstr "Показати сьогодн╕шн╕ завдання"
 
 #: my-evolution/my-evolution.glade.h:18
 msgid "Show temperatures in:"
-msgstr ""
+msgstr "Показувати температуру за "
 
 #: my-evolution/my-evolution.glade.h:19
 msgid "Tasks "
 msgstr "Завдання "
 
 #: my-evolution/my-evolution.glade.h:20
-#, fuzzy
 msgid "Weather settings"
-msgstr "Очистити вибране"
+msgstr "Параметри погоди"
 
 #: my-evolution/my-evolution.glade.h:22
-#, fuzzy
 msgid "_Display folders:"
-msgstr "Створення ново╖ теки"
+msgstr "В╕дображати теки:"
 
 #: my-evolution/my-evolution.glade.h:23
-#, fuzzy
 msgid "_Display stations:"
-msgstr "Параметри в╕дображення"
+msgstr "В╕дображати станц╕╖:"
 
 #: my-evolution/my-evolution.glade.h:24
-#, fuzzy
 msgid "_Displayed feeds:"
-msgstr "День"
+msgstr "В╕дображати новини:"
 
 #: my-evolution/my-evolution.glade.h:25
 msgid "_Fahrenheit"
-msgstr ""
+msgstr "Фаренгейтом"
 
 #: my-evolution/my-evolution.glade.h:26
 msgid "_Five days"
