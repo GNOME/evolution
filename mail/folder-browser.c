@@ -19,6 +19,7 @@
 #include <gal/widgets/e-unicode.h>
 #include <gal/e-paned/e-vpaned.h>
 #include <gal/widgets/e-popup-menu.h>
+#include <gal/widgets/e-gui-utils.h>
 
 #include "filter/vfolder-rule.h"
 #include "filter/vfolder-context.h"
@@ -41,7 +42,6 @@
 #include "mail-local.h"
 #include "mail-config.h"
 
-#include <gal/widgets/e-popup-menu.h>
 #include <camel/camel-vtrash-folder.h>
 
 #define d(x) x
@@ -549,31 +549,31 @@ enum {
 #define MLIST_FILTER (8)
 
 static EPopupMenu filter_menu[] = {
-	{ N_("VFolder on Subject"),            NULL,
+	{ N_("VFolder on _Subject"),           NULL,
 	  GTK_SIGNAL_FUNC (vfolder_subject),   NULL,
 	  SELECTION_SET },
-	{ N_("VFolder on Sender"),             NULL,
+	{ N_("VFolder on Se_nder"),            NULL,
 	  GTK_SIGNAL_FUNC (vfolder_sender),    NULL,
 	  SELECTION_SET },
-	{ N_("VFolder on Recipients"),         NULL,
+	{ N_("VFolder on _Recipients"),        NULL,
 	  GTK_SIGNAL_FUNC (vfolder_recipient), NULL,
 	  SELECTION_SET },
-	{ N_("VFolder on Mailing List"),       NULL,
+	{ N_("VFolder on Mailing _List"),      NULL,
 	  GTK_SIGNAL_FUNC (vfolder_mlist),     NULL,
 	  SELECTION_SET | IS_MAILING_LIST },
 	
 	SEPARATOR,
 	
-	{ N_("Filter on Subject"),             NULL,
+	{ N_("Filter on Sub_ject"),            NULL,
 	  GTK_SIGNAL_FUNC (filter_subject),    NULL,
 	  SELECTION_SET },
-	{ N_("Filter on Sender"),              NULL,
+	{ N_("Filter on Sen_der"),             NULL,
 	  GTK_SIGNAL_FUNC (filter_sender),     NULL,
 	  SELECTION_SET },
-	{ N_("Filter on Recipients"),          NULL,
+	{ N_("Filter on Re_cipients"),         NULL,
 	  GTK_SIGNAL_FUNC (filter_recipient),  NULL,
 	  SELECTION_SET },
-	{ N_("Filter on Mailing List"),        NULL,
+	{ N_("Filter on _Mailing List"),       NULL,
 	  GTK_SIGNAL_FUNC (filter_mlist),      NULL,
 	  SELECTION_SET | IS_MAILING_LIST },
 	
@@ -581,41 +581,41 @@ static EPopupMenu filter_menu[] = {
 };
 
 
-static EPopupMenu menu[] = {
-	{ N_("Open"),                         NULL,
+static EPopupMenu context_menu[] = {
+	{ N_("_Open"),                        NULL,
 	  GTK_SIGNAL_FUNC (open_msg),         NULL,  0 },
 	{ N_("Resend"),                       NULL,
 	  GTK_SIGNAL_FUNC (resend_msg),       NULL,  CAN_RESEND },
-	{ N_("Save As..."),                   NULL,
+	{ N_("_Save As..."),                  NULL,
 	  GTK_SIGNAL_FUNC (save_msg),         NULL,  0 },
-	{ N_("Print"),                        NULL,
+	{ N_("_Print"),                       NULL,
 	  GTK_SIGNAL_FUNC (print_msg),        NULL,  0 },
 	
 	SEPARATOR,
 	
-	{ N_("Reply to Sender"),              NULL,
+	{ N_("_Reply to Sender"),             NULL,
 	  GTK_SIGNAL_FUNC (reply_to_sender),  NULL,  0 },
-	{ N_("Reply to All"),                 NULL,
+	{ N_("Reply to _All"),                NULL,
 	  GTK_SIGNAL_FUNC (reply_to_all),     NULL,  0 },
-	{ N_("Forward"),                      NULL,
+	{ N_("_Forward"),                     NULL,
 	  GTK_SIGNAL_FUNC (forward_attached), NULL,  0 },
-	{ N_("Forward inline"),               NULL,
+	{ N_("Forward _inline"),              NULL,
 	  GTK_SIGNAL_FUNC (forward_inlined),  NULL,  0 },
 	{ "", NULL, (NULL), NULL,  0 },
-	{ N_("Mark as Read"),                 NULL,
+	{ N_("Mar_k as Read"),                NULL,
 	  GTK_SIGNAL_FUNC (mark_as_seen),     NULL,  CAN_MARK_READ },
-	{ N_("Mark as Unread"),               NULL,
+	{ N_("Mark as U_nread"),              NULL,
 	  GTK_SIGNAL_FUNC (mark_as_unseen),   NULL,  CAN_MARK_UNREAD },
 	
 	SEPARATOR,
 	
-	{ N_("Move to Folder..."),            NULL,
+	{ N_("_Move to Folder..."),           NULL,
 	  GTK_SIGNAL_FUNC (move_msg),         NULL,  0 },
-	{ N_("Copy to Folder..."),            NULL,
+	{ N_("_Copy to Folder..."),           NULL,
 	  GTK_SIGNAL_FUNC (copy_msg),         NULL,  0 },
-	{ N_("Delete"),                       NULL,
+	{ N_("_Delete"),                      NULL,
 	  GTK_SIGNAL_FUNC (delete_msg),       NULL, CAN_DELETE },
-	{ N_("Undelete"),                     NULL,
+	{ N_("_Undelete"),                    NULL,
 	  GTK_SIGNAL_FUNC (undelete_msg),     NULL, CAN_UNDELETE },
 	
 	SEPARATOR,
@@ -625,16 +625,35 @@ static EPopupMenu menu[] = {
 	  { "",                               NULL,
 	  GTK_SIGNAL_FUNC (NULL),             NULL,  0 },*/
 	
-	{ N_("Apply Filters"),                 NULL,
+	{ N_("Apply Filters"),                NULL,
 	  GTK_SIGNAL_FUNC (apply_filters),    NULL,  0 },
 	{ "",                                 NULL,
 	  GTK_SIGNAL_FUNC (NULL),             NULL,  0 },
-	{ N_("Create Rule From Message"),      NULL,
+	{ N_("Create Ru_le From Message"),    NULL,
 	  GTK_SIGNAL_FUNC (NULL), filter_menu,  SELECTION_SET },
 	
 	TERMINATOR
 };
 
+
+struct cmpf_data {
+	ETree *tree;
+	int row, col;
+};
+
+static void
+context_menu_position_func (GtkMenu *menu, gint *x, gint *y,
+			    gpointer user_data)
+{
+	int tx, ty, tw, th;
+	struct cmpf_data *closure = user_data;
+
+	gdk_window_get_origin (GTK_WIDGET (closure->tree)->window, x, y);
+	e_tree_get_cell_geometry (closure->tree, closure->row, closure->col,
+				  &tx, &ty, &tw, &th);
+	*x += tx + tw / 2;
+	*y += ty + th / 2;
+}
 
 /* handle context menu over message-list */
 static gint
@@ -648,7 +667,8 @@ on_right_click (ETree *tree, gint row, ETreePath path, gint col, GdkEvent *event
 	int i;
 	char *mailing_list_name = NULL;
 	char *subject_match = NULL, *from_match = NULL;
-
+	GtkMenu *menu;
+	
 	if (fb->reconfigure) {
 		enable_mask = 0;
 		goto display_menu;
@@ -756,8 +776,22 @@ display_menu:
 		g_free(mailing_list_name);
 	}
 
-	e_popup_menu_run (menu, event, enable_mask, hide_mask, fb);
-	
+	menu = e_popup_menu_create (context_menu, enable_mask, hide_mask, fb);
+	e_auto_kill_popup_menu_on_hide (menu);
+
+	if (event->type == GDK_KEY_PRESS) {
+		struct cmpf_data closure;
+
+		closure.tree = tree;
+		closure.row = row;
+		closure.col = col;
+		gtk_menu_popup (menu, NULL, NULL, context_menu_position_func,
+				&closure, 0, event->key.time);
+	} else {
+		gtk_menu_popup (menu, NULL, NULL, NULL, NULL,
+				event->button.button, event->button.time);
+	}
+
 	g_free(filter_menu[MLIST_FILTER].name);
 	g_free(filter_menu[MLIST_VFOLDER].name);
 

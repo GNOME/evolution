@@ -24,6 +24,8 @@
 #include <config.h>
 #endif
 
+#include <gal/util/e-util.h>
+
 #include "message-browser.h"
 
 #include "mail.h"
