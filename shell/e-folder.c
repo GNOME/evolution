@@ -1,7 +1,7 @@
 /* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*- */
 /* e-folder.c
  *
- * Copyright (C) 2000  Ximian, Inc.
+ * Copyright (C) 2000, 2001, 2002  Ximian, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public
@@ -25,6 +25,8 @@
 #endif
 
 #include "e-folder.h"
+
+#include "e-util/e-corba-utils.h"
 
 #include <glib.h>
 #include <gtk/gtksignal.h>
@@ -357,6 +359,25 @@ e_folder_set_is_stock (EFolder *folder,
 	folder->priv->is_stock = !! is_stock;
 
 	gtk_signal_emit (GTK_OBJECT (folder), signals[CHANGED]);
+}
+
+
+/* Gotta love CORBA.  */
+
+void
+e_folder_to_corba (EFolder *folder,
+		   const char *evolution_uri,
+		   GNOME_Evolution_Folder *folder_return)
+{
+	g_return_if_fail (E_IS_FOLDER (folder));
+	g_return_if_fail (folder_return != NULL);
+
+	folder_return->type         = e_safe_corba_string_dup (e_folder_get_type_string (folder));
+	folder_return->description  = e_safe_corba_string_dup (e_folder_get_description (folder));
+	folder_return->displayName  = e_safe_corba_string_dup (e_folder_get_name (folder));
+	folder_return->physicalUri  = e_safe_corba_string_dup (e_folder_get_physical_uri (folder));
+	folder_return->evolutionUri = e_safe_corba_string_dup (evolution_uri);
+	folder_return->unreadCount  = e_folder_get_unread_count (folder);
 }
 
 

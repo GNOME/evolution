@@ -1,7 +1,7 @@
  /* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*- */
 /* e-folder.h
  *
- * Copyright (C) 2000  Ximian, Inc.
+ * Copyright (C) 2000, 2001, 2002  Ximian, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public
@@ -22,6 +22,8 @@
 
 #ifndef _E_FOLDER_H_
 #define _E_FOLDER_H_
+
+#include "Evolution.h"
 
 #include <gtk/gtkobject.h>
 
@@ -85,6 +87,10 @@ void e_folder_set_physical_uri    (EFolder *folder, const char *physical_uri);
 void e_folder_set_unread_count    (EFolder *folder, int unread_count);
 void e_folder_set_child_highlight (EFolder *folder, gboolean highlighted);
 void e_folder_set_is_stock        (EFolder *folder, gboolean is_stock);
+
+void e_folder_to_corba  (EFolder    *folder,
+			 const char *evolution_uri,
+			 GNOME_Evolution_Folder *folder_return);
 
 #ifdef __cplusplus
 }

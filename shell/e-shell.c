@@ -648,8 +648,9 @@ impl_Shell_createStorageSetView (PortableServer_Servant servant,
 				 CORBA_Environment *ev)
 {
 	BonoboObject *bonobo_object;
-	EShell *shell;
 	BonoboControl *control;
+	CORBA_Object dup_objref;
+	EShell *shell;
 
 	if (raise_exception_if_not_ready (servant, ev))
 		return CORBA_OBJECT_NIL;
@@ -658,8 +659,9 @@ impl_Shell_createStorageSetView (PortableServer_Servant servant,
 	shell = E_SHELL (bonobo_object);
 
 	control = evolution_storage_set_view_factory_new_view (shell);
+	dup_objref = CORBA_Object_duplicate (bonobo_object_corba_objref (BONOBO_OBJECT (control)), ev);
 
-	return bonobo_object_corba_objref (BONOBO_OBJECT (control));
+	return dup_objref;
 }
 
 static void

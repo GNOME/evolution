@@ -1864,6 +1864,17 @@ e_storage_set_view_new (EStorageSet *storage_set,
 }
 
 
+EStorageSet *
+e_storage_set_view_get_storage_set (EStorageSetView *storage_set_view)
+{
+	EStorageSetViewPrivate *priv;
+
+	g_return_val_if_fail (E_IS_STORAGE_SET_VIEW (storage_set_view), NULL);
+
+	priv = storage_set_view->priv;
+	return priv->storage_set;
+}
+
 void
 e_storage_set_view_set_current_folder (EStorageSetView *storage_set_view,
 				       const char *path)
@@ -2022,19 +2033,23 @@ e_storage_set_view_set_checkboxes_list (EStorageSetView *storage_set_view,
 static void
 essv_add_to_list (ETreePath tree_path, void **temp)
 {
-	EStorageSetView *storage_set_view = temp[0];
-	EStorageSetViewPrivate *priv = storage_set_view->priv;
-	GList **list = temp[1];
+	EStorageSetView *storage_set_view;
+	EStorageSetViewPrivate *priv;
+	GList **list;
+
+	storage_set_view = temp[0];
+	list = temp[1];
+	priv = storage_set_view->priv;
 
 	if (priv->checkboxes) {
-		char *path = (char*)e_tree_memory_node_get_data(E_TREE_MEMORY(priv->etree_model), tree_path);
-		if (path && g_hash_table_lookup (priv->checkboxes, path)) {
-			*list = g_list_prepend (*list, path);
-		}
+		const char *path;
+
+		path = (const char *) e_tree_memory_node_get_data (E_TREE_MEMORY (priv->etree_model), tree_path);
+		if (path != NULL && g_hash_table_lookup (priv->checkboxes, path))
+			*list = g_list_prepend (*list, g_strdup (path));
 	}
 }
 
-/* g_list_free this list, but don't free the strings within. */
 GList *
 e_storage_set_view_get_checkboxes_list (EStorageSetView *storage_set_view)
 {

@@ -1,7 +1,7 @@
 /* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*- */
 /* evolution-test-component.c
  *
- * Copyright (C) 2001  Ximian, Inc.
+ * Copyright (C) 2001, 2002  Ximian, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public
@@ -30,8 +30,10 @@
 #include "evolution-activity-client.h"
 #include "evolution-config-control.h"
 
+#include <bonobo/bonobo-exception.h>
 #include <bonobo/bonobo-generic-factory.h>
 #include <bonobo/bonobo-main.h>
+#include <bonobo/bonobo-widget.h>
 
 #include <gdk-pixbuf/gdk-pixbuf.h>
 
@@ -139,6 +141,126 @@ spit_out_shortcuts (EvolutionShellClient *shell_client)
 	}
 
 	g_print ("** Done\n\n");
+
+	CORBA_exception_free (&ev);
+}
+
+
+/* Test the multiple folder selector.  */
+
+static void
+dialog_clicked_callback (GnomeDialog *dialog,
+			 int button_num,
+			 void *data)
+{
+	GNOME_Evolution_StorageSetView storage_set_view_iface;
+	CORBA_Environment ev;
+	GNOME_Evolution_FolderList *folder_list;
+
+	if (button_num == 1) {
+		/* Close.  */
+		gtk_widget_destroy (GTK_WIDGET (dialog));
+		return;
+	}
+
+	CORBA_exception_init (&ev);
+
+	storage_set_view_iface = (GNOME_Evolution_StorageSetView) data;
+
+	folder_list = GNOME_Evolution_StorageSetView__get_checkedFolders (storage_set_view_iface, &ev);
+	if (BONOBO_EX (&ev)) {
+		g_warning ("Cannot get checkedFolders -- %s", BONOBO_EX_ID (&ev));
+	} else {
+		int i;
+
+		for (i = 0; i < folder_list->_length; i ++) {
+#define PRINT(s) g_print ("\t" #s ": %s\n", folder_list->_buffer[i].s);
+			g_print ("Folder #%d:\n", i + 1);
+			PRINT (type);
+			PRINT (description);
+			PRINT (displayName);
+			PRINT (physicalUri);
+			PRINT (evolutionUri);
+#undef PRINT
+
+			g_print ("\tunreadCount: %d\n", folder_list->_buffer[i].unreadCount);
+		}
+	}
+
+	CORBA_exception_free (&ev);
+}
+
+static void
+dialog_destroy_callback (GtkObject *object,
+			 void *data)
+{
+	GNOME_Evolution_StorageSetView storage_set_view_iface;
+	CORBA_Environment ev;
+
+	CORBA_exception_init (&ev);
+
+	storage_set_view_iface = (GNOME_Evolution_StorageSetView) data;
+	Bonobo_Unknown_unref (storage_set_view_iface, &ev);
+
+	CORBA_exception_free (&ev);
+}
+
+static void
+create_new_folder_selector (EvolutionShellComponent *shell_component)
+{
+	EvolutionShellClient *shell_client;
+	GNOME_Evolution_Shell corba_shell;
+	GNOME_Evolution_StorageSetView storage_set_view_iface;
+	GtkWidget *dialog;
+	Bonobo_Control control;
+	GtkWidget *control_widget;
+	CORBA_Environment ev;
+
+	CORBA_exception_init (&ev);
+
+	shell_client = evolution_shell_component_get_owner (shell_component);
+	g_assert (shell_client != NULL);
+	corba_shell = bonobo_object_corba_objref (BONOBO_OBJECT (shell_client));
+
+	control = GNOME_Evolution_Shell_createStorageSetView (corba_shell, &ev);
+	if (BONOBO_EX (&ev)) {
+		g_warning ("Cannot create StorageSetView -- %s", BONOBO_EX_ID (&ev));
+		CORBA_exception_free (&ev);
+		return;
+	}
+
+	storage_set_view_iface = Bonobo_Unknown_queryInterface (control, "IDL:GNOME/Evolution/StorageSetView:1.0", &ev);
+	if (BONOBO_EX (&ev) || storage_set_view_iface == CORBA_OBJECT_NIL) {
+		g_warning ("Cannot get StorageSetView interface");
+		if (BONOBO_EX (&ev))
+			g_warning ("CORBA exception -- %s", BONOBO_EX_ID (&ev));
+		CORBA_exception_free (&ev);
+		return;
+	}
+
+	GNOME_Evolution_StorageSetView__set_showCheckboxes (storage_set_view_iface, TRUE, &ev);
+	if (BONOBO_EX (&ev)) {
+		g_warning ("Cannot show checkboxes -- %s", BONOBO_EX_ID (&ev));
+		CORBA_exception_free (&ev);
+		return;
+	}
+
+	dialog = gnome_dialog_new ("Test the Selector here.", GNOME_STOCK_BUTTON_APPLY, GNOME_STOCK_BUTTON_CLOSE, NULL);
+	gtk_window_set_default_size (GTK_WINDOW (dialog), 200, 400);
+	gtk_window_set_policy (GTK_WINDOW (dialog), FALSE, TRUE, FALSE);
+
+	control_widget = bonobo_widget_new_control_from_objref (control, CORBA_OBJECT_NIL);
+	gtk_container_add (GTK_CONTAINER (GNOME_DIALOG (dialog)->vbox), control_widget);
+
+	gtk_widget_show (control_widget);
+	gtk_widget_show (dialog);
+
+	gtk_signal_connect (GTK_OBJECT (dialog), "clicked",
+			    GTK_SIGNAL_FUNC (dialog_clicked_callback), storage_set_view_iface);
+
+	/* This is necessary to unref the StorageSetView iface.  */
+	gtk_signal_connect (GTK_OBJECT (dialog), "destroy",
+			    GTK_SIGNAL_FUNC (dialog_destroy_callback), storage_set_view_iface);
 
 	CORBA_exception_free (&ev);
 }
@@ -343,6 +465,9 @@ user_create_new_item_callback (EvolutionShellComponent *shell_component,
 {
 	g_print ("\n*** Should create -- %s\n", id);
 	g_print ("\n\tType %s, URI %s\n", parent_folder_type, parent_folder_physical_uri);
+
+	if (strcmp (id, "FolderSelector") == 0)
+		create_new_folder_selector (shell_component);
 }
 
 
@@ -366,6 +491,8 @@ register_component (void)
 							   "New Stuff", "New _Stuff", '\0', NULL);
 	evolution_shell_component_add_user_creatable_item (shell_component, "MoreStuff",
 							   "New More Stuff", "New _More Stuff", 'n', NULL);
+	evolution_shell_component_add_user_creatable_item (shell_component, "FolderSelector",
+							   "Folder Selector", "New Folder _Selector", 's', NULL);
 
 	gtk_signal_connect (GTK_OBJECT (shell_component), "user_create_new_item",
 			    GTK_SIGNAL_FUNC (user_create_new_item_callback), NULL);
@@ -397,6 +524,8 @@ main (int argc, char **argv)
 	register_configuration_control_factory ();
 
 	register_component ();
+
+	g_print ("Test Component up and running.\n");
 
 	bonobo_main ();
 

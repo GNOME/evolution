@@ -74,11 +74,13 @@ struct _EStorageSetViewClass {
 GtkType    e_storage_set_view_get_type          (void);
 
 /* DON'T USE THIS. Use e_storage_set_new_view() instead. */
-GtkWidget *e_storage_set_view_new               (EStorageSet       *storage_set,
-						 BonoboUIContainer *container);
-void       e_storage_set_view_construct         (EStorageSetView   *storage_set_view,
-						 EStorageSet       *storage_set,
-						 BonoboUIContainer *container);
+GtkWidget *e_storage_set_view_new              (EStorageSet       *storage_set,
+						BonoboUIContainer *container);
+void       e_storage_set_view_construct        (EStorageSetView   *storage_set_view,
+						EStorageSet       *storage_set,
+						BonoboUIContainer *container);
+
+EStorageSet *e_storage_set_view_get_storage_set  (EStorageSetView *storage_set_view);
 
 void        e_storage_set_view_set_current_folder  (EStorageSetView *storage_set_view,
 						    const char      *path);
@@ -94,7 +96,6 @@ gboolean    e_storage_set_view_get_show_checkboxes (EStorageSetView *storage_set
 
 void        e_storage_set_view_set_checkboxes_list (EStorageSetView *storage_set_view,
 						    GList           *checkboxes);
-/* g_list_free this list, but don't free the strings within. */
 GList      *e_storage_set_view_get_checkboxes_list (EStorageSetView *storage_set_view);
 
 void        e_storage_set_view_set_allow_dnd       (EStorageSetView *storage_set_view,
