@@ -26,40 +26,22 @@
 #include <config.h>
 #include "camel.h"
 #include <unicode.h>
+#ifdef HAVE_NSS
+#include <mozilla/nspr.h>
+#include <nss.h>
+#include <ssl.h>
+#endif /* HAVE_NSS */
 
 gboolean camel_verbose_debug = FALSE;
 
 gint
-camel_init(void)
+camel_init (void)
 {
 #ifdef ENABLE_THREADS
 #ifdef G_THREADS_ENABLED	
 	/*g_thread_init (NULL);*/
-#else  /* G_THREADS_ENABLED */
-	printf ("Threads are not supported by your version of glib\n");
-#endif /* G_THREADS_ENABLED */
-#endif /* ENABLE_THREADS */
-
-	if (getenv ("CAMEL_VERBOSE_DEBUG"))
-		camel_verbose_debug = TRUE;
-
-	unicode_init ();
-
-	return 0;
-}
-
-#ifdef U_CANT_TOUCH_THIS
-#include <ssl.h>
-#include <nss.h>
-
-gint
-camel_ssl_init (char *configdir, gboolean nss_init)
-{
-#ifdef ENABLE_THREADS
-#ifdef G_THREADS_ENABLED	
-	/*g_thread_init (NULL);*/
-#else  /* G_THREADS_ENABLED */
-	printf ("Threads are not supported by your version of glib\n");
+#else /* G_THREADS_ENABLED */
+	g_warning ("Threads are not supported by your version of glib\n");
 #endif /* G_THREADS_ENABLED */
 #endif /* ENABLE_THREADS */
 	
@@ -68,21 +50,12 @@ camel_ssl_init (char *configdir, gboolean nss_init)
 	
 	unicode_init ();
 	
-	if (nss_init) {
-		PR_init ();
-		
-		if (NSS_init (configdir) == SECFailure)
-			return -1;
-		
-		/* FIXME: Erm, use appropriate policy? */
-		NSS_SetDomesticPolicy ();
-	}
-	
+#ifdef HAVE_NSS
 	SSL_OptionSetDefault (SSL_ENABLE_SSL2, PR_TRUE);
 	SSL_OptionSetDefault (SSL_ENABLE_SSL3, PR_TRUE);
 	SSL_OptionSetDefault (SSL_ENABLE_TLS, PR_TRUE);
 	SSL_OptionSetDefault (SSL_V2_COMPATIBLE_HELLO, PR_TRUE /* maybe? */);
+#endif /* HAVE_NSS */
 	
 	return 0;
 }
-#endif

@@ -44,18 +44,15 @@ extern "C" {
 
 
 typedef enum {
-	CAMEL_AUTHENTICATOR_ASK, CAMEL_AUTHENTICATOR_TELL
+	CAMEL_AUTHENTICATOR_ASK,
+	CAMEL_AUTHENTICATOR_TELL,
+	CAMEL_AUTHENTICATOR_ACCEPT
 } CamelAuthCallbackMode;
 
-typedef char *(*CamelAuthCallback) (CamelAuthCallbackMode mode,
-				    char *data, gboolean secret,
-				    CamelService *service, char *item,
-				    CamelException *ex);
-
-#ifdef U_CANT_TOUCH_THIS
-/* this is just a guess as to what we'll actually need */
-typedef gboolean (*CamelBadCertCallback) (char *data);
-#endif
+typedef gpointer (*CamelAuthCallback) (CamelAuthCallbackMode mode,
+				       char *data, gboolean secret,
+				       CamelService *service, char *item,
+				       CamelException *ex);
 
 typedef gboolean (*CamelTimeoutCallback) (gpointer data);
 typedef guint (*CamelTimeoutRegisterCallback) (guint32 interval,
@@ -70,9 +67,6 @@ struct _CamelSession
 
 	char *storage_path;
 	CamelAuthCallback authenticator;
-#ifdef U_CANT_TOUCH_THIS
-	CamelBadCertCallback cert_authenticator;
-#endif
 	CamelTimeoutRegisterCallback registrar;
 	CamelTimeoutRemoveCallback remover;
 
@@ -119,18 +113,13 @@ char *          camel_session_get_storage_path (CamelSession *session,
 						CamelService *service,
 						CamelException *ex);
 
-char *          camel_session_query_authenticator (CamelSession *session,
+gpointer        camel_session_query_authenticator (CamelSession *session,
 						   CamelAuthCallbackMode mode,
 						   char *prompt,
 						   gboolean secret,
 						   CamelService *service,
 						   char *item,
 						   CamelException *ex);
-
-#ifdef U_CANT_TOUCH_THIS
-gboolean        camel_session_query_cert_authenticator (CamelSession *session,
-							char *prompt);
-#endif
 
 guint           camel_session_register_timeout (CamelSession *session,
 						guint32 interval,

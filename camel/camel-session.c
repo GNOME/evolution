@@ -151,7 +151,7 @@ camel_session_new (const char *storage_path,
 	CamelSession *session = CAMEL_SESSION (camel_object_new (CAMEL_SESSION_TYPE));
 
 	session->storage_path = g_strdup (storage_path);
-	session->authenticator = authenticator;
+	session->authenticator = authenticator;	
 	session->registrar = registrar;
 	session->remover = remover;
 
@@ -427,7 +427,7 @@ camel_session_get_storage_path (CamelSession *session, CamelService *service,
 /**
  * camel_session_query_authenticator: query the session authenticator
  * @session: session object
- * @mode: %CAMEL_AUTHENTICATOR_ASK or %CAMEL_AUTHENTICATOR_TELL
+ * @mode: %CAMEL_AUTHENTICATOR_ASK, %CAMEL_AUTHENTICATOR_TELL or CAMEL_AUTHENTICATOR_ACCEPT
  * @data: prompt to query user with, or data to cache
  * @secret: whether or not the data is secret (eg, a password)
  * @service: the service this query is being made by
@@ -453,9 +453,14 @@ camel_session_get_storage_path (CamelSession *session, CamelService *service,
  * caching anything about that datum (eg, because the data is a
  * password that turned out to be incorrect).
  *
+ * If @mode is %CAMEL_AUTHENTICATOR_ACCEPT, then @data is a YES/NO
+ * question to ask the user (if the application doesn't already have
+ * the answer cached). Return GINT_TO_POINTER(TRUE) on accept, or
+ * GINT_TO_POINTER(FALSE) to decline.
+ *
  * Return value: the authentication information or %NULL.
  **/
-char *
+gpointer
 camel_session_query_authenticator (CamelSession *session,
 				   CamelAuthCallbackMode mode,
 				   char *prompt, gboolean secret,
@@ -465,30 +470,6 @@ camel_session_query_authenticator (CamelSession *session,
 	return session->authenticator (mode, prompt, secret,
 				       service, item, ex);
 }
-
-#ifdef U_CANT_TOUCH_THIS
-/**
- * camel_session_query_cert_authenticator:
- * @session: session object
- * @prompt: prompt to query user with
- *
- * This function is used by SSL to discuss certificate authentication
- * information with the application and/or user. Allows the user to
- * override the SSL certificate authenticator, which, at this point,
- * must have failed to authenticate the server.
- *
- * UI should be a Yes/No prompt probably defaulting to No.
- *
- * Return value: TRUE if the user decides that the SSL connection
- * should continue with the untrusted server or FALSE otherwise.
- **/
-gboolean
-camel_session_query_cert_authenticator (CamelSession *session,
-					char *prompt)
-{
-	return session->cert_authenticator (prompt);
-}
-#endif /* U_CANT_TOUCH_THIS */
 
 
 /**

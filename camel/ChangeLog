@@ -1,3 +1,13 @@
+2001-03-09  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-session.c (camel_session_query_authenticator): Created a
+	new mode (CAMEL_AUTHENTICATOR_ACCEPT) which is a Yes/No prompt to
+	the user. This will be needed by the SSL/TLS code to come. Also
+	changed the return value to a gpointer rather than a char* to
+	allow the returning of TRUE/FALSE values.
+
+	* camel.c: Wrap stuff with HAVE_NSS
+
 2001-03-09  Dan Winship  <danw@ximian.com>
 
 	* providers/sendmail/camel-sendmail-transport.c (sendmail_send,
