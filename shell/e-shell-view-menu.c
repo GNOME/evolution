@@ -47,6 +47,8 @@
 #include "e-shell-view-menu.h"
 #include "e-shell-importer.h"
 
+#include "e-shell-folder-commands.h"
+
 #include "e-util/e-gui-utils.h"
 
 
@@ -410,22 +412,11 @@ command_create_folder (BonoboUIComponent *uih,
 {
 	EShellView *shell_view;
 	EShell *shell;
-	const char *current_uri;
-	const char *default_folder;
 
 	shell_view = E_SHELL_VIEW (data);
 	shell = e_shell_view_get_shell (shell_view);
 
-	current_uri = e_shell_view_get_current_uri (shell_view);
-
-	if (strncmp (current_uri, E_SHELL_URI_PREFIX, E_SHELL_URI_PREFIX_LEN) == 0)
-		default_folder = current_uri + E_SHELL_URI_PREFIX_LEN;
-	else
-		default_folder = NULL;
-
-	e_shell_show_folder_creation_dialog (shell, GTK_WINDOW (shell_view), default_folder,
-					     NULL /* result_callback */,
-					     NULL /* result_callback_data */);
+	e_shell_command_create_new_folder (shell, shell_view);
 }
 
 static void

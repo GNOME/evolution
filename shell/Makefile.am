@@ -96,6 +96,8 @@ evolution_SOURCES =				\
 	e-setup.c				\
 	e-setup.h				\
 	e-shell-constants.h			\
+	e-shell-folder-commands.c		\
+	e-shell-folder-commands.h		\
 	e-shell-folder-creation-dialog.c	\
 	e-shell-folder-creation-dialog.h	\
 	e-shell-folder-selection-dialog.c	\
