@@ -205,7 +205,7 @@ send_cb (GtkWidget *widget,
 
 static void
 menu_view_attachments_activate_cb (GtkWidget *widget,
-				      gpointer data)
+				   gpointer data)
 {
 	e_msg_composer_show_attachments (E_MSG_COMPOSER (data),
 					 GTK_CHECK_MENU_ITEM (widget)->active);
@@ -284,8 +284,8 @@ address_dialog_cb (GtkWidget *widget,
 }
 
 static void
-attachment_bar_changed (EMsgComposerAttachmentBar *bar,
-			gpointer data)
+attachment_bar_changed_cb (EMsgComposerAttachmentBar *bar,
+			   gpointer data)
 {
 	EMsgComposer *composer;
 	
@@ -304,16 +304,19 @@ static GnomeUIInfo file_tree[] = {
 	GNOMEUIINFO_MENU_OPEN_ITEM (NULL, NULL),
 	GNOMEUIINFO_MENU_SAVE_ITEM (NULL, NULL),
 	GNOMEUIINFO_MENU_SAVE_AS_ITEM (NULL, NULL),
-	GNOMEUIINFO_ITEM_NONE (N_("Save in _folder..."), N_("Save the message in a specified folder"), NULL),
+	GNOMEUIINFO_ITEM_NONE (N_("Save in _folder..."), N_("Save the message in a specified folder"),
+			       NULL),
 	GNOMEUIINFO_SEPARATOR,
-	GNOMEUIINFO_ITEM_STOCK (N_("Send"), N_("Send the message"), NULL, GNOME_STOCK_MENU_MAIL_SND),
+	GNOMEUIINFO_ITEM_STOCK (N_("Send"), N_("Send the message"),
+				send_cb, GNOME_STOCK_MENU_MAIL_SND),
 	GNOMEUIINFO_SEPARATOR,
 	GNOMEUIINFO_MENU_EXIT_ITEM (NULL, NULL),
 	GNOMEUIINFO_END
 };
 
 static GnomeUIInfo view_tree[] = {
-	GNOMEUIINFO_ITEM_STOCK (N_("View _attachments"), N_("View/hide attachments"), NULL, GNOME_STOCK_MENU_ATTACH),
+	GNOMEUIINFO_ITEM_STOCK (N_("View _attachments"), N_("View/hide attachments"),
+				menu_view_attachments_activate_cb, GNOME_STOCK_MENU_ATTACH),
 	GNOMEUIINFO_END
 };
 
@@ -341,14 +344,14 @@ create_menubar (EMsgComposer *composer)
 /* Toolbar implementation.  */
 
 static GnomeUIInfo toolbar_info[] = {
-	GNOMEUIINFO_ITEM_STOCK (N_("Send"), N_("Send this message"), NULL, GNOME_STOCK_PIXMAP_MAIL_SND),
+	GNOMEUIINFO_ITEM_STOCK (N_("Send"), N_("Send this message"), send_cb, GNOME_STOCK_PIXMAP_MAIL_SND),
 	GNOMEUIINFO_SEPARATOR,
 	GNOMEUIINFO_ITEM_STOCK (N_("Cut"), N_("Cut selected region into the clipboard"), NULL, GNOME_STOCK_PIXMAP_CUT),
 	GNOMEUIINFO_ITEM_STOCK (N_("Copy"), N_("Copy selected region into the clipboard"), NULL, GNOME_STOCK_PIXMAP_COPY),
 	GNOMEUIINFO_ITEM_STOCK (N_("Paste"), N_("Paste selected region into the clipboard"), NULL, GNOME_STOCK_PIXMAP_PASTE),
 	GNOMEUIINFO_ITEM_STOCK (N_("Undo"), N_("Undo last operation"), NULL, GNOME_STOCK_PIXMAP_UNDO),
 	GNOMEUIINFO_SEPARATOR,
-	GNOMEUIINFO_ITEM_STOCK (N_("Attach"), N_("Attach a file"), NULL, GNOME_STOCK_PIXMAP_ATTACH),
+	GNOMEUIINFO_ITEM_STOCK (N_("Attach"), N_("Attach a file"), add_attachment_cb, GNOME_STOCK_PIXMAP_ATTACH),
 	GNOMEUIINFO_END
 };
 
@@ -362,7 +365,7 @@ create_toolbar (EMsgComposer *composer)
 
 	bonobo_ui_handler_create_toolbar (uih, "Toolbar");
 
-	list = bonobo_ui_handler_toolbar_parse_uiinfo_list (toolbar_info);
+	list = bonobo_ui_handler_toolbar_parse_uiinfo_list_with_data (toolbar_info, composer);
 	bonobo_ui_handler_toolbar_add_list (uih, "/Toolbar", list);
 }
 
@@ -510,6 +513,9 @@ e_msg_composer_construct (EMsgComposer *composer)
 	gtk_box_pack_start (GTK_BOX (vbox),
 			    composer->attachment_scrolled_window,
 			    FALSE, TRUE, GNOME_PAD_SMALL);
+
+	gtk_signal_connect (GTK_OBJECT (composer->attachment_bar), "changed",
+			    GTK_SIGNAL_FUNC (attachment_bar_changed_cb), composer);
 
 	gnome_app_set_contents (GNOME_APP (composer), vbox);
 	gtk_widget_show (vbox);

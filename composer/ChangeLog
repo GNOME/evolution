@@ -1,3 +1,11 @@
+2000-03-07  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* e-msg-composer.c (create_toolbar): Pass the composer as the data
+	for the toolbar callbacks.
+	(e_msg_composer_construct): Connect the "changed" signal of the
+	attachment bar to `attachment_bar_changed()'.
+	(attachment_bar_changed): Renamed to `attachment_bar_changed_cb'.
+
 2000-03-02  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* e-msg-composer.c (e_msg_composer_new): Precondition:
