@@ -275,7 +275,7 @@ mlf_expunge(CamelFolder *folder, CamelException *ex)
 }
 
 static void
-mlf_append_message(CamelFolder *folder, CamelMimeMessage *message, const CamelMessageInfo *info, CamelException *ex)
+mlf_append_message(CamelFolder *folder, CamelMimeMessage *message, const CamelMessageInfo *info, char **appended_uid, CamelException *ex)
 {
 	MailLocalFolder *mlf = MAIL_LOCAL_FOLDER(folder);
 	CamelFolder *f;
@@ -285,7 +285,7 @@ mlf_append_message(CamelFolder *folder, CamelMimeMessage *message, const CamelMe
 	camel_object_ref((CamelObject *)f);
 	LOCAL_FOLDER_UNLOCK(mlf);
 
-	camel_folder_append_message(f, message, info, ex);
+	camel_folder_append_message(f, message, info, appended_uid, ex);
 	camel_object_unref((CamelObject *)f);
 }
 
@@ -686,7 +686,7 @@ mail_local_folder_reconfigure (MailLocalFolder *mlf, const char *new_format, int
 	camel_folder_freeze(mlf->real_folder);
 
 	uids = camel_folder_get_uids(fromfolder);
-	camel_folder_transfer_messages_to(fromfolder, uids, mlf->real_folder, TRUE, ex);
+	camel_folder_transfer_messages_to(fromfolder, uids, mlf->real_folder, NULL, TRUE, ex);
 	camel_folder_free_uids(fromfolder, uids);
 	if (camel_exception_is_set(ex))
 		goto cleanup;

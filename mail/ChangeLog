@@ -1,3 +1,17 @@
+2002-05-13  Dan Winship  <danw@ximian.com>
+
+	* (various places): Update for camel_folder_append_message /
+	camel_folder_transfer_messages_to API change.
+
+	* mail-ops.c (mail_append_mail): Pass the appended_uid to the
+	callback.
+
+	* mail-callbacks.c (composer_save_draft_cb, save_draft_done,
+	do_edit_messages): Take advantage of the append_message change to
+	keep track of the UID of the saved draft so that we can delete the
+	old copy of the draft each time we save a new one. Remove the
+	FIXME suggesting we should do that, since we're doing it now. :)
+
 2002-05-10  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-callbacks.c (do_view_message): Update for the new

@@ -520,9 +520,11 @@ composer_send_cb (EMsgComposer *composer, gpointer data)
 }
 
 static void
-append_mail_cleanup (CamelFolder *folder, CamelMimeMessage *msg, CamelMessageInfo *info, int ok, void *data)
+append_mail_cleanup (CamelFolder *folder, CamelMimeMessage *msg, CamelMessageInfo *info, int ok, char *appended_uid, void *data)
 {
 	camel_message_info_free (info);
+	if (appended_uid)
+		g_free (appended_uid);
 }
 
 void
@@ -551,26 +553,40 @@ composer_postpone_cb (EMsgComposer *composer, gpointer data)
 
 struct _save_draft_info {
 	EMsgComposer *composer;
-	const char *old_uid;
 	int quit;
 };
 
 static void
-save_draft_done (CamelFolder *folder, CamelMimeMessage *msg, CamelMessageInfo *info, int ok, void *data)
+save_draft_done (CamelFolder *folder, CamelMimeMessage *msg, CamelMessageInfo *info, int ok, char *appended_uid, void *data)
 {
 	struct _save_draft_info *sdi = data;
-	
-	/* delete the original draft message */
-	if (ok && sdi->old_uid)
-		camel_folder_set_message_flags (folder, sdi->old_uid,
+	char *old_uid;
+
+	if (!ok)
+		goto done;
+
+	old_uid = gtk_object_get_data (GTK_OBJECT (sdi->composer), "draft_uid");
+	if (old_uid) {
+		/* delete the original draft message */
+		camel_folder_set_message_flags (folder, old_uid,
 						CAMEL_MESSAGE_DELETED,
 						CAMEL_MESSAGE_DELETED);
+	}
+
+	if (appended_uid) {
+		gtk_object_set_data_full (GTK_OBJECT (sdi->composer),
+					  "draft_uid", appended_uid,
+					  (GtkDestroyNotify)g_free);
+	} else {
+		gtk_object_set_data (GTK_OBJECT (sdi->composer),
+				     "draft_uid", NULL);
+	}
 	
-	if (ok && sdi->quit)
+	if (sdi->quit)
 		gtk_widget_destroy (GTK_WIDGET (sdi->composer));
-	else
-		gtk_object_unref (GTK_OBJECT (sdi->composer));
-	
+
+ done:
+	gtk_object_unref (GTK_OBJECT (sdi->composer));
 	g_free (info);
 	g_free (sdi);
 }
@@ -640,15 +656,7 @@ composer_save_draft_cb (EMsgComposer *composer, int quit, gpointer user_data)
 	sdi = g_malloc (sizeof (struct _save_draft_info));
 	sdi->composer = composer;
 	gtk_object_ref (GTK_OBJECT (composer));
-	sdi->old_uid = (const char *) user_data;
 	sdi->quit = quit;
-	
-	/* FIXME: we need to have some way of getting the UID of the
-           newly appended message so that we can update the data that
-           this callback gets called with (user_data is the UID of the
-           message being edited) so that if the user saves a
-           second/third/fourth/etc time, we keep deleting the previous
-           copy of the draft */
 	
 	mail_append_mail (folder, msg, info, save_draft_done, sdi);
 	camel_object_unref (CAMEL_OBJECT (folder));
@@ -2048,10 +2056,10 @@ do_edit_messages (CamelFolder *folder, GPtrArray *uids, GPtrArray *messages, voi
 					    composer_postpone_cb, NULL);
 			
 			uid = g_strdup (uids->pdata[i]);
-			gtk_object_set_data_full (GTK_OBJECT (composer), "uid", uid, (GtkDestroyNotify) g_free);
+			gtk_object_set_data_full (GTK_OBJECT (composer), "draft_uid", uid, (GtkDestroyNotify) g_free);
 			
 			gtk_signal_connect (GTK_OBJECT (composer), "save-draft",
-					    composer_save_draft_cb, uid);
+					    composer_save_draft_cb, NULL);
 			
 			gtk_widget_show (GTK_WIDGET (composer));
 		}

@@ -39,7 +39,7 @@ extern "C" {
 #include "e-util/e-msgport.h"
 
 void mail_append_mail (CamelFolder *folder, CamelMimeMessage *message, CamelMessageInfo *info,
-		       void (*done)(CamelFolder *folder, CamelMimeMessage *msg, CamelMessageInfo *info, int ok, void *data),
+		       void (*done)(CamelFolder *folder, CamelMimeMessage *msg, CamelMessageInfo *info, int ok, char *appended_uid, void *data),
 		       void *data);
 
 void mail_transfer_messages (CamelFolder *source, GPtrArray *uids,

@@ -483,7 +483,7 @@ message_rfc822_dnd (CamelFolder *dest, CamelStream *stream, CamelException *ex)
 		
 		/* append the message to the folder... */
 		info = g_new0 (CamelMessageInfo, 1);
-		camel_folder_append_message (dest, msg, info, ex);
+		camel_folder_append_message (dest, msg, info, NULL, ex);
 		camel_object_unref (CAMEL_OBJECT (msg));
 		
 		if (camel_exception_is_set (ex))

@@ -182,7 +182,7 @@ process_item_fn (EvolutionImporter *eimporter,
 
 		if (deleted == FALSE) {
 		/* write the mesg */
-			camel_folder_append_message (importer->folder, msg, info, ex);
+			camel_folder_append_message (importer->folder, msg, info, NULL, ex);
 			g_free (info);
 		}
 

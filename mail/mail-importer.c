@@ -138,7 +138,7 @@ mail_importer_add_line (MailImporter *importer,
 	importer->mstream = NULL;
 
 	ex = camel_exception_new ();
-	camel_folder_append_message (importer->folder, msg, info, ex);
+	camel_folder_append_message (importer->folder, msg, info, NULL, ex);
 	camel_object_unref (CAMEL_OBJECT (msg));
 
 	camel_exception_free (ex);

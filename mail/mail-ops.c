@@ -558,7 +558,7 @@ mail_send_message (CamelMimeMessage *message, const char *destination,
 	}
 	
 	if (folder) {
-		camel_folder_append_message (folder, message, info, ex);
+		camel_folder_append_message (folder, message, info, NULL, ex);
 		if (camel_exception_is_set (ex)) {
 			ExceptionId id;
 			
@@ -826,8 +826,9 @@ struct _append_msg {
         CamelFolder *folder;
 	CamelMimeMessage *message;
         CamelMessageInfo *info;
+	char *appended_uid;
 
-	void (*done)(CamelFolder *folder, CamelMimeMessage *msg, CamelMessageInfo *info, int ok, void *data);
+	void (*done)(CamelFolder *folder, CamelMimeMessage *msg, CamelMessageInfo *info, int ok, char *appended_uid, void *data);
 	void *data;
 };
 
@@ -843,7 +844,7 @@ append_mail_append (struct _mail_msg *mm)
 	struct _append_msg *m = (struct _append_msg *)mm;
 
 	camel_mime_message_set_date(m->message, CAMEL_MESSAGE_DATE_CURRENT, 0);
-	camel_folder_append_message(m->folder, m->message, m->info, &mm->ex);
+	camel_folder_append_message(m->folder, m->message, m->info, &m->appended_uid, &mm->ex);
 }
 
 static void
@@ -852,7 +853,7 @@ append_mail_appended (struct _mail_msg *mm)
 	struct _append_msg *m = (struct _append_msg *)mm;
 
 	if (m->done)
-		m->done(m->folder, m->message, m->info, !camel_exception_is_set(&mm->ex), m->data);
+		m->done(m->folder, m->message, m->info, !camel_exception_is_set(&mm->ex), m->appended_uid, m->data);
 }
 
 static void
@@ -873,7 +874,7 @@ static struct _mail_msg_op append_mail_op = {
 
 void
 mail_append_mail (CamelFolder *folder, CamelMimeMessage *message, CamelMessageInfo *info,
-		  void (*done)(CamelFolder *folder, CamelMimeMessage *msg, CamelMessageInfo *info, int ok, void *data),
+		  void (*done)(CamelFolder *folder, CamelMimeMessage *msg, CamelMessageInfo *info, int ok, char *appended_uid, void *data),
 		  void *data)
 {
 	struct _append_msg *m;
@@ -938,7 +939,7 @@ transfer_messages_transfer (struct _mail_msg *mm)
 	camel_folder_freeze (m->source);
 	camel_folder_freeze (dest);
 	
-	camel_folder_transfer_messages_to (m->source, m->uids, dest, m->delete, &mm->ex);
+	camel_folder_transfer_messages_to (m->source, m->uids, dest, NULL, m->delete, &mm->ex);
 	
 	camel_folder_thaw (m->source);
 	camel_folder_thaw (dest);
