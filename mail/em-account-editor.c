@@ -2065,7 +2065,7 @@ static EMConfigItem emae_editor_items[] = {
 	{ E_CONFIG_SECTION, "10.receive/30.auth", "vbox179", emae_widget_glade },
 
 	/* Most sections for this is auto-generated fromt the camel config */
-	{ E_CONFIG_PAGE, "20.receive_options", N_("Receiving O_ptions"), },
+	{ E_CONFIG_PAGE, "20.receive_options", N_("Receiving Options"), },
 	{ E_CONFIG_SECTION_TABLE, "20.receive_options/10.mailcheck", N_("Checking for New Mail"), },
 	{ E_CONFIG_ITEM_TABLE, "20.receive_options/10.mailcheck/00.autocheck", NULL, emae_receive_options_item, },
 
@@ -2143,7 +2143,7 @@ static EMConfigItem emae_druid_items[] = {
 	{ E_CONFIG_SECTION, "10.receive/30.auth", "vbox179", emae_widget_glade },
 
 	/* Most sections for this is auto-generated fromt the camel config */
-	{ E_CONFIG_PAGE, "20.receive_options", N_("Receiving O_ptions"), },
+	{ E_CONFIG_PAGE, "20.receive_options", N_("Receiving Options"), },
 	{ E_CONFIG_SECTION_TABLE, "20.receive_options/10.mailcheck", N_("Checking for New Mail"), },
 	{ E_CONFIG_ITEM_TABLE, "20.receive_options/10.mailcheck/00.autocheck", NULL, emae_receive_options_item, },
 

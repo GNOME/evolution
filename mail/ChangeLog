@@ -10,6 +10,11 @@
 
 2004-12-01  Mengjie Yu  <meng-jie.yu@sun.com>
 
+	* em-account-editor.c:according to the HIG, remove accelerators in 
+	the notebook tab labels 
+
+2004-12-01  Mengjie Yu  <meng-jie.yu@sun.com>
+
 	* em-account-editor.c: (emae_option_toggle),
 	(emae_receive_options_item):add mnemonic for buttons.
 	* em-format-html-display.c: (efhd_attachment_button):add atk name
