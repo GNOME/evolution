@@ -2923,6 +2923,7 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 
       <child>
 	<widget class="GtkVBox" id="vboxMailFunctions">
+	  <property name="border_width">3</property>
 	  <property name="visible">True</property>
 	  <property name="homogeneous">False</property>
 	  <property name="spacing">0</property>

@@ -1,5 +1,9 @@
 2003-03-06  Ettore Perazzoli  <ettore@ximian.com>
 
+	* mail-config.glade: Add some spacing to the buttons.  [#38227]
+
+2003-03-06  Ettore Perazzoli  <ettore@ximian.com>
+
 	* importers/evolution-mbox-importer.c (IN): Use G_GNUC_FUNCTION
 	instead of __FUNCTION__.
 	(OUT): Likewise.
