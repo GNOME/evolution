@@ -1,3 +1,8 @@
+2004-02-12  Chris Toshok  <toshok@ximian.com>
+
+	* gui/component/addressbook-migrate.c (migrate_contacts): free up
+	the list returned by e_book_get_contacts.
+
 2004-01-12  Rodney Dawes  <dobey@ximian.com>
 
 	* gui/component/addressbook-component.c (delete_addressbook_cb):

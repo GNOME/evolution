@@ -291,6 +291,9 @@ migrate_contacts (MigrationContext *context, EBook *old_book, EBook *new_book)
 
 		dialog_set_progress (context, (double)num_added / num_contacts);
 	}
+
+	g_list_foreach (contacts, (GFunc)g_object_unref, NULL);
+	g_list_free (contacts);
 }
 
 static void
