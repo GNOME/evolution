@@ -42,8 +42,7 @@ glade_messages = \
 
 libcomposerincludedir = $(includedir)/composer
 
-noinst_LTLIBRARIES = libcomposer.la
-libcomposer_la_LDFLAGS = -static
+noinst_LIBRARIES = libcomposer.a
 
 INCLUDES =								\
 	-I$(top_srcdir)							\
@@ -63,7 +62,7 @@ INCLUDES =								\
 	-DE_GLADEDIR=\"$(gladedir)\"					\
 	-DG_LOG_DOMAIN=\"composer\"
 
-libcomposer_la_SOURCES = 			\
+libcomposer_a_SOURCES = 			\
 	$(IDL_GENERATED)			\
 	$(HTML_EDITOR_GENERATED)		\
 	e-msg-composer-attachment-bar.c		\

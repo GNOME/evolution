@@ -1,3 +1,9 @@
+2001-01-12  Miguel de Icaza  <miguel@gnu.org>
+
+	* Makefile.am: Make the composer a standard library, not a libtool
+	one.  Nobody ever uses it as a shared library and it is not
+	installed. 
+
 2001-01-17  Jason Leach  <jasonleach@usa.net>
 
 	(Bug #1192: Set the Composer window title to something useful)
