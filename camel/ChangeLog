@@ -1,5 +1,8 @@
 2000-07-01  Dan Winship  <danw@helixcode.com>
 
+	* providers/imap/Makefile.am: remove unneeded
+	libcamelimap_la_LDADD.
+
 	* providers/pop3/camel-pop3-store.c (connect_to_server): fix the
 	CAPA-parsing code to not get into an infinite loop.
 
