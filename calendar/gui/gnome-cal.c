@@ -970,11 +970,13 @@ gnome_calendar_destroy (GtkObject *object)
 	}
 
 	if (priv->client) {
+		gtk_signal_disconnect_by_data (GTK_OBJECT (priv->client), gcal);
 		gtk_object_unref (GTK_OBJECT (priv->client));
 		priv->client = NULL;
 	}
 
 	if (priv->task_pad_client) {
+		gtk_signal_disconnect_by_data (GTK_OBJECT (priv->task_pad_client), gcal);
 		gtk_object_unref (GTK_OBJECT (priv->task_pad_client));
 		priv->task_pad_client = NULL;
 	}
