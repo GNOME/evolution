@@ -1,3 +1,7 @@
+2003-05-15  Rodney Dawes  <dobey@ximian.com>
+
+	* configure.in: Check for libgcc stuff to make solaris happy
+	
 2003-04-30  Ettore Perazzoli  <ettore@ximian.com>
 
 	* configure.in: Bump version number to 1.3.3.99.

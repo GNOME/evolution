@@ -40,6 +40,13 @@ fi
 AM_CONDITIONAL(HAVE_JW, test "x$HAVE_JW" = "xyes")
 AC_SUBST(HAVE_JW)
 
+if test -n "${GCC}"; then
+	LIBGCC_A_FILENAME=`${CC} -print-libgcc-file-name`;
+else
+	LIBGCC_A_FILENAME="";
+fi
+AC_SUBST(LIBGCC_A_FILENAME)
+
 dnl I18N stuff
 AC_PROG_INTLTOOL
 

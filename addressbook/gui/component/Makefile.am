@@ -59,7 +59,8 @@ libevolution_addressbook_la_LIBADD =							\
 	$(top_builddir)/widgets/misc/libemiscwidgets.la					\
 	$(top_builddir)/addressbook/gui/merging/libecardmerging.la			\
 	$(top_builddir)/widgets/menus/libmenus.la					\
-	$(EVOLUTION_ADDRESSBOOK_LIBS) $(LDAP_LIBS)
+	$(EVOLUTION_ADDRESSBOOK_LIBS) $(LDAP_LIBS)	\
+	$(LIBGCC_A_FILENAME)
 
 
 
