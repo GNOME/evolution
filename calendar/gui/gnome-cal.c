@@ -1768,22 +1768,6 @@ permission_error (GnomeCalendar *gcal, const char *uri)
 	g_free (urinopwd);
 }
 
-/* Callback from the calendar client when a calendar is loaded */
-static gboolean
-update_e_cal_view_timeout (gpointer data)
-{
-	GnomeCalendar *gcal = data;
-	GnomeCalendarPrivate *priv;
-
-	gcal = GNOME_CALENDAR (data);
-	priv = gcal->priv;
-
-	update_query (gcal);
-	priv->e_cal_view_timeout = 0;
-
-	return FALSE;
-}
-
 /* Duplicates an array of categories */
 static GPtrArray *
 copy_categories (GPtrArray *categories)
