@@ -1,3 +1,9 @@
+2002-05-29  Anna Marie Dirks  <anna@ximian.com>
+
+	* gui/component/select-names/select-names.glade: Changed some spacing 
+	and expanding behavior to make this dialog behave more like I intended 
+	to. 
+
 2002-05-24  Chris Toshok  <toshok@ximian.com>
 
 	* gui/component/addressbook-config.c (CONFIG_CONTROL_FACTORY_ID):
