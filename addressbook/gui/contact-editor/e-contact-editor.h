@@ -75,6 +75,8 @@ struct _EContactEditor
 	ECardSimpleEmailId email_choice;
 	ECardSimplePhoneId phone_choice[4];
 	ECardSimpleAddressId address_choice;
+	
+	GList *arbitrary_fields;
 };
 
 struct _EContactEditorClass
