@@ -114,7 +114,7 @@ filter_folder_filter(struct _mail_msg *mm)
 		camel_folder_free_uids (folder, folder_uids);
 	
 	/* sync and expunge */
-	camel_folder_sync (folder, TRUE, &mm->ex);
+	camel_folder_sync (folder, TRUE, camel_exception_is_set (&mm->ex) ? NULL : &mm->ex);
 	camel_folder_thaw (folder);
 	
 	if (m->destination)
