@@ -33,6 +33,7 @@ struct _EBookListenerPrivate {
 static gboolean
 e_book_listener_check_queue (EBookListener *listener)
 {
+	gtk_object_ref (GTK_OBJECT (listener));
 	if (listener->priv->response_queue != NULL) {
 		gtk_signal_emit (GTK_OBJECT (listener),
 				 e_book_listener_signals [RESPONSES_QUEUED]);
@@ -40,9 +41,11 @@ e_book_listener_check_queue (EBookListener *listener)
 
 	if (listener->priv->response_queue == NULL) {
 		listener->priv->idle_id = 0;
+		gtk_object_unref (GTK_OBJECT (listener));
 		return FALSE;
 	}
 
+	gtk_object_unref (GTK_OBJECT (listener));
 	return TRUE;
 }
 
@@ -623,6 +626,9 @@ e_book_listener_destroy (GtkObject *object)
 		g_free (resp);
 	}
 	g_list_free (listener->priv->response_queue);
+
+	if (listener->priv->idle_id)
+		g_source_remove (listener->priv->idle_id);
 
 	g_free (listener->priv);
 	
