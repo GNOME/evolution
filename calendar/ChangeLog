@@ -1,3 +1,10 @@
+2004-11-02  JP Rosevear  <jpr@novell.com>
+ 
+ 	Fixes #68707
+ 	
+ 	* gui/e-week-view-event-item.c (e_week_view_event_item_draw):
+ 	restrict the range to 0-23 (midnight end times became '24')
+	
 2004-11-03  JP Rosevear  <jpr@novell.com>
  
  	* gui/gnome-cal.c (connect_list_view_focus): listen to the canvas
