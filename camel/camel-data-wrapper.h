@@ -57,9 +57,7 @@ typedef struct {
 	GtkObjectClass parent_class;
 	
 	/* Virtual methods */	
-	void  (*write_to_buffer) (CamelDataWrapper *data_wrapper, gchar *buffer);
-	void  (*write_to_file) (CamelDataWrapper *data_wrapper, FILE *file);
-	void  (*construct_from_buffer) (CamelDataWrapper *data_wrapper, gchar *buffer, guint size);
+	void  (*write_to_stream) (CamelDataWrapper *data_wrapper, CamelStream stream);
 	void  (*construct_from_file) (CamelDataWrapper *data_wrapper, FILE *file, guint size);
 
 } CamelDataWrapperClass;
@@ -71,10 +69,10 @@ GtkType camel_data_wrapper_get_type (void);
 
 
 /* public methods */
-void camel_data_wrapper_write_to_buffer(CamelDataWrapper *data_wrapper, gchar *buffer);
-void camel_data_wrapper_write_to_file(CamelDataWrapper *data_wrapper, FILE *file);
-void camel_data_wrapper_construct_from_buffer(CamelDataWrapper *data_wrapper, gchar *buffer, guint size);
-void camel_data_wrapper_construct_from_file (CamelDataWrapper *data_wrapper, FILE *file, guint size);
+void camel_data_wrapper_write_to_buffer (CamelDataWrapper *data_wrapper, gchar *buffer);
+void camel_data_wrapper_write_to_stream (CamelDataWrapper *data_wrapper, CamelStream *stream);
+void camel_data_wrapper_construct_from_buffer (CamelDataWrapper *data_wrapper, gchar *buffer, guint size);
+void camel_data_wrapper_construct_from_file (CamelDataWrapper *data_wrapper, CamelStream *stream, guint size);
 
 #ifdef __cplusplus
 }

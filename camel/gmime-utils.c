@@ -26,40 +26,52 @@
 #include "gmime-utils.h"
 #include "gstring-util.h"
 #include "camel-log.h"
+#include "camel-stream.h"
 
 void
-gmime_write_header_pair_to_file (FILE* file, gchar* name, GString *value)
+gmime_write_header_pair_to_stream (CamelStream *stream, gchar* name, GString *value)
 {
 	g_assert(name);
+	g_assert(value);
+	g_assert(value->str);
 
-	if ((value) && (value->str))
-		fprintf(file, "%s: %s\n", name, value->str);
+	GString *strtmp;
+	guint len;
+
+	len = strlen (name) + strlen (value->str) +3;
+	/* 3 is for ": " and "\n" */
+	strtmp = g_string_sized_new (len);
+	
+	sprintf(strtmp->str, "%s: %s\n", name, value->str);
+	camel_stream_write (stream, strtmp->str, len);
+		
+	g_string_free (strtmp, FALSE);
 }
 
 
 static void
-_write_one_header_to_file (gpointer key, gpointer value, gpointer user_data)
+_write_one_header_to_stream (gpointer key, gpointer value, gpointer user_data)
 {
 	GString *header_name = (GString *)key;
 	GString *header_value = (GString *)value;
-	FILE *file = (FILE *)user_data;
+	CamelStream *stream = (CamelStream *)user_data;
 
 	if ( (header_name) && (header_name->str) && 
 	     (header_value) && (header_value->str) )
-		fprintf(file, "%s: %s\n", header_name->str, header_value->str);		
+		gmime_write_header_pair_to_stream (stream, header_name->str, header_value);		
 }
 
 void 
-write_header_table_to_file (FILE *file, GHashTable *header_table)
+write_header_table_to_stream (CamelStream *stream, GHashTable *header_table)
 {
 	g_hash_table_foreach (header_table, 
-			      _write_one_header_to_file, 
-			      (gpointer)file);
+			      _write_one_header_to_stream, 
+			      (gpointer)stream);
 }
 
 
 void 
-write_header_with_glist_to_file (FILE *file, gchar *header_name, GList *header_values)
+write_header_with_glist_to_stream (CamelStream *stream, gchar *header_name, GList *header_values)
 {
 	
 	GString *current;
@@ -69,17 +81,19 @@ write_header_with_glist_to_file (FILE *file, gchar *header_name, GList *header_v
 			gboolean first;
 			
 			fprintf(file, "%s: ", header_name);
+			camel_stream_write (stream, header_name, strlen (header_name) );
+			camel_stream_write (stream, ": ", 2);
 			first = TRUE;
 			while (header_values) {
 				current = (GString *)header_values->data;
 				if ( (current) && (current->str) ) {
-					if (!first) fprintf(file, ", ");
+					if (!first) camel_stream_write (stream, ", ", 2);
 					else first = FALSE;
-					fprintf(file, "%s", current->str);
+					camel_stream_write (stream, current->str, strlen (current->str));
 				}
 				header_values = g_list_next(header_values);
 			}
-			fprintf(file, "\n");
+			camel_stream_write (stream, "\n", 1);
 		}
 	
 }	
