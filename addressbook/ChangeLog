@@ -1,5 +1,10 @@
 2001-05-11  Chris Toshok  <toshok@ximian.com>
 
+	* gui/component/addressbook-component.c (populate_context_menu):
+	example.
+
+2001-05-11  Chris Toshok  <toshok@ximian.com>
+
 	* gui/widgets/e-minicard-view.c (e_minicard_view_drag_data_get):
 	use e_card_list_get_vcard to build up the data to send.
 	(e_minicard_view_init): connect to the model's drag_begin signal.

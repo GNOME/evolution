@@ -229,9 +229,8 @@ populate_context_menu (EvolutionShellComponent *shell_component,
 		       void *closure)
 {
 	static char popup_xml[] = 
-		"<menuitem name=\"BorkBork\" verb=\"ActivateView\" _label=\"_Foooo\" _tip=\"FooFooFoo\"/>\n";
-	g_print ("should populate context menu for %s (%s)\n", physical_uri, type);
-	bonobo_ui_component_set_translate (uic, "/popups/folderPopup/Folder/componentPlaceholder",
+		"<menuitem name=\"BorkBorkBork\" verb=\"ActivateView\" _label=\"_Foooo\" _tip=\"FooFooFoo\"/>\n";
+	bonobo_ui_component_set_translate (uic, EVOLUTION_SHELL_COMPONENT_POPUP_PLACEHOLDER,
 					   popup_xml, NULL);
 }
 
