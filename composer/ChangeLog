@@ -1,3 +1,7 @@
+2001-05-23  Radek Doulik  <rodo@ximian.com>
+
+	* e-msg-composer.c (e_msg_composer_set_sig_file): set orig to 0
+
 2001-05-18  Jon Trowbridge  <trow@ximian.com>
 
 	* e-msg-composer-hdrs.c (set_recipients): Properly unserialize the

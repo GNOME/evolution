@@ -2566,6 +2566,7 @@ e_msg_composer_set_sig_file (EMsgComposer *composer, const char *sig_file)
 		if (!GNOME_GtkHTML_Editor_Engine_isParagraphEmpty (composer->editor_engine, &ev))
 			GNOME_GtkHTML_Editor_Engine_runCommand (composer->editor_engine, "insert-paragraph", &ev);
 		/* printf ("insert %s\n", html); */
+		GNOME_GtkHTML_Editor_Engine_setParagraphData (composer->editor_engine, "orig", "0", &ev);
 		GNOME_GtkHTML_Editor_Engine_runCommand (composer->editor_engine, "indent-zero", &ev);
 		GNOME_GtkHTML_Editor_Engine_insertHTML (composer->editor_engine, html, &ev);
 		g_free (html);
