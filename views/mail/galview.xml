@@ -1,0 +1,5 @@
+<?xml version="1.0"?>
+<GalViewCollection>
+  <GalView id="By_Subject" title="By Subject" filename="By_Subject.galview" type="etable"/>
+  <GalView id="By_Sender" title="By Sender" filename="By_Sender.galview" type="etable"/>
+</GalViewCollection>
