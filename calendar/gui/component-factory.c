@@ -712,7 +712,7 @@ create_object (void)
 	add_creatable_item (shell_component, CREATE_MEETING_ID,
 			    _("New meeting"), _("_Meeting"),
 			    _("Create a new meeting request"),
-			    "calendar", 's', "meeting-request.png");
+			    "calendar", 's', "meeting-request-16.png");
 
 	add_creatable_item (shell_component, CREATE_TASK_ID,
 			    _("New task"), _("_Task"),
