@@ -2209,6 +2209,43 @@ gnome_calendar_add_event_uri (GnomeCalendar *gcal, const char *str_uri)
 	return TRUE;
 }
 
+/**
+ * gnome_calendar_remove_event_uri
+ * @gcal: A #GnomeCalendar.
+ * @str_uri: URI to be removed from the clients.
+ *
+ * Removes the given URI from the list of clients being shown by the
+ * calendar views.
+ *
+ * Returns: TRUE if successful, FALSE otherwise.
+ */
+gboolean
+gnome_calendar_remove_event_uri (GnomeCalendar *gcal, const char *str_uri)
+{
+	GnomeCalendarPrivate *priv;
+	int i;
+
+	g_return_val_if_fail (GNOME_IS_CALENDAR (gcal), FALSE);
+	g_return_val_if_fail (str_uri != NULL, FALSE);
+
+	priv = gcal->priv;
+
+	for (i = 0; i < GNOME_CAL_LAST_VIEW; i++) {
+		ECalModel *model;
+		CalClient *client;
+
+		model = e_cal_view_get_model (priv->views[i]);
+		client = e_cal_model_get_client_for_uri (model, str_uri);
+		if (client)
+			e_cal_model_remove_client (model, client);
+	}
+
+	/* update date navigator query */
+        update_query (gcal);
+
+	return TRUE;
+}
+
 /* Tells the calendar to reload all config settings.
    If initializing is TRUE it sets the pane positions as well. (We don't
    want to reset the pane positions after the user clicks 'Apply' in the

@@ -1,3 +1,8 @@
+2003-10-22  Rodrigo Moya <rodrigo@ximian.com>
+
+	* gui/gnome-cal.[ch] (gnome_calendar_remove_event_uri): new
+	function to remove calendars from the views.
+
 2003-10-22  Ettore Perazzoli  <ettore@ximian.com>
 
 	* gui/GNOME_Evolution_Calendar.server.in.in: Add an
