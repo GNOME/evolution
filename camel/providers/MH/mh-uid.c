@@ -66,3 +66,5 @@ mh_uid_get_for_file (gchar *filename)
 
 	return md5_digest_uid;
 }
+
+

@@ -49,10 +49,13 @@ _byte_reverse (guchar *buf, guint32 longs)
 	} while (--longs);
 }
 
-/*
- * Start MD5 accumulation.  Set bit count to 0 and buffer to mysterious
- * initialization constants.
- */
+/**
+ * md5_init: Initialise an md5 context object
+ * @ctx: md5 context 
+ * 
+ * Initialise an md5 buffer. 
+ *
+ **/
 void 
 md5_init (MD5Context *ctx)
 {
@@ -71,10 +74,16 @@ md5_init (MD5Context *ctx)
 }
 
 
-/*
+
+/**
+ * md5_update: add a buffer to md5 hash computation
+ * @ctx: conetxt object used for md5 computaion
+ * @buf: buffer to add
+ * @len: buffer length
+ * 
  * Update context to reflect the concatenation of another buffer full
- * of bytes.
- */
+ * of bytes. Use this to progressively construct an md5 hash.
+ **/
 void 
 md5_update (MD5Context *ctx, const guchar *buf, guint32 len)
 {
@@ -130,6 +139,13 @@ md5_update (MD5Context *ctx, const guchar *buf, guint32 len)
  * Final wrapup - pad to 64-byte boundary with the bit pattern 
  * 1 0* (64-bit count of bits processed, MSB-first)
  */
+/**
+ * md5_final: copy the final md5 hash to a bufer
+ * @digest: 16 bytes buffer
+ * @ctx: context containing the calculated md5
+ * 
+ * copy the final md5 hash to a bufer
+ **/
 void 
 md5_final (guchar digest[16], MD5Context *ctx)
 {
@@ -282,6 +298,15 @@ md5_transform (guint32 buf[4], const guint32 in[16])
 
 
 
+/**
+ * md5_get_digest: get the md5 hash of a buffer
+ * @buffer: byte buffer
+ * @buffer_size: buffer size (in bytes)
+ * @digest: 16 bytes buffer receiving the hash code.
+ * 
+ * Get the md5 hash of a buffer. The result is put in 
+ * the 16 bytes buffer @digest .
+ **/
 void
 md5_get_digest (const gchar *buffer, gint buffer_size, guchar digest[16])
 {	
@@ -294,8 +319,16 @@ md5_get_digest (const gchar *buffer, gint buffer_size, guchar digest[16])
 }
 
 
+/**
+ * md5_get_digest_from_stream: get the md5 hash of a stream
+ * @stream: stream
+ * @digest: 16 bytes buffer receiving the hash code.
+ * 
+ * Get the md5 hash of a stream. The result is put in 
+ * the 16 bytes buffer @digest .
+ **/
 void
-md5_get_digest_from_stream (CamelStream *stream, gint buffer_size, guchar digest[16])
+md5_get_digest_from_stream (CamelStream *stream, guchar digest[16])
 {	
 	MD5Context ctx;
 	guchar tmp_buf[1024];
@@ -316,8 +349,16 @@ md5_get_digest_from_stream (CamelStream *stream, gint buffer_size, guchar digest
 
 
 
+/**
+ * md5_get_digest_from_file: get the md5 hash of a file
+ * @filename: file name
+ * @digest: 16 bytes buffer receiving the hash code.
+ * 
+ * Get the md5 hash of a file. The result is put in 
+ * the 16 bytes buffer @digest .
+ **/
 void
-md5_get_digest_from_file (gchar *filename, gint buffer_size, guchar digest[16])
+md5_get_digest_from_file (gchar *filename, guchar digest[16])
 {	
 	MD5Context ctx;
 	guchar tmp_buf[1024];

@@ -1,5 +1,14 @@
 1999-09-07  bertrand  <Bertrand.Guiheneuf@aful.org>
 
+	* camel/md5-utils.c 
+	Documented all funcs.
+	
+	(md5_get_digest_from_stream): 
+	correct typo.
+	(md5_get_digest_from_file): 
+	same typo corrected.
+	
+
 	* camel/md5-utils.h : 
 	raw routines are declared public now.
 	Md5 use has to be versatile.
