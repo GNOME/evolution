@@ -1,5 +1,11 @@
 2003-11-17  Rodrigo Moya <rodrigo@ximian.com>
 
+	* gui/calendar-component.c (delete_calendar_cb, rename_calendar_cb):
+	* gui/tasks-component.c (delete_task_list_cb, rename_task_list_cb):
+	peek the primary selection.
+
+2003-11-17  Rodrigo Moya <rodrigo@ximian.com>
+
 	* gui/tasks-component.c (fill_popup_menu_cb): added 'Delete' and
 	'Rename' menu items.
 	(delete_task_list_cb, rename_task_list_cb): callbacks for new
