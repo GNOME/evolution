@@ -683,6 +683,8 @@ prompt_bcc_only_toggled (GtkWidget *toggle, gpointer data)
 	mail_config_set_prompt_only_bcc (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (toggle)));
 }
 
+#if 0
+/* Note: Please see construct() for a reason as to why these 2 options are disabled */
 static void
 thread_list_toggled (GtkWidget *toggle, gpointer data)
 {
@@ -694,6 +696,7 @@ show_preview_toggled (GtkWidget *toggle, gpointer data)
 {
 	mail_config_set_show_preview (NULL, gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (toggle)));
 }
+#endif
 
 static void
 filter_log_toggled (GtkWidget *toggle, gpointer data)
@@ -835,6 +838,8 @@ construct (MailAccountsDialog *dialog)
 	gtk_signal_connect (GTK_OBJECT (dialog->images_always), "toggled",
 			    GTK_SIGNAL_FUNC (images_radio_toggled), dialog);
 	
+#if 0
+	/* These options are disabled because they are completely non-intuitive and evil */
 	dialog->thread_list = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui, "chkThreadedList"));
 	gtk_toggle_button_set_active (dialog->thread_list, mail_config_get_thread_list (NULL));
 	gtk_signal_connect (GTK_OBJECT (dialog->thread_list), "toggled",
@@ -844,6 +849,7 @@ construct (MailAccountsDialog *dialog)
 	gtk_toggle_button_set_active (dialog->show_preview, mail_config_get_show_preview (NULL));
 	gtk_signal_connect (GTK_OBJECT (dialog->show_preview), "toggled",
 			    GTK_SIGNAL_FUNC (show_preview_toggled), dialog);
+#endif
 	
 	/* Composer page */
 	dialog->send_html = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui, "chkSendHTML"));

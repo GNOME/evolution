@@ -77,8 +77,8 @@ struct _MailAccountsDialog {
 	GtkToggleButton *timeout_toggle;
 	GtkSpinButton *timeout;
 	GtkToggleButton *images_always, *images_sometimes, *images_never;
-	GtkToggleButton *thread_list;
-	GtkToggleButton *show_preview;
+	/*GtkToggleButton *thread_list;*/
+	/*GtkToggleButton *show_preview;*/
 	
 	/* Composer page */
 	GtkToggleButton *send_html;

@@ -2752,34 +2752,6 @@ Kerberos
 	  </widget>
 	</widget>
       </widget>
-
-      <widget>
-	<class>GtkCheckButton</class>
-	<name>chkThreadedList</name>
-	<can_focus>True</can_focus>
-	<label>Message list should display in a _threaded fashion by default</label>
-	<active>False</active>
-	<draw_indicator>True</draw_indicator>
-	<child>
-	  <padding>0</padding>
-	  <expand>False</expand>
-	  <fill>False</fill>
-	</child>
-      </widget>
-
-      <widget>
-	<class>GtkCheckButton</class>
-	<name>chkShowPreview</name>
-	<can_focus>True</can_focus>
-	<label>Message _preview should be displayed by default</label>
-	<active>True</active>
-	<draw_indicator>True</draw_indicator>
-	<child>
-	  <padding>0</padding>
-	  <expand>False</expand>
-	  <fill>False</fill>
-	</child>
-      </widget>
     </widget>
 
     <widget>
