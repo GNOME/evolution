@@ -533,22 +533,24 @@ full_addr_clicked(GtkWidget *button, EContactEditor *editor)
 	result = gnome_dialog_run (dialog);
 	if (result == 0) {
 		ECardDeliveryAddress *new_address;
+		GtkWidget *address_widget;
 
 		gtk_object_get(GTK_OBJECT(dialog),
 			       "address", &new_address,
 			       NULL);
 		e_card_simple_set_delivery_address(editor->simple, editor->address_choice, new_address);
-		e_card_delivery_address_free(new_address);
 
-#if 0
-		GtkWidget *fname_widget;
-		fname_widget = glade_xml_get_widget(editor->gui, "text-address");
-		if (fname_widget && GTK_IS_ENTRY(fname_widget)) {
-			char *full_name = e_card_delivery_address_to_string(address);
-			e_utf8_gtk_entry_set_text(GTK_ENTRY(fname_widget), full_name);
-			g_free(full_name);
+		address_widget = glade_xml_get_widget(editor->gui, "text-address");
+		if (address_widget && GTK_IS_EDITABLE(address_widget)) {
+			char *string = e_card_delivery_address_to_string(new_address);
+			e_utf8_gtk_editable_set_text(GTK_EDITABLE(address_widget), string);
+			g_free(string);
+		} else {
+			ECardAddrLabel *address = e_card_delivery_address_to_label(new_address);
+			e_card_simple_set_address(editor->simple, editor->address_choice, address);
+			e_card_address_label_free(address);
 		}
-#endif
+		e_card_delivery_address_free(new_address);
 	}
 	gtk_object_unref(GTK_OBJECT(dialog));
 }

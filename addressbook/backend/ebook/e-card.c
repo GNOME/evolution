@@ -1213,6 +1213,17 @@ e_card_delivery_address_to_string(const ECardDeliveryAddress *addr)
 }
 
 ECardAddrLabel *
+e_card_delivery_address_to_label    (const ECardDeliveryAddress *addr)
+{
+	ECardAddrLabel *label;
+	label = e_card_address_label_new();
+	label->flags = addr->flags;
+	label->data = e_card_delivery_address_to_string(addr);
+
+	return label;
+}
+
+ECardAddrLabel *
 e_card_address_label_new (void)
 {
 	ECardAddrLabel *newaddr = g_new(ECardAddrLabel, 1);

@@ -205,8 +205,10 @@ static void
 extract_info(EContactEditorAddress *editor)
 {
 	ECardDeliveryAddress *address = editor->address;
-	if (!address)
+	if (!address) {
 		address = e_card_delivery_address_new();
+		editor->address = address;
+	}
 	address->street  = extract_field(editor, "entry-street" );
 	address->po      = extract_field(editor, "entry-po"     );
 	address->ext     = extract_field(editor, "entry-ext"    );
