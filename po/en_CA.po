@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-09-23 12:36-0400\n"
+"POT-Creation-Date: 2004-09-23 23:45-0400\n"
 "PO-Revision-Date: 2004-09-23 15:16-0400\n"
 "Last-Translator: Adam Weinberger <adamw@gnome.org>\n"
 "Language-Team: Canadian English <adamw@FreeBSD.org>\n"
@@ -223,13 +223,13 @@ msgstr ""
 msgid "Default Sync Address:"
 msgstr "Default Sync Address:"
 
-#: addressbook/conduit/address-conduit.c:1181
-#: addressbook/conduit/address-conduit.c:1182
+#: addressbook/conduit/address-conduit.c:1183
+#: addressbook/conduit/address-conduit.c:1184
 msgid "Could not load addressbook"
 msgstr "Could not load addressbook"
 
-#: addressbook/conduit/address-conduit.c:1250
-#: addressbook/conduit/address-conduit.c:1253
+#: addressbook/conduit/address-conduit.c:1252
+#: addressbook/conduit/address-conduit.c:1255
 msgid "Could not read pilot's Address application block"
 msgstr "Could not read pilot's Address application block"
 
@@ -3460,8 +3460,8 @@ msgid "In async mode, output must be file."
 msgstr "In async mode, output must be file."
 
 #: addressbook/tools/evolution-addressbook-export.c:122
-msgid "In normal mode, there should not need size option."
-msgstr "In normal mode, there should not need size option."
+msgid "In normal mode, there is no need for the size option."
+msgstr "In normal mode, there is no need for the size option."
 
 #: addressbook/tools/evolution-addressbook-export.c:153
 msgid "Impossible internal error."
@@ -5887,7 +5887,7 @@ msgstr "_Mark Selected Tasks as Complete"
 #. FIXME: need to disable for undeletable folders
 #: calendar/gui/e-calendar-table.c:1063 calendar/gui/e-calendar-table.c:1081
 #: calendar/gui/e-calendar-view.c:1451 calendar/gui/e-calendar-view.c:1484
-#: mail/em-folder-tree.c:2710 mail/em-folder-view.c:924
+#: mail/em-folder-tree.c:2722 mail/em-folder-view.c:924
 #: ui/evolution-addressbook.xml.h:33 ui/evolution-calendar.xml.h:40
 #: ui/evolution-comp-editor.xml.h:17 ui/evolution-contact-editor.xml.h:14
 #: ui/evolution-mail-message.xml.h:112 ui/evolution-tasks.xml.h:21
@@ -6163,7 +6163,6 @@ msgstr "iCalendar Error"
 msgid "An unknown person"
 msgstr "An unknown person"
 
-#. Describe what the user can do
 #: calendar/gui/e-itip-control.c:1096
 msgid ""
 "<br> Please review the following information, and then select an action from "
@@ -12268,7 +12267,6 @@ msgstr "Could not create composer window."
 msgid "Unable to activate the address selector control."
 msgstr "Unable to activate the address selector control."
 
-#. mail-composer:no-editor-control secondary
 #: composer/mail-composer-errors.xml.h:54
 msgid ""
 "Unable to activate the HTML editor control.\n"
@@ -13186,7 +13184,7 @@ msgstr "<click here to select a folder>"
 msgid "Create New Folder"
 msgstr "Create New Folder"
 
-#: mail/em-folder-selector.c:166 mail/em-folder-tree.c:2430
+#: mail/em-folder-selector.c:166 mail/em-folder-tree.c:2442
 #: mail/mail-component.c:711
 msgid "Specify where to create the folder:"
 msgstr "Specify where to create the folder:"
@@ -13245,7 +13243,7 @@ msgstr "_Copy to Folder"
 msgid "_Move to Folder"
 msgstr "_Move to Folder"
 
-#: mail/em-folder-tree.c:1014 mail/em-folder-tree.c:2216
+#: mail/em-folder-tree.c:1014 mail/em-folder-tree.c:2228
 #: mail/em-folder-view.c:803 mail/message-list.c:1703
 msgid "_Move"
 msgstr "_Move"
@@ -13254,63 +13252,68 @@ msgstr "_Move"
 msgid "Cancel _Drag"
 msgstr "Cancel _Drag"
 
-#: mail/em-folder-tree.c:2203 mail/em-folder-tree.c:2216
+#: mail/em-folder-tree.c:1707 mail/mail-ops.c:1002
+#, c-format
+msgid "Scanning folders in \"%s\""
+msgstr "Scanning folders in \"%s\""
+
+#: mail/em-folder-tree.c:2215 mail/em-folder-tree.c:2228
 #: mail/em-folder-view.c:803 mail/em-folder-view.c:817
 #: mail/importers/evolution-mbox-importer.c:119
 #: mail/importers/evolution-outlook-importer.c:133
 msgid "Select folder"
 msgstr "Select folder"
 
-#: mail/em-folder-tree.c:2203 mail/em-folder-view.c:817
+#: mail/em-folder-tree.c:2215 mail/em-folder-view.c:817
 msgid "C_opy"
 msgstr "C_opy"
 
-#: mail/em-folder-tree.c:2243
+#: mail/em-folder-tree.c:2255
 #, c-format
 msgid "Creating folder `%s'"
 msgstr "Creating folder `%s'"
 
-#: mail/em-folder-tree.c:2430 mail/mail-component.c:711
+#: mail/em-folder-tree.c:2442 mail/mail-component.c:711
 msgid "Create folder"
 msgstr "Create folder"
 
-#: mail/em-folder-tree.c:2621
+#: mail/em-folder-tree.c:2633
 #, c-format
 msgid "Rename the \"%s\" folder to:"
 msgstr "Rename the \"%s\" folder to:"
 
-#: mail/em-folder-tree.c:2623
+#: mail/em-folder-tree.c:2635
 msgid "Rename Folder"
 msgstr "Rename Folder"
 
-#: mail/em-folder-tree.c:2698 ui/evolution-addressbook.xml.h:44
+#: mail/em-folder-tree.c:2710 ui/evolution-addressbook.xml.h:44
 #: ui/evolution-mail-global.xml.h:18 ui/evolution-mail-messagedisplay.xml.h:8
 #: ui/evolution-message-composer.xml.h:53 ui/evolution.xml.h:37
 msgid "_View"
 msgstr "_View"
 
-#: mail/em-folder-tree.c:2699
+#: mail/em-folder-tree.c:2711
 msgid "Open in _New Window"
 msgstr "Open in _New Window"
 
-#: mail/em-folder-tree.c:2703
+#: mail/em-folder-tree.c:2715
 msgid "_Copy..."
 msgstr "_Copy..."
 
-#: mail/em-folder-tree.c:2704
+#: mail/em-folder-tree.c:2716
 msgid "_Move..."
 msgstr "_Move..."
 
 #. FIXME: need to disable for nochildren folders
-#: mail/em-folder-tree.c:2708
+#: mail/em-folder-tree.c:2720
 msgid "_New Folder..."
 msgstr "_New Folder..."
 
-#: mail/em-folder-tree.c:2711
+#: mail/em-folder-tree.c:2723
 msgid "_Rename..."
 msgstr "_Rename..."
 
-#: mail/em-folder-tree.c:2714 ui/evolution-mail-list.xml.h:27
+#: mail/em-folder-tree.c:2726 ui/evolution-mail-list.xml.h:27
 msgid "_Properties"
 msgstr "_Properties"
 
@@ -15511,7 +15514,6 @@ msgstr ""
 msgid "Are you sure you want to send a message in HTML format?"
 msgstr "Are you sure you want to send a message in HTML format?"
 
-#. mail:ask-send-html secondary
 #: mail/mail-errors.xml.h:12
 msgid ""
 "Please make sure the following recipients are willing and able to receive "
@@ -15549,7 +15551,6 @@ msgstr ""
 msgid "Are you sure you want to send a message with only BCC recipients?"
 msgstr "Are you sure you want to send a message with only BCC recipients?"
 
-#. mail:ask-send-only-bcc-contact secondary
 #: mail/mail-errors.xml.h:24
 msgid ""
 "The contact list you are sending to is configured to hide list recipients.\n"
@@ -15664,7 +15665,6 @@ msgstr ""
 msgid "Your message with the subject \"{0}\" was not delivered."
 msgstr "Your message with the subject \"{0}\" was not delivered."
 
-#. mail:camel-exception secondary
 #: mail/mail-errors.xml.h:59
 msgid ""
 "The message was sent via the \"sendmail\" external application.  Sendmail "
@@ -15933,7 +15933,6 @@ msgstr "Cannot add vFolder \"{0}\"."
 msgid "vFolders automatically updated."
 msgstr "vFolders automatically updated."
 
-#. mail:vfolder-updated secondary
 #: mail/mail-errors.xml.h:196
 msgid ""
 "The following vFolder(s):\n"
@@ -15953,7 +15952,6 @@ msgstr ""
 msgid "Mail filters automatically updated."
 msgstr "Mail filters automatically updated."
 
-#. mail:filter-updated secondary
 #: mail/mail-errors.xml.h:204
 msgid ""
 "The following filter rule(s):\n"
@@ -15988,7 +15986,6 @@ msgstr "You must name this vFolder."
 msgid "No sources selected."
 msgstr "No sources selected."
 
-#. mail:vfolder-no-source secondary
 #: mail/mail-errors.xml.h:220
 msgid ""
 "You must specify at least one folder as a source.\n"
@@ -16005,7 +16002,6 @@ msgstr ""
 msgid "Problem migrating old mail folder \"{0}\"."
 msgstr "Problem migrating old mail folder \"{0}\"."
 
-#. mail:ask-migrate-existing secondary
 #: mail/mail-errors.xml.h:226
 msgid ""
 "A non-empty folder at \"{1}\" already exists.\n"
@@ -16030,7 +16026,6 @@ msgstr "_Overwrite"
 msgid "_Append"
 msgstr "_Append"
 
-#. mail:gw-accountsetup-error primary
 #: mail/mail-errors.xml.h:234
 msgid ""
 "Unable to connect to the GroupWise\n"
@@ -16039,7 +16034,6 @@ msgstr ""
 "Unable to connect to the GroupWise\n"
 "server."
 
-#. mail:gw-accountsetup-error secondary
 #: mail/mail-errors.xml.h:237
 msgid ""
 "\n"
@@ -16107,11 +16101,6 @@ msgstr "Moving messages to %s"
 #, c-format
 msgid "Copying messages to %s"
 msgstr "Copying messages to %s"
-
-#: mail/mail-ops.c:1002
-#, c-format
-msgid "Scanning folders in \"%s\""
-msgstr "Scanning folders in \"%s\""
 
 #: mail/mail-ops.c:1115
 msgid "Forwarded messages"
@@ -16971,9 +16960,8 @@ msgstr "Don't ask me again"
 msgid "Evolution can import data from the following files:"
 msgstr "Evolution can import data from the following files:"
 
-#. Preview/Alpha/Beta version warning message
 #: shell/main.c:226
-#, no-c-format
+#, c-format
 msgid ""
 "Hi.  Thanks for taking the time to download this preview release\n"
 "of the Evolution groupware suite.\n"
@@ -17057,7 +17045,6 @@ msgstr ""
 msgid "Insufficient disk space for upgrade."
 msgstr "Insufficient disk space for upgrade."
 
-#. shell:upgrade-nospace secondary
 #: shell/shell-errors.xml.h:4
 msgid ""
 "Upgrading your data and settings will require upto {0} of disk space, but "
@@ -17072,7 +17059,6 @@ msgstr ""
 "You will need to make more space available in your home directory before you "
 "can continue."
 
-#. shell:upgrade-failed primary
 #: shell/shell-errors.xml.h:8
 msgid ""
 "Upgrade from previous version failed:\n"
@@ -17081,7 +17067,6 @@ msgstr ""
 "Upgrade from previous version failed:\n"
 "{0}"
 
-#. shell:upgrade-failed secondary
 #: shell/shell-errors.xml.h:11
 msgid ""
 "{1}\n"
@@ -17104,7 +17089,6 @@ msgstr "Continue"
 msgid "Delete old data from version {0}?"
 msgstr "Delete old data from version {0}?"
 
-#. shell:upgrade-remove-1-4 secondary
 #: shell/shell-errors.xml.h:21
 msgid ""
 "The previous version of evolution stored its data in a different location.\n"
@@ -17135,7 +17119,6 @@ msgstr "_Keep Data"
 msgid "Really delete old data?"
 msgstr "Really delete old data?"
 
-#. shell:upgrade-remove-1-4-confirm secondary
 #: shell/shell-errors.xml.h:32
 msgid ""
 "The entire contents of the \"evolution\" directory is about to be be "
@@ -17170,7 +17153,6 @@ msgstr "Cannot start Evolution"
 msgid "Evolution can not start."
 msgstr "Evolution cannot start."
 
-#. shell:noshell secondary
 #: shell/shell-errors.xml.h:43
 msgid ""
 "Your system configuration does not match your Evolution configuration.\n"
@@ -17181,7 +17163,6 @@ msgstr ""
 "\n"
 "Click help for details"
 
-#. shell:noshell-reason secondary
 #: shell/shell-errors.xml.h:51
 msgid ""
 "Your system configuration does not match your Evolution configuration:\n"
