@@ -402,38 +402,49 @@ imap_rescan (CamelFolder *folder, int exists, CamelException *ex)
 		guint32 flags;
 	} *new = NULL;
 	char *resp;
-	int i, j, seq, summary_len;
+	int i, seq, summary_len;
 	CamelMessageInfo *info;
 	CamelImapMessageInfo *iinfo;
 	GArray *removed;
 	GData *fetch_data;
+	gpointer data;
 
 	CAMEL_IMAP_STORE_ASSERT_LOCKED (store, command_lock);
 	imap_folder->need_rescan = FALSE;
 
-	camel_operation_start(NULL, _("Scanning IMAP folder"));
+	camel_operation_start (NULL, _("Scanning IMAP folder"));
 
-	/* Get UIDs and flags of all messages. */
-	if (exists > 0) {
+	summary_len = camel_folder_summary_count (folder->summary);
+	if (summary_len) {
+		/* Check UIDs and flags of all messages we already know of. */
+		info = camel_folder_summary_index (folder->summary, summary_len - 1);
 		response = camel_imap_command (store, folder, ex,
-					       "FETCH 1:%d (UID FLAGS)",
-					       exists);
-		if (!response)
+					       "UID FETCH 1:%s (FLAGS)",
+					       camel_message_info_uid (info));
+		camel_folder_summary_info_free (folder->summary, info);
+		if (!response) {
+			camel_operation_end (NULL);
 			return;
+		}
 
-		new = g_malloc0 (exists * sizeof (*new));
+		new = g_malloc0 (summary_len * sizeof (*new));
 		for (i = 0; i < response->untagged->len; i++) {
 			resp = response->untagged->pdata[i];
 
 			seq = strtoul (resp + 2, &resp, 10);
 			if (g_strncasecmp (resp, " FETCH (", 8) != 0)
 				continue;
+			if (seq >= summary_len)
+				continue;
 
 			fetch_data = parse_fetch_response (imap_folder, resp + 7);
-			new[seq - 1].uid = g_strdup (g_datalist_get_data (&fetch_data, "UID"));
-			new[seq - 1].flags = GPOINTER_TO_UINT (g_datalist_get_data (&fetch_data, "FLAGS"));
+			data = g_datalist_get_data (&fetch_data, "UID");
+			if (data && !new[seq - 1].uid)
+				new[seq - 1].uid = g_strdup (data);
+			data = g_datalist_get_data (&fetch_data, "FLAGS");
+			if (data)
+				new[seq - 1].flags = GPOINTER_TO_UINT (data);
 			g_datalist_clear (&fetch_data);
-			g_ptr_array_remove_index_fast (response->untagged, i--);
 		}
 		camel_imap_response_free_without_processing (store, response);
 	}
@@ -446,16 +457,7 @@ imap_rescan (CamelFolder *folder, int exists, CamelException *ex)
 	 * from the summary.
 	 */
 	removed = g_array_new (FALSE, FALSE, sizeof (int));
-	summary_len = camel_folder_summary_count (folder->summary);
-	for (i = 0; i < summary_len && i < exists; i++) {
-		int pc = (i*100)/MIN(summary_len, exists);
-
-		camel_operation_progress(NULL, pc);
-
-		/* Shouldn't happen, but... */
-		if (!new[i].uid)
-			continue;
-
+	for (i = 0; i < summary_len && new[i].uid; i++) {
 		info = camel_folder_summary_index (folder->summary, i);
 		iinfo = (CamelImapMessageInfo *)info;
 
@@ -483,27 +485,29 @@ imap_rescan (CamelFolder *folder, int exists, CamelException *ex)
 						    g_strdup (new[i].uid));
 		}
 
-		camel_folder_summary_info_free(folder->summary, info);
-
+		camel_folder_summary_info_free (folder->summary, info);
 		g_free (new[i].uid);
 	}
 
-	/* Remove any leftover cached summary messages. */
-	for (j = i + 1; j < summary_len; j++) {
-		seq = j - removed->len;
-		g_array_append_val (removed, seq);
-	}
+	seq = i + 1;
 
 	/* Free remaining memory. */
-	while (i < exists)
+	while (i < summary_len && new[i].uid)
 		g_free (new[i++].uid);
 	g_free (new);
+
+	/* Remove any leftover cached summary messages. (Yes, we
+	 * repeatedly add the same number to the removed array.
+	 * See RFC2060 7.4.1)
+	 */
+	for (i = seq; i < summary_len; i++)
+		g_array_append_val (removed, seq);
 
 	/* And finally update the summary. */
 	camel_imap_folder_changed (folder, exists, removed, ex);
 	g_array_free (removed, TRUE);
 
-	camel_operation_end(NULL);
+	camel_operation_end (NULL);
 }
 
 /* Find all messages in @folder with flags matching @flags and @mask.

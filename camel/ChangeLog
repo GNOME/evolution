@@ -1,3 +1,9 @@
+2001-06-05  Dan Winship  <danw@ximian.com>
+
+	* providers/imap/camel-imap-folder.c (imap_rescan): Don't fetch
+	the UID and FLAGS of messages we don't know about yet, since
+	they'll just get discarded.
+
 2001-06-01  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* tests/smime/pgp.c: Fix to not get into a recursive loop in
