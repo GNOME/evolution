@@ -298,7 +298,9 @@ configure_items (WeekdayPicker *wp)
 		c = g_strndup (str + day, 1);
 		gnome_canvas_item_set (priv->labels[i],
 				       "text", c,
+#if 0
 				       "font_gdk", gtk_style_get_font (gtk_widget_get_style (GTK_WIDGET (wp))),
+#endif
 				       "x", (double) (i * box_width) + box_width / 2.0,
 				       "y", (double) (1 + PADDING),
 				       "anchor", GTK_ANCHOR_N,

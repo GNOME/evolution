@@ -2033,6 +2033,7 @@ get_widgets (RecurrencePage *rpage)
 	priv->custom_warning_bin = GW ("custom-warning-bin");
 	      
 	priv->exception_date = GW ("exception-date");
+	gtk_widget_show (priv->exception_date);
 	priv->exception_list = GW ("exception-list");
 	priv->exception_add = GW ("exception-add");
 	priv->exception_modify = GW ("exception-modify");

@@ -1260,10 +1260,12 @@ e_day_view_set_event_font_cb		(EDayView	*day_view,
 		event = &g_array_index (day_view->events[day],
 					EDayViewEvent, event_num);
 
+#if 0
 	if (event->canvas_item)
 		gnome_canvas_item_set (event->canvas_item,
 				       "font_gdk", font,
 				       NULL);
+#endif
 
 	return TRUE;
 }
@@ -6984,7 +6986,9 @@ e_day_view_update_main_canvas_drag (EDayView *day_view,
 
 	font = gtk_style_get_font (gtk_widget_get_style (GTK_WIDGET (day_view)));
 	gnome_canvas_item_set (day_view->drag_item,
+#if 0
 			       "font_gdk", font,
+#endif
 			       "clip_width", item_w - E_DAY_VIEW_BAR_WIDTH - E_DAY_VIEW_EVENT_X_PAD * 2,
 			       "clip_height", item_h - (E_DAY_VIEW_EVENT_BORDER_HEIGHT + E_DAY_VIEW_EVENT_Y_PAD) * 2,
 			       NULL);

@@ -767,8 +767,12 @@ get_widgets (EventPage *epage)
 	priv->summary = GW ("general-summary");
 	priv->location = GW ("location");
 
+	/* Glade's visibility flag doesn't seem to work for custom widgets */
 	priv->start_time = GW ("start-time");
+	gtk_widget_show (priv->start_time);
 	priv->end_time = GW ("end-time");
+	gtk_widget_show (priv->end_time);
+
 	priv->start_timezone = GW ("start-timezone");
 	priv->end_timezone = GW ("end-timezone");
 	priv->all_day_event = GW ("all-day-event");

@@ -744,6 +744,7 @@ e_week_view_style_set (GtkWidget *widget,
 	week_view->pm_string_width = get_string_width (layout,
 						       week_view->pm_string);
 
+#if 0
 	/* Set the font of all the EText items. */
 	if (week_view->spans) {
 		for (span_num = 0; span_num < week_view->spans->len;
@@ -756,6 +757,7 @@ e_week_view_style_set (GtkWidget *widget,
 						       NULL);
 		}
 	}
+#endif
 
 	g_object_unref (layout);
 }
