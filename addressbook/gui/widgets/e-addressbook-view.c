@@ -651,6 +651,7 @@ table_drag_data_get (ETable             *table,
 	case DND_TARGET_TYPE_VCARD: {
 		char *value;
 
+		row = e_table_view_to_model_row (table, row);
 		value = e_card_get_vcard(view->model->data[row]);
 
 		gtk_selection_data_set (selection_data,
@@ -1266,7 +1267,8 @@ e_addressbook_view_can_print (EAddressbookView  *view)
 		return FALSE;
 
 	selection_model = get_selection_model (view);
-	g_return_val_if_fail (selection_model != NULL, FALSE);
+	if (selection_model == NULL)
+		return FALSE;
 
 	return e_selection_model_selected_count (selection_model) != 0;
 }
@@ -1280,7 +1282,8 @@ e_addressbook_view_can_delete (EAddressbookView  *view)
 		return FALSE;
 
 	selection_model = get_selection_model (view);
-	g_return_val_if_fail (selection_model != NULL, FALSE);
+	if (selection_model == NULL)
+		return FALSE;
 
 	return e_selection_model_selected_count (selection_model) != 0;
 }
@@ -1300,7 +1303,8 @@ e_addressbook_view_can_copy (EAddressbookView *view)
 		return FALSE;
 
 	selection_model = get_selection_model (view);
-	g_return_val_if_fail (selection_model != NULL, FALSE);
+	if (selection_model == NULL)
+		return FALSE;
 
 	return e_selection_model_selected_count (selection_model) != 0;
 }

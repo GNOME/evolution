@@ -1,3 +1,12 @@
+2001-07-15  Christopher James Lahey  <clahey@ximian.com>
+
+	* gui/widgets/e-addressbook-view.c (table_drag_data_get): Added a
+	call to e_table_view_to_model_row here.
+	(e_addressbook_view_can_print, e_addressbook_view_can_delete,
+	e_addressbook_view_can_copy): If the selection model is NULL here,
+	return NULL (this was done before in a g_return_val_if_fail which
+	is only conditionally included.)
+
 2001-07-13  Christopher James Lahey  <clahey@ximian.com>
 
 	* gui/contact-editor/contact-editor.glade: Changed Company to
