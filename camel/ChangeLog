@@ -1,5 +1,9 @@
 2000-05-25  NotZed  <NotZed@HelixCode.com>
 
+	* camel-mime-part-utils.c
+	(camel_mime_part_construct_content_from_parser): Replace simple
+	data wrapper here too, oops.
+
 	* Makefile.am (libcamel_la_SOURCES): Removed
 	camel-simple-data-wrapper again.  Less code to maintain == better
 	code.

@@ -176,7 +176,7 @@ camel_mime_part_construct_content_from_parser(CamelMimePart *dw, CamelMimeParser
 	switch (camel_mime_parser_state(mp)) {
 	case HSCAN_HEADER:
 		d(printf("Creating body part\n"));
-		content = camel_simple_data_wrapper_new();
+		content = camel_data_wrapper_new();
 		simple_data_wrapper_construct_from_parser(content, mp);
 		break;
 	case HSCAN_MESSAGE:
