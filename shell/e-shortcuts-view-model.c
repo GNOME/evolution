@@ -254,6 +254,9 @@ impl_destroy (GtkObject *object)
 	priv = view_model->priv;
 
 	g_free (priv);
+
+	if (GTK_OBJECT_CLASS (parent_class)->destroy)
+		(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
 }
 
 

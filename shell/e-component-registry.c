@@ -256,6 +256,9 @@ destroy (GtkObject *object)
 	g_hash_table_destroy (priv->component_id_to_component);
 
 	g_free (priv);
+
+	if (GTK_OBJECT_CLASS (parent_class)->destroy)
+		(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
 }
 
 

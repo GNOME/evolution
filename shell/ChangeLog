@@ -1,3 +1,10 @@
+2001-08-09  Federico Mena Quintero  <federico@ximian.com>
+
+	* e-component-registry.c (destroy): Chain to the destroy handler
+	in the parent class!
+
+	* e-shortcuts-view-model.c (impl_destroy): Likewise.  Sigh.
+
 2001-08-08  Ettore Perazzoli  <ettore@ximian.com>
 
 	[Fixes, among other things, #5705, "Ampersands not handled
