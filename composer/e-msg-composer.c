@@ -1381,6 +1381,8 @@ e_msg_composer_new_with_sig_file (const char *sig_file)
 	set_editor_text (BONOBO_WIDGET (E_MSG_COMPOSER (new)->editor), 
 			 sig_file, "");
 	
+	e_msg_composer_set_sig_file (E_MSG_COMPOSER (new), sig_file);
+	
 	return new;
 }
 
@@ -1467,7 +1469,7 @@ add_recipients (GList *list, const char *recips, gboolean decode)
 {
 	int len;
 	char *addr;
-
+	
 	while (*recips) {
 		len = strcspn (recips, ",");
 		if (len) {
@@ -1480,7 +1482,7 @@ add_recipients (GList *list, const char *recips, gboolean decode)
 		if (*recips == ',')
 			recips++;
 	}
-
+	
 	return list;
 }
 
@@ -1488,7 +1490,7 @@ static void
 free_recipients (GList *list)
 {
 	GList *l;
-
+	
 	for (l = list; l; l = l->next)
 		g_free (l->data);
 	g_list_free (list);
@@ -1511,9 +1513,9 @@ e_msg_composer_new_from_url (const char *url)
 	const char *p, *header;
 	int len, clen;
 	char *content;
-
+	
 	g_return_val_if_fail (g_strncasecmp (url, "mailto:", 7) == 0, NULL);
-
+	
 	/* Parse recipients (everything after ':' until '?' or eos. */
 	p = url + 7;
 	len = strcspn (p, "?,");
@@ -1522,25 +1524,25 @@ e_msg_composer_new_from_url (const char *url)
 		to = add_recipients (to, content, TRUE);
 		g_free (content);
 	}
-
+	
 	p += len;
 	if (*p == '?') {
 		p++;
-
+		
 		while (*p) {
 			len = strcspn (p, "=&");
-
+			
 			/* If it's malformed, give up. */
 			if (p[len] != '=')
 				break;
-
+			
 			header = p;
 			p += len + 1;
-
+			
 			clen = strcspn (p, "&");
 			content = g_strndup (p, clen);
 			camel_url_decode (content);
-
+			
 			if (!g_strncasecmp (header, "to", len))
 				to = add_recipients (to, content, FALSE);
 			else if (!g_strncasecmp (header, "cc", len))
@@ -1551,7 +1553,7 @@ e_msg_composer_new_from_url (const char *url)
 				subject = g_strdup (content);
 			else if (!g_strncasecmp (header, "body", len))
 				body = g_strdup (content);
-
+			
 			g_free (content);
 			p += clen;
 			if (*p == '&') {
@@ -1561,7 +1563,7 @@ e_msg_composer_new_from_url (const char *url)
 			}
 		}
 	}
-		
+	
 	composer = E_MSG_COMPOSER (e_msg_composer_new ());
 	hdrs = E_MSG_COMPOSER_HDRS (composer->hdrs);
 	e_msg_composer_hdrs_set_to (hdrs, to);
@@ -1574,14 +1576,14 @@ e_msg_composer_new_from_url (const char *url)
 		e_msg_composer_hdrs_set_subject (hdrs, subject);
 		g_free (subject);
 	}
-
+	
 	if (body) {
 		char *htmlbody = e_text_to_html (body, E_TEXT_TO_HTML_PRE);
 		set_editor_text (BONOBO_WIDGET (composer->editor), 
 				 NULL, htmlbody);
 		g_free (htmlbody);
 	}
-
+	
 	return GTK_WIDGET (composer);
 }
 
@@ -1599,7 +1601,7 @@ e_msg_composer_show_attachments (EMsgComposer *composer,
 {
 	g_return_if_fail (composer != NULL);
 	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
-
+	
 	show_attachments (composer, show);
 }
 
@@ -1619,10 +1621,10 @@ e_msg_composer_set_headers (EMsgComposer *composer, const GList *to,
 			    const char *subject)
 {
 	EMsgComposerHdrs *hdrs;
-
+	
 	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
 	hdrs = E_MSG_COMPOSER_HDRS (composer->hdrs);
-
+	
 	e_msg_composer_hdrs_set_to (hdrs, to);
 	e_msg_composer_hdrs_set_cc (hdrs, cc);
 	e_msg_composer_hdrs_set_bcc (hdrs, bcc);
@@ -1641,7 +1643,7 @@ void
 e_msg_composer_set_body_text (EMsgComposer *composer, const char *text)
 {
 	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
-
+	
 	set_editor_text (BONOBO_WIDGET (composer->editor), 
 			 composer->sig_file, text);
 }
@@ -1664,7 +1666,7 @@ e_msg_composer_add_header (EMsgComposer *composer, const char *name,
 	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
 	g_return_if_fail (name != NULL);
 	g_return_if_fail (value != NULL);
-
+	
 	g_ptr_array_add (composer->extra_hdr_names, g_strdup (name));
 	g_ptr_array_add (composer->extra_hdr_values, g_strdup (value));
 }
@@ -1681,10 +1683,10 @@ void
 e_msg_composer_attach (EMsgComposer *composer, CamelMimePart *attachment)
 {
 	EMsgComposerAttachmentBar *bar;
-
+	
 	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
 	g_return_if_fail (CAMEL_IS_MIME_PART (attachment));
-
+	
 	bar = E_MSG_COMPOSER_ATTACHMENT_BAR (composer->attachment_bar);
 	e_msg_composer_attachment_bar_attach_mime_part (bar, attachment);
 }
@@ -1705,7 +1707,7 @@ e_msg_composer_get_message (EMsgComposer *composer)
 {
 	g_return_val_if_fail (composer != NULL, NULL);
 	g_return_val_if_fail (E_IS_MSG_COMPOSER (composer), NULL);
-
+	
 	return build_message (composer);
 }
 
@@ -1723,7 +1725,7 @@ e_msg_composer_set_sig_file (EMsgComposer *composer, const char *sig_file)
 {
 	g_return_if_fail (composer != NULL);
 	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
-
+	
 	composer->sig_file = g_strdup (sig_file);
 }
 
@@ -1740,7 +1742,7 @@ e_msg_composer_get_sig_file (EMsgComposer *composer)
 {
 	g_return_val_if_fail (composer != NULL, NULL);
 	g_return_val_if_fail (E_IS_MSG_COMPOSER (composer), NULL);
-
+	
 	return composer->sig_file;
 }
 

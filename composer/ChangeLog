@@ -1,3 +1,8 @@
+2000-09-04  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* e-msg-composer.c (e_msg_composer_new_with_sig_file): Applied
+	Jesse's patch that sets the composer's sig_file
+
 2000-09-02  Lauris Kaplinski  <lauris@helixcode.com>
 
 	* e-msg-composer-address-dialog.c: Use e_utf8 wrappers
