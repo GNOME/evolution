@@ -425,12 +425,15 @@ impl_Shell_getLocalStorage (PortableServer_Servant servant,
 	EShell *shell;
 	EShellPrivate *priv;
 
-	if (raise_exception_if_not_ready (servant, ev))
-		return CORBA_OBJECT_NIL;
-
 	bonobo_object = bonobo_object_from_servant (servant);
 	shell = E_SHELL (bonobo_object);
 	priv = shell->priv;
+
+	if (priv->local_storage == NULL) {
+		CORBA_exception_set (ev, CORBA_USER_EXCEPTION,
+				     ex_GNOME_Evolution_Shell_NotReady, NULL);
+		return CORBA_OBJECT_NIL;
+	}
 
 	local_storage_interface = e_local_storage_get_corba_interface (priv->local_storage);
 

@@ -1,5 +1,13 @@
 2001-09-17  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-shell.c (impl_Shell_getLocalStorage): Only raise NotReady if
+	the local storage pointer is actually NULL.  This way it is
+	possible for the components to access the local storage during
+	initialization even if the shell is not quite finished
+	initializing yet.
+
+2001-09-17  Ettore Perazzoli  <ettore@ximian.com>
+
 	[Fix #9060, Shell crash after mailer crash.]
 
 	* e-shell-view.c (hash_foreach_destroy_view): Renamed from
