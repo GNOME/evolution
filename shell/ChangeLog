@@ -1,5 +1,14 @@
 2001-04-03  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-shell-view.c (get_control_for_uri): Change `! folder_type'
+	with `folder_type == NULL'.
+
+	* e-corba-storage-registry.c (impl_StorageRegistry_addStorage): If
+	the toplevel node URI or the toplevel node type are an empty
+	string, use NULL Instead.
+
+2001-04-03  Ettore Perazzoli  <ettore@ximian.com>
+
 	* e-shell-view.c: Fix bug #1878 "folder sometimes fails to
 	display?".  Thanks to Dan for finding out an explanation for the
 	problem.

@@ -87,6 +87,11 @@ impl_StorageRegistry_addStorage (PortableServer_Servant servant,
 	storage_registry = E_CORBA_STORAGE_REGISTRY (bonobo_object);
 	priv = storage_registry->priv;
 
+	if (toplevel_node_uri[0] == '\0')
+		toplevel_node_uri = NULL;
+	if (toplevel_node_type[0] == '\0')
+		toplevel_node_type = NULL;
+
 	storage = e_corba_storage_new (toplevel_node_uri,
 				       toplevel_node_type,
 				       storage_interface,
