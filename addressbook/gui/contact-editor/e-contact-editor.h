@@ -28,6 +28,9 @@
 #include <libebook/e-book-async.h>
 #include <libebook/e-contact.h>
 
+#include <gtk/gtktreeview.h>
+#include <gtk/gtkliststore.h>
+
 G_BEGIN_DECLS
 
 /* EContactEditor - A dialog displaying information about a contact.
@@ -75,6 +78,8 @@ struct _EContactEditor
 
 	EContactName *name;
 	char *company;
+
+	GtkListStore *im_model;
 
 	EContactField email_choice;
 	EContactField phone_choice[4];

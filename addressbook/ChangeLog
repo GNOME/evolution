@@ -1,3 +1,14 @@
+2004-01-11  Christian Hammond  <chipx86@gnupdate.org>
+
+	* addressbook/gui/contact-editor/e-contact-editor-im.[ch],
+	  addressbook/gui/contact-editor/im.glade: Added a dialog for
+	  adding a new IM account.
+	* addressbook/gui/contact-editor/Makefile.am: Added the previously
+	  mentioned files, and depend on camel for necessary MIME parsing.
+
+	* addressbook/gui/contact-editor/contact-editor.[ch],
+	  addressbook/gui/contact-editor/contact-editor.glade: Add and implement
+
 2004-01-09  Ross Burton  <ross@burtonini.com>
 
 	* gui/component/select-names/e-select-names-completion.c:
@@ -376,6 +387,18 @@
 
 	* gui/widgets/e-addressbook-view.etspec: Clean up and sync with
 	current model columns.
+
+2003-12-04  Christian Hammond  <chipx86@gnupdate.org>
+
+	* addressbook/gui/contact-editor/e-contact-editor-im.[ch],
+	  addressbook/gui/contact-editor/im.glade: Added a dialog for
+	  adding a new IM account.
+	* addressbook/gui/contact-editor/Makefile.am: Added the previously
+	  mentioned files, and depend on camel for necessary MIME parsing.
+
+	* addressbook/gui/contact-editor/contact-editor.[ch],
+	  addressbook/gui/contact-editor/contact-editor.glade: Add and implement
+	  the Instant Messaging tab.
 
 2003-12-03  Ettore Perazzoli  <ettore@ximian.com>
 

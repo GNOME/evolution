@@ -6,6 +6,8 @@ INCLUDES =						\
 	-I$(top_srcdir)/addressbook/gui/merging		\
 	-I$(top_srcdir)/widgets/e-table			\
 	-I$(top_builddir)/shell				\
+	-I$(top_srcdir)/camel				\
+	-I$(top_builddir)/camel				\
 	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"		\
 	-DEVOLUTION_DATADIR=\""$(datadir)"\"		\
 	-DEVOLUTION_IMAGESDIR=\""$(imagesdir)"\"	\
@@ -19,6 +21,8 @@ noinst_LTLIBRARIES =				\
 
 libecontacteditor_la_SOURCES = 			\
 	$(MARSHAL_GENERATED)			\
+	e-contact-editor-im.c		\
+	e-contact-editor-im.h		\
 	e-contact-editor-address.c		\
 	e-contact-editor-address.h		\
 	e-contact-editor-fullname.c		\
@@ -32,6 +36,7 @@ MARSHAL_GENERATED = e-contact-editor-marshal.c e-contact-editor-marshal.h
 @EVO_MARSHAL_RULE@
 
 glade_DATA = 				\
+	im.glade				\
 	contact-editor.glade		\
 	fulladdr.glade			\
 	fullname.glade

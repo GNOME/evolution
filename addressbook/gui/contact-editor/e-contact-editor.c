@@ -35,6 +35,7 @@
 #include <gtk/gtklabel.h>
 #include <libgnomeui/gnome-popup-menu.h>
 #include <libgnomeui/gnome-window-icon.h>
+#include <libgnome/gnome-util.h>
 #include <libgnome/gnome-i18n.h>
 
 #include <bonobo/bonobo-ui-container.h>
@@ -49,6 +50,8 @@
 
 #include <e-util/e-categories-master-list-wombat.h>
 
+#include <camel/camel.h>
+
 #include "addressbook/gui/component/addressbook.h"
 #include "addressbook/printing/e-contact-print.h"
 #include "addressbook/printing/e-contact-print-envelope.h"
@@ -62,6 +65,7 @@
 #include "eab-contact-merging.h"
 
 #include "e-contact-editor-address.h"
+#include "e-contact-editor-im.h"
 #include "e-contact-editor-fullname.h"
 #include "e-contact-editor-marshal.h"
 
@@ -74,6 +78,17 @@ enum {
 	LAST_SIGNAL
 };
 
+/* IM columns */
+enum {
+	COLUMN_IM_ICON,
+	COLUMN_IM_SERVICE,
+	COLUMN_IM_SCREENNAME,
+	COLUMN_IM_LOCATION,
+	COLUMN_IM_SERVICE_FIELD,
+	NUM_IM_COLUMNS
+};
+
+
 static void e_contact_editor_init		(EContactEditor		 *editor);
 static void e_contact_editor_class_init	(EContactEditorClass	 *klass);
 static void e_contact_editor_set_property (GObject *object, guint prop_id, const GValue *value, GParamSpec *pspec);
@@ -83,6 +98,7 @@ static void e_contact_editor_dispose (GObject *object);
 static void _email_arrow_pressed (GtkWidget *widget, GdkEventButton *button, EContactEditor *editor);
 static void _phone_arrow_pressed (GtkWidget *widget, GdkEventButton *button, EContactEditor *editor);
 static void _address_arrow_pressed (GtkWidget *widget, GdkEventButton *button, EContactEditor *editor);
+static void set_im_fields(EContactEditor *editor);
 #if 0
 static void find_address_mailing (EContactEditor *editor);
 #endif
@@ -294,6 +310,439 @@ connect_arrow_button_signals (EContactEditor *editor)
 	connect_arrow_button_signal(editor, "button-phone4", G_CALLBACK (_phone_arrow_pressed));
 	connect_arrow_button_signal(editor, "button-address", G_CALLBACK (_address_arrow_pressed));
 	connect_arrow_button_signal(editor, "button-email1", G_CALLBACK (_email_arrow_pressed));
+}
+
+static void
+add_im_clicked(GtkWidget *widget, EContactEditor *editor)
+{
+	GtkDialog *dialog;
+	int result;
+
+	dialog = GTK_DIALOG(e_contact_editor_im_new(E_CONTACT_IM_AIM, "HOME", NULL));
+
+	gtk_widget_show(GTK_WIDGET(dialog));
+	result = gtk_dialog_run(dialog);
+	gtk_widget_hide(GTK_WIDGET(dialog));
+
+	if (result == GTK_RESPONSE_OK) {
+		GList *old_list, *new_list = NULL, *l;
+		EContactField service;
+		const char *screenname;
+
+		g_object_get(dialog,
+					 "service", &service,
+					 "username", &screenname,
+					 NULL);
+
+		old_list = e_contact_get(editor->contact, service);
+
+		for (l = old_list; l != NULL; l = l->next)
+			new_list = g_list_append(new_list, g_strdup(l->data));
+
+		new_list = g_list_append(new_list, g_strdup(screenname));
+
+		e_contact_set(editor->contact, service, new_list);
+
+		g_list_foreach(new_list, (GFunc)g_free, NULL);
+		g_list_free(new_list);
+
+		set_im_fields(editor);
+
+		widget_changed(NULL, editor);
+	}
+
+	gtk_widget_destroy(GTK_WIDGET(dialog));
+}
+
+static void
+edit_im_clicked(GtkWidget *widget, EContactEditor *editor)
+{
+	GtkWidget *treeview;
+	GtkTreeSelection *selection;
+	GtkDialog *dialog;
+	GtkTreeIter iter;
+	EContactField old_service, service;
+	const char *old_location, *location;
+	const char *old_screenname, *screenname;
+	int result;
+
+	treeview = glade_xml_get_widget(editor->gui, "treeview-im");
+
+	selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(treeview));
+
+	gtk_tree_selection_get_selected(selection, NULL, &iter);
+
+	gtk_tree_model_get(GTK_TREE_MODEL(editor->im_model), &iter,
+					   COLUMN_IM_SERVICE_FIELD, &old_service,
+					   COLUMN_IM_LOCATION, &old_location,
+					   COLUMN_IM_SCREENNAME, &old_screenname,
+					   -1);
+
+	dialog = GTK_DIALOG(e_contact_editor_im_new(old_service, old_location, old_screenname));
+
+	gtk_widget_show(GTK_WIDGET(dialog));
+	result = gtk_dialog_run(dialog);
+	gtk_widget_hide(GTK_WIDGET(dialog));
+
+	if (result == GTK_RESPONSE_OK) {
+		GList *old_list, *new_list = NULL, *l;
+
+		g_object_get(dialog,
+					 "service", &service,
+					 "location", &location,
+					 "username", &screenname,
+					 NULL);
+
+		if (service == old_service &&
+			(location == old_location ||
+			 (location != NULL && old_location == NULL) ||
+			 (location == NULL && old_location != NULL) ||
+			 !strcmp(old_location, location)) &&
+			!strcmp(screenname, old_screenname)) {
+
+			gtk_widget_destroy(GTK_WIDGET(dialog));
+			return;
+		}
+
+		/* Remove the old. */
+		old_list = e_contact_get(editor->contact, old_service);
+
+		for (l = old_list; l != NULL; l = l->next) {
+			const char *temp_screenname = (const char *)l->data;
+
+			if (strcmp(temp_screenname, old_screenname))
+				new_list = g_list_append(new_list, g_strdup(temp_screenname));
+		}
+
+		if (service == old_service)
+			new_list = g_list_append(new_list, g_strdup(screenname));
+
+		e_contact_set(editor->contact, old_service, new_list);
+
+		g_list_foreach(new_list, (GFunc)g_free, NULL);
+		g_list_free(new_list);
+
+		if (old_service != service)
+		{
+			/* We have to add this elsewhere. */
+			new_list = NULL;
+
+			old_list = e_contact_get(editor->contact, service);
+
+			for (l = old_list; l != NULL; l = l->next)
+				new_list = g_list_append(new_list, g_strdup(l->data));
+
+			new_list = g_list_append(new_list, g_strdup(screenname));
+
+			e_contact_set(editor->contact, service, new_list);
+
+			g_list_foreach(new_list, (GFunc)g_free, NULL);
+			g_list_free(new_list);
+		}
+
+		set_im_fields(editor);
+
+		widget_changed(NULL, editor);
+	}
+
+	gtk_widget_destroy(GTK_WIDGET(dialog));
+}
+
+static void
+remove_im_clicked(GtkWidget *widget, EContactEditor *editor)
+{
+	GtkWidget *treeview;
+	GtkTreeSelection *selection;
+	GtkTreeIter iter;
+	EContactField old_service;
+	const char *old_screenname;
+	GList *old_list, *new_list = NULL, *l;
+
+	treeview = glade_xml_get_widget(editor->gui, "treeview-im");
+
+	selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(treeview));
+
+	gtk_tree_selection_get_selected(selection, NULL, &iter);
+
+	gtk_tree_model_get(GTK_TREE_MODEL(editor->im_model), &iter,
+					   COLUMN_IM_SERVICE_FIELD, &old_service,
+					   COLUMN_IM_SCREENNAME, &old_screenname,
+					   -1);
+
+	old_list = e_contact_get(editor->contact, old_service);
+
+	for (l = old_list; l != NULL; l = l->next) {
+		const char *temp_screenname = (const char *)l->data;
+
+		if (strcmp(temp_screenname, old_screenname))
+			new_list = g_list_append(new_list, g_strdup(temp_screenname));
+	}
+
+	e_contact_set(editor->contact, old_service, new_list);
+
+	if (new_list != NULL)
+	{
+		g_list_foreach(new_list, (GFunc)g_free, NULL);
+		g_list_free(new_list);
+	}
+
+	gtk_list_store_remove(editor->im_model, &iter);
+
+	widget_changed(NULL, editor);
+}
+
+
+static gboolean
+im_button_press_cb(GtkWidget *treeview, GdkEventButton *event,
+				   EContactEditor *editor)
+{
+	if (event->button == 1 && event->type == GDK_2BUTTON_PRESS)
+		edit_im_clicked(NULL, editor);
+
+	return FALSE;
+}
+
+static void
+im_selected_cb(GtkTreeSelection *selection, EContactEditor *editor)
+{
+	gboolean sensitive = gtk_tree_selection_get_selected(selection, NULL, NULL);
+
+	gtk_widget_set_sensitive(glade_xml_get_widget(editor->gui, "button-im-remove"), sensitive);
+	gtk_widget_set_sensitive(glade_xml_get_widget(editor->gui, "button-im-edit"),   sensitive);
+}
+
+
+static void
+im_treeview_drag_data_get_cb(GtkWidget *widget, GdkDragContext *dc,
+							 GtkSelectionData *data, guint info,
+							 guint time, EContactEditor *editor)
+{
+	if (data->target == gdk_atom_intern("application/x-im-contact", FALSE)) {
+		GtkTreeRowReference *ref;
+		GtkTreePath *sourcerow;
+		GtkTreeIter iter;
+		const char *protocol;
+		const char *screenname;
+		const char *alias;
+		GString *str;
+		char *mime_str;
+		EContactField service_field;
+		static char *protocols[] = { "aim", "jabber", "yahoo", "msn", "icq" };
+
+		ref = g_object_get_data(G_OBJECT(dc), "gtk-tree-view-source-row");
+		sourcerow = gtk_tree_row_reference_get_path(ref);
+
+		if (!sourcerow)
+			return;
+
+		gtk_tree_model_get_iter(GTK_TREE_MODEL(editor->im_model), &iter,
+								sourcerow);
+
+		gtk_tree_model_get(GTK_TREE_MODEL(editor->im_model), &iter,
+						   COLUMN_IM_SERVICE_FIELD, &service_field,
+						   COLUMN_IM_SCREENNAME, &screenname,
+						   -1);
+
+		alias = e_contact_get_const(editor->contact, E_CONTACT_FULL_NAME);
+
+		protocol = protocols[service_field - E_CONTACT_IM_AIM];
+
+		str = g_string_new(NULL);
+
+		g_string_printf(str,
+			"MIME-Version: 1.0\r\n"
+			"Content-Type: application/x-im-contact\r\n"
+			"X-IM-Protocol: %s\r\n"
+			"X-IM-Username: %s\r\n",
+			protocol,
+			screenname);
+
+		if (alias && *alias)
+			g_string_append_printf(str, "X-IM-Alias: %s\r\n", alias);
+
+		str = g_string_append(str, "\r\n");
+
+		mime_str = g_string_free(str, FALSE);
+
+		gtk_selection_data_set(data,
+			gdk_atom_intern("application/x-im-contact", FALSE),
+			8,
+			mime_str,
+			strlen(mime_str) + 1);
+
+		g_free(mime_str);
+		gtk_tree_path_free(sourcerow);
+	}
+}
+
+static void
+im_treeview_drag_data_rcv_cb(GtkWidget *widget, GdkDragContext *dc,
+							 guint x, guint y, GtkSelectionData *sd,
+							 guint info, guint t, EContactEditor *editor)
+{
+	if (sd->target == gdk_atom_intern("application/x-im-contact", FALSE) && sd->data) {
+		CamelMimeParser *parser;
+		CamelStream *stream;
+		char *buffer;
+		char *username = NULL;
+		char *protocol = NULL;
+		int len;
+		int state;
+
+		parser = camel_mime_parser_new();
+
+		stream = camel_stream_mem_new_with_buffer(sd->data, sd->length);
+
+		if (camel_mime_parser_init_with_stream(parser, stream) == -1) {
+			g_warning("Unable to create parser for stream");
+			return;
+		}
+
+		while ((state = camel_mime_parser_step(parser, &buffer, &len)) != CAMEL_MIME_PARSER_STATE_EOF) {
+			if (state == CAMEL_MIME_PARSER_STATE_HEADER) {
+				const char *temp;
+				char *temp2;
+
+				if ((temp = camel_mime_parser_header(parser, "X-IM-Username", NULL)) != NULL) {
+					temp2 = g_strdup(temp);
+					username = g_strdup(g_strstrip(temp2));
+					g_free(temp2);
+				}
+
+				if ((temp = camel_mime_parser_header(parser, "X-IM-Protocol", NULL)) != NULL) {
+					temp2 = g_strdup(temp);
+					protocol = g_strdup(g_strstrip(temp2));
+					g_free(temp2);
+				}
+
+				break;
+			}
+		}
+
+		camel_object_unref(parser);
+
+		if (username != NULL && protocol != NULL) {
+			GList *old_list, *new_list = NULL, *l;
+			EContactField field;
+			gboolean found = FALSE;
+
+			if (!strcmp(protocol, "aim"))
+				field = E_CONTACT_IM_AIM;
+			else if (!strcmp(protocol, "icq"))
+				field = E_CONTACT_IM_ICQ;
+			else if (!strcmp(protocol, "yahoo"))
+				field = E_CONTACT_IM_YAHOO;
+			else if (!strcmp(protocol, "msn"))
+				field = E_CONTACT_IM_MSN;
+			else if (!strcmp(protocol, "jabber"))
+				field = E_CONTACT_IM_JABBER;
+			else {
+				g_free(username);
+				g_free(protocol);
+				gtk_drag_finish(dc, FALSE, (dc->action == GDK_ACTION_MOVE), t);
+				return;
+			}
+
+			old_list = e_contact_get(editor->contact, field);
+
+			for (l = old_list; l != NULL; l = l->next) {
+				const char *name = (const char *)l->data;
+
+				if (!strcmp(name, username)) {
+					found = TRUE;
+					break;
+				}
+
+				new_list = g_list_append(new_list, g_strdup(l->data));
+			}
+
+			if (!found) {
+				new_list = g_list_append(new_list, g_strdup(username));
+
+				e_contact_set(editor->contact, field, new_list);
+			}
+
+			if (new_list != NULL) {
+				g_list_foreach(new_list, (GFunc)g_free, NULL);
+				g_list_free(new_list);
+			}
+
+			set_im_fields(editor);
+		}
+
+		if (username != NULL)
+			g_free(username);
+
+		if (protocol != NULL)
+			g_free(protocol);
+
+		gtk_drag_finish(dc, TRUE, (dc->action == GDK_ACTION_MOVE), t);
+	}
+}
+
+static void
+setup_im_treeview(EContactEditor *editor)
+{
+	GtkWidget *treeview;
+	GtkTreeSelection *selection;
+	GtkTreeViewColumn *column;
+	GtkCellRenderer *renderer;
+	GtkTargetEntry gte[] = {{"application/x-im-contact", 0, 0}};
+
+	treeview = glade_xml_get_widget(editor->gui, "treeview-im");
+
+	if (!treeview || !GTK_IS_TREE_VIEW(treeview))
+		return;
+
+	editor->im_model = gtk_list_store_new(NUM_IM_COLUMNS,
+										  GDK_TYPE_PIXBUF, G_TYPE_STRING,
+										  G_TYPE_STRING, G_TYPE_STRING, G_TYPE_INT);
+
+	gtk_tree_view_set_model(GTK_TREE_VIEW(treeview),
+							GTK_TREE_MODEL(editor->im_model));
+
+	g_signal_connect(G_OBJECT(treeview), "button-press-event",
+					 G_CALLBACK(im_button_press_cb), editor);
+
+	column = gtk_tree_view_column_new();
+	gtk_tree_view_column_set_title(column, _("Service"));
+	gtk_tree_view_insert_column(GTK_TREE_VIEW(treeview), column, -1);
+
+	renderer = gtk_cell_renderer_pixbuf_new();
+	gtk_tree_view_column_pack_start(column, renderer, FALSE);
+	gtk_tree_view_column_add_attribute(column, renderer,
+									   "pixbuf", COLUMN_IM_ICON);
+
+	renderer = gtk_cell_renderer_text_new();
+	gtk_tree_view_column_pack_start(column, renderer, TRUE);
+	gtk_tree_view_column_add_attribute(column, renderer,
+									   "text", COLUMN_IM_SERVICE);
+
+	column = gtk_tree_view_column_new();
+	gtk_tree_view_column_set_title(column, _("Account Name"));
+	gtk_tree_view_insert_column(GTK_TREE_VIEW(treeview), column, -1);
+
+	renderer = gtk_cell_renderer_text_new();
+	gtk_tree_view_column_pack_start(column, renderer, TRUE);
+	gtk_tree_view_column_add_attribute(column, renderer,
+									   "text", COLUMN_IM_SCREENNAME);
+
+	selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(treeview));
+	g_signal_connect(G_OBJECT(selection), "changed",
+					 G_CALLBACK(im_selected_cb), editor);
+
+	/* Setup drag-and-drop */
+	gtk_tree_view_enable_model_drag_source(GTK_TREE_VIEW(treeview),
+										   GDK_BUTTON1_MASK, gte, 1,
+										   GDK_ACTION_COPY);
+	gtk_tree_view_enable_model_drag_dest(GTK_TREE_VIEW(treeview),
+										 gte, 1,
+										 GDK_ACTION_COPY | GDK_ACTION_MOVE);
+
+	g_signal_connect(G_OBJECT(treeview), "drag-data-get",
+					 G_CALLBACK(im_treeview_drag_data_get_cb), editor);
+	g_signal_connect(G_OBJECT(treeview), "drag-data-received",
+					 G_CALLBACK(im_treeview_drag_data_rcv_cb), editor);
 }
 
 static void
@@ -1003,6 +1452,7 @@ categories_clicked(GtkWidget *button, EContactEditor *editor)
 	gtk_widget_destroy(GTK_WIDGET(dialog));
 }
 
+
 typedef struct {
 	EContactEditor *ce;
 	gboolean should_close;
@@ -1488,6 +1938,8 @@ e_contact_editor_init (EContactEditor *e_contact_editor)
 	connect_arrow_button_signals(e_contact_editor);
 	set_entry_changed_signals(e_contact_editor);
 
+	setup_im_treeview(e_contact_editor);
+
 	wants_html = glade_xml_get_widget(e_contact_editor->gui, "checkbutton-htmlmail");
 	if (wants_html && GTK_IS_TOGGLE_BUTTON(wants_html))
 		g_signal_connect (wants_html, "toggled",
@@ -1516,6 +1968,22 @@ e_contact_editor_init (EContactEditor *e_contact_editor)
 	if (widget && E_IS_SOURCE_OPTION_MENU (widget))
 		g_signal_connect (widget, "source_selected",
 				  G_CALLBACK (source_selected), e_contact_editor);
+
+	widget = glade_xml_get_widget(e_contact_editor->gui, "button-im-add");
+	if (widget && GTK_IS_BUTTON(widget))
+		g_signal_connect (widget, "clicked",
+				  G_CALLBACK (add_im_clicked), e_contact_editor);
+
+	widget = glade_xml_get_widget(e_contact_editor->gui, "button-im-edit");
+	if (widget && GTK_IS_BUTTON(widget))
+		g_signal_connect (widget, "clicked",
+				  G_CALLBACK (edit_im_clicked), e_contact_editor);
+
+	widget = glade_xml_get_widget(e_contact_editor->gui, "button-im-remove");
+	if (widget && GTK_IS_BUTTON(widget))
+		g_signal_connect (widget, "clicked",
+				  G_CALLBACK (remove_im_clicked), e_contact_editor);
+
 
 	/* Construct the app */
 	bonobo_win = bonobo_window_new ("contact-editor-dialog", _("Contact Editor"));
@@ -2288,6 +2756,62 @@ set_fields(EContactEditor *editor)
 }
 
 static void
+add_im_field(EContactEditor *editor, EContactField field, const char *service,
+			 const char *desc)
+{
+	GList *list;
+	GList *l;
+	GtkTreeIter iter;
+	GdkPixbuf *pixbuf;
+	GdkPixbuf *scale = NULL;
+	char *icon_path;
+	char *buf;
+
+	list = e_contact_get(editor->contact, field);
+
+	buf = g_strdup_printf("im-%s.png", service);
+	icon_path = g_concat_dir_and_file(EVOLUTION_IMAGESDIR, buf);
+	pixbuf = gdk_pixbuf_new_from_file(icon_path, NULL);
+	g_free(icon_path);
+	g_free(buf);
+
+	if (pixbuf != NULL)
+		scale = gdk_pixbuf_scale_simple(pixbuf, 16, 16, GDK_INTERP_BILINEAR);
+
+	for (l = list; l != NULL; l = l->next)
+	{
+		const char *account_name = (const char *)l->data;
+
+		gtk_list_store_append(editor->im_model, &iter);
+
+		gtk_list_store_set(editor->im_model, &iter,
+						   COLUMN_IM_ICON, scale,
+						   COLUMN_IM_SERVICE,  desc,
+						   COLUMN_IM_SCREENNAME, account_name,
+						   COLUMN_IM_SERVICE_FIELD, field,
+						   -1);
+	}
+
+	if (scale != NULL)
+		g_object_unref(G_OBJECT(scale));
+
+	if (pixbuf != NULL)
+		g_object_unref(G_OBJECT(pixbuf));
+}
+
+static void
+set_im_fields(EContactEditor *editor)
+{
+	gtk_list_store_clear(editor->im_model);
+
+	add_im_field(editor, E_CONTACT_IM_AIM,    "aim",    _("AIM"));
+	add_im_field(editor, E_CONTACT_IM_JABBER, "jabber", _("Jabber"));
+	add_im_field(editor, E_CONTACT_IM_YAHOO,  "yahoo",  _("Yahoo"));
+	add_im_field(editor, E_CONTACT_IM_MSN,    "msn",    _("MSN"));
+	add_im_field(editor, E_CONTACT_IM_ICQ,    "icq",    _("ICQ"));
+}
+
+static void
 set_address_field(EContactEditor *editor, int result)
 {
 	GtkWidget *text, *check;
@@ -2704,6 +3228,8 @@ fill_in_info(EContactEditor *editor)
 		e_contact_date_free (bday);
 
 		set_fields(editor);
+
+		set_im_fields(editor);
 	}
 }
 

@@ -12,3 +12,4 @@ GNOME_Evolution_Addressbook*.server
 GNOME_Evolution_Addressbook*.server.in
 addressbook-marshal.c
 addressbook-marshal.h
+*.schemas
