@@ -20,7 +20,7 @@
         This will open the <interface>mail preferences
         window</interface>, illustrated in <xref
         linkend="config-prefs-mail-fig">.  Mail Preferences are
-        seperated into several categories:
+        separated into several categories:
         <variablelist>
 	<varlistentry>
           <term><guilabel>Identity</guilabel></term>
@@ -133,7 +133,7 @@
         and password, what sort of mail sending and receiving
         protocols your network uses, and the names of the servers
         you'll be using.  If you're switching from another groupware
-        or email progam, you can almost certainly use the same
+        or email program, you can almost certainly use the same
         settings as you did with that program.  Select the
         <guibutton>Sources</guibutton> tab in the
         <interface>Preferences</interface> window to tell
@@ -146,7 +146,7 @@
 	<title>Mail Sources</title>
 	<para>
           The <interface>Mail Sources</interface> tab allows you to
-          edit, add, or delete methods of retreiving mail from
+          edit, add, or delete methods of retrieving mail from
           servers.  Clicking on <guibutton>Add</guibutton> or
           <guibutton>Edit</guibutton> will bring up a dialog box to
           offer you the following options:
@@ -164,8 +164,9 @@
 	      <term> <guilabel>Server:</guilabel></term>
 	      <listitem>
 		<para>
-                  Enter the name of your mail server in this field,
-                  eg: <userinput>mail.mycompany.com</userinput>
+                  Enter the name of your mail server in this field.
+                  For example:
+                  <userinput>mail.mycompany.com</userinput>
                 </para>
 	      </listitem>
 	    </varlistentry>
@@ -208,18 +209,21 @@
 	<title>Transports</title>
 	<para>
            The <interface>Transports</interface> tab lets you set how
-           you will send mail.  As of this writing, you have two
-           choices: <guilabel>SMTP</guilabel>, which uses a remote
-           mail server, and <guilabel>sendmail</guilabel>, which uses
-           the <application>sendmail</application> program on your
-           local system.
+           you will send mail.  Evolution currently supports two mail
+           transport options: <guilabel>SMTP</guilabel>, which uses a
+           remote mail server, and <guilabel>sendmail</guilabel>,
+           which uses the <application>sendmail</application> program
+           on your local system.  <application>Sendmail</application>
+           is more difficult to configure, but offers more flexibility
+           than plain <systemitem>SMTP</systemitem>.
         </para>
 	<para>
-            If you choose <guilabel>SMTP</guilabel>, you will need to
-            know the name of your mail server.  Your system
-            administrator or ISP has probably included that
-            information on the piece of paper you lost about five
-            minutes ago.  <application>Evolution</application> can
+            To use <guilabel>SMTP</guilabel>, you'll need to enter the
+            name of your SMTP server, which should look like:
+            <userinput>smtp.isp.net</userinput>.
+         </para>
+         <para>
+            <application>Evolution</application> can
             attempt to determine if you have entered the right server
             name.  To have it do so, check the box labelled
             <guilabel>Test these values before continuing</guilabel>
@@ -488,10 +492,12 @@
 
 
   </sect1>
+
   <sect1 id="config-prefs-general">
     <title>General Preferences</title> 
     <para>
-          Overall Evolution prefs-- whatever else doesn't fit.
+          Additional configuration options will be covered here, as
+          they become available.
         </para>
   </sect1>
 </chapter>

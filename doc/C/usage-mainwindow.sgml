@@ -10,7 +10,13 @@
      <guimenuitem>Evolution</guimenuitem> from the
      <guisubmenu>Applications</guisubmenu> of the <guimenu>Main Panel
      Menu</guimenu>, or by typing <command>evolution</command> at the
-     command-line.  After <application>Evolution</application> starts
+     command-line.  The first time you run the program, it will create
+     a directory called <filename>evolution</filename> in your home
+     directory, where it will keep all your
+     <application>Evolution</application>-related files.
+   </para>
+   <para>
+     After <application>Evolution</application> starts
      up, you will see the <interface>main window</interface>, with the
      <interface>Inbox</interface> open.  It should look a lot like the
      picture in <xref linkend="usage-mainwindow-fig">. On the left of
@@ -21,22 +27,16 @@
      bar</interface> with buttons for different functions. The largest
      part of the <interface>main window</interface> is taken up by the
      actual <interface>Inbox</interface>, where messages are listed
-     and displayed for .  If you're running the program for the first
-     time, you'll have just one message: a welcome from Helix Code.
+     and displayed.  If you're running the program for the first time,
+     you'll have just one message: a welcome from Helix Code.
 
 
 <!-- ==============Figure=================================== -->
-
-<!--
-Make sure that this figure meets its descriptions.
-Can these things be labelled with little arrows & stuff?
--->
-
     <figure id="usage-mainwindow-fig">
     <title>Evolution Main Window and Inbox</title>
     <screenshot>
       <screeninfo>Evolution Main Window</screeninfo>
-      <graphic fileref="fig/mainwindow-pic" format="png" srccredit="Aaron Weber">
+      <graphic fileref="fig/mainwindow-pic" format="png" srccredit="Kevin Breit">
 	</graphic>
     </screenshot>
     </figure>
@@ -47,14 +47,14 @@ Can these things be labelled with little arrows & stuff?
     <note>
       <title>The Way Evolution Looks</title>
       <para>
-	The appearance of both
-	<application>Evolution</application> and
-	<application>GNOME</application> is very easy to
-	customize, so your screen might not look like this
-	picture.  You might configure
-	<application>Evolution</application> to start with a
-	different view, or without the <interface>shortcut
-	bar</interface> or <interface>folder view</interface>.
+	The appearance of both <application>Evolution</application>
+	and <application>GNOME</application> is very easy to
+	customize, so your screen might not look like this picture.
+	You might configure <application>Evolution</application> to
+	start with a different view, without the <interface>shortcut
+	bar</interface>, or with the <link
+	linkend="usage-mainwindow-folderbar">folder bar</link>
+	instead.
       </para>
     </note>
   </para>
@@ -95,11 +95,11 @@ Can these things be labelled with little arrows & stuff?
 
 <!--  NOT IMPLEMENTED! 
 	<varlistentry>
-	<term> <guibutton>Today</guibutton></term>
+	<term> <guibutton>Today:</guibutton></term>
 	<listitem>
 	  <para>
 	This will bring up a summary of any new messages you've
-	recieved, along with the tasks and appointments you have
+	received, along with the tasks and appointments you have
 	lined up for today.
       </para>
       </listitem>
@@ -107,7 +107,7 @@ Can these things be labelled with little arrows & stuff?
 -->
 
 	<varlistentry>
-	  <term> <guibutton>Inbox</guibutton></term>
+	  <term> <guibutton>Inbox:</guibutton></term>
 	  <listitem>
 	    <para>
 	      The Inbox will show you all of your email.  Your Inbox
@@ -118,7 +118,7 @@ Can these things be labelled with little arrows & stuff?
 	</varlistentry>
 
 	<varlistentry>
-	  <term><guibutton>Calendar</guibutton></term>
+	  <term><guibutton>Calendar:</guibutton></term>
 	  <listitem>
 	    <para>
 	      The Calendar can store your appointments and To do lists
@@ -129,7 +129,7 @@ Can these things be labelled with little arrows & stuff?
 	</varlistentry>
 
 	<varlistentry>
-	  <term><guibutton>Contacts</guibutton></term>
+	  <term><guibutton>Contacts:</guibutton></term>
 	  <listitem>
 	    <para>
 	      The Contact Manager holds your addresses, phone numbers,
@@ -139,20 +139,22 @@ Can these things be labelled with little arrows & stuff?
 	   </para>
 	  </listitem>
 	</varlistentry>
-<!-- NOT IMPLEMENTED YET
 
+<!-- NOT IMPLEMENTED YET
+       <varlistentry>
 	<listitem>
 	  <para>
-	     The <guibutton>Tasks</guibutton> tool combines a "to
+	     The <guibutton>Tasks:</guibutton> tool combines a "to
 	     do" list with reminders to help you keep track of
 	     daily events.
 	  </para>
 	</listitem>
+      </varlistentry>
 -->
 	<varlistentry>
-	  <term> <guibutton>Notes</guibutton></term>
+	  <term> <guibutton>Notes:</guibutton></term>
 	<listitem>
-	  <para> The notepad is your catch-all tool: use it to take
+	  <para> The note pad is your catch-all tool: use it to take
 	    messages from phone conversations, keep small things
 	    organized, write <glossterm>haiku</glossterm>, or whatever
 	    you like. This feature is not yet implemented, but will be
@@ -188,7 +190,7 @@ Can these things be labelled with little arrows & stuff?
     </tip>
   </sect1>
 
-  <sect1 id="usage-mainwindow-folderview">
+  <sect1 id="usage-mainwindow-folderbar">
     <title>The Folder View</title>
     <para>
       The <interface>folder view</interface> is a more comprehensive
@@ -200,12 +202,12 @@ Can these things be labelled with little arrows & stuff?
       will be three folders at the base.  The first one is
       <guilabel>VFolders</guilabel>, for virtual folders (discussed in
       <xref linkend="usage-mail-organize-vfolders">.  The next one is
-      <guilabel>External Directories</guilabel>, which (FIXME: What is
-      this for?). The most important one is probably
-      <guilabel>Local</guilabel>, which contains all the data that's
-      actually stored on your computer.  If you click on the plus sign
-      plus sign next to the <guilabel>Local</guilabel> folder, you'll
-      see the contents:
+      <guilabel>External Directories</guilabel>, for contact
+      directories stored on a network.  The most important one is
+      probably <guilabel>Local</guilabel>, which you can use to access
+      all the data that's actually stored on your computer.  If you
+      click on the plus sign plus sign next to the
+      <guilabel>Local</guilabel> folder, you'll see the contents:
       <itemizedlist>
 	 <listitem>
 	    <para>
@@ -239,6 +241,17 @@ Can these things be labelled with little arrows & stuff?
     </para>
 
     <para>
+       To create a new folder, select <menuchoice>
+       <guimenu>File</guimenu> <guisubmenu>New</guisubmenu>
+       <guimenuitem>Folder</guimenuitem></menuchoice>.  You'll be asked where you want to
+       put it, and what kind of folder it should be.  You can choose
+       from three types: <guilabel>Mail</guilabel>, for storing mail,
+       <guilabel>Calendar</guilabel> for storing calendars, and
+       <guilabel>Contacts</guilabel> for storing contacts.
+    </para>
+
+<!-- UNIMPLEMENTED 
+    <para>
       Right-clicking will bring up a menu for just about anything
       in GNOME, and <application>Evolution</application> is no
       exception.  If you right-click on a folder, you'll have a
@@ -260,22 +273,20 @@ Can these things be labelled with little arrows & stuff?
 	right-click menu is a good way to find out.
       </para>
     </tip>
+-->
 
     <para>
       Any time new information arrives in a folder, that folder label
       is displayed as bold text.
     </para>
-
     <para>
-      You can move folders and other items using
-      <glossterm>drag-and-drop</glossterm>.  You can drag the folders
-      inside the folder view to change their order or put one folder
-      inside another.  To delete a folder, right-click it and select
+      To delete a folder, right-click it and select
       <guimenuitem>Delete</guimenuitem> from the menu that pops up.
-      The same goes for individual messages, appointments, and address
-      cards, whether they're in the <interface>folder view</interface>
-      or not: drag them where you want them, and they will go there.
-      <!-- ****This paragraph could use some work**** -->
+      To change the order of folders, or put one inside another, use
+      <glossterm>drag-and-drop</glossterm>.  To move individual
+      messages, appointments, and address cards between folders, you
+      can do the same thing: drag them where you want them, and
+      they'll go.
     </para>
   </sect1>
   <sect1 id="usage-mainwindow-menubar">

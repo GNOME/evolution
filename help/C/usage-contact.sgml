@@ -11,7 +11,7 @@
       Rolodex.  Of course, it's a lot easier to update
       <application>Evolution</application> than it is to change an
       actual paper book. <application>Evolution</application> also
-      allows easy synchronization with handheld and remote devices.
+      allows easy synchronization with hand-held and remote devices.
       Since <application>Evolution</application> supports most major
       network protocols, including <glossterm>LDAP</glossterm>, it can
       fit into almost any existing network.
@@ -44,8 +44,11 @@
        <guibutton>Contacts</guibutton> in the shortcut bar.  The
        contact manager is illustrated in <xref
        linkend="usage-contact-fig">.  By default, the contact manager
-       shows all your cards in alphabetical order, and in a
-       <glossterm>minicard</glossterm> format.
+       shows all your cards in alphabetical order, in a
+       <glossterm>minicard</glossterm> format.  You can select other
+       views from the <guimenu>View</guimenu> menu, and adjust the
+       width of the colums by clicking and dragging the grey column
+       dividers.
     </para>
 
 
@@ -128,8 +131,7 @@
     	  <guilabel>General</guilabel>, for basic contact information,
     	  and <guilabel>Details</guilabel>, for a more specific
     	  description of the person.  In addition, it contains a full
-    	  menu bar.  FIXME: The contents are still changing rapidly,
-    	  but you should be able to guess what they're for.
+    	  menu bar, which is still evolving rapidly.  <!-- FIXME -->
       </para>
       
       <figure id="usage-contact-editor-fig">
@@ -141,17 +143,17 @@
 	</screenshot>
       </figure>
       
-      <para> 
-        The <guilabel>General</guilabel> tab contains no less
+      <para> The <guilabel>General</guilabel> tab contains no less
         than seven sections, each with an icon: a face, for name and
         company; a telephone for phone numbers; an envelope for email
-        address; a house for postal address; a handshake for contacts
-        (FIXME: I don't understand this feature, and the button
-        doesn't do anything yet.); and a briefcase for categories.
-        You can guess what sort of information belongs in fields like
-        <guilabel>Job Title</guilabel> and <guilabel>Web page
-        address</guilabel>, but there are several parts of the window
-        that are a little more interesting.  </para> <para>
+        address; a house for postal address; a file folder for
+        contacts, and a briefcase for categories.  You can guess what
+        sort of information belongs in fields like <guilabel>Job
+        Title</guilabel> and <guilabel>Web page address</guilabel>,
+        but there are several parts of the window that are a little
+        more interesting.
+     </para>
+      <para>
         <guilabel>Categories</guilabel> feature, which is discussed in
         <xref linkend="usage-contact-organize">, there are a few
         things you'll want to know about: the first of these is the
@@ -228,7 +230,7 @@
         square button for the list of labels, any that you've already
         filled in will be marked.  </para>
 
-    <!--  FIXME: do this whole thing later.
+    <!--  FIXME: do this whole thing right before release 0.4! FIXME.
 	  <variablelist>
 	     <listitem>
 	      <term>
@@ -374,7 +376,7 @@
            add your own.  Just enter the new category's name in the
            text box, then click <guibutton>Categories</guibutton> and
            choose <guilabel>Add to Master List</guilabel> in the
-           window that appears. (FIXME: This isn't quite accurate.)
+           window that appears. 
          </para>
 
          <tip id="usage-contact-categories-multiple">
@@ -425,7 +427,7 @@
     <para>
        To begin sharing a folder of address cards, wait until
        <application>Evolution</application> supports this
-       feature. (FIXME!)
+       feature. <!-- FIXME -->
     </para>
   </sect1>
 
@@ -460,12 +462,14 @@
 	 <application>Evolution</application> will fill in addresses
 	 from your contact manager's address cards if you let it.  In
 	 addition to that, you can send email to everyone in a
-	 particular group by (FIXME: wait for feature implementation,
-	 then document). Future versions of
-	 <application>Evolution</application> will allow you to you
-	 export a group of cards to a spreadsheet, database, or word
-	 processor so you can print address labels or prepare large
-	 postal mailings.
+	 particular group.
+      </para>
+ <!-- FIXME this feature not yet implemented  -->
+      <para>
+         Future versions of <application>Evolution</application> will
+	 allow you to you export a group of cards to a spreadsheet,
+	 database, or word processor so you can print address labels
+	 or prepare large postal mailings.
       </para>
     </sect2>
     <sect2 id="usage-contact-automation-extra">

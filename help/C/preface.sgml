@@ -13,6 +13,17 @@
         integral part of the Internet-connected desktop.
       </para>
       <para>
+        As part of the GNOME project,
+        <application>Evolution</application> is free software, and is
+        released under the terms of the GNU Public License (GPL).  As
+        stated previously, the documentation falls under the Free
+        Documentation License (FDL), which is included with this
+        document in <xref linkend="fdl">.  For more information about
+        the GPL and the FDL, visit the Free Software Foundation's
+        website at <ulink
+        url="http://www.fsf.org">http://www.fsf.org</ulink>.
+      </para>
+      <para>
         <application>Evolution</application> is a suite of tools to
         help you work in a group.  You can use it to send, receive,
         and organize email, manage address and other contact
@@ -59,7 +70,10 @@
 	  <listitem>
 	    <para>
                Data must be safe: <application>Evolution</application>
-               must not lose mail or corrupt mailbox files.
+               must not lose mail or corrupt mailbox files.  It will
+               not execute scripts, automatically forward a virus to
+               your entire contacts list, or delete files from your
+               hard disk.
             </para>
           </listitem>
 	</itemizedlist>
@@ -89,10 +103,8 @@
         huge chunks of information, and many of the features it
         describes are unimplemented.  All the content is subject to
         change, especially if you help.  Please send comments on the
-        guide to <email>aaron@helixcode.com</email>.  Items that are
-        known to need action are indicated as such, often with
-        notation like (INSERT CONTENT HERE).  If you would like to
-        work on the guide please contact me or see the GNOME
+        guide to <email>aaron@helixcode.com</email>. If you would like
+        to work on the guide please contact me or see the GNOME
         Documentation project <ulink
         url="http://www.gnome.org/gdp">web site</ulink>.  This
         paragraph will be removed in later versions of the manual.
@@ -100,15 +112,15 @@
     <!-- ************* END DRAFT ONLY PARAGRAPH ************** -->
 
       <para>
-        This book is divided into two sections. The first section is
-        a <link linkend="usage">guided tour</link>&mdash; it will
+        This book is divided into two sections. The first section is a
+        <link linkend="usage">guided tour</link>&mdash; it will
         explain how to use <application>Evolution</application>.  If
         you are new to <application>Evolution</application> or to
         groupware in general, this is the section for you. The second
         section, covering <link linkend="config">configuration</link>,
-        is targeted at advanced users and administrators.  If you are
-        a network administrator, you may find yourself referring to
-        this section frequently.
+        is targeted at more advanced users, but anyone who wants to
+        change the way <application>Evolution</application> looks or
+        acts can benefit from reading it.
       </para>
       <formalpara>
         <title>Typographical conventions</title>
@@ -118,14 +130,30 @@
           <simplelist>
 	    <member><application>Applications</application></member>
 	    <member><command>Commands</command> typed at the command line</member>
-	    <member><guilabel>Labels</guilabel> for menu items and buttons</member>
-	    <member><userinput>Anything you type in</userinput></member>
+	    <member><guilabel>Labels</guilabel> for interface items</member>
+
+            <member> Menu selections look like this:
+                       <menuchoice>
+                          <guimenu>Menu</guimenu>
+                          <guisubmenu>Submenu</guisubmenu> 
+                          <guimenuitem>Menu Item</guimenuitem>
+                     </menuchoice>
+            </member>
+	    <member><guibutton>Buttons</guibutton> you can click</member>
+            <member><userinput>Anything you type in</userinput></member>
 	    <member><computeroutput>Text output from a computer</computeroutput></member>
+
 	  </simplelist>
         </para>
       </formalpara>
     </section>
   </preface>
+
+
+
+
+
+
 
 
 

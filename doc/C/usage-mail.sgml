@@ -18,7 +18,7 @@
        </listitem>
        <listitem>
 	 <para>
-	  It can send and recieve mail in HTML or as plain text, and
+	  It can send and receive mail in HTML or as plain text, and
 	  supports file attachments.
 	 </para>
        </listitem>
@@ -101,15 +101,17 @@
     </sect2>
 
     <sect2 id="usage-mail-getnsend-get">
-      <title>Getting Mail</title>
+      <title>Checking Mail</title>
       <para>
 	To check your email, just click <guibutton>Get
 	mail</guibutton> in the toolbar.  If this is the first time
 	you've done so, the <interface>mail setup
 	assistant</interface> will ask you for the information it
 	needs to check your mail (see <xref
-	linkend="config-setupassist"> for more information). You'll
-	need to enter your password.  Then,
+	linkend="config-setupassist"> for more information).  If
+	you're checking mail over a network (instead of from local
+	<filename>mbox</filename> files), you'll need to enter your
+	email password.  Type it in, click <guibutton>OK</guibutton> and
 	<application>Evolution</application> will download your mail.
 	New mail will appear in your <interface>Inbox</interface>.
 	<!-- FIXME: add mention of Today if Today feature appears -->
@@ -147,10 +149,10 @@
 	  <application>Evolution</application> will provide a link and
 	  icon at the end of the message.  Click on that, and
 	  <application>Evolution</application> will ask you where you
-	  want to put the file.  Once you've chosen one and saved the
-	  file, you can open, move, copy, or execute it just like any
-	  other, using <application>Nautilus</application> or your
-	  favorite shell or file manager.
+	  want to put the file.  Once you've chosen a location and
+	  saved the file, you can open, move, copy, or execute it just
+	  like any other, using <application>Nautilus</application> or
+	  your favorite shell or file manager.
 	</para>
 
 	<para>
@@ -179,13 +181,11 @@
 	 You can start writing a new email message by selecting
 	 <guimenuitem>New Mail</guimenuitem> from the <guimenu>File
 	 Menu</guimenu>, or by pressing the
-	 <guibutton>Send</guibutton> in the Inbox toolbar.  <!-- THIS
-	 IS A BAD BUTTON NAME AND MUST BE FIXED --> When you do so,
-	 the <interface>New Message</interface> window will open, as
-	 shown in <xref linkend="usage-mail-newmsg-fig">.
+	 <guibutton>Compose</guibutton> button in the Inbox toolbar.
+	 When you do so, the <interface>New Message</interface> window
+	 will open, as shown in <xref
+	 linkend="usage-mail-newmsg-fig">.
       </para>
-
-
 
 <!--   ==============Figure=================================== -->
       <figure id="usage-mail-newmsg-fig">
@@ -255,7 +255,7 @@
           Alternately, you can click on the
           <guibutton>To:</guibutton>, <guibutton>Cc:</guibutton>, or
           <guibutton>Bcc:</guibutton> buttons to get a list of email
-          addresses.  Click the checkboxes next to the addresses, then
+          addresses.  Click the check-boxes next to the addresses, then
           click <guibutton>OK</guibutton>, and the address will be
           added to the appropriate form field.
         </para>
@@ -289,7 +289,7 @@
 	         She puts her co-worker, Tim, in the in the
 	         <guilabel>Cc:</guilabel> field, so that he know
 	         what's going on.  The client can see that Tim also
-	         recieved the message, and knows that he can talk to
+	         received the message, and knows that he can talk to
 	         Tim about the message as well.
 	      </para>
 	    </example>
@@ -444,10 +444,10 @@ with quoted materials and the relevant replies interspersed-->
 	      <listitem>
 		<para>
                   <itemizedlist mark="none">      
-		  <listitem><para><guilabel>B</guilabel> is for bold text</para></listitem>   
-                  <listitem><para><guilabel>I</guilabel> for italics</para></listitem>
-		  <listitem><para><guilabel>U</guilabel> to underline</para></listitem>
-		  <listitem><para><guilabel>S</guilabel> for a strikethrough.</para></listitem>
+		  <listitem><para><guibutton>B</guibutton> is for bold text</para></listitem>   
+                  <listitem><para><guibutton>I</guibutton> for italics</para></listitem>
+		  <listitem><para><guibutton>U</guibutton> to underline</para></listitem>
+		  <listitem><para><guibutton>S</guibutton> for a strikethrough.</para></listitem>
                  </itemizedlist>
                </para>               
 	      </listitem>    
@@ -484,7 +484,7 @@ with quoted materials and the relevant replies interspersed-->
            <itemizedlist>
 	    <listitem>
 	      <para>
-                 <guilabel>Insert Link</guilabel>: Use this tool to
+                 <guimenuitem>Insert Link</guimenuitem>: Use this tool to
                  put hyperlinks in your HTML messages.  When you
                  select it, <application>Evolution</application> will
                  prompt you for the <guilabel>Text</guilabel> that
@@ -494,8 +494,8 @@ with quoted materials and the relevant replies interspersed-->
 	    </listitem>
 	    <listitem>
 	      <para>
-               <guilabel>Insert Image</guilabel>: Select this item to
-               embed image into your email, as was done in the welcome
+               <guimenuitem>Insert Image</guimenuitem>: Select this item to
+               embed an image into your email, as was done in the welcome
                message.  Images will appear at the location of the
                cursor.
               </para>
@@ -554,7 +554,7 @@ possibly never will be due to security evil. -->
 	<para>
 	  The post office forwards your mail for you when you change
 	  addresses, and you can forward mail when you get a letter by
-	  mistake.  The email <guilabel>Forward</guilabel> command
+	  mistake.  The email <guilabel>Forward</guilabel> button
 	  works in much the same way.  It's particularly useful if you
 	  have received a message and you think someone else would
 	  like to see it.  You can forward a message as an attachment
@@ -570,18 +570,19 @@ possibly never will be due to security evil. -->
 	  altered content.
 	</para>
 	<para>
-	  To forward a message, first make sure it is selected by
-	  clicking it once in the message list.  Then, press
+	  To forward a message you are reading, press
 	  <guibutton>Forward</guibutton> on the toolbar, or select
-	  <guimenuitem>Forward</guimenuitem> from the
-	  <guimenu>Message</guimenu> menu.  To forward a message
-	  <glossterm>inline</glossterm> instead of attached, select
-	  <guimenuitem>Forward Inline</guimenuitem> from the
-	  <guimenu>Message</guimenu> menu.  Choose an addressee as you
-	  would when sending a new message; the subject will already
-	  be entered, but you can alter it.  Enter your comments on
-	  the message in the <interface>composition frame</interface>,
-	  and press <guibutton>Send</guibutton>.
+	  <menuchoice> <guimenu>Message</guimenu>
+	  <guimenuitem>Forward</guimenuitem> </menuchoice>.  If you
+	  prefer to forward the message <glossterm>inline</glossterm>
+	  instead of attached, select <menuchoice>
+	  <guimenu>Message</guimenu> <guimenuitem>Forward
+	  Inline</guimenuitem> </menuchoice> from the menu.  Choose an
+	  addressee as you would when sending a new message; the
+	  subject will already be entered, but you can alter it.
+	  Enter your comments on the message in the
+	  <interface>composition frame</interface>, and press
+	  <guibutton>Send</guibutton>.
 	</para>
       </sect3>
       <sect3 id="usage-mail-getnsend-ettiquette">
@@ -683,8 +684,7 @@ possibly never will be due to security evil. -->
 	      contacts, and mail can't go into the same
 	      folder. Calendars have to go in calendar folders, mail
 	      in mail folders, and contacts in contact folders.
-              FIXME: should this go in a different section?
-          </para>
+           </para>
 	</note>
       </para>
       <para>
@@ -772,7 +772,7 @@ possibly never will be due to security evil. -->
       <para>
 	Filters sort your email for you.  People who subscribe to
 	multiple mailing lists, or who often need to refer to messages
-	they have sent, find filters especially helpful to seperate
+	they have sent, find filters especially helpful to separate
 	personal from list-related mail, but they're good for anybody
 	who gets more than a few messages a day.  To create a filter,
 	select <guimenuitem>Filter Assistant</guimenuitem> from the
@@ -780,7 +780,6 @@ possibly never will be due to security evil. -->
 	which will guide you through filter creation.  The
 	<interface>filter assistant</interface> is shown in <xref
 	linkend="usage-mail-filters-fig-new">
-
 
        <figure id="usage-mail-filters-fig-new">
 	 <title>Creating a new Filter</title>
@@ -821,7 +820,7 @@ possibly never will be due to security evil. -->
       <para>
        Then, the filter assistant will ask you which emails it should
        act upon.  You can set criteria based on message size, the
-       sender, primary addressee or cc: list, or words in the subject
+       sender, primary addressee or Cc: list, or words in the subject
        or body of the message.  Once you've decided which messages to
        filter, the assistant will ask you the sort of action you wish
        to take.  You can file, delete, or forward the message, and you

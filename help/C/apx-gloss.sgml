@@ -6,7 +6,8 @@
   <glossterm>Attachment</glossterm>
   <glossdef>
    <para>
-    Any file sent with an e-mail for the reciever to download.
+    Any file sent along with an email.  Attachments may be embedded in
+    a message or appended to it.
    </para>
   </glossdef>
  </glossentry>

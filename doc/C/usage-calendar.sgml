@@ -3,7 +3,7 @@
 -->
 
 <chapter id="usage-calendar">
-  <title>The Evolution Calendar: Time-Tamer Extraordinaire</title>
+  <title>The Evolution Calendar</title>
   <para>
     To begin using the calendar, select
     <guibutton>Calendar</guibutton> from the <interface>shortcut
@@ -141,9 +141,9 @@ lack of time, resources, and interest.
          complicated, and only applies to calendars on a
          network. <guilabel>Public</guilabel> is the default category,
          and a public event can be viewed by anyone on the calendar
-         sharing network.  <guilabel>Private</guilabel> means
-         (SOMETHING), and <guilabel>Confidential</guilabel> means that
-         (SOMETHING ELSE).
+         sharing network.  <guilabel>Private</guilabel> denotes one
+         level of security, and <guilabel>Confidential</guilabel>
+         means that .
       </para>
       <para>
         The <guilabel>Recurrence</guilabel> tab lets you describe
