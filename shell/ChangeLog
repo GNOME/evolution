@@ -1,3 +1,8 @@
+2003-07-22  Antonio Xu  <antonio.xu@sun.com>
+
+	* e-shell-startup-wizard.c (e_shell_startup_wizard_create): connect
+	to "delete_event" signal with startup_wizard_delete. [#46284]
+
 2003-07-10  Antonio Xu <antonio.xu@sun.com>
 
 	* e-shell-importer.c: (show_import_wizard): use
