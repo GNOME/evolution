@@ -105,7 +105,7 @@
                        _value="Certificates"/>
                                                                                           
         <oaf_attribute name="evolution2:config_item:description" type="string"
-                       _value="Manager your S/Mime certificates here"/>
+                       _value="Manage your S/MIME certificates here"/>
                                                                                           
         <oaf_attribute name="evolution2:config_item:icon_name" type="string"
                        value="stock_lock-ok"/>

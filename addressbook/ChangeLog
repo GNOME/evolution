@@ -1,3 +1,8 @@
+2004-05-08  Enver ALTIN  <enver.altin@frontsite.com.tr>
+
+	* gui/component/GNOME_Evolution_Addressbook.server.in.in:
+	  Fix parts of #53466.
+
 2004-05-05  Hans Petter Jansson  <hpj@ximian.com>
 
 	* gui/contact-editor/e-contact-editor.c (init_address_textview):
