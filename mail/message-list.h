@@ -9,10 +9,6 @@
 #include <gal/e-table/e-table-scrolled.h>
 #include <gal/e-table/e-table-simple.h>
 #include <gal/e-table/e-tree-simple.h>
-#include <gal/e-table/e-cell-text.h>
-#include <gal/e-table/e-cell-toggle.h>
-#include <gal/e-table/e-cell-checkbox.h>
-#include <gal/e-table/e-cell-tree.h>
 
 #define MESSAGE_LIST_TYPE        (message_list_get_type ())
 #define MESSAGE_LIST(o)          (GTK_CHECK_CAST ((o), MESSAGE_LIST_TYPE, MessageList))

@@ -32,6 +32,12 @@
 #include <gal/widgets/e-gui-utils.h>
 #include <gal/e-table/e-table-header-item.h>
 #include <gal/e-table/e-table-item.h>
+#include <gal/e-table/e-cell-text.h>
+#include <gal/e-table/e-cell-toggle.h>
+#include <gal/e-table/e-cell-checkbox.h>
+#include <gal/e-table/e-cell-tree.h>
+#include <gal/e-table/e-cell-date.h>
+#include <gal/e-table/e-cell-size.h>
 
 #include "art/mail-new.xpm"
 #include "art/mail-read.xpm"
@@ -92,8 +98,8 @@ static ETableScrolledClass *message_list_parent_class;
 
 static void on_cursor_change_cmd (ETableScrolled *table, int row, gpointer user_data);
 static gint on_click (ETableScrolled *table, gint row, gint col, GdkEvent *event, MessageList *list);
-static char *filter_date (void *reserved, const void *data, void *closure);
-static char *filter_size (void *reserved, const void *data, void *closure);
+static char *filter_date (time_t date);
+static char *filter_size (int size);
 
 static void save_tree_state(MessageList *ml);
 
@@ -288,9 +294,8 @@ subject_compare (gconstpointer subject1, gconstpointer subject2)
 }
 
 static gchar *
-filter_size (void *reserved, const void *data, void *closure)
+filter_size (gint size)
 {
-	gint size = GPOINTER_TO_INT(data);
 	gfloat fsize;
 	
 	if (size < 1024) {
@@ -639,10 +644,10 @@ ml_value_to_string (ETableModel *etm, int col, const void *value, void *data)
 		
 	case COL_SENT:
 	case COL_RECEIVED:
-		return filter_date (NULL, value, NULL);
+		return filter_date (GPOINTER_TO_INT(value));
 		
 	case COL_SIZE:
-		return filter_size (NULL, value, NULL);
+		return filter_size (GPOINTER_TO_INT(value));
 
 	case COL_FROM:
 	case COL_SUBJECT:
@@ -956,9 +961,8 @@ message_list_init_images (void)
 }
 
 static char *
-filter_date (void *reserved, const void *data, void *closure)
+filter_date (time_t date)
 {
-	time_t date = GPOINTER_TO_INT (data);
 	time_t nowdate = time(NULL);
 	time_t yesdate;
 	struct tm then, now, yesterday;
@@ -1054,9 +1058,8 @@ message_list_create_extras (void)
 	e_table_extras_add_cell(extras, "render_score", e_cell_toggle_new (0, 7, images));
 	
 	/* date cell */
-	cell = e_cell_text_new (NULL, GTK_JUSTIFY_LEFT);
+	cell = e_cell_date_new (NULL, GTK_JUSTIFY_LEFT);
 	gtk_object_set (GTK_OBJECT (cell),
-			"text_filter_func", filter_date,
 			"strikeout_column", COL_DELETED,
 			"bold_column", COL_UNREAD,
 			"color_column", COL_COLOUR,
@@ -1077,9 +1080,8 @@ message_list_create_extras (void)
 						 TRUE, cell));
 
 	/* size cell */
-	cell = e_cell_text_new (NULL, GTK_JUSTIFY_RIGHT);
+	cell = e_cell_size_new (NULL, GTK_JUSTIFY_RIGHT);
 	gtk_object_set (GTK_OBJECT (cell),
-			"text_filter_func", filter_size,
 			"strikeout_column", COL_DELETED,
 			"bold_column", COL_UNREAD,
 			"color_column", COL_COLOUR,
