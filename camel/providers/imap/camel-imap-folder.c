@@ -39,6 +39,7 @@
 
 #include "camel-imap-folder.h"
 #include "camel-imap-command.h"
+#include "camel-imap-search.h"
 #include "camel-imap-store.h"
 #include "camel-imap-stream.h"
 #include "camel-imap-summary.h"
@@ -93,6 +94,7 @@ static void imap_update_summary (CamelFolder *folder, int first, int last,
 
 /* searching */
 static GPtrArray *imap_search_by_expression (CamelFolder *folder, const char *expression, CamelException *ex);
+static void       imap_search_free          (CamelFolder *folder, GPtrArray *uids);
 
 /* flag methods */
 static guint32  imap_get_message_flags     (CamelFolder *folder, const char *uid);
@@ -132,6 +134,7 @@ camel_imap_folder_class_init (CamelImapFolderClass *camel_imap_folder_class)
 	camel_folder_class->free_summary = camel_folder_free_nop;
 	
 	camel_folder_class->search_by_expression = imap_search_by_expression;
+	camel_folder_class->search_free = imap_search_free;
 	
 	camel_folder_class->get_message_flags = imap_get_message_flags;
 	camel_folder_class->set_message_flags = imap_set_message_flags;
@@ -234,6 +237,8 @@ imap_finalize (CamelObject *object)
 	CamelImapFolder *imap_folder = CAMEL_IMAP_FOLDER (object);
 
 	camel_object_unref ((CamelObject *)imap_folder->summary);
+	if (imap_folder->search)
+		camel_object_unref ((CamelObject *)imap_folder->search);
 }
 
 static void
@@ -728,53 +733,27 @@ imap_get_message_info (CamelFolder *folder, const char *uid)
 static GPtrArray *
 imap_search_by_expression (CamelFolder *folder, const char *expression, CamelException *ex)
 {
-	CamelImapResponse *response;
-	GPtrArray *uids = NULL;
-	char *result, *sexp, *p;
-	
-	d(fprintf (stderr, "camel sexp: '%s'\n", expression));
-	sexp = imap_translate_sexp (expression);
-	d(fprintf (stderr, "imap sexp: '%s'\n", sexp));
-	
-	uids = g_ptr_array_new ();
-	
-	if (!folder->has_search_capability) {
-		g_free (sexp);
-		return uids;
-	}
-	
-	response = camel_imap_command (CAMEL_IMAP_STORE (folder->parent_store),
-				       folder, NULL, "UID SEARCH %s", sexp);
-	g_free (sexp);
-	if (!response)
-		return uids;
+	CamelImapFolder *imap_folder = CAMEL_IMAP_FOLDER (folder);
 
-	result = camel_imap_response_extract (response, "SEARCH", NULL);
-	if (!result)
-		return uids;
-	
-	if ((p = strstr (result, "* SEARCH"))) {
-		char *word;
-		
-		word = imap_next_word (p); /* word now points to SEARCH */
-		
-		for (word = imap_next_word (word); *word && *word != '*'; word = imap_next_word (word)) {
-			gboolean word_is_numeric = TRUE;
-			char *ep;
-			
-			/* find the end of this word and make sure it's a numeric uid */
-			for (ep = word; *ep && *ep != ' ' && *ep != '\n'; ep++)
-				if (*ep < '0' || *ep > '9')
-					word_is_numeric = FALSE;
-			
-			if (word_is_numeric)
-				g_ptr_array_add (uids, g_strndup (word, (gint)(ep - word)));
-		}
-	}
-	
-	g_free (result);
-	
-	return uids;
+	if (!imap_folder->search)
+		imap_folder->search = camel_imap_search_new ();
+
+	camel_folder_search_set_folder (imap_folder->search, folder);
+	camel_folder_search_set_summary (
+		imap_folder->search, imap_folder->summary->messages);
+
+	return camel_folder_search_execute_expression (imap_folder->search,
+						       expression, ex);
+}
+
+static void
+imap_search_free (CamelFolder *folder, GPtrArray *uids)
+{
+	CamelImapFolder *imap_folder = CAMEL_IMAP_FOLDER (folder);
+
+	g_return_if_fail (imap_folder->search);
+
+	camel_folder_search_free_result (imap_folder->search, uids);
 }
 
 static guint32

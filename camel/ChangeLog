@@ -1,5 +1,21 @@
 2000-12-21  Dan Winship  <danw@helixcode.com>
 
+	* providers/imap/camel-imap-search.c: New CamelFolderSearch
+	subclass that just reimplements body_contains (using the IMAP
+	SEARCH command). All other kinds of searching are done against the
+	local summary.
+
+	* providers/imap/camel-imap-folder.c (imap_search_by_expression):
+	Use a CamelImapSearch to do searching.
+
+	* providers/imap/camel-imap-utils.c (imap_translate_sexp, etc): No
+	longer needed.
+
+	* camel-folder-search.h: Add missing CAMEL_FOLDER_SEARCH_TYPE
+	#define
+
+2000-12-21  Dan Winship  <danw@helixcode.com>
+
 	* camel-stream-buffer.c (camel_stream_buffer_gets): Update the
 	doc comment: since it always NUL-terminates the buffer, it reads
 	at most @max-1 bytes, not @max.

@@ -38,8 +38,6 @@ char *imap_next_word (const char *buf);
 #define IMAP_LIST_FLAG_UNMARKED		(1 << 3)
 gboolean imap_parse_list_response (const char *buf, int *flags, char *sep, char **folder);
 
-char *imap_translate_sexp (const char *expression);
-
 char *imap_create_flag_list (guint32 flags);
 guint32 imap_parse_flag_list (const char *flag_list);
 
