@@ -63,6 +63,9 @@ static int special_chars[] = {
 #define is_trailing_garbage(c) (c > 127 || (special_chars[c] & 2))
 #define is_domain_name_char(c) (c < 128 && (special_chars[c] & 4))
 
+/* (http|https|ftp|nntp)://[^ "|/]+\.([^ "|]*[^ ,.!?;:>)\]}`'"|_-])+ */
+/* www\.[A-Za-z0-9.-]+(/([^ "|]*[^ ,.!?;:>)\]}`'"|_-])+)             */
+
 static char *
 url_extract (const unsigned char **text, gboolean full_url)
 {
@@ -106,6 +109,9 @@ email_address_extract (const unsigned char **cur, char **out, const unsigned cha
 	for (start = *cur; start - 1 >= linestart && is_addr_char (*(start - 1)); start--)
 		;
 	if (start == *cur)
+		return NULL;
+	if (start > linestart + 2 &&
+	    start[-1] == ':' && start[0] == '/' && start[1] == '/')
 		return NULL;
 
 	/* Now look forward for a valid domain part */
@@ -448,6 +454,7 @@ struct {
 	{ "Ends with http://www.foo.com", "http://www.foo.com" },
 	{ "http://www.foo.com at start", "http://www.foo.com" },
 	{ "http://www.foo.com.", "http://www.foo.com" },
+	{ "http://www.foo.com/.", "http://www.foo.com/" },
 	{ "<http://www.foo.com>", "http://www.foo.com" },
 	{ "(http://www.foo.com)", "http://www.foo.com" },
 	{ "http://www.foo.com, 555-9999", "http://www.foo.com" },
@@ -464,11 +471,14 @@ struct {
 	{ "http://www.foo.com/index.html!", "http://www.foo.com/index.html" },
 	{ "\"http://www.foo.com/index.html\"", "http://www.foo.com/index.html" },
 	{ "'http://www.foo.com/index.html'", "http://www.foo.com/index.html" },
+	{ "http://bob@www.foo.com/bar/baz/", "http://bob@www.foo.com/bar/baz/" },
 	{ "http no match http", NULL },
 	{ "http: no match http:", NULL },
 	{ "http:// no match http://", NULL },
+	{ "unrecognized://bob@foo.com/path", NULL },
 
 	{ "src/www.c", NULL },
+	{ "Ewwwwww.Gross.", NULL },
 
 };
 int num_url_tests = G_N_ELEMENTS (url_tests);

@@ -1,3 +1,10 @@
+2003-11-07  Dan Winship  <danw@ximian.com>
+
+	* ename/*: Removed. No longer used by evolution except via
+	evolution-data-server.
+	
+	* Makefile.am (SUBDIRS): Remove ename
+
 2003-11-07  JP Rosevear  <jpr@ximian.com>
 
 	* Makefile.am: remove build sources from dist

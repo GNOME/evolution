@@ -1,5 +1,3 @@
-SUBDIRS = . ename
-
 eutilincludedir = $(privincludedir)/e-util
 econdincludedir = $(privincludedir)/e-conduit
 edb3includedir  = $(privincludedir)/e-db3util
