@@ -749,6 +749,15 @@ startup_wizard_cancel (GnomeDruid *druid,
 	gtk_main_quit ();
 }
 
+static gboolean
+startup_wizard_delete (GnomeDruid *druid,
+		       GdkEventAny *ev,
+	       	       SWData *data)
+{
+	startup_wizard_cancel(druid, data);
+	return FALSE;
+}
+
 gboolean
 e_shell_startup_wizard_create (void)
 {
@@ -776,6 +785,9 @@ e_shell_startup_wizard_create (void)
 	g_return_val_if_fail (data->dialog != NULL, FALSE);
 	gtk_window_set_wmclass (GTK_WINDOW (data->dialog), "startup-wizard",
 				"Evolution:shell");
+
+	g_signal_connect_after (data->dialog, "delete_event",
+			  G_CALLBACK (startup_wizard_delete), data);
 
 	page_hash = g_hash_table_new (NULL, NULL);
 	data->druid = glade_xml_get_widget (data->wizard, "startup-druid");
