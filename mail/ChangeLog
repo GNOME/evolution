@@ -1,3 +1,8 @@
+2002-06-06  Radek Doulik  <rodo@ximian.com>
+
+	* mail-composer-prefs.c (mail_composer_prefs_construct): disable
+	edit and delete when there are no signatures defined
+
 2002-06-06  Not Zed  <NotZed@Ximian.com>
 
 	* message-list.c (mail_regen_list): Keep track of the regeneration

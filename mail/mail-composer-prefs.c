@@ -820,6 +820,10 @@ mail_composer_prefs_construct (MailComposerPrefs *prefs)
 			    GTK_SIGNAL_FUNC (sig_row_select), prefs);
 	gtk_signal_connect (GTK_OBJECT (prefs->sig_clist), "unselect_row",
 			    GTK_SIGNAL_FUNC (sig_row_unselect), prefs);
+	if (mail_config_get_signature_list () == NULL) {
+		gtk_widget_set_sensitive ((GtkWidget *) prefs->sig_delete, FALSE);
+		gtk_widget_set_sensitive ((GtkWidget *) prefs->sig_edit, FALSE);
+	}
 
 	/* preview GtkHTML widget */
 	widget = glade_xml_get_widget (gui, "scrolled-sig");
