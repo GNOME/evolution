@@ -160,11 +160,14 @@ struct _CamelFolderSummary {
 	struct _CamelFolderSummaryPrivate *priv;
 
 	/* header info */
-	guint32 version;	/* version of file required, should be set by implementors */
+	guint32 version;	/* version of file loaded/loading */
 	guint32 flags;		/* flags */
 	guint32 nextuid;	/* next uid? */
-	guint32 saved_count;	/* how many were saved/loaded */
 	time_t time;		/* timestamp for this summary (for implementors to use) */
+	guint32 saved_count;	/* how many were saved/loaded */
+	guint32 unread_count;	/* handy totals */
+	guint32 deleted_count;
+	guint32 junk_count;
 
 	/* sizes of memory objects */
 	guint32 message_info_size;

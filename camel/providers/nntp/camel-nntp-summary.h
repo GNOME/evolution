@@ -39,6 +39,7 @@ struct _CamelNNTPSummary {
 
 	struct _CamelNNTPFolder *folder;
 
+	guint32 version;
 	guint32 high, low;
 };
 

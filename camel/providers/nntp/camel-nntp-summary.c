@@ -48,7 +48,7 @@
 extern int camel_verbose_debug;
 #define dd(x) (camel_verbose_debug?(x):0)
 
-#define CAMEL_NNTP_SUMMARY_VERSION (0x200)
+#define CAMEL_NNTP_SUMMARY_VERSION (1)
 
 static int xover_setup(CamelNNTPSummary *cns, CamelException *ex);
 static int add_range_xover(CamelNNTPSummary *cns, unsigned int high, unsigned int low, CamelFolderChangeInfo *changes, CamelException *ex);
@@ -191,8 +191,25 @@ summary_header_load(CamelFolderSummary *s, FILE *in)
 {
 	CamelNNTPSummary *cns = CAMEL_NNTP_SUMMARY(s);
 
-	if (((CamelFolderSummaryClass *)camel_nntp_summary_parent)->summary_header_load(s, in) == -1
-	    || camel_file_util_decode_fixed_int32(in, &cns->high) == -1
+	if (((CamelFolderSummaryClass *)camel_nntp_summary_parent)->summary_header_load(s, in) == -1)
+		return -1;
+
+	/* Legacy version */
+	if (s->version == 0x20c) {
+		camel_file_util_decode_fixed_int32(in, &cns->high);
+		return camel_file_util_decode_fixed_int32(in, &cns->low);
+	}
+
+	if (camel_file_util_decode_fixed_int32(in, &cns->version) == -1)
+		return -1;
+
+	if (cns->version > CAMEL_NNTP_SUMMARY_VERSION) {
+		g_warning("Unknown NNTP summary version");
+		errno = EINVAL;
+		return -1;
+	}
+
+	if (camel_file_util_decode_fixed_int32(in, &cns->high) == -1
 	    || camel_file_util_decode_fixed_int32(in, &cns->low) == -1)
 		return -1;
 
@@ -205,6 +222,7 @@ summary_header_save(CamelFolderSummary *s, FILE *out)
 	CamelNNTPSummary *cns = CAMEL_NNTP_SUMMARY(s);
 
 	if (((CamelFolderSummaryClass *)camel_nntp_summary_parent)->summary_header_save(s, out) == -1
+	    || camel_file_util_encode_fixed_int32(out, CAMEL_NNTP_SUMMARY_VERSION) == -1
 	    || camel_file_util_encode_fixed_int32(out, cns->high) == -1
 	    || camel_file_util_encode_fixed_int32(out, cns->low) == -1)
 		return -1;

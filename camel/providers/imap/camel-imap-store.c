@@ -2349,6 +2349,48 @@ dumpfi(CamelFolderInfo *fi)
 #endif
 
 static void
+fill_fi(CamelStore *store, CamelFolderInfo *fi, guint32 flags)
+{
+	CamelFolder *folder;
+	int unread = -1;
+
+	folder = camel_object_bag_get(store->folders, fi->full_name);
+	if (folder) {
+		if ((flags & CAMEL_STORE_FOLDER_INFO_FAST) == 0)
+			camel_folder_refresh_info(folder, NULL);
+		unread = camel_folder_get_unread_message_count(folder);
+		camel_object_unref(folder);
+	} else {
+		char *storage_path, *folder_dir, *path;
+		CamelFolderSummary *s;
+
+		printf("looking up counts from '%s'\n", fi->full_name);
+
+		/* This is a lot of work for one path! */
+		storage_path = g_strdup_printf("%s/folders", ((CamelImapStore *)store)->storage_path);
+		folder_dir = e_path_to_physical(storage_path, fi->full_name);
+		path = g_strdup_printf("%s/summary", folder_dir);
+		s = (CamelFolderSummary *)camel_object_new(camel_imap_summary_get_type());
+		camel_folder_summary_set_build_content(s, TRUE);
+		camel_folder_summary_set_filename(s, path);
+		if (camel_folder_summary_header_load(s) != -1) {
+			unread = s->unread_count;
+			printf("loaded summary header unread = %d\n", unread);
+		} else {
+			printf("couldn't load summary header?\n");
+		}
+
+		g_free(storage_path);
+		g_free(folder_dir);
+		g_free(path);
+		
+		camel_object_unref(s);
+	}
+
+	fi->unread_message_count = unread;
+}
+
+static void
 get_folder_counts(CamelImapStore *imap_store, CamelFolderInfo *fi, CamelException *ex)
 {
 	GSList *q;
@@ -2393,13 +2435,8 @@ get_folder_counts(CamelImapStore *imap_store, CamelFolderInfo *fi, CamelExceptio
 		
 				CAMEL_SERVICE_UNLOCK (imap_store, connect_lock);
 			} else {
-				/* since its cheap, get it if they're open */
-				folder = camel_object_bag_get(CAMEL_STORE(imap_store)->folders, fi->full_name);
-				if (folder) {
-					fi->unread_message_count = camel_folder_get_unread_message_count(folder);
-					camel_object_unref(folder);
-				} else
-					fi->unread_message_count = -1;
+				/* since its cheap, get it if they're open/consult summary file */
+				fill_fi((CamelStore *)imap_store, fi, 0);
 			}
 
 			if (fi->child)
@@ -2636,6 +2673,8 @@ get_one_folder_offline (const char *physical_path, const char *path, gpointer da
 				g_free(fi->url);
 				fi->url = camel_url_to_string (url, 0);
 				camel_url_free (url);
+			} else {
+				fill_fi((CamelStore *)imap_store, fi, 0);
 			}
 			g_ptr_array_add (folders, fi);
 		}

@@ -312,10 +312,11 @@ camel_operation_cancel (CamelOperation *cc)
  * Register a thread or the main thread for cancellation through @cc.
  * If @cc is NULL, then a new cancellation is created for this thread.
  *
- * All calls to operation_register() should be matched with calls to
- * operation_unregister(), or resources will be lost.
+ * All calls to operation_register() should save their value and call
+ * operation_register again with that, to automatically stack
+ * registrations.
  *
- * Return Value: Returns @cc, or if NULL, the new operation.
+ * Return Value: Returns the previously registered operatoin.
  *
  **/
 CamelOperation *
@@ -332,7 +333,7 @@ camel_operation_register (CamelOperation *cc)
  * camel_operation_unregister:
  * @cc: operation context
  * 
- * Unregister the current thread.
+ * Unregister the current thread for all cancellations.
  **/
 void
 camel_operation_unregister (CamelOperation *cc)

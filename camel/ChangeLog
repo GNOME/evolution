@@ -1,3 +1,50 @@
+2004-02-16  Not Zed  <NotZed@Ximian.com>
+
+	** See bug #51045.
+
+	* providers/imap/camel-imap-store.c (fill_fi): similar to mbox
+	version.
+	(get_folder_counts): use fill_fi to try and get folder counts if
+	we're not doing the hard slog.
+	(get_one_folder_offline): use fill_fi to try to get folder counts
+	from open folders or summaries.
+
+	* providers/local/camel-maildir-store.c (fill_fi): similar to mbox
+	version.
+	(scan_dir): use fill_fi to get the unread count now.
+
+	* providers/local/camel-mbox-store.c (fill_fi): helper to lookup
+	unread count either from active folder or from summary file, if
+	it's available.
+	(scan_dir, get_folder_info): use helper above to get folder info.
+
+	* devel-docs/camel-folder-summary.txt: New document describing the
+	format/conventions in the CamelFolderSummary file.
+
+	* providers/nntp/camel-nntp-summary.c (summary_header_load/save): 
+	* providers/imapp/camel-imapp-summary.c (summary_header_load/save): 
+	* providers/imap/camel-imap-summary.c (summary_header_load/save):
+	Handle versions, per-class version number (1).
+
+	* providers/local/camel-mbox-summary.c (summary_header_load/save):
+	Handle versions properly, add a per-class version (1).  Write out the
+	folder size as a size_t rather than 32 bit int.
+
+	* providers/local/camel-local-summary.c (summary_header_load/save):
+	read/write the per-class version number (1).
+
+	* camel-folder-summary.c (summary_header_load): do version
+	checking differently, allow the version to be bumped without
+	aborting the load.  Added unread/deleted/junk counts to base
+	header.
+	(summary_header_save): Save out the new-format header.  Version
+	bumped to 13.
+
+	* camel.c (camel_init): return 0 rather than spit a compiler warning.
+
+	* camel-file-utils.c (camel_file_util_encode_*_t): macro-ise the
+	type encoder/decoders.  Also add size_t encoder/decoder.
+
 2004-02-13  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* providers/imap/camel-imap-store.c (get_folder_online): Same.

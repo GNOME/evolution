@@ -74,7 +74,7 @@ camel_init (const char *configdir, gboolean nss_init)
 	void camel_operation_init(void);
 	
 	if (initialised)
-		return;
+		return 0;
 	
 	if (getenv ("CAMEL_VERBOSE_DEBUG"))
 		camel_verbose_debug = TRUE;

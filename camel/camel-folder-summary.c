@@ -75,7 +75,7 @@ static pthread_mutex_t info_lock = PTHREAD_MUTEX_INITIALIZER;
 extern int strdup_count, malloc_count, free_count;
 #endif
 
-#define CAMEL_FOLDER_SUMMARY_VERSION (12)
+#define CAMEL_FOLDER_SUMMARY_VERSION (13)
 
 #define _PRIVATE(o) (((CamelFolderSummary *)(o))->priv)
 
@@ -1403,45 +1403,81 @@ my_list_size(struct _node **list)
 static int
 summary_header_load(CamelFolderSummary *s, FILE *in)
 {
-	gint32 version, flags, nextuid, count;
-	time_t time;
-
 	fseek(in, 0, SEEK_SET);
 
 	io(printf("Loading header\n"));
 
-	if (camel_file_util_decode_fixed_int32(in, &version) == -1
-	    || camel_file_util_decode_fixed_int32(in, &flags) == -1
-	    || camel_file_util_decode_fixed_int32(in, &nextuid) == -1
-	    || camel_file_util_decode_time_t(in, &time) == -1
-	    || camel_file_util_decode_fixed_int32(in, &count) == -1) {
+	if (camel_file_util_decode_fixed_int32(in, &s->version) == -1)
 		return -1;
-	}
 
-	s->nextuid = nextuid;
-	s->flags = flags;
-	s->time = time;
-	s->saved_count = count;
-	if (s->version != version) {
-		d(printf ("Summary header version mismatch"));
+	/* Legacy version check, before version 12 we have no upgrade knowledge */
+	if ((s->version > 0xff) && (s->version & 0xff) < 12) {
+		(printf ("Summary header version mismatch"));
 		errno = EINVAL;
 		return -1;
 	}
+
+	if (!(s->version < 0x100 && s->version >= 13))
+		printf("Loading legacy summary\n");
+	else
+		printf("loading new-format summary\n");
+
+	/* legacy version */
+	if (camel_file_util_decode_fixed_int32(in, &s->flags) == -1
+	    || camel_file_util_decode_fixed_int32(in, &s->nextuid) == -1
+	    || camel_file_util_decode_time_t(in, &s->time) == -1
+	    || camel_file_util_decode_fixed_int32(in, &s->saved_count) == -1) {
+		return -1;
+	}
+
+	/* version 13 */
+	if (s->version < 0x100 && s->version >= 13
+	    && (camel_file_util_decode_fixed_int32(in, &s->unread_count) == -1
+		|| camel_file_util_decode_fixed_int32(in, &s->deleted_count) == -1
+		|| camel_file_util_decode_fixed_int32(in, &s->junk_count) == -1)) {
+		return -1;
+	}
+
 	return 0;
 }
 
 static int
 summary_header_save(CamelFolderSummary *s, FILE *out)
 {
+	int unread = 0, deleted = 0, junk = 0, count, i;
+
 	fseek(out, 0, SEEK_SET);
 
 	io(printf("Savining header\n"));
 
-	camel_file_util_encode_fixed_int32(out, s->version);
+	/* we always write out the current version */
+	camel_file_util_encode_fixed_int32(out, CAMEL_FOLDER_SUMMARY_VERSION);
 	camel_file_util_encode_fixed_int32(out, s->flags);
 	camel_file_util_encode_fixed_int32(out, s->nextuid);
 	camel_file_util_encode_time_t(out, s->time);
-	return camel_file_util_encode_fixed_int32(out, camel_folder_summary_count(s));
+
+	count = camel_folder_summary_count(s);
+	for (i=0; i<count; i++) {
+		CamelMessageInfo *info = camel_folder_summary_index(s, i);
+
+		if (info == NULL)
+			continue;
+
+		if ((info->flags & CAMEL_MESSAGE_SEEN) == 0)
+			unread++;
+		if ((info->flags & CAMEL_MESSAGE_DELETED) != 0)
+			deleted++;
+		if ((info->flags & CAMEL_MESSAGE_JUNK) != 0)
+			junk++;
+
+		camel_folder_summary_info_free(s, info);
+	}
+
+	camel_file_util_encode_fixed_int32(out, count);
+	camel_file_util_encode_fixed_int32(out, unread);
+	camel_file_util_encode_fixed_int32(out, deleted);
+
+	return camel_file_util_encode_fixed_int32(out, junk);
 }
 
 /* are these even useful for anything??? */

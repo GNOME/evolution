@@ -42,7 +42,9 @@ enum {
 
 struct _CamelLocalSummary {
 	CamelFolderSummary parent;
-	
+
+	guint32 version;	/* file version being loaded */
+
 	char *folder_path;	/* name of matching folder */
 	
 	CamelIndex *index;

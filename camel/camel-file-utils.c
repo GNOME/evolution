@@ -144,6 +144,37 @@ camel_file_util_decode_fixed_int32 (FILE *in, gint32 *dest)
 	}
 }
 
+#define CFU_ENCODE_T(type)						\
+int									\
+camel_file_util_encode_##type(FILE *out, type value)			\
+{									\
+	int i;								\
+									\
+	for (i = sizeof (type) - 1; i >= 0; i--) {			\
+		if (fputc((value >> (i * 8)) & 0xff, out) == -1)	\
+			return -1;					\
+	}								\
+	return 0;							\
+}
+
+#define CFU_DECODE_T(type)				\
+int							\
+camel_file_util_decode_##type(FILE *in, type *dest)	\
+{							\
+	type save = 0;					\
+	int i = sizeof(type) - 1;			\
+	int v = EOF;					\
+							\
+        while (i >= 0 && (v = fgetc (in)) != EOF) {	\
+		save |= ((type)v) << (i * 8);		\
+		i--;					\
+	}						\
+	*dest = save;					\
+	if (v == EOF)					\
+		return -1;				\
+	return 0;					\
+}
+
 
 /**
  * camel_file_util_encode_time_t:
@@ -154,18 +185,7 @@ camel_file_util_decode_fixed_int32 (FILE *in, gint32 *dest)
  * 
  * Return value: 0 on success, -1 on error.
  **/
-int
-camel_file_util_encode_time_t(FILE *out, time_t value)
-{
-	int i;
-
-	for (i = sizeof (time_t) - 1; i >= 0; i--) {
-		if (fputc((value >> (i * 8)) & 0xff, out) == -1)
-			return -1;
-	}
-	return 0;
-}
-
+CFU_ENCODE_T(time_t)
 
 /**
  * camel_file_util_decode_time_t:
@@ -176,23 +196,7 @@ camel_file_util_encode_time_t(FILE *out, time_t value)
  * 
  * Return value: 0 on success, -1 on error.
  **/
-int
-camel_file_util_decode_time_t (FILE *in, time_t *dest)
-{
-	time_t save = 0;
-	int i = sizeof (time_t) - 1;
-	int v = EOF;
-
-        while (i >= 0 && (v = fgetc (in)) != EOF) {
-		save |= ((time_t)v) << (i * 8);
-		i--;
-	}
-	*dest = save;
-	if (v == EOF)
-		return -1;
-	return 0;
-}
-
+CFU_DECODE_T(time_t)
 
 /**
  * camel_file_util_encode_off_t:
@@ -203,17 +207,7 @@ camel_file_util_decode_time_t (FILE *in, time_t *dest)
  * 
  * Return value: 0 on success, -1 on error.
  **/
-int
-camel_file_util_encode_off_t (FILE *out, off_t value)
-{
-	int i;
-
-	for (i = sizeof (off_t) - 1; i >= 0; i--) {
-		if (fputc ((value >> (i * 8)) & 0xff, out) == -1)
-			return -1;
-	}
-	return 0;
-}
+CFU_ENCODE_T(off_t)
 
 
 /**
@@ -225,22 +219,30 @@ camel_file_util_encode_off_t (FILE *out, off_t value)
  * 
  * Return value: 0 on success, -1 on failure.
  **/
-int
-camel_file_util_decode_off_t (FILE *in, off_t *dest)
-{
-	off_t save = 0;
-	int i = sizeof(off_t) - 1;
-	int v = EOF;
+CFU_DECODE_T(off_t)
 
-        while (i >= 0 && (v = fgetc (in)) != EOF) {
-		save |= ((off_t)v) << (i * 8);
-		i--;
-	}
-	*dest = save;
-	if (v == EOF)
-		return -1;
-	return 0;
-}
+/**
+ * camel_file_util_encode_size_t:
+ * @out: file to output to
+ * @value: value to output
+ * 
+ * Encode an size_t type.
+ * 
+ * Return value: 0 on success, -1 on error.
+ **/
+CFU_ENCODE_T(size_t)
+
+
+/**
+ * camel_file_util_decode_size_t:
+ * @in: file to read from
+ * @dest: pointer to a variable to put the value in
+ * 
+ * Decode an size_t type.
+ * 
+ * Return value: 0 on success, -1 on failure.
+ **/
+CFU_DECODE_T(size_t)
 
 
 /**

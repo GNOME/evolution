@@ -35,7 +35,7 @@
 #include "camel-imapp-summary.h"
 #include <camel/camel-file-utils.h>
 
-#define CAMEL_IMAPP_SUMMARY_VERSION (0x1000)
+#define CAMEL_IMAPP_SUMMARY_VERSION (1)
 
 static int summary_header_load(CamelFolderSummary *, FILE *);
 static int summary_header_save(CamelFolderSummary *, FILE *);
@@ -119,8 +119,22 @@ summary_header_load(CamelFolderSummary *s, FILE *in)
 	if (camel_imapp_summary_parent->summary_header_load(s, in) == -1)
 		return -1;
 
-	return camel_file_util_decode_uint32(in, &ims->uidvalidity);
-}
+	/* Legacy version */
+	if (s->version == 0x100c)
+		return camel_file_util_decode_uint32(in, &ims->uidvalidity);
+
+	if (camel_file_util_decode_fixed_int32(in, &ims->version) == -1
+	    || camel_file_util_decode_fixed_int32(in, &ims->uidvalidity) == -1)
+		return -1;
+
+	if (ims->version > CAMEL_IMAPP_SUMMARY_VERSION) {
+		g_warning("Unkown summary version\n");
+		errno = EINVAL;
+		return -1;
+	}
+
+	return 0;
+}	
 
 static int
 summary_header_save(CamelFolderSummary *s, FILE *out)
@@ -130,7 +144,11 @@ summary_header_save(CamelFolderSummary *s, FILE *out)
 	if (camel_imapp_summary_parent->summary_header_save(s, out) == -1)
 		return -1;
 
-	return camel_file_util_encode_uint32(out, ims->uidvalidity);
+	if (camel_file_util_encode_fixed_int32(out, CAMEL_IMAPP_SUMMARY_VERSION) == -1
+	    || camel_file_util_encode_fixed_int32(out, ims->uidvalidity) == -1)
+		return -1;
+
+	return 0;
 }
 
 

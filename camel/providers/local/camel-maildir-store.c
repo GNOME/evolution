@@ -36,6 +36,7 @@
 #include "camel-exception.h"
 #include "camel-url.h"
 #include "camel-private.h"
+#include "camel-maildir-summary.h"
 
 #define d(x)
 
@@ -237,6 +238,45 @@ static CamelFolderInfo *camel_folder_info_new(const char *url, const char *full,
 	return fi;
 }
 
+static void
+fill_fi(CamelStore *store, CamelFolderInfo *fi, guint32 flags)
+{
+	CamelFolder *folder;
+	int unread = -1;
+
+	folder = camel_object_bag_get(store->folders, fi->full_name);
+	if (folder) {
+		if ((flags & CAMEL_STORE_FOLDER_INFO_FAST) == 0)
+			camel_folder_refresh_info(folder, NULL);
+		unread = camel_folder_get_unread_message_count(folder);
+		camel_object_unref(folder);
+	} else {
+		char *path, *folderpath;
+		CamelFolderSummary *s;
+		const char *root;
+
+		printf("looking up counts from '%s'\n", fi->full_name);
+
+		/* This should be fast enough not to have to test for INFO_FAST */
+		root = camel_local_store_get_toplevel_dir((CamelLocalStore *)store);
+		path = g_strdup_printf("%s/%s.ev-summary", root, fi->full_name);
+		folderpath = g_strdup_printf("%s/%s", root, fi->full_name);
+		s = (CamelFolderSummary *)camel_maildir_summary_new(path, folderpath, NULL);
+		if (camel_folder_summary_header_load(s) != -1) {
+			unread = s->unread_count;
+			printf("loaded summary header unread = %d\n", unread);
+		} else {
+			printf("couldn't load summary header?\n");
+		}
+		
+		camel_object_unref(s);
+		g_free(folderpath);
+		g_free(path);
+	}
+
+	fi->unread_message_count = unread;
+}
+
 /* used to find out where we've visited already */
 struct _inode {
 	dev_t dnode;
@@ -316,8 +356,10 @@ static int scan_dir(CamelStore *store, GHashTable *visited, char *root, const ch
 		}
 	}
 	
-	fi = camel_folder_info_new(uri, path, base, unread);
-	
+	fi = camel_folder_info_new(uri, path, base, -1);
+	/* fills the unread count */
+	fill_fi(store, fi, flags);
+
 	d(printf("found! uri = %s\n", fi->url));
 	d(printf("  full_name = %s\n  name = '%s'\n", fi->full_name, fi->name));
 	

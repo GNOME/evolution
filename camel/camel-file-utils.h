@@ -45,6 +45,8 @@ int camel_file_util_encode_time_t (FILE *out, time_t);
 int camel_file_util_decode_time_t (FILE *in, time_t *);
 int camel_file_util_encode_off_t (FILE *out, off_t);
 int camel_file_util_decode_off_t (FILE *in, off_t *);
+int camel_file_util_encode_size_t (FILE *out, size_t);
+int camel_file_util_decode_size_t (FILE *in, size_t *);
 int camel_file_util_encode_string (FILE *out, const char *);
 int camel_file_util_decode_string (FILE *in, char **);
 

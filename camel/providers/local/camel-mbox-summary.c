@@ -44,7 +44,7 @@
 #define io(x)
 #define d(x) /*(printf("%s(%d): ", __FILE__, __LINE__),(x))*/
 
-#define CAMEL_MBOX_SUMMARY_VERSION (0x1000)
+#define CAMEL_MBOX_SUMMARY_VERSION (1)
 
 static int summary_header_load (CamelFolderSummary *, FILE *);
 static int summary_header_save (CamelFolderSummary *, FILE *);
@@ -172,7 +172,16 @@ summary_header_load(CamelFolderSummary *s, FILE *in)
 	if (((CamelFolderSummaryClass *)camel_mbox_summary_parent)->summary_header_load(s, in) == -1)
 		return -1;
 
-	return camel_file_util_decode_uint32(in, (guint32 *) &mbs->folder_size);
+	/* legacy version */
+	if (s->version == 0x120c)
+		return camel_file_util_decode_uint32(in, (guint32 *) &mbs->folder_size);
+
+	/* version 1 */
+	if (camel_file_util_decode_fixed_int32(in, &mbs->version) == -1
+	    || camel_file_util_decode_size_t(in, &mbs->folder_size) == -1)
+		return -1;
+
+	return 0;
 }
 
 static int
@@ -183,7 +192,9 @@ summary_header_save(CamelFolderSummary *s, FILE *out)
 	if (((CamelFolderSummaryClass *)camel_mbox_summary_parent)->summary_header_save(s, out) == -1)
 		return -1;
 
-	return camel_file_util_encode_uint32(out, mbs->folder_size);
+	camel_file_util_encode_fixed_int32(out, CAMEL_MBOX_SUMMARY_VERSION);
+
+	return camel_file_util_encode_size_t(out, mbs->folder_size);
 }
 
 static CamelMessageInfo *

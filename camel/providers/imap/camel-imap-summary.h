@@ -55,6 +55,7 @@ typedef struct _CamelImapMessageInfo {
 struct _CamelImapSummary {
 	CamelFolderSummary parent;
 
+	guint32 version;
 	guint32 validity;
 };
 

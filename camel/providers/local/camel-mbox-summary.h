@@ -48,6 +48,7 @@ struct _CamelMboxSummary {
 
 	CamelFolderChangeInfo *changes;	/* used to build change sets */
 
+	guint32 version;
 	size_t folder_size;	/* size of the mbox file, last sync */
 
 	unsigned int xstatus:1;	/* do we store/honour xstatus/status headers */

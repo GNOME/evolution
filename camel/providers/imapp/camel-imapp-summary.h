@@ -50,6 +50,7 @@ typedef struct _CamelIMAPPMessageInfo {
 struct _CamelIMAPPSummary {
 	CamelFolderSummary parent;
 
+	guint32 version;
 	guint32 uidvalidity;
 };
 
