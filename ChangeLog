@@ -1,3 +1,9 @@
+2001-12-17  Dan Winship  <danw@ximian.com>
+
+	* configure.in (camel_providerdir): Define this here, using only
+	EVOLUTION_MAJOR_VERSION and EVOLUTION_MINOR_VERSION (and not MICRO
+	and NANO).
+
 2001-12-13  Chris Toshok  <toshok@ximian.com>
 
 	* configure.in: check for alloca.h.

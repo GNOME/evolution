@@ -648,6 +648,9 @@ CAMEL_LIBS="`gnome-config --libs gal xml` $THREADS_LIBS"
 AC_SUBST(CAMEL_CFLAGS)
 AC_SUBST(CAMEL_LIBS)
 
+camel_providerdir='$(libdir)/evolution/camel-providers/'$EVOLUTION_MAJOR_VERSION.$EVOLUTION_MINOR_VERSION
+AC_SUBST(camel_providerdir)
+
 MAILER_CFLAGS="`gnome-config --cflags gtkhtml libglade gdk_pixbuf gnomecanvaspixbuf gnomeui gal bonobo_conf bonobox bonobox_print vfs oaf` $THREADS_CFLAGS"
 MAILER_LIBS="`gnome-config --libs gtkhtml libglade gdk_pixbuf gnomecanvaspixbuf gnomeui gal bonobo_conf bonobox bonobox_print vfs oaf` $THREADS_LIBS"
 AC_SUBST(MAILER_CFLAGS)
@@ -767,7 +770,8 @@ if test x${with_krb4:=no} != xno; then
 		msg_krb4=yes
 		if test -f "$with_krb4/include/krb.h" -o -f "$with_krb4/include/port-sockets.h"; then
 			KRB4_CFLAGS="-I$with_krb4/include"
-		else
+		fi
+		if test -d "$with_krb4/include/kerberosIV"; then
 			KRB4_CFLAGS="-I$with_krb4/include/kerberosIV"
 		fi
 		KRB4_LDFLAGS="-L$with_krb4/lib $ac_cv_lib_kerberos4"

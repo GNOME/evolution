@@ -3,7 +3,6 @@
 SUBDIRS = providers tests
 
 libcamelincludedir = $(includedir)/camel
-providerdir = $(libdir)/evolution/camel-providers/$(VERSION)
 
 sbin_PROGRAMS =	camel-lock-helper
 
@@ -20,7 +19,7 @@ INCLUDES = -I.. -I$(srcdir)/.. 			 \
 	$(NSS_CFLAGS)				 \
 	$(OPENSSL_CFLAGS)			 \
 	-DCAMEL_SBINDIR=\""$(sbindir)"\"	 \
-	-DCAMEL_PROVIDERDIR=\""$(providerdir)"\" \
+	-DCAMEL_PROVIDERDIR=\""$(camel_providerdir)"\" \
 	-DG_LOG_DOMAIN=\"camel\"
 
 libcamel_la_SOURCES = 				\

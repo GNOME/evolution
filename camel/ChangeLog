@@ -1,3 +1,19 @@
+2001-12-17  Dan Winship  <danw@ximian.com>
+
+	* Makefile.am (INCLUDES): define CAMEL_PROVIDERDIR to be the
+	configure.in-defined camel_providerdir.
+
+	* providers/Makefile.am: Remove some outdated comments
+
+	* providers/imap/Makefile.am (camel_provider_LTLIBRARIES,
+	camel_provider_DATA): renamed from provider_LTLIBRARIES,
+	provider_DATA.
+	* providers/local/Makefile.am: Likewise
+	* providers/nntp/Makefile.am: Likewise
+	* providers/pop3/Makefile.am: Likewise
+	* providers/sendmail/Makefile.am: Likewise
+	* providers/smtp/Makefile.am: Likewise
+
 2001-12-16  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* providers/imap/camel-imap-folder.c (get_content): Reverted my
