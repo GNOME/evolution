@@ -1,5 +1,7 @@
 2003-01-20  JP Rosevear  <jpr@ximian.com>
 
+	Fixes #36763
+	
 	* gui/dialogs/alarm-page.c (button_options_clicked_cb): indicate
 	whether the options dialog should allow repeating
 
