@@ -1,3 +1,8 @@
+2001-05-30  Chris Toshok  <toshok@ximian.com>
+
+	* evolution-addressbook.xml: add commands/menu items for
+	Cut/Copy/Paste/Select All.
+
 2001-05-28  Dan Winship  <danw@ximian.com>
 
 	* evolution-mail.xml: Undo Jeff's View menu changes, as they

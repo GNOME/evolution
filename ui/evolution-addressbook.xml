@@ -17,6 +17,21 @@
 		<cmd name="ContactStop"
 		 _tip="Stop Loading"
 		 pixtype="stock" pixname="Stop"/>
+
+		<cmd name="ContactsCut" _label="Cut" _tip="Cut the selection"
+		 pixtype="stock" pixname="Cut" accel="*Control*x"/>
+	
+                <cmd name="ContactsCopy" _label="Copy"
+		 _tip="Copy the selection" pixtype="stock" pixname="Copy"
+		 accel="*Control*c"/>
+	
+		<cmd name="ContactsPaste" _label="Paste"
+		 _tip="Paste the clipboard" pixtype="stock" pixname="Paste"
+		 accel="*Control*v"/>
+	
+		<cmd name="ContactsSelectAll" _label="Select All"
+		 _tip="Select everything"/>
+
 	</commands>
 
 	<menu>
@@ -41,6 +56,16 @@
 			    _label="_Print..."/>
 			</placeholder>
 
+		</submenu>
+
+		<submenu name="Edit">
+			<menuitem name="ContactsCut" verb="" _label="C_ut"/>
+	
+			<menuitem name="ContactsCopy" verb="" _label="_Copy"/>
+	
+			<menuitem name="ContactsPaste" verb="" _label="_Paste"/>
+
+			<menuitem name="ContactsSelectAll" verb="" _label="_Select All"/>
 		</submenu>
 
 		<submenu name="View">
