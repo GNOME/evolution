@@ -112,9 +112,6 @@ void composer_postpone_cb  (EMsgComposer *composer, gpointer data);
 
 void forward_messages	   (CamelFolder *folder, GPtrArray *uids, gboolean inline);
 
-void mail_print_preview_msg (MailDisplay *md);
-void mail_print_msg         (MailDisplay *md);
-
 /* CamelStore callbacks */
 void folder_created (CamelStore *store, const char *prefix, CamelFolderInfo *fi);
 void folder_deleted (CamelStore *store, CamelFolderInfo *fi);

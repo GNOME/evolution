@@ -1794,53 +1794,50 @@ providers_config (BonoboUIComponent *uih, void *user_data, const char *path)
  * of for you
  */
 static void
-do_mail_print (MailDisplay *md, gboolean preview)
+do_mail_print (FolderBrowser *fb, gboolean preview)
 {
 	GnomePrintContext *print_context;
 	GnomePrintMaster *print_master;
-	GnomePrintDialog *gpd;
+	GnomePrintDialog *dialog;
 	GnomePrinter *printer = NULL;
 	int copies = 1;
 	int collate = FALSE;
-
+	
 	if (!preview) {
-
-		gpd = GNOME_PRINT_DIALOG (gnome_print_dialog_new (_("Print Message"),
-								  GNOME_PRINT_DIALOG_COPIES));
-		gnome_dialog_set_default (GNOME_DIALOG (gpd), GNOME_PRINT_PRINT);
-
-		switch (gnome_dialog_run (GNOME_DIALOG (gpd))) {
+		dialog = GNOME_PRINT_DIALOG (gnome_print_dialog_new (_("Print Message"),
+								     GNOME_PRINT_DIALOG_COPIES));
+		gnome_dialog_set_default (GNOME_DIALOG (dialog), GNOME_PRINT_PRINT);
+		gnome_dialog_set_parent (GNOME_DIALOG (dialog), GTK_WINDOW (fb));
+		
+		switch (gnome_dialog_run (GNOME_DIALOG (dialog))) {
 		case GNOME_PRINT_PRINT:
-			break;
-			
+			break;	
 		case GNOME_PRINT_PREVIEW:
 			preview = TRUE;
 			break;
-
 		case -1:
 			return;
-
 		default:
-			gnome_dialog_close (GNOME_DIALOG (gpd));
+			gnome_dialog_close (GNOME_DIALOG (dialog));
 			return;
 		}
-
-		gnome_print_dialog_get_copies (gpd, &copies, &collate);
-		printer = gnome_print_dialog_get_printer (gpd);
-		gnome_dialog_close (GNOME_DIALOG (gpd));
+		
+		gnome_print_dialog_get_copies (dialog, &copies, &collate);
+		printer = gnome_print_dialog_get_printer (dialog);
+		gnome_dialog_close (GNOME_DIALOG (dialog));
 	}
-
+	
 	print_master = gnome_print_master_new ();
-
+	
 /*	FIXME: set paper size gnome_print_master_set_paper (print_master,  */
-
+	
 	if (printer)
 		gnome_print_master_set_printer (print_master, printer);
 	gnome_print_master_set_copies (print_master, copies, collate);
 	print_context = gnome_print_master_get_context (print_master);
-	gtk_html_print (md->html, print_context);
+	gtk_html_print (fb->mail_display->html, print_context);
 	gnome_print_master_close (print_master);
-
+	
 	if (preview){
 		gboolean landscape = FALSE;
 		GnomePrintMasterPreview *preview;
@@ -1850,7 +1847,7 @@ do_mail_print (MailDisplay *md, gboolean preview)
 		gtk_widget_show (GTK_WIDGET (preview));
 	} else {
 		int result = gnome_print_master_print (print_master);
-
+		
 		if (result == -1){
 			e_notice (NULL, GNOME_MESSAGE_BOX_ERROR,
 				  _("Printing of message failed"));
@@ -1860,31 +1857,19 @@ do_mail_print (MailDisplay *md, gboolean preview)
 }
 
 void
-mail_print_preview_msg (MailDisplay *md)
-{
-	do_mail_print (md, TRUE);
-}
-
-void
-mail_print_msg (MailDisplay *md)
-{
-	do_mail_print (md, FALSE);
-}
-
-void
 print_msg (GtkWidget *button, gpointer user_data)
 {
 	FolderBrowser *fb = user_data;
-
-	mail_print_msg (fb->mail_display);
+	
+	do_mail_print (fb, FALSE);
 }
 
 void
 print_preview_msg (GtkWidget *button, gpointer user_data)
 {
 	FolderBrowser *fb = user_data;
-
-	mail_print_preview_msg (fb->mail_display);
+	
+	do_mail_print (fb, TRUE);
 }
 
 /******************** Begin Subscription Dialog ***************************/

@@ -6,6 +6,9 @@
 2001-08-07  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-callbacks.c (manage_subscriptions): Hide the app->window.
+	(do_mail_print): Set the parent of the gnome-dialog to be the
+	folder-browser so that when evolution is closed, the print dialog
+	gets destroyed. Should fix bug #4781.
 
 	* subscribe-dialog.c (subscribe_dialog_new): This should return a
 	GtkWidget not a GtkObject.
