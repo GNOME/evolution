@@ -255,7 +255,7 @@ build_dialogue (GSList *sources, CamelFolder *outbox, const char *destination)
 	
 	data = setup_send_data ();
 	
-	gd = (GnomeDialog *)gnome_dialog_new (_("Send & Receive mail"), NULL);
+	gd = (GnomeDialog *)gnome_dialog_new (_("Send & Receive Mail"), NULL);
 	gnome_dialog_append_button_with_pixmap (gd, "Cancel All", GNOME_STOCK_BUTTON_CANCEL);
 	
 	gtk_window_set_policy (GTK_WINDOW (gd), FALSE, FALSE, FALSE);  

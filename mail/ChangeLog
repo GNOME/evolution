@@ -1,36 +1,41 @@
+2001-09-04  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-send-recv.c (build_dialogue): Fix capitalization. Fixes bug
+	#7486.
+
 2001-08-31  Zbigniew Chyla  <cyba@gnome.pl>
 
-	* mail-vfolder.c (vfolder_create_storage):
-	Marked string for translation (with U_).
+	* mail-vfolder.c (vfolder_create_storage): Marked string for
+	translation (with U_).
 
 2001-08-28  Zbigniew Chyla  <cyba@gnome.pl>
 
-	* message-list.c
-	(e_mail_address_compare): Use g_utf8_collate instead of g_strcasecmp
-	for comparing names.
-	(subject_compare): Replaced g_strcasecmp, isspace, var++ with UTF-8
-	counterparts.
+	* message-list.c (e_mail_address_compare): Use g_utf8_collate
+	instead of g_strcasecmp for comparing names.
+	(subject_compare): Replaced g_strcasecmp, isspace, var++ with
+	UTF-8 counterparts.
 
 2001-08-30  Iain Holmes  <iain@ximian.com>
 
-	* importer/evolution-mbox-importer.c: (load_file_fn): Check if it's a
-	folder, if so, create a folder.
-	(process_item_fn): If it was a folder created, just finish up importing
+	* importer/evolution-mbox-importer.c (load_file_fn): Check if it's
+	a folder, if so, create a folder.
+	(process_item_fn): If it was a folder created, just finish up
+	importing
 
 2001-08-29  Iain Holmes  <iain@ximian.com>
 
 	* importers/evolution-mbox-importer.c: Turn off debugging, remove
 	spewage.
-	(process_item_fn): Notify the importer if the folder isn't opened or
-	created yet.
-	(load_file_fn): Allow the function to continue if the folder is being
-	created.
+	(process_item_fn): Notify the importer if the folder isn't opened
+	or created yet.
+	(load_file_fn): Allow the function to continue if the folder is
+	being created.
 
 2001-08-30  Peter Williams  <peterw@ximian.com>
 
 	Due to the introduction of mail_folder_cache_remove(), we can no
-	longer assume that mail_folder_info's always exist, so we need
-	to robustify a lot of this.
+	longer assume that mail_folder_info's always exist, so we need to
+	robustify a lot of this.
 	
 	* mail-folder-cache.c (folder_browser_destroyed): New
 	function. Called when the folder browser is destroyed -- analogous
