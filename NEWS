@@ -93,6 +93,44 @@ Bugzilla bugs fixed (see http://bugzilla.ximian.com/show_bug.cgi):
              properly/support i18n very well (Jeff)
     #39696 - Default composer window title is meaningless (Jeff)
 
+  * Calendar
+
+    #31382 - Free/busy retrieval didn't work for http source (Rodrigo)
+    #39356 - New evo users didn't get calendar (Rodrigo)
+    #39740 - Crash clicking in Attendees field when creating new
+             meeting (Rodrigo)
+    #39736 - Times in day view too large (Hans Petter)
+    #39757 - Couldn't delete reminder for appointment (Hans Petter)
+    #34095 - Memory leaks (Hans Petter)
+    #34505 - Duplicate alarm dialogs for appts in exchange calendar
+             (Rodrigo)
+    #39692 - File type names should not be OAF component types (Ettore)
+    #39770 - Not meeting request sent (Rodrigo)
+    #31660 - Appointments with "for" recurrence synced with no end date
+             (JP)
+    #32248 - Todo items imported from pilot have time set to 00:00 (JP)
+    #39954 - Crash when setting recurrence rule for an appointment
+             (Hans Petter)
+    #39895 - Selection vanishes when day view loses focus
+             (NotZed/Hans Petter)
+    #39961 - Appointment schedule autopick menu displays under File
+             (Rodrigo)
+    #17231 - Private settings not retained (JP)
+    #40661 - Missing header for Forte compilation (Rodrigo)
+    #39955 - Crash when forwarding an appointment as icalendar (JP)
+    #39262 - Crash when importing an ics file to local calendar (Rodrigo)
+    #40722 - Crash when closing a meeting (JP)
+    #40789 - Didn't remember reminder text (JP)
+    #40792 - Buttons in Select File dialog for sound reminder didn't
+             work (Ettore)
+    #40790 - Didn't launch programs added as reminders (JP)
+    #37935 - Drawing problems in mini-calendar (Hans Petter)
+    #40578 - Event summaries cut off in month view (Hans Petter)
+    #40258 - Recurring event displayed truncated description (Hans Petter)
+    #39803 - Bottom part of text cut off in month view (Hans Petter)
+    #40655 - Mini-calendar always showed January 1970 (Hans Petter)
+    #39735 - View settings not persistent between sessions (Jeff)
+
 Other bugs:
 
   * Addressbook
@@ -132,6 +170,18 @@ Other bugs:
     - Some work on fixing cut and paste shortcuts in composer (Jeff)
     - Made the EvolutionComposer corba interfaces work again/port to
       gnome 2 (Michael)
+
+  * Calendar
+
+    - Replaced all references to GdkFont deprecatedness with Pango
+      (Hans Petter)
+    - Alarm notification fixes (Rodrigo)
+    - Timezone dialog fix (Dan)
+    - Use weak refs instead of destroy signal (Rodrigo, Hans Petter)
+    - Use GtkMessageDialogs to for meeting-related questions (Rodrigo)
+    - GtkObject -> GObject fixes (Everyone)
+    - Connector-related fixes (Dan)
+    - Made meeting/scheduling work correctly (JP)
 
   * All
 
