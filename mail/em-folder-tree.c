@@ -1857,13 +1857,122 @@ emft_popup_move (GtkWidget *item, EMFolderTree *emft)
 			  NULL, emft_popup_copy_folder_selected, cfd);
 }
 
+
+struct _EMCreateFolder {
+	struct _mail_msg msg;
+	
+	/* input data */
+	CamelStore *store;
+	char *full_name;
+	char *parent;
+	char *name;
+	
+	/* output data */
+	CamelFolderInfo *fi;
+	
+	/* callback data */
+	void (* done) (CamelFolderInfo *fi, void *user_data);
+	void *user_data;
+};
+
+static char *
+emft_create_folder__desc (struct _mail_msg *mm, int done)
+{
+	struct _EMCreateFolder *m = (struct _EMCreateFolder *) mm;
+	
+	return g_strdup_printf (_("Creating folder `%s'"), m->full_name);
+}
+
+static void
+emft_create_folder__create (struct _mail_msg *mm)
+{
+	struct _EMCreateFolder *m = (struct _EMCreateFolder *) mm;
+	
+	d(printf ("creating folder parent='%s' name='%s' full_name='%s'\n", m->parent, m->name, m->full_name));
+	
+	if ((m->fi = camel_store_create_folder (m->store, m->parent, m->name, &mm->ex))) {
+		if (camel_store_supports_subscriptions (m->store))
+			camel_store_subscribe_folder (m->store, m->full_name, &mm->ex);
+	}
+}
+
+static void
+emft_create_folder__created (struct _mail_msg *mm)
+{
+	struct _EMCreateFolder *m = (struct _EMCreateFolder *) mm;
+	
+	if (m->done)
+		m->done (m->fi, m->user_data);
+}
+
+static void
+emft_create_folder__free (struct _mail_msg *mm)
+{
+	struct _EMCreateFolder *m = (struct _EMCreateFolder *) mm;
+	
+	camel_object_unref (m->store);
+	g_free (m->full_name);
+	g_free (m->parent);
+	g_free (m->name);
+}
+
+static struct _mail_msg_op create_folder_op = {
+	emft_create_folder__desc,
+	emft_create_folder__create,
+	emft_create_folder__created,
+	emft_create_folder__free,
+};
+
+
+static int
+emft_create_folder (CamelStore *store, const char *path, void (* done) (CamelFolderInfo *fi, void *user_data), void *user_data)
+{
+	const char *parent, *full_name;
+	char *name, *namebuf = NULL;
+	struct _EMCreateFolder *m;
+	int id;
+	
+	full_name = path[0] == '/' ? path + 1 : path;
+	namebuf = g_strdup (full_name);
+	if (!(name = strrchr (namebuf, '/'))) {
+		name = namebuf;
+		parent = "";
+	} else {
+		*name++ = '\0';
+		parent = namebuf;
+	}
+	
+	m = mail_msg_new (&create_folder_op, NULL, sizeof (struct _EMCreateFolder));
+	camel_object_ref (store);
+	m->store = store;
+	m->full_name = g_strdup (full_name);
+	m->parent = g_strdup (parent);
+	m->name = g_strdup (name);
+	m->user_data = user_data;
+	m->done = done;
+	
+	g_free (namebuf);
+	
+	id = m->msg.seq;
+	e_thread_put (mail_thread_new, (EMsg *) m);
+	
+	return id;
+}
+
+static void
+created_cb (CamelFolderInfo *fi, void *user_data)
+{
+	gboolean *created = user_data;
+	
+	*created = fi ? TRUE : FALSE;
+}
+
 gboolean
 em_folder_tree_create_folder (EMFolderTree *emft, const char *path, const char *uri)
 {
 	struct _EMFolderTreePrivate *priv = emft->priv;
 	struct _EMFolderTreeModelStoreInfo *si;
-	const char *parent, *full_name;
-	char *name, *namebuf = NULL;
+	gboolean created = FALSE;
 	GtkWindow *window;
 	GtkWidget *dialog;
 	CamelStore *store;
@@ -1883,30 +1992,9 @@ em_folder_tree_create_folder (EMFolderTree *emft, const char *path, const char *
 	
 	camel_object_unref (store);
 	
-	full_name = path[0] == '/' ? path + 1 : path;
-	namebuf = g_strdup (full_name);
-	if (!(name = strrchr (namebuf, '/'))) {
-		name = namebuf;
-		parent = "";
-	} else {
-		*name++ = '\0';
-		parent = namebuf;
-	}
+	mail_msg_wait (emft_create_folder (si->store, path, created_cb, &created));
 	
-	d(printf ("creating folder parent='%s' name='%s' path='%s'\n", parent, name, path));
-	
-	camel_store_create_folder (si->store, parent, name, &ex);
-	if (camel_exception_is_set (&ex)) {
-		goto exception;
-	} else if (camel_store_supports_subscriptions (si->store)) {
-		camel_store_subscribe_folder (si->store, full_name, &ex);
-		if (camel_exception_is_set (&ex))
-			goto exception;
-	}
-	
-	g_free (namebuf);
-	
-	return TRUE;
+	return created;
 	
  exception:
 	
@@ -1915,7 +2003,6 @@ em_folder_tree_create_folder (EMFolderTree *emft, const char *path, const char *
 					 GTK_MESSAGE_ERROR, GTK_BUTTONS_CLOSE, _("%s"), ex.desc);
 	g_signal_connect (dialog, "response", G_CALLBACK (gtk_widget_destroy), dialog);
 	camel_exception_clear (&ex);
-	g_free (namebuf);
 	
 	gtk_widget_show (dialog);
 	
@@ -1923,9 +2010,24 @@ em_folder_tree_create_folder (EMFolderTree *emft, const char *path, const char *
 }
 
 static void
+new_folder_created_cb (CamelFolderInfo *fi, void *user_data)
+{
+	EMFolderSelector *emfs = user_data;
+	
+	if (fi)
+		gtk_widget_destroy ((GtkWidget *) emfs);
+	
+	g_object_unref (emfs);
+}
+
+static void
 emft_popup_new_folder_response (EMFolderSelector *emfs, int response, EMFolderTree *emft)
 {
+	struct _EMFolderTreePrivate *priv = emft->priv;
+	struct _EMFolderTreeModelStoreInfo *si;
 	const char *uri, *path;
+	CamelException ex;
+	CamelStore *store;
 	
 	if (response != GTK_RESPONSE_OK) {
 		gtk_widget_destroy ((GtkWidget *) emfs);
@@ -1935,8 +2037,24 @@ emft_popup_new_folder_response (EMFolderSelector *emfs, int response, EMFolderTr
 	uri = em_folder_selector_get_selected_uri (emfs);
 	path = em_folder_selector_get_selected_path (emfs);
 	
-	if (em_folder_tree_create_folder (emfs->emft, path, uri))
-		gtk_widget_destroy ((GtkWidget *) emfs);
+	d(printf ("Creating new folder: %s (%s)\n", path, uri));
+	
+	camel_exception_init (&ex);
+	if (!(store = (CamelStore *) camel_session_get_service (session, uri, CAMEL_PROVIDER_STORE, &ex))) {
+		camel_exception_clear (&ex);
+		return;
+	}
+	
+	if (!(si = g_hash_table_lookup (priv->model->store_hash, store))) {
+		g_assert_not_reached ();
+		camel_object_unref (store);
+		return;
+	}
+	
+	camel_object_unref (store);
+	
+	g_object_ref (emfs);
+	emft_create_folder (si->store, path, new_folder_created_cb, emfs);
 }
 
 static void

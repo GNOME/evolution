@@ -1,3 +1,13 @@
+2004-03-08  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* em-folder-tree.c (emft_create_folder): New async function to
+	create a folder.
+	(em_folder_tree_create_folder): Partly moved into
+	emft_create_folder. Might be able to remove this code, but lewing
+	might be using it in Connector or something? Need to ask him...
+	(emft_popup_new_folder_response): Use emft_create_folder()
+	instead.
+
 2004-03-08  Radek Doulik  <rodo@ximian.com>
 
 	* mail-ops.c (mail_filter_junk): new method, filter folder with
