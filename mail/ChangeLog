@@ -1,3 +1,9 @@
+2001-08-19  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-callbacks.c (mail_generate_reply): Convert the date string
+	to UTF-8.
+	(do_forward_non_attached): Same here.
+
 2001-08-05  Zbigniew Chyla  <cyba@gnome.pl>
 
 	* folder-info.c: Added missing #include <config.h>. (applied by Damon)

@@ -42,6 +42,7 @@
 #include <bonobo/bonobo-socket.h>
 #include <gal/e-table/e-table.h>
 #include <gal/widgets/e-gui-utils.h>
+#include <gal/widgets/e-unicode.h>
 #include <filter/filter-editor.h>
 #include "mail.h"
 #include "message-browser.h"
@@ -613,25 +614,25 @@ mail_generate_reply (CamelFolder *folder, CamelMimeMessage *message, const char 
 	const CamelInternetAddress *reply_to, *sender, *to_addrs, *cc_addrs;
 	const char *name = NULL, *address = NULL, *source = NULL;
 	const char *message_id, *references, *reply_addr = NULL;
-	char *text, *subject, *date_str;
+	char *text, *subject, date_str[100], *format;
 	const MailConfigAccount *me = NULL;
 	const GSList *accounts = NULL;
 	GList *to = NULL, *cc = NULL;
 	EMsgComposer *composer;
 	time_t date;
-	int offset;
 	
 	composer = e_msg_composer_new_with_sig_file ();
 	if (!composer)
 		return NULL;
 	
-	/* FIXME: should probably use a shorter date string */
 	sender = camel_mime_message_get_from (message);
 	camel_internet_address_get (sender, 0, &name, &address);
-	date = camel_mime_message_get_date (message, &offset);
-	date_str = header_format_date (date, offset);
-	text = mail_tool_quote_message (message, _("On %s, %s wrote:"), date_str, name && *name ? name : address);
-	g_free (date_str);
+	date = camel_mime_message_get_date (message, NULL);
+	
+	format = e_utf8_from_locale_string (_("On %a, %Y-%m-%d at %H:%M, %%s wrote:"));
+	strftime (date_str, sizeof (date_str), format, localtime (&date));
+	g_free (format);
+	text = mail_tool_quote_message (message, date_str, name && *name ? name : address);
 	
 	if (text) {
 		e_msg_composer_set_body_text (composer, text);
@@ -881,17 +882,19 @@ forward_get_composer (CamelMimeMessage *message, const char *subject)
 static void
 do_forward_non_attached (CamelFolder *folder, char *uid, CamelMimeMessage *message, void *data)
 {
-	char *subject;
-	char *text;
+	char *subject, *text, *title;
 	
 	if (!message)
 		return;
 	
 	subject = mail_tool_generate_forward_subject (message);
-	if (GPOINTER_TO_INT (data) == MAIL_CONFIG_FORWARD_INLINE)
+	if (GPOINTER_TO_INT (data) == MAIL_CONFIG_FORWARD_INLINE) {
 		text = mail_tool_forward_message (message);
-	else
-		text = mail_tool_quote_message (message, _("Forwarded message:\n"));
+	} else {
+		title = e_utf8_from_locale_string (_("Forwarded message:\n"));
+		text = mail_tool_quote_message (message, title);
+		g_free (title);
+	}
 	
 	if (text) {
 		EMsgComposer *composer = forward_get_composer (message, subject);
