@@ -54,6 +54,7 @@ GTKDOC_CFLAGS=						\
 
 GTKDOC_LIBS=									\
 	$(EVOLUTION_CALENDAR_LIBS)						\
+	$(top_builddir)/e-util/libeutil.la				\
 	$(top_builddir)/calendar/cal-client/libcal-client-static.la	\
 	$(top_builddir)/calendar/cal-util/libcal-util-static.la		\
 	$(top_builddir)/libical/src/libical/libical-static.la		\
