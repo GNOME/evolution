@@ -32,6 +32,8 @@ typedef struct {
         BonoboPropertyBag *properties;
 	BonoboControl *control;
 
+	GHashTable  *object_editor_hash;
+
 	time_t      selection_start_time;
 	time_t      selection_end_time;
 
@@ -99,6 +101,9 @@ void	   gnome_calendar_set_selected_time_range (GnomeCalendar *gcal,
 						   time_t	  start_time,
 						   time_t	  end_time);
 
+void       gnome_calendar_edit_object           (GnomeCalendar *gcal,
+						 iCalObject    *ico);
+
 /* Returns the selected time range for the current view. Note that this may be
    different from the fields in the GnomeCalendar, since the view may clip
    this or choose a more appropriate time. */
@@ -106,22 +111,21 @@ void	   gnome_calendar_get_current_time_range (GnomeCalendar *gcal,
 						  time_t	 *start_time,
 						  time_t	 *end_time);
 
-/* Flags is a bitmask of CalObjectChange values */
 void       gnome_calendar_object_changed        (GnomeCalendar *gcal,
 						 iCalObject    *obj);
-
-GnomeCalendar *gnome_calendar_locate            (const char *pathname);
 
 /* Notifies the calendar that the time format has changed and it must update all its views */
 void gnome_calendar_time_format_changed (GnomeCalendar *gcal);
 
-/* Notifies the calendar that the todo list properties have changed and its time to update the views */
-void 
-gnome_calendar_colors_changed (GnomeCalendar *gcal);
+/* Notifies the calendar that the todo list properties have changed and its time
+ * to update the views.
+ */
+void gnome_calendar_colors_changed (GnomeCalendar *gcal);
 
-/* Notifies the calendar that the todo list properties have changed and its time to update the views */
-void 
-gnome_calendar_todo_properties_changed (GnomeCalendar *gcal);
+/* Notifies the calendar that the todo list properties have changed and its time
+ * to update the views.
+ */
+void gnome_calendar_todo_properties_changed (GnomeCalendar *gcal);
 
 
 

@@ -39,7 +39,6 @@
 
 #include <cal-util/timeutil.h>
 #include <gui/alarm.h>
-#include <gui/eventedit.h>
 #include <gui/gnome-cal.h>
 #include <gui/calendar-commands.h>
 #include "component-factory.h"

@@ -36,7 +36,6 @@
 #include "e-week-view-titles-item.h"
 #include <cal-util/timeutil.h>
 #include "popup-menu.h"
-#include "eventedit.h"
 #include "../e-util/e-canvas.h"
 #include "../widgets/e-text/e-text.h"
 
@@ -2611,7 +2610,6 @@ static void
 e_week_view_on_new_appointment (GtkWidget *widget, gpointer data)
 {
 	EWeekView *week_view;
-	GtkWidget *event_editor;
 	iCalObject *ico;
 	
 	week_view = E_WEEK_VIEW (data);
@@ -2621,9 +2619,8 @@ e_week_view_on_new_appointment (GtkWidget *widget, gpointer data)
 	ico->dtstart = week_view->day_starts[week_view->selection_start_day];
 	ico->dtend = week_view->day_starts[week_view->selection_end_day + 1];
 
-	event_editor = event_editor_new (week_view->calendar, ico);
+	gnome_calendar_edit_object (week_view->calendar, ico);
 	ical_object_unref (ico);
-	gtk_widget_show (event_editor);
 }
 
 
@@ -2632,8 +2629,6 @@ e_week_view_on_edit_appointment (GtkWidget *widget, gpointer data)
 {
 	EWeekView *week_view;
 	EWeekViewEvent *event;
-	GtkWidget *event_editor;
-	iCalObject *ico;
 
 	week_view = E_WEEK_VIEW (data);
 
@@ -2643,13 +2638,7 @@ e_week_view_on_edit_appointment (GtkWidget *widget, gpointer data)
 	event = &g_array_index (week_view->events, EWeekViewEvent,
 				week_view->popup_event_num);
 
-	/* We must duplicate the iCalObject, since the event editor will
-	   change the fields. */
-	ico = ical_object_duplicate (event->ico);
-
-	event_editor = event_editor_new (week_view->calendar, ico);
-	ical_object_unref (ico);
-	gtk_widget_show (event_editor);
+	gnome_calendar_edit_object (week_view->calendar, event->ico);
 }
 
 

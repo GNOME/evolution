@@ -24,7 +24,7 @@
 #include "alarm.h"
 #include "e-day-view.h"
 #include "e-week-view.h"
-#include "eventedit.h"
+#include "event-editor.h"
 #include "gncal-todo.h"
 #include "gnome-cal.h"
 #include "calendar-commands.h"
@@ -99,6 +99,7 @@ gnome_calendar_class_init (GnomeCalendarClass *class)
 static void
 gnome_calendar_init (GnomeCalendar *gcal)
 {
+	gcal->object_editor_hash = g_hash_table_new (g_str_hash, g_str_equal);
 	gcal->alarms = g_hash_table_new (g_str_hash, g_str_equal);
 }
 
@@ -121,6 +122,16 @@ free_object_alarms (gpointer key, gpointer value, gpointer data)
 	g_free (oa);
 }
 
+/* Used from g_hash_table_foreach(); frees an UID string */
+static void
+free_uid (gpointer key, gpointer value, gpointer data)
+{
+	char *uid;
+
+	uid = key;
+	g_free (uid);
+}
+
 static void
 gnome_calendar_destroy (GtkObject *object)
 {
@@ -136,6 +147,10 @@ gnome_calendar_destroy (GtkObject *object)
 	g_hash_table_foreach (gcal->alarms, free_object_alarms, NULL);
 	g_hash_table_destroy (gcal->alarms);
 	gcal->alarms = NULL;
+
+	g_hash_table_foreach (gcal->object_editor_hash, free_uid, NULL);
+	g_hash_table_destroy (gcal->object_editor_hash);
+	gcal->object_editor_hash = NULL;
 
 	if (GTK_OBJECT_CLASS (parent_class)->destroy)
 		(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
@@ -525,16 +540,7 @@ snooze (GnomeCalendar *gcal, iCalObject *ico, time_t occur, int snooze_mins, gbo
 static void
 edit (GnomeCalendar *gcal, iCalObject *ico)
 {
-	iCalObject *new_ico;
-	GtkWidget *event_editor;
-
-	/* We must duplicate the iCalObject, since the event editor will change
-	 * the fields.
-	 */
-	new_ico = ical_object_duplicate (ico);
-
-	event_editor = event_editor_new (gcal, new_ico);
-	gtk_widget_show (event_editor);
+	gnome_calendar_edit_object (gcal, ico);
 }
 
 struct alarm_notify_closure {
@@ -1301,6 +1307,67 @@ gnome_calendar_set_selected_time_range (GnomeCalendar *gcal,
 	gnome_calendar_update_gtk_calendar (gcal);
 }
 
+/* Brings attention to a window by raising it and giving it focus */
+static void
+raise_and_focus (GtkWidget *widget)
+{
+	g_assert (GTK_WIDGET_REALIZED (widget));
+	gdk_window_show (widget->window);
+	gtk_widget_grab_focus (widget);
+}
+
+/* Callback used when an event editor finishes editing an object */
+static void
+ical_object_released_cb (EventEditor *ee, const char *uid, gpointer data)
+{
+	GnomeCalendar *gcal;
+	gboolean result;
+	gpointer orig_key;
+	char *orig_uid;
+
+	gcal = GNOME_CALENDAR (data);
+
+	result = g_hash_table_lookup_extended (gcal->object_editor_hash, uid, &orig_key, NULL);
+	g_assert (result != FALSE);
+
+	orig_uid = orig_key;
+
+	g_hash_table_remove (gcal->object_editor_hash, orig_uid);
+	g_free (orig_uid);
+}
+
+void
+gnome_calendar_edit_object (GnomeCalendar *gcal, iCalObject *ico)
+{
+	GtkWidget *ee;
+
+	g_return_if_fail (gcal != NULL);
+	g_return_if_fail (GNOME_IS_CALENDAR (gcal));
+	g_return_if_fail (ico != NULL);
+	g_return_if_fail (ico->uid != NULL);
+
+	ee = g_hash_table_lookup (gcal->object_editor_hash, ico->uid);
+	if (!ee) {
+		ee = event_editor_new (gcal);
+		if (!ee) {
+			g_message ("gnome_calendar_edit_object(): Could not create the event editor");
+			return;
+		}
+
+		/* FIXME: what to do when an event editor wants to switch
+		 * objects?  We would need to know about it as well.
+		 */
+
+		g_hash_table_insert (gcal->object_editor_hash, g_strdup (ico->uid), ee);
+		gtk_signal_connect (GTK_OBJECT (ee), "ical_object_released",
+				    GTK_SIGNAL_FUNC (ical_object_released_cb), gcal);
+
+		event_editor_set_ical_object (EVENT_EDITOR (ee), ico);
+	}
+
+	gtk_widget_show_now (ee);
+	raise_and_focus (ee);
+}
 
 /* Returns the selected time range for the current view. Note that this may be
    different from the fields in the GnomeCalendar, since the view may clip

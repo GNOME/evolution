@@ -20,7 +20,6 @@
 #include <libgnorba/gnorba.h>
 #include <bonobo.h>
 #include <cal-util/timeutil.h>
-#include "eventedit.h"
 #include "gnome-cal.h"
 #include "calendar-commands.h"
 
@@ -185,28 +184,44 @@ about_calendar_cmd (BonoboUIHandler *uih, void *user_data, const char *path)
 static void
 display_objedit (BonoboUIHandler *uih, void *user_data, const char *path)
 {
-	GtkWidget *ee;
+	GnomeCalendar *gcal;
 	iCalObject *ico;
-	GnomeCalendar *gcal = GNOME_CALENDAR (user_data);
+
+	gcal = GNOME_CALENDAR (user_data);
 
 	ico = ical_new ("", user_name, "");
-	ico->new = 1;
-
+	ico->new = TRUE;
 	gnome_calendar_get_current_time_range (gcal, &ico->dtstart,
 					       &ico->dtend);
 
-	ee = event_editor_new (gcal, ico);
-	gtk_widget_show (ee);
+	gnome_calendar_edit_object (gcal, ico);
+	ical_object_unref (ico);
 }
 
 static void
 display_objedit_today (BonoboUIHandler *uih, void *user_data, const char *path)
 {
-	GtkWidget *ee;
-	GnomeCalendar *gcal = GNOME_CALENDAR (user_data);
+	GnomeCalendar *gcal;
+	iCalObject *ico;
+	struct tm tm;
 
-	ee = event_editor_new (gcal, NULL);
-	gtk_widget_show (ee);
+	gcal = GNOME_CALENDAR (user_data);
+
+	ico = ical_new ("", user_name, "");
+	ico->new = TRUE;
+	ico->dtstart = time (NULL);
+
+	tm = *localtime (&ico->dtstart);
+	tm.tm_hour++;
+	ico->dtend = mktime (&tm);
+	if (ico->dtend == -1) {
+		g_message ("display_objedit_today(): mktime() generated -1 invalid time!");
+		ical_object_unref (ico);
+		return;
+	}
+
+	gnome_calendar_edit_object (gcal, ico);
+	ical_object_unref (ico);
 }
 
 void

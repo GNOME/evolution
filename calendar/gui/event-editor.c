@@ -40,7 +40,9 @@ typedef struct {
 	/* UI handler */
 	BonoboUIHandler *uih;
 
-	/* Calendar object we are editing */
+	/* Calendar object we are editing; this is an internal copy and is not
+	 * one of the read-only objects from the parent calendar.
+	 */
 	iCalObject *ico;
 
 	/* Widgets from the Glade file */
@@ -114,6 +116,12 @@ typedef struct {
 
 
 
+/* Signal IDs */
+enum {
+	ICAL_OBJECT_RELEASED,
+	LAST_SIGNAL
+};
+
 static void event_editor_class_init (EventEditorClass *class);
 static void event_editor_init (EventEditor *ee);
 static void event_editor_destroy (GtkObject *object);
@@ -136,6 +144,8 @@ static void recurrence_toggled (GtkWidget *radio, EventEditor *ee);
 static void recurrence_exception_added (GtkWidget *widget, EventEditor *ee);
 static void recurrence_exception_deleted (GtkWidget *widget, EventEditor *ee);
 static void recurrence_exception_changed (GtkWidget *widget, EventEditor *ee);
+
+static guint event_editor_signals[LAST_SIGNAL];
 
 
 
@@ -181,6 +191,17 @@ event_editor_class_init (EventEditorClass *class)
 
 	parent_class = gtk_type_class (gnome_app_get_type ());
 
+	event_editor_signals[ICAL_OBJECT_RELEASED] =
+		gtk_signal_new ("ical_object_released",
+				GTK_RUN_FIRST,
+				object_class->type,
+				GTK_SIGNAL_OFFSET (EventEditorClass, ical_object_released),
+				gtk_marshal_NONE__STRING,
+				GTK_TYPE_NONE, 1,
+				GTK_TYPE_POINTER);
+
+	gtk_object_class_add_signals (object_class, event_editor_signals, LAST_SIGNAL);
+
 	object_class->destroy = event_editor_destroy;
 }
 
@@ -207,10 +228,20 @@ event_editor_destroy (GtkObject *object)
 	ee = EVENT_EDITOR (object);
 	priv = ee->priv;
 
+	if (priv->ico) {
+		gtk_signal_emit (GTK_OBJECT (ee), event_editor_signals[ICAL_OBJECT_RELEASED],
+				 priv->ico->uid);
+		ical_object_unref (priv->ico);
+		priv->ico = NULL;
+	}
+
 	if (priv->xml) {
 		gtk_object_unref (GTK_OBJECT (priv->xml));
 		priv->xml = NULL;
 	}
+
+	bonobo_object_unref (BONOBO_OBJECT (priv->uih));
+	priv->uih = NULL;
 
 	if (GTK_OBJECT_CLASS (parent_class)->destroy)
 		(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
@@ -221,6 +252,9 @@ static char *
 make_title_from_ico (iCalObject *ico)
 {
 	const char *summary;
+
+	if (!ico)
+		return g_strdup (_("Edit Appointment"));
 
 	if (ico->summary)
 		summary = ico->summary;
@@ -436,22 +470,43 @@ recur_options_get (GtkWidget *widget)
 static const int month_pos_map[] = { 0, 1, 2, 3, 4, -1 };
 static const int weekday_map[] = { 0, 1, 2, 3, 4, 5, 6, -1 };
 
-/* Initializes the widget's values and signals */
+/* Frees the rows and the row data in the recurrence exceptions GtkCList */
+static void
+free_exception_clist_data (GtkCList *clist)
+{
+	int i;
+
+	for (i = 0; i < clist->rows; i++) {
+		gpointer data;
+
+		data = gtk_clist_get_row_data (clist, i);
+		g_free (data);
+		gtk_clist_set_row_data (clist, i, NULL);
+	}
+
+	gtk_clist_clear (clist);
+}
+
+/* Callback used when the exception date GtkCList is destroyed */
+static void
+exception_clist_destroyed (GtkObject *object, gpointer data)
+{
+	EventEditor *ee;
+	EventEditorPrivate *priv;
+
+	ee = EVENT_EDITOR (data);
+	priv = ee->priv;
+
+	free_exception_clist_data (GTK_CLIST (priv->recurrence_exceptions_list));
+}
+
+/* Hooks the widget signals */
 static void
 init_widgets (EventEditor *ee)
 {
 	EventEditorPrivate *priv;
-	GList *list;
 
 	priv = ee->priv;
-
-	/* Owner, summary */
-
-	e_dialog_editable_set (priv->general_owner,
-			       priv->ico->organizer->addr ?
-			       priv->ico->organizer->addr : _("?"));
-
-	e_dialog_editable_set (priv->general_summary, priv->ico->summary);
 
 	/* Start and end times */
 
@@ -465,24 +520,11 @@ init_widgets (EventEditor *ee)
 	gtk_signal_connect (GTK_OBJECT (priv->end_time), "time_changed",
 			    GTK_SIGNAL_FUNC (check_times), ee);
 
-	e_dialog_dateedit_set (priv->start_time, priv->ico->dtstart);
-	e_dialog_dateedit_set (priv->end_time, priv->ico->dtend);
-
-	check_all_day (ee);
-
 	gtk_signal_connect (GTK_OBJECT (priv->all_day_event), "toggled",
 			    GTK_SIGNAL_FUNC (set_all_day), ee);
 
 	/* Alarms */
 
-	e_dialog_toggle_set (priv->alarm_display, priv->ico->dalarm.enabled);
-	e_dialog_toggle_set (priv->alarm_program, priv->ico->palarm.enabled);
-	e_dialog_toggle_set (priv->alarm_audio, priv->ico->aalarm.enabled);
-	e_dialog_toggle_set (priv->alarm_mail, priv->ico->malarm.enabled);
-	alarm_toggle (priv->alarm_display, ee);
-	alarm_toggle (priv->alarm_program, ee);
-	alarm_toggle (priv->alarm_audio, ee);
-	alarm_toggle (priv->alarm_mail, ee);
 	gtk_signal_connect (GTK_OBJECT (priv->alarm_display), "toggled",
 			    GTK_SIGNAL_FUNC (alarm_toggle), ee);
 	gtk_signal_connect (GTK_OBJECT (priv->alarm_program), "toggled",
@@ -491,6 +533,165 @@ init_widgets (EventEditor *ee)
 			    GTK_SIGNAL_FUNC (alarm_toggle), ee);
 	gtk_signal_connect (GTK_OBJECT (priv->alarm_mail), "toggled",
 			    GTK_SIGNAL_FUNC (alarm_toggle), ee);
+
+	/* Recurrence types */
+
+	gtk_signal_connect (GTK_OBJECT (priv->recurrence_rule_none), "toggled",
+			    GTK_SIGNAL_FUNC (recurrence_toggled), ee);
+	gtk_signal_connect (GTK_OBJECT (priv->recurrence_rule_daily), "toggled",
+			    GTK_SIGNAL_FUNC (recurrence_toggled), ee);
+	gtk_signal_connect (GTK_OBJECT (priv->recurrence_rule_weekly), "toggled",
+			    GTK_SIGNAL_FUNC (recurrence_toggled), ee);
+	gtk_signal_connect (GTK_OBJECT (priv->recurrence_rule_monthly), "toggled",
+			    GTK_SIGNAL_FUNC (recurrence_toggled), ee);
+	gtk_signal_connect (GTK_OBJECT (priv->recurrence_rule_yearly), "toggled",
+			    GTK_SIGNAL_FUNC (recurrence_toggled), ee);
+
+	/* Exception buttons */
+
+	gtk_signal_connect (GTK_OBJECT (priv->recurrence_exception_add), "clicked",
+			    GTK_SIGNAL_FUNC (recurrence_exception_added), ee);
+	gtk_signal_connect (GTK_OBJECT (priv->recurrence_exception_delete), "clicked",
+			    GTK_SIGNAL_FUNC (recurrence_exception_deleted), ee);
+	gtk_signal_connect (GTK_OBJECT (priv->recurrence_exception_change), "clicked",
+			    GTK_SIGNAL_FUNC (recurrence_exception_changed), ee);
+
+	/* Exception list */
+
+	gtk_signal_connect (GTK_OBJECT (priv->recurrence_exceptions_list), "destroy",
+			    GTK_SIGNAL_FUNC (exception_clist_destroyed), ee);
+}
+
+/* Fills the widgets with default values */
+static void
+clear_widgets (EventEditor *ee)
+{
+	EventEditorPrivate *priv;
+	time_t now;
+
+	priv = ee->priv;
+
+	now = time (NULL);
+
+	/* Owner, summary */
+
+	e_dialog_editable_set (priv->general_owner, _("?"));
+	e_dialog_editable_set (priv->general_summary, NULL);
+
+	/* Start and end times */
+
+	gtk_signal_handler_block_by_data (GTK_OBJECT (priv->start_time), ee);
+	gtk_signal_handler_block_by_data (GTK_OBJECT (priv->end_time), ee);
+
+	e_dialog_dateedit_set (priv->start_time, now);
+	e_dialog_dateedit_set (priv->end_time, now);
+
+	gtk_signal_handler_unblock_by_data (GTK_OBJECT (priv->start_time), ee);
+	gtk_signal_handler_unblock_by_data (GTK_OBJECT (priv->end_time), ee);
+
+	check_all_day (ee);
+
+	/* Alarms */
+
+	/* FIXMe: these should use configurable defaults */
+
+	e_dialog_toggle_set (priv->alarm_display, FALSE);
+	e_dialog_toggle_set (priv->alarm_program, FALSE);
+	e_dialog_toggle_set (priv->alarm_audio, FALSE);
+	e_dialog_toggle_set (priv->alarm_mail, FALSE);
+
+	e_dialog_spin_set (priv->alarm_display_amount, 15);
+	e_dialog_spin_set (priv->alarm_audio_amount, 15);
+	e_dialog_spin_set (priv->alarm_program_amount, 15);
+	e_dialog_spin_set (priv->alarm_mail_amount, 15);
+
+	alarm_unit_set (priv->alarm_display_unit, ALARM_MINUTES);
+	alarm_unit_set (priv->alarm_audio_unit, ALARM_MINUTES);
+	alarm_unit_set (priv->alarm_program_unit, ALARM_MINUTES);
+	alarm_unit_set (priv->alarm_mail_unit, ALARM_MINUTES);
+
+	e_dialog_editable_set (priv->alarm_program_run_program_entry, NULL);
+	e_dialog_editable_set (priv->alarm_mail_mail_to, NULL);
+
+	/* Classification */
+
+	e_dialog_radio_set (priv->classification_radio, CLASSIFICATION_PRIVATE, classification_map);
+
+	/* Recurrences */
+
+	e_dialog_radio_set (priv->recurrence_rule_none, RECUR_OPTION_NONE, recur_options_map);
+
+	e_dialog_spin_set (priv->recurrence_rule_daily_days, 1);
+
+	e_dialog_spin_set (priv->recurrence_rule_weekly_weeks, 1);
+	e_dialog_toggle_set (priv->recurrence_rule_weekly_sun, FALSE);
+	e_dialog_toggle_set (priv->recurrence_rule_weekly_mon, FALSE);
+	e_dialog_toggle_set (priv->recurrence_rule_weekly_tue, FALSE);
+	e_dialog_toggle_set (priv->recurrence_rule_weekly_wed, FALSE);
+	e_dialog_toggle_set (priv->recurrence_rule_weekly_thu, FALSE);
+	e_dialog_toggle_set (priv->recurrence_rule_weekly_fri, FALSE);
+	e_dialog_toggle_set (priv->recurrence_rule_weekly_sat, FALSE);
+
+	e_dialog_toggle_set (priv->recurrence_rule_monthly_on_day, TRUE);
+	e_dialog_spin_set (priv->recurrence_rule_monthly_day_nth, 1);
+	e_dialog_spin_set (priv->recurrence_rule_monthly_every_n_months, 1);
+	e_dialog_option_menu_set (priv->recurrence_rule_monthly_week, 0, month_pos_map);
+	e_dialog_option_menu_set (priv->recurrence_rule_monthly_weekpos, 0, weekday_map);
+	e_dialog_spin_set (priv->recurrence_rule_monthly_every_n_months, 1);
+
+	e_dialog_spin_set (priv->recurrence_rule_yearly_every_n_years, 1);
+
+	e_dialog_toggle_set (priv->recurrence_ending_date_repeat_forever, TRUE);
+	e_dialog_spin_set (priv->recurrence_ending_date_end_after_count, 1);
+	e_dialog_dateedit_set (priv->recurrence_ending_date_end_on_date,
+			       time_add_day (time (NULL), 1));
+
+	/* Exceptions list */
+
+	free_exception_clist_data (GTK_CLIST (priv->recurrence_exceptions_list));
+}
+
+/* Fills in the widgets with the proper values */
+static void
+fill_widgets (EventEditor *ee)
+{
+	EventEditorPrivate *priv;
+	GList *list;
+
+	priv = ee->priv;
+
+	clear_widgets (ee);
+
+	if (!priv->ico)
+		return;
+
+	/* Owner, summary */
+
+	e_dialog_editable_set (priv->general_owner,
+			       priv->ico->organizer->addr ?
+			       priv->ico->organizer->addr : _("?"));
+
+	e_dialog_editable_set (priv->general_summary, priv->ico->summary);
+
+	/* Start and end times */
+
+	gtk_signal_handler_block_by_data (GTK_OBJECT (priv->start_time), ee);
+	gtk_signal_handler_block_by_data (GTK_OBJECT (priv->end_time), ee);
+
+	e_dialog_dateedit_set (priv->start_time, priv->ico->dtstart);
+	e_dialog_dateedit_set (priv->end_time, priv->ico->dtend);
+
+	gtk_signal_handler_unblock_by_data (GTK_OBJECT (priv->start_time), ee);
+	gtk_signal_handler_unblock_by_data (GTK_OBJECT (priv->end_time), ee);
+
+	check_all_day (ee);
+
+	/* Alarms */
+
+	e_dialog_toggle_set (priv->alarm_display, priv->ico->dalarm.enabled);
+	e_dialog_toggle_set (priv->alarm_program, priv->ico->palarm.enabled);
+	e_dialog_toggle_set (priv->alarm_audio, priv->ico->aalarm.enabled);
+	e_dialog_toggle_set (priv->alarm_mail, priv->ico->malarm.enabled);
 
 	/* Alarm data */
 
@@ -519,28 +720,14 @@ init_widgets (EventEditor *ee)
 	    	e_dialog_radio_set (priv->classification_radio, CLASSIFICATION_CONFIDENTIAL,
 				    classification_map);
 	else {
-		/* What do do? */
+		/* What do do?  We can't g_assert_not_reached() since it is a
+		 * value from an external file.
+		 */
 	}
 
-	/* Recurrence types */
+	/* Recurrences */
 
-	gtk_signal_connect (GTK_OBJECT (priv->recurrence_rule_none), "toggled",
-			    GTK_SIGNAL_FUNC (recurrence_toggled), ee);
-	gtk_signal_connect (GTK_OBJECT (priv->recurrence_rule_daily), "toggled",
-			    GTK_SIGNAL_FUNC (recurrence_toggled), ee);
-	gtk_signal_connect (GTK_OBJECT (priv->recurrence_rule_weekly), "toggled",
-			    GTK_SIGNAL_FUNC (recurrence_toggled), ee);
-	gtk_signal_connect (GTK_OBJECT (priv->recurrence_rule_monthly), "toggled",
-			    GTK_SIGNAL_FUNC (recurrence_toggled), ee);
-	gtk_signal_connect (GTK_OBJECT (priv->recurrence_rule_yearly), "toggled",
-			    GTK_SIGNAL_FUNC (recurrence_toggled), ee);
-
-	/* Recurrence rules */
-
-	if (!priv->ico->recur)
-		e_dialog_radio_set (priv->recurrence_rule_none, RECUR_OPTION_NONE,
-				    recur_options_map);
-	else {
+	if (priv->ico->recur) {
 		switch (priv->ico->recur->type) {
 		case RECUR_DAILY:
 			e_dialog_radio_set (priv->recurrence_rule_daily, RECUR_OPTION_DAILY,
@@ -619,20 +806,11 @@ init_widgets (EventEditor *ee)
 		} else {
 			e_dialog_toggle_set (priv->recurrence_ending_date_end_on, TRUE);
 			/* Shorten by one day, as we store end-on date a day ahead */
-			/* FIX ME is this correct? */
+			/* FIXME is this correct? */
 			e_dialog_dateedit_set (priv->recurrence_ending_date_end_on_date,
 					       time_add_day (priv->ico->recur->enddate, -1));
 		}
 	}
-
-	/* Exception buttons */
-
-	gtk_signal_connect (GTK_OBJECT (priv->recurrence_exception_add), "clicked",
-			    GTK_SIGNAL_FUNC (recurrence_exception_added), ee);
-	gtk_signal_connect (GTK_OBJECT (priv->recurrence_exception_delete), "clicked",
-			    GTK_SIGNAL_FUNC (recurrence_exception_deleted), ee);
-	gtk_signal_connect (GTK_OBJECT (priv->recurrence_exception_change), "clicked",
-			    GTK_SIGNAL_FUNC (recurrence_exception_changed), ee);
 
 	/* Exceptions list */
 
@@ -874,11 +1052,22 @@ create_toolbar (EventEditor *ee)
 	gtk_toolbar_set_style (GTK_TOOLBAR (child), GTK_TOOLBAR_ICONS);
 }
 
+/**
+ * event_editor_construct:
+ * @ee: An event editor.
+ * @gcal: Calendar that this event editor will operate on.
+ * 
+ * Constructs an event editor by binding it to the specified calendar and creating
+ * its widgets.
+ * 
+ * Return value: The same object as @ee, or NULL if the widgets could not be
+ * created.  In the latter case, the event editor will automatically be
+ * destroyed.
+ **/
 GtkWidget *
-event_editor_construct (EventEditor *ee, GnomeCalendar *gcal, iCalObject *ico)
+event_editor_construct (EventEditor *ee, GnomeCalendar *gcal)
 {
 	EventEditorPrivate *priv;
-	char *title;
 	GtkWidget *toplevel;
 	GtkWidget *contents;
 
@@ -886,8 +1075,6 @@ event_editor_construct (EventEditor *ee, GnomeCalendar *gcal, iCalObject *ico)
 	g_return_val_if_fail (IS_EVENT_EDITOR (ee), NULL);
 	g_return_val_if_fail (gcal != NULL, NULL);
 	g_return_val_if_fail (GNOME_IS_CALENDAR (gcal), NULL);
-	g_return_val_if_fail (ico != NULL, NULL);
-	g_return_val_if_fail (ico->uid != NULL, NULL);
 
 	priv = ee->priv;
 
@@ -907,7 +1094,6 @@ event_editor_construct (EventEditor *ee, GnomeCalendar *gcal, iCalObject *ico)
 	}
 
 	priv->gcal = gcal;
-	priv->ico = ico;
 
 	if (!get_widgets (ee)) {
 		g_message ("event_editor_construct(): Could not find all widgets in the XML file!");
@@ -922,11 +1108,7 @@ event_editor_construct (EventEditor *ee, GnomeCalendar *gcal, iCalObject *ico)
 
 	/* Construct the app */
 
-	title = make_title_from_ico (ico);
-	gnome_app_construct (GNOME_APP (ee), "event-editor", title);
-	g_free (title);
-
-	/* Create the UI handler */
+	gnome_app_construct (GNOME_APP (ee), "event-editor", N_("Edit Appointment"));
 
 	priv->uih = bonobo_ui_handler_new ();
 	if (!priv->uih) {
@@ -953,24 +1135,63 @@ event_editor_construct (EventEditor *ee, GnomeCalendar *gcal, iCalObject *ico)
 	return NULL;
 }
 
+/**
+ * event_editor_new:
+ * @gcal: Calendar that this event editor will operate on.
+ * 
+ * Creates a new event editor dialog.
+ * 
+ * Return value: A newly-created event editor dialog, or NULL if the event
+ * editor could not be created.
+ **/
 GtkWidget *
-event_editor_new (GnomeCalendar *gcal, iCalObject *ico)
+event_editor_new (GnomeCalendar *gcal)
 {
 	GtkWidget *ee;
 
 	g_return_val_if_fail (gcal != NULL, NULL);
 	g_return_val_if_fail (GNOME_IS_CALENDAR (gcal), NULL);
-	g_return_val_if_fail (ico != NULL, NULL);
-	g_return_val_if_fail (ico->uid != NULL, NULL);
 
 	ee = GTK_WIDGET (gtk_type_new (TYPE_EVENT_EDITOR));
+	return event_editor_construct (EVENT_EDITOR (ee), gcal);
+}
 
-	ee = event_editor_construct (EVENT_EDITOR (ee), gcal, ico);
+/**
+ * event_editor_set_ical_object:
+ * @ee: An event editor.
+ * @ico: A calendar object.
+ * 
+ * Sets the calendar object that an event editor dialog will manipulate.
+ **/
+void
+event_editor_set_ical_object (EventEditor *ee, iCalObject *ico)
+{
+	EventEditorPrivate *priv;
+	char *title;
 
-	if (ee)
-		gtk_widget_show (ee);
+	g_return_if_fail (ee != NULL);
+	g_return_if_fail (IS_EVENT_EDITOR (ee));
 
-	return ee;
+	if (ico)
+		g_return_if_fail (ico->uid != NULL);
+
+	priv = ee->priv;
+
+	if (priv->ico) {
+		gtk_signal_emit (GTK_OBJECT (ee), event_editor_signals[ICAL_OBJECT_RELEASED],
+				 priv->ico->uid);
+		ical_object_unref (priv->ico);
+		priv->ico = NULL;
+	}
+
+	if (ico)
+		priv->ico = ical_object_duplicate (ico);
+
+	title = make_title_from_ico (priv->ico);
+	gtk_window_set_title (GTK_WINDOW (ee), title);
+	g_free (title);
+
+	fill_widgets (ee);
 }
 
 #if 0
@@ -1328,13 +1549,19 @@ check_dates (GnomeDateEdit *gde, EventEditor *ee)
 			tm_end.tm_mon  = tm_start.tm_mon;
 			tm_end.tm_mday = tm_start.tm_mday;
 
+			gtk_signal_handler_block_by_data (GTK_OBJECT (priv->end_time), ee);
 			e_dialog_dateedit_set (priv->end_time, mktime (&tm_end));
+			gtk_signal_handler_unblock_by_data (GTK_OBJECT (priv->end_time), ee);
 		} else if (GTK_WIDGET (gde) == priv->end_time) {
 			tm_start.tm_year = tm_end.tm_year;
 			tm_start.tm_mon  = tm_end.tm_mon;
 			tm_start.tm_mday = tm_end.tm_mday;
 
-/*  			e_dialog_dateedit_set (priv->start_time, mktime (&tm_start)); */
+#if 0
+			gtk_signal_handler_block_by_data (GTK_OBJECT (priv->start_time), ee);
+			e_dialog_dateedit_set (priv->start_time, mktime (&tm_start));
+			gtk_signal_handler_unblock_by_data (GTK_OBJECT (priv->start_time), ee);
+#endif
 		}
 	}
 }
@@ -1351,10 +1578,10 @@ check_times (GnomeDateEdit *gde, EventEditor *ee)
 	struct tm tm_start, tm_end;
 
 	priv = ee->priv;
-
+#if 0
 	gdk_pointer_ungrab (GDK_CURRENT_TIME);
 	gdk_flush ();
-
+#endif
 	start = e_dialog_dateedit_get (priv->start_time);
 	end = e_dialog_dateedit_get (priv->end_time);
 
@@ -1373,7 +1600,9 @@ check_times (GnomeDateEdit *gde, EventEditor *ee)
 				tm_end.tm_sec = 0;
 			}
 
+			gtk_signal_handler_block_by_data (GTK_OBJECT (priv->end_time), ee);
 			e_dialog_dateedit_set (priv->end_time, mktime (&tm_end));
+			gtk_signal_handler_unblock_by_data (GTK_OBJECT (priv->end_time), ee);
 		} else if (GTK_WIDGET (gde) == priv->end_time) {
 			tm_start.tm_min  = tm_end.tm_min;
 			tm_start.tm_sec  = tm_end.tm_sec;
@@ -1385,7 +1614,9 @@ check_times (GnomeDateEdit *gde, EventEditor *ee)
 				tm_start.tm_min = 0;
 			}
 
+			gtk_signal_handler_block_by_data (GTK_OBJECT (priv->start_time), ee);
 			e_dialog_dateedit_set (priv->start_time, mktime (&tm_start));
+			gtk_signal_handler_unblock_by_data (GTK_OBJECT (priv->start_time), ee);
 		}
 	}
 

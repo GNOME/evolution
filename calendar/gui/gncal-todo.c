@@ -9,10 +9,10 @@
 #include <config.h>
 #include <string.h>
 #include <gnome.h>
+#include "event-editor.h"
 #include "gncal-todo.h"
 #include "calendar-commands.h"
 #include "popup-menu.h"
-#include "eventedit.h"
 
 int todo_show_due_date = 0;
 int todo_show_priority = 0;

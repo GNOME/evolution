@@ -1,13 +1,13 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 
-/* 
- * Author : 
+/*
+ * Author :
  *  Damon Chaplin <damon@helixcode.com>
  *
  * Copyright 1999, Helix Code, Inc.
  *
- * This program is free software; you can redistribute it and/or 
- * modify it under the terms of the GNU General Public License as 
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
  * License, or (at your option) any later version.
  *
@@ -38,7 +38,6 @@
 #include "e-day-view-main-item.h"
 #include "calendar-commands.h"
 #include "popup-menu.h"
-#include "eventedit.h"
 #include "../e-util/e-canvas.h"
 #include "../widgets/e-text/e-text.h"
 
@@ -487,7 +486,7 @@ e_day_view_init (EDayView *day_view)
 	if (!day_view->large_font)
 		g_warning ("Couldn't load font");
 
-	
+
 	/* Allocate the colors. */
 #if 1
 	day_view->colors[E_DAY_VIEW_COLOR_BG_WORKING].red   = 255 * 257;
@@ -1944,7 +1943,7 @@ e_day_view_on_long_event_button_press (EDayView		*day_view,
 			return TRUE;
 		}
 	} else if (event->button == 3) {
-		e_day_view_on_event_right_click (day_view, event, 
+		e_day_view_on_event_right_click (day_view, event,
 						 E_DAY_VIEW_LONG_EVENT,
 						 event_num);
 		return TRUE;
@@ -2228,7 +2227,7 @@ e_day_view_on_event_right_click (EDayView *day_view,
 	EDayViewEvent *event;
 	int have_selection, not_being_edited, items, i;
 	struct menu_item *context_menu;
-	
+
 	static struct menu_item main_items[] = {
 		{ N_("New appointment..."), (GtkSignalFunc) e_day_view_on_new_appointment, NULL, TRUE }
 	};
@@ -2288,7 +2287,7 @@ e_day_view_on_event_right_click (EDayView *day_view,
 
 	for (i = 0; i < items; i++)
 		context_menu[i].data = day_view;
-		     
+
 	day_view->popup_event_day = day;
 	day_view->popup_event_num = event_num;
 	popup_menu (context_menu, items, bevent);
@@ -2299,19 +2298,17 @@ static void
 e_day_view_on_new_appointment (GtkWidget *widget, gpointer data)
 {
 	EDayView *day_view;
-	GtkWidget *event_editor;
 	iCalObject *ico;
-	
+
 	day_view = E_DAY_VIEW (data);
 
 	ico = ical_new ("", user_name, "");
 	ico->new = 1;
-	
 	e_day_view_get_selected_time_range (day_view, &ico->dtstart,
 					    &ico->dtend);
-	event_editor = event_editor_new (day_view->calendar, ico);
+
+	gnome_calendar_edit_object (day_view->calendar, ico);
 	ical_object_unref (ico);
-	//gtk_widget_show (event_editor);
 }
 
 
@@ -2320,8 +2317,6 @@ e_day_view_on_edit_appointment (GtkWidget *widget, gpointer data)
 {
 	EDayView *day_view;
 	EDayViewEvent *event;
-	GtkWidget *event_editor;
-	iCalObject *ico;
 
 	day_view = E_DAY_VIEW (data);
 
@@ -2329,14 +2324,7 @@ e_day_view_on_edit_appointment (GtkWidget *widget, gpointer data)
 	if (event == NULL)
 		return;
 
-	/* We must duplicate the iCalObject, since the event editor will change
-	 * the fields.
-	 */
-	ico = ical_object_duplicate (event->ico);
-
-	event_editor = event_editor_new (day_view->calendar, ico);
-	ical_object_unref (ico);
-	//gtk_widget_show (event_editor);
+	gnome_calendar_edit_object (day_view->calendar, event->ico);
 }
 
 
@@ -2394,7 +2382,7 @@ e_day_view_on_unrecur_appointment (GtkWidget *widget, gpointer data)
 	event = e_day_view_get_popup_menu_event (day_view);
 	if (event == NULL)
 		return;
-	
+
 	/* For the recurring object, we add a exception to get rid of the
 	   instance. */
 	ico = ical_object_duplicate (event->ico);
@@ -2822,7 +2810,7 @@ e_day_view_update_long_event_resize (EDayView *day_view,
 		if (day != day_view->resize_start_row) {
 			need_reshape = TRUE;
 			day_view->resize_start_row = day;
-			
+
 		}
 	} else {
 		day = MAX (day, day_view->resize_start_row);
@@ -2863,7 +2851,7 @@ e_day_view_update_resize (EDayView *day_view,
 		if (row != day_view->resize_start_row) {
 			need_reshape = TRUE;
 			day_view->resize_start_row = row;
-			
+
 		}
 	} else {
 		row = MAX (row, day_view->resize_start_row);
@@ -2975,7 +2963,7 @@ e_day_view_abort_resize (EDayView *day_view,
 	if (day == E_DAY_VIEW_LONG_EVENT) {
 		e_day_view_reshape_long_event (day_view, event_num);
 		gtk_widget_queue_draw (day_view->top_canvas);
-	
+
 		day_view->last_cursor_set_in_top_canvas = day_view->normal_cursor;
 		gdk_window_set_cursor (day_view->top_canvas->window,
 				       day_view->normal_cursor);
@@ -2984,7 +2972,7 @@ e_day_view_abort_resize (EDayView *day_view,
 		e_day_view_reshape_day_event (day_view, day, event_num);
 		e_day_view_reshape_main_canvas_resize_bars (day_view);
 		gtk_widget_queue_draw (day_view->main_canvas);
-	
+
 		day_view->last_cursor_set_in_main_canvas = day_view->normal_cursor;
 		gdk_window_set_cursor (day_view->main_canvas->window,
 				       day_view->normal_cursor);
@@ -3081,7 +3069,7 @@ e_day_view_add_event (iCalObject *ico,
 
 	start_tm = *(localtime (&start));
 	end_tm = *(localtime (&end));
-	
+
 	event.ico = ico;
 	ical_object_ref (ico);
 	event.start = start;
@@ -3132,7 +3120,7 @@ e_day_view_add_event (iCalObject *ico,
 }
 
 
-/* This lays out the short (less than 1 day) events in the columns. 
+/* This lays out the short (less than 1 day) events in the columns.
    Any long events are simply skipped. */
 void
 e_day_view_check_layout (EDayView *day_view)
@@ -3887,7 +3875,7 @@ e_day_view_key_press (GtkWidget *widget, GdkEventKey *event)
 	/* We add the event locally and start editing it. When we get the
 	   "update_event" callback from the server, we basically ignore it.
 	   If we were to wait for the "update_event" callback it wouldn't be
-	   as responsive and we may lose a few keystrokes. */ 
+	   as responsive and we may lose a few keystrokes. */
 	e_day_view_add_event (ico, ico->dtstart, ico->dtend, day_view);
 	e_day_view_check_layout (day_view);
 	gtk_widget_queue_draw (day_view->top_canvas);
@@ -4223,7 +4211,7 @@ e_day_view_convert_time_to_grid_position (EDayView *day_view,
 	minutes = tmp_tm->tm_hour * 60 + tmp_tm->tm_min;
 	minutes -= day_view->first_hour_shown * 60
 		+ day_view->first_minute_shown;
-	
+
 	*row = minutes / day_view->mins_per_row;
 
 	if (*row < 0 || *row >= day_view->rows)
@@ -4468,7 +4456,7 @@ e_day_view_convert_position_in_top_canvas (EDayView *day_view,
 	day = -1;
 	for (col = 1; col <= day_view->days_shown; col++) {
 		if (x < day_view->day_offsets[col]) {
-			day = col - 1;	
+			day = col - 1;
 			break;
 		}
 	}
@@ -4549,7 +4537,7 @@ e_day_view_convert_position_in_main_canvas (EDayView *day_view,
 	day = -1;
 	for (col = 1; col <= day_view->days_shown; col++) {
 		if (x < day_view->day_offsets[col]) {
-			day = col - 1;	
+			day = col - 1;
 			break;
 		}
 	}
@@ -5040,7 +5028,7 @@ e_day_view_on_drag_data_get (GtkWidget          *widget,
 }
 
 
-static void  
+static void
 e_day_view_on_top_canvas_drag_data_received  (GtkWidget          *widget,
 					      GdkDragContext     *context,
 					      gint                x,
@@ -5117,7 +5105,7 @@ e_day_view_on_top_canvas_drag_data_received  (GtkWidget          *widget,
 }
 
 
-static void  
+static void
 e_day_view_on_main_canvas_drag_data_received  (GtkWidget          *widget,
 					       GdkDragContext     *context,
 					       gint                x,

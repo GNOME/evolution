@@ -1,3 +1,52 @@
+2000-05-31  Federico Mena Quintero  <federico@helixcode.com>
+
+	* gui/gnome-cal.h (GnomeCalendar): Added a hash table to map
+	calendar objects to their respective event editors.
+
+	* gui/gnome-cal.c (gnome_calendar_init): Create the
+	object_editor_hash.
+	(gnome_calendar_destroy): Free the object_editor_hash.
+	(gnome_calendar_edit_object): New function to centralize the
+	launching of event editors; if one already exists for a particular
+	calendar object, we just raise its window.
+	(edit): Use gnome_calendar_edit_object().
+
+	* gui/calendar-commands.c (display_objedit): Use
+	gnome_calendar_edit_object().
+	(display_objedit_today): Likewise.
+
+	* gui/e-day-view.c (e_day_view_on_new_appointment): Likewise.
+	(e_day_view_on_edit_appointment): Likewise.
+
+	* gui/e-week-view.c (e_week_view_on_new_appointment): Likewise.
+	(e_week_view_on_edit_appointment): Likewise.
+
+	* gui/event-editor.c (event_editor_new): Do not take in an
+	iCalObject; rather provide an event_editor_set_ical_object()
+	function.  We need this because a single editor may be switched
+	between different calendar objects.  Also, do not show the event
+	editor; leave it up to the client code.
+	(event_editor_construct): Likewise.
+	(clear_widgets): New function to clear the widgets to default
+	values.
+	(fill_widgets): New function to fill in the widgets from the
+	iCalObject.  We don't do this in init_widgets() anymore.
+	(free_exception_clist_data): New function to free the exceptions
+	clist data.  We were leaking the row data.
+	(init_widgets): Hook to the destroy signal of the exceptions
+	clist.
+	(event_editor_set_ical_object): New function.  Now it also makes a
+	copy of the calendar object for the event editor; clients do not
+	need to copy it anymore.
+	(event_editor_destroy): Unref the UI handler as well.
+	(event_editor_class_init): New "ical_object_released" signal to
+	notify the parent that we are no longer editing the calendar
+	object.
+	(make_title_from_ico): Handle NULL objects.
+
+	* gui/event-editor.h (EventEditor): Removed fields that are no
+	longer used.
+
 2000-05-31  Damon Chaplin  <damon@helixcode.com>
 
 	* cal-util/Makefile.am: added test-recur test program.

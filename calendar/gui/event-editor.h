@@ -45,30 +45,23 @@ struct _EventEditor {
 
 	/* Private data */
 	gpointer priv;
-
-	/* The associated ical object */
-	iCalObject *ical;
-
-	/* The calendar owner of this event */
-        GnomeCalendar *gnome_cal;
-
-	/*
-	char *description;
-	char *host;
-	int port;
-	char *rootdn;
-	*/
 };
 
 struct _EventEditorClass {
 	GnomeAppClass parent_class;
+
+	/* Notification signals */
+
+	void (* ical_object_released) (EventEditor *ee, const char *uid);
 };
 
 
 GtkType event_editor_get_type (void);
-GtkWidget *event_editor_construct (EventEditor *ee, GnomeCalendar *gcal, iCalObject *ico);
+GtkWidget *event_editor_construct (EventEditor *ee, GnomeCalendar *gcal);
 
-GtkWidget *event_editor_new (GnomeCalendar *gcal, iCalObject *ico);
+GtkWidget *event_editor_new (GnomeCalendar *gcal);
+
+void event_editor_set_ical_object (EventEditor *ee, iCalObject *ico);
 
 #if 0
 /* Convenience function to create and show a new event editor for an
