@@ -1,0 +1,8 @@
+.deps
+.libs
+*.lo
+Makefile.in
+Makefile
+libaddress_conduit.la
+address-conduit-control-applet
+address.conduit

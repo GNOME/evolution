@@ -10,9 +10,9 @@
 #include <pi-address.h>
 #include <gpilotd/gnome-pilot-conduit.h>
 #include <gpilotd/gnome-pilot-conduit-standard-abs.h>
-#include <cal-client/cal-client.h>
-#include <cal-util/calobj.h>
-#include <cal-util/timeutil.h>
+#include "ebook/e-card.h"
+#include "ebook/e-book.h"
+#include "ebook/e-book-view.h"
 
 #ifdef USING_OAF
 #include <liboaf/liboaf.h>
@@ -22,35 +22,38 @@
 
 
 /* This is the local record structure for the GnomeCal conduit. */
-typedef struct _GCalLocalRecord GCalLocalRecord;
-struct _GCalLocalRecord {
+typedef struct _AddressbookLocalRecord AddressbookLocalRecord;
+struct _AddressbookLocalRecord {
 	/* The stuff from gnome-pilot-conduit-standard-abs.h
 	   Must be first in the structure, or instances of this
 	   structure cannot be used by gnome-pilot-conduit-standard-abs.
 	*/
 	LocalRecord local;
-	/* The corresponding iCal object, as found by GnomeCal. */
-	iCalObject *ical;
+	/* The corresponding Evolution addressbook object. */
+	ECard *ecard;
         /* pilot-link address structure, used for implementing Transmit. */	
 	struct Address *address;
 };
-#define GCAL_LOCALRECORD(s) ((GCalLocalRecord*)(s))
+#define ADDRESSBOOK_LOCALRECORD(s) ((AddressbookLocalRecord*)(s))
 
 /* This is the configuration of the GnomeCal conduit. */
-typedef struct _GCalConduitCfg GCalConduitCfg;
-struct _GCalConduitCfg {
+typedef struct _AddressbookConduitCfg AddressbookConduitCfg;
+struct _AddressbookConduitCfg {
 	gboolean open_secret;
 	guint32 pilotId;
 	GnomePilotConduitSyncType  sync_type;   /* only used by capplet */
 };
-#define GET_GCALCONFIG(c) ((GCalConduitCfg*)gtk_object_get_data(GTK_OBJECT(c),"addressconduit_cfg"))
+#define GET_CONDUITCFG(c) ((AddressbookConduitCfg*)gtk_object_get_data(GTK_OBJECT(c),"addressconduit_cfg"))
 
-/* This is the context for all the GnomeCal conduit methods. */
-typedef struct _GCalConduitContext GCalConduitContext;
-struct _GCalConduitContext {
+/* This is the context for all the Addressbook conduit methods. */
+typedef struct _AddressbookConduitContext AddressbookConduitContext;
+struct _AddressbookConduitContext {
 	struct AddressAppInfo ai;
-	GCalConduitCfg *cfg;
-	CalClient *client;
+	AddressbookConduitCfg *cfg;
+	EBook *ebook;
+	ECardCursor *cursor;
+	GList *cards;
+	/*	CalClient *client;*/
 	CORBA_Environment ev;
 	CORBA_ORB orb;
 	gboolean address_load_tried;
@@ -58,7 +61,7 @@ struct _GCalConduitContext {
 
 	char *address_file;
 };
-#define GET_GCALCONTEXT(c) ((GCalConduitContext*)gtk_object_get_data(GTK_OBJECT(c),"addressconduit_context"))
+#define GET_CONDUITCONTEXT(c) ((AddressbookConduitContext*)gtk_object_get_data(GTK_OBJECT(c),"addressconduit_context"))
 
 
 /* Given a GCalConduitCfg*, allocates the structure and 
@@ -67,13 +70,13 @@ struct _GCalConduitContext {
    both address-conduit and address-conduit-control-applet,
    and we don't want to export any symbols we don't have to. */
 static void 
-gcalconduit_load_configuration(GCalConduitCfg **c,
-			       guint32 pilotId) 
+conduit_load_configuration(AddressbookConduitCfg **c,
+			   guint32 pilotId) 
 {
 	gchar prefix[256];
 	g_snprintf(prefix,255,"/gnome-pilot.d/address-conduit/Pilot_%u/",pilotId);
 	
-	*c = g_new0(GCalConduitCfg,1);
+	*c = g_new0(AddressbookConduitCfg,1);
 	g_assert(*c != NULL);
 	gnome_config_push_prefix(prefix);
 	(*c)->open_secret = gnome_config_get_bool("open_secret=FALSE");

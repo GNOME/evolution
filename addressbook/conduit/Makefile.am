@@ -1,12 +1,7 @@
-#
-#
-#
-
 INCLUDES = 				\
-	-I$(top_srcdir)/calendar	\
+	-I$(top_srcdir)/addressbook	\
+	-I$(top_srcdir)/addressbook/backend	\
 	$(GNOME_PILOT_CFLAGS)
-
-file_conduitsdir=$(libdir)/gnome-pilot/conduits
 
 bin_PROGRAMS = address-conduit-control-applet
 
@@ -24,11 +19,6 @@ address_conduit_control_applet_LDADD = \
 	        $(GNOMEUI_LIBS) \
 		$(PISOCK_LIBDIR) $(PISOCK_LIBS) \
                 $(INTLLIBS)
-
-
-#		$(top_builddir)/libgpilotdCM/libgpilotdcm.la \
-#		$(top_builddir)/gpilotd/libgpilotd.la \
-#		$(top_builddir)/gpilotd/libgpilotdconduit.la \
 
 
 # address_conduit

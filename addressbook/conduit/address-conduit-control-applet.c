@@ -32,20 +32,19 @@ GtkWidget *dialogWindow=NULL;
 gboolean activated,org_activation_state;
 GnomePilotConduitManagement *conduit;
 GnomePilotConduitConfig *conduit_config;
-GCalConduitCfg *origState = NULL;
-GCalConduitCfg *curState = NULL;
+AddressbookConduitCfg *origState = NULL;
+AddressbookConduitCfg *curState = NULL;
 
-static void doTrySettings(GtkWidget *widget, GCalConduitCfg *GCalConduitCfg);
-static void doRevertSettings(GtkWidget *widget, GCalConduitCfg *GCalConduitCfg);
-static void doSaveSettings(GtkWidget *widget, GCalConduitCfg *GCalConduitCfg);
+static void doTrySettings(GtkWidget *widget, AddressbookConduitCfg *cfg);
+static void doRevertSettings(GtkWidget *widget, AddressbookConduitCfg *cfg);
+static void doSaveSettings(GtkWidget *widget, AddressbookConduitCfg *cfg);
 
-//static void readStateCfg (GtkWidget *w, GCalConduitCfg *c);
-static void setStateCfg (GtkWidget *w, GCalConduitCfg *c);
+//static void readStateCfg (GtkWidget *w, AddressbookConduitCfg *c);
+static void setStateCfg (GtkWidget *w, AddressbookConduitCfg *c);
 
 gint pilotId;
 CORBA_Environment ev;
 static GnomePilotClient *gpc;
-
 
 
 /* This array must be in the same order as enumerations
@@ -65,7 +64,7 @@ static gchar* sync_options[] ={ N_("Disabled"),
 
 /* Saves the configuration data. */
 static void 
-gcalconduit_save_configuration(GCalConduitCfg *c) 
+addressbookconduit_save_configuration(AddressbookConduitCfg *c) 
 {
 	gchar prefix[256];
 
@@ -80,11 +79,11 @@ gcalconduit_save_configuration(GCalConduitCfg *c)
 }
 
 /* Creates a duplicate of the configuration data */
-static GCalConduitCfg*
-gcalconduit_dupe_configuration(GCalConduitCfg *c) {
-	GCalConduitCfg *retval;
+static AddressbookConduitCfg*
+gcalconduit_dupe_configuration(AddressbookConduitCfg *c) {
+	AddressbookConduitCfg *retval;
 	g_return_val_if_fail(c!=NULL,NULL);
-	retval = g_new0(GCalConduitCfg,1);
+	retval = g_new0(AddressbookConduitCfg,1);
 	retval->sync_type = c->sync_type;
 	retval->open_secret = c->open_secret;
 	retval->pilotId = c->pilotId;
@@ -93,7 +92,7 @@ gcalconduit_dupe_configuration(GCalConduitCfg *c) {
 
 
 static void
-doTrySettings(GtkWidget *widget, GCalConduitCfg *c)
+doTrySettings(GtkWidget *widget, AddressbookConduitCfg *c)
 {
 	/*
 	readStateCfg (cfgStateWindow, curState);
@@ -111,27 +110,27 @@ doTrySettings(GtkWidget *widget, GCalConduitCfg *c)
 	else
 		gnome_pilot_conduit_config_disable (conduit_config);
 
-	gcalconduit_save_configuration (c);
+	addressbookconduit_save_configuration (c);
 }
 
 
 static void
-doSaveSettings(GtkWidget *widget, GCalConduitCfg *GCalConduitCfg)
+doSaveSettings(GtkWidget *widget, AddressbookConduitCfg *cfg)
 {
-	doTrySettings(widget, GCalConduitCfg);
-	gcalconduit_save_configuration(GCalConduitCfg);
+	doTrySettings(widget, cfg);
+	addressbookconduit_save_configuration(cfg);
 }
 
 
 static void
-doCancelSettings(GtkWidget *widget, GCalConduitCfg *c)
+doCancelSettings(GtkWidget *widget, AddressbookConduitCfg *c)
 {
 	doSaveSettings (widget, c);
 }
 
 
 static void
-doRevertSettings(GtkWidget *widget, GCalConduitCfg *GCalConduitCfg)
+doRevertSettings(GtkWidget *widget, AddressbookConduitCfg *cfg)
 {
 	activated = org_activation_state;
 	setStateCfg (cfgStateWindow, curState);
@@ -217,7 +216,7 @@ static GtkWidget
 
 
 static void
-setStateCfg (GtkWidget *w, GCalConduitCfg *c)
+setStateCfg (GtkWidget *w, AddressbookConduitCfg *c)
 {
 	GtkOptionMenu *optionMenu;
 	GtkMenu *menu;
@@ -236,7 +235,7 @@ setStateCfg (GtkWidget *w, GCalConduitCfg *c)
 
 #if 0
 static void
-readStateCfg (GtkWidget *w, GCalConduitCfg *c)
+readStateCfg (GtkWidget *w, AddressbookConduitCfg *c)
 {
 	/*
 	GtkWidget *button;
@@ -362,7 +361,7 @@ main (int argc, char *argv[])
 	if(!pilotId) return -1;
 
 	/* put all code to set things up in here */
-	gcalconduit_load_configuration (&origState, pilotId);
+	conduit_load_configuration (&origState, pilotId);
 
 	conduit = gnome_pilot_conduit_management_new ("address_conduit", GNOME_PILOT_CONDUIT_MGMT_ID);
 	if (conduit == NULL) return -1;

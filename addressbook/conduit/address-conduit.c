@@ -8,9 +8,6 @@
 #include <signal.h>
 #include <errno.h>
 
-#include <cal-client/cal-client.h>
-#include <cal-util/calobj.h>
-#include <cal-util/timeutil.h>
 #include <pi-source.h>
 #include <pi-socket.h>
 #include <pi-file.h>
@@ -21,14 +18,14 @@
 #include <gpilotd/gnome-pilot-conduit.h>
 #include <gpilotd/gnome-pilot-conduit-standard-abs.h>
 #include <address-conduit.h>
-
-//#include "GnomeCal.h"
+#include <libversit/vcc.h>
+#include "ebook/e-book-types.h"
 
 GnomePilotConduit * conduit_get_gpilot_conduit (guint32);
 void conduit_destroy_gpilot_conduit (GnomePilotConduit*);
-void local_record_from_icalobject (GCalLocalRecord *local, iCalObject *obj);
+void local_record_from_ecard (AddressbookLocalRecord *local, ECard *ecard);
 
-#define CONDUIT_VERSION "0.8.11"
+#define CONDUIT_VERSION "0.1"
 #ifdef G_LOG_DOMAIN
 #undef G_LOG_DOMAIN
 #endif
@@ -37,13 +34,13 @@ void local_record_from_icalobject (GCalLocalRecord *local, iCalObject *obj);
 #define DEBUG_CALCONDUIT 1
 /* #undef DEBUG_CALCONDUIT */
 
-#ifdef DEBUG_CALCONDUIT
+#ifdef DEBUG_ADDRESSBOOKCONDUIT
 #define show_exception(e) g_warning ("Exception: %s\n", CORBA_exception_id (e))
 #define LOG(e...) g_log(G_LOG_DOMAIN,G_LOG_LEVEL_MESSAGE, e)
 #else
 #define show_exception(e)
 #define LOG(e...)
-#endif 
+#endif
 
 #define WARN(e...) g_log(G_LOG_DOMAIN,G_LOG_LEVEL_WARNING, e)
 #define INFO(e...) g_log(G_LOG_DOMAIN,G_LOG_LEVEL_MESSAGE, e)
@@ -57,12 +54,18 @@ void local_record_from_icalobject (GCalLocalRecord *local, iCalObject *obj);
   }
 
 
+static void
+status_cb (EBook *ebook, EBookStatus status, gpointer closure)
+{
+	(*(EBookStatus*)closure) = status;
+	gtk_main_quit();
+}
 
 
 /* Destroys any data allocated by gcalconduit_load_configuration
    and deallocates the given configuration. */
 static void 
-gcalconduit_destroy_configuration(GCalConduitCfg **c) 
+conduit_destroy_configuration(AddressbookConduitCfg **c) 
 {
 	g_return_if_fail(c!=NULL);
 	g_return_if_fail(*c!=NULL);
@@ -71,86 +74,87 @@ gcalconduit_destroy_configuration(GCalConduitCfg **c)
 }
 
 
-/* Given a GCalConduitContxt*, allocates the structure */
+/* Given a AddressbookConduitContext**, allocates the structure */
 static void
-gcalconduit_new_context(GCalConduitContext **ctxt,
-			GCalConduitCfg *c) 
+conduit_new_context(AddressbookConduitContext **ctxt,
+		    AddressbookConduitCfg *c) 
 {
-	*ctxt = g_new0(GCalConduitContext,1);
+	*ctxt = g_new0(AddressbookConduitContext,1);
 	g_assert(ctxt!=NULL);
 	(*ctxt)->cfg = c;
 	CORBA_exception_init (&((*ctxt)->ev));
 }
 
 
-/* Destroys any data allocated by gcalconduit_new_context
+/* Destroys any data allocated by conduit_new_context
    and deallocates its data. */
 static void
-gcalconduit_destroy_context(GCalConduitContext **ctxt)
+conduit_destroy_context(AddressbookConduitContext **ctxt)
 {
 	g_return_if_fail(ctxt!=NULL);
 	g_return_if_fail(*ctxt!=NULL);
-/*
+
 	if ((*ctxt)->cfg!=NULL)
-		gcalconduit_destroy_configuration(&((*ctxt)->cfg));
-*/
+		conduit_destroy_configuration(&((*ctxt)->cfg));
+
 	g_free(*ctxt);
 	*ctxt = NULL;
 }
 
 
 static void
-gnome_address_load_cb (GtkWidget *cal_client,
-		       CalClientLoadStatus status,
-		       GCalConduitContext *ctxt)
+cursor_cb (EBook *book, EBookStatus status, ECardCursor *cursor, gpointer closure)
 {
-	//CalClient *client = CAL_CLIENT (cal_client);
+	AddressbookConduitContext *ctxt = (AddressbookConduitContext*)closure;
 
-	printf ("entering gnome_address_load_cb, tried=%d\n",
-		ctxt->address_load_tried);
+	if (status == E_BOOK_STATUS_SUCCESS) {
+		long length;
+		int i;
 
-	if (status == CAL_CLIENT_LOAD_SUCCESS) {
+		ctxt->cursor = cursor;
 		ctxt->address_load_success = TRUE;
-		printf ("  success\n");
-		gtk_main_quit (); /* end the sub event loop */
-	} else {
-		if (ctxt->address_load_tried) {
-			printf ("load and create of address failed\n");
-			gtk_main_quit (); /* end the sub event loop */
-			return;
-		}
 
-		// cal_client_create_address (client, ctxt->address_file);
-		ctxt->address_load_tried = 1;
+		length = e_card_cursor_get_length (cursor);
+		ctxt->cards = NULL;
+		for (i = 0; i < length; i ++)
+			ctxt->cards = g_list_append (ctxt->cards, e_card_cursor_get_nth (cursor, i));
+			
+		gtk_main_quit(); /* end the sub event loop */
+	}
+	else {
+		WARN (_("BLARG\n"));
+		gtk_main_quit(); /* end the sub event loop */
 	}
 }
 
+static void
+book_open_cb (EBook *book, EBookStatus status, gpointer closure)
+{
+	AddressbookConduitContext *ctxt = (AddressbookConduitContext*)closure;
 
-
-
+	if (status == E_BOOK_STATUS_SUCCESS) {
+		e_book_get_cursor (book, "(contains \"full_name\" \"\")", cursor_cb, ctxt);
+	}
+	else {
+		WARN (_("BLARG\n"));
+		gtk_main_quit(); /* end the sub event loop */
+	}
+}
 
 static int
 start_address_server (GnomePilotConduitStandardAbs *conduit,
-		       GCalConduitContext *ctxt)
+		      AddressbookConduitContext *ctxt)
 {
 	
 	g_return_val_if_fail(conduit!=NULL,-2);
 	g_return_val_if_fail(ctxt!=NULL,-2);
 
-	ctxt->client = cal_client_new ();
+	ctxt->ebook = e_book_new ();
 
-	/* FIX ME */
-	ctxt->address_file = g_concat_dir_and_file (g_get_home_dir (),
-			       "evolution/local/something");
+	e_book_load_uri (ctxt->ebook, "file:/home/toshok/evolution/local/Contacts", book_open_cb, ctxt);
 
-	gtk_signal_connect (GTK_OBJECT (ctxt->client), "cal_loaded",
-			    gnome_address_load_cb, ctxt);
-
-	printf ("calling cal_client_load_address\n");
-	//cal_client_load_address (ctxt->client, ctxt->address_file);
-
-	/* run a sub event loop to turn cal-client's async load
-	   notification into a synchronous call */
+	/* run a sub event loop to turn ebook's async loading into a
+           synchronous call */
 	gtk_main ();
 
 	if (ctxt->address_load_success)
@@ -159,78 +163,22 @@ start_address_server (GnomePilotConduitStandardAbs *conduit,
 	return -1;
 }
 
-
-
-static GSList * 
-get_address_objects(GnomePilotConduitStandardAbs *conduit,
-		     gboolean *status,
-		     GCalConduitContext *ctxt) 
-{
-#if 0
-	GList *uids;
-	GSList *result = NULL;
-
-	g_return_val_if_fail (conduit != NULL, NULL);
-	g_return_val_if_fail (ctxt != NULL, NULL);
-
-	uids = cal_client_get_uids (ctxt->client, CALOBJ_TYPE_ADDRESS);
-
-	printf ("got %d address entries from cal server\n", g_list_length (uids));
-
-	if (status != NULL)
-		(*status) = TRUE;
-
-	if (! uids)
-		INFO ("No entries found");
-	else {
-		GList *c;
-		for (c=uids; c; c=c->next)
-			result = g_slist_prepend (result, (gchar *) c->data);
-		/* FIX ME free uids */
-	}
-
-	return result;
-#endif /* 0 */
-	return NULL;
-}
-
-
-static void 
-local_record_from_ical_uid (GCalLocalRecord *local,
-			    char *uid,
-			    GCalConduitContext *ctxt)
-{
-	iCalObject *obj;
-	CalClientGetStatus status;
-
-	g_assert(local!=NULL);
-
-	status = cal_client_get_object (ctxt->client, uid, &obj);
-
-	if (status == CAL_CLIENT_GET_SUCCESS)
-		local_record_from_icalobject(local,obj);
-	else
-		INFO ("Object did not exist");
-}
-
-
 /*
- * converts a iCalObject to a GCalLocalRecord
+ * converts a ECard to a AddressbookLocalRecord
  */
-
 void
-local_record_from_icalobject(GCalLocalRecord *local,
-			     iCalObject *obj) 
+local_record_from_ecard(AddressbookLocalRecord *local,
+			ECard *ecard)
 {
 	g_return_if_fail(local!=NULL);
-	g_return_if_fail(obj!=NULL);
+	g_return_if_fail(ecard!=NULL);
 
-	local->ical = obj;
-	local->local.ID = local->ical->pilot_id;
-/*
+	local->ecard = ecard;
+	local->local.ID = local->ecard->pilot_id;
+#if 0
 	LOG ("local->Id = %ld [%s], status = %d",
 		  local->local.ID,obj->summary,local->ical->pilot_status);
-*/
+
 	switch(local->ical->pilot_status) {
 	case ICAL_PILOT_SYNC_NONE: 
 		local->local.attr = GnomePilotRecordNothing; 
@@ -242,218 +190,193 @@ local_record_from_icalobject(GCalLocalRecord *local,
 		local->local.attr = GnomePilotRecordDeleted; 
 		break;
 	}
+#endif
+
+	local->local.attr = GnomePilotRecordNothing;
 
 	/* Records without a pilot_id are new */
 	if(local->local.ID == 0) 
 		local->local.attr = GnomePilotRecordNew; 
   
 	local->local.secret = 0;
+#if 0
 	if(obj->class!=NULL) 
 		if(strcmp(obj->class,"PRIVATE")==0)
 			local->local.secret = 1;
+#endif
  
 	local->local.archived = 0;  
 }
 
+static ECard *
+get_ecard_by_pilot_id (GList *card_list, recordid_t id)
+{
+	GList *l;
+
+	for (l = card_list; l; l = l->next) {
+		guint32 pilot_id;
+		ECard *card = l->data;
+
+		if (!card)
+			continue;
+
+		gtk_object_get (GTK_OBJECT(card), "pilot_id", &pilot_id);
+
+		if (pilot_id == id)
+			return card;
+	}
+
+	return NULL;
+}
 
 /*
  * Given a PilotRecord, find the matching record in
- * the address repository. If no match, return NULL
+ * the addressbook. If no match, return NULL
  */
-static GCalLocalRecord *
-find_record_in_repository(GnomePilotConduitStandardAbs *conduit,
-			  PilotRecord *remote,
-			  GCalConduitContext *ctxt) 
+static AddressbookLocalRecord *
+find_record_in_ebook(GnomePilotConduitStandardAbs *conduit,
+		     PilotRecord *remote,
+		     AddressbookConduitContext *ctxt) 
 {
-	char *uid = NULL;
-	GCalLocalRecord *loc;
-	CalClientGetStatus status;
-	iCalObject *obj;
+	AddressbookLocalRecord *loc;
+	ECard *ecard;
   
 	g_return_val_if_fail(conduit!=NULL,NULL);
 	g_return_val_if_fail(remote!=NULL,NULL);
   
 	LOG ("requesting %ld", remote->ID);
 
+	ecard = get_ecard_by_pilot_id (ctxt->cards, remote->ID);
 
-	status = cal_client_get_uid_by_pilot_id (ctxt->client, remote->ID, &uid);
-
-	if (status == CAL_CLIENT_GET_SUCCESS) {
-		status = cal_client_get_object (ctxt->client, uid, &obj);
-		if (status == CAL_CLIENT_GET_SUCCESS) {
-			LOG ("Found");
-			loc = g_new0(GCalLocalRecord,1);
-			/* memory allocated in new_from_string is freed in free_match */
-			local_record_from_icalobject (loc, obj);
-			return loc;
-		}
+	if (NULL != ecard) {
+		LOG ("Found");
+		loc = g_new0(AddressbookLocalRecord,1);
+		/* memory allocated in new_from_string is freed in free_match */
+		local_record_from_ecard (loc, ecard);
+		return loc;
 	}
 
 	INFO ("Object did not exist");
 	return NULL;
 }
 
-
-/* 
- * updates an given iCalObject in the repository
- */
-static void
-update_address_entry_in_repository(GnomePilotConduitStandardAbs *conduit,
-				    iCalObject *obj,
-				    GCalConduitContext *ctxt) 
+static ECard *
+ecard_from_remote_record(GnomePilotConduitStandardAbs *conduit,
+			 PilotRecord *remote)
 {
-	gboolean success;
-
-	g_return_if_fail(conduit!=NULL);
-	g_return_if_fail(obj!=NULL);
-
-	success = cal_client_update_object (ctxt->client, obj);
-}
-
-
-static iCalObject *
-ical_from_remote_record(GnomePilotConduitStandardAbs *conduit,
-			PilotRecord *remote,
-			iCalObject *in_obj)
-{
-#if 0
-	iCalObject *obj;
+	ECard *ecard;
 	struct Address address;
-	time_t now;
-
-	now = time (NULL);
+	VObject *vobj;
+	VObject *nameprop, *addressprop;
+	char *temp;
 
 	g_return_val_if_fail(remote!=NULL,NULL);
 	memset (&address, 0, sizeof (struct Address));
 	unpack_Address (&address, remote->record, remote->length);
 	
-	if (in_obj == NULL)
-		obj = ical_new (address.note ? address.note : "",
-				g_get_user_name (),
-				address.description ? address.description : "");
-	else 
-		obj = in_obj;
-	
-	if (address.note) {
-		g_free (obj->comment);
-		obj->comment = g_strdup (address.note);
+	vobj = newVObject (VCCardProp);
+	nameprop = addProp (vobj, VCNameProp);
+
+#define ADD_PROP(v,pilotprop,vprop) \
+	if (address.entry [(pilotprop)]) \
+		addPropValue ((v), (vprop), address.entry [(pilotprop)])
+
+	ADD_PROP (nameprop, entryFirstname, VCGivenNameProp);
+	ADD_PROP (nameprop, entryLastname, VCFamilyNameProp);
+
+	addressprop = addProp (vobj, VCAdrProp);
+
+	ADD_PROP (addressprop, entryAddress, VCStreetAddressProp);
+	ADD_PROP (addressprop, entryCity, VCCityProp);
+	ADD_PROP (addressprop, entryState, VCRegionProp);
+	ADD_PROP (addressprop, entryZip, VCPostalCodeProp);
+	ADD_PROP (addressprop, entryCountry, VCCountryNameProp);
+
+	ADD_PROP (vobj, entryTitle, VCTitleProp);
+
+	if (address.entry [entryCompany]) {
+		VObject *orgprop;
+		orgprop = addProp (vobj, VCOrgProp);
+		ADD_PROP (orgprop, entryCompany, VCOrgNameProp);
 	}
-	if (address.description) {
-		g_free (obj->summary);
-		obj->summary = g_strdup (address.description);
-	}
 
-	obj->type = ICAL_ADDRESS;
-	obj->new = TRUE;
-	obj->created = now;
-	obj->last_mod = now;
-	obj->priority = 0;
-	obj->transp = 0;
-	obj->related = NULL;
-	obj->pilot_id = remote->ID;
-	obj->pilot_status = ICAL_PILOT_SYNC_NONE;
-
-	/*
-	 * Begin and end
-	 */
-	
-	obj->dtend = mktime (& address.due);
-
-	if (address.complete)
-		obj->completed = now-5; /* FIX ME */
-
-	printf ("[%s] from pilot, complete=%d/%ld\n",
-		address.description,
-		address.complete,
-		obj->completed);
-
-	obj->priority = address.priority;
-
-	g_free (obj->class);
-	
-	if (remote->attr & dlpRecAttrSecret)
-		obj->class = g_strdup ("PRIVATE");
-	else
-		obj->class = g_strdup ("PUBLIC");
-
+	temp = writeMemVObject (NULL, NULL, vobj);
+	ecard = e_card_new (temp);
+	free (temp);
+	cleanVObject (vobj);
 
 	free_Address(&address);
 
-	return obj;
-#endif /* 0 */
-	return NULL;
+	gtk_object_set (GTK_OBJECT(ecard), "pilot_id", remote->ID);
+
+	return ecard;
 }
 
+static void
+add_card_cb (EBook *ebook, EBookStatus status, const char *id, gpointer closure)
+{
+	(*(EBookStatus*)closure) = status;
+	gtk_main_quit();
+}
 
 static gint
 update_record (GnomePilotConduitStandardAbs *conduit,
 	       PilotRecord *remote,
-	       GCalConduitContext *ctxt)
+	       AddressbookConduitContext *ctxt)
 {
-#if 0
-	iCalObject *obj;
 	struct Address address;
-	CalClientGetStatus status;
-	char *uid;
+	ECard *ecard;
 
 	g_return_val_if_fail(remote!=NULL,-1);
 
 	memset (&address, 0, sizeof (struct Address));
 	unpack_Address (&address, remote->record, remote->length);
 
-	LOG ("requesting %ld [%s]", remote->ID, address.description);
-	printf ("requesting %ld [%s]\n", remote->ID, address.description);
+	LOG ("requesting %ld [%s %s]", remote->ID, address.entry[entryFirstname], address.entry[entryLastname]);
+	printf ("requesting %ld [%s %s]\n", remote->ID, address.entry[entryFirstname], address.entry[entryLastname]);
 
-	status = cal_client_get_uid_by_pilot_id(ctxt->client, remote->ID, &uid);
-	if (status == CAL_CLIENT_GET_SUCCESS)
-		status = cal_client_get_object (ctxt->client, uid, &obj);
+	ecard = get_ecard_by_pilot_id (ctxt->cards, remote->ID);
 
-	if (status != CAL_CLIENT_GET_SUCCESS) {
-		time_t now = time (NULL);
+	if (ecard == NULL) {
+		EBookStatus ebook_status;
 
 		LOG ("Object did not exist, creating a new one");
 		printf ("Object did not exist, creating a new one\n");
 
-		obj = ical_new (address.note ? address.note : "",
-				g_get_user_name (),
-				address.description ? address.description : "");
+		ecard = ecard_from_remote_record (conduit, remote);
 
-		obj->type = ICAL_ADDRESS;
-		obj->new = TRUE;
-		obj->created = now;
-		obj->last_mod = now;
-		obj->priority = 0;
-		obj->transp = 0;
-		obj->related = NULL;
-		obj->pilot_id = remote->ID;
-		obj->pilot_status = ICAL_PILOT_SYNC_NONE;
+		/* add the ecard to the server */
+		e_book_add_card (ctxt->ebook, ecard, add_card_cb, &ebook_status);
+		gtk_main(); /* enter sub mainloop */
+
+		if (ebook_status == E_BOOK_STATUS_SUCCESS)
+			ctxt->cards = g_list_append (ctxt->cards, ecard);
+		else
+			WARN ("update_record: failed to add card to ebook\n");
 	} else {
+#if 0
+		/* XXX toshok: need to figure out exactly what should
+                   be done here - default to the existing ecard and
+                   overwrite with information from the pilot? */
 		iCalObject *new_obj;
 		LOG ("Found");
 		printf ("Found\n");
-		new_obj = ical_from_remote_record (conduit, remote, obj);
+		new_obj = ecard_from_remote_record (conduit, remote, obj);
 		obj = new_obj;
+#endif
 	}
 
+#if 0
 	/* update record on server */
-	
-	update_address_entry_in_repository (conduit, obj, ctxt);
-	cal_client_update_pilot_id (ctxt->client, obj->uid, obj->pilot_id,
-				    ICAL_PILOT_SYNC_NONE);
-
-	/*
-	 * Shutdown
-	 */
-	ical_object_unref (obj);
+	update_ecard (conduit, ecard, ctxt);
+#endif
 	free_Address(&address);
-
-#endif /* 0 */
 
 	return 0;
 }
 
 static void
-check_for_slow_setting (GnomePilotConduit *c, GCalConduitContext *ctxt)
+check_for_slow_setting (GnomePilotConduit *c, AddressbookConduitContext *ctxt)
 {
 #if 0
 	GList *uids;
@@ -476,51 +399,27 @@ check_for_slow_setting (GnomePilotConduit *c, GCalConduitContext *ctxt)
 static gint
 pre_sync (GnomePilotConduit *c,
 	  GnomePilotDBInfo *dbi,
-	  GCalConduitContext *ctxt)
+	  AddressbookConduitContext *ctxt)
 {
 	int l;
 	unsigned char *buf;
 	GnomePilotConduitStandardAbs *conduit;
-	/* gint num_records; */
-	//GList *uids;
-
-	/*
-	g_log_set_always_fatal (G_LOG_LEVEL_ERROR |
-				G_LOG_LEVEL_CRITICAL |
-				G_LOG_LEVEL_WARNING);
-	*/
-
 
 	conduit = GNOME_PILOT_CONDUIT_STANDARD_ABS(c);
   
-	g_message ("GnomeCal Conduit v.%s",CONDUIT_VERSION);
+	g_message ("Evolution Addressbook Conduit v.%s",CONDUIT_VERSION);
 
-	ctxt->client = NULL;
+	ctxt->ebook = NULL;
 	
 	if (start_address_server (GNOME_PILOT_CONDUIT_STANDARD_ABS(c), ctxt) != 0) {
-		WARN(_("Could not start gnomecal server"));
+		WARN(_("Could not start addressbook server"));
 		gnome_pilot_conduit_error(GNOME_PILOT_CONDUIT(c),
-					  _("Could not start gnomecal server"));
+					  _("Could not start addressbook server"));
 		return -1;
 	}
 
 
-#if 0  
 	/* Set the counters for the progress bar crap */
-	num_records = GNOME_Calendar_Repository_get_number_of_objects (ctxt->calendar, GNOME_Calendar_Repository_ANY, &(ctxt->ev));
-
-	catch_ret_val (ctxt->ev, -1);
-	gnome_pilot_conduit_standard_abs_set_num_local_records(GNOME_PILOT_CONDUIT_STANDARD_ABS(c), num_records);
-	num_records = GNOME_Calendar_Repository_get_number_of_objects (ctxt->calendar, GNOME_Calendar_Repository_MODIFIED, &(ctxt->ev));
-	catch_ret_val (ctxt->ev, -1);
-	gnome_pilot_conduit_standard_abs_set_num_updated_local_records(GNOME_PILOT_CONDUIT_STANDARD_ABS(c), num_records);
-	num_records = GNOME_Calendar_Repository_get_number_of_objects (ctxt->calendar, GNOME_Calendar_Repository_NEW, &(ctxt->ev));
-	catch_ret_val (ctxt->ev, -1);
-	gnome_pilot_conduit_standard_abs_set_num_new_local_records(GNOME_PILOT_CONDUIT_STANDARD_ABS(c), num_records);
-	num_records = GNOME_Calendar_Repository_get_number_of_objects (ctxt->calendar, GNOME_Calendar_Repository_DELETED, &(ctxt->ev));
-	catch_ret_val (ctxt->ev, -1);
-	gnome_pilot_conduit_standard_abs_set_num_deleted_local_records(GNOME_PILOT_CONDUIT_STANDARD_ABS(c), num_records);
-#endif /* 0 */
 
 	gtk_object_set_data(GTK_OBJECT(c),"dbinfo",dbi);
   
@@ -528,16 +427,21 @@ pre_sync (GnomePilotConduit *c,
 
 	buf = (unsigned char*)g_malloc(0xffff);
 	if((l=dlp_ReadAppBlock(dbi->pilot_socket,dbi->db_handle,0,(unsigned char *)buf,0xffff)) < 0) {
-		WARN(_("Could not read pilot's DateBook application block"));
+		WARN(_("Could not read pilot's Address application block"));
 		WARN("dlp_ReadAppBlock(...) = %d",l);
 		gnome_pilot_conduit_error(GNOME_PILOT_CONDUIT(c),
-			     _("Could not read pilot's DateBook application block"));
+			     _("Could not read pilot's Address application block"));
 		return -1;
 	}
 	unpack_AddressAppInfo(&(ctxt->ai),buf,l);
 	g_free(buf);
 
+#if 0
 	check_for_slow_setting(c,ctxt);
+#else
+	/* for now just always use the slow sync method */
+	gnome_pilot_conduit_standard_set_slow (GNOME_PILOT_CONDUIT_STANDARD (c));
+#endif
 
 	return 0;
 }
@@ -552,16 +456,16 @@ pre_sync (GnomePilotConduit *c,
 
 static gint
 match_record	(GnomePilotConduitStandardAbs *conduit,
-		 GCalLocalRecord **local,
+		 AddressbookLocalRecord **local,
 		 PilotRecord *remote,
-		 GCalConduitContext *ctxt)
+		 AddressbookConduitContext *ctxt)
 {
 	LOG ("in match_record");
 
 	g_return_val_if_fail(local!=NULL,-1);
 	g_return_val_if_fail(remote!=NULL,-1);
 
-	*local = find_record_in_repository(conduit,remote,ctxt);
+	*local = find_record_in_ebook(conduit,remote,ctxt);
   
 	if (*local==NULL) return -1;
 	return 0;
@@ -574,15 +478,15 @@ match_record	(GnomePilotConduitStandardAbs *conduit,
  */
 static gint
 free_match	(GnomePilotConduitStandardAbs *conduit,
-		 GCalLocalRecord **local,
-		 GCalConduitContext *ctxt)
+		 AddressbookLocalRecord **local,
+		 AddressbookConduitContext *ctxt)
 {
 	LOG ("entering free_match");
 
 	g_return_val_if_fail(local!=NULL,-1);
 	g_return_val_if_fail(*local!=NULL,-1);
 
-	ical_object_unref (GCAL_LOCALRECORD(*local)->ical); 
+	gtk_object_unref (GTK_OBJECT((*local)->ecard));
 	g_free(*local);
 	
         *local = NULL;
@@ -594,8 +498,8 @@ free_match	(GnomePilotConduitStandardAbs *conduit,
  */
 static gint
 archive_local (GnomePilotConduitStandardAbs *conduit,
-	       GCalLocalRecord *local,
-	       GCalConduitContext *ctxt)
+	       AddressbookLocalRecord *local,
+	       AddressbookConduitContext *ctxt)
 {
 	LOG ("entering archive_local");
 
@@ -606,12 +510,12 @@ archive_local (GnomePilotConduitStandardAbs *conduit,
 
 /*
   Store in archive and set status to Nothing
- */
+*/
 static gint
 archive_remote (GnomePilotConduitStandardAbs *conduit,
-		GCalLocalRecord *local,
+		AddressbookLocalRecord *local,
 		PilotRecord *remote,
-		GCalConduitContext *ctxt)
+		AddressbookConduitContext *ctxt)
 {
 	LOG ("entering archive_remote");
 
@@ -627,7 +531,7 @@ archive_remote (GnomePilotConduitStandardAbs *conduit,
 static gint
 store_remote (GnomePilotConduitStandardAbs *conduit,
 	      PilotRecord *remote,
-	      GCalConduitContext *ctxt)
+	      AddressbookConduitContext *ctxt)
 {
 	LOG ("entering store_remote");
 
@@ -639,8 +543,8 @@ store_remote (GnomePilotConduitStandardAbs *conduit,
 
 static gint
 clear_status_archive_local (GnomePilotConduitStandardAbs *conduit,
-			    GCalLocalRecord *local,
-			    GCalConduitContext *ctxt)
+			    AddressbookLocalRecord *local,
+			    AddressbookConduitContext *ctxt)
 {
 	LOG ("entering clear_status_archive_local");
 
@@ -651,52 +555,39 @@ clear_status_archive_local (GnomePilotConduitStandardAbs *conduit,
 
 static gint
 iterate (GnomePilotConduitStandardAbs *conduit,
-	 GCalLocalRecord **local,
-	 GCalConduitContext *ctxt)
+	 AddressbookLocalRecord **local,
+	 AddressbookConduitContext *ctxt)
 {
-	static GSList *events,*iterator;
-	static int hest;
+	static GList *iterator;
+	static int num;
 
 	g_return_val_if_fail(local!=NULL,-1);
 
-	if(*local==NULL) {
+	if (*local==NULL) {
 		LOG ("beginning iteration");
 
-		events = get_address_objects (conduit, NULL, ctxt);
-		hest = 0;
+		iterator = ctxt->cards;
+		num = 0;
 		
-		if(events!=NULL) {
-			LOG ("iterating over %d records", g_slist_length (events));
-			*local = g_new0(GCalLocalRecord,1);
-
-			local_record_from_ical_uid(*local,(gchar*)events->data,ctxt);
-			iterator = events;
-		} else {
-			LOG ("no events");
-			(*local) = NULL;
-		}
+		LOG ("iterating over %d records", g_list_length (ctxt->cards));
+		*local = g_new0(AddressbookLocalRecord, 1);
+		local_record_from_ecard (*local, (ECard*)iterator->data);
 	} else {
 		/* printf ("continuing iteration\n"); */
-		hest++;
-		if(g_slist_next(iterator)==NULL) {
-			GSList *l;
-
+		num++;
+		if(g_list_next(iterator)==NULL) {
 			LOG ("ending");
 			/** free stuff allocated for iteration */
 			g_free((*local));
 
-			LOG ("iterated over %d records", hest);
-			for(l=events;l;l=l->next)
-				g_free(l->data);
-
-			g_slist_free(events);
+			LOG ("iterated over %d records", num);
 
 			/* ends iteration */
 			(*local) = NULL;
 			return 0;
 		} else {
-			iterator = g_slist_next(iterator);
-			local_record_from_ical_uid(*local,(gchar*)(iterator->data),ctxt);
+			iterator = g_list_next (iterator);
+			local_record_from_ecard (*local,(ECard*)(iterator->data));
 		}
 	}
 	return 1;
@@ -705,10 +596,10 @@ iterate (GnomePilotConduitStandardAbs *conduit,
 
 static gint
 iterate_specific (GnomePilotConduitStandardAbs *conduit,
-		  GCalLocalRecord **local,
+		  AddressbookLocalRecord **local,
 		  gint flag,
 		  gint archived,
-		  GCalConduitContext *ctxt)
+		  AddressbookConduitContext *ctxt)
 {
 #ifdef DEBUG_CALCONDUIT
 	{
@@ -737,7 +628,7 @@ iterate_specific (GnomePilotConduitStandardAbs *conduit,
 
 static gint
 purge (GnomePilotConduitStandardAbs *conduit,
-       GCalConduitContext *ctxt)
+       AddressbookConduitContext *ctxt)
 {
 	LOG ("entering purge");
 
@@ -749,10 +640,11 @@ purge (GnomePilotConduitStandardAbs *conduit,
 
 static gint
 set_status (GnomePilotConduitStandardAbs *conduit,
-	    GCalLocalRecord *local,
+	    AddressbookLocalRecord *local,
 	    gint status,
-	    GCalConduitContext *ctxt)
+	    AddressbookConduitContext *ctxt)
 {
+#if 0
 	gboolean success;
 	LOG ("entering set_status(status=%d)",status);
 
@@ -786,62 +678,69 @@ set_status (GnomePilotConduitStandardAbs *conduit,
 	if (! success) {
 		WARN (_("Error while communicating with address server"));
 	}
+#endif
 	
         return 0;
 }
 
 static gint
 set_archived (GnomePilotConduitStandardAbs *conduit,
-	      GCalLocalRecord *local,
+	      AddressbookLocalRecord *local,
 	      gint archived,
-	      GCalConduitContext *ctxt)
+	      AddressbookConduitContext *ctxt)
 {
+#if 0
 	LOG ("entering set_archived");
 
 	g_return_val_if_fail(local!=NULL,-1);
-	g_assert(local->ical!=NULL);
+	g_assert(local->ecard!=NULL);
 
 	local->local.archived = archived;
 	update_address_entry_in_repository (conduit, local->ical, ctxt);
+#endif
         return 0;
 }
 
 static gint
 set_pilot_id (GnomePilotConduitStandardAbs *conduit,
-	      GCalLocalRecord *local,
+	      AddressbookLocalRecord *local,
 	      guint32 ID,
-	      GCalConduitContext *ctxt)
+	      AddressbookConduitContext *ctxt)
 {
+	EBookStatus commit_status;
+
 	LOG ("entering set_pilot_id(id=%d)",ID);
 
 	g_return_val_if_fail(local!=NULL,-1);
-	g_assert(local->ical!=NULL);
+	g_assert(local->ecard!=NULL);
 
 	local->local.ID = ID;
-	local->ical->pilot_id = ID;
 
-	cal_client_update_pilot_id (ctxt->client,
-				    local->ical->uid,
-				    local->local.ID,
-				    local->ical->pilot_status);
+	gtk_object_set (GTK_OBJECT(local->ecard), "pilot_id", local->local.ID);
+	e_book_commit_card (ctxt->ebook, local->ecard, status_cb, &commit_status);
 
-        return 0;
+	if (commit_status == E_BOOK_STATUS_SUCCESS) {
+		return 0;
+	}
+	else {
+		WARN ("set_pilot_id failed.\n");
+		return -1;
+	}
 }
 
 static gint
 transmit (GnomePilotConduitStandardAbs *conduit,
-	  GCalLocalRecord *local,
+	  AddressbookLocalRecord *local,
 	  PilotRecord **remote,
-	  GCalConduitContext *ctxt)
+	  AddressbookConduitContext *ctxt)
 {
-#if 0
 	PilotRecord *p;
 	
 	LOG ("entering transmit");
 
 	g_return_val_if_fail(local!=NULL,-1);
 	g_return_val_if_fail(remote!=NULL,-1);
-	g_assert(local->ical!=NULL);
+	g_assert(local->ecard!=NULL);
 
 	p = g_new0(PilotRecord,1);
 
@@ -852,23 +751,11 @@ transmit (GnomePilotConduitStandardAbs *conduit,
 
 	local->address = g_new0(struct Address,1);
 
-	local->address->indefinite = 0; /* FIX ME */
-	local->address->due = *localtime (&local->ical->dtend);
-	local->address->priority = local->ical->priority;
-
-	if (local->ical->completed > 0)
-		local->address->complete = 1; /* FIX ME */
-
-	/* STOP: don't replace these with g_strdup, since free_Address
-	   uses free to deallocte */
-	local->address->description = 
-		local->ical->summary==NULL?NULL:strdup(local->ical->summary);
-	local->address->note = 
-		local->ical->comment==NULL?NULL:strdup(local->ical->comment);
-
+#if 0
 	printf ("transmitting address to pilot [%s] complete=%d/%ld\n",
 		local->ical->summary==NULL?"NULL":local->ical->summary,
 		local->address->complete, local->ical->completed);
+#endif
 
 	/* Generate pilot record structure */
 	p->record = g_new0(char,0xffff);
@@ -876,16 +763,14 @@ transmit (GnomePilotConduitStandardAbs *conduit,
 
 	*remote = p;
 
-#endif /* 0 */
-
 	return 0;
 }
 
 static gint
 free_transmit (GnomePilotConduitStandardAbs *conduit,
-	       GCalLocalRecord *local,
+	       AddressbookLocalRecord *local,
 	       PilotRecord **remote,
-	       GCalConduitContext *ctxt)
+	       AddressbookConduitContext *ctxt)
 {
 	LOG ("entering free_transmit");
 
@@ -900,9 +785,9 @@ free_transmit (GnomePilotConduitStandardAbs *conduit,
 
 static gint
 compare (GnomePilotConduitStandardAbs *conduit,
-	    GCalLocalRecord *local,
-	    PilotRecord *remote,
-	    GCalConduitContext *ctxt)
+	 AddressbookLocalRecord *local,
+	 PilotRecord *remote,
+	 AddressbookConduitContext *ctxt)
 {
 #if 0
 	/* used by the quick compare */
@@ -969,9 +854,9 @@ compare (GnomePilotConduitStandardAbs *conduit,
 
 static gint
 compare_backup (GnomePilotConduitStandardAbs *conduit,
-		GCalLocalRecord *local,
+		AddressbookLocalRecord *local,
 		PilotRecord *remote,
-		GCalConduitContext *ctxt)
+		AddressbookConduitContext *ctxt)
 {
 	LOG ("entering compare_backup");
 
@@ -981,28 +866,25 @@ compare_backup (GnomePilotConduitStandardAbs *conduit,
         return -1;
 }
 
-
 static gint
 delete_all (GnomePilotConduitStandardAbs *conduit,
-	    GCalConduitContext *ctxt)
+	    AddressbookConduitContext *ctxt)
 {
-	GSList *events,*it;
-	gboolean error;
-	gboolean success;
+	GList *it;
 
-	events = get_address_objects (conduit, &error, ctxt);
+	for (it=ctxt->cards; it; it = g_list_next (it)) {
+		EBookStatus remove_status;
+		e_book_remove_card (ctxt->ebook, it->data, status_cb, &remove_status);
+		gtk_main (); /* enter sub main loop */
 
-	if (error == FALSE) return -1;
-	for (it=events; it; it = g_slist_next (it)) {
-		success = cal_client_remove_object (ctxt->client, it->data);
+		if (E_BOOK_STATUS_SUCCESS != remove_status)
+			WARN ("Failed to remove ecard");
 
-		if (!success)
-			INFO ("Object did not exist");
-
-		g_free (it->data);
+		gtk_object_unref (it->data);
 	}
 
-	g_slist_free (events);
+	g_list_free (ctxt->cards);
+	ctxt->cards = NULL;
         return -1;
 }
 
@@ -1011,8 +893,8 @@ GnomePilotConduit *
 conduit_get_gpilot_conduit (guint32 pilotId)
 {
 	GtkObject *retval;
-	GCalConduitCfg *cfg;
-	GCalConduitContext *ctxt;
+	AddressbookConduitCfg *cfg;
+	AddressbookConduitContext *ctxt;
 
 	printf ("in address's conduit_get_gpilot_conduit\n");
 
@@ -1020,10 +902,10 @@ conduit_get_gpilot_conduit (guint32 pilotId)
 	g_assert (retval != NULL);
 	gnome_pilot_conduit_construct(GNOME_PILOT_CONDUIT(retval),"AddressConduit");
 
-	gcalconduit_load_configuration(&cfg,pilotId);
+	conduit_load_configuration(&cfg,pilotId);
 	gtk_object_set_data(retval,"addressconduit_cfg",cfg);
 
-	gcalconduit_new_context(&ctxt,cfg);
+	conduit_new_context(&ctxt,cfg);
 	gtk_object_set_data(GTK_OBJECT(retval),"addressconduit_context",ctxt);
 
 	gtk_signal_connect (retval, "match_record", (GtkSignalFunc) match_record, ctxt);
@@ -1051,19 +933,19 @@ conduit_get_gpilot_conduit (guint32 pilotId)
 void
 conduit_destroy_gpilot_conduit (GnomePilotConduit *conduit)
 { 
-        GCalConduitCfg *cc;
-	GCalConduitContext *ctxt;
+        AddressbookConduitCfg *cc;
+	AddressbookConduitContext *ctxt;
 
-        cc = GET_GCALCONFIG(conduit);
-	ctxt = GET_GCALCONTEXT(conduit);
+        cc = GET_CONDUITCFG(conduit);
+	ctxt = GET_CONDUITCONTEXT(conduit);
 
-	if (ctxt->client != NULL) {
-		gtk_object_unref (GTK_OBJECT (ctxt->client));
+	if (ctxt->ebook != NULL) {
+		gtk_object_unref (GTK_OBJECT (ctxt->ebook));
 	}
 
-        gcalconduit_destroy_configuration (&cc);
+        conduit_destroy_configuration (&cc);
 
-	gcalconduit_destroy_context (&ctxt);
+	conduit_destroy_context (&ctxt);
 
 	gtk_object_destroy (GTK_OBJECT (conduit));
 }
