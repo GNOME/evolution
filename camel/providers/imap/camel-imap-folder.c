@@ -89,8 +89,9 @@ static GPtrArray *imap_search_by_expression (CamelFolder *folder, const char *ex
 static void imap_finalize (CamelObject *object);
 
 /* flag methods */
-static guint32  imap_get_message_flags   (CamelFolder *folder, const char *uid);
-static void     imap_set_message_flags   (CamelFolder *folder, const char *uid, guint32 flags, guint32 set);
+/*static guint32  imap_get_permanent_flags   (CamelFolder *folder, CamelException *ex);*/
+static guint32  imap_get_message_flags     (CamelFolder *folder, const char *uid);
+static void     imap_set_message_flags     (CamelFolder *folder, const char *uid, guint32 flags, guint32 set);
 static gboolean imap_get_message_user_flag (CamelFolder *folder, const char *uid, const char *name);
 static void     imap_set_message_user_flag (CamelFolder *folder, const char *uid, const char *name,
 					    gboolean value);
@@ -128,6 +129,7 @@ camel_imap_folder_class_init (CamelImapFolderClass *camel_imap_folder_class)
 
 	camel_folder_class->search_by_expression = imap_search_by_expression;
 
+	/*camel_folder_class->get_permanent_flags = imap_get_permanent_flags;*/
 	camel_folder_class->get_message_flags = imap_get_message_flags;
 	camel_folder_class->set_message_flags = imap_set_message_flags;
 	camel_folder_class->get_message_user_flag = imap_get_message_user_flag;
@@ -563,19 +565,19 @@ imap_append_message (CamelFolder *folder, CamelMimeMessage *message, const Camel
 				      "Could not APPEND message to IMAP server %s: %s.",
 				      service->url->host,
 				      g_strerror (errno));
-
+		
 	        return;
 	}
-
+	
 	mem->buffer = g_byte_array_append (mem->buffer, g_strdup ("\r\n"), 3);
-
+	
 	dir_sep = CAMEL_IMAP_STORE (folder->parent_store)->dir_sep;
 	
 	if (url && url->path && *(url->path + 1) && strcmp (folder->full_name, "INBOX"))
 		folder_path = g_strdup_printf ("%s%s%s", url->path + 1, dir_sep, folder->full_name);
 	else
 		folder_path = g_strdup (folder->full_name);
-
+	
 	/* create flag string param */
 	if (info && info->flags) {
 		flagstr = g_strconcat (" (", info->flags & CAMEL_MESSAGE_SEEN ? "\\Seen " : "",
@@ -593,7 +595,7 @@ imap_append_message (CamelFolder *folder, CamelMimeMessage *message, const Camel
 					      folder, &result, "APPEND %s%s {%d}\r\n%s",
 					      folder_path, flagstr ? flagstr : "",
 					      mem->buffer->len - 1, mem->buffer->data);
-
+	
 	if (status != CAMEL_IMAP_OK) {
 		CamelService *service = CAMEL_SERVICE (folder->parent_store);
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
@@ -605,12 +607,12 @@ imap_append_message (CamelFolder *folder, CamelMimeMessage *message, const Camel
 		g_free (folder_path);
 		return;
 	}
-
+	
 	/* FIXME: we should close/free the mem stream */
-
+	
 	g_free (result);
 	g_free (folder_path);
-
+	
 	camel_imap_folder_changed (folder, 1, ex);
 }
 
@@ -1483,12 +1485,14 @@ imap_search_by_expression (CamelFolder *folder, const char *expression, CamelExc
 	return uids;
 }
 
+#if 0
 static guint32
 imap_get_permanent_flags (CamelFolder *folder, CamelException *ex)
 {
 	/* return permamnant flags */
 	return folder->permanent_flags;
 }
+#endif
 
 static guint32
 imap_get_message_flags (CamelFolder *folder, const char *uid)
@@ -1512,7 +1516,7 @@ imap_set_message_flags (CamelFolder *folder, const char *uid, guint32 flags, gui
 	info->flags = (info->flags & ~flags) | (set & flags) | CAMEL_MESSAGE_FOLDER_FLAGGED;
 	
 	/*gtk_signal_emit_by_name (GTK_OBJECT (folder), "message_changed", uid);*/
-	camel_object_trigger_event (CAMEL_OBJECT (folder), "message_changed", uid);
+	camel_object_trigger_event (CAMEL_OBJECT (folder), "message_changed", (char *) uid);
 }
 
 static gboolean
@@ -1525,7 +1529,7 @@ static void
 imap_set_message_user_flag (CamelFolder *folder, const char *uid, const char *name, gboolean value)
 {
 	/*gtk_signal_emit_by_name (GTK_OBJECT (folder), "message_changed", uid);*/
-	camel_object_trigger_event (CAMEL_OBJECT (folder), "message_changed", uid);
+	camel_object_trigger_event (CAMEL_OBJECT (folder), "message_changed", (char *) uid);
 }
 
 void
@@ -1556,7 +1560,7 @@ camel_imap_folder_changed (CamelFolder *folder, gint recent, CamelException *ex)
 				/* our hack failed so now we need to do it the old fashioned way */
 				/*imap_get_summary_internal (folder, ex);*/
 				d(fprintf (stderr, "*** we tried to get message %d but failed\n", i));
-				/*break;*/
+				break;
 			}
 		}
 	}

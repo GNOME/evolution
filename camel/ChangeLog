@@ -1,3 +1,9 @@
+2000-08-10  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* providers/imap/camel-imap-folder.c (camel_imap_folder_changed):
+	If we go over the max number of messages, don't keep requesting
+	new message summaries, just break.
+
 2000-08-11  Not Zed  <NotZed@HelixCode.com>
 
 	* camel-mime-parser.c (folder_scan_header): A better way to
