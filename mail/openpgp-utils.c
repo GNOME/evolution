@@ -61,24 +61,29 @@ static const gchar *pgp_path = NULL;
 static PgpType pgp_type = PGP_TYPE_NONE;
 
 
+static const gchar *
+pgp_get_type_as_string (PgpType type)
+{
+	switch (pgp_type) {
+	case PGP_TYPE_GPG:
+		return "GnuPG";
+	case PGP_TYPE_PGP5:
+		return "PGP5";
+	case PGP_TYPE_PGP2:
+		return "PGP2.x";
+	default:
+		g_assert_not_reached ();
+		return NULL;
+	}
+}
+
 static gchar *
 pgp_get_passphrase (const gchar *userid)
 {
-	gchar *passphrase, *prompt, *type = NULL;
+	gchar *passphrase, *prompt;
+	const char *type;
 	
-	switch (pgp_type) {
-	case PGP_TYPE_GPG:
-		type = "GnuPG";
-		break;
-	case PGP_TYPE_PGP5:
-		type = "PGP5";
-		break;
-	case PGP_TYPE_PGP2:
-		type = "PGP2.x";
-		break;
-	default:
-		g_assert_not_reached ();
-	}
+	type = pgp_get_type_as_string (pgp_type);
 	
 	if (userid)
 		prompt = g_strdup_printf (_("Please enter your %s passphrase for %s"),
@@ -87,11 +92,20 @@ pgp_get_passphrase (const gchar *userid)
 		prompt = g_strdup_printf (_("Please enter your %s passphrase"),
 					  type);
 	
-	/* User the userid as a key if possible, else be generic and use the type */
+	/* Use the userid as a key if possible, else be generic and use the type */
 	passphrase = mail_session_request_dialog (prompt, TRUE, userid ? userid : type, FALSE);
 	g_free (prompt);
 	
 	return passphrase;
+}
+
+static void
+pgp_forget_passphrase (const char *key)
+{
+	if (!key)
+		key = pgp_get_type_as_string (pgp_type);
+	
+	mail_session_forget_password (key);
 }
 
 
@@ -447,6 +461,8 @@ openpgp_decrypt (const gchar *ciphertext, gint cipherlen, gint *outlen, CamelExc
 	}
 	
 	if (pipe (passwd_fds) < 0) {
+		g_free (passphrase);
+		pgp_forget_passphrase (NULL);
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
 				      _("Couldn't create pipe to GPG/PGP: %s"),
 				      g_strerror (errno));
@@ -503,6 +519,7 @@ openpgp_decrypt (const gchar *ciphertext, gint cipherlen, gint *outlen, CamelExc
 				      "%s", diagnostics);
 		g_free (plaintext);
 		g_free (diagnostics);
+		pgp_forget_passphrase (NULL);
 		return NULL;
 	}
 	
@@ -553,24 +570,36 @@ openpgp_encrypt (const gchar *in, gint inlen, const GPtrArray *recipients,
 	}
 	
 	if (pipe (passwd_fds) < 0) {
-		g_free (passphrase);
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
 				      _("Couldn't create pipe to GPG/PGP: %s"),
 				      g_strerror (errno));
+		
+		if (sign) {
+			g_free (passphrase);
+			pgp_forget_passphrase (NULL);
+		}
+		
+		return NULL;
+	}
+	
+	/* check to make sure we have recipients */
+	if (recipients->len == 0) {
+		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
+				      _("No recipients specified"));
+		
+		if (sign) {
+			g_free (passphrase);
+			pgp_forget_passphrase (NULL);
+		}
+		
 		return NULL;
 	}
 	
 	argv = g_ptr_array_new ();
+	recipient_list = g_ptr_array_new ();
+	
 	switch (pgp_type) {
 	case PGP_TYPE_GPG:
-		if (recipients->len == 0) {
-			g_free (passphrase);
-			camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
-					      _("No recipients specified"));
-			return NULL;
-		}
-		
-		recipient_list = g_ptr_array_new ();
 		for (r = 0; r < recipients->len; r++) {
 			char *buf, *recipient;
 			
@@ -608,14 +637,6 @@ openpgp_encrypt (const gchar *in, gint inlen, const GPtrArray *recipients,
 		}
 		break;
 	case PGP_TYPE_PGP5:
-		if (recipients->len == 0) {
-			g_free (passphrase);
-			camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
-					      _("No recipients specified"));
-			return NULL;
-		}
-		
-		recipient_list = g_ptr_array_new ();
 		for (r = 0; r < recipients->len; r++) {
 			char *buf, *recipient;
 			
@@ -647,14 +668,6 @@ openpgp_encrypt (const gchar *in, gint inlen, const GPtrArray *recipients,
 		}
 		break;
 	case PGP_TYPE_PGP2:
-		if (recipients->len == 0) {
-			g_free (passphrase);
-			camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
-					      _("No recipients specified"));
-			return NULL;
-		}
-		
-		recipient_list = g_ptr_array_new ();
 		for (r = 0; r < recipients->len; r++) {
 			char *buf, *recipient;
 			
@@ -703,6 +716,8 @@ openpgp_encrypt (const gchar *in, gint inlen, const GPtrArray *recipients,
 				      "%s", diagnostics);
 		g_free (ciphertext);
 		ciphertext = NULL;
+		if (sign)
+			pgp_forget_passphrase (NULL);
 	}
 	
 	if (recipient_list) {
@@ -754,10 +769,13 @@ openpgp_clearsign (const gchar *plaintext, const gchar *userid,
 	}
 	
 	if (pipe (passwd_fds) < 0) {
-		g_free (passphrase);
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
 				      _("Couldn't create pipe to GPG/PGP: %s"),
 				      g_strerror (errno));
+		
+		g_free (passphrase);
+		pgp_forget_passphrase (userid);
+		
 		return NULL;
 	}
 	
@@ -857,6 +875,7 @@ openpgp_clearsign (const gchar *plaintext, const gchar *userid,
 				      "%s", diagnostics);
 		g_free (ciphertext);
 		ciphertext = NULL;
+		pgp_forget_passphrase (userid);
 	}
 	
 	g_free (diagnostics);
@@ -904,6 +923,7 @@ openpgp_sign (const gchar *in, gint inlen, const gchar *userid,
 	
 	if (pipe (passwd_fds) < 0) {
 		g_free (passphrase);
+		pgp_forget_passphrase (userid);
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
 				      _("Couldn't create pipe to GPG/PGP: %s"),
 				      g_strerror (errno));
@@ -1007,6 +1027,7 @@ openpgp_sign (const gchar *in, gint inlen, const gchar *userid,
 				      "%s", diagnostics);
 		g_free (ciphertext);
 		ciphertext = NULL;
+		pgp_forget_passphrase (userid);
 	}
 	
 	g_free (diagnostics);

@@ -169,6 +169,17 @@ mail_session_remember_password (const char *url)
 	g_hash_table_foreach (passwords, maybe_remember_password, (void *) url);
 }
 
+void
+mail_session_forget_password (const char *key)
+{
+	gpointer okey, value;
+	
+	if (g_hash_table_lookup_extended (passwords, key, &okey, &value)) {
+		g_hash_table_remove (passwords, key);
+		g_free (okey);
+		g_free (value);
+	}
+}
 
 /* ******************** */
 
