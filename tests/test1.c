@@ -11,8 +11,12 @@ main (int argc, char**argv)
 	gtk_init (&argc, &argv);
 	message = camel_mime_message_new_with_session( (CamelSession *)NULL);
 	camel_mime_part_set_description (CAMEL_MIME_PART (message), g_string_new ("a test"));
-	camel_mime_message_set_received_date (message, g_string_new ("a date"));
-
+	camel_mime_message_set_received_date (message, g_string_new ("Thu, 20 May 1999, 10:39:14 +0200"));
+	camel_mime_message_set_subject (message, g_string_new ("A test message"));
+	camel_mime_message_set_reply_to (message, g_string_new ("toto@toto.com"));
+	camel_mime_message_set_from (message, g_string_new ("Bertrand.Guiheneuf@inria.fr"));
+	camel_mime_message_add_recipient (message, g_string_new ("To"), g_string_new ("franck.dechamps@alseve.fr"));
+	
 
 	output_file = fopen ("mail.test", "w");
 	if (!output_file) {

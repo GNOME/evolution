@@ -491,14 +491,21 @@ camel_mime_message_get_message_number (CamelMimeMessage *mime_message)
 #define WHPTF gmime_write_header_pair_to_file
 
 
-
+static void
+_write_recipients_to_file (CamelDataWrapper *data_wrapper, FILE *file)
+{
+	
+}
 
 static void
-_write_to_file(CamelDataWrapper *data_wrapper, FILE *file)
+_write_to_file (CamelDataWrapper *data_wrapper, FILE *file)
 {
 	CamelMimeMessage *mm = CAMEL_MIME_MESSAGE (data_wrapper);
 	
+	WHPTF (file, "From", mm->from);
+	WHPTF (file, "Reply-To", mm->reply_to);
 	WHPTF (file, "Date", mm->received_date);
+	WHPTF (file, "Subject", mm->subject);
 	CAMEL_DATA_WRAPPER_CLASS (parent_class)->write_to_file (data_wrapper, file);
 	
 }
