@@ -1,5 +1,10 @@
 2001-07-06  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* folder-browser.c (folder_browser_copy): Freeze and Thaw the
+	folder.
+
+2001-07-06  Jeffrey Stedfast  <fejj@ximian.com>
+
 	* folder-browser.c (folder_browser_copy): Mark the messages as
 	Seen also.
 	(folder_browser_class_init): Create an atom type for

@@ -628,6 +628,7 @@ folder_browser_copy (GtkWidget *menuitem, FolderBrowser *fb)
 	g_byte_array_append (bytes, " ", 1);
 	
 	/* write the uids */
+	camel_folder_freeze (fb->folder);
 	for (i = 0; i < uids->len; i++) {
 		if (cut) {
 			camel_folder_set_message_flags (fb->folder, uids->pdata[i],
@@ -640,6 +641,7 @@ folder_browser_copy (GtkWidget *menuitem, FolderBrowser *fb)
 		if (i + 1 < uids->len)
 			g_byte_array_append (bytes, "", 1);
 	}
+	camel_folder_thaw (fb->folder);
 	
 	g_ptr_array_free (uids, TRUE);
 	
@@ -1653,8 +1655,8 @@ do_mark_seen (gpointer data)
 	FolderBrowser *fb = data;
 
 	if (fb->new_uid && fb->loaded_uid
-	    && strcmp(fb->new_uid, fb->loaded_uid) == 0) {
-		camel_folder_set_message_flags(fb->folder, fb->new_uid, CAMEL_MESSAGE_SEEN, CAMEL_MESSAGE_SEEN);
+	    && strcmp (fb->new_uid, fb->loaded_uid) == 0) {
+		camel_folder_set_message_flags (fb->folder, fb->new_uid, CAMEL_MESSAGE_SEEN, CAMEL_MESSAGE_SEEN);
 	}
 
 	return FALSE;

@@ -980,9 +980,8 @@ transfer_msg (GtkWidget *widget, gpointer user_data, gboolean delete_from_source
 	else
 		desc = _("Copy message(s) to");
 	
-	evolution_shell_client_user_select_folder  (global_shell_client,
-						    desc,
-						    last, allowed_types, &uri, &physical);
+	evolution_shell_client_user_select_folder  (global_shell_client, desc, last,
+						    allowed_types, &uri, &physical);
 	if (!uri)
 		return;
 	
@@ -1252,13 +1251,13 @@ toggle_flags (FolderBrowser *fb, guint32 mask)
 void
 mark_as_seen (BonoboUIComponent *uih, void *user_data, const char *path)
 {
-	flag_messages (FOLDER_BROWSER(user_data), CAMEL_MESSAGE_SEEN, CAMEL_MESSAGE_SEEN);
+	flag_messages (FOLDER_BROWSER (user_data), CAMEL_MESSAGE_SEEN, CAMEL_MESSAGE_SEEN);
 }
 
 void
 mark_as_unseen (BonoboUIComponent *uih, void *user_data, const char *path)
 {
-	flag_messages (FOLDER_BROWSER(user_data), CAMEL_MESSAGE_SEEN, 0);
+	flag_messages (FOLDER_BROWSER (user_data), CAMEL_MESSAGE_SEEN, 0);
 }
 
 void
