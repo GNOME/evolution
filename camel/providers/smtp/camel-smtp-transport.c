@@ -1138,7 +1138,7 @@ smtp_data (CamelSmtpTransport *transport, CamelMimeMessage *message, gboolean ha
 {
 	/* now we can actually send what's important :p */
 	CamelBestencRequired required = CAMEL_BESTENC_GET_ENCODING;
-	CamelBestencEncoding enctype = CAMEL_BESTENC_BINARY;
+	CamelBestencEncoding enctype = CAMEL_BESTENC_8BIT;
 	char *cmdbuf, *respbuf = NULL;
 	CamelStreamFilter *filtered_stream;
 	CamelMimeFilter *crlffilter;

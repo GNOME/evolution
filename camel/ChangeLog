@@ -1,5 +1,10 @@
 2002-07-11  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* providers/smtp/camel-smtp-transport.c (smtp_data): Don't let any
+	parts have a binary encoding.
+
+2002-07-11  Jeffrey Stedfast  <fejj@ximian.com>
+
 	Fixes bug #27672
 
 	* camel-mime-filter-bestenc.c: Conditionally #include <config.h>
