@@ -1,5 +1,11 @@
 2001-03-08  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* mail-vtrash.[c,h]: Removed from cvs
+
+	* Makefile.am: Removed mail-vtrash.[c,h]
+	
+	* main.c: Don't #include "mail-vtrash" anymore.
+
 	* component-factory.c: Add "vtrash" as a folder type we support.
 	(create_view): Kludgy-kludge around the vtrash type.
 	(owner_set_cb): Don't create the vTrash folder here anymore...	

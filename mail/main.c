@@ -30,7 +30,6 @@
 #include "composer/evolution-composer.h"
 #include "mail.h"
 #include "mail-mt.h"
-#include "mail-vtrash.h"
 
 /*#define DO_MCHECK*/
 
