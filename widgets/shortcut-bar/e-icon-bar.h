@@ -59,6 +59,8 @@ struct _EIconBarItem
 	gint text_height;
 
 	gint icon_y, text_y;
+
+	GdkPixbuf *flatened_alpha;
 };
 
 

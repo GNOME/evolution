@@ -278,9 +278,7 @@ e_icon_bar_new (void)
 	GtkWidget *icon_bar;
 
 	icon_bar = GTK_WIDGET (gtk_type_new (e_icon_bar_get_type ()));
-#if 0
- 	GNOME_CANVAS(icon_bar)->aa = 1;	
-#endif
+
 	return icon_bar;
 }
 
@@ -387,6 +385,12 @@ e_icon_bar_recalc_item_positions (EIconBar *icon_bar)
 		max_lines = 2;
 		text_x = icon_bar->text_x + (icon_bar->text_w / 2);
 		line_wrap = TRUE;
+
+		/*
+		 * Fixme: incorrect
+		 */
+		font = GTK_WIDGET (icon_bar)->style->font;
+		text_h = font->ascent + font->descent;
 	} else {
 		justify = GTK_JUSTIFY_LEFT;
 		anchor = GTK_ANCHOR_NW;
@@ -518,6 +522,32 @@ e_icon_bar_set_view_type (EIconBar *icon_bar,
 	gtk_widget_queue_resize (GTK_WIDGET (icon_bar));
 }
 
+static GdkPixbuf *
+flatten_alpha (GdkPixbuf *image, guint rgb)
+{
+	if (!image->art_pixbuf->has_alpha)
+		return NULL;
+
+	return gdk_pixbuf_composite_color_simple (
+		image,
+		image->art_pixbuf->width,
+		image->art_pixbuf->height,
+		ART_FILTER_NEAREST,
+		255,
+		32,
+		rgb, ~rgb);
+}
+
+static guint
+rgb_from_gdk_color (GdkColor *color)
+{
+	guint a =
+		(((color->red >> 8) << 16) |
+		((color->green >> 8) << 8) |
+		((color->blue >> 8)));
+	
+	return a;
+}
 
 /**
  * e_icon_bar_add_item:
@@ -585,9 +615,13 @@ e_icon_bar_add_item (EIconBar	    *icon_bar,
 			    GTK_SIGNAL_FUNC (e_icon_bar_on_item_event),
 			    icon_bar);
 
+	item.flatened_alpha = flatten_alpha (
+		image,
+		rgb_from_gdk_color (&style->bg [GTK_STATE_NORMAL]));
+		
 	item.image = gnome_canvas_item_new (GNOME_CANVAS_GROUP (GNOME_CANVAS (icon_bar)->root),
 					    gnome_canvas_pixbuf_get_type (),
-					    "GnomeCanvasPixbuf::pixbuf", image,
+					    "GnomeCanvasPixbuf::pixbuf", item.flatened_alpha?item. flatened_alpha:image,
 					    "GnomeCanvasPixbuf::width", (gdouble) icon_bar->icon_w,
 					    "GnomeCanvasPixbuf::height", (gdouble) icon_bar->icon_h,
 					     NULL);
@@ -675,7 +709,8 @@ e_icon_bar_remove_item		(EIconBar	  *icon_bar,
 
 	gtk_object_destroy (GTK_OBJECT (item->text));
 	gtk_object_destroy (GTK_OBJECT (item->image));
-
+	gdk_pixbuf_unref (item->flatened_alpha);
+	
 	g_array_remove_index (icon_bar->items, item_num);
 
 	gtk_widget_queue_resize (GTK_WIDGET (icon_bar));

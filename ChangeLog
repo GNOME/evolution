@@ -1,3 +1,10 @@
+2000-03-27  Miguel de Icaza  <miguel@gnu.org>
+
+	* widgets/shortcut-bar/e-icon-bar.c (flatten_alpha): New function,
+	used to flatten the images we get and composite them with the
+	background. 
+	(e_icon_bar_add_item): One happy tigert comming.
+
 2000-03-27  Dan Winship  <danw@helixcode.com>
 
 	* tests/test-movemail.c: new test program. Can be used to copy POP
