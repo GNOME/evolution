@@ -1,3 +1,11 @@
+2001-10-29  JP Rosevear  <jpr@ximian.com>
+
+	* conduits/todo/todo-conduit-config.h
+	(todoconduit_load_configuration): get the management object by id
+
+	* conduits/calendar/calendar-conduit-config.h
+	(calconduit_load_configuration): ditto
+
 2001-10-29  Rodrigo Moya <rodrigo@ximian.com>
 
 	* gui/calendar-config.[ch] (calendar_config_get_default_uri):

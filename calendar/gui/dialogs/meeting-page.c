@@ -240,7 +240,6 @@ meeting_page_destroy (GtkObject *object)
 {
 	MeetingPage *mpage;
 	MeetingPagePrivate *priv;
-	ETable *real_table;
 	
 	g_return_if_fail (object != NULL);
 	g_return_if_fail (IS_MEETING_PAGE (object));

@@ -52,7 +52,7 @@ todoconduit_load_configuration (EToDoConduitCfg **c, guint32 pilot_id)
 
 	(*c)->pilot_id = pilot_id;
 
-	management = gnome_pilot_conduit_management_new ("EToDo", GNOME_PILOT_CONDUIT_MGMT_NAME);
+	management = gnome_pilot_conduit_management_new ("e_todo_conduit", GNOME_PILOT_CONDUIT_MGMT_ID);
 	config = gnome_pilot_conduit_config_new (management, pilot_id);
 	if (!gnome_pilot_conduit_config_is_enabled (config, &(*c)->sync_type))
 		(*c)->sync_type = GnomePilotConduitSyncTypeNotSet;
