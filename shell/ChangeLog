@@ -1,5 +1,20 @@
 2001-05-11  Chris Toshok  <toshok@ximian.com>
 
+	* e-storage-set-view.c
+	(populate_folder_context_menu_with_common_items): add RemoveFolder
+	menu item and verb.
+	(folder_context_menu_remove_cb): new function, call
+	e_storage_set_async_remove_folder.
+	(remove_cb): callack for e_storage_set_async_remove_folder.
+
+	* evolution-shell-component-client.c
+	(evolution_shell_component_client_populate_folder_context_menu):
+	fix prototype to reflect Component -> Container.
+
+	* evolution-shell-component-client.h: same.
+
+2001-05-11  Chris Toshok  <toshok@ximian.com>
+
 	* evolution-shell-component.h
 	(EVOLUTION_SHELL_COMPONENT_POPUP_PLACEHOLDER): add this define for
 	the xml path to use when adding menu items to the folder popup.

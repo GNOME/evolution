@@ -647,12 +647,34 @@ folder_context_menu_activate_cb (BonoboUIComponent *uih,
 }
 
 static void
+remove_cb(EStorageSet *storage_set, EStorageResult result, void *data)
+{
+	g_print ("remove_cb: %d\n", result);
+}
+
+static void
+folder_context_menu_remove_cb (BonoboUIComponent *uih,
+			       void *data,
+			       const char *path)
+{
+	EStorageSetView *storage_set_view;
+	EStorageSetViewPrivate *priv;
+
+	storage_set_view = E_STORAGE_SET_VIEW (data);
+	priv = storage_set_view->priv;
+
+	e_storage_set_async_remove_folder (priv->storage_set, priv->selected_row_path,
+					   remove_cb, storage_set_view);
+}
+
+static void
 populate_folder_context_menu_with_common_items (EStorageSetView *storage_set_view,
 						BonoboUIComponent *uih)
 {
 	static char popup_xml[] = 
 		"<submenu name=\"Folder\" _label=\"Folder\">\n"
 		"  <menuitem name=\"Activate\" verb=\"ActivateView\" _label=\"_View\" _tip=\"View the selected folder\"/>\n"
+		"  <menuitem name=\"Remove\" verb=\"RemoveFolder\" _label=\"_Remove\" _tip=\"Remove the selected folder\"/>\n"
 		"  <placeholder name=\"componentPlaceholder\" delimit=\"top\"/>\n"
 #ifdef DEBUG_XML
 		"  <separator/>\n"
@@ -662,6 +684,10 @@ populate_folder_context_menu_with_common_items (EStorageSetView *storage_set_vie
 
 	bonobo_ui_component_add_verb (uih, "ActivateView",
 				      folder_context_menu_activate_cb,
+				      storage_set_view);
+
+	bonobo_ui_component_add_verb (uih, "RemoveFolder",
+				      folder_context_menu_remove_cb,
 				      storage_set_view);
 
 	bonobo_ui_component_set_translate (uih, "/popups/folderPopup", popup_xml, NULL);

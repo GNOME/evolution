@@ -25,6 +25,8 @@
 #define EVOLUTION_SHELL_COMPONENT_CLIENT_H
 
 #include <bonobo/bonobo-object-client.h>
+#include <bonobo/bonobo-ui-container.h>
+#include <bonobo/bonobo-ui-component.h>
 
 #include "evolution-shell-component.h"
 
@@ -107,7 +109,7 @@ void  evolution_shell_component_client_async_xfer_folder    (EvolutionShellCompo
 							     void                                  *data);
 
 void  evolution_shell_component_client_populate_folder_context_menu  (EvolutionShellComponentClient *shell_component_client,
-								      BonoboUIComponent               *uih,
+								      BonoboUIContainer             *container,
 								      const char                    *physical_uri,
 								      const char                    *type);
 
