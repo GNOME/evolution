@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-02-03 00:35+0800\n"
-"PO-Revision-Date: 2005-02-02 17:57+0800\n"
+"POT-Creation-Date: 2005-02-05 06:16+0800\n"
+"PO-Revision-Date: 2005-02-05 06:18+0800\n"
 "Last-Translator: Funda Wang <fundawang@linux.net.cn>\n"
 "Language-Team: zh_CN <i18n-translation@lists.linux.net.cn>\n"
 "MIME-Version: 1.0\n"
@@ -43,12 +43,12 @@ msgid "evolution minicard"
 msgstr "evolution 袖珍卡"
 
 #: a11y/addressbook/ea-minicard-view.c:34
-#: addressbook/gui/component/addressbook-component.c:97
+#: addressbook/gui/component/addressbook-component.c:182
 msgid "New Contact"
 msgstr "新建联系人"
 
 #: a11y/addressbook/ea-minicard-view.c:35
-#: addressbook/gui/component/addressbook-component.c:105
+#: addressbook/gui/component/addressbook-component.c:190
 msgid "New Contact List"
 msgstr "新建联系人列表"
 
@@ -433,6 +433,23 @@ msgstr "已经存在此地址的联系人了。您想要仍然想要以相同地
 msgid "_Add"
 msgstr "添加(_A)"
 
+#. addressbook:server-version title
+#. calendar:server-version title
+#: addressbook/addressbook-errors.xml.h:64 calendar/calendar-errors.xml.h:134
+msgid "Server Version"
+msgstr "服务器版本"
+
+#. addressbook:server-version primary
+#. calendar:server-version primary
+#: addressbook/addressbook-errors.xml.h:66 calendar/calendar-errors.xml.h:136
+msgid "Your server needs to be updated"
+msgstr "您的服务器需要更新"
+
+#. addressbook:server-version secondary
+#: addressbook/addressbook-errors.xml.h:68
+msgid "Some features may not work correctly with your current server version"
+msgstr "某些特性可能无法在您目前的服务器版本下工作"
+
 #: addressbook/conduit/address-conduit.c:298
 msgid "Default Sync Address:"
 msgstr "默认的同步地址："
@@ -451,48 +468,77 @@ msgstr "无法读入 Pilot 的地址应用程序块"
 msgid "Accessing LDAP Server anonymously"
 msgstr "匿名访问 LDAP 服务器"
 
-#: addressbook/gui/component/addressbook.c:186
+#: addressbook/gui/component/addressbook.c:193
 #: plugins/groupwise-account-setup/camel-gw-listener.c:478
 msgid "Failed to authenticate.\n"
 msgstr "认证失败。\n"
 
-#: addressbook/gui/component/addressbook.c:193
+#: addressbook/gui/component/addressbook.c:200
 #: plugins/groupwise-account-setup/camel-gw-listener.c:461
 #, c-format
 msgid "Enter password for %s (user %s)"
 msgstr "为 %s 输入口令 (用户 %s)"
 
-#: addressbook/gui/component/addressbook-component.c:98
+#. create the local source group
+#. On This Computer is always first and vFolders is always last
+#: addressbook/gui/component/addressbook-component.c:120
+#: addressbook/gui/component/addressbook-migrate.c:493
+#: calendar/gui/migration.c:452 calendar/gui/migration.c:545
+#: mail/em-folder-tree-model.c:197 mail/em-folder-tree-model.c:199
+#: mail/mail-component.c:270 mail/mail-vfolder.c:222
+msgid "On This Computer"
+msgstr "在此计算机中"
+
+#. Create the default Person addressbook
+#. Create the default Person calendar
+#. Create the default Person task list
+#. orange
+#: addressbook/gui/component/addressbook-component.c:128
+#: addressbook/gui/component/addressbook-migrate.c:501
+#: addressbook/gui/contact-editor/contact-editor.glade.h:20
+#: calendar/gui/migration.c:460 calendar/gui/migration.c:553
+#: filter/filter-label.c:123 mail/em-migrate.c:1013 mail/mail-config.c:77
+#: mail/mail-config.glade.h:101
+msgid "Personal"
+msgstr "个人"
+
+#. Create the LDAP source group
+#: addressbook/gui/component/addressbook-component.c:136
+#: addressbook/gui/component/addressbook-migrate.c:509
+msgid "On LDAP Servers"
+msgstr "在 LDAP 服务器上"
+
+#: addressbook/gui/component/addressbook-component.c:183
 msgid "_Contact"
 msgstr "联系人(_C)"
 
-#: addressbook/gui/component/addressbook-component.c:99
+#: addressbook/gui/component/addressbook-component.c:184
 msgid "Create a new contact"
 msgstr "创建一个新联系人"
 
-#: addressbook/gui/component/addressbook-component.c:106
+#: addressbook/gui/component/addressbook-component.c:191
 msgid "Contact _List"
 msgstr "联系人列表(_L)"
 
-#: addressbook/gui/component/addressbook-component.c:107
+#: addressbook/gui/component/addressbook-component.c:192
 msgid "Create a new contact list"
 msgstr "创建一个新的联系人列表"
 
-#: addressbook/gui/component/addressbook-component.c:113
-#: addressbook/gui/component/addressbook-config.c:1115
+#: addressbook/gui/component/addressbook-component.c:198
+#: addressbook/gui/component/addressbook-config.c:1121
 #: addressbook/gui/component/addressbook-view.c:757
 msgid "New Address Book"
 msgstr "新地址簿"
 
-#: addressbook/gui/component/addressbook-component.c:114
+#: addressbook/gui/component/addressbook-component.c:199
 msgid "Address _Book"
 msgstr "地址簿(_B)"
 
-#: addressbook/gui/component/addressbook-component.c:115
+#: addressbook/gui/component/addressbook-component.c:200
 msgid "Create a new address book"
 msgstr "创建新地址簿"
 
-#: addressbook/gui/component/addressbook-component.c:188
+#: addressbook/gui/component/addressbook-component.c:273
 msgid "Failed upgrading Addressbook settings or folders."
 msgstr "升级地址簿设置或文件夹失败。"
 
@@ -515,7 +561,7 @@ msgstr "将地址簿内容复制到本地以进行脱机操作"
 #: calendar/gui/dialogs/calendar-setup.c:361
 #: calendar/gui/dialogs/calendar-setup.c:372
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:25
-#: mail/em-folder-properties.c:214 mail/mail-config.glade.h:84
+#: mail/em-folder-properties.c:215 mail/mail-config.glade.h:84
 #: smime/gui/smime-ui.glade.h:27
 msgid "General"
 msgstr "常规"
@@ -547,7 +593,7 @@ msgstr "搜索"
 msgid "Downloading"
 msgstr "下载"
 
-#: addressbook/gui/component/addressbook-config.c:1113
+#: addressbook/gui/component/addressbook-config.c:1119
 #: addressbook/gui/component/ldap-config.glade.h:14
 msgid "Address Book Properties"
 msgstr "地址簿属性"
@@ -562,32 +608,6 @@ msgstr "正在升迁..."
 #, c-format
 msgid "Migrating `%s':"
 msgstr "升迁“%s”："
-
-#. create the local source group
-#. On This Computer is always first and vFolders is always last
-#: addressbook/gui/component/addressbook-migrate.c:493
-#: calendar/gui/migration.c:452 calendar/gui/migration.c:545
-#: mail/em-folder-tree-model.c:197 mail/em-folder-tree-model.c:199
-#: mail/mail-component.c:270 mail/mail-vfolder.c:222
-msgid "On This Computer"
-msgstr "在此计算机中"
-
-#. Create the default Person addressbook
-#. Create the default Person calendar
-#. Create the default Person task list
-#. orange
-#: addressbook/gui/component/addressbook-migrate.c:501
-#: addressbook/gui/contact-editor/contact-editor.glade.h:20
-#: calendar/gui/migration.c:460 calendar/gui/migration.c:553
-#: filter/filter-label.c:123 mail/em-migrate.c:1013 mail/mail-config.c:77
-#: mail/mail-config.glade.h:101
-msgid "Personal"
-msgstr "个人"
-
-#. Create the LDAP source group
-#: addressbook/gui/component/addressbook-migrate.c:509
-msgid "On LDAP Servers"
-msgstr "在 LDAP 服务器上"
 
 #: addressbook/gui/component/addressbook-migrate.c:637
 msgid "LDAP Servers"
@@ -763,7 +783,6 @@ msgstr "在此管理您的 S/MIME 证书"
 #: addressbook/gui/contact-editor/fullname.glade.h:1
 #: addressbook/gui/contact-editor/im.glade.h:1
 #: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:3
-#: calendar/gui/dialogs/alarm-dialog.glade.h:1
 #: calendar/gui/dialogs/calendar-setup.glade.h:1
 #: calendar/gui/dialogs/cal-attachment.glade.h:1
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:1
@@ -1027,7 +1046,7 @@ msgstr "名片"
 
 #: addressbook/gui/component/ldap-config.glade.h:54
 #: calendar/gui/alarm-notify/alarm-notify.glade.h:12
-#: calendar/gui/dialogs/alarm-dialog.glade.h:27
+#: calendar/gui/dialogs/alarm-dialog.glade.h:26
 #: calendar/gui/dialogs/calendar-setup.glade.h:14 filter/filter.glade.h:16
 #: mail/em-account-editor.c:1825 plugins/calendar-http/calendar-http.c:263
 #: plugins/calendar-weather/calendar-weather.c:564
@@ -1150,7 +1169,7 @@ msgid "_Birthday:"
 msgstr "生日(_B)："
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:28
-#: plugins/itip-formatter/itip-view.c:1617
+#: plugins/itip-formatter/itip-view.c:1619
 msgid "_Calendar:"
 msgstr "日历(_C)："
 
@@ -3961,6 +3980,11 @@ msgid ""
 "of what your task is about."
 msgstr "在您的任务中添加有意义的概览可以让您的收件人更容易明白您任务的内容。"
 
+#. calendar:server-version secondary
+#: calendar/calendar-errors.xml.h:138
+msgid " Some features may not work correctly with your current server version"
+msgstr "某些特性可能无法在您目前的服务器版本下工作"
+
 #: calendar/common/authentication.c:49 calendar/gui/e-pub-utils.c:301
 #: smime/gui/component.c:48
 msgid "Enter password"
@@ -3997,7 +4021,7 @@ msgid_plural "minutes"
 msgstr[0] "分钟"
 
 #: calendar/gui/alarm-notify/alarm-notify.glade.h:1
-#: calendar/gui/dialogs/event-editor.c:138 calendar/gui/print.c:2298
+#: calendar/gui/dialogs/event-editor.c:140 calendar/gui/print.c:2298
 msgid "Appointment"
 msgstr "约会"
 
@@ -4007,13 +4031,13 @@ msgstr "约会标题"
 
 #. End time
 #: calendar/gui/alarm-notify/alarm-notify.glade.h:3
-#: plugins/itip-formatter/itip-view.c:874
+#: plugins/itip-formatter/itip-view.c:876
 msgid "End time:"
 msgstr "结束时间："
 
 #. Location
 #: calendar/gui/alarm-notify/alarm-notify.glade.h:4
-#: calendar/gui/e-itip-control.c:1118 plugins/itip-formatter/itip-view.c:857
+#: calendar/gui/e-itip-control.c:1118 plugins/itip-formatter/itip-view.c:859
 msgid "Location:"
 msgstr "位置："
 
@@ -4023,7 +4047,7 @@ msgstr "午睡时间(_T)："
 
 #. Start time
 #: calendar/gui/alarm-notify/alarm-notify.glade.h:6
-#: plugins/itip-formatter/itip-view.c:865
+#: plugins/itip-formatter/itip-view.c:867
 msgid "Start time:"
 msgstr "开始时间："
 
@@ -4298,7 +4322,7 @@ msgid "Purge events older than"
 msgstr "销毁较早的事件"
 
 #: calendar/gui/calendar-commands.c:366
-#: calendar/gui/dialogs/alarm-dialog.glade.h:21
+#: calendar/gui/dialogs/alarm-dialog.glade.h:20
 #: calendar/gui/dialogs/calendar-setup.glade.h:12 filter/filter.glade.h:14
 #: plugins/calendar-http/calendar-http.c:265
 #: plugins/calendar-weather/calendar-weather.c:566
@@ -4433,126 +4457,109 @@ msgstr "没有权限打开日历"
 msgid "Unknown error"
 msgstr "未知的错误"
 
-#: calendar/gui/dialogs/alarm-dialog.glade.h:2
+#: calendar/gui/dialogs/alarm-dialog.glade.h:1
 msgid "<b>Alarm</b>"
 msgstr "<b>提醒</b>"
 
-#: calendar/gui/dialogs/alarm-dialog.glade.h:3
+#: calendar/gui/dialogs/alarm-dialog.glade.h:2
 msgid "<b>Options</b>"
 msgstr "<b>选项</b>"
 
-#: calendar/gui/dialogs/alarm-dialog.glade.h:4
+#: calendar/gui/dialogs/alarm-dialog.glade.h:3
 msgid "<b>Repeat</b>"
 msgstr "<b>重复</b>"
 
-#: calendar/gui/dialogs/alarm-dialog.glade.h:5
+#: calendar/gui/dialogs/alarm-dialog.glade.h:4
 msgid "Add Alarm"
 msgstr "添加提醒"
 
-#: calendar/gui/dialogs/alarm-dialog.glade.h:6
+#: calendar/gui/dialogs/alarm-dialog.glade.h:5
 msgid "Custom _message"
 msgstr "自定义消息(_M)"
 
-#: calendar/gui/dialogs/alarm-dialog.glade.h:7
+#: calendar/gui/dialogs/alarm-dialog.glade.h:6
 msgid "Custom alarm sound"
 msgstr "自定义提醒声音"
 
-#: calendar/gui/dialogs/alarm-dialog.glade.h:8
+#: calendar/gui/dialogs/alarm-dialog.glade.h:7
 msgid "Mes_sage:"
 msgstr "消息(_S)："
 
-#: calendar/gui/dialogs/alarm-dialog.glade.h:9 calendar/gui/e-alarm-list.c:444
+#: calendar/gui/dialogs/alarm-dialog.glade.h:8 calendar/gui/e-alarm-list.c:444
 msgid "Play a sound"
 msgstr "播放声音"
 
-#: calendar/gui/dialogs/alarm-dialog.glade.h:10
-#: calendar/gui/e-alarm-list.c:448
+#: calendar/gui/dialogs/alarm-dialog.glade.h:9 calendar/gui/e-alarm-list.c:448
 msgid "Pop up an alert"
 msgstr "弹出警告"
 
-#: calendar/gui/dialogs/alarm-dialog.glade.h:11
+#: calendar/gui/dialogs/alarm-dialog.glade.h:10
 #: calendar/gui/e-alarm-list.c:456
 msgid "Run a program"
 msgstr "运行程序"
 
-#: calendar/gui/dialogs/alarm-dialog.glade.h:12
+#: calendar/gui/dialogs/alarm-dialog.glade.h:11
 msgid "Send To:"
 msgstr "发送给："
 
-#: calendar/gui/dialogs/alarm-dialog.glade.h:13
+#: calendar/gui/dialogs/alarm-dialog.glade.h:12
 #: calendar/gui/e-alarm-list.c:452
 msgid "Send an email"
 msgstr "发送电子邮件"
 
-#: calendar/gui/dialogs/alarm-dialog.glade.h:14
+#: calendar/gui/dialogs/alarm-dialog.glade.h:13
 msgid "_Arguments:"
 msgstr "参数(_A)："
 
-#: calendar/gui/dialogs/alarm-dialog.glade.h:15
+#: calendar/gui/dialogs/alarm-dialog.glade.h:14
 msgid "_Program:"
 msgstr "程序(_P)："
 
-#: calendar/gui/dialogs/alarm-dialog.glade.h:16
+#: calendar/gui/dialogs/alarm-dialog.glade.h:15
 msgid "_Repeat the alarm"
 msgstr "重复提醒(_R)"
 
-#: calendar/gui/dialogs/alarm-dialog.glade.h:17
+#: calendar/gui/dialogs/alarm-dialog.glade.h:16
 msgid "_Sound:"
 msgstr "声音(_S)："
 
-#: calendar/gui/dialogs/alarm-dialog.glade.h:18
+#: calendar/gui/dialogs/alarm-dialog.glade.h:17
 msgid "after"
 msgstr "之后"
 
-#: calendar/gui/dialogs/alarm-dialog.glade.h:19
+#: calendar/gui/dialogs/alarm-dialog.glade.h:18
 msgid "before"
 msgstr "之前"
 
-#: calendar/gui/dialogs/alarm-dialog.glade.h:20
+#: calendar/gui/dialogs/alarm-dialog.glade.h:19
 #: calendar/gui/dialogs/recurrence-page.glade.h:7
 msgid "day(s)"
 msgstr "天"
 
-#: calendar/gui/dialogs/alarm-dialog.glade.h:22
+#: calendar/gui/dialogs/alarm-dialog.glade.h:21
 msgid "end of appointment"
 msgstr "约会结束"
 
-#: calendar/gui/dialogs/alarm-dialog.glade.h:23
+#: calendar/gui/dialogs/alarm-dialog.glade.h:22
 msgid "extra times every"
 msgstr "每个额外时间"
 
-#: calendar/gui/dialogs/alarm-dialog.glade.h:24
+#: calendar/gui/dialogs/alarm-dialog.glade.h:23
 msgid "hour(s)"
 msgstr "小时"
 
-#: calendar/gui/dialogs/alarm-dialog.glade.h:25
+#: calendar/gui/dialogs/alarm-dialog.glade.h:24
 #: calendar/gui/dialogs/calendar-setup.glade.h:13 filter/filter.glade.h:15
 #: plugins/calendar-http/calendar-http.c:264
 #: plugins/calendar-weather/calendar-weather.c:565
 msgid "hours"
 msgstr "小时"
 
-#: calendar/gui/dialogs/alarm-dialog.glade.h:26
+#: calendar/gui/dialogs/alarm-dialog.glade.h:25
 msgid "minute(s)"
 msgstr "分钟"
 
-#: calendar/gui/dialogs/alarm-dialog.glade.h:28
-msgid "option menu to choose alarm action"
-msgstr "选择提醒操作的选项菜单"
-
-#: calendar/gui/dialogs/alarm-dialog.glade.h:29
-msgid "option menu to choose alarm relative"
-msgstr "选择提醒关系的选项菜单"
-
-#: calendar/gui/dialogs/alarm-dialog.glade.h:30
-msgid "option menu to choose alarm time"
-msgstr "选择提醒时间的选项菜单"
-
-#: calendar/gui/dialogs/alarm-dialog.glade.h:31
-msgid "option menu to choose alarm value units"
-msgstr "选择提醒值单位的选项菜单"
-
-#: calendar/gui/dialogs/alarm-dialog.glade.h:32
+#: calendar/gui/dialogs/alarm-dialog.glade.h:27
 msgid "start of appointment"
 msgstr "约会开始"
 
@@ -5043,73 +5050,73 @@ msgstr "%s  您已经做出了修改。放弃这些修改并更新编辑器吗�
 msgid "%s  You have made no changes, update the editor?"
 msgstr "%s  您还没有进行修改，更新编辑器吗？"
 
-#: calendar/gui/dialogs/comp-editor.c:279
+#: calendar/gui/dialogs/comp-editor.c:282
 msgid "Could not update object"
 msgstr "无法更新对象"
 
-#: calendar/gui/dialogs/comp-editor.c:436 composer/e-msg-composer.c:2315
+#: calendar/gui/dialogs/comp-editor.c:443 composer/e-msg-composer.c:2315
 #, c-format
 msgid "<b>%d</b> File Attached"
 msgid_plural "<b>%d</b> Files Attached"
 msgstr[0] "附加了 <b>%d</b> 个文件"
 
-#: calendar/gui/dialogs/comp-editor.c:489 composer/e-msg-composer.c:2344
+#: calendar/gui/dialogs/comp-editor.c:496 composer/e-msg-composer.c:2344
 msgid "Hide _Attachment Bar (drop attachments here)"
 msgstr "隐藏附件栏(将附件拖至此处)(_A)"
 
-#: calendar/gui/dialogs/comp-editor.c:492
-#: calendar/gui/dialogs/comp-editor.c:543 composer/e-msg-composer.c:2347
+#: calendar/gui/dialogs/comp-editor.c:499
+#: calendar/gui/dialogs/comp-editor.c:551 composer/e-msg-composer.c:2347
 #: composer/e-msg-composer.c:3466
 msgid "Show _Attachment Bar (drop attachments here)"
 msgstr "显示附件栏(将附件拖至此处)(_A)"
 
-#: calendar/gui/dialogs/comp-editor.c:1077
-#: calendar/gui/dialogs/comp-editor.c:1120
+#: calendar/gui/dialogs/comp-editor.c:1116
+#: calendar/gui/dialogs/comp-editor.c:1159
 msgid "Edit Appointment"
 msgstr "编辑约会"
 
-#: calendar/gui/dialogs/comp-editor.c:1083
-#: calendar/gui/dialogs/comp-editor.c:1126
+#: calendar/gui/dialogs/comp-editor.c:1122
+#: calendar/gui/dialogs/comp-editor.c:1165
 #, c-format
 msgid "Meeting - %s"
 msgstr "会议 - %s"
 
-#: calendar/gui/dialogs/comp-editor.c:1085
-#: calendar/gui/dialogs/comp-editor.c:1128
+#: calendar/gui/dialogs/comp-editor.c:1124
+#: calendar/gui/dialogs/comp-editor.c:1167
 #, c-format
 msgid "Appointment - %s"
 msgstr "约会 - %s"
 
-#: calendar/gui/dialogs/comp-editor.c:1089
-#: calendar/gui/dialogs/comp-editor.c:1132
+#: calendar/gui/dialogs/comp-editor.c:1128
+#: calendar/gui/dialogs/comp-editor.c:1171
 #, c-format
 msgid "Assigned Task - %s"
 msgstr "指派的任务 - %s"
 
-#: calendar/gui/dialogs/comp-editor.c:1091
-#: calendar/gui/dialogs/comp-editor.c:1134
+#: calendar/gui/dialogs/comp-editor.c:1130
+#: calendar/gui/dialogs/comp-editor.c:1173
 #, c-format
 msgid "Task - %s"
 msgstr "任务 - %s"
 
-#: calendar/gui/dialogs/comp-editor.c:1094
-#: calendar/gui/dialogs/comp-editor.c:1137
+#: calendar/gui/dialogs/comp-editor.c:1133
+#: calendar/gui/dialogs/comp-editor.c:1176
 #, c-format
 msgid "Journal entry - %s"
 msgstr "日志条目 - %s"
 
-#: calendar/gui/dialogs/comp-editor.c:1105
-#: calendar/gui/dialogs/comp-editor.c:1147
+#: calendar/gui/dialogs/comp-editor.c:1144
+#: calendar/gui/dialogs/comp-editor.c:1186
 msgid "No summary"
 msgstr "没有概要"
 
-#: calendar/gui/dialogs/comp-editor.c:1579
-#: calendar/gui/dialogs/comp-editor.c:1612
-#: calendar/gui/dialogs/comp-editor.c:1636
+#: calendar/gui/dialogs/comp-editor.c:1618
+#: calendar/gui/dialogs/comp-editor.c:1651
+#: calendar/gui/dialogs/comp-editor.c:1675
 msgid "Changes made to this item may be discarded if an update arrives"
 msgstr "如果更新到达的话，对此项目的更改将被丢弃"
 
-#: calendar/gui/dialogs/comp-editor.c:1660
+#: calendar/gui/dialogs/comp-editor.c:1699
 msgid "Unable to use current version!"
 msgstr "无法使用当前版本！"
 
@@ -5210,19 +5217,19 @@ msgstr "授权给："
 msgid "Enter Delegate"
 msgstr "输入代表"
 
-#: calendar/gui/dialogs/event-editor.c:147
+#: calendar/gui/dialogs/event-editor.c:149
 msgid "Recurrence"
 msgstr "再现"
 
-#: calendar/gui/dialogs/event-editor.c:159
-#: calendar/gui/dialogs/event-editor.c:231
-#: calendar/gui/dialogs/event-editor.c:376
+#: calendar/gui/dialogs/event-editor.c:161
+#: calendar/gui/dialogs/event-editor.c:233
+#: calendar/gui/dialogs/event-editor.c:378
 msgid "Scheduling"
 msgstr "调度"
 
-#: calendar/gui/dialogs/event-editor.c:166
-#: calendar/gui/dialogs/event-editor.c:234
-#: calendar/gui/dialogs/event-editor.c:379
+#: calendar/gui/dialogs/event-editor.c:168
+#: calendar/gui/dialogs/event-editor.c:236
+#: calendar/gui/dialogs/event-editor.c:381
 msgid "Invitations"
 msgstr "邀请"
 
@@ -5465,7 +5472,7 @@ msgid "RSVP"
 msgstr "RSVP"
 
 #: calendar/gui/dialogs/meeting-page.etspec.h:10
-#: calendar/gui/dialogs/task-editor.c:145
+#: calendar/gui/dialogs/task-editor.c:146
 #: calendar/gui/e-calendar-table.etspec.h:10
 #: calendar/gui/e-meeting-list-view.c:265
 #: calendar/gui/e-meeting-time-sel.etspec.h:10 mail/em-filter-i18n.h:63
@@ -5665,6 +5672,10 @@ msgstr "年"
 msgid "Completed date is wrong"
 msgstr "完成日期有错"
 
+#: calendar/gui/dialogs/task-details-page.c:522
+msgid "Web Page"
+msgstr "网页"
+
 #: calendar/gui/dialogs/task-details-page.glade.h:1
 msgid "<span weight=\"bold\">Miscellaneous</span>"
 msgstr "<span weight=\"bold\">杂项</span>"
@@ -5744,13 +5755,13 @@ msgstr "状态(_S)："
 msgid "_Web Page:"
 msgstr "网页(_W)："
 
-#: calendar/gui/dialogs/task-editor.c:136 calendar/gui/print.c:2300
+#: calendar/gui/dialogs/task-editor.c:137 calendar/gui/print.c:2300
 msgid "Task"
 msgstr "任务"
 
-#: calendar/gui/dialogs/task-editor.c:156
-#: calendar/gui/dialogs/task-editor.c:218
-#: calendar/gui/dialogs/task-editor.c:357
+#: calendar/gui/dialogs/task-editor.c:157
+#: calendar/gui/dialogs/task-editor.c:219
+#: calendar/gui/dialogs/task-editor.c:358
 msgid "Assignment"
 msgstr "指派"
 
@@ -5930,7 +5941,7 @@ msgstr "到期日期："
 #: calendar/gui/e-cal-component-preview.c:222
 #: calendar/gui/e-itip-control.c:1132
 #: plugins/exchange-account-setup/exchange-account-setup.c:102
-#: plugins/itip-formatter/itip-view.c:882
+#: plugins/itip-formatter/itip-view.c:884
 msgid "Status:"
 msgstr "状态："
 
@@ -6893,7 +6904,7 @@ msgstr "%Y-%m-%d"
 msgid "Enter the password for %s"
 msgstr "为 %s 输入密码"
 
-#: calendar/gui/e-tasks.c:761 calendar/gui/gnome-cal.c:2353
+#: calendar/gui/e-tasks.c:763 calendar/gui/gnome-cal.c:2363
 #, c-format
 msgid ""
 "Error on %s:\n"
@@ -6902,28 +6913,28 @@ msgstr ""
 "%s 错误：\n"
 " %s"
 
-#: calendar/gui/e-tasks.c:809
+#: calendar/gui/e-tasks.c:811
 msgid "Loading tasks"
 msgstr "装入任务"
 
-#: calendar/gui/e-tasks.c:891
+#: calendar/gui/e-tasks.c:893
 #, c-format
 msgid "Opening tasks at %s"
 msgstr "在 %s 打开任务"
 
-#: calendar/gui/e-tasks.c:1087
+#: calendar/gui/e-tasks.c:1089
 msgid "Completing tasks..."
 msgstr "正在完成任务..."
 
-#: calendar/gui/e-tasks.c:1110
+#: calendar/gui/e-tasks.c:1112
 msgid "Deleting selected objects..."
 msgstr "正在删除选中的对象..."
 
-#: calendar/gui/e-tasks.c:1137
+#: calendar/gui/e-tasks.c:1139
 msgid "Expunging"
 msgstr "销毁"
 
-#: calendar/gui/e-tasks.c:1215
+#: calendar/gui/e-tasks.c:1217
 #: calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:10
 #: calendar/gui/print.c:1822 calendar/gui/tasks-component.c:408
 #: calendar/gui/tasks-component.c:881 calendar/gui/tasks-control.c:408
@@ -6961,22 +6972,22 @@ msgstr "保存自定义视图"
 msgid "Define Views..."
 msgstr "定义视图..."
 
-#: calendar/gui/gnome-cal.c:2207
+#: calendar/gui/gnome-cal.c:2212
 #, c-format
 msgid "Loading appointments at %s"
 msgstr "装入位于 %s 的约会"
 
-#: calendar/gui/gnome-cal.c:2226
+#: calendar/gui/gnome-cal.c:2231
 #, c-format
 msgid "Loading tasks at %s"
 msgstr "装入位于 %s 的任务"
 
-#: calendar/gui/gnome-cal.c:2319
+#: calendar/gui/gnome-cal.c:2329
 #, c-format
 msgid "Opening %s"
 msgstr "打开 %s"
 
-#: calendar/gui/gnome-cal.c:3209
+#: calendar/gui/gnome-cal.c:3219
 msgid "Purging"
 msgstr "销毁"
 
@@ -9503,11 +9514,11 @@ msgstr "覆盖文件吗？"
 msgid "The orientation of the tray."
 msgstr "托盘方向。"
 
-#: e-util/e-passwords.c:468
+#: e-util/e-passwords.c:472
 msgid "_Remember this password"
 msgstr "记住该密码(_R)"
 
-#: e-util/e-passwords.c:469
+#: e-util/e-passwords.c:473
 msgid "_Remember this password for the remainder of this session"
 msgstr "在本会话中记住该密码(_R)"
 
@@ -10224,17 +10235,17 @@ msgid "Create _vFolder From Search..."
 msgstr "从头创建虚拟文件夹(_V)..."
 
 #. TODO: can this be done in a loop?
-#: mail/em-folder-properties.c:143
+#: mail/em-folder-properties.c:144
 msgid "Total message:"
 msgid_plural "Total messages:"
 msgstr[0] "总信件数："
 
-#: mail/em-folder-properties.c:155
+#: mail/em-folder-properties.c:156
 msgid "Unread message:"
 msgid_plural "Unread messages:"
 msgstr[0] "未读信件数："
 
-#: mail/em-folder-properties.c:270 plugins/shared-folder/properties.glade.h:3
+#: mail/em-folder-properties.c:278 plugins/shared-folder/properties.glade.h:3
 msgid "Folder Properties"
 msgstr "文件夹属性"
 
@@ -10911,24 +10922,24 @@ msgstr "添加到地址簿(_A)"
 msgid "Open in %s..."
 msgstr "在 %s 中打开..."
 
-#: mail/em-subscribe-editor.c:613
+#: mail/em-subscribe-editor.c:611
 msgid "This store does not support subscriptions, or they are not enabled."
 msgstr "此存储不支持订阅，或订阅未启用。"
 
-#: mail/em-subscribe-editor.c:642
+#: mail/em-subscribe-editor.c:640
 msgid "Subscribed"
 msgstr "已订阅"
 
-#: mail/em-subscribe-editor.c:646
+#: mail/em-subscribe-editor.c:644
 msgid "Folder"
 msgstr "文件夹"
 
 #. FIXME: This is just to get the shadow, is there a better way?
-#: mail/em-subscribe-editor.c:861
+#: mail/em-subscribe-editor.c:859
 msgid "Please select a server."
 msgstr "请选择服务器。"
 
-#: mail/em-subscribe-editor.c:882
+#: mail/em-subscribe-editor.c:880
 msgid "No server has been selected"
 msgstr "没有选中服务器"
 
@@ -13414,11 +13425,11 @@ msgstr "%m月%d日 %H:%M"
 msgid "%b %d %Y"
 msgstr "%Y年%m月%d日"
 
-#: mail/message-list.c:2044
+#: mail/message-list.c:2046
 msgid "Message List"
 msgstr "信件列表"
 
-#: mail/message-list.c:3384
+#: mail/message-list.c:3386
 msgid "Generating message list"
 msgstr "生成信件列表"
 
@@ -14074,8 +14085,8 @@ msgid "<b>%s</b> has declined the following assigned task:"
 msgstr "<b>%s</b> 拒绝了指派的下列任务："
 
 #. Comment
-#: plugins/itip-formatter/itip-view.c:890
-#: plugins/itip-formatter/itip-view.c:940
+#: plugins/itip-formatter/itip-view.c:892
+#: plugins/itip-formatter/itip-view.c:942
 msgid "Comment:"
 msgstr "注释："
 
@@ -15097,7 +15108,7 @@ msgstr ""
 "\n"
 "请单击帮助查看详情。"
 
-#: smime/gui/ca-trust-dialog.c:91
+#: smime/gui/ca-trust-dialog.c:96
 #, c-format
 msgid ""
 "Certificate '%s' is a CA certificate.\n"
@@ -17480,3 +17491,4 @@ msgstr "%s (...)"
 #, c-format
 msgid "%s (%d%% complete)"
 msgstr "%s (%d%% 完成)"
+
