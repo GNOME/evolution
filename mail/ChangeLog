@@ -1,5 +1,12 @@
 2003-11-13  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* mail-component.c (mail_component_get_tree_model): Use
+	em_folder_tree_get_model() since an emft is not a GtkTreeView.
+
+	* em-folder-tree.c (em_folder_tree_get_model): New function to get the tree model.
+
+2003-11-13  Jeffrey Stedfast  <fejj@ximian.com>
+
 	* em-folder-selection.c: Rewritten to use EMFolderTRee.
 
 	* mail-vfolder.c (vfolder_load_storage): Updated for function name

@@ -2059,3 +2059,12 @@ em_folder_tree_get_selected_path (EMFolderTree *emft)
 	
 	return emft->priv->selected_path;
 }
+
+
+EMFolderTreeModel *
+em_folder_tree_get_model (EMFolderTree *emft)
+{
+	g_return_val_if_fail (EM_IS_FOLDER_TREE (emft), NULL);
+	
+	return (EMFolderTreeModel *) gtk_tree_view_get_model (emft->priv->treeview);
+}
