@@ -1,3 +1,8 @@
+2003-04-21  Anna Marie Dirks  <anna@ximian.com>
+
+	* glade/e-active-connection-dialog.glade: Fixed padding/spacing/caps
+	of the "Go Offline" dialog. Fixes 41225 and 41227. 
+
 2003-04-18  Rodney Dawes  <dobey@ximian.com>
 
 	* e-shell-view.c: Use PREFIX instead of EVOLUTION_DATADIR for
