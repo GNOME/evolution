@@ -1,3 +1,8 @@
+2000-06-23  Larry Ewing  <lewing@helixcode.com>
+
+	* e-cell-toggle.c (etog_draw): draw pixmaps with he right
+	background and selection colors.
+
 2000-06-23  Chris Toshok  <toshok@helixcode.com>
 
 	* e-tree-model.h, e-tree-model.c: add icon_at virtual function -
