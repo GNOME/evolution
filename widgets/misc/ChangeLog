@@ -1,3 +1,8 @@
+2003-02-05  Dan Winship  <danw@ximian.com>
+
+	* Makefile.am (INCLUDES): Define MAP_DIR in terms of $(imagesdir).
+	(widgetsincludedir): Define in terms of $(privincludedir)
+
 2003-02-02  Hans Petter Jansson  <hpj@ximian.com>
 
 	* e-calendar-item.[ch]: Use Pango to draw.

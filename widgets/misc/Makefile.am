@@ -4,14 +4,14 @@
 INCLUDES =								\
 	-I$(top_srcdir)							\
 	-I$(top_srcdir)/widgets/shortcut-bar				\
-	-DMAP_DIR=\""$(datadir)/evolution-$(BASE_VERSION)/images"\"	\
+	-DMAP_DIR=\""$(imagesdir)"\"					\
 	-DG_LOG_DOMAIN=__FILE__						\
 	$(GNOME_FULL_CFLAGS)
 
 privlib_LIBRARIES =	\
 	libemiscwidgets.a
 
-widgetsincludedir = $(includedir)/evolution-$(BASE_VERSION)/widgets
+widgetsincludedir = $(privincludedir)/widgets
 
 widgetsinclude_HEADERS =			\
 	e-calendar.h				\
