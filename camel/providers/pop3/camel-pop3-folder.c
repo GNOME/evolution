@@ -336,7 +336,7 @@ pop3_get_message_stream (CamelFolder *folder, int id, gboolean headers_only, Cam
 		return NULL;
 	}
 	
-	if (result && sscanf (result, "%d", &total) != 1)
+	if (!result || (result && sscanf (result, "%d", &total) != 1))
 		total = 0;
 	
 	g_free (result);

@@ -528,11 +528,11 @@ camel_pop3_command (CamelPop3Store *store, char **ret, CamelException *ex, char 
 {
 	char *cmdbuf;
 	va_list ap;
-
+	
 	va_start (ap, fmt);
 	cmdbuf = g_strdup_vprintf (fmt, ap);
 	va_end (ap);
-
+	
 	/* Send the command */
 	if (camel_remote_store_send_string (CAMEL_REMOTE_STORE (store), ex, "%s\r\n", cmdbuf) < 0) {
 		g_free (cmdbuf);
@@ -541,7 +541,7 @@ camel_pop3_command (CamelPop3Store *store, char **ret, CamelException *ex, char 
 		return CAMEL_POP3_FAIL;
 	}
 	g_free (cmdbuf);
-
+	
 	return pop3_get_response (store, ret, ex);
 }
 
@@ -550,20 +550,20 @@ pop3_get_response (CamelPop3Store *store, char **ret, CamelException *ex)
 {
 	char *respbuf;
 	int status;
-
+	
 	if (camel_remote_store_recv_line (CAMEL_REMOTE_STORE (store), &respbuf, ex) < 0) {
 		if (ret)
 			*ret = NULL;
 		return CAMEL_POP3_FAIL;
 	}
-
+	
 	if (!strncmp (respbuf, "+OK", 3))
 		status = CAMEL_POP3_OK;
 	else if (!strncmp (respbuf, "-ERR", 4))
 		status = CAMEL_POP3_ERR;
 	else
 		status = CAMEL_POP3_FAIL;
-
+	
 	if (ret) {
 		if (status != CAMEL_POP3_FAIL) {
 			*ret = strchr (respbuf, ' ');
@@ -573,7 +573,7 @@ pop3_get_response (CamelPop3Store *store, char **ret, CamelException *ex)
 			*ret = NULL;
 	}
 	g_free (respbuf);
-
+	
 	return status;
 }
 

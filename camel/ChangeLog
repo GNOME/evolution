@@ -1,5 +1,8 @@
 2001-08-10  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* providers/pop3/camel-pop3-folder.c (pop3_get_message_stream):
+	Set the total bytes expected to 0 if the response is empty too.
+
 	* camel-mime-utils.c (header_raw_check_mailing_list): regfree the
 	pattern before continue'ing. This was showing up quite a bit under
 	purify.
