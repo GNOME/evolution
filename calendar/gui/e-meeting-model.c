@@ -1334,7 +1334,7 @@ async_read (GnomeVFSAsyncHandle *handle,
 	EMeetingModelQueueData *qdata = data;
 	GnomeVFSFileSize buf_size = BUF_SIZE - 1;
 
-	if (result != GNOME_VFS_OK) {
+	if (result != GNOME_VFS_OK && result != GNOME_VFS_ERROR_EOF) {
 		gnome_vfs_async_close (handle, async_close, qdata);
 		return;
 	}
@@ -1342,7 +1342,7 @@ async_read (GnomeVFSAsyncHandle *handle,
 	((char *)buffer)[read] = '\0';
 	qdata->string = g_string_append (qdata->string, buffer);
 	
-	if (read < requested) {
+	if (result == GNOME_VFS_ERROR_EOF) {
 		gnome_vfs_async_close (handle, async_close, qdata);
 		return;
 	}

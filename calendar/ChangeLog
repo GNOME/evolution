@@ -1,3 +1,11 @@
+2003-03-05  Rodrigo Moya <rodrigo@ximian.com>
+
+	Fixes #31382
+
+	* gui/e-meeting-model.c (async_read): don't assume the buffer is
+	always full, but use GNOME_VFS_ERROR_EOF instead for knowing when
+	the read has finished.
+
 2003-03-05  JP Rosevear  <jpr@ximian.com>
 
 	* gui/apps_evolution_calendar.schemas: fix defaults and
