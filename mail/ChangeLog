@@ -1,3 +1,15 @@
+2002-01-08  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* message-list.c (message_list_select): When performing a
+	wraparound, check to see if the first message fits the selection
+	criteria before telling etable to find the next node.
+
+2002-01-08  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-account-gui.c (mail_account_gui_new): When connecting to
+	the transport username changed event, pass the gui->transport not
+	the gui->source.
+
 2001-12-21  Jeffrey Stedfast  <fejj@ximian.com>
 
 	The idea here is that if we consistantly name the movemail file
