@@ -49,6 +49,8 @@
 #include <libxml/parser.h>
 #include <libxml/xmlmemory.h>
 
+#include <gal/util/e-util.h>
+#include <gal/util/e-iconv.h>
 #include <gal/util/e-xml-utils.h>
 
 #include "e-util/e-bconf-map.h"
@@ -1245,35 +1247,35 @@ cp (const char *src, const char *dest, gboolean show_progress)
 	size_t total = 0;
 	struct stat st;
 	struct utimbuf ut;
-
+	
 	/* if the dest file exists and has content, abort - we don't
 	 * want to corrupt their existing data */
-	if (stat(dest, &st) == 0 && st.st_size > 0) {
-		printf("destination exists, not copying '%s' to '%s'\n", src, dest);
+	if (stat (dest, &st) == 0 && st.st_size > 0) {
+		printf ("destination exists, not copying '%s' to '%s'\n", src, dest);
 		return -1;
 	}
 	
-	if (stat(src, &st) == -1) {
-		printf("source doesn't exist '%s'\n", src);
+	if (stat (src, &st) == -1) {
+		printf ("source doesn't exist '%s'\n", src);
 		return -1;
 	}
 	
-	if ((readfd = open(src, O_RDONLY)) == -1) {
-		printf("source cannot be opened '%s'\n", src);
+	if ((readfd = open (src, O_RDONLY)) == -1) {
+		printf ("source cannot be opened '%s'\n", src);
 		return -1;
 	}
 	
-	if ((writefd = open(dest, O_WRONLY | O_CREAT | O_TRUNC, 0666)) == -1) {
-		printf("cannot open dest '%s' '%s'\n", dest, strerror(errno));
+	if ((writefd = open (dest, O_WRONLY | O_CREAT | O_TRUNC, 0666)) == -1) {
+		printf ("cannot open dest '%s' '%s'\n", dest, strerror(errno));
 		errnosav = errno;
-		close(readfd);
+		close (readfd);
 		errno = errnosav;
 		return -1;
 	}
-
+	
 	do {
 		do {
-			nread = read(readfd, readbuf, sizeof(readbuf));
+			nread = read (readfd, readbuf, sizeof (readbuf));
 		} while (nread == -1 && errno == EINTR);
 		
 		if (nread == 0)
@@ -1282,7 +1284,7 @@ cp (const char *src, const char *dest, gboolean show_progress)
 			goto exception;
 		
 		do {
-			nwritten = write(writefd, readbuf, nread);
+			nwritten = write (writefd, readbuf, nread);
 		} while (nwritten == -1 && errno == EINTR);
 		
 		if (nwritten < nread)
@@ -1291,36 +1293,34 @@ cp (const char *src, const char *dest, gboolean show_progress)
 		total += nwritten;
 		
 		if (show_progress)
-			em_migrate_set_progress(((double) total) / ((double) st.st_size));
+			em_migrate_set_progress (((double) total) / ((double) st.st_size));
 	} while (total < st.st_size);
 	
-	if (fsync(writefd) == -1)
+	if (fsync (writefd) == -1)
 		goto exception;
 	
-	close(readfd);
-	if (close(writefd) == -1)
-		goto failwrite;
-
+	close (readfd);
+	if (close (writefd) == -1)
+		goto failclose;
+	
 	ut.actime = st.st_atime;
 	ut.modtime = st.st_mtime;
-	utime(dest, &ut);
-	chmod(dest, st.st_mode);
-
+	utime (dest, &ut);
+	chmod (dest, st.st_mode);
+	
 	return 0;
 	
  exception:
 	
 	errnosav = errno;
-	
-	close(readfd);
-	close(writefd);
-
+	close (readfd);
+	close (writefd);
 	errno = errnosav;
-failwrite:
-	errnosav = errno;
-
-	unlink(dest);
 	
+ failclose:
+	
+	errnosav = errno;
+	unlink (dest);
 	errno = errnosav;
 	
 	return -1;
@@ -1759,7 +1759,7 @@ em_migrate_pop_uid_caches_1_4 (const char *evolution_dir, CamelException *ex)
 			g_free(cache_dir);
 			return 0;
 		}
-
+		
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
 				      _("Failed to migrate pop3 uid caches: %s"),
 				      g_strerror (errno));
@@ -1844,6 +1844,232 @@ em_migrate_imap_caches_1_4 (const char *evolution_dir, CamelException *ex)
 }
 
 static int
+em_migrate_folder_expand_state_1_4 (const char *evolution_dir, CamelException *ex)
+{
+	GString *srcpath, *destpath;
+	size_t slen, dlen, rlen;
+	char *evo14_mbox_root;
+	struct dirent *dent;
+	struct stat st;
+	DIR *dir;
+	
+	srcpath = g_string_new (g_get_home_dir ());
+	g_string_append (srcpath, "/evolution/config");
+	if (stat (srcpath->str, &st) == -1 || !S_ISDIR (st.st_mode)) {
+		g_string_free (srcpath, TRUE);
+		return 0;
+	}
+	
+	destpath = g_string_new (evolution_dir);
+	g_string_append (destpath, "/mail/config");
+	if (camel_mkdir (destpath->str, 0777) == -1 || !(dir = opendir (srcpath->str))) {
+		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
+				      _("Failed to migrate folder expand state: %s"), g_strerror (errno));
+		g_warning ("Failed to migrate folder expand state: %s", g_strerror (errno));
+		g_string_free (destpath, TRUE);
+		g_string_free (srcpath, TRUE);
+		return -1;
+	}
+	
+	g_string_append (srcpath, "/et-expanded-");
+	slen = srcpath->len;
+	g_string_append (destpath, "/et-expanded-");
+	dlen = destpath->len;
+	
+	evo14_mbox_root = g_build_filename (g_get_home_dir (), "evolution", "local", NULL);
+	e_filename_make_safe (evo14_mbox_root);
+	rlen = strlen (evo14_mbox_root);
+	evo14_mbox_root = g_realloc (evo14_mbox_root, rlen + 2);
+	evo14_mbox_root[rlen++] = '_';
+	evo14_mbox_root[rlen] = '\0';
+	
+	while ((dent = readdir (dir))) {
+		char *full_name, *inptr, *buf = NULL;
+		const char *filename;
+		GString *new;
+		
+		if (strncmp (dent->d_name, "et-expanded-", 12) != 0)
+			continue;
+		
+		if (!strncmp (dent->d_name + 12, "file:", 5)) {
+			/* need to munge the filename */
+			inptr = dent->d_name + 17;
+			
+			if (!strncmp (inptr, evo14_mbox_root, rlen)) {
+				/* this should always be the case afaik... */
+				inptr += rlen;
+				new = g_string_new ("mbox:");
+				g_string_append_printf (new, "%s/mail/local#", evolution_dir);
+				
+				full_name = g_strdup (inptr);
+				inptr = full_name + strlen (full_name) - 12;
+				while (inptr > full_name) {
+					if (!strncmp (inptr, "_subfolders_", 12))
+						memmove (inptr, inptr + 11, strlen (inptr + 11) + 1);
+					
+					inptr--;
+				}
+				
+				g_string_append (new, full_name);
+				g_free (full_name);
+				
+				filename = buf = new->str;
+				g_string_free (new, FALSE);
+				e_filename_make_safe (buf);
+			} else {
+				/* but just in case... */
+				filename = dent->d_name + 12;
+			}
+		} else {
+			/* no munging needed */
+			filename = dent->d_name + 12;
+		}
+		
+		g_string_append (srcpath, dent->d_name + 12);
+		g_string_append (destpath, filename);
+		g_free (buf);
+		
+		cp (srcpath->str, destpath->str, FALSE);
+		
+		g_string_truncate (srcpath, slen);
+		g_string_truncate (destpath, dlen);
+	}
+	
+	closedir (dir);
+	
+	g_free (evo14_mbox_root);
+	g_string_free (destpath, TRUE);
+	g_string_free (srcpath, TRUE);
+	
+	return 0;
+}
+
+static int
+em_migrate_folder_view_settings_1_4 (const char *evolution_dir, CamelException *ex)
+{
+	GString *srcpath, *destpath;
+	size_t slen, dlen, rlen;
+	char *evo14_mbox_root;
+	struct dirent *dent;
+	struct stat st;
+	DIR *dir;
+	
+	srcpath = g_string_new (g_get_home_dir ());
+	g_string_append (srcpath, "/evolution/views/mail");
+	if (stat (srcpath->str, &st) == -1 || !S_ISDIR (st.st_mode)) {
+		g_string_free (srcpath, TRUE);
+		return 0;
+	}
+	
+	destpath = g_string_new (evolution_dir);
+	g_string_append (destpath, "/mail/views");
+	if (camel_mkdir (destpath->str, 0777) == -1 || !(dir = opendir (srcpath->str))) {
+		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
+				      _("Failed to migrate folder expand state: %s"), g_strerror (errno));
+		g_warning ("Failed to migrate folder expand state: %s", g_strerror (errno));
+		g_string_free (destpath, TRUE);
+		g_string_free (srcpath, TRUE);
+		return -1;
+	}
+	
+	g_string_append_c (srcpath, '/');
+	slen = srcpath->len;
+	g_string_append_c (destpath, '/');
+	dlen = destpath->len;
+	
+	evo14_mbox_root = g_build_filename (g_get_home_dir (), "evolution", "local", NULL);
+	e_filename_make_safe (evo14_mbox_root);
+	rlen = strlen (evo14_mbox_root);
+	evo14_mbox_root = g_realloc (evo14_mbox_root, rlen + 2);
+	evo14_mbox_root[rlen++] = '_';
+	evo14_mbox_root[rlen] = '\0';
+	
+	while ((dent = readdir (dir))) {
+		char *full_name, *inptr, *buf = NULL;
+		const char *filename, *ext;
+		size_t prelen = 0;
+		GString *new;
+		
+		if (dent->d_name[0] == '.')
+			continue;
+		
+		if (!(ext = strrchr (dent->d_name, '.')))
+			continue;
+		
+		if (!strcmp (ext, ".galview") || !strcmp (dent->d_name, "galview.xml")) {
+			/* just copy the file */
+			filename = dent->d_name;
+			goto copy;
+		} else if (strcmp (ext, ".xml") != 0) {
+			continue;
+		}
+		
+		if (!strncmp (dent->d_name, "current_view-", 13)) {
+			prelen = 13;
+		} else if (!strncmp (dent->d_name, "custom_view-", 12)) {
+			prelen = 12;
+		} else {
+			/* huh? wtf is this file? */
+			continue;
+		}
+		
+		if (!strncmp (dent->d_name + prelen, "file:", 5)) {
+			/* need to munge the filename */
+			inptr = dent->d_name + prelen + 5;
+			
+			if (!strncmp (inptr, evo14_mbox_root, rlen)) {
+				/* this should always be the case afaik... */
+				inptr += rlen;
+				new = g_string_new ("mbox:");
+				g_string_append_printf (new, "%s/mail/local#", evolution_dir);
+				
+				full_name = g_strdup (inptr);
+				inptr = full_name + strlen (full_name) - 12;
+				while (inptr > full_name) {
+					if (!strncmp (inptr, "_subfolders_", 12))
+						memmove (inptr, inptr + 11, strlen (inptr + 11) + 1);
+					
+					inptr--;
+				}
+				
+				g_string_append (new, full_name);
+				g_free (full_name);
+				
+				filename = buf = new->str;
+				g_string_free (new, FALSE);
+				e_filename_make_safe (buf);
+			} else {
+				/* but just in case... */
+				filename = dent->d_name + prelen;
+			}
+		} else {
+			/* no munging needed */
+			filename = dent->d_name + prelen;
+		}
+		
+	copy:
+		g_string_append (srcpath, dent->d_name);
+		if (prelen > 0)
+			g_string_append_len (destpath, dent->d_name, prelen);
+		g_string_append (destpath, filename);
+		g_free (buf);
+		
+		cp (srcpath->str, destpath->str, FALSE);
+		
+		g_string_truncate (srcpath, slen);
+		g_string_truncate (destpath, dlen);
+	}
+	
+	closedir (dir);
+	
+	g_free (evo14_mbox_root);
+	g_string_free (destpath, TRUE);
+	g_string_free (srcpath, TRUE);
+	
+	return 0;
+}
+
+static int
 em_migrate_1_4 (const char *evolution_dir, xmlDocPtr filters, xmlDocPtr vfolders, CamelException *ex)
 {
 	EMMigrateSession *session;
@@ -1914,6 +2140,12 @@ em_migrate_1_4 (const char *evolution_dir, xmlDocPtr filters, xmlDocPtr vfolders
 	if (em_migrate_imap_caches_1_4 (evolution_dir, ex) == -1)
 		return -1;
 	
+	if (em_migrate_folder_expand_state_1_4 (evolution_dir, ex) == -1)
+		return -1;
+	
+	if (em_migrate_folder_view_settings_1_4 (evolution_dir, ex) == -1)
+		return -1;
+	
 	return 0;
 }
 
@@ -1960,7 +2192,7 @@ emm_setup_initial(const char *evolution_dir)
 	/* special-case - this means brand new install of evolution */
 	/* FIXME: create default folders and stuff... */
 
-	base = e_iconv_locale_language();
+	base = (char *) e_iconv_locale_language ();
 	if (base) {
 		lang = g_alloca(strlen(base)+1);
 		strcpy(lang, base);

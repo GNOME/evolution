@@ -148,8 +148,8 @@ static char *filter_size (int size);
 static void folder_changed (CamelObject *o, gpointer event_data, gpointer user_data);
 static void message_changed (CamelObject *o, gpointer event_data, gpointer user_data);
 
-static void hide_save_state(MessageList *ml);
-static void hide_load_state(MessageList *ml);
+static void save_hide_state(MessageList *ml);
+static void load_hide_state(MessageList *ml);
 
 /* note: @changes is owned/freed by the caller */
 /*static void mail_do_regenerate_messagelist (MessageList *list, const char *search, const char *hideexpr, CamelFolderChangeInfo *changes);*/
@@ -1365,10 +1365,10 @@ static void
 save_tree_state(MessageList *ml)
 {
 	char *filename;
-
+	
 	if (ml->folder == NULL || ml->tree == NULL)
 		return;
-
+	
 	filename = mail_config_folder_to_cachename(ml->folder, "et-expanded-");
 	e_tree_save_expanded_state(ml->tree, filename);
 	g_free(filename);
@@ -1392,7 +1392,7 @@ void
 message_list_save_state (MessageList *ml)
 {
 	save_tree_state (ml);
-	hide_save_state (ml);
+	save_hide_state (ml);
 }
 
 static void
@@ -1627,7 +1627,7 @@ message_list_destroy(GtkObject *object)
 		}
 		
 		save_tree_state(message_list);
-		hide_save_state(message_list);
+		save_hide_state(message_list);
 		camel_object_unhook_event(message_list->folder, "folder_changed", folder_changed, message_list);
 		camel_object_unhook_event(message_list->folder, "message_changed", message_changed, message_list);
 		camel_object_unref (message_list->folder);
@@ -2547,7 +2547,7 @@ message_list_set_folder (MessageList *message_list, CamelFolder *folder, const c
 	clear_tree (message_list);
 	
 	if (message_list->folder) {
-		hide_save_state(message_list);
+		save_hide_state(message_list);
 		camel_object_unhook_event((CamelObject *)message_list->folder, "folder_changed",
 					  folder_changed, message_list);
 		camel_object_unhook_event((CamelObject *)message_list->folder, "message_changed",
@@ -2608,7 +2608,7 @@ message_list_set_folder (MessageList *message_list, CamelFolder *folder, const c
 		message_list->hidedeleted = hide_deleted && !(folder->folder_flags & CAMEL_FOLDER_IS_TRASH);
 		message_list->hidejunk = junk_folder && !(folder->folder_flags & CAMEL_FOLDER_IS_JUNK) && !(folder->folder_flags & CAMEL_FOLDER_IS_TRASH);
 		
-		hide_load_state (message_list);
+		load_hide_state (message_list);
 		mail_regen_list (message_list, message_list->search, NULL, NULL);
 	}
 }
@@ -2985,7 +2985,7 @@ message_list_hide_clear (MessageList *ml)
 */
 
 static void
-hide_load_state (MessageList *ml)
+load_hide_state (MessageList *ml)
 {
 	char *filename;
 	FILE *in;
@@ -3038,7 +3038,7 @@ hide_save_1 (char *uid, char *keydata, FILE *out)
 /* save the hide state.  Note that messages are hidden by uid, if the uid's change, then
    this will become invalid, but is easy to reset in the ui */
 static void
-hide_save_state (MessageList *ml)
+save_hide_state (MessageList *ml)
 {
 	char *filename;
 	FILE *out;

@@ -1,3 +1,12 @@
+2004-01-21  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* em-migrate.c (em_migrate_1_4): Migrate the ETree expanded state
+	files as well as the GalView files.
+
+	* message-list.c: s/hide_save_state/save_hide_state/g and
+	s/hide_load_state/load_hide_state/g to be more consistant with the
+	other state saving function names.
+
 2004-01-21  Not Zed  <NotZed@Ximian.com>
 
 	* em-migrate.c (cp_r): use camel_mkdir(0777) rather than 0777 &
