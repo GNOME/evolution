@@ -1,3 +1,8 @@
+2002-11-01  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-uid-cache.c (camel_uid_cache_new): Use g_path_get_dirname
+	since g_dirname has been deprecated.
+
 2002-10-31  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-gpg-context.c (camel_gpg_context_class_init): Set the

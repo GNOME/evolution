@@ -85,7 +85,7 @@ camel_uid_cache_new (const char *filename)
 	char *dirname, *buf, **uids;
 	int fd, i;
 	
-	dirname = g_dirname (filename);
+	dirname = g_path_get_dirname (filename);
 	mkdir_heir (dirname, 0700);
 	g_free (dirname);
 	
