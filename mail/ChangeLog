@@ -1,3 +1,8 @@
+2003-01-15  Not Zed  <NotZed@Ximian.com>
+
+	* mail-accounts.c (account_able_clicked): Change the
+	enable/disable button when the state changes.
+
 2003-01-15  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-local.c (save_metainfo): Back to using e_xml_save_file().

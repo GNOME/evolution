@@ -295,6 +295,8 @@ account_able_clicked (GtkButton *button, gpointer user_data)
 		gtk_tree_model_get (model, &iter, 3, &account, -1);
 		account->enabled = !account->enabled;
 		gtk_list_store_set ((GtkListStore *) model, &iter, 0, account->enabled, -1);
+
+		gtk_button_set_label (prefs->mail_able, account->enabled?_("Disable"):_("Enable"));
 	}
 	
 	if (account) {
