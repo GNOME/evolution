@@ -1,5 +1,11 @@
 2001-04-11  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* mail-crypto.c (pgp_mime_part_verify): Huh, somehow I forgot to
+	apply the from filter when verifying signed parts. Oh well,
+	probably not all that common. Fixed now though.
+
+2001-04-11  Jeffrey Stedfast  <fejj@ximian.com>
+
 	* mail-callbacks.c (save_msg): Use the homedir as the default
 	filename.
 

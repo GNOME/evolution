@@ -397,7 +397,7 @@ pgp_mime_part_verify (CamelMimePart *mime_part, CamelException *ex)
 	CamelMultipart *multipart;
 	CamelMimePart *part, *sigpart;
 	CamelStreamFilter *filtered_stream;
-	CamelMimeFilter *crlf_filter;
+	CamelMimeFilter *crlf_filter, *from_filter;
 	CamelStream *stream;
 	GByteArray *content, *signature;
 	PgpValidity *valid;
@@ -417,9 +417,12 @@ pgp_mime_part_verify (CamelMimePart *mime_part, CamelException *ex)
 	stream = camel_stream_mem_new ();
 	camel_stream_mem_set_byte_array (CAMEL_STREAM_MEM (stream), content);
 	crlf_filter = camel_mime_filter_crlf_new (CAMEL_MIME_FILTER_CRLF_ENCODE, CAMEL_MIME_FILTER_CRLF_MODE_CRLF_ONLY);
+	from_filter = CAMEL_MIME_FILTER (camel_mime_filter_from_new ());
 	filtered_stream = camel_stream_filter_new_with_stream (stream);
 	camel_stream_filter_add (filtered_stream, CAMEL_MIME_FILTER (crlf_filter));
 	camel_object_unref (CAMEL_OBJECT (crlf_filter));
+	camel_stream_filter_add (filtered_stream, CAMEL_MIME_FILTER (from_filter));
+	camel_object_unref (CAMEL_OBJECT (from_filter));
 	camel_data_wrapper_write_to_stream (CAMEL_DATA_WRAPPER (part), CAMEL_STREAM (filtered_stream));
 	camel_object_unref (CAMEL_OBJECT (filtered_stream));
 	camel_object_unref (CAMEL_OBJECT (stream));
