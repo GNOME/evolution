@@ -490,7 +490,7 @@ alarm_page_fill_widgets (CompEditorPage *page, CalComponent *comp)
 
 	/* List */
 	if (!cal_component_has_alarms (comp))
-		return;
+		goto out;
 
 	alarms = cal_component_get_alarm_uids (comp);
 
@@ -509,6 +509,8 @@ alarm_page_fill_widgets (CompEditorPage *page, CalComponent *comp)
 		append_reminder (apage, ca_copy);
 	}
 	cal_obj_uid_list_free (alarms);
+
+ out:
 
 	priv->updating = FALSE;
 }
