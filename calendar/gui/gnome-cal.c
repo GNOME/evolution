@@ -38,6 +38,7 @@
 #include <gal/e-paned/e-vpaned.h>
 #include <cal-util/timeutil.h>
 #include "widgets/misc/e-search-bar.h"
+#include "widgets/misc/e-filter-bar.h"
 #include "dialogs/alarm-notify-dialog.h"
 #include "e-calendar-table.h"
 #include "e-day-view.h"
@@ -215,12 +216,8 @@ get_current_page (GnomeCalendar *gcal)
 	return GTK_NOTEBOOK (priv->notebook)->cur_page->child;
 }
 
-enum {
-	SEARCH_SHOW_ALL
-};
-
 static ESearchBarItem search_menu_items[] = {
-	{ N_("Show all "), SEARCH_SHOW_ALL },
+	E_FILTERBAR_RESET,
 	{ NULL, -1 }
 };
 
@@ -333,7 +330,7 @@ search_bar_menu_activated_cb (ESearchBar *search_bar, int item, gpointer data)
 	gcal = GNOME_CALENDAR (data);
 
 	switch (item) {
-	case SEARCH_SHOW_ALL:
+	case E_FILTERBAR_RESET_ID:
 		set_query (gcal, "#t"); /* match all */
 		/* FIXME: should we change the rest of the search bar so that
 		 * the user sees that he selected "show all" instead of some

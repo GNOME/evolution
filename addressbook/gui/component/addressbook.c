@@ -35,6 +35,7 @@
 
 #include <ebook/e-book.h>
 #include <widgets/misc/e-search-bar.h>
+#include <widgets/misc/e-filter-bar.h>
 
 #define PROPERTY_FOLDER_URI          "folder_uri"
 
@@ -554,15 +555,10 @@ set_prop (BonoboPropertyBag *bag,
 	}
 }
 
-enum {
-	ESB_SHOW_ALL,
-	ESB_ADVANCED,
-};
-
 static ESearchBarItem addressbook_search_menu_items[] = {
-	{ N_("Show All"), ESB_SHOW_ALL },
+	E_FILTERBAR_RESET,
 	{ NULL, 0 },
-	{ N_("Advanced..."), ESB_ADVANCED},
+	E_FILTERBAR_ADVANCED,
 	{ NULL, -1 }
 };
 
@@ -571,10 +567,10 @@ addressbook_menu_activated (ESearchBar *esb, int id, AddressbookView *view)
 {
 	EBook *book;
 	switch (id) {
-	case ESB_SHOW_ALL:
+	case E_FILTERBAR_RESET_ID:
 		e_addressbook_view_show_all(view->view);
 		break;
-	case ESB_ADVANCED:
+	case E_FILTERBAR_ADVANCED_ID:
 		gtk_object_get(GTK_OBJECT(view->view),
 			       "book", &book,
 			       NULL);

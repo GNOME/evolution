@@ -368,57 +368,52 @@ event_editor_destroy (GtkObject *object)
 static char *
 make_title_from_comp (CalComponent *comp)
 {
-	const char *summary;
+	char *title;
+	const char *type_string;
 	CalComponentVType type;
 	CalComponentText text;
 
 	if (!comp)
 		return g_strdup (_("Edit Appointment"));
 
-	cal_component_get_summary (comp, &text);
-	if (text.value)
-		summary = text.value;
-	else
-		summary =  _("No summary");
-
-
 	type = cal_component_get_vtype (comp);
 	switch (type) {
 	case CAL_COMPONENT_EVENT:
-		return g_strdup_printf (_("Appointment - %s"), summary);
-
+		type_string = _("Appointment - %s");
+		break;
 	case CAL_COMPONENT_TODO:
-		return g_strdup_printf (_("Task - %s"), summary);
-
+		type_string = _("Task - %s");
+		break;
 	case CAL_COMPONENT_JOURNAL:
-		return g_strdup_printf (_("Journal entry - %s"), summary);
-
+		type_string = _("Journal entry - %s");
+		break;
 	default:
 		g_message ("make_title_from_comp(): Cannot handle object of type %d", type);
 		return NULL;
 	}
+
+	cal_component_get_summary (comp, &text);
+	if (text.value) {
+		char *summary;
+		summary = e_utf8_to_locale_string (text.value);
+		title = g_strdup_printf (type_string, summary);
+		g_free (summary);
+	} else
+		title = g_strdup_printf (type_string, _("No summary"));
+
+	return title;
 }
 
 /* Sets the event editor's window title from a calendar component */
 static void
 set_title_from_comp (EventEditor *ee, CalComponent *comp)
 {
-	EventEditorPrivate *priv;
-	char *title, *tmp;
-
-	priv = ee->priv;
+	EventEditorPrivate *priv = ee->priv;
+	char *title;
 
 	title = make_title_from_comp (comp);
-	tmp = e_utf8_to_gtk_string (priv->app, title);
+	gtk_window_set_title (GTK_WINDOW (priv->app), title);
 	g_free (title);
-
-	if (tmp) {
-		gtk_window_set_title (GTK_WINDOW (priv->app), tmp);
-		g_free (tmp);
-	} else {
-		g_message ("set_title_from_comp(): Could not convert the title from UTF8");
-		gtk_window_set_title (GTK_WINDOW (priv->app), "");
-	}
 }
 
 /* Callback used when the recurrence weekday picker changes */

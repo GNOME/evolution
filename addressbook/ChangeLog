@@ -1,3 +1,12 @@
+2001-05-07  Gediminas Paulauskas <menesis@delfi.lt>
+
+	* gui/component/addressbook.c: use define from
+	widgets/misc/e-filter-bar.h instead of own enumeration and search menu
+	names.
+
+	* gui/component/Makefile.am, gui/component/select-names/Makefile.am:
+	removed EVOLUTION_VERSION.
+
 2001-05-04  Chris Toshok  <toshok@ximian.com>
 
 	* gui/component/addressbook-component.c (remove_folder): un-#if 0
