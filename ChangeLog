@@ -1,3 +1,38 @@
+1999-12-18  bertrand  <Bertrand.Guiheneuf@aful.org>
+
+	* camel/camel-folder.c (_delete): use 
+	exception mechanism.
+	(camel_folder_delete): idem.
+	(_delete_messages): idem.
+	(camel_folder_delete_messages): idem.
+	(_get_parent_folder): idem.
+	(camel_folder_get_parent_folder): idem.
+	(_get_parent_store): idem.
+	(_get_mode): idem.
+	(camel_folder_get_parent_store): idem.
+	(camel_folder_get_mode): idem.
+	(_list_subfolders): idem.
+	(camel_folder_list_subfolders): idem.
+	(_expunge): idem.
+	(camel_folder_expunge): idem.
+	(_has_message_number_capability): idem.
+	(camel_folder_has_message_number_capability): idem.
+	(_get_message_by_number): idem.
+	(camel_folder_get_message_by_number): idem.
+	(camel_folder_get_message_count): idem.
+	(_list_permanent_flags): idem.
+	(camel_folder_list_permanent_flags): idem.
+	(_copy_message_to): idem.
+	(camel_folder_copy_message_to): idem.
+	(camel_folder_has_summary_capability): idem.
+	(camel_folder_get_summary): idem.
+	(camel_folder_has_uid_capability): idem.
+	(camel_folder_get_message_uid): idem.
+	(_get_message_uid_by_number): idem.
+	(camel_folder_get_message_uid_by_number): idem.
+	(camel_folder_get_message_by_uid): idem.
+	(camel_folder_get_uid_list): idem.
+
 1999-12-17  bertrand  <Bertrand.Guiheneuf@aful.org>
 
 	* camel/camel-folder.c (_set_name): 
