@@ -89,45 +89,39 @@ check_size (CamelMimeFilter *filter, char *outptr, char **outend, size_t len)
 	return filter->outbuf + offset;
 }
 
-/* 1 = non-email-address chars: "()<>@,;:\\\"/[]`'|\n\t "  */
-/* 2 = non-url chars:           "()<>,;\\\"[]`'|\n\t "   */
-/* 3 = trailing url garbage:    ",.!?;:>)]}\\`'-_|\n\t "  */
-static unsigned short special_chars[256] = {
-	 0, 0, 0, 0, 0, 0, 0, 0, 0, 7, 7, 0, 0, 0, 0, 0,
-	 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-	 7, 4, 3, 0, 0, 0, 0, 7, 3, 7, 0, 0, 7, 4, 4, 1,
-	 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5, 7, 3, 0, 7, 4,
-	 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-	 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 7, 3, 0, 4,
-	 7, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-	 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 7, 4, 0, 0,
-	 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-	 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-	 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-	 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-	 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-	 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-	 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-	 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+
+static unsigned short special_chars[128] = {
+	  0,  0,  0,  0,  0,  0,  0,  0,  0,  7,  7,  0,  0,  0,  0,  0,
+	  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+	  7,  4,  3,  0,  0,  0,  0,  7,  3,  7,  0,  0,  7, 12, 12,  1,
+	  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  5,  7,  3,  0,  7,  4,
+	  1,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,
+	  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  3,  7,  3,  0,  4,
+	  7,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,
+	  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  0,  7,  4,  0,  0,
 };
 
 
 #define IS_NON_ADDR   (1 << 0)
 #define IS_NON_URL    (1 << 1)
 #define IS_GARBAGE    (1 << 2)
+#define IS_DOMAIN     (1 << 3)
 
 #define NON_EMAIL_CHARS         "()<>@,;:\\\"/[]`'|\n\t "
 #define NON_URL_CHARS           "()<>,;\\\"[]`'|\n\t "
 #define TRAILING_URL_GARBAGE    ",.!?;:>)}\\`'-_|\n\t "
 
-#define is_addr_char(c) (isprint (c) && !(special_chars[(unsigned char) c] & IS_NON_ADDR))
-#define is_url_char(c)  (isprint (c) && !(special_chars[(unsigned char) c] & IS_NON_URL))
-#define is_trailing_garbage(c) (!isprint (c) || (special_chars[(unsigned char) c] & IS_GARBAGE))
+#define is_addr_char(c) ((unsigned char) (c) < 128 && !(special_chars[(unsigned char) (c)] & IS_NON_ADDR))
+#define is_url_char(c)  ((unsigned char) (c) < 128 && !(special_chars[(unsigned char) (c)] & IS_NON_URL))
+#define is_trailing_garbage(c) ((unsigned char) (c) > 127 || (special_chars[(unsigned char) (c)] & IS_GARBAGE))
+#define is_domain_name_char(c) ((unsigned char) (c) < 128 && (special_chars[(unsigned char) (c)] & IS_DOMAIN))
+
 
 #if 0
 static void
 table_init (void)
 {
+	int max, ch, i;
 	char *c;
 	
 	memset (special_chars, 0, sizeof (special_chars));
@@ -137,6 +131,22 @@ table_init (void)
 		special_chars[(int) *c] |= IS_NON_URL;
 	for (c = TRAILING_URL_GARBAGE; *c; c++)
 		special_chars[(int) *c] |= IS_GARBAGE;
+	
+#define is_ascii_alpha(c) (((c) >= 'A' && (c) <= 'Z') || ((c) >= 'a' && (c) <= 'z'))
+	
+	for (ch = 0; ch < 128; ch++) {
+		if (is_ascii_alpha (ch) || isdigit (ch) || ch == '.' || ch == '-')
+			special_chars[ch] |= IS_DOMAIN;
+	}
+	
+	max = sizeof (special_chars) / sizeof (special_chars[0]);
+	printf ("static unsigned short special_chars[%d] = {", max);
+	for (i = 0; i < max; i++) {
+		if (i % 16 == 0)
+			printf ("\n\t");
+		printf ("%3d,", special_chars[i]);
+	}
+	printf ("\n};\n");
 }
 #endif
 
@@ -183,13 +193,15 @@ email_address_extract (char **in, char *inend, char *start, char **outptr, gbool
 	char *addr, *pre, *end, *dot;
 	
 	/* *in points to the '@'. Look backward for a valid local-part */
-	for (pre = *in; pre - 1 >= start && is_addr_char (*(pre - 1)); pre--);
+	pre = *in;
+	while (pre - 1 >= start && is_addr_char (*(pre - 1)))
+		pre--;
 	
 	if (pre == *in)
 		return NULL;
 	
 	/* Now look forward for a valid domain part */
-	for (end = *in + 1, dot = NULL; end < inend && is_addr_char (*end); end++) {
+	for (end = *in + 1, dot = NULL; end < inend && is_domain_name_char (*end); end++) {
 		if (*end == '.' && !dot)
 			dot = end;
 	}
