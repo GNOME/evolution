@@ -1,5 +1,6 @@
 2001-02-12  Kjartan Maraas  <kmaraas@gnome.org>
 
+	* backend/ebook/GNOME_Evolution_Addressbook_GnomeCard_Importer.oaf.in: Translations.
 	* gui/component/select-names/GNOME_Evolution_Addressbook_SelectNames.oaf.in:
 	Marked strings for translation in this newly created file.
 	* gui/component/select-names/Makefile.am: Hook up the .oaf.in files in the

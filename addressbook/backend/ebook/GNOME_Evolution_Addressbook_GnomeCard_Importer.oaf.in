@@ -9,7 +9,7 @@
 	</oaf_attribute>
 
 	<oaf_attribute name="description" type="string"
-		       value="Factory to import GnomeCard files into Evolution."/>
+		       _value="Factory to import GnomeCard files into Evolution."/>
 </oaf_server>
 
 <oaf_server iid="OAFIID:GNOME_Evolution_Addressbook_GnomeCard_Importer"
@@ -23,7 +23,7 @@
 	<oaf_attribute name="evolution:menu-name" type="string"
 		       value="GnomeCard (.vcf, .gcrd)"/>
 	<oaf_attribute name="description" type="string"
-		       value="Imports GnomeCard files into Evolution."/>
+		       _value="Imports GnomeCard files into Evolution."/>
 </oaf_server>
 
 </oaf_info>
