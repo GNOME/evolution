@@ -40,6 +40,8 @@
 #include <libgnomeui/gnome-stock.h>
 #include <gal/widgets/e-gui-utils.h>
 
+#include "e-local-folder.h"
+
 #include "e-setup.h"
 
 
@@ -278,9 +280,30 @@ e_setup (const char *evolution_directory)
 	file = g_strdup_printf ("%s/config", evolution_directory);
 	if (stat (file, &statinfo) == 0 && ! S_ISDIR (statinfo.st_mode)) {
 		char *old = g_strdup_printf ("%s.old", file);
+
 		rename (file, old);
 		mkdir (file, 0700);
 		g_free (old);
+	}
+	g_free (file);
+
+	/* If the user has an old style trash folder, remove it so it gets
+	 * replaced by the new vfolder-based trash folder.  FIXME: This should
+	 * go away at some point.  */
+	file = g_strdup_printf ("%s/local/Trash", evolution_directory);
+	if (stat (file, &statinfo) == 0 && S_ISDIR (statinfo.st_mode)) {
+		EFolder *local_folder;
+
+		local_folder = e_local_folder_new_from_path (file);
+		if (local_folder != NULL
+		    && strcmp (e_folder_get_type_string (local_folder), "mail") == 0) {
+			char *old = g_strdup_printf ("%s.old", file);
+
+			rename (file, old);
+			g_free (old);
+		}
+
+		gtk_object_unref (GTK_OBJECT (local_folder));
 	}
 	g_free (file);
 
