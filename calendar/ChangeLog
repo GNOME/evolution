@@ -1,3 +1,15 @@
+2001-10-22  JP Rosevear  <jpr@ximian.com>
+
+	* gui/dialogs/meeting-page.c (meeting_page_destroy): we don't need
+	to save the state
+
+	* gui/e-meeting-time-sel.c (e_meeting_time_selector_destroy):
+	ditto
+
+	* gui/e-meeting-model.c (build_etable): listen for the etable
+	being destroyed
+	(table_destroy_cb): save the state when the etable is destroyed
+
 2001-10-21  JP Rosevear  <jpr@ximian.com>
 
 	* gui/dialogs/schedule-page.c (init_widgets): listen for changes

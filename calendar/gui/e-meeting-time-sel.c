@@ -819,7 +819,6 @@ e_meeting_time_selector_destroy (GtkObject *object)
 {
 	EMeetingTimeSelector *mts;
 	ETable *real_table;
-	char *filename;
 
 	mts = E_MEETING_TIME_SELECTOR (object);
 
@@ -827,12 +826,6 @@ e_meeting_time_selector_destroy (GtkObject *object)
 
 	gdk_color_context_free (mts->color_context);
 	gdk_bitmap_unref (mts->stipple);
-
-	filename = g_strdup_printf ("%s/config/et-header-meeting-time-sel",
-				    evolution_dir);
-	real_table = e_table_scrolled_get_table (E_TABLE_SCROLLED (mts->etable));
-	e_table_save_state (real_table, filename);
-	g_free (filename);
 		
 	if (GTK_OBJECT_CLASS (parent_class)->destroy)
 		(*GTK_OBJECT_CLASS (parent_class)->destroy)(object);

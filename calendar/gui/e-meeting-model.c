@@ -116,6 +116,8 @@ static void invite_entry_changed_cb (BonoboListener    *listener,
 				     CORBA_Environment *ev,
 				     gpointer           data);
 
+static void table_destroy_cb (ETableScrolled *etable, gpointer data);
+
 static ETableModelClass *parent_class = NULL;
 
 GtkType
@@ -747,9 +749,10 @@ build_etable (ETableModel *model, const gchar *spec_file, const gchar *state_fil
 #if 0
 	gtk_signal_connect (GTK_OBJECT (real_table),
 			    "right_click", GTK_SIGNAL_FUNC (right_click_cb), mpage);
-	gtk_signal_connect (GTK_OBJECT (real_table->sort_info),
-			    "sort_info_changed", GTK_SIGNAL_FUNC (sort_info_changed_cb), mts);
 #endif
+
+	gtk_signal_connect (GTK_OBJECT (etable), "destroy", 
+			    GTK_SIGNAL_FUNC (table_destroy_cb), g_strdup (state_file));
 
 	gtk_object_unref (GTK_OBJECT (extras));
 	
@@ -1494,3 +1497,16 @@ attendee_changed_cb (EMeetingAttendee *ia, gpointer data)
 	
 	e_table_model_row_changed (E_TABLE_MODEL (im), row);
 }
+
+static void
+table_destroy_cb (ETableScrolled *etable, gpointer data)
+{
+	ETable *real_table;
+	char *filename = data;
+	
+	real_table = e_table_scrolled_get_table (etable);
+	e_table_save_state (real_table, filename);
+
+	g_free (data);
+}
+

@@ -242,7 +242,6 @@ meeting_page_destroy (GtkObject *object)
 	MeetingPage *mpage;
 	MeetingPagePrivate *priv;
 	ETable *real_table;
-	char *filename;
 	
 	g_return_if_fail (object != NULL);
 	g_return_if_fail (IS_MEETING_PAGE (object));
@@ -260,13 +259,6 @@ meeting_page_destroy (GtkObject *object)
 	g_list_free (priv->address_strings);
 
 	gtk_object_unref (GTK_OBJECT (priv->model));
-
-	/* Save state */
-	filename = g_strdup_printf ("%s/config/et-header-meeting-page", 
-				    evolution_dir);
-	real_table = e_table_scrolled_get_table (priv->etable);
-	e_table_save_state (real_table, filename);
-	g_free (filename);
 	
 	if (priv->xml) {
 		gtk_object_unref (GTK_OBJECT (priv->xml));
