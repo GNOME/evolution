@@ -99,6 +99,7 @@ libevolution_mail_la_SOURCES =		\
 	mail-display-stream.h		\
 	mail-folder-cache.c		\
 	mail-folder-cache.h		\
+	mail-format.h			\
 	mail-format.c			\
 	mail-identify.c			\
 	mail-importer.c			\
@@ -196,6 +197,7 @@ EXTRA_DIST = 				\
 	Mailer.idl 			\
 	$(SPELL_IDL)			\
 	$(glade_DATA)			\
+	$(schema_DATA)			\
 	$(server_in_files)		\
 	$(server_DATA)			\
 	$(etspec_DATA)
