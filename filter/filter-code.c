@@ -109,12 +109,14 @@ build_code (FilterElement *fe, GString *out, struct _FilterPart *ff)
 {
 	GList *l;
 	FilterInput *fi = (FilterInput *)fe;
-	
+
+	g_string_append(out, "(match-all ");
 	l = fi->values;
 	while (l) {
 		g_string_append(out, (char *)l->data);
 		l = g_list_next(l);
 	}
+	g_string_append(out, ")");
 }
 
 /* and we have no value */
