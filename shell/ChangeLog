@@ -1,3 +1,16 @@
+2004-06-18  Not Zed  <NotZed@Ximian.com>
+
+	** See bug #54498.
+
+	* main.c (idle_cb): don't do dev warning stuff here anymore.
+
+	* main.c (main): show the dev warning before doing anything else
+	if we are going to.
+	(warning_dialog_response_callback): kick off the actual
+	application once we're finished.
+	(window_map_callback, new_window_created_callback): removed, not
+	needed anymore.
+
 2004-06-17  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* main.c (main): Call gnome_sound_init() before bonobo_main().

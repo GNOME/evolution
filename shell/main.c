@@ -95,6 +95,8 @@ static gboolean killev = FALSE;
 static gboolean force_migrate = FALSE;
 #endif
 
+static gint idle_cb (void *data);
+
 static char *default_component_id = NULL;
 static char *evolution_debug_log = NULL;
 
@@ -188,10 +190,12 @@ warning_dialog_response_callback (GtkDialog *dialog,
 	g_object_unref (client);
 
 	gtk_widget_destroy (GTK_WIDGET (dialog));
+
+	idle_cb(NULL);
 }
 
 static void
-show_development_warning (GtkWindow *parent)
+show_development_warning(void)
 {
 	GtkWidget *vbox;
 	GtkWidget *label;
@@ -214,7 +218,6 @@ show_development_warning (GtkWindow *parent)
 	gtk_window_set_title (GTK_WINDOW (warning_dialog), "Evolution " VERSION);
 	gtk_window_set_modal (GTK_WINDOW (warning_dialog), TRUE);
 	gtk_dialog_add_button (GTK_DIALOG (warning_dialog), GTK_STOCK_OK, GTK_RESPONSE_OK);
-	e_dialog_set_transient_for (GTK_WINDOW (warning_dialog), GTK_WIDGET (parent));
 
 	gtk_dialog_set_has_separator (GTK_DIALOG (warning_dialog), FALSE);
 
@@ -272,28 +275,6 @@ show_development_warning (GtkWindow *parent)
 	g_signal_connect (warning_dialog, "response",
 			  G_CALLBACK (warning_dialog_response_callback),
 			  dont_bother_me_again_checkbox);
-}
-
-/* The following signal handlers are used to display the development warning as
-   soon as the first view is created.  */
-
-static void
-window_map_callback (GtkWidget *widget,
-		     void *data)
-{
-	g_signal_handlers_disconnect_by_func (widget, G_CALLBACK (window_map_callback), data);
-
-	show_development_warning (GTK_WINDOW (widget));
-}
-
-static void
-new_window_created_callback (EShell *shell,
-			     EShellWindow *window,
-			     void *data)
-{
-	g_signal_handlers_disconnect_by_func (shell, G_CALLBACK (new_window_created_callback), data);
-
-	g_signal_connect (window, "map", G_CALLBACK (window_map_callback), NULL);
 }
 
 static void
@@ -375,13 +356,6 @@ idle_cb (void *data)
 	case E_SHELL_CONSTRUCT_RESULT_OK:
 		g_signal_connect (shell, "no_windows_left", G_CALLBACK (no_windows_left_cb), NULL);
 		g_object_weak_ref (G_OBJECT (shell), shell_weak_notify, NULL);
-
-#ifdef DEVELOPMENT
-		if (!getenv ("EVOLVE_ME_HARDER"))
-			g_signal_connect (shell, "new_window_created",
-					  G_CALLBACK (new_window_created_callback), NULL);
-#endif
-
 		corba_shell = bonobo_object_corba_objref (BONOBO_OBJECT (shell));
 		corba_shell = CORBA_Object_duplicate (corba_shell, &ev);
 		break;
@@ -600,9 +574,14 @@ main (int argc, char **argv)
 	uri_list = g_slist_reverse (uri_list);
 	g_value_unset (&popt_context_value);
 
-	g_idle_add (idle_cb, uri_list);
-	
 	gnome_sound_init ("localhost");
+
+#ifdef DEVELOPMENT
+	if (!getenv ("EVOLVE_ME_HARDER"))
+		show_development_warning();
+	else
+#endif
+		g_idle_add (idle_cb, uri_list);	
 	
 	bonobo_main ();
 	
