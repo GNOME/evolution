@@ -1416,9 +1416,9 @@ do_scan_subfolders (gpointer in_data, gpointer op_data, CamelException *ex)
 	
 	for (i = 0; i < lsub->len; i++) {
 		fi = lsub->pdata[i];
-		mail_op_set_message (_("Found subfolder \"%s\""), fi->name);
+		mail_op_set_message (_("Found subfolder \"%s\""), fi->full_name);
 		info = g_new (scan_subfolders_folderinfo_t, 1);
-		info->path = g_strdup_printf ("/%s", fi->name);
+		info->path = g_strdup_printf ("/%s", fi->full_name);
 		info->uri = g_strdup_printf ("%s%s%s", input->source_uri, splice,
 					     fi->full_name);
 		g_ptr_array_add (data->new_folders, info);
