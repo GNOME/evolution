@@ -6,6 +6,7 @@ INCLUDES =						\
 	-I$(top_builddir)/addressbook/backend		\
 	-I$(top_srcdir)/calendar			\
 	-I$(top_srcdir)/calendar/pcs			\
+	-I$(top_srcdir)/libical/src/libical		\
 	$(GNOME_INCLUDEDIR)				\
 	$(BONOBO_VFS_GNOME_CFLAGS)				\
 	-DEVOLUTION_VERSION=\""$(VERSION)"\"		\

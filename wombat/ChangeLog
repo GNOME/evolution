@@ -1,3 +1,7 @@
+2000-09-25  Federico Mena Quintero  <federico@helixcode.com>
+
+	* Makefile.am (INCLUDES): Add the libical include path.
+
 2000-09-25  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* Makefile.am: ename moved so link against
