@@ -1,3 +1,23 @@
+2002-11-07  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* filter-rule.c (validate): Use GtkDialog instead of GnomeDialog
+	here.
+
+	* filter-input.c (validate): Use GtkDialog instead of GnomeDialog
+	here.
+
+	* filter-folder.c (validate): Use GtkDialog instead of GnomeDialog
+	here.
+
+	* filter-file.c (validate): Use GtkDialog instead of GnomeDialog
+	here.
+
+	* rule-editor.c: Subclass GtkDialog instead of GnomeDialog.
+
+	* filter-datespec.c (validate): Use GtkDialog instead of
+	GnomeDialog.
+	(button_clicked): Same.
+
 2002-11-06  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* filter-label.c (xml_create): Deleted most of the internals until

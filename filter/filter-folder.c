@@ -26,8 +26,6 @@
 #endif
 
 #include <libgnome/gnome-i18n.h>
-#include <libgnomeui/gnome-dialog.h>
-#include <libgnomeui/gnome-dialog-util.h>
 
 #include "filter-folder.h"
 #include "shell/evolution-folder-selector-button.h"
@@ -140,15 +138,20 @@ static gboolean
 validate (FilterElement *fe)
 {
 	FilterFolder *ff = (FilterFolder *) fe;
+	GtkWidget *dialog;
 	
 	if (ff->uri && *ff->uri) {
 		return TRUE;
 	} else {
-		GtkWidget *dialog;
+		/* FIXME: FilterElement should probably have a
+                   GtkWidget member pointing to the value gotten with
+                   ::get_widget() so that we can get the parent window
+                   here. */
+		dialog = gtk_message_dialog_new (NULL, GTK_DIALOG_DESTROY_WITH_PARENT,
+						 GTK_MESSAGE_ERROR, GTK_BUTTONS_CLOSE,
+						 "%s", _("You must specify a folder."));
 		
-		dialog = gnome_ok_dialog (_("You must specify a folder.\n"));
-		
-		gnome_dialog_run_and_close (GNOME_DIALOG (dialog));
+		gtk_dialog_run ((GtkDialog *) dialog);
 		
 		return FALSE;
 	}

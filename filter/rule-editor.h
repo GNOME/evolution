@@ -24,9 +24,8 @@
 #ifndef _RULE_EDITOR_H
 #define _RULE_EDITOR_H
 
-#include <gtk/gtklist.h>
+#include <gtk/gtk.h>
 #include <glade/glade.h>
-#include <libgnomeui/gnome-dialog.h>
 
 #include "rule-context.h"
 #include "filter-rule.h"
@@ -43,7 +42,7 @@ typedef struct _RuleEditorClass	RuleEditorClass;
 typedef struct _RuleEditorUndo	RuleEditorUndo;
 
 struct _RuleEditor {
-	GnomeDialog parent_object;
+	GtkDialog parent_object;
 	
 	GtkList *list;
 	RuleContext *context;
@@ -61,7 +60,7 @@ struct _RuleEditor {
 };
 
 struct _RuleEditorClass {
-	GnomeDialogClass parent_class;
+	GtkDialogClass parent_class;
 	
 	/* virtual methods */
 	void (*set_sensitive) (RuleEditor *);

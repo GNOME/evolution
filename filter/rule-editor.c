@@ -28,10 +28,7 @@
 /* for getenv only, remove when getenv need removed */
 #include <stdlib.h>
 
-#include <gtk/gtk.h>
 #include <libgnome/gnome-i18n.h>
-#include <libgnomeui/gnome-dialog.h>
-#include <libgnomeui/gnome-dialog-util.h>
 
 #include "rule-editor.h"
 
@@ -66,7 +63,7 @@ struct _RuleEditorPrivate {
 	GtkButton *buttons[BUTTON_LAST];
 };
 
-static GnomeDialogClass *parent_class = NULL;
+static GtkDialogClass *parent_class = NULL;
 
 
 GtkType
@@ -89,7 +86,7 @@ rule_editor_get_type (void)
 		/* TODO: Remove when it works (or never will) */
 		enable_undo = getenv ("EVOLUTION_RULE_UNDO") != NULL;
 		
-		type = gtk_type_unique (gnome_dialog_get_type (), &info);
+		type = gtk_type_unique (gtk_dialog_get_type (), &info);
 	}
 	
 	return type;
@@ -101,7 +98,7 @@ rule_editor_class_init (RuleEditorClass *klass)
 	GObjectClass *gobject_class = G_OBJECT_CLASS (klass);
 	GtkObjectClass *object_class = (GtkObjectClass *) klass;
 	
-	parent_class = gtk_type_class (gnome_dialog_get_type ());
+	parent_class = gtk_type_class (gtk_dialog_get_type ());
 	
 	gobject_class->finalize = rule_editor_finalise;
 	object_class->destroy = rule_editor_destroy;
@@ -619,7 +616,7 @@ editor_clicked (GtkWidget *dialog, int button, RuleEditor *re)
 {
 	if (button != 0) {
 		if (enable_undo)
-			rule_editor_play_undo(re);
+			rule_editor_play_undo (re);
 		else {
 			RuleEditorUndo *undo, *next;
 			
@@ -628,7 +625,7 @@ editor_clicked (GtkWidget *dialog, int button, RuleEditor *re)
 			while (undo) {
 				next = undo->next;
 				g_object_unref (undo->rule);
-				g_free(undo);
+				g_free (undo);
 				undo = next;
 			}
 		}
@@ -650,7 +647,7 @@ rule_editor_construct (RuleEditor *re, RuleContext *context, GladeXML *gui, cons
 	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (re)->vbox), w, TRUE, TRUE, 0);
 	
 	for (i = 0; i < BUTTON_LAST; i++) {
-		re->priv->buttons[i] = (GtkButton *)w = glade_xml_get_widget (gui, edit_buttons[i].name);
+		re->priv->buttons[i] = (GtkButton *) w = glade_xml_get_widget (gui, edit_buttons[i].name);
 		g_signal_connect (w, "clicked", edit_buttons[i].func, re);
 	}
 	
@@ -662,8 +659,8 @@ rule_editor_construct (RuleEditor *re, RuleContext *context, GladeXML *gui, cons
 	rule_editor_set_source (re, source);
 	
 	if (enable_undo) {
-		gnome_dialog_append_buttons (GNOME_DIALOG (re), GNOME_STOCK_BUTTON_OK,
-					     GNOME_STOCK_BUTTON_CANCEL, NULL);
+		gtk_dialog_add_buttons ((GtkDialog *) re, GTK_BUTTONS_OK,
+					GTK_BUTTONS_CANCEL, NULL);
 	} else
-		gnome_dialog_append_buttons (GNOME_DIALOG (re), GNOME_STOCK_BUTTON_OK, NULL);
+		gtk_dialog_add_buttons ((GtkDialog *) re, GTK_BUTTONS_OK, NULL);
 }

@@ -32,8 +32,6 @@
 
 #include <gtk/gtk.h>
 #include <libgnome/gnome-i18n.h>
-#include <libgnomeui/gnome-dialog.h>
-#include <libgnomeui/gnome-dialog-util.h>
 #include <glade/glade.h>
 
 #include "filter-datespec.h"
@@ -164,12 +162,20 @@ static gboolean
 validate (FilterElement *fe)
 {
 	FilterDatespec *fds = (FilterDatespec *) fe;
+	GtkWidget *dialog;
 	gboolean valid;
 	
 	valid = fds->type != FDST_UNKNOWN;
 	if (!valid) {
-		GtkWidget *gd = gnome_ok_dialog (_("You must choose a date."));
-		gnome_dialog_run_and_close (GNOME_DIALOG (gd));
+		/* FIXME: FilterElement should probably have a
+                   GtkWidget member pointing to the value gotten with
+                   ::get_widget() so that we can get the parent window
+                   here. */
+		dialog = gtk_message_dialog_new (NULL, GTK_DIALOG_DESTROY_WITH_PARENT,
+						 GTK_MESSAGE_ERROR, GTK_BUTTONS_CLOSE,
+						 "%s", _("You must choose a date."));
+		
+		gtk_dialog_run ((GtkDialog *) dialog);
 	}
 	
 	return valid;
@@ -385,8 +391,9 @@ set_option_relative (GtkMenu *menu, FilterDatespec *fds)
 }
 
 static void
-dialog_clicked (GnomeDialog *gd, int button, FilterDatespec *fds)
+dialog_response (GtkDialog *dialog, int button, FilterDatespec *fds)
 {
+	/* FIXME: this may have changed with GtkDialog??? */
 	if (button != 0)
 		return;
 	
@@ -397,18 +404,17 @@ dialog_clicked (GnomeDialog *gd, int button, FilterDatespec *fds)
 static void
 button_clicked (GtkButton *button, FilterDatespec *fds)
 {
-	GnomeDialog *gd;
 	struct _FilterDatespecPrivate *p = PRIV(fds);
-	GtkWidget *w, *x;
+	GtkWidget *toplevel;
+	GtkDialog *dialog;
 	GladeXML *gui;
 	
 	gui = glade_xml_new (FILTER_GLADEDIR "/filter.glade", "filter_datespec", NULL);
-	w = glade_xml_get_widget (gui, "filter_datespec");
+	toplevel = glade_xml_get_widget (gui, "filter_datespec");
 	
-	gd = (GnomeDialog *) gnome_dialog_new (_("Select a time to compare against"), 
-					       GNOME_STOCK_BUTTON_OK, 
-					       GNOME_STOCK_BUTTON_CANCEL, 
-					       NULL);
+	dialog = (GtkDialog *) gtk_dialog_new ();
+	gtk_window_set_title ((GtkWindow *) dialog, _("Select a time to compare against"));
+	gtk_dialog_add_buttons (dialog, GTK_BUTTONS_OK, GTK_BUTTONS_CANCEL, NULL);
 	
 	p->notebook_type = glade_xml_get_widget (gui, "notebook_type");
 	p->option_type = glade_xml_get_widget (gui, "option_type");
@@ -423,11 +429,11 @@ button_clicked (GtkButton *button, FilterDatespec *fds)
 	g_signal_connect (GTK_OPTION_MENU (p->option_relative)->menu, "deactivate",
 			  GTK_SIGNAL_FUNC (set_option_relative), fds);
 	
-	gtk_box_pack_start ((GtkBox *) gd->vbox, w, TRUE, TRUE, 3);
+	gtk_box_pack_start ((GtkBox *) dialog->vbox, toplevel, TRUE, TRUE, 3);
 	
-	g_signal_connect (gd, "clicked", GTK_SIGNAL_FUNC (dialog_clicked), fds);
+	g_signal_connect (dialog, "response", GTK_SIGNAL_FUNC (dialog_response), fds);
 	
-	gnome_dialog_run_and_close (gd);
+	gtk_dialog_run (dialog);
 }
 
 static GtkWidget *

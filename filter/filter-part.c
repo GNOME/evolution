@@ -507,37 +507,37 @@ filter_part_expand_code (FilterPart *ff, const char *source, GString *out)
 #if 0
 int main(int argc, char **argv)
 {
+	GtkWidget *dialog, *w;
 	xmlDocPtr system;
-	FilterPart *ff;
-	GtkWidget *w;
-	GnomeDialog *gd;
 	xmlNodePtr node;
+	FilterPart *ff;
 	GString *code;
-
-	gnome_init("test", "0.0", argc, argv);
-
-	system = xmlParseFile("form.xml");
-	if (system==NULL) {
+	
+	gnome_init ("test", "0.0", argc, argv);
+	
+	system = xmlParseFile ("form.xml");
+	if (system == NULL) {
 		printf("i/o error\n");
 		return 1;
 	}
-
-	ff = filter_part_new();
-	filter_part_xml_create(ff, system->root);
-
-	w = filter_part_get_widget(ff);
-
-	gd = (GnomeDialog *)gnome_dialog_new(_("Test"), GNOME_STOCK_BUTTON_OK, NULL);
-	gtk_window_set_policy(GTK_WINDOW(gd), FALSE, TRUE, FALSE);
-	gtk_box_pack_start((GtkBox *)gd->vbox, w, TRUE, TRUE, 0);
-	gtk_widget_show((GtkWidget *)gd);
-
-	gnome_dialog_run_and_close(gd);
-
-	code = g_string_new("");
-	filter_part_build_code(ff, code);
+	
+	ff = filter_part_new ();
+	filter_part_xml_create (ff, system->root);
+	
+	w = filter_part_get_widget (ff);
+	
+	dialog = gtk_dialog_new ();
+	gtk_dialog_add_buttons ((GtkDialog *) dialog, GTK_BUTTONS_OK, NULL);
+	gtk_window_set_title ((GtkWindow *) dialog, _("Test"));
+	gtk_window_set_policy ((GtkWindow *) dialog, FALSE, TRUE, FALSE);
+	gtk_box_pack_start ((GtkBox *) dialog->vbox, w, TRUE, TRUE, 0);
+	
+	gtk_dialog_run ((GtkDialog *) dialog);
+	
+	code = g_string_new ("");
+	filter_part_build_code (ff, code);
 	printf("code is:\n%s\n", code->str);
-
+	
 	return 0;
 }
 #endif

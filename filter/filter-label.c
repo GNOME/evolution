@@ -95,7 +95,7 @@ filter_label_init (FilterLabel *fl)
 }
 
 static void
-filter_label_finalise (GtkObject *obj)
+filter_label_finalise (GObject *obj)
 {
 	G_OBJECT_CLASS (parent_class)->finalize (obj);
 }

@@ -31,8 +31,6 @@
 
 #include <gtk/gtk.h>
 #include <libgnome/gnome-i18n.h>
-#include <libgnomeui/gnome-dialog.h>
-#include <libgnomeui/gnome-dialog-util.h>
 #include <libgnomeui/gnome-file-entry.h>
 
 #include "filter-file.h"
@@ -54,7 +52,7 @@ static void filter_file_init (FilterFile *ff);
 static void filter_file_finalise (GObject *obj);
 
 
-static FilterElementClass *parent_class;
+static FilterElementClass *parent_class = NULL;
 
 
 GType
@@ -159,9 +157,16 @@ validate (FilterElement *fe)
 	struct stat st;
 	
 	if (!file->path) {
-		dialog = gnome_ok_dialog (_("You must specify a file name"));
+		/* FIXME: FilterElement should probably have a
+                   GtkWidget member pointing to the value gotten with
+                   ::get_widget() so that we can get the parent window
+                   here. */
+		dialog = gtk_message_dialog_new (NULL, GTK_DIALOG_DESTROY_WITH_PARENT,
+						 GTK_MESSAGE_ERROR, GTK_BUTTONS_CLOSE,
+						 "%s", _("You must specify a file name."));
 		
-		gnome_dialog_run_and_close (GNOME_DIALOG (dialog));
+		gtk_dialog_run ((GtkDialog *) dialog);
+		
 		return FALSE;
 	}
 	
@@ -169,14 +174,17 @@ validate (FilterElement *fe)
 	
 	if (strcmp (file->type, "file") == 0) {
 		if (stat (file->path, &st) == -1 || !S_ISREG (st.st_mode)) {
-			char *errmsg;
+			/* FIXME: FilterElement should probably have a
+			   GtkWidget member pointing to the value gotten with
+			   ::get_widget() so that we can get the parent window
+			   here. */
+			dialog = gtk_message_dialog_new (NULL, GTK_DIALOG_DESTROY_WITH_PARENT,
+							 GTK_MESSAGE_ERROR, GTK_BUTTONS_CLOSE,
+							 _("File '%s' does not exist or is not a regular file."),
+							 file->path);
 			
-			errmsg = g_strdup_printf (_("File '%s' does not exist or is not a regular file."),
-						  file->path);
-			dialog = gnome_ok_dialog (errmsg);
-			g_free (errmsg);
+			gtk_dialog_run ((GtkDialog *) dialog);
 			
-			gnome_dialog_run_and_close (GNOME_DIALOG (dialog));
 			return FALSE;
 		}
 	} else if (strcmp (file->type, "command") == 0) {

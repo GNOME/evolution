@@ -29,8 +29,6 @@
 
 #include <gtk/gtk.h>
 #include <libgnome/gnome-i18n.h>
-#include <libgnomeui/gnome-dialog.h>
-#include <libgnomeui/gnome-dialog-util.h>
 
 #include "filter-rule.h"
 #include "filter-context.h"
@@ -206,15 +204,20 @@ filter_rule_validate (FilterRule *fr)
 static int
 validate (FilterRule *fr)
 {
+	GtkWidget *dialog;
 	int valid = TRUE;
 	GList *parts;
 	
 	if (!fr->name || !*fr->name) {
-		GtkWidget *dialog;
+		/* FIXME: FilterElement should probably have a
+                   GtkWidget member pointing to the value gotten with
+                   ::get_widget() so that we can get the parent window
+                   here. */
+		dialog = gtk_message_dialog_new (NULL, GTK_DIALOG_DESTROY_WITH_PARENT,
+						 GTK_MESSAGE_ERROR, GTK_BUTTONS_CLOSE,
+						 "%s", _("You must name this filter."));
 		
-		dialog = gnome_ok_dialog (_("You must name this filter."));
-		
-		gnome_dialog_run_and_close (GNOME_DIALOG (dialog));
+		gtk_dialog_run ((GtkDialog *) dialog);
 		
 		return FALSE;
 	}

@@ -31,8 +31,6 @@
 
 #include <gtk/gtk.h>
 #include <libgnome/gnome-i18n.h>
-#include <libgnomeui/gnome-dialog.h>
-#include <libgnomeui/gnome-dialog-util.h>
 
 #include "filter-input.h"
 #include "e-util/e-sexp.h"
@@ -165,19 +163,17 @@ validate (FilterElement *fe)
 {
 	FilterInput *fi = (FilterInput *)fe;
 	gboolean valid = TRUE;
+	GtkWidget *dialog;
 	
 	if (fi->values && !strcmp (fi->type, "regex")) {
-		regex_t regexpat;        /* regex patern */
-		int regerr;
-		char *text;
+		const char *pattern;
+		regex_t regexpat;
 		
-		text = fi->values->data;
+		pattern = fi->values->data;
 		
-		regerr = regcomp (&regexpat, text, REG_EXTENDED | REG_NEWLINE | REG_ICASE);
-		if (regerr) {
-			GtkWidget *dialog;
-			char *regmsg, *errmsg;
+		if (regcomp (&regexpat, pattern, REG_EXTENDED | REG_NEWLINE | REG_ICASE)) {
 			size_t reglen;
+			char *regmsg;
 			
 			/* regerror gets called twice to get the full error string 
 			   length to do proper posix error reporting */
@@ -185,15 +181,18 @@ validate (FilterElement *fe)
 			regmsg = g_malloc0 (reglen + 1);
 			regerror (regerr, &regexpat, regmsg, reglen);
 			
-			errmsg = g_strdup_printf (_("Error in regular expression '%s':\n%s"),
-						  text, regmsg);
+			/* FIXME: FilterElement should probably have a
+			   GtkWidget member pointing to the value gotten with
+			   ::get_widget() so that we can get the parent window
+			   here. */
+			dialog = gtk_message_dialog_new (NULL, GTK_DIALOG_DESTROY_WITH_PARENT,
+							 GTK_MESSAGE_ERROR, GTK_BUTTONS_CLOSE,
+							 _("Error in regular expression '%s':\n%s"),
+							 pattern, regmsg);
+			
+			gtk_dialog_run ((GtkDialog *) dialog);
 			g_free (regmsg);
 			
-			dialog = gnome_ok_dialog (errmsg);
-			
-			gnome_dialog_run_and_close (GNOME_DIALOG (dialog));
-			
-			g_free (errmsg);
 			valid = FALSE;
 		}
 		
