@@ -113,7 +113,11 @@ send_dbus_message (const char *message_name, const char *data)
 
 		/* Appends the data as an argument to the message */
 		dbus_message_append_args (message,
+#if DBUS_VERSION >= 310
+					  DBUS_TYPE_STRING, &data,
+#else
 					  DBUS_TYPE_STRING, data,
+#endif
 					  DBUS_TYPE_INVALID);
 
 		/* Sends the message */
