@@ -1,10 +1,25 @@
 2004-06-25  JP Rosevear  <jpr@novell.com>
 
+	* gui/dialogs/e-delegate-dialog.glade: use "Contacts..."
+
+	* gui/dialogs/alarm-dialog.glade: add custom message email toggle
+
+	* gui/dialogs/alarm-dialog.c (get_widgets): get custom email
+	message toggle
+	(check_custom_email): check the custom message when setting
+	sensitivity of OK button
+	(malarm_message_toggled_cb): check custom email
+	(malarm_description_changed_cb): ditto
+	(action_selection_done_cb): ditto
+
+2004-06-25  JP Rosevear  <jpr@novell.com>
+
 	* gui/dialogs/alarm-dialog.c (alarm_to_dialog): set the default
 	address here if possible
 	(dialog_to_alarm): don't set it here
 	(check_custom_email): check for To: entries
-	(malarm_addresses_changed_cb): update when the text in the to entry changes
+	(malarm_addresses_changed_cb): update when the text in the to
+	entry changes
 	(action_selection_done_cb): for the custom email settings
 	(init_widgets): listen for email To: changes
 	(alarm_dialog_run): only save the alarm if the response was "OK"

@@ -103,6 +103,7 @@ typedef struct {
 	GtkWidget *malarm_address_group;
 	GtkWidget *malarm_addresses;
 	GtkWidget *malarm_addressbook;
+	GtkWidget *malarm_message;
 	GtkWidget *malarm_description;
 	GNOME_Evolution_Addressbook_SelectNames corba_select_names;
 
@@ -190,6 +191,7 @@ clear_widgets (Dialog *dialog)
 	gtk_widget_set_sensitive (dialog->repeat_group, FALSE);
 	gtk_widget_set_sensitive (dialog->dalarm_group, FALSE);
 	gtk_widget_set_sensitive (dialog->aalarm_group, FALSE);
+	gtk_widget_set_sensitive (dialog->malarm_group, FALSE);
 
 	gtk_notebook_set_current_page (GTK_NOTEBOOK (dialog->option_notebook), 0);
 }
@@ -370,6 +372,9 @@ malarm_widgets_to_alarm (Dialog *dialog, ECalComponentAlarm *alarm)
 	e_cal_component_free_attendee_list (attendee_list);
 	e_destination_freev (destv);	
 
+	if (!gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (dialog->malarm_message)))
+		return;
+	
 	/* Description */
 	text_buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (dialog->malarm_description));
 	gtk_text_buffer_get_start_iter (text_buffer, &text_iter_start);
@@ -550,6 +555,7 @@ get_widgets (Dialog *dialog)
 	dialog->malarm_group = GW ("malarm-group");
 	dialog->malarm_address_group = GW ("malarm-address-group");
 	dialog->malarm_addressbook = GW ("malarm-addressbook");
+	dialog->malarm_message = GW ("malarm-message");
 	dialog->malarm_description = GW ("malarm-description");
 	
 	dialog->palarm_group = GW ("palarm-group");
@@ -578,6 +584,7 @@ get_widgets (Dialog *dialog)
 		&& dialog->malarm_group
 		&& dialog->malarm_address_group
 		&& dialog->malarm_addressbook
+		&& dialog->malarm_message
 		&& dialog->malarm_description
 		&& dialog->palarm_group
 		&& dialog->palarm_program
@@ -765,6 +772,8 @@ static void
 check_custom_email (Dialog *dialog)
 {
 	char *str;
+	GtkTextBuffer *text_buffer;
+	GtkTextIter text_iter_start, text_iter_end;
 	EDestination **destv;
 	gboolean sens;
 
@@ -773,7 +782,12 @@ check_custom_email (Dialog *dialog)
 	destv = e_destination_importv (str);
 	g_free (str);
 	
-	sens = destv != NULL;
+	text_buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (dialog->malarm_description));
+	gtk_text_buffer_get_start_iter (text_buffer, &text_iter_start);
+	gtk_text_buffer_get_end_iter   (text_buffer, &text_iter_end);
+	str = gtk_text_buffer_get_text (text_buffer, &text_iter_start, &text_iter_end, FALSE);
+
+	sens = (destv != NULL) && (e_dialog_toggle_get (dialog->malarm_message) ? str && *str : TRUE);
 	gtk_dialog_set_response_sensitive (GTK_DIALOG (dialog->toplevel), GTK_RESPONSE_OK, sens);
 
 	e_destination_freev (destv);
@@ -785,6 +799,26 @@ malarm_addresses_changed_cb  (BonoboListener    *listener,
 			      const CORBA_any   *arg,
 			      CORBA_Environment *ev,
 			      gpointer           data)
+{
+	Dialog *dialog = data;
+	
+	check_custom_email (dialog);
+}
+
+static void
+malarm_message_toggled_cb (GtkToggleButton *toggle, gpointer data)
+{
+	Dialog *dialog = data;
+	gboolean active;
+
+	active = gtk_toggle_button_get_active (toggle);
+
+	gtk_widget_set_sensitive (dialog->malarm_group, active);
+	check_custom_email (dialog);
+}
+
+static void
+malarm_description_changed_cb (GtkWidget *widget, gpointer data)
 {
 	Dialog *dialog = data;
 	
@@ -865,6 +899,12 @@ init_widgets (Dialog *dialog)
 			  G_CALLBACK (palarm_program_changed_cb), dialog);
 
 	/* Handle custom email */
+	g_signal_connect (G_OBJECT (dialog->malarm_message), "toggled",
+			  G_CALLBACK (malarm_message_toggled_cb), dialog);
+	text_buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (dialog->malarm_description));
+	g_signal_connect (G_OBJECT (text_buffer), "changed",
+			  G_CALLBACK (malarm_description_changed_cb), dialog);
+
 	cf = bonobo_widget_get_control_frame (BONOBO_WIDGET (dialog->malarm_addresses));
 	pb = bonobo_control_frame_get_control_property_bag (cf, NULL);
 	
