@@ -866,12 +866,17 @@ typedef struct {
 	ECard *card;
 	EAddressbookView *view;
 	GtkWidget *widget;
+	EPopupMenu *submenu;
 	gpointer closure;
 } CardAndBook;
 
 static void
 card_and_book_free (CardAndBook *card_and_book)
 {
+	if (card_and_book->submenu)
+		gal_view_instance_free_popup_menu (card_and_book->view->view_instance,
+						   card_and_book->submenu);
+
 	gtk_object_unref(GTK_OBJECT(card_and_book->card));
 	gtk_object_unref(GTK_OBJECT(card_and_book->book));
 	gtk_object_unref(GTK_OBJECT(card_and_book->view));
@@ -1019,9 +1024,10 @@ table_right_click(ETableScrolled *table, gint row, gint col, GdkEvent *event, EA
 		EAddressbookModel *model = view->model;
 		CardAndBook *card_and_book;
 		GtkMenu *popup;
+		EPopupMenu *submenu;
 
 		EPopupMenu menu[] = {
-			E_POPUP_ITEM (N_("Save as VCard"), GTK_SIGNAL_FUNC(save_as), 0), 
+			E_POPUP_ITEM (N_("Save as VCard"), GTK_SIGNAL_FUNC(save_as), 0),
 			E_POPUP_ITEM (N_("Forward Contact"), GTK_SIGNAL_FUNC(send_as), 0),
 			E_POPUP_ITEM (N_("Send Message to Contact"), GTK_SIGNAL_FUNC(send_to), 0),
 			E_POPUP_ITEM (N_("Print"), GTK_SIGNAL_FUNC(print), 0),
@@ -1038,6 +1044,9 @@ table_right_click(ETableScrolled *table, gint row, gint col, GdkEvent *event, EA
 			E_POPUP_ITEM (N_("Copy"), GTK_SIGNAL_FUNC (copy), 0),
 			E_POPUP_ITEM (N_("Paste"), GTK_SIGNAL_FUNC (paste), POPUP_READONLY_MASK),
 			E_POPUP_ITEM (N_("Delete"), GTK_SIGNAL_FUNC(delete), POPUP_READONLY_MASK),
+			E_POPUP_SEPARATOR,
+
+			E_POPUP_SUBMENU (N_("Current View"), submenu = gal_view_instance_get_popup_menu (view->view_instance), 0),
 			E_POPUP_TERMINATOR
 		};
 
@@ -1045,6 +1054,8 @@ table_right_click(ETableScrolled *table, gint row, gint col, GdkEvent *event, EA
 		card_and_book->card = e_addressbook_model_get_card(model, row);
 		card_and_book->widget = GTK_WIDGET(table);
 		card_and_book->view = view;
+		card_and_book->submenu = submenu;
+		
 		gtk_object_get(GTK_OBJECT(model),
 			       "book", &(card_and_book->book),
 			       NULL);
@@ -1085,12 +1096,15 @@ table_white_space_event(ETableScrolled *table, GdkEvent *event, EAddressbookView
 		EAddressbookModel *model = view->model;
 		CardAndBook *card_and_book;
 		GtkMenu *popup;
+		EPopupMenu *submenu;
 
 		EPopupMenu menu[] = {
 			E_POPUP_ITEM (N_("New Contact..."), GTK_SIGNAL_FUNC(new_card), POPUP_READONLY_MASK),
 			E_POPUP_ITEM (N_("New Contact List..."), GTK_SIGNAL_FUNC(new_list), POPUP_READONLY_MASK),
 			E_POPUP_SEPARATOR,
 			E_POPUP_ITEM (N_("Paste"), GTK_SIGNAL_FUNC (paste), POPUP_READONLY_MASK),
+			E_POPUP_SEPARATOR,
+			E_POPUP_SUBMENU (N_("Current View"), submenu = gal_view_instance_get_popup_menu (view->view_instance), 0),
 			E_POPUP_TERMINATOR
 		};
 
@@ -1098,6 +1112,7 @@ table_white_space_event(ETableScrolled *table, GdkEvent *event, EAddressbookView
 		card_and_book->card = NULL;
 		card_and_book->widget = GTK_WIDGET(table);
 		card_and_book->view = view;
+		card_and_book->submenu = submenu;
 		gtk_object_get(GTK_OBJECT(model),
 			       "book", &(card_and_book->book),
 			       NULL);

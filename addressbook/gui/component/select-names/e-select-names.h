@@ -71,7 +71,6 @@ struct _ESelectNames
 	ETableModel *without;
 	EAddressbookModel *model;
 	GtkWidget *categories;
-	GtkWidget *categories_entry;
 	GtkWidget *search_entry;
 	GtkWidget *status_message;
 	EvolutionStorageListener *local_listener;
