@@ -70,8 +70,8 @@ e_cardlist_model_set_value_at (ETableModel *etc, int col, int row, const void *v
 	gtk_object_get(GTK_OBJECT(e_cardlist_model->data[row]),
 		       "card", &card,
 		       NULL);
-	if ( !etc->frozen )
-		e_table_model_cell_changed(etc, col, row);
+
+	e_table_model_cell_changed(etc, col, row);
 }
 
 /* This function returns whether a particular cell is editable. */
@@ -105,14 +105,6 @@ static gboolean
 e_cardlist_model_value_is_empty (ETableModel *etc, int col, const void *value)
 {
 	return !(value && *(char *)value);
-}
-
-/* This function is for when the model is unfrozen.  This can mostly
-   be ignored for simple models.  */
-static void
-e_cardlist_model_thaw (ETableModel *etc)
-{
-	e_table_model_changed(etc);
 }
 
 void
@@ -168,7 +160,6 @@ e_cardlist_model_class_init (GtkObjectClass *object_class)
 	model_class->free_value = e_cardlist_model_free_value;
 	model_class->initialize_value = e_cardlist_model_initialize_value;
 	model_class->value_is_empty = e_cardlist_model_value_is_empty;
-	model_class->thaw = e_cardlist_model_thaw;
 }
 
 static void

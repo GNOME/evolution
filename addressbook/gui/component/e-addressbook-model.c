@@ -102,8 +102,8 @@ addressbook_set_value_at (ETableModel *etc, int col, int row, const void *val)
 		       "card", &card,
 		       NULL);
 	e_book_commit_card(addressbook->book, card, NULL, NULL);
-	if ( !etc->frozen )
-		e_table_model_cell_changed(etc, col, row);
+
+	e_table_model_cell_changed(etc, col, row);
 }
 
 /* This function returns whether a particular cell is editable. */
@@ -137,14 +137,6 @@ static gboolean
 addressbook_value_is_empty (ETableModel *etc, int col, const void *value)
 {
 	return !(value && *(char *)value);
-}
-
-/* This function is for when the model is unfrozen.  This can mostly
-   be ignored for simple models.  */
-static void
-addressbook_thaw (ETableModel *etc)
-{
-	e_table_model_changed(etc);
 }
 
 static void
@@ -219,7 +211,6 @@ e_addressbook_model_class_init (GtkObjectClass *object_class)
 	model_class->free_value = addressbook_free_value;
 	model_class->initialize_value = addressbook_initialize_value;
 	model_class->value_is_empty = addressbook_value_is_empty;
-	model_class->thaw = addressbook_thaw;
 }
 
 static void

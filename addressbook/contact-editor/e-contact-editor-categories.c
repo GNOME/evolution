@@ -42,7 +42,6 @@ static void *e_contact_editor_categories_duplicate_value (ETableModel *etc, int 
 static void e_contact_editor_categories_free_value (ETableModel *etc, int col, void *value, gpointer data);
 static void *e_contact_editor_categories_initialize_value (ETableModel *etc, int col, gpointer data);
 static gboolean e_contact_editor_categories_value_is_empty (ETableModel *etc, int col, const void *value, gpointer data);
-static void e_contact_editor_categories_thaw (ETableModel *etc, gpointer data);
 
 static GnomeDialogClass *parent_class = NULL;
 
@@ -275,7 +274,6 @@ e_contact_editor_categories_init (EContactEditorCategories *categories)
 					       e_contact_editor_categories_free_value,
 					       e_contact_editor_categories_initialize_value,
 					       e_contact_editor_categories_value_is_empty,
-					       e_contact_editor_categories_thaw, 
 					       categories);
 
 	header = e_table_header_new();
@@ -455,12 +453,4 @@ e_contact_editor_categories_value_is_empty (ETableModel *etc, int col, const voi
 		return value == NULL;
 	else
 		return !(value && *(char *)value);
-}
-
-/* This function is for when the model is unfrozen.  This can mostly
-   be ignored for simple models.  */
-static void
-e_contact_editor_categories_thaw (ETableModel *etc, gpointer data)
-{
-	e_table_model_changed(etc);
 }
