@@ -4923,20 +4923,20 @@ msgstr ""
 
 #. Info
 #: mail/mail-tools.c:290
-#, fuzzy, c-format
+#, c-format
 msgid "Retrieving message %d of %d"
-msgstr "Переслати це пов╕домлення"
+msgstr "Отримання пов╕домлення %d з %d"
 
 #. Append it to dest
 #: mail/mail-tools.c:303
-#, fuzzy, c-format
+#, c-format
 msgid "Writing message %d of %d"
-msgstr "Зберегти пов╕домлення у вказан╕й тец╕"
+msgstr "Запис пов╕домлення %d з %d"
 
 #: mail/mail-tools.c:332
-#, fuzzy, c-format
+#, c-format
 msgid "Saving changes to %s"
-msgstr "В╕д╕слати пов╕домлення"
+msgstr "Збереження зм╕н у %s"
 
 #: mail/mail-tools.c:369
 #, fuzzy, c-format
@@ -5157,13 +5157,12 @@ msgid ""
 msgstr ""
 
 #: shell/e-shell-folder-selection-dialog.c:291
-#, fuzzy
 msgid "New..."
-msgstr "Новий"
+msgstr "Новий..."
 
 #: shell/e-shell-folder-title-bar.c:447 shell/e-shell-folder-title-bar.c:448
 msgid "(Untitled)"
-msgstr ""
+msgstr "(Ненайменований)"
 
 #. you might have to call gnome_dialog_run() on the
 #. * dialog returned here, I don't remember...
@@ -5234,7 +5233,7 @@ msgstr ""
 
 #: shell/e-shortcuts-view.c:239
 msgid "Don't remove"
-msgstr ""
+msgstr "Не видаляти"
 
 #: shell/e-shortcuts-view.c:250
 msgid "_Small Icons"
@@ -5293,7 +5292,7 @@ msgstr "Вид"
 
 #: shell/e-storage-set-view.c:235
 msgid "View the selected folder"
-msgstr "Вид вибрано╖ теки"
+msgstr "Показати вибрану теки"
 
 #: shell/e-storage.c:138
 msgid "(No name)"
