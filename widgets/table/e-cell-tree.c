@@ -94,6 +94,9 @@ visible_depth_of_node (ETableModel *model, int row)
 		- (e_tree_table_adapter_root_node_is_visible (adapter) ? 0 : 1));
 }
 
+/* If this is changed to not include the width of the expansion pixmap
+   if the path is not expandable, then max_width needs to change as
+   well. */
 static gint
 offset_of_node (ETableModel *table_model, int row)
 {
@@ -425,27 +428,29 @@ ect_max_width (ECellView *ecell_view, int model_col, int view_col)
 	int number_of_rows;
 	int max_width = 0;
 	int width = 0;
-	int subcell_max_width;
+	int subcell_max_width = 0;
+	gboolean per_row = e_cell_max_width_by_row_implemented (tree_view->subcell_view);
 
 	number_of_rows = e_table_model_row_count (ecell_view->e_table_model);
 
-	subcell_max_width = e_cell_max_width (tree_view->subcell_view, model_col, view_col);
+	if (!per_row)
+		subcell_max_width = e_cell_max_width (tree_view->subcell_view, model_col, view_col);
 	
 	for (row = 0; row < number_of_rows; row++) {
 		ETreeModel *tree_model = e_cell_tree_get_tree_model(ecell_view->e_table_model, row);
-		ETreeTableAdapter *tree_table_adapter = e_cell_tree_get_tree_table_adapter(ecell_view->e_table_model, row);
 		ETreePath node;
 		GdkPixbuf *node_image;
 		int node_image_width = 0, node_image_height = 0;
 		
 		int offset, subcell_offset;
+#if 0
 		gboolean expanded, expandable;
+		ETreeTableAdapter *tree_table_adapter = e_cell_tree_get_tree_table_adapter(ecell_view->e_table_model, row);
+#endif
 		
 		node = e_cell_tree_get_node (ecell_view->e_table_model, row);
 		
 		offset = offset_of_node (ecell_view->e_table_model, row);
-		expandable = e_tree_model_node_is_expandable (tree_model, node);
-		expanded = e_tree_table_adapter_node_is_expanded (tree_table_adapter, node);
 		subcell_offset = offset;
 
 		node_image = e_tree_model_icon_at (tree_model, node);
@@ -455,7 +460,20 @@ ect_max_width (ECellView *ecell_view, int model_col, int view_col)
 			node_image_height = gdk_pixbuf_get_height (node_image);
 		}
 
-		width = subcell_max_width + subcell_offset + node_image_width;
+		width = subcell_offset + node_image_width;
+
+		if (per_row)
+			width += e_cell_max_width_by_row (tree_view->subcell_view, model_col, view_col, row);
+		else
+			width += subcell_max_width;
+
+#if 0
+		expandable = e_tree_model_node_is_expandable (tree_model, node);
+		expanded = e_tree_table_adapter_node_is_expanded (tree_table_adapter, node);
+
+		/* This is unnecessary since this is already handled
+                   by the offset_of_node function.  If that changes,
+                   this will have to change too. */
 
 		if (expandable) {
 			GdkPixbuf *image;
@@ -466,6 +484,7 @@ ect_max_width (ECellView *ecell_view, int model_col, int view_col)
 
 			width += gdk_pixbuf_get_width(image);
 		}
+#endif
 
 		max_width = MAX (max_width, width);
 	}

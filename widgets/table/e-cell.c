@@ -150,6 +150,7 @@ e_cell_class_init (GtkObjectClass *object_class)
 	ecc->print = NULL;
 	ecc->print_height = NULL;
 	ecc->max_width = NULL;
+	ecc->max_width_by_row = NULL;
 	ecc->show_tooltip = ec_show_tooltip;
 }
 
@@ -433,6 +434,42 @@ e_cell_max_width (ECellView *ecell_view, int model_col, int view_col)
 {
 	return ECVIEW_EC_CLASS(ecell_view)->max_width 
 		(ecell_view, model_col, view_col);
+}
+
+/**
+ * e_cell_max_width_by_row:
+ * @ecell_view: the ECellView that we are curious about
+ * @model_col: the column in the model
+ * @view_col: the column in the view.
+ * @row: The row in the model.
+ *
+ * Returns: the maximum width for the ECellview at @model_col which
+ * is being rendered as @view_col for the data in @row.
+ */
+int
+e_cell_max_width_by_row (ECellView *ecell_view, int model_col, int view_col, int row)
+{
+	if (ECVIEW_EC_CLASS(ecell_view)->max_width_by_row)
+		return ECVIEW_EC_CLASS(ecell_view)->max_width_by_row
+			(ecell_view, model_col, view_col, row);
+	else
+		return e_cell_max_width (ecell_view, model_col, view_col);
+}
+
+/**
+ * e_cell_max_width_by_row_implemented:
+ * @ecell_view: the ECellView that we are curious about
+ * @model_col: the column in the model
+ * @view_col: the column in the view.
+ * @row: The row in the model.
+ *
+ * Returns: the maximum width for the ECellview at @model_col which
+ * is being rendered as @view_col for the data in @row.
+ */
+gboolean
+e_cell_max_width_by_row_implemented (ECellView *ecell_view)
+{
+	return (ECVIEW_EC_CLASS(ecell_view)->max_width_by_row != NULL);
 }
 	      
 void

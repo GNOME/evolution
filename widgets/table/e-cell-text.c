@@ -1209,6 +1209,34 @@ ect_max_width (ECellView *ecell_view,
 	return max_width;
 }
 
+static int
+ect_max_width_by_row (ECellView *ecell_view,
+		      int model_col,
+		      int view_col,
+		      int row)
+{
+	/* New ECellText */
+	ECellTextView *text_view = (ECellTextView *) ecell_view;
+	CurrentCell cell;
+	struct line *line;
+	int width;
+
+	if (row >= e_table_model_row_count (ecell_view->e_table_model))
+		return 0;
+
+	build_current_cell (&cell, text_view, model_col, view_col, row);
+	split_into_lines (&cell);
+	calc_line_widths (&cell);
+
+	line = (struct line *)cell.breaks->lines;
+	width = e_font_utf8_text_width (text_view->font, cell.style,
+					line->text, line->length);
+	unref_lines (&cell);
+	unbuild_current_cell (&cell);
+	
+	return width;
+}
+
 static gint
 tooltip_event (GtkWidget *window,
 	       GdkEvent *event,
@@ -1505,6 +1533,7 @@ e_cell_text_class_init (GtkObjectClass *object_class)
 	ecc->print      = ect_print;
 	ecc->print_height = ect_print_height;
 	ecc->max_width = ect_max_width;
+	ecc->max_width_by_row = ect_max_width_by_row;
 	ecc->show_tooltip = ect_show_tooltip;
 	ecc->get_bg_color = ect_get_bg_color;
 
