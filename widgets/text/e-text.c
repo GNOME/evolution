@@ -107,10 +107,12 @@ enum {
 	E_SELECTION_PRIMARY,
 	E_SELECTION_CLIPBOARD
 };
-enum {
-  TARGET_STRING,
-  TARGET_TEXT,
-  TARGET_COMPOUND_TEXT
+enum _TargetInfo {  
+	TARGET_UTF8_STRING,
+	TARGET_UTF8,
+	TARGET_COMPOUND_TEXT,
+	TARGET_STRING,
+	TARGET_TEXT
 };
 
 static void e_text_class_init (ETextClass *class);
@@ -3647,17 +3649,24 @@ e_text_get_invisible(EText *text)
 	if (text->invisible) {
 		invisible = text->invisible;
 	} else {
+		static const GtkTargetEntry targets[] = {
+			{ "UTF8_STRING", 0, TARGET_UTF8_STRING },
+			{ "UTF-8", 0, TARGET_UTF8 },
+			{ "COMPOUND_TEXT", 0, TARGET_COMPOUND_TEXT },
+			{ "STRING", 0, TARGET_STRING },
+			{ "TEXT",   0, TARGET_TEXT }
+		};
+		static const gint n_targets = sizeof(targets) / sizeof(targets[0]);
+
 		invisible = gtk_invisible_new();
 		text->invisible = invisible;
 		
-		gtk_selection_add_target (invisible,
-					  GDK_SELECTION_PRIMARY,
-					  GDK_SELECTION_TYPE_STRING,
-					  E_SELECTION_PRIMARY);
-		gtk_selection_add_target (invisible,
-					  clipboard_atom,
-					  GDK_SELECTION_TYPE_STRING,
-					  E_SELECTION_CLIPBOARD);
+		gtk_selection_add_targets (invisible,
+					   GDK_SELECTION_PRIMARY,
+					   targets, n_targets);
+		gtk_selection_add_targets (invisible,
+					   clipboard_atom,
+					   targets, n_targets);
 		
 		gtk_signal_connect (GTK_OBJECT(invisible), "selection_get",
 				    GTK_SIGNAL_FUNC (_selection_get), 
@@ -3704,15 +3713,55 @@ _selection_get (GtkInvisible *invisible,
 		guint time_stamp,
 		EText *text)
 {
-	switch (info) {
-	case E_SELECTION_PRIMARY:
-		gtk_selection_data_set (selection_data, GDK_SELECTION_TYPE_STRING,
-					8, text->primary_selection, text->primary_length);
-		break;
-	case E_SELECTION_CLIPBOARD:
-		gtk_selection_data_set (selection_data, GDK_SELECTION_TYPE_STRING,
-					8, text->clipboard_selection, text->clipboard_length);
-		break;
+	char *selection_string;
+	int selection_length;
+	if (selection_data->selection == GDK_SELECTION_PRIMARY) {
+		selection_string = text->primary_selection;
+		selection_length = text->primary_length;
+	} else /* CLIPBOARD */ {
+		selection_string = text->clipboard_selection;
+		selection_length = text->clipboard_length;
+	}
+
+	if (selection_string != NULL) {
+		if (info == TARGET_UTF8_STRING) {
+			gtk_selection_data_set (selection_data,
+						gdk_atom_intern ("UTF8_STRING", FALSE), 8,
+						(const guchar *) selection_string,
+						selection_length);
+		} else if (info == TARGET_UTF8) {
+			gtk_selection_data_set (selection_data,
+						gdk_atom_intern ("UTF-8", FALSE), 8,
+						(const guchar *) selection_string,
+						selection_length);
+		} else if (info == TARGET_STRING || info == TARGET_TEXT || info == TARGET_COMPOUND_TEXT) {
+			gchar *localized_string;
+
+			localized_string = e_utf8_to_gtk_string (GTK_WIDGET (GNOME_CANVAS_ITEM(text)->canvas),
+								 selection_string);
+
+			if (info == TARGET_STRING) {
+				gtk_selection_data_set (selection_data,
+							GDK_SELECTION_TYPE_STRING, 8,
+							(const guchar *) localized_string, 
+							strlen (localized_string));
+			} else {
+				guchar *text;
+				GdkAtom encoding;
+				gint format;
+				gint new_length;
+
+				gdk_string_to_compound_text (localized_string, 
+							     &encoding, &format,
+							     &text, &new_length);
+
+				gtk_selection_data_set (selection_data,
+							encoding, format,
+							text, new_length);
+				gdk_free_compound_text (text);
+			}
+			g_free (localized_string);
+		}
 	}
 }
 
