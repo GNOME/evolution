@@ -89,11 +89,12 @@ int		rule_context_load(RuleContext *f, const char *system, const char *user);
 int		rule_context_save(RuleContext *f, const char *user);
 
 void		rule_context_add_part(RuleContext *f, FilterPart *new);
-FilterPart 	*rule_context_find_part(RuleContext *f, char *name);
-/*FilterPart 	*rule_context_create_part(RuleContext *f, char *name);*/
+FilterPart 	*rule_context_find_part(RuleContext *f, const char *name);
+FilterPart 	*rule_context_create_part(RuleContext *f, const char *name);
 FilterPart 	*rule_context_next_part(RuleContext *f, FilterPart *last);
 
 FilterRule 	*rule_context_next_rule(RuleContext *f, FilterRule *last);
+FilterRule 	*rule_context_find_rule(RuleContext *f, const char *name);
 void		rule_context_add_rule(RuleContext *f, FilterRule *new);
 void		rule_context_remove_rule(RuleContext *f, FilterRule *rule);
 

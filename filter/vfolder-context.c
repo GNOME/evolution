@@ -22,6 +22,7 @@
 #include <gnome.h>
 
 #include "vfolder-context.h"
+#include "vfolder-rule.h"
 
 static void vfolder_context_class_init	(VfolderContextClass *class);
 static void vfolder_context_init	(VfolderContext *gspaper);
@@ -86,7 +87,7 @@ vfolder_context_init (VfolderContext *o)
 	rule_context_add_part_set((RuleContext *)o, "partset", filter_part_get_type(),
 				  rule_context_add_part, rule_context_next_part);
 
-	rule_context_add_rule_set((RuleContext *)o, "ruleset", filter_rule_get_type(),
+	rule_context_add_rule_set((RuleContext *)o, "ruleset", vfolder_rule_get_type(),
 				  rule_context_add_rule, rule_context_next_rule);
 }
 

@@ -133,6 +133,12 @@ filter_rule_new(void)
 	return o;
 }
 
+void		filter_rule_set_name	(FilterRule *fr, const char *name)
+{
+	g_free(fr->name);
+	fr->name = g_strdup(name);
+}
+
 xmlNodePtr	filter_rule_xml_encode	(FilterRule *fr)
 {
 	return ((FilterRuleClass *)((GtkObject *)fr)->klass)->xml_encode(fr);
@@ -523,3 +529,15 @@ FilterRule	*filter_rule_next_list		(GList *l, FilterRule *last)
 		return node->data;
 	return NULL;
 }
+
+FilterRule	*filter_rule_find_list		(GList *l, const char *name)
+{
+	while (l) {
+		FilterRule *rule = l->data;
+		if (!strcmp(rule->name, name))
+			return rule;
+		l = g_list_next(l);
+	}
+	return NULL;
+}
+

@@ -146,6 +146,13 @@ find_option(FilterOption *fo, const char *name)
 	return NULL;
 }
 
+void		filter_option_set_current(FilterOption *option, const char *name)
+{
+	g_assert(IS_FILTER_OPTION(option));
+
+	option->current = find_option(option, name);
+}
+
 static void xml_create(FilterElement *fe, xmlNodePtr node)
 {
 	FilterOption *fo = (FilterOption *)fe;

@@ -67,6 +67,8 @@ guint		filter_rule_get_type	(void);
 FilterRule	*filter_rule_new	(void);
 
 /* methods */
+void		filter_rule_set_name	(FilterRule *fr, const char *name);
+
 xmlNodePtr	filter_rule_xml_encode	(FilterRule *fr);
 int		filter_rule_xml_decode	(FilterRule *fr, xmlNodePtr node, struct _RuleContext *f);
 
@@ -83,6 +85,7 @@ void		filter_rule_build_action(FilterRule *fr, GString *out);
 
 /* static functions */
 FilterRule	*filter_rule_next_list		(GList *l, FilterRule *last);
+FilterRule	*filter_rule_find_list		(GList *l, const char *name);
 
 #endif /* ! _FILTER_RULE_H */
 

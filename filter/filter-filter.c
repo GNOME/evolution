@@ -25,7 +25,7 @@
 #include "filter-filter.h"
 #include "filter-context.h"
 
-#define d(x) x
+#define d(x)
 
 static xmlNodePtr xml_encode(FilterRule *);
 static int xml_decode(FilterRule *, xmlNodePtr, struct _RuleContext *f);

@@ -306,10 +306,20 @@ static int	save(RuleContext *f, const char *user)
 	return 0;
 }
 
-FilterPart *rule_context_find_part(RuleContext *f, char *name)
+FilterPart *rule_context_find_part(RuleContext *f, const char *name)
 {
 	d(printf("find part : "));
 	return filter_part_find_list(f->parts, name);
+}
+
+FilterPart 	*rule_context_create_part(RuleContext *f, const char *name)
+{
+	FilterPart *part;
+
+	part = rule_context_find_part(f, name);
+	if (part)
+		part = filter_part_clone(part);
+	return part;
 }
 
 FilterPart 	*rule_context_next_part(RuleContext *f, FilterPart *last)
@@ -320,6 +330,11 @@ FilterPart 	*rule_context_next_part(RuleContext *f, FilterPart *last)
 FilterRule 	*rule_context_next_rule(RuleContext *f, FilterRule *last)
 {
 	return filter_rule_next_list(f->rules, last);
+}
+
+FilterRule 	*rule_context_find_rule(RuleContext *f, const char *name)
+{
+	return filter_rule_find_list(f->rules, name);
 }
 
 void		rule_context_add_part(RuleContext *f, FilterPart *part)

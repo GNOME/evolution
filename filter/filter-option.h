@@ -58,6 +58,7 @@ guint		filter_option_get_type	(void);
 FilterOption	*filter_option_new	(void);
 
 /* methods */
+void		filter_option_set_current(FilterOption *option, const char *name);
 
 #endif /* ! _FILTER_OPTION_H */
 

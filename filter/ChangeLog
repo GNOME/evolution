@@ -1,3 +1,29 @@
+2000-07-31  Not Zed  <NotZed@HelixCode.com>
+
+	* filter-input.c (filter_input_set_value): Set value of a simple
+	type to a new string.
+
+	* filter-option.c (filter_option_set_current): New function to set
+	the current value of an option.
+
+	* filter-rule.c (filter_rule_find_list): New function to find a
+	rule in a list, by name.
+	(filter_rule_set_name): Let you set the name of a rule.
+
+	* rule-context.c (rule_context_find_rule): Find a rule by name.
+	(rule_context_create_part): Helper to find and clone a part by
+	name.
+
+	* filter-folder.c (button_clicked): Fix warning.
+
+	* filter.glade: Add new widgets for vfolder rule editor.
+	
+	* vfolder-context.c (vfolder_context_init): Changed to use vfolder
+	rule as the rule type.
+
+	* vfolder-rule.c: New class to encode extra information required
+	for vfolder rules.
+
 2000-07-30  Not Zed  <NotZed@HelixCode.com>
 
 	**  Almost a total rewrite of every file, except for filter-driver

@@ -135,6 +135,20 @@ FilterInput	*filter_input_new_type_name	(const char *type)
 	return o;
 }
 
+void		filter_input_set_value(FilterInput *fi, const char *value)
+{
+	GList *l;
+
+	l = fi->values;
+	while (l) {
+		g_free(l->data);
+		l = g_list_next(l);
+	}
+	g_list_free(fi->values);
+
+	fi->values = g_list_append(NULL, g_strdup(value));
+}
+
 static void xml_create(FilterElement *fe, xmlNodePtr node)
 {
 	/* parent implementation */

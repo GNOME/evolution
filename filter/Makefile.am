@@ -55,7 +55,9 @@ libfilter_la_SOURCES =				\
 	vfolder-context.c			\
 	vfolder-context.h			\
 	vfolder-editor.c			\
-	vfolder-editor.h
+	vfolder-editor.h			\
+	vfolder-rule.c				\
+	vfolder-rule.h
 
 EXTRA_DIST = blank.xpm check.xpm 		\
 	filtertypes.xml vfoldertypes.xml

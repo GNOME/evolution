@@ -196,7 +196,7 @@ static void button_clicked(GtkButton *button, FilterFolder *ff)
 			str = uri;
 
 		ff->name = g_strdup(str);
-		gtk_label_set_text(GTK_BIN(button)->child, ff->name);
+		gtk_label_set_text((GtkLabel *)GTK_BIN(button)->child, ff->name);
 	} else {
 		g_free(uri);
 	}
