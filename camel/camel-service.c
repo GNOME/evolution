@@ -545,7 +545,7 @@ struct hostent *camel_get_host_byname(const char *name, CamelException *ex)
 		return NULL;
 	}
 
-	camel_operation_start(NULL, _("Resolving: %s"), name);
+	camel_operation_start_transient(NULL, _("Resolving: %s"), name);
 
 	msg = g_malloc0(sizeof(*msg));
 	msg->hostbuflen = 1024;

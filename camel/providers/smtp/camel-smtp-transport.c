@@ -47,6 +47,7 @@
 #include "camel-mime-message.h"
 #include "camel-multipart.h"
 #include "camel-mime-part.h"
+#include "camel-operation.h"
 #include "camel-stream-buffer.h"
 #include "camel-tcp-stream.h"
 #include "camel-tcp-stream-raw.h"
@@ -570,6 +571,8 @@ smtp_send_to (CamelTransport *transport, CamelMedium *message,
 					"sender address not valid."));
 		return FALSE;
 	}
+
+	camel_operation_start(NULL, _("Sending message"));
 	
 	/* find out if the message has 8bit mime parts */
 	has_8bit_parts = camel_mime_message_has_8bit_parts (CAMEL_MIME_MESSAGE (message));
@@ -582,6 +585,7 @@ smtp_send_to (CamelTransport *transport, CamelMedium *message,
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
 				      _("Cannot send message: "
 					"no recipients defined."));
+		camel_operation_end(NULL);
 		return FALSE;
 	}
 	
@@ -589,6 +593,7 @@ smtp_send_to (CamelTransport *transport, CamelMedium *message,
 		recipient = (char *) r->data;
 		if (!smtp_rcpt (smtp_transport, recipient, ex)) {
 			g_free (recipient);
+			camel_operation_end(NULL);
 			return FALSE;
 		}
 		g_free (recipient);
@@ -597,11 +602,15 @@ smtp_send_to (CamelTransport *transport, CamelMedium *message,
 	/* passing in has_8bit_parts saves time as we don't have to
            recurse through the message all over again if the user is
            not sending 8bit mime parts */
-	if (!smtp_data (smtp_transport, message, has_8bit_parts, ex))
+	if (!smtp_data (smtp_transport, message, has_8bit_parts, ex)) {
+		camel_operation_end(NULL);
 		return FALSE;
+	}
 	
 	/* reset the service for our next transfer session */
 	smtp_rset (smtp_transport, ex);
+
+	camel_operation_end(NULL);
 	
 	return TRUE;
 }
@@ -654,6 +663,8 @@ smtp_helo (CamelSmtpTransport *transport, CamelException *ex)
 	gchar *cmdbuf, *respbuf = NULL;
 	struct hostent *host;
 	
+	camel_operation_start_transient(NULL, _("SMTP Greeting"));
+
 	/* get the local host name */
 	host = gethostbyaddr ((gchar *)&transport->localaddr.sin_addr, sizeof (transport->localaddr.sin_addr), AF_INET);
 	
@@ -676,6 +687,7 @@ smtp_helo (CamelSmtpTransport *transport, CamelException *ex)
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
 				      _("HELO request timed out: %s: non-fatal"),
 				      g_strerror (errno));
+		camel_operation_end(NULL);
 		return FALSE;
 	}
 	g_free (cmdbuf);
@@ -695,6 +707,7 @@ smtp_helo (CamelSmtpTransport *transport, CamelException *ex)
 			camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
 					      _("HELO response error: %s: non-fatal"),
 					      get_smtp_error_string (error));
+			camel_operation_end(NULL);
 			return FALSE;
 		}
 		
@@ -712,6 +725,8 @@ smtp_helo (CamelSmtpTransport *transport, CamelException *ex)
 		}
 	} while (*(respbuf+3) == '-'); /* if we got "250-" then loop again */
 	g_free (respbuf);
+
+	camel_operation_end(NULL);
 	
 	return TRUE;
 }
@@ -721,7 +736,7 @@ smtp_auth (CamelSmtpTransport *transport, const char *mech, CamelException *ex)
 {
 	gchar *cmdbuf, *respbuf = NULL, *challenge;
 	CamelSasl *sasl;
-	
+
 	sasl = camel_sasl_new ("smtp", mech, CAMEL_SERVICE (transport));
 	if (!sasl) {
 		g_free (respbuf);
@@ -729,7 +744,9 @@ smtp_auth (CamelSmtpTransport *transport, const char *mech, CamelException *ex)
 				      _("Error creating SASL authentication object."));
 		return FALSE;
 	}
-	
+
+	camel_operation_start_transient(NULL, _("SMTP Authentication"));
+
 	challenge = camel_sasl_challenge_base64 (sasl, NULL, ex);
 	if (challenge) {
 		cmdbuf = g_strdup_printf ("AUTH %s %s\r\n", mech, challenge);
@@ -771,7 +788,7 @@ smtp_auth (CamelSmtpTransport *transport, const char *mech, CamelException *ex)
 		
 		challenge = camel_sasl_challenge_base64 (sasl, challenge, ex);
 		g_free (respbuf);
-		if (camel_exception_is_set (ex))
+		if (challenge == NULL)
 			goto break_and_lose;
 		
 		/* send our challenge */
@@ -794,7 +811,9 @@ smtp_auth (CamelSmtpTransport *transport, const char *mech, CamelException *ex)
 		g_free (respbuf);
 		goto lose;
 	}
-	
+
+	camel_operation_end(NULL);
+
 	return TRUE;
 	
  break_and_lose:
@@ -812,6 +831,8 @@ smtp_auth (CamelSmtpTransport *transport, const char *mech, CamelException *ex)
 	
 	if (sasl)
 		camel_object_unref (CAMEL_OBJECT (sasl));
+
+	camel_operation_end(NULL);
 	
 	return FALSE;
 }

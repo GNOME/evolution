@@ -1,3 +1,19 @@
+2001-07-23  Not Zed  <NotZed@Ximian.com>
+
+	* providers/smtp/camel-smtp-transport.c (smtp_auth, smtp_helo,
+	send_to): Added some operation progress reporting.  Actual data
+	transfer is 'tricky' because of the layers used.
+	(smtp_auth): Instead of checking exception_is_set, use
+	challenge==NULL to test if sasl_challenge_base64 failed.
+
+	* providers/local/camel-mbox-summary.c (mbox_summary_sync): Remove
+	peters changes below and put in a better fix.  These functions
+	already return -1 on error, just use that, and not worry about
+	building our own exception redundantly.
+
+	* camel-service.c (camel_get_host_byname): Turn the progress into
+	a transient event.
+
 2001-07-20  Peter Williams  <peterw@ximian.com>
 
 	* providers/local/camel-mbox-summary.c (mbox_summary_sync): More

@@ -829,7 +829,6 @@ static int
 mbox_summary_sync(CamelLocalSummary *cls, gboolean expunge, CamelFolderChangeInfo *changeinfo, CamelException *ex)
 {
 	struct stat st;
-	CamelException internal_ex;
 	CamelMboxSummary *mbs = (CamelMboxSummary *)cls;
 	CamelFolderSummary *s = (CamelFolderSummary *)cls;
 	int i, count;
@@ -837,12 +836,8 @@ mbox_summary_sync(CamelLocalSummary *cls, gboolean expunge, CamelFolderChangeInf
 	int ret;
 
 	/* first, sync ourselves up, just to make sure */
-	camel_exception_init (&internal_ex);
-	summary_update(cls, mbs->folder_size, changeinfo, &internal_ex);
-	if (camel_exception_is_set(&internal_ex)) {
-		camel_exception_xfer (ex, &internal_ex);
+	if (summary_update(cls, mbs->folder_size, changeinfo, ex) == -1)
 		return -1;
-	}
 
 	count = camel_folder_summary_count(s);
 	if (count == 0)
