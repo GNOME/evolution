@@ -1,3 +1,9 @@
+2004-02-11  Rodney Dawes  <dobey@ximian.com>
+
+	* e-multi-config-dialog.c (impl_response): Change the filename and
+	section that we pass to gnome_help_display_desktop so that the help
+	browser displays the documentation correctly
+
 2004-02-10  Rodney Dawes  <dobey@ximian.com>
 
 	* e-multi-config-dialog.c (init): Add a Help button
