@@ -1,3 +1,8 @@
+2000-12-18  Chris Toshok  <toshok@helixcode.com>
+
+	* evolution-addressbook.xml: give View->As Table its verb back so
+	it works.
+
 2000-12-14  Not Zed  <NotZed@HelixCode.com>
 
 	* evolution-mail.xml: Added message hiding items.

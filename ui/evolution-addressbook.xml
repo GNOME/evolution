@@ -16,7 +16,7 @@
 
 		<submenu name="View">
 
-			<menuitem name="AsTable" _label="As _Table"
+			<menuitem name="AsTable" verb="ViewAsTable" _label="As _Table"
 		        />
 
 
