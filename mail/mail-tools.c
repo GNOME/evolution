@@ -310,7 +310,7 @@ mail_tool_move_folder_contents (CamelFolder *source, CamelFolder *dest, gboolean
 
 		/* Info */
 
-		mail_op_set_message ("Retrieving message %d of %d", i, uids->len);
+		mail_op_set_message ("Retrieving message %d of %d", i + 1, uids->len);
 
 		/* Get the message */
 

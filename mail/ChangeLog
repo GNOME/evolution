@@ -1,3 +1,21 @@
+2000-08-28  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* mail-view.c (mail_view_create): Use `gnome_app_set_toolbar()'
+	the easy way instead of doing things manually with `GnomeDock' and
+	`gnome_app_add_toolbar()'.
+	(MINIMUM_WIDTH): New #define.
+	(MINIMUM_HEIGHT): New #define.
+	(view_size_allocate_cb): New, callback for the "size_allocate"
+	signal of the mail view.  It saves the last allocation in a static
+	`last_allocation' variable.
+	(mail_view_create): Connect it.
+	(set_default_size): New function.  Set the default width/height to
+	the last allocation width/height; if the width/height is less than
+	the `MINIUM_WIDTH' or `MINIMUM_HEIGHT', use that value instead.
+
+	* mail-tools.c (mail_tool_move_folder_contents): Show `i + 1', not
+	`i', so that we correctlly start counting from one instead of zero.
+
 2000-08-28  Peter Williams  <peterw@helixcode.com>
 
 	* *.c: s,mail_dialog_run,gnome_dialog_run,g.

@@ -32,6 +32,12 @@ typedef struct mail_view_data_s {
 	MailDisplay *md;
 } mail_view_data;
 
+#define MINIMUM_WIDTH  600
+#define MINIMUM_HEIGHT 400
+
+/* Size of the window last time it was changed.  */
+static GtkAllocation last_allocation = { 0, 0 };
+
 static void
 mail_view_data_free (gpointer mvd)
 {
@@ -127,6 +133,13 @@ view_delete_msg (GtkWidget *button, gpointer user_data)
 			       CAMEL_MESSAGE_DELETED, CAMEL_MESSAGE_DELETED);
 }
 
+static void
+view_size_allocate_cb (GtkWidget *widget,
+		       GtkAllocation *allocation)
+{
+	last_allocation = *allocation;
+}
+
 static GnomeUIInfo mail_view_toolbar [] = {
 	
 	/*GNOMEUIINFO_ITEM_STOCK (N_("Save"), N_("Save this message"),
@@ -175,13 +188,23 @@ static GnomeUIInfo mail_view_menubar[] =
 	GNOMEUIINFO_END
 };
 
+static void
+set_default_size (GtkWidget *widget)
+{
+	int width, height;
+
+	width  = MAX (MINIMUM_WIDTH, last_allocation.width);
+	height = MAX (MINIMUM_HEIGHT, last_allocation.height);
+
+	gtk_window_set_default_size (GTK_WINDOW (widget), width, height);
+}
+
 GtkWidget *
 mail_view_create (CamelFolder *source, const char *uid, CamelMimeMessage *msg)
 {
 	GtkWidget *window;
 	GtkWidget *toolbar;
 	GtkWidget *mail_display;
-	GnomeDockItemBehavior behavior;
 	char *subject;
 	mail_view_data *data;
 
@@ -199,16 +222,7 @@ mail_view_create (CamelFolder *source, const char *uid, CamelMimeMessage *msg)
 					  mail_view_toolbar,
 					  NULL, data);
 
-	behavior = GNOME_DOCK_ITEM_BEH_NORMAL;
-	if (!gnome_preferences_get_toolbar_detachable ())
-		behavior |= GNOME_DOCK_ITEM_BEH_LOCKED;
-
-	gnome_app_add_toolbar (GNOME_APP (window), 
-			       GTK_TOOLBAR (toolbar),
-			       GNOME_APP_TOOLBAR_NAME,
-			       behavior,
-			       GNOME_DOCK_TOP, 1, 0, 0);
-	
+	gnome_app_set_toolbar (GNOME_APP (window), GTK_TOOLBAR (toolbar));
 	gnome_app_create_menus (GNOME_APP (window), mail_view_menubar);
 
 	gtk_object_set_data_full (GTK_OBJECT (window), "mvd", data,
@@ -234,11 +248,12 @@ mail_view_create (CamelFolder *source, const char *uid, CamelMimeMessage *msg)
 	mail_display_set_message (MAIL_DISPLAY (mail_display), CAMEL_MEDIUM (msg));
 	data->md = MAIL_DISPLAY (mail_display);
 	gnome_app_set_contents (GNOME_APP (window), mail_display);
-	
-	gtk_window_set_default_size (GTK_WINDOW (window), 600, 400);
 
+	gtk_signal_connect (GTK_OBJECT (window), "size_allocate",
+			    GTK_SIGNAL_FUNC (view_size_allocate_cb), NULL);
+
+	set_default_size (window);
+	
 	return window;
 }
-
-
 
