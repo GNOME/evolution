@@ -507,7 +507,7 @@ camel_remote_store_send_stream (CamelRemoteStore *store, CamelStream *stream, Ca
 static int
 remote_recv_line (CamelRemoteStore *store, char **dest, CamelException *ex)
 {
-	CamelStreamBuffer *stream = CAMEL_STREAM_BUFFER (store->istream);
+	CamelStreamBuffer *stream;
 	GByteArray *bytes;
 	gchar buf[1024], *ret;
 	gint nread;
@@ -524,6 +524,7 @@ remote_recv_line (CamelRemoteStore *store, char **dest, CamelException *ex)
 				     g_strerror (errno));
 		return -1;
 	}
+	stream = CAMEL_STREAM_BUFFER (store->istream);
 
 	bytes = g_byte_array_new ();
 	
