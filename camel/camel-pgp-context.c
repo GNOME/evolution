@@ -984,13 +984,12 @@ pgp_verify (CamelCipherContext *ctx, CamelStream *istream,
 		g_free (locale);
 		if (cd != (iconv_t) -1) {
 			const char *inbuf;
-			size_t len;
 			
 			inbuf = diagnostics;
-			len = iconv (cd, &inbuf, &inlen, &outbuf, &outlen);
+			iconv (cd, &inbuf, &inlen, &outbuf, &outlen);
 			iconv_close (cd);
 			
-			desc[len] = '\0';
+			*outbuf = '\0';
 		} else {
 			const char *inptr, *inend;
 			unicode_char_t c;

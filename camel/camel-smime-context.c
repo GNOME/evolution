@@ -32,6 +32,7 @@
 #include <nss.h>
 #include <cert.h>
 #include <secpkcs7.h>
+#include <secmime.h>
 
 #include <gtk/gtk.h> /* for _() macro */
 

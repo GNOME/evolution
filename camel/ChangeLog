@@ -1,3 +1,10 @@
+2001-04-22  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-pgp-context.c (pgp_verify): Oops, don't use the return
+	value of iconv() as a string length, it only tells us the number
+	of non-reversable character conversions. This fixes it so we
+	actually see the gpg output in the message viewer.
+
 2001-04-23  Mikael Hallendal  <micke@codefactory.se>
 
 	* providers/nntp/Makefile.am (INCLUDES): 
