@@ -119,7 +119,7 @@ e_table_make_header (ETable *e_table, ETableHeader *full_header, xmlNode *xmlCol
 }
 
 static void
-header_canvas_size_alocate (GtkWidget *widget, GtkAllocation *alloc, ETable *e_table)
+header_canvas_size_allocate (GtkWidget *widget, GtkAllocation *alloc, ETable *e_table)
 {
 	gnome_canvas_set_scroll_region (
 		GNOME_CANVAS (e_table->header_canvas),
@@ -171,8 +171,8 @@ e_table_setup_header (ETable *e_table)
 
 	gtk_signal_connect (
 		GTK_OBJECT (e_table->header_canvas), "size_allocate",
-		GTK_SIGNAL_FUNC (header_canvas_size_alocate), e_table);
-				 
+		GTK_SIGNAL_FUNC (header_canvas_size_allocate), e_table);
+
 	gtk_widget_set_usize (GTK_WIDGET (e_table->header_canvas), -1, COLUMN_HEADER_HEIGHT);
 }
 
@@ -593,6 +593,12 @@ table_canvas_size_allocate (GtkWidget *widget, GtkAllocation *alloc, ETable *e_t
 }
 
 static void
+table_canvas_reflow (GnomeCanvas *canvas, ETable *e_table)
+{
+	table_canvas_size_allocate (GTK_WIDGET(canvas), &(GTK_WIDGET(canvas)->allocation), e_table);
+}
+
+static void
 change_row (gpointer key, gpointer value, gpointer data)
 {
 	ETable *et = E_TABLE(data);
@@ -624,6 +630,10 @@ changed_idle (gpointer data)
 		gtk_signal_connect(GTK_OBJECT(et->group), "row_selection",
 				   GTK_SIGNAL_FUNC(group_row_selection), et);
 		e_table_fill_table(et, et->model);
+		
+		gtk_object_set(GTK_OBJECT(et->group),
+			       "width", (double) GTK_WIDGET(et->table_canvas)->allocation.width,
+			       NULL);
 	} else if (et->need_row_changes) {
 		g_hash_table_foreach(et->row_changes_list, change_row, et);
 	}
@@ -676,6 +686,9 @@ e_table_setup_table (ETable *e_table, ETableHeader *full_header, ETableHeader *h
 		GTK_OBJECT (e_table->table_canvas), "size_allocate",
 		GTK_SIGNAL_FUNC (table_canvas_size_allocate), e_table);
 	
+	gtk_signal_connect (GTK_OBJECT(e_table->table_canvas), "reflow",
+			    GTK_SIGNAL_FUNC (table_canvas_reflow), e_table);
+				 
 	gtk_widget_show (GTK_WIDGET (e_table->table_canvas));
 	
 	e_table->group = e_table_group_new(GNOME_CANVAS_GROUP(e_table->table_canvas->root),
