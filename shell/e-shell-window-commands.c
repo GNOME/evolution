@@ -181,6 +181,35 @@ command_help_faq (BonoboUIComponent *uih,
 	gnome_url_show ("http://www.ximian.com/apps/evolution-faq.html", NULL);	/* FIXME use the error */
 }
 
+static void
+command_quick_reference (BonoboUIComponent *uih,
+			 EShellWindow *window,
+			 const char *path)
+{
+	char *quickref;
+	char *uri;
+	const GList *lang_list = gnome_i18n_get_language_list ("LC_MESSAGES");
+	for (; lang_list != NULL; lang_list = lang_list->next) {
+		const char *lang = lang_list->data;
+
+		/* This has to be a valid language AND a language with
+		 * no encoding postfix.  The language will come up without
+		 * encoding next */
+		if (lang == NULL || strchr (lang, '.') != NULL)
+			continue;
+
+		quickref = g_build_filename (EVOLUTION_HELPDIR, "quickref", lang, "quickref.pdf", NULL);
+		if (g_file_test (quickref, G_FILE_TEST_EXISTS)) {
+			uri = g_strconcat ("file://", quickref, NULL);
+			gnome_url_show (uri, NULL);
+			g_free (quickref);
+			g_free (uri);
+			return;
+		}
+		g_free (quickref);
+	}
+}
+
 
 static void
 command_work_offline (BonoboUIComponent *uih,
@@ -279,6 +308,7 @@ static BonoboUIVerb tools_verbs[] = {
 
 static BonoboUIVerb help_verbs [] = {
 	BONOBO_UI_VERB ("HelpFAQ", (BonoboUIVerbFn) command_help_faq),
+	BONOBO_UI_VERB ("QuickReference", (BonoboUIVerbFn) command_quick_reference),
 	BONOBO_UI_VERB ("HelpSubmitBug", (BonoboUIVerbFn) command_submit_bug),
 	BONOBO_UI_VERB ("HelpAbout", (BonoboUIVerbFn) command_about_box),
 

@@ -9,6 +9,7 @@ INCLUDES =							\
 	-DEVOLUTION_DATADIR=\""$(datadir)"\"			\
 	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"			\
 	-DEVOLUTION_ETSPECDIR=\""$(etspecdir)"\"		\
+	-DEVOLUTION_HELPDIR=\""$(evolutionhelpdir)"\"		\
 	-DEVOLUTION_UIDIR=\""$(evolutionuidir)"\"		\
 	-DEVOLUTION_TOOLSDIR=\""$(privlibexecdir)"\"		\
 	-DPREFIX=\""$(prefix)"\"				\

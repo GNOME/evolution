@@ -1,4 +1,11 @@
-2004-01-21  Not Zed  <NotZed@Ximian.com>
+2004-01-26  David Trowbridge <trowbrds@cs.colorado.edu>
+ 
+ 	* Makefile.am: add definition for EVOLUTION_HELPDIR
+ 
+ 	* e-shell-window-commands.c: add handling for new "Quick
+	Reference" menu
+	
+2004-01-26  Not Zed  <NotZed@Ximian.com>
 
 	* e-shell.c (attempt_upgrade, detect_version, e_shell_construct):
 	attempt the upgrade before trying to startup the wizard.
