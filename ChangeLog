@@ -1,5 +1,9 @@
 2000-04-26  Matt Loper  <matt@helixcode.com>
 
+	* tests/.cvsignore: Added test13.
+
+	* default_user/.cvsignore: New file.
+
 	* widgets/e-text/e-text.c (e_text_destroy): Kill text->timer and
 	text->timeout on destroy.
 

@@ -11,3 +11,4 @@ y.output
 *.la
 .libs
 .deps
+icalversion.h
