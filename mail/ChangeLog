@@ -1,3 +1,8 @@
+2001-12-14  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-ops.c (mail_fetch_mail): Set the filter driver's shell-exec
+	callback.
+
 2001-12-12  Jeffrey Stedfast  <fejJ@ximian.com>
 
 	* mail-config.c (mail_config_check_service): Connect to the

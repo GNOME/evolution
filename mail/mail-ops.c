@@ -406,6 +406,7 @@ mail_fetch_mail (const char *source, int keep, const char *type, CamelOperation 
 	
 	fm->driver = camel_session_get_filter_driver (session, type, NULL);
 	camel_filter_driver_set_folder_func (fm->driver, get_folder, get_data);
+	camel_filter_driver_set_shell_exec_func (fm->driver, mail_execute_shell_command, NULL);
 	if (status)
 		camel_filter_driver_set_status_func (fm->driver, status, status_data);
 	
@@ -2213,7 +2214,7 @@ static struct _mail_msg_op execute_shell_command_op = {
 };
 
 void
-mail_execute_shell_command (const char *command)
+mail_execute_shell_command (CamelFilterDriver *driver, const char *command, void *data)
 {
 	struct _execute_shell_command_msg *m;
 	

@@ -150,7 +150,8 @@ void mail_store_set_offline (CamelStore *store, gboolean offline,
 			     void (*done)(CamelStore *, void *data),
 			     void *data);
 
-void mail_execute_shell_command (const char *command);
+/* filter driver execute shell command async callback */
+void mail_execute_shell_command (CamelFilterDriver *driver, const char *command, void *data);
 
 #ifdef __cplusplus
 }
