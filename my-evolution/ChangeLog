@@ -1,5 +1,9 @@
 2001-07-03  Iain Holmes  <iain@ximian.com>
 
+	* e-summary-factory.c: Fixed the Bonobo warning.
+
+2001-07-03  Iain Holmes  <iain@ximian.com>
+
 	* e-summary-preferences.c (e_summary_preferences_restore): Ditch
 	gnome-config and replace it with bonobo-conf.
 	(e_summary_preferences_save): Ditto.

@@ -31,8 +31,9 @@ BonoboUIVerb verbs[] = {
 
 
 static EPixmap pixmaps [] = {
-	E_PIXMAP ("/commands/Print", "print.png"),
+	E_PIXMAP ("/commands/PrintMyEvolution", "print.xpm"),
 	E_PIXMAP ("/commands/ToolsSettings", "configure_16_mail.xpm"),
+	E_PIXMAP ("/Toolbar/PrintMyEvolution", "buttons/print.png"),
 	E_PIXMAP_END
 };
 
