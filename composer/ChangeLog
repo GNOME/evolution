@@ -1,5 +1,8 @@
 2001-07-03  Larry Ewing  <lewing@ximian.com>
 
+	* e-msg-composer.c (autosave_save_draft): make sure we seek to the
+	begining.
+
 	* e-msg-composer.h: remove the timer id.
 
 	* e-msg-composer.c: use autosave manager.

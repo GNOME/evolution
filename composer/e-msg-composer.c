@@ -1012,7 +1012,7 @@ autosave_save_draft (EMsgComposer *composer)
 
 	if (fd == -1) {
 		e_notice (GTK_WINDOW (composer), GNOME_MESSAGE_BOX_ERROR,
-			  _("Error opening file: %s"), file);
+			  _("Error accessing file: %s"), file);
 		return;
 	}
 
@@ -1021,6 +1021,12 @@ autosave_save_draft (EMsgComposer *composer)
 	if (msg == NULL) {
 		e_notice (GTK_WINDOW (composer), GNOME_MESSAGE_BOX_ERROR,
 			  _("Unable to retrieve message from editor"));
+		return;
+	}
+
+	if (lseek (fd, (off_t)0, SEEK_SET) == -1) {
+		e_notice (GTK_WINDOW (composer), GNOME_MESSAGE_BOX_ERROR,
+			  _("Unable to seek on file: %s\n%s"), file, strerror(errno));
 		return;
 	}
 
