@@ -1,5 +1,13 @@
 2002-09-25  Dan Winship  <danw@ximian.com>
 
+	* mail-display.c (mail_display_render): Add a margin around the
+	"flag for followup" table so it lines up with everything else.
+	Also, don't add "at your earliest convenience" after the flag if
+	there's no date set, since that doesn't make any sense for half of
+	the flags. ("For Your Information at your earliest convenience").
+
+2002-09-25  Dan Winship  <danw@ximian.com>
+
 	* component-factory.c (folder_types): add "mail/public". Leave
 	"vtrash" as it is rather than renaming it to "mail/vtrash",
 	because we want it to behave differently from normal mail folders

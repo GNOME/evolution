@@ -1750,14 +1750,17 @@ mail_display_render (MailDisplay *md, GtkHTML *html, gboolean reset_scroll)
 			
 			e_strftime_fix_am_pm (due_date, sizeof (due_date), _("by %B %d, %Y, %l:%M %P"), &due);
 		} else {
-			snprintf (due_date, sizeof (due_date), "%s", _("at your earliest convenience"));
+			due_date[0] = '\0';
 		}
 		
 		gtk_html_stream_printf (stream, "<font color=\"#%s\">"
-					"<table cellspacing=1 cellpadding=1 bgcolor=\"#000000\"><tr><td>"
-					"<table cellspacing=0 bgcolor=\"#%s\" cellpadding=2 cellspacing=2>"
+					"<table width=\"100%%\" cellpadding=0 cellspacing=0><tr><td colspan=3 height=10></td></tr>"
+					"<tr><td width=10></td><td>"
+					"<table cellspacing=1 cellpadding=1 bgcolor=\"#000000\" width=\"100%%\"><tr><td>"
+					"<table cellspacing=0 bgcolor=\"#%s\" cellpadding=2 cellspacing=2 width=\"100%%\">"
 					"<tr><td align=\"left\" width=20><img src=\"%s\" align=\"middle\"></td>"
-					"<td>%s%s%s%s %s</td></table></td></tr></table></font>", fontcolor, bgcolor,
+					"<td>%s%s%s%s %s</td></table></td></tr></table>"
+					"</td><td width=10></td></tr></table></font>", fontcolor, bgcolor,
 					mail_display_get_url_for_icon (md, EVOLUTION_IMAGES "/flag-for-followup-16.png"),
 					overdue ? "<b>" : "", overdue, overdue ? "</b>&nbsp;" : "",
 					flag, due_date);
