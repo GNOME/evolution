@@ -1,3 +1,7 @@
+2000-11-03  Federico Mena Quintero  <federico@helixcode.com>
+
+	* Makefile.am: Clean the idl-generated files properly.
+
 2000-11-01  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* e-msg-composer.c (e_msg_composer_new_with_message): Don't create

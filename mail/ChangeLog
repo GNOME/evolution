@@ -1,3 +1,7 @@
+2000-11-03  Federico Mena Quintero  <federico@helixcode.com>
+
+	* Makefile.am: Clean the idl-generated files properly.
+
 2000-11-03  Not Zed  <NotZed@HelixCode.com>
 
 	* mail-view.c: Added mail-display.h.

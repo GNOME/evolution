@@ -154,3 +154,6 @@ evolution-mail.pure: evolution-mail
 	$(PLINK) $(evolution_mail_LDFLAGS) $(evolution_mail_OBJECTS) $(evolution_mail_LDADD) $(LIBS)
 
 endif
+
+BUILT_SOURCES = $(EVOLUTION_MAIL_CORBA_GENERATED)
+CLEANFILES   += $(BUILT_SOURCES)

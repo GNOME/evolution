@@ -79,3 +79,6 @@ EXTRA_DIST =					\
 	$(glade_DATA)				\
 	$(glade_messages)			\
 	bad-icon.xpm
+
+BUILT_SOURCES = $(IDL_GENERATED)
+CLEANFILES   += $(BUILT_SOURCES)
