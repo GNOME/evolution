@@ -1,3 +1,61 @@
+2002-02-23  Chris Toshok  <toshok@ximian.com>
+
+        [ backport fix for bug 16097 from HEAD ]
+        * gui/component/addressbook-config.glade: gui love for the new
+        auth stuff.
+
+        * gui/component/addressbook.c (load_uri_cb): track change to auth,
+        and offer up different prompt strings depending on which method
+        (binddn or email) we're using.
+
+        * gui/component/addressbook-storage.c (ldap_unparse_auth): use the
+        new auth types for ldap.
+        (ldap_parse_auth): same.
+        (addressbook_storage_auth_type_to_string): new function.
+        (load_source_data): get the binddn too.
+        (ldap_source_foreach): store out binddn or emailaddr, depending on
+        the auth type chosen.
+
+        * gui/component/addressbook-storage.h: add the more detailed auth
+        types, add "binddn" to the source structure, and add a prototype
+        for addressbook_storage_auth_type_to_string.
+
+        * gui/component/addressbook-config.c (auth_checkbutton_changed):
+        set the auth stuff  (in)sensitive.
+        (auth_optionmenu_activated): new function.
+        (addressbook_source_dialog_set_source): track UI change.
+        (addressbook_source_dialog_get_source): same.
+        (add_scope_activate_cb): rename add_activate_cb to this to
+        distinguish it from the auth stuff.
+        (add_auth_activate_cb): new function.
+        (addressbook_source_dialog): track change to auth UI stuff.
+        (addressbook_storage_auth_type_to_string): new function.
+
+        * backend/ebook/e-book.h: add auth_method arg to
+        e_book_authenticate_user.
+
+        * backend/ebook/e-book.c (e_book_authenticate_user): track change
+        to prototype - add auth_method arg, and pass it along to the CORBA
+        call.
+
+        * backend/ebook/test-client.c (book_open_cb): track api change -
+        keep this building.
+
+        * backend/pas/pas-book.h: add auth_method slot in PASRequest.
+
+        * backend/pas/pas-book.c (pas_book_queue_authenticate_user): add
+        auth_method arg and add it to the PASRequest.
+        (impl_GNOME_Evolution_Addressbook_Book_authenticateUser): track
+        idl change, add auth_method and pass it along to
+        pas_book_queue_authenticate_user.
+
+        * backend/pas/pas-backend-ldap.c
+        (pas_backend_ldap_process_authenticate_user): support both
+        "ldap/simple-email" and "ldap/simple-binddn" auth methods.
+
+        * backend/idl/addressbook.idl: add "in string authMethod" to
+        authenticateUser.
+
 2002-02-22  Chris Toshok  <toshok@ximian.com>
 
 	[ Fixes bugs 20740, 16680, and god knows what else :) ]

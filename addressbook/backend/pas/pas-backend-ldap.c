@@ -2514,46 +2514,50 @@ pas_backend_ldap_process_authenticate_user (PASBackend *backend,
 {
 	PASBackendLDAP *bl = PAS_BACKEND_LDAP (backend);
 	int ldap_error;
-	char *query;
-	LDAPMessage    *res, *e;
+	char *dn = NULL;
 
-	query = g_strdup_printf ("(mail=%s)", req->user);
+	if (!strcmp (req->auth_method, "ldap/simple-email")) {
+		LDAPMessage    *res, *e;
+		char *query = g_strdup_printf ("(mail=%s)", req->user);
 
-	ldap_error = ldap_search_s (bl->priv->ldap,
-				    bl->priv->ldap_rootdn,
-				    bl->priv->ldap_scope,
-				    query,
-				    NULL, 0, &res);
+		ldap_error = ldap_search_s (bl->priv->ldap,
+					    bl->priv->ldap_rootdn,
+					    bl->priv->ldap_scope,
+					    query,
+					    NULL, 0, &res);
+		g_free (query);
 
-	if (ldap_error == LDAP_SUCCESS) {
-		char *dn;
-
-		e = ldap_first_entry (bl->priv->ldap, res);
-		dn = ldap_get_dn (bl->priv->ldap, e);
-
-		printf ("authenticating as %s\n", dn);
-
-		ldap_error = ldap_simple_bind_s(bl->priv->ldap,
-						dn,
-						req->passwd);
-
-		pas_book_respond_authenticate_user (book,
-						    ldap_error_to_response (ldap_error));
-
-		bl->priv->writable = (ldap_error == LDAP_SUCCESS);
-
-		if (!bl->priv->evolutionPersonChecked)
-			check_schema_support (bl);
-
-		ldap_msgfree (res);
+		if (ldap_error == LDAP_SUCCESS) {
+			e = ldap_first_entry (bl->priv->ldap, res);
+			dn = g_strdup(ldap_get_dn (bl->priv->ldap, e));
+			ldap_msgfree (res);
+		}
+		else {
+			pas_book_respond_authenticate_user (book,
+						    GNOME_Evolution_Addressbook_BookListener_PermissionDenied);
+			return;
+		}
 	}
 	else {
-		pas_book_respond_authenticate_user (book, GNOME_Evolution_Addressbook_BookListener_PermissionDenied);
+		dn = g_strdup (req->user);
 	}
 
-	pas_book_report_writable (book, bl->priv->writable);
+	/* now authenticate against the DN we were either supplied or queried for */
+	printf ("authenticating as %s\n", dn);
+	ldap_error = ldap_simple_bind_s(bl->priv->ldap,
+					dn,
+					req->passwd);
+	g_free (dn);
 
-	g_free (query);
+	pas_book_respond_authenticate_user (book,
+					    ldap_error_to_response (ldap_error));
+
+	bl->priv->writable = (ldap_error == LDAP_SUCCESS);
+
+	if (!bl->priv->evolutionPersonChecked)
+		check_schema_support (bl);
+
+	pas_book_report_writable (book, bl->priv->writable);
 }
 
 static void

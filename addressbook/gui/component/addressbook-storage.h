@@ -34,8 +34,8 @@ typedef enum {
 
 typedef enum {
 	ADDRESSBOOK_LDAP_AUTH_NONE,
-	ADDRESSBOOK_LDAP_AUTH_SIMPLE,
-	ADDRESSBOOK_LDAP_AUTH_LAST
+	ADDRESSBOOK_LDAP_AUTH_SIMPLE_EMAIL,
+	ADDRESSBOOK_LDAP_AUTH_SIMPLE_BINDDN,
 } AddressbookLDAPAuthType;
 
 typedef enum {
@@ -54,7 +54,8 @@ typedef struct {
 	char *rootdn;
 	AddressbookLDAPScopeType scope;
 	AddressbookLDAPAuthType auth;
-	char *email_addr;                   /* used in AUTH_SIMPLE */
+	char *email_addr;                   /* used in AUTH_SIMPLE_EMAIL */
+	char *binddn;                       /* used in AUTH_SIMPLE_BINDDN */
 	gboolean remember_passwd;
 	char *uri; /* filled in from the above */
 } AddressbookSource;
@@ -73,5 +74,6 @@ void               addressbook_storage_init_source_uri (AddressbookSource *sourc
 
 void               addressbook_storage_add_source (AddressbookSource *source);
 void               addressbook_storage_remove_source (const char *name);
+const char*        addressbook_storage_auth_type_to_string (AddressbookLDAPAuthType auth_type);
 
 #endif /* __ADDRESSBOOK_STORAGE_H__ */

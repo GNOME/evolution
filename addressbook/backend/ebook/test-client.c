@@ -128,7 +128,7 @@ auth_user_cb (EBook *book, EBookStatus status, gpointer closure)
 static void
 book_open_cb (EBook *book, EBookStatus status, gpointer closure)
 {
-	e_book_authenticate_user (book, "username", "password", auth_user_cb, NULL);
+	e_book_authenticate_user (book, "username", "password", "auth_method", auth_user_cb, NULL);
 }
 
 static guint
@@ -146,7 +146,7 @@ ebook_create (void)
 	}
 	
 
-	if (! e_book_load_uri (book, "file:/tmp/test.db", book_open_cb, NULL)) {
+	if (! e_book_load_default_book (book, book_open_cb, NULL)) {
 		printf ("error calling load_uri!\n");
 	}
 

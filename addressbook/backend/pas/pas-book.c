@@ -129,7 +129,7 @@ pas_book_queue_get_vcard (PASBook *book, const char *id)
 
 static void
 pas_book_queue_authenticate_user (PASBook *book,
-				  const char *user, const char *passwd)
+				  const char *user, const char *passwd, const char *auth_method)
 {
 	PASRequest *req;
 
@@ -137,6 +137,7 @@ pas_book_queue_authenticate_user (PASBook *book,
 	req->op     = AuthenticateUser;
 	req->user   = g_strdup(user);
 	req->passwd = g_strdup(passwd);
+	req->auth_method = g_strdup(auth_method);
 
 	pas_book_queue_request (book, req);
 }
@@ -226,11 +227,12 @@ static void
 impl_GNOME_Evolution_Addressbook_Book_authenticateUser (PortableServer_Servant servant,
 							const char* user,
 							const char* passwd,
+							const char* auth_method,
 							CORBA_Environment *ev)
 {
 	PASBook *book = PAS_BOOK (bonobo_object_from_servant (servant));
 
-	pas_book_queue_authenticate_user (book, user, passwd);
+	pas_book_queue_authenticate_user (book, user, passwd, auth_method);
 }
 
 static void

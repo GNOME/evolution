@@ -887,6 +887,7 @@ void
 e_book_authenticate_user (EBook         *book,
 			  const char    *user,
 			  const char    *passwd,
+			  const char    *auth_method,
 			  EBookCallback cb,
 			  gpointer      closure)
 {
@@ -907,6 +908,7 @@ e_book_authenticate_user (EBook         *book,
 	GNOME_Evolution_Addressbook_Book_authenticateUser (book->priv->corba_book,
 							   user,
 							   passwd,
+							   auth_method,
 							   &ev);
 
 	if (ev._major != CORBA_NO_EXCEPTION) {

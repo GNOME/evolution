@@ -28,14 +28,18 @@ struct _AddressbookSourceDialog {
 
 	GtkWidget *name;
 	GtkWidget *host;
+
+	GtkWidget *auth_checkbutton;
+	GtkWidget *auth_optionmenu;
+	GtkWidget *auth_notebook;
 	GtkWidget *email;
-	GtkWidget *email_label;
+	GtkWidget *binddn;
+	int        auth;
 
 	GtkWidget *port;
 	GtkWidget *rootdn;
 	GtkWidget *scope_optionmenu;
 	AddressbookLDAPScopeType ldap_scope;
-	GtkWidget *auth_checkbutton;
 
 	gint id; /* button we closed the dialog with */
 
@@ -81,20 +85,32 @@ auth_checkbutton_changed (GtkWidget *item, AddressbookSourceDialog *dialog)
 	/* make sure the change is reflected by the state of the dialog's OK button */
 	addressbook_source_edit_changed (item, dialog);
 
-	gtk_widget_set_sensitive (dialog->email_label,
+	gtk_widget_set_sensitive (dialog->auth_optionmenu,
 				  gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON(dialog->auth_checkbutton)));
-	gtk_entry_set_editable (GTK_ENTRY(dialog->email),
-				gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON(dialog->auth_checkbutton)));
+	gtk_widget_set_sensitive (dialog->auth_notebook,
+				  gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON(dialog->auth_checkbutton)));
 }
 
 static void
-option_menuitem_activated (GtkWidget *item, AddressbookSourceDialog *dialog)
+scope_optionmenu_activated (GtkWidget *item, AddressbookSourceDialog *dialog)
 {
 	/* make sure the change is reflected by the state of the dialog's OK button */
 	addressbook_source_edit_changed (item, dialog);
 
 	dialog->ldap_scope = g_list_index (gtk_container_children (GTK_CONTAINER (item->parent)),
 					   item);
+}
+
+static void
+auth_optionmenu_activated (GtkWidget *item, AddressbookSourceDialog *dialog)
+{
+	/* make sure the change is reflected by the state of the dialog's OK button */
+	addressbook_source_edit_changed (item, dialog);
+
+	dialog->auth = g_list_index (gtk_container_children (GTK_CONTAINER (item->parent)),
+				     item) + 1;
+
+	gtk_notebook_set_page (GTK_NOTEBOOK(dialog->auth_notebook), dialog->auth - 1);
 }
 
 typedef struct {
@@ -129,15 +145,23 @@ addressbook_source_dialog_set_source (AddressbookSourceDialog *dialog, Addressbo
 	e_utf8_gtk_entry_set_text (GTK_ENTRY (dialog->name), source ? source->name : "");
 	e_utf8_gtk_entry_set_text (GTK_ENTRY (dialog->host), source ? source->host : "");
 	e_utf8_gtk_entry_set_text (GTK_ENTRY (dialog->email), source ? source->email_addr : "");
+	e_utf8_gtk_entry_set_text (GTK_ENTRY (dialog->binddn), source ? source->binddn : "");
 	e_utf8_gtk_entry_set_text (GTK_ENTRY (dialog->port), source ? source->port : "389");
 	e_utf8_gtk_entry_set_text (GTK_ENTRY (dialog->rootdn), source ? source->rootdn : "");
 
 	gtk_option_menu_set_history (GTK_OPTION_MENU(dialog->scope_optionmenu), source ? source->scope : ADDRESSBOOK_LDAP_SCOPE_ONELEVEL);
-	dialog->ldap_scope = source ? source->scope : ADDRESSBOOK_LDAP_SCOPE_ONELEVEL;
+	dialog->auth = source ? source->auth : ADDRESSBOOK_LDAP_AUTH_NONE;
+	if (dialog->auth != ADDRESSBOOK_LDAP_AUTH_NONE) {
+		gtk_option_menu_set_history (GTK_OPTION_MENU(dialog->auth_optionmenu), dialog->auth - 1);
+        	gtk_notebook_set_page (GTK_NOTEBOOK(dialog->auth_notebook), dialog->auth - 1);
+	}
 
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON(dialog->auth_checkbutton), source && source->auth == ADDRESSBOOK_LDAP_AUTH_SIMPLE);
-	gtk_widget_set_sensitive (dialog->email_label, source && source->auth == ADDRESSBOOK_LDAP_AUTH_SIMPLE);
-	gtk_entry_set_editable (GTK_ENTRY(dialog->email), source && source->auth == ADDRESSBOOK_LDAP_AUTH_SIMPLE);
+	dialog->ldap_scope = source ? source->scope : ADDRESSBOOK_LDAP_SCOPE_ONELEVEL;
+	gtk_option_menu_set_history (GTK_OPTION_MENU(dialog->scope_optionmenu), dialog->ldap_scope);
+
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON(dialog->auth_checkbutton), source && source->auth != ADDRESSBOOK_LDAP_AUTH_NONE);
+	gtk_widget_set_sensitive (dialog->auth_optionmenu, source && source->auth != ADDRESSBOOK_LDAP_AUTH_NONE);
+	gtk_widget_set_sensitive (dialog->auth_notebook, source && source->auth != ADDRESSBOOK_LDAP_AUTH_NONE);
 }
 
 static AddressbookSource *
@@ -148,11 +172,11 @@ addressbook_source_dialog_get_source (AddressbookSourceDialog *dialog)
 	source->name       = e_utf8_gtk_entry_get_text (GTK_ENTRY (dialog->name));
 	source->host       = e_utf8_gtk_entry_get_text (GTK_ENTRY (dialog->host));
 	source->email_addr = e_utf8_gtk_entry_get_text (GTK_ENTRY (dialog->email));
+	source->binddn     = e_utf8_gtk_entry_get_text (GTK_ENTRY (dialog->binddn));
 	source->port       = e_utf8_gtk_entry_get_text (GTK_ENTRY (dialog->port));
 	source->rootdn     = e_utf8_gtk_entry_get_text (GTK_ENTRY (dialog->rootdn));
 	source->scope      = dialog->ldap_scope;
-	source->auth       = (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (dialog->auth_checkbutton))
-			      ? ADDRESSBOOK_LDAP_AUTH_SIMPLE : ADDRESSBOOK_LDAP_AUTH_NONE);
+	source->auth       = dialog->auth;
 
 	addressbook_storage_init_source_uri (source);
 
@@ -166,11 +190,19 @@ addressbook_source_dialog_ok_clicked (GtkWidget *widget, AddressbookSourceDialog
 }
 
 static void
-add_activate_cb (GtkWidget *item, AddressbookSourceDialog *dialog)
+add_scope_activate_cb (GtkWidget *item, AddressbookSourceDialog *dialog)
 {
 	gtk_signal_connect (GTK_OBJECT (item), "activate",
-			    GTK_SIGNAL_FUNC (option_menuitem_activated), dialog);
+			    GTK_SIGNAL_FUNC (scope_optionmenu_activated), dialog);
 }
+
+static void
+add_auth_activate_cb (GtkWidget *item, AddressbookSourceDialog *dialog)
+{
+	gtk_signal_connect (GTK_OBJECT (item), "activate",
+			    GTK_SIGNAL_FUNC (auth_optionmenu_activated), dialog);
+}
+
 
 static AddressbookSourceDialog*
 addressbook_source_dialog (GladeXML *gui, AddressbookSource *source, GtkWidget *parent)
@@ -207,17 +239,28 @@ addressbook_source_dialog (GladeXML *gui, AddressbookSource *source, GtkWidget *
 			    GTK_SIGNAL_FUNC (addressbook_source_edit_changed), dialog);
 	add_focus_handler (dialog->host, dialog->basic_notebook, 1);
 
-	dialog->email = glade_xml_get_widget (gui, "email-address-entry");
-	gtk_signal_connect (GTK_OBJECT (dialog->email), "changed",
-			    GTK_SIGNAL_FUNC (addressbook_source_edit_changed), dialog);
-	add_focus_handler (dialog->email, dialog->basic_notebook, 2);
-
-	dialog->email_label = glade_xml_get_widget (gui, "email-address-label");
+	/* BASIC -> AUTH STUFF */
+	dialog->auth_notebook = glade_xml_get_widget (gui, "auth-notebook");
 
 	dialog->auth_checkbutton = glade_xml_get_widget (gui, "auth-checkbutton");
 	add_focus_handler (dialog->auth_checkbutton, dialog->basic_notebook, 2);
 	gtk_signal_connect (GTK_OBJECT (dialog->auth_checkbutton), "toggled",
 			    GTK_SIGNAL_FUNC (auth_checkbutton_changed), dialog);
+
+	dialog->auth_optionmenu = glade_xml_get_widget (gui, "auth-optionmenu");
+	menu = gtk_option_menu_get_menu (GTK_OPTION_MENU(dialog->auth_optionmenu));
+	gtk_container_foreach (GTK_CONTAINER (menu), (GtkCallback)add_auth_activate_cb, dialog);
+	add_focus_handler (dialog->auth_optionmenu, dialog->basic_notebook, 3);
+
+	dialog->email = glade_xml_get_widget (gui, "email-entry");
+	gtk_signal_connect (GTK_OBJECT (dialog->email), "changed",
+			    GTK_SIGNAL_FUNC (addressbook_source_edit_changed), dialog);
+	add_focus_handler (dialog->email, dialog->basic_notebook, 4);
+
+	dialog->binddn = glade_xml_get_widget (gui, "dn-entry");
+	gtk_signal_connect (GTK_OBJECT (dialog->binddn), "changed",
+			    GTK_SIGNAL_FUNC (addressbook_source_edit_changed), dialog);
+	add_focus_handler (dialog->binddn, dialog->basic_notebook, 5);
 
 	/* ADVANCED STUFF */
 	dialog->port = glade_xml_get_widget (gui, "port-entry");
@@ -233,7 +276,7 @@ addressbook_source_dialog (GladeXML *gui, AddressbookSource *source, GtkWidget *
 	dialog->scope_optionmenu = glade_xml_get_widget (gui, "scope-optionmenu");
 	add_focus_handler (dialog->scope_optionmenu, dialog->advanced_notebook, 2);
 	menu = gtk_option_menu_get_menu (GTK_OPTION_MENU(dialog->scope_optionmenu));
-	gtk_container_foreach (GTK_CONTAINER (menu), (GtkCallback)add_activate_cb, dialog);
+	gtk_container_foreach (GTK_CONTAINER (menu), (GtkCallback)add_scope_activate_cb, dialog);
 
 	/* fill in source info if there is some */
 	addressbook_source_dialog_set_source (dialog, source);

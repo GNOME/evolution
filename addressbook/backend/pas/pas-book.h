@@ -45,6 +45,7 @@ typedef struct {
 	char                      *change_id;
 	char                      *user;
         char                      *passwd;
+	char                      *auth_method;
 	GNOME_Evolution_Addressbook_BookViewListener listener;
 	GNOME_Evolution_Addressbook_stringlist fields;
 } PASRequest;

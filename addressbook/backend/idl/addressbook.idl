@@ -47,7 +47,8 @@ module Addressbook {
 		 */
 		void getVCard (in CardId id);
 
-		void authenticateUser (in string user, in string passwd);
+		void authenticateUser (in string user, in string passwd,
+				       in string authMethod);
 
 		/*
 		 * Adding and deleting cards in the book.

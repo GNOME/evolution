@@ -239,8 +239,10 @@ ldap_unparse_auth (AddressbookLDAPAuthType auth_type)
 	switch (auth_type) {
 	case ADDRESSBOOK_LDAP_AUTH_NONE:
 		return "none";
-	case ADDRESSBOOK_LDAP_AUTH_SIMPLE:
-		return "simple";
+	case ADDRESSBOOK_LDAP_AUTH_SIMPLE_EMAIL:
+		return "ldap/simple-email";
+	case ADDRESSBOOK_LDAP_AUTH_SIMPLE_BINDDN:
+		return "ldap/simple-binddn";
 	default:
 		g_assert(0);
 		return "none";
@@ -254,8 +256,10 @@ ldap_parse_auth (const char *auth)
 	if (!auth)
 		return ADDRESSBOOK_LDAP_AUTH_NONE;
 
-	if (!strcmp (auth, "simple"))
-		return ADDRESSBOOK_LDAP_AUTH_SIMPLE;
+	if (!strcmp (auth, "ldap/simple-email") || !strcmp (auth, "simple"))
+		return ADDRESSBOOK_LDAP_AUTH_SIMPLE_EMAIL;
+	else if (!strcmp (auth, "ldap/simple-binddn"))
+		return ADDRESSBOOK_LDAP_AUTH_SIMPLE_BINDDN;
 	else
 		return ADDRESSBOOK_LDAP_AUTH_NONE;
 }
@@ -292,6 +296,12 @@ ldap_parse_scope (const char *scope)
 		return ADDRESSBOOK_LDAP_SCOPE_SUBTREE;
 }
 #endif
+
+const char*
+addressbook_storage_auth_type_to_string (AddressbookLDAPAuthType auth_type)
+{
+	return ldap_unparse_auth (auth_type);
+}
 
 void
 addressbook_storage_init_source_uri (AddressbookSource *source)
@@ -361,6 +371,7 @@ load_source_data (const char *file_path)
 			source->scope  = ldap_parse_scope (get_string_value (child, "scope"));
 			source->auth   = ldap_parse_auth (get_string_value (child, "authmethod"));
 			source->email_addr = get_string_value (child, "emailaddr");
+			source->binddn = get_string_value (child, "binddn");
 		}
 		else {
 			g_warning ("unknown node '%s' in %s", child->name, file_path);
@@ -414,9 +425,15 @@ ldap_source_foreach(AddressbookSource *source, xmlNode *root)
 		     (xmlChar *) ldap_unparse_scope(source->scope));
 	xmlNewChild (source_root, NULL, (xmlChar *) "authmethod",
 		     (xmlChar *) ldap_unparse_auth(source->auth));
-	if (source->auth == ADDRESSBOOK_LDAP_AUTH_SIMPLE) {
-		xmlNewChild (source_root, NULL, (xmlChar *) "emailaddr",
-			     (xmlChar *) source->email_addr);
+
+	if (source->auth != ADDRESSBOOK_LDAP_AUTH_NONE) {
+		if (source->auth == ADDRESSBOOK_LDAP_AUTH_SIMPLE_BINDDN)
+			xmlNewChild (source_root, NULL, (xmlChar *) "binddn",
+				     (xmlChar *) source->binddn);
+		else
+			xmlNewChild (source_root, NULL, (xmlChar *) "emailaddr",
+				     (xmlChar *) source->email_addr);
+
 		if (source->remember_passwd)
 			xmlNewChild (source_root, NULL, (xmlChar *) "rememberpass",
 				     NULL);
@@ -548,6 +565,7 @@ addressbook_source_free (AddressbookSource *source)
 	g_free (source->port);
 	g_free (source->rootdn);
 	g_free (source->email_addr);
+	g_free (source->binddn);
 
 	g_free (source);
 }
@@ -596,6 +614,7 @@ addressbook_source_copy (const AddressbookSource *source)
 	copy->scope = source->scope;
 	copy->auth = source->auth;
 	copy->email_addr = g_strdup (source->email_addr);
+	copy->binddn = g_strdup (source->binddn);
 	copy->remember_passwd = source->remember_passwd;
 
 	return copy;
