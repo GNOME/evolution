@@ -362,14 +362,14 @@ dnl ********
 AC_ARG_WITH(krb5, [  --with-krb5=PREFIX      Location of Kerberos 5 libs/includes])
 AC_ARG_WITH(krb4, [  --with-krb4=PREFIX      Location of Kerberos 4 libs/includes])
 AC_MSG_CHECKING(for Kerberos 5)
-AC_MSG_RESULT($with_krb5)
+AC_MSG_RESULT(${with_krb5:=no})
 if test x$with_krb5 != xno; then
 	KRB5_CFLAGS="-I$with_krb5/include/krb5"
 	KRB5_LDFLAGS="-L$with_krb5/lib -lkrb5 -lk5crypto -lcom_err"
 	AC_DEFINE(HAVE_KRB5)
 fi
 AC_MSG_CHECKING(for Kerberos 4)
-AC_MSG_RESULT($with_krb4)
+AC_MSG_RESULT(${with_krb4:=no})
 if test x$with_krb4 != xno; then
 	KRB4_CFLAGS="-I$with_krb4/include -I$with_krb4/include/kerberosIV $KRB5_CFLAGS"
 	save_LDFLAGS="$LDFLAGS"

@@ -1,3 +1,9 @@
+2000-05-04  Dan Winship  <danw@helixcode.com>
+
+	* configure.in: Oops. The Kerberos check was succeeding when it
+	shouldn't have (and thus breaking the pop3 build for "normal"
+	people). Fix.
+
 2000-05-03  Michael Meeks  <michael@helixcode.com>
 
 	* configure.in (xmlversion): Fix to remove older 'libxml' prefix.
