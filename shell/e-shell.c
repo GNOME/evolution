@@ -1106,15 +1106,6 @@ e_shell_construct (EShell *shell,
 	
 	CORBA_exception_free (&ev);
 
-	if (! show_splash) {
-		splash = NULL;
-	} else {
-		splash = e_splash_new ();
-		gtk_signal_connect (GTK_OBJECT (splash), "delete_event",
-				    GTK_SIGNAL_FUNC (gtk_widget_hide_on_delete), NULL);
-		gtk_widget_show (splash);
-	}
-	
 	/* Now we can register into OAF.  Notice that we shouldn't be
 	   registering into OAF until we are sure we can complete.  */
 	
@@ -1125,6 +1116,15 @@ e_shell_construct (EShell *shell,
 		return E_SHELL_CONSTRUCT_RESULT_CANNOTREGISTER;
 	}
 
+	if (! show_splash) {
+		splash = NULL;
+	} else {
+		splash = e_splash_new ();
+		gtk_signal_connect (GTK_OBJECT (splash), "delete_event",
+				    GTK_SIGNAL_FUNC (gtk_widget_hide_on_delete), NULL);
+		gtk_widget_show (splash);
+	}
+	
 	while (gtk_events_pending ())
 		gtk_main_iteration ();
 	
