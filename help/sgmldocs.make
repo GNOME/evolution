@@ -49,7 +49,7 @@ all: index.html omf
 omf: omf_timestamp
 
 omf_timestamp: $(omffile)
-	-for file in $(omffile); do \
+	-for file in $(srcdir)/$(omffile); do \
 	  scrollkeeper-preinstall $(docdir)/$(docname).sgml $$file $(omf_dir)/$$file; \
 	done
 	touch omf_timestamp
