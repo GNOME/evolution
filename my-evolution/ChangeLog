@@ -1,3 +1,8 @@
+2003-01-20  Ettore Perazzoli  <ettore@ximian.com>
+
+	* Locations: Update locations for EU_FI, contributed by Pekka
+	Pietikainen <Pekka.Pietikainen@nixu.com>.
+
 2002-10-25  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-cell-tri.c (set_value): Removed debugging message.
