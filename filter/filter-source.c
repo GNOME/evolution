@@ -39,14 +39,15 @@
 
 typedef struct _SourceInfo SourceInfo;
 struct _SourceInfo {
-	gchar *name;
-	gchar *address;
-	gchar *url;
+	char *account_name;
+	char *name;
+	char *address;
+	char *url;
 };
 
 struct _FilterSourcePrivate {
 	GList *sources;
-	gchar *current_url;
+	char *current_url;
 };
 
 static FilterElementClass *parent_class = NULL;
@@ -68,7 +69,8 @@ static GtkWidget *get_widget(FilterElement *fe);
 static void build_code(FilterElement *fe, GString *out, struct _FilterPart *ff);
 static void format_sexp(FilterElement *, GString *);
 
-static void filter_source_add_source  (FilterSource *fs, const gchar *name, const gchar *addr, const gchar *url);
+static void filter_source_add_source  (FilterSource *fs, const char *account_name, const char *name,
+				       const char *addr, const char *url);
 static void filter_source_get_sources (FilterSource *fs);
 
 
@@ -133,6 +135,7 @@ filter_source_finalize (GtkObject *obj)
 
 	while (i) {
 		SourceInfo *info = i->data;
+		g_free (info->account_name);
 		g_free (info->name);
 		g_free (info->address);
 		g_free (info->url);
@@ -183,7 +186,6 @@ static gint
 xml_decode (FilterElement *fe, xmlNodePtr node)
 {
 	FilterSource *fs = (FilterSource *) fe;
-	gchar *value;
 
 	node = node->childs;
 	if (node && node->name && !strcmp (node->name, "uri")) {
@@ -207,7 +209,7 @@ clone (FilterElement *fe)
 
 	for (i = fs->priv->sources; i != NULL; i = g_list_next (i)) {
 		SourceInfo *info = (SourceInfo *) i->data;
-		filter_source_add_source (cpy, info->name, info->address, info->url);
+		filter_source_add_source (cpy, info->account_name, info->name, info->address, info->url);
 	}
 
 	return (FilterElement *) cpy;
@@ -231,7 +233,7 @@ get_widget (FilterElement *fe)
 	GtkWidget *item;
 	GList *i;
 	SourceInfo *first = NULL;
-	gint index, current_index;
+	int index, current_index;
 
 	if (fs->priv->sources == NULL)
 		filter_source_get_sources (fs);
@@ -243,14 +245,18 @@ get_widget (FilterElement *fe)
 
 	for (i = fs->priv->sources; i != NULL; i = g_list_next (i)) {
 		SourceInfo *info = (SourceInfo *) i->data;
-		gchar *label, *native_label;
+		char *label, *native_label;
 
 		if (info->url != NULL) {
-			
 			if (first == NULL)
 				first = info;
 			
-			label = g_strdup_printf ("%s <%s>", info->name, info->address);
+			if (info->account_name && strcmp (info->account_name, info->address))
+				label = g_strdup_printf ("%s <%s> (%s)", info->name,
+							 info->address, info->account_name);
+			else
+				label = g_strdup_printf ("%s <%s>", info->name, info->address);
+			
 			native_label = e_utf8_to_gtk_string (GTK_WIDGET (menu), label);
 			item = gtk_menu_item_new_with_label (native_label);
 			g_free (label);
@@ -303,12 +309,15 @@ format_sexp (FilterElement *fe, GString *out)
 
 
 static void
-filter_source_add_source (FilterSource *fs, const gchar *name, const gchar *addr, const gchar *url)
+filter_source_add_source (FilterSource *fs, const char *account_name, const char *name,
+			  const char *addr, const char *url)
 {
 	SourceInfo *info;
+	
 	g_return_if_fail (fs && IS_FILTER_SOURCE (fs));
-
+	
 	info = g_new0 (SourceInfo, 1);
+	info->account_name = g_strdup (account_name);
 	info->name = g_strdup (name);
 	info->address = g_strdup (addr);
 	info->url = g_strdup (url);
@@ -321,7 +330,7 @@ filter_source_get_sources (FilterSource *fs)
 {
 	Bonobo_ConfigDatabase db;
 	CORBA_Environment ev;
-	gint i, len;
+	int i, len;
 
 	CORBA_exception_init (&ev);
 	db = bonobo_get_object ("wombat:", "Bonobo/ConfigDatabase", &ev);
@@ -336,11 +345,12 @@ filter_source_get_sources (FilterSource *fs)
 	len = bonobo_config_get_long_with_default (db, "/Mail/Accounts/num", 0, NULL);
 	
 	for (i = 0; i < len; ++i) {
-		gchar *path;
-		gchar *name;
-		gchar *addr;
-		gchar *url;
+		char *path, *account_name, *name, *addr, *url;
 
+		path = g_strdup_printf ("/Mail/Accounts/account_name_%d", i);
+		account_name = bonobo_config_get_string (db, path, NULL);
+		g_free (path);
+		
 		path = g_strdup_printf ("/Mail/Accounts/identity_name_%d", i);
 		name = bonobo_config_get_string (db, path, NULL);
 		g_free (path);
@@ -353,7 +363,7 @@ filter_source_get_sources (FilterSource *fs)
 		url = bonobo_config_get_string (db, path, NULL);
 		g_free (path);
 
-		filter_source_add_source (fs, name, addr, url);
+		filter_source_add_source (fs, account_name, name, addr, url);
 		
 		g_free (name);
 		g_free (addr);

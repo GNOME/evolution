@@ -1,3 +1,12 @@
+2002-01-03  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* filter-source.c (filter_source_get_sources): Get the account
+	name because that is the string we'd like to use for display.
+	(get_widget): Generate the account label the same as we do for the
+	composer's From optionmenu.
+	(filter_source_finalize): Free the account_name.
+	(clone): Pass along the account_name member to filter_add_source
+
 2002-01-02  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* vfoldertypes.xml: Make the date comparisons read the same as the
