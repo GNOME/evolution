@@ -44,7 +44,6 @@ static void vee_init (CamelFolder *folder, CamelStore *parent_store,
 
 static void vee_open (CamelFolder *folder, CamelFolderOpenMode mode, CamelException *ex);
 static void vee_close (CamelFolder *folder, gboolean expunge, CamelException *ex);
-static gboolean vee_exists (CamelFolder *folder, CamelException *ex);
 
 static GPtrArray *vee_get_uids  (CamelFolder *folder, CamelException *ex);
 GPtrArray *vee_get_summary (CamelFolder *folder, CamelException *ex);
@@ -109,7 +108,6 @@ camel_vee_folder_class_init (CamelVeeFolderClass *klass)
 	folder_class->init = vee_init;
 	folder_class->open = vee_open;
 	folder_class->close = vee_close;
-	folder_class->exists = vee_exists;
 
 	folder_class->get_uids = vee_get_uids;
 	folder_class->get_summary = vee_get_summary;
@@ -265,12 +263,6 @@ static void vee_close (CamelFolder *folder, gboolean expunge, CamelException *ex
 	camel_vee_folder_parent->close (folder, expunge, ex);
 
 	/* FIXME: close vfolder? */
-}
-
-/* vfolders always exist? */
-static gboolean vee_exists (CamelFolder *folder, CamelException *ex)
-{
-	return TRUE;
 }
 
 static void vee_append_message (CamelFolder *folder, CamelMimeMessage *message, CamelException *ex)

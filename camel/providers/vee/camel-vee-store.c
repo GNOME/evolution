@@ -22,7 +22,7 @@
 #include "camel-vee-store.h"
 #include "camel-vee-folder.h"
 
-static CamelFolder *vee_get_folder (CamelStore *store, const char *folder_name, CamelException *ex);
+static CamelFolder *vee_get_folder (CamelStore *store, const char *folder_name, gboolean create, CamelException *ex);
 static char *vee_get_folder_name (CamelStore *store, const char *folder_name, CamelException *ex);
 
 struct _CamelVeeStorePrivate {
@@ -111,7 +111,7 @@ camel_vee_store_new (void)
 }
 
 static CamelFolder *
-vee_get_folder (CamelStore *store, const char *folder_name, CamelException *ex)
+vee_get_folder (CamelStore *store, const char *folder_name, gboolean create, CamelException *ex)
 {
 	CamelFolder *folder;
 
@@ -126,7 +126,6 @@ vee_get_folder (CamelStore *store, const char *folder_name, CamelException *ex)
 static char *
 vee_get_folder_name (CamelStore *store, const char *folder_name, CamelException *ex)
 {
-#warning "What purpose does this function serve?"
 	return g_strdup(folder_name);
 }
 

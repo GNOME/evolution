@@ -24,6 +24,11 @@
 
 #include <config.h>
 
+#include <sys/stat.h>
+#include <errno.h>
+#include <string.h>
+#include <unistd.h>
+
 #include "camel-mbox-store.h"
 #include "camel-mbox-folder.h"
 #include "camel-exception.h"
@@ -35,7 +40,9 @@
 #define CMBOXF_CLASS(so) CAMEL_MBOX_FOLDER_CLASS (GTK_OBJECT(so)->klass)
 
 static CamelFolder *get_folder (CamelStore *store, const char *folder_name,
-				CamelException *ex);
+				gboolean create, CamelException *ex);
+static void delete_folder (CamelStore *store, const char *folder_name,
+			   CamelException *ex);
 static char *get_folder_name (CamelStore *store, const char *folder_name,
 			      CamelException *ex);
 
@@ -46,6 +53,7 @@ camel_mbox_store_class_init (CamelMboxStoreClass *camel_mbox_store_class)
 	
 	/* virtual method overload */
 	camel_store_class->get_folder = get_folder;
+	camel_store_class->delete_folder = delete_folder;
 	camel_store_class->get_folder_name = get_folder_name;
 }
 
@@ -101,29 +109,127 @@ camel_mbox_store_get_toplevel_dir (CamelMboxStore *store)
 }
 
 
-
 static CamelFolder *
-get_folder (CamelStore *store, const char *folder_name, CamelException *ex)
+get_folder (CamelStore *store, const char *folder_name, gboolean create,
+	    CamelException *ex)
 {
-	CamelMboxFolder *new_mbox_folder;
 	CamelFolder *new_folder;
+	char *name;
+	struct stat st;
 
-	new_mbox_folder =  gtk_type_new (CAMEL_MBOX_FOLDER_TYPE);
-	new_folder = CAMEL_FOLDER (new_mbox_folder);
+	name = g_strdup_printf ("%s%s", CAMEL_SERVICE (store)->url->path,
+				folder_name);
+
+	if (stat (name, &st) == -1) {
+		int fd;
+
+		if (errno != ENOENT) {
+			camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
+					      "Could not open folder `%s':"
+					      "\n%s", folder_name,
+					      g_strerror (errno));
+			g_free (name);
+			return NULL;
+		}
+		if (!create) {
+			camel_exception_setv (ex, CAMEL_EXCEPTION_STORE_NO_FOLDER,
+					      "Folder `%s' does not exist.",
+					      folder_name);
+			g_free (name);
+			return NULL;
+		}
+
+		fd = open (name, O_WRONLY | O_CREAT | O_APPEND,
+			   S_IRUSR | S_IWUSR);
+		g_free (name);
+		if (fd == -1) {
+			camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
+					      "Could not create folder `%s':"
+					      "\n%s", folder_name,
+					      g_strerror (errno));
+			return NULL;
+		}
+		close (fd);
+	} else if (!S_ISREG (st.st_mode)) {
+		camel_exception_setv (ex, CAMEL_EXCEPTION_STORE_NO_FOLDER,
+				      "`%s' is not a regular file.",
+				      name);
+		g_free (name);
+		return NULL;
+	}
+
+	new_folder =  gtk_type_new (CAMEL_MBOX_FOLDER_TYPE);
 	
-	/* XXX We shouldn't be passing NULL here, but it's equivalent to
-	 * what was there before, and there's no
-	 * CamelMboxFolder::get_subfolder yet anyway...
-	 */
 	CF_CLASS (new_folder)->init (new_folder, store, NULL,
 				     folder_name, '/', ex);
 	
 	return new_folder;
 }
 
+static void
+delete_folder (CamelStore *store, const char *folder_name, CamelException *ex)
+{
+	char *name, *name2;
+	struct stat st;
+	int status;
+
+	name = g_strdup_printf ("%s%s", CAMEL_SERVICE (store)->url->path,
+				folder_name);
+	if (stat (name, &st) == -1) {
+		if (errno == ENOENT)
+			return;
+
+		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
+				      "Could not delete folder `%s':\n%s",
+				      folder_name, g_strerror (errno));
+		g_free (name);
+		return;
+	}
+	if (!S_ISREG (st.st_mode)) {
+		camel_exception_setv (ex, CAMEL_EXCEPTION_STORE_NO_FOLDER,
+				      "`%s' is not a regular file.", name);
+		g_free (name);
+		return;
+	}
+	if (st.st_size != 0) {
+		camel_exception_setv (ex, CAMEL_EXCEPTION_FOLDER_NON_EMPTY,
+				      "Folder `%s' is not empty. Not deleted.",
+				      folder_name);
+		g_free (name);
+		return;
+	}
+
+	/* Delete index and summary first, then the main file. */
+	name2 = g_strdup_printf ("%s.ibex", name);
+	status = unlink (name2);
+	g_free (name2);
+	if (status == 0 || errno == ENOENT) {
+		name2 = g_strdup_printf ("%s-ev-summary", name);
+		status = unlink (name2);
+		g_free (name2);
+	}
+	if (status == 0 || errno == ENOENT)
+		status = unlink (name);
+	g_free (name);
+
+	if (status == -1 && errno != ENOENT) {
+		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
+				      "Could not delete folder `%s':\n%s",
+				      folder_name, g_strerror (errno));
+	}
+}
+
 static char *
 get_folder_name (CamelStore *store, const char *folder_name,
 		 CamelException *ex)
 {
-	return g_strdup (folder_name);
+	/* For now, we don't allow hieararchy. FIXME. */
+	if (strchr (folder_name + 1, '/')) {
+		camel_exception_set (ex, CAMEL_EXCEPTION_STORE_NO_FOLDER,
+				     "Mbox folders may not be nested.");
+		return NULL;
+	}
+
+	return *folder_name == '/' ? g_strdup (folder_name) :
+		g_strdup_printf ("/%s", folder_name);
 }

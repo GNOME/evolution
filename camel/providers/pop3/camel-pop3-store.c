@@ -64,7 +64,7 @@ static GList *query_auth_types (CamelService *service, CamelException *ex);
 static void free_auth_types (CamelService *service, GList *authtypes);
 
 static CamelFolder *get_folder (CamelStore *store, const char *folder_name, 
-				CamelException *ex);
+				gboolean create, CamelException *ex);
 static char *get_folder_name (CamelStore *store, const char *folder_name, 
 			      CamelException *ex);
 static char *get_root_folder_name (CamelStore *store, CamelException *ex);
@@ -101,7 +101,6 @@ static void
 camel_pop3_store_init (gpointer object, gpointer klass)
 {
 	CamelService *service = CAMEL_SERVICE (object);
-	CamelStore *store = CAMEL_STORE (object);
 
 	service->url_flags = ( CAMEL_SERVICE_URL_NEED_USER |
 			       CAMEL_SERVICE_URL_NEED_HOST );
@@ -486,7 +485,8 @@ pop3_disconnect (CamelService *service, CamelException *ex)
 }
 
 static CamelFolder *
-get_folder (CamelStore *store, const char *folder_name, CamelException *ex)
+get_folder (CamelStore *store, const char *folder_name,
+	    gboolean create, CamelException *ex)
 {
 	return camel_pop3_folder_new (store, ex);
 }

@@ -1,3 +1,29 @@
+2000-06-06  Dan Winship  <danw@helixcode.com>
+
+	* camel-folder.c: Remove exists, create, delete. A CamelFolder
+	now always references an existing folder. Remove delete_messages
+	too since it wasn't being used. Add a "create" flag to
+	get_subfolder saying whether or not to create the subfolder if it
+	doesn't yet exist.
+
+	* camel-store.c (camel_store_get_folder): Add a "create" flag to
+	say whether or not to create the folder if it doesn't yet exist.
+	(camel_store_delete_folder): New method, moved from CamelFolder.
+	(cache_folder, uncache_folder): Fix up a bit.
+	(get_folder_name): Explain what this is for.
+
+	* providers/mbox/camel-mbox-folder.c: 
+	* providers/mbox/camel-mbox-store.c: Update. Remove support for
+	hierarchical folders to simplify this for now, since we're not
+	using it, and it's not completely clear how they should work in an
+	ELocalStorage world. Needs to be revisited.
+
+	* providers/pop3/camel-pop3-folder.c (delete_messages): Remove.
+	* providers/pop3/camel-pop3-store.c (get_folder): Update.
+
+	* providers/vee/camel-vee-folder.c (exists): Remove.
+	* providers/vee/camel-vee-store.c (vee_get_folder): Update.
+
 2000-06-06  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* providers/imap/camel-imap-*.[c,h]: Started on getting 
@@ -94,7 +120,6 @@
 	* camel-data-wrapper.c (finalize): unref the stream, if it exists.
 
 2000-06-01  Not Zed  <NotZed@HelixCode.com>
->>>>>>> 1.212
 
 	* camel-mime-part.c (construct_from_parser): For a message part,
 	set the default content-type to message/rfc822.  Maybe needs to be

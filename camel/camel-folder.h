@@ -99,24 +99,12 @@ typedef struct {
 
 	gboolean   (*can_hold_messages)  (CamelFolder *folder);
 
-	gboolean   (*exists)  (CamelFolder *folder, 
-			       CamelException *ex);
-
 	gboolean   (*is_open) (CamelFolder *folder);
 
 	CamelFolder *  (*get_subfolder)  (CamelFolder *folder, 
 					  const gchar *folder_name, 
+					  gboolean create,
 					  CamelException *ex);
-
-	gboolean   (*create)  (CamelFolder *folder,
-			       CamelException *ex);
-
-	gboolean   (*delete)  (CamelFolder *folder, 
-			       gboolean recurse, 
-			       CamelException *ex);
-	
-	gboolean   (*delete_messages) (CamelFolder *folder, 
-				       CamelException *ex);
 
 	CamelFolder *  (*get_parent_folder)   (CamelFolder *folder, 
 					       CamelException *ex);
@@ -186,6 +174,7 @@ GtkType camel_folder_get_type (void);
 
 CamelFolder *      camel_folder_get_subfolder          (CamelFolder *folder, 
 							const gchar *folder_name, 
+							gboolean create,
 							CamelException *ex);
 
 void               camel_folder_open                   (CamelFolder *folder, 
@@ -197,8 +186,6 @@ void               camel_folder_close                  (CamelFolder *folder,
 							gboolean expunge, 
 							CamelException *ex);
 
-gboolean           camel_folder_create                 (CamelFolder *folder, 
-							CamelException *ex);
 CamelFolder *      camel_folder_get_parent_folder      (CamelFolder *folder, 
 							CamelException *ex);
 CamelStore *       camel_folder_get_parent_store       (CamelFolder *folder, 
@@ -208,11 +195,6 @@ GList *            camel_folder_list_subfolders        (CamelFolder *folder,
 
 
 /* delete operations */
-gboolean           camel_folder_delete                 (CamelFolder *folder, 
-							gboolean recurse, 
-							CamelException *ex);
-gboolean           camel_folder_delete_messages        (CamelFolder *folder, 
-							CamelException *ex);
 void		   camel_folder_expunge                (CamelFolder *folder, 
 							CamelException *ex);
 
@@ -223,8 +205,6 @@ const gchar *      camel_folder_get_full_name          (CamelFolder *folder);
 
 
 /* various properties accessors */
-gboolean           camel_folder_exists                 (CamelFolder *folder, 
-							CamelException *ex);
 guint32		   camel_folder_get_permanent_flags    (CamelFolder *folder,
 							CamelException *ex);
 

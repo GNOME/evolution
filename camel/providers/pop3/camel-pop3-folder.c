@@ -39,7 +39,6 @@ static void pop3_open (CamelFolder *folder, CamelFolderOpenMode mode,
 		       CamelException *ex);
 static void pop3_close (CamelFolder *folder, gboolean expunge,
 			CamelException *ex);
-static gboolean delete_messages (CamelFolder *folder, CamelException *ex);
 
 static gint get_message_count (CamelFolder *folder, CamelException *ex);
 static GPtrArray *get_uids (CamelFolder *folder, CamelException *ex);
@@ -61,7 +60,6 @@ camel_pop3_folder_class_init (CamelPop3FolderClass *camel_pop3_folder_class)
 	/* virtual method overload */
 	camel_folder_class->open = pop3_open;
 	camel_folder_class->close = pop3_close;
-	camel_folder_class->delete_messages = delete_messages;
 
 	camel_folder_class->get_message_count = get_message_count;
 	camel_folder_class->get_uids = get_uids;
@@ -138,32 +136,6 @@ pop3_close (CamelFolder *folder, gboolean expunge, CamelException *ex)
 		parent_class->close (folder, expunge, ex);
 }
 				
-static gboolean
-delete_messages (CamelFolder *folder, CamelException *ex)
-{
-	int msgs;
-	gboolean status;
-
-	msgs = get_message_count (folder, ex);
-	if (camel_exception_get_id (ex) != CAMEL_EXCEPTION_NONE)
-		return FALSE;
-
-	status = TRUE;
-	for (; msgs > 0; msgs--) {
-		status = status &&
-			(camel_pop3_command (CAMEL_POP3_STORE (folder->parent_store),
-					     NULL, "DELE %d", msgs) ==
-			 CAMEL_POP3_OK);
-	}
-
-	if (!status) {
-		camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
-				      "Unable to delete all messages.");
-	}
-
-	return status;
-}
-
 
 static CamelMimeMessage *
 get_message_by_uid (CamelFolder *folder, const char *uid, CamelException *ex)

@@ -62,21 +62,16 @@ static const gchar *get_full_name (CamelFolder *folder);
 
 static gboolean can_hold_folders (CamelFolder *folder);
 static gboolean can_hold_messages (CamelFolder *folder);
-static gboolean exists (CamelFolder *folder, CamelException *ex);
 static gboolean is_open (CamelFolder *folder);
 static guint32 get_permanent_flags (CamelFolder *folder, CamelException *ex);
 static CamelFolderOpenMode get_mode (CamelFolder *folder, CamelException *ex);
-
-
-static gboolean create (CamelFolder *folder, CamelException *ex);
-static gboolean delete (CamelFolder *folder, gboolean recurse,
-			CamelException *ex);
 
 
 static GPtrArray *get_subfolder_names (CamelFolder *folder,
 				       CamelException *ex);
 static CamelFolder *get_subfolder     (CamelFolder *folder,
 				       const gchar *folder_name,
+				       gboolean create,
 				       CamelException *ex);
 static CamelFolder *get_parent_folder (CamelFolder *folder,
 				       CamelException *ex);
@@ -87,8 +82,6 @@ static CamelStore *get_parent_store   (CamelFolder *folder,
 static gint get_message_count (CamelFolder *folder, CamelException *ex);
 
 
-static gboolean delete_messages (CamelFolder *folder,
-				 CamelException *ex);
 static void expunge             (CamelFolder *folder,
 				 CamelException *ex);
 
@@ -137,12 +130,8 @@ camel_folder_class_init (CamelFolderClass *camel_folder_class)
 	camel_folder_class->get_full_name = get_full_name;
 	camel_folder_class->can_hold_folders = can_hold_folders;
 	camel_folder_class->can_hold_messages = can_hold_messages;
-	camel_folder_class->exists = exists;
 	camel_folder_class->is_open = is_open;
 	camel_folder_class->get_subfolder = get_subfolder;
-	camel_folder_class->create = create;
-	camel_folder_class->delete = delete;
-	camel_folder_class->delete_messages = delete_messages;
 	camel_folder_class->get_parent_folder = get_parent_folder;
 	camel_folder_class->get_parent_store = get_parent_store;
 	camel_folder_class->get_mode = get_mode;
@@ -402,32 +391,6 @@ can_hold_messages (CamelFolder *folder)
 
 
 static gboolean
-exists (CamelFolder *folder, CamelException *ex)
-{
-	return FALSE;
-}
-
-/**
- * camel_folder_exists:
- * @folder: folder object
- * @ex: a CamelException
- *
- * Test if a folder exists in a store. A CamelFolder can be created
- * without physically existing in a store. In that case, use
- * CamelFolder::create to create it.
- *
- * Return value: whether or not the folder exists
- **/
-gboolean
-camel_folder_exists (CamelFolder *folder, CamelException *ex)
-{
-	g_return_val_if_fail (CAMEL_IS_FOLDER (folder), FALSE);
-
-	return CF_CLASS (folder)->exists (folder, ex);
-}
-
-
-static gboolean
 is_open (CamelFolder *folder)
 {
 	return folder->open_state == FOLDER_OPEN;
@@ -453,7 +416,7 @@ camel_folder_is_open (CamelFolder *folder)
 
 static CamelFolder *
 get_subfolder (CamelFolder *folder, const gchar *folder_name,
-	       CamelException *ex)
+	       gboolean create, CamelException *ex)
 {
 	CamelFolder *new_folder;
 	gchar *full_name;
@@ -466,7 +429,7 @@ get_subfolder (CamelFolder *folder, const gchar *folder_name,
 	full_name = g_strdup_printf ("%s%c%s", current_folder_full_name,
 				     folder->separator, folder_name);
 	new_folder = camel_store_get_folder (folder->parent_store,
-					     full_name, ex);
+					     full_name, create, ex);
 	g_free (full_name);
 
 	return new_folder;
@@ -476,6 +439,7 @@ get_subfolder (CamelFolder *folder, const gchar *folder_name,
  * camel_folder_get_subfolder:
  * @folder: a folder
  * @folder_name: subfolder path
+ * @create: whether or not to create the folder if it doesn't exist
  * @ex: a CamelException
  *
  * This method returns a folder object. This folder is a subfolder of
@@ -487,196 +451,14 @@ get_subfolder (CamelFolder *folder, const gchar *folder_name,
  **/
 CamelFolder *
 camel_folder_get_subfolder (CamelFolder *folder, const gchar *folder_name,
-			    CamelException *ex)
+			    gboolean create, CamelException *ex)
 {
 	g_return_val_if_fail (CAMEL_IS_FOLDER (folder), NULL);
 	g_return_val_if_fail (camel_folder_is_open (folder), NULL);
 	g_return_val_if_fail (folder_name != NULL, NULL);
 
-	return CF_CLASS (folder)->get_subfolder (folder, folder_name, ex);
-}
-
-
-/**
- * create: creates a folder on its store
- * @folder: a CamelFolder object.
- *
- * this routine handles the recursion mechanism.
- * Children classes have to implement the actual
- * creation mechanism. They must call this method
- * before physically creating the folder in order
- * to be sure the parent folder exists.
- * Calling this routine on an existing folder is
- * not an error, and returns %TRUE.
- *
- * Return value: %TRUE if the folder exists, %FALSE otherwise
- **/
-static gboolean
-create (CamelFolder *folder, CamelException *ex)
-{
-	CamelFolder *parent;
-
-	g_return_val_if_fail (folder->parent_store != NULL, FALSE);
-	g_return_val_if_fail (folder->name != NULL, FALSE);
-
-	/* if the folder already exists on the store, do nothing and return true */
-	if (CF_CLASS (folder)->exists (folder, ex))
-		return TRUE;
-
-	if (folder->parent_folder) {
-		camel_folder_create (folder->parent_folder, ex);
-		if (camel_exception_get_id (ex))
-			return FALSE;
-	} else if (folder->full_name) {
-		char *slash, *prefix;
-
-		slash = strrchr(folder->full_name, folder->separator);
-		if (slash && slash != folder->full_name) {
-			prefix = g_strndup(folder->full_name, slash-folder->full_name);
-			parent = camel_store_get_folder (folder->parent_store, prefix, ex);
-			camel_folder_create (parent, ex);
-			if (camel_exception_get_id (ex))
-				return FALSE;
-		}
-	}
-	return TRUE;
-}
-
-
-/**
- * camel_folder_create: create the folder object on the physical store
- * @folder: folder object to create
- * @ex: a CamelException
- *
- * This routine physically creates the folder on the store. Having
- * created the object does not mean the folder physically exists. If
- * it does not exist, this routine will create it. If the folder full
- * name contains more than one level of hierarchy, all folders between
- * the current folder and the last folder name will be created if not
- * existing.
- *
- * Return value: whether or not the operation succeeded
- **/
-gboolean
-camel_folder_create (CamelFolder *folder, CamelException *ex)
-{
-	g_return_val_if_fail (CAMEL_IS_FOLDER (folder), FALSE);
-	g_return_val_if_fail (!camel_folder_is_open (folder), FALSE);
-
-	return CF_CLASS (folder)->create (folder, ex);
-}
-
-
-/**
- * delete: delete folder
- * @folder: folder to delete
- * @recurse: true is subfolders must also be deleted
- *
- * Delete a folder and its subfolders (if recurse is TRUE).
- * The scheme is the following:
- * 1) delete all messages in the folder
- * 2) if recurse is FALSE, and if there are subfolders
- *    return FALSE, else delete current folder and return TRUE
- *    if recurse is TRUE, delete subfolders, delete
- *    current folder and return TRUE
- *
- * subclasses implementing a protocol with a different
- * deletion behaviour must emulate this one or implement
- * empty folders deletion and call this routine which
- * will do all the works for them.
- * Opertions must be done in the folllowing order:
- *  - call this routine
- *  - delete empty folder
- *
- * Return value: true if the folder has been deleted
- **/
-static gboolean
-delete (CamelFolder *folder, gboolean recurse, CamelException *ex)
-{
-	GPtrArray *subfolders;
-	int i;
-	gboolean ok;
-
-	/* delete all messages in the folder */
-	CF_CLASS (folder)->delete_messages (folder, ex);
-	if (camel_exception_get_id (ex))
-		return FALSE;
-
-	subfolders = camel_folder_get_subfolder_names (folder, ex);
-	if (camel_exception_get_id (ex))
-		return FALSE;
-
-        ok = TRUE;
-	if (recurse) { /* delete subfolders */
-		if (subfolders) {
-			for (i = 0; ok && i < subfolders->len; i++) {
-				CamelFolder *sf;
-
-				sf = camel_folder_get_subfolder (folder, subfolders->pdata[i], ex);
-				camel_folder_delete (sf, TRUE, ex);
-				if (camel_exception_get_id (ex))
-					ok = FALSE;
-			}
-		}
-	} else if (subfolders) {
-		camel_exception_set (ex, CAMEL_EXCEPTION_FOLDER_NON_EMPTY,
-				     "folder has subfolders");
-		ok = FALSE;
-	}
-
-	if (subfolders)
-		camel_folder_free_subfolder_names (folder, subfolders);
-
-	return ok;
-}
-
-/**
- * camel_folder_delete: delete a folder
- * @folder: folder to delete
- * @recurse: %TRUE if subfolders must be deleted
- * @ex: a CamelException
- *
- * Delete a folder. All messages in the folder are deleted before the
- * folder is deleted. When @recurse is %TRUE, all subfolders are
- * deleted too. When @recurse is %FALSE and folder contains
- * subfolders, all messages are deleted, but folder deletion fails.
- *
- * Return value: whether or not deletion was successful
- **/
-gboolean
-camel_folder_delete (CamelFolder *folder, gboolean recurse, CamelException *ex)
-{
-	g_return_val_if_fail (CAMEL_IS_FOLDER (folder), FALSE);
-	g_return_val_if_fail (!camel_folder_is_open (folder), FALSE);
-
-	return CF_CLASS (folder)->delete (folder, recurse, ex);
-}
-
-
-static gboolean
-delete_messages (CamelFolder *folder, CamelException *ex)
-{
-	g_warning ("CamelFolder::delete_messages not implemented for `%s'",
-		   gtk_type_name (GTK_OBJECT_TYPE (folder)));
-	return FALSE;
-}
-
-/**
- * camel_folder_delete_messages: delete all messages in the folder
- * @folder: folder
- * @ex: a CamelException
- *
- * Delete all messages stored in a folder.
- *
- * Return value: whether or not the messages could be deleted
- **/
-gboolean
-camel_folder_delete_messages (CamelFolder *folder, CamelException *ex)
-{
-	g_return_val_if_fail (CAMEL_IS_FOLDER (folder), FALSE);
-	g_return_val_if_fail (!camel_folder_is_open (folder), FALSE);
-
-	return CF_CLASS (folder)->delete_messages (folder, ex);
+	return CF_CLASS (folder)->get_subfolder (folder, folder_name,
+						 create, ex);
 }
 
 
