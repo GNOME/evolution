@@ -1399,16 +1399,16 @@ addrbook_sender (GtkWidget *widget, gpointer user_data)
 		return;
 	
 	addr_str = camel_address_format (CAMEL_ADDRESS (addr));
-
+	
 	win = gtk_window_new (GTK_WINDOW_TOPLEVEL);
 	gtk_window_set_title (GTK_WINDOW (win), _("Sender"));
-
+	
 	control = bonobo_widget_new_control ("OAFIID:GNOME_Evolution_Addressbook_AddressPopup",
 					     CORBA_OBJECT_NIL);
 	bonobo_widget_set_property (BONOBO_WIDGET (control),
 				    "email", addr_str,
 				    NULL);
-
+	
 	bonobo_event_source_client_add_listener (bonobo_widget_get_objref (BONOBO_WIDGET (control)),
 						 popup_listener_cb, NULL, NULL, win);
 	
@@ -1417,9 +1417,15 @@ addrbook_sender (GtkWidget *widget, gpointer user_data)
 				   "destroy",
 				   GTK_SIGNAL_FUNC (gtk_widget_destroy),
 				   GTK_OBJECT (win));
-
+	
 	gtk_container_add (GTK_CONTAINER (win), control);
 	gtk_widget_show_all (win);
+}
+
+void
+add_sender_to_addrbook (BonoboUIComponent *uih, void *user_data, const char *path)
+{
+	addrbook_sender (NULL, user_data);
 }
 
 void

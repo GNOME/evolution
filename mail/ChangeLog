@@ -1,8 +1,16 @@
+2001-12-03  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* folder-browser-ui.c: Setup the UI for the AddSenderToAddressbook
+	ui verb thingy.
+
+	* mail-callbacks.c (add_sender_to_addrbook): New bonobo-ui
+	callback that adds a sender to the addressbook.
+
 2001-12-04  Jon Trowbridge  <trow@ximian.com>
 
-        * folder-browser-ui.c (folder_browser_ui_set_selection_state):
-        Allow 'n' and 'p' to work when multiple messages are selected.
-        Fixes #12062.
+	* folder-browser-ui.c (folder_browser_ui_set_selection_state):
+	Allow 'n' and 'p' to work when multiple messages are selected.
+	Fixes #12062.
 
 2001-11-28  Jeffrey Stedfast  <fejj@ximian.com>
 
@@ -21,25 +29,6 @@
 	* mail-config.c (pgpopen): Fix the boolean check to be && and not
 	||.
 
-2001-11-27  Jeffrey Stedfast  <fejj@ximian.com>
-
-	* mail-format.c (format_mime_part): Reverted the non-NULL
-	mime-type patch from a little while back, didn't mean to commit
-	this.
-
-2001-11-25  Not Zed  <NotZed@Ximian.com>
-
-	* mail-config.c (config_read): Enable news accounts that exist
-	always, since no gui for it.
-
-2001-11-20  Jeffrey Stedfast  <fejj@ximian.com>
-
-	* message-list.c (message_list_select): 'n' shouldn't wrap if 'p'
-	doesn't.
-
-	* mail-format.c (format_mime_part): Make sure the mime-type is
-	non-NULL before passing it off to mail_lookup_handler().
-
 2001-11-20  Not Zed  <NotZed@Ximian.com>
 
 	* folder-browser-ui.c: Disable search if no message
@@ -53,19 +42,7 @@
 	* mail-display.c (load_content_loaded): Make sure the mail-display
 	object is still "alive" before accessing any of it's data.
 
-2001-11-20  Not Zed  <NotZed@Ximian.com>
-
-	* folder-browser-ui.c: Disable search if no message
-	loaded/viewed.  Also for #14348.
-
-	* folder-browser.c: Disable "Add sender to addressbook" if we dont
-	have a message loaded (it wont work).  For #14348.
-
-2001-11-20  Jeffrey Stedfast  <fejj@ximian.com>
-
-	* mail-display.c (load_content_loaded): Make sure the mail-display
-	object is still "alive" before accessing any of it's data.
-
+>>>>>>> 1.1943.2.6
 2001-11-14  Zbigniew Chyla  <cyba@gnome.pl>
 
 	* mail-autofilter.c (rule_match_recipients, rule_from_message,
