@@ -122,3 +122,112 @@ END
 
 }
 
+#
+# Generic table builder, still experimental.
+#
+
+sub buildxml {
+    my $type = $_[0];
+    my $out = $_[1];
+    my %data = %{$_[2]};
+    my @files, $module;
+
+    print "generating doc $out for $type\n";
+    @files = @{$data{'files'}};
+    $module = $data{'module'};
+    open OUT,">$out";
+    foreach $file (@files) {
+	open IN,"<../../$module/$file";
+	while (<IN>) {
+	    if (m/\/\*\* \@$type: (.*)/) {
+		my $key = "";
+		my $val = "";
+		my $desc = 0;
+		my $title = $1;
+		my %blob = { };
+		my @blobs = ();
+
+		while (<IN>) {
+		    if (m/\@(.*): (.*)/) {
+			if ($val ne "") {
+			    $blob{$key} = $val;
+			}
+			$key = $1;
+			$val = $2;
+			push @blobs, $key;
+		    } elsif (m/\* (.+)/) {
+			$val .= $1."\n";
+		    } else {
+			if ($desc == 0) {
+			    if ($val ne "") {
+				$blob{$key} = $val;
+			    }
+			    $val = "";
+			    $key = "";
+			} else {
+			    $val .= "\n";
+			}
+			if (m/\*\s*$/) {
+			    $desc = 1;
+			}
+		    }
+		    last if (m/\*\//);
+		}
+		print OUT<<END;
+	<sect2>
+	  <title>$title</title>
+	  <informaltable>
+	    <tgroup cols="2">
+	      <colspec colnum="1" colname="field" colwidth="1*"/>
+	      <colspec colnum="2" colname="value" colwidth="4*"/>
+	      <tbody valign="top">
+END
+
+		foreach $key (@blobs) {
+		    print OUT <<END;
+		<row>
+		  <entry>$key</entry>
+		  <entry>$blob{$key}</entry>
+		</row>
+END
+}
+		print OUT <<END;
+	      </tbody>
+	    </tgroup>
+	  </informaltable>
+END
+		if ($val ne "") {
+		    $val =~ s/[\n]+$//gos;
+		    $val =~ s/\n\n/\<\/simpara\>\n\<simpara\>/g;
+		    print OUT "<simpara>$val</simpara>\n";
+		}
+		print OUT "</sect2>\n";
+	    }
+	}
+	close IN;
+    }
+    close OUT;
+}
+
+
+%hooks = ( 'es-hooks.xml' =>
+	    { 'type' => 'HookClass',
+	      'files' => [ 'es-menu.c', 'es-event.c' ],
+	      'module' => 'shell' },
+	   'es-menus.xml' =>
+	    { 'type' => 'HookPoint',
+	      'files' => [ 'e-shell-window.c' ],
+	      'module' => 'shell' },
+	   'es-events.xml' =>
+	    { 'type' => 'Event',
+	      'files' => [ 'e-shell.c' ],
+	      'module' => 'shell' },
+	    );
+
+foreach $out (keys %hooks) {
+    %data = %{$hooks{$out}};
+
+    &buildxml($data{'type'}, $out, \%data);
+}
+
+

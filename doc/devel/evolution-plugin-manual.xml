@@ -18,6 +18,9 @@
 
 <!ENTITY em-events SYSTEM "em-events.xml">
 
+<!ENTITY es-events SYSTEM "es-events.xml">
+<!ENTITY es-menus SYSTEM "es-menus.xml">
+
 ]>
 <?xml-stylesheet href="sdocbook.css" type="text/css"?>
 
@@ -2872,9 +2875,31 @@
       <title>
 	Shell Hooks
       </title>
-      <para>
-	None defined.
-      </para>
+
+      <sect1 id="shell-hooks-menu">
+	<title>Main menus</title>
+
+	<para>
+	  The mail menu class is
+	  <interfacename>org.gnome.evolution.shell.bonobomenu:1.0</interfacename>.
+	</para>
+	<para>
+	  The plugin callback data will be the target matching the plugin
+	  menu itself, and the callback returns no value.
+	</para>
+	&es-menus;
+      </sect1>
+      <sect1 id="shell-hooks-event">
+	<title>Events</title>
+
+	<para>
+	  The shell event class is
+	  <interfacename>org.gnome.evolution.shell.events:1.0</interfacename>.
+	</para>
+
+	&es-events;
+      </sect1>
+
     </chapter>
 
   </part>
