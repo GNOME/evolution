@@ -1,3 +1,7 @@
+2004-03-04  Not Zed  <NotZed@Ximian.com>
+
+	* e-sexp.c: Added some debug stuff.
+
 2004-02-27  Not Zed  <NotZed@Ximian.com>
 
 	** See Bug #37329.

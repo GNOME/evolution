@@ -903,7 +903,7 @@ parse_value(ESExp *f)
 		p(printf("got brace, its a list!\n"));
 		return parse_list(f, TRUE);
 	case G_TOKEN_STRING:
-		p(printf("got string\n"));
+		p(printf("got string '%s'\n", g_scanner_cur_value(gs).v_string));
 		t = parse_term_new(f, ESEXP_TERM_STRING);
 		t->value.string = g_strdup(g_scanner_cur_value(gs).v_string);
 		break;
@@ -922,7 +922,7 @@ parse_value(ESExp *f)
 		t->value.number = g_scanner_cur_value(gs).v_int;
 		if (negative)
 			t->value.number = -t->value.number;
-		p(printf("got int\n"));
+		p(printf("got int %d\n", t->value.number));
 		break;
 	case '#': {
 		char *str;
@@ -947,6 +947,7 @@ parse_value(ESExp *f)
 		break; }
 	case G_TOKEN_SYMBOL:
 		s = g_scanner_cur_value(gs).v_symbol;
+		p(printf("got symbol '%s'\n", s->name));
 		switch (s->type) {
 		case ESEXP_TERM_FUNC:
 		case ESEXP_TERM_IFUNC:
@@ -965,6 +966,7 @@ parse_value(ESExp *f)
 		}
 		break;
 	case G_TOKEN_IDENTIFIER:
+		p(printf("got unknown identifider '%s'\n", g_scanner_cur_value(gs).v_identifier));
 		e_sexp_fatal_error(f, "Unknown identifier: %s", g_scanner_cur_value(gs).v_identifier);
 		break;
 	default:
