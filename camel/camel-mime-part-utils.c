@@ -100,10 +100,11 @@ check_html_charset(char *buffer, int length)
 static GByteArray *convert_buffer(GByteArray *in, const char *to, const char *from)
 {
 	iconv_t ic;
-	int inlen, outlen, i=2;
+	size_t inlen, outlen;
 	char *inbuf, *outbuf;
 	char *buffer;
 	GByteArray *out = NULL;
+	int i = 2;
 
 	d(printf("converting buffer from %s to %s: '%.*s'\n", from, to, (int)in->len, in->data));
 
@@ -122,7 +123,7 @@ static GByteArray *convert_buffer(GByteArray *in, const char *to, const char *fr
 		inlen = in->len;
 		outbuf = buffer;
 
-		if (e_iconv(ic, (const char **)&inbuf, &inlen, &outbuf, &outlen) == -1) {
+		if (e_iconv(ic, (const char **)&inbuf, &inlen, &outbuf, &outlen) == (size_t) -1) {
 			g_free(buffer);
 			g_warning("conversion failed: %s", strerror(errno));
 			/* we didn't have enough space */
@@ -139,7 +140,7 @@ static GByteArray *convert_buffer(GByteArray *in, const char *to, const char *fr
 		/* close off the conversion */
 		outbuf = buffer;
 		outlen = in->len * i + 16;
-		if (e_iconv(ic, NULL, 0, &outbuf, &outlen) != -1)
+		if (e_iconv(ic, NULL, 0, &outbuf, &outlen) != (size_t) -1)
 			g_byte_array_append(out, buffer, (in->len*i+16) - outlen);
 		g_free(buffer);
 
@@ -156,7 +157,7 @@ static GByteArray *convert_buffer(GByteArray *in, const char *to, const char *fr
 static gboolean
 is_7bit (GByteArray *buffer)
 {
-	register int i;
+	register unsigned int i;
 	
 	for (i = 0; i < buffer->len; i++)
 		if (buffer->data[i] > 127)

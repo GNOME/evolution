@@ -709,7 +709,7 @@ digest_response (struct _DigestResponse *resp)
 		
 		outbuf = username = g_malloc0 (outlen + 1);
 		buf = resp->username;
-		if (cd == (iconv_t) -1 || e_iconv (cd, &buf, &len, &outbuf, &outlen) == -1) {
+		if (cd == (iconv_t) -1 || e_iconv (cd, &buf, &len, &outbuf, &outlen) == (size_t) -1) {
 			/* We can't convert to UTF-8 - pretend we never got a charset param? */
 			g_free (resp->charset);
 			resp->charset = NULL;

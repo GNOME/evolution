@@ -32,10 +32,10 @@ extern "C" {
 #endif /* __cplusplus }*/
 
 #include "camel-imap-types.h"
-#include "camel-disco-store.h"
+#include <camel/camel-disco-store.h>
 
 #ifdef ENABLE_THREADS
-#include "e-util/e-msgport.h"
+#include <e-util/e-msgport.h>
 
 typedef struct _CamelImapMsg CamelImapMsg;
 
