@@ -1192,6 +1192,7 @@ efh_format_timeout(struct _format_msg *m)
 		hstream = gtk_html_begin(efh->html);
 		gtk_html_stream_close(hstream, GTK_HTML_STREAM_OK);
 		mail_msg_free(m);
+		p->last_part = NULL;
 	} else {
 		/*hstream = gtk_html_begin(efh->html);*/
 		hstream = NULL;

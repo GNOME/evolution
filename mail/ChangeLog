@@ -1,3 +1,17 @@
+2003-10-02  Not Zed  <NotZed@Ximian.com>
+
+	* em-format-html.c (efh_format_timeout): zero out last_part if
+	we're clearing.  Uh, this fixes, but shouldn't, part of #49034.
+	The problem is the 'last part' logic is based on the address,
+	which can quite easily be repeated for different messages.
+
+	* em-folder-view.c (emfv_list_message_selected): reverted jeff's
+	patch for #48618, use a much simpler method.
+
+	* em-message-browser.c (emmb_destroy): hook onto destroy handler,
+	we need to destroy the messagelist ourselves, since we dont attach
+	it to any parent window.
+
 2003-10-01  Not Zed  <NotZed@Ximian.com>
 
 	* em-format-html.c (efh_init): turn off blocking writes.

@@ -89,9 +89,23 @@ emmb_finalise(GObject *o)
 }
 
 static void
+emmb_destroy(GtkObject *o)
+{
+	EMMessageBrowser *emmb = (EMMessageBrowser *)o;
+
+	if (emmb->view.list) {
+		gtk_widget_destroy(emmb->view.list);
+		emmb->view.list = NULL;
+	}
+
+	((GtkObjectClass *)emmb_parent)->destroy(o);
+}
+
+static void
 emmb_class_init(GObjectClass *klass)
 {
 	klass->finalize = emmb_finalise;
+	((GtkObjectClass *)klass)->destroy = emmb_destroy;
 	((EMFolderViewClass *)klass)->set_message = emmb_set_message;
 	((EMFolderViewClass *)klass)->activate = emmb_activate;
 }
