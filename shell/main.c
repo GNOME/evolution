@@ -50,6 +50,9 @@
 
 #include <gal/widgets/e-gui-utils.h>
 #include <gal/widgets/e-cursors.h>
+
+#include "e-util/e-gtk-utils.h"
+
 #include "e-setup.h"
 
 #include "e-shell.h"
@@ -87,6 +90,10 @@ quit_box_new (void)
 	gtk_widget_show (frame);
 	gtk_widget_show (label);
 	gtk_widget_show (window);
+
+	/* For some reason, the window fails to update without this
+	   sometimes.  */
+	gtk_widget_queue_draw (window);
 
 	while (gtk_events_pending ())
 		gtk_main_iteration ();
