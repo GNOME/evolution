@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: nn\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2003-11-04 14:47+0100\n"
-"PO-Revision-Date: 2003-11-04 14:50+0100\n"
+"PO-Revision-Date: 2003-12-19 16:44+0100\n"
 "Last-Translator: Åsmund Skjæveland <aasmunds@fys.uio.no>\n"
 "Language-Team: Norwegian Nynorsk <i18n-nn@lister.ping.uio.no>\n"
 "MIME-Version: 1.0\n"
@@ -14058,12 +14058,17 @@ msgstr ""
 
 #: mail/mail-vfolder.c:468
 #, c-format
+# TRN: Bad plural
 msgid ""
 "The following vFolder(s):\n"
 "%sUsed the removed folder:\n"
 "    '%s'\n"
 "And have been updated."
-msgstr " s."
+msgstr ""
+"Dei følgjande vMappene:\n"
+"%sbrukte den fjerna mappa:\n"
+"    «%s»\n"
+"og har vorte fjerna."
 
 #: mail/mail-vfolder.c:777
 msgid "VFolders"
