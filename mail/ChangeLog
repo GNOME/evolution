@@ -1,5 +1,15 @@
 2000-07-07  Dan Winship  <danw@helixcode.com>
 
+	* message-thread.c (remove_node): Add another argument "clast"
+	pointing to the container before the current one in the list,
+	which it can update if that turns out to be the one that it
+	removed.
+	(group_root_set): Update for remove_node change, and remove both
+	nodes in the "subjects are common" case. Fixes a bug that would
+	cause the message list to be truncated if this rule was invoked.
+
+2000-07-07  Dan Winship  <danw@helixcode.com>
+
 	* message-list.c: Lots of changes. Store uids as node data on the
 	tree nodes and use those rather than rows where possible. (The
 	concept of "row" is just getting too complicated.) Get rid of the

@@ -208,7 +208,7 @@ get_root_subject(struct _container *c, int *re)
 
 /* this is pretty slow, but not used often */
 static void
-remove_node(struct _container **list, struct _container *node)
+remove_node(struct _container **list, struct _container *node, struct _container **clast)
 {
 	struct _container *c;
 
@@ -216,6 +216,8 @@ remove_node(struct _container **list, struct _container *node)
 	c = (struct _container *)list;
 	while (c->next) {
 		if (c->next == node) {
+			if (clast && *clast == c->next)
+				*clast = c;
 			c->next = c->next->next;
 			break;
 		}
@@ -266,7 +268,7 @@ group_root_set(struct _container **cp)
 				continue;
 			} if (c->message == NULL && container->message != NULL) {
 				d(printf("container is non-empty parent\n"));
-				remove_node(cp, container);
+				remove_node(cp, container, &clast);
 				container_add_child(c, container);
 			} else if (c->message != NULL && container->message == NULL) {
 				d(printf("container is empty child\n"));
@@ -280,12 +282,13 @@ group_root_set(struct _container **cp)
 				continue;
 			} else if (!c->re && container->re) {
 				d(printf("container is not re\n"));
-				remove_node(cp, container);
+				remove_node(cp, container, &clast);
 				container_add_child(c, container);
 			} else {
 				d(printf("subjects are common %p and %p\n", c, container));
 
-				remove_node(cp, container);
+				remove_node(cp, container, &clast);
+				remove_node(cp, c, &clast);
 
 				scan = g_malloc0(sizeof(*scan));
 				scan->root_subject = c->root_subject;
@@ -477,7 +480,7 @@ thread_messages(CamelFolder *folder, GPtrArray *uids)
 #if 0
 	printf("finished\n");
 	i = dump_tree(head, 0);
-	printf("%d count, %d msgs initially, %d items in tree\n", count, msgs, i);
+	printf("%d count, %d items in tree\n", uids->len, i);
 #endif
 
 	sort_thread(&head);
