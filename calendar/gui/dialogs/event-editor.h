@@ -52,8 +52,9 @@ struct _EventEditorClass {
 };
 
 GtkType      event_editor_get_type     (void);
-EventEditor *event_editor_construct    (EventEditor *ee);
-EventEditor *event_editor_new          (void);
+EventEditor *event_editor_construct    (EventEditor *ee,
+					CalClient   *client);
+EventEditor *event_editor_new          (CalClient   *client);
 void         event_editor_show_meeting (EventEditor *ee);
 
 

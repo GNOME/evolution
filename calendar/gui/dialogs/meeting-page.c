@@ -733,11 +733,13 @@ table_canvas_focus_out_cb (GtkWidget *widget, GdkEventFocus *event, gpointer dat
  * be created.
  **/
 MeetingPage *
-meeting_page_construct (MeetingPage *mpage, EMeetingModel *emm)
+meeting_page_construct (MeetingPage *mpage, EMeetingModel *emm,
+			CalClient *client)
 {
 	MeetingPagePrivate *priv;
 	ETable *real_table;
 	gchar *filename;
+	const char *backend_address;
 	GList *l;
 	
 	priv = mpage->priv;
@@ -757,6 +759,8 @@ meeting_page_construct (MeetingPage *mpage, EMeetingModel *emm)
 	}
 
 	/* Address information */
+	backend_address = cal_client_get_email_address (client);
+
 	priv->addresses = itip_addresses_get ();
 	for (l = priv->addresses; l != NULL; l = l->next) {
 		ItipAddress *a = l->data;
@@ -764,8 +768,14 @@ meeting_page_construct (MeetingPage *mpage, EMeetingModel *emm)
 		
 		s = e_utf8_to_gtk_string (GTK_COMBO (priv->organizer)->entry, a->full);
 		priv->address_strings = g_list_append (priv->address_strings, s);
-		if (a->default_address)
-			priv->default_address = s;
+
+		/* Note that the address specified by the backend gets
+		 * precedence over the default mail address.
+		 */
+		if (backend_address && !strcmp (backend_address, a->address))
+			priv->default_address = a->full;
+		else if (a->default_address && !priv->default_address)
+			priv->default_address = a->full;
 	}
 	
 	/* The etable displaying attendees and their status */
@@ -803,12 +813,12 @@ meeting_page_construct (MeetingPage *mpage, EMeetingModel *emm)
  * not be created.
  **/
 MeetingPage *
-meeting_page_new (EMeetingModel *emm)
+meeting_page_new (EMeetingModel *emm, CalClient *client)
 {
 	MeetingPage *mpage;
 
 	mpage = gtk_type_new (TYPE_MEETING_PAGE);
-	if (!meeting_page_construct (mpage, emm)) {
+	if (!meeting_page_construct (mpage, emm, client)) {
 		gtk_object_unref (GTK_OBJECT (mpage));
 		return NULL;
 	}

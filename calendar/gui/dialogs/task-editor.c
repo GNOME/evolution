@@ -176,6 +176,19 @@ task_editor_init (TaskEditor *te)
 	priv = g_new0 (TaskEditorPrivate, 1);
 	te->priv = priv;
 
+	priv->model = E_MEETING_MODEL (e_meeting_model_new ());
+	priv->assignment_shown = TRUE;
+	priv->updating = FALSE;	
+
+}
+
+TaskEditor *
+task_editor_construct (TaskEditor *te, CalClient *client)
+{
+	TaskEditorPrivate *priv;
+	
+	priv = te->priv;
+
 	priv->task_page = task_page_new ();
 	comp_editor_append_page (COMP_EDITOR (te), 
 				 COMP_EDITOR_PAGE (priv->task_page),
@@ -186,20 +199,19 @@ task_editor_init (TaskEditor *te)
 				 COMP_EDITOR_PAGE (priv->task_details_page),
 				 _("Details"));
 
-	priv->model = E_MEETING_MODEL (e_meeting_model_new ());
-
-	priv->meet_page = meeting_page_new (priv->model);
+	priv->meet_page = meeting_page_new (priv->model, client);
 	comp_editor_append_page (COMP_EDITOR (te),
 				 COMP_EDITOR_PAGE (priv->meet_page),
 				 _("Assignment"));
 
-	comp_editor_merge_ui (COMP_EDITOR (te), "evolution-task-editor.xml", verbs, NULL);
+	comp_editor_set_cal_client (COMP_EDITOR (te), client);
 
-	priv->assignment_shown = TRUE;
-	priv->updating = FALSE;	
+	comp_editor_merge_ui (COMP_EDITOR (te), "evolution-task-editor.xml", verbs, NULL);
 
 	init_widgets (te);
 	set_menu_sens (te);
+
+	return te;
 }
 
 static void
@@ -334,6 +346,7 @@ task_editor_destroy (GtkObject *object)
 
 /**
  * task_editor_new:
+ * @client: a CalClient
  *
  * Creates a new event editor dialog.
  *
@@ -341,9 +354,12 @@ task_editor_destroy (GtkObject *object)
  * editor could not be created.
  **/
 TaskEditor *
-task_editor_new (void)
+task_editor_new (CalClient *client)
 {
-	return TASK_EDITOR (gtk_type_new (TYPE_TASK_EDITOR));
+	TaskEditor *te;
+
+	te = TASK_EDITOR (gtk_type_new (TYPE_TASK_EDITOR));
+	return task_editor_construct (te, client);
 }
 
 static void

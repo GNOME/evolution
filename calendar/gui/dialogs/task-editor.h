@@ -53,8 +53,9 @@ struct _TaskEditorClass {
 };
 
 GtkType     task_editor_get_type       (void);
-TaskEditor *task_editor_construct      (TaskEditor *te);
-TaskEditor *task_editor_new            (void);
+TaskEditor *task_editor_construct      (TaskEditor *te,
+					CalClient  *client);
+TaskEditor *task_editor_new            (CalClient  *client);
 void        task_editor_show_assignment(TaskEditor *te);
 
 

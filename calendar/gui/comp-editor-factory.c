@@ -272,11 +272,11 @@ edit_existing (OpenClient *oc, const char *uid)
 
 	switch (vtype) {
 	case CAL_COMPONENT_EVENT:
-		editor = COMP_EDITOR (event_editor_new ());
+		editor = COMP_EDITOR (event_editor_new (oc->client));
 		break;
 
 	case CAL_COMPONENT_TODO:
-		editor = COMP_EDITOR (task_editor_new ());
+		editor = COMP_EDITOR (task_editor_new (oc->client));
 		break;
 
 	default:
@@ -285,8 +285,7 @@ edit_existing (OpenClient *oc, const char *uid)
 		return;
 	}
 
-	/* Set the client/object on the editor */
-	comp_editor_set_cal_client (editor, oc->client);
+	/* Set the object on the editor */
 	comp_editor_edit_comp (editor, comp);
 	comp_editor_focus (editor);
 
@@ -360,15 +359,15 @@ edit_new (OpenClient *oc, const GNOME_Evolution_Calendar_CompEditorFactory_CompE
 	switch (type) {
 	case GNOME_Evolution_Calendar_CompEditorFactory_EDITOR_MODE_EVENT:
 	case GNOME_Evolution_Calendar_CompEditorFactory_EDITOR_MODE_MEETING:
-		editor = COMP_EDITOR (event_editor_new ());
+		editor = COMP_EDITOR (event_editor_new (oc->client));
 		comp = get_default_event (FALSE);
 		break;
 	case GNOME_Evolution_Calendar_CompEditorFactory_EDITOR_MODE_ALLDAY_EVENT:
-		editor = COMP_EDITOR (event_editor_new ());
+		editor = COMP_EDITOR (event_editor_new (oc->client));
 		comp = get_default_event (TRUE);
 		break;
 	case GNOME_Evolution_Calendar_CompEditorFactory_EDITOR_MODE_TODO:
-		editor = COMP_EDITOR (task_editor_new ());
+		editor = COMP_EDITOR (task_editor_new (oc->client));
 		comp = get_default_task ();
 		break;
 	default:
@@ -376,7 +375,6 @@ edit_new (OpenClient *oc, const GNOME_Evolution_Calendar_CompEditorFactory_CompE
 		return;
 	}
 
-	comp_editor_set_cal_client (editor, oc->client);
 	comp_editor_edit_comp (editor, comp);
 	if (type == GNOME_Evolution_Calendar_CompEditorFactory_EDITOR_MODE_MEETING)
 		event_editor_show_meeting (EVENT_EDITOR (editor));

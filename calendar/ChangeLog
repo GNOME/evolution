@@ -1,3 +1,52 @@
+2002-09-26  Dan Winship  <danw@ximian.com>
+
+	Non-Connector part of #29334 (meeting created by a delegate in the
+	delegator's calendar should have the delegator as Organizer).
+
+	* idl/evolution-calendar.idl: add Cal_getEmailAddress, to return
+	the email address associated with a backend (if any).
+
+	* pcs/cal-backend.c (cal_backend_get_email_address): New.
+
+	* pcs/cal-backend-file.c (cal_backend_file_get_email_address):
+	Return NULL (for now).
+
+	* pcs/cal.c (impl_Cal_get_email_address): Implement this by
+	calling cal_backend_get_email_address and returning a NotFound
+	exception if it returns NULL.
+
+	* cal-client/cal-client.c (cal_client_get_email_address): New.
+	(cal_client_init, cal_client_destroy, etc): initialize/free
+	email_address
+
+	* gui/dialogs/event-editor.c (event_editor_construct): Split this
+	out of event_editor_init. Take and set a CalClient.
+	(event_editor_new): Take a CalClient.
+
+	* gui/dialogs/task-editor.c (task_editor_construct,
+	task_editor_new): Likewise.
+
+	* gui/dialogs/meeting-page.c (meeting_page_new,
+	meeting_page_construct): Take a CalClient and call
+	cal_client_get_email_address to find the default organizer
+	address. (Also fix a bug if the default account's name has
+	non-ASCII characters.)
+
+	* gui/itip-utils.c (comp_from): New. When sending a REQUEST or
+	CANCEL, use the Organizer as the From address.
+	(itip_send_comp): Call comp_from and pass the result to
+	Composer_setHeaders.
+
+	* gui/comp-editor-factory.c (edit_existing, edit_new): Pass the
+	CalClient to event_editor_new/task_editor_new
+
+	* gui/e-calendar-table.c (open_task): Likewise.
+
+	* gui/e-tasks.c (e_tasks_new_task): Likewise.
+
+	* gui/gnome-cal.c (gnome_calendar_edit_object,
+	gnome_calendar_new_task): Likewise.
+
 2002-09-26  JP Rosevear  <jpr@ximian.com>
 
 	* gui/e-meeting-model.c (set_value_at): only change the attendee

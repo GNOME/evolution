@@ -188,6 +188,18 @@ event_editor_init (EventEditor *ee)
 	priv = g_new0 (EventEditorPrivate, 1);
 	ee->priv = priv;
 
+	priv->model = E_MEETING_MODEL (e_meeting_model_new ());
+	priv->meeting_shown = TRUE;
+	priv->updating = FALSE;	
+}
+
+EventEditor *
+event_editor_construct (EventEditor *ee, CalClient *client)
+{
+	EventEditorPrivate *priv;
+
+	priv = ee->priv;
+
 	priv->event_page = event_page_new ();
 	comp_editor_append_page (COMP_EDITOR (ee), 
 				 COMP_EDITOR_PAGE (priv->event_page),
@@ -203,25 +215,24 @@ event_editor_init (EventEditor *ee)
 				 COMP_EDITOR_PAGE (priv->recur_page),
 				 _("Recurrence"));
 	
-	priv->model = E_MEETING_MODEL (e_meeting_model_new ());
-	
 	priv->sched_page = schedule_page_new (priv->model);
 	comp_editor_append_page (COMP_EDITOR (ee),
 				 COMP_EDITOR_PAGE (priv->sched_page),
 				 _("Scheduling"));
 
-	priv->meet_page = meeting_page_new (priv->model);
+	priv->meet_page = meeting_page_new (priv->model, client);
 	comp_editor_append_page (COMP_EDITOR (ee),
 				 COMP_EDITOR_PAGE (priv->meet_page),
 				 _("Meeting"));
 
- 	comp_editor_merge_ui (COMP_EDITOR (ee), "evolution-event-editor.xml", verbs, pixmaps);
+	comp_editor_set_cal_client (COMP_EDITOR (ee), client);
 
-	priv->meeting_shown = TRUE;
-	priv->updating = FALSE;	
+ 	comp_editor_merge_ui (COMP_EDITOR (ee), "evolution-event-editor.xml", verbs, pixmaps);
 
 	init_widgets (ee);
 	set_menu_sens (ee);	
+
+	return ee;
 }
 
 static void
@@ -382,6 +393,7 @@ event_editor_destroy (GtkObject *object)
 
 /**
  * event_editor_new:
+ * @client: a CalClient
  *
  * Creates a new event editor dialog.
  *
@@ -389,9 +401,12 @@ event_editor_destroy (GtkObject *object)
  * editor could not be created.
  **/
 EventEditor *
-event_editor_new (void)
+event_editor_new (CalClient *client)
 {
-	return EVENT_EDITOR (gtk_type_new (TYPE_EVENT_EDITOR));
+	EventEditor *ee;
+
+	ee = EVENT_EDITOR (gtk_type_new (TYPE_EVENT_EDITOR));
+	return event_editor_construct (ee, client);
 }
 
 static void

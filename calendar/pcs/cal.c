@@ -64,6 +64,30 @@ impl_Cal_get_uri (PortableServer_Servant servant,
 	return str_uri_copy;
 }
 
+/* Cal::get_email_address method */
+static CORBA_char *
+impl_Cal_get_email_address (PortableServer_Servant servant,
+			    CORBA_Environment *ev)
+{
+	Cal *cal;
+	CalPrivate *priv;
+	const char *str_email_address;
+	CORBA_char *str_email_address_copy;
+
+	cal = CAL (bonobo_object_from_servant (servant));
+	priv = cal->priv;
+
+	str_email_address = cal_backend_get_email_address (priv->backend);
+	if (str_email_address == NULL) {
+		bonobo_exception_set (ev, ex_GNOME_Evolution_Calendar_Cal_NotFound);
+		return CORBA_OBJECT_NIL;
+	}
+
+	str_email_address_copy = CORBA_string_dup (str_email_address);
+
+	return str_email_address_copy;
+}
+
 /* Converts a calendar object type from its CORBA representation to our own
  * representation.
  */
@@ -707,6 +731,7 @@ cal_class_init (CalClass *klass)
 
 	/* Epv methods */
 	epv->_get_uri = impl_Cal_get_uri;
+	epv->getEmailAddress = impl_Cal_get_email_address;
 	epv->setMode = impl_Cal_set_mode;
 	epv->countObjects = impl_Cal_get_n_objects;
 	epv->getObject = impl_Cal_get_object;

@@ -2208,14 +2208,13 @@ gnome_calendar_edit_object (GnomeCalendar *gcal, CalComponent *comp,
 	if (!ce) {
 		EventEditor *ee;
 
-		ee = event_editor_new ();
+		ee = event_editor_new (priv->client);
 		if (!ee) {
 			g_message ("gnome_calendar_edit_object(): Could not create the event editor");
 			return;
 		}
 		ce = COMP_EDITOR (ee);
 		
-		comp_editor_set_cal_client (ce, priv->client);
 		comp_editor_edit_comp (ce, comp);
 		if (meeting)
 			event_editor_show_meeting (ee);
@@ -2341,8 +2340,7 @@ gnome_calendar_new_task		(GnomeCalendar *gcal)
 
 	priv = gcal->priv;
 
-	tedit = task_editor_new ();
-	comp_editor_set_cal_client (COMP_EDITOR (tedit), priv->task_pad_client);
+	tedit = task_editor_new (priv->task_pad_client);
 
 	comp = cal_component_new ();
 	cal_component_set_new_vtype (comp, CAL_COMPONENT_TODO);

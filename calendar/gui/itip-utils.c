@@ -352,6 +352,28 @@ users_has_attendee (GList *users, const char *address)
 	return FALSE;
 }
 
+static CORBA_char *
+comp_from (CalComponentItipMethod method, CalComponent *comp)
+{
+	CalComponentOrganizer organizer;
+
+	switch (method) {
+	case CAL_COMPONENT_METHOD_REQUEST:
+	case CAL_COMPONENT_METHOD_CANCEL:
+		cal_component_get_organizer (comp, &organizer);
+		if (organizer.value == NULL) {
+			e_notice (NULL, GNOME_MESSAGE_BOX_ERROR,
+				  _("An organizer must be set."));
+			return NULL;
+		}
+
+		return CORBA_string_dup (itip_strip_mailto (organizer.value));
+
+	default:
+		return CORBA_string_dup ("");
+	}
+}
+
 static GNOME_Evolution_Composer_RecipientList *
 comp_to_list (CalComponentItipMethod method, CalComponent *comp, GList *users)
 {
@@ -862,7 +884,7 @@ itip_send_comp (CalComponentItipMethod method, CalComponent *send_comp,
 	GNOME_Evolution_Composer_RecipientList *cc_list = NULL;
 	GNOME_Evolution_Composer_RecipientList *bcc_list = NULL;
 	CORBA_char *subject = NULL, *body = NULL, *content_type = NULL;
-	CORBA_char *filename = NULL, *description = NULL;
+	CORBA_char *from = NULL, *filename = NULL, *description = NULL;
 	GNOME_Evolution_Composer_AttachmentData *attach_data = NULL;
 	char *ical_string;
 	CORBA_Environment ev;
@@ -904,8 +926,11 @@ itip_send_comp (CalComponentItipMethod method, CalComponent *send_comp,
 	/* Subject information */
 	subject = comp_subject (method, comp);
 	
+	/* From address */
+	from = comp_from (method, comp);
+
 	/* Set recipients, subject */
-	GNOME_Evolution_Composer_setHeaders (composer_server, to_list, cc_list, bcc_list, subject, &ev);
+	GNOME_Evolution_Composer_setHeaders (composer_server, from, to_list, cc_list, bcc_list, subject, &ev);
 	if (BONOBO_EX (&ev)) {		
 		g_warning ("Unable to set composer headers while sending iTip message");
 		goto cleanup;
@@ -982,6 +1007,8 @@ itip_send_comp (CalComponentItipMethod method, CalComponent *send_comp,
 	if (bcc_list != NULL)
 		CORBA_free (bcc_list);
 
+	if (from != NULL)
+		CORBA_free (from);
 	if (subject != NULL)
 		CORBA_free (subject);
 	if (body != NULL)

@@ -485,8 +485,7 @@ e_tasks_new_task			(ETasks		*tasks)
 
 	priv = tasks->priv;
 
-	tedit = task_editor_new ();
-	comp_editor_set_cal_client (COMP_EDITOR (tedit), priv->client);
+	tedit = task_editor_new (priv->client);
 
 	comp = cal_component_new ();
 	cal_component_set_new_vtype (comp, CAL_COMPONENT_TODO);

@@ -93,6 +93,8 @@ struct _CalBackendClass {
 	/* Virtual methods */
 	const char *(* get_uri) (CalBackend *backend);
 
+	const char *(* get_email_address) (CalBackend *backend);
+
 	CalBackendOpenStatus (* open) (CalBackend *backend, const char *uristr,
 				       gboolean only_if_exists);
 
@@ -145,6 +147,8 @@ struct _CalBackendClass {
 GtkType cal_backend_get_type (void);
 
 const char *cal_backend_get_uri (CalBackend *backend);
+
+const char *cal_backend_get_email_address (CalBackend *backend);
 
 void cal_backend_add_cal (CalBackend *backend, Cal *cal);
 

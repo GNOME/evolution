@@ -910,9 +910,8 @@ open_task (ECalendarTable *cal_table, CalComponent *comp, gboolean assign)
 
 	tedit = e_comp_editor_registry_find (comp_editor_registry, uid);
 	if (tedit == NULL) {
-		tedit = COMP_EDITOR (task_editor_new ());
+		tedit = COMP_EDITOR (task_editor_new (calendar_model_get_cal_client (cal_table->model)));
 
-		comp_editor_set_cal_client (tedit, calendar_model_get_cal_client (cal_table->model));
 		comp_editor_edit_comp (tedit, comp);
 		if (assign)
 			task_editor_show_assignment (TASK_EDITOR (tedit));

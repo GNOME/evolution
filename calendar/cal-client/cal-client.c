@@ -47,6 +47,9 @@ struct _CalClientPrivate {
 	 */
 	char *uri;
 
+	/* Email address associated with this calendar, or NULL */
+	char *email_address;
+
 	/* The calendar factories we are contacting */
 	GList *factories;
 
@@ -232,6 +235,7 @@ cal_client_init (CalClient *client)
 
 	priv->load_state = CAL_CLIENT_LOAD_NOT_LOADED;
 	priv->uri = NULL;
+	priv->email_address = NULL;
 	priv->factories = NULL;
 	priv->timezones = g_hash_table_new (g_str_hash, g_str_equal);
 	priv->w_client = NULL;
@@ -361,6 +365,11 @@ cal_client_destroy (GtkObject *object)
 	if (priv->uri) {
 		g_free (priv->uri);
 		priv->uri = NULL;
+	}
+
+	if (priv->email_address) {
+		g_free (priv->email_address);
+		priv->email_address = NULL;
 	}
 
 	g_hash_table_foreach (priv->timezones, free_timezone, NULL);
@@ -1007,6 +1016,43 @@ cal_client_get_uri (CalClient *client)
 
 	priv = client->priv;
 	return priv->uri;
+}
+
+/**
+ * cal_client_get_email_address:
+ * @client: A calendar client.
+ * 
+ * Queries the email address associated with a calendar client.
+ * 
+ * Return value: The email address associated with the calendar that
+ * is loaded or being loaded, or %NULL if the client has not started a
+ * load request yet or the calendar has no associated email address.
+ **/
+const char *
+cal_client_get_email_address (CalClient *client)
+{
+	CalClientPrivate *priv;
+
+	g_return_val_if_fail (client != NULL, NULL);
+	g_return_val_if_fail (IS_CAL_CLIENT (client), NULL);
+
+	priv = client->priv;
+	g_return_val_if_fail (priv->load_state == CAL_CLIENT_LOAD_LOADED, NULL);
+
+	if (priv->email_address == NULL) {
+		CORBA_Environment ev;
+		CORBA_char *email_address;
+
+		CORBA_exception_init (&ev);
+		email_address = GNOME_Evolution_Calendar_Cal_getEmailAddress (priv->cal, &ev);
+		if (!BONOBO_EX (&ev)) {
+			priv->email_address = g_strdup (email_address);
+			CORBA_free (email_address);
+		}
+		CORBA_exception_free (&ev);
+	}
+
+	return priv->email_address;
 }
 
 /* Converts our representation of a calendar component type into its CORBA representation */

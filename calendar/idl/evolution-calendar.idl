@@ -137,6 +137,11 @@ module Calendar {
 		/* A calendar is identified by its URI */
 		readonly attribute string uri;
 
+		/* Return the email address associated with this calendar,
+		   if any. */
+		string getEmailAddress ()
+			raises (NotFound);
+
 		/* For going online/offline */
 		void setMode (in CalMode mode);
 		
