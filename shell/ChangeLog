@@ -1,3 +1,8 @@
+2001-08-13  Peter Williams  <peterw@ximian.com>
+
+	* e-corba-shortcuts.c (shortcut_list_to_corba): Don't cause an abort
+	if the shortcut group is empty.
+
 2001-08-13  Ettore Perazzoli  <ettore@ximian.com>
 
 	* Makefile.am (IDLS): Add `Evolution-common.idl'.
