@@ -629,12 +629,7 @@ e_day_view_init (EDayView *day_view)
 
 	day_view->default_category = NULL;
 
-	/* Create the large font. */
-	day_view->large_font = gdk_font_load (E_DAY_VIEW_LARGE_FONT);
-	if (!day_view->large_font)
-		day_view->large_font = gdk_font_load (E_DAY_VIEW_LARGE_FONT_FALLBACK);
-	if (!day_view->large_font)
-		g_warning ("Couldn't load font");
+	day_view->large_font = NULL;
 
 	/* String to use in 12-hour time format for times in the morning. */
 	day_view->am_string = _("am");
@@ -1175,6 +1170,16 @@ e_day_view_style_set (GtkWidget *widget,
 
 	day_view = E_DAY_VIEW (widget);
 	font = widget->style->font;
+
+	/* Create the large font. */
+	if (day_view->large_font != NULL) 
+		gdk_font_unref (day_view->large_font);
+
+	day_view->large_font = gdk_font_load (E_DAY_VIEW_LARGE_FONT);
+	if (!day_view->large_font)
+		day_view->large_font = gdk_font_load (E_DAY_VIEW_LARGE_FONT_FALLBACK);
+	if (!day_view->large_font)
+		day_view->large_font = font;
 
 	/* Recalculate the height of each row based on the font size. */
 	day_view->row_height = font->ascent + font->descent + E_DAY_VIEW_EVENT_BORDER_HEIGHT + E_DAY_VIEW_EVENT_Y_PAD * 2 + 2 /* FIXME */;

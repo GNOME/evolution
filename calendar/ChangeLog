@@ -1,3 +1,9 @@
+2002-07-25  JP Rosevear  <jpr@ximian.com>
+
+	* gui/e-day-view.c (e_day_view_init): set large_font to NULL
+	(e_day_view_style_set): calculate large font, fall back to the
+	style->font if necessary
+
 2002-07-24  JP Rosevear  <jpr@ximian.com>
 
 	* gui/e-itip-control.c (write_html): display the location in the
