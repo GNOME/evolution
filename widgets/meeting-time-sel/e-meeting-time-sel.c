@@ -2216,7 +2216,7 @@ e_meeting_time_selector_find_first_busy_period (EMeetingTimeSelector *mts,
 						GDate *date)
 {
 	EMeetingTimeSelectorPeriod *period;
-	gint lower, upper, middle, cmp = 0;
+	gint lower, upper, middle = 0, cmp = 0;
 	GDate tmp_date;
 
 	/* Make sure the busy periods have been sorted. */

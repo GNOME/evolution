@@ -349,7 +349,6 @@ e_meeting_time_selector_list_item_button_press (EMeetingTimeSelectorListItem *mt
 	EMeetingTimeSelectorAttendee *attendee;
 	gint row;
 	gboolean return_val;
-	GtkAdjustment *adjustment;
 
 	mts = mtsl_item->mts;
 	row = event->button.y / mts->row_height;
