@@ -37,15 +37,44 @@ request_callback (gchar *string, gpointer data)
 }
 #endif
 
-static char *
-evolution_auth_callback (CamelAuthCallbackMode mode, char *data,
-			 gboolean secret, CamelService *service, char *item,
-			 CamelException *ex)
+char *
+mail_request_dialog (const char *prompt, gboolean secret, const char *key)
 {
 #ifndef ASYNC_AUTH_CALLBACK
 	GtkWidget *dialog;
 #endif
 
+	char *ans;
+
+	if (!passwords)
+		passwords = g_hash_table_new (g_str_hash, g_str_equal);
+
+	ans = g_hash_table_lookup (passwords, key);
+	if (ans)
+		return g_strdup (ans);
+
+#ifndef ASYNC_AUTH_CALLBACK
+	/* XXX parent window? */
+	dialog = gnome_request_dialog (secret, prompt, NULL, 0,
+				       request_callback, &ans, NULL);
+	if (!dialog)
+		return NULL;
+	if (gnome_dialog_run_and_close (GNOME_DIALOG (dialog)) == -1 ||
+	    ans == NULL)
+		return NULL;
+#else
+	if (!mail_op_get_password (data, secret, &ans))
+		return NULL;
+#endif
+
+	g_hash_table_insert (passwords, g_strdup (key), g_strdup (ans));
+	return ans;
+}
+
+static char *
+auth_callback (CamelAuthCallbackMode mode, char *data, gboolean secret,
+	       CamelService *service, char *item, CamelException *ex)
+{
 	char *key, *ans;
 
 	if (!passwords)
@@ -75,38 +104,14 @@ evolution_auth_callback (CamelAuthCallbackMode mode, char *data,
 		return NULL;
 	}
 
-	ans = g_hash_table_lookup (passwords, key);
-	if (ans) {
-		g_free (key);
-		return g_strdup (ans);
-	}
+	ans = mail_request_dialog (data, secret, key);
+	g_free (key);
 
-#ifndef ASYNC_AUTH_CALLBACK
-	/* XXX parent window? */
-	dialog = gnome_request_dialog (secret, data, NULL, 0,
-				       request_callback, &ans, NULL);
-	if (!dialog) {
-		camel_exception_set (ex, CAMEL_EXCEPTION_SYSTEM,
-				     "Could not create dialog box.");
-		g_free (key);
-		return NULL;
-	}
-	if (gnome_dialog_run_and_close (GNOME_DIALOG (dialog)) == -1 ||
-	    ans == NULL) {
+	if (!ans) {
 		camel_exception_set (ex, CAMEL_EXCEPTION_USER_CANCEL,
-				     "User cancelled query.");
-		g_free (key);
-		return NULL;
+				     "User canceled operation.");
 	}
-#else
-	if( mail_op_get_password( data, secret, &ans ) == FALSE ) {
-		camel_exception_set( ex, CAMEL_EXCEPTION_USER_CANCEL, ans );
-		g_free( key );
-		return NULL;
-	}
-#endif
 
-	g_hash_table_insert (passwords, key, g_strdup (ans));
 	return ans;
 }
 
@@ -116,7 +121,7 @@ session_init (void)
 	e_setup_base_dir ();
 	camel_init ();
 
-	session = camel_session_new (evolution_auth_callback);
+	session = camel_session_new (auth_callback);
 }
 
 static gboolean

@@ -1,3 +1,30 @@
+2000-08-01  Dan Winship  <danw@helixcode.com>
+
+	* mail-crypto.c: New code to spawn off GPG/PGP to do stuff.
+	Currently only deals with decryption. From Nathan Thompson-Amato
+	<ndt@jps.net>, with bunches of changes from me.
+
+	* session.c (mail_request_dialog): Expose the password dialog to
+	the rest of the app (for use by the GPG/PGP code).
+
+	* mail-format.c (handle_text_plain): Handle special inline data
+	types. (Currently uuencoding, BinHex, and PGP encryption.) This is
+	not the best way to deal with it, but it works for now.
+	(try_inline_pgp): Convert an inline PGP-encrypted message into a
+	multipart/encrypted part.
+	(try_inline_binhex): Convert an inline BinHex attachment into an
+	application/mac-binhex40 part (which we currently don't deal
+	with...)
+	(try_uudecoding): Convert a uuencoded attachment to an
+	application/octet-stream part.
+	(handle_multipart_encrypted): Deal with RFC2015 MIME-encoded PGP
+	encrypted messages. (From ndt.)
+
+	* mail-display.c (mail_text_write, mail_error_write): New utility
+	functions.
+
+	* Makefile.am (evolution_mail_SOURCES): add mail-crypto.c
+
 2000-07-31  Christopher James Lahey  <clahey@helixcode.com>
 
 	* component-factory.c, folder-browser.c: Fixed some warnings.

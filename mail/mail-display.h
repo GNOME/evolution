@@ -45,5 +45,11 @@ void           mail_display_set_message (MailDisplay *mail_display,
 void           mail_html_write          (GtkHTML *html,
 					 GtkHTMLStream *stream,
 					 const char *format, ...);
+void           mail_text_write          (GtkHTML *html,
+					 GtkHTMLStream *stream,
+					 const char *format, ...);
+void           mail_error_write         (GtkHTML *html,
+					 GtkHTMLStream *stream,
+					 const char *format, ...);
 
 #endif /* _MAIL_DISPLAY_H_ */

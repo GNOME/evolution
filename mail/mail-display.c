@@ -16,6 +16,7 @@
 #include <gnome.h>
 #include "e-util/e-setup.h"
 #include "e-util/e-util.h"
+#include "e-util/e-html-utils.h"
 #include "mail-display.h"
 #include "mail.h"
 
@@ -352,6 +353,47 @@ mail_html_write (GtkHTML *html, GtkHTMLStream *stream,
 	buf = g_strdup_vprintf (format, ap);
 	va_end (ap);
 	gtk_html_write (html, stream, buf, strlen (buf));
+	g_free (buf);
+}
+
+void
+mail_text_write (GtkHTML *html, GtkHTMLStream *stream,
+		 const char *format, ...)
+{
+	char *buf, *htmltext;
+	va_list ap;
+
+	va_start (ap, format);
+	buf = g_strdup_vprintf (format, ap);
+	va_end (ap);
+
+	htmltext = e_text_to_html (buf,
+				   E_TEXT_TO_HTML_CONVERT_URLS |
+				   E_TEXT_TO_HTML_CONVERT_NL |
+				   E_TEXT_TO_HTML_CONVERT_SPACES);
+	gtk_html_write (html, stream, "<tt>", 4);
+	gtk_html_write (html, stream, htmltext, strlen (htmltext));
+	gtk_html_write (html, stream, "</tt>", 5);
+	g_free (htmltext);
+	g_free (buf);
+}
+
+void
+mail_error_write (GtkHTML *html, GtkHTMLStream *stream,
+		  const char *format, ...)
+{
+	char *buf, *htmltext;
+	va_list ap;
+
+	va_start (ap, format);
+	buf = g_strdup_vprintf (format, ap);
+	va_end (ap);
+
+	htmltext = e_text_to_html (buf, E_TEXT_TO_HTML_CONVERT_NL);
+	gtk_html_write (html, stream, "<em><font color=red>", 20);
+	gtk_html_write (html, stream, htmltext, strlen (htmltext));
+	gtk_html_write (html, stream, "</font></em><br>", 16);
+	g_free (htmltext);
 	g_free (buf);
 }
 
