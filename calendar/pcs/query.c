@@ -1116,7 +1116,7 @@ match_component (Query *query, const char *uid,
 		return;
 
 	comp = cal_backend_get_object_component (priv->backend, uid);
-	g_assert (comp != NULL);
+	g_return_if_fail (comp != NULL);
 	gtk_object_ref (GTK_OBJECT (comp));
 
 	/* Eval the sexp */
