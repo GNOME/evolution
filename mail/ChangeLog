@@ -1,3 +1,8 @@
+2001-08-14  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-accounts.c (load_accounts): Convert the UTF-8 account name
+	string into a gtk-string before using it in the GtkCList.
+
 2001-08-14  Peter Williams  <peterw@ximian.com>
 
 	* mail-callbacks.c (previous_unread_msg): Make previous unread

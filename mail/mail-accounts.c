@@ -32,6 +32,8 @@
 #include <camel/camel-url.h>
 #include <camel/camel-pgp-context.h>
 
+#include <gal/widgets/e-unicode.h>
+
 #include "widgets/misc/e-charset-picker.h"
 
 #include "mail.h"
@@ -129,16 +131,16 @@ load_accounts (MailAccountsDialog *dialog)
 	while (node) {
 		CamelURL *url;
 		gchar *text[3];
-
+		
 		account = node->data;
 		
 		if (account->source && account->source->url)
 			url = camel_url_new (account->source->url, NULL);
 		else
 			url = NULL;
-
+		
 		text[0] = "";
-		text[1] = account->name;
+		text[1] = e_utf8_to_gtk_string (GTK_WIDGET (dialog->mail_accounts), account->name);
 		text[2] = g_strdup_printf ("%s%s", url && url->protocol ? url->protocol : _("None"),
 					   (i == default_account) ? _(" (default)") : "");
 		
@@ -146,6 +148,7 @@ load_accounts (MailAccountsDialog *dialog)
 			camel_url_free (url);
 		
 		gtk_clist_append (dialog->mail_accounts, text);
+		g_free (text[1]);
 		g_free (text[2]);
 		
 		if (account->source->enabled)
