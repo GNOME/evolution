@@ -347,6 +347,106 @@ ecard_matches_search (const PASBackendFileBookView *view, ECard *card)
 	return pas_backend_card_sexp_match_ecard (view->card_sexp, card);
 }
 
+typedef struct {
+	PASBackendFile *bf;
+	PASBook *book;
+	const PASBackendFileBookView *view;
+	DBC    *dbc;
+
+	int    card_count;
+	int    card_threshold;
+	int    card_threshold_max;
+	GList  *cards;
+
+	gboolean done_first;
+	gboolean search_needed;
+} FileBackendSearchClosure;
+
+static void
+free_search_closure (FileBackendSearchClosure *closure)
+{
+	g_list_foreach (closure->cards, (GFunc)g_free, NULL);
+	g_list_free (closure->cards);
+	g_free (closure);
+}
+
+static gboolean
+pas_backend_file_search_timeout (gpointer data)
+{
+	FileBackendSearchClosure *closure = data;
+	int     db_error = 0;
+	DBT     id_dbt, vcard_dbt;
+	int     file_version_name_len;
+	DBC     *dbc = closure->dbc;
+
+	file_version_name_len = strlen (PAS_BACKEND_FILE_VERSION_NAME);
+
+	memset (&id_dbt, 0, sizeof (id_dbt));
+	memset (&vcard_dbt, 0, sizeof (vcard_dbt));
+
+	if (closure->done_first) {
+		db_error = dbc->c_get(dbc, &id_dbt, &vcard_dbt, DB_NEXT);
+	}
+	else {
+		db_error = dbc->c_get(dbc, &id_dbt, &vcard_dbt, DB_FIRST);
+		closure->done_first = TRUE;
+	}
+
+	while (db_error == 0) {
+
+		/* don't include the version in the list of cards */
+		if (id_dbt.size != file_version_name_len+1
+		    || strcmp (id_dbt.data, PAS_BACKEND_FILE_VERSION_NAME)) {
+			char *vcard_string = vcard_dbt.data;
+
+			/* check if the vcard matches the search sexp */
+			if ((!closure->search_needed) || vcard_matches_search (closure->view, vcard_string)) {
+				closure->cards = g_list_prepend (closure->cards, g_strdup (vcard_string));
+				closure->card_count ++;
+			}
+
+			/* If we've accumulated a number of checks, pass them off to the client. */
+			if (closure->card_count >= closure->card_threshold) {
+				pas_book_view_notify_add (closure->view->book_view, closure->cards);
+				/* Clean up the handed-off data. */
+				g_list_foreach (closure->cards, (GFunc)g_free, NULL);
+				g_list_free (closure->cards);
+				closure->cards = NULL;
+				closure->card_count = 0;
+
+				/* Yeah, this scheme is overly complicated.  But I like it. */
+				if (closure->card_threshold < closure->card_threshold_max) {
+					closure->card_threshold = MIN (2*closure->card_threshold, closure->card_threshold_max);
+				}
+
+				/* return here, we'll do the next lump in the next callback */
+				g_timeout_add (200, pas_backend_file_search_timeout, closure);
+
+				return FALSE;
+			}
+		}
+
+		db_error = dbc->c_get(dbc, &id_dbt, &vcard_dbt, DB_NEXT);
+	}
+
+	dbc->c_close (dbc);
+
+	if (db_error != DB_NOTFOUND) {
+		g_warning ("pas_backend_file_search: error building list\n");
+		free_search_closure (closure);
+	}
+
+	if (closure->card_count)
+		pas_book_view_notify_add (closure->view->book_view, closure->cards);
+
+	pas_book_view_notify_complete (closure->view->book_view, GNOME_Evolution_Addressbook_BookViewListener_Success);
+
+	free_search_closure (closure);
+
+	return FALSE;
+}
+
+
 static void
 pas_backend_file_search (PASBackendFile  	      *bf,
 			 PASBook         	      *book,
@@ -382,74 +482,24 @@ pas_backend_file_search (PASBackendFile  	      *bf,
 		do_summary_query (bf, view, completion_search);
 	}
 	else {
-		gint    card_count = 0, card_threshold = 20, card_threshold_max = 3000;
-		int     db_error = 0;
-		GList   *cards = NULL;
-		DB      *db = bf->priv->file_db;
-		DBC     *dbc;
-		DBT     id_dbt, vcard_dbt;
-		int     file_version_name_len;
+		FileBackendSearchClosure *closure = g_new0 (FileBackendSearchClosure, 1);
+		DB  *db = bf->priv->file_db;
+		int db_error;
 
-		file_version_name_len = strlen (PAS_BACKEND_FILE_VERSION_NAME);
+		closure->card_threshold = 20;
+		closure->card_threshold_max = 3000;
+		closure->search_needed = search_needed;
+		closure->view = view;
+		closure->bf = bf;
+		closure->book = book;
 
-		db_error = db->cursor (db, NULL, &dbc, 0);
-
-		memset (&id_dbt, 0, sizeof (id_dbt));
-		memset (&vcard_dbt, 0, sizeof (vcard_dbt));
+		db_error = db->cursor (db, NULL, &closure->dbc, 0);
 
 		if (db_error != 0) {
 			g_warning ("pas_backend_file_search: error building list\n");
 		} else {
-			db_error = dbc->c_get(dbc, &id_dbt, &vcard_dbt, DB_FIRST);
-
-			while (db_error == 0) {
-
-				/* don't include the version in the list of cards */
-				if (id_dbt.size != file_version_name_len+1
-				    || strcmp (id_dbt.data, PAS_BACKEND_FILE_VERSION_NAME)) {
-					char *vcard_string = vcard_dbt.data;
-
-					/* check if the vcard matches the search sexp */
-					if ((!search_needed) || vcard_matches_search (view, vcard_string)) {
-						cards = g_list_prepend (cards, g_strdup (vcard_string));
-						card_count ++;
-					}
-
-					/* If we've accumulated a number of checks, pass them off to the client. */
-					if (card_count >= card_threshold) {
-						pas_book_view_notify_add (view->book_view, cards);
-						/* Clean up the handed-off data. */
-						g_list_foreach (cards, (GFunc)g_free, NULL);
-						g_list_free (cards);
-						cards = NULL;
-						card_count = 0;
-
-						/* Yeah, this scheme is overly complicated.  But I like it. */
-						if (card_threshold < card_threshold_max) {
-							card_threshold = MIN (2*card_threshold, card_threshold_max);
-						}
-					}
-				}
-
-				db_error = dbc->c_get(dbc, &id_dbt, &vcard_dbt, DB_NEXT);
-			}
-			dbc->c_close (dbc);
-
-			if (db_error != DB_NOTFOUND) {
-				g_warning ("pas_backend_file_search: error building list\n");
-			}
+			g_idle_add (pas_backend_file_search_timeout, closure);
 		}
-
-		if (card_count)
-			pas_book_view_notify_add (view->book_view, cards);
-
-		pas_book_view_notify_complete (view->book_view, GNOME_Evolution_Addressbook_BookViewListener_Success);
-
-		/*
-		** It's fine to do this now since the data has been handed off.
-		*/
-		g_list_foreach (cards, (GFunc)g_free, NULL);
-		g_list_free (cards);
 	}
 }
 

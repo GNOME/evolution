@@ -1,5 +1,16 @@
 2003-02-16  Chris Toshok  <toshok@ximian.com>
 
+	* backend/pas/pas-backend-file.c
+	(pas_backend_file_search_timeout): move the bulk of the
+	non-summary searching stuff here.  we aggregate up to our
+	threshold, then send them to the front end and register a timeout
+	to do another batch.  This keeps us from totally spamming the UI,
+	making things a bit more responsive.
+	(pas_backend_file_search): set up the closure and call the timeout
+	in an idle func.
+
+2003-02-16  Chris Toshok  <toshok@ximian.com>
+
 	* gui/component/select-names/e-select-names-manager.c
 	(e_select_names_manager_entry_new): indent properly.
 
