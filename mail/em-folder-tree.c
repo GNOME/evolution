@@ -2261,7 +2261,7 @@ emft_tree_button_press (GtkTreeView *treeview, GdkEventButton *event, EMFolderTr
 	EMPopup *emp;
 	int i;
 	
-	if (event->button != 3 || !(event->button == 1 && event->type == GDK_2BUTTON_PRESS))
+	if (event->button != 3 && !(event->button == 1 && event->type == GDK_2BUTTON_PRESS))
 		return FALSE;
 	
 	/* select/focus the row that was right-clicked */

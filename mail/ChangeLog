@@ -1,3 +1,8 @@
+2004-03-02  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* em-folder-tree.c (emft_tree_button_press): s/||/&&/. Fixes a
+	dumb bug I introduced yesterday.
+
 2004-03-01  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* em-folder-selector.c (em_folder_selector_construct): Connect to
