@@ -1,5 +1,8 @@
 2000-02-21  Matt Loper  <matt@helixcode.com>
 
+	* tests/Makefile.am: changed references to libibex.a to
+	libibex.la.
+
 	* libical/src/libical/.cvsignore: Added *.lo, *.la, and .libs.
 	* libical/src/libicalss/.cvsignore: same.
 
