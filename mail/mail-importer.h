@@ -40,6 +40,4 @@ void mail_importer_init (void);
 void mail_importer_add_line (MailImporter *importer,
 			     const char *str,
 			     gboolean finished);
-CamelFolder *mail_importer_get_folder (const char *name,
-				       CamelException *opt_ex);
 #endif

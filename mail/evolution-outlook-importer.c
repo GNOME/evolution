@@ -34,6 +34,7 @@
 #include <importer/GNOME_Evolution_Importer.h>
 
 #include "mail-importer.h"
+#include "mail-tools.h"
 
 #include <camel/camel-exception.h>
 
@@ -253,7 +254,7 @@ load_file_fn (EvolutionImporter *eimporter,
 
 	importer->mstream = NULL;
 
-	importer->folder = mail_importer_get_folder ("Inbox", NULL);
+	importer->folder = mail_tool_get_local_inbox (NULL);
 
 	if (importer->folder == NULL){
 		g_warning ("Bad folder");

@@ -1,3 +1,29 @@
+2001-02-09  Dan Winship  <danw@ximian.com>
+
+	* mail-local.c: Updates for CamelStore changes, small memory leak
+	fixes.
+	(lookup_folder): Removed (and moved into the reconfigure code)
+	since this method no longer exists in CamelStore.
+	(do_reconfigure_folder, etc): Update the info in the
+	MailLocalStore after reconfiguring.
+	(mail_local_lookup_folder): Removed
+
+	* local-config.glade: fix padding of the label_format
+
+	* message-list.c (ml_tree_value_at): Don't keep message infos
+	reffed across calls, since this can cause badness after a
+	reconfigure. Instead, just strdup the needed values and free those
+	on the next call.
+
+	* mail-tools.c (mail_tool_get_root_of_store): Unused, remove.
+	(mail_tool_get_inbox): use camel_store_get_inbox.
+
+	* evolution-outlook-importer.c (load_file_fn): 
+	* evolution-mbox-importer.c (load_file_fn): Use
+	mail_tool_get_local_inbox() instead of mail_importer_get_folder()
+
+	* mail-importer.c (mail_importer_get_folder): Removed
+
 2001-02-08  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-callbacks.c (mail_generate_reply): New location for this

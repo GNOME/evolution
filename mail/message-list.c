@@ -774,8 +774,8 @@ ml_tree_value_at (ETreeModel *etm, ETreePath *path, int col, void *model_data)
 	MessageList *message_list = model_data;
 	char *uid;
 	static char *saved;
-	CamelMessageInfo *info;
-	static CamelMessageInfo *msg_info;
+	CamelMessageInfo *msg_info;
+	void *value;
 
 	/* simlated(tm) static dynamic memory (sigh) */
 	if (saved) {
@@ -795,23 +795,8 @@ ml_tree_value_at (ETreeModel *etm, ETreePath *path, int col, void *model_data)
 	}
 	uid = id_uid(uid);
 
-	/* we need ot keep the msg_info ref'd as we return the data, sigh.
+	msg_info = camel_folder_get_message_info (message_list->folder, uid);
 
-	   Well, since we have it around, also check to see if its the same
-	   one each call, and save the folder lookup */
-	if (msg_info == NULL || strcmp(camel_message_info_uid(msg_info), uid) != 0) {
-		/* FIXME: what if the folder changes?  Nothing sets the folder
-		   yet, but this probably means we need to cache this inside the ml itself */
-		if (msg_info)
-			camel_folder_free_message_info(message_list->folder, msg_info);
-
-		msg_info = camel_folder_get_message_info (message_list->folder, uid);
-		if (msg_info == NULL) {
-			g_warning("UID for message-list not found in folder: %s", uid);
-			return NULL;
-		}
-	}
-	
 	switch (col){
 	case COL_MESSAGE_STATUS: {
 		ETreePath *child;
@@ -826,15 +811,17 @@ ml_tree_value_at (ETreeModel *etm, ETreePath *path, int col, void *model_data)
 		}
 
 		if (msg_info->flags & CAMEL_MESSAGE_ANSWERED)
-			return GINT_TO_POINTER (2);
+			value = GINT_TO_POINTER (2);
 		else if (msg_info->flags & CAMEL_MESSAGE_SEEN)
-			return GINT_TO_POINTER (1);
+			value = GINT_TO_POINTER (1);
 		else
-			return GINT_TO_POINTER (0);
+			value = GINT_TO_POINTER (0);
+		break;
 	}
 
 	case COL_FLAGGED:
-		return (void *)((msg_info->flags & CAMEL_MESSAGE_FLAGGED) != 0);
+		value = GINT_TO_POINTER ((msg_info->flags & CAMEL_MESSAGE_FLAGGED) != 0);
+		break;
 
 	case COL_SCORE:
 	{
@@ -845,32 +832,44 @@ ml_tree_value_at (ETreeModel *etm, ETreePath *path, int col, void *model_data)
 		if (tag)
 			score = atoi (tag);
 		
-		return GINT_TO_POINTER (score);
+		value = GINT_TO_POINTER (score);
+		break;
 	}
 		
 	case COL_ATTACHMENT:
-		return (void *)((msg_info->flags & CAMEL_MESSAGE_ATTACHMENTS) != 0);
-		
+		value = GINT_TO_POINTER ((msg_info->flags & CAMEL_MESSAGE_ATTACHMENTS) != 0);
+		break;
+
 	case COL_FROM:
-		return (char *)camel_message_info_from(msg_info);
+		saved = g_strdup (camel_message_info_from(msg_info));
+		value = saved;
+		break;
 
 	case COL_SUBJECT:
-		return (char *)camel_message_info_subject(msg_info);
+		saved = g_strdup (camel_message_info_subject(msg_info));
+		value = saved;
+		break;
 		
 	case COL_SENT:
-		return GINT_TO_POINTER (msg_info->date_sent);
+		value = GINT_TO_POINTER (msg_info->date_sent);
+		break;
 		
 	case COL_RECEIVED:
-		return GINT_TO_POINTER (msg_info->date_received);
+		value = GINT_TO_POINTER (msg_info->date_received);
+		break;
 		
 	case COL_TO:
-		return (char *)camel_message_info_to(msg_info);
+		saved = g_strdup (camel_message_info_to(msg_info));
+		value = saved;
+		break;
 
 	case COL_SIZE:
-		return GINT_TO_POINTER (msg_info->size);
+		value = GINT_TO_POINTER (msg_info->size);
+		break;
 		
 	case COL_DELETED:
-		return (void *)((msg_info->flags & CAMEL_MESSAGE_DELETED) != 0);
+		value = GINT_TO_POINTER ((msg_info->flags & CAMEL_MESSAGE_DELETED) != 0);
+		break;
 		
 	case COL_UNREAD: {
 		ETreePath *child;
@@ -881,7 +880,8 @@ ml_tree_value_at (ETreeModel *etm, ETreePath *path, int col, void *model_data)
 			return (void *)subtree_unread(message_list, child);
 		}
 
-		return GINT_TO_POINTER (!(msg_info->flags & CAMEL_MESSAGE_SEEN));
+		value = GINT_TO_POINTER (!(msg_info->flags & CAMEL_MESSAGE_SEEN));
+		break;
 	}
 	case COL_COLOUR:
 	{
@@ -889,15 +889,20 @@ ml_tree_value_at (ETreeModel *etm, ETreePath *path, int col, void *model_data)
 
 		colour = camel_tag_get ((CamelTag **) &msg_info->user_tags,
 					"colour");
-		if (colour)
-			return (void *)colour;
-		else if (msg_info->flags & CAMEL_MESSAGE_FLAGGED)
+		if (colour) {
+			saved = g_strdup (colour);
+			value = saved;
+		} else if (msg_info->flags & CAMEL_MESSAGE_FLAGGED)
 			/* FIXME: extract from the xpm somehow. */
-			return "#A7453E";
+			value = "#A7453E";
 		else
-			return NULL;
+			value = NULL;
+		break;
 	}
 	}
+
+	camel_folder_free_message_info(message_list->folder, msg_info);
+	return value;
 
 	g_assert_not_reached ();
 	
@@ -940,10 +945,10 @@ ml_tree_value_at (ETreeModel *etm, ETreePath *path, int col, void *model_data)
 		if ( (child = e_tree_model_node_get_first_child(etm, path))
 		     && (uid = e_tree_model_node_get_data (etm, child))
 		     && id_is_uid(uid)	
-		     && (info = camel_folder_get_message_info (message_list->folder, id_uid(uid))) ) {
+		     && (msg_info = camel_folder_get_message_info (message_list->folder, id_uid(uid))) ) {
 			/* well, we could scan more children, build up a (more accurate) list, but this should do ok */
-			saved = g_strdup_printf(_("%s, et al."), camel_message_info_from(info));
-			camel_folder_free_message_info(message_list->folder, info);
+			saved = g_strdup_printf(_("%s, et al."), camel_message_info_from(msg_info));
+			camel_folder_free_message_info(message_list->folder, msg_info);
 		} else {
 			return _("<unknown>");
 		}
@@ -956,10 +961,10 @@ ml_tree_value_at (ETreeModel *etm, ETreePath *path, int col, void *model_data)
 		if ( (child = e_tree_model_node_get_first_child(etm, path))
 		     && (uid = e_tree_model_node_get_data (etm, child))
 		     && id_is_uid(uid)	
-		     && (info = camel_folder_get_message_info (message_list->folder, id_uid(uid))) ) {
+		     && (msg_info = camel_folder_get_message_info (message_list->folder, id_uid(uid))) ) {
 			/* well, we could scan more children, build up a (more accurate) list, but this should do ok */
-			saved = g_strdup_printf(_("%s, et al."), camel_message_info_to(info));
-			camel_folder_free_message_info(message_list->folder, info);
+			saved = g_strdup_printf(_("%s, et al."), camel_message_info_to(msg_info));
+			camel_folder_free_message_info(message_list->folder, msg_info);
 		} else {
 			return _("<unknown>");
 		}

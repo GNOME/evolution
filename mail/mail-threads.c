@@ -557,9 +557,14 @@ mail_operations_terminate (void)
 	memset (&clur, 0, sizeof (closure_t));
 	clur.spec = NULL;
 
-	pipe_write (DISPATCH_WRITER, &clur, sizeof (closure_t));
+	/* DISPATCH_WRITER will only have been initialized if any
+	 * calls have been made using the old thread system.
+	 */
+	if (DISPATCH_WRITER != -1) {
+		pipe_write (DISPATCH_WRITER, &clur, sizeof (closure_t));
 
-	close (DISPATCH_WRITER);
+		close (DISPATCH_WRITER);
+	}
 	close (MAIN_READER);
 }
 

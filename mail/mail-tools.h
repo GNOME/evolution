@@ -75,10 +75,6 @@ mail_tool_generate_forward_subject (CamelMimeMessage *msg);
 CamelMimePart *
 mail_tool_make_message_attachment (CamelMimeMessage *message);
 
-/* Get the root folder of the store specified by @source_uri */
-CamelFolder *
-mail_tool_get_root_of_store (const char *source_uri, CamelException *ex);
-
 /* Parse the ui into a real CamelFolder any way we know how. */
 CamelFolder *
 mail_tool_uri_to_folder (const char *uri, CamelException *ex);

@@ -35,6 +35,4 @@ void mail_local_storage_startup (EvolutionShellClient *shellclient,
 
 void mail_local_reconfigure_folder (FolderBrowser *fb);
 
-CamelFolder *mail_local_lookup_folder (const char *name,
-				       CamelException *ex);
 #endif

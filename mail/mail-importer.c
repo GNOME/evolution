@@ -88,42 +88,6 @@ mail_importer_add_line (MailImporter *importer,
 }
 
 /**
- * mail_importer_get_folder:
- * @name: The folder name.
- * *opt_ex: A #CamelException, or NULL if you don't care about errors.
- *
- * Gets the local folder called @name.
- *
- * Returns: A CamelFolder (which needs to be unrefed when you are done with it)
- * on success, or NULL on fail. A more detailed error is given in @opt_ex, if
- * @opt_ex is not NULL.
- */
-CamelFolder *
-mail_importer_get_folder (const char *name,
-			  CamelException *opt_ex)
-{
-	CamelFolder *folder;
-	CamelException *real_ex;
-	char *path, *tmp;
-
-	if (opt_ex != NULL)
-		real_ex = opt_ex;
-	else
-		real_ex = camel_exception_new ();
-
-	g_print ("Evolution_dir: %s\n", evolution_dir);
-	tmp = g_concat_dir_and_file (evolution_dir, "local");
-	path = g_concat_dir_and_file (tmp, name);
-	g_free (tmp);
-
-	folder = mail_local_lookup_folder (path + 1, real_ex);
-	if (opt_ex == NULL)
-		camel_exception_free (real_ex);
-
-	return folder;
-}
-	
-/**
  * mail_importer_init:
  *
  * Initialises all the importers

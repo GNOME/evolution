@@ -106,14 +106,6 @@ mail_tool_get_folder_from_urlname (const gchar *url, const gchar *name,
 		return NULL;
 	}
 
-	/*camel_service_connect (CAMEL_SERVICE (store), ex);
-	 *if (camel_exception_is_set (ex)) {
-	 *	camel_object_unref (CAMEL_OBJECT (store));
-	 *	mail_tool_camel_lock_down();
-	 *	return NULL;
-	 *}
-	 */
-
 	folder = camel_store_get_folder (store, name, flags, ex);
 	camel_object_unref (CAMEL_OBJECT (store));
 	mail_tool_camel_lock_down();
@@ -161,8 +153,22 @@ mail_tool_get_local_inbox (CamelException *ex)
 CamelFolder *
 mail_tool_get_inbox (const gchar *url, CamelException *ex)
 {
-	/* FIXME: should be smarter? get_default_folder, etc */
-	return mail_tool_get_folder_from_urlname (url, "inbox", 0, ex);
+	CamelStore *store;
+	CamelFolder *folder;
+
+	mail_tool_camel_lock_up();
+
+	store = camel_session_get_store (session, url, ex);
+	if (!store) {
+		mail_tool_camel_lock_down();
+		return NULL;
+	}
+
+	folder = camel_store_get_inbox (store, ex);
+	camel_object_unref (CAMEL_OBJECT (store));
+	mail_tool_camel_lock_down();
+
+	return folder;
 }
 	
 
@@ -293,35 +299,6 @@ CamelFolder *
 mail_tool_filter_get_folder_func (CamelFilterDriver *d, const char *uri, void *data)
 {
 	return mail_tool_uri_to_folder_noex (uri);
-}
-
-CamelFolder *
-mail_tool_get_root_of_store (const char *source_uri, CamelException *ex)
-{
-	CamelStore *store;
-	CamelFolder *folder;
-
-	mail_tool_camel_lock_up();
-
-	store = camel_session_get_store (session, source_uri, ex);
-	if (!store) {
-		mail_tool_camel_lock_down ();
-		return NULL;
-	}
-
-	/*camel_service_connect (CAMEL_SERVICE (store), ex);
-	 *if (camel_exception_is_set (ex)) {
-	 *	camel_object_unref (CAMEL_OBJECT (store));
-	 *	mail_tool_camel_lock_down();
-	 *	return NULL;
-	 *}
-	 */
-
-	folder = camel_store_get_root_folder (store, ex);
-	camel_object_unref (CAMEL_OBJECT (store));
-	mail_tool_camel_lock_down();
-
-	return folder;
 }
 
 CamelFolder *
