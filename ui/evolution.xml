@@ -26,8 +26,8 @@
       _label="_Work Offline"
       _tip="Toggle whether we are working offline."/>
 
-    <cmd name="HelpAbout" _label="About Ximian Evolution..."
-      _tip="Show information about Ximian Evolution"
+    <cmd name="HelpAbout" _label="About Evolution..."
+      _tip="Show information about Evolution"
       pixtype="stock" pixname="About"/>
   </commands>
 
@@ -100,10 +100,10 @@
 
       <separator f="" name="eshell2"/>
 
-      <menuitem name="HelpFAQ" verb=""
-	_label="Ximian Evolution _FAQ"/>
+      <!-- <menuitem name="HelpFAQ" verb=""
+	_label="Evolution _FAQ"/> 
 
-      <separator f="" name="eshell3"/>
+      <separator/> -->
 
       <menuitem name="HelpSubmitBug" verb=""
 	_label="Submit _Bug Report"/>
@@ -111,7 +111,7 @@
       <separator f="" name="eshell4"/>
 
       <menuitem name="HelpAbout" verb=""
-	_label="_About Ximian Evolution..."/>
+	_label="_About Evolution..."/>
 
     </submenu>
   </menu>
