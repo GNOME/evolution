@@ -1,5 +1,12 @@
 2001-09-18  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-storage-set-view.c (handle_evolution_path_drag_motion): New
+	arg @row.  Highlight that row.
+	(tree_drag_motion): Pass @row to
+	`handle_evolution_path_drag_motion()'.
+
+2001-09-18  Ettore Perazzoli  <ettore@ximian.com>
+
 	* e-splash.c: #include "e-gtk-utils.h".
 
 2001-09-18  Ettore Perazzoli  <ettore@ximian.com>

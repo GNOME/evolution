@@ -1011,6 +1011,7 @@ tree_drag_data_delete (ETree *tree,
 static gboolean
 handle_evolution_path_drag_motion (EStorageSetView *storage_set_view,
 				   ETreePath path,
+				   int row,
 				   GdkDragContext *context,
 				   unsigned int time)
 {
@@ -1023,6 +1024,8 @@ handle_evolution_path_drag_motion (EStorageSetView *storage_set_view,
 		action = GDK_ACTION_COPY;
 	else
 		action = GDK_ACTION_MOVE;
+
+	e_tree_drag_highlight (E_TREE (storage_set_view), row, -1);
 
 	gdk_drag_status (context, action, time);
 
@@ -1067,7 +1070,7 @@ tree_drag_motion (ETree *tree,
 		return FALSE;
 
 	if (strcmp (dnd_type, EVOLUTION_PATH_TARGET_TYPE) == 0)
-		return handle_evolution_path_drag_motion (storage_set_view, path, context, time);
+		return handle_evolution_path_drag_motion (storage_set_view, path, row, context, time);
 
 	destination_folder_interface = evolution_shell_component_client_get_dnd_destination_interface (component_client);
 	if (destination_folder_interface == NULL)
