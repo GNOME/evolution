@@ -1350,6 +1350,19 @@ e_shell_go_online (EShell *shell,
 }
 
 
+void
+e_shell_unregister_all (EShell *shell)
+{
+	EShellPrivate *priv;
+
+	g_return_if_fail (E_IS_SHELL (shell));
+
+	priv = shell->priv;
+
+#error "Implement me"
+}
+
+
 E_MAKE_X_TYPE (e_shell, "EShell", EShell,
 	       class_init, init, PARENT_TYPE,
 	       POA_GNOME_Evolution_Shell__init,
