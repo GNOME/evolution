@@ -18,7 +18,6 @@
 #undef HAVE_NSS
 #undef HAVE_SSL
 #undef HAVE_OPENSSL
-#undef MOVEMAIL_PATH
 #undef USE_DOT
 #undef USE_FCNTL
 #undef USE_FLOCK

@@ -1015,37 +1015,6 @@ fi
 
 AM_CONDITIONAL(ENABLE_GTK_DOC, test x$enable_gtk_doc = xyes)
 
-dnl ********
-dnl movemail
-dnl ********
-AC_ARG_WITH(movemail, [  --with-movemail=PATH    Path to a movemail binary])
-AC_MSG_CHECKING(for movemail)
-if test x$with_movemail = xyes -o x$with_movemail = x; then
-    with_movemail=no
-fi
-if test x$with_movemail != xno; then
-    AC_DEFINE_UNQUOTED(MOVEMAIL_PATH, "$with_movemail")
-    AC_MSG_RESULT($with_movemail)
-else
-    emacs_exec_dir=`emacs --batch --eval '(message exec-directory)' 2>&1`
-    case $emacs_exec_dir in
-    /*) if test -x $emacs_exec_dir/movemail; then
-	    if test -u $emacs_exec_dir/movemail -o -g $emacs_exec_dir/movemail; then
-		AC_MSG_RESULT($emacs_exec_dir/movemail)
-		AC_DEFINE_UNQUOTED(MOVEMAIL_PATH, "$emacs_exec_dir/movemail")
-	    else
-		AC_MSG_RESULT($emacs_exec_dir/movemail... not set-id: ignored)
-	    fi
-	else
-	    AC_MSG_RESULT(no)
-	fi
-	;;
-    *)
-	AC_MSG_RESULT(no)
-	;;
-    esac
-fi
-
 dnl ******************
 dnl Sub-version number
 dnl ******************
