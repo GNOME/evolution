@@ -1,5 +1,10 @@
 2000-07-11  Jeffrey Stedfast  <fejj@helixcode.com>
 
+	* mail-ops.c (real_fetch_mail): Changed to use 
+	camel_folder_move_message_to () rather than get_message () and then
+	append_message (). This also makes it so we don't have to worry about
+	fetching message flags to pass to the new append_message () method.
+
 	* folder-browser.c (folder_browser_load_folder): Disable
 	Search capability menu/entry if folder doesn't support it.
 
