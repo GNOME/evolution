@@ -44,6 +44,7 @@ extern "C" {
 #define CAMEL_MIME_FILTER_TOHTML_ESCAPE_8BIT       (1 << 6)
 #define CAMEL_MIME_FILTER_TOHTML_CITE              (1 << 7)
 #define CAMEL_MIME_FILTER_TOHTML_PRESERVE_8BIT     (1 << 8)
+#define CAMEL_MIME_FILTER_TOHTML_FORMAT_FLOWED     (1 << 9)
 
 typedef struct _CamelMimeFilterToHTMLClass CamelMimeFilterToHTMLClass;
 typedef struct _CamelMimeFilterToHTML CamelMimeFilterToHTML;
@@ -68,6 +69,11 @@ struct _CamelMimeFilterToHTMLClass {
 CamelType        camel_mime_filter_tohtml_get_type (void);
 
 CamelMimeFilter *camel_mime_filter_tohtml_new (guint32 flags, guint32 colour);
+
+
+/* utility functions to replace e_text_to_html shit */
+
+char *camel_text_to_html (const char *in, guint32 flags, guint32 colour);
 
 #ifdef __cplusplus
 }

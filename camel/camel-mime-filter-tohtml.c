@@ -404,3 +404,25 @@ camel_mime_filter_tohtml_new (guint32 flags, guint32 colour)
 	
 	return CAMEL_MIME_FILTER (new);
 }
+
+
+char *
+camel_text_to_html (const char *in, guint32 flags, guint32 colour)
+{
+	CamelMimeFilter *filter;
+	size_t outlen, outpre;
+	char *outbuf;
+	
+	g_return_val_if_fail (in != NULL, NULL);
+	
+	filter = camel_mime_filter_tohtml_new (flags, colour);
+	
+	camel_mime_filter_complete (filter, (char *) in, strlen (in), 0,
+				    &outbuf, &outlen, &outpre);
+	
+	outbuf = g_strndup (outbuf, outlen);
+	
+	camel_object_unref (filter);
+	
+	return outbuf;
+}

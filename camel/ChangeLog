@@ -1,5 +1,9 @@
 2002-12-16  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* camel-mime-filter-tohtml.c (camel_text_to_html): New convenience
+	function to replace calls to e_text_to_html() in the
+	mailer/composer etc.
+
 	* camel.h: #include some headers we had forgotten to add
 	previously, also added camel-mime-filter-enriched.h.
 
