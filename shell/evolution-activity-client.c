@@ -332,7 +332,7 @@ evolution_activity_client_new (EvolutionShellClient *shell_client,
 						   information,
 						   cancellable,
 						   suggest_display_return)) {
-		gtk_object_unref (GTK_OBJECT (activity_client));
+		g_object_unref (activity_client);
 		return NULL;
 	}
 

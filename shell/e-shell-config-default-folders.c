@@ -109,7 +109,7 @@ config_control_destroy_cb (EvolutionConfigControl *config_control,
 	g_free (dfc->tasks_uri);
 	g_free (dfc->tasks_path);
 
-	gtk_object_unref (GTK_OBJECT (dfc->glade));
+	g_object_unref (dfc->glade);
 	bonobo_object_unref (BONOBO_OBJECT (dfc->shell_client));
 	g_free (dfc);
 }
@@ -138,9 +138,9 @@ setup_folder_selector (EvolutionDefaultFolderConfig *dfc,
 		*uri_ptr, types);
 	gtk_object_set_data (GTK_OBJECT (button), "uri_ptr", uri_ptr);
 	gtk_object_set_data (GTK_OBJECT (button), "path_ptr", path_ptr);
-	gtk_signal_connect (GTK_OBJECT (button), "selected",
-			    GTK_SIGNAL_FUNC (folder_selected),
-			    dfc);
+	g_signal_connect (button, "selected",
+			  G_CALLBACK (folder_selected),
+			  dfc);
 }
 
 GtkWidget*
@@ -185,10 +185,10 @@ e_shell_config_default_folders_create_widget (EShell *shell, EvolutionConfigCont
 	gtk_widget_show (widget);
 	dfc->config_control = config_control;
 
-	gtk_signal_connect (GTK_OBJECT (dfc->config_control), "apply",
-			    GTK_SIGNAL_FUNC (config_control_apply_cb), dfc);
-	gtk_signal_connect (GTK_OBJECT (dfc->config_control), "destroy",
-			    GTK_SIGNAL_FUNC (config_control_destroy_cb), dfc);
+	g_signal_connect (dfc->config_control, "apply",
+			  G_CALLBACK (config_control_apply_cb), dfc);
+	g_signal_connect (dfc->config_control, "destroy",
+			  G_CALLBACK (config_control_destroy_cb), dfc);
 
 	return widget;
 }

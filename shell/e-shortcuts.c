@@ -764,12 +764,10 @@ e_shortcuts_construct (EShortcuts *shortcuts,
 
 	storage_set = e_shell_get_storage_set (shell);
 
-	gtk_signal_connect_while_alive (GTK_OBJECT (storage_set), "new_folder",
-					GTK_SIGNAL_FUNC (storage_set_new_folder_callback),
-					shortcuts, GTK_OBJECT (shortcuts));
-	gtk_signal_connect_while_alive (GTK_OBJECT (storage_set), "updated_folder",
-					GTK_SIGNAL_FUNC (storage_set_updated_folder_callback),
-					shortcuts, GTK_OBJECT (shortcuts));
+	g_signal_connect_object (storage_set, "new_folder",
+				 G_CALLBACK (storage_set_new_folder_callback), shortcuts, 0);
+	g_signal_connect_object (storage_set, "updated_folder",
+				 G_CALLBACK (storage_set_updated_folder_callback), shortcuts, 0);
 }
 
 EShortcuts *

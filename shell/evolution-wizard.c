@@ -1,7 +1,22 @@
+/* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*- */
 /*
  * evolution-wizard.c
  *
- * Copyright (C) 2001 Ximian, Inc.
+ * Copyright (C) 2000, 2001, 2002 Ximian, Inc.
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of version 2 of the GNU General Public
+ * License as published by the Free Software Foundation.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public
+ * License along with this program; if not, write to the
+ * Free Software Foundation, Inc., 59 Temple Place - Suite 330,
+ * Boston, MA 02111-1307, USA.
  *
  * Authors: Iain Holmes  <iain@ximian.com>
  */
@@ -110,33 +125,27 @@ impl_GNOME_Evolution_Wizard_notifyAction (PortableServer_Servant servant,
 
 	switch (action) {
 	case GNOME_Evolution_Wizard_NEXT:
-		gtk_signal_emit (GTK_OBJECT (bonobo_object), signals[NEXT],
-				 pagenumber);
+		g_signal_emit (bonobo_object, signals[NEXT], 0, pagenumber);
 		break;
 
 	case GNOME_Evolution_Wizard_PREPARE:
-		gtk_signal_emit (GTK_OBJECT (bonobo_object), signals[PREPARE],
-				 pagenumber);
+		g_signal_emit (bonobo_object, signals[PREPARE], 0, pagenumber);
 		break;
 
 	case GNOME_Evolution_Wizard_BACK:
-		gtk_signal_emit (GTK_OBJECT (bonobo_object), signals[BACK],
-				 pagenumber);
+		g_signal_emit (bonobo_object, signals[BACK], 0, pagenumber);
 		break;
 
 	case GNOME_Evolution_Wizard_FINISH:
-		gtk_signal_emit (GTK_OBJECT (bonobo_object), signals[FINISH],
-				 pagenumber);
+		g_signal_emit (bonobo_object, signals[FINISH], 0, pagenumber);
 		break;
 
 	case GNOME_Evolution_Wizard_CANCEL:
-		gtk_signal_emit (GTK_OBJECT (bonobo_object), signals[CANCEL],
-				 pagenumber);
+		g_signal_emit (bonobo_object, signals[CANCEL], 0, pagenumber);
 		break;
 
 	case GNOME_Evolution_Wizard_HELP:
-		gtk_signal_emit (GTK_OBJECT (bonobo_object), signals[HELP],
-				 pagenumber);
+		g_signal_emit (bonobo_object, signals[HELP], 0, pagenumber);
 		break;
 
 	default:
@@ -146,29 +155,29 @@ impl_GNOME_Evolution_Wizard_notifyAction (PortableServer_Servant servant,
 
 
 static void
-evolution_wizard_destroy (GtkObject *object)
+impl_finalize (GObject *object)
 {
 	EvolutionWizard *wizard;
 
 	wizard = EVOLUTION_WIZARD (object);
-	if (wizard->priv == NULL) {
+	if (wizard->priv == NULL)
 		return;
-	}
 
 	g_free (wizard->priv);
 	wizard->priv = NULL;
 
-	parent_class->destroy (object);
+	(* G_OBJECT_CLASS (parent_class)->finalize) (object);
 }
 
+
 static void
 evolution_wizard_class_init (EvolutionWizardClass *klass)
 {
-	GtkObjectClass *object_class;
+	GObjectClass *object_class;
 	POA_GNOME_Evolution_Wizard__epv *epv = &klass->epv;
 
-	object_class = GTK_OBJECT_CLASS (klass);
-	object_class->destroy = evolution_wizard_destroy;
+	object_class = G_OBJECT_CLASS (klass);
+	object_class->finalize = impl_finalize;
 
 	signals[NEXT] = gtk_signal_new ("next", GTK_RUN_FIRST,
 					GTK_CLASS_TYPE (object_class),

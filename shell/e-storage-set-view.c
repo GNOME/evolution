@@ -692,8 +692,8 @@ setup_folder_properties_items_if_corba_storage_clicked (EStorageSetView *storage
 	data->corba_storage    = E_CORBA_STORAGE (storage);
 	data->num_items        = num_property_items;
 
-	gtk_object_ref (GTK_OBJECT (data->storage_set_view));
-	gtk_object_ref (GTK_OBJECT (data->corba_storage));
+	g_object_ref (data->storage_set_view);
+	g_object_ref (data->corba_storage);
 
 	for (i = 1; i <= num_property_items; i ++) {
 		char *verb;
@@ -741,8 +741,8 @@ remove_property_items (EStorageSetView *storage_set_view,
 		}
 	}
 
-	gtk_object_unref (GTK_OBJECT (data->storage_set_view));
-	gtk_object_unref (GTK_OBJECT (data->corba_storage));
+	g_object_unref (data->storage_set_view);
+	g_object_unref (data->corba_storage);
 
 	g_free (data);
 }
@@ -761,7 +761,7 @@ popup_folder_menu (EStorageSetView *storage_set_view,
 	priv = storage_set_view->priv;
 
 	folder = e_storage_set_get_folder (priv->storage_set, priv->right_click_row_path);
-	gtk_object_ref (GTK_OBJECT (folder));
+	g_object_ref (folder);
 
 	folder_type_registry = e_storage_set_get_folder_type_registry (priv->storage_set);
 	g_assert (folder_type_registry != NULL);
@@ -801,7 +801,7 @@ popup_folder_menu (EStorageSetView *storage_set_view,
 										 e_folder_get_physical_uri (folder),
 										 e_folder_get_type_string (folder));
 
-	gtk_object_unref (GTK_OBJECT (folder));
+	g_object_unref (folder);
 	gtk_widget_destroy (GTK_WIDGET (menu));
 
 	e_tree_right_click_up (E_TREE (storage_set_view));
@@ -828,7 +828,7 @@ impl_destroy (GtkObject *object)
 
 	/* need to destroy our tree */
 	e_tree_memory_node_remove (E_TREE_MEMORY(priv->etree_model), priv->root_node);
-	gtk_object_unref (GTK_OBJECT (priv->etree_model));
+	g_object_unref (priv->etree_model);
 
 	/* the data in the hash table was all freed by freeing the tree */
 	g_hash_table_destroy (priv->path_to_etree_node);
@@ -844,7 +844,7 @@ impl_destroy (GtkObject *object)
 		priv->checkboxes = NULL;
 	}
 
-	gtk_object_unref (GTK_OBJECT (priv->storage_set));
+	g_object_unref (priv->storage_set);
 
 	if (priv->drag_corba_source_interface != CORBA_OBJECT_NIL) {
 		CORBA_Environment ev;
@@ -2138,35 +2138,21 @@ e_storage_set_view_construct (EStorageSetView   *storage_set_view,
 
 	e_tree_root_node_set_visible (E_TREE(storage_set_view), FALSE);
 
-	gtk_object_unref (GTK_OBJECT (extras));
+	g_object_unref (extras);
 
-	gtk_object_ref (GTK_OBJECT (storage_set));
+	g_object_ref (storage_set);
 	priv->storage_set = storage_set;
 
 	e_tree_drag_dest_set (E_TREE (storage_set_view), 0, NULL, 0, GDK_ACTION_MOVE | GDK_ACTION_COPY);
 
-	gtk_signal_connect_while_alive (GTK_OBJECT (storage_set), "new_storage",
-					GTK_SIGNAL_FUNC (new_storage_cb), storage_set_view,
-					GTK_OBJECT (storage_set_view));
-	gtk_signal_connect_while_alive (GTK_OBJECT (storage_set), "removed_storage",
-					GTK_SIGNAL_FUNC (removed_storage_cb), storage_set_view,
-					GTK_OBJECT (storage_set_view));
-	gtk_signal_connect_while_alive (GTK_OBJECT (storage_set), "new_folder",
-					GTK_SIGNAL_FUNC (new_folder_cb), storage_set_view,
-					GTK_OBJECT (storage_set_view));
-	gtk_signal_connect_while_alive (GTK_OBJECT (storage_set), "updated_folder",
-					GTK_SIGNAL_FUNC (updated_folder_cb), storage_set_view,
-					GTK_OBJECT (storage_set_view));
-	gtk_signal_connect_while_alive (GTK_OBJECT (storage_set), "removed_folder",
-					GTK_SIGNAL_FUNC (removed_folder_cb), storage_set_view,
-					GTK_OBJECT (storage_set_view));
-	gtk_signal_connect_while_alive (GTK_OBJECT (storage_set), "close_folder",
-					GTK_SIGNAL_FUNC (close_folder_cb), storage_set_view,
-					GTK_OBJECT (storage_set_view));
+	g_signal_connect_object (storage_set, "new_storage", G_CALLBACK (new_storage_cb), storage_set_view, 0);
+	g_signal_connect_object (storage_set, "removed_storage", G_CALLBACK (removed_storage_cb), storage_set_view, 0);
+	g_signal_connect_object (storage_set, "new_folder", G_CALLBACK (new_folder_cb), storage_set_view, 0);
+	g_signal_connect_object (storage_set, "updated_folder", G_CALLBACK (updated_folder_cb), storage_set_view, 0);
+	g_signal_connect_object (storage_set, "removed_folder", G_CALLBACK (removed_folder_cb), storage_set_view, 0);
+	g_signal_connect_object (storage_set, "close_folder", G_CALLBACK (close_folder_cb), storage_set_view, 0);
 
-	gtk_signal_connect_while_alive (GTK_OBJECT (priv->etree_model), "fill_in_children",
-					GTK_SIGNAL_FUNC (etree_fill_in_children), storage_set_view,
-					GTK_OBJECT (storage_set_view));
+	g_signal_connect_object (priv->etree_model, "fill_in_children", G_CALLBACK (etree_fill_in_children), storage_set_view, 0);
 
 	insert_storages (storage_set_view);
 }

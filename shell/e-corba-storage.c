@@ -75,7 +75,7 @@ storage_listener_servant_new (ECorbaStorage *corba_storage)
 
 	servant->servant.vepv = &storage_listener_vepv;
 
-	gtk_object_ref (GTK_OBJECT (corba_storage));
+	g_object_ref (corba_storage);
 	servant->storage = E_STORAGE (corba_storage);
 
 	return servant;
@@ -84,7 +84,7 @@ storage_listener_servant_new (ECorbaStorage *corba_storage)
 static void
 storage_listener_servant_free (StorageListenerServant *servant)
 {
-	gtk_object_unref (GTK_OBJECT (servant->storage));
+	g_object_unref (servant->storage);
 
 	g_free (servant);
 }
@@ -127,7 +127,7 @@ impl_StorageListener_notifyFolderCreated (PortableServer_Servant servant,
 				     CORBA_USER_EXCEPTION,
 				     ex_GNOME_Evolution_StorageListener_Exists,
 				     NULL);
-		gtk_object_unref (GTK_OBJECT (e_folder));
+		g_object_unref (e_folder);
 		return;
 	}
 }
@@ -467,7 +467,7 @@ async_open_folder_idle (gpointer data)
 		CORBA_exception_free (&ev);
 	}
 
-	gtk_object_unref (GTK_OBJECT (storage));
+	g_object_unref (storage);
 	g_free (path);
 	g_free (pair);
 
@@ -480,7 +480,7 @@ async_open_folder (EStorage *storage,
 {
 	gpointer *pair = g_new (gpointer, 2);
 	pair[0] = storage;
-	gtk_object_ref (GTK_OBJECT (storage));
+	g_object_ref (storage);
 	pair[1] = g_strdup (path);
 
 	g_idle_add (async_open_folder_idle, pair);

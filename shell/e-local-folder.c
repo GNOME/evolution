@@ -447,7 +447,7 @@ e_local_folder_new_from_path (const char *path)
 	folder = gtk_type_new (e_local_folder_get_type ());
 
 	if (! construct_loading_metadata (E_LOCAL_FOLDER (folder), path)) {
-		gtk_object_unref (GTK_OBJECT (folder));
+		g_object_unref (folder);
 		return NULL;
 	}
 

@@ -195,8 +195,8 @@ e_shell_config_offline_create_widget (EShell *shell, EvolutionConfigControl *con
 	gtk_widget_show (page_data->storage_set_view);
 
 	init_storage_set_view_status_from_config (E_STORAGE_SET_VIEW (page_data->storage_set_view), shell);
-	gtk_signal_connect (GTK_OBJECT (page_data->storage_set_view), "checkboxes_changed",
-			    GTK_SIGNAL_FUNC (storage_set_view_checkboxes_changed_callback), page_data);
+	g_signal_connect (page_data->storage_set_view, "checkboxes_changed",
+			  G_CALLBACK (storage_set_view_checkboxes_changed_callback), page_data);
 
 	scroll_frame = e_scroll_frame_new (NULL, NULL);
 	e_scroll_frame_set_shadow_type (E_SCROLL_FRAME (scroll_frame), GTK_SHADOW_IN);
@@ -207,10 +207,10 @@ e_shell_config_offline_create_widget (EShell *shell, EvolutionConfigControl *con
 
 	page_data->config_control = control;
 
-	gtk_signal_connect (GTK_OBJECT (page_data->config_control), "destroy",
-			    GTK_SIGNAL_FUNC (config_control_destroy_callback), page_data);
-	gtk_signal_connect (GTK_OBJECT (page_data->config_control), "apply",
-			    GTK_SIGNAL_FUNC (config_control_apply_callback), page_data);
+	g_signal_connect (page_data->config_control, "destroy",
+			  G_CALLBACK (config_control_destroy_callback), page_data);
+	g_signal_connect (page_data->config_control, "apply",
+			  G_CALLBACK (config_control_apply_callback), page_data);
 
 	return scroll_frame;
 }

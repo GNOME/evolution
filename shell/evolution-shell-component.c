@@ -1,7 +1,7 @@
 /* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*- */
 /* evolution-shell-component.c
  *
- * Copyright (C) 2000, 2001 Ximian, Inc.
+ * Copyright (C) 2000, 2001, 2002 Ximian, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public
@@ -239,7 +239,7 @@ owner_ping_callback (void *data)
 	
 	if (priv->owner_client != NULL) {
 		g_print ("\t*** The shell has disappeared\n");
-		gtk_signal_emit (GTK_OBJECT (shell_component), signals[OWNER_DIED]);
+		g_signal_emit (shell_component, signals[OWNER_DIED], 0);
 	}
 
 	priv->ping_timeout_id = -1;
@@ -420,7 +420,7 @@ impl_setOwner (PortableServer_Servant servant,
 			CORBA_exception_set (ev, CORBA_USER_EXCEPTION,
 					     ex_GNOME_Evolution_ShellComponent_OldOwnerHasDied, NULL);
 
-			gtk_signal_emit (GTK_OBJECT (shell_component), signals[OWNER_DIED]);
+			g_signal_emit (shell_component, signals[OWNER_DIED], 0);
 		}
 
 		return;
@@ -430,7 +430,7 @@ impl_setOwner (PortableServer_Servant servant,
 
 	if (ev->_major == CORBA_NO_EXCEPTION) {
 		priv->owner_client = evolution_shell_client_new (shell_duplicate);
-		gtk_signal_emit (GTK_OBJECT (shell_component), signals[OWNER_SET], priv->owner_client, evolution_homedir);
+		g_signal_emit (shell_component, signals[OWNER_SET], 0, priv->owner_client, evolution_homedir);
 
 		setup_owner_pinging (shell_component);
 	}
@@ -454,7 +454,7 @@ impl_unsetOwner (PortableServer_Servant servant,
 		return;
 	}
 
-	gtk_signal_emit (GTK_OBJECT (shell_component), signals[OWNER_UNSET]);
+	g_signal_emit (shell_component, signals[OWNER_UNSET], 0);
 }
 
 static void
@@ -477,7 +477,7 @@ impl_debug (PortableServer_Servant servant,
 	dup2 (fd, STDERR_FILENO);
 	close (fd);
 
-	gtk_signal_emit (GTK_OBJECT (shell_component), signals[DEBUG]);
+	g_signal_emit (shell_component, signals[DEBUG], 0);
 }
 
 static void
@@ -491,7 +491,7 @@ impl_interactive (PortableServer_Servant servant,
 	bonobo_object = bonobo_object_from_servant (servant);
 	shell_component = EVOLUTION_SHELL_COMPONENT (bonobo_object);
 
-	gtk_signal_emit (GTK_OBJECT (shell_component), signals[INTERACTIVE], interactive);
+	g_signal_emit (shell_component, signals[INTERACTIVE], 0, interactive);
 }
 
 static Bonobo_Control
@@ -547,7 +547,7 @@ impl_handleExternalURI (PortableServer_Servant servant,
 
 	shell_component = EVOLUTION_SHELL_COMPONENT (bonobo_object_from_servant (servant));
 
-	gtk_signal_emit (GTK_OBJECT (shell_component), signals[HANDLE_EXTERNAL_URI], uri);
+	g_signal_emit (shell_component, signals[HANDLE_EXTERNAL_URI], 0, uri);
 }
 
 static void
@@ -711,7 +711,7 @@ impl_userCreateNewItem (PortableServer_Servant servant,
 
 	/* FIXME: Check that the type is good.  */
 
-	gtk_signal_emit (GTK_OBJECT (shell_component), signals[USER_CREATE_NEW_ITEM], id, parent_physical_uri, parent_type);
+	g_signal_emit (shell_component, signals[USER_CREATE_NEW_ITEM], 0, id, parent_physical_uri, parent_type);
 }
 
 static void
@@ -722,7 +722,7 @@ impl_sendReceive (PortableServer_Servant servant,
 	EvolutionShellComponent *shell_component;
 
 	shell_component = EVOLUTION_SHELL_COMPONENT (bonobo_object_from_servant (servant));
-	gtk_signal_emit (GTK_OBJECT (shell_component), signals[SEND_RECEIVE], show_dialog);
+	g_signal_emit (shell_component, signals[SEND_RECEIVE], 0, show_dialog);
 }
 
 static void
@@ -752,10 +752,10 @@ impl_requestQuit (PortableServer_Servant servant,
 }
 
 
-/* GtkObject methods.  */
+/* GObject methods.  */
 
 static void
-destroy (GtkObject *object)
+impl_finalize (GObject *object)
 {
 	EvolutionShellComponent *shell_component;
 	EvolutionShellComponentPrivate *priv;
@@ -809,7 +809,7 @@ destroy (GtkObject *object)
 
 	g_free (priv);
 
-	(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
+	(* G_OBJECT_CLASS (parent_class)->finalize) (object);
 }
 
 
@@ -850,7 +850,7 @@ impl_owner_died (EvolutionShellComponent *shell_component)
 	   even if they don't handle the new ::owner_died signal correctly
 	   yet.  */
 
-	gtk_signal_emit (GTK_OBJECT (shell_component), signals[OWNER_UNSET]);
+	g_signal_emit (shell_component, signals[OWNER_UNSET], 0);
 }
 
 
@@ -860,11 +860,11 @@ static void
 class_init (EvolutionShellComponentClass *klass)
 {
 	EvolutionShellComponentClass *shell_component_class;
-	GtkObjectClass *object_class;
+	GObjectClass *object_class;
 	POA_GNOME_Evolution_ShellComponent__epv *epv = &klass->epv;
 
-	object_class = GTK_OBJECT_CLASS (klass);
-	object_class->destroy = destroy;
+	object_class = G_OBJECT_CLASS (klass);
+	object_class->finalize = impl_finalize;
 
 	signals[OWNER_SET]
 		= gtk_signal_new ("owner_set",
@@ -1075,7 +1075,7 @@ evolution_shell_component_new (const EvolutionShellComponentFolderType folder_ty
 
 	g_return_val_if_fail (folder_types != NULL, NULL);
 
-	new = gtk_type_new (evolution_shell_component_get_type ());
+	new = g_object_new (evolution_shell_component_get_type (), NULL);
 
 	evolution_shell_component_construct (new,
 					     folder_types,

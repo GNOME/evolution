@@ -84,10 +84,10 @@ shortcut_list_to_corba (const GSList *shortcut_list,
 }
 
 
-/* GtkObject methods.  */
+/* GObject methods.  */
 
 static void
-impl_destroy (GtkObject *object)
+impl_finalize (GObject *object)
 {
 	ECorbaShortcuts *corba_shortcuts;
 	ECorbaShortcutsPrivate *priv;
@@ -95,14 +95,16 @@ impl_destroy (GtkObject *object)
 	corba_shortcuts = E_CORBA_SHORTCUTS (object);
 	priv = corba_shortcuts->priv;
 
-	gtk_object_unref (GTK_OBJECT (priv->shortcuts));
+	g_object_unref (priv->shortcuts);
 
 	g_free (priv);
 
-	(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
+	(* G_OBJECT_CLASS (parent_class)->finalize) (object);
 }
 
 
+/* Evolution::Shortcuts CORBA methods.  */
+
 static void
 impl_add (PortableServer_Servant servant,
 	  const CORBA_short group_num,
@@ -277,14 +279,14 @@ impl__get_groups (PortableServer_Servant servant,
 
 
 static void
-class_init (GtkObjectClass *object_class)
+class_init (GObjectClass *object_class)
 {
 	ECorbaShortcutsClass *corba_shortcuts_class;
 	POA_GNOME_Evolution_Shortcuts__epv *epv;
 
 	parent_class = gtk_type_class (PARENT_TYPE);
 
-	object_class->destroy = impl_destroy;
+	object_class->finalize = impl_finalize;
 
 	corba_shortcuts_class = E_CORBA_SHORTCUTS_CLASS (object_class);
 
@@ -318,9 +320,9 @@ e_corba_shortcuts_new (EShortcuts *shortcuts)
 	g_return_val_if_fail (shortcuts != NULL, NULL);
 	g_return_val_if_fail (E_IS_SHORTCUTS (shortcuts), NULL);
 
-	corba_shortcuts = gtk_type_new (e_corba_shortcuts_get_type ());
+	corba_shortcuts = g_object_new (e_corba_shortcuts_get_type (), NULL);
 
-	gtk_object_ref (GTK_OBJECT (shortcuts));
+	g_object_ref (shortcuts);
 	corba_shortcuts->priv->shortcuts = shortcuts;
 
 	return corba_shortcuts;

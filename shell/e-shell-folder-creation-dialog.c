@@ -265,6 +265,7 @@ storage_set_view_folder_selected_cb (EStorageSetView *storage_set_view,
 
 /* Shell signal callbacks.  */
 
+#if 0
 static void
 shell_destroy_cb (GtkObject *object,
 		  void *data)
@@ -274,6 +275,7 @@ shell_destroy_cb (GtkObject *object,
 	dialog = GNOME_DIALOG (data);
 	gtk_widget_destroy (GTK_WIDGET (dialog));
 }
+#endif
 
 
 /* Dialog setup.  */
@@ -526,20 +528,22 @@ e_shell_show_folder_creation_dialog (EShell *shell,
 	dialog_data->result_callback_data    = result_callback_data;
 	dialog_data->creation_in_progress    = FALSE;
 
-	gtk_signal_connect (GTK_OBJECT (dialog), "clicked",
-			    GTK_SIGNAL_FUNC (dialog_clicked_cb), dialog_data);
-	gtk_signal_connect (GTK_OBJECT (dialog), "destroy",
-			    GTK_SIGNAL_FUNC (dialog_destroy_cb), dialog_data);
+	g_signal_connect (dialog, "clicked",
+			  G_CALLBACK (dialog_clicked_cb), dialog_data);
+	g_signal_connect (dialog, "destroy",
+			  G_CALLBACK (dialog_destroy_cb), dialog_data);
 
-	gtk_signal_connect (GTK_OBJECT (dialog_data->folder_name_entry), "changed",
-			    GTK_SIGNAL_FUNC (folder_name_entry_changed_cb), dialog_data);
+	g_signal_connect (dialog_data->folder_name_entry, "changed",
+			  G_CALLBACK (folder_name_entry_changed_cb), dialog_data);
 
-	gtk_signal_connect (GTK_OBJECT (dialog_data->storage_set_view), "folder_selected",
-			    GTK_SIGNAL_FUNC (storage_set_view_folder_selected_cb), dialog_data);
+	g_signal_connect (dialog_data->storage_set_view, "folder_selected",
+			  G_CALLBACK (storage_set_view_folder_selected_cb), dialog_data);
 
-	gtk_signal_connect_while_alive (GTK_OBJECT (shell), "destroy",
-					GTK_SIGNAL_FUNC (shell_destroy_cb), dialog_data,
-					GTK_OBJECT (dialog));
+#if 0				/* FIXME */
+	g_signal_connect_object (GTK_OBJECT (shell), "destroy",
+				 G_CALLBACK (shell_destroy_cb), dialog_data,
+				 GTK_OBJECT (dialog));
+#endif
 
-	gtk_object_unref (GTK_OBJECT (gui));
+	g_object_unref (gui);
 }

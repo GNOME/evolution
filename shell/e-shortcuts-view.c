@@ -475,7 +475,7 @@ destroy (GtkObject *object)
 
 	priv = shortcuts_view->priv;
 
-	gtk_object_unref (GTK_OBJECT (priv->shortcuts));
+	g_object_unref (priv->shortcuts);
 
 	g_free (priv);
 
@@ -738,14 +738,13 @@ e_shortcuts_view_construct (EShortcutsView *shortcuts_view,
 	priv = shortcuts_view->priv;
 
 	priv->shortcuts = shortcuts;
-	gtk_object_ref (GTK_OBJECT (priv->shortcuts));
+	g_object_ref (priv->shortcuts);
 
 	e_shortcut_bar_set_model (E_SHORTCUT_BAR (shortcuts_view),
 				  E_SHORTCUT_MODEL (e_shortcuts_view_model_new (shortcuts)));
 
-	gtk_signal_connect_while_alive (GTK_OBJECT (shortcuts), "group_change_icon_size",
-					GTK_SIGNAL_FUNC (group_change_icon_size_callback),
-					shortcuts_view, GTK_OBJECT (shortcuts_view));
+	g_signal_connect_object (shortcuts, "group_change_icon_size",
+				 G_CALLBACK (group_change_icon_size_callback), shortcuts_view, 0);
 
 	num_groups = e_shortcuts_get_num_groups (shortcuts);
 	for (i = 0; i < num_groups; i ++) {

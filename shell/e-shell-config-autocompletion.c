@@ -111,12 +111,12 @@ e_shell_config_autocompletion_create_widget (EShell *shell, EvolutionConfigContr
 
 	ac->config_control = config_control;
 
-	gtk_signal_connect (GTK_OBJECT (ac->control_widget), "changed",
-			    GTK_SIGNAL_FUNC (folder_list_changed_callback), ac);
-	gtk_signal_connect (GTK_OBJECT (ac->config_control), "apply",
-			    GTK_SIGNAL_FUNC (config_control_apply_callback), ac);
-	gtk_signal_connect (GTK_OBJECT (ac->config_control), "destroy",
-			    GTK_SIGNAL_FUNC (config_control_destroy_callback), ac);
+	g_signal_connect (ac->control_widget, "changed",
+			  G_CALLBACK (folder_list_changed_callback), ac);
+	g_signal_connect (ac->config_control, "apply",
+			  G_CALLBACK (config_control_apply_callback), ac);
+	g_signal_connect (ac->config_control, "destroy",
+			  G_CALLBACK (config_control_destroy_callback), ac);
 
 	CORBA_exception_free (&ev);
 

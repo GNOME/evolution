@@ -50,10 +50,10 @@ enum {
 static int signals[LAST_SIGNAL] = { 0 };
 
 
-/* GtkObject methods.  */
+/* GObject methods.  */
 
 static void
-impl_destroy (GtkObject *object)
+impl_finalize (GObject *object)
 {
 	EvolutionConfigControl *config_control;
 	EvolutionConfigControlPrivate *priv;
@@ -69,7 +69,7 @@ impl_destroy (GtkObject *object)
 		config_control->priv = NULL;
 	}
 
-	(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
+	(* G_OBJECT_CLASS (parent_class)->finalize) (object);
 }
 
 
@@ -85,7 +85,7 @@ impl_apply (PortableServer_Servant servant,
 	config_control = EVOLUTION_CONFIG_CONTROL (bonobo_object_from_servant (servant));
 	priv = config_control->priv;
 
-	gtk_signal_emit (GTK_OBJECT (config_control), signals[APPLY]);
+	g_signal_emit (GTK_OBJECT (config_control), signals[APPLY], 0);
 
 	priv->changed = FALSE;
 }
@@ -125,10 +125,10 @@ static void
 class_init (EvolutionConfigControlClass *class)
 {
 	POA_GNOME_Evolution_ConfigControl__epv *epv;
-	GtkObjectClass *object_class;
+	GObjectClass *object_class;
 
-	object_class = GTK_OBJECT_CLASS (class);
-	object_class->destroy = impl_destroy;
+	object_class = G_OBJECT_CLASS (class);
+	object_class->finalize = impl_finalize;
 
 	epv = &class->epv;
 	epv->apply            = impl_apply;
@@ -179,7 +179,7 @@ evolution_config_control_new (GtkWidget *widget)
 
 	g_return_val_if_fail (GTK_IS_WIDGET (widget), NULL);
 
-	new = gtk_type_new (evolution_config_control_get_type ());
+	new = g_object_new (evolution_config_control_get_type (), NULL);
 	evolution_config_control_construct (new, widget);
 
 	return new;

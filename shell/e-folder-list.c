@@ -142,7 +142,7 @@ e_folder_list_destroy (GtkObject *object)
 	EFolderList *efl = E_FOLDER_LIST (object);
 
 	if (efl->priv->gui)
-		gtk_object_unref (GTK_OBJECT (efl->priv->gui));
+		g_object_unref (efl->priv->gui);
 
 	if (efl->priv->client)
 		g_object_unref (efl->priv->client);
@@ -436,10 +436,10 @@ e_folder_list_init (EFolderList *efl)
 
 	selection_model = e_table_get_selection_model (e_table_scrolled_get_table (efl->priv->scrolled_table));
 
-	gtk_signal_connect (GTK_OBJECT (selection_model), "selection_changed",
-			    GTK_SIGNAL_FUNC (selection_changed), efl);
-	gtk_signal_connect (GTK_OBJECT (selection_model), "cursor_changed",
-			    GTK_SIGNAL_FUNC (cursor_changed), efl);
+	g_signal_connect (selection_model, "selection_changed",
+			  G_CALLBACK (selection_changed), efl);
+	g_signal_connect (selection_model, "cursor_changed",
+			  G_CALLBACK (cursor_changed), efl);
 
 	efl->priv->possible_types = NULL;
 	set_frame_label (efl);

@@ -282,8 +282,9 @@ task_widget_new_from_activity_info (ActivityInfo *activity_info)
 				    activity_info->information);
 	gtk_widget_show (widget);
 
-	gtk_signal_connect (GTK_OBJECT (widget), "button_press_event",
-			    GTK_SIGNAL_FUNC (task_widget_button_press_event_callback), activity_info);
+	g_signal_connect (widget, "button_press_event",
+			  G_CALLBACK (task_widget_button_press_event_callback),
+			  activity_info);
 
 	return E_TASK_WIDGET (widget);
 }
@@ -323,10 +324,10 @@ task_bar_destroy_callback (GtkObject *task_bar_object,
 }
 
 
-/* GtkObject methods.  */
+/* GObject methods.  */
 
 static void
-impl_destroy (GtkObject *object)
+impl_finalize (GObject *object)
 {
 	EActivityHandler *handler;
 	EActivityHandlerPrivate *priv;
@@ -345,7 +346,7 @@ impl_destroy (GtkObject *object)
 	g_free (priv);
 	handler->priv = NULL;
 
-	(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
+	(* G_OBJECT_CLASS (parent_class)->finalize) (object);
 }
 
 
@@ -509,13 +510,13 @@ impl_requestDialog (PortableServer_Servant servant,
 /* GTK+ type stuff.  */
 
 static void
-class_init (GtkObjectClass *object_class)
+class_init (GObjectClass *object_class)
 {
 	EActivityHandlerClass *handler_class;
 
 	parent_class = gtk_type_class (PARENT_TYPE);
 
-	object_class->destroy = impl_destroy;
+	object_class->finalize = impl_finalize;
 
 	handler_class = E_ACTIVITY_HANDLER_CLASS (object_class);
 	handler_class->epv.operationStarted     = impl_operationStarted;
@@ -552,7 +553,7 @@ e_activity_handler_new (void)
 {
 	EActivityHandler *activity_handler;
 
-	activity_handler = gtk_type_new (e_activity_handler_get_type ());
+	activity_handler = g_object_new (e_activity_handler_get_type (), 0);
 	e_activity_handler_construct (activity_handler);
 
 	return activity_handler;
@@ -572,9 +573,9 @@ e_activity_handler_attach_task_bar (EActivityHandler *activity_handler,
 
 	priv = activity_handler->priv;
 
-	gtk_signal_connect_while_alive (GTK_OBJECT (task_bar), "destroy",
-					GTK_SIGNAL_FUNC (task_bar_destroy_callback), activity_handler,
-					GTK_OBJECT (activity_handler));
+	g_signal_connect_object (task_bar, "destroy",
+				 G_CALLBACK (task_bar_destroy_callback),
+				 G_OBJECT (activity_handler), 0);
 
 	priv->task_bars = g_slist_prepend (priv->task_bars, task_bar);
 

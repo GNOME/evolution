@@ -87,7 +87,7 @@ folder_destroy_notify (EFolderTree *tree,
 	}
 
 	e_folder = E_FOLDER (data);
-	gtk_object_unref (GTK_OBJECT (e_folder));
+	g_object_unref (e_folder);
 }
 
 
@@ -710,9 +710,7 @@ e_storage_new_folder (EStorage *storage,
 	}
 	g_free (parent_path);
 
-	gtk_signal_connect_while_alive (GTK_OBJECT (e_folder), "changed",
-					GTK_SIGNAL_FUNC (folder_changed_cb), storage,
-					GTK_OBJECT (storage));
+	g_signal_connect_object (e_folder, "changed", G_CALLBACK (folder_changed_cb), storage, 0);
 
 	gtk_signal_emit (GTK_OBJECT (storage), signals[NEW_FOLDER], path);
 

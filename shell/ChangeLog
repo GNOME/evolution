@@ -1,5 +1,30 @@
 2002-11-03  Ettore Perazzoli  <ettore@ximian.com>
 
+	* *.c, *.h: Changed all gtk_object_refs()/gtk_object_unrefs() into
+	g_object_refs()/g_object_unrefs() and all gtk_signal_connect_*()
+	into g_signal_connect_*().  [Except for some case where we have
+	gtk_signal_connect_full() or gtk_signal_connect_while_alive()
+	calls that cannot be trivially ported to use the g_signal_*
+	functions, we'll have to fix those later.]
+
+	* e-splash.c (impl_finalize): Finalize implementation, copied over
+	from impl_destroy.
+	(impl_destroy): Removed.
+	(class_init): Override finalize, not destroy.
+
+	* e-activity-handler.c: Ported from GtkObject to GObject.
+	* evolution-storage.c: Likewise.
+	* e-corba-shortcuts.c: Likewise.
+	* evolution-session.h: Likewise.
+	* evolution-config-control.c: Likewise.
+	* evolution-shell-component-dnd.c: Likewise.
+	* evolution-shell-component.c: Likewise.
+	* evolution-shell-view.c: Likewise.
+	* evolution-storage-set-view.c: Likewise.
+	* evolution-wizard.c: Likewise.
+
+2002-11-03  Ettore Perazzoli  <ettore@ximian.com>
+
 	* e-component-info.c: Updated for libxml2.
 	* e-shortcuts.c: Likewise.
 	* e-folder-list.c: Likewise.

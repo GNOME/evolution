@@ -66,7 +66,7 @@ impl_destroy (GtkObject *object)
 
 	g_free (priv->component_id);
 
-	gtk_object_unref (GTK_OBJECT (priv->tooltips));
+	g_object_unref (priv->tooltips);
 
 	gdk_pixbuf_unref (priv->icon_pixbuf);
 

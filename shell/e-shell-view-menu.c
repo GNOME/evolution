@@ -176,8 +176,8 @@ command_quit (BonoboUIComponent *uih,
 
 static void
 command_submit_bug (BonoboUIComponent *uih,
-		      void *data,
-		      const char *path)
+		    void *data,
+		    const char *path)
 {
         int pid;
         char *args[] = {
@@ -234,12 +234,12 @@ command_about_box (BonoboUIComponent *uih,
 
 	about_box_window = gtk_dialog_new ();
 	gtk_window_set_policy (GTK_WINDOW (about_box_window), FALSE, FALSE, FALSE);
-	gtk_signal_connect (GTK_OBJECT (about_box_window), "key_press_event",
-			    GTK_SIGNAL_FUNC (about_box_event_callback), &about_box_window);
-	gtk_signal_connect (GTK_OBJECT (about_box_window), "button_press_event",
-			    GTK_SIGNAL_FUNC (about_box_event_callback), &about_box_window);
-	gtk_signal_connect (GTK_OBJECT (about_box_window), "delete_event",
-			    GTK_SIGNAL_FUNC (about_box_event_callback), &about_box_window);
+	g_signal_connect (about_box_window, "key_press_event",
+			  G_CALLBACK (about_box_event_callback), &about_box_window);
+	g_signal_connect (about_box_window, "button_press_event",
+			  G_CALLBACK (about_box_event_callback), &about_box_window);
+	g_signal_connect (about_box_window, "delete_event",
+			  G_CALLBACK (about_box_event_callback), &about_box_window);
 
 	gtk_window_set_transient_for (GTK_WINDOW (about_box_window), GTK_WINDOW (data));
 	gtk_window_set_title (GTK_WINDOW (about_box_window), _("About Ximian Evolution"));
@@ -504,10 +504,10 @@ command_goto_folder (BonoboUIComponent *uih,
 
 	gtk_window_set_transient_for (GTK_WINDOW (folder_selection_dialog), GTK_WINDOW (shell_view));
 
-	gtk_signal_connect (GTK_OBJECT (folder_selection_dialog), "cancelled",
-			    GTK_SIGNAL_FUNC (goto_folder_dialog_cancelled_cb), shell_view);
-	gtk_signal_connect (GTK_OBJECT (folder_selection_dialog), "folder_selected",
-			    GTK_SIGNAL_FUNC (goto_folder_dialog_folder_selected_cb), shell_view);
+	g_signal_connect (folder_selection_dialog, "cancelled",
+			  G_CALLBACK (goto_folder_dialog_cancelled_cb), shell_view);
+	g_signal_connect (folder_selection_dialog, "folder_selected",
+			  G_CALLBACK (goto_folder_dialog_folder_selected_cb), shell_view);
 
 	gtk_widget_show (folder_selection_dialog);
 }
@@ -619,10 +619,10 @@ command_new_shortcut (BonoboUIComponent *uih,
 	e_shell_folder_selection_dialog_set_allow_creation (E_SHELL_FOLDER_SELECTION_DIALOG (folder_selection_dialog),
 							    FALSE);
 
-	gtk_signal_connect (GTK_OBJECT (folder_selection_dialog), "cancelled",
-			    GTK_SIGNAL_FUNC (new_shortcut_dialog_cancelled_cb), shell_view);
-	gtk_signal_connect (GTK_OBJECT (folder_selection_dialog), "folder_selected",
-			    GTK_SIGNAL_FUNC (new_shortcut_dialog_folder_selected_cb), shell_view);
+	g_signal_connect (folder_selection_dialog, "cancelled",
+			  G_CALLBACK (new_shortcut_dialog_cancelled_cb), shell_view);
+	g_signal_connect (folder_selection_dialog, "folder_selected",
+			  G_CALLBACK (new_shortcut_dialog_folder_selected_cb), shell_view);
 
 	gtk_widget_show (folder_selection_dialog);
 }
@@ -855,12 +855,12 @@ e_shell_view_menu_setup (EShellView *shell_view)
 
 	e_pixmaps_update (uic, pixmaps);
 
-	gtk_signal_connect (GTK_OBJECT (shell_view), "shortcut_bar_visibility_changed",
-			    GTK_SIGNAL_FUNC (shortcut_bar_visibility_changed_cb),
-			    SHORTCUT_BAR_TOGGLE_PATH);
-	gtk_signal_connect (GTK_OBJECT (shell_view), "folder_bar_visibility_changed",
-			    GTK_SIGNAL_FUNC (folder_bar_visibility_changed_cb),
-			    FOLDER_BAR_TOGGLE_PATH);
+	g_signal_connect (shell_view, "shortcut_bar_visibility_changed",
+			  G_CALLBACK (shortcut_bar_visibility_changed_cb),
+			  SHORTCUT_BAR_TOGGLE_PATH);
+	g_signal_connect (shell_view, "folder_bar_visibility_changed",
+			  G_CALLBACK (folder_bar_visibility_changed_cb),
+			  FOLDER_BAR_TOGGLE_PATH);
 
 	/* Initialize the toggles.  Yeah, this is, well, yuck.  */
 	folder_bar_visibility_changed_cb   (shell_view, e_shell_view_folder_bar_shown (shell_view),
@@ -869,8 +869,7 @@ e_shell_view_menu_setup (EShellView *shell_view)
 					    SHORTCUT_BAR_TOGGLE_PATH);
 
 	/* Set up the work online / work offline menu item.  */
-	gtk_signal_connect_while_alive (GTK_OBJECT (shell), "line_status_changed",
-					GTK_SIGNAL_FUNC (shell_line_status_changed_cb), shell_view,
-					GTK_OBJECT (shell_view));
+	g_signal_connect_object (shell, "line_status_changed",
+				 G_CALLBACK (shell_line_status_changed_cb), shell_view, 0);
 	update_offline_menu_item (shell_view, e_shell_get_line_status (shell));
 }

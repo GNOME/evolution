@@ -137,7 +137,7 @@ setup_name_selector (GladeXML *glade_xml)
 	gtk_widget_show (control_widget);
 
 	button = glade_xml_get_widget (glade_xml, "button-user");
-	gtk_signal_connect (GTK_OBJECT (button), "clicked", GTK_SIGNAL_FUNC (user_clicked), corba_iface);
+	g_signal_connect (button, "clicked", G_CALLBACK (user_clicked), corba_iface);
 
 	CORBA_exception_free (&ev);
 	return control_widget;
@@ -190,9 +190,9 @@ setup_server_option_menu (EShell *shell,
 		storage_name = e_storage_get_name (E_STORAGE (p->data));
 
 		menu_item = e_utf8_gtk_menu_item_new_with_label (GTK_MENU (menu), storage_name);
-		gtk_signal_connect (GTK_OBJECT (menu_item), "activate",
-				    GTK_SIGNAL_FUNC (server_option_menu_item_activate_callback),
-				    storage_name_return);
+		g_signal_connect (menu_item, "activate",
+				  G_CALLBACK (server_option_menu_item_activate_callback),
+				  storage_name_return);
 		gtk_object_set_data_full (GTK_OBJECT (menu_item), "storage_name",
 					  g_strdup (storage_name), g_free);
 
@@ -277,7 +277,7 @@ cleanup_discovery (DiscoveryData *discovery_data)
 
 	g_free (discovery_data->user_email_address);
 	g_free (discovery_data->folder_name);
-	gtk_object_unref (GTK_OBJECT (discovery_data->storage));
+	g_object_unref (discovery_data->storage);
 	g_free (discovery_data);
 }
 
@@ -359,8 +359,8 @@ create_progress_dialog (EShell *shell,
 	gtk_widget_set_usize (dialog, 300, -1);
 	gtk_window_set_policy (GTK_WINDOW (dialog), FALSE, FALSE, FALSE);
 
-	gtk_signal_connect (GTK_OBJECT (dialog), "close",
-			    GTK_SIGNAL_FUNC (progress_dialog_close_callback), NULL);
+	g_signal_connect (dialog, "close",
+			  G_CALLBACK (progress_dialog_close_callback), NULL);
 
 	text = g_strdup_printf (_("Opening Folder \"%s\""), folder_name);
 	label = gtk_label_new (text);
@@ -377,14 +377,14 @@ create_progress_dialog (EShell *shell,
 	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (dialog)->vbox), progress_bar, FALSE, TRUE, 0);
 
 	timeout_id = g_timeout_add (50, progress_bar_timeout_callback, progress_bar);
-	gtk_signal_connect (GTK_OBJECT (progress_bar), "destroy",
-			    GTK_SIGNAL_FUNC (progress_bar_destroy_callback),
-			    GINT_TO_POINTER (timeout_id));
+	g_signal_connect (progress_bar, "destroy",
+			  G_CALLBACK (progress_bar_destroy_callback),
+			  GINT_TO_POINTER (timeout_id));
 
 	timeout_id = g_timeout_add (PROGRESS_DIALOG_DELAY, progress_dialog_show_timeout_callback, dialog);
-	gtk_signal_connect (GTK_OBJECT (progress_bar), "destroy",
-			    GTK_SIGNAL_FUNC (progress_bar_destroy_callback),
-			    GINT_TO_POINTER (timeout_id));
+	g_signal_connect (progress_bar, "destroy",
+			  G_CALLBACK (progress_bar_destroy_callback),
+			  GINT_TO_POINTER (timeout_id));
 
 	return dialog;
 }
@@ -487,19 +487,19 @@ discover_folder (EShell *shell,
 	discovery_data->user_email_address = g_strdup (user_email_address);
 	discovery_data->folder_name        = g_strdup (folder_name);
 	discovery_data->storage            = storage;
-	gtk_object_ref (GTK_OBJECT (storage));
+	g_object_ref (storage);
 
-	gtk_signal_connect (GTK_OBJECT (shell), "destroy",
-			    GTK_SIGNAL_FUNC (shell_destroy_callback), discovery_data);
+	g_signal_connect (shell, "destroy",
+			  G_CALLBACK (shell_destroy_callback), discovery_data);
 
-	gtk_signal_connect (GTK_OBJECT (parent), "destroy",
-			    GTK_SIGNAL_FUNC (shell_view_destroy_callback), discovery_data);
+	g_signal_connect (parent, "destroy",
+			  G_CALLBACK (shell_view_destroy_callback), discovery_data);
 
-	gtk_signal_connect (GTK_OBJECT (storage), "destroy",
-			    GTK_SIGNAL_FUNC (storage_destroy_callback), discovery_data);
+	g_signal_connect (storage, "destroy",
+			  G_CALLBACK (storage_destroy_callback), discovery_data);
 
-	gtk_signal_connect (GTK_OBJECT (dialog), "clicked",
-			    GTK_SIGNAL_FUNC (progress_dialog_clicked_callback), discovery_data);
+	g_signal_connect (dialog, "clicked",
+			  G_CALLBACK (progress_dialog_clicked_callback), discovery_data);
 
 	e_storage_async_discover_shared_folder (storage,
 						user_email_address,

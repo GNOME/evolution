@@ -739,8 +739,8 @@ pop_up_folder_bar (EShellView *shell_view)
 	/* We need to show the storage set view box and do a pointer grab to catch the
            mouse clicks.  But until the box is shown, we cannot grab.  So we connect to
            the "map" signal; `storage_set_view_box_map_cb()' will do the grab.  */
-	gtk_signal_connect (GTK_OBJECT (priv->folder_bar_popup), "map",
-			    GTK_SIGNAL_FUNC (folder_bar_popup_map_callback), shell_view);
+	g_signal_connect (priv->folder_bar_popup, "map",
+			  G_CALLBACK (folder_bar_popup_map_callback), shell_view);
 
 	x = priv->folder_title_bar->allocation.x;
 	y = priv->folder_title_bar->allocation.y + priv->folder_title_bar->allocation.height;
@@ -795,7 +795,7 @@ popdown_transient_folder_bar_idle (void *data)
 
 	popdown_transient_folder_bar (shell_view);
 
-	gtk_object_unref (GTK_OBJECT (shell_view));
+	g_object_unref (shell_view);
 
 	return FALSE;
 }
@@ -831,7 +831,7 @@ switch_on_folder_tree_click (EShellView *shell_view,
 		e_shell_view_display_uri (shell_view, uri, TRUE);
 		g_free (uri);
 
-		gtk_object_ref (GTK_OBJECT (shell_view));
+		g_object_ref (shell_view);
 		gtk_idle_add (popdown_transient_folder_bar_idle, shell_view);
 		return;
 	}
@@ -1058,12 +1058,12 @@ setup_storage_set_subwindow (EShellView *shell_view)
 
 	storage_set_view = e_storage_set_create_new_view (e_shell_get_storage_set (priv->shell),
 							  priv->ui_container);
-	gtk_signal_connect (GTK_OBJECT (storage_set_view), "folder_selected",
-			    GTK_SIGNAL_FUNC (folder_selected_cb), shell_view);
-	gtk_signal_connect (GTK_OBJECT (storage_set_view), "folder_context_menu_popping_up",
-			    GTK_SIGNAL_FUNC (folder_context_menu_popping_up_cb), shell_view);
-	gtk_signal_connect (GTK_OBJECT (storage_set_view), "folder_context_menu_popped_down",
-			    GTK_SIGNAL_FUNC (folder_context_menu_popped_down_cb), shell_view);
+	g_signal_connect (storage_set_view, "folder_selected",
+			  G_CALLBACK (folder_selected_cb), shell_view);
+	g_signal_connect (storage_set_view, "folder_context_menu_popping_up",
+			  G_CALLBACK (folder_context_menu_popping_up_cb), shell_view);
+	g_signal_connect (storage_set_view, "folder_context_menu_popped_down",
+			  G_CALLBACK (folder_context_menu_popped_down_cb), shell_view);
 
 	scroll_frame = e_scroll_frame_new (NULL, NULL);
 	e_scroll_frame_set_policy (E_SCROLL_FRAME (scroll_frame),
@@ -1081,8 +1081,8 @@ setup_storage_set_subwindow (EShellView *shell_view)
 	gtk_box_pack_start (GTK_BOX (vbox), priv->storage_set_title_bar, FALSE, FALSE, 0);
 	gtk_box_pack_start (GTK_BOX (vbox), scroll_frame, TRUE, TRUE, 0);
 
-	gtk_signal_connect (GTK_OBJECT (priv->storage_set_title_bar), "button_clicked",
-			    GTK_SIGNAL_FUNC (storage_set_view_button_clicked_cb), shell_view);
+	g_signal_connect (priv->storage_set_title_bar, "button_clicked",
+			  G_CALLBACK (storage_set_view_button_clicked_cb), shell_view);
 
 	gtk_widget_show (storage_set_view);
 	gtk_widget_show (priv->storage_set_title_bar);
@@ -1107,8 +1107,8 @@ setup_offline_toggle (EShellView *shell_view)
 	GTK_WIDGET_UNSET_FLAGS (toggle, GTK_CAN_FOCUS);
 	gtk_button_set_relief (GTK_BUTTON (toggle), GTK_RELIEF_NONE);
 
-	gtk_signal_connect (GTK_OBJECT (toggle), "clicked",
-			    GTK_SIGNAL_FUNC (offline_toggle_clicked_cb), shell_view);
+	g_signal_connect (toggle, "clicked",
+			  G_CALLBACK (offline_toggle_clicked_cb), shell_view);
 
 	pixmap = gtk_pixmap_new (offline_pixmap, offline_mask);
 
@@ -1215,10 +1215,10 @@ setup_statusbar_hints (EShellView *shell_view)
 
 	ui_engine = bonobo_window_get_ui_engine (BONOBO_WINDOW (shell_view));
  
-	gtk_signal_connect (GTK_OBJECT (ui_engine), "add_hint",
-			    GTK_SIGNAL_FUNC (ui_engine_add_hint_callback), shell_view);
-	gtk_signal_connect (GTK_OBJECT (ui_engine), "remove_hint",
-			    GTK_SIGNAL_FUNC (ui_engine_remove_hint_callback), shell_view);
+	g_signal_connect (ui_engine, "add_hint",
+			  G_CALLBACK (ui_engine_add_hint_callback), shell_view);
+	g_signal_connect (ui_engine, "remove_hint",
+			  G_CALLBACK (ui_engine_remove_hint_callback), shell_view);
 }
 
 
@@ -1234,11 +1234,11 @@ setup_widgets (EShellView *shell_view)
 	/* The shortcut bar.  */
 
 	priv->shortcut_bar = e_shortcuts_new_view (e_shell_get_shortcuts (priv->shell));
-	gtk_signal_connect (GTK_OBJECT (priv->shortcut_bar), "activate_shortcut",
-			    GTK_SIGNAL_FUNC (activate_shortcut_cb), shell_view);
+	g_signal_connect (priv->shortcut_bar, "activate_shortcut",
+			  G_CALLBACK (activate_shortcut_cb), shell_view);
 
-	gtk_signal_connect (GTK_OBJECT (priv->shortcut_bar), "hide_requested",
-			    GTK_SIGNAL_FUNC (hide_requested_cb), shell_view);
+	g_signal_connect (priv->shortcut_bar, "hide_requested",
+			  G_CALLBACK (hide_requested_cb), shell_view);
 
 	priv->shortcut_frame = gtk_frame_new (NULL);
 	gtk_frame_set_shadow_type (GTK_FRAME (priv->shortcut_frame), GTK_SHADOW_IN);
@@ -1262,12 +1262,12 @@ setup_widgets (EShellView *shell_view)
 	priv->view_vbox = gtk_vbox_new (FALSE, 0);
 
 	priv->folder_title_bar = e_shell_folder_title_bar_new ();
-	gtk_signal_connect (GTK_OBJECT (priv->folder_title_bar), "title_toggled",
-			    GTK_SIGNAL_FUNC (title_bar_toggled_cb), shell_view);
-	gtk_signal_connect (GTK_OBJECT (priv->folder_title_bar), "back_clicked",
-			    GTK_SIGNAL_FUNC (back_clicked_callback), shell_view);
-	gtk_signal_connect (GTK_OBJECT (priv->folder_title_bar), "forward_clicked",
-			    GTK_SIGNAL_FUNC (forward_clicked_callback), shell_view);
+	g_signal_connect (priv->folder_title_bar, "title_toggled",
+			  G_CALLBACK (title_bar_toggled_cb), shell_view);
+	g_signal_connect (priv->folder_title_bar, "back_clicked",
+			  G_CALLBACK (back_clicked_callback), shell_view);
+	g_signal_connect (priv->folder_title_bar, "forward_clicked",
+			  G_CALLBACK (forward_clicked_callback), shell_view);
 
 	priv->view_hpaned = e_hpaned_new ();
 	e_paned_pack1 (E_PANED (priv->view_hpaned), priv->storage_set_view_box, FALSE, FALSE);
@@ -1351,10 +1351,10 @@ destroy (GtkObject *object)
 	   storage set used for the delayed selection mechanism.  */
 	cleanup_delayed_selection (shell_view);
 
-	gtk_object_unref (GTK_OBJECT (priv->tooltips));
+	g_object_unref (priv->tooltips);
 
 	if (priv->history != NULL)
-		gtk_object_unref (GTK_OBJECT (priv->history));
+		g_object_unref (priv->history);
 
 	if (priv->shell != NULL)
 		bonobo_object_unref (BONOBO_OBJECT (priv->shell));
@@ -1497,9 +1497,9 @@ init (EShellView *shell_view)
 
 static void
 corba_interface_set_message_cb (EvolutionShellView *shell_view,
-				     const char *message,
-				     gboolean busy,
-				     void *data)
+				const char *message,
+				gboolean busy,
+				void *data)
 {
 	/* Don't do anything here anymore.  The interface is going to be
 	   deprecated soon.  */
@@ -1507,7 +1507,7 @@ corba_interface_set_message_cb (EvolutionShellView *shell_view,
 
 static void
 corba_interface_unset_message_cb (EvolutionShellView *shell_view,
-				       void *data)
+				  void *data)
 {
 	/* Don't do anything here anymore.  The interface is going to be
 	   deprecated soon.  */
@@ -1515,8 +1515,8 @@ corba_interface_unset_message_cb (EvolutionShellView *shell_view,
 
 static void
 corba_interface_change_current_view_cb (EvolutionShellView *shell_view,
-					     const char *uri,
-					     void *data)
+					const char *uri,
+					void *data)
 {
 	EShellView *view;
 
@@ -1665,23 +1665,23 @@ e_shell_view_construct (EShellView *shell_view,
 						      "evolution", "Ximian Evolution"));
 
 	if (!view) {
-		gtk_object_unref (GTK_OBJECT (shell_view));
+		g_object_unref (shell_view);
 		return NULL;
 	}		
 
 	priv->shell = shell;
 	bonobo_object_ref (BONOBO_OBJECT (priv->shell));
 
-	gtk_signal_connect (GTK_OBJECT (view), "delete_event",
-			    GTK_SIGNAL_FUNC (delete_event_cb), NULL);
+	g_signal_connect (view, "delete_event",
+			  G_CALLBACK (delete_event_cb), NULL);
 
 	gtk_signal_connect_while_alive (GTK_OBJECT (e_shell_get_storage_set (priv->shell)),
-					"updated_folder", GTK_SIGNAL_FUNC (updated_folder_cb),
+					"updated_folder", G_CALLBACK (updated_folder_cb),
 					shell_view, GTK_OBJECT (shell_view));
 
 	priv->ui_container = bonobo_window_get_ui_container (BONOBO_WINDOW (view));
-	gtk_signal_connect (GTK_OBJECT (priv->ui_container), "system_exception",
-			    GTK_SIGNAL_FUNC (unmerge_on_error), NULL);
+	g_signal_connect (priv->ui_container, "system_exception",
+			  G_CALLBACK (unmerge_on_error), NULL);
 
 	priv->ui_component = bonobo_ui_component_new ("evolution");
 	bonobo_ui_component_set_container (priv->ui_component,
@@ -1702,13 +1702,11 @@ e_shell_view_construct (EShellView *shell_view,
 
 	bonobo_ui_component_thaw (priv->ui_component, NULL);
 
-	gtk_signal_connect_while_alive (GTK_OBJECT (shell), "line_status_changed",
-					GTK_SIGNAL_FUNC (shell_line_status_changed_cb), shell_view,
-					GTK_OBJECT (shell_view));
+	g_signal_connect_object (shell, "line_status_changed",
+				 G_CALLBACK (shell_line_status_changed_cb), shell_view, 0);
 
-	gtk_signal_connect_while_alive (GTK_OBJECT (e_shell_get_storage_set (shell)), "removed_folder",
-					GTK_SIGNAL_FUNC (storage_set_removed_folder_callback), shell_view,
-					GTK_OBJECT (shell_view));
+	g_signal_connect_object (GTK_OBJECT (e_shell_get_storage_set (shell)), "removed_folder",
+				 G_CALLBACK (storage_set_removed_folder_callback), shell_view, 0);
 
 	e_shell_user_creatable_items_handler_attach_menus (e_shell_get_user_creatable_items_handler (priv->shell),
 							   shell_view);
@@ -1863,7 +1861,7 @@ update_for_current_uri (EShellView *shell_view)
 	priv = shell_view->priv;
 
 	/* If we update when there is a timeout set, the selection will jump
-	  around against the user's wishes.  So we just return.  */     
+	   around against the user's wishes.  So we just return.  */     
 	if (priv->set_folder_timeout != 0)
 		return;
 
@@ -1907,14 +1905,14 @@ update_for_current_uri (EShellView *shell_view)
 	g_free (title);
 
 	gtk_signal_handler_block_by_func (GTK_OBJECT (priv->storage_set_view),
-					  GTK_SIGNAL_FUNC (folder_selected_cb),
+					  G_CALLBACK (folder_selected_cb),
 					  shell_view);
 
 	if (path != NULL)
 		e_storage_set_view_set_current_folder (E_STORAGE_SET_VIEW (priv->storage_set_view), path);
 
 	gtk_signal_handler_unblock_by_func (GTK_OBJECT (priv->storage_set_view),
-					    GTK_SIGNAL_FUNC (folder_selected_cb),
+					    G_CALLBACK (folder_selected_cb),
 					    shell_view);
 }
 
@@ -2016,24 +2014,18 @@ setup_corba_interface (EShellView *shell_view,
 	control_frame = bonobo_widget_get_control_frame (BONOBO_WIDGET (control));
 	corba_interface = evolution_shell_view_new ();
 
-	gtk_signal_connect_while_alive (GTK_OBJECT (corba_interface), "set_message",
-					GTK_SIGNAL_FUNC (corba_interface_set_message_cb),
-					shell_view, GTK_OBJECT (shell_view));
-	gtk_signal_connect_while_alive (GTK_OBJECT (corba_interface), "unset_message",
-					GTK_SIGNAL_FUNC (corba_interface_unset_message_cb),
-					shell_view, GTK_OBJECT (shell_view));
-	gtk_signal_connect_while_alive (GTK_OBJECT (corba_interface), "change_current_view",
-					GTK_SIGNAL_FUNC (corba_interface_change_current_view_cb),
-					shell_view, GTK_OBJECT (shell_view));
-	gtk_signal_connect_while_alive (GTK_OBJECT (corba_interface), "set_title",
-					GTK_SIGNAL_FUNC (corba_interface_set_title),
-					shell_view, GTK_OBJECT (shell_view));
-	gtk_signal_connect_while_alive (GTK_OBJECT (corba_interface), "set_folder_bar_label",
-					GTK_SIGNAL_FUNC (corba_interface_set_folder_bar_label),
-					shell_view, GTK_OBJECT (shell_view));
-	gtk_signal_connect_while_alive (GTK_OBJECT (corba_interface), "show_settings",
-					GTK_SIGNAL_FUNC (corba_interface_show_settings),
-					shell_view, GTK_OBJECT (shell_view));
+	g_signal_connect_object (corba_interface, "set_message",
+				 G_CALLBACK (corba_interface_set_message_cb), shell_view, 0);
+	g_signal_connect_object (corba_interface, "unset_message",
+				 G_CALLBACK (corba_interface_unset_message_cb), shell_view, 0);
+	g_signal_connect_object (corba_interface, "change_current_view",
+				 G_CALLBACK (corba_interface_change_current_view_cb), shell_view, 0);
+	g_signal_connect_object (corba_interface, "set_title",
+				 G_CALLBACK (corba_interface_set_title), shell_view, 0);
+	g_signal_connect_object (corba_interface, "set_folder_bar_label",
+				 G_CALLBACK (corba_interface_set_folder_bar_label), shell_view, 0);
+	g_signal_connect_object (corba_interface, "show_settings",
+				 G_CALLBACK (corba_interface_show_settings), shell_view, 0);
 
 	bonobo_object_add_interface (BONOBO_OBJECT (control_frame),
 				     BONOBO_OBJECT (corba_interface));
@@ -2188,9 +2180,9 @@ get_view_for_uri (EShellView *shell_view,
 	control = bonobo_widget_new_control_from_objref (corba_control, container);
 
 	socket = find_socket (GTK_CONTAINER (control));
-	destroy_connection_id = gtk_signal_connect (GTK_OBJECT (socket), "destroy",
-						    GTK_SIGNAL_FUNC (socket_destroy_cb),
-						    shell_view);
+	destroy_connection_id = g_signal_connect (socket, "destroy",
+						  G_CALLBACK (socket_destroy_cb),
+						  shell_view);
 	gtk_object_set_data (GTK_OBJECT (socket),
 			     "e_shell_view_destroy_connection_id",
 			     GINT_TO_POINTER (destroy_connection_id));
@@ -2341,7 +2333,7 @@ display_uri (EShellView *shell_view,
 		cleanup_delayed_selection (shell_view);
 		priv->delayed_selection = g_strdup (real_uri);
 		gtk_signal_connect_full (GTK_OBJECT (e_shell_get_storage_set (priv->shell)),
-					 "new_folder", GTK_SIGNAL_FUNC (new_folder_cb), NULL,
+					 "new_folder", G_CALLBACK (new_folder_cb), NULL,
 					 shell_view, NULL, FALSE, TRUE);
 		retval = TRUE;
 		goto end;

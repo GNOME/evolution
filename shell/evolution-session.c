@@ -1,7 +1,7 @@
 /* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*- */
 /* evolution-session.c
  *
- * Copyright (C) 2000  Ximian, Inc.
+ * Copyright (C) 2000, 2001, 2002  Ximian, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public
@@ -48,10 +48,10 @@ enum {
 static int signals[LAST_SIGNAL];
 
 
-/* GtkObject methods.  */
+/* GObject methods.  */
 
 static void
-impl_destroy (GtkObject *object)
+impl_finalize (GObject *object)
 {
 	EvolutionSession *session;
 	EvolutionSessionPrivate *priv;
@@ -61,7 +61,7 @@ impl_destroy (GtkObject *object)
 
 	g_free (priv);
 
-	(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
+	(* G_OBJECT_CLASS (parent_class)->finalize) (object);
 }
 
 
@@ -75,7 +75,7 @@ impl_GNOME_Evolution_Session_saveConfiguration (PortableServer_Servant servant,
 	BonoboObject *self;
 
 	self = bonobo_object_from_servant (servant);
-	gtk_signal_emit (GTK_OBJECT (self), signals[SAVE_CONFIGURATION], prefix);
+	g_signal_emit (self, signals[SAVE_CONFIGURATION], 0, prefix);
 }
 
 static void
@@ -86,7 +86,7 @@ impl_GNOME_Evolution_Session_loadConfiguration (PortableServer_Servant servant,
 	BonoboObject *self;
 
 	self = bonobo_object_from_servant (servant);
-	gtk_signal_emit (GTK_OBJECT (self), signals[LOAD_CONFIGURATION], prefix);
+	g_signal_emit (self, signals[LOAD_CONFIGURATION], 0, prefix);
 }
 
 
@@ -105,12 +105,12 @@ corba_class_init (EvolutionSessionClass *klass)
 static void
 class_init (EvolutionSessionClass *klass)
 {
-	GtkObjectClass *object_class;
+	GObjectClass *object_class;
 
-	object_class = GTK_OBJECT_CLASS (klass);
+	object_class = G_OBJECT_CLASS (klass);
 	parent_class = gtk_type_class (PARENT_TYPE);
 
-	object_class->destroy = impl_destroy;
+	object_class->finalize = impl_finalize;
 
 	signals[LOAD_CONFIGURATION]
 		= gtk_signal_new ("load_configuration",
@@ -146,7 +146,7 @@ init (EvolutionSession *session)
 EvolutionSession *
 evolution_session_new (void)
 {
-	return gtk_type_new (evolution_session_get_type ());
+	return g_object_new (evolution_session_get_type (), NULL);
 }
 
 

@@ -538,10 +538,10 @@ impl_Shell_selectUserFolder (PortableServer_Servant servant,
 	gtk_object_set_data_full (GTK_OBJECT (folder_selection_dialog), "corba_listener",
 				  listener_duplicate, corba_listener_destroy_notify);
 
-	gtk_signal_connect (GTK_OBJECT (folder_selection_dialog), "folder_selected",
-			    GTK_SIGNAL_FUNC (folder_selection_dialog_folder_selected_cb), shell);
-	gtk_signal_connect (GTK_OBJECT (folder_selection_dialog), "cancelled",
-			    GTK_SIGNAL_FUNC (folder_selection_dialog_cancelled_cb), shell);
+	g_signal_connect (folder_selection_dialog, "folder_selected",
+			  G_CALLBACK (folder_selection_dialog_folder_selected_cb), shell);
+	g_signal_connect (folder_selection_dialog, "cancelled",
+			  G_CALLBACK (folder_selection_dialog_cancelled_cb), shell);
 
 	if (parent_xid == 0) {
 		gtk_widget_show (folder_selection_dialog);
@@ -998,10 +998,10 @@ create_view (EShell *shell,
 
 	view = e_shell_view_new (shell);
 
-	gtk_signal_connect (GTK_OBJECT (view), "delete_event",
-			    GTK_SIGNAL_FUNC (view_delete_event_cb), shell);
-	gtk_signal_connect (GTK_OBJECT (view), "destroy",
-			    GTK_SIGNAL_FUNC (view_destroy_cb), shell);
+	g_signal_connect (view, "delete_event",
+			  G_CALLBACK (view_delete_event_cb), shell);
+	g_signal_connect (view, "destroy",
+			  G_CALLBACK (view_destroy_cb), shell);
 
 	if (uri != NULL)
 		e_shell_view_display_uri (E_SHELL_VIEW (view), uri, TRUE);
@@ -1042,30 +1042,30 @@ impl_finalize (GObject *object)
 	g_free (priv->local_directory);
 
 	if (priv->storage_set != NULL) {
-		gtk_object_unref (GTK_OBJECT (priv->storage_set));
+		g_object_unref (priv->storage_set);
 		priv->storage_set = NULL;
 	}
 
 	if (priv->local_storage != NULL)
-		gtk_object_unref (GTK_OBJECT (priv->local_storage));
+		g_object_unref (priv->local_storage);
 
 	if (priv->summary_storage != NULL)
-		gtk_object_unref (GTK_OBJECT (priv->summary_storage));
+		g_object_unref (priv->summary_storage);
 
 	if (priv->shortcuts != NULL)
-		gtk_object_unref (GTK_OBJECT (priv->shortcuts));
+		g_object_unref (priv->shortcuts);
 
 	if (priv->folder_type_registry != NULL)
-		gtk_object_unref (GTK_OBJECT (priv->folder_type_registry));
+		g_object_unref (priv->folder_type_registry);
 
 	if (priv->uri_schema_registry != NULL)
-		gtk_object_unref (GTK_OBJECT (priv->uri_schema_registry));
+		g_object_unref (priv->uri_schema_registry);
 
 	if (priv->component_registry != NULL)
-		gtk_object_unref (GTK_OBJECT (priv->component_registry));
+		g_object_unref (priv->component_registry);
 
 	if (priv->user_creatable_items_handler != NULL)
-		gtk_object_unref (GTK_OBJECT (priv->user_creatable_items_handler));
+		g_object_unref (priv->user_creatable_items_handler);
 
 	for (p = priv->views; p != NULL; p = p->next) {
 		EShellView *view;
@@ -1073,10 +1073,10 @@ impl_finalize (GObject *object)
 		view = E_SHELL_VIEW (p->data);
 
 		gtk_signal_disconnect_by_func (GTK_OBJECT (view),
-					       GTK_SIGNAL_FUNC (view_delete_event_cb),
+					       G_CALLBACK (view_delete_event_cb),
 					       shell);
 		gtk_signal_disconnect_by_func (GTK_OBJECT (view),
-					       GTK_SIGNAL_FUNC (view_destroy_cb),
+					       G_CALLBACK (view_destroy_cb),
 					       shell);
 
 		gtk_object_destroy (GTK_OBJECT (view));
@@ -1091,7 +1091,7 @@ impl_finalize (GObject *object)
 
 	/* FIXME.  Maybe we should do something special here.  */
 	if (priv->offline_handler != NULL)
-		gtk_object_unref (GTK_OBJECT (priv->offline_handler));
+		g_object_unref (priv->offline_handler);
 
 	e_free_string_list (priv->crash_type_names);
 
@@ -1272,8 +1272,8 @@ e_shell_construct (EShell *shell,
 		splash = NULL;
 	} else {
 		splash = e_splash_new ();
-		gtk_signal_connect (GTK_OBJECT (splash), "delete_event",
-				    GTK_SIGNAL_FUNC (gtk_widget_hide_on_delete), NULL);
+		g_signal_connect (splash, "delete_event",
+				  G_CALLBACK (gtk_widget_hide_on_delete), NULL);
 		gtk_widget_show (splash);
 	}
 	
@@ -1900,7 +1900,7 @@ offline_procedure_finished_cb (EShellOfflineHandler *offline_handler,
 	else
 		priv->line_status = E_SHELL_LINE_STATUS_ONLINE;
 
-	gtk_object_unref (GTK_OBJECT (priv->offline_handler));
+	g_object_unref (priv->offline_handler);
 	priv->offline_handler = NULL;
 
 	gtk_signal_emit (GTK_OBJECT (shell), signals[LINE_STATUS_CHANGED], priv->line_status);
@@ -1950,10 +1950,10 @@ e_shell_go_offline (EShell *shell,
 
 	priv->offline_handler = e_shell_offline_handler_new (shell);
 
-	gtk_signal_connect (GTK_OBJECT (priv->offline_handler), "offline_procedure_started",
-			    GTK_SIGNAL_FUNC (offline_procedure_started_cb), shell);
-	gtk_signal_connect (GTK_OBJECT (priv->offline_handler), "offline_procedure_finished",
-			    GTK_SIGNAL_FUNC (offline_procedure_finished_cb), shell);
+	g_signal_connect (priv->offline_handler, "offline_procedure_started",
+			  G_CALLBACK (offline_procedure_started_cb), shell);
+	g_signal_connect (priv->offline_handler, "offline_procedure_finished",
+			  G_CALLBACK (offline_procedure_finished_cb), shell);
 
 	e_shell_offline_handler_put_components_offline (priv->offline_handler, action_view);
 }
@@ -2080,8 +2080,8 @@ e_shell_show_settings (EShell *shell, const char *type, EShellView *shell_view)
 	priv->settings_dialog = e_shell_settings_dialog_new ();
 	e_shell_settings_dialog_show_type (E_SHELL_SETTINGS_DIALOG (priv->settings_dialog), type);
 
-	gtk_signal_connect (GTK_OBJECT (priv->settings_dialog), "destroy",
-			    GTK_SIGNAL_FUNC (settings_dialog_destroy_cb), shell);
+	g_signal_connect (priv->settings_dialog, "destroy",
+			  G_CALLBACK (settings_dialog_destroy_cb), shell);
 
 	gtk_widget_show (priv->settings_dialog);
 }
@@ -2129,7 +2129,7 @@ e_shell_unregister_all (EShell *shell)
 
 	priv->is_initialized = FALSE;
 
-	gtk_object_unref (GTK_OBJECT (priv->component_registry));
+	g_object_unref (priv->component_registry);
 	priv->component_registry = NULL;
 }
 

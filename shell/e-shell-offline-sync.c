@@ -242,10 +242,10 @@ setup_dialog (SyncData *sync_data)
 	gtk_widget_set_usize (sync_data->dialog, 300, -1);
 	gtk_window_set_policy (GTK_WINDOW (sync_data->dialog), FALSE, FALSE, FALSE);
 
-	gtk_signal_connect (GTK_OBJECT (sync_data->dialog), "close",
-			    GTK_SIGNAL_FUNC (progress_dialog_close_callback), sync_data);
-	gtk_signal_connect (GTK_OBJECT (sync_data->dialog), "clicked",
-			    GTK_SIGNAL_FUNC (progress_dialog_clicked_callback), sync_data);
+	g_signal_connect (sync_data->dialog, "close",
+			  G_CALLBACK (progress_dialog_close_callback), sync_data);
+	g_signal_connect (sync_data->dialog, "clicked",
+			  G_CALLBACK (progress_dialog_clicked_callback), sync_data);
 
 	sync_data->label = gtk_label_new ("");
 	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (sync_data->dialog)->vbox),

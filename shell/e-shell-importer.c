@@ -166,8 +166,8 @@ create_html (const char *name)
 
 	html = gtk_html_new ();
 	GTK_LAYOUT (html)->height = 0;
-	gtk_signal_connect (GTK_OBJECT (html), "size_request",
-			    GTK_SIGNAL_FUNC (html_size_req), NULL);
+	g_signal_connect (html, "size_request",
+			  G_CALLBACK (html_size_req), NULL);
 	gtk_html_set_editable (GTK_HTML (html), FALSE);
 	style = gtk_rc_get_style (html);
 	if (!style)
@@ -262,7 +262,7 @@ import_cb (EvolutionImporterListener *listener,
 	if (!icd->destroyed)
 		gtk_object_destroy (GTK_OBJECT (icd->dialog));
 	bonobo_object_unref (BONOBO_OBJECT (icd->listener));
-	gtk_object_unref (GTK_OBJECT (icd->client));
+	g_object_unref (icd->client);
 	g_free (icd);
 
 	OUT;
@@ -509,10 +509,10 @@ start_import (const char *folderpath,
 	icd->dialog = GNOME_DIALOG (gnome_dialog_new (_("Importing"),
 						      GNOME_STOCK_BUTTON_CANCEL,
 						      NULL));
-	gtk_signal_connect (GTK_OBJECT (icd->dialog), "clicked",
-			    GTK_SIGNAL_FUNC (dialog_clicked_cb), icd);
-	gtk_signal_connect (GTK_OBJECT (icd->dialog), "destroy",
-			    GTK_SIGNAL_FUNC (dialog_destroy_cb), icd);
+	g_signal_connect (icd->dialog, "clicked",
+			  G_CALLBACK (dialog_clicked_cb), icd);
+	g_signal_connect (icd->dialog, "destroy",
+			  G_CALLBACK (dialog_destroy_cb), icd);
 	
 	label = g_strdup_printf (_("Importing %s.\nStarting %s"),
 				 filename, real_iid);
@@ -534,7 +534,7 @@ start_import (const char *folderpath,
 		while (gtk_events_pending ())
 			gtk_main_iteration ();
 
-		gtk_object_unref (GTK_OBJECT (icd->dialog));
+		g_object_unref (icd->dialog);
 		g_free (icd);
 		return;
 	}
@@ -554,8 +554,8 @@ start_import (const char *folderpath,
 		while (gtk_events_pending ())
 			gtk_main_iteration ();
 		
-		gtk_object_unref (GTK_OBJECT (icd->client));
-		gtk_object_unref (GTK_OBJECT (icd->dialog));
+		g_object_unref (icd->client);
+		g_object_unref (icd->dialog);
 		g_free (icd);
 		return;
 	}
@@ -638,8 +638,8 @@ create_plugin_menu (ImportData *data)
 		item = gtk_menu_item_new_with_label (name);
 		g_free (name);
 		gtk_widget_show (item);
-		gtk_signal_connect (GTK_OBJECT (item), "activate",
-				    GTK_SIGNAL_FUNC (item_selected), data);
+		g_signal_connect (item, "activate",
+				  G_CALLBACK (item_selected), data);
 
 		gtk_object_set_data_full (GTK_OBJECT (item), "oafiid",
 					  g_strdup (info->iid), g_free);
@@ -674,9 +674,8 @@ importer_file_page_new (ImportData *data)
 	gtk_misc_set_alignment (GTK_MISC (label), 1, 0.5);
 
 	page->filename = gnome_file_entry_new ("Evolution_Importer_FileName", _("Select a file"));
-	gtk_signal_connect (GTK_OBJECT (gnome_file_entry_gtk_entry (GNOME_FILE_ENTRY (page->filename))),
-			    "changed", GTK_SIGNAL_FUNC (filename_changed),
-			    data);
+	g_signal_connect (gnome_file_entry_gtk_entry (GNOME_FILE_ENTRY (page->filename)), "changed",
+			  G_CALLBACK (filename_changed), data);
 
 	gtk_table_attach (GTK_TABLE (table), page->filename, 1, 2, 
 			  row, row + 1, GTK_EXPAND | GTK_FILL, 0, 0, 0);
@@ -798,7 +797,7 @@ prepare_intelligent_page (GnomeDruid *druid,
 		   Do not collect $200 */
 		import->running = 0;
 		gnome_druid_set_page (druid, GNOME_DRUID_PAGE (data->finish))
-;
+			;
 		gtk_widget_destroy (dialog);
 		return TRUE;
 	}
@@ -943,7 +942,7 @@ static void
 import_druid_destroy (GtkObject *object,
 		      ImportData *data)
 {
-	gtk_object_unref (GTK_OBJECT (data->wizard));
+	g_object_unref (data->wizard);
 	g_free (data->choosen_iid);
 	g_free (data);
 }
@@ -1077,10 +1076,10 @@ import_druid_finish (GnomeDruidPage *page,
 							      e_shell_view_get_current_uri (data->view),
 							      NULL);
 		
-		gtk_signal_connect (GTK_OBJECT (folder), "folder_selected",
-				    GTK_SIGNAL_FUNC (folder_selected), data);
-		gtk_signal_connect (GTK_OBJECT (folder), "cancelled",
-				    GTK_SIGNAL_FUNC (folder_cancelled), data);
+		g_signal_connect (folder, "folder_selected",
+				  G_CALLBACK (folder_selected), data);
+		g_signal_connect (folder, "cancelled",
+				  G_CALLBACK (folder_cancelled), data);
 		
 		gtk_widget_hide (data->dialog);
 		gtk_widget_show (folder);
@@ -1132,8 +1131,8 @@ next_type_page (GnomeDruidPage *page,
 
 static gboolean
 back_finish_page (GnomeDruidPage *page,
-		GnomeDruid *druid,
-		ImportData *data)
+		  GnomeDruid *druid,
+		  ImportData *data)
 {
 	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (data->typepage->intelligent))) {
 		if (data->importerpage->running != 0) {
@@ -1217,20 +1216,20 @@ show_import_wizard (BonoboUIComponent *component,
 	gtk_window_set_wmclass (GTK_WINDOW (data->dialog), "importdruid",
 				"Evolution:shell");
 	gtk_window_set_transient_for (GTK_WINDOW (data->dialog), GTK_WINDOW (user_data));
-	gtk_signal_connect (GTK_OBJECT (data->dialog), "destroy",
-			    GTK_SIGNAL_FUNC (close_dialog), &dialog_open);
+	g_signal_connect (data->dialog, "destroy",
+			  G_CALLBACK (close_dialog), &dialog_open);
 	gnome_dialog_close_hides (GNOME_DIALOG (data->dialog), TRUE);
 	
 	data->druid = glade_xml_get_widget (data->wizard, "druid1");
-	gtk_signal_connect (GTK_OBJECT (data->druid), "cancel",
-			    GTK_SIGNAL_FUNC (import_druid_cancel), data);
+	g_signal_connect (data->druid, "cancel",
+			  G_CALLBACK (import_druid_cancel), data);
 
 	druid_finish_button_change (GNOME_DRUID (data->druid));
 	data->start = GNOME_DRUID_PAGE_START (glade_xml_get_widget (data->wizard, "page0"));
 
 	data->typedialog = glade_xml_get_widget (data->wizard, "page1");
-	gtk_signal_connect (GTK_OBJECT (data->typedialog), "next",
-			    GTK_SIGNAL_FUNC (next_type_page), data);
+	g_signal_connect (data->typedialog, "next",
+			  G_CALLBACK (next_type_page), data);
 	data->typepage = importer_type_page_new (data);
 	html = create_html ("type_html");
 	gtk_box_pack_start (GTK_BOX (data->typepage->vbox), html, FALSE, TRUE, 0);
@@ -1239,12 +1238,12 @@ show_import_wizard (BonoboUIComponent *component,
 	gtk_box_pack_start (GTK_BOX (GNOME_DRUID_PAGE_STANDARD (data->typedialog)->vbox), data->typepage->vbox, TRUE, TRUE, 0);
 
 	data->intelligent = glade_xml_get_widget (data->wizard, "page2-intelligent");
-	gtk_signal_connect (GTK_OBJECT (data->intelligent), "next",
-			    GTK_SIGNAL_FUNC (next_intelligent_page), data);
-	gtk_signal_connect (GTK_OBJECT (data->intelligent), "back",
-			    GTK_SIGNAL_FUNC (back_intelligent_page), data);
-	gtk_signal_connect (GTK_OBJECT (data->intelligent), "prepare",
-			    GTK_SIGNAL_FUNC (prepare_intelligent_page), data);
+	g_signal_connect (data->intelligent, "next",
+			  G_CALLBACK (next_intelligent_page), data);
+	g_signal_connect (data->intelligent, "back",
+			  G_CALLBACK (back_intelligent_page), data);
+	g_signal_connect (data->intelligent, "prepare",
+			  G_CALLBACK (prepare_intelligent_page), data);
 
 	data->importerpage = importer_importer_page_new (data);
 	html = create_html ("intelligent_html");
@@ -1255,16 +1254,16 @@ show_import_wizard (BonoboUIComponent *component,
 	
 
 	data->filedialog = glade_xml_get_widget (data->wizard, "page2-file");
-	gtk_signal_connect (GTK_OBJECT (data->filedialog), "prepare",
-			    GTK_SIGNAL_FUNC (prepare_file_page), data);
-	gtk_signal_connect (GTK_OBJECT (data->filedialog), "next",
-			    GTK_SIGNAL_FUNC (next_file_page), data);
-	gtk_signal_connect (GTK_OBJECT (data->filedialog), "back",
-			    GTK_SIGNAL_FUNC (back_file_page), data);
+	g_signal_connect (data->filedialog, "prepare",
+			  G_CALLBACK (prepare_file_page), data);
+	g_signal_connect (data->filedialog, "next",
+			  G_CALLBACK (next_file_page), data);
+	g_signal_connect (data->filedialog, "back",
+			  G_CALLBACK (back_file_page), data);
 
 	data->finish = GNOME_DRUID_PAGE_FINISH (glade_xml_get_widget (data->wizard, "page3"));
-	gtk_signal_connect (GTK_OBJECT (data->finish), "back",
-			    GTK_SIGNAL_FUNC (back_finish_page), data);
+	g_signal_connect (data->finish, "back",
+			  G_CALLBACK (back_finish_page), data);
 
 	data->filepage = importer_file_page_new (data);
 
@@ -1275,10 +1274,10 @@ show_import_wizard (BonoboUIComponent *component,
 	gtk_box_pack_start (GTK_BOX (GNOME_DRUID_PAGE_STANDARD (data->filedialog)->vbox), data->filepage->vbox, TRUE, TRUE, 0);
 
 	/* Finish page */
-	gtk_signal_connect (GTK_OBJECT (data->finish), "finish",
-			    GTK_SIGNAL_FUNC (import_druid_finish), data);
-	gtk_signal_connect (GTK_OBJECT (data->dialog), "destroy",
-			    GTK_SIGNAL_FUNC (import_druid_destroy), data);
+	g_signal_connect (data->finish, "finish",
+			  G_CALLBACK (import_druid_finish), data);
+	g_signal_connect (data->dialog, "destroy",
+			  G_CALLBACK (import_druid_destroy), data);
 
 	gtk_widget_show_all (data->dialog);
 }

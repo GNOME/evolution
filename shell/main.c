@@ -92,7 +92,7 @@ quit_box_new (void)
 	gtk_window_set_position (GTK_WINDOW (window), GTK_WIN_POS_CENTER);
 
 	/* (Just to prevent smart-ass window managers like Sawfish from setting
-	  the make the dialog as big as the standard Evolution window).  */
+	   the make the dialog as big as the standard Evolution window).  */
 	gtk_window_set_wmclass (GTK_WINDOW (window), "evolution-quit", "Evolution:quit");
 
 	e_make_widget_backing_stored (window);
@@ -144,7 +144,7 @@ no_views_left_cb (EShell *shell, gpointer data)
 	GtkWidget *quit_box;
 
 	quit_box = quit_box_new ();
-	gtk_signal_connect (GTK_OBJECT (quit_box), "destroy", GTK_SIGNAL_FUNC (quit_box_destroyed_callback), &quit_box);
+	g_signal_connect (quit_box, "destroy", G_CALLBACK (quit_box_destroyed_callback), &quit_box);
 
 	/* FIXME: This is wrong.  We should exit only when the shell is
 	   destroyed.  But refcounting is broken at present, so this is a
@@ -245,7 +245,7 @@ show_development_warning (GtkWindow *parent)
                   "\n"
 		  "We hope that you enjoy the results of our hard work, and we\n"
 		  "eagerly await your contributions!\n"
-		  ));
+			));
 	gtk_label_set_justify (GTK_LABEL (label), GTK_JUSTIFY_LEFT);
 
 	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (warning_dialog)->vbox), 
@@ -253,9 +253,9 @@ show_development_warning (GtkWindow *parent)
 
 	label = gtk_label_new (
 		_(
-		  "Thanks\n"
-		  "The Ximian Evolution Team\n"
-		  ));
+			"Thanks\n"
+			"The Ximian Evolution Team\n"
+			));
 	gtk_label_set_justify(GTK_LABEL(label), GTK_JUSTIFY_RIGHT);
 	gtk_misc_set_alignment(GTK_MISC(label), 1, .5);
 
@@ -273,9 +273,9 @@ show_development_warning (GtkWindow *parent)
 
 	gtk_widget_show_all (warning_dialog);
 
-	gtk_signal_connect (GTK_OBJECT (warning_dialog), "clicked",
-			    GTK_SIGNAL_FUNC (warning_dialog_clicked_callback),
-			    dont_bother_me_again_checkbox);
+	g_signal_connect (warning_dialog, "clicked",
+			  G_CALLBACK (warning_dialog_clicked_callback),
+			  dont_bother_me_again_checkbox);
 }
 
 /* The following signal handlers are used to display the development warning as
@@ -286,7 +286,7 @@ view_map_callback (GtkWidget *widget,
 		   void *data)
 {
 	gtk_signal_disconnect_by_func (GTK_OBJECT (widget),
-				       GTK_SIGNAL_FUNC (view_map_callback),
+				       G_CALLBACK (view_map_callback),
 				       data);
 
 	show_development_warning (GTK_WINDOW (widget));
@@ -298,10 +298,10 @@ new_view_created_callback (EShell *shell,
 			   void *data)
 {
 	gtk_signal_disconnect_by_func (GTK_OBJECT (shell),
-				       GTK_SIGNAL_FUNC (new_view_created_callback),
+				       G_CALLBACK (new_view_created_callback),
 				       data);
 
-	gtk_signal_connect (GTK_OBJECT (view), "map", GTK_SIGNAL_FUNC (view_map_callback), NULL);
+	g_signal_connect (view, "map", G_CALLBACK (view_map_callback), NULL);
 }
 
 
@@ -368,14 +368,14 @@ idle_cb (void *data)
 	case E_SHELL_CONSTRUCT_RESULT_OK:
 		e_shell_config_factory_register (shell);
 
-		gtk_signal_connect (GTK_OBJECT (shell), "no_views_left",
-				    GTK_SIGNAL_FUNC (no_views_left_cb), NULL);
-		gtk_signal_connect (GTK_OBJECT (shell), "destroy",
-				    GTK_SIGNAL_FUNC (destroy_cb), NULL);
+		g_signal_connect (shell, "no_views_left",
+				  G_CALLBACK (no_views_left_cb), NULL);
+		g_signal_connect (shell, "destroy",
+				  G_CALLBACK (destroy_cb), NULL);
 
 		if (!getenv ("EVOLVE_ME_HARDER"))
-			gtk_signal_connect (GTK_OBJECT (shell), "new_view_created",
-					    GTK_SIGNAL_FUNC (new_view_created_callback), NULL);
+			g_signal_connect (shell, "new_view_created",
+					  G_CALLBACK (new_view_created_callback), NULL);
 
 		corba_shell = bonobo_object_corba_objref (BONOBO_OBJECT (shell));
 		corba_shell = CORBA_Object_duplicate (corba_shell, &ev);

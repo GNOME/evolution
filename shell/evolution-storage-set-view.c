@@ -363,10 +363,10 @@ impl_StorageSetView__get_checkedFolders (PortableServer_Servant servant,
 }
 
 
-/* GtkObject methods.  */
+/* GObject methods.  */
 
 static void
-impl_destroy (GtkObject *object)
+impl_finalize (GObject *object)
 {
 	EvolutionStorageSetView *storage_set_view;
 	EvolutionStorageSetViewPrivate *priv;
@@ -389,8 +389,7 @@ impl_destroy (GtkObject *object)
 
 	g_free (priv);
 
-	if (GTK_OBJECT_CLASS (parent_class)->destroy != NULL)
-		(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
+	(* G_OBJECT_CLASS (parent_class)->finalize) (object);
 }
 
 
@@ -398,10 +397,10 @@ static void
 class_init (EvolutionStorageSetViewClass *klass)
 {
 	POA_GNOME_Evolution_StorageSetView__epv *epv;
-	GtkObjectClass *object_class;
+	GObjectClass *object_class;
 
-	object_class = GTK_OBJECT_CLASS (klass);
-	object_class->destroy = impl_destroy;
+	object_class = G_OBJECT_CLASS (klass);
+	object_class->finalize = impl_finalize;
 
 	epv = & (klass->epv);
 	epv->addListener         = impl_StorageSetView_add_listener;
@@ -443,10 +442,10 @@ evolution_storage_set_view_construct (EvolutionStorageSetView *storage_set_view,
 	g_assert (priv->storage_set_view_widget == NULL);
 	priv->storage_set_view_widget = GTK_WIDGET (storage_set_view_widget);
 
-	gtk_signal_connect (GTK_OBJECT (priv->storage_set_view_widget), "folder_selected",
-			    GTK_SIGNAL_FUNC (storage_set_view_widget_folder_selected_cb), storage_set_view);
-	gtk_signal_connect (GTK_OBJECT (priv->storage_set_view_widget), "checkboxes_changed",
-			    GTK_SIGNAL_FUNC (storage_set_view_widget_folder_toggled_cb), storage_set_view);
+	g_signal_connect (priv->storage_set_view_widget, "folder_selected",
+			  G_CALLBACK (storage_set_view_widget_folder_selected_cb), storage_set_view);
+	g_signal_connect (priv->storage_set_view_widget, "checkboxes_changed",
+			  G_CALLBACK (storage_set_view_widget_folder_toggled_cb), storage_set_view);
 }
 
 EvolutionStorageSetView *

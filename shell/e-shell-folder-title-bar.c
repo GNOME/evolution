@@ -345,8 +345,8 @@ add_navigation_buttons (EShellFolderTitleBar *folder_title_bar)
 	back_pixmap = create_pixmap_widget_from_xpm (left_arrow_xpm);
 	gtk_container_add (GTK_CONTAINER (priv->back_button), back_pixmap);
 
-	gtk_signal_connect (GTK_OBJECT (priv->back_button), "clicked",
-			    GTK_SIGNAL_FUNC (back_button_clicked_callback), folder_title_bar);
+	g_signal_connect (priv->back_button, "clicked",
+			  G_CALLBACK (back_button_clicked_callback), folder_title_bar);
 
 	priv->forward_button = gtk_button_new ();
 	gtk_button_set_relief (GTK_BUTTON (priv->forward_button), GTK_RELIEF_NONE);
@@ -355,8 +355,8 @@ add_navigation_buttons (EShellFolderTitleBar *folder_title_bar)
 	forward_pixmap = create_pixmap_widget_from_xpm (right_arrow_xpm);
 	gtk_container_add (GTK_CONTAINER (priv->forward_button), forward_pixmap);
 
-	gtk_signal_connect (GTK_OBJECT (priv->forward_button), "clicked",
-			    GTK_SIGNAL_FUNC (forward_button_clicked_callback), folder_title_bar);
+	g_signal_connect (priv->forward_button, "clicked",
+			  G_CALLBACK (forward_button_clicked_callback), folder_title_bar);
 
 	gtk_box_pack_start (GTK_BOX (folder_title_bar), priv->back_button, FALSE, FALSE, 0);
 	gtk_box_pack_start (GTK_BOX (folder_title_bar), priv->forward_button, FALSE, FALSE, 0);
@@ -578,8 +578,8 @@ e_shell_folder_title_bar_construct (EShellFolderTitleBar *folder_title_bar)
 			      GTK_WIDGET (priv->title_button)->style->xthickness,
 			      GTK_WIDGET (priv->title_button)->style->ythickness + 2);
 
-	gtk_signal_connect (GTK_OBJECT (priv->title_button), "toggled",
-			    GTK_SIGNAL_FUNC (title_button_toggled_cb), folder_title_bar);
+	g_signal_connect (priv->title_button, "toggled",
+			  G_CALLBACK (title_button_toggled_cb), folder_title_bar);
 
 	add_navigation_buttons (folder_title_bar);
 

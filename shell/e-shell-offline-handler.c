@@ -499,7 +499,7 @@ finalize_offline (EShellOfflineHandler *offline_handler)
 
 	priv = offline_handler->priv;
 
-	gtk_object_ref (GTK_OBJECT (offline_handler));
+	g_object_ref (offline_handler);
 
 	g_hash_table_foreach (priv->id_to_component_info, finalize_offline_hash_foreach, offline_handler);
 
@@ -509,7 +509,7 @@ finalize_offline (EShellOfflineHandler *offline_handler)
 		priv->finished = TRUE;
 	}
 
-	gtk_object_unref (GTK_OBJECT (offline_handler));
+	g_object_unref (offline_handler);
 }
 
 
@@ -596,7 +596,7 @@ dialog_handle_cancel (GnomeDialog *dialog,
 
 	gtk_widget_destroy (GTK_WIDGET (dialog));
 
-	gtk_object_unref (GTK_OBJECT (priv->dialog_gui));
+	g_object_unref (priv->dialog_gui);
 	priv->dialog_gui = NULL;
 
 	cancel_offline (offline_handler);
@@ -653,8 +653,8 @@ pop_up_confirmation_dialog (EShellOfflineHandler *offline_handler)
 
 	update_dialog_clist (offline_handler);
 
-	gtk_signal_connect (GTK_OBJECT (dialog), "clicked",
-			    GTK_SIGNAL_FUNC (dialog_clicked_cb), offline_handler);
+	g_signal_connect (dialog, "clicked",
+			  G_CALLBACK (dialog_clicked_cb), offline_handler);
 
 	gtk_widget_show (dialog);
 }
@@ -682,7 +682,7 @@ impl_destroy (GtkObject *object)
 		dialog = glade_xml_get_widget (priv->dialog_gui, "active_connection_dialog");
 		gtk_widget_destroy (dialog);
 
-		gtk_object_unref (GTK_OBJECT (priv->dialog_gui));
+		g_object_unref (priv->dialog_gui);
 		priv->dialog_gui = NULL;
 	}
 
@@ -817,7 +817,7 @@ e_shell_offline_handler_put_components_offline (EShellOfflineHandler *offline_ha
 	/* Add an extra ref here as the signal handlers might want to unref
 	   us.  */
 
-	gtk_object_ref (GTK_OBJECT (offline_handler));
+	g_object_ref (offline_handler);
 
 	gtk_signal_emit (GTK_OBJECT (offline_handler), signals[OFFLINE_PROCEDURE_STARTED]);
 
@@ -828,7 +828,7 @@ e_shell_offline_handler_put_components_offline (EShellOfflineHandler *offline_ha
 		g_warning ("Couldn't put components off-line");
 		gtk_signal_emit (GTK_OBJECT (offline_handler), signals[OFFLINE_PROCEDURE_FINISHED], FALSE);
 		priv->finished = TRUE;
-		gtk_object_unref (GTK_OBJECT (offline_handler));
+		g_object_unref (offline_handler);
 		return;
 	}
 
@@ -840,7 +840,7 @@ e_shell_offline_handler_put_components_offline (EShellOfflineHandler *offline_ha
 		finalize_offline (offline_handler);
 	}
 
-	gtk_object_unref (GTK_OBJECT (offline_handler));
+	g_object_unref (offline_handler);
 }
 
 

@@ -173,8 +173,8 @@ make_mail_dialog_pages (SWData *data)
 	data->event_source = Bonobo_Unknown_queryInterface (data->mailer, "IDL:Bonobo/EventSource:1.0", &ev);
 	CORBA_exception_free (&ev);
 	data->listener = bonobo_listener_new (NULL, NULL);
-	gtk_signal_connect (GTK_OBJECT (data->listener), "event-notify",
-			    GTK_SIGNAL_FUNC (druid_event_notify_cb), data);
+	g_signal_connect (data->listener, "event-notify",
+			  G_CALLBACK (druid_event_notify_cb), data);
 	object = bonobo_object_corba_objref (BONOBO_OBJECT (data->listener));
 
 	CORBA_exception_init (&ev);
@@ -367,7 +367,7 @@ finish_func (GnomeDruidPage *page,
 
 	/* Need to do this otherwise the timezone widget gets destroyed but the
 	   timezone object isn't, and we can get a crash like #22047.  */
-	gtk_object_unref (GTK_OBJECT (data->timezone_page->etd));
+	g_object_unref (data->timezone_page->etd);
 	data->timezone_page->etd = NULL;
 
 	gtk_widget_destroy (data->dialog);
@@ -380,14 +380,14 @@ static void
 connect_page (GtkWidget *page,
 	      SWData *data)
 {
-	gtk_signal_connect (GTK_OBJECT (page), "next",
-			    GTK_SIGNAL_FUNC (next_func), data);
-	gtk_signal_connect (GTK_OBJECT (page), "prepare",
-			    GTK_SIGNAL_FUNC (prepare_func), data);
-	gtk_signal_connect (GTK_OBJECT (page), "back",
-			    GTK_SIGNAL_FUNC (back_func), data);
-	gtk_signal_connect (GTK_OBJECT (page), "finish",
-			    GTK_SIGNAL_FUNC (finish_func), data);
+	g_signal_connect (page, "next",
+			  G_CALLBACK (next_func), data);
+	g_signal_connect (page, "prepare",
+			  G_CALLBACK (prepare_func), data);
+	g_signal_connect (page, "back",
+			  G_CALLBACK (back_func), data);
+	g_signal_connect (page, "finish",
+			  G_CALLBACK (finish_func), data);
 }
 
 static MailDialogPage *
@@ -805,8 +805,8 @@ make_importer_page (SWData *data)
 	page->page = glade_xml_get_widget (data->wizard, "import-page");
 	g_return_val_if_fail (page->page != NULL, NULL);
 
-	gtk_signal_connect (GTK_OBJECT (page->page), "prepare",
-			    GTK_SIGNAL_FUNC (prepare_importer_page), data);
+	g_signal_connect (page->page, "prepare",
+			  G_CALLBACK (prepare_importer_page), data);
 	page->vbox = GNOME_DRUID_PAGE_STANDARD (page->page)->vbox;
 	gtk_container_set_border_width (GTK_CONTAINER (page->vbox), 4);
 
@@ -830,7 +830,7 @@ startup_wizard_cancel (GnomeDruid *druid,
 	if (data->timezone_page->etd != NULL) {
 		/* Need to do this otherwise the timezone widget gets destroyed but the
 		   timezone object isn't, and we can get a crash like #22047.  */
-		gtk_object_unref (GTK_OBJECT (data->timezone_page->etd));
+		g_object_unref (data->timezone_page->etd);
 		data->timezone_page->etd = NULL;
 	}
 
@@ -869,15 +869,15 @@ e_shell_startup_wizard_create (void)
 	gnome_druid_set_buttons_sensitive (GNOME_DRUID (data->druid),
 					   FALSE, TRUE, FALSE, FALSE);
 
-	gtk_signal_connect (GTK_OBJECT (data->druid), "cancel",
-			    GTK_SIGNAL_FUNC (startup_wizard_cancel), data);
+	g_signal_connect (data->druid, "cancel",
+			  G_CALLBACK (startup_wizard_cancel), data);
 
 	data->start = glade_xml_get_widget (data->wizard, "start-page");
 	data->finish = glade_xml_get_widget (data->wizard, "done-page");
 	g_return_val_if_fail (data->start != NULL, FALSE);
 	g_return_val_if_fail (data->finish != NULL, FALSE);
-	gtk_signal_connect (GTK_OBJECT (data->finish), "finish",
-			    GTK_SIGNAL_FUNC (finish_func), data);
+	g_signal_connect (data->finish, "finish",
+			  G_CALLBACK (finish_func), data);
 
 	make_mail_dialog_pages (data);
 	g_return_val_if_fail (data->mailer != CORBA_OBJECT_NIL, TRUE);

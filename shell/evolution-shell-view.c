@@ -1,7 +1,7 @@
 /* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*- */
 /* evolution-shell-view.c
  *
- * Copyright (C) 2000  Ximian, Inc.
+ * Copyright (C) 2000, 2001, 2002  Ximian, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public
@@ -61,7 +61,7 @@ impl_ShellView_set_message (PortableServer_Servant servant,
 	BonoboObject *bonobo_object;
 
 	bonobo_object = bonobo_object_from_servant (servant);
-	gtk_signal_emit (GTK_OBJECT (bonobo_object), signals[SET_MESSAGE], message, busy);
+	g_signal_emit (bonobo_object, signals[SET_MESSAGE], 0, message, busy);
 }
 
 static void
@@ -71,7 +71,7 @@ impl_ShellView_unset_message (PortableServer_Servant servant,
 	BonoboObject *bonobo_object;
 
 	bonobo_object = bonobo_object_from_servant (servant);
-	gtk_signal_emit (GTK_OBJECT (bonobo_object), signals[UNSET_MESSAGE]);
+	g_signal_emit (bonobo_object, signals[UNSET_MESSAGE], 0);
 }
 
 static void
@@ -82,8 +82,7 @@ impl_ShellView_change_current_view (PortableServer_Servant servant,
 	BonoboObject *bonobo_object;
 
 	bonobo_object = bonobo_object_from_servant (servant);
-	gtk_signal_emit (GTK_OBJECT (bonobo_object), signals[CHANGE_VIEW],
-			 uri);
+	g_signal_emit (GTK_OBJECT (bonobo_object), signals[CHANGE_VIEW], 0, uri);
 }
 
 static void
@@ -94,8 +93,7 @@ impl_ShellView_set_title (PortableServer_Servant servant,
 	BonoboObject *bonobo_object;
 
 	bonobo_object = bonobo_object_from_servant (servant);
-	gtk_signal_emit (GTK_OBJECT (bonobo_object), signals[SET_TITLE],
-			 title);
+	g_signal_emit (GTK_OBJECT (bonobo_object), signals[SET_TITLE], 0, title);
 }
 
 static void
@@ -106,8 +104,7 @@ impl_ShellView_set_folder_bar_label (PortableServer_Servant servant,
 	BonoboObject *bonobo_object;
 
 	bonobo_object = bonobo_object_from_servant (servant);
-	gtk_signal_emit (GTK_OBJECT (bonobo_object), signals[SET_FOLDER_BAR_LABEL],
-			 text);
+	g_signal_emit (GTK_OBJECT (bonobo_object), signals[SET_FOLDER_BAR_LABEL], 0, text);
 }
 
 static void
@@ -117,13 +114,13 @@ impl_ShellView_show_settings (PortableServer_Servant servant,
 	BonoboObject *bonobo_object;
 
 	bonobo_object = bonobo_object_from_servant (servant);
-	gtk_signal_emit (GTK_OBJECT (bonobo_object), signals[SHOW_SETTINGS]);
+	g_signal_emit (GTK_OBJECT (bonobo_object), signals[SHOW_SETTINGS], 0);
 }
 
 
-/* GtkObject methods.  */
+/* GObject methods.  */
 static void
-destroy (GtkObject *object)
+impl_finalize (GObject *object)
 {
 	EvolutionShellView *shell_view;
 	EvolutionShellViewPrivate *priv;
@@ -133,7 +130,7 @@ destroy (GtkObject *object)
 
 	g_free (priv);
 
-	(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
+	(* G_OBJECT_CLASS (parent_class)->finalize) (object);
 }
 
 
@@ -141,10 +138,10 @@ static void
 class_init (EvolutionShellViewClass *klass)
 {
 	POA_GNOME_Evolution_ShellView__epv *epv;
-	GtkObjectClass *object_class;
+	GObjectClass *object_class;
 
-	object_class = GTK_OBJECT_CLASS (klass);
-	object_class->destroy = destroy;
+	object_class = G_OBJECT_CLASS (klass);
+	object_class->finalize = impl_finalize;
 
 	epv = &klass->epv;
 	epv->setMessage        = impl_ShellView_set_message;

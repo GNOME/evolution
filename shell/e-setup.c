@@ -403,7 +403,7 @@ e_setup (const char *evolution_directory)
 		}
 
 		if (local_folder != NULL)
-			gtk_object_unref (GTK_OBJECT (local_folder));
+			g_object_unref (local_folder);
 	}
 	g_free (file);
 

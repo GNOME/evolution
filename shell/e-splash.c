@@ -139,7 +139,8 @@ icon_free (Icon *icon)
 {
 	gdk_pixbuf_unref (icon->dark_pixbuf);
 	gdk_pixbuf_unref (icon->light_pixbuf);
-/*  	gtk_object_unref (GTK_OBJECT (icon->canvas_item)); */
+
+/*  	g_object_unref (icon->canvas_item); */
 
 	g_free (icon);
 }
@@ -206,10 +207,10 @@ schedule_relayout (ESplash *splash)
 }
 
 
-/* GtkObject methods.  */
+/* GObject methods.  */
 
 static void
-impl_destroy (GtkObject *object)
+impl_finalize (GObject *object)
 {
 	ESplash *splash;
 	ESplashPrivate *priv;
@@ -235,17 +236,17 @@ impl_destroy (GtkObject *object)
 
 	g_free (priv);
 
-	(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
+	(* G_OBJECT_CLASS (parent_class)->finalize) (object);
 }
 
 
 static void
 class_init (ESplashClass *klass)
 {
-	GtkObjectClass *object_class;
+	GObjectClass *object_class;
 
-	object_class = GTK_OBJECT_CLASS (klass);
-	object_class->destroy = impl_destroy;
+	object_class = G_OBJECT_CLASS (klass);
+	object_class->finalize = impl_finalize;
 
 	parent_class = gtk_type_class (gtk_window_get_type ());
 }
@@ -325,8 +326,8 @@ e_splash_construct (ESplash *splash,
 			       "pixbuf", splash_image_pixbuf,
 			       NULL);
 	
-	gtk_signal_connect (GTK_OBJECT (splash), "button-press-event",
-			    GTK_SIGNAL_FUNC (button_press_event), splash);
+	g_signal_connect (splash, "button-press-event",
+			  G_CALLBACK (button_press_event), splash);
 	
 	gtk_object_set (GTK_OBJECT (splash), "type", GTK_WINDOW_TOPLEVEL, NULL);
 	gtk_window_set_position (GTK_WINDOW (splash), GTK_WIN_POS_CENTER);
@@ -357,7 +358,7 @@ e_splash_new (void)
 	new = gtk_type_new (e_splash_get_type ());
 	e_splash_construct (new, splash_image_pixbuf);
 
-	gdk_pixbuf_unref (splash_image_pixbuf);
+	/* gdk_pixbuf_unref (splash_image_pixbuf); */
 
 	return GTK_WIDGET (new);
 }

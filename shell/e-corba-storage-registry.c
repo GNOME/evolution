@@ -103,7 +103,7 @@ impl_StorageRegistry_addStorage (PortableServer_Servant servant,
 		return CORBA_OBJECT_NIL;
 	}
 
-	gtk_object_unref (GTK_OBJECT (storage));
+	g_object_unref (storage);
 
 
        /* FIXME: if we remove a listener while looping through the list we can
@@ -239,7 +239,7 @@ storage_set_foreach (EStorageSet *set,
 		name = e_storage_get_name (E_STORAGE (p->data));
 
 		listener_notify (listener, GNOME_Evolution_StorageRegistry_STORAGE_CREATED, name);
-		gtk_object_unref (GTK_OBJECT (p->data));
+		g_object_unref (p->data);
 	}
 	
 	g_list_free (storage_list);
@@ -399,7 +399,7 @@ impl_finalize (GObject *object)
 	priv = corba_storage_registry->priv;
 
 	if (priv->storage_set != NULL)
-		gtk_object_unref (GTK_OBJECT (priv->storage_set));
+		g_object_unref (priv->storage_set);
 	g_free (priv);
 
 	(* G_OBJECT_CLASS (parent_class)->finalize) (object);
@@ -452,7 +452,7 @@ e_corba_storage_registry_construct (ECorbaStorageRegistry *corba_storage_registr
 
 	priv = corba_storage_registry->priv;
 
-	gtk_object_ref (GTK_OBJECT (storage_set));
+	g_object_ref (storage_set);
 	priv->storage_set = storage_set;
 }
 

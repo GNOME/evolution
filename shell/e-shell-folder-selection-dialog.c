@@ -187,7 +187,7 @@ impl_destroy (GtkObject *object)
 	save_expanded_state (folder_selection_dialog);
 
 	if (priv->storage_set != NULL)
-		gtk_object_unref (GTK_OBJECT (priv->storage_set));
+		g_object_unref (priv->storage_set);
 
 	e_free_string_list (priv->allowed_types);
 
@@ -386,8 +386,8 @@ e_shell_folder_selection_dialog_construct (EShellFolderSelectionDialog *folder_s
 	gtk_window_set_default_size (GTK_WINDOW (folder_selection_dialog), 350, 300);
 	gtk_window_set_modal (GTK_WINDOW (folder_selection_dialog), TRUE);
 	gtk_window_set_title (GTK_WINDOW (folder_selection_dialog), title);
-	gtk_signal_connect (GTK_OBJECT (folder_selection_dialog), "delete_event",
-			    GTK_SIGNAL_FUNC (delete_event_cb), folder_selection_dialog);
+	g_signal_connect (folder_selection_dialog, "delete_event",
+			  G_CALLBACK (delete_event_cb), folder_selection_dialog);
 
 	gnome_dialog_append_buttons (GNOME_DIALOG (folder_selection_dialog),
 				     GNOME_STOCK_BUTTON_OK,
@@ -399,10 +399,12 @@ e_shell_folder_selection_dialog_construct (EShellFolderSelectionDialog *folder_s
 
 	/* Make sure we get destroyed if the shell gets destroyed.  */
 
+#if 0
 	priv->shell = shell;
 	gtk_signal_connect_object_while_alive (GTK_OBJECT (shell), "destroy",
-					       GTK_SIGNAL_FUNC (gtk_widget_destroy),
+					       G_CALLBACK (gtk_widget_destroy),
 					       GTK_OBJECT (folder_selection_dialog));
+#endif
 
 	/* Set up the label.  */
 
@@ -417,7 +419,7 @@ e_shell_folder_selection_dialog_construct (EShellFolderSelectionDialog *folder_s
 	/* Set up the storage set and its view.  */
 
 	priv->storage_set = e_shell_get_storage_set (shell);
-	gtk_object_ref (GTK_OBJECT (priv->storage_set));
+	g_object_ref (priv->storage_set);
 
 	priv->storage_set_view = e_storage_set_create_new_view (priv->storage_set, NULL);
 	e_storage_set_view_set_allow_dnd (E_STORAGE_SET_VIEW (priv->storage_set_view), FALSE);
@@ -432,12 +434,8 @@ e_shell_folder_selection_dialog_construct (EShellFolderSelectionDialog *folder_s
 
 	g_free (filename);
 
-	gtk_signal_connect (GTK_OBJECT (priv->storage_set_view), "double_click",
-			    GTK_SIGNAL_FUNC (double_click_cb),
-			    folder_selection_dialog);
-	gtk_signal_connect (GTK_OBJECT (priv->storage_set_view), "folder_selected",
-			    GTK_SIGNAL_FUNC (folder_selected_cb),
-			    folder_selection_dialog);
+	g_signal_connect (priv->storage_set_view, "double_click", G_CALLBACK (double_click_cb), folder_selection_dialog);
+	g_signal_connect (priv->storage_set_view, "folder_selected", G_CALLBACK (folder_selected_cb), folder_selection_dialog);
 
 	g_assert (priv->allowed_types == NULL);
 	if (allowed_types != NULL) {

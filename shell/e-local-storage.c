@@ -197,15 +197,17 @@ load_folder (const char *physical_path,
 
 	folder = e_local_folder_new_from_path (physical_path);
 	if (folder == NULL) {
-		g_warning ("No folder metadata in %s... ignoring", physical_path);
+		/* g_warning ("No folder metadata in %s... ignoring", physical_path); FIXME */
 		return TRUE;
 	}
 
 	/* Ignore the folder if it uses an unknown type.  */
 	if (! e_folder_type_registry_type_registered (local_storage->priv->folder_type_registry,
 						      e_folder_get_type_string (folder))) {
+#if 0
 		g_warning ("Folder in %s has unknown type (%s)... ignoring",
 			   physical_path, e_folder_get_type_string (folder));
+#endif
 		return TRUE;
 	}
 
@@ -314,7 +316,7 @@ component_async_create_folder_callback (EvolutionShellComponentClient *shell_com
 				    callback_data->path, folder);
 		} else {
 			rmdir (callback_data->physical_path);
-			gtk_object_unref (GTK_OBJECT (folder));
+			g_object_unref (folder);
 			storage_result = E_STORAGE_IOERROR;
 		}
 	}
@@ -323,7 +325,7 @@ component_async_create_folder_callback (EvolutionShellComponentClient *shell_com
 
 	if (callback_data->listener != CORBA_OBJECT_NIL)
 		notify_listener (callback_data->listener, storage_result,
-					callback_data->physical_path);
+				 callback_data->physical_path);
 
 	if (callback_data->callback != NULL)
 		(* callback_data->callback) (callback_data->storage,
@@ -692,7 +694,7 @@ impl_destroy (GtkObject *object)
 	g_free (priv->base_path);
 
 	if (priv->folder_type_registry != NULL)
-		gtk_object_unref (GTK_OBJECT (priv->folder_type_registry));
+		g_object_unref (priv->folder_type_registry);
 
 	if (priv->bonobo_interface != NULL)
 		bonobo_object_unref (BONOBO_OBJECT (priv->bonobo_interface));
@@ -1115,7 +1117,7 @@ construct (ELocalStorage *local_storage,
 	g_return_val_if_fail (base_path_len != 0, FALSE);
 
 	g_assert (priv->folder_type_registry == NULL);
-	gtk_object_ref (GTK_OBJECT (folder_type_registry));
+	g_object_ref (folder_type_registry);
 	priv->folder_type_registry = folder_type_registry;
 
 	g_assert (priv->base_path == NULL);
@@ -1124,15 +1126,15 @@ construct (ELocalStorage *local_storage,
 	g_assert (priv->bonobo_interface == NULL);
 	priv->bonobo_interface = evolution_storage_new (E_LOCAL_STORAGE_NAME, FALSE);
 
-	gtk_signal_connect (GTK_OBJECT (priv->bonobo_interface), "create_folder",
-			    GTK_SIGNAL_FUNC (bonobo_interface_create_folder_cb), 
-			    local_storage);
-	gtk_signal_connect (GTK_OBJECT (priv->bonobo_interface), "remove_folder",
-			    GTK_SIGNAL_FUNC (bonobo_interface_remove_folder_cb),
-			    local_storage);
-	gtk_signal_connect (GTK_OBJECT (priv->bonobo_interface), "update_folder",
-			    GTK_SIGNAL_FUNC (bonobo_interface_update_folder_cb),
-			    local_storage);
+	g_signal_connect (priv->bonobo_interface, "create_folder",
+			  G_CALLBACK (bonobo_interface_create_folder_cb), 
+			  local_storage);
+	g_signal_connect (priv->bonobo_interface, "remove_folder",
+			  G_CALLBACK (bonobo_interface_remove_folder_cb),
+			  local_storage);
+	g_signal_connect (priv->bonobo_interface, "update_folder",
+			  G_CALLBACK (bonobo_interface_update_folder_cb),
+			  local_storage);
 
 	return load_all_folders (local_storage);
 }
@@ -1150,7 +1152,7 @@ e_local_storage_open (EFolderTypeRegistry *folder_type_registry,
 	new = gtk_type_new (e_local_storage_get_type ());
 
 	if (! construct (E_LOCAL_STORAGE (new), folder_type_registry, base_path)) {
-		gtk_object_unref (GTK_OBJECT (new));
+		g_object_unref (new);
 		return NULL;
 	}
 

@@ -234,13 +234,13 @@ connect_folder_selection_dialog_signals (EShellFolderSelectionDialog *folder_sel
 {
 	g_assert (folder_command_data != NULL);
 
-	gtk_signal_connect (GTK_OBJECT (folder_selection_dialog), "folder_selected",
-			    GTK_SIGNAL_FUNC (folder_selection_dialog_folder_selected_callback),
-			    folder_command_data);
+	g_signal_connect (folder_selection_dialog, "folder_selected",
+			  G_CALLBACK (folder_selection_dialog_folder_selected_callback),
+			  folder_command_data);
 
-	gtk_signal_connect (GTK_OBJECT (folder_selection_dialog), "cancelled",
-			    GTK_SIGNAL_FUNC (folder_selection_dialog_cancelled_callback),
-			    folder_command_data);
+	g_signal_connect (folder_selection_dialog, "cancelled",
+			  G_CALLBACK (folder_selection_dialog_cancelled_callback),
+			  folder_command_data);
 }
 
 
@@ -460,7 +460,7 @@ rename_callback_data_new (EShellView *shell_view,
 
 	callback_data = g_new (RenameCallbackData, 1);
 
-	gtk_object_ref (GTK_OBJECT (shell_view));
+	g_object_ref (shell_view);
 	callback_data->shell_view = shell_view;
 
 	callback_data->new_path = g_strdup (new_path);
@@ -471,7 +471,7 @@ rename_callback_data_new (EShellView *shell_view,
 static void
 rename_callback_data_free (RenameCallbackData *callback_data)
 {
-	gtk_object_unref (GTK_OBJECT (callback_data->shell_view));
+	g_object_unref (callback_data->shell_view);
 	g_free (callback_data->new_path);
 
 	g_free (callback_data);

@@ -41,9 +41,9 @@ struct _DndSourceFolderPrivate {
 	gpointer user_data;
 };
 
-/* GtkObject methods */
+/* GObject methods */
 static void
-dnd_source_destroy (GtkObject *object)
+dnd_source_finalize (GObject *object)
 {
 	EvolutionShellComponentDndSourceFolder *folder;
 	DndSourceFolderPrivate *priv;
@@ -55,7 +55,7 @@ dnd_source_destroy (GtkObject *object)
 
 	g_free (priv);
 	
-	(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
+	(* G_OBJECT_CLASS (parent_class)->finalize) (object);
 }
 
 static void
@@ -126,10 +126,10 @@ impl_GNOME_Evolution_ShellComponentDnd_SourceFolder_endDrag (PortableServer_Serv
 static void
 evolution_shell_component_dnd_source_folder_class_init (EvolutionShellComponentDndSourceFolderClass *klass)
 {
-	GtkObjectClass *object_class;
+	GObjectClass *object_class;
 
-	object_class = GTK_OBJECT_CLASS (klass);
-	object_class->destroy = dnd_source_destroy;
+	object_class = G_OBJECT_CLASS (klass);
+	object_class->finalize = dnd_source_finalize;
 
 	klass->epv.beginDrag  = impl_GNOME_Evolution_ShellComponentDnd_SourceFolder_beginDrag;
 	klass->epv.getData    = impl_GNOME_Evolution_ShellComponentDnd_SourceFolder_getData;
@@ -172,7 +172,7 @@ evolution_shell_component_dnd_source_folder_new (DndSourceFolderBeginDragFn begi
 	g_return_val_if_fail (delete_data != NULL, NULL);
 	g_return_val_if_fail (end_drag != NULL, NULL);
 
-	dnd_source = gtk_type_new (evolution_shell_component_dnd_source_folder_get_type ());
+	dnd_source = g_object_new (evolution_shell_component_dnd_source_folder_get_type (), NULL);
 
 	dnd_source->priv->begin_drag  = begin_drag;
 	dnd_source->priv->get_data    = get_data;
@@ -195,7 +195,7 @@ struct _DndDestinationFolderPrivate {
 
 /* GtkObject methods */
 static void
-dnd_destination_destroy (GtkObject *object)
+dnd_destination_finalize (GObject *object)
 {
 	EvolutionShellComponentDndDestinationFolder *folder;
 	DndDestinationFolderPrivate *priv;
@@ -207,7 +207,7 @@ dnd_destination_destroy (GtkObject *object)
 
 	g_free (priv);
 	
-	GTK_OBJECT_CLASS (parent_class)->destroy (object);
+	(* G_OBJECT_CLASS (parent_class)->finalize) (object);
 }
 
 /* CORBA interface */
@@ -251,10 +251,10 @@ impl_GNOME_Evolution_ShellComponentDnd_DestinationFolder_handleDrop (PortableSer
 static void
 evolution_shell_component_dnd_destination_folder_class_init (EvolutionShellComponentDndDestinationFolderClass *klass)
 {
-	GtkObjectClass *object_class;
+	GObjectClass *object_class;
 
-	object_class = GTK_OBJECT_CLASS (klass);
-	object_class->destroy = dnd_destination_destroy;
+	object_class = G_OBJECT_CLASS (klass);
+	object_class->finalize = dnd_destination_finalize;
 
 	klass->epv.handleMotion = impl_GNOME_Evolution_ShellComponentDnd_DestinationFolder_handleMotion;
 	klass->epv.handleDrop = impl_GNOME_Evolution_ShellComponentDnd_DestinationFolder_handleDrop;
@@ -292,7 +292,7 @@ evolution_shell_component_dnd_destination_folder_new (DndDestinationFolderHandle
 	g_return_val_if_fail (handle_motion != NULL, NULL);
 	g_return_val_if_fail (handle_drop != NULL, NULL);
 
-	dnd_destination = gtk_type_new (evolution_shell_component_dnd_destination_folder_get_type ());
+	dnd_destination = g_object_new (evolution_shell_component_dnd_destination_folder_get_type (), NULL);
 
 	dnd_destination->priv->handle_motion = handle_motion;
 	dnd_destination->priv->handle_drop   = handle_drop;

@@ -244,13 +244,13 @@ create_new_folder_selector (EvolutionShellComponent *shell_component)
 	if (BONOBO_EX (&ev))
 		g_warning ("Cannot show checkboxes -- %s", BONOBO_EX_ID (&ev));
 
-	gtk_signal_connect (GTK_OBJECT (dialog), "clicked",
-			    GTK_SIGNAL_FUNC (dialog_clicked_callback), storage_set_view_iface);
+	g_signal_connect (dialog, "clicked",
+			  G_CALLBACK (dialog_clicked_callback), storage_set_view_iface);
 
 	/* This is necessary to unref the StorageSetView iface once we are done
 	   with it.  */
-	gtk_signal_connect (GTK_OBJECT (dialog), "destroy",
-			    GTK_SIGNAL_FUNC (dialog_destroy_callback), storage_set_view_iface);
+	g_signal_connect (dialog, "destroy",
+			  G_CALLBACK (dialog_destroy_callback), storage_set_view_iface);
 
 	gtk_widget_show (control_widget);
 	gtk_widget_show (dialog);
@@ -366,10 +366,10 @@ setup_custom_storage (EvolutionShellClient *shell_client)
 
 	the_storage = evolution_storage_new ("TestStorage", TRUE);
 
-	gtk_signal_connect (GTK_OBJECT (the_storage), "discover_shared_folder",
-			    GTK_SIGNAL_FUNC (storage_discover_shared_folder_callback), shell_client);
-	gtk_signal_connect (GTK_OBJECT (the_storage), "cancel_discover_shared_folder",
-			    GTK_SIGNAL_FUNC (storage_cancel_discover_shared_folder_callback), shell_client);
+	g_signal_connect (the_storage, "discover_shared_folder",
+			  G_CALLBACK (storage_discover_shared_folder_callback), shell_client);
+	g_signal_connect (the_storage, "cancel_discover_shared_folder",
+			  G_CALLBACK (storage_cancel_discover_shared_folder_callback), shell_client);
 
 	/* Add some custom "Properties" items.  */
 	evolution_storage_add_property_item (the_storage, "Sharing...",
@@ -377,8 +377,8 @@ setup_custom_storage (EvolutionShellClient *shell_client)
 	evolution_storage_add_property_item (the_storage, "Permissions...",
 					     "Change permissions for this folder", NULL);
 
-	gtk_signal_connect (GTK_OBJECT (the_storage), "show_folder_properties",
-			    GTK_SIGNAL_FUNC (storage_show_folder_properties_callback), NULL);
+	g_signal_connect (the_storage, "show_folder_properties",
+			  G_CALLBACK (storage_show_folder_properties_callback), NULL);
 
 	result = evolution_storage_register_on_shell (the_storage, BONOBO_OBJREF (shell_client));
 	if (result != EVOLUTION_STORAGE_OK) {
@@ -424,7 +424,7 @@ timeout_callback_3 (void *data)
 
 	activity_client = EVOLUTION_ACTIVITY_CLIENT (data);
 
-	gtk_object_unref (GTK_OBJECT (activity_client));
+	g_object_unref (activity_client);
 
 	g_print ("--> Done.\n");
 
@@ -491,10 +491,10 @@ timeout_callback_1 (void *data)
 
 	gtk_object_set_data (GTK_OBJECT (activity_client), "my_progress", GINT_TO_POINTER (-1));
 
-	gtk_signal_connect (GTK_OBJECT (activity_client), "cancel",
-			    GTK_SIGNAL_FUNC (activity_client_cancel_callback), NULL);
-	gtk_signal_connect (GTK_OBJECT (activity_client), "show_details",
-			    GTK_SIGNAL_FUNC (activity_client_show_details_callback), NULL);
+	g_signal_connect (activity_client, "cancel",
+			  G_CALLBACK (activity_client_cancel_callback), NULL);
+	g_signal_connect (activity_client, "show_details",
+			  G_CALLBACK (activity_client_show_details_callback), NULL);
 
 	g_print ("Component becoming busy -- %s\n", COMPONENT_ID);
 	if (suggest_display)
@@ -641,10 +641,10 @@ register_component (void)
 							 request_quit_fn,
 							 NULL);
 
-	gtk_signal_connect (GTK_OBJECT (shell_component), "owner_set",
-			    GTK_SIGNAL_FUNC (owner_set_callback), NULL);
-	gtk_signal_connect (GTK_OBJECT (shell_component), "owner_unset",
-			    GTK_SIGNAL_FUNC (owner_unset_callback), NULL);
+	g_signal_connect (shell_component, "owner_set",
+			  G_CALLBACK (owner_set_callback), NULL);
+	g_signal_connect (shell_component, "owner_unset",
+			  G_CALLBACK (owner_unset_callback), NULL);
 
 	evolution_shell_component_add_user_creatable_item (shell_component, "Stuff",
 							   "New Stuff", "New _Stuff",
@@ -662,8 +662,8 @@ register_component (void)
 							   NULL,
 							   's', NULL);
 
-	gtk_signal_connect (GTK_OBJECT (shell_component), "user_create_new_item",
-			    GTK_SIGNAL_FUNC (user_create_new_item_callback), NULL);
+	g_signal_connect (shell_component, "user_create_new_item",
+			  G_CALLBACK (user_create_new_item_callback), NULL);
 
 	result = oaf_active_server_register (COMPONENT_ID,
 					     bonobo_object_corba_objref (BONOBO_OBJECT (shell_component)));

@@ -106,7 +106,7 @@ component_new (const char *id,
 	new = g_new (Component, 1);
 
 	new->component_client = client;
-	gtk_object_ref (GTK_OBJECT (client));
+	g_object_ref (client);
 
 	CORBA_exception_init (&ev);
 
@@ -124,7 +124,7 @@ component_new (const char *id,
 static void
 component_free (Component *component)
 {
-	gtk_object_unref (GTK_OBJECT (component->component_client));
+	g_object_unref (component->component_client);
 
 	if (component->type_list != NULL)
 		CORBA_free (component->type_list);
@@ -384,8 +384,8 @@ create_menu_xml (EShellUserCreatableItemsHandler *handler,
 	g_string_append (xml, "<placeholder name=\"EShellUserCreatableItemsPlaceholder\">");
 
 	/* 1. Add all the elements that are default for this component.  (Note
-	      that we don't need to do any sorting since the items are already
-	      sorted alphabetically.)  */
+	   that we don't need to do any sorting since the items are already
+	   sorted alphabetically.)  */
 
 	if (component_id != NULL) {
 		gboolean first = TRUE;
@@ -581,9 +581,9 @@ setup_toolbar_button (EShellUserCreatableItemsHandler *handler,
 	e_combo_button_set_label (E_COMBO_BUTTON (combo_button), _("New"));
 	gtk_widget_show (combo_button);
 
-	gtk_signal_connect (GTK_OBJECT (combo_button), "activate_default",
-			    GTK_SIGNAL_FUNC (combo_button_activate_default_callback),
-			    shell_view);
+	g_signal_connect (combo_button, "activate_default",
+			  G_CALLBACK (combo_button_activate_default_callback),
+			  shell_view);
 
 	ui_component = e_shell_view_get_bonobo_ui_component (shell_view);
 	bonobo_window_add_popup (BONOBO_WINDOW (shell_view), GTK_MENU (menu), "/popups/NewPopup");
@@ -756,8 +756,8 @@ e_shell_user_creatable_items_handler_attach_menus (EShellUserCreatableItemsHandl
 	priv = handler->priv;
 
 	setup_toolbar_button (handler, shell_view);
-	gtk_signal_connect (GTK_OBJECT (shell_view), "view_changed",
-			    GTK_SIGNAL_FUNC (shell_view_view_changed_callback), handler);
+	g_signal_connect (shell_view, "view_changed",
+			  G_CALLBACK (shell_view_view_changed_callback), handler);
 
 	add_verbs (handler, shell_view);
 	menu_xml = create_menu_xml (handler,
