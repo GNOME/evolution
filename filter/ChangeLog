@@ -1,3 +1,9 @@
+2000-07-24  Dan Winship  <danw@helixcode.com>
+
+	* filter-driver.c (do_delete, filter_driver_run): Update for
+	CamelFolder API changes. (delete_message and get_uids don't take
+	exceptions any more.)
+
 2000-07-11  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* filter-driver.c (filter_driver_run): Updated to reflect changes to

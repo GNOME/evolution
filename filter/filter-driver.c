@@ -346,7 +346,7 @@ do_delete(struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterDriver *
 		uid = p->matches->pdata[i];
 		printf(" %s\n", uid);
 
-		camel_folder_delete_message (p->source, uid, p->ex);
+		camel_folder_delete_message (p->source, uid);
 	}
 	return NULL;
 }
@@ -547,7 +547,7 @@ filter_driver_run(FilterDriver *d, CamelFolder *source, CamelFolder *inbox)
 	 * the source. If we have an inbox, anything that didn't get
 	 * processed otherwise goes there.
 	 */
-	all = camel_folder_get_uids(p->source, p->ex);
+	all = camel_folder_get_uids(p->source);
 	for (i = 0; i < all->len; i++) {
 		char *uid = all->pdata[i], *procuid;
 		GList *copies, *tmp;
@@ -576,7 +576,7 @@ filter_driver_run(FilterDriver *d, CamelFolder *source, CamelFolder *inbox)
 
 			gtk_object_unref((GtkObject *)mm);
 		}
-		camel_folder_delete_message(p->source, uid, p->ex);
+		camel_folder_delete_message(p->source, uid);
 	}
 	camel_folder_free_uids(p->source, all);
 
