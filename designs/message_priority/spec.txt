@@ -1,0 +1,21 @@
+Specification the "Set Priority" button: 
+
+Button Appearance:
+1) Button should highlight on mouse-over, as do the "Send" and "Attach" buttons.
+
+2) The dropdown menu associated with this button should contain the following three items: 
+High Priority
+Normal Priority
+Low Priority
+
+3) The tooltips associated with the various dropdown menuitems should be: 
+
+Button moused over but not pressed: "Set the priority of this message"
+Button pressed, mouse on "High Priority": "Set the priority of this message to be high"
+Button pressed, mouse on "Normal Priority": Set the priority of this message to be normal"
+Button pressed, mouse on "Low Priority"
+
+4) Ideally, the appearance of the button will change based on which priority is selected. This is important, as it provides a visual indication of what the current message priority is. A possible way to do this is to change the appearance of the exclamation mark, to match the way the message will appear in the message list. (eg, make the mark red for messages marked as having a high priority, etc.) 
+
+Default Setting: 
+The default message priority should be "normal".
