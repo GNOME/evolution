@@ -82,7 +82,7 @@ static CamelProvider groupwise_provider = {
 	"groupwise",
 	N_("Novell GroupWise"),
 
-	N_("For accesing Novell Groupwise servers"),
+	N_("For accessing Novell Groupwise servers"),
 
 	"mail",
 

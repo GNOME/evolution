@@ -1,3 +1,10 @@
+2004-01-30  Rodney Dawes <dobey@ximian.com>
+
+	* providers/groupwise/camel-groupwise-provider.c: Fix spelling error in
+	provider description
+
+	Fixes #53572
+
 2004-01-30  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel.c (camel_init): Protect against multiple camel_init()
