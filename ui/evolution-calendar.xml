@@ -19,12 +19,9 @@
     <cmd name="ShowWeekView" _tip="Show one week" pixtype="pixbuf"/>
     <cmd name="ShowMonthView" _tip="Show one month" pixtype="pixbuf"/>
 
-    <cmd name="CutEvent" _tip="Cut the selection" pixtype="stock"
-	 pixname="Cut" accel="*Control*x"/>
-    <cmd name="CopyEvent" _tip="Copy the selection" pixtype="stock" 
-	 pixname="Copy" accel="*Control*c"/>
-    <cmd name="PasteEvent" _tip="Paste the clipboard" pixtype="stock" 
-	 pixname="Paste" accel="*Control*v"/>
+    <cmd name="CutEvent" _tip="Cut the selection" accel="*Control*x"/>
+    <cmd name="CopyEvent" _tip="Copy the selection" accel="*Control*c"/>
+    <cmd name="PasteEvent" _tip="Paste the clipboard" accel="*Control*v"/>
 
     <cmd name="PublishFreeBusy" _tip="Publish Free/Busy information for this calendar"/>
   </commands>
@@ -55,9 +52,9 @@
     </submenu>
 
     <submenu name="Edit">
-      <menuitem name="CutEvent" verb="" _label="C_ut"/>
-      <menuitem name="CopyEvent" verb="" _label="_Copy"/>
-      <menuitem name="PasteEvent" verb="" _label="_Paste"/>
+      <menuitem name="CutEvent" verb="" _label="C_ut" pixtype="pixbuf"/>
+      <menuitem name="CopyEvent" verb="" _label="_Copy" pixtype="pixbuf"/>
+      <menuitem name="PasteEvent" verb="" _label="_Paste" pixtype="pixbuf"/>
     </submenu>
 
     <submenu name="View">

@@ -1,3 +1,12 @@
+2001-08-18  Damon Chaplin  <damon@ximian.com>
+
+	* evolution-tasks.xml: used the new Cut/Copy/Paste icons.
+	Removed the Save As/Print/Print Preview commands as they do nothing.
+
+	* evolution-comp-editor.xml: used the new Save/Save As icons.
+
+	* evolution-calendar.xml: used the new Cut/Copy/Paste icons.
+
 2001-08-18  Ettore Perazzoli  <ettore@ximian.com>
 
 	* evolution-addressbook.xml: Set the pixtype for

@@ -13,15 +13,15 @@
 
         <cmd name="FileSave" _label="Save"
 	_tip="Save the item and close the dialog box"
-	pixtype="stock" pixname="Save" accel="*Control*s"/>
+	accel="*Control*s"/>
 
         <cmd name="FileSaveAndClose" _label="Save and Close"
 	_tip="Save the item and close the dialog box"
-	pixtype="stock" pixname="Save" accel="*Control*s"/>
+	accel="*Control*s"/>
 
         <cmd name="FileSaveAs" _label="Save As..."
 	_tip="Save this item to disk"
-        pixtype="stock" pixname="Save" accel="*Control*Alt*s"/>
+        accel="*Control*Alt*s"/>
 
 	<cmd name="FileDelete" _label="Delete"
 	_tip="Delete this item"
@@ -37,11 +37,11 @@
 
 <submenu name="File" _label="_File">
 
-        <menuitem name="FileSave" verb=""/>
+        <menuitem name="FileSave" verb="" pixtype="pixbuf"/>
 
-        <menuitem name="FileSaveAndClose" verb=""/>
+        <menuitem name="FileSaveAndClose" verb="" pixtype="pixbuf"/>
 
-        <menuitem name="FileSaveAs" verb=""/>
+        <menuitem name="FileSaveAs" verb="" pixtype="pixbuf"/>
 
 	<separator/>
 
@@ -72,7 +72,7 @@
 <dockitem name="Toolbar"relief="none" behavior="exclusive"
  _tip="Main toolbar" hlook="text" vlook="icon">
 
-        <toolitem name="FileSaveAndClose" verb="" _label="Save and Close" priority="1"/>
+        <toolitem name="FileSaveAndClose" verb="" _label="Save and Close" priority="1" pixtype="pixbuf"/>
 
 	<separator/>
         

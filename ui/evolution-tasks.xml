@@ -7,11 +7,11 @@
 		 _tip="Delete selected tasks" verb="TasksDelete"
 		 accel="Delete" sensitive="0"/>
 
-		<cmd name="TasksCut" pixtype="stock" pixname="Cut"
+		<cmd name="TasksCut"
 		 _tip="Cut selected task" verb="TasksCut" accel="*Control*x"/>
-		<cmd name="TasksCopy" pixtype="stock" pixname="Copy"
+		<cmd name="TasksCopy"
 		 _tip="Copy selected task" verb="TasksCopy" accel="*Control*c"/>
-		<cmd name="TasksPaste" pixtype="stock" pixname="Paste"
+		<cmd name="TasksPaste"
 		 _tip="Paste task from the clipboard" verb="TasksPaste" accel="*Control*v"/>
 
 		<cmd name="TasksSettings" _tip="Configure the task view's settings"/>
@@ -30,35 +30,13 @@
 	                        </placeholder>
 	                </submenu>
       
-			<placeholder name="FileOps">
-				
-				<menuitem name="TasksSaveAs" verb=""
-				_label="_Save As..."
-				_tip="Save task as something else"
-                                accel="*Control*a"/>
-
-			</placeholder>
-
-			<placeholder name="Print">
-
-				<menuitem name="Print Preview" verb="TasksPrintPreview"
-				_label="Print Pre_view"
-				pixtype="pixbuf"/>
-
-				<menuitem name="Print" verb="TasksPrint"
-				_label="_Print Task..."
-				pixtype="pixbuf"
-				accel="*Control*p"/>
-				
-			</placeholder>
-
 		</submenu>
 
 		<submenu name="Edit">
 
-			<menuitem name="Cut" verb="TasksCut" _label="C_ut"/>
-			<menuitem name="Copy" verb="TasksCopy" _label="_Copy"/>
-			<menuitem name="Paste" verb="TasksPaste" _label="_Paste"/>
+			<menuitem name="Cut" verb="TasksCut" _label="C_ut" pixtype="pixbuf"/>
+			<menuitem name="Copy" verb="TasksCopy" _label="_Copy" pixtype="pixbuf"/>
+			<menuitem name="Paste" verb="TasksPaste" _label="_Paste" pixtype="pixbuf"/>
 			<menuitem name="Delete" verb="TasksDelete"
 			_label="_Delete"/>
 
@@ -78,12 +56,6 @@
 		priority="1" pixtype="pixbuf"/>
 
 	  	<separator/>
-
-		<toolitem name="Print" _label="Print"
-		_tip="Print" verb="TasksPrint"
-		pixtype="pixbuf"/>
-
-		<separator/>
 
 		<toolitem name="Delete" verb="TasksDelete"/>
 
