@@ -30,6 +30,11 @@ static void camel_folder_open(CamelFolder *folder);
 static void camel_folder_close(CamelFolder *folder, gboolean expunge);
 static void camel_folder_set_name(CamelFolder *folder, GString *name_string);
 static GString *camel_folder_get_name(CamelFolder *folder);
+static gboolean camel_folder_can_hold_folders(CamelFolder *folder);
+static gboolean camel_folder_can_hold_messages(CamelFolder *folder);
+static gboolean camel_folder_exists(CamelFolder *folder);
+static gboolean camel_folder_is_open(CamelFolder *folder);
+static CamelFolder *camel_folder_get_folder(CamelFolder *folder, GString *folderName);
 
 static void
 camel_folder_class_init (CamelFolderClass *camel_folder_class)
@@ -41,7 +46,11 @@ camel_folder_class_init (CamelFolderClass *camel_folder_class)
 	camel_folder_class->close = camel_folder_close;
 	camel_folder_class->set_name = camel_folder_set_name;
 	camel_folder_class->get_name = camel_folder_get_name;
-
+	camel_folder_class->can_hold_folders = camel_folder_can_hold_folders;
+	camel_folder_class->can_hold_messages = camel_folder_can_hold_messages;
+	camel_folder_class->exists = camel_folder_exists;
+	camel_folder_class->is_open = camel_folder_is_open;
+	camel_folder_class->get_folder = camel_folder_get_folder;
 	/* virtual method overload */
 }
 
@@ -125,7 +134,7 @@ camel_folder_set_name(CamelFolder *folder, GString *name_string)
 
 
 /** 
- * getName : get the (short) name of the folder
+ * camel_folder_get_name : get the (short) name of the folder
  *
  * get the name of the folder. The fully qualified name
  * can be obtained with the get_full_ame method (not implemented)
@@ -138,3 +147,74 @@ camel_folder_get_name(CamelFolder *folder)
 {
 	return folder->name;
 }
+
+
+/**
+ * camel_folder_can_hold_folders : tests if the folder can contain other folders
+ *
+ **/
+static gboolean
+camel_folder_can_hold_folders(CamelFolder *folder)
+{
+    return folder->can_hold_folders;
+}
+
+
+
+/** 
+ * camel_folder_can_hold_messages : tests if the folder can contain messages
+ *
+ **/
+static gboolean
+camel_folder_can_hold_messages(CamelFolder *folder)
+{
+    return folder->can_hold_messages;
+}
+
+
+
+/** 
+ * camel_folder_exists : tests if the folder object exists on the store.
+ *
+ **/
+static gboolean
+camel_folder_exists(CamelFolder *folder)
+{
+    return folder->exists_on_store;
+}
+
+
+
+/** 
+ * camel_folder_is_open : test if the folder is open
+ *
+ **/
+static gboolean
+camel_folder_is_open(CamelFolder *folder)
+{
+    return (folder->open_state==FOLDER_OPEN);
+}
+
+
+
+
+/** 
+ * camel_folder_get_folder: return the (sub)folder object that
+ * is specified.
+ *
+ * This method returns a folder objects. This folder
+ * is necessarily a subfolder of the current folder. 
+ * It is an error to ask a folder begining with the 
+ * folder separator character.  
+ * 
+ * @folderName: subfolder path. NULL if the subfolder object
+ *        could not be created
+ **/
+static CamelFolder *
+camel_folder_get_folder(CamelFolder *folder, GString *folderName)
+{
+    g_warning("getFolder called on the abstract CamelFolder class\n");
+    return NULL;
+}
+
+

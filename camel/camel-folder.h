@@ -81,6 +81,12 @@ typedef struct {
 	void   (*close) (CamelFolder *folder, gboolean expunge);
 	void   (*set_name) (CamelFolder *folder, GString *name_string);
 	GString * (*get_name) (CamelFolder *folder);
+	gboolean (*can_hold_folders) (CamelFolder *folder);
+	gboolean (*can_hold_messages) (CamelFolder *folder);
+	gboolean (*exists) (CamelFolder *folder);
+	gboolean (*is_open) (CamelFolder *folder);
+	CamelFolder * (*get_folder) (CamelFolder *folder, GString *folderName);
+
 } CamelFolderClass;
 
 

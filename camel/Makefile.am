@@ -12,10 +12,14 @@ INCLUDES = -I.. -I$(srcdir)/.. -I$(includedir)	\
 	$(GTK_INCLUDEDIR)
 
 libcamel_la_SOURCES = 				\
-	camel-folder.c	
+	camel-log.c				\
+	camel-folder.c				\
+	gstring-util.c
 
 libcamelinclude_HEADERS =			\
-	camel-folder.h	
+	camel-log.h				\
+	camel-folder.h				\
+	gstring-util.h
 
 
 libcamel_la_LDFLAGS = -version-info 0:0:0 -rpath $(libdir)
