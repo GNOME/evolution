@@ -87,5 +87,13 @@ gboolean gal_a11y_e_cell_remove_action	(GalA11yECell	*cell,
 gboolean gal_a11y_e_cell_remove_action_by_name (GalA11yECell        *cell,
                                           	const gchar     *action_name);
 
+gboolean gal_a11y_e_cell_add_state     (GalA11yECell *cell,
+					AtkStateType state_type,
+					gboolean     emit_signal);
+
+gboolean gal_a11y_e_cell_remove_state  (GalA11yECell *cell,
+					AtkStateType state_type,
+					gboolean     emit_signal);
+
 
 #endif /* ! __GAL_A11Y_E_CELL_H__ */

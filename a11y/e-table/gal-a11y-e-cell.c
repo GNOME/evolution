@@ -57,11 +57,24 @@ eti_dispose (GObject *object)
 	a11y->view_col = -1;
 	a11y->row = -1;
 
+	if (a11y->state_set)
+		g_object_unref (a11y->state_set);
+
 	if (parent_class->dispose)
 		parent_class->dispose (object);
 }
 
 /* Static functions */
+static AtkStateSet *
+eti_ref_state_set (AtkObject *accessible)
+{
+	GalA11yECell *cell = GAL_A11Y_E_CELL (accessible);
+	g_return_val_if_fail (cell->state_set, NULL);
+
+	g_object_ref(cell->state_set);
+	return cell->state_set;
+}
+
 static AtkObject*
 eti_get_parent (AtkObject *accessible)
 {
@@ -154,6 +167,7 @@ eti_class_init (GalA11yECellClass *klass)
 
 	atk_object_class->get_parent          = eti_get_parent;
 	atk_object_class->get_index_in_parent = eti_get_index_in_parent;
+	atk_object_class->ref_state_set       = eti_ref_state_set;
 }
 
 static void
@@ -165,6 +179,10 @@ eti_init (GalA11yECell *a11y)
 	a11y->model_col = -1;
 	a11y->view_col = -1;
 	a11y->row = -1;
+
+	a11y->state_set = atk_state_set_new ();
+	atk_state_set_add_state (a11y->state_set, ATK_STATE_TRANSIENT);
+	atk_state_set_add_state (a11y->state_set, ATK_STATE_ENABLED);
 }
 
 
@@ -407,9 +425,40 @@ gal_a11y_e_cell_add_state (GalA11yECell     *cell,
 			if (state_type == ATK_STATE_VISIBLE)
 				g_signal_emit_by_name (cell, "visible_data_changed");
 		}
+
+		return rc;
 	}
+	else
+		return FALSE;
 }
 
+gboolean
+gal_a11y_e_cell_remove_state (GalA11yECell     *cell,
+			      AtkStateType state_type,
+			      gboolean     emit_signal)
+{
+	if (atk_state_set_contains_state (cell->state_set, state_type)) {
+		gboolean rc;
+                                                                                                                              
+		rc = atk_state_set_remove_state (cell->state_set, state_type);
+		/*
+		 * The signal should only be generated if the value changed,
+		 * not when the cell is set up.  So states that are set
+		 * initially should pass FALSE as the emit_signal argument.
+		 */
+
+		if (emit_signal) {
+			atk_object_notify_state_change (ATK_OBJECT (cell), state_type, FALSE);
+			/* If state_type is ATK_STATE_VISIBLE, additional notification */
+			if (state_type == ATK_STATE_VISIBLE)
+				g_signal_emit_by_name (cell, "visible_data_changed");
+		}
+
+		return rc;
+	}
+	else
+		return FALSE;
+}
 
 /**
  * gal_a11y_e_cell_get_type:
@@ -451,6 +500,7 @@ gal_a11y_e_cell_get_type (void)
 
 	return type;
 }
+
 AtkObject *
 gal_a11y_e_cell_new (ETableItem *item,
 		     ECellView  *cell_view,

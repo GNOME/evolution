@@ -52,6 +52,9 @@
 #include "tree-expanded.xpm"
 #include "tree-unexpanded.xpm"
 
+#include "gal/a11y/e-table/gal-a11y-e-cell-registry.h"
+#include "gal/a11y/e-table/gal-a11y-e-cell-tree.h"
+
 #define PARENT_TYPE e_cell_get_type ()
 
 typedef struct {
@@ -69,6 +72,12 @@ typedef struct {
 static ECellClass *parent_class;
 
 #define INDENT_AMOUNT 16
+
+ECellView *
+e_cell_tree_view_get_subcell_view (ECellView *ect)
+{
+	return ((ECellTreeView *)ect)->subcell_view;
+}
 
 static ETreePath
 e_cell_tree_get_node (ETableModel *table_model, int row)
@@ -828,6 +837,8 @@ e_cell_tree_class_init (GObjectClass *object_class)
 	ecc->get_bg_color     = ect_get_bg_color;
 
 	parent_class = g_type_class_ref (PARENT_TYPE);
+
+        gal_a11y_e_cell_registry_add_cell_type (NULL, E_CELL_TREE_TYPE, gal_a11y_e_cell_tree_new);
 }
 
 E_MAKE_TYPE(e_cell_tree, "ECellTree", ECellTree, e_cell_tree_class_init, NULL, PARENT_TYPE)
