@@ -1,4 +1,4 @@
-/* Evolution calendar - Main page of the task editor dialog
+/* Evolution calendar - task details page
  *
  * Copyright (C) 2001 Ximian, Inc.
  *
@@ -47,21 +47,39 @@ struct _TaskDetailsPagePrivate {
 	/* Widgets from the Glade file */
 	GtkWidget *main;
 
-	GtkWidget *summary;
-	GtkWidget *date_time;
-	
+	GtkWidget *status;
+	GtkWidget *priority;
+	GtkWidget *percent_complete;
+
 	GtkWidget *completed_date;
 
 	GtkWidget *url;
 
-	GtkWidget *organizer;
-	GtkWidget *organizer_lbl;
-	GtkWidget *delegated_to;
-	GtkWidget *delegated_to_lbl;
-	GtkWidget *delegated_from;
-	GtkWidget *delegated_from_lbl;	
-
 	gboolean updating;
+};
+
+/* Note that these two arrays must match. */
+static const int status_map[] = {
+	ICAL_STATUS_NEEDSACTION,
+	ICAL_STATUS_INPROCESS,
+	ICAL_STATUS_COMPLETED,
+	ICAL_STATUS_CANCELLED,
+	-1
+};
+
+typedef enum {
+	PRIORITY_HIGH,
+	PRIORITY_NORMAL,
+	PRIORITY_LOW,
+	PRIORITY_UNDEFINED,
+} TaskEditorPriority;
+
+static const int priority_map[] = {
+	PRIORITY_HIGH,
+	PRIORITY_NORMAL,
+	PRIORITY_LOW,
+	PRIORITY_UNDEFINED,
+	-1
 };
 
 
@@ -74,8 +92,6 @@ static GtkWidget *task_details_page_get_widget (CompEditorPage *page);
 static void task_details_page_focus_main_widget (CompEditorPage *page);
 static void task_details_page_fill_widgets (CompEditorPage *page, CalComponent *comp);
 static void task_details_page_fill_component (CompEditorPage *page, CalComponent *comp);
-static void task_details_page_set_summary (CompEditorPage *page, const char *summary);
-static void task_details_page_set_dates (CompEditorPage *page, CompEditorPageDates *dates);
 
 static CompEditorPageClass *parent_class = NULL;
 
@@ -130,8 +146,6 @@ task_details_page_class_init (TaskDetailsPageClass *class)
 	editor_page_class->focus_main_widget = task_details_page_focus_main_widget;
 	editor_page_class->fill_widgets = task_details_page_fill_widgets;
 	editor_page_class->fill_component = task_details_page_fill_component;
-	editor_page_class->set_summary = task_details_page_set_summary;
-	editor_page_class->set_dates = task_details_page_set_dates;
 
 	object_class->destroy = task_details_page_destroy;
 }
@@ -148,8 +162,11 @@ task_details_page_init (TaskDetailsPage *tdpage)
 	priv->xml = NULL;
 
 	priv->main = NULL;
-	priv->summary = NULL;
-	priv->date_time = NULL;
+
+	priv->status = NULL;
+	priv->priority = NULL;
+	priv->percent_complete = NULL;
+	
 	priv->completed_date = NULL;
 	priv->url = NULL;
 
@@ -206,7 +223,52 @@ task_details_page_focus_main_widget (CompEditorPage *page)
 	tdpage = TASK_DETAILS_PAGE (page);
 	priv = tdpage->priv;
 
-	gtk_widget_grab_focus (priv->organizer);
+	gtk_widget_grab_focus (priv->status);
+}
+
+
+static TaskEditorPriority
+priority_value_to_index (int priority_value)
+{
+	TaskEditorPriority retval;
+
+	if (priority_value == 0)
+		retval = PRIORITY_UNDEFINED;
+	else if (priority_value <= 4)
+		retval = PRIORITY_HIGH;
+	else if (priority_value == 5)
+		retval = PRIORITY_NORMAL;
+	else
+		retval = PRIORITY_LOW;
+
+	return retval;
+}
+
+static int
+priority_index_to_value (TaskEditorPriority priority)
+{
+	int retval;
+
+	switch (priority) {
+	case PRIORITY_UNDEFINED:
+		retval = 0;
+		break;
+	case PRIORITY_HIGH:
+		retval = 3;
+		break;
+	case PRIORITY_NORMAL:
+		retval = 5;
+		break;
+	case PRIORITY_LOW:
+		retval = 7;
+		break;
+	default:
+		retval = -1;
+		g_assert_not_reached ();
+		break;
+	}
+
+	return retval;
 }
 
 /* Fills the widgets with default values */
@@ -216,12 +278,6 @@ clear_widgets (TaskDetailsPage *tdpage)
 	TaskDetailsPagePrivate *priv;
 
 	priv = tdpage->priv;
-
-	/* Summary */
-	gtk_label_set_text (GTK_LABEL (priv->summary), "");
-
-	/* Start date */
-	gtk_label_set_text (GTK_LABEL (priv->date_time), "");
 
 	/* Date completed */
 	e_date_edit_set_time (E_DATE_EDIT (priv->completed_date), -1);
@@ -236,12 +292,11 @@ task_details_page_fill_widgets (CompEditorPage *page, CalComponent *comp)
 {
 	TaskDetailsPage *tdpage;
 	TaskDetailsPagePrivate *priv;
-	GSList *list;
-	CalComponentText text;
-	CalComponentOrganizer organizer;
+	int *priority_value, *percent;
+	TaskEditorPriority priority;
+	icalproperty_status status;
 	const char *url;
-	CompEditorPageDates dates;
-	
+
 	tdpage = TASK_DETAILS_PAGE (page);
 	priv = tdpage->priv;
 
@@ -250,37 +305,45 @@ task_details_page_fill_widgets (CompEditorPage *page, CalComponent *comp)
 	/* Clean the screen */
 	clear_widgets (tdpage);
 	
-	/* Summary */
-	cal_component_get_summary (comp, &text);
-	task_details_page_set_summary (page, text.value);
+	/* Percent Complete. */
+	cal_component_get_percent (comp, &percent);
+	if (percent) {
+		e_dialog_spin_set (priv->percent_complete, *percent);
+		cal_component_free_percent (percent);
+	} else {
+		/* FIXME: Could check if task is completed and set 100%. */
+		e_dialog_spin_set (priv->percent_complete, 0);
+	}
 
-	/* Dates */
-	comp_editor_dates (&dates, comp);
-	task_details_page_set_dates (page, &dates);
-	
+	/* Status. */
+	cal_component_get_status (comp, &status);
+	if (status == ICAL_STATUS_NONE) {
+		/* Try to use the percent value. */
+		if (percent) {
+			if (*percent == 0)
+				status = ICAL_STATUS_NEEDSACTION;
+			else if (*percent == 100)
+				status = ICAL_STATUS_COMPLETED;
+			else
+				status = ICAL_STATUS_INPROCESS;
+		} else
+			status = ICAL_STATUS_NEEDSACTION;
+	}
+	e_dialog_option_menu_set (priv->status, status, status_map);
+
+	/* Priority. */
+	cal_component_get_priority (comp, &priority_value);
+	if (priority_value) {
+		priority = priority_value_to_index (*priority_value);
+		cal_component_free_priority (priority_value);
+	} else {
+		priority = PRIORITY_UNDEFINED;
+	}
+	e_dialog_option_menu_set (priv->priority, priority, priority_map);
+
 	/* URL */
 	cal_component_get_url (comp, &url);
 	e_dialog_editable_set (priv->url, url);
-
-	/* Delegation */
-	cal_component_get_organizer (comp, &organizer);
-	if (organizer.value)
-		e_dialog_editable_set (priv->organizer, organizer.value);
-
-	cal_component_get_attendee_list (comp, &list);
-	if (list != NULL) {
-		CalComponentAttendee *attendee;
-		
-		attendee = list->data;
-		if (attendee->delto)
-			e_dialog_editable_set (priv->delegated_to, attendee->delto);
-		if (attendee->delfrom) {
-			gchar *s = e_utf8_to_gtk_string (priv->delegated_from, attendee->delfrom);
-			gtk_label_set_text (GTK_LABEL (priv->delegated_from), s);
-			g_free (s);
-		}
-	}
-	cal_component_free_attendee_list (list);
 	
 	priv->updating = FALSE;
 }
@@ -292,14 +355,27 @@ task_details_page_fill_component (CompEditorPage *page, CalComponent *comp)
 	TaskDetailsPage *tdpage;
 	TaskDetailsPagePrivate *priv;
 	struct icaltimetype icaltime;
-	GSList list;
-	CalComponentOrganizer organizer;
-	CalComponentAttendee attendee;
+	icalproperty_status status;
+	TaskEditorPriority priority;
+	int priority_value, percent;
 	char *url;
 	gboolean date_set;
 	
 	tdpage = TASK_DETAILS_PAGE (page);
 	priv = tdpage->priv;
+
+	/* Percent Complete. */
+	percent = e_dialog_spin_get_int (priv->percent_complete);
+	cal_component_set_percent (comp, &percent);
+
+	/* Status. */
+	status = e_dialog_option_menu_get (priv->status, status_map);
+	cal_component_set_status (comp, status);
+
+	/* Priority. */
+	priority = e_dialog_option_menu_get (priv->priority, priority_map);
+	priority_value = priority_index_to_value (priority);
+	cal_component_set_priority (comp, &priority_value);
 
 	icaltime = icaltime_null_time ();
 
@@ -335,90 +411,6 @@ task_details_page_fill_component (CompEditorPage *page, CalComponent *comp)
 	cal_component_set_url (comp, url);
 	if (url)
 		g_free (url);
-
-	/* Delegation */
-	organizer.value = e_dialog_editable_get (priv->organizer);
-	organizer.sentby = NULL;
-	organizer.cn = NULL;
-	organizer.language = NULL;
-	cal_component_set_organizer (comp, &organizer);
-	attendee.value = e_dialog_editable_get (priv->delegated_to);
-	attendee.member = NULL;
-	attendee.cutype = CAL_COMPONENT_CUTYPE_INDIVIDUAL;
-	attendee.role = CAL_COMPONENT_ROLE_REQUIRED;
-	attendee.status = CAL_COMPONENT_PARTSTAT_NEEDSACTION;
-	attendee.rsvp = TRUE;
-	attendee.delto = e_dialog_editable_get (priv->delegated_to);
-	attendee.delfrom = NULL;
-	attendee.sentby = NULL;
-	attendee.cn = NULL;
-	attendee.language = NULL;
-	list.data = &attendee;
-	list.next = NULL;
-	cal_component_set_attendee_list (comp, &list);
-	g_free ((char *)organizer.value);
-	g_free ((char *)attendee.value);
-	g_free ((char *)attendee.delto);
-	g_free ((char *)attendee.delfrom);
-}
-
-/* set_summary handler for the task page */
-static void
-task_details_page_set_summary (CompEditorPage *page, const char *summary)
-{
-	TaskDetailsPage *tdpage;
-	TaskDetailsPagePrivate *priv;
-	gchar *s;
-	
-	tdpage = TASK_DETAILS_PAGE (page);
-	priv = tdpage->priv;
-
-	s = e_utf8_to_gtk_string (priv->summary, summary);
-	gtk_label_set_text (GTK_LABEL (priv->summary), s);
-	g_free (s);
-}
-
-static void
-task_details_page_set_dates (CompEditorPage *page, CompEditorPageDates *dates)
-{
-	TaskDetailsPage *tdpage;
-	TaskDetailsPagePrivate *priv;
-
-	tdpage = TASK_DETAILS_PAGE (page);
-	priv = tdpage->priv;
-
-	if (priv->updating)
-		return;
-	
-	priv->updating = TRUE;
-	
-	comp_editor_date_label (dates, priv->date_time);
-
-	if (dates->complete) {
-		if (icaltime_is_null_time (*dates->complete)) {
-			e_date_edit_set_time (E_DATE_EDIT (priv->completed_date), -1);
-		} else {
-			struct icaltimetype *tt = dates->complete;
-
-			/* Convert it from UTC to local time to display.
-			   FIXME: We should really use one timezone for the
-			   entire time the dialog is shown. Otherwise if the
-			   user changes the timezone, the COMPLETED date may
-			   get changed as well. */
-			char *location = calendar_config_get_timezone ();
-			icaltimezone *zone = icaltimezone_get_builtin_timezone (location);
-			icaltimezone_convert_time (tt,
-						   icaltimezone_get_utc_timezone (),
-						   zone);
-
-			e_date_edit_set_date (E_DATE_EDIT (priv->completed_date),
-					      tt->year, tt->month, tt->day);
-			e_date_edit_set_time_of_day (E_DATE_EDIT (priv->completed_date),
-						     tt->hour, tt->minute);
-		}
-	}
-	
-	priv->updating = FALSE;
 }
 
 
@@ -440,44 +432,58 @@ get_widgets (TaskDetailsPage *tdpage)
 	gtk_widget_ref (priv->main);
 	gtk_widget_unparent (priv->main);
 
-	priv->summary = GW ("summary");
-	priv->date_time = GW ("date-time");
+	priv->status = GW ("status");
+	priv->priority = GW ("priority");
+	priv->percent_complete = GW ("percent-complete");
 
 	priv->completed_date = GW ("completed-date");
 
 	priv->url = GW ("url");
 
-	priv->organizer = GW ("organizer");
-	priv->organizer_lbl = GW ("organizer-label");
-	priv->delegated_to = GW ("delegated-to");
-	priv->delegated_to_lbl = GW ("delegated-to-label");
-	priv->delegated_from = GW ("delegated-from");
-	priv->delegated_from_lbl = GW ("delegated-from-label");
-
 #undef GW
 
-	return (priv->summary
-		&& priv->date_time
+	return (priv->status
+		&& priv->priority
+		&& priv->percent_complete
 		&& priv->completed_date
-		&& priv->url
-		&& priv->organizer
-		&& priv->organizer_lbl
-		&& priv->delegated_to
-		&& priv->delegated_to_lbl
-		&& priv->delegated_from
-		&& priv->delegated_from_lbl);
+		&& priv->url);
 }
 
-/* Callback used when the start or end date widgets change.  We check that the
- * start date < end date and we set the "all day task" button as appropriate.
- */
+
+static void
+complete_date_changed (TaskDetailsPage *tdpage, time_t ctime, gboolean complete)
+{
+	TaskDetailsPagePrivate *priv;
+	CompEditorPageDates dates = {NULL, NULL, NULL, NULL};
+	icaltimezone *zone;
+	struct icaltimetype completed_tt = icaltime_null_time();
+
+	priv = tdpage->priv;
+
+	/* Get the current time in UTC. */
+	zone = icaltimezone_get_utc_timezone ();
+	completed_tt = icaltime_from_timet_with_zone (ctime, FALSE, zone);
+	completed_tt.is_utc = TRUE;
+
+	dates.start = NULL;
+	dates.end = NULL;
+	dates.due = NULL;	
+	if (complete)
+		dates.complete = &completed_tt;
+	
+	/* Notify upstream */
+	comp_editor_page_notify_dates_changed (COMP_EDITOR_PAGE (tdpage),
+					       &dates);
+}
+
 static void
 date_changed_cb (EDateEdit *dedit, gpointer data)
 {
 	TaskDetailsPage *tdpage;
 	TaskDetailsPagePrivate *priv;
-	CompEditorPageDates dates;
-	struct icaltimetype completed_tt = icaltime_null_time();
+	CompEditorPageDates dates = {NULL, NULL, NULL, NULL};
+	struct icaltimetype completed_tt;
+	icalproperty_status status;
 	gboolean date_set;
 
 	tdpage = TASK_DETAILS_PAGE (data);
@@ -493,16 +499,95 @@ date_changed_cb (EDateEdit *dedit, gpointer data)
 	e_date_edit_get_time_of_day (E_DATE_EDIT (priv->completed_date),
 				     &completed_tt.hour,
 				     &completed_tt.minute);
-	if (!date_set)
+	if (!date_set) {
 		completed_tt = icaltime_null_time ();
 
-	dates.start = NULL;
-	dates.end = NULL;
-	dates.due = NULL;
-	dates.complete = &completed_tt;
+		status = e_dialog_option_menu_get (priv->status, status_map);
+		if (status == ICAL_STATUS_COMPLETED) {
+			e_dialog_option_menu_set (priv->status, ICAL_STATUS_NEEDSACTION, status_map);
+			e_dialog_spin_set (priv->percent_complete, 0);
+		}
+	} else {
+		e_dialog_option_menu_set (priv->status, ICAL_STATUS_COMPLETED, status_map);
+		e_dialog_spin_set (priv->percent_complete, 100);
+	}
 	
 	/* Notify upstream */
 	comp_editor_page_notify_dates_changed (COMP_EDITOR_PAGE (tdpage), &dates);
+}
+
+static void
+status_changed (GtkMenu	*menu, TaskDetailsPage *tdpage)
+{
+	TaskDetailsPagePrivate *priv;
+	icalproperty_status status;
+	time_t ctime = -1;
+	
+	priv = tdpage->priv;
+
+	if (priv->updating)
+		return;
+
+	priv->updating = TRUE;
+
+	status = e_dialog_option_menu_get (priv->status, status_map);
+	if (status == ICAL_STATUS_NEEDSACTION) {
+		e_dialog_spin_set (priv->percent_complete, 0);
+		e_date_edit_set_time (E_DATE_EDIT (priv->completed_date), ctime);
+		complete_date_changed (tdpage, 0, FALSE);
+	} else if (status == ICAL_STATUS_INPROCESS) {
+		e_dialog_spin_set (priv->percent_complete, 50);
+		e_date_edit_set_time (E_DATE_EDIT (priv->completed_date), ctime);
+		complete_date_changed (tdpage, 0, FALSE);
+	} else if (status == ICAL_STATUS_COMPLETED) {
+		e_dialog_spin_set (priv->percent_complete, 100);
+		ctime = time (NULL);
+		e_date_edit_set_time (E_DATE_EDIT (priv->completed_date), ctime);
+		complete_date_changed (tdpage, ctime, TRUE);
+	}
+
+	priv->updating = FALSE;
+
+	comp_editor_page_notify_changed (COMP_EDITOR_PAGE (tdpage));
+}
+
+static void
+percent_complete_changed (GtkAdjustment	*adj, TaskDetailsPage *tdpage)
+{
+	TaskDetailsPagePrivate *priv;
+	gint percent;
+	icalproperty_status status;
+	gboolean complete;
+	time_t ctime = -1;
+	
+	priv = tdpage->priv;
+
+	if (priv->updating)
+		return;
+	
+	priv->updating = TRUE;
+
+	percent = e_dialog_spin_get_int (priv->percent_complete);
+	if (percent == 100) {
+		complete = TRUE;
+		ctime = time (NULL);
+		status = ICAL_STATUS_COMPLETED;
+	} else {
+		complete = FALSE;
+
+		if (percent == 0)
+			status = ICAL_STATUS_NEEDSACTION;
+		else
+			status = ICAL_STATUS_INPROCESS;
+	}
+
+	e_dialog_option_menu_set (priv->status, status, status_map);
+	e_date_edit_set_time (E_DATE_EDIT (priv->completed_date), ctime);
+	complete_date_changed (tdpage, ctime, complete);
+
+	priv->updating = FALSE;
+
+	comp_editor_page_notify_changed (COMP_EDITOR_PAGE (tdpage));
 }
 
 /* This is called when any field is changed; it notifies upstream. */
@@ -533,6 +618,22 @@ init_widgets (TaskDetailsPage *tdpage)
 					   (EDateEditGetTimeCallback) comp_editor_get_current_time,
 					   tdpage, NULL);
 
+	/* Connect signals. The Status, Percent Complete & Date Completed
+	   properties are closely related so whenever one changes we may need
+	   to update the other 2. */
+	gtk_signal_connect (GTK_OBJECT (GTK_OPTION_MENU (priv->status)->menu),
+			    "deactivate",
+			    GTK_SIGNAL_FUNC (status_changed), tdpage);
+
+	gtk_signal_connect (GTK_OBJECT (GTK_SPIN_BUTTON (priv->percent_complete)->adjustment),
+			    "value_changed",
+			    GTK_SIGNAL_FUNC (percent_complete_changed), tdpage);
+
+	/* Priority */
+	gtk_signal_connect (GTK_OBJECT (GTK_OPTION_MENU (priv->priority)->menu),
+			    "deactivate",
+			    GTK_SIGNAL_FUNC (field_changed_cb), tdpage);
+
 	/* Completed Date */
 	gtk_signal_connect (GTK_OBJECT (priv->completed_date), "changed",
 			    GTK_SIGNAL_FUNC (date_changed_cb), tdpage);
@@ -540,14 +641,6 @@ init_widgets (TaskDetailsPage *tdpage)
 	/* URL */
 	gtk_signal_connect (GTK_OBJECT (priv->url), "changed",
 			    GTK_SIGNAL_FUNC (field_changed_cb), tdpage);
-
-	/* Delegation */
-	gtk_signal_connect (GTK_OBJECT (priv->organizer), "changed",
-			    GTK_SIGNAL_FUNC (field_changed_cb), tdpage);
-
-	gtk_signal_connect (GTK_OBJECT (priv->delegated_to), "changed",
-			    GTK_SIGNAL_FUNC (field_changed_cb), tdpage);
-
 }
 
 
@@ -607,31 +700,6 @@ task_details_page_new (void)
 	}
 
 	return tdpage;
-}
-
-void
-task_details_page_show_delegation (TaskDetailsPage *tdpage, gboolean show)
-{
-	TaskDetailsPagePrivate *priv;
-
-	priv = tdpage->priv;
-
-	if (show) {
-		gtk_widget_show (priv->organizer);
-		gtk_widget_show (priv->organizer_lbl);
-		gtk_widget_show (priv->delegated_to);
-		gtk_widget_show (priv->delegated_to_lbl);
-		gtk_widget_show (priv->delegated_from);
-		gtk_widget_show (priv->delegated_from_lbl);
-		comp_editor_page_notify_needs_send (COMP_EDITOR_PAGE (tdpage));
-	} else {
-		gtk_widget_hide (priv->organizer);
-		gtk_widget_hide (priv->organizer_lbl);
-		gtk_widget_hide (priv->delegated_to);
-		gtk_widget_hide (priv->delegated_to_lbl);
-		gtk_widget_hide (priv->delegated_from);
-		gtk_widget_hide (priv->delegated_from_lbl);
-	}
 }
 
 GtkWidget *task_details_page_create_date_edit (void);

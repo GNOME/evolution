@@ -32,13 +32,16 @@
 
 #include "task-page.h"
 #include "task-details-page.h"
-#include "recurrence-page.h"
+#include "meeting-page.h"
 #include "cancel-comp.h"
 #include "task-editor.h"
 
 struct _TaskEditorPrivate {
 	TaskPage *task_page;
 	TaskDetailsPage *task_details_page;
+	MeetingPage *meet_page;
+
+	gboolean meeting_shown;
 };
 
 
@@ -48,13 +51,13 @@ static void task_editor_init (TaskEditor *te);
 static void task_editor_edit_comp (CompEditor *editor, CalComponent *comp);
 static void task_editor_destroy (GtkObject *object);
 
-static void delegate_task_cmd (GtkWidget *widget, gpointer data);
+static void assign_task_cmd (GtkWidget *widget, gpointer data);
 static void refresh_task_cmd (GtkWidget *widget, gpointer data);
 static void cancel_task_cmd (GtkWidget *widget, gpointer data);
 static void forward_cmd (GtkWidget *widget, gpointer data);
 
 static BonoboUIVerb verbs [] = {
-	BONOBO_UI_UNSAFE_VERB ("ActionDelegateTask", delegate_task_cmd),
+	BONOBO_UI_UNSAFE_VERB ("ActionAssignTask", assign_task_cmd),
 	BONOBO_UI_UNSAFE_VERB ("ActionRefreshTask", refresh_task_cmd),
 	BONOBO_UI_UNSAFE_VERB ("ActionCancelTask", cancel_task_cmd),
 	BONOBO_UI_UNSAFE_VERB ("ActionForward", forward_cmd),
@@ -115,6 +118,24 @@ task_editor_class_init (TaskEditorClass *klass)
 	object_class->destroy = task_editor_destroy;
 }
 
+static void
+set_menu_sens (TaskEditor *te) 
+{
+	TaskEditorPrivate *priv;
+	
+	priv = te->priv;
+
+	comp_editor_set_ui_prop (COMP_EDITOR (te), 
+				 "/commands/ActionAssignTask", 
+				 "sensitive", priv->meeting_shown ? "0" : "1");
+	comp_editor_set_ui_prop (COMP_EDITOR (te), 
+				 "/commands/ActionRefreshTask", 
+				 "sensitive", priv->meeting_shown ? "1" : "0");
+	comp_editor_set_ui_prop (COMP_EDITOR (te), 
+				 "/commands/ActionCancelTask", 
+				 "sensitive", priv->meeting_shown ? "1" : "0");
+}
+
 /* Object initialization function for the event editor */
 static void
 task_editor_init (TaskEditor *te)
@@ -127,16 +148,24 @@ task_editor_init (TaskEditor *te)
 	priv->task_page = task_page_new ();
 	comp_editor_append_page (COMP_EDITOR (te), 
 				 COMP_EDITOR_PAGE (priv->task_page),
-				 _("Task"));
+				 _("Basic"));
 
 	priv->task_details_page = task_details_page_new ();
 	comp_editor_append_page (COMP_EDITOR (te),
 				 COMP_EDITOR_PAGE (priv->task_details_page),
 				 _("Details"));
 
+	priv->meet_page = meeting_page_new ();
+	comp_editor_append_page (COMP_EDITOR (te),
+				 COMP_EDITOR_PAGE (priv->meet_page),
+				 _("Assignment"));
+
 	comp_editor_merge_ui (COMP_EDITOR (te), EVOLUTION_DATADIR 
 			      "/gnome/ui/evolution-task-editor.xml",
 			      verbs);
+
+	priv->meeting_shown = TRUE;
+	set_menu_sens (te);
 }
 
 static void
@@ -148,12 +177,13 @@ task_editor_edit_comp (CompEditor *editor, CalComponent *comp)
 	
 	te = TASK_EDITOR (editor);
 	priv = te->priv;
-	
+
 	cal_component_get_attendee_list (comp, &attendees);
-	if (attendees == NULL)
-		task_details_page_show_delegation (priv->task_details_page, FALSE);
-	else
-		task_details_page_show_delegation (priv->task_details_page, TRUE);
+	if (attendees == NULL) {
+		comp_editor_remove_page (editor, COMP_EDITOR_PAGE (priv->meet_page));
+		priv->meeting_shown = FALSE;
+		set_menu_sens (te);
+	}
 	cal_component_free_attendee_list (attendees);
 
 	if (parent_class->edit_comp)
@@ -175,6 +205,7 @@ task_editor_destroy (GtkObject *object)
 
 	gtk_object_unref (GTK_OBJECT (priv->task_page));
 	gtk_object_unref (GTK_OBJECT (priv->task_details_page));
+	gtk_object_unref (GTK_OBJECT (priv->meet_page));
 	
 	if (GTK_OBJECT_CLASS (parent_class)->destroy)
 		(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
@@ -195,23 +226,31 @@ task_editor_new (void)
 }
 
 static void
-delegate_task_cmd (GtkWidget *widget, gpointer data)
+assign_task_cmd (GtkWidget *widget, gpointer data)
 {
 	TaskEditor *te = TASK_EDITOR (data);
 	TaskEditorPrivate *priv;
 
 	priv = te->priv;
 
-	task_details_page_show_delegation (priv->task_details_page, TRUE);
+	if (!priv->meeting_shown) {
+		comp_editor_append_page (COMP_EDITOR (te),
+					 COMP_EDITOR_PAGE (priv->meet_page),
+					 _("Assignment"));
+		priv->meeting_shown = TRUE;
+		set_menu_sens (te);
+	}
+
 	comp_editor_show_page (COMP_EDITOR (te),
-			       COMP_EDITOR_PAGE (priv->task_details_page));
+			       COMP_EDITOR_PAGE (priv->meet_page));
 }
 
 static void
 refresh_task_cmd (GtkWidget *widget, gpointer data)
 {
 	TaskEditor *te = TASK_EDITOR (data);
-	
+
+	comp_editor_save_comp (COMP_EDITOR (te));
 	comp_editor_send_comp (COMP_EDITOR (te), CAL_COMPONENT_METHOD_REFRESH);
 }
 
@@ -233,5 +272,8 @@ forward_cmd (GtkWidget *widget, gpointer data)
 {
 	TaskEditor *te = TASK_EDITOR (data);
 	
+	comp_editor_save_comp (COMP_EDITOR (te));
 	comp_editor_send_comp (COMP_EDITOR (te), CAL_COMPONENT_METHOD_PUBLISH);
 }
+
+

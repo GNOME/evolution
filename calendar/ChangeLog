@@ -1,3 +1,21 @@
+2001-08-09  JP Rosevear  <jpr@ximian.com>
+
+	* gui/dialogs/task-page.*: Remove progress frame
+
+	* gui/dialogs/task-details-page.*: Put in progress frame, remove
+	basics frame
+	
+	* gui/dialogs/task-editor.c (set_menu_sens): util function to set
+	menu sensitivity based on state
+	(task_editor_init): add meeting page
+	(task_editor_edit_comp): show page if necessary
+	(task_editor_destroy): unref meeting page
+	(assign_task_cmd): bring up meeting page
+	(refresh_task_cmd): save before sending
+	(forward_cmd): ditto
+
+	* gui/dialogs/comp-editor.c (save_cmd): implement new save command
+
 2001-08-09  Federico Mena Quintero  <federico@ximian.com>
 
 	* gui/e-itip-control.c (destroy): Chain to the destroy handler in

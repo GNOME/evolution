@@ -91,6 +91,7 @@ static void page_dates_changed_cb (GtkWidget *widget, CompEditorPageDates *dates
 static void obj_updated_cb (CalClient *client, const char *uid, gpointer data);
 static void obj_removed_cb (CalClient *client, const char *uid, gpointer data);
 
+static void save_cmd (GtkWidget *widget, gpointer data);
 static void save_close_cmd (GtkWidget *widget, gpointer data);
 static void save_as_cmd (GtkWidget *widget, gpointer data);
 static void delete_cmd (GtkWidget *widget, gpointer data);
@@ -113,6 +114,7 @@ static EPixmap pixmaps [] =
 };
 
 static BonoboUIVerb verbs [] = {
+	BONOBO_UI_UNSAFE_VERB ("FileSave", save_cmd), 
 	BONOBO_UI_UNSAFE_VERB ("FileSaveAndClose", save_close_cmd), 
 	BONOBO_UI_UNSAFE_VERB ("FileSaveAs", save_as_cmd),
 	BONOBO_UI_UNSAFE_VERB ("FileDelete", delete_cmd), 
@@ -804,6 +806,14 @@ close_dialog (CompEditor *editor)
 }
 
 /* Menu Commands */
+static void
+save_cmd (GtkWidget *widget, gpointer data)
+{
+	CompEditor *editor = COMP_EDITOR (data);
+
+	save_comp_with_send (editor);
+}
+
 static void
 save_close_cmd (GtkWidget *widget, gpointer data)
 {

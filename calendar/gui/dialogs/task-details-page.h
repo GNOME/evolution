@@ -54,8 +54,6 @@ typedef struct {
 GtkType          task_details_page_get_type        (void);
 TaskDetailsPage *task_details_page_construct       (TaskDetailsPage *tdpage);
 TaskDetailsPage *task_details_page_new             (void);
-void             task_details_page_show_delegation (TaskDetailsPage *tdpage,
-						    gboolean         show);
 
 
 

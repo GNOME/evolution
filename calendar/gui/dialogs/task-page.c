@@ -58,11 +58,6 @@ struct _TaskPagePrivate {
 	GtkWidget *due_timezone;
 	GtkWidget *start_timezone;
 
-	GtkWidget *percent_complete;
-
-	GtkWidget *status;
-	GtkWidget *priority;
-
 	GtkWidget *description;
 
 	GtkWidget *classification_public;
@@ -76,30 +71,6 @@ struct _TaskPagePrivate {
 	GtkWidget *categories;
 
 	gboolean updating;
-};
-
-/* Note that these two arrays must match. */
-static const int status_map[] = {
-	ICAL_STATUS_NEEDSACTION,
-	ICAL_STATUS_INPROCESS,
-	ICAL_STATUS_COMPLETED,
-	ICAL_STATUS_CANCELLED,
-	-1
-};
-
-typedef enum {
-	PRIORITY_HIGH,
-	PRIORITY_NORMAL,
-	PRIORITY_LOW,
-	PRIORITY_UNDEFINED,
-} TaskEditorPriority;
-
-static const int priority_map[] = {
-	PRIORITY_HIGH,
-	PRIORITY_NORMAL,
-	PRIORITY_LOW,
-	PRIORITY_UNDEFINED,
-	-1
 };
 
 static const int classification_map[] = {
@@ -197,8 +168,6 @@ task_page_init (TaskPage *tpage)
 	priv->start_date = NULL;
 	priv->due_timezone = NULL;
 	priv->start_timezone = NULL;
-	priv->percent_complete = NULL;
-	priv->status = NULL;
 	priv->description = NULL;
 	priv->classification_public = NULL;
 	priv->classification_private = NULL;
@@ -284,57 +253,8 @@ clear_widgets (TaskPage *tpage)
 	e_dialog_radio_set (priv->classification_public,
 			    CAL_COMPONENT_CLASS_PRIVATE, classification_map);
 
-	/* Status, priority, complete percent */
-	e_dialog_spin_set (priv->percent_complete, 0.0);
-	e_dialog_option_menu_set (priv->status, ICAL_STATUS_NEEDSACTION, status_map);
-	e_dialog_option_menu_set (priv->priority, PRIORITY_UNDEFINED, priority_map);
-	
 	/* Categories */
 	e_dialog_editable_set (priv->categories, NULL);
-}
-
-static TaskEditorPriority
-priority_value_to_index (int priority_value)
-{
-	TaskEditorPriority retval;
-
-	if (priority_value == 0)
-		retval = PRIORITY_UNDEFINED;
-	else if (priority_value <= 4)
-		retval = PRIORITY_HIGH;
-	else if (priority_value == 5)
-		retval = PRIORITY_NORMAL;
-	else
-		retval = PRIORITY_LOW;
-
-	return retval;
-}
-
-static int
-priority_index_to_value (TaskEditorPriority priority)
-{
-	int retval;
-
-	switch (priority) {
-	case PRIORITY_UNDEFINED:
-		retval = 0;
-		break;
-	case PRIORITY_HIGH:
-		retval = 3;
-		break;
-	case PRIORITY_NORMAL:
-		retval = 5;
-		break;
-	case PRIORITY_LOW:
-		retval = 7;
-		break;
-	default:
-		retval = -1;
-		g_assert_not_reached ();
-		break;
-	}
-
-	return retval;
 }
 
 /* Decode the radio button group for classifications */
@@ -355,9 +275,6 @@ task_page_fill_widgets (CompEditorPage *page, CalComponent *comp)
 	CalComponentClassification cl;
 	CalClientGetStatus get_tz_status;
 	GSList *l;
-	int *priority_value, *percent;
-	icalproperty_status status;
-	TaskEditorPriority priority;
 	const char *categories;
 	icaltimezone *zone;
 
@@ -440,44 +357,6 @@ task_page_fill_widgets (CompEditorPage *page, CalComponent *comp)
 
 	cal_component_free_datetime (&d);
 
-
-	/* Percent Complete. */
-	cal_component_get_percent (comp, &percent);
-	if (percent) {
-		e_dialog_spin_set (priv->percent_complete, *percent);
-		cal_component_free_percent (percent);
-	} else {
-		/* FIXME: Could check if task is completed and set 100%. */
-		e_dialog_spin_set (priv->percent_complete, 0);
-	}
-
-	/* Status. */
-	cal_component_get_status (comp, &status);
-	if (status == ICAL_STATUS_NONE) {
-		/* Try to user the percent value. */
-		if (percent) {
-			if (*percent == 0)
-				status = ICAL_STATUS_NEEDSACTION;
-			else if (*percent == 100)
-				status = ICAL_STATUS_COMPLETED;
-			else
-				status = ICAL_STATUS_INPROCESS;
-		} else
-			status = ICAL_STATUS_NEEDSACTION;
-	}
-	e_dialog_option_menu_set (priv->status, status, status_map);
-
-	/* Priority. */
-	cal_component_get_priority (comp, &priority_value);
-	if (priority_value) {
-		priority = priority_value_to_index (*priority_value);
-		cal_component_free_priority (priority_value);
-	} else {
-		priority = PRIORITY_UNDEFINED;
-	}
-	e_dialog_option_menu_set (priv->priority, priority, priority_map);
-
-
 	/* Classification. */
 	cal_component_get_classification (comp, &cl);
 
@@ -515,11 +394,7 @@ task_page_fill_component (CompEditorPage *page, CalComponent *comp)
 	TaskPagePrivate *priv;
 	CalComponentDateTime date;
 	struct icaltimetype icaltime;
-	icalproperty_status status;
-	TaskEditorPriority priority;
-	int priority_value, percent;
-	char *cat;
-	char *str;
+	char *cat, *str;
 	gboolean date_set;
 	icaltimezone *zone;
 
@@ -606,19 +481,6 @@ task_page_fill_component (CompEditorPage *page, CalComponent *comp)
 		cal_component_set_dtstart (comp, NULL);
 	}
 
-	/* Percent Complete. */
-	percent = e_dialog_spin_get_int (priv->percent_complete);
-	cal_component_set_percent (comp, &percent);
-
-	/* Status. */
-	status = e_dialog_option_menu_get (priv->status, status_map);
-	cal_component_set_status (comp, status);
-
-	/* Priority. */
-	priority = e_dialog_option_menu_get (priv->priority, priority_map);
-	priority_value = priority_index_to_value (priority);
-	cal_component_set_priority (comp, &priority_value);
-
 	/* Classification. */
 	cal_component_set_classification (comp, classification_get (priv->classification_public));
 
@@ -658,26 +520,6 @@ task_page_set_dates (CompEditorPage *page, CompEditorPageDates *dates)
 	        return;
 
 	priv->updating = TRUE;
-	
-	if (dates->complete) {
-		if (icaltime_is_null_time (*dates->complete)) {
-			/* If the 'Completed Date' is set to 'None',
-			   we set the status to 'Not Started' and the
-			   percent-complete to 0.  The task may
-			   actually be partially-complete, but we
-			   leave it to the user to set those
-			   fields. */
-			e_dialog_option_menu_set (priv->status,
-						  ICAL_STATUS_NEEDSACTION,
-						  status_map);
-			e_dialog_spin_set (priv->percent_complete, 0);
-		} else {
-			e_dialog_option_menu_set (priv->status,
-						  ICAL_STATUS_COMPLETED,
-						  status_map);
-			e_dialog_spin_set (priv->percent_complete, 100);
-		}
-	}
 
 	priv->updating = FALSE;
 }
@@ -708,11 +550,6 @@ get_widgets (TaskPage *tpage)
 	priv->due_timezone = GW ("due-timezone");
 	priv->start_timezone = GW ("start-timezone");
 
-	priv->percent_complete = GW ("percent-complete");
-
-	priv->status = GW ("status");
-	priv->priority = GW ("priority");
-
 	priv->description = GW ("description");
 
 	priv->classification_public = GW ("classification-public");
@@ -732,9 +569,6 @@ get_widgets (TaskPage *tpage)
 		&& priv->start_date
 		&& priv->due_timezone
 		&& priv->start_timezone
-		&& priv->percent_complete
-		&& priv->status
-		&& priv->priority
 		&& priv->classification_public
 		&& priv->classification_private
 		&& priv->classification_confidential
@@ -845,98 +679,6 @@ field_changed_cb (GtkWidget *widget, gpointer data)
 		comp_editor_page_notify_changed (COMP_EDITOR_PAGE (tpage));
 }
 
-static void
-complete_date_changed (TaskPage *tpage, gboolean complete)
-{
-	TaskPagePrivate *priv;
-	CompEditorPageDates dates;
-	icaltimezone *zone;
-	struct icaltimetype completed_tt = icaltime_null_time();
-
-	priv = tpage->priv;
-
-	/* Get the current time in UTC. */
-	zone = icaltimezone_get_utc_timezone ();
-	completed_tt = icaltime_from_timet_with_zone (time (NULL), FALSE, zone);
-	completed_tt.is_utc = TRUE;
-
-	dates.start = NULL;
-	dates.end = NULL;
-	dates.due = NULL;	
-	dates.complete = &completed_tt;
-	
-	/* Notify upstream */
-	comp_editor_page_notify_dates_changed (COMP_EDITOR_PAGE (tpage),
-					       &dates);
-}
-
-static void
-status_changed (GtkMenu	*menu, TaskPage *tpage)
-{
-	TaskPagePrivate *priv;
-	icalproperty_status status;
-
-	priv = tpage->priv;
-
-	if (priv->updating)
-		return;
-
-	priv->updating = TRUE;
-
-	status = e_dialog_option_menu_get (priv->status, status_map);
-	if (status == ICAL_STATUS_NEEDSACTION) {
-		e_dialog_spin_set (priv->percent_complete, 0);
-		complete_date_changed (tpage, FALSE);
-	} else if (status == ICAL_STATUS_INPROCESS) {
-		e_dialog_spin_set (priv->percent_complete, 50);
-		complete_date_changed (tpage, FALSE);
-	} else if (status == ICAL_STATUS_COMPLETED) {
-		e_dialog_spin_set (priv->percent_complete, 100);
-		complete_date_changed (tpage, TRUE);
-	}
-
-	priv->updating = FALSE;
-
-	comp_editor_page_notify_changed (COMP_EDITOR_PAGE (tpage));
-}
-
-static void
-percent_complete_changed (GtkAdjustment	*adj, TaskPage *tpage)
-{
-	TaskPagePrivate *priv;
-	gint percent;
-	icalproperty_status status;
-	gboolean complete;
-
-	priv = tpage->priv;
-
-	if (priv->updating)
-		return;
-	
-	priv->updating = TRUE;
-
-	percent = e_dialog_spin_get_int (priv->percent_complete);
-	if (percent == 100) {
-		complete = TRUE;
-		status = ICAL_STATUS_COMPLETED;
-	} else {
-		complete = FALSE;
-
-		if (percent == 0)
-			status = ICAL_STATUS_NEEDSACTION;
-		else
-			status = ICAL_STATUS_INPROCESS;
-	}
-
-	e_dialog_option_menu_set (priv->status, status, status_map);
-	complete_date_changed (tpage, complete);
-
-	priv->updating = FALSE;
-
-	comp_editor_page_notify_changed (COMP_EDITOR_PAGE (tpage));
-}
-
-
 /* Hooks the widget signals */
 static void
 init_widgets (TaskPage *tpage)
@@ -969,17 +711,6 @@ init_widgets (TaskPage *tpage)
 	gtk_signal_connect (GTK_OBJECT (priv->start_timezone), "changed",
 			    GTK_SIGNAL_FUNC (field_changed_cb), tpage);
 
-	/* Connect signals. The Status, Percent Complete & Date Completed
-	   properties are closely related so whenever one changes we may need
-	   to update the other 2. */
-	gtk_signal_connect (GTK_OBJECT (GTK_OPTION_MENU (priv->status)->menu),
-			    "deactivate",
-			    GTK_SIGNAL_FUNC (status_changed), tpage);
-
-	gtk_signal_connect (GTK_OBJECT (GTK_SPIN_BUTTON (priv->percent_complete)->adjustment),
-			    "value_changed",
-			    GTK_SIGNAL_FUNC (percent_complete_changed), tpage);
-
 	/* Classification */
 	gtk_signal_connect (GTK_OBJECT (priv->description), "changed",
 			    GTK_SIGNAL_FUNC (field_changed_cb), tpage);
@@ -995,9 +726,6 @@ init_widgets (TaskPage *tpage)
 
 	/* Connect the default signal handler to use to make sure the "changed"
 	   field gets set whenever a field is changed. */
-	gtk_signal_connect (GTK_OBJECT (GTK_OPTION_MENU (priv->priority)->menu),
-			    "deactivate",
-			    GTK_SIGNAL_FUNC (field_changed_cb), tpage);
 	gtk_signal_connect (GTK_OBJECT (priv->description), "changed",
 			    GTK_SIGNAL_FUNC (field_changed_cb), tpage);
 	gtk_signal_connect (GTK_OBJECT (priv->contacts), "changed",
