@@ -147,7 +147,7 @@ ea_minicard_view_get_name (AtkObject *accessible)
 	reflow = E_REFLOW(atk_gobject_accessible_get_object (ATK_GOBJECT_ACCESSIBLE (accessible)));
 
 	string = g_strdup_printf (ngettext ("current addressbook folder has %d card", 
-				   "current addressbook folder have %d cards", 
+				   "current addressbook folder has %d cards", 
 				   reflow->count), reflow->count);
 	
 
