@@ -452,7 +452,7 @@ query_notify_objects_removed_1 (Query *query, const char *uid)
 	uids.next = uids.prev = NULL;
 	uids.data = (gpointer)uid;
 	
-	query_notify_objects_modified (query, &uids);
+	query_notify_objects_removed (query, &uids);
 }
 
 void
