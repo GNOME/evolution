@@ -688,7 +688,7 @@ e_timezone_dialog_reparent (ETimezoneDialog *etd,
    the translated location, e.g. 'Europe/London', in the locale's encoding.
    If display_name is NULL or "" it returns NULL. */
 icaltimezone*
-e_timezone_dialog_get_builtin_timezone	(char		  *display_name)
+e_timezone_dialog_get_builtin_timezone	(const char *display_name)
 {
 	icalarray *zones;
 	int i;

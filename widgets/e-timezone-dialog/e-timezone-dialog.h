@@ -82,7 +82,7 @@ void             e_timezone_dialog_reparent             (ETimezoneDialog *etd,
 /* Returns the builtin timezone corresponding to display_name, which is
    the translated location, e.g. 'Europe/London', in the GTK+ encoding.
    If display_name is NULL or "" it returns NULL. */
-icaltimezone*	 e_timezone_dialog_get_builtin_timezone	(char		  *display_name);
+icaltimezone *e_timezone_dialog_get_builtin_timezone  (const char *display_name);
 
 
 
