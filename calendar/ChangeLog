@@ -1,3 +1,12 @@
+2003-05-29  Rodrigo Moya <rodrigo@ximian.com>
+
+	Fixes #43763
+
+	* gui/e-week-view.c (e_week_view_init): use g_signal_connect_after
+	for "button_press_event" callback.
+
+	* gui/e-day-view.c (e_day_view_init): ditto.
+
 2003-05-29  JP Rosevear  <jpr@ximian.com>
 
 	Fixes #43775

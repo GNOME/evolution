@@ -621,8 +621,8 @@ e_day_view_init (EDayView *day_view)
 	gtk_table_attach (GTK_TABLE (day_view), day_view->top_canvas,
 			  1, 2, 0, 1, GTK_EXPAND | GTK_FILL, GTK_FILL, 0, 0);
 	gtk_widget_show (day_view->top_canvas);
-	g_signal_connect (day_view->top_canvas, "button_press_event",
-			  G_CALLBACK (e_day_view_on_top_canvas_button_press), day_view);
+	g_signal_connect_after (day_view->top_canvas, "button_press_event",
+				G_CALLBACK (e_day_view_on_top_canvas_button_press), day_view);
 	g_signal_connect (day_view->top_canvas, "button_release_event",
 			  G_CALLBACK (e_day_view_on_top_canvas_button_release), day_view);
 	g_signal_connect (day_view->top_canvas, "motion_notify_event",
