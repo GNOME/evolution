@@ -1,3 +1,9 @@
+2000-10-16  Dan Winship  <danw@helixcode.com>
+
+	* providers/imap/camel-imap-store.c (get_folder_info): Deal with
+	the possibility of not getting a LIST response back for the top
+	level.
+
 2000-10-12  Dan Winship  <danw@helixcode.com>
 
 	* providers/imap/camel-imap-summary.c: Simple subclass of

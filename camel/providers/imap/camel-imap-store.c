@@ -520,7 +520,7 @@ get_folder_info (CamelStore *store, const char *top, gboolean fast,
 	CamelImapResponse *response;
 	GPtrArray *folders;
 	char *dir_sep, *namespace, *base_url, *list;
-	CamelFolderInfo *topfi, *fi;
+	CamelFolderInfo *topfi = NULL, *fi;
 
 	if (!top)
 		top = "";
@@ -542,19 +542,21 @@ get_folder_info (CamelStore *store, const char *top, gboolean fast,
 
 	response = camel_imap_command (imap_store, NULL, ex,
 				       "LIST \"\" \"%s\"", namespace);
-	if (!response) {
-		g_free (namespace);
-		g_free (base_url);
-		return NULL;
+	if (response) {
+		list = camel_imap_response_extract (response, "LIST", ex);
+		if (list) {
+			topfi = parse_list_response_as_folder_info (list,
+								    namespace,
+								    base_url);
+			g_free (list);
+		}
 	}
-	list = camel_imap_response_extract (response, "LIST", ex);
-	if (!list) {
-		g_free (namespace);
-		g_free (base_url);
-		return NULL;
+	if (!topfi) {
+		camel_exception_clear (ex);
+		topfi = g_new0 (CamelFolderInfo, 1);
+		fi->full_name = g_strdup (namespace);
+		fi->name = g_strdup (namespace);
 	}
-	topfi = parse_list_response_as_folder_info (list, namespace, base_url);
-	g_free (list);
 
 	response = camel_imap_command (imap_store, NULL, ex,
 				       "LIST \"\" \"%s%s%c\"",
