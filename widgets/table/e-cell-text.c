@@ -96,6 +96,8 @@ static GdkAtom clipboard_atom = GDK_NONE;
 
 #define PARENT_TYPE e_cell_get_type ()
 
+#define UTF8_ATOM  gdk_atom_intern ("UTF8_STRING", FALSE)
+
 #define TEXT_PAD 4
 
 typedef struct {
@@ -177,6 +179,11 @@ struct _CellEdit {
 
 	guint pointer_in : 1;
 	guint default_cursor_shown : 1;
+	GtkIMContext *im_context;
+	gboolean need_im_reset;
+	gboolean im_context_signals_registered;
+
+	guint16 preedit_length;       /* length of preedit string, in bytes */
 
 	ECellActions actions;
 };
@@ -193,6 +200,13 @@ static gboolean _blink_scroll_timeout (gpointer data);
 
 static void ect_free_color (gchar *color_spec, GdkColor *color, GdkColormap *colormap);
 static GdkColor* e_cell_text_get_color (ECellTextView *cell_view, gchar *color_spec);
+static void e_cell_text_preedit_changed_cb (GtkIMContext *context, ECellTextView *text_view);
+static void e_cell_text_commit_cb (GtkIMContext *context, const gchar  *str, ECellTextView *text_view);
+static gboolean e_cell_text_retrieve_surrounding_cb (GtkIMContext *context, ECellTextView *text_view);
+static gboolean e_cell_text_delete_surrounding_cb   (GtkIMContext *context, gint          offset, gint          n_chars, ECellTextView        *text_view);
+static void _insert (ECellTextView *text_view, char *string, int value);
+static void _delete_selection (ECellTextView *text_view);
+static PangoAttrList* build_attr_list (ECellTextView *text_view, int row, int text_length);
 
 static ECellClass *parent_class;
 
@@ -290,6 +304,11 @@ ect_stop_editing (ECellTextView *text_view, gboolean commit)
 		g_timer_destroy (edit->timer);
 		edit->timer = NULL;
 	}
+	
+	g_signal_handlers_disconnect_matched (
+		edit->im_context,
+		G_SIGNAL_MATCH_DATA, 0, 0,
+		NULL, NULL, text_view);
 
 	if (edit->layout)
 		g_object_unref (edit->layout);
@@ -424,15 +443,15 @@ ect_free_color (gchar *color_spec, GdkColor *color, GdkColormap *colormap)
 	}
 }
 
-static PangoLayout *
-build_layout (ECellTextView *text_view, int row, const char *text, gint width)
+
+static PangoAttrList*
+build_attr_list (ECellTextView *text_view, int row, int text_length) 
 {
+
 	ECellView *ecell_view = (ECellView *) text_view;
 	ECellText *ect = E_CELL_TEXT (ecell_view->ecell);
-	PangoLayout *layout;
+	PangoAttrList *attrs = pango_attr_list_new ();
 	gboolean bold, strikeout, underline;
-
-	layout = gtk_widget_create_pango_layout (GTK_WIDGET (((GnomeCanvasItem *)ecell_view->e_table_item_view)->canvas), text);
 
 	bold = ect->bold_column >= 0 &&
 		row >= 0 &&
@@ -445,33 +464,107 @@ build_layout (ECellTextView *text_view, int row, const char *text, gint width)
 		e_table_model_value_at(ecell_view->e_table_model, ect->underline_column, row);
 
 	if (bold || strikeout || underline) {
-		PangoAttrList *attrs;
-		int length = strlen (text);
-		attrs = pango_attr_list_new ();
 		if (bold) {
 			PangoAttribute *attr = pango_attr_weight_new (PANGO_WEIGHT_BOLD);
 			attr->start_index = 0;
-			attr->end_index = length;
+			attr->end_index = text_length;
 
 			pango_attr_list_insert_before (attrs, attr);
 		}
 		if (strikeout) {
 			PangoAttribute *attr = pango_attr_strikethrough_new (TRUE);
 			attr->start_index = 0;
-			attr->end_index = length;
+			attr->end_index = text_length;
 
 			pango_attr_list_insert_before (attrs, attr);
 		}
 		if (underline) {
 			PangoAttribute *attr = pango_attr_underline_new (TRUE);
 			attr->start_index = 0;
-			attr->end_index = length;
+			attr->end_index = text_length;
 
 			pango_attr_list_insert_before (attrs, attr);
 		}
-		pango_layout_set_attributes (layout, attrs);
-		pango_attr_list_unref (attrs);
 	}
+	return attrs;
+}
+
+static PangoLayout *
+layout_with_preedit (ECellTextView *text_view, int row, const char *text, gint width)
+{
+	ECellView *ecell_view = (ECellView *) text_view;
+	ECellText *ect = E_CELL_TEXT (ecell_view->ecell);
+	CellEdit *edit = text_view->edit;
+	PangoAttrList *attrs ;
+	PangoLayout *layout;
+	GString *tmp_string = g_string_new (NULL);
+	PangoAttrList *preedit_attrs = NULL;
+	gchar *preedit_string = NULL;
+	gint preedit_length = 0;
+	gint text_length = strlen (text);
+	gint mlen = MIN(edit->selection_start,text_length);
+	
+
+	gtk_im_context_get_preedit_string (edit->im_context,
+					&preedit_string,&preedit_attrs,
+					NULL);
+	preedit_length = edit->preedit_length = strlen (preedit_string);;
+
+	layout = edit->layout;
+
+	g_string_prepend_len (tmp_string, text,text_length); 
+
+	if (preedit_length) {
+		
+		/* mlen is the text_length in bytes, not chars
+		 * check whether we are not inserting into
+		 * the middle of a utf8 character
+		 */
+
+		if (mlen < text_length) {
+			if (!g_utf8_validate (text+mlen, -1, NULL)) {
+				gchar *tc;
+				tc = g_utf8_find_next_char (text+mlen,NULL);
+				if (tc) {
+					mlen = (gint) (tc - text);
+				}
+			}
+		}
+
+		g_string_insert (tmp_string, mlen, preedit_string);
+	} 
+
+	pango_layout_set_text (layout, tmp_string->str, tmp_string->len);
+
+	attrs = (PangoAttrList *) build_attr_list (text_view, row, text_length);
+
+	if (preedit_length)
+		pango_attr_list_splice (attrs, preedit_attrs, mlen, preedit_length);
+	pango_layout_set_attributes (layout, attrs);
+	g_string_free (tmp_string, TRUE);
+	if (preedit_string)
+		g_free (preedit_string);
+	if (preedit_attrs)
+		pango_attr_list_unref (preedit_attrs);
+	pango_attr_list_unref (attrs);
+	return layout;
+}
+
+static PangoLayout *
+build_layout (ECellTextView *text_view, int row, const char *text, gint width)
+{
+	ECellView *ecell_view = (ECellView *) text_view;
+	ECellText *ect = E_CELL_TEXT (ecell_view->ecell);
+	PangoAttrList *attrs ;
+	PangoLayout *layout;
+	gboolean bold, strikeout, underline;
+
+	layout = gtk_widget_create_pango_layout (GTK_WIDGET (((GnomeCanvasItem *)ecell_view->e_table_item_view)->canvas), text);
+
+	attrs = (PangoAttrList *) build_attr_list (text_view, row, text ? strlen (text) : 0);
+
+	pango_layout_set_attributes (layout, attrs);
+	pango_attr_list_unref (attrs);
 
 	if (text_view->edit || width <= 0)
 		return layout;
@@ -532,6 +625,7 @@ generate_layout (ECellTextView *text_view, int model_col, int view_col, int row,
 
 	return layout;
 }
+
 
 static void
 draw_pango_rectangle (GdkDrawable *drawable, GdkGC *gc, int x1, int y1, PangoRectangle rect)
@@ -648,6 +742,10 @@ ect_draw (ECellView *ecell_view, GdkDrawable *drawable,
 
 	layout = generate_layout (text_view, model_col, view_col, row, x2 - x1);
 
+	if (edit && edit->view_col == view_col && edit->row == row) {
+		layout = layout_with_preedit  (text_view, row, edit->text ? edit->text : "?",  x2 - x1);
+	} 
+
 	gdk_draw_layout (drawable, text_view->gc,
 			 x_origin, y_origin,
 			 layout);
@@ -713,7 +811,8 @@ ect_draw (ECellView *ecell_view, GdkDrawable *drawable,
 		} else {
 			if (edit->show_cursor) {
 				PangoRectangle strong_pos, weak_pos;
-				pango_layout_get_cursor_pos (layout, edit->selection_start, &strong_pos, &weak_pos);
+				pango_layout_get_cursor_pos (layout, edit->selection_start + edit->preedit_length, &strong_pos, &weak_pos);
+				
 				draw_pango_rectangle (drawable, text_view->gc, x_origin, y_origin, strong_pos);
 				if (strong_pos.x != weak_pos.x ||
 				    strong_pos.y != weak_pos.y ||
@@ -749,6 +848,7 @@ ect_get_bg_color(ECellView *ecell_view, int row)
 /*
  * Selects the entire string
  */
+
 static void
 ect_edit_select_all (ECellTextView *text_view)
 {
@@ -774,8 +874,10 @@ static gint
 ect_event (ECellView *ecell_view, GdkEvent *event, int model_col, int view_col, int row, ECellFlags flags, ECellActions *actions)
 {
 	ECellTextView *text_view = (ECellTextView *) ecell_view;
+	ECellText *ect = (ECellText *) ((ECellView *)text_view)->ecell;
 	ETextEventProcessorEvent e_tep_event;
 	gboolean edit_display = FALSE;
+	gint preedit_len;
 	CellEdit *edit = text_view->edit;
 	GtkWidget *canvas = GTK_WIDGET (text_view->canvas);
 	gint return_val = 0;
@@ -793,7 +895,70 @@ ect_event (ECellView *ecell_view, GdkEvent *event, int model_col, int view_col, 
 	case GDK_FOCUS_CHANGE:
 		break;
 	case GDK_KEY_PRESS: /* Fall Through */
+		if (edit_display) {
+			if (edit->im_context && 
+				!edit->im_context_signals_registered) {
+
+				g_signal_connect (edit->im_context, 
+						"preedit_changed",
+						G_CALLBACK (\
+						e_cell_text_preedit_changed_cb),
+						text_view);
+
+				g_signal_connect (edit->im_context, 
+						"commit",
+						G_CALLBACK (\
+						e_cell_text_commit_cb), 
+						text_view);
+
+				g_signal_connect (edit->im_context, 
+						"retrieve_surrounding",
+						G_CALLBACK (\
+						e_cell_text_retrieve_surrounding_cb), 
+						text_view);
+
+				g_signal_connect (edit->im_context, 
+						"delete_surrounding",
+						G_CALLBACK (\
+						e_cell_text_delete_surrounding_cb), 
+						text_view);
+
+				edit->im_context_signals_registered = TRUE;
+			}
+
+			edit->show_cursor = FALSE;
+
+		} else {
+			if (edit->im_context) {
+				g_signal_handlers_disconnect_matched (
+						edit->im_context, 
+						G_SIGNAL_MATCH_DATA, 0, 0, 
+						NULL, NULL, edit);
+				edit->im_context_signals_registered = FALSE;
+			}
+
+			ect_stop_editing (text_view, TRUE);
+			if (edit->timeout_id) {
+				g_source_remove(edit->timeout_id);
+				edit->timeout_id = 0;
+			}
+		}
+		return_val = TRUE;
+		/* Fallthrough */
 	case GDK_KEY_RELEASE:
+		preedit_len = edit->preedit_length;
+		if (edit_display && edit->im_context &&
+				gtk_im_context_filter_keypress (\
+					edit->im_context,
+					(GdkEventKey*)event)) {
+
+			edit->need_im_reset = TRUE;
+			if (preedit_len && flags & E_CELL_PREEDIT)
+				return FALSE;
+			else
+		 		return TRUE;
+		}
+				
 		if (event->key.keyval == GDK_Escape){
 			ect_cancel_edit (text_view);
 			return_val = TRUE;
@@ -829,12 +994,10 @@ ect_event (ECellView *ecell_view, GdkEvent *event, int model_col, int view_col, 
 					e_tep_event.key.length = 0;
 				}
 #endif
-
 				_get_tep (edit);
-				edit->actions = 0;
 				return_val = e_text_event_processor_handle_event (edit->tep, &e_tep_event);
-				*actions = edit->actions;
-				if (e_tep_event.key.string) g_free (e_tep_event.key.string);
+				if (e_tep_event.key.string) 
+					g_free (e_tep_event.key.string);
 				break;
 			}
 		}
@@ -944,15 +1107,7 @@ ect_event (ECellView *ecell_view, GdkEvent *event, int model_col, int view_col, 
 		break;
 	}
 
-	if (return_val)
-		return return_val;
-#if 0
-	if (GNOME_CANVAS_ITEM_CLASS(parent_class)->event)
-		return GNOME_CANVAS_ITEM_CLASS(parent_class)->event (item, event);
-#endif
-	else
-		return 0;
-	
+	return return_val;
 }
 
 /*
@@ -985,6 +1140,9 @@ ect_enter_edit (ECellView *ecell_view, int model_col, int view_col, int row)
 	edit = g_new0 (CellEdit, 1);
 	text_view->edit = edit;
 
+	edit->im_context =  E_CANVAS (text_view->canvas)->im_context;
+	edit->need_im_reset = FALSE;
+	edit->im_context_signals_registered = FALSE;
 	edit->view_col = -1;
 	edit->model_col = -1;
 	edit->row = -1;
@@ -1045,7 +1203,6 @@ ect_enter_edit (ECellView *ecell_view, int model_col, int view_col, int row)
 		}
 	}
 #endif
-
 	ect_queue_redraw (text_view, view_col, row);
 	
 	return NULL;
@@ -1566,6 +1723,77 @@ e_cell_text_class_init (GObjectClass *object_class)
 	}
 }
 
+
+/* IM Context Callbacks */
+
+static void
+e_cell_text_preedit_changed_cb (GtkIMContext *context,
+		  ECellTextView    *tv)
+{
+	gchar *preedit_string;
+	gint cursor_pos;
+	CellEdit *edit=tv->edit;
+	gtk_im_context_get_preedit_string (edit->im_context, &preedit_string, 
+					NULL, &cursor_pos);
+	                                                  
+	edit->preedit_length = strlen (preedit_string);
+	cursor_pos =  CLAMP (cursor_pos, 0, g_utf8_strlen (preedit_string, -1)); 
+	g_free (preedit_string);
+	ect_queue_redraw (tv, edit->view_col, edit->row);
+}
+
+static void
+e_cell_text_commit_cb (GtkIMContext *context,
+		  const gchar  *str,
+		  ECellTextView    *tv)
+{
+	CellEdit *edit = tv->edit;
+	ECellText *ect = (ECellText *) ((ECellView *)tv)->ecell;
+	ETextEventProcessorCommand command;
+	                                                  
+	if (g_utf8_validate (str, strlen (str), NULL)) {
+		command.action = E_TEP_INSERT;
+		command.position = E_TEP_SELECTION;
+		command.string = (gchar *)str;
+		command.value = strlen(str);
+		e_cell_text_view_command (edit->tep, &command, edit);
+	}
+
+}
+
+static gboolean
+e_cell_text_retrieve_surrounding_cb (GtkIMContext *context,
+				ECellTextView        *tv)
+{
+	int cur_pos = 0;
+	CellEdit *edit = tv->edit;
+
+	cur_pos = g_utf8_pointer_to_offset (edit->text, edit->text + edit->selection_start);
+
+	gtk_im_context_set_surrounding (context,
+					edit->text,
+					strlen (edit->text),
+					cur_pos
+					);
+	
+	return TRUE;
+}
+
+static gboolean
+e_cell_text_delete_surrounding_cb   (GtkIMContext *context,
+				gint          offset,
+				gint          n_chars,
+				ECellTextView        *tv)
+{
+	CellEdit *edit = tv->edit;
+
+	gtk_editable_delete_text (GTK_EDITABLE (edit),
+				  edit->selection_end + offset,
+				  edit->selection_end + offset + n_chars);
+
+	return TRUE;
+}
+
 static void
 e_cell_text_init (ECellText *ect)
 {
@@ -1595,7 +1823,10 @@ E_MAKE_TYPE(e_cell_text, "ECellText", ECellText, e_cell_text_class_init, e_cell_
 ECell *
 e_cell_text_construct (ECellText *cell, const char *fontname, GtkJustification justify)
 {
-	cell->font_name = g_strdup (fontname);
+	if(!cell)
+		return E_CELL(NULL);
+	if(fontname)
+		cell->font_name = g_strdup (fontname);
 	cell->justify = justify;
 	return E_CELL(cell);
 }
@@ -1645,6 +1876,7 @@ get_position_from_xy (CellEdit *edit, gint x, gint y)
 	int index;
 	int trailing;
 	const char *text;
+
 	PangoLayout *layout = generate_layout (edit->text_view, edit->model_col, edit->view_col, edit->row, edit->cell_width);
 	ECellTextView *text_view = edit->text_view;
 	ECellText *ect = (ECellText *) ((ECellView *)text_view)->ecell;
@@ -1932,6 +2164,8 @@ _insert (ECellTextView *text_view, char *string, int value)
 
 	if (value <= 0) return;
 
+	edit->selection_start = MIN (strlen(edit->text), edit->selection_start);
+
 	temp = g_new (gchar, strlen (edit->text) + value + 1);
 
 	strncpy (temp, edit->text, edit->selection_start);
@@ -2052,7 +2286,7 @@ e_cell_text_view_command (ETextEventProcessor *tep, ETextEventProcessorCommand *
 		break;
 
 	case E_TEP_INSERT:
-		if (edit->selection_end != edit->selection_start) {
+		if (!edit->preedit_length && edit->selection_end != edit->selection_start) {
 			_delete_selection (text_view);
 		}
 		_insert (text_view, command->string, command->value);
@@ -2173,12 +2407,14 @@ _selection_get (GtkInvisible *invisible,
 {
 	switch (info) {
 	case E_SELECTION_PRIMARY:
-		gtk_selection_data_set (selection_data, GDK_SELECTION_TYPE_STRING,
-					8, edit->primary_selection, edit->primary_length);
+		gtk_selection_data_set (selection_data, UTF8_ATOM,
+					8, edit->primary_selection, 
+					edit->primary_length);
 		break;
 	case E_SELECTION_CLIPBOARD:
-		gtk_selection_data_set (selection_data, GDK_SELECTION_TYPE_STRING,
-					8, edit->clipboard_selection, edit->clipboard_length);
+		gtk_selection_data_set (selection_data, UTF8_ATOM,
+					8, edit->clipboard_selection, 
+					edit->clipboard_length);
 		break;
 	}
 }
@@ -2191,7 +2427,9 @@ _selection_received (GtkInvisible *invisible,
 		     guint time,
 		     CellEdit *edit)
 {
-	if (selection_data->length < 0 || selection_data->type != GDK_SELECTION_TYPE_STRING) {
+	if (selection_data->length < 0 || 
+			!(selection_data->type == UTF8_ATOM ||
+			selection_data->type == GDK_SELECTION_TYPE_STRING)) {
 		return;
 	} else {
 		ETextEventProcessorCommand command;
@@ -2212,11 +2450,11 @@ static GtkWidget *e_cell_text_view_get_invisible (CellEdit *edit)
 		
 		gtk_selection_add_target (invisible,
 					  GDK_SELECTION_PRIMARY,
-					  GDK_SELECTION_TYPE_STRING,
+					  UTF8_ATOM,
 					  E_SELECTION_PRIMARY);
 		gtk_selection_add_target (invisible,
 					  clipboard_atom,
-					  GDK_SELECTION_TYPE_STRING,
+					  UTF8_ATOM,
 					  E_SELECTION_CLIPBOARD);
 		
 		g_signal_connect (invisible, "selection_get",
@@ -2273,7 +2511,7 @@ e_cell_text_view_get_selection (CellEdit *edit, GdkAtom selection, guint32 time)
 	invisible = e_cell_text_view_get_invisible (edit);
 	gtk_selection_convert (invisible,
 			      selection,
-			      GDK_SELECTION_TYPE_STRING,
+			      UTF8_ATOM,
 			      time);
 #endif
 }

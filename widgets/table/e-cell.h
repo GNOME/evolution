@@ -59,7 +59,9 @@ typedef enum {
 
 	E_CELL_EDITING        = 1 << 4,
 
-	E_CELL_CURSOR         = 1 << 5
+	E_CELL_CURSOR         = 1 << 5,
+
+	E_CELL_PREEDIT        = 1 << 6
 } ECellFlags;
 
 typedef enum {
