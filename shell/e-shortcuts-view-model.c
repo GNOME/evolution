@@ -135,6 +135,10 @@ shortcuts_rename_group_cb (EShortcuts *shortcuts,
 
 	shortcuts_view_model = E_SHORTCUTS_VIEW_MODEL (data);
 
+	/* FIXME: Ideally there should be an
+           e_shortcut_model_rename_group(), removing then re-add
+           actually causes a flip to the next group, which we work
+           around in e-shortcuts-view.c */
 	e_shortcut_model_remove_group (E_SHORTCUT_MODEL (shortcuts_view_model), group_num);
 	e_shortcut_model_add_group (E_SHORTCUT_MODEL (shortcuts_view_model), group_num, new_title);
 	load_group_into_model (shortcuts_view_model, group_num);

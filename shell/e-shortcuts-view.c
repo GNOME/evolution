@@ -285,11 +285,14 @@ rename_group_cb (GtkWidget *widget,
 {
 	RightClickMenuData *menu_data;
 	EShortcuts *shortcuts;
+	EShortcutsView *shortcuts_view;
 	const char *old_name;
 	const char *new_name;
+	int group;
 
 	menu_data = (RightClickMenuData *) data;
-	shortcuts = menu_data->shortcuts_view->priv->shortcuts;
+	shortcuts_view = menu_data->shortcuts_view;
+	shortcuts = shortcuts_view->priv->shortcuts;
 
 	old_name = e_shortcuts_get_group_title (shortcuts, menu_data->group_num);
 
@@ -301,7 +304,10 @@ rename_group_cb (GtkWidget *widget,
 	if (new_name == NULL)
 		return;
 
+	/* Remember the group and flip back to it */
+	group = e_group_bar_get_current_group_num (E_GROUP_BAR (E_SHORTCUT_BAR (shortcuts_view)));
 	e_shortcuts_rename_group (shortcuts, menu_data->group_num, new_name);
+	e_group_bar_set_current_group_num (E_GROUP_BAR (E_SHORTCUT_BAR (shortcuts_view)), group, FALSE);
 }
 
 static GnomeUIInfo icon_size_radio_group_uiinfo[] = {

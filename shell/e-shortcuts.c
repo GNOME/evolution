@@ -1030,10 +1030,11 @@ e_shortcuts_rename_group (EShortcuts *shortcuts,
 	g_return_if_fail (p != NULL);
 
 	group = (ShortcutGroup *) p->data;
-	if (group->title != new_title) {
+	if (strcmp (group->title, new_title)) {
 		g_free (group->title);
 		group->title = g_strdup (new_title);
-	}
+	} else
+		return;
 
 	gtk_signal_emit (GTK_OBJECT (shortcuts), signals[RENAME_GROUP], group_num, new_title);
 

@@ -1,5 +1,14 @@
 2001-07-30  Jason Leach  <jleach@ximian.com>
 
+	* e-shortcuts-view.c (rename_group_cb): Remember the current group
+	so after renaming a group it doesn't flip to the next group.  Bug
+	#3857.
+
+	* e-shortcuts.c (e_shortcuts_rename_group): Comparing two
+	separately allocated strings, use strcmp() instead of !=.
+
+2001-07-30  Jason Leach  <jleach@ximian.com>
+
 	* e-shell-folder-creation-dialog.c (async_create_cb): If we can't
 	create a folder because it already exists, select that folder that
 	exists.  Bug #1716.
