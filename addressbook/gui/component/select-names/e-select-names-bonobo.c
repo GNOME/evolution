@@ -159,6 +159,7 @@ entry_set_property_fn (BonoboPropertyBag *bag,
 			g_assert (model != NULL);
 			
 			e_entry_set_text (E_ENTRY (w), BONOBO_ARG_GET_STRING (arg));
+			e_select_names_model_load_contacts (model);
 			break;
 		}
 
@@ -169,6 +170,7 @@ entry_set_property_fn (BonoboPropertyBag *bag,
 			g_assert (model != NULL);
 
 			e_select_names_model_import_destinationv (model, BONOBO_ARG_GET_STRING (arg));
+			e_select_names_model_load_contacts (model);
 			break;
 		}
 

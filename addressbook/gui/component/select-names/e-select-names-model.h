@@ -76,6 +76,9 @@ void          e_select_names_model_clean      (ESelectNamesModel *model, gboolea
 void          e_select_names_model_name_pos (ESelectNamesModel *model, gint seplen, gint index, gint *pos, gint *length);
 void          e_select_names_model_text_pos (ESelectNamesModel *model, gint seplen, gint pos, gint *index, gint *start_pos, gint *length);
 
+void          e_select_names_model_load_contacts  (ESelectNamesModel *model);
+void          e_select_names_cancel_contacts_load (ESelectNamesModel *model);
+
 /* This is a mildly annoying freeze/thaw pair, in that it only applies to the 'changed'
    signal and not to 'resized'.  This could cause unexpected results in some cases. */
 void          e_select_names_model_freeze (ESelectNamesModel *model);

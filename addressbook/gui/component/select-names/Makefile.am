@@ -33,6 +33,7 @@ INCLUDES =						\
 	-I$(top_srcdir)/addressbook/contact-editor	\
 	-I$(top_srcdir)/addressbook/backend		\
 	-I$(top_builddir)/addressbook/backend		\
+	-I$(top_srcdir)/addressbook/util		\
 	-DEVOLUTION_IMAGESDIR=\""$(imagesdir)"\"	\
 	-DEVOLUTION_DATADIR=\""$(datadir)"\"		\
 	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"		\

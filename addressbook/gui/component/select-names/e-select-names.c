@@ -47,10 +47,11 @@
 #include <e-util/e-categories-master-list-wombat.h>
 #include "e-util/e-sexp.h"
 
-static void e_select_names_init		(ESelectNames		 *names);
-static void e_select_names_class_init	(ESelectNamesClass	 *klass);
-static void e_select_names_dispose (GObject *object);
-static void update_query (GtkWidget *widget, ESelectNames *e_select_names);
+static void  e_select_names_init       (ESelectNames		 *names);
+static void  e_select_names_class_init (ESelectNamesClass	 *klass);
+static void  e_select_names_dispose    (GObject *object);
+static void  update_query              (GtkWidget *widget, ESelectNames *e_select_names);
+static char *get_query_string          (ESelectNames *e_select_names);
 
 static void sync_table_and_models (ESelectNamesModel *triggering_model, ESelectNames *esl);
 
@@ -120,10 +121,12 @@ search_result (EABModel *model, EBookViewStatus status, ESelectNames *esn)
 static void
 set_book(EBook *book, EBookStatus status, ESelectNames *esn)
 {
+	char *query_str = get_query_string (esn);
 	g_object_set(esn->model,
 		     "book", book,
+		     "query", query_str,
 		     NULL);
-	update_query (NULL, esn);
+	g_free (query_str);
 	g_object_unref(book);
 	g_object_unref(esn->model);
 	g_object_unref(esn);
@@ -342,8 +345,8 @@ source_selected (ESourceOptionMenu *menu, ESource *source, ESelectNames *e_selec
 	e_select_names_config_set_last_completion_book (e_source_peek_uid (source));
 }
 
-static void
-update_query (GtkWidget *widget, ESelectNames *e_select_names)
+static char *
+get_query_string (ESelectNames *e_select_names)
 {
 	char *category = "";
 	const char *search = "";
@@ -376,12 +379,20 @@ update_query (GtkWidget *widget, ESelectNames *e_select_names)
 		query = q_array[0];
 	}
 	query_str = e_book_query_to_string (query);
+	e_book_query_unref (query);
+	return query_str;
+}
+
+
+static void
+update_query (GtkWidget *widget, ESelectNames *e_select_names)
+{
+	char *query_str = get_query_string (e_select_names);
 	printf ("query_str = %s\n", query_str);
 	g_object_set (e_select_names->model,
 		      "query", query_str,
 		      NULL);
 	g_free (query_str);
-	e_book_query_unref (query);
 }
 
 static void

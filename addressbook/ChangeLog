@@ -1,3 +1,33 @@
+2004-05-28  Chris Toshok  <toshok@ximian.com>
+
+	* gui/component/select-names/e-select-names-bonobo.c
+	(entry_set_property_fn): call e_select_names_model_load_contacts
+	after setting text/addresses/destinations.
+
+	* gui/component/select-names/e-select-names-model.c
+	(name_and_email_simple_query_cb): new function, ripped from the
+	1.4 e-destination stuff.
+	(book_opened): new function, fire off eab_name_and_email_query for
+	each item in our model (that doesn't represent a contact already).
+	(e_select_names_model_load_contacts): new function, open the
+	default addressbook (yeah yeah, i know we should open something
+	different/more.)
+	(e_select_names_cancel_contacts_load): new (unimplemented, and how
+	do we implement it?) function.
+
+	* gui/component/select-names/e-select-names-model.h: add
+	prototypes for e_select_names_model_load_contacts and
+	e_select_names_cancel_contacts_load.
+
+	* gui/component/select-names/e-select-names.c (set_book): call
+	get_query_string and set the book and query in a single call to
+	g_object_set, just because we can/should.
+	(update_query): reimplement in terms of get_query_string.
+	(get_query_string): new function, build up the query string.
+
+	* gui/component/select-names/Makefile.am (INCLUDES): add
+	$(top_srcdir)/addressbook/util to INCLUDES.
+
 2004-05-28  Hans Petter Jansson  <hpj@ximian.com>
 
 	* gui/contact-editor/contact-editor.glade: Add back office, spouse,
