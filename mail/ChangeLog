@@ -83,7 +83,6 @@
 	* mail-format.c (handle_multipart_signed): Use the new gpg cipher
 	context.
 
->>>>>>> 1.2235
 2002-06-18  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* message-list.c (message_list_change_first_visible_parent): New
