@@ -1,5 +1,9 @@
 2001-06-20  Kevin Breit  <battery841@mediaone.net>
 
+	* doc/C/apx-gloss.sgml: Took out a reference to gloss.
+
+2001-06-20  Kevin Breit  <battery841@mediaone.net>
+
 	* doc/C/usage-exec-summary.sgml: Made it build.
 
 2001-06-19  Dan Winship  <danw@ximian.com>

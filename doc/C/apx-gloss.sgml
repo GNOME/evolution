@@ -105,6 +105,16 @@
   </glossdef>
  </glossentry>
 
+ <glossentry id="expunge">
+  <glossterm>Expunge</glossterm>
+  <glossdef>
+   <para>
+     When messages are marked for deletion, they remain till they are expunged.
+     When a message is expunged, it is permanently deleted, as long as it was
+     marked for deletion.
+   </para>
+  </glossdef>
+ </glossentry>
 
  <glossentry id="filetree">
   <glossterm>File Tree</glossterm>
