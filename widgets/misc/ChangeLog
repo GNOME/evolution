@@ -1,3 +1,14 @@
+2004-04-19  Rodney Dawes  <dobey@ximian.com>
+
+	* e-info-label.c (e_info_label_new): Update to use EIconFactory to
+	get the filename for the component icons using the icon theme
+
+2004-04-19  Michael Terry  <mike@mterry.name>
+
+	* e-combo-buddon.c:
+	* e-url-entry.c: Update these to use EIconFactory and GtkImages
+	directly instead of GdkPixmaps
+
 2004-04-09  Rodney Dawes  <dobey@ximian.com>
 
 	* e-charset-picker.c: Include gtkhbox.h in here to avoid the warnings

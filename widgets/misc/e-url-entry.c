@@ -28,6 +28,7 @@
 #include <gtk/gtk.h>
 #include <libgnome/gnome-url.h>
 #include "e-url-entry.h"
+#include <e-util/e-icon-factory.h>
 
 struct _EUrlEntryPrivate {
 	GtkWidget *entry;
@@ -93,6 +94,7 @@ init (EUrlEntry *url_entry)
 {
 	EUrlEntryPrivate *priv;
 	GtkWidget *pixmap;
+	GdkPixbuf *pixbuf;
 
 	priv = g_new0 (EUrlEntryPrivate, 1);
 	url_entry->priv = priv;
@@ -102,7 +104,9 @@ init (EUrlEntry *url_entry)
 	priv->button = gtk_button_new ();
 	gtk_widget_set_sensitive (priv->button, FALSE);
 	gtk_box_pack_start (GTK_BOX (url_entry), priv->button, FALSE, FALSE, 0);
-	pixmap = gtk_image_new_from_file (MAP_DIR "/connect_to_url-16.xpm");
+	pixbuf = e_icon_factory_get_icon ("stock_connect-to-url", 16);
+	pixmap = gtk_image_new_from_pixbuf (pixbuf);
+	g_object_unref (pixbuf);
 	gtk_container_add (GTK_CONTAINER (priv->button), pixmap);
 	gtk_widget_show (pixmap);
 
