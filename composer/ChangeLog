@@ -1,5 +1,11 @@
 2002-10-01  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* e-msg-composer.c (build_message): If the user hits cancel when
+	signing/encrypting, don't continue constructing the message,
+	instead abort (and just don't pop up a dialog).
+
+2002-10-01  Jeffrey Stedfast  <fejj@ximian.com>
+
 	* e-msg-composer.c (build_message): When signing/encrypting a
 	part, if a USER_CANCEL occurs, re-use the part otherwise unref it
 	and replace it with the new part.

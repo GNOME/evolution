@@ -534,8 +534,8 @@ build_message (EMsgComposer *composer, gboolean save_html_object_data)
 			if (camel_exception_is_set (&ex)) {
 				if (camel_exception_get_id (&ex) == CAMEL_EXCEPTION_USER_CANCEL) {
 					camel_exception_clear (&ex);
+					goto exception;
 				} else {
-					camel_object_unref (part);
 					camel_object_unref (mps);
 					goto exception;
 				}
@@ -615,9 +615,9 @@ build_message (EMsgComposer *composer, gboolean save_html_object_data)
 			if (camel_exception_is_set (&ex)) {
 				if (camel_exception_get_id (&ex) == CAMEL_EXCEPTION_USER_CANCEL) {
 					camel_exception_clear (&ex);
+					goto exception;
 				} else {
 					camel_object_unref (mpe);
-					camel_object_unref (part);
 					goto exception;
 				}
 			} else {
