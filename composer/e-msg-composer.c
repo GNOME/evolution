@@ -879,12 +879,14 @@ get_signature_html (EMsgComposer *composer)
 	}
 
 	if (!text) {
-		if (!sig_file)
-			return NULL;
-		/* printf ("sig file: %s\n", sig_file); */
-
-		mail_config_signature_run_script (script);
-		text = e_msg_composer_get_sig_file_content (sig_file, format_html);
+		if (script)
+			text = mail_config_signature_run_script (script);
+		else {
+			if (!sig_file)
+				return NULL;
+			/* printf ("sig file: %s\n", sig_file); */
+			text = e_msg_composer_get_sig_file_content (sig_file, format_html);
+		}
 	}
 
 	/* printf ("text: %s\n", text); */
