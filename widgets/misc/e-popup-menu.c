@@ -14,8 +14,6 @@ nnn *
 #include <gtk/gtkimage.h>
 #include <gtk/gtksignal.h>
 #include <gtk/gtkimagemenuitem.h>
-#include <libgnomeui/gtkpixmapmenuitem.h>
-#include <libgnomeui/gnome-stock.h>
 
 #include "e-popup-menu.h"
 #include "e-gui-utils.h"
@@ -63,44 +61,6 @@ make_item (GtkMenu *menu, const char *name, const char *pixname)
 		gtk_image_new_from_stock (pixname, GTK_ICON_SIZE_MENU));
 
 	gtk_widget_show_all (GTK_WIDGET (item));
-
-#warning Horribly hacked ?
-#if 0	
-		GtkWidget *pixmap = gnome_stock_pixmap_widget (item, pixname);
-
-		gtk_widget_show (pixmap);
-		gtk_pixmap_menu_item_set_pixmap (
-			GTK_PIXMAP_MENU_ITEM (item), pixmap);
-
-	/*
-	 * Ugh.  This needs to go into Gtk+
-	 */
-	label = gtk_accel_label_new ("");
-	label_accel = gtk_label_parse_uline (GTK_LABEL (label), name);
-	gtk_misc_set_alignment (GTK_MISC (label), 0.0, 0.5);
-	gtk_widget_show (label);
-	
-	item = pixname ? gtk_pixmap_menu_item_new () : gtk_menu_item_new ();
-	gtk_container_add (GTK_CONTAINER (item), label);
-	
-	if (label_accel != GDK_VoidSymbol){
-		gtk_widget_add_accelerator (
-			item,
-			"activate_item",
-			gtk_menu_get_accel_group (GTK_MENU (menu)),
-			label_accel, 0,
-			GTK_ACCEL_LOCKED);
-	}
-
-	if (pixname){
-		GtkWidget *pixmap = gnome_stock_pixmap_widget (item, pixname);
-
-		gtk_widget_show (pixmap);
-		gtk_pixmap_menu_item_set_pixmap (
-			GTK_PIXMAP_MENU_ITEM (item), pixmap);
-	}
-#endif
-
 	return item;
 }
 

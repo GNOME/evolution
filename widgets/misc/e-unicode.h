@@ -17,7 +17,6 @@
 #include <gtk/gtkentry.h>
 #include <gtk/gtkmenu.h>
 #include <gtk/gtkwidget.h>
-#include <libgnome/gnome-defs.h>
 #include <libxml/tree.h>
 #include <iconv.h>
 

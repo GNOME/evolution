@@ -15,7 +15,6 @@
 #include <gtk/gtkentry.h>
 #include <gtk/gtksignal.h>
 #include <libgnomeui/gnome-messagebox.h>
-#include <libgnomeui/gnome-stock.h>
 #include <gdk-pixbuf/gdk-pixbuf.h>
 #include <libgnomecanvas/gnome-canvas-pixbuf.h>
 
@@ -28,7 +27,7 @@ e_notice (GtkWindow *window, const char *type, const char *format, ...)
 
 	va_start (args, format);
 	str = g_strdup_vprintf (format, args);
-	dialog = gnome_message_box_new (str, type, GNOME_STOCK_BUTTON_OK, NULL);
+	dialog = gnome_message_box_new (str, type, GTK_STOCK_OK, NULL);
 	va_end (args);
 	g_free (str);
 	

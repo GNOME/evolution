@@ -22,6 +22,8 @@
 
 #include <config.h>
 #include <gtk/gtksignal.h>
+#include <gtk/gtk.h>
+#include <gtk/gtkbox.h>
 #include <libgnomecanvas/gnome-canvas-rect-ellipse.h>
 #include "e-table-field-chooser.h"
 #include "e-table-field-chooser-item.h"

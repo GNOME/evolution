@@ -29,7 +29,6 @@
 #ifndef E_COMPLETION_VIEW_H
 #define E_COMPLETION_VIEW_H
 
-#include <libgnome/gnome-defs.h>
 #include <gtk/gtk.h>
 #include <gal/e-table/e-table.h>
 #include "e-completion.h"

@@ -2,7 +2,6 @@
 #ifndef _E_HSV_UTILS_H_
 #define _E_HSV_UTILS_H_
 
-#include <libgnome/gnome-defs.h>
 #include <gdk/gdk.h>
 
 G_BEGIN_DECLS

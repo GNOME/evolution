@@ -555,7 +555,7 @@ ethi_drag_motion (GtkObject *canvas, GdkDragContext *context,
 
 	gdk_drag_status (context, 0, time);
 
-	droptype = gdk_atom_name (GPOINTER_TO_INT (context->targets->data));
+	droptype = gdk_atom_name (context->targets->data);
 	headertype = g_strdup_printf ("%s-%s", TARGET_ETABLE_COL_TYPE,
 				      ethi->dnd_code);
 

@@ -15,7 +15,6 @@
 #define __E_I18N_H__
 
 #include <glib.h>
-#include "libgnome/gnome-defs.h"
 
 G_BEGIN_DECLS
 

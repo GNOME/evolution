@@ -4,7 +4,6 @@
 
 #include <gtk/gtkmenu.h>
 #include <gtk/gtkwidget.h>
-#include <libgnome/gnome-defs.h>
 
 G_BEGIN_DECLS
 

@@ -821,9 +821,10 @@ static gboolean
 eti_idle_maybe_show_cursor_cb (gpointer data)
 {
 	ETableItem *eti = data;
-	if (!GTK_OBJECT_DESTROYED (eti)) {
+
+	if (eti->selection)
 		eti_maybe_show_cursor (eti, 0);
-	}
+
 	gtk_object_unref (GTK_OBJECT (eti));
 	return FALSE;
 }

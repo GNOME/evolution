@@ -89,7 +89,7 @@ e_printable_class_init (GtkObjectClass *object_class)
 }
 
 
-guint
+GtkType
 e_printable_get_type (void)
 {
   static guint type = 0;

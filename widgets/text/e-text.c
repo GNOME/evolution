@@ -2038,7 +2038,7 @@ e_text_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 				 * thiswidth + 2 or thiswidth + 1.
 				 */
 				gtk_paint_focus (widget->style, drawable, 
-						 NULL, widget, "entry",
+						 GTK_STATE_NORMAL, NULL, widget, "entry",
 						 thisx, thisy, thiswidth - 1, thisheight - 1);
 			}
 		}
@@ -2714,9 +2714,10 @@ static gboolean
 tooltip_event(GtkWidget *tooltip, GdkEvent *event, EText *text)
 {
 	gint ret_val = FALSE;
-	if (GTK_OBJECT_DESTROYED (text)) {
+
+	if (!text->model)
 		return FALSE;
-	}
+
 	switch (event->type) {
 	case GDK_LEAVE_NOTIFY:
 		e_canvas_hide_tooltip (E_CANVAS(GNOME_CANVAS_ITEM(text)->canvas));
@@ -2992,7 +2993,7 @@ e_text_event (GnomeCanvasItem *item, GdkEvent *event)
 
 	gint return_val = 0;
 
-	if (GTK_OBJECT_DESTROYED (item))
+	if (!text->model)
 		return FALSE;
 
 	e_tep_event.type = event->type;

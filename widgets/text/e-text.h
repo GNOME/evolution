@@ -21,7 +21,6 @@
 #define E_TEXT_H
 
 #include <gtk/gtkobject.h>
-#include <gtk/gtkpacker.h>
 
 #include <gal/widgets/e-font.h>
 #include <gal/util/e-text-event-processor.h>

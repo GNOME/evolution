@@ -279,8 +279,11 @@ emit_event (GnomeCanvas *canvas, GdkEvent *event)
 					 &ev,
 					 &finished);
 
+#warning FIXME - needs thought
+#if 0
 		if (GTK_OBJECT_DESTROYED (item))
 			finished = TRUE;
+#endif
 
 		parent = item->parent;
 		gtk_object_unref (GTK_OBJECT (item));
@@ -412,11 +415,11 @@ pick_current_item (GnomeCanvas *canvas, GdkEvent *event)
 		/* these fields don't have the same offsets in both types of events */
 
 		if (canvas->pick_event.type == GDK_ENTER_NOTIFY) {
-			x = canvas->pick_event.crossing.x + DISPLAY_X1 (canvas) - canvas->zoom_xofs;
-			y = canvas->pick_event.crossing.y + DISPLAY_Y1 (canvas) - canvas->zoom_yofs;
+			x = canvas->pick_event.crossing.x + canvas->scroll_x1 - canvas->zoom_xofs;
+			y = canvas->pick_event.crossing.y + canvas->scroll_y1 - canvas->zoom_yofs;
 		} else {
-			x = canvas->pick_event.motion.x + DISPLAY_X1 (canvas) - canvas->zoom_xofs;
-			y = canvas->pick_event.motion.y + DISPLAY_Y1 (canvas) - canvas->zoom_yofs;
+			x = canvas->pick_event.motion.x + canvas->scroll_x1 - canvas->zoom_xofs;
+			y = canvas->pick_event.motion.y + canvas->scroll_y1 - canvas->zoom_yofs;
 		}
 
 		/* canvas pixel coords */

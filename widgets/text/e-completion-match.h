@@ -29,7 +29,6 @@
 #define __E_COMPLETION_MATCH_H__
 
 #include <glib.h>
-#include <libgnome/gnome-defs.h>
 #include <gtk/gtkwidget.h>
 
 G_BEGIN_DECLS

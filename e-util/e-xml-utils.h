@@ -23,7 +23,6 @@
 #ifndef __E_XML_UTILS__
 #define __E_XML_UTILS__
 
-#include <libgnome/gnome-defs.h>
 #include <glib.h>
 #include <libxml/tree.h>
 

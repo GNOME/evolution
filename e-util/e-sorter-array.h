@@ -5,7 +5,6 @@
 #include <gtk/gtkobject.h>
 #include <gal/util/e-sorter.h>
 #include <glib.h>
-#include <libgnome/gnome-defs.h>
 
 G_BEGIN_DECLS
 

@@ -21,8 +21,8 @@
 
 #include <config.h>
 #include <libgnomeui/gnome-dialog.h>
-#include <libgnomeui/gnome-stock.h>
 #include <gtk/gtksignal.h>
+#include <gtk/gtk.h>
 #include "gal-define-views-dialog.h"
 #include "gal-define-views-model.h"
 #include "gal-view-new-dialog.h"
@@ -233,8 +233,8 @@ gal_define_views_dialog_init (GalDefineViewsDialog *dialog)
 	gtk_widget_unref(widget);
 
 	gnome_dialog_append_buttons(GNOME_DIALOG(dialog),
-				    GNOME_STOCK_BUTTON_OK,
-				    GNOME_STOCK_BUTTON_CANCEL,
+				    GTK_STOCK_OK,
+				    GTK_STOCK_CANCEL,
 				    NULL);
 
 	gdvd_connect_signal(dialog, "button-new",    "clicked", GTK_SIGNAL_FUNC(gdvd_button_new_callback));

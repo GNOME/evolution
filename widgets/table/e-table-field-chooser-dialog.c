@@ -22,7 +22,6 @@
 
 #include <config.h>
 #include "e-table-field-chooser-dialog.h"
-#include <libgnomeui/gnome-stock.h>
 #include "gal/util/e-i18n.h"
 
 static void e_table_field_chooser_dialog_init		(ETableFieldChooserDialog		 *card);
@@ -104,7 +103,7 @@ e_table_field_chooser_dialog_init (ETableFieldChooserDialog *e_table_field_choos
 	e_table_field_chooser_dialog->header = NULL;
 
 	gnome_dialog_append_buttons(GNOME_DIALOG(e_table_field_chooser_dialog),
-				    GNOME_STOCK_BUTTON_CLOSE,
+				    GTK_STOCK_CLOSE,
 				    NULL);
 
 	gtk_window_set_policy(GTK_WINDOW(e_table_field_chooser_dialog), FALSE, TRUE, FALSE);

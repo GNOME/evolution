@@ -203,7 +203,7 @@ e_cell_pixbuf_class_init (GtkObjectClass *object_class)
     parent_class = gtk_type_class (E_CELL_TYPE);
 }
 
-guint
+GtkType
 e_cell_pixbuf_get_type (void)
 {
     static guint type = 0;

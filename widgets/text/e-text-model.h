@@ -22,7 +22,6 @@
 
 #include <glib.h>
 #include <gtk/gtkobject.h>
-#include <libgnome/gnome-defs.h>
 
 G_BEGIN_DECLS
 

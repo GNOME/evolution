@@ -28,7 +28,6 @@
 #ifndef E_COMPLETION_H
 #define E_COMPLETION_H
 
-#include <libgnome/gnome-defs.h>
 #include <gtk/gtkobject.h>
 #include "e-completion-match.h"
 
