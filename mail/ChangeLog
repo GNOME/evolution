@@ -1,3 +1,11 @@
+2000-08-27  Ariel Rios  <ariel@arcavia.com>
+
+	* folder-browser-factory.c (control_activate): Added bonobo menu handler for mark_all_deleted function.
+
+	* mail.h: (mark_all_deleted): Added prototype. 
+
+	* mail-callbacks.c (mark_all_deleted): Added callback for marking all displayed messages in a folder as deleted.
+
 2000-08-26  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* mail-view.c (mail_view_create): Use

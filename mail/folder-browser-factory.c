@@ -267,6 +267,11 @@ control_activate (BonoboControl *control, BonoboUIHandler *uih,
 		BONOBO_UI_HANDLER_PIXMAP_NONE, NULL, 0, 0,
 		mark_all_seen, folder_browser);
 	bonobo_ui_handler_menu_new_item (
+                uih, "/<Component Placeholder>/Folder/Delete all",
+		_("_Delete all"), NULL, -1,
+		BONOBO_UI_HANDLER_PIXMAP_NONE, NULL, 0, 0,
+		mark_all_deleted, folder_browser);
+	bonobo_ui_handler_menu_new_item (
 		uih, "/<Component Placeholder>/Folder/Expunge",
 		_("_Expunge"), NULL, -1,
 		BONOBO_UI_HANDLER_PIXMAP_NONE, NULL, 0, 0,

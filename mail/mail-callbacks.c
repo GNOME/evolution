@@ -462,6 +462,20 @@ mark_all_seen (BonoboUIHandler *uih, void *user_data, const char *path)
 }
 
 void
+mark_all_deleted (BonoboUIHandler *uih, void *user_data, const char *path)
+{
+	FolderBrowser *fb = FOLDER_BROWSER (user_data);
+	MessageList *ml = fb->message_list;
+
+	if (ml->folder == NULL)
+		return;
+
+	mail_do_flag_all_messages (ml->folder, FALSE,
+				   CAMEL_MESSAGE_DELETED, CAMEL_MESSAGE_DELETED);
+}
+
+				   
+void
 edit_msg (GtkWidget *widget, gpointer user_data)
 {
 	FolderBrowser *fb = FOLDER_BROWSER (user_data);

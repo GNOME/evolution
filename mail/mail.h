@@ -64,6 +64,7 @@ void edit_msg (GtkWidget *widget, gpointer user_data);
 void view_msg (GtkWidget *widget, gpointer user_data);
 
 void mark_all_seen (BonoboUIHandler *uih, void *user_data, const char *path);
+void mark_all_deleted (BonoboUIHandler *uih, void *user_data, const char *path);
 void edit_message (BonoboUIHandler *uih, void *user_data, const char *path);
 void view_message (BonoboUIHandler *uih, void *user_data, const char *path);
 void expunge_folder (BonoboUIHandler *uih, void *user_data, const char *path);
