@@ -20,7 +20,14 @@ AC_DEFUN([GNOME_SUPPORT_CHECKS],[
 	extern char *foo2;
 	foo.argp_domain = foo2;],
       gnome_cv_argp=yes,
-      gnome_cv_argp=no)])
+      gnome_cv_argp=no)
+
+    # It is possible to have the argp headers installed but not have
+    # the code in the C library.  At least, there have been reports of
+    # this happening.  So we check for this case explicitly.
+    if test "$gnome_cv_argp" = yes; then
+       AC_CHECK_FUNC(argp_parse,,gnome_cv_argp=no)
+    fi])
 
   if test "$gnome_cv_argp" = no; then
      LIBOBJS="$LIBOBJS argp-ba.o argp-eexst.o argp-fmtstream.o argp-fs-xinl.o argp-help.o argp-parse.o argp-pv.o argp-pvh.o argp-xinl.o"
@@ -29,12 +36,21 @@ AC_DEFUN([GNOME_SUPPORT_CHECKS],[
   # This header enables some optimizations inside argp.  
   AC_CHECK_HEADERS(linewrap.h)
 
-  AC_TRY_LINK([#include <errno.h>],[
-    char *foo = program_invocation_short_name], [
-    AC_DEFINE(HAVE_PROGRAM_INVOCATION_SHORT_NAME)])
-  AC_TRY_LINK([#include <errno.h>],[
-    char *foo = program_invocation_name], [
-    AC_DEFINE(HAVE_PROGRAM_INVOCATION_NAME)])
+  AC_CACHE_CHECK([for program_invocation_short_name], gnome_cv_short_name, [
+    AC_TRY_LINK([#include <errno.h>],[
+      char *foo = program_invocation_short_name],
+      gnome_cv_short_name=yes, gnome_cv_short_name=no)])
+  if test "$gnome_cv_short_name" = yes; then
+     AC_DEFINE(HAVE_PROGRAM_INVOCATION_SHORT_NAME)
+  fi
+
+  AC_CACHE_CHECK([for program_invocation_name], gnome_cv_invocation_name, [
+    AC_TRY_LINK([#include <errno.h>],[
+      char *foo = program_invocation_name],
+      gnome_cv_invocation_name=yes, gnome_cv_invocation_name=no)])
+  if test "$gnome_cv_invocation_name" = yes; then
+     AC_DEFINE(HAVE_PROGRAM_INVOCATION_NAME)
+  fi
 
   AC_CHECK_FUNCS(vsnprintf,,[
     AC_CHECK_FUNCS(__vsnprintf,

@@ -1,5 +1,9 @@
 Thu Mar 19 00:17:46 1998  Tom Tromey  <tromey@cygnus.com>
 
+	* gnome-support.m4: Cache results of check for
+	program_invocation_short_name, program_invocation_name.  Check to
+	make sure argp functions are in a library.
+
 	* gnome-support.m4: Cache results of argp check.
 
 Sun Mar 15 15:54:43 1998  Owen Taylor  <owt1@cornell.edu>
