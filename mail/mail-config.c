@@ -1466,21 +1466,42 @@ const MailConfigAccount *
 mail_config_get_account_by_transport_url (const char *transport_url)
 {
 	const MailConfigAccount *account;
+	CamelProvider *provider;
+	CamelURL *transport;
 	GSList *l;
-
+	
 	g_return_val_if_fail (transport_url != NULL, NULL);
-
+	
+	provider = camel_session_get_provider (session, transport_url, NULL);
+	if (!provider)
+		return NULL;
+	
+	transport = camel_url_new (transport_url, NULL);
+	if (!transport)
+		return NULL;
+	
 	l = config->accounts;
 	while (l) {
 		account = l->data;
-		if (account
-		    && account->transport 
-		    && account->transport->url
-		    && e_url_equal (account->transport->url, transport_url))
-			return account;
+		
+		if (account && account->transport && account->transport->url) {
+			CamelURL *url;
+			
+			url = camel_url_new (account->transport->url, NULL);
+			if (url && provider->url_equal (url, transport)) {
+				camel_url_free (url);
+				camel_url_free (transport);
+				return account;
+			}
+			
+			if (url)
+				camel_url_free (url);
+		}
 		
 		l = l->next;
 	}
+	
+	camel_url_free (transport);
 	
 	return NULL;
 }

@@ -1,5 +1,11 @@
 2001-09-28  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* mail-config.c (mail_config_get_account_by_transport_url): Use
+	Camel to compare the urls rather than using e_url_equal which does
+	all sorts of funky shit that may not work in every case.
+
+2001-09-28  Jeffrey Stedfast  <fejj@ximian.com>
+
 	* mail-local.c (mail_local_provider_init): Setup the url_hash and
 	url_equal functions for the local provider.
 
