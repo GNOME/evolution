@@ -7,14 +7,14 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 2.4\n"
-"Report-Msgid-Bugs-To: Duarte Loreto <happyguy_pt@hotmail.com>\n"
-"POT-Creation-Date: 2003-09-09 02:26+0100\n"
+"POT-Creation-Date: 2003-09-15 14:36-0400\n"
 "PO-Revision-Date: 2003-09-09 02:30+0000\n"
 "Last-Translator: Duarte Loreto <happyguy_pt@hotmail.com>\n"
 "Language-Team: Portuguese <gnome_pt@yahoogroups.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8-bit\n"
+"Report-Msgid-Bugs-To: Duarte Loreto <happyguy_pt@hotmail.com>\n"
 
 #: addressbook/backend/ebook/GNOME_Evolution_Addressbook_LDIF_Importer.server.in.in.h:1
 msgid "Evolution LDIF importer"
@@ -1459,7 +1459,7 @@ msgstr "_Categorias..."
 #: addressbook/gui/contact-editor/contact-editor.glade.h:28
 #: calendar/gui/dialogs/meeting-page.c:717 calendar/gui/e-calendar-table.c:977
 #: calendar/gui/e-day-view.c:3755 calendar/gui/e-week-view.c:3741
-#: mail/folder-browser.c:1812 ui/evolution-addressbook.xml.h:32
+#: mail/folder-browser.c:1814 ui/evolution-addressbook.xml.h:32
 #: ui/evolution-calendar.xml.h:30 ui/evolution-comp-editor.xml.h:17
 #: ui/evolution-mail-message.xml.h:97 ui/evolution-tasks.xml.h:17
 #: ui/evolution.xml.h:45
@@ -3079,7 +3079,7 @@ msgstr "Copiar"
 msgid "Paste"
 msgstr "Colar"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:915 filter/libfilter-i18n.h:11
+#: addressbook/gui/widgets/e-addressbook-view.c:915 filter/libfilter-i18n.h:10
 #: mail/mail-accounts.c:234 ui/evolution-addressbook.xml.h:8
 #: ui/evolution-comp-editor.xml.h:4 ui/evolution-contact-editor.xml.h:2
 #: ui/evolution-contact-list-editor.xml.h:2 ui/evolution-mail-message.xml.h:20
@@ -3971,7 +3971,7 @@ msgstr ""
 #. An empty string is the same as 'None'.
 #: calendar/gui/calendar-model.c:1176 calendar/gui/dialogs/meeting-page.c:330
 #: calendar/gui/dialogs/meeting-page.glade.h:2 composer/e-msg-composer.c:2067
-#: mail/folder-browser.c:1774 mail/mail-account-gui.c:1260
+#: mail/folder-browser.c:1776 mail/mail-account-gui.c:1260
 #: mail/mail-account-gui.c:1692 mail/mail-accounts.c:442
 #: mail/mail-config.glade.h:76
 #: widgets/e-timezone-dialog/e-timezone-dialog.c:194
@@ -4829,7 +4829,7 @@ msgstr "RSVP"
 
 #: calendar/gui/dialogs/meeting-page.etspec.h:10
 #: calendar/gui/e-calendar-table.etspec.h:15
-#: calendar/gui/e-meeting-time-sel.etspec.h:10 filter/libfilter-i18n.h:58
+#: calendar/gui/e-meeting-time-sel.etspec.h:10 filter/libfilter-i18n.h:36
 #: mail/message-list.etspec.h:12
 msgid "Status"
 msgstr "Estado"
@@ -5228,7 +5228,7 @@ msgid "Deleting selected objects"
 msgstr "A apagar objectos seleccionados"
 
 #: calendar/gui/e-calendar-table.c:958 calendar/gui/e-day-view.c:3737
-#: calendar/gui/e-week-view.c:3723 mail/folder-browser.c:1785
+#: calendar/gui/e-week-view.c:3723 mail/folder-browser.c:1787
 #: shell/e-shortcuts-view.c:422 ui/evolution-addressbook.xml.h:36
 msgid "_Open"
 msgstr "_Abrir"
@@ -5302,7 +5302,7 @@ msgid "Alarms"
 msgstr "Alarmes"
 
 #: calendar/gui/e-calendar-table.etspec.h:7 camel/camel-filter-driver.c:1156
-#: camel/camel-filter-driver.c:1251
+#: camel/camel-filter-driver.c:1251 mail/mail-send-recv.c:584
 msgid "Complete"
 msgstr "Terminada"
 
@@ -5434,7 +5434,7 @@ msgid "_Settings..."
 msgstr "Configuraçõe_s..."
 
 #: calendar/gui/e-day-view.c:3738 calendar/gui/e-week-view.c:3724
-#: mail/folder-browser.c:1787 ui/evolution-mail-message.xml.h:112
+#: mail/folder-browser.c:1789 ui/evolution-mail-message.xml.h:112
 msgid "_Save As..."
 msgstr "_Gravar Como..."
 
@@ -5650,7 +5650,7 @@ msgid "Send Latest Information"
 msgstr "Enviar Última Informação"
 
 #: calendar/gui/e-itip-control.c:1211 calendar/gui/itip-utils.c:439
-#: mail/mail-send-recv.c:387 mail/mail-send-recv.c:444
+#: mail/mail-send-recv.c:389 mail/mail-send-recv.c:446
 #: shell/evolution-shell-component.c:1185 ui/evolution-mail-global.xml.h:1
 msgid "Cancel"
 msgstr "Cancelar"
@@ -8355,7 +8355,7 @@ msgstr ""
 
 #: camel/camel-gpg-context.c:821 camel/camel-gpg-context.c:1297
 #: camel/camel-gpg-context.c:1403 camel/camel-gpg-context.c:1473
-#: camel/camel-gpg-context.c:1529 mail/mail-send-recv.c:577
+#: camel/camel-gpg-context.c:1529 mail/mail-send-recv.c:580
 msgid "Cancelled."
 msgstr "Cancelado."
 
@@ -10700,11 +10700,11 @@ msgstr ""
 "<b>(O compositor contém um corpo de mensagem que não é texto, pelo que não "
 "pode ser editado.)<b>"
 
-#: data/evolution.desktop.in.h:1
+#: data/evolution.desktop.in.in.h:1
 msgid "The Evolution groupware suite"
 msgstr "O pacote de colaboração Evolution"
 
-#: data/evolution.desktop.in.h:2
+#: data/evolution.desktop.in.in.h:2
 msgid "Ximian Evolution"
 msgstr "Ximian Evolution"
 
@@ -11100,32 +11100,32 @@ msgstr ""
 "Erro na expressão regular '%s':\n"
 "%s"
 
-#: filter/filter-label.c:121 filter/libfilter-i18n.h:26 mail/mail-config.c:65
-#: mail/mail-config.glade.h:62 shell/e-config-upgrade.c:1411
+#: filter/filter-label.c:121 filter/libfilter-i18n.h:17 mail/mail-config.c:65
+#: mail/mail-config.glade.h:62 shell/e-config-upgrade.c:1454
 msgid "Important"
 msgstr "Importante"
 
 #. red
 #: filter/filter-label.c:122 mail/mail-config.c:66
-#: mail/mail-config.glade.h:129 shell/e-config-upgrade.c:1412
+#: mail/mail-config.glade.h:129 shell/e-config-upgrade.c:1455
 msgid "Work"
 msgstr "Trabalho"
 
 #. orange
 #: filter/filter-label.c:123 mail/mail-config.c:67 mail/mail-config.glade.h:84
-#: shell/e-config-upgrade.c:1413
+#: shell/e-config-upgrade.c:1456
 msgid "Personal"
 msgstr "Pessoal"
 
 #. forest green
 #: filter/filter-label.c:124 mail/mail-config.c:68
-#: mail/mail-config.glade.h:120 shell/e-config-upgrade.c:1414
+#: mail/mail-config.glade.h:120 shell/e-config-upgrade.c:1457
 msgid "To Do"
 msgstr "A Fazer"
 
 #. blue
 #: filter/filter-label.c:125 mail/mail-config.c:69 mail/mail-config.glade.h:66
-#: shell/e-config-upgrade.c:1415
+#: shell/e-config-upgrade.c:1458
 msgid "Later"
 msgstr "Mais Tarde"
 
@@ -11291,214 +11291,214 @@ msgid "Beep"
 msgstr "Beep"
 
 #: filter/libfilter-i18n.h:7
-msgid "contains"
-msgstr "contém"
-
-#: filter/libfilter-i18n.h:8
 msgid "Copy to Folder"
 msgstr "Copiar para Pasta"
 
-#: filter/libfilter-i18n.h:9
+#: filter/libfilter-i18n.h:8
 msgid "Date received"
 msgstr "Data recepção"
 
-#: filter/libfilter-i18n.h:10
+#: filter/libfilter-i18n.h:9
 msgid "Date sent"
 msgstr "Data envio"
 
-#: filter/libfilter-i18n.h:12
+#: filter/libfilter-i18n.h:11
 msgid "Deleted"
 msgstr "Apagada"
 
-#: filter/libfilter-i18n.h:13
-msgid "does not contain"
-msgstr "não contém"
-
-#: filter/libfilter-i18n.h:14
-msgid "does not end with"
-msgstr "não termina em"
-
-#: filter/libfilter-i18n.h:15
-msgid "does not exist"
-msgstr "não existe"
-
-#: filter/libfilter-i18n.h:16
-msgid "does not return"
-msgstr "não devolve"
-
-#: filter/libfilter-i18n.h:17
-msgid "does not sound like"
-msgstr "não se assemelha a"
-
-#: filter/libfilter-i18n.h:18
-msgid "does not start with"
-msgstr "não começa por"
-
-#: filter/libfilter-i18n.h:19
+#: filter/libfilter-i18n.h:12
 msgid "Do Not Exist"
 msgstr "Não Existe"
 
-#: filter/libfilter-i18n.h:20
+#: filter/libfilter-i18n.h:13
 msgid "Draft"
 msgstr "Rascunho"
 
-#: filter/libfilter-i18n.h:21
-msgid "ends with"
-msgstr "termina em"
-
-#: filter/libfilter-i18n.h:22
+#: filter/libfilter-i18n.h:14
 msgid "Exist"
 msgstr "Existe"
 
-#: filter/libfilter-i18n.h:23
-msgid "exists"
-msgstr "existe"
-
-#: filter/libfilter-i18n.h:24
+#: filter/libfilter-i18n.h:15
 msgid "Expression"
 msgstr "Expressão"
 
-#: filter/libfilter-i18n.h:25
+#: filter/libfilter-i18n.h:16
 msgid "Follow Up"
 msgstr "Seguimento"
 
-#: filter/libfilter-i18n.h:27
-msgid "is"
-msgstr "é"
-
-#: filter/libfilter-i18n.h:28
-msgid "is after"
-msgstr "é posterior"
-
-#: filter/libfilter-i18n.h:29
-msgid "is before"
-msgstr "é anterior"
-
-#: filter/libfilter-i18n.h:30
-msgid "is Flagged"
-msgstr "está Marcada"
-
-#: filter/libfilter-i18n.h:31
-msgid "is greater than"
-msgstr "é maior do que"
-
-#: filter/libfilter-i18n.h:32
-msgid "is less than"
-msgstr "é menor do que"
-
-#: filter/libfilter-i18n.h:33
-msgid "is not"
-msgstr "não é"
-
-#: filter/libfilter-i18n.h:34
-msgid "is not Flagged"
-msgstr "não está Marcada"
-
-#: filter/libfilter-i18n.h:35 mail/folder-browser.c:1822
+#: filter/libfilter-i18n.h:18 mail/folder-browser.c:1824
 msgid "Label"
 msgstr "Etiqueta"
 
-#: filter/libfilter-i18n.h:36
+#: filter/libfilter-i18n.h:19
 msgid "Mailing list"
 msgstr "Lista distribuição"
 
-#: filter/libfilter-i18n.h:37
+#: filter/libfilter-i18n.h:20
 msgid "Message Body"
 msgstr "Corpo Mensagem"
 
-#: filter/libfilter-i18n.h:38
+#: filter/libfilter-i18n.h:21
 msgid "Message Header"
 msgstr "Cabeçalho Mensagem"
 
-#: filter/libfilter-i18n.h:39
+#: filter/libfilter-i18n.h:22
 msgid "Move to Folder"
 msgstr "Mover para Pasta"
 
-#: filter/libfilter-i18n.h:40
+#: filter/libfilter-i18n.h:23
 msgid "Pipe Message to Shell Command"
 msgstr "Canalizar Mensagem para Comando Consola"
 
-#: filter/libfilter-i18n.h:41
+#: filter/libfilter-i18n.h:24
 msgid "Play Sound"
 msgstr "Reproduzir Som"
 
-#: filter/libfilter-i18n.h:42 mail/message-tag-followup.c:68
+#: filter/libfilter-i18n.h:25 mail/message-tag-followup.c:68
 msgid "Read"
 msgstr "Ler"
 
-#: filter/libfilter-i18n.h:43
+#: filter/libfilter-i18n.h:26
 msgid "Recipients"
 msgstr "Destinatários"
 
-#: filter/libfilter-i18n.h:44
+#: filter/libfilter-i18n.h:27
 msgid "Regex Match"
 msgstr "Coincidir Expr Reg"
 
-#: filter/libfilter-i18n.h:45
+#: filter/libfilter-i18n.h:28
 msgid "Replied to"
 msgstr "Repondido para"
 
-#: filter/libfilter-i18n.h:46
-msgid "returns"
-msgstr "devolve"
-
-#: filter/libfilter-i18n.h:47
-msgid "returns greater than"
-msgstr "devolve maior do que"
-
-#: filter/libfilter-i18n.h:48
-msgid "returns less than"
-msgstr "devolve menor do que"
-
-#: filter/libfilter-i18n.h:49 filter/score-rule.c:184 filter/score-rule.c:186
+#: filter/libfilter-i18n.h:29 filter/score-rule.c:184 filter/score-rule.c:186
 #: mail/message-list.etspec.h:10
 msgid "Score"
 msgstr "Pontuação"
 
-#: filter/libfilter-i18n.h:50 mail/mail-callbacks.c:1820
+#: filter/libfilter-i18n.h:30 mail/mail-callbacks.c:1820
 msgid "Sender"
 msgstr "Remetente"
 
-#: filter/libfilter-i18n.h:51
+#: filter/libfilter-i18n.h:31
 msgid "Set Status"
 msgstr "Definir Estado"
 
-#: filter/libfilter-i18n.h:52
+#: filter/libfilter-i18n.h:32
 msgid "Shell Command"
 msgstr "Comando Consola"
 
-#: filter/libfilter-i18n.h:53
+#: filter/libfilter-i18n.h:33
 msgid "Size (kB)"
 msgstr "Tamanho (kB)"
 
-#: filter/libfilter-i18n.h:54
-msgid "sounds like"
-msgstr "assemelha-se a"
-
-#: filter/libfilter-i18n.h:55
+#: filter/libfilter-i18n.h:34
 msgid "Source Account"
 msgstr "Conta de Origem"
 
-#: filter/libfilter-i18n.h:56
+#: filter/libfilter-i18n.h:35
 msgid "Specific header"
 msgstr "Cabeçalho específico"
 
-#: filter/libfilter-i18n.h:57
-msgid "starts with"
-msgstr "começa por"
-
-#: filter/libfilter-i18n.h:59
+#: filter/libfilter-i18n.h:37
 msgid "Stop Processing"
 msgstr "Parar Processamento"
 
-#: filter/libfilter-i18n.h:60 mail/mail-format.c:937
+#: filter/libfilter-i18n.h:38 mail/mail-format.c:937
 #: mail/message-list.etspec.h:13 mail/message-tag-followup.c:305
 msgid "Subject"
 msgstr "Assunto"
 
-#: filter/libfilter-i18n.h:61
+#: filter/libfilter-i18n.h:39
 msgid "Unset Status"
 msgstr "Retirar Estado"
+
+#: filter/libfilter-i18n.h:40
+msgid "contains"
+msgstr "contém"
+
+#: filter/libfilter-i18n.h:41
+msgid "does not contain"
+msgstr "não contém"
+
+#: filter/libfilter-i18n.h:42
+msgid "does not end with"
+msgstr "não termina em"
+
+#: filter/libfilter-i18n.h:43
+msgid "does not exist"
+msgstr "não existe"
+
+#: filter/libfilter-i18n.h:44
+msgid "does not return"
+msgstr "não devolve"
+
+#: filter/libfilter-i18n.h:45
+msgid "does not sound like"
+msgstr "não se assemelha a"
+
+#: filter/libfilter-i18n.h:46
+msgid "does not start with"
+msgstr "não começa por"
+
+#: filter/libfilter-i18n.h:47
+msgid "ends with"
+msgstr "termina em"
+
+#: filter/libfilter-i18n.h:48
+msgid "exists"
+msgstr "existe"
+
+#: filter/libfilter-i18n.h:49
+msgid "is Flagged"
+msgstr "está Marcada"
+
+#: filter/libfilter-i18n.h:50
+msgid "is after"
+msgstr "é posterior"
+
+#: filter/libfilter-i18n.h:51
+msgid "is before"
+msgstr "é anterior"
+
+#: filter/libfilter-i18n.h:52
+msgid "is greater than"
+msgstr "é maior do que"
+
+#: filter/libfilter-i18n.h:53
+msgid "is less than"
+msgstr "é menor do que"
+
+#: filter/libfilter-i18n.h:54
+msgid "is not Flagged"
+msgstr "não está Marcada"
+
+#: filter/libfilter-i18n.h:55
+msgid "is not"
+msgstr "não é"
+
+#: filter/libfilter-i18n.h:56
+msgid "is"
+msgstr "é"
+
+#: filter/libfilter-i18n.h:57
+msgid "returns greater than"
+msgstr "devolve maior do que"
+
+#: filter/libfilter-i18n.h:58
+msgid "returns less than"
+msgstr "devolve menor do que"
+
+#: filter/libfilter-i18n.h:59
+msgid "returns"
+msgstr "devolve"
+
+#: filter/libfilter-i18n.h:60
+msgid "sounds like"
+msgstr "assemelha-se a"
+
+#: filter/libfilter-i18n.h:61
+msgid "starts with"
+msgstr "começa por"
 
 #: filter/rule-context.c:664 filter/rule-editor.c:241 filter/rule-editor.c:326
 #: mail/mail-vfolder.c:917
@@ -11903,129 +11903,129 @@ msgstr "%d enviada"
 msgid "%d total"
 msgstr "%d total"
 
-#: mail/folder-browser.c:1204
+#: mail/folder-browser.c:1206
 msgid "Create _Virtual Folder From Search..."
 msgstr "Criar Pasta _Virtual a Partir Procura..."
 
-#: mail/folder-browser.c:1758
+#: mail/folder-browser.c:1760
 msgid "VFolder on _Subject"
 msgstr "VPasta no A_ssunto"
 
-#: mail/folder-browser.c:1759
+#: mail/folder-browser.c:1761
 msgid "VFolder on Se_nder"
 msgstr "VPasta no Remete_nte"
 
-#: mail/folder-browser.c:1760
+#: mail/folder-browser.c:1762
 msgid "VFolder on _Recipients"
 msgstr "VPasta nos Destinatá_rios"
 
-#: mail/folder-browser.c:1761
+#: mail/folder-browser.c:1763
 msgid "VFolder on Mailing _List"
 msgstr "VPasta na _Lista Distribuição"
 
-#: mail/folder-browser.c:1765
+#: mail/folder-browser.c:1767
 msgid "Filter on Sub_ject"
 msgstr "Filtrar no Ass_unto"
 
-#: mail/folder-browser.c:1766
+#: mail/folder-browser.c:1768
 msgid "Filter on Sen_der"
 msgstr "Filtrar no _Remetente"
 
-#: mail/folder-browser.c:1767
+#: mail/folder-browser.c:1769
 msgid "Filter on Re_cipients"
 msgstr "Filtrar no _Destinatário"
 
-#: mail/folder-browser.c:1768 mail/folder-browser.c:2092
+#: mail/folder-browser.c:1770 mail/folder-browser.c:2094
 msgid "Filter on _Mailing List"
 msgstr "Filtrar na _Lista Distribuição"
 
-#: mail/folder-browser.c:1786
+#: mail/folder-browser.c:1788
 msgid "_Edit as New Message..."
 msgstr "_Editar como Nova Mensagem..."
 
-#: mail/folder-browser.c:1788
+#: mail/folder-browser.c:1790
 msgid "_Print"
 msgstr "_Imprimir"
 
-#: mail/folder-browser.c:1792 ui/evolution-mail-message.xml.h:110
+#: mail/folder-browser.c:1794 ui/evolution-mail-message.xml.h:110
 msgid "_Reply to Sender"
 msgstr "_Reponder ao Remetente"
 
-#: mail/folder-browser.c:1793 ui/evolution-mail-message.xml.h:75
+#: mail/folder-browser.c:1795 ui/evolution-mail-message.xml.h:75
 msgid "Reply to _List"
 msgstr "Reponder para _Lista"
 
-#: mail/folder-browser.c:1794 ui/evolution-mail-message.xml.h:74
+#: mail/folder-browser.c:1796 ui/evolution-mail-message.xml.h:74
 msgid "Reply to _All"
 msgstr "Reponder _a Todos"
 
-#: mail/folder-browser.c:1795
+#: mail/folder-browser.c:1797
 msgid "_Forward"
 msgstr "R_eencaminhar"
 
-#: mail/folder-browser.c:1799
+#: mail/folder-browser.c:1801
 msgid "Follo_w Up..."
 msgstr "Dar Se_guimento..."
 
-#: mail/folder-browser.c:1800
+#: mail/folder-browser.c:1802
 msgid "Fla_g Completed"
 msgstr "Marcar _Terminada"
 
-#: mail/folder-browser.c:1801
+#: mail/folder-browser.c:1803
 msgid "Cl_ear Flag"
 msgstr "L_impar Marca"
 
 #. separator here?
-#: mail/folder-browser.c:1805 ui/evolution-mail-message.xml.h:43
+#: mail/folder-browser.c:1807 ui/evolution-mail-message.xml.h:43
 msgid "Mar_k as Read"
 msgstr "_Marcar como Lida"
 
-#: mail/folder-browser.c:1806
+#: mail/folder-browser.c:1808
 msgid "Mark as _Unread"
 msgstr "Marcar _por Ler"
 
-#: mail/folder-browser.c:1807
+#: mail/folder-browser.c:1809
 msgid "Mark as _Important"
 msgstr "Marcar como _Importante"
 
-#: mail/folder-browser.c:1808
+#: mail/folder-browser.c:1810
 msgid "_Mark as Unimportant"
 msgstr "_Marcar como Irrelevante"
 
-#: mail/folder-browser.c:1813
+#: mail/folder-browser.c:1815
 msgid "U_ndelete"
 msgstr "R_ecuperar"
 
-#: mail/folder-browser.c:1817
+#: mail/folder-browser.c:1819
 msgid "Mo_ve to Folder..."
 msgstr "Mo_ver para Pasta..."
 
-#: mail/folder-browser.c:1818 ui/evolution-addressbook.xml.h:31
+#: mail/folder-browser.c:1820 ui/evolution-addressbook.xml.h:31
 msgid "_Copy to Folder..."
 msgstr "_Copiar para Pasta..."
 
-#: mail/folder-browser.c:1826
+#: mail/folder-browser.c:1828
 msgid "Add Sender to Address_book"
 msgstr "Adicionar Remetente ao Li_vro Endereços"
 
-#: mail/folder-browser.c:1830
+#: mail/folder-browser.c:1832
 msgid "Appl_y Filters"
 msgstr "Aplicar _Filtros"
 
-#: mail/folder-browser.c:1834
+#: mail/folder-browser.c:1836
 msgid "Crea_te Rule From Message"
 msgstr "Criar Regra a Par_tir Mensagem"
 
-#: mail/folder-browser.c:2093
+#: mail/folder-browser.c:2095
 msgid "VFolder on M_ailing List"
 msgstr "VPasta n_a Lista Distribuição"
 
-#: mail/folder-browser.c:2095
+#: mail/folder-browser.c:2097
 #, c-format
 msgid "Filter on _Mailing List (%s)"
 msgstr "Filtro na Lista _Distribuição (%s)"
 
-#: mail/folder-browser.c:2096
+#: mail/folder-browser.c:2098
 #, c-format
 msgid "VFolder on M_ailing List (%s)"
 msgstr "VPasta n_a Lista Distribuição (%s)"
@@ -12121,7 +12121,7 @@ msgstr "_Nome utilizador:"
 msgid "_Path:"
 msgstr "_Caminho"
 
-#: mail/mail-account-gui.c:1887
+#: mail/mail-account-gui.c:1886
 msgid "You may not create two accounts with the same name."
 msgstr "Não pode criar duas contas com o mesmo nome."
 
@@ -13165,19 +13165,19 @@ msgstr "Atrasado:"
 msgid "by %B %d, %Y, %l:%M %p"
 msgstr "por %B %d, %Y, %l:%M %p"
 
-#: mail/mail-display.c:2243
+#: mail/mail-display.c:2236
 msgid "Open Link in Browser"
 msgstr "Abrir Link no Browser"
 
-#: mail/mail-display.c:2244
+#: mail/mail-display.c:2237
 msgid "Copy Link Location"
 msgstr "Copiar Localização Link"
 
-#: mail/mail-display.c:2246
+#: mail/mail-display.c:2239
 msgid "Save Link as (FIXME)"
 msgstr "Gravar Link como (CORRIGIR-ME)"
 
-#: mail/mail-display.c:2248
+#: mail/mail-display.c:2241
 msgid "Save Image as..."
 msgstr "Gravar Imagem como..."
 
@@ -13191,8 +13191,8 @@ msgstr "A Pingar %s"
 msgid "%s attachment"
 msgstr "anexo %s"
 
-#: mail/mail-format.c:710 mail/mail-format.c:1513 mail/mail-format.c:1582
-#: mail/mail-format.c:1702 mail/mail-format.c:1826 mail/mail-format.c:1851
+#: mail/mail-format.c:710 mail/mail-format.c:1528 mail/mail-format.c:1597
+#: mail/mail-format.c:1717 mail/mail-format.c:1841 mail/mail-format.c:1866
 msgid "Could not parse MIME message. Displaying as source."
 msgstr "Incapaz de parsear mensagem MIME. A mostrar em código."
 
@@ -13225,52 +13225,52 @@ msgstr "Cc"
 msgid "Bcc"
 msgstr "Bcc"
 
-#: mail/mail-format.c:1625
+#: mail/mail-format.c:1640
 msgid ""
 "This message is digitally signed. Click the lock icon for more information."
 msgstr ""
 "Esta mensagem está assinada digitalmente. Clique no ícone de cadeado para "
 "mais informações."
 
-#: mail/mail-format.c:1653
+#: mail/mail-format.c:1668
 msgid "Could not create a PGP verfication context"
 msgstr "Incapaz de criar um contexto de verificação PGP"
 
-#: mail/mail-format.c:1661
+#: mail/mail-format.c:1676
 msgid "This message is digitally signed and has been found to be authentic."
 msgstr "Esta mensagem está assinada digitalmente e foi considerada autêntica."
 
-#: mail/mail-format.c:1668
+#: mail/mail-format.c:1683
 msgid "This message is digitally signed but can not be proven to be authentic."
 msgstr ""
 "Esta mensagem está assinada digitalmente mas não foi provada como autêntica."
 
-#: mail/mail-format.c:1932
+#: mail/mail-format.c:1947
 #, c-format
 msgid "Pointer to FTP site (%s)"
 msgstr "Ponteiro para servidor FTP (%s)"
 
-#: mail/mail-format.c:1943
+#: mail/mail-format.c:1958
 #, c-format
 msgid "Pointer to local file (%s) valid at site \"%s\""
 msgstr "Ponteiro para ficheiro local (%s) válido no servidor \"%s\""
 
-#: mail/mail-format.c:1946
+#: mail/mail-format.c:1961
 #, c-format
 msgid "Pointer to local file (%s)"
 msgstr "Ponteiro para ficheiro local (%s)"
 
-#: mail/mail-format.c:1973
+#: mail/mail-format.c:1988
 #, c-format
 msgid "Pointer to remote data (%s)"
 msgstr "Ponteiro para dados remotos (%s)"
 
-#: mail/mail-format.c:1979
+#: mail/mail-format.c:1994
 #, c-format
 msgid "Pointer to unknown external data (\"%s\" type)"
 msgstr "Ponteiro para dados externos desconhecidos (tipo \"%s\")"
 
-#: mail/mail-format.c:1981
+#: mail/mail-format.c:1996
 msgid "Malformed external-body part."
 msgstr "Parte corpo-externo mal formada."
 
@@ -13388,7 +13388,7 @@ msgstr "A enviar mensagem %d de %d"
 msgid "Failed on message %d of %d"
 msgstr "Falha na mensagem %d de %d"
 
-#: mail/mail-ops.c:774 mail/mail-send-recv.c:581
+#: mail/mail-ops.c:774
 msgid "Complete."
 msgstr "Terminado."
 
@@ -13546,38 +13546,38 @@ msgstr "Procurar:"
 msgid "Matches:"
 msgstr "Equivalências:"
 
-#: mail/mail-send-recv.c:146
+#: mail/mail-send-recv.c:147
 msgid "Cancelling..."
 msgstr "A Cancelar..."
 
-#: mail/mail-send-recv.c:254
+#: mail/mail-send-recv.c:255
 #, c-format
 msgid "Server: %s, Type: %s"
 msgstr "Servidor: %s, Tipo: %s"
 
-#: mail/mail-send-recv.c:256
+#: mail/mail-send-recv.c:257
 #, c-format
 msgid "Path: %s, Type: %s"
 msgstr "Caminho: %s, Tipo: %s"
 
-#: mail/mail-send-recv.c:258
+#: mail/mail-send-recv.c:259
 #, c-format
 msgid "Type: %s"
 msgstr "Tipo: %s"
 
-#: mail/mail-send-recv.c:306
+#: mail/mail-send-recv.c:308
 msgid "Send & Receive Mail"
 msgstr "Enviat & Receber Correio"
 
-#: mail/mail-send-recv.c:307
+#: mail/mail-send-recv.c:309
 msgid "Cancel _All"
 msgstr "Cancelar _Tudo"
 
-#: mail/mail-send-recv.c:389
+#: mail/mail-send-recv.c:391
 msgid "Updating..."
 msgstr "A Actualizar..."
 
-#: mail/mail-send-recv.c:390 mail/mail-send-recv.c:446
+#: mail/mail-send-recv.c:391 mail/mail-send-recv.c:448
 msgid "Waiting..."
 msgstr "A Aguardar..."
 

@@ -6,14 +6,14 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2003-09-15 16:23+0300\n"
+"POT-Creation-Date: 2003-09-15 14:36-0400\n"
 "PO-Revision-Date: 2003-09-10 00:43+0200\n"
 "Last-Translator: Ilkka Tuohela <hile@iki.fi>\n"
 "Language-Team: Gnome Finnish Translation Team <laatu@gnome-fi.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Report-Msgid-Bugs-To: \n"
 
 #: addressbook/backend/ebook/GNOME_Evolution_Addressbook_LDIF_Importer.server.in.in.h:1
 msgid "Evolution LDIF importer"
@@ -1447,7 +1447,7 @@ msgstr "Ry_hmät:"
 #: addressbook/gui/contact-editor/contact-editor.glade.h:28
 #: calendar/gui/dialogs/meeting-page.c:717 calendar/gui/e-calendar-table.c:977
 #: calendar/gui/e-day-view.c:3755 calendar/gui/e-week-view.c:3741
-#: mail/folder-browser.c:1812 ui/evolution-addressbook.xml.h:32
+#: mail/folder-browser.c:1814 ui/evolution-addressbook.xml.h:32
 #: ui/evolution-calendar.xml.h:30 ui/evolution-comp-editor.xml.h:17
 #: ui/evolution-mail-message.xml.h:97 ui/evolution-tasks.xml.h:17
 #: ui/evolution.xml.h:45
@@ -3066,7 +3066,7 @@ msgstr "Kopioi"
 msgid "Paste"
 msgstr "Liitä"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:915 filter/libfilter-i18n.h:11
+#: addressbook/gui/widgets/e-addressbook-view.c:915 filter/libfilter-i18n.h:10
 #: mail/mail-accounts.c:234 ui/evolution-addressbook.xml.h:8
 #: ui/evolution-comp-editor.xml.h:4 ui/evolution-contact-editor.xml.h:2
 #: ui/evolution-contact-list-editor.xml.h:2 ui/evolution-mail-message.xml.h:20
@@ -3956,7 +3956,7 @@ msgstr ""
 #. An empty string is the same as 'None'.
 #: calendar/gui/calendar-model.c:1176 calendar/gui/dialogs/meeting-page.c:330
 #: calendar/gui/dialogs/meeting-page.glade.h:2 composer/e-msg-composer.c:2067
-#: mail/folder-browser.c:1774 mail/mail-account-gui.c:1260
+#: mail/folder-browser.c:1776 mail/mail-account-gui.c:1260
 #: mail/mail-account-gui.c:1692 mail/mail-accounts.c:442
 #: mail/mail-config.glade.h:76
 #: widgets/e-timezone-dialog/e-timezone-dialog.c:194
@@ -4808,7 +4808,7 @@ msgstr "RSVP"
 
 #: calendar/gui/dialogs/meeting-page.etspec.h:10
 #: calendar/gui/e-calendar-table.etspec.h:15
-#: calendar/gui/e-meeting-time-sel.etspec.h:10 filter/libfilter-i18n.h:58
+#: calendar/gui/e-meeting-time-sel.etspec.h:10 filter/libfilter-i18n.h:36
 #: mail/message-list.etspec.h:12
 msgid "Status"
 msgstr "Tila"
@@ -5207,7 +5207,7 @@ msgid "Deleting selected objects"
 msgstr "Poistetaan valitut kohteet"
 
 #: calendar/gui/e-calendar-table.c:958 calendar/gui/e-day-view.c:3737
-#: calendar/gui/e-week-view.c:3723 mail/folder-browser.c:1785
+#: calendar/gui/e-week-view.c:3723 mail/folder-browser.c:1787
 #: shell/e-shortcuts-view.c:422 ui/evolution-addressbook.xml.h:36
 msgid "_Open"
 msgstr "_Avaa"
@@ -5281,7 +5281,7 @@ msgid "Alarms"
 msgstr "Hälytykset"
 
 #: calendar/gui/e-calendar-table.etspec.h:7 camel/camel-filter-driver.c:1156
-#: camel/camel-filter-driver.c:1251
+#: camel/camel-filter-driver.c:1251 mail/mail-send-recv.c:584
 msgid "Complete"
 msgstr "Valmis"
 
@@ -5413,7 +5413,7 @@ msgid "_Settings..."
 msgstr "_Asetukset..."
 
 #: calendar/gui/e-day-view.c:3738 calendar/gui/e-week-view.c:3724
-#: mail/folder-browser.c:1787 ui/evolution-mail-message.xml.h:112
+#: mail/folder-browser.c:1789 ui/evolution-mail-message.xml.h:112
 msgid "_Save As..."
 msgstr "Tallenna _nimellä..."
 
@@ -5628,7 +5628,7 @@ msgid "Send Latest Information"
 msgstr "Lähetä viimeisimmät tiedot"
 
 #: calendar/gui/e-itip-control.c:1211 calendar/gui/itip-utils.c:439
-#: mail/mail-send-recv.c:387 mail/mail-send-recv.c:444
+#: mail/mail-send-recv.c:389 mail/mail-send-recv.c:446
 #: shell/evolution-shell-component.c:1185 ui/evolution-mail-global.xml.h:1
 msgid "Cancel"
 msgstr "Peruuta"
@@ -8331,7 +8331,7 @@ msgstr ""
 
 #: camel/camel-gpg-context.c:821 camel/camel-gpg-context.c:1297
 #: camel/camel-gpg-context.c:1403 camel/camel-gpg-context.c:1473
-#: camel/camel-gpg-context.c:1529 mail/mail-send-recv.c:577
+#: camel/camel-gpg-context.c:1529 mail/mail-send-recv.c:580
 msgid "Cancelled."
 msgstr "Peruutettu."
 
@@ -10687,11 +10687,11 @@ msgstr ""
 "<b>(Luonti-ikkunassa on viesti, joka ei ole tekstiä ja jota ei voida muokata)"
 "<b>"
 
-#: data/evolution.desktop.in.h:1
+#: data/evolution.desktop.in.in.h:1
 msgid "The Evolution groupware suite"
 msgstr "Evolution työryhmäohjelmisto"
 
-#: data/evolution.desktop.in.h:2
+#: data/evolution.desktop.in.in.h:2
 msgid "Ximian Evolution"
 msgstr "Ximian Evolution"
 
@@ -11085,32 +11085,32 @@ msgstr ""
 "Virhe säännöllisessä lausekkeessa '%s'\n"
 "%s"
 
-#: filter/filter-label.c:121 filter/libfilter-i18n.h:26 mail/mail-config.c:65
-#: mail/mail-config.glade.h:62 shell/e-config-upgrade.c:1411
+#: filter/filter-label.c:121 filter/libfilter-i18n.h:17 mail/mail-config.c:65
+#: mail/mail-config.glade.h:62 shell/e-config-upgrade.c:1454
 msgid "Important"
 msgstr "Tärkeä"
 
 #. red
 #: filter/filter-label.c:122 mail/mail-config.c:66
-#: mail/mail-config.glade.h:129 shell/e-config-upgrade.c:1412
+#: mail/mail-config.glade.h:129 shell/e-config-upgrade.c:1455
 msgid "Work"
 msgstr "Työ"
 
 #. orange
 #: filter/filter-label.c:123 mail/mail-config.c:67 mail/mail-config.glade.h:84
-#: shell/e-config-upgrade.c:1413
+#: shell/e-config-upgrade.c:1456
 msgid "Personal"
 msgstr "Henkilökohtainen"
 
 #. forest green
 #: filter/filter-label.c:124 mail/mail-config.c:68
-#: mail/mail-config.glade.h:120 shell/e-config-upgrade.c:1414
+#: mail/mail-config.glade.h:120 shell/e-config-upgrade.c:1457
 msgid "To Do"
 msgstr "Tehtävät"
 
 #. blue
 #: filter/filter-label.c:125 mail/mail-config.c:69 mail/mail-config.glade.h:66
-#: shell/e-config-upgrade.c:1415
+#: shell/e-config-upgrade.c:1458
 msgid "Later"
 msgstr "Myöhemmin"
 
@@ -11276,214 +11276,214 @@ msgid "Beep"
 msgstr "Piippaus"
 
 #: filter/libfilter-i18n.h:7
-msgid "contains"
-msgstr "sisältää"
-
-#: filter/libfilter-i18n.h:8
 msgid "Copy to Folder"
 msgstr "Kopioi kansioon"
 
-#: filter/libfilter-i18n.h:9
+#: filter/libfilter-i18n.h:8
 msgid "Date received"
 msgstr "Otettu vastaan"
 
-#: filter/libfilter-i18n.h:10
+#: filter/libfilter-i18n.h:9
 msgid "Date sent"
 msgstr "Lähetetty"
 
-#: filter/libfilter-i18n.h:12
+#: filter/libfilter-i18n.h:11
 msgid "Deleted"
 msgstr "Poistettu"
 
-#: filter/libfilter-i18n.h:13
-msgid "does not contain"
-msgstr "ei sisällä"
-
-#: filter/libfilter-i18n.h:14
-msgid "does not end with"
-msgstr "ei lopu merkkijonoon"
-
-#: filter/libfilter-i18n.h:15
-msgid "does not exist"
-msgstr "ei ole olemassa"
-
-#: filter/libfilter-i18n.h:16
-msgid "does not return"
-msgstr "ei palauta"
-
-#: filter/libfilter-i18n.h:17
-msgid "does not sound like"
-msgstr "Ei kuulosta samalta kuin"
-
-#: filter/libfilter-i18n.h:18
-msgid "does not start with"
-msgstr "ei ala merkkijonolla"
-
-#: filter/libfilter-i18n.h:19
+#: filter/libfilter-i18n.h:12
 msgid "Do Not Exist"
 msgstr "Ei ole olemassa"
 
-#: filter/libfilter-i18n.h:20
+#: filter/libfilter-i18n.h:13
 msgid "Draft"
 msgstr "Luonnos"
 
-#: filter/libfilter-i18n.h:21
-msgid "ends with"
-msgstr "loppuu merkkijonoon"
-
-#: filter/libfilter-i18n.h:22
+#: filter/libfilter-i18n.h:14
 msgid "Exist"
 msgstr "Olemassa"
 
-#: filter/libfilter-i18n.h:23
-msgid "exists"
-msgstr "olemassa"
-
-#: filter/libfilter-i18n.h:24
+#: filter/libfilter-i18n.h:15
 msgid "Expression"
 msgstr "Lauseke"
 
-#: filter/libfilter-i18n.h:25
+#: filter/libfilter-i18n.h:16
 msgid "Follow Up"
 msgstr "Vastaa edelleen"
 
-#: filter/libfilter-i18n.h:27
-msgid "is"
-msgstr "on"
-
-#: filter/libfilter-i18n.h:28
-msgid "is after"
-msgstr "jälkeen "
-
-#: filter/libfilter-i18n.h:29
-msgid "is before"
-msgstr "ennen "
-
-#: filter/libfilter-i18n.h:30
-msgid "is Flagged"
-msgstr "On merkitty"
-
-#: filter/libfilter-i18n.h:31
-msgid "is greater than"
-msgstr "on suurempi kuin"
-
-#: filter/libfilter-i18n.h:32
-msgid "is less than"
-msgstr "on pienempi kuin"
-
-#: filter/libfilter-i18n.h:33
-msgid "is not"
-msgstr "ei ole"
-
-#: filter/libfilter-i18n.h:34
-msgid "is not Flagged"
-msgstr "ei ole merkitty"
-
-#: filter/libfilter-i18n.h:35 mail/folder-browser.c:1822
+#: filter/libfilter-i18n.h:18 mail/folder-browser.c:1824
 msgid "Label"
 msgstr "Värikorostus"
 
-#: filter/libfilter-i18n.h:36
+#: filter/libfilter-i18n.h:19
 msgid "Mailing list"
 msgstr "Postituslista"
 
-#: filter/libfilter-i18n.h:37
+#: filter/libfilter-i18n.h:20
 msgid "Message Body"
 msgstr "Viestin runko"
 
-#: filter/libfilter-i18n.h:38
+#: filter/libfilter-i18n.h:21
 msgid "Message Header"
 msgstr "Viestin otsikko"
 
-#: filter/libfilter-i18n.h:39
+#: filter/libfilter-i18n.h:22
 msgid "Move to Folder"
 msgstr "Siirrä kansioon"
 
-#: filter/libfilter-i18n.h:40
+#: filter/libfilter-i18n.h:23
 msgid "Pipe Message to Shell Command"
 msgstr "Putkita viesti komentorivikäskylle"
 
-#: filter/libfilter-i18n.h:41
+#: filter/libfilter-i18n.h:24
 msgid "Play Sound"
 msgstr "Soita ääni"
 
-#: filter/libfilter-i18n.h:42 mail/message-tag-followup.c:68
+#: filter/libfilter-i18n.h:25 mail/message-tag-followup.c:68
 msgid "Read"
 msgstr "Lue"
 
-#: filter/libfilter-i18n.h:43
+#: filter/libfilter-i18n.h:26
 msgid "Recipients"
 msgstr "Vastaanottajat"
 
-#: filter/libfilter-i18n.h:44
+#: filter/libfilter-i18n.h:27
 msgid "Regex Match"
 msgstr "Säännöllisen lausekkeen tulos"
 
-#: filter/libfilter-i18n.h:45
+#: filter/libfilter-i18n.h:28
 msgid "Replied to"
 msgstr "Vastattu osoitteeseen"
 
-#: filter/libfilter-i18n.h:46
-msgid "returns"
-msgstr "palauttaa"
-
-#: filter/libfilter-i18n.h:47
-msgid "returns greater than"
-msgstr "palauttaa enemmän kuin"
-
-#: filter/libfilter-i18n.h:48
-msgid "returns less than"
-msgstr "palauttaa vähemmän kuin"
-
-#: filter/libfilter-i18n.h:49 filter/score-rule.c:184 filter/score-rule.c:186
+#: filter/libfilter-i18n.h:29 filter/score-rule.c:184 filter/score-rule.c:186
 #: mail/message-list.etspec.h:10
 msgid "Score"
 msgstr "Arvo"
 
-#: filter/libfilter-i18n.h:50 mail/mail-callbacks.c:1820
+#: filter/libfilter-i18n.h:30 mail/mail-callbacks.c:1820
 msgid "Sender"
 msgstr "Lähettäjä"
 
-#: filter/libfilter-i18n.h:51
+#: filter/libfilter-i18n.h:31
 msgid "Set Status"
 msgstr "Aseta tila"
 
-#: filter/libfilter-i18n.h:52
+#: filter/libfilter-i18n.h:32
 msgid "Shell Command"
 msgstr "Komentorivikäsky"
 
-#: filter/libfilter-i18n.h:53
+#: filter/libfilter-i18n.h:33
 msgid "Size (kB)"
 msgstr "Koko (kt)"
 
-#: filter/libfilter-i18n.h:54
-msgid "sounds like"
-msgstr "kuulostaa samalta kuin"
-
-#: filter/libfilter-i18n.h:55
+#: filter/libfilter-i18n.h:34
 msgid "Source Account"
 msgstr "Käytetty sähköpostitili"
 
-#: filter/libfilter-i18n.h:56
+#: filter/libfilter-i18n.h:35
 msgid "Specific header"
 msgstr "Tietty otsake"
 
-#: filter/libfilter-i18n.h:57
-msgid "starts with"
-msgstr "alkaa merkkijonolla"
-
-#: filter/libfilter-i18n.h:59
+#: filter/libfilter-i18n.h:37
 msgid "Stop Processing"
 msgstr "Lopeta käsittely"
 
-#: filter/libfilter-i18n.h:60 mail/mail-format.c:937
+#: filter/libfilter-i18n.h:38 mail/mail-format.c:937
 #: mail/message-list.etspec.h:13 mail/message-tag-followup.c:305
 msgid "Subject"
 msgstr "Aihe"
 
-#: filter/libfilter-i18n.h:61
+#: filter/libfilter-i18n.h:39
 msgid "Unset Status"
 msgstr "Asettamaton tila"
+
+#: filter/libfilter-i18n.h:40
+msgid "contains"
+msgstr "sisältää"
+
+#: filter/libfilter-i18n.h:41
+msgid "does not contain"
+msgstr "ei sisällä"
+
+#: filter/libfilter-i18n.h:42
+msgid "does not end with"
+msgstr "ei lopu merkkijonoon"
+
+#: filter/libfilter-i18n.h:43
+msgid "does not exist"
+msgstr "ei ole olemassa"
+
+#: filter/libfilter-i18n.h:44
+msgid "does not return"
+msgstr "ei palauta"
+
+#: filter/libfilter-i18n.h:45
+msgid "does not sound like"
+msgstr "Ei kuulosta samalta kuin"
+
+#: filter/libfilter-i18n.h:46
+msgid "does not start with"
+msgstr "ei ala merkkijonolla"
+
+#: filter/libfilter-i18n.h:47
+msgid "ends with"
+msgstr "loppuu merkkijonoon"
+
+#: filter/libfilter-i18n.h:48
+msgid "exists"
+msgstr "olemassa"
+
+#: filter/libfilter-i18n.h:49
+msgid "is Flagged"
+msgstr "On merkitty"
+
+#: filter/libfilter-i18n.h:50
+msgid "is after"
+msgstr "jälkeen "
+
+#: filter/libfilter-i18n.h:51
+msgid "is before"
+msgstr "ennen "
+
+#: filter/libfilter-i18n.h:52
+msgid "is greater than"
+msgstr "on suurempi kuin"
+
+#: filter/libfilter-i18n.h:53
+msgid "is less than"
+msgstr "on pienempi kuin"
+
+#: filter/libfilter-i18n.h:54
+msgid "is not Flagged"
+msgstr "ei ole merkitty"
+
+#: filter/libfilter-i18n.h:55
+msgid "is not"
+msgstr "ei ole"
+
+#: filter/libfilter-i18n.h:56
+msgid "is"
+msgstr "on"
+
+#: filter/libfilter-i18n.h:57
+msgid "returns greater than"
+msgstr "palauttaa enemmän kuin"
+
+#: filter/libfilter-i18n.h:58
+msgid "returns less than"
+msgstr "palauttaa vähemmän kuin"
+
+#: filter/libfilter-i18n.h:59
+msgid "returns"
+msgstr "palauttaa"
+
+#: filter/libfilter-i18n.h:60
+msgid "sounds like"
+msgstr "kuulostaa samalta kuin"
+
+#: filter/libfilter-i18n.h:61
+msgid "starts with"
+msgstr "alkaa merkkijonolla"
 
 #: filter/rule-context.c:664 filter/rule-editor.c:241 filter/rule-editor.c:326
 #: mail/mail-vfolder.c:917
@@ -11889,129 +11889,129 @@ msgstr "%d lähetetty"
 msgid "%d total"
 msgstr "%d yhteensä"
 
-#: mail/folder-browser.c:1204
+#: mail/folder-browser.c:1206
 msgid "Create _Virtual Folder From Search..."
 msgstr "Luo _virtuaalikansio alusta alkaen..."
 
-#: mail/folder-browser.c:1758
+#: mail/folder-browser.c:1760
 msgid "VFolder on _Subject"
 msgstr "vKansio _otsikon perusteella"
 
-#: mail/folder-browser.c:1759
+#: mail/folder-browser.c:1761
 msgid "VFolder on Se_nder"
 msgstr "vKansio _lähettäjän perusteella"
 
-#: mail/folder-browser.c:1760
+#: mail/folder-browser.c:1762
 msgid "VFolder on _Recipients"
 msgstr "vKansio _vastaanottajan perusteella"
 
-#: mail/folder-browser.c:1761
+#: mail/folder-browser.c:1763
 msgid "VFolder on Mailing _List"
 msgstr "vKansio _postituslistan perusteella"
 
-#: mail/folder-browser.c:1765
+#: mail/folder-browser.c:1767
 msgid "Filter on Sub_ject"
 msgstr "Suodata a_iheen mukaan"
 
-#: mail/folder-browser.c:1766
+#: mail/folder-browser.c:1768
 msgid "Filter on Sen_der"
 msgstr "Suodata _lähettäjän mukaan"
 
-#: mail/folder-browser.c:1767
+#: mail/folder-browser.c:1769
 msgid "Filter on Re_cipients"
 msgstr "Suodata _vastaanottajien mukaan"
 
-#: mail/folder-browser.c:1768 mail/folder-browser.c:2092
+#: mail/folder-browser.c:1770 mail/folder-browser.c:2094
 msgid "Filter on _Mailing List"
 msgstr "Suodata _postituslistan mukaan"
 
-#: mail/folder-browser.c:1786
+#: mail/folder-browser.c:1788
 msgid "_Edit as New Message..."
 msgstr "_Muokkaa uutena viestinä..."
 
-#: mail/folder-browser.c:1788
+#: mail/folder-browser.c:1790
 msgid "_Print"
 msgstr "_Tulosta"
 
-#: mail/folder-browser.c:1792 ui/evolution-mail-message.xml.h:110
+#: mail/folder-browser.c:1794 ui/evolution-mail-message.xml.h:110
 msgid "_Reply to Sender"
 msgstr "_Vastaa lähettäjälle"
 
-#: mail/folder-browser.c:1793 ui/evolution-mail-message.xml.h:75
+#: mail/folder-browser.c:1795 ui/evolution-mail-message.xml.h:75
 msgid "Reply to _List"
 msgstr "Vastaa _listalle"
 
-#: mail/folder-browser.c:1794 ui/evolution-mail-message.xml.h:74
+#: mail/folder-browser.c:1796 ui/evolution-mail-message.xml.h:74
 msgid "Reply to _All"
 msgstr "Vastaa k_aikille"
 
-#: mail/folder-browser.c:1795
+#: mail/folder-browser.c:1797
 msgid "_Forward"
 msgstr "Välitä _edelleen"
 
-#: mail/folder-browser.c:1799
+#: mail/folder-browser.c:1801
 msgid "Follo_w Up..."
 msgstr "Lähetä edelleen..."
 
-#: mail/folder-browser.c:1800
+#: mail/folder-browser.c:1802
 msgid "Fla_g Completed"
 msgstr "_Merkitse valmiiksi"
 
-#: mail/folder-browser.c:1801
+#: mail/folder-browser.c:1803
 msgid "Cl_ear Flag"
 msgstr "_Poista merkki"
 
 #. separator here?
-#: mail/folder-browser.c:1805 ui/evolution-mail-message.xml.h:43
+#: mail/folder-browser.c:1807 ui/evolution-mail-message.xml.h:43
 msgid "Mar_k as Read"
 msgstr "Merkitse _luetuksi"
 
-#: mail/folder-browser.c:1806
+#: mail/folder-browser.c:1808
 msgid "Mark as _Unread"
 msgstr "Merkitse l_ukemattomaksi"
 
-#: mail/folder-browser.c:1807
+#: mail/folder-browser.c:1809
 msgid "Mark as _Important"
 msgstr "Merkitse _tärkeäksi"
 
-#: mail/folder-browser.c:1808
+#: mail/folder-browser.c:1810
 msgid "_Mark as Unimportant"
 msgstr "Merkitse samantekeväksi"
 
-#: mail/folder-browser.c:1813
+#: mail/folder-browser.c:1815
 msgid "U_ndelete"
 msgstr "_Palauta"
 
-#: mail/folder-browser.c:1817
+#: mail/folder-browser.c:1819
 msgid "Mo_ve to Folder..."
 msgstr "_Siirrä kansioon... "
 
-#: mail/folder-browser.c:1818 ui/evolution-addressbook.xml.h:31
+#: mail/folder-browser.c:1820 ui/evolution-addressbook.xml.h:31
 msgid "_Copy to Folder..."
 msgstr "_Kopioi kansioon..."
 
-#: mail/folder-browser.c:1826
+#: mail/folder-browser.c:1828
 msgid "Add Sender to Address_book"
 msgstr "Lisää lähettäjä _osoitekirjaan"
 
-#: mail/folder-browser.c:1830
+#: mail/folder-browser.c:1832
 msgid "Appl_y Filters"
 msgstr "Toteuta _suodattimet"
 
-#: mail/folder-browser.c:1834
+#: mail/folder-browser.c:1836
 msgid "Crea_te Rule From Message"
 msgstr "_Luo viestistä sääntö"
 
-#: mail/folder-browser.c:2093
+#: mail/folder-browser.c:2095
 msgid "VFolder on M_ailing List"
 msgstr "vKansio _postituslistan perusteella"
 
-#: mail/folder-browser.c:2095
+#: mail/folder-browser.c:2097
 #, c-format
 msgid "Filter on _Mailing List (%s)"
 msgstr "Suodata _postituslistan mukaan (%s)"
 
-#: mail/folder-browser.c:2096
+#: mail/folder-browser.c:2098
 #, c-format
 msgid "VFolder on M_ailing List (%s)"
 msgstr "vKansio _postituslistan perusteella (%s)"
@@ -12107,7 +12107,7 @@ msgstr "Käyttäjät_unnus: "
 msgid "_Path:"
 msgstr "_Polku:"
 
-#: mail/mail-account-gui.c:1887
+#: mail/mail-account-gui.c:1886
 msgid "You may not create two accounts with the same name."
 msgstr "Et voi luoda kahta tiliä samalla nimellä."
 
@@ -13149,19 +13149,19 @@ msgstr "Päättyy:"
 msgid "by %B %d, %Y, %l:%M %p"
 msgstr "%b %d, %Y, %l:%M %p"
 
-#: mail/mail-display.c:2243
+#: mail/mail-display.c:2236
 msgid "Open Link in Browser"
 msgstr "Avaa linkki selaimessa"
 
-#: mail/mail-display.c:2244
+#: mail/mail-display.c:2237
 msgid "Copy Link Location"
 msgstr "Kopioi linkin sijainti"
 
-#: mail/mail-display.c:2246
+#: mail/mail-display.c:2239
 msgid "Save Link as (FIXME)"
 msgstr "Tallenna linkki nimellä"
 
-#: mail/mail-display.c:2248
+#: mail/mail-display.c:2241
 msgid "Save Image as..."
 msgstr "Tallenna kuva nimellä..."
 
@@ -13175,8 +13175,8 @@ msgstr "Pingataan %s"
 msgid "%s attachment"
 msgstr "%s liite"
 
-#: mail/mail-format.c:710 mail/mail-format.c:1513 mail/mail-format.c:1582
-#: mail/mail-format.c:1702 mail/mail-format.c:1826 mail/mail-format.c:1851
+#: mail/mail-format.c:710 mail/mail-format.c:1528 mail/mail-format.c:1597
+#: mail/mail-format.c:1717 mail/mail-format.c:1841 mail/mail-format.c:1866
 msgid "Could not parse MIME message. Displaying as source."
 msgstr "MIME-viestiä ei voitu tulkita, näytetään MIME-lähdekoodina."
 
@@ -13209,55 +13209,55 @@ msgstr "Kopiot:"
 msgid "Bcc"
 msgstr "Piilokopiot"
 
-#: mail/mail-format.c:1625
+#: mail/mail-format.c:1640
 msgid ""
 "This message is digitally signed. Click the lock icon for more information."
 msgstr ""
 "Viesti on digitaalisesti allekirjoitettu. Näpäytä kuvaketta saadaksesi "
 "lisätietoja."
 
-#: mail/mail-format.c:1653
+#: mail/mail-format.c:1668
 msgid "Could not create a PGP verfication context"
 msgstr "PGP:n varmennuskontekstia ei voitu luoda"
 
-#: mail/mail-format.c:1661
+#: mail/mail-format.c:1676
 msgid "This message is digitally signed and has been found to be authentic."
 msgstr ""
 "Viesti on digitaalisesti allekirjoitettu ja varmennettu lähettäjän "
 "allekirjoittamaksi."
 
-#: mail/mail-format.c:1668
+#: mail/mail-format.c:1683
 msgid "This message is digitally signed but can not be proven to be authentic."
 msgstr ""
 "Viesti on digitaalisesti allekirjoitettu, mutta allekirjoitusta ei voida "
 "varmentaa."
 
-#: mail/mail-format.c:1932
+#: mail/mail-format.c:1947
 #, c-format
 msgid "Pointer to FTP site (%s)"
 msgstr "Viite FTP-palvelimelle (%s)"
 
-#: mail/mail-format.c:1943
+#: mail/mail-format.c:1958
 #, c-format
 msgid "Pointer to local file (%s) valid at site \"%s\""
 msgstr "Viite paikalliseen tiedostoon (%s), polku oikea palvelimella \"%s\""
 
-#: mail/mail-format.c:1946
+#: mail/mail-format.c:1961
 #, c-format
 msgid "Pointer to local file (%s)"
 msgstr "Viite paikalliseen tiedostoon (%s)"
 
-#: mail/mail-format.c:1973
+#: mail/mail-format.c:1988
 #, c-format
 msgid "Pointer to remote data (%s)"
 msgstr "Viite etätietoon (%s)"
 
-#: mail/mail-format.c:1979
+#: mail/mail-format.c:1994
 #, c-format
 msgid "Pointer to unknown external data (\"%s\" type)"
 msgstr "Viite tuntemattomaan ulkoiseen tietoon (tyyppiä \"%s\")"
 
-#: mail/mail-format.c:1981
+#: mail/mail-format.c:1996
 msgid "Malformed external-body part."
 msgstr "Väärinmuotoiltu ulkoinen-runko."
 
@@ -13375,7 +13375,7 @@ msgstr "Lähetetään viestiä %d / %d"
 msgid "Failed on message %d of %d"
 msgstr "Virhe viestin %d kohdalla (viestejä %d)"
 
-#: mail/mail-ops.c:774 mail/mail-send-recv.c:581
+#: mail/mail-ops.c:774
 msgid "Complete."
 msgstr "Valmis."
 
@@ -13533,38 +13533,38 @@ msgstr "Etsi:"
 msgid "Matches:"
 msgstr "Osumia:"
 
-#: mail/mail-send-recv.c:146
+#: mail/mail-send-recv.c:147
 msgid "Cancelling..."
 msgstr "Peruutetaan..."
 
-#: mail/mail-send-recv.c:254
+#: mail/mail-send-recv.c:255
 #, c-format
 msgid "Server: %s, Type: %s"
 msgstr "Palvelin: %s, tyyppi: %s"
 
-#: mail/mail-send-recv.c:256
+#: mail/mail-send-recv.c:257
 #, c-format
 msgid "Path: %s, Type: %s"
 msgstr "Polku: %s, Tyyppi: %s"
 
-#: mail/mail-send-recv.c:258
+#: mail/mail-send-recv.c:259
 #, c-format
 msgid "Type: %s"
 msgstr "Tyyppi: %s"
 
-#: mail/mail-send-recv.c:306
+#: mail/mail-send-recv.c:308
 msgid "Send & Receive Mail"
 msgstr "Lähetä ja vastaanota postia"
 
-#: mail/mail-send-recv.c:307
+#: mail/mail-send-recv.c:309
 msgid "Cancel _All"
 msgstr "Peruuta _kaikki"
 
-#: mail/mail-send-recv.c:389
+#: mail/mail-send-recv.c:391
 msgid "Updating..."
 msgstr "Päivitetään..."
 
-#: mail/mail-send-recv.c:390 mail/mail-send-recv.c:446
+#: mail/mail-send-recv.c:391 mail/mail-send-recv.c:448
 msgid "Waiting..."
 msgstr "Odotetaan..."
 

@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
-"POT-Creation-Date: 2003-07-28 12:10-0400\n"
+"POT-Creation-Date: 2003-09-15 14:36-0400\n"
 "PO-Revision-Date: 2003-06-19 18:09+0000\n"
 "Last-Translator: Görkem Çetin <gorkem@kde.org>\n"
 "Language-Team: Turkish <gnome-turk@gnome.org>\n"
@@ -348,7 +348,7 @@ msgid "%x"
 msgstr "%x"
 
 #: addressbook/backend/ebook/e-card-simple.c:912
-#: addressbook/backend/ebook/e-destination.c:706
+#: addressbook/backend/ebook/e-destination.c:709
 msgid "Unnamed List"
 msgstr "İsimsiz Liste"
 
@@ -390,7 +390,7 @@ msgstr "Bölüm"
 msgid "Role"
 msgstr "Görev"
 
-#: addressbook/backend/ebook/e-card.c:1436 mail/mail-format.c:963
+#: addressbook/backend/ebook/e-card.c:1436 mail/mail-format.c:966
 msgid "Mailer"
 msgstr "E-postalayıcı"
 
@@ -444,7 +444,7 @@ msgstr "Kullanım Puanı"
 
 #: addressbook/backend/ebook/test-client-list.c:15
 #: addressbook/backend/ebook/test-client.c:33
-#: calendar/gui/alarm-notify/notify-main.c:171
+#: calendar/gui/alarm-notify/notify-main.c:173
 msgid "Could not initialize Bonobo"
 msgstr "Bonobo'yu başlatamadım"
 
@@ -804,12 +804,12 @@ msgid "Querying Addressbook..."
 msgstr "Adres Defterini Araştırılıyor..."
 
 #: addressbook/gui/component/e-address-popup.c:1001
-#: addressbook/gui/component/e-address-widget.c:392
+#: addressbook/gui/component/e-address-widget.c:401
 msgid "Edit Contact Info"
 msgstr "Bağlantı Bilgisini Düzenle"
 
 #: addressbook/gui/component/e-address-popup.c:1031
-#: addressbook/gui/component/e-address-widget.c:428
+#: addressbook/gui/component/e-address-widget.c:437
 #: addressbook/gui/component/select-names/e-select-names-popup.c:324
 msgid "Add to Contacts"
 msgstr "Bağlantılara Ekle"
@@ -818,11 +818,11 @@ msgstr "Bağlantılara Ekle"
 msgid "Merge E-Mail Address"
 msgstr "E-posta Adresini Birleştir"
 
-#: addressbook/gui/component/e-address-widget.c:369
+#: addressbook/gui/component/e-address-widget.c:378
 msgid "Disable Queries"
 msgstr "Aramaları Kapat"
 
-#: addressbook/gui/component/e-address-widget.c:369
+#: addressbook/gui/component/e-address-widget.c:378
 msgid "Enable Queries (Dangerous!)"
 msgstr "Aramaları Etkinleştir (Tehlikeli!)"
 
@@ -978,7 +978,7 @@ msgstr ""
 #. No time range is set, so don't start a query
 #: addressbook/gui/component/ldap-config.glade.h:34
 #: calendar/gui/calendar-model.c:1983 calendar/gui/e-day-view.c:1714
-#: calendar/gui/e-week-view.c:1344
+#: calendar/gui/e-week-view.c:1345
 msgid "Searching"
 msgstr "Arama"
 
@@ -1248,7 +1248,7 @@ msgstr "Tümünü Sil"
 
 #: addressbook/gui/component/select-names/e-select-names-popup.c:211
 #: addressbook/gui/component/select-names/e-select-names.c:694
-#: composer/e-msg-composer-attachment-bar.c:507
+#: composer/e-msg-composer-attachment-bar.c:450
 msgid "Remove"
 msgstr "Sil"
 
@@ -1421,10 +1421,11 @@ msgstr "_Kategoriler..."
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:28
 #: calendar/gui/dialogs/meeting-page.c:717 calendar/gui/e-calendar-table.c:977
-#: calendar/gui/e-day-view.c:3757 calendar/gui/e-week-view.c:3725
-#: mail/folder-browser.c:1812 ui/evolution-addressbook.xml.h:32
-#: ui/evolution-calendar.xml.h:30 ui/evolution-mail-message.xml.h:97
-#: ui/evolution-tasks.xml.h:17 ui/evolution.xml.h:45
+#: calendar/gui/e-day-view.c:3755 calendar/gui/e-week-view.c:3741
+#: mail/folder-browser.c:1814 ui/evolution-addressbook.xml.h:32
+#: ui/evolution-calendar.xml.h:30 ui/evolution-comp-editor.xml.h:17
+#: ui/evolution-mail-message.xml.h:97 ui/evolution-tasks.xml.h:17
+#: ui/evolution.xml.h:45
 msgid "_Delete"
 msgstr "_Sil"
 
@@ -1469,7 +1470,7 @@ msgstr "W_eb sayfası adresi:"
 #: addressbook/gui/contact-editor/e-contact-editor.c:184
 #: addressbook/gui/contact-list-editor/e-contact-list-editor.c:163
 #: addressbook/gui/widgets/e-addressbook-model.c:318
-#: addressbook/gui/widgets/e-addressbook-reflow-adapter.c:393
+#: addressbook/gui/widgets/e-addressbook-reflow-adapter.c:396
 #: addressbook/gui/widgets/e-minicard-label.c:164
 #: addressbook/gui/widgets/e-minicard-view-widget.c:120
 #: addressbook/gui/widgets/e-minicard-view.c:478
@@ -2501,7 +2502,7 @@ msgstr "Zimbabwe"
 #: addressbook/gui/contact-editor/e-contact-editor.c:156
 #: addressbook/gui/contact-list-editor/e-contact-list-editor.c:142
 #: addressbook/gui/widgets/e-addressbook-model.c:304
-#: addressbook/gui/widgets/e-addressbook-reflow-adapter.c:379
+#: addressbook/gui/widgets/e-addressbook-reflow-adapter.c:382
 #: addressbook/gui/widgets/e-addressbook-view.c:180
 #: addressbook/gui/widgets/e-minicard-view-widget.c:106
 #: addressbook/gui/widgets/e-minicard-view.c:464
@@ -2732,7 +2733,7 @@ msgstr "Yeni Liste"
 msgid "Contact List Editor"
 msgstr "Bağlantı Listesi Düzenleyici"
 
-#: addressbook/gui/contact-list-editor/e-contact-list-editor.c:456
+#: addressbook/gui/contact-list-editor/e-contact-list-editor.c:457
 msgid "Save List as VCard"
 msgstr "Listeyi VCard Olarak Kaydet"
 
@@ -2797,7 +2798,7 @@ msgid "%d cards"
 msgstr "%d kart"
 
 #: addressbook/gui/widgets/e-addressbook-model.c:311
-#: addressbook/gui/widgets/e-addressbook-reflow-adapter.c:386
+#: addressbook/gui/widgets/e-addressbook-reflow-adapter.c:389
 #: addressbook/gui/widgets/e-addressbook-view.c:187
 #: addressbook/gui/widgets/e-minicard-view-widget.c:113
 #: addressbook/gui/widgets/e-minicard-view.c:471
@@ -2808,18 +2809,18 @@ msgstr "Arama"
 msgid "Error getting book view"
 msgstr "Kitap görünümü alınırken hata"
 
-#: addressbook/gui/widgets/e-addressbook-reflow-adapter.c:400
+#: addressbook/gui/widgets/e-addressbook-reflow-adapter.c:403
 msgid "Model"
 msgstr "Model"
 
-#: addressbook/gui/widgets/e-addressbook-table-adapter.c:145
+#: addressbook/gui/widgets/e-addressbook-table-adapter.c:148
 #: addressbook/gui/widgets/e-addressbook-util.c:105
 #: addressbook/gui/widgets/e-minicard.c:531
 msgid "Error modifying card"
 msgstr "Kartlar düzenlenirken bir hata oluştu"
 
 #: addressbook/gui/widgets/e-addressbook-util.c:36
-#: shell/evolution-shell-component.c:1180
+#: shell/evolution-shell-component.c:1183
 msgid "Success"
 msgstr "Başarıldı"
 
@@ -2828,7 +2829,7 @@ msgstr "Başarıldı"
 #: camel/providers/imap/camel-imap-command.c:403
 #: camel/providers/pop3/camel-pop3-store.c:526
 #: camel/providers/pop3/camel-pop3-store.c:533 shell/e-shell.c:2077
-#: shell/e-storage.c:598 shell/evolution-shell-component.c:1219
+#: shell/e-storage.c:598 shell/evolution-shell-component.c:1222
 msgid "Unknown error"
 msgstr "Bilinmeyen hata"
 
@@ -2837,7 +2838,7 @@ msgid "Repository offline"
 msgstr "Depo çevrimdışı"
 
 #: addressbook/gui/widgets/e-addressbook-util.c:39 shell/e-storage.c:584
-#: shell/evolution-shell-component.c:1210
+#: shell/evolution-shell-component.c:1213
 msgid "Permission denied"
 msgstr "İzin yok"
 
@@ -2857,8 +2858,8 @@ msgstr "Protokol desteklenmiyor"
 #: calendar/gui/calendar-model.c:759 calendar/gui/calendar-model.c:1184
 #: calendar/gui/dialogs/task-details-page.glade.h:3
 #: calendar/gui/e-calendar-table.c:477 calendar/gui/print.c:2307
-#: camel/camel-service.c:745 camel/camel-service.c:785
-#: camel/camel-service.c:875 camel/camel-service.c:917
+#: camel/camel-service.c:747 camel/camel-service.c:788
+#: camel/camel-service.c:878 camel/camel-service.c:921
 #: camel/providers/pop3/camel-pop3-store.c:443
 #: camel/providers/pop3/camel-pop3-store.c:520
 msgid "Cancelled"
@@ -3041,7 +3042,7 @@ msgstr "Kopyala"
 msgid "Paste"
 msgstr "Yapıştır"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:915 filter/libfilter-i18n.h:11
+#: addressbook/gui/widgets/e-addressbook-view.c:915 filter/libfilter-i18n.h:10
 #: mail/mail-accounts.c:234 ui/evolution-addressbook.xml.h:8
 #: ui/evolution-comp-editor.xml.h:4 ui/evolution-contact-editor.xml.h:2
 #: ui/evolution-contact-list-editor.xml.h:2 ui/evolution-mail-message.xml.h:20
@@ -3049,7 +3050,7 @@ msgid "Delete"
 msgstr "Sil"
 
 #: addressbook/gui/widgets/e-addressbook-view.c:919
-#: calendar/gui/e-day-view.c:3717 calendar/gui/e-week-view.c:3690
+#: calendar/gui/e-day-view.c:3715 calendar/gui/e-week-view.c:3706
 msgid "Current View"
 msgstr "Şimdiki Görünüm"
 
@@ -3699,11 +3700,11 @@ msgstr ""
 msgid "Do not ask me about this program again."
 msgstr "Tekrar sorma."
 
-#: calendar/gui/alarm-notify/notify-main.c:174
+#: calendar/gui/alarm-notify/notify-main.c:176
 msgid "Could not initialize gnome-vfs"
 msgstr "Gnome-vfs başlatılamıyor"
 
-#: calendar/gui/alarm-notify/notify-main.c:183
+#: calendar/gui/alarm-notify/notify-main.c:185
 msgid "Could not create the alarm notify service factory"
 msgstr "Alarm bilgilendirme servis mimarisi oluşturamadım"
 
@@ -3719,7 +3720,7 @@ msgstr "Tanım içeriği"
 msgid "Comment contains"
 msgstr "Açıklama içeriği"
 
-#: calendar/gui/cal-search-bar.c:358 mail/mail-ops.c:1106
+#: calendar/gui/cal-search-bar.c:358 mail/mail-ops.c:1130
 msgid "Unmatched"
 msgstr "Eşleme yok"
 
@@ -3882,7 +3883,7 @@ msgstr "Boş"
 
 #: calendar/gui/calendar-model.c:592 calendar/gui/e-calendar-table.c:454
 #: calendar/gui/e-meeting-time-sel.c:406
-#: shell/evolution-shell-component.c:1204
+#: shell/evolution-shell-component.c:1207
 msgid "Busy"
 msgstr "Meşgul"
 
@@ -3917,13 +3918,13 @@ msgstr ""
 
 #. An empty string is the same as 'None'.
 #: calendar/gui/calendar-model.c:1176 calendar/gui/dialogs/meeting-page.c:330
-#: calendar/gui/dialogs/meeting-page.glade.h:2 composer/e-msg-composer.c:2065
-#: mail/folder-browser.c:1774 mail/mail-account-gui.c:1260
+#: calendar/gui/dialogs/meeting-page.glade.h:2 composer/e-msg-composer.c:2067
+#: mail/folder-browser.c:1776 mail/mail-account-gui.c:1260
 #: mail/mail-account-gui.c:1692 mail/mail-accounts.c:442
 #: mail/mail-config.glade.h:76
 #: widgets/e-timezone-dialog/e-timezone-dialog.c:194
 #: widgets/misc/e-cell-date-edit.c:257 widgets/misc/e-dateedit.c:442
-#: widgets/misc/e-dateedit.c:1458 widgets/misc/e-dateedit.c:1573
+#: widgets/misc/e-dateedit.c:1470 widgets/misc/e-dateedit.c:1585
 msgid "None"
 msgstr "Yok"
 
@@ -3937,12 +3938,12 @@ msgstr "Görevlendirildi"
 
 #: calendar/gui/calendar-model.c:1719 calendar/gui/e-meeting-model.c:266
 #: calendar/gui/e-meeting-model.c:276 calendar/gui/e-meeting-model.c:534
-#: calendar/gui/e-meeting-model.c:784
+#: calendar/gui/e-meeting-model.c:787
 msgid "Yes"
 msgstr "Evet"
 
 #: calendar/gui/calendar-model.c:1719 calendar/gui/e-meeting-model.c:278
-#: calendar/gui/e-meeting-model.c:785
+#: calendar/gui/e-meeting-model.c:788
 msgid "No"
 msgstr "Hayır"
 
@@ -4069,11 +4070,11 @@ msgstr "Temel"
 msgid "Date/Time:"
 msgstr "Tarih/Zaman:"
 
-#: calendar/gui/dialogs/alarm-page.glade.h:3 calendar/gui/e-alarm-list.c:461
+#: calendar/gui/dialogs/alarm-page.glade.h:3 calendar/gui/e-alarm-list.c:465
 msgid "Display a message"
 msgstr "Bir mesaj göster"
 
-#: calendar/gui/dialogs/alarm-page.glade.h:4 calendar/gui/e-alarm-list.c:457
+#: calendar/gui/dialogs/alarm-page.glade.h:4 calendar/gui/e-alarm-list.c:461
 msgid "Play a sound"
 msgstr "Bir ses çal"
 
@@ -4081,7 +4082,7 @@ msgstr "Bir ses çal"
 msgid "Reminders"
 msgstr "Hatırlatıcılar"
 
-#: calendar/gui/dialogs/alarm-page.glade.h:6 calendar/gui/e-alarm-list.c:469
+#: calendar/gui/dialogs/alarm-page.glade.h:6 calendar/gui/e-alarm-list.c:473
 msgid "Run a program"
 msgstr "Bir program çalıştır"
 
@@ -4091,7 +4092,7 @@ msgstr "Bir E-posta Gönder"
 
 #: calendar/gui/dialogs/alarm-page.glade.h:8
 #: calendar/gui/dialogs/recurrence-page.glade.h:8
-#: calendar/gui/e-itip-control.c:1052 calendar/gui/e-itip-control.glade.h:11
+#: calendar/gui/e-itip-control.c:1022 calendar/gui/e-itip-control.glade.h:11
 msgid "Summary:"
 msgstr "Özet:"
 
@@ -4174,7 +4175,7 @@ msgstr "Gün"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:12
 #: calendar/gui/dialogs/recurrence-page.c:1040
-#: calendar/gui/e-itip-control.c:677
+#: calendar/gui/e-itip-control.c:647
 msgid "Friday"
 msgstr "Cuma"
 
@@ -4188,7 +4189,7 @@ msgstr "Dakika"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:15
 #: calendar/gui/dialogs/recurrence-page.c:1036
-#: calendar/gui/e-itip-control.c:673
+#: calendar/gui/e-itip-control.c:643
 msgid "Monday"
 msgstr "Pazartesi"
 
@@ -4198,7 +4199,7 @@ msgstr "_Paz"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:17
 #: calendar/gui/dialogs/recurrence-page.c:1041
-#: calendar/gui/e-itip-control.c:678
+#: calendar/gui/e-itip-control.c:648
 msgid "Saturday"
 msgstr "Cumartesi"
 
@@ -4212,7 +4213,7 @@ msgstr "Gün gezgininde tarih numaralarını göster"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:20
 #: calendar/gui/dialogs/recurrence-page.c:1042
-#: calendar/gui/e-itip-control.c:672
+#: calendar/gui/e-itip-control.c:642
 msgid "Sunday"
 msgstr "Pazar"
 
@@ -4230,7 +4231,7 @@ msgstr "Görev Listesi"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:24
 #: calendar/gui/dialogs/recurrence-page.c:1039
-#: calendar/gui/e-itip-control.c:676
+#: calendar/gui/e-itip-control.c:646
 msgid "Thursday"
 msgstr "Perşembe"
 
@@ -4248,7 +4249,7 @@ msgstr "Zaman biçimi:"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:28
 #: calendar/gui/dialogs/recurrence-page.c:1037
-#: calendar/gui/e-itip-control.c:674
+#: calendar/gui/e-itip-control.c:644
 msgid "Tuesday"
 msgstr "Salı"
 
@@ -4258,7 +4259,7 @@ msgstr "_Hafta başı:"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:30
 #: calendar/gui/dialogs/recurrence-page.c:1038
-#: calendar/gui/e-itip-control.c:675
+#: calendar/gui/e-itip-control.c:645
 msgid "Wednesday"
 msgstr "Çarşamba"
 
@@ -4489,8 +4490,8 @@ msgid "No summary"
 msgstr "Özet yok"
 
 #: calendar/gui/dialogs/comp-editor.c:1281
-#: calendar/gui/e-calendar-table.c:1068 calendar/gui/e-day-view.c:3995
-#: calendar/gui/e-week-view.c:3934 composer/e-msg-composer.c:1169
+#: calendar/gui/e-calendar-table.c:1068 calendar/gui/e-day-view.c:3993
+#: calendar/gui/e-week-view.c:3950 composer/e-msg-composer.c:1171
 msgid "Save as..."
 msgstr "Farklı kaydet..."
 
@@ -4633,7 +4634,7 @@ msgstr "Zaman Düzenleme"
 msgid "Meeting"
 msgstr "Toplantı"
 
-#: calendar/gui/dialogs/event-page.c:603 calendar/gui/dialogs/task-page.c:507
+#: calendar/gui/dialogs/event-page.c:603 calendar/gui/dialogs/task-page.c:509
 msgid "Start date is wrong"
 msgstr "Başlangıç tarihi yanlış"
 
@@ -4669,9 +4670,9 @@ msgid "Classification"
 msgstr "Sınıflandırma"
 
 #: calendar/gui/dialogs/event-page.glade.h:6
-#: calendar/gui/dialogs/task-page.glade.h:4
-msgid "Con_fidential"
-msgstr "_Gizli"
+#, fuzzy
+msgid "Co_nfidential"
+msgstr "Gizli"
 
 #: calendar/gui/dialogs/event-page.glade.h:7
 #: calendar/gui/dialogs/task-page.glade.h:5
@@ -4771,14 +4772,14 @@ msgid "Member"
 msgstr "Üye"
 
 #: calendar/gui/dialogs/meeting-page.etspec.h:8
-#: calendar/gui/e-itip-control.c:1179
+#: calendar/gui/e-itip-control.c:1149
 #: calendar/gui/e-meeting-time-sel.etspec.h:8
 msgid "RSVP"
 msgstr "RSVP"
 
 #: calendar/gui/dialogs/meeting-page.etspec.h:10
 #: calendar/gui/e-calendar-table.etspec.h:15
-#: calendar/gui/e-meeting-time-sel.etspec.h:10 filter/libfilter-i18n.h:58
+#: calendar/gui/e-meeting-time-sel.etspec.h:10 filter/libfilter-i18n.h:36
 #: mail/message-list.etspec.h:12
 msgid "Status"
 msgstr "Durum"
@@ -4944,7 +4945,7 @@ msgstr ""
 "\n"
 "Değişiklikleri kaydetmek istiyor musunuz?"
 
-#: calendar/gui/dialogs/save-comp.c:58 composer/e-msg-composer.c:1566
+#: calendar/gui/dialogs/save-comp.c:58 composer/e-msg-composer.c:1568
 msgid "_Discard Changes"
 msgstr "_Değişiklikleri Sil"
 
@@ -5008,11 +5009,19 @@ msgstr "Temel"
 msgid "Assignment"
 msgstr "Görevlendirme"
 
-#: calendar/gui/dialogs/task-page.c:480
+#: calendar/gui/dialogs/task-page.c:482
 msgid "Due date is wrong"
 msgstr "Bitiş tarihi hatalı"
 
-#: calendar/gui/dialogs/task-page.glade.h:6 calendar/gui/e-itip-control.c:1107
+#: calendar/gui/dialogs/task-page.c:542
+msgid "Due date is before start date!"
+msgstr ""
+
+#: calendar/gui/dialogs/task-page.glade.h:4
+msgid "Con_fidential"
+msgstr "_Gizli"
+
+#: calendar/gui/dialogs/task-page.glade.h:6 calendar/gui/e-itip-control.c:1077
 #: calendar/gui/e-itip-control.glade.h:6
 #: composer/e-msg-composer-attachment.glade.h:3 mail/mail-config.glade.h:43
 msgid "Description:"
@@ -5026,95 +5035,95 @@ msgstr "_Başlangıç Tarihi:"
 msgid "_Due Date:"
 msgstr "_Tarihe Göre:"
 
-#: calendar/gui/e-alarm-list.c:393
+#: calendar/gui/e-alarm-list.c:397
 #, c-format
 msgid "%d days"
 msgstr "%d gün"
 
-#: calendar/gui/e-alarm-list.c:396
+#: calendar/gui/e-alarm-list.c:400
 msgid "1 day"
 msgstr "1 gün"
 
-#: calendar/gui/e-alarm-list.c:401
+#: calendar/gui/e-alarm-list.c:405
 #, c-format
 msgid "%d weeks"
 msgstr "%d hafta"
 
-#: calendar/gui/e-alarm-list.c:404
+#: calendar/gui/e-alarm-list.c:408
 msgid "1 week"
 msgstr "1 hafta"
 
-#: calendar/gui/e-alarm-list.c:409
+#: calendar/gui/e-alarm-list.c:413
 #, c-format
 msgid "%d hours"
 msgstr "%d saat"
 
-#: calendar/gui/e-alarm-list.c:412
+#: calendar/gui/e-alarm-list.c:416
 msgid "1 hour"
 msgstr "1 saat"
 
-#: calendar/gui/e-alarm-list.c:417
+#: calendar/gui/e-alarm-list.c:421
 #, c-format
 msgid "%d minutes"
 msgstr "%d dakika"
 
-#: calendar/gui/e-alarm-list.c:420
+#: calendar/gui/e-alarm-list.c:424
 msgid "1 minute"
 msgstr "1 dakika"
 
-#: calendar/gui/e-alarm-list.c:425
+#: calendar/gui/e-alarm-list.c:429
 #, c-format
 msgid "%d seconds"
 msgstr "%d saniye"
 
-#: calendar/gui/e-alarm-list.c:428
+#: calendar/gui/e-alarm-list.c:432
 msgid "1 second"
 msgstr "1 saniye"
 
-#: calendar/gui/e-alarm-list.c:465
+#: calendar/gui/e-alarm-list.c:469
 msgid "Send an email"
 msgstr "Bir e-posta gönder"
 
-#: calendar/gui/e-alarm-list.c:475
+#: calendar/gui/e-alarm-list.c:479
 msgid "Unknown action to be performed"
 msgstr "Bilinmeyen eylem"
 
-#: calendar/gui/e-alarm-list.c:487
+#: calendar/gui/e-alarm-list.c:491
 #, c-format
 msgid "%s %s before the start of the appointment"
 msgstr ""
 
-#: calendar/gui/e-alarm-list.c:490
+#: calendar/gui/e-alarm-list.c:494
 #, c-format
 msgid "%s %s after the start of the appointment"
 msgstr ""
 
-#: calendar/gui/e-alarm-list.c:495
+#: calendar/gui/e-alarm-list.c:499
 #, c-format
 msgid "%s at the start of the appointment"
 msgstr ""
 
-#: calendar/gui/e-alarm-list.c:504
+#: calendar/gui/e-alarm-list.c:508
 #, c-format
 msgid "%s %s before the end of the appointment"
 msgstr ""
 
-#: calendar/gui/e-alarm-list.c:507
+#: calendar/gui/e-alarm-list.c:511
 #, fuzzy, c-format
 msgid "%s %s after the end of the appointment"
 msgstr "randevu başlangıcı"
 
-#: calendar/gui/e-alarm-list.c:512
+#: calendar/gui/e-alarm-list.c:516
 #, fuzzy, c-format
 msgid "%s at the end of the appointment"
 msgstr "randevu sonu"
 
-#: calendar/gui/e-alarm-list.c:536
+#: calendar/gui/e-alarm-list.c:540
 #, fuzzy, c-format
 msgid "%s at %s"
 msgstr "%s sunucu %s"
 
-#: calendar/gui/e-alarm-list.c:542
+#: calendar/gui/e-alarm-list.c:546
 #, c-format
 msgid "%s for an unknown trigger type"
 msgstr ""
@@ -5164,12 +5173,12 @@ msgid "100%"
 msgstr "%100"
 
 #: calendar/gui/e-calendar-table.c:726 calendar/gui/e-day-view.c:2869
-#: calendar/gui/e-week-view.c:2021
+#: calendar/gui/e-week-view.c:2022
 msgid "Deleting selected objects"
 msgstr "Seçilen bağlantılar siliniyor"
 
-#: calendar/gui/e-calendar-table.c:958 calendar/gui/e-day-view.c:3739
-#: calendar/gui/e-week-view.c:3707 mail/folder-browser.c:1785
+#: calendar/gui/e-calendar-table.c:958 calendar/gui/e-day-view.c:3737
+#: calendar/gui/e-week-view.c:3723 mail/folder-browser.c:1787
 #: shell/e-shortcuts-view.c:422 ui/evolution-addressbook.xml.h:36
 msgid "_Open"
 msgstr "_Aç"
@@ -5178,30 +5187,31 @@ msgstr "_Aç"
 msgid "_Save as..."
 msgstr "_Farklı kaydet..."
 
-#: calendar/gui/e-calendar-table.c:960 calendar/gui/e-day-view.c:3741
-#: calendar/gui/e-week-view.c:3682 calendar/gui/e-week-view.c:3709
+#: calendar/gui/e-calendar-table.c:960 calendar/gui/e-day-view.c:3739
+#: calendar/gui/e-week-view.c:3698 calendar/gui/e-week-view.c:3725
 #: ui/evolution-addressbook.xml.h:38 ui/evolution-calendar.xml.h:33
-#: ui/evolution-contact-editor.xml.h:14 ui/evolution-mail-message.xml.h:108
-#: ui/evolution-tasks.xml.h:21 ui/my-evolution.xml.h:6
+#: ui/evolution-comp-editor.xml.h:19 ui/evolution-contact-editor.xml.h:14
+#: ui/evolution-mail-message.xml.h:108 ui/evolution-tasks.xml.h:21
+#: ui/my-evolution.xml.h:6
 msgid "_Print..."
 msgstr "_Yazdır..."
 
-#: calendar/gui/e-calendar-table.c:964 calendar/gui/e-day-view.c:3746
-#: calendar/gui/e-week-view.c:3714 ui/evolution-addressbook.xml.h:1
+#: calendar/gui/e-calendar-table.c:964 calendar/gui/e-day-view.c:3744
+#: calendar/gui/e-week-view.c:3730 ui/evolution-addressbook.xml.h:1
 #: ui/evolution-calendar.xml.h:1 ui/evolution-tasks.xml.h:1
 msgid "C_ut"
 msgstr "_Kes"
 
-#: calendar/gui/e-calendar-table.c:965 calendar/gui/e-day-view.c:3747
-#: calendar/gui/e-week-view.c:3715 ui/evolution-addressbook.xml.h:30
+#: calendar/gui/e-calendar-table.c:965 calendar/gui/e-day-view.c:3745
+#: calendar/gui/e-week-view.c:3731 ui/evolution-addressbook.xml.h:30
 #: ui/evolution-calendar.xml.h:29 ui/evolution-composer-entries.xml.h:7
 #: ui/evolution-mail-list.xml.h:24 ui/evolution-tasks.xml.h:16
 msgid "_Copy"
 msgstr "_Kopyala"
 
-#: calendar/gui/e-calendar-table.c:966 calendar/gui/e-day-view.c:3712
-#: calendar/gui/e-day-view.c:3748 calendar/gui/e-week-view.c:3686
-#: calendar/gui/e-week-view.c:3716 ui/evolution-addressbook.xml.h:37
+#: calendar/gui/e-calendar-table.c:966 calendar/gui/e-day-view.c:3710
+#: calendar/gui/e-day-view.c:3746 calendar/gui/e-week-view.c:3702
+#: calendar/gui/e-week-view.c:3732 ui/evolution-addressbook.xml.h:37
 #: ui/evolution-calendar.xml.h:32 ui/evolution-composer-entries.xml.h:9
 #: ui/evolution-mail-list.xml.h:29 ui/evolution-tasks.xml.h:20
 msgid "_Paste"
@@ -5227,12 +5237,12 @@ msgstr "_Seçilen Görevleri Bitmiş Olarak İşaretle"
 msgid "_Delete Selected Tasks"
 msgstr "_Seçilen Görevleri Sil"
 
-#: calendar/gui/e-calendar-table.c:1265 calendar/gui/e-day-view.c:8018
-#: calendar/gui/e-week-view.c:4431
+#: calendar/gui/e-calendar-table.c:1269 calendar/gui/e-day-view.c:8022
+#: calendar/gui/e-week-view.c:4447
 msgid "Updating objects"
 msgstr "Öğeler güncelleniyor"
 
-#: calendar/gui/e-calendar-table.c:1348
+#: calendar/gui/e-calendar-table.c:1352
 #: calendar/gui/e-calendar-table.etspec.h:6
 msgid "Click to add a task"
 msgstr "Görev eklemek için tıklayın"
@@ -5242,7 +5252,7 @@ msgid "Alarms"
 msgstr "Uyarılar"
 
 #: calendar/gui/e-calendar-table.etspec.h:7 camel/camel-filter-driver.c:1156
-#: camel/camel-filter-driver.c:1251
+#: camel/camel-filter-driver.c:1251 mail/mail-send-recv.c:584
 msgid "Complete"
 msgstr "Tamamlandı"
 
@@ -5281,14 +5291,14 @@ msgid "Task sort"
 msgstr "Görev sıralama"
 
 #. strftime format of a weekday, a date and a time, 24-hour.
-#: calendar/gui/e-cell-date-edit-text.c:118 e-util/e-time-utils.c:167
-#: e-util/e-time-utils.c:380
+#: calendar/gui/e-cell-date-edit-text.c:118 e-util/e-time-utils.c:180
+#: e-util/e-time-utils.c:393
 msgid "%a %m/%d/%Y %H:%M:%S"
 msgstr "%d/%m/%Y %A %H:%M:%S"
 
 #. strftime format of a weekday, a date and a time, 12-hour.
-#: calendar/gui/e-cell-date-edit-text.c:121 e-util/e-time-utils.c:162
-#: e-util/e-time-utils.c:389
+#: calendar/gui/e-cell-date-edit-text.c:121 e-util/e-time-utils.c:175
+#: e-util/e-time-utils.c:402
 msgid "%a %m/%d/%Y %I:%M:%S %p"
 msgstr "%d/%m/%Y %A %I:%M:%S %p"
 
@@ -5323,185 +5333,185 @@ msgid "%d %b"
 msgstr "%d %b"
 
 #. String to use in 12-hour time format for times in the morning.
-#: calendar/gui/e-day-view.c:638 calendar/gui/e-week-view.c:359
+#: calendar/gui/e-day-view.c:638 calendar/gui/e-week-view.c:360
 #: calendar/gui/print.c:809
 msgid "am"
 msgstr "öö"
 
 #. String to use in 12-hour time format for times in the afternoon.
-#: calendar/gui/e-day-view.c:641 calendar/gui/e-week-view.c:362
+#: calendar/gui/e-day-view.c:641 calendar/gui/e-week-view.c:363
 #: calendar/gui/print.c:811
 msgid "pm"
 msgstr "ös"
 
-#: calendar/gui/e-day-view.c:3696
+#: calendar/gui/e-day-view.c:3694
 msgid "New _Appointment"
 msgstr "Yeni _Randevu"
 
-#: calendar/gui/e-day-view.c:3698 calendar/gui/e-week-view.c:3676
+#: calendar/gui/e-day-view.c:3696 calendar/gui/e-week-view.c:3692
 msgid "New All Day _Event"
 msgstr "Y_eni Tüm Gün Olayı"
 
-#: calendar/gui/e-day-view.c:3700 calendar/gui/e-week-view.c:3677
+#: calendar/gui/e-day-view.c:3698 calendar/gui/e-week-view.c:3693
 msgid "New Meeting"
 msgstr "Yeni Toplantı"
 
-#: calendar/gui/e-day-view.c:3702 calendar/gui/e-week-view.c:3678
+#: calendar/gui/e-day-view.c:3700 calendar/gui/e-week-view.c:3694
 msgid "New Task"
 msgstr "Yeni Görev"
 
-#: calendar/gui/e-day-view.c:3707 ui/evolution-comp-editor.xml.h:11
+#: calendar/gui/e-day-view.c:3705
 msgid "Print..."
 msgstr "Yazdır..."
 
-#: calendar/gui/e-day-view.c:3719 calendar/gui/e-week-view.c:3692
+#: calendar/gui/e-day-view.c:3717 calendar/gui/e-week-view.c:3708
 #: ui/evolution-calendar.xml.h:13
 msgid "Go to _Today"
 msgstr "_Bugüne Git"
 
-#: calendar/gui/e-day-view.c:3721 calendar/gui/e-week-view.c:3693
+#: calendar/gui/e-day-view.c:3719 calendar/gui/e-week-view.c:3709
 msgid "_Go to Date..."
 msgstr "_Güne Git..."
 
-#: calendar/gui/e-day-view.c:3726 calendar/gui/e-week-view.c:3697
+#: calendar/gui/e-day-view.c:3724 calendar/gui/e-week-view.c:3713
 #: ui/evolution-calendar.xml.h:34
 msgid "_Publish Free/Busy Information"
 msgstr "_Boş/Meşgul Bilgisini Yayınla"
 
-#: calendar/gui/e-day-view.c:3731 calendar/gui/e-week-view.c:3701
+#: calendar/gui/e-day-view.c:3729 calendar/gui/e-week-view.c:3717
 #: ui/evolution.xml.h:60
 msgid "_Settings..."
 msgstr "_Ayarlar..."
 
-#: calendar/gui/e-day-view.c:3740 calendar/gui/e-week-view.c:3708
-#: mail/folder-browser.c:1787 ui/evolution-mail-message.xml.h:112
+#: calendar/gui/e-day-view.c:3738 calendar/gui/e-week-view.c:3724
+#: mail/folder-browser.c:1789 ui/evolution-mail-message.xml.h:112
 msgid "_Save As..."
 msgstr "_Farklı Kaydet..."
 
-#: calendar/gui/e-day-view.c:3752 calendar/gui/e-week-view.c:3720
+#: calendar/gui/e-day-view.c:3750 calendar/gui/e-week-view.c:3736
 msgid "_Schedule Meeting..."
 msgstr "_Toplantı Tarihi Ayarla..."
 
-#: calendar/gui/e-day-view.c:3753 calendar/gui/e-week-view.c:3721
+#: calendar/gui/e-day-view.c:3751 calendar/gui/e-week-view.c:3737
 msgid "_Forward as iCalendar..."
 msgstr "_iCalendar olarak Yönlendir..."
 
-#: calendar/gui/e-day-view.c:3758 calendar/gui/e-week-view.c:3726
+#: calendar/gui/e-day-view.c:3756 calendar/gui/e-week-view.c:3742
 msgid "Make this Occurrence _Movable"
 msgstr "Bu _Oluşumu Taşınabilir Yap"
 
-#: calendar/gui/e-day-view.c:3759 calendar/gui/e-week-view.c:3727
+#: calendar/gui/e-day-view.c:3757 calendar/gui/e-week-view.c:3743
 msgid "Delete this _Occurrence"
 msgstr "_Bu Oluşumu Sil"
 
-#: calendar/gui/e-day-view.c:3760 calendar/gui/e-week-view.c:3728
+#: calendar/gui/e-day-view.c:3758 calendar/gui/e-week-view.c:3744
 msgid "Delete _All Occurrences"
 msgstr "_Tüm Oluşumları Sil"
 
-#: calendar/gui/e-itip-control.c:706
+#: calendar/gui/e-itip-control.c:676
 msgid "Yes. (Complex Recurrence)"
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:718
+#: calendar/gui/e-itip-control.c:688
 msgid "Every day"
 msgstr "Her gün"
 
-#: calendar/gui/e-itip-control.c:720
+#: calendar/gui/e-itip-control.c:690
 #, c-format
 msgid "Every %d days"
 msgstr "Her %d gün"
 
-#: calendar/gui/e-itip-control.c:726
+#: calendar/gui/e-itip-control.c:696
 msgid "Every week"
 msgstr "Her hafta"
 
-#: calendar/gui/e-itip-control.c:728
+#: calendar/gui/e-itip-control.c:698
 #, c-format
 msgid "Every %d weeks"
 msgstr "Her %d hafta"
 
-#: calendar/gui/e-itip-control.c:731
+#: calendar/gui/e-itip-control.c:701
 msgid "Every week on "
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:733
+#: calendar/gui/e-itip-control.c:703
 #, fuzzy, c-format
 msgid "Every %d weeks on "
 msgstr "%d hafta"
 
-#: calendar/gui/e-itip-control.c:741
+#: calendar/gui/e-itip-control.c:711
 msgid " and "
 msgstr " ve "
 
-#: calendar/gui/e-itip-control.c:748
+#: calendar/gui/e-itip-control.c:718
 #, c-format
 msgid "The %s day of "
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:761
+#: calendar/gui/e-itip-control.c:731
 #, c-format
 msgid "The %s %s of "
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:766
+#: calendar/gui/e-itip-control.c:736
 msgid "every month"
 msgstr "her ay"
 
-#: calendar/gui/e-itip-control.c:771
+#: calendar/gui/e-itip-control.c:741
 #, c-format
 msgid "every %d months"
 msgstr "her %d ayda"
 
-#: calendar/gui/e-itip-control.c:777
+#: calendar/gui/e-itip-control.c:747
 msgid "Every year"
 msgstr "Her yıl"
 
-#: calendar/gui/e-itip-control.c:779
+#: calendar/gui/e-itip-control.c:749
 #, c-format
 msgid "Every %d years"
 msgstr "Her %d yıl"
 
-#: calendar/gui/e-itip-control.c:791
+#: calendar/gui/e-itip-control.c:761
 #, c-format
 msgid " a total of %d times"
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:799
+#: calendar/gui/e-itip-control.c:769
 msgid ", ending on "
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:823
+#: calendar/gui/e-itip-control.c:793
 msgid "<b>Starts:</b> "
 msgstr "<b>Başlangıç:</b> "
 
-#: calendar/gui/e-itip-control.c:833
+#: calendar/gui/e-itip-control.c:803
 msgid "<b>Ends:</b> "
 msgstr "<b>Bitiş: </b>"
 
-#: calendar/gui/e-itip-control.c:853
+#: calendar/gui/e-itip-control.c:823
 msgid "<b>Completed:</b> "
 msgstr "<b>Tamamlanan:</b> "
 
-#: calendar/gui/e-itip-control.c:863
+#: calendar/gui/e-itip-control.c:833
 msgid "<b>Due:</b> "
 msgstr "<b>Son tarih:</b> "
 
-#: calendar/gui/e-itip-control.c:900 calendar/gui/e-itip-control.c:953
+#: calendar/gui/e-itip-control.c:870 calendar/gui/e-itip-control.c:923
 msgid "iCalendar Information"
 msgstr "iCalendar Bilgisi"
 
 #. Title
-#: calendar/gui/e-itip-control.c:915
+#: calendar/gui/e-itip-control.c:885
 msgid "iCalendar Error"
 msgstr "iCalendar Hatası"
 
-#: calendar/gui/e-itip-control.c:984 calendar/gui/e-itip-control.c:1000
-#: calendar/gui/e-itip-control.c:1011 calendar/gui/e-itip-control.c:1028
+#: calendar/gui/e-itip-control.c:954 calendar/gui/e-itip-control.c:970
+#: calendar/gui/e-itip-control.c:981 calendar/gui/e-itip-control.c:998
 msgid "An unknown person"
 msgstr "Bilinmeyen kişi"
 
 #. Describe what the user can do
-#: calendar/gui/e-itip-control.c:1035
+#: calendar/gui/e-itip-control.c:1005
 msgid ""
 "<br> Please review the following information, and then select an action from "
 "the menu below."
@@ -5509,338 +5519,338 @@ msgstr ""
 "<br> Lütfen bu bilgilerin doğruluğunu denetledikten sonra, aşağıdaki menüden "
 "bir işlem seçiniz."
 
-#: calendar/gui/e-itip-control.c:1050
+#: calendar/gui/e-itip-control.c:1020
 msgid "<i>None</i>"
 msgstr "<i>Hiçbiri</i>"
 
-#: calendar/gui/e-itip-control.c:1061
+#: calendar/gui/e-itip-control.c:1031
 msgid "Location:"
 msgstr "Konum: "
 
-#: calendar/gui/e-itip-control.c:1075
+#: calendar/gui/e-itip-control.c:1045
 msgid "Status:"
 msgstr "Durum:"
 
-#: calendar/gui/e-itip-control.c:1080 calendar/gui/e-meeting-model.c:286
-#: calendar/gui/e-meeting-model.c:309 calendar/gui/e-meeting-model.c:798
+#: calendar/gui/e-itip-control.c:1050 calendar/gui/e-meeting-model.c:286
+#: calendar/gui/e-meeting-model.c:309 calendar/gui/e-meeting-model.c:801
 #: calendar/gui/itip-utils.c:419
 msgid "Accepted"
 msgstr "Onaylandı"
 
-#: calendar/gui/e-itip-control.c:1084 calendar/gui/itip-utils.c:422
+#: calendar/gui/e-itip-control.c:1054 calendar/gui/itip-utils.c:422
 #, fuzzy
 msgid "Tentatively Accepted"
 msgstr "Girişimli"
 
-#: calendar/gui/e-itip-control.c:1088 calendar/gui/e-meeting-model.c:288
-#: calendar/gui/e-meeting-model.c:311 calendar/gui/e-meeting-model.c:799
+#: calendar/gui/e-itip-control.c:1058 calendar/gui/e-meeting-model.c:288
+#: calendar/gui/e-meeting-model.c:311 calendar/gui/e-meeting-model.c:802
 #: calendar/gui/itip-utils.c:425 calendar/gui/itip-utils.c:451
 msgid "Declined"
 msgstr "Reddedildi"
 
-#: calendar/gui/e-itip-control.c:1092 calendar/gui/e-itip-control.c:1300
+#: calendar/gui/e-itip-control.c:1062 calendar/gui/e-itip-control.c:1270
 #: calendar/gui/e-meeting-model.c:222 calendar/gui/e-meeting-model.c:257
-#: calendar/gui/e-meeting-model.c:322 calendar/gui/e-meeting-model.c:756
-#: calendar/gui/e-meeting-model.c:772 camel/camel-gpg-context.c:1574
+#: calendar/gui/e-meeting-model.c:322 calendar/gui/e-meeting-model.c:759
+#: calendar/gui/e-meeting-model.c:775 camel/camel-gpg-context.c:1574
 #: camel/camel-gpg-context.c:1625 camel/camel-tcp-stream-openssl.c:634
 #: camel/providers/smtp/camel-smtp-transport.c:173
 #: camel/providers/smtp/camel-smtp-transport.c:228 mail/folder-browser.c:347
-#: mail/mail-display.c:984 widgets/misc/e-charset-picker.c:60
+#: mail/mail-display.c:936 widgets/misc/e-charset-picker.c:60
 msgid "Unknown"
 msgstr "Bilinmiyor"
 
-#: calendar/gui/e-itip-control.c:1147 calendar/gui/e-itip-control.c:1175
-#: calendar/gui/e-itip-control.c:1201 calendar/gui/e-itip-control.c:1214
-#: calendar/gui/e-itip-control.c:1227 calendar/gui/e-itip-control.c:1240
+#: calendar/gui/e-itip-control.c:1117 calendar/gui/e-itip-control.c:1145
+#: calendar/gui/e-itip-control.c:1171 calendar/gui/e-itip-control.c:1184
+#: calendar/gui/e-itip-control.c:1197 calendar/gui/e-itip-control.c:1210
 msgid "Choose an action:"
 msgstr "Bir eylem seçin:"
 
-#: calendar/gui/e-itip-control.c:1148
+#: calendar/gui/e-itip-control.c:1118
 msgid "Update"
 msgstr "Güncelle"
 
-#: calendar/gui/e-itip-control.c:1149 calendar/gui/e-itip-control.c:1180
-#: calendar/gui/e-itip-control.c:1203 calendar/gui/e-itip-control.c:1216
-#: calendar/gui/e-itip-control.c:1229 calendar/gui/e-itip-control.c:1242
+#: calendar/gui/e-itip-control.c:1119 calendar/gui/e-itip-control.c:1150
+#: calendar/gui/e-itip-control.c:1173 calendar/gui/e-itip-control.c:1186
+#: calendar/gui/e-itip-control.c:1199 calendar/gui/e-itip-control.c:1212
 #: shell/e-shell.c:2067 widgets/misc/e-cell-date-edit.c:265
 msgid "OK"
 msgstr "Tamam"
 
-#: calendar/gui/e-itip-control.c:1176
+#: calendar/gui/e-itip-control.c:1146
 msgid "Accept"
 msgstr "Onayla"
 
-#: calendar/gui/e-itip-control.c:1177
+#: calendar/gui/e-itip-control.c:1147
 #, fuzzy
 msgid "Tentatively accept"
 msgstr "Girişimli"
 
-#: calendar/gui/e-itip-control.c:1178
+#: calendar/gui/e-itip-control.c:1148
 msgid "Decline"
 msgstr "Reddet"
 
-#: calendar/gui/e-itip-control.c:1202
+#: calendar/gui/e-itip-control.c:1172
 msgid "Send Free/Busy Information"
 msgstr "Boş/Meşgul Bilgisi Gönder"
 
-#: calendar/gui/e-itip-control.c:1215
+#: calendar/gui/e-itip-control.c:1185
 msgid "Update respondent status"
 msgstr "Cevaplayan Bilgisini Güncelle"
 
-#: calendar/gui/e-itip-control.c:1228
+#: calendar/gui/e-itip-control.c:1198
 msgid "Send Latest Information"
 msgstr "Güncel Bilgiyi Gönder"
 
-#: calendar/gui/e-itip-control.c:1241 calendar/gui/itip-utils.c:439
-#: mail/mail-send-recv.c:387 mail/mail-send-recv.c:444
-#: shell/evolution-shell-component.c:1182 ui/evolution-mail-global.xml.h:1
+#: calendar/gui/e-itip-control.c:1211 calendar/gui/itip-utils.c:439
+#: mail/mail-send-recv.c:389 mail/mail-send-recv.c:446
+#: shell/evolution-shell-component.c:1185 ui/evolution-mail-global.xml.h:1
 msgid "Cancel"
 msgstr "İptal"
 
-#: calendar/gui/e-itip-control.c:1322
+#: calendar/gui/e-itip-control.c:1292
 #, c-format
 msgid "<b>%s</b> has published meeting information."
 msgstr "<b>%s</b>, toplantı bilgisi gönderdi."
 
-#: calendar/gui/e-itip-control.c:1323
+#: calendar/gui/e-itip-control.c:1293
 msgid "Meeting Information"
 msgstr "Toplantı Bilgisi"
 
-#: calendar/gui/e-itip-control.c:1328
+#: calendar/gui/e-itip-control.c:1298
 #, c-format
 msgid "<b>%s</b> requests the presence of %s at a meeting."
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:1330
+#: calendar/gui/e-itip-control.c:1300
 #, c-format
 msgid "<b>%s</b> requests your presence at a meeting."
 msgstr "<b>%s</b> sizin toplantıda olmanızı istiyor."
 
-#: calendar/gui/e-itip-control.c:1331
+#: calendar/gui/e-itip-control.c:1301
 msgid "Meeting Proposal"
 msgstr "Toplantı Taslağı"
 
-#: calendar/gui/e-itip-control.c:1335
+#: calendar/gui/e-itip-control.c:1305
 #, c-format
 msgid "<b>%s</b> wishes to add to an existing meeting."
 msgstr "<b>%s</b> mevcut bir toplantıya ekleme yapmak istiyor"
 
-#: calendar/gui/e-itip-control.c:1336
+#: calendar/gui/e-itip-control.c:1306
 msgid "Meeting Update"
 msgstr "Toplantı Güncellemesi"
 
-#: calendar/gui/e-itip-control.c:1340
+#: calendar/gui/e-itip-control.c:1310
 #, c-format
 msgid "<b>%s</b> wishes to receive the latest meeting information."
 msgstr "<b>%s</b> son toplantı bilgisini almak istiyor."
 
-#: calendar/gui/e-itip-control.c:1341
+#: calendar/gui/e-itip-control.c:1311
 msgid "Meeting Update Request"
 msgstr "Toplantı Güncelleme Bilgisi İsteği"
 
-#: calendar/gui/e-itip-control.c:1348
+#: calendar/gui/e-itip-control.c:1318
 #, c-format
 msgid "<b>%s</b> has replied to a meeting request."
 msgstr "<b>%s</b> bir toplantı isteğine cevap verdi."
 
-#: calendar/gui/e-itip-control.c:1349
+#: calendar/gui/e-itip-control.c:1319
 msgid "Meeting Reply"
 msgstr "Toplantı Yanıtı"
 
-#: calendar/gui/e-itip-control.c:1356
+#: calendar/gui/e-itip-control.c:1326
 #, c-format
 msgid "<b>%s</b> has cancelled a meeting."
 msgstr "<b>%s</b> bir toplantıyı iptal etti."
 
-#: calendar/gui/e-itip-control.c:1357
+#: calendar/gui/e-itip-control.c:1327
 msgid "Meeting Cancellation"
 msgstr "Toplantı İptali"
 
-#: calendar/gui/e-itip-control.c:1364 calendar/gui/e-itip-control.c:1431
-#: calendar/gui/e-itip-control.c:1466
+#: calendar/gui/e-itip-control.c:1334 calendar/gui/e-itip-control.c:1401
+#: calendar/gui/e-itip-control.c:1436
 #, c-format
 msgid "<b>%s</b> has sent an unintelligible message."
 msgstr "<b>%s</b> hatalı bir mesaj gönderdi."
 
-#: calendar/gui/e-itip-control.c:1365
+#: calendar/gui/e-itip-control.c:1335
 msgid "Bad Meeting Message"
 msgstr "Hatalı Toplantı İletisi"
 
-#: calendar/gui/e-itip-control.c:1389
+#: calendar/gui/e-itip-control.c:1359
 #, c-format
 msgid "<b>%s</b> has published task information."
 msgstr "<b>%s</b> görev bilgisi yayınladı."
 
-#: calendar/gui/e-itip-control.c:1390
+#: calendar/gui/e-itip-control.c:1360
 msgid "Task Information"
 msgstr "Görev Bilgisi"
 
-#: calendar/gui/e-itip-control.c:1395
+#: calendar/gui/e-itip-control.c:1365
 #, c-format
 msgid "<b>%s</b> requests %s to perform a task."
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:1397
+#: calendar/gui/e-itip-control.c:1367
 #, c-format
 msgid "<b>%s</b> requests you perform a task."
 msgstr "<b>%s</b> bir görevi tamamlamanızı istiyor."
 
-#: calendar/gui/e-itip-control.c:1398
+#: calendar/gui/e-itip-control.c:1368
 msgid "Task Proposal"
 msgstr "Görev Taslağı"
 
-#: calendar/gui/e-itip-control.c:1402
+#: calendar/gui/e-itip-control.c:1372
 #, c-format
 msgid "<b>%s</b> wishes to add to an existing task."
 msgstr "<b>%s</b> mevcut bir göreve eklenti yapmak istiyor."
 
-#: calendar/gui/e-itip-control.c:1403
+#: calendar/gui/e-itip-control.c:1373
 msgid "Task Update"
 msgstr "Görev Güncellemesi"
 
-#: calendar/gui/e-itip-control.c:1407
+#: calendar/gui/e-itip-control.c:1377
 #, c-format
 msgid "<b>%s</b> wishes to receive the latest task information."
 msgstr "<b>%s</b> en güncel görev bilgisini almak istiyor."
 
-#: calendar/gui/e-itip-control.c:1408
+#: calendar/gui/e-itip-control.c:1378
 msgid "Task Update Request"
 msgstr "Güncel Görev Bilgisi İsteği"
 
-#: calendar/gui/e-itip-control.c:1415
+#: calendar/gui/e-itip-control.c:1385
 #, c-format
 msgid "<b>%s</b> has replied to a task assignment."
 msgstr "<b>%s</b> bir görev tanımına cevap verdi."
 
-#: calendar/gui/e-itip-control.c:1416
+#: calendar/gui/e-itip-control.c:1386
 msgid "Task Reply"
 msgstr "Görev Yanıtı"
 
-#: calendar/gui/e-itip-control.c:1423
+#: calendar/gui/e-itip-control.c:1393
 #, c-format
 msgid "<b>%s</b> has cancelled a task."
 msgstr "<b>%s</b> bir görevi iptal etti."
 
-#: calendar/gui/e-itip-control.c:1424
+#: calendar/gui/e-itip-control.c:1394
 msgid "Task Cancellation"
 msgstr "Görev İptali"
 
-#: calendar/gui/e-itip-control.c:1432
+#: calendar/gui/e-itip-control.c:1402
 msgid "Bad Task Message"
 msgstr "Hatalı Görev İletisi"
 
-#: calendar/gui/e-itip-control.c:1451
+#: calendar/gui/e-itip-control.c:1421
 #, c-format
 msgid "<b>%s</b> has published free/busy information."
 msgstr "<b>%s</b> boş/meşgul bilgisi gönderdi."
 
-#: calendar/gui/e-itip-control.c:1452
+#: calendar/gui/e-itip-control.c:1422
 msgid "Free/Busy Information"
 msgstr "Boş/Meşgul Bilgisi"
 
-#: calendar/gui/e-itip-control.c:1456
+#: calendar/gui/e-itip-control.c:1426
 #, c-format
 msgid "<b>%s</b> requests your free/busy information."
 msgstr "<b>%s</b> sizden boş/meşgul bilgisini almak istiyor."
 
-#: calendar/gui/e-itip-control.c:1457
+#: calendar/gui/e-itip-control.c:1427
 msgid "Free/Busy Request"
 msgstr "Boş/Meşgul İsteği"
 
-#: calendar/gui/e-itip-control.c:1461
+#: calendar/gui/e-itip-control.c:1431
 #, c-format
 msgid "<b>%s</b> has replied to a free/busy request."
 msgstr "<b>%s</b> bir boş/meşgul isteğine cevap verdi."
 
-#: calendar/gui/e-itip-control.c:1462
+#: calendar/gui/e-itip-control.c:1432
 msgid "Free/Busy Reply"
 msgstr "Boş/Meşgul Cevabı"
 
-#: calendar/gui/e-itip-control.c:1467
+#: calendar/gui/e-itip-control.c:1437
 msgid "Bad Free/Busy Message"
 msgstr "Hatalı Boş/Meşgul İletisi"
 
-#: calendar/gui/e-itip-control.c:1543
+#: calendar/gui/e-itip-control.c:1513
 msgid "The message does not appear to be properly formed"
 msgstr "Bu mesaj düzgün değil"
 
-#: calendar/gui/e-itip-control.c:1606
+#: calendar/gui/e-itip-control.c:1576
 msgid "The message contains only unsupported requests."
 msgstr "Bu iletide desteklenmeyen bilgiler var."
 
-#: calendar/gui/e-itip-control.c:1637 calendar/gui/e-itip-control.c:1643
+#: calendar/gui/e-itip-control.c:1607 calendar/gui/e-itip-control.c:1613
 msgid "The attachment does not contain a valid calendar message"
 msgstr "Bu eklenti geçerli bir takvim mesajını içermiyor."
 
-#: calendar/gui/e-itip-control.c:1668
+#: calendar/gui/e-itip-control.c:1638
 msgid "The attachment has no viewable calendar items"
 msgstr "Bu eklentide görüntülenebilir takvim öğeleri bulunmuyor"
 
-#: calendar/gui/e-itip-control.c:1909 calendar/gui/e-itip-control.c:2001
+#: calendar/gui/e-itip-control.c:1879 calendar/gui/e-itip-control.c:1971
 msgid "Object is invalid and cannot be updated\n"
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:1912 calendar/gui/e-itip-control.c:2004
+#: calendar/gui/e-itip-control.c:1882 calendar/gui/e-itip-control.c:1974
 msgid "There was an error on the CORBA system\n"
 msgstr "CORBA sisteminde bir hata oluştu\n"
 
-#: calendar/gui/e-itip-control.c:1915 calendar/gui/e-itip-control.c:2007
+#: calendar/gui/e-itip-control.c:1885 calendar/gui/e-itip-control.c:1977
 msgid "Object could not be found\n"
 msgstr "Öğe bulunamadı\n"
 
-#: calendar/gui/e-itip-control.c:1918
+#: calendar/gui/e-itip-control.c:1888
 msgid "You do not have the right permissions to update the calendar\n"
 msgstr "Bu takvimi güncellemek için yeterli izniniz yoktur\n"
 
-#: calendar/gui/e-itip-control.c:1921
+#: calendar/gui/e-itip-control.c:1891
 msgid "Update complete\n"
 msgstr "Güncelleme tamamlandı\n"
 
-#: calendar/gui/e-itip-control.c:1924
+#: calendar/gui/e-itip-control.c:1894
 msgid "Calendar file could not be updated!\n"
 msgstr "Takvim dosyası güncellenemedi!\n"
 
-#: calendar/gui/e-itip-control.c:1953 calendar/gui/e-itip-control.c:2019
+#: calendar/gui/e-itip-control.c:1923 calendar/gui/e-itip-control.c:1989
 msgid "Attendee status can not be updated because the item no longer exists"
 msgstr "Bu öğe yerinde bulunamadığı için katılımcı bilgileri güncellenemedi"
 
-#: calendar/gui/e-itip-control.c:1974
+#: calendar/gui/e-itip-control.c:1944
 msgid "This response is not from a current attendee.  Add as an attendee?"
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:1986
+#: calendar/gui/e-itip-control.c:1956
 msgid "Attendee status could not be updated because of an invalid status!\n"
 msgstr "Katılımcı bilgileri geçersiz bir durum nedeniyle güncellenemedi!\n"
 
-#: calendar/gui/e-itip-control.c:2010
+#: calendar/gui/e-itip-control.c:1980
 msgid "You don't have the right permissions to update the calendar\n"
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:2013
+#: calendar/gui/e-itip-control.c:1983
 msgid "Attendee status updated\n"
 msgstr "Katılımcı bilgileri güncellendi\n"
 
-#: calendar/gui/e-itip-control.c:2016
+#: calendar/gui/e-itip-control.c:1986
 msgid "Attendee status could not be updated!\n"
 msgstr "Katılımcı bilgileri güncellenemedi!\n"
 
-#: calendar/gui/e-itip-control.c:2053
+#: calendar/gui/e-itip-control.c:2023
 msgid "Removal Complete"
 msgstr "Bitiş Tamamlandı"
 
-#: calendar/gui/e-itip-control.c:2085 calendar/gui/e-itip-control.c:2135
+#: calendar/gui/e-itip-control.c:2055 calendar/gui/e-itip-control.c:2105
 msgid "Item sent!\n"
 msgstr "Öğe gönderildi!\n"
 
-#: calendar/gui/e-itip-control.c:2087 calendar/gui/e-itip-control.c:2139
+#: calendar/gui/e-itip-control.c:2057 calendar/gui/e-itip-control.c:2109
 msgid "The item could not be sent!\n"
 msgstr "Öğe gönderilemedi!\n"
 
-#: calendar/gui/e-itip-control.c:2212
+#: calendar/gui/e-itip-control.c:2200
 msgid "Select Calendar Folder"
 msgstr "Takvim Dizinini Seçin"
 
-#: calendar/gui/e-itip-control.c:2219
+#: calendar/gui/e-itip-control.c:2206
 msgid "Select Tasks Folder"
 msgstr "Görevler Dizinini Seçin"
 
@@ -5885,7 +5895,7 @@ msgstr "başlangıç-tarihi"
 msgid "Chair Persons"
 msgstr "Toplantıyı Yönetenler"
 
-#: calendar/gui/e-meeting-model.c:80 calendar/gui/e-meeting-model.c:1636
+#: calendar/gui/e-meeting-model.c:80 calendar/gui/e-meeting-model.c:1639
 msgid "Required Participants"
 msgstr "Gerekli Katılımcılar"
 
@@ -5898,57 +5908,57 @@ msgid "Resources"
 msgstr "Kaynaklar"
 
 #: calendar/gui/e-meeting-model.c:197 calendar/gui/e-meeting-model.c:214
-#: calendar/gui/e-meeting-model.c:530 calendar/gui/e-meeting-model.c:752
+#: calendar/gui/e-meeting-model.c:530 calendar/gui/e-meeting-model.c:755
 msgid "Individual"
 msgstr "Bireysel"
 
 #: calendar/gui/e-meeting-model.c:199 calendar/gui/e-meeting-model.c:216
-#: calendar/gui/e-meeting-model.c:753
+#: calendar/gui/e-meeting-model.c:756
 msgid "Group"
 msgstr "Grup"
 
 #: calendar/gui/e-meeting-model.c:201 calendar/gui/e-meeting-model.c:218
-#: calendar/gui/e-meeting-model.c:754
+#: calendar/gui/e-meeting-model.c:757
 msgid "Resource"
 msgstr "Kaynak"
 
 #: calendar/gui/e-meeting-model.c:203 calendar/gui/e-meeting-model.c:220
-#: calendar/gui/e-meeting-model.c:755
+#: calendar/gui/e-meeting-model.c:758
 msgid "Room"
 msgstr "Oda"
 
 #: calendar/gui/e-meeting-model.c:232 calendar/gui/e-meeting-model.c:249
-#: calendar/gui/e-meeting-model.c:768
+#: calendar/gui/e-meeting-model.c:771
 msgid "Chair"
 msgstr "Sandalye"
 
 #: calendar/gui/e-meeting-model.c:234 calendar/gui/e-meeting-model.c:251
-#: calendar/gui/e-meeting-model.c:532 calendar/gui/e-meeting-model.c:769
+#: calendar/gui/e-meeting-model.c:532 calendar/gui/e-meeting-model.c:772
 msgid "Required Participant"
 msgstr "Gerekli Katılımcı"
 
 #: calendar/gui/e-meeting-model.c:236 calendar/gui/e-meeting-model.c:253
-#: calendar/gui/e-meeting-model.c:770
+#: calendar/gui/e-meeting-model.c:773
 msgid "Optional Participant"
 msgstr "Seçimlik Katılımcı"
 
 #: calendar/gui/e-meeting-model.c:238 calendar/gui/e-meeting-model.c:255
-#: calendar/gui/e-meeting-model.c:771
+#: calendar/gui/e-meeting-model.c:774
 msgid "Non-Participant"
 msgstr "Katılmayan"
 
 #: calendar/gui/e-meeting-model.c:284 calendar/gui/e-meeting-model.c:307
-#: calendar/gui/e-meeting-model.c:540 calendar/gui/e-meeting-model.c:797
+#: calendar/gui/e-meeting-model.c:540 calendar/gui/e-meeting-model.c:800
 msgid "Needs Action"
 msgstr "İşlem Gerektiriyor"
 
 #: calendar/gui/e-meeting-model.c:290 calendar/gui/e-meeting-model.c:313
-#: calendar/gui/e-meeting-model.c:800 calendar/gui/e-meeting-time-sel.c:405
+#: calendar/gui/e-meeting-model.c:803 calendar/gui/e-meeting-time-sel.c:405
 msgid "Tentative"
 msgstr "Girişimli"
 
 #: calendar/gui/e-meeting-model.c:292 calendar/gui/e-meeting-model.c:315
-#: calendar/gui/e-meeting-model.c:801
+#: calendar/gui/e-meeting-model.c:804
 msgid "Delegated"
 msgstr ""
 
@@ -5966,15 +5976,15 @@ msgstr "%d %B %A, %Y"
 #. This is a strftime() format string %a = abbreviated weekday
 #. name, %m = month number, %d = month day, %Y = full year.
 #: calendar/gui/e-meeting-time-sel-item.c:462
-#: calendar/gui/e-meeting-time-sel.c:2131 e-util/e-time-utils.c:190
-#: e-util/e-time-utils.c:283 e-util/e-time-utils.c:371
+#: calendar/gui/e-meeting-time-sel.c:2131 e-util/e-time-utils.c:203
+#: e-util/e-time-utils.c:296 e-util/e-time-utils.c:384
 msgid "%a %m/%d/%Y"
 msgstr "%d %b %Y %a"
 
 #. This is a strftime() format string %m = month number,
 #. %d = month day, %Y = full year.
-#: calendar/gui/e-meeting-time-sel-item.c:466 e-util/e-time-utils.c:225
-#: e-util/e-time-utils.c:286 widgets/misc/e-dateedit.c:1582
+#: calendar/gui/e-meeting-time-sel-item.c:466 e-util/e-time-utils.c:238
+#: e-util/e-time-utils.c:299 widgets/misc/e-dateedit.c:1594
 msgid "%m/%d/%Y"
 msgstr "%d/%m/%Y"
 
@@ -6080,7 +6090,7 @@ msgstr "Seçilen öğeler siliniyor..."
 msgid "Expunging"
 msgstr "Siliniyor"
 
-#: calendar/gui/e-week-view.c:3675
+#: calendar/gui/e-week-view.c:3691
 msgid "New _Appointment..."
 msgstr "Yeni _Randevu..."
 
@@ -8228,11 +8238,11 @@ msgstr ""
 "Arama deyimi çalıştırılamadı: %s:\n"
 "%s"
 
-#: camel/camel-folder-search.c:575 camel/camel-folder-search.c:603
+#: camel/camel-folder-search.c:569 camel/camel-folder-search.c:598
 msgid "(match-all) requires a single bool result"
 msgstr "(hepsini-eşle) boolean sonuç içermelidir"
 
-#: camel/camel-folder-search.c:655
+#: camel/camel-folder-search.c:650
 #, c-format
 msgid "Performing query on unknown header: %s"
 msgstr "Bilinmeyen başlık üzerinde arama yapılıyor: %s"
@@ -8288,7 +8298,7 @@ msgstr ""
 
 #: camel/camel-gpg-context.c:821 camel/camel-gpg-context.c:1297
 #: camel/camel-gpg-context.c:1403 camel/camel-gpg-context.c:1473
-#: camel/camel-gpg-context.c:1529 mail/mail-send-recv.c:577
+#: camel/camel-gpg-context.c:1529 mail/mail-send-recv.c:580
 msgid "Cancelled."
 msgstr "İptal edildi."
 
@@ -8705,55 +8715,55 @@ msgstr ""
 msgid "Regular expression compilation failed: %s: %s"
 msgstr "Düzgün deyim derleme işlemi başarısız: %s: %s"
 
-#: camel/camel-service.c:282
+#: camel/camel-service.c:284
 #, c-format
 msgid "URL '%s' needs a username component"
 msgstr "'%s' URL'inde kullanıcı bilgisi bulunmuyor"
 
-#: camel/camel-service.c:290
+#: camel/camel-service.c:292
 #, c-format
 msgid "URL '%s' needs a host component"
 msgstr "'%s' URL'inde makine adı bilgisi bulunmuyor"
 
-#: camel/camel-service.c:298
+#: camel/camel-service.c:300
 #, c-format
 msgid "URL '%s' needs a path component"
 msgstr "'%s' URL'inde dizin bilgisi bulunmuyor"
 
-#: camel/camel-service.c:750
+#: camel/camel-service.c:752
 #, c-format
 msgid "Resolving: %s"
 msgstr "Çözümleniyor: %s"
 
-#: camel/camel-service.c:783 camel/camel-service.c:915
+#: camel/camel-service.c:786 camel/camel-service.c:919
 #, c-format
 msgid "Failure in name lookup: %s"
 msgstr "İsim çözümlemesinde hata: %s"
 
-#: camel/camel-service.c:804
+#: camel/camel-service.c:807 camel/camel-service.c:940
 #, fuzzy, c-format
 msgid "Host lookup failed: cannot create thread: %s"
 msgstr "Makine adı çözümlemesinde hata: Bilinmeyen hata"
 
-#: camel/camel-service.c:818
+#: camel/camel-service.c:821
 #, c-format
 msgid "Host lookup failed: %s: host not found"
 msgstr "Makine adı çözümlemesinde hata: %s: Makine bulunamadı"
 
-#: camel/camel-service.c:821
+#: camel/camel-service.c:824
 #, c-format
 msgid "Host lookup failed: %s: unknown reason"
 msgstr "Makine adı çözümlemesinde hata: %s: bilinmeyen hata"
 
-#: camel/camel-service.c:880
+#: camel/camel-service.c:883
 msgid "Resolving address"
 msgstr "Adres çözümleniyor"
 
-#: camel/camel-service.c:949
+#: camel/camel-service.c:956
 msgid "Host lookup failed: host not found"
 msgstr "Makine adı çözümlemesinde hata: Makine bulunamadı"
 
-#: camel/camel-service.c:952
+#: camel/camel-service.c:959
 msgid "Host lookup failed: unknown reason"
 msgstr "Makine adı çözümlemesinde hata: Bilinmeyen hata"
 
@@ -10227,7 +10237,7 @@ msgstr "%s üzerinden STMP ileti gönderimi"
 msgid "Cannot send message: sender address not valid."
 msgstr "İleti gönderilemiyor: gönderen adresi geçersiz"
 
-#: camel/providers/smtp/camel-smtp-transport.c:691 mail/mail-ops.c:613
+#: camel/providers/smtp/camel-smtp-transport.c:691 mail/mail-ops.c:637
 msgid "Sending message"
 msgstr "Gönderilen iletiler"
 
@@ -10334,35 +10344,35 @@ msgstr "QUIT isteğinde zaman aşımı: %s"
 msgid "QUIT response error"
 msgstr "QUIT cevap hatası"
 
-#: composer/e-msg-composer-attachment-bar.c:102
+#: composer/e-msg-composer-attachment-bar.c:103
 #, c-format
 msgid "%.0fK"
 msgstr "%.0fK"
 
-#: composer/e-msg-composer-attachment-bar.c:105
+#: composer/e-msg-composer-attachment-bar.c:106
 #, c-format
 msgid "%.0fM"
 msgstr "%.0fM"
 
-#: composer/e-msg-composer-attachment-bar.c:108
+#: composer/e-msg-composer-attachment-bar.c:109
 #, c-format
 msgid "%.0fG"
 msgstr "%.0fG"
 
 #. This is a filename. Translators take note.
-#: composer/e-msg-composer-attachment-bar.c:370 mail/mail-display.c:228
+#: composer/e-msg-composer-attachment-bar.c:313 mail/mail-display.c:226
 msgid "attachment"
 msgstr "ek"
 
-#: composer/e-msg-composer-attachment-bar.c:508
+#: composer/e-msg-composer-attachment-bar.c:451
 msgid "Remove selected items from the attachment list"
 msgstr "Seçili dosyaları ekler listesinden sil"
 
-#: composer/e-msg-composer-attachment-bar.c:538
+#: composer/e-msg-composer-attachment-bar.c:481
 msgid "Add attachment..."
 msgstr "Dosya ekle..."
 
-#: composer/e-msg-composer-attachment-bar.c:539
+#: composer/e-msg-composer-attachment-bar.c:482
 msgid "Attach a file to the message"
 msgstr "İletiyi bir dosya ekle"
 
@@ -10396,8 +10406,11 @@ msgid "Suggest automatic display of attachment"
 msgstr "Eklentinin otomatik gösterimini öner"
 
 #: composer/e-msg-composer-hdrs.c:290
-msgid "Hey you, dunce. You need an account to send mail doncha know."
+#, fuzzy
+msgid "You need to configure an account before you can compose mail."
 msgstr ""
+"İleti göndermeden önce kendinize\n"
+"ait bir kimlik oluşturmalısınız."
 
 #: composer/e-msg-composer-hdrs.c:483
 msgid "Click here for the address book"
@@ -10475,11 +10488,11 @@ msgstr "Açıklama yok"
 msgid "Attach file(s)"
 msgstr "Bir dosya ekle"
 
-#: composer/e-msg-composer.c:540
+#: composer/e-msg-composer.c:542
 msgid "Could not create a PGP signature context"
 msgstr "PGP imza içeriği yaratılamadı"
 
-#: composer/e-msg-composer.c:819
+#: composer/e-msg-composer.c:821
 #, c-format
 msgid ""
 "Error while reading file %s:\n"
@@ -10488,31 +10501,31 @@ msgstr ""
 "%s dosyasını yüklerken hata oldu:\n"
 "%s"
 
-#: composer/e-msg-composer.c:1182
+#: composer/e-msg-composer.c:1184
 msgid "File exists, overwrite?"
 msgstr "Dosya var. Üzerine yazılsın mı?"
 
-#: composer/e-msg-composer.c:1200
+#: composer/e-msg-composer.c:1202
 #, c-format
 msgid "Error saving file: %s"
 msgstr "%s dosyasını kaydederken hata oldu"
 
-#: composer/e-msg-composer.c:1223
+#: composer/e-msg-composer.c:1225
 #, c-format
 msgid "Error loading file: %s"
 msgstr "`%s' dosyasını yüklerken hata oldu"
 
-#: composer/e-msg-composer.c:1261
+#: composer/e-msg-composer.c:1263
 #, c-format
 msgid "Error accessing file: %s"
 msgstr "Dosyaya erişirken hata oldu: %s"
 
-#: composer/e-msg-composer.c:1269
+#: composer/e-msg-composer.c:1271
 #, fuzzy
 msgid "Unable to retrieve message from editor"
 msgstr "%s üzerindeki POP sunucusundan iletiler alınamadı: "
 
-#: composer/e-msg-composer.c:1276
+#: composer/e-msg-composer.c:1278
 #, fuzzy, c-format
 msgid ""
 "Unable to seek on file: %s\n"
@@ -10521,7 +10534,7 @@ msgstr ""
 "Çıkış dosyası yaratılamadı: %s\n"
 " %s"
 
-#: composer/e-msg-composer.c:1283
+#: composer/e-msg-composer.c:1285
 #, fuzzy, c-format
 msgid ""
 "Unable to truncate file: %s\n"
@@ -10530,7 +10543,7 @@ msgstr ""
 "Çıkış dosyası yaratılamadı: %s\n"
 " %s"
 
-#: composer/e-msg-composer.c:1292
+#: composer/e-msg-composer.c:1294
 #, fuzzy, c-format
 msgid ""
 "Unable to copy file descriptor: %s\n"
@@ -10539,7 +10552,7 @@ msgstr ""
 "Çıkış dosyası yaratılamadı: %s\n"
 " %s"
 
-#: composer/e-msg-composer.c:1301
+#: composer/e-msg-composer.c:1303
 #, c-format
 msgid ""
 "Error autosaving message: %s\n"
@@ -10548,7 +10561,7 @@ msgstr ""
 "İletilerin otomatik kaydında hata: %s\n"
 " %s"
 
-#: composer/e-msg-composer.c:1398
+#: composer/e-msg-composer.c:1400
 msgid ""
 "Ximian Evolution has found unsaved files from a previous session.\n"
 "Would you like to try to recover them?"
@@ -10556,7 +10569,7 @@ msgstr ""
 "Evolution, önceki oturumlardan kaydedilmemiş dosyalar saptadı.\n"
 "Bunları kurtarmak istiyor musunuz?"
 
-#: composer/e-msg-composer.c:1561
+#: composer/e-msg-composer.c:1563
 #, c-format
 msgid ""
 "The message \"%s\" has not been sent.\n"
@@ -10567,23 +10580,23 @@ msgstr ""
 "\n"
 "Değişiklikleri kaydetmek istiyor musunuz?"
 
-#: composer/e-msg-composer.c:1570
+#: composer/e-msg-composer.c:1572
 msgid "Warning: Modified Message"
 msgstr "Uyarı: İleti Değiştirildi"
 
-#: composer/e-msg-composer.c:1602
+#: composer/e-msg-composer.c:1604
 msgid "Open file"
 msgstr "Dosyayı aç"
 
-#: composer/e-msg-composer.c:2026
+#: composer/e-msg-composer.c:2028
 msgid "Signature:"
 msgstr "İmza:"
 
-#: composer/e-msg-composer.c:2066 mail/mail-account-gui.c:1261
+#: composer/e-msg-composer.c:2068 mail/mail-account-gui.c:1261
 msgid "Autogenerated"
 msgstr "Otomatik"
 
-#: composer/e-msg-composer.c:2242 composer/e-msg-composer.c:2911
+#: composer/e-msg-composer.c:2244 composer/e-msg-composer.c:2911
 #: composer/e-msg-composer.c:2912
 msgid "Compose a message"
 msgstr "Bir ileti yaz"
@@ -10615,17 +10628,17 @@ msgstr ""
 "E-posta düzenleme penceresi açılmadı, çünkü adınızı ve\n"
 "e-posta bilgilerinizi girmediniz."
 
-#: composer/e-msg-composer.c:4064
+#: composer/e-msg-composer.c:4073
 msgid ""
 "<b>(The composer contains a non-text message body, which cannot be edited.)"
 "<b>"
 msgstr "<b>(Burada düzenlenmesi mümkün olmayan bir bilgi vardır.)<b>"
 
-#: data/evolution.desktop.in.h:1
+#: data/evolution.desktop.in.in.h:1
 msgid "The Evolution groupware suite"
 msgstr "Evolution kitlesel işlemler uygulaması"
 
-#: data/evolution.desktop.in.h:2
+#: data/evolution.desktop.in.in.h:2
 msgid "Ximian Evolution"
 msgstr "Ximian Evolution"
 
@@ -10778,7 +10791,7 @@ msgstr ""
 "Aynı isimde bir dosya zaten var\n"
 "Üzerine yazılsın mı?"
 
-#: e-util/e-dialog-utils.c:249 mail/mail-display.c:201
+#: e-util/e-dialog-utils.c:249 mail/mail-display.c:199
 msgid "Overwrite file?"
 msgstr "Dosya üzerine yazılsın mı?"
 
@@ -10801,87 +10814,87 @@ msgstr "Kategoriler"
 
 #. strptime format of a weekday, a date and a time,
 #. in 12-hour format, without seconds.
-#: e-util/e-time-utils.c:172 e-util/e-time-utils.c:385
+#: e-util/e-time-utils.c:185 e-util/e-time-utils.c:398
 msgid "%a %m/%d/%Y %I:%M %p"
 msgstr "%d/%m/%Y %A %I:%M %p"
 
 #. strptime format of a weekday, a date and a time,
 #. in 24-hour format, without seconds.
-#: e-util/e-time-utils.c:177 e-util/e-time-utils.c:376
+#: e-util/e-time-utils.c:190 e-util/e-time-utils.c:389
 msgid "%a %m/%d/%Y %H:%M"
 msgstr "%d/%m/%Y %A %H:%M"
 
 #. strptime format of a weekday, a date and a time,
 #. in 12-hour format, without minutes or seconds.
-#: e-util/e-time-utils.c:182
+#: e-util/e-time-utils.c:195
 msgid "%a %m/%d/%Y %I %p"
 msgstr "%d/%m/%Y %A %I %p"
 
 #. strptime format of a weekday, a date and a time,
 #. in 24-hour format, without minutes or seconds.
-#: e-util/e-time-utils.c:187
+#: e-util/e-time-utils.c:200
 msgid "%a %m/%d/%Y %H"
 msgstr "%d/%m/%Y %A %H"
 
 #. strptime format of a date and a time, in 12-hour format.
-#: e-util/e-time-utils.c:198
+#: e-util/e-time-utils.c:211
 msgid "%m/%d/%Y %I:%M:%S %p"
 msgstr "%d/%m/%Y %I:%M:%S %p"
 
 #. strptime format of a date and a time, in 24-hour format.
-#: e-util/e-time-utils.c:202
+#: e-util/e-time-utils.c:215
 msgid "%m/%d/%Y %H:%M:%S"
 msgstr "%d/%m/%Y %H:%M:%S"
 
 #. strptime format of a date and a time, in 12-hour format,
 #. without seconds.
-#: e-util/e-time-utils.c:207
+#: e-util/e-time-utils.c:220
 msgid "%m/%d/%Y %I:%M %p"
 msgstr "%d/%m/%Y %I:%M %p"
 
 #. strptime format of a date and a time, in 24-hour format,
 #. without seconds.
-#: e-util/e-time-utils.c:212
+#: e-util/e-time-utils.c:225
 msgid "%m/%d/%Y %H:%M"
 msgstr "%d/%m/%Y %H:%M"
 
 #. strptime format of a date and a time, in 12-hour format,
 #. without minutes or seconds.
-#: e-util/e-time-utils.c:217
+#: e-util/e-time-utils.c:230
 msgid "%m/%d/%Y %I %p"
 msgstr "%d/%m/%Y %I %p"
 
 #. strptime format of a date and a time, in 24-hour format,
 #. without minutes or seconds.
-#: e-util/e-time-utils.c:222
+#: e-util/e-time-utils.c:235
 msgid "%m/%d/%Y %H"
 msgstr "%d/%m/%Y %H"
 
 #. strptime format for a time of day, in 12-hour format.
-#: e-util/e-time-utils.c:326 e-util/e-time-utils.c:425
+#: e-util/e-time-utils.c:339 e-util/e-time-utils.c:438
 msgid "%I:%M:%S %p"
 msgstr "%I:%M:%S %p"
 
 #. strptime format for a time of day, in 24-hour format.
-#: e-util/e-time-utils.c:330 e-util/e-time-utils.c:417
+#: e-util/e-time-utils.c:343 e-util/e-time-utils.c:430
 msgid "%H:%M:%S"
 msgstr "%H:%M:%S"
 
 #. strptime format for time of day, without seconds,
 #. in 12-hour format.
-#: e-util/e-time-utils.c:335 e-util/e-time-utils.c:422
-#: widgets/misc/e-dateedit.c:1404 widgets/misc/e-dateedit.c:1617
+#: e-util/e-time-utils.c:348 e-util/e-time-utils.c:435
+#: widgets/misc/e-dateedit.c:1404 widgets/misc/e-dateedit.c:1629
 msgid "%I:%M %p"
 msgstr "%I:%M %p"
 
 #. strptime format for time of day, without seconds 24-hour format.
-#: e-util/e-time-utils.c:339 e-util/e-time-utils.c:414
-#: widgets/misc/e-dateedit.c:1401 widgets/misc/e-dateedit.c:1614
+#: e-util/e-time-utils.c:352 e-util/e-time-utils.c:427
+#: widgets/misc/e-dateedit.c:1401 widgets/misc/e-dateedit.c:1626
 msgid "%H:%M"
 msgstr "%H:%M"
 
 #. strptime format for hour and AM/PM, 12-hour format.
-#: e-util/e-time-utils.c:343
+#: e-util/e-time-utils.c:356
 msgid "%I %p"
 msgstr "%I %p"
 
@@ -11016,32 +11029,32 @@ msgstr ""
 "`%s' düzgün deyiminde hata var:\n"
 "%s"
 
-#: filter/filter-label.c:121 filter/libfilter-i18n.h:26 mail/mail-config.c:65
-#: mail/mail-config.glade.h:62 shell/e-config-upgrade.c:1411
+#: filter/filter-label.c:121 filter/libfilter-i18n.h:17 mail/mail-config.c:65
+#: mail/mail-config.glade.h:62 shell/e-config-upgrade.c:1454
 msgid "Important"
 msgstr "Önemli"
 
 #. red
 #: filter/filter-label.c:122 mail/mail-config.c:66
-#: mail/mail-config.glade.h:129 shell/e-config-upgrade.c:1412
+#: mail/mail-config.glade.h:129 shell/e-config-upgrade.c:1455
 msgid "Work"
 msgstr "İş"
 
 #. orange
 #: filter/filter-label.c:123 mail/mail-config.c:67 mail/mail-config.glade.h:84
-#: shell/e-config-upgrade.c:1413
+#: shell/e-config-upgrade.c:1456
 msgid "Personal"
 msgstr "Kişisel"
 
 #. forest green
 #: filter/filter-label.c:124 mail/mail-config.c:68
-#: mail/mail-config.glade.h:120 shell/e-config-upgrade.c:1414
+#: mail/mail-config.glade.h:120 shell/e-config-upgrade.c:1457
 msgid "To Do"
 msgstr "Yapılacaklar"
 
 #. blue
 #: filter/filter-label.c:125 mail/mail-config.c:69 mail/mail-config.glade.h:66
-#: shell/e-config-upgrade.c:1415
+#: shell/e-config-upgrade.c:1458
 msgid "Later"
 msgstr "Sonra"
 
@@ -11202,225 +11215,225 @@ msgid "Beep"
 msgstr "Biple"
 
 #: filter/libfilter-i18n.h:7
-msgid "contains"
-msgstr "içerir"
-
-#: filter/libfilter-i18n.h:8
 msgid "Copy to Folder"
 msgstr "Dizine Kopyala"
 
-#: filter/libfilter-i18n.h:9
+#: filter/libfilter-i18n.h:8
 msgid "Date received"
 msgstr "Alınma tarihi"
 
-#: filter/libfilter-i18n.h:10
+#: filter/libfilter-i18n.h:9
 msgid "Date sent"
 msgstr "Gönderilme tarihi"
 
-#: filter/libfilter-i18n.h:12
+#: filter/libfilter-i18n.h:11
 msgid "Deleted"
 msgstr "Silinen"
 
-#: filter/libfilter-i18n.h:13
-msgid "does not contain"
-msgstr "içermez"
-
-#: filter/libfilter-i18n.h:14
-msgid "does not end with"
-msgstr "sonlanmaz"
-
-#: filter/libfilter-i18n.h:15
-msgid "does not exist"
-msgstr "bulunmaz"
-
-#: filter/libfilter-i18n.h:16
-#, fuzzy
-msgid "does not return"
-msgstr "bulunmaz"
-
-#: filter/libfilter-i18n.h:17
-msgid "does not sound like"
-msgstr "benzemez"
-
-#: filter/libfilter-i18n.h:18
-msgid "does not start with"
-msgstr "başlamaz"
-
-#: filter/libfilter-i18n.h:19
+#: filter/libfilter-i18n.h:12
 msgid "Do Not Exist"
 msgstr "Bulunmaz"
 
-#: filter/libfilter-i18n.h:20
+#: filter/libfilter-i18n.h:13
 msgid "Draft"
 msgstr "Taslak"
 
-#: filter/libfilter-i18n.h:21
-msgid "ends with"
-msgstr "biter"
-
-#: filter/libfilter-i18n.h:22
+#: filter/libfilter-i18n.h:14
 msgid "Exist"
 msgstr "bulunur"
 
-#: filter/libfilter-i18n.h:23
-msgid "exists"
-msgstr "bulunur"
-
-#: filter/libfilter-i18n.h:24
+#: filter/libfilter-i18n.h:15
 msgid "Expression"
 msgstr "Deyim"
 
-#: filter/libfilter-i18n.h:25
+#: filter/libfilter-i18n.h:16
 msgid "Follow Up"
 msgstr ""
 
-#: filter/libfilter-i18n.h:27
-msgid "is"
-msgstr "eşittir"
-
-#: filter/libfilter-i18n.h:28
-#, fuzzy
-msgid "is after"
-msgstr "sonra"
-
-#: filter/libfilter-i18n.h:29
-#, fuzzy
-msgid "is before"
-msgstr "önce"
-
-#: filter/libfilter-i18n.h:30
-#, fuzzy
-msgid "is Flagged"
-msgstr "İşaretli"
-
-#: filter/libfilter-i18n.h:31
-msgid "is greater than"
-msgstr "büyük"
-
-#: filter/libfilter-i18n.h:32
-msgid "is less than"
-msgstr "küçük"
-
-#: filter/libfilter-i18n.h:33
-msgid "is not"
-msgstr "değil"
-
-#: filter/libfilter-i18n.h:34
-#, fuzzy
-msgid "is not Flagged"
-msgstr "İşaretli"
-
-#: filter/libfilter-i18n.h:35 mail/folder-browser.c:1822
+#: filter/libfilter-i18n.h:18 mail/folder-browser.c:1824
 msgid "Label"
 msgstr "Etiket"
 
-#: filter/libfilter-i18n.h:36
+#: filter/libfilter-i18n.h:19
 msgid "Mailing list"
 msgstr "E-posta listesi"
 
-#: filter/libfilter-i18n.h:37
+#: filter/libfilter-i18n.h:20
 msgid "Message Body"
 msgstr "İleti Gövdesi"
 
-#: filter/libfilter-i18n.h:38
+#: filter/libfilter-i18n.h:21
 msgid "Message Header"
 msgstr "İleti Başlığı"
 
-#: filter/libfilter-i18n.h:39
+#: filter/libfilter-i18n.h:22
 msgid "Move to Folder"
 msgstr "Dizine Taşı"
 
-#: filter/libfilter-i18n.h:40
+#: filter/libfilter-i18n.h:23
 #, fuzzy
 msgid "Pipe Message to Shell Command"
 msgstr "Bağlantıya İleti Gönder"
 
-#: filter/libfilter-i18n.h:41
+#: filter/libfilter-i18n.h:24
 #, fuzzy
 msgid "Play Sound"
 msgstr "Ses çal:"
 
-#: filter/libfilter-i18n.h:42 mail/message-tag-followup.c:68
+#: filter/libfilter-i18n.h:25 mail/message-tag-followup.c:68
 msgid "Read"
 msgstr "Oku"
 
-#: filter/libfilter-i18n.h:43
+#: filter/libfilter-i18n.h:26
 msgid "Recipients"
 msgstr "Alıcılar"
 
-#: filter/libfilter-i18n.h:44
+#: filter/libfilter-i18n.h:27
 msgid "Regex Match"
 msgstr "Düzgün Deyim Eşleşimi"
 
-#: filter/libfilter-i18n.h:45
+#: filter/libfilter-i18n.h:28
 msgid "Replied to"
 msgstr "Cevaplanan"
 
-#: filter/libfilter-i18n.h:46
-#, fuzzy
-msgid "returns"
-msgstr "Burns"
-
-#: filter/libfilter-i18n.h:47
-#, fuzzy
-msgid "returns greater than"
-msgstr "büyük"
-
-#: filter/libfilter-i18n.h:48
-#, fuzzy
-msgid "returns less than"
-msgstr "küçük"
-
-#: filter/libfilter-i18n.h:49 filter/score-rule.c:184 filter/score-rule.c:186
+#: filter/libfilter-i18n.h:29 filter/score-rule.c:184 filter/score-rule.c:186
 #: mail/message-list.etspec.h:10
 msgid "Score"
 msgstr "Puan"
 
-#: filter/libfilter-i18n.h:50 mail/mail-callbacks.c:1820
+#: filter/libfilter-i18n.h:30 mail/mail-callbacks.c:1820
 msgid "Sender"
 msgstr "Gönderen"
 
-#: filter/libfilter-i18n.h:51
+#: filter/libfilter-i18n.h:31
 msgid "Set Status"
 msgstr "Durum belirt"
 
-#: filter/libfilter-i18n.h:52
+#: filter/libfilter-i18n.h:32
 msgid "Shell Command"
 msgstr "Kabuk Komutu"
 
-#: filter/libfilter-i18n.h:53
+#: filter/libfilter-i18n.h:33
 msgid "Size (kB)"
 msgstr "Boyut (Kb)"
 
-#: filter/libfilter-i18n.h:54
-msgid "sounds like"
-msgstr "benzer"
-
-#: filter/libfilter-i18n.h:55
+#: filter/libfilter-i18n.h:34
 msgid "Source Account"
 msgstr "Kaynak Hesap"
 
-#: filter/libfilter-i18n.h:56
+#: filter/libfilter-i18n.h:35
 msgid "Specific header"
 msgstr "Özel başlık"
 
-#: filter/libfilter-i18n.h:57
-msgid "starts with"
-msgstr "başlayan"
-
-#: filter/libfilter-i18n.h:59
+#: filter/libfilter-i18n.h:37
 msgid "Stop Processing"
 msgstr "İşlemeyi Durdur"
 
-#: filter/libfilter-i18n.h:60 mail/mail-format.c:934
+#: filter/libfilter-i18n.h:38 mail/mail-format.c:937
 #: mail/message-list.etspec.h:13 mail/message-tag-followup.c:305
 msgid "Subject"
 msgstr "Konu"
 
-#: filter/libfilter-i18n.h:61
+#: filter/libfilter-i18n.h:39
 #, fuzzy
 msgid "Unset Status"
 msgstr "Durum belirt"
+
+#: filter/libfilter-i18n.h:40
+msgid "contains"
+msgstr "içerir"
+
+#: filter/libfilter-i18n.h:41
+msgid "does not contain"
+msgstr "içermez"
+
+#: filter/libfilter-i18n.h:42
+msgid "does not end with"
+msgstr "sonlanmaz"
+
+#: filter/libfilter-i18n.h:43
+msgid "does not exist"
+msgstr "bulunmaz"
+
+#: filter/libfilter-i18n.h:44
+#, fuzzy
+msgid "does not return"
+msgstr "bulunmaz"
+
+#: filter/libfilter-i18n.h:45
+msgid "does not sound like"
+msgstr "benzemez"
+
+#: filter/libfilter-i18n.h:46
+msgid "does not start with"
+msgstr "başlamaz"
+
+#: filter/libfilter-i18n.h:47
+msgid "ends with"
+msgstr "biter"
+
+#: filter/libfilter-i18n.h:48
+msgid "exists"
+msgstr "bulunur"
+
+#: filter/libfilter-i18n.h:49
+#, fuzzy
+msgid "is Flagged"
+msgstr "İşaretli"
+
+#: filter/libfilter-i18n.h:50
+#, fuzzy
+msgid "is after"
+msgstr "sonra"
+
+#: filter/libfilter-i18n.h:51
+#, fuzzy
+msgid "is before"
+msgstr "önce"
+
+#: filter/libfilter-i18n.h:52
+msgid "is greater than"
+msgstr "büyük"
+
+#: filter/libfilter-i18n.h:53
+msgid "is less than"
+msgstr "küçük"
+
+#: filter/libfilter-i18n.h:54
+#, fuzzy
+msgid "is not Flagged"
+msgstr "İşaretli"
+
+#: filter/libfilter-i18n.h:55
+msgid "is not"
+msgstr "değil"
+
+#: filter/libfilter-i18n.h:56
+msgid "is"
+msgstr "eşittir"
+
+#: filter/libfilter-i18n.h:57
+#, fuzzy
+msgid "returns greater than"
+msgstr "büyük"
+
+#: filter/libfilter-i18n.h:58
+#, fuzzy
+msgid "returns less than"
+msgstr "küçük"
+
+#: filter/libfilter-i18n.h:59
+#, fuzzy
+msgid "returns"
+msgstr "Burns"
+
+#: filter/libfilter-i18n.h:60
+msgid "sounds like"
+msgstr "benzer"
+
+#: filter/libfilter-i18n.h:61
+msgid "starts with"
+msgstr "başlayan"
 
 #: filter/rule-context.c:664 filter/rule-editor.c:241 filter/rule-editor.c:326
 #: mail/mail-vfolder.c:917
@@ -11566,7 +11579,7 @@ msgstr "Evolution, Netscape verilerini alıyor."
 
 #. Fill in the new fields
 #: importers/netscape-importer.c:1872 mail/importers/netscape-importer.c:1842
-#: mail/mail-ops.c:1092 shell/e-local-storage.c:184
+#: mail/mail-ops.c:1116 shell/e-local-storage.c:184
 msgid "Trash"
 msgstr "Çöp"
 
@@ -11768,7 +11781,7 @@ msgstr "\"%s\" özellikleri"
 msgid "Properties"
 msgstr "Özellikler"
 
-#: mail/folder-browser.c:329 mail/mail-display.c:395 mail/mail-display.c:973
+#: mail/folder-browser.c:329 mail/mail-display.c:397 mail/mail-display.c:925
 #, c-format
 msgid "Could not create temporary directory: %s"
 msgstr "Geçici dizin yaratılamadı: %s"
@@ -11813,130 +11826,130 @@ msgstr "%d gönderilmiş"
 msgid "%d total"
 msgstr "toplam %d"
 
-#: mail/folder-browser.c:1204
+#: mail/folder-browser.c:1206
 msgid "Create _Virtual Folder From Search..."
 msgstr "Arama sonucundan  _Sanal Dizin Yarat..."
 
-#: mail/folder-browser.c:1758
+#: mail/folder-browser.c:1760
 msgid "VFolder on _Subject"
 msgstr "_Konuya Göre VFolder"
 
-#: mail/folder-browser.c:1759
+#: mail/folder-browser.c:1761
 msgid "VFolder on Se_nder"
 msgstr "_Gönderene Göre VFolder"
 
-#: mail/folder-browser.c:1760
+#: mail/folder-browser.c:1762
 msgid "VFolder on _Recipients"
 msgstr "_Alıcılara Göre VFolder"
 
-#: mail/folder-browser.c:1761
+#: mail/folder-browser.c:1763
 msgid "VFolder on Mailing _List"
 msgstr "_E-posta Listesi Üzerinde VFolder"
 
-#: mail/folder-browser.c:1765
+#: mail/folder-browser.c:1767
 msgid "Filter on Sub_ject"
 msgstr "_Konuya Göre Filtrele"
 
-#: mail/folder-browser.c:1766
+#: mail/folder-browser.c:1768
 msgid "Filter on Sen_der"
 msgstr "_Gönderene Göre Filtrele"
 
-#: mail/folder-browser.c:1767
+#: mail/folder-browser.c:1769
 msgid "Filter on Re_cipients"
 msgstr "_Alıcılara Göre Filtrele"
 
-#: mail/folder-browser.c:1768 mail/folder-browser.c:2092
+#: mail/folder-browser.c:1770 mail/folder-browser.c:2094
 msgid "Filter on _Mailing List"
 msgstr "_E-posta Listesine Göre Filtrele"
 
-#: mail/folder-browser.c:1786
+#: mail/folder-browser.c:1788
 msgid "_Edit as New Message..."
 msgstr "Yeni İleti Olarak _Düzenle..."
 
-#: mail/folder-browser.c:1788
+#: mail/folder-browser.c:1790
 msgid "_Print"
 msgstr "_Yazdır"
 
-#: mail/folder-browser.c:1792 ui/evolution-mail-message.xml.h:110
+#: mail/folder-browser.c:1794 ui/evolution-mail-message.xml.h:110
 msgid "_Reply to Sender"
 msgstr "_Gönderene Cevapla"
 
-#: mail/folder-browser.c:1793 ui/evolution-mail-message.xml.h:75
+#: mail/folder-browser.c:1795 ui/evolution-mail-message.xml.h:75
 msgid "Reply to _List"
 msgstr "_Listeye Cevapla"
 
-#: mail/folder-browser.c:1794 ui/evolution-mail-message.xml.h:74
+#: mail/folder-browser.c:1796 ui/evolution-mail-message.xml.h:74
 msgid "Reply to _All"
 msgstr "_Herkese Cevapla"
 
-#: mail/folder-browser.c:1795
+#: mail/folder-browser.c:1797
 msgid "_Forward"
 msgstr "_Yönlendir"
 
-#: mail/folder-browser.c:1799
+#: mail/folder-browser.c:1801
 msgid "Follo_w Up..."
 msgstr ""
 
-#: mail/folder-browser.c:1800
+#: mail/folder-browser.c:1802
 #, fuzzy
 msgid "Fla_g Completed"
 msgstr "Tamamlandı"
 
-#: mail/folder-browser.c:1801
+#: mail/folder-browser.c:1803
 msgid "Cl_ear Flag"
 msgstr "_Bayrağı Temizle"
 
 #. separator here?
-#: mail/folder-browser.c:1805 ui/evolution-mail-message.xml.h:43
+#: mail/folder-browser.c:1807 ui/evolution-mail-message.xml.h:43
 msgid "Mar_k as Read"
 msgstr "_Okunmuş Olarak İşaretle"
 
-#: mail/folder-browser.c:1806
+#: mail/folder-browser.c:1808
 msgid "Mark as _Unread"
 msgstr "Oku_nmamış Olarak İşaretle"
 
-#: mail/folder-browser.c:1807
+#: mail/folder-browser.c:1809
 msgid "Mark as _Important"
 msgstr "Ö_nemli Olarak İşaretle"
 
-#: mail/folder-browser.c:1808
+#: mail/folder-browser.c:1810
 msgid "_Mark as Unimportant"
 msgstr "Ö_nemsiz Olarak İşaretle"
 
-#: mail/folder-browser.c:1813
+#: mail/folder-browser.c:1815
 msgid "U_ndelete"
 msgstr "_Silme"
 
-#: mail/folder-browser.c:1817
+#: mail/folder-browser.c:1819
 msgid "Mo_ve to Folder..."
 msgstr "_Dizine Taşı..."
 
-#: mail/folder-browser.c:1818 ui/evolution-addressbook.xml.h:31
+#: mail/folder-browser.c:1820 ui/evolution-addressbook.xml.h:31
 msgid "_Copy to Folder..."
 msgstr "D_izine Kopyala..."
 
-#: mail/folder-browser.c:1826
+#: mail/folder-browser.c:1828
 msgid "Add Sender to Address_book"
 msgstr "_Göndereni Adres Defterine Ekle"
 
-#: mail/folder-browser.c:1830
+#: mail/folder-browser.c:1832
 msgid "Appl_y Filters"
 msgstr "_Filtreleri Uygula"
 
-#: mail/folder-browser.c:1834
+#: mail/folder-browser.c:1836
 msgid "Crea_te Rule From Message"
 msgstr "_Bu İletiden Bir Kural Yarat"
 
-#: mail/folder-browser.c:2093
+#: mail/folder-browser.c:2095
 msgid "VFolder on M_ailing List"
 msgstr "_E-posta Listesi Üzerinde VFolder"
 
-#: mail/folder-browser.c:2095
+#: mail/folder-browser.c:2097
 #, c-format
 msgid "Filter on _Mailing List (%s)"
 msgstr ""
 
-#: mail/folder-browser.c:2096
+#: mail/folder-browser.c:2098
 #, fuzzy, c-format
 msgid "VFolder on M_ailing List (%s)"
 msgstr "E-posta Listesi Üzerinde VFolder (%s)"
@@ -12036,7 +12049,7 @@ msgstr "_Kullanıcı adı:"
 msgid "_Path:"
 msgstr "_Yol:"
 
-#: mail/mail-account-gui.c:1887
+#: mail/mail-account-gui.c:1886
 msgid "You may not create two accounts with the same name."
 msgstr "İki hesabı aynı isimlerle oluşturamazsınız."
 
@@ -12323,7 +12336,7 @@ msgstr "İletiyi Yazdır"
 msgid "Printing of message failed"
 msgstr "İletiyi yazdırılmasında hata"
 
-#: mail/mail-callbacks.c:3147
+#: mail/mail-callbacks.c:3149
 #, c-format
 msgid "Are you sure you want to open all %d messages in separate windows?"
 msgstr "Gerçekten %d iletiyi farklı pencerelerde açmak istiyor musunuz?"
@@ -13019,7 +13032,7 @@ msgstr "S/MIME şifreli zarf içeriği oluşturulamıyor."
 msgid "Could not create a S/MIME decode context."
 msgstr "S/MIME kodlama içeriği oluşturulamıyor."
 
-#: mail/mail-display.c:198
+#: mail/mail-display.c:196
 #, c-format
 msgid ""
 "File `%s' already exists.\n"
@@ -13028,71 +13041,71 @@ msgstr ""
 "%s isimli bir dosya zaten var.\n"
 "Üzerine yazılsın mı?"
 
-#: mail/mail-display.c:337
+#: mail/mail-display.c:339
 msgid "Save Attachment"
 msgstr "Eki Kaydet"
 
-#: mail/mail-display.c:410
+#: mail/mail-display.c:412
 #, c-format
 msgid "Could not create temporary file '%s': %s"
 msgstr "%s geçici dizini yaratılamadı: %s"
 
-#: mail/mail-display.c:478
+#: mail/mail-display.c:484
 msgid "Save Attachment..."
 msgstr "Eki Kaydet..."
 
-#: mail/mail-display.c:479
+#: mail/mail-display.c:485
 msgid "View Inline"
 msgstr "İzle"
 
-#: mail/mail-display.c:480
+#: mail/mail-display.c:486
 #, c-format
 msgid "Open in %s..."
 msgstr "%s içinde aç..."
 
-#: mail/mail-display.c:540
+#: mail/mail-display.c:546
 #, c-format
 msgid "View Inline (via %s)"
 msgstr "İzle (%s kullanarak)"
 
-#: mail/mail-display.c:544
+#: mail/mail-display.c:550
 msgid "Hide"
 msgstr "Gizle"
 
-#: mail/mail-display.c:564
+#: mail/mail-display.c:570
 msgid "External Viewer"
 msgstr "Harici İzleyici"
 
-#: mail/mail-display.c:1404
+#: mail/mail-display.c:1356
 msgid "Downloading images"
 msgstr "Resimleri bilgisayara indir"
 
-#: mail/mail-display.c:1581
+#: mail/mail-display.c:1533
 msgid "Loading message content"
 msgstr "İleti içeriği yükleniyor"
 
-#: mail/mail-display.c:1923
+#: mail/mail-display.c:1875
 msgid "Overdue:"
 msgstr ""
 
-#: mail/mail-display.c:1927
+#: mail/mail-display.c:1879
 #, fuzzy
-msgid "by %B %d, %Y, %l:%M %P"
+msgid "by %B %d, %Y, %l:%M %p"
 msgstr "%d %b %l:%M %p"
 
-#: mail/mail-display.c:2291
+#: mail/mail-display.c:2236
 msgid "Open Link in Browser"
 msgstr "Bağlantıyı Tarayıcıda Aç"
 
-#: mail/mail-display.c:2292
+#: mail/mail-display.c:2237
 msgid "Copy Link Location"
 msgstr "Adresi Kopyala"
 
-#: mail/mail-display.c:2294
+#: mail/mail-display.c:2239
 msgid "Save Link as (FIXME)"
 msgstr "Bağlantıyı Farklı Kaydet"
 
-#: mail/mail-display.c:2296
+#: mail/mail-display.c:2241
 msgid "Save Image as..."
 msgstr "Resmi Farklı Kaydet..."
 
@@ -13101,91 +13114,91 @@ msgstr "Resmi Farklı Kaydet..."
 msgid "Pinging %s"
 msgstr "%s adresine ping gönderiliyor"
 
-#: mail/mail-format.c:665
+#: mail/mail-format.c:668
 #, c-format
 msgid "%s attachment"
 msgstr "%s ek"
 
-#: mail/mail-format.c:707 mail/mail-format.c:1370 mail/mail-format.c:1439
-#: mail/mail-format.c:1559 mail/mail-format.c:1683 mail/mail-format.c:1708
+#: mail/mail-format.c:710 mail/mail-format.c:1528 mail/mail-format.c:1597
+#: mail/mail-format.c:1717 mail/mail-format.c:1841 mail/mail-format.c:1866
 msgid "Could not parse MIME message. Displaying as source."
 msgstr "MIME iletisi açılamadı: Kaynak kodu gösteriliyor."
 
-#: mail/mail-format.c:785 mail/message-list.etspec.h:2
+#: mail/mail-format.c:788 mail/message-list.etspec.h:2
 msgid "Date"
 msgstr "Tarih"
 
-#: mail/mail-format.c:871
+#: mail/mail-format.c:874
 msgid "Bad Address"
 msgstr "Hatalı Adres"
 
-#: mail/mail-format.c:912 mail/message-list.etspec.h:7
+#: mail/mail-format.c:915 mail/message-list.etspec.h:7
 #: mail/message-tag-followup.c:301
 msgid "From"
 msgstr "Gönderen"
 
-#: mail/mail-format.c:916
+#: mail/mail-format.c:919
 msgid "Reply-To"
 msgstr "Yanıtla"
 
-#: mail/mail-format.c:921 mail/message-list.etspec.h:14
+#: mail/mail-format.c:924 mail/message-list.etspec.h:14
 msgid "To"
 msgstr "Alıcı"
 
-#: mail/mail-format.c:926
+#: mail/mail-format.c:929
 msgid "Cc"
 msgstr "Bilgi"
 
-#: mail/mail-format.c:931
+#: mail/mail-format.c:934
 msgid "Bcc"
 msgstr "Gizli"
 
-#: mail/mail-format.c:1482
+#: mail/mail-format.c:1640
 msgid ""
 "This message is digitally signed. Click the lock icon for more information."
 msgstr ""
 "Bu ileti dijital olarak imzalanmıştır ve güvenlidir. Daha fazla bilgi için "
 "kilit simgesi üzerine tıklayın."
 
-#: mail/mail-format.c:1510
+#: mail/mail-format.c:1668
 msgid "Could not create a PGP verfication context"
 msgstr "PGP onaylama dosyası oluşturulamadı."
 
-#: mail/mail-format.c:1518
+#: mail/mail-format.c:1676
 msgid "This message is digitally signed and has been found to be authentic."
 msgstr "Bu ileti dijital olarak imzalanmıştır ve güvenlidir."
 
-#: mail/mail-format.c:1525
+#: mail/mail-format.c:1683
 msgid "This message is digitally signed but can not be proven to be authentic."
 msgstr ""
 "Bu ileti dijital olarak imzalanmış, fakat güvenli olduğu kanıtlanmamıştır."
 
-#: mail/mail-format.c:1789
+#: mail/mail-format.c:1947
 #, c-format
 msgid "Pointer to FTP site (%s)"
 msgstr "FTP adresine bağ (%s)"
 
-#: mail/mail-format.c:1800
+#: mail/mail-format.c:1958
 #, c-format
 msgid "Pointer to local file (%s) valid at site \"%s\""
 msgstr "%s yerel dosyasına bağ (\"%s\" adresinde geçerli)"
 
-#: mail/mail-format.c:1803
+#: mail/mail-format.c:1961
 #, c-format
 msgid "Pointer to local file (%s)"
 msgstr "Yerel dosyaya bağ (%s)"
 
-#: mail/mail-format.c:1830
+#: mail/mail-format.c:1988
 #, c-format
 msgid "Pointer to remote data (%s)"
 msgstr "Uzak veri adresine bağ (%s)"
 
-#: mail/mail-format.c:1836
+#: mail/mail-format.c:1994
 #, c-format
 msgid "Pointer to unknown external data (\"%s\" type)"
 msgstr "Bilinmeyen harici veriye bağ (\"%s\" türünde)"
 
-#: mail/mail-format.c:1838
+#: mail/mail-format.c:1996
 msgid "Malformed external-body part."
 msgstr "Bozuk harici gövde"
 
@@ -13270,106 +13283,119 @@ msgstr "Dizin filtreleniyor"
 msgid "Fetching Mail"
 msgstr "İleti Alınıyor"
 
-#: mail/mail-ops.c:550 mail/mail-ops.c:579
-msgid "However, the message was successfully sent."
-msgstr "Mesaj başarıyla gönderilmiştir."
+#: mail/mail-ops.c:563
+#, fuzzy, c-format
+msgid "Failed to apply outgoing filters: %s"
+msgstr "%s geçici mektup dosyasını oluştururken hata: %s"
 
-#: mail/mail-ops.c:611
+#: mail/mail-ops.c:584
+#, c-format
+msgid ""
+"Failed to append to %s: %s\n"
+"Appending to local `Sent' folder instead."
+msgstr ""
+
+#: mail/mail-ops.c:593
+#, fuzzy, c-format
+msgid "Failed to append to local `Sent' folder: %s"
+msgstr "%s geçici mektup dosyasını oluştururken hata: %s"
+
+#: mail/mail-ops.c:635
 #, c-format
 msgid "Sending \"%s\""
 msgstr "\"%s\" gönderiliyor"
 
-#: mail/mail-ops.c:729
+#: mail/mail-ops.c:753
 #, c-format
 msgid "Sending message %d of %d"
 msgstr "%d / %d ileti gönderiliyor"
 
-#: mail/mail-ops.c:748
+#: mail/mail-ops.c:772
 #, c-format
 msgid "Failed on message %d of %d"
 msgstr "%d/%d iletide hata"
 
-#: mail/mail-ops.c:750 mail/mail-send-recv.c:581
+#: mail/mail-ops.c:774
 msgid "Complete."
 msgstr "Tamamlandı."
 
-#: mail/mail-ops.c:844
+#: mail/mail-ops.c:868
 msgid "Saving message to folder"
 msgstr "İletiler dizine kaydediliyor"
 
-#: mail/mail-ops.c:925
+#: mail/mail-ops.c:949
 #, c-format
 msgid "Moving messages to %s"
 msgstr "İletiler %s'e taşınıyor"
 
-#: mail/mail-ops.c:925
+#: mail/mail-ops.c:949
 #, c-format
 msgid "Copying messages to %s"
 msgstr "İletiler %s'e kopyalanıyor"
 
-#: mail/mail-ops.c:1042
+#: mail/mail-ops.c:1066
 #, c-format
 msgid "Scanning folders in \"%s\""
 msgstr "\"%s\" içinde dizinler taranıyor"
 
-#: mail/mail-ops.c:1225
+#: mail/mail-ops.c:1254
 msgid "Forwarded messages"
 msgstr "Yönlendirilmiş iletiler"
 
-#: mail/mail-ops.c:1268
+#: mail/mail-ops.c:1297
 #, c-format
 msgid "Opening folder %s"
 msgstr "%s dizini açılıyor"
 
-#: mail/mail-ops.c:1340
+#: mail/mail-ops.c:1369
 #, c-format
 msgid "Opening store %s"
 msgstr "%s deposu açılıyor"
 
-#: mail/mail-ops.c:1413
+#: mail/mail-ops.c:1447
 #, c-format
 msgid "Removing folder %s"
 msgstr "%s dizini siliniyor"
 
-#: mail/mail-ops.c:1507
+#: mail/mail-ops.c:1541
 #, c-format
 msgid "Storing folder '%s'"
 msgstr "'%s' dizinine kaydediliyor"
 
-#: mail/mail-ops.c:1558
+#: mail/mail-ops.c:1592
 msgid "Refreshing folder"
 msgstr "Dizin tazeleniyor"
 
-#: mail/mail-ops.c:1594 mail/mail-ops.c:1645
+#: mail/mail-ops.c:1628 mail/mail-ops.c:1679
 msgid "Expunging folder"
 msgstr "Dizin siliniyor"
 
-#: mail/mail-ops.c:1642
+#: mail/mail-ops.c:1676
 #, c-format
 msgid "Emptying trash in '%s'"
 msgstr ""
 
-#: mail/mail-ops.c:1643 my-evolution/e-summary-mail.c:483
+#: mail/mail-ops.c:1677 my-evolution/e-summary-mail.c:483
 #: shell/e-local-storage.c:1151
 msgid "Local Folders"
 msgstr "Yerel Dizinler"
 
-#: mail/mail-ops.c:1718
+#: mail/mail-ops.c:1752
 #, c-format
 msgid "Retrieving message %s"
 msgstr "%s numaralı ileti alınıyor"
 
-#: mail/mail-ops.c:1790
+#: mail/mail-ops.c:1824
 #, c-format
 msgid "Retrieving %d message(s)"
 msgstr "%d ileti alınıyor"
 
-#: mail/mail-ops.c:1876
+#: mail/mail-ops.c:1910
 #, c-format
 msgid "Saving %d messsage(s)"
 msgstr "%d ileti kaydediliyor"
 
-#: mail/mail-ops.c:1924
+#: mail/mail-ops.c:1958
 #, c-format
 msgid ""
 "Unable to create output file: %s\n"
@@ -13378,7 +13404,7 @@ msgstr ""
 "Çıkış dosyası yaratılamadı: %s\n"
 " %s"
 
-#: mail/mail-ops.c:1952
+#: mail/mail-ops.c:1986
 #, c-format
 msgid ""
 "Error saving messages to: %s:\n"
@@ -13387,11 +13413,11 @@ msgstr ""
 "İletilerin kaydında hata: %s:\n"
 " %s"
 
-#: mail/mail-ops.c:2026
+#: mail/mail-ops.c:2060
 msgid "Saving attachment"
 msgstr "Ek kaydediliyor"
 
-#: mail/mail-ops.c:2043
+#: mail/mail-ops.c:2077
 #, c-format
 msgid ""
 "Cannot create output file: %s:\n"
@@ -13400,17 +13426,17 @@ msgstr ""
 "Çıkış dosyası yaratılamadı: %s:\n"
 " %s"
 
-#: mail/mail-ops.c:2073
+#: mail/mail-ops.c:2107
 #, c-format
 msgid "Could not write data: %s"
 msgstr "Veri yazılamadı: %s."
 
-#: mail/mail-ops.c:2221
+#: mail/mail-ops.c:2255
 #, c-format
 msgid "Disconnecting from %s"
 msgstr "%s bağlantısı kesiliyor"
 
-#: mail/mail-ops.c:2221
+#: mail/mail-ops.c:2255
 #, c-format
 msgid "Reconnecting to %s"
 msgstr "%s adresine bağlantı kuruluyor"
@@ -13447,39 +13473,39 @@ msgstr "Bul:"
 msgid "Matches:"
 msgstr "Eşleşenler:"
 
-#: mail/mail-send-recv.c:146
+#: mail/mail-send-recv.c:147
 msgid "Cancelling..."
 msgstr "İptal ediliyor..."
 
-#: mail/mail-send-recv.c:254
+#: mail/mail-send-recv.c:255
 #, c-format
 msgid "Server: %s, Type: %s"
 msgstr "Sunucu: %s, Tür: %s"
 
-#: mail/mail-send-recv.c:256
+#: mail/mail-send-recv.c:257
 #, c-format
 msgid "Path: %s, Type: %s"
 msgstr "Yol: %s, Tür: %s"
 
-#: mail/mail-send-recv.c:258
+#: mail/mail-send-recv.c:259
 #, c-format
 msgid "Type: %s"
 msgstr "Tür: %s"
 
-#: mail/mail-send-recv.c:306
+#: mail/mail-send-recv.c:308
 msgid "Send & Receive Mail"
 msgstr "İletileri Al ve Gönder"
 
-#: mail/mail-send-recv.c:307
+#: mail/mail-send-recv.c:309
 #, fuzzy
 msgid "Cancel _All"
 msgstr "Hepsini İptal Et"
 
-#: mail/mail-send-recv.c:389
+#: mail/mail-send-recv.c:391
 msgid "Updating..."
 msgstr "Güncelleniyor..."
 
-#: mail/mail-send-recv.c:390 mail/mail-send-recv.c:446
+#: mail/mail-send-recv.c:391 mail/mail-send-recv.c:448
 msgid "Waiting..."
 msgstr "Bekleniyor..."
 
@@ -23643,7 +23669,7 @@ msgstr "%k:%M %d %B"
 
 #: my-evolution/e-summary-calendar.c:408
 #, fuzzy
-msgid "%l:%M%P %d %B"
+msgid "%l:%M%p %d %B"
 msgstr "%l:%M %d %B"
 
 #: my-evolution/e-summary-calendar.c:426
@@ -23690,6 +23716,10 @@ msgstr "Gösterilen"
 #: my-evolution/e-summary-tasks.c:330
 msgid "No tasks"
 msgstr "Görev yok"
+
+#: my-evolution/e-summary-tasks.c:364
+msgid "blue"
+msgstr ""
 
 #: my-evolution/e-summary-tasks.c:364
 msgid "(No Description)"
@@ -25603,8 +25633,8 @@ msgstr "Paylaşımlı dizin açılamadı: %s"
 msgid "Cannot find the specified shared folder."
 msgstr "Belirlenen paylaşımlı dizin açılamadı."
 
-#: shell/e-shell-user-creatable-items-handler.c:586
-#: shell/e-shell-user-creatable-items-handler.c:642
+#: shell/e-shell-user-creatable-items-handler.c:587
+#: shell/e-shell-user-creatable-items-handler.c:643
 #: widgets/misc/e-charset-picker.c:109
 msgid "New"
 msgstr "Yeni"
@@ -25982,63 +26012,63 @@ msgstr ""
 "Etkinleştirme sisteminden gelen mesaj:\n"
 "%s"
 
-#: shell/evolution-shell-component.c:1184
+#: shell/evolution-shell-component.c:1187
 msgid "CORBA error"
 msgstr "CORBA hatası"
 
-#: shell/evolution-shell-component.c:1186
+#: shell/evolution-shell-component.c:1189
 msgid "Interrupted"
 msgstr "Kesintiye uğradı"
 
-#: shell/evolution-shell-component.c:1188
+#: shell/evolution-shell-component.c:1191
 msgid "Invalid argument"
 msgstr "Geçersiz argüman"
 
-#: shell/evolution-shell-component.c:1190
+#: shell/evolution-shell-component.c:1193
 msgid "Already has an owner"
 msgstr "Bunun bir sahibi zaten var"
 
-#: shell/evolution-shell-component.c:1192
+#: shell/evolution-shell-component.c:1195
 msgid "No owner"
 msgstr "Sahibi yok"
 
-#: shell/evolution-shell-component.c:1194
+#: shell/evolution-shell-component.c:1197
 msgid "Not found"
 msgstr "Bulunamadı"
 
-#: shell/evolution-shell-component.c:1196
+#: shell/evolution-shell-component.c:1199
 msgid "Unsupported type"
 msgstr "Desteklenmeyen tür"
 
-#: shell/evolution-shell-component.c:1198
+#: shell/evolution-shell-component.c:1201
 msgid "Unsupported schema"
 msgstr "Desteklenmeyen şema"
 
-#: shell/evolution-shell-component.c:1200
+#: shell/evolution-shell-component.c:1203
 msgid "Unsupported operation"
 msgstr "Desteklenmeyen işlem"
 
-#: shell/evolution-shell-component.c:1202
+#: shell/evolution-shell-component.c:1205
 msgid "Internal error"
 msgstr "İç hata"
 
-#: shell/evolution-shell-component.c:1206
+#: shell/evolution-shell-component.c:1209
 msgid "Exists"
 msgstr "Bulunur"
 
-#: shell/evolution-shell-component.c:1208
+#: shell/evolution-shell-component.c:1211
 msgid "Invalid URI"
 msgstr "Geçersiz URI"
 
-#: shell/evolution-shell-component.c:1212
+#: shell/evolution-shell-component.c:1215
 msgid "Has subfolders"
 msgstr "Alt dizinler"
 
-#: shell/evolution-shell-component.c:1214
+#: shell/evolution-shell-component.c:1217
 msgid "No space left"
 msgstr "Hiç boş alan kalmadı"
 
-#: shell/evolution-shell-component.c:1216
+#: shell/evolution-shell-component.c:1219
 msgid "Old owner has died"
 msgstr ""
 
@@ -26407,7 +26437,7 @@ msgid "View the current contact"
 msgstr ""
 
 #: ui/evolution-addressbook.xml.h:29 ui/evolution-calendar.xml.h:28
-#: ui/evolution-comp-editor.xml.h:17 ui/evolution-contact-editor.xml.h:11
+#: ui/evolution-comp-editor.xml.h:16 ui/evolution-contact-editor.xml.h:11
 #: ui/evolution-contact-list-editor.xml.h:10
 #: ui/evolution-event-editor.xml.h:11 ui/evolution-mail-global.xml.h:17
 #: ui/evolution-mail-list.xml.h:23 ui/evolution-mail-message.xml.h:93
@@ -26549,26 +26579,28 @@ msgstr "Yazdırılacak olan öğeyi önizle"
 msgid "Print this item"
 msgstr "Bu öğeyi yazdır"
 
-#: ui/evolution-comp-editor.xml.h:12 ui/evolution-message-composer.xml.h:16
-#: ui/evolution-signature-editor.xml.h:5
-msgid "Save"
-msgstr "Kaydet"
+#: ui/evolution-comp-editor.xml.h:11 ui/evolution-contact-editor.xml.h:7
+#: ui/evolution-contact-list-editor.xml.h:5
+#: ui/evolution-message-composer.xml.h:18
+msgid "Save _As..."
+msgstr "_Farklı Kaydet..."
 
-#: ui/evolution-comp-editor.xml.h:13
-msgid "Save As..."
-msgstr "Farklı Kaydet..."
-
-#: ui/evolution-comp-editor.xml.h:14 ui/evolution-contact-editor.xml.h:8
+#: ui/evolution-comp-editor.xml.h:12 ui/evolution-contact-editor.xml.h:8
 #: ui/evolution-contact-list-editor.xml.h:6
 #: ui/evolution-signature-editor.xml.h:6
 msgid "Save and Close"
 msgstr "Kaydet ve Kapat"
 
-#: ui/evolution-comp-editor.xml.h:15
+#: ui/evolution-comp-editor.xml.h:13
+#, fuzzy
+msgid "Save and _Close"
+msgstr "Kaydet ve Kapat"
+
+#: ui/evolution-comp-editor.xml.h:14
 msgid "Save the item and close the dialog box"
 msgstr "Öğeyi kaydet ve iletişim penceresini kapat"
 
-#: ui/evolution-comp-editor.xml.h:16
+#: ui/evolution-comp-editor.xml.h:15
 msgid "Save this item to disk"
 msgstr "Bu öğeyi diske kaydet"
 
@@ -26580,6 +26612,13 @@ msgstr "Bu öğeyi diske kaydet"
 #: ui/evolution.xml.h:46
 msgid "_File"
 msgstr "_Dosya"
+
+#: ui/evolution-comp-editor.xml.h:20 ui/evolution-contact-editor.xml.h:15
+#: ui/evolution-contact-list-editor.xml.h:12
+#: ui/evolution-message-composer.xml.h:47
+#: ui/evolution-signature-editor.xml.h:14
+msgid "_Save"
+msgstr "_Kaydet"
 
 #: ui/evolution-composer-entries.xml.h:1
 msgid "Copy selected text to the clipboard"
@@ -26610,12 +26649,6 @@ msgstr "Tüm metni seç"
 msgid "Print En_velope..."
 msgstr "_Zarfı Yazdır..."
 
-#: ui/evolution-contact-editor.xml.h:7
-#: ui/evolution-contact-list-editor.xml.h:5
-#: ui/evolution-message-composer.xml.h:18
-msgid "Save _As..."
-msgstr "_Farklı Kaydet..."
-
 #: ui/evolution-contact-editor.xml.h:9
 msgid "Save the contact and close the dialog box"
 msgstr "Bağlantıyı kaydet ve diyalog penceresini kapat"
@@ -26623,13 +26656,6 @@ msgstr "Bağlantıyı kaydet ve diyalog penceresini kapat"
 #: ui/evolution-contact-editor.xml.h:10
 msgid "Send _Message to Contact..."
 msgstr "B_ağlantıya Mesaj Gönder..."
-
-#: ui/evolution-contact-editor.xml.h:15
-#: ui/evolution-contact-list-editor.xml.h:12
-#: ui/evolution-message-composer.xml.h:47
-#: ui/evolution-signature-editor.xml.h:14
-msgid "_Save"
-msgstr "_Kaydet"
 
 #: ui/evolution-contact-list-editor.xml.h:3
 msgid "Delete this list"
@@ -27132,7 +27158,8 @@ msgid "Reset the text to its original size"
 msgstr "Metni orjinal boyuna getir"
 
 #: ui/evolution-mail-message.xml.h:77
-msgid "S_earch Message..."
+#, fuzzy
+msgid "S_earch in Message..."
 msgstr "İle_tide Ara..."
 
 #: ui/evolution-mail-message.xml.h:78
@@ -27335,6 +27362,11 @@ msgstr "S/MIME Şifreleme"
 #: ui/evolution-message-composer.xml.h:15
 msgid "S/MIME Sign"
 msgstr "S/MIME İmza"
+
+#: ui/evolution-message-composer.xml.h:16
+#: ui/evolution-signature-editor.xml.h:5
+msgid "Save"
+msgstr "Kaydet"
 
 #: ui/evolution-message-composer.xml.h:17
 msgid "Save As"
@@ -28056,6 +28088,12 @@ msgstr "Evolution Takvim yerel dosya arkayüzü"
 #: wombat/GNOME_Evolution_WombatNOLDAP.server.in.in.h:1
 msgid "Evolution Addressbook local file backend"
 msgstr "Evolution Adres Defteri yerel dosya arkayüzü"
+
+#~ msgid "However, the message was successfully sent."
+#~ msgstr "Mesaj başarıyla gönderilmiştir."
+
+#~ msgid "Save As..."
+#~ msgstr "Farklı Kaydet..."
 
 #~ msgid "Search"
 #~ msgstr "Ara"

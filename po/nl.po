@@ -18,14 +18,14 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution.evolution-1-4-branch.nl\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2003-09-14 03:27+0200\n"
+"POT-Creation-Date: 2003-09-15 14:36-0400\n"
 "PO-Revision-Date: 2003-09-14 14:51+0200\n"
 "Last-Translator: Vincent van Adrighem <V.vanAdrighem@dirck.mine.nu>\n"
 "Language-Team: Dutch <nl@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit"
+"Content-Transfer-Encoding: 8bit\n"
+"Report-Msgid-Bugs-To: \n"
 
 #: addressbook/backend/ebook/GNOME_Evolution_Addressbook_LDIF_Importer.server.in.in.h:1
 msgid "Evolution LDIF importer"
@@ -3076,7 +3076,7 @@ msgstr "Kopiëren"
 msgid "Paste"
 msgstr "Plakken"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:915 filter/libfilter-i18n.h:11
+#: addressbook/gui/widgets/e-addressbook-view.c:915 filter/libfilter-i18n.h:10
 #: mail/mail-accounts.c:234 ui/evolution-addressbook.xml.h:8
 #: ui/evolution-comp-editor.xml.h:4 ui/evolution-contact-editor.xml.h:2
 #: ui/evolution-contact-list-editor.xml.h:2 ui/evolution-mail-message.xml.h:20
@@ -4830,7 +4830,7 @@ msgstr "RSVP"
 
 #: calendar/gui/dialogs/meeting-page.etspec.h:10
 #: calendar/gui/e-calendar-table.etspec.h:15
-#: calendar/gui/e-meeting-time-sel.etspec.h:10 filter/libfilter-i18n.h:58
+#: calendar/gui/e-meeting-time-sel.etspec.h:10 filter/libfilter-i18n.h:36
 #: mail/message-list.etspec.h:12
 msgid "Status"
 msgstr "Status"
@@ -11122,7 +11122,7 @@ msgstr ""
 "Fout in reguliere expressie '%s':\n"
 "%s"
 
-#: filter/filter-label.c:121 filter/libfilter-i18n.h:26 mail/mail-config.c:65
+#: filter/filter-label.c:121 filter/libfilter-i18n.h:17 mail/mail-config.c:65
 #: mail/mail-config.glade.h:62 shell/e-config-upgrade.c:1454
 msgid "Important"
 msgstr "Belangrijk"
@@ -11313,214 +11313,214 @@ msgid "Beep"
 msgstr "Piep"
 
 #: filter/libfilter-i18n.h:7
-msgid "contains"
-msgstr "bevat"
-
-#: filter/libfilter-i18n.h:8
 msgid "Copy to Folder"
 msgstr "Naar map kopiëren"
 
-#: filter/libfilter-i18n.h:9
+#: filter/libfilter-i18n.h:8
 msgid "Date received"
 msgstr "Ontvangstdatum"
 
-#: filter/libfilter-i18n.h:10
+#: filter/libfilter-i18n.h:9
 msgid "Date sent"
 msgstr "Verzendingsdatum"
 
-#: filter/libfilter-i18n.h:12
+#: filter/libfilter-i18n.h:11
 msgid "Deleted"
 msgstr "Verwijderd"
 
-#: filter/libfilter-i18n.h:13
-msgid "does not contain"
-msgstr "bevat niet"
-
-#: filter/libfilter-i18n.h:14
-msgid "does not end with"
-msgstr "eindigt niet op"
-
-#: filter/libfilter-i18n.h:15
-msgid "does not exist"
-msgstr "bestaat niet"
-
-#: filter/libfilter-i18n.h:16
-msgid "does not return"
-msgstr "komt niet terug"
-
-#: filter/libfilter-i18n.h:17
-msgid "does not sound like"
-msgstr "klinkt niet als"
-
-#: filter/libfilter-i18n.h:18
-msgid "does not start with"
-msgstr "begint niet met"
-
-#: filter/libfilter-i18n.h:19
+#: filter/libfilter-i18n.h:12
 msgid "Do Not Exist"
 msgstr "bestaat niet"
 
-#: filter/libfilter-i18n.h:20
+#: filter/libfilter-i18n.h:13
 msgid "Draft"
 msgstr "Klad"
 
-#: filter/libfilter-i18n.h:21
-msgid "ends with"
-msgstr "eindigt met"
-
-#: filter/libfilter-i18n.h:22
+#: filter/libfilter-i18n.h:14
 msgid "Exist"
 msgstr "Bestaat"
 
-#: filter/libfilter-i18n.h:23
-msgid "exists"
-msgstr "bestaat"
-
-#: filter/libfilter-i18n.h:24
+#: filter/libfilter-i18n.h:15
 msgid "Expression"
 msgstr "Expressie"
 
-#: filter/libfilter-i18n.h:25
+#: filter/libfilter-i18n.h:16
 msgid "Follow Up"
 msgstr "Antwoord"
 
-#: filter/libfilter-i18n.h:27
-msgid "is"
-msgstr "is"
-
-#: filter/libfilter-i18n.h:28
-msgid "is after"
-msgstr "is na"
-
-#: filter/libfilter-i18n.h:29
-msgid "is before"
-msgstr "is voor"
-
-#: filter/libfilter-i18n.h:30
-msgid "is Flagged"
-msgstr "is gemarkeerd"
-
-#: filter/libfilter-i18n.h:31
-msgid "is greater than"
-msgstr "is groter dan"
-
-#: filter/libfilter-i18n.h:32
-msgid "is less than"
-msgstr "is kleiner dan"
-
-#: filter/libfilter-i18n.h:33
-msgid "is not"
-msgstr "is niet"
-
-#: filter/libfilter-i18n.h:34
-msgid "is not Flagged"
-msgstr "Is niet gemarkeerd"
-
-#: filter/libfilter-i18n.h:35 mail/folder-browser.c:1824
+#: filter/libfilter-i18n.h:18 mail/folder-browser.c:1824
 msgid "Label"
 msgstr "Label"
 
-#: filter/libfilter-i18n.h:36
+#: filter/libfilter-i18n.h:19
 msgid "Mailing list"
 msgstr "Mailinglijst"
 
-#: filter/libfilter-i18n.h:37
+#: filter/libfilter-i18n.h:20
 msgid "Message Body"
 msgstr "Berichtinhoud"
 
-#: filter/libfilter-i18n.h:38
+#: filter/libfilter-i18n.h:21
 msgid "Message Header"
 msgstr "Berichtkop"
 
-#: filter/libfilter-i18n.h:39
+#: filter/libfilter-i18n.h:22
 msgid "Move to Folder"
 msgstr "Naar map verplaatsen"
 
-#: filter/libfilter-i18n.h:40
+#: filter/libfilter-i18n.h:23
 msgid "Pipe Message to Shell Command"
 msgstr "Bericht doorvoeren naar shellopdracht"
 
-#: filter/libfilter-i18n.h:41
+#: filter/libfilter-i18n.h:24
 msgid "Play Sound"
 msgstr "Geluid afspelen"
 
-#: filter/libfilter-i18n.h:42 mail/message-tag-followup.c:68
+#: filter/libfilter-i18n.h:25 mail/message-tag-followup.c:68
 msgid "Read"
 msgstr "Gelezen"
 
-#: filter/libfilter-i18n.h:43
+#: filter/libfilter-i18n.h:26
 msgid "Recipients"
 msgstr "Geadresseerden"
 
-#: filter/libfilter-i18n.h:44
+#: filter/libfilter-i18n.h:27
 msgid "Regex Match"
 msgstr "Overeenkomende regex"
 
-#: filter/libfilter-i18n.h:45
+#: filter/libfilter-i18n.h:28
 msgid "Replied to"
 msgstr "Beantwoord aan"
 
-#: filter/libfilter-i18n.h:46
-msgid "returns"
-msgstr "komt terug"
-
-#: filter/libfilter-i18n.h:47
-msgid "returns greater than"
-msgstr "geeft groter dan"
-
-#: filter/libfilter-i18n.h:48
-msgid "returns less than"
-msgstr "geeft kleiner dan"
-
-#: filter/libfilter-i18n.h:49 filter/score-rule.c:184 filter/score-rule.c:186
+#: filter/libfilter-i18n.h:29 filter/score-rule.c:184 filter/score-rule.c:186
 #: mail/message-list.etspec.h:10
 msgid "Score"
 msgstr "Score"
 
-#: filter/libfilter-i18n.h:50 mail/mail-callbacks.c:1820
+#: filter/libfilter-i18n.h:30 mail/mail-callbacks.c:1820
 msgid "Sender"
 msgstr "Afzender"
 
-#: filter/libfilter-i18n.h:51
+#: filter/libfilter-i18n.h:31
 msgid "Set Status"
 msgstr "Stel Status in"
 
-#: filter/libfilter-i18n.h:52
+#: filter/libfilter-i18n.h:32
 msgid "Shell Command"
 msgstr "Shellopdracht"
 
-#: filter/libfilter-i18n.h:53
+#: filter/libfilter-i18n.h:33
 msgid "Size (kB)"
 msgstr "Grootte (kB)"
 
-#: filter/libfilter-i18n.h:54
-msgid "sounds like"
-msgstr "klinkt als"
-
-#: filter/libfilter-i18n.h:55
+#: filter/libfilter-i18n.h:34
 msgid "Source Account"
 msgstr "Source-Account"
 
-#: filter/libfilter-i18n.h:56
+#: filter/libfilter-i18n.h:35
 msgid "Specific header"
 msgstr "Specifieke kop"
 
-#: filter/libfilter-i18n.h:57
-msgid "starts with"
-msgstr "begint met"
-
-#: filter/libfilter-i18n.h:59
+#: filter/libfilter-i18n.h:37
 msgid "Stop Processing"
 msgstr "Stop met Verwerken"
 
-#: filter/libfilter-i18n.h:60 mail/mail-format.c:937
+#: filter/libfilter-i18n.h:38 mail/mail-format.c:937
 #: mail/message-list.etspec.h:13 mail/message-tag-followup.c:305
 msgid "Subject"
 msgstr "Onderwerp"
 
-#: filter/libfilter-i18n.h:61
+#: filter/libfilter-i18n.h:39
 msgid "Unset Status"
 msgstr "Status herstellen"
+
+#: filter/libfilter-i18n.h:40
+msgid "contains"
+msgstr "bevat"
+
+#: filter/libfilter-i18n.h:41
+msgid "does not contain"
+msgstr "bevat niet"
+
+#: filter/libfilter-i18n.h:42
+msgid "does not end with"
+msgstr "eindigt niet op"
+
+#: filter/libfilter-i18n.h:43
+msgid "does not exist"
+msgstr "bestaat niet"
+
+#: filter/libfilter-i18n.h:44
+msgid "does not return"
+msgstr "komt niet terug"
+
+#: filter/libfilter-i18n.h:45
+msgid "does not sound like"
+msgstr "klinkt niet als"
+
+#: filter/libfilter-i18n.h:46
+msgid "does not start with"
+msgstr "begint niet met"
+
+#: filter/libfilter-i18n.h:47
+msgid "ends with"
+msgstr "eindigt met"
+
+#: filter/libfilter-i18n.h:48
+msgid "exists"
+msgstr "bestaat"
+
+#: filter/libfilter-i18n.h:49
+msgid "is Flagged"
+msgstr "is gemarkeerd"
+
+#: filter/libfilter-i18n.h:50
+msgid "is after"
+msgstr "is na"
+
+#: filter/libfilter-i18n.h:51
+msgid "is before"
+msgstr "is voor"
+
+#: filter/libfilter-i18n.h:52
+msgid "is greater than"
+msgstr "is groter dan"
+
+#: filter/libfilter-i18n.h:53
+msgid "is less than"
+msgstr "is kleiner dan"
+
+#: filter/libfilter-i18n.h:54
+msgid "is not Flagged"
+msgstr "Is niet gemarkeerd"
+
+#: filter/libfilter-i18n.h:55
+msgid "is not"
+msgstr "is niet"
+
+#: filter/libfilter-i18n.h:56
+msgid "is"
+msgstr "is"
+
+#: filter/libfilter-i18n.h:57
+msgid "returns greater than"
+msgstr "geeft groter dan"
+
+#: filter/libfilter-i18n.h:58
+msgid "returns less than"
+msgstr "geeft kleiner dan"
+
+#: filter/libfilter-i18n.h:59
+msgid "returns"
+msgstr "komt terug"
+
+#: filter/libfilter-i18n.h:60
+msgid "sounds like"
+msgstr "klinkt als"
+
+#: filter/libfilter-i18n.h:61
+msgid "starts with"
+msgstr "begint met"
 
 #: filter/rule-context.c:664 filter/rule-editor.c:241 filter/rule-editor.c:326
 #: mail/mail-vfolder.c:917

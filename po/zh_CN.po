@@ -8,14 +8,14 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Evolution\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2003-09-07 03:29+0200\n"
+"POT-Creation-Date: 2003-09-15 14:36-0400\n"
 "PO-Revision-Date: 2003-09-07 11:09+0800\n"
 "Last-Translator: Funda Wang <fundawang@linux.net.cn>\n"
 "Language-Team: zh_CN <i18n-translation@lists.linux.net.cn>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Report-Msgid-Bugs-To: \n"
 
 #: addressbook/backend/ebook/GNOME_Evolution_Addressbook_LDIF_Importer.server.in.in.h:1
 msgid "Evolution LDIF importer"
@@ -1418,7 +1418,7 @@ msgstr "类别(_C)..."
 #: addressbook/gui/contact-editor/contact-editor.glade.h:28
 #: calendar/gui/dialogs/meeting-page.c:717 calendar/gui/e-calendar-table.c:977
 #: calendar/gui/e-day-view.c:3755 calendar/gui/e-week-view.c:3741
-#: mail/folder-browser.c:1812 ui/evolution-addressbook.xml.h:32
+#: mail/folder-browser.c:1814 ui/evolution-addressbook.xml.h:32
 #: ui/evolution-calendar.xml.h:30 ui/evolution-comp-editor.xml.h:17
 #: ui/evolution-mail-message.xml.h:97 ui/evolution-tasks.xml.h:17
 #: ui/evolution.xml.h:45
@@ -2850,8 +2850,8 @@ msgstr "不支持的协议"
 #: calendar/gui/calendar-model.c:759 calendar/gui/calendar-model.c:1184
 #: calendar/gui/dialogs/task-details-page.glade.h:3
 #: calendar/gui/e-calendar-table.c:477 calendar/gui/print.c:2307
-#: camel/camel-service.c:745 camel/camel-service.c:786
-#: camel/camel-service.c:876 camel/camel-service.c:919
+#: camel/camel-service.c:747 camel/camel-service.c:788
+#: camel/camel-service.c:878 camel/camel-service.c:921
 #: camel/providers/pop3/camel-pop3-store.c:443
 #: camel/providers/pop3/camel-pop3-store.c:520
 msgid "Cancelled"
@@ -3033,7 +3033,7 @@ msgstr "复制"
 msgid "Paste"
 msgstr "粘贴"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:915 filter/libfilter-i18n.h:11
+#: addressbook/gui/widgets/e-addressbook-view.c:915 filter/libfilter-i18n.h:10
 #: mail/mail-accounts.c:234 ui/evolution-addressbook.xml.h:8
 #: ui/evolution-comp-editor.xml.h:4 ui/evolution-contact-editor.xml.h:2
 #: ui/evolution-contact-list-editor.xml.h:2 ui/evolution-mail-message.xml.h:20
@@ -3935,7 +3935,7 @@ msgstr ""
 #. An empty string is the same as 'None'.
 #: calendar/gui/calendar-model.c:1176 calendar/gui/dialogs/meeting-page.c:330
 #: calendar/gui/dialogs/meeting-page.glade.h:2 composer/e-msg-composer.c:2067
-#: mail/folder-browser.c:1774 mail/mail-account-gui.c:1260
+#: mail/folder-browser.c:1776 mail/mail-account-gui.c:1260
 #: mail/mail-account-gui.c:1692 mail/mail-accounts.c:442
 #: mail/mail-config.glade.h:76
 #: widgets/e-timezone-dialog/e-timezone-dialog.c:194
@@ -4785,7 +4785,7 @@ msgstr "RSVP"
 
 #: calendar/gui/dialogs/meeting-page.etspec.h:10
 #: calendar/gui/e-calendar-table.etspec.h:15
-#: calendar/gui/e-meeting-time-sel.etspec.h:10 filter/libfilter-i18n.h:58
+#: calendar/gui/e-meeting-time-sel.etspec.h:10 filter/libfilter-i18n.h:36
 #: mail/message-list.etspec.h:12
 msgid "Status"
 msgstr "状态"
@@ -5184,7 +5184,7 @@ msgid "Deleting selected objects"
 msgstr "删除选中的对象"
 
 #: calendar/gui/e-calendar-table.c:958 calendar/gui/e-day-view.c:3737
-#: calendar/gui/e-week-view.c:3723 mail/folder-browser.c:1785
+#: calendar/gui/e-week-view.c:3723 mail/folder-browser.c:1787
 #: shell/e-shortcuts-view.c:422 ui/evolution-addressbook.xml.h:36
 msgid "_Open"
 msgstr "打开(_O)"
@@ -5258,7 +5258,7 @@ msgid "Alarms"
 msgstr "提醒"
 
 #: calendar/gui/e-calendar-table.etspec.h:7 camel/camel-filter-driver.c:1156
-#: camel/camel-filter-driver.c:1251
+#: camel/camel-filter-driver.c:1251 mail/mail-send-recv.c:584
 msgid "Complete"
 msgstr "完成"
 
@@ -5390,7 +5390,7 @@ msgid "_Settings..."
 msgstr "设置(_S)..."
 
 #: calendar/gui/e-day-view.c:3738 calendar/gui/e-week-view.c:3724
-#: mail/folder-browser.c:1787 ui/evolution-mail-message.xml.h:112
+#: mail/folder-browser.c:1789 ui/evolution-mail-message.xml.h:112
 msgid "_Save As..."
 msgstr "另存为(_S)..."
 
@@ -5604,7 +5604,7 @@ msgid "Send Latest Information"
 msgstr "发送最新的信息"
 
 #: calendar/gui/e-itip-control.c:1211 calendar/gui/itip-utils.c:439
-#: mail/mail-send-recv.c:387 mail/mail-send-recv.c:444
+#: mail/mail-send-recv.c:389 mail/mail-send-recv.c:446
 #: shell/evolution-shell-component.c:1185 ui/evolution-mail-global.xml.h:1
 msgid "Cancel"
 msgstr "取消"
@@ -8298,7 +8298,7 @@ msgstr ""
 
 #: camel/camel-gpg-context.c:821 camel/camel-gpg-context.c:1297
 #: camel/camel-gpg-context.c:1403 camel/camel-gpg-context.c:1473
-#: camel/camel-gpg-context.c:1529 mail/mail-send-recv.c:577
+#: camel/camel-gpg-context.c:1529 mail/mail-send-recv.c:580
 msgid "Cancelled."
 msgstr "已取消"
 
@@ -8708,55 +8708,55 @@ msgstr "以非 pop 源进行 SMTP 之前的 POP 授权"
 msgid "Regular expression compilation failed: %s: %s"
 msgstr "常规表达式编译失败：%s：%s"
 
-#: camel/camel-service.c:282
+#: camel/camel-service.c:284
 #, c-format
 msgid "URL '%s' needs a username component"
 msgstr "URL“%s”需要用户名组件"
 
-#: camel/camel-service.c:290
+#: camel/camel-service.c:292
 #, c-format
 msgid "URL '%s' needs a host component"
 msgstr "URL“%s”需要主机组件"
 
-#: camel/camel-service.c:298
+#: camel/camel-service.c:300
 #, c-format
 msgid "URL '%s' needs a path component"
 msgstr "URL “%s” 需要路径组件"
 
-#: camel/camel-service.c:750
+#: camel/camel-service.c:752
 #, c-format
 msgid "Resolving: %s"
 msgstr "正在解析：%s"
 
-#: camel/camel-service.c:784 camel/camel-service.c:917
+#: camel/camel-service.c:786 camel/camel-service.c:919
 #, c-format
 msgid "Failure in name lookup: %s"
 msgstr "域名查阅失败：%s"
 
-#: camel/camel-service.c:805 camel/camel-service.c:938
+#: camel/camel-service.c:807 camel/camel-service.c:940
 #, c-format
 msgid "Host lookup failed: cannot create thread: %s"
 msgstr "主机寻找失败：无法创建线程：%s"
 
-#: camel/camel-service.c:819
+#: camel/camel-service.c:821
 #, c-format
 msgid "Host lookup failed: %s: host not found"
 msgstr "主机寻找失败：%s：没有找到主机"
 
-#: camel/camel-service.c:822
+#: camel/camel-service.c:824
 #, c-format
 msgid "Host lookup failed: %s: unknown reason"
 msgstr "主机寻找失败：%s：未知的原因"
 
-#: camel/camel-service.c:881
+#: camel/camel-service.c:883
 msgid "Resolving address"
 msgstr "正在解析地址"
 
-#: camel/camel-service.c:954
+#: camel/camel-service.c:956
 msgid "Host lookup failed: host not found"
 msgstr "主机寻找失败：没有找到主机"
 
-#: camel/camel-service.c:957
+#: camel/camel-service.c:959
 msgid "Host lookup failed: unknown reason"
 msgstr "主机寻找失败：未知的原因"
 
@@ -10607,11 +10607,11 @@ msgid ""
 "<b>"
 msgstr "<b>(编写器含有不可编辑的非文本消息体。)<b>"
 
-#: data/evolution.desktop.in.h:1
+#: data/evolution.desktop.in.in.h:1
 msgid "The Evolution groupware suite"
 msgstr "Evolution 群件套件"
 
-#: data/evolution.desktop.in.h:2
+#: data/evolution.desktop.in.in.h:2
 msgid "Ximian Evolution"
 msgstr "Ximian Evolution"
 
@@ -11000,32 +11000,32 @@ msgstr ""
 "常规表达式错误 “%s”：\n"
 "%s"
 
-#: filter/filter-label.c:121 filter/libfilter-i18n.h:26 mail/mail-config.c:65
-#: mail/mail-config.glade.h:62 shell/e-config-upgrade.c:1411
+#: filter/filter-label.c:121 filter/libfilter-i18n.h:17 mail/mail-config.c:65
+#: mail/mail-config.glade.h:62 shell/e-config-upgrade.c:1454
 msgid "Important"
 msgstr "重要"
 
 #. red
 #: filter/filter-label.c:122 mail/mail-config.c:66
-#: mail/mail-config.glade.h:129 shell/e-config-upgrade.c:1412
+#: mail/mail-config.glade.h:129 shell/e-config-upgrade.c:1455
 msgid "Work"
 msgstr "工作"
 
 #. orange
 #: filter/filter-label.c:123 mail/mail-config.c:67 mail/mail-config.glade.h:84
-#: shell/e-config-upgrade.c:1413
+#: shell/e-config-upgrade.c:1456
 msgid "Personal"
 msgstr "个人"
 
 #. forest green
 #: filter/filter-label.c:124 mail/mail-config.c:68
-#: mail/mail-config.glade.h:120 shell/e-config-upgrade.c:1414
+#: mail/mail-config.glade.h:120 shell/e-config-upgrade.c:1457
 msgid "To Do"
 msgstr "待办"
 
 #. blue
 #: filter/filter-label.c:125 mail/mail-config.c:69 mail/mail-config.glade.h:66
-#: shell/e-config-upgrade.c:1415
+#: shell/e-config-upgrade.c:1458
 msgid "Later"
 msgstr "稍候"
 
@@ -11185,214 +11185,214 @@ msgid "Beep"
 msgstr "响铃"
 
 #: filter/libfilter-i18n.h:7
-msgid "contains"
-msgstr "含有"
-
-#: filter/libfilter-i18n.h:8
 msgid "Copy to Folder"
 msgstr "复制到文件夹"
 
-#: filter/libfilter-i18n.h:9
+#: filter/libfilter-i18n.h:8
 msgid "Date received"
 msgstr "接收日期"
 
-#: filter/libfilter-i18n.h:10
+#: filter/libfilter-i18n.h:9
 msgid "Date sent"
 msgstr "发送日期"
 
-#: filter/libfilter-i18n.h:12
+#: filter/libfilter-i18n.h:11
 msgid "Deleted"
 msgstr "已删除"
 
-#: filter/libfilter-i18n.h:13
-msgid "does not contain"
-msgstr "不含有"
-
-#: filter/libfilter-i18n.h:14
-msgid "does not end with"
-msgstr "不以之结尾"
-
-#: filter/libfilter-i18n.h:15
-msgid "does not exist"
-msgstr "不存在"
-
-#: filter/libfilter-i18n.h:16
-msgid "does not return"
-msgstr "不返回"
-
-#: filter/libfilter-i18n.h:17
-msgid "does not sound like"
-msgstr "听起来不像"
-
-#: filter/libfilter-i18n.h:18
-msgid "does not start with"
-msgstr "不以之开始"
-
-#: filter/libfilter-i18n.h:19
+#: filter/libfilter-i18n.h:12
 msgid "Do Not Exist"
 msgstr "不存在"
 
-#: filter/libfilter-i18n.h:20
+#: filter/libfilter-i18n.h:13
 msgid "Draft"
 msgstr "草稿"
 
-#: filter/libfilter-i18n.h:21
-msgid "ends with"
-msgstr "以之结束"
-
-#: filter/libfilter-i18n.h:22
+#: filter/libfilter-i18n.h:14
 msgid "Exist"
 msgstr "存在"
 
-#: filter/libfilter-i18n.h:23
-msgid "exists"
-msgstr "存在"
-
-#: filter/libfilter-i18n.h:24
+#: filter/libfilter-i18n.h:15
 msgid "Expression"
 msgstr "表达式"
 
-#: filter/libfilter-i18n.h:25
+#: filter/libfilter-i18n.h:16
 msgid "Follow Up"
 msgstr "跟随"
 
-#: filter/libfilter-i18n.h:27
-msgid "is"
-msgstr "是"
-
-#: filter/libfilter-i18n.h:28
-msgid "is after"
-msgstr "以后"
-
-#: filter/libfilter-i18n.h:29
-msgid "is before"
-msgstr "以前"
-
-#: filter/libfilter-i18n.h:30
-msgid "is Flagged"
-msgstr "有标志"
-
-#: filter/libfilter-i18n.h:31
-msgid "is greater than"
-msgstr "大于"
-
-#: filter/libfilter-i18n.h:32
-msgid "is less than"
-msgstr "小于"
-
-#: filter/libfilter-i18n.h:33
-msgid "is not"
-msgstr "不是"
-
-#: filter/libfilter-i18n.h:34
-msgid "is not Flagged"
-msgstr "未标志"
-
-#: filter/libfilter-i18n.h:35 mail/folder-browser.c:1822
+#: filter/libfilter-i18n.h:18 mail/folder-browser.c:1824
 msgid "Label"
 msgstr "标签"
 
-#: filter/libfilter-i18n.h:36
+#: filter/libfilter-i18n.h:19
 msgid "Mailing list"
 msgstr "邮件列表"
 
-#: filter/libfilter-i18n.h:37
+#: filter/libfilter-i18n.h:20
 msgid "Message Body"
 msgstr "邮件体"
 
-#: filter/libfilter-i18n.h:38
+#: filter/libfilter-i18n.h:21
 msgid "Message Header"
 msgstr "邮件头"
 
-#: filter/libfilter-i18n.h:39
+#: filter/libfilter-i18n.h:22
 msgid "Move to Folder"
 msgstr "移动到文件夹"
 
-#: filter/libfilter-i18n.h:40
+#: filter/libfilter-i18n.h:23
 msgid "Pipe Message to Shell Command"
 msgstr "将邮件管道给 Shell 命令"
 
-#: filter/libfilter-i18n.h:41
+#: filter/libfilter-i18n.h:24
 msgid "Play Sound"
 msgstr "播放声音"
 
-#: filter/libfilter-i18n.h:42 mail/message-tag-followup.c:68
+#: filter/libfilter-i18n.h:25 mail/message-tag-followup.c:68
 msgid "Read"
 msgstr "已读"
 
-#: filter/libfilter-i18n.h:43
+#: filter/libfilter-i18n.h:26
 msgid "Recipients"
 msgstr "收件人"
 
-#: filter/libfilter-i18n.h:44
+#: filter/libfilter-i18n.h:27
 msgid "Regex Match"
 msgstr "常规表达式匹配"
 
-#: filter/libfilter-i18n.h:45
+#: filter/libfilter-i18n.h:28
 msgid "Replied to"
 msgstr "已回复"
 
-#: filter/libfilter-i18n.h:46
-msgid "returns"
-msgstr "返回"
-
-#: filter/libfilter-i18n.h:47
-msgid "returns greater than"
-msgstr "返回大于"
-
-#: filter/libfilter-i18n.h:48
-msgid "returns less than"
-msgstr "返回小于"
-
-#: filter/libfilter-i18n.h:49 filter/score-rule.c:184 filter/score-rule.c:186
+#: filter/libfilter-i18n.h:29 filter/score-rule.c:184 filter/score-rule.c:186
 #: mail/message-list.etspec.h:10
 msgid "Score"
 msgstr "分数"
 
-#: filter/libfilter-i18n.h:50 mail/mail-callbacks.c:1820
+#: filter/libfilter-i18n.h:30 mail/mail-callbacks.c:1820
 msgid "Sender"
 msgstr "发件人"
 
-#: filter/libfilter-i18n.h:51
+#: filter/libfilter-i18n.h:31
 msgid "Set Status"
 msgstr "设置状态"
 
-#: filter/libfilter-i18n.h:52
+#: filter/libfilter-i18n.h:32
 msgid "Shell Command"
 msgstr "Shell 命令"
 
-#: filter/libfilter-i18n.h:53
+#: filter/libfilter-i18n.h:33
 msgid "Size (kB)"
 msgstr "大小 (kB)"
 
-#: filter/libfilter-i18n.h:54
-msgid "sounds like"
-msgstr "听起来象"
-
-#: filter/libfilter-i18n.h:55
+#: filter/libfilter-i18n.h:34
 msgid "Source Account"
 msgstr "来源帐号"
 
-#: filter/libfilter-i18n.h:56
+#: filter/libfilter-i18n.h:35
 msgid "Specific header"
 msgstr "指定邮件头"
 
-#: filter/libfilter-i18n.h:57
-msgid "starts with"
-msgstr "以之开始"
-
-#: filter/libfilter-i18n.h:59
+#: filter/libfilter-i18n.h:37
 msgid "Stop Processing"
 msgstr "停止处理"
 
-#: filter/libfilter-i18n.h:60 mail/mail-format.c:937
+#: filter/libfilter-i18n.h:38 mail/mail-format.c:937
 #: mail/message-list.etspec.h:13 mail/message-tag-followup.c:305
 msgid "Subject"
 msgstr "主题"
 
-#: filter/libfilter-i18n.h:61
+#: filter/libfilter-i18n.h:39
 msgid "Unset Status"
 msgstr "未设置状态"
+
+#: filter/libfilter-i18n.h:40
+msgid "contains"
+msgstr "含有"
+
+#: filter/libfilter-i18n.h:41
+msgid "does not contain"
+msgstr "不含有"
+
+#: filter/libfilter-i18n.h:42
+msgid "does not end with"
+msgstr "不以之结尾"
+
+#: filter/libfilter-i18n.h:43
+msgid "does not exist"
+msgstr "不存在"
+
+#: filter/libfilter-i18n.h:44
+msgid "does not return"
+msgstr "不返回"
+
+#: filter/libfilter-i18n.h:45
+msgid "does not sound like"
+msgstr "听起来不像"
+
+#: filter/libfilter-i18n.h:46
+msgid "does not start with"
+msgstr "不以之开始"
+
+#: filter/libfilter-i18n.h:47
+msgid "ends with"
+msgstr "以之结束"
+
+#: filter/libfilter-i18n.h:48
+msgid "exists"
+msgstr "存在"
+
+#: filter/libfilter-i18n.h:49
+msgid "is Flagged"
+msgstr "有标志"
+
+#: filter/libfilter-i18n.h:50
+msgid "is after"
+msgstr "以后"
+
+#: filter/libfilter-i18n.h:51
+msgid "is before"
+msgstr "以前"
+
+#: filter/libfilter-i18n.h:52
+msgid "is greater than"
+msgstr "大于"
+
+#: filter/libfilter-i18n.h:53
+msgid "is less than"
+msgstr "小于"
+
+#: filter/libfilter-i18n.h:54
+msgid "is not Flagged"
+msgstr "未标志"
+
+#: filter/libfilter-i18n.h:55
+msgid "is not"
+msgstr "不是"
+
+#: filter/libfilter-i18n.h:56
+msgid "is"
+msgstr "是"
+
+#: filter/libfilter-i18n.h:57
+msgid "returns greater than"
+msgstr "返回大于"
+
+#: filter/libfilter-i18n.h:58
+msgid "returns less than"
+msgstr "返回小于"
+
+#: filter/libfilter-i18n.h:59
+msgid "returns"
+msgstr "返回"
+
+#: filter/libfilter-i18n.h:60
+msgid "sounds like"
+msgstr "听起来象"
+
+#: filter/libfilter-i18n.h:61
+msgid "starts with"
+msgstr "以之开始"
 
 #: filter/rule-context.c:664 filter/rule-editor.c:241 filter/rule-editor.c:326
 #: mail/mail-vfolder.c:917
@@ -11786,129 +11786,129 @@ msgstr "%d 封已发"
 msgid "%d total"
 msgstr "总共 %d 封"
 
-#: mail/folder-browser.c:1204
+#: mail/folder-browser.c:1206
 msgid "Create _Virtual Folder From Search..."
 msgstr "根据搜索创建虚拟文件夹(_V)..."
 
-#: mail/folder-browser.c:1758
+#: mail/folder-browser.c:1760
 msgid "VFolder on _Subject"
 msgstr "基于主题的虚拟文件夹(_S)"
 
-#: mail/folder-browser.c:1759
+#: mail/folder-browser.c:1761
 msgid "VFolder on Se_nder"
 msgstr "基于发件人的虚拟文件夹(_N)"
 
-#: mail/folder-browser.c:1760
+#: mail/folder-browser.c:1762
 msgid "VFolder on _Recipients"
 msgstr "基于收件人的虚拟文件夹(_R)"
 
-#: mail/folder-browser.c:1761
+#: mail/folder-browser.c:1763
 msgid "VFolder on Mailing _List"
 msgstr "基于邮件列表的虚拟文件夹(_L)"
 
-#: mail/folder-browser.c:1765
+#: mail/folder-browser.c:1767
 msgid "Filter on Sub_ject"
 msgstr "基于主题过滤(_J)"
 
-#: mail/folder-browser.c:1766
+#: mail/folder-browser.c:1768
 msgid "Filter on Sen_der"
 msgstr "基于发件人过滤(_D)"
 
-#: mail/folder-browser.c:1767
+#: mail/folder-browser.c:1769
 msgid "Filter on Re_cipients"
 msgstr "基于收件人过滤(_C)"
 
-#: mail/folder-browser.c:1768 mail/folder-browser.c:2092
+#: mail/folder-browser.c:1770 mail/folder-browser.c:2094
 msgid "Filter on _Mailing List"
 msgstr "基于邮件列表过滤(_M)"
 
-#: mail/folder-browser.c:1786
+#: mail/folder-browser.c:1788
 msgid "_Edit as New Message..."
 msgstr "作为新邮件进行编辑(_E)..."
 
-#: mail/folder-browser.c:1788
+#: mail/folder-browser.c:1790
 msgid "_Print"
 msgstr "打印(_P)"
 
-#: mail/folder-browser.c:1792 ui/evolution-mail-message.xml.h:110
+#: mail/folder-browser.c:1794 ui/evolution-mail-message.xml.h:110
 msgid "_Reply to Sender"
 msgstr "回复发件人(_R)"
 
-#: mail/folder-browser.c:1793 ui/evolution-mail-message.xml.h:75
+#: mail/folder-browser.c:1795 ui/evolution-mail-message.xml.h:75
 msgid "Reply to _List"
 msgstr "回复邮件列表(_L)"
 
-#: mail/folder-browser.c:1794 ui/evolution-mail-message.xml.h:74
+#: mail/folder-browser.c:1796 ui/evolution-mail-message.xml.h:74
 msgid "Reply to _All"
 msgstr "回复所有人(_A)"
 
-#: mail/folder-browser.c:1795
+#: mail/folder-browser.c:1797
 msgid "_Forward"
 msgstr "转发(_F)"
 
-#: mail/folder-browser.c:1799
+#: mail/folder-browser.c:1801
 msgid "Follo_w Up..."
 msgstr "跟随(_W)..."
 
-#: mail/folder-browser.c:1800
+#: mail/folder-browser.c:1802
 msgid "Fla_g Completed"
 msgstr "已完成标志(_G)"
 
-#: mail/folder-browser.c:1801
+#: mail/folder-browser.c:1803
 msgid "Cl_ear Flag"
 msgstr "清除标志(_E)"
 
 #. separator here?
-#: mail/folder-browser.c:1805 ui/evolution-mail-message.xml.h:43
+#: mail/folder-browser.c:1807 ui/evolution-mail-message.xml.h:43
 msgid "Mar_k as Read"
 msgstr "标记为已读(_K)"
 
-#: mail/folder-browser.c:1806
+#: mail/folder-browser.c:1808
 msgid "Mark as _Unread"
 msgstr "标记为未读(_U)"
 
-#: mail/folder-browser.c:1807
+#: mail/folder-browser.c:1809
 msgid "Mark as _Important"
 msgstr "标记为重要(_I)"
 
-#: mail/folder-browser.c:1808
+#: mail/folder-browser.c:1810
 msgid "_Mark as Unimportant"
 msgstr "标记为不重要(_M)"
 
-#: mail/folder-browser.c:1813
+#: mail/folder-browser.c:1815
 msgid "U_ndelete"
 msgstr "取消删除(_N)"
 
-#: mail/folder-browser.c:1817
+#: mail/folder-browser.c:1819
 msgid "Mo_ve to Folder..."
 msgstr "移动到文件夹(_V)..."
 
-#: mail/folder-browser.c:1818 ui/evolution-addressbook.xml.h:31
+#: mail/folder-browser.c:1820 ui/evolution-addressbook.xml.h:31
 msgid "_Copy to Folder..."
 msgstr "复制到文件夹(_C)..."
 
-#: mail/folder-browser.c:1826
+#: mail/folder-browser.c:1828
 msgid "Add Sender to Address_book"
 msgstr "将发件人添加到地址簿(_B)"
 
-#: mail/folder-browser.c:1830
+#: mail/folder-browser.c:1832
 msgid "Appl_y Filters"
 msgstr "应用过滤规则(_Y)"
 
-#: mail/folder-browser.c:1834
+#: mail/folder-browser.c:1836
 msgid "Crea_te Rule From Message"
 msgstr "从邮件创建规则(_T)"
 
-#: mail/folder-browser.c:2093
+#: mail/folder-browser.c:2095
 msgid "VFolder on M_ailing List"
 msgstr "基于邮件列表的虚拟文件夹(_A)"
 
-#: mail/folder-browser.c:2095
+#: mail/folder-browser.c:2097
 #, c-format
 msgid "Filter on _Mailing List (%s)"
 msgstr "基于滤邮件列表(%s)过滤(_M)"
 
-#: mail/folder-browser.c:2096
+#: mail/folder-browser.c:2098
 #, c-format
 msgid "VFolder on M_ailing List (%s)"
 msgstr "基于邮件列表(%s)的虚拟文件夹(_A)"
@@ -12004,7 +12004,7 @@ msgstr "用户名(_N)："
 msgid "_Path:"
 msgstr "路径(_P)："
 
-#: mail/mail-account-gui.c:1887
+#: mail/mail-account-gui.c:1886
 msgid "You may not create two accounts with the same name."
 msgstr "您不能以相同的名字创建两个帐号。"
 
@@ -13032,19 +13032,19 @@ msgstr "延误："
 msgid "by %B %d, %Y, %l:%M %p"
 msgstr "到 %m月%d日%A，%H:%M"
 
-#: mail/mail-display.c:2243
+#: mail/mail-display.c:2236
 msgid "Open Link in Browser"
 msgstr "在浏览器中打开链接"
 
-#: mail/mail-display.c:2244
+#: mail/mail-display.c:2237
 msgid "Copy Link Location"
 msgstr "复制链接位置"
 
-#: mail/mail-display.c:2246
+#: mail/mail-display.c:2239
 msgid "Save Link as (FIXME)"
 msgstr "连接保存为 (FIXME)"
 
-#: mail/mail-display.c:2248
+#: mail/mail-display.c:2241
 msgid "Save Image as..."
 msgstr "图像保存为..."
 
@@ -13058,8 +13058,8 @@ msgstr "正在查验 %s"
 msgid "%s attachment"
 msgstr "%s 附件"
 
-#: mail/mail-format.c:710 mail/mail-format.c:1513 mail/mail-format.c:1582
-#: mail/mail-format.c:1702 mail/mail-format.c:1826 mail/mail-format.c:1851
+#: mail/mail-format.c:710 mail/mail-format.c:1528 mail/mail-format.c:1597
+#: mail/mail-format.c:1717 mail/mail-format.c:1841 mail/mail-format.c:1866
 msgid "Could not parse MIME message. Displaying as source."
 msgstr "无法解析 MIME 邮件。显示源文本。"
 
@@ -13092,49 +13092,49 @@ msgstr "抄送"
 msgid "Bcc"
 msgstr "密件抄送"
 
-#: mail/mail-format.c:1625
+#: mail/mail-format.c:1640
 msgid ""
 "This message is digitally signed. Click the lock icon for more information."
 msgstr "该邮件有数字签名。单击锁图标以获得更多信息。"
 
-#: mail/mail-format.c:1653
+#: mail/mail-format.c:1668
 msgid "Could not create a PGP verfication context"
 msgstr "无法创建 PGP 校验上下文"
 
-#: mail/mail-format.c:1661
+#: mail/mail-format.c:1676
 msgid "This message is digitally signed and has been found to be authentic."
 msgstr "该邮件有数字签名，并被证实为可信。"
 
-#: mail/mail-format.c:1668
+#: mail/mail-format.c:1683
 msgid "This message is digitally signed but can not be proven to be authentic."
 msgstr "该邮件有数字签名，但不能证实是可信的。"
 
-#: mail/mail-format.c:1932
+#: mail/mail-format.c:1947
 #, c-format
 msgid "Pointer to FTP site (%s)"
 msgstr "指向 FTP 站点 (%s)"
 
-#: mail/mail-format.c:1943
+#: mail/mail-format.c:1958
 #, c-format
 msgid "Pointer to local file (%s) valid at site \"%s\""
 msgstr "在站点“%2$s”指向本地文件 (%1$s) 合法"
 
-#: mail/mail-format.c:1946
+#: mail/mail-format.c:1961
 #, c-format
 msgid "Pointer to local file (%s)"
 msgstr "指向本地文件 (%s)"
 
-#: mail/mail-format.c:1973
+#: mail/mail-format.c:1988
 #, c-format
 msgid "Pointer to remote data (%s)"
 msgstr "指向远程数据 (%s)"
 
-#: mail/mail-format.c:1979
+#: mail/mail-format.c:1994
 #, c-format
 msgid "Pointer to unknown external data (\"%s\" type)"
 msgstr "指向未知的外部数据 (“%s”类型)"
 
-#: mail/mail-format.c:1981
+#: mail/mail-format.c:1996
 msgid "Malformed external-body part."
 msgstr "格式不正确的 external-body 部分。"
 
@@ -13252,7 +13252,7 @@ msgstr "发送第 %d 个邮件，共 %d 个"
 msgid "Failed on message %d of %d"
 msgstr "在第 %d 个邮件失败，共 %d 个"
 
-#: mail/mail-ops.c:774 mail/mail-send-recv.c:581
+#: mail/mail-ops.c:774
 msgid "Complete."
 msgstr "完成。"
 
@@ -13410,38 +13410,38 @@ msgstr "查找："
 msgid "Matches:"
 msgstr "匹配："
 
-#: mail/mail-send-recv.c:146
+#: mail/mail-send-recv.c:147
 msgid "Cancelling..."
 msgstr "正在取消..."
 
-#: mail/mail-send-recv.c:254
+#: mail/mail-send-recv.c:255
 #, c-format
 msgid "Server: %s, Type: %s"
 msgstr "服务器：%s，类型：%s"
 
-#: mail/mail-send-recv.c:256
+#: mail/mail-send-recv.c:257
 #, c-format
 msgid "Path: %s, Type: %s"
 msgstr "路径：%s，类型：%s"
 
-#: mail/mail-send-recv.c:258
+#: mail/mail-send-recv.c:259
 #, c-format
 msgid "Type: %s"
 msgstr "类型：%s"
 
-#: mail/mail-send-recv.c:306
+#: mail/mail-send-recv.c:308
 msgid "Send & Receive Mail"
 msgstr "发送和接收邮件"
 
-#: mail/mail-send-recv.c:307
+#: mail/mail-send-recv.c:309
 msgid "Cancel _All"
 msgstr "全部取消(_A)"
 
-#: mail/mail-send-recv.c:389
+#: mail/mail-send-recv.c:391
 msgid "Updating..."
 msgstr "正在更新..."
 
-#: mail/mail-send-recv.c:390 mail/mail-send-recv.c:446
+#: mail/mail-send-recv.c:391 mail/mail-send-recv.c:448
 msgid "Waiting..."
 msgstr "正在等待..."
 
@@ -23644,6 +23644,10 @@ msgstr "显示"
 #: my-evolution/e-summary-tasks.c:330
 msgid "No tasks"
 msgstr "没有任务"
+
+#: my-evolution/e-summary-tasks.c:364
+msgid "blue"
+msgstr ""
 
 #: my-evolution/e-summary-tasks.c:364
 msgid "(No Description)"

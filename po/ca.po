@@ -8,14 +8,14 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution.HEAD.ca\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2003-09-01 02:06+0200\n"
+"POT-Creation-Date: 2003-09-15 14:36-0400\n"
 "PO-Revision-Date: 2003-09-01 02:05+0200\n"
 "Last-Translator: Enric Balletbó Serra <1105451@campus.uab.es>\n"
 "Language-Team: Catalan <tradgnome@softcatala.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Report-Msgid-Bugs-To: \n"
 "X-Generator: KBabel 1.0.1\n"
 
 #: addressbook/backend/ebook/GNOME_Evolution_Addressbook_LDIF_Importer.server.in.in.h:1
@@ -400,7 +400,7 @@ msgstr "Unitat organitzadora"
 msgid "Role"
 msgstr "Rol"
 
-#: addressbook/backend/ebook/e-card.c:1436 mail/mail-format.c:963
+#: addressbook/backend/ebook/e-card.c:1436 mail/mail-format.c:966
 msgid "Mailer"
 msgstr "Administrador de correu"
 
@@ -1400,7 +1400,7 @@ msgstr "Ca_tegories..."
 #: addressbook/gui/contact-editor/contact-editor.glade.h:28
 #: calendar/gui/dialogs/meeting-page.c:717 calendar/gui/e-calendar-table.c:977
 #: calendar/gui/e-day-view.c:3755 calendar/gui/e-week-view.c:3741
-#: mail/folder-browser.c:1812 ui/evolution-addressbook.xml.h:32
+#: mail/folder-browser.c:1814 ui/evolution-addressbook.xml.h:32
 #: ui/evolution-calendar.xml.h:30 ui/evolution-comp-editor.xml.h:17
 #: ui/evolution-mail-message.xml.h:97 ui/evolution-tasks.xml.h:17
 #: ui/evolution.xml.h:45
@@ -2848,8 +2848,8 @@ msgstr "Protocol no suportat"
 #: calendar/gui/calendar-model.c:759 calendar/gui/calendar-model.c:1184
 #: calendar/gui/dialogs/task-details-page.glade.h:3
 #: calendar/gui/e-calendar-table.c:477 calendar/gui/print.c:2307
-#: camel/camel-service.c:745 camel/camel-service.c:786
-#: camel/camel-service.c:876 camel/camel-service.c:919
+#: camel/camel-service.c:747 camel/camel-service.c:788
+#: camel/camel-service.c:878 camel/camel-service.c:921
 #: camel/providers/pop3/camel-pop3-store.c:443
 #: camel/providers/pop3/camel-pop3-store.c:520
 msgid "Cancelled"
@@ -3030,7 +3030,7 @@ msgstr "Copia"
 msgid "Paste"
 msgstr "Enganxa"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:915 filter/libfilter-i18n.h:11
+#: addressbook/gui/widgets/e-addressbook-view.c:915 filter/libfilter-i18n.h:10
 #: mail/mail-accounts.c:234 ui/evolution-addressbook.xml.h:8
 #: ui/evolution-comp-editor.xml.h:4 ui/evolution-contact-editor.xml.h:2
 #: ui/evolution-contact-list-editor.xml.h:2 ui/evolution-mail-message.xml.h:20
@@ -3968,7 +3968,7 @@ msgstr ""
 #. An empty string is the same as 'None'.
 #: calendar/gui/calendar-model.c:1176 calendar/gui/dialogs/meeting-page.c:330
 #: calendar/gui/dialogs/meeting-page.glade.h:2 composer/e-msg-composer.c:2067
-#: mail/folder-browser.c:1774 mail/mail-account-gui.c:1260
+#: mail/folder-browser.c:1776 mail/mail-account-gui.c:1260
 #: mail/mail-account-gui.c:1692 mail/mail-accounts.c:442
 #: mail/mail-config.glade.h:76
 #: widgets/e-timezone-dialog/e-timezone-dialog.c:194
@@ -4934,7 +4934,7 @@ msgstr ""
 
 #: calendar/gui/dialogs/meeting-page.etspec.h:10
 #: calendar/gui/e-calendar-table.etspec.h:15
-#: calendar/gui/e-meeting-time-sel.etspec.h:10 filter/libfilter-i18n.h:58
+#: calendar/gui/e-meeting-time-sel.etspec.h:10 filter/libfilter-i18n.h:36
 #: mail/message-list.etspec.h:12
 #, fuzzy
 msgid "Status"
@@ -5366,7 +5366,7 @@ msgid "Deleting selected objects"
 msgstr "Suprimeix un contacte"
 
 #: calendar/gui/e-calendar-table.c:958 calendar/gui/e-day-view.c:3737
-#: calendar/gui/e-week-view.c:3723 mail/folder-browser.c:1785
+#: calendar/gui/e-week-view.c:3723 mail/folder-browser.c:1787
 #: shell/e-shortcuts-view.c:422 ui/evolution-addressbook.xml.h:36
 #, fuzzy
 msgid "_Open"
@@ -5452,7 +5452,7 @@ msgid "Alarms"
 msgstr "Alarmes"
 
 #: calendar/gui/e-calendar-table.etspec.h:7 camel/camel-filter-driver.c:1156
-#: camel/camel-filter-driver.c:1251
+#: camel/camel-filter-driver.c:1251 mail/mail-send-recv.c:584
 #, fuzzy
 msgid "Complete"
 msgstr "% comp_let:"
@@ -5598,7 +5598,7 @@ msgid "_Settings..."
 msgstr "_Paràmetres"
 
 #: calendar/gui/e-day-view.c:3738 calendar/gui/e-week-view.c:3724
-#: mail/folder-browser.c:1787 ui/evolution-mail-message.xml.h:112
+#: mail/folder-browser.c:1789 ui/evolution-mail-message.xml.h:112
 #, fuzzy
 msgid "_Save As..."
 msgstr "Anomena i desa..."
@@ -5842,7 +5842,7 @@ msgid "Send Latest Information"
 msgstr "Cap informació"
 
 #: calendar/gui/e-itip-control.c:1211 calendar/gui/itip-utils.c:439
-#: mail/mail-send-recv.c:387 mail/mail-send-recv.c:444
+#: mail/mail-send-recv.c:389 mail/mail-send-recv.c:446
 #: shell/evolution-shell-component.c:1185 ui/evolution-mail-global.xml.h:1
 #, fuzzy
 msgid "Cancel"
@@ -8602,11 +8602,11 @@ msgstr ""
 "Error en preparar-se per a %s:\n"
 "%s"
 
-#: camel/camel-folder-search.c:575 camel/camel-folder-search.c:603
+#: camel/camel-folder-search.c:569 camel/camel-folder-search.c:598
 msgid "(match-all) requires a single bool result"
 msgstr ""
 
-#: camel/camel-folder-search.c:655
+#: camel/camel-folder-search.c:650
 #, c-format
 msgid "Performing query on unknown header: %s"
 msgstr ""
@@ -8665,7 +8665,7 @@ msgstr ""
 
 #: camel/camel-gpg-context.c:821 camel/camel-gpg-context.c:1297
 #: camel/camel-gpg-context.c:1403 camel/camel-gpg-context.c:1473
-#: camel/camel-gpg-context.c:1529 mail/mail-send-recv.c:577
+#: camel/camel-gpg-context.c:1529 mail/mail-send-recv.c:580
 #, fuzzy
 msgid "Cancelled."
 msgstr "CancelÂ·lat"
@@ -9103,56 +9103,56 @@ msgstr ""
 msgid "Regular expression compilation failed: %s: %s"
 msgstr "Error en escriure a la bústia de correu temporal: %s"
 
-#: camel/camel-service.c:282
+#: camel/camel-service.c:284
 #, c-format
 msgid "URL '%s' needs a username component"
 msgstr "L'URL '%s' necessita un component de nom d'usuari"
 
-#: camel/camel-service.c:290
+#: camel/camel-service.c:292
 #, c-format
 msgid "URL '%s' needs a host component"
 msgstr "L'URL '%s' necessita un component d'ordinador central"
 
-#: camel/camel-service.c:298
+#: camel/camel-service.c:300
 #, c-format
 msgid "URL '%s' needs a path component"
 msgstr "L'URL '%s' necessita un component de camí"
 
-#: camel/camel-service.c:750
+#: camel/camel-service.c:752
 #, fuzzy, c-format
 msgid "Resolving: %s"
 msgstr "S'està comprovant \"%s\""
 
-#: camel/camel-service.c:784 camel/camel-service.c:917
+#: camel/camel-service.c:786 camel/camel-service.c:919
 #, c-format
 msgid "Failure in name lookup: %s"
 msgstr ""
 
-#: camel/camel-service.c:805 camel/camel-service.c:938
+#: camel/camel-service.c:807 camel/camel-service.c:940
 #, fuzzy, c-format
 msgid "Host lookup failed: cannot create thread: %s"
 msgstr "No s'ha pogut crear el conducte: %s"
 
-#: camel/camel-service.c:819
+#: camel/camel-service.c:821
 #, c-format
 msgid "Host lookup failed: %s: host not found"
 msgstr ""
 
-#: camel/camel-service.c:822
+#: camel/camel-service.c:824
 #, c-format
 msgid "Host lookup failed: %s: unknown reason"
 msgstr ""
 
-#: camel/camel-service.c:881
+#: camel/camel-service.c:883
 #, fuzzy
 msgid "Resolving address"
 msgstr "S'està comprovant \"%s\""
 
-#: camel/camel-service.c:954
+#: camel/camel-service.c:956
 msgid "Host lookup failed: host not found"
 msgstr ""
 
-#: camel/camel-service.c:957
+#: camel/camel-service.c:959
 msgid "Host lookup failed: unknown reason"
 msgstr ""
 
@@ -11078,12 +11078,12 @@ msgid ""
 "<b>"
 msgstr ""
 
-#: data/evolution.desktop.in.h:1
+#: data/evolution.desktop.in.in.h:1
 #, fuzzy
 msgid "The Evolution groupware suite"
 msgstr "Barra de _dreceres de l'Evolution"
 
-#: data/evolution.desktop.in.h:2
+#: data/evolution.desktop.in.in.h:2
 #, fuzzy
 msgid "Ximian Evolution"
 msgstr "Evolution"
@@ -11504,34 +11504,34 @@ msgstr ""
 "Error en preparar-se per a %s:\n"
 "%s"
 
-#: filter/filter-label.c:121 filter/libfilter-i18n.h:26 mail/mail-config.c:65
-#: mail/mail-config.glade.h:62 shell/e-config-upgrade.c:1411
+#: filter/filter-label.c:121 filter/libfilter-i18n.h:17 mail/mail-config.c:65
+#: mail/mail-config.glade.h:62 shell/e-config-upgrade.c:1454
 msgid "Important"
 msgstr "Important"
 
 #. red
 #: filter/filter-label.c:122 mail/mail-config.c:66
-#: mail/mail-config.glade.h:129 shell/e-config-upgrade.c:1412
+#: mail/mail-config.glade.h:129 shell/e-config-upgrade.c:1455
 #, fuzzy
 msgid "Work"
 msgstr "S'està movent"
 
 #. orange
 #: filter/filter-label.c:123 mail/mail-config.c:67 mail/mail-config.glade.h:84
-#: shell/e-config-upgrade.c:1413
+#: shell/e-config-upgrade.c:1456
 msgid "Personal"
 msgstr "Personal"
 
 #. forest green
 #: filter/filter-label.c:124 mail/mail-config.c:68
-#: mail/mail-config.glade.h:120 shell/e-config-upgrade.c:1414
+#: mail/mail-config.glade.h:120 shell/e-config-upgrade.c:1457
 #, fuzzy
 msgid "To Do"
 msgstr "Per a"
 
 #. blue
 #: filter/filter-label.c:125 mail/mail-config.c:69 mail/mail-config.glade.h:66
-#: shell/e-config-upgrade.c:1415
+#: shell/e-config-upgrade.c:1458
 #, fuzzy
 msgid "Later"
 msgstr "després de"
@@ -11718,238 +11718,238 @@ msgid "Beep"
 msgstr "Mida"
 
 #: filter/libfilter-i18n.h:7
-msgid "contains"
-msgstr "conté"
-
-#: filter/libfilter-i18n.h:8
 msgid "Copy to Folder"
 msgstr "Copia a la carpeta"
 
-#: filter/libfilter-i18n.h:9
+#: filter/libfilter-i18n.h:8
 msgid "Date received"
 msgstr "Data de recepció"
 
-#: filter/libfilter-i18n.h:10
+#: filter/libfilter-i18n.h:9
 msgid "Date sent"
 msgstr "Data d'enviament"
 
-#: filter/libfilter-i18n.h:12
+#: filter/libfilter-i18n.h:11
 #, fuzzy
 msgid "Deleted"
 msgstr "Suprimeix"
 
-#: filter/libfilter-i18n.h:13
-msgid "does not contain"
-msgstr "no conté"
-
-#: filter/libfilter-i18n.h:14
-msgid "does not end with"
-msgstr "no acaba amb "
-
-#: filter/libfilter-i18n.h:15
-msgid "does not exist"
-msgstr "no existeix"
-
-#: filter/libfilter-i18n.h:16
-#, fuzzy
-msgid "does not return"
-msgstr "no existeix"
-
-#: filter/libfilter-i18n.h:17
-#, fuzzy
-msgid "does not sound like"
-msgstr "no acaba amb "
-
-#: filter/libfilter-i18n.h:18
-msgid "does not start with"
-msgstr "no comença per"
-
-#: filter/libfilter-i18n.h:19
+#: filter/libfilter-i18n.h:12
 #, fuzzy
 msgid "Do Not Exist"
 msgstr "no existeix"
 
-#: filter/libfilter-i18n.h:20
+#: filter/libfilter-i18n.h:13
 #, fuzzy
 msgid "Draft"
 msgstr "Data de venciment"
 
-#: filter/libfilter-i18n.h:21
-msgid "ends with"
-msgstr "acaba amb"
-
-#: filter/libfilter-i18n.h:22
+#: filter/libfilter-i18n.h:14
 #, fuzzy
 msgid "Exist"
 msgstr "S_urt"
 
-#: filter/libfilter-i18n.h:23
-msgid "exists"
-msgstr "existeix"
-
-#: filter/libfilter-i18n.h:24
+#: filter/libfilter-i18n.h:15
 msgid "Expression"
 msgstr "Expressió"
 
-#: filter/libfilter-i18n.h:25
+#: filter/libfilter-i18n.h:16
 msgid "Follow Up"
 msgstr ""
 
-#: filter/libfilter-i18n.h:27
-msgid "is"
-msgstr "és"
-
-#: filter/libfilter-i18n.h:28
-#, fuzzy
-msgid "is after"
-msgstr "ha estat després de"
-
-#: filter/libfilter-i18n.h:29
-#, fuzzy
-msgid "is before"
-msgstr "ha estat abans de"
-
-#: filter/libfilter-i18n.h:30
-msgid "is Flagged"
-msgstr ""
-
-#: filter/libfilter-i18n.h:31
-msgid "is greater than"
-msgstr "és més gran que"
-
-#: filter/libfilter-i18n.h:32
-msgid "is less than"
-msgstr "és més petit que"
-
-#: filter/libfilter-i18n.h:33
-msgid "is not"
-msgstr "no és"
-
-#: filter/libfilter-i18n.h:34
-#, fuzzy
-msgid "is not Flagged"
-msgstr "no és"
-
-#: filter/libfilter-i18n.h:35 mail/folder-browser.c:1822
+#: filter/libfilter-i18n.h:18 mail/folder-browser.c:1824
 #, fuzzy
 msgid "Label"
 msgstr "etiqueta9"
 
-#: filter/libfilter-i18n.h:36
+#: filter/libfilter-i18n.h:19
 #, fuzzy
 msgid "Mailing list"
 msgstr "Llista de correu %s"
 
-#: filter/libfilter-i18n.h:37
+#: filter/libfilter-i18n.h:20
 msgid "Message Body"
 msgstr "Cos del missatge"
 
-#: filter/libfilter-i18n.h:38
+#: filter/libfilter-i18n.h:21
 #, fuzzy
 msgid "Message Header"
 msgstr "Cos del missatge"
 
-#: filter/libfilter-i18n.h:39
+#: filter/libfilter-i18n.h:22
 msgid "Move to Folder"
 msgstr "Mou a la carpeta"
 
-#: filter/libfilter-i18n.h:40
+#: filter/libfilter-i18n.h:23
 #, fuzzy
 msgid "Pipe Message to Shell Command"
 msgstr "FIXME: Nou _missatge per contactar"
 
-#: filter/libfilter-i18n.h:41
+#: filter/libfilter-i18n.h:24
 #, fuzzy
 msgid "Play Sound"
 msgstr "Final del dia:"
 
-#: filter/libfilter-i18n.h:42 mail/message-tag-followup.c:68
+#: filter/libfilter-i18n.h:25 mail/message-tag-followup.c:68
 #, fuzzy
 msgid "Read"
 msgstr "Ràdio"
 
-#: filter/libfilter-i18n.h:43
+#: filter/libfilter-i18n.h:26
 msgid "Recipients"
 msgstr "Destinataris"
 
-#: filter/libfilter-i18n.h:44
+#: filter/libfilter-i18n.h:27
 msgid "Regex Match"
 msgstr ""
 
-#: filter/libfilter-i18n.h:45
+#: filter/libfilter-i18n.h:28
 #, fuzzy
 msgid "Replied to"
 msgstr "Respon a tots"
 
-#: filter/libfilter-i18n.h:46
-#, fuzzy
-msgid "returns"
-msgstr "Ocupat"
-
-#: filter/libfilter-i18n.h:47
-#, fuzzy
-msgid "returns greater than"
-msgstr "és més gran que"
-
-#: filter/libfilter-i18n.h:48
-#, fuzzy
-msgid "returns less than"
-msgstr "és més petit que"
-
-#: filter/libfilter-i18n.h:49 filter/score-rule.c:184 filter/score-rule.c:186
+#: filter/libfilter-i18n.h:29 filter/score-rule.c:184 filter/score-rule.c:186
 #: mail/message-list.etspec.h:10
 msgid "Score"
 msgstr "Puntuació"
 
-#: filter/libfilter-i18n.h:50 mail/mail-callbacks.c:1820
+#: filter/libfilter-i18n.h:30 mail/mail-callbacks.c:1820
 msgid "Sender"
 msgstr "Remitent"
 
-#: filter/libfilter-i18n.h:51
+#: filter/libfilter-i18n.h:31
 #, fuzzy
 msgid "Set Status"
 msgstr "Estat de la connexió"
 
-#: filter/libfilter-i18n.h:52
+#: filter/libfilter-i18n.h:32
 #, fuzzy
 msgid "Shell Command"
 msgstr "Empresa"
 
-#: filter/libfilter-i18n.h:53
+#: filter/libfilter-i18n.h:33
 #, fuzzy
 msgid "Size (kB)"
 msgstr "Mida"
 
-#: filter/libfilter-i18n.h:54
-msgid "sounds like"
-msgstr "sona com"
-
-#: filter/libfilter-i18n.h:55
+#: filter/libfilter-i18n.h:34
 #, fuzzy
 msgid "Source Account"
 msgstr "conté"
 
-#: filter/libfilter-i18n.h:56
+#: filter/libfilter-i18n.h:35
 msgid "Specific header"
 msgstr "Especifiqueu la capçalera"
 
-#: filter/libfilter-i18n.h:57
-msgid "starts with"
-msgstr "comença per"
-
-#: filter/libfilter-i18n.h:59
+#: filter/libfilter-i18n.h:37
 msgid "Stop Processing"
 msgstr "Atura el processament"
 
-#: filter/libfilter-i18n.h:60 mail/mail-format.c:934
+#: filter/libfilter-i18n.h:38 mail/mail-format.c:937
 #: mail/message-list.etspec.h:13 mail/message-tag-followup.c:305
 msgid "Subject"
 msgstr "Assumpte"
 
-#: filter/libfilter-i18n.h:61
+#: filter/libfilter-i18n.h:39
 #, fuzzy
 msgid "Unset Status"
 msgstr "Estat de la connexió"
+
+#: filter/libfilter-i18n.h:40
+msgid "contains"
+msgstr "conté"
+
+#: filter/libfilter-i18n.h:41
+msgid "does not contain"
+msgstr "no conté"
+
+#: filter/libfilter-i18n.h:42
+msgid "does not end with"
+msgstr "no acaba amb "
+
+#: filter/libfilter-i18n.h:43
+msgid "does not exist"
+msgstr "no existeix"
+
+#: filter/libfilter-i18n.h:44
+#, fuzzy
+msgid "does not return"
+msgstr "no existeix"
+
+#: filter/libfilter-i18n.h:45
+#, fuzzy
+msgid "does not sound like"
+msgstr "no acaba amb "
+
+#: filter/libfilter-i18n.h:46
+msgid "does not start with"
+msgstr "no comença per"
+
+#: filter/libfilter-i18n.h:47
+msgid "ends with"
+msgstr "acaba amb"
+
+#: filter/libfilter-i18n.h:48
+msgid "exists"
+msgstr "existeix"
+
+#: filter/libfilter-i18n.h:49
+msgid "is Flagged"
+msgstr ""
+
+#: filter/libfilter-i18n.h:50
+#, fuzzy
+msgid "is after"
+msgstr "ha estat després de"
+
+#: filter/libfilter-i18n.h:51
+#, fuzzy
+msgid "is before"
+msgstr "ha estat abans de"
+
+#: filter/libfilter-i18n.h:52
+msgid "is greater than"
+msgstr "és més gran que"
+
+#: filter/libfilter-i18n.h:53
+msgid "is less than"
+msgstr "és més petit que"
+
+#: filter/libfilter-i18n.h:54
+#, fuzzy
+msgid "is not Flagged"
+msgstr "no és"
+
+#: filter/libfilter-i18n.h:55
+msgid "is not"
+msgstr "no és"
+
+#: filter/libfilter-i18n.h:56
+msgid "is"
+msgstr "és"
+
+#: filter/libfilter-i18n.h:57
+#, fuzzy
+msgid "returns greater than"
+msgstr "és més gran que"
+
+#: filter/libfilter-i18n.h:58
+#, fuzzy
+msgid "returns less than"
+msgstr "és més petit que"
+
+#: filter/libfilter-i18n.h:59
+#, fuzzy
+msgid "returns"
+msgstr "Ocupat"
+
+#: filter/libfilter-i18n.h:60
+msgid "sounds like"
+msgstr "sona com"
+
+#: filter/libfilter-i18n.h:61
+msgid "starts with"
+msgstr "comença per"
 
 #: filter/rule-context.c:664 filter/rule-editor.c:241 filter/rule-editor.c:326
 #: mail/mail-vfolder.c:917
@@ -12365,152 +12365,152 @@ msgstr " segons"
 msgid "%d total"
 msgstr ""
 
-#: mail/folder-browser.c:1204
+#: mail/folder-browser.c:1206
 #, fuzzy
 msgid "Create _Virtual Folder From Search..."
 msgstr "Carpetes virtuals"
 
-#: mail/folder-browser.c:1758
+#: mail/folder-browser.c:1760
 #, fuzzy
 msgid "VFolder on _Subject"
 msgstr "VFolder sobre l'assumpte"
 
-#: mail/folder-browser.c:1759
+#: mail/folder-browser.c:1761
 msgid "VFolder on Se_nder"
 msgstr "VFolder sobre el remite_nt"
 
-#: mail/folder-browser.c:1760
+#: mail/folder-browser.c:1762
 msgid "VFolder on _Recipients"
 msgstr "VFolder sobre els destinata_ris"
 
-#: mail/folder-browser.c:1761
+#: mail/folder-browser.c:1763
 #, fuzzy
 msgid "VFolder on Mailing _List"
 msgstr "Filtre sobre la llista de correu"
 
-#: mail/folder-browser.c:1765
+#: mail/folder-browser.c:1767
 #, fuzzy
 msgid "Filter on Sub_ject"
 msgstr "Filtre sobre l'assumpte"
 
-#: mail/folder-browser.c:1766
+#: mail/folder-browser.c:1768
 #, fuzzy
 msgid "Filter on Sen_der"
 msgstr "Filtre sobre el remitent"
 
-#: mail/folder-browser.c:1767
+#: mail/folder-browser.c:1769
 #, fuzzy
 msgid "Filter on Re_cipients"
 msgstr "Filtre sobre els destinataris"
 
-#: mail/folder-browser.c:1768 mail/folder-browser.c:2092
+#: mail/folder-browser.c:1770 mail/folder-browser.c:2094
 #, fuzzy
 msgid "Filter on _Mailing List"
 msgstr "Filtre sobre la llista de correu"
 
-#: mail/folder-browser.c:1786
+#: mail/folder-browser.c:1788
 #, fuzzy
 msgid "_Edit as New Message..."
 msgstr "_Anomena i desa..."
 
-#: mail/folder-browser.c:1788
+#: mail/folder-browser.c:1790
 msgid "_Print"
 msgstr "_Imprimeix"
 
-#: mail/folder-browser.c:1792 ui/evolution-mail-message.xml.h:110
+#: mail/folder-browser.c:1794 ui/evolution-mail-message.xml.h:110
 #, fuzzy
 msgid "_Reply to Sender"
 msgstr "Respon al remitent"
 
-#: mail/folder-browser.c:1793 ui/evolution-mail-message.xml.h:75
+#: mail/folder-browser.c:1795 ui/evolution-mail-message.xml.h:75
 #, fuzzy
 msgid "Reply to _List"
 msgstr "Respon a _tots"
 
-#: mail/folder-browser.c:1794 ui/evolution-mail-message.xml.h:74
+#: mail/folder-browser.c:1796 ui/evolution-mail-message.xml.h:74
 msgid "Reply to _All"
 msgstr "Respon a _tots"
 
-#: mail/folder-browser.c:1795
+#: mail/folder-browser.c:1797
 msgid "_Forward"
 msgstr "_Reenvia"
 
-#: mail/folder-browser.c:1799
+#: mail/folder-browser.c:1801
 msgid "Follo_w Up..."
 msgstr ""
 
-#: mail/folder-browser.c:1800
+#: mail/folder-browser.c:1802
 #, fuzzy
 msgid "Fla_g Completed"
 msgstr "% comp_let:"
 
-#: mail/folder-browser.c:1801
+#: mail/folder-browser.c:1803
 #, fuzzy
 msgid "Cl_ear Flag"
 msgstr "Agenda"
 
 #. separator here?
-#: mail/folder-browser.c:1805 ui/evolution-mail-message.xml.h:43
+#: mail/folder-browser.c:1807 ui/evolution-mail-message.xml.h:43
 #, fuzzy
 msgid "Mar_k as Read"
 msgstr "Mar_ca'l com a llegit"
 
-#: mail/folder-browser.c:1806
+#: mail/folder-browser.c:1808
 #, fuzzy
 msgid "Mark as _Unread"
 msgstr "Marca'l com a per _llegir"
 
-#: mail/folder-browser.c:1807
+#: mail/folder-browser.c:1809
 #, fuzzy
 msgid "Mark as _Important"
 msgstr "Marca'l com a per _llegir"
 
-#: mail/folder-browser.c:1808
+#: mail/folder-browser.c:1810
 #, fuzzy
 msgid "_Mark as Unimportant"
 msgstr "Marca'l com a per _llegir"
 
-#: mail/folder-browser.c:1813
+#: mail/folder-browser.c:1815
 #, fuzzy
 msgid "U_ndelete"
 msgstr "_Suprimeix"
 
-#: mail/folder-browser.c:1817
+#: mail/folder-browser.c:1819
 #, fuzzy
 msgid "Mo_ve to Folder..."
 msgstr "Mou a la carpeta"
 
-#: mail/folder-browser.c:1818 ui/evolution-addressbook.xml.h:31
+#: mail/folder-browser.c:1820 ui/evolution-addressbook.xml.h:31
 #, fuzzy
 msgid "_Copy to Folder..."
 msgstr "_Copia a la carpeta"
 
-#: mail/folder-browser.c:1826
+#: mail/folder-browser.c:1828
 #, fuzzy
 msgid "Add Sender to Address_book"
 msgstr "Desa a la llibreta d'adreces"
 
-#: mail/folder-browser.c:1830
+#: mail/folder-browser.c:1832
 #, fuzzy
 msgid "Appl_y Filters"
 msgstr "_Aplica els filtres"
 
-#: mail/folder-browser.c:1834
+#: mail/folder-browser.c:1836
 #, fuzzy
 msgid "Crea_te Rule From Message"
 msgstr "Carpetes virtuals"
 
-#: mail/folder-browser.c:2093
+#: mail/folder-browser.c:2095
 #, fuzzy
 msgid "VFolder on M_ailing List"
 msgstr "Filtre sobre la llista de correu"
 
-#: mail/folder-browser.c:2095
+#: mail/folder-browser.c:2097
 #, fuzzy, c-format
 msgid "Filter on _Mailing List (%s)"
 msgstr "Filtre sobre la llista de correu (%s)"
 
-#: mail/folder-browser.c:2096
+#: mail/folder-browser.c:2098
 #, fuzzy, c-format
 msgid "VFolder on M_ailing List (%s)"
 msgstr "Filtre sobre la llista de correu (%s)"
@@ -12618,7 +12618,7 @@ msgstr "Nom d'usuari:"
 msgid "_Path:"
 msgstr "Camí:"
 
-#: mail/mail-account-gui.c:1887
+#: mail/mail-account-gui.c:1886
 msgid "You may not create two accounts with the same name."
 msgstr ""
 
@@ -13748,22 +13748,22 @@ msgstr "Elements que ja han vençut:"
 msgid "by %B %d, %Y, %l:%M %p"
 msgstr "%a %d/%m/%Y %I:%M:%S %p"
 
-#: mail/mail-display.c:2243
+#: mail/mail-display.c:2236
 #, fuzzy
 msgid "Open Link in Browser"
 msgstr "Obre'l en una nova finestra"
 
-#: mail/mail-display.c:2244
+#: mail/mail-display.c:2237
 #, fuzzy
 msgid "Copy Link Location"
 msgstr "_Contacte (FIXME)"
 
-#: mail/mail-display.c:2246
+#: mail/mail-display.c:2239
 #, fuzzy
 msgid "Save Link as (FIXME)"
 msgstr "_Tasca (FIXME)"
 
-#: mail/mail-display.c:2248
+#: mail/mail-display.c:2241
 #, fuzzy
 msgid "Save Image as..."
 msgstr "Anomena i desa..."
@@ -13773,96 +13773,96 @@ msgstr "Anomena i desa..."
 msgid "Pinging %s"
 msgstr "S'està examinant %s"
 
-#: mail/mail-format.c:665
+#: mail/mail-format.c:668
 #, fuzzy, c-format
 msgid "%s attachment"
 msgstr "adjunció"
 
-#: mail/mail-format.c:707 mail/mail-format.c:1370 mail/mail-format.c:1439
-#: mail/mail-format.c:1559 mail/mail-format.c:1683 mail/mail-format.c:1708
+#: mail/mail-format.c:710 mail/mail-format.c:1528 mail/mail-format.c:1597
+#: mail/mail-format.c:1717 mail/mail-format.c:1841 mail/mail-format.c:1866
 #, fuzzy
 msgid "Could not parse MIME message. Displaying as source."
 msgstr "No s'ha pogut obrir la carpeta: la llista de missatges era incompleta."
 
-#: mail/mail-format.c:785 mail/message-list.etspec.h:2
+#: mail/mail-format.c:788 mail/message-list.etspec.h:2
 #, fuzzy
 msgid "Date"
 msgstr "Data de venciment"
 
-#: mail/mail-format.c:871
+#: mail/mail-format.c:874
 #, fuzzy
 msgid "Bad Address"
 msgstr "Adreça electrònica:"
 
-#: mail/mail-format.c:912 mail/message-list.etspec.h:7
+#: mail/mail-format.c:915 mail/message-list.etspec.h:7
 #: mail/message-tag-followup.c:301
 #, fuzzy
 msgid "From"
 msgstr "De:"
 
-#: mail/mail-format.c:916
+#: mail/mail-format.c:919
 #, fuzzy
 msgid "Reply-To"
 msgstr "Respon"
 
-#: mail/mail-format.c:921 mail/message-list.etspec.h:14
+#: mail/mail-format.c:924 mail/message-list.etspec.h:14
 msgid "To"
 msgstr "Per a"
 
-#: mail/mail-format.c:926
+#: mail/mail-format.c:929
 #, fuzzy
 msgid "Cc"
 msgstr "Cc:"
 
-#: mail/mail-format.c:931
+#: mail/mail-format.c:934
 #, fuzzy
 msgid "Bcc"
 msgstr "Bcc:"
 
-#: mail/mail-format.c:1482
+#: mail/mail-format.c:1640
 msgid ""
 "This message is digitally signed. Click the lock icon for more information."
 msgstr ""
 
-#: mail/mail-format.c:1510
+#: mail/mail-format.c:1668
 #, fuzzy
 msgid "Could not create a PGP verfication context"
 msgstr "No s'ha pogut crear el quadre de diàleg."
 
-#: mail/mail-format.c:1518
+#: mail/mail-format.c:1676
 msgid "This message is digitally signed and has been found to be authentic."
 msgstr ""
 
-#: mail/mail-format.c:1525
+#: mail/mail-format.c:1683
 msgid "This message is digitally signed but can not be proven to be authentic."
 msgstr ""
 
-#: mail/mail-format.c:1789
+#: mail/mail-format.c:1947
 #, c-format
 msgid "Pointer to FTP site (%s)"
 msgstr ""
 
-#: mail/mail-format.c:1800
+#: mail/mail-format.c:1958
 #, c-format
 msgid "Pointer to local file (%s) valid at site \"%s\""
 msgstr ""
 
-#: mail/mail-format.c:1803
+#: mail/mail-format.c:1961
 #, fuzzy, c-format
 msgid "Pointer to local file (%s)"
 msgstr "Filtre sobre la llista de correu (%s)"
 
-#: mail/mail-format.c:1830
+#: mail/mail-format.c:1988
 #, fuzzy, c-format
 msgid "Pointer to remote data (%s)"
 msgstr "Filtre sobre la llista de correu (%s)"
 
-#: mail/mail-format.c:1836
+#: mail/mail-format.c:1994
 #, c-format
 msgid "Pointer to unknown external data (\"%s\" type)"
 msgstr ""
 
-#: mail/mail-format.c:1838
+#: mail/mail-format.c:1996
 msgid "Malformed external-body part."
 msgstr ""
 
@@ -13984,7 +13984,7 @@ msgstr "S'està escrivint el missatge %d de %d"
 msgid "Failed on message %d of %d"
 msgstr "S'està marcant el missatge %d de %d"
 
-#: mail/mail-ops.c:774 mail/mail-send-recv.c:581
+#: mail/mail-ops.c:774
 #, fuzzy
 msgid "Complete."
 msgstr "% comp_let:"
@@ -14150,42 +14150,42 @@ msgstr "Cerca"
 msgid "Matches:"
 msgstr "Camí:"
 
-#: mail/mail-send-recv.c:146
+#: mail/mail-send-recv.c:147
 #, fuzzy
 msgid "Cancelling..."
 msgstr "CancelÂ·lat"
 
-#: mail/mail-send-recv.c:254
+#: mail/mail-send-recv.c:255
 #, fuzzy, c-format
 msgid "Server: %s, Type: %s"
 msgstr "Servidor:"
 
-#: mail/mail-send-recv.c:256
+#: mail/mail-send-recv.c:257
 #, c-format
 msgid "Path: %s, Type: %s"
 msgstr ""
 
-#: mail/mail-send-recv.c:258
+#: mail/mail-send-recv.c:259
 #, fuzzy, c-format
 msgid "Type: %s"
 msgstr "Tipus:"
 
-#: mail/mail-send-recv.c:306
+#: mail/mail-send-recv.c:308
 #, fuzzy
 msgid "Send & Receive Mail"
 msgstr "Sendmail"
 
-#: mail/mail-send-recv.c:307
+#: mail/mail-send-recv.c:309
 #, fuzzy
 msgid "Cancel _All"
 msgstr "CancelÂ·lat"
 
-#: mail/mail-send-recv.c:389
+#: mail/mail-send-recv.c:391
 #, fuzzy
 msgid "Updating..."
 msgstr "_Paràmetres"
 
-#: mail/mail-send-recv.c:390 mail/mail-send-recv.c:446
+#: mail/mail-send-recv.c:391 mail/mail-send-recv.c:448
 #, fuzzy
 msgid "Waiting..."
 msgstr "_Paràmetres"
@@ -25335,6 +25335,10 @@ msgstr "Mostra"
 #, fuzzy
 msgid "No tasks"
 msgstr "Mostra les _adjuncions"
+
+#: my-evolution/e-summary-tasks.c:364
+msgid "blue"
+msgstr ""
 
 #: my-evolution/e-summary-tasks.c:364
 #, fuzzy
