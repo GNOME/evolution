@@ -24,6 +24,8 @@
 #ifndef __ITIP_CONTROL_FACTORY_H__
 #define __ITIP_CONTROL_FACTORY_H__
 
-void             itip_control_factory_init (void);
+#include <bonobo/bonobo-control.h>
+
+BonoboControl *itip_bonobo_control_new (void);
 
 #endif /* __ITIP_CONTROL_H__ */

@@ -1,8 +1,7 @@
 /* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*- */
 /* control-factory.c
  *
- * Copyright (C) 2000  Ximian, Inc.
- * Copyright (C) 2000  Ximian, Inc.
+ * Copyright (C) 2000, 2001, 2002, 2003  Ximian, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public
@@ -43,12 +42,9 @@
 #define PROPERTY_CALENDAR_VIEW     "view"
 #define PROPERTY_CALENDAR_VIEW_IDX 2
 
-#define CONTROL_FACTORY_ID   "OAFIID:GNOME_Evolution_Calendar_ControlFactory"
-
 
 CORBA_Environment ev;
 CORBA_ORB orb;
-
 
 static void
 control_activate_cb (BonoboControl *control, gboolean activate, gpointer data)
@@ -178,68 +174,6 @@ calendar_properties_init (GnomeCalendar *gcal, BonoboControl *control)
 	bonobo_object_unref (BONOBO_OBJECT (pbag));
 }
 
-/* Callback factory function for calendar controls */
-static BonoboObject *
-control_factory_fn (BonoboGenericFactory *Factory, const char *id, void *data)
-{
-	BonoboControl *control;
-
-	if (strcmp (id, CONTROL_FACTORY_ID) == 0) {
-		control = control_factory_new_control ();
-		if (control)
-			return BONOBO_OBJECT (control);
-		else
-			return NULL;
-	} else {
-		g_warning ("Unknown ID in calendar control factory -- %s", id);
-		return NULL;
-	}
-}
-
-
-void
-control_factory_init (void)
-{
-	static BonoboGenericFactory *factory = NULL;
-
-	if (factory != NULL)
-		return;
-
-	factory = bonobo_generic_factory_new (CONTROL_FACTORY_ID, control_factory_fn, NULL);
-	bonobo_running_context_auto_exit_unref (BONOBO_OBJECT (factory));
-	
-	if (factory == NULL)
-		g_error ("I could not register a Calendar control factory.");
-}
-
-#if 0
-static int
-load_calendar (BonoboPersistFile *pf, const CORBA_char *filename, CORBA_Environment *ev, void *closure)
-{
-	GnomeCalendar *gcal = closure;
-	
-	return gnome_calendar_open (gcal, filename);
-}
-
-static int
-save_calendar (BonoboPersistFile *pf, const CORBA_char *filename,
-	       CORBA_Environment *ev,
-	       void *closure)
-{
-	/* Do not know how to save stuff yet */
-	return -1;
-}
-
-static void
-calendar_persist_init (GnomeCalendar *gcal, BonoboControl *control)
-{
-	BonoboPersistFile *f;
-
-	f = bonobo_persist_file_new (load_calendar, save_calendar, gcal);
-	bonobo_object_add_interface (BONOBO_OBJECT (control), BONOBO_OBJECT (f));
-}
-#endif
-
 BonoboControl *
 control_factory_new_control (void)
 {
@@ -260,9 +194,6 @@ control_factory_new_control (void)
 	g_object_set_data (G_OBJECT (gcal), "control", control);
 
 	calendar_properties_init (gcal, control);
-#if 0
-	calendar_persist_init (gcal, control);
-#endif
 					      
 	g_signal_connect (control, "activate", G_CALLBACK (control_activate_cb), gcal);
 

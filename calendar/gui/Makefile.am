@@ -33,7 +33,8 @@ SUBDIRS = alarm-notify dialogs
 
 help_base = $(datadir)/gnome/help/cal
 
-libexec_PROGRAMS = evolution-calendar
+componentdir = $(COMPONENT_DIR)
+component_LTLIBRARIES = libevolution-calendar.la
 
 INCLUDES = 							\
 	-DG_LOG_DOMAIN=\"calendar-gui\"				\
@@ -67,7 +68,7 @@ glade_DATA = 					\
 etspecdir = $(datadir)/evolution/etspec/
 etspec_DATA = e-calendar-table.etspec e-meeting-time-sel.etspec
 
-evolution_calendar_SOURCES =			\
+libevolution_calendar_la_SOURCES =		\
 	$(IDL_GENERATED)			\
 	cal-search-bar.c			\
 	cal-search-bar.h			\
@@ -75,6 +76,8 @@ evolution_calendar_SOURCES =			\
 	calendar-config.h			\
 	calendar-commands.c			\
 	calendar-commands.h			\
+	calendar-component.c			\
+	calendar-component.h			\
 	calendar-model.c			\
 	calendar-model.h			\
 	calendar-offline-handler.c		\
@@ -87,12 +90,8 @@ evolution_calendar_SOURCES =			\
 	comp-editor-factory.h			\
 	comp-util.c				\
 	comp-util.h				\
-	config-control-factory.c		\
-	config-control-factory.h		\
 	control-factory.c			\
 	control-factory.h			\
-	component-factory.c			\
-	component-factory.h			\
 	e-calendar-table.h			\
 	e-calendar-table.c			\
 	e-cell-date-edit-text.h			\
@@ -140,8 +139,8 @@ evolution_calendar_SOURCES =			\
 	gnome-cal.h				\
 	goto.c					\
 	goto.h					\
-	itip-control-factory.c			\
-	itip-control-factory.h			\
+	itip-bonobo-control.c			\
+	itip-bonobo-control.h			\
 	itip-utils.c				\
 	itip-utils.h				\
 	main.c					\
@@ -151,8 +150,6 @@ evolution_calendar_SOURCES =			\
 	print.h					\
 	tag-calendar.c				\
 	tag-calendar.h				\
-	tasks-control-factory.c			\
-	tasks-control-factory.h			\
 	tasks-control.c				\
 	tasks-control.h				\
 	tasks-migrate.c				\
@@ -160,7 +157,7 @@ evolution_calendar_SOURCES =			\
 	weekday-picker.c			\
 	weekday-picker.h
 
-evolution_calendar_LDADD =								\
+libevolution_calendar_la_LIBADD =							\
 	alarm-notify/libalarm.a								\
 	$(DB3_LDADD)									\
 	$(top_builddir)/widgets/menus/libmenus.la					\
@@ -179,14 +176,12 @@ evolution_calendar_LDADD =								\
 	$(top_builddir)/widgets/misc/libemiscwidgets.a					\
 	$(EVOLUTION_CALENDAR_LIBS)
 
-evolution_calendar_LDFLAGS = -export-dynamic
-
 server_in_files = GNOME_Evolution_Calendar.server.in.in
 
 serverdir = $(libdir)/bonobo/servers
 server_DATA = $(server_in_files:.server.in.in=.server)
 $(server_in_files:.server.in.in=.server.in): $(server_in_files)
-	sed -e "s|\@LIBEXECDIR\@|$(libexecdir)|" $< > $@
+	sed -e "s|\@COMPONENTDIR\@|$(componentdir)|" $< > $@
 
 @INTLTOOL_SERVER_RULE@
 
@@ -195,22 +190,11 @@ EXTRA_DIST =	 			\
 	$(etspec_DATA)			\
 	$(server_in_files)
 
+CLEANFILES = $(BUILT_SOURCES)
+
 install-data-local:
 	$(mkinstalldirs) $(DESTDIR)$(help_base)/C
 	$(mkinstalldirs) $(Conduitsdir)
-
-if ENABLE_PURIFY
-PLINK = $(LIBTOOL) --mode=link $(PURIFY) $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(LDFLAGS) -o $@
-
-all-local: evolution-calendar.pure
-
-evolution-calendar.pure: evolution-calendar
-	@rm -f evolution-calendar.pure
-	$(PLINK) $(evolution_calendar_LDFLAGS) $(evolution_calendar_OBJECTS) $(evolution_calendar_LDADD) $(LIBS)
-
-endif
-
-CLEANFILES = $(BUILT_SOURCES)
 
 dist-hook:
 	cd $(distdir); rm -f $(BUILT_SOURCES)

@@ -27,7 +27,8 @@
 #include <libgnome/gnome-i18n.h>
 #include <libgnomeui/gnome-dialog-util.h>
 #include <cal-client/cal-client.h>
-#include "component-factory.h"
+
+#include "calendar-component.h"
 #include "tasks-migrate.h"
 
 

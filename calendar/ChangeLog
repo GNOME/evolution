@@ -1,3 +1,35 @@
+2003-01-13  Ettore Perazzoli  <ettore@ximian.com>
+
+	* gui/config-control-factory.h: Removed.
+	* gui/config-control-factory.c: Removed.
+
+	* gui/itip-bonobo-control.c: Renamed from itip-control-factory.c.
+	(itip_bonobo_control_new): New.
+	(itip_control_factory_init): Removed.
+
+	* gui/itip-bonobo-control.h: Renamed from itip-control-factory.h.
+
+	* gui/tasks-control-factory.c: Removed.
+	* gui/tasks-control-factory.h: Removed.
+
+	* gui/control-factory.c (control_factory_init): Removed.
+
+	* gui/Makefile.am: Updated to build everything as
+	libevolution-calendar.so and install in the COMPONENTDIR.
+
+	* gui/GNOME_Evolution_Calendar.server.in.in: Updated to build the
+	component as a shared library.
+
+	* gui/main.c (main): Removed.
+
+	* gui/calendar-component.c (calendar_component_get_object): New.
+	(owner_set_cb): Do not store the shell pointer in shells.
+	(owner_unset_cb): Do not remove the shell pointer from shells;
+	instead, just set global_shell_client to NULL.
+
+	* gui/calendar-component.h: Renamed from component-factory.h.
+	* gui/calendar-component.c: Renamed from component-factory.c.
+
 2003-01-10  Ettore Perazzoli  <ettore@ximian.com>
 
 	* importers/icalendar-importer.c (connect_to_shell):

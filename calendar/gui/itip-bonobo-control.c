@@ -34,7 +34,7 @@
 #include <ical.h>
 
 #include "e-itip-control.h"
-#include "itip-control-factory.h"
+#include "itip-bonobo-control.h"
 
 extern gchar *evolution_dir;
 
@@ -195,10 +195,10 @@ set_prop ( BonoboPropertyBag *bag,
 }
 
 
-static BonoboObject *
-itip_control_factory (BonoboGenericFactory *Factory, void *closure)
+BonoboControl *
+itip_bonobo_control_new (void)
 {
-	BonoboControl      *control;
+	BonoboControl *control;
 	BonoboPropertyBag *prop_bag;
 	BonoboPersistStream *stream;
 	GtkWidget *itip;
@@ -230,23 +230,5 @@ itip_control_factory (BonoboGenericFactory *Factory, void *closure)
 	bonobo_object_add_interface (BONOBO_OBJECT (control),
 				     BONOBO_OBJECT (stream));
 
-	return BONOBO_OBJECT (control);
+	return control;
 }
-
-void
-itip_control_factory_init (void)
-{
-	static BonoboGenericFactory *factory = NULL;
-
-	if (factory != NULL)
-		return;
-
-	factory = bonobo_generic_factory_new (
-		"OAFIID:GNOME_Evolution_Calendar_iTip_ControlFactory",
-		itip_control_factory, NULL);
-	bonobo_running_context_auto_exit_unref (BONOBO_OBJECT (factory));;
-	
-	if (factory == NULL)
-		g_error ("I could not register an iTip control factory.");
-}
-

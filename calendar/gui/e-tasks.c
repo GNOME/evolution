@@ -29,12 +29,13 @@
 #include <gal/menus/gal-view-instance.h>
 #include <gal/menus/gal-view-factory-etable.h>
 #include <gal/menus/gal-view-etable.h>
+
 #include "e-util/e-url.h"
 #include "widgets/menus/gal-view-menus.h"
 #include "dialogs/task-editor.h"
 #include "cal-search-bar.h"
 #include "calendar-config.h"
-#include "component-factory.h"
+#include "calendar-component.h"
 #include "misc.h"
 
 #include "e-tasks.h"

@@ -43,7 +43,8 @@
 #include <gal/widgets/e-gui-utils.h>
 #include <widgets/misc/e-dateedit.h>
 #include <e-util/e-dialog-widgets.h>
-#include "../component-factory.h"
+
+#include "../calendar-component.h"
 #include "../e-meeting-attendee.h"
 #include "../e-meeting-model.h"
 #include "../itip-utils.h"

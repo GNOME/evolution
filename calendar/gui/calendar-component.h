@@ -1,8 +1,7 @@
 /* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*- */
 /* component-factory.h
  *
- * Copyright (C) 2000  Ximian, Inc.
- * Copyright (C) 2000  Ximian, Inc.
+ * Copyright (C) 2000, 2001, 2002, 2003  Ximian, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public
@@ -24,8 +23,10 @@
 #ifndef _COMPONENT_FACTORY_H_
 #define _COMPONENT_FACTORY_H_
 
+#include <bonobo/bonobo-object.h>
+
 extern char *evolution_dir;
 
-void  component_factory_init  (void);
+BonoboObject *calendar_component_get_object (void);
 
 #endif /* _COMPONENT_FACTORY_H_ */

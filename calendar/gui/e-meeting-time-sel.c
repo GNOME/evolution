@@ -63,7 +63,8 @@
 #include <gal/e-table/e-table-header-utils.h>
 
 #include <widgets/misc/e-dateedit.h>
-#include "component-factory.h"
+
+#include "calendar-component.h"
 #include "calendar-config.h"
 #include "e-meeting-utils.h"
 #include "e-meeting-time-sel-item.h"

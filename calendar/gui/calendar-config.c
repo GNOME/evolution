@@ -34,7 +34,8 @@
 #include <libgnomeui/gnome-dialog.h>
 #include <widgets/e-timezone-dialog/e-timezone-dialog.h>
 #include <cal-util/timeutil.h>
-#include "component-factory.h"
+
+#include "calendar-component.h"
 #include "calendar-commands.h"
 #include "e-tasks.h"
 #include "e-cell-date-edit-text.h"

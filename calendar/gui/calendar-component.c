@@ -1,8 +1,7 @@
 /* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*- */
 /* component-factory.c
  *
- * Copyright (C) 2000  Ximian, Inc.
- * Copyright (C) 2000  Ximian, Inc.
+ * Copyright (C) 2000, 2001, 2002, 2003  Ximian, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public
@@ -34,11 +33,11 @@
 #include <bonobo/bonobo-generic-factory.h>
 #include <bonobo/bonobo-context.h>
 #include <bonobo/bonobo-exception.h>
+
 #include "evolution-shell-component.h"
 #include "calendar-offline-handler.h"
-#include "component-factory.h"
-#include "tasks-control-factory.h"
-#include "config-control-factory.h"
+#include "calendar-component.h"
+#include "tasks-control.h"
 #include "control-factory.h"
 #include "calendar-config.h"
 #include "tasks-control.h"
@@ -502,8 +501,6 @@ request_quit (EvolutionShellComponent *shell_component, void *closure)
 	return e_comp_editor_registry_close_all (comp_editor_registry);
 }
 
-static GList *shells = NULL;
-
 static void
 owner_set_cb (EvolutionShellComponent *shell_component,
 	      EvolutionShellClient *shell_client,
@@ -519,21 +516,14 @@ owner_set_cb (EvolutionShellComponent *shell_component,
 		migrated = TRUE;
 	}
 
-	shells = g_list_append (shells, shell_component);
-
 	global_shell_client = shell_client;
-
-	config_control_factory_register (evolution_shell_client_corba_objref (shell_client));
 }
 
 static void
 owner_unset_cb (EvolutionShellComponent *shell_component,
 		gpointer user_data)
 {
-	shells = g_list_remove (shells, shell_component);
-	
-	if (g_list_length (shells) == 0)
-		bonobo_main_quit ();
+	global_shell_client = NULL;
 }
 
 /* Computes the final URI for a calendar component */
@@ -772,16 +762,17 @@ create_object (void)
 }
 
 
-void
-component_factory_init (void)
+BonoboObject *
+calendar_component_get_object (void)
 {
-	BonoboObject *object;
-	Bonobo_RegistrationResult result;
+	static BonoboObject *object = NULL;
 
-	object = create_object ();
+	if (object != NULL) {
+		bonobo_object_ref (BONOBO_OBJECT (object));
+	} else {
+		object = create_object ();
+		g_object_add_weak_pointer (G_OBJECT (object), (void *) &object);
+	}
 
-	result = bonobo_activation_active_server_register (COMPONENT_ID, bonobo_object_corba_objref (object));
-
-	if (result != Bonobo_ACTIVATION_REG_SUCCESS)
-		g_error ("Cannot initialize Evolution's calendar component.");
+	return object;
 }

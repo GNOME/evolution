@@ -47,7 +47,7 @@
 #include "e-week-view.h"
 #include "evolution-calendar.h"
 #include "gnome-cal.h"
-#include "component-factory.h"
+#include "calendar-component.h"
 #include "cal-search-bar.h"
 #include "calendar-commands.h"
 #include "calendar-config.h"

@@ -1,8 +1,7 @@
 /* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*- */
 /* control-factory.c
  *
- * Copyright (C) 2000  Ximian, Inc.
- * Copyright (C) 2000  Ximian, Inc.
+ * Copyright (C) 2000, 2001, 2002, 2003  Ximian, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public
@@ -24,7 +23,6 @@
 #ifndef _CONTROL_FACTORY_H_
 #define _CONTROL_FACTORY_H_
 
-void           control_factory_init         (void);
 BonoboControl *control_factory_new_control  (void);
 
 #endif /* _CONTROL_FACTORY_H_ */
