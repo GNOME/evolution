@@ -26,32 +26,6 @@
 #include <glib.h>
 #include <unicode.h>
 
-#if 0
-static int etth_interesting[] = {
-	4, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3,	/* 0x00 - 0x0f */
-	3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3,	/* 0x10 - 0x1f */
-	1, 2, 1, 2, 2, 2, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2,	/*   sp - /    */
-	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 1, 2, 1, 2,	/*    0 - ?    */
-	2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,	/*    @ - O    */
-	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2,	/*    P - _    */
-	2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,	/*    ` - o    */
-	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2,	/*    p - del  */
-	3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3,	/* 0x80 - 0x8f */
-	3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3,	/* 0x90 - 0x9f */
-	3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3,	/* 0xa0 - 0xaf */
-	3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3,	/* 0xb0 - 0xbf */
-	3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3,	/* 0xc0 - 0xcf */
-	3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3,	/* 0xd0 - 0xdf */
-	3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3,	/* 0xe0 - 0xef */
-	3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3	/* 0xf0 - 0xff */
-};
-#endif
-
-#define ETTH_SPECIAL     1
-#define ETTH_PUNCTUATION 2
-#define ETTH_ESCAPED     3
-#define ETTH_EOF         4
-
 static char *
 check_size (char **buffer, int *buffer_size, char *out, int len)
 {
@@ -127,9 +101,6 @@ char *
 e_text_to_html (const char *input, unsigned int flags)
 {
 	const unsigned char *cur = input;
-#if 0
-	const unsigned char *end;
-#endif
 	char *buffer = NULL;
 	char *out = NULL;
 	int buffer_size = 0, col;
@@ -148,10 +119,8 @@ e_text_to_html (const char *input, unsigned int flags)
 		unicode_char_t u;
 
 		unicode_get_utf8 (cur, &u);
-
-		if (u < 0) u = '_';
-
-		if (unicode_isalpha (u) && (flags & E_TEXT_TO_HTML_CONVERT_URLS)) {
+		if (unicode_isalpha (u) &&
+		    (flags & E_TEXT_TO_HTML_CONVERT_URLS)) {
 			char *tmpurl = NULL, *refurl = NULL, *dispurl = NULL;
 
 			if (!strncasecmp (cur, "http://", 7) ||
@@ -188,28 +157,13 @@ e_text_to_html (const char *input, unsigned int flags)
 			}
 
 			unicode_get_utf8 (cur, &u);
-
-			if (u < 0) u = '_';
 		}
-
-#if 0
-		/* Skip until we need to care. */
-		end = cur;
-		while (!etth_interesting[*end] ||
-			(etth_interesting[*end] == ETTH_PUNCTUATION &&
-			 !(flags & E_TEXT_TO_HTML_CONVERT_URLS)))
-			end++;
-
-		out = check_size (&buffer, &buffer_size, out,
-				  end - cur + 10);
-		memcpy (out, cur, end - cur);
-		out += end - cur;
-		col += end - cur;
-
-		if (!*end)
-			break;
-		cur = end;
-#endif
+		if (u == (unicode_char_t)-1) {
+			/* Sigh. Someone sent undeclared 8-bit data.
+			 * Assume it's iso-8859-1.
+			 */
+			u = *cur;
+		}
 
 		out = check_size (&buffer, &buffer_size, out, 10);
 

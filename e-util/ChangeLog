@@ -1,7 +1,12 @@
+2000-10-18  Dan Winship  <danw@helixcode.com>
+
+	* e-html-utils.c (e_text_to_html): If unicode_get_utf8 returns -1,
+	assume it was actually undeclared iso-8859-1 text.
+
 2000-10-11  Iain Holmes  <iain@helixcode.com>
 
-	* ename/e-address-western.c (e_address_western_parse): g_strconcat needs
-	to be NULL terminated or it goes funny.
+	* ename/e-address-western.c (e_address_western_parse): g_strconcat
+	needs to be NULL terminated or it goes funny.
 
 Tue Sep 26 16:48:49 2000  Christopher James Lahey  <clahey@helixcode.com>
 
