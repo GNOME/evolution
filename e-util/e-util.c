@@ -449,6 +449,72 @@ e_marshal_NONE__POINTER_POINTER_INT (GtkObject * object, GtkSignalFunc func,
 	    GTK_VALUE_INT (args[2]), func_data);
 }	
 
+typedef int (*GtkSignal_INT__POINTER_POINTER) (GtkObject *,
+					       gpointer, gpointer, 
+					       gpointer user_data);
+void
+e_marshal_INT__POINTER_POINTER (GtkObject *object,
+				GtkSignalFunc func,
+				gpointer func_data,
+				GtkArg *args)
+{
+	GtkSignal_INT__POINTER_POINTER rfunc;
+	int *return_val;
+
+	rfunc = (GtkSignal_INT__POINTER_POINTER) func;
+	return_val = GTK_RETLOC_INT (args[2]);
+
+	*return_val = (*rfunc) (object,
+				GTK_VALUE_POINTER (args[0]),
+				GTK_VALUE_POINTER (args[1]), 
+				func_data);
+}
+
+typedef int (*GtkSignal_INT__POINTER_POINTER_POINTER) (GtkObject *,
+						       gpointer, gpointer, gpointer, 
+						       gpointer user_data);
+void
+e_marshal_INT__POINTER_POINTER_POINTER (GtkObject *object,
+					GtkSignalFunc func,
+					gpointer func_data,
+					GtkArg *args)
+{
+	GtkSignal_INT__POINTER_POINTER_POINTER rfunc;
+	int *return_val;
+
+	rfunc = (GtkSignal_INT__POINTER_POINTER_POINTER) func;
+	return_val = GTK_RETLOC_INT (args[3]);
+
+	*return_val = (*rfunc) (object,
+				GTK_VALUE_POINTER (args[0]),
+				GTK_VALUE_POINTER (args[1]), 
+				GTK_VALUE_POINTER (args[2]),
+				func_data);
+}
+
+typedef int (*GtkSignal_INT__POINTER_POINTER_POINTER_POINTER) (GtkObject *,
+							       gpointer, gpointer, gpointer, gpointer,
+							       gpointer user_data);
+void
+e_marshal_INT__POINTER_POINTER_POINTER_POINTER (GtkObject *object,
+						GtkSignalFunc func,
+						gpointer func_data,
+						GtkArg *args)
+{
+	GtkSignal_INT__POINTER_POINTER_POINTER_POINTER rfunc;
+	int *return_val;
+
+	rfunc = (GtkSignal_INT__POINTER_POINTER_POINTER_POINTER) func;
+	return_val = GTK_RETLOC_INT (args[4]);
+
+	*return_val = (*rfunc) (object,
+				GTK_VALUE_POINTER (args[0]),
+				GTK_VALUE_POINTER (args[1]), 
+				GTK_VALUE_POINTER (args[2]),
+				GTK_VALUE_POINTER (args[3]),
+				func_data);
+}
+
 gchar**
 e_strsplit (const gchar *string,
 	    const gchar *delimiter,
