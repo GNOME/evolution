@@ -1,3 +1,18 @@
+2001-03-19  Iain Holmes  <iain@ximian.com>
+
+	* importers/pine-importer.c: Pine intelligent mail importer.
+	
+	* importer/elm-importer.c: Elm imtelligent mail importer.
+
+	* importer/GNOME_Evolution_Mail_(Pine|Elm)_Intelligent_Importer.oaf.in:
+	Pine and Elm oafinfo files.
+
+	* importer/netscape-importer.c (maybe_replace_name): Replace some invalid
+	names with valid ones (Trash -> Netscape-Trash). Change some netscape names
+	to Evolution names (Unsent Messages -> Outbox).
+	(scan_dir): Use less variables.
+	(netscape_import_file): Simplify.
+
 2001-03-19  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-ops.c: Removed gnome.h and ctype.h
