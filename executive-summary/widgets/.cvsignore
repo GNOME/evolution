@@ -1,6 +1,5 @@
 Makefile.in
 Makefile
-core
 .deps
 .libs
-test-service
+esummary-window-test
