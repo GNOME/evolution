@@ -1,3 +1,10 @@
+2002-01-24  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-filter-driver.c (do_beep): Call the beep callback
+	function.
+	(camel_filter_driver_set_system_beep_func): New function to set
+	the beep callback.
+
 2002-01-22  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-filter-driver.c (camel_filter_driver_remove_rule_by_name):

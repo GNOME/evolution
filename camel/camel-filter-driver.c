@@ -75,10 +75,13 @@ struct _CamelFilterDriverPrivate {
 	void *statusdata;                  /* status callback data */
 	
 	CamelFilterShellExecFunc *execfunc; /* execute shell command callback */
-	void *execdata;                     /* execute shell command data */
+	void *execdata;                     /* execute shell command callback data */
 	
 	CamelFilterPlaySoundFunc *playfunc; /* play-sound command callback */
-	void *playdata;                     /* play-sound command data */
+	void *playdata;                     /* play-sound command callback data */
+	
+	CamelFilterSystemBeepFunc *beep;    /* system beep callback */
+	void *beepdata;                     /* system beep callback data */
 	
 	/* for callback */
 	CamelFilterGetFolderFunc get_folder;
@@ -304,6 +307,15 @@ camel_filter_driver_set_play_sound_func (CamelFilterDriver *d, CamelFilterPlaySo
 	
 	p->playfunc = func;
 	p->playdata = data;
+}
+
+void
+camel_filter_driver_set_system_beep_func (CamelFilterDriver *d, CamelFilterSystemBeepFunc *func, void *data)
+{
+	struct _CamelFilterDriverPrivate *p = _PRIVATE (d);
+	
+	p->beep = func;
+	p->beepdata = data;
 }
 
 void
@@ -591,10 +603,14 @@ shell_exec (struct _ESExp *f, int argc, struct _ESExpResult **argv, CamelFilterD
 static ESExpResult *
 do_beep (struct _ESExp *f, int argc, struct _ESExpResult **argv, CamelFilterDriver *driver)
 {
+	struct _CamelFilterDriverPrivate *p = _PRIVATE (driver);
+	
 	d(fprintf (stderr, "beep\n"));
 	
-	camel_filter_driver_log (driver, FILTER_LOG_ACTION, "Beep");
-	printf ("\a");
+	if (p->beep) {
+		p->beep (driver, p->beepdata);
+		camel_filter_driver_log (driver, FILTER_LOG_ACTION, "Beep");
+	}
 	
 	return NULL;
 }
