@@ -342,7 +342,10 @@ uri_is_ignore(const char *uri, GCompareFunc uri_cmp)
 	EIterator *iter;
 	int found = FALSE;
 	
-	d(printf("checking '%s' against:\n  %s\n  %s\n  %s\n", uri, default_outbox_folder_uri, default_sent_folder_uri, default_drafts_folder_uri));
+	d(printf("checking '%s' against:\n  %s\n  %s\n  %s\n", uri,
+		 mail_component_get_folder_uri(NULL, MAIL_COMPONENT_FOLDER_OUTBOX),
+		 mail_component_get_folder_uri(NULL, MAIL_COMPONENT_FOLDER_SENT),
+		 mail_component_get_folder_uri(NULL, MAIL_COMPONENT_FOLDER_DRAFTS)));
 	
 	found = uri_cmp(mail_component_get_folder_uri(NULL, MAIL_COMPONENT_FOLDER_OUTBOX), uri)
 		|| uri_cmp(mail_component_get_folder_uri(NULL, MAIL_COMPONENT_FOLDER_SENT), uri)

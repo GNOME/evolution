@@ -111,6 +111,7 @@ static void
 em_vfolder_rule_init(EMVFolderRule *vr)
 {
 	vr->with = EM_VFOLDER_RULE_WITH_SPECIFIC;
+	vr->rule.source = g_strdup("incoming");
 }
 
 static void

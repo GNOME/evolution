@@ -101,7 +101,7 @@ em_vfolder_editor_new (EMVFolderContext *vc)
 	GladeXML *gui;
 	
 	gui = glade_xml_new (EVOLUTION_GLADEDIR "/filter.glade", "rule_editor", NULL);
-	rule_editor_construct ((RuleEditor *) ve, (RuleContext *) vc, gui, NULL, _("Virtual _Folders"));
+	rule_editor_construct ((RuleEditor *) ve, (RuleContext *) vc, gui, "incoming", _("Virtual _Folders"));
         gtk_widget_hide(glade_xml_get_widget (gui, "filter_source"));
 	g_object_unref (gui);
 	

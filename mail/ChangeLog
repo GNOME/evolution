@@ -1,5 +1,16 @@
 2004-06-18  Not Zed  <NotZed@Ximian.com>
 
+	** See #31027.
+
+	* em-vfolder-editor.c (em_vfolder_editor_new): make sure we
+	construct the rule editor with a source of 'incoming', otherwise
+	newly created rules have no source in the current session.
+
+	* em-vfolder-rule.c (em_vfolder_rule_init): init the vfolder
+	source to 'incoming' always.
+
+	* mail-vfolder.c (uri_is_ignore): fix debug statement.
+
 	** See #60214.
 
 	* em-folder-view.c (em_folder_view_print): re-arrange code to make
