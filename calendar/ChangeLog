@@ -1,3 +1,10 @@
+2001-08-03  Federico Mena Quintero  <federico@ximian.com>
+
+	Fixes bug #1407.
+
+	* gui/dialogs/cal-prefs-dialog.glade: Removed the alarm
+	preferences page, since we decided it was unnecessary.
+
 2001-08-03  Zbigniew Chyla  <cyba@gnome.pl>
 
 	I18n fixes.
