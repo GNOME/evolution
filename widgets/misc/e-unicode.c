@@ -283,6 +283,7 @@ e_utf8_from_gtk_string_sized (GtkWidget *widget, const gchar *string, gint bytes
 gchar *
 e_utf8_from_gtk_string (GtkWidget *widget, const gchar *string)
 {
+	if (!string) return NULL;
 	return e_utf8_from_gtk_string_sized (widget, string, strlen (string));
 }
 
@@ -357,6 +358,7 @@ e_utf8_to_gtk_string_sized (GtkWidget *widget, const gchar *string, gint bytes)
 gchar *
 e_utf8_to_gtk_string (GtkWidget *widget, const gchar *string)
 {
+	if (!string) return NULL;
 	return e_utf8_to_gtk_string_sized (widget, string, strlen (string));
 }
 
@@ -416,6 +418,7 @@ e_utf8_from_locale_string_sized (const gchar *string, gint bytes)
 gchar *
 e_utf8_from_locale_string (const gchar *string)
 {
+	if (!string) return NULL;
 	return e_utf8_from_locale_string_sized (string, strlen (string));
 }
 
@@ -480,6 +483,7 @@ e_utf8_to_locale_string_sized (const gchar *string, gint bytes)
 gchar *
 e_utf8_to_locale_string (const gchar *string)
 {
+	if (!string) return NULL;
 	return e_utf8_to_locale_string_sized (string, strlen (string));
 }
 

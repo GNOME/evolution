@@ -965,7 +965,7 @@ et_real_construct (ETable *e_table, ETableModel *etm, ETableExtras *ete,
 		ete = e_table_extras_new();
 
 	e_table->use_click_to_add = specification->click_to_add;
-	e_table->click_to_add_message = g_strdup (gettext (specification->click_to_add_message));
+	e_table->click_to_add_message = e_utf8_from_locale_string (gettext (specification->click_to_add_message));
 	e_table->horizontal_draw_grid = specification->horizontal_draw_grid;
 	e_table->vertical_draw_grid = specification->vertical_draw_grid;
 	e_table->draw_focus = specification->draw_focus;
