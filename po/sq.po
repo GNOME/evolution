@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: evolution.HEAD\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2004-07-02 10:24+0200\n"
-"PO-Revision-Date: 2004-07-02 12:53+0200\n"
+"PO-Revision-Date: 2004-07-02 19:04+0200\n"
 "Last-Translator: Laurent Dhima <laurenti@alblinux.net>\n"
 "Language-Team: Albanian <gnome-albanian-perkthyesit@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -5644,37 +5644,37 @@ msgstr "%s %s nbas fillimit të takimit"
 #: calendar/gui/e-alarm-list.c:482
 #, c-format
 msgid "%s at the start of the appointment"
-msgstr ""
+msgstr "%s nga fillimi i takimit"
 
 #: calendar/gui/e-alarm-list.c:491
 #, c-format
 msgid "%s %s before the end of the appointment"
-msgstr ""
+msgstr "%s %s para përfundimit të takimit"
 
 #: calendar/gui/e-alarm-list.c:494
 #, c-format
 msgid "%s %s after the end of the appointment"
-msgstr ""
+msgstr "%s %s mbas përfundimit të takimit"
 
 #: calendar/gui/e-alarm-list.c:499
 #, c-format
 msgid "%s at the end of the appointment"
-msgstr ""
+msgstr "%s në fund të takimit"
 
 #: calendar/gui/e-alarm-list.c:521
 #, c-format
 msgid "%s at %s"
-msgstr ""
+msgstr "%s më %s"
 
 #: calendar/gui/e-alarm-list.c:527
 #, c-format
 msgid "%s for an unknown trigger type"
-msgstr ""
+msgstr "%s për një aktivim të një lloji të panjohur"
 
 #: calendar/gui/e-cal-component-preview.c:71 mail/em-folder-view.c:2382
 #, c-format
 msgid "Click to open %s"
-msgstr ""
+msgstr "Kliko për të hapur %s"
 
 #: calendar/gui/e-cal-component-preview.c:156 filter/filter-rule.c:794
 msgid "Untitled"
@@ -5691,9 +5691,8 @@ msgid "Start Date:"
 msgstr "Data e fillimit:"
 
 #: calendar/gui/e-cal-component-preview.c:216
-#, fuzzy
 msgid "Due Date:"
-msgstr "Data:"
+msgstr "Skadenca:"
 
 #. write status
 #: calendar/gui/e-cal-component-preview.c:223
@@ -5706,18 +5705,16 @@ msgid "Priority:"
 msgstr "Prioriteti: "
 
 #: calendar/gui/e-cal-component-preview.c:300
-#, fuzzy
 msgid "Web Page:"
-msgstr "Faqja"
+msgstr "Faqja Web:"
 
 #: calendar/gui/e-cal-list-view.etspec.h:2
-#, fuzzy
 msgid "End Date"
-msgstr "Data"
+msgstr "Fundi"
 
 #: calendar/gui/e-cal-list-view.etspec.h:4
 msgid "Start Date"
-msgstr ""
+msgstr "Fillimi"
 
 #: calendar/gui/e-cal-list-view.etspec.h:5
 #: calendar/gui/e-calendar-table.etspec.h:11 mail/mail-dialogs.glade.h:22
@@ -5793,7 +5790,7 @@ msgstr "Nuk njihet"
 
 #: calendar/gui/e-cal-model.c:911
 msgid "Recurring"
-msgstr ""
+msgstr "Përsëritet"
 
 #: calendar/gui/e-cal-model.c:913
 msgid "Assigned"
@@ -5805,19 +5802,19 @@ msgstr "0%"
 
 #: calendar/gui/e-calendar-table.c:397
 msgid "10%"
-msgstr ""
+msgstr "10%"
 
 #: calendar/gui/e-calendar-table.c:398
 msgid "20%"
-msgstr ""
+msgstr "20%"
 
 #: calendar/gui/e-calendar-table.c:399
 msgid "30%"
-msgstr ""
+msgstr "30%"
 
 #: calendar/gui/e-calendar-table.c:400
 msgid "40%"
-msgstr ""
+msgstr " "
 
 #: calendar/gui/e-calendar-table.c:401
 msgid "50%"
@@ -5825,19 +5822,19 @@ msgstr "50%"
 
 #: calendar/gui/e-calendar-table.c:402
 msgid "60%"
-msgstr ""
+msgstr "60%"
 
 #: calendar/gui/e-calendar-table.c:403
 msgid "70%"
-msgstr ""
+msgstr "70%"
 
 #: calendar/gui/e-calendar-table.c:404
 msgid "80%"
-msgstr ""
+msgstr "80%"
 
 #: calendar/gui/e-calendar-table.c:405
 msgid "90%"
-msgstr ""
+msgstr "90%"
 
 #: calendar/gui/e-calendar-table.c:406
 msgid "100%"
@@ -5845,11 +5842,11 @@ msgstr "100%"
 
 #: calendar/gui/e-calendar-table.c:680 calendar/gui/e-calendar-view.c:647
 msgid "Deleting selected objects"
-msgstr ""
+msgstr "Duke hequr elementët e zgjedhur"
 
 #: calendar/gui/e-calendar-table.c:843 calendar/gui/e-calendar-view.c:751
 msgid "Updating objects"
-msgstr ""
+msgstr "Duke rifreskuar objektet"
 
 #: calendar/gui/e-calendar-table.c:1019 calendar/gui/e-calendar-table.c:1060
 #: calendar/gui/e-calendar-view.c:1340 calendar/gui/e-calendar-view.c:1420
@@ -5859,7 +5856,7 @@ msgstr "_Hap"
 
 #: calendar/gui/e-calendar-table.c:1020
 msgid "Open _Web Page"
-msgstr ""
+msgstr "Hap faqen _web"
 
 #: calendar/gui/e-calendar-table.c:1021 calendar/gui/e-calendar-table.c:1066
 #: calendar/gui/e-calendar-view.c:1341 calendar/gui/e-calendar-view.c:1426
@@ -5903,19 +5900,19 @@ msgstr "_Ngjite"
 
 #: calendar/gui/e-calendar-table.c:1032
 msgid "_Assign Task"
-msgstr ""
+msgstr "_Cakto aktivitet"
 
 #: calendar/gui/e-calendar-table.c:1033
 msgid "_Forward as iCalendar"
-msgstr ""
+msgstr "_Përcille si iCalendar"
 
 #: calendar/gui/e-calendar-table.c:1034
 msgid "_Mark as Complete"
-msgstr ""
+msgstr "_Shënoje si të plotësuar"
 
 #: calendar/gui/e-calendar-table.c:1035
 msgid "_Mark Selected Tasks as Complete"
-msgstr ""
+msgstr "_Shëno aktivitetet e zgjedhura si të plotësuara"
 
 #. FIXME: need to disable for undeletable folders
 #: calendar/gui/e-calendar-table.c:1039 calendar/gui/e-calendar-table.c:1057
@@ -5929,7 +5926,7 @@ msgstr "_Elemino"
 
 #: calendar/gui/e-calendar-table.c:1040 calendar/gui/e-calendar-table.c:1058
 msgid "_Delete Selected Tasks"
-msgstr ""
+msgstr "_Elemino aktivitetet e zgjedhura"
 
 #: calendar/gui/e-calendar-table.c:1172 calendar/gui/e-calendar-view.c:1053
 #: composer/e-msg-composer.c:1193
@@ -5939,12 +5936,12 @@ msgstr "Ruaje si..."
 #: calendar/gui/e-calendar-table.c:1350
 #: calendar/gui/e-calendar-table.etspec.h:4
 msgid "Click to add a task"
-msgstr ""
+msgstr "Kliko për të shtuar një aktivitet"
 
 #: calendar/gui/e-calendar-table.etspec.h:2
 #, no-c-format
 msgid "% Complete"
-msgstr ""
+msgstr "% Plotësuar"
 
 #: calendar/gui/e-calendar-table.etspec.h:5 camel/camel-filter-driver.c:1178
 #: camel/camel-filter-driver.c:1270 mail/mail-send-recv.c:615
@@ -5952,9 +5949,8 @@ msgid "Complete"
 msgstr "U plotësua"
 
 #: calendar/gui/e-calendar-table.etspec.h:6
-#, fuzzy
 msgid "Completion date"
-msgstr "U kompletua"
+msgstr "Plotësuar më"
 
 #: calendar/gui/e-calendar-table.etspec.h:7
 msgid "Due date"
@@ -5970,85 +5966,79 @@ msgstr "Data fillimit"
 
 #: calendar/gui/e-calendar-table.etspec.h:12
 msgid "Task sort"
-msgstr ""
+msgstr "Rreshto aktivitetet"
 
 #: calendar/gui/e-calendar-view.c:1156
-#, fuzzy
 msgid "Moving items"
-msgstr "Lëvize tek kartela..."
+msgstr "Duke lëvizur elementët"
 
 #: calendar/gui/e-calendar-view.c:1158
-#, fuzzy
 msgid "Copying items"
-msgstr "Kopjoje tek kartela..."
+msgstr "Duke kopjuar elementët"
 
 #: calendar/gui/e-calendar-view.c:1312 calendar/gui/e-calendar-view.c:1400
 msgid "New _Appointment..."
-msgstr ""
+msgstr "_Takim i Ri..."
 
 #: calendar/gui/e-calendar-view.c:1313 calendar/gui/e-calendar-view.c:1405
 msgid "New All Day _Event"
-msgstr ""
+msgstr "_Ndodhi e Re e ditës"
 
 #: calendar/gui/e-calendar-view.c:1314 calendar/gui/e-calendar-view.c:1410
 msgid "New Meeting"
-msgstr ""
+msgstr "Mbledhje e Re"
 
 #: calendar/gui/e-calendar-view.c:1315 calendar/gui/e-calendar-view.c:1415
 msgid "New Task"
-msgstr ""
+msgstr "Aktivitet i Ri"
 
 #: calendar/gui/e-calendar-view.c:1329 ui/evolution-calendar.xml.h:26
-#, fuzzy
 msgid "Select _Today"
-msgstr "Zgjidhe _të gjithë"
+msgstr "Zgjidh _Sot"
 
 #: calendar/gui/e-calendar-view.c:1330
-#, fuzzy
 msgid "_Select Date..."
-msgstr "I zgjedhur"
+msgstr "_Zgjidh datën..."
 
 #: calendar/gui/e-calendar-view.c:1334 ui/evolution-calendar.xml.h:45
 msgid "_Publish Free/Busy Information"
-msgstr ""
+msgstr "_Publiko informacionet mbi disponibilitetin"
 
 #: calendar/gui/e-calendar-view.c:1353
-#, fuzzy
 msgid "Cop_y to Calendar..."
-msgstr "Kopjoje tek kartela..."
+msgstr "Kopjo_je në kalendar..."
 
 #: calendar/gui/e-calendar-view.c:1354
-#, fuzzy
 msgid "Mo_ve to Calendar..."
-msgstr "Lëvize tek kartela..."
+msgstr "Lë_vize në kalendar..."
 
 #: calendar/gui/e-calendar-view.c:1355
 msgid "_Schedule Meeting..."
-msgstr ""
+msgstr "_Planifiko Mbledhje..."
 
 #: calendar/gui/e-calendar-view.c:1356
 msgid "_Forward as iCalendar..."
-msgstr ""
+msgstr "_Përcille si iCalendar..."
 
 #: calendar/gui/e-calendar-view.c:1361 calendar/gui/e-calendar-view.c:1393
 msgid "Delete this _Occurrence"
-msgstr ""
+msgstr "Elemino këtë _përkujtimore"
 
 #: calendar/gui/e-calendar-view.c:1362 calendar/gui/e-calendar-view.c:1394
 msgid "Delete _All Occurrences"
-msgstr ""
+msgstr "Elemino të _gjitha përkujtimoret"
 
 #: calendar/gui/e-calendar-view.c:1396
 msgid "Go to _Today"
-msgstr ""
+msgstr "Shko tek _Sot"
 
 #: calendar/gui/e-calendar-view.c:1398
 msgid "_Go to Date..."
-msgstr ""
+msgstr "_Shko tek data..."
 
 #: calendar/gui/e-calendar-view.c:1428 ui/evolution.xml.h:35
 msgid "_Settings..."
-msgstr ""
+msgstr "_Rregullimet..."
 
 #. strftime format of a weekday, a date and a time, 24-hour.
 #. strptime format of a weekday, a date and a time,
@@ -6058,7 +6048,7 @@ msgstr ""
 #: calendar/gui/e-cell-date-edit-text.c:117 e-util/e-time-utils.c:180
 #: e-util/e-time-utils.c:393
 msgid "%a %m/%d/%Y %H:%M:%S"
-msgstr ""
+msgstr "%a %m/%d/%Y %H:%M:%S"
 
 #. strftime format of a weekday, a date and a time, 12-hour.
 #. strptime format of a weekday, a date and a time,
@@ -6068,7 +6058,7 @@ msgstr ""
 #: calendar/gui/e-cell-date-edit-text.c:120 e-util/e-time-utils.c:175
 #: e-util/e-time-utils.c:402
 msgid "%a %m/%d/%Y %I:%M:%S %p"
-msgstr ""
+msgstr "%a %m/%d/%Y %I:%M:%S %p"
 
 #: calendar/gui/e-cell-date-edit-text.c:125
 #, c-format
@@ -6077,11 +6067,14 @@ msgid ""
 "\n"
 "%s"
 msgstr ""
+"Data duhet të jepet në formatin: \n"
+"\n"
+"%s"
 
 #: calendar/gui/e-day-view-time-item.c:532
 #, c-format
 msgid "%02i minute divisions"
-msgstr ""
+msgstr "%02i ndarje për minutë"
 
 #. strftime format %A = full weekday name, %d = day of month,
 #. %B = full month name. Don't use any other specifiers.
@@ -6092,7 +6085,7 @@ msgstr ""
 #: calendar/gui/e-day-view-top-item.c:690 calendar/gui/e-day-view.c:1571
 #: calendar/gui/e-week-view-main-item.c:320 calendar/gui/print.c:1514
 msgid "%A %d %B"
-msgstr ""
+msgstr "%A %d %B"
 
 #. strftime format %d = day of month, %b = abbreviated month name.
 #. Don't use any other specifiers.
@@ -6102,110 +6095,109 @@ msgstr ""
 #: calendar/gui/e-day-view-top-item.c:698 calendar/gui/e-day-view.c:1604
 #: calendar/gui/e-week-view-main-item.c:343
 msgid "%d %b"
-msgstr ""
+msgstr "%d %b"
 
 #. String to use in 12-hour time format for times in the morning.
 #: calendar/gui/e-day-view.c:817 calendar/gui/e-week-view.c:573
 #: calendar/gui/print.c:838
 msgid "am"
-msgstr ""
+msgstr "am"
 
 #. String to use in 12-hour time format for times in the afternoon.
 #: calendar/gui/e-day-view.c:820 calendar/gui/e-week-view.c:576
 #: calendar/gui/print.c:840
 msgid "pm"
-msgstr ""
+msgstr "pm"
 
 #: calendar/gui/e-itip-control.c:585
 msgid "Yes. (Complex Recurrence)"
-msgstr ""
+msgstr "Po (Përkujtimore Komplekse)"
 
 #: calendar/gui/e-itip-control.c:596
 #, c-format
 msgid "Every day"
 msgid_plural "Every %d days"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Çdo ditë"
+msgstr[1] "Çdo %d ditë"
 
 #: calendar/gui/e-itip-control.c:601
 #, c-format
 msgid "Every week"
 msgid_plural "Every %d weeks"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Çdo javë"
+msgstr[1] "Çdo %d javë"
 
 #: calendar/gui/e-itip-control.c:603
 #, c-format
 msgid "Every week on "
 msgid_plural "Every %d weeks on "
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Çdo javë të "
+msgstr[1] "Çdo %d javë të "
 
 #: calendar/gui/e-itip-control.c:611
 msgid " and "
-msgstr ""
+msgstr " dhe "
 
 #: calendar/gui/e-itip-control.c:618
 #, c-format
 msgid "The %s day of "
-msgstr ""
+msgstr "Ditën %s të "
 
 #: calendar/gui/e-itip-control.c:631
 #, c-format
 msgid "The %s %s of "
-msgstr ""
+msgstr "Të %s %s e "
 
 #: calendar/gui/e-itip-control.c:638
 #, c-format
 msgid "every month"
 msgid_plural "every %d months"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "çdo muaj"
+msgstr[1] "çdo %d muaj"
 
 #: calendar/gui/e-itip-control.c:642
 #, c-format
 msgid "Every year"
 msgid_plural "Every %d years"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Çdo vit"
+msgstr[1] "Çdo %d vite"
 
 #: calendar/gui/e-itip-control.c:653
 #, c-format
 msgid "a total of %d time"
 msgid_plural " a total of %d times"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] " gjithsej %d herë"
+msgstr[1] " gjithsej prej %d herësh"
 
 #: calendar/gui/e-itip-control.c:662
 msgid ", ending on "
-msgstr ""
+msgstr ", që mbaron të "
 
 #: calendar/gui/e-itip-control.c:686
 msgid "Starts"
-msgstr "Fillimi"
+msgstr "Fillon"
 
 #: calendar/gui/e-itip-control.c:699
 msgid "Ends"
-msgstr ""
+msgstr "Mbaron"
 
 #: calendar/gui/e-itip-control.c:733
-#, fuzzy
 msgid "Due"
-msgstr "Skadimi "
+msgstr "Skadimi"
 
 #: calendar/gui/e-itip-control.c:773 calendar/gui/e-itip-control.c:830
 msgid "iCalendar Information"
-msgstr ""
+msgstr "Informacione iCalendar"
 
 #. Title
 #: calendar/gui/e-itip-control.c:790
 msgid "iCalendar Error"
-msgstr ""
+msgstr "Gabim i iCalendar"
 
 #: calendar/gui/e-itip-control.c:862 calendar/gui/e-itip-control.c:878
 #: calendar/gui/e-itip-control.c:889 calendar/gui/e-itip-control.c:906
 msgid "An unknown person"
-msgstr ""
+msgstr "Një person i panjohur"
 
 #. Describe what the user can do
 #: calendar/gui/e-itip-control.c:913
@@ -6213,6 +6205,8 @@ msgid ""
 "<br> Please review the following information, and then select an action from "
 "the menu below."
 msgstr ""
+"<br>Ju lutem shikoni informacionet në vazhdim, e pastaj zgjidhni një veprim "
+"nga menu e poshtme."
 
 #: calendar/gui/e-itip-control.c:942
 msgid "Location:"
@@ -6222,23 +6216,23 @@ msgstr "Vendodhja:"
 #: calendar/gui/e-meeting-store.c:179 calendar/gui/e-meeting-store.c:202
 #: calendar/gui/itip-utils.c:422
 msgid "Accepted"
-msgstr ""
+msgstr "U pranua"
 
 #: calendar/gui/e-itip-control.c:965 calendar/gui/itip-utils.c:425
 msgid "Tentatively Accepted"
-msgstr ""
+msgstr "U pranua me përpjekje"
 
 #: calendar/gui/e-itip-control.c:969 calendar/gui/e-meeting-list-view.c:159
 #: calendar/gui/e-meeting-store.c:181 calendar/gui/e-meeting-store.c:204
 #: calendar/gui/itip-utils.c:428 calendar/gui/itip-utils.c:454
 msgid "Declined"
-msgstr ""
+msgstr "Nuk u pranua"
 
 #: calendar/gui/e-itip-control.c:1028 calendar/gui/e-itip-control.c:1056
 #: calendar/gui/e-itip-control.c:1082 calendar/gui/e-itip-control.c:1095
 #: calendar/gui/e-itip-control.c:1108 calendar/gui/e-itip-control.c:1121
 msgid "Choose an action:"
-msgstr ""
+msgstr "Zgjidh një veprim:"
 
 #: calendar/gui/e-itip-control.c:1029
 msgid "Update"
@@ -6257,23 +6251,23 @@ msgstr "Prano"
 
 #: calendar/gui/e-itip-control.c:1058
 msgid "Tentatively accept"
-msgstr ""
+msgstr "Prano me përpjekje"
 
 #: calendar/gui/e-itip-control.c:1059
 msgid "Decline"
-msgstr ""
+msgstr "Refuzo"
 
 #: calendar/gui/e-itip-control.c:1083
 msgid "Send Free/Busy Information"
-msgstr ""
+msgstr "Dërgo Informacionin mbi disponibilitetin"
 
 #: calendar/gui/e-itip-control.c:1096
 msgid "Update respondent status"
-msgstr ""
+msgstr "Rifresko gjendjen e përgjigjes"
 
 #: calendar/gui/e-itip-control.c:1109
 msgid "Send Latest Information"
-msgstr ""
+msgstr "Dërgo informacionet aktuale"
 
 #: calendar/gui/e-itip-control.c:1122 calendar/gui/itip-utils.c:442
 #: mail/mail-send-recv.c:410 mail/mail-send-recv.c:464
@@ -6284,230 +6278,230 @@ msgstr "Anulloje"
 #: calendar/gui/e-itip-control.c:1198
 #, c-format
 msgid "<b>%s</b> has published meeting information."
-msgstr ""
+msgstr "<b>%s</b> ka publikuar informacione në lidhje me një mbledhje."
 
 #: calendar/gui/e-itip-control.c:1199
 msgid "Meeting Information"
-msgstr ""
+msgstr "Informacione mbi mbledhjen"
 
 #: calendar/gui/e-itip-control.c:1204
 #, c-format
 msgid "<b>%s</b> requests the presence of %s at a meeting."
-msgstr ""
+msgstr "<b>%s</b> kërkon praninë e %s në një mbledhje."
 
 #: calendar/gui/e-itip-control.c:1206
 #, c-format
 msgid "<b>%s</b> requests your presence at a meeting."
-msgstr ""
+msgstr "<b>%s</b> kërkon praninë tuaj në një mbledhje."
 
 #: calendar/gui/e-itip-control.c:1207
 msgid "Meeting Proposal"
-msgstr ""
+msgstr "Propozim mbledhjeje"
 
 #: calendar/gui/e-itip-control.c:1211
 #, c-format
 msgid "<b>%s</b> wishes to add to an existing meeting."
-msgstr ""
+msgstr "<b>%s</b> dëshiron t'i shtohet një mbledhjeje ekzistuese."
 
 #: calendar/gui/e-itip-control.c:1212
 msgid "Meeting Update"
-msgstr ""
+msgstr "Rifreskimi i mbledhjes"
 
 #: calendar/gui/e-itip-control.c:1216
 #, c-format
 msgid "<b>%s</b> wishes to receive the latest meeting information."
-msgstr ""
+msgstr "<b>%s</b> kërkon të marrë informacionet aktuale në lidhje me mbledhjen."
 
 #: calendar/gui/e-itip-control.c:1217
 msgid "Meeting Update Request"
-msgstr ""
+msgstr "Kërkesë për rifreskim mbledhjeje"
 
 #: calendar/gui/e-itip-control.c:1224
 #, c-format
 msgid "<b>%s</b> has replied to a meeting request."
-msgstr ""
+msgstr "<b>%s</b> i është përgjigjur një kërkese për mbledhje."
 
 #: calendar/gui/e-itip-control.c:1225
 msgid "Meeting Reply"
-msgstr ""
+msgstr "Përgjigje mbledhjes"
 
 #: calendar/gui/e-itip-control.c:1232
 #, c-format
 msgid "<b>%s</b> has cancelled a meeting."
-msgstr ""
+msgstr "<b>%s</b> ka anulluar një mbledhje."
 
 #: calendar/gui/e-itip-control.c:1233
 msgid "Meeting Cancellation"
-msgstr ""
+msgstr "Anullimi i mbledhjes"
 
 #: calendar/gui/e-itip-control.c:1240 calendar/gui/e-itip-control.c:1308
 #: calendar/gui/e-itip-control.c:1343
 #, c-format
 msgid "<b>%s</b> has sent an unintelligible message."
-msgstr ""
+msgstr "<b>%s</b> ka dërguar një mesazh të pakuptueshëm."
 
 #: calendar/gui/e-itip-control.c:1241
 msgid "Bad Meeting Message"
-msgstr ""
+msgstr "Mesazh i paqartë mbledhjeje"
 
 #: calendar/gui/e-itip-control.c:1266
 #, c-format
 msgid "<b>%s</b> has published task information."
-msgstr ""
+msgstr "<b>%s</b> ka publikuar informacione në lidhje me aktivitetin."
 
 #: calendar/gui/e-itip-control.c:1267
 msgid "Task Information"
-msgstr ""
+msgstr "Informacione mbi aktivitetin"
 
 #: calendar/gui/e-itip-control.c:1272
 #, c-format
 msgid "<b>%s</b> requests %s to perform a task."
-msgstr ""
+msgstr "<b>%s</b> kërkon që %s të kryejë një detyrë."
 
 #: calendar/gui/e-itip-control.c:1274
 #, c-format
 msgid "<b>%s</b> requests you perform a task."
-msgstr ""
+msgstr "<b>%s</b> kërkon që ju të kryeni një detyrë."
 
 #: calendar/gui/e-itip-control.c:1275
 msgid "Task Proposal"
-msgstr ""
+msgstr "Propozim detyre"
 
 #: calendar/gui/e-itip-control.c:1279
 #, c-format
 msgid "<b>%s</b> wishes to add to an existing task."
-msgstr ""
+msgstr "<b>%s</b> dëshiron të shtojë informacione mbi një aktivitet ekzistues."
 
 #: calendar/gui/e-itip-control.c:1280
 msgid "Task Update"
-msgstr ""
+msgstr "Rifreskimi i aktivitetit"
 
 #: calendar/gui/e-itip-control.c:1284
 #, c-format
 msgid "<b>%s</b> wishes to receive the latest task information."
-msgstr ""
+msgstr "<b>%s</b> dëshiron të marrë informacionet aktualë të aktivitetit."
 
 #: calendar/gui/e-itip-control.c:1285
 msgid "Task Update Request"
-msgstr ""
+msgstr "Kërkesë për rifreskim aktiviteti"
 
 #: calendar/gui/e-itip-control.c:1292
 #, c-format
 msgid "<b>%s</b> has replied to a task assignment."
-msgstr ""
+msgstr "<b>%s</b> i është përgjigjur caktimit të një detyre."
 
 #: calendar/gui/e-itip-control.c:1293
 msgid "Task Reply"
-msgstr ""
+msgstr "Përgjigje aktivitetit"
 
 #: calendar/gui/e-itip-control.c:1300
 #, c-format
 msgid "<b>%s</b> has cancelled a task."
-msgstr ""
+msgstr "<b>%s</b> ka anulluar një aktivitet."
 
 #: calendar/gui/e-itip-control.c:1301
 msgid "Task Cancellation"
-msgstr ""
+msgstr "Anullimi i aktivitetit"
 
 #: calendar/gui/e-itip-control.c:1309
 msgid "Bad Task Message"
-msgstr ""
+msgstr "Mesazh i paqartë aktiviteti"
 
 #: calendar/gui/e-itip-control.c:1328
 #, c-format
 msgid "<b>%s</b> has published free/busy information."
-msgstr ""
+msgstr "<b>%s</b> ka publikuar informacione mbi disponibilitetin."
 
 #: calendar/gui/e-itip-control.c:1329
 msgid "Free/Busy Information"
-msgstr ""
+msgstr "Informacione mbi gatishmërinë"
 
 #: calendar/gui/e-itip-control.c:1333
 #, c-format
 msgid "<b>%s</b> requests your free/busy information."
-msgstr ""
+msgstr "<b>%s</b> kërkon informacione mbi gatishmërinë tuaj."
 
 #: calendar/gui/e-itip-control.c:1334
 msgid "Free/Busy Request"
-msgstr ""
+msgstr "Kërkesë disponibiliteti"
 
 #: calendar/gui/e-itip-control.c:1338
 #, c-format
 msgid "<b>%s</b> has replied to a free/busy request."
-msgstr ""
+msgstr "<b>%s</b> i është përgjigjur një kërkese disponibiliteti."
 
 #: calendar/gui/e-itip-control.c:1339
 msgid "Free/Busy Reply"
-msgstr ""
+msgstr "Përgjigje gatishmërie"
 
 #: calendar/gui/e-itip-control.c:1344
 msgid "Bad Free/Busy Message"
-msgstr ""
+msgstr "Mesazh i paqartë gadishmërie"
 
 #: calendar/gui/e-itip-control.c:1419
 msgid "The message does not appear to be properly formed"
-msgstr ""
+msgstr "Mesazhi nuk është i formuar si duhet"
 
 #: calendar/gui/e-itip-control.c:1478
 msgid "The message contains only unsupported requests."
-msgstr ""
+msgstr "Mesazhi përmban vetëm kërkesa të pasuportuara."
 
 #: calendar/gui/e-itip-control.c:1509
 msgid "The attachment does not contain a valid calendar message"
-msgstr ""
+msgstr "I bashkangjituri nuk përmban një mesazh kalendari të vlefshëm"
 
 #: calendar/gui/e-itip-control.c:1541
 msgid "The attachment has no viewable calendar items"
-msgstr ""
+msgstr "I bashkangjituri nuk përmban elementë të shikueshëm kalendari"
 
 #: calendar/gui/e-itip-control.c:1775
 msgid "Update complete\n"
-msgstr ""
+msgstr "Rifreskimi u plotësua\n"
 
 #: calendar/gui/e-itip-control.c:1803
 msgid "Object is invalid and cannot be updated\n"
-msgstr ""
+msgstr "Objekti është i pavlefshëm dhe nuk mund të rifreskohet\n"
 
 #: calendar/gui/e-itip-control.c:1813
 msgid "This response is not from a current attendee.  Add as an attendee?"
-msgstr ""
+msgstr "Kjo përgjigje nuk vjen nga një pjesmarrës aktual.  T'a shtoj si pjesmarrës?"
 
 #: calendar/gui/e-itip-control.c:1825
 msgid "Attendee status could not be updated because of an invalid status!\n"
-msgstr ""
+msgstr "Gjendja e pjesmarrësit nuk mund të rifreskohet për shkak të një gjendje të pavlefshme!\n"
 
 #: calendar/gui/e-itip-control.c:1842
 msgid "Attendee status updated\n"
-msgstr ""
+msgstr "Gjendja e pjesmarrësit u rifreskua\n"
 
 #: calendar/gui/e-itip-control.c:1845
 msgid "Attendee status can not be updated because the item no longer exists"
-msgstr ""
+msgstr "Gjendja e pjesmarrësit nuk mund të rifreskohet pasi elementi nuk ekziston më"
 
 #: calendar/gui/e-itip-control.c:1872
 msgid "Removal Complete"
-msgstr ""
+msgstr "Heqja u plotësua"
 
 #: calendar/gui/e-itip-control.c:1895 calendar/gui/e-itip-control.c:1943
 msgid "Item sent!\n"
-msgstr ""
+msgstr "Elementi u dërgua!\n"
 
 #: calendar/gui/e-itip-control.c:1897 calendar/gui/e-itip-control.c:1947
 msgid "The item could not be sent!\n"
-msgstr ""
+msgstr "Elementi nuk mund të dërgohet!\n"
 
 #: calendar/gui/e-itip-control.glade.h:2
 #, no-c-format
 msgid "%P %%"
-msgstr ""
+msgstr "%P %%"
 
 #: calendar/gui/e-itip-control.glade.h:3
 msgid "--to--"
-msgstr ""
+msgstr "--për--"
 
 #: calendar/gui/e-itip-control.glade.h:4
 msgid "Calendar Message"
-msgstr ""
+msgstr "Mesazh i kalendarit"
 
 #: calendar/gui/e-itip-control.glade.h:5
 msgid "Date:"
@@ -6515,44 +6509,44 @@ msgstr "Data:"
 
 #: calendar/gui/e-itip-control.glade.h:7
 msgid "Loading Calendar"
-msgstr ""
+msgstr "Duke ngarkuar kalendarin"
 
 #: calendar/gui/e-itip-control.glade.h:8
 msgid "Loading calendar..."
-msgstr ""
+msgstr "Duke ngarkuar kalendarin..."
 
 #: calendar/gui/e-itip-control.glade.h:9
 msgid "Organizer:"
-msgstr ""
+msgstr "Organizuesi:"
 
 #: calendar/gui/e-itip-control.glade.h:10
 msgid "Server Message:"
-msgstr ""
+msgstr "Mesazhi i serverit:"
 
 #: calendar/gui/e-itip-control.glade.h:12
 msgid "date-end"
-msgstr ""
+msgstr "përfundimi"
 
 #: calendar/gui/e-itip-control.glade.h:13
 msgid "date-start"
-msgstr ""
+msgstr "fillimi"
 
 #: calendar/gui/e-meeting-list-view.c:59
 msgid "Chair Persons"
-msgstr ""
+msgstr "Moderues"
 
 #: calendar/gui/e-meeting-list-view.c:61
 msgid "Optional Participants"
-msgstr ""
+msgstr "Pjesmarrës opcionalë"
 
 #: calendar/gui/e-meeting-list-view.c:62
 msgid "Resources"
-msgstr ""
+msgstr "Gjëndja"
 
 #: calendar/gui/e-meeting-list-view.c:118 calendar/gui/e-meeting-store.c:90
 #: calendar/gui/e-meeting-store.c:107 calendar/gui/e-meeting-store.c:759
 msgid "Individual"
-msgstr ""
+msgstr "Vetjake"
 
 #: calendar/gui/e-meeting-list-view.c:119 calendar/gui/e-meeting-store.c:92
 #: calendar/gui/e-meeting-store.c:109
@@ -6567,53 +6561,53 @@ msgstr "Burimi"
 #: calendar/gui/e-meeting-list-view.c:121 calendar/gui/e-meeting-store.c:96
 #: calendar/gui/e-meeting-store.c:113
 msgid "Room"
-msgstr ""
+msgstr "Dhoma"
 
 #: calendar/gui/e-meeting-list-view.c:132 calendar/gui/e-meeting-store.c:125
 #: calendar/gui/e-meeting-store.c:142
 msgid "Chair"
-msgstr ""
+msgstr "Moderues"
 
 #: calendar/gui/e-meeting-list-view.c:133 calendar/gui/e-meeting-store.c:127
 #: calendar/gui/e-meeting-store.c:144 calendar/gui/e-meeting-store.c:762
 msgid "Required Participant"
-msgstr ""
+msgstr "Pjesmarrësi i kërkuar"
 
 #: calendar/gui/e-meeting-list-view.c:134 calendar/gui/e-meeting-store.c:129
 #: calendar/gui/e-meeting-store.c:146
 msgid "Optional Participant"
-msgstr ""
+msgstr "Pjesmarrës shtesë"
 
 #: calendar/gui/e-meeting-list-view.c:135 calendar/gui/e-meeting-store.c:131
 #: calendar/gui/e-meeting-store.c:148
 msgid "Non-Participant"
-msgstr ""
+msgstr "Jo pjesmarrës"
 
 #: calendar/gui/e-meeting-list-view.c:157 calendar/gui/e-meeting-store.c:177
 #: calendar/gui/e-meeting-store.c:200 calendar/gui/e-meeting-store.c:772
 msgid "Needs Action"
-msgstr ""
+msgstr "Kërkon veprim"
 
 #: calendar/gui/e-meeting-list-view.c:160 calendar/gui/e-meeting-store.c:183
 #: calendar/gui/e-meeting-store.c:206 calendar/gui/e-meeting-time-sel.c:398
 msgid "Tentative"
-msgstr ""
+msgstr "Përpjekje"
 
 #: calendar/gui/e-meeting-list-view.c:161 calendar/gui/e-meeting-store.c:185
 #: calendar/gui/e-meeting-store.c:208
 msgid "Delegated"
-msgstr ""
+msgstr "Deleguar"
 
 #: calendar/gui/e-meeting-store.c:189 calendar/gui/e-meeting-store.c:212
 msgid "In Process"
-msgstr ""
+msgstr "Në proçes"
 
 #. This is a strftime() format string %A = full weekday name,
 #. %B = full month name, %d = month day, %Y = full year.
 #: calendar/gui/e-meeting-time-sel-item.c:452
 #: calendar/gui/e-meeting-time-sel.c:2053
 msgid "%A, %B %d, %Y"
-msgstr ""
+msgstr "%A, %B %d, %Y"
 
 #. This is a strftime() format string %a = abbreviated weekday
 #. name, %m = month number, %d = month day, %Y = full year.
@@ -6625,7 +6619,7 @@ msgstr ""
 #: calendar/gui/e-meeting-time-sel.c:2086 e-util/e-time-utils.c:203
 #: e-util/e-time-utils.c:296 e-util/e-time-utils.c:384
 msgid "%a %m/%d/%Y"
-msgstr ""
+msgstr "%a %m/%d/%Y"
 
 #. This is a strftime() format string %m = month number,
 #. %d = month day, %Y = full year.
@@ -6636,15 +6630,15 @@ msgstr ""
 #: calendar/gui/e-meeting-time-sel-item.c:460 e-util/e-time-utils.c:238
 #: e-util/e-time-utils.c:299 widgets/misc/e-dateedit.c:1604
 msgid "%m/%d/%Y"
-msgstr ""
+msgstr "%m/%d/%Y"
 
 #: calendar/gui/e-meeting-time-sel.c:400 designs/OOA/ooa.glade.h:11
 msgid "Out of Office"
-msgstr ""
+msgstr "Jashtë Zyre"
 
 #: calendar/gui/e-meeting-time-sel.c:401
 msgid "No Information"
-msgstr ""
+msgstr "Asnjë Informacion"
 
 #: calendar/gui/e-meeting-time-sel.c:432
 msgid "O_ptions"
@@ -6652,48 +6646,48 @@ msgstr "M_undësitë"
 
 #: calendar/gui/e-meeting-time-sel.c:449
 msgid "Show _only working hours"
-msgstr ""
+msgstr "Shfaq _vetëm orët e punës"
 
 #: calendar/gui/e-meeting-time-sel.c:459
 msgid "Show _zoomed out"
-msgstr ""
+msgstr "Shfaqe të _zvogëluar"
 
 #: calendar/gui/e-meeting-time-sel.c:474
 msgid "_Update free/busy"
-msgstr ""
+msgstr "_Rifresko disponibilitetin"
 
 #: calendar/gui/e-meeting-time-sel.c:489
 msgid "_<<"
-msgstr ""
+msgstr "_<<"
 
 #: calendar/gui/e-meeting-time-sel.c:507
 msgid "_Autopick"
-msgstr ""
+msgstr "_Autopick"
 
 #: calendar/gui/e-meeting-time-sel.c:522
 msgid ">_>"
-msgstr ""
+msgstr ">_>"
 
 #: calendar/gui/e-meeting-time-sel.c:539
 msgid "_All people and resources"
-msgstr ""
+msgstr "Të _gjithë personat dhe gjëndjen"
 
 #: calendar/gui/e-meeting-time-sel.c:548
 msgid "All _people and one resource"
-msgstr ""
+msgstr "Të gjithë _personat dhe një gjëndje"
 
 #: calendar/gui/e-meeting-time-sel.c:557
 msgid "_Required people"
-msgstr ""
+msgstr "_Persona të kërkuar"
 
 #: calendar/gui/e-meeting-time-sel.c:566
 msgid "Required people and _one resource"
-msgstr ""
+msgstr "Personat e duhur dhe _një gjëndje"
 
 #: calendar/gui/e-pub-utils.c:300
-#, fuzzy, c-format
+#, c-format
 msgid "Enter the password for %s"
-msgstr "%sShkruaj password për %s (përdoruesi %s)"
+msgstr "Shkruaj fjalëkalimin për %s"
 
 #: calendar/gui/e-tasks.c:709 calendar/gui/gnome-cal.c:2159
 #, c-format
@@ -6701,43 +6695,43 @@ msgid ""
 "Error on %s:\n"
 " %s"
 msgstr ""
+"Gabim në %s:\n"
+" %s"
 
 #: calendar/gui/e-tasks.c:755
-#, fuzzy
 msgid "Loading tasks"
-msgstr "Duke ngarkuar..."
+msgstr "Duke ngarkuar aktivitetet"
 
 #: calendar/gui/e-tasks.c:846
 #, c-format
 msgid "Opening tasks at %s"
-msgstr ""
+msgstr "Duke lexuar aktivitetet tek %s"
 
 #: calendar/gui/e-tasks.c:962
 msgid "Completing tasks..."
-msgstr ""
+msgstr "Duke plotësuar aktivitetet..."
 
 #: calendar/gui/e-tasks.c:985
 msgid "Deleting selected objects..."
-msgstr ""
+msgstr "Duke eleminuar objektet e zgjedhur..."
 
 #: calendar/gui/e-tasks.c:1012
 msgid "Expunging"
-msgstr ""
+msgstr "Duke pastruar"
 
 #: calendar/gui/gnome-cal.c:704
-#, fuzzy
 msgid "Updating query"
-msgstr "Duke rifreskuar të dhënat..."
+msgstr "Duke rifreskuar kërkesën"
 
 #: calendar/gui/gnome-cal.c:2006
-#, fuzzy, c-format
+#, c-format
 msgid "Loading appointments at %s"
-msgstr "Takimi - %s"
+msgstr "Duke lexuar takimet tek %s"
 
 #: calendar/gui/gnome-cal.c:2025
-#, fuzzy, c-format
+#, c-format
 msgid "Loading tasks at %s"
-msgstr "Duke ngarkuar..."
+msgstr "Duke lexuar aktivitetet tek %s"
 
 #: calendar/gui/gnome-cal.c:2048
 #, c-format
@@ -6745,9 +6739,8 @@ msgid "Opening %s"
 msgstr "Duke hapur %s"
 
 #: calendar/gui/gnome-cal.c:3003
-#, fuzzy
 msgid "Purging"
-msgstr "Printo"
+msgstr "Duke pastruar"
 
 #: calendar/gui/goto-dialog.glade.h:1
 msgid "April"
@@ -6802,42 +6795,41 @@ msgid "September"
 msgstr "Shtator"
 
 #: calendar/gui/goto-dialog.glade.h:14
-#, fuzzy
 msgid "_Select Today"
-msgstr "I zgjedhur"
+msgstr "_Zgjidh Sot"
 
 #: calendar/gui/itip-utils.c:271 calendar/gui/itip-utils.c:319
 #: calendar/gui/itip-utils.c:351
 msgid "An organizer must be set."
-msgstr ""
+msgstr "Duhet të jetë përcaktuar një organizues."
 
 #: calendar/gui/itip-utils.c:306
 msgid "At least one attendee is necessary"
-msgstr ""
+msgstr "Nevoitet të paktën një pjesmarrës"
 
 #: calendar/gui/itip-utils.c:394 calendar/gui/itip-utils.c:503
 msgid "Event information"
-msgstr ""
+msgstr "Informacione mbi ngjarjen"
 
 #: calendar/gui/itip-utils.c:396 calendar/gui/itip-utils.c:505
 msgid "Task information"
-msgstr ""
+msgstr "Informacione mbi aktivitetin"
 
 #: calendar/gui/itip-utils.c:398 calendar/gui/itip-utils.c:507
 msgid "Journal information"
-msgstr ""
+msgstr "Informacione mbi gazetën"
 
 #: calendar/gui/itip-utils.c:400 calendar/gui/itip-utils.c:525
 msgid "Free/Busy information"
-msgstr ""
+msgstr "Informacione mbi gatishmërinë"
 
 #: calendar/gui/itip-utils.c:402
 msgid "Calendar information"
-msgstr ""
+msgstr "Informacione mbi kalendarin"
 
 #: calendar/gui/itip-utils.c:438
 msgid "Updated"
-msgstr ""
+msgstr "U rifreskua"
 
 #: calendar/gui/itip-utils.c:446
 msgid "Refresh"
@@ -6845,20 +6837,20 @@ msgstr "Rifresko"
 
 #: calendar/gui/itip-utils.c:450
 msgid "Counter-proposal"
-msgstr ""
+msgstr "Kundër propozim"
 
 #: calendar/gui/itip-utils.c:521
 #, c-format
 msgid "Free/Busy information (%s to %s)"
-msgstr ""
+msgstr "Informacione mbi gatishmërinë (nga %s në %s)"
 
 #: calendar/gui/itip-utils.c:531
 msgid "iCalendar information"
-msgstr ""
+msgstr "Informacione iCalendar"
 
 #: calendar/gui/itip-utils.c:673
 msgid "You must be an attendee of the event."
-msgstr ""
+msgstr "Duhet të jeni pjesmarrës i ngjarjes."
 
 #: calendar/gui/migration.c:146
 msgid ""
@@ -6867,6 +6859,10 @@ msgid ""
 "\n"
 "Please be patient while Evolution migrates your folders..."
 msgstr ""
+"Vendodhja dhe gjerarkia e kartelave të aktiviteteve të Evolution ka ndryshuar "
+"që nga Evolution 1.x.\n"
+"\n"
+"Durim sa Evolution të migrojë kartelat tuaja..."
 
 #: calendar/gui/migration.c:150
 msgid ""
@@ -6875,32 +6871,36 @@ msgid ""
 "\n"
 "Please be patient while Evolution migrates your folders..."
 msgstr ""
+"Vendodhja dhe gjerarkia e kartelave të kalendarit të Evolution ka ndryshuar "
+"që nga Evolution 1.x.\n"
+"\n"
+"Durim sa Evolution të migrojë kartelat tuaja..."
 
 #: calendar/gui/migration.c:376
 msgid "Birthdays & Anniversaries"
-msgstr ""
+msgstr "Ditlindje & Përvjetorë"
 
 #. Create the Webcal source group
 #: calendar/gui/migration.c:462 calendar/gui/migration.c:544
 msgid "On The Web"
-msgstr ""
+msgstr "Në web"
 
 #. FIXME: set proper domain/code
 #: calendar/gui/migration.c:708 calendar/gui/migration.c:860
 msgid "Unable to migrate old settings from evolution/config.xmldb"
-msgstr ""
+msgstr "I pamundur migrimi i rregullimeve të vjetra nga evolution/config.xmldb"
 
 #. FIXME: domain/code
 #: calendar/gui/migration.c:737
-#, fuzzy, c-format
+#, c-format
 msgid "Unable to migrate calendar `%s'"
-msgstr "Nuk ke të drejtë të hapësh kalendarin"
+msgstr "I pamundur migrimi i kalendarit `%s'"
 
 #. FIXME: domain/code
 #: calendar/gui/migration.c:889
-#, fuzzy, c-format
+#, c-format
 msgid "Unable to migrate tasks `%s'"
-msgstr "E pamundur hapja e librit të adresave"
+msgstr "I pamundur migrimi i aktiviteteve `%s'"
 
 #: calendar/gui/print.c:489
 msgid "1st"
@@ -7028,36 +7028,36 @@ msgstr "31-ti"
 
 #: calendar/gui/print.c:570
 msgid "Su"
-msgstr ""
+msgstr "Dj"
 
 #: calendar/gui/print.c:570
 msgid "Mo"
-msgstr ""
+msgstr "Hë"
 
 #: calendar/gui/print.c:570
 msgid "Tu"
-msgstr ""
+msgstr "Ma"
 
 #: calendar/gui/print.c:570
 msgid "We"
-msgstr ""
+msgstr "Më"
 
 #: calendar/gui/print.c:571
 msgid "Th"
-msgstr ""
+msgstr "En"
 
 #: calendar/gui/print.c:571
 msgid "Fr"
-msgstr ""
+msgstr "Pr"
 
 #: calendar/gui/print.c:571
 msgid "Sa"
-msgstr ""
+msgstr "Sh"
 
 #. Day
 #: calendar/gui/print.c:1914
 msgid "Selected day (%a %b %d %Y)"
-msgstr ""
+msgstr "Dita e zgjedhur (%a %b %d %Y)"
 
 #: calendar/gui/print.c:1939 calendar/gui/print.c:1943
 msgid "%a %b %d"
@@ -7065,56 +7065,56 @@ msgstr "%a %b %d"
 
 #: calendar/gui/print.c:1940
 msgid "%a %d %Y"
-msgstr ""
+msgstr "%a %d %Y"
 
 #: calendar/gui/print.c:1944 calendar/gui/print.c:1946
 #: calendar/gui/print.c:1947
 msgid "%a %b %d %Y"
-msgstr ""
+msgstr "%a %b %d %Y"
 
 #: calendar/gui/print.c:1951
 #, c-format
 msgid "Selected week (%s - %s)"
-msgstr ""
+msgstr "Java e zgjedhur (%s - %s)"
 
 #. Month
 #: calendar/gui/print.c:1959
 msgid "Selected month (%b %Y)"
-msgstr ""
+msgstr "Muaji i zgjedhur (%b %Y)"
 
 #. Year
 #: calendar/gui/print.c:1966
 msgid "Selected year (%Y)"
-msgstr ""
+msgstr "Viti i zgjedhur (%Y)"
 
 #: calendar/gui/print.c:2356
 #, c-format
 msgid "Status: %s"
-msgstr ""
+msgstr "Gjendja: %s"
 
 #: calendar/gui/print.c:2373
 #, c-format
 msgid "Priority: %s"
-msgstr ""
+msgstr "Prioriteti: %s"
 
 #: calendar/gui/print.c:2385
 #, c-format
 msgid "Percent Complete: %i"
-msgstr ""
+msgstr "Përqind plotësuar: %i"
 
 #: calendar/gui/print.c:2397
 #, c-format
 msgid "URL: %s"
-msgstr ""
+msgstr "URL: %s"
 
 #: calendar/gui/print.c:2411
 #, c-format
 msgid "Categories: %s"
-msgstr ""
+msgstr "Kategoritë: %s"
 
 #: calendar/gui/print.c:2422
 msgid "Contacts: "
-msgstr ""
+msgstr "Kontakte: "
 
 #: calendar/gui/print.c:2559 calendar/gui/print.c:2645
 #: calendar/gui/print.c:2737 mail/em-format-html-print.c:178
@@ -7123,7 +7123,7 @@ msgstr "Pamja e parë e printimit"
 
 #: calendar/gui/print.c:2593
 msgid "Print Item"
-msgstr ""
+msgstr "Printo elementin"
 
 #: calendar/gui/print.c:2759
 msgid "Print Setup"
@@ -7132,40 +7132,38 @@ msgstr "Rregullimi i printimit"
 #: calendar/gui/tasks-component.c:313
 #, c-format
 msgid "Task List '%s' will be removed. Are you sure you want to continue?"
-msgstr ""
+msgstr "Lista aktiviteteve '%s' do të fshihet. Jeni i sigurt?"
 
 #: calendar/gui/tasks-component.c:371
-#, fuzzy
 msgid "New Task List"
-msgstr "Lista e aktiviteteve"
+msgstr "Listë e Re Aktivitetesh"
 
 #: calendar/gui/tasks-component.c:408
-#, fuzzy, c-format
+#, c-format
 msgid "%d task"
 msgid_plural "%d tasks"
-msgstr[0] "Kontakte"
-msgstr[1] "Kontakte"
+msgstr[0] "%d aktivitet"
+msgstr[1] "%d aktivitete"
 
 #: calendar/gui/tasks-component.c:410 mail/mail-component.c:498
-#, fuzzy, c-format
+#, c-format
 msgid ", %d selected"
 msgid_plural ", %d selected"
-msgstr[0] "I zgjedhur"
-msgstr[1] "I zgjedhur"
+msgstr[0] ", %d i zgjedhur"
+msgstr[1] ", %d të zgjedhur"
 
 #: calendar/gui/tasks-component.c:457
-#, fuzzy
 msgid "Failed upgrading tasks."
-msgstr "Duke ngarkuar..."
+msgstr "Rifreskimi i aktiviteteve dështoi."
 
 #: calendar/gui/tasks-component.c:749
 #, c-format
 msgid "Unable to open the task list '%s' for creating events and meetings"
-msgstr ""
+msgstr "E pamundur hapja e listës së aktiviteve '%s' për të krijuar ngjarje dhe mbledhje"
 
 #: calendar/gui/tasks-component.c:761
 msgid "There is no calendar available for creating tasks"
-msgstr ""
+msgstr "Asnjë kalendar në dispozicion për të krijuar aktivitete"
 
 #: calendar/gui/tasks-component.c:1030
 msgid "New task"
@@ -7180,19 +7178,16 @@ msgid "Create a new task"
 msgstr "Krijo një aktivitet të ri"
 
 #: calendar/gui/tasks-component.c:1038
-#, fuzzy
 msgid "New tasks group"
-msgstr "Aktivitet i ri"
+msgstr "Grup i ri aktivitetesh"
 
 #: calendar/gui/tasks-component.c:1039
-#, fuzzy
 msgid "Tasks Gro_up"
-msgstr "Lista e aktiviteteve"
+msgstr "Gr_upi aktiviteteve"
 
 #: calendar/gui/tasks-component.c:1040
-#, fuzzy
 msgid "Create a new tasks group"
-msgstr "Krijo një aktivitet të ri"
+msgstr "Krijo një grup të ri aktivitetesh"
 
 #: calendar/gui/tasks-control.c:367
 msgid ""
@@ -7201,61 +7196,66 @@ msgid ""
 "\n"
 "Really erase these tasks?"
 msgstr ""
+"Ky operacion do të eleminojë përfundimisht të gjitha aktivitetet e shënuara si të "
+"plotësuara. Nëse vazhdoni, nuk do të jeni më në gjendje t'i rekuperoni.\n"
+"\n"
+"Eleminoj aktivitetet?"
 
 #: calendar/gui/tasks-control.c:370
 msgid "Do not ask me again."
-msgstr ""
+msgstr "Mos më pyet më."
 
 #: calendar/gui/tasks-control.c:428
 msgid "Print Tasks"
-msgstr ""
+msgstr "Printo aktivitetet"
 
 #: calendar/gui/weekday-picker.c:326
 msgid "SMTWTFS"
-msgstr ""
+msgstr "SMTWTFS"
 
 #: calendar/importers/GNOME_Evolution_Calendar_Importer.server.in.in.h:1
 msgid "Evolution Calendar intelligent importer"
-msgstr ""
+msgstr "Importuesi inteligjent i Kalendarit të Evolution"
 
 #: calendar/importers/GNOME_Evolution_Calendar_Importer.server.in.in.h:2
 msgid "Evolution iCalendar importer"
-msgstr ""
+msgstr "Importuesi iCalendar i Evolution"
 
 #: calendar/importers/GNOME_Evolution_Calendar_Importer.server.in.in.h:3
 msgid "Evolution vCalendar importer"
-msgstr ""
+msgstr "Importuesi vCalendar i Evolution"
 
 #: calendar/importers/GNOME_Evolution_Calendar_Importer.server.in.in.h:4
 msgid "iCalendar files (.ics)"
-msgstr ""
+msgstr "Files iCalendar (.ics)"
 
 #: calendar/importers/GNOME_Evolution_Calendar_Importer.server.in.in.h:5
 msgid "vCalendar files (.vcf)"
-msgstr ""
+msgstr "Files vCalendar (.vcf)"
 
 #: calendar/importers/icalendar-importer.c:78
-#, fuzzy
 msgid "Appointments and Meetings"
-msgstr "Kartelë publike që përmban takime dhe ngjarje"
+msgstr "Takime dhe Mbledhje"
 
 #: calendar/importers/icalendar-importer.c:490
 msgid "Reminder!!"
-msgstr ""
+msgstr "Kujtesë!!"
 
 #: calendar/importers/icalendar-importer.c:698
 msgid "Calendar Events"
-msgstr ""
+msgstr "Ngjarje Kalendari"
 
 #: calendar/importers/icalendar-importer.c:723
 msgid ""
 "Evolution has found Gnome Calendar files.\n"
 "Would you like to import them into Evolution?"
 msgstr ""
+"Evolution ka gjetur files të Kalendarit të Gnome.\n"
+"Dëshironi t'i importoni nën Evolution?"
 
 #: calendar/importers/icalendar-importer.c:730
 msgid "Gnome Calendar"
-msgstr ""
+msgstr "Kalendari i Gnome"
 
 #.
 #. * These are the timezone names from the Olson timezone data.
@@ -7264,1560 +7264,1560 @@ msgstr ""
 #.
 #: calendar/zones.h:7
 msgid "Africa/Abidjan"
-msgstr ""
+msgstr "Afrikë/Abidjan"
 
 #: calendar/zones.h:8
 msgid "Africa/Accra"
-msgstr ""
+msgstr "Afrikë/Accra"
 
 #: calendar/zones.h:9
 msgid "Africa/Addis_Ababa"
-msgstr ""
+msgstr "Afrikë/Addis_Ababa"
 
 #: calendar/zones.h:10
 msgid "Africa/Algiers"
-msgstr ""
+msgstr "Afrikë/Algiers"
 
 #: calendar/zones.h:11
 msgid "Africa/Asmera"
-msgstr ""
+msgstr "Afrikë/Asmera"
 
 #: calendar/zones.h:12
 msgid "Africa/Bamako"
-msgstr ""
+msgstr "Afrikë/Bamako"
 
 #: calendar/zones.h:13
 msgid "Africa/Bangui"
-msgstr ""
+msgstr "Afrikë/Bangui"
 
 #: calendar/zones.h:14
 msgid "Africa/Banjul"
-msgstr ""
+msgstr "Afrikë/Banjul"
 
 #: calendar/zones.h:15
 msgid "Africa/Bissau"
-msgstr ""
+msgstr "Afrikë/Bissau"
 
 #: calendar/zones.h:16
 msgid "Africa/Blantyre"
-msgstr ""
+msgstr "Afrikë/Blantyre"
 
 #: calendar/zones.h:17
 msgid "Africa/Brazzaville"
-msgstr ""
+msgstr "Afrikë/Brazzaville"
 
 #: calendar/zones.h:18
 msgid "Africa/Bujumbura"
-msgstr ""
+msgstr "Afrikë/Bujumbura"
 
 #: calendar/zones.h:19
 msgid "Africa/Cairo"
-msgstr ""
+msgstr "Afrikë/Kairo"
 
 #: calendar/zones.h:20
 msgid "Africa/Casablanca"
-msgstr ""
+msgstr "Afrikë/Casablanca"
 
 #: calendar/zones.h:21
 msgid "Africa/Ceuta"
-msgstr ""
+msgstr "Afrikë/Ceuta"
 
 #: calendar/zones.h:22
 msgid "Africa/Conakry"
-msgstr ""
+msgstr "Afrikë/Conakry"
 
 #: calendar/zones.h:23
 msgid "Africa/Dakar"
-msgstr ""
+msgstr "Afrikë/Dakar"
 
 #: calendar/zones.h:24
 msgid "Africa/Dar_es_Salaam"
-msgstr ""
+msgstr "Afrikë/Dar_es_Salaam"
 
 #: calendar/zones.h:25
 msgid "Africa/Djibouti"
-msgstr ""
+msgstr "Afrikë/Djibouti"
 
 #: calendar/zones.h:26
 msgid "Africa/Douala"
-msgstr ""
+msgstr "Afrikë/Douala"
 
 #: calendar/zones.h:27
 msgid "Africa/El_Aaiun"
-msgstr ""
+msgstr "Afrikë/El_Aaiun"
 
 #: calendar/zones.h:28
 msgid "Africa/Freetown"
-msgstr ""
+msgstr "Afrikë/Freetown"
 
 #: calendar/zones.h:29
 msgid "Africa/Gaborone"
-msgstr ""
+msgstr "Afrikë/Gaborone"
 
 #: calendar/zones.h:30
 msgid "Africa/Harare"
-msgstr ""
+msgstr "Afrikë/Harare"
 
 #: calendar/zones.h:31
 msgid "Africa/Johannesburg"
-msgstr ""
+msgstr "Afrikë/Johannesburg"
 
 #: calendar/zones.h:32
 msgid "Africa/Kampala"
-msgstr ""
+msgstr "Afrikë/Kampala"
 
 #: calendar/zones.h:33
 msgid "Africa/Khartoum"
-msgstr ""
+msgstr "Afrikë/Khartoum"
 
 #: calendar/zones.h:34
 msgid "Africa/Kigali"
-msgstr ""
+msgstr "Afrikë/Kigali"
 
 #: calendar/zones.h:35
 msgid "Africa/Kinshasa"
-msgstr ""
+msgstr "Afrikë/Kinshasa"
 
 #: calendar/zones.h:36
 msgid "Africa/Lagos"
-msgstr ""
+msgstr "Afrikë/Lagos"
 
 #: calendar/zones.h:37
 msgid "Africa/Libreville"
-msgstr ""
+msgstr "Afrikë/Libreville"
 
 #: calendar/zones.h:38
 msgid "Africa/Lome"
-msgstr ""
+msgstr "Afrikë/Lome"
 
 #: calendar/zones.h:39
 msgid "Africa/Luanda"
-msgstr ""
+msgstr "Afrikë/Luanda"
 
 #: calendar/zones.h:40
 msgid "Africa/Lubumbashi"
-msgstr ""
+msgstr "Afrikë/Lubumbashi"
 
 #: calendar/zones.h:41
 msgid "Africa/Lusaka"
-msgstr ""
+msgstr "Afrikë/Lusaka"
 
 #: calendar/zones.h:42
 msgid "Africa/Malabo"
-msgstr ""
+msgstr "Afrikë/Malabo"
 
 #: calendar/zones.h:43
 msgid "Africa/Maputo"
-msgstr ""
+msgstr "Afrikë/Maputo"
 
 #: calendar/zones.h:44
 msgid "Africa/Maseru"
-msgstr ""
+msgstr "Afrikë/Maseru"
 
 #: calendar/zones.h:45
 msgid "Africa/Mbabane"
-msgstr ""
+msgstr "Afrikë/Mbabane"
 
 #: calendar/zones.h:46
 msgid "Africa/Mogadishu"
-msgstr ""
+msgstr "Afrikë/Mogadishu"
 
 #: calendar/zones.h:47
 msgid "Africa/Monrovia"
-msgstr ""
+msgstr "Afrikë/Monrovia"
 
 #: calendar/zones.h:48
 msgid "Africa/Nairobi"
-msgstr ""
+msgstr "Afrikë/Nairobi"
 
 #: calendar/zones.h:49
 msgid "Africa/Ndjamena"
-msgstr ""
+msgstr "Afrikë/Ndjamena"
 
 #: calendar/zones.h:50
 msgid "Africa/Niamey"
-msgstr ""
+msgstr "Afrikë/Niamey"
 
 #: calendar/zones.h:51
 msgid "Africa/Nouakchott"
-msgstr ""
+msgstr "Afrikë/Nouakchott"
 
 #: calendar/zones.h:52
 msgid "Africa/Ouagadougou"
-msgstr ""
+msgstr "Afrikë/Ouagadougou"
 
 #: calendar/zones.h:53
 msgid "Africa/Porto-Novo"
-msgstr ""
+msgstr "Afrikë/Porto-Novo"
 
 #: calendar/zones.h:54
 msgid "Africa/Sao_Tome"
-msgstr ""
+msgstr "Afrikë/Sao_Tome"
 
 #: calendar/zones.h:55
 msgid "Africa/Timbuktu"
-msgstr ""
+msgstr "Afrikë/Timbuktu"
 
 #: calendar/zones.h:56
 msgid "Africa/Tripoli"
-msgstr ""
+msgstr "Afrikë/Tripoli"
 
 #: calendar/zones.h:57
 msgid "Africa/Tunis"
-msgstr ""
+msgstr "Afrikë/Tunis"
 
 #: calendar/zones.h:58
 msgid "Africa/Windhoek"
-msgstr ""
+msgstr "Afrikë/Windhoek"
 
 #: calendar/zones.h:59
 msgid "America/Adak"
-msgstr ""
+msgstr "Amerikë/Adak"
 
 #: calendar/zones.h:60
 msgid "America/Anchorage"
-msgstr ""
+msgstr "Amerikë/Anchorage"
 
 #: calendar/zones.h:61
 msgid "America/Anguilla"
-msgstr ""
+msgstr "Amerikë/Anguilla"
 
 #: calendar/zones.h:62
 msgid "America/Antigua"
-msgstr ""
+msgstr "Amerikë/Antigua"
 
 #: calendar/zones.h:63
 msgid "America/Araguaina"
-msgstr ""
+msgstr "Amerikë/Araguaina"
 
 #: calendar/zones.h:64
 msgid "America/Aruba"
-msgstr ""
+msgstr "Amerikë/Aruba"
 
 #: calendar/zones.h:65
 msgid "America/Asuncion"
-msgstr ""
+msgstr "Amerikë/Asuncion"
 
 #: calendar/zones.h:66
 msgid "America/Barbados"
-msgstr ""
+msgstr "Amerikë/Barbados"
 
 #: calendar/zones.h:67
 msgid "America/Belem"
-msgstr ""
+msgstr "Amerikë/Belem"
 
 #: calendar/zones.h:68
 msgid "America/Belize"
-msgstr ""
+msgstr "Amerikë/Belize"
 
 #: calendar/zones.h:69
 msgid "America/Boa_Vista"
-msgstr ""
+msgstr "Amerikë/Boa_Vista"
 
 #: calendar/zones.h:70
 msgid "America/Bogota"
-msgstr ""
+msgstr "Amerikë/Bogota"
 
 #: calendar/zones.h:71
 msgid "America/Boise"
-msgstr ""
+msgstr "Amerikë/Boise"
 
 #: calendar/zones.h:72
 msgid "America/Buenos_Aires"
-msgstr ""
+msgstr "Amerikë/Buenos_Aires"
 
 #: calendar/zones.h:73
 msgid "America/Cambridge_Bay"
-msgstr ""
+msgstr "Amerikë/Cambridge_Bay"
 
 #: calendar/zones.h:74
 msgid "America/Cancun"
-msgstr ""
+msgstr "Amerikë/Cancun"
 
 #: calendar/zones.h:75
 msgid "America/Caracas"
-msgstr ""
+msgstr "Amerikë/Caracas"
 
 #: calendar/zones.h:76
 msgid "America/Catamarca"
-msgstr ""
+msgstr "Amerikë/Catamarca"
 
 #: calendar/zones.h:77
 msgid "America/Cayenne"
-msgstr ""
+msgstr "Amerikë/Cayenne"
 
 #: calendar/zones.h:78
 msgid "America/Cayman"
-msgstr ""
+msgstr "Amerikë/Cayman"
 
 #: calendar/zones.h:79
 msgid "America/Chicago"
-msgstr ""
+msgstr "Amerikë/Chicago"
 
 #: calendar/zones.h:80
 msgid "America/Chihuahua"
-msgstr ""
+msgstr "Amerikë/Chihuahua"
 
 #: calendar/zones.h:81
 msgid "America/Cordoba"
-msgstr ""
+msgstr "Amerikë/Cordoba"
 
 #: calendar/zones.h:82
 msgid "America/Costa_Rica"
-msgstr ""
+msgstr "Amerikë/Costa_Rica"
 
 #: calendar/zones.h:83
 msgid "America/Cuiaba"
-msgstr ""
+msgstr "Amerikë/Cuiaba"
 
 #: calendar/zones.h:84
 msgid "America/Curacao"
-msgstr ""
+msgstr "Amerikë/Curacao"
 
 #: calendar/zones.h:85
 msgid "America/Danmarkshavn"
-msgstr ""
+msgstr "Amerikë/Danmarkshavn"
 
 #: calendar/zones.h:86
 msgid "America/Dawson"
-msgstr ""
+msgstr "Amerikë/Dawson"
 
 #: calendar/zones.h:87
 msgid "America/Dawson_Creek"
-msgstr ""
+msgstr "Amerikë/Dawson_Creek"
 
 #: calendar/zones.h:88
 msgid "America/Denver"
-msgstr ""
+msgstr "Amerikë/Denver"
 
 #: calendar/zones.h:89
 msgid "America/Detroit"
-msgstr ""
+msgstr "Amerikë/Detroit"
 
 #: calendar/zones.h:90
 msgid "America/Dominica"
-msgstr ""
+msgstr "Amerikë/Dominica"
 
 #: calendar/zones.h:91
 msgid "America/Edmonton"
-msgstr ""
+msgstr "Amerikë/Edmonton"
 
 #: calendar/zones.h:92
 msgid "America/Eirunepe"
-msgstr ""
+msgstr "Amerikë/Eirunepe"
 
 #: calendar/zones.h:93
 msgid "America/El_Salvador"
-msgstr ""
+msgstr "Amerikë/El_Salvador"
 
 #: calendar/zones.h:94
 msgid "America/Fortaleza"
-msgstr ""
+msgstr "Amerikë/Fortaleza"
 
 #: calendar/zones.h:95
 msgid "America/Glace_Bay"
-msgstr ""
+msgstr "Amerikë/Glace_Bay"
 
 #: calendar/zones.h:96
 msgid "America/Godthab"
-msgstr ""
+msgstr "Amerikë/Godthab"
 
 #: calendar/zones.h:97
 msgid "America/Goose_Bay"
-msgstr ""
+msgstr "Amerikë/Goose_Bay"
 
 #: calendar/zones.h:98
 msgid "America/Grand_Turk"
-msgstr ""
+msgstr "Amerikë/Grand_Turk"
 
 #: calendar/zones.h:99
 msgid "America/Grenada"
-msgstr ""
+msgstr "Amerikë/Grenada"
 
 #: calendar/zones.h:100
 msgid "America/Guadeloupe"
-msgstr ""
+msgstr "Amerikë/Guadeloupe"
 
 #: calendar/zones.h:101
 msgid "America/Guatemala"
-msgstr ""
+msgstr "Amerikë/Guatemala"
 
 #: calendar/zones.h:102
 msgid "America/Guayaquil"
-msgstr ""
+msgstr "Amerikë/Guayaquil"
 
 #: calendar/zones.h:103
 msgid "America/Guyana"
-msgstr ""
+msgstr "Amerikë/Guyana"
 
 #: calendar/zones.h:104
 msgid "America/Halifax"
-msgstr ""
+msgstr "Amerikë/Halifax"
 
 #: calendar/zones.h:105
 msgid "America/Havana"
-msgstr ""
+msgstr "Amerikë/Havana"
 
 #: calendar/zones.h:106
 msgid "America/Hermosillo"
-msgstr ""
+msgstr "Amerikë/Hermosillo"
 
 #: calendar/zones.h:107
 msgid "America/Indiana/Indianapolis"
-msgstr ""
+msgstr "Amerikë/Indiana/Indianapolis"
 
 #: calendar/zones.h:108
 msgid "America/Indiana/Knox"
-msgstr ""
+msgstr "Amerikë/Indiana/Knox"
 
 #: calendar/zones.h:109
 msgid "America/Indiana/Marengo"
-msgstr ""
+msgstr "Amerikë/Indiana/Marengo"
 
 #: calendar/zones.h:110
 msgid "America/Indiana/Vevay"
-msgstr ""
+msgstr "Amerikë/Indiana/Vevay"
 
 #: calendar/zones.h:111
 msgid "America/Indianapolis"
-msgstr ""
+msgstr "Amerikë/Indianapolis"
 
 #: calendar/zones.h:112
 msgid "America/Inuvik"
-msgstr ""
+msgstr "Amerikë/Inuvik"
 
 #: calendar/zones.h:113
 msgid "America/Iqaluit"
-msgstr ""
+msgstr "Amerikë/Iqaluit"
 
 #: calendar/zones.h:114
 msgid "America/Jamaica"
-msgstr ""
+msgstr "Amerikë/Jamaica"
 
 #: calendar/zones.h:115
 msgid "America/Jujuy"
-msgstr ""
+msgstr "Amerikë/Jujuy"
 
 #: calendar/zones.h:116
 msgid "America/Juneau"
-msgstr ""
+msgstr "Amerikë/Juneau"
 
 #: calendar/zones.h:117
 msgid "America/Kentucky/Louisville"
-msgstr ""
+msgstr "Amerikë/Kentucky/Louisville"
 
 #: calendar/zones.h:118
 msgid "America/Kentucky/Monticello"
-msgstr ""
+msgstr "Amerikë/Kentucky/Monticello"
 
 #: calendar/zones.h:119
 msgid "America/La_Paz"
-msgstr ""
+msgstr "Amerikë/La_Paz"
 
 #: calendar/zones.h:120
 msgid "America/Lima"
-msgstr ""
+msgstr "Amerikë/Lima"
 
 #: calendar/zones.h:121
 msgid "America/Los_Angeles"
-msgstr ""
+msgstr "Amerikë/Los_Angeles"
 
 #: calendar/zones.h:122
 msgid "America/Louisville"
-msgstr ""
+msgstr "Amerikë/Louisville"
 
 #: calendar/zones.h:123
 msgid "America/Maceio"
-msgstr ""
+msgstr "Amerikë/Maceio"
 
 #: calendar/zones.h:124
 msgid "America/Managua"
-msgstr ""
+msgstr "Amerikë/Managua"
 
 #: calendar/zones.h:125
 msgid "America/Manaus"
-msgstr ""
+msgstr "Amerikë/Manaus"
 
 #: calendar/zones.h:126
 msgid "America/Martinique"
-msgstr ""
+msgstr "Amerikë/Martinique"
 
 #: calendar/zones.h:127
 msgid "America/Mazatlan"
-msgstr ""
+msgstr "Amerikë/Mazatlan"
 
 #: calendar/zones.h:128
 msgid "America/Mendoza"
-msgstr ""
+msgstr "Amerikë/Mendoza"
 
 #: calendar/zones.h:129
 msgid "America/Menominee"
-msgstr ""
+msgstr "Amerikë/Menominee"
 
 #: calendar/zones.h:130
 msgid "America/Merida"
-msgstr ""
+msgstr "Amerikë/Merida"
 
 #: calendar/zones.h:131
 msgid "America/Mexico_City"
-msgstr ""
+msgstr "Amerikë/Mexico_City"
 
 #: calendar/zones.h:132
 msgid "America/Miquelon"
-msgstr ""
+msgstr "Amerikë/Miquelon"
 
 #: calendar/zones.h:133
 msgid "America/Monterrey"
-msgstr ""
+msgstr "Amerikë/Monterrey"
 
 #: calendar/zones.h:134
 msgid "America/Montevideo"
-msgstr ""
+msgstr "Amerikë/Montevideo"
 
 #: calendar/zones.h:135
 msgid "America/Montreal"
-msgstr ""
+msgstr "Amerikë/Montreal"
 
 #: calendar/zones.h:136
 msgid "America/Montserrat"
-msgstr ""
+msgstr "Amerikë/Montserrat"
 
 #: calendar/zones.h:137
 msgid "America/Nassau"
-msgstr ""
+msgstr "Amerikë/Nassau"
 
 #: calendar/zones.h:138
 msgid "America/New_York"
-msgstr ""
+msgstr "Amerikë/New_York"
 
 #: calendar/zones.h:139
 msgid "America/Nipigon"
-msgstr ""
+msgstr "Amerikë/Nipigon"
 
 #: calendar/zones.h:140
 msgid "America/Nome"
-msgstr ""
+msgstr "Amerikë/Nome"
 
 #: calendar/zones.h:141
 msgid "America/Noronha"
-msgstr ""
+msgstr "Amerikë/Noronha"
 
 #: calendar/zones.h:142
 msgid "America/North_Dakota/Center"
-msgstr ""
+msgstr "Amerikë/North_Dakota/Center"
 
 #: calendar/zones.h:143
 msgid "America/Panama"
-msgstr ""
+msgstr "Amerikë/Panama"
 
 #: calendar/zones.h:144
 msgid "America/Pangnirtung"
-msgstr ""
+msgstr "Amerikë/Pangnirtung"
 
 #: calendar/zones.h:145
 msgid "America/Paramaribo"
-msgstr ""
+msgstr "Amerikë/Paramaribo"
 
 #: calendar/zones.h:146
 msgid "America/Phoenix"
-msgstr ""
+msgstr "Amerikë/Phoenix"
 
 #: calendar/zones.h:147
 msgid "America/Port-au-Prince"
-msgstr ""
+msgstr "Amerikë/Port-au-Prince"
 
 #: calendar/zones.h:148
 msgid "America/Port_of_Spain"
-msgstr ""
+msgstr "Amerikë/Port_of_Spain"
 
 #: calendar/zones.h:149
 msgid "America/Porto_Velho"
-msgstr ""
+msgstr "Amerikë/Porto_Velho"
 
 #: calendar/zones.h:150
 msgid "America/Puerto_Rico"
-msgstr ""
+msgstr "Amerikë/Puerto_Rico"
 
 #: calendar/zones.h:151
 msgid "America/Rainy_River"
-msgstr ""
+msgstr "Amerikë/Rainy_River"
 
 #: calendar/zones.h:152
 msgid "America/Rankin_Inlet"
-msgstr ""
+msgstr "Amerikë/Rankin_Inlet"
 
 #: calendar/zones.h:153
 msgid "America/Recife"
-msgstr ""
+msgstr "Amerikë/Recife"
 
 #: calendar/zones.h:154
 msgid "America/Regina"
-msgstr ""
+msgstr "Amerikë/Regina"
 
 #: calendar/zones.h:155
 msgid "America/Rio_Branco"
-msgstr ""
+msgstr "Amerikë/Rio_Branco"
 
 #: calendar/zones.h:156
 msgid "America/Rosario"
-msgstr ""
+msgstr "Amerikë/Rosario"
 
 #: calendar/zones.h:157
 msgid "America/Santiago"
-msgstr ""
+msgstr "Amerikë/Santiago"
 
 #: calendar/zones.h:158
 msgid "America/Santo_Domingo"
-msgstr ""
+msgstr "Amerikë/Santo_Domingo"
 
 #: calendar/zones.h:159
 msgid "America/Sao_Paulo"
-msgstr ""
+msgstr "Amerikë/Sao_Paulo"
 
 #: calendar/zones.h:160
 msgid "America/Scoresbysund"
-msgstr ""
+msgstr "Amerikë/Scoresbysund"
 
 #: calendar/zones.h:161
 msgid "America/Shiprock"
-msgstr ""
+msgstr "Amerikë/Shiprock"
 
 #: calendar/zones.h:162
 msgid "America/St_Johns"
-msgstr ""
+msgstr "Amerikë/St_Johns"
 
 #: calendar/zones.h:163
 msgid "America/St_Kitts"
-msgstr ""
+msgstr "Amerikë/St_Kitts"
 
 #: calendar/zones.h:164
 msgid "America/St_Lucia"
-msgstr ""
+msgstr "Amerikë/St_Lucia"
 
 #: calendar/zones.h:165
 msgid "America/St_Thomas"
-msgstr ""
+msgstr "Amerikë/St_Thomas"
 
 #: calendar/zones.h:166
 msgid "America/St_Vincent"
-msgstr ""
+msgstr "Amerikë/St_Vincent"
 
 #: calendar/zones.h:167
 msgid "America/Swift_Current"
-msgstr ""
+msgstr "Amerikë/Swift_Current"
 
 #: calendar/zones.h:168
 msgid "America/Tegucigalpa"
-msgstr ""
+msgstr "Amerikë/Tegucigalpa"
 
 #: calendar/zones.h:169
 msgid "America/Thule"
-msgstr ""
+msgstr "Amerikë/Thule"
 
 #: calendar/zones.h:170
 msgid "America/Thunder_Bay"
-msgstr ""
+msgstr "Amerikë/Thunder_Bay"
 
 #: calendar/zones.h:171
 msgid "America/Tijuana"
-msgstr ""
+msgstr "Amerikë/Tijuana"
 
 #: calendar/zones.h:172
 msgid "America/Tortola"
-msgstr ""
+msgstr "Amerikë/Tortola"
 
 #: calendar/zones.h:173
 msgid "America/Vancouver"
-msgstr ""
+msgstr "Amerikë/Vancouver"
 
 #: calendar/zones.h:174
 msgid "America/Whitehorse"
-msgstr ""
+msgstr "Amerikë/Whitehorse"
 
 #: calendar/zones.h:175
 msgid "America/Winnipeg"
-msgstr ""
+msgstr "Amerikë/Winnipeg"
 
 #: calendar/zones.h:176
 msgid "America/Yakutat"
-msgstr ""
+msgstr "Amerikë/Yakutat"
 
 #: calendar/zones.h:177
 msgid "America/Yellowknife"
-msgstr ""
+msgstr "Amerikë/Yellowknife"
 
 #: calendar/zones.h:178
 msgid "Antarctica/Casey"
-msgstr ""
+msgstr "Antarktika/Casey"
 
 #: calendar/zones.h:179
 msgid "Antarctica/Davis"
-msgstr ""
+msgstr "Antarktika/Davis"
 
 #: calendar/zones.h:180
 msgid "Antarctica/DumontDUrville"
-msgstr ""
+msgstr "Antarktika/DumontDUrville"
 
 #: calendar/zones.h:181
 msgid "Antarctica/Mawson"
-msgstr ""
+msgstr "Antarktika/Mawson"
 
 #: calendar/zones.h:182
 msgid "Antarctica/McMurdo"
-msgstr ""
+msgstr "Antarktika/McMurdo"
 
 #: calendar/zones.h:183
 msgid "Antarctica/Palmer"
-msgstr ""
+msgstr "Antarktika/Palmer"
 
 #: calendar/zones.h:184
 msgid "Antarctica/South_Pole"
-msgstr ""
+msgstr "Antarktika/South_Pole"
 
 #: calendar/zones.h:185
 msgid "Antarctica/Syowa"
-msgstr ""
+msgstr "Antarktika/Syowa"
 
 #: calendar/zones.h:186
 msgid "Antarctica/Vostok"
-msgstr ""
+msgstr "Antarktika/Vostok"
 
 #: calendar/zones.h:187
 msgid "Arctic/Longyearbyen"
-msgstr ""
+msgstr "Arktika/Longyearbyen"
 
 #: calendar/zones.h:188
 msgid "Asia/Aden"
-msgstr ""
+msgstr "Azia/Aden"
 
 #: calendar/zones.h:189
 msgid "Asia/Almaty"
-msgstr ""
+msgstr "Azia/Almaty"
 
 #: calendar/zones.h:190
 msgid "Asia/Amman"
-msgstr ""
+msgstr "Azia/Amman"
 
 #: calendar/zones.h:191
 msgid "Asia/Anadyr"
-msgstr ""
+msgstr "Azia/Anadyr"
 
 #: calendar/zones.h:192
 msgid "Asia/Aqtau"
-msgstr ""
+msgstr "Azia/Aqtau"
 
 #: calendar/zones.h:193
 msgid "Asia/Aqtobe"
-msgstr ""
+msgstr "Azia/Aqtobe"
 
 #: calendar/zones.h:194
 msgid "Asia/Ashgabat"
-msgstr ""
+msgstr "Azia/Ashgabat"
 
 #: calendar/zones.h:195
 msgid "Asia/Baghdad"
-msgstr ""
+msgstr "Azia/Baghdad"
 
 #: calendar/zones.h:196
 msgid "Asia/Bahrain"
-msgstr ""
+msgstr "Azia/Bahrain"
 
 #: calendar/zones.h:197
 msgid "Asia/Baku"
-msgstr ""
+msgstr "Azia/Baku"
 
 #: calendar/zones.h:198
 msgid "Asia/Bangkok"
-msgstr ""
+msgstr "Azia/Bangkok"
 
 #: calendar/zones.h:199
 msgid "Asia/Beirut"
-msgstr ""
+msgstr "Azia/Beirut"
 
 #: calendar/zones.h:200
 msgid "Asia/Bishkek"
-msgstr ""
+msgstr "Azia/Bishkek"
 
 #: calendar/zones.h:201
 msgid "Asia/Brunei"
-msgstr ""
+msgstr "Azia/Brunei"
 
 #: calendar/zones.h:202
 msgid "Asia/Calcutta"
-msgstr ""
+msgstr "Azia/Calcutta"
 
 #: calendar/zones.h:203
 msgid "Asia/Choibalsan"
-msgstr ""
+msgstr "Azia/Choibalsan"
 
 #: calendar/zones.h:204
 msgid "Asia/Chongqing"
-msgstr ""
+msgstr "Azia/Chongqing"
 
 #: calendar/zones.h:205
 msgid "Asia/Colombo"
-msgstr ""
+msgstr "Azia/Colombo"
 
 #: calendar/zones.h:206
 msgid "Asia/Damascus"
-msgstr ""
+msgstr "Azia/Damascus"
 
 #: calendar/zones.h:207
 msgid "Asia/Dhaka"
-msgstr ""
+msgstr "Azia/Dhaka"
 
 #: calendar/zones.h:208
 msgid "Asia/Dili"
-msgstr ""
+msgstr "Azia/Dili"
 
 #: calendar/zones.h:209
 msgid "Asia/Dubai"
-msgstr ""
+msgstr "Azia/Dubai"
 
 #: calendar/zones.h:210
 msgid "Asia/Dushanbe"
-msgstr ""
+msgstr "Azia/Dushanbe"
 
 #: calendar/zones.h:211
 msgid "Asia/Gaza"
-msgstr ""
+msgstr "Azia/Gaza"
 
 #: calendar/zones.h:212
 msgid "Asia/Harbin"
-msgstr ""
+msgstr "Azia/Harbin"
 
 #: calendar/zones.h:213
 msgid "Asia/Hong_Kong"
-msgstr ""
+msgstr "Azia/Hong_Kong"
 
 #: calendar/zones.h:214
 msgid "Asia/Hovd"
-msgstr ""
+msgstr "Azia/Hovd"
 
 #: calendar/zones.h:215
 msgid "Asia/Irkutsk"
-msgstr ""
+msgstr "Azia/Irkutsk"
 
 #: calendar/zones.h:216
 msgid "Asia/Istanbul"
-msgstr ""
+msgstr "Azia/Istanbul"
 
 #: calendar/zones.h:217
 msgid "Asia/Jakarta"
-msgstr ""
+msgstr "Azia/Jakarta"
 
 #: calendar/zones.h:218
 msgid "Asia/Jayapura"
-msgstr ""
+msgstr "Azia/Jayapura"
 
 #: calendar/zones.h:219
 msgid "Asia/Jerusalem"
-msgstr ""
+msgstr "Azia/Jerusalem"
 
 #: calendar/zones.h:220
 msgid "Asia/Kabul"
-msgstr ""
+msgstr "Azia/Kabul"
 
 #: calendar/zones.h:221
 msgid "Asia/Kamchatka"
-msgstr ""
+msgstr "Azia/Kamchatka"
 
 #: calendar/zones.h:222
 msgid "Asia/Karachi"
-msgstr ""
+msgstr "Azia/Karachi"
 
 #: calendar/zones.h:223
 msgid "Asia/Kashgar"
-msgstr ""
+msgstr "Azia/Kashgar"
 
 #: calendar/zones.h:224
 msgid "Asia/Katmandu"
-msgstr ""
+msgstr "Azia/Katmandu"
 
 #: calendar/zones.h:225
 msgid "Asia/Krasnoyarsk"
-msgstr ""
+msgstr "Azia/Krasnoyarsk"
 
 #: calendar/zones.h:226
 msgid "Asia/Kuala_Lumpur"
-msgstr ""
+msgstr "Azia/Kuala_Lumpur"
 
 #: calendar/zones.h:227
 msgid "Asia/Kuching"
-msgstr ""
+msgstr "Azia/Kuching"
 
 #: calendar/zones.h:228
 msgid "Asia/Kuwait"
-msgstr ""
+msgstr "Azia/Kuwait"
 
 #: calendar/zones.h:229
 msgid "Asia/Macao"
-msgstr ""
+msgstr "Azia/Macao"
 
 #: calendar/zones.h:230
 msgid "Asia/Macau"
-msgstr ""
+msgstr "Azia/Macau"
 
 #: calendar/zones.h:231
 msgid "Asia/Magadan"
-msgstr ""
+msgstr "Azia/Magadan"
 
 #: calendar/zones.h:232
 msgid "Asia/Makassar"
-msgstr ""
+msgstr "Azia/Makassar"
 
 #: calendar/zones.h:233
 msgid "Asia/Manila"
-msgstr ""
+msgstr "Azia/Manila"
 
 #: calendar/zones.h:234
 msgid "Asia/Muscat"
-msgstr ""
+msgstr "Azia/Muscat"
 
 #: calendar/zones.h:235
 msgid "Asia/Nicosia"
-msgstr ""
+msgstr "Azia/Nicosia"
 
 #: calendar/zones.h:236
 msgid "Asia/Novosibirsk"
-msgstr ""
+msgstr "Azia/Novosibirsk"
 
 #: calendar/zones.h:237
 msgid "Asia/Omsk"
-msgstr ""
+msgstr "Azia/Omsk"
 
 #: calendar/zones.h:238
 msgid "Asia/Oral"
-msgstr ""
+msgstr "Azia/Oral"
 
 #: calendar/zones.h:239
 msgid "Asia/Phnom_Penh"
-msgstr ""
+msgstr "Azia/Phnom_Penh"
 
 #: calendar/zones.h:240
 msgid "Asia/Pontianak"
-msgstr ""
+msgstr "Azia/Pontianak"
 
 #: calendar/zones.h:241
 msgid "Asia/Pyongyang"
-msgstr ""
+msgstr "Azia/Pyongyang"
 
 #: calendar/zones.h:242
 msgid "Asia/Qatar"
-msgstr ""
+msgstr "Azia/Qatar"
 
 #: calendar/zones.h:243
 msgid "Asia/Qyzylorda"
-msgstr ""
+msgstr "Azia/Qyzylorda"
 
 #: calendar/zones.h:244
 msgid "Asia/Rangoon"
-msgstr ""
+msgstr "Azia/Rangoon"
 
 #: calendar/zones.h:245
 msgid "Asia/Riyadh"
-msgstr ""
+msgstr "Azia/Riyadh"
 
 #: calendar/zones.h:246
 msgid "Asia/Saigon"
-msgstr ""
+msgstr "Azia/Saigon"
 
 #: calendar/zones.h:247
 msgid "Asia/Sakhalin"
-msgstr ""
+msgstr "Azia/Sakhalin"
 
 #: calendar/zones.h:248
 msgid "Asia/Samarkand"
-msgstr ""
+msgstr "Azia/Samarkand"
 
 #: calendar/zones.h:249
 msgid "Asia/Seoul"
-msgstr ""
+msgstr "Azia/Seoul"
 
 #: calendar/zones.h:250
 msgid "Asia/Shanghai"
-msgstr ""
+msgstr "Azia/Shanghai"
 
 #: calendar/zones.h:251
 msgid "Asia/Singapore"
-msgstr ""
+msgstr "Azia/Singapore"
 
 #: calendar/zones.h:252
 msgid "Asia/Taipei"
-msgstr ""
+msgstr "Azia/Taipei"
 
 #: calendar/zones.h:253
 msgid "Asia/Tashkent"
-msgstr ""
+msgstr "Azia/Tashkent"
 
 #: calendar/zones.h:254
 msgid "Asia/Tbilisi"
-msgstr ""
+msgstr "Azia/Tbilisi"
 
 #: calendar/zones.h:255
 msgid "Asia/Tehran"
-msgstr ""
+msgstr "Azia/Tehran"
 
 #: calendar/zones.h:256
 msgid "Asia/Thimphu"
-msgstr ""
+msgstr "Azia/Thimphu"
 
 #: calendar/zones.h:257
 msgid "Asia/Tokyo"
-msgstr ""
+msgstr "Azia/Tokyo"
 
 #: calendar/zones.h:258
 msgid "Asia/Ujung_Pandang"
-msgstr ""
+msgstr "Azia/Ujung_Pandang"
 
 #: calendar/zones.h:259
 msgid "Asia/Ulaanbaatar"
-msgstr ""
+msgstr "Azia/Ulaanbaatar"
 
 #: calendar/zones.h:260
 msgid "Asia/Urumqi"
-msgstr ""
+msgstr "Azia/Urumqi"
 
 #: calendar/zones.h:261
 msgid "Asia/Vientiane"
-msgstr ""
+msgstr "Azia/Vientiane"
 
 #: calendar/zones.h:262
 msgid "Asia/Vladivostok"
-msgstr ""
+msgstr "Azia/Vladivostok"
 
 #: calendar/zones.h:263
 msgid "Asia/Yakutsk"
-msgstr ""
+msgstr "Azia/Yakutsk"
 
 #: calendar/zones.h:264
 msgid "Asia/Yekaterinburg"
-msgstr ""
+msgstr "Azia/Yekaterinburg"
 
 #: calendar/zones.h:265
 msgid "Asia/Yerevan"
-msgstr ""
+msgstr "Azia/Yerevan"
 
 #: calendar/zones.h:266
 msgid "Atlantic/Azores"
-msgstr ""
+msgstr "Atlantike/Azores"
 
 #: calendar/zones.h:267
 msgid "Atlantic/Bermuda"
-msgstr ""
+msgstr "Antlantike/Bermuda"
 
 #: calendar/zones.h:268
 msgid "Atlantic/Canary"
-msgstr ""
+msgstr "Antlantike/Canary"
 
 #: calendar/zones.h:269
 msgid "Atlantic/Cape_Verde"
-msgstr ""
+msgstr "Antlantike/Cape_Verde"
 
 #: calendar/zones.h:270
 msgid "Atlantic/Faeroe"
-msgstr ""
+msgstr "Antlantike/Faeroe"
 
 #: calendar/zones.h:271
 msgid "Atlantic/Jan_Mayen"
-msgstr ""
+msgstr "Antlantike/Jan_Mayen"
 
 #: calendar/zones.h:272
 msgid "Atlantic/Madeira"
-msgstr ""
+msgstr "Antlantike/Madeira"
 
 #: calendar/zones.h:273
 msgid "Atlantic/Reykjavik"
-msgstr ""
+msgstr "Antlantike/Reykjavik"
 
 #: calendar/zones.h:274
 msgid "Atlantic/South_Georgia"
-msgstr ""
+msgstr "Antlantike/South_Georgia"
 
 #: calendar/zones.h:275
 msgid "Atlantic/St_Helena"
-msgstr ""
+msgstr "Antlantike/St_Helena"
 
 #: calendar/zones.h:276
 msgid "Atlantic/Stanley"
-msgstr ""
+msgstr "Antlantike/Stanley"
 
 #: calendar/zones.h:277
 msgid "Australia/Adelaide"
-msgstr ""
+msgstr "Australia/Adelaide"
 
 #: calendar/zones.h:278
 msgid "Australia/Brisbane"
-msgstr ""
+msgstr "Australia/Brisbane"
 
 #: calendar/zones.h:279
 msgid "Australia/Broken_Hill"
-msgstr ""
+msgstr "Australia/Broken_Hill"
 
 #: calendar/zones.h:280
 msgid "Australia/Darwin"
-msgstr ""
+msgstr "Australia/Darwin"
 
 #: calendar/zones.h:281
 msgid "Australia/Hobart"
-msgstr ""
+msgstr "Australia/Hobart"
 
 #: calendar/zones.h:282
 msgid "Australia/Lindeman"
-msgstr ""
+msgstr "Australia/Lindeman"
 
 #: calendar/zones.h:283
 msgid "Australia/Lord_Howe"
-msgstr ""
+msgstr "Australia/Lord_Howe"
 
 #: calendar/zones.h:284
 msgid "Australia/Melbourne"
-msgstr ""
+msgstr "Australia/Melbourne"
 
 #: calendar/zones.h:285
 msgid "Australia/Perth"
-msgstr ""
+msgstr "Australia/Perth"
 
 #: calendar/zones.h:286
 msgid "Australia/Sydney"
-msgstr ""
+msgstr "Australia/Sydney"
 
 #: calendar/zones.h:287
 msgid "Europe/Amsterdam"
-msgstr ""
+msgstr "Europë/Amsterdam"
 
 #: calendar/zones.h:288
 msgid "Europe/Andorra"
-msgstr ""
+msgstr "Europë/Andorra"
 
 #: calendar/zones.h:289
 msgid "Europe/Athens"
-msgstr ""
+msgstr "Europë/Athens"
 
 #: calendar/zones.h:290
 msgid "Europe/Belfast"
-msgstr ""
+msgstr "Europë/Belfast"
 
 #: calendar/zones.h:291
 msgid "Europe/Belgrade"
-msgstr ""
+msgstr "Europë/Belgrade"
 
 #: calendar/zones.h:292
 msgid "Europe/Berlin"
-msgstr ""
+msgstr "Europë/Berlin"
 
 #: calendar/zones.h:293
 msgid "Europe/Bratislava"
-msgstr ""
+msgstr "Europë/Bratislava"
 
 #: calendar/zones.h:294
 msgid "Europe/Brussels"
-msgstr ""
+msgstr "Europë/Brussels"
 
 #: calendar/zones.h:295
 msgid "Europe/Bucharest"
-msgstr ""
+msgstr "Europë/Bucharest"
 
 #: calendar/zones.h:296
 msgid "Europe/Budapest"
-msgstr ""
+msgstr "Europë/Budapest"
 
 #: calendar/zones.h:297
 msgid "Europe/Chisinau"
-msgstr ""
+msgstr "Europë/Chisinau"
 
 #: calendar/zones.h:298
 msgid "Europe/Copenhagen"
-msgstr ""
+msgstr "Europë/Copenhagen"
 
 #: calendar/zones.h:299
 msgid "Europe/Dublin"
-msgstr ""
+msgstr "Europë/Dublin"
 
 #: calendar/zones.h:300
 msgid "Europe/Gibraltar"
-msgstr ""
+msgstr "Europë/Gibraltar"
 
 #: calendar/zones.h:301
 msgid "Europe/Helsinki"
-msgstr ""
+msgstr "Europë/Helsinki"
 
 #: calendar/zones.h:302
 msgid "Europe/Istanbul"
-msgstr ""
+msgstr "Europë/Istanbul"
 
 #: calendar/zones.h:303
 msgid "Europe/Kaliningrad"
-msgstr ""
+msgstr "Europë/Kaliningrad"
 
 #: calendar/zones.h:304
 msgid "Europe/Kiev"
-msgstr ""
+msgstr "Europë/Kiev"
 
 #: calendar/zones.h:305
 msgid "Europe/Lisbon"
-msgstr ""
+msgstr "Europë/Lisbon"
 
 #: calendar/zones.h:306
 msgid "Europe/Ljubljana"
-msgstr ""
+msgstr "Europë/Ljubljana"
 
 #: calendar/zones.h:307
 msgid "Europe/London"
-msgstr ""
+msgstr "Europë/London"
 
 #: calendar/zones.h:308
 msgid "Europe/Luxembourg"
-msgstr ""
+msgstr "Europë/Luxembourg"
 
 #: calendar/zones.h:309
 msgid "Europe/Madrid"
-msgstr ""
+msgstr "Europë/Madrid"
 
 #: calendar/zones.h:310
 msgid "Europe/Malta"
-msgstr ""
+msgstr "Europë/Malta"
 
 #: calendar/zones.h:311
 msgid "Europe/Minsk"
-msgstr ""
+msgstr "Europë/Minsk"
 
 #: calendar/zones.h:312
 msgid "Europe/Monaco"
-msgstr ""
+msgstr "Europë/Monaco"
 
 #: calendar/zones.h:313
 msgid "Europe/Moscow"
-msgstr ""
+msgstr "Europë/Moska"
 
 #: calendar/zones.h:314
 msgid "Europe/Nicosia"
-msgstr ""
+msgstr "Europë/Nicosia"
 
 #: calendar/zones.h:315
 msgid "Europe/Oslo"
-msgstr ""
+msgstr "Europë/Oslo"
 
 #: calendar/zones.h:316
 msgid "Europe/Paris"
-msgstr ""
+msgstr "Europë/Paris"
 
 #: calendar/zones.h:317
 msgid "Europe/Prague"
-msgstr ""
+msgstr "Europë/Praga"
 
 #: calendar/zones.h:318
 msgid "Europe/Riga"
-msgstr ""
+msgstr "Europë/Riga"
 
 #: calendar/zones.h:319
 msgid "Europe/Rome"
-msgstr ""
+msgstr "Europë/Roma"
 
 #: calendar/zones.h:320
 msgid "Europe/Samara"
-msgstr ""
+msgstr "Europë/Samara"
 
 #: calendar/zones.h:321
 msgid "Europe/San_Marino"
-msgstr ""
+msgstr "Europë/San_Marino"
 
 #: calendar/zones.h:322
 msgid "Europe/Sarajevo"
-msgstr ""
+msgstr "Europë/Sarajevo"
 
 #: calendar/zones.h:323
 msgid "Europe/Simferopol"
-msgstr ""
+msgstr "Europë/Simferopol"
 
 #: calendar/zones.h:324
 msgid "Europe/Skopje"
-msgstr ""
+msgstr "Europë/Shkupi"
 
 #: calendar/zones.h:325
 msgid "Europe/Sofia"
-msgstr ""
+msgstr "Europë/Sofia"
 
 #: calendar/zones.h:326
 msgid "Europe/Stockholm"
-msgstr ""
+msgstr "Europë/Stokholm"
 
 #: calendar/zones.h:327
 msgid "Europe/Tallinn"
-msgstr ""
+msgstr "Europë/Tallinn"
 
 #: calendar/zones.h:328
 msgid "Europe/Tirane"
-msgstr ""
+msgstr "Europë/Tiranë"
 
 #: calendar/zones.h:329
 msgid "Europe/Uzhgorod"
-msgstr ""
+msgstr "Europë/Uzhgorod"
 
 #: calendar/zones.h:330
 msgid "Europe/Vaduz"
-msgstr ""
+msgstr "Europë/Vaduz"
 
 #: calendar/zones.h:331
 msgid "Europe/Vatican"
-msgstr ""
+msgstr "Europë/Vatican"
 
 #: calendar/zones.h:332
 msgid "Europe/Vienna"
-msgstr ""
+msgstr "Europë/Vienë"
 
 #: calendar/zones.h:333
 msgid "Europe/Vilnius"
-msgstr ""
+msgstr "Europë/Vilnius"
 
 #: calendar/zones.h:334
 msgid "Europe/Warsaw"
-msgstr ""
+msgstr "Europë/Varshavë"
 
 #: calendar/zones.h:335
 msgid "Europe/Zagreb"
-msgstr ""
+msgstr "Europë/Zagreb"
 
 #: calendar/zones.h:336
 msgid "Europe/Zaporozhye"
-msgstr ""
+msgstr "Europë/Zaporozhye"
 
 #: calendar/zones.h:337
 msgid "Europe/Zurich"
-msgstr ""
+msgstr "Europë/Zurich"
 
 #: calendar/zones.h:338
 msgid "Indian/Antananarivo"
-msgstr ""
+msgstr "Indian/Antananarivo"
 
 #: calendar/zones.h:339
 msgid "Indian/Chagos"
-msgstr ""
+msgstr "Indian/Chagos"
 
 #: calendar/zones.h:340
 msgid "Indian/Christmas"
-msgstr ""
+msgstr "Indian/Christmas"
 
 #: calendar/zones.h:341
 msgid "Indian/Cocos"
-msgstr ""
+msgstr "Indian/Cocos"
 
 #: calendar/zones.h:342
 msgid "Indian/Comoro"
-msgstr ""
+msgstr "Indian/Comoro"
 
 #: calendar/zones.h:343
 msgid "Indian/Kerguelen"
-msgstr ""
+msgstr "Indian/Kerguelen"
 
 #: calendar/zones.h:344
 msgid "Indian/Mahe"
-msgstr ""
+msgstr "Indian/Mahe"
 
 #: calendar/zones.h:345
 msgid "Indian/Maldives"
-msgstr ""
+msgstr "Indian/Maldives"
 
 #: calendar/zones.h:346
 msgid "Indian/Mauritius"
-msgstr ""
+msgstr "Indian/Mauritius"
 
 #: calendar/zones.h:347
 msgid "Indian/Mayotte"
-msgstr ""
+msgstr "Indian/Mayotte"
 
 #: calendar/zones.h:348
 msgid "Indian/Reunion"
-msgstr ""
+msgstr "Indian/Reunion"
 
 #: calendar/zones.h:349
 msgid "Pacific/Apia"
-msgstr ""
+msgstr "Paqësor/Apia"
 
 #: calendar/zones.h:350
 msgid "Pacific/Auckland"
-msgstr ""
+msgstr "Paqësor/Auckland"
 
 #: calendar/zones.h:351
 msgid "Pacific/Chatham"
-msgstr ""
+msgstr "Paqësor/Chatham"
 
 #: calendar/zones.h:352
 msgid "Pacific/Easter"
-msgstr ""
+msgstr "Paqësor/Easter"
 
 #: calendar/zones.h:353
 msgid "Pacific/Efate"
-msgstr ""
+msgstr "Paqësor/Efate"
 
 #: calendar/zones.h:354
 msgid "Pacific/Enderbury"
-msgstr ""
+msgstr "Paqësor/Enderbury"
 
 #: calendar/zones.h:355
 msgid "Pacific/Fakaofo"
-msgstr ""
+msgstr "Paqësor/Fakaofo"
 
 #: calendar/zones.h:356
 msgid "Pacific/Fiji"
-msgstr ""
+msgstr "Paqësor/Fiji"
 
 #: calendar/zones.h:357
 msgid "Pacific/Funafuti"
-msgstr ""
+msgstr "Paqësor/Funafuti"
 
 #: calendar/zones.h:358
 msgid "Pacific/Galapagos"
-msgstr ""
+msgstr "Paqësor/Galapagos"
 
 #: calendar/zones.h:359
 msgid "Pacific/Gambier"
-msgstr ""
+msgstr "Paqësor/Gambier"
 
 #: calendar/zones.h:360
 msgid "Pacific/Guadalcanal"
-msgstr ""
+msgstr "Paqësor/Guadalcanal"
 
 #: calendar/zones.h:361
 msgid "Pacific/Guam"
-msgstr ""
+msgstr "Paqësor/Guam"
 
 #: calendar/zones.h:362
 msgid "Pacific/Honolulu"
-msgstr ""
+msgstr "Paqësor/Honolulu"
 
 #: calendar/zones.h:363
 msgid "Pacific/Johnston"
-msgstr ""
+msgstr "Paqësor/Johnston"
 
 #: calendar/zones.h:364
 msgid "Pacific/Kiritimati"
-msgstr ""
+msgstr "Paqësor/Kiritimati"
 
 #: calendar/zones.h:365
 msgid "Pacific/Kosrae"
-msgstr ""
+msgstr "Paqësor/Kosrae"
 
 #: calendar/zones.h:366
 msgid "Pacific/Kwajalein"
-msgstr ""
+msgstr "Paqësor/Kwajalein"
 
 #: calendar/zones.h:367
 msgid "Pacific/Majuro"
-msgstr ""
+msgstr "Paqësor/Majuro"
 
 #: calendar/zones.h:368
 msgid "Pacific/Marquesas"
-msgstr ""
+msgstr "Paqësor/Marquesas"
 
 #: calendar/zones.h:369
 msgid "Pacific/Midway"
-msgstr ""
+msgstr "Paqësor/Midway"
 
 #: calendar/zones.h:370
 msgid "Pacific/Nauru"
-msgstr ""
+msgstr "Paqësor/Nauru"
 
 #: calendar/zones.h:371
 msgid "Pacific/Niue"
-msgstr ""
+msgstr "Paqësor/Niue"
 
 #: calendar/zones.h:372
 msgid "Pacific/Norfolk"
-msgstr ""
+msgstr "Paqësor/Norfolk"
 
 #: calendar/zones.h:373
 msgid "Pacific/Noumea"
-msgstr ""
+msgstr "Paqësor/Noumea"
 
 #: calendar/zones.h:374
 msgid "Pacific/Pago_Pago"
-msgstr ""
+msgstr "Paqësor/Pago_Pago"
 
 #: calendar/zones.h:375
 msgid "Pacific/Palau"
-msgstr ""
+msgstr "Paqësor/Palau"
 
 #: calendar/zones.h:376
 msgid "Pacific/Pitcairn"
-msgstr ""
+msgstr "Paqësor/Pitcairn"
 
 #: calendar/zones.h:377
 msgid "Pacific/Ponape"
-msgstr ""
+msgstr "Paqësor/Ponape"
 
 #: calendar/zones.h:378
 msgid "Pacific/Port_Moresby"
-msgstr ""
+msgstr "Paqësor/Port_Moresby"
 
 #: calendar/zones.h:379
 msgid "Pacific/Rarotonga"
-msgstr ""
+msgstr "Paqësor/Rarotonga"
 
 #: calendar/zones.h:380
 msgid "Pacific/Saipan"
-msgstr ""
+msgstr "Paqësor/Saipan"
 
 #: calendar/zones.h:381
 msgid "Pacific/Tahiti"
-msgstr ""
+msgstr "Paqësor/Tahiti"
 
 #: calendar/zones.h:382
 msgid "Pacific/Tarawa"
-msgstr ""
+msgstr "Paqësor/Tarawa"
 
 #: calendar/zones.h:383
 msgid "Pacific/Tongatapu"
-msgstr ""
+msgstr "Paqësor/Tongatapu"
 
 #: calendar/zones.h:384
 msgid "Pacific/Truk"
-msgstr ""
+msgstr "Paqësor/Truk"
 
 #: calendar/zones.h:385
 msgid "Pacific/Wake"
-msgstr ""
+msgstr "Paqësor/Wake"
 
 #: calendar/zones.h:386
 msgid "Pacific/Wallis"
-msgstr ""
+msgstr "Paqësor/Wallis"
 
 #: calendar/zones.h:387
 msgid "Pacific/Yap"
-msgstr ""
+msgstr "Paqësor/Yap"
 
 #: camel/camel-cipher-context.c:101
 msgid "Signing is not supported by this cipher"
-msgstr ""
+msgstr "Ky numër nuk suporton firmën"
 
 #: camel/camel-cipher-context.c:140
 msgid "Verifying is not supported by this cipher"
-msgstr ""
+msgstr "Ky numër nuk suporton verifikimin"
 
 #: camel/camel-cipher-context.c:180
 msgid "Encryption is not supported by this cipher"
-msgstr ""
+msgstr "Ky numër nuk suporton kriptimin"
 
 #: camel/camel-cipher-context.c:219
 msgid "Decryption is not supported by this cipher"
-msgstr ""
+msgstr "Ky numër nuk suporton dekriptimin"
 
 #: camel/camel-cipher-context.c:254
 msgid "You may not import keys with this cipher"
-msgstr ""
+msgstr "I pamundur importimi i kyçeve me këtë kriptim"
 
 #: camel/camel-cipher-context.c:284
 msgid "You may not export keys with this cipher"
-msgstr ""
+msgstr "I pamundur eksportimi i kyçeve me këtë kriptim"
 
 #: camel/camel-data-cache.c:133
 msgid "Unable to create cache path"
-msgstr ""
+msgstr "I pamundur krijimi i pozicionit të cache"
 
 #: camel/camel-data-cache.c:375
 #, c-format
 msgid "Could not remove cache entry: %s: %s"
-msgstr ""
+msgstr "E pamundur heqja e zërit të cache: %s: %s"
 
 #: camel/camel-disco-diary.c:194
 #, c-format
@@ -8826,6 +8826,9 @@ msgid ""
 "Further operations on this server will not be replayed when you\n"
 "reconnect to the network."
 msgstr ""
+"I pamundur shkrimi i log: %s\n"
+"Operacionet e mëtejshme në këtë sever nuk do të përsëriten\n"
+"kur të rilidheni në rrjet."
 
 #: camel/camel-disco-diary.c:257
 #, c-format
@@ -8834,27 +8837,30 @@ msgid ""
 "%s\n"
 "Changes made to this folder will not be resynchronized."
 msgstr ""
+"E pamundur hapja e `%s':\n"
+"%s\n"
+"Ndryshimet e kryera tek kjo kartelë nuk do të resinkronizohen."
 
 #: camel/camel-disco-diary.c:293
 msgid "Resynchronizing with server"
-msgstr ""
+msgstr "Duke u sinkronizuar me serverin"
 
 #: camel/camel-disco-folder.c:41
 msgid "Copy folder content locally for offline operation"
-msgstr ""
+msgstr "Kopjo përmbajtjen e kartelës për modalitetin jashtë linje"
 
 #: camel/camel-disco-folder.c:103
 msgid "Downloading new messages for offline mode"
-msgstr ""
+msgstr "Duke shkarkuar mesazhet e rin për modalitetin jashtë linje"
 
 #: camel/camel-disco-folder.c:466
 #, c-format
 msgid "Preparing folder '%s' for offline"
-msgstr ""
+msgstr "Duke përgatitur kartelën '%s' për modalitetin jashtë linje"
 
 #: camel/camel-disco-store.c:404
 msgid "You must be working online to complete this operation"
-msgstr ""
+msgstr "Duhet të punoni në modalitetin në linjë për të plotësuar këtë operacion"
 
 #: camel/camel-filter-driver.c:669 camel/camel-filter-search.c:513
 #: camel/camel-process.c:48
@@ -8866,79 +8872,79 @@ msgstr "I pamundur krijimi i pipe tek '%s': %s"
 #: camel/camel-process.c:90
 #, c-format
 msgid "Failed to create create child process '%s': %s"
-msgstr ""
+msgstr "Krijimi i proçesit bir '%s' dështoi: %s"
 
 #: camel/camel-filter-driver.c:756
 #, c-format
 msgid "Invalid message stream received from %s: %s"
-msgstr ""
+msgstr "Rrjedhë e pavlefshme mesazhi u mor nga %s: %s"
 
 #: camel/camel-filter-driver.c:945 camel/camel-filter-driver.c:954
 msgid "Syncing folders"
-msgstr ""
+msgstr "Duke sinkronizuar kartelat"
 
 #: camel/camel-filter-driver.c:1043 camel/camel-filter-driver.c:1420
 #, c-format
 msgid "Error parsing filter: %s: %s"
-msgstr ""
+msgstr "Gabim në filtrin e shpërndarjes: %s: %s"
 
 #: camel/camel-filter-driver.c:1052 camel/camel-filter-driver.c:1426
 #, c-format
 msgid "Error executing filter: %s: %s"
-msgstr ""
+msgstr "Gabim gjatë ekzekutimit të filtrit: %s: %s"
 
 #: camel/camel-filter-driver.c:1119
 msgid "Unable to open spool folder"
-msgstr ""
+msgstr "E pamundur hapja e kartelës për spool"
 
 #: camel/camel-filter-driver.c:1128
 msgid "Unable to process spool folder"
-msgstr ""
+msgstr "I pamundur proçesimi i kartelës së spool"
 
 #: camel/camel-filter-driver.c:1143
 #, c-format
 msgid "Getting message %d (%d%%)"
-msgstr ""
+msgstr "Duke marrë mesazhin %d (%d%%)"
 
 #: camel/camel-filter-driver.c:1147
 msgid "Cannot open message"
-msgstr ""
+msgstr "E pamundur hapja e mesazhit"
 
 #: camel/camel-filter-driver.c:1148 camel/camel-filter-driver.c:1160
 #, c-format
 msgid "Failed on message %d"
-msgstr ""
+msgstr "Mesazhi %d dështoi"
 
 #: camel/camel-filter-driver.c:1174 camel/camel-filter-driver.c:1265
 msgid "Syncing folder"
-msgstr ""
+msgstr "Duke sinkronizuar kartelën"
 
 #: camel/camel-filter-driver.c:1235
 #, c-format
 msgid "Getting message %d of %d"
-msgstr ""
+msgstr "Duke marrë mesazhin e %d në %d"
 
 #: camel/camel-filter-driver.c:1250
 #, c-format
 msgid "Failed at message %d of %d"
-msgstr ""
+msgstr "Gabim në mesazhin %d në %d"
 
 #: camel/camel-filter-search.c:136
 msgid "Failed to retrieve message"
-msgstr ""
+msgstr "Gabim në marrjen e mesazhit"
 
 #: camel/camel-filter-search.c:386
 msgid "Invalid arguments to (system-flag)"
-msgstr ""
+msgstr "Argumente të pavlefshme për (flag të sistemit)"
 
 #: camel/camel-filter-search.c:401
 msgid "Invalid arguments to (user-tag)"
-msgstr ""
+msgstr "Argumentë të pavlefshëm për (zgjedhja përdoruesit)"
 
 #: camel/camel-filter-search.c:670 camel/camel-filter-search.c:678
 #, c-format
 msgid "Error executing filter search: %s: %s"
-msgstr ""
+msgstr "Gabim gjatë ekzkekutimit të kërkimit me filtër: %s: %s"
 
 #: camel/camel-folder-search.c:355 camel/camel-folder-search.c:476
 #, c-format
@@ -8946,6 +8952,8 @@ msgid ""
 "Cannot parse search expression: %s:\n"
 "%s"
 msgstr ""
+"I pamundur filtrimi i shprehjes së kërkimit: %s:\n"
+"%s"
 
 #: camel/camel-folder-search.c:365 camel/camel-folder-search.c:486
 #, c-format
@@ -8953,36 +8961,38 @@ msgid ""
 "Error executing search expression: %s:\n"
 "%s"
 msgstr ""
+"Gabim gjatë ekzekutimit të shprehjes së kërkimit: %s:\n"
+"%s"
 
 #: camel/camel-folder-search.c:672 camel/camel-folder-search.c:705
 msgid "(match-all) requires a single bool result"
-msgstr ""
+msgstr "(match-all) kërkon një rezultat të vetëm boolean"
 
 #: camel/camel-folder-search.c:755
 msgid "(match-threads) not allowed inside match-all"
-msgstr ""
+msgstr "(match-threads) nuk lejohet brenda match-all"
 
 #: camel/camel-folder-search.c:758 camel/camel-folder-search.c:762
 msgid "(match-threads) requires a match type string"
-msgstr ""
+msgstr "(match-threads) kërkon një match të llojit stringë"
 
 #: camel/camel-folder-search.c:784
 msgid "(match-threads) expects an array result"
-msgstr ""
+msgstr "(match-threads) kërkon një rezultat array"
 
 #: camel/camel-folder-search.c:790
 msgid "(match-threads) requires the folder set"
-msgstr ""
+msgstr "(match-threads) kërkon përcaktimin e kartelës"
 
 #: camel/camel-folder-search.c:879
 #, c-format
 msgid "Performing query on unknown header: %s"
-msgstr ""
+msgstr "Është kryer një kërkesë në një header të panjohur: %s"
 
 #: camel/camel-folder.c:653
 #, c-format
 msgid "Unsupported operation: append message: for %s"
-msgstr ""
+msgstr "I pamundur të shtosh një mesazh tek %s: operacion i pasuportuar"
 
 #: camel/camel-folder.c:1262
 #, c-format
