@@ -1,3 +1,10 @@
+2003-05-15  JP Rosevear  <jpr@ximian.com>
+
+	Fixes #43101
+	
+	* e-summary-mail.c (e_summary_folder_unregister_storage): unref
+	the storage after use not before
+
 2003-05-15  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-summary.c (do_summary_print): Remove preview arg.  Also, make

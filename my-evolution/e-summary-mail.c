@@ -433,7 +433,6 @@ e_summary_folder_unregister_storage (StorageInfo *si, gboolean remove)
 	CORBA_Environment ev;
 	
 	g_free (si->name);
-	bonobo_object_release_unref (si->storage, NULL);
 
 	corba_listener = evolution_storage_listener_corba_objref (si->listener);
 
@@ -450,6 +449,8 @@ e_summary_folder_unregister_storage (StorageInfo *si, gboolean remove)
 
 	g_signal_handlers_disconnect_matched (si->listener, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, si);
 	g_object_unref (si->listener);
+
+	bonobo_object_release_unref (si->storage, NULL);
 	
 	/* FIXME Folders */
 
