@@ -1,6 +1,14 @@
+== Version 1.4.4 ==
+
+2003-07-28  Ettore Perazzoli  <ettore@ximian.com>
+
+	* configure.in: 1.4.4.  Require GtkHTML >= 3.0.8.
+
 2003-07-13  Telsa Gwynne  <hobbit@aloss.ukuu.org.uk>
 
 	* configure.in: Added "cy" (Welsh) to ALL_LINGUAS
+
+== Version 1.4.3 ==
 
 2003-07-11  Ettore Perazzoli  <ettore@ximian.com>
 

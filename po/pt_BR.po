@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution 1.4.3\n"
-"POT-Creation-Date: 2003-07-24 17:44-0300\n"
+"POT-Creation-Date: 2003-07-28 12:10-0400\n"
 "PO-Revision-Date: 2003-07-24 17:50-0300\n"
 "Last-Translator: Gustavo Maciel Dias Vieira <gdvieira@zaz.com.br>\n"
 "Language-Team: Brazilian Portuguese <gnome-l10n-br@listas.cipsga.org.br>\n"
@@ -3273,12 +3273,12 @@ msgstr "Visão de árvore GTK"
 msgid "Print envelope"
 msgstr "Imprimir envelope"
 
-#: addressbook/printing/e-contact-print.c:1139
+#: addressbook/printing/e-contact-print.c:1158
 msgid "Print cards"
 msgstr "Imprimir cartões"
 
-#: addressbook/printing/e-contact-print.c:1204
-#: addressbook/printing/e-contact-print.c:1226
+#: addressbook/printing/e-contact-print.c:1224
+#: addressbook/printing/e-contact-print.c:1250
 msgid "Print card"
 msgstr "Imprimir cartão"
 
