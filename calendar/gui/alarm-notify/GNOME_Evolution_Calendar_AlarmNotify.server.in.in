@@ -2,7 +2,7 @@
 
 <oaf_server iid="OAFIID:GNOME_Evolution_Calendar_AlarmNotify_Factory"
             type="exe"
-            location="evolution-alarm-notify">
+            location="@LIBEXECDIR@/evolution-alarm-notify">
 
 	<oaf_attribute name="repo_ids" type="stringv">
 		<item value="IDL:GNOME/ObjectFactory:1.0"/>

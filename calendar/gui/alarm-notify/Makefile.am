@@ -59,9 +59,11 @@ evolution_alarm_notify_LDADD =						\
 	$(EVOLUTION_CALENDAR_LIBS)
 
 server_in_files = \
-	GNOME_Evolution_Calendar_AlarmNotify.server.in
+	GNOME_Evolution_Calendar_AlarmNotify.server.in.in
 
-server_DATA = $(server_in_files:.server.in=.server)
+server_DATA = $(server_in_files:.server.in.in=.server)
+$(server_in_files:.server.in.in=.server.in): $(server_in_files)
+	sed -e "s|\@LIBEXECDIR\@|$(privlibexecdir)|" $< > $@
 
 @INTLTOOL_SERVER_RULE@
 

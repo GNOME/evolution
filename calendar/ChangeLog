@@ -1,3 +1,11 @@
+2003-02-07  Rodney Dawes  <dobey@ximian.com>
+
+	* gui/alarm-notify/GNOME_Evolution_Calendar_AlarmNotify.server.in:
+	remove this file, as it's generated now
+	* gui/alarm-notify/GNOME_Evolution_Calendar_AlarmNotify.server.in.in:
+	Add this file to generate the .server.in from, with hardcoded path
+	* gui/alarm-notify/Makefile.am: Hardcode path in server file
+	
 2003-02-07  Rodrigo Moya <rodrigo@ximian.com>
 	
 	Fixes #37706
