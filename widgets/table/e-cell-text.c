@@ -281,40 +281,25 @@ ect_queue_redraw (ECellTextView *text_view, int view_col, int view_row)
 }
 
 /*
- * Accept the currently edited text.  if it's the same as what's in the cell, do nothing.
- */
-static void
-ect_accept_edits (ECellTextView *text_view)
-{
-	CurrentCell *cell = (CurrentCell *) text_view->edit;
-	ECellView *ecell_view = (ECellView *) text_view;
-	ECellText *ect = (ECellText *) ecell_view->ecell;
-
-	if (strcmp (text_view->edit->old_text, cell->text)) {
-		e_cell_text_set_value (ect, ecell_view->e_table_model,
-				       cell->model_col, cell->row, cell->text);
-	}
-}
-
-/*
  * Shuts down the editing process
  */
 static void
-ect_stop_editing (ECellTextView *text_view)
+ect_stop_editing (ECellTextView *text_view, gboolean commit)
 {
 	CellEdit *edit = text_view->edit;
-	int row, view_col;
+	int row, view_col, model_col;
+	char *old_text, *text;
+	CurrentCell *cell = (CurrentCell *) text_view->edit;
 
 	if (!edit)
 		return;
 
-	row = edit->cell.row;
-	view_col = edit->cell.view_col;
+	row = cell->row;
+	view_col = cell->view_col;
+	model_col = cell->model_col;
 	
-	g_free (edit->old_text);
-	edit->old_text = NULL;
-	g_free (edit->cell.text);
-	edit->cell.text = NULL;
+	old_text = edit->old_text;
+	text = cell->text;
 	if (edit->invisible)
 		gtk_widget_unref (edit->invisible);
 	if (edit->tep)
@@ -338,8 +323,23 @@ ect_stop_editing (ECellTextView *text_view)
 	}
 
 	g_free (edit);
-	
+
 	text_view->edit = NULL;
+	if (commit) {
+		/*
+		 * Accept the currently edited text.  if it's the same as what's in the cell, do nothing.
+		 */
+		ECellView *ecell_view = (ECellView *) text_view;
+		ECellText *ect = (ECellText *) ecell_view->ecell;
+
+		if (strcmp (old_text, text)) {
+			e_cell_text_set_value (ect, ecell_view->e_table_model,
+					       model_col, row, text);
+		}
+	}
+	g_free (text);
+	g_free (old_text);
+
 	ect_queue_redraw (text_view, view_col, row);
 }
 
@@ -349,7 +349,7 @@ ect_stop_editing (ECellTextView *text_view)
 static void
 ect_cancel_edit (ECellTextView *text_view)
 {
-	ect_stop_editing (text_view);
+	ect_stop_editing (text_view, FALSE);
 	e_table_item_leave_edit_ (text_view->cell_view.e_table_item_view);
 }
 
@@ -1082,8 +1082,7 @@ ect_leave_edit (ECellView *ecell_view, int model_col, int view_col, int row, voi
 	CellEdit *edit = text_view->edit;
 
 	if (edit){
-		ect_accept_edits (text_view);
-		ect_stop_editing (text_view);
+		ect_stop_editing (text_view, TRUE);
 		/* FIXME: edit is freed in ect_stop_editing() so I've
 		   commented this out - Damon. */
 		/*unbuild_current_cell (CURRENT_CELL(edit));*/
