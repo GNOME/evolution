@@ -198,7 +198,7 @@ ect_draw (ECellView *ecell_view, GdkDrawable *drawable,
 	ETreeModel *tree_model = e_cell_tree_get_tree_model(ecell_view->e_table_model, row);
 	ETreeTableAdapter *tree_table_adapter = e_cell_tree_get_tree_table_adapter(ecell_view->e_table_model, row);
 	ETreePath node;
-	GdkRectangle rect, *clip_rect;
+	GdkRectangle rect, *clip_rect = NULL;
 	GtkWidget *canvas = GTK_WIDGET (tree_view->canvas);
 	GdkGC *fg_gc = canvas->style->fg_gc[GTK_STATE_ACTIVE];
 	GdkColor *foreground;
@@ -333,6 +333,11 @@ ect_draw (ECellView *ecell_view, GdkDrawable *drawable,
 	e_cell_draw (tree_view->subcell_view, drawable,
 		     model_col, view_col, row, flags,
 		     x1 + subcell_offset, y1, x2, y2);
+
+	if (clip_rect) {
+		gdk_gc_set_clip_rectangle (tree_view->gc, NULL);
+		gdk_gc_set_clip_rectangle (fg_gc, NULL);
+	}
 }
 
 /*
