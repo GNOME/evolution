@@ -1,5 +1,9 @@
 2001-01-12  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* mail-config.c (mail_config_get_account_by_name): New convenience
+	function that I will need later when I redo the composer From
+	field.
+
 	* mail-display.c (on_object_requested): Update to reflect past
 	changes to the mail-config API.
 

@@ -521,6 +521,7 @@ mail_config_get_default_account (void)
 		account = l->data;
 		if (account->default_account)
 			return account;
+		
 		l = l->next;
 	}
 	
@@ -529,6 +530,25 @@ mail_config_get_default_account (void)
 	mail_config_set_default_account (account);
 	
 	return account;
+}
+
+const MailConfigAccount *
+mail_config_get_account_by_name (const char *account_name)
+{
+	/* FIXME: this should really use a hash */
+	const MailConfigAccount *account;
+	GSList *l;
+	
+	l = config->accounts;
+	while (l) {
+		account = l->data;
+		if (!strcmp (account->name, account_name))
+			return account;
+		
+		l = l->next;
+	}
+	
+	return NULL;
 }
 
 const GSList *
