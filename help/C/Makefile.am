@@ -36,7 +36,6 @@ sgml_ents =	\
 	preface.sgml		\
 	usage-calendar.sgml	\
 	usage-contact.sgml	\
-	usage-encryption.sgml	\
 	usage-exec-summary.sgml	\
 	usage-mail-org.sgml	\
 	usage-mail.sgml		\
