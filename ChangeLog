@@ -1,3 +1,7 @@
+2000-08-30  Peter Williams  <peterw@helixcode.com>
+
+	* configure.in: Robustify the kerberos checks.
+
 2000-08-29  Dan Winship  <danw@helixcode.com>
 
 	* configure.in, acconfig.h: decruft
