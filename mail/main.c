@@ -66,8 +66,9 @@ main (int argc, char *argv [])
 	bindtextdomain (PACKAGE, EVOLUTION_LOCALEDIR);
 	textdomain (PACKAGE);
 
+#ifdef USE_BROKEN_THREADS
 	g_thread_init( NULL );
-
+#endif
 	init_corba (&argc, argv);
 	init_bonobo ();
 	gtkhtmllib_init (argc, argv);
@@ -79,9 +80,13 @@ main (int argc, char *argv [])
 
 	component_factory_init ();
 
+#ifdef USE_BROKEN_THREADS
 	GDK_THREADS_ENTER ();
+#endif
 	bonobo_main ();
+#ifdef USE_BROKEN_THREADS
 	GDK_THREADS_LEAVE ();
+#endif
 
 	return 0;
 }
