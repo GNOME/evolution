@@ -1359,13 +1359,19 @@ AC_SUBST(plugins_all)
 
 if echo ${plugins_enabled} | grep -q "audio-inline"
 then
-
-	dnl *********************
-	dnl gstreamer
-	dnl *********************
-	PKG_CHECK_MODULES(GSTREAMER, gstreamer-0.8)
-	AC_SUBST(GSTREAMER_CFLAGS)
-	AC_SUBST(GSTREAMER_LIBS)
+	if ${PKG_CONFIG} --exists gstreamer-0.8
+	then
+		dnl *********************
+		dnl gstreamer
+		dnl *********************
+		PKG_CHECK_MODULES(GSTREAMER, gstreamer-0.8)
+		AC_SUBST(GSTREAMER_CFLAGS)
+		AC_SUBST(GSTREAMER_LIBS)
+	else
+		plugins_enabled=`echo $plugins_enabled | sed -e "s/audio-inline//g"`
+		echo "warning: gstreamer was not found, audio-inline pluging will not be built."
+		echo "you are probably missing gstreamer-devel package."
+	fi
 fi
 
 ##################################################

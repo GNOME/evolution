@@ -3,6 +3,9 @@
 	* configure.in: added audio-inline plugin, added gstreamer check
 	for it
 
+	if gstreamer is not available, remove audio-inline plugin from the
+	plugins list
+
 2004-10-22  Harish K  <kharish@novell.com>
 
 	* configure.in: Added mark-calendar-offline plugin
