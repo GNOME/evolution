@@ -149,7 +149,8 @@ eth_destroy (GtkObject *object)
 	for (i = cols - 1; i >= 0; i--){
 		eth_do_remove (eth, i, TRUE);
 	}
-	
+	g_free (eth->columns);
+
 	if (e_table_header_parent_class->destroy)
 		e_table_header_parent_class->destroy (object);
 }
