@@ -25,12 +25,13 @@
 
 #include "widgets/misc/e-error.h"
 #include "save-comp.h"
-
+#include "comp-editor.h"
 
 /**
  * save_component_dialog:
  * @parent: Window to use as the transient dialog's parent.
- * 
+ * @comp: Pointer to the EcalComponent 
+ *
  * Pops up a dialog box asking the user whether he wants to save changes for
  * a calendar component.
  * 
@@ -38,7 +39,16 @@
  **/
 
 GtkResponseType
-save_component_dialog (GtkWindow *parent)
+save_component_dialog (GtkWindow *parent, ECalComponent *comp)
 {
-	return e_error_run (parent, "calendar:prompt-save-appointment", NULL);
+	ECalComponentVType vtype = e_cal_component_get_vtype(comp);
+
+	switch(vtype) {
+		case E_CAL_COMPONENT_EVENT:
+			return e_error_run (parent, "calendar:prompt-save-appointment", NULL);
+		case E_CAL_COMPONENT_TODO:
+			return e_error_run (parent, "calendar:prompt-save-task", NULL);
+		default:
+			return GTK_RESPONSE_NO;
+	}
 }

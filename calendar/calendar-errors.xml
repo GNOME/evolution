@@ -115,6 +115,15 @@
   <button label="Save Changes" response="GTK_RESPONSE_YES"/>
  </error>
 
+ <error id="prompt-save-task" type="question" default="GTK_RESPONSE_YES">
+ <title>Save Task</title>
+ <primary>Would you like to save your changes to this task?</primary>
+ <secondary>You have made changes to this task, but not yet saved them.</secondary>
+ <button label="Discard Changes" response="GTK_RESPONSE_NO"/>
+ <button stock="gtk-cancel" response="GTK_RESPONSE_CANCEL"/>
+ <button label="Save Changes" response="GTK_RESPONSE_YES"/>
+ </error>
+	      
  <error id="prompt-meeting-invite" type="question" default="GTK_RESPONSE_YES">
   <primary>Would you like to send meeting invitations to participants?</primary>
   <secondary>Email invitations will be sent to all participants and allow them to RSVP.</secondary>

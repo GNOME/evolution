@@ -1,3 +1,18 @@
+2004-08-05  Parthasarathi S A   <sparthasarathi@novell.com>
+
+	Fix for bug #61673.
+	* calendar/gui/dialogs/save_comp.c(save_component_dialog):
+	  The function takes two arguments now, instead of one. The second
+	  argument is the pointer to the ECalComponent from which the component
+	  type can be determined. Based on the component type the corresponding
+	  error message is displayed.
+	* calendar/gui/dialogs/save_comp.h:
+	  Function definition updated for save_component_dialog.
+	* calendar/gui/dialogs/comp_editor.c(prompt_to_save_changes):
+	  passing the ECalComponent pointer to the 'save_component_dialog' function
+	* calendar/calendar-errors.xml: New error message string for task included
+	* calendar/calendar-errors.xml.h
+
 2004-08-05  Rodrigo Moya <rodrigo@novell.com>
 
 	Fixes #62030

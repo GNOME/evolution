@@ -330,7 +330,7 @@ prompt_to_save_changes (CompEditor *editor, gboolean send)
 	if (!e_cal_is_read_only (priv->client, &read_only, NULL) || read_only)
 		return TRUE;
 
-	switch (save_component_dialog (GTK_WINDOW (editor))) {
+	switch (save_component_dialog (GTK_WINDOW(editor), priv->comp)) {
 	case GTK_RESPONSE_YES: /* Save */
 		if (e_cal_component_is_instance (priv->comp))
 			if (!recur_component_dialog (priv->client, priv->comp, &priv->mod, GTK_WINDOW (editor)))
