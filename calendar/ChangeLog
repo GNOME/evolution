@@ -1,5 +1,8 @@
 2000-04-21  Seth Alves  <alves@hungry.com>
 
+	* pcs/icalendar-save.c: start on code to do the opposite of
+	icalendar.c (convert from iCalObjects to libical's icalcomponents).
+
 	* gui/calendar-commands.c (calendar_control_activate): moved
 	"About Calendar" into the View menu so it shows up.
 

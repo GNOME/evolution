@@ -223,8 +223,8 @@ ical_object_create_from_icalcomponent (icalcomponent* comp)
 		case ICAL_FREEBUSY_PROPERTY:
 			period = icalproperty_get_freebusy (prop);
 			ical->dtstart = icaltime_to_timet (&(period.start));
-			/* FIXME: period.end is specified as being relative to start, so 
-this may not be correct */
+			/* FIXME: period.end is specified as being relative
+			   to start, so this may not be correct */
 			ical->dtend   = icaltime_to_timet (&(period.end));
 			break;
 		case ICAL_TRANSP_PROPERTY:
@@ -534,7 +534,7 @@ parse_person (icalproperty* prop, gchar* value)
 
 	param = icalproperty_get_first_parameter (prop, ICAL_SENTBY_PARAMETER
 );
-	copy_str (&ret->sent_by, 
+	copy_str (&ret->sent_by,
 		  icalparameter_get_sentby (param));
 
 	param = icalproperty_get_first_parameter (prop, ICAL_DIR_PARAMETER);

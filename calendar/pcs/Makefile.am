@@ -33,6 +33,8 @@ libpcs_a_SOURCES =		\
 	cal-factory.h		\
 	icalendar.c		\
 	icalendar.h		\
+	icalendar-save.c	\
+	icalendar-save.h	\
 	job.c			\
 	job.h
 
