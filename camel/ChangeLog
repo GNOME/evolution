@@ -1,3 +1,11 @@
+2004-02-03  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-vee-folder.c (folder_added_uid): 64bit fix.
+	(folder_changed_add_uid): Here too.
+	(folder_changed_remove_uid): Same.
+	(vee_folder_remove_folder): Here too.
+	(vee_folder_build_folder): Here too.
+
 2003-12-01  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-process.c (camel_process_fork): Same.
