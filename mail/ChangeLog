@@ -1,5 +1,11 @@
 2001-04-26  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* mail-callbacks.c (next_msg): Don't filter on Seen status.
+	(previous_msg): Same.
+	(next_unread_msg): New function that does what the old callback
+	next_msg callback did (only better named).
+	(previous_unread_msg): Same.
+
 	* message-list.c (hide_load_state): Updated to use camel-file-util
 	routines.
 	(hide_save_1): Same.

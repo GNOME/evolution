@@ -707,7 +707,7 @@ reply_to_all (GtkWidget *widget, gpointer user_data)
 		return;
 
 	mail_reply (fb->folder, fb->mail_display->current_message, 
-	       fb->message_list->cursor_uid, TRUE);
+		    fb->message_list->cursor_uid, TRUE);
 }
 
 void
@@ -1333,13 +1333,33 @@ next_msg (GtkWidget *button, gpointer user_data)
 	int row;
 	
 	row = e_tree_row_of_node(fb->message_list->tree, e_tree_get_cursor (fb->message_list->tree));
+	message_list_select (fb->message_list, row, MESSAGE_LIST_SELECT_NEXT, 0, 0);
+}
+
+void
+previous_msg (GtkWidget *button, gpointer user_data)
+{
+	FolderBrowser *fb = FOLDER_BROWSER (user_data);
+	int row;
+	
+	row = e_tree_row_of_node(fb->message_list->tree, e_tree_get_cursor (fb->message_list->tree));
+	message_list_select (fb->message_list, row, MESSAGE_LIST_SELECT_PREVIOUS, 0, 0);
+}
+
+void
+next_unread_msg (GtkWidget *button, gpointer user_data)
+{
+	FolderBrowser *fb = FOLDER_BROWSER (user_data);
+	int row;
+	
+	row = e_tree_row_of_node(fb->message_list->tree, e_tree_get_cursor (fb->message_list->tree));
 	message_list_select (fb->message_list, row,
 			     MESSAGE_LIST_SELECT_NEXT,
 			     0, CAMEL_MESSAGE_SEEN);
 }
 
 void
-previous_msg (GtkWidget *button, gpointer user_data)
+previous_unread_msg (GtkWidget *button, gpointer user_data)
 {
 	FolderBrowser *fb = FOLDER_BROWSER (user_data);
 	int row;
