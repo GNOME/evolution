@@ -752,7 +752,6 @@ static void
 efhd_xpkcs7mime_validity_clicked(GtkWidget *button, EMFormatHTMLPObject *pobject)
 {
 	struct _smime_pobject *po = (struct _smime_pobject *)pobject;
-	const char *alt_desc = NULL;
 	GladeXML *xml;
 	GtkWidget *vbox, *w;
 

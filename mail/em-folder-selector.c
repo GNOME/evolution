@@ -138,19 +138,15 @@ folder_created_cb (EMFolderTreeModel *model, const char *path, const char *uri, 
 	CamelException ex;
 	CamelStore *store;
 	
-	printf ("folder_created_cb: uri=%s (we are waiting for %s)\n", uri, emfs->created_uri);
-	
 	camel_exception_init (&ex);
 	if (!(store = (CamelStore *) camel_session_get_service (session, uri, CAMEL_PROVIDER_STORE, &ex)))
 		return;
 	
 	if (camel_store_folder_uri_equal (store, emfs->created_uri, uri)) {
-		printf ("we got it!\n");
 		em_folder_tree_set_selected (emfs->emft, uri);
 		g_signal_handler_disconnect (model, emfs->created_id);
 		emfs->created_id = 0;
-	} else
-		printf ("we didn't get it... :(\n");
+	}
 	
 	camel_object_unref (store);
 }
@@ -169,6 +165,8 @@ emfs_response (GtkWidget *dialog, int response, EMFolderSelector *emfs)
 	emft = (EMFolderTree *) em_folder_tree_new_with_model (model);
 	dialog = em_folder_selector_create_new (emft, 0, _("Create New Folder"), _("Specify where to create the folder:"));
 	gtk_window_set_transient_for ((GtkWindow *) dialog, (GtkWindow *) emfs);
+	uri = em_folder_selector_get_selected_uri (emfs);
+	em_folder_tree_set_selected (emft, uri);
 	
 	if (gtk_dialog_run ((GtkDialog *) dialog) == GTK_RESPONSE_OK) {
 		uri = em_folder_selector_get_selected_uri ((EMFolderSelector *) dialog);

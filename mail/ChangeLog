@@ -1,6 +1,13 @@
 2004-03-10  Jeffrey Stedfast  <fejj@ximian.com>
 
-	Partial fix for bug #53862
+	* em-format-html-display.c (efhd_xpkcs7mime_validity_clicked):
+	Removed an unused variable left over from an old attempted fix.
+
+	* em-folder-selector.c (emfs_response): Select the same folder in
+	the create-folder dialog as is selected in the parent selector
+	dialog. Fixes the rest of bug #53862.
+
+	Partial fix for bug #53862.
 
 	* em-folder-selector.c (emfs_response): Connect to the newly added
 	"folder-added" signal and save a created_uri string so that we can
