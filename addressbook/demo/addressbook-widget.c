@@ -79,25 +79,33 @@ static ETestModel *
 get_model(char *filename)
 {
 	ETestModel *model;
+	gboolean free_filename = FALSE;
 
-	if ( filename == NULL )
-		filename = "addressbook.xml";
+	if ( filename == NULL ) {
+		filename = gnome_util_prepend_user_home("addressbook.xml");
+		free_filename = TRUE;
+	}
 
 	if ( models == NULL ) {
 		models = g_hash_table_new(g_str_hash, g_str_equal);
 	}
 
 	model = g_hash_table_lookup(models, filename);
-	if ( model )
+	if ( model ) {
+		if (free_filename)
+			g_free(filename);
 		return model;
+	}
 
-	filename = g_strdup(filename);
+	if ( !free_filename )
+		filename = g_strdup(filename);
 	
 	model = E_TEST_MODEL(e_test_model_new(filename));
 	g_hash_table_insert(models,
 			    filename, model);
 	gtk_signal_connect(GTK_OBJECT(model), "destroy",
 			   GTK_SIGNAL_FUNC(remove_model), filename);
+
 	return model;
 }
 

@@ -30,7 +30,6 @@
 #include "e-text-event-processor-emacs-like.h"
 
 enum {
-	E_TEXT_RESIZE,
 	E_TEXT_CHANGE,
 	E_TEXT_LAST_SIGNAL
 };
@@ -53,6 +52,7 @@ struct line {
 enum {
 	ARG_0,
 	ARG_MODEL,
+	ARG_EVENT_PROCESSOR,
 	ARG_TEXT,
 	ARG_X,
 	ARG_Y,
@@ -119,6 +119,8 @@ static void e_text_get_selection(EText *text, GdkAtom selection, guint32 time);
 static void e_text_supply_selection (EText *text, guint time, GdkAtom selection, guchar *data, gint length);
 
 static void e_text_text_model_changed(ETextModel *model, EText *text);
+
+static void _get_tep(EText *text);
 
 static GtkWidget *e_text_get_invisible(EText *text);
 static void _selection_clear_event (GtkInvisible *invisible,
@@ -188,15 +190,6 @@ e_text_class_init (ETextClass *klass)
 
 	parent_class = gtk_type_class (gnome_canvas_item_get_type ());
 
-	e_text_signals[E_TEXT_RESIZE] =
-		gtk_signal_new ("resize",
-				GTK_RUN_LAST,
-				object_class->type,
-				GTK_SIGNAL_OFFSET (ETextClass, resize),
-				gtk_marshal_NONE__NONE,
-				GTK_TYPE_NONE, 0);
-
-
 	e_text_signals[E_TEXT_CHANGE] =
 		gtk_signal_new ("change",
 				GTK_RUN_LAST,
@@ -210,6 +203,8 @@ e_text_class_init (ETextClass *klass)
 
 	gtk_object_add_arg_type ("EText::model",
 				 GTK_TYPE_OBJECT, GTK_ARG_READWRITE, ARG_MODEL);  
+	gtk_object_add_arg_type ("EText::event_processor",
+				 GTK_TYPE_OBJECT, GTK_ARG_READWRITE, ARG_EVENT_PROCESSOR);
 	gtk_object_add_arg_type ("EText::text",
 				 GTK_TYPE_STRING, GTK_ARG_READWRITE, ARG_TEXT);
 	gtk_object_add_arg_type ("EText::x",
@@ -270,7 +265,6 @@ e_text_class_init (ETextClass *klass)
 
 
 
-	klass->resize = NULL;
 	klass->change = NULL;
 
 	object_class->destroy = e_text_destroy;
@@ -334,6 +328,7 @@ e_text_init (EText *text)
 	text->button_down = FALSE;
 	
 	text->tep = NULL;
+	text->tep_command_id = 0;
 
 	text->has_selection = FALSE;
 	
@@ -370,6 +365,10 @@ e_text_destroy (GtkObject *object)
 
 	if (text->model)
 		gtk_object_unref(GTK_OBJECT(text->model));
+
+	if (text->tep_command_id)
+		gtk_signal_disconnect(GTK_OBJECT(text->tep),
+				      text->tep_command_id);
 
 	if (text->tep)
 		gtk_object_unref (GTK_OBJECT(text->tep));
@@ -428,7 +427,7 @@ get_bounds_item_relative (EText *text, double *px1, double *py1, double *px2, do
 		text->height = 0;
 
 	if (old_height != text->height)
-		gtk_signal_emit_by_name (GTK_OBJECT (text), "resize");
+		e_canvas_item_request_parent_reflow(item);
 
 	/* Anchor text */
 
@@ -918,6 +917,21 @@ e_text_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 		needs_reflow = 1;
 		break;
 
+	case ARG_EVENT_PROCESSOR:
+		if ( text->tep && text->tep_command_id )
+			gtk_signal_disconnect(GTK_OBJECT(text->tep),
+					      text->tep_command_id);
+		if ( text->tep )
+			gtk_object_unref(GTK_OBJECT(text->tep));
+		text->tep = E_TEXT_EVENT_PROCESSOR(GTK_VALUE_OBJECT (*arg));
+		gtk_object_ref(GTK_OBJECT(text->tep));
+		text->tep_command_id = 
+			gtk_signal_connect(GTK_OBJECT(text->tep),
+					   "command",
+					   GTK_SIGNAL_FUNC(e_text_command),
+					   text);
+		break;
+
 	case ARG_TEXT:
 		e_text_model_set_text(text->model, GTK_VALUE_STRING (*arg));
 		break;
@@ -1178,6 +1192,11 @@ e_text_get_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 	switch (arg_id) {
 	case ARG_MODEL:
 		GTK_VALUE_OBJECT (*arg) = GTK_OBJECT(text->model);
+		break;
+
+	case ARG_EVENT_PROCESSOR:
+		_get_tep(text);
+		GTK_VALUE_OBJECT (*arg) = GTK_OBJECT(text->tep);
 		break;
 
 	case ARG_TEXT:
@@ -1529,10 +1548,11 @@ _get_tep(EText *text)
 		text->tep = e_text_event_processor_emacs_like_new();
 		gtk_object_ref (GTK_OBJECT (text->tep));
 		gtk_object_sink (GTK_OBJECT (text->tep));
-		gtk_signal_connect(GTK_OBJECT(text->tep),
-				   "command",
-				   GTK_SIGNAL_FUNC(e_text_command),
-				   (gpointer) text);
+		text->tep_command_id = 
+			gtk_signal_connect(GTK_OBJECT(text->tep),
+					   "command",
+					   GTK_SIGNAL_FUNC(e_text_command),
+					   (gpointer) text);
 	}
 }
 

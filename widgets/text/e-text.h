@@ -164,6 +164,7 @@ struct _EText {
 	gboolean button_down;           /* Is mouse button 1 down */
 
 	ETextEventProcessor *tep;       /* Text Event Processor */
+	gint tep_command_id;
 
 	GtkWidget *invisible;           /* For selection handling */
 	gboolean has_selection;         /* TRUE if we have the selection */
