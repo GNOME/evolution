@@ -3,7 +3,13 @@ regions=US CA MX EU AF OZ ME AS M_ AT
 
 [ME]
 name=Middle East
-states=DZ BH IR KW LB OM QA SA AE YE
+states=DZ BH IR IL KW LB OM QA SA AE YE
+
+[ME_IL]
+name=Israel
+loc0=Ben\\ Gurion LLBG ------ ---
+loc1=Eilat LLET ------ ---
+loc2=Ovda LLOV ------ ---
 
 [ME_AE]
 name=United Arab Emirates 
