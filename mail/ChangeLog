@@ -1,5 +1,10 @@
 2000-11-01  Jeffrey Stedfast  <fejj@helixcode.com>
 
+	* folder-browser-factory.c: Hmmm, someone can't spell Filder,
+	er...I mean Filter ;-)
+
+2000-11-01  Jeffrey Stedfast  <fejj@helixcode.com>
+
 	* mail-autofilter.c (rule_from_message): If the name is NULL or
 	empty, then set the title to "Mail from <address>". Closes
 	bugzilla bug #777. Also when filtering on Subject, set the file

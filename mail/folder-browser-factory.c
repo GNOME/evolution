@@ -69,8 +69,8 @@ BonoboUIVerb verbs [] = {
 	BONOBO_UI_UNSAFE_VERB ("MessageVFolderRecip", vfolder_recipient),
 	
 	BONOBO_UI_UNSAFE_VERB ("MessageFilterSubj", filter_subject),
-	BONOBO_UI_UNSAFE_VERB ("MessageFilderSndr", filter_sender),
-	BONOBO_UI_UNSAFE_VERB ("MessageFilderRecip", filter_recipient),
+	BONOBO_UI_UNSAFE_VERB ("MessageFilterSndr", filter_sender),
+	BONOBO_UI_UNSAFE_VERB ("MessageFilterRecip", filter_recipient),
 	
 	/* Folder Menu */
 	BONOBO_UI_UNSAFE_VERB ("FolderExpunge", expunge_folder),
