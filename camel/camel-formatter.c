@@ -478,11 +478,11 @@ handle_mime_message (CamelFormatter *formatter,
 
 
 /*
- * multipart-related helper function --
+ * multipart-alternative helper function --
  * returns NULL if no text/html or text/plan msg is found
  */
 static CamelMimePart*
-find_preferred_displayable_body_part_in_multipart_alternate (
+find_preferred_displayable_body_part_in_multipart_alternative (
 	CamelMultipart* multipart)
 {
 	int i, max_multiparts;
@@ -686,7 +686,7 @@ mime_part_to_html (CamelFormatter* formatter, CamelMimePart* part,
 		 * convert to html (if any) */
 		if (strcase_equal (mime_type_whole, "multipart/alternate")) {
 			mime_part =
-				find_preferred_displayable_body_part_in_multipart_related (
+				find_preferred_displayable_body_part_in_multipart_alternative (
 					CAMEL_MULTIPART(message_contents));
 		}
 
