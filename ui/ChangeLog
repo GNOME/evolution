@@ -1,3 +1,10 @@
+2001-11-28  Christopher James Lahey  <clahey@ximian.com>
+
+	* evolution-contact-list-editor.xml: Consistency fixes with
+	standard contact editor.  Added Save As, Send As, and Send To.
+	Replaced Save toolbar with Save and Close and added Save and Close
+	menu item.  Added a trash icon.
+
 2001-10-30  Federico Mena Quintero  <federico@ximian.com>
 
 	* evolution-calendar.xml: Renamed the cut/copy/paste/delete
