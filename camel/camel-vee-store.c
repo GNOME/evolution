@@ -135,6 +135,7 @@ vee_get_folder (CamelStore *store, const char *folder_name, guint32 flags, Camel
 		fi->url = g_strdup_printf("vfolder:%s#%s", ((CamelService *)store)->url->path,
 					  ((CamelFolder *)vf)->full_name);
 		fi->unread_message_count = camel_folder_get_message_count((CamelFolder *)vf);
+		fi->path = g_strdup (fi->full_name);
 		camel_object_trigger_event(CAMEL_OBJECT(store), "folder_created", fi);
 		camel_folder_info_free(fi);
 	}
@@ -212,6 +213,7 @@ vee_get_folder_info(CamelStore *store, const char *top, guint32 flags, CamelExce
 		info->full_name = g_strdup("UNMATCHED");
 		info->name = g_strdup("UNMATCHED");
 		info->unread_message_count = -1;
+		info->path = g_strdup (info->full_name);
 		g_ptr_array_add(data.infos, info);
 	}
 		

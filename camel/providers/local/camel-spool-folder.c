@@ -208,6 +208,8 @@ camel_spool_folder_construct(CamelSpoolFolder *lf, CamelStore *parent_store, con
 	fi->name = g_strdup(name);
 	fi->url = g_strdup(lf->folder_path);
 	fi->unread_message_count = camel_folder_get_unread_message_count(folder);
+	fi->path = g_strdup (full_name);
+	
 	camel_object_trigger_event(CAMEL_OBJECT(parent_store), "folder_created", fi);
 	camel_folder_info_free (fi);
 

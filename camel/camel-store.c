@@ -666,11 +666,33 @@ camel_folder_info_free (CamelFolderInfo *fi)
 		camel_folder_info_free (fi->child);
 		g_free (fi->name);
 		g_free (fi->full_name);
+		g_free (fi->path);
 		g_free (fi->url);
 		g_free (fi);
 	}
 }
 
+
+/**
+ * camel_folder_info_build_path:
+ * @fi: folder info
+ * @separator: directory separator
+ *
+ * Sets the folder info path based on the folder's full name and
+ * directory separator.
+ **/
+void
+camel_folder_info_build_path (CamelFolderInfo *fi, char separator)
+{
+	fi->path = g_strdup (fi->full_name);
+	if (separator != '/') {
+		char *p;
+		
+		p = fi->path;
+		while ((p = strchr (p, separator)))
+			*p = '/';
+	}
+}
 
 /**
  * camel_folder_info_build:
@@ -725,6 +747,11 @@ camel_folder_info_build (GPtrArray *folders, const char *namespace,
 			name = fi->full_name;
 		if (*name == separator)
 			name++;
+		
+		/* set the path if it isn't already set */
+		if (!fi->path)
+			camel_folder_info_build_path (fi, separator);
+		
 		p = strrchr (name, separator);
 		if (p) {
 			pname = g_strndup (name, p - name);
@@ -752,6 +779,8 @@ camel_folder_info_build (GPtrArray *folders, const char *namespace,
 					*sep = '\0';
 				else
 					g_warning ("huh, no \"%c\" in \"%s\"?", separator, fi->url);
+				
+				/* FIXME: wtf is this? This is WRONG. Parent folders can be selectable */
 				camel_url_set_param (url, "noselect", "yes");
 				pfi->url = camel_url_to_string (url, 0);
 				camel_url_free (url);
@@ -776,7 +805,7 @@ camel_folder_info_build (GPtrArray *folders, const char *namespace,
 			fi->sibling = top;
 		top = fi;
 	}
-
+	
 	return top;			
 }
 

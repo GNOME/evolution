@@ -4,7 +4,7 @@
 /*
  *  Authors:
  *    Dan Winship <danw@ximian.com>
- *    Jeffrey Stedfast <fejj@danw.com>
+ *    Jeffrey Stedfast <fejj@ximian.com>
  *
  *  Copyright 2000, 2001 Ximian, Inc.
  *
@@ -1043,10 +1043,12 @@ create_folder (CamelStore *store, const char *parent_name,
 	CamelImapStore *imap_store = CAMEL_IMAP_STORE (store);
 	char *full_name, *resp, *thisone;
 	CamelImapResponse *response;
-	CamelFolderInfo *root, *fi;
+	CamelException internal_ex;
+	CamelFolderInfo *root = NULL;
 	gboolean need_convert;
-	char **pathnames;
-	int i, flags;
+	char **pathnames = NULL;
+	GPtrArray *folders = NULL;
+	int i = 0, flags;
 	
 	if (!camel_disco_store_check_online (CAMEL_DISCO_STORE (store), ex))
 		return NULL;
@@ -1077,10 +1079,11 @@ create_folder (CamelStore *store, const char *parent_name,
 	
 	camel_imap_response_free (imap_store, response);
 	
+	camel_exception_init (&internal_ex);
+	
 	/* if not, check if we can delete it and recreate it */
 	if (need_convert) {
-		gchar *name;
-		CamelException internal_ex;
+		char *name;
 		
 		if (get_folder_status (imap_store, parent_name, "MESSAGES")) {
 			camel_exception_set (ex, CAMEL_EXCEPTION_FOLDER_INVALID_STATE,
@@ -1089,7 +1092,6 @@ create_folder (CamelStore *store, const char *parent_name,
 		}
 		
 		/* delete the old parent and recreate it */
-		camel_exception_init (&internal_ex);
 		delete_folder (store, parent_name, &internal_ex);
 		if (camel_exception_is_set (&internal_ex)) {
 			camel_exception_xfer (ex, &internal_ex);
@@ -1116,45 +1118,62 @@ create_folder (CamelStore *store, const char *parent_name,
 	g_free (full_name);
 	
 	if (response) {
-		CamelFolderInfo *parent;
-		GPtrArray *folders;
-		
 		camel_imap_response_free (imap_store, response);
 		
 		/* We have to do this in case we are creating a
                    recursive directory structure */
+		i = 0;
 		pathnames = imap_parse_folder_name (imap_store, folder_name);
-		full_name = imap_concat (imap_store, parent_name, pathnames[0]);
-		g_free (pathnames[0]);
+		full_name = imap_concat (imap_store, parent_name, pathnames[i]);
+		g_free (pathnames[i]);
 		
 		folders = g_ptr_array_new ();
-		get_folders_online (imap_store, full_name, folders, FALSE, ex);
-		parent = root = folders->pdata[0];
-		g_free (full_name);
 		
-		for (i = 1; parent && pathnames[i]; i++) {
+		get_folders_online (imap_store, full_name, folders, FALSE, ex);
+		g_free (full_name);
+		if (camel_exception_is_set (&internal_ex)) {
+			camel_exception_xfer (&internal_ex, ex);
+			goto exception;
+		}
+		
+		for (i = 1; pathnames[i]; i++) {
 			full_name = imap_concat (imap_store, parent_name, pathnames[i]);
 			g_free (pathnames[i]);
 			
-			get_folders_online (imap_store, full_name, folders, FALSE, ex);
+			get_folders_online (imap_store, full_name, folders, FALSE, &internal_ex);
+			if (camel_exception_is_set (&internal_ex)) {
+				camel_exception_xfer (&internal_ex, ex);
+				goto exception;
+			}
 			g_free (full_name);
 			
 			if (folders->len != i + 1)
 				break;
-			
-			fi = folders->pdata[i];
-			
-			fi->parent = parent;
-			parent->child = fi;
-			parent = fi;
 		}
 		
 		g_free (pathnames);
+		
+		root = camel_folder_info_build (folders, camel_url_get_param (CAMEL_SERVICE (store)->url, "namespace"),
+						imap_store->dir_sep, TRUE);
+		
 		g_ptr_array_free (folders, TRUE);
-	} else
-		root = NULL;
+	}
 	
 	return root;
+	
+ exception:
+	
+	for (/* i is already set */; pathnames && pathnames[i]; i++)
+		g_free (pathnames[i]);
+	g_free (pathnames);
+	
+	if (folders) {
+		for (i = 0; i < folders->len; i++)
+			camel_folder_info_free (folders->pdata[i]);
+		g_ptr_array_free (folders, TRUE);
+	}
+	
+	return NULL;
 }
 
 static CamelFolderInfo *
@@ -1522,13 +1541,17 @@ subscribe_folder (CamelStore *store, const char *folder_name,
 	name = strrchr (folder_name, imap_store->dir_sep);
 	if (name)
 		name++;
-
+	
+	/* FIXME: we should probably relocate all code that generates
+           fi->path to a single location and have all code use that */
 	fi = g_new0 (CamelFolderInfo, 1);
 	fi->full_name = g_strdup (folder_name);
 	fi->name = g_strdup (name);
 	fi->url = g_strdup_printf ("%s/%s", imap_store->base_url, folder_name);
 	fi->unread_message_count = -1;
-
+	
+	camel_folder_info_build_path (fi, imap_store->dir_sep);
+	
 	camel_object_trigger_event (CAMEL_OBJECT (store), "folder_created", fi);
 	camel_folder_info_free (fi);
 }

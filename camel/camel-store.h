@@ -45,8 +45,9 @@ typedef struct _CamelFolderInfo {
 		*sibling,
 		*child;
 	char *url;
-	char *full_name;
 	char *name;
+	char *full_name;
+	char *path;
 	int unread_message_count;
 } CamelFolderInfo;
 
@@ -176,6 +177,8 @@ void             camel_store_free_folder_info_nop  (CamelStore *store,
 						    CamelFolderInfo *fi);
 
 void             camel_folder_info_free            (CamelFolderInfo *fi);
+void             camel_folder_info_build_path      (CamelFolderInfo *fi,
+						    char separator);
 CamelFolderInfo *camel_folder_info_build           (GPtrArray *folders,
 						    const char *namespace,
 						    char separator,
