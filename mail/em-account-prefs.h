@@ -87,8 +87,6 @@ GtkType em_account_prefs_get_type (void);
 
 GtkWidget *em_account_prefs_new (GNOME_Evolution_Shell shell);
 
-void em_account_prefs_apply (EMAccountPrefs *prefs);
-
 /* needed by global config */
 #define EM_ACCOUNT_PREFS_CONTROL_ID "OAFIID:GNOME_Evolution_Mail_AccountPrefs_ConfigControl:" BASE_VERSION
 

@@ -962,12 +962,6 @@ em_mailer_prefs_new (void)
 }
 
 
-void
-em_mailer_prefs_apply (EMMailerPrefs *prefs)
-{
-	gconf_client_suggest_sync (prefs->gconf, NULL);
-}
-
 static struct _EMMailerPrefsHeader *
 emmp_header_from_xmldoc (xmlDocPtr doc)
 {

@@ -577,10 +577,3 @@ em_account_prefs_new (GNOME_Evolution_Shell shell)
 	
 	return (GtkWidget *) new;
 }
-
-
-void
-em_account_prefs_apply (EMAccountPrefs *prefs)
-{
-	/* nothing to do here... */
-}

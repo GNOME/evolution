@@ -994,10 +994,3 @@ em_composer_prefs_new (void)
 	
 	return (GtkWidget *) new;
 }
-
-
-void
-em_composer_prefs_apply (EMComposerPrefs *prefs)
-{
-	gconf_client_suggest_sync (prefs->gconf, NULL);
-}

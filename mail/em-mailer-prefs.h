@@ -131,8 +131,6 @@ GtkType em_mailer_prefs_get_type (void);
 
 GtkWidget *em_mailer_prefs_new (void);
 
-void em_mailer_prefs_apply (EMMailerPrefs *prefs);
-
 EMMailerPrefsHeader *em_mailer_prefs_header_from_xml(const char *xml);
 char *em_mailer_prefs_header_to_xml(EMMailerPrefsHeader *header);
 void em_mailer_prefs_header_free(EMMailerPrefsHeader *header);

@@ -1,5 +1,11 @@
 2004-04-07  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* em-account-prefs.c (em_account_prefs_apply): Removed.
+
+	* em-mailer-prefs.c (em_mailer_prefs_apply): Removed.
+
+	* em-composer-prefs.c (em_composer_prefs_apply): Removed.
+
 	* mail-config-factory.c (mail_config_control_factory_cb): No
 	longer need the Apply stuff.
 

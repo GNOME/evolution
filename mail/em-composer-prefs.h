@@ -117,8 +117,6 @@ GType em_composer_prefs_get_type (void);
 
 GtkWidget *em_composer_prefs_new (void);
 
-void em_composer_prefs_apply (EMComposerPrefs *prefs);
-
 void em_composer_prefs_new_signature (GtkWindow *parent, gboolean html, const char *script);
 
 /* needed by global config */
