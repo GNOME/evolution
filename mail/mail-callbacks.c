@@ -858,12 +858,34 @@ enumerate_msg (MessageList *ml, const char *uid, gpointer data)
 
 
 static EMsgComposer *
-forward_get_composer (const char *subject)
+forward_get_composer (CamelMimeMessage *message, const char *subject)
 {
-	const MailConfigAccount *account;
+	const CamelInternetAddress *to_addrs, *cc_addrs;
+	const MailConfigAccount *account = NULL;
+	const GSList *accounts = NULL;
 	EMsgComposer *composer;
 	
-	account  = mail_config_get_default_account ();
+	if (message) {
+		const CamelInternetAddress *to_addrs, *cc_addrs;
+		const GSList *accounts = NULL;
+		
+		accounts = mail_config_get_accounts ();
+		to_addrs = camel_mime_message_get_recipients (message, CAMEL_RECIPIENT_TYPE_TO);
+		cc_addrs = camel_mime_message_get_recipients (message, CAMEL_RECIPIENT_TYPE_CC);
+		
+		account = guess_me (to_addrs, cc_addrs, accounts);
+		
+		if (!account) {
+			const char *source;
+			
+			source = camel_mime_message_get_source (message);
+			account = mail_config_get_account_by_source_url (source);
+		}
+	}
+	
+	if (!account)
+		account = mail_config_get_default_account ();
+	
 	composer = e_msg_composer_new_with_sig_file ();
 	if (composer) {
 		gtk_signal_connect (GTK_OBJECT (composer), "send",
@@ -872,7 +894,7 @@ forward_get_composer (const char *subject)
 				    GTK_SIGNAL_FUNC (composer_postpone_cb), NULL);
 		e_msg_composer_set_headers (composer, account->name, NULL, NULL, NULL, subject);
 	} else {
-		g_warning("Could not create composer");
+		g_warning ("Could not create composer");
 	}
 	
 	return composer;
@@ -886,15 +908,15 @@ do_forward_non_attached (CamelFolder *folder, char *uid, CamelMimeMessage *messa
 	
 	if (!message)
 		return;
-
+	
 	subject = mail_tool_generate_forward_subject (message);
 	if (GPOINTER_TO_INT (data) == MAIL_CONFIG_FORWARD_INLINE)
 		text = mail_tool_forward_message (message);
 	else
 		text = mail_tool_quote_message (message, _("Forwarded message:\n"));
-
+	
 	if (text) {
-		EMsgComposer *composer = forward_get_composer (subject);
+		EMsgComposer *composer = forward_get_composer (message, subject);
 		if (composer) {
 			e_msg_composer_set_body_text (composer, text);
 			gtk_widget_show (GTK_WIDGET (composer));
@@ -902,7 +924,7 @@ do_forward_non_attached (CamelFolder *folder, char *uid, CamelMimeMessage *messa
 		}
 		g_free (text);
 	}
-
+	
 	g_free (subject);
 }
 
@@ -913,7 +935,7 @@ forward_message (FolderBrowser *fb, MailConfigForwardStyle style)
 		return;
 	if (!check_send_configuration (fb))
 		return;
-
+	
 	mail_get_message (fb->folder, fb->message_list->cursor_uid,
 			  do_forward_non_attached, GINT_TO_POINTER (style),
 			  mail_thread_new);
@@ -934,8 +956,10 @@ forward_quoted (GtkWidget *widget, gpointer user_data)
 static void
 do_forward_attach (CamelFolder *folder, GPtrArray *messages, CamelMimePart *part, char *subject, void *data)
 {
+	CamelMimeMessage *message = data;
+	
 	if (part) {
-		EMsgComposer *composer = forward_get_composer (subject);
+		EMsgComposer *composer = forward_get_composer (message, subject);
 		if (composer) {
 			e_msg_composer_attach (composer, part);
 			gtk_widget_show (GTK_WIDGET (composer));
@@ -947,15 +971,16 @@ do_forward_attach (CamelFolder *folder, GPtrArray *messages, CamelMimePart *part
 void
 forward_attached (GtkWidget *widget, gpointer user_data)
 {
-	GPtrArray *uids;
 	FolderBrowser *fb = (FolderBrowser *)user_data;
+	GPtrArray *uids;
 	
 	if (!check_send_configuration (fb))
 		return;
 	
 	uids = g_ptr_array_new ();
 	message_list_foreach (fb->message_list, enumerate_msg, uids);
-	mail_build_attachment (fb->message_list->folder, uids, do_forward_attach, NULL);
+	mail_build_attachment (fb->message_list->folder, uids, do_forward_attach,
+			       uids->len == 1 ? fb->mail_display->current_message : NULL);
 }
 
 void

@@ -1,6 +1,13 @@
 2001-07-25  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-callbacks.c (mail_generate_reply): Initialize `me' to NULL.
+	(forward_attached): If we are only forwarding a single message,
+	pass the message along as the callback data, else pass NULL.
+	(do_forward_attach): Updated for changes to
+	forward_get_composer().
+	(do_forward_non_attached): Same.
+	(forward_get_composer): Try to guess which account to forward the
+	message from if the message passed in is non-NULL.
 
 2001-07-24  Peter Williams  <peterw@ximian.com>
 
