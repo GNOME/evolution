@@ -1,5 +1,5 @@
-  <preface id="introduction">
-    <title>Introduction</title> 
+
+<!-- The actual preface tag is in the evolution.xml file -->
       <sect1 id="organization">
         <title>Organization</title>
       <para>
@@ -358,5 +358,3 @@ Lastly, we'll have warnings, in cases where you should be careful:
 	</variablelist>
       </para>
     </sect1>
-</preface>
-

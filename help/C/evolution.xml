@@ -4,6 +4,7 @@
   
 <!ENTITY LEGAL SYSTEM "legal.xml">
 <!ENTITY GFDL SYSTEM "apx-fdl.xml">
+<!ENTITY GPL SYSTEM "apx-gpl.xml">
 <!ENTITY PREFACE SYSTEM "preface.xml">
 <!ENTITY USAGE-MAINWINDOW SYSTEM "usage-mainwindow.xml">
 <!ENTITY USAGE-EXEC-SUMMARY SYSTEM "usage-exec-summary.xml">
@@ -43,16 +44,25 @@ entity names correspond.  APX is for appendix.  -->
     </copyright>
     
    <releaseinfo>
-      This is version 1.4 of the Ximian Evolution manual. It describes
-      version 1.4 of the Ximian Evolution groupware suite.
+      This is version 1.2.1 of the Ximian Evolution manual. It describes
+      version 1.2 of the Ximian Evolution groupware suite.
    </releaseinfo>
-
+    <legalnotice id="legalnotice">
+      <para>
+         Please note that legal and licensing information is in <xref
+         linkend="preface" /> due to formatting issues with its
+         previous location.
+       </para>
+    </legalnotice>
   </bookinfo>
 
 
+  <preface id="preface">
+    <title>Preface</title> 
   &LEGAL;
   &PREFACE;
-  
+  </preface>
+
   <part id="usage">
     <title>Getting Started with Ximian Evolution</title>
      <partintro>
@@ -103,5 +113,7 @@ entity names correspond.  APX is for appendix.  -->
   &APX-GLOSS;
   &APX-BUGS;
   &APX-AUTHORS; 
+  &GPL;
+  &GFDL;
 
 </book>

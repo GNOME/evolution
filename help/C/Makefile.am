@@ -34,11 +34,14 @@ docname = evolution
 lang = C
 omffile = evolution-C.omf
 entities =	\
-	apx-authors.xml	\
+	apx-authors.xml		\
 	apx-bugs.xml		\
+	apx-fdl.xml		\
 	apx-gloss.xml		\
+	apx-gpl.xml		\
 	config-prefs.xml	\
-	config-sync.xml	\
+	config-sync.xml		\
+	legal.xml		\
 	menuref.xml		\
 	preface.xml		\
 	usage-calendar.xml	\
@@ -50,7 +53,5 @@ entities =	\
 	usage-mainwindow.xml	\
 	usage-print.xml		\
 	usage-sync.xml		\
-	legal.xml		\
-	apx-fdl.xml		\
 include $(top_srcdir)/help/xmldocs.make
 dist-hook: app-dist-hook
