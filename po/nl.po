@@ -13718,7 +13718,7 @@ msgid ""
 "This message is encrypted.  It would be difficult for an outsider to view "
 "the content of this message."
 msgstr ""
-"Dit bericht is versleuteld.  His is moeilijk voor een buitenstaander om de "
+"Dit bericht is versleuteld.  Het is moeilijk voor een buitenstaander om de "
 "inhoud van het bericht te bekijken."
 
 #: mail/em-format-html-display.c:655 mail/em-format-html.c:594
