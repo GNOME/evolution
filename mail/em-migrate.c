@@ -55,6 +55,7 @@
 
 #include "e-util/e-bconf-map.h"
 #include "e-util/e-account-list.h"
+#include "e-util/e-signature-list.h"
 
 #include "mail-config.h"
 #include "em-utils.h"
@@ -1842,6 +1843,33 @@ em_upgrade_xml_1_4 (xmlDocPtr doc, gboolean vfolders_xml)
 	return upgrade_xml_uris (doc, upgrade_xml_uris_1_4);
 }
 
+static char *
+get_nth_sig (int id)
+{
+	ESignatureList *list;
+	ESignature *sig;
+	EIterator *iter;
+	char *uid = NULL;
+	int i = 0;
+	
+	list = mail_config_get_signatures ();
+	iter = e_list_get_iterator ((EList *) list);
+	
+	while (e_iterator_is_valid (iter) && i < id) {
+		e_iterator_next (iter);
+		i++;
+	}
+	
+	if (i == id && e_iterator_is_valid (iter)) {
+		sig = (ESignature *) e_iterator_get (iter);
+		uid = g_strdup (sig->uid);
+	}
+	
+	g_object_unref (iter);
+	
+	return uid;
+}
+
 static int
 em_upgrade_accounts_1_4 (void)
 {
@@ -1866,6 +1894,14 @@ em_upgrade_accounts_1_4 (void)
 			url = upgrade_xml_uris_1_4 (account->sent_folder_uri);
 			g_free (account->sent_folder_uri);
 			account->sent_folder_uri = url;
+		}
+		
+		if (account->id->sig_uid && !strncmp (account->id->sig_uid, "::", 2)) {
+			int sig_id;
+			
+			sig_id = strtol (account->id->sig_uid + 2, NULL, 10);
+			g_free (account->id->sig_uid);
+			account->id->sig_uid = get_nth_sig (sig_id);
 		}
 		
 		e_iterator_next (iter);
