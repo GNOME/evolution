@@ -2,7 +2,7 @@
 
 	* gncal-day-panel.c (gncal_day_panel_new): Use
 	gtk_scrolled_window_add_with_viewport instead of
-	gtk_container_add (gtk_clist change).
+	gtk_container_add (gtk changes).
 
 1998-11-23  Herbert V. Riedel <hvr@hvrlab.ml.org>
 
