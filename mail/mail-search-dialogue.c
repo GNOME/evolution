@@ -46,7 +46,7 @@ mail_search_dialogue_get_type (void)
 			(GtkArgGetFunc)NULL
 		};
 		
-		type = gtk_type_unique(gnome_dialog_get_type (), &type_info);
+		type = gtk_type_unique (gnome_dialog_get_type (), &type_info);
 	}
 	
 	return type;
@@ -58,7 +58,7 @@ mail_search_dialogue_class_init (MailSearchDialogueClass *class)
 	GtkObjectClass *object_class;
 	
 	object_class = (GtkObjectClass *)class;
-	parent_class = gtk_type_class(gnome_dialog_get_type ());
+	parent_class = gtk_type_class (gnome_dialog_get_type ());
 
 	object_class->finalize = mail_search_dialogue_finalise;
 	/* override methods */
@@ -69,50 +69,52 @@ static void
 mail_search_dialogue_construct (MailSearchDialogue *o, FilterRule *rule)
 {
 	FilterPart *part;
-	GnomeDialog *dialogue = GNOME_DIALOG(o);
-
-	o->context = rule_context_new();
-	rule_context_add_part_set(o->context, "partset", filter_part_get_type(),
-				  rule_context_add_part, rule_context_next_part);
-	rule_context_load(o->context, EVOLUTION_DATADIR "/evolution/vfoldertypes.xml", "");
+	GnomeDialog *dialogue = GNOME_DIALOG (o);
+	
+	gtk_window_set_policy (GTK_WINDOW (dialogue), FALSE, TRUE, FALSE);
+	
+	o->context = rule_context_new ();
+	rule_context_add_part_set (o->context, "partset", filter_part_get_type (),
+				   rule_context_add_part, rule_context_next_part);
+	rule_context_load (o->context, EVOLUTION_DATADIR "/evolution/vfoldertypes.xml", "");
 	if (rule) {
 		o->rule = rule;
-		o->guts = filter_rule_get_widget(o->rule, o->context);
+		o->guts = filter_rule_get_widget (o->rule, o->context);
 	} else {
-		o->rule = filter_rule_new();
-		part = rule_context_next_part(o->context, NULL);
+		o->rule = filter_rule_new ();
+		part = rule_context_next_part (o->context, NULL);
 		if (part == NULL) {
-			g_warning("Problem loading search: no parts to load");
-			o->guts = gtk_entry_new();
+			g_warning ("Problem loading search: no parts to load");
+			o->guts = gtk_entry_new ();
 		} else {
-			filter_rule_add_part(o->rule, filter_part_clone(part));
-			o->guts = filter_rule_get_widget(o->rule, o->context);
+			filter_rule_add_part (o->rule, filter_part_clone (part));
+			o->guts = filter_rule_get_widget (o->rule, o->context);
 		}
 	}
-
-	gtk_widget_show(o->guts);
-	gtk_box_pack_start(GTK_BOX(dialogue->vbox), o->guts, FALSE, FALSE, 0);
+	
+	gtk_widget_show (o->guts);
+	gtk_box_pack_start (GTK_BOX (dialogue->vbox), o->guts, TRUE, TRUE, 0);
 }
 
 static void
 mail_search_dialogue_init (MailSearchDialogue *o)
 {
-	GnomeDialog *dialogue = GNOME_DIALOG(o);
-
-	gnome_dialog_append_buttons(dialogue, _("Ok"), _("Search"), _("Cancel"), 0);
+	GnomeDialog *dialogue = GNOME_DIALOG (o);
+	
+	gnome_dialog_append_buttons (dialogue, _("Ok"), _("Search"), _("Cancel"), 0);
 }
 
 
 static void
-mail_search_dialogue_finalise(GtkObject *obj)
+mail_search_dialogue_finalise (GtkObject *obj)
 {
 	MailSearchDialogue *o = (MailSearchDialogue *)obj;
-
+	
 	if (o->context)
-		gtk_object_unref((GtkObject *)o->context);
+		gtk_object_unref (GTK_OBJECT (o->context));
 	if (o->rule)
-		gtk_object_unref((GtkObject *)o->rule);
-
+		gtk_object_unref (GTK_OBJECT (o->rule));
+	
         ((GtkObjectClass *)(parent_class))->finalize(obj);
 }
 
@@ -124,19 +126,20 @@ mail_search_dialogue_finalise(GtkObject *obj)
  * Return value: A new #MailSearchDialogue object.
  **/
 MailSearchDialogue *
-mail_search_dialogue_new(void)
+mail_search_dialogue_new ()
 {
-	MailSearchDialogue *o = (MailSearchDialogue *)gtk_type_new(mail_search_dialogue_get_type ());
-	mail_search_dialogue_construct(o, NULL);
+	MailSearchDialogue *o = (MailSearchDialogue *)gtk_type_new (mail_search_dialogue_get_type ());
+	mail_search_dialogue_construct (o, NULL);
 	return o;
 }
 
-MailSearchDialogue	*mail_search_dialogue_new_with_rule(FilterRule *rule)
+MailSearchDialogue *
+mail_search_dialogue_new_with_rule (FilterRule *rule)
 {
-	MailSearchDialogue *o = (MailSearchDialogue *)gtk_type_new(mail_search_dialogue_get_type ());
+	MailSearchDialogue *o = (MailSearchDialogue *)gtk_type_new (mail_search_dialogue_get_type ());
 	if (rule)
-		gtk_object_ref((GtkObject *)rule);
-	mail_search_dialogue_construct(o, rule);
+		gtk_object_ref (GTK_OBJECT (rule));
+	mail_search_dialogue_construct (o, rule);
 	return o;
 }
 
@@ -149,13 +152,13 @@ MailSearchDialogue	*mail_search_dialogue_new_with_rule(FilterRule *rule)
  * Return value: 
  **/
 char *
-mail_search_dialogue_get_query(MailSearchDialogue *msd)
+mail_search_dialogue_get_query (MailSearchDialogue *msd)
 {
-	GString *out = g_string_new("");
+	GString *out = g_string_new ("");
 	char *ret;
-
-	filter_rule_build_code(msd->rule, out);
+	
+	filter_rule_build_code (msd->rule, out);
 	ret = out->str;
-	g_string_free(out, FALSE);
+	g_string_free (out, FALSE);
 	return ret;
 }

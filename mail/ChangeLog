@@ -1,5 +1,10 @@
 2000-11-07  Jeffrey Stedfast  <fejj@helixcode.com>
 
+	* mail-search-dialogue.c (mail_search_dialogue_construct): Allow
+	rule part to expand when the user resizes the dialog.
+
+2000-11-07  Jeffrey Stedfast  <fejj@helixcode.com>
+
 	* folder-browser.c (search_save): Don't handle custom searching
 	anymore... we don't want this.
 	(search_full): Same.
