@@ -434,7 +434,7 @@ ect_free_color (gchar *color_spec, GdkColor *color, GdkColormap *colormap)
 }
 
 static PangoLayout *
-build_layout (ECellTextView *text_view, int row, const char *text)
+build_layout (ECellTextView *text_view, int row, const char *text, gint width)
 {
 	ECellView *ecell_view = (ECellView *) text_view;
 	ECellText *ect = E_CELL_TEXT (ecell_view->ecell);
@@ -482,11 +482,26 @@ build_layout (ECellTextView *text_view, int row, const char *text)
 		pango_attr_list_unref (attrs);
 	}
 
+	if (width > 0)
+		pango_layout_set_width (layout, width * PANGO_SCALE);
+
+	switch (ect->justify) {
+	case GTK_JUSTIFY_RIGHT:
+		pango_layout_set_alignment (layout, PANGO_ALIGN_RIGHT);
+		break;
+	case GTK_JUSTIFY_CENTER:
+		pango_layout_set_alignment (layout, PANGO_ALIGN_CENTER);
+		break;
+	case GTK_JUSTIFY_LEFT:
+	default:
+		break;
+	}
+	
 	return layout;
 }
 
 static PangoLayout *
-generate_layout (ECellTextView *text_view, int model_col, int view_col, int row)
+generate_layout (ECellTextView *text_view, int model_col, int view_col, int row, int width)
 {
 	ECellView *ecell_view = (ECellView *) text_view;
 	ECellText *ect = E_CELL_TEXT (ecell_view->ecell);
@@ -495,15 +510,17 @@ generate_layout (ECellTextView *text_view, int model_col, int view_col, int row)
 
 	if (edit && edit->model_col == model_col && edit->row == row) {
 		g_object_ref (edit->layout);
+		if (width > 0)
+			pango_layout_set_width (edit->layout, width * PANGO_SCALE);
 		return edit->layout;
 	}
 
 	if (row >= 0) {
 		char *temp = e_cell_text_get_text(ect, ecell_view->e_table_model, model_col, row);
-		layout = build_layout (text_view, row, temp);
+		layout = build_layout (text_view, row, temp, width);
 		e_cell_text_free_text(ect, temp);
 	} else
-		layout = build_layout (text_view, row, "Mumbo Jumbo");
+		layout = build_layout (text_view, row, "Mumbo Jumbo", width);
 
 	return layout;
 }
@@ -621,7 +638,7 @@ ect_draw (ECellView *ecell_view, GdkDrawable *drawable,
 	gdk_gc_set_clip_rectangle (text_view->gc, &clip_rect);
 	/*	clip_rect = &rect;*/
 
-	layout = generate_layout (text_view, model_col, view_col, row);
+	layout = generate_layout (text_view, model_col, view_col, row, x2 - x1);
 
 	gdk_draw_layout (drawable, text_view->gc,
 			 x_origin, y_origin,
@@ -940,7 +957,7 @@ ect_height (ECellView *ecell_view, int model_col, int view_col, int row)
 	gint height;
 	PangoLayout *layout;
 
-	layout = generate_layout (text_view, model_col, view_col, row);
+	layout = generate_layout (text_view, model_col, view_col, row, 0);
 	pango_layout_get_pixel_size (layout, NULL, &height);
 	g_object_unref (layout);
 	return height + 2;
@@ -964,8 +981,6 @@ ect_enter_edit (ECellView *ecell_view, int model_col, int view_col, int row)
 	edit->model_col = -1;
 	edit->row = -1;
 
-	edit->layout = generate_layout (text_view, model_col, view_col, row);
-	
 	edit->text_view = text_view;
 	edit->model_col = model_col;
 	edit->view_col = view_col;
@@ -974,6 +989,8 @@ ect_enter_edit (ECellView *ecell_view, int model_col, int view_col, int row)
 		((ETableItem *)ecell_view->e_table_item_view)->header,
 		view_col)->width - 8;
 
+	edit->layout = generate_layout (text_view, model_col, view_col, row, edit->cell_width);
+	
 	edit->xofs_edit = 0.0;
 	edit->yofs_edit = 0.0;
 	
@@ -1139,7 +1156,7 @@ ect_max_width (ECellView *ecell_view,
 	number_of_rows = e_table_model_row_count (ecell_view->e_table_model);
 
 	for (row = 0; row < number_of_rows; row++) {
-		PangoLayout *layout = generate_layout (text_view, model_col, view_col, row);
+		PangoLayout *layout = generate_layout (text_view, model_col, view_col, row, 0);
 		int width;
 
 		pango_layout_get_pixel_size (layout, &width, NULL);
@@ -1165,7 +1182,7 @@ ect_max_width_by_row (ECellView *ecell_view,
 	if (row >= e_table_model_row_count (ecell_view->e_table_model))
 		return 0;
 
-	layout = generate_layout (text_view, model_col, view_col, row);
+	layout = generate_layout (text_view, model_col, view_col, row, 0);
 	pango_layout_get_pixel_size (layout, &width, NULL);
 	g_object_unref (layout);
 	
@@ -1239,7 +1256,7 @@ ect_show_tooltip (ECellView *ecell_view,
 
 	tooltip->timer = 0;
 
-	layout = generate_layout (text_view, model_col, view_col, row);
+	layout = generate_layout (text_view, model_col, view_col, row, col_width);
 
 	pango_layout_get_pixel_size (layout, &width, &height);
 	if (width < col_width - 8) {
@@ -2070,7 +2087,7 @@ e_cell_text_view_command (ETextEventProcessor *tep, ETextEventProcessorCommand *
 	if (change) {
 		if (edit->layout)
 			g_object_unref (edit->layout);
-		edit->layout = build_layout (text_view, edit->row, edit->text);
+		edit->layout = build_layout (text_view, edit->row, edit->text, edit->cell_width);
 	}
 
 	if (!edit->button_down) {
