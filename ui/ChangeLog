@@ -1,3 +1,8 @@
+2001-08-10  Jason Leach  <jleach@ximian.com>
+
+	* evolution-addressbook.xml: End a placeholder block with
+	</placeholder> instead of <placeholder/>
+
 2001-08-09  Peter Williams  <peterw@ximian.com>
 
 	* evolution-mail-global.xml: Give the (pre)view pane toggle

@@ -106,7 +106,7 @@
 	        	         _label="_Addressbook Sources..."
 	        	         pixtype ="pixbuf"/>
 			</submenu>
-                <placeholder/>
+                </placeholder>
 
 		<placeholder name="ComponentActionsPlaceholder">
                         <submenu name="Actions" _label="_Actions">
