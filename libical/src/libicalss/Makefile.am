@@ -1,4 +1,4 @@
-noinst_LTLIBRARIES = libicalss.la
+lib_LTLIBRARIES = libicalss.la
 
 libicalss_la_SOURCES =		\
 	icalcalendar.c		\
