@@ -156,6 +156,10 @@ lookup_account_info (const char *key)
 	return NULL;
 }
 
+#define CALENDAR_SOURCES "/apps/evolution/calendar/sources"
+#define TASKS_SOURCES "/apps/evolution/tasks/sources"
+#define SELECTED_CALENDARS "/apps/evolution/calendar/display/selected_calendars"
+#define SELECTED_TASKS   "/apps/evolution/calendar/tasks/selected_tasks"
 
 static void
 add_esource (const char *conf_key, const char *group_name,  const char* source_name, const char *username, const char* relative_uri, const char *soap_port, const char *use_ssl)
@@ -164,7 +168,9 @@ add_esource (const char *conf_key, const char *group_name,  const char* source_n
 	ESourceGroup *group;
 	ESource *source;
         GConfClient* client;
-	
+	GSList *ids, *temp ;
+	char *source_selection_key;
+
 	client = gconf_client_get_default();	
 	source_list = e_source_list_new_for_gconf (client, conf_key);
 
@@ -179,9 +185,23 @@ add_esource (const char *conf_key, const char *group_name,  const char* source_n
 	e_source_set_property (source, "auth-domain", "Groupwise");
 	e_source_set_property (source, "use_ssl", use_ssl);
 	e_source_group_add_source (group, source, -1);
-
 	e_source_list_sync (source_list, NULL);
 
+	if (!strcmp (conf_key, CALENDAR_SOURCES)) 
+		source_selection_key = SELECTED_CALENDARS;
+	else if (!strcmp (conf_key, TASKS_SOURCES))
+		source_selection_key = SELECTED_TASKS;
+	else source_selection_key = NULL;
+	if (source_selection_key) {
+		ids = gconf_client_get_list (client, source_selection_key , GCONF_VALUE_STRING, NULL);
+		ids = g_slist_append (ids, g_strdup (e_source_peek_uid (source)));
+		gconf_client_set_list (client,  source_selection_key, GCONF_VALUE_STRING, ids, NULL);
+		temp  = ids;
+		for (; temp != NULL; temp = g_slist_next (temp))
+			g_free (temp->data);
+		g_slist_free (ids);
+	}
+	
 	g_object_unref (source);
 	g_object_unref (group);
 	g_object_unref (source_list);
@@ -199,6 +219,9 @@ remove_esource (const char *conf_key, const char *group_name, char* source_name,
         GSList *sources;
 	gboolean found_group;
 	GConfClient* client;
+	GSList *ids;
+	GSList *node_tobe_deleted;
+	char *source_selection_key;
                                                                                                                              
         client = gconf_client_get_default();
         list = e_source_list_new_for_gconf (client, conf_key);
@@ -220,7 +243,24 @@ remove_esource (const char *conf_key, const char *group_name, char* source_name,
 				source = E_SOURCE (sources->data);
 				
 				if (strcmp (e_source_peek_relative_uri (source), relative_uri) == 0) {
-					
+				
+					if (!strcmp (conf_key, CALENDAR_SOURCES)) 
+						source_selection_key = SELECTED_CALENDARS;
+					else if (!strcmp (conf_key, TASKS_SOURCES))
+						source_selection_key = SELECTED_TASKS;
+					else source_selection_key = NULL;
+					if (source_selection_key) {
+						ids = gconf_client_get_list (client, source_selection_key , 
+									     GCONF_VALUE_STRING, NULL);
+						node_tobe_deleted = g_slist_find_custom (ids, e_source_peek_uid (source), (GCompareFunc) strcmp);
+						if (node_tobe_deleted) {
+							g_free (node_tobe_deleted->data);
+							ids = g_slist_delete_link (ids, node_tobe_deleted);
+						}
+						gconf_client_set_list (client,  source_selection_key, 
+								       GCONF_VALUE_STRING, ids, NULL);
+
+					}
 					e_source_list_remove_group (list, group);
 					e_source_list_sync (list, NULL);	
 					found_group = TRUE;
