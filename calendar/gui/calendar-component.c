@@ -216,6 +216,17 @@ ensure_sources (CalendarComponent *component)
 		personal_source = e_source_new (_("Personal"), PERSONAL_RELATIVE_URI);
 		e_source_group_add_source (on_this_computer, personal_source, -1);
 
+		if (!calendar_config_get_primary_calendar () && !calendar_config_get_calendars_selected ()) {
+			GSList selected;
+
+			calendar_config_set_primary_calendar (e_source_peek_uid (personal_source));
+
+			selected.data = (gpointer)e_source_peek_uid (personal_source);
+			selected.next = NULL;
+			calendar_config_set_calendars_selected (&selected);
+		}
+		
+		e_source_set_color (personal_source, 0xBECEDD);
 	}
 
 	if (!on_the_web) {

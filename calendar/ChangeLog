@@ -1,3 +1,10 @@
+2005-03-21  JP Rosevear  <jpr@novell.com>
+  
+ 	* gui/tasks-component.c (ensure_sources): ensure the color and
+ 	primary config are set on the personal source
+ 
+ 	* gui/calendar-component.c (ensure_sources): ditto
+	
 2005-03-21  Li Yuan  <li.yuan@sun.com>
 
 	* gui/print.c: (print_comp_item):
