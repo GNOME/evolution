@@ -1,5 +1,15 @@
 2002-07-31  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-shell-user-creatable-items-handler.c (ensure_menu_items):
+	Don't sort the menu_items here.
+	(create_menu_xml): Instead, sort here, and only sort the
+	non-default section of the menu.
+	(get_default_action_for_view): Just get the first item that is
+	default; since we don't sort anymore, this works.
+	(find_menu_item_for_verb): Removed since it is not used anymore.
+
+2002-07-31  Ettore Perazzoli  <ettore@ximian.com>
+
 	* evolution-test-component.c (register_component): Pass NULL for
 	@folder_type to
 	evolution_shell_component_add_user_creatable_item().

@@ -133,6 +133,27 @@ component_free (Component *component)
 
 /* Helper functions.  */
 
+static gboolean
+item_is_default (const MenuItem *item,
+		 const char *folder_type,
+		 const char *component_id)
+{
+	if (component_id == NULL || folder_type == NULL)
+		return FALSE;
+
+	if (item->folder_type != NULL && *item->folder_type != 0) {
+		if (strcmp (item->folder_type, folder_type) == 0)
+			return TRUE;
+		else
+			return FALSE;
+	}
+
+	if (strcmp (item->component_id, component_id) == 0)
+		return TRUE;
+	else
+		return FALSE;
+}
+
 static char *
 create_verb_from_component_number_and_type_id (int component_num,
 					       const char *type_id)
@@ -143,49 +164,6 @@ create_verb_from_component_number_and_type_id (int component_num,
 
 /* Setting up menu items for the "File -> New" submenu and the "New" toolbar
    button.  */
-
-static int
-item_types_sort_func (const void *a,
-		      const void *b)
-{
-	const MenuItem *item_a;
-	const MenuItem *item_b;
-	const char *p1, *p2;
-
-	item_a = (const MenuItem *) a;
-	item_b = (const MenuItem *) b;
-
-	p1 = item_a->label;
-	p2 = item_b->label;
-
-	while (*p1 != '\0' && *p2 != '\0') {
-		if (*p1 == '_') {
-			p1 ++;
-			continue;
-		}
-
-		if (*p2 == '_') {
-			p2 ++;
-			continue;
-		}
-
-		if (toupper ((int) *p1) < toupper ((int) *p2))
-			return -1;
-		else if (toupper ((int) *p1) > toupper ((int) *p2))
-			return +1;
-
-		p1 ++, p2 ++;
-	}
-
-	if (*p1 == '\0') {
-		if (*p2 == '\0')
-			return 0;
-		else
-			return -1;
-	} else {
-		return +1;
-	}
-}
 
 static void
 ensure_menu_items (EShellUserCreatableItemsHandler *handler)
@@ -239,10 +217,7 @@ ensure_menu_items (EShellUserCreatableItemsHandler *handler)
 		component_num ++;
 	}
 
-	if (menu_items == NULL)
-		priv->menu_items = NULL;
-	else
-		priv->menu_items = g_slist_sort (menu_items, item_types_sort_func);
+	priv->menu_items = menu_items;
 
 	priv->default_menu_item = NULL;
 	if (default_verb != NULL) {
@@ -282,66 +257,27 @@ free_menu_items (GSList *menu_items)
 }
 
 static const MenuItem *
-find_menu_item_for_verb (EShellUserCreatableItemsHandler *handler,
-			 const char *verb)
-{
-	EShellUserCreatableItemsHandlerPrivate *priv;
-	GSList *p;
-
-	priv = handler->priv;
-
-	for (p = priv->menu_items; p != NULL; p = p->next) {
-		const MenuItem *item;
-
-		item = (const MenuItem *) p->data;
-		if (strcmp (item->verb, verb) == 0)
-			return item;
-	}
-
-	return NULL;
-}
-
-static const MenuItem *
 get_default_action_for_view (EShellUserCreatableItemsHandler *handler,
 			     EShellView *shell_view)
 {
 	EShellUserCreatableItemsHandlerPrivate *priv;
 	const char *view_component_id;
 	const GSList *p;
-	int component_num;
 
 	priv = handler->priv;
-
-	/* FIXME-1.2: This should be based on the folder type not the component
-	   that handles it.  For this, we are going to have to make the IDL a
-	   little more complex.  Also, this is a pretty brutal and ugly hack.  */
 
 	view_component_id = e_shell_view_get_current_component_id (shell_view);
 	if (view_component_id == NULL)
 		return NULL;
 
-	for (p = priv->components, component_num = 0; p != NULL; p = p->next, component_num ++) {
-		const Component *component;
-		const GNOME_Evolution_UserCreatableItemType *type;
-		const char *component_id;
+	for (p = priv->menu_items; p != NULL; p = p->next) {
+		const MenuItem *item;
 
-		component = (const Component *) p->data;
-		if (component->type_list->_length == 0)
-			continue;
-
-		type = & component->type_list->_buffer[0];
-		component_id = evolution_shell_component_client_get_id (component->component_client);
-
-		if (strcmp (component_id, view_component_id) == 0) {
-			const MenuItem *item;
-			char *verb;
-
-			verb = create_verb_from_component_number_and_type_id (component_num, type->id);
-			item = find_menu_item_for_verb (handler, verb);
-			g_free (verb);
-
+		item = (const MenuItem *) p->data;
+		if (item_is_default (item,
+				     e_shell_view_get_current_folder_type (shell_view),
+				     e_shell_view_get_current_component_id (shell_view)))
 			return item;
-		}
 	}
 
 	return priv->default_menu_item;
@@ -382,25 +318,47 @@ append_xml_for_menu_item (GString *xml,
 	g_free (encoded_tooltip);
 }
 
-static gboolean
-item_is_default (const MenuItem *item,
-		 const char *folder_type,
-		 const char *component_id)
+static int
+item_types_sort_func (const void *a,
+		      const void *b)
 {
-	if (component_id == NULL || folder_type == NULL)
-		return FALSE;
+	const MenuItem *item_a;
+	const MenuItem *item_b;
+	const char *p1, *p2;
 
-	if (item->folder_type != NULL && *item->folder_type != 0) {
-		if (strcmp (item->folder_type, folder_type) == 0)
-			return TRUE;
-		else
-			return FALSE;
+	item_a = (const MenuItem *) a;
+	item_b = (const MenuItem *) b;
+
+	p1 = item_a->label;
+	p2 = item_b->label;
+
+	while (*p1 != '\0' && *p2 != '\0') {
+		if (*p1 == '_') {
+			p1 ++;
+			continue;
+		}
+
+		if (*p2 == '_') {
+			p2 ++;
+			continue;
+		}
+
+		if (toupper ((int) *p1) < toupper ((int) *p2))
+			return -1;
+		else if (toupper ((int) *p1) > toupper ((int) *p2))
+			return +1;
+
+		p1 ++, p2 ++;
 	}
 
-	if (strcmp (item->component_id, component_id) == 0)
-		return TRUE;
-	else
-		return FALSE;
+	if (*p1 == '\0') {
+		if (*p2 == '\0')
+			return 0;
+		else
+			return -1;
+	} else {
+		return +1;
+	}
 }
 
 static char *
@@ -411,6 +369,7 @@ create_menu_xml (EShellUserCreatableItemsHandler *handler,
 	EShellUserCreatableItemsHandlerPrivate *priv;
 	GString *xml;
 	GSList *p;
+	GSList *non_default_items;
 	char *retval;
 
 	priv = handler->priv;
@@ -423,8 +382,9 @@ create_menu_xml (EShellUserCreatableItemsHandler *handler,
 	g_string_append (xml, "<placeholder name=\"EShellUserCreatableItemsPlaceholder\">");
 
 	/* 1. Add all the elements that are default for this component.  (Note
-	   that we don't need to do any sorting since the items are already
-	   sorted alphabetically.)  */
+	      that we don't need to do any sorting since the items are already
+	      sorted alphabetically.)  */
+
 	if (component_id != NULL) {
 		gboolean first = TRUE;
 
@@ -440,17 +400,27 @@ create_menu_xml (EShellUserCreatableItemsHandler *handler,
 	}
 
 	/* 2. Add a separator. */
+
 	if (component_id != NULL)
 		g_string_sprintfa (xml, "<separator f=\"\" name=\"EShellUserCreatableItemsHandlerSeparator\"/>");
 
 	/* 3. Add the elements that are not default for this component.  */
+
+	non_default_items = NULL;
 	for (p = priv->menu_items; p != NULL; p = p->next) {
 		const MenuItem *item;
 
 		item = (const MenuItem *) p->data;
 		if (! item_is_default (item, folder_type, component_id))
-			append_xml_for_menu_item (xml, item, FALSE);
+			non_default_items = g_slist_prepend (non_default_items, (void *) item);
 	}
+
+	non_default_items = g_slist_sort (non_default_items, item_types_sort_func);
+	for (p = non_default_items; p != NULL; p = p->next)
+		append_xml_for_menu_item (xml, (const MenuItem *) p->data, FALSE);
+	g_slist_free (non_default_items);
+
+	/* Done...  */
 
 	g_string_append (xml, "</placeholder>"); /* EShellUserCreatableItemsPlaceholder */
 	g_string_append (xml, "</placeholder>"); /* ComponentItems */
