@@ -38,8 +38,8 @@ icalcomponent* icalmessage_new_decline_reply(icalcomponent* c,
 					    const char* msg);
 
 /* New is modified version of old */
-icalcomponent* icalmessage_new_counterpropose_reply(icalcomponent* old,
-						    icalcomponent* new,
+icalcomponent* icalmessage_new_counterpropose_reply(icalcomponent* oldc,
+						    icalcomponent* newc,
 						    const char* user,
 						    const char* msg);
 
@@ -48,7 +48,6 @@ icalcomponent* icalmessage_new_delegate_reply(icalcomponent* c,
 					      const char* user,
 					      const char* delegatee,
 					      const char* msg);
-
 
 
 icalcomponent* icalmessage_new_cancel_event(icalcomponent* c,

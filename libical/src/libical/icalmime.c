@@ -32,6 +32,7 @@
 #include "sspm.h"
 #include "stdlib.h"
 #include <string.h> /* For strdup */
+#include <stdio.h> /* for snprintf*/
 
 #ifdef DMALLOC
 #include "dmalloc.h"

@@ -37,7 +37,15 @@ void icalgauge_free(icalgauge* gauge);
 
 char* icalgauge_as_sql(icalcomponent* gauge);
 
-int icalgauge_test(icalcomponent* comp, icalcomponent* gaugecontainer);
+void icalgauge_dump(icalcomponent* gauge);
 
+/* Return true is comp matches the gauge. The component must be in
+   cannonical form -- a VCALENDAR with one VEVENT, VTODO or VJOURNAL
+   sub component */
+int icalgauge_compare(icalgauge* g, icalcomponent* comp);
+
+/* Clone the component, but only return the properties specified in
+   the gauge */
+icalcomponent* icalgauge_new_clone(icalgauge* g, icalcomponent* comp);
 
 #endif /* ICALGAUGE_H*/

@@ -19,10 +19,6 @@
  the License for the specific language governing rights and
  limitations under the License.
  
- The Original Code is eric. The Initial Developer of the Original
- Code is Eric Busboom
-
-
  ======================================================================*/
 
 #include <stdio.h> /* for printf */
@@ -110,7 +106,6 @@ int main(int argc, char* argv[])
 	ical_class class;
 	icalcomponent *match;
 	icalcomponent *inner; 
-	icalcomponent *p;
 	icalcomponent *reply = 0;
 
 	assert(c!=0);
@@ -241,7 +236,6 @@ int main(int argc, char* argv[])
 conflicts with this meeting. I am delegating my attendance to Bob. ");
 
 			icalset_add_component(out,reply);
-
 		      
 		    } else if (dtstart.hour%4 == 1) {
 			/* Counter propose to next available time */

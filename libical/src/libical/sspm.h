@@ -116,7 +116,7 @@ struct sspm_action_map {
 };
 
 char* sspm_major_type_string(enum sspm_major_type type);
-char* sspm_minor_type_string(enum sspm_major_type type);
+char* sspm_minor_type_string(enum sspm_minor_type type);
 char* sspm_encoding_string(enum sspm_encoding type);
 
 int sspm_parse_mime(struct sspm_part *parts, 

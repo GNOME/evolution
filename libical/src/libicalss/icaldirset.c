@@ -712,10 +712,14 @@ icalcomponent* icaldirset_get_next_component(icaldirset* store)
 	    
 	    /* If there is a gauge defined and the component does not
 	       pass the gauge, skip the rest of the loop */
+
+#if 0 /* HACK */
 	    if (impl->gauge != 0 && icalgauge_test(c,impl->gauge) == 0){
 		continue;
 	    }
-
+#else
+	    assert(0); /* icalgauge_test needs to be fixed */
+#endif
 	    /* Either there is no gauge, or the component passed the
 	       gauge, so return it*/
 
