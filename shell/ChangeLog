@@ -1,3 +1,10 @@
+2003-05-15  Ettore Perazzoli  <ettore@ximian.com>
+
+	[Patch from Antonio Xu <antonio.xu@sun.com>, #42491]
+
+	* e-config-upgrade.c (upgrade_xml_1_2_rec): Make it compile on
+	Forte.
+
 2003-05-14  JP Rosevear  <jpr@ximian.com>
 
 	* e-shell.c (save_settings_for_component): release the interface

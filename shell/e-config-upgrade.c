@@ -617,8 +617,8 @@ upgrade_xml_1_2_rec(xmlNodePtr node)
 {
 	const char *value_tags[] = { "string", "address", "regex", "file", "command", NULL };
 	const char *rule_tags[] = { "title", NULL };
-	const struct {
-		char *name;
+	struct {
+		const char *name;
 		const char **tags;
 	} tags[] = {
 		{ "value", value_tags },
