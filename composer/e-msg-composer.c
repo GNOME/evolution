@@ -88,8 +88,6 @@
 #include "mail/mail-mt.h"
 #include "mail/mail-session.h"
 
-#include "e-util/e-html-utils.h"
-
 #include "e-msg-composer.h"
 #include "e-msg-composer-attachment-bar.h"
 #include "e-msg-composer-hdrs.h"
@@ -989,27 +987,29 @@ decode_signature_name (const gchar *name)
 	return dname;
 }
 
+#define CONVERT_SPACES CAMEL_MIME_FILTER_TOHTML_CONVERT_SPACES
+
 static gchar *
 get_signature_html (EMsgComposer *composer)
 {
 	gboolean format_html = FALSE;
 	char *text = NULL, *html = NULL, *sig_file = NULL, *script = NULL;
-
+	
 	if (composer->signature) {
 		sig_file = composer->signature->filename;
 		format_html = composer->signature->html;
 		script = composer->signature->script;
 	} else if (composer->auto_signature) {
 		MailConfigIdentity *id;
-		gchar *address;
-		gchar *name;
-		gchar *organization;
-
+		char *organization;
+		char *address;
+		char *name;
+		
 		id = E_MSG_COMPOSER_HDRS (composer->hdrs)->account->id;
-		address = id->address ? e_text_to_html (id->address, E_TEXT_TO_HTML_CONVERT_SPACES) : NULL;
-		name = id->name ? e_text_to_html (id->name, E_TEXT_TO_HTML_CONVERT_SPACES) : NULL;
-		organization = id->organization ? e_text_to_html (id->organization, E_TEXT_TO_HTML_CONVERT_SPACES) : NULL;
-
+		address = id->address ? camel_text_to_html (id->address, CONVERT_SPACES, 0) : NULL;
+		name = id->name ? camel_text_to_html (id->name, CONVERT_SPACES, 0) : NULL;
+		organization = id->organization ? camel_text_to_html (id->organization, CONVERT_SPACES, 0) : NULL;
+		
 		text = g_strdup_printf ("-- <BR>%s%s%s%s%s%s%s%s",
 					name ? name : "",
 					(address && *address) ? " &lt;<A HREF=\"mailto:" : "",
@@ -3769,7 +3769,7 @@ e_msg_composer_new_from_url (const char *url_in)
 	if (body) {
 		char *htmlbody;
 		
-		htmlbody = e_text_to_html (body, E_TEXT_TO_HTML_PRE);
+		htmlbody = camel_text_to_html (body, CAMEL_MIME_FILTER_TOHTML_PRE, 0);
 		set_editor_text (composer, htmlbody);
 		g_free (htmlbody);
 	}

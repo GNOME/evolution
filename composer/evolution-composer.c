@@ -33,7 +33,6 @@
 #include <camel/camel.h>
 #include "evolution-composer.h"
 #include "mail/mail-config.h"
-#include "e-util/e-html-utils.h"
 
 #define PARENT_TYPE BONOBO_OBJECT_TYPE
 static BonoboObjectClass *parent_class = NULL;
@@ -95,7 +94,7 @@ impl_Composer_set_headers (PortableServer_Servant servant,
 		accounts = mail_config_get_accounts ();
 		while (accounts) {
 			account = accounts->data;
-			if (!g_strcasecmp (account->id->address, from))
+			if (!strcasecmp (account->id->address, from))
 				break;
 			accounts = accounts->next;
 		}
@@ -144,11 +143,12 @@ impl_Composer_set_body (PortableServer_Servant servant,
 	bonobo_object = bonobo_object_from_servant (servant);
 	composer = EVOLUTION_COMPOSER (bonobo_object);
 
-	if (!g_strcasecmp (mime_type, "text/plain")) {
-		char *htmlbody = e_text_to_html (body, E_TEXT_TO_HTML_PRE);
+	if (!strcasecmp (mime_type, "text/plain")) {
+		char *htmlbody = camel_text_to_html (body, CAMEL_MIME_FILTER_TOHTML_PRE, 0);
+		
 		e_msg_composer_set_body_text (composer->composer, htmlbody);
 		g_free (htmlbody);
-	} else if (!g_strcasecmp (mime_type, "text/html"))
+	} else if (!strcasecmp (mime_type, "text/html"))
 		e_msg_composer_set_body_text (composer->composer, body);
 	else
 		e_msg_composer_set_body (composer->composer, body, mime_type);
