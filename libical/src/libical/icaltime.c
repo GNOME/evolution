@@ -587,7 +587,7 @@ icaltime_adjust				(struct icaltimetype	*tt,
 					 int		 seconds)
 {
     int second, minute, hour, day;
-    int minutes_overflow, hours_overflow, days_overflow;
+    int minutes_overflow, hours_overflow, days_overflow, years_overflow;
     int days_in_month;
 
     /* Add on the seconds. */
@@ -621,12 +621,12 @@ icaltime_adjust				(struct icaltimetype	*tt,
        need to know what month it is to get the number of days in it.
        Note that months are 1 to 12, so we have to be a bit careful. */
     if (tt->month >= 13) {
-	years_overflow = (month - 1) / 12;
+	years_overflow = (tt->month - 1) / 12;
 	tt->year += years_overflow;
 	tt->month -= years_overflow * 12;
     } else if (tt->month <= 0) {
 	/* 0 to -11 is -1 year out, -12 to -23 is -2 years. */
-	years_overflow = (month / 12) - 1;
+	years_overflow = (tt->month / 12) - 1;
 	tt->year += years_overflow;
 	tt->month -= years_overflow * 12;
     }

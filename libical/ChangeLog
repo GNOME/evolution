@@ -1,5 +1,10 @@
 2001-07-09  Damon Chaplin  <damon@ximian.com>
 
+	* src/libical/icaltime.c (icaltime_adjust): forgot to compile before
+	committing. Idiot.
+
+2001-07-09  Damon Chaplin  <damon@ximian.com>
+
 	* src/libical/icaltimezone.c (icaltimezone_convert_time): if the 2
 	zones are the same just return.
 
