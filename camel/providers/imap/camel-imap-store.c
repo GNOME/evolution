@@ -2158,7 +2158,7 @@ get_folders(CamelStore *store, const char *top, guint32 flags, CamelException *e
 		haveinbox = (strcasecmp(fi->full_name, "INBOX")) == 0;
 	}
 
-	if (!haveinbox && top[0] == imap_store->namespace)
+	if (!haveinbox && top == imap_store->namespace)
 		get_folders_online(imap_store, "INBOX", folders, FALSE, ex);
 
 	for (i=0; i<folders->len; i++)
