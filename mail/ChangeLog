@@ -1,3 +1,12 @@
+2003-01-09  Not Zed  <NotZed@Ximian.com>
+
+	* mail-config.c (xml_get_prop): g_free->xmlFree
+	(account_to_xml): copy xml memory to glib memory when adding the 0
+	on the end of the string.
+	(accounts_save): Use slightly different logic with appending to
+	the tail of the list, we can't use the &node trick with gslists.
+	(accounts_changed): Same here.
+
 2003-01-08  Ettore Perazzoli  <ettore@ximian.com>
 
 	* Makefile.am: Images are now in $(datadir)/evolution/images

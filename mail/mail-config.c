@@ -300,7 +300,7 @@ xml_get_prop (xmlNodePtr node, const char *name)
 	
 	buf = xmlGetProp (node, name);
 	val = g_strdup (buf);
-	g_free (buf);
+	xmlFree (buf);
 	
 	return val;
 }
@@ -532,15 +532,14 @@ account_to_xml (MailConfigAccount *account)
 	
 	xmlDocDumpMemory (doc, &xmlbuf, &n);
 	xmlFreeDoc (doc);
-	
-	if (!(tmp = realloc (xmlbuf, n + 1))) {
-		g_free (xmlbuf);
-		return NULL;
-	}
-	
-	xmlbuf[n] = '\0';
-	
-	return xmlbuf;
+
+	/* remap to glib memory */
+	tmp = g_malloc(n+1);
+	memcpy(tmp, xmlbuf, n);
+	tmp[n] = 0;
+	xmlFree(xmlbuf);
+
+	return tmp;
 }
 
 static void
@@ -560,8 +559,7 @@ accounts_changed (GConfClient *client, guint cnxn_id, GConfEntry *entry, gpointe
 		config->accounts = NULL;
 	}
 	
-	tail = (GSList *) &config->accounts;
-	
+	tail = NULL;	
 	list = gconf_client_get_list (config->gconf, "/apps/evolution/mail/accounts",
 				      GCONF_VALUE_STRING, NULL);
 	
@@ -574,7 +572,10 @@ accounts_changed (GConfClient *client, guint cnxn_id, GConfEntry *entry, gpointe
 			n->data = account;
 			n->next = NULL;
 			
-			tail->next = n;
+			if (tail == NULL)
+				config->accounts = n;
+			else
+				tail->next = n;
 			tail = n;
 		}
 		
@@ -591,7 +592,7 @@ accounts_save (void)
 	char *xmlbuf;
 	
 	list = NULL;
-	tail = (GSList *) &list;
+	tail = NULL;
 	
 	l = config->accounts;
 	while (l != NULL) {
@@ -599,8 +600,11 @@ accounts_save (void)
 			n = g_slist_alloc ();
 			n->data = xmlbuf;
 			n->next = NULL;
-			
-			tail->next = n;
+
+			if (tail == NULL)
+				list = n;
+			else
+				tail->next = n;
 			tail = n;
 		}
 		
