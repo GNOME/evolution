@@ -1,3 +1,8 @@
+2001-06-14  Damon Chaplin  <damon@ximian.com>
+
+	* calendar/cal-util/.cvsignore: 
+	* calendar/cal-client/.cvsignore: added *-undocumented.txt
+
 2001-05-24  Federico Mena Quintero  <federico@ximian.com>
 
 	* evolution-devel-guide.sgml: s/Helix Code/Ximian
