@@ -409,7 +409,7 @@ switch_on_folder_tree_click (EShellView *shell_view,
 	priv = shell_view->priv;
 
 	uri = g_strconcat (E_SHELL_URI_PREFIX, path, NULL);
-	if (!strcmp (uri, priv->uri)) {
+	if (priv->uri != NULL && !strcmp (uri, priv->uri)) {
 		g_free (uri);
 		return;
 	}

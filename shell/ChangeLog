@@ -1,3 +1,8 @@
+2001-06-13  Not Zed  <NotZed@Ximian.com>
+
+	* e-shell-view.c (switch_on_folder_tree_click): Check priv->uri
+	isn't null before strcmp'ing it here too.
+
 2001-06-11  Dan Winship  <danw@ximian.com>
 
 	* e-shell-view.c (destroy): Don't destroy the
