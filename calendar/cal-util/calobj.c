@@ -1011,10 +1011,8 @@ ical_object_to_vobject (iCalObject *ical)
 		s = addPropValue (o, VCSummaryProp, ical->summary);
 		if (strchr (ical->summary, '\n'))
 			addProp (s, VCQuotedPrintableProp);
-	} else {
-		//addPropValue (o, VCSummaryProp, _("Snark"));
 	}
-
+		
 	/* status */
 	addPropValue (o, VCStatusProp, ical->status);
 
