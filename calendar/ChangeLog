@@ -1,3 +1,25 @@
+2000-11-21  Federico Mena Quintero  <federico@helixcode.com>
+
+	* gui/calendar-model.c (calendar_model_is_cell_editable): The icon
+	column is not editable!
+
+	* gui/calendar-commands.c (todo_properties_changed): Removed.
+	(time_format_changed): Removed.
+	(colors_changed): Removed.
+
+	* gui/calendar-commands.h: 
+	* gui/prop.c (prop_apply): 
+	* gui/calendar-commands.c (init_calendar): Removed the old to-do
+	list crap.
+
+	* gui/gncal-todo.[ch]: Removed obsolete files.
+
+	* gui/Makefile.am (evolution_calendar_SOURCES): Removed gncal-todo.[ch].
+
+	* gui/gnome-cal.c (gnome_calendar_todo_properties_changed): Removed.
+	(gnome_calendar_time_format_changed): Removed.
+	(gnome_calendar_colors_changed): Removed.
+
 2000-11-21   Jesse Pavel   <jpavel@helixcode.com>
 
 	* gui/e-itip-control.c: fixed the stupid Bonobo widget size

@@ -1239,7 +1239,6 @@ calendar_model_is_cell_editable (ETableModel *etm, int col, int row)
 	case CAL_COMPONENT_FIELD_PRIORITY:
 	case CAL_COMPONENT_FIELD_SUMMARY:
 	case CAL_COMPONENT_FIELD_URL:
-	case CAL_COMPONENT_FIELD_ICON:
 	case CAL_COMPONENT_FIELD_COMPLETE:
 		return TRUE;
 

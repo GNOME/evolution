@@ -1660,46 +1660,6 @@ gnome_calendar_update_config_settings (GnomeCalendar *gcal,
 }
 
 
-/*
- * FIXME: These are for the old config code and will be removed eventually.
- */
-
-/* This is called when the day begin & end times, the AM/PM flag, or the
-   week_starts_on_monday flags are changed. */
-void
-gnome_calendar_time_format_changed (GnomeCalendar *gcal)
-{
-	g_return_if_fail (gcal != NULL);
-	g_return_if_fail (GNOME_IS_CALENDAR (gcal));
-#if 0
-	gtk_calendar_display_options (gcal->gtk_calendar,
-				      (week_starts_on_monday
-				       ? (gcal->gtk_calendar->display_flags
-					  | GTK_CALENDAR_WEEK_START_MONDAY)
-				       : (gcal->gtk_calendar->display_flags
-					  & ~GTK_CALENDAR_WEEK_START_MONDAY)));
-#endif
-}
-
-/* This is called when any of the color settings are changed.
-   FIXME: Need to update for the new views. */
-void
-gnome_calendar_colors_changed (GnomeCalendar *gcal)
-{
-	g_return_if_fail (gcal != NULL);
-	g_return_if_fail (GNOME_IS_CALENDAR (gcal));
-}
-
-void
-gnome_calendar_todo_properties_changed (GnomeCalendar *gcal)
-{
-	g_return_if_fail (gcal != NULL);
-	g_return_if_fail (GNOME_IS_CALENDAR (gcal));
-}
-
-
-
-
 void
 gnome_calendar_set_selected_time_range (GnomeCalendar *gcal,
 					time_t	       start_time,

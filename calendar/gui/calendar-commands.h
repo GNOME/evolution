@@ -41,19 +41,6 @@ extern char *user_name;
 extern int am_pm_flag;
 extern int week_starts_on_monday;
 
-/* todo preferences */
-extern int todo_show_due_date;
-
-extern int todo_item_dstatus_highlight_overdue;
-extern int todo_item_dstatus_highlight_due_today;
-extern int todo_item_dstatus_highlight_not_due_yet;
-
-extern int todo_show_time_remaining;
-extern int todo_show_priority;
-extern char *todo_overdue_font_text;
-extern gint todo_current_sort_column;
-extern gint todo_current_sort_type;
-
 /* alarm stuff */
 #if 0
 extern CalendarAlarm alarm_defaults[4];
@@ -70,27 +57,6 @@ extern const guint MAX_SNOOZE_SECS;
 
 /* This tells all the calendars to reload the config settings. */
 void update_all_config_settings (void);
-
-/*
- * FIXME: These are for the old config code and will be removed eventually.
- */
-
-/* Creates and runs the preferences dialog box */
-void properties (GtkWidget *toplevel);
-
-/* Asks for all the time-related displays to be updated when the user changes the time format
- * preferences.
- */
-void time_format_changed (void);
-
-/* Asks for all the month items' colors to be reset */
-void colors_changed (void);
-
-/* Asks for all todo lists to reflect the accurate properties */
-void todo_properties_changed(void);
-
-
-
 
 /* Creates and runs the Go-to date dialog */
 void goto_dialog (GnomeCalendar *gcal);

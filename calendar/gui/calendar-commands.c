@@ -227,34 +227,6 @@ update_all_config_settings (void)
 }
 
 
-/* These are all for the old config code and will eventually be removed. */
-void
-time_format_changed (void)
-{
-	GList *l;
-
-	for (l = all_calendars; l; l = l->next)
-		gnome_calendar_time_format_changed (GNOME_CALENDAR (l->data));
-}
-
-void
-colors_changed (void)
-{
-	GList *l;
-
-	for (l = all_calendars; l; l = l->next)
-		gnome_calendar_colors_changed (GNOME_CALENDAR (l->data));
-}
-
-void
-todo_properties_changed(void)
-{
-        GList *l;
-
-	for (l = all_calendars; l; l = l->next)
-		gnome_calendar_todo_properties_changed (GNOME_CALENDAR (l->data));
-}
-
 /* Sets a clock cursor for the specified calendar window */
 static void
 set_clock_cursor (GnomeCalendar *gcal)
@@ -645,23 +617,6 @@ init_calendar (void)
 		g_free (str);
 		g_free (color);
 	}
-
-	/* read todolist settings */
-
-	todo_show_time_remaining = gnome_config_get_bool("/calendar/Todo/show_time_remain");
-	todo_show_due_date = gnome_config_get_bool("/calendar/Todo/show_due_date");
-
-	todo_item_dstatus_highlight_overdue = gnome_config_get_bool("/calendar/Todo/highlight_overdue");
-
-	todo_item_dstatus_highlight_due_today = gnome_config_get_bool("/calendar/Todo/highlight_due_today");
-
-	todo_item_dstatus_highlight_not_due_yet = gnome_config_get_bool("/calendar/Todo/highlight_not_due_yet");
-
-        todo_current_sort_column = gnome_config_get_int("/calendar/Todo/sort_column");
-
-	todo_current_sort_type = gnome_config_get_int("/calendar/Todo/sort_type");
-
-	todo_show_priority = gnome_config_get_bool("/calendar/Todo/show_priority");
 
 	/* read alarm settings */
 	beep_on_display = gnome_config_get_bool ("/calendar/alarms/beep_on_display=FALSE");

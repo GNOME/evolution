@@ -98,8 +98,6 @@ evolution_calendar_SOURCES =			\
 	event-editor.c				\
 	event-editor.h				\
 	getdate.y				\
-	gncal-todo.c				\
-	gncal-todo.h				\
 	gnome-cal.c				\
 	gnome-cal.h				\
 	gnome-month-item.c			\
