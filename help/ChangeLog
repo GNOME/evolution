@@ -1,3 +1,10 @@
+2001-07-03  Kevin Breit  <battery841@mediaone.net>
+
+	* C/usage-mail.sgml: Put in lots of orderedlists...more SGML, less
+	for the user to read.  They'll thank me in droves later.
+
+	* C/usage-exec-summary.sgml: Fixed build error
+
 2001-06-29  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* white-papers/mail/camel.sgml: Updated slightly.
