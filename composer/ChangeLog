@@ -1,6 +1,13 @@
+2002-06-03  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* e-msg-composer.c (e_msg_composer_guess_mime_type): Use
+	gnome_vfs_file_info_clear() instead of gnome_vfs_file_info_unref()
+	so that we don't try and free static data.
+
 2002-05-30  Not Zed  <NotZed@Ximian.com>
 
-	* e-msg-composer.c (build_message): Changes for multipart/signed api changes.
+	* e-msg-composer.c (build_message): Changes for multipart/signed
+	api changes.
 
 2002-05-16  Ettore Perazzoli  <ettore@ximian.com>
 

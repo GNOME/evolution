@@ -4224,7 +4224,7 @@ e_msg_composer_guess_mime_type (const gchar *file_name)
 		gchar *type;
 
 		type = g_strdup (gnome_vfs_file_info_get_mime_type (&info));
-		gnome_vfs_file_info_unref (&info);
+		gnome_vfs_file_info_clear (&info);
 		return type;
 	} else
 		return NULL;
