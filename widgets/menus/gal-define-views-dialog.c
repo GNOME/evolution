@@ -154,7 +154,6 @@ gdvd_button_modify_callback(GtkWidget *widget, GalDefineViewsDialog *dialog)
 						       row);
 		gal_view_edit(view, GTK_WINDOW (dialog));
 	}
-
 }
 
 static void
@@ -225,6 +224,12 @@ etable_selection_change (ETable *etable, GalDefineViewsDialog *dialog)
 }
 
 static void
+dialog_response (GalDefineViewsDialog *dialog, int response_id, gpointer data)
+{
+	gal_view_collection_save (dialog->collection);
+}	
+
+static void
 gal_define_views_dialog_init (GalDefineViewsDialog *dialog)
 {
 	GladeXML *gui;
@@ -272,6 +277,9 @@ gal_define_views_dialog_init (GalDefineViewsDialog *dialog)
 	}
 
 	gtk_window_set_policy(GTK_WINDOW(dialog), FALSE, TRUE, FALSE);
+
+	g_signal_connect (dialog, "response", G_CALLBACK (dialog_response), NULL);
+
 }
 
 static void

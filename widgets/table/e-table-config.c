@@ -1156,16 +1156,8 @@ e_table_config_construct (ETableConfig        *config,
 
 	setup_gui (config);
 
-	if (parent_window) {
-		gtk_window_set_transient_for (GTK_WINDOW (config->dialog_toplevel),
-					      parent_window);
-		/*
-		  center on parent doesn't seem to work for me, so let use GTK_WIN_POS_CENTER_ALWAYS - that is
-		  what glade used before as well, so it's not worse then it was
-		  gtk_window_set_position (GTK_WINDOW (config->dialog_toplevel), GTK_WIN_POS_CENTER_ON_PARENT);
-		*/
-		gtk_window_set_position (GTK_WINDOW (config->dialog_toplevel), GTK_WIN_POS_CENTER_ALWAYS);
-	}
+	gtk_window_set_transient_for (GTK_WINDOW (config->dialog_toplevel),
+				      parent_window);
 
 	config_sort_info_update   (config);
 	config_group_info_update  (config);
