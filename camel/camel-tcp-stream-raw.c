@@ -336,6 +336,7 @@ stream_connect (CamelTcpStream *stream, struct hostent *host, int port)
 	return 0;
 }
 
+
 static int
 get_sockopt_level (const CamelSockOptData *data)
 {

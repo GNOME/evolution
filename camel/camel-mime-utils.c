@@ -2966,6 +2966,7 @@ static struct {
 	char *pattern;
 } mail_list_magic[] = {
 	{ "Sender", " *owner-([^@]+)" },
+	{ "Return-Path", " *owner-([^@]+)" },
 	{ "X-BeenThere", " *([^@]+)" },
 	{ "Delivered-To", " *mailing list ([^@]+)" },
 	{ "X-Mailing-List", " *([^@]+)" },
